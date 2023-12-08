@@ -2,47 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 429A8809DE9
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 09:09:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EFE7809E18
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 09:28:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA3FA10E9D6;
-	Fri,  8 Dec 2023 08:09:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C87F10EA1A;
+	Fri,  8 Dec 2023 08:28:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F06E010E9D6
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 08:09:05 +0000 (UTC)
-Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested) (Authenticated sender: pq)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 821BF66073A6;
- Fri,  8 Dec 2023 08:08:57 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1702022944;
- bh=GqipcxQ2QtlFSZEz/kCIzNeOiRdWnz1Oan0qde9+/w8=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=ilwGwiZCTXU6yQkB2XvulSSs/G3ICxFFDgCKVftAigOLetNYLybMcKsMu3jek6I1i
- xaTCFAbtZadFUYo26pvMAlNZCqaUJsAcQbf+ez7LfjDvnUr42gzqh8GM8et8reOc5K
- VtM2FdhMvsZw7m86SiePHDnPkgm5iSsoHx32rZitWg5MHDa5D4J3yTbuj92D5sC+D2
- Hgrt09gIXiYC/GdifpOnUozFiNG7Wu2FvRp3ax6wKjIWQ6+z1dWbhli9qlCufesajs
- BGdevy+p4farzslxvaOTQ5NXQCBm2ia87ak2NRmq2GQqnxdW2S40OcbOq+c6wHPmou
- RXf6kN0GsILPA==
-Date: Fri, 8 Dec 2023 10:08:28 +0200
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH 4/5] drm/atomic: Make the drm_atomic_state documentation
- less ambiguous
-Message-ID: <20231208100828.2155d1bd.pekka.paalanen@collabora.com>
-In-Reply-To: <ifwxqdd5rwn33kkxzhwfwbvrsvh53h3cc3un26r5eoluho6e7t@bje7nzxfqvzo>
-References: <20231204121707.3647961-1-mripard@kernel.org>
- <20231204121707.3647961-4-mripard@kernel.org>
- <20231205105106.06a34b81.pekka.paalanen@collabora.com>
- <ifwxqdd5rwn33kkxzhwfwbvrsvh53h3cc3un26r5eoluho6e7t@bje7nzxfqvzo>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2662110EA16
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 08:28:38 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id
+ ffacd0b85a97d-333630e9e43so1826589f8f.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Dec 2023 00:28:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1702024116; x=1702628916; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :references:cc:to:content-language:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=tvDaevsK7/OdtIN4ZZ92+SBkN0d/AhKeYYJWkWcCFcM=;
+ b=op0njKD6b0+ydcD9pHpx6jw9xrWKs1p+N5lKEG7+c32NvskKycMJbOpL1IoIPoKIfq
+ v4OyYxH/dxudzR2pNtGYGCuZ2t1D05AuY1PRetq/DE1O/j49IEpqk6zZwAdaU9+/fcFo
+ YoZ/CNfruc/0PHYe6RsA3BDoRHq3w9GyA1ATfYzOhBWGUbpQHI+kBCgQPJYFiVtihyCg
+ /LJgfOh2gcii/OQmyI41yPt0UorP/DAbwh2I5WEuSzt3EK8Aya3gOhRxFRpSGFljbbjr
+ xh47zLjDrRmr9qDKtbbVXvXPGKY53TcQxMBuvV27jPZiMTVS9LvJZxVIlWsp+IidWtqQ
+ pdLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1702024116; x=1702628916;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :references:cc:to:content-language:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=tvDaevsK7/OdtIN4ZZ92+SBkN0d/AhKeYYJWkWcCFcM=;
+ b=K2R6MpYVFpoB8+2hciDFCSTR+CJCx0+a0+rSTVXgDHxJ9AvPEP9EB0TClgF9p2BwM1
+ 4hQCyTkPyihO060AHxRRKZIL+040dEBzeZo7cp5zlTIvZDqzPMQgRli5B54B+QVUQs4v
+ dRrwbqZrS3Lm5DDmEG3UnbIeWaLbO4g1TYRZ/2AoTBi5kldetGDRL5/HwyAd6AxH+w5c
+ gkdv9ODcN1KbOfztFQNGl0IBF6ex8CT5INbItlE7U0L7Ax27fwbqgVRQmOfZ7zNezkCy
+ cLLBmCPIT14Vi7UfaC76TreZ6V7bJjMogsBvJZt2BtgHjQJFi5selLdRyEy0RthpLcJ1
+ aktw==
+X-Gm-Message-State: AOJu0Yy3KfNH6WdxpY4FKFNDCW+fDvAifMwAEGrEV11pXvKl8pzz2MP6
+ 3NJx45VMJWdvVWMtHHepodJbkw==
+X-Google-Smtp-Source: AGHT+IEBO5Hb/8bJQCK/Qq3DsVqqs4n08jSKkaq3CCjQjLLptybMAMNqJbrR+mF21o23C48+AF1EzQ==
+X-Received: by 2002:adf:f752:0:b0:333:2fd2:3be2 with SMTP id
+ z18-20020adff752000000b003332fd23be2mr1651859wrp.155.1702024116507; 
+ Fri, 08 Dec 2023 00:28:36 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:8ada:86ec:5358:ef2a?
+ ([2a01:e0a:982:cbb0:8ada:86ec:5358:ef2a])
+ by smtp.gmail.com with ESMTPSA id
+ o10-20020a5d58ca000000b0033338c3ba42sm1483097wrf.111.2023.12.08.00.28.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 08 Dec 2023 00:28:36 -0800 (PST)
+Message-ID: <a0e0e803-47a6-4b66-bc14-7a9f7db696fd@linaro.org>
+Date: Fri, 8 Dec 2023 09:28:34 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/fR4ee1HPdGgnAvYR0teWRV2";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 3/3] arm64: dts: qcom: sm8650: Add DisplayPort device nodes
+Content-Language: en-US, fr
+To: Bjorn Andersson <andersson@kernel.org>
+References: <20231207-topic-sm8650-upstream-dp-v1-0-b762c06965bb@linaro.org>
+ <20231207-topic-sm8650-upstream-dp-v1-3-b762c06965bb@linaro.org>
+ <bcecxzpogq6pndwmhgrl52ia3orni2q5brg6mpc6fkn5widigb@v6dy4minwajx>
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro Developer Services
+In-Reply-To: <bcecxzpogq6pndwmhgrl52ia3orni2q5brg6mpc6fkn5widigb@v6dy4minwajx>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,178 +104,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Reply-To: neil.armstrong@linaro.org
+Cc: freedreno@lists.freedesktop.org, Conor Dooley <conor+dt@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Maxime Ripard <mripard@kernel.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ Andy Gross <agross@kernel.org>, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/fR4ee1HPdGgnAvYR0teWRV2
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 08/12/2023 04:38, Bjorn Andersson wrote:
+> On Thu, Dec 07, 2023 at 05:37:19PM +0100, Neil Armstrong wrote:
+>> diff --git a/arch/arm64/boot/dts/qcom/sm8650.dtsi b/arch/arm64/boot/dts/qcom/sm8650.dtsi
+> [..]
+>> +
+>> +			mdss_dp0: displayport-controller@af54000 {
+>> +				compatible = "qcom,sm8650-dp";
+>> +				reg = <0 0xaf54000 0 0x200>,
+>> +				      <0 0xaf54200 0 0x200>,
+>> +				      <0 0xaf55000 0 0xc00>,
+>> +				      <0 0xaf56000 0 0x400>,
+>> +				      <0 0xaf57000 0 0x400>;
+>> +
+>> +				interrupts-extended = <&mdss 12>;
+>> +
+>> +				clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
+>> +					 <&dispcc DISP_CC_MDSS_DPTX0_AUX_CLK>,
+>> +					 <&dispcc DISP_CC_MDSS_DPTX0_LINK_CLK>,
+>> +					 <&dispcc DISP_CC_MDSS_DPTX0_LINK_INTF_CLK>,
+>> +					 <&dispcc DISP_CC_MDSS_DPTX0_PIXEL0_CLK>;
+>> +				clock-names = "core_iface",
+>> +					      "core_aux",
+>> +					      "ctrl_link",
+>> +					      "ctrl_link_iface",
+>> +					      "stream_pixel";
+>> +
+>> +				assigned-clocks = <&dispcc DISP_CC_MDSS_DPTX0_LINK_CLK_SRC>,
+>> +						  <&dispcc DISP_CC_MDSS_DPTX0_PIXEL0_CLK_SRC>;
+>> +				assigned-clock-parents = <&usb_dp_qmpphy QMP_USB43DP_DP_LINK_CLK>,
+>> +							 <&usb_dp_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>;
+>> +
+>> +				operating-points-v2 = <&dp_opp_table>;
+>> +
+>> +				power-domains = <&rpmhpd RPMHPD_MX>;
+> 
+> Are you sure the DP TX block sits in MX? I'd expect this to be
+> RPMHPD_MMCX, and then the PHY partially in MX...
 
-On Thu, 7 Dec 2023 15:27:33 +0100
-Maxime Ripard <mripard@kernel.org> wrote:
+Hmm, yeah probably, will switch to MMCX
 
-> On Tue, Dec 05, 2023 at 10:51:06AM +0200, Pekka Paalanen wrote:
-> > On Mon,  4 Dec 2023 13:17:06 +0100
-> > Maxime Ripard <mripard@kernel.org> wrote:
-> >  =20
-> > > The current documentation of drm_atomic_state says that it's the "glo=
-bal
-> > > state object". This is confusing since, while it does contain all the
-> > > objects affected by an update and their respective states, if an obje=
-ct
-> > > isn't affected by this update it won't be part of it.
-> > >=20
-> > > Thus, it's not truly a "global state", unlike object state structures
-> > > that do contain the entire state of a given object.
-> > >=20
-> > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > > ---
-> > >  include/drm/drm_atomic.h | 10 +++++++++-
-> > >  1 file changed, 9 insertions(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-> > > index 914574b58ae7..81ad7369b90d 100644
-> > > --- a/include/drm/drm_atomic.h
-> > > +++ b/include/drm/drm_atomic.h
-> > > @@ -346,11 +346,19 @@ struct __drm_private_objs_state {
-> > >  };
-> > > =20
-> > >  /**
-> > > - * struct drm_atomic_state - the global state object for atomic upda=
-tes
-> > > + * struct drm_atomic_state - Atomic Update structure
-> > > + *
-> > > + * This structure is the kernel counterpart of @drm_mode_atomic and =
-contains
-> > > + * all the objects affected by an atomic modeset update and their st=
-ates. =20
-> >=20
-> > Drop "modeset"? An update can be without a modeset. =20
->=20
-> Yeah, good point
->=20
-> > >   *
-> > >   * States are added to an atomic update by calling drm_atomic_get_cr=
-tc_state(),
-> > >   * drm_atomic_get_plane_state(), drm_atomic_get_connector_state(), o=
-r for
-> > >   * private state structures, drm_atomic_get_private_obj_state().
-> > > + *
-> > > + * NOTE: While this structure looks to be global and affecting the w=
-hole DRM
-> > > + * device, it only contains the objects affected by the atomic commi=
-t. =20
-> >=20
-> > This new phrasing is much more clear to me than the old one. =20
->=20
-> Great
->=20
-> > > + * Unaffected objects will not be part of that update, unless they h=
-ave been
-> > > + * explicitly added by either the framework or the driver. =20
-> >=20
-> > If the framework or a driver adds an object, then it's no longer
-> > unaffected, is it? =20
->=20
-> I guess what I meant to say is that it's affected as a side effect that
-> the userspace cannot anticipate.
->=20
-> The typical example being that changing a property on a connector would
-> need to pull the CRTC into the update to disable / enable the CRTC,
-> encoder and connector.
+> 
+>> +
+>> +				phys = <&usb_dp_qmpphy QMP_USB43DP_DP_PHY>;
+>> +				phy-names = "dp";
+>> +
+>> +				#sound-dai-cells = <0>;
+>> +
+>> +				status = "disabled";
+>> +
+>> +				ports {
+>> +					#address-cells = <1>;
+>> +					#size-cells = <0>;
+>> +
+>> +					port@0 {
+>> +						reg = <0>;
+>> +
+>> +						mdss_dp0_in: endpoint {
+>> +							remote-endpoint = <&dpu_intf0_out>;
+>> +						};
+>> +					};
+>> +
+>> +					port@1 {
+>> +						reg = <1>;
+>> +
+>> +						mdss_dp0_out: endpoint {
+>> +						};
+>> +					};
+>> +				};
+>> +
+>> +				dp_opp_table: opp-table {
+> 
+> Is there any reason why we keep sorting 'o' after 'p' in these nodes?
 
-Right, that's the easy case. This can even be documented and therefore
-become expected by userspace. The associations between CRTC and
-connector are published, e.g. the current routing.
-
-What I was thinking of was much more hidden:
-
-Userspace explicitly programs CRTC A and the connector connected to it.
-None of the mentioned KMS objects in that atomic commit refer to CRTC B
-in any way, not in old nor in new device state. Still, the driver
-decides to pull CRTC B in, because it needs to adjust something there
-(ISTR hearing "watermarks" in some conversation) in order to
-accommodate changes in CRTC A.
-
-So there are two categories of pulling in extra KMS objects: knowable
-and unknowable. Or expected and unexpected.
-
-If userspace changes things on a connector connected to CRTC A, you can
-expect to pull in CRTC A. That's knowable. If the driver unexpectedly
-also pulls in CRTC B while userspace made absolutely no explicit nor
-implicit reference to it, that's unknowable.
-
-The unknowable/unexpected additions are very hardware and driver
-specific and not reliably determinable from an atomic commit UAPI
-structure.
-
-> As far as userspace is concerned, only the connector will be affected,
-> and only the connector will initially be part of the drm_atomic_state.
->=20
-> But then some part of the atomic_check logic will pull the CRTC into the
-> update.
-
-Is this a rule that happens always? If so, it can be documented to make
-it expected.
-
-> It's still invisible to userspace, so I guess
-> "unaffected-but-turns-out-to-be-affected" would be the right term :)
->=20
-> Would something like:
->=20
-> Unaffected objects will not be part of the initial update, but might be
-> added explicitly by either the framework or the driver during
-> atomic_check.
->=20
-> be better?
-
-I'm not comfortable with the use of "unaffected" here. I'd be more in
-the direction of: More objects can be affected than explicitly
-mentioned.
-
+No, seems it's a copy-paste issue, will fix
 
 Thanks,
-pq
+Neil
 
-> > Should there be some discussion how this struct starts with only what
-> > userspace mentioned, and more affected objects may be added by the
-> > framework or a driver? And adding more objects can surprise the
-> > userspace and cause even failures (e.g. random, hard-to-diagnose EBUSY
-> > errors from atomic commit when a driver added a CRTC that was not
-> > supposed to be affected)? Even unexpected failures on *future* atomic
-> > commits, as in the CRTC example.
-> >=20
-> > Was there actually a rule of when the kernel can add unmentioned
-> > objects, like needing ALLOW_MODESET from userspace? =20
->=20
-> Sima (iirc?) recently made that explicit, yeah, but there's plenty of
-> commits that need at the very least the encoder and connector to be
-> disabled and enabled again to handle them.
->=20
-> Maxime
+> 
+> Regards,
+> Bjorn
 
-
---Sig_/fR4ee1HPdGgnAvYR0teWRV2
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmVyzvwACgkQI1/ltBGq
-qqdMcg/+NFOYuNDZfiDdtsa8T0I/DZHoslFtqFGu8hZmeFB30GcQTp5o9a6YxsIa
-hUxDgOPH9rgctTHASA2b2Fiy5upbd9oNmW2V53l+S4UhLGT7KVnLBsa/sCjNHbym
-uKiSwx6CUXZ+Aue5sWPa8CmHVTV1H2jkaz9G284JkgaEmBGvqiB4heND28GxvJOi
-09rjbzh4jyNa9a1w23WzjmqmQy35BkkNRsemD4TMVXrfoGD6DgnTitakGKNs4ACI
-0hGoLbq7Va3PcKGOgUct0raM782Gd6rNMQdViv2ZVyKhPrDcPLtPkB3fNwOqm/AP
-EFd6rw/Af4Pk34wlG4U00F/feGMl1GJqDTT8eqlRJcbXxTY/dr+8/ZldHzSzJfR/
-w3uAd4+EbOOLvNpKEkOeaMnanqtHzxcSDWAHvBtziKWDyrVJIevBKfYbrtuL6ppU
-AioMFZmte043fyUzNXVn4gVzqJOAXKgA4n0JaFqD3dTONQ6pQe+iJZoQ46sjg1PD
-UJU1etCFqe0oHEVFH61qtRgLgnLjR07c9/EYIdqLDZ6SUxYTltAaDIHdab6bLCOh
-dehFDVsvbrgTdy71rPk5GJxjnm8nxA8JhiiuoD86MOtHbQbooGimniAyzzQAIMvs
-kJllgvrJCRxTnL9sD0ETUONYZxFv4caPVY5HdD2XSR4igC/SUto=
-=yXS3
------END PGP SIGNATURE-----
-
---Sig_/fR4ee1HPdGgnAvYR0teWRV2--
