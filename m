@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03E69809B5F
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 06:07:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 455DA809B6A
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 06:07:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18F6310E9EC;
-	Fri,  8 Dec 2023 05:07:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84C5710E9EF;
+	Fri,  8 Dec 2023 05:07:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5AE210E9E8;
- Fri,  8 Dec 2023 05:07:16 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9DF110E9EC;
+ Fri,  8 Dec 2023 05:07:18 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3B84URwH014598; Fri, 8 Dec 2023 05:07:14 GMT
+ 3B83ihCV027334; Fri, 8 Dec 2023 05:07:16 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=qcppdkim1;
- bh=vbtQMLBvqOmMHnoagbmLc5GgaHDRDs58n24dBon/hjI=;
- b=EJachYp3+jR7jMHzJVowwJ0dP9hMaLhPAujF2SAivrxB3Ep0bK+d3xd9MJ1Rn28JYgiF
- 4KosDD0C620vtEeQnidQVrOQ0elK4NsVUg0zDTJlSjC6BfTeLS/Z+fN291k4SbumxZE+
- 86x454CaU0D5AtU1rkPfvAfUfv0j6nIYSjkxIgaSw1opMt0/y/0a4jjUdmeYXt84nyUx
- MzbTBvD8H77ARbIzoJbe3sTjmd2ulM09XrSdRcnP16I/6Lb5uWStDmzi1r6vbmeI6Nsm
- 1mL+6qhfFZQLUSLdqfgEpMKL1C1is2NJt5YHR8EGKA0yxfmSFDjKHcCaz4gfJJJC0sw4 bg== 
+ bh=ILRUVSzTnfb8eMFGGZcyWRL+zvxEFuhSba8P7jnspgg=;
+ b=bhdi2ZtiNl03lNvQd+/MMiETn3JtflBq2e93nXkLTwPTTGqDuVOQMoubhQBfvSzO6d3Y
+ YqqhBgSScNa5YwCO9NTFT5v2zCau1Y5kTIxZR5PTj0XXbYyrl4V/WAdcd2Bxm6JUyKuG
+ Au7DGp6qQG9dDls3xdcnN+juYTs8EvAlbkDs9ccgSSa7rnVgLcizS3GGOCgUsiU2TKDv
+ KNfV65qDP6pJlDShb5isl0tAr7ZpUg7LVGrBBveWjJqewRFyP3P//aWFjwuT5CJ/DI5z
+ XfS0rfGvEwcwKBImXv8fGNlS8pMAOYqTIRrudKTJYHodDm+8ybkpYKipZctnbUAARP2w NQ== 
 Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uubdm2md0-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uu8p0b0bu-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 08 Dec 2023 05:07:14 +0000
+ Fri, 08 Dec 2023 05:07:16 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B857DHV007416
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B857FQl007422
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 8 Dec 2023 05:07:13 GMT
+ Fri, 8 Dec 2023 05:07:15 GMT
 Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Thu, 7 Dec 2023 21:07:13 -0800
+ 15.2.1118.40; Thu, 7 Dec 2023 21:07:15 -0800
 From: Abhinav Kumar <quic_abhinavk@quicinc.com>
 To: <freedreno@lists.freedesktop.org>, Rob Clark <robdclark@gmail.com>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
  <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
  <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
  Vetter" <daniel@ffwll.ch>
-Subject: [PATCH v2 08/16] drm/msm/dpu: add cdm blocks to RM
-Date: Thu, 7 Dec 2023 21:06:33 -0800
-Message-ID: <20231208050641.32582-9-quic_abhinavk@quicinc.com>
+Subject: [PATCH v2 09/16] drm/msm/dpu: add support to allocate CDM from RM
+Date: Thu, 7 Dec 2023 21:06:34 -0800
+Message-ID: <20231208050641.32582-10-quic_abhinavk@quicinc.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20231208050641.32582-1-quic_abhinavk@quicinc.com>
 References: <20231208050641.32582-1-quic_abhinavk@quicinc.com>
@@ -61,16 +61,16 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: RcLOGkoHAD5Rh3hbX1_KJa5cWj9jmTia
-X-Proofpoint-GUID: RcLOGkoHAD5Rh3hbX1_KJa5cWj9jmTia
+X-Proofpoint-GUID: BflWKOiBKmizOOAfkHISkakpk3lpQ92A
+X-Proofpoint-ORIG-GUID: BflWKOiBKmizOOAfkHISkakpk3lpQ92A
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-12-08_01,2023-12-07_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 mlxlogscore=794
- adultscore=0 impostorscore=0 lowpriorityscore=0 priorityscore=1501
- suspectscore=0 bulkscore=0 clxscore=1015 phishscore=0 spamscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ priorityscore=1501
+ malwarescore=0 mlxscore=0 suspectscore=0 adultscore=0 bulkscore=0
+ mlxlogscore=999 impostorscore=0 spamscore=0 lowpriorityscore=0
+ clxscore=1015 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2311290000 definitions=main-2312080038
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -90,70 +90,145 @@ Cc: quic_jesszhan@quicinc.com, quic_parellan@quicinc.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the RM APIs necessary to initialize and allocate CDM
-blocks to be used by the rest of the DPU pipeline.
+Even though there is usually only one CDM block, it can be
+used by either HDMI, DisplayPort OR Writeback interfaces.
+
+Hence its allocation needs to be tracked properly by the
+resource manager to ensure appropriate availability of the
+block.
 
 changes in v2:
-	- treat cdm_init() failure as fatal
-	- fixed the commit text
+	- move needs_cdm to topology struct
 
 Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c | 13 +++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h |  2 ++
- 2 files changed, 15 insertions(+)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h |  1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h     |  1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c      | 38 +++++++++++++++++++--
+ drivers/gpu/drm/msm/msm_drv.h               |  2 ++
+ 4 files changed, 40 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-index 0bb28cf4a6cb..7ed476b96304 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-@@ -8,6 +8,7 @@
- #include "dpu_kms.h"
- #include "dpu_hw_lm.h"
- #include "dpu_hw_ctl.h"
-+#include "dpu_hw_cdm.h"
- #include "dpu_hw_pingpong.h"
- #include "dpu_hw_sspp.h"
- #include "dpu_hw_intf.h"
-@@ -176,6 +177,18 @@ int dpu_rm_init(struct drm_device *dev,
- 		rm->hw_sspp[sspp->id - SSPP_NONE] = hw;
- 	}
- 
-+	if (cat->cdm) {
-+		struct dpu_hw_cdm *hw;
-+
-+		hw = dpu_hw_cdm_init(dev, cat->cdm, mmio, cat->mdss_ver);
-+		if (IS_ERR(hw)) {
-+			rc = PTR_ERR(hw);
-+			DPU_ERROR("failed cdm object creation: err %d\n", rc);
-+			goto fail;
-+		}
-+		rm->cdm_blk = &hw->base;
-+	}
-+
- 	return 0;
- 
- fail:
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-index 36752d837be4..e3f83ebc656b 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-@@ -22,6 +22,7 @@ struct dpu_global_state;
-  * @hw_wb: array of wb hardware resources
-  * @dspp_blks: array of dspp hardware resources
-  * @hw_sspp: array of sspp hardware resources
-+ * @cdm_blk: cdm hardware resource
-  */
- struct dpu_rm {
- 	struct dpu_hw_blk *pingpong_blks[PINGPONG_MAX - PINGPONG_0];
-@@ -33,6 +34,7 @@ struct dpu_rm {
- 	struct dpu_hw_blk *merge_3d_blks[MERGE_3D_MAX - MERGE_3D_0];
- 	struct dpu_hw_blk *dsc_blks[DSC_MAX - DSC_0];
- 	struct dpu_hw_sspp *hw_sspp[SSPP_MAX - SSPP_NONE];
-+	struct dpu_hw_blk *cdm_blk;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+index 9db4cf61bd29..5df545904057 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+@@ -98,6 +98,7 @@ enum dpu_hw_blk_type {
+ 	DPU_HW_BLK_DSPP,
+ 	DPU_HW_BLK_MERGE_3D,
+ 	DPU_HW_BLK_DSC,
++	DPU_HW_BLK_CDM,
+ 	DPU_HW_BLK_MAX,
  };
  
- /**
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+index df6271017b80..a0cd36e45a01 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+@@ -135,6 +135,7 @@ struct dpu_global_state {
+ 	uint32_t ctl_to_enc_id[CTL_MAX - CTL_0];
+ 	uint32_t dspp_to_enc_id[DSPP_MAX - DSPP_0];
+ 	uint32_t dsc_to_enc_id[DSC_MAX - DSC_0];
++	uint32_t cdm_to_enc_id;
+ };
+ 
+ struct dpu_global_state
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+index 7ed476b96304..b58a9c2ae326 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+@@ -435,6 +435,26 @@ static int _dpu_rm_reserve_dsc(struct dpu_rm *rm,
+ 	return 0;
+ }
+ 
++static int _dpu_rm_reserve_cdm(struct dpu_rm *rm,
++			       struct dpu_global_state *global_state,
++			       struct drm_encoder *enc)
++{
++	/* try allocating only one CDM block */
++	if (!rm->cdm_blk) {
++		DPU_ERROR("CDM block does not exist\n");
++		return -EIO;
++	}
++
++	if (global_state->cdm_to_enc_id) {
++		DPU_ERROR("CDM_0 is already allocated\n");
++		return -EIO;
++	}
++
++	global_state->cdm_to_enc_id = enc->base.id;
++
++	return 0;
++}
++
+ static int _dpu_rm_make_reservation(
+ 		struct dpu_rm *rm,
+ 		struct dpu_global_state *global_state,
+@@ -460,6 +480,14 @@ static int _dpu_rm_make_reservation(
+ 	if (ret)
+ 		return ret;
+ 
++	if (reqs->topology.needs_cdm) {
++		ret = _dpu_rm_reserve_cdm(rm, global_state, enc);
++		if (ret) {
++			DPU_ERROR("unable to find CDM blk\n");
++			return ret;
++		}
++	}
++
+ 	return ret;
+ }
+ 
+@@ -470,9 +498,9 @@ static int _dpu_rm_populate_requirements(
+ {
+ 	reqs->topology = req_topology;
+ 
+-	DRM_DEBUG_KMS("num_lm: %d num_dsc: %d num_intf: %d\n",
++	DRM_DEBUG_KMS("num_lm: %d num_dsc: %d num_intf: %d cdm: %d\n",
+ 		      reqs->topology.num_lm, reqs->topology.num_dsc,
+-		      reqs->topology.num_intf);
++		      reqs->topology.num_intf, reqs->topology.needs_cdm);
+ 
+ 	return 0;
+ }
+@@ -501,6 +529,7 @@ void dpu_rm_release(struct dpu_global_state *global_state,
+ 		ARRAY_SIZE(global_state->dsc_to_enc_id), enc->base.id);
+ 	_dpu_rm_clear_mapping(global_state->dspp_to_enc_id,
+ 		ARRAY_SIZE(global_state->dspp_to_enc_id), enc->base.id);
++	_dpu_rm_clear_mapping(&global_state->cdm_to_enc_id, 1, enc->base.id);
+ }
+ 
+ int dpu_rm_reserve(
+@@ -574,6 +603,11 @@ int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
+ 		hw_to_enc_id = global_state->dsc_to_enc_id;
+ 		max_blks = ARRAY_SIZE(rm->dsc_blks);
+ 		break;
++	case DPU_HW_BLK_CDM:
++		hw_blks = &rm->cdm_blk;
++		hw_to_enc_id = &global_state->cdm_to_enc_id;
++		max_blks = 1;
++		break;
+ 	default:
+ 		DPU_ERROR("blk type %d not managed by rm\n", type);
+ 		return 0;
+diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+index a205127ccc93..1ebad634781c 100644
+--- a/drivers/gpu/drm/msm/msm_drv.h
++++ b/drivers/gpu/drm/msm/msm_drv.h
+@@ -92,12 +92,14 @@ enum msm_event_wait {
+  * @num_intf:     number of interfaces the panel is mounted on
+  * @num_dspp:     number of dspp blocks used
+  * @num_dsc:      number of Display Stream Compression (DSC) blocks used
++ * @needs_cdm:    indicates whether cdm block is needed for this display topology
+  */
+ struct msm_display_topology {
+ 	u32 num_lm;
+ 	u32 num_intf;
+ 	u32 num_dspp;
+ 	u32 num_dsc;
++	bool needs_cdm;
+ };
+ 
+ /* Commit/Event thread specific structure */
 -- 
 2.40.1
 
