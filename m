@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CC8C80A5EE
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 15:51:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B33180A652
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 15:55:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3559F10E272;
-	Fri,  8 Dec 2023 14:51:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 294EF10E1B7;
+	Fri,  8 Dec 2023 14:55:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA64710E1B7;
- Fri,  8 Dec 2023 14:51:13 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D52210EAB1
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 14:55:27 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id BFE14B82DE5;
- Fri,  8 Dec 2023 14:51:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAC8DC433C9;
- Fri,  8 Dec 2023 14:51:08 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 8856461D62
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 14:55:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 39902C433CA
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 14:55:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1702047071;
- bh=ohK5wX1yFJfy8/8zjMggRBNNLI7jTP/Vv+IAlntxkNU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ddDBkLl6lE5iBcxFWJMiFQt3fVnLr/Cwbzih41o3YRm2zukZm0dTh7ddZcogheTXm
- rHqbZlRyEceL5LTNoabbZC5/xtYECeh4Az5iNOqz6ishtpWn3ChVQBE3E9jC0DFpBy
- KKpBrboJ+F2EBZ5S1TzsfiBYwdgBNHT1M8Tewo44ztTgL8SxUCT8DzKtRNYMdkkPM3
- FT9ObRbUmW4watQwVLjf0c7jWSM08QRSYudUebfFv46GbvHFUZ/J1tQ23hu5VoPp5s
- oEOOZ0UFNIIcn9SGcnp/JXT15aykZP88Jy1dU/9YjVsLktL3yLh4A82XxYs2hNxnCJ
- vH2fG+OYN8J4A==
-From: Bjorn Andersson <andersson@kernel.org>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Loic Poulain <loic.poulain@linaro.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Andy Gross <agross@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Georgi Djakov <djakov@kernel.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Robert Marko <robimarko@gmail.com>, Das Srinagesh <quic_gurus@quicinc.com>,
- cros-qcom-dts-watchers@chromium.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: Re: (subset) [PATCH v3 00/12] RB1/QCM2290 features
-Date: Fri,  8 Dec 2023 06:55:19 -0800
-Message-ID: <170204733634.342318.13908717706706425417.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231125-topic-rb1_feat-v3-0-4cbb567743bb@linaro.org>
-References: <20231125-topic-rb1_feat-v3-0-4cbb567743bb@linaro.org>
+ s=k20201202; t=1702047326;
+ bh=eUMQq9T+TApBxu6iQOUQip4Kes/02lUTCh8mCv/C9XI=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=UPhYt5XuYFk6qWDoOJqSz4VzD4Ct52xbP7F/x6IAet5iBHGXBOuuMfiMY1WAj/vvi
+ VTo5GFEF6tOizDBLH2agTiE5tJbajxSUIHNyqv08mBrRQ8qGV7rumCMUkJm0xz3S2r
+ oRzMQZk8UjP2L0gjH5InngYAbJ8aM0XHcPk9a3DN6iwrHwAHJyAAbQRjHUqFc5dtaZ
+ yZ0mhZVC0Vd+DO2W+JLySFpT6X9N+7p2f0ict2iCPGur+LyS6VLaM4ds0KF9u/KxYF
+ 9XtbDkeuNpRdHtGMEE7w++jL602Q75TO29Sr232HXWUvemJKLSbeMZh3X+FTtrt3rg
+ JemTqVfxsZWLA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 24D61C53BD2; Fri,  8 Dec 2023 14:55:26 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 218241] amdgpu: MODE2 reset
+Date: Fri, 08 Dec 2023 14:55:24 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: aros@gmx.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: ANSWERED
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-218241-2300-RWnNEXc42V@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-218241-2300@https.bugzilla.kernel.org/>
+References: <bug-218241-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,33 +68,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D218241
 
-On Wed, 29 Nov 2023 15:43:57 +0100, Konrad Dybcio wrote:
-> This series brings:
-> - interconnect plumbing
-> - display setup
-> 
-> for QCM2290/QRB2210 and
-> 
-> - CAN bus controller
-> - HDMI display
-> - wifi fw variant name
-> 
-> [...]
+Artem S. Tashkinov (aros@gmx.com) changed:
 
-Applied, thanks!
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |ANSWERED
 
-[04/12] dt-bindings: firmware: qcom,scm: Allow interconnect for everyone
-        commit: 56fdc35ef067c8dffee22038dd3a84bb3fa6d2a4
+--- Comment #1 from Artem S. Tashkinov (aros@gmx.com) ---
+Please report here instead:
 
-Best regards,
--- 
-Bjorn Andersson <andersson@kernel.org>
+https://gitlab.freedesktop.org/drm/amd/-/issues
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
