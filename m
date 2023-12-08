@@ -2,51 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6F8980A92A
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 17:35:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6785F80A920
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 17:35:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BC1A10EAD1;
-	Fri,  8 Dec 2023 16:35:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D19010EACB;
+	Fri,  8 Dec 2023 16:35:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B58910EAD1
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 16:35:33 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6881B10EACB
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 16:35:26 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3B8CGemR004916; Fri, 8 Dec 2023 16:35:16 GMT
+ 3B8DMCaK017074; Fri, 8 Dec 2023 16:35:17 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=qcppdkim1;
- bh=NdlAGbxC7moav9i7VA6fnZ588joDqnqqBfzR1Wq6x5Y=;
- b=GDoY1CgI4eGSQHnqwAvUdRWvBjEhk9XFoxfj6AraA5QMyVvwXeZKUg7NunhF1gaCE7gg
- ihAq9QWWezOMWErcm/AAnJPnwrfHLL4W8Mr/R33BD+++twH0RxWvPeGK+q8W8tnnIXRA
- uxmVq0rD1n5f9d7FQFJmjR56mpo8CdXX8DNcmMnJTlk4IxgmAv+3XukBosHDLOJZXMQA
- QXBoCkTi9laV0BeSdwOlo88eqvLkYhVo8MN1y9VUM3VCYjAJ8gaM3KJG3meJj8wMuZu5
- IS/kCboWup2fSC4rSY+OKyqq7tzLz2aJvXmO/vPdL40y3Re7V868B1P6HdpD2Mj5iu6R RQ== 
+ bh=wslA03eLR8fb2ZO7CPHbYXv0yuuWhhTg4rDenPYGeEw=;
+ b=nQuMB6kS1wpSFMn6kqQM5mtPpnZkSNjJVO46J4hhGr8xTrfkZrRd2hYlBnH2OtVKnY0o
+ +/ieYIc3AE+1gWbjphTgPhOYUBOlMHFLgwvmvZgjbM0Amp6JNoN9n8Tnc9Uzop6UMw74
+ xzVgV4FXevoqxDYpGMvu3KgE71G6M7Bo0bXysfSnrh9AwimNgGLLIm1QktO9RZS/gqUa
+ 0zl29TzVsGoZ5sLebfsJDADTkA6+I3n10Q+/ISUJNLLRG45ZZ/zYSrwPVk+fXfF8IySj
+ JcxHSmA8ho1NfQ0LVDZZT9PDWw/yab+29lUrRqEy/5nSdtviR9blPeOE18elh3Y+PrRr rA== 
 Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uuj96jpgc-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uuphga008-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 08 Dec 2023 16:35:16 +0000
+ Fri, 08 Dec 2023 16:35:17 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B8GZFZF002090
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B8GZGn1002114
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 8 Dec 2023 16:35:15 GMT
+ Fri, 8 Dec 2023 16:35:16 GMT
 Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Fri, 8 Dec 2023 08:35:14 -0800
+ 15.2.1118.40; Fri, 8 Dec 2023 08:35:15 -0800
 From: Jeffrey Hugo <quic_jhugo@quicinc.com>
 To: <quic_carlv@quicinc.com>, <quic_pkanojiy@quicinc.com>,
  <stanislaw.gruszka@linux.intel.com>, <jacek.lawrynowicz@linux.intel.com>
-Subject: [PATCH 1/7] accel/qaic: Deprecate ->size field from attach slice
- IOCTL structure
-Date: Fri, 8 Dec 2023 09:34:51 -0700
-Message-ID: <20231208163457.1295993-2-quic_jhugo@quicinc.com>
+Subject: [PATCH 2/7] accel/qaic: Remove bo->queued field
+Date: Fri, 8 Dec 2023 09:34:52 -0700
+Message-ID: <20231208163457.1295993-3-quic_jhugo@quicinc.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231208163457.1295993-1-quic_jhugo@quicinc.com>
 References: <20231208163457.1295993-1-quic_jhugo@quicinc.com>
@@ -59,16 +58,16 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: MKzUgjI5TTPjnjfUaUb0iDYxtbdQNOXz
-X-Proofpoint-ORIG-GUID: MKzUgjI5TTPjnjfUaUb0iDYxtbdQNOXz
+X-Proofpoint-ORIG-GUID: 6tBK6rUuThKwUgDDFeoHXlLEszld3srZ
+X-Proofpoint-GUID: 6tBK6rUuThKwUgDDFeoHXlLEszld3srZ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-12-08_11,2023-12-07_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 spamscore=0
- mlxlogscore=999 malwarescore=0 phishscore=0 bulkscore=0 impostorscore=0
- lowpriorityscore=0 adultscore=0 mlxscore=0 priorityscore=1501
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ priorityscore=1501
+ spamscore=0 impostorscore=0 clxscore=1015 lowpriorityscore=0 phishscore=0
+ adultscore=0 malwarescore=0 mlxlogscore=999 suspectscore=0 mlxscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2311290000 definitions=main-2312080136
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -89,96 +88,121 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
 
-->size in struct qaic_attach_slice_hdr is redundant since we have BO handle
-and its size can be retrieved from base BO structure.
+->queued field is used to track whether the BO is submitted to hardware for
+DMA or not. Since same information can be retrieved using ->xfer_list field
+of same structure remove ->queued as it is redundant.
 
 Signed-off-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
 Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 ---
- drivers/accel/qaic/qaic_data.c | 17 ++++-------------
- include/uapi/drm/qaic_accel.h  | 13 +------------
- 2 files changed, 5 insertions(+), 25 deletions(-)
+ drivers/accel/qaic/qaic.h      |  2 --
+ drivers/accel/qaic/qaic_data.c | 23 +++++++++++------------
+ 2 files changed, 11 insertions(+), 14 deletions(-)
 
+diff --git a/drivers/accel/qaic/qaic.h b/drivers/accel/qaic/qaic.h
+index 582836f9538f..2b3ef588b717 100644
+--- a/drivers/accel/qaic/qaic.h
++++ b/drivers/accel/qaic/qaic.h
+@@ -191,8 +191,6 @@ struct qaic_bo {
+ 	u32			nr_slice;
+ 	/* Number of slice that have been transferred by DMA engine */
+ 	u32			nr_slice_xfer_done;
+-	/* true = BO is queued for execution, true = BO is not queued */
+-	bool			queued;
+ 	/*
+ 	 * If true then user has attached slicing information to this BO by
+ 	 * calling DRM_IOCTL_QAIC_ATTACH_SLICE_BO ioctl.
 diff --git a/drivers/accel/qaic/qaic_data.c b/drivers/accel/qaic/qaic_data.c
-index cf2898eda7ae..0c6f1328df68 100644
+index 0c6f1328df68..89ab8fa19315 100644
 --- a/drivers/accel/qaic/qaic_data.c
 +++ b/drivers/accel/qaic/qaic_data.c
-@@ -830,9 +830,6 @@ static int qaic_prepare_import_bo(struct qaic_bo *bo, struct qaic_attach_slice_h
- 	struct sg_table *sgt;
- 	int ret;
+@@ -141,6 +141,11 @@ struct dbc_rsp {
+ 	__le16	status;
+ } __packed;
  
--	if (obj->import_attach->dmabuf->size < hdr->size)
--		return -EINVAL;
--
- 	sgt = dma_buf_map_attachment(obj->import_attach, hdr->dir);
- 	if (IS_ERR(sgt)) {
- 		ret = PTR_ERR(sgt);
-@@ -849,9 +846,6 @@ static int qaic_prepare_export_bo(struct qaic_device *qdev, struct qaic_bo *bo,
- {
- 	int ret;
- 
--	if (bo->base.size < hdr->size)
--		return -EINVAL;
--
- 	ret = dma_map_sgtable(&qdev->pdev->dev, bo->sgt, hdr->dir, 0);
- 	if (ret)
- 		return -EFAULT;
-@@ -952,9 +946,6 @@ int qaic_attach_slice_bo_ioctl(struct drm_device *dev, void *data, struct drm_fi
- 	if (arg_size / args->hdr.count != sizeof(*slice_ent))
- 		return -EINVAL;
- 
--	if (args->hdr.size == 0)
--		return -EINVAL;
--
- 	if (!(args->hdr.dir == DMA_TO_DEVICE || args->hdr.dir == DMA_FROM_DEVICE))
- 		return -EINVAL;
- 
-@@ -994,16 +985,16 @@ int qaic_attach_slice_bo_ioctl(struct drm_device *dev, void *data, struct drm_fi
- 		goto free_slice_ent;
- 	}
- 
--	ret = qaic_validate_req(qdev, slice_ent, args->hdr.count, args->hdr.size);
--	if (ret)
--		goto free_slice_ent;
--
- 	obj = drm_gem_object_lookup(file_priv, args->hdr.handle);
- 	if (!obj) {
- 		ret = -ENOENT;
- 		goto free_slice_ent;
- 	}
- 
-+	ret = qaic_validate_req(qdev, slice_ent, args->hdr.count, obj->size);
-+	if (ret)
-+		goto put_bo;
++static inline bool bo_queued(struct qaic_bo *bo)
++{
++	return !list_empty(&bo->xfer_list);
++}
 +
- 	bo = to_qaic_bo(obj);
- 	ret = mutex_lock_interruptible(&bo->lock);
- 	if (ret)
-diff --git a/include/uapi/drm/qaic_accel.h b/include/uapi/drm/qaic_accel.h
-index 9dab32316aee..d3ca876a08e9 100644
---- a/include/uapi/drm/qaic_accel.h
-+++ b/include/uapi/drm/qaic_accel.h
-@@ -242,18 +242,7 @@ struct qaic_attach_slice_entry {
-  * @dbc_id: In. Associate the sliced BO with this DBC.
-  * @handle: In. GEM handle of the BO to slice.
-  * @dir: In. Direction of data flow. 1 = DMA_TO_DEVICE, 2 = DMA_FROM_DEVICE
-- * @size: In. Total length of BO being used. This should not exceed base
-- *	  size of BO (struct drm_gem_object.base)
-- *	  For BOs being allocated using DRM_IOCTL_QAIC_CREATE_BO, size of
-- *	  BO requested is PAGE_SIZE aligned then allocated hence allocated
-- *	  BO size maybe bigger. This size should not exceed the new
-- *	  PAGE_SIZE aligned BO size.
-- * @dev_addr: In. Device address this slice pushes to or pulls from.
-- * @db_addr: In. Address of the doorbell to ring.
-- * @db_data: In. Data to write to the doorbell.
-- * @db_len: In. Size of the doorbell data in bits - 32, 16, or 8.  0 is for
-- *	    inactive doorbells.
-- * @offset: In. Start of this slice as an offset from the start of the BO.
-+ * @size: Deprecated. This value is ignored and size of @handle is used instead.
-  */
- struct qaic_attach_slice_hdr {
- 	__u32 count;
+ inline int get_dbc_req_elem_size(void)
+ {
+ 	return sizeof(struct dbc_req);
+@@ -648,6 +653,7 @@ static void qaic_init_bo(struct qaic_bo *bo, bool reinit)
+ 	}
+ 	complete_all(&bo->xfer_done);
+ 	INIT_LIST_HEAD(&bo->slices);
++	INIT_LIST_HEAD(&bo->xfer_list);
+ }
+ 
+ static struct qaic_bo *qaic_alloc_init_bo(void)
+@@ -1166,7 +1172,6 @@ static int send_bo_list_to_device(struct qaic_device *qdev, struct drm_file *fil
+ 	struct bo_slice *slice;
+ 	unsigned long flags;
+ 	struct qaic_bo *bo;
+-	bool queued;
+ 	int i, j;
+ 	int ret;
+ 
+@@ -1198,9 +1203,7 @@ static int send_bo_list_to_device(struct qaic_device *qdev, struct drm_file *fil
+ 		}
+ 
+ 		spin_lock_irqsave(&dbc->xfer_lock, flags);
+-		queued = bo->queued;
+-		bo->queued = true;
+-		if (queued) {
++		if (bo_queued(bo)) {
+ 			spin_unlock_irqrestore(&dbc->xfer_lock, flags);
+ 			ret = -EINVAL;
+ 			goto unlock_bo;
+@@ -1223,7 +1226,6 @@ static int send_bo_list_to_device(struct qaic_device *qdev, struct drm_file *fil
+ 			else
+ 				ret = copy_exec_reqs(qdev, slice, dbc->id, head, tail);
+ 			if (ret) {
+-				bo->queued = false;
+ 				spin_unlock_irqrestore(&dbc->xfer_lock, flags);
+ 				goto unlock_bo;
+ 			}
+@@ -1246,8 +1248,7 @@ static int send_bo_list_to_device(struct qaic_device *qdev, struct drm_file *fil
+ 		spin_lock_irqsave(&dbc->xfer_lock, flags);
+ 		bo = list_last_entry(&dbc->xfer_list, struct qaic_bo, xfer_list);
+ 		obj = &bo->base;
+-		bo->queued = false;
+-		list_del(&bo->xfer_list);
++		list_del_init(&bo->xfer_list);
+ 		spin_unlock_irqrestore(&dbc->xfer_lock, flags);
+ 		dma_sync_sgtable_for_cpu(&qdev->pdev->dev, bo->sgt, bo->dir);
+ 		drm_gem_object_put(obj);
+@@ -1608,8 +1609,7 @@ irqreturn_t dbc_irq_threaded_fn(int irq, void *data)
+ 			 */
+ 			dma_sync_sgtable_for_cpu(&qdev->pdev->dev, bo->sgt, bo->dir);
+ 			bo->nr_slice_xfer_done = 0;
+-			bo->queued = false;
+-			list_del(&bo->xfer_list);
++			list_del_init(&bo->xfer_list);
+ 			bo->perf_stats.req_processed_ts = ktime_get_ns();
+ 			complete_all(&bo->xfer_done);
+ 			drm_gem_object_put(&bo->base);
+@@ -1868,7 +1868,7 @@ int qaic_detach_slice_bo_ioctl(struct drm_device *dev, void *data, struct drm_fi
+ 
+ 	/* Check if BO is committed to H/W for DMA */
+ 	spin_lock_irqsave(&dbc->xfer_lock, flags);
+-	if (bo->queued) {
++	if (bo_queued(bo)) {
+ 		spin_unlock_irqrestore(&dbc->xfer_lock, flags);
+ 		ret = -EBUSY;
+ 		goto unlock_ch_srcu;
+@@ -1898,8 +1898,7 @@ static void empty_xfer_list(struct qaic_device *qdev, struct dma_bridge_chan *db
+ 	spin_lock_irqsave(&dbc->xfer_lock, flags);
+ 	while (!list_empty(&dbc->xfer_list)) {
+ 		bo = list_first_entry(&dbc->xfer_list, typeof(*bo), xfer_list);
+-		bo->queued = false;
+-		list_del(&bo->xfer_list);
++		list_del_init(&bo->xfer_list);
+ 		spin_unlock_irqrestore(&dbc->xfer_lock, flags);
+ 		bo->nr_slice_xfer_done = 0;
+ 		bo->req_id = 0;
 -- 
 2.34.1
 
