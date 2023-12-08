@@ -1,54 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 455DA809B6A
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 06:07:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9921809B66
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 06:07:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84C5710E9EF;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84BE910E9DA;
 	Fri,  8 Dec 2023 05:07:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9DF110E9EC;
- Fri,  8 Dec 2023 05:07:18 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AD9010E9ED;
+ Fri,  8 Dec 2023 05:07:21 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3B83ihCV027334; Fri, 8 Dec 2023 05:07:16 GMT
+ 3B84waef006838; Fri, 8 Dec 2023 05:07:18 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=qcppdkim1;
- bh=ILRUVSzTnfb8eMFGGZcyWRL+zvxEFuhSba8P7jnspgg=;
- b=bhdi2ZtiNl03lNvQd+/MMiETn3JtflBq2e93nXkLTwPTTGqDuVOQMoubhQBfvSzO6d3Y
- YqqhBgSScNa5YwCO9NTFT5v2zCau1Y5kTIxZR5PTj0XXbYyrl4V/WAdcd2Bxm6JUyKuG
- Au7DGp6qQG9dDls3xdcnN+juYTs8EvAlbkDs9ccgSSa7rnVgLcizS3GGOCgUsiU2TKDv
- KNfV65qDP6pJlDShb5isl0tAr7ZpUg7LVGrBBveWjJqewRFyP3P//aWFjwuT5CJ/DI5z
- XfS0rfGvEwcwKBImXv8fGNlS8pMAOYqTIRrudKTJYHodDm+8ybkpYKipZctnbUAARP2w NQ== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ bh=dSrGu7Djv4UNJvLFjxZvFU8EiTIAoVAjQrNafPk5af4=;
+ b=AGixlUbvhSb9NWpp8eX5CZoZBadsJHvzHK3zDdID1zqpyjrdwdWA16M8q/ZKp33ncLV3
+ oqLd40jgmpdlbsKURjVV7k+M9tmdUAbVFNVK1wvUuJHj0qE2XEV2ff3BSYcPqHaHGX/H
+ uW+2kYTXTl0PwOKIWtxZKoFs4PxCQNlHPZB9lM8t3kDp1ZQZW4EOUaHgyeqQlFwYg7KH
+ jKmJ/1wouM2alhXXnCy+7IQ5usWzvSdTzqq+HCK0HuAS6UHIydGPCm3Krymq/JXeJSXA
+ sRv9nlEsMsvy9bk4WQBii+4Uoy9rXLTQDMhdefaNH8HxfA6I4slMsR9UhgzUyDJEITJq sw== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uu8p0b0bu-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uubd82k47-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 08 Dec 2023 05:07:16 +0000
+ Fri, 08 Dec 2023 05:07:18 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B857FQl007422
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B857HLS021915
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 8 Dec 2023 05:07:15 GMT
+ Fri, 8 Dec 2023 05:07:17 GMT
 Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Thu, 7 Dec 2023 21:07:15 -0800
+ 15.2.1118.40; Thu, 7 Dec 2023 21:07:16 -0800
 From: Abhinav Kumar <quic_abhinavk@quicinc.com>
 To: <freedreno@lists.freedesktop.org>, Rob Clark <robdclark@gmail.com>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
  <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
  <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
  Vetter" <daniel@ffwll.ch>
-Subject: [PATCH v2 09/16] drm/msm/dpu: add support to allocate CDM from RM
-Date: Thu, 7 Dec 2023 21:06:34 -0800
-Message-ID: <20231208050641.32582-10-quic_abhinavk@quicinc.com>
+Subject: [PATCH v2 10/16] drm/msm/dpu: add CDM related logic to dpu_hw_ctl
+ layer
+Date: Thu, 7 Dec 2023 21:06:35 -0800
+Message-ID: <20231208050641.32582-11-quic_abhinavk@quicinc.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20231208050641.32582-1-quic_abhinavk@quicinc.com>
 References: <20231208050641.32582-1-quic_abhinavk@quicinc.com>
@@ -61,16 +62,16 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: BflWKOiBKmizOOAfkHISkakpk3lpQ92A
-X-Proofpoint-ORIG-GUID: BflWKOiBKmizOOAfkHISkakpk3lpQ92A
+X-Proofpoint-GUID: WytNkEv2RaDRyvzpfHb9-eg1dAFZRCvR
+X-Proofpoint-ORIG-GUID: WytNkEv2RaDRyvzpfHb9-eg1dAFZRCvR
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-12-08_01,2023-12-07_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 mlxscore=0 suspectscore=0 adultscore=0 bulkscore=0
- mlxlogscore=999 impostorscore=0 spamscore=0 lowpriorityscore=0
- clxscore=1015 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ bulkscore=0 clxscore=1015
+ suspectscore=0 mlxlogscore=656 impostorscore=0 phishscore=0
+ lowpriorityscore=0 adultscore=0 malwarescore=0 mlxscore=0 spamscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2311290000 definitions=main-2312080038
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -90,145 +91,206 @@ Cc: quic_jesszhan@quicinc.com, quic_parellan@quicinc.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Even though there is usually only one CDM block, it can be
-used by either HDMI, DisplayPort OR Writeback interfaces.
+CDM block will need its own logic to program the flush and active
+bits in the dpu_hw_ctl layer.
 
-Hence its allocation needs to be tracked properly by the
-resource manager to ensure appropriate availability of the
-block.
+Make necessary changes in dpu_hw_ctl to support CDM programming.
 
 changes in v2:
-	- move needs_cdm to topology struct
+	- remove unused empty line
+	- pass in cdm_num to update_pending_flush_cdm()
 
 Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h |  1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h     |  1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c      | 38 +++++++++++++++++++--
- drivers/gpu/drm/msm/msm_drv.h               |  2 ++
- 4 files changed, 40 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 35 ++++++++++++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h | 12 ++++++++
+ 2 files changed, 47 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-index 9db4cf61bd29..5df545904057 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-@@ -98,6 +98,7 @@ enum dpu_hw_blk_type {
- 	DPU_HW_BLK_DSPP,
- 	DPU_HW_BLK_MERGE_3D,
- 	DPU_HW_BLK_DSC,
-+	DPU_HW_BLK_CDM,
- 	DPU_HW_BLK_MAX,
- };
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+index e7b680a151d6..75b8a32389c3 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+@@ -32,11 +32,13 @@
+ #define   CTL_DSC_ACTIVE                0x0E8
+ #define   CTL_WB_ACTIVE                 0x0EC
+ #define   CTL_INTF_ACTIVE               0x0F4
++#define   CTL_CDM_ACTIVE                0x0F8
+ #define   CTL_FETCH_PIPE_ACTIVE         0x0FC
+ #define   CTL_MERGE_3D_FLUSH            0x100
+ #define   CTL_DSC_FLUSH                0x104
+ #define   CTL_WB_FLUSH                  0x108
+ #define   CTL_INTF_FLUSH                0x110
++#define   CTL_CDM_FLUSH                0x114
+ #define   CTL_INTF_MASTER               0x134
+ #define   CTL_DSPP_n_FLUSH(n)           ((0x13C) + ((n) * 4))
  
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-index df6271017b80..a0cd36e45a01 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-@@ -135,6 +135,7 @@ struct dpu_global_state {
- 	uint32_t ctl_to_enc_id[CTL_MAX - CTL_0];
- 	uint32_t dspp_to_enc_id[DSPP_MAX - DSPP_0];
- 	uint32_t dsc_to_enc_id[DSC_MAX - DSC_0];
-+	uint32_t cdm_to_enc_id;
- };
+@@ -46,6 +48,7 @@
+ #define DPU_REG_RESET_TIMEOUT_US        2000
+ #define  MERGE_3D_IDX   23
+ #define  DSC_IDX        22
++#define CDM_IDX         26
+ #define  INTF_IDX       31
+ #define WB_IDX          16
+ #define  DSPP_IDX       29  /* From DPU hw rev 7.x.x */
+@@ -107,6 +110,7 @@ static inline void dpu_hw_ctl_clear_pending_flush(struct dpu_hw_ctl *ctx)
+ 	ctx->pending_wb_flush_mask = 0;
+ 	ctx->pending_merge_3d_flush_mask = 0;
+ 	ctx->pending_dsc_flush_mask = 0;
++	ctx->pending_cdm_flush_mask = 0;
  
- struct dpu_global_state
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-index 7ed476b96304..b58a9c2ae326 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-@@ -435,6 +435,26 @@ static int _dpu_rm_reserve_dsc(struct dpu_rm *rm,
- 	return 0;
+ 	memset(ctx->pending_dspp_flush_mask, 0,
+ 		sizeof(ctx->pending_dspp_flush_mask));
+@@ -151,6 +155,10 @@ static inline void dpu_hw_ctl_trigger_flush_v1(struct dpu_hw_ctl *ctx)
+ 		DPU_REG_WRITE(&ctx->hw, CTL_DSC_FLUSH,
+ 			      ctx->pending_dsc_flush_mask);
+ 
++	if (ctx->pending_flush_mask & BIT(CDM_IDX))
++		DPU_REG_WRITE(&ctx->hw, CTL_CDM_FLUSH,
++			      ctx->pending_cdm_flush_mask);
++
+ 	DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, ctx->pending_flush_mask);
  }
  
-+static int _dpu_rm_reserve_cdm(struct dpu_rm *rm,
-+			       struct dpu_global_state *global_state,
-+			       struct drm_encoder *enc)
+@@ -282,6 +290,13 @@ static void dpu_hw_ctl_update_pending_flush_wb(struct dpu_hw_ctl *ctx,
+ 	}
+ }
+ 
++static void dpu_hw_ctl_update_pending_flush_cdm(struct dpu_hw_ctl *ctx, enum dpu_cdm cdm_num)
 +{
-+	/* try allocating only one CDM block */
-+	if (!rm->cdm_blk) {
-+		DPU_ERROR("CDM block does not exist\n");
-+		return -EIO;
-+	}
-+
-+	if (global_state->cdm_to_enc_id) {
-+		DPU_ERROR("CDM_0 is already allocated\n");
-+		return -EIO;
-+	}
-+
-+	global_state->cdm_to_enc_id = enc->base.id;
-+
-+	return 0;
++	/* update pending flush only if CDM_0 is flushed */
++	if (cdm_num == CDM_0)
++		ctx->pending_flush_mask |= BIT(CDM_IDX);
 +}
 +
- static int _dpu_rm_make_reservation(
- 		struct dpu_rm *rm,
- 		struct dpu_global_state *global_state,
-@@ -460,6 +480,14 @@ static int _dpu_rm_make_reservation(
- 	if (ret)
- 		return ret;
- 
-+	if (reqs->topology.needs_cdm) {
-+		ret = _dpu_rm_reserve_cdm(rm, global_state, enc);
-+		if (ret) {
-+			DPU_ERROR("unable to find CDM blk\n");
-+			return ret;
-+		}
-+	}
-+
- 	return ret;
- }
- 
-@@ -470,9 +498,9 @@ static int _dpu_rm_populate_requirements(
+ static void dpu_hw_ctl_update_pending_flush_wb_v1(struct dpu_hw_ctl *ctx,
+ 		enum dpu_wb wb)
  {
- 	reqs->topology = req_topology;
- 
--	DRM_DEBUG_KMS("num_lm: %d num_dsc: %d num_intf: %d\n",
-+	DRM_DEBUG_KMS("num_lm: %d num_dsc: %d num_intf: %d cdm: %d\n",
- 		      reqs->topology.num_lm, reqs->topology.num_dsc,
--		      reqs->topology.num_intf);
-+		      reqs->topology.num_intf, reqs->topology.needs_cdm);
- 
- 	return 0;
- }
-@@ -501,6 +529,7 @@ void dpu_rm_release(struct dpu_global_state *global_state,
- 		ARRAY_SIZE(global_state->dsc_to_enc_id), enc->base.id);
- 	_dpu_rm_clear_mapping(global_state->dspp_to_enc_id,
- 		ARRAY_SIZE(global_state->dspp_to_enc_id), enc->base.id);
-+	_dpu_rm_clear_mapping(&global_state->cdm_to_enc_id, 1, enc->base.id);
+@@ -310,6 +325,12 @@ static void dpu_hw_ctl_update_pending_flush_dsc_v1(struct dpu_hw_ctl *ctx,
+ 	ctx->pending_flush_mask |= BIT(DSC_IDX);
  }
  
- int dpu_rm_reserve(
-@@ -574,6 +603,11 @@ int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
- 		hw_to_enc_id = global_state->dsc_to_enc_id;
- 		max_blks = ARRAY_SIZE(rm->dsc_blks);
- 		break;
-+	case DPU_HW_BLK_CDM:
-+		hw_blks = &rm->cdm_blk;
-+		hw_to_enc_id = &global_state->cdm_to_enc_id;
-+		max_blks = 1;
-+		break;
- 	default:
- 		DPU_ERROR("blk type %d not managed by rm\n", type);
- 		return 0;
-diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-index a205127ccc93..1ebad634781c 100644
---- a/drivers/gpu/drm/msm/msm_drv.h
-+++ b/drivers/gpu/drm/msm/msm_drv.h
-@@ -92,12 +92,14 @@ enum msm_event_wait {
-  * @num_intf:     number of interfaces the panel is mounted on
-  * @num_dspp:     number of dspp blocks used
-  * @num_dsc:      number of Display Stream Compression (DSC) blocks used
-+ * @needs_cdm:    indicates whether cdm block is needed for this display topology
++static void dpu_hw_ctl_update_pending_flush_cdm_v1(struct dpu_hw_ctl *ctx, enum dpu_cdm cdm_num)
++{
++	ctx->pending_cdm_flush_mask |= BIT(cdm_num - CDM_0);
++	ctx->pending_flush_mask |= BIT(CDM_IDX);
++}
++
+ static void dpu_hw_ctl_update_pending_flush_dspp(struct dpu_hw_ctl *ctx,
+ 	enum dpu_dspp dspp, u32 dspp_sub_blk)
+ {
+@@ -513,6 +534,7 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
+ 	u32 intf_active = 0;
+ 	u32 wb_active = 0;
+ 	u32 mode_sel = 0;
++	u32 cdm_active = 0;
+ 
+ 	/* CTL_TOP[31:28] carries group_id to collate CTL paths
+ 	 * per VM. Explicitly disable it until VM support is
+@@ -526,6 +548,7 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
+ 
+ 	intf_active = DPU_REG_READ(c, CTL_INTF_ACTIVE);
+ 	wb_active = DPU_REG_READ(c, CTL_WB_ACTIVE);
++	cdm_active = DPU_REG_READ(c, CTL_CDM_ACTIVE);
+ 
+ 	if (cfg->intf)
+ 		intf_active |= BIT(cfg->intf - INTF_0);
+@@ -543,6 +566,9 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
+ 
+ 	if (cfg->dsc)
+ 		DPU_REG_WRITE(c, CTL_DSC_ACTIVE, cfg->dsc);
++
++	if (cfg->cdm)
++		DPU_REG_WRITE(c, CTL_CDM_ACTIVE, cfg->cdm);
+ }
+ 
+ static void dpu_hw_ctl_intf_cfg(struct dpu_hw_ctl *ctx,
+@@ -586,6 +612,7 @@ static void dpu_hw_ctl_reset_intf_cfg_v1(struct dpu_hw_ctl *ctx,
+ 	u32 wb_active = 0;
+ 	u32 merge3d_active = 0;
+ 	u32 dsc_active;
++	u32 cdm_active;
+ 
+ 	/*
+ 	 * This API resets each portion of the CTL path namely,
+@@ -621,6 +648,12 @@ static void dpu_hw_ctl_reset_intf_cfg_v1(struct dpu_hw_ctl *ctx,
+ 		dsc_active &= ~cfg->dsc;
+ 		DPU_REG_WRITE(c, CTL_DSC_ACTIVE, dsc_active);
+ 	}
++
++	if (cfg->cdm) {
++		cdm_active = DPU_REG_READ(c, CTL_CDM_ACTIVE);
++		cdm_active &= ~cfg->cdm;
++		DPU_REG_WRITE(c, CTL_CDM_ACTIVE, cdm_active);
++	}
+ }
+ 
+ static void dpu_hw_ctl_set_fetch_pipe_active(struct dpu_hw_ctl *ctx,
+@@ -654,12 +687,14 @@ static void _setup_ctl_ops(struct dpu_hw_ctl_ops *ops,
+ 		ops->update_pending_flush_wb = dpu_hw_ctl_update_pending_flush_wb_v1;
+ 		ops->update_pending_flush_dsc =
+ 			dpu_hw_ctl_update_pending_flush_dsc_v1;
++		ops->update_pending_flush_cdm = dpu_hw_ctl_update_pending_flush_cdm_v1;
+ 	} else {
+ 		ops->trigger_flush = dpu_hw_ctl_trigger_flush;
+ 		ops->setup_intf_cfg = dpu_hw_ctl_intf_cfg;
+ 		ops->update_pending_flush_intf =
+ 			dpu_hw_ctl_update_pending_flush_intf;
+ 		ops->update_pending_flush_wb = dpu_hw_ctl_update_pending_flush_wb;
++		ops->update_pending_flush_cdm = dpu_hw_ctl_update_pending_flush_cdm;
+ 	}
+ 	ops->clear_pending_flush = dpu_hw_ctl_clear_pending_flush;
+ 	ops->update_pending_flush = dpu_hw_ctl_update_pending_flush;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+index 279ebd8dfbff..ff85b5ee0acf 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+@@ -39,6 +39,7 @@ struct dpu_hw_stage_cfg {
+  * @mode_3d:               3d mux configuration
+  * @merge_3d:              3d merge block used
+  * @intf_mode_sel:         Interface mode, cmd / vid
++ * @cdm:                   CDM block used
+  * @stream_sel:            Stream selection for multi-stream interfaces
+  * @dsc:                   DSC BIT masks used
   */
- struct msm_display_topology {
- 	u32 num_lm;
- 	u32 num_intf;
- 	u32 num_dspp;
- 	u32 num_dsc;
-+	bool needs_cdm;
+@@ -48,6 +49,7 @@ struct dpu_hw_intf_cfg {
+ 	enum dpu_3d_blend_mode mode_3d;
+ 	enum dpu_merge_3d merge_3d;
+ 	enum dpu_ctl_mode_sel intf_mode_sel;
++	enum dpu_cdm cdm;
+ 	int stream_sel;
+ 	unsigned int dsc;
  };
+@@ -166,6 +168,14 @@ struct dpu_hw_ctl_ops {
+ 	void (*update_pending_flush_dsc)(struct dpu_hw_ctl *ctx,
+ 					 enum dpu_dsc blk);
  
- /* Commit/Event thread specific structure */
++	/**
++	 * OR in the given flushbits to the cached pending_(cdm_)flush_mask
++	 * No effect on hardware
++	 * @ctx: ctl path ctx pointer
++	 * @cdm_num: idx of cdm to be flushed
++	 */
++	void (*update_pending_flush_cdm)(struct dpu_hw_ctl *ctx, enum dpu_cdm cdm_num);
++
+ 	/**
+ 	 * Write the value of the pending_flush_mask to hardware
+ 	 * @ctx       : ctl path ctx pointer
+@@ -239,6 +249,7 @@ struct dpu_hw_ctl_ops {
+  * @pending_intf_flush_mask: pending INTF flush
+  * @pending_wb_flush_mask: pending WB flush
+  * @pending_dsc_flush_mask: pending DSC flush
++ * @pending_cdm_flush_mask: pending CDM flush
+  * @ops: operation list
+  */
+ struct dpu_hw_ctl {
+@@ -256,6 +267,7 @@ struct dpu_hw_ctl {
+ 	u32 pending_merge_3d_flush_mask;
+ 	u32 pending_dspp_flush_mask[DSPP_MAX - DSPP_0];
+ 	u32 pending_dsc_flush_mask;
++	u32 pending_cdm_flush_mask;
+ 
+ 	/* ops */
+ 	struct dpu_hw_ctl_ops ops;
 -- 
 2.40.1
 
