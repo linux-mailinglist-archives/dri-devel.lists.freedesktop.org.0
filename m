@@ -1,47 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E95180A89C
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 17:18:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA75080A8C8
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 17:24:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEFD610E2AD;
-	Fri,  8 Dec 2023 16:18:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A130510E08A;
+	Fri,  8 Dec 2023 16:24:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6068F10E293;
- Fri,  8 Dec 2023 16:18:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1702052308; x=1733588308;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=eNUeTgAulbzlZJiCr18dDw4ZNg/Mqd3bdc4GXTtv+Nw=;
- b=el9LqK/CqZxtEGjsgIAFg5iVJ/SMg/VMu/cqF+b9ujSK9IyCXO+RVss2
- T5QcodP6ssCHECBQTFhrTn4JbzL2qeIccMmTbguEOCn17Zgh8T8sv9odx
- 3FLwxAhk6dxixRqEOFtqc4LUuAu6UizDcINS2OGkrU4yV7fLVbVR/0jR4
- M/3GanfRBty94TnARk3fhaSfGwKt+f76XPVdtRzB7RsaC/JNrpp1SdO+f
- 0sTtQohZYWw1a8XAwSg2WaLX9l6Ql1y6r0JOgUYbma9qc3hrQ0LXbgdUE
- G2FY6ALFoTi0Wj6mVf3jW82N94SdwqNU7d8xhoIpRqIt9tK4+j8dQAg9T A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="480621698"
-X-IronPort-AV: E=Sophos;i="6.04,261,1695711600"; d="scan'208";a="480621698"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Dec 2023 08:18:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="890169947"
-X-IronPort-AV: E=Sophos;i="6.04,261,1695711600"; d="scan'208";a="890169947"
-Received: from wcyu-mobl.ger.corp.intel.com (HELO localhost) ([10.252.27.89])
- by fmsmga002-auth.fm.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 08:18:18 -0800
-Date: Fri, 8 Dec 2023 18:18:15 +0200
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-gt-next
-Message-ID: <ZXNBcsSwJEVsq9On@jlahtine-mobl.ger.corp.intel.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2ACEC10EAD6;
+ Fri,  8 Dec 2023 16:24:27 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3B8FZMI9010729; Fri, 8 Dec 2023 16:24:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=JTh/W8E+X96Y3B97mD4d20YenBuucvd9tHFxnzC7JoA=;
+ b=TisIb56WnrMZv9CTLtpKRnw9zyXjXGpPAipridtx7LjOrLy+L8s+ASWjnnc7YWeC+8Mb
+ V2gc5CpeyYCkfnfVSKeP1FEkWAlsP3LiqQiWioPy5YNMTHQ4m9DYKVbB/S07HcrNc9V7
+ rt3nam8whxydj22ul2Od3AmuYWF+vB+UNkKNxW1kXP5nR+xSqBIt8r+wXswZ1W/GTcQS
+ ByzayUic3EhuYCNibR18xgGP+vO8AhrlRCskqGudjafS6NE9vAXM8t1J9AXMCya0ajnK
+ 9N62l7x8LAfqYbJR+D9VepNFS18U+H4CaUQyDt5SrgO4ons28RT7F373NI4I14jdKZS6 TA== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uv5wpg5a1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 08 Dec 2023 16:24:24 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B8GOJ3l008604
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 8 Dec 2023 16:24:19 GMT
+Received: from [10.110.30.94] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 8 Dec
+ 2023 08:24:16 -0800
+Message-ID: <ceb7e736-22f3-0cf3-3d65-7ec33e7c9d95@quicinc.com>
+Date: Fri, 8 Dec 2023 08:24:15 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2 04/16] drm/msm/dpu: move csc matrices to dpu_hw_util
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20231208050641.32582-1-quic_abhinavk@quicinc.com>
+ <20231208050641.32582-5-quic_abhinavk@quicinc.com>
+ <CAA8EJpro4ehwZ8Gs+ASUmrMJS0HbnDXd5pXwijs1jkDpR-kAOQ@mail.gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <CAA8EJpro4ehwZ8Gs+ASUmrMJS0HbnDXd5pXwijs1jkDpR-kAOQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 8ewUNYkJJh8i4djhatMbVdf5-6M7br8T
+X-Proofpoint-ORIG-GUID: 8ewUNYkJJh8i4djhatMbVdf5-6M7br8T
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-08_11,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ mlxlogscore=999 impostorscore=0 adultscore=0 priorityscore=1501 mlxscore=0
+ clxscore=1015 malwarescore=0 phishscore=0 suspectscore=0 bulkscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311290000 definitions=main-2312080135
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,312 +84,197 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ quic_parellan@quicinc.com, quic_jesszhan@quicinc.com,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave & Sima,
 
-A rather late first drm-intel-gt-next PR towards v6.8.
 
-As most significant change we have addition of the DRM fdinfo memory stats
-functionality. Then DG2 and MTL workaround additions and fixes and a few
-for older platforms as well. PMU WARN_ON splat cleanup.
+On 12/8/2023 3:12 AM, Dmitry Baryshkov wrote:
+> On Fri, 8 Dec 2023 at 07:07, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>>
+>> Since the type and usage of CSC matrices is spanning across DPU
+>> lets introduce a helper to the dpu_hw_util to return the CSC
+>> corresponding to the request type. This will help to add more
+>> supported CSC types such as the RGB to YUV one which is used in
+>> the case of CDM.
+>>
+>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c | 54 +++++++++++++++++++++
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h |  7 +++
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   | 39 ++-------------
+>>   3 files changed, 64 insertions(+), 36 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
+>> index 0b05061e3e62..59a153331194 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
+>> @@ -87,6 +87,60 @@ static u32 dpu_hw_util_log_mask = DPU_DBG_MASK_NONE;
+>>   #define QOS_QOS_CTRL_VBLANK_EN            BIT(16)
+>>   #define QOS_QOS_CTRL_CREQ_VBLANK_MASK     GENMASK(21, 20)
+>>
+>> +static const struct dpu_csc_cfg dpu_csc_YUV2RGB_601L = {
+>> +       {
+>> +               /* S15.16 format */
+>> +               0x00012A00, 0x00000000, 0x00019880,
+>> +               0x00012A00, 0xFFFF9B80, 0xFFFF3000,
+>> +               0x00012A00, 0x00020480, 0x00000000,
+>> +       },
+>> +       /* signed bias */
+>> +       { 0xfff0, 0xff80, 0xff80,},
+>> +       { 0x0, 0x0, 0x0,},
+>> +       /* unsigned clamp */
+>> +       { 0x10, 0xeb, 0x10, 0xf0, 0x10, 0xf0,},
+>> +       { 0x00, 0xff, 0x00, 0xff, 0x00, 0xff,},
+>> +};
+>> +
+>> +static const struct dpu_csc_cfg dpu_csc10_YUV2RGB_601L = {
+>> +       {
+>> +               /* S15.16 format */
+>> +               0x00012A00, 0x00000000, 0x00019880,
+>> +               0x00012A00, 0xFFFF9B80, 0xFFFF3000,
+>> +               0x00012A00, 0x00020480, 0x00000000,
+>> +       },
+>> +       /* signed bias */
+>> +       { 0xffc0, 0xfe00, 0xfe00,},
+>> +       { 0x0, 0x0, 0x0,},
+>> +       /* unsigned clamp */
+>> +       { 0x40, 0x3ac, 0x40, 0x3c0, 0x40, 0x3c0,},
+>> +       { 0x00, 0x3ff, 0x00, 0x3ff, 0x00, 0x3ff,},
+>> +};
+>> +
+>> +/**
+>> + * dpu_hw_get_csc_cfg - get the CSC matrix based on the request type
+>> + * @type:              type of the requested CSC matrix from caller
+>> + * Return: CSC matrix corresponding to the request type in DPU format
+>> + */
+>> +const struct dpu_csc_cfg *dpu_hw_get_csc_cfg(enum dpu_hw_csc_cfg_type type)
+>> +{
+>> +       const struct dpu_csc_cfg *csc_cfg = NULL;
+>> +
+>> +       switch (type) {
+>> +       case DPU_HW_YUV2RGB_601L:
+>> +               csc_cfg = &dpu_csc_YUV2RGB_601L;
+>> +               break;
+>> +       case DPU_HW_YUV2RGB_601L_10BIT:
+>> +               csc_cfg = &dpu_csc10_YUV2RGB_601L;
+>> +               break;
+>> +       default:
+>> +               DPU_ERROR("unknown csc_cfg type\n");
+>> +               break;
+>> +       }
+>> +
+>> +       return csc_cfg;
+>> +}
+>> +
+>>   void dpu_reg_write(struct dpu_hw_blk_reg_map *c,
+>>                  u32 reg_off,
+>>                  u32 val,
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
+>> index fe083b2e5696..49f2bcf6de15 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
+>> @@ -19,6 +19,11 @@
+>>   #define MISR_CTRL_STATUS_CLEAR          BIT(10)
+>>   #define MISR_CTRL_FREE_RUN_MASK         BIT(31)
+>>
+>> +enum dpu_hw_csc_cfg_type {
+>> +       DPU_HW_YUV2RGB_601L,
+>> +       DPU_HW_YUV2RGB_601L_10BIT,
+>> +};
+>> +
+>>   /*
+>>    * This is the common struct maintained by each sub block
+>>    * for mapping the register offsets in this block to the
+>> @@ -368,4 +373,6 @@ bool dpu_hw_clk_force_ctrl(struct dpu_hw_blk_reg_map *c,
+>>                             const struct dpu_clk_ctrl_reg *clk_ctrl_reg,
+>>                             bool enable);
+>>
+>> +const struct dpu_csc_cfg *dpu_hw_get_csc_cfg(enum dpu_hw_csc_cfg_type type);
+> 
+> I don't think we need extra enum and wrapper. Just export const data
+> structures directly.
+> 
 
-The rest is mostly code cleanups and fixes for odd corner cases.
+I liked this approach because the blocks of DPU such as plane and CDM 
+are clients to the dpu_hw_util and just request the type and the util 
+handles their request of returning the correct csc matrix.
 
-Best Regards, Joonas
+Do you see any issue with this?
 
-***
-
-drm-intel-gt-next-2023-12-08:
-
-UAPI Changes:
-
--   drm/i915: Implement fdinfo memory stats printing
-
-    Use the newly added drm_print_memory_stats helper to show memory
-    utilisation of our objects in drm/driver specific fdinfo output.
-
-    To collect the stats we walk the per memory regions object lists
-    and accumulate object size into the respective drm_memory_stats
-    categories.
-
-Cross-subsystem Changes:
-
-- Backmerge of drm-next (to bring drm-intel-next for PXP changes)
-
-Driver Changes:
-
-- Wa_18028616096 now applies to all DG2 (Matt R)
-- Drop Wa_22014600077 on all DG2 (Matt R)
-- Add new ATS-M device ID (Haridhar)
-- More Meteorlake (MTL) workarounds (Matt R, Dnyaneshwar, Jonathan,
-  Gustavo, Radhakrishna)
-- PMU WARN_ON cleanup on driver unbind (Umesh)
-- Limit GGTT WC flushing workaround to pre BXT/ICL platforms
-- Complement implementation for Wa_16018031267 / Wa_16018063123
-  (Andrzej, Jonathan, Nirmoy, Chris)
-
-- Properly print internal GSC engine in trace logs (Tvrtko)
-- Track gt pm wakerefs (Andrzej)
-- Fix null deref bugs on perf code when perf is disabled (Harshit,
-  Tvrtko)
-- Fix __i915_request_create memory leak on driver unbind (Andrzej)
-- Remove spurious unsupported HuC message on MTL (Daniele)
-- Read a shadowed mmio register for ggtt flush (Vinay)
-- Add missing new-line to GT_TRACE (Andrzej)
-- Add drm_dbgs for critical PXP events (Alan)
-- Skip pxp init if gt is wedged (Zhanjun)
-
-- Replace custom intel runtime_pm tracker with ref_tracker library
-  (Andrzej)
-- Compiler warning/static checker/coding style cleanups (Arnd, Nirmoy,
-  Soumya, Gilbert, Dorcas, Kunwu, Sam, Tvrtko)
-- Code structure and helper cleanups (Jani, Tvrtko, Andi)
-- Selftest improvements (John, Tvrtko, Andrzej)
-
-The following changes since commit 11ae5eb516b656e8a0e4efbea90ea24c152a346d:
-
-  Merge tag 'topic/vmemdup-user-array-2023-10-24-1' of git://anongit.freedesktop.org/drm/drm into drm-next (2023-10-24 11:13:29 +1000)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-gt-next-2023-12-08
-
-for you to fetch changes up to be5bcc4be9d9d3ae294072441a66fe39b74e5bba:
-
-  drm/i915/guc: Create the guc_to_i915() wrapper (2023-12-08 12:31:01 +0100)
-
-----------------------------------------------------------------
-UAPI Changes:
-
--   drm/i915: Implement fdinfo memory stats printing
-
-    Use the newly added drm_print_memory_stats helper to show memory
-    utilisation of our objects in drm/driver specific fdinfo output.
-
-    To collect the stats we walk the per memory regions object lists
-    and accumulate object size into the respective drm_memory_stats
-    categories.
-
-Cross-subsystem Changes:
-
-- Backmerge of drm-next (to bring drm-intel-next for PXP changes)
-
-Driver Changes:
-
-- Wa_18028616096 now applies to all DG2 (Matt R)
-- Drop Wa_22014600077 on all DG2 (Matt R)
-- Add new ATS-M device ID (Haridhar)
-- More Meteorlake (MTL) workarounds (Matt R, Dnyaneshwar, Jonathan,
-  Gustavo, Radhakrishna)
-- PMU WARN_ON cleanup on driver unbind (Umesh)
-- Limit GGTT WC flushing workaround to pre BXT/ICL platforms
-- Complement implementation for Wa_16018031267 / Wa_16018063123
-  (Andrzej, Jonathan, Nirmoy, Chris)
-
-- Properly print internal GSC engine in trace logs (Tvrtko)
-- Track gt pm wakerefs (Andrzej)
-- Fix null deref bugs on perf code when perf is disabled (Harshit,
-  Tvrtko)
-- Fix __i915_request_create memory leak on driver unbind (Andrzej)
-- Remove spurious unsupported HuC message on MTL (Daniele)
-- Read a shadowed mmio register for ggtt flush (Vinay)
-- Add missing new-line to GT_TRACE (Andrzej)
-- Add drm_dbgs for critical PXP events (Alan)
-- Skip pxp init if gt is wedged (Zhanjun)
-
-- Replace custom intel runtime_pm tracker with ref_tracker library
-  (Andrzej)
-- Compiler warning/static checker/coding style cleanups (Arnd, Nirmoy,
-  Soumya, Gilbert, Dorcas, Kunwu, Sam, Tvrtko)
-- Code structure and helper cleanups (Jani, Tvrtko, Andi)
-- Selftest improvements (John, Tvrtko, Andrzej)
-
-----------------------------------------------------------------
-Alan Previn (1):
-      drm/i915/pxp: Add drm_dbgs for critical PXP events.
-
-Andi Shyti (1):
-      drm/i915/guc: Create the guc_to_i915() wrapper
-
-Andrzej Hajda (8):
-      drm/i915: Reserve some kernel space per vm
-      drm/i915: Add WABB blit for Wa_16018031267 / Wa_16018063123
-      drm/i915/gt: add selftest to exercise WABB
-      drm/i915/gt: add missing new-line to GT_TRACE
-      drm/i915: do not clean GT table on error path
-      drm/i915: Replace custom intel runtime_pm tracker with ref_tracker library
-      drm/i915: Track gt pm wakerefs
-      drm/i915/selftests: wait for active idle event in i915_active_unlock_wait
-
-Arnd Bergmann (1):
-      drm/i915/mtl: avoid stringop-overflow warning
-
-Daniele Ceraolo Spurio (1):
-      drm/i915/huc: Stop printing about unsupported HuC on MTL
-
-Dnyaneshwar Bhadane (2):
-      drm/i915/mtl: Add Wa_22016670082
-      drm/i915/mtl: Add Wa_14019821291
-
-Dorcas AnonoLitunya (1):
-      drm/i915/gt: Remove prohibited space after opening parenthesis
-
-Gilbert Adikankwu (1):
-      drm/i915/gt: Remove unncessary {} from if-else
-
-Gustavo Sousa (1):
-      drm/i915/xelpmp: Add Wa_16021867713
-
-Haridhar Kalvala (1):
-      drm/i915: ATS-M device ID update
-
-Harshit Mogalapalli (1):
-      i915/perf: Fix NULL deref bugs with drm_dbg() calls
-
-Jani Nikula (6):
-      drm/i915/pmu: add pmu_to_i915() helper
-      drm/i915/pmu: add event_to_pmu() helper
-      drm/i915/pmu: rearrange hrtimer pointer chasing
-      drm/i915: make some error capture functions static
-      drm/i915: move gpu error debugfs to i915_gpu_error.c
-      drm/i915: move gpu error sysfs to i915_gpu_error.c
-
-John Harrison (2):
-      drm/i915/guc: Fix for potential false positives in GuC hang selftest
-      drm/i915/guc: Add a selftest for FAST_REQUEST errors
-
-Jonathan Cavitt (2):
-      drm/i915: Set copy engine arbitration for Wa_16018031267 / Wa_16018063123
-      drm/i915/gt: Temporarily disable CPU caching into DMA for MTL
-
-Kunwu Chan (1):
-      drm/i915: Fix potential spectre vulnerability
-
-Matt Roper (3):
-      drm/i915/mcr: Hold GT forcewake during steering operations
-      drm/i915/dg2: Wa_18028616096 now applies to all DG2
-      drm/i915/dg2: Drop Wa_22014600077
-
-Nirmoy Das (2):
-      drm/i915/gt: Use proper priority enum instead of 0
-      drm/i915: Flush WC GGTT only on required platforms
-
-Radhakrishna Sripada (1):
-      drm/i915/mtl: Update Wa_22018931422
-
-Sam James (1):
-      drm: i915: Adapt to -Walloc-size
-
-Soumya Negi (1):
-      drm/i915/gt: Remove {} from if-else
-
-Tvrtko Ursulin (12):
-      Merge drm/drm-next into drm-intel-gt-next
-      drm/i915: Add ability for tracking buffer objects per client
-      drm/i915: Record which client owns a VM
-      drm/i915: Track page table backing store usage
-      drm/i915: Account ring buffer and context state storage
-      drm/i915: Add stable memory region names
-      drm/i915: Implement fdinfo memory stats printing
-      drm/i915: Remove return type from i915_drm_client_remove_object
-      drm/i915: Add __rcu annotation to cursor when iterating client objects
-      drm/i915/gsc: Mark internal GSC engine with reserved uabi class
-      drm/i915/selftests: Fix engine reset count storage for multi-tile
-      drm/i915: Use internal class when counting engine resets
-
-Umesh Nerlige Ramappa (1):
-      drm/i915/pmu: Check if pmu is closed before stopping event
-
-Vinay Belgaumkar (1):
-      drm/i915: Read a shadowed mmio register for ggtt flush
-
-Zhanjun Dong (1):
-      drm/i915: Skip pxp init if gt is wedged
-
- drivers/gpu/drm/i915/Kconfig.debug                 |  18 ++
- drivers/gpu/drm/i915/display/intel_display_power.c |   2 +-
- drivers/gpu/drm/i915/gem/i915_gem_context.c        |  12 +-
- drivers/gpu/drm/i915/gem/i915_gem_context_types.h  |   3 +
- drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c     |  16 +-
- drivers/gpu/drm/i915/gem/i915_gem_object.c         |  13 +-
- drivers/gpu/drm/i915/gem/i915_gem_object_types.h   |  12 ++
- drivers/gpu/drm/i915/gem/i915_gem_stolen.c         |  21 ++
- .../drm/i915/gem/selftests/i915_gem_coherency.c    |  10 +-
- drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c |  14 +-
- drivers/gpu/drm/i915/gem/selftests/mock_context.c  |   4 +-
- drivers/gpu/drm/i915/gt/gen8_ppgtt.c               |  43 ++++
- drivers/gpu/drm/i915/gt/intel_breadcrumbs.c        |  13 +-
- drivers/gpu/drm/i915/gt/intel_breadcrumbs_types.h  |   3 +-
- drivers/gpu/drm/i915/gt/intel_context.c            |  14 ++
- drivers/gpu/drm/i915/gt/intel_context.h            |   4 +-
- drivers/gpu/drm/i915/gt/intel_context_types.h      |   2 +
- drivers/gpu/drm/i915/gt/intel_engine_cs.c          |   2 +-
- drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c   |   2 +-
- drivers/gpu/drm/i915/gt/intel_engine_pm.c          |   7 +-
- drivers/gpu/drm/i915/gt/intel_engine_regs.h        |   8 +
- drivers/gpu/drm/i915/gt/intel_engine_types.h       |   2 +
- drivers/gpu/drm/i915/gt/intel_engine_user.c        |  39 ++--
- .../gpu/drm/i915/gt/intel_execlists_submission.c   |   2 +-
- drivers/gpu/drm/i915/gt/intel_ggtt.c               |  58 ++++--
- drivers/gpu/drm/i915/gt/intel_gt.c                 |  13 +-
- drivers/gpu/drm/i915/gt/intel_gt.h                 |   9 +
- drivers/gpu/drm/i915/gt/intel_gt_mcr.c             |  23 ++-
- drivers/gpu/drm/i915/gt/intel_gt_pm.c              |  14 +-
- drivers/gpu/drm/i915/gt/intel_gt_pm.h              |  38 +++-
- drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c      |   4 +-
- drivers/gpu/drm/i915/gt/intel_gt_regs.h            |   3 +
- drivers/gpu/drm/i915/gt/intel_gtt.c                |  26 +++
- drivers/gpu/drm/i915/gt/intel_gtt.h                |   5 +
- drivers/gpu/drm/i915/gt/intel_lrc.c                | 100 +++++++++-
- drivers/gpu/drm/i915/gt/intel_rc6.c                |  16 +-
- drivers/gpu/drm/i915/gt/intel_reset.c              |   2 +-
- drivers/gpu/drm/i915/gt/intel_sseu.c               |   7 +-
- drivers/gpu/drm/i915/gt/intel_workarounds.c        |  38 ++--
- drivers/gpu/drm/i915/gt/selftest_engine_cs.c       |  20 +-
- .../gpu/drm/i915/gt/selftest_engine_heartbeat.c    |   2 +-
- drivers/gpu/drm/i915/gt/selftest_gt_pm.c           |   5 +-
- drivers/gpu/drm/i915/gt/selftest_lrc.c             |  65 ++++--
- drivers/gpu/drm/i915/gt/selftest_reset.c           |  10 +-
- drivers/gpu/drm/i915/gt/selftest_rps.c             |  17 +-
- drivers/gpu/drm/i915/gt/selftest_slpc.c            |   5 +-
- drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.c       |   2 +
- drivers/gpu/drm/i915/gt/uc/intel_guc.c             |   2 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc.h             |   4 +
- drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c     |   2 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c          |  11 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_log.c         |  10 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c          |   2 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c        |   2 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c  |  23 ++-
- drivers/gpu/drm/i915/gt/uc/intel_uc.c              |   5 -
- drivers/gpu/drm/i915/gt/uc/selftest_guc.c          | 115 +++++++++++
- .../gpu/drm/i915/gt/uc/selftest_guc_hangcheck.c    |   2 +-
- drivers/gpu/drm/i915/i915_debugfs.c                | 108 +---------
- drivers/gpu/drm/i915/i915_driver.c                 |  10 +-
- drivers/gpu/drm/i915/i915_drm_client.c             | 108 ++++++++++
- drivers/gpu/drm/i915/i915_drm_client.h             |  42 ++++
- drivers/gpu/drm/i915/i915_gpu_error.c              | 194 +++++++++++++++++-
- drivers/gpu/drm/i915/i915_gpu_error.h              |  44 ++--
- drivers/gpu/drm/i915/i915_perf.c                   |  15 +-
- drivers/gpu/drm/i915/i915_pmu.c                    |  86 ++++----
- drivers/gpu/drm/i915/i915_sysfs.c                  |  79 +-------
- drivers/gpu/drm/i915/intel_memory_region.c         |  19 ++
- drivers/gpu/drm/i915/intel_memory_region.h         |   1 +
- drivers/gpu/drm/i915/intel_runtime_pm.c            | 221 ++-------------------
- drivers/gpu/drm/i915/intel_runtime_pm.h            |  11 +-
- drivers/gpu/drm/i915/intel_wakeref.c               |  35 +++-
- drivers/gpu/drm/i915/intel_wakeref.h               |  73 ++++++-
- drivers/gpu/drm/i915/pxp/intel_pxp.c               |  18 +-
- drivers/gpu/drm/i915/pxp/intel_pxp_irq.c           |   5 +-
- drivers/gpu/drm/i915/pxp/intel_pxp_session.c       |   6 +-
- drivers/gpu/drm/i915/pxp/intel_pxp_types.h         |   1 +
- drivers/gpu/drm/i915/selftests/igt_live_test.c     |   9 +-
- drivers/gpu/drm/i915/selftests/igt_live_test.h     |   3 +-
- include/drm/i915_pciids.h                          |   3 +-
- 80 files changed, 1322 insertions(+), 695 deletions(-)
+>> +
+>>   #endif /* _DPU_HW_UTIL_H */
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+>> index 3235ab132540..31641889b9f0 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+>> @@ -21,6 +21,7 @@
+>>   #include "dpu_kms.h"
+>>   #include "dpu_formats.h"
+>>   #include "dpu_hw_sspp.h"
+>> +#include "dpu_hw_util.h"
+>>   #include "dpu_trace.h"
+>>   #include "dpu_crtc.h"
+>>   #include "dpu_vbif.h"
+>> @@ -508,50 +509,16 @@ static void _dpu_plane_setup_pixel_ext(struct dpu_hw_scaler3_cfg *scale_cfg,
+>>          }
+>>   }
+>>
+>> -static const struct dpu_csc_cfg dpu_csc_YUV2RGB_601L = {
+>> -       {
+>> -               /* S15.16 format */
+>> -               0x00012A00, 0x00000000, 0x00019880,
+>> -               0x00012A00, 0xFFFF9B80, 0xFFFF3000,
+>> -               0x00012A00, 0x00020480, 0x00000000,
+>> -       },
+>> -       /* signed bias */
+>> -       { 0xfff0, 0xff80, 0xff80,},
+>> -       { 0x0, 0x0, 0x0,},
+>> -       /* unsigned clamp */
+>> -       { 0x10, 0xeb, 0x10, 0xf0, 0x10, 0xf0,},
+>> -       { 0x00, 0xff, 0x00, 0xff, 0x00, 0xff,},
+>> -};
+>> -
+>> -static const struct dpu_csc_cfg dpu_csc10_YUV2RGB_601L = {
+>> -       {
+>> -               /* S15.16 format */
+>> -               0x00012A00, 0x00000000, 0x00019880,
+>> -               0x00012A00, 0xFFFF9B80, 0xFFFF3000,
+>> -               0x00012A00, 0x00020480, 0x00000000,
+>> -               },
+>> -       /* signed bias */
+>> -       { 0xffc0, 0xfe00, 0xfe00,},
+>> -       { 0x0, 0x0, 0x0,},
+>> -       /* unsigned clamp */
+>> -       { 0x40, 0x3ac, 0x40, 0x3c0, 0x40, 0x3c0,},
+>> -       { 0x00, 0x3ff, 0x00, 0x3ff, 0x00, 0x3ff,},
+>> -};
+>> -
+>>   static const struct dpu_csc_cfg *_dpu_plane_get_csc(struct dpu_sw_pipe *pipe,
+>>                                                      const struct dpu_format *fmt)
+>>   {
+>> -       const struct dpu_csc_cfg *csc_ptr;
+>> -
+>>          if (!DPU_FORMAT_IS_YUV(fmt))
+>>                  return NULL;
+>>
+>>          if (BIT(DPU_SSPP_CSC_10BIT) & pipe->sspp->cap->features)
+>> -               csc_ptr = &dpu_csc10_YUV2RGB_601L;
+>> +               return dpu_hw_get_csc_cfg(DPU_HW_YUV2RGB_601L_10BIT);
+>>          else
+>> -               csc_ptr = &dpu_csc_YUV2RGB_601L;
+>> -
+>> -       return csc_ptr;
+>> +               return dpu_hw_get_csc_cfg(DPU_HW_YUV2RGB_601L);
+>>   }
+>>
+>>   static void _dpu_plane_setup_scaler(struct dpu_sw_pipe *pipe,
+>> --
+>> 2.40.1
+>>
+> 
+> 
