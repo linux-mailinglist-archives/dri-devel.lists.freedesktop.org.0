@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82E6080A20D
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 12:21:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3658280A221
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 12:26:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C95D10EA7B;
-	Fri,  8 Dec 2023 11:21:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D60CE10EA65;
+	Fri,  8 Dec 2023 11:26:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com
- [IPv6:2607:f8b0:4864:20::1134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 439BA10EA73
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 11:21:08 +0000 (UTC)
-Received: by mail-yw1-x1134.google.com with SMTP id
- 00721157ae682-5d7b1a8ec90so16356897b3.2
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Dec 2023 03:21:08 -0800 (PST)
+Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com
+ [IPv6:2607:f8b0:4864:20::112a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4940F10EA65
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 11:26:25 +0000 (UTC)
+Received: by mail-yw1-x112a.google.com with SMTP id
+ 00721157ae682-5d74186170fso16977727b3.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Dec 2023 03:26:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1702034467; x=1702639267; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1702034784; x=1702639584; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=rmazC+0qAqQxSPROFc0xc84GbFdhI8sWUlQpFJfzTOs=;
- b=nB/IhqLNC/d8kwqLViGvj2Ju5r+Dp377mRR+ahmJ/goVj0NrdLusCWHz0UI22yrjjZ
- damZgWcYGadGLcWJaR6h0ZB1ZLgvCSf3Zc0QIOR+is3BbRTuRGteRuT04UUcqN6MOouG
- NaoBXMC53IJUj73bxI2OBdeQ+ifjvEm+LfvkcN+2Gp5VXOrC2f8UKnO2VwmlpwWdDAYD
- 8SJjVkybXk4jL2a4p2GVUClv2odRd1JNrid+ASry39c4vmIlSLUUgs99X3ekPaSFDNYt
- iCwCN6V87Vr8lR1hhlEcwYrSMqzUQBIXviCJKDaOJI+9zcHjFpbtxyoh+ZqD9HTxhNfQ
- EAFw==
+ bh=byPYVY3l+3OcfSeHRN4sVPzEvG910jYH3sPHi/VI4Xw=;
+ b=MORYglTqYyIIe1Vqi67q8bTuizqJfvK81LFC4MwsDVZtgOxsNieo7wPHA3MqU9OAzO
+ iSd2d4W4ar/PsJUJh79sufdYNi36V+K5sCsJFfNmhMN/LGxXKo1gGz6xKAoaJ8Owb6X4
+ 6BQh/Yg7GV0Ci2jFeF+6P9/Q8qb4g7mavyMWnQ6zQ/aAh4ZkU3jpTyaKx0lCCXgMnCuj
+ zWjRQ7vdtDP3hnlJ4KUfgLjoy19/girWhvfx4AkuIxH5zAztilE2eXJRS5ZDRb/CV2Iy
+ LPRa2okXwfH4JMJCw0DpnN9AQK35GsLw/2852LaCBY+mPv11KvAuAg4wO268jr1bU7JX
+ OkoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702034467; x=1702639267;
+ d=1e100.net; s=20230601; t=1702034784; x=1702639584;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=rmazC+0qAqQxSPROFc0xc84GbFdhI8sWUlQpFJfzTOs=;
- b=pnsqr0iK/aRNpX4iEMp/qBgHtHMPdBE2zRe0teJ98y4In7wR9x5Sv/80FMq+sZ3l4a
- fpJeS1Tk9yHTnLItlKM2PqauNFmXBzX2zA08mPSE7UW25NOKvyQG40DTbYSR72HpagDX
- nP/aHy4aV1EcibWrZKkdMGEkBvpY7qxatt111FFuQS+NEIUtyEkTeXdDEdnCJSAE9GB4
- VhaVM4sf+GAXTddUS/X4yfnyYr4pxY8Ht1wtaNRN/tbyQTpI5gZ1wD79lbjUOfCX16EA
- XTpfiQQWWTBw6WFbiaCpiTqmPtW2fMPNJGWVMMN5VRoU0m7O4Z42HnlCKD3CAgnp+v4p
- 0Yjw==
-X-Gm-Message-State: AOJu0YxqYfskHBhFgQazWl4dPcsEhbSvko8PIyvVferkax0WxqoOIkuw
- MOxNABaOEY+dFlaqV7nxjfeI1F4T3+vSYVEjwwecww==
-X-Google-Smtp-Source: AGHT+IHp0377Ybzxt5w6KqA9E+DZI6lyM8tdxkXwFiDkF9togYRg3F/ti2mcvG9rIQBDUE40O7+YuoHQA1vFqx87rvE=
-X-Received: by 2002:a25:2f96:0:b0:db7:dacf:4d66 with SMTP id
- v144-20020a252f96000000b00db7dacf4d66mr2502085ybv.98.1702034467396; Fri, 08
- Dec 2023 03:21:07 -0800 (PST)
+ bh=byPYVY3l+3OcfSeHRN4sVPzEvG910jYH3sPHi/VI4Xw=;
+ b=oRAKtXDjZuQXyH6+6usnCG2pAyQ9gxZq8zCc3uwnfc09TbuKrNED2wHJlOHjfMXq50
+ tip4dURhfT6nlXBTP8WO+uLvZyDnQ/ngSrOZtpl3bwoAJ71qPqN0xB/iysygtXKbRx5V
+ jHtZrE2h4gRcIAh3ajAj+TEBQ/PCXxfG4gYfjfdAIOTyoooB4aZiKHfBVQfNs4UsxCzb
+ C9zwhFUWyXEGWD+riTNUrm9joT7XTn0xgBA8ggDW0dv0m66cnTKPkYnK8f5RNN3mIAxk
+ S9Cd+XT3K41aYhVtJdKgpJKxZiA+8qxru0PU7oWSwJKsYda/b3bvG4EvIGLl0jpkxdLN
+ jeYQ==
+X-Gm-Message-State: AOJu0YzK7XU+Usc54J2xt7IuLHLAFeSrvuizEqFfrRw08ajtG2NCBJ+Q
+ u7Kf3Mmm+JpPox0Gj3n5bq0cbxEJszTEiIGTtq2i5A==
+X-Google-Smtp-Source: AGHT+IHGGsTbAV5EBSGKjADTA/4cOM5MMdVRwIFGYX6nSYYueDpA1I/YNSvKbKDV21cpoUlQldGOr9DIM2R52NDc8GY=
+X-Received: by 2002:a05:690c:c84:b0:5d3:d6c3:dcf with SMTP id
+ cm4-20020a05690c0c8400b005d3d6c30dcfmr3647433ywb.15.1702034784451; Fri, 08
+ Dec 2023 03:26:24 -0800 (PST)
 MIME-Version: 1.0
 References: <20231208050641.32582-1-quic_abhinavk@quicinc.com>
- <20231208050641.32582-7-quic_abhinavk@quicinc.com>
-In-Reply-To: <20231208050641.32582-7-quic_abhinavk@quicinc.com>
+ <20231208050641.32582-9-quic_abhinavk@quicinc.com>
+In-Reply-To: <20231208050641.32582-9-quic_abhinavk@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 8 Dec 2023 13:20:56 +0200
-Message-ID: <CAA8EJprAu-4Az07oztew0Nf3SO1yeCcASk2bhXR-938YnzSgMg@mail.gmail.com>
-Subject: Re: [PATCH v2 06/16] drm/msm/dpu: add cdm blocks to sm8250
- dpu_hw_catalog
+Date: Fri, 8 Dec 2023 13:26:13 +0200
+Message-ID: <CAA8EJppNfznTQydN+BDaFpHn432gAhHUJ+9pOvq+bV9pvE=qAg@mail.gmail.com>
+Subject: Re: [PATCH v2 08/16] drm/msm/dpu: add cdm blocks to RM
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,16 +76,18 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Fri, 8 Dec 2023 at 07:07, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
 >
-> Add CDM blocks to the sm8250 dpu_hw_catalog to support
-> YUV format output from writeback block.
+> Add the RM APIs necessary to initialize and allocate CDM
+> blocks to be used by the rest of the DPU pipeline.
 >
 > changes in v2:
->         - re-use the cdm definition from sc7280
+>         - treat cdm_init() failure as fatal
+>         - fixed the commit text
 >
 > Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > ---
->  drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h | 1 +
->  1 file changed, 1 insertion(+)
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c | 13 +++++++++++++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h |  2 ++
+>  2 files changed, 15 insertions(+)
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
