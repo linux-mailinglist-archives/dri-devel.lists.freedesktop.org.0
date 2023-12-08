@@ -2,60 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0805880A2AB
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 12:53:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36F7F80A2B4
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 12:54:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13CB610E275;
-	Fri,  8 Dec 2023 11:53:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F19510EA97;
+	Fri,  8 Dec 2023 11:54:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com
- [IPv6:2607:f8b0:4864:20::1136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2097C10EA95
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 11:53:11 +0000 (UTC)
-Received: by mail-yw1-x1136.google.com with SMTP id
- 00721157ae682-5d8d2b5d1b5so16776267b3.0
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Dec 2023 03:53:11 -0800 (PST)
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6F8810E150;
+ Fri,  8 Dec 2023 11:53:59 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id
+ 2adb3069b0e04-50bee606265so2049531e87.2; 
+ Fri, 08 Dec 2023 03:53:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1702036390; x=1702641190; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=8i54RGr1RVvLQqMhbxbcJTSb8J4fDgdykssHyv9XSuk=;
- b=nIOMp3N4iro7UsQ3tD+svIwOQsl+gNfj7cxwKlzEBO82E3c9UIG5tyzx0P3WDQ6PT3
- 6QQXMtzij14w2ItppzksJzzIyn4ufLQzR9gwbkCV73tN3QZqESOV5OR0w23KBpMy/NjL
- vDy+5qBw24s/nySwe2mWV6BehdNxSZ9kyBFFhI5ZaDYhLpYGJUIWh3D0Y4PKHU243+vw
- 4KT0vEA0zclEOhpoQVSz2GbS0zS/RWNLDsIO3ymtDIyyEfDY8VePhHqD51G86mENSDU6
- wVL+f+No4Z8JCE3h5rjz7B5ZmywJte4XKWVlkOcLIvAHc7aXKDAEQ4LTCrHorkHrZzom
- gTvg==
+ d=gmail.com; s=20230601; t=1702036438; x=1702641238; darn=lists.freedesktop.org;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=pdeA3b3/0PsOexhmM9BS+1Krk2ZD58n85Te8kaYmuOQ=;
+ b=RAZ3pS/bwrYDu+Sy6RT66ddCURHK8HXj5wM6HAh28KpYX3SWjrUTAfGVAJBhA2oJUA
+ bcLxcEF98XEqtNmGMGerSktH6/yRL/trzKpaUUvNJwUd/rIOoPvMweJ9DMrE7sfJwids
+ YZ3W2oEyr9rFuagxVP246/0D0mH5WwdEv6rcPMvXIv+KT+rt9Nb0q4O9ASWJvZHYmnv9
+ 4PRGBA2kkHqfK8UVPYMw/QRKQBjvD3baTa0b2CzRsoTncEEjx1bNw4RzRLbWU62Tmr7a
+ BNrbbQLxyaqV3AY/U+tpu6n1ivIazDRhAYs6sQMVNObYFdAf0HprkfWCIAJ3u/cB4ueU
+ s26g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702036390; x=1702641190;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8i54RGr1RVvLQqMhbxbcJTSb8J4fDgdykssHyv9XSuk=;
- b=CfBJy/DdhYo3euDi7eqE2vmw3ERKS3ll3v1kUY8VD0wjqKx758yvHBsv4Lpdu5Iv8D
- //a4WNthkUSv226WwgFbUi+8M7Zg64yVbxBqmoM5nSZhBq5HRjerjfrkwV8xFbNGmb23
- UB3CCr1D8qfN9CzOu5AEFLfT7XwP6iYT8C2687A+Qlg+50oVSkdK/sHBUQronSilHmJm
- eS0zQHas+6j8lOIpueqrZ6zqqzMATsmQXESDjnrqhWCS0gKK0tHKt5xhIkV4GDPROj90
- +UY2D00RGH9RJiVmVw/pQJ2Q0lTQEa2Sjktc28rj/ywhIVRzy+Q7gedtBOJ2QLZ3+b7l
- 2fSg==
-X-Gm-Message-State: AOJu0YwGzdtJ4AElkARbOFNvA2hvs4s65t5+OYhQBTVlD5kvSqSL0Jvp
- o5EI80tMjxB6tnkYympWN7AUAI7YN/WvyMM8DmknRQ==
-X-Google-Smtp-Source: AGHT+IEg4poe6gaw0ORBZi/F7BU2bI6GuBFeX3z/AbbUF8HE/jVjtrqz6nmYvJTHXebkJqB3As93aV5yZXxT7YrMmtA=
-X-Received: by 2002:a0d:e6d0:0:b0:59e:7f14:4b48 with SMTP id
- p199-20020a0de6d0000000b0059e7f144b48mr3185834ywe.41.1702036390198; Fri, 08
- Dec 2023 03:53:10 -0800 (PST)
+ d=1e100.net; s=20230601; t=1702036438; x=1702641238;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=pdeA3b3/0PsOexhmM9BS+1Krk2ZD58n85Te8kaYmuOQ=;
+ b=HSYToRvb6400nHuhANTfx8jT8+vdsmGxDnA144VtnqOzV95aGP1IctYiu4qSdxq5Zo
+ 3kWhAvTS/pS6Vq1qagm1fHvhILMj9TpYgC6f7fHIPOKHwZErFjJzarPI62FS4qVRtbJq
+ 533VxXq22t4iOXKpTdXNll6Y0phXR/6rAZZ2tH9iynbAeD9epPNlz9Wctgrdf2EshOBt
+ AQECszchnsi8EPtVBw7NGoCrJfuBu6I59Fxhu2h3EBbvzVUB+xIVzmQYgpk4r6S2ouli
+ QUbtEEVMkLYYGARFWhB7orwtDnJ8I+JPq2E4aOATO5o6H5AtsrU6l87tr/otwLz8/EAo
+ Dzvw==
+X-Gm-Message-State: AOJu0Ywnz/5mmswIF/1Y4w6vpmf8Xobgsagd3pBl7ncfKf59zJ7jM5OG
+ W2AkfMljfOV+5TNWwNuClm8=
+X-Google-Smtp-Source: AGHT+IH0rVF6/Y1ZkUmD4m/xkRCOJi0/OjDTejTJQTDS38d65A9Qo+qmzn3El9HPx0sG1oz23kAS6g==
+X-Received: by 2002:a05:6512:31c3:b0:50d:13cb:9838 with SMTP id
+ j3-20020a05651231c300b0050d13cb9838mr503468lfe.116.1702036437627; 
+ Fri, 08 Dec 2023 03:53:57 -0800 (PST)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ g42-20020a0565123baa00b0050bfe7a602csm195889lfv.74.2023.12.08.03.53.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 08 Dec 2023 03:53:56 -0800 (PST)
+Date: Fri, 8 Dec 2023 13:53:52 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Subject: Re: [RFC PATCH v3 13/23] drm/plane: Add COLOR PIPELINE property
+Message-ID: <20231208135352.0f94f72e@eldfell>
+In-Reply-To: <20231108163647.106853-14-harry.wentland@amd.com>
+References: <20231108163647.106853-1-harry.wentland@amd.com>
+ <20231108163647.106853-14-harry.wentland@amd.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20231208050641.32582-1-quic_abhinavk@quicinc.com>
- <20231208050641.32582-13-quic_abhinavk@quicinc.com>
-In-Reply-To: <20231208050641.32582-13-quic_abhinavk@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 8 Dec 2023 13:52:59 +0200
-Message-ID: <CAA8EJpr5FyYaGQpQX_MBK6y9kLz_UHsLmsKrV2tF6ukz6sU8YQ@mail.gmail.com>
-Subject: Re: [PATCH v2 12/16] drm/msm/dpu: add an API to setup the CDM block
- for writeback
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="Sig_/TFm9gs4SBBt6r55bZLYNLFV";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,250 +72,257 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- quic_parellan@quicinc.com, quic_jesszhan@quicinc.com,
- Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
+Cc: dri-devel@lists.freedesktop.org, wayland-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 8 Dec 2023 at 07:07, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
-> Add an API dpu_encoder_helper_phys_setup_cdm() which can be used by
-> the writeback encoder to setup the CDM block.
->
-> Currently, this is defined and used within the writeback's physical
-> encoder layer however, the function can be modified to be used to setup
-> the CDM block even for non-writeback interfaces.
->
-> Until those modifications are planned and made, keep it local to
-> writeback.
->
-> changes in v2:
->         - add the RGB2YUV CSC matrix to dpu util as needed by CDM
->         - use dpu_hw_get_csc_cfg() to get and program CSC
->         - drop usage of setup_csc_data() and setup_cdwn() cdm ops
->           as they both have been merged into enable()
->         - drop reduntant hw_cdm and hw_pp checks
->
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+--Sig_/TFm9gs4SBBt6r55bZLYNLFV
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, 8 Nov 2023 11:36:32 -0500
+Harry Wentland <harry.wentland@amd.com> wrote:
+
+> We're adding a new enum COLOR PIPELINE property. This
+> property will have entries for each COLOR PIPELINE by
+> referencing the DRM object ID of the first drm_colorop
+> of the pipeline. 0 disables the entire COLOR PIPELINE.
+
+I didn't find the call that actually creates that property, where is it?
+
+
+> Userspace can use this to discover the available color
+> pipelines, as well as set the desired one. The color
+> pipelines are programmed via properties on the actual
+> drm_colorop objects.
+>=20
+> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
 > ---
->  .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  |  3 +
->  .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   | 96 ++++++++++++++++++-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c   | 17 ++++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h   |  1 +
->  4 files changed, 116 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> index 410f6225789c..1d6d1eb642b9 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> @@ -16,6 +16,7 @@
->  #include "dpu_hw_pingpong.h"
->  #include "dpu_hw_ctl.h"
->  #include "dpu_hw_top.h"
-> +#include "dpu_hw_cdm.h"
->  #include "dpu_encoder.h"
->  #include "dpu_crtc.h"
->
-> @@ -210,6 +211,7 @@ static inline int dpu_encoder_phys_inc_pending(struct dpu_encoder_phys *phys)
->   * @wbirq_refcount:     Reference count of writeback interrupt
->   * @wb_done_timeout_cnt: number of wb done irq timeout errors
->   * @wb_cfg:  writeback block config to store fb related details
-> + * @cdm_cfg: cdm block config needed to store writeback block's CDM configuration
->   * @wb_conn: backpointer to writeback connector
->   * @wb_job: backpointer to current writeback job
->   * @dest:   dpu buffer layout for current writeback output buffer
-> @@ -219,6 +221,7 @@ struct dpu_encoder_phys_wb {
->         atomic_t wbirq_refcount;
->         int wb_done_timeout_cnt;
->         struct dpu_hw_wb_cfg wb_cfg;
-> +       struct dpu_hw_cdm_cfg cdm_cfg;
->         struct drm_writeback_connector *wb_conn;
->         struct drm_writeback_job *wb_job;
->         struct dpu_hw_fmt_layout dest;
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-> index 4665367cf14f..85429c62d727 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-> @@ -259,6 +259,99 @@ static void dpu_encoder_phys_wb_setup_ctl(struct dpu_encoder_phys *phys_enc)
->         }
+>  drivers/gpu/drm/drm_atomic.c              | 46 +++++++++++++++++++++++
+>  drivers/gpu/drm/drm_atomic_state_helper.c |  5 +++
+>  drivers/gpu/drm/drm_atomic_uapi.c         | 44 ++++++++++++++++++++++
+>  include/drm/drm_atomic_uapi.h             |  2 +
+>  include/drm/drm_plane.h                   |  8 ++++
+>  5 files changed, 105 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> index ccf26b034433..cf3cb6d1239f 100644
+> --- a/drivers/gpu/drm/drm_atomic.c
+> +++ b/drivers/gpu/drm/drm_atomic.c
+> @@ -1463,6 +1463,52 @@ drm_atomic_add_affected_planes(struct drm_atomic_s=
+tate *state,
 >  }
->
+>  EXPORT_SYMBOL(drm_atomic_add_affected_planes);
+> =20
 > +/**
-> + * dpu_encoder_phys_wb_setup_cdp - setup chroma down sampling block
-> + * @phys_enc:Pointer to physical encoder
+> + * drm_atomic_add_affected_colorops - add colorops for plane
+> + * @state: atomic state
+> + * @plane: DRM plane
+> + *
+> + * This function walks the current configuration and adds all colorops
+> + * currently used by @plane to the atomic configuration @state. This is =
+useful
+> + * when an atomic commit also needs to check all currently enabled color=
+op on
+> + * @plane, e.g. when changing the mode. It's also useful when re-enablin=
+g a plane
+> + * to avoid special code to force-enable all colorops.
+> + *
+> + * Since acquiring a colorop state will always also acquire the w/w mute=
+x of the
+> + * current plane for that colorop (if there is any) adding all the color=
+op states for
+> + * a plane will not reduce parallelism of atomic updates.
+> + *
+> + * Returns:
+> + * 0 on success or can fail with -EDEADLK or -ENOMEM. When the error is =
+EDEADLK
+> + * then the w/w mutex code has detected a deadlock and the entire atomic
+> + * sequence must be restarted. All other errors are fatal.
 > + */
-> +static void dpu_encoder_helper_phys_setup_cdm(struct dpu_encoder_phys *phys_enc)
+> +int
+> +drm_atomic_add_affected_colorops(struct drm_atomic_state *state,
+> +				 struct drm_plane *plane)
 > +{
-> +       struct dpu_hw_cdm *hw_cdm;
-> +       struct dpu_hw_cdm_cfg *cdm_cfg;
-> +       struct dpu_hw_pingpong *hw_pp;
-> +       struct dpu_encoder_phys_wb *wb_enc;
-> +       const struct msm_format *format;
-> +       const struct dpu_format *dpu_fmt;
-> +       struct drm_writeback_job *wb_job;
-> +       int ret;
+> +	struct drm_colorop *colorop;
+> +	struct drm_colorop_state *colorop_state;
 > +
-> +       if (!phys_enc)
-> +               return;
+> +	WARN_ON(!drm_atomic_get_new_plane_state(state, plane));
 > +
-> +       wb_enc = to_dpu_encoder_phys_wb(phys_enc);
-> +       cdm_cfg = &wb_enc->cdm_cfg;
-> +       hw_pp = phys_enc->hw_pp;
-> +       hw_cdm = phys_enc->hw_cdm;
-> +       wb_job = wb_enc->wb_job;
+> +	drm_dbg_atomic(plane->dev,
+> +		       "Adding all current colorops for [plane:%d:%s] to %p\n",
+> +		       plane->base.id, plane->name, state);
 > +
-> +       format = msm_framebuffer_format(wb_enc->wb_job->fb);
-> +       dpu_fmt = dpu_get_dpu_format_ext(format->pixel_format, wb_job->fb->modifier);
+> +	drm_for_each_colorop(colorop, plane->dev) {
+> +		if (colorop->plane !=3D plane)
+> +			continue;
 > +
-> +       if (!hw_cdm)
-> +               return;
+> +		colorop_state =3D drm_atomic_get_colorop_state(state, colorop);
+> +		if (IS_ERR(colorop_state))
+> +			return PTR_ERR(colorop_state);
+> +	}
 > +
-> +       if (!DPU_FORMAT_IS_YUV(dpu_fmt)) {
-> +               DPU_DEBUG("[enc:%d] cdm_disable fmt:%x\n", DRMID(phys_enc->parent),
-> +                         dpu_fmt->base.pixel_format);
-> +               if (hw_cdm->ops.disable)
-> +                       hw_cdm->ops.disable(hw_cdm);
-> +
-> +               return;
-> +       }
-> +
-> +       memset(cdm_cfg, 0, sizeof(struct dpu_hw_cdm_cfg));
-> +
-> +       cdm_cfg->output_width = wb_job->fb->width;
-> +       cdm_cfg->output_height = wb_job->fb->height;
-> +       cdm_cfg->output_fmt = dpu_fmt;
-> +       cdm_cfg->output_type = CDM_CDWN_OUTPUT_WB;
-> +       cdm_cfg->output_bit_depth = DPU_FORMAT_IS_DX(dpu_fmt) ?
-> +                       CDM_CDWN_OUTPUT_10BIT : CDM_CDWN_OUTPUT_8BIT;
-> +       cdm_cfg->csc_cfg = dpu_hw_get_csc_cfg(DPU_HW_RGB2YUV_601L_10BIT);
-> +       if (!cdm_cfg->csc_cfg) {
-> +               DPU_ERROR("valid csc not found\n");
-> +               return;
-> +       }
-> +
-> +       /* enable 10 bit logic */
-> +       switch (cdm_cfg->output_fmt->chroma_sample) {
-> +       case DPU_CHROMA_RGB:
-> +               cdm_cfg->h_cdwn_type = CDM_CDWN_DISABLE;
-> +               cdm_cfg->v_cdwn_type = CDM_CDWN_DISABLE;
-> +               break;
-> +       case DPU_CHROMA_H2V1:
-> +               cdm_cfg->h_cdwn_type = CDM_CDWN_COSITE;
-> +               cdm_cfg->v_cdwn_type = CDM_CDWN_DISABLE;
-> +               break;
-> +       case DPU_CHROMA_420:
-> +               cdm_cfg->h_cdwn_type = CDM_CDWN_COSITE;
-> +               cdm_cfg->v_cdwn_type = CDM_CDWN_OFFSITE;
-> +               break;
-> +       case DPU_CHROMA_H1V2:
-> +       default:
-> +               DPU_ERROR("[enc:%d] unsupported chroma sampling type\n",
-> +                         DRMID(phys_enc->parent));
-> +               cdm_cfg->h_cdwn_type = CDM_CDWN_DISABLE;
-> +               cdm_cfg->v_cdwn_type = CDM_CDWN_DISABLE;
-
-If it is unsupported, we should return an error here.
-
-> +               break;
-> +       }
-> +
-> +       DPU_DEBUG("[enc:%d] cdm_enable:%d,%d,%X,%d,%d,%d,%d]\n",
-> +                 DRMID(phys_enc->parent), cdm_cfg->output_width,
-> +                 cdm_cfg->output_height, cdm_cfg->output_fmt->base.pixel_format,
-> +                 cdm_cfg->output_type, cdm_cfg->output_bit_depth,
-> +                 cdm_cfg->h_cdwn_type, cdm_cfg->v_cdwn_type);
-> +
-> +       if (hw_cdm->ops.enable) {
-> +               cdm_cfg->pp_id = hw_pp->idx;
-> +               ret = hw_cdm->ops.enable(hw_cdm, cdm_cfg);
-> +               if (ret < 0) {
-> +                       DPU_ERROR("[enc:%d] failed to enable CDM; ret:%d\n",
-> +                                 DRMID(phys_enc->parent), ret);
-> +                       return;
-> +               }
-> +       }
+> +	return 0;
 > +}
+> +EXPORT_SYMBOL(drm_atomic_add_affected_colorops);
 > +
 >  /**
->   * dpu_encoder_phys_wb_atomic_check - verify and fixup given atomic states
->   * @phys_enc:  Pointer to physical encoder
-> @@ -382,8 +475,9 @@ static void dpu_encoder_phys_wb_setup(
->
->         dpu_encoder_phys_wb_setup_fb(phys_enc, fb);
->
-> -       dpu_encoder_phys_wb_setup_ctl(phys_enc);
-> +       dpu_encoder_helper_phys_setup_cdm(phys_enc);
->
-> +       dpu_encoder_phys_wb_setup_ctl(phys_enc);
+>   * drm_atomic_check_only - check whether a given config would work
+>   * @state: atomic configuration to check
+> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/=
+drm_atomic_state_helper.c
+> index 784e63d70a42..3c5f2c8e33d0 100644
+> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> @@ -267,6 +267,11 @@ void __drm_atomic_helper_plane_state_reset(struct dr=
+m_plane_state *plane_state,
+>  			plane_state->color_range =3D val;
+>  	}
+> =20
+> +	if (plane->color_pipeline_property) {
+> +		/* default is always NULL, i.e., bypass */
+> +		plane_state->color_pipeline =3D NULL;
+> +	}
+> +
+>  	if (plane->zpos_property) {
+>  		if (!drm_object_property_get_default_value(&plane->base,
+>  							   plane->zpos_property,
+> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atom=
+ic_uapi.c
+> index a8f7a8a6639a..c6629fdaa114 100644
+> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> @@ -256,6 +256,38 @@ drm_atomic_set_fb_for_plane(struct drm_plane_state *=
+plane_state,
 >  }
->
->  /**
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
-> index 59a153331194..34143491aba2 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
-> @@ -87,6 +87,8 @@ static u32 dpu_hw_util_log_mask = DPU_DBG_MASK_NONE;
->  #define QOS_QOS_CTRL_VBLANK_EN            BIT(16)
->  #define QOS_QOS_CTRL_CREQ_VBLANK_MASK     GENMASK(21, 20)
->
-> +#define TO_S15D16(_x_)((_x_) << 7)
-
-Huh? I don't understand why it is shifted by 7. If you have data in
-S8.9 format, I'd say that it makes things less obvious compared to
-S15.16 (where you can perform division on the fly).
-
+>  EXPORT_SYMBOL(drm_atomic_set_fb_for_plane);
+> =20
 > +
->  static const struct dpu_csc_cfg dpu_csc_YUV2RGB_601L = {
->         {
->                 /* S15.16 format */
-> @@ -117,6 +119,18 @@ static const struct dpu_csc_cfg dpu_csc10_YUV2RGB_601L = {
->         { 0x00, 0x3ff, 0x00, 0x3ff, 0x00, 0x3ff,},
->  };
->
-> +static const struct dpu_csc_cfg dpu_csc10_rgb2yuv_601l = {
-> +       {
-> +               TO_S15D16(0x0083), TO_S15D16(0x0102), TO_S15D16(0x0032),
-> +               TO_S15D16(0x1fb5), TO_S15D16(0x1f6c), TO_S15D16(0x00e1),
-> +               TO_S15D16(0x00e1), TO_S15D16(0x1f45), TO_S15D16(0x1fdc)
-> +       },
-> +       { 0x00, 0x00, 0x00 },
-> +       { 0x0040, 0x0200, 0x0200 },
-> +       { 0x000, 0x3ff, 0x000, 0x3ff, 0x000, 0x3ff },
-> +       { 0x040, 0x3ac, 0x040, 0x3c0, 0x040, 0x3c0 },
-> +};
+> +/**
+> + * drm_atomic_set_colorop_for_plane - set colorop for plane
+> + * @plane_state: atomic state object for the plane
+> + * @colorop: colorop to use for the plane
+> + *
+> + * Changing the assigned framebuffer for a plane requires us to grab a r=
+eference
+> + * to the new fb and drop the reference to the old fb, if there is one. =
+This
+> + * function takes care of all these details besides updating the pointer=
+ in the
+> + * state object itself.
+
+This paragraph does not seem to talk about this function.
+
+> + */
+> +void
+> +drm_atomic_set_colorop_for_plane(struct drm_plane_state *plane_state,
+> +				 struct drm_colorop *colorop)
+> +{
+> +	struct drm_plane *plane =3D plane_state->plane;
+> +
+> +	if (colorop)
+> +		drm_dbg_atomic(plane->dev,
+> +			       "Set [COLOROP:%d] for [PLANE:%d:%s] state %p\n",
+> +			       colorop->base.id, plane->base.id, plane->name,
+> +			       plane_state);
+> +	else
+> +		drm_dbg_atomic(plane->dev,
+> +			       "Set [NOCOLOROP] for [PLANE:%d:%s] state %p\n",
+> +			       plane->base.id, plane->name, plane_state);
+> +
+> +	plane_state->color_pipeline =3D colorop;
+> +}
+> +EXPORT_SYMBOL(drm_atomic_set_colorop_for_plane);
+> +
 > +
 >  /**
->   * dpu_hw_get_csc_cfg - get the CSC matrix based on the request type
->   * @type:              type of the requested CSC matrix from caller
-> @@ -133,6 +147,9 @@ const struct dpu_csc_cfg *dpu_hw_get_csc_cfg(enum dpu_hw_csc_cfg_type type)
->         case DPU_HW_YUV2RGB_601L_10BIT:
->                 csc_cfg = &dpu_csc10_YUV2RGB_601L;
->                 break;
-> +       case DPU_HW_RGB2YUV_601L_10BIT:
-> +               csc_cfg = &dpu_csc10_rgb2yuv_601l;
-> +               break;
->         default:
->                 DPU_ERROR("unknown csc_cfg type\n");
->                 break;
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
-> index 49f2bcf6de15..ed153d66f660 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
-> @@ -22,6 +22,7 @@
->  enum dpu_hw_csc_cfg_type {
->         DPU_HW_YUV2RGB_601L,
->         DPU_HW_YUV2RGB_601L_10BIT,
-> +       DPU_HW_RGB2YUV_601L_10BIT,
->  };
->
->  /*
-> --
-> 2.40.1
->
+>   * drm_atomic_set_crtc_for_connector - set CRTC for connector
+>   * @conn_state: atomic state object for the connector
+> @@ -581,6 +613,16 @@ static int drm_atomic_plane_set_property(struct drm_=
+plane *plane,
+>  		state->color_encoding =3D val;
+>  	} else if (property =3D=3D plane->color_range_property) {
+>  		state->color_range =3D val;
+> +	} else if (property =3D=3D plane->color_pipeline_property) {
+> +		/* find DRM colorop object */
+> +		struct drm_colorop *colorop =3D NULL;
+> +		colorop =3D drm_colorop_find(dev, file_priv, val);
+> +
+> +		if (val && !colorop)
+> +			return -EACCES;
+> +
+> +		/* set it on drm_plane_state */
+> +		drm_atomic_set_colorop_for_plane(state, colorop);
+>  	} else if (property =3D=3D config->prop_fb_damage_clips) {
+>  		ret =3D drm_atomic_replace_property_blob_from_id(dev,
+>  					&state->fb_damage_clips,
+> @@ -647,6 +689,8 @@ drm_atomic_plane_get_property(struct drm_plane *plane,
+>  		*val =3D state->color_encoding;
+>  	} else if (property =3D=3D plane->color_range_property) {
+>  		*val =3D state->color_range;
+> +	} else if (property =3D=3D plane->color_pipeline_property) {
+> +		*val =3D (state->color_pipeline) ? state->color_pipeline->base.id : 0;
+>  	} else if (property =3D=3D config->prop_fb_damage_clips) {
+>  		*val =3D (state->fb_damage_clips) ?
+>  			state->fb_damage_clips->base.id : 0;
+> diff --git a/include/drm/drm_atomic_uapi.h b/include/drm/drm_atomic_uapi.h
+> index 70a115d523cd..436315523326 100644
+> --- a/include/drm/drm_atomic_uapi.h
+> +++ b/include/drm/drm_atomic_uapi.h
+> @@ -50,6 +50,8 @@ drm_atomic_set_crtc_for_plane(struct drm_plane_state *p=
+lane_state,
+>  			      struct drm_crtc *crtc);
+>  void drm_atomic_set_fb_for_plane(struct drm_plane_state *plane_state,
+>  				 struct drm_framebuffer *fb);
+> +void drm_atomic_set_colorop_for_plane(struct drm_plane_state *plane_stat=
+e,
+> +				      struct drm_colorop *colorop);
+>  int __must_check
+>  drm_atomic_set_crtc_for_connector(struct drm_connector_state *conn_state,
+>  				  struct drm_crtc *crtc);
+> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+> index 57bbd0cd73a9..e65074f266c0 100644
+> --- a/include/drm/drm_plane.h
+> +++ b/include/drm/drm_plane.h
+> @@ -745,6 +745,14 @@ struct drm_plane {
+>  	 */
+>  	struct drm_property *color_range_property;
+> =20
+> +	/**
+> +	 * @color_pipeline_property:
+> +	 *
+> +	 * Optional "COLOR_PIPELINE" enum property for specifying
+> +	 * a color pipeline to use on the plane.
+> +	 */
+> +	struct drm_property *color_pipeline_property;
+> +
+>  	/**
+>  	 * @scaling_filter_property: property to apply a particular filter while
+>  	 * scaling.
 
 
--- 
-With best wishes
-Dmitry
+Thanks,
+pq
+
+--Sig_/TFm9gs4SBBt6r55bZLYNLFV
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmVzA9EACgkQI1/ltBGq
+qqeeCQ/8DwlZwFSllq+IvpbVNhbDRImJXV9cl03S2emo1Vmqohreoo4Q8JypGmkt
+WpdpCMBNNSuauBXI+/82JpJNpuGPJod+MPX9Id42KObezCdJAVNM23k2MxiZqaZk
+OVPozX+PeQ06hv8q2eQUcS+LUKBsHz5vwMgQtYrOSHqzc8MpDtHGa6j+2D3x6nlI
+Fdq2cDQnr7H7HcVe+WklrLsyehRe8KMQoRSZI6xpsIFzWFOpcIa2ohQkxXBon1/N
+2YcKOOIftnjbflHR17V/1brmzNszeNOhd+EIQBZhuXn0zDX2aAdHqNGfixCt13Cs
+n0jY5aTKVl8Oe6FXhvZOG+rjU9iVJlp2t5Yrsxb11CLlCCS+eKH0HmnSQIxVFGko
+4ut88bsCryfIkPNzY6lSsRq33C0M70riGTq+SVU2Uqp3E5gT9gVxlFZdi4yzy6P6
+podCnlUwTM5nlNBtT4t8b65okIl/Yc09ty8lQXLF/de57EVo1eWr4GNemygGdFCP
+4iuiFH62XOHuXsixKHhV2MWgNeyJSr1mvYmGn8/fXVWPqOHfgJa7hT7i5AHmtHrP
+dpZ7D0LEhorx9GaqgGKBCVQ3DQPgw3Cj0FrS9lAXDaONrLp0wWP3H7kXa7NWcYec
+yBYRdksVViRtvLIy/jD+Cfyyc0Vx99AQr4TShmP282OeFK4tWQ8=
+=reKM
+-----END PGP SIGNATURE-----
+
+--Sig_/TFm9gs4SBBt6r55bZLYNLFV--
