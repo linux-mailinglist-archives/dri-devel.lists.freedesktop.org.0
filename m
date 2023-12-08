@@ -1,59 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E908D8097BC
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 01:53:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CEA5A8097BD
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 01:53:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 772CF10E240;
-	Fri,  8 Dec 2023 00:53:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E711C10E245;
+	Fri,  8 Dec 2023 00:53:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com
- [IPv6:2607:f8b0:4864:20::b49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2259610E240
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 00:53:04 +0000 (UTC)
-Received: by mail-yb1-xb49.google.com with SMTP id
- 3f1490d57ef6-dbc4f389835so332526276.2
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Dec 2023 16:53:04 -0800 (PST)
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com
+ [IPv6:2607:f8b0:4864:20::114a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2180410E243
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 00:53:06 +0000 (UTC)
+Received: by mail-yw1-x114a.google.com with SMTP id
+ 00721157ae682-5d7e7e10231so9953127b3.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Dec 2023 16:53:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1701996783; x=1702601583;
+ d=google.com; s=20230601; t=1701996785; x=1702601585;
  darn=lists.freedesktop.org; 
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=nhWZE+QRUt+Z8lRUloVgvBF4+Y7IPBx9Q6LUmHNzq1c=;
- b=2tkd/0gcPzX3ZSYfF8FS0qqgkivSaQCKK9SJWqG6ZTkclI0CDfLLZIxP2dQtXUv5fk
- OexJZs6N00MVEAscFMmvbK6EiztKkiYFLQLHagfzm3www4It5SpHP9CVRaV973iN4+Iv
- og28DTknNdxfO5D1ABxtyMKDmZlMGPnfduuSccmLZJZArfw96ZQmahUV8ZW1ef7KhV0w
- E8laIdzRYgLYQ+mt/WHzZE9FcYc3HlW9dPzRPnvHQ3slE0mofXhxBzV9YCxyvDPI2jIk
- ULb0vXVoUeE1j6FuuyuFxG5qAzzAt08wpoQ+9/6PpRkMCDjqjppEUvAk9EvmS8GCK2Ii
- QnMA==
+ bh=aoV0tDbNZgYvivQmYBKAP9GCcy/xYSu5tcLB8R1UGG0=;
+ b=RiRXYrcVwRGTvbZvLKDmjs1w4++F9PMYEWiZStj412NHlsqJkyc2r3LEyXy7YS64tN
+ 4FcJe6hLQ02BiMJA27EJiyjPaadE2JhyLF85NF98NQ2Y0tJRD4oLQaD1WngzwuXisNxP
+ zXnuuWQeHQ2Bl9aGO7ZPUSqJJlHR1FMOr1t0HyPqK8aGlMJNyoQeXzIKeCf7raliULER
+ z+wN4qSxcUbzEaFktqditvGPhYZVuYvD8HyiSSnRCDiMQ6P+x/2iNoBvLoqUOHSMLTMK
+ 56GsdW9I6tY0sn7ZiZz/kR9CtraJjG1guBZvkFayJ7u3gYTEVE8EhGHtm42paabj0KWO
+ DEUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701996783; x=1702601583;
+ d=1e100.net; s=20230601; t=1701996785; x=1702601585;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=nhWZE+QRUt+Z8lRUloVgvBF4+Y7IPBx9Q6LUmHNzq1c=;
- b=MFAQFUv3PJJJ5dokmPAaY/jw7QcHUByEoEezPRY50ctbhkHVEle2sZ/JVcl0xWANY/
- IswS/U2YOFkUGzI5nmoUtH4NFFjF8xCWNj59xQq3gto2TSfaDWCKelBwc1LhC4v2BVOC
- PnNVFfzJLyu7KRbL3azv2YAGSHbfXawV82exInZbkIwddmNh4Y8RmdacWctjmKIoOFC2
- qITlSp4ptmeFEyx+uJujQWdo0KemvREpOep2ZP9K1RfFFX7D7TpZltrdKC06d58qKaJa
- cx2hCvDbw9zAAj98H4xUhzEOtvIHV5+OLrprhJ2kcl9CpYK/w/x+QvSqGAM1vaFUIqrX
- xhaA==
-X-Gm-Message-State: AOJu0YxRzaipJcd8fyLOsMgFvVaZOan0mDO5Kpu4DLBsTrmpTckjTS8n
- /oe96bncwm2x3tUUxd8sV7DNMW8kjIUg0iHNyQ==
-X-Google-Smtp-Source: AGHT+IG/WlXn6UdTPbrF5U9FqP+ytikx+tXh9w8Zw5tJST0X4ys363R1oqfwyasI9bV95ky8FRJNiqWU1wpMiUkNaQ==
+ bh=aoV0tDbNZgYvivQmYBKAP9GCcy/xYSu5tcLB8R1UGG0=;
+ b=w13LoKX4HIDVpq0A+sFutwePOgN/Vaq4WdJXuzj2SCXvyguVoKPXuiZY8pCLa8poNY
+ ZI9vpSmJyE7FAh6B00FoubokYoWF9tStut7bgeLzlu+a4IyggEB5oOcDoW7ZqgMSJU3Z
+ RNVhH+G2tSkWME/S4qkHtvZMQqDc19pUIvvnBbDCBWKs9M1Y7q7YZMikP2WBmjiUALgE
+ U1sFalwnR+Xg1uXoh0UmWMRHtYBGldwl/h9S1aMRTv2oEBNDbFIXTO+OQSF9DSc5aFhU
+ X0AXJBajybCZg+oCe1j5bK5LX4kME/6gVOFg4WwlOZGspNqkFxlD9LYBT8iNaZJhIC4n
+ VVMQ==
+X-Gm-Message-State: AOJu0YzrT8TBzfjQQWX7CUPHev/PGaRiR9oiDWuZPeZVEHnUfXoYDDgi
+ fkKpuQOeRB9Xkt+UNTvIpKRrBDr4wQdn3euppg==
+X-Google-Smtp-Source: AGHT+IE5JC8UJbjHXiqOjZ3HxGGcNGRSVzlm9Sw4sjr3ZGx1DM1Mw9UG+uNTdTVqfEXvlPfcoYBx/QWrPWa8iYcuIw==
 X-Received: from almasrymina.svl.corp.google.com
  ([2620:15c:2c4:200:f1cf:c733:235b:9fff])
- (user=almasrymina job=sendgmr) by 2002:a25:e097:0:b0:db3:fa34:50b0 with SMTP
- id x145-20020a25e097000000b00db3fa3450b0mr38904ybg.4.1701996783271; Thu, 07
- Dec 2023 16:53:03 -0800 (PST)
-Date: Thu,  7 Dec 2023 16:52:35 -0800
+ (user=almasrymina job=sendgmr) by 2002:a05:690c:c1c:b0:5d9:452e:d653 with
+ SMTP id cl28-20020a05690c0c1c00b005d9452ed653mr2146ywb.5.1701996785141; Thu,
+ 07 Dec 2023 16:53:05 -0800 (PST)
+Date: Thu,  7 Dec 2023 16:52:36 -0800
 In-Reply-To: <20231208005250.2910004-1-almasrymina@google.com>
 Mime-Version: 1.0
 References: <20231208005250.2910004-1-almasrymina@google.com>
 X-Mailer: git-send-email 2.43.0.472.g3155946c3a-goog
-Message-ID: <20231208005250.2910004-5-almasrymina@google.com>
-Subject: [net-next v1 04/16] gve: implement queue api
+Message-ID: <20231208005250.2910004-6-almasrymina@google.com>
+Subject: [net-next v1 05/16] net: netdev netlink api to bind dma-buf to a net
+ device
 From: Mina Almasry <almasrymina@google.com>
 To: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org, 
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
@@ -81,6 +82,7 @@ Cc: Mina Almasry <almasrymina@google.com>,
  Ilias Apalodimas <ilias.apalodimas@linaro.org>,
  Yunsheng Lin <linyunsheng@huawei.com>, Sumit Semwal <sumit.semwal@linaro.org>,
  Eric Dumazet <edumazet@google.com>, Shakeel Butt <shakeelb@google.com>,
+ Stanislav Fomichev <sdf@google.com>,
  Harshitha Ramamurthy <hramamurthy@google.com>,
  Praveen Kaligineedi <pkaligineedi@google.com>,
  Jakub Kicinski <kuba@kernel.org>,
@@ -90,422 +92,255 @@ Cc: Mina Almasry <almasrymina@google.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Define a struct that contains all of the memory needed for an RX
-queue to function.
+API takes the dma-buf fd as input, and binds it to the netdevice. The
+user can specify the rx queues to bind the dma-buf to.
 
-Implement the queue-api in GVE using this struct.
-
-Currently the only memory is allocated at the time of queue start are
-the RX pages in gve_rx_post_buffers_dqo(). That can be moved up to
-queue_mem_alloc() time in the future.
-
-For simplicity the queue API is only supported by the diorite queue
-out-of-order (DQO) format without queue-page-lists (QPL). Support for
-other GVE formats can be added in the future as well.
-
+Suggested-by: Stanislav Fomichev <sdf@google.com>
 Signed-off-by: Mina Almasry <almasrymina@google.com>
 
 ---
- drivers/net/ethernet/google/gve/gve_adminq.c |   6 +-
- drivers/net/ethernet/google/gve/gve_adminq.h |   3 +
- drivers/net/ethernet/google/gve/gve_dqo.h    |   2 +
- drivers/net/ethernet/google/gve/gve_main.c   | 286 +++++++++++++++++++
- drivers/net/ethernet/google/gve/gve_rx_dqo.c |   5 +-
- 5 files changed, 296 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/net/ethernet/google/gve/gve_adminq.c b/drivers/net/ethernet/google/gve/gve_adminq.c
-index 12fbd723ecc6..e515b7278295 100644
---- a/drivers/net/ethernet/google/gve/gve_adminq.c
-+++ b/drivers/net/ethernet/google/gve/gve_adminq.c
-@@ -348,7 +348,7 @@ static int gve_adminq_parse_err(struct gve_priv *priv, u32 status)
- /* Flushes all AQ commands currently queued and waits for them to complete.
-  * If there are failures, it will return the first error.
-  */
--static int gve_adminq_kick_and_wait(struct gve_priv *priv)
-+int gve_adminq_kick_and_wait(struct gve_priv *priv)
- {
- 	int tail, head;
- 	int i;
-@@ -591,7 +591,7 @@ int gve_adminq_create_tx_queues(struct gve_priv *priv, u32 start_id, u32 num_que
- 	return gve_adminq_kick_and_wait(priv);
- }
+Changes in v1:
+- Add rx-queue-type to distingish rx from tx (Jakub)
+- Return dma-buf ID from netlink API (David, Stan)
+
+Changes in RFC-v3:
+- Support binding multiple rx rx-queues
+
+---
+ Documentation/netlink/specs/netdev.yaml | 52 +++++++++++++++++++++++++
+ include/uapi/linux/netdev.h             | 19 +++++++++
+ net/core/netdev-genl-gen.c              | 19 +++++++++
+ net/core/netdev-genl-gen.h              |  2 +
+ net/core/netdev-genl.c                  |  6 +++
+ tools/include/uapi/linux/netdev.h       | 19 +++++++++
+ 6 files changed, 117 insertions(+)
+
+diff --git a/Documentation/netlink/specs/netdev.yaml b/Documentation/netlink/specs/netdev.yaml
+index f2c76d103bd8..df6a11d47006 100644
+--- a/Documentation/netlink/specs/netdev.yaml
++++ b/Documentation/netlink/specs/netdev.yaml
+@@ -260,6 +260,45 @@ attribute-sets:
+         name: napi-id
+         doc: ID of the NAPI instance which services this queue.
+         type: u32
++  -
++    name: queue-dmabuf
++    attributes:
++      -
++        name: type
++        doc: rx or tx queue
++        type: u8
++        enum: queue-type
++      -
++        name: idx
++        doc: queue index
++        type: u32
++
++  -
++    name: bind-dmabuf
++    attributes:
++      -
++        name: ifindex
++        doc: netdev ifindex to bind the dma-buf to.
++        type: u32
++        checks:
++          min: 1
++      -
++        name: queues
++        doc: receive queues to bind the dma-buf to.
++        type: nest
++        nested-attributes: queue-dmabuf
++        multi-attr: true
++      -
++        name: dmabuf-fd
++        doc: dmabuf file descriptor to bind.
++        type: u32
++      -
++        name: dmabuf-id
++        doc: id of the dmabuf binding
++        type: u32
++        checks:
++          min: 1
++
  
--static int gve_adminq_create_rx_queue(struct gve_priv *priv, u32 queue_index)
-+int gve_adminq_create_rx_queue(struct gve_priv *priv, u32 queue_index)
- {
- 	struct gve_rx_ring *rx = &priv->rx[queue_index];
- 	union gve_adminq_command cmd;
-@@ -691,7 +691,7 @@ int gve_adminq_destroy_tx_queues(struct gve_priv *priv, u32 start_id, u32 num_qu
- 	return gve_adminq_kick_and_wait(priv);
- }
- 
--static int gve_adminq_destroy_rx_queue(struct gve_priv *priv, u32 queue_index)
-+int gve_adminq_destroy_rx_queue(struct gve_priv *priv, u32 queue_index)
- {
- 	union gve_adminq_command cmd;
- 	int err;
-diff --git a/drivers/net/ethernet/google/gve/gve_adminq.h b/drivers/net/ethernet/google/gve/gve_adminq.h
-index 5865ccdccbd0..265beed965dc 100644
---- a/drivers/net/ethernet/google/gve/gve_adminq.h
-+++ b/drivers/net/ethernet/google/gve/gve_adminq.h
-@@ -411,6 +411,7 @@ union gve_adminq_command {
- 
- static_assert(sizeof(union gve_adminq_command) == 64);
- 
-+int gve_adminq_kick_and_wait(struct gve_priv *priv);
- int gve_adminq_alloc(struct device *dev, struct gve_priv *priv);
- void gve_adminq_free(struct device *dev, struct gve_priv *priv);
- void gve_adminq_release(struct gve_priv *priv);
-@@ -424,7 +425,9 @@ int gve_adminq_deconfigure_device_resources(struct gve_priv *priv);
- int gve_adminq_create_tx_queues(struct gve_priv *priv, u32 start_id, u32 num_queues);
- int gve_adminq_destroy_tx_queues(struct gve_priv *priv, u32 start_id, u32 num_queues);
- int gve_adminq_create_rx_queues(struct gve_priv *priv, u32 num_queues);
-+int gve_adminq_create_rx_queue(struct gve_priv *priv, u32 queue_index);
- int gve_adminq_destroy_rx_queues(struct gve_priv *priv, u32 queue_id);
-+int gve_adminq_destroy_rx_queue(struct gve_priv *priv, u32 queue_id);
- int gve_adminq_register_page_list(struct gve_priv *priv,
- 				  struct gve_queue_page_list *qpl);
- int gve_adminq_unregister_page_list(struct gve_priv *priv, u32 page_list_id);
-diff --git a/drivers/net/ethernet/google/gve/gve_dqo.h b/drivers/net/ethernet/google/gve/gve_dqo.h
-index c36b93f0de15..3eed26a0ed7d 100644
---- a/drivers/net/ethernet/google/gve/gve_dqo.h
-+++ b/drivers/net/ethernet/google/gve/gve_dqo.h
-@@ -46,6 +46,8 @@ int gve_clean_tx_done_dqo(struct gve_priv *priv, struct gve_tx_ring *tx,
- 			  struct napi_struct *napi);
- void gve_rx_post_buffers_dqo(struct gve_rx_ring *rx);
- void gve_rx_write_doorbell_dqo(const struct gve_priv *priv, int queue_idx);
-+void gve_free_page_dqo(struct gve_priv *priv, struct gve_rx_buf_state_dqo *bs,
-+		       bool free_page);
- 
- static inline void
- gve_tx_put_doorbell_dqo(const struct gve_priv *priv,
-diff --git a/drivers/net/ethernet/google/gve/gve_main.c b/drivers/net/ethernet/google/gve/gve_main.c
-index 619bf63ec935..5b23d811afd3 100644
---- a/drivers/net/ethernet/google/gve/gve_main.c
-+++ b/drivers/net/ethernet/google/gve/gve_main.c
-@@ -22,6 +22,7 @@
- #include "gve_dqo.h"
- #include "gve_adminq.h"
- #include "gve_register.h"
-+#include "gve_utils.h"
- 
- #define GVE_DEFAULT_RX_COPYBREAK	(256)
- 
-@@ -1702,6 +1703,287 @@ static int gve_xdp(struct net_device *dev, struct netdev_bpf *xdp)
- 	}
- }
- 
-+struct gve_per_rx_queue_mem_dqo {
-+	struct gve_rx_buf_state_dqo *buf_states;
-+	u32 num_buf_states;
-+
-+	struct gve_rx_compl_desc_dqo *complq_desc_ring;
-+	dma_addr_t complq_bus;
-+
-+	struct gve_rx_desc_dqo *bufq_desc_ring;
-+	dma_addr_t bufq_bus;
-+
-+	struct gve_queue_resources *q_resources;
-+	dma_addr_t q_resources_bus;
-+
-+	size_t completion_queue_slots;
-+	size_t buffer_queue_slots;
-+};
-+
-+static int gve_rx_queue_stop(struct net_device *dev, int idx,
-+			     void **out_per_q_mem)
-+{
-+	struct gve_per_rx_queue_mem_dqo *per_q_mem;
-+	struct gve_priv *priv = netdev_priv(dev);
-+	struct gve_notify_block *block;
-+	struct gve_rx_ring *rx;
-+	int ntfy_idx;
-+	int err;
-+
-+	rx = &priv->rx[idx];
-+	ntfy_idx = gve_rx_idx_to_ntfy(priv, idx);
-+	block = &priv->ntfy_blocks[ntfy_idx];
-+
-+	if (priv->queue_format != GVE_DQO_RDA_FORMAT)
-+		return -EOPNOTSUPP;
-+
-+	if (!out_per_q_mem)
-+		return -EINVAL;
-+
-+	/* Stopping queue 0 while other queues are running is unfortunately
-+	 * fails silently for GVE at the moment. Disable the queue-api for
-+	 * queue 0 until this is resolved.
-+	 */
-+	if (idx == 0)
-+		return -ERANGE;
-+
-+	per_q_mem = kvcalloc(1, sizeof(*per_q_mem), GFP_KERNEL);
-+	if (!per_q_mem)
-+		return -ENOMEM;
-+
-+	napi_disable(&block->napi);
-+	err = gve_adminq_destroy_rx_queue(priv, idx);
-+	if (err)
-+		goto err_napi_enable;
-+
-+	err = gve_adminq_kick_and_wait(priv);
-+	if (err)
-+		goto err_create_rx_queue;
-+
-+	gve_remove_napi(priv, ntfy_idx);
-+
-+	per_q_mem->buf_states = rx->dqo.buf_states;
-+	per_q_mem->num_buf_states = rx->dqo.num_buf_states;
-+
-+	per_q_mem->complq_desc_ring = rx->dqo.complq.desc_ring;
-+	per_q_mem->complq_bus = rx->dqo.complq.bus;
-+
-+	per_q_mem->bufq_desc_ring = rx->dqo.bufq.desc_ring;
-+	per_q_mem->bufq_bus = rx->dqo.bufq.bus;
-+
-+	per_q_mem->q_resources = rx->q_resources;
-+	per_q_mem->q_resources_bus = rx->q_resources_bus;
-+
-+	per_q_mem->buffer_queue_slots = rx->dqo.bufq.mask + 1;
-+	per_q_mem->completion_queue_slots = rx->dqo.complq.mask + 1;
-+
-+	*out_per_q_mem = per_q_mem;
-+
-+	return 0;
-+
-+err_create_rx_queue:
-+	/* There is nothing we can do here if these fail. */
-+	gve_adminq_create_rx_queue(priv, idx);
-+	gve_adminq_kick_and_wait(priv);
-+
-+err_napi_enable:
-+	napi_enable(&block->napi);
-+	kvfree(per_q_mem);
-+
-+	return err;
-+}
-+
-+static void gve_rx_queue_mem_free(struct net_device *dev, void *per_q_mem)
-+{
-+	struct gve_per_rx_queue_mem_dqo *gve_q_mem;
-+	struct gve_priv *priv = netdev_priv(dev);
-+	struct gve_rx_buf_state_dqo *bs;
-+	struct device *hdev;
-+	size_t size;
-+	int i;
-+
-+	priv = netdev_priv(dev);
-+	gve_q_mem = (struct gve_per_rx_queue_mem_dqo *)per_q_mem;
-+	hdev = &priv->pdev->dev;
-+
-+	if (!gve_q_mem)
-+		return;
-+
-+	if (priv->queue_format != GVE_DQO_RDA_FORMAT)
-+		return;
-+
-+	for (i = 0; i < gve_q_mem->num_buf_states; i++) {
-+		bs = &gve_q_mem->buf_states[i];
-+		if (bs->page_info.page)
-+			gve_free_page_dqo(priv, bs, true);
-+	}
-+
-+	if (gve_q_mem->q_resources)
-+		dma_free_coherent(hdev, sizeof(*gve_q_mem->q_resources),
-+				  gve_q_mem->q_resources,
-+				  gve_q_mem->q_resources_bus);
-+
-+	if (gve_q_mem->bufq_desc_ring) {
-+		size = sizeof(gve_q_mem->bufq_desc_ring[0]) *
-+		       gve_q_mem->buffer_queue_slots;
-+		dma_free_coherent(hdev, size, gve_q_mem->bufq_desc_ring,
-+				  gve_q_mem->bufq_bus);
-+	}
-+
-+	if (gve_q_mem->complq_desc_ring) {
-+		size = sizeof(gve_q_mem->complq_desc_ring[0]) *
-+		       gve_q_mem->completion_queue_slots;
-+		dma_free_coherent(hdev, size, gve_q_mem->complq_desc_ring,
-+				  gve_q_mem->complq_bus);
-+	}
-+
-+	kvfree(gve_q_mem->buf_states);
-+
-+	kvfree(per_q_mem);
-+}
-+
-+static void *gve_rx_queue_mem_alloc(struct net_device *dev, int idx)
-+{
-+	struct gve_per_rx_queue_mem_dqo *gve_q_mem;
-+	struct gve_priv *priv = netdev_priv(dev);
-+	struct device *hdev = &priv->pdev->dev;
-+	size_t size;
-+
-+	if (priv->queue_format != GVE_DQO_RDA_FORMAT)
-+		return NULL;
-+
-+	/* See comment in gve_rx_queue_stop() */
-+	if (idx == 0)
-+		return NULL;
-+
-+	gve_q_mem = kvcalloc(1, sizeof(*gve_q_mem), GFP_KERNEL);
-+	if (!gve_q_mem)
-+		goto err;
-+
-+	gve_q_mem->buffer_queue_slots =
-+		priv->options_dqo_rda.rx_buff_ring_entries;
-+	gve_q_mem->completion_queue_slots = priv->rx_desc_cnt;
-+
-+	gve_q_mem->num_buf_states =
-+		min_t(s16, S16_MAX, gve_q_mem->buffer_queue_slots * 4);
-+
-+	gve_q_mem->buf_states = kvcalloc(gve_q_mem->num_buf_states,
-+					 sizeof(gve_q_mem->buf_states[0]),
-+					 GFP_KERNEL);
-+	if (!gve_q_mem->buf_states)
-+		goto err;
-+
-+	size = sizeof(struct gve_rx_compl_desc_dqo) *
-+		gve_q_mem->completion_queue_slots;
-+	gve_q_mem->complq_desc_ring = dma_alloc_coherent(hdev, size,
-+							 &gve_q_mem->complq_bus,
-+							 GFP_KERNEL);
-+	if (!gve_q_mem->complq_desc_ring)
-+		goto err;
-+
-+	size = sizeof(struct gve_rx_desc_dqo) * gve_q_mem->buffer_queue_slots;
-+	gve_q_mem->bufq_desc_ring = dma_alloc_coherent(hdev, size,
-+						       &gve_q_mem->bufq_bus,
-+						       GFP_KERNEL);
-+	if (!gve_q_mem->bufq_desc_ring)
-+		goto err;
-+
-+	gve_q_mem->q_resources = dma_alloc_coherent(hdev,
-+						    sizeof(*gve_q_mem->q_resources),
-+						    &gve_q_mem->q_resources_bus,
-+						    GFP_KERNEL);
-+	if (!gve_q_mem->q_resources)
-+		goto err;
-+
-+	return gve_q_mem;
-+
-+err:
-+	gve_rx_queue_mem_free(dev, gve_q_mem);
-+	return NULL;
-+}
-+
-+static int gve_rx_queue_start(struct net_device *dev, int idx, void *per_q_mem)
-+{
-+	struct gve_per_rx_queue_mem_dqo *gve_q_mem;
-+	struct gve_priv *priv = netdev_priv(dev);
-+	struct gve_rx_ring *rx = &priv->rx[idx];
-+	struct gve_notify_block *block;
-+	int ntfy_idx;
-+	int err;
-+	int i;
-+
-+	if (priv->queue_format != GVE_DQO_RDA_FORMAT)
-+		return -EOPNOTSUPP;
-+
-+	/* See comment in gve_rx_queue_stop() */
-+	if (idx == 0)
-+		return -ERANGE;
-+
-+	gve_q_mem = (struct gve_per_rx_queue_mem_dqo *)per_q_mem;
-+	ntfy_idx = gve_rx_idx_to_ntfy(priv, idx);
-+	block = &priv->ntfy_blocks[ntfy_idx];
-+
-+	netif_dbg(priv, drv, priv->dev, "starting rx ring DQO\n");
-+
-+	memset(rx, 0, sizeof(*rx));
-+	rx->gve = priv;
-+	rx->q_num = idx;
-+	rx->dqo.bufq.mask = gve_q_mem->buffer_queue_slots - 1;
-+	rx->dqo.complq.num_free_slots = gve_q_mem->completion_queue_slots;
-+	rx->dqo.complq.mask = gve_q_mem->completion_queue_slots - 1;
-+	rx->ctx.skb_head = NULL;
-+	rx->ctx.skb_tail = NULL;
-+
-+	rx->dqo.num_buf_states = gve_q_mem->num_buf_states;
-+
-+	rx->dqo.buf_states = gve_q_mem->buf_states;
-+
-+	/* Set up linked list of buffer IDs */
-+	for (i = 0; i < rx->dqo.num_buf_states - 1; i++)
-+		rx->dqo.buf_states[i].next = i + 1;
-+
-+	rx->dqo.buf_states[rx->dqo.num_buf_states - 1].next = -1;
-+	rx->dqo.recycled_buf_states.head = -1;
-+	rx->dqo.recycled_buf_states.tail = -1;
-+	rx->dqo.used_buf_states.head = -1;
-+	rx->dqo.used_buf_states.tail = -1;
-+
-+	rx->dqo.complq.desc_ring = gve_q_mem->complq_desc_ring;
-+	rx->dqo.complq.bus = gve_q_mem->complq_bus;
-+
-+	rx->dqo.bufq.desc_ring = gve_q_mem->bufq_desc_ring;
-+	rx->dqo.bufq.bus = gve_q_mem->bufq_bus;
-+
-+	rx->q_resources = gve_q_mem->q_resources;
-+	rx->q_resources_bus = gve_q_mem->q_resources_bus;
-+
-+	gve_rx_add_to_block(priv, idx);
-+
-+	err = gve_adminq_create_rx_queue(priv, idx);
-+	if (err)
-+		return err;
-+
-+	err = gve_adminq_kick_and_wait(priv);
-+	if (err)
-+		goto err_destroy_rx_queue;
-+
-+	/* TODO, pull the memory allocations in this to gve_rx_queue_mem_alloc()
-+	 */
-+	gve_rx_post_buffers_dqo(&priv->rx[idx]);
-+
-+	napi_enable(&block->napi);
-+	gve_set_itr_coalesce_usecs_dqo(priv, block, priv->rx_coalesce_usecs);
-+
-+	return 0;
-+
-+err_destroy_rx_queue:
-+	/* There is nothing we can do if these fail. */
-+	gve_adminq_destroy_rx_queue(priv, idx);
-+	gve_adminq_kick_and_wait(priv);
-+
-+	return err;
-+}
-+
- int gve_adjust_queues(struct gve_priv *priv,
- 		      struct gve_queue_config new_rx_config,
- 		      struct gve_queue_config new_tx_config)
-@@ -1900,6 +2182,10 @@ static const struct net_device_ops gve_netdev_ops = {
- 	.ndo_bpf		=	gve_xdp,
- 	.ndo_xdp_xmit		=	gve_xdp_xmit,
- 	.ndo_xsk_wakeup		=	gve_xsk_wakeup,
-+	.ndo_queue_mem_alloc	=	gve_rx_queue_mem_alloc,
-+	.ndo_queue_mem_free	=	gve_rx_queue_mem_free,
-+	.ndo_queue_start	=	gve_rx_queue_start,
-+	.ndo_queue_stop		=	gve_rx_queue_stop,
+ operations:
+   list:
+@@ -382,6 +421,19 @@ operations:
+           attributes:
+             - ifindex
+         reply: *queue-get-op
++    -
++      name: bind-rx
++      doc: Bind dmabuf to netdev
++      attribute-set: bind-dmabuf
++      do:
++        request:
++          attributes:
++            - ifindex
++            - dmabuf-fd
++            - queues
++        reply:
++          attributes:
++            - dmabuf-id
+     -
+       name: napi-get
+       doc: Get information about NAPI instances configured on the system.
+diff --git a/include/uapi/linux/netdev.h b/include/uapi/linux/netdev.h
+index 424c5e28f495..35d201dc4b05 100644
+--- a/include/uapi/linux/netdev.h
++++ b/include/uapi/linux/netdev.h
+@@ -129,6 +129,24 @@ enum {
+ 	NETDEV_A_QUEUE_MAX = (__NETDEV_A_QUEUE_MAX - 1)
  };
  
- static void gve_handle_status(struct gve_priv *priv, u32 status)
-diff --git a/drivers/net/ethernet/google/gve/gve_rx_dqo.c b/drivers/net/ethernet/google/gve/gve_rx_dqo.c
-index f281e42a7ef9..e729f04d3f60 100644
---- a/drivers/net/ethernet/google/gve/gve_rx_dqo.c
-+++ b/drivers/net/ethernet/google/gve/gve_rx_dqo.c
-@@ -21,9 +21,8 @@ static int gve_buf_ref_cnt(struct gve_rx_buf_state_dqo *bs)
- 	return page_count(bs->page_info.page) - bs->page_info.pagecnt_bias;
++enum {
++	NETDEV_A_QUEUE_DMABUF_TYPE = 1,
++	NETDEV_A_QUEUE_DMABUF_IDX,
++
++	__NETDEV_A_QUEUE_DMABUF_MAX,
++	NETDEV_A_QUEUE_DMABUF_MAX = (__NETDEV_A_QUEUE_DMABUF_MAX - 1)
++};
++
++enum {
++	NETDEV_A_BIND_DMABUF_IFINDEX = 1,
++	NETDEV_A_BIND_DMABUF_QUEUES,
++	NETDEV_A_BIND_DMABUF_DMABUF_FD,
++	NETDEV_A_BIND_DMABUF_DMABUF_ID,
++
++	__NETDEV_A_BIND_DMABUF_MAX,
++	NETDEV_A_BIND_DMABUF_MAX = (__NETDEV_A_BIND_DMABUF_MAX - 1)
++};
++
+ enum {
+ 	NETDEV_CMD_DEV_GET = 1,
+ 	NETDEV_CMD_DEV_ADD_NTF,
+@@ -140,6 +158,7 @@ enum {
+ 	NETDEV_CMD_PAGE_POOL_CHANGE_NTF,
+ 	NETDEV_CMD_PAGE_POOL_STATS_GET,
+ 	NETDEV_CMD_QUEUE_GET,
++	NETDEV_CMD_BIND_RX,
+ 	NETDEV_CMD_NAPI_GET,
+ 
+ 	__NETDEV_CMD_MAX,
+diff --git a/net/core/netdev-genl-gen.c b/net/core/netdev-genl-gen.c
+index be7f2ebd61b2..3384b1ae3f40 100644
+--- a/net/core/netdev-genl-gen.c
++++ b/net/core/netdev-genl-gen.c
+@@ -27,6 +27,11 @@ const struct nla_policy netdev_page_pool_info_nl_policy[NETDEV_A_PAGE_POOL_IFIND
+ 	[NETDEV_A_PAGE_POOL_IFINDEX] = NLA_POLICY_FULL_RANGE(NLA_U32, &netdev_a_page_pool_ifindex_range),
+ };
+ 
++const struct nla_policy netdev_queue_dmabuf_nl_policy[NETDEV_A_QUEUE_DMABUF_IDX + 1] = {
++	[NETDEV_A_QUEUE_DMABUF_TYPE] = NLA_POLICY_MAX(NLA_U8, 1),
++	[NETDEV_A_QUEUE_DMABUF_IDX] = { .type = NLA_U32, },
++};
++
+ /* NETDEV_CMD_DEV_GET - do */
+ static const struct nla_policy netdev_dev_get_nl_policy[NETDEV_A_DEV_IFINDEX + 1] = {
+ 	[NETDEV_A_DEV_IFINDEX] = NLA_POLICY_MIN(NLA_U32, 1),
+@@ -58,6 +63,13 @@ static const struct nla_policy netdev_queue_get_dump_nl_policy[NETDEV_A_QUEUE_IF
+ 	[NETDEV_A_QUEUE_IFINDEX] = NLA_POLICY_MIN(NLA_U32, 1),
+ };
+ 
++/* NETDEV_CMD_BIND_RX - do */
++static const struct nla_policy netdev_bind_rx_nl_policy[NETDEV_A_BIND_DMABUF_DMABUF_FD + 1] = {
++	[NETDEV_A_BIND_DMABUF_IFINDEX] = NLA_POLICY_MIN(NLA_U32, 1),
++	[NETDEV_A_BIND_DMABUF_DMABUF_FD] = { .type = NLA_U32, },
++	[NETDEV_A_BIND_DMABUF_QUEUES] = NLA_POLICY_NESTED(netdev_queue_dmabuf_nl_policy),
++};
++
+ /* NETDEV_CMD_NAPI_GET - do */
+ static const struct nla_policy netdev_napi_get_do_nl_policy[NETDEV_A_NAPI_ID + 1] = {
+ 	[NETDEV_A_NAPI_ID] = { .type = NLA_U32, },
+@@ -124,6 +136,13 @@ static const struct genl_split_ops netdev_nl_ops[] = {
+ 		.maxattr	= NETDEV_A_QUEUE_IFINDEX,
+ 		.flags		= GENL_CMD_CAP_DUMP,
+ 	},
++	{
++		.cmd		= NETDEV_CMD_BIND_RX,
++		.doit		= netdev_nl_bind_rx_doit,
++		.policy		= netdev_bind_rx_nl_policy,
++		.maxattr	= NETDEV_A_BIND_DMABUF_DMABUF_FD,
++		.flags		= GENL_CMD_CAP_DO,
++	},
+ 	{
+ 		.cmd		= NETDEV_CMD_NAPI_GET,
+ 		.doit		= netdev_nl_napi_get_doit,
+diff --git a/net/core/netdev-genl-gen.h b/net/core/netdev-genl-gen.h
+index a47f2bcbe4fa..a7ede514eccd 100644
+--- a/net/core/netdev-genl-gen.h
++++ b/net/core/netdev-genl-gen.h
+@@ -13,6 +13,7 @@
+ 
+ /* Common nested types */
+ extern const struct nla_policy netdev_page_pool_info_nl_policy[NETDEV_A_PAGE_POOL_IFINDEX + 1];
++extern const struct nla_policy netdev_queue_dmabuf_nl_policy[NETDEV_A_QUEUE_DMABUF_IDX + 1];
+ 
+ int netdev_nl_dev_get_doit(struct sk_buff *skb, struct genl_info *info);
+ int netdev_nl_dev_get_dumpit(struct sk_buff *skb, struct netlink_callback *cb);
+@@ -26,6 +27,7 @@ int netdev_nl_page_pool_stats_get_dumpit(struct sk_buff *skb,
+ int netdev_nl_queue_get_doit(struct sk_buff *skb, struct genl_info *info);
+ int netdev_nl_queue_get_dumpit(struct sk_buff *skb,
+ 			       struct netlink_callback *cb);
++int netdev_nl_bind_rx_doit(struct sk_buff *skb, struct genl_info *info);
+ int netdev_nl_napi_get_doit(struct sk_buff *skb, struct genl_info *info);
+ int netdev_nl_napi_get_dumpit(struct sk_buff *skb, struct netlink_callback *cb);
+ 
+diff --git a/net/core/netdev-genl.c b/net/core/netdev-genl.c
+index fd98936da3ae..0ed292d87ae0 100644
+--- a/net/core/netdev-genl.c
++++ b/net/core/netdev-genl.c
+@@ -469,6 +469,12 @@ int netdev_nl_queue_get_dumpit(struct sk_buff *skb, struct netlink_callback *cb)
+ 	return skb->len;
  }
  
--static void gve_free_page_dqo(struct gve_priv *priv,
--			      struct gve_rx_buf_state_dqo *bs,
--			      bool free_page)
-+void gve_free_page_dqo(struct gve_priv *priv, struct gve_rx_buf_state_dqo *bs,
-+		       bool free_page)
++/* Stub */
++int netdev_nl_bind_rx_doit(struct sk_buff *skb, struct genl_info *info)
++{
++	return 0;
++}
++
+ static int netdev_genl_netdevice_event(struct notifier_block *nb,
+ 				       unsigned long event, void *ptr)
  {
- 	page_ref_sub(bs->page_info.page, bs->page_info.pagecnt_bias - 1);
- 	if (free_page)
+diff --git a/tools/include/uapi/linux/netdev.h b/tools/include/uapi/linux/netdev.h
+index 424c5e28f495..35d201dc4b05 100644
+--- a/tools/include/uapi/linux/netdev.h
++++ b/tools/include/uapi/linux/netdev.h
+@@ -129,6 +129,24 @@ enum {
+ 	NETDEV_A_QUEUE_MAX = (__NETDEV_A_QUEUE_MAX - 1)
+ };
+ 
++enum {
++	NETDEV_A_QUEUE_DMABUF_TYPE = 1,
++	NETDEV_A_QUEUE_DMABUF_IDX,
++
++	__NETDEV_A_QUEUE_DMABUF_MAX,
++	NETDEV_A_QUEUE_DMABUF_MAX = (__NETDEV_A_QUEUE_DMABUF_MAX - 1)
++};
++
++enum {
++	NETDEV_A_BIND_DMABUF_IFINDEX = 1,
++	NETDEV_A_BIND_DMABUF_QUEUES,
++	NETDEV_A_BIND_DMABUF_DMABUF_FD,
++	NETDEV_A_BIND_DMABUF_DMABUF_ID,
++
++	__NETDEV_A_BIND_DMABUF_MAX,
++	NETDEV_A_BIND_DMABUF_MAX = (__NETDEV_A_BIND_DMABUF_MAX - 1)
++};
++
+ enum {
+ 	NETDEV_CMD_DEV_GET = 1,
+ 	NETDEV_CMD_DEV_ADD_NTF,
+@@ -140,6 +158,7 @@ enum {
+ 	NETDEV_CMD_PAGE_POOL_CHANGE_NTF,
+ 	NETDEV_CMD_PAGE_POOL_STATS_GET,
+ 	NETDEV_CMD_QUEUE_GET,
++	NETDEV_CMD_BIND_RX,
+ 	NETDEV_CMD_NAPI_GET,
+ 
+ 	__NETDEV_CMD_MAX,
 -- 
 2.43.0.472.g3155946c3a-goog
 
