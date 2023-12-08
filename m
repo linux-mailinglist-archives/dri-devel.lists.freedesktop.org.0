@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 668C580A931
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 17:35:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C12E80A922
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 17:35:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7941D10EAD9;
-	Fri,  8 Dec 2023 16:35:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53E5110EAD4;
+	Fri,  8 Dec 2023 16:35:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23CC610EAD2
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 16:35:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0324B10EACB
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 16:35:25 +0000 (UTC)
 Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3B8FIxwL008595; Fri, 8 Dec 2023 16:35:20 GMT
+ 3B8DGhTW003033; Fri, 8 Dec 2023 16:35:21 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=qcppdkim1;
- bh=0IfjoUWiFbIplwms1JNGd6+1uzXj0YZbk2yn6tm1R6g=;
- b=FYj5AyrUwMVDgFwFHaaP+TR+IxHzClJ+cFkwC5orJq+IFYWskwm+sbC5Gxrfmf9sL6Xt
- /BbA1RUzoIV7fkGRcK3Ay3iJVL2djWrItLnTF794DiAFXSzi4Izsv5GVIo2MZEvGPRA6
- lVbUM4/t8CsaeVIFJXzC9FknedjvNBFnygRcNAMN5X3VzFj13XX8im8xyzcqcbkfDrJa
- Zrwj0xrBXZ3QEwNkagaiT9yDnW4BOmIb8M3GMuwRbIkamdGBNDSr/qidFCLbm2wZyCAK
- S8THH1vbYKZYKMZas0mTFOT56SnTh1frbr+fRC9eCRXtlTJ7sSAsOCMWwBtRAJroTSGS pQ== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ bh=p7L1QkYqhHatT/SGO96PA8+Xwm9rXvTxZVWNxNl+o3E=;
+ b=RCELDFaIhIht47avIy4jKGKEQLk5AnAGBBssWNe7t6H5Z2v35ayUjn/l40bXvIdiqAnb
+ LMZ5xFjqMqd+71auPg3O0fdFf4xx7bkLBhWrhkMTuDgzc9yhuyscZ5rtw4oc1HCG7bsO
+ aHuj3f16ECZCEaINRRS4/bbpbRq/p/dC5+fy76naEBeAWgR/oanx7jScU9oSfhZVWEdl
+ wuwLjLHWCDQjYpgTfahZki0Wzc10KFfwsGMWtGZ00TRJK4O/XO6tU5RImGtMCzx+Z6n1
+ SnV9awc2OOVH8ycxQXDlTAuvmVWQULewpu+YaXeuTwFOgPh1jhV4iuWI31bPUkhtALtG fA== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uu928mag6-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uu928mag8-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 08 Dec 2023 16:35:20 +0000
+ Fri, 08 Dec 2023 16:35:21 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B8GZJG6012499
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B8GZKQA002126
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 8 Dec 2023 16:35:19 GMT
+ Fri, 8 Dec 2023 16:35:20 GMT
 Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Fri, 8 Dec 2023 08:35:18 -0800
+ 15.2.1118.40; Fri, 8 Dec 2023 08:35:19 -0800
 From: Jeffrey Hugo <quic_jhugo@quicinc.com>
 To: <quic_carlv@quicinc.com>, <quic_pkanojiy@quicinc.com>,
  <stanislaw.gruszka@linux.intel.com>, <jacek.lawrynowicz@linux.intel.com>
-Subject: [PATCH 4/7] accel/qaic: Drop the reference to BO in error path of
- create BO IOCTL
-Date: Fri, 8 Dec 2023 09:34:54 -0700
-Message-ID: <20231208163457.1295993-5-quic_jhugo@quicinc.com>
+Subject: [PATCH 5/7] accel/qaic: Call drm_gem_create_mmap_offset() once for
+ each BO
+Date: Fri, 8 Dec 2023 09:34:55 -0700
+Message-ID: <20231208163457.1295993-6-quic_jhugo@quicinc.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231208163457.1295993-1-quic_jhugo@quicinc.com>
 References: <20231208163457.1295993-1-quic_jhugo@quicinc.com>
@@ -59,8 +59,8 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: 6nOufPbRkB7CHF0IQdvToH3I9eXSAzWb
-X-Proofpoint-GUID: 6nOufPbRkB7CHF0IQdvToH3I9eXSAzWb
+X-Proofpoint-ORIG-GUID: 34cJZ70drzbf_xMVrJdUZzMnaK6Odv8I
+X-Proofpoint-GUID: 34cJZ70drzbf_xMVrJdUZzMnaK6Odv8I
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-12-08_11,2023-12-07_01,2023-05-22_02
@@ -89,53 +89,52 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
 
-Do not free BO explicitly in error path, just drop its reference, cleanup
-will be taken care by DRM as we have registered for ->free() callback.
-This patch makes sure that there is only one code path for BO to be freed.
+Every time QAIC_MMAP_BO ioctl is called for a BO,
+drm_gem_create_mmap_offset() is called. Calling
+drm_gem_create_mmap_offset() more then once for a BO seems redundant.
 
 Signed-off-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
 Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 ---
- drivers/accel/qaic/qaic_data.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ drivers/accel/qaic/qaic_data.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/accel/qaic/qaic_data.c b/drivers/accel/qaic/qaic_data.c
-index 89ab8fa19315..7faa00705c1d 100644
+index 7faa00705c1d..f88d925c8001 100644
 --- a/drivers/accel/qaic/qaic_data.c
 +++ b/drivers/accel/qaic/qaic_data.c
-@@ -574,6 +574,9 @@ static void qaic_free_sgt(struct sg_table *sgt)
- {
- 	struct scatterlist *sg;
+@@ -718,6 +718,10 @@ int qaic_create_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *fi
+ 	if (ret)
+ 		goto free_bo;
  
-+	if (!sgt)
-+		return;
++	ret = drm_gem_create_mmap_offset(obj);
++	if (ret)
++		goto free_bo;
 +
- 	for (sg = sgt->sgl; sg; sg = sg_next(sg))
- 		if (sg_page(sg))
- 			__free_pages(sg_page(sg), get_order(sg->length));
-@@ -717,7 +720,7 @@ int qaic_create_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *fi
- 
  	ret = drm_gem_handle_create(file_priv, obj, &args->handle);
  	if (ret)
--		goto free_sgt;
-+		goto free_bo;
+ 		goto free_bo;
+@@ -745,7 +749,7 @@ int qaic_mmap_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *file
+ 	struct drm_gem_object *obj;
+ 	struct qaic_device *qdev;
+ 	struct qaic_user *usr;
+-	int ret;
++	int ret = 0;
  
- 	bo->handle = args->handle;
+ 	usr = file_priv->driver_priv;
+ 	usr_rcu_id = srcu_read_lock(&usr->qddev_lock);
+@@ -767,9 +771,7 @@ int qaic_mmap_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *file
+ 		goto unlock_dev_srcu;
+ 	}
+ 
+-	ret = drm_gem_create_mmap_offset(obj);
+-	if (ret == 0)
+-		args->offset = drm_vma_node_offset_addr(&obj->vma_node);
++	args->offset = drm_vma_node_offset_addr(&obj->vma_node);
+ 
  	drm_gem_object_put(obj);
-@@ -726,10 +729,8 @@ int qaic_create_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *fi
  
- 	return 0;
- 
--free_sgt:
--	qaic_free_sgt(bo->sgt);
- free_bo:
--	kfree(bo);
-+	drm_gem_object_put(obj);
- unlock_dev_srcu:
- 	srcu_read_unlock(&qdev->dev_lock, qdev_rcu_id);
- unlock_usr_srcu:
 -- 
 2.34.1
 
