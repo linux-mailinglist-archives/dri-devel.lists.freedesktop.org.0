@@ -1,53 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7034380AD32
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 20:38:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 741FA80AD34
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 20:39:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D5AE10EB0C;
-	Fri,  8 Dec 2023 19:38:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B71A10EB0B;
+	Fri,  8 Dec 2023 19:39:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 613DA10EB0B
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 19:38:26 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 708CCB82BBF;
- Fri,  8 Dec 2023 19:38:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C6C8EC433C7;
- Fri,  8 Dec 2023 19:38:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1702064303;
- bh=pfhHhbxigocqyMNuNVPN29KxhpZWLOu1W6TsIC+kwfw=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=kB/43SuchKg3T4TURy0NS9BAJHMgJgSWKxRqf3pK/37Fbho5j6BwjfD/t5SdfG2KP
- 5GZrr/2v72lz0R5ysK009INFNSgH++J21Ncx5MVM2BxlVaV+mKkHw8kRZBzL9WoHwQ
- T+xzSVLj0r7EVTjv3pvYNL3K0ASTTT0Hr85R04DYETg2c3mhmikqyQeXCeMQi6cFcf
- qXTV/LnLpWAUBIw9qt1DkaOoVzJbQ46JaS9SNSsP9hhjk40mTn2qktp7DuywAvwNwN
- tJH7HkWkjL4McMo14eTzCgjCe0a99656VHyz5UK0Usy7Vq5R2dz7b4PSLn2LguwolZ
- jPEL6PXqdBfhQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- B436ADD4F1E; Fri,  8 Dec 2023 19:38:23 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 6.7-rc5
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9tw7vc_BOsPH0xAwFvx_ZCQyZ24ofp3pUt1MQe9QA_U5Mg@mail.gmail.com>
-References: <CAPM=9tw7vc_BOsPH0xAwFvx_ZCQyZ24ofp3pUt1MQe9QA_U5Mg@mail.gmail.com>
-X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
- <dri-devel.lists.freedesktop.org>
-X-PR-Tracked-Message-Id: <CAPM=9tw7vc_BOsPH0xAwFvx_ZCQyZ24ofp3pUt1MQe9QA_U5Mg@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-fixes-2023-12-08
-X-PR-Tracked-Commit-Id: b7b5a56acec819bb8dcd03c687e97a091b29d28f
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 38bafa65b1260cb774cfc0c9a3ddf82d3c563e10
-Message-Id: <170206430372.311.5094699771321399720.pr-tracker-bot@kernel.org>
-Date: Fri, 08 Dec 2023 19:38:23 +0000
-To: Dave Airlie <airlied@gmail.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8270110EB0B;
+ Fri,  8 Dec 2023 19:39:13 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3B8GoPVf020034; Fri, 8 Dec 2023 19:39:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=23hfmL2HTHM2xsnq5EYgvdOOVhqq/RFcINKENx+GHvE=;
+ b=PnZEVwpre18t18qoKFtHfF3+NXSBmneJvX4b4AN98VDz6DcQ9gpf5gqXpstBRuikLh18
+ 3dWe0jA0TlDRxfmW3+8pCRheT1wNQwv5BtPW29KpHt2AlYvTv0fFrhTBTUZvjBCAG3bA
+ OuQDYUbrRiK78ryROKBzwUX7rOZrS/t2KkwE0VbAeiRG+ckoJFMLGm+EvOdfR75Ukm37
+ mtN47pYLHVW6NWjoLG6RiiT/qls5fMjHa6gyusuYb/w2xx2a/+mOpxLcHuCvoEPAjeiA
+ Kz3WJtnA8vwTxo/YbJs/ilWYkL0PhsQGyXiKdIv6naVt+WKl0sveOZJ6r+d8cflIgQL9 Lw== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uv5wpgh1e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 08 Dec 2023 19:39:07 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B8Jd7BR013412
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 8 Dec 2023 19:39:07 GMT
+Received: from [10.110.30.94] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 8 Dec
+ 2023 11:39:04 -0800
+Message-ID: <24441a9c-4fa0-0ef7-7e87-e26fc2104075@quicinc.com>
+Date: Fri, 8 Dec 2023 11:39:02 -0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2 3/3] drm/msm/dpu: enable writeback on SM8450
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>
+References: <20231203002743.1291956-1-dmitry.baryshkov@linaro.org>
+ <20231203002743.1291956-4-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20231203002743.1291956-4-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: -9hBYc74W9P6UlWQft1Cjb67xI21jVmK
+X-Proofpoint-ORIG-GUID: -9hBYc74W9P6UlWQft1Cjb67xI21jVmK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-08_14,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ mlxlogscore=790 impostorscore=0 adultscore=0 priorityscore=1501 mlxscore=0
+ clxscore=1015 malwarescore=0 phishscore=0 suspectscore=0 bulkscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311290000 definitions=main-2312080162
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,22 +85,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Fri, 8 Dec 2023 14:54:20 +1000:
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2023-12-08
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/38bafa65b1260cb774cfc0c9a3ddf82d3c563e10
+On 12/2/2023 4:27 PM, Dmitry Baryshkov wrote:
+> Enable WB2 hardware block, enabling writeback support on this platform.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   .../drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h | 18 ++++++++++++++++++
+>   1 file changed, 18 insertions(+)
+> 
 
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
