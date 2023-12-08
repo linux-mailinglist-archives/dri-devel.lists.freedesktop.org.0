@@ -1,52 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF5FB8096CF
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 00:54:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB5DC809738
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 01:30:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04E8010E22B;
-	Thu,  7 Dec 2023 23:54:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8D7D10E23D;
+	Fri,  8 Dec 2023 00:30:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9BAE10E22B
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 23:54:15 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id C760862241
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 23:54:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F285CC43397
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 23:54:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701993254;
- bh=126f2FINqt2NzWMdkeMGSXx7WFzHGP22zRHVVvtlMF8=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=SKOR0pl21/lBqjEPLL44m3F5pS7Y7hvSTtHUas9f9DE4EM7ULVYijHiFVQ8RnyU19
- wNzRgzmdcT1mfMLOduWKD7WonNxnEQo92gQid92pAIYNS7ZJEBx1iUIMhm8x2kg2n8
- T78/Hhki3QnJlvflJ/4wzthfl2h8gYzFGfvlJScP6zG+WNHU04Zgw93g7CjuxAh6zy
- n3JbafzyfuoqNRmIl9cqlY7hCddTm8oCyc1gYhzii39cTMVkupMzEz8cwryj1f4cx0
- AcQ7TsNrxK5qyfyGnE5kojTUcR3S6/cmGkyAYeaY7WFJM0OxD7V0rP2cWNOcD13BK1
- FHo16mLCElPXA==
-Received: by mail-lj1-f169.google.com with SMTP id
- 38308e7fff4ca-2c9f166581dso18817561fa.2
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Dec 2023 15:54:13 -0800 (PST)
-X-Gm-Message-State: AOJu0YwOQ8JR8Sr+chkV0ONvAjWUqvtOXLATk5/RvMYsT6pzntxT1uNP
- +TlfDvUHdPOjBoQy4RkyXMGtkeeIJjOA3PEswQ==
-X-Google-Smtp-Source: AGHT+IFG1YJnNx0pOc8S7TKFLRo4jr/uqeafdNxD4kyWaFE3oQZnuq4vicxphBN5NfQQmfMRMfbvWf4LsTLiiniVQFg=
-X-Received: by 2002:a2e:8ec6:0:b0:2ca:12f5:c5d3 with SMTP id
- e6-20020a2e8ec6000000b002ca12f5c5d3mr2081298ljl.33.1701993251999; Thu, 07 Dec
- 2023 15:54:11 -0800 (PST)
+Received: from out30-119.freemail.mail.aliyun.com
+ (out30-119.freemail.mail.aliyun.com [115.124.30.119])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B1C010E23D
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 00:30:39 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R121e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046051;
+ MF=yang.lee@linux.alibaba.com; NM=1; PH=DS; RN=12; SR=0;
+ TI=SMTPD_---0Vy11pq6_1701995435; 
+Received: from localhost(mailfrom:yang.lee@linux.alibaba.com
+ fp:SMTPD_---0Vy11pq6_1701995435) by smtp.aliyun-inc.com;
+ Fri, 08 Dec 2023 08:30:35 +0800
+From: Yang Li <yang.lee@linux.alibaba.com>
+To: airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de, mripard@kernel.org
+Subject: [PATCH -next] drm/imagination: Remove unneeded semicolon
+Date: Fri,  8 Dec 2023 08:30:34 +0800
+Message-Id: <20231208003034.68339-1-yang.lee@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
-References: <20230905084922.3908121-1-mwalle@kernel.org>
-In-Reply-To: <20230905084922.3908121-1-mwalle@kernel.org>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Fri, 8 Dec 2023 07:54:00 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_9xrt_ku-fZotJAnPa2ns-2PCGken4TepMrQYG9KEJcFA@mail.gmail.com>
-Message-ID: <CAAOTY_9xrt_ku-fZotJAnPa2ns-2PCGken4TepMrQYG9KEJcFA@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] drm/mediatek: fix kernel oops if no crtc is found
-To: Michael Walle <mwalle@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,79 +40,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jitao Shi <jitao.shi@mediatek.com>,
- =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
- Frank Wunderlich <frank-w@public-files.de>, Stu Hsieh <stu.hsieh@mediatek.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "Nancy . Lin" <nancy.lin@mediatek.com>, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Abaci Robot <abaci@linux.alibaba.com>, matt.coster@imgtec.com,
+ Yang Li <yang.lee@linux.alibaba.com>, donald.robson@imgtec.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Michael:
+./drivers/gpu/drm/imagination/pvr_fw_trace.c:251:2-3: Unneeded semicolon
 
-Michael Walle <mwalle@kernel.org> =E6=96=BC 2023=E5=B9=B49=E6=9C=885=E6=97=
-=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=884:49=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> drm_crtc_from_index(0) might return NULL if there are no CRTCs
-> registered at all which will lead to a kernel oops in
-> mtk_drm_crtc_dma_dev_get(). Add the missing return value check.
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=7694
+Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+---
+ drivers/gpu/drm/imagination/pvr_fw_trace.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Applied to mediatek-drm-fixes [1], thanks.
+diff --git a/drivers/gpu/drm/imagination/pvr_fw_trace.c b/drivers/gpu/drm/imagination/pvr_fw_trace.c
+index 7159fc479001..31199e45b72e 100644
+--- a/drivers/gpu/drm/imagination/pvr_fw_trace.c
++++ b/drivers/gpu/drm/imagination/pvr_fw_trace.c
+@@ -248,7 +248,7 @@ static bool fw_trace_get_next(struct pvr_fw_trace_seq_data *trace_seq_data)
+ 			continue;
+ 
+ 		return true;
+-	};
++	}
+ 
+ 	/* Hit end of trace data. */
+ 	return false;
+-- 
+2.20.1.7.g153144c
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
-log/?h=3Dmediatek-drm-fixes
-
-Regards,
-Chun-Kuang.
-
->
-> Fixes: 0d9eee9118b7 ("drm/mediatek: Add drm ovl_adaptor sub driver for MT=
-8195")
-> Signed-off-by: Michael Walle <mwalle@kernel.org>
-> Reviewed-by: N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com>
-> Tested-by: N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com>
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collab=
-ora.com>
-> ---
-> v4:
->  - collected tags
-> v3:
->  - none
-> v2:
->  - collected tags
->  - fixed typos
-> ---
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/med=
-iatek/mtk_drm_drv.c
-> index 93552d76b6e7..2c582498817e 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> @@ -420,6 +420,7 @@ static int mtk_drm_kms_init(struct drm_device *drm)
->         struct mtk_drm_private *private =3D drm->dev_private;
->         struct mtk_drm_private *priv_n;
->         struct device *dma_dev =3D NULL;
-> +       struct drm_crtc *crtc;
->         int ret, i, j;
->
->         if (drm_firmware_drivers_only())
-> @@ -494,7 +495,9 @@ static int mtk_drm_kms_init(struct drm_device *drm)
->         }
->
->         /* Use OVL device for all DMA memory allocations */
-> -       dma_dev =3D mtk_drm_crtc_dma_dev_get(drm_crtc_from_index(drm, 0))=
-;
-> +       crtc =3D drm_crtc_from_index(drm, 0);
-> +       if (crtc)
-> +               dma_dev =3D mtk_drm_crtc_dma_dev_get(crtc);
->         if (!dma_dev) {
->                 ret =3D -ENODEV;
->                 dev_err(drm->dev, "Need at least one OVL device\n");
-> --
-> 2.39.2
->
