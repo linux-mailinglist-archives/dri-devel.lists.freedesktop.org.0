@@ -1,47 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92B25809F5A
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 10:30:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3281809F85
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 10:36:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62C4A10E9E9;
-	Fri,  8 Dec 2023 09:30:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7337B10EA2E;
+	Fri,  8 Dec 2023 09:36:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C11BA10E9E9
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 09:30:39 +0000 (UTC)
-Received: from dggpemm500005.china.huawei.com (unknown [172.30.72.53])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Smm472DZRz1Q6XR;
- Fri,  8 Dec 2023 17:26:47 +0800 (CST)
-Received: from [10.69.30.204] (10.69.30.204) by dggpemm500005.china.huawei.com
- (7.185.36.74) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Fri, 8 Dec
- 2023 17:30:36 +0800
-Subject: Re: [net-next v1 09/16] page_pool: device memory support
-To: Mina Almasry <almasrymina@google.com>, Shailend Chand
- <shailend@google.com>, <netdev@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <linux-arch@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
- <bpf@vger.kernel.org>, <linux-media@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>
-References: <20231208005250.2910004-1-almasrymina@google.com>
- <20231208005250.2910004-10-almasrymina@google.com>
-From: Yunsheng Lin <linyunsheng@huawei.com>
-Message-ID: <32211cbf-3a4e-8a86-6214-4304ddb18a98@huawei.com>
-Date: Fri, 8 Dec 2023 17:30:36 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DB2A10EA2E;
+ Fri,  8 Dec 2023 09:36:18 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id 46E51B82B91;
+ Fri,  8 Dec 2023 09:36:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CA0FC433C7;
+ Fri,  8 Dec 2023 09:36:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1702028175;
+ bh=DBB0cZVnrGAA1c/X5SLL7/u2difhyNNyZDqG7yjJOs4=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=SZWRbo8g1bmhY3/GovnRwATWs0PoOCfMBuAoAylrJHzRrMP/9vguKEyBjs7JofmxE
+ zkKv9t/Dm9kmoIpGlXMNBZGwZonfPJwZtu0te9OQCLavm6GHKKk7pRgFNPAVlRohHM
+ LZGh2v5W1VfBgMpKlxdIXyKv3Aa/I6PNOFJ7lts6DQ+d5wDjxXlm2F0eGU5XoTrH43
+ pXakVFaWVFi4WIT2w/ErnkqkZHozdJx7ci8/W/N4JncepZjLItEnrZB7JvEfEIVC9j
+ 2XEjAu1r19MVBMCcuk4XH08COuKHINt+6PTjN0dv+jEjn0EDSNZ6umbmkmHzkWNjXF
+ 7LjlxqQIt+dPg==
+From: Maxime Ripard <mripard@kernel.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
+ Melissa Wen <melissa.srw@gmail.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20231208010314.3395904-2-dmitry.baryshkov@linaro.org>
+References: <20231208010314.3395904-1-dmitry.baryshkov@linaro.org>
+ <20231208010314.3395904-2-dmitry.baryshkov@linaro.org>
+Subject: Re: (subset) [PATCH v4 1/2] drm/atomic-helper: rename
+ drm_atomic_helper_check_wb_encoder_state
+Message-Id: <170202817282.16687.13033401710138514898.b4-ty@kernel.org>
+Date: Fri, 08 Dec 2023 10:36:12 +0100
 MIME-Version: 1.0
-In-Reply-To: <20231208005250.2910004-10-almasrymina@google.com>
 Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.69.30.204]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpemm500005.china.huawei.com (7.185.36.74)
-X-CFilter-Loop: Reflected
+X-Mailer: b4 0.12.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,127 +60,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jeroen de Borst <jeroendb@google.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Jonathan Corbet <corbet@lwn.net>, David Ahern <dsahern@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Eric Dumazet <edumazet@google.com>,
- Shakeel Butt <shakeelb@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>,
- Jakub Kicinski <kuba@kernel.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Paolo Abeni <pabeni@redhat.com>, Shuah Khan <shuah@kernel.org>,
- "David S. Miller" <davem@davemloft.net>
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023/12/8 8:52, Mina Almasry wrote:
-> Overload the LSB of struct page* to indicate that it's a page_pool_iov.
+On Fri, 08 Dec 2023 04:03:13 +0300, Dmitry Baryshkov wrote:
+> The drm_atomic_helper_check_wb_encoder_state() function doesn't use
+> encoder for anything other than getting the drm_device instance. The
+> function's description talks about checking the writeback connector
+> state, not the encoder state. Moreover, there is no such thing as an
+> encoder state, encoders generally do not have a state on their own.
 > 
-> Refactor mm calls on struct page* into helpers, and add page_pool_iov
-> handling on those helpers. Modify callers of these mm APIs with calls to
-> these helpers instead.
+> Rename the function to drm_atomic_helper_check_wb_connector_state()
+> and change arguments to drm_writeback_connector and drm_atomic_state.
 > 
-> In areas where struct page* is dereferenced, add a check for special
-> handling of page_pool_iov.
-> 
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
-> 
-> ---
-> 
-> v1:
-> - Disable fragmentation support for iov properly.
-> - fix napi_pp_put_page() path (Yunsheng).
-> 
-> ---
->  include/net/page_pool/helpers.h | 78 ++++++++++++++++++++++++++++++++-
->  net/core/page_pool.c            | 67 ++++++++++++++++++++--------
->  net/core/skbuff.c               | 28 +++++++-----
->  3 files changed, 141 insertions(+), 32 deletions(-)
-> 
-> diff --git a/include/net/page_pool/helpers.h b/include/net/page_pool/helpers.h
-> index 00197f14aa87..2d4e0a2c5620 100644
-> --- a/include/net/page_pool/helpers.h
-> +++ b/include/net/page_pool/helpers.h
-> @@ -154,6 +154,64 @@ static inline struct page_pool_iov *page_to_page_pool_iov(struct page *page)
->  	return NULL;
->  }
->  
-> +static inline int page_pool_page_ref_count(struct page *page)
-> +{
-> +	if (page_is_page_pool_iov(page))
+> [...]
 
-As mentioned before, it seems we need to have the above checking every
-time we need to do some per-page handling in page_pool core, is there
-a plan in your mind how to remove those kind of checking in the future?
+Applied to drm/drm-misc (drm-misc-next).
 
-Even though a static_branch check is added in page_is_page_pool_iov(), it
-does not make much sense that a core has tow different 'struct' for its
-most basic data.
+Thanks!
+Maxime
 
-IMHO, the ppiov for dmabuf is forced fitting into page_pool without much
-design consideration at this point.
-
-> +		return page_pool_iov_refcount(page_to_page_pool_iov(page));
-> +
-> +	return page_ref_count(page);
-> +}
-> +
-
-...
-
-> diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-> index b157efea5dea..07f802f1adf1 100644
-> --- a/net/core/skbuff.c
-> +++ b/net/core/skbuff.c
-> @@ -896,19 +896,23 @@ bool napi_pp_put_page(struct page *page, bool napi_safe)
->  	bool allow_direct = false;
->  	struct page_pool *pp;
->  
-> -	page = compound_head(page);
-> -
-> -	/* page->pp_magic is OR'ed with PP_SIGNATURE after the allocation
-> -	 * in order to preserve any existing bits, such as bit 0 for the
-> -	 * head page of compound page and bit 1 for pfmemalloc page, so
-> -	 * mask those bits for freeing side when doing below checking,
-> -	 * and page_is_pfmemalloc() is checked in __page_pool_put_page()
-> -	 * to avoid recycling the pfmemalloc page.
-> -	 */
-> -	if (unlikely((page->pp_magic & ~0x3UL) != PP_SIGNATURE))
-> -		return false;
-> +	if (!page_is_page_pool_iov(page)) {
-
-For now, the above may work for the the rx part as it seems that you are
-only enabling rx for dmabuf for now.
-
-What is the plan to enable tx for dmabuf? If it is also intergrated into
-page_pool? There was a attempt to enable page_pool for tx, Eric seemed to
-have some comment about this:
-https://lkml.kernel.org/netdev/2cf4b672-d7dc-db3d-ce90-15b4e91c4005@huawei.com/T/#mb6ab62dc22f38ec621d516259c56dd66353e24a2
-
-If tx is not intergrated into page_pool, do we need to create a new layer for
-the tx dmabuf?
-
-> +		page = compound_head(page);
-> +
-> +		/* page->pp_magic is OR'ed with PP_SIGNATURE after the allocation
-> +		 * in order to preserve any existing bits, such as bit 0 for the
-> +		 * head page of compound page and bit 1 for pfmemalloc page, so
-> +		 * mask those bits for freeing side when doing below checking,
-> +		 * and page_is_pfmemalloc() is checked in __page_pool_put_page()
-> +		 * to avoid recycling the pfmemalloc page.
-> +		 */
-> +		if (unlikely((page->pp_magic & ~0x3UL) != PP_SIGNATURE))
-> +			return false;
->  
-> -	pp = page->pp;
-> +		pp = page->pp;
-> +	} else {
-> +		pp = page_to_page_pool_iov(page)->pp;
-> +	}
->  
->  	/* Allow direct recycle if we have reasons to believe that we are
->  	 * in the same context as the consumer would run, so there's
-> 
