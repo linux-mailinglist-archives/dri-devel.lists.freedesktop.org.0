@@ -2,36 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C3DD80A798
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 16:39:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D75E80A7A2
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 16:41:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7952E10E27F;
-	Fri,  8 Dec 2023 15:39:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75CC210E2D8;
+	Fri,  8 Dec 2023 15:41:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id AB79610E27C
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 15:39:41 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C7983106F;
- Fri,  8 Dec 2023 07:40:26 -0800 (PST)
-Received: from [10.1.33.18] (e122027.cambridge.arm.com [10.1.33.18])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 209EC3F6C4;
- Fri,  8 Dec 2023 07:39:37 -0800 (PST)
-Message-ID: <c7f5159e-c028-4538-b472-b95be3d056ef@arm.com>
-Date: Fri, 8 Dec 2023 15:39:36 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 08/14] drm/panthor: Add the FW logical block
-Content-Language: en-GB
-To: Boris Brezillon <boris.brezillon@collabora.com>,
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6446C10E27C
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 15:41:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1702050065; x=1733586065;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=kuKy0uSZ2sgf2WUnRwww3AtGWNiQbLKjTQKgA9l/IGM=;
+ b=ViMybE+aNvDVaqbxcDI855jc7fdeR+7WXi7c0ZIh3KVABmLVp2PBauIh
+ 8MGqC2J3whVjUD86OT8K/BUgG0zTptSoYbFLKy7u0DMK2iLO2Bmr+bW3V
+ wAx23PSQj1PN7kr5S5Q6rXyKeuKIegU43Z+rBEQZ/esZLQR7VyTUaklTB
+ 5ONUADL1SbgL2IMR+i/qK4bT6J95pYBR6BZoRz0kH7SZUE9kx+F/02MI2
+ 90vTC/QqrWiwUXnofC6aH3ITnrELBpQwHxMR4+ZG752KPlhVlTMRk6YWK
+ pWlIHs+6ICWWxbvMb8nsHgbFROtKkh/F+dtJJLHhx220+xF+8lM4F7/5c w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="1276376"
+X-IronPort-AV: E=Sophos;i="6.04,261,1695711600"; 
+   d="scan'208";a="1276376"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Dec 2023 07:41:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,261,1695711600"; d="scan'208";a="20136875"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+ by orviesa001.jf.intel.com with ESMTP; 08 Dec 2023 07:40:59 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1rBcyG-000DuV-07;
+ Fri, 08 Dec 2023 15:40:56 +0000
+Date: Fri, 8 Dec 2023 23:40:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mina Almasry <almasrymina@google.com>,
+ Shailend Chand <shailend@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ bpf@vger.kernel.org, linux-media@vger.kernel.org,
  dri-devel@lists.freedesktop.org
-References: <20231204173313.2098733-1-boris.brezillon@collabora.com>
- <20231204173313.2098733-9-boris.brezillon@collabora.com>
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20231204173313.2098733-9-boris.brezillon@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [net-next v1 06/16] netdev: support binding dma-buf to netdevice
+Message-ID: <202312082303.bCpeCR0q-lkp@intel.com>
+References: <20231208005250.2910004-7-almasrymina@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231208005250.2910004-7-almasrymina@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,91 +64,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Boichat <drinkcat@chromium.org>, kernel@collabora.com,
- Daniel Stone <daniels@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Liviu Dudau <Liviu.Dudau@arm.com>,
- =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
- "Marty E . Plummer" <hanetzer@startmail.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Faith Ekstrand <faith.ekstrand@collabora.com>
+Cc: Mina Almasry <almasrymina@google.com>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Jeroen de Borst <jeroendb@google.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Jonathan Corbet <corbet@lwn.net>, David Ahern <dsahern@kernel.org>,
+ Kaiyuan Zhang <kaiyuanz@google.com>, Eric Dumazet <edumazet@google.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Jakub Kicinski <kuba@kernel.org>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Shakeel Butt <shakeelb@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>, oe-kbuild-all@lists.linux.dev,
+ Praveen Kaligineedi <pkaligineedi@google.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, Paolo Abeni <pabeni@redhat.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/12/2023 17:33, Boris Brezillon wrote:
-> Contains everything that's FW related, that includes the code dealing
-> with the microcontroller unit (MCU) that's running the FW, and anything
-> related to allocating memory shared between the FW and the CPU.
-> 
-> A few global FW events are processed in the IRQ handler, the rest is
-> forwarded to the scheduler, since scheduling is the primary reason for
-> the FW existence, and also the main source of FW <-> kernel
-> interactions.
-> 
-> v3:
-> - Make the FW path more future-proof (Liviu)
-> - Use one waitqueue for all FW events
-> - Simplify propagation of FW events to the scheduler logic
-> - Drop the panthor_fw_mem abstraction and use panthor_kernel_bo instead
-> - Account for the panthor_vm changes
-> - Replace magic number with 0x7fffffff with ~0 to better signify that
->   it's the maximum permitted value.
-> - More accurate rounding when computing the firmware timeout.
-> - Add a 'sub iterator' helper function. This also adds a check that a
->   firmware entry doesn't overflow the firmware image.
-> - Drop __packed from FW structures, natural alignment is good enough.
-> - Other minor code improvements.
-> 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Signed-off-by: Steven Price <steven.price@arm.com>
+Hi Mina,
 
-One typo below (I think it might even have been mine...), but otherwise
+kernel test robot noticed the following build warnings:
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+[auto build test WARNING on net-next/main]
 
-> ---
->  drivers/gpu/drm/panthor/panthor_fw.c | 1332 ++++++++++++++++++++++++++
->  drivers/gpu/drm/panthor/panthor_fw.h |  504 ++++++++++
->  2 files changed, 1836 insertions(+)
->  create mode 100644 drivers/gpu/drm/panthor/panthor_fw.c
->  create mode 100644 drivers/gpu/drm/panthor/panthor_fw.h
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-> new file mode 100644
-> index 000000000000..85afe769f567
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
+url:    https://github.com/intel-lab-lkp/linux/commits/Mina-Almasry/net-page_pool-factor-out-releasing-DMA-from-releasing-the-page/20231208-085531
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20231208005250.2910004-7-almasrymina%40google.com
+patch subject: [net-next v1 06/16] netdev: support binding dma-buf to netdevice
+config: m68k-randconfig-r071-20231208 (https://download.01.org/0day-ci/archive/20231208/202312082303.bCpeCR0q-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231208/202312082303.bCpeCR0q-lkp@intel.com/reproduce)
 
-<snip>
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312082303.bCpeCR0q-lkp@intel.com/
 
-> +/**
-> + * panthor_fw_csg_wait_acks() - Wait for command stream group requests to be acknowledged.
-> + * @ptdev: Device.
-> + * @csg_slot: CSG slot ID.
-> + * @req_mask: Mask of requests to wait for.
-> + * @acked: Pointer to field that's updated with the acked requests.
-> + * If the function returns 0, *acked == req_mask.
-> + * @timeout_ms: Timeout expressed in milliseconds.
-> + *
-> + * Return: 0 on success, -ETIMEDOUT otherwise.
-> + */
-> +int panthor_fw_csg_wait_acks(struct panthor_device *ptdev, u32 csg_slot,
-> +			     u32 req_mask, u32 *acked, u32 timeout_ms)
-> +{
-> +	struct panthor_fw_csg_iface *csg_iface = panthor_fw_get_csg_iface(ptdev, csg_slot);
-> +	int ret;
-> +
-> +	if (drm_WARN_ON(&ptdev->base, req_mask & ~CSG_REQ_MASK))
-> +		return -EINVAL;
-> +
-> +	ret = panthor_fw_wait_acks(&csg_iface->input->req,
-> +				   &csg_iface->output->ack,
-> +				   &ptdev->fw->req_waitqueue,
-> +				   req_mask, acked, timeout_ms);
-> +
-> +	/*
-> +	 * Check that all bits in the state field were updated, is any mismatch
+All warnings (new ones prefixed by >>):
 
-NIT: ..., *if* any mismatch
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/m68k/include/asm/bug.h:32,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/m68k/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from arch/m68k/include/asm/irqflags.h:6,
+                    from include/linux/irqflags.h:17,
+                    from arch/m68k/include/asm/atomic.h:6,
+                    from include/linux/atomic.h:7,
+                    from include/linux/rcupdate.h:25,
+                    from include/linux/rculist.h:11,
+                    from include/linux/pid.h:5,
+                    from include/linux/sched.h:14,
+                    from include/linux/uaccess.h:8,
+                    from net/core/dev.c:71:
+   net/core/dev.c: In function '__netdev_dmabuf_binding_free':
+>> net/core/dev.c:2071:34: warning: format '%lu' expects argument of type 'long unsigned int', but argument 2 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+    2071 |         if (!WARN(size != avail, "can't destroy genpool. size=%lu, avail=%lu",
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    2072 |                   size, avail))
+         |                   ~~~~            
+         |                   |
+         |                   size_t {aka unsigned int}
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:129:17: note: in expansion of macro 'printk'
+     129 |                 printk(fmt, ##__VA_ARGS__);             \
+         |                 ^~~~~~
+   include/asm-generic/bug.h:176:9: note: in expansion of macro 'no_printk'
+     176 |         no_printk(format);                                              \
+         |         ^~~~~~~~~
+   net/core/dev.c:2071:14: note: in expansion of macro 'WARN'
+    2071 |         if (!WARN(size != avail, "can't destroy genpool. size=%lu, avail=%lu",
+         |              ^~~~
+   net/core/dev.c:2071:65: note: format string is defined here
+    2071 |         if (!WARN(size != avail, "can't destroy genpool. size=%lu, avail=%lu",
+         |                                                               ~~^
+         |                                                                 |
+         |                                                                 long unsigned int
+         |                                                               %u
+   net/core/dev.c:2071:34: warning: format '%lu' expects argument of type 'long unsigned int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+    2071 |         if (!WARN(size != avail, "can't destroy genpool. size=%lu, avail=%lu",
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    2072 |                   size, avail))
+         |                         ~~~~~     
+         |                         |
+         |                         size_t {aka unsigned int}
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:129:17: note: in expansion of macro 'printk'
+     129 |                 printk(fmt, ##__VA_ARGS__);             \
+         |                 ^~~~~~
+   include/asm-generic/bug.h:176:9: note: in expansion of macro 'no_printk'
+     176 |         no_printk(format);                                              \
+         |         ^~~~~~~~~
+   net/core/dev.c:2071:14: note: in expansion of macro 'WARN'
+    2071 |         if (!WARN(size != avail, "can't destroy genpool. size=%lu, avail=%lu",
+         |              ^~~~
+   net/core/dev.c:2071:76: note: format string is defined here
+    2071 |         if (!WARN(size != avail, "can't destroy genpool. size=%lu, avail=%lu",
+         |                                                                          ~~^
+         |                                                                            |
+         |                                                                            long unsigned int
+         |                                                                          %u
 
-Steve
 
+vim +2071 net/core/dev.c
+
+  2060	
+  2061	void __netdev_dmabuf_binding_free(struct netdev_dmabuf_binding *binding)
+  2062	{
+  2063		size_t size, avail;
+  2064	
+  2065		gen_pool_for_each_chunk(binding->chunk_pool,
+  2066					netdev_dmabuf_free_chunk_owner, NULL);
+  2067	
+  2068		size = gen_pool_size(binding->chunk_pool);
+  2069		avail = gen_pool_avail(binding->chunk_pool);
+  2070	
+> 2071		if (!WARN(size != avail, "can't destroy genpool. size=%lu, avail=%lu",
+  2072			  size, avail))
+  2073			gen_pool_destroy(binding->chunk_pool);
+  2074	
+  2075		dma_buf_unmap_attachment(binding->attachment, binding->sgt,
+  2076					 DMA_BIDIRECTIONAL);
+  2077		dma_buf_detach(binding->dmabuf, binding->attachment);
+  2078		dma_buf_put(binding->dmabuf);
+  2079		xa_destroy(&binding->bound_rxq_list);
+  2080		kfree(binding);
+  2081	}
+  2082	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
