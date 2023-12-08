@@ -1,66 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D07280A7D6
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 16:49:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97B6D80A7FB
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 16:56:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8063710EAA0;
-	Fri,  8 Dec 2023 15:48:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A9CA10E27E;
+	Fri,  8 Dec 2023 15:56:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com
- [IPv6:2607:f8b0:4864:20::c34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60B5610E29B
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 15:48:54 +0000 (UTC)
-Received: by mail-oo1-xc34.google.com with SMTP id
- 006d021491bc7-5906048e9e3so892117eaf.0
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Dec 2023 07:48:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1702050533; x=1702655333; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=irwlGKZ3Ivo94UJ6LKl+yTmlgkjtfS15iquU/V0K1B0=;
- b=LwFiB5IhIa6KaVcdyLf9UxVt05+8LHSPJV6DubPH6tNLfdUXsaZmxB/JUNC+LS2/wV
- UP+XVcvT9SYmbz0u8OHTpLtjm/dZwrMOWmVduTOOXJHoAB2Ht64IDdRBf2e3C6PIuD5C
- vdS8m/yMM6y/vsvZcXdJqMgrxResS/zHDhh5J4SJ9plcTX7UxZ62YHP+T0S4l7ZwybCr
- uW1MynEE4kRfbps38Vx2KEIu0T41pUWK9wMIwGX2yjNSYIxFBkAnYZr5bBhCJvcVgYtw
- ikTpF7bL0Pi23M0/3SAtxi/+PcchA/UnuSfwkAAPKOEEGy5VXP+xFEeDHWDsBkHGpwPe
- K5xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702050533; x=1702655333;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=irwlGKZ3Ivo94UJ6LKl+yTmlgkjtfS15iquU/V0K1B0=;
- b=Pmq7jZMrnfo/e8Hfs9tWoByiC0Cf6O74dIXPCEjtVmjl8zi9D5PZp/EijmI9s/3S/r
- fYzIHzJv4N6v0J0B/VgLITG8aq7MEAiEXLRn49WLYc2P6+89Jb6ULO4Z5P1YmTaFBjwP
- 9KTOteU2v8AMDN4fW2blEakNCx+t92Ml+dTrEuSafq1ZIpteS4QBvrDsZNAQr2fjxNaW
- 24SZG84hLCUi82BXN0lMRC1sRlcZoKg5nGFhLY8Zjw/NQHPi2S0joBQzwGRckj8YNk/2
- f6eJZt87bmMPO8sAxSz7W4lC6cQ8vRjbKtXzGlaAgfzoQs7YMfLA0S/743I0Vav1aqKY
- 74Og==
-X-Gm-Message-State: AOJu0Yz9M5zJx8gKHau9DMPcwcQ6x1KPk8dzpUmcu/OQiJHgyDIQ8DCu
- i2l35A6MwbX6irsVKddRabw=
-X-Google-Smtp-Source: AGHT+IFin/Yi5SeQj3Hzl9UbgH3czKI4N3wsbZddWUS82YWGr+pe/PBgW49eSU1WszYtgdbvSCtAxA==
-X-Received: by 2002:a05:6870:9d94:b0:1fb:788:e8bd with SMTP id
- pv20-20020a0568709d9400b001fb0788e8bdmr476698oab.56.1702050533620; 
- Fri, 08 Dec 2023 07:48:53 -0800 (PST)
-Received: from localhost.localdomain ([75.28.21.198])
- by smtp.gmail.com with ESMTPSA id
- os25-20020a0568707d1900b001fb28cd0e9asm444624oab.3.2023.12.08.07.48.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Dec 2023 07:48:53 -0800 (PST)
-From: Chris Morgan <macroalpha82@gmail.com>
-To: devicetree@vger.kernel.org
-Subject: [PATCH 3/3] drm/panel: st7701: Add Anbernic RG-ARC Panel Support
-Date: Fri,  8 Dec 2023 09:48:47 -0600
-Message-Id: <20231208154847.130615-4-macroalpha82@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231208154847.130615-1-macroalpha82@gmail.com>
-References: <20231208154847.130615-1-macroalpha82@gmail.com>
+X-Greylist: delayed 438 seconds by postgrey-1.36 at gabe;
+ Fri, 08 Dec 2023 15:56:50 UTC
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A61D410E27E
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 15:56:50 +0000 (UTC)
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1702050569;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=juCIKsOlSX2wDTW1S1v9bUaTdgo42s0VBtiTPZnusxI=;
+ b=Y3Pb+AHg+e/B+KFo6RhPjnjAT9uufkJH/wmuUin/ii/RkL12Xb2LhbwMU/slOoW1zVWfvy
+ 3rtjqclt32IQoZln60DXTVkf9ZEeHYlHN5+ZUMlKpfQOQclzKYWoIgmA7FH2YMR91J15CS
+ MezsCBKRTiV4bTMqtHaAXu3JDO5QIvXFpREpHh0M9nU4cTTuAeug6upCWZxzg+fUpva7ZA
+ GI3z++jXDeIzjQs22W+ERv+BVjRBAktw0cI3t7dVIlV/8oEdeO5vL/723dD9gCzHGBpEJO
+ KGVc128do0lHRtNowz5Gn5UYy5Fv1/xN5obeFLZ97lUUpgDAZNdow5LwZDKSOw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1702050569;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=juCIKsOlSX2wDTW1S1v9bUaTdgo42s0VBtiTPZnusxI=;
+ b=Eu6uS/85eE+nCL+E90qXegkkjbKO7V0Thb4Yh5ee/9SQH4n9uJOPkkfQPemqOnndB/6QWH
+ b2rAtS9HnxV/kkDQ==
+To: Yoshinori Sato <ysato@users.sourceforge.jp>, linux-sh@vger.kernel.org
+Subject: Re: [DO NOT MERGE v5 16/37] irqchip: Add SH7751 INTC driver
+In-Reply-To: <bdf5a5e2fb6de07e739a390665e5109e4165dc3d.1701768028.git.ysato@users.sourceforge.jp>
+References: <cover.1701768028.git.ysato@users.sourceforge.jp>
+ <bdf5a5e2fb6de07e739a390665e5109e4165dc3d.1701768028.git.ysato@users.sourceforge.jp>
+Date: Fri, 08 Dec 2023 16:49:28 +0100
+Message-ID: <874jgssnhz.ffs@tglx>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,185 +55,171 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: marex@denx.de, neil.armstrong@linaro.org, conor+dt@kernel.org,
- sam@ravnborg.org, Chris Morgan <macromorgan@hotmail.com>,
- dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
- jagan@amarulasolutions.com, krzysztof.kozlowski+dt@linaro.org,
- quic_jesszhan@quicinc.com
+Cc: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+ linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
+ Herve Codina <herve.codina@bootlin.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Bin Meng <bmeng@tinylab.org>,
+ Michael Turquette <mturquette@baylibre.com>, linux-pci@vger.kernel.org,
+ Jacky Huang <ychuang3@nuvoton.com>, Palmer Dabbelt <palmer@rivosinc.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Guo Ren <guoren@kernel.org>,
+ Lee Jones <lee@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Hyeonggon Yoo <42.hyeyoo@gmail.com>, Jiri Slaby <jirislaby@kernel.org>,
+ linux-clk@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Jonathan Corbet <corbet@lwn.net>,
+ Helge Deller <deller@gmx.de>, Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-serial@vger.kernel.org,
+ David Rientjes <rientjes@google.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Maxime Ripard <mripard@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ Chris Morgan <macromorgan@hotmail.com>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Bjorn Helgaas <bhelgaas@google.com>, Vlastimil Babka <vbabka@suse.cz>,
+ Sergey Shtylyov <s.shtylyov@omp.ru>, Baoquan He <bhe@redhat.com>,
+ linux-ide@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Biju Das <biju.das.jz@bp.renesas.com>,
+ linux-kernel@vger.kernel.org, Azeem Shaikh <azeemshaikh38@gmail.com>,
+ linux-renesas-soc@vger.kernel.org, Tom Rix <trix@redhat.com>,
+ Damien Le Moal <dlemoal@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>,
+ Andrew Morton <akpm@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chris Morgan <macromorgan@hotmail.com>
+On Tue, Dec 05 2023 at 18:45, Yoshinori Sato wrote:
+> +static void endisable_irq(struct irq_data *data, int enable)
 
-The Powkiddy RG-ARC is a series of 2 handheld devices, each with a 4
-inch 480x640 display. Add support for the display.
+bool enable?
 
-Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
----
- drivers/gpu/drm/panel/panel-sitronix-st7701.c | 136 ++++++++++++++++++
- 1 file changed, 136 insertions(+)
+> +{
+> +	struct sh7751_intc_priv *priv;
+> +	unsigned int irq;
+> +
+> +	priv = irq_data_to_priv(data);
+> +
+> +	irq = irqd_to_hwirq(data);
+> +	if (!is_valid_irq(irq)) {
+> +		/* IRQ out of range */
+> +		pr_warn_once("%s: IRQ %u is out of range\n", __FILE__, irq);
+> +		return;
+> +	}
+> +
+> +	if (irq <= MAX_IRL && !priv->irlm)
+> +		/* IRL encoded external interrupt */
+> +		/* disable for SR.IMASK */
+> +		update_sr_imask(irq - IRQ_START, enable);
+> +	else
+> +		/* Internal peripheral interrupt */
+> +		/* mask for IPR priority 0 */
+> +		update_ipr(priv, irq, enable);
 
-diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7701.c b/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-index 036ac403ed21..421eb4592b61 100644
---- a/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-+++ b/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-@@ -423,6 +423,42 @@ static void kd50t048a_gip_sequence(struct st7701 *st7701)
- 		   0xFF, 0xFF, 0xFF, 0xFF, 0x10, 0x45, 0x67, 0x98, 0xBA);
- }
- 
-+static void rg_arc_gip_sequence(struct st7701 *st7701)
-+{
-+	st7701_switch_cmd_bkx(st7701, true, 3);
-+	ST7701_DSI(st7701, 0xEF, 0x08);
-+	st7701_switch_cmd_bkx(st7701, true, 0);
-+	ST7701_DSI(st7701, 0xC7, 0x04);
-+	ST7701_DSI(st7701, 0xCC, 0x38);
-+	st7701_switch_cmd_bkx(st7701, true, 1);
-+	ST7701_DSI(st7701, 0xB9, 0x10);
-+	ST7701_DSI(st7701, 0xBC, 0x03);
-+	ST7701_DSI(st7701, 0xC0, 0x89);
-+	ST7701_DSI(st7701, 0xE0, 0x00, 0x00, 0x02);
-+	ST7701_DSI(st7701, 0xE1, 0x04, 0x00, 0x00, 0x00, 0x05, 0x00, 0x00,
-+		   0x00, 0x00, 0x20, 0x20);
-+	ST7701_DSI(st7701, 0xE2, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+		   0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
-+	ST7701_DSI(st7701, 0xE3, 0x00, 0x00, 0x33, 0x00);
-+	ST7701_DSI(st7701, 0xE4, 0x22, 0x00);
-+	ST7701_DSI(st7701, 0xE5, 0x04, 0x5C, 0xA0, 0xA0, 0x06, 0x5C, 0xA0,
-+		   0xA0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
-+	ST7701_DSI(st7701, 0xE6, 0x00, 0x00, 0x33, 0x00);
-+	ST7701_DSI(st7701, 0xE7, 0x22, 0x00);
-+	ST7701_DSI(st7701, 0xE8, 0x05, 0x5C, 0xA0, 0xA0, 0x07, 0x5C, 0xA0,
-+		   0xA0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
-+	ST7701_DSI(st7701, 0xEB, 0x02, 0x00, 0x40, 0x40, 0x00, 0x00, 0x00);
-+	ST7701_DSI(st7701, 0xEC, 0x00, 0x00);
-+	ST7701_DSI(st7701, 0xED, 0xFA, 0x45, 0x0B, 0xFF, 0xFF, 0xFF, 0xFF,
-+		   0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xB0, 0x54, 0xAF);
-+	ST7701_DSI(st7701, 0xEF, 0x08, 0x08, 0x08, 0x45, 0x3F, 0x54);
-+	st7701_switch_cmd_bkx(st7701, false, 0);
-+	ST7701_DSI(st7701, MIPI_DCS_SET_ADDRESS_MODE, 0x17);
-+	ST7701_DSI(st7701, MIPI_DCS_SET_PIXEL_FORMAT, 0x77);
-+	ST7701_DSI(st7701, MIPI_DCS_EXIT_SLEEP_MODE, 0x00);
-+	msleep(120);
-+}
-+
- static int st7701_prepare(struct drm_panel *panel)
- {
- 	struct st7701 *st7701 = panel_to_st7701(panel);
-@@ -839,6 +875,105 @@ static const struct st7701_panel_desc kd50t048a_desc = {
- 	.gip_sequence = kd50t048a_gip_sequence,
- };
- 
-+static const struct drm_display_mode rg_arc_mode = {
-+	.clock          = 25600,
-+
-+	.hdisplay	= 480,
-+	.hsync_start	= 480 + 60,
-+	.hsync_end	= 480 + 60 + 42,
-+	.htotal         = 480 + 60 + 42 + 60,
-+
-+	.vdisplay	= 640,
-+	.vsync_start	= 640 + 10,
-+	.vsync_end	= 640 + 10 + 4,
-+	.vtotal         = 640 + 10 + 4 + 16,
-+
-+	.width_mm	= 63,
-+	.height_mm	= 84,
-+
-+	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
-+};
-+
-+static const struct st7701_panel_desc rg_arc_desc = {
-+	.mode = &rg_arc_mode,
-+	.lanes = 2,
-+	.format = MIPI_DSI_FMT_RGB888,
-+	.panel_sleep_delay = 80,
-+
-+	.pv_gamma = {
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0x01) |
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC0_MASK, 0),
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC4_MASK, 0x16),
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC8_MASK, 0x1d),
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC16_MASK, 0x0e),
-+
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC24_MASK, 0x12),
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC52_MASK, 0x06),
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC80_MASK, 0x0c),
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC108_MASK, 0x0a),
-+
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC147_MASK, 0x09),
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC175_MASK, 0x25),
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC203_MASK, 0x00),
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC231_MASK, 0x03),
-+
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC239_MASK, 0x00),
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC247_MASK, 0x3f),
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC251_MASK, 0x3f),
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC255_MASK, 0x1c)
-+	},
-+	.nv_gamma = {
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0x01) |
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC0_MASK, 0),
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC4_MASK, 0x16),
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC8_MASK, 0x1e),
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC16_MASK, 0x0e),
-+
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC24_MASK, 0x11),
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC52_MASK, 0x06),
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC80_MASK, 0x0c),
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC108_MASK, 0x08),
-+
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC147_MASK, 0x09),
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC175_MASK, 0x26),
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC203_MASK, 0x00),
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC231_MASK, 0x15),
-+
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC239_MASK, 0x00),
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC247_MASK, 0x3f),
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC251_MASK, 0x3f),
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-+		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC255_MASK, 0x1c)
-+	},
-+	.nlinv = 0,
-+	.vop_uv = 4500000,
-+	.vcom_uv = 762500,
-+	.vgh_mv = 15000,
-+	.vgl_mv = -9510,
-+	.avdd_mv = 6600,
-+	.avcl_mv = -4400,
-+	.gamma_op_bias = OP_BIAS_MIDDLE,
-+	.input_op_bias = OP_BIAS_MIN,
-+	.output_op_bias = OP_BIAS_MIN,
-+	.t2d_ns = 1600,
-+	.t3d_ns = 10400,
-+	.eot_en = true,
-+	.gip_sequence = rg_arc_gip_sequence,
-+};
-+
- static int st7701_dsi_probe(struct mipi_dsi_device *dsi)
- {
- 	const struct st7701_panel_desc *desc;
-@@ -917,6 +1052,7 @@ static void st7701_dsi_remove(struct mipi_dsi_device *dsi)
- }
- 
- static const struct of_device_id st7701_of_match[] = {
-+	{ .compatible = "anbernic,rg-arc-panel", .data = &rg_arc_desc },
- 	{ .compatible = "densitron,dmt028vghmcmi-1a", .data = &dmt028vghmcmi_1a_desc },
- 	{ .compatible = "elida,kd50t048a", .data = &kd50t048a_desc },
- 	{ .compatible = "techstar,ts8550b", .data = &ts8550b_desc },
--- 
-2.34.1
+Lacks curly brackets on the if/else
 
+> +static int irq_sh7751_map(struct irq_domain *h, unsigned int virq,
+> +			  irq_hw_number_t hw_irq_num)
+> +{
+> +	irq_set_chip_and_handler(virq, &sh7751_irq_chip, handle_level_irq);
+> +	irq_get_irq_data(virq)->chip_data = h->host_data;
+> +	irq_modify_status(virq, IRQ_NOREQUEST, IRQ_NOPROBE);
+> +	return 0;
+> +}
+> +static const struct irq_domain_ops irq_ops = {
+
+Newline before 'static ...'
+
+> +	.map    = irq_sh7751_map,
+> +	.xlate  = irq_domain_xlate_onecell,
+> +};
+> +
+> +static int __init load_ipr_map(struct device_node *intc,
+> +			       struct sh7751_intc_priv *priv)
+> +{
+> +	struct property *ipr_map;
+> +	unsigned int num_ipr, i;
+> +	struct ipr *ipr;
+> +	const __be32 *p;
+> +	u32 irq;
+> +
+> +	ipr_map = of_find_property(intc, "renesas,ipr-map", &num_ipr);
+> +	if (IS_ERR(ipr_map))
+> +		return PTR_ERR(ipr_map);
+> +	num_ipr /= sizeof(u32);
+> +	/* 3words per entry. */
+> +	if (num_ipr % 3)
+
+Three words per ... But you can spare the comment by doing:
+
+        if (num_ipr % WORDS_PER_ENTRY)
+
+> +		goto error1;
+> +	num_ipr /= 3;
+> +static int __init sh7751_intc_of_init(struct device_node *intc,
+> +				      struct device_node *parent)
+> +{
+> +	struct sh7751_intc_priv *priv;
+> +	void __iomem *base, *base2;
+> +	struct irq_domain *domain;
+> +	u16 icr;
+> +	int ret;
+> +
+> +	base = of_iomap(intc, 0);
+> +	base2 = of_iomap(intc, 1);
+> +	if (!base || !base2) {
+> +		pr_err("%pOFP: Invalid register definition\n", intc);
+
+What unmaps 'base' if 'base' is valid and base2 == NULL?
+
+> +		return -EINVAL;
+> +	}
+> +
+> +	priv = kzalloc(sizeof(struct sh7751_intc_priv), GFP_KERNEL);
+> +	if (priv == NULL)
+> +		return -ENOMEM;
+
+Leaks base[2] maps, no?
+
+> +	ret = load_ipr_map(intc, priv);
+> +	if (ret < 0) {
+> +		kfree(priv);
+> +		return ret;
+> +	}
+> +
+> +	priv->base = base;
+> +	priv->intpri00 = base2;
+> +
+> +	if (of_property_read_bool(intc, "renesas,irlm")) {
+> +		priv->irlm = true;
+> +		icr = __raw_readw(priv->base + R_ICR);
+> +		icr |= ICR_IRLM;
+> +		__raw_writew(icr, priv->base + R_ICR);
+> +	}
+> +
+> +	domain = irq_domain_add_linear(intc, NR_IRQS, &irq_ops, priv);
+> +	if (domain == NULL) {
+> +		pr_err("%pOFP: cannot initialize irq domain\n", intc);
+> +		kfree(priv);
+> +		return -ENOMEM;
+> +	}
+> +
+> +	irq_set_default_host(domain);
+> +	pr_info("%pOFP: SH7751 Interrupt controller (%s external IRQ)",
+> +		intc, priv->irlm ? "4 lines" : "15 level");
+> +	return 0;
+> +}
+> +
+> +IRQCHIP_DECLARE(sh_7751_intc,
+> +		"renesas,sh7751-intc", sh7751_intc_of_init);
+
+One line please.
+
+Thanks,
+
+        tglx
