@@ -2,60 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 408E480AE30
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 21:45:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2A8E80AE42
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 21:50:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE70C10EB2C;
-	Fri,  8 Dec 2023 20:45:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D81E910EB31;
+	Fri,  8 Dec 2023 20:50:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com
  [IPv6:2607:f8b0:4864:20::1134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D61D610EB2C
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 20:45:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16F2110EB31
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 20:50:00 +0000 (UTC)
 Received: by mail-yw1-x1134.google.com with SMTP id
- 00721157ae682-5d7b1a8ec90so21226727b3.2
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Dec 2023 12:45:53 -0800 (PST)
+ 00721157ae682-5d3758fdd2eso24802007b3.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Dec 2023 12:50:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1702068353; x=1702673153; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1702068599; x=1702673399; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=R0vKUbaBuRmyEZ773mcKn2p9EzX3Yq0lLGYLN8opfog=;
- b=jamBqcRpWuG8k85l0qF4gE5granmeEmmmUdQzpjHByGjIo81iZnh12sAKNrmw0lcJO
- O38JmhTqvipgZYwdocF6u6ghJy856MMFHcc1Fabl6KvK5T5i0zClnHqLADyTxnFKwvbz
- /hb0hOOCeC98E95qbrYw2XQg00CRNotd13aknR40UY2J4oEHrIGTYdWnELLoCQ9QQXb6
- gNhHjEAG0rbwrq7mbRn05HFp2XqFQTAgp64+4raYzuujUI16TNSG8OoTsixNZxK/4rpU
- w7gDxWzCd+5nzwM+DgoIvYWWR5CuUtID5fpt5ylU2FIvapiEDmuV63i1Af1JWYlNXhn0
- /3OA==
+ bh=6KhpakefNMt7z+9BVAO0Im1k8nsN5/mcfjnb1F4h20w=;
+ b=EYkQ/nI2kvkels9p7Y/l+v11iqzxd/0yLwP8kNlRD1UAMKNds7lu9KQjl7HZVnO3kp
+ iqtxwBFEKPlpoTPahejAJH3bxyI4wde4PCxypwr17vYfGYNRjlv5uVfbIYs9/L/IUycP
+ mU1VYi2SPd1y6VWXa2f0wrF86iRTg71d+N5ZhEtAQD5ePh0UdHw9spb4ntv+A6U1tHKG
+ 0vjGQDRNRnbAnEVAzK7YhQt3QeeLrFvxwKF86h8CC2QTwDz38cAmwv7k0E97Itn2sQpS
+ t9f+lQO7pl2FRevSeJpJVpaUPEEoUpax8KwTPOYCvYCVNQZ4oKSQcbx+y8bHo6uzBhYD
+ Ht2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702068353; x=1702673153;
+ d=1e100.net; s=20230601; t=1702068599; x=1702673399;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=R0vKUbaBuRmyEZ773mcKn2p9EzX3Yq0lLGYLN8opfog=;
- b=DKMalWg2NhZv6zFBvEbro/vzPsxg4TAo5+C+5itL3C1XwDEJ7XbgS8syzmWMb5sIf4
- 0NxJmH9ldjdCpC4yjxkqUF7i5grJ9xK3Kx4fA7WLJbyhMNvSYwza5ufuVlkgms1qZc96
- bcfQ8wNGWFuRILLqtu/KIZw1RRZR3u3Yd73fq5M93jwO4EBWoS72c+PwMNDlU7zPW1i3
- LTsnsDirRtyNPErD4Ftwdmb23p2mlCb+D1V47B59tldV1e5K3rI+qO8dtFehRYqU5YQ2
- a3vodu63c3pDkeWjMAej3akpxDhlOXVeFnGVIQxAiQebbj3E4yVWTnJuIXs4zMMdHQKP
- XWdA==
-X-Gm-Message-State: AOJu0YxlU0y3URMHyvIog0BH9EhH6q3zSi3f2AiyiubXwifvCblRV2j+
- e7hBMWucPzTSJsZ6VU3voBDlkVXWvdx8Pfk+gHVWFw==
-X-Google-Smtp-Source: AGHT+IEIQblZWTzMCWqcghSl3cFYqUecZebO2V/3JbaZH3qcjo1rV4JCU0VusILo05pJOvruajlDCmwxIrxoY0Ic7BY=
-X-Received: by 2002:a81:650a:0:b0:5d6:8d41:669c with SMTP id
- z10-20020a81650a000000b005d68d41669cmr489953ywb.6.1702068352774; Fri, 08 Dec
- 2023 12:45:52 -0800 (PST)
+ bh=6KhpakefNMt7z+9BVAO0Im1k8nsN5/mcfjnb1F4h20w=;
+ b=NcmBkjmID3I2OhqWlZG+vErvn7cjSWcbutsuc4IC71/hns9b6/J2ysYhEvkuVaQNaE
+ cBZwZLzzPFeu0wM95AA0YojIj8hq1xOr3vvGUK88RxVbVmKhrIHRxN+V2sPJZsLlomia
+ KDn1fLnVJP0FA33b4n6zVLu3PGGSUhP8kNNpUuv6yfXvW3XwID1iE1cfzBIALsME99sR
+ Ui2PaNuuqMLERlUEWIBq8dWPvkfgdp17Zs7u2917Cq5X0IljSGV9JxFvtswzc8BIVZU8
+ 0sJj3XDOyDQzKRSG6m1BxWk9TPXe+ivVgEj9A5vNEHVchG5Mv/Eqlh2OoPt9D8k+dgUk
+ /X9A==
+X-Gm-Message-State: AOJu0YxF9YQBExoG1tz8DY6B+YNReHUdvkn0KpJ5uqs4AAtyiwSkSInb
+ ygZVOnWgDi2PL4kxOZDmNSdmLuE0Qz7feNyEKaO42w==
+X-Google-Smtp-Source: AGHT+IGGg8efJmcnYIDxepEIOIyB69HWxV9ew1unXR0R+9LAJuJRCUSt74GHcVKCpdp55Q6uYKwc/yzLP1MU6Z5yhjo=
+X-Received: by 2002:a81:5cc2:0:b0:5d7:1941:3577 with SMTP id
+ q185-20020a815cc2000000b005d719413577mr578647ywb.94.1702068599164; Fri, 08
+ Dec 2023 12:49:59 -0800 (PST)
 MIME-Version: 1.0
 References: <20231208050641.32582-1-quic_abhinavk@quicinc.com>
- <20231208050641.32582-16-quic_abhinavk@quicinc.com>
- <CAA8EJpqfCfETawp1up76S6gryO+Q4KxPB3ThwZCe7DCkp=GkBQ@mail.gmail.com>
- <8eea4a8e-0c70-3768-79f0-1a2bfe083ed7@quicinc.com>
-In-Reply-To: <8eea4a8e-0c70-3768-79f0-1a2bfe083ed7@quicinc.com>
+ <CAA8EJpp_ck5HuXYNAY2xdag2D-XODdOhZjA7XQA8PZs7qds_UQ@mail.gmail.com>
+ <68685494-b45c-9065-19d4-0084eb481352@quicinc.com>
+In-Reply-To: <68685494-b45c-9065-19d4-0084eb481352@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 8 Dec 2023 22:45:41 +0200
-Message-ID: <CAA8EJpoLzgwEYRcSKZUY1W9KUE9s3WR_bzpA3hmf5X9JGDGutA@mail.gmail.com>
-Subject: Re: [PATCH v2 15/16] drm/msm/dpu: introduce separate wb2_format
- arrays for rgb and yuv
+Date: Fri, 8 Dec 2023 22:49:48 +0200
+Message-ID: <CAA8EJpp689K12uqwBYu7EbjG6+MdJbH_ABS0hecz2QoMN-Hxzw@mail.gmail.com>
+Subject: Re: [PATCH v2 00/16] Add CDM support for MSM writeback
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,209 +68,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- quic_parellan@quicinc.com, quic_jesszhan@quicinc.com,
- Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
+Cc: quic_jesszhan@quicinc.com, freedreno@lists.freedesktop.org,
+ quic_parellan@quicinc.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 8 Dec 2023 at 19:53, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> On 12/8/2023 3:44 AM, Dmitry Baryshkov wrote:
-> > On Fri, 8 Dec 2023 at 07:07, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+On Fri, 8 Dec 2023 at 19:40, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+>
+>
+> On 12/8/2023 4:14 AM, Dmitry Baryshkov wrote:
+> > On Fri, 8 Dec 2023 at 07:06, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
 > >>
-> >> Lets rename the existing wb2_formats array wb2_formats_rgb to indicate
-> >> that it has only RGB formats and can be used on any chipset having a WB
-> >> block.
-> >>
-> >> Introduce a new wb2_formats_rgb_yuv array to the catalog to
-> >> indicate support for YUV formats to writeback in addition to RGB.
-> >>
-> >> Chipsets which have support for CDM block will use the newly added
-> >> wb2_formats_rgb_yuv array.
+> >> Chroma Down Sampling (CDM) block is a hardware block in the DPU pipeline
+> >> which among other things has a CSC block that can convert RGB input
+> >> from the DPU to YUV data.
 > >
-> > This means that the catalog can go out of sync, if one adds a CDM
-> > block but doesn't update wb_formats and vice versa.
-> > Can we deduce the format list from the WB code? Is the format list
-> > really static or does it change between platforms (please keep msm8996
-> > / msm8998 in mind).
+> > This block is more or less standard between all hw versions. I do not
+> > expect any faults and/or issues with any of the platforms.
+> >  From what I can see, from the platforms that we do not support, it is
+> > not available only on sm6115/qcs4290, qcm2290 and sm6375. Can we
+> > please enable it for all the other platforms?
 > >
 >
-> Yes this is a valid concern. catalog could potentially go out of sync.
+> Its just a validation criteria. I have only enabled it on devices which
+> I have tested on and do not want to take responsibilty of the bugs
+> reported on untested chipsets.
 >
-> I checked a few chipsets now and the WB formats didnt change among them.
->
-> I do need to check more chipsets but downstream does not maintain this
-> in devicetree which means we can just move these arrays to WB code
-> instead of maintaining them in the catalog.
+> I am open to the approach of publishing a follow-up RFT for the other
+> devices like you did for WB on some of the chipsets.
 
-I think we should be comparing to some of the oldest generations, like
-msm8998/sdm660 or ideally even msm8996/37/17/53.
+Sure, why not. We will be able to test it on most of the high-end platforms.
+Maybe after validating it on the majority of the platforms, we can
+enable it on the rest of the platforms 'by extension'. I mean, unlike
+WB or VIG blocks I don't see drastic changes for CDM.
 
-> We will still need to maintain two arrays. One to be used if CDM block
-> has been added and the other if not.
-
-Yes.
-
-> I must confess one point though. I have not seen any chipset yet where
-> WB block is present but CDM block is not.
-
-I think this was the case for some of mdp5 1.x chips, but according to
-my data this is correct for all the platforms that we want to support.
-
-> So at this point, the only purpose of the two arrays will be till the
-> point where CDM blk has been added to all the required chipsets in the
-> catalog. Then we can drop the RGB only array and maintain the one which
-> has all formats.
 >
 > >>
-> >> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> >> ---
-> >>   .../msm/disp/dpu1/catalog/dpu_10_0_sm8650.h   |  4 +-
-> >>   .../msm/disp/dpu1/catalog/dpu_6_0_sm8250.h    |  4 +-
-> >>   .../msm/disp/dpu1/catalog/dpu_6_2_sc7180.h    |  4 +-
-> >>   .../msm/disp/dpu1/catalog/dpu_7_2_sc7280.h    |  4 +-
-> >>   .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    |  4 +-
-> >>   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 37 ++++++++++++++++++-
-> >>   6 files changed, 46 insertions(+), 11 deletions(-)
+> >> This block can be used with either HDMI, DP or writeback interface.
 > >>
-> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h
-> >> index 04d2a73dd942..eb5dfff2ec4f 100644
-> >> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h
-> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h
-> >> @@ -341,8 +341,8 @@ static const struct dpu_wb_cfg sm8650_wb[] = {
-> >>                  .name = "wb_2", .id = WB_2,
-> >>                  .base = 0x65000, .len = 0x2c8,
-> >>                  .features = WB_SM8250_MASK,
-> >> -               .format_list = wb2_formats,
-> >> -               .num_formats = ARRAY_SIZE(wb2_formats),
-> >> +               .format_list = wb2_formats_rgb,
-> >> +               .num_formats = ARRAY_SIZE(wb2_formats_rgb),
-> >>                  .xin_id = 6,
-> >>                  .vbif_idx = VBIF_RT,
-> >>                  .maxlinewidth = 4096,
-> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
-> >> index 58b0f50518c8..a57d50b1f028 100644
-> >> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
-> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
-> >> @@ -336,8 +336,8 @@ static const struct dpu_wb_cfg sm8250_wb[] = {
-> >>                  .name = "wb_2", .id = WB_2,
-> >>                  .base = 0x65000, .len = 0x2c8,
-> >>                  .features = WB_SM8250_MASK,
-> >> -               .format_list = wb2_formats,
-> >> -               .num_formats = ARRAY_SIZE(wb2_formats),
-> >> +               .format_list = wb2_formats_rgb_yuv,
-> >> +               .num_formats = ARRAY_SIZE(wb2_formats_rgb_yuv),
-> >>                  .clk_ctrl = DPU_CLK_CTRL_WB2,
-> >>                  .xin_id = 6,
-> >>                  .vbif_idx = VBIF_RT,
-> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
-> >> index bcfedfc8251a..7382ebb6e5b2 100644
-> >> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
-> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
-> >> @@ -157,8 +157,8 @@ static const struct dpu_wb_cfg sc7180_wb[] = {
-> >>                  .name = "wb_2", .id = WB_2,
-> >>                  .base = 0x65000, .len = 0x2c8,
-> >>                  .features = WB_SM8250_MASK,
-> >> -               .format_list = wb2_formats,
-> >> -               .num_formats = ARRAY_SIZE(wb2_formats),
-> >> +               .format_list = wb2_formats_rgb,
-> >> +               .num_formats = ARRAY_SIZE(wb2_formats_rgb),
-> >>                  .clk_ctrl = DPU_CLK_CTRL_WB2,
-> >>                  .xin_id = 6,
-> >>                  .vbif_idx = VBIF_RT,
-> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-> >> index 19c2b7454796..2f153e0b5c6a 100644
-> >> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-> >> @@ -169,8 +169,8 @@ static const struct dpu_wb_cfg sc7280_wb[] = {
-> >>                  .name = "wb_2", .id = WB_2,
-> >>                  .base = 0x65000, .len = 0x2c8,
-> >>                  .features = WB_SM8250_MASK,
-> >> -               .format_list = wb2_formats,
-> >> -               .num_formats = ARRAY_SIZE(wb2_formats),
-> >> +               .format_list = wb2_formats_rgb_yuv,
-> >> +               .num_formats = ARRAY_SIZE(wb2_formats_rgb_yuv),
-> >>                  .clk_ctrl = DPU_CLK_CTRL_WB2,
-> >>                  .xin_id = 6,
-> >>                  .vbif_idx = VBIF_RT,
-> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-> >> index bf56265967c0..ad48defa154f 100644
-> >> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-> >> @@ -315,8 +315,8 @@ static const struct dpu_wb_cfg sm8550_wb[] = {
-> >>                  .name = "wb_2", .id = WB_2,
-> >>                  .base = 0x65000, .len = 0x2c8,
-> >>                  .features = WB_SM8250_MASK,
-> >> -               .format_list = wb2_formats,
-> >> -               .num_formats = ARRAY_SIZE(wb2_formats),
-> >> +               .format_list = wb2_formats_rgb,
-> >> +               .num_formats = ARRAY_SIZE(wb2_formats_rgb),
-> >>                  .xin_id = 6,
-> >>                  .vbif_idx = VBIF_RT,
-> >>                  .maxlinewidth = 4096,
-> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> >> index 1be3156cde05..c52cac7a2288 100644
-> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> >> @@ -202,7 +202,7 @@ static const u32 rotation_v2_formats[] = {
-> >>          /* TODO add formats after validation */
-> >>   };
+> >> In this series, lets first add the support for CDM block to be used
+> >> with writeback and then follow-up with support for other interfaces such
+> >> as DP.
 > >>
-> >> -static const uint32_t wb2_formats[] = {
-> >> +static const uint32_t wb2_formats_rgb[] = {
-> >>          DRM_FORMAT_RGB565,
-> >>          DRM_FORMAT_BGR565,
-> >>          DRM_FORMAT_RGB888,
-> >> @@ -236,6 +236,41 @@ static const uint32_t wb2_formats[] = {
-> >>          DRM_FORMAT_XBGR4444,
-> >>   };
+> >> This was validated by adding support to pass custom output format to the
+> >> IGT's kms_writeback test-case, specifically only for the output dump
+> >> test-case [1].
 > >>
-> >> +static const uint32_t wb2_formats_rgb_yuv[] = {
-> >> +       DRM_FORMAT_RGB565,
-> >> +       DRM_FORMAT_BGR565,
-> >> +       DRM_FORMAT_RGB888,
-> >> +       DRM_FORMAT_ARGB8888,
-> >> +       DRM_FORMAT_RGBA8888,
-> >> +       DRM_FORMAT_ABGR8888,
-> >> +       DRM_FORMAT_XRGB8888,
-> >> +       DRM_FORMAT_RGBX8888,
-> >> +       DRM_FORMAT_XBGR8888,
-> >> +       DRM_FORMAT_ARGB1555,
-> >> +       DRM_FORMAT_RGBA5551,
-> >> +       DRM_FORMAT_XRGB1555,
-> >> +       DRM_FORMAT_RGBX5551,
-> >> +       DRM_FORMAT_ARGB4444,
-> >> +       DRM_FORMAT_RGBA4444,
-> >> +       DRM_FORMAT_RGBX4444,
-> >> +       DRM_FORMAT_XRGB4444,
-> >> +       DRM_FORMAT_BGR565,
-> >> +       DRM_FORMAT_BGR888,
-> >> +       DRM_FORMAT_ABGR8888,
-> >> +       DRM_FORMAT_BGRA8888,
-> >> +       DRM_FORMAT_BGRX8888,
-> >> +       DRM_FORMAT_XBGR8888,
-> >> +       DRM_FORMAT_ABGR1555,
-> >> +       DRM_FORMAT_BGRA5551,
-> >> +       DRM_FORMAT_XBGR1555,
-> >> +       DRM_FORMAT_BGRX5551,
-> >> +       DRM_FORMAT_ABGR4444,
-> >> +       DRM_FORMAT_BGRA4444,
-> >> +       DRM_FORMAT_BGRX4444,
-> >> +       DRM_FORMAT_XBGR4444,
-> >> +       DRM_FORMAT_NV12,
-> >> +};
-> >> +
-> >>   /*************************************************************
-> >>    * SSPP sub blocks config
-> >>    *************************************************************/
-> >> --
-> >> 2.40.1
+> >> The usage for this is:
 > >>
-> >
-> >
-
-
+> >> ./kms_writeback -d -f <name of the DRM YUV fmt from igt_fb>
+> >>
+> >> So for NV12, this can be verified with the below command:
+> >>
+> >> ./kms_writeback -d -f NV12
+> >>
+> >> [1] : https://patchwork.freedesktop.org/series/122125/
+> >>
+> >> changes in v2:
+> >>          - rebased on top of current msm-next-lumag
+> >>          - fix commit text of some of the patches
+> >>          - move csc matrices to dpu_hw_util as they span across DPU
+> >>          - move cdm blk define to dpu_hw_catalog as its common across chipsets
+> >>          - remove bit magic in dpu_hw_cdm with relevant defines
+> >>          - use drmm_kzalloc instead of kzalloc/free
+> >>          - protect bind_pingpong_blk with core_rev check
+> >>          - drop setup_csc_data() and setup_cdwn() ops as they
+> >>            are merged into enable()
+> >>          - protect bind_pingpong_blk with core_rev check
+> >>          - drop setup_csc_data() and setup_cdwn() ops as they
+> >>            are merged into enable()
+> >>          - move needs_cdm to topology struct
+> >>          - call update_pending_flush_cdm even when bind_pingpong_blk
+> >>            is not present
+> >>          - drop usage of setup_csc_data() and setup_cdwn() cdm ops
+> >>            as they both have been merged into enable()
+> >>          - drop reduntant hw_cdm and hw_pp checks
+> >>          - drop fb related checks from dpu_encoder::atomic_mode_set()
+> >>          - introduce separate wb2_format arrays for rgb and yuv
+> >>
+> >> Abhinav Kumar (16):
+> >>    drm/msm/dpu: add formats check for writeback encoder
+> >>    drm/msm/dpu: rename dpu_encoder_phys_wb_setup_cdp to match its
+> >>      functionality
+> >>    drm/msm/dpu: fix writeback programming for YUV cases
+> >>    drm/msm/dpu: move csc matrices to dpu_hw_util
+> >>    drm/msm/dpu: add cdm blocks to sc7280 dpu_hw_catalog
+> >>    drm/msm/dpu: add cdm blocks to sm8250 dpu_hw_catalog
+> >>    drm/msm/dpu: add dpu_hw_cdm abstraction for CDM block
+> >>    drm/msm/dpu: add cdm blocks to RM
+> >>    drm/msm/dpu: add support to allocate CDM from RM
+> >>    drm/msm/dpu: add CDM related logic to dpu_hw_ctl layer
+> >>    drm/msm/dpu: add support to disable CDM block during encoder cleanup
+> >>    drm/msm/dpu: add an API to setup the CDM block for writeback
+> >>    drm/msm/dpu: plug-in the cdm related bits to writeback setup
+> >>    drm/msm/dpu: reserve cdm blocks for writeback in case of YUV output
+> >>    drm/msm/dpu: introduce separate wb2_format arrays for rgb and yuv
+> >>    drm/msm/dpu: add cdm blocks to dpu snapshot
+> >>
+> >>   drivers/gpu/drm/msm/Makefile                  |   1 +
+> >>   .../msm/disp/dpu1/catalog/dpu_10_0_sm8650.h   |   4 +-
+> >>   .../msm/disp/dpu1/catalog/dpu_6_0_sm8250.h    |   5 +-
+> >>   .../msm/disp/dpu1/catalog/dpu_6_2_sc7180.h    |   4 +-
+> >>   .../msm/disp/dpu1/catalog/dpu_7_2_sc7280.h    |   5 +-
+> >>   .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    |   4 +-
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   |  37 +++
+> >>   .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  |   5 +
+> >>   .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   | 117 +++++++-
+> >>   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |  47 ++-
+> >>   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  13 +
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.c    | 276 ++++++++++++++++++
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.h    | 114 ++++++++
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c    |  35 +++
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h    |  12 +
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h   |   7 +
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c   |  71 +++++
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h   |   8 +
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c     |   3 +
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   4 +
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |   1 +
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     |  39 +--
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c        |  51 +++-
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h        |   2 +
+> >>   drivers/gpu/drm/msm/msm_drv.h                 |   2 +
+> >>   25 files changed, 815 insertions(+), 52 deletions(-)
+> >>   create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.c
+> >>   create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.h
 
 -- 
 With best wishes
