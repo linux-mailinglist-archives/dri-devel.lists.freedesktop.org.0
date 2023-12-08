@@ -1,49 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D43280A31F
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 13:25:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15D0080A345
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 13:33:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 934A789496;
-	Fri,  8 Dec 2023 12:25:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA92A10E180;
+	Fri,  8 Dec 2023 12:33:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7952F89496
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 12:25:28 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id B59F6CE26E7;
- Fri,  8 Dec 2023 12:25:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75C8CC433C7;
- Fri,  8 Dec 2023 12:25:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1702038325;
- bh=ZcGI/f7wcEjc044HQZR1oz/kp1eYna2+Sq+JPNF/JuE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Huhhxb9tF19l9YVfDWGJkKJScLNTYwy860pNgJ/5HGeSbBAYsgI9plUYk1U7c4sYo
- 1EKsQBHiRRv0v53FowyRU2UzFQm1+Z3f3umPfVhBNkwoecSt7GYAUqYyDfAaPluP0E
- Vu0vrRTntVpEvySRz17nffyYoAetPA5h5CSNYLJeSciVfTURIboV995cA6VhUVW+Kv
- 4s3XrrVyf7ioA2tL1Ny4BC3c/ka5mAYITWMxtsyhcv7HHEaHL90B2IwUGY2PNHFpzR
- lE89CEfMXAMAN9mpNLYrFuQ+2kHao7+RWIl7hOvl9bNgWZSsjQIbMS5u57HqNnmzqm
- ge4v7bmEVkzxA==
-Date: Fri, 8 Dec 2023 13:25:22 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Pekka Paalanen <pekka.paalanen@collabora.com>
-Subject: Re: [PATCH 4/5] drm/atomic: Make the drm_atomic_state documentation
- less ambiguous
-Message-ID: <6m6c7qctjkecsr2duwjjmkk26g6fqgmt7dcywho5kv6wysexzi@o7owf3zvy7gg>
-References: <20231204121707.3647961-1-mripard@kernel.org>
- <20231204121707.3647961-4-mripard@kernel.org>
- <20231205105106.06a34b81.pekka.paalanen@collabora.com>
- <ifwxqdd5rwn33kkxzhwfwbvrsvh53h3cc3un26r5eoluho6e7t@bje7nzxfqvzo>
- <20231208100828.2155d1bd.pekka.paalanen@collabora.com>
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57D6210E180;
+ Fri,  8 Dec 2023 12:33:37 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id
+ 38308e7fff4ca-2c9f85eff28so28906161fa.3; 
+ Fri, 08 Dec 2023 04:33:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1702038815; x=1702643615; darn=lists.freedesktop.org;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=29MfOv2++yAxGSFuNF/LKvYevCLd1LpJ2H0rSF1CR2k=;
+ b=TWF7GCpX6zdzOQAQIiVdnYbKV7bHJN3/31vmRwVNheqt2zX/kpVGphuu2qkyovyGY5
+ Acibl039tlS4momSD3cMWdatAU3Cvbp66RhONENIp0ryJlHJ2p94qa7qkNzCdcZF9RnV
+ 3EOJ8QFPznAKbVC6Br0sILzDBOwEvfZqsLi5IQOmTT9E/WZdJqJ7rDXj6g7ChMdjIZ/P
+ N1QZB8PW6nYEASFHVesjKpmSjA0fnHX7ospkUEliVvKiehHi9qliBMDBBPtdrrv03teQ
+ Pqel43LdJqhIkAH+99y/DjRwHzmU/7H3wK4Fnqy6yOpMuf0y3sJlegi/fWY8WsrNeNDA
+ iRVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1702038815; x=1702643615;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=29MfOv2++yAxGSFuNF/LKvYevCLd1LpJ2H0rSF1CR2k=;
+ b=B44pW/HxsqJzTGGj5dPZS8TIRaQFFGEkofvKOymWqmqn1yNpR+hj9D3N2egD/udeQH
+ VbXhkjT1W/Ej1ifbKO20csrQVGEQIlOCKq/pz5d1HM+IhR/BFi078w3SU3byq2uciO8N
+ HsaHmM9QRVOxXYUwyCh+ovx9nKVsbVqe+KIkygiHJf1kUnsq39uoqy9ZEtDaIQCRo3TN
+ wxPyqI6vpqTC9/YJrdJme12a+btoL4lqM3pPoFvqzkOECl9PhnGEHNnrJE7DiV/8XbKf
+ Hb0OCiqm0y3mdVzMBor3xZjEGgK1M87FsqgegEiKBLjf34L/80f5Pi1aR1vgFkvqbhnU
+ kTPg==
+X-Gm-Message-State: AOJu0Yx526JZtCJqv1sVrngAHvpMtvhKfgMqZpyMScAnzYKv2l+YURlw
+ 8WUcwoXyZyIqCu31BdVjxz4=
+X-Google-Smtp-Source: AGHT+IENS25qla7KVWQVebhERJ5a11PERfk3cGgZgbxZjdEsl+YiG7Vo8N6UtA2WinoAouR4LHaNVQ==
+X-Received: by 2002:a05:651c:237:b0:2cb:20b4:38a1 with SMTP id
+ z23-20020a05651c023700b002cb20b438a1mr612857ljn.64.1702038815027; 
+ Fri, 08 Dec 2023 04:33:35 -0800 (PST)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ s10-20020a2e81ca000000b002c9f8439894sm218222ljg.45.2023.12.08.04.33.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 08 Dec 2023 04:33:34 -0800 (PST)
+Date: Fri, 8 Dec 2023 14:33:30 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Subject: Re: [RFC PATCH v3 17/23] drm/colorop: Introduce
+ DRM_CLIENT_CAP_PLANE_COLOR_PIPELINE
+Message-ID: <20231208143330.30b58da8@eldfell>
+In-Reply-To: <20231108163647.106853-18-harry.wentland@amd.com>
+References: <20231108163647.106853-1-harry.wentland@amd.com>
+ <20231108163647.106853-18-harry.wentland@amd.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="jbkwyoklhxih62to"
-Content-Disposition: inline
-In-Reply-To: <20231208100828.2155d1bd.pekka.paalanen@collabora.com>
+Content-Type: multipart/signed; boundary="Sig_/_L+fHxCz1OS0k8AndUknxOV";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,174 +73,192 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, wayland-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---jbkwyoklhxih62to
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--Sig_/_L+fHxCz1OS0k8AndUknxOV
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 08, 2023 at 10:08:28AM +0200, Pekka Paalanen wrote:
-> On Thu, 7 Dec 2023 15:27:33 +0100
-> Maxime Ripard <mripard@kernel.org> wrote:
->=20
-> > On Tue, Dec 05, 2023 at 10:51:06AM +0200, Pekka Paalanen wrote:
-> > > On Mon,  4 Dec 2023 13:17:06 +0100
-> > > Maxime Ripard <mripard@kernel.org> wrote:
-> > >  =20
-> > > > The current documentation of drm_atomic_state says that it's the "g=
-lobal
-> > > > state object". This is confusing since, while it does contain all t=
-he
-> > > > objects affected by an update and their respective states, if an ob=
-ject
-> > > > isn't affected by this update it won't be part of it.
-> > > >=20
-> > > > Thus, it's not truly a "global state", unlike object state structur=
-es
-> > > > that do contain the entire state of a given object.
-> > > >=20
-> > > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > > > ---
-> > > >  include/drm/drm_atomic.h | 10 +++++++++-
-> > > >  1 file changed, 9 insertions(+), 1 deletion(-)
-> > > >=20
-> > > > diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-> > > > index 914574b58ae7..81ad7369b90d 100644
-> > > > --- a/include/drm/drm_atomic.h
-> > > > +++ b/include/drm/drm_atomic.h
-> > > > @@ -346,11 +346,19 @@ struct __drm_private_objs_state {
-> > > >  };
-> > > > =20
-> > > >  /**
-> > > > - * struct drm_atomic_state - the global state object for atomic up=
-dates
-> > > > + * struct drm_atomic_state - Atomic Update structure
-> > > > + *
-> > > > + * This structure is the kernel counterpart of @drm_mode_atomic an=
-d contains
-> > > > + * all the objects affected by an atomic modeset update and their =
-states. =20
-> > >=20
-> > > Drop "modeset"? An update can be without a modeset. =20
-> >=20
-> > Yeah, good point
-> >=20
-> > > >   *
-> > > >   * States are added to an atomic update by calling drm_atomic_get_=
-crtc_state(),
-> > > >   * drm_atomic_get_plane_state(), drm_atomic_get_connector_state(),=
- or for
-> > > >   * private state structures, drm_atomic_get_private_obj_state().
-> > > > + *
-> > > > + * NOTE: While this structure looks to be global and affecting the=
- whole DRM
-> > > > + * device, it only contains the objects affected by the atomic com=
-mit. =20
-> > >=20
-> > > This new phrasing is much more clear to me than the old one. =20
-> >=20
-> > Great
-> >=20
-> > > > + * Unaffected objects will not be part of that update, unless they=
- have been
-> > > > + * explicitly added by either the framework or the driver. =20
-> > >=20
-> > > If the framework or a driver adds an object, then it's no longer
-> > > unaffected, is it? =20
-> >=20
-> > I guess what I meant to say is that it's affected as a side effect that
-> > the userspace cannot anticipate.
-> >=20
-> > The typical example being that changing a property on a connector would
-> > need to pull the CRTC into the update to disable / enable the CRTC,
-> > encoder and connector.
->=20
-> Right, that's the easy case. This can even be documented and therefore
-> become expected by userspace. The associations between CRTC and
-> connector are published, e.g. the current routing.
->=20
-> What I was thinking of was much more hidden:
->=20
-> Userspace explicitly programs CRTC A and the connector connected to it.
-> None of the mentioned KMS objects in that atomic commit refer to CRTC B
-> in any way, not in old nor in new device state. Still, the driver
-> decides to pull CRTC B in, because it needs to adjust something there
-> (ISTR hearing "watermarks" in some conversation) in order to
-> accommodate changes in CRTC A.
->=20
-> So there are two categories of pulling in extra KMS objects: knowable
-> and unknowable. Or expected and unexpected.
->=20
-> If userspace changes things on a connector connected to CRTC A, you can
-> expect to pull in CRTC A. That's knowable. If the driver unexpectedly
-> also pulls in CRTC B while userspace made absolutely no explicit nor
-> implicit reference to it, that's unknowable.
+On Wed, 8 Nov 2023 11:36:36 -0500
+Harry Wentland <harry.wentland@amd.com> wrote:
 
-> The unknowable/unexpected additions are very hardware and driver
-> specific and not reliably determinable from an atomic commit UAPI
-> structure.
-
-So I had a quick look at all the drivers we have in-tree, and it looks
-to be either a plane or a connector pulling its CRTC in. I guess they
-would all qualify as knowable.
-
-For unknowable, yeah, it's kind of bad, but at the same time you have to
-deal with the hardware you have. Like, for vc4 for example, there's a
-single controller before the CRTCs that deals with the blending, scaling
-and all the other stuff. That controller has a limited number of FIFOs
-and muxes to output the result of the blending to the right CRTC.
-
-So if you commit something on one CRTC, you might very well wait for
-another one to complete because some hidden state (to userspace) is
-shared between the two and you just can't run them in parallel.
-
-So yeah... We should strive to make it as transparent to userspace as
-possible, but I also don't think we can express all the variations we
-support.
-
-> > As far as userspace is concerned, only the connector will be affected,
-> > and only the connector will initially be part of the drm_atomic_state.
-> >=20
-> > But then some part of the atomic_check logic will pull the CRTC into the
-> > update.
+> With the introduction of the pre-blending color pipeline we
+> can no longer have color operations that don't have a clear
+> position in the color pipeline. We deprecate all existing
+> plane properties. For upstream drivers those are:
+>  - COLOR_ENCODING
+>  - COLOR_RANGE
 >=20
-> Is this a rule that happens always? If so, it can be documented to make
-> it expected.
+> Userspace that registers with the
+> DRM_CLIENT_CAP_PLANE_COLOR_PIPELINE will be permitted to set
+> the COLOR_PIPELINE plane property and drm_colorop properties.
+> But it won't be allowed to set COLOR_ENCODING and
+> COLOR_RANGE. Userspace that does not set this client cap
+> will not be permitted to touch the color pipeline.
 >=20
-> > It's still invisible to userspace, so I guess
-> > "unaffected-but-turns-out-to-be-affected" would be the right term :)
-> >=20
-> > Would something like:
-> >=20
-> > Unaffected objects will not be part of the initial update, but might be
-> > added explicitly by either the framework or the driver during
-> > atomic_check.
-> >=20
-> > be better?
+> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> ---
+>  drivers/gpu/drm/drm_atomic_uapi.c | 23 ++++++++++++++++++++++-
+>  drivers/gpu/drm/drm_ioctl.c       |  7 +++++++
+>  include/drm/drm_file.h            |  7 +++++++
+>  include/uapi/drm/drm.h            | 15 +++++++++++++++
+>  4 files changed, 51 insertions(+), 1 deletion(-)
 >=20
-> I'm not comfortable with the use of "unaffected" here. I'd be more in
-> the direction of: More objects can be affected than explicitly
-> mentioned.
+> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atom=
+ic_uapi.c
+> index c6629fdaa114..69c56982e2d0 100644
+> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> @@ -610,10 +610,26 @@ static int drm_atomic_plane_set_property(struct drm=
+_plane *plane,
+>  	} else if (property =3D=3D plane->zpos_property) {
+>  		state->zpos =3D val;
+>  	} else if (property =3D=3D plane->color_encoding_property) {
+> +		if (file_priv->plane_color_pipeline) {
+> +			drm_dbg_atomic(dev,
+> +				       "Setting COLOR_PIPELINE plane property not permitted when DRM=
+_CLIENT_CAP_PLANE_COLOR_PIPELINE is set\n");
+> +			return -EINVAL;
+> +		}
+>  		state->color_encoding =3D val;
+>  	} else if (property =3D=3D plane->color_range_property) {
+> +		if (file_priv->plane_color_pipeline) {
+> +			drm_dbg_atomic(dev,
+> +				       "Setting COLOR_PIPELINE plane property not permitted when DRM=
+_CLIENT_CAP_PLANE_COLOR_PIPELINE is set\n");
+> +			return -EINVAL;
+> +		}
+>  		state->color_range =3D val;
 
-I think Sima's suggestion uses a different phrasing that should be much
-better. Can you check if it works for you?
+The above two cases mention COLOR_PIPELINE when they should probably
+refer to something else.
 
-Maxime
 
---jbkwyoklhxih62to
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks,
+pq
+
+>  	} else if (property =3D=3D plane->color_pipeline_property) {
+> +		if (!file_priv->plane_color_pipeline) {
+> +			drm_dbg_atomic(dev,
+> +				       "Setting COLOR_PIPELINE plane property not permitted unless D=
+RM_CLIENT_CAP_PLANE_COLOR_PIPELINE is set\n");
+> +			return -EINVAL;
+> +		}
+> +
+>  		/* find DRM colorop object */
+>  		struct drm_colorop *colorop =3D NULL;
+>  		colorop =3D drm_colorop_find(dev, file_priv, val);
+> @@ -1158,6 +1174,12 @@ int drm_atomic_set_property(struct drm_atomic_stat=
+e *state,
+>  		break;
+>  	}
+>  	case DRM_MODE_OBJECT_COLOROP: {
+> +		if (!file_priv->plane_color_pipeline) {
+> +			drm_dbg_atomic(prop->dev,
+> +				       "[OBJECT:%d] is a colorop but DRM_CLIENT_CAP_PLANE_COLOR_PIPE=
+LINE not set\n",
+> +				       obj->id);
+> +			ret =3D -EINVAL;
+> +		}
+>  		struct drm_colorop *colorop =3D obj_to_colorop(obj);
+>  		struct drm_colorop_state *colorop_state;
+> =20
+> @@ -1170,7 +1192,6 @@ int drm_atomic_set_property(struct drm_atomic_state=
+ *state,
+>  		ret =3D drm_atomic_colorop_set_property(colorop,
+>  				colorop_state, file_priv,
+>  				prop, prop_value);
+> -
+>  		break;
+>  	}
+>  	default:
+> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+> index 44fda68c28ae..0d869658e13e 100644
+> --- a/drivers/gpu/drm/drm_ioctl.c
+> +++ b/drivers/gpu/drm/drm_ioctl.c
+> @@ -361,6 +361,13 @@ drm_setclientcap(struct drm_device *dev, void *data,=
+ struct drm_file *file_priv)
+>  			return -EINVAL;
+>  		file_priv->writeback_connectors =3D req->value;
+>  		break;
+> +	case DRM_CLIENT_CAP_PLANE_COLOR_PIPELINE:
+> +		if (!file_priv->atomic)
+> +			return -EINVAL;
+> +		if (req->value > 1)
+> +			return -EINVAL;
+> +		file_priv->plane_color_pipeline =3D req->value;
+> +		break;
+>  	default:
+>  		return -EINVAL;
+>  	}
+> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+> index e1b5b4282f75..bf11b646c898 100644
+> --- a/include/drm/drm_file.h
+> +++ b/include/drm/drm_file.h
+> @@ -204,6 +204,13 @@ struct drm_file {
+>  	 */
+>  	bool writeback_connectors;
+> =20
+> +	/**
+> +	 * @plane_color_pipeline:
+> +	 *
+> +	 * True if client understands plane color pipelines
+> +	 */
+> +	bool plane_color_pipeline;
+> +
+>  	/**
+>  	 * @was_master:
+>  	 *
+> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+> index 841d393fb84e..2576b170e8d0 100644
+> --- a/include/uapi/drm/drm.h
+> +++ b/include/uapi/drm/drm.h
+> @@ -842,6 +842,21 @@ struct drm_get_cap {
+>   */
+>  #define DRM_CLIENT_CAP_WRITEBACK_CONNECTORS	5
+> =20
+> +/**
+> + * DRM_CLIENT_CAP_PLANE_COLOR_PIPELINE
+> + *
+> + * If set to 1, the DRM core will
+> + * - expose plane COLOR_PIPELINE properties for pre-blending color manag=
+ement.
+> + * - reject setting of these plane properties:
+> + *   - COLOR_ENCODING
+> + *   - COLOR_RANGE
+> + *
+> + * The client must enable &DRM_CLIENT_CAP_ATOMIC first.
+> + *
+> + * This capability is currently in development.
+> + */
+> +#define DRM_CLIENT_CAP_PLANE_COLOR_PIPELINE	7
+> +
+>  /* DRM_IOCTL_SET_CLIENT_CAP ioctl argument type */
+>  struct drm_set_client_cap {
+>  	__u64 capability;
+
+
+--Sig_/_L+fHxCz1OS0k8AndUknxOV
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZXMLMgAKCRDj7w1vZxhR
-xabyAQDLLvmL/lZpczef28LMEg7uC3JSD/c8NSOe3PX/dDJd1QEAj0mBCmgl/OCt
-Z3aTPGTbQWLggKJOSUS1xt2UUUTvJAU=
-=NVXL
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmVzDRoACgkQI1/ltBGq
+qqfOCQ/9E7dAAd14SduZAGaHkIDdQcApNswELu4RZqTxaOhnULXiRCbvtb6UO57F
+1DqJkIl9FgYZEZ4sfAJX3dNbUg3oJCBmoXfR3NJRmzCrKMUNgV1AsTyiVZBNiAMb
+g66lYLrAr+lwdrzr0rpG9I1smwHUrgqRp1txNUKLKVANr8jAJ4s71bj/4CvkRsue
+qDHNBaDykZgkiqN2TEgLSXO2utTuzdgLzLOB5Qo5PEw27Tzsk9OIqsxUDYbrXfhG
+Gr4Cnd2uoOufVgwXSSqwmuH6kut0J6wqfanUF6wgX9J+nPtWN2NpkJ5D5Z6OcuPm
+AIkSG/p1bNBxXw7jdJcYclnauFQL1GgF2JL9xvoOMNznx7ARFd+efcNoj/rYu65I
+wUPminY1NDqONKoXU0v1jOxVLbmLQSb0ifZM+PDray7qP1xKXU8T2eSy4a/PxKhY
+kiqbVWAA6J8Xbfo7ZXchudY91IV2KtD+ZbFlRUd52GaHIXGQ341IuNKkjKgOE5M0
+L7w+yf4waeciwM/IMUu/JH5/qe7BDzR99WKLtI0LbZQ4GoBl9UgZe+SNXd6ikLeI
+aHpYzN6+meJ0qz9D0elRKkuX6aNdoiLAJpO6/L+XvepUVll1TKSe6wCuQI/H8cy9
+DeBitFbh3krYw3Jv/hbBX3ZNmopzssn+0dTzz7TCWQNhQqn7uAY=
+=oMsk
 -----END PGP SIGNATURE-----
 
---jbkwyoklhxih62to--
+--Sig_/_L+fHxCz1OS0k8AndUknxOV--
