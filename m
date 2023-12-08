@@ -1,64 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85C5180A267
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 12:38:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7242480A269
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 12:40:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6019B10EA87;
-	Fri,  8 Dec 2023 11:38:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 851D310EA90;
+	Fri,  8 Dec 2023 11:40:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
  [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8259C10E04B;
- Fri,  8 Dec 2023 11:38:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15F1710EA90;
+ Fri,  8 Dec 2023 11:40:07 +0000 (UTC)
 Received: by mail-lf1-x12d.google.com with SMTP id
- 2adb3069b0e04-50bdec453c8so2282277e87.3; 
- Fri, 08 Dec 2023 03:38:00 -0800 (PST)
+ 2adb3069b0e04-50bf3efe2cbso2267983e87.2; 
+ Fri, 08 Dec 2023 03:40:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1702035479; x=1702640279; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1702035605; x=1702640405; darn=lists.freedesktop.org;
  h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=LgKqLrmpL8DkbxTP/Gn/pM7bsT40A3uR3Fi4Lycun3Y=;
- b=fnGeYyW6nEdXn3DkO0mioLxKQISnXMHUsex6+slww3YPjdcBvPVWsbjKAYUQ3a2f/R
- svRvWHqKBsiQqiBOV0jKGzKC26FIM8s9Wcv+isMXDihk0Yt2nqPLXEK2NZyp8nla3qOa
- vxRbC2G4562sor3OmrFgI5HHpcC35aklIZtC1z8ol3Q+0qp+En3HNLFvA4EIu5fpljRW
- GJa8MLQEk+F9bRTQoMU2MYHTir8JS/cIug5qzWdUYl9NNTUovFX9Q5KCxwO6D/CotvP5
- lgQJlQQcyAYjYQ32Drh7e49vXF1qCCqYootAQLjKj5+/TM4XYQP3W54zzjDTCsstOPv/
- gQ3Q==
+ bh=CCDIKbcOIEiwLN/BZoakMCa7YJeKfcoN5s4rLy+zy0E=;
+ b=ASYihHrKWxUZTTrm7axLGWko/X1B7kkL2+0KYa5K8xyM8B/44g6fitajLPUmaP+w4c
+ nj0M3mN9fW3DQFm5fTLxY0Lf/6JwSYustO1DJqggrYLzQAudwMv2uV2wWCfUo2U7C+X7
+ EkEhMsQuqLoHOz9RRiko8wnn3xOLjeGKRl4bzQHHVVjMGMxzE2qLeoGDGls5GOQrm2Vh
+ nN+kVINB4UZE2qZd6UGIqVBHVTJ+8Ubf3oAR0VJai6jSDvLKQCL8N8bVuelHQlBynVvc
+ COF4ULrOt7AfoKP4IRB2J051Hb67rAR8unzvtIeXRs/beUzRTiT6LriIA+0D3gX9d84l
+ gISw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702035479; x=1702640279;
+ d=1e100.net; s=20230601; t=1702035605; x=1702640405;
  h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LgKqLrmpL8DkbxTP/Gn/pM7bsT40A3uR3Fi4Lycun3Y=;
- b=LrwZClb1VGzpbQI19+UdiRirKEzivW0bqDFhwf9fXtieq2Hi7pC5e4ibpPO1xGSJIh
- kSRCw3O96v26iGDiWs3Gwg66ZMvquXHkUpjkcdlevhIBSAKjdL2l3Pzd+JPA0yi/tdvA
- 6RcT9+jrTtJQixKb7am3tvesEr4gQ6Q/8wTt5CusPAoCIYLmNIAKakQzUUmMYBDetL5s
- RpK0bphRx74qOZ87IetE/3ieFJJVo893F74LUmkQP9Y0Bh3KrzwaOsw1Mko+E4FRtEHi
- lKccR5YItur7VIRLJI2gJqn3PFZNSUU9Nm5AiOShrA115xQNWT2dRUw+tWNKJffsz/xZ
- OzBg==
-X-Gm-Message-State: AOJu0Yzp8cOxR7c28FELuRrTtkFS6D45IDduzCr2B3I/YPg7zEPDsqtK
- K6V4Zi1oB+JmmAKEWpzQk2E=
-X-Google-Smtp-Source: AGHT+IFddjBE3PbdEukLb1rx5xQ88oFx1tmWQgZSqidsCCxr7OGAY7VNbU9mqZdjF/oqAxFHNWUECg==
-X-Received: by 2002:a05:6512:3a91:b0:50b:d298:2d5b with SMTP id
- q17-20020a0565123a9100b0050bd2982d5bmr2822650lfu.37.1702035478391; 
- Fri, 08 Dec 2023 03:37:58 -0800 (PST)
+ bh=CCDIKbcOIEiwLN/BZoakMCa7YJeKfcoN5s4rLy+zy0E=;
+ b=KFjl4KNdJg4CsDbbMVj0BWIa/0fjGWMy0rgcQ6y2Aq9zwT/iaGVAarEm9pZicOyJEi
+ V+0PEr6l52kLC4HBZ3CjeW1dV+3sNIFiVVbljIwPf0cYmeZqqGvcdmS+y2XZDjzi97O7
+ EmSgYDyQNDYCjQVtTXTJwa+OUj+YlHDOTwMIRHhw/splTnzSgI0Ms4WGGkcyvhNayxRa
+ 63X6rOhvtZZ3pEoEyC5t6Vmt4c6ffKQhOPr7dyQ8ws2QKde7NRl/1vO8a7eVbRC6yEmz
+ 59t7mJmUYzEpm2iz1wNqvIx8yigWjdp8tyxz/yYjbTFuTLLySIl7f6ZMOelUf9YTxp5O
+ zVug==
+X-Gm-Message-State: AOJu0Yx3YRfx5OQpQgH8s2QE+joLRPI4UHkli5J/U9TuPHNyXVUMfva1
+ 8hPuntn6seMgS39DglFNBws=
+X-Google-Smtp-Source: AGHT+IHi6wiZekOvVT30CR3sdQG47kLpl7Z10qlPgBprXeI8J56RE7nNgfIPTO9YSp/vR5hqcSWM+w==
+X-Received: by 2002:a05:6512:3707:b0:50b:e3f6:a3cd with SMTP id
+ z7-20020a056512370700b0050be3f6a3cdmr1138769lfr.17.1702035605020; 
+ Fri, 08 Dec 2023 03:40:05 -0800 (PST)
 Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- u3-20020ac258c3000000b0050c09fc40e0sm189837lfo.243.2023.12.08.03.37.57
+ y1-20020ac24e61000000b0050bff86c497sm193117lfs.23.2023.12.08.03.40.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Dec 2023 03:37:58 -0800 (PST)
-Date: Fri, 8 Dec 2023 13:37:53 +0200
+ Fri, 08 Dec 2023 03:40:04 -0800 (PST)
+Date: Fri, 8 Dec 2023 13:40:01 +0200
 From: Pekka Paalanen <ppaalanen@gmail.com>
 To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [RFC PATCH v3 08/23] drm/colorop: Add TYPE property
-Message-ID: <20231208133753.0f196faa@eldfell>
-In-Reply-To: <20231108163647.106853-9-harry.wentland@amd.com>
+Subject: Re: [RFC PATCH v3 06/23] drm/doc/rfc: Describe why prescriptive
+ color pipeline is needed
+Message-ID: <20231208134001.654d718c@eldfell>
+In-Reply-To: <20231108163647.106853-7-harry.wentland@amd.com>
 References: <20231108163647.106853-1-harry.wentland@amd.com>
- <20231108163647.106853-9-harry.wentland@amd.com>
+ <20231108163647.106853-7-harry.wentland@amd.com>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/=U3V8mw4FSL+LL_lHJlUd.P";
+Content-Type: multipart/signed; boundary="Sig_/iwcLYkGeO5Gq7YCjxDMeBXX";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,135 +77,79 @@ Cc: dri-devel@lists.freedesktop.org, wayland-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/=U3V8mw4FSL+LL_lHJlUd.P
-Content-Type: text/plain; charset=US-ASCII
+--Sig_/iwcLYkGeO5Gq7YCjxDMeBXX
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 8 Nov 2023 11:36:27 -0500
+On Wed, 8 Nov 2023 11:36:25 -0500
 Harry Wentland <harry.wentland@amd.com> wrote:
 
-> Add a read-only TYPE property. The TYPE specifies the colorop
-> type, such as enumerated curve, 1D LUT, CTM, 3D LUT, PWL LUT,
-> etc.
->=20
 > v3:
->  - Make TYPE a range property
->  - Move enum drm_colorop_type to uapi header
->  - Fix drm_get_colorop_type_name description
+>  - Describe DRM_CLIENT_CAP_PLANE_COLOR_PIPELINE (Sebastian)
+>  - Ask for clear documentation of colorop behavior (Sebastian)
 >=20
-> For now we're only introducing an enumerated 1D LUT type to
-> illustrate the concept.
+> v2:
+>  - Update colorop visualizations to match reality (Sebastian, Alex Hung)
+>  - Updated wording (Pekka)
+>  - Change BYPASS wording to make it non-mandatory (Sebastian)
+>  - Drop cover-letter-like paragraph from COLOR_PIPELINE Plane Property
+>    section (Pekka)
+>  - Use PQ EOTF instead of its inverse in Pipeline Programming example (Me=
+lissa)
+>  - Add "Driver Implementer's Guide" section (Pekka)
+>  - Add "Driver Forward/Backward Compatibility" section (Sebastian, Pekka)
 >=20
 > Signed-off-by: Harry Wentland <harry.wentland@amd.com>
 > ---
->  drivers/gpu/drm/drm_atomic.c      |  4 +--
->  drivers/gpu/drm/drm_atomic_uapi.c |  8 +++++-
->  drivers/gpu/drm/drm_colorop.c     | 43 ++++++++++++++++++++++++++++++-
->  include/drm/drm_colorop.h         | 17 +++++++++++-
->  include/uapi/drm/drm_mode.h       |  4 +++
->  5 files changed, 71 insertions(+), 5 deletions(-)
+>  Documentation/gpu/rfc/color_pipeline.rst | 352 +++++++++++++++++++++++
+>  1 file changed, 352 insertions(+)
+>  create mode 100644 Documentation/gpu/rfc/color_pipeline.rst
 >=20
+> diff --git a/Documentation/gpu/rfc/color_pipeline.rst b/Documentation/gpu=
+/rfc/color_pipeline.rst
+> new file mode 100644
+> index 000000000000..efc70570a592
+> --- /dev/null
+> +++ b/Documentation/gpu/rfc/color_pipeline.rst
 
 ...
 
->  static int drm_atomic_set_writeback_fb_for_connector(
-> diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
-> index a295ab96aee1..902b13e300fd 100644
-> --- a/drivers/gpu/drm/drm_colorop.c
-> +++ b/drivers/gpu/drm/drm_colorop.c
-> @@ -32,12 +32,17 @@
-> =20
->  /* TODO big colorop doc, including properties, etc. */
-> =20
-> +static const struct drm_prop_enum_list drm_colorop_type_enum_list[] =3D {
-> +	{ DRM_COLOROP_1D_CURVE, "1D Curve" },
-> +};
+> +An example of a drm_colorop object might look like one of these::
 > +
->  /* Init Helpers */
-> =20
->  int drm_colorop_init(struct drm_device *dev, struct drm_colorop *colorop,
-> -		     struct drm_plane *plane)
-> +		     struct drm_plane *plane, enum drm_colorop_type type)
->  {
->  	struct drm_mode_config *config =3D &dev->mode_config;
-> +	struct drm_property *prop;
->  	int ret =3D 0;
-> =20
->  	ret =3D drm_mode_object_add(dev, &colorop->base, DRM_MODE_OBJECT_COLORO=
-P);
-> @@ -46,12 +51,28 @@ int drm_colorop_init(struct drm_device *dev, struct d=
-rm_colorop *colorop,
-> =20
->  	colorop->base.properties =3D &colorop->properties;
->  	colorop->dev =3D dev;
-> +	colorop->type =3D type;
->  	colorop->plane =3D plane;
-> =20
->  	list_add_tail(&colorop->head, &config->colorop_list);
->  	colorop->index =3D config->num_colorop++;
-> =20
->  	/* add properties */
-> +
-> +	/* type */
-> +	prop =3D drm_property_create_range(dev,
-> +					DRM_MODE_PROP_IMMUTABLE,
-> +					"TYPE", type, type);
+> +    /* 1D enumerated curve */
+> +    Color operation 42
+> +    =E2=94=9C=E2=94=80 "TYPE": immutable enum {1D enumerated curve, 1D L=
+UT, 3x3 matrix, 3x4 matrix, 3D LUT, etc.} =3D 1D enumerated curve
+> +    =E2=94=9C=E2=94=80 "BYPASS": bool {true, false}
+> +    =E2=94=9C=E2=94=80 "CURVE_1D_TYPE": enum {sRGB EOTF, sRGB inverse EO=
+TF, PQ EOTF, PQ inverse EOTF, =E2=80=A6}
+> +    =E2=94=94=E2=94=80 "NEXT": immutable color operation ID =3D 43
 
-Why was this made a range property?
-
-My review comment for the doc patch is wrong, the doc should mention
-enum drm_colorop_type.
-
-> +
-> +	if (!prop)
-> +		return -ENOMEM;
-> +
-> +	colorop->type_property =3D prop;
-> +
-> +	drm_object_attach_property(&colorop->base,
-> +				   colorop->type_property,
-> +				   colorop->type);
-> +
->  	return ret;
->  }
-
-...
-
-> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-> index 4e3251ff894a..0ebf0f480dc8 100644
-> --- a/include/uapi/drm/drm_mode.h
-> +++ b/include/uapi/drm/drm_mode.h
-> @@ -858,6 +858,10 @@ struct drm_color_lut {
->  	__u16 reserved;
->  };
-> =20
-> +enum drm_colorop_type {
-> +	DRM_COLOROP_1D_CURVE
-> +};
+If TYPE is a range, then all examples like this need fixing.
 
 
 Thanks,
 pq
 
---Sig_/=U3V8mw4FSL+LL_lHJlUd.P
+--Sig_/iwcLYkGeO5Gq7YCjxDMeBXX
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmVzABEACgkQI1/ltBGq
-qqerWA//VcNUtF0PMdlS+P8CaFcZqWv6iuIgXF+r5pCMaQPg9oMMRvqxtH8gKJWf
-zz3erDfK1wq9oowlPSFIsW547nt5bjI4YiiCLm9ygR+ZnY9iDDJh0yclSIJNDHAQ
-3mW91xHyrEMlpMbgTpk7vyBsqINshW/Y7oiD/ZAILMObg9SGkRrn4kqqZKtDqUeT
-JaNh+eS09zn8h+uYe8IZERlCk7X6q94UPHbpLnbE9DhbfsT6S9qt2TvdHSF0cETa
-WfIpmqaEIkf3gtlhCP+7g0eRZKDljByF+Sa24TZG3Rw+QuvpFug7MQSoZU4zxoGm
-JoPTpPLNDhk6XUm8Xc8je1vNVmgUdHo/7xGWrTaFyyDc9vKFiHEjW5tX1OrtccV6
-RWKDYHWwfslaL7WHPws6BN0+Wk+sQDGezJ5uVbrcgceoGpkV++wduYKqWvWf4vQm
-PnSGZMy4COo+9Mi+66PNewd8Zr4AHBFwlgR3kGNuAjzVbn8FrcHw2HhDnhKy/noC
-xUofbXqkA/nIx5xAq5kFCR2WI8P+X5BwZMBRxMFsXaTZ1stuDlk8oGPtlsCGrUYS
-6suKg74VcgYrP5CKMC/08dDMJKYaiIqMtsU0H9c4BVvQvoCW2NR7k2b9t2Fm3kPZ
-1q+gJ5hD7kOU3j9Z+cF4bA5NjJsEjvo+paQWPS824PA2JpqUbW4=
-=r8oR
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmVzAJEACgkQI1/ltBGq
+qqdsrxAAstqcUhxgoDqCx6oEAJoOo/rZD9SdjRPrM/rKjZtBnew6m7IV4sTAO8Cm
+6svqPW3lEt+NCCnY5UMooJhGMVLpnhOuluXYfc4xK765eEo4BKAxTxGrhTXIMjuc
+VGc4PqS1U4niPcC214U5xq+LWSDk7NwKvTkA70FST8fbOPFoUlcZgGiJiCimJ1RX
+eMAk7ykNmagvkxYJ9Bd4nzClpXd1f/bToosezevmeLlFl4nVd1OSbFnKRF10gl+l
+2wmDgvt69jfh5GYxrw5ltoZjJdoezSYhJYqss5OMH6mnLneF0Jz6loVEYPXuoFlz
+K1YEQvp9BISIUO6GPDpod6fu5QgFT32rVNQar1AZPKYQkm9nuLcw0W35G64nnLAA
+mzJI1z5Bapzyud3z0nu3ZyuArcRoihdoPBQ+2vUwdw0AjpHaqNpkAwKObl44S5wE
+7C0wUypo/AcCAv8QnP0pVOfsZhwBk0r+5gNnihgdoLFAjQQpn8KEKIspiugDy9G5
+gIB6fkJ0b9zM2w+Xo2crxUUEfF4e3edQZYD3CL/ci6DtBbHIwwMkG28n7ub49QOj
+fw6/xjK3TrMEYWQ+6HWyzyD5CXQfbwT9Iy8XEmYUP04os7jeeIeFKyrZ84drtjLW
+zwR2lkPmddrW0VABNegi8vV5z0g70+YJc529eQvsfeiCKbPq6+8=
+=Ckpo
 -----END PGP SIGNATURE-----
 
---Sig_/=U3V8mw4FSL+LL_lHJlUd.P--
+--Sig_/iwcLYkGeO5Gq7YCjxDMeBXX--
