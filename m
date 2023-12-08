@@ -2,60 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9626080A27C
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 12:44:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1851D80A27F
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 12:44:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAEE210E18F;
-	Fri,  8 Dec 2023 11:44:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0910F10E278;
+	Fri,  8 Dec 2023 11:44:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com
- [IPv6:2607:f8b0:4864:20::b2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC79610E150
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 11:44:29 +0000 (UTC)
-Received: by mail-yb1-xb2c.google.com with SMTP id
- 3f1490d57ef6-db549f869a3so2282768276.1
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Dec 2023 03:44:29 -0800 (PST)
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
+ [IPv6:2a00:1450:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C10610E275;
+ Fri,  8 Dec 2023 11:44:51 +0000 (UTC)
+Received: by mail-lj1-x22c.google.com with SMTP id
+ 38308e7fff4ca-2cb20b965dbso8671221fa.1; 
+ Fri, 08 Dec 2023 03:44:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1702035869; x=1702640669; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=XustoibYb7jZ112VBHJcFTHqwrwSxZE4Gta6N7Rgvsk=;
- b=Z5ExkkLciDyiuwXYRxOYFYox72okh9LZRJ0kyRWtv3WftzR3Z8JWDvwLih4wFbI2hR
- DA9IEFnAvD23l93SuiLTTrkPW5NhyQCzM2RlTQL+53OAkq1nJPYlcPYETh7u9LA05W5i
- qtahCFbeM9r8ZuOYCvP+SwAtbVQ3XiWtJ2z8ZN3avv1UEG0HT1pGzAVO2T7EDGt0iVOc
- WJ/0lpI2PN+Jhea/m4gMwkyFhZ0V9X6CJV08sXblg8YXdfa46V/rz+San3gTQIOKrETc
- GZt+J8tGe36Qh3stOUOEQRxHaMmOB33CGb2lcwqLuguy7215qwnrGPdPuJGLcGTspIbz
- 9DvA==
+ d=gmail.com; s=20230601; t=1702035890; x=1702640690; darn=lists.freedesktop.org;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=84AQRl0IH6Nw4VunHVxTTXfmzWVVV/53BGZ6iHHbBZk=;
+ b=VcYMDFLylKIL1HqfTaHbAUH21utSbowYZ0DYSNa2W27rHSsDbCIcNznJy8vBsWmdW+
+ +2UCiZjbvcuY9t4ho8MeSspF+xWCWStsZ8X1dAxM+jbYOvvNaSQIrVW8LQN5fQttzPtv
+ BxPajP2ELuqzT9OpezQKo+Q+NOYBtioxxky0RKe54wOAf9N8PQZCBjoNOfJjSpMlpgb7
+ tHnkOKA3umEk3MzAokHmx+6sHjtj7BQcxQPDGA50UsniLqxNjYyBHepQIFjg1omO63tk
+ n6+XZcnTHKwwFZ7+LzvNs2zLwxXz8qaj7CgkQPnZ25bcPh+lqPSwFDK8wm6Ih/uDsodX
+ BEAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702035869; x=1702640669;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=XustoibYb7jZ112VBHJcFTHqwrwSxZE4Gta6N7Rgvsk=;
- b=m8d3+fQTgFItmPP1whTZYqjXeDN5/vSlBscg8ElUHMrf4XB9H7K6XzuTpVqOB5UIzM
- 6kZs6Tor+t3XWb1/lgXBIbR8aQofH/dVgR4NGQCFD1Pt74RdWWrXFtteZh3pI3euj6yK
- 14fANnXJNAGGEWysl1BboIZe4PEfVuL8oogIopU/YaOYUetCOOrdDX2lZWjA7rGvi8G+
- uI45yC636Jb9eQ8jFaPOOJPBwxtPs8Xpnhf3uabX8B3G/M485HTf4B3oL8esMxanEPzr
- eSY/xGuAApSaeDN4K8lPKg4RHvV4PqxpdlemYs+iSDmEB0af9M96DrM9AU9cwcs1f+EM
- TDqw==
-X-Gm-Message-State: AOJu0YxOlX8Se4+C1Qot7yAJfhDTnJCrwtRLdBApku48pEHS5XWm2JjG
- JDnJtePsd/9JN4VpwQFQ0oo5VBqs+RkPmedGHmrccQ==
-X-Google-Smtp-Source: AGHT+IE6ALLhH1k654jYWCbrlhD/X7i139Ly4BPDxq1XcXtit7oJT0kaLgyma1vwYX6I18i9zNeuXYotNU4PMVF46Mk=
-X-Received: by 2002:a25:ae41:0:b0:db5:3f82:8d1f with SMTP id
- g1-20020a25ae41000000b00db53f828d1fmr3671315ybe.36.1702035868831; Fri, 08 Dec
- 2023 03:44:28 -0800 (PST)
+ d=1e100.net; s=20230601; t=1702035890; x=1702640690;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=84AQRl0IH6Nw4VunHVxTTXfmzWVVV/53BGZ6iHHbBZk=;
+ b=fbF1P1Pk3D3/M6IjD8YSNTI74JDI4cyWMHvO8ODEw+5UJEz4dF9lhTGM+z3wCVN+U0
+ z9mgQsBIFpHQfLz8Jpfhc11kMrktUmbR5+9mLqY6DqJ203uOv8UuGW6+KShAd6PqrtCp
+ ZV6w/C1aGfh0fyl9VGXQFk5zzUBMdjZtG3hiS76VwDFJHViHMn2ViC1ogMH14MCse/kD
+ d3bD5WNQAZoZTZfgoQk7g4sscFKx2QQl4Sa20qVlkYtDTgeT8SIhhjQgSmkF9I27TPMN
+ ihd+Yt2O+pspvbLGJzkgFUv2jzutcnZrRmxGbdD0TDvYqFzKTKV5I4E9DLksNpY+KdeA
+ ho+g==
+X-Gm-Message-State: AOJu0YyJn36u8nK5qLovP++qyUEEg9eueKZY4SD3a4PzAV2r+N0FMgzE
+ bGWevUCMUfIYnrxUZNZnew8=
+X-Google-Smtp-Source: AGHT+IHRJWThw3HQEhbkobkGZh2/LAf1fyVN8P4HwlnevAwS9aN0twp2pjWQvH1Lyuf3WB9gYdc+Rg==
+X-Received: by 2002:a2e:9d94:0:b0:2c9:fda2:9ffc with SMTP id
+ c20-20020a2e9d94000000b002c9fda29ffcmr1185872ljj.36.1702035889469; 
+ Fri, 08 Dec 2023 03:44:49 -0800 (PST)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ a13-20020a2e980d000000b002c9e7ce85ccsm196894ljj.104.2023.12.08.03.44.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 08 Dec 2023 03:44:49 -0800 (PST)
+Date: Fri, 8 Dec 2023 13:44:45 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Subject: Re: [RFC PATCH v3 09/23] drm/color: Add 1D Curve subtype
+Message-ID: <20231208134445.761ec4a5@eldfell>
+In-Reply-To: <20231108163647.106853-10-harry.wentland@amd.com>
+References: <20231108163647.106853-1-harry.wentland@amd.com>
+ <20231108163647.106853-10-harry.wentland@amd.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20231208050641.32582-1-quic_abhinavk@quicinc.com>
- <20231208050641.32582-16-quic_abhinavk@quicinc.com>
-In-Reply-To: <20231208050641.32582-16-quic_abhinavk@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 8 Dec 2023 13:44:18 +0200
-Message-ID: <CAA8EJpqfCfETawp1up76S6gryO+Q4KxPB3ThwZCe7DCkp=GkBQ@mail.gmail.com>
-Subject: Re: [PATCH v2 15/16] drm/msm/dpu: introduce separate wb2_format
- arrays for rgb and yuv
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="Sig_/kXI7wH566YB=CveBld9hXbx";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,177 +72,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- quic_parellan@quicinc.com, quic_jesszhan@quicinc.com,
- Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
+Cc: dri-devel@lists.freedesktop.org, wayland-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 8 Dec 2023 at 07:07, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
-> Lets rename the existing wb2_formats array wb2_formats_rgb to indicate
-> that it has only RGB formats and can be used on any chipset having a WB
-> block.
->
-> Introduce a new wb2_formats_rgb_yuv array to the catalog to
-> indicate support for YUV formats to writeback in addition to RGB.
->
-> Chipsets which have support for CDM block will use the newly added
-> wb2_formats_rgb_yuv array.
+--Sig_/kXI7wH566YB=CveBld9hXbx
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-This means that the catalog can go out of sync, if one adds a CDM
-block but doesn't update wb_formats and vice versa.
-Can we deduce the format list from the WB code? Is the format list
-really static or does it change between platforms (please keep msm8996
-/ msm8998 in mind).
+On Wed, 8 Nov 2023 11:36:28 -0500
+Harry Wentland <harry.wentland@amd.com> wrote:
 
->
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
 > ---
->  .../msm/disp/dpu1/catalog/dpu_10_0_sm8650.h   |  4 +-
->  .../msm/disp/dpu1/catalog/dpu_6_0_sm8250.h    |  4 +-
->  .../msm/disp/dpu1/catalog/dpu_6_2_sc7180.h    |  4 +-
->  .../msm/disp/dpu1/catalog/dpu_7_2_sc7280.h    |  4 +-
->  .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    |  4 +-
->  .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 37 ++++++++++++++++++-
->  6 files changed, 46 insertions(+), 11 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h
-> index 04d2a73dd942..eb5dfff2ec4f 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h
-> @@ -341,8 +341,8 @@ static const struct dpu_wb_cfg sm8650_wb[] = {
->                 .name = "wb_2", .id = WB_2,
->                 .base = 0x65000, .len = 0x2c8,
->                 .features = WB_SM8250_MASK,
-> -               .format_list = wb2_formats,
-> -               .num_formats = ARRAY_SIZE(wb2_formats),
-> +               .format_list = wb2_formats_rgb,
-> +               .num_formats = ARRAY_SIZE(wb2_formats_rgb),
->                 .xin_id = 6,
->                 .vbif_idx = VBIF_RT,
->                 .maxlinewidth = 4096,
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
-> index 58b0f50518c8..a57d50b1f028 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
-> @@ -336,8 +336,8 @@ static const struct dpu_wb_cfg sm8250_wb[] = {
->                 .name = "wb_2", .id = WB_2,
->                 .base = 0x65000, .len = 0x2c8,
->                 .features = WB_SM8250_MASK,
-> -               .format_list = wb2_formats,
-> -               .num_formats = ARRAY_SIZE(wb2_formats),
-> +               .format_list = wb2_formats_rgb_yuv,
-> +               .num_formats = ARRAY_SIZE(wb2_formats_rgb_yuv),
->                 .clk_ctrl = DPU_CLK_CTRL_WB2,
->                 .xin_id = 6,
->                 .vbif_idx = VBIF_RT,
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
-> index bcfedfc8251a..7382ebb6e5b2 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
-> @@ -157,8 +157,8 @@ static const struct dpu_wb_cfg sc7180_wb[] = {
->                 .name = "wb_2", .id = WB_2,
->                 .base = 0x65000, .len = 0x2c8,
->                 .features = WB_SM8250_MASK,
-> -               .format_list = wb2_formats,
-> -               .num_formats = ARRAY_SIZE(wb2_formats),
-> +               .format_list = wb2_formats_rgb,
-> +               .num_formats = ARRAY_SIZE(wb2_formats_rgb),
->                 .clk_ctrl = DPU_CLK_CTRL_WB2,
->                 .xin_id = 6,
->                 .vbif_idx = VBIF_RT,
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-> index 19c2b7454796..2f153e0b5c6a 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-> @@ -169,8 +169,8 @@ static const struct dpu_wb_cfg sc7280_wb[] = {
->                 .name = "wb_2", .id = WB_2,
->                 .base = 0x65000, .len = 0x2c8,
->                 .features = WB_SM8250_MASK,
-> -               .format_list = wb2_formats,
-> -               .num_formats = ARRAY_SIZE(wb2_formats),
-> +               .format_list = wb2_formats_rgb_yuv,
-> +               .num_formats = ARRAY_SIZE(wb2_formats_rgb_yuv),
->                 .clk_ctrl = DPU_CLK_CTRL_WB2,
->                 .xin_id = 6,
->                 .vbif_idx = VBIF_RT,
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-> index bf56265967c0..ad48defa154f 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-> @@ -315,8 +315,8 @@ static const struct dpu_wb_cfg sm8550_wb[] = {
->                 .name = "wb_2", .id = WB_2,
->                 .base = 0x65000, .len = 0x2c8,
->                 .features = WB_SM8250_MASK,
-> -               .format_list = wb2_formats,
-> -               .num_formats = ARRAY_SIZE(wb2_formats),
-> +               .format_list = wb2_formats_rgb,
-> +               .num_formats = ARRAY_SIZE(wb2_formats_rgb),
->                 .xin_id = 6,
->                 .vbif_idx = VBIF_RT,
->                 .maxlinewidth = 4096,
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> index 1be3156cde05..c52cac7a2288 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> @@ -202,7 +202,7 @@ static const u32 rotation_v2_formats[] = {
->         /* TODO add formats after validation */
+>  drivers/gpu/drm/drm_atomic_uapi.c | 18 ++++++++++----
+>  drivers/gpu/drm/drm_colorop.c     | 39 +++++++++++++++++++++++++++++++
+>  include/drm/drm_colorop.h         | 20 ++++++++++++++++
+>  3 files changed, 72 insertions(+), 5 deletions(-)
+>=20
+
+...
+
+> diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
+> index 902b13e300fd..b1c271f90a16 100644
+> --- a/drivers/gpu/drm/drm_colorop.c
+> +++ b/drivers/gpu/drm/drm_colorop.c
+> @@ -36,6 +36,11 @@ static const struct drm_prop_enum_list drm_colorop_typ=
+e_enum_list[] =3D {
+>  	{ DRM_COLOROP_1D_CURVE, "1D Curve" },
 >  };
->
-> -static const uint32_t wb2_formats[] = {
-> +static const uint32_t wb2_formats_rgb[] = {
->         DRM_FORMAT_RGB565,
->         DRM_FORMAT_BGR565,
->         DRM_FORMAT_RGB888,
-> @@ -236,6 +236,41 @@ static const uint32_t wb2_formats[] = {
->         DRM_FORMAT_XBGR4444,
->  };
->
-> +static const uint32_t wb2_formats_rgb_yuv[] = {
-> +       DRM_FORMAT_RGB565,
-> +       DRM_FORMAT_BGR565,
-> +       DRM_FORMAT_RGB888,
-> +       DRM_FORMAT_ARGB8888,
-> +       DRM_FORMAT_RGBA8888,
-> +       DRM_FORMAT_ABGR8888,
-> +       DRM_FORMAT_XRGB8888,
-> +       DRM_FORMAT_RGBX8888,
-> +       DRM_FORMAT_XBGR8888,
-> +       DRM_FORMAT_ARGB1555,
-> +       DRM_FORMAT_RGBA5551,
-> +       DRM_FORMAT_XRGB1555,
-> +       DRM_FORMAT_RGBX5551,
-> +       DRM_FORMAT_ARGB4444,
-> +       DRM_FORMAT_RGBA4444,
-> +       DRM_FORMAT_RGBX4444,
-> +       DRM_FORMAT_XRGB4444,
-> +       DRM_FORMAT_BGR565,
-> +       DRM_FORMAT_BGR888,
-> +       DRM_FORMAT_ABGR8888,
-> +       DRM_FORMAT_BGRA8888,
-> +       DRM_FORMAT_BGRX8888,
-> +       DRM_FORMAT_XBGR8888,
-> +       DRM_FORMAT_ABGR1555,
-> +       DRM_FORMAT_BGRA5551,
-> +       DRM_FORMAT_XBGR1555,
-> +       DRM_FORMAT_BGRX5551,
-> +       DRM_FORMAT_ABGR4444,
-> +       DRM_FORMAT_BGRA4444,
-> +       DRM_FORMAT_BGRX4444,
-> +       DRM_FORMAT_XBGR4444,
-> +       DRM_FORMAT_NV12,
+> =20
+> +static const struct drm_prop_enum_list drm_colorop_curve_1d_type_enum_li=
+st[] =3D {
+> +	{ DRM_COLOROP_1D_CURVE_SRGB_EOTF, "sRGB EOTF" },
+> +	{ DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF, "sRGB Inverse EOTF" },
 > +};
 > +
->  /*************************************************************
->   * SSPP sub blocks config
->   *************************************************************/
-> --
-> 2.40.1
->
+>  /* Init Helpers */
+> =20
+>  int drm_colorop_init(struct drm_device *dev, struct drm_colorop *colorop,
+> @@ -73,6 +78,20 @@ int drm_colorop_init(struct drm_device *dev, struct dr=
+m_colorop *colorop,
+>  				   colorop->type_property,
+>  				   colorop->type);
+> =20
+> +	/* curve_1d_type */
+> +	/* TODO move to mode_config? */
+> +	prop =3D drm_property_create_enum(dev, DRM_MODE_PROP_ATOMIC,
+> +					"CURVE_1D_TYPE",
+> +					drm_colorop_curve_1d_type_enum_list,
+> +					ARRAY_SIZE(drm_colorop_curve_1d_type_enum_list));
+> +	if (!prop)
+> +		return -ENOMEM;
+> +
+> +	colorop->curve_1d_type_property =3D prop;
+> +	drm_object_attach_property(&colorop->base,
+> +				   colorop->curve_1d_type_property,
+> +				   0);
+> +
+>  	return ret;
+>  }
+>  EXPORT_SYMBOL(drm_colorop_init);
+> @@ -177,6 +196,11 @@ static const char * const colorop_type_name[] =3D {
+>  	[DRM_COLOROP_1D_CURVE] =3D "1D Curve",
+>  };
+> =20
+> +static const char * const colorop_curve_1d_type_name[] =3D {
+> +	[DRM_COLOROP_1D_CURVE_SRGB_EOTF] =3D "sRGB EOTF",
+> +	[DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF] =3D "sRGB Inverse EOTF",
+> +};
+
+Can't you use drm_colorop_curve_1d_type_enum_list to avoid duplicating the =
+same?
 
 
--- 
-With best wishes
-Dmitry
+> +
+>  /**
+>   * drm_get_colorop_type_name - return a string for colorop type
+>   * @type: colorop type to compute name of
+> @@ -191,3 +215,18 @@ const char *drm_get_colorop_type_name(enum drm_color=
+op_type type)
+> =20
+>  	return colorop_type_name[type];
+>  }
+> +
+> +/**
+> + * drm_get_colorop_curve_1d_type_name - return a string for 1D curve type
+> + * @range: 1d curve type to compute name of
+> + *
+> + * In contrast to the other drm_get_*_name functions this one here retur=
+ns a
+> + * const pointer and hence is threadsafe.
+> + */
+> +const char *drm_get_colorop_curve_1d_type_name(enum drm_colorop_curve_1d=
+_type type)
+> +{
+> +	if (WARN_ON(type >=3D ARRAY_SIZE(colorop_curve_1d_type_name)))
+> +		return "unknown";
+> +
+> +	return colorop_curve_1d_type_name[type];
+> +}
+> diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
+> index 0386440afe40..965db7ec488f 100644
+> --- a/include/drm/drm_colorop.h
+> +++ b/include/drm/drm_colorop.h
+> @@ -30,6 +30,11 @@
+>  #include <drm/drm_mode.h>
+>  #include <drm/drm_property.h>
+> =20
+> +enum drm_colorop_curve_1d_type {
+> +	DRM_COLOROP_1D_CURVE_SRGB_EOTF,
+> +	DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF
+> +};
+
+...
+
+
+Thanks,
+pq
+
+--Sig_/kXI7wH566YB=CveBld9hXbx
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmVzAa0ACgkQI1/ltBGq
+qqf1TxAAlu8tDWgGMvcEigR+cc8zW6FlJ/ouiqFL+ht5ABsfQAm5Jv1lcvRjMpNh
+FiTaA3zeEUaBJZbKvm2l2NRJDrQ8Ga20tCeQKs8M472JHjrnMgEOLXajMn2j9bE4
+U1uoCg52p5LVayzwK1Yj3c3NEoDdJPPsnvdWy9JbpNEjyWH+5uZB1i0ISGqNK2Nd
+0hWFNtbNwFNOCR50bSWaiktkM4TI1XjDgkNUO4xTd/0zjHCj4FuJcizLM1Hm3nve
+1kJv9lUcCGrl1xuPBN9egy8mOcCNDeDhXRShoWciWmqDWRG+NDlSl2T6gpkjH+Gw
+vJR5tbGHsLOz5j19u7mfJ63B81AuLrrG8nND/bxGG7/pc4934gosxTiJYcq4mbR5
+QjvIqClWigPkeIc6hELjWNNzR9ys8KmH1no2DxPiMd4jITBnWzIlX16f4ImqDwOY
+hZnJW6J5MY7YDYDET8Hddzu2NATXZ2yt36d1PplMLaeeZ11OlRHcdwXg/MumqKan
+cEaO5u/fBUURUFwt3CfoGGn1dfWMEh9TTdhPxXQpRw4XjwVJayyZtr3l36epEWko
+V3TRvH+hPyjPTCeVzuPCdAtG9pieap0WoWrWqO8+rRPdHCbNV63T0R8WOR3IN8sY
+wNZ58UGBcVUQqmT6EJXE6fts+8zwbkDAZBzeiY96NStMdNT9TAM=
+=1wLc
+-----END PGP SIGNATURE-----
+
+--Sig_/kXI7wH566YB=CveBld9hXbx--
