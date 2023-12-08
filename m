@@ -1,48 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97B6D80A7FB
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 16:56:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4626480A806
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 17:00:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A9CA10E27E;
-	Fri,  8 Dec 2023 15:56:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF5E110E084;
+	Fri,  8 Dec 2023 16:00:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 438 seconds by postgrey-1.36 at gabe;
- Fri, 08 Dec 2023 15:56:50 UTC
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A61D410E27E
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 15:56:50 +0000 (UTC)
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1702050569;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=juCIKsOlSX2wDTW1S1v9bUaTdgo42s0VBtiTPZnusxI=;
- b=Y3Pb+AHg+e/B+KFo6RhPjnjAT9uufkJH/wmuUin/ii/RkL12Xb2LhbwMU/slOoW1zVWfvy
- 3rtjqclt32IQoZln60DXTVkf9ZEeHYlHN5+ZUMlKpfQOQclzKYWoIgmA7FH2YMR91J15CS
- MezsCBKRTiV4bTMqtHaAXu3JDO5QIvXFpREpHh0M9nU4cTTuAeug6upCWZxzg+fUpva7ZA
- GI3z++jXDeIzjQs22W+ERv+BVjRBAktw0cI3t7dVIlV/8oEdeO5vL/723dD9gCzHGBpEJO
- KGVc128do0lHRtNowz5Gn5UYy5Fv1/xN5obeFLZ97lUUpgDAZNdow5LwZDKSOw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1702050569;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=juCIKsOlSX2wDTW1S1v9bUaTdgo42s0VBtiTPZnusxI=;
- b=Eu6uS/85eE+nCL+E90qXegkkjbKO7V0Thb4Yh5ee/9SQH4n9uJOPkkfQPemqOnndB/6QWH
- b2rAtS9HnxV/kkDQ==
-To: Yoshinori Sato <ysato@users.sourceforge.jp>, linux-sh@vger.kernel.org
-Subject: Re: [DO NOT MERGE v5 16/37] irqchip: Add SH7751 INTC driver
-In-Reply-To: <bdf5a5e2fb6de07e739a390665e5109e4165dc3d.1701768028.git.ysato@users.sourceforge.jp>
-References: <cover.1701768028.git.ysato@users.sourceforge.jp>
- <bdf5a5e2fb6de07e739a390665e5109e4165dc3d.1701768028.git.ysato@users.sourceforge.jp>
-Date: Fri, 08 Dec 2023 16:49:28 +0100
-Message-ID: <874jgssnhz.ffs@tglx>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B60910E084
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 16:00:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1702051244; x=1733587244;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=+EXHcrZrZBDOueveSwNkypo7KesWZ6TZf0l97Fvq+84=;
+ b=Zu55dFBXVVa6V0OmY7PgeyxiNTadM8qBbZsPRwA1de6spH4VJ3t1/A8T
+ hIfF4wh0WBCmRUwctyl8EyND8ZjiuCboGt47sKNfStwxur59LejkZY/lc
+ r2pjGRdgNP8PY20koBc+QDOz+EBlDSaWqysgBQFp1sxSZzFkSdkjRmzIp
+ 6DNz/2xuJFSadq/kHvP0tlBPmpBI3DouaUohFRtLLoDyydqRHRnEF3G1i
+ tbdHFLjUuo2JGrZ1FaXkA2vII0Kxg17frNQlrlYvlTK+pNfQJm6f85OZF
+ gADS6+JTbC3ZJ/60biNhMY5qbVtLfh4gL0zQu2Y4zv+zV1bkM8RF1BvNe g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="1244979"
+X-IronPort-AV: E=Sophos;i="6.04,261,1695711600"; 
+   d="scan'208";a="1244979"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Dec 2023 08:00:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="1019381416"
+X-IronPort-AV: E=Sophos;i="6.04,261,1695711600"; d="scan'208";a="1019381416"
+Received: from smile.fi.intel.com ([10.237.72.54])
+ by fmsmga006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Dec 2023 08:00:40 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+ (envelope-from <andriy.shevchenko@intel.com>)
+ id 1rBdHI-000000047LX-3TqS; Fri, 08 Dec 2023 18:00:36 +0200
+Date: Fri, 8 Dec 2023 18:00:36 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: State of affairs with Ilitek 9341 support
+Message-ID: <ZXM9pG-53V4S8E2H@smile.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,171 +60,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
- linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
- Herve Codina <herve.codina@bootlin.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Bin Meng <bmeng@tinylab.org>,
- Michael Turquette <mturquette@baylibre.com>, linux-pci@vger.kernel.org,
- Jacky Huang <ychuang3@nuvoton.com>, Palmer Dabbelt <palmer@rivosinc.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Guo Ren <guoren@kernel.org>,
- Lee Jones <lee@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Hyeonggon Yoo <42.hyeyoo@gmail.com>, Jiri Slaby <jirislaby@kernel.org>,
- linux-clk@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Jonathan Corbet <corbet@lwn.net>,
- Helge Deller <deller@gmx.de>, Daniel Lezcano <daniel.lezcano@linaro.org>,
- Magnus Damm <magnus.damm@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-serial@vger.kernel.org,
- David Rientjes <rientjes@google.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Maxime Ripard <mripard@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
- Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- Chris Morgan <macromorgan@hotmail.com>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Bjorn Helgaas <bhelgaas@google.com>, Vlastimil Babka <vbabka@suse.cz>,
- Sergey Shtylyov <s.shtylyov@omp.ru>, Baoquan He <bhe@redhat.com>,
- linux-ide@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Biju Das <biju.das.jz@bp.renesas.com>,
- linux-kernel@vger.kernel.org, Azeem Shaikh <azeemshaikh38@gmail.com>,
- linux-renesas-soc@vger.kernel.org, Tom Rix <trix@redhat.com>,
- Damien Le Moal <dlemoal@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>,
- Andrew Morton <akpm@linux-foundation.org>
+Cc: David Lechner <dlechner@baylibre.com>, Priit Laes <plaes@plaes.org>,
+ Dillon Min <dillon.minfei@gmail.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 05 2023 at 18:45, Yoshinori Sato wrote:
-> +static void endisable_irq(struct irq_data *data, int enable)
+Included authors and latest (non-white-space) contributors to the drivers
+in question along with relevant mailing list and respective (active in the
+area) maintainers.
 
-bool enable?
+I already had risen the question in times when 4th (sic!) driver for the same
+hardware was about to be pulled into upstream that we have to somehow reduce
+the code base and unify device properties.
 
-> +{
-> +	struct sh7751_intc_priv *priv;
-> +	unsigned int irq;
-> +
-> +	priv = irq_data_to_priv(data);
-> +
-> +	irq = irqd_to_hwirq(data);
-> +	if (!is_valid_irq(irq)) {
-> +		/* IRQ out of range */
-> +		pr_warn_once("%s: IRQ %u is out of range\n", __FILE__, irq);
-> +		return;
-> +	}
-> +
-> +	if (irq <= MAX_IRL && !priv->irlm)
-> +		/* IRL encoded external interrupt */
-> +		/* disable for SR.IMASK */
-> +		update_sr_imask(irq - IRQ_START, enable);
-> +	else
-> +		/* Internal peripheral interrupt */
-> +		/* mask for IPR priority 0 */
-> +		update_ipr(priv, irq, enable);
+So, the main question here "What is the plan and where are we now?"
 
-Lacks curly brackets on the if/else
+I admit that fbtft case is special as it supports, in particular, platform
+device (parallel interface) and also well established in the embedded world.
+What about the rest?
 
-> +static int irq_sh7751_map(struct irq_domain *h, unsigned int virq,
-> +			  irq_hw_number_t hw_irq_num)
-> +{
-> +	irq_set_chip_and_handler(virq, &sh7751_irq_chip, handle_level_irq);
-> +	irq_get_irq_data(virq)->chip_data = h->host_data;
-> +	irq_modify_status(virq, IRQ_NOREQUEST, IRQ_NOPROBE);
-> +	return 0;
-> +}
-> +static const struct irq_domain_ops irq_ops = {
+N.B. Besides the fact that panel drivers are too OF-centric, which is bad
+practice for the new kernel code in general and has to be stopped. I.o.w.
+seeing of_property_*() or alike in the driver after ca. 2020 should be
+immediate NAK unless it's very well justified why it may not be used on
+non-OF systems.
 
-Newline before 'static ...'
+-- 
+With Best Regards,
+Andy Shevchenko
 
-> +	.map    = irq_sh7751_map,
-> +	.xlate  = irq_domain_xlate_onecell,
-> +};
-> +
-> +static int __init load_ipr_map(struct device_node *intc,
-> +			       struct sh7751_intc_priv *priv)
-> +{
-> +	struct property *ipr_map;
-> +	unsigned int num_ipr, i;
-> +	struct ipr *ipr;
-> +	const __be32 *p;
-> +	u32 irq;
-> +
-> +	ipr_map = of_find_property(intc, "renesas,ipr-map", &num_ipr);
-> +	if (IS_ERR(ipr_map))
-> +		return PTR_ERR(ipr_map);
-> +	num_ipr /= sizeof(u32);
-> +	/* 3words per entry. */
-> +	if (num_ipr % 3)
 
-Three words per ... But you can spare the comment by doing:
-
-        if (num_ipr % WORDS_PER_ENTRY)
-
-> +		goto error1;
-> +	num_ipr /= 3;
-> +static int __init sh7751_intc_of_init(struct device_node *intc,
-> +				      struct device_node *parent)
-> +{
-> +	struct sh7751_intc_priv *priv;
-> +	void __iomem *base, *base2;
-> +	struct irq_domain *domain;
-> +	u16 icr;
-> +	int ret;
-> +
-> +	base = of_iomap(intc, 0);
-> +	base2 = of_iomap(intc, 1);
-> +	if (!base || !base2) {
-> +		pr_err("%pOFP: Invalid register definition\n", intc);
-
-What unmaps 'base' if 'base' is valid and base2 == NULL?
-
-> +		return -EINVAL;
-> +	}
-> +
-> +	priv = kzalloc(sizeof(struct sh7751_intc_priv), GFP_KERNEL);
-> +	if (priv == NULL)
-> +		return -ENOMEM;
-
-Leaks base[2] maps, no?
-
-> +	ret = load_ipr_map(intc, priv);
-> +	if (ret < 0) {
-> +		kfree(priv);
-> +		return ret;
-> +	}
-> +
-> +	priv->base = base;
-> +	priv->intpri00 = base2;
-> +
-> +	if (of_property_read_bool(intc, "renesas,irlm")) {
-> +		priv->irlm = true;
-> +		icr = __raw_readw(priv->base + R_ICR);
-> +		icr |= ICR_IRLM;
-> +		__raw_writew(icr, priv->base + R_ICR);
-> +	}
-> +
-> +	domain = irq_domain_add_linear(intc, NR_IRQS, &irq_ops, priv);
-> +	if (domain == NULL) {
-> +		pr_err("%pOFP: cannot initialize irq domain\n", intc);
-> +		kfree(priv);
-> +		return -ENOMEM;
-> +	}
-> +
-> +	irq_set_default_host(domain);
-> +	pr_info("%pOFP: SH7751 Interrupt controller (%s external IRQ)",
-> +		intc, priv->irlm ? "4 lines" : "15 level");
-> +	return 0;
-> +}
-> +
-> +IRQCHIP_DECLARE(sh_7751_intc,
-> +		"renesas,sh7751-intc", sh7751_intc_of_init);
-
-One line please.
-
-Thanks,
-
-        tglx
