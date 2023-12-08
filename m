@@ -2,108 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A022A809E3C
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 09:35:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B002480992A
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 03:27:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D01A10EA18;
-	Fri,  8 Dec 2023 08:35:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8E5110E24C;
+	Fri,  8 Dec 2023 02:27:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com
- (mail-he1eur04on0607.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe0d::607])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD35810E24B
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 02:15:30 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZeX+sTEVVYEx1EHB8vnHbphwU01rBy/oKytrjCzGpYLUgwQAISTCriXcva4hAzdgqxLtR6I0YskqBn0jImyoLaaG42eb83cWigwimmz8GEoyZYQoh+mEYxGpicPE4ht5IUN6/k5fNps0Jo6CDWlY4jdh0zSQ+oryBbBVqwXMyhLVUfrTk+QD8u1vhkX0K8nFbA8hfBRQIEc/yLVnliN7RVSyyo2pi+uhVEln9pdvQF+adeKjbVYdpt2bGzPwyTk/9qIl6QLNBJOBtbS+n+qDo1CHKGtRUzcC25CVJqgIg1viniH4OiVHdnP7+tQX6wP6+qISGMpI9WE4RCcHhmKCWg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZhpzfX9C41j+azhm0yG1hl3wKGMFJo02kJXUyO8By1I=;
- b=QevPTeB+VJa0vQ3DqOElySI4Mx0lyyFVx7jyRD0ATOrWXqGEZAx0sq/0/BRVvv+RNnMlnH5yMI0aGHUIg9d92+HPMWkl2j3JM5JzAMB1mmLsnhPuhWr+NjsSVRpQ5prpuLkyJd7uw3zMslUZ+94nBHmhqg8mV2nvHS1EQWvmcJEvo6A5p4MsJnxaUH75wHMC3nL8TaeFOZDCTnEAiY0u/gNwQN/G8/mjObJk0Y+BsDbhfJM5y7DQYgZ+q733CfGROsvaJ/Of3QspcTQwv9S22XYkNkSEcoraAyXvbJ8VVx6avpv4L/V2R3tjcW1P5EIvBFW/kXRd2Lhr0IU+qGcvLw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZhpzfX9C41j+azhm0yG1hl3wKGMFJo02kJXUyO8By1I=;
- b=RwgkgwaugXJvNP3OVbdHt94CR4dNqRmvZ/qy5R/vHJyjXQLsLIrKZQk5E1GbUH7++mjoe3yr8MLODEohvs73hBF4tmrmaCe0EN5EtRINfXb6mX/ZZ14pjq3eDwoLWeuvxUEv9jXm88WFpTK3JGXtFdeVaRpPc00C3KhOX9jDucI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM6PR04MB5463.eurprd04.prod.outlook.com (2603:10a6:20b:28::26)
- by AS8PR04MB7927.eurprd04.prod.outlook.com (2603:10a6:20b:2ad::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.28; Fri, 8 Dec
- 2023 02:15:26 +0000
-Received: from AM6PR04MB5463.eurprd04.prod.outlook.com
- ([fe80::db2c:c4ec:29f6:5d0f]) by AM6PR04MB5463.eurprd04.prod.outlook.com
- ([fe80::db2c:c4ec:29f6:5d0f%5]) with mapi id 15.20.7068.028; Fri, 8 Dec 2023
- 02:15:26 +0000
-From: Alice Yuan <alice.yuan@nxp.com>
-To: rmfrfs@gmail.com, laurent.pinchart@ideasonboard.com,
- martin.kepplinger@puri.sm, kernel@puri.sm, linux-media@vger.kernel.org
-Subject: [PATCH linux-next/master 1/1] media: staging/imx7: Add handler the
- abnormal interrupt BIT_STATFF_INT
-Date: Fri,  8 Dec 2023 10:19:40 +0800
-Message-Id: <20231208021940.883259-1-alice.yuan@nxp.com>
-X-Mailer: git-send-email 2.37.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI2P153CA0014.APCP153.PROD.OUTLOOK.COM (2603:1096:4:140::6)
- To AM6PR04MB5463.eurprd04.prod.outlook.com
- (2603:10a6:20b:28::26)
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
+ [IPv6:2607:f8b0:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D1A110E24C
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 02:27:43 +0000 (UTC)
+Received: by mail-pl1-x634.google.com with SMTP id
+ d9443c01a7336-1d04d286bc0so12431475ad.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Dec 2023 18:27:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1702002463; x=1702607263;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=bYKvR9biHT3dayV04op9dSPEQWRRtNPHfVpKUnfsyTI=;
+ b=Pv1PtY4DW7+/IWzHgyfCEPAFQTV2MCZtz2m11pUDoa4ht+gqc9SYyxoOWfxbcTs26M
+ WOvS7q5vrQYJr1zmdzSpGcHrVs5F7nE3ywSv1Xgu8vcw4ZPwWH+lFuSv1Z6SL26E7s7k
+ 8s5xaPDaGTTZvSyVkhwZ32WqhlOn5RIL/WUsw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1702002463; x=1702607263;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=bYKvR9biHT3dayV04op9dSPEQWRRtNPHfVpKUnfsyTI=;
+ b=cRg9uGEaA+R4FzaN7qss55ozgYQb4Jhzeo7SUNWT1aZljyiKbwtt1tRK58phaGVnWH
+ ToKNQTDYEKstP4C6sJWvMJ1/oZUBC07YZPutWwQMGb+KWSOc6zRdN5ET+h5b90uPBJ9F
+ x59QijcU9PsHxbZSNV/IhdVYToWvWV1usf7ZgP3YFQTDm77AfYJoFPQ6YcPiIR0XdXgX
+ tjxK6SJnfo4YVWDbSkNtjNTObFjHQ7mmtsiKThYVsq44H7c+5/lMHwsZC5L7Mybgg1OD
+ C+/shmv4EGXGcUQGWmKlQSNUzn8fHOORLQcxw9DwBAq4Oau4jevVvTkfdlKkNW8wka5i
+ 8EKg==
+X-Gm-Message-State: AOJu0YxEElXDiaIqCAi0eQD6ALrFZj3libiDynu/7q5K1/XeVP8m3VWX
+ lrK9tBRsKkYhVsqdDxyxnRjisw==
+X-Google-Smtp-Source: AGHT+IE+YH6XCFuLw8IMGfclF6KPMZA8MDgow7b5AP5v+501j19hkR62ob7PHHZkLnrwYuYQEJvI6w==
+X-Received: by 2002:a17:903:230b:b0:1d0:6ffd:cea8 with SMTP id
+ d11-20020a170903230b00b001d06ffdcea8mr3531967plh.97.1702002462996; 
+ Thu, 07 Dec 2023 18:27:42 -0800 (PST)
+Received: from [192.168.0.212] ([50.47.85.47])
+ by smtp.gmail.com with ESMTPSA id
+ a7-20020a170902b58700b001d0c41b1d03sm512054pls.32.2023.12.07.18.27.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 07 Dec 2023 18:27:42 -0800 (PST)
+Message-ID: <64074f04-fd72-488b-831a-ad744bbcd950@broadcom.com>
+Date: Thu, 7 Dec 2023 18:27:39 -0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6PR04MB5463:EE_|AS8PR04MB7927:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8874faf5-5c00-48de-90e4-08dbf7938a82
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zNPk0N4rGm+Co1QQzG16ONJtW1CV04s4lUL0fqSVZ0A8CXyWoaaYeKanAYIWOBROBJgGWICFN6+htK6cuRg63YvQduTOaa3454UWIWYNB9Sg3wRsY/XoCsF7nCxrdl8DU86HNlpZW8XEfAi0qGoqBcSfhmhXoK7F1n1Y5BzNTHxugxMUP4xNxxtQTsqQ/DwCkUDUJD7vXnpIX+vPEbQ3TezA00VVDCUdaLdWF6NM8RN8DAttcccnOknk9TRJcCwK4JtFNiQpC5Puo7+At9d0lTvN0ap7hFUJR30K74VgmHjyIQcZzdG+HNXrJtSn5XHaGhLYyR3+JitRUwQTQCXqP0MbT0ArUBuxYA7/HBOos7CDRvVI7X7d8Dy8sG8LiukB/RohfmzyuKyZkuXFh8vXE7j91pmHSyBWvjvYyW4WVjbMryyaYWgeHPp4HyfAztz5Eegto/P4ZZjmxvWgqeUhDb/puObvX3LXBo74yANqGzNuc8P+/ODhKev8KWQccw8/2IoDvGGomuVWOu8dE+YnctzsQxgrPYutv9brca9W7NiIAZcxEhNrnzRnSduFXQldis1/DFrM0lqCelq2buIR9WY3uPPicq+/lpcir088WpyZYQR//nWtygwRHeryyMdj
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM6PR04MB5463.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(366004)(39860400002)(376002)(346002)(396003)(136003)(230922051799003)(186009)(451199024)(64100799003)(1800799012)(5660300002)(8676002)(4326008)(8936002)(86362001)(44832011)(38350700005)(36756003)(41300700001)(2906002)(83380400001)(1076003)(26005)(2616005)(38100700002)(66476007)(66556008)(66946007)(316002)(52116002)(6506007)(6512007)(6666004)(6486002)(478600001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5Z4xInSKU9Yj5k2sz4jbHy1BZO1VTyJNhtOgiTm7j0CjJ3hppBKzaOwRD/6E?=
- =?us-ascii?Q?9UIdeetrvFocGrnqxBVMHuBGaXpeSxA8HN77xyqinxA6x4M5gpxuN82XVgCX?=
- =?us-ascii?Q?RLK2n0hmUswmzMaBMNxUH9LD1pUJX4xytIZX9MgGDzX+Ub0DaS7u/raHc4UC?=
- =?us-ascii?Q?0TZIkJr5Nw9PokvF9dzhbvdaFIyGlu0wGVpl6krhcy+/ThhQx6cXSbRyhcGB?=
- =?us-ascii?Q?iZOQfj0PkBgO1vIny0Q1P9CS1TxCB+I+6kJMygOpLoTNZdtUW2Vipk+VyfOw?=
- =?us-ascii?Q?dapqsjt2WrontrMmuqFX+HUnAGeEKldqkVsWetO1AmmgUBjH4KWzfYdSemCd?=
- =?us-ascii?Q?jf033eQFMnJ4FO/NJJklCLGjZRo5PaMNLGvAAEMWAL7Alz6ry1u4qTHD9vmj?=
- =?us-ascii?Q?WEQhRKOBJh12gyW4uWKMbhsH949QEt0Utqn+FdTVoravOYQBlnbST0bVdcei?=
- =?us-ascii?Q?s/hkers4yAcz3tDqBaQaTJhaBJ6yWZLwjwm9P0HbYcIIL1YxjiosfGArynKx?=
- =?us-ascii?Q?uDP+LwbpzHf40Gb5ZcOMSBIYqrihh1zHl+Mq8pWStpS8IptT/Q1cVTA2hpk7?=
- =?us-ascii?Q?K898F1aC4DiDC/Mxb8WPW4RGzXINvVrnUvox1LG7/7KRNwNr3wj1YdfwnOzh?=
- =?us-ascii?Q?eyGDvsj+KJgyJFHY4bcFwsDOkqUs2+WyC7bC7zX6lqJdXgF1lWbxiyOkLnNs?=
- =?us-ascii?Q?cO27ovhZ/VGEFzchrJbkz1wgrum0DApgP5CkIUmMkPwYC+jXxLEWf3JJJvbt?=
- =?us-ascii?Q?tepS4NLviPONXUso9iP4KQ4BQjJ647hzqZD/EKLkZ0T+PzkBYVFmeMqovvRP?=
- =?us-ascii?Q?URhhw0ynpbUrzRXCFyXB4sq3cZRkvGcodXcNGtPEMehRKR5EFmwA6mzYw1iJ?=
- =?us-ascii?Q?haDXjXq0Myp2uoSZ9Hv6nNE+n0TCJB9QA2OijysSWfpHvvVoOG3qT1hVa/9l?=
- =?us-ascii?Q?APSoYb+6DuISK/apFEfeXIvxR9wGtBl/ZyXsUbBxnWwqoNfP/1497I5TUUFj?=
- =?us-ascii?Q?nYQtlMXbuUeOo9dIDcpQ0YSXWkcRl4XKuWoSbv+bu71F9YWN6OImEYS1KJkd?=
- =?us-ascii?Q?mHxsCViupnkI0/DJ6jLCgPZwBoiZ+vkeiebOctF2mrkioYpYq7AIn75QZYDA?=
- =?us-ascii?Q?aANmpkS2Xv1O7n0q1nN44YAewM2OmGBLSDweTF8IaZxNllb/F5YlpJAuaNsj?=
- =?us-ascii?Q?B/xXl7KqMg6qhmad3sgjkJb83jABvfiSvEFoWPDrzqcFbkkOwIkO22qU6XCf?=
- =?us-ascii?Q?MBWvgh6F8Yl2WzY6EYs1B/a1rvaBtcEL4as1FqhkqFaW9u7HiS3kAmLP6RUb?=
- =?us-ascii?Q?jvL2yBN/edUsvRyhLC6KyaJJn1FX5v9Ku0Fjjg24oypqQzMtINVvtb0fMyrT?=
- =?us-ascii?Q?/+jab9tsziEEhQIBTQ/v8ta05gNObWb9zj9cPpK/b2hDRDj9BU48VozCxxcx?=
- =?us-ascii?Q?0v6F+Ne0pq1UPqyiPs5QdaVKjojbRs4ibt695Bu4y9mdu2g7W/oW0A48wbh0?=
- =?us-ascii?Q?m4hysnyJu4Nqm2EIXKvdgq6slhJ3naf0d0Tj13pIx2o3TZ4LfWDbOBl11lfe?=
- =?us-ascii?Q?mF1cg8/695W+iDpd2eJPRdN7Ao7ESQMiYf1ruYpk?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8874faf5-5c00-48de-90e4-08dbf7938a82
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB5463.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2023 02:15:26.1764 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uA/msxNHA69fkYltv6+8XINLeE2fjBweV2BhVm5jKmID2/P41x8aJfzcUtcylVgPJoCRwQXe4GBDkrggHAK7Eg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB7927
-X-Mailman-Approved-At: Fri, 08 Dec 2023 08:35:22 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] x86/vmware: Add TDX hypercall support
+Content-Language: en-US
+To: Dave Hansen <dave.hansen@intel.com>, linux-kernel@vger.kernel.org,
+ virtualization@lists.linux.dev, hpa@zytor.com, dave.hansen@linux.intel.co,
+ bp@alien8.d, mingo@redhat.com, tglx@linutronix.de,
+ dave.hansen@linux.intel.com
+References: <ef8d3e17-7028-47fd-ad31-54dadbb6796d@broadcom.com>
+ <20231206071527.59171-1-alexey.makhalov@broadcom.com>
+ <53592a3a-3d96-4aa1-8357-ec595f59c5f3@intel.com>
+From: Alexey Makhalov <alexey.makhalov@broadcom.com>
+Autocrypt: addr=alexey.makhalov@broadcom.com; keydata=
+ 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 EuY0
+In-Reply-To: <53592a3a-3d96-4aa1-8357-ec595f59c5f3@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,92 +121,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, LnxRevLi@nxp.com,
- linux-devel@linux.nxdi.nxp.com, linux-imx@nxp.com, kernel@pengutronix.de,
- patchwork-lst@pengutronix.de, linux-arm-kernel@lists.infradead.org
+Cc: dmitry.torokhov@gmail.com, tzimmermann@suse.de, pv-drivers@vmware.com,
+ netdev@vger.kernel.org, richardcochran@gmail.com, x86@kernel.org,
+ dri-devel@lists.freedesktop.org, horms@kernel.org, akaher@vmware.com,
+ timothym@vmware.com, linux-graphics-maintainer@vmware.com, mripard@kernel.org,
+ jsipek@vmware.com, linux-input@vger.kernel.org, namit@vmware.com,
+ zackr@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "alice.yuan" <alice.yuan@nxp.com>
 
-When do 2592x1944 resolution capture, we found some times the
-"BIT_STATFF_INT" is abnormal, the stat fifo is not full, but
-still the DMA transfer done interrupts generate, at this time
-we will get broken frames.
 
-From the reference manual of imx8mm, we know the STATFIFO full
-interrupt status, that indicates the number of data in the
-STATFIFO reaches the trigger level. It defined clearly about
-BIT_STATFF_INT, 0: STATFIFO is not full, 1: STATFIFO is full.
+On 12/7/23 9:12 AM, Dave Hansen wrote:
+> On 12/5/23 23:15, Alexey Makhalov wrote:
+>> +#ifdef CONFIG_INTEL_TDX_GUEST
+>> +/* Export tdx hypercall and allow it only for VMware guests. */
+>> +void vmware_tdx_hypercall_args(struct tdx_module_args *args)
+>> +{
+>> +	if (hypervisor_is_type(X86_HYPER_VMWARE))
+>> +		__tdx_hypercall(args);
+>> +}
+>> +EXPORT_SYMBOL_GPL(vmware_tdx_hypercall_args);
+>> +#endif
+> 
+> I think this is still too generic.  This still allows anything setting
+> X86_HYPER_VMWARE to make any TDX hypercall.
+> 
+> I'd *much* rather you export something like vmware_tdx_hypercall() or
+> even the high-level calls like hypervisor_ppn_reset_all().  The higher
+> level and more specialized the interface, the less likely it is to be
+> abused.
 
-So we should handler the abnormal interrupts when BIT_STATFF_INT
-is 0, the stat fifo is not full, we need to drop the broken
-frames, and recovery from the abnormal status.
+Dave, I understood your point. Please take a look on the next version of 
+the patch.
 
-Signed-off-by: alice.yuan <alice.yuan@nxp.com>
----
- drivers/media/platform/nxp/imx7-media-csi.c | 25 ++++++++++++++++-----
- 1 file changed, 19 insertions(+), 6 deletions(-)
+I export vmware_tdx_hypercall(), while vmware_tdx_hypercall_args() is a
+static inline wrapper on top.
+Most of the vmware hypercall logic plus sanity checks are now in 
+exported function. While only input and output argument handling remains 
+in the wrapper to allow compiler optimization for hypercalls with few 
+argument. Exporting vmware_tdx_hypercall1, vmware_tdx_hypercall3, and so 
+on is not an option either.
 
-diff --git a/drivers/media/platform/nxp/imx7-media-csi.c b/drivers/media/platform/nxp/imx7-media-csi.c
-index 15049c6aab37..9012b155c2d7 100644
---- a/drivers/media/platform/nxp/imx7-media-csi.c
-+++ b/drivers/media/platform/nxp/imx7-media-csi.c
-@@ -249,6 +249,7 @@ struct imx7_csi {
- 	bool is_streaming;
- 	int buf_num;
- 	u32 frame_sequence;
-+	int frame_skip;
- 
- 	bool last_eof;
- 	struct completion last_eof_completion;
-@@ -686,6 +687,7 @@ static void imx7_csi_enable(struct imx7_csi *csi)
- 	imx7_csi_dmareq_rff_enable(csi);
- 	imx7_csi_hw_enable(csi);
- 
-+	csi->frame_skip = 0;
- 	if (csi->model == IMX7_CSI_IMX8MQ)
- 		imx7_csi_baseaddr_switch_on_second_frame(csi);
- }
-@@ -764,6 +766,12 @@ static irqreturn_t imx7_csi_irq_handler(int irq, void *data)
- 		imx7_csi_error_recovery(csi);
- 	}
- 
-+	if (!(status & BIT_STATFF_INT)) {
-+		dev_warn(csi->dev, "Stat fifo is not full\n");
-+		imx7_csi_error_recovery(csi);
-+		csi->frame_skip++;
-+	}
-+
- 	if (status & BIT_ADDR_CH_ERR_INT) {
- 		imx7_csi_hw_disable(csi);
- 
-@@ -790,14 +798,19 @@ static irqreturn_t imx7_csi_irq_handler(int irq, void *data)
- 
- 	if ((status & BIT_DMA_TSF_DONE_FB1) ||
- 	    (status & BIT_DMA_TSF_DONE_FB2)) {
--		imx7_csi_vb2_buf_done(csi);
--
--		if (csi->last_eof) {
--			complete(&csi->last_eof_completion);
--			csi->last_eof = false;
-+		if (csi->frame_skip) {
-+			dev_warn(csi->dev, "skip frame: %d\n", csi->frame_skip);
-+			csi->frame_skip--;
-+			goto out;
-+		} else {
-+			imx7_csi_vb2_buf_done(csi);
-+			if (csi->last_eof) {
-+				complete(&csi->last_eof_completion);
-+				csi->last_eof = false;
-+			}
- 		}
- 	}
--
-+out:
- 	spin_unlock(&csi->irqlock);
- 
- 	return IRQ_HANDLED;
--- 
-2.37.1
-
+Regards,
+--Alexey
