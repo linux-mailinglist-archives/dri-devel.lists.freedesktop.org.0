@@ -2,64 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13FC580A16C
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 11:47:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEA9780A18C
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 11:53:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E102B10EA56;
-	Fri,  8 Dec 2023 10:47:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE6F410EA3D;
+	Fri,  8 Dec 2023 10:53:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
- [IPv6:2a00:1450:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C952F10EA21;
- Fri,  8 Dec 2023 10:47:01 +0000 (UTC)
-Received: by mail-lj1-x22d.google.com with SMTP id
- 38308e7fff4ca-2c9c18e7990so25460171fa.2; 
- Fri, 08 Dec 2023 02:47:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1702032420; x=1702637220; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Rid1cCUMEyVF8y19rRf6254xafs3vXmofvO0HSqkkDU=;
- b=PW3cptxxkG8MeHhULNuasc3M0l6/EP3een2/eGdxOi5aPB46il3qM3KrGUGJnOOFzS
- URaJL3YoKNoU9JQJEHsnz7FU64g6CFQqh8kVMvCDmAE5F/ophYugQXxb/gA6UueiEI3j
- WoxEUOQKs8naY9o5yf9WgWGsH3v5XJWAURPgFbpGIMZuKTFzTccvwvwDJtPleurVE0vi
- 5HKY+NE/TbQYVzkUr0VNByVyBSfIcRsmEamXsE50XgNhXEaMkljjRODRJxvNyv0coiWg
- 0NocICtnNiu5NXDeWvND+jjB2ahqZf/24MbWOguIlVIrfCn3t5kvQ5OtHruU90LfJJA0
- 8mNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702032420; x=1702637220;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Rid1cCUMEyVF8y19rRf6254xafs3vXmofvO0HSqkkDU=;
- b=P76iPBNFMr57hsW4Jqm0DvMiTlfgJ+l7y8pwnn9TZh48iwhX0L7MMpA8esCsPuWzgr
- RDX+GnvYzjcBcbw9ppBK50FNFcUyVJ5IUY9UthUPj8m8jRCK2xSXUPSUzLmVrmcni7xu
- jWfdshTMpcp+BH0ewK1Jp22pQI9nzCSxF1GHX2h0MMv0L0nGs0KKlpcAqdTXNJRbp7rp
- TzKHnwEFOyxEJ82zp3mdhCYnB1cboRCsbJg7deI/xvEvCBdJBXyUSCfmKjkiHnp7tnVP
- QJRD+Kh5WnGARbtoJhkS+2ZKI8DUgMETsInnAKgXMCriESgCFQhQq2/VF0ZGrqojzr70
- xsoQ==
-X-Gm-Message-State: AOJu0YxM+8/+VYuYZ7MO9l4LBABI7Byh7bFZbAAJKcoB3vefTcZciHaP
- rVqXIzdD65KUkF9TNQy46s4=
-X-Google-Smtp-Source: AGHT+IHGn0Atxtb+mtyw4irxA91R0XgE1uTQR5LEeSA4hwjWEuF+oLUdeLBeIVEkcv//oQAo/ET1vQ==
-X-Received: by 2002:a2e:9e46:0:b0:2ca:1282:d62a with SMTP id
- g6-20020a2e9e46000000b002ca1282d62amr1876340ljk.93.1702032419288; 
- Fri, 08 Dec 2023 02:46:59 -0800 (PST)
-Received: from localhost
- (p200300e41f0fa600f22f74fffe1f3a53.dip0.t-ipconnect.de.
- [2003:e4:1f0f:a600:f22f:74ff:fe1f:3a53])
- by smtp.gmail.com with ESMTPSA id
- ub27-20020a170907c81b00b00a1df4387f16sm866457ejc.95.2023.12.08.02.46.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Dec 2023 02:46:58 -0800 (PST)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@redhat.com>
-Subject: [PATCH] drm/nouveau: Fixup gk20a instobj hierarchy
-Date: Fri,  8 Dec 2023 11:46:53 +0100
-Message-ID: <20231208104653.1917055-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
+ [81.169.146.166])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AE5F10EA3D
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 10:53:09 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1702032755; cv=none;
+ d=strato.com; s=strato-dkim-0002;
+ b=K+RBCHuRflsPVn2/sFv8O7Ts1H6JYHaf60UFExvqzKo4CkV5UQlFwk4IEiRwy69q7z
+ diEpKKKEEdywfjqWRvwpZypGGJ3rWz73aMzwAm8bXPMdNhr+KldbHUwLB0X9aiGpgl6+
+ KknMSRYKYNBaSaMMdSRIyo19xThISEWvSgBtMvnifFnB0jxatwCjJH62Ezedfuew2HZg
+ /OLZwOGP6+0/LEdF/kZLmanzPt71JjzYH1oSTmor5xe54151DfubQXqCfbZQWRAxPDB6
+ wKyum123P17KVW1w07ApPMqE0F010l3QMfQnwHIX4FoJsTWdg15oHw7OhyT7ueh6MQNM
+ A/bw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1702032755;
+ s=strato-dkim-0002; d=strato.com;
+ h=In-Reply-To:References:Cc:To:From:Subject:Date:Message-ID:Cc:Date:
+ From:Subject:Sender;
+ bh=lH6SBnQ4xrHrGQeEHvJ5u/3KSpQHUvvzwrmVeb1tOZ8=;
+ b=O4/4aM+60FaeIWXXxmakbYiOk80wIKjx56pYnOf+NKQ4L1JCqqpi3HXN3gRFkFsli1
+ CQv5pHVOAcWacmeQe71w3NubCvHGEHp925oGoYUYIc+A5cPvC/csxDt3JggeOMkI9BxY
+ uoanoEYAhXqxUbQOVWHgDWH1fLSAwRFjQxTYkl6i0NLqUwi5ej59bFJqCnVU9f9AB310
+ qR/tXrra/mCaZQeKh4OUXoXBWXpgH4f00ul6y37jfRcDBmoHYVcTsHMgQwT/p8Fh4+Er
+ iYU2TpDs72oou22WG0XjTO58NSd4/M1D93Uv5NAjzKwu9TsMOwZA++gZNqdVjcnt3u6U
+ aRrw==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1702032755;
+ s=strato-dkim-0002; d=xenosoft.de;
+ h=In-Reply-To:References:Cc:To:From:Subject:Date:Message-ID:Cc:Date:
+ From:Subject:Sender;
+ bh=lH6SBnQ4xrHrGQeEHvJ5u/3KSpQHUvvzwrmVeb1tOZ8=;
+ b=GkrttZnEEmTljMGki6GULywxWeVKDPJwje9aehBTYDsAEq4Hu0hYKF5J3dN5/AYSp2
+ b4RPLuV9GhYuXTOeSbyA/pazNWIAp6uEQ0WSGue7QPNwRfeZsCrvsVbDjbZyXoNB2wQ0
+ X6MDP7cP1yOp1VlbXYSF8IQPOv1C/3zo4AnsPV3Dy026MCKm9dR3VSld2lMVmg8dwylS
+ e9XGs7cBYLEKAg4z5hmcTAeZs+JBgnuGka+4qtOMsXaGRjRP44lAdPjVJ+9zlL06UFng
+ wrKrrglfgSuzj0kH7y4o3CqYT9Pe5tFVqf79HyDXKz9nkq/IKJ4MGFiBfkHfJxPCq7ch
+ YeSw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1702032755;
+ s=strato-dkim-0003; d=xenosoft.de;
+ h=In-Reply-To:References:Cc:To:From:Subject:Date:Message-ID:Cc:Date:
+ From:Subject:Sender;
+ bh=lH6SBnQ4xrHrGQeEHvJ5u/3KSpQHUvvzwrmVeb1tOZ8=;
+ b=2pkYr6gv/7SxhRY1a7hLYS44BHKDz8fXWRQNd5qrSfeBu7hQ6fLVYtEIymFXoEkcRa
+ KY2NZQYH8sZ84JlOZcCQ==
+X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGM4l4Hio94KKxRySfLxnHfJ+Dkjp5DdBfi4XXBswJY0lkTEDrUFf1HwyMiKmo0Cv1RTUCg=="
+Received: from [IPV6:2a02:8109:8984:5d00:f8bc:fe1b:3f93:a193]
+ by smtp.strato.de (RZmta 49.10.0 AUTH)
+ with ESMTPSA id 626c0czB8AqYIml
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate);
+ Fri, 8 Dec 2023 11:52:34 +0100 (CET)
+Message-ID: <1dca4a2e-5bde-4825-8e8a-4b4ac8dd958e@xenosoft.de>
+Date: Fri, 8 Dec 2023 11:52:34 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/virtio: Add suppport for non-native buffer formats
+Content-Language: de-DE
+From: Christian Zigotzky <chzigotzky@xenosoft.de>
+To: Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Laurent Vivier
+ <lvivier@redhat.com>, Javier Martinez Canillas <javierm@redhat.com>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>, linux-m68k@lists.linux-m68k.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>
+References: <47a81d2e0e47b1715718779b6978a8b595cc7c5d.1700140609.git.geert@linux-m68k.org>
+ <77c6gkquzq4sdtmrlko3lkxvcnipm2zfjem3kvhgslcellkefh@man7pbbzud47>
+ <a9ade305-f90e-4250-a795-49ef4e29e0ac@xenosoft.de>
+ <CAMuHMdXtUYJmEharJhBXx7D=fA3mQxg6uMP2=4Qgi==2a+kVQw@mail.gmail.com>
+ <37b9e5ab-e170-4071-a912-f3fec0d59d5c@xenosoft.de>
+ <ee75377ad22a3d07f272e17f53cabead7b43afcb.camel@physik.fu-berlin.de>
+ <9e8d2abd-94a1-4fb6-b30a-c6e4c52af011@xenosoft.de>
+ <1bd6d2c8-007b-46f7-85b4-9793ec650f94@xenosoft.de>
+In-Reply-To: <1bd6d2c8-007b-46f7-85b4-9793ec650f94@xenosoft.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,111 +99,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, nouveau@lists.freedesktop.org,
- Ben Skeggs <bskeggs@redhat.com>, dri-devel@lists.freedesktop.org,
- Jon Hunter <jonathanh@nvidia.com>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ mad skateman <madskateman@gmail.com>, "R.T.Dickinson" <rtd2@xtra.co.nz>,
+ Christian Zigotzky <info@xenosoft.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thierry Reding <treding@nvidia.com>
+On 25 November 2023 at 01:35 pm, Christian Zigotzky wrote:
+> On 25 November 2023 at 01:22 pm, Christian Zigotzky wrote:
+>> On 25 November 2023 at 12:09 pm, John Paul Adrian Glaubitz wrote:
+>>> On Sat, 2023-11-25 at 11:06 +0100, Christian Zigotzky wrote:
+>>>> Could you please revert the v2 patch because of the issue with the
+>>>> virtio-mouse-pci cursor? I will try to use the v1 patch for the RC3 of
+>>>> kernel 6.7.
+>>> I don't understand why the v2 patch should yield any different 
+>>> results as
+>>> the only change compared to v1 is the fixed patch subject. There are no
+>>> functional differences, I just diffed the patches against each other:
+>>>
+>>> --- geert-patch-v1.patch        2023-11-25 12:09:19.122936658 +0100
+>>> +++ geert-patch-v2.patch        2023-11-25 12:09:36.313039085 +0100
+>>> @@ -34,6 +34,9 @@
+>>>   Suggested-by: Gerd Hoffmann <kraxel@redhat.com>
+>>>   Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+>>>   ---
+>>> +v2:
+>>> +  - Fix truncated one-line summary.
+>>> +---
+>>>    drivers/gpu/drm/virtio/virtgpu_display.c | 11 +++++++++--
+>>>    drivers/gpu/drm/virtio/virtgpu_plane.c   |  6 ++++--
+>>>    2 files changed, 13 insertions(+), 4 deletions(-)
+>>>
+>>> Adrian
+>>>
+>> Hi Adrian,
+>>
+>> Thank you for the hint. I think you are right. I use the following 
+>> patch.
+>>
+>> --- a/drivers/gpu/drm/drm_client.c    2023-11-13 01:19:07.000000000 
+>> +0100
+>> +++ b/drivers/gpu/drm/drm_client.c    2023-11-14 09:45:44.964199272 
+>> +0100
+>> @@ -400,6 +400,16 @@ static int drm_client_buffer_addfb(struc
+>>
+>>      fb_req.width = width;
+>>      fb_req.height = height;
+>> +           if 
+>> (client->dev->mode_config.quirk_addfb_prefer_host_byte_order) {
+>> +               if (format == DRM_FORMAT_XRGB8888)
+>> +                       format = DRM_FORMAT_HOST_XRGB8888;
+>> +               if (format == DRM_FORMAT_ARGB8888)
+>> +                       format = DRM_FORMAT_HOST_ARGB8888;
+>> +               if (format == DRM_FORMAT_RGB565)
+>> +                       format = DRM_FORMAT_HOST_RGB565;
+>> +               if (format == DRM_FORMAT_XRGB1555)
+>> +                       format = DRM_FORMAT_HOST_XRGB1555;
+>> +        }
+>>      fb_req.pixel_format = format;
+>>      fb_req.handles[0] = handle;
+>>      fb_req.pitches[0] = buffer->pitch;
+>>
+>> This patch solved the issue.
+>>
+>> Christian
+> This was the first solution and it works without any problems.
+>
+> Christian
+Hi All,
 
-Commit 12c9b05da918 ("drm/nouveau/imem: support allocations not
-preserved across suspend") uses container_of() to cast from struct
-nvkm_memory to struct nvkm_instobj, assuming that all instance objects
-are derived from struct nvkm_instobj. For the gk20a family that's not
-the case and they are derived from struct nvkm_memory instead. This
-causes some subtle data corruption (nvkm_instobj.preserve ends up
-mapping to gk20a_instobj.vaddr) that causes a NULL pointer dereference
-in gk20a_instobj_acquire_iommu() (and possibly elsewhere) and also
-prevents suspend/resume from working.
+The issue with the virtio-mouse-pci cursor still exists. I still use the 
+patch for "a/drivers/gpu/drm/drm_client.c".
 
-Fix this by making struct gk20a_instobj derive from struct nvkm_instobj
-instead.
+Is there any news regarding a solution?
 
-Fixes: 12c9b05da918 ("drm/nouveau/imem: support allocations not preserved across suspend")
-Reported-by: Jonathan Hunter <jonathanh@nvidia.com>
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
-Note that this was probably subtly wrong before the above-mentioned
-commit already, but I don't think we've seen any reports that would
-indicate any actual failures related to this before. So I think it's
-good enough to apply this fix for v6.7. The next closest thing would
-be commit d8e83994aaf6 ("drm/nouveau/imem: improve management of
-instance memory"), but that's 8 years old (Linux v4.3)...
----
- .../drm/nouveau/nvkm/subdev/instmem/gk20a.c    | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/instmem/gk20a.c b/drivers/gpu/drm/nouveau/nvkm/subdev/instmem/gk20a.c
-index 1b811d6972a1..201022ae9214 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/instmem/gk20a.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/instmem/gk20a.c
-@@ -49,14 +49,14 @@
- #include <subdev/mmu.h>
- 
- struct gk20a_instobj {
--	struct nvkm_memory memory;
-+	struct nvkm_instobj base;
- 	struct nvkm_mm_node *mn;
- 	struct gk20a_instmem *imem;
- 
- 	/* CPU mapping */
- 	u32 *vaddr;
- };
--#define gk20a_instobj(p) container_of((p), struct gk20a_instobj, memory)
-+#define gk20a_instobj(p) container_of((p), struct gk20a_instobj, base.memory)
- 
- /*
-  * Used for objects allocated using the DMA API
-@@ -148,7 +148,7 @@ gk20a_instobj_iommu_recycle_vaddr(struct gk20a_instobj_iommu *obj)
- 	list_del(&obj->vaddr_node);
- 	vunmap(obj->base.vaddr);
- 	obj->base.vaddr = NULL;
--	imem->vaddr_use -= nvkm_memory_size(&obj->base.memory);
-+	imem->vaddr_use -= nvkm_memory_size(&obj->base.base.memory);
- 	nvkm_debug(&imem->base.subdev, "vaddr used: %x/%x\n", imem->vaddr_use,
- 		   imem->vaddr_max);
- }
-@@ -283,7 +283,7 @@ gk20a_instobj_map(struct nvkm_memory *memory, u64 offset, struct nvkm_vmm *vmm,
- {
- 	struct gk20a_instobj *node = gk20a_instobj(memory);
- 	struct nvkm_vmm_map map = {
--		.memory = &node->memory,
-+		.memory = &node->base.memory,
- 		.offset = offset,
- 		.mem = node->mn,
- 	};
-@@ -391,8 +391,8 @@ gk20a_instobj_ctor_dma(struct gk20a_instmem *imem, u32 npages, u32 align,
- 		return -ENOMEM;
- 	*_node = &node->base;
- 
--	nvkm_memory_ctor(&gk20a_instobj_func_dma, &node->base.memory);
--	node->base.memory.ptrs = &gk20a_instobj_ptrs;
-+	nvkm_memory_ctor(&gk20a_instobj_func_dma, &node->base.base.memory);
-+	node->base.base.memory.ptrs = &gk20a_instobj_ptrs;
- 
- 	node->base.vaddr = dma_alloc_attrs(dev, npages << PAGE_SHIFT,
- 					   &node->handle, GFP_KERNEL,
-@@ -438,8 +438,8 @@ gk20a_instobj_ctor_iommu(struct gk20a_instmem *imem, u32 npages, u32 align,
- 	*_node = &node->base;
- 	node->dma_addrs = (void *)(node->pages + npages);
- 
--	nvkm_memory_ctor(&gk20a_instobj_func_iommu, &node->base.memory);
--	node->base.memory.ptrs = &gk20a_instobj_ptrs;
-+	nvkm_memory_ctor(&gk20a_instobj_func_iommu, &node->base.base.memory);
-+	node->base.base.memory.ptrs = &gk20a_instobj_ptrs;
- 
- 	/* Allocate backing memory */
- 	for (i = 0; i < npages; i++) {
-@@ -533,7 +533,7 @@ gk20a_instobj_new(struct nvkm_instmem *base, u32 size, u32 align, bool zero,
- 	else
- 		ret = gk20a_instobj_ctor_dma(imem, size >> PAGE_SHIFT,
- 					     align, &node);
--	*pmemory = node ? &node->memory : NULL;
-+	*pmemory = node ? &node->base.memory : NULL;
- 	if (ret)
- 		return ret;
- 
--- 
-2.43.0
-
+Thanks,
+Christian
