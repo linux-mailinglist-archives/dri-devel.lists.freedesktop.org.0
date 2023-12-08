@@ -1,67 +1,109 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFEAD8098C1
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 02:47:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A022A809E3C
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 09:35:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7221F10E030;
-	Fri,  8 Dec 2023 01:47:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D01A10EA18;
+	Fri,  8 Dec 2023 08:35:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com
- [IPv6:2607:f8b0:4864:20::b2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2490D10E030
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 01:47:34 +0000 (UTC)
-Received: by mail-yb1-xb2b.google.com with SMTP id
- 3f1490d57ef6-db3fa47c2f7so1937082276.0
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Dec 2023 17:47:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1702000053; x=1702604853;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=QasjkTvE12oeIkeDPIYBXwIAiruihNVVX4fkQH8L17I=;
- b=LmkRHyWmE8/O8u1V/u/RWnujL5zRwpeaD8/rw2oN+Ms/yyt5cJxDnBp6csElrUO+oC
- dNiXbiKhGlCnyXtBFMDYT9MK6m5DS1p6VsTib1kB2VefQYpzJRr46JM7/NyP2GZ3qyO3
- DjfylfsSRDq8mSrUSNKY8YfD1SJEaVd6iGqRhGVwNlanrE9FknbgBAbXLIOQY/Ca0/KY
- 3dWoAr5AYNw1r5EhNSAxf1X1GUg+OfKBCEz37FsRioWbS5vGZJY52TbOUXSeI1UuXdxD
- jcwM2DpOizH+KE9rDyaZg6Vt83QChwpFH7ee36Pq3SvPRiSCzk3cKxHdoE97BjNJt1pj
- knqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702000053; x=1702604853;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=QasjkTvE12oeIkeDPIYBXwIAiruihNVVX4fkQH8L17I=;
- b=kgdRaLlf+vwfN/EdU8+VRR2bxR9NbDz2Ni8y8uzlhBsPQcBe8xr6ddR3uF02CmDEiU
- WVLl7GIKl+ilXCyZrdlqrPP13Ng7AP2FtQ0IaQZqKGRLFjlcTuq2PBJ6z5qaMByFXPni
- ZElVlVMmksemrM8J22JJyrXPSRQjcvty7DN8FfpZv3Ymk3yIJRPI/YhmbfI0HTjmxIrb
- sBlB6OvqgtKy6kJir5UK/rmq9mha4fZe3kJb3hhwiLNlWNSusmFDMZtFgzi3W5802mos
- Lvf/MC/oTTYoi2WLGe4BwBY261xiVFohhCPO94pA6YODaaVKidp6WfQF1DLH4IDEoJX2
- dU2w==
-X-Gm-Message-State: AOJu0YyZ3pHhgIriera6Rd+Xez3BJE8oBCbA2JuJpfoMMgyspAGyJy3E
- b9aFcOQMKmfTpw+nWrgCR5qKgbObJ3KupmjL5x8xkA==
-X-Google-Smtp-Source: AGHT+IGkcaN4vvcrb8T5smexqtqjrDfI96Nzc421af0VFhb8gbbvwzsJEs/NJAkNTu4GFPThK+R150NgDMf09+eZHpo=
-X-Received: by 2002:a05:6902:18ca:b0:db7:dad0:60d7 with SMTP id
- ck10-20020a05690218ca00b00db7dad060d7mr4259393ybb.100.1702000052997; Thu, 07
- Dec 2023 17:47:32 -0800 (PST)
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com
+ (mail-he1eur04on0607.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe0d::607])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD35810E24B
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 02:15:30 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZeX+sTEVVYEx1EHB8vnHbphwU01rBy/oKytrjCzGpYLUgwQAISTCriXcva4hAzdgqxLtR6I0YskqBn0jImyoLaaG42eb83cWigwimmz8GEoyZYQoh+mEYxGpicPE4ht5IUN6/k5fNps0Jo6CDWlY4jdh0zSQ+oryBbBVqwXMyhLVUfrTk+QD8u1vhkX0K8nFbA8hfBRQIEc/yLVnliN7RVSyyo2pi+uhVEln9pdvQF+adeKjbVYdpt2bGzPwyTk/9qIl6QLNBJOBtbS+n+qDo1CHKGtRUzcC25CVJqgIg1viniH4OiVHdnP7+tQX6wP6+qISGMpI9WE4RCcHhmKCWg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZhpzfX9C41j+azhm0yG1hl3wKGMFJo02kJXUyO8By1I=;
+ b=QevPTeB+VJa0vQ3DqOElySI4Mx0lyyFVx7jyRD0ATOrWXqGEZAx0sq/0/BRVvv+RNnMlnH5yMI0aGHUIg9d92+HPMWkl2j3JM5JzAMB1mmLsnhPuhWr+NjsSVRpQ5prpuLkyJd7uw3zMslUZ+94nBHmhqg8mV2nvHS1EQWvmcJEvo6A5p4MsJnxaUH75wHMC3nL8TaeFOZDCTnEAiY0u/gNwQN/G8/mjObJk0Y+BsDbhfJM5y7DQYgZ+q733CfGROsvaJ/Of3QspcTQwv9S22XYkNkSEcoraAyXvbJ8VVx6avpv4L/V2R3tjcW1P5EIvBFW/kXRd2Lhr0IU+qGcvLw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZhpzfX9C41j+azhm0yG1hl3wKGMFJo02kJXUyO8By1I=;
+ b=RwgkgwaugXJvNP3OVbdHt94CR4dNqRmvZ/qy5R/vHJyjXQLsLIrKZQk5E1GbUH7++mjoe3yr8MLODEohvs73hBF4tmrmaCe0EN5EtRINfXb6mX/ZZ14pjq3eDwoLWeuvxUEv9jXm88WFpTK3JGXtFdeVaRpPc00C3KhOX9jDucI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM6PR04MB5463.eurprd04.prod.outlook.com (2603:10a6:20b:28::26)
+ by AS8PR04MB7927.eurprd04.prod.outlook.com (2603:10a6:20b:2ad::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.28; Fri, 8 Dec
+ 2023 02:15:26 +0000
+Received: from AM6PR04MB5463.eurprd04.prod.outlook.com
+ ([fe80::db2c:c4ec:29f6:5d0f]) by AM6PR04MB5463.eurprd04.prod.outlook.com
+ ([fe80::db2c:c4ec:29f6:5d0f%5]) with mapi id 15.20.7068.028; Fri, 8 Dec 2023
+ 02:15:26 +0000
+From: Alice Yuan <alice.yuan@nxp.com>
+To: rmfrfs@gmail.com, laurent.pinchart@ideasonboard.com,
+ martin.kepplinger@puri.sm, kernel@puri.sm, linux-media@vger.kernel.org
+Subject: [PATCH linux-next/master 1/1] media: staging/imx7: Add handler the
+ abnormal interrupt BIT_STATFF_INT
+Date: Fri,  8 Dec 2023 10:19:40 +0800
+Message-Id: <20231208021940.883259-1-alice.yuan@nxp.com>
+X-Mailer: git-send-email 2.37.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2P153CA0014.APCP153.PROD.OUTLOOK.COM (2603:1096:4:140::6)
+ To AM6PR04MB5463.eurprd04.prod.outlook.com
+ (2603:10a6:20b:28::26)
 MIME-Version: 1.0
-References: <20231208005250.2910004-1-almasrymina@google.com>
-In-Reply-To: <20231208005250.2910004-1-almasrymina@google.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Thu, 7 Dec 2023 17:47:19 -0800
-Message-ID: <CAHS8izPitBiASmmdZQ91HRmK33YBZJXOmmCybgeuGYTjP231ug@mail.gmail.com>
-Subject: Re: [net-next v1 00/16] Device Memory TCP
-To: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- bpf@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, David Wei <dw@davidwei.uk>, 
- Pavel Begunkov <asml.silence@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM6PR04MB5463:EE_|AS8PR04MB7927:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8874faf5-5c00-48de-90e4-08dbf7938a82
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: zNPk0N4rGm+Co1QQzG16ONJtW1CV04s4lUL0fqSVZ0A8CXyWoaaYeKanAYIWOBROBJgGWICFN6+htK6cuRg63YvQduTOaa3454UWIWYNB9Sg3wRsY/XoCsF7nCxrdl8DU86HNlpZW8XEfAi0qGoqBcSfhmhXoK7F1n1Y5BzNTHxugxMUP4xNxxtQTsqQ/DwCkUDUJD7vXnpIX+vPEbQ3TezA00VVDCUdaLdWF6NM8RN8DAttcccnOknk9TRJcCwK4JtFNiQpC5Puo7+At9d0lTvN0ap7hFUJR30K74VgmHjyIQcZzdG+HNXrJtSn5XHaGhLYyR3+JitRUwQTQCXqP0MbT0ArUBuxYA7/HBOos7CDRvVI7X7d8Dy8sG8LiukB/RohfmzyuKyZkuXFh8vXE7j91pmHSyBWvjvYyW4WVjbMryyaYWgeHPp4HyfAztz5Eegto/P4ZZjmxvWgqeUhDb/puObvX3LXBo74yANqGzNuc8P+/ODhKev8KWQccw8/2IoDvGGomuVWOu8dE+YnctzsQxgrPYutv9brca9W7NiIAZcxEhNrnzRnSduFXQldis1/DFrM0lqCelq2buIR9WY3uPPicq+/lpcir088WpyZYQR//nWtygwRHeryyMdj
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM6PR04MB5463.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366004)(39860400002)(376002)(346002)(396003)(136003)(230922051799003)(186009)(451199024)(64100799003)(1800799012)(5660300002)(8676002)(4326008)(8936002)(86362001)(44832011)(38350700005)(36756003)(41300700001)(2906002)(83380400001)(1076003)(26005)(2616005)(38100700002)(66476007)(66556008)(66946007)(316002)(52116002)(6506007)(6512007)(6666004)(6486002)(478600001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5Z4xInSKU9Yj5k2sz4jbHy1BZO1VTyJNhtOgiTm7j0CjJ3hppBKzaOwRD/6E?=
+ =?us-ascii?Q?9UIdeetrvFocGrnqxBVMHuBGaXpeSxA8HN77xyqinxA6x4M5gpxuN82XVgCX?=
+ =?us-ascii?Q?RLK2n0hmUswmzMaBMNxUH9LD1pUJX4xytIZX9MgGDzX+Ub0DaS7u/raHc4UC?=
+ =?us-ascii?Q?0TZIkJr5Nw9PokvF9dzhbvdaFIyGlu0wGVpl6krhcy+/ThhQx6cXSbRyhcGB?=
+ =?us-ascii?Q?iZOQfj0PkBgO1vIny0Q1P9CS1TxCB+I+6kJMygOpLoTNZdtUW2Vipk+VyfOw?=
+ =?us-ascii?Q?dapqsjt2WrontrMmuqFX+HUnAGeEKldqkVsWetO1AmmgUBjH4KWzfYdSemCd?=
+ =?us-ascii?Q?jf033eQFMnJ4FO/NJJklCLGjZRo5PaMNLGvAAEMWAL7Alz6ry1u4qTHD9vmj?=
+ =?us-ascii?Q?WEQhRKOBJh12gyW4uWKMbhsH949QEt0Utqn+FdTVoravOYQBlnbST0bVdcei?=
+ =?us-ascii?Q?s/hkers4yAcz3tDqBaQaTJhaBJ6yWZLwjwm9P0HbYcIIL1YxjiosfGArynKx?=
+ =?us-ascii?Q?uDP+LwbpzHf40Gb5ZcOMSBIYqrihh1zHl+Mq8pWStpS8IptT/Q1cVTA2hpk7?=
+ =?us-ascii?Q?K898F1aC4DiDC/Mxb8WPW4RGzXINvVrnUvox1LG7/7KRNwNr3wj1YdfwnOzh?=
+ =?us-ascii?Q?eyGDvsj+KJgyJFHY4bcFwsDOkqUs2+WyC7bC7zX6lqJdXgF1lWbxiyOkLnNs?=
+ =?us-ascii?Q?cO27ovhZ/VGEFzchrJbkz1wgrum0DApgP5CkIUmMkPwYC+jXxLEWf3JJJvbt?=
+ =?us-ascii?Q?tepS4NLviPONXUso9iP4KQ4BQjJ647hzqZD/EKLkZ0T+PzkBYVFmeMqovvRP?=
+ =?us-ascii?Q?URhhw0ynpbUrzRXCFyXB4sq3cZRkvGcodXcNGtPEMehRKR5EFmwA6mzYw1iJ?=
+ =?us-ascii?Q?haDXjXq0Myp2uoSZ9Hv6nNE+n0TCJB9QA2OijysSWfpHvvVoOG3qT1hVa/9l?=
+ =?us-ascii?Q?APSoYb+6DuISK/apFEfeXIvxR9wGtBl/ZyXsUbBxnWwqoNfP/1497I5TUUFj?=
+ =?us-ascii?Q?nYQtlMXbuUeOo9dIDcpQ0YSXWkcRl4XKuWoSbv+bu71F9YWN6OImEYS1KJkd?=
+ =?us-ascii?Q?mHxsCViupnkI0/DJ6jLCgPZwBoiZ+vkeiebOctF2mrkioYpYq7AIn75QZYDA?=
+ =?us-ascii?Q?aANmpkS2Xv1O7n0q1nN44YAewM2OmGBLSDweTF8IaZxNllb/F5YlpJAuaNsj?=
+ =?us-ascii?Q?B/xXl7KqMg6qhmad3sgjkJb83jABvfiSvEFoWPDrzqcFbkkOwIkO22qU6XCf?=
+ =?us-ascii?Q?MBWvgh6F8Yl2WzY6EYs1B/a1rvaBtcEL4as1FqhkqFaW9u7HiS3kAmLP6RUb?=
+ =?us-ascii?Q?jvL2yBN/edUsvRyhLC6KyaJJn1FX5v9Ku0Fjjg24oypqQzMtINVvtb0fMyrT?=
+ =?us-ascii?Q?/+jab9tsziEEhQIBTQ/v8ta05gNObWb9zj9cPpK/b2hDRDj9BU48VozCxxcx?=
+ =?us-ascii?Q?0v6F+Ne0pq1UPqyiPs5QdaVKjojbRs4ibt695Bu4y9mdu2g7W/oW0A48wbh0?=
+ =?us-ascii?Q?m4hysnyJu4Nqm2EIXKvdgq6slhJ3naf0d0Tj13pIx2o3TZ4LfWDbOBl11lfe?=
+ =?us-ascii?Q?mF1cg8/695W+iDpd2eJPRdN7Ao7ESQMiYf1ruYpk?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8874faf5-5c00-48de-90e4-08dbf7938a82
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB5463.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2023 02:15:26.1764 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uA/msxNHA69fkYltv6+8XINLeE2fjBweV2BhVm5jKmID2/P41x8aJfzcUtcylVgPJoCRwQXe4GBDkrggHAK7Eg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB7927
+X-Mailman-Approved-At: Fri, 08 Dec 2023 08:35:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,51 +116,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jeroen de Borst <jeroendb@google.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Jonathan Corbet <corbet@lwn.net>, David Ahern <dsahern@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Yunsheng Lin <linyunsheng@huawei.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Eric Dumazet <edumazet@google.com>, Shakeel Butt <shakeelb@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>,
- Jakub Kicinski <kuba@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Paolo Abeni <pabeni@redhat.com>, Shuah Khan <shuah@kernel.org>,
- "David S. Miller" <davem@davemloft.net>
+Cc: dri-devel@lists.freedesktop.org, LnxRevLi@nxp.com,
+ linux-devel@linux.nxdi.nxp.com, linux-imx@nxp.com, kernel@pengutronix.de,
+ patchwork-lst@pengutronix.de, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 7, 2023 at 4:52=E2=80=AFPM Mina Almasry <almasrymina@google.com=
-> wrote:
->
-> Major changes in v1:
-> --------------
->
-> 1. Implemented MVP queue API ndos to remove the userspace-visible
->    driver reset.
->
-> 2. Fixed issues in the napi_pp_put_page() devmem frag unref path.
->
-> 3. Removed RFC tag.
->
-> Many smaller addressed comments across all the patches (patches have
-> individual change log).
->
-> Full tree including the rest of the GVE driver changes:
-> https://github.com/mina/linux/commits/tcpdevmem-v1
->
-> Cc: Yunsheng Lin <linyunsheng@huawei.com>
-> Cc: Shailend Chand <shailend@google.com>
-> Cc: Harshitha Ramamurthy <hramamurthy@google.com>
->
+From: "alice.yuan" <alice.yuan@nxp.com>
 
-Welp, I messed up the subject line. It should say [PATCH net-next...]
-across all the patches. This may trip up bots and email filters. If
-this is annoying, I'll resend with the fixed subject line after the
-24hr cooldown period. Sorry about that.
+When do 2592x1944 resolution capture, we found some times the
+"BIT_STATFF_INT" is abnormal, the stat fifo is not full, but
+still the DMA transfer done interrupts generate, at this time
+we will get broken frames.
 
---=20
-Thanks,
-Mina
+From the reference manual of imx8mm, we know the STATFIFO full
+interrupt status, that indicates the number of data in the
+STATFIFO reaches the trigger level. It defined clearly about
+BIT_STATFF_INT, 0: STATFIFO is not full, 1: STATFIFO is full.
+
+So we should handler the abnormal interrupts when BIT_STATFF_INT
+is 0, the stat fifo is not full, we need to drop the broken
+frames, and recovery from the abnormal status.
+
+Signed-off-by: alice.yuan <alice.yuan@nxp.com>
+---
+ drivers/media/platform/nxp/imx7-media-csi.c | 25 ++++++++++++++++-----
+ 1 file changed, 19 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/media/platform/nxp/imx7-media-csi.c b/drivers/media/platform/nxp/imx7-media-csi.c
+index 15049c6aab37..9012b155c2d7 100644
+--- a/drivers/media/platform/nxp/imx7-media-csi.c
++++ b/drivers/media/platform/nxp/imx7-media-csi.c
+@@ -249,6 +249,7 @@ struct imx7_csi {
+ 	bool is_streaming;
+ 	int buf_num;
+ 	u32 frame_sequence;
++	int frame_skip;
+ 
+ 	bool last_eof;
+ 	struct completion last_eof_completion;
+@@ -686,6 +687,7 @@ static void imx7_csi_enable(struct imx7_csi *csi)
+ 	imx7_csi_dmareq_rff_enable(csi);
+ 	imx7_csi_hw_enable(csi);
+ 
++	csi->frame_skip = 0;
+ 	if (csi->model == IMX7_CSI_IMX8MQ)
+ 		imx7_csi_baseaddr_switch_on_second_frame(csi);
+ }
+@@ -764,6 +766,12 @@ static irqreturn_t imx7_csi_irq_handler(int irq, void *data)
+ 		imx7_csi_error_recovery(csi);
+ 	}
+ 
++	if (!(status & BIT_STATFF_INT)) {
++		dev_warn(csi->dev, "Stat fifo is not full\n");
++		imx7_csi_error_recovery(csi);
++		csi->frame_skip++;
++	}
++
+ 	if (status & BIT_ADDR_CH_ERR_INT) {
+ 		imx7_csi_hw_disable(csi);
+ 
+@@ -790,14 +798,19 @@ static irqreturn_t imx7_csi_irq_handler(int irq, void *data)
+ 
+ 	if ((status & BIT_DMA_TSF_DONE_FB1) ||
+ 	    (status & BIT_DMA_TSF_DONE_FB2)) {
+-		imx7_csi_vb2_buf_done(csi);
+-
+-		if (csi->last_eof) {
+-			complete(&csi->last_eof_completion);
+-			csi->last_eof = false;
++		if (csi->frame_skip) {
++			dev_warn(csi->dev, "skip frame: %d\n", csi->frame_skip);
++			csi->frame_skip--;
++			goto out;
++		} else {
++			imx7_csi_vb2_buf_done(csi);
++			if (csi->last_eof) {
++				complete(&csi->last_eof_completion);
++				csi->last_eof = false;
++			}
+ 		}
+ 	}
+-
++out:
+ 	spin_unlock(&csi->irqlock);
+ 
+ 	return IRQ_HANDLED;
+-- 
+2.37.1
+
