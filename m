@@ -2,74 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC62180ADF3
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 21:35:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F027B80ADE2
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 21:32:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9B7910EB26;
-	Fri,  8 Dec 2023 20:35:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FB9F10EAFA;
+	Fri,  8 Dec 2023 20:32:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1190110EB23
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 20:35:28 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id
- 5b1f17b1804b1-40c2c65e6aaso21683945e9.2
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Dec 2023 12:35:27 -0800 (PST)
+Received: from mail-il1-x135.google.com (mail-il1-x135.google.com
+ [IPv6:2607:f8b0:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BE6010EAFA
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 20:32:34 +0000 (UTC)
+Received: by mail-il1-x135.google.com with SMTP id
+ e9e14a558f8ab-35d55c8ab0cso9022785ab.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Dec 2023 12:32:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1702067726; x=1702672526; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=5WPzggr+JIIcZt9j2+N/vNpUQEAOa3KMecMg/7uW9IE=;
- b=PFWJ9SzMR4XRmB3MNGyNA7s+/Ew63zD7i03LJ58sPCWTSx7DVVPui448ScYwMxYYwf
- zsh4dhJ1HZsDiEPPPK5wLY6q2HKCnNtzQVXtlGve+FczbBzJew8+/Mj39hmIT1K6LZRW
- /1uUPL2xkZ5AcGozaySFcIJb+JzphqbhQDh3Xb8dz1QnFrb5WNV8V2x4uzAPTpssh1DF
- 3Ay21rgnoO71xGrycBqVqU85sdj/zqPoqvlcN7Gvy4dD6xPWjIUCkscQvcdzco0NVXue
- vBsHoPgIDgK4IzV8QThW5rsM9dZVckhmoWyMmw7d/7x5pCpjzAwBEPZU+5TiZH/LjG2Z
- /4yQ==
+ d=google.com; s=20230601; t=1702067554; x=1702672354;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=WhBb1HqSAqTrwRbd+v/ErOl81Ub5hOYpEU76T44IBUo=;
+ b=heAe0YVu0LV7AAlIBfrM8hBg0t/njmVulMxy31fJ2jTPHOvVKRkGODNO2NM8iGNdtc
+ E7+rRD86vnRts5AJOPwhU3RMUN6bKczB+NgkaJUmpDYEXzSE60144vEgfJFefQqjL8sk
+ XLWHNzY96PufsiMcc+PhMlN044HU9MfaIksXL9Js+upu5bNMmK6J1qm2kKtxj329f7xF
+ 1h0Oo2vnGloIVYQWxkAe1CgzmktAFGcsN+GSG4JH/XSuKXDwzdoVB/sjuyF2Qr1TawnY
+ 8VtH00s1j5EE/dLVZfcHKBhgEDdhAy8fbwvfL4axbcjMKO1g/+/ZeZm4hE39mf5Zdkss
+ /Lmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702067726; x=1702672526;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5WPzggr+JIIcZt9j2+N/vNpUQEAOa3KMecMg/7uW9IE=;
- b=AApzJr5ih7LdkrC4p2FVN+lFrEbT6OV09S2SEd1hdN2KC5eFyQL/5hmblK6MF2bIod
- 3he7glW9Wm4U+nHK+HIH+sBZAeLrav0f4hIzRI0OHb0nBscvao3jEUkfMXmmgMcxvdov
- CM2Z0Bf38SoH8nemBEbMq8wvHROrq0doEQOry1z/e14bd1sA4sDuxBdIn3NbnIrcoxEI
- nb5q2LBU3pWUbCwaBkOy97NxWaXGmbyv0hlNI4P5h+TltexjuibwwI4zXf1wLhHeaxLk
- alWy5mkaJOe3BO99mIgVCQqV/hK/lrsyKpqCHL/Ug+GsWlJYMG8WF38fS2nertcILTwV
- L7KA==
-X-Gm-Message-State: AOJu0YzkDGtGa1F85yL4UwYTTAS1gVCiOFElFofsttqD2iXtaMHeUJua
- G5Jyx1snIsLfzMrWW5cowwI=
-X-Google-Smtp-Source: AGHT+IHdwbAlc9QaVuOmMS3uETMk6NFLdZw5yIXklzl91LInkNaoZgu8mRrfJeijBbH68GTPvWp7PQ==
-X-Received: by 2002:a05:600c:3093:b0:40b:5e21:bdbe with SMTP id
- g19-20020a05600c309300b0040b5e21bdbemr287462wmn.77.1702067725916; 
- Fri, 08 Dec 2023 12:35:25 -0800 (PST)
-Received: from [192.168.8.100] ([85.255.232.89])
- by smtp.gmail.com with ESMTPSA id
- u10-20020a5d434a000000b0033342338a24sm2778357wrr.6.2023.12.08.12.35.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Dec 2023 12:35:25 -0800 (PST)
-Message-ID: <7e7c2c21-12ba-41c1-92c4-f32a3906f3ee@gmail.com>
-Date: Fri, 8 Dec 2023 20:28:15 +0000
+ d=1e100.net; s=20230601; t=1702067554; x=1702672354;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=WhBb1HqSAqTrwRbd+v/ErOl81Ub5hOYpEU76T44IBUo=;
+ b=V98KMv+uy7u3fZM4moT8rl5eHTySTSHBHXCVVE8qDiFP9d0/DObgl/5vYdxCDcXCRl
+ chQV/av5GC1ZBznb4J82XUqsGePigQ25h7ecpyXyh9wRfVLKP/7vo8245SMYhJ+p7jyo
+ +w4/vzZsIMR2HKGhGEsV1sDmfyx/gQ68OPsRo2BaI7mAqefklVW1XO+m9w/ppT6ZIGn1
+ M34nj11L5VRhuumMMiBZ5oEoWdrEgleoOInX8tuf1pMQB2AjnIQdBcvw4cjnXEPOA8e0
+ atvMSeqstvTFCpq0BglUF/tgAlfqvx6RfDgzlZ9KacIQGejyHG4RABLisNkArJ/1hmQl
+ npYQ==
+X-Gm-Message-State: AOJu0YyKRyfgfVoTkzuLwyF2woRNI8nyYgoceWErAiMpYZkA9K7yInzt
+ Gs53m90KU3w266yxwiMVb3EWjt0+A1aQYq9Xn0mpBA==
+X-Google-Smtp-Source: AGHT+IG9JHOMDiMtvPVJkg2EdX8pFgSL5xbwUORKO76ChzHaeIYv3+ZS8mk+kxtsayRFdEIS46pfgO5uRe5PxVO24Xs=
+X-Received: by 2002:a05:6e02:184b:b0:35d:51de:bae2 with SMTP id
+ b11-20020a056e02184b00b0035d51debae2mr913106ilv.24.1702067553659; Fri, 08 Dec
+ 2023 12:32:33 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v3 10/12] tcp: RX path for devmem TCP
-Content-Language: en-US
-To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Stanislav Fomichev <sdf@google.com>
-References: <20231106024413.2801438-1-almasrymina@google.com>
- <20231106024413.2801438-11-almasrymina@google.com>
- <ZUk0FGuJ28s1d9OX@google.com>
- <CAHS8izNFv7r6vqYR_TYqcCuDO61F+nnNMhsSu=DrYWSr3sVgrA@mail.gmail.com>
- <CAF=yD-+MFpO5Hdqn+Q9X54SBpgcBeJvKTRD53X2oM4s8uVqnAQ@mail.gmail.com>
- <ZUlp8XutSAScKs_0@google.com>
- <CAF=yD-JZ88j+44MYgX-=oYJngz4Z0zw6Y0V3nHXisZJtNu7q6A@mail.gmail.com>
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <CAF=yD-JZ88j+44MYgX-=oYJngz4Z0zw6Y0V3nHXisZJtNu7q6A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20231208005250.2910004-1-almasrymina@google.com>
+ <20231208005250.2910004-7-almasrymina@google.com>
+ <5752508c-f7bc-44ac-8778-c807b2ee5831@kernel.org>
+ <CAHS8izPsQ2XoJy-vYWkn051Yc=D_kSprtQcG4mmPutf1G3+-aw@mail.gmail.com>
+In-Reply-To: <CAHS8izPsQ2XoJy-vYWkn051Yc=D_kSprtQcG4mmPutf1G3+-aw@mail.gmail.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Fri, 8 Dec 2023 12:32:21 -0800
+Message-ID: <CAHS8izNuhFpoLVB_03i3G5-GoHqPJ5Gz_-5JzQ8UsNF=TkR9Cg@mail.gmail.com>
+Subject: Re: [net-next v1 06/16] netdev: support binding dma-buf to netdevice
+To: David Ahern <dsahern@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,105 +72,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kaiyuan Zhang <kaiyuanz@google.com>, dri-devel@lists.freedesktop.org,
- Eric Dumazet <edumazet@google.com>, linux-kselftest@vger.kernel.org,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Mina Almasry <almasrymina@google.com>, Jeroen de Borst <jeroendb@google.com>,
+Cc: linux-doc@vger.kernel.org, Kaiyuan Zhang <kaiyuanz@google.com>,
+ dri-devel@lists.freedesktop.org, Eric Dumazet <edumazet@google.com>,
+ linux-kselftest@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-arch@vger.kernel.org,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jeroen de Borst <jeroendb@google.com>, Jonathan Corbet <corbet@lwn.net>,
  Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- linux-media@vger.kernel.org, linux-arch@vger.kernel.org,
- Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- linaro-mm-sig@lists.linaro.org, Shakeel Butt <shakeelb@google.com>,
+ linux-media@vger.kernel.org, Jesper Dangaard Brouer <hawk@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Shailend Chand <shailend@google.com>,
+ Shakeel Butt <shakeelb@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
  Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org,
- David Ahern <dsahern@kernel.org>,
  Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>,
- Praveen Kaligineedi <pkaligineedi@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Yunsheng Lin <linyunsheng@huawei.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>, bpf@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/6/23 22:55, Willem de Bruijn wrote:
-> On Mon, Nov 6, 2023 at 2:34 PM Stanislav Fomichev <sdf@google.com> wrote:
->>
->> On 11/06, Willem de Bruijn wrote:
->>>>> IMHO, we need a better UAPI to receive the tokens and give them back to
->>>>> the kernel. CMSG + setsockopt(SO_DEVMEM_DONTNEED) get the job done,
->>>>> but look dated and hacky :-(
->>>>>
->>>>> We should either do some kind of user/kernel shared memory queue to
->>>>> receive/return the tokens (similar to what Jonathan was doing in his
->>>>> proposal?)
->>>>
->>>> I'll take a look at Jonathan's proposal, sorry, I'm not immediately
->>>> familiar but I wanted to respond :-) But is the suggestion here to
->>>> build a new kernel-user communication channel primitive for the
->>>> purpose of passing the information in the devmem cmsg? IMHO that seems
->>>> like an overkill. Why add 100-200 lines of code to the kernel to add
->>>> something that can already be done with existing primitives? I don't
->>>> see anything concretely wrong with cmsg & setsockopt approach, and if
->>>> we switch to something I'd prefer to switch to an existing primitive
->>>> for simplicity?
->>>>
->>>> The only other existing primitive to pass data outside of the linear
->>>> buffer is the MSG_ERRQUEUE that is used for zerocopy. Is that
->>>> preferred? Any other suggestions or existing primitives I'm not aware
->>>> of?
->>>>
->>>>> or bite the bullet and switch to io_uring.
->>>>>
->>>>
->>>> IMO io_uring & socket support are orthogonal, and one doesn't preclude
->>>> the other. As you know we like to use sockets and I believe there are
->>>> issues with io_uring adoption at Google that I'm not familiar with
->>>> (and could be wrong). I'm interested in exploring io_uring support as
->>>> a follow up but I think David Wei will be interested in io_uring
->>>> support as well anyway.
->>>
->>> I also disagree that we need to replace a standard socket interface
->>> with something "faster", in quotes.
->>>
->>> This interface is not the bottleneck to the target workload.
->>>
->>> Replacing the synchronous sockets interface with something more
->>> performant for workloads where it is, is an orthogonal challenge.
->>> However we do that, I think that traditional sockets should continue
->>> to be supported.
->>>
->>> The feature may already even work with io_uring, as both recvmsg with
->>> cmsg and setsockopt have io_uring support now.
->>
->> I'm not really concerned with faster. I would prefer something cleaner :-)
->>
->> Or maybe we should just have it documented. With some kind of path
->> towards beautiful world where we can create dynamic queues..
-> 
-> I suppose we just disagree on the elegance of the API.
-> 
-> The concise notification API returns tokens as a range for
-> compression, encoding as two 32-bit unsigned integers start + length.
-> It allows for even further batching by returning multiple such ranges
-> in a single call.
+On Fri, Dec 8, 2023 at 11:22=E2=80=AFAM Mina Almasry <almasrymina@google.co=
+m> wrote:
+>
+> On Fri, Dec 8, 2023 at 9:48=E2=80=AFAM David Ahern <dsahern@kernel.org> w=
+rote:
+> >
+> > On 12/7/23 5:52 PM, Mina Almasry wrote:
+> ...
+> > > +
+> > > +     xa_for_each(&binding->bound_rxq_list, xa_idx, rxq) {
+> > > +             if (rxq->binding =3D=3D binding) {
+> > > +                     /* We hold the rtnl_lock while binding/unbindin=
+g
+> > > +                      * dma-buf, so we can't race with another threa=
+d that
+> > > +                      * is also modifying this value. However, the d=
+river
+> > > +                      * may read this config while it's creating its
+> > > +                      * rx-queues. WRITE_ONCE() here to match the
+> > > +                      * READ_ONCE() in the driver.
+> > > +                      */
+> > > +                     WRITE_ONCE(rxq->binding, NULL);
+> > > +
+> > > +                     rxq_idx =3D get_netdev_rx_queue_index(rxq);
+> > > +
+> > > +                     netdev_restart_rx_queue(binding->dev, rxq_idx);
+> >
+> > Blindly restarting a queue when a dmabuf is heavy handed. If the dmabuf
+> > has no outstanding references (ie., no references in the RxQ), then no
+> > restart is needed.
+> >
+>
+> I think I need to stop the queue while binding to a dmabuf for the
+> sake of concurrency, no? I.e. the softirq thread may be delivering a
+> packet, and in parallel a separate thread holds rtnl_lock and tries to
+> bind the dma-buf. At that point the page_pool recreation will race
+> with the driver doing page_pool_alloc_page(). I don't think I can
+> insert a lock to handle this into the rx fast path, no?
+>
+> Also, this sounds like it requires (lots of) more changes. The
+> page_pool + driver need to report how many pending references there
+> are (with locking so we don't race with incoming packets), and have
+> them reported via an ndo so that we can skip restarting the queue.
+> Implementing the changes in to a huge issue but handling the
+> concurrency may be a genuine blocker. Not sure it's worth the upside
+> of not restarting the single rx queue?
+>
+> > > +             }
+> > > +     }
+> > > +
+> > > +     xa_erase(&netdev_dmabuf_bindings, binding->id);
+> > > +
+> > > +     netdev_dmabuf_binding_put(binding);
+> > > +}
+> > > +
+> > > +int netdev_bind_dmabuf_to_queue(struct net_device *dev, u32 rxq_idx,
+> > > +                             struct netdev_dmabuf_binding *binding)
+> > > +{
+> > > +     struct netdev_rx_queue *rxq;
+> > > +     u32 xa_idx;
+> > > +     int err;
+> > > +
+> > > +     rxq =3D __netif_get_rx_queue(dev, rxq_idx);
+> > > +
+> > > +     if (rxq->binding)
+> > > +             return -EEXIST;
+> > > +
+> > > +     err =3D xa_alloc(&binding->bound_rxq_list, &xa_idx, rxq, xa_lim=
+it_32b,
+> > > +                    GFP_KERNEL);
+> > > +     if (err)
+> > > +             return err;
+> > > +
+> > > +     /* We hold the rtnl_lock while binding/unbinding dma-buf, so we=
+ can't
+> > > +      * race with another thread that is also modifying this value. =
+However,
+> > > +      * the driver may read this config while it's creating its * rx=
+-queues.
+> > > +      * WRITE_ONCE() here to match the READ_ONCE() in the driver.
+> > > +      */
+> > > +     WRITE_ONCE(rxq->binding, binding);
+> > > +
+> > > +     err =3D netdev_restart_rx_queue(dev, rxq_idx);
+> >
+> > Similarly, here binding a dmabuf to a queue. I was expecting the dmabuf
+> > binding to add entries to the page pool for the queue.
+>
+> To be honest, I think maybe there's a slight disconnect between how
+> you think the page_pool works, and my primitive understanding of how
+> it works. Today, I see a 1:1 mapping between rx-queue and page_pool in
+> the code. I don't see 1:many or many:1 mappings.
+>
+> In theory mapping 1 rx-queue to n page_pools is trivial: the driver
+> can call page_pool_create() multiple times to generate n queues and
+> decide for incoming packets which one to use.
+>
+> However, mapping n rx-queues to 1 page_pool seems like a can of worms.
+> I see code in the page_pool that looks to me (and Willem) like it's
+> safe only because the page_pool is used from the same napi context.
+> with a n rx-queueue: 1 page_pool mapping, that is no longer true, no?
+> There is a tail end of issues to resolve to be able to map 1 page_pool
+> to n queues as I understand and even if resolved I'm not sure the
+> maintainers are interested in taking the code.
+>
+> So, per my humble understanding there is no such thing as "add entries
+> to the page pool for the (specific) queue", the page_pool is always
+> used by 1 queue.
+>
+> Note that even though this limitation exists, we still support binding
+> 1 dma-buf to multiple queues, because multiple page pools can use the
+> same netdev_dmabuf_binding. I should add that to the docs.
+>
+> > If the pool was
+> > previously empty, then maybe the queue needs to be "started" in the
+> > sense of creating with h/w or just pushing buffers into the queue and
+> > moving the pidx.
+> >
+> >
+>
+> I don't think it's enough to add buffers to the page_pool, no? The
+> existing buffers in the page_pool (host mem) must be purged. I think
+> maybe the queue needs to be stopped as well so that we don't race with
+> incoming packets and end up with skbs with devmem and non-devmem frags
+> (unless you're thinking it becomes a requirement to support that, I
+> think things are complicated as-is and it's a good simplification).
+> When we already purge the existing buffers & restart the queue, it's
+> little effort to migrate this to become in line with Jakub's queue-api
+> that he also wants to use for per-queue configuration & ndo_stop/open.
+>
 
-FWIW, nothing prevents io_uring from compressing ranges. The io_uring
-zc RFC returns {offset, size} as well, though at the moment the would
-lie in the same page.
+FWIW what i'm referring to with Jakub's queue-api is here:
+https://lore.kernel.org/netdev/20230815171638.4c057dcd@kernel.org/
 
-> This is analogous to the MSG_ZEROCOPY notification mechanism from
-> kernel to user.
-> 
-> The synchronous socket syscall interface can be replaced by something
-> asynchronous like io_uring. This already works today? Whatever
-
-If you mean async io_uring recv, it does work. In short, internally
-it polls the socket and then calls sock_recvmsg(). There is also a
-feature that would make it return back to polling after sock_recvmsg()
-and loop like this.
-
-> asynchronous ring-based API would be selected, io_uring or otherwise,
-> I think the concise notification encoding would remain as is.
-> 
-> Since this is an operation on a socket, I find a setsockopt the
-> fitting interface.
-
--- 
-Pavel Begunkov
+I made some simplifications, vis-a-vis passing the queue idx for the
+driver to extract the config from rather than the 'cfg' param Jakub
+outlined, and again passed the queue idx instead of the 'queue info'
+(the API currently assumes RX, and can be extended later for TX use
+cases).
+--=20
+Thanks,
+Mina
