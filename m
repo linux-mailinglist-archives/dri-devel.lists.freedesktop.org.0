@@ -1,41 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBF2B80B267
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Dec 2023 07:37:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7B9D80B25F
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Dec 2023 07:37:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B67910EB6A;
-	Sat,  9 Dec 2023 06:37:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7A4C10EB64;
+	Sat,  9 Dec 2023 06:37:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de
  [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6670410EB64
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7D4610EB6A
  for <dri-devel@lists.freedesktop.org>; Sat,  9 Dec 2023 06:37:39 +0000 (UTC)
 Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 92EBB87158;
- Sat,  9 Dec 2023 07:37:36 +0100 (CET)
+ by phobos.denx.de (Postfix) with ESMTPSA id 9B93D87185;
+ Sat,  9 Dec 2023 07:37:37 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1702103857;
- bh=MZpymaKOZPW5QHysuyYS7rZv+q3Zp4w+2CiG538XAY4=;
- h=From:To:Cc:Subject:Date:From;
- b=yoU5Szgn3nrx8zs2v2qDJOxNOnkDwYoDJUBeHJIw6E5et5vBayo7pamKJ90eD+fNd
- l/qgKy4RAoZOye01+NznDENRXey3lszyNCggMhnFiEZK4iod9jzbk+oOWVnYxBZu2h
- AT6erZDV81OBs1QOe8Ni+Bt/X9ucHugXDCJzZOlz2qrPpotym0WbohFzMTpNBjITXC
- 7dkbRuNRODEVdKqW0r/iXIXtog6P8xhszgcXMGqZtQlWyL9QCAgDfdWJAReJj506Dx
- l9631iGTtIJTiV+VnoDhwQLx1m94551MQqty3FoAONL6ivjlm9qU3t/JAAvsyN+k8f
- EvoRfR+BSgxcA==
+ s=phobos-20191101; t=1702103858;
+ bh=MOTcAFz5O3XHCz6fvyNTnvT4+8NExjHejdjjMnKIH7I=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=KjAcCKW38n+YHU6Uiu2F0GNfXC5sXAEwCn8CkckDSDFIwIYXkl2ixrkoX5kTkZcrH
+ tlpReJI7tzU6pKjH07DJR01yLlTUsApYbqTd/0TCmBbdCZDE7+km8+gtoi/eQW2luc
+ lKtBO7zqRuSIolAAGwmBOLp1h9riNmy4md83h80ox3FLqCLsJLT/3kS3tOhWIVAr+P
+ 9wUdwVMsLb1rZR4MjBhI9g1jYhO6Xn0tawL2Go9klfeXXBwtbUT52v8RxvC6MTce/B
+ caSSk+Md0gf2/4BDacwXoRCtSoQzPQRUkjNQJB2Oqw12wjO2iW/ohHGZJDMqxJxwUH
+ M0usZxeOIILbg==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 1/2] dt-bindings: display: simple: Add AUO G156HAN04.0 LVDS
- display
-Date: Sat,  9 Dec 2023 07:36:59 +0100
-Message-ID: <20231209063714.1381913-1-marex@denx.de>
+Subject: [PATCH v2 2/2] drm/panel: simple: Add AUO G156HAN04.0 LVDS display
+ support
+Date: Sat,  9 Dec 2023 07:37:00 +0100
+Message-ID: <20231209063714.1381913-2-marex@denx.de>
 X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231209063714.1381913-1-marex@denx.de>
+References: <20231209063714.1381913-1-marex@denx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
@@ -57,17 +59,14 @@ Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
  Liu Ying <victor.liu@nxp.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maxime Ripard <mripard@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
  Jessica Zhang <quic_jesszhan@quicinc.com>,
  Elmar Albert <ealbert@data-modul.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Elmar Albert <ealbert@data-modul.com>
-
-Document support for the AUO G156HAN04.0 LVDS display.
 
 G156HAN04.0 is a Color Active Matrix Liquid Crystal Display composed of
 a TFT LCD panel, a driver circuit, and LED backlight system. The screen
@@ -78,7 +77,6 @@ All input signals are LVDS interface compatible.
 G156HAN04.0 is designed for a display unit of notebook style
 personal computer and industrial machine.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Elmar Albert <ealbert@data-modul.com>
 Signed-off-by: Marek Vasut <marex@denx.de>
 ---
@@ -98,27 +96,67 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: devicetree@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
 ---
-V2: - Collect AB from Krzysztof
-    - Update to new panel-simple-lvds-dual-ports.yaml
-    - Update commit subject prefix
-    - Add own SoB line
+V2: - Rebase the patch
+    - Fix up commit message
+    - Tx parameter comments are retained, they refer to datasheet
+      timings and are generally useful when checking if the timing
+      requirements are properly fulfilled
 ---
- .../bindings/display/panel/panel-simple-lvds-dual-ports.yaml    | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/panel/panel-simple.c | 34 ++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
-index a5a596ff8e752..716ece5f39784 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
-@@ -33,6 +33,8 @@ properties:
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 6bdd97ee71fec..83039c6b50e05 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -1135,6 +1135,37 @@ static const struct panel_desc auo_g133han01 = {
+ 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+ };
  
-         # AU Optronics Corporation 13.3" FHD (1920x1080) TFT LCD panel
-       - auo,g133han01
-+        # AU Optronics Corporation 15.6" FHD (1920x1080) TFT LCD panel
-+      - auo,g156han04
-         # AU Optronics Corporation 18.5" FHD (1920x1080) TFT LCD panel
-       - auo,g185han01
-         # AU Optronics Corporation 19.0" (1280x1024) TFT LCD panel
++static const struct display_timing auo_g156han04_timings = {
++	.pixelclock = { 137000000, 141000000, 146000000 },
++	.hactive = { 1920, 1920, 1920 },
++	.hfront_porch = { 60, 60, 60 },
++	.hback_porch = { 90, 92, 111 },
++	.hsync_len =  { 32, 32, 32 },
++	.vactive = { 1080, 1080, 1080 },
++	.vfront_porch = { 12, 12, 12 },
++	.vback_porch = { 24, 36, 56 },
++	.vsync_len = { 8, 8, 8 },
++};
++
++static const struct panel_desc auo_g156han04 = {
++	.timings = &auo_g156han04_timings,
++	.num_timings = 1,
++	.bpc = 8,
++	.size = {
++		.width = 344,
++		.height = 194,
++	},
++	.delay = {
++		.prepare = 50,		/* T2 */
++		.enable = 200,		/* T3 */
++		.disable = 110,		/* T10 */
++		.unprepare = 1000,	/* T13 */
++	},
++	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
++	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
++	.connector_type = DRM_MODE_CONNECTOR_LVDS,
++};
++
+ static const struct drm_display_mode auo_g156xtn01_mode = {
+ 	.clock = 76000,
+ 	.hdisplay = 1366,
+@@ -4289,6 +4320,9 @@ static const struct of_device_id platform_of_match[] = {
+ 	}, {
+ 		.compatible = "auo,g133han01",
+ 		.data = &auo_g133han01,
++	}, {
++		.compatible = "auo,g156han04",
++		.data = &auo_g156han04,
+ 	}, {
+ 		.compatible = "auo,g156xtn01",
+ 		.data = &auo_g156xtn01,
 -- 
 2.42.0
 
