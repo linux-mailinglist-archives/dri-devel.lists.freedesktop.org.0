@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93A3A80B50B
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Dec 2023 16:26:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8957F80B513
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Dec 2023 16:31:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 374AC10E19C;
-	Sat,  9 Dec 2023 15:25:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABC9910E1AA;
+	Sat,  9 Dec 2023 15:31:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1B4210E19C
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Dec 2023 15:25:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D314F10E1A9
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Dec 2023 15:31:27 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.whiteo.stw.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1rBzCs-0003ND-PR; Sat, 09 Dec 2023 16:25:30 +0100
+ id 1rBzIT-00042K-SW; Sat, 09 Dec 2023 16:31:17 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1rBzCq-00Efi6-4I; Sat, 09 Dec 2023 16:25:28 +0100
+ id 1rBzIS-00Efii-Df; Sat, 09 Dec 2023 16:31:16 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1rBzCp-00H8eS-R9; Sat, 09 Dec 2023 16:25:27 +0100
+ id 1rBzIS-00H8sk-3H; Sat, 09 Dec 2023 16:31:16 +0100
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To: Douglas Anderson <dianders@chromium.org>,
  Bjorn Andersson <andersson@kernel.org>, Nikita Travkin <nikita@trvn.ru>
-Subject: [PATCH v2] drm/bridge: ti-sn65dsi86: Associate PWM device to
+Subject: [PATCH v3] drm/bridge: ti-sn65dsi86: Associate PWM device to
  auxiliary device
-Date: Sat,  9 Dec 2023 16:25:20 +0100
-Message-ID: <20231209152520.1987483-2-u.kleine-koenig@pengutronix.de>
+Date: Sat,  9 Dec 2023 16:31:09 +0100
+Message-ID: <20231209153108.1988551-2-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4080;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4086;
  i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=wnEeX8LEEe0Iz/aG6AgcL6ifNCSEgYFw0IO+CAXvM7w=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBldIbgMljm63BTIJrAbxqEIljXt2FO8RMq8eqOJ
- fZtehwAC3uJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZXSG4AAKCRCPgPtYfRL+
- TiZFB/91jCTYRLXpVmS877wuHTqBVfA+TR840BO4N4DgwmRUx6QNV+PVw7Q0ZzfuWUATL0kcgmN
- x5Rf/pG6HpOB1hELmwQ9oGQk/ovZUH6riH2SG/oUSPQ+MI1hh12I2AX331NphKiWpedOuAXsdn6
- qldHgvAmIBxuPlUCM5m4KYAAkjQwCVk7t+M3Xrp+qb1uIjQAV21un3zcm+i//Jsv7toLhNkaNZu
- Z/puDT7YaEHORWIVv9x8ugxFrBUDWIJIuD3XqVjQUt/KrqrNthUfG8PeSQzX94xjc7Li0upt4Mx
- cWu2dw30pdM/2hQAw8nVcyIoNLkSv5Lk3bE1uzQ0+d1yZGfu
+ bh=4HR0Qy1AS3iMq+veClSkhv+jCdnhoK/2As4qUVS3DPQ=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBldIg9lRuDaDHoHunoBvNQDeAWfgRjJQ44lI4I5
+ FzmOxVnMt2JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZXSIPQAKCRCPgPtYfRL+
+ TtoJB/9wHR0r78UR65W4a1TEAGFuKYvytgnZsCLsCDtQ7ApFe45amZPHNqOJ2vSehV33OcMl3PV
+ DCsQKSBD5zfIWMlCimdGfz7VJsG64H7CDuV+hAXzyTpWrN+8FW42aFGnDFdFLqu1nm/whMGeNVa
+ QV0q7noe6r3yTnNF0k7gR106Vcdz/SEb896mqlKmhN3EkGQK5AFkosDT2CKGzevl/MzDjRebRyI
+ tTqG3eW/wITLM9Gfco7gP+JCkLG9NITYEwkQygRzJmVRlEqoTVRku7qQe7mDYtqruUzLCVxdzy+
+ F2cjBHC+rzlS6rRm9BzdGC22yt0F5INoNQmxjxSyZvz+RTu6
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
  fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
@@ -88,6 +88,12 @@ as expected as parent devices are handled just fine.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
+Changes since v2
+(https://lore.kernel.org/dri-devel/20231209152520.1987483-2-u.kleine-koenig@pengutronix.de):
+
+ - Make use of devm_pm_runtime_enable as suggested by Douglas Anderson
+   in reply to v1 already. (Sorry, missed that while preparing v2 :-\)
+
 Changes since (implicit) v1
 (https://lore.kernel.org/dri-devel/20231127101547.734061-2-u.kleine-koenig@pengutronix.de):
 
@@ -97,11 +103,6 @@ Changes since (implicit) v1
    resolution for commit c9d99c73940e ("drm/bridge: ti-sn65dsi86:
    Simplify using pm_runtime_resume_and_get()").
 
-The first submission got a Reviewed-by tag from Douglas Anderson. I'd
-expect he is fine with the changes in this v2, but to not suggest in his
-name, I didn't add the tag here. Also it's easier to readd the tag than
-to drop it if there are new concerns.
-
 Best regards
 Uwe
 
@@ -109,7 +110,7 @@ Uwe
  1 file changed, 9 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index 5b8e1dfc458d..c8a913d6f699 100644
+index 5b8e1dfc458d..9095d1453710 100644
 --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
 +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
 @@ -1413,7 +1413,7 @@ static int ti_sn_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
@@ -168,7 +169,7 @@ index 5b8e1dfc458d..c8a913d6f699 100644
  	pdata->pchip.of_xlate = of_pwm_single_xlate;
  	pdata->pchip.of_pwm_n_cells = 1;
  
-+	pm_runtime_enable(&adev->dev);
++	devm_pm_runtime_enable(&adev->dev);
 +
  	return pwmchip_add(&pdata->pchip);
  }
