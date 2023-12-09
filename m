@@ -2,49 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8075F80B16E
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Dec 2023 02:30:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBF2B80B267
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Dec 2023 07:37:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C8F410E172;
-	Sat,  9 Dec 2023 01:30:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B67910EB6A;
+	Sat,  9 Dec 2023 06:37:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m17229.xmail.ntesmail.com (mail-m17229.xmail.ntesmail.com
- [45.195.17.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08EB010E172
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Dec 2023 01:30:35 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256;
- b=U1A4+o27k8BpDm6vFDm5SLrPKgl34qoVXMOQvOQXRouyshE2USxFMrKUjLBvZqvahaN1PDUCU9HgM8uXSy5TDh1x+LvZ8qX0ywxXkpfTKNVHxQ+uRjDBsoVLKkvr0UTUWJ/zfKU6kxJF2fJr5Yq6Q7h8DxbwtRVqxybgTYz2VTM=;
- s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
- bh=3ZfnCGij/I8m1TiIlexdEuiMXvToZHxbD5kG64olyL0=;
- h=date:mime-version:subject:message-id:from;
-Received: from [172.16.12.141] (unknown [58.22.7.114])
- by mail-m12779.qiye.163.com (Hmail) with ESMTPA id E461F78018D;
- Sat,  9 Dec 2023 09:30:30 +0800 (CST)
-Message-ID: <e0181a1a-b649-4f38-b4f8-f5ee22bcb356@rock-chips.com>
-Date: Sat, 9 Dec 2023 09:30:30 +0800
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6670410EB64
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Dec 2023 06:37:39 +0000 (UTC)
+Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 92EBB87158;
+ Sat,  9 Dec 2023 07:37:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1702103857;
+ bh=MZpymaKOZPW5QHysuyYS7rZv+q3Zp4w+2CiG538XAY4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=yoU5Szgn3nrx8zs2v2qDJOxNOnkDwYoDJUBeHJIw6E5et5vBayo7pamKJ90eD+fNd
+ l/qgKy4RAoZOye01+NznDENRXey3lszyNCggMhnFiEZK4iod9jzbk+oOWVnYxBZu2h
+ AT6erZDV81OBs1QOe8Ni+Bt/X9ucHugXDCJzZOlz2qrPpotym0WbohFzMTpNBjITXC
+ 7dkbRuNRODEVdKqW0r/iXIXtog6P8xhszgcXMGqZtQlWyL9QCAgDfdWJAReJj506Dx
+ l9631iGTtIJTiV+VnoDhwQLx1m94551MQqty3FoAONL6ivjlm9qU3t/JAAvsyN+k8f
+ EvoRfR+BSgxcA==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 1/2] dt-bindings: display: simple: Add AUO G156HAN04.0 LVDS
+ display
+Date: Sat,  9 Dec 2023 07:36:59 +0100
+Message-ID: <20231209063714.1381913-1-marex@denx.de>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 10/17] dt-bindings: display: vop2: Add rk3588 support
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Andy Yan <andyshrk@163.com>, heiko@sntech.de
-References: <20231207075906.651771-1-andyshrk@163.com>
- <20231207080133.652417-1-andyshrk@163.com>
- <0915b94c-596e-4a19-925c-1a5b1d0a3531@linaro.org>
-From: Andy Yan <andy.yan@rock-chips.com>
-In-Reply-To: <0915b94c-596e-4a19-925c-1a5b1d0a3531@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGkhPHlYZHh9JQhoZTElMHk9VEwETFh
- oSFyQUDg9ZV1kYEgtZQVlOQ1VJSVVMVUpKT1lXWRYaDxIVHRRZQVlPS0hVSk1PSU5JVUpLS1VKQl
- kG
-X-HM-Tid: 0a8c4c328fdbb24fkuuue461f78018d
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Kz46USo5Hjw1Gk46LB4pSwoO
- DkJPCx1VSlVKTEtJS0NOT0hKQ0lIVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
- WUFZTkNVSUlVTFVKSk9ZV1kIAVlBSE1DSDcG
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,68 +52,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, chris.obbard@collabora.com, hjc@rock-chips.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kever.yang@rock-chips.com, linux-rockchip@lists.infradead.org,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- sebastian.reichel@collabora.com
+Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ Liu Ying <victor.liu@nxp.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maxime Ripard <mripard@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Elmar Albert <ealbert@data-modul.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-HI Krzysztof:
+From: Elmar Albert <ealbert@data-modul.com>
 
-On 12/9/23 01:46, Krzysztof Kozlowski wrote:
-> On 07/12/2023 09:01, Andy Yan wrote:
->> From: Andy Yan <andy.yan@rock-chips.com>
->>
->> The vop2 on rk3588 is similar to which on rk356x
->> but with 4 video ports and need to reference
->> more grf modules.
->>
->> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
->>
->> ---
->>
->> Changes in v4:
->> - drop redundant description.
->> - use full stop at all the description's end.
->> - address Krzysztof's review in v3
-> 
-> What changed? Please list specific changes, not just generic "address
-> review".
-> 
+Document support for the AUO G156HAN04.0 LVDS display.
 
-Sorry, I will keep this in mind in the future.
+G156HAN04.0 is a Color Active Matrix Liquid Crystal Display composed of
+a TFT LCD panel, a driver circuit, and LED backlight system. The screen
+format is intended to support the 16:9 FHD, 1920(H) x 1080(V) screen
+and 16.7M colors (RGB 8-bits) with LED backlight driving circuit.
+All input signals are LVDS interface compatible.
 
->>
->> Changes in v3:
->> - constrain properties in allOf:if:then
->> - some description updates
->>
-> 
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> ---
-> 
-> This is an automated instruction, just in case, because many review tags
-> are being ignored. If you know the process, you can skip it (please do
-> not feel offended by me posting it here - no bad intentions intended).
-> If you do not know the process, here is a short explanation:
-> 
-> Please add Acked-by/Reviewed-by/Tested-by tags when posting new
-> versions, under or above your Signed-off-by tag. Tag is "received", when
-> provided in a message replied to you on the mailing list. Tools like b4
-> can help here. However, there's no need to repost patches *only* to add
-> the tags. The upstream maintainer will do that for tags received on the
-> version they apply.
-> 
-> https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
-> 
-> Best regards,
-> Krzysztof
-> 
-> 
-> _______________________________________________
-> Linux-rockchip mailing list
-> Linux-rockchip@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-rockchip
+G156HAN04.0 is designed for a display unit of notebook style
+personal computer and industrial machine.
+
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Elmar Albert <ealbert@data-modul.com>
+Signed-off-by: Marek Vasut <marex@denx.de>
+---
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: Liu Ying <victor.liu@nxp.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: devicetree@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+---
+V2: - Collect AB from Krzysztof
+    - Update to new panel-simple-lvds-dual-ports.yaml
+    - Update commit subject prefix
+    - Add own SoB line
+---
+ .../bindings/display/panel/panel-simple-lvds-dual-ports.yaml    | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
+index a5a596ff8e752..716ece5f39784 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
+@@ -33,6 +33,8 @@ properties:
+ 
+         # AU Optronics Corporation 13.3" FHD (1920x1080) TFT LCD panel
+       - auo,g133han01
++        # AU Optronics Corporation 15.6" FHD (1920x1080) TFT LCD panel
++      - auo,g156han04
+         # AU Optronics Corporation 18.5" FHD (1920x1080) TFT LCD panel
+       - auo,g185han01
+         # AU Optronics Corporation 19.0" (1280x1024) TFT LCD panel
+-- 
+2.42.0
+
