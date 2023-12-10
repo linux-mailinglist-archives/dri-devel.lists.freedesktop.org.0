@@ -2,79 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09FB580B859
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Dec 2023 03:00:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24E2080B87A
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Dec 2023 04:05:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C0FB10E309;
-	Sun, 10 Dec 2023 02:00:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2833110E127;
+	Sun, 10 Dec 2023 03:05:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com
- [IPv6:2607:f8b0:4864:20::f2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22E7A10E300;
- Sun, 10 Dec 2023 02:00:16 +0000 (UTC)
-Received: by mail-qv1-xf2e.google.com with SMTP id
- 6a1803df08f44-67abd020f40so35453486d6.0; 
- Sat, 09 Dec 2023 18:00:16 -0800 (PST)
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CD5A10E127
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Dec 2023 03:05:02 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id
+ 5b1f17b1804b1-40c1e3ea2f2so36402855e9.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 09 Dec 2023 19:05:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1702173615; x=1702778415; darn=lists.freedesktop.org;
- h=in-reply-to:autocrypt:from:references:cc:to:content-language
- :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
- :date:message-id:reply-to;
- bh=Iirnk+K80ukU5tUHF57C2FdkiPvuVc7P/UMA6GstnZ0=;
- b=LzmX7W4RG6RQwOVkPPGKfPj/hH6ecDgZpZfKMZIMxZ73P78vLSDmw1w8Y+evx+egQo
- 6mcn9sO6gIjlw48XTiOypnZeRA7Qb38C+4bUUPcx5hwQnErRPPaJ/OgNM8PK1TlZalNP
- Ey4uClVFgOcm668cH9JeEzdQFquk0C3u2qL8NNbFrLTiCJL8rj06QJ+6mS8ccpmr6jE1
- lo7PZQIu5glBN1XzDVICH91gWZPpUzW621aqVoJmdwoOTqQ9vNX+Kb7TIwIrqKXCvaY+
- Rpe1CTaVWKkVYh2MRdcXcMFPfFDikbZKsjJ4859lC3Uq+AaD8s1UioSwKSu6utNDLO67
- S1Zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702173615; x=1702778415;
- h=in-reply-to:autocrypt:from:references:cc:to:content-language
- :subject:user-agent:mime-version:date:message-id:x-gm-message-state
+ d=gmail.com; s=20230601; t=1702177500; x=1702782300; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Iirnk+K80ukU5tUHF57C2FdkiPvuVc7P/UMA6GstnZ0=;
- b=kJmtHiLdVrZWlZXv4zpAF/pKYfKPbojF8+BMYZn4xm8jaARq0SkJ9VA7fsBsMjYoTh
- DA0fI5eL/7oOM9IZ/uS5wYkTWxSph0vVJkQy6vo6YQ3gEAi6kFC39NEpA5e59u/SaBit
- 3wKnsqt7MAbT+EJnyFnUigOaF0JMtwkzCYgvTt4dsA4pXfEugfodzuSAndjnXbgqKui7
- qLDdB/cuWtpCeJ4oxT4nONuU1dc+h7aMWEZ/eqS+woKTwgSqhqSOTzD4k+jLYJpK/d9Q
- 28wjIwvERiXSsf69NNPIISWM/JqDbeczHYDXmEFbahbJB7UVU9YOqI+ask/eWF06NL3h
- 3ZKg==
-X-Gm-Message-State: AOJu0YzleSUVpg75r7K/9QoBFvyO7slVV8j1itHWZ0MrZ/OIIfHOf+ug
- Vl1RHVzY17zqt8/3NCE5NJA=
-X-Google-Smtp-Source: AGHT+IHmmO8yEQxrJ3T556l1Tmtu1x5im4Nj1OUazKYtPscjv2QXgn0AAZMkSWymutV6XmCr0Gc/AA==
-X-Received: by 2002:a05:6214:1549:b0:67a:a2a2:3935 with SMTP id
- t9-20020a056214154900b0067aa2a23935mr3074853qvw.7.1702173614950; 
- Sat, 09 Dec 2023 18:00:14 -0800 (PST)
-Received: from [192.168.2.14] ([76.65.20.140])
+ bh=Wxl9nnVIfiBOr8Rw+j4D/uD/Nj3r0oHUhj6QGiUGdeU=;
+ b=mOohBVN0Blw7mM6gE/HT3zsANn3fgndKo2DdMFCFnVf5Jqdsh707h1eDisMWE6xViA
+ 8TW681PZEMKcxYQS06Lxvq0zj5gAOlDxelLNIxIDoaGGel2Y6CRD2F2W1QehueBMkzVM
+ J7hf9cADAVGnK5eIbP0IPgI59e5yw73g7RQa+rO3VaT+SmP4dORDUR0Crgm+NbDFB6pq
+ DtkmfYB1AQgkXS+kuKHnen2ZXqmKburPmU/oxfwWicKMb4V1HFwuom6uvTP9WFS/FTJq
+ p6i72eUANsvAkRAppB9OZRN3h6/Tb52zvKLsy7ebPLK20iVcVH0hRg/3dUylgyeAyIJN
+ nr5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1702177500; x=1702782300;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Wxl9nnVIfiBOr8Rw+j4D/uD/Nj3r0oHUhj6QGiUGdeU=;
+ b=D9Sj7WhCJS7xjPkL+kGioIscLkkC96CYy9Sl8qgmunfJnbn3DFmKlp3kq86mzPe9XE
+ ENwE00Nw/I7x+Vk917AWWn8dS3mXW9m27qdXRJjAFa/aPXIFoQSr4fXeWQtSRjc7tK4O
+ BHIV9vTjZ81sx5+dTDpGw9A7zns4caiGeI27JGLDIhg2pboJst/aM/ZT2znJB08lihd2
+ 6kG4oPA41AmPAfzvJ3UIEV7JH6RNIRU4HujyMZ7m8z5sR7IddjpOMYGlZLbsw6hmDlyV
+ 9viQuGqciMOJP/ScbULy6WQ7Xd4Y0h+e1/LdJfKzZAzO0j5chcqEhkdXA9ibazCqY6Ov
+ ZOog==
+X-Gm-Message-State: AOJu0YxhyS4CcEmokUwGEKufHkfepxtptg+fhOoA84V68WzlrOfSgNEx
+ AU5RVSv+5zDSaH84OIURouA=
+X-Google-Smtp-Source: AGHT+IHJipyQW4yFkljRQowJvIeShM9YAuwDKB6t4bKW0HKwLGG9Hrotr1J6QPfjejCHHrlkaexSCA==
+X-Received: by 2002:adf:e282:0:b0:332:ef1e:bb88 with SMTP id
+ v2-20020adfe282000000b00332ef1ebb88mr1266810wri.33.1702177500084; 
+ Sat, 09 Dec 2023 19:05:00 -0800 (PST)
+Received: from [192.168.8.100] ([85.255.236.102])
  by smtp.gmail.com with ESMTPSA id
- pp12-20020a056214138c00b0067a14238fa9sm2051161qvb.94.2023.12.09.18.00.13
+ fm21-20020a05600c0c1500b0040c03c3289bsm8341129wmb.37.2023.12.09.19.04.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 09 Dec 2023 18:00:14 -0800 (PST)
-Message-ID: <cd286d71-811e-4976-8538-4f946dca6da8@gmail.com>
-Date: Sat, 9 Dec 2023 21:00:04 -0500
+ Sat, 09 Dec 2023 19:04:59 -0800 (PST)
+Message-ID: <b1aea7bc-9627-499a-9bee-d2cc07856978@gmail.com>
+Date: Sun, 10 Dec 2023 03:03:37 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
- Thunderbird/115.5.1
-Subject: Re: [PATCH] drm/scheduler: Unwrap job dependencies
-Content-Language: en-CA, en-US
-To: Rob Clark <robdclark@gmail.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-References: <20231205190234.371322-1-robdclark@gmail.com>
-From: Luben Tuikov <ltuikov89@gmail.com>
-Autocrypt: addr=ltuikov89@gmail.com; keydata=
- xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1APnbnnRHN
- Ikx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoAQRYhBJkj7+VmFO9b
- eaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheA
- AAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlTMqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfy
- JwktF7REl1yt7IU2Sye1qmQMfJxdt9JMbMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSP
- cCE8uGe7FWo8C+nTSyWPXKTx9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl
- 10wVR5QxozSvBQJlOiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKo
- aMDzO9eGz69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA==
-In-Reply-To: <20231205190234.371322-1-robdclark@gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------DH1b43QTRDFYjum9TFiZzmL0"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [net-next v1 08/16] memory-provider: dmabuf devmem memory provider
+Content-Language: en-US
+To: Mina Almasry <almasrymina@google.com>
+References: <20231208005250.2910004-1-almasrymina@google.com>
+ <20231208005250.2910004-9-almasrymina@google.com>
+ <b07a4eca-0c3d-4620-9f97-b1d2c76642c2@gmail.com>
+ <CAHS8izNVFx6oHoo7y86P8Di9VCVe8A_n_9UZFkg5Wnt=A=YcNQ@mail.gmail.com>
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <CAHS8izNVFx6oHoo7y86P8Di9VCVe8A_n_9UZFkg5Wnt=A=YcNQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,199 +78,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
- open list <linux-kernel@vger.kernel.org>, Maxime Ripard <mripard@kernel.org>,
- "moderated list:DMA BUFFER SHARING
- FRAMEWORK:Keyword:bdma_\(?:buf|fence|resv\)b"
- <linaro-mm-sig@lists.linaro.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, freedreno@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_\(?:buf|fence|resv\)b"
- <linux-media@vger.kernel.org>
+Cc: linux-doc@vger.kernel.org, Kaiyuan Zhang <kaiyuanz@google.com>,
+ dri-devel@lists.freedesktop.org, Eric Dumazet <edumazet@google.com>,
+ linux-kselftest@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-arch@vger.kernel.org,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jeroen de Borst <jeroendb@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ linux-media@vger.kernel.org, Jesper Dangaard Brouer <hawk@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Shailend Chand <shailend@google.com>,
+ Shakeel Butt <shakeelb@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org,
+ David Ahern <dsahern@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Yunsheng Lin <linyunsheng@huawei.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>, bpf@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------DH1b43QTRDFYjum9TFiZzmL0
-Content-Type: multipart/mixed; boundary="------------5AcjGbok14q8wunARMWuRa49";
- protected-headers="v1"
-From: Luben Tuikov <ltuikov89@gmail.com>
-To: Rob Clark <robdclark@gmail.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b"
- <linux-media@vger.kernel.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b"
- <linaro-mm-sig@lists.linaro.org>
-Message-ID: <cd286d71-811e-4976-8538-4f946dca6da8@gmail.com>
-Subject: Re: [PATCH] drm/scheduler: Unwrap job dependencies
-References: <20231205190234.371322-1-robdclark@gmail.com>
-In-Reply-To: <20231205190234.371322-1-robdclark@gmail.com>
+On 12/8/23 23:25, Mina Almasry wrote:
+> On Fri, Dec 8, 2023 at 2:56 PM Pavel Begunkov <asml.silence@gmail.com> wrote:
+>>
+>> On 12/8/23 00:52, Mina Almasry wrote:
+> ...
+>>> +     if (pool->p.queue)
+>>> +             binding = READ_ONCE(pool->p.queue->binding);
+>>> +
+>>> +     if (binding) {
+>>> +             pool->mp_ops = &dmabuf_devmem_ops;
+>>> +             pool->mp_priv = binding;
+>>> +     }
+>>
+>> Hmm, I don't understand why would we replace a nice transparent
+>> api with page pool relying on a queue having devmem specific
+>> pointer? It seemed more flexible and cleaner in the last RFC.
+>>
+> 
+> Jakub requested this change and may chime in, but I suspect it's to
+> further abstract the devmem changes from driver. In this iteration,
+> the driver grabs the netdev_rx_queue and passes it to the page_pool,
+> and any future configurations between the net stack and page_pool can
+> be passed this way with the driver unbothered.
 
---------------5AcjGbok14q8wunARMWuRa49
-Content-Type: multipart/mixed; boundary="------------Xnbegemyy81hwQG4dwAVqouJ"
+Ok, that makes sense, but even if passed via an rx queue I'd
+at least hope it keeping abstract provider parameters, e.g.
+ops, but not hard coded with devmem specific code.
 
---------------Xnbegemyy81hwQG4dwAVqouJ
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+It might even be better done with a helper like
+create_page_pool_from_queue(), unless there is some deeper
+interaction b/w pp and rx queues is predicted.
 
-Hi,
+>>> +
+>>>        if (pool->mp_ops) {
+>>>                err = pool->mp_ops->init(pool);
+>>>                if (err) {
+>>> @@ -1020,3 +1033,77 @@ void page_pool_update_nid(struct page_pool *pool, int new_nid)
+>>>        }
+>>>    }
+>>>    EXPORT_SYMBOL(page_pool_update_nid);
+>>> +
+>>> +void __page_pool_iov_free(struct page_pool_iov *ppiov)
+>>> +{
+>>> +     if (WARN_ON(ppiov->pp->mp_ops != &dmabuf_devmem_ops))
+>>> +             return;
+>>> +
+>>> +     netdev_free_dmabuf(ppiov);
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(__page_pool_iov_free);
+>>
+>> I didn't look too deep but I don't think I immediately follow
+>> the pp refcounting. It increments pages_state_hold_cnt on
+>> allocation, but IIUC doesn't mark skbs for recycle? Then, they all
+>> will be put down via page_pool_iov_put_many() bypassing
+>> page_pool_return_page() and friends. That will call
+>> netdev_free_dmabuf(), which doesn't bump pages_state_release_cnt.
+>>
+>> At least I couldn't make it work with io_uring, and for my purposes,
+>> I forced all puts to go through page_pool_return_page(), which calls
+>> the ->release_page callback. The callback will put the reference and
+>> ask its page pool to account release_cnt. It also gets rid of
+>> __page_pool_iov_free(), as we'd need to add a hook there for
+>> customization otherwise.
+>>
+>> I didn't care about overhead because the hot path for me is getting
+>> buffers from a ring, which is somewhat analogous to sock_devmem_dontneed(),
+>> but done on pp allocations under napi, and it's done separately.
+>>
+>> Completely untested with TCP devmem:
+>>
+>> https://github.com/isilence/linux/commit/14bd56605183dc80b540999e8058c79ac92ae2d8
+>>
+> 
+> This was a mistake in the last RFC, which should be fixed in v1. In
+> the RFC I was not marking the skbs as skb_mark_for_recycle(), so the
+> unreffing path wasn't as expected.
+> 
+> In this iteration, that should be completely fixed. I suspect since I
+> just posted this you're actually referring to the issue tested on the
+> last RFC? Correct me if wrong.
 
-On 2023-12-05 14:02, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
->=20
-> Container fences have burner contexts, which makes the trick to store a=
-t
-> most one fence per context somewhat useless if we don't unwrap array or=
+Right, it was with RFCv3
 
-> chain fences.
->=20
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> In this iteration, the reffing story:
+> 
+> - memory provider allocs ppiov and returns it to the page pool with
+> ppiov->refcount == 1.
+> - The page_pool gives the page to the driver. The driver may
+> obtain/release references with page_pool_page_[get|put]_many(), but
+> the driver is likely not doing that unless it's doing its own page
+> recycling.
+> - The net stack obtains references via skb_frag_ref() ->
+> page_pool_page_get_many()
+> - The net stack drops references via skb_frag_unref() ->
+> napi_pp_put_page() -> page_pool_return_page() and friends.
+> 
+> Thus, the issue where the unref path was skipping
+> page_pool_return_page() and friends should be resolved in this
+> iteration, let me know if you think otherwise, but I think this was an
+> issue limited to the last RFC.
 
-Link: https://lore.kernel.org/all/20230322224403.35742-1-robdclark@gmail.=
-com/
+Then page_pool_iov_put_many() should and supposedly would never be
+called by non devmap code because all puts must circle back into
+->release_page. Why adding it to into page_pool_page_put_many()?
 
-Let's include a link to the original thread, as the main discussion can b=
-e found
-therein.
+@@ -731,6 +731,29 @@ __page_pool_put_page(struct page_pool *pool, struct page *page,
++	if (page_is_page_pool_iov(page)) {
+...
++		page_pool_page_put_many(page, 1);
++		return NULL;
++	}
 
-Christian, could you review this patch please?
+Well, I'm looking at this new branch from Patch 10, it can put
+the buffer, but what if we race at it's actually the final put?
+Looks like nobody is going to to bump up pages_state_release_cnt
 
-Thanks!
---=20
-Regards,
-Luben
+If you remove the branch, let it fall into ->release and rely
+on refcounting there, then the callback could also fix up
+release_cnt or ask pp to do it, like in the patch I linked above
 
-> ---
->  drivers/gpu/drm/scheduler/sched_main.c | 47 ++++++++++++++++++--------=
-
->  1 file changed, 32 insertions(+), 15 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/s=
-cheduler/sched_main.c
-> index 9762464e3f99..16b550949c57 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -52,6 +52,7 @@
->  #include <linux/wait.h>
->  #include <linux/sched.h>
->  #include <linux/completion.h>
-> +#include <linux/dma-fence-unwrap.h>
->  #include <linux/dma-resv.h>
->  #include <uapi/linux/sched/types.h>
-> =20
-> @@ -684,27 +685,14 @@ void drm_sched_job_arm(struct drm_sched_job *job)=
-
->  }
->  EXPORT_SYMBOL(drm_sched_job_arm);
-> =20
-> -/**
-> - * drm_sched_job_add_dependency - adds the fence as a job dependency
-> - * @job: scheduler job to add the dependencies to
-> - * @fence: the dma_fence to add to the list of dependencies.
-> - *
-> - * Note that @fence is consumed in both the success and error cases.
-> - *
-> - * Returns:
-> - * 0 on success, or an error on failing to expand the array.
-> - */
-> -int drm_sched_job_add_dependency(struct drm_sched_job *job,
-> -				 struct dma_fence *fence)
-> +static int drm_sched_job_add_single_dependency(struct drm_sched_job *j=
-ob,
-> +					       struct dma_fence *fence)
->  {
->  	struct dma_fence *entry;
->  	unsigned long index;
->  	u32 id =3D 0;
->  	int ret;
-> =20
-> -	if (!fence)
-> -		return 0;
-> -
->  	/* Deduplicate if we already depend on a fence from the same context.=
-
->  	 * This lets the size of the array of deps scale with the number of
->  	 * engines involved, rather than the number of BOs.
-> @@ -728,6 +716,35 @@ int drm_sched_job_add_dependency(struct drm_sched_=
-job *job,
-> =20
->  	return ret;
->  }
-> +
-> +/**
-> + * drm_sched_job_add_dependency - adds the fence as a job dependency
-> + * @job: scheduler job to add the dependencies to
-> + * @fence: the dma_fence to add to the list of dependencies.
-> + *
-> + * Note that @fence is consumed in both the success and error cases.
-> + *
-> + * Returns:
-> + * 0 on success, or an error on failing to expand the array.
-> + */
-> +int drm_sched_job_add_dependency(struct drm_sched_job *job,
-> +				 struct dma_fence *fence)
-> +{
-> +	struct dma_fence_unwrap iter;
-> +	struct dma_fence *f;
-> +	int ret =3D 0;
-> +
-> +	dma_fence_unwrap_for_each (f, &iter, fence) {
-> +		dma_fence_get(f);
-> +		ret =3D drm_sched_job_add_single_dependency(job, f);
-> +		if (ret)
-> +			break;
-> +	}
-> +
-> +	dma_fence_put(fence);
-> +
-> +	return ret;
-> +}
->  EXPORT_SYMBOL(drm_sched_job_add_dependency);
-> =20
->  /**
-
---------------Xnbegemyy81hwQG4dwAVqouJ
-Content-Type: application/pgp-keys; name="OpenPGP_0x4C15479431A334AF.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x4C15479431A334AF.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1A
-PnbnnRHNIkx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoA
-QRYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiIC
-BhUKCQgLAgQWAgMBAh4HAheAAAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlT
-MqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfyJwktF7REl1yt7IU2Sye1qmQMfJxdt9JM
-bMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSPcCE8uGe7FWo8C+nTSyWPXKTx
-9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJl
-OiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKoaMDzO9eG
-z69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA=3D=3D
-=3DqCaZ
------END PGP PUBLIC KEY BLOCK-----
-
---------------Xnbegemyy81hwQG4dwAVqouJ--
-
---------------5AcjGbok14q8wunARMWuRa49--
-
---------------DH1b43QTRDFYjum9TFiZzmL0
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQSZI+/lZhTvW3mgJddMFUeUMaM0rwUCZXUbpAUDAAAAAAAKCRBMFUeUMaM0r4CB
-AP9BzdKV0/Demva8WlC8Tg3QI4lENeTPM8OVE+DczzG1/wEArLptFP004Ze3PTau6EO21XXw68MP
-6GZn+DgxJOc7nQQ=
-=MtnB
------END PGP SIGNATURE-----
-
---------------DH1b43QTRDFYjum9TFiZzmL0--
+-- 
+Pavel Begunkov
