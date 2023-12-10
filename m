@@ -1,58 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D11E680B898
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Dec 2023 04:48:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7819180B8A0
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Dec 2023 04:49:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83B0010E0EA;
-	Sun, 10 Dec 2023 03:48:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA4BB10E30B;
+	Sun, 10 Dec 2023 03:49:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-pg1-x549.google.com (mail-pg1-x549.google.com
  [IPv6:2607:f8b0:4864:20::549])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C5FF10E0EA
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Dec 2023 03:48:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDDC510E30B
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Dec 2023 03:49:30 +0000 (UTC)
 Received: by mail-pg1-x549.google.com with SMTP id
- 41be03b00d2f7-5c5dd157f5cso1838804a12.0
- for <dri-devel@lists.freedesktop.org>; Sat, 09 Dec 2023 19:48:10 -0800 (PST)
+ 41be03b00d2f7-5c1f17f0198so1440983a12.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 09 Dec 2023 19:49:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1702180090; x=1702784890;
+ d=google.com; s=20230601; t=1702180170; x=1702784970;
  darn=lists.freedesktop.org; 
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=jTjMvUzMQM9T6vvixVNHYaRMSP0ZcmvH/bM1JLogYsw=;
- b=N8BpNzO4EYKNR+Kc1OK0qAAVkncDjgsvzQLpzxbVAWEWgS7fjMvGiWeyC07eyBrsa6
- 87IiloAxWaU3E2ZLQMPfgQfNN6pW1eQUZJnCC1E3V9xNOzy1Jjao45tinaSzqbtC8kej
- 48HMwfWPMTst6VMu+WG0FcI83pM+DrSp53MaCfKpKTVkbyrAw1iNFrhwXmACP497JBL8
- MgBfbDkycMIX8ahsH86k3f0qZclRGxKBnaO2AR3kHwrPulYqbWUhE011+fg0WCYbA75P
- YwVhXA/kW2NEL+G3O2iTUsnvNRw76XIkYUZ9+kq5cNak7bhgZOrNCkvzMr2vXx9DUNIZ
- svKg==
+ bh=MW0tH0tCLOPnmE9TK7jB709vE7J7udoTWRcjSJbRbzw=;
+ b=R7s5Nxd27kpJpOqdOf/Cprt46lNB0rYTXkPviwGYUuHVJ1LCpv/qfkqcHvRZyk17F0
+ zt2hv3ICaEw4Mqb/IuCT58txtQXzfWqcr67v9SB6vbirhXKhlRa9GBnjHqYtsdpclvbj
+ Pg1GhBk1BGqVpjLOdasy7z9MDxGnI9CJPXCn2S9V97XJHCMUCxixVc/QGTuFb+lq5AZT
+ qMScoPg01G+43mzMbta2RUK75EZ5t/a9Fbz3C5Feedp/P2zcODK8JFsnwpqS8Lrbif/e
+ ps06pShOZm2TUGKFonAlNaT6Agmt35JcXvYi0UoCnnar7okpReSjStcRK3duro+pPS1o
+ SGUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702180090; x=1702784890;
+ d=1e100.net; s=20230601; t=1702180170; x=1702784970;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jTjMvUzMQM9T6vvixVNHYaRMSP0ZcmvH/bM1JLogYsw=;
- b=rM0ucXWZV9b4P+t+tp8PqfU6TvVyP/YYHWR3uo/i4LlEi45NKJrLEbyPgiocvNTfRR
- umaDQFC9fKdq3N2crasQ7wURdP1Q9Nbgn7euMKHFLn3IZZ0mJOfuZJNzDZShQDF9NkmH
- qvytmj6IRiet+CQvHKnImxZ1NQlJjfVZA0zPcWmDpsp6vVkP+N/LiznFCmt1MV9A1jPw
- dduFmQdw//R+21fHw8x4YYQ/bsthWGUeQFzQbIq+1EcvmAo0rzRoo62v48rhfXpE4UtU
- L/IcLhZCzxgPmo0qvMKuji5bePApiJO13W5K5/uFSI+ua8dn001OU4fy8tJv64YbueY6
- Flpw==
-X-Gm-Message-State: AOJu0Yzehblj3b2G+trnqgfdMVFS9poUnxdi5QxvvY1+phLelGb5SIuh
- rZ3Pvuv7vd5AIbvtFr0qzqgr4khvY9m6jw==
-X-Google-Smtp-Source: AGHT+IEuVYUkbdK82q9MQX/+KKZwtIfK+d+dsTME32So5XP7njZIF7u7LEU9iLCbfAno9hDEov5qyerx5QbU2Q==
+ bh=MW0tH0tCLOPnmE9TK7jB709vE7J7udoTWRcjSJbRbzw=;
+ b=NGiC+C45Ro4lK6nte8It76P7v2eU+7u7f5sDrT0cuIwsc16f04Q2DzaqWq7qiH5ajL
+ jqaEUcNqwN2eqhxIq5AjaoAVmA1Qf5PSjCjd08GYdddhV75d81ucwOIRKPOwrI3qxSqt
+ BADQQFQB4gEKW/DJrU91h7k0vNqmv9ovg0w8xEyOken0SIFEVmSmYb/2jAwnIK9GUt9d
+ SdvEbs8gD/cyqnsuZTBIh7aIgDNxhoYmQxOJ7UZqKiLtWjsY5oucmBztcjxvFJJF0oLY
+ KarrcsQNrM8GRE7dVCk6n2SqvfaXDisKo1ae3Q/Hk0cIZNrHPX2J+XSOt9d/byKIDxU3
+ TA1A==
+X-Gm-Message-State: AOJu0Ywz8DXPbE8rpw0DL7Ni5OIy9lXqfeEG/D/co5Ir5myXJCgjSNMe
+ WrUx81+a4Fla9jnMYRDgrZZb/xQol/dEMA==
+X-Google-Smtp-Source: AGHT+IHLBajZsz0VxcL0CaCLjiP+JcpZ3Z6iSNDh4oLOCNKWTm9OPBX9RXcqYsgny9cLWKIkHF4CYYDwWcNIvw==
 X-Received: from shakeelb.c.googlers.com
  ([fda3:e722:ac3:cc00:7f:e700:c0a8:262e])
- (user=shakeelb job=sendgmr) by 2002:a63:9854:0:b0:5bd:bbb4:5275 with SMTP id
- l20-20020a639854000000b005bdbbb45275mr16828pgo.10.1702180089637; Sat, 09 Dec
- 2023 19:48:09 -0800 (PST)
-Date: Sun, 10 Dec 2023 03:48:07 +0000
-In-Reply-To: <20231208005250.2910004-1-almasrymina@google.com>
+ (user=shakeelb job=sendgmr) by 2002:a63:7317:0:b0:5b8:fe99:152d with SMTP id
+ o23-20020a637317000000b005b8fe99152dmr15385pgc.7.1702180170422; Sat, 09 Dec
+ 2023 19:49:30 -0800 (PST)
+Date: Sun, 10 Dec 2023 03:49:28 +0000
+In-Reply-To: <20231208005250.2910004-2-almasrymina@google.com>
 Mime-Version: 1.0
 References: <20231208005250.2910004-1-almasrymina@google.com>
-Message-ID: <20231210034807.kqspmykhxpkdtoiy@google.com>
-Subject: Re: [net-next v1 00/16] Device Memory TCP
+ <20231208005250.2910004-2-almasrymina@google.com>
+Message-ID: <20231210034928.mk4ufxqis2w3wesg@google.com>
+Subject: Re: [net-next v1 01/16] net: page_pool: factor out releasing DMA from
+ releasing the page
 From: Shakeel Butt <shakeelb@google.com>
 To: Mina Almasry <almasrymina@google.com>
 Content-Type: text/plain; charset="us-ascii"
@@ -86,46 +88,15 @@ Cc: linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 07, 2023 at 04:52:31PM -0800, Mina Almasry wrote:
-[...]
+On Thu, Dec 07, 2023 at 04:52:32PM -0800, Mina Almasry wrote:
+> From: Jakub Kicinski <kuba@kernel.org>
 > 
-> Today, the majority of the Device-to-Device data transfers the network are
+> Releasing the DMA mapping will be useful for other types
+> of pages, so factor it out. Make sure compiler inlines it,
+> to avoid any regressions.
+> 
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> 
 
-'the network' in above can be removed.
-
-> implemented as the following low level operations: Device-to-Host copy,
-> Host-to-Host network transfer, and Host-to-Device copy.
-> 
-
-[...]
-
-> 
-> ** Part 5: recvmsg() APIs
-> 
-> We define user APIs for the user to send and receive device memory.
-> 
-> Not included with this RFC is the GVE devmem TCP support, just to
-
-no more RFC
-
-> simplify the review. Code available here if desired:
-> https://github.com/mina/linux/tree/tcpdevmem
-> 
-> This RFC is built on top of net-next with Jakub's pp-providers changes
-
-no more RFC
-
-[...]
-> 
-> ** Test Setup
-> 
-> Kernel: net-next with this RFC and memory provider API cherry-picked
-
-no more RFC
-
-> locally.
-> 
-> Hardware: Google Cloud A3 VMs.
-> 
-> NIC: GVE with header split & RSS & flow steering support.
-> 
+Reviewed-by: Shakeel Butt <shakeelb@google.com>
