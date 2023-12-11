@@ -2,56 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E312D80C4E5
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 10:40:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF0D780C512
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 10:45:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6933110E381;
-	Mon, 11 Dec 2023 09:40:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6614210E380;
+	Mon, 11 Dec 2023 09:45:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8428A10E0F1
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 09:40:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1702287630; x=1733823630;
- h=message-id:date:mime-version:subject:to:references:from:
- in-reply-to:content-transfer-encoding;
- bh=Te6jGlu43N/MKbemlwvIQR84EQ2K+qHreVL4UIX+pG4=;
- b=dnEUZDbwCexL2sRvbXKdn86DBai9xstUfqtdwlbQHnhf0rE+md1IVNrO
- ZYH/eaBTYx5FVzoVlyVJGhSjgFwWzSmPm908re3XeHwkgr5M5Erwp2TCx
- oGhKFIS5jYA+W8WbA0vUF9zhFIgYJ+sOP7Sem6EsfrxMT7YXrswppjVQ4
- KRhRQmnolzEs+ZX8fXr7JI++vc6HUwuUToEBh0FMJ5nKkuZHDFCONj4nx
- jjroVO2sRLHb/481nEgSl+GLjhWzhz1HlTFNJByMGCtPuzJtQsH7iXFMa
- Zxpj5YdZkkqyo3qkRhGJDLJuEc1maeEUsZvqrlUL19rju2+T5BsmaPI4/ Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="1432150"
-X-IronPort-AV: E=Sophos;i="6.04,267,1695711600"; 
-   d="scan'208";a="1432150"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Dec 2023 01:40:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="801935989"
-X-IronPort-AV: E=Sophos;i="6.04,267,1695711600"; d="scan'208";a="801935989"
-Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.249.128.23])
- ([10.249.128.23])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Dec 2023 01:40:28 -0800
-Message-ID: <36095d90-d797-401f-a917-b9fb203f21a9@linux.intel.com>
-Date: Mon, 11 Dec 2023 10:40:25 +0100
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com
+ [IPv6:2607:f8b0:4864:20::112d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F08810E380
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 09:45:48 +0000 (UTC)
+Received: by mail-yw1-x112d.google.com with SMTP id
+ 00721157ae682-5cdc0b3526eso32562277b3.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 01:45:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1702287947; x=1702892747; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=LpS2X863BqCbckfOeGv1uweVgiUEsH3nVqhMXbPH/Mk=;
+ b=OmbPdSzcGDO37sJ/MdapfbjEuvvzhtTFfmiptTvSD4hxAWByykC6W4VPWqfzFIiK5H
+ hdMjFaqcBGZwKV8OJLDd/DqDDXQJ2jUizps0bi/L+q3GCJeaq/Hi0XCYKyEcfnoxRnIt
+ 88pqKJ2UQgdgwU4paN0/iQyxzPwOe9IR2DOXuOiGyMuwW5Mhj3y6ghPOKhC97F3+6zyR
+ GiVfXIA4v8Gar8MOJkWVabJg4zYgTIyzWbDHcNC/cMDH3I+aREpIXfbrzPFYe9pQYvIq
+ diB7KSQ7SSYGus3vfpYXvHj4fBiPSB7hyDHSR05q3QOQcwZA/XtDnQmv8OkzK2dMmmx4
+ E/9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1702287947; x=1702892747;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=LpS2X863BqCbckfOeGv1uweVgiUEsH3nVqhMXbPH/Mk=;
+ b=VlZuuMNVj6LLgMXqQS1QaopH+mxEBoBFVMmKaCImXPFKpPkx77/byQjEv2AXcSyf3i
+ kuiczP5vQzLOwN71RvAqgRtRDj2hatsvOfY0LQfYGwNUUZF8GKHpoWOcCwDctYeKB6vy
+ QgkdBQgPjXIdF5R1fYit46u5pC+2cGAkNtycVP+H1p8tCe4wkrARPczCeu73Fnkrg9WS
+ DvRQquDvnxVGdI/KrS+aI6FJ+4imUBs4WFIy2X7eQyJygVzFnIRLgdqmcmG0EcUnY/DQ
+ dBhZogYeBE/yaELaxdSSx3uKHm0BNBg1LM9rm7rIzaADmFfX36k12Vdwbyl17zFWBC1D
+ vtOw==
+X-Gm-Message-State: AOJu0Yya04ip8gseTwx2zxZw/YvHqLPatXtckxEq2EbtxUOqQShp243z
+ av6395f2RXmFSWKm78FXkQN5SPfqc3prHtoiU8Wp8A==
+X-Google-Smtp-Source: AGHT+IEdA2lchCkngKTLdWfeiqjIhis9dj4VJ2FHzG1FAryLDvngRcwgqBCjKabE9igBrprRTqwIRGCFN7ETgILY5SY=
+X-Received: by 2002:a0d:e907:0:b0:5d8:9242:47ae with SMTP id
+ s7-20020a0de907000000b005d8924247aemr2975958ywe.19.1702287947149; Mon, 11 Dec
+ 2023 01:45:47 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/ivpu/37xx: Fix interrupt_clear_with_0 WA
- initialization
-To: dri-devel@lists.freedesktop.org
-References: <20231204122331.40560-1-jacek.lawrynowicz@linux.intel.com>
-Content-Language: en-US
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20231204122331.40560-1-jacek.lawrynowicz@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20231209232132.3580045-1-dmitry.baryshkov@linaro.org>
+ <20231209232132.3580045-5-dmitry.baryshkov@linaro.org>
+ <92ae6379-5126-4a02-ad30-b5dd43d4d251@linaro.org>
+In-Reply-To: <92ae6379-5126-4a02-ad30-b5dd43d4d251@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Mon, 11 Dec 2023 11:45:36 +0200
+Message-ID: <CAA8EJprf0WyE=HBo3Yuh13-m0HMKmH6L+-8xW8oDXWHZtoerjA@mail.gmail.com>
+Subject: Re: [PATCH 4/9] arm64: dts: qcom: sm8150-hdk: enable HDMI output
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,61 +68,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
+ Stephen Boyd <swboyd@chromium.org>, Andy Gross <agross@kernel.org>,
+ dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-arm-msm@vger.kernel.org, Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied to drm-misc-fixes
+On Mon, 11 Dec 2023 at 11:31, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
+>
+> On 10.12.2023 00:21, Dmitry Baryshkov wrote:
+> > Add DSI outputs and link them to the onboard Lontium LT9611 DSI-to-HDMI
+> > bridge, enabling HDMI output on this board. While adding the display
+> > resources, also drop the headless ("amd,imageon") compat string from the
+> > GPU node, since the board now has output.
+> >
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> [...]
+>
+>
+> > +
+> > +     lt9611_irq_pin: lt9611-irq-state {
+> > +             pins = "gpio9";
+> > +             function = "gpio";
+> > +             bias-disable;
+> No drive-strength?
 
-On 04.12.2023 13:23, Jacek Lawrynowicz wrote:
-> From: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
-> 
-> Using PCI Device ID/Revision to initialize the interrupt_clear_with_0
-> workaround is problematic - there are many pre-production
-> steppings with different behavior, even with the same PCI ID/Revision
-> 
-> Instead of checking for PCI Device ID/Revision, check the VPU
-> buttress interrupt status register behavior - if this register
-> is not zero after writing 1s it means there register is RW
-> instead of RW1C and we need to enable the interrupt_clear_with_0
-> workaround.
-> 
-> Fixes: 7f34e01f77f8 ("accel/ivpu: Clear specific interrupt status bits on C0")
-> Signed-off-by: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
-> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-> ---
->  drivers/accel/ivpu/ivpu_hw_37xx.c | 12 +++++++++---
->  1 file changed, 9 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/accel/ivpu/ivpu_hw_37xx.c b/drivers/accel/ivpu/ivpu_hw_37xx.c
-> index 4ccf1994b97a..d530384f8d60 100644
-> --- a/drivers/accel/ivpu/ivpu_hw_37xx.c
-> +++ b/drivers/accel/ivpu/ivpu_hw_37xx.c
-> @@ -53,10 +53,12 @@
->  
->  #define ICB_0_1_IRQ_MASK ((((u64)ICB_1_IRQ_MASK) << 32) | ICB_0_IRQ_MASK)
->  
-> -#define BUTTRESS_IRQ_MASK ((REG_FLD(VPU_37XX_BUTTRESS_INTERRUPT_STAT, FREQ_CHANGE)) | \
-> -			   (REG_FLD(VPU_37XX_BUTTRESS_INTERRUPT_STAT, ATS_ERR)) | \
-> +#define BUTTRESS_IRQ_MASK ((REG_FLD(VPU_37XX_BUTTRESS_INTERRUPT_STAT, ATS_ERR)) | \
->  			   (REG_FLD(VPU_37XX_BUTTRESS_INTERRUPT_STAT, UFI_ERR)))
->  
-> +#define BUTTRESS_ALL_IRQ_MASK (BUTTRESS_IRQ_MASK | \
-> +			       (REG_FLD(VPU_37XX_BUTTRESS_INTERRUPT_STAT, FREQ_CHANGE)))
-> +
->  #define BUTTRESS_IRQ_ENABLE_MASK ((u32)~BUTTRESS_IRQ_MASK)
->  #define BUTTRESS_IRQ_DISABLE_MASK ((u32)-1)
->  
-> @@ -74,8 +76,12 @@ static void ivpu_hw_wa_init(struct ivpu_device *vdev)
->  	vdev->wa.clear_runtime_mem = false;
->  	vdev->wa.d3hot_after_power_off = true;
->  
-> -	if (ivpu_device_id(vdev) == PCI_DEVICE_ID_MTL && ivpu_revision(vdev) < 4)
-> +	REGB_WR32(VPU_37XX_BUTTRESS_INTERRUPT_STAT, BUTTRESS_ALL_IRQ_MASK);
-> +	if (REGB_RD32(VPU_37XX_BUTTRESS_INTERRUPT_STAT) == BUTTRESS_ALL_IRQ_MASK) {
-> +		/* Writing 1s does not clear the interrupt status register */
->  		vdev->wa.interrupt_clear_with_0 = true;
-> +		REGB_WR32(VPU_37XX_BUTTRESS_INTERRUPT_STAT, 0x0);
-> +	}
->  
->  	IVPU_PRINT_WA(punit_disabled);
->  	IVPU_PRINT_WA(clear_runtime_mem);
+For the input pin with no bias? I'm not sure. And yes, it was c&p from RB3.
+
+> Otherwise lokos good at a glance!
+
+
+-- 
+With best wishes
+Dmitry
