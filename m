@@ -2,58 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF0D780C512
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 10:45:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89EE380C519
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 10:46:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6614210E380;
-	Mon, 11 Dec 2023 09:45:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22CC210E385;
+	Mon, 11 Dec 2023 09:46:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com
- [IPv6:2607:f8b0:4864:20::112d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F08810E380
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 09:45:48 +0000 (UTC)
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-5cdc0b3526eso32562277b3.1
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 01:45:48 -0800 (PST)
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com
+ [IPv6:2607:f8b0:4864:20::b36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD75310E383
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 09:46:25 +0000 (UTC)
+Received: by mail-yb1-xb36.google.com with SMTP id
+ 3f1490d57ef6-d9caf5cc948so4097137276.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 01:46:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1702287947; x=1702892747; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1702287985; x=1702892785; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=LpS2X863BqCbckfOeGv1uweVgiUEsH3nVqhMXbPH/Mk=;
- b=OmbPdSzcGDO37sJ/MdapfbjEuvvzhtTFfmiptTvSD4hxAWByykC6W4VPWqfzFIiK5H
- hdMjFaqcBGZwKV8OJLDd/DqDDXQJ2jUizps0bi/L+q3GCJeaq/Hi0XCYKyEcfnoxRnIt
- 88pqKJ2UQgdgwU4paN0/iQyxzPwOe9IR2DOXuOiGyMuwW5Mhj3y6ghPOKhC97F3+6zyR
- GiVfXIA4v8Gar8MOJkWVabJg4zYgTIyzWbDHcNC/cMDH3I+aREpIXfbrzPFYe9pQYvIq
- diB7KSQ7SSYGus3vfpYXvHj4fBiPSB7hyDHSR05q3QOQcwZA/XtDnQmv8OkzK2dMmmx4
- E/9Q==
+ bh=ztyXivNuoKy+BneSWBkP9rSJnlB8B4ezbvE54Oo1NlU=;
+ b=zlRGVZNGW7XltTjnJqVOJKMv3AylUdswyW0qf4JKB/zi1+Hsr9AsOphAsbv1cG5i+P
+ m0AXXODHdqeSZtpQgJ0opaABOme6RO+1r7Dk+TMIvXk08IMm+Kuk3/S3glgmBobrZXY4
+ quQd74ooI/RxNsd7WIzcCHwcPXtKTq5g2lGQDk+9yDJizkmj1I0ICD5EP10iuP2EJ3a1
+ GrgtxLp6ze1XsotTpoKHLzIJruj4wkZzUb2Rsu4ifkbaW3H40m/jcCe5JK7nUBvbtVFH
+ Sec6HPg2UGWfGPyt7zMXtA8Yf0SybpJbvwcgO6gJ+SkdSWRoOHUDc8uxGfXx75LM+JdV
+ VTsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702287947; x=1702892747;
+ d=1e100.net; s=20230601; t=1702287985; x=1702892785;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=LpS2X863BqCbckfOeGv1uweVgiUEsH3nVqhMXbPH/Mk=;
- b=VlZuuMNVj6LLgMXqQS1QaopH+mxEBoBFVMmKaCImXPFKpPkx77/byQjEv2AXcSyf3i
- kuiczP5vQzLOwN71RvAqgRtRDj2hatsvOfY0LQfYGwNUUZF8GKHpoWOcCwDctYeKB6vy
- QgkdBQgPjXIdF5R1fYit46u5pC+2cGAkNtycVP+H1p8tCe4wkrARPczCeu73Fnkrg9WS
- DvRQquDvnxVGdI/KrS+aI6FJ+4imUBs4WFIy2X7eQyJygVzFnIRLgdqmcmG0EcUnY/DQ
- dBhZogYeBE/yaELaxdSSx3uKHm0BNBg1LM9rm7rIzaADmFfX36k12Vdwbyl17zFWBC1D
- vtOw==
-X-Gm-Message-State: AOJu0Yya04ip8gseTwx2zxZw/YvHqLPatXtckxEq2EbtxUOqQShp243z
- av6395f2RXmFSWKm78FXkQN5SPfqc3prHtoiU8Wp8A==
-X-Google-Smtp-Source: AGHT+IEdA2lchCkngKTLdWfeiqjIhis9dj4VJ2FHzG1FAryLDvngRcwgqBCjKabE9igBrprRTqwIRGCFN7ETgILY5SY=
-X-Received: by 2002:a0d:e907:0:b0:5d8:9242:47ae with SMTP id
- s7-20020a0de907000000b005d8924247aemr2975958ywe.19.1702287947149; Mon, 11 Dec
- 2023 01:45:47 -0800 (PST)
+ bh=ztyXivNuoKy+BneSWBkP9rSJnlB8B4ezbvE54Oo1NlU=;
+ b=iY/mMO+S6Ohqdm0zeDNODYrqTTaYRQe3Gss3AaS7ULV68q9lBbbXp2gwr6beox1nwv
+ 76lVPFgWTy9mYUQvgQpaaZ7gns5PG3bDuG9Y+cCIOikelE1/afJ1y+FNn+DHi9dUG2Yh
+ vGi2ip01K04AvRHGb1snjreZaQN7HSxRXACW7dQ1cO1TG54KRf3wm+NoZtS7mNPXTQ8k
+ ZT4yfP6Q/dm147L+6e6E08XqiGmVeWFUwXh2FYcffgQ/n/AG7ZKDl4IAcHNDFgJCo1db
+ +ud6lbe9seXv0xMN6BxVDyIxuuRmmGgJdhtNfZ8RdaNqNBzPdm6BWY8/rbAopy3bh5bt
+ 0IUg==
+X-Gm-Message-State: AOJu0YyMENv5KqqUFzwiqF+OWNmQc1J9++bUHTy0nXZ13gHRk8KV7RMM
+ 6SIFVCq9gJoeDhQCFkFx7unNpWs8A1jQORuHaCwU9w==
+X-Google-Smtp-Source: AGHT+IHURBFzCJzZFsNF1co2h/izQ0cL38z/U3Y37n9DKZ7fTanIIaYzh9eONAyPtqR8UEIN3d2Z/6hvKEoyRrb3Guw=
+X-Received: by 2002:a5b:20d:0:b0:da0:350f:fd6a with SMTP id
+ z13-20020a5b020d000000b00da0350ffd6amr1668920ybl.46.1702287984965; Mon, 11
+ Dec 2023 01:46:24 -0800 (PST)
 MIME-Version: 1.0
 References: <20231209232132.3580045-1-dmitry.baryshkov@linaro.org>
- <20231209232132.3580045-5-dmitry.baryshkov@linaro.org>
- <92ae6379-5126-4a02-ad30-b5dd43d4d251@linaro.org>
-In-Reply-To: <92ae6379-5126-4a02-ad30-b5dd43d4d251@linaro.org>
+ <20231209232132.3580045-8-dmitry.baryshkov@linaro.org>
+ <5025892d-0cbc-462a-b7d8-95828680dd8b@linaro.org>
+In-Reply-To: <5025892d-0cbc-462a-b7d8-95828680dd8b@linaro.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 11 Dec 2023 11:45:36 +0200
-Message-ID: <CAA8EJprf0WyE=HBo3Yuh13-m0HMKmH6L+-8xW8oDXWHZtoerjA@mail.gmail.com>
-Subject: Re: [PATCH 4/9] arm64: dts: qcom: sm8150-hdk: enable HDMI output
+Date: Mon, 11 Dec 2023 11:46:14 +0200
+Message-ID: <CAA8EJprp+Rf5BKEnaoCooWVKGfg6SRg-uc=NRywc10qy=Yj2Xw@mail.gmail.com>
+Subject: Re: [PATCH 7/9] arm64: dts: qcom: sm8150: add USB-C ports to the
+ USB+DP QMP PHY
 To: Konrad Dybcio <konrad.dybcio@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,29 +79,53 @@ Cc: devicetree@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 11 Dec 2023 at 11:31, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
+On Mon, 11 Dec 2023 at 11:33, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
 >
 > On 10.12.2023 00:21, Dmitry Baryshkov wrote:
-> > Add DSI outputs and link them to the onboard Lontium LT9611 DSI-to-HDMI
-> > bridge, enabling HDMI output on this board. While adding the display
-> > resources, also drop the headless ("amd,imageon") compat string from the
-> > GPU node, since the board now has output.
+> > Expand Combo USB+DP QMP PHY device node with the OF ports required to
+> > support USB-C / DisplayPort switching.
 > >
 > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > > ---
-> [...]
->
->
+> >  arch/arm64/boot/dts/qcom/sm8150.dtsi | 23 +++++++++++++++++++++++
+> >  1 file changed, 23 insertions(+)
+> >
+> > diff --git a/arch/arm64/boot/dts/qcom/sm8150.dtsi b/arch/arm64/boot/dts/qcom/sm8150.dtsi
+> > index ea7c92c0e405..38423a9f8408 100644
+> > --- a/arch/arm64/boot/dts/qcom/sm8150.dtsi
+> > +++ b/arch/arm64/boot/dts/qcom/sm8150.dtsi
+> > @@ -3447,6 +3447,29 @@ usb_1_qmpphy: phy@88e8000 {
+> >                       #phy-cells = <1>;
+> >
+> >                       status = "disabled";
 > > +
-> > +     lt9611_irq_pin: lt9611-irq-state {
-> > +             pins = "gpio9";
-> > +             function = "gpio";
-> > +             bias-disable;
-> No drive-strength?
+> > +                     ports {
+> > +                             #address-cells = <1>;
+> > +                             #size-cells = <0>;
+> > +
+> > +                             port@0 {
+> > +                                     reg = <0>;
+> > +                                     usb_1_qmpphy_out: endpoint {};
+> style 1
+> > +                             };
+> > +
+> > +                             port@1 {
+> > +                                     reg = <1>;
+> > +
+> > +                                     usb_1_qmpphy_usb_ss_in: endpoint {
+> > +                                     };
+> style 2
+> > +                             };
+> > +
+> > +                             port@2 {
+> > +                                     reg = <2>;
+> > +
+> > +                                     usb_1_qmpphy_dp_in: endpoint {};
+> style 3
+>
+> :(
 
-For the input pin with no bias? I'm not sure. And yes, it was c&p from RB3.
-
-> Otherwise lokos good at a glance!
+Which one should I stick to?
 
 
 -- 
