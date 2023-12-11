@@ -2,55 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D302B80C402
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 10:12:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FA2F80C433
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 10:16:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7FAB10E366;
-	Mon, 11 Dec 2023 09:12:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92AE110E088;
+	Mon, 11 Dec 2023 09:16:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADBD310E366
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 09:12:01 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 81FAACE0F74
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 09:11:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1400C433C9
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 09:11:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1702285917;
- bh=dViKBOxJle4PNTpPEqJQFBwcGeJctkrIZYrUKbFR+/U=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=fQ1ef7G9XIaR5bwPOo13Afq5rWee44XujFuWapaOq4KAH8MHTNLQ1QAuy5PWFTd0v
- Yrrn3CA/16Y6E6k6LKx1on46596JkF9JRkBTKSqCAlel2gQ1a+xIKexI+2RPwP7w1H
- dJyMTqpsOig7sDyTsJUUROwM4aSjy4XJojH7/qIb+FNnsVaRfRY3sq+6Bu7lkk1bFp
- jJ04iyfyO1hdPd1l/bVAV94Ion9QV2Uf6xTPW4Y5jnpJZrJGxdiNelbR8a6NyTEUE8
- sxfgySHRgjWyne+fY4EPTbPPhfJzlGNaL1gdHuYHxAjNSP972JNj+Ubs+Mn2kWi7nI
- kDxgn6+osVpsQ==
-Received: by mail-ej1-f48.google.com with SMTP id
- a640c23a62f3a-9e1021dbd28so559611666b.3
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 01:11:56 -0800 (PST)
-X-Gm-Message-State: AOJu0YwCYO5gFi8BKlxQjQqn1FvCIwuonWJAwHN0tubapsO/LrnRoIG+
- pFDJG2fm0s53eFFt1Q36uV3aEOR/eAnOmfhwChU=
-X-Google-Smtp-Source: AGHT+IGoWhdl65N6kZMmwJEMNNI9KMqXg/nOJym/XhL/A5r/nNYhYMuDpGfBWLApT581UU0VBqXfWGcNriaXtROOwT4=
-X-Received: by 2002:a17:906:fb88:b0:a1d:2281:58c3 with SMTP id
- lr8-20020a170906fb8800b00a1d228158c3mr1984526ejb.146.1702285915207; Mon, 11
- Dec 2023 01:11:55 -0800 (PST)
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDE1910E088
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 09:16:16 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id
+ 5b1f17b1804b1-40c0fc1cf3dso44726095e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 01:16:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1702286175; x=1702890975; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=W68af/91Atj1zDTUN4IE+pQHHryD09cfa+2lKqJ1RE0=;
+ b=D7MIrxOwz+8Y21vh4o36Xt7dEtpwAy/xA803GdIzrN8pnLExhjCMabsCHb7BR+zTRU
+ TbNeZnGTREvrAezKBq9ZgAkrJw1BFj4fEDe7tAYGzfMTb+pu/VBOk++pmOup5Vt1nHMk
+ Sf1hQxcqmAvVo6EYy0omk/oX+MpFZSuELypT6E1QEiR3TuUHzd0hC5NDme4DEROyLJbs
+ Afc0CVfFsKaNdpdzpsEN/CK7vSfFrw/K84fiqgJXv8h11eof8dTTlhKgnGRxZCArefbt
+ u6uJihyNZGktUsFUt4BOe+1NHSJvb7NKfqesZhJ31ALUXoVWnjRcDcTLSsZQhZranOHC
+ 0oLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1702286175; x=1702890975;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=W68af/91Atj1zDTUN4IE+pQHHryD09cfa+2lKqJ1RE0=;
+ b=hMCGAyfuMabzy/HfnDan27cLmvZlNn97/S7Yi8LLYbTRB4gfJTYnlrt8xFe+ygVNhz
+ wmk8/Cp5HhlPHUJGkY+4kg2cqanG1TPBLlXHZSzTD6b+G6a5PEYCjx8z0bPSU8+2Chu4
+ Npjg89im62MCs87rCHy8u5g/C4Y6n78Ux2VGG+5YxgFjTtJKzx+ET/Dsc9bBpULl5C7I
+ dTjr2mmBtxJ7nz4nZgxwp6rHc7Og/WXF+UePtFvbNyh3cXBpIUuTsPpmj/uPRDz68Wc7
+ 0UNa8A4dIJZ/M9/U+LdGQ+ODBr1K7s/qKD07PVs1eksENx5TKpEC+eNKCQU1PTPNsMP2
+ TpAQ==
+X-Gm-Message-State: AOJu0Yx6r1J+wOo2Xi7Hy83jFvGzd5YBUKRlPWVG87eUFZpGDaYIfuCv
+ Cl/iL4lpJyZhSM0VgcAq35NfSg==
+X-Google-Smtp-Source: AGHT+IGc7ZBXK1VFhnwmlIkMnqFbV5XQIhopbQq2WBKyxWy0zx/bRn3t4fW3cKNsLP/owsKA6iuFHA==
+X-Received: by 2002:a05:600c:492f:b0:40c:3464:f816 with SMTP id
+ f47-20020a05600c492f00b0040c3464f816mr1942464wmp.51.1702286175116; 
+ Mon, 11 Dec 2023 01:16:15 -0800 (PST)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+ by smtp.gmail.com with ESMTPSA id
+ bd19-20020a05600c1f1300b0040839fcb217sm12398470wmb.8.2023.12.11.01.16.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Dec 2023 01:16:14 -0800 (PST)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: dri-devel@lists.freedesktop.org, John Watts <contact@jookia.org>
+In-Reply-To: <20231210-fs035vg158-v5-0-d75adc75571f@jookia.org>
+References: <20231210-fs035vg158-v5-0-d75adc75571f@jookia.org>
+Subject: Re: [PATCH RFC v5 0/7] Add FS035VG158 panel
+Message-Id: <170228617410.2409693.12184151943497966820.b4-ty@linaro.org>
+Date: Mon, 11 Dec 2023 10:16:14 +0100
 MIME-Version: 1.0
-References: <20231108024613.2898921-1-chenhuacai@loongson.cn>
- <f461f122-d3e4-4ffb-a252-543f9b6e4e5a@suse.de>
- <CAFOAJEfDZGRY42SRGF64cFbN1e8sBhYsQw_uou8hxTYfyxkhdw@mail.gmail.com>
- <CAAhV-H52y902nP6nPeghLqs+K8gNzCc3DHTU1C0AQcD0TXHMAQ@mail.gmail.com>
- <878r61gmuw.fsf@minerva.mail-host-address-is-not-set>
-In-Reply-To: <878r61gmuw.fsf@minerva.mail-host-address-is-not-set>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Mon, 11 Dec 2023 17:11:42 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H4ZBZpSUYVqvNsBqXU8xPw-=jwJLALgWHOqQNwkwKr2fg@mail.gmail.com>
-Message-ID: <CAAhV-H4ZBZpSUYVqvNsBqXU8xPw-=jwJLALgWHOqQNwkwKr2fg@mail.gmail.com>
-Subject: Re: [PATCH] drm/Makefile: Move tiny drivers before native drivers
-To: Javier Martinez Canillas <javierm@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,84 +74,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jaak Ristioja <jaak@ristioja.ee>, Huacai Chen <chenhuacai@loongson.cn>
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>,
+ Christophe Branchereau <cbranchereau@gmail.com>,
+ Paul Cercueil <paul@crapouillou.net>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Javier,
+Hi,
 
-On Mon, Dec 11, 2023 at 4:33=E2=80=AFPM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
->
-> Huacai Chen <chenhuacai@kernel.org> writes:
->
-> Hello Huacai,
->
-> > Hi, Javier,
-> >
-> > On Wed, Nov 8, 2023 at 4:24=E2=80=AFPM Javier Martinez Canillas
-> > <javierm@redhat.com> wrote:
-> >>
-> >> Hello,
-> >>
-> >> On Wed, Nov 8, 2023 at 9:14=E2=80=AFAM Thomas Zimmermann <tzimmermann@=
-suse.de> wrote:
-> >> >
-> >> > Hi,
-> >> >
-> >>
-> >> [...]
-> >>
-> >> >
-> >> > Relying on linking order is just as unreliable. The usual workaround=
- is
-> >> > to build native drivers as modules. But first, please investigate wh=
-ere
-> >> > the current code fails.
-> >> >
-> >>
-> >> I fully agree with Thomas here. This is just papering over the issue.
-> >>
-> >> I'll read the lengthy thread now to see if I can better understand
-> >> what's going on here.
-> > Have you understood enough now? I really don't want the original patch
-> > to be reverted.
-> >
->
-> I discussed this with Thomas but we didn't fully understand what was goin=
-g
-> on. In theory, it should work since the native driver should disable sysf=
-b
-> and remove the registered platform device. But it seems that this does no=
-t
-> happen for Jaak and others who reported the same issue.
->
-> Something that we noticed is that PCI fixups happen in fs_initcall_sync()
-> and since the sysfb_init() should happen after the PCI subsystem for EFI
-> quirks, we think that at least should be moved after that initcall level.
->
-> That means rootfs_initcall() onwards, and that takes it almost at the sam=
-e
-> before your patch. The safest would be to move sysfb_init() to initcall
-> device_initcall_sync() and make sure that happens after all the native DR=
-M
-> drivers, since module_init() happens at device_initcall().
->
-> I think that Thomas meant to send a patch to do that change.
-Thank you very much. I guess things may be like this:
-i915 init at first, then simpledrm init in parallel and finished
-before i915 call sysfb_disable(), so in my previous reply I provide a
-debug patch for Jaak to see what happens.
+On Sun, 10 Dec 2023 17:55:48 +1100, John Watts wrote:
+> This RFC introduces support for the FS035VG158 LCD panel, cleaning up
+> the nv3052c driver on the way and documentating existing panel code.
+> 
+> This revision is mostly a resend and ask for more feedback.
+> I have tested that it works on next-20231208.
+> 
+> John.
+> 
+> [...]
 
-Huacai
+Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
 
->
-> --
-> Best regards,
->
-> Javier Martinez Canillas
-> Core Platforms
-> Red Hat
->
+[1/7] drm/panel: nv3052c: Document known register names
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=f48dee9ed7c992eaf6a3635db304a61ed82827b3
+[2/7] drm/panel: nv3052c: Add SPI device IDs
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=095e3a99e793767ca6c0483d31fb5d4087966d51
+[3/7] drm/panel: nv3052c: Allow specifying registers per panel
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=2e6b7be84d88c0af927967418a56e22d372ce98c
+[4/7] drm/panel: nv3052c: Add Fascontek FS035VG158 LCD display
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=bf92f9163097dc717518d598116c1e385004b5ce
+[5/7] dt-bindings: display: panel: Clean up leadtek,ltk035c5444t properties
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=43cc1ce456b57ad48220393bbb7fac6e32369233
+[6/7] dt-bindings: vendor-prefixes: Add fascontek
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=8fcb387a210cfc30a3b61abae21d5c8c4a55e470
+[7/7] dt-bindings: display: panel: add Fascontek FS035VG158 panel
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=267624378ed6bebd733b4917452d78780db032dc
+
+-- 
+Neil
+
