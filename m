@@ -1,62 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE11380BF39
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 03:41:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBC8B80BFB5
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 04:09:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DB7910E070;
-	Mon, 11 Dec 2023 02:41:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F56310E078;
+	Mon, 11 Dec 2023 03:09:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 018D010E070
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 02:41:47 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 036D610E078
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 03:08:57 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 14A6ACE0AC6
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 02:41:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4E2E5C433C7
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 02:41:44 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 2CD1760C4F
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 03:08:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9383C433C7
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 03:08:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1702262504;
- bh=CCaSCnoshjxQHjqB3DkEy9Dn3DljdAeyNT2cA8FEhAY=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=FeNU0ctAsONDjcxkmtR6P8rO2UECrqo1ClIPbrEvvLsn5tNqjg/PESfMd+Gk++5bX
- 6DjkZ1LKRrBfLWdDA/LWkWL7FgEYwCADIuxPKsNd/uzFglSLvFHMP15D/9pl0D+Cnf
- SiC/vry3gXvdfNUKu9x+TFAXFeMJu31WZzxcB6cPEIphWxZh4L7FIbeL4pLvkNni49
- /9iWYIejOV8XYm551SU/9ffV1VYKT6XuyLA9WlxSwglpXGFyvaOZJBMwDxTQFlw5lX
- FCOeNKQKJ5cqtRzQYdKqstpH9IqOMhg0VGjRZHiHQ2rZ0zTJlzwmuRDHiTNibiKkC5
- P3J/Hqq/XGLVw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 32FDAC53BD0; Mon, 11 Dec 2023 02:41:44 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 218250] Regression nouveau driver
-Date: Mon, 11 Dec 2023 02:41:43 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: bagasdotme@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-218250-2300-KSmmckIFWm@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-218250-2300@https.bugzilla.kernel.org/>
-References: <bug-218250-2300@https.bugzilla.kernel.org/>
+ s=k20201202; t=1702264136;
+ bh=PBTL9V+OAAOuXqs1VxSgVNCr6uETcvDqP5KXEZ+Kggc=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=GmMVpIg7B/qKd00rnyksPHUvcoF6xryWGhh2OSsyuVEvjNM8B05Fmptog44pvLUfF
+ tLz3gexIKOUjEk207yKBaEC/cfXRJ6K49vRLCH9ofSp2WYE6QJPJQCUKBH0sQ1OvKX
+ z7SSwTqCP6rdudJELYwTmO+jv6a91iymOHv5gnhUXg5hYH/DgVTgc1m37a8UosT029
+ nCTzRGaDnMRa99kt1A9tYStkq4Zw2GSu2S5LBJMnuZyCdXSyPGaxWKDgO6wD12HNrI
+ goXT2OFrDB8oMiv21p0ZExuo8cMW4XMyW2jflUL68/btL5n2kmmJkQ278odaTKPoQ1
+ eX8NrgZQ4yXOA==
+Received: by mail-ed1-f51.google.com with SMTP id
+ 4fb4d7f45d1cf-54f4f7e88feso3311484a12.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Dec 2023 19:08:56 -0800 (PST)
+X-Gm-Message-State: AOJu0Yztm9c5YpTFrXFEflSYdYek9aJq53rJvwwqItVqBphszgQmYQIW
+ qxB0K+avwMxqy6pKqHhfAPftNVL6eQZFBFJ/oT0=
+X-Google-Smtp-Source: AGHT+IFlbqaWco0vYHNtX7Ll3yRTZPnAaSv3SP4pQiBSHL2ywmRJQxlHaySWnh6bxHDYFKAcQ9elh/6GB63Ct5M4xZw=
+X-Received: by 2002:a17:906:2216:b0:a1a:58a8:6d4e with SMTP id
+ s22-20020a170906221600b00a1a58a86d4emr1717268ejs.63.1702264135286; Sun, 10
+ Dec 2023 19:08:55 -0800 (PST)
+MIME-Version: 1.0
+References: <20231108024613.2898921-1-chenhuacai@loongson.cn>
+ <f461f122-d3e4-4ffb-a252-543f9b6e4e5a@suse.de>
+ <CAFOAJEfDZGRY42SRGF64cFbN1e8sBhYsQw_uou8hxTYfyxkhdw@mail.gmail.com>
+In-Reply-To: <CAFOAJEfDZGRY42SRGF64cFbN1e8sBhYsQw_uou8hxTYfyxkhdw@mail.gmail.com>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Mon, 11 Dec 2023 11:08:43 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H52y902nP6nPeghLqs+K8gNzCc3DHTU1C0AQcD0TXHMAQ@mail.gmail.com>
+Message-ID: <CAAhV-H52y902nP6nPeghLqs+K8gNzCc3DHTU1C0AQcD0TXHMAQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/Makefile: Move tiny drivers before native drivers
+To: Javier Martinez Canillas <javierm@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,47 +61,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Maxime Ripard <mripard@kernel.org>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jaak Ristioja <jaak@ristioja.ee>, Huacai Chen <chenhuacai@loongson.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D218250
+Hi, Javier,
 
-Bagas Sanjaya (bagasdotme@gmail.com) changed:
+On Wed, Nov 8, 2023 at 4:24=E2=80=AFPM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
+>
+> Hello,
+>
+> On Wed, Nov 8, 2023 at 9:14=E2=80=AFAM Thomas Zimmermann <tzimmermann@sus=
+e.de> wrote:
+> >
+> > Hi,
+> >
+>
+> [...]
+>
+> >
+> > Relying on linking order is just as unreliable. The usual workaround is
+> > to build native drivers as modules. But first, please investigate where
+> > the current code fails.
+> >
+>
+> I fully agree with Thomas here. This is just papering over the issue.
+>
+> I'll read the lengthy thread now to see if I can better understand
+> what's going on here.
+Have you understood enough now? I really don't want the original patch
+to be reverted.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |bagasdotme@gmail.com
+And Jaak, could you please test with the below patch (but keep the
+original order in Makefile) and then give me the dmesg output?
 
---- Comment #1 from Bagas Sanjaya (bagasdotme@gmail.com) ---
-(In reply to Jaime P=C3=A9rez from comment #0)
-> Created attachment 305577 [details]
-> dmesg
->=20
-> ae1aadb1eb8d3cbc52e42bee71d67bd4a71f9f07 is the first bad commit
-> commit ae1aadb1eb8d3cbc52e42bee71d67bd4a71f9f07
-> Author: Dave Airlie <airlied@redhat.com>
-> Date:   Thu Nov 16 00:39:33 2023 +1000
->=20
->     nouveau: don't fail driver load if no display hw present.
->=20=20=20=20=20
->     If we get back ENODEV don't fail load. There are nvidia devices
->     that don't have display blocks and the driver should work on those.
->=20=20=20=20=20
->     Fixes: 15740541e8f0 ("drm/nouveau/devinit/tu102-: prepare for GSP-RM")
->     Link: https://gitlab.freedesktop.org/drm/nouveau/-/issues/270
->     Signed-off-by: Dave Airlie <airlied@redhat.com>
->     Signed-off-by: Danilo Krummrich <dakr@redhat.com>
->     Link:
-> https://patchwork.freedesktop.org/patch/msgid/20231115143933.261287-1-
-> airlied@gmail.com
->=20
->  drivers/gpu/drm/nouveau/nouveau_display.c | 5 +++++
->  1 file changed, 5 insertions(+)
+diff --git a/drivers/video/aperture.c b/drivers/video/aperture.c
+index 561be8feca96..cc2e39fb98f5 100644
+--- a/drivers/video/aperture.c
++++ b/drivers/video/aperture.c
+@@ -350,21 +350,29 @@ int
+aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const
+char *na
+        resource_size_t base, size;
+        int bar, ret =3D 0;
 
-What problem?
+-       if (pdev =3D=3D vga_default_device())
++       printk("DEBUG: remove 1\n");
++
++       if (pdev =3D=3D vga_default_device()) {
++               printk("DEBUG: primary =3D true\n");
+                primary =3D true;
++       }
 
---=20
-You may reply to this email to add a comment.
+-       if (primary)
++       if (primary) {
++               printk("DEBUG: disable sysfb\n");
+                sysfb_disable();
++       }
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+        for (bar =3D 0; bar < PCI_STD_NUM_BARS; ++bar) {
+                if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
+                        continue;
+
++               printk("DEBUG: remove 2\n");
+                base =3D pci_resource_start(pdev, bar);
+                size =3D pci_resource_len(pdev, bar);
+                aperture_detach_devices(base, size);
+        }
+
++       printk("DEBUG: remove 3\n");
+        /*
+         * If this is the primary adapter, there could be a VGA device
+         * that consumes the VGA framebuffer I/O range. Remove this
+
+[1]  https://lore.kernel.org/lkml/170222766284.86103.11020060769330721008@l=
+eemhuis.info/T/#u
+
+> --
+> Best regards,
+>
+> Javier Martinez Canillas
+> Core Platforms
+> Red Hat
+>
