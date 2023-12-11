@@ -1,46 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD82580C442
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 10:17:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27F8380C48B
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 10:28:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B859610E371;
-	Mon, 11 Dec 2023 09:17:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BBCE10E378;
+	Mon, 11 Dec 2023 09:28:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1897F10E371
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 09:17:19 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 0E2C3B80CB4;
- Mon, 11 Dec 2023 09:17:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17C87C433C8;
- Mon, 11 Dec 2023 09:17:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1702286236;
- bh=3DRr76vsMjQmUB0iJJgnCoQ01erPxOksC+4UfHqUH3Q=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=VERLiVu8OMxZF78W22i668Gh9BGJyqmAv3SlcX9jB31SUTsoeK5hPMLdcSPsAn1lR
- LA1gKILI6LWd8PuzoFgBke+7Fi6Bwf3PyhZZam4cDOVNmVkGJKhyL7HR6Pt51xkfR9
- X2NeunEU5anXJ7SZrLcuVCjYA+ndzNYFwNRwBRrfqaV8UX6rID+xLX39zh7xsMGzJY
- 3D6ABrNC6PiNu5tjGqLkUWvjOIY8TNqZfQcg9asOjrFCV/WP2GCFWqTxOx+S4TbWHp
- AE4KursphCTxiICxoVmS6NfsCOMUgBn6Ro6Poe4fUo/ORyAsWquT/Brq85SyPdAgfv
- iOD6kkxrOS1Sw==
-Date: Mon, 11 Dec 2023 10:17:13 +0100
-From: "mripard@kernel.org" <mripard@kernel.org>
-To: Keith Zhao <keith.zhao@starfivetech.com>
-Subject: Re: [v3 3/6] drm/vs: Register DRM device
-Message-ID: <gmgldrcdtglkvcdsxgympq3gg4dhc5tvbpmqusjh4k56sovxfs@cnmmidh5ar3i>
-References: <20231204123315.28456-1-keith.zhao@starfivetech.com>
- <20231204123315.28456-4-keith.zhao@starfivetech.com>
- <12c6097a723b9208f6da89207867b32102237fbc.camel@pengutronix.de>
- <5e10fbd8-2299-4fdd-b9ac-5ca71af07012@starfivetech.com>
+X-Greylist: delayed 353 seconds by postgrey-1.36 at gabe;
+ Mon, 11 Dec 2023 09:28:31 UTC
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [IPv6:2a00:1098:ed:100::25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F69C10E378
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 09:28:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1702286557;
+ bh=ulOUj2d1rLxVD+Rt9jaW5XEf8PQFaLVfEJgma1yIlXo=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=v+tgHyKSYBgekwED0nXpYjbFYJT1QR0h1dLJNd9cUINZjuQp6/z6NRwbBbzq4g33K
+ B8P8ef6/uF84W7Dc7P+43UDigzX+u69jeizILEMBew82yM+3MW+JieIFdJgkTtiULB
+ Qa3f6Ho0/VoCz6ztyisv49aOPZ00398YHg2rrmSJou3/6eTVMEqbiCpYJB/70TTXz9
+ XUvvyze2sEhtUcDzCfoKKb3nddXdxloLWr305Ej4slbCvWzC6s/z9Btr1hS0Tsp76U
+ xFTlvKvz/fzMcsjDq8xlyptEbK5IVg+Bw0GyMS97hAAumZ+pRYc2WpGtRdrfHBhi8A
+ B7yCQJRXa5JCg==
+Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: pq)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id ED64637813F8;
+ Mon, 11 Dec 2023 09:22:36 +0000 (UTC)
+Date: Mon, 11 Dec 2023 11:22:24 +0200
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH 4/5] drm/atomic: Make the drm_atomic_state documentation
+ less ambiguous
+Message-ID: <20231211112224.491d3455.pekka.paalanen@collabora.com>
+In-Reply-To: <ohy2e56obfcsclujv7ti6ch6ev4dlvqwrg332woa2jxt4azfoo@g2lozla4yfn5>
+References: <20231204121707.3647961-1-mripard@kernel.org>
+ <20231204121707.3647961-4-mripard@kernel.org>
+ <20231205105106.06a34b81.pekka.paalanen@collabora.com>
+ <ifwxqdd5rwn33kkxzhwfwbvrsvh53h3cc3un26r5eoluho6e7t@bje7nzxfqvzo>
+ <20231208100828.2155d1bd.pekka.paalanen@collabora.com>
+ <6m6c7qctjkecsr2duwjjmkk26g6fqgmt7dcywho5kv6wysexzi@o7owf3zvy7gg>
+ <20231208155946.4ea13179.pekka.paalanen@collabora.com>
+ <ohy2e56obfcsclujv7ti6ch6ev4dlvqwrg332woa2jxt4azfoo@g2lozla4yfn5>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="bkz35ijar7vq2nws"
-Content-Disposition: inline
-In-Reply-To: <5e10fbd8-2299-4fdd-b9ac-5ca71af07012@starfivetech.com>
+Content-Type: multipart/signed; boundary="Sig_/XIV2.bMZ9V4o30u9_5F+G29";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,130 +63,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
- "suijingfeng@loongson.cn" <suijingfeng@loongson.cn>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Xingyu Wu <xingyu.wu@starfivetech.com>, Jack Zhu <jack.zhu@starfivetech.com>,
- "palmer@dabbelt.com" <palmer@dabbelt.com>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- William Qiu <william.qiu@starfivetech.com>,
- Shengyang Chen <shengyang.chen@starfivetech.com>,
- "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
- Changhuang Liang <changhuang.liang@starfivetech.com>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---bkz35ijar7vq2nws
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--Sig_/XIV2.bMZ9V4o30u9_5F+G29
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Fri, 8 Dec 2023 16:20:37 +0100
+Maxime Ripard <mripard@kernel.org> wrote:
 
-On Mon, Dec 11, 2023 at 05:00:04PM +0800, Keith Zhao wrote:
-> >> +static int vs_drm_device_init_clocks(struct vs_drm_device *priv)
-> >> +{
-> >> +	struct drm_device *dev =3D &priv->base;
-> >> +	struct platform_device *pdev =3D to_platform_device(dev->dev);
-> >> +	struct device_node *of_node =3D pdev->dev.of_node;
-> >> +	struct clk *clock;
-> >> +	unsigned int i;
-> >> +	int ret;
-> >> +
-> >> +	if (dev_get_platdata(&pdev->dev) || !of_node)
-> >> +		return 0;
-> >> +
-> >> +	priv->nrsts =3D ARRAY_SIZE(priv->rst_vout);
-> >> +	for (int i =3D 0; i < priv->nrsts; ++i)
-> >> +		priv->rst_vout[i].id =3D vout_resets[i];
-> >> +	ret =3D devm_reset_control_bulk_get_shared(dev->dev, priv->nrsts,
-> >> +						 priv->rst_vout);
+> On Fri, Dec 08, 2023 at 03:59:46PM +0200, Pekka Paalanen wrote:
+> > On Fri, 8 Dec 2023 13:25:22 +0100
+> > Maxime Ripard <mripard@kernel.org> wrote:
+> >  =20
+> > > On Fri, Dec 08, 2023 at 10:08:28AM +0200, Pekka Paalanen wrote: =20
+> > > > On Thu, 7 Dec 2023 15:27:33 +0100
+> > > > Maxime Ripard <mripard@kernel.org> wrote:
+> > > >    =20
+> > > > > On Tue, Dec 05, 2023 at 10:51:06AM +0200, Pekka Paalanen wrote:  =
+ =20
+> > > > > > On Mon,  4 Dec 2023 13:17:06 +0100
+> > > > > > Maxime Ripard <mripard@kernel.org> wrote:
+> > > > > >      =20
+> > > > > > > The current documentation of drm_atomic_state says that it's =
+the "global
+> > > > > > > state object". This is confusing since, while it does contain=
+ all the
+> > > > > > > objects affected by an update and their respective states, if=
+ an object
+> > > > > > > isn't affected by this update it won't be part of it.
+> > > > > > >=20
+> > > > > > > Thus, it's not truly a "global state", unlike object state st=
+ructures
+> > > > > > > that do contain the entire state of a given object.
+> > > > > > >=20
+> > > > > > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > > > > > > ---
+> > > > > > >  include/drm/drm_atomic.h | 10 +++++++++-
+> > > > > > >  1 file changed, 9 insertions(+), 1 deletion(-)
+
+...
+
+> > Sima's phrasing is an addition, not a replacement, to this. There are
+> > two things:
 > >=20
-> > I would request resets and clocks in _probe().
->=20
+> > a) An atomic commit does not need to contain all the objects of a
+> >    drm_device.
 > >=20
-> > If component_bind_all() returns -EPROBE_DEFER because of a still
-> > missing DSI panel backlight or similar, this doesn't have to be done
-> > multiple times.
-> I got what you mean. component_bind_all should be done multiple times
->  to prevent the dsi panel driver from lagging load.
-
-No. component_bind_all only needs to be called once.
-
-> in my drm subsystem , there are 2 pipeline=20
+> > b) An atomic commit may affect more objects than it originally
+> >    contained. (from userspace perspective)
+> >=20
+> > Here b) is important for userspace to know, because it can be
+> > surprising, but I understand that this patch is not userspace doc. =20
 >=20
->           +------------------------------+
->           |                              |
->           |                              |
->   +----+  |   +-------------------+      |   +-------+   +------+   +----=
---+
->   |    +----->+  dc controller 0  +--->----->+HDMICtl| ->+ PHY  +-->+PANE=
-L0+
->   |AXI |  |   +-------------------+      |   +-------+   +------+   +----=
---+
->   |    |  |                              |
->   |    |  |                              |
->   |    |  |                              |
->   |    |  |                              |
->   |APB |  |   +-------------------+         +---------+    +------+  +---=
-----+
->   |    +----->+  dc controller 1  +--->---->+ dsiTx   +--->+DPHY  +->+ PA=
-NEL1+
->   |    |  |   +-------------------+         +---------+    +------+  +---=
-----+
->   +----+  |                              |
->           +------------------------------+
+> Right, so my initial goal from this series was to make sure the
+> ambiguous meaning of what a state was was (hopefully) lifted, and thus
+> we could progress on your userspace doc patch. So I want to address
+> point A here.
 >=20
->=20
-> component_bind_all will bind the hdmi encoder and dsi encoder .
-> binding the hdmi encoder will always return ok .
->=20
-> binging the dsi encoder has a question :
-> I used the panel-raspberrypi-touchscreen.c as panel driver ,=20
-> this driver is a i2c device and it use a i2c command to read reg ID
-> if read success , it will do drm_panel_add.=20
->=20
-> if I disconnect the panel ,it will not do drm_panel_add.
-> dsiTx will fail to find panel , The consequence is that the inputbridge c=
-annot be created ,=20
-> also outputbridge cannot be created.
-> for encoder bind , it will fail to find the input bridge of dsi.
-> Under this premise, although returning -EPROBE_DEFER allows bind to be ex=
-ecuted multiple times,=20
-> the final result is that the entire bind fails.
->=20
-> returning -EPROBE_DEFER can solve panel driver from lagging load ,=20
-> but for no panel case , it will destory all pipeline (include hdmi and ds=
-i).
+> B is also important, but maybe we should discuss it into a separate
+> patch?
 
-Yes, that's expected.
+Sure!
 
-> I did two things:
-> late_initcall_sync(vs_drm_init); to make sure the panel drive has been pr=
-obed;
-> dsi encoder bind always return ok to make sure hdmi pipeline ok at lease.
-> component_bind_all do once .=20
+Just mind both cases to not accidentally imply something about b) when
+talking about a).
 
-You should have a look at
-https://www.kernel.org/doc/html/latest/gpu/drm-kms-helpers.html#special-car=
-e-with-mipi-dsi-bridges
 
-Maxime
+Thanks,
+pq
 
---bkz35ijar7vq2nws
-Content-Type: application/pgp-signature; name="signature.asc"
+--Sig_/XIV2.bMZ9V4o30u9_5F+G29
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZXbTmQAKCRDj7w1vZxhR
-xQHPAQCylA9kRgEfrYTE6OzhkygvQTdGGHErAxmL8yhuByRUwwD/Wc/ZX3xr5vXw
-ne/WnWgySlRDdV2OlSa6fGu2NH7K+wE=
-=M8pE
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmV21NAACgkQI1/ltBGq
+qqcWAg/+Pit814nWLntlQo2COE/e+NucKdywMmPDwm/feGXBF1X2phxtyNdJnFJI
+dvKT4at8IioLMUB28CtO8WSInh2TtktbJzOvGa09STQW+gGBBH+zMsKKeyOdYfFD
+iXhYLkorGDrubXEvE0vLIZSuZXzPmkzaKbCrISV6+iupT9CZ2EKJCPprZ7I3b1pE
+f6isVcZ39ah/h1xwn05n24bvKpvwX/RJgxWZfz9Lc/wS+H74yqy9C+WJacVoWk+f
+cTV9s8UyjZO33eQrSIKsDFfIEZ5U8v8ixuNxlbQFpJFXBKIdtcvbotuJghEJVV9G
+vwkbaqmAtLTI7gXF7siNDBkmf/jQnCVwhzyKZspAhcWc7HQi1dMotVVDtGZfuxRH
+akcVdezNTSihpCdsCUnccQvWpXaXbRl+sbi4bO6nLRmLt3hB5K20KDhFvGi7KKqp
+X2DXTgdX7JV05ei50dW1Qc/1tEeWTD1HeU2zz2vJn2tFeZKTkcFNX4u1OGqo8tc9
+znDkDXHam4qks/RSrsHOQWmfbx+iHkEJ68xuHqTohr1TfH5c55S45l7FrYSVEciY
+TKNaxwlnnW+yPEe/ynkuU95hoMzbkZK1dIs5ofM4CSVbCkAAxIkCFga2eLgqkmat
+YcRnpOMv7TDu1h4mYC45gbsZt/n4NUQR43JQKyCHJiVY3Pd11s0=
+=j08q
 -----END PGP SIGNATURE-----
 
---bkz35ijar7vq2nws--
+--Sig_/XIV2.bMZ9V4o30u9_5F+G29--
