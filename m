@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89EE380C519
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 10:46:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AC0680C51E
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 10:46:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22CC210E385;
-	Mon, 11 Dec 2023 09:46:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B30010E386;
+	Mon, 11 Dec 2023 09:46:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com
- [IPv6:2607:f8b0:4864:20::b36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD75310E383
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 09:46:25 +0000 (UTC)
-Received: by mail-yb1-xb36.google.com with SMTP id
- 3f1490d57ef6-d9caf5cc948so4097137276.0
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 01:46:25 -0800 (PST)
+Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com
+ [IPv6:2607:f8b0:4864:20::112e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A537110E387
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 09:46:43 +0000 (UTC)
+Received: by mail-yw1-x112e.google.com with SMTP id
+ 00721157ae682-5e121d3a7b5so3857017b3.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 01:46:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1702287985; x=1702892785; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1702288003; x=1702892803; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ztyXivNuoKy+BneSWBkP9rSJnlB8B4ezbvE54Oo1NlU=;
- b=zlRGVZNGW7XltTjnJqVOJKMv3AylUdswyW0qf4JKB/zi1+Hsr9AsOphAsbv1cG5i+P
- m0AXXODHdqeSZtpQgJ0opaABOme6RO+1r7Dk+TMIvXk08IMm+Kuk3/S3glgmBobrZXY4
- quQd74ooI/RxNsd7WIzcCHwcPXtKTq5g2lGQDk+9yDJizkmj1I0ICD5EP10iuP2EJ3a1
- GrgtxLp6ze1XsotTpoKHLzIJruj4wkZzUb2Rsu4ifkbaW3H40m/jcCe5JK7nUBvbtVFH
- Sec6HPg2UGWfGPyt7zMXtA8Yf0SybpJbvwcgO6gJ+SkdSWRoOHUDc8uxGfXx75LM+JdV
- VTsA==
+ bh=ceCUCLPLXDWP9zuR7v88iAKVRPzXXELnTgB4Os6l22g=;
+ b=uC+Y38vf1b9omK+HfgPM207rHqQHY1f44mOT5AoFa9fKYbROKfnbKQAGaurNPwYt6+
+ EHt8pjN6jeeXmcmR33Z6z0+NNwFUHr0HABQrGSnBvMCGSW1v5JLqeGjvvVRrbc/HzWun
+ SUI847bkOPnVrYoIbZCYQqzb59kCDUpPuyyS8aVjCbjYzE/uPK/hW8kWJABeveV7MaT2
+ eYhTJi6t65FjBLCqdEMoq+wBsDj8RqxvqsMWW63c3Vu07P4CNT5bXDXLyf4LTGPlVdYP
+ 3VJbl2uo9m6ywbN/rPQsiQshcm3nH/53OgH3rT2no6X5XT8CG7oQotdGjDbpd6Oz4AjP
+ oUqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702287985; x=1702892785;
+ d=1e100.net; s=20230601; t=1702288003; x=1702892803;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=ztyXivNuoKy+BneSWBkP9rSJnlB8B4ezbvE54Oo1NlU=;
- b=iY/mMO+S6Ohqdm0zeDNODYrqTTaYRQe3Gss3AaS7ULV68q9lBbbXp2gwr6beox1nwv
- 76lVPFgWTy9mYUQvgQpaaZ7gns5PG3bDuG9Y+cCIOikelE1/afJ1y+FNn+DHi9dUG2Yh
- vGi2ip01K04AvRHGb1snjreZaQN7HSxRXACW7dQ1cO1TG54KRf3wm+NoZtS7mNPXTQ8k
- ZT4yfP6Q/dm147L+6e6E08XqiGmVeWFUwXh2FYcffgQ/n/AG7ZKDl4IAcHNDFgJCo1db
- +ud6lbe9seXv0xMN6BxVDyIxuuRmmGgJdhtNfZ8RdaNqNBzPdm6BWY8/rbAopy3bh5bt
- 0IUg==
-X-Gm-Message-State: AOJu0YyMENv5KqqUFzwiqF+OWNmQc1J9++bUHTy0nXZ13gHRk8KV7RMM
- 6SIFVCq9gJoeDhQCFkFx7unNpWs8A1jQORuHaCwU9w==
-X-Google-Smtp-Source: AGHT+IHURBFzCJzZFsNF1co2h/izQ0cL38z/U3Y37n9DKZ7fTanIIaYzh9eONAyPtqR8UEIN3d2Z/6hvKEoyRrb3Guw=
-X-Received: by 2002:a5b:20d:0:b0:da0:350f:fd6a with SMTP id
- z13-20020a5b020d000000b00da0350ffd6amr1668920ybl.46.1702287984965; Mon, 11
- Dec 2023 01:46:24 -0800 (PST)
+ bh=ceCUCLPLXDWP9zuR7v88iAKVRPzXXELnTgB4Os6l22g=;
+ b=R+3I0Woj6+U8l973WIe3ZTeUr8B//jLzR443o1lRTRz98dmE6wTYQDt0JjAYM5f/uX
+ hr4ywIECTR57n7JoBQSMWHnE90pbGdUqvP2XHeNqm0Bc6eiOaFwonzgX30XrLrUSi6Jw
+ g6oLhPZcFMwB3ys9SUGq53hI/IfU6FbMtBzpuVOVUDA+bNfBvbYxFiI/sxCZhPMKRFub
+ 22F6aka2Nd/oneqnWB/+uIdQVeX0C3n/Ed593kCkZp4SUVK3lCu9TNivIbCxfAU+jMqf
+ wSKByEK2m+EgpVDpANA3Jd30EIxAhA+KL2kBqM6tptDt34JkUf4xbQEOFWuvxpBOKG4d
+ 8cnw==
+X-Gm-Message-State: AOJu0YwEuP95LXHadfGgTjdu33zsGvuRz5CKQ6+P4jJxdC9RlZhNsuMM
+ eck9+hWUb6vgjfWxYEfd2jCYj94CHyn64Qef89gf3A==
+X-Google-Smtp-Source: AGHT+IFOa8DSXLPHUigw9G0yCtlmvsBIW84hlWI/2hqEX9J672xst4rq91Q4Tzd92Qk+L8dSWiirXnvbHK1KGoEHH7M=
+X-Received: by 2002:a81:d550:0:b0:5d4:20bc:403 with SMTP id
+ l16-20020a81d550000000b005d420bc0403mr3018887ywj.2.1702288002808; Mon, 11 Dec
+ 2023 01:46:42 -0800 (PST)
 MIME-Version: 1.0
 References: <20231209232132.3580045-1-dmitry.baryshkov@linaro.org>
- <20231209232132.3580045-8-dmitry.baryshkov@linaro.org>
- <5025892d-0cbc-462a-b7d8-95828680dd8b@linaro.org>
-In-Reply-To: <5025892d-0cbc-462a-b7d8-95828680dd8b@linaro.org>
+ <20231209232132.3580045-10-dmitry.baryshkov@linaro.org>
+ <7d459b20-80f5-4d9a-88b0-9e5769d1d9be@linaro.org>
+In-Reply-To: <7d459b20-80f5-4d9a-88b0-9e5769d1d9be@linaro.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 11 Dec 2023 11:46:14 +0200
-Message-ID: <CAA8EJprp+Rf5BKEnaoCooWVKGfg6SRg-uc=NRywc10qy=Yj2Xw@mail.gmail.com>
-Subject: Re: [PATCH 7/9] arm64: dts: qcom: sm8150: add USB-C ports to the
- USB+DP QMP PHY
+Date: Mon, 11 Dec 2023 11:46:31 +0200
+Message-ID: <CAA8EJpqpdvV6-Yxf7njg2srqEyiWJiF3fUGFi1XYBAPvUN3SOg@mail.gmail.com>
+Subject: Re: [PATCH 9/9] arm64: dts: qcom: sm8150-hdk: enable DisplayPort and
+ USB-C altmode
 To: Konrad Dybcio <konrad.dybcio@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,51 +82,37 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Mon, 11 Dec 2023 at 11:33, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
 >
 > On 10.12.2023 00:21, Dmitry Baryshkov wrote:
-> > Expand Combo USB+DP QMP PHY device node with the OF ports required to
-> > support USB-C / DisplayPort switching.
+> > Enable the USB-C related functionality for the USB-C port on this board.
+> > This includes OTG, PowerDelivery and DP AltMode. Also enable the
+> > DisplayPort itself.
 > >
 > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > > ---
-> >  arch/arm64/boot/dts/qcom/sm8150.dtsi | 23 +++++++++++++++++++++++
-> >  1 file changed, 23 insertions(+)
-> >
-> > diff --git a/arch/arm64/boot/dts/qcom/sm8150.dtsi b/arch/arm64/boot/dts/qcom/sm8150.dtsi
-> > index ea7c92c0e405..38423a9f8408 100644
-> > --- a/arch/arm64/boot/dts/qcom/sm8150.dtsi
-> > +++ b/arch/arm64/boot/dts/qcom/sm8150.dtsi
-> > @@ -3447,6 +3447,29 @@ usb_1_qmpphy: phy@88e8000 {
-> >                       #phy-cells = <1>;
-> >
-> >                       status = "disabled";
-> > +
-> > +                     ports {
-> > +                             #address-cells = <1>;
-> > +                             #size-cells = <0>;
-> > +
-> > +                             port@0 {
-> > +                                     reg = <0>;
-> > +                                     usb_1_qmpphy_out: endpoint {};
-> style 1
-> > +                             };
-> > +
-> > +                             port@1 {
-> > +                                     reg = <1>;
-> > +
-> > +                                     usb_1_qmpphy_usb_ss_in: endpoint {
-> > +                                     };
-> style 2
-> > +                             };
-> > +
-> > +                             port@2 {
-> > +                                     reg = <2>;
-> > +
-> > +                                     usb_1_qmpphy_dp_in: endpoint {};
-> style 3
+> [...]
 >
-> :(
+> > +&pm8150b_typec {
+> > +     status = "okay";
+> > +
+> > +     vdd-pdphy-supply = <&vreg_l2a_3p1>;
+> > +
+> > +     connector {
+> > +             compatible = "usb-c-connector";
+> > +
+> > +             power-role = "source";
+> > +             data-role = "dual";
+> > +             self-powered;
+> > +
+> > +             source-pdos = <PDO_FIXED(5000, 3000,
+> > +                                      PDO_FIXED_DUAL_ROLE |
+> > +                                      PDO_FIXED_USB_COMM |
+> > +                                      PDO_FIXED_DATA_SWAP)>;
+> > +
+> > +             altmodes {
+> > +                     displayport {
+> > +                             svid = <0xff01>;
+> /bits/ 16?
 
-Which one should I stick to?
-
+Ugh, yes.
 
 -- 
 With best wishes
