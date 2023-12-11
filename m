@@ -2,55 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27F8380C48B
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 10:28:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78ECD80C486
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 10:26:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BBCE10E378;
-	Mon, 11 Dec 2023 09:28:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5E7C10E376;
+	Mon, 11 Dec 2023 09:26:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 353 seconds by postgrey-1.36 at gabe;
- Mon, 11 Dec 2023 09:28:31 UTC
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [IPv6:2a00:1098:ed:100::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F69C10E378
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 09:28:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1702286557;
- bh=ulOUj2d1rLxVD+Rt9jaW5XEf8PQFaLVfEJgma1yIlXo=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=v+tgHyKSYBgekwED0nXpYjbFYJT1QR0h1dLJNd9cUINZjuQp6/z6NRwbBbzq4g33K
- B8P8ef6/uF84W7Dc7P+43UDigzX+u69jeizILEMBew82yM+3MW+JieIFdJgkTtiULB
- Qa3f6Ho0/VoCz6ztyisv49aOPZ00398YHg2rrmSJou3/6eTVMEqbiCpYJB/70TTXz9
- XUvvyze2sEhtUcDzCfoKKb3nddXdxloLWr305Ej4slbCvWzC6s/z9Btr1hS0Tsp76U
- xFTlvKvz/fzMcsjDq8xlyptEbK5IVg+Bw0GyMS97hAAumZ+pRYc2WpGtRdrfHBhi8A
- B7yCQJRXa5JCg==
-Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: pq)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id ED64637813F8;
- Mon, 11 Dec 2023 09:22:36 +0000 (UTC)
-Date: Mon, 11 Dec 2023 11:22:24 +0200
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH 4/5] drm/atomic: Make the drm_atomic_state documentation
- less ambiguous
-Message-ID: <20231211112224.491d3455.pekka.paalanen@collabora.com>
-In-Reply-To: <ohy2e56obfcsclujv7ti6ch6ev4dlvqwrg332woa2jxt4azfoo@g2lozla4yfn5>
-References: <20231204121707.3647961-1-mripard@kernel.org>
- <20231204121707.3647961-4-mripard@kernel.org>
- <20231205105106.06a34b81.pekka.paalanen@collabora.com>
- <ifwxqdd5rwn33kkxzhwfwbvrsvh53h3cc3un26r5eoluho6e7t@bje7nzxfqvzo>
- <20231208100828.2155d1bd.pekka.paalanen@collabora.com>
- <6m6c7qctjkecsr2duwjjmkk26g6fqgmt7dcywho5kv6wysexzi@o7owf3zvy7gg>
- <20231208155946.4ea13179.pekka.paalanen@collabora.com>
- <ohy2e56obfcsclujv7ti6ch6ev4dlvqwrg332woa2jxt4azfoo@g2lozla4yfn5>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31B5B10E376
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 09:26:39 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id E4298B80CAB
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 09:26:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A052C433C9
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 09:26:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1702286797;
+ bh=5zVbh23hz6Y8xRrWFF1CYPSTPIlaTvC7m4+9b2s5s6w=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=iGs3oDLvMUTO74Wi/5YqGX+ltYQgT1R2G/WiVNbxliJJPiax1+4+bx42w9WYY6Lai
+ nZjnqFzgJ6felPhFiVTnbALIqTje371DtNYCt46gd91pmNUhG6dPwbPv6eJ3/UcsUz
+ bXBiVDfdBSoZQ10rlKIZtQ6q5F1uDWqewT2EUtq7mrOExzfF7MmOa4lED0l6uxWdkL
+ vqihqUpqkaNXbOWZoCHM+cKxSMyRcaR7EwwSDgbMoAd5CBWLc01nc5ghbqQkBHDKmV
+ tyGLNcHhOMZZP9Sjuxqd0xAHpPPeumHgp6DN0csVz66+oO0omfiYLNCRxm0tGX650i
+ dQ8pAByk/i/lg==
+Received: by mail-ed1-f48.google.com with SMTP id
+ 4fb4d7f45d1cf-548f853fc9eso5924305a12.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 01:26:37 -0800 (PST)
+X-Gm-Message-State: AOJu0Ywo7taFpMBy6Y/6zvyUCla2C3jISHLLDTCgaQA7wUyZhZyf+sRI
+ mq5BkEcSZiULVY4LduC3PP4AyeJZInbqfb+MmqQ=
+X-Google-Smtp-Source: AGHT+IEs8ExR9DJuBkyegM7JDEtu0yCZcXIjmmGnj0X4e4F+Bt8hHzLsnFVUhkSaXleNYQByu3ctAY2v/HY4aJ1xc9c=
+X-Received: by 2002:a50:cb87:0:b0:54a:f72d:38bb with SMTP id
+ k7-20020a50cb87000000b0054af72d38bbmr1232154edi.36.1702286795747; Mon, 11 Dec
+ 2023 01:26:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/XIV2.bMZ9V4o30u9_5F+G29";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+References: <20231108024613.2898921-1-chenhuacai@loongson.cn>
+ <f461f122-d3e4-4ffb-a252-543f9b6e4e5a@suse.de>
+ <CAFOAJEfDZGRY42SRGF64cFbN1e8sBhYsQw_uou8hxTYfyxkhdw@mail.gmail.com>
+ <CAAhV-H52y902nP6nPeghLqs+K8gNzCc3DHTU1C0AQcD0TXHMAQ@mail.gmail.com>
+ <878r61gmuw.fsf@minerva.mail-host-address-is-not-set>
+ <CAAhV-H4ZBZpSUYVqvNsBqXU8xPw-=jwJLALgWHOqQNwkwKr2fg@mail.gmail.com>
+ <8734w9gku0.fsf@minerva.mail-host-address-is-not-set>
+In-Reply-To: <8734w9gku0.fsf@minerva.mail-host-address-is-not-set>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Mon, 11 Dec 2023 17:26:22 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H6eUwo7VTOL1H9s4=rYFYiZBkVKi5KDXMM0gjP=uDr5Hw@mail.gmail.com>
+Message-ID: <CAAhV-H6eUwo7VTOL1H9s4=rYFYiZBkVKi5KDXMM0gjP=uDr5Hw@mail.gmail.com>
+Subject: Re: [PATCH] drm/Makefile: Move tiny drivers before native drivers
+To: Javier Martinez Canillas <javierm@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,98 +66,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jaak Ristioja <jaak@ristioja.ee>, Huacai Chen <chenhuacai@loongson.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/XIV2.bMZ9V4o30u9_5F+G29
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi, Javier,
 
-On Fri, 8 Dec 2023 16:20:37 +0100
-Maxime Ripard <mripard@kernel.org> wrote:
+On Mon, Dec 11, 2023 at 5:17=E2=80=AFPM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
+>
+> Huacai Chen <chenhuacai@kernel.org> writes:
+>
+> > Hi, Javier,
+> >
+> > On Mon, Dec 11, 2023 at 4:33=E2=80=AFPM Javier Martinez Canillas
+> > <javierm@redhat.com> wrote:
+> >>
+> >> Huacai Chen <chenhuacai@kernel.org> writes:
+> >>
+> >> Hello Huacai,
+> >>
+> >> > Hi, Javier,
+> >> >
+> >> > On Wed, Nov 8, 2023 at 4:24=E2=80=AFPM Javier Martinez Canillas
+> >> > <javierm@redhat.com> wrote:
+> >> >>
+> >> >> Hello,
+> >> >>
+> >> >> On Wed, Nov 8, 2023 at 9:14=E2=80=AFAM Thomas Zimmermann <tzimmerma=
+nn@suse.de> wrote:
+> >> >> >
+> >> >> > Hi,
+> >> >> >
+> >> >>
+> >> >> [...]
+> >> >>
+> >> >> >
+> >> >> > Relying on linking order is just as unreliable. The usual workaro=
+und is
+> >> >> > to build native drivers as modules. But first, please investigate=
+ where
+> >> >> > the current code fails.
+> >> >> >
+> >> >>
+> >> >> I fully agree with Thomas here. This is just papering over the issu=
+e.
+> >> >>
+> >> >> I'll read the lengthy thread now to see if I can better understand
+> >> >> what's going on here.
+> >> > Have you understood enough now? I really don't want the original pat=
+ch
+> >> > to be reverted.
+> >> >
+> >>
+> >> I discussed this with Thomas but we didn't fully understand what was g=
+oing
+> >> on. In theory, it should work since the native driver should disable s=
+ysfb
+> >> and remove the registered platform device. But it seems that this does=
+ not
+> >> happen for Jaak and others who reported the same issue.
+> >>
+> >> Something that we noticed is that PCI fixups happen in fs_initcall_syn=
+c()
+> >> and since the sysfb_init() should happen after the PCI subsystem for E=
+FI
+> >> quirks, we think that at least should be moved after that initcall lev=
+el.
+> >>
+> >> That means rootfs_initcall() onwards, and that takes it almost at the =
+same
+> >> before your patch. The safest would be to move sysfb_init() to initcal=
+l
+> >> device_initcall_sync() and make sure that happens after all the native=
+ DRM
+> >> drivers, since module_init() happens at device_initcall().
+> >>
+> >> I think that Thomas meant to send a patch to do that change.
+> > Thank you very much. I guess things may be like this:
+> > i915 init at first, then simpledrm init in parallel and finished
+> > before i915 call sysfb_disable(), so in my previous reply I provide a
+> > debug patch for Jaak to see what happens.
+> >
+>
+> Yes, specially with async probing although neither i915 nor simpledrm use
+> it right now AFAICT.
+>
+> Is still unclear to me what's going on in this particular case, although
+> moving it to device_initcall_sync() seems to be the correct thing to do
+> regardless of this issue.
+But that cannot "make the screen display as early as possible". Maybe
+we can wait for Jaak's result.
 
-> On Fri, Dec 08, 2023 at 03:59:46PM +0200, Pekka Paalanen wrote:
-> > On Fri, 8 Dec 2023 13:25:22 +0100
-> > Maxime Ripard <mripard@kernel.org> wrote:
-> >  =20
-> > > On Fri, Dec 08, 2023 at 10:08:28AM +0200, Pekka Paalanen wrote: =20
-> > > > On Thu, 7 Dec 2023 15:27:33 +0100
-> > > > Maxime Ripard <mripard@kernel.org> wrote:
-> > > >    =20
-> > > > > On Tue, Dec 05, 2023 at 10:51:06AM +0200, Pekka Paalanen wrote:  =
- =20
-> > > > > > On Mon,  4 Dec 2023 13:17:06 +0100
-> > > > > > Maxime Ripard <mripard@kernel.org> wrote:
-> > > > > >      =20
-> > > > > > > The current documentation of drm_atomic_state says that it's =
-the "global
-> > > > > > > state object". This is confusing since, while it does contain=
- all the
-> > > > > > > objects affected by an update and their respective states, if=
- an object
-> > > > > > > isn't affected by this update it won't be part of it.
-> > > > > > >=20
-> > > > > > > Thus, it's not truly a "global state", unlike object state st=
-ructures
-> > > > > > > that do contain the entire state of a given object.
-> > > > > > >=20
-> > > > > > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > > > > > > ---
-> > > > > > >  include/drm/drm_atomic.h | 10 +++++++++-
-> > > > > > >  1 file changed, 9 insertions(+), 1 deletion(-)
+Huacai
 
-...
-
-> > Sima's phrasing is an addition, not a replacement, to this. There are
-> > two things:
-> >=20
-> > a) An atomic commit does not need to contain all the objects of a
-> >    drm_device.
-> >=20
-> > b) An atomic commit may affect more objects than it originally
-> >    contained. (from userspace perspective)
-> >=20
-> > Here b) is important for userspace to know, because it can be
-> > surprising, but I understand that this patch is not userspace doc. =20
->=20
-> Right, so my initial goal from this series was to make sure the
-> ambiguous meaning of what a state was was (hopefully) lifted, and thus
-> we could progress on your userspace doc patch. So I want to address
-> point A here.
->=20
-> B is also important, but maybe we should discuss it into a separate
-> patch?
-
-Sure!
-
-Just mind both cases to not accidentally imply something about b) when
-talking about a).
-
-
-Thanks,
-pq
-
---Sig_/XIV2.bMZ9V4o30u9_5F+G29
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmV21NAACgkQI1/ltBGq
-qqcWAg/+Pit814nWLntlQo2COE/e+NucKdywMmPDwm/feGXBF1X2phxtyNdJnFJI
-dvKT4at8IioLMUB28CtO8WSInh2TtktbJzOvGa09STQW+gGBBH+zMsKKeyOdYfFD
-iXhYLkorGDrubXEvE0vLIZSuZXzPmkzaKbCrISV6+iupT9CZ2EKJCPprZ7I3b1pE
-f6isVcZ39ah/h1xwn05n24bvKpvwX/RJgxWZfz9Lc/wS+H74yqy9C+WJacVoWk+f
-cTV9s8UyjZO33eQrSIKsDFfIEZ5U8v8ixuNxlbQFpJFXBKIdtcvbotuJghEJVV9G
-vwkbaqmAtLTI7gXF7siNDBkmf/jQnCVwhzyKZspAhcWc7HQi1dMotVVDtGZfuxRH
-akcVdezNTSihpCdsCUnccQvWpXaXbRl+sbi4bO6nLRmLt3hB5K20KDhFvGi7KKqp
-X2DXTgdX7JV05ei50dW1Qc/1tEeWTD1HeU2zz2vJn2tFeZKTkcFNX4u1OGqo8tc9
-znDkDXHam4qks/RSrsHOQWmfbx+iHkEJ68xuHqTohr1TfH5c55S45l7FrYSVEciY
-TKNaxwlnnW+yPEe/ynkuU95hoMzbkZK1dIs5ofM4CSVbCkAAxIkCFga2eLgqkmat
-YcRnpOMv7TDu1h4mYC45gbsZt/n4NUQR43JQKyCHJiVY3Pd11s0=
-=j08q
------END PGP SIGNATURE-----
-
---Sig_/XIV2.bMZ9V4o30u9_5F+G29--
+>
+> --
+> Best regards,
+>
+> Javier Martinez Canillas
+> Core Platforms
+> Red Hat
+>
