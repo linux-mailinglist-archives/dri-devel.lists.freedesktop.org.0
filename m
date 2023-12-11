@@ -1,49 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26CBF80C881
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 12:51:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D517C80C891
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 12:56:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 789B010E0D0;
-	Mon, 11 Dec 2023 11:51:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2E5810E0BB;
+	Mon, 11 Dec 2023 11:56:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2CC210E0D0
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 11:51:49 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.163.17])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4Spg7z2kdDz1vnkK;
- Mon, 11 Dec 2023 19:51:43 +0800 (CST)
-Received: from dggpemm500005.china.huawei.com (unknown [7.185.36.74])
- by mail.maildlp.com (Postfix) with ESMTPS id 759501A016F;
- Mon, 11 Dec 2023 19:51:46 +0800 (CST)
-Received: from [10.69.30.204] (10.69.30.204) by dggpemm500005.china.huawei.com
- (7.185.36.74) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Mon, 11 Dec
- 2023 19:51:46 +0800
-Subject: Re: [net-next v1 09/16] page_pool: device memory support
-To: Mina Almasry <almasrymina@google.com>
-References: <20231208005250.2910004-1-almasrymina@google.com>
- <20231208005250.2910004-10-almasrymina@google.com>
- <32211cbf-3a4e-8a86-6214-4304ddb18a98@huawei.com>
- <CAHS8izOQcuLPwvDff96fuNB7r6EU9OWt3ShueQp=u7wat3L5LA@mail.gmail.com>
- <92e30bd9-6df4-b72f-7bcd-f4fe5670eba2@huawei.com>
- <CAHS8izPEFsqw50qgM+sPot6XVvOExpd+DrwrmPSR3zsWGLysRw@mail.gmail.com>
- <CAHS8izN6Cbjy0FCYhJyNsP396XfgJ_nTFXWuHb5QWNct=PifAg@mail.gmail.com>
-From: Yunsheng Lin <linyunsheng@huawei.com>
-Message-ID: <59e07233-24cb-7fb2-1aee-e1cf7eb72fa9@huawei.com>
-Date: Mon, 11 Dec 2023 19:51:45 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
+Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.219])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0EA7310E0BB
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 11:56:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=WO61a
+ esvdIrfOJiPmjc5HQbTct5uc8fehvU/uJHIHjc=; b=Kr7VqLe3hyI+7j4iOyjgj
+ xWJH+0eU5dKwOuJcbbZI074PCOAWuhrSNgtHUhyr9I5cTSFpzjxOuTEk/nXi4+QQ
+ caLHp3QO6wqTbFAi2v1Bfa4OGS7cnbrx9DroVBmBKRKy+sIYJqSyb8xfpTR2Noco
+ /RCMujaZshtK3pAPJYNbi0=
+Received: from ProDesk.. (unknown [58.22.7.114])
+ by zwqz-smtp-mta-g1-3 (Coremail) with SMTP id _____wAXlwvH+HZlkOA4CQ--.21094S2;
+ Mon, 11 Dec 2023 19:55:55 +0800 (CST)
+From: Andy Yan <andyshrk@163.com>
+To: heiko@sntech.de
+Subject: [PATCH v5 00/16] Add VOP2 support on rk3588
+Date: Mon, 11 Dec 2023 19:55:47 +0800
+Message-Id: <20231211115547.1784587-1-andyshrk@163.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-In-Reply-To: <CAHS8izN6Cbjy0FCYhJyNsP396XfgJ_nTFXWuHb5QWNct=PifAg@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.69.30.204]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500005.china.huawei.com (7.185.36.74)
+X-CM-TRANSID: _____wAXlwvH+HZlkOA4CQ--.21094S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxCrW7tr4UAr4UXF43tF4xJFb_yoWrZF45p3
+ 95Cry5XrWxCFW2qrs7tw18ArWft3ZrAay7Gws3G3ZxZ3Z3KF1UKwnI93Z5Zr9rWr1xZFy2
+ kF45J34jgr42vr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jOXo7UUUUU=
+X-Originating-IP: [58.22.7.114]
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBEAxDXmVOA42xGgAAsP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,212 +48,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Eric Dumazet <edumazet@google.com>, linux-kselftest@vger.kernel.org,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-arch@vger.kernel.org, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jeroen de Borst <jeroendb@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- linux-media@vger.kernel.org, Jesper Dangaard Brouer <hawk@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Shailend Chand <shailend@google.com>,
- Shakeel Butt <shakeelb@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>, netdev@vger.kernel.org,
- David Ahern <dsahern@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>, bpf@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>
+Cc: devicetree@vger.kernel.org, chris.obbard@collabora.com, hjc@rock-chips.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kever.yang@rock-chips.com, linux-rockchip@lists.infradead.org,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ Andy Yan <andy.yan@rock-chips.com>, sebastian.reichel@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023/12/11 12:04, Mina Almasry wrote:
-> On Sun, Dec 10, 2023 at 6:26 PM Mina Almasry <almasrymina@google.com> wrote:
->>
->> On Sun, Dec 10, 2023 at 6:04 PM Yunsheng Lin <linyunsheng@huawei.com> wrote:
->>>
->>> On 2023/12/9 0:05, Mina Almasry wrote:
->>>> On Fri, Dec 8, 2023 at 1:30 AM Yunsheng Lin <linyunsheng@huawei.com> wrote:
->>>>>
->>>>>
->>>>> As mentioned before, it seems we need to have the above checking every
->>>>> time we need to do some per-page handling in page_pool core, is there
->>>>> a plan in your mind how to remove those kind of checking in the future?
->>>>>
->>>>
->>>> I see 2 ways to remove the checking, both infeasible:
->>>>
->>>> 1. Allocate a wrapper struct that pulls out all the fields the page pool needs:
->>>>
->>>> struct netmem {
->>>>         /* common fields */
->>>>         refcount_t refcount;
->>>>         bool is_pfmemalloc;
->>>>         int nid;
->>>>         ...
->>>>         union {
->>>>                 struct dmabuf_genpool_chunk_owner *owner;
->>>>                 struct page * page;
->>>>         };
->>>> };
->>>>
->>>> The page pool can then not care if the underlying memory is iov or
->>>> page. However this introduces significant memory bloat as this struct
->>>> needs to be allocated for each page or ppiov, which I imagine is not
->>>> acceptable for the upside of removing a few static_branch'd if
->>>> statements with no performance cost.
->>>>
->>>> 2. Create a unified struct for page and dmabuf memory, which the mm
->>>> folks have repeatedly nacked, and I imagine will repeatedly nack in
->>>> the future.
->>>>
->>>> So I imagine the special handling of ppiov in some form is critical
->>>> and the checking may not be removable.
->>>
->>> If the above is true, perhaps devmem is not really supposed to be intergated
->>> into page_pool.
->>>
->>> Adding a checking for every per-page handling in page_pool core is just too
->>> hacky to be really considerred a longterm solution.
->>>
->>
->> The only other option is to implement another page_pool for ppiov and
->> have the driver create page_pool or ppiov_pool depending on the state
->> of the netdev_rx_queue (or some helper in the net stack to do that for
->> the driver). This introduces some code duplication. The ppiov_pool &
->> page_pool would look similar in implementation.
+From: Andy Yan <andy.yan@rock-chips.com>
 
-I think there is a design pattern already to deal with this kind of problem,
-refactoring common code used by both page_pool and ppiov into a library to
-aovid code duplication if most of them have similar implementation.
+This patch sets aims at enable the VOP2 support on rk3588.
 
->>
->> But this was all discussed in detail in RFC v2 and the last response I
->> heard from Jesper was in favor if this approach, if I understand
->> correctly:
->>
->> https://lore.kernel.org/netdev/7aedc5d5-0daf-63be-21bc-3b724cc1cab9@redhat.com/
->>
->> Would love to have the maintainer weigh in here.
->>
-> 
-> I should note we may be able to remove some of the checking, but maybe not all.
-> 
-> - Checks that disable page fragging for ppiov can be removed once
-> ppiov has frag support (in this series or follow up).
-> 
-> - If we use page->pp_frag_count (or page->pp_ref_count) for
-> refcounting ppiov, we can remove the if checking in the refcounting.
-> 
-> - We may be able to store the dma_addr of the ppiov in page->dma_addr,
-> but I'm unsure if that actually works, because the dma_buf dmaddr is
-> dma_addr_t (u32 or u64), but page->dma_addr is unsigned long (4 bytes
-> I think). But if it works for pages I may be able to make it work for
-> ppiov as well.
-> 
-> - Checks that obtain the page->pp can work with ppiov if we align the
-> offset of page->pp and ppiov->pp.
-> 
-> - Checks around page->pp_magic can be removed if we also have offset
-> aligned ppiov->pp_magic.
-> 
-> Sadly I don't see us removing the checking for these other cases:
-> 
-> - page_is_pfmemalloc(): I'm not allowed to pass a non-struct page into
-> that helper.
+Main feature of VOP2 on rk3588:
+Four video ports:
+VP0 Max 4096x2160
+VP1 Max 4096x2160
+VP2 Max 4096x2160
+VP3 Max 2048x1080
 
-We can do similar trick like above as bit 1 of page->pp_magic is used to
-indicate that if it is a pfmemalloc page.
+4 4K Cluster windows with AFBC/line RGB and AFBC-only YUV support
+4 4K Esmart windows with line RGB/YUV support
 
-> 
-> - page_to_nid(): I'm not allowed to pass a non-struct page into that helper.
+The current version support all the 8 windows with all the suppported
+plane format.
 
-Yes, this one need special case.
+And we don't have a upstreamed encoder/connector(HDMI/DP) for rk3588
+yet, Cristian from collabora is working on adding upstream support for
+HDMI on rk3588.
 
-> 
-> - page_pool_free_va(): ppiov have no va.
+My current test(1080P/4KP60) is runing with a HDMI driver pick from
+downstream bsp kernel.
 
-Doesn't the skb_frags_readable() checking will protect the page_pool_free_va()
-from being called on devmem?
+A branch based on linux-6.7 rc4 containing all the series and
+HDMI driver(not compatible with mainline rk3568 hdmi) picked
+from downstream bsp kernel is available [0].
 
-> 
-> - page_pool_sync_for_dev/page_pool_dma_map: ppiov backed by dma-buf
-> fundamentally can't get mapped again.
+[0]https://github.com/andyshrk/linux/commits/rk3588-vop2-upstream-linux-6.7-rc4-2023-12-07
 
-Can we just fail the page_pool creation with PP_FLAG_DMA_MAP and
-DMA_ATTR_SKIP_CPU_SYNC flags for devmem provider?
+Changes in v5:
+- remove unused dts property
+- move blank line below  the status=disabled in vop dt node
+- split iommu dt binding patch from this series
 
-> 
-> Are the removal (or future removal) of these checks enough to resolve this?
+Changes in v4:
+- drop redundant description.
+- use full stop at all the description's end.
+- address Krzysztof's review in v3
+- keep all VOP2_FEATURE_HAS_xxx macros increase in order.
+- check NULL pointer at right place
+- fix the index of fb->obj
+- drop explicitly cast of void pointer
+- make the register dump code as a common function.
 
-Yes, that is somewhat similar to my proposal, the biggest objection seems to
-be that we need to have a safe type checking for it to work correctly.
+Changes in v3:
+- split from the vop2 driver patch
+- put bool variable yuv_overlay next to other bool variable
+- define macro for RK3568_OVL_CTRL__YUV_MODE
+- just write RK3568_OVL_CTRL register once in function
+  vop2_setup_layer_mixer
+- constrain properties in allOf:if:then
+- some description updates
+- change the subject as Krzysztof suggested, and add his ACK
+- add braces for x in macro vop2_output_if_is_yyy(x)
+- clear the bits of a mask before setting it in rk3588_set_intf_mux
+- add more comments.
+- put regs dump info in vop2_data
 
-> 
->>> It is somewhat ironical that devmem is using static_branch to alliviate the
->>> performance impact for normal memory at the possible cost of performance
->>> degradation for devmem, does it not defeat some purpose of intergating devmem
->>> to page_pool?
->>>
->>
->> I don't see the issue. The static branch sets the non-ppiov path as
->> default if no memory providers are in use, and flips it when they are,
->> making the default branch prediction ideal in both cases.
+Changes in v2:
+- fix errors when running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+- split form vop driver patch
+- add rk3588_ prefix for functions which are rk3588 only
+- make some calculation as fixed value and keep calculation formula as
+  comment
+- check return value for some cru calculation functions.
+- check return value for syscon_regmap_lookup_by_phandle
+- add NV20/NV30 for esmart plane
 
-You are assuming the we are not using page pool for both normal memory and
-devmem at the same. But a generic solution should not have that assumption
-as my understanding.
+Andy Yan (16):
+  drm/rockchip: move output interface related definition to
+    rockchip_drm_drv.h
+  Revert "drm/rockchip: vop2: Use regcache_sync() to fix suspend/resume"
+  drm/rockchip: vop2: set half_block_en bit in all mode
+  drm/rockchip: vop2: clear afbc en and transform bit for cluster window
+    at linear mode
+  drm/rockchip: vop2: Add write mask for VP config done
+  drm/rockchip: vop2: Set YUV/RGB overlay mode
+  drm/rockchip: vop2: set bg dly and prescan dly at vop2_post_config
+  drm/rockchip: vop2: rename grf to sys_grf
+  dt-bindings: soc: rockchip: add rk3588 vop/vo syscon
+  dt-bindings: display: vop2: Add rk3588 support
+  dt-bindings: rockchip,vop2: Add more endpoint definition
+  drm/rockchip: vop2: Add support for rk3588
+  drm/rockchip: vop2: rename VOP_FEATURE_OUTPUT_10BIT to
+    VOP2_VP_FEATURE_OUTPUT_10BIT
+  drm/rockchip: vop2: Add debugfs support
+  arm64: dts: rockchip: Add vop on rk3588
+  MAINTAINERS: Add myself as a reviewer for rockchip drm
 
->>
->>>>
->>>>> Even though a static_branch check is added in page_is_page_pool_iov(), it
->>>>> does not make much sense that a core has tow different 'struct' for its
->>>>> most basic data.
->>>>>
->>>>> IMHO, the ppiov for dmabuf is forced fitting into page_pool without much
->>>>> design consideration at this point.
->>>>>
->>>> ...
->>>>>
->>>>> For now, the above may work for the the rx part as it seems that you are
->>>>> only enabling rx for dmabuf for now.
->>>>>
->>>>> What is the plan to enable tx for dmabuf? If it is also intergrated into
->>>>> page_pool? There was a attempt to enable page_pool for tx, Eric seemed to
->>>>> have some comment about this:
->>>>> https://lkml.kernel.org/netdev/2cf4b672-d7dc-db3d-ce90-15b4e91c4005@huawei.com/T/#mb6ab62dc22f38ec621d516259c56dd66353e24a2
->>>>>
->>>>> If tx is not intergrated into page_pool, do we need to create a new layer for
->>>>> the tx dmabuf?
->>>>>
->>>>
->>>> I imagine the TX path will reuse page_pool_iov, page_pool_iov_*()
->>>> helpers, and page_pool_page_*() helpers, but will not need any core
->>>> page_pool changes. This is because the TX path will have to piggyback
->>>
->>> We may need another bit/flags checking to demux between page_pool owned
->>> devmem and non-page_pool owned devmem.
->>>
->>
->> The way I'm imagining the support, I don't see the need for such
->> flags. We'd be re-using generic helpers like
->> page_pool_iov_get_dma_address() and what not that don't need that
->> checking.
->>
->>> Also calling page_pool_*() on non-page_pool owned devmem is confusing
->>> enough that we may need a thin layer handling non-page_pool owned devmem
->>> in the end.
->>>
->>
->> The page_pool_page* & page_pool_iov* functions can be renamed if
->> confusing. I would think that's no issue (note that the page_pool_*
+ .../display/rockchip/rockchip-vop2.yaml       | 100 ++-
+ .../devicetree/bindings/soc/rockchip/grf.yaml |   2 +
+ MAINTAINERS                                   |   1 +
+ arch/arm64/boot/dts/rockchip/rk3588s.dtsi     |  83 ++
+ .../gpu/drm/rockchip/analogix_dp-rockchip.c   |   1 -
+ drivers/gpu/drm/rockchip/cdn-dp-core.c        |   1 -
+ .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   |   1 -
+ drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c   |   1 -
+ drivers/gpu/drm/rockchip/inno_hdmi.c          |   1 -
+ drivers/gpu/drm/rockchip/rk3066_hdmi.c        |   1 -
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.h   |  18 +
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.h   |  12 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c  | 761 +++++++++++++++++-
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.h  | 111 ++-
+ drivers/gpu/drm/rockchip/rockchip_lvds.c      |   1 -
+ drivers/gpu/drm/rockchip/rockchip_rgb.c       |   1 -
+ drivers/gpu/drm/rockchip/rockchip_vop2_reg.c  | 414 +++++++++-
+ include/dt-bindings/soc/rockchip,vop2.h       |   4 +
+ 18 files changed, 1420 insertions(+), 94 deletions(-)
 
-When you rename those functions, you will have a thin layer automatically.
+-- 
+2.34.1
 
->> functions need not be called for TX path).
->>
->>>> on MSG_ZEROCOPY (devmem is not copyable), so no memory allocation from
->>>> the page_pool (or otherwise) is needed or possible. RFCv1 had a TX
->>>> implementation based on dmabuf pages without page_pool involvement, I
->>>> imagine I'll do something similar.
->>> It would be good to have a tx implementation for the next version, so
->>> that we can have a whole picture of devmem.
