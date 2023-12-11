@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 156BF80CC63
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 15:00:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A536080CC68
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 15:00:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64A5610E445;
-	Mon, 11 Dec 2023 14:00:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07D8010E453;
+	Mon, 11 Dec 2023 14:00:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1235710E43D;
- Mon, 11 Dec 2023 14:00:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7D4C10E445
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 14:00:32 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 741F6B80E58;
+ by ams.source.kernel.org (Postfix) with ESMTP id 66A40B80E5B;
+ Mon, 11 Dec 2023 14:00:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C6BDC433C7;
  Mon, 11 Dec 2023 14:00:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFB51C433CD;
- Mon, 11 Dec 2023 14:00:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1702303228;
- bh=BsbHfkq9SpAJwpuBRSyj1VLuJD4MJZd6zPZwn3NhUTw=;
+ s=k20201202; t=1702303230;
+ bh=VET4n9SrzrFLEGpUYdntw/5RCLnibYwulywG8gCU/Pg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Qj994toShXveEVMVScWX3FYj5kUBsB3DWi77jNpnMmvm6j2BGg0zlJMb9hANhYojf
- LBuzWfELGFwI2+f+YmVbJPVZqNJcrHv1MU0AFp5vQ7VYQ7gyLLaoEzX5P7PiycvPZs
- lwsgBShe8Kqrq5Ft2ssQfMMd50+i8VAf8kswYjiAxEGA5U5QOQXRO7aWfDGKbrFEeH
- dCghO83YxUTLnnMNr+5L8b1j/1UQjq0J2qlQ1Pu6qj4BdqpXRQJOOeGQ4MbSkRwSAQ
- G5mCTofmdGS1P/Hq3qu25cwqP+78hRCDtbiL6bvSlnKHw8o1C5rjrYe9r+dDbXSOyL
- B0SuRx7HxdmWQ==
+ b=hvfRTya/pprKZfI8JgkoYC3G7K82TCrWBuJPDMz/auinjMrDAn8kdAJbY5HD6ocKe
+ ZcBdG4T53WawA2CzFkGpiHzXJzJ6jUl3Kt80bK2QxOnO+6GfnM7+I3zpGLOwhspX+x
+ tPHzNheDPOdVa20xMtM3Baefa2qAyD+hs6w17qMNQ/F4Q5WqUr751sFkHhXIiYcm4T
+ q5uyi+sBIvkcP6z5aUCCrwgOpspgl6YAYipLSrz22Znf3fKJ6OmjNxF/g/5xXUKPGz
+ CVtdz8ffUs0UfXpBL6CQCTZFrObIj1MRxUfv8mTFqBdod16EPkCgTggiYfu2rZ4APw
+ 9lXvWygM+XmzQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 16/19] drm/amdgpu: Add NULL checks for function
- pointers
-Date: Mon, 11 Dec 2023 08:57:50 -0500
-Message-ID: <20231211135908.385694-16-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 17/19] drm/exynos: fix a potential error pointer
+ dereference
+Date: Mon, 11 Dec 2023 08:57:51 -0500
+Message-ID: <20231211135908.385694-17-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231211135908.385694-1-sashal@kernel.org>
 References: <20231211135908.385694-1-sashal@kernel.org>
@@ -54,62 +54,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Xinhui.Pan@amd.com,
- Lijo Lazar <lijo.lazar@amd.com>, shane.xiao@amd.com,
- amd-gfx@lists.freedesktop.org, sonny.jiang@amd.com, le.ma@amd.com,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Likun.Gao@amd.com, James.Zhu@amd.com, christian.koenig@amd.com,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, linux-samsung-soc@vger.kernel.org,
+ sw0312.kim@samsung.com, kyungmin.park@samsung.com,
+ dri-devel@lists.freedesktop.org, krzysztof.kozlowski@linaro.org,
+ Xiang Yang <xiangyang3@huawei.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Lijo Lazar <lijo.lazar@amd.com>
+From: Xiang Yang <xiangyang3@huawei.com>
 
-[ Upstream commit 81577503efb49f4ad76af22f9941d72900ef4aab ]
+[ Upstream commit 73bf1c9ae6c054c53b8e84452c5e46f86dd28246 ]
 
-Check if function is implemented before making the call.
+Smatch reports the warning below:
+drivers/gpu/drm/exynos/exynos_hdmi.c:1864 hdmi_bind()
+error: 'crtc' dereferencing possible ERR_PTR()
 
-Signed-off-by: Lijo Lazar <lijo.lazar@amd.com>
-Reviewed-by: Hawking Zhang <Hawking.Zhang@amd.com>
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+The return value of exynos_drm_crtc_get_by_type maybe ERR_PTR(-ENODEV),
+which can not be used directly. Fix this by checking the return value
+before using it.
+
+Signed-off-by: Xiang Yang <xiangyang3@huawei.com>
+Signed-off-by: Inki Dae <inki.dae@samsung.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/soc15.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/exynos/exynos_hdmi.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/soc15.c b/drivers/gpu/drm/amd/amdgpu/soc15.c
-index 529bb6c6ac6f5..e8c0e77e1b018 100644
---- a/drivers/gpu/drm/amd/amdgpu/soc15.c
-+++ b/drivers/gpu/drm/amd/amdgpu/soc15.c
-@@ -1615,9 +1615,11 @@ static void soc15_common_get_clockgating_state(void *handle, u32 *flags)
- 	if (amdgpu_sriov_vf(adev))
- 		*flags = 0;
+diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exynos/exynos_hdmi.c
+index 7655142a4651c..42b6b001405a5 100644
+--- a/drivers/gpu/drm/exynos/exynos_hdmi.c
++++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
+@@ -1861,6 +1861,8 @@ static int hdmi_bind(struct device *dev, struct device *master, void *data)
+ 		return ret;
  
--	adev->nbio.funcs->get_clockgating_state(adev, flags);
-+	if (adev->nbio.funcs && adev->nbio.funcs->get_clockgating_state)
-+		adev->nbio.funcs->get_clockgating_state(adev, flags);
+ 	crtc = exynos_drm_crtc_get_by_type(drm_dev, EXYNOS_DISPLAY_TYPE_HDMI);
++	if (IS_ERR(crtc))
++		return PTR_ERR(crtc);
+ 	crtc->pipe_clk = &hdata->phy_clk;
  
--	adev->hdp.funcs->get_clock_gating_state(adev, flags);
-+	if (adev->hdp.funcs && adev->hdp.funcs->get_clock_gating_state)
-+		adev->hdp.funcs->get_clock_gating_state(adev, flags);
- 
- 	if (adev->asic_type != CHIP_ALDEBARAN) {
- 
-@@ -1633,9 +1635,11 @@ static void soc15_common_get_clockgating_state(void *handle, u32 *flags)
- 	}
- 
- 	/* AMD_CG_SUPPORT_ROM_MGCG */
--	adev->smuio.funcs->get_clock_gating_state(adev, flags);
-+	if (adev->smuio.funcs && adev->smuio.funcs->get_clock_gating_state)
-+		adev->smuio.funcs->get_clock_gating_state(adev, flags);
- 
--	adev->df.funcs->get_clockgating_state(adev, flags);
-+	if (adev->df.funcs && adev->df.funcs->get_clockgating_state)
-+		adev->df.funcs->get_clockgating_state(adev, flags);
- }
- 
- static int soc15_common_set_powergating_state(void *handle,
+ 	ret = hdmi_create_connector(encoder);
 -- 
 2.42.0
 
