@@ -1,62 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85EAA80C137
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 07:18:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A4D580C199
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 07:59:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED0E310E07A;
-	Mon, 11 Dec 2023 06:18:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72ACB10E244;
+	Mon, 11 Dec 2023 06:59:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1A7910E07A
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 06:18:18 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id BF3CEB80B50
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 06:18:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 24F76C433CA
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 06:18:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1702275496;
- bh=NuFcqU8afB+TIINCzP9c1TYuriTbLghf9o+XiIqDqKY=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=HfDR0dxyYecKO2m/rIvfz/3O+dxwiHdXbDJmDDzXtBSyGnj7YaWNaXVlQNflR1q6e
- /ImNM/AJN8B3GPVE079yy0iPmHm+Rw09ryJPfaErJ55b6juMK9//prmIX9Q2BgscvW
- skuguvAbcBDbir71bG6ve7aYwnC6eNEllbi9/lLl3Ci3Tv9tOwLYQHtgFFL/Qs7doW
- rPlQrvWJC/Gv9oMKKeivq2ycQnqXHIsViyYfB/iRJvMVpmUhisVzBeMCH1Iaom0nGb
- BTn1jIie0Z2SScDxSiK+sn9hpZ3kJWxqC7LpwskblsyOazUU+6kXf1dURZtNybmfre
- voVRwk08YU6Dw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 0F159C53BD1; Mon, 11 Dec 2023 06:18:16 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 218250] Regression nouveau driver
-Date: Mon, 11 Dec 2023 06:18:15 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: 19.jaime.91@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-218250-2300-sBUMsxDAq5@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-218250-2300@https.bugzilla.kernel.org/>
-References: <bug-218250-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4BAB10E244
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 06:59:27 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1rCaGD-0008M3-Qa; Mon, 11 Dec 2023 07:59:25 +0100
+Received: from [2a0a:edc0:2:b01:1d::c0] (helo=ptx.whiteo.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <sha@pengutronix.de>)
+ id 1rCaG8-00F2ML-Vf; Mon, 11 Dec 2023 07:59:20 +0100
+Received: from sha by ptx.whiteo.stw.pengutronix.de with local (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1rCaG8-006Q5D-Sk; Mon, 11 Dec 2023 07:59:20 +0100
+Date: Mon, 11 Dec 2023 07:59:20 +0100
+To: Andy Yan <andyshrk@163.com>
+Subject: Re: [PATCH v4 14/17] drm/rockchip: vop2: Add debugfs support
+Message-ID: <20231211065920.GD1318922@pengutronix.de>
+References: <20231207075906.651771-1-andyshrk@163.com>
+ <20231207080222.652657-1-andyshrk@163.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231207080222.652657-1-andyshrk@163.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+From: Sascha Hauer <sha@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,145 +59,619 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, chris.obbard@collabora.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ hjc@rock-chips.com, kever.yang@rock-chips.com,
+ linux-rockchip@lists.infradead.org, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, Andy Yan <andy.yan@rock-chips.com>,
+ sebastian.reichel@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D218250
+On Thu, Dec 07, 2023 at 04:02:22PM +0800, Andy Yan wrote:
+> From: Andy Yan <andy.yan@rock-chips.com>
+> 
+> /sys/kernel/debug/dri/vop2/summary:  dump vop display state
+> /sys/kernel/debug/dri/vop2/regs: dump whole vop registers
+> /sys/kernel/debug/dri/vop2/active_regs: only dump the registers of
+> activated modules
+> 
+> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
 
---- Comment #2 from Jaime P=C3=A9rez (19.jaime.91@gmail.com) ---
-No graphical env
-[  439.049257] ------------[ cut here ]------------
-[  439.049262] WARNING: CPU: 5 PID: 67651 at include/drm/ttm/ttm_resource.h=
-:313
-nouveau_ttm_fini+0x216/0x2c0 [nouveau]
-[  439.049609] Modules linked in: nouveau(E+) rfcomm snd_seq_dummy snd_hrti=
-mer
-xt_nat xt_tcpudp veth xt_conntrack nft_chain_nat xt_MASQUERADE nf_nat
-nf_conntrack_netlink nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 xfrm_user
-xfrm_algo xt_addrtype nft_compat nf_tables nfnetlink br_netfilter bridge stp
-llc ccm overlay cmac algif_hash algif_skcipher af_alg bnep binfmt_misc
-nls_iso8859_1 snd_hda_codec_hdmi snd_ctl_led snd_hda_codec_realtek
-snd_hda_codec_generic snd_soc_avs ledtrig_audio snd_soc_hda_codec
-snd_hda_ext_core snd_soc_core snd_compress ac97_bus snd_pcm_dmaengine
-snd_hda_intel snd_intel_dspcfg snd_intel_sdw_acpi snd_hda_codec snd_hda_core
-snd_hwdep snd_pcm intel_rapl_msr intel_rapl_common intel_tcc_cooling
-x86_pkg_temp_thermal snd_seq_midi intel_powerclamp snd_seq_midi_event
-ath10k_pci snd_rawmidi coretemp uvcvideo btusb videobuf2_vmalloc btrtl
-ath10k_core btintel snd_seq uvc ath rtsx_usb_ms videobuf2_memops kvm_intel
-btbcm btmtk mei_pxp mei_hdcp memstick snd_seq_device videobuf2_v4l2 kvm
-mac80211 bluetooth snd_timer
-[  439.049740]  videodev snd acer_wmi videobuf2_common ecdh_generic rapl
-intel_cstate intel_wmi_thunderbolt mc wmi_bmof joydev sparse_keymap ecc
-soundcore ee1004 mei_me cfg80211 libarc4 mei intel_pch_thermal acpi_pad
-hid_multitouch input_leds mac_hid serio_raw msr parport_pc ppdev lp parport
-efi_pstore dmi_sysfs ip_tables x_tables autofs4 btrfs blake2b_generic xor
-raid6_pq libcrc32c dm_mirror dm_region_hash dm_log rtsx_usb_sdmmc rtsx_usb
-usbhid i915 drm_gpuvm mxm_wmi drm_exec gpu_sched drm_buddy i2c_algo_bit
-drm_ttm_helper ttm drm_display_helper hid_generic cec rc_core i2c_hid_acpi
-i2c_hid crct10dif_pclmul crc32_pclmul drm_kms_helper ghash_clmulni_intel hid
-sha512_ssse3 i2c_i801 r8169 sha256_ssse3 intel_lpss_pci nvme sha1_ssse3 rea=
-ltek
-ahci intel_lpss i2c_smbus video drm nvme_core xhci_pci libahci idma64
-xhci_pci_renesas wmi pinctrl_sunrisepoint aesni_intel crypto_simd cryptd [l=
-ast
-unloaded: nouveau]
-[  439.049875] CPU: 5 PID: 67651 Comm: insmod Tainted: G        W   E=20=20=
-=20=20=20
-6.7.0-rc1+ #170
-[  439.049881] Hardware name: Acer Aspire VX5-591G/Wish_KLS, BIOS V1.06
-07/07/2017
-[  439.049884] RIP: 0010:nouveau_ttm_fini+0x216/0x2c0 [nouveau]
-[  439.050230] Code: 41 5c 41 5d 41 5e 41 5f 5d 31 c0 31 d2 31 c9 31 f6 31 =
-ff
-c3 cc cc cc cc be 02 00 00 00 4c 89 ef e8 1f 9d e7 ff e9 bb fe ff ff <0f> 0=
-b e9
-0c ff ff ff 0f 0b e9 46 fe ff ff be 03 00 00 00 48 89 55
-[  439.050235] RSP: 0018:ffffc900092c37e0 EFLAGS: 00010206
-[  439.050240] RAX: ffff888123879ab0 RBX: ffff888123879ab0 RCX:
-ffff8881920f9838
-[  439.050244] RDX: ffff888123879a80 RSI: 0000000000000000 RDI:
-0000000000000000
-[  439.050247] RBP: ffffc900092c3818 R08: 0000000000000000 R09:
-0000000000000000
-[  439.050250] R10: 0000000000000000 R11: 0000000000000000 R12:
-ffff888123603800
-[  439.050253] R13: ffff88811d1ccc50 R14: ffff88811d1cc000 R15:
-0000000000000000
-[  439.050256] FS:  00007fbb9318b040(0000) GS:ffff88885ed40000(0000)
-knlGS:0000000000000000
-[  439.050260] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  439.050264] CR2: 00007fc0c587dec4 CR3: 000000011e104002 CR4:
-00000000003706f0
-[  439.050268] Call Trace:
-[  439.050271]  <TASK>
-[  439.050275]  ? show_regs+0x6d/0x80
-[  439.050284]  ? __warn+0x89/0x160
-[  439.050292]  ? nouveau_ttm_fini+0x216/0x2c0 [nouveau]
-[  439.050626]  ? report_bug+0x17e/0x1b0
-[  439.050634]  ? handle_bug+0x46/0x90
-[  439.050641]  ? exc_invalid_op+0x18/0x80
-[  439.050646]  ? asm_exc_invalid_op+0x1b/0x20
-[  439.050655]  ? nouveau_ttm_fini+0x216/0x2c0 [nouveau]
-[  439.050966]  ? kfree+0x78/0x120
-[  439.050975]  nouveau_drm_device_init+0x1a2/0x9b0 [nouveau]
-[  439.051347]  ? pci_enable_device_flags+0x27/0x180
-[  439.051356]  ? drmm_add_final_kfree+0x26/0x70 [drm]
-[  439.051494]  nouveau_drm_probe+0x137/0x280 [nouveau]
-[  439.051867]  local_pci_probe+0x44/0xb0
-[  439.051876]  pci_device_probe+0xc5/0x280
-[  439.051885]  really_probe+0x1c9/0x430
-[  439.051893]  __driver_probe_device+0x8c/0x190
-[  439.051900]  driver_probe_device+0x24/0xd0
-[  439.051906]  __driver_attach+0x10b/0x210
-[  439.051912]  ? __pfx___driver_attach+0x10/0x10
-[  439.051918]  bus_for_each_dev+0x8a/0xf0
-[  439.051925]  driver_attach+0x1e/0x30
-[  439.051930]  bus_add_driver+0x127/0x240
-[  439.051937]  driver_register+0x5e/0x130
-[  439.051945]  ? __pfx_nouveau_drm_init+0x10/0x10 [nouveau]
-[  439.052209]  __pci_register_driver+0x62/0x70
-[  439.052217]  nouveau_drm_init+0x177/0xff0 [nouveau]
-[  439.052452]  do_one_initcall+0x5b/0x340
-[  439.052463]  do_init_module+0x68/0x260
-[  439.052469]  load_module+0x21a9/0x2510
-[  439.052485]  init_module_from_file+0x97/0xe0
-[  439.052489]  ? init_module_from_file+0x97/0xe0
-[  439.052498]  idempotent_init_module+0x11c/0x2b0
-[  439.052507]  __x64_sys_finit_module+0x64/0xd0
-[  439.052513]  do_syscall_64+0x5c/0xf0
-[  439.052520]  ? do_syscall_64+0x6b/0xf0
-[  439.052526]  ? syscall_exit_to_user_mode+0x37/0x60
-[  439.052532]  ? do_syscall_64+0x6b/0xf0
-[  439.052538]  ? do_syscall_64+0x6b/0xf0
-[  439.052545]  ? syscall_exit_to_user_mode+0x37/0x60
-[  439.052550]  ? do_syscall_64+0x6b/0xf0
-[  439.052555]  ? irqentry_exit_to_user_mode+0x17/0x20
-[  439.052560]  ? irqentry_exit+0x43/0x50
-[  439.052564]  ? exc_page_fault+0x94/0x1b0
-[  439.052569]  entry_SYSCALL_64_after_hwframe+0x6e/0x76
-[  439.052574] RIP: 0033:0x7fbb92915ded
-[  439.052580] Code: 5d c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 48 =
-89
-f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3=
-d 01
-f0 ff ff 73 01 c3 48 8b 0d fb ff 0d 00 f7 d8 64 89 01 48
-[  439.052584] RSP: 002b:00007fff0904ab08 EFLAGS: 00000246 ORIG_RAX:
-0000000000000139
-[  439.052590] RAX: ffffffffffffffda RBX: 0000564d9e13f700 RCX:
-00007fbb92915ded
-[  439.052594] RDX: 0000000000000000 RSI: 0000564d9d6dcc3a RDI:
-0000000000000003
-[  439.052597] RBP: 0000564d9d6dcc3a R08: 0000000000000000 R09:
-0000564d9e1420e0
-[  439.052600] R10: 0000000000000003 R11: 0000000000000246 R12:
-0000000000000000
-[  439.052603] R13: 0000564d9e143110 R14: 00007fff0904ad48 R15:
-0000564d9e13f810
-[  439.052611]  </TASK>
-[  439.052613] ---[ end trace 0000000000000000 ]---
+Reviewed-by: Sascha Hauer <s.hauer@pengutronix.de>
 
---=20
-You may reply to this email to add a comment.
+Sascha
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+> 
+> ---
+> 
+> Changes in v4:
+> - check NULL pointer at right place
+> - fix the index of fb->obj
+> - drop explicitly cast of void pointer
+> - make the register dump code as a common function.
+> 
+> Changes in v3:
+> - put regs dump info in vop2_data
+> 
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 256 +++++++++++++++++++
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  11 +
+>  drivers/gpu/drm/rockchip/rockchip_vop2_reg.c | 191 ++++++++++++++
+>  3 files changed, 458 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> index 2b996f1a25ad..1cd86b3bde7e 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> @@ -27,6 +27,7 @@
+>  #include <drm/drm_debugfs.h>
+>  #include <drm/drm_flip_work.h>
+>  #include <drm/drm_framebuffer.h>
+> +#include <drm/drm_gem_framebuffer_helper.h>
+>  #include <drm/drm_probe_helper.h>
+>  #include <drm/drm_vblank.h>
+>  
+> @@ -187,6 +188,7 @@ struct vop2 {
+>  	 */
+>  	u32 registered_num_wins;
+>  
+> +	struct resource *res;
+>  	void __iomem *regs;
+>  	struct regmap *map;
+>  
+> @@ -238,6 +240,37 @@ struct vop2 {
+>  
+>  #define vop2_output_if_is_dpi(x)	((x) == ROCKCHIP_VOP2_EP_RGB0)
+>  
+> +
+> +/*
+> + * bus-format types.
+> + */
+> +struct drm_bus_format_enum_list {
+> +	int type;
+> +	const char *name;
+> +};
+> +
+> +static const struct drm_bus_format_enum_list drm_bus_format_enum_list[] = {
+> +	{ DRM_MODE_CONNECTOR_Unknown, "Unknown" },
+> +	{ MEDIA_BUS_FMT_RGB565_1X16, "RGB565_1X16" },
+> +	{ MEDIA_BUS_FMT_RGB666_1X18, "RGB666_1X18" },
+> +	{ MEDIA_BUS_FMT_RGB666_1X24_CPADHI, "RGB666_1X24_CPADHI" },
+> +	{ MEDIA_BUS_FMT_RGB666_1X7X3_SPWG, "RGB666_1X7X3_SPWG" },
+> +	{ MEDIA_BUS_FMT_YUV8_1X24, "YUV8_1X24" },
+> +	{ MEDIA_BUS_FMT_UYYVYY8_0_5X24, "UYYVYY8_0_5X24" },
+> +	{ MEDIA_BUS_FMT_YUV10_1X30, "YUV10_1X30" },
+> +	{ MEDIA_BUS_FMT_UYYVYY10_0_5X30, "UYYVYY10_0_5X30" },
+> +	{ MEDIA_BUS_FMT_RGB888_3X8, "RGB888_3X8" },
+> +	{ MEDIA_BUS_FMT_RGB888_1X24, "RGB888_1X24" },
+> +	{ MEDIA_BUS_FMT_RGB888_1X7X4_SPWG, "RGB888_1X7X4_SPWG" },
+> +	{ MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA, "RGB888_1X7X4_JEIDA" },
+> +	{ MEDIA_BUS_FMT_UYVY8_2X8, "UYVY8_2X8" },
+> +	{ MEDIA_BUS_FMT_YUYV8_1X16, "YUYV8_1X16" },
+> +	{ MEDIA_BUS_FMT_UYVY8_1X16, "UYVY8_1X16" },
+> +	{ MEDIA_BUS_FMT_RGB101010_1X30, "RGB101010_1X30" },
+> +	{ MEDIA_BUS_FMT_YUYV10_1X20, "YUYV10_1X20" },
+> +};
+> +static DRM_ENUM_NAME_FN(drm_get_bus_format_name, drm_bus_format_enum_list)
+> +
+>  static const struct regmap_config vop2_regmap_config;
+>  
+>  static struct vop2_video_port *to_vop2_video_port(struct drm_crtc *crtc)
+> @@ -2516,6 +2549,227 @@ static const struct drm_crtc_helper_funcs vop2_crtc_helper_funcs = {
+>  	.atomic_disable = vop2_crtc_atomic_disable,
+>  };
+>  
+> +static void vop2_dump_connector_on_crtc(struct drm_crtc *crtc, struct seq_file *s)
+> +{
+> +	struct drm_connector_list_iter conn_iter;
+> +	struct drm_connector *connector;
+> +
+> +	drm_connector_list_iter_begin(crtc->dev, &conn_iter);
+> +	drm_for_each_connector_iter(connector, &conn_iter) {
+> +		if (crtc->state->connector_mask & drm_connector_mask(connector))
+> +			seq_printf(s, "    Connector: %s\n", connector->name);
+> +
+> +	}
+> +	drm_connector_list_iter_end(&conn_iter);
+> +}
+> +
+> +static int vop2_plane_state_dump(struct seq_file *s, struct drm_plane *plane)
+> +{
+> +	struct vop2_win *win = to_vop2_win(plane);
+> +	struct drm_plane_state *pstate = plane->state;
+> +	struct drm_rect *src, *dst;
+> +	struct drm_framebuffer *fb;
+> +	struct drm_gem_object *obj;
+> +	struct rockchip_gem_object *rk_obj;
+> +	bool xmirror;
+> +	bool ymirror;
+> +	bool rotate_270;
+> +	bool rotate_90;
+> +	dma_addr_t fb_addr;
+> +	int i;
+> +
+> +	seq_printf(s, "    %s: %s\n", win->data->name, !pstate ?
+> +		   "DISABLED" : pstate->crtc ? "ACTIVE" : "DISABLED");
+> +
+> +	if (!pstate || !pstate->fb)
+> +		return 0;
+> +
+> +	fb = pstate->fb;
+> +	src = &pstate->src;
+> +	dst = &pstate->dst;
+> +	xmirror = pstate->rotation & DRM_MODE_REFLECT_X ? true : false;
+> +	ymirror = pstate->rotation & DRM_MODE_REFLECT_Y ? true : false;
+> +	rotate_270 = pstate->rotation & DRM_MODE_ROTATE_270;
+> +	rotate_90 = pstate->rotation & DRM_MODE_ROTATE_90;
+> +
+> +	seq_printf(s, "\twin_id: %d\n", win->win_id);
+> +
+> +	seq_printf(s, "\tformat: %p4cc%s glb_alpha[0x%x]\n",
+> +		   &fb->format->format,
+> +		   drm_is_afbc(fb->modifier) ? "[AFBC]" : "",
+> +		   pstate->alpha >> 8);
+> +	seq_printf(s, "\trotate: xmirror: %d ymirror: %d rotate_90: %d rotate_270: %d\n",
+> +		   xmirror, ymirror, rotate_90, rotate_270);
+> +	seq_printf(s, "\tzpos: %d\n", pstate->normalized_zpos);
+> +	seq_printf(s, "\tsrc: pos[%d, %d] rect[%d x %d]\n", src->x1 >> 16,
+> +		   src->y1 >> 16, drm_rect_width(src) >> 16,
+> +		   drm_rect_height(src) >> 16);
+> +	seq_printf(s, "\tdst: pos[%d, %d] rect[%d x %d]\n", dst->x1, dst->y1,
+> +		   drm_rect_width(dst), drm_rect_height(dst));
+> +
+> +	for (i = 0; i < fb->format->num_planes; i++) {
+> +		obj = fb->obj[i];
+> +		rk_obj = to_rockchip_obj(obj);
+> +		fb_addr = rk_obj->dma_addr + fb->offsets[i];
+> +
+> +		seq_printf(s, "\tbuf[%d]: addr: %pad pitch: %d offset: %d\n",
+> +			   i, &fb_addr, fb->pitches[i], fb->offsets[i]);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int vop2_crtc_state_dump(struct drm_crtc *crtc, struct seq_file *s)
+> +{
+> +	struct vop2_video_port *vp = to_vop2_video_port(crtc);
+> +	struct drm_crtc_state *cstate = crtc->state;
+> +	struct rockchip_crtc_state *vcstate;
+> +	struct drm_display_mode *mode;
+> +	struct drm_plane *plane;
+> +	bool interlaced;
+> +
+> +	seq_printf(s, "Video Port%d: %s\n", vp->id, !cstate ?
+> +		   "DISABLED" : cstate->active ? "ACTIVE" : "DISABLED");
+> +
+> +	if (!cstate || !cstate->active)
+> +		return 0;
+> +
+> +	mode = &crtc->state->adjusted_mode;
+> +	vcstate = to_rockchip_crtc_state(cstate);
+> +	interlaced = !!(mode->flags & DRM_MODE_FLAG_INTERLACE);
+> +
+> +	vop2_dump_connector_on_crtc(crtc, s);
+> +	seq_printf(s, "\tbus_format[%x]: %s\n", vcstate->bus_format,
+> +		    drm_get_bus_format_name(vcstate->bus_format));
+> +	seq_printf(s, "\toutput_mode[%x]", vcstate->output_mode);
+> +	seq_printf(s, " color_space[%d]\n", vcstate->color_space);
+> +	seq_printf(s, "    Display mode: %dx%d%s%d\n",
+> +		    mode->hdisplay, mode->vdisplay, interlaced ? "i" : "p",
+> +		    drm_mode_vrefresh(mode));
+> +	seq_printf(s, "\tclk[%d] real_clk[%d] type[%x] flag[%x]\n",
+> +		    mode->clock, mode->crtc_clock, mode->type, mode->flags);
+> +	seq_printf(s, "\tH: %d %d %d %d\n", mode->hdisplay, mode->hsync_start,
+> +		    mode->hsync_end, mode->htotal);
+> +	seq_printf(s, "\tV: %d %d %d %d\n", mode->vdisplay, mode->vsync_start,
+> +		    mode->vsync_end, mode->vtotal);
+> +
+> +	drm_atomic_crtc_for_each_plane(plane, crtc) {
+> +		vop2_plane_state_dump(s, plane);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int vop2_summary_show(struct seq_file *s, void *data)
+> +{
+> +	struct drm_info_node *node = s->private;
+> +	struct drm_minor *minor = node->minor;
+> +	struct drm_device *drm_dev = minor->dev;
+> +	struct drm_crtc *crtc;
+> +
+> +	drm_modeset_lock_all(drm_dev);
+> +	drm_for_each_crtc(crtc, drm_dev) {
+> +		vop2_crtc_state_dump(crtc, s);
+> +	}
+> +	drm_modeset_unlock_all(drm_dev);
+> +
+> +	return 0;
+> +}
+> +
+> +static void vop2_regs_print(struct vop2 *vop2, struct seq_file *s,
+> +			    const struct vop2_regs_dump *dump, bool active_only)
+> +{
+> +	resource_size_t start;
+> +	u32 val;
+> +	int i;
+> +
+> +	if (dump->en_mask && active_only) {
+> +		val = vop2_readl(vop2, dump->base + dump->en_reg);
+> +		if ((val & dump->en_mask) != dump->en_val)
+> +			return;
+> +	}
+> +
+> +	seq_printf(s, "\n%s:\n", dump->name);
+> +
+> +	start = vop2->res->start + dump->base;
+> +	for (i = 0; i < dump->size >> 2; i += 4) {
+> +		seq_printf(s, "%08x:  %08x %08x %08x %08x\n", (u32)start + i * 4,
+> +			   vop2_readl(vop2, dump->base + (4 * i)),
+> +			   vop2_readl(vop2, dump->base + (4 * (i + 1))),
+> +			   vop2_readl(vop2, dump->base + (4 * (i + 2))),
+> +			   vop2_readl(vop2, dump->base + (4 * (i + 3))));
+> +	}
+> +}
+> +
+> +static void __vop2_regs_dump(struct seq_file *s, bool active_only)
+> +{
+> +	struct drm_info_node *node = s->private;
+> +	struct vop2 *vop2 = node->info_ent->data;
+> +	struct drm_minor *minor = node->minor;
+> +	struct drm_device *drm_dev = minor->dev;
+> +	const struct vop2_regs_dump *dump;
+> +	unsigned int i;
+> +
+> +	drm_modeset_lock_all(drm_dev);
+> +	if (vop2->enable_count) {
+> +		for (i = 0; i < vop2->data->regs_dump_size; i++) {
+> +			dump = &vop2->data->regs_dump[i];
+> +			vop2_regs_print(vop2, s, dump, active_only);
+> +		}
+> +	} else {
+> +		seq_printf(s, "VOP disabled\n");
+> +	}
+> +	drm_modeset_unlock_all(drm_dev);
+> +
+> +}
+> +
+> +static int vop2_regs_show(struct seq_file *s, void *arg)
+> +{
+> +	__vop2_regs_dump(s, false);
+> +
+> +	return 0;
+> +}
+> +
+> +static int vop2_active_regs_show(struct seq_file *s, void *data)
+> +{
+> +	__vop2_regs_dump(s, true);
+> +
+> +	return 0;
+> +}
+> +
+> +static struct drm_info_list vop2_debugfs_list[] = {
+> +	{ "summary", vop2_summary_show, 0, NULL },
+> +	{ "active_regs", vop2_active_regs_show,   0, NULL },
+> +	{ "regs", vop2_regs_show,   0, NULL },
+> +};
+> +
+> +static void vop2_debugfs_init(struct vop2 *vop2, struct drm_minor *minor)
+> +{
+> +	struct dentry *root;
+> +	unsigned int i;
+> +
+> +	root = debugfs_create_dir("vop2", minor->debugfs_root);
+> +	if (!IS_ERR(root)) {
+> +		for (i = 0; i < ARRAY_SIZE(vop2_debugfs_list); i++)
+> +			vop2_debugfs_list[i].data = vop2;
+> +
+> +		drm_debugfs_create_files(vop2_debugfs_list,
+> +					 ARRAY_SIZE(vop2_debugfs_list),
+> +					 root, minor);
+> +	}
+> +}
+> +
+> +static int vop2_crtc_late_register(struct drm_crtc *crtc)
+> +{
+> +	struct vop2_video_port *vp = to_vop2_video_port(crtc);
+> +	struct vop2 *vop2 = vp->vop2;
+> +
+> +	if (drm_crtc_index(crtc) == 0)
+> +		vop2_debugfs_init(vop2, crtc->dev->primary);
+> +
+> +	return 0;
+> +}
+> +
+>  static struct drm_crtc_state *vop2_crtc_duplicate_state(struct drm_crtc *crtc)
+>  {
+>  	struct rockchip_crtc_state *vcstate;
+> @@ -2565,6 +2819,7 @@ static const struct drm_crtc_funcs vop2_crtc_funcs = {
+>  	.atomic_destroy_state = vop2_crtc_destroy_state,
+>  	.enable_vblank = vop2_crtc_enable_vblank,
+>  	.disable_vblank = vop2_crtc_disable_vblank,
+> +	.late_register = vop2_crtc_late_register,
+>  };
+>  
+>  static irqreturn_t vop2_isr(int irq, void *data)
+> @@ -3109,6 +3364,7 @@ static int vop2_bind(struct device *dev, struct device *master, void *data)
+>  		return -EINVAL;
+>  	}
+>  
+> +	vop2->res = res;
+>  	vop2->regs = devm_ioremap_resource(dev, res);
+>  	if (IS_ERR(vop2->regs))
+>  		return PTR_ERR(vop2->regs);
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+> index 615a16196aff..59cd6b933bfb 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+> @@ -122,6 +122,15 @@ enum vop2_win_regs {
+>  	VOP2_WIN_MAX_REG,
+>  };
+>  
+> +struct vop2_regs_dump {
+> +	const char *name;
+> +	u32 base;
+> +	u32 size;
+> +	u32 en_reg;
+> +	u32 en_val;
+> +	u32 en_mask;
+> +};
+> +
+>  struct vop2_win_data {
+>  	const char *name;
+>  	unsigned int phys_id;
+> @@ -160,10 +169,12 @@ struct vop2_data {
+>  	u64 feature;
+>  	const struct vop2_win_data *win;
+>  	const struct vop2_video_port_data *vp;
+> +	const struct vop2_regs_dump *regs_dump;
+>  	struct vop_rect max_input;
+>  	struct vop_rect max_output;
+>  
+>  	unsigned int win_size;
+> +	unsigned int regs_dump_size;
+>  	unsigned int soc_id;
+>  };
+>  
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+> index 48170694ac6b..6fc119034a0e 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+> @@ -260,6 +260,88 @@ static const struct vop2_win_data rk3568_vop_win_data[] = {
+>  	},
+>  };
+>  
+> +static const struct vop2_regs_dump rk3568_regs_dump[] = {
+> +	{
+> +		.name = "SYS",
+> +		.base = RK3568_REG_CFG_DONE,
+> +		.size = 0x100,
+> +		.en_reg  = 0,
+> +		.en_val = 0,
+> +		.en_mask = 0
+> +	}, {
+> +		.name = "OVL",
+> +		.base = RK3568_OVL_CTRL,
+> +		.size = 0x100,
+> +		.en_reg = 0,
+> +		.en_val = 0,
+> +		.en_mask = 0,
+> +	}, {
+> +		.name = "VP0",
+> +		.base = RK3568_VP0_CTRL_BASE,
+> +		.size = 0x100,
+> +		.en_reg = RK3568_VP_DSP_CTRL,
+> +		.en_val = 0,
+> +		.en_mask = RK3568_VP_DSP_CTRL__STANDBY,
+> +	}, {
+> +		.name = "VP1",
+> +		.base = RK3568_VP1_CTRL_BASE,
+> +		.size = 0x100,
+> +		.en_reg = RK3568_VP_DSP_CTRL,
+> +		.en_val = 0,
+> +		.en_mask = RK3568_VP_DSP_CTRL__STANDBY,
+> +	}, {
+> +		.name = "VP2",
+> +		.base = RK3568_VP2_CTRL_BASE,
+> +		.size = 0x100,
+> +		.en_reg = RK3568_VP_DSP_CTRL,
+> +		.en_val = 0,
+> +		.en_mask = RK3568_VP_DSP_CTRL__STANDBY,
+> +
+> +	}, {
+> +		.name = "Cluster0",
+> +		.base = RK3568_CLUSTER0_CTRL_BASE,
+> +		.size = 0x110,
+> +		.en_reg = RK3568_CLUSTER_WIN_CTRL0,
+> +		.en_val = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
+> +		.en_mask = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
+> +	}, {
+> +		.name = "Cluster1",
+> +		.base = RK3568_CLUSTER1_CTRL_BASE,
+> +		.size = 0x110,
+> +		.en_reg = RK3568_CLUSTER_WIN_CTRL0,
+> +		.en_val = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
+> +		.en_mask = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
+> +	}, {
+> +		.name = "Esmart0",
+> +		.base = RK3568_ESMART0_CTRL_BASE,
+> +		.size = 0xf0,
+> +		.en_reg = RK3568_SMART_REGION0_CTRL,
+> +		.en_val = RK3568_SMART_REGION0_CTRL__WIN0_EN,
+> +		.en_mask = RK3568_SMART_REGION0_CTRL__WIN0_EN,
+> +	}, {
+> +		.name = "Esmart1",
+> +		.base = RK3568_ESMART1_CTRL_BASE,
+> +		.size = 0xf0,
+> +		.en_reg = RK3568_SMART_REGION0_CTRL,
+> +		.en_val = RK3568_SMART_REGION0_CTRL__WIN0_EN,
+> +		.en_mask = RK3568_SMART_REGION0_CTRL__WIN0_EN,
+> +	}, {
+> +		.name = "Smart0",
+> +		.base = RK3568_SMART0_CTRL_BASE,
+> +		.size = 0xf0,
+> +		.en_reg = RK3568_SMART_REGION0_CTRL,
+> +		.en_val = RK3568_SMART_REGION0_CTRL__WIN0_EN,
+> +		.en_mask = RK3568_SMART_REGION0_CTRL__WIN0_EN,
+> +	}, {
+> +		.name = "Smart1",
+> +		.base = RK3568_SMART1_CTRL_BASE,
+> +		.size = 0xf0,
+> +		.en_reg = RK3568_SMART_REGION0_CTRL,
+> +		.en_val = RK3568_SMART_REGION0_CTRL__WIN0_EN,
+> +		.en_mask = RK3568_SMART_REGION0_CTRL__WIN0_EN,
+> +	},
+> +};
+> +
+>  static const struct vop2_video_port_data rk3588_vop_video_ports[] = {
+>  	{
+>  		.id = 0,
+> @@ -440,6 +522,109 @@ static const struct vop2_win_data rk3588_vop_win_data[] = {
+>  	},
+>  };
+>  
+> +static const struct vop2_regs_dump rk3588_regs_dump[] = {
+> +	{
+> +		.name = "SYS",
+> +		.base = RK3568_REG_CFG_DONE,
+> +		.size = 0x100,
+> +		.en_reg  = 0,
+> +		.en_val = 0,
+> +		.en_mask = 0
+> +	}, {
+> +		.name = "OVL",
+> +		.base = RK3568_OVL_CTRL,
+> +		.size = 0x100,
+> +		.en_reg = 0,
+> +		.en_val = 0,
+> +		.en_mask = 0,
+> +	}, {
+> +		.name = "VP0",
+> +		.base = RK3568_VP0_CTRL_BASE,
+> +		.size = 0x100,
+> +		.en_reg = RK3568_VP_DSP_CTRL,
+> +		.en_val = 0,
+> +		.en_mask = RK3568_VP_DSP_CTRL__STANDBY,
+> +	}, {
+> +		.name = "VP1",
+> +		.base = RK3568_VP1_CTRL_BASE,
+> +		.size = 0x100,
+> +		.en_reg = RK3568_VP_DSP_CTRL,
+> +		.en_val = 0,
+> +		.en_mask = RK3568_VP_DSP_CTRL__STANDBY,
+> +	}, {
+> +		.name = "VP2",
+> +		.base = RK3568_VP2_CTRL_BASE,
+> +		.size = 0x100,
+> +		.en_reg = RK3568_VP_DSP_CTRL,
+> +		.en_val = 0,
+> +		.en_mask = RK3568_VP_DSP_CTRL__STANDBY,
+> +
+> +	}, {
+> +		.name = "VP3",
+> +		.base = RK3588_VP3_CTRL_BASE,
+> +		.size = 0x100,
+> +		.en_reg = RK3568_VP_DSP_CTRL,
+> +		.en_val = 0,
+> +		.en_mask = RK3568_VP_DSP_CTRL__STANDBY,
+> +	}, {
+> +		.name = "Cluster0",
+> +		.base = RK3568_CLUSTER0_CTRL_BASE,
+> +		.size = 0x110,
+> +		.en_reg = RK3568_CLUSTER_WIN_CTRL0,
+> +		.en_val = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
+> +		.en_mask = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
+> +	}, {
+> +		.name = "Cluster1",
+> +		.base = RK3568_CLUSTER1_CTRL_BASE,
+> +		.size = 0x110,
+> +		.en_reg = RK3568_CLUSTER_WIN_CTRL0,
+> +		.en_val = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
+> +		.en_mask = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
+> +	}, {
+> +		.name = "Cluster2",
+> +		.base = RK3588_CLUSTER2_CTRL_BASE,
+> +		.size = 0x110,
+> +		.en_reg = RK3568_CLUSTER_WIN_CTRL0,
+> +		.en_val = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
+> +		.en_mask = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
+> +	}, {
+> +		.name = "Cluster3",
+> +		.base = RK3588_CLUSTER3_CTRL_BASE,
+> +		.size = 0x110,
+> +		.en_reg = RK3568_CLUSTER_WIN_CTRL0,
+> +		.en_val = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
+> +		.en_mask = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
+> +	}, {
+> +		.name = "Esmart0",
+> +		.base = RK3568_ESMART0_CTRL_BASE,
+> +		.size = 0xf0,
+> +		.en_reg = RK3568_SMART_REGION0_CTRL,
+> +		.en_val = RK3568_SMART_REGION0_CTRL__WIN0_EN,
+> +		.en_mask = RK3568_SMART_REGION0_CTRL__WIN0_EN,
+> +	}, {
+> +		.name = "Esmart1",
+> +		.base = RK3568_ESMART1_CTRL_BASE,
+> +		.size = 0xf0,
+> +		.en_reg = RK3568_SMART_REGION0_CTRL,
+> +		.en_val = RK3568_SMART_REGION0_CTRL__WIN0_EN,
+> +		.en_mask = RK3568_SMART_REGION0_CTRL__WIN0_EN,
+> +	}, {
+> +		.name = "Esmart2",
+> +		.base = RK3588_ESMART2_CTRL_BASE,
+> +		.size = 0xf0,
+> +		.en_reg = RK3568_SMART_REGION0_CTRL,
+> +		.en_val = RK3568_SMART_REGION0_CTRL__WIN0_EN,
+> +		.en_mask = RK3568_SMART_REGION0_CTRL__WIN0_EN,
+> +	}, {
+> +		.name = "Esmart3",
+> +		.base = RK3588_ESMART3_CTRL_BASE,
+> +		.size = 0xf0,
+> +		.en_reg = RK3568_SMART_REGION0_CTRL,
+> +		.en_val = RK3568_SMART_REGION0_CTRL__WIN0_EN,
+> +		.en_mask = RK3568_SMART_REGION0_CTRL__WIN0_EN,
+> +	},
+> +};
+> +
+>  static const struct vop2_data rk3566_vop = {
+>  	.feature = VOP2_FEATURE_HAS_SYS_GRF,
+>  	.nr_vps = 3,
+> @@ -448,6 +633,8 @@ static const struct vop2_data rk3566_vop = {
+>  	.vp = rk3568_vop_video_ports,
+>  	.win = rk3568_vop_win_data,
+>  	.win_size = ARRAY_SIZE(rk3568_vop_win_data),
+> +	.regs_dump = rk3568_regs_dump,
+> +	.regs_dump_size = ARRAY_SIZE(rk3568_regs_dump),
+>  	.soc_id = 3566,
+>  };
+>  
+> @@ -459,6 +646,8 @@ static const struct vop2_data rk3568_vop = {
+>  	.vp = rk3568_vop_video_ports,
+>  	.win = rk3568_vop_win_data,
+>  	.win_size = ARRAY_SIZE(rk3568_vop_win_data),
+> +	.regs_dump = rk3568_regs_dump,
+> +	.regs_dump_size = ARRAY_SIZE(rk3568_regs_dump),
+>  	.soc_id = 3568,
+>  };
+>  
+> @@ -471,6 +660,8 @@ static const struct vop2_data rk3588_vop = {
+>  	.vp = rk3588_vop_video_ports,
+>  	.win = rk3588_vop_win_data,
+>  	.win_size = ARRAY_SIZE(rk3588_vop_win_data),
+> +	.regs_dump = rk3588_regs_dump,
+> +	.regs_dump_size = ARRAY_SIZE(rk3588_regs_dump),
+>  	.soc_id = 3588,
+>  };
+>  
+> -- 
+> 2.34.1
+> 
+> 
+> 
+
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
