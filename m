@@ -2,44 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4472A80CCA3
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 15:02:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3BD880CCB5
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 15:03:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6688A10E45F;
-	Mon, 11 Dec 2023 14:02:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2230010E423;
+	Mon, 11 Dec 2023 14:03:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 346DD10E45B
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 14:02:51 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAF7010E423
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 14:03:10 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 9E5C4B80E63;
- Mon, 11 Dec 2023 14:02:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 016FEC433CA;
- Mon, 11 Dec 2023 14:02:47 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 3FE36612CA;
+ Mon, 11 Dec 2023 14:03:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EE97C433C7;
+ Mon, 11 Dec 2023 14:03:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1702303369;
- bh=CAabmz3YfzsbQjyDogsRvJLdEPcFoGXEQ9nrIXkGRf4=;
+ s=k20201202; t=1702303389;
+ bh=K+Fm0NNtM17ZyDbxtKgvR4pcjBGtmeMTBE71h5//Ahg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fP3SeVbb1PllAHuIjO33vbO32A9jP7dKdBV761wYZqKoB8jl7FQ/m5uZ4dEpPQhcp
- GIVdlXy0h6sDCBfPfr7QDxyLQdJWbwZuT0q3a5P/FDXM7L3vbA8urAgqKOjdn7l/ZA
- Rhf+KRdHE+w9VcPQ3qUf7Lwj8EwriDiCl3Ky/bgG4BuA+txCFnrCl0+Fdbtzd8ZRGa
- J8KQCGteUotrgOS6ESzeHne8jgK6qMWXmj15uDc2pu34UJlV4b+XajKhhugbLWmB48
- yPawLesEpnaIcmLsDHgLI+sEheGI+OXKaSxMPzbZwzgW3aDmFAnFC1T0fTgcEWCQD4
- m/Z1da6uNP9jA==
+ b=HdxfQMwKawIX00e5VzTM5aTist6/MC1eHr6z5dyDrCGGZJhBmR3lLysNJoNIJm8Qf
+ sDUBxF2bkTFrxghTfbmNHZcTsQ5bepfC08JFrcjqRoTTU3GqJxghPo723d48mUKeUm
+ fBguNjRzWFouWxFv5xxKNHbmHGA4wyT7sKtsj1ipNh4z6PVzYrk6oH1VVDoj0lrwb7
+ 5a7nuO7AvUvobjzPv6UAhblaaVVUl7mOS/0AWfLcu0VNlWkCxTnAParZUgKLyEYxqJ
+ VPPiWb2xwRBr9f2MOFHgZYj4DE7CxdsadtaMVSIbuZeikKD4Blk+/xrF6PJ2L9snWR
+ nt+Na1NK0Ojjg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 12/12] drm/exynos: fix a wrong error checking
-Date: Mon, 11 Dec 2023 09:02:05 -0500
-Message-ID: <20231211140219.392379-12-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 7/7] drm/exynos: fix a potential error pointer
+ dereference
+Date: Mon, 11 Dec 2023 09:02:50 -0500
+Message-ID: <20231211140254.392656-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231211140219.392379-1-sashal@kernel.org>
-References: <20231211140219.392379-1-sashal@kernel.org>
+In-Reply-To: <20231211140254.392656-1-sashal@kernel.org>
+References: <20231211140254.392656-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.4.263
+X-stable-base: Linux 4.19.301
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,66 +56,44 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sasha Levin <sashal@kernel.org>, linux-samsung-soc@vger.kernel.org,
- sw0312.kim@samsung.com, krzysztof.kozlowski@linaro.org,
- dri-devel@lists.freedesktop.org, kyungmin.park@samsung.com,
- linux-arm-kernel@lists.infradead.org
+ sw0312.kim@samsung.com, kyungmin.park@samsung.com,
+ dri-devel@lists.freedesktop.org, krzysztof.kozlowski@linaro.org,
+ Xiang Yang <xiangyang3@huawei.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Inki Dae <inki.dae@samsung.com>
+From: Xiang Yang <xiangyang3@huawei.com>
 
-[ Upstream commit 8d1b7809684c688005706125b804e1f9792d2b1b ]
+[ Upstream commit 73bf1c9ae6c054c53b8e84452c5e46f86dd28246 ]
 
-Fix a wrong error checking in exynos_drm_dma.c module.
+Smatch reports the warning below:
+drivers/gpu/drm/exynos/exynos_hdmi.c:1864 hdmi_bind()
+error: 'crtc' dereferencing possible ERR_PTR()
 
-In the exynos_drm_register_dma function, both arm_iommu_create_mapping()
-and iommu_get_domain_for_dev() functions are expected to return NULL as
-an error.
+The return value of exynos_drm_crtc_get_by_type maybe ERR_PTR(-ENODEV),
+which can not be used directly. Fix this by checking the return value
+before using it.
 
-However, the error checking is performed using the statement
-if(IS_ERR(mapping)), which doesn't provide a suitable error value.
-So check if 'mapping' is NULL, and if it is, return -ENODEV.
-
-This issue[1] was reported by Dan.
-
-Changelog v1:
-- fix build warning.
-
-[1] https://lore.kernel.org/all/33e52277-1349-472b-a55b-ab5c3462bfcf@moroto.mountain/
-
-Reported-by : Dan Carpenter <dan.carpenter@linaro.org>
+Signed-off-by: Xiang Yang <xiangyang3@huawei.com>
 Signed-off-by: Inki Dae <inki.dae@samsung.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/exynos/exynos_drm_dma.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/exynos/exynos_hdmi.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_dma.c b/drivers/gpu/drm/exynos/exynos_drm_dma.c
-index a3c9d8b9e1a18..e07d31b9a921a 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_dma.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_dma.c
-@@ -133,18 +133,16 @@ int exynos_drm_register_dma(struct drm_device *drm, struct device *dev,
- 		return 0;
+diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exynos/exynos_hdmi.c
+index 2092a650df7d5..551a97e45d973 100644
+--- a/drivers/gpu/drm/exynos/exynos_hdmi.c
++++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
+@@ -1840,6 +1840,8 @@ static int hdmi_bind(struct device *dev, struct device *master, void *data)
+ 		return ret;
  
- 	if (!priv->mapping) {
--		void *mapping;
-+		void *mapping = NULL;
+ 	crtc = exynos_drm_crtc_get_by_type(drm_dev, EXYNOS_DISPLAY_TYPE_HDMI);
++	if (IS_ERR(crtc))
++		return PTR_ERR(crtc);
+ 	crtc->pipe_clk = &hdata->phy_clk;
  
- 		if (IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU))
- 			mapping = arm_iommu_create_mapping(&platform_bus_type,
- 				EXYNOS_DEV_ADDR_START, EXYNOS_DEV_ADDR_SIZE);
- 		else if (IS_ENABLED(CONFIG_IOMMU_DMA))
- 			mapping = iommu_get_domain_for_dev(priv->dma_dev);
--		else
--			mapping = ERR_PTR(-ENODEV);
- 
--		if (IS_ERR(mapping))
--			return PTR_ERR(mapping);
-+		if (!mapping)
-+			return -ENODEV;
- 		priv->mapping = mapping;
- 	}
- 
+ 	ret = hdmi_create_connector(encoder);
 -- 
 2.42.0
 
