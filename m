@@ -2,61 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AC0680C51E
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 10:46:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 315BA80C52B
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 10:48:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B30010E386;
-	Mon, 11 Dec 2023 09:46:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BBB110E388;
+	Mon, 11 Dec 2023 09:48:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com
- [IPv6:2607:f8b0:4864:20::112e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A537110E387
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 09:46:43 +0000 (UTC)
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-5e121d3a7b5so3857017b3.1
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 01:46:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1702288003; x=1702892803; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ceCUCLPLXDWP9zuR7v88iAKVRPzXXELnTgB4Os6l22g=;
- b=uC+Y38vf1b9omK+HfgPM207rHqQHY1f44mOT5AoFa9fKYbROKfnbKQAGaurNPwYt6+
- EHt8pjN6jeeXmcmR33Z6z0+NNwFUHr0HABQrGSnBvMCGSW1v5JLqeGjvvVRrbc/HzWun
- SUI847bkOPnVrYoIbZCYQqzb59kCDUpPuyyS8aVjCbjYzE/uPK/hW8kWJABeveV7MaT2
- eYhTJi6t65FjBLCqdEMoq+wBsDj8RqxvqsMWW63c3Vu07P4CNT5bXDXLyf4LTGPlVdYP
- 3VJbl2uo9m6ywbN/rPQsiQshcm3nH/53OgH3rT2no6X5XT8CG7oQotdGjDbpd6Oz4AjP
- oUqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702288003; x=1702892803;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ceCUCLPLXDWP9zuR7v88iAKVRPzXXELnTgB4Os6l22g=;
- b=R+3I0Woj6+U8l973WIe3ZTeUr8B//jLzR443o1lRTRz98dmE6wTYQDt0JjAYM5f/uX
- hr4ywIECTR57n7JoBQSMWHnE90pbGdUqvP2XHeNqm0Bc6eiOaFwonzgX30XrLrUSi6Jw
- g6oLhPZcFMwB3ys9SUGq53hI/IfU6FbMtBzpuVOVUDA+bNfBvbYxFiI/sxCZhPMKRFub
- 22F6aka2Nd/oneqnWB/+uIdQVeX0C3n/Ed593kCkZp4SUVK3lCu9TNivIbCxfAU+jMqf
- wSKByEK2m+EgpVDpANA3Jd30EIxAhA+KL2kBqM6tptDt34JkUf4xbQEOFWuvxpBOKG4d
- 8cnw==
-X-Gm-Message-State: AOJu0YwEuP95LXHadfGgTjdu33zsGvuRz5CKQ6+P4jJxdC9RlZhNsuMM
- eck9+hWUb6vgjfWxYEfd2jCYj94CHyn64Qef89gf3A==
-X-Google-Smtp-Source: AGHT+IFOa8DSXLPHUigw9G0yCtlmvsBIW84hlWI/2hqEX9J672xst4rq91Q4Tzd92Qk+L8dSWiirXnvbHK1KGoEHH7M=
-X-Received: by 2002:a81:d550:0:b0:5d4:20bc:403 with SMTP id
- l16-20020a81d550000000b005d420bc0403mr3018887ywj.2.1702288002808; Mon, 11 Dec
- 2023 01:46:42 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4160110E387;
+ Mon, 11 Dec 2023 09:48:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1702288129; x=1733824129;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=ic0GPJBgQ3YvW998HxkEiapTj7oEIaYPrJU331ugKoc=;
+ b=kJoMB1IAuSxV2QBuYbp0VbXzRBG9m3eKQRr3ZnAC/5JVXso+8OKLmb41
+ fLPN/Xjfz8QhUhAu54HaQOCbKk9kT9yQvRb9jjjyzqwsAJLiuPaJz6nt4
+ sk0HnLBUa6FgtMylBie3I/eAo5pPCc/H2ytLDnYRoLZVBgb1gehIvTq2+
+ IukBlBxg+VKSqE81vDoBPnlNQTcR4KxRj3H9E1yQhTnn/8rw+0b9Uznvg
+ bC+n3CxfLEhWKx7x0xyGlcXBtUdPGLP1oNW94Ht/Gix/YjpuTG0it4ebu
+ HYeJygJttxhGA7mKHT61FSffiM/yK7AVFnBiE//z+rwVBAdfuYEHp0R/7 g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="1433430"
+X-IronPort-AV: E=Sophos;i="6.04,267,1695711600"; 
+   d="scan'208";a="1433430"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Dec 2023 01:48:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="749220838"
+X-IronPort-AV: E=Sophos;i="6.04,267,1695711600"; d="scan'208";a="749220838"
+Received: from kbalak2x-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.63.68])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Dec 2023 01:48:44 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Colin Ian King <colin.i.king@gmail.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH][next] drm/i915/selftests: Fix spelling mistake
+ "initialiased" -> "initialised"
+In-Reply-To: <20231209230541.4055786-1-colin.i.king@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20231209230541.4055786-1-colin.i.king@gmail.com>
+Date: Mon, 11 Dec 2023 11:48:41 +0200
+Message-ID: <87v895xe6e.fsf@intel.com>
 MIME-Version: 1.0
-References: <20231209232132.3580045-1-dmitry.baryshkov@linaro.org>
- <20231209232132.3580045-10-dmitry.baryshkov@linaro.org>
- <7d459b20-80f5-4d9a-88b0-9e5769d1d9be@linaro.org>
-In-Reply-To: <7d459b20-80f5-4d9a-88b0-9e5769d1d9be@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 11 Dec 2023 11:46:31 +0200
-Message-ID: <CAA8EJpqpdvV6-Yxf7njg2srqEyiWJiF3fUGFi1XYBAPvUN3SOg@mail.gmail.com>
-Subject: Re: [PATCH 9/9] arm64: dts: qcom: sm8150-hdk: enable DisplayPort and
- USB-C altmode
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,51 +64,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
- Stephen Boyd <swboyd@chromium.org>, Andy Gross <agross@kernel.org>,
- dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-arm-msm@vger.kernel.org, Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 11 Dec 2023 at 11:33, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
+On Sat, 09 Dec 2023, Colin Ian King <colin.i.king@gmail.com> wrote:
+> There is a spelling mistake in a pr_err error message. Fix it.
 >
-> On 10.12.2023 00:21, Dmitry Baryshkov wrote:
-> > Enable the USB-C related functionality for the USB-C port on this board.
-> > This includes OTG, PowerDelivery and DP AltMode. Also enable the
-> > DisplayPort itself.
-> >
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> [...]
->
-> > +&pm8150b_typec {
-> > +     status = "okay";
-> > +
-> > +     vdd-pdphy-supply = <&vreg_l2a_3p1>;
-> > +
-> > +     connector {
-> > +             compatible = "usb-c-connector";
-> > +
-> > +             power-role = "source";
-> > +             data-role = "dual";
-> > +             self-powered;
-> > +
-> > +             source-pdos = <PDO_FIXED(5000, 3000,
-> > +                                      PDO_FIXED_DUAL_ROLE |
-> > +                                      PDO_FIXED_USB_COMM |
-> > +                                      PDO_FIXED_DATA_SWAP)>;
-> > +
-> > +             altmodes {
-> > +                     displayport {
-> > +                             svid = <0xff01>;
-> /bits/ 16?
+> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 
-Ugh, yes.
+Thanks, pushed to drm-intel-gt-next.
+
+BR,
+Jani.
+
+> ---
+>  drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
+> index e57f9390076c..d684a70f2c04 100644
+> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
+> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
+> @@ -504,7 +504,7 @@ static int igt_dmabuf_export_vmap(void *arg)
+>  	}
+>  
+>  	if (memchr_inv(ptr, 0, dmabuf->size)) {
+> -		pr_err("Exported object not initialiased to zero!\n");
+> +		pr_err("Exported object not initialised to zero!\n");
+>  		err = -EINVAL;
+>  		goto out;
+>  	}
 
 -- 
-With best wishes
-Dmitry
+Jani Nikula, Intel
