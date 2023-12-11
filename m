@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DD8B80CC00
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 14:56:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42E1780CC0B
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 14:57:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D2F610E3EE;
-	Mon, 11 Dec 2023 13:56:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BB1110E416;
+	Mon, 11 Dec 2023 13:57:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5CB310E3EE;
- Mon, 11 Dec 2023 13:56:51 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBFEE10E416;
+ Mon, 11 Dec 2023 13:57:04 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 40ED26128E;
- Mon, 11 Dec 2023 13:56:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E470C433C8;
- Mon, 11 Dec 2023 13:56:48 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id 6B590B80E66;
+ Mon, 11 Dec 2023 13:57:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 920EFC43395;
+ Mon, 11 Dec 2023 13:57:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1702303010;
- bh=bYKkKLzZA8jGXcnt6bR9g4qRqoJgH/dKArVF5Co8L98=;
+ s=k20201202; t=1702303023;
+ bh=jA5ATd62nm6QKEUKH0AuLYKNFPPhQMQlHAKgb9v1MYs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LA3EcSqm3uQl/934YG3mOEgOClGDO+z1TEqfFBe8uBCSTYoRi4W9Or7oVif/hHU6/
- bDQwf54YnORtQy7nqyu15upP64xFl/eFOld1PUzgDE5lWkq6JRC72uCxvJTkSloZGw
- +046fblIrCj7ZJuYDXfpvEiTE5MLw/a+fucked6AZRnWnTzCS0YXDL91za0xO7YBWb
- 8zwryIS5faNGkbpeHBbJW7VPRoLbwP84VNzU8TUt8nIH3CjlOjhP/2GUmasnuw3Wat
- vocJSUrhez3h2t4RzzKUowtKU36ljM9OfxC70tahEuzpPl4xmi5eKW5bMyNQlGmb+H
- RNK2VIS8MpaSA==
+ b=TkM9bYK8JGt1Cc/1Tm7BRdoCub2BYQi3BI2Zi/4tHV8c4fxELVq2/fN9daYRTzPyh
+ bFsU1LBaxS51Z9eq7bRcFW+xmnP+NqEPAGPRuk7VXuqLNU03OfIk3wShQlvdt760kB
+ 4+JU0nQZaXd9EV+6JRzOTdVEcVDwMNhOpCUNJcD8ntuPCPmbLLW1MrUyI1SftR3u8z
+ DAZSHpETAb+6XQ6glvmB7sQEoVqlLdUgJjBHSbHKWNgCfek7tG2kCPI60BG58+8gwv
+ gSp1NRs4FKvfMfiHtit6M+vQrQ4KS2nNEuOyB5/yAwB3TjgBU70NTdYv7RDFrD0FAC
+ qFhJNS+o2S1HQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 23/29] drm/amd/display: Use channel_width = 2 for
- vram table 3.0
-Date: Mon, 11 Dec 2023 08:54:07 -0500
-Message-ID: <20231211135457.381397-23-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 24/29] drm/amd/display: Add monitor patch for
+ specific eDP
+Date: Mon, 11 Dec 2023 08:54:08 -0500
+Message-ID: <20231211135457.381397-24-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231211135457.381397-1-sashal@kernel.org>
 References: <20231211135457.381397-1-sashal@kernel.org>
@@ -54,53 +54,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, felipe.clark@amd.com,
- amd-gfx@lists.freedesktop.org, sunran001@208suo.com,
- dri-devel@lists.freedesktop.org, sunpeng.li@amd.com, ruanjinjie@huawei.com,
- Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, Samson Tam <samson.tam@amd.com>,
- tony.tascioglu@amd.com, drv@mailo.com, Daniel Wheeler <daniel.wheeler@amd.com>,
- Alvin Lee <alvin.lee2@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- christian.koenig@amd.com, mario.limonciello@amd.com
+Cc: Ivan Lipski <ivlipski@amd.com>, wenjing.liu@amd.com,
+ dri-devel@lists.freedesktop.org, hamza.mahfooz@amd.com,
+ srinivasan.shanmugam@amd.com, Sasha Levin <sashal@kernel.org>,
+ Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org,
+ aurabindo.pillai@amd.com, Sun peng Li <sunpeng.li@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>, mikita.lipski@amd.com,
+ sungjoon.kim@amd.com, qingqing.zhuo@amd.com, Xinhui.Pan@amd.com,
+ Wayne.Lin@amd.com, Alex Deucher <alexander.deucher@amd.com>,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alvin Lee <alvin.lee2@amd.com>
+From: Ivan Lipski <ivlipski@amd.com>
 
-[ Upstream commit fec05adc40c25a028c9dfa9d540f800a2d433f80 ]
+[ Upstream commit 3d71a8726e05a35beb9de394e86ce896d69e563f ]
 
-VBIOS has suggested to use channel_width=2 for any ASIC that uses vram
-info 3.0. This is because channel_width in the vram table no longer
-represents the memory width
+[WHY]
+Some eDP panels's ext caps don't write initial value cause the value of
+dpcd_addr(0x317) is random.  It means that sometimes the eDP will
+clarify it is OLED, miniLED...etc cause the backlight control interface
+is incorrect.
+
+[HOW]
+Add a new panel patch to remove sink ext caps(HDR,OLED...etc)
 
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Reviewed-by: Samson Tam <samson.tam@amd.com>
+Reviewed-by: Sun peng Li <sunpeng.li@amd.com>
 Acked-by: Rodrigo Siqueira <rodrigo.siqueira@amd.com>
-Signed-off-by: Alvin Lee <alvin.lee2@amd.com>
+Signed-off-by: Ivan Lipski <ivlipski@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-index e507d2e1410b7..72891d69afb68 100644
---- a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-+++ b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-@@ -2402,7 +2402,13 @@ static enum bp_result get_vram_info_v30(
- 		return BP_RESULT_BADBIOSTABLE;
- 
- 	info->num_chans = info_v30->channel_num;
--	info->dram_channel_width_bytes = (1 << info_v30->channel_width) / 8;
-+	/* As suggested by VBIOS we should always use
-+	 * dram_channel_width_bytes = 2 when using VRAM
-+	 * table version 3.0. This is because the channel_width
-+	 * param in the VRAM info table is changed in 7000 series and
-+	 * no longer represents the memory channel width.
-+	 */
-+	info->dram_channel_width_bytes = 2;
- 
- 	return result;
- }
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+index 9dc41f569a761..b13f7aba22960 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+@@ -64,6 +64,12 @@ static void apply_edid_quirks(struct edid *edid, struct dc_edid_caps *edid_caps)
+ 		DRM_DEBUG_DRIVER("Disabling FAMS on monitor with panel id %X\n", panel_id);
+ 		edid_caps->panel_patch.disable_fams = true;
+ 		break;
++	/* Workaround for some monitors that do not clear DPCD 0x317 if FreeSync is unsupported */
++	case drm_edid_encode_panel_id('A', 'U', 'O', 0xA7AB):
++	case drm_edid_encode_panel_id('A', 'U', 'O', 0xE69B):
++		DRM_DEBUG_DRIVER("Clearing DPCD 0x317 on monitor with panel id %X\n", panel_id);
++		edid_caps->panel_patch.remove_sink_ext_caps = true;
++		break;
+ 	default:
+ 		return;
+ 	}
 -- 
 2.42.0
 
