@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4239880D3E3
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 18:33:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D01BF80D3E8
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 18:34:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF0C210E4CA;
-	Mon, 11 Dec 2023 17:33:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 284C510E128;
+	Mon, 11 Dec 2023 17:34:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5804C10E128
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 17:33:01 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDEF110E4B5
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 17:34:31 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id A3D43CE139E
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 17:32:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4AF9C433C9
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 17:32:57 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id 40E1AB80F9A
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 17:34:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64E2DC433A9
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 17:34:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1702315977;
- bh=Lj2UpbE5cpbZnGKwwOZBgJWBP/YWAZRvQhiZ+6k83ls=;
+ s=k20201202; t=1702316068;
+ bh=xuX6L1jHorTrNZtjpFIc75B8ypRXxqR2z0Z/exf+Bcc=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=W16uTtUlG7SeFPGRm3CCuc2Oop+KBJQ6Xa5b5H8u1/HtQCIrREB7vbPN8RFi4Ne/R
- dh4RQAj86qlua0L9ifnnCt6Jgi/RZs9IS9FSCCCsuV9qN3pcBBNiTEBCdGXHDmeV8s
- 3T5UKB/OTm42v3NsQsRGldKHFubiR9Ct2lPAcN4vekjjsfX8jHRcX7VnhD/vhEpe9h
- 1H1Xa6jvsa3+z5F5GuYdve0PfKUXKGIow/BufN63sgw981QMNzBaRhmr8jrnqXmDoB
- suAgIjxEzLhJJg8UZcZoK8Km88nv7iYHBhFcslOtjLocUTIkVsal0pHln9Rd1PQA+H
- 5w83OwhCENHGQ==
-Received: by mail-lf1-f45.google.com with SMTP id
- 2adb3069b0e04-50bef9b7a67so5367155e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 09:32:57 -0800 (PST)
-X-Gm-Message-State: AOJu0YzwzQh22usr3Nq6nW7NT8PGU14nXUEdXCw24OPHy1qv1mzO6UIW
- 7Ir6fB9nBty0GuaI0hPI1ItVZtX1ZGH3DRs8rw==
-X-Google-Smtp-Source: AGHT+IHGvwmqfinxE26puG6zIXyk2PdfJU9Mt+NHOHO99VlGx42Q/aTIbEFneEOi/1zV/FWLbUqT2tbQZNunVP6uGd4=
-X-Received: by 2002:a05:6512:b20:b0:50d:f81e:6872 with SMTP id
- w32-20020a0565120b2000b0050df81e6872mr1480473lfu.10.1702315975908; Mon, 11
- Dec 2023 09:32:55 -0800 (PST)
+ b=KIjtlOXLZ/5nmD+yo2uenPqJ2aX9ssBIWM7zx7V9mGsNS4dvR6D8aAIpaFDBgT/r+
+ wCvrgF4StzlkDzjt3do/cB8Ml9zAQyJfXoeVqddjOpo3pkOKvyDvqomizxhhpAT3fh
+ rzG8LdwxdhzGsWTOvKytoF3vcPxedGlbsj2C2TPNgVi3xrrQSxjBVTpuaXQYZILPDr
+ Owt92PpG7h2R9rdPdu4WeAmREgjeG5gLlH18dk1z5Z0Y+LmOEd2gzOX3vK4wDsVx9I
+ iFwdL7SSj0y5Vdk3nDvkGPzjfeJpNdePgxd0MaZgSP5X3Vcf/XbxkKo4AkZuKQ91+7
+ ezj7eG3+MhM2A==
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-50bfd8d5c77so5402143e87.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 09:34:28 -0800 (PST)
+X-Gm-Message-State: AOJu0Ywd/L8PKZdIx4wkXTCQF8sm8SlYyYb1XKUIThhY8bVVbrDVH1Q8
+ J0EOszocGCZ1VZ3XRVViQ3lCJ/DirfKRjjyLCQ==
+X-Google-Smtp-Source: AGHT+IGMURGYLV/Y+ayED33ueZXlH85oU9OGhLmkTdCm4X1g7BaIMGfr4V8LF++R0RHFP+RuG1E0QnZTXRhkxEzjTew=
+X-Received: by 2002:a05:6512:3d05:b0:50b:f776:1d6a with SMTP id
+ d5-20020a0565123d0500b0050bf7761d6amr1293404lfv.1.1702316066602; Mon, 11 Dec
+ 2023 09:34:26 -0800 (PST)
 MIME-Version: 1.0
-References: <20231207141723.108004-1-dario.binacchi@amarulasolutions.com>
- <20231207141723.108004-9-dario.binacchi@amarulasolutions.com>
-In-Reply-To: <20231207141723.108004-9-dario.binacchi@amarulasolutions.com>
+References: <20231204123315.28456-1-keith.zhao@starfivetech.com>
+ <20231204123315.28456-6-keith.zhao@starfivetech.com>
+In-Reply-To: <20231204123315.28456-6-keith.zhao@starfivetech.com>
 From: Rob Herring <robh@kernel.org>
-Date: Mon, 11 Dec 2023 11:32:43 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqLeONsA_JOa9D8cpCwfwv16sBy5Tr3GAChboJekKuvm2w@mail.gmail.com>
-Message-ID: <CAL_JsqLeONsA_JOa9D8cpCwfwv16sBy5Tr3GAChboJekKuvm2w@mail.gmail.com>
-Subject: Re: [PATCH v5 08/10] drm/panel: Add Ilitek ILI9805 panel driver
-To: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+Date: Mon, 11 Dec 2023 11:34:14 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJz5pcFwLbh9Jdw1HKLPFgF8ZQdCM18bHO_8R1dtmfx7Q@mail.gmail.com>
+Message-ID: <CAL_JsqJz5pcFwLbh9Jdw1HKLPFgF8ZQdCM18bHO_8R1dtmfx7Q@mail.gmail.com>
+Subject: Re: [v3 5/6] drm/vs: Add hdmi driver
+To: Keith Zhao <keith.zhao@starfivetech.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -60,113 +60,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Amarula patchwork <linux-amarula@amarulasolutions.com>,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, michael@amarulasolutions.com,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: devicetree@vger.kernel.org, aou@eecs.berkeley.edu, suijingfeng@loongson.cn,
+ krzysztof.kozlowski+dt@linaro.org, william.qiu@starfivetech.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ xingyu.wu@starfivetech.com, jack.zhu@starfivetech.com, palmer@dabbelt.com,
+ mripard@kernel.org, tzimmermann@suse.de, paul.walmsley@sifive.com,
+ shengyang.chen@starfivetech.com, linux-riscv@lists.infradead.org,
+ changhuang.liang@starfivetech.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 7, 2023 at 8:17=E2=80=AFAM Dario Binacchi
-<dario.binacchi@amarulasolutions.com> wrote:
+On Mon, Dec 4, 2023 at 6:33=E2=80=AFAM Keith Zhao <keith.zhao@starfivetech.=
+com> wrote:
 >
-> From: Michael Trimarchi <michael@amarulasolutions.com>
+> add hdmi driver as encoder and connect
 >
-> The GPM1790A0 panel is based on the Ilitek ILI9805 Controller.
-> Add a driver for it.
->
-> Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
-> Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
->
+> Signed-off-by: Keith Zhao <keith.zhao@starfivetech.com>
 > ---
+>  drivers/gpu/drm/verisilicon/Kconfig         |   8 +
+>  drivers/gpu/drm/verisilicon/Makefile        |   1 +
+>  drivers/gpu/drm/verisilicon/starfive_hdmi.c | 849 ++++++++++++++++++++
+>  drivers/gpu/drm/verisilicon/starfive_hdmi.h | 304 +++++++
+>  drivers/gpu/drm/verisilicon/vs_drv.c        |   3 +
+>  drivers/gpu/drm/verisilicon/vs_drv.h        |   4 +
+>  6 files changed, 1169 insertions(+)
+>  create mode 100644 drivers/gpu/drm/verisilicon/starfive_hdmi.c
+>  create mode 100644 drivers/gpu/drm/verisilicon/starfive_hdmi.h
 >
-> (no changes since v4)
->
-> Changes in v4:
-> - Remove duplicated code for prepare/unprepare callbacks
->
->  MAINTAINERS                                  |   6 +
->  drivers/gpu/drm/panel/Kconfig                |   9 +
->  drivers/gpu/drm/panel/Makefile               |   1 +
->  drivers/gpu/drm/panel/panel-ilitek-ili9805.c | 353 +++++++++++++++++++
->  4 files changed, 369 insertions(+)
->  create mode 100644 drivers/gpu/drm/panel/panel-ilitek-ili9805.c
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index b82dc141d209..4dccc72a0ed6 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -6646,6 +6646,12 @@ T:       git git://anongit.freedesktop.org/drm/drm=
--misc
->  F:     Documentation/devicetree/bindings/display/ilitek,ili9486.yaml
->  F:     drivers/gpu/drm/tiny/ili9486.c
->
-> +DRM DRIVER FOR ILITEK ILI9805 PANELS
-> +M:     Michael Trimarchi <michael@amarulasolutions.com>
-> +S:     Maintained
-> +F:     Documentation/devicetree/bindings/display/panel/ilitek,ili9805.ya=
-ml
-> +F:     drivers/gpu/drm/panel/panel-ilitek-ili9805.c
+> diff --git a/drivers/gpu/drm/verisilicon/Kconfig b/drivers/gpu/drm/verisi=
+licon/Kconfig
+> index e10fa97635aa..122c786e3948 100644
+> --- a/drivers/gpu/drm/verisilicon/Kconfig
+> +++ b/drivers/gpu/drm/verisilicon/Kconfig
+> @@ -11,3 +11,11 @@ config DRM_VERISILICON
+>           This driver provides VeriSilicon kernel mode
+>           setting and buffer management. It does not
+>           provide 2D or 3D acceleration.
 > +
->  DRM DRIVER FOR JADARD JD9365DA-H3 MIPI-DSI LCD PANELS
->  M:     Jagan Teki <jagan@edgeble.ai>
->  S:     Maintained
-> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfi=
-g
-> index d018702be3dc..dad938cf6dec 100644
-> --- a/drivers/gpu/drm/panel/Kconfig
-> +++ b/drivers/gpu/drm/panel/Kconfig
-> @@ -194,6 +194,15 @@ config DRM_PANEL_ILITEK_ILI9341
->           QVGA (240x320) RGB panels. support serial & parallel rgb
->           interface.
->
-> +config DRM_PANEL_ILITEK_ILI9805
-> +       tristate "Ilitek ILI9805-based panels"
-> +       depends on OF
-> +       depends on DRM_MIPI_DSI
-> +       depends on BACKLIGHT_CLASS_DEVICE
+> +config DRM_VERISILICON_STARFIVE_HDMI
+> +       bool "Starfive HDMI extensions"
+> +       depends on DRM_VERISILICON
 > +       help
-> +         Say Y if you want to enable support for panels based on the
-> +         Ilitek ILI9805 controller.
-> +
->  config DRM_PANEL_ILITEK_ILI9881C
->         tristate "Ilitek ILI9881C-based panels"
->         depends on OF
-> diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makef=
-ile
-> index f267d932c2b5..d94a644d0a6c 100644
-> --- a/drivers/gpu/drm/panel/Makefile
-> +++ b/drivers/gpu/drm/panel/Makefile
-> @@ -17,6 +17,7 @@ obj-$(CONFIG_DRM_PANEL_FEIYANG_FY07024DI26A30D) +=3D pa=
-nel-feiyang-fy07024di26a30d
->  obj-$(CONFIG_DRM_PANEL_HIMAX_HX8394) +=3D panel-himax-hx8394.o
->  obj-$(CONFIG_DRM_PANEL_ILITEK_IL9322) +=3D panel-ilitek-ili9322.o
->  obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9341) +=3D panel-ilitek-ili9341.o
-> +obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9805) +=3D panel-ilitek-ili9805.o
->  obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9881C) +=3D panel-ilitek-ili9881c.o
->  obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9882T) +=3D panel-ilitek-ili9882t.o
->  obj-$(CONFIG_DRM_PANEL_INNOLUX_EJ030NA) +=3D panel-innolux-ej030na.o
-> diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9805.c b/drivers/gpu/d=
-rm/panel/panel-ilitek-ili9805.c
+> +          This selects support for StarFive soc specific extensions
+> +          for the Innosilicon HDMI driver. If you want to enable
+> +          HDMI on JH7110 based soc, you should select this option.
+> diff --git a/drivers/gpu/drm/verisilicon/Makefile b/drivers/gpu/drm/veris=
+ilicon/Makefile
+> index bf6f2b7ee480..71fadafcee13 100644
+> --- a/drivers/gpu/drm/verisilicon/Makefile
+> +++ b/drivers/gpu/drm/verisilicon/Makefile
+> @@ -6,4 +6,5 @@ vs_drm-objs :=3D vs_dc_hw.o \
+>                 vs_drv.o \
+>                 vs_modeset.o \
+>                 vs_plane.o
+> +vs_drm-$(CONFIG_DRM_VERISILICON_STARFIVE_HDMI) +=3D starfive_hdmi.o
+>  obj-$(CONFIG_DRM_VERISILICON) +=3D vs_drm.o
+> diff --git a/drivers/gpu/drm/verisilicon/starfive_hdmi.c b/drivers/gpu/dr=
+m/verisilicon/starfive_hdmi.c
 > new file mode 100644
-> index 000000000000..e36984b46e14
+> index 000000000000..aa621db0dee0
 > --- /dev/null
-> +++ b/drivers/gpu/drm/panel/panel-ilitek-ili9805.c
-> @@ -0,0 +1,353 @@
-> +// SPDX-License-Identifier: GPL-2.0
+> +++ b/drivers/gpu/drm/verisilicon/starfive_hdmi.c
+> @@ -0,0 +1,849 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
 > +/*
-> + * Copyright (C) 2020 BSH Hausgerate GmbH
+> + * Copyright (C) 2023 StarFive Technology Co., Ltd.
 > + */
 > +
+> +#include <linux/clk.h>
+> +#include <linux/component.h>
 > +#include <linux/delay.h>
-> +#include <linux/device.h>
 > +#include <linux/err.h>
-> +#include <linux/errno.h>
-> +#include <linux/fb.h>
-> +#include <linux/kernel.h>
+> +#include <linux/hdmi.h>
+> +#include <linux/i2c.h>
+> +#include <linux/irq.h>
+> +#include <linux/media-bus-format.h>
+> +#include <linux/mfd/syscon.h>
 > +#include <linux/module.h>
+> +#include <linux/mutex.h>
 > +#include <linux/of_device.h>
 
 You probably don't need this header and the implicit includes it makes
