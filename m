@@ -2,45 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D88B580CC67
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 15:00:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E22280CC79
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 15:01:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27E4810E451;
-	Mon, 11 Dec 2023 14:00:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A34210E0FC;
+	Mon, 11 Dec 2023 14:01:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95BEC10E453
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 14:00:33 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E36510E0FC;
+ Mon, 11 Dec 2023 14:01:50 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 1A761612A8;
- Mon, 11 Dec 2023 14:00:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B310C43395;
- Mon, 11 Dec 2023 14:00:31 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id A89CB612AC;
+ Mon, 11 Dec 2023 14:01:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E38C8C433C7;
+ Mon, 11 Dec 2023 14:01:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1702303232;
- bh=whuXhxP4wjKfkFcEqcwKaMlWmXmrstMwkYLk9w1vAYM=;
+ s=k20201202; t=1702303309;
+ bh=GeLieXMdTEPp3y1zHXzWOaEk7VsGXiSBemRxR4+gZic=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=sJp2E3NlbMk7kCEnBzaC9i8rb5SrcZMe9rnxc/HkpVxocm3U0PIdRJp3lIiiZfLC4
- MRYFE81mGKFoNIeWtJ1zC/sv7ZmAxhse+4o69YSJCL3oGG0cMoqMK3y1x34WjQoLhQ
- HQvimJodJRi/Cg33aG4A0uoUaeoRtlG47ecMGOX98H90gRIPuz9FdmN8L0UVOo6O6L
- rq2+5DdWO5+XDnquR8EAoH+eZD+XSbz1WnTZuG3L0rmxpuR2mSDtiGmsnfBT2289RG
- mfQnXzd5nSbGinKTWWT0rMynCLqBCqJdDc1Gukn+ypFMoov20/J11w5ODG66en2edq
- YS1pa9FtEVZjg==
+ b=aUGMiQnt1Wda6asgAbSvHLa1BCbJTBoGCurkxLoYLMQ+iLFq5vqcVvdBF6nLzPskZ
+ sj/o0YcsS+6Gll06WlrvwgkGqR3NRj48iVXPd2GXBVbLgD1WDYcDVN5fLii8P5a9us
+ //yPcoIxdyXlBVlAtbroQDkdlQw5/S+nIlzc88cxmk1VSovJ+aph8HHuRfj80+kR1X
+ HMEUurR9E50jp2D6w6aCcOHgN8cggRysNyCrKsh5pI94STNeV8x+JWE6N0bSjmX5MM
+ 3CUPDKzDJdsbq52t0Kdpmaia361cbJOna4cRhXjQvx5agVCgI0OwNjNUWRvW6z7GUZ
+ rjPnwGVFvFNxw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 18/19] drm/exynos: fix a wrong error checking
-Date: Mon, 11 Dec 2023 08:57:52 -0500
-Message-ID: <20231211135908.385694-18-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 09/16] nouveau/tu102: flush all pdbs on vmm flush
+Date: Mon, 11 Dec 2023 09:00:33 -0500
+Message-ID: <20231211140116.391986-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231211135908.385694-1-sashal@kernel.org>
-References: <20231211135908.385694-1-sashal@kernel.org>
+In-Reply-To: <20231211140116.391986-1-sashal@kernel.org>
+References: <20231211140116.391986-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.142
+X-stable-base: Linux 5.10.203
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,66 +53,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-samsung-soc@vger.kernel.org,
- sw0312.kim@samsung.com, krzysztof.kozlowski@linaro.org,
- dri-devel@lists.freedesktop.org, kyungmin.park@samsung.com,
- linux-arm-kernel@lists.infradead.org
+Cc: Sasha Levin <sashal@kernel.org>, kherbst@redhat.com,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Danilo Krummrich <dakr@redhat.com>, bskeggs@redhat.com,
+ Dave Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Inki Dae <inki.dae@samsung.com>
+From: Dave Airlie <airlied@redhat.com>
 
-[ Upstream commit 8d1b7809684c688005706125b804e1f9792d2b1b ]
+[ Upstream commit cb9c919364653eeafb49e7ff5cd32f1ad64063ac ]
 
-Fix a wrong error checking in exynos_drm_dma.c module.
+This is a hack around a bug exposed with the GSP code, I'm not sure
+what is happening exactly, but it appears some of our flushes don't
+result in proper tlb invalidation for out BAR2 and we get a BAR2
+fault from GSP and it all dies.
 
-In the exynos_drm_register_dma function, both arm_iommu_create_mapping()
-and iommu_get_domain_for_dev() functions are expected to return NULL as
-an error.
-
-However, the error checking is performed using the statement
-if(IS_ERR(mapping)), which doesn't provide a suitable error value.
-So check if 'mapping' is NULL, and if it is, return -ENODEV.
-
-This issue[1] was reported by Dan.
-
-Changelog v1:
-- fix build warning.
-
-[1] https://lore.kernel.org/all/33e52277-1349-472b-a55b-ab5c3462bfcf@moroto.mountain/
-
-Reported-by : Dan Carpenter <dan.carpenter@linaro.org>
-Signed-off-by: Inki Dae <inki.dae@samsung.com>
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20231130010852.4034774-1-airlied@gmail.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/exynos/exynos_drm_dma.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmtu102.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_dma.c b/drivers/gpu/drm/exynos/exynos_drm_dma.c
-index bf33c3084cb41..6b4d6da3b1f4e 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_dma.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_dma.c
-@@ -108,18 +108,16 @@ int exynos_drm_register_dma(struct drm_device *drm, struct device *dev,
- 		return 0;
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmtu102.c b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmtu102.c
+index b1294d0076c08..72449bf613bf1 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmtu102.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmtu102.c
+@@ -32,7 +32,7 @@ tu102_vmm_flush(struct nvkm_vmm *vmm, int depth)
  
- 	if (!priv->mapping) {
--		void *mapping;
-+		void *mapping = NULL;
+ 	type |= 0x00000001; /* PAGE_ALL */
+ 	if (atomic_read(&vmm->engref[NVKM_SUBDEV_BAR]))
+-		type |= 0x00000004; /* HUB_ONLY */
++		type |= 0x00000006; /* HUB_ONLY | ALL PDB (hack) */
  
- 		if (IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU))
- 			mapping = arm_iommu_create_mapping(&platform_bus_type,
- 				EXYNOS_DEV_ADDR_START, EXYNOS_DEV_ADDR_SIZE);
- 		else if (IS_ENABLED(CONFIG_IOMMU_DMA))
- 			mapping = iommu_get_domain_for_dev(priv->dma_dev);
--		else
--			mapping = ERR_PTR(-ENODEV);
- 
--		if (IS_ERR(mapping))
--			return PTR_ERR(mapping);
-+		if (!mapping)
-+			return -ENODEV;
- 		priv->mapping = mapping;
- 	}
+ 	mutex_lock(&subdev->mutex);
  
 -- 
 2.42.0
