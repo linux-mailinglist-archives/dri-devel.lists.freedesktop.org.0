@@ -1,56 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0D4F80CAA7
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 14:19:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB14C80CAFC
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 14:28:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1820010E0F5;
-	Mon, 11 Dec 2023 13:19:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A2D510E10E;
+	Mon, 11 Dec 2023 13:28:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62FF810E0F5
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 13:19:15 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D43A10E051;
+ Mon, 11 Dec 2023 13:28:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1702300755; x=1733836755;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=GiUC+6GxE7v6b4XlFqOh/BgHFaaXV4kpSR5s/1hCnsg=;
- b=Jp+58FL2pWB3Jo/zxyDnedGIO1dGsxrKTAurCdto+PmDi42x6AYyehQE
- RhqmoFhS38kGw+N/7PRfVhGHj0rlr/o1IKZSli1p3L1VePdUwMW5k2FnS
- 85Z+vte+j1j0rMnv/LWF0YTPQftjpU9YqV78JpYfplM6PjHByoP/+04C6
- pj9wYg7AR3uyHAvzT1U2uPhSM/Z+K9aeV4Se+urx9LJeCspYnyawgxadh
- sXypnodQBgizbSRKnM0kZ/edBu/YPTVqVHzsh+XFaSe5ek6wyRWxriuTf
- eis4wrhyrA4T050o+rXjJUuW0JtkbMXompVxy0OA5Djk+K4042JpLnZEg g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="461124861"
-X-IronPort-AV: E=Sophos;i="6.04,267,1695711600"; d="scan'208";a="461124861"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Dec 2023 05:19:14 -0800
+ t=1702301289; x=1733837289;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=wSWycREeIH2yUgdl0B6zT1fgxOfBJPGGgpeEBNkOR80=;
+ b=BcN51iOlyczh93m3c3jvqB1seAfRXnNisuvIRWVvZ/MdA/UswfWOnA4F
+ II4yWgEPCGLxiHVkc5dAJghsv4aTWqtg6t2fCWbsxV0Cdlkse7B0EwKTM
+ oeGra94rfWisFnTERsdYFk6/VAN2w2s8OUTqh54qbzJ5zO2zl2+IOoIeO
+ u9Xq2FcCCBJCYQ+QHlP3JW83Gphm1xFY6smoJ442UFDMQJnoRUTHwJ1r+
+ NuS6WClnd4cESFOiPKOApouh3HnMo6xcxjq5duhfd6+WmUn/yaGbRFo/G
+ bUs78reHkHilmPGM+9erLMTplMfAYOjsnkbOPV5Fx1r/3oDGEXU+WfowA g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="1714644"
+X-IronPort-AV: E=Sophos;i="6.04,267,1695711600"; 
+   d="scan'208";a="1714644"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Dec 2023 05:28:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="896463575"
-X-IronPort-AV: E=Sophos;i="6.04,267,1695711600"; d="scan'208";a="896463575"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by orsmga004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Dec 2023 05:19:11 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
- (envelope-from <andriy.shevchenko@intel.com>)
- id 1rCgBg-00000004mu8-1UPe; Mon, 11 Dec 2023 15:19:08 +0200
-Date: Mon, 11 Dec 2023 15:19:08 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
-Subject: Re: State of affairs with Ilitek 9341 support
-Message-ID: <ZXcMTBKbHiuTLAfR@smile.fi.intel.com>
-References: <ZXM9pG-53V4S8E2H@smile.fi.intel.com>
- <7c848801-cf7f-4293-8a29-084dd20efb8e@tronnes.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7c848801-cf7f-4293-8a29-084dd20efb8e@tronnes.org>
+X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="946323337"
+X-IronPort-AV: E=Sophos;i="6.04,267,1695711600"; d="scan'208";a="946323337"
+Received: from kbalak2x-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.63.68])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Dec 2023 05:28:06 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/edid: also call add modes in EDID
+ connector update fallback
+In-Reply-To: <ZXNfu6zcBy3JvbGd@intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20231207093821.2654267-1-jani.nikula@intel.com>
+ <ZXNfu6zcBy3JvbGd@intel.com>
+Date: Mon, 11 Dec 2023 15:28:03 +0200
+Message-ID: <87edfsyil8.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,130 +62,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Priit Laes <plaes@plaes.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Helge Deller <deller@gmx.de>,
- dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- David Lechner <dlechner@baylibre.com>, Dillon Min <dillon.minfei@gmail.com>
+Cc: bbaa <bbaa@bbaa.fun>, intel-gfx@lists.freedesktop.org,
+ stable@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 08, 2023 at 09:18:20PM +0100, Noralf Trønnes wrote:
-> On 12/8/23 17:00, Andy Shevchenko wrote:
-> > Included authors and latest (non-white-space) contributors to the drivers
-> > in question along with relevant mailing list and respective (active in the
-> > area) maintainers.
-> > 
-> > I already had risen the question in times when 4th (sic!) driver for the same
-> > hardware was about to be pulled into upstream that we have to somehow reduce
-> > the code base and unify device properties.
-> > 
-> > So, the main question here "What is the plan and where are we now?"
-> > 
-> > I admit that fbtft case is special as it supports, in particular, platform
-> > device (parallel interface) and also well established in the embedded world.
-> > What about the rest?
-> > 
-> > N.B. Besides the fact that panel drivers are too OF-centric, which is bad
-> > practice for the new kernel code in general and has to be stopped. I.o.w.
-> > seeing of_property_*() or alike in the driver after ca. 2020 should be
-> > immediate NAK unless it's very well justified why it may not be used on
-> > non-OF systems.
+On Fri, 08 Dec 2023, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com=
+> wrote:
+> On Thu, Dec 07, 2023 at 11:38:21AM +0200, Jani Nikula wrote:
+>> When the separate add modes call was added back in commit c533b5167c7e
+>> ("drm/edid: add separate drm_edid_connector_add_modes()"), it failed to
+>> address drm_edid_override_connector_update(). Also call add modes there.
+>>=20
+>> Reported-by: bbaa <bbaa@bbaa.fun>
+>> Closes: https://lore.kernel.org/r/930E9B4C7D91FDFF+29b34d89-8658-4910-96=
+6a-c772f320ea03@bbaa.fun
+>> Fixes: c533b5167c7e ("drm/edid: add separate drm_edid_connector_add_mode=
+s()")
+>> Cc: <stable@vger.kernel.org> # v6.3+
+>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>
+> Reviewed-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
 
-Noralf, thanks for your response, my comments below.
+Thanks, pushed to drm-misc-fixes.
 
-TBH I would also like to hear from maintainers, because it seems they got
-an additional burden for no benefit.
+BR,
+Jani.
 
-> Last year drivers/gpu/drm/tiny/panel-mipi-dbi.c was added to support all
-> MIPI DBI compatible (ili9341) SPI displays.
-> It loads the initialisation commands from a firmware file. For more info
-> see https://github.com/notro/panel-mipi-dbi/wiki.
-> 
-> When I started on fbtft in 2013 I didn't know about MIPI DBI so I made
-> some common bus access functions and one driver per controller and that
-> driver had an initialisation sequence to match the panel I had. Then I
-> discovered that displays using the same controller could have different
-> init sequences so I added a Device Tree <init> property that could
-> override the driver init.
-> 
-> In 2015 fbtft was added to drivers/staging, but later that year fbdev
-> was closed for new drivers so it was a dead end.
-> 
-> I started to work on porting fbtft to DRM and almost 2 years later
-> support for the MI0283QT panel (ILI9341) was added.
-> I had now learned about MIPI DBI so a library to handle that was added.
-> I had asked on the Device Tree ML about the <init> property and I was
-> told that I couldn't have that which meant that I couldn't get away with
-> having just one driver for the MIPI DBI compatible display panels as I
-> was first hoping for.
-> 
-> I was aware that there was a challenge going from fbtft to DRM because
-> in fbtft there is support for all panel setups using the <init>
-> property, but in DRM every panel needed support in a driver. So I
-> started to look at adding Device Tree properties to describe the setup
-> for one controller. This would make it easy to describe a new panel in
-> Device Tree for a supported controller. Maxime Ripard came up with the
-> idea to have the controller initialisation commands in a firmware file
-> which meant that we could get away with having just one driver for all
-> MIPI DBI SPI panels (which is the vast majority of these SPI pixel
-> upload panels).
-> 
-> This meant that SPI support could be removed from all the MIPI DBI
-> compatible controllers in fbtft
+>
+>> ---
+>>  drivers/gpu/drm/drm_edid.c | 3 ++-
+>>  1 file changed, 2 insertions(+), 1 deletion(-)
+>>=20
+>> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+>> index cb4031d5dcbb..69c68804023f 100644
+>> --- a/drivers/gpu/drm/drm_edid.c
+>> +++ b/drivers/gpu/drm/drm_edid.c
+>> @@ -2311,7 +2311,8 @@ int drm_edid_override_connector_update(struct drm_=
+connector *connector)
+>>=20=20
+>>  	override =3D drm_edid_override_get(connector);
+>>  	if (override) {
+>> -		num_modes =3D drm_edid_connector_update(connector, override);
+>> +		if (drm_edid_connector_update(connector, override) =3D=3D 0)
+>> +			num_modes =3D drm_edid_connector_add_modes(connector);
+>>=20=20
+>>  		drm_edid_free(override);
+>>=20=20
+>> --=20
+>> 2.39.2
 
-I believe it can't. Otherwise we _must_ provide the DT (device property)
-parser that uses what is provided for fbtft SPI to be enabled in the other
-driver.
-
-> since there's now a solution for them in
-> DRM. The drivers themselves must stay since they also have parallel bus
-> support which is lacking in DRM. My plan was to wait for panel-mipi-dbi
-> to hit an LTS and then either prepare patches to remove MIPI DBI SPI
-> support from fbtft or at least send an email to staging about the new
-> driver.
-
-> Unfortunately my health problems got worse and many plans went
-> out the window.
-
-Oh, sad to hear this, hope you will get better sooner than later!
-
-> ILI9341 DRM drivers
-> 
-> - drivers/gpu/drm/tiny/mi0283qt.c
->   This was the first driver added for the MI0283QT panel series
-> 
-> - drivers/gpu/drm/tiny/ili9341.c
->   Later ili9341 based panels was decided to be added to a controller
->   specific driver.
-
-Why was it appeared in the first place? :-(
-
-> - drivers/gpu/drm/tiny/panel-mipi-dbi.c
->   Generic MIPI DBI SPI driver that loads init commands from a firmware
->   file. It uses of_property_read_string_index() and
->   of_get_drm_panel_display_mode(). I don't know if it's possible to make
->   device_property_*() versions of those.
-
-Everything like this is possible, just somebody needs to fulfill that.
-And as I said, new OF-centric code, has to be NAKed by default.
-
-> - drivers/gpu/drm/panel/panel-ilitek-ili9341.c
->   This driver supports the MIPI DPI (RGB) interface on the controller.
->   Controller init is done over MIPI DBI SPI. The driver does also for
->   some reason support the same panel as the ili9341.c driver does.
->   So 2 drivers for the same panel...
->   Sidenote: It is possible to make a generic panel-mipi-dpi.c driver for
->   panels that use DPI for pixels and DBI for init loaded from a firmware
->   file.
-
-I wonder who has enough experience and time to at least point out or do
-something about this...
-
-At least we can start combining the two in tinydrm, to reduce the variety.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+--=20
+Jani Nikula, Intel
