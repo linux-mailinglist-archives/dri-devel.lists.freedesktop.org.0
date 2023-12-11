@@ -1,42 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2656480BEA0
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 02:00:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05E5B80BEDD
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 03:04:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C7FF10E04E;
-	Mon, 11 Dec 2023 00:59:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F053D10E05A;
+	Mon, 11 Dec 2023 02:04:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8B4610E04E
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 00:59:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1702256391;
- bh=shDzPGsI1oIYMZnAXANSyf2zj/GNqcqt9dxPVu+6vRk=;
- h=Date:From:To:Cc:Subject:From;
- b=Rgtw5RzQ0tWCPeWHxsPUDmYp32Ud4cAKry/Vtf2OGs6nZXlAKK2c2wJP33uPXy6fX
- J7rHzagQrQeMqQBSJEWHCvsLWg0Z6O0DHoxNXeyWUYCM5elY9YQBkr2o8WhEvvYJYT
- gp0XJEtu+92xdC8LMlihJKb4nszcMu7YRzyIuZEQ5ccICv09HcTgwRIz8x8DN/unCQ
- qv4aavLCjwycCn9ClVEjNkO38RNzQ9rsLjH2m/H69Nh6o56n6Qbc6O6ebnbO/bNeoA
- voovJTFsp4gjYsC4eeH4k8ifqoARojmorsYteauI9Y4oyTWUgIoXs6BBoyfUH0SyNf
- XuwtXh+87o6pQ==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4SpNgp6ymYz4wdD;
- Mon, 11 Dec 2023 11:59:50 +1100 (AEDT)
-Date: Mon, 11 Dec 2023 11:59:50 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <seanpaul@chromium.org>, Dave
- Airlie <airlied@redhat.com>
-Subject: linux-next: build failure after merge of the drm-msm tree
-Message-ID: <20231211115950.3918d572@canb.auug.org.au>
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91F6F10E05A
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 02:04:08 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.163.48])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4SpQ5r3nGLz14M0c;
+ Mon, 11 Dec 2023 10:04:00 +0800 (CST)
+Received: from dggpemm500005.china.huawei.com (unknown [7.185.36.74])
+ by mail.maildlp.com (Postfix) with ESMTPS id 7268C1800B8;
+ Mon, 11 Dec 2023 10:04:05 +0800 (CST)
+Received: from [10.69.30.204] (10.69.30.204) by dggpemm500005.china.huawei.com
+ (7.185.36.74) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Mon, 11 Dec
+ 2023 10:04:05 +0800
+Subject: Re: [net-next v1 09/16] page_pool: device memory support
+To: Mina Almasry <almasrymina@google.com>
+References: <20231208005250.2910004-1-almasrymina@google.com>
+ <20231208005250.2910004-10-almasrymina@google.com>
+ <32211cbf-3a4e-8a86-6214-4304ddb18a98@huawei.com>
+ <CAHS8izOQcuLPwvDff96fuNB7r6EU9OWt3ShueQp=u7wat3L5LA@mail.gmail.com>
+From: Yunsheng Lin <linyunsheng@huawei.com>
+Message-ID: <92e30bd9-6df4-b72f-7bcd-f4fe5670eba2@huawei.com>
+Date: Mon, 11 Dec 2023 10:04:04 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/D.DO5vP1SYbCYe/YR4_jk2s";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+In-Reply-To: <CAHS8izOQcuLPwvDff96fuNB7r6EU9OWt3ShueQp=u7wat3L5LA@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.69.30.204]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm500005.china.huawei.com (7.185.36.74)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,113 +53,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+Cc: linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Eric Dumazet <edumazet@google.com>, linux-kselftest@vger.kernel.org,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-arch@vger.kernel.org, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jeroen de Borst <jeroendb@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ linux-media@vger.kernel.org, Jesper Dangaard Brouer <hawk@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Shailend Chand <shailend@google.com>,
+ Shakeel Butt <shakeelb@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>, netdev@vger.kernel.org,
+ David Ahern <dsahern@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>, bpf@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/D.DO5vP1SYbCYe/YR4_jk2s
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 2023/12/9 0:05, Mina Almasry wrote:
+> On Fri, Dec 8, 2023 at 1:30 AM Yunsheng Lin <linyunsheng@huawei.com> wrote:
+>>
+>>
+>> As mentioned before, it seems we need to have the above checking every
+>> time we need to do some per-page handling in page_pool core, is there
+>> a plan in your mind how to remove those kind of checking in the future?
+>>
+> 
+> I see 2 ways to remove the checking, both infeasible:
+> 
+> 1. Allocate a wrapper struct that pulls out all the fields the page pool needs:
+> 
+> struct netmem {
+>         /* common fields */
+>         refcount_t refcount;
+>         bool is_pfmemalloc;
+>         int nid;
+>         ...
+>         union {
+>                 struct dmabuf_genpool_chunk_owner *owner;
+>                 struct page * page;
+>         };
+> };
+> 
+> The page pool can then not care if the underlying memory is iov or
+> page. However this introduces significant memory bloat as this struct
+> needs to be allocated for each page or ppiov, which I imagine is not
+> acceptable for the upside of removing a few static_branch'd if
+> statements with no performance cost.
+> 
+> 2. Create a unified struct for page and dmabuf memory, which the mm
+> folks have repeatedly nacked, and I imagine will repeatedly nack in
+> the future.
+> 
+> So I imagine the special handling of ppiov in some form is critical
+> and the checking may not be removable.
 
-Hi all,
+If the above is true, perhaps devmem is not really supposed to be intergated
+into page_pool.
 
-After merging the drm-msm tree, today's linux-next build (x86_64
-allmodconfig) failed like this:
+Adding a checking for every per-page handling in page_pool core is just too
+hacky to be really considerred a longterm solution.
 
-drivers/gpu/drm/amd/amdgpu/amdgpu_seq64.c: In function 'amdgpu_seq64_map':
-drivers/gpu/drm/amd/amdgpu/amdgpu_seq64.c:64:9: error: too few arguments to=
- function 'drm_exec_init'
-   64 |         drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT);
-      |         ^~~~~~~~~~~~~
-In file included from drivers/gpu/drm/amd/amdgpu/amdgpu_seq64.c:28:
-include/drm/drm_exec.h:138:6: note: declared here
-  138 | void drm_exec_init(struct drm_exec *exec, uint32_t flags, unsigned =
-nr);
-      |      ^~~~~~~~~~~~~
-drivers/gpu/drm/amd/amdgpu/amdgpu_seq64.c: In function 'amdgpu_seq64_unmap':
-drivers/gpu/drm/amd/amdgpu/amdgpu_seq64.c:125:9: error: too few arguments t=
-o function 'drm_exec_init'
-  125 |         drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT);
-      |         ^~~~~~~~~~~~~
-include/drm/drm_exec.h:138:6: note: declared here
-  138 | void drm_exec_init(struct drm_exec *exec, uint32_t flags, unsigned =
-nr);
-      |      ^~~~~~~~~~~~~
+It is somewhat ironical that devmem is using static_branch to alliviate the
+performance impact for normal memory at the possible cost of performance
+degradation for devmem, does it not defeat some purpose of intergating devmem
+to page_pool?
 
-Caused by commit
+> 
+>> Even though a static_branch check is added in page_is_page_pool_iov(), it
+>> does not make much sense that a core has tow different 'struct' for its
+>> most basic data.
+>>
+>> IMHO, the ppiov for dmabuf is forced fitting into page_pool without much
+>> design consideration at this point.
+>>
+> ...
+>>
+>> For now, the above may work for the the rx part as it seems that you are
+>> only enabling rx for dmabuf for now.
+>>
+>> What is the plan to enable tx for dmabuf? If it is also intergrated into
+>> page_pool? There was a attempt to enable page_pool for tx, Eric seemed to
+>> have some comment about this:
+>> https://lkml.kernel.org/netdev/2cf4b672-d7dc-db3d-ce90-15b4e91c4005@huawei.com/T/#mb6ab62dc22f38ec621d516259c56dd66353e24a2
+>>
+>> If tx is not intergrated into page_pool, do we need to create a new layer for
+>> the tx dmabuf?
+>>
+> 
+> I imagine the TX path will reuse page_pool_iov, page_pool_iov_*()
+> helpers, and page_pool_page_*() helpers, but will not need any core
+> page_pool changes. This is because the TX path will have to piggyback
 
-  05d249352f1a ("drm/exec: Pass in initial # of objects")
+We may need another bit/flags checking to demux between page_pool owned
+devmem and non-page_pool owned devmem.
 
-interating with commit
+Also calling page_pool_*() on non-page_pool owned devmem is confusing
+enough that we may need a thin layer handling non-page_pool owned devmem
+in the end.
 
-  c8031019dc95 ("drm/amdgpu: Implement a new 64bit sequence memory driver")
+> on MSG_ZEROCOPY (devmem is not copyable), so no memory allocation from
+> the page_pool (or otherwise) is needed or possible. RFCv1 had a TX
+> implementation based on dmabuf pages without page_pool involvement, I
+> imagine I'll do something similar.
+It would be good to have a tx implementation for the next version, so
+that we can have a whole picture of devmem.
 
-from the drm tree.
-
-I have applied this merge resolution patch for today;
-
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-Date: Mon, 11 Dec 2023 11:53:17 +1100
-Subject: [PATCH] fix up for "drm/exec: Pass in initial # of objects"
-
-interacting with
-"drm/amdgpu: Implement a new 64bit sequence memory driver"
-
-Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_seq64.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_seq64.c b/drivers/gpu/drm/am=
-d/amdgpu/amdgpu_seq64.c
-index f3de02193138..7a6a67275404 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_seq64.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_seq64.c
-@@ -61,7 +61,7 @@ int amdgpu_seq64_map(struct amdgpu_device *adev, struct a=
-mdgpu_vm *vm,
- 	if (!bo)
- 		return -EINVAL;
-=20
--	drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT);
-+	drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT, 0);
- 	drm_exec_until_all_locked(&exec) {
- 		r =3D amdgpu_vm_lock_pd(vm, &exec, 0);
- 		if (likely(!r))
-@@ -122,7 +122,7 @@ void amdgpu_seq64_unmap(struct amdgpu_device *adev, str=
-uct amdgpu_fpriv *fpriv)
-=20
- 	vm =3D &fpriv->vm;
-=20
--	drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT);
-+	drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT, 0);
- 	drm_exec_until_all_locked(&exec) {
- 		r =3D amdgpu_vm_lock_pd(vm, &exec, 0);
- 		if (likely(!r))
---=20
-2.40.1
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/D.DO5vP1SYbCYe/YR4_jk2s
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmV2XwYACgkQAVBC80lX
-0Gz8ywgAny8DYR8SFjTyjQEElkjqApzSTwQQpBg8OVMI5PUnPpdrdG2uzf9Rk+xF
-KppdRoLeF3pMTFzzsQ43nvcZynzQ+92bu4kV2tzP/cIOqLevDAdC+bGqORa9d7T8
-No5/VVoPXKrU6MvlSwtYAlvPQpCaneAOCW+PwiEv3krVECgNzJZvEiDnykOHXCoD
-DlEkn67Q28JQyvogx7pvIlGwLKqqDgUoBXd/r1kcgD5m96vpgiNtDbHCvL+w8fhO
-/i/le0KZ8LNDfNr+glcNXKSyiZ1jYoOzSNNyo98dLU5dm4Ors6HODqsdrM0d80D9
-kiVJe0/AG5fJvNcPRCZkV/8gTkSCGg==
-=w7iH
------END PGP SIGNATURE-----
-
---Sig_/D.DO5vP1SYbCYe/YR4_jk2s--
+> 
