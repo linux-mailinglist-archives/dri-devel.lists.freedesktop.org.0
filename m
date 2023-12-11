@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D01BF80D3E8
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 18:34:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A6EC80D41B
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 18:38:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 284C510E128;
-	Mon, 11 Dec 2023 17:34:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3FE589B33;
+	Mon, 11 Dec 2023 17:38:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDEF110E4B5
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 17:34:31 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0667189B33
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 17:38:03 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 40E1AB80F9A
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 17:34:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64E2DC433A9
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 17:34:28 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id B1B37CE126B
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 17:38:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3D80C433CA
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 17:38:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1702316068;
- bh=xuX6L1jHorTrNZtjpFIc75B8ypRXxqR2z0Z/exf+Bcc=;
+ s=k20201202; t=1702316280;
+ bh=RM8J1fRi5eccOG6cdSuf5vFHLYEKAAR1q1WmQ5fdUhY=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=KIjtlOXLZ/5nmD+yo2uenPqJ2aX9ssBIWM7zx7V9mGsNS4dvR6D8aAIpaFDBgT/r+
- wCvrgF4StzlkDzjt3do/cB8Ml9zAQyJfXoeVqddjOpo3pkOKvyDvqomizxhhpAT3fh
- rzG8LdwxdhzGsWTOvKytoF3vcPxedGlbsj2C2TPNgVi3xrrQSxjBVTpuaXQYZILPDr
- Owt92PpG7h2R9rdPdu4WeAmREgjeG5gLlH18dk1z5Z0Y+LmOEd2gzOX3vK4wDsVx9I
- iFwdL7SSj0y5Vdk3nDvkGPzjfeJpNdePgxd0MaZgSP5X3Vcf/XbxkKo4AkZuKQ91+7
- ezj7eG3+MhM2A==
-Received: by mail-lf1-f41.google.com with SMTP id
- 2adb3069b0e04-50bfd8d5c77so5402143e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 09:34:28 -0800 (PST)
-X-Gm-Message-State: AOJu0Ywd/L8PKZdIx4wkXTCQF8sm8SlYyYb1XKUIThhY8bVVbrDVH1Q8
- J0EOszocGCZ1VZ3XRVViQ3lCJ/DirfKRjjyLCQ==
-X-Google-Smtp-Source: AGHT+IGMURGYLV/Y+ayED33ueZXlH85oU9OGhLmkTdCm4X1g7BaIMGfr4V8LF++R0RHFP+RuG1E0QnZTXRhkxEzjTew=
-X-Received: by 2002:a05:6512:3d05:b0:50b:f776:1d6a with SMTP id
- d5-20020a0565123d0500b0050bf7761d6amr1293404lfv.1.1702316066602; Mon, 11 Dec
- 2023 09:34:26 -0800 (PST)
+ b=fELCK3KFxdx7lldkj0syY4n+7+IDCHwjtiPgP5xMXa2bHBSTKY7CadJq201kwooIR
+ Z2NW07VXANkVno35IBshrqMGzavOdfd2Tw8Fl9v9jWh7Sdp1Ox1Qo4mtBa8QJUeicy
+ o+s+e7ws1pUuChnQmHWFifemr+GWEyKOgFDtK9505wPwIYiGTSjSHfIzgz5tKF4emt
+ xjVPIpifsqPgRq7rjoEin8t9Ce90DY2EC/n3aT3ny65UlbuvlmU10uWk0z8uOVYkBm
+ xJuHibsxMSZtlvEZ72m+jQeB3zoHCZgRlFsagl6TADc55/zbwIy9sE4QXFZFy2MiAU
+ EiObRtnLwmlVg==
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-50bf26b677dso4500253e87.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 09:38:00 -0800 (PST)
+X-Gm-Message-State: AOJu0YxjTO+tCSovP2zv9hldXMYoZS6kj8DbhabjTBkSci96JV5KdEp4
+ OxSIWuNv6SjtDp5yJEh2qe+iMxxL6ml9wxWriA==
+X-Google-Smtp-Source: AGHT+IGU6zc/IkMGLCnjAcu3MrW8oETYAeR1jpLpwg1PYbcbe672FORhlQSw1Oenjd6QCwC10tnJtiMkcqHDuwRnSog=
+X-Received: by 2002:a05:6512:3441:b0:50b:c977:106a with SMTP id
+ j1-20020a056512344100b0050bc977106amr1180039lfr.51.1702316279139; Mon, 11 Dec
+ 2023 09:37:59 -0800 (PST)
 MIME-Version: 1.0
-References: <20231204123315.28456-1-keith.zhao@starfivetech.com>
- <20231204123315.28456-6-keith.zhao@starfivetech.com>
-In-Reply-To: <20231204123315.28456-6-keith.zhao@starfivetech.com>
-From: Rob Herring <robh@kernel.org>
-Date: Mon, 11 Dec 2023 11:34:14 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJz5pcFwLbh9Jdw1HKLPFgF8ZQdCM18bHO_8R1dtmfx7Q@mail.gmail.com>
-Message-ID: <CAL_JsqJz5pcFwLbh9Jdw1HKLPFgF8ZQdCM18bHO_8R1dtmfx7Q@mail.gmail.com>
-Subject: Re: [v3 5/6] drm/vs: Add hdmi driver
-To: Keith Zhao <keith.zhao@starfivetech.com>
+References: <20230920171009.3193296-1-l.stach@pengutronix.de>
+ <20230920171009.3193296-2-l.stach@pengutronix.de>
+In-Reply-To: <20230920171009.3193296-2-l.stach@pengutronix.de>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Mon, 11 Dec 2023 11:37:46 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJmyeFNpRt9bkjzXJ+w3WED4eLokmzdfP4fR=9dZGr1QA@mail.gmail.com>
+Message-ID: <CAL_JsqJmyeFNpRt9bkjzXJ+w3WED4eLokmzdfP4fR=9dZGr1QA@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] drm/bridge: imx: add driver for HDMI TX Parallel
+ Video Interface
+To: Lucas Stach <l.stach@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -60,84 +61,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, aou@eecs.berkeley.edu, suijingfeng@loongson.cn,
- krzysztof.kozlowski+dt@linaro.org, william.qiu@starfivetech.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- xingyu.wu@starfivetech.com, jack.zhu@starfivetech.com, palmer@dabbelt.com,
- mripard@kernel.org, tzimmermann@suse.de, paul.walmsley@sifive.com,
- shengyang.chen@starfivetech.com, linux-riscv@lists.infradead.org,
- changhuang.liang@starfivetech.com
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Liu Ying <victor.liu@nxp.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, dri-devel@lists.freedesktop.org,
+ NXP Linux Team <linux-imx@nxp.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>, devicetree@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Sandor Yu <sandor.yu@nxp.com>,
+ patchwork-lst@pengutronix.de, Adam Ford <aford173@gmail.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org,
+ Richard Leitner <richard.leitner@skidata.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 4, 2023 at 6:33=E2=80=AFAM Keith Zhao <keith.zhao@starfivetech.=
-com> wrote:
+On Wed, Sep 20, 2023 at 12:10=E2=80=AFPM Lucas Stach <l.stach@pengutronix.d=
+e> wrote:
 >
-> add hdmi driver as encoder and connect
+> This IP block is found in the HDMI subsystem of the i.MX8MP SoC. It has a
+> full timing generator and can switch between different video sources. On
+> the i.MX8MP however the only supported source is the LCDIF. The block
+> just needs to be powered up and told about the polarity of the video
+> sync signals to act in bypass mode.
 >
-> Signed-off-by: Keith Zhao <keith.zhao@starfivetech.com>
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com> (v2)
+> Tested-by: Marek Vasut <marex@denx.de> (v1)
+> Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com> (v2)
+> Tested-by: Richard Leitner <richard.leitner@skidata.com> (v2)
+> Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de> (v2)
 > ---
->  drivers/gpu/drm/verisilicon/Kconfig         |   8 +
->  drivers/gpu/drm/verisilicon/Makefile        |   1 +
->  drivers/gpu/drm/verisilicon/starfive_hdmi.c | 849 ++++++++++++++++++++
->  drivers/gpu/drm/verisilicon/starfive_hdmi.h | 304 +++++++
->  drivers/gpu/drm/verisilicon/vs_drv.c        |   3 +
->  drivers/gpu/drm/verisilicon/vs_drv.h        |   4 +
->  6 files changed, 1169 insertions(+)
->  create mode 100644 drivers/gpu/drm/verisilicon/starfive_hdmi.c
->  create mode 100644 drivers/gpu/drm/verisilicon/starfive_hdmi.h
+>  drivers/gpu/drm/bridge/imx/Kconfig           |   7 +
+>  drivers/gpu/drm/bridge/imx/Makefile          |   1 +
+>  drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c | 206 +++++++++++++++++++
+>  3 files changed, 214 insertions(+)
+>  create mode 100644 drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c
 >
-> diff --git a/drivers/gpu/drm/verisilicon/Kconfig b/drivers/gpu/drm/verisi=
-licon/Kconfig
-> index e10fa97635aa..122c786e3948 100644
-> --- a/drivers/gpu/drm/verisilicon/Kconfig
-> +++ b/drivers/gpu/drm/verisilicon/Kconfig
-> @@ -11,3 +11,11 @@ config DRM_VERISILICON
->           This driver provides VeriSilicon kernel mode
->           setting and buffer management. It does not
->           provide 2D or 3D acceleration.
-> +
-> +config DRM_VERISILICON_STARFIVE_HDMI
-> +       bool "Starfive HDMI extensions"
-> +       depends on DRM_VERISILICON
+> diff --git a/drivers/gpu/drm/bridge/imx/Kconfig b/drivers/gpu/drm/bridge/=
+imx/Kconfig
+> index 9fae28db6aa7..3a4e663d922a 100644
+> --- a/drivers/gpu/drm/bridge/imx/Kconfig
+> +++ b/drivers/gpu/drm/bridge/imx/Kconfig
+> @@ -3,6 +3,13 @@ if ARCH_MXC || COMPILE_TEST
+>  config DRM_IMX_LDB_HELPER
+>         tristate
+>
+> +config DRM_IMX8MP_HDMI_PVI
+> +       tristate "Freescale i.MX8MP HDMI PVI bridge support"
+> +       depends on OF
 > +       help
-> +          This selects support for StarFive soc specific extensions
-> +          for the Innosilicon HDMI driver. If you want to enable
-> +          HDMI on JH7110 based soc, you should select this option.
-> diff --git a/drivers/gpu/drm/verisilicon/Makefile b/drivers/gpu/drm/veris=
-ilicon/Makefile
-> index bf6f2b7ee480..71fadafcee13 100644
-> --- a/drivers/gpu/drm/verisilicon/Makefile
-> +++ b/drivers/gpu/drm/verisilicon/Makefile
-> @@ -6,4 +6,5 @@ vs_drm-objs :=3D vs_dc_hw.o \
->                 vs_drv.o \
->                 vs_modeset.o \
->                 vs_plane.o
-> +vs_drm-$(CONFIG_DRM_VERISILICON_STARFIVE_HDMI) +=3D starfive_hdmi.o
->  obj-$(CONFIG_DRM_VERISILICON) +=3D vs_drm.o
-> diff --git a/drivers/gpu/drm/verisilicon/starfive_hdmi.c b/drivers/gpu/dr=
-m/verisilicon/starfive_hdmi.c
+> +         Choose this to enable support for the internal HDMI TX Parallel
+> +         Video Interface found on the Freescale i.MX8MP SoC.
+> +
+>  config DRM_IMX8QM_LDB
+>         tristate "Freescale i.MX8QM LVDS display bridge"
+>         depends on OF
+> diff --git a/drivers/gpu/drm/bridge/imx/Makefile b/drivers/gpu/drm/bridge=
+/imx/Makefile
+> index 8e2ebf3399a1..be9b4f9adb50 100644
+> --- a/drivers/gpu/drm/bridge/imx/Makefile
+> +++ b/drivers/gpu/drm/bridge/imx/Makefile
+> @@ -1,4 +1,5 @@
+>  obj-$(CONFIG_DRM_IMX_LDB_HELPER) +=3D imx-ldb-helper.o
+> +obj-$(CONFIG_DRM_IMX8MP_HDMI_PVI) +=3D imx8mp-hdmi-pvi.o
+>  obj-$(CONFIG_DRM_IMX8QM_LDB) +=3D imx8qm-ldb.o
+>  obj-$(CONFIG_DRM_IMX8QXP_LDB) +=3D imx8qxp-ldb.o
+>  obj-$(CONFIG_DRM_IMX8QXP_PIXEL_COMBINER) +=3D imx8qxp-pixel-combiner.o
+> diff --git a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c b/drivers/gpu/d=
+rm/bridge/imx/imx8mp-hdmi-pvi.c
 > new file mode 100644
-> index 000000000000..aa621db0dee0
+> index 000000000000..5ccd70c98187
 > --- /dev/null
-> +++ b/drivers/gpu/drm/verisilicon/starfive_hdmi.c
-> @@ -0,0 +1,849 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
+> +++ b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c
+> @@ -0,0 +1,206 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +
 > +/*
-> + * Copyright (C) 2023 StarFive Technology Co., Ltd.
+> + * Copyright (C) 2022 Pengutronix, Lucas Stach <kernel@pengutronix.de>
 > + */
 > +
-> +#include <linux/clk.h>
-> +#include <linux/component.h>
-> +#include <linux/delay.h>
-> +#include <linux/err.h>
-> +#include <linux/hdmi.h>
-> +#include <linux/i2c.h>
-> +#include <linux/irq.h>
-> +#include <linux/media-bus-format.h>
-> +#include <linux/mfd/syscon.h>
+> +#include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_bridge.h>
+> +#include <drm/drm_crtc.h>
+> +#include <linux/bitfield.h>
+> +#include <linux/io.h>
 > +#include <linux/module.h>
-> +#include <linux/mutex.h>
 > +#include <linux/of_device.h>
 
 You probably don't need this header and the implicit includes it makes
