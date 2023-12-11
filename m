@@ -1,44 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 206A280C89D
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 12:57:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A72180C89F
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 12:57:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3173010E399;
-	Mon, 11 Dec 2023 11:57:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B871810E39E;
+	Mon, 11 Dec 2023 11:57:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.219])
- by gabe.freedesktop.org (Postfix) with ESMTP id 66E6810E399
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 11:57:42 +0000 (UTC)
+Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.199])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7F8AE10E39E
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 11:57:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=pekM+
- FGyDCtPmb0jWNTPyTz93vTz66hJl88mKNFM3+k=; b=j+m8NrFI/1Ppiyiy8feG6
- d2nLjYwgaz30T777MGIvsDyXMkVoyJ3QatlKAFgOqrr9SCd4ynjglJTbJ2wjCcq3
- +X5ByFNMJgecmkQFqdiWOCwMLHaqdCEWNGUZPvi4l4UNFWKU/HwDpdQyhWlXF/n/
- pXYP/ttAsbAEOGRasdPjUo=
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=rcRLl
+ amB9MT/I4Ai66VgiB8ZFN6GxQyGTKvo6+ftATo=; b=kwNap58kMxDg85Roz9PCn
+ tWCS4hQ/rgxxTG/X1LGQkMDLD4Wrht3G8loEFOydmRHf0GRrfBkmlDoTc/vYytdp
+ brqEr37EJlZixMGBDCXL2D20FHLtGxAyAtkp1riAOC/VAW0mb5b4up3ucmWG7xCV
+ SJ6ZX7JKg6Wy0ErUuUMCEE=
 Received: from ProDesk.. (unknown [58.22.7.114])
- by zwqz-smtp-mta-g2-3 (Coremail) with SMTP id _____wD3P7kg+XZl27GIFQ--.10114S2;
- Mon, 11 Dec 2023 19:57:23 +0800 (CST)
+ by zwqz-smtp-mta-g5-4 (Coremail) with SMTP id _____wBnh2wr+XZl6dziCw--.13089S2;
+ Mon, 11 Dec 2023 19:57:34 +0800 (CST)
 From: Andy Yan <andyshrk@163.com>
 To: heiko@sntech.de
-Subject: [PATCH v5 02/16] Revert "drm/rockchip: vop2: Use regcache_sync() to
- fix suspend/resume"
-Date: Mon, 11 Dec 2023 19:57:19 +0800
-Message-Id: <20231211115719.1784834-1-andyshrk@163.com>
+Subject: [PATCH v5 03/16] drm/rockchip: vop2: set half_block_en bit in all mode
+Date: Mon, 11 Dec 2023 19:57:30 +0800
+Message-Id: <20231211115730.1784893-1-andyshrk@163.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231211115547.1784587-1-andyshrk@163.com>
 References: <20231211115547.1784587-1-andyshrk@163.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wD3P7kg+XZl27GIFQ--.10114S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7Cw1rGr1xXF4xCFy7tr45trb_yoW8Cw4UpF
- W7AryYqr4IgFWjqw1kJFWUZFWYyrsFyayfCrn7G3WS9rnxKrnakrn8GF15ZFn8Ar1xur42
- yFn7ta47CFW7uFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jYE__UUUUU=
+X-CM-TRANSID: _____wBnh2wr+XZl6dziCw--.13089S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxXF47Jry8CFWrGw4Utr47urg_yoW5uFW7pr
+ 47ArWDKr4Dtr1jgFZ7JrZ8ZF4akws7Ka17XrZ8KwnYqrW3K3yDW3WkKr9rArZ8tryfuFW8
+ XFn3ArW7urWIyF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jf18PUUUUU=
 X-Originating-IP: [58.22.7.114]
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBEgdDXmVOA42+ugAAsp
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqBBDXmVOA44iuAAAsZ
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,18 +61,13 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Andy Yan <andy.yan@rock-chips.com>
 
-This reverts commit b63a553e8f5aa6574eeb535a551817a93c426d8c.
+At first we thought the half_block_en bit in AFBCD_CTRL register
+only work in afbc mode. But the fact is that it control the line
+buffer in all mode(afbc/tile/linear), so we need configure it in
+all case.
 
-regcache_sync will try to reload the configuration in regcache to
-hardware, but the registers of 4 Cluster windows and Esmart1/2/3 on
-the upcoming rk3588 can not be set successfully before internal PD
-power on.
-
-Also it's better to keep the hardware register as it is before we really
-enable it.
-
-So let's revert this version, and keep the first version:
-commit afa965a45e01 ("drm/rockchip: vop2: fix suspend/resume")
+As the cluster windows of rk3568 only supports afbc format
+so is therefore not affected.
 
 Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
 Reviewed-by: Sascha Hauer <s.hauer@pengutronix.de>
@@ -81,44 +75,73 @@ Reviewed-by: Sascha Hauer <s.hauer@pengutronix.de>
 
 (no changes since v1)
 
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 25 ++++++++++++++------
+ 1 file changed, 18 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index 312da5783362..57784d0a22a6 100644
+index 57784d0a22a6..639dfebc6bd1 100644
 --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
 +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -217,6 +217,8 @@ struct vop2 {
- 	struct vop2_win win[];
- };
- 
-+static const struct regmap_config vop2_regmap_config;
-+
- static struct vop2_video_port *to_vop2_video_port(struct drm_crtc *crtc)
- {
- 	return container_of(crtc, struct vop2_video_port, crtc);
-@@ -883,7 +885,11 @@ static void vop2_enable(struct vop2 *vop2)
- 		return;
- 	}
- 
--	regcache_sync(vop2->map);
-+	ret = regmap_reinit_cache(vop2->map, &vop2_regmap_config);
-+	if (ret) {
-+		drm_err(vop2->drm, "failed to reinit cache: %d\n", ret);
-+		return;
-+	}
- 
- 	if (vop2->data->soc_id == 3566)
- 		vop2_writel(vop2, RK3568_OTP_WIN_EN, 1);
-@@ -913,8 +919,6 @@ static void vop2_disable(struct vop2 *vop2)
- 
- 	pm_runtime_put_sync(vop2->dev);
- 
--	regcache_mark_dirty(vop2->map);
--
- 	clk_disable_unprepare(vop2->aclk);
- 	clk_disable_unprepare(vop2->hclk);
+@@ -521,6 +521,18 @@ static bool rockchip_vop2_mod_supported(struct drm_plane *plane, u32 format,
+ 	return vop2_convert_afbc_format(format) >= 0;
  }
+ 
++/*
++ * 0: Full mode, 16 lines for one tail
++ * 1: half block mode, 8 lines one tail
++ */
++static bool vop2_half_block_enable(struct drm_plane_state *pstate)
++{
++	if (pstate->rotation & (DRM_MODE_ROTATE_270 | DRM_MODE_ROTATE_90))
++		return false;
++	else
++		return true;
++}
++
+ static u32 vop2_afbc_transform_offset(struct drm_plane_state *pstate,
+ 				      bool afbc_half_block_en)
+ {
+@@ -1144,6 +1156,7 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
+ 	bool rotate_90 = pstate->rotation & DRM_MODE_ROTATE_90;
+ 	struct rockchip_gem_object *rk_obj;
+ 	unsigned long offset;
++	bool half_block_en;
+ 	bool afbc_en;
+ 	dma_addr_t yrgb_mst;
+ 	dma_addr_t uv_mst;
+@@ -1236,6 +1249,7 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
+ 	dsp_info = (dsp_h - 1) << 16 | ((dsp_w - 1) & 0xffff);
+ 
+ 	format = vop2_convert_format(fb->format->format);
++	half_block_en = vop2_half_block_enable(pstate);
+ 
+ 	drm_dbg(vop2->drm, "vp%d update %s[%dx%d->%dx%d@%dx%d] fmt[%p4cc_%s] addr[%pad]\n",
+ 		vp->id, win->data->name, actual_w, actual_h, dsp_w, dsp_h,
+@@ -1243,6 +1257,9 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
+ 		&fb->format->format,
+ 		afbc_en ? "AFBC" : "", &yrgb_mst);
+ 
++	if (vop2_cluster_window(win))
++		vop2_win_write(win, VOP2_WIN_AFBC_HALF_BLOCK_EN, half_block_en);
++
+ 	if (afbc_en) {
+ 		u32 stride;
+ 
+@@ -1283,13 +1300,7 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
+ 		vop2_win_write(win, VOP2_WIN_AFBC_UV_SWAP, uv_swap);
+ 		vop2_win_write(win, VOP2_WIN_AFBC_AUTO_GATING_EN, 0);
+ 		vop2_win_write(win, VOP2_WIN_AFBC_BLOCK_SPLIT_EN, 0);
+-		if (pstate->rotation & (DRM_MODE_ROTATE_270 | DRM_MODE_ROTATE_90)) {
+-			vop2_win_write(win, VOP2_WIN_AFBC_HALF_BLOCK_EN, 0);
+-			transform_offset = vop2_afbc_transform_offset(pstate, false);
+-		} else {
+-			vop2_win_write(win, VOP2_WIN_AFBC_HALF_BLOCK_EN, 1);
+-			transform_offset = vop2_afbc_transform_offset(pstate, true);
+-		}
++		transform_offset = vop2_afbc_transform_offset(pstate, half_block_en);
+ 		vop2_win_write(win, VOP2_WIN_AFBC_HDR_PTR, yrgb_mst);
+ 		vop2_win_write(win, VOP2_WIN_AFBC_PIC_SIZE, act_info);
+ 		vop2_win_write(win, VOP2_WIN_AFBC_TRANSFORM_OFFSET, transform_offset);
 -- 
 2.34.1
 
