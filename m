@@ -2,54 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD16E80CE99
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 15:44:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1C4F80CEB9
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 15:54:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3CD010E472;
-	Mon, 11 Dec 2023 14:44:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6D7210E474;
+	Mon, 11 Dec 2023 14:54:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 284F510E472
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 14:44:23 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id DEDD7B80E65
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 14:44:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E0A8C433CB
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 14:44:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1702305861;
- bh=IExdtmWmPMyY8Pay6KZb0S6W8wKmO6J3E3GfBIV1Cio=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=LeXVj4Bu+T7n50b8HfpbHRiQwZNCwPXA3r/XqcRRjZbXn45jFPYhiFzfyIrn7RDyv
- yBQAEgO8Z005TEuQnXqrs/oWoSAhSfX3otjLedh0fatrxHkPWPZpH1X2tyfOr7w56f
- fBZ0QjFfZgUGSx5kYqpACVfKdtXLQ6H3Ssci02dxVpLJVr6fZjXMNfhkOW5qJSkpdR
- /Iz8ZCH7P+yMD+RNonu2mXg/WDDc8xLlYFtgWrcPBZ1zA+XVUzIyL2G8ARXG1vZwDU
- aZWaqO5PSB9MooT0ex4Pj7BGne+26lm+9OjjsQCi8AxiOzgDjmwb4L/ZvnCeKAA5Wo
- KlRwDjdToXXJg==
-Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-2ca0f21e48cso57797351fa.2
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 06:44:20 -0800 (PST)
-X-Gm-Message-State: AOJu0YzvVakZTBL2lyXxEvnHRgfqa3jDfu9u/xh6Lth6NDlcqVr7ddGB
- 44i3i8kIxs4lrl0mjHLJba9zfp3PkHECN5/iYw==
-X-Google-Smtp-Source: AGHT+IHbV4puB5U8GlwIN/BZWBEsAsegaKynxZaOnbkAQ6wtk5UHRy14LSHQMn757papUqYJTbpaelmS3QylqrwmPx0=
-X-Received: by 2002:a05:651c:807:b0:2cc:2120:81b3 with SMTP id
- r7-20020a05651c080700b002cc212081b3mr758630ljb.3.1702305859144; Mon, 11 Dec
- 2023 06:44:19 -0800 (PST)
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
+ [IPv6:2a00:1450:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 973CA10E474
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 14:54:43 +0000 (UTC)
+Received: by mail-lj1-x22e.google.com with SMTP id
+ 38308e7fff4ca-2c9c18e7990so62353921fa.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 06:54:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1702306482; x=1702911282; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=RgFTnt3qZJvfNWf3lL//IEKsENotxReRQKOq8qe68lI=;
+ b=SC+zBsp8Fxivln8S9r1iUKs2lW2EU+msJ+4irgvJFZLIEEVS1nBZzDdYvXlcCD/+tr
+ 2X84oOMC1DGVYugmBdM8uSA3ZRp3a6p5GWrkpfhzs0ZjezcVUtEKjzDLl9a6fAJdTnf8
+ lH49TNoTbcEQzvKV2HmHKbHDm55hTK5Jhx5pUcRvr5sdaOfAfHNIFmucVXhrWypgFxZk
+ AmsyXgUL4eSBXfu6QGwk2hJiEbQlMQSGyZ+b1rGsu+jhTCkh+ud8MFk9xd3MPXu+25ci
+ eaAVCW3wwLA3Tc4uP1yLhEHWORsr3nxs3eB3xKSIQ6AwHkdLrqKLRa070xWVz9erQPWk
+ ODsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1702306482; x=1702911282;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=RgFTnt3qZJvfNWf3lL//IEKsENotxReRQKOq8qe68lI=;
+ b=OQDnYE915PGZc1JQvPW3a7ecaXRYdyr2ou/K/DFvBcFO86U/K2/Edf153C2l2Q6zEV
+ CmgSri8sEHR+wrbUc1oEihsq8jUUjg5iQGs3cExJNSlLbGF5ct8ocb/27fnvhju00AKK
+ fk/r12iy4RvlOnP8MgVsGUgq1CaUzQCX1xo6ipuemSvCA5TyvOiD8DXYG/rYBkKCbR6o
+ ljfl1lElZrMzEOd77tA2oUkUkAeGoSw6j0oHpvOalc309NIqaxtKtuYW62UqXgXh5ztA
+ YyJ9q0lg1NjCETQ4hrtWT2U8zos3AWdCfC7eAQPtEcxQ2adzgLV+Hb1xmhPE2G/6vxad
+ UzzQ==
+X-Gm-Message-State: AOJu0YzqsKSoxqOQN4BEVzd95IU0OIZ7xBZLr0K+AeONoPbVePet7OaX
+ zEFv8Qm41BQf2BquWvmZMk2NZA==
+X-Google-Smtp-Source: AGHT+IGr8J6w01NY5cbDlOuF4emsiRJ9tq/klXFYiGXVOl3b/5MMkmAtpWW7+TzLdyUHXnRrH7RA7w==
+X-Received: by 2002:a05:651c:990:b0:2cc:1ea9:2b9d with SMTP id
+ b16-20020a05651c099000b002cc1ea92b9dmr1735596ljq.48.1702306481659; 
+ Mon, 11 Dec 2023 06:54:41 -0800 (PST)
+Received: from umbar.unikie.fi ([192.130.178.91])
+ by smtp.gmail.com with ESMTPSA id
+ e5-20020a2e8ec5000000b002c9f1fdea4bsm1244272ljl.17.2023.12.11.06.54.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Dec 2023 06:54:41 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+Subject: [PATCH] drm/msm/dpu: remove extra drm_encoder_cleanup from the error
+ path
+Date: Mon, 11 Dec 2023 17:54:40 +0300
+Message-Id: <20231211145440.3647001-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20231110012914.14884-1-stuart.lee@mediatek.com>
- <20231110012914.14884-2-stuart.lee@mediatek.com>
-In-Reply-To: <20231110012914.14884-2-stuart.lee@mediatek.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Mon, 11 Dec 2023 22:44:05 +0800
-X-Gmail-Original-Message-ID: <CAAOTY__NgTPDedbuRQLZSS-0AC2rTW7Jfbm-e42sTU+-czzvew@mail.gmail.com>
-Message-ID: <CAAOTY__NgTPDedbuRQLZSS-0AC2rTW7Jfbm-e42sTU+-czzvew@mail.gmail.com>
-Subject: Re: [PATCH 1/1] drm/mediatek: Fix access violation in
- mtk_drm_crtc_dma_dev_get
-To: Stuart Lee <stuart.lee@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,69 +73,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, "Nancy . Lin" <nancy.lin@mediatek.com>,
- linux-mediatek@lists.infradead.org, Macpaul Lin <macpaul.lin@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Lancelot Wu <lancelot.wu@mediatek.com>, stable@vger.kernel.org,
- Shawn Sung <shawn.sung@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Stuart:
+The drmm handler will perform drm_encoder_cleanup() for us. Moreover if
+we call drm_encoder_cleanup() manually, the drmm_encoder_alloc_release()
+will spawn warnings at drivers/gpu/drm/drm_encoder.c:214. Drop these
+extra drm_encoder_cleanup() calls.
 
-Stuart Lee <stuart.lee@mediatek.com> =E6=96=BC 2023=E5=B9=B411=E6=9C=8810=
-=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8A=E5=8D=889:29=E5=AF=AB=E9=81=93=EF=BC=
-=9A
->
-> Add error handling to check NULL input in
-> mtk_drm_crtc_dma_dev_get function.
->
-> While display path is not configured correctly, none of crtc is
-> established. So the caller of mtk_drm_crtc_dma_dev_get may pass
-> input parameter *crtc as NULL, Which may cause coredump when
-> we try to get the container of NULL pointer.
+Fixes: cd42c56d9c0b ("drm/msm/dpu: use drmm-managed allocation for dpu_encoder_virt")
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-Applied to mediatek-drm-fixes [1], thanks.
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index dc24fe4bb3b0..d60edb93d4f7 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -586,7 +586,6 @@ static int _dpu_kms_initialize_displayport(struct drm_device *dev,
+ 		rc = msm_dp_modeset_init(priv->dp[i], dev, encoder);
+ 		if (rc) {
+ 			DPU_ERROR("modeset_init failed for DP, rc = %d\n", rc);
+-			drm_encoder_cleanup(encoder);
+ 			return rc;
+ 		}
+ 	}
+@@ -619,7 +618,6 @@ static int _dpu_kms_initialize_hdmi(struct drm_device *dev,
+ 	rc = msm_hdmi_modeset_init(priv->hdmi, dev, encoder);
+ 	if (rc) {
+ 		DPU_ERROR("modeset_init failed for DP, rc = %d\n", rc);
+-		drm_encoder_cleanup(encoder);
+ 		return rc;
+ 	}
+ 
+@@ -651,7 +649,6 @@ static int _dpu_kms_initialize_writeback(struct drm_device *dev,
+ 			n_formats);
+ 	if (rc) {
+ 		DPU_ERROR("dpu_writeback_init, rc = %d\n", rc);
+-		drm_encoder_cleanup(encoder);
+ 		return rc;
+ 	}
+ 
+-- 
+2.39.2
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
-log/?h=3Dmediatek-drm-fixes
-
-Regards,
-Chun-Kuang.
-
->
-> Fixes: cb1d6bcca542 ("drm/mediatek: Add dma dev get function")
-> Signed-off-by: Stuart Lee <stuart.lee@mediatek.com>
-> Cc: stable@vger.kernel.org
-> ---
->  drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/me=
-diatek/mtk_drm_crtc.c
-> index c277b9fae950..047c9a31d306 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> @@ -921,7 +921,14 @@ static int mtk_drm_crtc_init_comp_planes(struct drm_=
-device *drm_dev,
->
->  struct device *mtk_drm_crtc_dma_dev_get(struct drm_crtc *crtc)
->  {
-> -       struct mtk_drm_crtc *mtk_crtc =3D to_mtk_crtc(crtc);
-> +       struct mtk_drm_crtc *mtk_crtc =3D NULL;
-> +
-> +       if (!crtc)
-> +               return NULL;
-> +
-> +       mtk_crtc =3D to_mtk_crtc(crtc);
-> +       if (!mtk_crtc)
-> +               return NULL;
->
->         return mtk_crtc->dma_dev;
->  }
-> --
-> 2.18.0
->
