@@ -1,66 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC95180BF23
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 03:30:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE11380BF39
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 03:41:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DECE010E00D;
-	Mon, 11 Dec 2023 02:30:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DB7910E070;
+	Mon, 11 Dec 2023 02:41:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com
- [IPv6:2607:f8b0:4864:20::112b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2505A10E00D
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 02:30:44 +0000 (UTC)
-Received: by mail-yw1-x112b.google.com with SMTP id
- 00721157ae682-5d05ff42db0so36981517b3.2
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Dec 2023 18:30:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1702261843; x=1702866643;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=TAtSrNzMXsIYIDI7PZZlxLCtSwOpIMs+ASH6ed+/tjA=;
- b=IiqXx1zCcXs3xgrgKmDYvI2TRuLNw+3UlYIGW1IRHJ6WwKbobLSBRoSgX66lrLIl+y
- qW/dsOArdUKE6lGvEslSLAyoAOIM6Cdvzmc/wtUo8PMvehJlIDyOYblt93+Z0BnLjucd
- oo4dQ4bSS9F88Ke2xL4JvD25AgFWQ9RqsuUXfO1sFd4GKEnxyWi2e5yC3Y/s9HNuhscT
- oy0zzf/QJTF6dsF9zIS+qrDU2BUvDjjYl08eB0qdcNGg8gbmYuIZgLqtu/QIuamTM7BG
- M3BP84Jf8togWIDhvbItTJlt/8MuzvU9tUkpe+ekLjksdCe7OdQ4B70vwrSBFOQFHBkA
- VQkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702261843; x=1702866643;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=TAtSrNzMXsIYIDI7PZZlxLCtSwOpIMs+ASH6ed+/tjA=;
- b=EHwRvx9W0k1NrUPMgioaneIfevx8uOlpNecArkcYdk8uW+qtbkLn8jY3UeW21qfZ5p
- DeUAjsqTqbvnZFPunG5xf0XRPdRwV/EV2TVyVUK1ju1/OkKUUVROx4AW5Viq6NeZvoxz
- nwyglnf7PLvCxmrtMCcIkFLQ17tdUYEEDvlzfte1PsoCdAiM7c0XTgNESlO42hxbvRIA
- 447BQ2b1COCWExTvw36GhOdmBiQ9tM6SJ2m+zq8x7Z/UcS15DylLiqS9xZ2rbH4Gw5/5
- MKFwkiuBmZBgtqJ6LQsdJdkujwD746RqqHqOqgOj4fVJmRdubOff1l/qvF+hd9U6FIUj
- faBQ==
-X-Gm-Message-State: AOJu0YySU6A0aOQZ5+30hBeVz1pvkJFoMjBd3ZqL5+xMU3qQqQ/oB23+
- yVncF4LH+gVCKDo0UBol0WqUB78qPz7AGw14KRl+8A==
-X-Google-Smtp-Source: AGHT+IGGqMlSPjDVYieXAFXfTdaTOxuiJ3lLEL51+OWjNcqSXuTv2PUuu9mIj5zJTvIoqC0km/gDSIto1RwhSwcpwjo=
-X-Received: by 2002:a0d:ef46:0:b0:5d7:1941:2c26 with SMTP id
- y67-20020a0def46000000b005d719412c26mr2628477ywe.83.1702261842924; Sun, 10
- Dec 2023 18:30:42 -0800 (PST)
-MIME-Version: 1.0
-References: <20231208005250.2910004-1-almasrymina@google.com>
- <20231208005250.2910004-9-almasrymina@google.com>
- <b07a4eca-0c3d-4620-9f97-b1d2c76642c2@gmail.com>
- <CAHS8izNVFx6oHoo7y86P8Di9VCVe8A_n_9UZFkg5Wnt=A=YcNQ@mail.gmail.com>
- <b1aea7bc-9627-499a-9bee-d2cc07856978@gmail.com>
-In-Reply-To: <b1aea7bc-9627-499a-9bee-d2cc07856978@gmail.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Sun, 10 Dec 2023 18:30:31 -0800
-Message-ID: <CAHS8izPry13h49v+PqrmWSREZKZjYpPesxUTyPQy7AGyFwzo4g@mail.gmail.com>
-Subject: Re: [net-next v1 08/16] memory-provider: dmabuf devmem memory provider
-To: Pavel Begunkov <asml.silence@gmail.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 018D010E070
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 02:41:47 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 14A6ACE0AC6
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 02:41:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4E2E5C433C7
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 02:41:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1702262504;
+ bh=CCaSCnoshjxQHjqB3DkEy9Dn3DljdAeyNT2cA8FEhAY=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=FeNU0ctAsONDjcxkmtR6P8rO2UECrqo1ClIPbrEvvLsn5tNqjg/PESfMd+Gk++5bX
+ 6DjkZ1LKRrBfLWdDA/LWkWL7FgEYwCADIuxPKsNd/uzFglSLvFHMP15D/9pl0D+Cnf
+ SiC/vry3gXvdfNUKu9x+TFAXFeMJu31WZzxcB6cPEIphWxZh4L7FIbeL4pLvkNni49
+ /9iWYIejOV8XYm551SU/9ffV1VYKT6XuyLA9WlxSwglpXGFyvaOZJBMwDxTQFlw5lX
+ FCOeNKQKJ5cqtRzQYdKqstpH9IqOMhg0VGjRZHiHQ2rZ0zTJlzwmuRDHiTNibiKkC5
+ P3J/Hqq/XGLVw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 32FDAC53BD0; Mon, 11 Dec 2023 02:41:44 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 218250] Regression nouveau driver
+Date: Mon, 11 Dec 2023 02:41:43 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: bagasdotme@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-218250-2300-KSmmckIFWm@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-218250-2300@https.bugzilla.kernel.org/>
+References: <bug-218250-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,175 +69,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, Kaiyuan Zhang <kaiyuanz@google.com>,
- dri-devel@lists.freedesktop.org, Eric Dumazet <edumazet@google.com>,
- linux-kselftest@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-arch@vger.kernel.org,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jeroen de Borst <jeroendb@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- linux-media@vger.kernel.org, Jesper Dangaard Brouer <hawk@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Shailend Chand <shailend@google.com>,
- Shakeel Butt <shakeelb@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org,
- David Ahern <dsahern@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Yunsheng Lin <linyunsheng@huawei.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>, bpf@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Dec 9, 2023 at 7:05=E2=80=AFPM Pavel Begunkov <asml.silence@gmail.c=
-om> wrote:
->
-> On 12/8/23 23:25, Mina Almasry wrote:
-> > On Fri, Dec 8, 2023 at 2:56=E2=80=AFPM Pavel Begunkov <asml.silence@gma=
-il.com> wrote:
-> >>
-> >> On 12/8/23 00:52, Mina Almasry wrote:
-> > ...
-> >>> +     if (pool->p.queue)
-> >>> +             binding =3D READ_ONCE(pool->p.queue->binding);
-> >>> +
-> >>> +     if (binding) {
-> >>> +             pool->mp_ops =3D &dmabuf_devmem_ops;
-> >>> +             pool->mp_priv =3D binding;
-> >>> +     }
-> >>
-> >> Hmm, I don't understand why would we replace a nice transparent
-> >> api with page pool relying on a queue having devmem specific
-> >> pointer? It seemed more flexible and cleaner in the last RFC.
-> >>
-> >
-> > Jakub requested this change and may chime in, but I suspect it's to
-> > further abstract the devmem changes from driver. In this iteration,
-> > the driver grabs the netdev_rx_queue and passes it to the page_pool,
-> > and any future configurations between the net stack and page_pool can
-> > be passed this way with the driver unbothered.
->
-> Ok, that makes sense, but even if passed via an rx queue I'd
-> at least hope it keeping abstract provider parameters, e.g.
-> ops, but not hard coded with devmem specific code.
->
-> It might even be better done with a helper like
-> create_page_pool_from_queue(), unless there is some deeper
-> interaction b/w pp and rx queues is predicted.
->
+https://bugzilla.kernel.org/show_bug.cgi?id=3D218250
 
-Off hand I don't see the need for a new create_page_pool_from_queue().
-page_pool_create() already takes in a param arg that lets us pass in
-the queue as well as any other params.
+Bagas Sanjaya (bagasdotme@gmail.com) changed:
 
-> >>> +
-> >>>        if (pool->mp_ops) {
-> >>>                err =3D pool->mp_ops->init(pool);
-> >>>                if (err) {
-> >>> @@ -1020,3 +1033,77 @@ void page_pool_update_nid(struct page_pool *po=
-ol, int new_nid)
-> >>>        }
-> >>>    }
-> >>>    EXPORT_SYMBOL(page_pool_update_nid);
-> >>> +
-> >>> +void __page_pool_iov_free(struct page_pool_iov *ppiov)
-> >>> +{
-> >>> +     if (WARN_ON(ppiov->pp->mp_ops !=3D &dmabuf_devmem_ops))
-> >>> +             return;
-> >>> +
-> >>> +     netdev_free_dmabuf(ppiov);
-> >>> +}
-> >>> +EXPORT_SYMBOL_GPL(__page_pool_iov_free);
-> >>
-> >> I didn't look too deep but I don't think I immediately follow
-> >> the pp refcounting. It increments pages_state_hold_cnt on
-> >> allocation, but IIUC doesn't mark skbs for recycle? Then, they all
-> >> will be put down via page_pool_iov_put_many() bypassing
-> >> page_pool_return_page() and friends. That will call
-> >> netdev_free_dmabuf(), which doesn't bump pages_state_release_cnt.
-> >>
-> >> At least I couldn't make it work with io_uring, and for my purposes,
-> >> I forced all puts to go through page_pool_return_page(), which calls
-> >> the ->release_page callback. The callback will put the reference and
-> >> ask its page pool to account release_cnt. It also gets rid of
-> >> __page_pool_iov_free(), as we'd need to add a hook there for
-> >> customization otherwise.
-> >>
-> >> I didn't care about overhead because the hot path for me is getting
-> >> buffers from a ring, which is somewhat analogous to sock_devmem_dontne=
-ed(),
-> >> but done on pp allocations under napi, and it's done separately.
-> >>
-> >> Completely untested with TCP devmem:
-> >>
-> >> https://github.com/isilence/linux/commit/14bd56605183dc80b540999e8058c=
-79ac92ae2d8
-> >>
-> >
-> > This was a mistake in the last RFC, which should be fixed in v1. In
-> > the RFC I was not marking the skbs as skb_mark_for_recycle(), so the
-> > unreffing path wasn't as expected.
-> >
-> > In this iteration, that should be completely fixed. I suspect since I
-> > just posted this you're actually referring to the issue tested on the
-> > last RFC? Correct me if wrong.
->
-> Right, it was with RFCv3
->
-> > In this iteration, the reffing story:
-> >
-> > - memory provider allocs ppiov and returns it to the page pool with
-> > ppiov->refcount =3D=3D 1.
-> > - The page_pool gives the page to the driver. The driver may
-> > obtain/release references with page_pool_page_[get|put]_many(), but
-> > the driver is likely not doing that unless it's doing its own page
-> > recycling.
-> > - The net stack obtains references via skb_frag_ref() ->
-> > page_pool_page_get_many()
-> > - The net stack drops references via skb_frag_unref() ->
-> > napi_pp_put_page() -> page_pool_return_page() and friends.
-> >
-> > Thus, the issue where the unref path was skipping
-> > page_pool_return_page() and friends should be resolved in this
-> > iteration, let me know if you think otherwise, but I think this was an
-> > issue limited to the last RFC.
->
-> Then page_pool_iov_put_many() should and supposedly would never be
-> called by non devmap code because all puts must circle back into
-> ->release_page. Why adding it to into page_pool_page_put_many()?
->
-> @@ -731,6 +731,29 @@ __page_pool_put_page(struct page_pool *pool, struct =
-page *page,
-> +       if (page_is_page_pool_iov(page)) {
-> ...
-> +               page_pool_page_put_many(page, 1);
-> +               return NULL;
-> +       }
->
-> Well, I'm looking at this new branch from Patch 10, it can put
-> the buffer, but what if we race at it's actually the final put?
-> Looks like nobody is going to to bump up pages_state_release_cnt
->
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |bagasdotme@gmail.com
 
-Good catch, I think indeed the release_cnt would be incorrect in this
-case. I think the race is benign in the sense that the ppiov will be
-freed correctly and available for allocation when the page_pool next
-needs it; the issue is with the stats AFAICT.
+--- Comment #1 from Bagas Sanjaya (bagasdotme@gmail.com) ---
+(In reply to Jaime P=C3=A9rez from comment #0)
+> Created attachment 305577 [details]
+> dmesg
+>=20
+> ae1aadb1eb8d3cbc52e42bee71d67bd4a71f9f07 is the first bad commit
+> commit ae1aadb1eb8d3cbc52e42bee71d67bd4a71f9f07
+> Author: Dave Airlie <airlied@redhat.com>
+> Date:   Thu Nov 16 00:39:33 2023 +1000
+>=20
+>     nouveau: don't fail driver load if no display hw present.
+>=20=20=20=20=20
+>     If we get back ENODEV don't fail load. There are nvidia devices
+>     that don't have display blocks and the driver should work on those.
+>=20=20=20=20=20
+>     Fixes: 15740541e8f0 ("drm/nouveau/devinit/tu102-: prepare for GSP-RM")
+>     Link: https://gitlab.freedesktop.org/drm/nouveau/-/issues/270
+>     Signed-off-by: Dave Airlie <airlied@redhat.com>
+>     Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+>     Link:
+> https://patchwork.freedesktop.org/patch/msgid/20231115143933.261287-1-
+> airlied@gmail.com
+>=20
+>  drivers/gpu/drm/nouveau/nouveau_display.c | 5 +++++
+>  1 file changed, 5 insertions(+)
 
-> If you remove the branch, let it fall into ->release and rely
-> on refcounting there, then the callback could also fix up
-> release_cnt or ask pp to do it, like in the patch I linked above
->
-
-Sadly I don't think this is possible due to the reasons I mention in
-the commit message of that patch. Prematurely releasing ppiov and not
-having them be candidates for recycling shows me a 4-5x degradation in
-performance.
-
-What I could do here is detect that the refcount was dropped to 0 and
-fix up the stats in that case.
+What problem?
 
 --=20
-Thanks,
-Mina
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
