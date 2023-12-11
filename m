@@ -2,40 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ECAB80C6F2
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 11:45:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A81C80C70A
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Dec 2023 11:47:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A392C10E089;
-	Mon, 11 Dec 2023 10:45:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 869D110E3A7;
+	Mon, 11 Dec 2023 10:47:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 799E210E3A7
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 10:45:51 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id BA2C0611A8;
- Mon, 11 Dec 2023 10:45:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64FB5C433C7;
- Mon, 11 Dec 2023 10:45:45 +0000 (UTC)
-Message-ID: <797a2cbd-ab84-47ec-99b0-23c392f343e1@xs4all.nl>
-Date: Mon, 11 Dec 2023 11:45:43 +0100
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
+ [IPv6:2a00:1450:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF9AD10E3A7;
+ Mon, 11 Dec 2023 10:47:11 +0000 (UTC)
+Received: by mail-wm1-x32a.google.com with SMTP id
+ 5b1f17b1804b1-40c32df9174so34999895e9.3; 
+ Mon, 11 Dec 2023 02:47:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1702291630; x=1702896430; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ce0zbxA04eGm5L5oadZ3wbq0BpUtWOBHwT553G24fMY=;
+ b=Xa09P9c0PDx70waXmLcv3BFgFmyM3VWtsxQXhOFeLpVPTuTDXOqV2bAXwVfGJGv622
+ Ut4CJ+RfNda4cGvugsEN52Od029wZWFY1EEhUkQObilZy/8WE/4Jzz0fcsdzydkxA8Py
+ rRnUbfuLpKGzT6W1F6IPlQzm6NpslbZ/hu0vNNkHQEKTcKMFwqRq9t2i0SLDDl1TWXjJ
+ rFnEGZVG9R5MXbcP3bVVqTlvABgCDDORa1anT+v7aVe20ShvM0Gwx65ywI1PYInyvGUz
+ 8X6DapcBwiGZ4sjxo6N2AWVzufhc8HFCpH7E7WM6BH+qp6XjPucyml5GhvJC9MJxWfP5
+ nx4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1702291630; x=1702896430;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ce0zbxA04eGm5L5oadZ3wbq0BpUtWOBHwT553G24fMY=;
+ b=uW+SctOwJQYGYTFyiBjR1EMnqcOiL1xhb1y5+F/9f6dbPeKqj/ZmPGl6vDuuHPzLhX
+ 58HSbqaNnTvJ2CdVKbInH+lvGtVAHxhDVwtZb+/80Glgowrba47tuBKseSexWrlRFqGw
+ eGgdQleBk2sKIoC2S8N452Pc9yvFhTzQ6aiuqca2mK7crlGNga8U1Kv8EXcaGxsr+i+U
+ VrMoFNqvwhyueKR7kNZENsOZJ0kihXI8OMjyJRDPTI0XBKgRwey8RZXQDxxUxipJj0q1
+ Xi900QdyIuHYNecwJYO4XjZkFY4Gnj7NcKkWcXwfIOQvs5PVvXQeklxykgjdVJGDyYxE
+ a+8g==
+X-Gm-Message-State: AOJu0YxjqnSmMCELdF44FRbIaxw1xnDAYcH3BdR9loT6QzSO/oYtGgnL
+ bObxRNol3RhkZ0Fp459jSG8=
+X-Google-Smtp-Source: AGHT+IFDLSWtwRz+Mep0P2wHU03mEf8uT1tA4CK01mVy2soy6G7lwo395lYfptDQ0/ItbXxPbv0GHA==
+X-Received: by 2002:a05:600c:4195:b0:40c:243f:c36a with SMTP id
+ p21-20020a05600c419500b0040c243fc36amr1555228wmh.206.1702291629926; 
+ Mon, 11 Dec 2023 02:47:09 -0800 (PST)
+Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
+ by smtp.gmail.com with ESMTPSA id
+ q14-20020a05600c46ce00b0040c4c9c52a3sm888618wmo.12.2023.12.11.02.47.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 Dec 2023 02:47:09 -0800 (PST)
+Message-ID: <9637309c-af25-4117-be4f-b8cbdc087d60@gmail.com>
+Date: Mon, 11 Dec 2023 11:47:06 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3,02/21] v4l2: handle secure memory flags in queue setup
-Content-Language: en-US, nl
-To: Yunfei Dong <yunfei.dong@mediatek.com>,
- Jeffrey Kardatzke <jkardatzke@google.com>,
- =?UTF-8?Q?N=C3=ADcolas_F_=2E_R_=2E_A_=2E_Prado?= <nfraprado@collabora.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Nathan Hebert <nhebert@chromium.org>
-References: <20231206081538.17056-1-yunfei.dong@mediatek.com>
- <20231206081538.17056-3-yunfei.dong@mediatek.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20231206081538.17056-3-yunfei.dong@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [Linaro-mm-sig] [PATCH] drm/scheduler: Unwrap job dependencies
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20231205190234.371322-1-robdclark@gmail.com>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <20231205190234.371322-1-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,228 +75,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Steve Cho <stevecho@chromium.org>,
+Cc: Rob Clark <robdclark@chromium.org>, Luben Tuikov <ltuikov89@gmail.com>,
+ linux-arm-msm@vger.kernel.org, open list <linux-kernel@vger.kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_?:buf|fence|resvb"
+ <linaro-mm-sig@lists.linaro.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ freedreno@lists.freedesktop.org,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Chen-Yu Tsai <wenst@chromium.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Matthias Brugger <matthias.bgg@gmail.com>, John Stultz <jstultz@google.com>,
- linux-arm-kernel@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Fritz Koenig <frkoenig@chromium.org>, linux-mediatek@lists.infradead.org,
- "T . J . Mercier" <tjmercier@google.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Yong Wu <yong.wu@mediatek.com>
+ "open list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_?:buf|fence|resvb"
+ <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Yunfei, Jeffrey,
+Am 05.12.23 um 20:02 schrieb Rob Clark:
+> From: Rob Clark <robdclark@chromium.org>
+>
+> Container fences have burner contexts, which makes the trick to store at
+> most one fence per context somewhat useless if we don't unwrap array or
+> chain fences.
+>
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
 
-Some comments below:
+Reviewed-by: Christian König <christian.koenig@amd.com>
 
-On 06/12/2023 09:15, Yunfei Dong wrote:
-> From: Jeffrey Kardatzke <jkardatzke@google.com>
-> 
-> Validates the secure memory flags when setting up a queue and ensures
-> the queue has the proper capability.
-> 
-> Signed-off-by: Jeffrey Kardatzke <jkardatzke@google.com>
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 > ---
->  .../media/common/videobuf2/videobuf2-core.c   | 23 +++++++++++++
->  .../media/common/videobuf2/videobuf2-v4l2.c   | 34 +++++++++++++------
->  2 files changed, 46 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index 8c1df829745b..09dc030484be 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -813,6 +813,15 @@ static bool verify_coherency_flags(struct vb2_queue *q, bool non_coherent_mem)
->  	return true;
->  }
->  
-> +static bool verify_secure_mem_flags(struct vb2_queue *q, bool secure_mem)
+>   drivers/gpu/drm/scheduler/sched_main.c | 47 ++++++++++++++++++--------
+>   1 file changed, 32 insertions(+), 15 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 9762464e3f99..16b550949c57 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -52,6 +52,7 @@
+>   #include <linux/wait.h>
+>   #include <linux/sched.h>
+>   #include <linux/completion.h>
+> +#include <linux/dma-fence-unwrap.h>
+>   #include <linux/dma-resv.h>
+>   #include <uapi/linux/sched/types.h>
+>   
+> @@ -684,27 +685,14 @@ void drm_sched_job_arm(struct drm_sched_job *job)
+>   }
+>   EXPORT_SYMBOL(drm_sched_job_arm);
+>   
+> -/**
+> - * drm_sched_job_add_dependency - adds the fence as a job dependency
+> - * @job: scheduler job to add the dependencies to
+> - * @fence: the dma_fence to add to the list of dependencies.
+> - *
+> - * Note that @fence is consumed in both the success and error cases.
+> - *
+> - * Returns:
+> - * 0 on success, or an error on failing to expand the array.
+> - */
+> -int drm_sched_job_add_dependency(struct drm_sched_job *job,
+> -				 struct dma_fence *fence)
+> +static int drm_sched_job_add_single_dependency(struct drm_sched_job *job,
+> +					       struct dma_fence *fence)
+>   {
+>   	struct dma_fence *entry;
+>   	unsigned long index;
+>   	u32 id = 0;
+>   	int ret;
+>   
+> -	if (!fence)
+> -		return 0;
+> -
+>   	/* Deduplicate if we already depend on a fence from the same context.
+>   	 * This lets the size of the array of deps scale with the number of
+>   	 * engines involved, rather than the number of BOs.
+> @@ -728,6 +716,35 @@ int drm_sched_job_add_dependency(struct drm_sched_job *job,
+>   
+>   	return ret;
+>   }
+> +
+> +/**
+> + * drm_sched_job_add_dependency - adds the fence as a job dependency
+> + * @job: scheduler job to add the dependencies to
+> + * @fence: the dma_fence to add to the list of dependencies.
+> + *
+> + * Note that @fence is consumed in both the success and error cases.
+> + *
+> + * Returns:
+> + * 0 on success, or an error on failing to expand the array.
+> + */
+> +int drm_sched_job_add_dependency(struct drm_sched_job *job,
+> +				 struct dma_fence *fence)
 > +{
-> +	if (secure_mem != q->secure_mem) {
-> +		dprintk(q, 1, "secure memory model mismatch\n");
-> +		return false;
+> +	struct dma_fence_unwrap iter;
+> +	struct dma_fence *f;
+> +	int ret = 0;
+> +
+> +	dma_fence_unwrap_for_each (f, &iter, fence) {
+> +		dma_fence_get(f);
+> +		ret = drm_sched_job_add_single_dependency(job, f);
+> +		if (ret)
+> +			break;
 > +	}
-> +	return true;
+> +
+> +	dma_fence_put(fence);
+> +
+> +	return ret;
 > +}
-> +
->  int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  		     unsigned int flags, unsigned int *count)
->  {
-> @@ -820,6 +829,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  	unsigned int q_num_bufs = vb2_get_num_buffers(q);
->  	unsigned plane_sizes[VB2_MAX_PLANES] = { };
->  	bool non_coherent_mem = flags & V4L2_MEMORY_FLAG_NON_COHERENT;
-> +	bool secure_mem = flags & V4L2_MEMORY_FLAG_SECURE;
->  	unsigned int i;
->  	int ret = 0;
->  
-> @@ -836,6 +846,8 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  	if (*count == 0 || q_num_bufs != 0 ||
->  	    (q->memory != VB2_MEMORY_UNKNOWN && q->memory != memory) ||
->  	    !verify_coherency_flags(q, non_coherent_mem)) {
-> +		bool no_previous_buffers = !q->num_buffers;
-> +
->  		/*
->  		 * We already have buffers allocated, so first check if they
->  		 * are not in use and can be freed.
-> @@ -854,6 +866,12 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  		__vb2_queue_free(q, q_num_bufs);
->  		mutex_unlock(&q->mmap_lock);
->  
-> +		/*
-> +		 * Do not allow switching secure buffer mode.
-> +		 */
-> +		if (!no_previous_buffers && !verify_secure_mem_flags(q, secure_mem))
-> +			return -EINVAL;
-> +
+>   EXPORT_SYMBOL(drm_sched_job_add_dependency);
+>   
+>   /**
 
-Why is this needed? Here VIDIOC_REQBUFS is called either to just delete
-all existing buffers (count == 0), or to delete all existing buffers and
-allocate new buffers (count > 0).
-
-Since in both cases all existing buffers are deleted, you are free to choose
-whatever new secure mode you want.
-
->  		/*
->  		 * In case of REQBUFS(0) return immediately without calling
->  		 * driver's queue_setup() callback and allocating resources.
-> @@ -882,6 +900,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  	if (ret)
->  		return ret;
->  	set_queue_coherency(q, non_coherent_mem);
-> +	q->secure_mem = secure_mem;
->  
->  	/*
->  	 * Ask the driver how many buffers and planes per buffer it requires.
-> @@ -986,6 +1005,7 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  	unsigned plane_sizes[VB2_MAX_PLANES] = { };
->  	bool non_coherent_mem = flags & V4L2_MEMORY_FLAG_NON_COHERENT;
->  	unsigned int q_num_bufs = vb2_get_num_buffers(q);
-> +	bool secure_mem = flags & V4L2_MEMORY_FLAG_SECURE;
->  	bool no_previous_buffers = !q_num_bufs;
->  	int ret = 0;
->  
-> @@ -1015,6 +1035,7 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  			return ret;
->  		q->waiting_for_buffers = !q->is_output;
->  		set_queue_coherency(q, non_coherent_mem);
-> +		q->secure_mem = secure_mem;
->  	} else {
->  		if (q->memory != memory) {
->  			dprintk(q, 1, "memory model mismatch\n");
-> @@ -1022,6 +1043,8 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  		}
->  		if (!verify_coherency_flags(q, non_coherent_mem))
->  			return -EINVAL;
-> +		if (!verify_secure_mem_flags(q, secure_mem))
-> +			return -EINVAL;
->  	}
->  
->  	num_buffers = min(*count, q->max_num_buffers - q_num_bufs);
-> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> index 54d572c3b515..0a530830276c 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> @@ -686,22 +686,30 @@ static void fill_buf_caps(struct vb2_queue *q, u32 *caps)
->  		*caps |= V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS;
->  	if (q->supports_requests)
->  		*caps |= V4L2_BUF_CAP_SUPPORTS_REQUESTS;
-> +	if (q->allow_secure_mem && q->io_modes & VB2_DMABUF)
-> +		*caps |= V4L2_BUF_CAP_SUPPORTS_SECURE_MEM;
->  }
->  
-> -static void validate_memory_flags(struct vb2_queue *q,
-> +static bool validate_memory_flags(struct vb2_queue *q,
->  				  int memory,
->  				  u32 *flags)
->  {
-> +	if (*flags & V4L2_MEMORY_FLAG_SECURE &&
-> +	    (!q->allow_secure_mem || memory != V4L2_MEMORY_DMABUF)) {
-> +		return false;
-> +	}
-> +
-
-This check belongs to videobuf2-core.c and the check should be done
-in vb2_core_reqbufs and vb2_core_create_bufs.
-
-So just leave this function as a void.
-
->  	if (!q->allow_cache_hints || memory != V4L2_MEMORY_MMAP) {
->  		/*
-> -		 * This needs to clear V4L2_MEMORY_FLAG_NON_COHERENT only,
-> -		 * but in order to avoid bugs we zero out all bits.
-> +		 * This needs to clear V4L2_MEMORY_FLAG_NON_COHERENT only.
-
-Just drop this as well since it adds no useful information anymore.
-
->  		 */
-> -		*flags = 0;
-> -	} else {
-> -		/* Clear all unknown flags. */
-> -		*flags &= V4L2_MEMORY_FLAG_NON_COHERENT;
-> +		*flags &= ~V4L2_MEMORY_FLAG_NON_COHERENT;
->  	}
-> +
-> +	/* Clear all unknown flags. */
-> +	*flags &= V4L2_MEMORY_FLAG_NON_COHERENT | V4L2_MEMORY_FLAG_SECURE;
-
-This is still needed here.
-
-> +
-> +	return true;
->  }
->  
-
-So the following changes from here...
-
->  int vb2_reqbufs(struct vb2_queue *q, struct v4l2_requestbuffers *req)
-> @@ -710,7 +718,8 @@ int vb2_reqbufs(struct vb2_queue *q, struct v4l2_requestbuffers *req)
->  	u32 flags = req->flags;
->  
->  	fill_buf_caps(q, &req->capabilities);
-> -	validate_memory_flags(q, req->memory, &flags);
-> +	if (!validate_memory_flags(q, req->memory, &flags))
-> +		return -EINVAL;
->  	req->flags = flags;
->  	return ret ? ret : vb2_core_reqbufs(q, req->memory,
->  					    req->flags, &req->count);
-> @@ -752,7 +761,8 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
->  	unsigned i;
->  
->  	fill_buf_caps(q, &create->capabilities);
-> -	validate_memory_flags(q, create->memory, &create->flags);
-> +	if (!validate_memory_flags(q, create->memory, &create->flags))
-> +		return -EINVAL;
->  	create->index = vb2_get_num_buffers(q);
->  	create->max_num_buffers = q->max_num_buffers;
->  	create->capabilities |= V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS;
-> @@ -1007,7 +1017,8 @@ int vb2_ioctl_reqbufs(struct file *file, void *priv,
->  	u32 flags = p->flags;
->  
->  	fill_buf_caps(vdev->queue, &p->capabilities);
-> -	validate_memory_flags(vdev->queue, p->memory, &flags);
-> +	if (!validate_memory_flags(vdev->queue, p->memory, &flags))
-> +		return -EINVAL;
->  	p->flags = flags;
->  	if (res)
->  		return res;
-> @@ -1031,7 +1042,8 @@ int vb2_ioctl_create_bufs(struct file *file, void *priv,
->  
->  	p->index = vdev->queue->num_buffers;
->  	fill_buf_caps(vdev->queue, &p->capabilities);
-> -	validate_memory_flags(vdev->queue, p->memory, &p->flags);
-> +	if (!validate_memory_flags(vdev->queue, p->memory, &p->flags))
-> +		return -EINVAL;
->  	/*
->  	 * If count == 0, then just check if memory and type are valid.
->  	 * Any -EBUSY result from vb2_verify_memory_type can be mapped to 0.
-
-...to the end should all be dropped since the vb2 core will do the checks.
-
-Regards,
-
-	Hans
