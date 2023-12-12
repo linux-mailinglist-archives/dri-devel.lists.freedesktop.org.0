@@ -2,50 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CA6D80F531
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 19:04:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBEE480F560
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 19:19:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9672810E67D;
-	Tue, 12 Dec 2023 18:04:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7478F10E687;
+	Tue, 12 Dec 2023 18:19:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 602 seconds by postgrey-1.36 at gabe;
- Tue, 12 Dec 2023 18:04:10 UTC
-Received: from ixit.cz (ip-89-177-23-149.bb.vodafone.cz [89.177.23.149])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02D0510E67D
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 18:04:09 +0000 (UTC)
-Received: from newone.lan (unknown [10.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by ixit.cz (Postfix) with ESMTPSA id C9286161C8C;
- Tue, 12 Dec 2023 18:54:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
- t=1702403644;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=iYhjaphvNqnVlAhFqF/LeOGnoaEb4owq0uizq77WO/M=;
- b=PhgIWhx1iic7CBvWOiUxB1wZrHR/riTOrlhttDm5W5gTNc40IFERi5rD4zQgx06fSVbTHu
- y9+aclW/TYEVVU0MH+kzqzGbbE7x/il+ZlAoqtBgE4LmurUlJmR0tyF0EJ+0YAxLzAFv2U
- R7fphozYP9OlKz7HRC+vqikIxbDEJN4=
-From: David Heidelberg <david@ixit.cz>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH] dt-bindings: panel-simple-dsi: move LG 5" HD TFT LCD panel
- into DSI yaml
-Date: Tue, 12 Dec 2023 18:53:25 +0100
-Message-ID: <20231212175356.72062-1-david@ixit.cz>
-X-Mailer: git-send-email 2.43.0
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A4E510E690
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 18:19:33 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1rD7Ls-0006nY-1E; Tue, 12 Dec 2023 19:19:28 +0100
+Message-ID: <9089fb993eb0b2b630784e5b91cb88c1ff2f45fb.camel@pengutronix.de>
+Subject: Re: [PATCH 1/3] drm/mxsfb: Add an entry for "fsl,imx8mq-lcdif"
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Fabio Estevam <festevam@gmail.com>, marex@denx.de
+Date: Tue, 12 Dec 2023 19:19:25 +0100
+In-Reply-To: <20231211204138.553141-1-festevam@gmail.com>
+References: <20231211204138.553141-1-festevam@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,53 +46,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- David Heidelberg <david@ixit.cz>, linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org,
+ Fabio Estevam <festevam@denx.de>, kernel@puri.sm,
+ dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, martink@posteo.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Originally was in the panel-simple, but belongs to panel-simple-dsi.
+Hi Fabio,
 
-See arch/arm/boot/dts/nvidia/tegra114-roth.dts for more details.
+Am Montag, dem 11.12.2023 um 17:41 -0300 schrieb Fabio Estevam:
+> From: Fabio Estevam <festevam@denx.de>
+>=20
+> On i.MX6SX, the LCDIF has an associated power domain.
+>=20
+> However, i.MX8MQ does not have an LCDIF power domain.
+>=20
+> imx8mq.dtsi has the following compatible string:
+>=20
+> compatible =3D "fsl,imx8mq-lcdif", "fsl,imx6sx-lcdif";
+>=20
+> which causes the following dt-schema warning:
+>=20
+> imx8mq-evk.dtb: lcd-controller@30320000: 'power-domains' is a required pr=
+operty
+> 	from schema $id: http://devicetree.org/schemas/display/fsl,lcdif.yaml#
+>=20
+> To prevent this problem, add a specific fsl,imx8mq-lcdif entry in
+> the driver to properly handle such a power-domain requirement difference.
+>=20
+I don't really like this series. While we don't make any strong
+guarantees in this way, it breaks booting older kernels with a new DT.
 
-Fixes:
-```
-arch/arm/boot/dts/tegra114-roth.dt.yaml: panel@0: 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
-        From schema: Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-```
+As this driver patch shows, there are no actual differences in the IP
+block between i.MX6SX and i.MX8MQ, it's just the SoC integration that's
+different, where in one SoC the controller is located in a power
+domain, while it isn't in another.
 
-Signed-off-by: David Heidelberg <david@ixit.cz>
----
- .../devicetree/bindings/display/panel/panel-simple-dsi.yaml     | 2 ++
- .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 --
- 2 files changed, 2 insertions(+), 2 deletions(-)
+To me this smells like making changes to parts that don't really care
+about those differences. The thing that cares about the difference is
+the DT schema validation and I feel like there must be a better way to
+describe this in the schema than to patch both driver and DT just to
+accommodate a SoC integration difference. Is there a way to make the
+power-domain property not dependent on the IP block, but the machine
+compatible?
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-index 73674baea75d..f9160d7bac3c 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-@@ -42,6 +42,8 @@ properties:
-       - lg,acx467akm-7
-         # LG Corporation 7" WXGA TFT LCD panel
-       - lg,ld070wx3-sl01
-+        # LG Corporation 5" HD TFT LCD panel
-+      - lg,lh500wx1-sd03
-         # One Stop Displays OSD101T2587-53TS 10.1" 1920x1200 panel
-       - osddisplays,osd101t2587-53ts
-         # Panasonic 10" WUXGA TFT LCD panel
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-index 2021aa82871a..634a10c6f2dd 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-@@ -212,8 +212,6 @@ properties:
-       - lemaker,bl035-rgb-002
-         # LG 7" (800x480 pixels) TFT LCD panel
-       - lg,lb070wv8
--        # LG Corporation 5" HD TFT LCD panel
--      - lg,lh500wx1-sd03
-         # LG LP079QX1-SP0V 7.9" (1536x2048 pixels) TFT LCD panel
-       - lg,lp079qx1-sp0v
-         # LG 9.7" (2048x1536 pixels) TFT LCD panel
--- 
-2.43.0
+Regards,
+Lucas
+
+> Signed-off-by: Fabio Estevam <festevam@denx.de>
+> ---
+>  drivers/gpu/drm/mxsfb/mxsfb_drv.c | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mx=
+sfb_drv.c
+> index b483ef48216a..ac9ce3b45b38 100644
+> --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+> +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+> @@ -340,6 +340,7 @@ static const struct of_device_id mxsfb_dt_ids[] =3D {
+>  	{ .compatible =3D "fsl,imx23-lcdif", .data =3D &mxsfb_devdata[MXSFB_V3]=
+, },
+>  	{ .compatible =3D "fsl,imx28-lcdif", .data =3D &mxsfb_devdata[MXSFB_V4]=
+, },
+>  	{ .compatible =3D "fsl,imx6sx-lcdif", .data =3D &mxsfb_devdata[MXSFB_V6=
+], },
+> +	{ .compatible =3D "fsl,imx8mq-lcdif", .data =3D &mxsfb_devdata[MXSFB_V6=
+], },
+>  	{ /* sentinel */ }
+>  };
+>  MODULE_DEVICE_TABLE(of, mxsfb_dt_ids);
 
