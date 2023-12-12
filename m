@@ -2,61 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20F4F80EA91
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 12:40:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28BF580EA98
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 12:42:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4813710E197;
-	Tue, 12 Dec 2023 11:40:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF56210E1A8;
+	Tue, 12 Dec 2023 11:42:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com
- [IPv6:2607:f8b0:4864:20::b2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D466710E197
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 11:40:42 +0000 (UTC)
-Received: by mail-yb1-xb2b.google.com with SMTP id
- 3f1490d57ef6-db4364ecd6aso4125411276.2
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 03:40:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1702381242; x=1702986042;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=0iUPBvo8eOmT//4vl8DQjGC5UmJmCx85Al5r4t/jUw0=;
- b=Q9jiytPr0WRfO/MxnCw5NTSzi0IGpmr+gp3q6mFZYlP41E4Tdf3WXFMlzzrlCSQLQO
- jPL3ikiLH45Ly9yHgMhQm5LMOx+jkDs9oxvwTrZlq43fYnc7BCepIBne1+kg/5lpFoRy
- dsLNL7WhMz1P/1Iu4LsCQddu32jr8b9p/6P0XQ8KbTtHBXILQyIyPAet4g7p/d5YlE3R
- mdHo5WKo28unSzxlt0PJFwk+/FGR484l9Q8MhWT2Z3Ffk99e32sQXMIL+8ap2mWh6o4U
- ym0so9ePcqTEC2AnDWty0rfP9AVDiz/ZJKqN3KfFD2PQnTkliHFPWzymeG4W4lA8/Epk
- 453g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702381242; x=1702986042;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=0iUPBvo8eOmT//4vl8DQjGC5UmJmCx85Al5r4t/jUw0=;
- b=BBNhboTIYZ/kQmyDklmoQd/qyub+VyTWr5EHW+ZVa01aVGkxA9zs1sVRwm8wD52XA3
- 3AN4RpuCFUYOu5+IpzK7MK6Y8MY7BA3af9+VgJlpX5wLyW7hpJGTKCR5Ideg092FM0PO
- 5L5/Kextq0qX0XnIpaInzroexjm++j3dbWlVPD8Ppu5jyOAi/QibkuVKriMBg3kB46dU
- e+u/Ap7zdPRPzWI7tw5vRqZJUtcMUr5XBDnN9C9CGCwFk8QawFKSZIolLdrAxZES4l0M
- BhpguO6IC6exMgxcURFzZnMGt39rTux4xtlKujkXJLJhivYYDvX/EqkltQ3xcB7EVxt8
- d4Aw==
-X-Gm-Message-State: AOJu0YwCU5+OWTkktVB6dAC1v82vRdLeYTmHKHvGgtktihG4BqOBnUqA
- ZMgSCaNjRNxjPFRLYxsekQ0Sye/9gNveaB8ZehaEnA==
-X-Google-Smtp-Source: AGHT+IGkFxJXB+75F7npYS3Sl7fcGotb27eRrk6u5Q+tryG0nLGLjgw4n/C3z2I9FmEbcpAIdKRvpPS2VqJqFmY8cyo=
-X-Received: by 2002:a25:ce8a:0:b0:db5:47ee:47c4 with SMTP id
- x132-20020a25ce8a000000b00db547ee47c4mr2442389ybe.53.1702381242014; Tue, 12
- Dec 2023 03:40:42 -0800 (PST)
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 348F510E0D3
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 11:42:10 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1rD18I-0005bB-Vy; Tue, 12 Dec 2023 12:41:03 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1rD18G-00FKJT-S1; Tue, 12 Dec 2023 12:41:00 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1rD18G-001bBp-HP; Tue, 12 Dec 2023 12:41:00 +0100
+Date: Tue, 12 Dec 2023 12:41:00 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Sean Young <sean@mess.org>, Jean Delvare <jdelvare@suse.com>,
+ Guenter Roeck <linux@roeck-us.net>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Helge Deller <deller@gmx.de>
+Subject: Re: [PATCH v8 1/6] pwm: Rename pwm_apply_state() to
+ pwm_apply_might_sleep()
+Message-ID: <20231212114100.sn7nzntousql2ays@pengutronix.de>
+References: <cover.1702369869.git.sean@mess.org>
+ <9af7ba748fd2eb7e04208b6b183185f1daf78016.1702369869.git.sean@mess.org>
 MIME-Version: 1.0
-References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
- <20231207-kms-hdmi-connector-state-v5-18-6538e19d634d@kernel.org>
-In-Reply-To: <20231207-kms-hdmi-connector-state-v5-18-6538e19d634d@kernel.org>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Tue, 12 Dec 2023 11:40:26 +0000
-Message-ID: <CAPY8ntBe9RfSjdnd5Smx23La5gQaR9WqY8ehXQyp=4D_11N55Q@mail.gmail.com>
-Subject: Re: [PATCH v5 18/44] drm/vc4: hdmi: Create destroy state
- implementation
-To: Maxime Ripard <mripard@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="kqcylsquh2dgmtcq"
+Content-Disposition: inline
+In-Reply-To: <9af7ba748fd2eb7e04208b6b183185f1daf78016.1702369869.git.sean@mess.org>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,63 +60,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>,
- Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
- Samuel Holland <samuel@sholland.org>, Sandy Huang <hjc@rock-chips.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-doc@vger.kernel.org,
- Hans Verkuil <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org,
- Chen-Yu Tsai <wens@csie.org>, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-fbdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ linux-leds@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
+ Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Lee Jones <lee@kernel.org>,
+ linux-input@vger.kernel.org,
+ Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+ linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
+ Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
+ Mark Gross <markgross@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+ Maxime Ripard <mripard@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Support Opensource <support.opensource@diasemi.com>,
+ Jingoo Han <jingoohan1@gmail.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 7 Dec 2023 at 15:50, Maxime Ripard <mripard@kernel.org> wrote:
->
-> Even though we were rolling our own custom state for the vc4 HDMI
-> controller driver, we were still using the generic helper to destroy
-> that state.
->
-> It was mostly working since the underlying state is the first member of
-> our state so the pointers are probably equal in all relevant cases, but
-> it's still fragile so let's fix this properly.
->
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+--kqcylsquh2dgmtcq
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> ---
->  drivers/gpu/drm/vc4/vc4_hdmi.c | 12 +++++++++++-
->  1 file changed, 11 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> index 25c9c71256d3..f05e2c95a60d 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -672,11 +672,21 @@ vc4_hdmi_connector_duplicate_state(struct drm_connector *connector)
->         return &new_state->base;
->  }
->
-> +static void vc4_hdmi_connector_destroy_state(struct drm_connector *connector,
-> +                                            struct drm_connector_state *state)
-> +{
-> +       struct vc4_hdmi_connector_state *vc4_state =
-> +               conn_state_to_vc4_hdmi_conn_state(state);
-> +
-> +       __drm_atomic_helper_connector_destroy_state(state);
-> +       kfree(vc4_state);
-> +}
-> +
->  static const struct drm_connector_funcs vc4_hdmi_connector_funcs = {
->         .fill_modes = drm_helper_probe_single_connector_modes,
->         .reset = vc4_hdmi_connector_reset,
->         .atomic_duplicate_state = vc4_hdmi_connector_duplicate_state,
-> -       .atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-> +       .atomic_destroy_state = vc4_hdmi_connector_destroy_state,
->         .atomic_get_property = vc4_hdmi_connector_get_property,
->         .atomic_set_property = vc4_hdmi_connector_set_property,
->  };
->
-> --
-> 2.43.0
->
+On Tue, Dec 12, 2023 at 08:34:00AM +0000, Sean Young wrote:
+> In order to introduce a pwm api which can be used from atomic context,
+> we will need two functions for applying pwm changes:
+>=20
+> 	int pwm_apply_might_sleep(struct pwm *, struct pwm_state *);
+> 	int pwm_apply_atomic(struct pwm *, struct pwm_state *);
+>=20
+> This commit just deals with renaming pwm_apply_state(), a following
+> commit will introduce the pwm_apply_atomic() function.
+>=20
+> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com> # for input
+> Acked-by: Hans de Goede <hdegoede@redhat.com>
+> Acked-by: Jani Nikula <jani.nikula@intel.com>
+> Acked-by: Lee Jones <lee@kernel.org>
+> Signed-off-by: Sean Young <sean@mess.org>
+
+Acked-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+
+Several affected maintainers already acked, so I guess it's fine to take
+this via the pwm tree. An Ack from the remaining maintainers would be
+very welcome, an alternative would be to split the patch.
+
+Missing Acks so far:
+
+ - Jean Delvare / Guenter Roeck for drivers/hwmon/pwm-fan.c
+ - Javier Martinez Canillas for drivers/gpu/drm/solomon/ssd130x.c
+ - Liam Girdwood / Mark Brown for drivers/regulator/pwm-regulator.c
+ - Helge Deller for drivers/video/fbdev/ssd1307fb.c
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--kqcylsquh2dgmtcq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmV4RssACgkQj4D7WH0S
+/k4FvQgAhhnJ0gGDS9vNrkWmDYMBz0OOooFMMGBMTBk2URyQxiqdxXWCSQKX4pDP
+4H/Hu+EbrEgXfRn0ANEzPIBDBGHQTo7W6N1NGpgxr8Bn1FoRwTzJMCbp62IGORar
+Xr+m5fAJrOjprAETsdyrt8zzjkkJR8Rxg3Gs1bCjjaJGv9VND2ArWlOqwC+I1PWM
+AYDVj/+/0wv8/rqAgNJbjPxdvlcfw/bnqy4/4Gs75Zn9qCRtODT3mCVtAKaWFSsh
+/FMmxKBYIm9ZFhT4skjci6JscC3iWTtp/LeJnoTY2cOyMJePYeRFLT0Ys7+wlsWe
+LCFShS20T2QYBWCYGmIIOHXHa7YwRQ==
+=jAgf
+-----END PGP SIGNATURE-----
+
+--kqcylsquh2dgmtcq--
