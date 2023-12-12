@@ -2,76 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E86780E02B
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 01:23:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9D0A80E043
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 01:28:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 622F810E544;
-	Tue, 12 Dec 2023 00:23:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4B0D10E16E;
+	Tue, 12 Dec 2023 00:28:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E8DC10E550;
- Tue, 12 Dec 2023 00:23:27 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 3BBNvZtv022866; Tue, 12 Dec 2023 00:23:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding:content-type; s=
- qcppdkim1; bh=z6eBZEWSORpxitis68sRuH4ipD5HG69u1ml5phIxpx0=; b=Uw
- mhrZK56IbQgt4tPBt2lfQmeBBBW7YUjOIGOOqcZ6PP3qV78ia6srUho/3FfN3Yq/
- 9DYjsxXHyCPJmMT6dxBNoAeea7TqwfL7yRpk/AOyFY8OM2dPZg8I9cSrzaXU7goH
- u3+cmFuvFmqFwzIx15vFEp+8wpX0WI9hz0iI4Q5IGHl1fadH5Poo+63iHGICKbRO
- FAAtz1Ej9D1Ab2++OqYhCeJMz52bNO+qlti7H9xuOh1/S9AJdKd1m1Grw8GvDF7R
- mfR7JDaN6SWQLoevTDrV2I2rx099JiBKsHBIIMxDKMP0bpaWWRUjctMxDofIfo17
- 15BHme9unOom/a44hF2Q==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ux1pdhntk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 12 Dec 2023 00:23:24 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BC0NNas001016
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 12 Dec 2023 00:23:23 GMT
-Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Mon, 11 Dec 2023 16:23:23 -0800
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-To: <freedreno@lists.freedesktop.org>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
- Vetter" <daniel@ffwll.ch>
-Subject: [PATCH v3 15/15] drm/msm/dpu: add cdm blocks to dpu snapshot
-Date: Mon, 11 Dec 2023 16:22:45 -0800
-Message-ID: <20231212002245.23715-16-quic_abhinavk@quicinc.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20231212002245.23715-1-quic_abhinavk@quicinc.com>
-References: <20231212002245.23715-1-quic_abhinavk@quicinc.com>
+Received: from vps.thesusis.net (vps.thesusis.net
+ [IPv6:2600:1f18:60b9:2f00:6f85:14c6:952:bad3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4B5610E16E;
+ Tue, 12 Dec 2023 00:28:29 +0000 (UTC)
+Received: by vps.thesusis.net (Postfix, from userid 1000)
+ id 06F6714D25B; Mon, 11 Dec 2023 19:28:29 -0500 (EST)
+From: Phillip Susi <phill@thesusis.net>
+To: Alex Deucher <alexdeucher@gmail.com>
+Subject: Re: Radeon regression in 6.6 kernel
+In-Reply-To: <87y1e05me4.fsf@vps.thesusis.net>
+References: <87edgv4x3i.fsf@vps.thesusis.net>
+ <559d0fa5-953a-4a97-b03b-5eb1287c83d8@leemhuis.info>
+ <CAPM=9tw-8pQWFso0zuLqpsqd5BSHWtc4As9ttdjY-DDr70EMqQ@mail.gmail.com>
+ <bdb238b6-60c7-4f26-81d0-9e62cd5dd326@gmail.com>
+ <CADnq5_NVGS1XykxGxpcu_bpPbzboCUJQkcCF3r+0N9a23KUgiQ@mail.gmail.com>
+ <96e2e13c-f01c-4baf-a9a3-cbaa48fb10c7@amd.com>
+ <CADnq5_NBfeAXEyQw0gnSd67=tR-bUKg8w=10+4z9pGGuRnP9uw@mail.gmail.com>
+ <87jzq2ixtm.fsf@vps.thesusis.net>
+ <CADnq5_Ou-MVVm0rdWDmDnJNLkWUayXzO26uCEtz3ucNa4Ghy2w@mail.gmail.com>
+ <95fe9b5b-05ce-4462-9973-9aca306bc44f@gmail.com>
+ <CADnq5_MYEWx=e1LBLeVs0UbR5_xEScjDyw_-75mLe8RAMnqh6g@mail.gmail.com>
+ <CADnq5_OC=JFpGcN0oGbTF5xYEt4X3r0=jEY6hJ12W8CzYq1+cA@mail.gmail.com>
+ <9595b8bf-e64d-4926-9263-97e18bcd7d05@gmail.com>
+ <CADnq5_N6DF-huOzgaVygvS5N_j_oNUEC1aa4zRsZTzx8GOD_aw@mail.gmail.com>
+ <CADnq5_PgMxoW=4iabtgeHydwye-6DvwvCyETdfBToEpuYWocmA@mail.gmail.com>
+ <CADnq5_P0S7Jem0e4K6mG2+bboG8P56nELaGC1p4Pfx-8eV-BjQ@mail.gmail.com>
+ <CADnq5_Oy6RMyJ52TbsxVjZ=0p=wYJHduE4X8B3DiYnqHYJUAvw@mail.gmail.com>
+ <87edg3koka.fsf@vps.thesusis.net>
+ <CADnq5_PtSV1C6Up78XX8ejExqaiM-wzHVFhCRtxboS1Y4cF-Ow@mail.gmail.com>
+ <87y1e05me4.fsf@vps.thesusis.net>
+Date: Mon, 11 Dec 2023 19:28:28 -0500
+Message-ID: <87r0jsw9g3.fsf@vps.thesusis.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: XF-3hgoJF4yzuuSWEJ0UhiWfjjspsE78
-X-Proofpoint-ORIG-GUID: XF-3hgoJF4yzuuSWEJ0UhiWfjjspsE78
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 adultscore=0
- spamscore=0 lowpriorityscore=0 suspectscore=0 mlxlogscore=999
- clxscore=1015 mlxscore=0 malwarescore=0 priorityscore=1501 bulkscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2312120001
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,36 +55,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_jesszhan@quicinc.com, seanpaul@chromium.org,
+Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
+ Luben Tuikov <ltuikov89@gmail.com>,
+ Christian =?utf-8?Q?K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org
+ Danilo Krummrich <dakr@redhat.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that CDM block support has been added to DPU lets also add its
-entry to the DPU snapshot to help debugging.
+Phillip Susi <phill@thesusis.net> writes:
 
-Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 4 ++++
- 1 file changed, 4 insertions(+)
+> And it works, but 6.7-rc5 does not, even though it includes that patch.
+> Here's the syslog from the attempt.  I'll start bisecting again.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index dc24fe4bb3b0..59647ad19906 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -947,6 +947,10 @@ static void dpu_kms_mdp_snapshot(struct msm_disp_state *disp_state, struct msm_k
- 		}
- 	}
- 
-+	if (cat->cdm)
-+		msm_disp_snapshot_add_block(disp_state, cat->cdm->len,
-+					    dpu_kms->mmio + cat->cdm->base, cat->cdm->name);
-+
- 	pm_runtime_put_sync(&dpu_kms->pdev->dev);
- }
- 
--- 
-2.40.1
+I checked out the patch that got merged upstream and it also fails.  I
+looked at the two commits, and I see what happened.  Your original patch
+MOVED the call to amdgpu_ttm_set_buffer_funcs_status().  The one that
+got merged into Linus' tree instead DUPLICATES the call.  Oops?
 
