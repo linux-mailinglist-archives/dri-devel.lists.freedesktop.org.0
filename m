@@ -1,39 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBEE480F560
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 19:19:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7571C80F585
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 19:28:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7478F10E687;
-	Tue, 12 Dec 2023 18:19:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E52F310E678;
+	Tue, 12 Dec 2023 18:28:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A4E510E690
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 18:19:33 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1rD7Ls-0006nY-1E; Tue, 12 Dec 2023 19:19:28 +0100
-Message-ID: <9089fb993eb0b2b630784e5b91cb88c1ff2f45fb.camel@pengutronix.de>
-Subject: Re: [PATCH 1/3] drm/mxsfb: Add an entry for "fsl,imx8mq-lcdif"
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Fabio Estevam <festevam@gmail.com>, marex@denx.de
-Date: Tue, 12 Dec 2023 19:19:25 +0100
-In-Reply-To: <20231211204138.553141-1-festevam@gmail.com>
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
+ [IPv6:2607:f8b0:4864:20::102a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38C1E10E1FA
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 18:28:13 +0000 (UTC)
+Received: by mail-pj1-x102a.google.com with SMTP id
+ 98e67ed59e1d1-2866b15b013so1463586a91.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 10:28:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1702405693; x=1703010493; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=mIut8hQ8z15MtX5ku8n8HTViYJwiZt/tT/lHp4jyYh8=;
+ b=Gk9mCd5Xlo9owYapc4kaziD4f2x5ill+pHqTF9cV1lNmYw/CQUA63XXsoNULBuRc8r
+ A1YlAH6RwZfzaL3ij5IlOSKu01kNUWB06jDlWoGUZkpbhHwh6fZi8UwGsiZSZcItXNAa
+ w+ijChFQRXIHiLp27/CS2/GtFGXyZ0DUEhmukzeZEW/tfcCbDNOMA1H0HoTubjjy5PlJ
+ Dce14r2ThNcyx3CbXoyN7KYxKXhWlmRsGb8ePq3Q1QZJxn7wMwBqRxyuHyFF4azKsV45
+ YHeOlu27tlWXfQrIhWEmUH9FUGOWOSZyhO+5ayLtswFwJr3LtqZQl1wjQw4tbPRyrTnX
+ PtGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1702405693; x=1703010493;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=mIut8hQ8z15MtX5ku8n8HTViYJwiZt/tT/lHp4jyYh8=;
+ b=rCFweLVGyoKFBVO/EopUpTw44ARVKBkHrnrUed3JyZfekYiqdFncejrvuB3QJahRR+
+ vwIux1JCRBU9nYHUq7H+kTAToDYfzIaYz5Px5vGNNPiBW0qMNnNmf/+65bzJV4k4pv21
+ IWt/0sMF+0mHYm9LFNkJGtS2aEkfRNzY2e8c4VQRsHF/WToFsUEIf2CxDbyJx62d8+tk
+ I8a0s+ZanerMcmZUhd1jR7CKjMFhiMRbs56nudB6gccNkxRTfVOYAXWHnEqBmMkymFFc
+ 0Wl2D55nhRX9rp4XHeOcC6TzD6PTbgGQxaOGJ7QSdllrYMb7oZ6KSGVwjpluym0XpdNP
+ kwGA==
+X-Gm-Message-State: AOJu0YzeSi2bq5qVwp1mWnQKBo+hL28vBMXo28tWyGNJ2vzJDQsYq4YE
+ YDxIc0vkhb6raRslnViCLHbdEw9en5wv5r8pmEU=
+X-Google-Smtp-Source: AGHT+IH0DC48Op1TLyyJne6Tp/7pAjJRMKIynuoYfi09BGTPA5eLQUgcAoXihSU+RRu2OAsPRVyEcZhf7WhxQl7+DaA=
+X-Received: by 2002:a17:90a:6345:b0:286:4055:63e0 with SMTP id
+ v5-20020a17090a634500b00286405563e0mr11615556pjs.0.1702405692665; Tue, 12 Dec
+ 2023 10:28:12 -0800 (PST)
+MIME-Version: 1.0
 References: <20231211204138.553141-1-festevam@gmail.com>
+ <9089fb993eb0b2b630784e5b91cb88c1ff2f45fb.camel@pengutronix.de>
+In-Reply-To: <9089fb993eb0b2b630784e5b91cb88c1ff2f45fb.camel@pengutronix.de>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Tue, 12 Dec 2023 15:28:00 -0300
+Message-ID: <CAOMZO5D0rxTmxGZX1Obfm9+t46gW6XpGWDcHDzocQd6p5OokBg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] drm/mxsfb: Add an entry for "fsl,imx8mq-lcdif"
+To: Lucas Stach <l.stach@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
-MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,74 +69,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org,
+Cc: marex@denx.de, devicetree@vger.kernel.org, conor+dt@kernel.org,
  Fabio Estevam <festevam@denx.de>, kernel@puri.sm,
  dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
  krzysztof.kozlowski+dt@linaro.org, martink@posteo.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Fabio,
+Hi Lucas,
 
-Am Montag, dem 11.12.2023 um 17:41 -0300 schrieb Fabio Estevam:
-> From: Fabio Estevam <festevam@denx.de>
->=20
-> On i.MX6SX, the LCDIF has an associated power domain.
->=20
-> However, i.MX8MQ does not have an LCDIF power domain.
->=20
-> imx8mq.dtsi has the following compatible string:
->=20
-> compatible =3D "fsl,imx8mq-lcdif", "fsl,imx6sx-lcdif";
->=20
-> which causes the following dt-schema warning:
->=20
-> imx8mq-evk.dtb: lcd-controller@30320000: 'power-domains' is a required pr=
-operty
-> 	from schema $id: http://devicetree.org/schemas/display/fsl,lcdif.yaml#
->=20
-> To prevent this problem, add a specific fsl,imx8mq-lcdif entry in
-> the driver to properly handle such a power-domain requirement difference.
->=20
-I don't really like this series. While we don't make any strong
-guarantees in this way, it breaks booting older kernels with a new DT.
+On Tue, Dec 12, 2023 at 3:19=E2=80=AFPM Lucas Stach <l.stach@pengutronix.de=
+> wrote:
 
-As this driver patch shows, there are no actual differences in the IP
-block between i.MX6SX and i.MX8MQ, it's just the SoC integration that's
-different, where in one SoC the controller is located in a power
-domain, while it isn't in another.
+> I don't really like this series. While we don't make any strong
+> guarantees in this way, it breaks booting older kernels with a new DT.
 
-To me this smells like making changes to parts that don't really care
-about those differences. The thing that cares about the difference is
-the DT schema validation and I feel like there must be a better way to
-describe this in the schema than to patch both driver and DT just to
-accommodate a SoC integration difference. Is there a way to make the
-power-domain property not dependent on the IP block, but the machine
-compatible?
+I thought we needed only to guarantee that old DTs still run with
+newer kernels, not the other way around.
 
-Regards,
-Lucas
+> As this driver patch shows, there are no actual differences in the IP
+> block between i.MX6SX and i.MX8MQ, it's just the SoC integration that's
+> different, where in one SoC the controller is located in a power
+> domain, while it isn't in another.
+>
+> To me this smells like making changes to parts that don't really care
+> about those differences. The thing that cares about the difference is
+> the DT schema validation and I feel like there must be a better way to
+> describe this in the schema than to patch both driver and DT just to
+> accommodate a SoC integration difference. Is there a way to make the
+> power-domain property not dependent on the IP block, but the machine
+> compatible?
 
-> Signed-off-by: Fabio Estevam <festevam@denx.de>
-> ---
->  drivers/gpu/drm/mxsfb/mxsfb_drv.c | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mx=
-sfb_drv.c
-> index b483ef48216a..ac9ce3b45b38 100644
-> --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> @@ -340,6 +340,7 @@ static const struct of_device_id mxsfb_dt_ids[] =3D {
->  	{ .compatible =3D "fsl,imx23-lcdif", .data =3D &mxsfb_devdata[MXSFB_V3]=
-, },
->  	{ .compatible =3D "fsl,imx28-lcdif", .data =3D &mxsfb_devdata[MXSFB_V4]=
-, },
->  	{ .compatible =3D "fsl,imx6sx-lcdif", .data =3D &mxsfb_devdata[MXSFB_V6=
-], },
-> +	{ .compatible =3D "fsl,imx8mq-lcdif", .data =3D &mxsfb_devdata[MXSFB_V6=
-], },
->  	{ /* sentinel */ }
->  };
->  MODULE_DEVICE_TABLE(of, mxsfb_dt_ids);
+Yes, this series is all about making dt-schema validation happy.
 
+If there is a better alternative, I am all ears.
+
+Rob, Krzysztof, Conor
+
+Any suggestions?
+
+Thanks
