@@ -1,107 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2190380ED3D
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 14:18:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6995180ED4E
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 14:22:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7619210E592;
-	Tue, 12 Dec 2023 13:18:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABEFB10E063;
+	Tue, 12 Dec 2023 13:22:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1260110E592
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 13:18:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1702387083; x=1702991883; i=deller@gmx.de;
- bh=wkHWbQi8l1Uix6JDbIqPjm1cE193FYxG7+kIXrzU73s=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
- In-Reply-To;
- b=X17BEak1jDR4wO5pTqJJ9jFEu20pvpVQ45NhvOlLyw218PixI7fF1UjMhUoSXl6R
- nZAxP79eM5iBEt6bqnkJMFow8iyXYoXV49NXYICqVFF6+F2ho8ELDsljQUklC7k2J
- Rlks09/lXRb4RAcnj8GR3qsj+RjnT6pi8E2FbMLd9XJqwKEy+jwqb/PBpMO15RxUy
- a3t2ASa1USn5UlNLotQLMtUsLKYfskY/pEGOnreGjMyfFtSB5/oaqq3fedX+5GHZT
- h1rPRvVWytjHAAA2J7FB+aEmLHBVWtrv916F/OLkuDrzZLR8kJQnFxMGoka0drpkz
- TugT8UrLB17sQSIIBA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [10.8.0.6] ([78.94.87.245]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MZCfJ-1qiSz40mNV-00VCaq; Tue, 12
- Dec 2023 14:18:03 +0100
-Message-ID: <92c8d77e-a912-45bc-aad8-65500cb3c0ce@gmx.de>
-Date: Tue, 12 Dec 2023 14:18:02 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7954B10E063
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 13:22:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1702387324; x=1733923324;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=NUlCEaUcnMX8/zgqVwn1hHgBCfWfo3HFuIwcqsf9flQ=;
+ b=UAL3tndF4H9SyT+z+Fwezs2xXJSO1+lMVrxiX53Ew+gT/bUO+U8Yfj/5
+ YJEIoy+J7YORLfrc1smAC75yV+a/ojEUSPf0GcepCE0Zcdn7feQ1OV32g
+ Gqj5t0UVMg9sa1LkVHxfGkIvwjCRV3tedd+GRwBZB2ij0bfswND1FcUjb
+ tz6yiQOST3IMh3N/arDbYFXt+KYU/TThUUwM6xVfrnUfz8+bWpU35okcK
+ eLX/3tMt+TK/Z9+ADN/p77mAUrZS6kAH28s0B1MybkYHOc8AtD9Kktf3T
+ iZsfxA9EjE32lRO+Crffdzz14MPfm1NQb2uJVUZU0v6RgvBFO66mkY9HF w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="1624018"
+X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; 
+   d="scan'208";a="1624018"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Dec 2023 05:22:03 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="1104906555"
+X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; d="scan'208";a="1104906555"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+ by fmsmga005.fm.intel.com with ESMTP; 12 Dec 2023 05:21:59 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1rD2hx-000JD8-1i;
+ Tue, 12 Dec 2023 13:21:57 +0000
+Date: Tue, 12 Dec 2023 21:21:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org
+Subject: Re: [PATCH v7 3/6] mm/gup: Introduce memfd_pin_folios() for pinning
+ memfd folios (v7)
+Message-ID: <202312122109.SxDFnBaq-lkp@intel.com>
+References: <20231212073803.3233055-4-vivek.kasireddy@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fbdev: hgafb: fix kernel-doc comments
-Content-Language: en-US
-To: Randy Dunlap <rdunlap@infradead.org>, dri-devel@lists.freedesktop.org
-References: <20231205231408.1234-1-rdunlap@infradead.org>
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- xsFNBF3Ia3MBEAD3nmWzMgQByYAWnb9cNqspnkb2GLVKzhoH2QD4eRpyDLA/3smlClbeKkWT
- HLnjgkbPFDmcmCz5V0Wv1mKYRClAHPCIBIJgyICqqUZo2qGmKstUx3pFAiztlXBANpRECgwJ
- r+8w6mkccOM9GhoPU0vMaD/UVJcJQzvrxVHO8EHS36aUkjKd6cOpdVbCt3qx8cEhCmaFEO6u
- CL+k5AZQoABbFQEBocZE1/lSYzaHkcHrjn4cQjc3CffXnUVYwlo8EYOtAHgMDC39s9a7S90L
- 69l6G73lYBD/Br5lnDPlG6dKfGFZZpQ1h8/x+Qz366Ojfq9MuuRJg7ZQpe6foiOtqwKym/zV
- dVvSdOOc5sHSpfwu5+BVAAyBd6hw4NddlAQUjHSRs3zJ9OfrEx2d3mIfXZ7+pMhZ7qX0Axlq
- Lq+B5cfLpzkPAgKn11tfXFxP+hcPHIts0bnDz4EEp+HraW+oRCH2m57Y9zhcJTOJaLw4YpTY
- GRUlF076vZ2Hz/xMEvIJddRGId7UXZgH9a32NDf+BUjWEZvFt1wFSW1r7zb7oGCwZMy2LI/G
- aHQv/N0NeFMd28z+deyxd0k1CGefHJuJcOJDVtcE1rGQ43aDhWSpXvXKDj42vFD2We6uIo9D
- 1VNre2+uAxFzqqf026H6cH8hin9Vnx7p3uq3Dka/Y/qmRFnKVQARAQABzRxIZWxnZSBEZWxs
- ZXIgPGRlbGxlckBnbXguZGU+wsGRBBMBCAA7AhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheA
- FiEERUSCKCzZENvvPSX4Pl89BKeiRgMFAl3J1zsCGQEACgkQPl89BKeiRgNK7xAAg6kJTPje
- uBm9PJTUxXaoaLJFXbYdSPfXhqX/BI9Xi2VzhwC2nSmizdFbeobQBTtRIz5LPhjk95t11q0s
- uP5htzNISPpwxiYZGKrNnXfcPlziI2bUtlz4ke34cLK6MIl1kbS0/kJBxhiXyvyTWk2JmkMi
- REjR84lCMAoJd1OM9XGFOg94BT5aLlEKFcld9qj7B4UFpma8RbRUpUWdo0omAEgrnhaKJwV8
- qt0ULaF/kyP5qbI8iA2PAvIjq73dA4LNKdMFPG7Rw8yITQ1Vi0DlDgDT2RLvKxEQC0o3C6O4
- iQq7qamsThLK0JSDRdLDnq6Phv+Yahd7sDMYuk3gIdoyczRkXzncWAYq7XTWl7nZYBVXG1D8
- gkdclsnHzEKpTQIzn/rGyZshsjL4pxVUIpw/vdfx8oNRLKj7iduf11g2kFP71e9v2PP94ik3
- Xi9oszP+fP770J0B8QM8w745BrcQm41SsILjArK+5mMHrYhM4ZFN7aipK3UXDNs3vjN+t0zi
- qErzlrxXtsX4J6nqjs/mF9frVkpv7OTAzj7pjFHv0Bu8pRm4AyW6Y5/H6jOup6nkJdP/AFDu
- 5ImdlA0jhr3iLk9s9WnjBUHyMYu+HD7qR3yhX6uWxg2oB2FWVMRLXbPEt2hRGq09rVQS7DBy
- dbZgPwou7pD8MTfQhGmDJFKm2jvOwU0EXchrcwEQAOsDQjdtPeaRt8EP2pc8tG+g9eiiX9Sh
- rX87SLSeKF6uHpEJ3VbhafIU6A7hy7RcIJnQz0hEUdXjH774B8YD3JKnAtfAyuIU2/rOGa/v
- UN4BY6U6TVIOv9piVQByBthGQh4YHhePSKtPzK9Pv/6rd8H3IWnJK/dXiUDQllkedrENXrZp
- eLUjhyp94ooo9XqRl44YqlsrSUh+BzW7wqwfmu26UjmAzIZYVCPCq5IjD96QrhLf6naY6En3
- ++tqCAWPkqKvWfRdXPOz4GK08uhcBp3jZHTVkcbo5qahVpv8Y8mzOvSIAxnIjb+cklVxjyY9
- dVlrhfKiK5L+zA2fWUreVBqLs1SjfHm5OGuQ2qqzVcMYJGH/uisJn22VXB1c48yYyGv2HUN5
- lC1JHQUV9734I5cczA2Gfo27nTHy3zANj4hy+s/q1adzvn7hMokU7OehwKrNXafFfwWVK3OG
- 1dSjWtgIv5KJi1XZk5TV6JlPZSqj4D8pUwIx3KSp0cD7xTEZATRfc47Yc+cyKcXG034tNEAc
- xZNTR1kMi9njdxc1wzM9T6pspTtA0vuD3ee94Dg+nDrH1As24uwfFLguiILPzpl0kLaPYYgB
- wumlL2nGcB6RVRRFMiAS5uOTEk+sJ/tRiQwO3K8vmaECaNJRfJC7weH+jww1Dzo0f1TP6rUa
- fTBRABEBAAHCwXYEGAEIACAWIQRFRIIoLNkQ2+89Jfg+Xz0Ep6JGAwUCXchrcwIbDAAKCRA+
- Xz0Ep6JGAxtdEAC54NQMBwjUNqBNCMsh6WrwQwbg9tkJw718QHPw43gKFSxFIYzdBzD/YMPH
- l+2fFiefvmI4uNDjlyCITGSM+T6b8cA7YAKvZhzJyJSS7pRzsIKGjhk7zADL1+PJei9p9idy
- RbmFKo0dAL+ac0t/EZULHGPuIiavWLgwYLVoUEBwz86ZtEtVmDmEsj8ryWw75ZIarNDhV74s
- BdM2ffUJk3+vWe25BPcJiaZkTuFt+xt2CdbvpZv3IPrEkp9GAKof2hHdFCRKMtgxBo8Kao6p
- Ws/Vv68FusAi94ySuZT3fp1xGWWf5+1jX4ylC//w0Rj85QihTpA2MylORUNFvH0MRJx4mlFk
- XN6G+5jIIJhG46LUucQ28+VyEDNcGL3tarnkw8ngEhAbnvMJ2RTx8vGh7PssKaGzAUmNNZiG
- MB4mPKqvDZ02j1wp7vthQcOEg08z1+XHXb8ZZKST7yTVa5P89JymGE8CBGdQaAXnqYK3/yWf
- FwRDcGV6nxanxZGKEkSHHOm8jHwvQWvPP73pvuPBEPtKGLzbgd7OOcGZWtq2hNC6cRtsRdDx
- 4TAGMCz4j238m+2mdbdhRh3iBnWT5yPFfnv/2IjFAk+sdix1Mrr+LIDF++kiekeq0yUpDdc4
- ExBy2xf6dd+tuFFBp3/VDN4U0UfG4QJ2fg19zE5Z8dS4jGIbLg==
-In-Reply-To: <20231205231408.1234-1-rdunlap@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:q/JsTjGH6Obu65iWDI67EITFS4iLRM4Gab1twphGjh3NZQ9wzTz
- /n0Zq5gcFWLlt0BFeGzVzd5uBYHU6AONUjUuAZzAASORwC0DbyQuVo9QzMIWh//PTZirxUz
- G/CneXCiOm9ZjKeFMIO5QZftEAqcrzT5lGvRP/c79iFAihHxJHxl3XaOPxxigyfnGUu3sRr
- sS9kELRLhZvXYxQ7TtmgQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:sR7+tCVqDxc=;+nl0m7Lzl+hf1l/4Fu2D50P1B0X
- y+WjpcDrnOOZpEJ506a491thss8NQ1XKCQ3j3EcHbA0A6GND31p+986s2DH4FY9OxK/S3cj6e
- QOuZWpzufueO0aOu6H6F5ASfydGr+WrefhQG7fAP4PteWpYZxwFJFlD/OEv+HR+ILGpQpeCi9
- yD9GBFG1imWelNyml0RE9v1Bpy41SquE4SsNx0gjqlAvHkzv37Xkf5MD74t7bjf1W7KA6g2QW
- Nx7kFRo7x52CFUXeKOVbnApZjAwHxpgJSiTCdA+CUlYS86yEfQ/xexGpvsl0MzUNAWRbgrtkm
- RfOlZbnlIWmUh+hpBWOgUo/5qIrMcSf/AiFpJeDRUZ/2qsE1vz+NY750ZVr/8HYTepK1P7boK
- dSo67iCFawN3aejHjSUqtBlrxFloyhHLyKHBPMtHW148jWTH+4XIoDm0t1f5YYzCfZSMlZyIP
- sJqk8L5nFyemduAPiCO9ahY0rVP9bdTUcedOQHWZUmMOK2+m/ZZAEOkcNePTciahuTZtZDHfP
- mCIxx5YQxrysH69/gvDBnAsOZLtu4R+slez+FZ783A7lFGPJ0/i5gc6YTT6vPygkVXZOuVbrb
- lf9UQfkHXVBQedP6hvsi+9TZv8TkCOkaqYnVsdsXeFniHhJycU9Xb+jQt2vux/yM/7q3sdDTa
- eAh4NAkm8FDJManX/O2VrLZiV79VLhEo6dmkpbn96NK1TsVbI9gAG48G8J2BUamxZSKFjagv3
- 1WOm0FU9WkyVDUYxGixs4+tvPsgZJuVwZ6KsBoEavYE3Ai4AK0YazA7U+04krPETANdVD9vGJ
- 01SgPmPw+Tme893KOxXruxRfpEhD4E8qcoSZIy3evI2MZbNh0WnVjNil7S9BgA5jrTDJa8V36
- 3IiFJLffxucuE62+XPzTBVIy6mVvnr7GIDpwhs8uk5CDmVLAPZqKJv/y5LGhusvrJrXEcocLn
- MSl4gw==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231212073803.3233055-4-vivek.kasireddy@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,39 +62,173 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-nvidia@lists.surfsouth.com, linux-fbdev@vger.kernel.org,
- Ferenc Bakonyi <fero@drama.obuda.kando.hu>
+Cc: Dongwon Kim <dongwon.kim@intel.com>, David Hildenbrand <david@redhat.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Hugh Dickins <hughd@google.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, Peter Xu <peterx@redhat.com>,
+ Christoph Hellwig <hch@infradead.org>, Junxiao Chang <junxiao.chang@intel.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ oe-kbuild-all@lists.linux.dev, Mike Kravetz <mike.kravetz@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/6/23 00:14, Randy Dunlap wrote:
-> Fix kernel-doc warnings found when using "W=3D1".
->
-> hgafb.c:370: warning: No description found for return value of 'hgafb_op=
-en'
-> hgafb.c:384: warning: No description found for return value of 'hgafb_re=
-lease'
-> hgafb.c:406: warning: No description found for return value of 'hgafb_se=
-tcolreg'
-> hgafb.c:425: warning: No description found for return value of 'hgafb_pa=
-n_display'
-> hgafb.c:425: warning: expecting prototype for hga_pan_display(). Prototy=
-pe was for hgafb_pan_display() instead
-> hgafb.c:455: warning: No description found for return value of 'hgafb_bl=
-ank'
->
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Ferenc Bakonyi <fero@drama.obuda.kando.hu>
-> Cc: Helge Deller <deller@gmx.de>
-> Cc: linux-nvidia@lists.surfsouth.com
-> Cc: linux-fbdev@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> ---
->   drivers/video/fbdev/hgafb.c |   13 +++++++++++--
->   1 file changed, 11 insertions(+), 2 deletions(-)
+Hi Vivek,
 
-applied.
+kernel test robot noticed the following build errors:
 
-Thanks!
-Helge
+[auto build test ERROR on akpm-mm/mm-everything]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Vivek-Kasireddy/udmabuf-Use-vmf_insert_pfn-and-VM_PFNMAP-for-handling-mmap/20231212-160312
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20231212073803.3233055-4-vivek.kasireddy%40intel.com
+patch subject: [PATCH v7 3/6] mm/gup: Introduce memfd_pin_folios() for pinning memfd folios (v7)
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20231212/202312122109.SxDFnBaq-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231212/202312122109.SxDFnBaq-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312122109.SxDFnBaq-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   mm/gup.c: In function 'memfd_pin_folios':
+>> mm/gup.c:3543:39: error: assignment to 'struct folio *' from incompatible pointer type 'struct page *' [-Werror=incompatible-pointer-types]
+    3543 |                                 folio = memfd_alloc_folio(memfd, start_idx);
+         |                                       ^
+   cc1: some warnings being treated as errors
+
+
+vim +3543 mm/gup.c
+
+  3417	
+  3418	/**
+  3419	 * memfd_pin_folios() - pin folios associated with a memfd
+  3420	 * @memfd:      the memfd whose folios are to be pinned
+  3421	 * @start:      starting memfd offset
+  3422	 * @nr_pages:   number of pages from start to pin
+  3423	 * @folios:     array that receives pointers to the folios pinned.
+  3424	 *              Should be at-least nr_pages long.
+  3425	 * @offsets:    array that receives offsets of pages in their folios.
+  3426	 *              Should be at-least nr_pages long.
+  3427	 *
+  3428	 * Attempt to pin folios associated with a memfd; given that a memfd is
+  3429	 * either backed by shmem or hugetlb, the folios can either be found in
+  3430	 * the page cache or need to be allocated if necessary. Once the folios
+  3431	 * are located, they are all pinned via FOLL_PIN and the @offsets array
+  3432	 * is populated with offsets of the pages in their respective folios.
+  3433	 * Therefore, for each page the caller requested, there will be a
+  3434	 * corresponding entry in both @folios and @offsets. And, eventually,
+  3435	 * these pinned folios need to be released either using unpin_user_pages()
+  3436	 * or unpin_user_page().
+  3437	 *
+  3438	 * It must be noted that the folios may be pinned for an indefinite amount
+  3439	 * of time. And, in most cases, the duration of time they may stay pinned
+  3440	 * would be controlled by the userspace. This behavior is effectively the
+  3441	 * same as using FOLL_LONGTERM with other GUP APIs.
+  3442	 *
+  3443	 * Returns number of folios pinned. This would be equal to the number of
+  3444	 * pages requested. If no folios were pinned, it returns -errno.
+  3445	 */
+  3446	long memfd_pin_folios(struct file *memfd, unsigned long start,
+  3447			      unsigned long nr_pages, struct folio **folios,
+  3448			      pgoff_t *offsets)
+  3449	{
+  3450		unsigned long end = start + (nr_pages << PAGE_SHIFT) - 1;
+  3451		unsigned int max_pgs, pgoff, pgshift = PAGE_SHIFT;
+  3452		pgoff_t start_idx, end_idx, next_idx;
+  3453		unsigned int flags, nr_folios, i, j;
+  3454		struct folio *folio = NULL;
+  3455		struct folio_batch fbatch;
+  3456		struct page **pages;
+  3457		struct hstate *h;
+  3458		long ret;
+  3459	
+  3460		if (!nr_pages)
+  3461			return -EINVAL;
+  3462	
+  3463		if (!memfd)
+  3464			return -EINVAL;
+  3465	
+  3466		if (!shmem_file(memfd) && !is_file_hugepages(memfd))
+  3467			return -EINVAL;
+  3468	
+  3469		pages = kmalloc_array(nr_pages, sizeof(*pages), GFP_KERNEL);
+  3470		if (!pages)
+  3471			return -ENOMEM;
+  3472	
+  3473		if (is_file_hugepages(memfd)) {
+  3474			h = hstate_file(memfd);
+  3475			pgshift = huge_page_shift(h);
+  3476		}
+  3477	
+  3478		flags = memalloc_pin_save();
+  3479		do {
+  3480			i = 0;
+  3481			start_idx = start >> pgshift;
+  3482			end_idx = end >> pgshift;
+  3483			if (is_file_hugepages(memfd)) {
+  3484				start_idx <<= huge_page_order(h);
+  3485				end_idx <<= huge_page_order(h);
+  3486			}
+  3487	
+  3488			folio_batch_init(&fbatch);
+  3489			while (start_idx <= end_idx) {
+  3490				/*
+  3491				 * In most cases, we should be able to find the folios
+  3492				 * in the page cache. If we cannot find them for some
+  3493				 * reason, we try to allocate them and add them to the
+  3494				 * page cache.
+  3495				 */
+  3496				nr_folios = filemap_get_folios_contig(memfd->f_mapping,
+  3497								      &start_idx,
+  3498								      end_idx,
+  3499								      &fbatch);
+  3500				if (folio) {
+  3501					folio_put(folio);
+  3502					folio = NULL;
+  3503				}
+  3504	
+  3505				next_idx = 0;
+  3506				for (j = 0; j < nr_folios; j++) {
+  3507					if (next_idx &&
+  3508					    next_idx != folio_index(fbatch.folios[j]))
+  3509						continue;
+  3510	
+  3511					folio = try_grab_folio(&fbatch.folios[j]->page,
+  3512							       1, FOLL_PIN);
+  3513					if (!folio) {
+  3514						folio_batch_release(&fbatch);
+  3515						kfree(pages);
+  3516						goto err;
+  3517					}
+  3518	
+  3519					max_pgs = folio_nr_pages(folio);
+  3520					if (i == 0) {
+  3521						pgoff = offset_in_folio(folio, start);
+  3522						pgoff >>= PAGE_SHIFT;
+  3523					}
+  3524	
+  3525					do {
+  3526						folios[i] = folio;
+  3527						offsets[i] = pgoff << PAGE_SHIFT;
+  3528						pages[i] = folio_page(folio, 0);
+  3529						folio_add_pin(folio);
+  3530	
+  3531						pgoff++;
+  3532						i++;
+  3533					} while (pgoff < max_pgs && i < nr_pages);
+  3534	
+  3535					pgoff = 0;
+  3536					next_idx = folio_next_index(folio);
+  3537					gup_put_folio(folio, 1, FOLL_PIN);
+  3538				}
+  3539	
+  3540				folio = NULL;
+  3541				folio_batch_release(&fbatch);
+  3542				if (!nr_folios) {
+> 3543					folio = memfd_alloc_folio(memfd, start_idx);
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
