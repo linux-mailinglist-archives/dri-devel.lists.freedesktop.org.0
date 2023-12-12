@@ -1,40 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E228180F32B
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 17:36:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9855180F395
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 17:52:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F76A10E1C4;
-	Tue, 12 Dec 2023 16:36:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46A3B10E61D;
+	Tue, 12 Dec 2023 16:52:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 733E610E1C4
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 16:36:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1702399004; x=1702658204;
- bh=xQM8Ci95br6UpZv6S/P/yPue9VcluKR7oR4GJe65I2k=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector;
- b=WsFtlMCDeErknnMmjq7MhuKXRdxIawCITzMkIK57U3gE2v39FzMn8u71o5f5OkEfP
- BamfL6xfBjZHQM93MI4ViqRfDLuiA3YOk6oWMkYJ9/3GWX8RrRXH1Rs52gQuitseqZ
- iT6q2AeS2MWMcfIOlQ6Pc0u5q47GRX4FUQeavG3+6C3E5sfi0sJF90EVA579039vhG
- mg0LHb3jsUhwyqMrpkX9nxJq2xpviqfQ6wgxVell+MNGEN01K7UhrGwlB85L4DjzmY
- FVpFmmfVSrSkQNYiYHSTTmGBYQT5PMmfYeKneXZkivzzxkQ8AHg2kJoVHSj4oLv4tQ
- Rlj2PK7xD4Gzw==
-Date: Tue, 12 Dec 2023 16:36:35 +0000
-To: Yong Wu <yong.wu@mediatek.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH v3 0/7] dma-buf: heaps: Add secure heap
-Message-ID: <DPBmATfmfvSP8Cwjz99kj_JvCEiAqRfuMFJZEBF2aIgl8NZqWFR66eyPTX1E8bHyOlimBihEE3E80p9bfOJ-0SNu8pwoIzL9gD2Xae6r97g=@emersion.fr>
-In-Reply-To: <20231212024607.3681-1-yong.wu@mediatek.com>
-References: <20231212024607.3681-1-yong.wu@mediatek.com>
-Feedback-ID: 1358184:user:proton
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFDD410E61D
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 16:52:14 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 00E556186E;
+ Tue, 12 Dec 2023 16:52:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A87BC433C7;
+ Tue, 12 Dec 2023 16:52:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1702399933;
+ bh=70vgThw1MlwxA+zGlJhj1ievu3+naSPsZMUdAK3/L6s=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=eyiGWeQTKbMokewNJGUKTmnMrZFCYX5PX968J6Xs4uCNtgFqPOt70iChtTHmX3GNh
+ hp1EF1apKNX0E4wLCT8AvhMWy4NThQQ9BxTUX9iLucMKJmSTrCIARtgDwlHN2giCHW
+ Zlwaqz1ntbA7IsIyoHkkflR74m6K1CY1A0ddsqCDVDZZEyS4q2T9ju22V5pIVPUPG3
+ FWWtPB17qfCbGtgx4YUeseWTNbOre3yyDgQRn55o2hkq0mKLI7+/dX1F99cB4rOXOT
+ kQJg52qqkSitMcrbOh/4CCBQdgNUVfOdgXw51+/+JgJp3LEOJf1Xjd3rDyPS5pfO82
+ izDRJ3g6QaduA==
+Date: Tue, 12 Dec 2023 16:52:09 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Fabio Estevam <festevam@gmail.com>
+Subject: Re: [PATCH 2/3] dt-bindings: lcdif: Decouple imx8mq from imx6sx
+Message-ID: <20231212-yodel-enclose-3e239ab9d5dd@spud>
+References: <20231211204138.553141-1-festevam@gmail.com>
+ <20231211204138.553141-2-festevam@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="GQQcyvBtNUg0Njv8"
+Content-Disposition: inline
+In-Reply-To: <20231211204138.553141-2-festevam@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,26 +52,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, John Stultz <jstultz@google.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Jeffrey Kardatzke <jkardatzke@google.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Vijayanand Jitta <quic_vjitta@quicinc.com>,
- Nicolas Dufresne <nicolas@ndufresne.ca>, jianjiao.zeng@mediatek.com,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, ckoenig.leichtzumerken@gmail.com,
- linaro-mm-sig@lists.linaro.org, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- Joakim Bech <joakim.bech@linaro.org>, tjmercier@google.com,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- kuohong.wang@mediatek.com, linux-kernel@vger.kernel.org,
- christian.koenig@amd.com
+Cc: marex@denx.de, devicetree@vger.kernel.org, conor+dt@kernel.org,
+ Fabio Estevam <festevam@denx.de>, kernel@puri.sm,
+ dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, martink@posteo.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Is there a chance to pick a better name than "secure" here?
 
-"Secure" is super overloaded, it's not clear at all what it means from
-just the name. Something like "restricted" would be an improvement.
+--GQQcyvBtNUg0Njv8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Dec 11, 2023 at 05:41:37PM -0300, Fabio Estevam wrote:
+> From: Fabio Estevam <festevam@denx.de>
+>=20
+> On i.MX6SX, the LCDIF has an associated power domain.
+>=20
+> i.MX8MQ does not have an LCDIF power domain, so allow passing only
+> "fsl,imx8mq-lcdif" as compatible string to fix the following
+> dt-schema warning:
+>=20
+> imx8mq-evk.dtb: lcd-controller@30320000: 'power-domains' is a required pr=
+operty
+> 	from schema $id: http://devicetree.org/schemas/display/fsl,lcdif.yaml#
+>=20
+> Signed-off-by: Fabio Estevam <festevam@denx.de>
+
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+
+Cheers,
+Conor.
+
+--GQQcyvBtNUg0Njv8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZXiPuQAKCRB4tDGHoIJi
+0pxdAP43e6xNOi4+1AVLEQ5bTqG+tYTbYwXcf+VSh/mBenStoAD/QZF0uFltgKCP
+6ssPFcTMa6fsgOaPPduH6CWRfYWuuwk=
+=hbPv
+-----END PGP SIGNATURE-----
+
+--GQQcyvBtNUg0Njv8--
