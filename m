@@ -1,75 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE17D80F74C
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 20:58:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF78E80F768
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 21:03:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF3EE10E09D;
-	Tue, 12 Dec 2023 19:58:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83FFF10E210;
+	Tue, 12 Dec 2023 20:03:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7374810E09D
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 19:58:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1702411087;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=vio5W2CXh8VIVVnye0VQz+L8cj+HSZDsPzluUFJanUo=;
- b=fzPQ/zDhRC9CxSEIlGYCp0bjwbK4usLZOV1EGPhE/0SgO5pzt+Rg91kEEIzHQmlx8KaGRp
- LmNYppmVsCy07EGN0I/eE1OIfWAOQ71aJfeViIlb17b+UXSkRJO9uW39ZBDX4mC65c0JpJ
- lGJsLbpgH/6Qe0voo65axPa59daDWMI=
-Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
- [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-65-70rKR0r6OT2tOq1YQbhSLw-1; Tue, 12 Dec 2023 14:58:06 -0500
-X-MC-Unique: 70rKR0r6OT2tOq1YQbhSLw-1
-Received: by mail-yw1-f199.google.com with SMTP id
- 00721157ae682-5d67fc68a82so72024097b3.2
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 11:58:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702411085; x=1703015885;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=vio5W2CXh8VIVVnye0VQz+L8cj+HSZDsPzluUFJanUo=;
- b=Pe8hJWm1iyMIQvAAc7MrBgBSF7rUp9epOuRSxzw45AElORXfg17r15EQmDjvYmZzU6
- 3+v72kmRgWrmJkMFFSIYYRskixteIcwp5F9wMaLFSbiz4ui97MyyI6djaJgnZ7q+BLx6
- EzlY3MFAb5p5mHj7AVtYFVLTzMjTD+uxCItE4UWtD+iTZAWW8cpQmbIBFqYfgiB0DXwe
- J43phHPD5bdtHlTU+Jg7dGhNoJ6nytI0ggJiW74pBdW4j1UgkCLfVOJBH4ttiLYS18ZS
- v1PAfV9PxNHMgtxfwtJmPwW999sJhtirHbbRc7Jyt+SCMDTWLvceNYIpJUjboim168rR
- rxpg==
-X-Gm-Message-State: AOJu0YwjN7NLXwfRirfYOgxqqy0XzV+Kl5QLC7/TIKCG/I1BRnlPv2qy
- N5pq/hu7uKUST/zvJhVY8VPI8ZmYSA73L2HdwRbqYJ4lEq0sTu3pOucfXMK7ZGErBh0EAc6eqxV
- HJhgbX56w3G/VRjnEaTXi7XpfmKbx
-X-Received: by 2002:a05:690c:3185:b0:5e1:e50b:ab5c with SMTP id
- fd5-20020a05690c318500b005e1e50bab5cmr1351518ywb.1.1702411085546; 
- Tue, 12 Dec 2023 11:58:05 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHzll/KfEEeFGXHCYWsZvQiNpoKwD81UlefsjiQ4B9Q//3lL6+1EqEwS9Dic0uVUQCzigLnuQ==
-X-Received: by 2002:a05:690c:3185:b0:5e1:e50b:ab5c with SMTP id
- fd5-20020a05690c318500b005e1e50bab5cmr1351514ywb.1.1702411085342; 
- Tue, 12 Dec 2023 11:58:05 -0800 (PST)
-Received: from x1.redhat.com (c-73-214-169-22.hsd1.pa.comcast.net.
- [73.214.169.22]) by smtp.gmail.com with ESMTPSA id
- g184-20020a0dc4c1000000b005a7d46770f2sm3985306ywd.83.2023.12.12.11.58.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Dec 2023 11:58:04 -0800 (PST)
-From: Brian Masney <bmasney@redhat.com>
-To: hdegoede@redhat.com,
-	deller@gmx.de
-Subject: [PATCH] fbdev/simplefb: change loglevel when the power domains cannot
- be parsed
-Date: Tue, 12 Dec 2023 14:57:54 -0500
-Message-ID: <20231212195754.232303-1-bmasney@redhat.com>
-X-Mailer: git-send-email 2.43.0
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61E1D10E210
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 20:03:23 +0000 (UTC)
+Received: from [194.95.143.137] (helo=phil.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1rD8yJ-00069W-Cc; Tue, 12 Dec 2023 21:03:15 +0100
+From: Heiko Stuebner <heiko@sntech.de>
+To: Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Lee Jones <lee@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Alex Bee <knaerzche@gmail.com>
+Subject: Re: [PATCH 00/31] Fix and improve Rockchip RK3128 support
+Date: Tue, 12 Dec 2023 21:03:14 +0100
+Message-ID: <2167016.irdbgypaU6@phil>
+In-Reply-To: <20230829171647.187787-1-knaerzche@gmail.com>
+References: <20230829171647.187787-1-knaerzche@gmail.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,34 +46,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, treding@nvidia.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
+ Elaine Zhang <zhangqing@rock-chips.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Alex Bee <knaerzche@gmail.com>,
+ linux-rockchip@lists.infradead.org, linux-phy@lists.infradead.org,
+ Johan Jonker <jbx6244@gmail.com>, linux-clk@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When the power domains cannot be parsed, the message is incorrectly
-logged as an info message. Let's change this to an error since an error
-is returned.
+Hi Alex,
 
-Fixes: 92a511a568e4 ("fbdev/simplefb: Add support for generic power-domains")
-Signed-off-by: Brian Masney <bmasney@redhat.com>
----
- drivers/video/fbdev/simplefb.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Am Dienstag, 29. August 2023, 19:16:16 CET schrieb Alex Bee:
+> this series fixes some issues I found when testing my "new" RK3128 board
+> with the mainline kernel and adds some core functionality like SMP bringup,
+> usb and networking.
 
-diff --git a/drivers/video/fbdev/simplefb.c b/drivers/video/fbdev/simplefb.c
-index 6f58ee276ad1..028a56525047 100644
---- a/drivers/video/fbdev/simplefb.c
-+++ b/drivers/video/fbdev/simplefb.c
-@@ -470,7 +470,7 @@ static int simplefb_attach_genpds(struct simplefb_par *par,
- 		if (err == -ENOENT)
- 			return 0;
- 
--		dev_info(dev, "failed to parse power-domains: %d\n", err);
-+		dev_err(dev, "failed to parse power-domains: %d\n", err);
- 		return err;
- 	}
- 
--- 
-2.43.0
+before I discard this thread, is everything from here migrated to
+separate serieses or are there patches in this big pile that are still
+relevant on their own, that haven't been applied?
+[I lost track of what did go where ;-) ]
+
+
+Thanks
+Heiko
+
 
