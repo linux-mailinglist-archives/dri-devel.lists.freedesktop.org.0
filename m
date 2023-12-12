@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7010A80F48B
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 18:27:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9764680F48E
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 18:27:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A38D10E645;
-	Tue, 12 Dec 2023 17:27:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC18510E67B;
+	Tue, 12 Dec 2023 17:27:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5727810E152
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 17:27:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF60110E65B
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 17:27:12 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.whiteo.stw.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1rD6Wx-0001uO-KM; Tue, 12 Dec 2023 18:26:51 +0100
+ id 1rD6X1-0001uR-3P; Tue, 12 Dec 2023 18:26:55 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1rD6Ww-00FOPJ-Ja; Tue, 12 Dec 2023 18:26:50 +0100
+ id 1rD6Wx-00FOPS-AU; Tue, 12 Dec 2023 18:26:51 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1rD6Ww-001nbc-AC; Tue, 12 Dec 2023 18:26:50 +0100
+ id 1rD6Wx-001nbp-0U; Tue, 12 Dec 2023 18:26:51 +0100
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To: Michael Turquette <mturquette@baylibre.com>,
  Stephen Boyd <sboyd@kernel.org>, Russell King <linux@armlinux.org.uk>
-Subject: [PATCH 2/5] drm/meson: Simplify usage of clk_rate_exclusive_get()
-Date: Tue, 12 Dec 2023 18:26:39 +0100
-Message-ID: <c39cc382fcceca0166440367307260c10de7200d.1702400947.git.u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 5/5] clk: Make clk_rate_exclusive_get() return void
+Date: Tue, 12 Dec 2023 18:26:42 +0100
+Message-ID: <3f556647c09162be61edba6b50e76d235aace590.1702400947.git.u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <cover.1702400947.git.u.kleine-koenig@pengutronix.de>
 References: <cover.1702400947.git.u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1307;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2265;
  i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id;
- bh=lLn3GpEtn8Cldb1t/gKKd7hxYx+CsmdNoorQTl0ii64=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBleJfPh1ko5EuKFkzhis18D1Q6ufxw2cmlRezUb
- e1bX4MJFxWJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZXiXzwAKCRCPgPtYfRL+
- TuuXCACFYHK5vepI6H1w3vCAtGF3mzbvZvEHD9O6QgdN21YNyyRm5kW1ZmKRVDiiOabTVbvn6i/
- r39UlcJB9fpR9+HopiUwEA+e8cmJF/6TfvG29AVvfxpEVBVhrXHQJo6JB6n9Z7ccemj7jxMIMit
- x/3W3JwISr2aymfEcfTrFnnxdK9bAnqa0w2zs+NcKeIGn4CX8sQzvf2FjdUTFHHvBXjBOns7g+C
- UHEn7VB/4ZkwXr9AbvUSPgxMkgDDm+JDoabKjzRVViZ0D2F0FmFBjDRHKlUgtSXA1J8bZ0fVtGM
- 5pVKd7TqH5FT6GXCnpqsgghJkyVfCpitvxCNhlgib/X06l7P
+ bh=qJe1s9wVwLl8m/pFpVrdi1+PKSyFn6KyEhyiKlqeWWk=;
+ b=owGbwMvMwMXY3/A7olbonx/jabUkhtSK6Zf0mliZ79remRRaoTdVj3sjX5Z43dTfXEr7MubN7
+ cv5Yz2jk9GYhYGRi0FWTJHFvnFNplWVXGTn2n+XYQaxMoFMYeDiFICJuD3nYNgg+PrYSkuD2Eki
+ L1U4HRwVOm/VLGkPWWUoV1WYwxBfEWYmlb5vdk5eXETUxLjPjnuM9m124lwrkvHnX3X3TrfzUWd
+ XtRVfrdwx53zY0iitL8q7iiOm/RSY41yVxy7Q3SF+Yf3DO/PK2hbZC6n2+hisPicuvTMhrsv85J
+ +QOu6/GZ3CmxdfOB8buHp9dNSn+ZszIi1YT3amxbtM0I1SV/vT2/G2XCwjeaJz5bNzS+UOnBYu3
+ 8VyICqoSHNi9dnMPxmiJx7qHy3ZySo1tTiDY5NraL5Po03Y7PjDOWnuQoe36p20d9SY6BYbPV8/
+ xLjJxNLi0Z73rq0//xkv+LSD59R1XatNPzx3tk47vXM3AA==
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
  fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
@@ -67,52 +67,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, Neil Armstrong <neil.armstrong@linaro.org>,
+Cc: dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ linux-clk@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>,
+ Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Chanwoo Choi <cw00.choi@samsung.com>,
+ Chen-Yu Tsai <wens@csie.org>, MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Johan Hovold <johan+linaro@kernel.org>, linux-sunxi@lists.linux.dev,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-pm@vger.kernel.org,
  Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Kevin Hilman <khilman@baylibre.com>, Maxime Ripard <mripard@kernel.org>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Jerome Brunet <jbrunet@baylibre.com>
+ Maxime Ripard <mripard@kernel.org>, linux-tegra@vger.kernel.org,
+ linux-amlogic@lists.infradead.org, kernel@pengutronix.de,
+ linux-arm-kernel@lists.infradead.org,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Georgi Djakov <djakov@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-clk_rate_exclusive_get() returns 0 unconditionally. So remove error
-handling. This prepares making clk_rate_exclusive_get() return void.
+The function currently returns 0 unconditionally. This isn't very useful
+and makes users create dead code error paths. So let this function
+return no value. All users were adapted before to ignore the returned
+value.
+
+Also fix a few typos in the kernel doc comment for
+clk_rate_exclusive_get().
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
-Hello,
+ drivers/clk/clk.c   | 6 ++----
+ include/linux/clk.h | 8 +++-----
+ 2 files changed, 5 insertions(+), 9 deletions(-)
 
-btw, the driver fails to call clk_rate_exclusive_put() in the error
-paths of dw_mipi_dsi_phy_init().
-
-Best regards
-Uwe
-
- drivers/gpu/drm/meson/meson_dw_mipi_dsi.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
-
-diff --git a/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c b/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
-index a6bc1bdb3d0d..49571f1ed88a 100644
---- a/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
-+++ b/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
-@@ -88,15 +88,9 @@ static int dw_mipi_dsi_phy_init(void *priv_data)
- 	}
+diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
+index 2253c154a824..af2011c2a93b 100644
+--- a/drivers/clk/clk.c
++++ b/drivers/clk/clk.c
+@@ -925,17 +925,15 @@ static void clk_core_rate_restore_protect(struct clk_core *core, int count)
+  * clk_rate_exclusive_put(). Calls to this function may sleep.
+  * Returns 0 on success, -EERROR otherwise
+  */
+-int clk_rate_exclusive_get(struct clk *clk)
++void clk_rate_exclusive_get(struct clk *clk)
+ {
+ 	if (!clk)
+-		return 0;
++		return;
  
- 	/* Make sure the rate of the bit clock is not modified by someone else */
--	ret = clk_rate_exclusive_get(mipi_dsi->bit_clk);
--	if (ret) {
--		dev_err(mipi_dsi->dev,
--			"Failed to set the exclusivity on the bit clock rate (ret %d)\n", ret);
--		return ret;
--	}
-+	clk_rate_exclusive_get(mipi_dsi->bit_clk);
- 
- 	ret = clk_set_rate(mipi_dsi->px_clk, mipi_dsi->mode->clock * 1000);
+ 	clk_prepare_lock();
+ 	clk_core_rate_protect(clk->core);
+ 	clk->exclusive_count++;
+ 	clk_prepare_unlock();
 -
- 	if (ret) {
- 		dev_err(mipi_dsi->dev, "Failed to set DSI Pixel clock rate %u (%d)\n",
- 			mipi_dsi->mode->clock * 1000, ret);
+-	return 0;
+ }
+ EXPORT_SYMBOL_GPL(clk_rate_exclusive_get);
+ 
+diff --git a/include/linux/clk.h b/include/linux/clk.h
+index 06f1b292f8a0..f88c407925f8 100644
+--- a/include/linux/clk.h
++++ b/include/linux/clk.h
+@@ -190,16 +190,14 @@ bool clk_is_match(const struct clk *p, const struct clk *q);
+  *
+  * This function allows drivers to get exclusive control over the rate of a
+  * provider. It prevents any other consumer to execute, even indirectly,
+- * opereation which could alter the rate of the provider or cause glitches
++ * operation which could alter the rate of the provider or cause glitches
+  *
+- * If exlusivity is claimed more than once on clock, even by the same driver,
++ * If exclusivity is claimed more than once on clock, even by the same driver,
+  * the rate effectively gets locked as exclusivity can't be preempted.
+  *
+  * Must not be called from within atomic context.
+- *
+- * Returns success (0) or negative errno.
+  */
+-int clk_rate_exclusive_get(struct clk *clk);
++void clk_rate_exclusive_get(struct clk *clk);
+ 
+ /**
+  * clk_rate_exclusive_put - release exclusivity over the rate control of a
 -- 
 2.42.0
 
