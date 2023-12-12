@@ -2,62 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61F8D80EF3B
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 15:47:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60D6180EF48
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 15:49:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F4BA897F6;
-	Tue, 12 Dec 2023 14:47:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EABF910E623;
+	Tue, 12 Dec 2023 14:49:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA33E897F6
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 14:47:28 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id
- 2adb3069b0e04-50c0f13ea11so6578702e87.3
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 06:47:28 -0800 (PST)
+Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com
+ [IPv6:2001:4860:4864:20::29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AB3E10E636;
+ Tue, 12 Dec 2023 14:49:27 +0000 (UTC)
+Received: by mail-oa1-x29.google.com with SMTP id
+ 586e51a60fabf-1feeea75fbfso3832716fac.3; 
+ Tue, 12 Dec 2023 06:49:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1702392447; x=1702997247;
- darn=lists.freedesktop.org; 
+ d=gmail.com; s=20230601; t=1702392566; x=1702997366; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=svSGkfXxoPYjvETADo38bpUlqdTTk6pLGr40su5OtW8=;
- b=xqR4vOskgneNkyFp0bwKpiNb71XvieoqXaHC9283gs2DKsnHvhGjgCUQMk1Nn1BURG
- ooY77XNuDExNj5lFoU8BFsE3+j/AEnNfgqnlZfGfgHWULWuTahvjTYq30Xg0eczoNZ62
- DvKfD9aJiSOb9LHctKD9ZPAzIUx2QMK2F37yRVM21Rm5a7STvTDeXWP/I+QeOKdXa0VE
- Rz6AryMkeELDmUiW94lJzFt6QhzeNzSYIdtxiZ6QRTJr5crD9FzuFHmZ0Sr2x42nj+Jz
- 01QNt7K6FWdrhN/wijwqYsutJvbx1oJNwToUlDNX4hLvdK9Rxo0YmDxgVr64GR14xlMF
- Vklw==
+ bh=DgTjeJvWVAAyCDCbyX/bwHn2R9G65E0KphCM1IqMCd4=;
+ b=c4yW0DuaM+NvwTYzip2owAUtjF+k2dlCp7DKYE1Mi0jRZVUzdLwBQWHmrYd7qEg6gx
+ 6WXI4j/uLcXku3Io2xGCRdm78Rk8WP/0fxA+O7mgVkaffL/f8YKAQHkQU8BjoRGjP7h5
+ hrzBLqPQEYkJxEnOfUVgU48WxBfl5tSqTxsnzI2NgTLG4J0nWL6bna6iP1x75Yc/pHNX
+ /cWYmrXRfX58umGZAZs7e7Laat3XaR8KySFFudtYTVJgYqiyk5MOQstQdhX1/sJbqtjR
+ gr7FSws8RRtBirlR1lL0H60zXaRXNjrHYu3zEH2ipY2isC3czrOq31ETB3/tyjERZmAj
+ YRGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702392447; x=1702997247;
+ d=1e100.net; s=20230601; t=1702392566; x=1702997366;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=svSGkfXxoPYjvETADo38bpUlqdTTk6pLGr40su5OtW8=;
- b=ZYbDA/+/0KOY90kA7brYfEv4xKa3C5QR7+piL5II97+D3LRsqIPyNSAFLn0ZKDtjvz
- XEguub4dulMXVIXsdSz5C6M/gwFILpQAdFxo6RWstDvwnwlnykRiOdZ49EtMncEMh21e
- u+Zxj5b+PyhDyjUq3AEdziDZz8gRA71nJO1J4Q3+eO8w5i5MA63Fav2CyjZA5YesBriO
- 2EfYRtDMAbgdVsELYvFVi9ODX1AZqaXVAiR9Z/6E5DL/OV6h9P5u3sMYuIXoJOAXbJWL
- BEvihzgawYdbzE4AxMgRa7UVffL4HvxSZYm/X6QaIiF03mR79WQTl4ays/jfURYkzpRO
- lI2w==
-X-Gm-Message-State: AOJu0YzrxGFh9qZ/V/inOcFcfZy/a0apaogil+rB9FzNEOSngFbE8fH7
- vW/uQLDGLcDA/d9yCAudnwWOm31QJe2CNuzxaZT9JQ==
-X-Google-Smtp-Source: AGHT+IED/VHAjdNhXHhxtPXZM7il0IVlK/nYNiYW3GnuP2eS4BonMypWtmsPI7HmlT4ntgc0d0NHzIrC3bW94tUsnXw=
-X-Received: by 2002:a05:6512:ac8:b0:50b:feb2:dac9 with SMTP id
- n8-20020a0565120ac800b0050bfeb2dac9mr3712110lfu.2.1702392446733; Tue, 12 Dec
- 2023 06:47:26 -0800 (PST)
+ bh=DgTjeJvWVAAyCDCbyX/bwHn2R9G65E0KphCM1IqMCd4=;
+ b=YUTdjI0YJU6sDVEZkASTebyhszVEHnUAlil7J8nXdg34vJr4ZM92/VP0g1snH4UAA1
+ 7viQNMASGfrHBxQ5oSbCIhlIVIgQvKFVvksPhxISbJymGM09BGfgWHnmHNrFAhNt9B6K
+ zasbkFcIBU4y6ciUpMdHOSANXsHKbE7eoRSylvJNaqIzlhtGeLTOehCBsx/I3e1vEGM9
+ hrVxXEWPxt96UCcly/eChnk4S1ShC4/oo6PmssE6nfkgjhqo2TgcF+/vQKRFfk/KQmVM
+ 56kq4QN+re8ZCaBfjNT8qcnSVGPE62PxUdqvE/lptajRlcoX6HqTThmC8kwmV7eFEhFv
+ Oo2w==
+X-Gm-Message-State: AOJu0YyFLxYxossrQW+ZzlIQqfNp6X9ciwFQjV6AXowasvr5rWzBFJTl
+ PWdKg4gAlX+nH/945y1Xkqj0KCwgPSP77ZgZ3jnUnApY
+X-Google-Smtp-Source: AGHT+IHDe08mrta9MqfG8PLSGxgOf1rYe4vW3KtVg6E89kn4J33kjleioJ8keDjg+uHcfgPqP8adfvclN2RGvxxRz9M=
+X-Received: by 2002:a05:6870:164d:b0:1fb:75a:c43d with SMTP id
+ c13-20020a056870164d00b001fb075ac43dmr6265445oae.102.1702392565918; Tue, 12
+ Dec 2023 06:49:25 -0800 (PST)
 MIME-Version: 1.0
-References: <20231208005250.2910004-1-almasrymina@google.com>
- <20231208005250.2910004-3-almasrymina@google.com>
- <CAC_iWjKikzwpjR0hBjYuRxgYjyqp_EYrrxoveB_2DgCxk6vWYw@mail.gmail.com>
-In-Reply-To: <CAC_iWjKikzwpjR0hBjYuRxgYjyqp_EYrrxoveB_2DgCxk6vWYw@mail.gmail.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Tue, 12 Dec 2023 06:47:14 -0800
-Message-ID: <CAHS8izOX5DmyT88tGJbbxoy1NScnscw3cXMFauhTfJ7m+Gb9wA@mail.gmail.com>
-Subject: Re: [net-next v1 02/16] net: page_pool: create hooks for custom page
- providers
-To: Ilias Apalodimas <ilias.apalodimas@linaro.org>
+References: <20231212135309.3816484-1-jani.nikula@intel.com>
+In-Reply-To: <20231212135309.3816484-1-jani.nikula@intel.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 12 Dec 2023 09:49:14 -0500
+Message-ID: <CADnq5_MXryfUJpwgosfHCY4Z-Fd1mmDq8apr8BW5tJBMRzCcRQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd: include drm/drm_edid.h only where needed
+To: Jani Nikula <jani.nikula@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,262 +68,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Eric Dumazet <edumazet@google.com>, linux-kselftest@vger.kernel.org,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-arch@vger.kernel.org, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jeroen de Borst <jeroendb@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- linux-media@vger.kernel.org, Jesper Dangaard Brouer <hawk@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Shailend Chand <shailend@google.com>,
- Shakeel Butt <shakeelb@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>, netdev@vger.kernel.org,
- David Ahern <dsahern@kernel.org>, linux-kernel@vger.kernel.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Yunsheng Lin <linyunsheng@huawei.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>, bpf@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 12, 2023 at 12:07=E2=80=AFAM Ilias Apalodimas
-<ilias.apalodimas@linaro.org> wrote:
->
-> Hi Mina,
->
-> Apologies for not participating in the party earlier.
->
+Applied with some minor fixups for our -next tree.
 
-No worries, thanks for looking.
+Thanks!
 
-> On Fri, 8 Dec 2023 at 02:52, Mina Almasry <almasrymina@google.com> wrote:
-> >
-> > From: Jakub Kicinski <kuba@kernel.org>
-> >
-> > The page providers which try to reuse the same pages will
-> > need to hold onto the ref, even if page gets released from
-> > the pool - as in releasing the page from the pp just transfers
-> > the "ownership" reference from pp to the provider, and provider
-> > will wait for other references to be gone before feeding this
-> > page back into the pool.
-> >
-> > Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> > Signed-off-by: Mina Almasry <almasrymina@google.com>
-> >
-> > ---
-> >
-> > This is implemented by Jakub in his RFC:
-> > https://lore.kernel.org/netdev/f8270765-a27b-6ccf-33ea-cda097168d79@red=
-hat.com/T/
-> >
-> > I take no credit for the idea or implementation; I only added minor
-> > edits to make this workable with device memory TCP, and removed some
-> > hacky test code. This is a critical dependency of device memory TCP
-> > and thus I'm pulling it into this series to make it revewable and
-> > mergable.
-> >
-> > RFC v3 -> v1
-> > - Removed unusued mem_provider. (Yunsheng).
-> > - Replaced memory_provider & mp_priv with netdev_rx_queue (Jakub).
-> >
-> > ---
-> >  include/net/page_pool/types.h | 12 ++++++++++
-> >  net/core/page_pool.c          | 43 +++++++++++++++++++++++++++++++----
-> >  2 files changed, 50 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/include/net/page_pool/types.h b/include/net/page_pool/type=
-s.h
-> > index ac286ea8ce2d..0e9fa79a5ef1 100644
-> > --- a/include/net/page_pool/types.h
-> > +++ b/include/net/page_pool/types.h
-> > @@ -51,6 +51,7 @@ struct pp_alloc_cache {
-> >   * @dev:       device, for DMA pre-mapping purposes
-> >   * @netdev:    netdev this pool will serve (leave as NULL if none or m=
-ultiple)
-> >   * @napi:      NAPI which is the sole consumer of pages, otherwise NUL=
-L
-> > + * @queue:     struct netdev_rx_queue this page_pool is being created =
-for.
-> >   * @dma_dir:   DMA mapping direction
-> >   * @max_len:   max DMA sync memory size for PP_FLAG_DMA_SYNC_DEV
-> >   * @offset:    DMA sync address offset for PP_FLAG_DMA_SYNC_DEV
-> > @@ -63,6 +64,7 @@ struct page_pool_params {
-> >                 int             nid;
-> >                 struct device   *dev;
-> >                 struct napi_struct *napi;
-> > +               struct netdev_rx_queue *queue;
-> >                 enum dma_data_direction dma_dir;
-> >                 unsigned int    max_len;
-> >                 unsigned int    offset;
-> > @@ -125,6 +127,13 @@ struct page_pool_stats {
-> >  };
-> >  #endif
-> >
-> > +struct memory_provider_ops {
-> > +       int (*init)(struct page_pool *pool);
-> > +       void (*destroy)(struct page_pool *pool);
-> > +       struct page *(*alloc_pages)(struct page_pool *pool, gfp_t gfp);
-> > +       bool (*release_page)(struct page_pool *pool, struct page *page)=
-;
-> > +};
-> > +
-> >  struct page_pool {
-> >         struct page_pool_params_fast p;
-> >
-> > @@ -174,6 +183,9 @@ struct page_pool {
-> >          */
-> >         struct ptr_ring ring;
-> >
-> > +       void *mp_priv;
-> > +       const struct memory_provider_ops *mp_ops;
-> > +
-> >  #ifdef CONFIG_PAGE_POOL_STATS
-> >         /* recycle stats are per-cpu to avoid locking */
-> >         struct page_pool_recycle_stats __percpu *recycle_stats;
-> > diff --git a/net/core/page_pool.c b/net/core/page_pool.c
-> > index ca1b3b65c9b5..f5c84d2a4510 100644
-> > --- a/net/core/page_pool.c
-> > +++ b/net/core/page_pool.c
-> > @@ -25,6 +25,8 @@
-> >
-> >  #include "page_pool_priv.h"
-> >
-> > +static DEFINE_STATIC_KEY_FALSE(page_pool_mem_providers);
->
-> We could add the existing page pool mechanisms as another 'provider',
-> but I assume this is coded like this for performance reasons (IOW skip
-> the expensive ptr call for the default case?)
->
+Alex
 
-Correct, it's done like this for performance reasons.
-
-> > +
-> >  #define DEFER_TIME (msecs_to_jiffies(1000))
-> >  #define DEFER_WARN_INTERVAL (60 * HZ)
-> >
-> > @@ -174,6 +176,7 @@ static int page_pool_init(struct page_pool *pool,
-> >                           const struct page_pool_params *params)
-> >  {
-> >         unsigned int ring_qsize =3D 1024; /* Default */
-> > +       int err;
-> >
-> >         memcpy(&pool->p, &params->fast, sizeof(pool->p));
-> >         memcpy(&pool->slow, &params->slow, sizeof(pool->slow));
-> > @@ -234,10 +237,25 @@ static int page_pool_init(struct page_pool *pool,
-> >         /* Driver calling page_pool_create() also call page_pool_destro=
-y() */
-> >         refcount_set(&pool->user_cnt, 1);
-> >
-> > +       if (pool->mp_ops) {
-> > +               err =3D pool->mp_ops->init(pool);
-> > +               if (err) {
-> > +                       pr_warn("%s() mem-provider init failed %d\n",
-> > +                               __func__, err);
-> > +                       goto free_ptr_ring;
-> > +               }
-> > +
-> > +               static_branch_inc(&page_pool_mem_providers);
-> > +       }
-> > +
-> >         if (pool->p.flags & PP_FLAG_DMA_MAP)
-> >                 get_device(pool->p.dev);
-> >
-> >         return 0;
-> > +
-> > +free_ptr_ring:
-> > +       ptr_ring_cleanup(&pool->ring, NULL);
-> > +       return err;
-> >  }
-> >
-> >  static void page_pool_uninit(struct page_pool *pool)
-> > @@ -519,7 +537,10 @@ struct page *page_pool_alloc_pages(struct page_poo=
-l *pool, gfp_t gfp)
-> >                 return page;
-> >
-> >         /* Slow-path: cache empty, do real allocation */
-> > -       page =3D __page_pool_alloc_pages_slow(pool, gfp);
-> > +       if (static_branch_unlikely(&page_pool_mem_providers) && pool->m=
-p_ops)
+On Tue, Dec 12, 2023 at 9:10=E2=80=AFAM Jani Nikula <jani.nikula@intel.com>=
+ wrote:
 >
-> Why do we need && pool->mp_ops? On the init function, we only bump
-> page_pool_mem_providers if the ops are there
+> Including drm_edid.h from amdgpu_mode.h causes the rebuild of literally
+> hundreds of files when drm_edid.h is modified, while there are only a
+> handful of files that actually need to include drm_edid.h.
 >
-
-Note that page_pool_mem_providers is a static variable (not part of
-the page_pool struct), so if you have 2 page_pools on the system, one
-using devmem and one not, we need to check pool->mp_ops to make sure
-this page_pool is using a memory provider.
-
-> > +               page =3D pool->mp_ops->alloc_pages(pool, gfp);
-> > +       else
-> > +               page =3D __page_pool_alloc_pages_slow(pool, gfp);
-> >         return page;
-> >  }
-> >  EXPORT_SYMBOL(page_pool_alloc_pages);
-> > @@ -576,10 +597,13 @@ void __page_pool_release_page_dma(struct page_poo=
-l *pool, struct page *page)
-> >  void page_pool_return_page(struct page_pool *pool, struct page *page)
-> >  {
-> >         int count;
-> > +       bool put;
-> >
-> > -       __page_pool_release_page_dma(pool, page);
-> > -
-> > -       page_pool_clear_pp_info(page);
-> > +       put =3D true;
-> > +       if (static_branch_unlikely(&page_pool_mem_providers) && pool->m=
-p_ops)
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h                    | 2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c                    | 1 +
+>  drivers/gpu/drm/amd/amdgpu/atombios_encoders.c              | 1 +
+>  drivers/gpu/drm/amd/amdgpu/dce_v10_0.c                      | 1 +
+>  drivers/gpu/drm/amd/amdgpu/dce_v11_0.c                      | 1 +
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c | 1 +
+>  6 files changed, 6 insertions(+), 1 deletion(-)
 >
-> ditto
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/a=
+md/amdgpu/amdgpu_mode.h
+> index 32fe05c810c6..3802ccdf6f55 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+> @@ -32,7 +32,6 @@
 >
-> > +               put =3D pool->mp_ops->release_page(pool, page);
-> > +       else
-> > +               __page_pool_release_page_dma(pool, page);
-> >
-> >         /* This may be the last page returned, releasing the pool, so
-> >          * it is not safe to reference pool afterwards.
-> > @@ -587,7 +611,10 @@ void page_pool_return_page(struct page_pool *pool,=
- struct page *page)
-> >         count =3D atomic_inc_return_relaxed(&pool->pages_state_release_=
-cnt);
-> >         trace_page_pool_state_release(pool, page, count);
-> >
-> > -       put_page(page);
-> > +       if (put) {
-> > +               page_pool_clear_pp_info(page);
-> > +               put_page(page);
-> > +       }
-> >         /* An optimization would be to call __free_pages(page, pool->p.=
-order)
-> >          * knowing page is not part of page-cache (thus avoiding a
-> >          * __page_cache_release() call).
-> > @@ -857,6 +884,12 @@ static void __page_pool_destroy(struct page_pool *=
-pool)
-> >
-> >         page_pool_unlist(pool);
-> >         page_pool_uninit(pool);
-> > +
-> > +       if (pool->mp_ops) {
+>  #include <drm/display/drm_dp_helper.h>
+>  #include <drm/drm_crtc.h>
+> -#include <drm/drm_edid.h>
+>  #include <drm/drm_encoder.h>
+>  #include <drm/drm_fixed.h>
+>  #include <drm/drm_framebuffer.h>
+> @@ -51,6 +50,7 @@ struct amdgpu_device;
+>  struct amdgpu_encoder;
+>  struct amdgpu_router;
+>  struct amdgpu_hpd;
+> +struct edid;
 >
-> Same here. Using a mix of pool->mp_ops and page_pool_mem_providers
-> will work, but since we always check the ptr on init, can't we simply
-> rely on page_pool_mem_providers for the rest of the code?
+>  #define to_amdgpu_crtc(x) container_of(x, struct amdgpu_crtc, base)
+>  #define to_amdgpu_connector(x) container_of(x, struct amdgpu_connector, =
+base)
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c b/drivers/gpu/drm/a=
+md/amdgpu/amdgpu_vkms.c
+> index db6fc0cb18eb..453a4b786cfc 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
+> @@ -1,6 +1,7 @@
+>  // SPDX-License-Identifier: GPL-2.0+
 >
-> Thanks
-> /Ilias
-> > +               pool->mp_ops->destroy(pool);
-> > +               static_branch_dec(&page_pool_mem_providers);
-> > +       }
-> > +
-> >         kfree(pool);
-> >  }
-> >
-> > --
-> > 2.43.0.472.g3155946c3a-goog
-> >
-
-
-
---
-Thanks,
-Mina
+>  #include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_edid.h>
+>  #include <drm/drm_simple_kms_helper.h>
+>  #include <drm/drm_vblank.h>
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c b/drivers/gpu=
+/drm/amd/amdgpu/atombios_encoders.c
+> index 3ee219aa2891..7672abe6c140 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
+> @@ -28,6 +28,7 @@
+>
+>  #include <acpi/video.h>
+>
+> +#include <drm/drm_edid.h>
+>  #include <drm/amdgpu_drm.h>
+>  #include "amdgpu.h"
+>  #include "amdgpu_connectors.h"
+> diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c b/drivers/gpu/drm/amd=
+/amdgpu/dce_v10_0.c
+> index bb666cb7522e..587ee632a3b8 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
+> @@ -21,6 +21,7 @@
+>   *
+>   */
+>
+> +#include <drm/drm_edid.h>
+>  #include <drm/drm_fourcc.h>
+>  #include <drm/drm_modeset_helper.h>
+>  #include <drm/drm_modeset_helper_vtables.h>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c b/drivers/gpu/drm/amd=
+/amdgpu/dce_v11_0.c
+> index 7af277f61cca..f22ec27365bd 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
+> @@ -21,6 +21,7 @@
+>   *
+>   */
+>
+> +#include <drm/drm_edid.h>
+>  #include <drm/drm_fourcc.h>
+>  #include <drm/drm_modeset_helper.h>
+>  #include <drm/drm_modeset_helper_vtables.h>
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c =
+b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> index b599efda3b19..6f8128130b62 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> @@ -27,6 +27,7 @@
+>  #include <drm/display/drm_dp_mst_helper.h>
+>  #include <drm/drm_atomic.h>
+>  #include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_edid.h>
+>  #include <drm/drm_fixed.h>
+>  #include "dm_services.h"
+>  #include "amdgpu.h"
+> --
+> 2.39.2
+>
