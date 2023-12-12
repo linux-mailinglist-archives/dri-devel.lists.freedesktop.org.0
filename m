@@ -1,119 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D66880EEF9
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 15:39:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6183F80EF03
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 15:41:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28B5310E06A;
-	Tue, 12 Dec 2023 14:39:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14EA010E5FF;
+	Tue, 12 Dec 2023 14:41:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2067.outbound.protection.outlook.com [40.107.92.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D51C10E06A
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 14:39:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JGWKSkukbtknhxGOtHugGyz8SJYWAZxF1MbG3h6d4X/eXQ8Qr4pDf5DzWzWRLQMLSCyrvfwApGC8V2FJJTqwbeJ2GfYeI79aOUoTuY1c65dl6VnI5SlDvNr4vsoeQ+h+0/iOpsEb0ImIv/c3rRkBlBeR6Ixp8eSkb/okoWRWGk1EPtXnUHrx507iropkTJDJ6S4Wz4kU+2uzPjgo8/i8CTp/UTjx4A/2m0pQFXWNIk/wkfKSjvgvZdatOV1ocqvYc6Unm5gwTtQIFhcHP/jWw+jFIU8vbDaaQmskL2GV26TpUYDlll4QXdYomVxd4dQudGGtAVwaykDZfQd1xf/4Dg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=60HBBWINjhv3np+zHYZFIeDsai/Y2e+4IoMDbnDWuoc=;
- b=YIC4ufIZ7S5SL2Ee/NjpnfzL6TF79NoD4Ts1ZXQkBrHgyuqmniOPXrGuSDoJLfPchHomqpvwZRBzexa14SQWA3c95KuHIr/ly7MVVGzkw4hgboOhRNsLUYa4wmpygFq5JlAil2eMjVV+GSDplWV78BectsSleUCYRMAL+v/A8Ajz//Z86gP+0pB61shnXTeZPwyDakI/lLi5L625/Uk8AI1bLBFmG0CcQGTjJ5CRK1x8EcV2mGqIBSjK3j29ELnSBQpE1zJtIhB8zclX5yrruWThYMnhxs4UVDbWBUJaRTyIr9eNhySnJg+gJbzI33yuR8WqyjtPk4CZ1KX/DjD/ZA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=60HBBWINjhv3np+zHYZFIeDsai/Y2e+4IoMDbnDWuoc=;
- b=lXhvQM4UWNBxe01wW9kR8JC3GPJ3NMYcdb8QbhNsGgfj/KDrLEdEq2j9JCwdofLIpoiGJYJdkhQlEkS0Czn1+QbtQlM5Y9A4d6BV+mzJG3ulnf1SqSgulKXzTEbQsWc3IFZPNCJdjWktRujU/s8/Q93p4EPOjyaYGTb5D8aAffR7whsQ9loBODfvT5BCiZn0PGbY2zDuQ8jsSGTRk2w8rMPL3LlRIgvPPTArQ4MdO5yqEQt/SRXKu9mvBM46wHJUwAtD7NDPjKBtByOwKbMMEIPn9smMS6m+biE6Opl8G8J2GDWejh30Q6NPfL5dhkcAYHuw+m7OpFrUTbpom3GEgA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by PH7PR12MB7889.namprd12.prod.outlook.com (2603:10b6:510:27f::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.26; Tue, 12 Dec
- 2023 14:39:44 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::60d4:c1e3:e1aa:8f93]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::60d4:c1e3:e1aa:8f93%4]) with mapi id 15.20.7091.022; Tue, 12 Dec 2023
- 14:39:44 +0000
-Date: Tue, 12 Dec 2023 10:39:42 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Mina Almasry <almasrymina@google.com>
-Subject: Re: [net-next v1 08/16] memory-provider: dmabuf devmem memory provider
-Message-ID: <20231212143942.GF3014157@nvidia.com>
-References: <20231208005250.2910004-1-almasrymina@google.com>
- <20231208005250.2910004-9-almasrymina@google.com>
- <20231212122535.GA3029808@nvidia.com>
- <CAHS8izMVMx0fpT=dWsnD7piqs1g7Fam8Xf5dK3iOFNxeOQD9vQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHS8izMVMx0fpT=dWsnD7piqs1g7Fam8Xf5dK3iOFNxeOQD9vQ@mail.gmail.com>
-X-ClientProxiedBy: MN2PR20CA0021.namprd20.prod.outlook.com
- (2603:10b6:208:e8::34) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
+ [IPv6:2607:f8b0:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 298CD10E1F3;
+ Tue, 12 Dec 2023 14:41:05 +0000 (UTC)
+Received: by mail-ot1-x330.google.com with SMTP id
+ 46e09a7af769-6d9f069e9b0so3408101a34.3; 
+ Tue, 12 Dec 2023 06:41:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1702392064; x=1702996864; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=TKzQ2msQ9JsQFbq2shJBH473E1/Mt274oYTqz2qlwqo=;
+ b=m7JEfve/BU3Rz+/NBLn+8R+RL/J6mEkm0/HPBcbYGSL25fNUX36wGmVXXWyjjRgWos
+ LnGDH9a0u3C1P867cSJd3hltynkrKDuKyexE7aHmRy3i8n5A8RmKJj8RMlj++3Sq6UYl
+ yoNZ3l3U17iSc3WG8q39WAmPJqOcSJ8ZIsGkFWYaOSiiqNHpC6tWBiBoKP4dqVI9JB6j
+ JQ5YrGGUmBYtE6kNFBIWaV1OystOpxCMKH9rhUmIMhhfMJAW5rS9xUrpBBhT9VupG0mh
+ KXwHbaRH7GHWHK+/fJUF1Kinp8vTaUVPIda3DED+VCgZGc8Cn5tMAYiGmvoErKXg8wK0
+ 4rGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1702392064; x=1702996864;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=TKzQ2msQ9JsQFbq2shJBH473E1/Mt274oYTqz2qlwqo=;
+ b=NwrgGhMKXBVhyCOy3mLqksYN9Ua8HEMVN8Y5EglfD2yQzMymcnu0+lxHKz3XI6BzII
+ /UD2C6cc9bOX1v+Q58Fh2bK/7KghRHsXT1w6NqB1PbwVUsnUloJfi3XibW2qkU0vVsss
+ poYO7FdOt9ueF0Hvrg8GC2Lo6rV21R9vpOsEE48FqbD6z6wPu8YrADYEuu+B7gVkS5TY
+ qG1+slchCqJvsfemulYYSCtw0cP3RhIvwzaFdfevA/lp1JU6GXQ/zVlwfUcidyFLG5n+
+ aCErXxnXqKXDt8Vs5zR27Zf4CQMxCoMOYMtOxIeiy5ATXoIjPT9Pi6v5i85ejtBuZU3R
+ da7Q==
+X-Gm-Message-State: AOJu0YwZ+s1eI6Fl2SiYDiWSkGb3vNhMv8jC6/LCWTHRDG/2h3V2xQYt
+ VO3+uszYGRnJ3MXlcnIpnrofGQcLrSWYYiRSjSLiC1U6
+X-Google-Smtp-Source: AGHT+IHqRTKGMOJW73XiLW3Vi6WxU7l6fK/EsKuj25NtRfyWPUO+EdjLqi/XDTjI32PSIe84nHwtERuB946KWnOFuAs=
+X-Received: by 2002:a05:6871:2306:b0:1fa:fe07:527f with SMTP id
+ sf6-20020a056871230600b001fafe07527fmr7051185oab.11.1702392064206; Tue, 12
+ Dec 2023 06:41:04 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|PH7PR12MB7889:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5680d03c-e323-4f5b-7afb-08dbfb202e7c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: UuIYqwdDMapiqaAI841n5k2jvrudkwDIgnYHWPZxTfVMmUjFJj9cyAVWy4NP2CkYl7Onm2TocgQqRvyltAsswnRV/k1FvWckTdLe+TFu7vnRBu/btHqeLwXO95Ei8/JcKHEAoLZw1U1aBnFUn3BlEIl9IB/PBdvoZRFI3loZipW8bCzYnZzt5kR4umA8d+x8I4jlulPLxCFf5i8iV8P0US0/YrZUJAw6ow7EEvIU1h8bRx5dikzUSPtnQKTsFj83dJNBjd7PpnWT2B3i7vdfPydL96BWkQ/2p5IncrNmXoukNdoAzzN9u6deJ+iIp70X4iP1YAsBjPENLpqll+5H1+i9Xs51f4+x+BEM5NXNP781oY+7Q4qg4uPeA55nEwDO8074v1zjT3WdDCUneXgrUkW31QkFKvQsCXiVL3TgOmvcITXf1nqcXViLcEdcP9CjlgXlpBNwL/JSKX2y59c1UD9iU/Zfnxs25CzBbc5MrctdL6PwugaedwaoNmK55cuOLHS44lXV4atsOzmVa/GFSzhN/Ox9mWdTE+Fh9DOyEhhBnRA0oGUyngcAZJpJGfAV
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(39860400002)(376002)(346002)(366004)(396003)(136003)(230922051799003)(64100799003)(186009)(451199024)(1800799012)(41300700001)(2906002)(8676002)(8936002)(316002)(5660300002)(7416002)(7406005)(4326008)(6512007)(6506007)(6486002)(2616005)(478600001)(54906003)(86362001)(33656002)(36756003)(66946007)(66556008)(66476007)(6916009)(38100700002)(53546011)(26005)(1076003);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bTA2TnpCMjVPaHVZTWJnaWo5RmJ2UlZleEhyOUNXYWtRN2U0dzFDeHpldXlj?=
- =?utf-8?B?b1dUOVJWU1F2dm9obmUwRVJrWUZCUmtSeGJmNjk5RGhISTYyNjdNTXovYkJz?=
- =?utf-8?B?TXcyNFc0YXFUd3pNK0xzZ1h1VzJMakZuSUUxcEJsdjhvV1YvOHJlU1hCRjhL?=
- =?utf-8?B?cmV3UG1DWVIwRHdBL3luUG9BMk5LWitSZGZIWGdic2VCeEpKV0NBeE50bHRs?=
- =?utf-8?B?bFRWdDZuZHkwNnJrR3JHemRubk9PZFdyVGVtM3A0YVM3TkZtaXRjQUNBVjlK?=
- =?utf-8?B?SFdQeGZpRCtFdmpHT2NXTlhBTHlwaW54UkNBd0lHdXdwTFh2SUYwT0poUEJX?=
- =?utf-8?B?NnNVSkhoSVJSMll3OTREZGRvYXR3dVFXSHRnMXFVM3gyL0xTQ1lzZllNRlBn?=
- =?utf-8?B?cjQwUEJLc3lETmJMN1J0bkt3WG50N3RiZ1R3MlhyZk9CYXJ6R3AwcnFtd2oz?=
- =?utf-8?B?ckl4aUVkNEZHV0hEZHVmcXBkZldtekFKQjZxWDZuczdsamIweDlDQ2xwaFFK?=
- =?utf-8?B?WlErb3lYeTM2TXVweVAzRkRQcnNEdzhjUXpRY3JCeVdJN2NnWHpBekJVL1FR?=
- =?utf-8?B?WncrOWo3TUxrZDlYMU5ObVRMa29nblViVFFMN0tGQmk1bHVpWThDM3VnTG5h?=
- =?utf-8?B?R3pWSTJpdndKTXVXendHeXlkVXpPdk5BdGJIUG96cUt3ZFV5Ri9oK09JTkVQ?=
- =?utf-8?B?YVU0SEhGUUdUcGRqN1plNjJWUzZTTmgyK1dvYklYS3l1QVFvY0pPSWt1QXVX?=
- =?utf-8?B?TURhUkFSN1ZRcExUOXUvcmF3cWtKbDRmdG1rTVp3ckp3S3p2NlNrZjVQNkVu?=
- =?utf-8?B?YXRHaFg1czZSSlQrUW1DcU1ZVzhwRFlyWWxjcXE1S05NTXV5UjJjS3pvZFJC?=
- =?utf-8?B?eUJra3lOa3ZkdVVKaUlCbzF4WlBxU3E5WTZWZDlTdzRsa20wc1hTSkNTTDRq?=
- =?utf-8?B?OFV6d2VFczQxdzg5VkJmK3JXbkc1YTdQSWt5eUdjVVQ0WU5lNmc0Unpncmlk?=
- =?utf-8?B?SVdXTlJuMm5wUmRwZzFwSWNiTjcrZGJnNDVOdWJZYTkwd3VFaExRWk1PV1F1?=
- =?utf-8?B?R2tEenFMc2poQWJDdnhtZDhOLzk1TVBDNVZGK0ZSd25pTk1oM0ZkSnVOVHo2?=
- =?utf-8?B?cnFVSkJVb29qeGhBdzhvbnlZNVhrYWc3RkVKZDVjSWREQ0ZudGRQaXBKZllk?=
- =?utf-8?B?NzhWYnA0cTc2U1UzRlNoQkdXNm9EajZ4ek0rTjdVZkMvYTdHalAySHFqcVVX?=
- =?utf-8?B?VWU5SGpoLzlZc25qa3FzZkZrc3lnSHF6RFRDbzVFUTBPU1FHRGkxTTBqTGVN?=
- =?utf-8?B?YXdjQkZnQ3pzVUlJWG9HWHZMTVI0N0hxSUVDbEI2WXcxZFJtNHpadjZ5RlA4?=
- =?utf-8?B?VC9NQXl2STFXaHkwNmdFRzVaMDMyZzBBQTN5NUZodFFuVTRPZWI4QUhzdENK?=
- =?utf-8?B?OWQ0WUc0K01mVE5mRXNBUWlhd3NYVUE5bUMzb1krUEFOeHFBdDVoV1JvN0RF?=
- =?utf-8?B?aW42QVBCUUk1bGtTTUU4b056SXJseVNSVU5hMlZ4MHRSYmc3THplaFNhRXlB?=
- =?utf-8?B?QXlTOTRNU2NKL1liMVBSYU9iT1daYXliOU4xY0VIYytzU2xjQk9HYlArODRZ?=
- =?utf-8?B?SWczOTd6NHNVVW56YmtHRTZ5QngrMVZBUXh6R1hxbTJmNm5IK0NnRWJaSVk4?=
- =?utf-8?B?UHFnaW1WWHV3S2EyK0ZKWjZMd1NKbUI0ck5WRDEvbUdId256MnNjUnBFVGFu?=
- =?utf-8?B?OHArYXgwUGxRcFQ5NlZnZFBYNUlBQzV5Sml0NUI1V1ZrMG0yM2lQRU9Sdkhi?=
- =?utf-8?B?TzFzeEZ3UU5HSVlpOG9xMXQ3UzRxRnhST0tDcnZOS2NNaVBJUVoxTHpNQnJQ?=
- =?utf-8?B?bUtuc2NERFRLb3M4L1lvWVc4M25WNS9mVkoya05TOUc5bUNzWjBlNlF2VnRT?=
- =?utf-8?B?alc3bklYN0tsWXlRcEdsdlRJR05teWxnMmNBeVlQbGtZL1RhQzlUbW1lbGl2?=
- =?utf-8?B?MlZicHRKY3krcHZCaUNSLy9VbkJuL284ZE1iYkJIQTQxNzFPUDdxbXlLY2px?=
- =?utf-8?B?REZweFRzc2lnMGEydDFHTWp0cElJbEsxUGNoVklwVEVvTWpuVFArbUppWVhx?=
- =?utf-8?Q?VaUq6bnBhoGbuM0LBLJFvV3iZ?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5680d03c-e323-4f5b-7afb-08dbfb202e7c
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2023 14:39:44.2602 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: F+AmbUoeP0zhwQ8FxJf57G0tD0LUPLeDwMN9DgfIKdBe5xIHaAAYBvGyeVIBWV9B
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7889
+References: <20231212135338.3816669-1-jani.nikula@intel.com>
+In-Reply-To: <20231212135338.3816669-1-jani.nikula@intel.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 12 Dec 2023 09:40:53 -0500
+Message-ID: <CADnq5_N=pMJk1JrdjFP8-+UCsv0ky5RYKBGk95Hb2zvDyZCREw@mail.gmail.com>
+Subject: Re: [PATCH] drm/radeon: include drm/drm_edid.h only where needed
+To: Jani Nikula <jani.nikula@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,70 +68,189 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, Kaiyuan Zhang <kaiyuanz@google.com>,
- dri-devel@lists.freedesktop.org, Eric Dumazet <edumazet@google.com>,
- linux-kselftest@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-arch@vger.kernel.org,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jeroen de Borst <jeroendb@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Christoph Hellwig <hch@infradead.org>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
- Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Shailend Chand <shailend@google.com>, Shakeel Butt <shakeelb@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org,
- David Ahern <dsahern@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Yunsheng Lin <linyunsheng@huawei.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>, bpf@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 12, 2023 at 06:26:51AM -0800, Mina Almasry wrote:
-> On Tue, Dec 12, 2023 at 4:25 AM Jason Gunthorpe <jgg@nvidia.com> wrote:
-> >
-> > On Thu, Dec 07, 2023 at 04:52:39PM -0800, Mina Almasry wrote:
-> >
-> > > +static inline struct page_pool_iov *page_to_page_pool_iov(struct page *page)
-> > > +{
-> > > +     if (page_is_page_pool_iov(page))
-> > > +             return (struct page_pool_iov *)((unsigned long)page & ~PP_IOV);
-> > > +
-> > > +     DEBUG_NET_WARN_ON_ONCE(true);
-> > > +     return NULL;
-> > > +}
-> >
-> > We already asked not to do this, please do not allocate weird things
-> > can call them 'struct page' when they are not. It undermines the
-> > maintainability of the mm to have things mis-typed like
-> > this. Introduce a new type for your thing so the compiler can check it
-> > properly.
-> >
-> 
-> There is a new type introduced, it's the page_pool_iov. We set the LSB
-> on page_pool_iov* and cast it to page* only to avoid the churn of
-> renaming page* to page_pool_iov* in the page_pool and all the net
-> drivers using it. Is that not a reasonable compromise in your opinion?
-> Since the LSB is set on the resulting page pointers, they are not
-> actually usuable as pages, and are never passed to mm APIs per your
-> requirement.
+Applied.  Thanks!
 
-There were two asks, the one you did was to never pass this non-struct
-page memory to the mm, which is great.
+Alex
 
-The other was to not mistype things, and don't type something as
-struct page when it is, in fact, not.
-
-I fear what you've done is make it so only one driver calls these
-special functions and left the other drivers passing the struct page
-directly to the mm and sort of obfuscating why it is OK based on this
-netdev knowledge of not enabling/using the static branch in the other
-cases.
-
-Perhaps you can simply avoid this by arranging for this driver to also
-exclusively use some special type to indicate the dual nature of the
-pointer and leave the other drivers as using the struct page version.
-
-Jason
+On Tue, Dec 12, 2023 at 9:10=E2=80=AFAM Jani Nikula <jani.nikula@intel.com>=
+ wrote:
+>
+> Including drm_edid.h from radeon_mode.h causes the rebuild of more than
+> a hundred files when drm_edid.h is modified, while there are only a
+> handful of files that actually need to include drm_edid.h.
+>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> ---
+>  drivers/gpu/drm/radeon/atombios_encoders.c | 1 +
+>  drivers/gpu/drm/radeon/dce3_1_afmt.c       | 1 +
+>  drivers/gpu/drm/radeon/dce6_afmt.c         | 1 +
+>  drivers/gpu/drm/radeon/evergreen.c         | 1 +
+>  drivers/gpu/drm/radeon/evergreen_hdmi.c    | 1 +
+>  drivers/gpu/drm/radeon/radeon_atombios.c   | 1 +
+>  drivers/gpu/drm/radeon/radeon_audio.c      | 1 +
+>  drivers/gpu/drm/radeon/radeon_audio.h      | 4 +++-
+>  drivers/gpu/drm/radeon/radeon_combios.c    | 1 +
+>  drivers/gpu/drm/radeon/radeon_encoders.c   | 1 +
+>  drivers/gpu/drm/radeon/radeon_mode.h       | 2 +-
+>  11 files changed, 13 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/radeon/atombios_encoders.c b/drivers/gpu/drm=
+/radeon/atombios_encoders.c
+> index 4aca09cab4b8..6e537c5bd295 100644
+> --- a/drivers/gpu/drm/radeon/atombios_encoders.c
+> +++ b/drivers/gpu/drm/radeon/atombios_encoders.c
+> @@ -29,6 +29,7 @@
+>  #include <linux/pci.h>
+>
+>  #include <drm/drm_crtc_helper.h>
+> +#include <drm/drm_edid.h>
+>  #include <drm/drm_file.h>
+>  #include <drm/drm_modeset_helper_vtables.h>
+>  #include <drm/radeon_drm.h>
+> diff --git a/drivers/gpu/drm/radeon/dce3_1_afmt.c b/drivers/gpu/drm/radeo=
+n/dce3_1_afmt.c
+> index e8fe239b9d79..324e9b765098 100644
+> --- a/drivers/gpu/drm/radeon/dce3_1_afmt.c
+> +++ b/drivers/gpu/drm/radeon/dce3_1_afmt.c
+> @@ -21,6 +21,7 @@
+>   * OTHER DEALINGS IN THE SOFTWARE.
+>   */
+>  #include <linux/hdmi.h>
+> +#include <drm/drm_edid.h>
+>
+>  #include "radeon.h"
+>  #include "radeon_asic.h"
+> diff --git a/drivers/gpu/drm/radeon/dce6_afmt.c b/drivers/gpu/drm/radeon/=
+dce6_afmt.c
+> index 4a1d5447eac1..4c06f47453fd 100644
+> --- a/drivers/gpu/drm/radeon/dce6_afmt.c
+> +++ b/drivers/gpu/drm/radeon/dce6_afmt.c
+> @@ -21,6 +21,7 @@
+>   *
+>   */
+>  #include <linux/hdmi.h>
+> +#include <drm/drm_edid.h>
+>
+>  #include "dce6_afmt.h"
+>  #include "radeon.h"
+> diff --git a/drivers/gpu/drm/radeon/evergreen.c b/drivers/gpu/drm/radeon/=
+evergreen.c
+> index f0ae087be914..a424b86008b8 100644
+> --- a/drivers/gpu/drm/radeon/evergreen.c
+> +++ b/drivers/gpu/drm/radeon/evergreen.c
+> @@ -26,6 +26,7 @@
+>  #include <linux/pci.h>
+>  #include <linux/slab.h>
+>
+> +#include <drm/drm_edid.h>
+>  #include <drm/drm_vblank.h>
+>  #include <drm/radeon_drm.h>
+>  #include <drm/drm_fourcc.h>
+> diff --git a/drivers/gpu/drm/radeon/evergreen_hdmi.c b/drivers/gpu/drm/ra=
+deon/evergreen_hdmi.c
+> index 5f3078f8ab95..681119c91d94 100644
+> --- a/drivers/gpu/drm/radeon/evergreen_hdmi.c
+> +++ b/drivers/gpu/drm/radeon/evergreen_hdmi.c
+> @@ -26,6 +26,7 @@
+>   */
+>  #include <linux/hdmi.h>
+>
+> +#include <drm/drm_edid.h>
+>  #include <drm/radeon_drm.h>
+>  #include "evergreen_hdmi.h"
+>  #include "radeon.h"
+> diff --git a/drivers/gpu/drm/radeon/radeon_atombios.c b/drivers/gpu/drm/r=
+adeon/radeon_atombios.c
+> index 85c4bb186203..3596ea4a8b60 100644
+> --- a/drivers/gpu/drm/radeon/radeon_atombios.c
+> +++ b/drivers/gpu/drm/radeon/radeon_atombios.c
+> @@ -27,6 +27,7 @@
+>  #include <linux/pci.h>
+>
+>  #include <drm/drm_device.h>
+> +#include <drm/drm_edid.h>
+>  #include <drm/radeon_drm.h>
+>
+>  #include "radeon.h"
+> diff --git a/drivers/gpu/drm/radeon/radeon_audio.c b/drivers/gpu/drm/rade=
+on/radeon_audio.c
+> index 279bf130a18c..053058c5c1fa 100644
+> --- a/drivers/gpu/drm/radeon/radeon_audio.c
+> +++ b/drivers/gpu/drm/radeon/radeon_audio.c
+> @@ -26,6 +26,7 @@
+>  #include <linux/component.h>
+>
+>  #include <drm/drm_crtc.h>
+> +#include <drm/drm_edid.h>
+>  #include <drm/drm_eld.h>
+>  #include "dce6_afmt.h"
+>  #include "evergreen_hdmi.h"
+> diff --git a/drivers/gpu/drm/radeon/radeon_audio.h b/drivers/gpu/drm/rade=
+on/radeon_audio.h
+> index 05e67867469b..dacaaa007051 100644
+> --- a/drivers/gpu/drm/radeon/radeon_audio.h
+> +++ b/drivers/gpu/drm/radeon/radeon_audio.h
+> @@ -27,7 +27,9 @@
+>
+>  #include <linux/types.h>
+>
+> -#define RREG32_ENDPOINT(block, reg)            \
+> +struct cea_sad;
+> +
+> +#define RREG32_ENDPOINT(block, reg)                            \
+>         radeon_audio_endpoint_rreg(rdev, (block), (reg))
+>  #define WREG32_ENDPOINT(block, reg, v) \
+>         radeon_audio_endpoint_wreg(rdev, (block), (reg), (v))
+> diff --git a/drivers/gpu/drm/radeon/radeon_combios.c b/drivers/gpu/drm/ra=
+deon/radeon_combios.c
+> index 2620efc7c675..6952b1273b0f 100644
+> --- a/drivers/gpu/drm/radeon/radeon_combios.c
+> +++ b/drivers/gpu/drm/radeon/radeon_combios.c
+> @@ -28,6 +28,7 @@
+>  #include <linux/pci.h>
+>
+>  #include <drm/drm_device.h>
+> +#include <drm/drm_edid.h>
+>  #include <drm/radeon_drm.h>
+>
+>  #include "radeon.h"
+> diff --git a/drivers/gpu/drm/radeon/radeon_encoders.c b/drivers/gpu/drm/r=
+adeon/radeon_encoders.c
+> index 9cb6401fe97e..3de3dce9e89d 100644
+> --- a/drivers/gpu/drm/radeon/radeon_encoders.c
+> +++ b/drivers/gpu/drm/radeon/radeon_encoders.c
+> @@ -26,6 +26,7 @@
+>
+>  #include <linux/pci.h>
+>
+> +#include <drm/drm_edid.h>
+>  #include <drm/drm_device.h>
+>  #include <drm/radeon_drm.h>
+>
+> diff --git a/drivers/gpu/drm/radeon/radeon_mode.h b/drivers/gpu/drm/radeo=
+n/radeon_mode.h
+> index 1decdcec0264..59c4db13d90a 100644
+> --- a/drivers/gpu/drm/radeon/radeon_mode.h
+> +++ b/drivers/gpu/drm/radeon/radeon_mode.h
+> @@ -32,13 +32,13 @@
+>
+>  #include <drm/display/drm_dp_helper.h>
+>  #include <drm/drm_crtc.h>
+> -#include <drm/drm_edid.h>
+>  #include <drm/drm_encoder.h>
+>  #include <drm/drm_fixed.h>
+>  #include <drm/drm_modeset_helper_vtables.h>
+>  #include <linux/i2c.h>
+>  #include <linux/i2c-algo-bit.h>
+>
+> +struct edid;
+>  struct radeon_bo;
+>  struct radeon_device;
+>
+> --
+> 2.39.2
+>
