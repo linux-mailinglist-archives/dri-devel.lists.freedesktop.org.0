@@ -1,76 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0447580EB4A
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 13:14:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B04680EB4C
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 13:15:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12D8910E1B8;
-	Tue, 12 Dec 2023 12:14:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7BAE10E5A8;
+	Tue, 12 Dec 2023 12:15:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2DE410E1B8
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 12:14:03 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3DCD10E5A8
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 12:15:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1702383242;
+ s=mimecast20190719; t=1702383324;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=9fISaOeAsyCJNN+NgPL5k4jqcKgvpVQg/3+vT/4W+zE=;
- b=SLhTo2S9RyxqyVYwxhc6Ur0BDsB2u5HQz7dAinyyf1kJ6XKVqYrKCxGQODTlhp9njnvFnQ
- jElbWeWSK0pcM3BqIBRICUNN9SmAqh+reSJii5nl+PQlmZMdYyWUbrn50DzDs2uq5McRbh
- Hpu/x5jIB1T/w319a8Cmi4KuGSIRyqU=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ok0j17sWl34iTt5R96Y0m5SXIpdY1mUaWICyl+YWWJg=;
+ b=WUaM3Do0bw6+qsNh8kmLlhEfL8zI7VOiCTortQkzT7oxwXhMRCtZ+Om8GKVBUre6O8tMpm
+ OLdsF2UNDZgY/zWdpbeKPqv+fw0KUGF7BdYR5I7VJcSshERE4+CB3sfJ0jDHbEXl6FItTg
+ UBfTE3vBLeMIfvuPh0JHWP4/YSm++v4=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-8-8wHiMQpkOSuoXSfsoya0HQ-1; Tue, 12 Dec 2023 07:14:01 -0500
-X-MC-Unique: 8wHiMQpkOSuoXSfsoya0HQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-40c421f2686so18000185e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 04:14:01 -0800 (PST)
+ us-mta-161-Vpua9aafNR-3iHebaL1rFw-1; Tue, 12 Dec 2023 07:15:23 -0500
+X-MC-Unique: Vpua9aafNR-3iHebaL1rFw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-40c27a351e2so36135365e9.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 04:15:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702383240; x=1702988040;
+ d=1e100.net; s=20230601; t=1702383322; x=1702988122;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt:from
  :references:cc:to:content-language:subject:user-agent:mime-version
  :date:message-id:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9fISaOeAsyCJNN+NgPL5k4jqcKgvpVQg/3+vT/4W+zE=;
- b=ZDvHPBKTXIQ4GhrARkTs+BONbKe6Ipmun6/+m/+R5EX98MrVsj7JFPDsQ1KkhVc8mW
- Uw5mwFQA6Tx7hd/0HaCCtJHqmHwOHGJYRiLsx5EJklcmOLypwEPh3N/tQgUxTX89w7B6
- jK0PE4ALXvbjzlYQ8IOb1pEptMKql+FoEi9vVi0f35BQh2trtii/E+0whuMKUV9KtbuO
- Oi1+RjuJRp5gM3mk8wDP0iT/Q/UmsubwHifonwTgeUNpkXqQJ3i92TQFODuheW+Mrii+
- HsOpRPbllwdrqrXvhCMLNA7780W+VJKmGbvvAVxWw+OIgtr4vEmToh417oQvxXTal4Xs
- OVqg==
-X-Gm-Message-State: AOJu0YzxYnawfTm/5/UebVoqFR4p1q3K8S3QiknLKjT7/7UcE7bS5Twj
- /wuOJrfc8F2pTW1IPBP5GU9Vm/uqGusSTbS5oyHtENJSLRvbN9G6lOy6Wed3/yojA450shxz7EJ
- rGIjIAqHRrPGpLLiyCTmJYYhAlJb+
-X-Received: by 2002:a05:600c:3556:b0:40b:5f03:b3b5 with SMTP id
- i22-20020a05600c355600b0040b5f03b3b5mr1303315wmq.215.1702383240141; 
- Tue, 12 Dec 2023 04:14:00 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGUKy5CHQAd49v51fpCPu5YK59KXKOF9z2TqYPtBccURzcxHnE/F8rEMVqoblDUTeW5DdqmBA==
-X-Received: by 2002:a05:600c:3556:b0:40b:5f03:b3b5 with SMTP id
- i22-20020a05600c355600b0040b5f03b3b5mr1303313wmq.215.1702383239685; 
- Tue, 12 Dec 2023 04:13:59 -0800 (PST)
+ bh=ok0j17sWl34iTt5R96Y0m5SXIpdY1mUaWICyl+YWWJg=;
+ b=AuLeEv7GLNYdzSGGT+tJPpTJCbPXxCTljGVOKCRMfBzo5eButUdEBn9p7cjevsmiJ1
+ FNIsWU8YgJrGaelIVX1gVi67tY6oIiaLm4Cz9X5c9Xdv+ETbRxy/uqVLECqfMCZRA5B1
+ ZiDvRsgN7xjoQJnNQYUPfCJzXuFxvskAjnQRCXdO8FMHaq6xpI8Ccmz2v2JEGQvefwDP
+ zoJeqxSrK1B2BG6UKSa2oQ3yVp1C6aUr/rQ0FH/KDS/50SU0h6e0WFfHzhHrSkpQFEd2
+ tn/m692nkCLcWJocv5qwj4Z22VhPETLnokiEbb/M0mnbvt3ckqPz4W/UPRv6WDWZrulL
+ Sm2g==
+X-Gm-Message-State: AOJu0YwGDmaR9HmIdMWBObATqqzYQ0g/y9ttUGJMJcorLb9rvTGe+OdK
+ uV5kpUGt3R0bZXQ+f6XBAKTCVNAw4xaAC3TPZ7cB/tHlQyPvsCdAJvXVx2CvA6BRaRBQYRpgxj/
+ ckJp8LyuwazAqourhaX+iSs0Nx+FL
+X-Received: by 2002:a05:600c:3556:b0:40b:5e1c:2f9c with SMTP id
+ i22-20020a05600c355600b0040b5e1c2f9cmr1714951wmq.44.1702383322690; 
+ Tue, 12 Dec 2023 04:15:22 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFyMX7CfRyk2WiXHjyT3u4xSlubF4VIdHX7Wnc2j5q5/IfMTnUNuAMWHEEQHcg+B8Q6+eT3gQ==
+X-Received: by 2002:a05:600c:3556:b0:40b:5e1c:2f9c with SMTP id
+ i22-20020a05600c355600b0040b5e1c2f9cmr1714943wmq.44.1702383322292; 
+ Tue, 12 Dec 2023 04:15:22 -0800 (PST)
 Received: from ?IPV6:2003:cb:c74b:ca00:4ca2:ff2c:9092:f070?
  (p200300cbc74bca004ca2ff2c9092f070.dip0.t-ipconnect.de.
  [2003:cb:c74b:ca00:4ca2:ff2c:9092:f070])
  by smtp.gmail.com with ESMTPSA id
- b1-20020a05600c4e0100b00405959469afsm16528751wmq.3.2023.12.12.04.13.58
+ b1-20020a05600c4e0100b00405959469afsm16528751wmq.3.2023.12.12.04.15.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Dec 2023 04:13:59 -0800 (PST)
-Message-ID: <00c84f06-66b9-484c-8a2c-e820c7d21c9d@redhat.com>
-Date: Tue, 12 Dec 2023 13:13:57 +0100
+ Tue, 12 Dec 2023 04:15:21 -0800 (PST)
+Message-ID: <9a5584df-23df-4a3c-a6a5-fd1554250b0d@redhat.com>
+Date: Tue, 12 Dec 2023 13:15:21 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 3/6] mm/gup: Introduce memfd_pin_folios() for pinning
+Subject: Re: [PATCH v7 0/6] mm/gup: Introduce memfd_pin_folios() for pinning
  memfd folios (v7)
 To: Vivek Kasireddy <vivek.kasireddy@intel.com>,
  dri-devel@lists.freedesktop.org, linux-mm@kvack.org
 References: <20231212073803.3233055-1-vivek.kasireddy@intel.com>
- <20231212073803.3233055-4-vivek.kasireddy@intel.com>
 From: David Hildenbrand <david@redhat.com>
 Autocrypt: addr=david@redhat.com; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -117,7 +116,7 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <20231212073803.3233055-4-vivek.kasireddy@intel.com>
+In-Reply-To: <20231212073803.3233055-1-vivek.kasireddy@intel.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
@@ -139,384 +138,26 @@ Cc: Dongwon Kim <dongwon.kim@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
  Hugh Dickins <hughd@google.com>, Peter Xu <peterx@redhat.com>,
  Christoph Hellwig <hch@infradead.org>, Gerd Hoffmann <kraxel@redhat.com>,
  Jason Gunthorpe <jgg@nvidia.com>, Junxiao Chang <junxiao.chang@intel.com>,
- Christoph Hellwig <hch@lst.de>, Mike Kravetz <mike.kravetz@oracle.com>
+ Mike Kravetz <mike.kravetz@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12.12.23 08:38, Vivek Kasireddy wrote:
-> For drivers that would like to longterm-pin the folios associated
-> with a memfd, the memfd_pin_folios() API provides an option to
-> not only pin the folios via FOLL_PIN but also to check and migrate
-> them if they reside in movable zone or CMA block. This API
-> currently works with memfds but it should work with any files
-> that belong to either shmemfs or hugetlbfs. Files belonging to
-> other filesystems are rejected for now.
+On 12.12.23 08:37, Vivek Kasireddy wrote:
+> The first two patches were previously reviewed but not yet merged.
+> These ones need to be merged first as the fourth patch depends on
+> the changes introduced in them and they also fix bugs seen in
+> very specific scenarios (running Qemu with hugetlb=on, blob=true
+> and rebooting guest VM).
 > 
-> The folios need to be located first before pinning them via FOLL_PIN.
-> If they are found in the page cache, they can be immediately pinned.
-> Otherwise, they need to be allocated using the filesystem specific
-> APIs and then pinned.
-> 
-> v2:
-> - Drop gup_flags and improve comments and commit message (David)
-> - Allocate a page if we cannot find in page cache for the hugetlbfs
->    case as well (David)
-> - Don't unpin pages if there is a migration related failure (David)
-> - Drop the unnecessary nr_pages <= 0 check (Jason)
-> - Have the caller of the API pass in file * instead of fd (Jason)
-> 
-> v3: (David)
-> - Enclose the huge page allocation code with #ifdef CONFIG_HUGETLB_PAGE
->    (Build error reported by kernel test robot <lkp@intel.com>)
-> - Don't forget memalloc_pin_restore() on non-migration related errors
-> - Improve the readability of the cleanup code associated with
->    non-migration related errors
-> - Augment the comments by describing FOLL_LONGTERM like behavior
-> - Include the R-b tag from Jason
-> 
-> v4:
-> - Remove the local variable "page" and instead use 3 return statements
->    in alloc_file_page() (David)
-> - Add the R-b tag from David
-> 
-> v5: (David)
-> - For hugetlb case, ensure that we only obtain head pages from the
->    mapping by using __filemap_get_folio() instead of find_get_page_flags()
-> - Handle -EEXIST when two or more potential users try to simultaneously
->    add a huge page to the mapping by forcing them to retry on failure
-> 
-> v6: (Christoph)
-> - Rename this API to memfd_pin_user_pages() to make it clear that it
->    is intended for memfds
-> - Move the memfd page allocation helper from gup.c to memfd.c
-> - Fix indentation errors in memfd_pin_user_pages()
-> - For contiguous ranges of folios, use a helper such as
->    filemap_get_folios_contig() to lookup the page cache in batches
-> 
-> v7:
-> - Rename this API to memfd_pin_folios() and make it return folios
->    and offsets instead of pages (David)
-> - Don't continue processing the folios in the batch returned by
->    filemap_get_folios_contig() if they do not have correct next_idx
-> - Add the R-b tag from Christoph
+> The third patch introduces memfd_pin_folios() API and the fourth
+> patch converts udmabuf driver to use folios. The fifth patch shows
+> how the udmabuf driver can make use of the new API to longterm-pin
+> the folios. The last patch adds two new udmabuf selftests to verify
+> data coherency after potential page migration.
 > 
 
-Sorry, I'm still not happy about the current state, because (1) the
-folio vs. pages handling is still mixed (2) we're returning+pinning a
-large folio multiple times.
-
-See below if there is an easy way to clean this up.
-
->> @@ -5,6 +5,7 @@
->   #include <linux/spinlock.h>
->   
->   #include <linux/mm.h>
-> +#include <linux/memfd.h>
->   #include <linux/memremap.h>
->   #include <linux/pagemap.h>
->   #include <linux/rmap.h>
-> @@ -17,6 +18,7 @@
->   #include <linux/hugetlb.h>
->   #include <linux/migrate.h>
->   #include <linux/mm_inline.h>
-> +#include <linux/pagevec.h>
->   #include <linux/sched/mm.h>
->   #include <linux/shmem_fs.h>
->   
-> @@ -3410,3 +3412,156 @@ long pin_user_pages_unlocked(unsigned long start, unsigned long nr_pages,
->   				     &locked, gup_flags);
->   }
->   EXPORT_SYMBOL(pin_user_pages_unlocked);
-> +
-> +/**
-> + * memfd_pin_folios() - pin folios associated with a memfd
-> + * @memfd:      the memfd whose folios are to be pinned
-> + * @start:      starting memfd offset
-> + * @nr_pages:   number of pages from start to pin
-
-We're not pinning pages. An inclusive range [start, end] would be clearer.
-
-> + * @folios:     array that receives pointers to the folios pinned.
-> + *              Should be at-least nr_pages long.
-> + * @offsets:    array that receives offsets of pages in their folios.
-> + *              Should be at-least nr_pages long.
-
-See below, I'm wondering if this is really required once we return each folio
-only once.
-
-> + *
-> + * Attempt to pin folios associated with a memfd; given that a memfd is
-> + * either backed by shmem or hugetlb, the folios can either be found in
-> + * the page cache or need to be allocated if necessary. Once the folios
-> + * are located, they are all pinned via FOLL_PIN and the @offsets array
-> + * is populated with offsets of the pages in their respective folios.
-> + * Therefore, for each page the caller requested, there will be a
-> + * corresponding entry in both @folios and @offsets. And, eventually,
-> + * these pinned folios need to be released either using unpin_user_pages()
-> + * or unpin_user_page().
-
-Oh, we don't have a folio function yet? Should be easy to add, and we'd really
-add them.
-
-> + *
-> + * It must be noted that the folios may be pinned for an indefinite amount
-> + * of time. And, in most cases, the duration of time they may stay pinned
-> + * would be controlled by the userspace. This behavior is effectively the
-> + * same as using FOLL_LONGTERM with other GUP APIs.
-> + *
-> + * Returns number of folios pinned. This would be equal to the number of
-> + * pages requested. If no folios were pinned, it returns -errno.
-> + */
-> +long memfd_pin_folios(struct file *memfd, unsigned long start,
-> +		      unsigned long nr_pages, struct folio **folios,
-> +		      pgoff_t *offsets)
-> +{
-> +	unsigned long end = start + (nr_pages << PAGE_SHIFT) - 1;
-> +	unsigned int max_pgs, pgoff, pgshift = PAGE_SHIFT;
-> +	pgoff_t start_idx, end_idx, next_idx;
-> +	unsigned int flags, nr_folios, i, j;
-> +	struct folio *folio = NULL;
-> +	struct folio_batch fbatch;
-> +	struct page **pages;
-> +	struct hstate *h;
-> +	long ret;
-> +
-> +	if (!nr_pages)
-> +		return -EINVAL;
-> +
-> +	if (!memfd)
-> +		return -EINVAL;
-> +
-> +	if (!shmem_file(memfd) && !is_file_hugepages(memfd))
-> +		return -EINVAL;
-> +
-> +	pages = kmalloc_array(nr_pages, sizeof(*pages), GFP_KERNEL);
-> +	if (!pages)
-> +		return -ENOMEM;
-> +
-> +	if (is_file_hugepages(memfd)) {
-> +		h = hstate_file(memfd);
-> +		pgshift = huge_page_shift(h);
-> +	}
-> +
-> +	flags = memalloc_pin_save();
-> +	do {
-> +		i = 0;
-> +		start_idx = start >> pgshift;
-> +		end_idx = end >> pgshift;
-> +		if (is_file_hugepages(memfd)) {
-> +			start_idx <<= huge_page_order(h);
-> +			end_idx <<= huge_page_order(h);
-> +		}
-> +
-> +		folio_batch_init(&fbatch);
-> +		while (start_idx <= end_idx) {
-> +			/*
-> +			 * In most cases, we should be able to find the folios
-> +			 * in the page cache. If we cannot find them for some
-> +			 * reason, we try to allocate them and add them to the
-> +			 * page cache.
-> +			 */
-> +			nr_folios = filemap_get_folios_contig(memfd->f_mapping,
-> +							      &start_idx,
-> +							      end_idx,
-> +							      &fbatch);
-> +			if (folio) {
-> +				folio_put(folio);
-> +				folio = NULL;
-> +			}
-> +
-> +			next_idx = 0;
-> +			for (j = 0; j < nr_folios; j++) {
-> +				if (next_idx &&
-> +				    next_idx != folio_index(fbatch.folios[j]))
-> +					continue;
-> +
-> +				folio = try_grab_folio(&fbatch.folios[j]->page,
-> +						       1, FOLL_PIN);
-> +				if (!folio) {
-> +					folio_batch_release(&fbatch);
-> +					kfree(pages);
-> +					goto err;
-> +				}
-> +
-> +				max_pgs = folio_nr_pages(folio);
-> +				if (i == 0) {
-> +					pgoff = offset_in_folio(folio, start);
-> +					pgoff >>= PAGE_SHIFT;
-> +				}
-> +
-> +				do {
-> +					folios[i] = folio;
-> +					offsets[i] = pgoff << PAGE_SHIFT;
-> +					pages[i] = folio_page(folio, 0);
-> +					folio_add_pin(folio);
-> +
-> +					pgoff++;
-> +					i++;
-> +				} while (pgoff < max_pgs && i < nr_pages);
-> +
-> +				pgoff = 0;
-> +				next_idx = folio_next_index(folio);
-> +				gup_put_folio(folio, 1, FOLL_PIN);
-> +			}
-> +
-> +			folio = NULL;
-> +			folio_batch_release(&fbatch);
-> +			if (!nr_folios) {
-> +				folio = memfd_alloc_folio(memfd, start_idx);
-> +				if (IS_ERR(folio)) {
-> +					ret = PTR_ERR(folio);
-> +					if (ret != -EEXIST) {
-> +						kfree(pages);
-> +						goto err;
-> +					}
-> +				}
-> +			}
-> +		}
-> +
-> +		ret = check_and_migrate_movable_pages(nr_pages, pages);
-
-Having a folio variant would avoid having to mess with pages here at all.
-Further, we're now returning+pinning the same folio multiple times, instead of
-just once like the folio batching variant would.
-
-I'm wondering if the following wouldn't make more sense, assuming we add
-check_and_migrate_movable_folios(), which should be pretty easy to add.
-
-Obviously untested, just to express what I have in mind:
-
-
-
-/**
-  * memfd_pin_folios() - pin folios associated with a memfd
-  * @memfd:      the memfd whose folios are to be pinned
-  * @start:      the starting memfd offset
-  * @end:        the final memfd offset (inclusive)
-  * @folios:     array that receives pointers to the folios pinned
-  * @max_folios: the number of entries in the array for folios
-  * @offsets:    the offset into the first folio
-  *
-  * Attempt to pin folios associated with a memfd; given that a memfd is
-  * either backed by shmem or hugetlb, the folios can either be found in
-  * the page cache or need to be allocated if necessary. Once the folios
-  * are located, they are all pinned via FOLL_PIN and @offset is populated
-  * with the offset into the first folio.
-  *
-  * Pinned folios must be released using unpin_folio() or unpin_folios().
-  *
-  * It must be noted that the folios may be pinned for an indefinite amount
-  * of time. And, in most cases, the duration of time they may stay pinned
-  * would be controlled by the userspace. This behavior is effectively the
-  * same as using FOLL_LONGTERM with other GUP APIs.
-  *
-  * Returns number of folios pinned, which might be less than @max_folios
-  * only if the whole range was pinned. If no folios were pinned, it returns
-  * -errno.
-  */
-long memfd_pin_folios(struct file *memfd, unsigned long start,
-		      unsigned long end, struct folio **folios,
-		      unsigned int max_folios, unsigned long *offset)
-{
-	unsigned int pgshift = PAGE_SHIFT;
-	unsigned int flags, nr_folios, cur_folios, i;
-	pgoff_t start_idx, end_idx;
-	struct folio_batch fbatch;
-	struct folio *folio;
-	struct hstate *h;
-	long ret;
-
-	if (start > end || !max_folios)
-		return -EINVAL;
-
-	if (!memfd)
-		return -EINVAL;
-
-	if (!shmem_file(memfd) && !is_file_hugepages(memfd))
-		return -EINVAL;
-
-	if (is_file_hugepages(memfd)) {
-		h = hstate_file(memfd);
-		pgshift = huge_page_shift(h);
-	}
-
-	flags = memalloc_pin_save();
-	folio_batch_init(&fbatch);
-	do {
-		nr_folios = 0;
-		start_idx = start >> pgshift;
-		end_idx = end >> pgshift;
-		if (is_file_hugepages(memfd)) {
-			start_idx <<= huge_page_order(h);
-			end_idx <<= huge_page_order(h);
-		}
-
-		while (start_idx <= end_idx) {
-			/*
-			 * In most cases, we should be able to find the folios
-			 * in the page cache. If we cannot find them for some
-			 * reason, we try to allocate them and add them to the
-			 * page cache.
-			 */
-			folio_batch_release(&fbatch);
-			cur_folios = filemap_get_folios_contig(memfd->f_mapping,
-							       &start_idx,
-							       end_idx,
-							       &fbatch);
-			if (!cur_folios) {
-				folio = memfd_alloc_folio(memfd, start_idx);
-				if (IS_ERR(folio)) {
-					ret = PTR_ERR(folio);
-					if (ret != -EEXIST)
-						goto err;
-				}
-				folio_put(folio);
-				continue;
-			}
-
-			/* Let's pin each folio, which shouldn't really fail. */
-			for (i = 0; i < cur_folios; i++) {
-				folio = try_grab_folio(&fbatch.folios[i]->page,
-						       1, FOLL_PIN);
-				if (!folio)
-					goto err;
-
-				if (!nr_folios)
-					*offset = offset_in_folio(folio, start);
-				folios[nr_folios++] = folio;
-
-				if (max_folios == nr_folios)
-					break;
-			}
-			if (max_folios == nr_folios)
-				break;
-		}
-		folio_batch_release(&fbatch);
-
-		ret = check_and_migrate_movable_folios(nr_folios, folios);
-	} while (ret == -EAGAIN);
-
-	memalloc_pin_restore(flags);
-	return ret ? ret : nr_folios;
-err:
-	folio_batch_release(&fbatch);
-	memalloc_pin_restore(flags);
-	while (i-- > 0)
-		if (folios[i])
-			gup_put_folio(folios[i], 1, FOLL_PIN);
-
-	return ret;
-}
-EXPORT_SYMBOL_GPL(memfd_pin_folios);
-
-
-
-I'm still wondering about the  offset handling, though. Could it happen that why we are
-repeatedly calling filemap_get_folios_contig(), that we would need offset!=0 on any of
-the other folios besides the first one? My current understanding (and looking at
-filemap_get_folios_contig()) is: no.
-
-I'm primarily concerned about concurrent fallocate(PUNCH_HOLE) and THP collapse/splitting.
+We should probably get started with the first two patches, they are
+independent of the remaining discussion regarding memfd_pin_folios().
 
 -- 
 Cheers,
