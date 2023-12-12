@@ -2,52 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25DB880E93D
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 11:38:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35FE880EA29
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 12:17:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 310CD10E5BA;
-	Tue, 12 Dec 2023 10:38:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F29ED10E13A;
+	Tue, 12 Dec 2023 11:17:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2061B10E105;
- Tue, 12 Dec 2023 10:38:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1702377482; x=1733913482;
- h=message-id:date:mime-version:subject:from:to:cc:
- references:in-reply-to:content-transfer-encoding;
- bh=y9/k0WAvhq0R7nnVfiFwyFyuH6UEGJ+vmt5Qs55HovA=;
- b=Gt4OEd0TOKjv9zyHWotjOhVWWjL7JpUodRnd4ksO6AiM3RZ6JvaU/kAC
- OS5MwQgbM3c6dgYGd0KLD1a32908ctXrYaCwjs4S28wHKPErKyGE5WBW+
- 4qfLBo3rzL4AfE0dyPv/RaDKFtPmIPasvYy8QG+9WjggeZRJiKuR/uu1v
- DPBEEm3i2PJ8Sk7pOpaYZ2qHr3u2BUL1tHfKT1pWq5ZboNmsqCq6Tw+47
- iA4//+FjsMqGG4l0vNfHLGJSfMnDhj6YeXNKHgA8Lj+PPwqzdn6tQzc3b
- SGjg7/QtI1lmmhu51AjMPLIITAg/Xr5iTp61mKHSmp6OXesDdHiufq03q w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="425910722"
-X-IronPort-AV: E=Sophos;i="6.04,269,1695711600"; d="scan'208";a="425910722"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2023 02:38:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,269,1695711600"; d="scan'208";a="14913239"
-Received: from rmarsh1-mobl1.ger.corp.intel.com (HELO [10.213.206.40])
- ([10.213.206.40])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2023 02:38:00 -0800
-Message-ID: <4da147e7-44bf-4d19-952d-fa3bab141f71@linux.intel.com>
-Date: Tue, 12 Dec 2023 10:37:57 +0000
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CB4810E13A
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 11:17:25 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.162.254])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4SqGKp54dqzZcl2;
+ Tue, 12 Dec 2023 19:17:18 +0800 (CST)
+Received: from dggpemm500005.china.huawei.com (unknown [7.185.36.74])
+ by mail.maildlp.com (Postfix) with ESMTPS id 4699618005A;
+ Tue, 12 Dec 2023 19:17:22 +0800 (CST)
+Received: from [10.69.30.204] (10.69.30.204) by dggpemm500005.china.huawei.com
+ (7.185.36.74) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Tue, 12 Dec
+ 2023 19:17:21 +0800
+Subject: Re: [net-next v1 09/16] page_pool: device memory support
+To: Mina Almasry <almasrymina@google.com>
+References: <20231208005250.2910004-1-almasrymina@google.com>
+ <20231208005250.2910004-10-almasrymina@google.com>
+ <32211cbf-3a4e-8a86-6214-4304ddb18a98@huawei.com>
+ <CAHS8izOQcuLPwvDff96fuNB7r6EU9OWt3ShueQp=u7wat3L5LA@mail.gmail.com>
+ <92e30bd9-6df4-b72f-7bcd-f4fe5670eba2@huawei.com>
+ <CAHS8izPEFsqw50qgM+sPot6XVvOExpd+DrwrmPSR3zsWGLysRw@mail.gmail.com>
+ <CAHS8izN6Cbjy0FCYhJyNsP396XfgJ_nTFXWuHb5QWNct=PifAg@mail.gmail.com>
+ <59e07233-24cb-7fb2-1aee-e1cf7eb72fa9@huawei.com>
+ <CAHS8izMdpo0D7GYzMkOtg1ueCODAVNxtwSP_qPseSYXNMhPGCw@mail.gmail.com>
+From: Yunsheng Lin <linyunsheng@huawei.com>
+Message-ID: <2cdf173c-95e4-2141-56f7-0761705cd737@huawei.com>
+Date: Tue, 12 Dec 2023 19:17:21 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC] drm/i915: Allow dmabuf mmap forwarding
+In-Reply-To: <CAHS8izMdpo0D7GYzMkOtg1ueCODAVNxtwSP_qPseSYXNMhPGCw@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20230925131638.32808-1-tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20230925131638.32808-1-tvrtko.ursulin@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.69.30.204]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500005.china.huawei.com (7.185.36.74)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,248 +58,185 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Matthew Auld <matthew.auld@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
+Cc: linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Eric Dumazet <edumazet@google.com>, linux-kselftest@vger.kernel.org,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-arch@vger.kernel.org, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jeroen de Borst <jeroendb@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ linux-media@vger.kernel.org, Jesper Dangaard Brouer <hawk@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Shailend Chand <shailend@google.com>,
+ Shakeel Butt <shakeelb@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>, netdev@vger.kernel.org,
+ David Ahern <dsahern@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>, bpf@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 2023/12/12 2:14, Mina Almasry wrote:
+> On Mon, Dec 11, 2023 at 3:51 AM Yunsheng Lin <linyunsheng@huawei.com> wrote:
+>>
+>> On 2023/12/11 12:04, Mina Almasry wrote:
+>>> On Sun, Dec 10, 2023 at 6:26 PM Mina Almasry <almasrymina@google.com> wrote:
+>>>>
+>>>> On Sun, Dec 10, 2023 at 6:04 PM Yunsheng Lin <linyunsheng@huawei.com> wrote:
+>>>>>
+>>>>> On 2023/12/9 0:05, Mina Almasry wrote:
+>>>>>> On Fri, Dec 8, 2023 at 1:30 AM Yunsheng Lin <linyunsheng@huawei.com> wrote:
+>>>>>>>
+>>>>>>>
+>>>>>>> As mentioned before, it seems we need to have the above checking every
+>>>>>>> time we need to do some per-page handling in page_pool core, is there
+>>>>>>> a plan in your mind how to remove those kind of checking in the future?
+>>>>>>>
+>>>>>>
+>>>>>> I see 2 ways to remove the checking, both infeasible:
+>>>>>>
+>>>>>> 1. Allocate a wrapper struct that pulls out all the fields the page pool needs:
+>>>>>>
+>>>>>> struct netmem {
+>>>>>>         /* common fields */
+>>>>>>         refcount_t refcount;
+>>>>>>         bool is_pfmemalloc;
+>>>>>>         int nid;
+>>>>>>         ...
+>>>>>>         union {
+>>>>>>                 struct dmabuf_genpool_chunk_owner *owner;
+>>>>>>                 struct page * page;
+>>>>>>         };
+>>>>>> };
+>>>>>>
+>>>>>> The page pool can then not care if the underlying memory is iov or
+>>>>>> page. However this introduces significant memory bloat as this struct
+>>>>>> needs to be allocated for each page or ppiov, which I imagine is not
+>>>>>> acceptable for the upside of removing a few static_branch'd if
+>>>>>> statements with no performance cost.
+>>>>>>
+>>>>>> 2. Create a unified struct for page and dmabuf memory, which the mm
+>>>>>> folks have repeatedly nacked, and I imagine will repeatedly nack in
+>>>>>> the future.
+>>>>>>
+>>>>>> So I imagine the special handling of ppiov in some form is critical
+>>>>>> and the checking may not be removable.
+>>>>>
+>>>>> If the above is true, perhaps devmem is not really supposed to be intergated
+>>>>> into page_pool.
+>>>>>
+>>>>> Adding a checking for every per-page handling in page_pool core is just too
+>>>>> hacky to be really considerred a longterm solution.
+>>>>>
+>>>>
+>>>> The only other option is to implement another page_pool for ppiov and
+>>>> have the driver create page_pool or ppiov_pool depending on the state
+>>>> of the netdev_rx_queue (or some helper in the net stack to do that for
+>>>> the driver). This introduces some code duplication. The ppiov_pool &
+>>>> page_pool would look similar in implementation.
+>>
+>> I think there is a design pattern already to deal with this kind of problem,
+>> refactoring common code used by both page_pool and ppiov into a library to
+>> aovid code duplication if most of them have similar implementation.
+>>
+> 
+> Code can be refactored if it's identical, not if it is similar. I
 
-On 25/09/2023 14:16, Tvrtko Ursulin wrote:
-> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> 
-> Allow mmap forwarding for imported buffers in order to allow minigbm mmap
-> to work on aperture-less platforms such as Meteorlake.
-> 
-> So far i915 did not allow mmap on imported buffers but from minigbm
-> perspective that worked because of the DRM_IOCTL_I915_GEM_MMAP_GTT fall-
-> back would then be attempted, and would be successful.
-> 
-> This stops working on Meteorlake since there is no aperture.
-> 
-> Allow i915 to mmap imported buffers using forwarding via dma_buf_mmap(),
-> which allows the primary minigbm path of DRM_IOCTL_I915_GEM_MMAP_OFFSET /
-> I915_MMAP_OFFSET_WB to work.
-> 
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: Matthew Auld <matthew.auld@intel.com>
-> Cc: Nirmoy Das <nirmoy.das@intel.com>
-> ---
-> 1)
-> It is unclear to me if any real userspace depends on this, but there are
-> certainly compliance suites which fail.
-> 
-> 2)
-> It is also a bit unclear to me if dma_buf_mmap() is exactly intended for
-> this kind of use. It seems that it is, but I also found some old mailing
-> list discussions suggesting there might be some unresolved questions
-> around VMA revocation.
-> 
-> 1 + 2 = RFC for now.
-> 
-> Daniel and Christian were involved in 2) in the past so comments would
-> be appreciated.
+Similarity indicates an opportunity to the refactor out the common
+code, like the page_frag case below:
+https://patchwork.kernel.org/project/netdevbpf/cover/20231205113444.63015-1-linyunsheng@huawei.com/
 
-Any comments on this one? I don't have all the historical knowledge of 
-when this was maybe attempted before and what problems were hit, or 
-something. So would there be downsides or it is fine to forward it.
+But untill we do a proof of concept implemention, it is hard to tell if
+it is feasiable or not.
 
-Regards,
+> suspect the page_pools will be only similar, and if you're not willing
+> to take devmem handling into the page pool then refactoring page_pool
+> code into helpers that do devmem handling may also not be an option.
+> 
+>>>>
+>>>> But this was all discussed in detail in RFC v2 and the last response I
+>>>> heard from Jesper was in favor if this approach, if I understand
+>>>> correctly:
+>>>>
+>>>> https://lore.kernel.org/netdev/7aedc5d5-0daf-63be-21bc-3b724cc1cab9@redhat.com/
+>>>>
+>>>> Would love to have the maintainer weigh in here.
+>>>>
+>>>
+>>> I should note we may be able to remove some of the checking, but maybe not all.
+>>>
+>>> - Checks that disable page fragging for ppiov can be removed once
+>>> ppiov has frag support (in this series or follow up).
+>>>
+>>> - If we use page->pp_frag_count (or page->pp_ref_count) for
+>>> refcounting ppiov, we can remove the if checking in the refcounting.
+>>>
+> 
+> I'm not sure this is actually possible in the short term. The
+> page_pool uses both page->_refcount and page->pp_frag_count for
+> refcounting, and I will not be able to remove the special handling
+> around page->_refcount as i'm not allowed to call page_ref_*() APIs on
+> a non-struct page.
 
-Tvrtko
+the page_ref_*() API may be avoided using the below patch:
+https://patchwork.kernel.org/project/netdevbpf/patch/20231113130041.58124-7-linyunsheng@huawei.com/
+
+But I am not sure how to do that for tx part if devmem for tx is not
+intergating into page_pool, that is why I suggest having a tx implementation
+for the next version, so that we can have a whole picture of devmem.
 
 > 
-> Test-with: 20230925131539.32743-1-tvrtko.ursulin@linux.intel.com
+>>> - We may be able to store the dma_addr of the ppiov in page->dma_addr,
+>>> but I'm unsure if that actually works, because the dma_buf dmaddr is
+>>> dma_addr_t (u32 or u64), but page->dma_addr is unsigned long (4 bytes
+>>> I think). But if it works for pages I may be able to make it work for
+>>> ppiov as well.
+>>>
+>>> - Checks that obtain the page->pp can work with ppiov if we align the
+>>> offset of page->pp and ppiov->pp.
+>>>
+>>> - Checks around page->pp_magic can be removed if we also have offset
+>>> aligned ppiov->pp_magic.
+>>>
+>>> Sadly I don't see us removing the checking for these other cases:
+>>>
+>>> - page_is_pfmemalloc(): I'm not allowed to pass a non-struct page into
+>>> that helper.
+>>
+>> We can do similar trick like above as bit 1 of page->pp_magic is used to
+>> indicate that if it is a pfmemalloc page.
+>>
 > 
-> ---
->   drivers/gpu/drm/i915/gem/i915_gem_mman.c      | 78 +++++++++++++++----
->   .../gpu/drm/i915/gem/i915_gem_object_types.h  |  1 +
->   2 files changed, 65 insertions(+), 14 deletions(-)
+> Likely yes.
 > 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-> index aa4d842d4c5a..78c84c0a8b08 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-> @@ -5,6 +5,7 @@
->    */
->   
->   #include <linux/anon_inodes.h>
-> +#include <linux/dma-buf.h>
->   #include <linux/mman.h>
->   #include <linux/pfn_t.h>
->   #include <linux/sizes.h>
-> @@ -664,6 +665,7 @@ insert_mmo(struct drm_i915_gem_object *obj, struct i915_mmap_offset *mmo)
->   static struct i915_mmap_offset *
->   mmap_offset_attach(struct drm_i915_gem_object *obj,
->   		   enum i915_mmap_type mmap_type,
-> +		   bool forward_mmap,
->   		   struct drm_file *file)
->   {
->   	struct drm_i915_private *i915 = to_i915(obj->base.dev);
-> @@ -682,6 +684,7 @@ mmap_offset_attach(struct drm_i915_gem_object *obj,
->   
->   	mmo->obj = obj;
->   	mmo->mmap_type = mmap_type;
-> +	mmo->forward_mmap = forward_mmap;
->   	drm_vma_node_reset(&mmo->vma_node);
->   
->   	err = drm_vma_offset_add(obj->base.dev->vma_offset_manager,
-> @@ -714,12 +717,25 @@ mmap_offset_attach(struct drm_i915_gem_object *obj,
->   	return ERR_PTR(err);
->   }
->   
-> +static bool
-> +should_forward_mmap(struct drm_i915_gem_object *obj,
-> +		    enum i915_mmap_type mmap_type)
-> +{
-> +	if (!obj->base.import_attach)
-> +		return false;
-> +
-> +	return mmap_type == I915_MMAP_TYPE_WB ||
-> +	       mmap_type == I915_MMAP_TYPE_WC ||
-> +	       mmap_type == I915_MMAP_TYPE_UC;
-> +}
-> +
->   static int
->   __assign_mmap_offset(struct drm_i915_gem_object *obj,
->   		     enum i915_mmap_type mmap_type,
->   		     u64 *offset, struct drm_file *file)
->   {
->   	struct i915_mmap_offset *mmo;
-> +	bool should_forward;
->   
->   	if (i915_gem_object_never_mmap(obj))
->   		return -ENODEV;
-> @@ -735,12 +751,15 @@ __assign_mmap_offset(struct drm_i915_gem_object *obj,
->   	if (mmap_type == I915_MMAP_TYPE_FIXED)
->   		return -ENODEV;
->   
-> +	should_forward = should_forward_mmap(obj, mmap_type);
-> +
->   	if (mmap_type != I915_MMAP_TYPE_GTT &&
->   	    !i915_gem_object_has_struct_page(obj) &&
-> -	    !i915_gem_object_has_iomem(obj))
-> +	    !i915_gem_object_has_iomem(obj) &&
-> +	    !should_forward)
->   		return -ENODEV;
->   
-> -	mmo = mmap_offset_attach(obj, mmap_type, file);
-> +	mmo = mmap_offset_attach(obj, mmap_type, should_forward, file);
->   	if (IS_ERR(mmo))
->   		return PTR_ERR(mmo);
->   
-> @@ -936,6 +955,32 @@ static struct file *mmap_singleton(struct drm_i915_private *i915)
->   	return file;
->   }
->   
-> +static void
-> +__vma_mmap_pgprot(struct vm_area_struct *vma, enum i915_mmap_type mmap_type)
-> +{
-> +	const pgprot_t pgprot =vm_get_page_prot(vma->vm_flags);
-> +
-> +	switch (mmap_type) {
-> +	case I915_MMAP_TYPE_WC:
-> +		vma->vm_page_prot = pgprot_writecombine(pgprot);
-> +		break;
-> +	case I915_MMAP_TYPE_FIXED:
-> +		GEM_WARN_ON(1);
-> +		fallthrough;
-> +	case I915_MMAP_TYPE_WB:
-> +		vma->vm_page_prot = pgprot;
-> +		break;
-> +	case I915_MMAP_TYPE_UC:
-> +		vma->vm_page_prot = pgprot_noncached(pgprot);
-> +		break;
-> +	case I915_MMAP_TYPE_GTT:
-> +		vma->vm_page_prot = pgprot_writecombine(pgprot);
-> +		break;
-> +	}
-> +
-> +	vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
-> +}
-> +
->   static int
->   i915_gem_object_mmap(struct drm_i915_gem_object *obj,
->   		     struct i915_mmap_offset *mmo,
-> @@ -953,6 +998,20 @@ i915_gem_object_mmap(struct drm_i915_gem_object *obj,
->   		vm_flags_clear(vma, VM_MAYWRITE);
->   	}
->   
-> +	/* dma-buf import */
-> +	if (mmo && mmo->forward_mmap) {
-> +		__vma_mmap_pgprot(vma, mmo->mmap_type);
-> +		vm_flags_set(vma, VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP | VM_IO);
-> +
-> +		/*
-> +		 * Don't have our vm_ops to drop the reference in this case so
-> +		 * drop it now and if object goes away userspace will fault.
-> +		 */
-> +		i915_gem_object_put(mmo->obj);
-> +
-> +		return dma_buf_mmap(obj->base.dma_buf, vma, 0);
-> +	}
-> +
->   	anon = mmap_singleton(to_i915(dev));
->   	if (IS_ERR(anon)) {
->   		i915_gem_object_put(obj);
-> @@ -982,34 +1041,25 @@ i915_gem_object_mmap(struct drm_i915_gem_object *obj,
->   
->   	vma->vm_private_data = mmo;
->   
-> +	__vma_mmap_pgprot(vma, mmo->mmap_type);
-> +
->   	switch (mmo->mmap_type) {
->   	case I915_MMAP_TYPE_WC:
-> -		vma->vm_page_prot =
-> -			pgprot_writecombine(vm_get_page_prot(vma->vm_flags));
->   		vma->vm_ops = &vm_ops_cpu;
->   		break;
-> -
->   	case I915_MMAP_TYPE_FIXED:
->   		GEM_WARN_ON(1);
->   		fallthrough;
->   	case I915_MMAP_TYPE_WB:
-> -		vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
->   		vma->vm_ops = &vm_ops_cpu;
->   		break;
-> -
->   	case I915_MMAP_TYPE_UC:
-> -		vma->vm_page_prot =
-> -			pgprot_noncached(vm_get_page_prot(vma->vm_flags));
->   		vma->vm_ops = &vm_ops_cpu;
->   		break;
-> -
->   	case I915_MMAP_TYPE_GTT:
-> -		vma->vm_page_prot =
-> -			pgprot_writecombine(vm_get_page_prot(vma->vm_flags));
->   		vma->vm_ops = &vm_ops_gtt;
->   		break;
->   	}
-> -	vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
->   
->   	return 0;
->   }
-> @@ -1084,7 +1134,7 @@ int i915_gem_fb_mmap(struct drm_i915_gem_object *obj, struct vm_area_struct *vma
->   	} else {
->   		/* handle stolen and smem objects */
->   		mmap_type = i915_ggtt_has_aperture(ggtt) ? I915_MMAP_TYPE_GTT : I915_MMAP_TYPE_WC;
-> -		mmo = mmap_offset_attach(obj, mmap_type, NULL);
-> +		mmo = mmap_offset_attach(obj, mmap_type, false, NULL);
->   		if (IS_ERR(mmo))
->   			return PTR_ERR(mmo);
->   	}
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> index 0c5cdab278b6..b4f86fa020aa 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> @@ -225,6 +225,7 @@ struct i915_mmap_offset {
->   	struct drm_vma_offset_node vma_node;
->   	struct drm_i915_gem_object *obj;
->   	enum i915_mmap_type mmap_type;
-> +	bool forward_mmap;
->   
->   	struct rb_node offset;
->   };
+>>>
+>>> - page_to_nid(): I'm not allowed to pass a non-struct page into that helper.
+>>
+>> Yes, this one need special case.
+>>
+>>>
+>>> - page_pool_free_va(): ppiov have no va.
+>>
+>> Doesn't the skb_frags_readable() checking will protect the page_pool_free_va()
+>> from being called on devmem?
+>>
+> 
+> This function seems to be only called from veth which doesn't support
+> devmem. I can remove the handling there.
+> 
+>>>
+>>> - page_pool_sync_for_dev/page_pool_dma_map: ppiov backed by dma-buf
+>>> fundamentally can't get mapped again.
+>>
+>> Can we just fail the page_pool creation with PP_FLAG_DMA_MAP and
+>> DMA_ATTR_SKIP_CPU_SYNC flags for devmem provider?
+>>
+> 
+> Jakub says PP_FLAG_DMA_MAP must be enabled for devmem, such that the
+> page_pool handles the dma mapping of the devmem and the driver doesn't
+> use it on its own.
+
+I am not sure what benefit does it bring by enabling the DMA_MAP for devmem,
+as devmem seems to call dma_buf_map_attachment() in netdev_bind_dmabuf(), it
+does not really need enabling PP_FLAG_DMA_MAP to get the dma addr for the
+devmem chunk.
