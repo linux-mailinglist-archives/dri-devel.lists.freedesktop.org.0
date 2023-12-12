@@ -1,29 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BED9D80EB73
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 13:20:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D20AC80EB7A
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 13:20:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CA9C10E5E7;
-	Tue, 12 Dec 2023 12:20:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0948810E5EE;
+	Tue, 12 Dec 2023 12:20:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63CC210E5E0
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 12:20:11 +0000 (UTC)
-X-UUID: c5ef250e98e811eeba30773df0976c77-20231212
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1962A10E5E9
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 12:20:09 +0000 (UTC)
+X-UUID: c66879d698e811eea5db2bebc7c28f94-20231212
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=ka6DlWr8O5KPNFH1pdRfFP5nTUuhgOMLMTgYtTTQtV0=; 
- b=VyBYMoOCJ7ACDsbZtMtc869NmcA0a/uX/fXR2ulxUaRKvU3WTsFl7wfLb8l1uqdH6t5gffFrY1B5AJ3TLYgxrHCqG27V5WcqM4PGO8RKkf7XHjbFlCn6IWAvByxFDIsQaO5Fa3yXCyaMhrLhHSaRzjSFQdxynyop4xaLvBhxAxU=;
+ bh=K4w5up8ZLqgyPQD8H2AboWYB5hZ/MbRF9/Caa0P/nFY=; 
+ b=HhuCOvW4IhLy5vj+kqHvm32ou+xjclkW82NhRao1Nuj8UBZyP/CKXGr+xru2a7713lAACW3AzQ4KPDRcuKus9FSjLDq5fKBWxU6Vi/x9WCUOuDnVNd1EpxuIteQ6aerOwNSDdOHiyPs/i2FIYkR834XhLc5wMs/Cli80cYxX72s=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.35, REQID:27f7bae1-a772-4223-89c8-73aeeab04431, IP:0,
+X-CID-O-INFO: VERSION:1.1.35, REQID:2491e0dc-58ac-4849-9ac7-9c3af3b7cdde, IP:0,
  U
  RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
  N:release,TS:-25
-X-CID-META: VersionHash:5d391d7, CLOUDID:7ea8b373-1bd3-4f48-b671-ada88705968c,
+X-CID-META: VersionHash:5d391d7, CLOUDID:383b1c61-c89d-4129-91cb-8ebfae4653fc,
  B
  ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
  RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
@@ -31,41 +31,29 @@ X-CID-META: VersionHash:5d391d7, CLOUDID:7ea8b373-1bd3-4f48-b671-ada88705968c,
 X-CID-BVR: 0
 X-CID-BAS: 0,_,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: c5ef250e98e811eeba30773df0976c77-20231212
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
- mailgw02.mediatek.com (envelope-from <shawn.sung@mediatek.com>)
+X-UUID: c66879d698e811eea5db2bebc7c28f94-20231212
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by
+ mailgw01.mediatek.com (envelope-from <shawn.sung@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 990221556; Tue, 12 Dec 2023 20:20:01 +0800
+ with ESMTP id 1401706049; Tue, 12 Dec 2023 20:20:02 +0800
 Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Tue, 12 Dec 2023 20:20:00 +0800
+ 15.2.1118.26; Tue, 12 Dec 2023 20:20:01 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
  mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Tue, 12 Dec 2023 20:20:00 +0800
+ 15.2.1118.26 via Frontend Transport; Tue, 12 Dec 2023 20:20:01 +0800
 From: Hsiao Chien Sung <shawn.sung@mediatek.com>
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  Chun-Kuang Hu <chunkuang.hu@kernel.org>, CK Hu <ck.hu@mediatek.com>
-Subject: [PATCH v4 05/17] drm/mediatek: Set DRM mode configs accordingly
-Date: Tue, 12 Dec 2023 20:19:45 +0800
-Message-ID: <20231212121957.19231-6-shawn.sung@mediatek.com>
+Subject: [PATCH v4 06/17] drm/mediatek: Support alpha blending in OVL
+Date: Tue, 12 Dec 2023 20:19:46 +0800
+Message-ID: <20231212121957.19231-7-shawn.sung@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20231212121957.19231-1-shawn.sung@mediatek.com>
 References: <20231212121957.19231-1-shawn.sung@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--11.930400-8.000000
-X-TMASE-MatchedRID: x3Ubk3t+gcy00StIHoZF5pJAa1C/+FcunhD9A3Sa7pYs/uUAk6xP7PlY
- oV6p/cSxNFCzr/YjTjOc2wuft1o14LvaJG+XDhc2DB+ErBr0bANn+sA9+u1YLX5h6y4KCSJcShj
- sNhfAcgIZ/p8qQ24bJaaYJmaMPc4/jb9Ltm8ZneZu+yxbbkYIFifyNCEwujCFXhmWufKBF2SRXS
- 5OutA+GekoCEC/ht5M70Qm3YXk6SwfE8yM4pjsDwtuKBGekqUpI/NGWt0UYPDRKhK/CnIxuNRkc
- Elpi5gOLxOGdstXMZz9Oo/9meFJyeSPyTK27pvM
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--11.930400-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: D0B24F9408CB0F914E97D4B49733F9498BF49BB0989FC96017ABFA7DF88B43D12000:8
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -89,96 +77,166 @@ Cc: devicetree@vger.kernel.org, Fei Shao <fshao@chromium.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Set DRM mode configs limitation accroding to the
-hardware capabilities.
+Support premultiply and coverage alpha blending in
+Overlay.
 
 Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
 ---
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 28 ++++++++++++++++++--------
- drivers/gpu/drm/mediatek/mtk_drm_drv.h |  1 +
- 2 files changed, 21 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c | 73 +++++++++++++++++--------
+ 1 file changed, 51 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 5d551bff6b3f..a4b740420ebb 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -304,6 +304,7 @@ static const struct mtk_mmsys_driver_data mt8188_vdosys0_driver_data = {
- 	.conn_routes = mt8188_mtk_ddp_main_routes,
- 	.conn_routes_num = ARRAY_SIZE(mt8188_mtk_ddp_main_routes),
- 	.mmsys_dev_num = 2,
-+	.max_pitch = GENMASK(15, 0),
- };
+diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+index 5aaf4342cdbd..66074c2d917c 100644
+--- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
++++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+@@ -39,6 +39,7 @@
+ #define DISP_REG_OVL_PITCH_MSB(n)		(0x0040 + 0x20 * (n))
+ #define OVL_PITCH_MSB_2ND_SUBBUF			BIT(16)
+ #define DISP_REG_OVL_PITCH(n)			(0x0044 + 0x20 * (n))
++#define OVL_CONST_BLEND					BIT(28)
+ #define DISP_REG_OVL_RDMA_CTRL(n)		(0x00c0 + 0x20 * (n))
+ #define DISP_REG_OVL_RDMA_GMC(n)		(0x00c8 + 0x20 * (n))
+ #define DISP_REG_OVL_ADDR_MT2701		0x0040
+@@ -52,13 +53,16 @@
+ #define GMC_THRESHOLD_HIGH	((1 << GMC_THRESHOLD_BITS) / 4)
+ #define GMC_THRESHOLD_LOW	((1 << GMC_THRESHOLD_BITS) / 8)
  
- static const struct mtk_mmsys_driver_data mt8192_mmsys_driver_data = {
-@@ -318,6 +319,7 @@ static const struct mtk_mmsys_driver_data mt8195_vdosys0_driver_data = {
- 	.main_path = mt8195_mtk_ddp_main,
- 	.main_len = ARRAY_SIZE(mt8195_mtk_ddp_main),
- 	.mmsys_dev_num = 2,
-+	.max_pitch = GENMASK(15, 0),
- };
+-#define OVL_CON_BYTE_SWAP	BIT(24)
+-#define OVL_CON_MTX_YUV_TO_RGB	(6 << 16)
+-#define OVL_CON_CLRFMT_RGB	(1 << 12)
+-#define OVL_CON_CLRFMT_RGBA8888	(2 << 12)
+-#define OVL_CON_CLRFMT_ARGB8888	(3 << 12)
+-#define OVL_CON_CLRFMT_UYVY	(4 << 12)
+-#define OVL_CON_CLRFMT_YUYV	(5 << 12)
++#define OVL_CON_CLRFMT_MAN		BIT(23)
++#define OVL_CON_BYTE_SWAP		BIT(24)
++#define OVL_CON_RGB_SWAP		BIT(25)
++#define OVL_CON_CLRFMT_RGB		(1 << 12)
++#define OVL_CON_CLRFMT_RGBA8888		(2 << 12)
++#define OVL_CON_CLRFMT_ARGB8888		(3 << 12)
++#define OVL_CON_CLRFMT_PARGB8888	(OVL_CON_CLRFMT_ARGB8888 | OVL_CON_CLRFMT_MAN)
++#define OVL_CON_CLRFMT_UYVY		(4 << 12)
++#define OVL_CON_CLRFMT_YUYV		(5 << 12)
++#define OVL_CON_MTX_YUV_TO_RGB		(6 << 16)
+ #define OVL_CON_CLRFMT_RGB565(ovl)	((ovl)->data->fmt_rgb565_is_0 ? \
+ 					0 : OVL_CON_CLRFMT_RGB)
+ #define OVL_CON_CLRFMT_RGB888(ovl)	((ovl)->data->fmt_rgb565_is_0 ? \
+@@ -208,14 +212,12 @@ void mtk_ovl_clk_disable(struct device *dev)
+ void mtk_ovl_start(struct device *dev)
+ {
+ 	struct mtk_disp_ovl *ovl = dev_get_drvdata(dev);
++	unsigned int reg = readl(ovl->regs + DISP_REG_OVL_DATAPATH_CON);
  
- static const struct mtk_mmsys_driver_data mt8195_vdosys1_driver_data = {
-@@ -325,6 +327,7 @@ static const struct mtk_mmsys_driver_data mt8195_vdosys1_driver_data = {
- 	.ext_len = ARRAY_SIZE(mt8195_mtk_ddp_ext),
- 	.mmsys_id = 1,
- 	.mmsys_dev_num = 2,
-+	.max_pitch = GENMASK(15, 0),
- };
+-	if (ovl->data->smi_id_en) {
+-		unsigned int reg;
++	if (ovl->data->smi_id_en)
++		reg |= OVL_LAYER_SMI_ID_EN;
  
- static const struct of_device_id mtk_drm_of_ids[] = {
-@@ -463,16 +466,16 @@ static int mtk_drm_kms_init(struct drm_device *drm)
- 	if (ret)
- 		goto put_mutex_dev;
+-		reg = readl(ovl->regs + DISP_REG_OVL_DATAPATH_CON);
+-		reg = reg | OVL_LAYER_SMI_ID_EN;
+-		writel_relaxed(reg, ovl->regs + DISP_REG_OVL_DATAPATH_CON);
+-	}
++	writel_relaxed(reg, ovl->regs + DISP_REG_OVL_DATAPATH_CON);
+ 	writel_relaxed(0x1, ovl->regs + DISP_REG_OVL_EN);
+ }
  
--	drm->mode_config.min_width = 64;
--	drm->mode_config.min_height = 64;
--
- 	/*
--	 * set max width and height as default value(4096x4096).
--	 * this value would be used to check framebuffer size limitation
--	 * at drm_mode_addfb().
-+	 * Set default values for drm mode config
-+	 * these values will be referenced by drm_mode_addfb() as
-+	 * frame buffer size limitation.
- 	 */
--	drm->mode_config.max_width = 4096;
--	drm->mode_config.max_height = 4096;
-+	drm->mode_config.min_width = 1;
-+	drm->mode_config.min_height = 1;
-+	drm->mode_config.cursor_width = 512;
-+	drm->mode_config.cursor_height = 512;
+@@ -274,7 +276,13 @@ void mtk_ovl_config(struct device *dev, unsigned int w,
+ 	if (w != 0 && h != 0)
+ 		mtk_ddp_write_relaxed(cmdq_pkt, h << 16 | w, &ovl->cmdq_reg, ovl->regs,
+ 				      DISP_REG_OVL_ROI_SIZE);
+-	mtk_ddp_write_relaxed(cmdq_pkt, 0x0, &ovl->cmdq_reg, ovl->regs, DISP_REG_OVL_ROI_BGCLR);
 +
- 	drm->mode_config.funcs = &mtk_drm_mode_config_funcs;
- 	drm->mode_config.helper_private = &mtk_drm_mode_config_helpers;
++	/*
++	 * The background color should be opaque black (ARGB),
++	 * otherwise there will be no effect with alpha blend
++	 */
++	mtk_ddp_write_relaxed(cmdq_pkt, 0xff000000, &ovl->cmdq_reg,
++			      ovl->regs, DISP_REG_OVL_ROI_BGCLR);
  
-@@ -502,6 +505,15 @@ static int mtk_drm_kms_init(struct drm_device *drm)
- 		for (j = 0; j < private->data->mmsys_dev_num; j++) {
- 			priv_n = private->all_drm_private[j];
+ 	mtk_ddp_write(cmdq_pkt, 0x1, &ovl->cmdq_reg, ovl->regs, DISP_REG_OVL_RST);
+ 	mtk_ddp_write(cmdq_pkt, 0x0, &ovl->cmdq_reg, ovl->regs, DISP_REG_OVL_RST);
+@@ -357,7 +365,8 @@ void mtk_ovl_layer_off(struct device *dev, unsigned int idx,
+ 		      DISP_REG_OVL_RDMA_CTRL(idx));
+ }
  
-+			if (priv_n->data->max_pitch) {
-+				/* Save 4 bytes for the color depth (pitch = width x bpp) */
-+				drm->mode_config.max_width  = priv_n->data->max_pitch >> 2;
-+				drm->mode_config.max_height = priv_n->data->max_pitch >> 2;
-+			} else {
-+				drm->mode_config.max_width = 4096;
-+				drm->mode_config.max_height = 4096;
-+			}
+-static unsigned int ovl_fmt_convert(struct mtk_disp_ovl *ovl, unsigned int fmt)
++static unsigned int ovl_fmt_convert(struct mtk_disp_ovl *ovl, unsigned int fmt,
++				    unsigned int blend_mode)
+ {
+ 	/* The return value in switch "MEM_MODE_INPUT_FORMAT_XXX"
+ 	 * is defined in mediatek HW data sheet.
+@@ -376,18 +385,30 @@ static unsigned int ovl_fmt_convert(struct mtk_disp_ovl *ovl, unsigned int fmt)
+ 		return OVL_CON_CLRFMT_RGB888(ovl) | OVL_CON_BYTE_SWAP;
+ 	case DRM_FORMAT_RGBX8888:
+ 	case DRM_FORMAT_RGBA8888:
+-		return OVL_CON_CLRFMT_ARGB8888;
++		return blend_mode == DRM_MODE_BLEND_COVERAGE ?
++		       OVL_CON_CLRFMT_ARGB8888 :
++		       OVL_CON_CLRFMT_PARGB8888;
+ 	case DRM_FORMAT_BGRX8888:
+ 	case DRM_FORMAT_BGRA8888:
++		return OVL_CON_BYTE_SWAP |
++		       (blend_mode == DRM_MODE_BLEND_COVERAGE ?
++		       OVL_CON_CLRFMT_ARGB8888 :
++		       OVL_CON_CLRFMT_PARGB8888);
+ 	case DRM_FORMAT_BGRA1010102:
+ 		return OVL_CON_CLRFMT_ARGB8888 | OVL_CON_BYTE_SWAP;
+ 	case DRM_FORMAT_XRGB8888:
+ 	case DRM_FORMAT_ARGB8888:
++		return blend_mode == DRM_MODE_BLEND_COVERAGE ?
++		       OVL_CON_CLRFMT_RGBA8888 :
++		       OVL_CON_CLRFMT_PARGB8888;
+ 	case DRM_FORMAT_ARGB2101010:
+ 		return OVL_CON_CLRFMT_RGBA8888;
+ 	case DRM_FORMAT_XBGR8888:
+ 	case DRM_FORMAT_ABGR8888:
+-		return OVL_CON_CLRFMT_RGBA8888 | OVL_CON_BYTE_SWAP;
++		return OVL_CON_RGB_SWAP |
++		       (blend_mode == DRM_MODE_BLEND_COVERAGE ?
++		       OVL_CON_CLRFMT_RGBA8888 :
++		       OVL_CON_CLRFMT_PARGB8888);
+ 	case DRM_FORMAT_UYVY:
+ 		return OVL_CON_CLRFMT_UYVY | OVL_CON_MTX_YUV_TO_RGB;
+ 	case DRM_FORMAT_YUYV:
+@@ -408,6 +429,8 @@ void mtk_ovl_layer_config(struct device *dev, unsigned int idx,
+ 	unsigned int fmt = pending->format;
+ 	unsigned int offset = (pending->y << 16) | pending->x;
+ 	unsigned int src_size = (pending->height << 16) | pending->width;
++	unsigned int blend_mode = state->base.pixel_blend_mode;
++	unsigned int ignore_pixel_alpha = 0;
+ 	unsigned int con;
+ 	bool is_afbc = pending->modifier != DRM_FORMAT_MOD_LINEAR;
+ 	union overlay_pitch {
+@@ -425,9 +448,15 @@ void mtk_ovl_layer_config(struct device *dev, unsigned int idx,
+ 		return;
+ 	}
+ 
+-	con = ovl_fmt_convert(ovl, fmt);
+-	if (state->base.fb && state->base.fb->format->has_alpha)
+-		con |= OVL_CON_AEN | OVL_CON_ALPHA;
++	con = ovl_fmt_convert(ovl, fmt, blend_mode);
++	if (state->base.fb) {
++		con |= OVL_CON_AEN;
++		con |= state->base.alpha & OVL_CON_ALPHA;
++	}
 +
- 			if (i == 0 && priv_n->data->main_len) {
- 				ret = mtk_drm_crtc_create(drm, priv_n->data->main_path,
- 							  priv_n->data->main_len, j,
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.h b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-index d2efd715699f..3d6c1f58a7ec 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-@@ -41,6 +41,7 @@ struct mtk_mmsys_driver_data {
- 	bool shadow_register;
- 	unsigned int mmsys_id;
- 	unsigned int mmsys_dev_num;
-+	u32 max_pitch;
- };
++	if (blend_mode == DRM_MODE_BLEND_PIXEL_NONE ||
++	    (state->base.fb && !state->base.fb->format->has_alpha))
++		ignore_pixel_alpha = OVL_CONST_BLEND;
  
- struct mtk_drm_private {
+ 	if (pending->rotation & DRM_MODE_REFLECT_Y) {
+ 		con |= OVL_CON_VIRT_FLIP;
+@@ -444,8 +473,8 @@ void mtk_ovl_layer_config(struct device *dev, unsigned int idx,
+ 
+ 	mtk_ddp_write_relaxed(cmdq_pkt, con, &ovl->cmdq_reg, ovl->regs,
+ 			      DISP_REG_OVL_CON(idx));
+-	mtk_ddp_write_relaxed(cmdq_pkt, overlay_pitch.split_pitch.lsb, &ovl->cmdq_reg, ovl->regs,
+-			      DISP_REG_OVL_PITCH(idx));
++	mtk_ddp_write_relaxed(cmdq_pkt, overlay_pitch.split_pitch.lsb | ignore_pixel_alpha,
++			      &ovl->cmdq_reg, ovl->regs, DISP_REG_OVL_PITCH(idx));
+ 	mtk_ddp_write_relaxed(cmdq_pkt, src_size, &ovl->cmdq_reg, ovl->regs,
+ 			      DISP_REG_OVL_SRC_SIZE(idx));
+ 	mtk_ddp_write_relaxed(cmdq_pkt, offset, &ovl->cmdq_reg, ovl->regs,
 -- 
 2.18.0
 
