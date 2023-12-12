@@ -1,93 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57F5C80E8B7
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 11:10:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A655B80E8C3
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 11:11:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2438710E5A6;
-	Tue, 12 Dec 2023 10:09:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6ED1410E1B3;
+	Tue, 12 Dec 2023 10:11:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AD3510E5A1;
- Tue, 12 Dec 2023 10:09:54 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 6462061778;
- Tue, 12 Dec 2023 10:09:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91EC4C433C8;
- Tue, 12 Dec 2023 10:09:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1702375793;
- bh=V09ac0Vx8/0XemL7D1qLeL0Xl+aDB+RNUhcbGt1x/P8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ENRfhC5KlOH6qwcGgaJhFxnMI28wj+/bRFQKdFmTy78fbEEiHB7h7PPAGXhI7SN4E
- dNDFUjrfTcL1u1bhuzahS1CO+UTdpf4yARUpHwk6+3SsRe9+P+Eyos2liucJi5/g3H
- 9Yvwze+3nvuZ/QWVaBSJRkalufJt+eht7/+QuE4QR4zxyXSqXN7V8qACjSDvB2aQAY
- d46m4IUORN1InAmRaMVKlV+pBQTAUULic3KEAB4onuStQfxGv5KowQ6S8lAYTjV7MQ
- dPxBPvvTfUArqbmwe1xQDWeab5H+PHsn4tmge8HoDQlQawzlFUR9utsV9uJcuoM3YK
- d3rRka8wRl2Ug==
-Message-ID: <b23c3d03-8b0f-43b9-90d1-8d5c3a9622cc@kernel.org>
-Date: Tue, 12 Dec 2023 11:09:45 +0100
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com
+ [IPv6:2607:f8b0:4864:20::b30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2CB110E1B3
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 10:11:30 +0000 (UTC)
+Received: by mail-yb1-xb30.google.com with SMTP id
+ 3f1490d57ef6-db53f8cf4afso4476828276.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 02:11:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1702375890; x=1702980690; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=TrALaesQgyuM5VBjLsZWxJBv/FBiGl6WWHZcz62LCsQ=;
+ b=U2yLa3Qmtt6xWN2vIH6g7zzVoa3naEdnO8Cob6UdYh6dISzsoy8B3qM7T0ql0p57Bg
+ WxynO4NKp1KEhzEGpouc5ANESEQNWnIpkbQDQ7b+c+WOBHvapzyUdrRJlXhgAKNP27NQ
+ g8NUSNE4MtaIPwjduB8NpPZtxr7S4cOfa+vQCtklLE7Hiztey4nmgvUS1Cbg/f5U3Z4F
+ G1e/zHFCtwlqZ4OmRKX/1yXwfzRoajmUN43xY3tADWjtj9+ZwC7kBv3zhE7lW6uVBQTo
+ peiVFQSwqyIx+lfcG/ahbb+fBjVZGKsFbKwD1iutG7sFe9fsSjJmHuUkz88SrlrXjzy0
+ byCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1702375890; x=1702980690;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=TrALaesQgyuM5VBjLsZWxJBv/FBiGl6WWHZcz62LCsQ=;
+ b=nu8lYcQFHno5xVQbyqKFeofnDHgWjGgKrFmwOAWKIJQSnESZoxWFActHKNJmb2TSgQ
+ 9iTXmWMcE0IfaCYUuzRxoQXQ9ZkH2Oe7o3jO9O/7jBqFYfH2P+/2DEkdpF1eh73zrg2q
+ whYBUtydhTeupcTcGrXX0TrCx8yz4YfDF4FxVbB74nN4jxllLYqPtFa1PNyzvVTmTXtB
+ fl+jfqZRxhkn6O5t2+G8whlu63pzmd9uySB+xk9Mv7PX5KfiawC7MQcmIVwcYvU+igJt
+ oEWpW0cAs1vNC9gpj/CoavOX1kpE/G9vIWVcFNuCDt0cGwOsfVvtmV+vmfEPnlpSk02R
+ 1HUQ==
+X-Gm-Message-State: AOJu0YzPc81y/JN/nC97rYJsMB2iWp4dj2iT0W/BpLWmyGWMQgA7t913
+ cTTq1LIK0Kj2ZNOYUdYKw9GLzDn7JjxJMaz8opj+YQ==
+X-Google-Smtp-Source: AGHT+IH4kRlISgKjiU5BqBf5v8muUL1cRp5jUmprgddz13Vqnjj9lFJY/CpDvj3Ul+mqmEg09KelU7DuIhO0LQXv9y0=
+X-Received: by 2002:a25:787:0:b0:dbc:be12:f04f with SMTP id
+ 129-20020a250787000000b00dbcbe12f04fmr150338ybh.42.1702375889844; Tue, 12 Dec
+ 2023 02:11:29 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/8] dt-bindings: display: msm: dp: declare compatible
- string for sm8150
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>
 References: <20231211154445.3666732-1-dmitry.baryshkov@linaro.org>
  <20231211154445.3666732-2-dmitry.baryshkov@linaro.org>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20231211154445.3666732-2-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <b23c3d03-8b0f-43b9-90d1-8d5c3a9622cc@kernel.org>
+In-Reply-To: <b23c3d03-8b0f-43b9-90d1-8d5c3a9622cc@kernel.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 12 Dec 2023 12:11:18 +0200
+Message-ID: <CAA8EJppntst7FNnobURw--tdDzkrZWZhCDKRsELKNZ8RxpHyiw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/8] dt-bindings: display: msm: dp: declare compatible
+ string for sm8150
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,21 +69,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: freedreno@lists.freedesktop.org, Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/12/2023 16:44, Dmitry Baryshkov wrote:
-> Add compatible string for the DisplayPort controller found on the
-> Qualcomm SM8150 platform.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
+On Tue, 12 Dec 2023 at 12:09, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>
+> On 11/12/2023 16:44, Dmitry Baryshkov wrote:
+> > Add compatible string for the DisplayPort controller found on the
+> > Qualcomm SM8150 platform.
+> >
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+>
+> DT list...
 
-DT list...
+Yes...
 
-Best regards,
-Krzysztof
-
+-- 
+With best wishes
+Dmitry
