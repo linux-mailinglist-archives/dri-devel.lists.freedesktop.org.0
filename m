@@ -2,51 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6CB880F5D8
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 19:54:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C04A180F608
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 20:08:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A84C10E658;
-	Tue, 12 Dec 2023 18:54:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 163F710E04C;
+	Tue, 12 Dec 2023 19:08:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00ADA10E658
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 18:54:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1702407291; x=1733943291;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=Fhtw7jwfZStNBl0doZOH1Goh94LDTrinYbroAI2TZRs=;
- b=V8cnKXUF+K+s97q/he4OKZ9H4jVAUoxxNykBNEFa9+NLxJyoMFT9ok7k
- sWRQ7N9G4ITUWpgLhtoWzALo0AWzsxtlPsYWBMJFUfiRpGlpM5n75/lLV
- tmwPvDwZcQ4kTP7nXX1a5eCZ7avVChCYjqt5JkQAbBxtSUVEHSAGZXxP6
- CjS76HWdqRE1ydpGI9ArmE+g9utHLnEH5+sohBOYNQjRDsjByzF8Rx8Nj
- wTMFKrRmw5HEhzuLOax5eDhj9oxdXcVGuB3P7g08/hZYvp+43O0ZWGqH9
- yVa2Mis1aFcPc5Lok5Gzgo/KLv2Wkp7Y+kU3FxUX/+AvcdH05JoP/mr/D g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="385263227"
-X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; d="scan'208";a="385263227"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2023 10:54:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="749814655"
-X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; d="scan'208";a="749814655"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
- by orsmga006.jf.intel.com with ESMTP; 12 Dec 2023 10:54:48 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1rD7u1-000Ja5-1T;
- Tue, 12 Dec 2023 18:54:45 +0000
-Date: Wed, 13 Dec 2023 02:53:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jani Nikula <jani.nikula@intel.com>, linux-sound@vger.kernel.org
-Subject: Re: [PATCH] ASoC: hdmi-codec: drop drm/drm_edid.h include
-Message-ID: <202312130235.qG8OwKk0-lkp@intel.com>
-References: <20231212143038.3828691-1-jani.nikula@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C78110E04C
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 19:08:15 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id B7F6760EEA;
+ Tue, 12 Dec 2023 19:08:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D54B9C433C8;
+ Tue, 12 Dec 2023 19:08:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1702408094;
+ bh=jhISTjjXnV6IhH0cY8Vge/0tePQdfehvyIi305w0McY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Au4hC/1gn8GAGqeNMIHMx+pf9H5e6cZx6if1YTAQ6myI1fcVcXp5E5HE2JZd7l5Ox
+ z67YTPNEYCNjnSuydNuYjf11+fIKfzPgHgAvXDJMesthEcR7qviRft/QV/5zK2IHqc
+ ruHQ42BTGcBdnaq77FMuM0r1fOHC9LqNVWjgGTPuAoXZTpwGA7dF5WXD028QLwM5fU
+ 83R8uUGoHmwAgKnoHD0ERZyXGTjjQTXsSeJdhkJcoe/E2jvGdjrJ/mAO3N0OzKkaja
+ 5wgu6LG6g2ra++dYX1DnvaNKyc0fxe1LJrSA1Kpyox0qvKLpHzYMqlHmzVyMur9vKu
+ ehmZCE5A0RUew==
+Date: Tue, 12 Dec 2023 19:08:06 +0000
+From: Simon Horman <horms@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Subject: Re: [net-next v1 14/16] net: add SO_DEVMEM_DONTNEED setsockopt to
+ release RX frags
+Message-ID: <20231212190806.GB5817@kernel.org>
+References: <20231208005250.2910004-1-almasrymina@google.com>
+ <20231208005250.2910004-15-almasrymina@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231212143038.3828691-1-jani.nikula@intel.com>
+In-Reply-To: <20231208005250.2910004-15-almasrymina@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,137 +51,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, dri-devel@lists.freedesktop.org,
- oe-kbuild-all@lists.linux.dev
+Cc: linux-doc@vger.kernel.org, Kaiyuan Zhang <kaiyuanz@google.com>,
+ dri-devel@lists.freedesktop.org, Eric Dumazet <edumazet@google.com>,
+ linux-kselftest@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-arch@vger.kernel.org,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jeroen de Borst <jeroendb@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ linux-media@vger.kernel.org, Jesper Dangaard Brouer <hawk@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Shailend Chand <shailend@google.com>,
+ Shakeel Butt <shakeelb@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org,
+ David Ahern <dsahern@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Yunsheng Lin <linyunsheng@huawei.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>, bpf@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jani,
+On Thu, Dec 07, 2023 at 04:52:45PM -0800, Mina Almasry wrote:
+> Add an interface for the user to notify the kernel that it is done
+> reading the devmem dmabuf frags returned as cmsg. The kernel will
+> drop the reference on the frags to make them available for re-use.
+> 
+> Signed-off-by: Willem de Bruijn <willemb@google.com>
+> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
 
-kernel test robot noticed the following build errors:
+...
 
-[auto build test ERROR on tiwai-sound/for-next]
-[also build test ERROR on tiwai-sound/for-linus linus/master v6.7-rc5 next-20231212]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> diff --git a/net/core/sock.c b/net/core/sock.c
+> index fef349dd72fa..521bdc4ff260 100644
+> --- a/net/core/sock.c
+> +++ b/net/core/sock.c
+> @@ -1051,6 +1051,41 @@ static int sock_reserve_memory(struct sock *sk, int bytes)
+>  	return 0;
+>  }
+>  
+> +static noinline_for_stack int
+> +sock_devmem_dontneed(struct sock *sk, sockptr_t optval, unsigned int optlen)
+> +{
+> +	struct dmabuf_token tokens[128];
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/ASoC-hdmi-codec-drop-drm-drm_edid-h-include/20231212-223200
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-patch link:    https://lore.kernel.org/r/20231212143038.3828691-1-jani.nikula%40intel.com
-patch subject: [PATCH] ASoC: hdmi-codec: drop drm/drm_edid.h include
-config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20231213/202312130235.qG8OwKk0-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231213/202312130235.qG8OwKk0-lkp@intel.com/reproduce)
+Hi Mina,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312130235.qG8OwKk0-lkp@intel.com/
+I am guessing it is mostly due to the line above,
+but on x86 32bit builds I see:
 
-All error/warnings (new ones prefixed by >>):
+	warning: the frame size of 1048 bytes is larger than 1024 bytes [-Wframe-larger-than
 
-   drivers/gpu/drm/msm/dp/dp_display.c: In function 'dp_display_process_hpd_high':
->> drivers/gpu/drm/msm/dp/dp_display.c:406:31: error: implicit declaration of function 'drm_detect_monitor_audio' [-Werror=implicit-function-declaration]
-     406 |         dp->audio_supported = drm_detect_monitor_audio(edid);
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   drivers/gpu/drm/vc4/vc4_hdmi.c: In function 'vc4_hdmi_is_full_range':
->> drivers/gpu/drm/vc4/vc4_hdmi.c:168:17: error: implicit declaration of function 'drm_default_rgb_quant_range' [-Werror=implicit-function-declaration]
-     168 |                 drm_default_rgb_quant_range(mode) == HDMI_QUANTIZATION_RANGE_FULL;
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/vc4/vc4_hdmi.c: In function 'vc4_hdmi_handle_hotplug':
->> drivers/gpu/drm/vc4/vc4_hdmi.c:437:16: error: implicit declaration of function 'drm_get_edid'; did you mean 'drm_gem_evict'? [-Werror=implicit-function-declaration]
-     437 |         edid = drm_get_edid(connector, vc4_hdmi->ddc);
-         |                ^~~~~~~~~~~~
-         |                drm_gem_evict
->> drivers/gpu/drm/vc4/vc4_hdmi.c:437:14: warning: assignment to 'struct edid *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     437 |         edid = drm_get_edid(connector, vc4_hdmi->ddc);
-         |              ^
-   drivers/gpu/drm/vc4/vc4_hdmi.c: In function 'vc4_hdmi_connector_get_modes':
-   drivers/gpu/drm/vc4/vc4_hdmi.c:508:14: warning: assignment to 'struct edid *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     508 |         edid = drm_get_edid(connector, vc4_hdmi->ddc);
-         |              ^
->> drivers/gpu/drm/vc4/vc4_hdmi.c:514:15: error: implicit declaration of function 'drm_add_edid_modes' [-Werror=implicit-function-declaration]
-     514 |         ret = drm_add_edid_modes(connector, edid);
-         |               ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/vc4/vc4_hdmi.c: In function 'vc4_hdmi_set_avi_infoframe':
->> drivers/gpu/drm/vc4/vc4_hdmi.c:910:15: error: implicit declaration of function 'drm_hdmi_avi_infoframe_from_display_mode'; did you mean 'drm_hdmi_avi_infoframe_content_type'? [-Werror=implicit-function-declaration]
-     910 |         ret = drm_hdmi_avi_infoframe_from_display_mode(&frame.avi,
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |               drm_hdmi_avi_infoframe_content_type
->> drivers/gpu/drm/vc4/vc4_hdmi.c:917:9: error: implicit declaration of function 'drm_hdmi_avi_infoframe_quant_range'; did you mean 'drm_hdmi_avi_infoframe_content_type'? [-Werror=implicit-function-declaration]
-     917 |         drm_hdmi_avi_infoframe_quant_range(&frame.avi,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |         drm_hdmi_avi_infoframe_content_type
-   drivers/gpu/drm/vc4/vc4_hdmi.c: In function 'vc4_hdmi_sink_supports_format_bpc':
->> drivers/gpu/drm/vc4/vc4_hdmi.c:1930:18: error: implicit declaration of function 'drm_match_cea_mode' [-Werror=implicit-function-declaration]
-    1930 |         u8 vic = drm_match_cea_mode(mode);
-         |                  ^~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/vc4/vc4_hdmi.c:1950:70: error: 'DRM_EDID_HDMI_DC_30' undeclared (first use in this function)
-    1950 |                 if (bpc == 10 && !(info->edid_hdmi_rgb444_dc_modes & DRM_EDID_HDMI_DC_30)) {
-         |                                                                      ^~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/vc4/vc4_hdmi.c:1950:70: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/gpu/drm/vc4/vc4_hdmi.c:1955:70: error: 'DRM_EDID_HDMI_DC_36' undeclared (first use in this function)
-    1955 |                 if (bpc == 12 && !(info->edid_hdmi_rgb444_dc_modes & DRM_EDID_HDMI_DC_36)) {
-         |                                                                      ^~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+> +	unsigned int num_tokens, i, j;
+> +	int ret;
+> +
+> +	if (sk->sk_type != SOCK_STREAM || sk->sk_protocol != IPPROTO_TCP)
+> +		return -EBADF;
+> +
+> +	if (optlen % sizeof(struct dmabuf_token) || optlen > sizeof(tokens))
+> +		return -EINVAL;
+> +
+> +	num_tokens = optlen / sizeof(struct dmabuf_token);
+> +	if (copy_from_sockptr(tokens, optval, optlen))
+> +		return -EFAULT;
+> +
+> +	ret = 0;
+> +	for (i = 0; i < num_tokens; i++) {
+> +		for (j = 0; j < tokens[i].token_count; j++) {
+> +			struct page *page = xa_erase(&sk->sk_user_pages,
+> +						     tokens[i].token_start + j);
+> +
+> +			if (page) {
+> +				if (WARN_ON_ONCE(!napi_pp_put_page(page,
+> +								   false)))
+> +					page_pool_page_put_many(page, 1);
+> +				ret++;
+> +			}
+> +		}
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+>  void sockopt_lock_sock(struct sock *sk)
+>  {
+>  	/* When current->bpf_ctx is set, the setsockopt is called from
 
-
-vim +/drm_detect_monitor_audio +406 drivers/gpu/drm/msm/dp/dp_display.c
-
-c943b4948b5848 Chandan Uddaraju 2020-08-27  381  
-c943b4948b5848 Chandan Uddaraju 2020-08-27  382  static int dp_display_process_hpd_high(struct dp_display_private *dp)
-c943b4948b5848 Chandan Uddaraju 2020-08-27  383  {
-c943b4948b5848 Chandan Uddaraju 2020-08-27  384  	int rc = 0;
-c943b4948b5848 Chandan Uddaraju 2020-08-27  385  	struct edid *edid;
-c943b4948b5848 Chandan Uddaraju 2020-08-27  386  
-c943b4948b5848 Chandan Uddaraju 2020-08-27  387  	dp->panel->max_dp_lanes = dp->parser->max_dp_lanes;
-0e7f270591a42f Kuogee Hsieh     2022-12-27  388  	dp->panel->max_dp_link_rate = dp->parser->max_dp_link_rate;
-0e7f270591a42f Kuogee Hsieh     2022-12-27  389  
-0e7f270591a42f Kuogee Hsieh     2022-12-27  390  	drm_dbg_dp(dp->drm_dev, "max_lanes=%d max_link_rate=%d\n",
-0e7f270591a42f Kuogee Hsieh     2022-12-27  391  		dp->panel->max_dp_lanes, dp->panel->max_dp_link_rate);
-c943b4948b5848 Chandan Uddaraju 2020-08-27  392  
-c943b4948b5848 Chandan Uddaraju 2020-08-27  393  	rc = dp_panel_read_sink_caps(dp->panel, dp->dp_display.connector);
-c943b4948b5848 Chandan Uddaraju 2020-08-27  394  	if (rc)
-8ede2ecc3e5ee3 Kuogee Hsieh     2020-09-11  395  		goto end;
-c943b4948b5848 Chandan Uddaraju 2020-08-27  396  
-c943b4948b5848 Chandan Uddaraju 2020-08-27  397  	dp_link_process_request(dp->link);
-c943b4948b5848 Chandan Uddaraju 2020-08-27  398  
-bfcc3d8f94f4cb Dmitry Baryshkov 2023-09-04  399  	drm_dp_set_subconnector_property(dp->dp_display.connector, connector_status_connected,
-bfcc3d8f94f4cb Dmitry Baryshkov 2023-09-04  400  					 dp->panel->dpcd, dp->panel->downstream_ports);
-bfcc3d8f94f4cb Dmitry Baryshkov 2023-09-04  401  
-c943b4948b5848 Chandan Uddaraju 2020-08-27  402  	edid = dp->panel->edid;
-c943b4948b5848 Chandan Uddaraju 2020-08-27  403  
-b78c77273a5648 Abhinav Kumar    2023-04-27  404  	dp->dp_display.psr_supported = dp->panel->psr_cap.version && psr_enabled;
-cd779808cccd50 Vinod Polimera   2023-03-02  405  
-c943b4948b5848 Chandan Uddaraju 2020-08-27 @406  	dp->audio_supported = drm_detect_monitor_audio(edid);
-c943b4948b5848 Chandan Uddaraju 2020-08-27  407  	dp_panel_handle_sink_request(dp->panel);
-c943b4948b5848 Chandan Uddaraju 2020-08-27  408  
-c943b4948b5848 Chandan Uddaraju 2020-08-27  409  	dp->dp_display.max_dp_lanes = dp->parser->max_dp_lanes;
-8ede2ecc3e5ee3 Kuogee Hsieh     2020-09-11  410  
-f21c8a276c2dad Kuogee Hsieh     2021-05-21  411  	/*
-f21c8a276c2dad Kuogee Hsieh     2021-05-21  412  	 * set sink to normal operation mode -- D0
-f21c8a276c2dad Kuogee Hsieh     2021-05-21  413  	 * before dpcd read
-f21c8a276c2dad Kuogee Hsieh     2021-05-21  414  	 */
-f21c8a276c2dad Kuogee Hsieh     2021-05-21  415  	dp_link_psm_config(dp->link, &dp->panel->link_info, false);
-f21c8a276c2dad Kuogee Hsieh     2021-05-21  416  
-6625e2637d93d2 Tanmay Shah      2020-09-25  417  	dp_link_reset_phy_params_vx_px(dp->link);
-8ede2ecc3e5ee3 Kuogee Hsieh     2020-09-11  418  	rc = dp_ctrl_on_link(dp->ctrl);
-8ede2ecc3e5ee3 Kuogee Hsieh     2020-09-11  419  	if (rc) {
-8ede2ecc3e5ee3 Kuogee Hsieh     2020-09-11  420  		DRM_ERROR("failed to complete DP link training\n");
-8ede2ecc3e5ee3 Kuogee Hsieh     2020-09-11  421  		goto end;
-8ede2ecc3e5ee3 Kuogee Hsieh     2020-09-11  422  	}
-8ede2ecc3e5ee3 Kuogee Hsieh     2020-09-11  423  
-8ede2ecc3e5ee3 Kuogee Hsieh     2020-09-11  424  	dp_add_event(dp, EV_USER_NOTIFICATION, true, 0);
-8ede2ecc3e5ee3 Kuogee Hsieh     2020-09-11  425  
-c943b4948b5848 Chandan Uddaraju 2020-08-27  426  end:
-c943b4948b5848 Chandan Uddaraju 2020-08-27  427  	return rc;
-c943b4948b5848 Chandan Uddaraju 2020-08-27  428  }
-c943b4948b5848 Chandan Uddaraju 2020-08-27  429  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+...
