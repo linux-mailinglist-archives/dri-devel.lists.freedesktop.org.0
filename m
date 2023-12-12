@@ -1,60 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9764680F48E
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 18:27:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D5A880F4CD
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 18:43:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC18510E67B;
-	Tue, 12 Dec 2023 17:27:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 918DB10E1A0;
+	Tue, 12 Dec 2023 17:43:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF60110E65B
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 17:27:12 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1rD6X1-0001uR-3P; Tue, 12 Dec 2023 18:26:55 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1rD6Wx-00FOPS-AU; Tue, 12 Dec 2023 18:26:51 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1rD6Wx-001nbp-0U; Tue, 12 Dec 2023 18:26:51 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Russell King <linux@armlinux.org.uk>
-Subject: [PATCH 5/5] clk: Make clk_rate_exclusive_get() return void
-Date: Tue, 12 Dec 2023 18:26:42 +0100
-Message-ID: <3f556647c09162be61edba6b50e76d235aace590.1702400947.git.u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <cover.1702400947.git.u.kleine-koenig@pengutronix.de>
-References: <cover.1702400947.git.u.kleine-koenig@pengutronix.de>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5F6B10E1A0;
+ Tue, 12 Dec 2023 17:42:59 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 412CECE1B01;
+ Tue, 12 Dec 2023 17:42:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 912EFC433C7;
+ Tue, 12 Dec 2023 17:42:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1702402975;
+ bh=+h9Hy/o6qPUoywDyWEUPYa0LHvbEAwTr1e24Paq/tos=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=lDcLxHelMIzPI8uabqZaj/J1ptw8Bbp3/fmYDq0ra7rMT0PeFkQ90OOZCAPFaUb6A
+ Pf1xrFjFQDntjBJ4litDwDD96rI7P1hbXkHlQbxzfymZPaWqFcP3fJIKPQdbiwgy5V
+ BZJhfu7qQSK2nEpGdAWBr/1DJIdxCNhkDvpMPJNKnZReAND+JosLQhQEoKLVyhjNHY
+ 7QQIjUTZ9p13DxnOVCRkam5wdQ9+3tPoCM9vtVV5SAZCsuMYJISitUvT7/vXsbJMJc
+ Qmgwwdb2RgC0munn2yFEdl9n2A/m1gqB5rjiOmGfk/xWixe+wxrvaEF4X8ZUEXoRmv
+ Bu4BZ7fKxNpRQ==
+Date: Tue, 12 Dec 2023 09:42:52 -0800
+From: Josh Poimboeuf <jpoimboe@kernel.org>
+To: Christoph Hellwig <hch@infradead.org>
+Subject: Re: [PATCH 3/3] drm/amd/display: Support DRM_AMD_DC_FP on RISC-V
+Message-ID: <20231212174252.ycztjhgyhtcrffur@treble>
+References: <20231122030621.3759313-1-samuel.holland@sifive.com>
+ <20231122030621.3759313-4-samuel.holland@sifive.com>
+ <ZV2+f/yu3C6xTVqn@infradead.org>
+ <6d4cecd5-9083-4d68-a7e2-266dae9e3952@sifive.com>
+ <ZXgH6un2uLdjQ48X@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2265;
- i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id;
- bh=qJe1s9wVwLl8m/pFpVrdi1+PKSyFn6KyEhyiKlqeWWk=;
- b=owGbwMvMwMXY3/A7olbonx/jabUkhtSK6Zf0mliZ79remRRaoTdVj3sjX5Z43dTfXEr7MubN7
- cv5Yz2jk9GYhYGRi0FWTJHFvnFNplWVXGTn2n+XYQaxMoFMYeDiFICJuD3nYNgg+PrYSkuD2Eki
- L1U4HRwVOm/VLGkPWWUoV1WYwxBfEWYmlb5vdk5eXETUxLjPjnuM9m124lwrkvHnX3X3TrfzUWd
- XtRVfrdwx53zY0iitL8q7iiOm/RSY41yVxy7Q3SF+Yf3DO/PK2hbZC6n2+hisPicuvTMhrsv85J
- +QOu6/GZ3CmxdfOB8buHp9dNSn+ZszIi1YT3amxbtM0I1SV/vT2/G2XCwjeaJz5bNzS+UOnBYu3
- 8VyICqoSHNi9dnMPxmiJx7qHy3ZySo1tTiDY5NraL5Po03Y7PjDOWnuQoe36p20d9SY6BYbPV8/
- xLjJxNLi0Z73rq0//xkv+LSD59R1XatNPzx3tk47vXM3AA==
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
- fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ZXgH6un2uLdjQ48X@infradead.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,87 +53,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- linux-clk@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>,
- Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Chanwoo Choi <cw00.choi@samsung.com>,
- Chen-Yu Tsai <wens@csie.org>, MyungJoo Ham <myungjoo.ham@samsung.com>,
- Johan Hovold <johan+linaro@kernel.org>, linux-sunxi@lists.linux.dev,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-pm@vger.kernel.org,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Maxime Ripard <mripard@kernel.org>, linux-tegra@vger.kernel.org,
- linux-amlogic@lists.infradead.org, kernel@pengutronix.de,
- linux-arm-kernel@lists.infradead.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Georgi Djakov <djakov@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, dri-devel@lists.freedesktop.org,
+ linux-riscv@lists.infradead.org, Michael Ellerman <mpe@ellerman.id.au>,
+ Masahiro Yamada <masahiroy@kernel.org>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
+ Nicolas Schier <nicolas@fjasle.eu>, Will Deacon <will@kernel.org>,
+ linux-kbuild@vger.kernel.org, Leo Li <sunpeng.li@amd.com>,
+ Nathan Chancellor <nathan@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ Pan Xinhui <Xinhui.Pan@amd.com>, Nick Desaulniers <ndesaulniers@google.com>,
+ linux-kernel@vger.kernel.org, Samuel Holland <samuel.holland@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Alex Deucher <alexander.deucher@amd.com>,
+ linuxppc-dev@lists.ozlabs.org,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The function currently returns 0 unconditionally. This isn't very useful
-and makes users create dead code error paths. So let this function
-return no value. All users were adapted before to ignore the returned
-value.
+On Mon, Dec 11, 2023 at 11:12:42PM -0800, Christoph Hellwig wrote:
+> On Thu, Dec 07, 2023 at 10:49:53PM -0600, Samuel Holland wrote:
+> > Actually tracking all possibly-FPU-tainted functions and their call sites is
+> > probably possible, but a much larger task.
+> 
+> I think objtool should be able to do that reasonably easily, it already
+> does it for checking section where userspace address access is enabled
+> or not, which is very similar.
 
-Also fix a few typos in the kernel doc comment for
-clk_rate_exclusive_get().
+Yeah, that might be doable.  I can look into it.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/clk/clk.c   | 6 ++----
- include/linux/clk.h | 8 +++-----
- 2 files changed, 5 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-index 2253c154a824..af2011c2a93b 100644
---- a/drivers/clk/clk.c
-+++ b/drivers/clk/clk.c
-@@ -925,17 +925,15 @@ static void clk_core_rate_restore_protect(struct clk_core *core, int count)
-  * clk_rate_exclusive_put(). Calls to this function may sleep.
-  * Returns 0 on success, -EERROR otherwise
-  */
--int clk_rate_exclusive_get(struct clk *clk)
-+void clk_rate_exclusive_get(struct clk *clk)
- {
- 	if (!clk)
--		return 0;
-+		return;
- 
- 	clk_prepare_lock();
- 	clk_core_rate_protect(clk->core);
- 	clk->exclusive_count++;
- 	clk_prepare_unlock();
--
--	return 0;
- }
- EXPORT_SYMBOL_GPL(clk_rate_exclusive_get);
- 
-diff --git a/include/linux/clk.h b/include/linux/clk.h
-index 06f1b292f8a0..f88c407925f8 100644
---- a/include/linux/clk.h
-+++ b/include/linux/clk.h
-@@ -190,16 +190,14 @@ bool clk_is_match(const struct clk *p, const struct clk *q);
-  *
-  * This function allows drivers to get exclusive control over the rate of a
-  * provider. It prevents any other consumer to execute, even indirectly,
-- * opereation which could alter the rate of the provider or cause glitches
-+ * operation which could alter the rate of the provider or cause glitches
-  *
-- * If exlusivity is claimed more than once on clock, even by the same driver,
-+ * If exclusivity is claimed more than once on clock, even by the same driver,
-  * the rate effectively gets locked as exclusivity can't be preempted.
-  *
-  * Must not be called from within atomic context.
-- *
-- * Returns success (0) or negative errno.
-  */
--int clk_rate_exclusive_get(struct clk *clk);
-+void clk_rate_exclusive_get(struct clk *clk);
- 
- /**
-  * clk_rate_exclusive_put - release exclusivity over the rate control of a
 -- 
-2.42.0
-
+Josh
