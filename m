@@ -1,50 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C569C80E55E
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 09:01:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 931BC80E518
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 08:53:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4001D10E58A;
-	Tue, 12 Dec 2023 08:01:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F194010E577;
+	Tue, 12 Dec 2023 07:53:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F86210E4F6
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 08:01:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1702368087; x=1733904087;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=r39C9fURv/tYjjTgfRvVfOiacLkGBXJF65fG2x4l+b0=;
- b=iu/oCJy5oWCogcIlq0GITXhzZN88DHgneURQUdLA8GE352hjVcnpDF2s
- nEjTgweRrTTO9p5mZKxXnCds1QaXZZKtCF3HK1ZrKKyQHmphR4LP9TZL8
- yJC01S1VWBH8qdwp7n9JVbkSM8c3grb1PV6UgONeg4fWzLR5diRhhRcZM
- NLFxEn/lCPoYLmB+LG3Hdv3rUP6bwbzCYBlYh6LWv4nwP/cc4YDfmjIbm
- kJUbEF/9An6Mfhz5z/leybrc7VwUlh0TMD46fGOrtOC5XLvzGtd2KayG1
- fvlp+jRAGTjOT35X8mCJxS9i1XquAElv+xC9mtHRxFumoq5953+FPOpL7 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="397553998"
-X-IronPort-AV: E=Sophos;i="6.04,269,1695711600"; d="scan'208";a="397553998"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2023 00:01:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="802376338"
-X-IronPort-AV: E=Sophos;i="6.04,269,1695711600"; d="scan'208";a="802376338"
-Received: from vkasired-desk2.fm.intel.com ([10.105.128.132])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2023 00:01:26 -0800
-From: Vivek Kasireddy <vivek.kasireddy@intel.com>
-To: dri-devel@lists.freedesktop.org,
-	linux-mm@kvack.org
-Subject: [PATCH v7 6/6] selftests/dma-buf/udmabuf: Add tests to verify data
- after page migration
-Date: Mon, 11 Dec 2023 23:38:03 -0800
-Message-Id: <20231212073803.3233055-7-vivek.kasireddy@intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231212073803.3233055-1-vivek.kasireddy@intel.com>
-References: <20231212073803.3233055-1-vivek.kasireddy@intel.com>
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAF1410E55F
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 07:53:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1702367580; x=1733903580;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=yFZardfU5HtdylZ2xtC8Ufauyds+HiAmClyESoyYZDI=;
+ b=MG4mjoMMhjc9HTdTcOgyz/3692YKzHKjBRmM2mJgCfcK4eaEj1lf8ayp
+ stKVX51v0qm2v83NsedtB8a9Huu61PXsWNczWRmJYtRL6Ml/HatebAJoR
+ xeMy14IbzLk3U3zfOHr7+Vitmjuv2vydOwbdxGpEblcig3KRiik6gO+t4
+ XmuRFT8c4/Yk0KQeLQ8BFNdMWfNmDGxuZSO2LNFg5xATXkEwlOyFAzqmc
+ 7GVtMsf59nI5JnsbnLjCa3bUh8YyjrXmI+JEPiMm2HQYg1g//kdDIdcGG
+ dq7zTaZ6JNOYTrBt32+ce6RRuJf5BxB2I+auJc0r6QG55xVOmV6e51Arc w==;
+X-IronPort-AV: E=Sophos;i="6.04,269,1695679200"; d="scan'208";a="34448090"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 12 Dec 2023 08:52:58 +0100
+Received: from steina-w.tq-net.de (steina-w.tq-net.de [10.123.53.18])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 421EE280075;
+ Tue, 12 Dec 2023 08:52:58 +0100 (CET)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v3 0/7] Improve tc358767 regmap usage
+Date: Tue, 12 Dec 2023 08:52:50 +0100
+Message-Id: <20231212075257.75084-1-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -59,234 +57,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dongwon Kim <dongwon.kim@intel.com>, David Hildenbrand <david@redhat.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Hugh Dickins <hughd@google.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, Peter Xu <peterx@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Junxiao Chang <junxiao.chang@intel.com>, Shuah Khan <shuah@kernel.org>,
- Mike Kravetz <mike.kravetz@oracle.com>
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since the memfd pages associated with a udmabuf may be migrated
-as part of udmabuf create, we need to verify the data coherency
-after successful migration. The new tests added in this patch try
-to do just that using 4k sized pages and also 2 MB sized huge
-pages for the memfd.
+Hi,
 
-Successful completion of the tests would mean that there is no
-disconnect between the memfd pages and the ones associated with
-a udmabuf. And, these tests can also be augmented in the future
-to test newer udmabuf features (such as handling memfd hole punch).
+this series improves the regmap usage by cleaning up current usage as well as
+adding more registers to the list of volatile registers. SYSSTAT is added
+to the list of precious registers as it is cleared upon read.
+This series is based on [1].
 
-Cc: Shuah Khan <shuah@kernel.org>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Mike Kravetz <mike.kravetz@oracle.com>
-Cc: Hugh Dickins <hughd@google.com>
-Cc: Peter Xu <peterx@redhat.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Dongwon Kim <dongwon.kim@intel.com>
-Cc: Junxiao Chang <junxiao.chang@intel.com>
-Based-on-patch-by: Mike Kravetz <mike.kravetz@oracle.com>
-Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
----
- .../selftests/drivers/dma-buf/udmabuf.c       | 151 +++++++++++++++++-
- 1 file changed, 147 insertions(+), 4 deletions(-)
+Changes in v2:
+* Patch 3: Use more symbolic names instead of register address numbers
+* Patch 3: Add register group description for 0x300 and 0x400 area
 
-diff --git a/tools/testing/selftests/drivers/dma-buf/udmabuf.c b/tools/testing/selftests/drivers/dma-buf/udmabuf.c
-index c812080e304e..d76c813fe652 100644
---- a/tools/testing/selftests/drivers/dma-buf/udmabuf.c
-+++ b/tools/testing/selftests/drivers/dma-buf/udmabuf.c
-@@ -9,26 +9,132 @@
- #include <errno.h>
- #include <fcntl.h>
- #include <malloc.h>
-+#include <stdbool.h>
- 
- #include <sys/ioctl.h>
- #include <sys/syscall.h>
-+#include <sys/mman.h>
- #include <linux/memfd.h>
- #include <linux/udmabuf.h>
- 
- #define TEST_PREFIX	"drivers/dma-buf/udmabuf"
- #define NUM_PAGES       4
-+#define NUM_ENTRIES     4
-+#define MEMFD_SIZE      1024 /* in pages */
- 
--static int memfd_create(const char *name, unsigned int flags)
-+static unsigned int page_size;
-+
-+static int create_memfd_with_seals(off64_t size, bool hpage)
-+{
-+	int memfd, ret;
-+	unsigned int flags = MFD_ALLOW_SEALING;
-+
-+	if (hpage)
-+		flags |= MFD_HUGETLB;
-+
-+	memfd = memfd_create("udmabuf-test", flags);
-+	if (memfd < 0) {
-+		printf("%s: [skip,no-memfd]\n", TEST_PREFIX);
-+		exit(77);
-+	}
-+
-+	ret = fcntl(memfd, F_ADD_SEALS, F_SEAL_SHRINK);
-+	if (ret < 0) {
-+		printf("%s: [skip,fcntl-add-seals]\n", TEST_PREFIX);
-+		exit(77);
-+	}
-+
-+	ret = ftruncate(memfd, size);
-+	if (ret == -1) {
-+		printf("%s: [FAIL,memfd-truncate]\n", TEST_PREFIX);
-+		exit(1);
-+	}
-+
-+	return memfd;
-+}
-+
-+static int create_udmabuf_list(int devfd, int memfd, off64_t memfd_size)
-+{
-+	struct udmabuf_create_list *list;
-+	int ubuf_fd, i;
-+
-+	list = malloc(sizeof(struct udmabuf_create_list) +
-+		      sizeof(struct udmabuf_create_item) * NUM_ENTRIES);
-+	if (!list) {
-+		printf("%s: [FAIL, udmabuf-malloc]\n", TEST_PREFIX);
-+		exit(1);
-+	}
-+
-+	for (i = 0; i < NUM_ENTRIES; i++) {
-+		list->list[i].memfd  = memfd;
-+		list->list[i].offset = i * (memfd_size / NUM_ENTRIES);
-+		list->list[i].size   = getpagesize() * NUM_PAGES;
-+	}
-+
-+	list->count = NUM_ENTRIES;
-+	list->flags = UDMABUF_FLAGS_CLOEXEC;
-+	ubuf_fd = ioctl(devfd, UDMABUF_CREATE_LIST, list);
-+	free(list);
-+	if (ubuf_fd < 0) {
-+		printf("%s: [FAIL, udmabuf-create]\n", TEST_PREFIX);
-+		exit(1);
-+	}
-+
-+	return ubuf_fd;
-+}
-+
-+static void write_to_memfd(void *addr, off64_t size, char chr)
-+{
-+	int i;
-+
-+	for (i = 0; i < size / page_size; i++) {
-+		*((char *)addr + (i * page_size)) = chr;
-+	}
-+}
-+
-+static void *mmap_fd(int fd, off64_t size)
- {
--	return syscall(__NR_memfd_create, name, flags);
-+	void *addr;
-+
-+	addr = mmap(NULL, size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
-+	if (addr == MAP_FAILED) {
-+		printf("%s: ubuf_fd mmap fail\n", TEST_PREFIX);
-+		exit(1);
-+	}
-+
-+	return addr;
-+}
-+
-+static int compare_chunks(void *addr1, void *addr2, off64_t memfd_size)
-+{
-+	off64_t off;
-+	int i = 0, j, k = 0, ret = 0;
-+	char char1, char2;
-+
-+	while (i < NUM_ENTRIES) {
-+		off = i * (memfd_size / NUM_ENTRIES);
-+		for (j = 0; j < NUM_PAGES; j++, k++) {
-+			char1 = *((char *)addr1 + off + (j * getpagesize()));
-+			char2 = *((char *)addr2 + (k * getpagesize()));
-+			if (char1 != char2) {
-+				ret = -1;
-+				goto err;
-+			}
-+		}
-+		i++;
-+	}
-+err:
-+	munmap(addr1, memfd_size);
-+	munmap(addr2, NUM_ENTRIES * NUM_PAGES * getpagesize());
-+	return ret;
- }
- 
- int main(int argc, char *argv[])
- {
- 	struct udmabuf_create create;
- 	int devfd, memfd, buf, ret;
--	off_t size;
--	void *mem;
-+	off64_t size;
-+	void *addr1, *addr2;
- 
- 	devfd = open("/dev/udmabuf", O_RDWR);
- 	if (devfd < 0) {
-@@ -90,6 +196,9 @@ int main(int argc, char *argv[])
- 	}
- 
- 	/* should work */
-+	page_size = getpagesize();
-+	addr1 = mmap_fd(memfd, size);
-+	write_to_memfd(addr1, size, 'a');
- 	create.memfd  = memfd;
- 	create.offset = 0;
- 	create.size   = size;
-@@ -98,6 +207,40 @@ int main(int argc, char *argv[])
- 		printf("%s: [FAIL,test-4]\n", TEST_PREFIX);
- 		exit(1);
- 	}
-+	munmap(addr1, size);
-+	close(buf);
-+	close(memfd);
-+
-+	/* should work (migration of 4k size pages)*/
-+	size = MEMFD_SIZE * page_size;
-+	memfd = create_memfd_with_seals(size, false);
-+	addr1 = mmap_fd(memfd, size);
-+	write_to_memfd(addr1, size, 'a');
-+	buf = create_udmabuf_list(devfd, memfd, size);
-+	addr2 = mmap_fd(buf, NUM_PAGES * NUM_ENTRIES * getpagesize());
-+	write_to_memfd(addr1, size, 'b');
-+	ret = compare_chunks(addr1, addr2, size);
-+	if (ret < 0) {
-+		printf("%s: [FAIL,test-5]\n", TEST_PREFIX);
-+		exit(1);
-+	}
-+	close(buf);
-+	close(memfd);
-+
-+	/* should work (migration of 2MB size huge pages)*/
-+	page_size = getpagesize() * 512; /* 2 MB */
-+	size = MEMFD_SIZE * page_size;
-+	memfd = create_memfd_with_seals(size, true);
-+	addr1 = mmap_fd(memfd, size);
-+	write_to_memfd(addr1, size, 'a');
-+	buf = create_udmabuf_list(devfd, memfd, size);
-+	addr2 = mmap_fd(buf, NUM_PAGES * NUM_ENTRIES * getpagesize());
-+	write_to_memfd(addr1, size, 'b');
-+	ret = compare_chunks(addr1, addr2, size);
-+	if (ret < 0) {
-+		printf("%s: [FAIL,test-6]\n", TEST_PREFIX);
-+		exit(1);
-+	}
- 
- 	fprintf(stderr, "%s: ok\n", TEST_PREFIX);
- 	close(buf);
+Changes in v3:
+* Rebased to next-20231212
+* No changes despite the context due to commit 4dd9368671fb7 ("drm/bridge:
+  tc358767: Convert to use maple tree register cache")
+
+Best regards,
+Alexander
+
+[1] https://lore.kernel.org/dri-devel/20230817075234.1075736-1-alexander.stein@ew.tq-group.com/T/#t
+
+Alexander Stein (7):
+  drm/bridge: tc358767: Use regmap_access_table for writeable registers
+  drm/bridge: tc358767: Fix order of register defines
+  drm/bridge: tc358767: Add more registers to non-writeable range
+  drm/bridge: tc358767: Sort volatile registers according to address
+  drm/bridge: tc358767: Add more volatile registers
+  drm/bridge: tc358767: Add precious register SYSSTAT
+  drm/bridge: tc358767: Add descriptions to register definitions
+
+ drivers/gpu/drm/bridge/tc358767.c | 171 +++++++++++++++++++++++-------
+ 1 file changed, 133 insertions(+), 38 deletions(-)
+
 -- 
-2.39.2
+2.34.1
 
