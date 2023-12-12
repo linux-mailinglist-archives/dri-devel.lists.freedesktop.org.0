@@ -1,61 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2A9080E089
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 01:56:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5772E80E08C
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 01:56:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E015910E091;
-	Tue, 12 Dec 2023 00:56:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A2E910E23E;
+	Tue, 12 Dec 2023 00:56:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com
- [IPv6:2607:f8b0:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24BFB10E091
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 00:56:05 +0000 (UTC)
-Received: by mail-pf1-x42f.google.com with SMTP id
- d2e1a72fcca58-6cea0fd9b53so3141204b3a.1
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 16:56:05 -0800 (PST)
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
+ [IPv6:2607:f8b0:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A127410E091
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 00:56:06 +0000 (UTC)
+Received: by mail-pl1-x635.google.com with SMTP id
+ d9443c01a7336-1d336760e72so1011675ad.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 16:56:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1702342564; x=1702947364;
+ d=chromium.org; s=google; t=1702342565; x=1702947365;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=AS84DpIlnHadbg548UoBHWDlxNfb0zaNqIcRTC+jUtI=;
- b=TfaIj72TJlKAhZdJHH779Sgj+Sc4xQTMnLIM7KxnbsuSe/PD1pWddScQplyVDQdSkz
- ePSZ7lBrIc8ycyYW56Mkt1gXDjRFHzqXxEvPIdC2GidJaUwtky8TsWyfYDsxJArDb2pO
- S0cw1PqgF06JUEc02HPT40GiHFpswy5S20aTw=
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=VII/LMlRWrPvYBfcRDAQD7A22/Kx5Gqvp4PO6BWVrDg=;
+ b=Lf30+ijQB+IboTFgdmOH+6Rnqx1op/tJ62V7lKAArAqAgdNjGO0fiGrCY2YAg171ep
+ qp3AvP0dPtFQfqtNI9KLjDZnAauH3WU08tuRrODaA5lmp2Q5R4E5ll83TfHx99ck/TPI
+ IY4j9ZX58nCsFk9ZbaGFReWQgVXwm1mYCcr2E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702342564; x=1702947364;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=AS84DpIlnHadbg548UoBHWDlxNfb0zaNqIcRTC+jUtI=;
- b=Qonc2geRFrv++NL26BeQk6bGN/D+LxYIWapObB2Elx0c+ADd+h3N/0I+kL2sMs4e1C
- epH6lYympm1cWx43kTgxPVi6r8cZa7m3PxQXOyeOFn/8D0t6A6G4fyBaOyQsWao1Py8T
- JeIiU+rf3B0QyGy5AG+B005nDWg80hDbQPuS2p6M/bz1l+xNgO6qI1ZQTdlZPjbQGdMe
- BIhuU+OrRDt9nHnlgaxdd5xIctDa8dHCG3Lh1Dj5vSpMkTb+bihktIcf3jSsvAVJmLC7
- YVtdHXUbpn+x/re/jq0kv6jxKdHd/C+xydHOYN6BPXfR1R5CAiur+J6hgvxeEZxHKIEi
- yVpg==
-X-Gm-Message-State: AOJu0Yzvgl8J4wdEBleI8N5NGNew1qP3V4aN7PiLWmvdLb6t6Z6l2Ej4
- Br2bo1xke01RZLdvbR3ZniR0V41rqDgF3hH2a5pO1Epf
-X-Google-Smtp-Source: AGHT+IEImkGOKriQgUmpcCdrkAlZGOVMJy7dWUFL7Mf+hsw6l3dDIoDd8j4PpPAdxvC2/AV5oSW9hg==
-X-Received: by 2002:a05:6a21:99a4:b0:18c:18d3:c8fd with SMTP id
- ve36-20020a056a2199a400b0018c18d3c8fdmr3061776pzb.14.1702342563762; 
- Mon, 11 Dec 2023 16:56:03 -0800 (PST)
+ d=1e100.net; s=20230601; t=1702342565; x=1702947365;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=VII/LMlRWrPvYBfcRDAQD7A22/Kx5Gqvp4PO6BWVrDg=;
+ b=mHJsGTvPxcqp95263si9aLkR0SUAeJ9KQxY1L9ddBwR5kUi1tTeca6MUFYQzxI+zC1
+ p+WMQZFzGvOsMJ7euE/zPilqBle3mR5SeBcrJwfaCMgjM5MZ44+BHCOsSWos/NIe9H22
+ o3PuRM+x/oAPX+LR5TUbRfylpNgc1XXCgjc2klOVgSunyf13BQeVd09revqz7P+m1dt3
+ QdvmJ6832qkzvLy7g7EFu3LtJmJpFsCjsNPWh6fCcSUA5rmSNRUhpqptsLKHlCnnLEhP
+ VQ0Efjv3bfcKC9vep8hzBsI1gnUwC4SrarCDCiA/Bbgo1LFmHv91/pfOS56faSygCWZ2
+ 2hnw==
+X-Gm-Message-State: AOJu0YwFDA42VshuNR2O1v4lhldHhREXBrPNraYwcXyQ8tdhiANOfZeh
+ P1npMAIUHCe0ko4GWv0MkWCZ0988/d7Ch6cdW5JEu146
+X-Google-Smtp-Source: AGHT+IHFyTsa/iL05H+WM4XTWvOGMGTVZlGEhQBpQMBoRW2cN0R6Hrp3MXN3u+9yFFV1wxd9YuCrhQ==
+X-Received: by 2002:a17:903:1206:b0:1d2:f388:6df3 with SMTP id
+ l6-20020a170903120600b001d2f3886df3mr6013703plh.48.1702342565555; 
+ Mon, 11 Dec 2023 16:56:05 -0800 (PST)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:9d:2:5c08:e1ed:d922:d30c])
  by smtp.gmail.com with ESMTPSA id
- k10-20020a170902694a00b001cc311ef152sm7251271plt.286.2023.12.11.16.56.02
+ k10-20020a170902694a00b001cc311ef152sm7251271plt.286.2023.12.11.16.56.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Dec 2023 16:56:03 -0800 (PST)
+ Mon, 11 Dec 2023 16:56:05 -0800 (PST)
 From: Douglas Anderson <dianders@chromium.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/2] drm/bridge: parade-ps8640: Never increase the length when
+Subject: [PATCH 2/2] drm/bridge: ti-sn65dsi86: Never increase the length when
  reading from AUX
-Date: Mon, 11 Dec 2023 16:55:26 -0800
-Message-ID: <20231211165526.1.I9d1afcaad76a3e2c0ca046dc4adbc2b632c22eda@changeid>
+Date: Mon, 11 Dec 2023 16:55:27 -0800
+Message-ID: <20231211165526.2.I7b83c0f31aeedc6b1dc98c7c741d3e1f94f040f8@changeid>
 X-Mailer: git-send-email 2.43.0.472.g3155946c3a-goog
+In-Reply-To: <20231211165526.1.I9d1afcaad76a3e2c0ca046dc4adbc2b632c22eda@changeid>
+References: <20231211165526.1.I9d1afcaad76a3e2c0ca046dc4adbc2b632c22eda@changeid>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,8 +74,7 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Philip Chen <philipchen@chromium.org>, Robert Foss <rfoss@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
  Sam Ravnborg <sam@ravnborg.org>, Douglas Anderson <dianders@chromium.org>,
@@ -82,56 +84,45 @@ Cc: Maxime Ripard <mripard@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While testing, I happened to notice a random crash that looked like:
+For aux reads, the value `msg->size` indicates the size of the buffer
+provided by `msg->buffer`. We should never in any circumstances write
+more bytes to the buffer since it may overflow the buffer.
 
-  Kernel panic - not syncing: stack-protector:
-  Kernel stack is corrupted in: drm_dp_dpcd_probe+0x120/0x120
+In the ti-sn65dsi86 driver there is one code path that reads the
+transfer length from hardware. Even though it's never been seen to be
+a problem, we should make extra sure that the hardware isn't
+increasing the length since doing so would cause us to overrun the
+buffer.
 
-Analysis of drm_dp_dpcd_probe() shows that we pass in a 1-byte buffer
-(allocated on the stack) to the aux->transfer() function. Presumably
-if the aux->transfer() writes more than one byte to this buffer then
-we're in a bad shape.
-
-Dropping into kgdb, I noticed that "aux->transfer" pointed at
-ps8640_aux_transfer().
-
-Reading through ps8640_aux_transfer(), I can see that there are cases
-where it could write more bytes to msg->buffer than were specified by
-msg->size. This could happen if the hardware reported back something
-bogus to us. Let's fix this so we never increase the length.
-
-NOTE: I have no actual way to reproduce this issue but it seems likely
-this is what was happening in the crash I looked at.
-
-Fixes: 13afcdd7277e ("drm/bridge: parade-ps8640: Add support for AUX channel")
+Fixes: 982f589bde7a ("drm/bridge: ti-sn65dsi86: Update reply on aux failures")
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
 
- drivers/gpu/drm/bridge/parade-ps8640.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
-index 8161b1a1a4b1..fb2ec4264549 100644
---- a/drivers/gpu/drm/bridge/parade-ps8640.c
-+++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-@@ -302,7 +302,7 @@ static ssize_t ps8640_aux_transfer_msg(struct drm_dp_aux *aux,
+diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+index 5b8e1dfc458d..7ff465241267 100644
+--- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
++++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+@@ -527,6 +527,7 @@ static ssize_t ti_sn_aux_transfer(struct drm_dp_aux *aux,
+ 	u32 request_val = AUX_CMD_REQ(msg->request);
+ 	u8 *buf = msg->buffer;
+ 	unsigned int len = msg->size;
++	unsigned int short_len;
+ 	unsigned int val;
+ 	int ret;
+ 	u8 addr_len[SN_AUX_LENGTH_REG + 1 - SN_AUX_ADDR_19_16_REG];
+@@ -600,7 +601,8 @@ static ssize_t ti_sn_aux_transfer(struct drm_dp_aux *aux,
+ 	}
  
- 		fallthrough;
- 	case SWAUX_STATUS_ACKM:
--		len = data & SWAUX_M_MASK;
-+		len = min(len, (unsigned int)(data & SWAUX_M_MASK));
- 		break;
- 	case SWAUX_STATUS_DEFER:
- 	case SWAUX_STATUS_I2C_DEFER:
-@@ -310,7 +310,7 @@ static ssize_t ps8640_aux_transfer_msg(struct drm_dp_aux *aux,
- 			msg->reply |= DP_AUX_NATIVE_REPLY_DEFER;
- 		else
- 			msg->reply |= DP_AUX_I2C_REPLY_DEFER;
--		len = data & SWAUX_M_MASK;
-+		len = min(len, (unsigned int)(data & SWAUX_M_MASK));
- 		break;
- 	case SWAUX_STATUS_INVALID:
- 		return -EOPNOTSUPP;
+ 	if (val & AUX_IRQ_STATUS_AUX_SHORT) {
+-		ret = regmap_read(pdata->regmap, SN_AUX_LENGTH_REG, &len);
++		ret = regmap_read(pdata->regmap, SN_AUX_LENGTH_REG, &short_len);
++		len = min(len, short_len);
+ 		if (ret)
+ 			goto exit;
+ 	} else if (val & AUX_IRQ_STATUS_NAT_I2C_FAIL) {
 -- 
 2.43.0.472.g3155946c3a-goog
 
