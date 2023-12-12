@@ -2,77 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 112AE80EF64
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 15:55:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 906FC80EF74
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 15:58:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5553410E604;
-	Tue, 12 Dec 2023 14:55:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A074210E606;
+	Tue, 12 Dec 2023 14:58:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
- [IPv6:2607:f8b0:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C94210E604;
- Tue, 12 Dec 2023 14:55:33 +0000 (UTC)
-Received: by mail-oi1-x232.google.com with SMTP id
- 5614622812f47-3b9db318839so4103512b6e.3; 
- Tue, 12 Dec 2023 06:55:33 -0800 (PST)
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E837010E606
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 14:58:31 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id
+ 2adb3069b0e04-50bf2d9b3fdso7633397e87.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 06:58:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1702392932; x=1702997732; darn=lists.freedesktop.org;
+ d=google.com; s=20230601; t=1702393110; x=1702997910;
+ darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=FC/Vpfr7MIARIwnwGGWmXjjUlNgWi23Htq/xmbvsJCk=;
- b=h8Gmi0276XNDO9IzKB7uvvJiruHn2vfDw3ntUg0J/qx9G8L//AQyP24TeEoSgLfbzp
- 9cARCMTcO2F7JO74ALRbDZXmqqoAU9s5e64+8G2/dgJxAOZ7FvD5vC68Kyet6CjY+KVI
- QK8zSVqaMVk4Mi53GQMy6MzKc03B3xOecvQDwdtULgRXcz0Sffe6BaCwmI7e36uktVka
- w9usdl+Php5i6V2Aoqd6y0QUtmYEoaKF5DesJn/meDARf17EvktiyJZON0f9R6jQkKhh
- YsihNoUfu7TIIyl4MQEdDytzKPEyyH173y5gpe30NAI/srPNdG4K+uru7pbZsDmL2oQA
- 1KiQ==
+ bh=gzl81dpk3U9T9CudLlEFGkOzt7MaXHqDfkakdpQfiFo=;
+ b=O3MgZNCA+ZnJHifGTKNfxhA4Jl1+ObwJ4k+ZYYr7V4j3GaFkFyaHq32xuOX4Dw1ksd
+ G5oGWuDyU1tC2Lu2cZiTg8prbIvInDGhVZ8mculffa7vdDqO/GOuML06PntFROfuCPcO
+ LNTLtz0U6aS3DLT4LGFnksvmldTcnJNyVsez+Qu9GeEwtRG7wHjYDOEgB8SNRWmGV0cw
+ pEC7rjfaowvnBDYidY6auwXgmHkrmOW4rRiWFIOq4X7fR19Vy9exhqVCmz6lHZYFwwN9
+ jndWVumGwmZKXzukIFpqdPI6LJpjFsOcP2+oU1D9QcVF+wRkANj+RBE12wJHrt+V0i8v
+ eYBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702392932; x=1702997732;
+ d=1e100.net; s=20230601; t=1702393110; x=1702997910;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=FC/Vpfr7MIARIwnwGGWmXjjUlNgWi23Htq/xmbvsJCk=;
- b=ZpHrD/u6zBXpWG1Qey8AwezFxLsB6gM/TODWGxguIPDbyjD6soDer2nosmd7INU1FV
- ZvU9oJIVrhvKcLUlFU7/3k8qGtYxrzeU9uFoYqpXVtwXebSxLVR7iTd31aVVgr68iloN
- ug7TznziaVB1JP1vwB6q/K9mx1eXKZ+BtMuwAJDx0aT9AouzL4dticLU9EF96BDLECix
- kK0N02vqKIUB8r0ejYrGFDWHeo4r9ZgtQAK4dWc5pk/1NKcfo1WXtPrKorxo66rntYhs
- NA+47tB08JiiPMRmMRkWWHoVaYUr3nPNx/7e9iV0COBKt5voZ90TcRLIrMpsNju3vyEg
- Pz6w==
-X-Gm-Message-State: AOJu0Yw1x6UULZhGrbsrSamlmfvepaSGUEP/y/XURk+oX1tH1LVyssd/
- c31BWYYxnLfjdMxolP4+5z7BpAfgItBDrooOKvk=
-X-Google-Smtp-Source: AGHT+IHq+QzxCX8gQUM6S0hC7Fo7q1dTCZTgvw/J1vuRyfhGGu2MpPtuJGqJYnc/6KWnfR91d4qZpois0AOaWLPWIjw=
-X-Received: by 2002:a05:6870:f155:b0:1fb:75a:c417 with SMTP id
- l21-20020a056870f15500b001fb075ac417mr5948435oac.64.1702392932689; Tue, 12
- Dec 2023 06:55:32 -0800 (PST)
+ bh=gzl81dpk3U9T9CudLlEFGkOzt7MaXHqDfkakdpQfiFo=;
+ b=Quibd/Z/Wk4/EL47+wVrNafjcR9HvUzkoDqLFAkqihU4qICdY2t29m/OODf6Q25t3Q
+ eBOj7ySu9rO0aCKoxHWhKH2flQq4q6rXoQUpoTKGjTM29ucj6Dv2Hu/9DnqAEz4WC8g3
+ UIrop61BxDw8jOuBckhEI0t+fSue+IRxXG1h1/74OWVlhpMpJ84hFXvn/z4SAOcAjog1
+ UZzhQQwwzvec81r1DdtJyi4MCQ9DIv5Vxh+JVwuv9+08BS+Mvh318lY71YHHqKzJV1V6
+ eGniMJ04vYYnA1dFpQYXir+TJNi3xc+iPYZNtwTDudhS9AumKdxKRhZP10rcYsGluF8v
+ eGhA==
+X-Gm-Message-State: AOJu0Yw0/c9HT282hzOlDKRz9DBRS2/hFU4RGT3R7HoJGaNTsHDDsGN/
+ Tb4pqlaPLi3kNZWQBErXH9eGl3XiHuE6rYVbCNo8lw==
+X-Google-Smtp-Source: AGHT+IERGuBL77UBvy25wKoqAwiWF0N6xvXc57i2t65+NTiYJO5PTJJ6k/4UPi+3laDB/s1BgrFICZhicXsZkg8qeMk=
+X-Received: by 2002:ac2:5b4f:0:b0:50b:fa9b:1649 with SMTP id
+ i15-20020ac25b4f000000b0050bfa9b1649mr3304569lfp.73.1702393109803; Tue, 12
+ Dec 2023 06:58:29 -0800 (PST)
 MIME-Version: 1.0
-References: <87edgv4x3i.fsf@vps.thesusis.net>
- <559d0fa5-953a-4a97-b03b-5eb1287c83d8@leemhuis.info>
- <CAPM=9tw-8pQWFso0zuLqpsqd5BSHWtc4As9ttdjY-DDr70EMqQ@mail.gmail.com>
- <bdb238b6-60c7-4f26-81d0-9e62cd5dd326@gmail.com>
- <CADnq5_NVGS1XykxGxpcu_bpPbzboCUJQkcCF3r+0N9a23KUgiQ@mail.gmail.com>
- <96e2e13c-f01c-4baf-a9a3-cbaa48fb10c7@amd.com>
- <CADnq5_NBfeAXEyQw0gnSd67=tR-bUKg8w=10+4z9pGGuRnP9uw@mail.gmail.com>
- <87jzq2ixtm.fsf@vps.thesusis.net>
- <CADnq5_Ou-MVVm0rdWDmDnJNLkWUayXzO26uCEtz3ucNa4Ghy2w@mail.gmail.com>
- <95fe9b5b-05ce-4462-9973-9aca306bc44f@gmail.com>
- <CADnq5_MYEWx=e1LBLeVs0UbR5_xEScjDyw_-75mLe8RAMnqh6g@mail.gmail.com>
- <CADnq5_OC=JFpGcN0oGbTF5xYEt4X3r0=jEY6hJ12W8CzYq1+cA@mail.gmail.com>
- <9595b8bf-e64d-4926-9263-97e18bcd7d05@gmail.com>
- <CADnq5_N6DF-huOzgaVygvS5N_j_oNUEC1aa4zRsZTzx8GOD_aw@mail.gmail.com>
- <CADnq5_PgMxoW=4iabtgeHydwye-6DvwvCyETdfBToEpuYWocmA@mail.gmail.com>
- <CADnq5_P0S7Jem0e4K6mG2+bboG8P56nELaGC1p4Pfx-8eV-BjQ@mail.gmail.com>
- <CADnq5_Oy6RMyJ52TbsxVjZ=0p=wYJHduE4X8B3DiYnqHYJUAvw@mail.gmail.com>
- <87edg3koka.fsf@vps.thesusis.net>
- <CADnq5_PtSV1C6Up78XX8ejExqaiM-wzHVFhCRtxboS1Y4cF-Ow@mail.gmail.com>
- <87y1e05me4.fsf@vps.thesusis.net> <87r0jsw9g3.fsf@vps.thesusis.net>
-In-Reply-To: <87r0jsw9g3.fsf@vps.thesusis.net>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 12 Dec 2023 09:55:21 -0500
-Message-ID: <CADnq5_MYSCd32p2doPMN1_vcrUZvHMDPn83LU-0oVBS6fuRVuA@mail.gmail.com>
-Subject: Re: Radeon regression in 6.6 kernel
-To: Phillip Susi <phill@thesusis.net>
+References: <20231208005250.2910004-1-almasrymina@google.com>
+ <20231208005250.2910004-9-almasrymina@google.com>
+ <20231212122535.GA3029808@nvidia.com>
+ <CAHS8izMVMx0fpT=dWsnD7piqs1g7Fam8Xf5dK3iOFNxeOQD9vQ@mail.gmail.com>
+ <20231212143942.GF3014157@nvidia.com>
+In-Reply-To: <20231212143942.GF3014157@nvidia.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Tue, 12 Dec 2023 06:58:17 -0800
+Message-ID: <CAHS8izNHtemjjkMf43grCHP1RZ=2UFiMtgea0M6+PaAgC=DDMQ@mail.gmail.com>
+Subject: Re: [net-next v1 08/16] memory-provider: dmabuf devmem memory provider
+To: Jason Gunthorpe <jgg@nvidia.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -87,32 +73,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
- Luben Tuikov <ltuikov89@gmail.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Danilo Krummrich <dakr@redhat.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linux-doc@vger.kernel.org, Kaiyuan Zhang <kaiyuanz@google.com>,
+ dri-devel@lists.freedesktop.org, Eric Dumazet <edumazet@google.com>,
+ linux-kselftest@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-arch@vger.kernel.org,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jeroen de Borst <jeroendb@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Christoph Hellwig <hch@infradead.org>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
+ Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Shailend Chand <shailend@google.com>, Shakeel Butt <shakeelb@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org,
+ David Ahern <dsahern@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Yunsheng Lin <linyunsheng@huawei.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>, bpf@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 11, 2023 at 7:28=E2=80=AFPM Phillip Susi <phill@thesusis.net> w=
-rote:
+On Tue, Dec 12, 2023 at 6:39=E2=80=AFAM Jason Gunthorpe <jgg@nvidia.com> wr=
+ote:
 >
-> Phillip Susi <phill@thesusis.net> writes:
+> On Tue, Dec 12, 2023 at 06:26:51AM -0800, Mina Almasry wrote:
+> > On Tue, Dec 12, 2023 at 4:25=E2=80=AFAM Jason Gunthorpe <jgg@nvidia.com=
+> wrote:
+> > >
+> > > On Thu, Dec 07, 2023 at 04:52:39PM -0800, Mina Almasry wrote:
+> > >
+> > > > +static inline struct page_pool_iov *page_to_page_pool_iov(struct p=
+age *page)
+> > > > +{
+> > > > +     if (page_is_page_pool_iov(page))
+> > > > +             return (struct page_pool_iov *)((unsigned long)page &=
+ ~PP_IOV);
+> > > > +
+> > > > +     DEBUG_NET_WARN_ON_ONCE(true);
+> > > > +     return NULL;
+> > > > +}
+> > >
+> > > We already asked not to do this, please do not allocate weird things
+> > > can call them 'struct page' when they are not. It undermines the
+> > > maintainability of the mm to have things mis-typed like
+> > > this. Introduce a new type for your thing so the compiler can check i=
+t
+> > > properly.
+> > >
+> >
+> > There is a new type introduced, it's the page_pool_iov. We set the LSB
+> > on page_pool_iov* and cast it to page* only to avoid the churn of
+> > renaming page* to page_pool_iov* in the page_pool and all the net
+> > drivers using it. Is that not a reasonable compromise in your opinion?
+> > Since the LSB is set on the resulting page pointers, they are not
+> > actually usuable as pages, and are never passed to mm APIs per your
+> > requirement.
 >
-> > And it works, but 6.7-rc5 does not, even though it includes that patch.
-> > Here's the syslog from the attempt.  I'll start bisecting again.
+> There were two asks, the one you did was to never pass this non-struct
+> page memory to the mm, which is great.
 >
-> I checked out the patch that got merged upstream and it also fails.  I
-> looked at the two commits, and I see what happened.  Your original patch
-> MOVED the call to amdgpu_ttm_set_buffer_funcs_status().  The one that
-> got merged into Linus' tree instead DUPLICATES the call.  Oops?
+> The other was to not mistype things, and don't type something as
+> struct page when it is, in fact, not.
+>
+> I fear what you've done is make it so only one driver calls these
+> special functions and left the other drivers passing the struct page
+> directly to the mm and sort of obfuscating why it is OK based on this
+> netdev knowledge of not enabling/using the static branch in the other
+> cases.
 >
 
-Yeah, I messed up the patch somehow when I applied it.  Fix up already
-queued up to add the missing chunk.
+Jason, we set the LSB on page_pool_iov pointers before casting it to
+struct page pointers. The resulting pointers are not useable as page
+pointers at all.
 
-Alex
+In order to use the resulting pointers, the driver _must_ use the
+special functions that first clear the LSB. It is impossible for the
+driver to 'accidentally' use the resulting page pointers with the LSB
+set - the kernel would just crash trying to dereference such a
+pointer.
+
+The way it works currently is that drivers that support devmem TCP
+will declare that support to the net stack, and use the special
+functions that clear the LSB and cast the struct back to
+page_pool_iov. The drivers that don't support devmem TCP will not
+declare support and will get pages allocated from the mm stack from
+the page_pool and use them as pages normally.
+
+> Perhaps you can simply avoid this by arranging for this driver to also
+> exclusively use some special type to indicate the dual nature of the
+> pointer and leave the other drivers as using the struct page version.
+>
+
+This is certainly possible, but it requires us to rename all the page
+pointers in the page_pool to the new type, and requires the driver
+adding devmem TCP support to rename all the page* pointer instances to
+the new type. It's possible but it introduces lots of code churn. Is
+the LSB + cast not a reasonable compromise here? I feel like the trick
+of setting the least significant bit on a pointer to indicate it's
+something else has a fair amount of precedent in the kernel.
+
+--
+Thanks,
+Mina
