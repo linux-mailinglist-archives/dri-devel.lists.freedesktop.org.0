@@ -1,51 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA44380EF51
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 15:51:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 112AE80EF64
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 15:55:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 065FD10E1E1;
-	Tue, 12 Dec 2023 14:51:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5553410E604;
+	Tue, 12 Dec 2023 14:55:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5BC010E1E1;
- Tue, 12 Dec 2023 14:51:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1702392679; x=1733928679;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=14uzE/WQpu/5VFsjOENh/drinb+dswmrOkGho48GCHI=;
- b=fnG3k5XRvJ3ZtFxYgViyOLZCZr9dSeejUWXSPfWEOSHRfpKBnNIL6QLa
- p9as9koNJOa/XOavPGipOQLXzQzTjAEL+DSbv0HlzuPCut+PjO3dfhUpi
- N5QxiZw2uKWJ8fNsUMd5fmurhRfT8QY+wJI5qxCeRCQjIMndfGdt/IrVk
- TIZIYh9bG8yUSxrs2ukZ6985gzRSg9xCPsPHLQSvIoEkCN08Yvuy1scFX
- k9fB/dHiT0fceMrgcYP5sPVMG1eJEJ75HzCqb67+g2F1nHXtxXHxxurVE
- qIdmQkDistwzGRyAbEYH/gD3MLV9OTOPb8LxUzy0/0B6FWLD2Tbcc1DGu g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="379810495"
-X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; d="scan'208";a="379810495"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2023 06:51:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="864232078"
-X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; d="scan'208";a="864232078"
-Received: from ggilardi-mobl1.amr.corp.intel.com (HELO localhost)
- ([10.252.49.147])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2023 06:51:16 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/edid: prefer forward declarations over includes in
- drm_edid.h
-Date: Tue, 12 Dec 2023 16:51:13 +0200
-Message-Id: <20231212145113.3849191-1-jani.nikula@intel.com>
-X-Mailer: git-send-email 2.39.2
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
+ [IPv6:2607:f8b0:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C94210E604;
+ Tue, 12 Dec 2023 14:55:33 +0000 (UTC)
+Received: by mail-oi1-x232.google.com with SMTP id
+ 5614622812f47-3b9db318839so4103512b6e.3; 
+ Tue, 12 Dec 2023 06:55:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1702392932; x=1702997732; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=FC/Vpfr7MIARIwnwGGWmXjjUlNgWi23Htq/xmbvsJCk=;
+ b=h8Gmi0276XNDO9IzKB7uvvJiruHn2vfDw3ntUg0J/qx9G8L//AQyP24TeEoSgLfbzp
+ 9cARCMTcO2F7JO74ALRbDZXmqqoAU9s5e64+8G2/dgJxAOZ7FvD5vC68Kyet6CjY+KVI
+ QK8zSVqaMVk4Mi53GQMy6MzKc03B3xOecvQDwdtULgRXcz0Sffe6BaCwmI7e36uktVka
+ w9usdl+Php5i6V2Aoqd6y0QUtmYEoaKF5DesJn/meDARf17EvktiyJZON0f9R6jQkKhh
+ YsihNoUfu7TIIyl4MQEdDytzKPEyyH173y5gpe30NAI/srPNdG4K+uru7pbZsDmL2oQA
+ 1KiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1702392932; x=1702997732;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=FC/Vpfr7MIARIwnwGGWmXjjUlNgWi23Htq/xmbvsJCk=;
+ b=ZpHrD/u6zBXpWG1Qey8AwezFxLsB6gM/TODWGxguIPDbyjD6soDer2nosmd7INU1FV
+ ZvU9oJIVrhvKcLUlFU7/3k8qGtYxrzeU9uFoYqpXVtwXebSxLVR7iTd31aVVgr68iloN
+ ug7TznziaVB1JP1vwB6q/K9mx1eXKZ+BtMuwAJDx0aT9AouzL4dticLU9EF96BDLECix
+ kK0N02vqKIUB8r0ejYrGFDWHeo4r9ZgtQAK4dWc5pk/1NKcfo1WXtPrKorxo66rntYhs
+ NA+47tB08JiiPMRmMRkWWHoVaYUr3nPNx/7e9iV0COBKt5voZ90TcRLIrMpsNju3vyEg
+ Pz6w==
+X-Gm-Message-State: AOJu0Yw1x6UULZhGrbsrSamlmfvepaSGUEP/y/XURk+oX1tH1LVyssd/
+ c31BWYYxnLfjdMxolP4+5z7BpAfgItBDrooOKvk=
+X-Google-Smtp-Source: AGHT+IHq+QzxCX8gQUM6S0hC7Fo7q1dTCZTgvw/J1vuRyfhGGu2MpPtuJGqJYnc/6KWnfR91d4qZpois0AOaWLPWIjw=
+X-Received: by 2002:a05:6870:f155:b0:1fb:75a:c417 with SMTP id
+ l21-20020a056870f15500b001fb075ac417mr5948435oac.64.1702392932689; Tue, 12
+ Dec 2023 06:55:32 -0800 (PST)
 MIME-Version: 1.0
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Content-Transfer-Encoding: 8bit
+References: <87edgv4x3i.fsf@vps.thesusis.net>
+ <559d0fa5-953a-4a97-b03b-5eb1287c83d8@leemhuis.info>
+ <CAPM=9tw-8pQWFso0zuLqpsqd5BSHWtc4As9ttdjY-DDr70EMqQ@mail.gmail.com>
+ <bdb238b6-60c7-4f26-81d0-9e62cd5dd326@gmail.com>
+ <CADnq5_NVGS1XykxGxpcu_bpPbzboCUJQkcCF3r+0N9a23KUgiQ@mail.gmail.com>
+ <96e2e13c-f01c-4baf-a9a3-cbaa48fb10c7@amd.com>
+ <CADnq5_NBfeAXEyQw0gnSd67=tR-bUKg8w=10+4z9pGGuRnP9uw@mail.gmail.com>
+ <87jzq2ixtm.fsf@vps.thesusis.net>
+ <CADnq5_Ou-MVVm0rdWDmDnJNLkWUayXzO26uCEtz3ucNa4Ghy2w@mail.gmail.com>
+ <95fe9b5b-05ce-4462-9973-9aca306bc44f@gmail.com>
+ <CADnq5_MYEWx=e1LBLeVs0UbR5_xEScjDyw_-75mLe8RAMnqh6g@mail.gmail.com>
+ <CADnq5_OC=JFpGcN0oGbTF5xYEt4X3r0=jEY6hJ12W8CzYq1+cA@mail.gmail.com>
+ <9595b8bf-e64d-4926-9263-97e18bcd7d05@gmail.com>
+ <CADnq5_N6DF-huOzgaVygvS5N_j_oNUEC1aa4zRsZTzx8GOD_aw@mail.gmail.com>
+ <CADnq5_PgMxoW=4iabtgeHydwye-6DvwvCyETdfBToEpuYWocmA@mail.gmail.com>
+ <CADnq5_P0S7Jem0e4K6mG2+bboG8P56nELaGC1p4Pfx-8eV-BjQ@mail.gmail.com>
+ <CADnq5_Oy6RMyJ52TbsxVjZ=0p=wYJHduE4X8B3DiYnqHYJUAvw@mail.gmail.com>
+ <87edg3koka.fsf@vps.thesusis.net>
+ <CADnq5_PtSV1C6Up78XX8ejExqaiM-wzHVFhCRtxboS1Y4cF-Ow@mail.gmail.com>
+ <87y1e05me4.fsf@vps.thesusis.net> <87r0jsw9g3.fsf@vps.thesusis.net>
+In-Reply-To: <87r0jsw9g3.fsf@vps.thesusis.net>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 12 Dec 2023 09:55:21 -0500
+Message-ID: <CADnq5_MYSCd32p2doPMN1_vcrUZvHMDPn83LU-0oVBS6fuRVuA@mail.gmail.com>
+Subject: Re: Radeon regression in 6.6 kernel
+To: Phillip Susi <phill@thesusis.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,54 +87,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
+Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
+ Luben Tuikov <ltuikov89@gmail.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Danilo Krummrich <dakr@redhat.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There's no need to include either linux/hdmi.h or drm/drm_mode.h. They
-can be removed by using forward declarations.
+On Mon, Dec 11, 2023 at 7:28=E2=80=AFPM Phillip Susi <phill@thesusis.net> w=
+rote:
+>
+> Phillip Susi <phill@thesusis.net> writes:
+>
+> > And it works, but 6.7-rc5 does not, even though it includes that patch.
+> > Here's the syslog from the attempt.  I'll start bisecting again.
+>
+> I checked out the patch that got merged upstream and it also fails.  I
+> looked at the two commits, and I see what happened.  Your original patch
+> MOVED the call to amdgpu_ttm_set_buffer_funcs_status().  The one that
+> got merged into Linus' tree instead DUPLICATES the call.  Oops?
+>
 
-While at it, group the forward declarations together, and remove the
-unnecessary ones.
+Yeah, I messed up the patch somehow when I applied it.  Fix up already
+queued up to add the missing chunk.
 
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
----
- include/drm/drm_edid.h | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
-
-diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-index 518d1b8106c7..37c2702ee9ef 100644
---- a/include/drm/drm_edid.h
-+++ b/include/drm/drm_edid.h
-@@ -24,11 +24,14 @@
- #define __DRM_EDID_H__
- 
- #include <linux/types.h>
--#include <linux/hdmi.h>
--#include <drm/drm_mode.h>
- 
-+enum hdmi_quantization_range;
-+struct drm_connector;
- struct drm_device;
-+struct drm_display_mode;
- struct drm_edid;
-+struct hdmi_avi_infoframe;
-+struct hdmi_vendor_infoframe;
- struct i2c_adapter;
- 
- #define EDID_LENGTH 128
-@@ -319,11 +322,6 @@ struct cea_sad {
- 	u8 byte2; /* meaning depends on format */
- };
- 
--struct drm_encoder;
--struct drm_connector;
--struct drm_connector_state;
--struct drm_display_mode;
--
- int drm_edid_to_sad(const struct edid *edid, struct cea_sad **sads);
- int drm_edid_to_speaker_allocation(const struct edid *edid, u8 **sadb);
- int drm_av_sync_delay(struct drm_connector *connector,
--- 
-2.39.2
-
+Alex
