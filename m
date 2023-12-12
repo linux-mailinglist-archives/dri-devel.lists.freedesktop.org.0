@@ -2,60 +2,137 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4235F80E570
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 09:08:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 319A080E588
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 09:09:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 686CB10E57A;
-	Tue, 12 Dec 2023 08:07:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D97910E58F;
+	Tue, 12 Dec 2023 08:09:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF06C10E57A
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 08:07:56 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id
- 2adb3069b0e04-50d176eb382so4865316e87.2
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 00:07:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1702368475; x=1702973275; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=KEK+GLviJvtTbzYzmtDV4AEm8T+lMdwOyDcx0NSd3/o=;
- b=SSWs1uMusP7Z2wciXcYmKTZKDDE2G7yEgZcr0THO1kC9/vif+C7OsheDKMg7xF9be8
- 5lZivCllsFuBuS1STy/c1Dxiqh0nBocgzlBaNqZ1cG3V6lGtieVxkF5+0A5bXYxN2RHy
- 4iXG9xgQ63l/AsX+YvDVtEGTXnW69hLtIvMJEQqgoi4FrlC2n2dCuOmHglM0oMBzjwyo
- k5lmUc0JMyGokhj9APIfILr1Sekcj2vE/bVdYtzPXwwIfzxl8mZqZRPWP/k+9q0llgfn
- lt7+dwhlj0jBDyq6g0OIBXvA7eZn3IVb8rOom+l/og151mD1IAb9WMx8wuE5yGT/0tk7
- 0k+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702368475; x=1702973275;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=KEK+GLviJvtTbzYzmtDV4AEm8T+lMdwOyDcx0NSd3/o=;
- b=DXJqnPnrbFs9RU/I4mup4gqreooJGbWU1+slLvvxsBWZnWNu6429HS+JKGncVCbPG8
- N6Y+vL8MqYeOig7yNdAgSRIwfHBv+vVRltsmqHryFy/x4xt5s7Ujhvq9ANFRsyFymZ6r
- z5jJGBdcgeDbujrUDOLW8lK+TJYXovjo1bS+r39O6p85KBZfAnQR4HFV5KdZHTmcWwzI
- Y4Ui3E7CkDdv8z2wUhaFfTVizdiy3L4MAY2A/7ngu1oDODxVD2VhZwjC2P9Qc/8PSSyW
- f/B/eYY0VaNaiULlx2211Spv1X4kuCvgbPaUCH67kquR01jkIGaUIF6d36BfC1MEc8sx
- bXjw==
-X-Gm-Message-State: AOJu0Yzj73R045dkVMQ1cISOxIsgp8POkrZVAGfda/iS3PjshV+dV4N4
- E1QwHQTEXwkhhxzr97H6sVogUb/KhUIBSG+PzaeJpA==
-X-Google-Smtp-Source: AGHT+IEyDnIHVqAdsBAK/Xj7zNRHMZz0/zXmDbcUqKkjG+kJeiX3tGS1DN1FlCnS9R/LXR3IKWLy3yX4hnlm0fdZnR8=
-X-Received: by 2002:a05:6512:a8c:b0:50c:6b:f164 with SMTP id
- m12-20020a0565120a8c00b0050c006bf164mr3620875lfu.27.1702368474939; Tue, 12
- Dec 2023 00:07:54 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5952B10E586;
+ Tue, 12 Dec 2023 08:09:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1702368560; x=1733904560;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=/k0SjtYjYCNtVovb4FEBZ0eTjUIHmjtL3TsbIXiLLmM=;
+ b=He245tW+EWktulGJgl9KBq2QL+jl+QLpQ0gwPCY+VHqZz27WhFQHuVZB
+ QAH+v/IESTD8V0KJn4Xn9kCquEqO3BvN17NrYi05vAU9TC6WpG2Zuaqa6
+ Jv8u+CRi5OSlpemfVL6QQhKQ72p7VYJVcajddijEykKQSMVoJwMhTnpCz
+ Wkbow+xV5GfTocLJQim27yihELmDhJnADA5s7VkL4Re8qXvOjpM0yqvjh
+ mQbvpm9DiR1FyVLi8S7peH9whMIcGBbNIpKXZv14taaj3sIdb8MpVFl37
+ 9mzdT2SSGR8NTuP4AEjZ96qQQGaYtUTpfUn8FD45ZA5wQ6mrDQM78FyhN Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="16321316"
+X-IronPort-AV: E=Sophos;i="6.04,269,1695711600"; d="scan'208";a="16321316"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Dec 2023 00:09:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="766712433"
+X-IronPort-AV: E=Sophos;i="6.04,269,1695711600"; d="scan'208";a="766712433"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by orsmga007.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 12 Dec 2023 00:09:17 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 12 Dec 2023 00:09:16 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Tue, 12 Dec 2023 00:09:16 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.169)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Tue, 12 Dec 2023 00:09:14 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DB3yy1fXKJY6apxURG1tQI5PQsMVnfi3WAAXPMidpLlxj9zwnylH6wv5kcgEH6D36SrcmTcjW8FlRagAWMFQD2p8lWAKfdHQMF8UZHztJyLmCNlkEdRW0yep8xgTSNPkH1hzSGkcfPRp2Za/hN19wVwHHixm6lXXEQVVlCuIFCFXLasKo+OUHwgoZepkrGEO7bBuq0Y0ob3PVSfjRhtlT7oIxgqGu+pnQSAZ4aD3uLFoZSx+Nf8vCm0IWFARywv+++HETgA9/YmZZt2g7XSwAePNnocMN5m0+qT3pFwpgqShldCM1mhvbceCr7KQcfRuBNbwyHOPiy1zDufcsTPOvg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GiuwIL2GA3PaNa5scKKDCV0LYI+ZgSowAJkpeeEd8zA=;
+ b=gwlKwcVul9bPGmqNly4KoIDo2cW1M3N0s2vzmuFjR28iuF85n5ZR0fbr7Pg7tH6Ie1w3bmRCtUtcwDoob4swFnz9bfEjKOqnzT5nUxc2vHS3HhjyjUCfruolw6TttRpKHt0Pgt4GSrXrVwRERmlQn3+RWDcqI+scPOWfasuZcBJ83AvtSnDCCxuNJ7fRvQF0Cm7aUV9H5d+JCdlKlN5OXSvlYUWmKEkQgUhOZGlxWSLvaRMme1Gu7+u2FYep54O6p56OvUmWPJCcQX7FG8eimdNUyzRbPVaupfrJ8YQe7jbS5YeR1J6c8rzxLK8djZgnx/Len36bUzFypqvCfW9pkQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
+ by PH7PR11MB6403.namprd11.prod.outlook.com (2603:10b6:510:1f9::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.32; Tue, 12 Dec
+ 2023 08:09:12 +0000
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::1236:9a2e:5acd:a7f]) by LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::1236:9a2e:5acd:a7f%3]) with mapi id 15.20.7068.033; Tue, 12 Dec 2023
+ 08:09:12 +0000
+Date: Tue, 12 Dec 2023 16:09:02 +0800
+From: Oliver Sang <oliver.sang@intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [Intel-gfx] [drm-intel:drm-intel-gt-next] [drm/i915]
+ [confidence: ] 9bb66c179f: assertion_failure
+Message-ID: <ZXgVHko9Zwp9ZeA0@xsang-OptiPlex-9020>
+References: <202312071643.321205c6-oliver.sang@intel.com>
+ <87o7f1ypyo.fsf@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <87o7f1ypyo.fsf@intel.com>
+X-ClientProxiedBy: SG2PR01CA0120.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:40::24) To LV3PR11MB8603.namprd11.prod.outlook.com
+ (2603:10b6:408:1b6::9)
 MIME-Version: 1.0
-References: <20231208005250.2910004-1-almasrymina@google.com>
- <20231208005250.2910004-3-almasrymina@google.com>
-In-Reply-To: <20231208005250.2910004-3-almasrymina@google.com>
-From: Ilias Apalodimas <ilias.apalodimas@linaro.org>
-Date: Tue, 12 Dec 2023 10:07:18 +0200
-Message-ID: <CAC_iWjKikzwpjR0hBjYuRxgYjyqp_EYrrxoveB_2DgCxk6vWYw@mail.gmail.com>
-Subject: Re: [net-next v1 02/16] net: page_pool: create hooks for custom page
- providers
-To: Mina Almasry <almasrymina@google.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|PH7PR11MB6403:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2a79877a-5847-4633-672e-08dbfae99f88
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: YV7uzX2Hr5pbpqrWH8S8zNx7QKpxbsLdkRcuCylyO/gRpb03RZq5D6O5HhwvyXOvwZ9uo0MOoO3OtjistwhkAj5SD8I343guM24UMt3hiH1EDGfn2jlqCVP3wgQb93QEHQ5AvmJoRgHd2wrsziRiZrNDnkLTgRC9ZC/+DP5AluOdK/+WaKOdQYSIvU0jFVwJs8WmsC/MWrwFB0G4l0hFZYyVew2R3gs23YZRINdU/C2HKHA3evGBdmrK9DHeE8+fAPvAhsNM49vaVX/g1gu0QbJb89ulfwJH2g/ogBOk62f4A6ljEh7tAIXwZLu0cpVRVjGm8j03pHiYFf5PCJi0eAyqpngc8qsm3S8bDfQtkyAI8IH+6D0MuUbZEWtqN0omz+scgPzG4oSuIgGiTmzjsjJB/V7fBVAiGayvRQ9ZG4ieP1BbwC3/Wo8hPe9qZWD+XUEY4+DDh3nn74NIzE8fWqSqCoCf70KDOPmKULKs8unU/ouM4p8N/4ycKQangxpfVfSbeLrZgo29GX3fAdG8gsNWr2efHb3KYmYg3cdqk1z98M1eJRDdrAhWymdUCQbp
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LV3PR11MB8603.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(7916004)(376002)(346002)(39860400002)(136003)(396003)(366004)(230922051799003)(451199024)(186009)(64100799003)(1800799012)(66899024)(33716001)(41300700001)(26005)(83380400001)(82960400001)(86362001)(38100700002)(44832011)(5660300002)(316002)(8676002)(8936002)(4326008)(2906002)(6666004)(6512007)(6506007)(6916009)(9686003)(66476007)(54906003)(66556008)(66946007)(6486002)(478600001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?4GJ5f3yt2pjlpzFvIHjAftoTMXxGjbVhHmTEprQr/Sfp2NSRgWWockSF8BiD?=
+ =?us-ascii?Q?NI/+YYuPaui990V79AbqiuvSJLXgtS9Xu92O8rL1OB7v+ocD8bDqkYHF1Opl?=
+ =?us-ascii?Q?l2PunhMYViVSvvQ+EqccSy9cmmM8UDfPhc0R9kpWlu+LpdgAdvrqQFv3UPlH?=
+ =?us-ascii?Q?zxlm3jfrUgMJU0AUuhyrpiJCbOjKSl22AaCMGUHniZZJpPH/UY4NbvYLGh+a?=
+ =?us-ascii?Q?vmnE5/+jrZuGMPeo8Bi6m7WE7pN80f4RogVfuEUcJE81SJbOAuw45bKCBRk8?=
+ =?us-ascii?Q?HsebL08PRtK6qRyBfLsFuHjLnfy/TZTqbjJyDe9i4nWtUOYqGa2P1MQjRGNY?=
+ =?us-ascii?Q?blrpRKjrfE2+2cjmM21jja1bCBtyMthzxkJ2YVaygz04xouvpNNRaXwqp06R?=
+ =?us-ascii?Q?dNZU7oNRs8neZO30QX2/Ky+rHGEx9hQS7RGHJn4fUmqduuzLE79gzqjvDsCW?=
+ =?us-ascii?Q?L1mQZALDwVVe1kut0j6J1HAOtxshlmbLnj3YmvIQei/Q2DYf4TP7TKVCmbvY?=
+ =?us-ascii?Q?c+L1N7QvSeOeZk8dYmlWPdQiuum7uPp3M4QKgM/f3XhBuZj/8bGZK3XNp/iJ?=
+ =?us-ascii?Q?Vxks7J+qvx7YKIqZRpFuNONGL3uMy2u/yAbNMk0DT5ruWpEUrrMztNrtNyYA?=
+ =?us-ascii?Q?3EN4Vml2PlZ4qFwezdRCLXuQ9d3OpjMStblLN3P50t+tySAJ7leRMIAGiUAZ?=
+ =?us-ascii?Q?21mZZW8v/Zzw5mpwTwvWsY3wjm6nqa/I8KpUoKVi1Fp8awRoH2RW2s+Txf5h?=
+ =?us-ascii?Q?yse36ANPnN/XA+gIEb8mumXD3+ZWLDwgNOojwvKB5/o2zCQugDCg+CtnLmhY?=
+ =?us-ascii?Q?kU2xqnaiiW8yphddirpuXfnwOzF2L3Z81PeL72RrrJTmhjkoYkHssZDyqRot?=
+ =?us-ascii?Q?fRd1fsHi+jmt1qRbRP7FQl8kukaH7t0W3NXWyy94GJe1sXU5jkBB9MOsf8Ga?=
+ =?us-ascii?Q?cqT3kXeLMYD8oYQW0RdQSHaq0Zv0ymz9SE/Ub5IosUASv4f+Lq2Wfcds1/ms?=
+ =?us-ascii?Q?7FQRmkt/bR43PvrUhfHQHmAy0JGDuHGRN1bZygOjAwFFfGosUiY7GUIBan+x?=
+ =?us-ascii?Q?hZltI9QKHXS7cXuy8NHxD+bdycRZAqSvW0syy/ibUSbxbtQVnRX8mJvlgwTy?=
+ =?us-ascii?Q?nyhQdW27jQVqY4NhayLj9rogWO7DU73ujHybW4AH2DbsFjgaBoI90yCMJlAq?=
+ =?us-ascii?Q?Pdx6d01GP9QFSourt2cajdTYB6aG3vOBk69cYRvZGSKcV9KJ2CHTC2piyFLI?=
+ =?us-ascii?Q?PXxE3qCYk6DBNZmVt5GMmVxKd981mrG0m1QemZEO1UsRHjCre4PVanAahjDA?=
+ =?us-ascii?Q?E4iUSXlMeMqCMFol6RijShGl0jqVO26+HSGajg6fk488o4xsx/wW6OWTTIqQ?=
+ =?us-ascii?Q?YHfzJ2kCEJCLXVDcxp5SGtFUUloLBn0mC6t6dGLlHw8JF9qyGOA0T9cjArK2?=
+ =?us-ascii?Q?v+fDUDEHDc5BtBj+YWFPo03OPhG4KmFF0J2ygqj4lvp88hDtm7ZmIMLny1vf?=
+ =?us-ascii?Q?2MZJCr8Sl34vWEw53OplZqS0K2wiE0NY7wyhSqp8wdcjo6bgDC7gCT8MsPot?=
+ =?us-ascii?Q?cGtPQY1vMJETKsGQHGVRz2aGMDE4rhkpPK3PDpoMKEtT0cGQ9iBOJsOrLUkp?=
+ =?us-ascii?Q?qw=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2a79877a-5847-4633-672e-08dbfae99f88
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8603.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2023 08:09:12.1871 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3s7VjGzhBla2+bLE0CE2t3zEeXKiRn6YM1UPqe3F/maWb2EK7O0LH//jX+uUn5pdMhLo/82Mx4Ee+BT2UC528g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6403
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,226 +145,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Eric Dumazet <edumazet@google.com>, linux-kselftest@vger.kernel.org,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-arch@vger.kernel.org, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jeroen de Borst <jeroendb@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- linux-media@vger.kernel.org, Jesper Dangaard Brouer <hawk@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Shailend Chand <shailend@google.com>,
- Shakeel Butt <shakeelb@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>, netdev@vger.kernel.org,
- David Ahern <dsahern@kernel.org>, linux-kernel@vger.kernel.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Yunsheng Lin <linyunsheng@huawei.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>, bpf@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>
+Cc: lkp@intel.com, Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
+ intel-gfx@lists.freedesktop.org, Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ dri-devel@lists.freedesktop.org, oliver.sang@intel.com,
+ Andrzej Hajda <andrzej.hajda@intel.com>, "Musial,
+ Ewelina" <ewelina.musial@intel.com>, oe-lkp@lists.linux.dev,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mina,
+hi, Jani,
 
-Apologies for not participating in the party earlier.
+On Fri, Dec 08, 2023 at 11:59:43AM +0200, Jani Nikula wrote:
+> On Thu, 07 Dec 2023, kernel test robot <oliver.sang@intel.com> wrote:
+> > Hello,
+> >
+> > kernel test robot noticed "assertion_failure" on:
+> >
+> > commit: 9bb66c179f50e61df20ba13c9b34ca17d00b05fb ("drm/i915: Reserve some kernel space per vm")
+> > git://anongit.freedesktop.org/drm-intel drm-intel-gt-next
+> >
+> > in testcase: igt
+> 
+> So the kernel test robot runs igt. I've seen a handful of reports over
+> the years, but not a whole lot. If you run it even semi-regularly, I
+> would have expected more. What's the deal here?
 
-On Fri, 8 Dec 2023 at 02:52, Mina Almasry <almasrymina@google.com> wrote:
->
-> From: Jakub Kicinski <kuba@kernel.org>
->
-> The page providers which try to reuse the same pages will
-> need to hold onto the ref, even if page gets released from
-> the pool - as in releasing the page from the pp just transfers
-> the "ownership" reference from pp to the provider, and provider
-> will wait for other references to be gone before feeding this
-> page back into the pool.
->
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
->
-> ---
->
-> This is implemented by Jakub in his RFC:
-> https://lore.kernel.org/netdev/f8270765-a27b-6ccf-33ea-cda097168d79@redhat.com/T/
->
-> I take no credit for the idea or implementation; I only added minor
-> edits to make this workable with device memory TCP, and removed some
-> hacky test code. This is a critical dependency of device memory TCP
-> and thus I'm pulling it into this series to make it revewable and
-> mergable.
->
-> RFC v3 -> v1
-> - Removed unusued mem_provider. (Yunsheng).
-> - Replaced memory_provider & mp_priv with netdev_rx_queue (Jakub).
->
-> ---
->  include/net/page_pool/types.h | 12 ++++++++++
->  net/core/page_pool.c          | 43 +++++++++++++++++++++++++++++++----
->  2 files changed, 50 insertions(+), 5 deletions(-)
->
-> diff --git a/include/net/page_pool/types.h b/include/net/page_pool/types.h
-> index ac286ea8ce2d..0e9fa79a5ef1 100644
-> --- a/include/net/page_pool/types.h
-> +++ b/include/net/page_pool/types.h
-> @@ -51,6 +51,7 @@ struct pp_alloc_cache {
->   * @dev:       device, for DMA pre-mapping purposes
->   * @netdev:    netdev this pool will serve (leave as NULL if none or multiple)
->   * @napi:      NAPI which is the sole consumer of pages, otherwise NULL
-> + * @queue:     struct netdev_rx_queue this page_pool is being created for.
->   * @dma_dir:   DMA mapping direction
->   * @max_len:   max DMA sync memory size for PP_FLAG_DMA_SYNC_DEV
->   * @offset:    DMA sync address offset for PP_FLAG_DMA_SYNC_DEV
-> @@ -63,6 +64,7 @@ struct page_pool_params {
->                 int             nid;
->                 struct device   *dev;
->                 struct napi_struct *napi;
-> +               struct netdev_rx_queue *queue;
->                 enum dma_data_direction dma_dir;
->                 unsigned int    max_len;
->                 unsigned int    offset;
-> @@ -125,6 +127,13 @@ struct page_pool_stats {
->  };
->  #endif
->
-> +struct memory_provider_ops {
-> +       int (*init)(struct page_pool *pool);
-> +       void (*destroy)(struct page_pool *pool);
-> +       struct page *(*alloc_pages)(struct page_pool *pool, gfp_t gfp);
-> +       bool (*release_page)(struct page_pool *pool, struct page *page);
-> +};
-> +
->  struct page_pool {
->         struct page_pool_params_fast p;
->
-> @@ -174,6 +183,9 @@ struct page_pool {
->          */
->         struct ptr_ring ring;
->
-> +       void *mp_priv;
-> +       const struct memory_provider_ops *mp_ops;
-> +
->  #ifdef CONFIG_PAGE_POOL_STATS
->         /* recycle stats are per-cpu to avoid locking */
->         struct page_pool_recycle_stats __percpu *recycle_stats;
-> diff --git a/net/core/page_pool.c b/net/core/page_pool.c
-> index ca1b3b65c9b5..f5c84d2a4510 100644
-> --- a/net/core/page_pool.c
-> +++ b/net/core/page_pool.c
-> @@ -25,6 +25,8 @@
->
->  #include "page_pool_priv.h"
->
-> +static DEFINE_STATIC_KEY_FALSE(page_pool_mem_providers);
+our team merges lots of linux kernel repo/tree in so-called hourly kernels,
+tests these hourly kernels by 80+ tools (including igt) on various platforms,
+if any failure found comparing to some good bases, we will trigger auto-bisect
+to try to catpure fbc (first bad commit) and report. this is the reason you
+see this report.
 
-We could add the existing page pool mechanisms as another 'provider',
-but I assume this is coded like this for performance reasons (IOW skip
-the expensive ptr call for the default case?)
+we cannot gurantee coverage since resource constraints, possible failures
+in different stage such like merging, building, auto-bisect, and so on. this
+means we could fail to capture some issues.
 
-> +
->  #define DEFER_TIME (msecs_to_jiffies(1000))
->  #define DEFER_WARN_INTERVAL (60 * HZ)
->
-> @@ -174,6 +176,7 @@ static int page_pool_init(struct page_pool *pool,
->                           const struct page_pool_params *params)
->  {
->         unsigned int ring_qsize = 1024; /* Default */
-> +       int err;
->
->         memcpy(&pool->p, &params->fast, sizeof(pool->p));
->         memcpy(&pool->slow, &params->slow, sizeof(pool->slow));
-> @@ -234,10 +237,25 @@ static int page_pool_init(struct page_pool *pool,
->         /* Driver calling page_pool_create() also call page_pool_destroy() */
->         refcount_set(&pool->user_cnt, 1);
->
-> +       if (pool->mp_ops) {
-> +               err = pool->mp_ops->init(pool);
-> +               if (err) {
-> +                       pr_warn("%s() mem-provider init failed %d\n",
-> +                               __func__, err);
-> +                       goto free_ptr_ring;
-> +               }
-> +
-> +               static_branch_inc(&page_pool_mem_providers);
-> +       }
-> +
->         if (pool->p.flags & PP_FLAG_DMA_MAP)
->                 get_device(pool->p.dev);
->
->         return 0;
-> +
-> +free_ptr_ring:
-> +       ptr_ring_cleanup(&pool->ring, NULL);
-> +       return err;
->  }
->
->  static void page_pool_uninit(struct page_pool *pool)
-> @@ -519,7 +537,10 @@ struct page *page_pool_alloc_pages(struct page_pool *pool, gfp_t gfp)
->                 return page;
->
->         /* Slow-path: cache empty, do real allocation */
-> -       page = __page_pool_alloc_pages_slow(pool, gfp);
-> +       if (static_branch_unlikely(&page_pool_mem_providers) && pool->mp_ops)
+> 
+> There's clearly overlap with what our CI is doing. Maybe better
+> coordination would be useful? Especially wrt reporting. I'm not sure if
+> anyone's going to track these mails.
+> 
+> Cc: Ewelina
 
-Why do we need && pool->mp_ops? On the init function, we only bump
-page_pool_mem_providers if the ops are there
+for this case we just capture a assertion_failure upon
+branch: drm-intel/drm-intel-gt-next
+on a Commet Lake (with 16G memory). not sure if this is valuable to you,
+say, for some legacy platform regression check?
 
-> +               page = pool->mp_ops->alloc_pages(pool, gfp);
-> +       else
-> +               page = __page_pool_alloc_pages_slow(pool, gfp);
->         return page;
->  }
->  EXPORT_SYMBOL(page_pool_alloc_pages);
-> @@ -576,10 +597,13 @@ void __page_pool_release_page_dma(struct page_pool *pool, struct page *page)
->  void page_pool_return_page(struct page_pool *pool, struct page *page)
->  {
->         int count;
-> +       bool put;
->
-> -       __page_pool_release_page_dma(pool, page);
-> -
-> -       page_pool_clear_pp_info(page);
-> +       put = true;
-> +       if (static_branch_unlikely(&page_pool_mem_providers) && pool->mp_ops)
+we want to seek advices from you:
+(1) if this is still useful, do you want us to limit the receivers of this kind
+    of report?
+(2) or would you suggest there is no need for us to test below repo at all?
+    git://anongit.freedesktop.org/drm-intel
 
-ditto
+> 
+> > version: igt-x86_64-0f075441-1_20230520
+> 
+> That's six months old and more than 1k commits behind. The results are
+> going to be useless, I'm afraid.
 
-> +               put = pool->mp_ops->release_page(pool, page);
-> +       else
-> +               __page_pool_release_page_dma(pool, page);
->
->         /* This may be the last page returned, releasing the pool, so
->          * it is not safe to reference pool afterwards.
-> @@ -587,7 +611,10 @@ void page_pool_return_page(struct page_pool *pool, struct page *page)
->         count = atomic_inc_return_relaxed(&pool->pages_state_release_cnt);
->         trace_page_pool_state_release(pool, page, count);
->
-> -       put_page(page);
-> +       if (put) {
-> +               page_pool_clear_pp_info(page);
-> +               put_page(page);
-> +       }
->         /* An optimization would be to call __free_pages(page, pool->p.order)
->          * knowing page is not part of page-cache (thus avoiding a
->          * __page_cache_release() call).
-> @@ -857,6 +884,12 @@ static void __page_pool_destroy(struct page_pool *pool)
->
->         page_pool_unlist(pool);
->         page_pool_uninit(pool);
-> +
-> +       if (pool->mp_ops) {
+got it. if you still want us to keep the test upon the repo, we would upgrade
+igt to latest version.
 
-Same here. Using a mix of pool->mp_ops and page_pool_mem_providers
-will work, but since we always check the ptr on init, can't we simply
-rely on page_pool_mem_providers for the rest of the code?
-
-Thanks
-/Ilias
-> +               pool->mp_ops->destroy(pool);
-> +               static_branch_dec(&page_pool_mem_providers);
-> +       }
-> +
->         kfree(pool);
->  }
->
-> --
-> 2.43.0.472.g3155946c3a-goog
->
+> 
+> 
+> BR,
+> Jani.
+> 
+> 
