@@ -1,82 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6617080F70E
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 20:42:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE17D80F74C
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 20:58:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E902F10E054;
-	Tue, 12 Dec 2023 19:42:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF3EE10E09D;
+	Tue, 12 Dec 2023 19:58:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48E5310E054
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 19:42:14 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 3BCH6Qm0002891; Tue, 12 Dec 2023 19:41:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=UjdXqRSPf/hsBh6oj1SyTOINg6+2c8f3cHQ1cAmvBJU=; b=Rm
- UXRvGvpYBOoHs5fsn8kRw9geB4pLoYrZg9bpfiB1aTgXfpUhke872NoYMFJmCHgS
- ue/06YKl5Gi/uKeBn+HzfVrt34uhKKgeKXkr4Kz4a6n8blwczOZrwDRlFU6fXa5K
- ogMfDBP5+cij8HhF8lUnaIwxOvKF+j0q2R0XwPQUbvsckKB6FGJ8qZT8DV9cWmI4
- d1HI+IqY6Kn330UZW09ZLeD2pVMW/jG+9JBQ6ftHvKJs4PFN/YC12K8OA1tPzDIJ
- 1h7p8C1orkiGGLg0NKdHAiJfwQ7l+okH5AMfiToVsbYqP1QbJDRHNf++oRP1L/Fe
- BsQWpysmhtRKNIJrKoJg==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uxnf71bve-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 12 Dec 2023 19:41:46 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BCJfinE028151
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 12 Dec 2023 19:41:44 GMT
-Received: from [10.110.0.246] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 12 Dec
- 2023 11:41:43 -0800
-Message-ID: <69874f27-46ea-4991-a735-6609233ddb8a@quicinc.com>
-Date: Tue, 12 Dec 2023 11:41:42 -0800
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7374810E09D
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 19:58:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1702411087;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=vio5W2CXh8VIVVnye0VQz+L8cj+HSZDsPzluUFJanUo=;
+ b=fzPQ/zDhRC9CxSEIlGYCp0bjwbK4usLZOV1EGPhE/0SgO5pzt+Rg91kEEIzHQmlx8KaGRp
+ LmNYppmVsCy07EGN0I/eE1OIfWAOQ71aJfeViIlb17b+UXSkRJO9uW39ZBDX4mC65c0JpJ
+ lGJsLbpgH/6Qe0voo65axPa59daDWMI=
+Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
+ [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-65-70rKR0r6OT2tOq1YQbhSLw-1; Tue, 12 Dec 2023 14:58:06 -0500
+X-MC-Unique: 70rKR0r6OT2tOq1YQbhSLw-1
+Received: by mail-yw1-f199.google.com with SMTP id
+ 00721157ae682-5d67fc68a82so72024097b3.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 11:58:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1702411085; x=1703015885;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=vio5W2CXh8VIVVnye0VQz+L8cj+HSZDsPzluUFJanUo=;
+ b=Pe8hJWm1iyMIQvAAc7MrBgBSF7rUp9epOuRSxzw45AElORXfg17r15EQmDjvYmZzU6
+ 3+v72kmRgWrmJkMFFSIYYRskixteIcwp5F9wMaLFSbiz4ui97MyyI6djaJgnZ7q+BLx6
+ EzlY3MFAb5p5mHj7AVtYFVLTzMjTD+uxCItE4UWtD+iTZAWW8cpQmbIBFqYfgiB0DXwe
+ J43phHPD5bdtHlTU+Jg7dGhNoJ6nytI0ggJiW74pBdW4j1UgkCLfVOJBH4ttiLYS18ZS
+ v1PAfV9PxNHMgtxfwtJmPwW999sJhtirHbbRc7Jyt+SCMDTWLvceNYIpJUjboim168rR
+ rxpg==
+X-Gm-Message-State: AOJu0YwjN7NLXwfRirfYOgxqqy0XzV+Kl5QLC7/TIKCG/I1BRnlPv2qy
+ N5pq/hu7uKUST/zvJhVY8VPI8ZmYSA73L2HdwRbqYJ4lEq0sTu3pOucfXMK7ZGErBh0EAc6eqxV
+ HJhgbX56w3G/VRjnEaTXi7XpfmKbx
+X-Received: by 2002:a05:690c:3185:b0:5e1:e50b:ab5c with SMTP id
+ fd5-20020a05690c318500b005e1e50bab5cmr1351518ywb.1.1702411085546; 
+ Tue, 12 Dec 2023 11:58:05 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHzll/KfEEeFGXHCYWsZvQiNpoKwD81UlefsjiQ4B9Q//3lL6+1EqEwS9Dic0uVUQCzigLnuQ==
+X-Received: by 2002:a05:690c:3185:b0:5e1:e50b:ab5c with SMTP id
+ fd5-20020a05690c318500b005e1e50bab5cmr1351514ywb.1.1702411085342; 
+ Tue, 12 Dec 2023 11:58:05 -0800 (PST)
+Received: from x1.redhat.com (c-73-214-169-22.hsd1.pa.comcast.net.
+ [73.214.169.22]) by smtp.gmail.com with ESMTPSA id
+ g184-20020a0dc4c1000000b005a7d46770f2sm3985306ywd.83.2023.12.12.11.58.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Dec 2023 11:58:04 -0800 (PST)
+From: Brian Masney <bmasney@redhat.com>
+To: hdegoede@redhat.com,
+	deller@gmx.de
+Subject: [PATCH] fbdev/simplefb: change loglevel when the power domains cannot
+ be parsed
+Date: Tue, 12 Dec 2023 14:57:54 -0500
+Message-ID: <20231212195754.232303-1-bmasney@redhat.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dt-bindings: panel-simple-dsi: move LG 5" HD TFT LCD
- panel into DSI yaml
-Content-Language: en-US
-To: David Heidelberg <david@ixit.cz>, Neil Armstrong
- <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>
-References: <20231212175356.72062-1-david@ixit.cz>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20231212175356.72062-1-david@ixit.cz>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: x3ShBaoQjEKp5EOE40M_7PRaTdZldalO
-X-Proofpoint-GUID: x3ShBaoQjEKp5EOE40M_7PRaTdZldalO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 impostorscore=0
- spamscore=0 phishscore=0 clxscore=1011 adultscore=0 mlxlogscore=604
- lowpriorityscore=0 suspectscore=0 malwarescore=0 priorityscore=1501
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2312120150
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,66 +82,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, treding@nvidia.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+When the power domains cannot be parsed, the message is incorrectly
+logged as an info message. Let's change this to an error since an error
+is returned.
 
+Fixes: 92a511a568e4 ("fbdev/simplefb: Add support for generic power-domains")
+Signed-off-by: Brian Masney <bmasney@redhat.com>
+---
+ drivers/video/fbdev/simplefb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 12/12/2023 9:53 AM, David Heidelberg wrote:
-> Originally was in the panel-simple, but belongs to panel-simple-dsi.
-> 
-> See arch/arm/boot/dts/nvidia/tegra114-roth.dts for more details.
-> 
-> Fixes:
-> ```
-> arch/arm/boot/dts/tegra114-roth.dt.yaml: panel@0: 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
->          From schema: Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> ```
+diff --git a/drivers/video/fbdev/simplefb.c b/drivers/video/fbdev/simplefb.c
+index 6f58ee276ad1..028a56525047 100644
+--- a/drivers/video/fbdev/simplefb.c
++++ b/drivers/video/fbdev/simplefb.c
+@@ -470,7 +470,7 @@ static int simplefb_attach_genpds(struct simplefb_par *par,
+ 		if (err == -ENOENT)
+ 			return 0;
+ 
+-		dev_info(dev, "failed to parse power-domains: %d\n", err);
++		dev_err(dev, "failed to parse power-domains: %d\n", err);
+ 		return err;
+ 	}
+ 
+-- 
+2.43.0
 
-Hi David,
-
-Would "Fixes: 310abcea76e9 ("dt-bindings: display: convert simple lg 
-panels to DT Schema")" be appropriate here?
-
-Thanks,
-
-Jessica Zhang
-
-> 
-> Signed-off-by: David Heidelberg <david@ixit.cz>
-> ---
->   .../devicetree/bindings/display/panel/panel-simple-dsi.yaml     | 2 ++
->   .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 --
->   2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-> index 73674baea75d..f9160d7bac3c 100644
-> --- a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-> @@ -42,6 +42,8 @@ properties:
->         - lg,acx467akm-7
->           # LG Corporation 7" WXGA TFT LCD panel
->         - lg,ld070wx3-sl01
-> +        # LG Corporation 5" HD TFT LCD panel
-> +      - lg,lh500wx1-sd03
->           # One Stop Displays OSD101T2587-53TS 10.1" 1920x1200 panel
->         - osddisplays,osd101t2587-53ts
->           # Panasonic 10" WUXGA TFT LCD panel
-> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> index 2021aa82871a..634a10c6f2dd 100644
-> --- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> @@ -212,8 +212,6 @@ properties:
->         - lemaker,bl035-rgb-002
->           # LG 7" (800x480 pixels) TFT LCD panel
->         - lg,lb070wv8
-> -        # LG Corporation 5" HD TFT LCD panel
-> -      - lg,lh500wx1-sd03
->           # LG LP079QX1-SP0V 7.9" (1536x2048 pixels) TFT LCD panel
->         - lg,lp079qx1-sp0v
->           # LG 9.7" (2048x1536 pixels) TFT LCD panel
-> -- 
-> 2.43.0
-> 
