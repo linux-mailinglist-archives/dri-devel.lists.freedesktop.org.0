@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2862C80E8EF
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 11:18:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C645780E920
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 11:29:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DAFB10E566;
-	Tue, 12 Dec 2023 10:18:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8442710E5A7;
+	Tue, 12 Dec 2023 10:29:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
- [IPv6:2607:f8b0:4864:20::102c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD43D10E566
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 10:18:44 +0000 (UTC)
-Received: by mail-pj1-x102c.google.com with SMTP id
- 98e67ed59e1d1-28abca51775so160667a91.1
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 02:18:44 -0800 (PST)
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com
+ [IPv6:2607:f8b0:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BC8810E5A7
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 10:29:12 +0000 (UTC)
+Received: by mail-pg1-x52f.google.com with SMTP id
+ 41be03b00d2f7-5c6734e0c22so2683592a12.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 02:29:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1702376324; x=1702981124; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1702376951; x=1702981751; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=KSUO831C0k3zJ4lMk/4vhFQk4D7Yty6lM+SDoI+HnHs=;
- b=fvgC7m0OwMaaq+4B7mIEJEmVXbTfWbrTrXaGl1uqzeshU+T0AfcWJo5CvD5SpfCogN
- mXvLtJHRLvjPErTA8QzMy9dhumJ1g05/I8OK2YY88WOfSX2aoXd0yyLtprKI9z/QFr4i
- 2Nc0SqyQNDbmgos2uqYazk5+Zm2ZFg9/ZmXHNT5Co+MdZvAZti0/Jf2A9Gln3xCUbr6g
- lBbq3gMlkVXaGU3UGlpsfh4c32KP0QJq0E6v/PNZCbzXQtaBdBxbYX/IZp5pgO8X41j+
- w3k1U7KMg9QaDQGud/MLiyeTAEg3jdtocra324qRz5cxGgCC3DxQiksky6qcMkHz8Up1
- y9wQ==
+ bh=HHmbx/TAJnGNEEz0o7g8cBj5c1EY3ZNmozjuVxS5uaw=;
+ b=XEXtGtj6HAWQ8XCySodpVkik5OvE9IebQZCHT08ZMBQZ3QrxMxv6RU0VGIiA25P5wy
+ zu0aB7YfPwd+yIWa80FM1VHxN5J7u6wkXOqQ7MOm7HFcq0Dr9FS1ppQCWhDu3USuAWRA
+ T2kY2m/hp8TcWE71StGdnIh+5ukyErtcpiVUHOeSwqB+JHC4rlTeGQd4zVgJpdGeLymQ
+ GthSyoQPLpZfS3otZRsEUS79xnkh4aBdP8VLSuuFVxys2iylWAi2Dq/wMfDFIQHoImgp
+ i5GaY3WuZF57lLKfx67tTVH/ZFHw3Km67T4yDn0KCvhFPOODBc1AQ96i6RBwJmomhDTc
+ 5+2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702376324; x=1702981124;
+ d=1e100.net; s=20230601; t=1702376951; x=1702981751;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=KSUO831C0k3zJ4lMk/4vhFQk4D7Yty6lM+SDoI+HnHs=;
- b=JwcbYCffTqKPZofmUujCCPqCRwmdNgyIhO2O60cgWAHOD9xQHVOh/4xWtbvsuRo1bL
- 9bPulX8ZZYIFylCMeOVRen7gmgdAbmCAdFDI0ZwVgPw+W5jJfXXlIBtPPV1kzqWYtLEV
- Em8O7hhX2Za74bB3+YTkC06X0VAHGlECkl3xWM3UO8aWEY/lufn9TmRQaPRHWdtas1es
- ZF9pMVDR9DEhPp/Ns2AENCQtGmgC1OY/fwnIZpgQnqevROoXvQQUBUAvJdP03iW4v0g6
- UV0Z0JANM0F0XQyb4VWpTxHMz+ejnLmBe9nNRBTk4267lXwlJmUE2Vgm2ViyxWHYFpC8
- 5VEQ==
-X-Gm-Message-State: AOJu0YwyMNxCOU0w1wRC1vp07ZPNrcWhJUMmEFS8lEYHyJP3puD/8Ry4
- StTWGXYKvlQGIKZpwhkMNVd7OINlt+3gVt2vYsw=
-X-Google-Smtp-Source: AGHT+IEwr8qiMkSf+0nazlS52eBLr0olBbN55l3LGQ5Nkz92qoHujo9VaP50vK9sUbgPdB3EW5DvktPKkO1yQd48Xps=
-X-Received: by 2002:a17:90b:ec7:b0:28a:3526:a404 with SMTP id
- gz7-20020a17090b0ec700b0028a3526a404mr2331746pjb.32.1702376324117; Tue, 12
- Dec 2023 02:18:44 -0800 (PST)
+ bh=HHmbx/TAJnGNEEz0o7g8cBj5c1EY3ZNmozjuVxS5uaw=;
+ b=pr6eLr3rye70cE7cSQBQKLJjc7p2Vg46nM6Ih/8TPjiQCgXELOIhsr1KeDqhjDFgPf
+ aVfJGqHBlktBYvdN6oeHhKm2eJV1XBl1+ZrzNVWO5xMQCSZDp4qYvbYDvsi65VpbwJQ5
+ u1H4Lbk+7nH76OQ8y+eTu9VyNY0Ul4bgiE3IrtxZuWTpjJ1vfBhD/7LPJIhF1ZYqXHav
+ Ek9ysdjZ4+1k25skcpqXhP9Uu+/F6Y0HxdT5R+cU76FVZPuC0g92JevW8aVSbyLsv3F2
+ 5NDZTPzMqvxHfhyBK3lAKSBVIOekTYublLwkxCpl6X8Hi5uZLMbuyo0dXGvJonfX1o91
+ wqwQ==
+X-Gm-Message-State: AOJu0YwPFiay3Brq39255kvSTDfG5aTURBEH6i0Se0iGR2y1e3exasdj
+ FJgLWbs47ZX3APDF5aG8lMuUX0vzITY7il7faRWamlVAsZLfDA==
+X-Google-Smtp-Source: AGHT+IE48kxlzdKD3yLytlZEb4kSrO2sHIRT3ZAoG2MXpUlCf7iBAfbi5OAjmRU9iIoXDqrpN6Spq6yjmg/XfwEqDd4=
+X-Received: by 2002:a17:90a:8a0e:b0:286:a944:abb2 with SMTP id
+ w14-20020a17090a8a0e00b00286a944abb2mr2532263pjn.20.1702376951377; Tue, 12
+ Dec 2023 02:29:11 -0800 (PST)
 MIME-Version: 1.0
 References: <20231212033259.189718-1-aford173@gmail.com>
- <6bdf9e39-e938-4644-b0ce-37191e1c00d2@kontron.de>
-In-Reply-To: <6bdf9e39-e938-4644-b0ce-37191e1c00d2@kontron.de>
+ <20231212033259.189718-2-aford173@gmail.com>
+In-Reply-To: <20231212033259.189718-2-aford173@gmail.com>
 From: Adam Ford <aford173@gmail.com>
-Date: Tue, 12 Dec 2023 04:18:33 -0600
-Message-ID: <CAHCN7xLSP22-37h7VfQScyVpW=-BcO6k+vvAqN0C+pVYo2=O-g@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/bridge: samsung-dsim: Set P divider based on
- min/max of fin pll
-To: Frieder Schrempf <frieder.schrempf@kontron.de>
+Date: Tue, 12 Dec 2023 04:29:00 -0600
+Message-ID: <CAHCN7xJC_+0uHa1_ODXLjEXAL-S2hZWr-GBPATQ_BBZaY2c4_A@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/bridge: samsung-dsim: Fix porch calcalcuation
+ rounding
+To: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,112 +70,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
  Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- linux-kernel@vger.kernel.org, aford@beaconembedded.com,
- Maxime Ripard <mripard@kernel.org>, Marco Felsch <m.felsch@pengutronix.de>,
- Jagan Teki <jagan@amarulasolutions.com>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, aford@beaconembedded.com,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
  Michael Tretter <m.tretter@pengutronix.de>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Marco Felsch <m.felsch@pengutronix.de>, linux-kernel@vger.kernel.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 12, 2023 at 2:25=E2=80=AFAM Frieder Schrempf
-<frieder.schrempf@kontron.de> wrote:
+On Mon, Dec 11, 2023 at 9:33=E2=80=AFPM Adam Ford <aford173@gmail.com> wrot=
+e:
 >
-> Hi Adam,
->
-> On 12.12.23 04:32, Adam Ford wrote:
-> > The P divider should be set based on the min and max values of
-> > the fin pll which may vary between different platforms.
-> > These ranges are defined per platform, but hard-coded values
-> > were used instead which resulted in a smaller range available
-> > on the i.MX8M[MNP] than what was possible.
-> >
-> > Fixes: 846307185f0f ("drm/bridge: samsung-dsim: update PLL reference cl=
-ock")
-> > Signed-off-by: Adam Ford <aford173@gmail.com>
-> >
-> > diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/br=
-idge/samsung-dsim.c
-> > index be5914caa17d..239d253a7d71 100644
-> > --- a/drivers/gpu/drm/bridge/samsung-dsim.c
-> > +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-> > @@ -573,8 +573,8 @@ static unsigned long samsung_dsim_pll_find_pms(stru=
-ct samsung_dsim *dsi,
-> >       u16 _m, best_m;
-> >       u8 _s, best_s;
-> >
-> > -     p_min =3D DIV_ROUND_UP(fin, (12 * MHZ));
-> > -     p_max =3D fin / (6 * MHZ);
-> > +     p_min =3D DIV_ROUND_UP(fin, (driver_data->pll_fin_max * MHZ));
-> > +     p_max =3D fin / (driver_data->pll_fin_min * MHZ);
->
-> I did some tinkering with the PLL settings the other day and this is
-> literally one of the things I came up with.
->
-> So I'm happy to provide:
->
-> Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
-> Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+> When using video sync pulses, the HFP, HBP, and HSA are divided between
+> the available lanes if there is more than one lane.  For certain
+> timings and lane configurations, the HFP may not be evenly divisible.
+> If the HFP is rounded down, it ends up being too small which can cause
+> some monitors to not sync properly. In these instances, adjust htotal
+> and hsync to round the HFP up, and recalculate the htotal.
 >
 
-Thank you!
+For anyone who's following this,  I added a note which I apparently
+forgot to save:
 
-> Regarding the P divider, I'm also wondering if there is an upper limit
-> for the p-value (not for the resulting fin_pll) that we should take into
-> account, too. The problem is that we have conflicts in the documentation
-> (again) so we don't really know what the correct limit would be.
->
-> There are the following ranges given in the RMs:
->
-> * 1..63 (i.MX8MM RM 13.7.8.18.4)
-> * 1..33 (i.MX8MM RM 13.7.10.1)
-> * 1..63 (i.MX8MP RM 13.2.3.1.5.2)
-> * 1..63 (i.MX8MP RM 13.7.2.4)
+This adds support for 720p60 in the i.MX8M Plus.
 
-1...63 (i.IMX8MN RM 13.7.2.4)
->
-> Unfortunately there are similar discrepancies for the other parameters
-> and limits.
+NXP uses a look-up table in their downstream code to accomplish this.
+Using this calculation, the driver can adjust without the need for a
+complicated table and should be flexible for different timings and
+resolutions depending on the monitor.
 
-For what it's worth, I compared these values to the NXP downstream
-branch [1], and they seemed to indicate the values were as follows:
+I don't have a DSI analyzer, and this appears to only work on
+i.MX8M Plus but not Mini and Nano for some reason, despite their
+having a similar DSI bridge.
 
-.p =3D { .min =3D 1, .max =3D 63, },
-.m =3D { .min =3D 64, .max =3D 1023, },
-.s =3D { .min =3D 0, .max =3D 5, },
-.k =3D { .min =3D 0, .max =3D 32768, }, /* abs(k) */
-.fin =3D { .min =3D 6000, .max =3D 300000, }, /* in KHz */
-.fpref =3D { .min =3D 2000, .max =3D 30000, }, /* in KHz */
-.fvco =3D { .min =3D 1050000, .max =3D 2100000, }, /* in KHz */
+When Frieder teste this, he reported no changes on the Kontrol BL
+i.MX8MM:   "So at least there is no negative impact in this case"
 
-In a previous commit [2], I mentioned the fact that I reached out to
-NXP asking about the discrepancies and my NXP Rep and I received the
-response:
 
-"Yes it is definitely wrong, the one that is part of the NOTE in
-MIPI_DPHY_M_PLLPMS register table against PMS_P, PMS_M and PMS_S is
-not correct. I will report this to Doc team, the one customer should
-be take into account is the Table 13-40 DPHY PLL Parameters and the
-Note above."
+If someone else has an i.MX8MP, I would appreciate any feedback.
+
+thanks
 
 adam
 
-[1] - https://github.com/nxp-imx/linux-imx/blob/lf-6.1.y/drivers/gpu/drm/im=
-x/sec_mipi_pll_1432x.h#L38C1-L47C1
-[2] - https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/c=
-ommit/drivers/gpu/drm/bridge/samsung-dsim.c?h=3Dnext-20231212&id=3D54f1a83c=
-72250b182fa7722b0c5f6eb5e769598d
-
+> Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de> # Kontron BL i.=
+MX8MM with HDMI monitor
+> Signed-off-by: Adam Ford <aford173@gmail.com>
 >
-> Thanks
-> Frieder
+> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/brid=
+ge/samsung-dsim.c
+> index 239d253a7d71..f5795da1d8bb 100644
+> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> @@ -1628,6 +1628,27 @@ static int samsung_dsim_atomic_check(struct drm_br=
+idge *bridge,
+>                 adjusted_mode->flags |=3D (DRM_MODE_FLAG_PHSYNC | DRM_MOD=
+E_FLAG_PVSYNC);
+>         }
 >
-> >
-> >       for (_p =3D p_min; _p <=3D p_max; ++_p) {
-> >               for (_s =3D 0; _s <=3D 5; ++_s) {
+> +       /*
+> +        * When using video sync pulses, the HFP, HBP, and HSA are divide=
+d between
+> +        * the available lanes if there is more than one lane.  For certa=
+in
+> +        * timings and lane configurations, the HFP may not be evenly div=
+isible.
+> +        * If the HFP is rounded down, it ends up being too small which c=
+an cause
+> +        * some monitors to not sync properly. In these instances, adjust=
+ htotal
+> +        * and hsync to round the HFP up, and recalculate the htotal. Thr=
+ough trial
+> +        * and error, it appears that the HBP and HSA do not appearto nee=
+d the same
+> +        * correction that HFP does.
+> +        */
+> +       if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE && dsi->lane=
+s > 1) {
+> +               int hfp =3D adjusted_mode->hsync_start - adjusted_mode->h=
+display;
+> +               int remainder =3D hfp % dsi->lanes;
+> +
+> +               if (remainder) {
+> +                       adjusted_mode->hsync_start +=3D remainder;
+> +                       adjusted_mode->hsync_end   +=3D remainder;
+> +                       adjusted_mode->htotal      +=3D remainder;
+> +               }
+> +       }
+> +
+>         return 0;
+>  }
+>
+> --
+> 2.40.1
 >
