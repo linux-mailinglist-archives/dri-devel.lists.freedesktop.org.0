@@ -1,50 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17BC180F3C7
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 17:57:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D44B80F421
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 18:12:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39CE110E648;
-	Tue, 12 Dec 2023 16:57:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABF6510E63E;
+	Tue, 12 Dec 2023 17:12:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC9FF10E63D;
- Tue, 12 Dec 2023 16:57:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1702400238; x=1733936238;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=QmH+aH1kVGYGUV9BW6GyLfQIGppsod0mRvxOWe/u53o=;
- b=D9J3Axv7VELNMmcYAxAyNM5X5B936WPKC+Wz2wjWaZQom3yQBiVhoWWc
- EH80jWbtgTmithu9SKbGg7ybHDmN7bpcPfY653+M8lcftNQgoQm5GGzAn
- tgwZpfnwsxO8SmsEfZXN46BVqgqqti/+3IznnN2cApbIZIQUGv5cRw9zV
- z0ewXKjKjsd838DK65jnpEBjlyiyCClldA+8FzG238FHGZD1xBuRVdD24
- O1nRYVIS4qaC5dhzNVKkpkzOn5shz6PjHtv/6tS5FAfkW+NVBoqxS3Snk
- XNOKfZjzfU2wqR2Y5aN8G2hzKXeNVPwPiz5e4iJQplKL6Z4oAmF7UlZDz g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="461309971"
-X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; d="scan'208";a="461309971"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2023 08:57:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="1020789173"
-X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; d="scan'208";a="1020789173"
-Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
- by fmsmga006.fm.intel.com with ESMTP; 12 Dec 2023 08:57:18 -0800
-From: Alan Previn <alan.previn.teres.alexis@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v8 2/2] drm/i915/guc: Close deregister-context race against
- CT-loss
-Date: Tue, 12 Dec 2023 08:57:16 -0800
-Message-Id: <20231212165716.57493-3-alan.previn.teres.alexis@intel.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20231212165716.57493-1-alan.previn.teres.alexis@intel.com>
-References: <20231212165716.57493-1-alan.previn.teres.alexis@intel.com>
+Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com
+ [IPv6:2607:f8b0:4864:20::1131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A415A10E632
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 17:12:15 +0000 (UTC)
+Received: by mail-yw1-x1131.google.com with SMTP id
+ 00721157ae682-5cbcfdeaff3so59791077b3.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 09:12:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1702401135; x=1703005935; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=lOtvIagPK2zbOSSPQv7q+2G1sYyn0bSwgtfVk7Q1BdA=;
+ b=fBiGxdbmHmCGT+ehc/UCBJiF8Bp6WuQtSK4zav79SqdhXHbtT04G/vZgR5tpRfYK6t
+ bbYzHHcb0Q8k2OVoOE3Nmf7tAbaU5oppHsrV8AicOn37AAukY2+WQXZMfXLEsTDz8gPn
+ 6bmeBwizNe6Sl8WvAB/DBEDvr2Y15JR8cBW3UrO0B6IcznZ4ko2vO41w5I2ThBB+2ExZ
+ xm53PTNyyVV1j3gMi5MOSK9/7zkp8UMTAEZ/BDbK8mgnJIxiILt874+f3akhRsRl5xlT
+ ZonKmu5wUhE/15uwULSUbNFnbOg7DCpNkj23jvjtpHDJjFzIGFXe++tyTy6hFSybCiLz
+ HY0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1702401135; x=1703005935;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=lOtvIagPK2zbOSSPQv7q+2G1sYyn0bSwgtfVk7Q1BdA=;
+ b=FbFJHt3/rdojVZT8n288N32Bu8h+MVt1d4Rt/YULhFIjtUrY4PsN4gz1ZnOTiEJuSd
+ yqJ2QHC7nMdyh5hvRHi2nPFzZ7cANGoBK68+jJUfbupWB2UxGn9rlz8CCHwQ2P8TiBy9
+ PFuJl4QHYfHrEGpm7QM1UwTmjS9kNvVSLBS8j5TJYl9nRPEU7/Se4N78iTOe+IONzAAx
+ uP6/78ny94r3VBbT+Ga4nm2RO3T+hg3o0z4kNHhkly96rwXRtEwCtG/Wxi/UVpvhWX/R
+ 3labG5DT8QcR2T7D0V9Tzm3T6LEdQxOxOsYX2QUrE10I/mU/9w3sXg7+LzDWq7NToH+1
+ sEEw==
+X-Gm-Message-State: AOJu0YyhBQT0eQf2aLOXn/KgkS5TQ2lxXrwughpskhBlOFzykWbV7HuN
+ uKAHDzgxbRrO9grXzvQzT5snIQT/8M5uwkCu8dWMpA==
+X-Google-Smtp-Source: AGHT+IFEOvODxrOkJxwZOaOfBrqcTw4OWgQNxg+L3JQ9QrU9EmXg6iJWSFlly5IUec5Y+CSK1S3c7pr02Sy1wcQg+kE=
+X-Received: by 2002:a81:8305:0:b0:5d4:4bb:2090 with SMTP id
+ t5-20020a818305000000b005d404bb2090mr5576470ywf.17.1702401134642; Tue, 12 Dec
+ 2023 09:12:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231208050641.32582-1-quic_abhinavk@quicinc.com>
+ <20231208050641.32582-6-quic_abhinavk@quicinc.com>
+ <CAA8EJprR92=TRvYNu1dSTUcphUu3v-cD326AK2+80Ex8ppYBBw@mail.gmail.com>
+ <4966bfa0-ef50-a02d-a917-86d82429e45e@quicinc.com>
+ <CAA8EJpqu42b0AP8Ar2LoFcrS51iKTUM1Qr++j7MYjv4WCx=tCg@mail.gmail.com>
+ <e9634306-dbc4-fe5d-3227-321a492c73cb@quicinc.com>
+ <CAA8EJpq9RPi0q8LBytW=E+H2WWX2T9ShQe6zzzCSCwn1t12FGA@mail.gmail.com>
+ <ab69ba1e-3108-c2f0-27be-f1fd5d11bc82@quicinc.com>
+ <CAA8EJppN6=_d7FQ-ZkswkgW9ahRrqjC1f7yLPtOid1taq1QtsA@mail.gmail.com>
+In-Reply-To: <CAA8EJppN6=_d7FQ-ZkswkgW9ahRrqjC1f7yLPtOid1taq1QtsA@mail.gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 12 Dec 2023 19:12:03 +0200
+Message-ID: <CAA8EJpr0s-tnHWFM84CdXANYv5EtcFHrbzQvO7cn98rFJVs+Wg@mail.gmail.com>
+Subject: Re: [PATCH v2 05/16] drm/msm/dpu: add cdm blocks to sc7280
+ dpu_hw_catalog
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,236 +75,207 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alan Previn <alan.previn.teres.alexis@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Anshuman Gupta <anshuman.gupta@intel.com>, dri-devel@lists.freedesktop.org,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Mousumi Jana <mousumi.jana@intel.com>,
- John Harrison <john.c.harrison@intel.com>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ quic_parellan@quicinc.com, quic_jesszhan@quicinc.com,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If we are at the end of suspend or very early in resume
-its possible an async fence signal (via rcu_call) is triggered
-to free_engines which could lead us to the execution of
-the context destruction worker (after a prior worker flush).
+Hi Abhinav,
 
-Thus, when suspending, insert rcu_barriers at the start
-of i915_gem_suspend (part of driver's suspend prepare) and
-again in i915_gem_suspend_late so that all such cases have
-completed and context destruction list isn't missing anything.
+On Tue, 12 Dec 2023 at 08:49, Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> On Mon, 11 Dec 2023 at 23:48, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+> >
+> >
+> >
+> > On 12/11/2023 1:42 PM, Dmitry Baryshkov wrote:
+> > > On Mon, 11 Dec 2023 at 23:32, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+> > >>
+> > >>
+> > >>
+> > >> On 12/11/2023 1:31 PM, Dmitry Baryshkov wrote:
+> > >>> On Mon, 11 Dec 2023 at 23:16, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+> > >>>>
+> > >>>>
+> > >>>>
+> > >>>> On 12/8/2023 3:19 AM, Dmitry Baryshkov wrote:
+> > >>>>> On Fri, 8 Dec 2023 at 07:07, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+> > >>>>>>
+> > >>>>>> Add CDM blocks to the sc7280 dpu_hw_catalog to support
+> > >>>>>> YUV format output from writeback block.
+> > >>>>>>
+> > >>>>>> changes in v2:
+> > >>>>>>            - remove explicit zero assignment for features
+> > >>>>>>            - move sc7280_cdm to dpu_hw_catalog from the sc7280
+> > >>>>>>              catalog file as its definition can be re-used
+> > >>>>>>
+> > >>>>>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> > >>>>>> ---
+> > >>>>>>     .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h  |  1 +
+> > >>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c      | 10 ++++++++++
+> > >>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h      | 13 +++++++++++++
+> > >>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h         |  5 +++++
+> > >>>>>>     4 files changed, 29 insertions(+)
+> > >>>>>>
+> > >>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+> > >>>>>> index 209675de6742..19c2b7454796 100644
+> > >>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+> > >>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+> > >>>>>> @@ -248,6 +248,7 @@ const struct dpu_mdss_cfg dpu_sc7280_cfg = {
+> > >>>>>>            .mdss_ver = &sc7280_mdss_ver,
+> > >>>>>>            .caps = &sc7280_dpu_caps,
+> > >>>>>>            .mdp = &sc7280_mdp,
+> > >>>>>> +       .cdm = &sc7280_cdm,
+> > >>>>>>            .ctl_count = ARRAY_SIZE(sc7280_ctl),
+> > >>>>>>            .ctl = sc7280_ctl,
+> > >>>>>>            .sspp_count = ARRAY_SIZE(sc7280_sspp),
+> > >>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> > >>>>>> index d52aae54bbd5..1be3156cde05 100644
+> > >>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> > >>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> > >>>>>> @@ -426,6 +426,16 @@ static const struct dpu_dsc_sub_blks dsc_sblk_1 = {
+> > >>>>>>            .ctl = {.name = "ctl", .base = 0xF80, .len = 0x10},
+> > >>>>>>     };
+> > >>>>>>
+> > >>>>>> +/*************************************************************
+> > >>>>>> + * CDM sub block config
+> > >>>>>
+> > >>>>> Nit: it is not a subblock config.
+> > >>>>>
+> > >>>>
+> > >>>> Ack.
+> > >>>>
+> > >>>>>> + *************************************************************/
+> > >>>>>> +static const struct dpu_cdm_cfg sc7280_cdm = {
+> > >>>>>
+> > >>>>> I know that I have r-b'ed this patch. But then one thing occurred to
+> > >>>>> me. If this definition is common to all (or almost all) platforms, can
+> > >>>>> we just call it dpu_cdm or dpu_common_cdm?
+> > >>>>>
+> > >>>>>> +       .name = "cdm_0",
+> > >>>>>> +       .id = CDM_0,
+> > >>>>>> +       .len = 0x228,
+> > >>>>>> +       .base = 0x79200,
+> > >>>>>> +};
+> > >>>>
+> > >>>> hmmm .... almost common but not entirely ... msm8998's CDM has a shorter
+> > >>>> len of 0x224 :(
+> > >>>
+> > >>> Then sdm845_cdm?
+> > >>>
+> > >>
+> > >> That also has a shorter cdm length.
+> > >
+> > > Could you please clarify. According to the downstream DT files all CDM
+> > > blocks up to (but not including) sm8550 had length 0x224. SM8550 and
+> > > SM8650 got qcom,sde-cdm-size = <0x220>.  But I don't see any registers
+> > > after 0x204.
+> > >>
+> >
+> > We always list 0x4 more than the last offset.
+>
+> Yes, so this makes it correct for several latest DT files, which have
+> qcom,sde-cdm-size = <0x220>.
+> However all the previous DT files (from msm8998 to sm8450) had
+> qcom,sde-cdm-size = <0x224>;
 
-In destroyed_worker_func, close the race against CT-loss
-by checking that CT is enabled before calling into
-deregister_destroyed_contexts.
+Ok, I think I got it, what you were writing about. And we can ignore
+the sde-cdm-size from the DT files.
 
-Based on testing, guc_lrc_desc_unpin may still race and fail
-as we traverse the GuC's context-destroy list because the
-CT could be disabled right before calling GuC's CT send function.
+>
+> >
+> > In chipsets sdm845 and msm8998, I only see the last offset of CDM as
+> > 0x220 but in sm8250 and sc7280, the last offset is 0x224. Hence the
+> > total length is more in sc7280/sm8250 as compared to sdm845/msm8998.
+> >
+> > I didnt follow that you do not see any registers after 0x204.
+> >
+> > The CDM_MUX is the last offset which has an offset 0x224 from the base
+> > address. So thats the last offset.
+>
+> Ack
+>
+> >
+> > The newer chipsets have CDM_MUX and the older ones did not. Hence the
+> > difference in length.
+> >
+> > >> BTW, sdm845 is not in this series. It will be part of RFT as we discussed.
+> > >>
+> > >>>>
+> > >>>>>> +
+> > >>>>>>     /*************************************************************
+> > >>>>>>      * VBIF sub blocks config
+> > >>>>>>      *************************************************************/
+> > >>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> > >>>>>> index e3c0d007481b..ba82ef4560a6 100644
+> > >>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> > >>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> > >>>>>> @@ -682,6 +682,17 @@ struct dpu_vbif_cfg {
+> > >>>>>>            u32 memtype[MAX_XIN_COUNT];
+> > >>>>>>     };
+> > >>>>>>
+> > >>>>>> +/**
+> > >>>>>> + * struct dpu_cdm_cfg - information of chroma down blocks
+> > >>>>>> + * @name               string name for debug purposes
+> > >>>>>> + * @id                 enum identifying this block
+> > >>>>>> + * @base               register offset of this block
+> > >>>>>> + * @features           bit mask identifying sub-blocks/features
+> > >>>>>> + */
+> > >>>>>> +struct dpu_cdm_cfg {
+> > >>>>>> +       DPU_HW_BLK_INFO;
+> > >>>>>> +};
+> > >>>>>> +
+> > >>>>>>     /**
+> > >>>>>>      * Define CDP use cases
+> > >>>>>>      * @DPU_PERF_CDP_UDAGE_RT: real-time use cases
+> > >>>>>> @@ -805,6 +816,8 @@ struct dpu_mdss_cfg {
+> > >>>>>>            u32 wb_count;
+> > >>>>>>            const struct dpu_wb_cfg *wb;
+> > >>>>>>
+> > >>>>>> +       const struct dpu_cdm_cfg *cdm;
+> > >>>>>> +
+> > >>>>>>            u32 ad_count;
+> > >>>>>>
+> > >>>>>>            u32 dspp_count;
+> > >>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+> > >>>>>> index a6702b2bfc68..f319c8232ea5 100644
+> > >>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+> > >>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+> > >>>>>> @@ -185,6 +185,11 @@ enum dpu_dsc {
+> > >>>>>>            DSC_MAX
+> > >>>>>>     };
+> > >>>>>>
+> > >>>>>> +enum dpu_cdm {
+> > >>>>>> +       CDM_0 = 1,
+> > >>>>>> +       CDM_MAX
+> > >>>>>> +};
+> > >>>>>> +
+> > >>>>>>     enum dpu_pingpong {
+> > >>>>>>            PINGPONG_NONE,
+> > >>>>>>            PINGPONG_0,
+> > >>>>>> --
+> > >>>>>> 2.40.1
+> > >>>>>>
+> > >>>>>
+> > >>>>>
+> > >>>
+> > >>>
+> > >>>
+> > >
+> > >
+> > >
+>
+>
+>
+> --
+> With best wishes
+> Dmitry
 
-We've witnessed this race condition once every ~6000-8000
-suspend-resume cycles while ensuring workloads that render
-something onscreen is continuously started just before
-we suspend (and the workload is small enough to complete
-and trigger the queued engine/context free-up either very
-late in suspend or very early in resume).
 
-In such a case, we need to unroll the entire process because
-guc-lrc-unpin takes a gt wakeref which only gets released in
-the G2H IRQ reply that never comes through in this corner
-case. Without the unroll, the taken wakeref is leaked and will
-cascade into a kernel hang later at the tail end of suspend in
-this function:
 
-   intel_wakeref_wait_for_idle(&gt->wakeref)
-   (called by) - intel_gt_pm_wait_for_idle
-   (called by) - wait_for_suspend
-
-Thus, do an unroll in guc_lrc_desc_unpin and deregister_destroyed_-
-contexts if guc_lrc_desc_unpin fails due to CT send falure.
-When unrolling, keep the context in the GuC's destroy-list so
-it can get picked up on the next destroy worker invocation
-(if suspend aborted) or get fully purged as part of a GuC
-sanitization (end of suspend) or a reset flow.
-
-Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
-Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
-Tested-by: Mousumi Jana <mousumi.jana@intel.com>
-Acked-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_pm.c        | 10 +++
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 73 +++++++++++++++++--
- 2 files changed, 78 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pm.c b/drivers/gpu/drm/i915/gem/i915_gem_pm.c
-index 0d812f4d787d..3b27218aabe2 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_pm.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_pm.c
-@@ -28,6 +28,13 @@ void i915_gem_suspend(struct drm_i915_private *i915)
- 	GEM_TRACE("%s\n", dev_name(i915->drm.dev));
- 
- 	intel_wakeref_auto(&i915->runtime_pm.userfault_wakeref, 0);
-+	/*
-+	 * On rare occasions, we've observed the fence completion triggers
-+	 * free_engines asynchronously via rcu_call. Ensure those are done.
-+	 * This path is only called on suspend, so it's an acceptable cost.
-+	 */
-+	rcu_barrier();
-+
- 	flush_workqueue(i915->wq);
- 
- 	/*
-@@ -160,6 +167,9 @@ void i915_gem_suspend_late(struct drm_i915_private *i915)
- 	 * machine in an unusable condition.
- 	 */
- 
-+	/* Like i915_gem_suspend, flush tasks staged from fence triggers */
-+	rcu_barrier();
-+
- 	for_each_gt(gt, i915, i)
- 		intel_gt_suspend_late(gt);
- 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 9c64ae0766cc..cae637fc3ead 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -236,6 +236,13 @@ set_context_destroyed(struct intel_context *ce)
- 	ce->guc_state.sched_state |= SCHED_STATE_DESTROYED;
- }
- 
-+static inline void
-+clr_context_destroyed(struct intel_context *ce)
-+{
-+	lockdep_assert_held(&ce->guc_state.lock);
-+	ce->guc_state.sched_state &= ~SCHED_STATE_DESTROYED;
-+}
-+
- static inline bool context_pending_disable(struct intel_context *ce)
- {
- 	return ce->guc_state.sched_state & SCHED_STATE_PENDING_DISABLE;
-@@ -613,6 +620,8 @@ static int guc_submission_send_busy_loop(struct intel_guc *guc,
- 					 u32 g2h_len_dw,
- 					 bool loop)
- {
-+	int ret;
-+
- 	/*
- 	 * We always loop when a send requires a reply (i.e. g2h_len_dw > 0),
- 	 * so we don't handle the case where we don't get a reply because we
-@@ -623,7 +632,11 @@ static int guc_submission_send_busy_loop(struct intel_guc *guc,
- 	if (g2h_len_dw)
- 		atomic_inc(&guc->outstanding_submission_g2h);
- 
--	return intel_guc_send_busy_loop(guc, action, len, g2h_len_dw, loop);
-+	ret = intel_guc_send_busy_loop(guc, action, len, g2h_len_dw, loop);
-+	if (ret)
-+		atomic_dec(&guc->outstanding_submission_g2h);
-+
-+	return ret;
- }
- 
- int intel_guc_wait_for_pending_msg(struct intel_guc *guc,
-@@ -3288,12 +3301,13 @@ static void guc_context_close(struct intel_context *ce)
- 	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
- }
- 
--static inline void guc_lrc_desc_unpin(struct intel_context *ce)
-+static inline int guc_lrc_desc_unpin(struct intel_context *ce)
- {
- 	struct intel_guc *guc = ce_to_guc(ce);
- 	struct intel_gt *gt = guc_to_gt(guc);
- 	unsigned long flags;
- 	bool disabled;
-+	int ret;
- 
- 	GEM_BUG_ON(!intel_gt_pm_is_awake(gt));
- 	GEM_BUG_ON(!ctx_id_mapped(guc, ce->guc_id.id));
-@@ -3304,18 +3318,41 @@ static inline void guc_lrc_desc_unpin(struct intel_context *ce)
- 	spin_lock_irqsave(&ce->guc_state.lock, flags);
- 	disabled = submission_disabled(guc);
- 	if (likely(!disabled)) {
-+		/*
-+		 * Take a gt-pm ref and change context state to be destroyed.
-+		 * NOTE: a G2H IRQ that comes after will put this gt-pm ref back
-+		 */
- 		__intel_gt_pm_get(gt);
- 		set_context_destroyed(ce);
- 		clr_context_registered(ce);
- 	}
- 	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
-+
- 	if (unlikely(disabled)) {
- 		release_guc_id(guc, ce);
- 		__guc_context_destroy(ce);
--		return;
-+		return 0;
- 	}
- 
--	deregister_context(ce, ce->guc_id.id);
-+	/*
-+	 * GuC is active, lets destroy this context, but at this point we can still be racing
-+	 * with suspend, so we undo everything if the H2G fails in deregister_context so
-+	 * that GuC reset will find this context during clean up.
-+	 */
-+	ret = deregister_context(ce, ce->guc_id.id);
-+	if (ret) {
-+		spin_lock(&ce->guc_state.lock);
-+		set_context_registered(ce);
-+		clr_context_destroyed(ce);
-+		spin_unlock(&ce->guc_state.lock);
-+		/*
-+		 * As gt-pm is awake at function entry, intel_wakeref_put_async merely decrements
-+		 * the wakeref immediately but per function spec usage call this after unlock.
-+		 */
-+		intel_wakeref_put_async(&gt->wakeref);
-+	}
-+
-+	return ret;
- }
- 
- static void __guc_context_destroy(struct intel_context *ce)
-@@ -3383,7 +3420,22 @@ static void deregister_destroyed_contexts(struct intel_guc *guc)
- 		if (!ce)
- 			break;
- 
--		guc_lrc_desc_unpin(ce);
-+		if (guc_lrc_desc_unpin(ce)) {
-+			/*
-+			 * This means GuC's CT link severed mid-way which could happen
-+			 * in suspend-resume corner cases. In this case, put the
-+			 * context back into the destroyed_contexts list which will
-+			 * get picked up on the next context deregistration event or
-+			 * purged in a GuC sanitization event (reset/unload/wedged/...).
-+			 */
-+			spin_lock_irqsave(&guc->submission_state.lock, flags);
-+			list_add_tail(&ce->destroyed_link,
-+				      &guc->submission_state.destroyed_contexts);
-+			spin_unlock_irqrestore(&guc->submission_state.lock, flags);
-+			/* Bail now since the list might never be emptied if h2gs fail */
-+			break;
-+		}
-+
- 	}
- }
- 
-@@ -3394,6 +3446,17 @@ static void destroyed_worker_func(struct work_struct *w)
- 	struct intel_gt *gt = guc_to_gt(guc);
- 	intel_wakeref_t wakeref;
- 
-+	/*
-+	 * In rare cases we can get here via async context-free fence-signals that
-+	 * come very late in suspend flow or very early in resume flows. In these
-+	 * cases, GuC won't be ready but just skipping it here is fine as these
-+	 * pending-destroy-contexts get destroyed totally at GuC reset time at the
-+	 * end of suspend.. OR.. this worker can be picked up later on the next
-+	 * context destruction trigger after resume-completes
-+	 */
-+	if (!intel_guc_is_ready(guc))
-+		return;
-+
- 	with_intel_gt_pm(gt, wakeref)
- 		deregister_destroyed_contexts(guc);
- }
 -- 
-2.39.0
-
+With best wishes
+Dmitry
