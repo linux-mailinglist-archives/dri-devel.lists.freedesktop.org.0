@@ -2,53 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0AF680F08C
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 16:28:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8F3C80F086
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 16:27:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0369C10E611;
-	Tue, 12 Dec 2023 15:27:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E496B10E60D;
+	Tue, 12 Dec 2023 15:27:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05A5C10E611
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 15:27:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1702394877; x=1733930877;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=J5cBlnY1Ze/CWvlCx8CRGQ0t3RzxDZTAr16nqiZAwP4=;
- b=cEfpeiwR+iSrosEUGMGPwpYNTgyhMmHZ/NUQCm9i/8atirkL4a2L/gqP
- GYp/JizLUwdzF3Yja1xhb1xF3Dmv8UPIqH/UDTmuTvxugAzUdMCJZzhi8
- Ju7Fr1W5x8qH7KDxb7czTgF/baXWknIUdMOxxKwrzKu49S05t+Siot/u6
- saJgYlO0NKgux2+9KT41J/rncSOM6bXcemYLhHQkUGfhofcFe8mLmNR8i
- fSIQLXbHLjXHXd/r6MvBJq7voHaoCpnp37lizL9i2ckOuXTqU8nzqNwkh
- CRT29BRsAHlEAmlwF54tnelpunoWzNfAyyCqHJTFGiToAfwzMeaU93Yyy A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="398665663"
-X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; d="scan'208";a="398665663"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2023 07:27:56 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="807801491"
-X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; d="scan'208";a="807801491"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
- by orsmga001.jf.intel.com with ESMTP; 12 Dec 2023 07:27:52 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1rD4fm-000JJz-0e;
- Tue, 12 Dec 2023 15:27:50 +0000
-Date: Tue, 12 Dec 2023 23:27:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: Vivek Kasireddy <vivek.kasireddy@intel.com>,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org
-Subject: Re: [PATCH v7 3/6] mm/gup: Introduce memfd_pin_folios() for pinning
- memfd folios (v7)
-Message-ID: <202312122339.viQUjwIW-lkp@intel.com>
-References: <20231212073803.3233055-4-vivek.kasireddy@intel.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4495B10E60A;
+ Tue, 12 Dec 2023 15:27:49 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id 2D098B8173C;
+ Tue, 12 Dec 2023 15:27:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C6CDC433CB;
+ Tue, 12 Dec 2023 15:27:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1702394866;
+ bh=DWg3sQ9qxo14q4VzdIjndy7b2Wyci4KHHq5fC3tFwHw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=XZE/1j13EWy8z8pFkXqNRn6HYJzjFYN/10G8iu8cAoafoyKUIycSHgfsSyvCG2Teo
+ WIYd8P+3bQWl5nIbbFYJJT9TxFvKa61BuG3l1DafVw0ekfJDR8qSKIxXKDzCInlZYV
+ raUWL9oNnYA4SBKtgOH4ful8G+RZ+T/71QpgbHLJGeR0sVbnohOUMP3PCXgg3SfKK2
+ I9ufZ93he66i2gRzet1ebLl1wH5amInfBW6CfiulcjcH7V2WDx4RmZaQ5GFC1P65zR
+ XRdJhdv/ySQONhdGuJFe03izK1d+T/JtjpbEhiwAqjmZ4pejzLDtj95C/Gi2y5/LVG
+ RVsC/UmRz27YA==
+Date: Tue, 12 Dec 2023 15:27:35 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH v8 1/6] pwm: Rename pwm_apply_state() to
+ pwm_apply_might_sleep()
+Message-ID: <7594ea09-a6f3-4dac-acb3-d5f899f9cf84@sirena.org.uk>
+References: <cover.1702369869.git.sean@mess.org>
+ <9af7ba748fd2eb7e04208b6b183185f1daf78016.1702369869.git.sean@mess.org>
+ <20231212114100.sn7nzntousql2ays@pengutronix.de>
+ <f7be8d89-25ae-4d83-9577-12fcac41d0ab@roeck-us.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="iRFgPhdLTHQFhazT"
 Content-Disposition: inline
-In-Reply-To: <20231212073803.3233055-4-vivek.kasireddy@intel.com>
+In-Reply-To: <f7be8d89-25ae-4d83-9577-12fcac41d0ab@roeck-us.net>
+X-Cookie: If rash develops, discontinue use.
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,173 +56,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dongwon Kim <dongwon.kim@intel.com>, David Hildenbrand <david@redhat.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, llvm@lists.linux.dev,
- Hugh Dickins <hughd@google.com>, Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Peter Xu <peterx@redhat.com>, Christoph Hellwig <hch@infradead.org>,
- Junxiao Chang <junxiao.chang@intel.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Jason Gunthorpe <jgg@nvidia.com>, oe-kbuild-all@lists.linux.dev,
- Mike Kravetz <mike.kravetz@oracle.com>
+Cc: linux-fbdev@vger.kernel.org, Sean Young <sean@mess.org>,
+ linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Helge Deller <deller@gmx.de>,
+ Lee Jones <lee@kernel.org>, Javier Martinez Canillas <javierm@redhat.com>,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ linux-media@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ linux-pwm@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+ Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
+ linux-input@vger.kernel.org, Mark Gross <markgross@kernel.org>,
+ Hans de Goede <hdegoede@redhat.com>, Maxime Ripard <mripard@kernel.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Support Opensource <support.opensource@diasemi.com>,
+ Jingoo Han <jingoohan1@gmail.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Vivek,
 
-kernel test robot noticed the following build errors:
+--iRFgPhdLTHQFhazT
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[auto build test ERROR on akpm-mm/mm-everything]
+On Tue, Dec 12, 2023 at 07:22:18AM -0800, Guenter Roeck wrote:
+> On 12/12/23 03:41, Uwe Kleine-K=F6nig wrote:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vivek-Kasireddy/udmabuf-Use-vmf_insert_pfn-and-VM_PFNMAP-for-handling-mmap/20231212-160312
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20231212073803.3233055-4-vivek.kasireddy%40intel.com
-patch subject: [PATCH v7 3/6] mm/gup: Introduce memfd_pin_folios() for pinning memfd folios (v7)
-config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20231212/202312122339.viQUjwIW-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231212/202312122339.viQUjwIW-lkp@intel.com/reproduce)
+> > Several affected maintainers already acked, so I guess it's fine to take
+> > this via the pwm tree. An Ack from the remaining maintainers would be
+> > very welcome, an alternative would be to split the patch.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312122339.viQUjwIW-lkp@intel.com/
+> > Missing Acks so far:
 
-All errors (new ones prefixed by >>):
+> >   - Jean Delvare / Guenter Roeck for drivers/hwmon/pwm-fan.c
+> >   - Javier Martinez Canillas for drivers/gpu/drm/solomon/ssd130x.c
+> >   - Liam Girdwood / Mark Brown for drivers/regulator/pwm-regulator.c
+> >   - Helge Deller for drivers/video/fbdev/ssd1307fb.c
 
->> mm/gup.c:3543:11: error: incompatible pointer types assigning to 'struct folio *' from 'struct page *' [-Werror,-Wincompatible-pointer-types]
-                                   folio = memfd_alloc_folio(memfd, start_idx);
-                                         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+> Personally I find the change unnecessary and pointless, which is why I
+> didn't ack it. Even if function names were deemed important enough, keepi=
+ng
+> pwm_apply_state() for the time being and just adding pwm_apply_might_slee=
+p()
+> as duplicate would have done it, all the changes could have gone in long
+> ago, and per-subsystem cleanup could have been orthogonal.
 
+> I refrained from commenting because it might be considered bike shedding,
+> but I don't want to ack something I deem unnecessary and pointless without
+> comment. But then don't want to keep arguing either, so
 
-vim +3543 mm/gup.c
+I haven't been reading this series because I couldn't tell why I was
+copied on it, it's only chance that made me open Guenter's mail here...
 
-  3417	
-  3418	/**
-  3419	 * memfd_pin_folios() - pin folios associated with a memfd
-  3420	 * @memfd:      the memfd whose folios are to be pinned
-  3421	 * @start:      starting memfd offset
-  3422	 * @nr_pages:   number of pages from start to pin
-  3423	 * @folios:     array that receives pointers to the folios pinned.
-  3424	 *              Should be at-least nr_pages long.
-  3425	 * @offsets:    array that receives offsets of pages in their folios.
-  3426	 *              Should be at-least nr_pages long.
-  3427	 *
-  3428	 * Attempt to pin folios associated with a memfd; given that a memfd is
-  3429	 * either backed by shmem or hugetlb, the folios can either be found in
-  3430	 * the page cache or need to be allocated if necessary. Once the folios
-  3431	 * are located, they are all pinned via FOLL_PIN and the @offsets array
-  3432	 * is populated with offsets of the pages in their respective folios.
-  3433	 * Therefore, for each page the caller requested, there will be a
-  3434	 * corresponding entry in both @folios and @offsets. And, eventually,
-  3435	 * these pinned folios need to be released either using unpin_user_pages()
-  3436	 * or unpin_user_page().
-  3437	 *
-  3438	 * It must be noted that the folios may be pinned for an indefinite amount
-  3439	 * of time. And, in most cases, the duration of time they may stay pinned
-  3440	 * would be controlled by the userspace. This behavior is effectively the
-  3441	 * same as using FOLL_LONGTERM with other GUP APIs.
-  3442	 *
-  3443	 * Returns number of folios pinned. This would be equal to the number of
-  3444	 * pages requested. If no folios were pinned, it returns -errno.
-  3445	 */
-  3446	long memfd_pin_folios(struct file *memfd, unsigned long start,
-  3447			      unsigned long nr_pages, struct folio **folios,
-  3448			      pgoff_t *offsets)
-  3449	{
-  3450		unsigned long end = start + (nr_pages << PAGE_SHIFT) - 1;
-  3451		unsigned int max_pgs, pgoff, pgshift = PAGE_SHIFT;
-  3452		pgoff_t start_idx, end_idx, next_idx;
-  3453		unsigned int flags, nr_folios, i, j;
-  3454		struct folio *folio = NULL;
-  3455		struct folio_batch fbatch;
-  3456		struct page **pages;
-  3457		struct hstate *h;
-  3458		long ret;
-  3459	
-  3460		if (!nr_pages)
-  3461			return -EINVAL;
-  3462	
-  3463		if (!memfd)
-  3464			return -EINVAL;
-  3465	
-  3466		if (!shmem_file(memfd) && !is_file_hugepages(memfd))
-  3467			return -EINVAL;
-  3468	
-  3469		pages = kmalloc_array(nr_pages, sizeof(*pages), GFP_KERNEL);
-  3470		if (!pages)
-  3471			return -ENOMEM;
-  3472	
-  3473		if (is_file_hugepages(memfd)) {
-  3474			h = hstate_file(memfd);
-  3475			pgshift = huge_page_shift(h);
-  3476		}
-  3477	
-  3478		flags = memalloc_pin_save();
-  3479		do {
-  3480			i = 0;
-  3481			start_idx = start >> pgshift;
-  3482			end_idx = end >> pgshift;
-  3483			if (is_file_hugepages(memfd)) {
-  3484				start_idx <<= huge_page_order(h);
-  3485				end_idx <<= huge_page_order(h);
-  3486			}
-  3487	
-  3488			folio_batch_init(&fbatch);
-  3489			while (start_idx <= end_idx) {
-  3490				/*
-  3491				 * In most cases, we should be able to find the folios
-  3492				 * in the page cache. If we cannot find them for some
-  3493				 * reason, we try to allocate them and add them to the
-  3494				 * page cache.
-  3495				 */
-  3496				nr_folios = filemap_get_folios_contig(memfd->f_mapping,
-  3497								      &start_idx,
-  3498								      end_idx,
-  3499								      &fbatch);
-  3500				if (folio) {
-  3501					folio_put(folio);
-  3502					folio = NULL;
-  3503				}
-  3504	
-  3505				next_idx = 0;
-  3506				for (j = 0; j < nr_folios; j++) {
-  3507					if (next_idx &&
-  3508					    next_idx != folio_index(fbatch.folios[j]))
-  3509						continue;
-  3510	
-  3511					folio = try_grab_folio(&fbatch.folios[j]->page,
-  3512							       1, FOLL_PIN);
-  3513					if (!folio) {
-  3514						folio_batch_release(&fbatch);
-  3515						kfree(pages);
-  3516						goto err;
-  3517					}
-  3518	
-  3519					max_pgs = folio_nr_pages(folio);
-  3520					if (i == 0) {
-  3521						pgoff = offset_in_folio(folio, start);
-  3522						pgoff >>= PAGE_SHIFT;
-  3523					}
-  3524	
-  3525					do {
-  3526						folios[i] = folio;
-  3527						offsets[i] = pgoff << PAGE_SHIFT;
-  3528						pages[i] = folio_page(folio, 0);
-  3529						folio_add_pin(folio);
-  3530	
-  3531						pgoff++;
-  3532						i++;
-  3533					} while (pgoff < max_pgs && i < nr_pages);
-  3534	
-  3535					pgoff = 0;
-  3536					next_idx = folio_next_index(folio);
-  3537					gup_put_folio(folio, 1, FOLL_PIN);
-  3538				}
-  3539	
-  3540				folio = NULL;
-  3541				folio_batch_release(&fbatch);
-  3542				if (!nr_folios) {
-> 3543					folio = memfd_alloc_folio(memfd, start_idx);
+Acked-by: Mark Brown <broonie@kernel.org>
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--iRFgPhdLTHQFhazT
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmV4e+YACgkQJNaLcl1U
+h9Aqewf/UALlUMgqzHC9oYZI+Kcf9eGgd7QO/+pxhbI5hMnT5tFRH9lkihV8NhkZ
+moY0GH6PcO8YFj0y+Hs89vmJCd3MRAJ7tZ3eEg5/Q7BJejmk7kB24R5TlqUHUcg7
+DcHugsUrGAmvt3afuF03VqA53HlJ6D43J0cIv5j5X8x18v9Z4s0/4z+/zuMEJ8qi
+05gpioqCsqqPxlKMuWv9qPxn6PDVO3JMk7OUodLi1Tdzfio/b7/81nRQX6DgpHm4
+odCEdmvJwIAukE1TlXxfpb7GZuHEe0z04rKSLfvDj6s90hRM9uHdJb3L7kp1Xf0n
+nsm4Twh4PnRdMJRKACafo9HyC8RvJw==
+=Wkx1
+-----END PGP SIGNATURE-----
+
+--iRFgPhdLTHQFhazT--
