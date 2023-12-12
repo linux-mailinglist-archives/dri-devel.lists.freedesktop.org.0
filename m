@@ -1,61 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B347F80E4C6
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 08:22:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22E0A80E556
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 09:01:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC69910E576;
-	Tue, 12 Dec 2023 07:22:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C44D110E569;
+	Tue, 12 Dec 2023 08:01:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com
- [IPv6:2607:f8b0:4864:20::b2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DB4D10E571
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 07:22:30 +0000 (UTC)
-Received: by mail-yb1-xb2e.google.com with SMTP id
- 3f1490d57ef6-d9b9adaf291so4015476276.1
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Dec 2023 23:22:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1702365749; x=1702970549; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ChpZ3DTwNnea6UJpvxUIWDuGDG5RPxpXSi/vdcH9wOY=;
- b=log+fSlQkQJblHckYWpJIwqAg6yPDRUiXkTF9B+MiQxwjotNW9Clv7JjJ5FA8Xf0yf
- EWSmxQeSjtWTzdvJcMTCg9YNOxS2btSBQltZbqrbZd9krmYBR3gjA03TJdN/GyyC6ALg
- QG0tgMTyf4tklKk4Vvd79W5gHCRWOz4sb5sMHl8sIPDYj/1q/fbevTP5YY3wAE7+cC6F
- u/NYP7UtQJAxf87oPACoKmc8uINaGcbEV9wTQXJH82EsOrUSelBOOyV6UgO43zRZEpd/
- JEJbBPzY/vyCNtUCY6nbhqfuM8nMOdoe0yPg9XR6UHGSoQfftHkPLpn7bAS30Fn4Axp9
- 0HBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702365749; x=1702970549;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ChpZ3DTwNnea6UJpvxUIWDuGDG5RPxpXSi/vdcH9wOY=;
- b=M+Cp+UgwkQ/2KLCnrdbygakZUg9RGypY2z1T75dFMCssjC3/Yd2obuGDqedb0dvqcs
- 6yowkNQk1R5X/gf8PpE/PRxHec/r7EH+hH/unxC2tpmg0EqvvQchO2mtCGTCnvg8HC3k
- qUDuyMKJC4XYkCr722J5jAUp8xtelylsTC9aayzPXY2HxynU+pc4AweuC3gHWH/aTmOo
- IZ4MLKj7sgLGP758+y6YpPko/z6ZM0oKGVADP5PXgFqp2HJw0l72mV978PjV0Cg95zXz
- DDnuHCBKHvo+Zaves+S2XG9oDZUghLmActPoEfiO/NJWULx+fPQHEZ3qf3laTPcguZlQ
- gBcQ==
-X-Gm-Message-State: AOJu0YwDevlzgDFFOWAc+vehxNpM3G3+Q7RrKjHYxznx4J7y8O59oKb3
- JssoOooKR+9u2C9bzQyDRQS4lmFCtzDBmNCIUuqtSA==
-X-Google-Smtp-Source: AGHT+IFPR8fd+a0ocBEqptE2Dwxw2OhgvjQgzcLmo5cYSUTDyVSX6swyFuxqgUbNPyfiI+F4JCcixtPa397/UgVjePs=
-X-Received: by 2002:a25:2653:0:b0:db9:8bcd:a071 with SMTP id
- m80-20020a252653000000b00db98bcda071mr2411598ybm.28.1702365749111; Mon, 11
- Dec 2023 23:22:29 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0801B10E4F6
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 08:01:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1702368086; x=1733904086;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=7Qgh4kMsznhcdHeDs93S+cQ+GO/HtIrx/+OgoDUQ/nc=;
+ b=FEF9bevzWlF4M5sBYiXq2Rk4dqDH0fBr55BCcioumzZH8ZQoDJjiIzfQ
+ 95g2LtUHBQIyXPF2tuDzxRx/rGeIqUwv+PiNarSB1P351uWFJbK9kiOWO
+ Jkwp09etCZR65HG9DWeZw7MjB8tI72fT2viE/N+UFpZTuThwfxCIPPete
+ yVTOGQQy7zjlRsS50vVjPvLd5PvushKRRIEFX01aj5pWJrVmbJv/bmA2N
+ tfqO6hHTz7iYNMunK3U51Z+NKe+C5731oktbGUVFvp9CNa+tymwKmJOZO
+ vfU8r4n9dk6RinwZ+Le0C/Btyf8ijxkkRwkz9SD0+iq6dWlDM5NGNAkWb w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="397553936"
+X-IronPort-AV: E=Sophos;i="6.04,269,1695711600"; d="scan'208";a="397553936"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Dec 2023 00:01:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="802376315"
+X-IronPort-AV: E=Sophos;i="6.04,269,1695711600"; d="scan'208";a="802376315"
+Received: from vkasired-desk2.fm.intel.com ([10.105.128.132])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Dec 2023 00:01:24 -0800
+From: Vivek Kasireddy <vivek.kasireddy@intel.com>
+To: dri-devel@lists.freedesktop.org,
+	linux-mm@kvack.org
+Subject: [PATCH v7 0/6] mm/gup: Introduce memfd_pin_folios() for pinning memfd
+ folios (v7)
+Date: Mon, 11 Dec 2023 23:37:57 -0800
+Message-Id: <20231212073803.3233055-1-vivek.kasireddy@intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20231212002245.23715-1-quic_abhinavk@quicinc.com>
- <20231212002245.23715-15-quic_abhinavk@quicinc.com>
-In-Reply-To: <20231212002245.23715-15-quic_abhinavk@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 12 Dec 2023 09:22:18 +0200
-Message-ID: <CAA8EJpp72_Qy5Lh+bq4Zi8_DRyhCf48gdGRz2fiZvb4y7qb4SQ@mail.gmail.com>
-Subject: Re: [PATCH v3 14/15] drm/msm/dpu: introduce separate wb2_format
- arrays for rgb and yuv
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,41 +57,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- seanpaul@chromium.org, quic_jesszhan@quicinc.com,
- Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
+Cc: Dongwon Kim <dongwon.kim@intel.com>, David Hildenbrand <david@redhat.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Hugh Dickins <hughd@google.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, Peter Xu <peterx@redhat.com>,
+ Christoph Hellwig <hch@infradead.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Jason Gunthorpe <jgg@nvidia.com>, Junxiao Chang <junxiao.chang@intel.com>,
+ Mike Kravetz <mike.kravetz@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 12 Dec 2023 at 02:23, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
-> Lets rename the existing wb2_formats array wb2_formats_rgb to indicate
-> that it has only RGB formats and can be used on any chipset having a WB
-> block.
->
-> Introduce a new wb2_formats_rgb_yuv array to the catalog to
-> indicate support for YUV formats to writeback in addition to RGB.
->
-> Chipsets which have support for CDM block will use the newly added
-> wb2_formats_rgb_yuv array.
->
-> changes in v3:
->         - change type of wb2_formats_rgb/wb2_formats_rgb_yuv to u32
->           to fix checkpatch warnings
->
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
->  .../msm/disp/dpu1/catalog/dpu_10_0_sm8650.h   |  4 +-
->  .../msm/disp/dpu1/catalog/dpu_6_0_sm8250.h    |  4 +-
->  .../msm/disp/dpu1/catalog/dpu_6_2_sc7180.h    |  4 +-
->  .../msm/disp/dpu1/catalog/dpu_7_2_sc7280.h    |  4 +-
->  .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    |  4 +-
->  .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 37 ++++++++++++++++++-
->  6 files changed, 46 insertions(+), 11 deletions(-)
+The first two patches were previously reviewed but not yet merged.
+These ones need to be merged first as the fourth patch depends on
+the changes introduced in them and they also fix bugs seen in
+very specific scenarios (running Qemu with hugetlb=on, blob=true
+and rebooting guest VM).
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+The third patch introduces memfd_pin_folios() API and the fourth
+patch converts udmabuf driver to use folios. The fifth patch shows
+how the udmabuf driver can make use of the new API to longterm-pin
+the folios. The last patch adds two new udmabuf selftests to verify
+data coherency after potential page migration.
+
+v2:
+- Updated the first patch to include review feedback from David and
+  Jason. The main change in this series is the allocation of page
+  in the case of hugetlbfs if it is not found in the page cache.
+
+v3:
+- Made changes to include review feedback from David to improve the
+  comments and readability of code
+- Enclosed the hugepage alloc code with #ifdef CONFIG_HUGETLB_PAGE
+
+v4:
+- Augmented the commit message of the udmabuf patch that uses
+  pin_user_pages_fd()
+- Added previously reviewed but unmerged udmabuf patches to this
+  series
+
+v5:
+- Updated the patch that adds pin_user_pages_fd() to include feedback
+  from David to handle simultaneous users trying to add a huge page
+  to the mapping
+- Replaced find_get_page_flags() with __filemap_get_folio() in the
+  second and third patches to ensure that we only obtain head pages
+  from the mapping
+
+v6: (Christoph)
+- Renamed the new API to memfd_pin_user_pages()
+- Improved the page cache lookup efficiency by using
+  filemap_get_folios_contig() which uses batches
+
+v7:
+- Rename the new API to memfd_pin_folios() and make it return folios
+  and offsets (David)
+- Added a new preparatory patch to this series to convert udmabuf
+  driver to use folios
+
+This series is tested using following methods:
+- Run the subtests added in the fifth patch
+- Run Qemu (master) with the following options and a few additional
+  patches to Spice:
+  qemu-system-x86_64 -m 4096m....
+  -device virtio-gpu-pci,max_outputs=1,blob=true,xres=1920,yres=1080
+  -spice port=3001,gl=on,disable-ticketing=on,preferred-codec=gstreamer:h264
+  -object memory-backend-memfd,hugetlb=on,id=mem1,size=4096M
+  -machine memory-backend=mem1
+
+Cc: David Hildenbrand <david@redhat.com>
+Cc: Christoph Hellwig <hch@infradead.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Mike Kravetz <mike.kravetz@oracle.com>
+Cc: Hugh Dickins <hughd@google.com>
+Cc: Peter Xu <peterx@redhat.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Dongwon Kim <dongwon.kim@intel.com>
+Cc: Junxiao Chang <junxiao.chang@intel.com>
+
+Vivek Kasireddy (6):
+  udmabuf: Use vmf_insert_pfn and VM_PFNMAP for handling mmap
+  udmabuf: Add back support for mapping hugetlb pages (v6)
+  mm/gup: Introduce memfd_pin_folios() for pinning memfd folios (v7)
+  udmabuf: Convert udmabuf driver to use folios
+  udmabuf: Pin the pages using memfd_pin_folios() API (v5)
+  selftests/dma-buf/udmabuf: Add tests to verify data after page
+    migration
+
+ drivers/dma-buf/udmabuf.c                     | 166 +++++++++++-------
+ include/linux/memfd.h                         |   5 +
+ include/linux/mm.h                            |   3 +
+ mm/gup.c                                      | 155 ++++++++++++++++
+ mm/memfd.c                                    |  34 ++++
+ .../selftests/drivers/dma-buf/udmabuf.c       | 151 +++++++++++++++-
+ 6 files changed, 451 insertions(+), 63 deletions(-)
 
 -- 
-With best wishes
-Dmitry
+2.39.2
+
