@@ -1,76 +1,107 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98CDB80EB86
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 13:20:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A6BC80EBB2
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 13:25:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1218610E5FB;
-	Tue, 12 Dec 2023 12:20:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44D4410E5FD;
+	Tue, 12 Dec 2023 12:25:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48DA010E5E0
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 12:20:12 +0000 (UTC)
-X-UUID: c7163c0698e811eeba30773df0976c77-20231212
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=dbD8O1No6ELbDIE/2OQGZ6qruLLxbx5BCWm7Ga8QiXo=; 
- b=bBOkYn4QiHIfjsqbWpIMSXHS0kmYIVFOE6oSp87MLPSwwidje6Mb+Jh9LlgZpfauHO1Oh9tZWiicpYV8DaynTCaJPlveqwPQA3LH9tD+ThIR+1/Ia0FR28iEYYCkuuh4s2dZSTBRNA5A6Jx/BT/i7z83M00ssOrCqyh1zFx6zqs=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.35, REQID:5d01109f-7de4-40d2-a89f-5bff6fd6c9c0, IP:0,
- U
- RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
- N:release,TS:-25
-X-CID-META: VersionHash:5d391d7, CLOUDID:a8a8b373-1bd3-4f48-b671-ada88705968c,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
- DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: c7163c0698e811eeba30773df0976c77-20231212
-Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by
- mailgw02.mediatek.com (envelope-from <shawn.sung@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 509732317; Tue, 12 Dec 2023 20:20:03 +0800
-Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Tue, 12 Dec 2023 20:20:02 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Tue, 12 Dec 2023 20:20:02 +0800
-From: Hsiao Chien Sung <shawn.sung@mediatek.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, CK Hu <ck.hu@mediatek.com>
-Subject: [PATCH v4 17/17] drm/mediatek: Add comments for the structures
-Date: Tue, 12 Dec 2023 20:19:57 +0800
-Message-ID: <20231212121957.19231-18-shawn.sung@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20231212121957.19231-1-shawn.sung@mediatek.com>
-References: <20231212121957.19231-1-shawn.sung@mediatek.com>
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2062.outbound.protection.outlook.com [40.107.237.62])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 797B010E5FD
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 12:25:39 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RKq3zlj5S4iCpO418DUSLR5VmI8iFb21MYYdlux1UPrRN3mVE/TRusXiZWNIqrrOgK2mG5/i5zHStWICBc68OSBIy0q9nnqfczhWPawbEATnz7ldQvRWbh643K7ujRBXykiV5TquIDZeSiUgy67ZlsA0ReBfrZpA0xlRiY82vrtR41taqVjkNpG2BJ19KVyC9+OC1WI5ibNXXWibDCJXrMIZ2ezgk3CFEG8Iu6fcv2jzgd0C3yHA9B65NdE/eH42z/qRobiA078wVJtZIcWM3ZwNUffK3HrSMSTpUfOCAEhVbgORPtfdthE4G0vieIIOh5u+7AMVSfuZYCAmdlcD0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/NrrWAlQ7ILJL5VW/t+qCUR/J5lO8tq4fOuYTDBK4v4=;
+ b=cmv2kkKWJGeLWTMFShpQHNSSj9uWaw2CwKlzhj3BB6gj+cpJCVOqd4FOrmvxvM3zIdniGzHLfyu/S1bVTvnfc6q6E4FPc6YfOWIfdp3XpWDJk/AZj69986K0ogmAljCnFAdelEsEKS3sCk0wP60eiVB8cWIZAW1fGgSdLWHqxKkoxOVwi0atXw2ZqR2VA2oqUhdz+7fmmFXS885yKOspZGiXsPYOTE5AK0Ba6TKN+IZilgK2AbU6Zczi7ysiEV5G4ah9Rhowou5KMVXD04JpcbaKF3/pWeUBBU0XfDRvmDAIDizzyVHL/XmsXr4YVl2UUnTc/ae7EY7ahCMYDrIXoA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/NrrWAlQ7ILJL5VW/t+qCUR/J5lO8tq4fOuYTDBK4v4=;
+ b=HTeGupEZqN+e3/D/wlg9RYpVk+9yy88BlwcOdJWm7DOPWkOuL2GlzDSQdyRcW+SI/uiQJdo1+CJew5lrnlmyLb0qlGBQ6fjZnucCCXrHY2Xp2F3spS6NY9e3X51r9XDkLtOmv3dGtLoDgfm+gaNDjmJPduHSGfWI0rGDlTHgc5Qrz/91C/43+7J/VXZ49cmRvPI+5rurU21covq85ENUCtwmpHDKFRhLkzDPeynHB5NJMQTghf2JF6lEyPvgsZzWfimqaBsFvJ0A0+HD+Tp2p/A+tFX7kU35t/ZltAcRr9L6AyhTainuI4bulU4v68Azqy8WVFlPmJngz1P1y7vEMg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by DM4PR12MB6256.namprd12.prod.outlook.com (2603:10b6:8:a3::7) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7091.26; Tue, 12 Dec 2023 12:25:36 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::60d4:c1e3:e1aa:8f93]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::60d4:c1e3:e1aa:8f93%4]) with mapi id 15.20.7091.022; Tue, 12 Dec 2023
+ 12:25:36 +0000
+Date: Tue, 12 Dec 2023 08:25:35 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Mina Almasry <almasrymina@google.com>
+Subject: Re: [net-next v1 08/16] memory-provider: dmabuf devmem memory provider
+Message-ID: <20231212122535.GA3029808@nvidia.com>
+References: <20231208005250.2910004-1-almasrymina@google.com>
+ <20231208005250.2910004-9-almasrymina@google.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231208005250.2910004-9-almasrymina@google.com>
+X-ClientProxiedBy: BL1PR13CA0085.namprd13.prod.outlook.com
+ (2603:10b6:208:2b8::30) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--14.416000-8.000000
-X-TMASE-MatchedRID: DmIE4Tvg5l+4pD9RIlWSGkOLK43kW8U2SjyMfjCRfaPfUZT83lbkEJJo
- t8xOxyL5vhH72H3yPfSvM8tTrzz8JopsQeZV7e/ekDpLRKO9xhSl9VzHf0qr7qvM+zzl/BSTnws
- uROZLCaS5j7tLcdeHTevPanPbI41jL47TD00zmvIyDra4i6b7VFg3VqSTJ7SoBlt4RZwvTdU4bl
- 3o5NgJi1hchnpql2OeYVpVTb4KUCIRXrSqR8jJuUhEDfw/93BuYQXxsZnRwoLDTXM3VzSaIpG/q
- oYvgCpndHIwi5HBo1kEGuB4DQT9H3Mp9PZvqqsOMSjlkes0Ka9/r8x3wtvaX1fXgfL55inv9sUL
- EBDqysJYA0BuCSp3oHN0bGsqI3dfRcriDaoCTGJIcJTn2HkqsXcF/0kiqyh4937Ck3f1gVGn/hn
- 1bFHD3d5yDFr9us0hTVsTalxdyw21DfGM6db7Xxes/RxhysDbTxfDNc/bKf56bqISdYJSGr1g9p
- Qs6Oo9R4+ZNLoF3plfpDE3h+Imb5cFdomgH0lnFEUknJ/kEl7dB/CxWTRRu25FeHtsUoHug45pb
- 8X/zrO6YE652/HW6BgXfxN81f2+1dAzLJAY5Lu+68HqACCvKA==
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--14.416000-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: B0E336AC218068CC60C43F713E6D55F12403E587E79AC0CF073E5DF3B5911E802000:8
-X-MTK: N
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|DM4PR12MB6256:EE_
+X-MS-Office365-Filtering-Correlation-Id: 31487c9e-7413-40e2-fc23-08dbfb0d71c3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dr3LnQeG7pKa2o1xRmhtmeZvzytY3pzh+BCptlMfPF3UetOkAOdQiRRGXXEnBUlL2FCMm8A45MVcu/Zal4J/kgCSpUENIlmaT2DbH/FOZycE++0aehcKWmyGL9r1LIG901qINk2xywrZ688YnX1dE8sOx0hUz8TpetZ+Rtnvk5Np/3tuK5FPwEIZG3/SVgrKcYAba4eA9JPMfTcPwI3CI3iTiLornqivhKxktL6u0si32e/F0HUPAbdw4iE0KCwfa5xf3/fWgOhldrkdiLqahwdnHwsctXcJwH8iLSFibvqXani6HhJTudhdRwyp2M9jWTNnykqGS5lkdpVq+u7FaGWu/Q+Pw2WLEb1qTBe3ZrGR0wQe/SuF21tSmMS/gb0lkDNCuG+Ya3JVPX+hHdojftmOY9pgflGayc+A9NCyYCbHJm45xQY+bcpqNZsiRlU0w9MuSjrfyAO45IY3RrXCbwb4uM3L1r6L6MEmhqko8UTb++c/Q+n7NM8QTmh2WmoKmlhi7nWUq3ikUAVJAjxk9wAC2yPfFAGzC/mZmYjaKqo6r0l8EJfzCO4UzBf96IZM
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376002)(396003)(346002)(366004)(136003)(39860400002)(230922051799003)(451199024)(1800799012)(64100799003)(186009)(26005)(6506007)(6512007)(2616005)(1076003)(5660300002)(4326008)(8936002)(7406005)(8676002)(41300700001)(7416002)(4744005)(2906002)(6486002)(478600001)(38100700002)(316002)(6916009)(66476007)(54906003)(66556008)(66946007)(33656002)(36756003)(86362001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?FNzvK+ZPaUM4zj+4pHalQiAz7Hb9dYLj2YtCoSZw4B82oIueziOpU3RHpqZY?=
+ =?us-ascii?Q?0QW0Ycjp1c5NL+dLkHzwC9F4m8SCRf3rU8Antxatx7bn4e242n2vioDRex0T?=
+ =?us-ascii?Q?e8IexuY08eR5iExMWAnM8z3ZtK+eZVw3EzKozvx7VK6yvJRvDlR/sVLkot4l?=
+ =?us-ascii?Q?nibKfJHzwcUmLizjCn6XS2rkb/qo33Q0jcuytw/mz39qgx9aAaZdIWQQz4lY?=
+ =?us-ascii?Q?uzyxkyu+4iaM+Ixm2FQPVHs7o99dlDWkJaU49HfaXNngX7mIJ/3LYBraTeqF?=
+ =?us-ascii?Q?9+6wPw62EKu7VRo7w//svTA3fHCmo7cX6UgNSC+Ljmioam4+BCvEuODG82Ai?=
+ =?us-ascii?Q?FLuU2x34+M1yq1sOFTC96O3MDgtfAcq0jnBxM428I1J+PioHQLKqjVWhk6Xw?=
+ =?us-ascii?Q?WY79EY9KOV4V2VUv+fepzxqctqM5vSNKSG7Uwv1Wf3BevrgEl3mRfaA4ZrzK?=
+ =?us-ascii?Q?dBcB+FaB9hZDHbw5gs3+eKRqbA1EMpgC5plRJh5M8qipNialIxP+0tZdnPV/?=
+ =?us-ascii?Q?cfcLR84KlBs7snZb1pJa0p3aj9QIZM8cdyRtjwYGfsF3Q9PK5tgZSkFtWLmG?=
+ =?us-ascii?Q?Dlg8I9b6gbPWDd8GoeH6Wt8pVI0LuKxzFQ/5NCTddajmFqh3Ltzfaus5QQ9X?=
+ =?us-ascii?Q?CiRb6ymtM1hTlo/h3AB+XAk5gezU2rubZ7IVV7PPxQ6tWRYn6NEGIIhwJ6V1?=
+ =?us-ascii?Q?AW8yvNQkVUieCYHx1qUhH2jviNXlBjnpCeU/e7W+cFABU5Bk5BH0uDgODVTb?=
+ =?us-ascii?Q?e0SoBcysDyirqGWh2Ktkw2eeIHbcO2JFy4rFthxhwEUnBvNgDCozHe4hE/54?=
+ =?us-ascii?Q?UNZBBOGhiIcQDSjmfXBSxNevKOeNvhRSslTeK9OAdhsdXvv1uTLnXDFkZsVw?=
+ =?us-ascii?Q?5QrAkkaBwIn6W//kWY08HRuS+GSypDyxDwjeq3ZKzTUTXa6AD4BUCXIWeSbZ?=
+ =?us-ascii?Q?8rMg1UI2s4gn6o20hras3fDZtY1MA699v2tjvOtvrWA2wAI3+e3VGqVt5a7M?=
+ =?us-ascii?Q?l223Wgm5tg/JcJGd01qP12LHBGPyby0PAEXak+5kKYypgbAOg0EvJC/u7Igu?=
+ =?us-ascii?Q?V+vSFEg1lOSw4F5xcrG72ARg3o0gtIG/cWhSbcDqu+Up1SoVapr2DPXEqwgr?=
+ =?us-ascii?Q?LBVpgV4kS0TgNYfXvah0QlaokksmxfA+GrNkgQNLLSkeHS174qQFjyl8KACb?=
+ =?us-ascii?Q?M2hK4awM+r5Jj8mVDb7ELws+/GI6KWDWBLnqXSFZXrEHXIFAdnMY2+qYGhlf?=
+ =?us-ascii?Q?2UAcapyFU0MTjyrcEjUsD/Ce43ePmeR/gB5vVzLZZyntM2FNvd6konGf+ydl?=
+ =?us-ascii?Q?A/JjWCtdZXfbYCJM0tSYIMRA+fjbEqgjtQQg0wssenlQXKy/FVXbs3AbXm5c?=
+ =?us-ascii?Q?ut0iyXixtF22UUj9q79DUs7aMSWgddRHOOkK4TOWCfZpTXy2EP4ULJ+YsXrV?=
+ =?us-ascii?Q?OQ9PY0Z66D3TUXiGx4tq59++rdxmJWYLf/BBiuRYiSzGjyt8iOGkg9ya4zY1?=
+ =?us-ascii?Q?2b7717rZDdeCOncf4MkrSTBqNQBKsQeIZkP/j6W3/wxD74zjF6zLsHyph9+X?=
+ =?us-ascii?Q?A9p4O3FI0RbMbdtRhcxRw999f0Okszs2zeZ8TL8B?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 31487c9e-7413-40e2-fc23-08dbfb0d71c3
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2023 12:25:36.7674 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3Q5gs0AcAc1Bx/5MQ0/EIYWiX/LAV6vqMpVkY4v0SjKi8VYIOm6Wy2akKsUVRlTX
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,198 +114,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Fei Shao <fshao@chromium.org>,
- Sean Paul <sean@poorly.run>, Hsiao Chien Sung <shawn.sung@mediatek.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Chen-Yu Tsai <wenst@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-doc@vger.kernel.org, Kaiyuan Zhang <kaiyuanz@google.com>,
+ dri-devel@lists.freedesktop.org, Eric Dumazet <edumazet@google.com>,
+ linux-kselftest@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-arch@vger.kernel.org,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jeroen de Borst <jeroendb@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Christoph Hellwig <hch@infradead.org>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
+ Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Shailend Chand <shailend@google.com>, Shakeel Butt <shakeelb@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org,
+ David Ahern <dsahern@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Yunsheng Lin <linyunsheng@huawei.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>, bpf@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add comments for the structures to improve readability.
+On Thu, Dec 07, 2023 at 04:52:39PM -0800, Mina Almasry wrote:
 
-Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c     | 21 +++++++++++++-
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c     | 22 ++++++++++++--
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h | 32 +++++++++++++++++++++
- drivers/gpu/drm/mediatek/mtk_drm_drv.h      | 15 ++++++++++
- drivers/gpu/drm/mediatek/mtk_ethdr.c        | 11 +++++++
- 5 files changed, 97 insertions(+), 4 deletions(-)
+> +static inline struct page_pool_iov *page_to_page_pool_iov(struct page *page)
+> +{
+> +	if (page_is_page_pool_iov(page))
+> +		return (struct page_pool_iov *)((unsigned long)page & ~PP_IOV);
+> +
+> +	DEBUG_NET_WARN_ON_ONCE(true);
+> +	return NULL;
+> +}
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-index f019737078f6..78e5327ceda7 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-@@ -164,6 +164,20 @@ static const u32 mt8195_ovl_crc_ofs[] = {
- 	DISP_REG_OVL_CRC,
- };
- 
-+/**
-+ * struct mtk_disp_ovl_data - ovl driver data
-+ * @addr: offset of the first layer (layer-0)
-+ * @gmc_bits: gmc (gating memory clock) bit masks for adjusting positivity for ovl
-+ * @layer_nr: layer numbers that ovl supports
-+ * @fmt_rgb565_is_0: whether or not rgb565 is represented as 0
-+ * @smi_id_en: determine if smi needs to be enabled
-+ * @supports_afbc: determine if ovl supports afbc
-+ * @formats: format table that ovl supports
-+ * @num_formats: number of formats that ovl supports
-+ * @supports_clrfmt_ext: whether the ovl supports clear format (for alpha blend)
-+ * @crc_ofs: crc offset table
-+ * @crc_cnt: count of crc registers (could be more than one bank)
-+ */
- struct mtk_disp_ovl_data {
- 	unsigned int addr;
- 	unsigned int gmc_bits;
-@@ -178,10 +192,15 @@ struct mtk_disp_ovl_data {
- 	size_t crc_cnt;
- };
- 
--/*
-+/**
-  * struct mtk_disp_ovl - DISP_OVL driver structure
-  * @crtc: associated crtc to report vblank events to
-+ * @clk: clock of the ovl
-+ * @regs: base address of the ovl register that can be accessed by cpu
-+ * @cmdq_reg: register related info for cmdq (subsys, offset ...etc.)
-  * @data: platform data
-+ * @vblank_cb: callback function when vblank irq happened
-+ * @vblank_cb_data: data to the callback function
-  * @crc: crc related information
-  */
- struct mtk_disp_ovl {
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-index fad728690db7..beefa5804911 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -28,14 +28,30 @@
-  * struct mtk_drm_crtc - MediaTek specific crtc structure.
-  * @base: crtc object.
-  * @enabled: records whether crtc_enable succeeded
-+ * @pending_needs_vblank: determine if we need to handle vblank event
-+ * @event: the vblank event to handle
-  * @planes: array of 4 drm_plane structures, one for each overlay plane
-+ * @layer_nr: layer numbers that the crtc supports
-  * @pending_planes: whether any plane has pending changes to be applied
-+ * @pending_async_planes: if there is any pending async update
-+ * @cmdq_client: a handler to control cmdq (mbox channel, thread ...etc.)
-+ * @cmdq_handle: cmdq packet to store the commands
-+ * @cmdq_event: cmdq event that the thread is waiting for
-+ * @cmdq_vblank_cnt: vblank count that is dedicated for the cmdq thread
-+ * @cb_blocking_queue: wait queue to determine if cmdq is blocked
-  * @mmsys_dev: pointer to the mmsys device for configuration registers
-+ * @dma_dev: pointer to the dma device (usually rdma)
-  * @mutex: handle to one of the ten disp_mutex streams
-- * @ddp_comp_nr: number of components in ddp_comp
-+ * @ddp_comp_nr_ori: number of the components excludes the route (origin)
-+ * @max_ddp_comp_nr: maximum number of the components in routes
-+ * @ddp_comp_nr: number of the components in the current path
-  * @ddp_comp: array of pointers the mtk_ddp_comp structures used by this crtc
-- *
-- * TODO: Needs update: this header is missing a bunch of member descriptions.
-+ * @conn_route_nr: number of the components in route
-+ * @conn_routes: route to the connector
-+ * @hw_lock: mutex lock to avoid race condition when layer config
-+ * @config_updating: determine if the layer configuration is done
-+ * @crc_provider: get crc provider of the crtc
-+ * @frames: count the frames that are added to crc entry
-  */
- struct mtk_drm_crtc {
- 	struct drm_crtc			base;
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-index 38d08796fae4..af80c9e50d36 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-@@ -46,6 +46,38 @@ enum mtk_ddp_comp_type {
- 
- struct mtk_ddp_comp;
- struct cmdq_pkt;
-+
-+/* struct mtk_ddp_comp_funcs - function pointers of the ddp components
-+ * @clk_enable: enable the clocks of the component
-+ * @clk_disable: disable the clocks of the component
-+ * @config: configure the component
-+ * @start: start (enable) the component
-+ * @stop: stop (disable) the component
-+ * @register_vblank_cb: to register a callback function when vblank irq occurs
-+ * @unregister_vblank_cb: to unregister the callback function from the vblank irq
-+ * @enable_vblank: enable vblank irq
-+ * @disable_vblank: disable vblank irq
-+ * @supported_rotations: return rotation capability of the component
-+ * @layer_nr: how many layers the component supports
-+ * @layer_check: to check if the state of the layer is valid for the component
-+ * @layer_config: to configure the component according to the state of the layer
-+ * @gamma_set: to set gamma for the component
-+ * @bgclr_in_on: turn on background color
-+ * @bgclr_in_off: turn off background color
-+ * @ctm_set: set color transformation matrix
-+ * @dma_dev_get: return the device that uses direct memory access
-+ * @get_formats: get the format that is currently in use by the component
-+ * @get_num_formats: get number of the formats that the component supports
-+ * @connect: connect the sub modules of the component
-+ * @disconnect: disconnect the sub modules of the component
-+ * @add: add the device to the component (mount them in the mutex)
-+ * @remove: remove the device from the component (unmount them from the mutex)
-+ * @encoder_index: get the encoder index of the component
-+ * @crc: return the start of crc array
-+ * @crc_cnt: how many CRCs the component supports
-+ * @crc_entry: get the pointer to the crc entry
-+ * @crc_read: call this function to read crc from the hardware component
-+ */
- struct mtk_ddp_comp_funcs {
- 	int (*power_on)(struct device *dev);
- 	void (*power_off)(struct device *dev);
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.h b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-index 3d6c1f58a7ec..6430433fd20d 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-@@ -28,6 +28,21 @@ struct mtk_drm_route {
- 	const unsigned int *route_ddp;
- };
- 
-+/**
-+ * struct mtk_mmsys_driver_data - capabilities for the mmsys
-+ * @main_path: path of the main display
-+ * @main_len: length of the main display path
-+ * @ext_path: path of the external display
-+ * @ext_len: length of the external display path
-+ * @third_path: path of the third display
-+ * @third_len: length of the third display path
-+ * @conn_routes: routing table of all the possible connectors
-+ * @conn_routes_num: number of the routing table for the connectors
-+ * @shadow_register: whether or not shadow register is enabled
-+ * @mmsys_id: multi-media system ID
-+ * @mmsys_dev_num: number of devices for in the mmsys as a whole
-+ * @max_pitch: maximum pitch in bytes that the mmsys supports
-+ */
- struct mtk_mmsys_driver_data {
- 	const unsigned int *main_path;
- 	unsigned int main_len;
-diff --git a/drivers/gpu/drm/mediatek/mtk_ethdr.c b/drivers/gpu/drm/mediatek/mtk_ethdr.c
-index 30eb2c3d95c0..eae72deacfd2 100644
---- a/drivers/gpu/drm/mediatek/mtk_ethdr.c
-+++ b/drivers/gpu/drm/mediatek/mtk_ethdr.c
-@@ -82,6 +82,17 @@ struct mtk_ethdr_comp {
- 	struct cmdq_client_reg	cmdq_base;
- };
- 
-+/**
-+ * struct mtk_ethdr - ethdr driver data
-+ * @ethdr_comp: components of ethdr(mixer)
-+ * @ethdr_clk: clocks of ethdr components
-+ * @mmsys_dev: mmsys device that ethdr binds to
-+ * @vblank_cb: callback function when vblank irq occurs
-+ * @vblank_cb_data: data fo vblank callback
-+ * @irq: irq that triggers irq handler
-+ * @reset_ctl: reset control of ethdr
-+ * @crc: crc information
-+ */
- struct mtk_ethdr {
- 	struct mtk_ethdr_comp	ethdr_comp[ETHDR_ID_MAX];
- 	struct clk_bulk_data	ethdr_clk[ETHDR_CLK_NUM];
--- 
-2.18.0
+We already asked not to do this, please do not allocate weird things
+can call them 'struct page' when they are not. It undermines the
+maintainability of the mm to have things mis-typed like
+this. Introduce a new type for your thing so the compiler can check it
+properly.
 
+Jason
