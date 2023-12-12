@@ -1,53 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21D8980E51E
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 08:53:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4235F80E570
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Dec 2023 09:08:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14EC310E585;
-	Tue, 12 Dec 2023 07:53:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 686CB10E57A;
+	Tue, 12 Dec 2023 08:07:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F75010E55F
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 07:53:04 +0000 (UTC)
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF06C10E57A
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 08:07:56 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id
+ 2adb3069b0e04-50d176eb382so4865316e87.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 00:07:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1702367584; x=1733903584;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=AhWzgG5JBZA91dtYGK71jseVlS3Ro3TRfueYkKDlujM=;
- b=Da6mj4IvG5ZkaH85XNf3gbGK8h2Y65QkdaWloZV8vr4vyYL+WqQW7LmD
- H8J9A4hoQTh6iyTR1Yz/hnfWDM0JYecSYdUJvAZtmRGq3dxDruyAVlyuL
- OqQt7rhu8fFc4BLH/nQmJbFMSL8Mf1Ly9+suRPPk4rQHPRsKTafR5IlC/
- xi//tU1WZ/6bhGsh0S6WI7CXe+qVYf0txYGEEfQuRw8iwWfxZXsF2q4bX
- wO8Of7Z/fJt+DqlOoYPa9eDz80TS5k8ovFDUj9EorVDM5SeOV4h45BbNx
- yKDKUp4lpmbgsqU6gIgonEK3tvGvI7pPkd+wTzK5998R9EizBXharjklJ A==;
-X-IronPort-AV: E=Sophos;i="6.04,269,1695679200"; d="scan'208";a="34448097"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 12 Dec 2023 08:53:00 +0100
-Received: from steina-w.tq-net.de (steina-w.tq-net.de [10.123.53.18])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id B49C9280084;
- Tue, 12 Dec 2023 08:52:59 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v3 7/7] drm/bridge: tc358767: Add descriptions to register
- definitions
-Date: Tue, 12 Dec 2023 08:52:57 +0100
-Message-Id: <20231212075257.75084-8-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231212075257.75084-1-alexander.stein@ew.tq-group.com>
-References: <20231212075257.75084-1-alexander.stein@ew.tq-group.com>
+ d=linaro.org; s=google; t=1702368475; x=1702973275; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=KEK+GLviJvtTbzYzmtDV4AEm8T+lMdwOyDcx0NSd3/o=;
+ b=SSWs1uMusP7Z2wciXcYmKTZKDDE2G7yEgZcr0THO1kC9/vif+C7OsheDKMg7xF9be8
+ 5lZivCllsFuBuS1STy/c1Dxiqh0nBocgzlBaNqZ1cG3V6lGtieVxkF5+0A5bXYxN2RHy
+ 4iXG9xgQ63l/AsX+YvDVtEGTXnW69hLtIvMJEQqgoi4FrlC2n2dCuOmHglM0oMBzjwyo
+ k5lmUc0JMyGokhj9APIfILr1Sekcj2vE/bVdYtzPXwwIfzxl8mZqZRPWP/k+9q0llgfn
+ lt7+dwhlj0jBDyq6g0OIBXvA7eZn3IVb8rOom+l/og151mD1IAb9WMx8wuE5yGT/0tk7
+ 0k+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1702368475; x=1702973275;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=KEK+GLviJvtTbzYzmtDV4AEm8T+lMdwOyDcx0NSd3/o=;
+ b=DXJqnPnrbFs9RU/I4mup4gqreooJGbWU1+slLvvxsBWZnWNu6429HS+JKGncVCbPG8
+ N6Y+vL8MqYeOig7yNdAgSRIwfHBv+vVRltsmqHryFy/x4xt5s7Ujhvq9ANFRsyFymZ6r
+ z5jJGBdcgeDbujrUDOLW8lK+TJYXovjo1bS+r39O6p85KBZfAnQR4HFV5KdZHTmcWwzI
+ Y4Ui3E7CkDdv8z2wUhaFfTVizdiy3L4MAY2A/7ngu1oDODxVD2VhZwjC2P9Qc/8PSSyW
+ f/B/eYY0VaNaiULlx2211Spv1X4kuCvgbPaUCH67kquR01jkIGaUIF6d36BfC1MEc8sx
+ bXjw==
+X-Gm-Message-State: AOJu0Yzj73R045dkVMQ1cISOxIsgp8POkrZVAGfda/iS3PjshV+dV4N4
+ E1QwHQTEXwkhhxzr97H6sVogUb/KhUIBSG+PzaeJpA==
+X-Google-Smtp-Source: AGHT+IEyDnIHVqAdsBAK/Xj7zNRHMZz0/zXmDbcUqKkjG+kJeiX3tGS1DN1FlCnS9R/LXR3IKWLy3yX4hnlm0fdZnR8=
+X-Received: by 2002:a05:6512:a8c:b0:50c:6b:f164 with SMTP id
+ m12-20020a0565120a8c00b0050c006bf164mr3620875lfu.27.1702368474939; Tue, 12
+ Dec 2023 00:07:54 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231208005250.2910004-1-almasrymina@google.com>
+ <20231208005250.2910004-3-almasrymina@google.com>
+In-Reply-To: <20231208005250.2910004-3-almasrymina@google.com>
+From: Ilias Apalodimas <ilias.apalodimas@linaro.org>
+Date: Tue, 12 Dec 2023 10:07:18 +0200
+Message-ID: <CAC_iWjKikzwpjR0hBjYuRxgYjyqp_EYrrxoveB_2DgCxk6vWYw@mail.gmail.com>
+Subject: Re: [net-next v1 02/16] net: page_pool: create hooks for custom page
+ providers
+To: Mina Almasry <almasrymina@google.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,88 +68,226 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
- dri-devel@lists.freedesktop.org
+Cc: linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Eric Dumazet <edumazet@google.com>, linux-kselftest@vger.kernel.org,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-arch@vger.kernel.org, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jeroen de Borst <jeroendb@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ linux-media@vger.kernel.org, Jesper Dangaard Brouer <hawk@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Shailend Chand <shailend@google.com>,
+ Shakeel Butt <shakeelb@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>, netdev@vger.kernel.org,
+ David Ahern <dsahern@kernel.org>, linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Yunsheng Lin <linyunsheng@huawei.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>, bpf@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the register names from the datasheet. No functional change intended.
+Hi Mina,
 
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
----
- drivers/gpu/drm/bridge/tc358767.c | 30 +++++++++++++++---------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+Apologies for not participating in the party earlier.
 
-diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index 93fa057eca8dc..43e860796e683 100644
---- a/drivers/gpu/drm/bridge/tc358767.c
-+++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -145,10 +145,10 @@
- #define VFUEN				BIT(0)   /* Video Frame Timing Upload */
- 
- /* System */
--#define TC_IDREG		0x0500
--#define SYSSTAT			0x0508
--#define SYSRSTENB		0x050c
-+#define TC_IDREG		0x0500	/* Chip ID and Revision ID */
- #define SYSBOOT			0x0504	/* System BootStrap Status Register */
-+#define SYSSTAT			0x0508	/* System Status Register */
-+#define SYSRSTENB		0x050c /* System Reset/Enable Register */
- #define ENBI2C				(1 << 0)
- #define ENBLCD0				(1 << 2)
- #define ENBBM				(1 << 3)
-@@ -162,12 +162,12 @@
- #define DP0_VIDSRC_DSI_RX		(1 << 0)
- #define DP0_VIDSRC_DPI_RX		(2 << 0)
- #define DP0_VIDSRC_COLOR_BAR		(3 << 0)
--#define GPIOM			0x0540
--#define GPIOC			0x0544
--#define GPIOO			0x0548
--#define GPIOI			0x054c
--#define INTCTL_G		0x0560
--#define INTSTS_G		0x0564
-+#define GPIOM			0x0540	/* GPIO Mode Control Register */
-+#define GPIOC			0x0544	/* GPIO Direction Control Register */
-+#define GPIOO			0x0548	/* GPIO Output Register */
-+#define GPIOI			0x054c	/* GPIO Input Register */
-+#define INTCTL_G		0x0560	/* General Interrupts Control Register */
-+#define INTSTS_G		0x0564	/* General Interrupts Status Register */
- 
- #define INT_SYSERR		BIT(16)
- #define INT_GPIO_H(x)		(1 << (x == 0 ? 2 : 10))
-@@ -176,8 +176,8 @@
- #define TEST_INT_C		0x0570	/* Test Interrupts Control Register */
- #define TEST_INT_S		0x0574	/* Test Interrupts Status Register */
- 
--#define INT_GP0_LCNT		0x0584
--#define INT_GP1_LCNT		0x0588
-+#define INT_GP0_LCNT		0x0584	/* Interrupt GPIO0 Low Count Value Register */
-+#define INT_GP1_LCNT		0x0588	/* Interrupt GPIO1 Low Count Value Register */
- 
- /* Control */
- #define DP0CTL			0x0600
-@@ -187,9 +187,9 @@
- #define DP_EN				BIT(0)   /* Enable DPTX function */
- 
- /* Clocks */
--#define DP0_VIDMNGEN0		0x0610
--#define DP0_VIDMNGEN1		0x0614
--#define DP0_VMNGENSTATUS	0x0618
-+#define DP0_VIDMNGEN0		0x0610	/* DP0 Video Force M Value Register */
-+#define DP0_VIDMNGEN1		0x0614	/* DP0 Video Force N Value Register */
-+#define DP0_VMNGENSTATUS	0x0618	/* DP0 Video Current M Value Register */
- #define DP0_AUDMNGEN0		0x0628	/* DP0 Audio Force M Value Register */
- #define DP0_AUDMNGEN1		0x062c	/* DP0 Audio Force N Value Register */
- #define DP0_AMNGENSTATUS	0x0630	/* DP0 Audio Current M Value Register */
-@@ -277,7 +277,7 @@
- #define AUDIFDATA5		0x071c	/* DP0 Audio Info Frame Bytes 23 to 20 */
- #define AUDIFDATA6		0x0720	/* DP0 Audio Info Frame Bytes 27 to 24 */
- 
--#define DP1_SRCCTRL		0x07a0
-+#define DP1_SRCCTRL		0x07a0	/* DP1 Control Register */
- 
- /* PHY */
- #define DP_PHY_CTRL		0x0800
--- 
-2.34.1
+On Fri, 8 Dec 2023 at 02:52, Mina Almasry <almasrymina@google.com> wrote:
+>
+> From: Jakub Kicinski <kuba@kernel.org>
+>
+> The page providers which try to reuse the same pages will
+> need to hold onto the ref, even if page gets released from
+> the pool - as in releasing the page from the pp just transfers
+> the "ownership" reference from pp to the provider, and provider
+> will wait for other references to be gone before feeding this
+> page back into the pool.
+>
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+>
+> ---
+>
+> This is implemented by Jakub in his RFC:
+> https://lore.kernel.org/netdev/f8270765-a27b-6ccf-33ea-cda097168d79@redhat.com/T/
+>
+> I take no credit for the idea or implementation; I only added minor
+> edits to make this workable with device memory TCP, and removed some
+> hacky test code. This is a critical dependency of device memory TCP
+> and thus I'm pulling it into this series to make it revewable and
+> mergable.
+>
+> RFC v3 -> v1
+> - Removed unusued mem_provider. (Yunsheng).
+> - Replaced memory_provider & mp_priv with netdev_rx_queue (Jakub).
+>
+> ---
+>  include/net/page_pool/types.h | 12 ++++++++++
+>  net/core/page_pool.c          | 43 +++++++++++++++++++++++++++++++----
+>  2 files changed, 50 insertions(+), 5 deletions(-)
+>
+> diff --git a/include/net/page_pool/types.h b/include/net/page_pool/types.h
+> index ac286ea8ce2d..0e9fa79a5ef1 100644
+> --- a/include/net/page_pool/types.h
+> +++ b/include/net/page_pool/types.h
+> @@ -51,6 +51,7 @@ struct pp_alloc_cache {
+>   * @dev:       device, for DMA pre-mapping purposes
+>   * @netdev:    netdev this pool will serve (leave as NULL if none or multiple)
+>   * @napi:      NAPI which is the sole consumer of pages, otherwise NULL
+> + * @queue:     struct netdev_rx_queue this page_pool is being created for.
+>   * @dma_dir:   DMA mapping direction
+>   * @max_len:   max DMA sync memory size for PP_FLAG_DMA_SYNC_DEV
+>   * @offset:    DMA sync address offset for PP_FLAG_DMA_SYNC_DEV
+> @@ -63,6 +64,7 @@ struct page_pool_params {
+>                 int             nid;
+>                 struct device   *dev;
+>                 struct napi_struct *napi;
+> +               struct netdev_rx_queue *queue;
+>                 enum dma_data_direction dma_dir;
+>                 unsigned int    max_len;
+>                 unsigned int    offset;
+> @@ -125,6 +127,13 @@ struct page_pool_stats {
+>  };
+>  #endif
+>
+> +struct memory_provider_ops {
+> +       int (*init)(struct page_pool *pool);
+> +       void (*destroy)(struct page_pool *pool);
+> +       struct page *(*alloc_pages)(struct page_pool *pool, gfp_t gfp);
+> +       bool (*release_page)(struct page_pool *pool, struct page *page);
+> +};
+> +
+>  struct page_pool {
+>         struct page_pool_params_fast p;
+>
+> @@ -174,6 +183,9 @@ struct page_pool {
+>          */
+>         struct ptr_ring ring;
+>
+> +       void *mp_priv;
+> +       const struct memory_provider_ops *mp_ops;
+> +
+>  #ifdef CONFIG_PAGE_POOL_STATS
+>         /* recycle stats are per-cpu to avoid locking */
+>         struct page_pool_recycle_stats __percpu *recycle_stats;
+> diff --git a/net/core/page_pool.c b/net/core/page_pool.c
+> index ca1b3b65c9b5..f5c84d2a4510 100644
+> --- a/net/core/page_pool.c
+> +++ b/net/core/page_pool.c
+> @@ -25,6 +25,8 @@
+>
+>  #include "page_pool_priv.h"
+>
+> +static DEFINE_STATIC_KEY_FALSE(page_pool_mem_providers);
 
+We could add the existing page pool mechanisms as another 'provider',
+but I assume this is coded like this for performance reasons (IOW skip
+the expensive ptr call for the default case?)
+
+> +
+>  #define DEFER_TIME (msecs_to_jiffies(1000))
+>  #define DEFER_WARN_INTERVAL (60 * HZ)
+>
+> @@ -174,6 +176,7 @@ static int page_pool_init(struct page_pool *pool,
+>                           const struct page_pool_params *params)
+>  {
+>         unsigned int ring_qsize = 1024; /* Default */
+> +       int err;
+>
+>         memcpy(&pool->p, &params->fast, sizeof(pool->p));
+>         memcpy(&pool->slow, &params->slow, sizeof(pool->slow));
+> @@ -234,10 +237,25 @@ static int page_pool_init(struct page_pool *pool,
+>         /* Driver calling page_pool_create() also call page_pool_destroy() */
+>         refcount_set(&pool->user_cnt, 1);
+>
+> +       if (pool->mp_ops) {
+> +               err = pool->mp_ops->init(pool);
+> +               if (err) {
+> +                       pr_warn("%s() mem-provider init failed %d\n",
+> +                               __func__, err);
+> +                       goto free_ptr_ring;
+> +               }
+> +
+> +               static_branch_inc(&page_pool_mem_providers);
+> +       }
+> +
+>         if (pool->p.flags & PP_FLAG_DMA_MAP)
+>                 get_device(pool->p.dev);
+>
+>         return 0;
+> +
+> +free_ptr_ring:
+> +       ptr_ring_cleanup(&pool->ring, NULL);
+> +       return err;
+>  }
+>
+>  static void page_pool_uninit(struct page_pool *pool)
+> @@ -519,7 +537,10 @@ struct page *page_pool_alloc_pages(struct page_pool *pool, gfp_t gfp)
+>                 return page;
+>
+>         /* Slow-path: cache empty, do real allocation */
+> -       page = __page_pool_alloc_pages_slow(pool, gfp);
+> +       if (static_branch_unlikely(&page_pool_mem_providers) && pool->mp_ops)
+
+Why do we need && pool->mp_ops? On the init function, we only bump
+page_pool_mem_providers if the ops are there
+
+> +               page = pool->mp_ops->alloc_pages(pool, gfp);
+> +       else
+> +               page = __page_pool_alloc_pages_slow(pool, gfp);
+>         return page;
+>  }
+>  EXPORT_SYMBOL(page_pool_alloc_pages);
+> @@ -576,10 +597,13 @@ void __page_pool_release_page_dma(struct page_pool *pool, struct page *page)
+>  void page_pool_return_page(struct page_pool *pool, struct page *page)
+>  {
+>         int count;
+> +       bool put;
+>
+> -       __page_pool_release_page_dma(pool, page);
+> -
+> -       page_pool_clear_pp_info(page);
+> +       put = true;
+> +       if (static_branch_unlikely(&page_pool_mem_providers) && pool->mp_ops)
+
+ditto
+
+> +               put = pool->mp_ops->release_page(pool, page);
+> +       else
+> +               __page_pool_release_page_dma(pool, page);
+>
+>         /* This may be the last page returned, releasing the pool, so
+>          * it is not safe to reference pool afterwards.
+> @@ -587,7 +611,10 @@ void page_pool_return_page(struct page_pool *pool, struct page *page)
+>         count = atomic_inc_return_relaxed(&pool->pages_state_release_cnt);
+>         trace_page_pool_state_release(pool, page, count);
+>
+> -       put_page(page);
+> +       if (put) {
+> +               page_pool_clear_pp_info(page);
+> +               put_page(page);
+> +       }
+>         /* An optimization would be to call __free_pages(page, pool->p.order)
+>          * knowing page is not part of page-cache (thus avoiding a
+>          * __page_cache_release() call).
+> @@ -857,6 +884,12 @@ static void __page_pool_destroy(struct page_pool *pool)
+>
+>         page_pool_unlist(pool);
+>         page_pool_uninit(pool);
+> +
+> +       if (pool->mp_ops) {
+
+Same here. Using a mix of pool->mp_ops and page_pool_mem_providers
+will work, but since we always check the ptr on init, can't we simply
+rely on page_pool_mem_providers for the rest of the code?
+
+Thanks
+/Ilias
+> +               pool->mp_ops->destroy(pool);
+> +               static_branch_dec(&page_pool_mem_providers);
+> +       }
+> +
+>         kfree(pool);
+>  }
+>
+> --
+> 2.43.0.472.g3155946c3a-goog
+>
