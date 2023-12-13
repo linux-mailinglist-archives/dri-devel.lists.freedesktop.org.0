@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43074810921
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 05:32:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1367810923
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 05:34:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B68410E248;
-	Wed, 13 Dec 2023 04:32:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C785B10E24B;
+	Wed, 13 Dec 2023 04:34:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bombadil.infradead.org (bombadil.infradead.org
  [IPv6:2607:7c80:54:3::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D942610E248
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 04:32:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E552E10E24B
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 04:34:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
  MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
  Content-ID:Content-Description:In-Reply-To:References;
- bh=RiCGowda5Xfto6LB40GGFl71AURfd9D4MZ19wldqI2k=; b=eh4tqTPlpIycLY+hjCf7Be2ZVO
- dPZLSLlJ9i4EPS4Onfa+LiI+jpIEpILYerM+aynvpb/e7VZyk3IR5SvB6F0xSNBT0iev6sWGBHXvV
- ZGZ0y3FZvjquzhBS1gKT7lZyZLcUrEtHyaQ4KYvA/FdvDxkJgM+uhYtrXL2BOv7FnRXaqhzjKq0yq
- /dTBdDTsW15x+54vYO75RBgclsZv0vcry3KQsgFnJtArsbQ002ARmsctFCT4Uwq9zSsl44EdCkDVW
- /px/H2yaj01guU+1KLpA6h9qJyTrHEJmire8G3KlOlXqfjrZnHBDKuujhjEOiqUJwVoCzYmBCiw/9
- XkzA/yVw==;
+ bh=79tMagtsx8zWFd0gwV9uxN+xp9p3j086sCtxdA2GSnk=; b=I/Sz2oDNDne/J3Ji69c3Zo++0B
+ KaVvqGIpFlld6IZQUKri3eM55z3fDBI7pIu6MY+ThDmnnB0g9DKRArT29U/geony9NIVmoQFoYQVR
+ jCdqwSlgc9lB1DkpjlmUM6i6zg4/5U9MgdCANbbKn2ZetvNdixgr+yTtr+sG4eO3PD2cuQqupFyTd
+ qUS4U240hypNStCQURcd6lMRXGDOohyaYsYMHMUfDNpKVNJgcLfAWWdPqaoT6ez4me/xlKPW2Z/1y
+ FKbcDKEUDegvjUpoUIuPI12CEsZU21jSnyi9cFrCUB7yvKB6Go2bXOzgJ/mF6mET0IoZN2pdqkuSx
+ LK2djSEg==;
 Received: from [50.53.46.231] (helo=bombadil.infradead.org)
  by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1rDGv4-00DaBy-2J; Wed, 13 Dec 2023 04:32:26 +0000
+ id 1rDGwf-00DaMf-2Q; Wed, 13 Dec 2023 04:34:05 +0000
 From: Randy Dunlap <rdunlap@infradead.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/drm_modeset_helper_vtables.h: fix typos/spellos
-Date: Tue, 12 Dec 2023 20:32:26 -0800
-Message-ID: <20231213043226.10046-1-rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] iosys-map: fix typos
+Date: Tue, 12 Dec 2023 20:34:05 -0800
+Message-ID: <20231213043405.10163-1-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -46,50 +46,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Randy Dunlap <rdunlap@infradead.org>, Maxime Ripard <mripard@kernel.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix spelling problems as identified by codespell.
+Correct spellos/typos in comments.
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
 Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org
 ---
- include/drm/drm_modeset_helper_vtables.h |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ include/linux/iosys-map.h |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff -- a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
---- a/include/drm/drm_modeset_helper_vtables.h
-+++ b/include/drm/drm_modeset_helper_vtables.h
-@@ -134,7 +134,7 @@ struct drm_crtc_helper_funcs {
- 	 * Since this function is both called from the check phase of an atomic
- 	 * commit, and the mode validation in the probe paths it is not allowed
- 	 * to look at anything else but the passed-in mode, and validate it
--	 * against configuration-invariant hardward constraints. Any further
-+	 * against configuration-invariant hardware constraints. Any further
- 	 * limits which depend upon the configuration can only be checked in
- 	 * @mode_fixup or @atomic_check.
- 	 *
-@@ -550,7 +550,7 @@ struct drm_encoder_helper_funcs {
- 	 * Since this function is both called from the check phase of an atomic
- 	 * commit, and the mode validation in the probe paths it is not allowed
- 	 * to look at anything else but the passed-in mode, and validate it
--	 * against configuration-invariant hardward constraints. Any further
-+	 * against configuration-invariant hardware constraints. Any further
- 	 * limits which depend upon the configuration can only be checked in
- 	 * @mode_fixup or @atomic_check.
- 	 *
-@@ -1474,7 +1474,7 @@ struct drm_mode_config_helper_funcs {
- 	 * swapped into the various state pointers. The passed in state
- 	 * therefore contains copies of the old/previous state. This hook should
- 	 * commit the new state into hardware. Note that the helpers have
--	 * already waited for preceeding atomic commits and fences, but drivers
-+	 * already waited for preceding atomic commits and fences, but drivers
- 	 * can add more waiting calls at the start of their implementation, e.g.
- 	 * to wait for driver-internal request for implicit syncing, before
- 	 * starting to commit the update to the hardware.
+diff -- a/include/linux/iosys-map.h b/include/linux/iosys-map.h
+--- a/include/linux/iosys-map.h
++++ b/include/linux/iosys-map.h
+@@ -34,7 +34,7 @@
+  * the same driver for allocation, read and write operations.
+  *
+  * Open-coding access to :c:type:`struct iosys_map <iosys_map>` is considered
+- * bad style. Rather then accessing its fields directly, use one of the provided
++ * bad style. Rather than accessing its fields directly, use one of the provided
+  * helper functions, or implement your own. For example, instances of
+  * :c:type:`struct iosys_map <iosys_map>` can be initialized statically with
+  * IOSYS_MAP_INIT_VADDR(), or at runtime with iosys_map_set_vaddr(). These
+@@ -85,7 +85,7 @@
+  *	if (iosys_map_is_equal(&sys_map, &io_map))
+  *		// always false
+  *
+- * A set up instance of struct iosys_map can be used to access or manipulate the
++ * A setup instance of struct iosys_map can be used to access or manipulate the
+  * buffer memory. Depending on the location of the memory, the provided helpers
+  * will pick the correct operations. Data can be copied into the memory with
+  * iosys_map_memcpy_to(). The address can be manipulated with iosys_map_incr().
