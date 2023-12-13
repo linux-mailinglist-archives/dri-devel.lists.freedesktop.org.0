@@ -1,78 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6E7E811929
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 17:23:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 331998119E0
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 17:44:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BC1A10E2C8;
-	Wed, 13 Dec 2023 16:23:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77C1A10E08A;
+	Wed, 13 Dec 2023 16:44:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27A8F10E2DF
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 16:23:36 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id
- 4fb4d7f45d1cf-54bf9a54fe3so9921689a12.3
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 08:23:36 -0800 (PST)
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A521F10E08A
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 16:44:32 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id
+ 5b1f17b1804b1-40c55872d80so10622835e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 08:44:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1702484612; x=1703089412;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=gsdEQAXsgtznujqAEAvqQItQWpAu92BPfR9s82X+6vY=;
- b=E2lu0yA5fBsnN4y4kyWV3L/jEHZ4blDY4VpccBReJWJA+fBC8hpG0KYyPQ0DO2O/pJ
- olZ4xqnMCbo9JCEUKCXVb4dWxnrNsXYSUMIXAzKuaEkQZFBNgK0fWa23kluPzkju/I70
- HwxoUhBMlofhojHbJfFl1qHx5bx4j5hc42xe4=
+ d=linaro.org; s=google; t=1702485871; x=1703090671; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=xr6toAXCsIC/bmSJ5B/sgzDjMz3Z0Uajw+zCN70ZLA8=;
+ b=Z84qWVFkMJ6uktwrLFJNewP/VJYZoqNVi5Li4nlnDR7snwrTQIfM1f5i6P79B1nkbz
+ URWhcpef3KB0esHjcjCqEH09m4dwwLzqwqm8b/hpvc1W8UgAZ8T7AzIT8s96lZ0dJxwD
+ 3a6GFgfuOdBtBhSw4j7B5+J9s2LruIqfyvreW12dZq9kJXAf8e9gDp6zQ1/tfB4YPrff
+ 4699Vxlw0RLo81miSIz4hcy0Kq2aqLK/lrDpxiUHS1Qm6UF4yIvEv1wOvuu6TeQg8bcs
+ VeCLUuyOdTHY6c9Mvfoxi++JYlooTUui5tA80x/3seM0pQ6SXH85a2BwXnENiDUoEvK9
+ aGPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702484612; x=1703089412;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=gsdEQAXsgtznujqAEAvqQItQWpAu92BPfR9s82X+6vY=;
- b=LIyAurZN7WtLScM1nOcRRwT1/j81dF7mfPky0G+je5hMgxKMq6iGBhybumIMOQPJ7O
- w0O+bnPj+FNP3TBEBec5UDfrWpo67bCyrmo2Yf/jyZUixjcfHw659m1QtHLo+wmsELK1
- HF5g/YB5BgxPLkDpkKWaB0fmb6ZfF+QP4QKW9yWD4Syk2cn1Dphy0vhUMO9Jy42qdaN4
- DBT7HfUFzgvbfNaXpn22geKlUzMv1tt/p6hjZQW4mXkiwvWOJadLjQLpICL+ZtSkqTf3
- gz91bfKa8X0+booi7Bh/0bucI7XLkrQkdIZXWLPXAp99h31XxBrME3KNXSyoI+Uw9PDy
- wrTQ==
-X-Gm-Message-State: AOJu0YznJ3sISP//7MdV0w/NGRWGWKNzkRbX9Hysp4B1Wk/FaT32y7Xa
- ALJCyjKpYsdG9dbmbjDjgJeUM7NJEnKDSGqxZSXPTE5I
-X-Google-Smtp-Source: AGHT+IHVm4eg4cb7kbBcMUGTlX6AozvuEwlUolwOhrKFWTSeWfPdscXXR2hRxlwS3PrfYQg3k3PJLw==
-X-Received: by 2002:a17:907:1dd4:b0:a19:a1ba:8cdd with SMTP id
- og20-20020a1709071dd400b00a19a1ba8cddmr3567920ejc.123.1702484612622; 
- Wed, 13 Dec 2023 08:23:32 -0800 (PST)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com.
- [209.85.128.46]) by smtp.gmail.com with ESMTPSA id
- fb4-20020a1709073a0400b00a1c76114fcesm8045461ejc.218.2023.12.13.08.23.31
- for <dri-devel@lists.freedesktop.org>
+ d=1e100.net; s=20230601; t=1702485871; x=1703090671;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=xr6toAXCsIC/bmSJ5B/sgzDjMz3Z0Uajw+zCN70ZLA8=;
+ b=QeBImwR65BkS8rjAxIzGCGU/iS55AHvWbM0f3YCH36MODXljdVmEz80/h7peZCK8A4
+ hqbRIA6J8d4+4ehJ1N0CYhEqd3f6fQY7SoIcMcAbelGHcSBJ+grlD5YznPagBzW7Jno4
+ 6/9vRQ7RdM+7SDNuQQK61NE6uSdzMBgUOL0Q+2IqhkXYp6x3GbxIsQ4bN0w5BuRj9CdM
+ 6u5iisjHkgjFLWnkP9y1dCD9b4DoMgq7sB1AqyAx0B+imMio6441fv40i7Hgqo5h+T9X
+ HApOQEoiXckNQqTdYvwPdYJtjhVN6/v46bVaHQwExSW3wtoIThwOnXkYZ0o/iaMszftN
+ Vaog==
+X-Gm-Message-State: AOJu0YxOy/X4y9N8NIdYktyBSuwxadTAAJ02fr4hVWkJhEROrEJ32/cu
+ SUAkHsFu/X1QGz7rPKrUpKP0hA==
+X-Google-Smtp-Source: AGHT+IHmb8ewYnbRlq6v/5rMQRoMcMWRfLl01skabFTAXrcQx6eTujOz4Paqf/1jHchf7eivqMmEQQ==
+X-Received: by 2002:a05:600c:2246:b0:40b:2a46:6f1 with SMTP id
+ a6-20020a05600c224600b0040b2a4606f1mr4313509wmm.2.1702485870981; 
+ Wed, 13 Dec 2023 08:44:30 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:ac4e:a5fe:7f71:8d59?
+ ([2a01:e0a:982:cbb0:ac4e:a5fe:7f71:8d59])
+ by smtp.gmail.com with ESMTPSA id
+ o4-20020a5d58c4000000b0033333bee379sm13767115wrf.107.2023.12.13.08.44.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Dec 2023 08:23:32 -0800 (PST)
-Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-40c32bea30dso74745e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 08:23:31 -0800 (PST)
-X-Received: by 2002:a05:600c:5113:b0:40b:4221:4085 with SMTP id
- o19-20020a05600c511300b0040b42214085mr424914wms.1.1702484610953; Wed, 13 Dec
- 2023 08:23:30 -0800 (PST)
+ Wed, 13 Dec 2023 08:44:30 -0800 (PST)
+Message-ID: <212239ae-60ab-46f3-a838-39a4d61091fe@linaro.org>
+Date: Wed, 13 Dec 2023 17:44:28 +0100
 MIME-Version: 1.0
-References: <20231207081801.4049075-1-treapking@chromium.org>
- <20231207081801.4049075-5-treapking@chromium.org>
- <CAD=FV=U6M5rpQXmjC+iGf0BGtiyjRAAcMfo4Fr3pDyYVp3m4aQ@mail.gmail.com>
- <fctpvshu5ychxketsf35jfg2qzi6i3nfup5hy7r7hzmmbpd2j4@xmsik3cycjlj>
- <CAD=FV=V=K9L=bJiNvFJ+K_DHUTPxA4WtukXA+E_VW6uihE8kdQ@mail.gmail.com>
- <cplpgkl5b3nrtdhxauleep6zo2rwic7h7fiwr4wnvrwk6uzxgw@dcgknug2gsaa>
-In-Reply-To: <cplpgkl5b3nrtdhxauleep6zo2rwic7h7fiwr4wnvrwk6uzxgw@dcgknug2gsaa>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 13 Dec 2023 08:23:11 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=UiF9d5C=da64dj_JnGWuO_vGUg1hgzXSQd0x+pFpe23w@mail.gmail.com>
-Message-ID: <CAD=FV=UiF9d5C=da64dj_JnGWuO_vGUg1hgzXSQd0x+pFpe23w@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] drm/panel-edp: Add some panels with conservative
- timings
-To: Maxime Ripard <mripard@kernel.org>, Pin-yen Lin <treapking@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/5] clk: Make clk_rate_exclusive_get() return void
+Content-Language: en-GB
+To: Maxime Ripard <mripard@kernel.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+References: <cover.1702400947.git.u.kleine-koenig@pengutronix.de>
+ <ki5n3rz5n4oxj2hhc3rj6xpn3e2tdi7fcp2q7exjbzilrlqflp@przautvhuy4g>
+ <20231213074300.4bq7wkfqd4jhhcr4@pengutronix.de>
+ <2nvbag657mlniqwq7fbilapc6vfw5qumab3yd6bqul25ot6wcn@wdlkh5az2fgs>
+From: Neil Armstrong <neil.armstrong@linaro.org>
+In-Reply-To: <2nvbag657mlniqwq7fbilapc6vfw5qumab3yd6bqul25ot6wcn@wdlkh5az2fgs>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,95 +80,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Guenter Roeck <groeck@chromium.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+ dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ linux-clk@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>,
+ Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
+ Russell King <linux@armlinux.org.uk>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Chanwoo Choi <cw00.choi@samsung.com>,
+ Chen-Yu Tsai <wens@csie.org>, MyungJoo Ham <myungjoo.ham@samsung.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Kyungmin Park <kyungmin.park@samsung.com>, linux-sunxi@lists.linux.dev,
+ kernel@pengutronix.de, linux-pm@vger.kernel.org,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ Johan Hovold <johan+linaro@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Georgi Djakov <djakov@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Maxime,
 
-On Wed, Dec 13, 2023 at 7:34=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
-wrote:
->
-> > > > Repeating my comments from v1 here too, since I expect this patch t=
-o
-> > > > sit on the lists for a little while:
-> > > >
-> > > >
-> > > > This is OK w/ me, but it will need time on the mailing lists before
-> > > > landing in case anyone else has opinions.
-> > >
-> > > Generally speaking, I'm not really a fan of big patches that dump
-> > > whatever ChromeOS is doing ...
-> > >
-> > > > Specifical thoughts:
-> > > >
-> > > > * I at least feel fairly confident that this is OK since these pane=
-ls
-> > > > essentially booted without _any_ delays back on the old downstream
-> > > > v4.19 kernel. Presumably the panels just had fairly robust timing
-> > > > controllers and so worked OK, but it's better to get the timing mor=
-e
-> > > > correct.
-> > >
-> > > ... especially since you have to rely on the recollection of engineer=
-s
-> > > involved at the time and you have no real way to test and make things
-> > > clearer anymore, and we have to take patches in that are handwavy "tr=
-ust
-> > > us, it's doing the right thing".
-> > >
-> > > I'd really prefer to have these patches sent as they are found out.
-> >
-> > It's probably not clear enough from the commit message, but this isn't
-> > just a dump from downstream 4.19. What happened was:
-> >
-> > 1. Downstream chromeos-4.19 used the "little white lie" approach. They
-> > all claimed a specific panel's compatible string even though there
-> > were a whole pile of panels out there actually being used. Personally,
-> > this was not something I was ever a fan of (and I wasn't personally
-> > involved in this project), but it was the "state of the art" before
-> > the generic panel-edp. Getting out of the "little white lie" situation
-> > was why I spent so much time on the generic edp-panel solution
-> > upstream.
-> >
-> > 2. These devices have now been uprevved to a newer kernel and I
-> > believe that there were issues seen that necessitated a move to the
-> > proper generic panel-edp code.
-> >
-> > 3. We are now getting field reports from our warning collector about a
-> > whole pile of panels that are falling back to the "conservative"
-> > timings, which means that they turn on/off much more slowly than they
-> > should.
-> >
-> > Pin-yen made an attempt to search for panels data sheets that matched
-> > up with the IDs that came in from the field reports but there were
-> > some panels that he just couldn't find.
-> >
-> > So basically we're stuck. Options:
-> >
-> > 1. Leave customers who have these panels stuck with the hardware
-> > behaving worse than it used to. This is not acceptable to me.
-> >
-> > 2. Land Pin-yen's patch as a downstream-only patch in ChromeOS. This
-> > would solve the problem, but it would make me sad. If anyone ever
-> > wants to take these old laptops and run some other Linux distribution
-> > on them (and there are several that target old Chromebooks) then
-> > they'd be again stuck with old timings.
-> >
-> > 3. Land a patch like this one that at least gets us into not such a bad=
- shape.
-> >
-> > While I don't love this patch (and that's why I made it clear that it
-> > needs to spend time on the list), it seems better than the
-> > alternatives. Do you have a proposal for something else? If not, can
-> > you confirm you're OK with #3 given this explanation? ...and perhaps
-> > more details in the commit message?
->
-> I don't have a specific comment, it was more of a comment about the
-> process itself, if you write down what's above in the commit message ...
+Le 13/12/2023 à 09:36, Maxime Ripard a écrit :
+> Hi,
+> 
+> On Wed, Dec 13, 2023 at 08:43:00AM +0100, Uwe Kleine-König wrote:
+>> On Wed, Dec 13, 2023 at 08:16:04AM +0100, Maxime Ripard wrote:
+>>> On Tue, Dec 12, 2023 at 06:26:37PM +0100, Uwe Kleine-König wrote:
+>>>> clk_rate_exclusive_get() returns zero unconditionally. Most users "know"
+>>>> that and don't check the return value. This series fixes the four users
+>>>> that do error checking on the returned value and then makes function
+>>>> return void.
+>>>>
+>>>> Given that the changes to the drivers are simple and so merge conflicts
+>>>> (if any) should be easy to handle, I suggest to merge this complete
+>>>> series via the clk tree.
+>>>
+>>> I don't think it's the right way to go about it.
+>>>
+>>> clk_rate_exclusive_get() should be expected to fail. For example if
+>>> there's another user getting an exclusive rate on the same clock.
+>>>
+>>> If we're not checking for it right now, then it should probably be
+>>> fixed, but the callers checking for the error are right to do so if they
+>>> rely on an exclusive rate. It's the ones that don't that should be
+>>> modified.
+>>
+>> If some other consumer has already "locked" a clock that I call
+>> clk_rate_exclusive_get() for, this isn't an error. In my bubble I call
+>> this function because I don't want the rate to change e.g. because I
+>> setup some registers in the consuming device to provide a fixed UART
+>> baud rate or i2c bus frequency (and that works as expected).
+> 
+> I guess it's a larger conversation, but I don't see how that can
+> possibly work.
+> 
+> The way the API is designed, you have no guarantee (outside of
+> clk_rate_exclusive_*) that the rate is going to change.
+> 
+> And clk_rate_exclusive_get() doesn't allow the rate to change while in
+> the "critical section".
+> 
+> So the only possible thing to do is clk_set_rate() +
+> clk_rate_exclusive_get().
 
-Pin-yen: can you take a whack at summarizing some of the above in the
-commit message and sending out a v3?
+There's clk_set_rate_exclusive() for this purpose.
+
+> 
+> So there's a window where the clock can indeed be changed, and the
+> consumer that is about to lock its rate wouldn't be aware of it.
+> 
+> I guess it would work if you don't care about the rate at all, you just
+> want to make sure it doesn't change.
+> 
+> Out of the 7 users of that function, 3 are in that situation, so I guess
+> it's fair.
+> 
+> 3 are open to that race condition I mentioned above.
+> 
+> 1 is calling clk_set_rate while in the critical section, which works if
+> there's a single user but not if there's multiple, so it should be
+> discouraged.
+> 
+>> In this case I won't be able to change the rate of the clock, but that
+>> is signalled by clk_set_rate() failing (iff and when I need awother
+>> rate) which also seems the right place to fail to me.
+> 
+> Which is ignored by like half the callers, including the one odd case I
+> mentioned above.
+> 
+> And that's super confusing still: you can *always* get exclusivity, but
+> not always do whatever you want with the rate when you have it? How are
+> drivers supposed to recover from that? You can handle failing to get
+> exclusivity, but certainly not working around variable guarantees.
+> 
+>> It's like that since clk_rate_exclusive_get() was introduced in 2017
+>> (commit 55e9b8b7b806ec3f9a8817e13596682a5981c19c).
+> 
+> Right, but "it's always been that way" surely can't be an argument,
+> otherwise you wouldn't have done that series in the first place.
+> 
+>> BTW, I just noticed that my assertion "Most users \"know\" that
+>> [clk_rate_exclusive_get() returns zero unconditionally]" is wrong. As of
+>> next-20231213 there are 3 callers ignoring the return value of
+>> clk_rate_exclusive_get() and 4 that handle (imaginary) returned errors.
+>> I expected this function to be used more extensively. (In fact I think
+>> it should be used more as several drivers rely on the clk rate not
+>> changing.)
+> 
+> Yes, but also it's super difficult to use in practice, and most devices
+> don't care.
+> 
+> The current situation is something like this:
+> 
+>    * Only a handful of devices really care about their clock rate, and
+>      often only for one of their clock if they have several. You would
+>      probably get all the devices that create an analog signal somehow
+>      there, so audio, display, i2c, spi, uarts, etc. Plus the ones doing
+>      frequency scaling so CPU and GPUs.
+> 
+>    * CPUs and GPUs are very likely to have a dedicated clock, so we can
+>      rule the "another user is going to mess with my clock" case.
+> 
+>    * UARTs/i2c/etc. are usually taking their clock from the bus interface
+>      directly which is pretty much never going to change (for good
+>      reason). And the rate of the bus is not really likely to change.
+> 
+>    * SPI/NAND/MMC usually have their dedicated clock too, and the bus
+>      rate is not likely to change after the initial setup either.
+> 
+> So, the only affected devices are the ones generating external signals,
+> with the rate changing during the life of the system. Even for audio or
+> video devices, that's fairly unlikely to happen. And you need to have
+> multiple devices sharing the same clock tree for that issue to occur,
+> which is further reducing the chances it happens.
+
+Well, thanks for HW designers, this exists and some SoCs has less PLLs than
+needed, and they can't be dedicated for some hw blocks.
+
+> 
+> Realistically speaking, this only occurs with multi-head display outputs
+> where it's somewhat likely to have all the display controllers feeding
+> from the same clock, and the power up of the various output is done in
+> sequence which creates that situation.
+> 
+> And even then, the clk_rate_exclusive_* interface effectively locks the
+> entire clock subtree to its current rate, so the effect on the rest of
+> the devices can be significant.
+> 
+> So... yeah. Even though you're right, it's trying to address a problem
+> that is super unlikely to happen with a pretty big hammer that might be
+> too much for most. So it's not really surprising it's not used more.
+
+Honestly I tried my best to find a smart way to set the DSI clock tree
+with only 2 endpoints of the tree, but CCF will explore all possibilities
+and since you cannot set constraints, locking a sub-tree is the smartest
+way I found.
+In this case, the PLL is common between the DSI controller and video generator,
+so to keep the expected clock ratio, the smart way is to set the freq on
+one side, lock the subtree and set the rate on the other side.
+An API permitting to set multiple rates to multiple clocks in a single call
+would be the solution, but not sure if we could possibly write such algorithm.
+
+> 
+> Maxime
+
+Neil
