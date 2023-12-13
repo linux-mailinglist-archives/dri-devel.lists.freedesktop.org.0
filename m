@@ -1,57 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEB6E8107C6
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 02:40:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89738810815
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 03:19:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADCDA10E1A7;
-	Wed, 13 Dec 2023 01:40:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6367810E23D;
+	Wed, 13 Dec 2023 02:19:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com
- [61.152.239.71])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5306B10E1A7
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 01:40:37 +0000 (UTC)
-Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
- (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
- (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
- by fd01.gateway.ufhost.com (Postfix) with ESMTP id 01BF07FF9;
- Wed, 13 Dec 2023 09:40:32 +0800 (CST)
-Received: from EXMBX061.cuchost.com (172.16.6.61) by EXMBX165.cuchost.com
- (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 13 Dec
- 2023 09:40:31 +0800
-Received: from [192.168.60.110] (180.164.60.184) by EXMBX061.cuchost.com
- (172.16.6.61) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 13 Dec
- 2023 09:40:31 +0800
-Message-ID: <10e2ab3c-950f-4a1c-8806-74e5bba2c24a@starfivetech.com>
-Date: Wed, 13 Dec 2023 09:40:31 +0800
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7433B10E23D
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 02:19:14 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 90941CE1144;
+ Wed, 13 Dec 2023 02:19:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBD23C433C8;
+ Wed, 13 Dec 2023 02:19:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1702433950;
+ bh=DQPF3GcanIRKcaZKx1G5ZSV6kAy0I6t5QN8G9OuMZdM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=DyCeS9GmtbFGFSsFn5YSGcJgY03zFug1iziwTrwVmg/ZlNI8m4c58IveouykxEdqa
+ EMnEhzuZ63StLiesj5cSjbJf4TmG4ZBa1yJ7JCzsdawYg44TMs0dyNRoLJ1GELn1tz
+ mZ0ttW2DALNof274ibmywvx6VjyQmwZ21hJje2+EzxdBAhAbf2HCJYKHiiZ+1qP7MN
+ awBRzsmBQJpRFMscNENawsc7TC/PSZAjpMEzMokycEPjSXZZ9oUEEmo+Oekfpv6dsz
+ Lulob+ZQQMb5SPxcQHqSMtRg1Oa5btnY+jl5DG0GR/t04qzTQhWGqHRNhfn4l51+iE
+ FdNU7DP2aIKOg==
+Message-ID: <cd464bae-af47-42f1-ac9f-9620137ede89@kernel.org>
+Date: Tue, 12 Dec 2023 18:19:09 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [v3 5/6] drm/vs: Add hdmi driver
-To: Andy Yan <andyshrk@163.com>
-References: <20231204123315.28456-6-keith.zhao@starfivetech.com>
- <esetsiqgqpk35zue4c6aq7l6zn4kezhxkqqa7ompaz2vhdy3lr@4d5awfqgs2ss>
- <94a1f9fc-82fb-4a04-a44b-f9b20c2bdfdd@starfivetech.com>
- <abdl6kmighvpwojvafq443q7grn6w3abwpvw7zwbna4jvtsvjf@fa42rv46n2wh>
- <40cdd3c7-174e-4611-9ea6-22cb56d1f62b@starfivetech.com>
- <e90142d.44b1.18c43833b63.Coremail.andyshrk@163.com>
- <e0b84511-dbb4-46fa-9465-713369232f6f@starfivetech.com>
- <43e42269.314.18c46dbb4c5.Coremail.andyshrk@163.com>
- <e1c362dc-8aac-4d13-9356-8b7ccae4727f@starfivetech.com>
- <5a79a4b9.1bd7.18c4773c1ea.Coremail.andyshrk@163.com>
- <xevxqusbizjfs4qt5rufhntd3vd656o2smocvivvulzceh3aeu@uuihphhat5wi>
- <2dc5ea49-9a5f-484a-98dc-1b35b79d0945@starfivetech.com>
- <6f7acc9d.5648.18c58cba9be.Coremail.andyshrk@163.com>
+Subject: Re: [net-next v1 08/16] memory-provider: dmabuf devmem memory provider
 Content-Language: en-US
-From: Keith Zhao <keith.zhao@starfivetech.com>
-In-Reply-To: <6f7acc9d.5648.18c58cba9be.Coremail.andyshrk@163.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [180.164.60.184]
-X-ClientProxiedBy: EXCAS064.cuchost.com (172.16.6.24) To EXMBX061.cuchost.com
- (172.16.6.61)
-X-YovoleRuleAgent: yovoleflag
-Content-Transfer-Encoding: quoted-printable
+To: Mina Almasry <almasrymina@google.com>, Jason Gunthorpe <jgg@nvidia.com>
+References: <20231208005250.2910004-1-almasrymina@google.com>
+ <20231208005250.2910004-9-almasrymina@google.com>
+ <20231212122535.GA3029808@nvidia.com>
+ <CAHS8izMVMx0fpT=dWsnD7piqs1g7Fam8Xf5dK3iOFNxeOQD9vQ@mail.gmail.com>
+ <20231212143942.GF3014157@nvidia.com>
+ <CAHS8izNHtemjjkMf43grCHP1RZ=2UFiMtgea0M6+PaAgC=DDMQ@mail.gmail.com>
+ <20231212150834.GI3014157@nvidia.com>
+ <CAHS8izMdKYyjE9bdcFDWWPWECwVZL7XQjtjOFoTq5_bEEJvN6w@mail.gmail.com>
+From: David Ahern <dsahern@kernel.org>
+In-Reply-To: <CAHS8izMdKYyjE9bdcFDWWPWECwVZL7XQjtjOFoTq5_bEEJvN6w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,201 +59,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
- "suijingfeng@loongson.cn" <suijingfeng@loongson.cn>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Xingyu Wu <xingyu.wu@starfivetech.com>, Jack Zhu <jack.zhu@starfivetech.com>,
- "palmer@dabbelt.com" <palmer@dabbelt.com>, Maxime Ripard <mripard@kernel.org>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- William Qiu <william.qiu@starfivetech.com>,
- Shengyang Chen <shengyang.chen@starfivetech.com>,
- "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
- Changhuang Liang <changhuang.liang@starfivetech.com>
+Cc: linux-doc@vger.kernel.org, Kaiyuan Zhang <kaiyuanz@google.com>,
+ dri-devel@lists.freedesktop.org, Eric Dumazet <edumazet@google.com>,
+ linux-kselftest@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-arch@vger.kernel.org,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jeroen de Borst <jeroendb@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Christoph Hellwig <hch@infradead.org>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
+ Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Shailend Chand <shailend@google.com>, Shakeel Butt <shakeelb@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Yunsheng Lin <linyunsheng@huawei.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>, bpf@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 12/12/23 6:09 PM, Mina Almasry wrote:
+> OK, I imagine this is not that hard to implement - it's really whether
+> the change is acceptable to reviewers.
+> 
+> I figure I can start by implementing a no-op abstraction to page*:
+> 
+> typedef struct page netmem_t
+> 
+> and replace the page* in the following places with netmem_t*:
+> 
+> 1. page_pool API (not internals)
+> 2. drivers using the page_pool.
+> 3. skb_frag_t.
+> 
 
+accessors to skb_frag_t field are now consolidated to
+include/linux/skbuff.h (the one IB driver was fixed in Sept by
+4ececeb83986), so changing skb_frag_t from bio_vec to something like:
 
-On 2023/12/11 20:13, Andy Yan wrote:
-> Hi Keith=EF=BC=9A
->=20
-> =E5=9C=A8 2023-12-11 18:24:35=EF=BC=8C"Keith Zhao" <keith.zhao@starfive=
-tech.com> =E5=86=99=E9=81=93=EF=BC=9A
->>hi Maxime:
->>hi Andy:
->>
->>On 2023/12/8 17:14, Maxime Ripard wrote:
->>> Hi,
->>>=20
->>> On Fri, Dec 08, 2023 at 11:23:37AM +0800, Andy Yan wrote:
->>>> =E5=9C=A8 2023-12-08 11:00:31=EF=BC=8C"Keith Zhao" <keith.zhao@starf=
-ivetech.com> =E5=86=99=E9=81=93=EF=BC=9A
->>>> >
->>>> >
->>>> >On 2023/12/8 8:37, Andy Yan wrote:
->>>> >> Hi Keth=EF=BC=9A
->>>> >>=20
->>>> >>=20
->>>> >>=20
->>>> >>=20
->>>> >>=20
->>>> >>=20
->>>> >> =E5=9C=A8 2023-12-07 18:48:13=EF=BC=8C"Keith Zhao" <keith.zhao@st=
-arfivetech.com> =E5=86=99=E9=81=93=EF=BC=9A
->>>> >>>
->>>> >>>
->>>> >>>On 2023/12/7 17:02, Andy Yan wrote:
->>>> >>>>=20
->>>> >>>>=20
->>>> >>>>=20
->>>> >>>>=20
->>>> >>>> Hi Keith=EF=BC=9A
->>>> >>>>=20
->>>> >>>>=20
->>>> >>>>=20
->>>> >>>>=20
->>>> >>>>=20
->>>> >>>>=20
->>>> >>>>=20
->>>> >>>>=20
->>>> >>>>=20
->>>> >>>>=20
->>>> >>>>=20
->>>> >>>> At 2023-12-06 22:11:33, "Keith Zhao" <keith.zhao@starfivetech.c=
-om> wrote:
->>>> >>>>>
->>>> >>>>>
->>>> >>>>>On 2023/12/6 20:56, Maxime Ripard wrote:
->>>> >>>>>> On Wed, Dec 06, 2023 at 08:02:55PM +0800, Keith Zhao wrote:
->>>> >>>>>>> >> +static const struct of_device_id starfive_hdmi_dt_ids[] =
-=3D {
->>>> >>>>>>> >> +	{ .compatible =3D "starfive,jh7110-inno-hdmi",},
->>>> >>>>>>> >=20
->>>> >>>>>>> > So it's inno hdmi, just like Rockchip then?
->>>> >>>>>>> >=20
->>>> >>>>>>> > This should be a common driver.
->>>> >>>>>>>
->>>> >>>>>>> Rockchip has a inno hdmi IP. and Starfive has a inno hdmi IP=
-.
->>>> >>>>>>> but the harewawre difference of them is big , it is not easy=
- to use the common driver
->>>> >>>>>>> maybe i need the inno hdmi version here to make a distinctio=
-n
->>>> >>>>>>=20
->>>> >>>>>> I just had a look at the rockchip header file: all the regist=
-ers but the
->>>> >>>>>> STARFIVE_* ones are identical.
->>>> >>>>>>=20
->>>> >>>>>> There's no need to have two identical drivers then, please us=
-e the
->>>> >>>>>> rockchip driver instead.
->>>> >>>>>>=20
->>>> >>>>>> Maxime
->>>> >>>>>
->>>> >>>>>ok, have a simple test , edid can get . i will continue=20
->>>> >>>>=20
->>>> >>>> Maybe you can take drivers/gpu/drm/bridge/synopsys/dw-hdmi as a=
- reference=EF=BC=8C this
->>>> >>>> is also a hdmi ip used by rockchip/meson/sunxi/jz/imx=E3=80=82
->>>> >>>> We finally make it share one driver=E3=80=82
->>>> >>>>>
->>>> >>>hi Andy:
->>>> >>>
->>>> >>>dw_hdmi seems a good choice , it can handle inno hdmi hardware by=
- define its dw_hdmi_plat_data.
->>>> >>>does it means i can write own driver files such as(dw_hdmi-starfi=
-ve.c) based on dw_hdmi instead of add plat_data in inno_hdmi.c
->>>> >>>
->>>> >>=20
->>>> >> I think the process maybe like this=EF=BC=9A
->>>> >>=20
->>>> >> 1. split the inno_hdmi.c under rockchip to  inno_hdmi.c(the commo=
-n part), inno_hdmi-rockchip.c(the soc specific part)
->>>> >> 2. move the common part inno_hdmi.c to drivers/gpu/drm/bridge/inn=
-osilicon/
->>>> >> 3. add startfive specific part, inno_hdmi-startfive.c
->>>> >>=20
->>>> >> bellow git log from kernel three show how we convert  dw_hdmi to =
-a common driver:=20
->>>> >>=20
->>>> >>=20
->>>> >>=20
->>>> >> 12b9f204e804 drm: bridge/dw_hdmi: add rockchip rk3288 support
->>>> >> 74af9e4d03b8 dt-bindings: Add documentation for rockchip dw hdmi
->>>> >> d346c14eeea9 drm: bridge/dw_hdmi: add function dw_hdmi_phy_enable=
-_spare
->>>> >> a4d3b8b050d5 drm: bridge/dw_hdmi: clear i2cmphy_stat0 reg in hdmi=
-_phy_wait_i2c_done
->>>> >> 632d035bace2 drm: bridge/dw_hdmi: add mode_valid support
->>>> >> 0cd9d1428322 drm: bridge/dw_hdmi: add support for multi-byte regi=
-ster width access
->>>> >> cd152393967e dt-bindings: add document for dw_hdmi
->>>> >> b21f4b658df8 drm: imx: imx-hdmi: move imx-hdmi to bridge/dw_hdmi
->>>> >> aaa757a092c2 drm: imx: imx-hdmi: split phy configuration to platf=
-orm driver
->>>> >> 3d1b35a3d9f3 drm: imx: imx-hdmi: convert imx-hdmi to drm_bridge m=
-ode
->>>> >> c2c3848851a7 drm: imx: imx-hdmi: return defer if can't get ddc i2=
-c adapter
->>>> >> b587833933de drm: imx: imx-hdmi: make checkpatch happy
->>>> >>=20
->>>> >hi Andy:
->>>> >I got you means,=20
->>>> >as I don't have a rockchip board on hand , to split the inno_hdmi.c=
- can not be tested.
->>>> >
->>>> >how adout this idea:
->>>> >1=E3=80=81split the starfive_hdmi.c under verisilicion to  inno_hdm=
-i.c(the common part), inno_hdmi-starfive.c(the soc specific part)
->>>> >2. move the common part inno_hdmi.c to drivers/gpu/drm/bridge/innos=
-ilicon/
->>>> >3. In the future, inno hdmi.c under rockchip will reuse the public =
-driver.
->>>>=20
->>>> I am not sure if drm maintainers are happy with this=E3=80=82
->>>=20
->>> Not really, no.
->>>=20
->>> Because we would still have two drivers for the same controller, and =
-a
->>> common one that haven't really been tested on anything but a single
->>> platform. So arguably a worse situation than what you were suggesting=
- in
->>> the first place.
->>>=20
->>> The best solution would be to find someone with a Rockchip board to t=
-est
->>> your changes, or to get one if it's doable so you can test yourself.
->>
->>ok I will also try to buy a Rockchip 3036 board for self-test.
->>According to the commit log idea provided by Andy before, make the inno=
-_hdmi driver common module.
->=20
-> I finally  make my rk3036 based kylin board bootup =EF=BC=88use a linux=
- 4.4 downstream bsp=EF=BC=8CI will find time to try boot
-> it with mainline=EF=BC=89=E3=80=82 So I can help do the test for rockch=
-ip side=E3=80=82
->=20
-> It seems not that easy to buy a rk3036 based board from market now=E3=80=
-=82
-en, The online store seems to have stopped selling rk3036=20
-really not easy to buy one , I write the code first , need help testing r=
-k3036 in the future.
+typedef struct skb_frag {
+	void *addr;
+	unsigned int length;
+	unsigned int offset;
+};
 
-thanks
->=20
->>
->>would the steps be ok? (if I tested rockchip and starifve pass)
->>1. split the inno_hdmi.c under rockchip to  inno_hdmi.c(the common part=
-), inno_hdmi-rockchip.c(the soc specific part)
->>2. move the common part inno_hdmi.c to drivers/gpu/drm/bridge/innosilic=
-on/
->>3. add startfive specific part, inno_hdmi-startfive.c
->>
->>Thanks
->>>=20
->>> Maxime
+is trivial. From there, addr can default to `struct page *`. If LSB is
+set, strip it and return `struct page_pool_iov *` or `struct buffer_pool *`
