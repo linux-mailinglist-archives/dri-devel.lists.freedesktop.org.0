@@ -2,59 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44F238122BF
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 00:22:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD5F2812334
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 00:37:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA92810E86A;
-	Wed, 13 Dec 2023 23:22:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAA7A10E876;
+	Wed, 13 Dec 2023 23:37:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x92e.google.com (mail-ua1-x92e.google.com
- [IPv6:2607:f8b0:4864:20::92e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C7A510E86A
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 23:22:08 +0000 (UTC)
-Received: by mail-ua1-x92e.google.com with SMTP id
- a1e0cc1a2514c-7c500dcdd7dso1203154241.1
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 15:22:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1702509727; x=1703114527; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=5aYZjGaxZTeHu+LYtDvN8p6H+vdhqyvWMzPG0M4oJ0Q=;
- b=fpvqV2WG8fraVML7ciT4kIotFt4zgCm+Mc7Ql0FMRzOm8JOJM/X805ouPmPFo+mO9E
- Grvvks9ST4oP5JUS8JyfdKBMzmp4wKJSjh5RdPmB97IV7Wrc1XhjM6qJrcjNwp0UylA2
- Kg80JA2s7qxksKTGnSo3VYqPp5/GikHAiYOUx5bBLBNJ/KVBB7rNeU7/JX+Dy0rzFNo5
- XZ6FgHKPG1BgN97C0hhLNTViPDXhYL5/SevAvM2P+U8QS7p6mvnqLEAEf14wxADAhIp+
- eWPb5xirUDHMciziHv9vq+3y0p01KSfVtYfjKKMXhpmfevMT8Zi1uGDuD6Gt5h9+x0WF
- 50NA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F08D10E889
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 23:37:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1702510646;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2bM5SMenaJ88uFf7XU2jdKzO8ftktLKCbuzz3KkFPnI=;
+ b=Z379D3z3ZVFdfpMtzBNEqKDYh36ldqXHHjAlTd8BVg8PHs9j52XgoN+hu/BRCvwoTST+i3
+ WXQZ6LRA8KI8qqZevc2P3pLb0SN182PBaUeYPuvG3BAWnhawS/vvy+vF9976ADYYT0asTo
+ Z11z9HyeZgHR6w/z1hcpTehRKMEecrE=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-380-aglrI_flPPm_7laCNxoEjA-1; Wed, 13 Dec 2023 18:37:24 -0500
+X-MC-Unique: aglrI_flPPm_7laCNxoEjA-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-77f5f4d25f0so718138285a.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 15:37:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702509727; x=1703114527;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=5aYZjGaxZTeHu+LYtDvN8p6H+vdhqyvWMzPG0M4oJ0Q=;
- b=LC4x175bM4Hb4F0kwj5oeAKc1iXGnulcY3zMFpPWmu1WdZ3aI6YHM2QfX0fyblSGol
- 3tVIzEZgnDW+j9J8T3E8x6evDm7u4Lb68g2CKOpBiaOBVzJzisDzBL+vzf+26LjaCSEe
- p0x9SaFZECCoyaiGU1Fn4x6HmTO2XWgF/0o/sMl1Gc0q1HtzjsjR9+6enjfiWa5C2cwq
- 18M8pCGZgvYppkqlRy0+g/owKzH+g8c/oGRnZaQgxt2tk4E3Rx9jgJ7X60RgzhlWiquu
- h8owcGwyK9jULNmcd9ib3jUYNNccGa6j49wKZ7tF/iEap0JQI+Uaun/KIQRd0qxAvMN7
- 7mAA==
-X-Gm-Message-State: AOJu0Ywj1cgAJl0cNAaXnFEUUFUK82CFEgqNYKuRLaZCIvcVO0sYugi8
- ytaPrpb9EAIo593s12WYhpSPfALQa+nBxkJlkk8=
-X-Google-Smtp-Source: AGHT+IF2oIpSTYUBVGgW8A7cLbUXQSRTqjGbV2qhVwnlrHQLZzJJqVrIx1ZlJ20YIpFWDk/qTgg1XvSt0E13N7/7rl0=
-X-Received: by 2002:a05:6102:370e:b0:466:991:7bf with SMTP id
- s14-20020a056102370e00b00466099107bfmr3826666vst.13.1702509727217; Wed, 13
- Dec 2023 15:22:07 -0800 (PST)
+ d=1e100.net; s=20230601; t=1702510644; x=1703115444;
+ h=mime-version:user-agent:content-transfer-encoding:organization
+ :references:in-reply-to:date:cc:to:from:subject:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=2bM5SMenaJ88uFf7XU2jdKzO8ftktLKCbuzz3KkFPnI=;
+ b=q02h0wYjGH3aO7PqN7yD3CzazZhPRjnMkXqqZ36oywkbGxW3tzdUVVmTp/1M3MQ4AZ
+ YigU3mxFdoeBLZiNtHHZnxRRX4lwpgZU7qBxPF7OCAj26kmvJcdKy2aniTodJ9wGujKq
+ HfQZU7Jr1rgueTVIO0cUxCD/0q9GJ1Q3fcSNS6HL91HowxuEuRsPZ+u4dM36VKmoP+ic
+ 8OiMm4PQh/h5uLpc90IvAzFHCeox7GUrJu8G4WxUGmSuPKZmXSZm2vMaJTUeqk1avc50
+ 03cPtTcXBpxipDeIdInSjVhrjs6GbGKIhoi6O19IxHPxan80PXyQTrMS/GBW3u6DWC5l
+ Hynw==
+X-Gm-Message-State: AOJu0YwNKuUTePZydgG4FMpH+/4lO8GfocG88WEsn7OuYoPW/PBOjvTb
+ 7OE+Kalo42+BY9/1ngAMOrjWuNVJoCV6jQDe3FdqJ9qkrHJTHPtYtbk+NqGytBygnldCzFTa+eR
+ ZA8blEH/D6M+nBwxwf8h5aj6jgoST
+X-Received: by 2002:a05:620a:2603:b0:77b:e2ae:934c with SMTP id
+ z3-20020a05620a260300b0077be2ae934cmr10952569qko.12.1702510644401; 
+ Wed, 13 Dec 2023 15:37:24 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHUVH/OQpyNoeiuSGiiYho89l/+ehiBCwR+TccPGs5nC6eWuLzhfay1fvd3HpT8GnD42ZeXXA==
+X-Received: by 2002:a05:620a:2603:b0:77b:e2ae:934c with SMTP id
+ z3-20020a05620a260300b0077be2ae934cmr10952558qko.12.1702510644183; 
+ Wed, 13 Dec 2023 15:37:24 -0800 (PST)
+Received: from ?IPv6:2600:4040:5c6c:a300::feb? ([2600:4040:5c6c:a300::feb])
+ by smtp.gmail.com with ESMTPSA id
+ b5-20020a05620a270500b0076ce061f44dsm4878672qkp.25.2023.12.13.15.37.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 Dec 2023 15:37:23 -0800 (PST)
+Message-ID: <114bf9f5790f637a6cdec4957244192d3bd76a04.camel@redhat.com>
+Subject: Re: nouveau 0000:01:00.0: drm_WARN_ON(!found_head)
+From: Lyude Paul <lyude@redhat.com>
+To: Borislav Petkov <bp@alien8.de>, Paul Dufresne <dufresnep@zoho.com>, 
+ Danilo Krummrich <me@dakr.org>
+Date: Wed, 13 Dec 2023 18:37:22 -0500
+In-Reply-To: <20231213124936.GCZXmoYDq8nMRs75XM@fat_crate.local>
+References: <20231111120323.GAZU9tiw8e0RSzCGB9@fat_crate.local>
+ <20231212224037.GAZXjhZUDeoq50xKJ5@fat_crate.local>
+ <18c613ec092.ae61cf7d6029.4389632938517239705@zoho.com>
+ <20231213113936.GBZXmX+MKqX/qOnPn1@fat_crate.local>
+ <20231213124936.GCZXmoYDq8nMRs75XM@fat_crate.local>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38)
 MIME-Version: 1.0
-References: <20231213224201.2191358-1-robh@kernel.org>
-In-Reply-To: <20231213224201.2191358-1-robh@kernel.org>
-From: Inki Dae <daeinki@gmail.com>
-Date: Thu, 14 Dec 2023 08:21:55 +0900
-Message-ID: <CAAQKjZNutk5GYUJ7u-X3fctMiNLJHYU60NVU8N-APzJh5MZ49A@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: display: samsung,
- exynos-mixer: Fix 'regs' typo
-To: Rob Herring <robh@kernel.org>
-Content-Type: multipart/alternative; boundary="0000000000008481be060c6c6fd3"
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,147 +89,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- linux-samsung-soc@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Alim Akhtar <alim.akhtar@samsung.com>, linux-arm-kernel@lists.infradead.org
+Cc: nouveau <nouveau@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000008481be060c6c6fd3
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+agh - thank you for repeatedly poking on this, I've been busy enough with G=
+SP
+work I totally missed this. Yes - I'm quite surprised that this is blowing =
+up,
+but considering that looks to be a GT218 I guess display state readback mus=
+t
+just work a bit differently there since that's really early on into the NV5=
+0
+days.
 
-2023=EB=85=84 12=EC=9B=94 14=EC=9D=BC (=EB=AA=A9) =EC=98=A4=EC=A0=84 7:43, =
-Rob Herring <robh@kernel.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+The reason that was a drm_WARN_ON() was because it indicates that we're not
+reading back OR -> head assignments properly. But, I'm confused how we're e=
+ven
+getting that far on a non-GSP platform. I'm going to dig into this now, but=
+ if
+I don't figure out a good fix by the end of the day I'll just send a patch =
+to
+silent the warning.
 
-> The correct property name is 'reg' not 'regs'.
->
+Thanks again for bugging me about this!
 
-Thanks,
-Inki Dae
+On Wed, 2023-12-13 at 13:49 +0100, Borislav Petkov wrote:
+> On Wed, Dec 13, 2023 at 12:39:36PM +0100, Borislav Petkov wrote:
+> > We're getting close to releasing so I guess we either debug this or shu=
+t
+> > up the WARN.
+>=20
+> Not only that - panic_on_warn turns this into an explosion so you don't
+> want that in a released kernel.
+>=20
 
+--=20
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
 
-> Fixes: 68e89bb36d58 ("dt-bindings: display: samsung,exynos-mixer: convert
-> to dtschema")
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  .../bindings/display/samsung/samsung,exynos-mixer.yaml      | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git
-> a/Documentation/devicetree/bindings/display/samsung/samsung,exynos-mixer.=
-yaml
-> b/Documentation/devicetree/bindings/display/samsung/samsung,exynos-mixer.=
-yaml
-> index 25d53fde92e1..597c9cc6a312 100644
-> ---
-> a/Documentation/devicetree/bindings/display/samsung/samsung,exynos-mixer.=
-yaml
-> +++
-> b/Documentation/devicetree/bindings/display/samsung/samsung,exynos-mixer.=
-yaml
-> @@ -85,7 +85,7 @@ allOf:
->          clocks:
->            minItems: 6
->            maxItems: 6
-> -        regs:
-> +        reg:
->            minItems: 2
->            maxItems: 2
->
-> @@ -99,7 +99,7 @@ allOf:
->          clocks:
->            minItems: 4
->            maxItems: 4
-> -        regs:
-> +        reg:
->            minItems: 2
->            maxItems: 2
->
-> @@ -116,7 +116,7 @@ allOf:
->          clocks:
->            minItems: 3
->            maxItems: 3
-> -        regs:
-> +        reg:
->            minItems: 1
->            maxItems: 1
->
-> --
-> 2.43.0
->
->
->
-
---0000000000008481be060c6c6fd3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">2023=EB=85=84 12=EC=9B=94 14=EC=9D=BC (=EB=AA=A9) =EC=
-=98=A4=EC=A0=84 7:43, Rob Herring &lt;<a href=3D"mailto:robh@kernel.org">ro=
-bh@kernel.org</a>&gt;=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:<br></div><block=
-quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
- solid;padding-left:1ex">The correct property name is &#39;reg&#39; not &#3=
-9;regs&#39;.<br></blockquote></div></div><div dir=3D"auto"><br></div><div d=
-ir=3D"auto">Thanks,</div><div dir=3D"auto">Inki Dae</div><div dir=3D"auto">=
-<br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D=
-"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding=
--left:1ex"><br>
-Fixes: 68e89bb36d58 (&quot;dt-bindings: display: samsung,exynos-mixer: conv=
-ert to dtschema&quot;)<br>
-Signed-off-by: Rob Herring &lt;<a href=3D"mailto:robh@kernel.org" target=3D=
-"_blank" rel=3D"noreferrer">robh@kernel.org</a>&gt;<br>
----<br>
-=C2=A0.../bindings/display/samsung/samsung,exynos-mixer.yaml=C2=A0 =C2=A0 =
-=C2=A0 | 6 +++---<br>
-=C2=A01 file changed, 3 insertions(+), 3 deletions(-)<br>
-<br>
-diff --git a/Documentation/devicetree/bindings/display/samsung/samsung,exyn=
-os-mixer.yaml b/Documentation/devicetree/bindings/display/samsung/samsung,e=
-xynos-mixer.yaml<br>
-index 25d53fde92e1..597c9cc6a312 100644<br>
---- a/Documentation/devicetree/bindings/display/samsung/samsung,exynos-mixe=
-r.yaml<br>
-+++ b/Documentation/devicetree/bindings/display/samsung/samsung,exynos-mixe=
-r.yaml<br>
-@@ -85,7 +85,7 @@ allOf:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0clocks:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0minItems: 6<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0maxItems: 6<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 regs:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 reg:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0minItems: 2<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0maxItems: 2<br>
-<br>
-@@ -99,7 +99,7 @@ allOf:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0clocks:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0minItems: 4<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0maxItems: 4<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 regs:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 reg:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0minItems: 2<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0maxItems: 2<br>
-<br>
-@@ -116,7 +116,7 @@ allOf:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0clocks:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0minItems: 3<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0maxItems: 3<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 regs:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 reg:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0minItems: 1<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0maxItems: 1<br>
-<br>
--- <br>
-2.43.0<br>
-<br>
-<br>
-</blockquote></div></div></div>
-
---0000000000008481be060c6c6fd3--
