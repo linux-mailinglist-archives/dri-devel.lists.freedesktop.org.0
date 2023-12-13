@@ -1,33 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C13E81124B
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 14:01:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E89718112A2
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 14:18:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C22310E279;
-	Wed, 13 Dec 2023 13:01:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C32F810E283;
+	Wed, 13 Dec 2023 13:18:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7417A10E279
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 13:01:48 +0000 (UTC)
-Received: from i53875b61.versanet.de ([83.135.91.97] helo=phil.lan)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1rDOrn-0007Yj-UJ; Wed, 13 Dec 2023 14:01:36 +0100
-From: Heiko Stuebner <heiko@sntech.de>
-To: Andy Yan <andyshrk@163.com>
-Subject: Re: (subset) [PATCH v5 00/16] Add VOP2 support on rk3588
-Date: Wed, 13 Dec 2023 14:01:34 +0100
-Message-Id: <170247248621.617749.15145184052380522696.b4-ty@sntech.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231211115547.1784587-1-andyshrk@163.com>
-References: <20231211115547.1784587-1-andyshrk@163.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CD27210E283
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 13:18:42 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 38A6FC15;
+ Wed, 13 Dec 2023 05:19:28 -0800 (PST)
+Received: from [10.57.86.164] (unknown [10.57.86.164])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2EF7A3F762;
+ Wed, 13 Dec 2023 05:18:39 -0800 (PST)
+Message-ID: <8332142a-b224-4149-8748-a9445e4caee9@arm.com>
+Date: Wed, 13 Dec 2023 13:18:41 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 12/14] drm/panthor: Allow driver compilation
+Content-Language: en-GB
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ dri-devel@lists.freedesktop.org
+References: <20231204173313.2098733-1-boris.brezillon@collabora.com>
+ <20231204173313.2098733-13-boris.brezillon@collabora.com>
+From: Steven Price <steven.price@arm.com>
+In-Reply-To: <20231204173313.2098733-13-boris.brezillon@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,33 +44,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, sebastian.reichel@collabora.com,
- hjc@rock-chips.com, kever.yang@rock-chips.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- Andy Yan <andy.yan@rock-chips.com>, chris.obbard@collabora.com
+Cc: Nicolas Boichat <drinkcat@chromium.org>, kernel@collabora.com,
+ Daniel Stone <daniels@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Liviu Dudau <Liviu.Dudau@arm.com>,
+ =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
+ Grant Likely <grant.likely@linaro.org>,
+ "Marty E . Plummer" <hanetzer@startmail.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 11 Dec 2023 19:55:47 +0800, Andy Yan wrote:
-> From: Andy Yan <andy.yan@rock-chips.com>
+On 04/12/2023 17:33, Boris Brezillon wrote:
+> Now that all blocks are available, we can add/update Kconfig/Makefile
+> files to allow compilation.
 > 
-> This patch sets aims at enable the VOP2 support on rk3588.
+> v3:
+> - Add a dep on DRM_GPUVM
+> - Fix dependencies in Kconfig
+> - Expand help text to (hopefully) describe which GPUs are to be
+>   supported by this driver and which are for panfrost.
 > 
-> Main feature of VOP2 on rk3588:
-> Four video ports:
-> VP0 Max 4096x2160
-> VP1 Max 4096x2160
-> VP2 Max 4096x2160
-> VP3 Max 2048x1080
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Signed-off-by: Steven Price <steven.price@arm.com>
+> Acked-by: Steven Price <steven.price@arm.com> # MIT+GPL2 relicensing,Arm
+> Acked-by: Grant Likely <grant.likely@linaro.org> # MIT+GPL2 relicensing,Linaro
+> Acked-by: Boris Brezillon <boris.brezillon@collabora.com> # MIT+GPL2 relicensing,Collabora
+
+Reviewed-by: Steven Price <steven.price@arm.com>
+
+> ---
+>  drivers/gpu/drm/Kconfig          |  2 ++
+>  drivers/gpu/drm/Makefile         |  1 +
+>  drivers/gpu/drm/panthor/Kconfig  | 23 +++++++++++++++++++++++
+>  drivers/gpu/drm/panthor/Makefile | 15 +++++++++++++++
+>  4 files changed, 41 insertions(+)
+>  create mode 100644 drivers/gpu/drm/panthor/Kconfig
+>  create mode 100644 drivers/gpu/drm/panthor/Makefile
 > 
-> [...]
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index b7abd436455f..9cc1e56d3eec 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -381,6 +381,8 @@ source "drivers/gpu/drm/lima/Kconfig"
+>  
+>  source "drivers/gpu/drm/panfrost/Kconfig"
+>  
+> +source "drivers/gpu/drm/panthor/Kconfig"
+> +
+>  source "drivers/gpu/drm/aspeed/Kconfig"
+>  
+>  source "drivers/gpu/drm/mcde/Kconfig"
+> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> index b4cb0835620a..b73abec60bbf 100644
+> --- a/drivers/gpu/drm/Makefile
+> +++ b/drivers/gpu/drm/Makefile
+> @@ -190,6 +190,7 @@ obj-$(CONFIG_DRM_XEN) += xen/
+>  obj-$(CONFIG_DRM_VBOXVIDEO) += vboxvideo/
+>  obj-$(CONFIG_DRM_LIMA)  += lima/
+>  obj-$(CONFIG_DRM_PANFROST) += panfrost/
+> +obj-$(CONFIG_DRM_PANTHOR) += panthor/
+>  obj-$(CONFIG_DRM_ASPEED_GFX) += aspeed/
+>  obj-$(CONFIG_DRM_MCDE) += mcde/
+>  obj-$(CONFIG_DRM_TIDSS) += tidss/
+> diff --git a/drivers/gpu/drm/panthor/Kconfig b/drivers/gpu/drm/panthor/Kconfig
+> new file mode 100644
+> index 000000000000..159845e51116
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panthor/Kconfig
+> @@ -0,0 +1,23 @@
+> +# SPDX-License-Identifier: GPL-2.0 or MIT
+> +
+> +config DRM_PANTHOR
+> +	tristate "Panthor (DRM support for ARM Mali CSF-based GPUs)"
+> +	depends on DRM
+> +	depends on ARM || ARM64 || COMPILE_TEST
+> +	depends on !GENERIC_ATOMIC64  # for IOMMU_IO_PGTABLE_LPAE
+> +	depends on MMU
+> +	select DRM_GPUVM
+> +	select DRM_EXEC
+> +	select DRM_SCHED
+> +	select IOMMU_SUPPORT
+> +	select IOMMU_IO_PGTABLE_LPAE
+> +	select DRM_GEM_SHMEM_HELPER
+> +	select PM_DEVFREQ
+> +	select DEVFREQ_GOV_SIMPLE_ONDEMAND
+> +	help
+> +	  DRM driver for ARM Mali CSF-based GPUs.
+> +
+> +	  This driver is for Mali (or Immortalis) Valhall Gxxx GPUs.
+> +
+> +	  Note that the Mali-G68 and Mali-G78, while Valhall architecture, will
+> +	  be supported with the panfrost driver as they are not CSF GPUs.
+> diff --git a/drivers/gpu/drm/panthor/Makefile b/drivers/gpu/drm/panthor/Makefile
+> new file mode 100644
+> index 000000000000..64193a484879
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panthor/Makefile
+> @@ -0,0 +1,15 @@
+> +# SPDX-License-Identifier: GPL-2.0 or MIT
+> +
+> +panthor-y := \
+> +	panthor_devfreq.o \
+> +	panthor_device.o \
+> +	panthor_drv.o \
+> +	panthor_gem.o \
+> +	panthor_gpu.o \
+> +	panthor_heap.o \
+> +	panthor_heap.o \
+> +	panthor_fw.o \
+> +	panthor_mmu.o \
+> +	panthor_sched.o
+> +
+> +obj-$(CONFIG_DRM_PANTHOR) += panthor.o
 
-Applied, thanks!
-
-[09/16] dt-bindings: soc: rockchip: add rk3588 vop/vo syscon
-        commit: 1a648f8b7994dca4c323911607cf28d1eb44c198
-
-Best regards,
--- 
-Heiko Stuebner <heiko@sntech.de>
