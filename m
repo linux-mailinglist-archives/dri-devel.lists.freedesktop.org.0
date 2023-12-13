@@ -1,67 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF872810E27
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 11:16:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD080810E2C
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 11:16:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4043610E26F;
-	Wed, 13 Dec 2023 10:15:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CAB610E74C;
+	Wed, 13 Dec 2023 10:16:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7246F10E12E
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 10:15:55 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id
- a640c23a62f3a-a1f8f470903so464119366b.1
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 02:15:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1702462554; x=1703067354; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=m71FV5vGmPVywWzxoFuxmmARDOatcoG5xbVNtimxsKM=;
- b=kBgE1bIz3eDkCR44aciGkrZ9GTPnw1GqmqMrGOVBOoZ6dNG1s6ye3DrtGiRk/GnePa
- r5P9oo11jzGQBvVrGQDsQmj2j+S2l4d4cu4tVs6KvzHIlkn6vUvJn0Ex9Rt73W9OXAj7
- lErTFDlQGEItEMzflpUQdsfcX4CP7Lj8R3XtVT+38Cb/FetcXk3apvxfhJgpEe0kgeiX
- lFYYO/s1WBRE9FModEM54bUtjV2HvCQdzA0qJwhK99T6gkit9lWGvM0Tk3jWnycnIaxB
- U1B+S/TQlWNIcsNZvR+enYrv3VQ3qKo2sgrW0dtVjNw+o1vBrxIXBKYma8x1+NzlcIDp
- xutw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702462554; x=1703067354;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=m71FV5vGmPVywWzxoFuxmmARDOatcoG5xbVNtimxsKM=;
- b=IF5PX9uo369ioNuxDisRtfJ7G1klUlA85na29ZTKtlhN8iNpb0+5QuaNI9kryW/h6Q
- GtTxN2cJGx5CivbbsAfgHw3u5Mkima+Cne4BKlrVppEa95w0txpYROAsyxcIAbPdo1tb
- Cgh/yJPJi0iGAxB+WFnEElEOmWZ4EQZnrrkRMOA6Dbbib2xc6FvORGypf1bsvbhFGrsK
- o44JgZ6RWWkahO/m6KUsBZtm3LvO5ovvpK3hs0/txcE7U2KRyIuXTmOdrI/R1woxp1qr
- nrZjiZdVzZ6lqWiy0HvPhMm5QH3oWD2V2BBrh609VxmA+KMo0X/2OX1eYUbpjK/QzSCN
- cgSg==
-X-Gm-Message-State: AOJu0Yw4S3e3SUJljuChRnB1sXmFs2lxNJdgd5FquW1C0MvG9JaAzUXU
- KWkrIVzfdL7LxaPhJrogwJDNdw==
-X-Google-Smtp-Source: AGHT+IFLhx9mrchCh5E2ylqHbgPhyi2ITVUtOX/P4qGORrsYs/M4rF8Vci+B58KQG68twiIyDl6XRw==
-X-Received: by 2002:a17:907:9905:b0:a1c:f745:e0b3 with SMTP id
- ka5-20020a170907990500b00a1cf745e0b3mr3808358ejc.97.1702462553820; 
- Wed, 13 Dec 2023 02:15:53 -0800 (PST)
-Received: from pop-os.localdomain (81-231-61-187-no276.tbcn.telia.com.
- [81.231.61.187]) by smtp.gmail.com with ESMTPSA id
- q18-20020a17090676d200b00a1d9733f2d9sm7400403ejn.209.2023.12.13.02.15.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Dec 2023 02:15:52 -0800 (PST)
-Date: Wed, 13 Dec 2023 11:15:49 +0100
-From: Joakim Bech <joakim.bech@linaro.org>
-To: Pekka Paalanen <ppaalanen@gmail.com>
-Subject: Re: [PATCH v3 0/7] dma-buf: heaps: Add secure heap
-Message-ID: <20231213101549.lioqfzjxcvmqxqu3@pop-os.localdomain>
-References: <20231212024607.3681-1-yong.wu@mediatek.com>
- <DPBmATfmfvSP8Cwjz99kj_JvCEiAqRfuMFJZEBF2aIgl8NZqWFR66eyPTX1E8bHyOlimBihEE3E80p9bfOJ-0SNu8pwoIzL9gD2Xae6r97g=@emersion.fr>
- <20231213110517.6ce36aca@eldfell>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49B0B10E74C
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 10:16:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1702462574; x=1733998574;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=OmmRSeXCgBmpiV9nFUOcuPCGWr6/HgKR3faJpbICJ58=;
+ b=EH1l5d65RU6jYIH1f6/kV8AKuLYNt4et5QFSOPzTgJRieqqnpu2EveFi
+ peq8ZEkRxLiHmHFBmM7VupfZdgW356APrOSx/q6fzi5CNbhK9KbPrWiT7
+ uynMtYRySBMFs6n7yS3g0JTjxz2fesON5O5YMcOR+PyDFvlRTQA6Dh2LK
+ 6FDMsvolMVxtTrTrEg8RTEUFCXiTy73cCvgV3t9/AzBW7M3JB25lWFDvF
+ 0T8tlMCFLXrvd4grY3xWpmgxHQbrcy0V+6pywn9Rx4Bk2/jXXQfWkBjKO
+ HmbG1qxToe5nkgc4FwA/K1q4ZRMJl3m8PVKc7djhQfvxwctd3TrpFWAHj A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="374448925"
+X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; d="scan'208";a="374448925"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Dec 2023 02:16:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="773894168"
+X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; d="scan'208";a="773894168"
+Received: from oostoia-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.50.15])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Dec 2023 02:16:11 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Randy Dunlap <rdunlap@infradead.org>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/uapi: drm_mode.h: fix spellos and grammar
+In-Reply-To: <20231213044107.29214-1-rdunlap@infradead.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20231213044107.29214-1-rdunlap@infradead.org>
+Date: Wed, 13 Dec 2023 12:16:08 +0200
+Message-ID: <87le9ywgpj.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20231213110517.6ce36aca@eldfell>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,74 +58,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, John Stultz <jstultz@google.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Jeffrey Kardatzke <jkardatzke@google.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Vijayanand Jitta <quic_vjitta@quicinc.com>,
- Nicolas Dufresne <nicolas@ndufresne.ca>, Yong Wu <yong.wu@mediatek.com>,
- jianjiao.zeng@mediatek.com, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- ckoenig.leichtzumerken@gmail.com, linaro-mm-sig@lists.linaro.org,
- Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>, tjmercier@google.com,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- kuohong.wang@mediatek.com, linux-kernel@vger.kernel.org,
- christian.koenig@amd.com
+Cc: Randy Dunlap <rdunlap@infradead.org>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 13, 2023 at 11:05:17AM +0200, Pekka Paalanen wrote:
-> On Tue, 12 Dec 2023 16:36:35 +0000
-> Simon Ser <contact@emersion.fr> wrote:
-> 
-> > Is there a chance to pick a better name than "secure" here?
-> > 
-> > "Secure" is super overloaded, it's not clear at all what it means from
-> > just the name. Something like "restricted" would be an improvement.
-> > 
-> 
-> My thoughts exactly. Every time I see "secure" used for something that
-> either gives you garbage, refuses to work, or crashes your whole machine
-> *intentionally* when you try to do normal usual things to it in
-> userspace (like use it for GL texturing, or try to use KMS writeback), I
-> get an unscratchable itch.
-> 
-> There is nothing "secure" from security perspective there for end users
-> and developers. It's just inaccessible buffers.
-> 
-> I've been biting my lip until now, thinking it's too late.
-> 
-The characteristics we're looking for here is a buffer where the content
-is inaccessible to the normal OS and user space, i.e., Non-secure EL0 to
-EL2. I.e, the content of the buffer is meant to be used and accessible
-primarily by the secure side and other devices that has been granted
-access to it (for example decoders, display controllers if we're talking
-about video use cases). However, since the use cases for this exercises
-the whole stack, from non-secure user space (EL0) all the way to secure
-user space (S-EL0), with various devices needing access to the buffer at
-various times, it makes sense to let Linux manage the buffers, although
-it still cannot access the content. That's the overall context.
+On Tue, 12 Dec 2023, Randy Dunlap <rdunlap@infradead.org> wrote:
+> Correct spellos reported by codespell.
+> Fix some grammar (as 's' to a few words).
+>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
 
-As for the name, it's always difficult to find a name suitable precisely
-describing what it is. "Secure" is perhaps vague, but it might still a
-good choice, if you carefully describe what secure means for this
-particular heap (in the source code and the documentation for it). For
-example, the definition of "secure" for a secure heap as here could mean
-that buffer content is inaccessible to the host OS and user space
-running in normal world (using Arm nomenclature). I wouldn't have any
-problems with calling it secure if, as said it's defined what we mean by
-saying so. But I'm all ears for other suggestions as well.
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 
-Safe, protected, shielded, unreachable, isolated, inaccessible,
-unaccessible, fortified, ... would any of these make more sense?
-
-> 
-> Thanks,
-> pq
+> ---
+>  include/uapi/drm/drm_mode.h |   18 +++++++++---------
+>  1 file changed, 9 insertions(+), 9 deletions(-)
+>
+> diff -- a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+> --- a/include/uapi/drm/drm_mode.h
+> +++ b/include/uapi/drm/drm_mode.h
+> @@ -36,10 +36,10 @@ extern "C" {
+>  /**
+>   * DOC: overview
+>   *
+> - * DRM exposes many UAPI and structure definition to have a consistent
+> - * and standardized interface with user.
+> + * DRM exposes many UAPI and structure definitions to have a consistent
+> + * and standardized interface with users.
+>   * Userspace can refer to these structure definitions and UAPI formats
+> - * to communicate to driver
+> + * to communicate to drivers.
+>   */
+>  
+>  #define DRM_CONNECTOR_NAME_LEN	32
+> @@ -540,7 +540,7 @@ struct drm_mode_get_connector {
+>  /* the PROP_ATOMIC flag is used to hide properties from userspace that
+>   * is not aware of atomic properties.  This is mostly to work around
+>   * older userspace (DDX drivers) that read/write each prop they find,
+> - * witout being aware that this could be triggering a lengthy modeset.
+> + * without being aware that this could be triggering a lengthy modeset.
+>   */
+>  #define DRM_MODE_PROP_ATOMIC        0x80000000
+>  
+> @@ -664,7 +664,7 @@ struct drm_mode_fb_cmd {
+>  };
+>  
+>  #define DRM_MODE_FB_INTERLACED	(1<<0) /* for interlaced framebuffers */
+> -#define DRM_MODE_FB_MODIFIERS	(1<<1) /* enables ->modifer[] */
+> +#define DRM_MODE_FB_MODIFIERS	(1<<1) /* enables ->modifier[] */
+>  
+>  /**
+>   * struct drm_mode_fb_cmd2 - Frame-buffer metadata.
+> @@ -881,8 +881,8 @@ struct hdr_metadata_infoframe {
+>  	 * These are coded as unsigned 16-bit values in units of
+>  	 * 0.00002, where 0x0000 represents zero and 0xC350
+>  	 * represents 1.0000.
+> -	 * @display_primaries.x: X cordinate of color primary.
+> -	 * @display_primaries.y: Y cordinate of color primary.
+> +	 * @display_primaries.x: X coordinate of color primary.
+> +	 * @display_primaries.y: Y coordinate of color primary.
+>  	 */
+>  	struct {
+>  		__u16 x, y;
+> @@ -892,8 +892,8 @@ struct hdr_metadata_infoframe {
+>  	 * These are coded as unsigned 16-bit values in units of
+>  	 * 0.00002, where 0x0000 represents zero and 0xC350
+>  	 * represents 1.0000.
+> -	 * @white_point.x: X cordinate of whitepoint of color primary.
+> -	 * @white_point.y: Y cordinate of whitepoint of color primary.
+> +	 * @white_point.x: X coordinate of whitepoint of color primary.
+> +	 * @white_point.y: Y coordinate of whitepoint of color primary.
+>  	 */
+>  	struct {
+>  		__u16 x, y;
 
 -- 
-// Regards
-Joakim
+Jani Nikula, Intel
