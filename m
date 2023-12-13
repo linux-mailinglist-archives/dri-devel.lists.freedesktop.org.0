@@ -2,65 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 471E4811535
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 15:49:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4975811538
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 15:50:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8809810E07D;
-	Wed, 13 Dec 2023 14:48:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FF8710E2A7;
+	Wed, 13 Dec 2023 14:50:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E65F10E07D
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 14:48:56 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id
- ffacd0b85a97d-33642ab735dso295989f8f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 06:48:55 -0800 (PST)
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
+ [IPv6:2a00:1450:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA84A10E2A7;
+ Wed, 13 Dec 2023 14:50:39 +0000 (UTC)
+Received: by mail-wm1-x32a.google.com with SMTP id
+ 5b1f17b1804b1-40c46d6784eso31848525e9.3; 
+ Wed, 13 Dec 2023 06:50:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1702478934; x=1703083734; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=2BHTj3zjVDU2vao7sN8K8tyFhdcU9khY6wPC0ZJAzdU=;
- b=GnMfExVbR4QbZThrJeFJEZ3Q264ug+bZGBgL9CyBkn8tv14OyhwcjfaUYXR4MiX2IC
- f83uyp2glga+3IVv/u2eWOSk58JT549QnqufHs3wKbRo4GXl8wPUmc8TxG2sfn3j37kA
- VO7ymC93f3iPs5+0UWIqKaGXtCYaiyGYNCqn127bstjFGTB7QkZuM2JhTuUdFl00J6Cu
- Sya7HWjfNb1t7pEj4VKxOrexfzpdXUckwfW3M2587iGWN4sLGFJtzboUwGelviAV6Iug
- xiFezpp3QM4EFd2EiHlDMBy0CPfV8fqs4UJzhHa4gvNx6IAn3iHBOZNclQoBNFiyU1hV
- BvZQ==
+ d=gmail.com; s=20230601; t=1702479038; x=1703083838; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:references:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=fu9F/kPRn2KNHEsN5XqRXHcLTAjS5PBXA2PgoOzdIX8=;
+ b=MrdVAGrQLyb+KIunH+jJkLuGd8H20bJkL2vrALy6UHojqMJR/5eyE/GdSpeWepeSNV
+ IVHDmRDMJ4J+PIcXAHUgWoFJLB7n4HR5M9WG8C0jIMHv5N8l2P4lVhQQkhpKhCB4BTlQ
+ ZYTK3XlhKKUw9ZVEF1+0HPpbUiDjOo4DYdW9QBGBYAJk6vbNsmRI9JsMBIxtl0OgMrRV
+ Nm4bSW7pVZ2Oy8OBQ5o93/zrdUT9e7+mlTnI8ReBsGsxJiLweJ/Lw2PFZhMhF2gauy+O
+ vCyG38TYQKoGZP5ExgwcUTmL5erz6i0rindhxWY1otpbzBD2lVxov4Pd5uiXbUbsd9kb
+ XHVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702478934; x=1703083734;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2BHTj3zjVDU2vao7sN8K8tyFhdcU9khY6wPC0ZJAzdU=;
- b=HV+y4qO3BzkowHeX+2V6v897g1ObC9E4L+l0uM2a8nh6ZH+QnrgQ3eRajs/e2rAQPR
- kC4b9s5dOe3k3uzfuL6NViWMQDX9eVX3qyXhByh3AjXPfo7TWTlCcNIMLVyI6bBJGfxI
- NtlqeYT/4sVewi8MXf9FCm4LYB0dm8LnNZtYBmWhKUZf/yfWJY7GPTG2zTZ7tChMcxUu
- eJbkImCw2Kc+TqqLvoAgLW3Zl9aijfDJyq0xm9kYPwHDXjl3VhiSJyICyKjfleQUUR1w
- ybiaOTi7ZKH3Fc8s5b2WtK1WMLjEvORyI3yiaEg4QuKkT15FoHIjV4O6KAdVc2ulNqvn
- kzYA==
-X-Gm-Message-State: AOJu0YzZlm92Iv6qOtAgHqkEV6mKhkFEfghEyV9f7aWPxxjCJiO8uShE
- nVkIjyLH6YL+hpYsLpoKZ5doyg==
-X-Google-Smtp-Source: AGHT+IEWyg1ONlrYW63c9yfbqDYnALY+KU6gFCYYWgu6wCzEuBDLyEg8on9oRc9RDyY/1IiuNWcBSQ==
-X-Received: by 2002:adf:f34f:0:b0:336:360e:b32a with SMTP id
- e15-20020adff34f000000b00336360eb32amr718600wrp.239.1702478934355; 
- Wed, 13 Dec 2023 06:48:54 -0800 (PST)
-Received: from localhost ([102.140.209.237]) by smtp.gmail.com with ESMTPSA id
- m3-20020a5d6a03000000b003363fd83503sm1347100wru.42.2023.12.13.06.48.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Dec 2023 06:48:53 -0800 (PST)
-Date: Wed, 13 Dec 2023 17:48:50 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Donald Robson <donald.robson@imgtec.com>
-Subject: Re: [PATCH 2/2] drm/imagination: Fix error path in
- pvr_vm_create_context
-Message-ID: <e29bd273-543a-459b-9aca-9eb612ffa2fb@suswa.mountain>
-References: <20231213144431.94956-1-donald.robson@imgtec.com>
- <20231213144431.94956-2-donald.robson@imgtec.com>
+ d=1e100.net; s=20230601; t=1702479038; x=1703083838;
+ h=content-transfer-encoding:in-reply-to:references:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=fu9F/kPRn2KNHEsN5XqRXHcLTAjS5PBXA2PgoOzdIX8=;
+ b=gu0xg/G2PnkiVqDn4ynvcdGwQk/HiWmDaGzdgbtPY+lTnr4bHJMrbH4u4iu9+Mpim8
+ JecpNAuY+hHfUZBp7KtNcDPYTHlJDpnZ3lY9BgbGi7ZVUKMk3PpargScP5/dgl5XHfC1
+ pJ9sPLAGvNI8t8qn49FcVZByHVUqLfsMl8vsmR3qD3erIWD4Sn05nmm9Tj7DbbmxRphH
+ Ews8DcCLhXXEhl7c1IYUDYjTb5Nmy6Val3mtbUU/I9NrfXffOj5BAkMuunRkVzbVMdHs
+ st99EC2vZ4H6WoVfRS01V1/V9nQNnUCbCicpjBT7RtJvNy5oSWiv0vIs7wk+pdtVMoCC
+ FPKg==
+X-Gm-Message-State: AOJu0YyvkdcV9j5asR4YoYulGFMtVTueSmHDFB2IgtgkjJ9FyNjSb6cZ
+ 1JSXvAnB1mkIYe+qoFABqbFw4MkI+s0=
+X-Google-Smtp-Source: AGHT+IHrYNHAqUkYfuq8qvI6a/1huYcuz4ksVoQzy40nRSwgfDnwcD+v/06JqVZO6rOpPoswZapy+A==
+X-Received: by 2002:a05:600c:3ba6:b0:40b:5e1c:5c1d with SMTP id
+ n38-20020a05600c3ba600b0040b5e1c5c1dmr4080014wms.50.1702479037914; 
+ Wed, 13 Dec 2023 06:50:37 -0800 (PST)
+Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
+ by smtp.gmail.com with ESMTPSA id
+ fc17-20020a05600c525100b0040c42681fcesm13909554wmb.15.2023.12.13.06.50.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Dec 2023 06:50:37 -0800 (PST)
+Message-ID: <16cef96f-b5b8-4b27-ab01-05d89b120d9f@gmail.com>
+Date: Wed, 13 Dec 2023 15:50:36 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231213144431.94956-2-donald.robson@imgtec.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] drm/ttm: return ENOSPC from ttm_bo_mem_space
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+References: <20231213144222.1871-1-christian.koenig@amd.com>
+In-Reply-To: <20231213144222.1871-1-christian.koenig@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,15 +75,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, mripard@kernel.org, matt.coster@imgtec.com,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks so much.
+Before anybody wonders why no additional people are on CC: I just send 
+that out to get feedback from the CI systems.
 
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+Regards,
+Christian.
 
-regards,
-dan carpenter
+Am 13.12.23 um 15:42 schrieb Christian König:
+> Only convert it to ENOMEM in ttm_bo_validate.
+>
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>   drivers/gpu/drm/ttm/ttm_bo.c | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index edf10618fe2b..8c1eaa74fa21 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -830,7 +830,7 @@ int ttm_bo_mem_space(struct ttm_buffer_object *bo,
+>   			goto error;
+>   	}
+>   
+> -	ret = -ENOMEM;
+> +	ret = -ENOSPC;
+>   	if (!type_found) {
+>   		pr_err(TTM_PFX "No compatible memory type found\n");
+>   		ret = -EINVAL;
+> @@ -916,6 +916,9 @@ int ttm_bo_validate(struct ttm_buffer_object *bo,
+>   		return -EINVAL;
+>   
+>   	ret = ttm_bo_move_buffer(bo, placement, ctx);
+> +	/* For backward compatibility with userspace */
+> +	if (ret == -ENOSPC)
+> +		return -ENOMEM;
+>   	if (ret)
+>   		return ret;
+>   
 
