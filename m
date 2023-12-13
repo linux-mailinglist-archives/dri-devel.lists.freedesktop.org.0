@@ -1,48 +1,109 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 914EF810BB3
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 08:43:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0062810C3B
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 09:19:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8511010E083;
-	Wed, 13 Dec 2023 07:43:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E76C10E72A;
+	Wed, 13 Dec 2023 08:19:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6D8510E083
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 07:43:05 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1rDJtY-0004Gd-0a; Wed, 13 Dec 2023 08:43:04 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1rDJtU-00FWLL-P0; Wed, 13 Dec 2023 08:43:00 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1rDJtU-002ABM-E7; Wed, 13 Dec 2023 08:43:00 +0100
-Date: Wed, 13 Dec 2023 08:43:00 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH 0/5] clk: Make clk_rate_exclusive_get() return void
-Message-ID: <20231213074300.4bq7wkfqd4jhhcr4@pengutronix.de>
-References: <cover.1702400947.git.u.kleine-koenig@pengutronix.de>
- <ki5n3rz5n4oxj2hhc3rj6xpn3e2tdi7fcp2q7exjbzilrlqflp@przautvhuy4g>
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2109.outbound.protection.outlook.com [40.107.243.109])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC2F310E71C
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 07:49:22 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kZYczsKMA1jYFryT7K3AJHeoVjCpI//g8z+Ae71F3uLxUhXxjGvVnUPCieV05nAZ1zugmiRX3WpKphim2+6EYRasDffyHw1bXCo8U7k64SpqK/BTkQeXfrSIy6Bd6VDrT1rmqdcefJP87Rn1gRAw3fBX7bJvegWPK2daaZAwuyoMhpokWT2AbeBv4rS6qBwJzQFjIbJJgl8J/uGemJ1jxLM5x2SXn5POcJnZtVExCMgUbAqjN/0uhrGp/GqW91igODF8EJSwfRUDo4IeoQSQyg4TF0wy+VF29N6nJtOZ2I8aly9ywdpqXbmHlrKyyyX+jb/wuQJ7Ms1YzVzzMdDm5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=x4EN4hxm4yC3+hbu01w6YOLOueOVafh1vFMtbiyyAlM=;
+ b=XwHbI8/5VNECi9s3utDIDNvISeexz71FHyjPtxflvhTN8ooGAHZqTuifSjTjQnetx4EvfJ1ZIzej/UWpXvAL3SG+bBjlvqriRYQkA3sxTKnMHNI323bHJWzaNzlAn6gURRU9bbRlbEfoX7IDbMOCcrjSeB5n0d3BtipHTbx/ctmVwHUF6offz7oPA932czMzrjoGINtmc1MDjPpxyxqy+zSBO5BkshgyTyGKNMzdJLh8QDNQM+g+bjHFghTNMvZOKZkTc7nQLrUsUQEhobRDPBqCH+A3SZ6Wl1lAXWSSg/DUaNZojGVqXjdhildCGbtdiWOzhjQCM3wmfTiJZGSveA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
+ dkim=pass header.d=corigine.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=x4EN4hxm4yC3+hbu01w6YOLOueOVafh1vFMtbiyyAlM=;
+ b=IfxPMc5emAfGqmYt9nWbJROAM7j4IecpWQ868AJsW6xu/BNRUOzkyAjZGo2UP53jTDwshQLZEkEPYiRw6JTAz9ll50JtB7aoWSfYB168qIdBmUL0P+UiJPgOHEVtb7fex+zFqGTcYnRqDAZF6zNYcDBr9/oPKeJHkqR4ji5XUfs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=corigine.com;
+Received: from DM6PR13MB3705.namprd13.prod.outlook.com (2603:10b6:5:24c::16)
+ by MN2PR13MB3911.namprd13.prod.outlook.com (2603:10b6:208:268::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.26; Wed, 13 Dec
+ 2023 07:49:18 +0000
+Received: from DM6PR13MB3705.namprd13.prod.outlook.com
+ ([fe80::91e8:b139:26e3:f374]) by DM6PR13MB3705.namprd13.prod.outlook.com
+ ([fe80::91e8:b139:26e3:f374%3]) with mapi id 15.20.7091.022; Wed, 13 Dec 2023
+ 07:49:18 +0000
+From: Yinjun Zhang <yinjun.zhang@corigine.com>
+To: almasrymina@google.com
+Subject: Re: [net-next v1 08/16] memory-provider: dmabuf devmem memory provider
+Date: Wed, 13 Dec 2023 15:49:12 +0800
+Message-Id: <20231213074912.1275130-1-yinjun.zhang@corigine.com>
+X-Mailer: git-send-email 2.39.3
+In-Reply-To: <20231208005250.2910004-9-almasrymina@google.com>
+References: <20231208005250.2910004-9-almasrymina@google.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR02CA0038.apcprd02.prod.outlook.com
+ (2603:1096:4:196::22) To DM6PR13MB3705.namprd13.prod.outlook.com
+ (2603:10b6:5:24c::16)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="kisx23oblvlyq6g2"
-Content-Disposition: inline
-In-Reply-To: <ki5n3rz5n4oxj2hhc3rj6xpn3e2tdi7fcp2q7exjbzilrlqflp@przautvhuy4g>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR13MB3705:EE_|MN2PR13MB3911:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8ffd81d8-5acf-4e69-b4fb-08dbfbb00298
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: u/TFxhMaUPlO9CrG39J2/Pl6caQYn7popi3+XThmNNeawNdL0CA0v6K8IbQrveg5QO2OttFrpymBQ3EAGpFCPya2TUUC+ilE/GRlRL8YWhsFn/Q/OyRAD9VmgVLPWPRq1Rubvxnvep1n8MN9bok1dZr+VLEmmEXIshlHECTefN5W9kmfRycjAiObNWHL9FPbKAQl4xfrI+aceIF7+HTcgUuwu7a2yWd082rQuQGw7/VtKVQpsL3OJ/ZbArJmR3ravSpzeM/Hjnl9bKeJqt9LQFrkxpjqLHva9Obz0eR1wzPCTcY9Y9lI7M9RsPlYrMCXXF7pJUQd5B80dz/ez/lV/Qp9vVbLCkBFosisF6A5y1swNgB+Pgl6Dk9SCwjf4aWxdUQYiHb2QfuSkpHxNDJzuf7qEhVgUqCPiN8XWfD0M0AKJHz5HuncfwDuB1QOR1uuy3Pk/O3cLNKnFd+it8PObbPEzv4x0ntKKd2VA2VEklvoARLs10REkLL0ROboFTTQ4XncgEs11ZLw1W2m5m2t1up3sHnDLNe9/xFVKR44tbM5T+JIf9I9PapZWrjQzCiDsHi3YCEc3tJ7f2wf7LuXkBN3s+tbSYFM6Ixgkeuk2eL/gWenjN5DTWOeCfc65n3eD0Y/+JeWvg20zNSyYugE0rvXzs994jHLmiheHsZOjiM=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR13MB3705.namprd13.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(39830400003)(346002)(396003)(376002)(136003)(366004)(230922051799003)(186009)(451199024)(1800799012)(64100799003)(38350700005)(66476007)(66946007)(66556008)(38100700002)(36756003)(86362001)(26005)(83380400001)(1076003)(52116002)(6512007)(6506007)(2616005)(2906002)(7416002)(7406005)(6486002)(6916009)(316002)(478600001)(6666004)(5660300002)(8936002)(8676002)(4326008)(44832011)(41300700001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?GJH1GrK/kcD+ggAEBKftEI72XHFTrDvAHUiUqPb43B9V6IB/iob6DX4nTInO?=
+ =?us-ascii?Q?H/6eMN1QFQIIL/0Z41eCxtR+S2vlsUVJbHV4avP/VFLsD5o8V0XuaXTa5Aq7?=
+ =?us-ascii?Q?QSDblKvK+8vrJpoaa0ko3bnJ+C8gdNX5QtbBYClusaAUVPVgeWXLCXL8K/R6?=
+ =?us-ascii?Q?wXdDvkb99euwpbUw2aQruCIWl/GrkkwCGpXAzht8bCTpuYVhrm7yNqfL6nl5?=
+ =?us-ascii?Q?PPGPO9fzRddEzAqGfSfn7mm4waheg57pWWtP6NjUiTv0NZXSbRWIw+b31Cgj?=
+ =?us-ascii?Q?n0EvN5mNOHAy4YeMtkmgRHAsWMu0MsvD1ug3Wu7yUm8awPsyA93/sAUHzGwS?=
+ =?us-ascii?Q?zhTjZiY11kI7/FXx5mYnzeq9rjAeXJwSjZ9A8isWhq8MCuxocKyXqJw/FKM9?=
+ =?us-ascii?Q?O861Sd7MliRlGb0Yhq0jPMDy4biJXpHroPJSkpgwz6GaeRj5cYwbZtAJp0/n?=
+ =?us-ascii?Q?rX8uy20r/sFd1Qj89HwvgigZY5n6QEvSPMb6JHHUVV+pwIUXINEmWXGeeyBw?=
+ =?us-ascii?Q?QFGfYE/+2HHR7KQt7tQ9cElQAk5giAO1HPLyA7uto/pOImapiVKKzbycGBhi?=
+ =?us-ascii?Q?ZXlS0JDNmnzy/CtNqWoC9vj764qlr16ByUYTVZ8a+joIEVZOJBwE5i4/xXLd?=
+ =?us-ascii?Q?DJ77Y2jq+eEO5ZZ3p3nAG569NN/+zJ+UgFYwVPZLz5pDoSEh7gduv7U8uy6r?=
+ =?us-ascii?Q?Tmx4uc4I7aShhbf4TSVnjLYiZvsnA5B2ybayjxggI7WNFG5JJmV4SDbGuTXU?=
+ =?us-ascii?Q?SCvmzYqja6wefPr7I9Atc1OvDDbbiGFny2quETHPfKgsKuA5NG0dXtZdTL9d?=
+ =?us-ascii?Q?Wm8AixU07Sz3NqAeI6tZXOuaO358QPSqlGUlzjwmkALXrqAjSKuFSViYaLRH?=
+ =?us-ascii?Q?hOeBTnB6entC2EFxHRhlQGvhnwZ+mkyzbQsyXlC6cmCKj4ElWlM/dmko6mtI?=
+ =?us-ascii?Q?NT08b0JpObax7s956MM5Jj7eku0vdxj3OG/s3YG9iaMDmlbqFq5uA+Z/xNIw?=
+ =?us-ascii?Q?nPpH3akwGPfNtrZCYDMbEs08U2hfxlg1YleHmb8Z8hVwghXTcyOlVkSIbd6h?=
+ =?us-ascii?Q?6Ol2eMfA7gdjSwUUQ8QPlx5HztwCThIHxO3gl5z/EMOI+HcLzf5khXu+d6ZD?=
+ =?us-ascii?Q?a6ZY1xyOS6NLtgu4tgsDfEswxvA+uPzkJj3bFlxBm5n8nNBobya6jURi8DA+?=
+ =?us-ascii?Q?hObg27au4MDBgQt33AU3HzkPiwM2EEbOzxTpZ7hJOAuZ6Ampzh4wrEMH/wsk?=
+ =?us-ascii?Q?rlGEhaccSyeAH+PvXQxCLJsNO3Tlz3SBrqf21wIgUrjSvcJi8zs3/NDfbss1?=
+ =?us-ascii?Q?xCvC9qMlW6xVeMhaULQ+uetM89CBfJ22M2NyO8fMkBMmhQuV1fYsOLZaowOb?=
+ =?us-ascii?Q?c66aQ15RM3P8mgHUSNQXoIunhY3Y/HJ2rxEvhfCCURad+YCrJA/PRcbmMOoB?=
+ =?us-ascii?Q?/b5VFGqU2v42Ie4PGFce5iBH9SqNApjzPBMuEzN6t77aAwNulddI9Nr2Ctoa?=
+ =?us-ascii?Q?HPyKh9fJIT5T0t9wT/VyVIL3b/unQU4zz/pIJOfsj8O9fgQIiUZd/J1Fd4X/?=
+ =?us-ascii?Q?nEtfa2esrgKAlVjmmx0u6sZnUJW8+T89bFq/FswaTJrpI7731PhLBTKwyDO7?=
+ =?us-ascii?Q?Nw=3D=3D?=
+X-OriginatorOrg: corigine.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8ffd81d8-5acf-4e69-b4fb-08dbfbb00298
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR13MB3705.namprd13.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Dec 2023 07:49:18.4956 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: fe128f2c-073b-4c20-818e-7246a585940c
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VJGSBc4CBjl7hFKShRgkL1Xzv/9yW4v4oPFloOwak53LJsK0BMCy1D4Ste8jp4L7nt3qYEm2fgNWgJusDeJGu8VB1BavXe1OIAF4jiqyo+I=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR13MB3911
+X-Mailman-Approved-At: Wed, 13 Dec 2023 08:19:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,95 +116,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Turquette <mturquette@baylibre.com>,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- linux-clk@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>,
- Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
- Russell King <linux@armlinux.org.uk>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Chanwoo Choi <cw00.choi@samsung.com>,
- Chen-Yu Tsai <wens@csie.org>, MyungJoo Ham <myungjoo.ham@samsung.com>,
- linux-arm-kernel@lists.infradead.org,
- Kyungmin Park <kyungmin.park@samsung.com>, linux-sunxi@lists.linux.dev,
- kernel@pengutronix.de, linux-pm@vger.kernel.org,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
- Johan Hovold <johan+linaro@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Stephen Boyd <sboyd@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Georgi Djakov <djakov@kernel.org>
+Cc: linux-doc@vger.kernel.org, kaiyuanz@google.com,
+ dri-devel@lists.freedesktop.org, edumazet@google.com,
+ linux-kselftest@vger.kernel.org, shuah@kernel.org, sumit.semwal@linaro.org,
+ linux-arch@vger.kernel.org, willemdebruijn.kernel@gmail.com,
+ jeroendb@google.com, corbet@lwn.net, kuba@kernel.org, pabeni@redhat.com,
+ linux-media@vger.kernel.org, hawk@kernel.org, arnd@arndb.de,
+ shailend@google.com, shakeelb@google.com, hramamurthy@google.com,
+ willemb@google.com, netdev@vger.kernel.org, dsahern@kernel.org,
+ ilias.apalodimas@linaro.org, linux-kernel@vger.kernel.org, davem@davemloft.net,
+ linyunsheng@huawei.com, pkaligineedi@google.com, bpf@vger.kernel.org,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu,  7 Dec 2023 16:52:39 -0800, Mina Almasry wrote:
+<...>
+> +static int mp_dmabuf_devmem_init(struct page_pool *pool)
+> +{
+> +	struct netdev_dmabuf_binding *binding = pool->mp_priv;
+> +
+> +	if (!binding)
+> +		return -EINVAL;
+> +
+> +	if (!(pool->p.flags & PP_FLAG_DMA_MAP))
+> +		return -EOPNOTSUPP;
+> +
+> +	if (pool->p.flags & PP_FLAG_DMA_SYNC_DEV)
+> +		return -EOPNOTSUPP;
+> +
+> +	netdev_dmabuf_binding_get(binding);
+> +	return 0;
+> +}
+> +
+> +static struct page *mp_dmabuf_devmem_alloc_pages(struct page_pool *pool,
+> +						 gfp_t gfp)
+> +{
+> +	struct netdev_dmabuf_binding *binding = pool->mp_priv;
+> +	struct page_pool_iov *ppiov;
+> +
+> +	ppiov = netdev_alloc_dmabuf(binding);
 
---kisx23oblvlyq6g2
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Since it only supports one-page allocation, we'd better add a check in
+`ops->init()` that `pool->p.order` must be 0.
 
-Hello Maxime,
+> +	if (!ppiov)
+> +		return NULL;
+> +
+> +	ppiov->pp = pool;
+> +	pool->pages_state_hold_cnt++;
+> +	trace_page_pool_state_hold(pool, (struct page *)ppiov,
+> +				   pool->pages_state_hold_cnt);
+> +	return (struct page *)((unsigned long)ppiov | PP_IOV);
+> +}
+<...>
 
-On Wed, Dec 13, 2023 at 08:16:04AM +0100, Maxime Ripard wrote:
-> On Tue, Dec 12, 2023 at 06:26:37PM +0100, Uwe Kleine-K=F6nig wrote:
-> > clk_rate_exclusive_get() returns zero unconditionally. Most users "know"
-> > that and don't check the return value. This series fixes the four users
-> > that do error checking on the returned value and then makes function
-> > return void.
-> >=20
-> > Given that the changes to the drivers are simple and so merge conflicts
-> > (if any) should be easy to handle, I suggest to merge this complete
-> > series via the clk tree.
->=20
-> I don't think it's the right way to go about it.
->=20
-> clk_rate_exclusive_get() should be expected to fail. For example if
-> there's another user getting an exclusive rate on the same clock.
->=20
-> If we're not checking for it right now, then it should probably be
-> fixed, but the callers checking for the error are right to do so if they
-> rely on an exclusive rate. It's the ones that don't that should be
-> modified.
-
-If some other consumer has already "locked" a clock that I call
-clk_rate_exclusive_get() for, this isn't an error. In my bubble I call
-this function because I don't want the rate to change e.g. because I
-setup some registers in the consuming device to provide a fixed UART
-baud rate or i2c bus frequency (and that works as expected). In this
-case I won't be able to change the rate of the clock, but that is
-signalled by clk_set_rate() failing (iff and when I need awother rate)
-which also seems the right place to fail to me.
-
-It's like that since clk_rate_exclusive_get() was introduced in 2017
-(commit 55e9b8b7b806ec3f9a8817e13596682a5981c19c).
-
-BTW, I just noticed that my assertion "Most users \"know\" that
-[clk_rate_exclusive_get() returns zero unconditionally]" is wrong. As of
-next-20231213 there are 3 callers ignoring the return value of
-clk_rate_exclusive_get() and 4 that handle (imaginary) returned errors.
-I expected this function to be used more extensively. (In fact I think
-it should be used more as several drivers rely on the clk rate not
-changing.)
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---kisx23oblvlyq6g2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmV5YIMACgkQj4D7WH0S
-/k7/RggAjp1m69DfJuvZJPTz1BVN/QlcAYFKE67kz4Lu/Vi8sPzVy1FXzAAykl2u
-Q7T74qF7Vldxi+bO7DXnFWZ2VHr2x+sLPrXGLe/88Utp2wTY7MOhc7V1HdRMPE1v
-wrwLKcLJMUrrHtCCr++moQSXMriYDcAI/bbfNfSZyVlM+J5NM6p+Cpbh34CqGpoT
-5uC+HCwX3YDR1Tb17muwRNq+mUOy3kcmvcYwJEaVn33oIkL8e8wjGu5pdS14Jc1y
-+eOosCPjbshViy380fMM3E5EY+mLR7xBux0GyNpiXzdKlSbtFptF+nVwgB7u6FgF
-+PM61W3oCo4oQRqlCO74T0dDOoV9yA==
-=Ss4M
------END PGP SIGNATURE-----
-
---kisx23oblvlyq6g2--
