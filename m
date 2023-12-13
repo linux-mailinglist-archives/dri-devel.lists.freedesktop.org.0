@@ -2,67 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ACEB810758
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 02:09:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D6EA8107AF
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 02:34:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE99810E229;
-	Wed, 13 Dec 2023 01:09:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D862910E22B;
+	Wed, 13 Dec 2023 01:34:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 242E710E229
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 01:09:51 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id
- 5b1f17b1804b1-40c3fe6c08fso39588355e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 17:09:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1702429789; x=1703034589;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=0i1d9QvoS4OxhYISeUTScW7akaFRcF7KdLSyFQ8hFdE=;
- b=QZCZeCpw5RfRd4zLmCSVkhxHsJArKn6EQ4uAdzFhMOASvKZXnH25PKMq5WRyUBNI4j
- Y8fDq92zXmI9L+EgQAs31OW7UYyfp6CVlSD5OYo+3rUyRiQGKJ1okp/AMHxSkcNbZBzV
- KM2fmYfzp2BlN+ch730kTWpXl53Xn4zx7HF8Gphh5clPk/x+MvlasoT5ZSfw+uYslw9y
- Y5AuWB/Lm6q2nLDGs5xCeNJyjzuDqdi8lbtrubIaqopdUaJ0pQVrF+PE9B6N36Zjvla7
- Bb5LDIqXXZaoMhU1FO+7aEkpve4F0vNucSKsNo9qETnBF0u2ryIVG91FdZhSUvB53oaf
- sYwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702429789; x=1703034589;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=0i1d9QvoS4OxhYISeUTScW7akaFRcF7KdLSyFQ8hFdE=;
- b=HJKw8TSngYKoADjdLu1WR72zup90F96mbqm+o+AEJBeEAZrr1xF+ZT8VVsOIVkmO5Z
- Ru+YfjOLaqr7EC3qER8g1JoYmUiSl13mhn3Tz4x9NVusyGXZ4ErNXbYrtboDhIZfjbiC
- GfpHx9uI3MDrLvxPon7oCNoiUoxo+Do0HulEnjItWqBX62CECkkqRYGmXjwnH+R3+BdS
- SzWteiEtlm+1I1YayyRZlQh6ppcGN0gUTlvxGpe1b66Prp9HTNvlhkgvDwQXAvwn7pxH
- N89nIW+XT5XY852Kc1J5x73CMRbo3ZrYlYAHWZU64vJfFtAOmrSWRIcbVKGdjjYV7HsN
- n0qw==
-X-Gm-Message-State: AOJu0YwimGrMU4D5THCawN0ZT7yFMcBiy5Zgl2kwkVP+t8D9gfO2YkLB
- DahUlbJTJQh++BANqBhyu3sXLZeVV4//xuGx8IZFlQ==
-X-Google-Smtp-Source: AGHT+IFHv6ulP97j2C3dKg3abBYpoQRGbAehnWd7YHUNtYhyRmrdi8aZpqMGubt6wRgBcXdnMdT0ZlS6rLmxwPeMcJk=
-X-Received: by 2002:a05:600c:4f86:b0:40c:48fb:ea01 with SMTP id
- n6-20020a05600c4f8600b0040c48fbea01mr1374675wmq.209.1702429789212; Tue, 12
- Dec 2023 17:09:49 -0800 (PST)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4114F10E22B
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 01:33:58 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 3BD1FhEv010319; Wed, 13 Dec 2023 01:33:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=miMBAdaz8cO3oIR265yWqPR51wW8iYYznS3TBeCH6Xs=; b=MW
+ H+tKOUkQ2+4Qof2jJlsNSrdvx6iOnnDd03olPuZf65my13d9AzYh4baB95EyIJvW
+ 6lW7VXz1JdG3hfGL0gI9mLVdPdlOG3PJD4xtV3MYt8y5zm6wISs4fuNwJNt/AUlq
+ tqueNVFaGUfo9bBdntfIcibjEmWVtwjkOTCidItDQUKbPxxa2vZMzkAGH3cZLV9X
+ suBJJfwTCfIx39tFrWal3VKJhaohhZyfqYhiug3rEPaiLhjw6zTXZ5aq2aKfVW7D
+ VcWXoFkc3xn82NnslfslJ4CcpghK1jcdNQNlS8R/YpJvinmjpxAdRaEVKTv+YpQj
+ yfTlaKsxNU64hFP/7OJw==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uxnf71x4c-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 13 Dec 2023 01:33:43 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BD1XfbM015396
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 13 Dec 2023 01:33:41 GMT
+Received: from [10.110.0.246] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 12 Dec
+ 2023 17:33:40 -0800
+Message-ID: <a27e18e1-3a40-4a6c-a779-eb49cd829bc0@quicinc.com>
+Date: Tue, 12 Dec 2023 17:33:38 -0800
 MIME-Version: 1.0
-References: <20231208005250.2910004-1-almasrymina@google.com>
- <20231208005250.2910004-9-almasrymina@google.com>
- <20231212122535.GA3029808@nvidia.com>
- <CAHS8izMVMx0fpT=dWsnD7piqs1g7Fam8Xf5dK3iOFNxeOQD9vQ@mail.gmail.com>
- <20231212143942.GF3014157@nvidia.com>
- <CAHS8izNHtemjjkMf43grCHP1RZ=2UFiMtgea0M6+PaAgC=DDMQ@mail.gmail.com>
- <20231212150834.GI3014157@nvidia.com>
-In-Reply-To: <20231212150834.GI3014157@nvidia.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Tue, 12 Dec 2023 17:09:35 -0800
-Message-ID: <CAHS8izMdKYyjE9bdcFDWWPWECwVZL7XQjtjOFoTq5_bEEJvN6w@mail.gmail.com>
-Subject: Re: [net-next v1 08/16] memory-provider: dmabuf devmem memory provider
-To: Jason Gunthorpe <jgg@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] dt-bindings: panel-simple-dsi: move LG 5" HD TFT LCD
+ panel into DSI yaml
+Content-Language: en-US
+To: David Heidelberg <david@ixit.cz>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Brian Masney
+ <masneyb@onstation.org>
+References: <20231212200934.99262-1-david@ixit.cz>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20231212200934.99262-1-david@ixit.cz>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: d7W2CSZQh8rz8gvKKP3QWeLW-RV7pceu
+X-Proofpoint-GUID: d7W2CSZQh8rz8gvKKP3QWeLW-RV7pceu
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 impostorscore=0
+ spamscore=0 phishscore=0 clxscore=1011 adultscore=0 mlxlogscore=585
+ lowpriorityscore=0 suspectscore=0 malwarescore=0 priorityscore=1501
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312130008
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,91 +90,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, Kaiyuan Zhang <kaiyuanz@google.com>,
- dri-devel@lists.freedesktop.org, Eric Dumazet <edumazet@google.com>,
- linux-kselftest@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-arch@vger.kernel.org,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jeroen de Borst <jeroendb@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Christoph Hellwig <hch@infradead.org>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
- Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Shailend Chand <shailend@google.com>, Shakeel Butt <shakeelb@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org,
- David Ahern <dsahern@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Yunsheng Lin <linyunsheng@huawei.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>, bpf@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 12, 2023 at 7:08=E2=80=AFAM Jason Gunthorpe <jgg@nvidia.com> wr=
-ote:
->
-> On Tue, Dec 12, 2023 at 06:58:17AM -0800, Mina Almasry wrote:
->
-> > Jason, we set the LSB on page_pool_iov pointers before casting it to
-> > struct page pointers. The resulting pointers are not useable as page
-> > pointers at all.
->
-> I understand that, the second ask is about maintainability of the mm
-> by using correct types.
->
-> > > Perhaps you can simply avoid this by arranging for this driver to als=
-o
-> > > exclusively use some special type to indicate the dual nature of the
-> > > pointer and leave the other drivers as using the struct page version.
-> >
-> > This is certainly possible, but it requires us to rename all the page
-> > pointers in the page_pool to the new type, and requires the driver
-> > adding devmem TCP support to rename all the page* pointer instances to
-> > the new type. It's possible but it introduces lots of code churn. Is
-> > the LSB + cast not a reasonable compromise here? I feel like the trick
-> > of setting the least significant bit on a pointer to indicate it's
-> > something else has a fair amount of precedent in the kernel.
->
-> Linus himself has complained about exactly this before, and written a cle=
-anup:
->
-> https://lore.kernel.org/linux-mm/20221108194139.57604-1-torvalds@linux-fo=
-undation.org/
->
-> If you mangle a pointer *so it is no longer a pointer* then give it a
-> proper opaque type so the compiler can check everything statically and
-> require that the necessary converters are called in all cases.
->
-> You call it churn, I call it future maintainability. :(
->
-> No objection to using the LSB, just properly type a LSB mangled
-> pointer so everyone knows what is going on and don't call it MM's
-> struct page *.
->
-> I would say this is important here because it is a large driver facing
-> API surface.
->
-
-OK, I imagine this is not that hard to implement - it's really whether
-the change is acceptable to reviewers.
-
-I figure I can start by implementing a no-op abstraction to page*:
-
-typedef struct page netmem_t
-
-and replace the page* in the following places with netmem_t*:
-
-1. page_pool API (not internals)
-2. drivers using the page_pool.
-3. skb_frag_t.
-
-I think that change needs to be a separate series by itself. Then the
-devmem patches would on top of that change netmem_t such that it can
-be a union between struct page and page_pool_iov and add the special
-handling of page_pool_iov. Does this sound reasonable?
 
 
---
-Thanks,
-Mina
+On 12/12/2023 12:09 PM, David Heidelberg wrote:
+> Originally was in the panel-simple, but belongs to panel-simple-dsi.
+> 
+> See arch/arm/boot/dts/nvidia/tegra114-roth.dts for more details.
+> 
+> Resolves the following warning:
+> ```
+> arch/arm/boot/dts/tegra114-roth.dt.yaml: panel@0: 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
+>          From schema: Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> ```
+> 
+> Fixes: 310abcea76e9 ("dt-bindings: display: convert simple lg panels to DT Schema")
+> Signed-off-by: David Heidelberg <david@ixit.cz>
+
+Acked-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+
+> ---
+> v2: added Fixes tag (thx to Jessica)
+> 
+>   .../devicetree/bindings/display/panel/panel-simple-dsi.yaml     | 2 ++
+>   .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 --
+>   2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
+> index 73674baea75d..f9160d7bac3c 100644
+> --- a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
+> @@ -42,6 +42,8 @@ properties:
+>         - lg,acx467akm-7
+>           # LG Corporation 7" WXGA TFT LCD panel
+>         - lg,ld070wx3-sl01
+> +        # LG Corporation 5" HD TFT LCD panel
+> +      - lg,lh500wx1-sd03
+>           # One Stop Displays OSD101T2587-53TS 10.1" 1920x1200 panel
+>         - osddisplays,osd101t2587-53ts
+>           # Panasonic 10" WUXGA TFT LCD panel
+> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> index 2021aa82871a..634a10c6f2dd 100644
+> --- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> @@ -212,8 +212,6 @@ properties:
+>         - lemaker,bl035-rgb-002
+>           # LG 7" (800x480 pixels) TFT LCD panel
+>         - lg,lb070wv8
+> -        # LG Corporation 5" HD TFT LCD panel
+> -      - lg,lh500wx1-sd03
+>           # LG LP079QX1-SP0V 7.9" (1536x2048 pixels) TFT LCD panel
+>         - lg,lp079qx1-sp0v
+>           # LG 9.7" (2048x1536 pixels) TFT LCD panel
+> -- 
+> 2.43.0
+> 
