@@ -2,46 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A505811092
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 12:54:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACEB98110A6
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 12:59:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1417E10E797;
-	Wed, 13 Dec 2023 11:54:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 343A510E7A9;
+	Wed, 13 Dec 2023 11:59:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7215710E7AA
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 11:54:18 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 8B07E61C4E;
- Wed, 13 Dec 2023 11:54:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC807C433C8;
- Wed, 13 Dec 2023 11:54:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1702468457;
- bh=iHthuXB7sfzZcg98+EKwHTXcS8ZvmQ4BanSBcAsrHIE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=MjnnVZ0S7rVIKkqnGTiQ4DlqE2/wYLDD+AwPYhVsgGx6Eii2AQtoaWS7SymKrgfJF
- Ttkwe0ZPFeMuRktLhUTlDjtSv+F0Euq61k8svBaGRGYZIkq8ylsQsBIBfwbf4AnqWo
- VDKv7GvOb0WtVWDbzkCxmes4wW6Qhes/ZC5J2Xq5JiutrXqMccJLknAKOIqSNHcQoA
- 1cS6vcPQtfv/3ocOXTNm36GO4yA3C8uiDNEy1eUrlM4g3ReHOjoYYVLiBUCDL+5aqu
- 5NE/cfH4OP74Pg+t5zJ7YzInYoIFTK11scS0e4Nd8Uwh8X7GLXRNKNFcXUZzibD43+
- hNyjWepgZ0BMw==
-Date: Wed, 13 Dec 2023 12:54:14 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH 0/5] clk: Make clk_rate_exclusive_get() return void
-Message-ID: <6wnsxbi27xdxjtaqaaaq5wtwwilp4jfw4mg5y2ctdl7xrs44ry@ns6y36pf7hge>
-References: <cover.1702400947.git.u.kleine-koenig@pengutronix.de>
- <ki5n3rz5n4oxj2hhc3rj6xpn3e2tdi7fcp2q7exjbzilrlqflp@przautvhuy4g>
- <20231213074300.4bq7wkfqd4jhhcr4@pengutronix.de>
- <2nvbag657mlniqwq7fbilapc6vfw5qumab3yd6bqul25ot6wcn@wdlkh5az2fgs>
- <20231213110829.bjaxjjiyy4ug7o67@pengutronix.de>
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
+ [IPv6:2607:f8b0:4864:20::b29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E72510E7A9
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 11:59:18 +0000 (UTC)
+Received: by mail-yb1-xb29.google.com with SMTP id
+ 3f1490d57ef6-db548da6e3bso6604089276.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 03:59:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google; t=1702468757; x=1703073557;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fyXRP+lDcGUWL91uKJAg/CGQD1HLIoJn9slNttkFTJM=;
+ b=J65g9H+ZWZmQS72aEUxS4IHLdu6bbM+7Xrjl38EEsrgrugy200wU2ZcZ11wJBNZqfb
+ Hq965zpcO2dc+KczQ0ZEd6ALlz5rtZTE5F30Bu7O6RjNuJw3uuvxk2g/45UL89++V6Fz
+ J8Vdpxsh/Jyacc4hLOnVGsiNvqgsxCFGseDwE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1702468757; x=1703073557;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=fyXRP+lDcGUWL91uKJAg/CGQD1HLIoJn9slNttkFTJM=;
+ b=DD4h39s0/j/chxdoCF/Uxc/fz78x5YMrjszfFd9amkjcBkASGazytl3bDmX9MaKVb2
+ 9mOLvPeAq0befLUHxDbPKbgg9lyB9FAzpqfHZMnbYyfwOkOFSbDR2PrVXUHMhyHZUcP1
+ zdTdze4TsFskmHdNd0VsXtmfGBnf1bRbNa811rh/UFZiA2izHZxagpNyaqTHX6meFviE
+ A7WilS42jr7R17WGdTHQippBe++wH9oSzaaNabRVupsvGha97C2EOnEhoTIiko+0zQym
+ BSVkFcYiSKP7XG/1cO3BZWEFP6y17fLea2aRAlEX9ByXkjDJrj/2p/FzhFc+GBSPysZe
+ nBhw==
+X-Gm-Message-State: AOJu0YzVmM50kX6ocO9FdH7lqS+1wkcW4ESJ+DdhX2h0MEDzS05Rgdfa
+ puNYMzQJ7VTwQDdkAUuJXdANAwCuHIdYfXQbRdC4ow==
+X-Google-Smtp-Source: AGHT+IG/lGV3GLi5A77Pfj4Ksef7IAyWSzeuqOeDzG9y2WMz47wgsLwB0I4+VhFxi9w+BAa2/xBNS9Qr1EbIeeDX7eE=
+X-Received: by 2002:a25:bec5:0:b0:dbc:ad3b:f751 with SMTP id
+ k5-20020a25bec5000000b00dbcad3bf751mr2967257ybm.34.1702468757529; Wed, 13 Dec
+ 2023 03:59:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="nuge2gzlt63erkrn"
-Content-Disposition: inline
-In-Reply-To: <20231213110829.bjaxjjiyy4ug7o67@pengutronix.de>
+References: <20231205105341.4100896-1-dario.binacchi@amarulasolutions.com>
+ <20231205105341.4100896-3-dario.binacchi@amarulasolutions.com>
+ <CAPY8ntAALKiTEG6qyFO=qVqSLUW9x8AMfPMc_TUwC3z8tJ7Kzw@mail.gmail.com>
+ <CABGWkvq-fJTDFPB=389XbHW_SLt6BQr-BhjZqZ+01i3v8EaYwA@mail.gmail.com>
+ <CAMty3ZBdCW=Rak8gMin8bt9JnFChAu6nw9n6xQyCSZw=63BukA@mail.gmail.com>
+ <CAOf5uwm_YmXz0A6nuCbJh+iszwqWyQkRRKATKyWZ33YUgZmEnw@mail.gmail.com>
+In-Reply-To: <CAOf5uwm_YmXz0A6nuCbJh+iszwqWyQkRRKATKyWZ33YUgZmEnw@mail.gmail.com>
+From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+Date: Wed, 13 Dec 2023 12:59:05 +0100
+Message-ID: <CABGWkvpryv=bKsro1=6AG9kH9mU63JdWkG4xyyKvr_Rq0iADHg@mail.gmail.com>
+Subject: Re: [PATCH v4 02/10] drm/bridge: Fix a use case in the bridge disable
+ logic
+To: Jagan Teki <jagan@amarulasolutions.com>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,123 +73,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Turquette <mturquette@baylibre.com>,
- dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>, linux-clk@vger.kernel.org,
- Jerome Brunet <jbrunet@baylibre.com>, Samuel Holland <samuel@sholland.org>,
- Kevin Hilman <khilman@baylibre.com>, Russell King <linux@armlinux.org.uk>,
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
+ Amarula patchwork <linux-amarula@amarulasolutions.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Chanwoo Choi <cw00.choi@samsung.com>,
- Chen-Yu Tsai <wens@csie.org>, MyungJoo Ham <myungjoo.ham@samsung.com>,
- Johan Hovold <johan+linaro@kernel.org>, linux-sunxi@lists.linux.dev,
- linux-pm@vger.kernel.org,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org,
- Neil Armstrong <neil.armstrong@linaro.org>, Stephen Boyd <sboyd@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Kyungmin Park <kyungmin.park@samsung.com>, kernel@pengutronix.de,
- Georgi Djakov <djakov@kernel.org>
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Jagan and Dave,
 
---nuge2gzlt63erkrn
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, Dec 6, 2023 at 2:57=E2=80=AFPM Michael Nazzareno Trimarchi
+<michael@amarulasolutions.com> wrote:
+>
+> Hi Jagan
+>
+> On Wed, Dec 6, 2023 at 2:31=E2=80=AFPM Jagan Teki <jagan@amarulasolutions=
+.com> wrote:
+> >
+> > Hi Dario,
+> >
+> > On Wed, Dec 6, 2023 at 6:57=E2=80=AFPM Dario Binacchi
+> > <dario.binacchi@amarulasolutions.com> wrote:
+> > >
+> > > Hi Dave and Jagan,
+> > >
+> > > On Tue, Dec 5, 2023 at 4:39=E2=80=AFPM Dave Stevenson
+> > > <dave.stevenson@raspberrypi.com> wrote:
+> > > >
+> > > > Hi Dario
+> > > >
+> > > > On Tue, 5 Dec 2023 at 10:54, Dario Binacchi
+> > > > <dario.binacchi@amarulasolutions.com> wrote:
+> > > > >
+> > > > > The patch fixes the code for finding the next bridge with the
+> > > > > "pre_enable_prev_first" flag set to false. In case this condition=
+ is
+> > > > > not verified, i. e. there is no subsequent bridge with the flag s=
+et to
+> > > > > false, the whole bridge list is traversed, invalidating the "next=
+"
+> > > > > variable.
+> > > > >
+> > > > > The use of a new iteration variable (i. e. "iter") ensures that t=
+he value
+> > > > > of the "next" variable is not invalidated.
+> > > >
+> > > > We already have https://patchwork.freedesktop.org/patch/529288/ tha=
+t
+> > > > has been reviewed (but not applied) to resolve this. What does this
+> > > > version do differently and why?
+> > >
+> > > My patches only affect drm_atomic_bridge_chain_post_disable(), wherea=
+s
+> > > Jagan's patch affects both
+> > > drm_atomic_bridge_chain_post_disable() and drm_atomic_bridge_chain_pr=
+e_enable().
+> > > I tested Jagan's patch on my system with success and I reviewed with
+> > > Michael Trimarchi the
+> > > drm_atomic_bridge_chain_pre_enable() fixing and we think it's okay.
+> > > We also believe that our changes to post_disable() are better, as we
+> > > set the 'next' variable only when required,
+> > > and the code is more optimized since the list_is_last() is not called
+> > > within the loop.
+> > > Would it be possible to use Jagan's patch for fixing
+> > > drm_atomic_bridge_chain_pre_enable() and mine for
+> > > fixing drm_atomic_bridge_chain_post_disable()?
+> > >
+> >
+> > Can you please share the post-disabled bridge chain list with the
+> > below example before and after your change?
+>
+> We have already git commit the description in how the patch affects
+> the post_disable. As Dario
+> reported your patch is ok even in our use case. We don't have a real
+> use case as the one you describe.
+>
+> Can we know how you test it in this use case here? Can you test our
+> patches of post_disable?
+>
+> Thanks
+> Michael
+>
+> >
+> > Example:
+> > - Panel
+> > - Bridge 1
+> > - Bridge 2 pre_enable_prev_first
+> > - Bridge 3
+> > - Bridge 4 pre_enable_prev_first
+> > - Bridge 5 pre_enable_prev_first
+> > - Bridge 6
+> > - Encoder
+> >
+> > Thanks,
+> > Jagan.
 
-On Wed, Dec 13, 2023 at 12:08:29PM +0100, Uwe Kleine-K=F6nig wrote:
-> On Wed, Dec 13, 2023 at 09:36:49AM +0100, Maxime Ripard wrote:
-> > On Wed, Dec 13, 2023 at 08:43:00AM +0100, Uwe Kleine-K=F6nig wrote:
-> > > On Wed, Dec 13, 2023 at 08:16:04AM +0100, Maxime Ripard wrote:
-> > > > On Tue, Dec 12, 2023 at 06:26:37PM +0100, Uwe Kleine-K=F6nig wrote:
-> > > > > clk_rate_exclusive_get() returns zero unconditionally. Most users=
- "know"
-> > > > > that and don't check the return value. This series fixes the four=
- users
-> > > > > that do error checking on the returned value and then makes funct=
-ion
-> > > > > return void.
-> > > > >=20
-> > > > > Given that the changes to the drivers are simple and so merge con=
-flicts
-> > > > > (if any) should be easy to handle, I suggest to merge this comple=
-te
-> > > > > series via the clk tree.
-> > > >=20
-> > > > I don't think it's the right way to go about it.
-> > > >=20
-> > > > clk_rate_exclusive_get() should be expected to fail. For example if
-> > > > there's another user getting an exclusive rate on the same clock.
-> > > >=20
-> > > > If we're not checking for it right now, then it should probably be
-> > > > fixed, but the callers checking for the error are right to do so if=
- they
-> > > > rely on an exclusive rate. It's the ones that don't that should be
-> > > > modified.
-> > >=20
-> > > If some other consumer has already "locked" a clock that I call
-> > > clk_rate_exclusive_get() for, this isn't an error. In my bubble I call
-> > > this function because I don't want the rate to change e.g. because I
-> > > setup some registers in the consuming device to provide a fixed UART
-> > > baud rate or i2c bus frequency (and that works as expected).
-> >=20
-> > [a long text of mostly right things (Uwe's interpretation) that are
-> > however totally unrelated to the patches under discussion.]
+Starting from my use case:
 
-I'm glad you consider it "mostly" right.
+# cat /sys/kernel/debug/dri/32e00000.lcdif/bridge_chains
+encoder[36]
+bridge[0] type: 16, ops: 0x0, OF:
+/soc@0/bus@32c00000/dsi@32e10000:fsl,imx8mn-mipi-dsim
+bridge[1] type: 16, ops: 0x8, OF:
+/soc@0/bus@32c00000/dsi@32e10000/panel@0:sharp,ls068b3sx0
 
->=20
-> The clk API works with and without my patches in exactly the same way.
-> It just makes more explicit that clk_rate_exclusive_get() cannot fail
-> today and removes the error handling from consumers that is never used.
+I developed a pass through MIPI-DSI bridge driver to try to test your case:
+# cat /sys/kernel/debug/dri/32e00000.lcdif/bridge_chains
+encoder[36]
+bridge[0] type: 16, ops: 0x0, OF:
+/soc@0/bus@32c00000/dsi@32e10000:fsl,imx8mn-mipi-dsim
+bridge[1] type: 16, ops: 0x0, OF: /pt_mipi_dsi1:amarula,pt-mipi-dsi
+bridge[2] type: 16, ops: 0x0, OF: /pt_mipi_dsi2:amarula,pt-mipi-dsi
+bridge[3] type: 16, ops: 0x0, OF: /pt_mipi_dsi3:amarula,pt-mipi-dsi
+bridge[4] type: 16, ops: 0x0, OF: /pt_mipi_dsi4:amarula,pt-mipi-dsi
+bridge[5] type: 16, ops: 0x0, OF: /pt_mipi_dsi5:amarula,pt-mipi-dsi
+bridge[6] type: 16, ops: 0x8, OF: /pt_mipi_dsi5/panel@0:sharp,ls068b3sx02
 
-Not really, no.
+The pre_enable_prev_first flag is set through the
+"amarula,pre_enable_prev_first" dts property I put
+in my dts.
+Your and my patches give the same results (result: OK) in both your
+use case and mine.
+But If I test my new "enlarged" use case:
 
-An API is an interface, meant to provide an abstraction. The only
-relevant thing is whether or not that function, from an abstract point
-of view, can fail.
+- Encoder
+- bridge[0] (samsung-dsim)
+- bridge[1] pre_enable_prev_first
+- bridge[2] pre_enable_prev_first
+- bridge[3] pre_enable_prev_first
+- bridge[4] pre_enable_prev_first
+- bridge[5] pre_enable_prev_first
+- bridge[6] pre_enable_prev_first (Panel)
 
-Can you fail to get the exclusivity? Yes. On a theoretical basis, you
-can, and the function was explicitly documented as such.
+the result is:
+my patches: KO
+your patch: OK
 
-Whether or not the function actually can fail in its current
-implementation is irrelevant.
+So, I will remove my patches from the series.
 
-> Yes, my series doesn't fix any race conditions that are there without
-> doubt in some consumers. It also doesn't make the situation any worse.
+Can the driver I implemented to test the use cases (pass through
+MIPI-DSI) be considered useful for testing these
+bridge pipelines?
+Does it make sense to send its patch?
 
-Sure it does. If we ever improve that function to handle those unrelated
-cases, then all your patches will have to be reverted, while we already
-had code to deal with it written down.
+Thanks and regards
+Dario
 
-> It also doesn't fix other problems that are orthogonal to the intention
-> of this patch series (neither makes it any of them any worse).
->=20
-> It's just dead code removal and making sure no new dead code of the same
-> type is introduced in the future.
+Dario Binacchi
 
-Again, it's not. It's a modification of the abstraction.
+Senior Embedded Linux Developer
 
-> Is there anyone working on improving the clk framework regarding how clk
-> rate exclusivity works? I'd probably not notice, but I guess there is
-> noone that I need to consider for.
+dario.binacchi@amarulasolutions.com
 
-I started working on it.
+__________________________________
 
-Maxime
 
---nuge2gzlt63erkrn
-Content-Type: application/pgp-signature; name="signature.asc"
+Amarula Solutions SRL
 
------BEGIN PGP SIGNATURE-----
+Via Le Canevare 30, 31100 Treviso, Veneto, IT
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZXmbZgAKCRDj7w1vZxhR
-xeNbAPsE+NnFuPDNbesYJ/zccKjzlV8dYIxZVV6ktpsHP6v5fwEAuyJ0fCkI9TXf
-zyJQ9dsVbHuR1MO93Vzy2Jkp7HckJg8=
-=gX+r
------END PGP SIGNATURE-----
+T. +39 042 243 5310
+info@amarulasolutions.com
 
---nuge2gzlt63erkrn--
+www.amarulasolutions.com
