@@ -1,68 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77E6A8122A4
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 00:11:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF3EF8122A7
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 00:11:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4C1510E86E;
-	Wed, 13 Dec 2023 23:11:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A909610E874;
+	Wed, 13 Dec 2023 23:11:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27D3F10E86F
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 23:11:14 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id
- 38308e7fff4ca-2c9f85eff28so112241801fa.3
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2161C10E86F
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 23:11:15 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id
+ 2adb3069b0e04-50e0daa57b3so1713425e87.3
  for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 15:11:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1702509072; x=1703113872; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1702509073; x=1703113873; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=410xmMh9wI0DlKXfJYLEsw8ynh9trsmOzCZvI8MRMUk=;
- b=kAA16lusCRBHOnQbH6uPNNvh40swuZ9uca93vy6oMaVVQ/pDVeBkTUoaLiyLxxbyNm
- eRxPg30mHfSZ6DFh93Z5GP301VeCkcAI8LeogDeS2NMyau+CtWZueViPLdrgSYFMk5m9
- Isgp2KG6HHzMHeeZ4w6i6hEY2jm2MFg6YJ/mcYELFnFs1RyiqOtHyqVy5+3N2lPAKmmh
- +akb369+TRZ+I91om1NZV5epD8utuu3gdgMQvrYLiflHzDdBSiHHT/AJe1k9z9juu8lk
- CASNEbrlWZwepBfjUTscHPsQ7PzlkR4HJjPd4WdaREAaIEquyPXpTUDSwREE5RYE0AX/
- KWdg==
+ bh=L/j1Onoc3138zJnsU8yDEiGjQqVsbV45Cqho1Gb5ccE=;
+ b=aTP/AZlRnLah4mpFb+H1GPljI7qN6hA+rneUPpmh7M6zi5jazcXg0tGGqxwR3HUzpi
+ gulBJP0AlrCeNdM4gA0uS+Av6b5ii1ZbItAeskyEArmdEf8iA8QOFzOwZEiQR1Yu17av
+ LGuUy+vBpWkz4tqMwGaTI8sk9LV+WLzDqc5cvLtALYdTKmASmfdqwgyncDp6D3zGbl5F
+ EpTolFOdWBBmJ0SbvIeAl0mngPGeItBs6DNN1H4xz6U8/lFeohVZ8ern0revwShGJ8Wv
+ +xoKYtQcDHfWKDMd7TCSY8irwc8RSdceD7XyQfU0w4QxYFXisRAD1z6gxJDgSlyFauzy
+ PBUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702509072; x=1703113872;
+ d=1e100.net; s=20230601; t=1702509073; x=1703113873;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=410xmMh9wI0DlKXfJYLEsw8ynh9trsmOzCZvI8MRMUk=;
- b=gOe1mCK1oxpyUZwl/WHnFqcvySY6J6WuBBcRMI1y0BnOgVd5faQRefnvtRwwQV0cle
- 0lqSZvD0n4WHwezAuQJaQ7CQoyEXr0NKAZF4BXd6UwVCiYYClled0U4AiLkkE6tcMvyu
- ZlRPXSH8AzYrnBnq+O7zFbWlAZuGRBShlNcTM0vVAS+XKe49PImHMhvgy6bF9YbXwySI
- n5Ru5TYblxoJd9hLaCZRVdmeSrBYXKSTwF+H0FiWawbbVL5nigvWeJBEPRn6ZTRFvRpy
- qDzMF5oDEwFArYmUd0lT5KOyLaWu2XIHpEq2eWOZNCi5qIctuWhQDiIwUhZ31UfJ6DJo
- rkvQ==
-X-Gm-Message-State: AOJu0YzSvHISUsUokz3AFmqo7Yr7l1PjYzo/V2j0hf8A/doWs4tzj1zC
- UxJEuALeUvIuf3kCzRSiNQUddA==
-X-Google-Smtp-Source: AGHT+IFW0HTuKja68bq3+gufhbCMqXQOdE6R3AajcRo7Nwrfvtlw8J4+0aqI/UQucNrWQb8LaPTBgw==
-X-Received: by 2002:a05:6512:2350:b0:50b:f3fc:1261 with SMTP id
- p16-20020a056512235000b0050bf3fc1261mr5416444lfu.1.1702509072176; 
- Wed, 13 Dec 2023 15:11:12 -0800 (PST)
+ bh=L/j1Onoc3138zJnsU8yDEiGjQqVsbV45Cqho1Gb5ccE=;
+ b=fa2F6G0UlOHKvAqE93to82b5/9dQ0Bxwo3bC+YvtVOEt/YPn0Nj0Bstc3UetB+y6x9
+ kDj+gzuMOaTmJKSHamctl4pcJs6lxHusBNih/qfz0I/Tn1vt1J+76BV7y6eHW0rRku25
+ ePunmpLr6AOZP7bvx2+9XPFxrjOOQG+J7v3iUeFEEvqvL8LCtdZwL8+Fj/7LClx+nnCg
+ UtnY+j16cxMJi1GdytXy7jyP4F0a3VnnWcBPWa/jTRXhEF5SY/kjzeStUPphllOaJnkw
+ +OXkaJeWlWabwvQ2ZypyILOOKKI5Gy5B3HnwVTAUA3QAtKiGzcPAT99Cu9eIWsxBDpxL
+ 8Wzw==
+X-Gm-Message-State: AOJu0YwB9s6YGncnm/ftl0uBdqQ2CXqzL2vzocBMvL+eoeH33XRuQhD6
+ vtfuJ8A/N0w2ekvezJzuzXEy6Q==
+X-Google-Smtp-Source: AGHT+IEhLGLbpNE5ofHBlyMYQRBnTcLYD16vUtw/hL1PzWKS86x81znzu3niMguSuXMWF+hvlixwCg==
+X-Received: by 2002:ac2:592f:0:b0:50b:c2ed:e28a with SMTP id
+ v15-20020ac2592f000000b0050bc2ede28amr2806480lfi.13.1702509073150; 
+ Wed, 13 Dec 2023 15:11:13 -0800 (PST)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- u17-20020ac248b1000000b0050c031e2873sm1735908lfg.288.2023.12.13.15.11.11
+ u17-20020ac248b1000000b0050c031e2873sm1735908lfg.288.2023.12.13.15.11.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Dec 2023 15:11:11 -0800 (PST)
+ Wed, 13 Dec 2023 15:11:12 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Bjorn Andersson <andersson@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH] drm/msm/dp: call dp_display_get_next_bridge() during probe
-Date: Thu, 14 Dec 2023 01:11:10 +0200
-Message-Id: <170250905096.800728.7488984518759894282.b4-ty@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>
+Subject: Re: [PATCH v4 0/2] drm/msm/dpu: INTF CRC configuration cleanups and
+ fix
+Date: Thu, 14 Dec 2023 01:11:11 +0200
+Message-Id: <170250905097.800728.11004644949884575762.b4-ty@linaro.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231107004424.2112698-1-dmitry.baryshkov@linaro.org>
-References: <20231107004424.2112698-1-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20231213-encoder-fixup-v4-0-6da6cd1bf118@quicinc.com>
+References: <20231213-encoder-fixup-v4-0-6da6cd1bf118@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -78,24 +78,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Tue, 07 Nov 2023 02:43:33 +0200, Dmitry Baryshkov wrote:
-> The funcion dp_display_get_next_bridge() can return -EPROBE_DEFER if the
-> next bridge is not (yet) available. However returning -EPROBE_DEFER from
-> msm_dp_modeset_init() is not ideal. This leads to -EPROBE return from
-> component_bind, which can easily result in -EPROBE_DEFR loops.
-> 
+On Wed, 13 Dec 2023 13:30:16 -0800, Jessica Zhang wrote:
+> This series drops the frame_count and enable parameters (as they're always
+> set to the same value). It also sets input_sel=0x1 for INTF.
 > 
 
 Applied, thanks!
 
-[1/1] drm/msm/dp: call dp_display_get_next_bridge() during probe
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/6a242720884f
+[1/2] drm/msm/dpu: Set input_sel bit for INTF
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/1b932e07c321
+[2/2] drm/msm/dpu: Drop enable and frame_count parameters from dpu_hw_setup_misr()
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/e5c08a41bcf3
 
 Best regards,
 -- 
