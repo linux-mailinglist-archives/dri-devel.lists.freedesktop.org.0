@@ -2,110 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB53681105F
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 12:42:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77BB2811077
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 12:47:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 579E010E76C;
-	Wed, 13 Dec 2023 11:42:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6877010E78F;
+	Wed, 13 Dec 2023 11:47:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2069.outbound.protection.outlook.com [40.107.237.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E846A10E76C
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 11:42:55 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=K4Gu3oGtEdlWuvfvcfX5J5yI1fOmn+wzloI1ZhScS76ZBz7bSk/3KTjtst1rJFcv3s9I/4FcZkjsVla+Cbcz+ixAUfW65gOtq6x34gVxjh/vAyD4HgMrf/DzwDs9IWbgDJvIXJl6YwlLMpmqIG8L/59MT/5+UlXSfr4vydgs16r6cuohdZhBz66N4lFUrBtLtIxe2zeDP7KyfUnDy5awZke6lDDt+TOfm9+8Fuu7T1jlYBE/PGGSTI2UMVLFnDehyV+bRK5dKIzQoCXzfxHCnmc7seFABXoNnU+uuJV8k1kej+zIySmiAAhk4W+Afg2VcbuEFi9fJswn43BjGkAmEQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0kgw0+wLm3l9C8h8SvsNaxwwfCBAyc+yPBHX6o7b1Yo=;
- b=XbOVHVjnHbkrVAkR4IoDI48u4leJclyPymNPFyQWJvuycmmLMXbM9ymsCx+kvXGTwCX6MtCBmLSR2JhN3hHD/KNLMoWwBiHd8EbDzAfehtLvma2gr6geOjS2zfUdp70PXi7AYZu9QtGGgweTs9D7db/O0zoRQc8sXorZ1+PSsX6hdVA4x22p/x63mOtNMS+N+S7k5xNH1YFXeuoIVUpT/ivKc3akw3M9NFrcioTEP9nS8ICuV+kyW2AJSNyKxEloNUCzSjc7UMvR6JVNBovuBxo7EQ4Efwbo0mFQjejEB3ZOuECNX1rXHzAjRRqpSwGe9jXpv+QuKal67JE4XLS4Cg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0kgw0+wLm3l9C8h8SvsNaxwwfCBAyc+yPBHX6o7b1Yo=;
- b=alP55o3+IAiIYUUtAr+FXgvs0hyNSDHGG7k4555rIEOjj1G2cpqalni3viPl+zNy/8XEBzJX1JAdFjjgpTNCyTCY+XX1vStdm7y+SgSDkYv+BfMpZgMNsdEyNUhZ65F5EE1UtTy92RiHgS7zksR0TS7iao402Bf5f7z+pAVZuBIASk7VSS/ZBHiZ8k8Nm1zMDu2gllLzG86RdV6QdT6Eqjl1ngqNLcZ99NzJSygxsfiC29ZfMARs6LlUcCrkh78PPEEqQ7DgMC5kDZuwX0/3VDAdT8Avx3QXjPn4eGJ1nyauzi2jEbz33JAPyy7KiRyfyPXNgrdvp83NkEQ4xhRmZg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM8PR12MB5413.namprd12.prod.outlook.com (2603:10b6:8:3b::8) by
- SJ0PR12MB5633.namprd12.prod.outlook.com (2603:10b6:a03:428::8) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7091.26; Wed, 13 Dec 2023 11:42:52 +0000
-Received: from DM8PR12MB5413.namprd12.prod.outlook.com
- ([fe80::929c:d330:53e2:c5d]) by DM8PR12MB5413.namprd12.prod.outlook.com
- ([fe80::929c:d330:53e2:c5d%7]) with mapi id 15.20.7091.022; Wed, 13 Dec 2023
- 11:42:52 +0000
-Date: Wed, 13 Dec 2023 12:42:47 +0100
-From: Thierry Reding <treding@nvidia.com>
-To: Brian Masney <bmasney@redhat.com>
-Subject: Re: [PATCH] fbdev/simplefb: change loglevel when the power domains
- cannot be parsed
-Message-ID: <ZXmYt79FrdCxjR3x@orome.fritz.box>
-References: <20231212195754.232303-1-bmasney@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="tWgDkqp4n5V+OY9i"
-Content-Disposition: inline
-In-Reply-To: <20231212195754.232303-1-bmasney@redhat.com>
-X-NVConfidentiality: public
-User-Agent: Mutt/2.2.12 (2023-09-09)
-X-ClientProxiedBy: LO4P123CA0226.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1a6::15) To DM8PR12MB5413.namprd12.prod.outlook.com
- (2603:10b6:8:3b::8)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C121210E784;
+ Wed, 13 Dec 2023 11:47:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1702468024; x=1734004024;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=iuJ8mSwb6XJ8/RMS0rPZIJhSf3LMo1XikeKriOIFaMQ=;
+ b=VB65XRqmJAvP9vGwm2fuzcaBDTj9nqVLnaf9jYO86ciZFdyr6rbuk3ih
+ ClrPQhG+7jLpC4oS6T6dFEjLQMGoaMraBkA5mHrwsAh8b9ATRT+5b5yZL
+ N9H3NPsS4XawI4eWNMvLKYuOM/XC2ZZy/747VpNRoRAsm5cZTp966VqzN
+ ZupG0lobpnXK1mXlAKklKGeU7JJJe7b+eFbC2+yLDc1jcvGUlUISiqJDy
+ sTjKR8vPt41t7yXlbdy3lOiYVzqih9EkMSwbGI4C8CcsmgHEVqbfTBh3Z
+ HQLNu7Lmufs3KnMrdlKiql70yu/9MRp5m/nX6HEHBB1co3OdD045HK4lB A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="394703668"
+X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; d="scan'208";a="394703668"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Dec 2023 03:46:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="802855685"
+X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; d="scan'208";a="802855685"
+Received: from kryanx-mobl.ger.corp.intel.com (HELO [10.213.231.240])
+ ([10.213.231.240])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Dec 2023 03:46:12 -0800
+Message-ID: <7387ea98-5854-45cc-a6c5-70cfe0febb3a@linux.intel.com>
+Date: Wed, 13 Dec 2023 11:46:10 +0000
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM8PR12MB5413:EE_|SJ0PR12MB5633:EE_
-X-MS-Office365-Filtering-Correlation-Id: 70b5355f-b50c-401f-a3ed-08dbfbd0a404
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Oecp30Naza4jce4aJXGnCPU3TYyVUSEHfrp/1PpbMezY1b1kUs/AbH194pWgHSgcx0Yo0Jwd87QC6fDCdyo22qwRGeNDXF4jVAsnS6uGIKbvIeIKn4fMjwLmq56MXXFEuaWNX9Muj6A3kzVjXbpiaZ2nGzYNfq6vD0Ey0fKVPYFAkWXOcK0ANwpsFzMXhXjCjf2f9pqPa4u8kY0Dc+EXHGTNYFphhbziKq7wmM7wTcXi8x0F0VpLNBFoT4KbquodE77KKZosFS9eUisYVgTAD2Koji6EomyMj8ob1gQk2ykEte/0PpRoSb4xCgAGlfqGUtvp5mggaFZou3JC/5Z2JGDwBsDeltnwyxq0qLs5YA5q63VfTHSlc7Gs+bckVtaWGbZGDmbe6/AWsT1lhRvJqQ0GzMpOAuESQq7nAyI4yQVItm8U8UcN74oQy5bVI5sX6+NjOuKUM7kgKYeoLBP48h87mvxYxfSqYDGH/UOil+ySHFIdANxm2KM7vbJOiqSxEiWkg7uIXqnPy7t5y5hXp453hy/yCPQ2erJCs5snya9tUXuL7n9Hh7eXE3wDca26OUNLh4fJiaLQOMB3eyAfMR0mAb3XhfUi3GACfZx58jtJEDKeczfpObyjJzHOH2I3
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM8PR12MB5413.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(39860400002)(136003)(366004)(346002)(376002)(396003)(230922051799003)(186009)(64100799003)(1800799012)(451199024)(66946007)(66556008)(66476007)(6916009)(86362001)(38100700002)(83380400001)(21480400003)(9686003)(6512007)(44144004)(6506007)(4326008)(6486002)(2906002)(316002)(6666004)(478600001)(5660300002)(8936002)(41300700001)(8676002)(2700100001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Hv4lfTz56J+rC3/o6xNOMBCfn0LnDZsuOqtRmni82/MTezmiP7gZsndgDF5k?=
- =?us-ascii?Q?nH30nI4zXBRSP+Ih4F2ynm7bL7eyIYXRG10+D7IApiBLLaP781swNKNliN/0?=
- =?us-ascii?Q?a817uDiCVxP4SrAAMR9hoOgp3o1XCobIoPDtAwYIN4QYic++dg0X6yMbIKX4?=
- =?us-ascii?Q?05EU5tXD8jyeRWUan1FJRIrywDmLRrlp2dSzJN/gEVhqLAT8M/7TGKg85A6O?=
- =?us-ascii?Q?fn/ELZ+LdWprq7ZgxvlNQWlRbQBmpAziK17y4p2TVCDoVUIzhs50FbYYeVHK?=
- =?us-ascii?Q?XrZ15VKfYBxeHpgtM3vetE/ohJ79iJFbeOUzhtw0tnpcLUVtkOnrx1RzqtlD?=
- =?us-ascii?Q?v5AI86W3cVB8ugDF8gIjd8U3DTysveGigC/0NyH42GtlWQRQCFcHYGybelMU?=
- =?us-ascii?Q?zaTWmDUsgYphyqMKKs1kWpc+OZ9HdCTtXHc84KjW+mixlp0zBzqtsNnvxS2n?=
- =?us-ascii?Q?l5q6FJe6tGTopnJaT1y0nCAEwutxHk+Q+NgEDSfrdsGwVXZO2t/M2RA2P6BM?=
- =?us-ascii?Q?VgxyQ5sbhBg+0gJCC3DlgZHhuX8qTJ2Joi1TFZ9N1fzD7GFRa0TifZIaoaFn?=
- =?us-ascii?Q?F+wQUyzZvCQ0E5f5Z40KDekUHMjaGK4DJb7Fy8JqrmJSw6fO8xK2auPdAiwD?=
- =?us-ascii?Q?gct3e6zGcsC3Vuj1O4GnZ3GCU2aZlMXH144Pztl/YilWi2x+ULBnqMt2hPka?=
- =?us-ascii?Q?7TK3gwzzyPmK3rp5Dh4tmL/0aVvL8qsaXADMx0Riv8v/JnS7h1+ze+K+6Be5?=
- =?us-ascii?Q?4B2eR6gIUVt6Cvl+lyhlvhwmz7wXycf73ZaJJrXRh5cbKrXikDJEfrS1skdN?=
- =?us-ascii?Q?K182FRRjMsXM/tTJNnF5/oLxcWbfZr8py2lvh70g+Hj7mz6hjOtt3CGlEiPg?=
- =?us-ascii?Q?mUvv7p50+jC4/wlf3pKntDx/1LtUoZEilb7U8hLOODau1b5ZgN83HvAq/sPE?=
- =?us-ascii?Q?Y0keWMH7uomcGLdZL0H+TaFHo49noNBxHITtiIP5cjcS9ELMmzrmTkZSZa+a?=
- =?us-ascii?Q?y/+nubZ3aI6ql40rgc3PncG5Pf6ArD6fIn/q/WkzOOn/d3/Py//xjVsCYAPc?=
- =?us-ascii?Q?rJQGa1O38pmPGn0+niPwFgyVYWMv+/sYRbBKacqIteS0m/3nik0uivpFGsN5?=
- =?us-ascii?Q?ReqYOxS58Sk7vJeV6fbPbh3wMnU2/s/GuGg4kFu9C3J1cLALY/g0ydJ+VjUa?=
- =?us-ascii?Q?sMDYbuPF7JNQDKJHnf6MBGsKAs6rHOTgvCl+nZkmr/fNkdOVOYHnGR/lfM6v?=
- =?us-ascii?Q?EbR5XkXQV9KLvxvi5ZphrLM6wKJjToBdszJkzCSCUDsSpF/keT8fdX/ZL9PU?=
- =?us-ascii?Q?d1e2mcsvtWmrY7TD5mByZN6KNpGR56o4Vchju/euQyl/9aWBlocRvGZqORle?=
- =?us-ascii?Q?7GTEsbBoX78K+8CMY97eX+U7R6DlySQGbT6MoK0gagltSqq9ywMzv9JSL0BH?=
- =?us-ascii?Q?BBm2f3av+4wmWaFpZ9Dsypb18ttp0zBw5Iz97CkpS5aeyo59eFFHL8lRmOhI?=
- =?us-ascii?Q?nJxMOHJzGaEalBCrxiHobmZdbcdmKmEbB1QU4m2Jskiw0EvqMDzt5zsC000n?=
- =?us-ascii?Q?OVgyB0Z6+Hdr/hugH5jO1JuR/MhE94yi4euquqw/+Wj4cnS//Lns6h6j6/d1?=
- =?us-ascii?Q?gy6xog1knwiSXNuVS0CNvfCtzczzDmWm0vIawOlBjBbC?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 70b5355f-b50c-401f-a3ed-08dbfbd0a404
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR12MB5413.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Dec 2023 11:42:52.8146 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: V98YvWAni/pFX+D9HYW3ZTOITJFt99oW2nK5AmPENQir94Fdj39WNemMoH7ZIRul6NVJ21H/6CMxEmVF1smBNA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5633
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC] drm/i915: Allow dmabuf mmap forwarding
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20230925131638.32808-1-tvrtko.ursulin@linux.intel.com>
+ <4da147e7-44bf-4d19-952d-fa3bab141f71@linux.intel.com>
+ <26b9d5bf-f895-4237-85fe-04f53040c26c@amd.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <26b9d5bf-f895-4237-85fe-04f53040c26c@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,48 +64,294 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hdegoede@redhat.com, deller@gmx.de, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---tWgDkqp4n5V+OY9i
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 12, 2023 at 02:57:54PM -0500, Brian Masney wrote:
-> When the power domains cannot be parsed, the message is incorrectly
-> logged as an info message. Let's change this to an error since an error
-> is returned.
->=20
-> Fixes: 92a511a568e4 ("fbdev/simplefb: Add support for generic power-domai=
-ns")
-> Signed-off-by: Brian Masney <bmasney@redhat.com>
-> ---
->  drivers/video/fbdev/simplefb.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+Hi,
 
-Acked-by: Thierry Reding <treding@nvidia.com>
+On 12/12/2023 14:10, Christian König wrote:
+> Hi Tvrtko,
+> 
+> Thanks for pointing this mail out once more, I've totally missed it.
 
---tWgDkqp4n5V+OY9i
-Content-Type: application/pgp-signature; name="signature.asc"
+That's okay, if it was really urgent I would have re-raised the thread 
+earlier. :) As it stands so far it is only about acceptance test suites 
+failing and no known real use cases affected.
 
------BEGIN PGP SIGNATURE-----
+> Am 12.12.23 um 11:37 schrieb Tvrtko Ursulin:
+>>
+>> On 25/09/2023 14:16, Tvrtko Ursulin wrote:
+>>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>>
+>>> Allow mmap forwarding for imported buffers in order to allow minigbm 
+>>> mmap
+>>> to work on aperture-less platforms such as Meteorlake.
+>>>
+>>> So far i915 did not allow mmap on imported buffers but from minigbm
+>>> perspective that worked because of the DRM_IOCTL_I915_GEM_MMAP_GTT fall-
+>>> back would then be attempted, and would be successful.
+>>>
+>>> This stops working on Meteorlake since there is no aperture.
+>>>
+>>> Allow i915 to mmap imported buffers using forwarding via dma_buf_mmap(),
+>>> which allows the primary minigbm path of 
+>>> DRM_IOCTL_I915_GEM_MMAP_OFFSET /
+>>> I915_MMAP_OFFSET_WB to work.
+>>>
+>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>> Cc: Christian König <christian.koenig@amd.com>
+>>> Cc: Matthew Auld <matthew.auld@intel.com>
+>>> Cc: Nirmoy Das <nirmoy.das@intel.com>
+>>> ---
+>>> 1)
+>>> It is unclear to me if any real userspace depends on this, but there are
+>>> certainly compliance suites which fail.
+> 
+> Well that is actually intentional, but see below.
+> 
+>>>
+>>> 2)
+>>> It is also a bit unclear to me if dma_buf_mmap() is exactly intended for
+>>> this kind of use. It seems that it is, but I also found some old mailing
+>>> list discussions suggesting there might be some unresolved questions
+>>> around VMA revocation.
+> 
+> I actually solved those a few years back by introducing the 
+> vma_set_file() function which standardized the dance necessary for the 
+> dma_buf_mmap() function.
+> 
+>>>
+>>> 1 + 2 = RFC for now.
+>>>
+>>> Daniel and Christian were involved in 2) in the past so comments would
+>>> be appreciated.
+>>
+>> Any comments on this one? I don't have all the historical knowledge of 
+>> when this was maybe attempted before and what problems were hit, or 
+>> something. So would there be downsides or it is fine to forward it.
+> 
+> It works technically inside the kernel and Thomas Zimmerman suggested a 
+> patch set which made it possible to use for all DRM drivers.
+> 
+> But IIRC this patch set was rejected with the rational that while doing 
+> an mmap() on an imported DMA-buf works when userspace actually does this 
+> then there is a bug in userspace. The UMD doesn't seems to be aware of 
+> the fact that the buffer is imported and so for example needs to call 
+> dma_buf_begin_cpu_access() and dma_buf_end_cpu_access().
+> 
+> UMDs can trivially work around this by doing the mmap() on the DMA-buf 
+> file descriptor instead (potentially after re-exporting it), but the 
+> kernel really shouldn't help hide userspace bugs.
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmV5mLUACgkQ3SOs138+
-s6Eaig//Yk9Ag8MQJ63Cl9m28NsJF2Kn/3MonudTYCnzvDdtHUlbGFG1oA+SdfzB
-fquk6VW9WkFYlPMQcDSjdfqLrGZmMO9LyC6rhoWlcQRtbXPZSGmUoVPLvY5dENvS
-aCjgdA5at5VDGprRAO3ZXd9baBKd3qpKanqs0QzourOEt9g3MgsLhDhzpkFeot5c
-b8O/jx4l4/DMSaQ46FMd/etSTzsI7b+1OeGFdkbEZHk3/fE5let+2700Jh1ABCPx
-jMMC+pQ/1O7xiYlKuSBzmjCn+Wqe3Bvv7wiQvLoKD/fmud7D4mawZLPt2EP+kgKX
-uHSYw5zMuXmoAgtj92j4qY8KxkMv+F59NUxJ8kKUcgGQQKK/W+KYL9AxIcUWpPBD
-sdj3FY+HQbranacxAq9bCYGKoiJeFtpfGsbMDGMp+CvLt5TT//TOXQRg+gTTji74
-+JFC8K6fzXEg3ehg89NvGYKoZmw/rYy9VONgqwsi9U7qZQ1t4HIPL/zxnk0KHuy9
-n5UB7l1uCuHA91rkTyDfi6c4qde6Hunho2dKJsG2xhFmn8TRiJ/YB89pifmtWhhA
-C2TgZOS0zAV17ld2d6XpbGRNe7CldY11TP7S6+lWoYSKW8ZCN+PSzgWAecn0uEkf
-lggmjTlrhB8WD43cJVPEkVkCwY06wM7QMBFeBR3EqUgnwgVh6mw=
-=XUlP
------END PGP SIGNATURE-----
+Hm right, however why does drm_gem_shmem_mmap:
 
---tWgDkqp4n5V+OY9i--
+	if (obj->import_attach) {
+		ret = dma_buf_mmap(obj->dma_buf, vma, 0);
+
+Isn't that allowing drivers which use the helper to to forward to 
+dma_buf_mmap? Maybe I am getting lost in the forest of callbacks in this 
+area.. Because it is supposed to be about shmem objects, but drivers 
+which use the helper and rely on common prime import look and also use 
+drm_gem_shmem_prime_import_sg_table can get there.
+
+Regards,
+
+Tvrtko
+
+>>>
+>>> Test-with: 20230925131539.32743-1-tvrtko.ursulin@linux.intel.com
+>>>
+>>> ---
+>>>   drivers/gpu/drm/i915/gem/i915_gem_mman.c      | 78 +++++++++++++++----
+>>>   .../gpu/drm/i915/gem/i915_gem_object_types.h  |  1 +
+>>>   2 files changed, 65 insertions(+), 14 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c 
+>>> b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+>>> index aa4d842d4c5a..78c84c0a8b08 100644
+>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+>>> @@ -5,6 +5,7 @@
+>>>    */
+>>>     #include <linux/anon_inodes.h>
+>>> +#include <linux/dma-buf.h>
+>>>   #include <linux/mman.h>
+>>>   #include <linux/pfn_t.h>
+>>>   #include <linux/sizes.h>
+>>> @@ -664,6 +665,7 @@ insert_mmo(struct drm_i915_gem_object *obj, 
+>>> struct i915_mmap_offset *mmo)
+>>>   static struct i915_mmap_offset *
+>>>   mmap_offset_attach(struct drm_i915_gem_object *obj,
+>>>              enum i915_mmap_type mmap_type,
+>>> +           bool forward_mmap,
+>>>              struct drm_file *file)
+>>>   {
+>>>       struct drm_i915_private *i915 = to_i915(obj->base.dev);
+>>> @@ -682,6 +684,7 @@ mmap_offset_attach(struct drm_i915_gem_object *obj,
+>>>         mmo->obj = obj;
+>>>       mmo->mmap_type = mmap_type;
+>>> +    mmo->forward_mmap = forward_mmap;
+>>>       drm_vma_node_reset(&mmo->vma_node);
+>>>         err = drm_vma_offset_add(obj->base.dev->vma_offset_manager,
+>>> @@ -714,12 +717,25 @@ mmap_offset_attach(struct drm_i915_gem_object 
+>>> *obj,
+>>>       return ERR_PTR(err);
+>>>   }
+>>>   +static bool
+>>> +should_forward_mmap(struct drm_i915_gem_object *obj,
+>>> +            enum i915_mmap_type mmap_type)
+>>> +{
+>>> +    if (!obj->base.import_attach)
+>>> +        return false;
+>>> +
+>>> +    return mmap_type == I915_MMAP_TYPE_WB ||
+>>> +           mmap_type == I915_MMAP_TYPE_WC ||
+>>> +           mmap_type == I915_MMAP_TYPE_UC;
+>>> +}
+>>> +
+>>>   static int
+>>>   __assign_mmap_offset(struct drm_i915_gem_object *obj,
+>>>                enum i915_mmap_type mmap_type,
+>>>                u64 *offset, struct drm_file *file)
+>>>   {
+>>>       struct i915_mmap_offset *mmo;
+>>> +    bool should_forward;
+>>>         if (i915_gem_object_never_mmap(obj))
+>>>           return -ENODEV;
+>>> @@ -735,12 +751,15 @@ __assign_mmap_offset(struct drm_i915_gem_object 
+>>> *obj,
+>>>       if (mmap_type == I915_MMAP_TYPE_FIXED)
+>>>           return -ENODEV;
+>>>   +    should_forward = should_forward_mmap(obj, mmap_type);
+>>> +
+>>>       if (mmap_type != I915_MMAP_TYPE_GTT &&
+>>>           !i915_gem_object_has_struct_page(obj) &&
+>>> -        !i915_gem_object_has_iomem(obj))
+>>> +        !i915_gem_object_has_iomem(obj) &&
+>>> +        !should_forward)
+>>>           return -ENODEV;
+>>>   -    mmo = mmap_offset_attach(obj, mmap_type, file);
+>>> +    mmo = mmap_offset_attach(obj, mmap_type, should_forward, file);
+>>>       if (IS_ERR(mmo))
+>>>           return PTR_ERR(mmo);
+>>>   @@ -936,6 +955,32 @@ static struct file *mmap_singleton(struct 
+>>> drm_i915_private *i915)
+>>>       return file;
+>>>   }
+>>>   +static void
+>>> +__vma_mmap_pgprot(struct vm_area_struct *vma, enum i915_mmap_type 
+>>> mmap_type)
+>>> +{
+>>> +    const pgprot_t pgprot =vm_get_page_prot(vma->vm_flags);
+>>> +
+>>> +    switch (mmap_type) {
+>>> +    case I915_MMAP_TYPE_WC:
+>>> +        vma->vm_page_prot = pgprot_writecombine(pgprot);
+>>> +        break;
+>>> +    case I915_MMAP_TYPE_FIXED:
+>>> +        GEM_WARN_ON(1);
+>>> +        fallthrough;
+>>> +    case I915_MMAP_TYPE_WB:
+>>> +        vma->vm_page_prot = pgprot;
+>>> +        break;
+>>> +    case I915_MMAP_TYPE_UC:
+>>> +        vma->vm_page_prot = pgprot_noncached(pgprot);
+>>> +        break;
+>>> +    case I915_MMAP_TYPE_GTT:
+>>> +        vma->vm_page_prot = pgprot_writecombine(pgprot);
+>>> +        break;
+>>> +    }
+>>> +
+>>> +    vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
+>>> +}
+>>> +
+>>>   static int
+>>>   i915_gem_object_mmap(struct drm_i915_gem_object *obj,
+>>>                struct i915_mmap_offset *mmo,
+>>> @@ -953,6 +998,20 @@ i915_gem_object_mmap(struct drm_i915_gem_object 
+>>> *obj,
+>>>           vm_flags_clear(vma, VM_MAYWRITE);
+>>>       }
+>>>   +    /* dma-buf import */
+>>> +    if (mmo && mmo->forward_mmap) {
+>>> +        __vma_mmap_pgprot(vma, mmo->mmap_type);
+>>> +        vm_flags_set(vma, VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP | 
+>>> VM_IO);
+>>> +
+>>> +        /*
+>>> +         * Don't have our vm_ops to drop the reference in this case so
+>>> +         * drop it now and if object goes away userspace will fault.
+>>> +         */
+>>> +        i915_gem_object_put(mmo->obj);
+>>> +
+>>> +        return dma_buf_mmap(obj->base.dma_buf, vma, 0);
+>>> +    }
+>>> +
+>>>       anon = mmap_singleton(to_i915(dev));
+>>>       if (IS_ERR(anon)) {
+>>>           i915_gem_object_put(obj);
+>>> @@ -982,34 +1041,25 @@ i915_gem_object_mmap(struct 
+>>> drm_i915_gem_object *obj,
+>>>         vma->vm_private_data = mmo;
+>>>   +    __vma_mmap_pgprot(vma, mmo->mmap_type);
+>>> +
+>>>       switch (mmo->mmap_type) {
+>>>       case I915_MMAP_TYPE_WC:
+>>> -        vma->vm_page_prot =
+>>> - pgprot_writecombine(vm_get_page_prot(vma->vm_flags));
+>>>           vma->vm_ops = &vm_ops_cpu;
+>>>           break;
+>>> -
+>>>       case I915_MMAP_TYPE_FIXED:
+>>>           GEM_WARN_ON(1);
+>>>           fallthrough;
+>>>       case I915_MMAP_TYPE_WB:
+>>> -        vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
+>>>           vma->vm_ops = &vm_ops_cpu;
+>>>           break;
+>>> -
+>>>       case I915_MMAP_TYPE_UC:
+>>> -        vma->vm_page_prot =
+>>> - pgprot_noncached(vm_get_page_prot(vma->vm_flags));
+>>>           vma->vm_ops = &vm_ops_cpu;
+>>>           break;
+>>> -
+>>>       case I915_MMAP_TYPE_GTT:
+>>> -        vma->vm_page_prot =
+>>> - pgprot_writecombine(vm_get_page_prot(vma->vm_flags));
+>>>           vma->vm_ops = &vm_ops_gtt;
+>>>           break;
+>>>       }
+>>> -    vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
+>>>         return 0;
+>>>   }
+>>> @@ -1084,7 +1134,7 @@ int i915_gem_fb_mmap(struct drm_i915_gem_object 
+>>> *obj, struct vm_area_struct *vma
+>>>       } else {
+>>>           /* handle stolen and smem objects */
+>>>           mmap_type = i915_ggtt_has_aperture(ggtt) ? 
+>>> I915_MMAP_TYPE_GTT : I915_MMAP_TYPE_WC;
+>>> -        mmo = mmap_offset_attach(obj, mmap_type, NULL);
+>>> +        mmo = mmap_offset_attach(obj, mmap_type, false, NULL);
+>>>           if (IS_ERR(mmo))
+>>>               return PTR_ERR(mmo);
+>>>       }
+>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h 
+>>> b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+>>> index 0c5cdab278b6..b4f86fa020aa 100644
+>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+>>> @@ -225,6 +225,7 @@ struct i915_mmap_offset {
+>>>       struct drm_vma_offset_node vma_node;
+>>>       struct drm_i915_gem_object *obj;
+>>>       enum i915_mmap_type mmap_type;
+>>> +    bool forward_mmap;
+>>>         struct rb_node offset;
+>>>   };
+> 
