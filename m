@@ -2,71 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2B88810DB0
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 10:50:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF872810E27
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 11:16:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 476C010E269;
-	Wed, 13 Dec 2023 09:50:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4043610E26F;
+	Wed, 13 Dec 2023 10:15:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD44A10E269
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 09:50:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1702461032;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=1d5lTjfGL0cpfRX3W23YaewhbKiq0LrOed7Lf2Vov2M=;
- b=HFG8zVWCPe5olDvXvmCMovHD7E1uoxlocR4dvfEHcCitj1SwTFT5/l46eINpBIlNPuxm7k
- bOIdU0+u/kN5gmernMLuX9bus+5cf6sgF2JFT6Gcs+mk4x7vCrKvaQ8X5f2FhzdnLDwM3L
- fgFpPRNxyblQmN6Suugmlsh5uDJmXFk=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-500-otWBqP3rOQit5bcMhPdLeA-1; Wed, 13 Dec 2023 04:50:31 -0500
-X-MC-Unique: otWBqP3rOQit5bcMhPdLeA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-40c35d1d776so37296535e9.3
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 01:50:31 -0800 (PST)
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7246F10E12E
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 10:15:55 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id
+ a640c23a62f3a-a1f8f470903so464119366b.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 02:15:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1702462554; x=1703067354; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=m71FV5vGmPVywWzxoFuxmmARDOatcoG5xbVNtimxsKM=;
+ b=kBgE1bIz3eDkCR44aciGkrZ9GTPnw1GqmqMrGOVBOoZ6dNG1s6ye3DrtGiRk/GnePa
+ r5P9oo11jzGQBvVrGQDsQmj2j+S2l4d4cu4tVs6KvzHIlkn6vUvJn0Ex9Rt73W9OXAj7
+ lErTFDlQGEItEMzflpUQdsfcX4CP7Lj8R3XtVT+38Cb/FetcXk3apvxfhJgpEe0kgeiX
+ lFYYO/s1WBRE9FModEM54bUtjV2HvCQdzA0qJwhK99T6gkit9lWGvM0Tk3jWnycnIaxB
+ U1B+S/TQlWNIcsNZvR+enYrv3VQ3qKo2sgrW0dtVjNw+o1vBrxIXBKYma8x1+NzlcIDp
+ xutw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702461030; x=1703065830;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1d5lTjfGL0cpfRX3W23YaewhbKiq0LrOed7Lf2Vov2M=;
- b=nIn+9caQp6kR50B3LyxY2GRtE4KwolH6srmvunip7WyvkMcQF8baTtljCzfn07L5JN
- UsnBOaUlq6MIYjYw5jDsyg4nHJqadKVvoc3ypqTK8hnsdH4TDRnqhBj5ifR5U01jE7Cn
- tT0YFwW5rCpJ7NS7NFYBAnsMxdGNS1Yujae27zvJpRouR+oJ51akdxshOD9Bea/D8KcM
- iTcgFv9r9bCWPzi9ClsRjAhHGePoanTBrIOuutZIcyrUa554zoKyrmjbRpVA6GcfY/+u
- TM/nb0J7iUIRsB/uH3VSaNkDGMHcOHIwBfOmSXsK8U489ALO751G75Po8XHKmaGKRjfI
- jhwA==
-X-Gm-Message-State: AOJu0Yyom6TE7NxyspuZ8H1OCP1tCiYvvJ2Kupx4e6FAVfpMIHQQJ4GG
- SBWVo0wKondpN77anRf/PDKbk1/fAQ/OI9Sh2yIE/lxkkJm6+rEkQD5vAZ69EWg0No9utAIeyCe
- 271dUXrL5SwGdEUMGETLBjg3Dy6z6
-X-Received: by 2002:a7b:c395:0:b0:40c:3244:fec4 with SMTP id
- s21-20020a7bc395000000b0040c3244fec4mr3483363wmj.218.1702461030250; 
- Wed, 13 Dec 2023 01:50:30 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHgqSGM5YlkgEE4x2dZgTCXId+uIFj/eI1/Jsb2o77bKsWa4g8US0w4RLcc8W0HwMqp/ADJ5g==
-X-Received: by 2002:a7b:c395:0:b0:40c:3244:fec4 with SMTP id
- s21-20020a7bc395000000b0040c3244fec4mr3483358wmj.218.1702461029873; 
- Wed, 13 Dec 2023 01:50:29 -0800 (PST)
-Received: from localhost ([84.78.248.162]) by smtp.gmail.com with ESMTPSA id
- l4-20020a05600012c400b003334041c3edsm12872969wrx.41.2023.12.13.01.50.29
+ d=1e100.net; s=20230601; t=1702462554; x=1703067354;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=m71FV5vGmPVywWzxoFuxmmARDOatcoG5xbVNtimxsKM=;
+ b=IF5PX9uo369ioNuxDisRtfJ7G1klUlA85na29ZTKtlhN8iNpb0+5QuaNI9kryW/h6Q
+ GtTxN2cJGx5CivbbsAfgHw3u5Mkima+Cne4BKlrVppEa95w0txpYROAsyxcIAbPdo1tb
+ Cgh/yJPJi0iGAxB+WFnEElEOmWZ4EQZnrrkRMOA6Dbbib2xc6FvORGypf1bsvbhFGrsK
+ o44JgZ6RWWkahO/m6KUsBZtm3LvO5ovvpK3hs0/txcE7U2KRyIuXTmOdrI/R1woxp1qr
+ nrZjiZdVzZ6lqWiy0HvPhMm5QH3oWD2V2BBrh609VxmA+KMo0X/2OX1eYUbpjK/QzSCN
+ cgSg==
+X-Gm-Message-State: AOJu0Yw4S3e3SUJljuChRnB1sXmFs2lxNJdgd5FquW1C0MvG9JaAzUXU
+ KWkrIVzfdL7LxaPhJrogwJDNdw==
+X-Google-Smtp-Source: AGHT+IFLhx9mrchCh5E2ylqHbgPhyi2ITVUtOX/P4qGORrsYs/M4rF8Vci+B58KQG68twiIyDl6XRw==
+X-Received: by 2002:a17:907:9905:b0:a1c:f745:e0b3 with SMTP id
+ ka5-20020a170907990500b00a1cf745e0b3mr3808358ejc.97.1702462553820; 
+ Wed, 13 Dec 2023 02:15:53 -0800 (PST)
+Received: from pop-os.localdomain (81-231-61-187-no276.tbcn.telia.com.
+ [81.231.61.187]) by smtp.gmail.com with ESMTPSA id
+ q18-20020a17090676d200b00a1d9733f2d9sm7400403ejn.209.2023.12.13.02.15.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Dec 2023 01:50:29 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Brian Masney <bmasney@redhat.com>, hdegoede@redhat.com, deller@gmx.de
-Subject: Re: [PATCH] fbdev/simplefb: change loglevel when the power domains
- cannot be parsed
-In-Reply-To: <20231212195754.232303-1-bmasney@redhat.com>
-References: <20231212195754.232303-1-bmasney@redhat.com>
-Date: Wed, 13 Dec 2023 10:50:28 +0100
-Message-ID: <875y12o2hn.fsf@minerva.mail-host-address-is-not-set>
+ Wed, 13 Dec 2023 02:15:52 -0800 (PST)
+Date: Wed, 13 Dec 2023 11:15:49 +0100
+From: Joakim Bech <joakim.bech@linaro.org>
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Subject: Re: [PATCH v3 0/7] dma-buf: heaps: Add secure heap
+Message-ID: <20231213101549.lioqfzjxcvmqxqu3@pop-os.localdomain>
+References: <20231212024607.3681-1-yong.wu@mediatek.com>
+ <DPBmATfmfvSP8Cwjz99kj_JvCEiAqRfuMFJZEBF2aIgl8NZqWFR66eyPTX1E8bHyOlimBihEE3E80p9bfOJ-0SNu8pwoIzL9gD2Xae6r97g=@emersion.fr>
+ <20231213110517.6ce36aca@eldfell>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20231213110517.6ce36aca@eldfell>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,47 +74,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, treding@nvidia.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, John Stultz <jstultz@google.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Jeffrey Kardatzke <jkardatzke@google.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Vijayanand Jitta <quic_vjitta@quicinc.com>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>, Yong Wu <yong.wu@mediatek.com>,
+ jianjiao.zeng@mediatek.com, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ ckoenig.leichtzumerken@gmail.com, linaro-mm-sig@lists.linaro.org,
+ Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>, tjmercier@google.com,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ kuohong.wang@mediatek.com, linux-kernel@vger.kernel.org,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Brian Masney <bmasney@redhat.com> writes:
+On Wed, Dec 13, 2023 at 11:05:17AM +0200, Pekka Paalanen wrote:
+> On Tue, 12 Dec 2023 16:36:35 +0000
+> Simon Ser <contact@emersion.fr> wrote:
+> 
+> > Is there a chance to pick a better name than "secure" here?
+> > 
+> > "Secure" is super overloaded, it's not clear at all what it means from
+> > just the name. Something like "restricted" would be an improvement.
+> > 
+> 
+> My thoughts exactly. Every time I see "secure" used for something that
+> either gives you garbage, refuses to work, or crashes your whole machine
+> *intentionally* when you try to do normal usual things to it in
+> userspace (like use it for GL texturing, or try to use KMS writeback), I
+> get an unscratchable itch.
+> 
+> There is nothing "secure" from security perspective there for end users
+> and developers. It's just inaccessible buffers.
+> 
+> I've been biting my lip until now, thinking it's too late.
+> 
+The characteristics we're looking for here is a buffer where the content
+is inaccessible to the normal OS and user space, i.e., Non-secure EL0 to
+EL2. I.e, the content of the buffer is meant to be used and accessible
+primarily by the secure side and other devices that has been granted
+access to it (for example decoders, display controllers if we're talking
+about video use cases). However, since the use cases for this exercises
+the whole stack, from non-secure user space (EL0) all the way to secure
+user space (S-EL0), with various devices needing access to the buffer at
+various times, it makes sense to let Linux manage the buffers, although
+it still cannot access the content. That's the overall context.
 
-Hello Brian,
+As for the name, it's always difficult to find a name suitable precisely
+describing what it is. "Secure" is perhaps vague, but it might still a
+good choice, if you carefully describe what secure means for this
+particular heap (in the source code and the documentation for it). For
+example, the definition of "secure" for a secure heap as here could mean
+that buffer content is inaccessible to the host OS and user space
+running in normal world (using Arm nomenclature). I wouldn't have any
+problems with calling it secure if, as said it's defined what we mean by
+saying so. But I'm all ears for other suggestions as well.
 
-> When the power domains cannot be parsed, the message is incorrectly
-> logged as an info message. Let's change this to an error since an error
-> is returned.
->
-> Fixes: 92a511a568e4 ("fbdev/simplefb: Add support for generic power-domains")
-> Signed-off-by: Brian Masney <bmasney@redhat.com>
-> ---
->  drivers/video/fbdev/simplefb.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/video/fbdev/simplefb.c b/drivers/video/fbdev/simplefb.c
-> index 6f58ee276ad1..028a56525047 100644
-> --- a/drivers/video/fbdev/simplefb.c
-> +++ b/drivers/video/fbdev/simplefb.c
-> @@ -470,7 +470,7 @@ static int simplefb_attach_genpds(struct simplefb_par *par,
->  		if (err == -ENOENT)
->  			return 0;
->  
-> -		dev_info(dev, "failed to parse power-domains: %d\n", err);
-> +		dev_err(dev, "failed to parse power-domains: %d\n", err);
->  		return err;
->  	}
->  
+Safe, protected, shielded, unreachable, isolated, inaccessible,
+unaccessible, fortified, ... would any of these make more sense?
 
-Makes sense to me.
-
-Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+> 
+> Thanks,
+> pq
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+// Regards
+Joakim
