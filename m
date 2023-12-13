@@ -2,122 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FA5A811481
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 15:21:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D20181149C
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 15:28:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65A5110E2BE;
-	Wed, 13 Dec 2023 14:20:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 044F210E066;
+	Wed, 13 Dec 2023 14:28:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5743F10E79C;
- Wed, 13 Dec 2023 14:20:52 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=X13SUa3UJxkUlctosSKrPRQUmMN6mvSCx7X7z5VwlpMkP9oQXHzbdksLDuBNtMnAUAu2dSj4gb848c+MJ7Hp+w16ntEHpEHTSAWos9mM0gzavZC9Xkuxd8nJttAT/JOjW0WMnK/7p2tJMovgNMzKVaWhW+mifsuWW2P4T6IUCFHqcD6Z/LGI09zLNX8MHA63jSihlcXDX2jZQZeHTYW3/Amf/Iiri0M18MXe0WPX4WXogth2v2gBiCKohQacS8ErGuKL4qZ4COhRAUSSwVghpibxatUmCYf2UdOCq9Qt5WnuY/E14Yfl/NSfqIEcb3t1bn8IgYbd9KokvtdrHDGWkQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BLl4SEy7dof1TWtfEFABWCQEHHSfHTbjFgkzppn5Ms8=;
- b=I0ErgkfM9PCfaRsgKBlonA9j5mwaXquDwVPwPX0y1PVysyOzeW3Lf41d/ucRz2vpIgt8SZEEsp5ONaolommiuROcENtnbyOQYL81Oy6BjPcIKl9ff0LgrBI0NTKPkW05jfV8/tI6n9puTos2cBqKz3iZuapkH6Ix1hwMMMtXHqBmpojZiyICW3bWEI5kf0uqD8CJXqPb9MM5UdWnEtIqg/1iE7MZuwJrM3q4N2mQ+cLTI37Av/a75TRFwa2p8PMciQk64MYl0aZOQQ/eOhBZxKzZ/tqWzhbm/Vvvo8DX3wFpZbNCXelIos6UDZV/dFIfVFbEVxDjwLW+7bdewjMwyg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BLl4SEy7dof1TWtfEFABWCQEHHSfHTbjFgkzppn5Ms8=;
- b=Uub+V8cTf+ilQSHOL3Fu1KpZMMauLsz/AqlkI/dh3KuuOZdcHj74ybyhESRYOALCG2vBA8aDbqM30jhHnvRaYDpE5G5ExTnFyYmxIjPkXIU3dNhInld3DfBmoepn/EXIt1+9F53bsO7g5ktl6Moca0UrEdoyZ+DLUEhEqAy0Yuk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by IA1PR12MB6484.namprd12.prod.outlook.com (2603:10b6:208:3a7::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.26; Wed, 13 Dec
- 2023 14:20:48 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::ca80:8f1c:c11:ded3]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::ca80:8f1c:c11:ded3%7]) with mapi id 15.20.7091.022; Wed, 13 Dec 2023
- 14:20:48 +0000
-Message-ID: <86b95faa-fda4-4354-97bd-a1c15fed0771@amd.com>
-Date: Wed, 13 Dec 2023 15:20:43 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/amdgpu: Enable clear page functionality
-Content-Language: en-US
-To: Felix Kuehling <felix.kuehling@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Alex Deucher <alexdeucher@gmail.com>
-References: <20231207151142.929349-1-Arunpravin.PaneerSelvam@amd.com>
- <20231207151142.929349-2-Arunpravin.PaneerSelvam@amd.com>
- <d30b7992-5c39-49f5-889c-c31d4994a5c3@amd.com>
- <CADnq5_PdWUDVK0mvMgyTyogMnT-DD2nhXHarO+BLg9BjtGPRGA@mail.gmail.com>
- <473652dd-8ca1-436b-aa52-eb85eb0e98df@gmail.com>
- <381345a6-64bc-4cda-b787-fc431827b289@amd.com>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <381345a6-64bc-4cda-b787-fc431827b289@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0059.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:49::7) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 390F010E066
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 14:28:28 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id EBDF1B81DDE
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 14:28:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E95DFC433CD
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 14:28:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1702477702;
+ bh=1NelY49Rtb1AVpWalye31/ZWTy2DmcMw3Hv962u4tjU=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=jVMXgV4O1Jnj7tqS3hc0Hc2BnKyAgqnmbw6/lGQhJGExmDAD+zEunB92SCY1DeCCY
+ Z65rmDPfkNIDyEu6ZPGRIrWlqW5IJbWGhTlopnviYQWFCicXfCWXNvKybZl1OD/BDx
+ qGBDTtem21LII4qE2Lc5oDO0v+GJNcAi5mDTGAzF/QlVIoVPnES8lY9QE5nnw7+zRk
+ 99ZSOqc/xhgHMATD8jmbK9c6bhFa1RtNBw0V0QDoYUe58CVw9Hp8tmKQ6Zgp8T6KVK
+ 9/lIjuhYEh95joLfQAeaxteq2n2NXPqMw+SUQL1MM5AGvlftkhYsG/iJR/O70yJl7c
+ oaLrp3VUTpM8A==
+Received: by mail-lj1-f171.google.com with SMTP id
+ 38308e7fff4ca-2cb20c82a79so74647371fa.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 06:28:22 -0800 (PST)
+X-Gm-Message-State: AOJu0Yxo+CGS/8lVq11ibnJpKmthAa55UJeurP0s1g/K0zdhyFTZbI0q
+ tsN17LSgVL9gPbxzTRxMjR/XzY3r9zylbi7TnA==
+X-Google-Smtp-Source: AGHT+IGZUggKzakRIu1cLjf+W2GQkNH9IR87nGDEKuYmEbAd4t3lIaZqsoyFSGRtYGI96Eay29zUVggLBHEcOmhNZDk=
+X-Received: by 2002:a2e:a805:0:b0:2cc:1e83:65ee with SMTP id
+ l5-20020a2ea805000000b002cc1e8365eemr4557579ljq.56.1702477701036; Wed, 13 Dec
+ 2023 06:28:21 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|IA1PR12MB6484:EE_
-X-MS-Office365-Filtering-Correlation-Id: fce7b275-3b5b-4be8-f157-08dbfbe6b3a7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: hf1RVry0mkoqI5J+I9YjZhv+o2TGhijbC0+4ps7Wdg9NJk3irnRAII7hqL22L8bwl3tFWA8zhwFB8eGzxIyRmvfya0iWwq/D9Xw/mLVC3/lwUoj51R3EP/rKzDJv7oXAdl3F8S7nJaiord30o8Qa+ZZ2/exrHnJfcNEBVD7HG7oybTlHOCKjwC7NlVbFHIflm2jqyZhrJcH8nT1JXMTuqrLAstXR157Bj3FM/322BiSNitPe5VnQk9tUG2+0yjQ56FDf2Bcr501v3bAWP/FD2xEqWZSigtfljxyk7WUvYmcAtFyM2iL7Kr63qZe5MzGAhkEzCAi04LHk6/rNkzf4acsq8/NWVPN5+iO9z/6/lqAgKM1AmRluFoue/WKy/osCPEJyo+Q+6/roqe4MmQvpD9cSluXOSjalV5aohHxV6D0PoJI0vM+ovG/ir1bBGoqYge3RtMW+of4+fVQLQt4mGcTEiY8iJQ+8Fx3nm5RORaGzrT2npui2ENQxPJQEeupZQfgaQos/Gfk85HQAH+hMLfyZxSkZ18OlCWbxphVCRbi7bFz/hK9ubeGjNsRQr8fhTXxriqW45J+OFRlMZTxSH8MyjEDMgcBvhWjFnzcuTIwOe/OzzhaxAhvfSM+OkyputPceJ4SqZTnzx8gy6IMe1w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(396003)(346002)(366004)(39860400002)(136003)(376002)(230922051799003)(186009)(451199024)(64100799003)(1800799012)(66574015)(83380400001)(31696002)(86362001)(41300700001)(38100700002)(5660300002)(4326008)(8676002)(66946007)(110136005)(66556008)(316002)(66476007)(6512007)(53546011)(26005)(2616005)(6486002)(8936002)(478600001)(4001150100001)(6666004)(6506007)(2906002)(36756003)(31686004)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UXVTM3dHNDJUVEJzT2p0bGJVaTV6dUNTWjYvRXJaTlk4U3VEd01Xa0p1TGp6?=
- =?utf-8?B?TENTYk9JWFgwd0dYaDFkcUU3aHd2amxPSkJ3cmQxd2s0R1Y4b09xdE5QcXFz?=
- =?utf-8?B?bVVWS01sZ2ZibTdFUnNtYmRuMVJoOSs5MmFGSUFNaEtyK3V0SnJxLzdSVkhy?=
- =?utf-8?B?cTVCVU9EL0pKWjRvalQ4U0E4S2Q4a1FhN0pJekNIZFg0UUEwNCs0ajdsYjlB?=
- =?utf-8?B?dzRLdFpKWmwyVjQvTXMzWndFME5Qa0lzSEx1R3ltaE5ycnhPUEJBcnBzS2FZ?=
- =?utf-8?B?NDV4WVJsMmFMZWxoTTBiYldpWnFzNFgzV08wRzZNUGlDa2hBWk5hdE9pbStZ?=
- =?utf-8?B?TUFOTVhTZDFJVW5DaWhidkIvRDd0NnhkeE5ZWEI1c2tOZGRaK0Y2bkFwVloz?=
- =?utf-8?B?cnJESEEyRDB4RDhwVUZHMlRYRHUrZHNQVGtnaVMwUjZxYVF5aFlZeVk2RVlj?=
- =?utf-8?B?YWRiRCtWZ05OWDZBTXlFVzFTM3Rra2xoSjhWb2NhZVdrTS9LcjJIcGhxa2pz?=
- =?utf-8?B?cDJ1Z0hkUkZaSUlldHhZcWt6NDZzOWU4cE9JVFdjWkc0S1grSUN6S0FMT1VU?=
- =?utf-8?B?c2ljSlRzRzNKM3NHRzFBRS9QTytiWjVjczdBOGxXUXR3SUhUakZVUENKZTda?=
- =?utf-8?B?b3Jtem4zSVJwQzk0RXMveFFmSFYyNG8rYUFEdkY1YnFUamRnSUpCTnRtQTl3?=
- =?utf-8?B?OHRYWWQ5RUdIWDFZb0QrdmdPRW14dThkcXdQMkNENU9Dd0F6OFd2d2VBbTQ2?=
- =?utf-8?B?aWVEMzlpc2p3a0FrU0draTFhOGkrL05WM2dYVU5IVFE5ZXJzK3FzR3poNDE3?=
- =?utf-8?B?b085c2ZxRkU0Y05DV2JEcXNHcXRRZUFGZkpKMm5UcVBCSnNYSE45T1VQNjdX?=
- =?utf-8?B?NXNJWkljZE1leWxJdDkyYnNpOHZ2ZDRzeTdVT25CVEx4cnlmMVZMbWhzRmdn?=
- =?utf-8?B?OFdMSGM1MjR5aDg4KzFzRkg4Y3pYbThGaFlkMWpRVmU0dER4ZGRCTUwwVGdU?=
- =?utf-8?B?bVVXajM3dkg5OUtyekJIbnNJOWdYM3kzT3hEUG9CT3dPaStJT1p4LzBCVDRZ?=
- =?utf-8?B?VXpQaWN2L1dFZ3plcVRpbGpKdDg3S2YyK29lTGY5Qlk2c09KZ205czZMN1k5?=
- =?utf-8?B?Qk1Gc2hmSFMwaXhUZFlnbitQMUdSUXNQVGg0b0V4cXNQNXJhRnJOeGhpY0Fj?=
- =?utf-8?B?cFFyOEpITUZ2bmQ3clEzZjdOS0xGMTViVDJBS0NKeU9RQXV3Z1FFQWFCbkJ0?=
- =?utf-8?B?anVLYUJjWmZaVERmYlU0M2I0WWQrUzA4QlJLcm1CNkJkV0libkNMSjBQalRU?=
- =?utf-8?B?dWpUR2pMelFoZFhYd3pUa2NHeUdxaUI2bmdCVTVTaDFxbisrRzdTdjhNKzg2?=
- =?utf-8?B?a0dYTjZJNUw5VnJHWDFGWitWcDg3OG5TdVZtZWJuM0FkN3hVTzI0cTUvY2JE?=
- =?utf-8?B?RU1Hd0lFc1BINnJuelpaQ2NpRHNoVWRVbVBNT3Z1RHlEblBENExBZU4rdzNT?=
- =?utf-8?B?UGtKVEFyQWVsaXFWSzlSb1hxZlorM1hsVDdUZlh5MVd5azBudTFGOG9GOE5G?=
- =?utf-8?B?NzVaZ1oyekN2QjQxcngwRHlRci9Qc3diL1ZEcjR5QS81czdCc0h0NWdydy90?=
- =?utf-8?B?NGRmZm53Q2dOQkRLbnFzaU83K3lZa2FRSXhaNVEyaUE0a3lscG5EbjFwUWlS?=
- =?utf-8?B?eHZvSUdaZ2xaa2ZZU0pST21CRWQ2N2F2WHZXYStNQnhYbTFMMjZwVW8xWnhi?=
- =?utf-8?B?Uk9scHhUU1pKWkxZeFlrUTZvWWFSTFlwVGNmY2dzaFJMUG5QR0RnMGxGczJu?=
- =?utf-8?B?R3BDZmNORTRNdCtlRzMxcmxEOFBJVzNWVWMydk1oOXZIV2pJU1poRVVvSUJ5?=
- =?utf-8?B?RTZFT1JBS09yUGRBTUtlQ2llTjY5ZnVnZjYwbUdhbXY1b3ZPWE9ZU0pPVzdC?=
- =?utf-8?B?WHBCRWdtNmpsdzk0NzVvN2dvcGNrM0t0Ymc1N0RwMG9BcUdoZ09zTTNpd0hv?=
- =?utf-8?B?NERuaUZNYThDbnpzVTdrOUI1UHJ3b0VFcWtPVFNpYU1YS1QyN2N5bzZCSzFz?=
- =?utf-8?B?dnI3cDZGOUYvVGx3TENKZmVRUDVocnQ1ZS9TNDBnbUpnUk41Wks5SGdRT0dx?=
- =?utf-8?Q?3+SkBCeiTy741n0dtTWGSCX7r?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fce7b275-3b5b-4be8-f157-08dbfbe6b3a7
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Dec 2023 14:20:48.0116 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: V6KmGgCLJGUrx75TlvW6B/ieUOU9S0AuOngk+2qCTtp1wmSxy4PcdkHeCZXgqfh9
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6484
+References: <20231024130048.14749-1-shawn.sung@mediatek.com>
+ <20231024130048.14749-15-shawn.sung@mediatek.com>
+In-Reply-To: <20231024130048.14749-15-shawn.sung@mediatek.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Wed, 13 Dec 2023 22:28:09 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_-6bbE394ViQfyXg7zNv+uFygj70eF9dG+QDoSgELOFYg@mail.gmail.com>
+Message-ID: <CAAOTY_-6bbE394ViQfyXg7zNv+uFygj70eF9dG+QDoSgELOFYg@mail.gmail.com>
+Subject: Re: [PATCH v11 14/23] drm/mediatek: Power on/off devices with
+ function pointers
+To: Hsiao Chien Sung <shawn.sung@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,54 +61,340 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
- matthew.auld@intel.com, dri-devel@lists.freedesktop.org,
- Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+Cc: Nathan Lu <nathan.lu@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Moudy Ho <moudy.ho@mediatek.com>, Fei Shao <fshao@chromium.org>,
+ Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ Johnson Wang <johnson.wang@mediatek.corp-partner.google.com>,
+ Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
+ "Nancy . Lin" <nancy.lin@mediatek.com>, devicetree@vger.kernel.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 12.12.23 um 00:32 schrieb Felix Kuehling:
->
-> On 2023-12-11 04:50, Christian König wrote:
->> Am 08.12.23 um 20:53 schrieb Alex Deucher:
->>> [SNIP]
->>>> You also need a functionality which resets all cleared blocks to
->>>> uncleared after suspend/resume.
->>>>
->>>> No idea how to do this, maybe Alex knows of hand.
->>> Since the buffers are cleared on creation, is there actually 
->>> anything to do?
->>
->> Well exactly that's the problem, the buffers are no longer always 
->> cleared on creation with this patch.
->>
->> Instead we clear on free, track which areas are cleared and clear 
->> only the ones which aren't cleared yet on creation.
->
-> The code I added for clearing-on-free a long time ago, does not clear 
-> to 0, but to a non-0 poison value. That was meant to make it easier to 
-> catch applications incorrectly relying on 0-initialized memory. Is 
-> that being changed? I didn't see it in this patch series.
+Hi, Hsiao-chien:
 
-Yeah, Arun stumbled over that as well. Any objections that we fill with 
-zeros instead or is that poison value something necessary for debugging?
+Hsiao Chien Sung <shawn.sung@mediatek.com> =E6=96=BC 2023=E5=B9=B410=E6=9C=
+=8824=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=889:01=E5=AF=AB=E9=81=93=
+=EF=BC=9A
+>
+> Different from OVL, OVL adaptor is a pseudo device so we didn't
+> define it in the device tree, consequently, pm_runtime_resume_and_get()
+> called by .atomic_enable() powers on no device. For this reason, we
+> implement a function to power on the RDMAs in OVL adaptor, and the
+> system will make sure the IOMMUs are powered on as well because of the
+> device link (iommus) in the RDMA nodes in DTS.
+>
+> This patch separates power and clock management process, it would be
+> easier to maintain and add extensions.
+
+There is conflict while apply this patch into latest kernel. Please
+rebase this series onto latest kernel and send next version patches.
 
 Regards,
-Christian.
+Chun-Kuang.
 
 >
-> Regards,
->   Felix
+> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collab=
+ora.com>
+> Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_disp_drv.h       |  4 +
+>  .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   | 75 +++++++++++++++----
+>  drivers/gpu/drm/mediatek/mtk_drm_crtc.c       | 10 +--
+>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   |  2 +
+>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   | 20 +++++
+>  drivers/gpu/drm/mediatek/mtk_mdp_rdma.c       | 16 ++++
+>  6 files changed, 107 insertions(+), 20 deletions(-)
 >
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/me=
+diatek/mtk_disp_drv.h
+> index bf06ccb65652..8465beeab435 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> @@ -109,6 +109,8 @@ void mtk_ovl_adaptor_connect(struct device *dev, stru=
+ct device *mmsys_dev,
+>                              unsigned int next);
+>  void mtk_ovl_adaptor_disconnect(struct device *dev, struct device *mmsys=
+_dev,
+>                                 unsigned int next);
+> +int mtk_ovl_adaptor_power_on(struct device *dev);
+> +void mtk_ovl_adaptor_power_off(struct device *dev);
+>  int mtk_ovl_adaptor_clk_enable(struct device *dev);
+>  void mtk_ovl_adaptor_clk_disable(struct device *dev);
+>  void mtk_ovl_adaptor_config(struct device *dev, unsigned int w,
+> @@ -150,6 +152,8 @@ void mtk_rdma_disable_vblank(struct device *dev);
+>  const u32 *mtk_rdma_get_formats(struct device *dev);
+>  size_t mtk_rdma_get_num_formats(struct device *dev);
 >
->>
->> So some cases need special handling. E.g. when the engine is not 
->> initialized yet or suspend/resume.
->>
->> In theory after a suspend/resume cycle the VRAM is cleared to zeros, 
->> but in practice that's not always true.
->>
->> Christian.
->>
->>> Alex
-
+> +int mtk_mdp_rdma_power_on(struct device *dev);
+> +void mtk_mdp_rdma_power_off(struct device *dev);
+>  int mtk_mdp_rdma_clk_enable(struct device *dev);
+>  void mtk_mdp_rdma_clk_disable(struct device *dev);
+>  void mtk_mdp_rdma_start(struct device *dev, struct cmdq_pkt *cmdq_pkt);
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c b/drivers/gp=
+u/drm/mediatek/mtk_disp_ovl_adaptor.c
+> index 81067f49ea69..048d56ee344d 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
+> @@ -79,6 +79,8 @@ static const struct mtk_ddp_comp_funcs merge =3D {
+>  };
+>
+>  static const struct mtk_ddp_comp_funcs rdma =3D {
+> +       .power_on =3D mtk_mdp_rdma_power_on,
+> +       .power_off =3D mtk_mdp_rdma_power_off,
+>         .clk_enable =3D mtk_mdp_rdma_clk_enable,
+>         .clk_disable =3D mtk_mdp_rdma_clk_disable,
+>  };
+> @@ -200,21 +202,72 @@ void mtk_ovl_adaptor_stop(struct device *dev)
+>         mtk_ethdr_stop(ovl_adaptor->ovl_adaptor_comp[OVL_ADAPTOR_ETHDR0])=
+;
+>  }
+>
+> -int mtk_ovl_adaptor_clk_enable(struct device *dev)
+> +/**
+> + * power_off - Power off the devices in OVL adaptor
+> + * @dev: Device to be powered off
+> + * @num: Number of the devices to be powered off
+> + *
+> + * Calls the .power_off() ovl_adaptor component callback if it is presen=
+t.
+> + */
+> +static inline void power_off(struct device *dev, int num)
+>  {
+>         struct mtk_disp_ovl_adaptor *ovl_adaptor =3D dev_get_drvdata(dev)=
+;
+> -       struct device *comp;
+> -       int ret;
+>         int i;
+>
+> -       for (i =3D 0; i < OVL_ADAPTOR_MERGE0; i++) {
+> -               comp =3D ovl_adaptor->ovl_adaptor_comp[i];
+> -               ret =3D pm_runtime_get_sync(comp);
+> +       if (num > OVL_ADAPTOR_ID_MAX)
+> +               num =3D OVL_ADAPTOR_ID_MAX;
+> +
+> +       for (i =3D num - 1; i >=3D 0; i--) {
+> +               if (!ovl_adaptor->ovl_adaptor_comp[i] ||
+> +                   !comp_matches[i].funcs->power_off)
+> +                       continue;
+> +
+> +               comp_matches[i].funcs->power_off(ovl_adaptor->ovl_adaptor=
+_comp[i]);
+> +       }
+> +}
+> +
+> +/**
+> + * mtk_ovl_adaptor_power_on - Power on the devices in OVL adaptor
+> + * @dev: Device to be powered on
+> + *
+> + * Different from OVL, OVL adaptor is a pseudo device so
+> + * we didn't define it in the device tree, pm_runtime_resume_and_get()
+> + * called by .atomic_enable() power on no device in OVL adaptor,
+> + * we have to implement a function to do the job instead.
+> + *
+> + * Return: Zero for success or negative number for failure.
+> + */
+> +int mtk_ovl_adaptor_power_on(struct device *dev)
+> +{
+> +       struct mtk_disp_ovl_adaptor *ovl_adaptor =3D dev_get_drvdata(dev)=
+;
+> +       int i, ret;
+> +
+> +       for (i =3D 0; i < OVL_ADAPTOR_ID_MAX; i++) {
+> +               if (!ovl_adaptor->ovl_adaptor_comp[i] ||
+> +                   !comp_matches[i].funcs->power_on)
+> +                       continue;
+> +
+> +               ret =3D comp_matches[i].funcs->power_on(ovl_adaptor->ovl_=
+adaptor_comp[i]);
+>                 if (ret < 0) {
+>                         dev_err(dev, "Failed to enable power domain %d, e=
+rr %d\n", i, ret);
+> -                       goto error;
+> +                       power_off(dev, i);
+> +                       return ret;
+>                 }
+>         }
+> +       return 0;
+> +}
+> +
+> +void mtk_ovl_adaptor_power_off(struct device *dev)
+> +{
+> +       power_off(dev, OVL_ADAPTOR_ID_MAX);
+> +}
+> +
+> +int mtk_ovl_adaptor_clk_enable(struct device *dev)
+> +{
+> +       struct mtk_disp_ovl_adaptor *ovl_adaptor =3D dev_get_drvdata(dev)=
+;
+> +       struct device *comp;
+> +       int ret;
+> +       int i;
+>
+>         for (i =3D 0; i < OVL_ADAPTOR_ID_MAX; i++) {
+>                 comp =3D ovl_adaptor->ovl_adaptor_comp[i];
+> @@ -225,16 +278,10 @@ int mtk_ovl_adaptor_clk_enable(struct device *dev)
+>                         dev_err(dev, "Failed to enable clock %d, err %d\n=
+", i, ret);
+>                         while (--i >=3D 0)
+>                                 comp_matches[i].funcs->clk_disable(comp);
+> -                       i =3D OVL_ADAPTOR_MERGE0;
+> -                       goto error;
+> +                       return ret;
+>                 }
+>         }
+>         return 0;
+> -error:
+> -       while (--i >=3D 0)
+> -               pm_runtime_put(ovl_adaptor->ovl_adaptor_comp[i]);
+> -
+> -       return ret;
+>  }
+>
+>  void mtk_ovl_adaptor_clk_disable(struct device *dev)
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/me=
+diatek/mtk_drm_crtc.c
+> index a0b2ba3cbcdb..bc4cc75cca18 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> @@ -774,7 +774,7 @@ static void mtk_drm_crtc_atomic_enable(struct drm_crt=
+c *crtc,
+>                 return;
+>         }
+>
+> -       ret =3D pm_runtime_resume_and_get(comp->dev);
+> +       ret =3D mtk_ddp_comp_power_on(comp);
+>         if (ret < 0) {
+>                 DRM_DEV_ERROR(comp->dev, "Failed to enable power domain: =
+%d\n", ret);
+>                 return;
+> @@ -782,7 +782,7 @@ static void mtk_drm_crtc_atomic_enable(struct drm_crt=
+c *crtc,
+>
+>         ret =3D mtk_crtc_ddp_hw_init(mtk_crtc, state);
+>         if (ret) {
+> -               pm_runtime_put(comp->dev);
+> +               mtk_ddp_comp_power_off(comp);
+>                 return;
+>         }
+>
+> @@ -795,7 +795,7 @@ static void mtk_drm_crtc_atomic_disable(struct drm_cr=
+tc *crtc,
+>  {
+>         struct mtk_drm_crtc *mtk_crtc =3D to_mtk_crtc(crtc);
+>         struct mtk_ddp_comp *comp =3D mtk_crtc->ddp_comp[0];
+> -       int i, ret;
+> +       int i;
+>
+>         DRM_DEBUG_DRIVER("%s %d\n", __func__, crtc->base.id);
+>         if (!mtk_crtc->enabled)
+> @@ -825,9 +825,7 @@ static void mtk_drm_crtc_atomic_disable(struct drm_cr=
+tc *crtc,
+>
+>         drm_crtc_vblank_off(crtc);
+>         mtk_crtc_ddp_hw_fini(mtk_crtc);
+> -       ret =3D pm_runtime_put(comp->dev);
+> -       if (ret < 0)
+> -               DRM_DEV_ERROR(comp->dev, "Failed to disable power domain:=
+ %d\n", ret);
+> +       mtk_ddp_comp_power_off(comp);
+>
+>         mtk_crtc->enabled =3D false;
+>  }
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/dr=
+m/mediatek/mtk_drm_ddp_comp.c
+> index 10402e07a4a7..9940909c7435 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> @@ -396,6 +396,8 @@ static const struct mtk_ddp_comp_funcs ddp_ufoe =3D {
+>  };
+>
+>  static const struct mtk_ddp_comp_funcs ddp_ovl_adaptor =3D {
+> +       .power_on =3D mtk_ovl_adaptor_power_on,
+> +       .power_off =3D mtk_ovl_adaptor_power_off,
+>         .clk_enable =3D mtk_ovl_adaptor_clk_enable,
+>         .clk_disable =3D mtk_ovl_adaptor_clk_disable,
+>         .config =3D mtk_ovl_adaptor_config,
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h b/drivers/gpu/dr=
+m/mediatek/mtk_drm_ddp_comp.h
+> index 1c1d670cfe41..2597dd7ac0d2 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+> @@ -7,6 +7,7 @@
+>  #define MTK_DRM_DDP_COMP_H
+>
+>  #include <linux/io.h>
+> +#include <linux/pm_runtime.h>
+>  #include <linux/soc/mediatek/mtk-cmdq.h>
+>  #include <linux/soc/mediatek/mtk-mmsys.h>
+>  #include <linux/soc/mediatek/mtk-mutex.h>
+> @@ -46,6 +47,8 @@ enum mtk_ddp_comp_type {
+>  struct mtk_ddp_comp;
+>  struct cmdq_pkt;
+>  struct mtk_ddp_comp_funcs {
+> +       int (*power_on)(struct device *dev);
+> +       void (*power_off)(struct device *dev);
+>         int (*clk_enable)(struct device *dev);
+>         void (*clk_disable)(struct device *dev);
+>         void (*config)(struct device *dev, unsigned int w,
+> @@ -91,6 +94,23 @@ struct mtk_ddp_comp {
+>         int encoder_index;
+>  };
+>
+> +static inline int mtk_ddp_comp_power_on(struct mtk_ddp_comp *comp)
+> +{
+> +       if (comp->funcs && comp->funcs->power_on)
+> +               return comp->funcs->power_on(comp->dev);
+> +       else
+> +               return pm_runtime_resume_and_get(comp->dev);
+> +       return 0;
+> +}
+> +
+> +static inline void mtk_ddp_comp_power_off(struct mtk_ddp_comp *comp)
+> +{
+> +       if (comp->funcs && comp->funcs->power_off)
+> +               comp->funcs->power_off(comp->dev);
+> +       else
+> +               pm_runtime_put(comp->dev);
+> +}
+> +
+>  static inline int mtk_ddp_comp_clk_enable(struct mtk_ddp_comp *comp)
+>  {
+>         if (comp->funcs && comp->funcs->clk_enable)
+> diff --git a/drivers/gpu/drm/mediatek/mtk_mdp_rdma.c b/drivers/gpu/drm/me=
+diatek/mtk_mdp_rdma.c
+> index 5746f06220c1..769ae7564da2 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_mdp_rdma.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_mdp_rdma.c
+> @@ -243,6 +243,22 @@ size_t mtk_mdp_rdma_get_num_formats(struct device *d=
+ev)
+>         return ARRAY_SIZE(formats);
+>  }
+>
+> +int mtk_mdp_rdma_power_on(struct device *dev)
+> +{
+> +       int ret =3D pm_runtime_resume_and_get(dev);
+> +
+> +       if (ret < 0) {
+> +               dev_err(dev, "Failed to power on: %d\n", ret);
+> +               return ret;
+> +       }
+> +       return 0;
+> +}
+> +
+> +void mtk_mdp_rdma_power_off(struct device *dev)
+> +{
+> +       pm_runtime_put(dev);
+> +}
+> +
+>  int mtk_mdp_rdma_clk_enable(struct device *dev)
+>  {
+>         struct mtk_mdp_rdma *rdma =3D dev_get_drvdata(dev);
+> --
+> 2.18.0
+>
