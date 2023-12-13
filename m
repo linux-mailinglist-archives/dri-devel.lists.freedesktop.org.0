@@ -1,50 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12F4C8114B4
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 15:35:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 038CE8114EA
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 15:42:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DC8310E7B0;
-	Wed, 13 Dec 2023 14:34:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9456210E2AB;
+	Wed, 13 Dec 2023 14:42:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26BB710E7A6;
- Wed, 13 Dec 2023 14:34:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1702478096; x=1734014096;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=J0BqJq9CJ9TaC4soa04LF4xElaPUOtIWx1uYwbt70Y8=;
- b=HBBi/qaD7+KVb1W6kP9D8IGGqUy37FEvrLR2To5v/2fooEg3u+vbB3Bm
- rpNb6crqFmoO6msedZY5MSf1S5RjTLWCkrZVzlsaUMMuIEVnrvhycyIWk
- ZS4Mvreh0TRvGD5CoXHv8aoSE8G7eLoxD1+TBacrKTHtrqS+70YLolNCo
- dL2EvcNvMSbFdVepq4n6ZP92VIhquscU26i9L7bCKsBIUpP5x72d+hV1X
- 0L8T3ZDDzM3+lNhIFy7GWHjiyX3MPsaXhwW7SjgLbY+Sx3RptRHTzr4tx
- H2sxDOTP5TZtG+12RNVH8GhIG8zPE4dyGZSBnbzkQVbNjHiNdmyUQt2U0 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="374478222"
-X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; d="scan'208";a="374478222"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Dec 2023 06:34:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="1021135845"
-X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; d="scan'208";a="1021135845"
-Received: from oostoia-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.50.15])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Dec 2023 06:33:57 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-fixes
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Date: Wed, 13 Dec 2023 16:33:55 +0200
-Message-ID: <871qbqw4rw.fsf@intel.com>
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE4B410E2AB;
+ Wed, 13 Dec 2023 14:42:25 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id
+ a640c23a62f3a-a1915034144so919320566b.0; 
+ Wed, 13 Dec 2023 06:42:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1702478544; x=1703083344; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Nz6wgSvtDxdn5W5MMKrsDHjNFgiWM0XnkScPndx0kOc=;
+ b=dqxQqmBUPAcNhQ/wZZdU5nX/KbJJlro0WnsTKKHuF0aTcXar3X63z3Vs6uNKlM1WGB
+ RD2Lo/5s8Q3IvJHstzHB218q7yP0P/Acot85Tt20fc7SfL8YuxZdJbqz5skN70HZZOGB
+ kVrNIlTfD/zLVqj5Qv3crsiZCLE4V/EUqdPl+Aggwv7iu8aNdELKgJ5REbwTM/1BFz/Z
+ EHzr4fuYidrHIF99eSQ3XIRejyeglrLTnktSxWhZlIhcBV+AzA5IwQyQ1XwccyZ7EB9B
+ IvgA9T7T4f9VbbpXnh9p8M8jEr+fX/T5FcqKBOjhUq5lKRWv2mnpsQBN57IOFvU1yNZP
+ E4Vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1702478544; x=1703083344;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Nz6wgSvtDxdn5W5MMKrsDHjNFgiWM0XnkScPndx0kOc=;
+ b=UlsPgLqscCK7JaEL0QvFvLjHnXvTbsz4v6xtGOM0jtSjt5YP989Mn15RJS4cMJ5/34
+ k/DpIsJv0TS48LRDsoMIftYsoBdgcq4ygEIImyYGYlhdS4KnqeNwDGTLCQ2xLh2dR5Sw
+ xx5DqIde/cJRCpv3dVhwcUlKm306v//CUMdcX9dvafCWTefLj0uRFr3o6kMdhQCccHSn
+ M8LjRUcuhg/AqPnqFds8WAAcDogiZGGlR94KLBHbch7micAyc4YzDpyovAlfIZh7RiV8
+ FxWkKdG40qTbZzRsxE15Covj7iFON7S4bGumkVFExTnR2t9PW+x+S6CgDmJtIlZWFs62
+ vn/A==
+X-Gm-Message-State: AOJu0Yw394rPdGbvp+Z3UN7AAvXQ72Qg+xNcLQRcu7h4UTF6js1MXrDb
+ Ln4dDYxklfpVZ0uiiZtYlVShvJFOgyg=
+X-Google-Smtp-Source: AGHT+IE8ZHyXPB+nDsdOuhC19J+BegKbFv8G1t2vKOaUCG9D0JAINZJnuJqhbcDyw4syj0oznKU+TQ==
+X-Received: by 2002:a17:906:32d2:b0:a1a:57e2:2cc4 with SMTP id
+ k18-20020a17090632d200b00a1a57e22cc4mr4024649ejk.52.1702478543928; 
+ Wed, 13 Dec 2023 06:42:23 -0800 (PST)
+Received: from able.fritz.box ([2a00:e180:15c5:a700:2883:dd2d:c4a4:5a04])
+ by smtp.gmail.com with ESMTPSA id
+ rm6-20020a1709076b0600b00a1f6f120b33sm7402525ejc.110.2023.12.13.06.42.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 Dec 2023 06:42:23 -0800 (PST)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org
+Subject: [PATCH 1/4] drm/ttm: return ENOSPC from ttm_bo_mem_space
+Date: Wed, 13 Dec 2023 15:42:19 +0100
+Message-Id: <20231213144222.1871-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,79 +73,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Only convert it to ENOMEM in ttm_bo_validate.
 
-Hi Dave & Sima -
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ drivers/gpu/drm/ttm/ttm_bo.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Fixes for -rc6, majority of them stable material.
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index edf10618fe2b..8c1eaa74fa21 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -830,7 +830,7 @@ int ttm_bo_mem_space(struct ttm_buffer_object *bo,
+ 			goto error;
+ 	}
+ 
+-	ret = -ENOMEM;
++	ret = -ENOSPC;
+ 	if (!type_found) {
+ 		pr_err(TTM_PFX "No compatible memory type found\n");
+ 		ret = -EINVAL;
+@@ -916,6 +916,9 @@ int ttm_bo_validate(struct ttm_buffer_object *bo,
+ 		return -EINVAL;
+ 
+ 	ret = ttm_bo_move_buffer(bo, placement, ctx);
++	/* For backward compatibility with userspace */
++	if (ret == -ENOSPC)
++		return -ENOMEM;
+ 	if (ret)
+ 		return ret;
+ 
+-- 
+2.34.1
 
-drm-intel-fixes-2023-12-13:
-drm/i915 fixes for v6.7-rc6:
-- Fix selftest engine reset count storage for multi-tile
-- Fix out-of-bounds reads for engine reset counts
-- Fix ADL+ remapped stride with CCS
-- Fix intel_atomic_setup_scalers() plane_state handling
-- Fix ADL+ tiled plane stride when the POT stride is smaller than the origi=
-nal
-- Fix eDP 1.4 rate select method link configuration
-
-BR,
-Jani.
-
-The following changes since commit a39b6ac3781d46ba18193c9dbb2110f31e9bffe9:
-
-  Linux 6.7-rc5 (2023-12-10 14:33:40 -0800)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2023-12-=
-13
-
-for you to fetch changes up to e6861d8264cd43c5eb20196e53df36fd71ec5698:
-
-  drm/i915/edp: don't write to DP_LINK_BW_SET when using rate select (2023-=
-12-11 13:15:35 +0200)
-
-----------------------------------------------------------------
-drm/i915 fixes for v6.7-rc6:
-- Fix selftest engine reset count storage for multi-tile
-- Fix out-of-bounds reads for engine reset counts
-- Fix ADL+ remapped stride with CCS
-- Fix intel_atomic_setup_scalers() plane_state handling
-- Fix ADL+ tiled plane stride when the POT stride is smaller than the origi=
-nal
-- Fix eDP 1.4 rate select method link configuration
-
-----------------------------------------------------------------
-Jani Nikula (1):
-      drm/i915/edp: don't write to DP_LINK_BW_SET when using rate select
-
-Tvrtko Ursulin (2):
-      drm/i915/selftests: Fix engine reset count storage for multi-tile
-      drm/i915: Use internal class when counting engine resets
-
-Ville Syrj=C3=A4l=C3=A4 (3):
-      drm/i915: Fix remapped stride with CCS on ADL+
-      drm/i915: Fix intel_atomic_setup_scalers() plane_state handling
-      drm/i915: Fix ADL+ tiled plane stride when the POT stride is smaller =
-than the original
-
- .../gpu/drm/i915/display/intel_dp_link_training.c  | 31 +++++++++++++++---=
-----
- drivers/gpu/drm/i915/display/intel_fb.c            | 19 ++++++++++---
- drivers/gpu/drm/i915/display/skl_scaler.c          |  2 +-
- drivers/gpu/drm/i915/gt/intel_reset.c              |  2 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c  |  5 ++--
- drivers/gpu/drm/i915/i915_gpu_error.h              | 12 +++++++--
- drivers/gpu/drm/i915/selftests/igt_live_test.c     |  9 ++++---
- drivers/gpu/drm/i915/selftests/igt_live_test.h     |  3 ++-
- 8 files changed, 59 insertions(+), 24 deletions(-)
-
---=20
-Jani Nikula, Intel
