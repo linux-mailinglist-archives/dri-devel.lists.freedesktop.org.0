@@ -2,53 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EF80810E3E
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 11:20:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A498810EFB
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 11:53:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D85B610E760;
-	Wed, 13 Dec 2023 10:19:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4704610E781;
+	Wed, 13 Dec 2023 10:53:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D579310E760
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 10:19:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1702462797; x=1733998797;
- h=from:to:subject:date:message-id:in-reply-to:references:
- mime-version:content-transfer-encoding;
- bh=IH2FdGE4NUSK2FxuYO6GsfwFcJicp3jgO7olFptwvLo=;
- b=SDvfGfvqwwoWuTnCVVAlQ1dlFmzITZoUIWCIUVHqVli93sell9ALdxeh
- u73xoSXp/jkjKx1a2hJkxlUXlQkhiivCa/YA34gBDOTrI3wX9x5hd1XCU
- UiWsR2oNkcc8UFmFzuQCLOOwyudBaCOrZBCu2hoCxnEW2ZGxK7o767RAV
- 7mYEqqdtjPMIupSuIAhim5G97v/QxcB0Z9jJAcW/B8/vAsIm4C8Oe7NHv
- qpflPspP+kbT6bE4ZASJdkARnSPzNBN3oTFHUcheWxP41jEfuvwxXuKR8
- cOYuIX72o3n4LFZcLlTIDOMW4NVhEnMuzGnSIcr4tykRz35Zx7lYTdN5F Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="8330847"
-X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
-   d="scan'208";a="8330847"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Dec 2023 02:19:56 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="1105263673"
-X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; d="scan'208";a="1105263673"
-Received: from oostoia-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.50.15])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Dec 2023 02:19:54 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Jani Nikula <jani.nikula@intel.com>, linux-tegra@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] drm/tegra: include drm/drm_edid.h only where needed
-Date: Wed, 13 Dec 2023 12:19:51 +0200
-Message-Id: <20231213101951.3932273-1-jani.nikula@intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231212142409.3826544-1-jani.nikula@intel.com>
-References: <20231212142409.3826544-1-jani.nikula@intel.com>
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53C9910E781
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 10:53:43 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id
+ ffacd0b85a97d-3363397426eso1472293f8f.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 02:53:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1702464822; x=1703069622; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9AVoR1uUGIhIdM0n8dOyva32mu3rDmn4zFFnMFBtCJg=;
+ b=o4yQZlmnHy9J8GzKdiirj/OcOhwonib9VIHVODtrO16PdIWJHpjTb3pbmWaLiuulgz
+ ChRrcu0rZXEvRQuSW4OMsM7RZSEIhsTRHYl2w4ExF6IafwGjOZlbU1rnrQRR0MfkurgE
+ N2joxLqPBuov77Ch9BJKa/NXKKTpkGMLi2wrrX3K2CE5OzR5ANkMv4e+5sb08enoiNbL
+ Z4Sk+doWDe8QXYcIPvDc8lnhcgBHQRLrQfzK8IEMn8IS2nWsw86PqAPRU5sdckN3zWwa
+ 1cZP2E4+KFftuPCJp5+c7QcM303y3WeE9ppClK5zHJr0HxMIPb0u3kMRrOf6dIsjtV2f
+ hYSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1702464822; x=1703069622;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=9AVoR1uUGIhIdM0n8dOyva32mu3rDmn4zFFnMFBtCJg=;
+ b=UCL5v/WDNQoivQiwNIOC0fVppRnToMOitJFxO6R0NFyGy0BbFGjv7QjZQ/6Q46iaYk
+ zaTTmw/c2pyQQXlWuPvRlv4ROZrBnJhWn1Hwk9Wd+uO2xd14bchfBQyJhG10WBMqx+HL
+ sO8a056R8FGAQUtX477IS9uO019qFO7dD7aPjK9k74zuufYvqVhv9s11lOVxfUw+T8Ok
+ MjdCXevRR0IiWO75AOpmds1mvUFGc6WJ9Tg9Y6VkWQP9cUD82SuLkqb8D0ApuMYkUXI8
+ aKmEMASSo4gMgq5jI4VNeqaM5GFAbaaxK1DX8ppKDgXM0Nny59ZNsuJsgFVceu9SdLN0
+ AScw==
+X-Gm-Message-State: AOJu0YwB8OskqBnwVVyqH3jbdj11Rq7R07UZKm9BUQ9ZmqRkqTr37lVR
+ AB7DvigAhgJPHfnaR+wXwVUQuA==
+X-Google-Smtp-Source: AGHT+IGuvTKym5GzSffelzfLsWJCS5S1+vASIQD6/JxyNREq8dMO2z30KqWMSeSA3exaeQI7tcTbNg==
+X-Received: by 2002:a5d:6811:0:b0:332:ea44:8989 with SMTP id
+ w17-20020a5d6811000000b00332ea448989mr4509472wru.30.1702464821704; 
+ Wed, 13 Dec 2023 02:53:41 -0800 (PST)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+ by smtp.gmail.com with ESMTPSA id
+ dd14-20020a0560001e8e00b003364277e714sm374761wrb.89.2023.12.13.02.53.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 Dec 2023 02:53:41 -0800 (PST)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Sam Ravnborg <sam@ravnborg.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Brian Masney <masneyb@onstation.org>, David Heidelberg <david@ixit.cz>
+In-Reply-To: <20231212200934.99262-1-david@ixit.cz>
+References: <20231212200934.99262-1-david@ixit.cz>
+Subject: Re: [PATCH v2] dt-bindings: panel-simple-dsi: move LG 5" HD TFT
+ LCD panel into DSI yaml
+Message-Id: <170246482066.875647.5449342592487224704.b4-ty@linaro.org>
+Date: Wed, 13 Dec 2023 11:53:40 +0100
 MIME-Version: 1.0
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,65 +84,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reduce the need for rebuilds when drm_edid.h is modified by including it
-only where needed.
+Hi,
 
-v2: Fix build (kernel test robot <lkp@intel.com>)
+On Tue, 12 Dec 2023 21:09:17 +0100, David Heidelberg wrote:
+> Originally was in the panel-simple, but belongs to panel-simple-dsi.
+> 
+> See arch/arm/boot/dts/nvidia/tegra114-roth.dts for more details.
+> 
+> Resolves the following warning:
+> ```
+> arch/arm/boot/dts/tegra114-roth.dt.yaml: panel@0: 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
+>         From schema: Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> ```
+> 
+> [...]
 
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
----
- drivers/gpu/drm/tegra/drm.h    | 2 +-
- drivers/gpu/drm/tegra/output.c | 1 +
- drivers/gpu/drm/tegra/sor.c    | 1 +
- 3 files changed, 3 insertions(+), 1 deletion(-)
+Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-fixes)
 
-diff --git a/drivers/gpu/drm/tegra/drm.h b/drivers/gpu/drm/tegra/drm.h
-index ccb5d74fa227..682011166a8f 100644
---- a/drivers/gpu/drm/tegra/drm.h
-+++ b/drivers/gpu/drm/tegra/drm.h
-@@ -13,7 +13,6 @@
- 
- #include <drm/drm_atomic.h>
- #include <drm/drm_bridge.h>
--#include <drm/drm_edid.h>
- #include <drm/drm_encoder.h>
- #include <drm/drm_fixed.h>
- #include <drm/drm_probe_helper.h>
-@@ -26,6 +25,7 @@
- /* XXX move to include/uapi/drm/drm_fourcc.h? */
- #define DRM_FORMAT_MOD_NVIDIA_SECTOR_LAYOUT BIT_ULL(22)
- 
-+struct edid;
- struct reset_control;
- 
- struct tegra_drm {
-diff --git a/drivers/gpu/drm/tegra/output.c b/drivers/gpu/drm/tegra/output.c
-index dc2dcb5ca1c8..88af956ad0e7 100644
---- a/drivers/gpu/drm/tegra/output.c
-+++ b/drivers/gpu/drm/tegra/output.c
-@@ -8,6 +8,7 @@
- #include <linux/of.h>
- 
- #include <drm/drm_atomic_helper.h>
-+#include <drm/drm_edid.h>
- #include <drm/drm_of.h>
- #include <drm/drm_panel.h>
- #include <drm/drm_simple_kms_helper.h>
-diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
-index 83341576630d..bad3b8fcc726 100644
---- a/drivers/gpu/drm/tegra/sor.c
-+++ b/drivers/gpu/drm/tegra/sor.c
-@@ -20,6 +20,7 @@
- #include <drm/display/drm_scdc_helper.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_debugfs.h>
-+#include <drm/drm_edid.h>
- #include <drm/drm_eld.h>
- #include <drm/drm_file.h>
- #include <drm/drm_panel.h>
+[1/1] dt-bindings: panel-simple-dsi: move LG 5" HD TFT LCD panel into DSI yaml
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=fa97e21e74df5ef63a442e4cfd13fd113fc8196e
+
 -- 
-2.39.2
+Neil
 
