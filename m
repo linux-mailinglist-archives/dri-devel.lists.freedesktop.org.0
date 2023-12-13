@@ -2,68 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 292EA811466
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 15:16:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FA5A811481
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 15:21:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BA8210E2BF;
-	Wed, 13 Dec 2023 14:16:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65A5110E2BE;
+	Wed, 13 Dec 2023 14:20:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
- [IPv6:2a00:1450:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B7BF10E07D
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 14:16:29 +0000 (UTC)
-Received: by mail-lj1-x236.google.com with SMTP id
- 38308e7fff4ca-2c9f7fe6623so88060531fa.3
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 06:16:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1702476987; x=1703081787; darn=lists.freedesktop.org;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=HnmrUE6uA1UjU0DGZJd+ywoyYgk2RFZ2Qv8HjSJNWug=;
- b=cLAcxmTM2wic1lTVaspz/NxaFFUStJmAj7Ax18sCgt8xrfpAfgU9uKiVT7FEref8tM
- KIMiJD0qlA5WXgu5hCnlmkCPkJT2RUZeEX1Qw4/u2a0a7yEJ9eKPGkVSD3MVCLGuR66p
- qK7sDKqRZdB8Qgtpi4N60bJm0VdaloADhcnlhLFCGLZmrc/xnovS9ld8suPiSMhJqkr9
- sINXxvnMu09Ljzqw/WN0zv6UEKypfIZRg54TnokT93y8bj2qF0TemxfY2vQ1RFxdaThT
- 2ajLAkfImY3x5mypTCk+G7Hax7tXbEVTi5YrHH9ul1CTbsg4gTeJONdnBUw/nmQtkHrB
- JPKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702476987; x=1703081787;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HnmrUE6uA1UjU0DGZJd+ywoyYgk2RFZ2Qv8HjSJNWug=;
- b=nF3uupRjmq+0K5ewyXTly3nDzjE1Oxv5Bo9l9iACxck1AEPlg6tGOu63RevzX2vL1S
- +/CR24WHWD+t/7V5XYc00s5BbiQ1E/9jijWfHSNZ5JnPV2u71aoRL1C+x1By0F2RIckQ
- 6lEojFrr66dHGbTuVzFZDUWJfGGn6z6xYHwDvnJThVu6i24R3N4bCEAsWuse6ZzfPGoj
- hmyQZQZNpdUYhZxauGFSCkS7M+XEuYmpVrsEFHfpHsugb5rzdXmD33PTIWksBDluI0fW
- tUPSGM09jBBBagT5+pLjPoeJHKg/hHhI8gNzQ/7ScDoEH4uZa8/Ub99FcGkmVcL1dcPd
- gBEA==
-X-Gm-Message-State: AOJu0YyHdu1MnCUP3VYgL6fjNlMzRRGKUC9JUclDb+aw2jr+j7nPyb3v
- njBYC/P5Uw/QyTJURUp8pyk=
-X-Google-Smtp-Source: AGHT+IHMEFbwY2jxx7Eqytsu4ONvN/Lw6aO1DvwW9XsiwGhW/Welyye/FmxGvgN+8ji2wLeKZxibCA==
-X-Received: by 2002:a2e:9b03:0:b0:2ca:34cd:77ea with SMTP id
- u3-20020a2e9b03000000b002ca34cd77eamr2472316lji.44.1702476987175; 
- Wed, 13 Dec 2023 06:16:27 -0800 (PST)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- 20-20020a2eb954000000b002c9f62145f8sm1868126ljs.82.2023.12.13.06.16.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Dec 2023 06:16:26 -0800 (PST)
-Date: Wed, 13 Dec 2023 16:16:14 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Joakim Bech <joakim.bech@linaro.org>
-Subject: Re: [PATCH v3 0/7] dma-buf: heaps: Add secure heap
-Message-ID: <20231213161614.43e5bca8@eldfell>
-In-Reply-To: <20231213132229.q3uxdhtdsxuzw3w6@pop-os.localdomain>
-References: <20231212024607.3681-1-yong.wu@mediatek.com>
- <DPBmATfmfvSP8Cwjz99kj_JvCEiAqRfuMFJZEBF2aIgl8NZqWFR66eyPTX1E8bHyOlimBihEE3E80p9bfOJ-0SNu8pwoIzL9gD2Xae6r97g=@emersion.fr>
- <20231213110517.6ce36aca@eldfell>
- <20231213101549.lioqfzjxcvmqxqu3@pop-os.localdomain>
- <20231213133825.0a329864@eldfell>
- <20231213132229.q3uxdhtdsxuzw3w6@pop-os.localdomain>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5743F10E79C;
+ Wed, 13 Dec 2023 14:20:52 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=X13SUa3UJxkUlctosSKrPRQUmMN6mvSCx7X7z5VwlpMkP9oQXHzbdksLDuBNtMnAUAu2dSj4gb848c+MJ7Hp+w16ntEHpEHTSAWos9mM0gzavZC9Xkuxd8nJttAT/JOjW0WMnK/7p2tJMovgNMzKVaWhW+mifsuWW2P4T6IUCFHqcD6Z/LGI09zLNX8MHA63jSihlcXDX2jZQZeHTYW3/Amf/Iiri0M18MXe0WPX4WXogth2v2gBiCKohQacS8ErGuKL4qZ4COhRAUSSwVghpibxatUmCYf2UdOCq9Qt5WnuY/E14Yfl/NSfqIEcb3t1bn8IgYbd9KokvtdrHDGWkQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BLl4SEy7dof1TWtfEFABWCQEHHSfHTbjFgkzppn5Ms8=;
+ b=I0ErgkfM9PCfaRsgKBlonA9j5mwaXquDwVPwPX0y1PVysyOzeW3Lf41d/ucRz2vpIgt8SZEEsp5ONaolommiuROcENtnbyOQYL81Oy6BjPcIKl9ff0LgrBI0NTKPkW05jfV8/tI6n9puTos2cBqKz3iZuapkH6Ix1hwMMMtXHqBmpojZiyICW3bWEI5kf0uqD8CJXqPb9MM5UdWnEtIqg/1iE7MZuwJrM3q4N2mQ+cLTI37Av/a75TRFwa2p8PMciQk64MYl0aZOQQ/eOhBZxKzZ/tqWzhbm/Vvvo8DX3wFpZbNCXelIos6UDZV/dFIfVFbEVxDjwLW+7bdewjMwyg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BLl4SEy7dof1TWtfEFABWCQEHHSfHTbjFgkzppn5Ms8=;
+ b=Uub+V8cTf+ilQSHOL3Fu1KpZMMauLsz/AqlkI/dh3KuuOZdcHj74ybyhESRYOALCG2vBA8aDbqM30jhHnvRaYDpE5G5ExTnFyYmxIjPkXIU3dNhInld3DfBmoepn/EXIt1+9F53bsO7g5ktl6Moca0UrEdoyZ+DLUEhEqAy0Yuk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by IA1PR12MB6484.namprd12.prod.outlook.com (2603:10b6:208:3a7::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.26; Wed, 13 Dec
+ 2023 14:20:48 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::ca80:8f1c:c11:ded3]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::ca80:8f1c:c11:ded3%7]) with mapi id 15.20.7091.022; Wed, 13 Dec 2023
+ 14:20:48 +0000
+Message-ID: <86b95faa-fda4-4354-97bd-a1c15fed0771@amd.com>
+Date: Wed, 13 Dec 2023 15:20:43 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] drm/amdgpu: Enable clear page functionality
+Content-Language: en-US
+To: Felix Kuehling <felix.kuehling@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Alex Deucher <alexdeucher@gmail.com>
+References: <20231207151142.929349-1-Arunpravin.PaneerSelvam@amd.com>
+ <20231207151142.929349-2-Arunpravin.PaneerSelvam@amd.com>
+ <d30b7992-5c39-49f5-889c-c31d4994a5c3@amd.com>
+ <CADnq5_PdWUDVK0mvMgyTyogMnT-DD2nhXHarO+BLg9BjtGPRGA@mail.gmail.com>
+ <473652dd-8ca1-436b-aa52-eb85eb0e98df@gmail.com>
+ <381345a6-64bc-4cda-b787-fc431827b289@amd.com>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <381345a6-64bc-4cda-b787-fc431827b289@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR0P281CA0059.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:49::7) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/m_y9/L720k3.YUUEknjTd2h";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|IA1PR12MB6484:EE_
+X-MS-Office365-Filtering-Correlation-Id: fce7b275-3b5b-4be8-f157-08dbfbe6b3a7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: hf1RVry0mkoqI5J+I9YjZhv+o2TGhijbC0+4ps7Wdg9NJk3irnRAII7hqL22L8bwl3tFWA8zhwFB8eGzxIyRmvfya0iWwq/D9Xw/mLVC3/lwUoj51R3EP/rKzDJv7oXAdl3F8S7nJaiord30o8Qa+ZZ2/exrHnJfcNEBVD7HG7oybTlHOCKjwC7NlVbFHIflm2jqyZhrJcH8nT1JXMTuqrLAstXR157Bj3FM/322BiSNitPe5VnQk9tUG2+0yjQ56FDf2Bcr501v3bAWP/FD2xEqWZSigtfljxyk7WUvYmcAtFyM2iL7Kr63qZe5MzGAhkEzCAi04LHk6/rNkzf4acsq8/NWVPN5+iO9z/6/lqAgKM1AmRluFoue/WKy/osCPEJyo+Q+6/roqe4MmQvpD9cSluXOSjalV5aohHxV6D0PoJI0vM+ovG/ir1bBGoqYge3RtMW+of4+fVQLQt4mGcTEiY8iJQ+8Fx3nm5RORaGzrT2npui2ENQxPJQEeupZQfgaQos/Gfk85HQAH+hMLfyZxSkZ18OlCWbxphVCRbi7bFz/hK9ubeGjNsRQr8fhTXxriqW45J+OFRlMZTxSH8MyjEDMgcBvhWjFnzcuTIwOe/OzzhaxAhvfSM+OkyputPceJ4SqZTnzx8gy6IMe1w==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(396003)(346002)(366004)(39860400002)(136003)(376002)(230922051799003)(186009)(451199024)(64100799003)(1800799012)(66574015)(83380400001)(31696002)(86362001)(41300700001)(38100700002)(5660300002)(4326008)(8676002)(66946007)(110136005)(66556008)(316002)(66476007)(6512007)(53546011)(26005)(2616005)(6486002)(8936002)(478600001)(4001150100001)(6666004)(6506007)(2906002)(36756003)(31686004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UXVTM3dHNDJUVEJzT2p0bGJVaTV6dUNTWjYvRXJaTlk4U3VEd01Xa0p1TGp6?=
+ =?utf-8?B?TENTYk9JWFgwd0dYaDFkcUU3aHd2amxPSkJ3cmQxd2s0R1Y4b09xdE5QcXFz?=
+ =?utf-8?B?bVVWS01sZ2ZibTdFUnNtYmRuMVJoOSs5MmFGSUFNaEtyK3V0SnJxLzdSVkhy?=
+ =?utf-8?B?cTVCVU9EL0pKWjRvalQ4U0E4S2Q4a1FhN0pJekNIZFg0UUEwNCs0ajdsYjlB?=
+ =?utf-8?B?dzRLdFpKWmwyVjQvTXMzWndFME5Qa0lzSEx1R3ltaE5ycnhPUEJBcnBzS2FZ?=
+ =?utf-8?B?NDV4WVJsMmFMZWxoTTBiYldpWnFzNFgzV08wRzZNUGlDa2hBWk5hdE9pbStZ?=
+ =?utf-8?B?TUFOTVhTZDFJVW5DaWhidkIvRDd0NnhkeE5ZWEI1c2tOZGRaK0Y2bkFwVloz?=
+ =?utf-8?B?cnJESEEyRDB4RDhwVUZHMlRYRHUrZHNQVGtnaVMwUjZxYVF5aFlZeVk2RVlj?=
+ =?utf-8?B?YWRiRCtWZ05OWDZBTXlFVzFTM3Rra2xoSjhWb2NhZVdrTS9LcjJIcGhxa2pz?=
+ =?utf-8?B?cDJ1Z0hkUkZaSUlldHhZcWt6NDZzOWU4cE9JVFdjWkc0S1grSUN6S0FMT1VU?=
+ =?utf-8?B?c2ljSlRzRzNKM3NHRzFBRS9QTytiWjVjczdBOGxXUXR3SUhUakZVUENKZTda?=
+ =?utf-8?B?b3Jtem4zSVJwQzk0RXMveFFmSFYyNG8rYUFEdkY1YnFUamRnSUpCTnRtQTl3?=
+ =?utf-8?B?OHRYWWQ5RUdIWDFZb0QrdmdPRW14dThkcXdQMkNENU9Dd0F6OFd2d2VBbTQ2?=
+ =?utf-8?B?aWVEMzlpc2p3a0FrU0draTFhOGkrL05WM2dYVU5IVFE5ZXJzK3FzR3poNDE3?=
+ =?utf-8?B?b085c2ZxRkU0Y05DV2JEcXNHcXRRZUFGZkpKMm5UcVBCSnNYSE45T1VQNjdX?=
+ =?utf-8?B?NXNJWkljZE1leWxJdDkyYnNpOHZ2ZDRzeTdVT25CVEx4cnlmMVZMbWhzRmdn?=
+ =?utf-8?B?OFdMSGM1MjR5aDg4KzFzRkg4Y3pYbThGaFlkMWpRVmU0dER4ZGRCTUwwVGdU?=
+ =?utf-8?B?bVVXajM3dkg5OUtyekJIbnNJOWdYM3kzT3hEUG9CT3dPaStJT1p4LzBCVDRZ?=
+ =?utf-8?B?VXpQaWN2L1dFZ3plcVRpbGpKdDg3S2YyK29lTGY5Qlk2c09KZ205czZMN1k5?=
+ =?utf-8?B?Qk1Gc2hmSFMwaXhUZFlnbitQMUdSUXNQVGg0b0V4cXNQNXJhRnJOeGhpY0Fj?=
+ =?utf-8?B?cFFyOEpITUZ2bmQ3clEzZjdOS0xGMTViVDJBS0NKeU9RQXV3Z1FFQWFCbkJ0?=
+ =?utf-8?B?anVLYUJjWmZaVERmYlU0M2I0WWQrUzA4QlJLcm1CNkJkV0libkNMSjBQalRU?=
+ =?utf-8?B?dWpUR2pMelFoZFhYd3pUa2NHeUdxaUI2bmdCVTVTaDFxbisrRzdTdjhNKzg2?=
+ =?utf-8?B?a0dYTjZJNUw5VnJHWDFGWitWcDg3OG5TdVZtZWJuM0FkN3hVTzI0cTUvY2JE?=
+ =?utf-8?B?RU1Hd0lFc1BINnJuelpaQ2NpRHNoVWRVbVBNT3Z1RHlEblBENExBZU4rdzNT?=
+ =?utf-8?B?UGtKVEFyQWVsaXFWSzlSb1hxZlorM1hsVDdUZlh5MVd5azBudTFGOG9GOE5G?=
+ =?utf-8?B?NzVaZ1oyekN2QjQxcngwRHlRci9Qc3diL1ZEcjR5QS81czdCc0h0NWdydy90?=
+ =?utf-8?B?NGRmZm53Q2dOQkRLbnFzaU83K3lZa2FRSXhaNVEyaUE0a3lscG5EbjFwUWlS?=
+ =?utf-8?B?eHZvSUdaZ2xaa2ZZU0pST21CRWQ2N2F2WHZXYStNQnhYbTFMMjZwVW8xWnhi?=
+ =?utf-8?B?Uk9scHhUU1pKWkxZeFlrUTZvWWFSTFlwVGNmY2dzaFJMUG5QR0RnMGxGczJu?=
+ =?utf-8?B?R3BDZmNORTRNdCtlRzMxcmxEOFBJVzNWVWMydk1oOXZIV2pJU1poRVVvSUJ5?=
+ =?utf-8?B?RTZFT1JBS09yUGRBTUtlQ2llTjY5ZnVnZjYwbUdhbXY1b3ZPWE9ZU0pPVzdC?=
+ =?utf-8?B?WHBCRWdtNmpsdzk0NzVvN2dvcGNrM0t0Ymc1N0RwMG9BcUdoZ09zTTNpd0hv?=
+ =?utf-8?B?NERuaUZNYThDbnpzVTdrOUI1UHJ3b0VFcWtPVFNpYU1YS1QyN2N5bzZCSzFz?=
+ =?utf-8?B?dnI3cDZGOUYvVGx3TENKZmVRUDVocnQ1ZS9TNDBnbUpnUk41Wks5SGdRT0dx?=
+ =?utf-8?Q?3+SkBCeiTy741n0dtTWGSCX7r?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fce7b275-3b5b-4be8-f157-08dbfbe6b3a7
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Dec 2023 14:20:48.0116 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: V6KmGgCLJGUrx75TlvW6B/ieUOU9S0AuOngk+2qCTtp1wmSxy4PcdkHeCZXgqfh9
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6484
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,226 +130,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, John Stultz <jstultz@google.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Jeffrey Kardatzke <jkardatzke@google.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Vijayanand Jitta <quic_vjitta@quicinc.com>,
- Nicolas Dufresne <nicolas@ndufresne.ca>, Yong Wu <yong.wu@mediatek.com>,
- jianjiao.zeng@mediatek.com, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- ckoenig.leichtzumerken@gmail.com, linaro-mm-sig@lists.linaro.org,
- Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>, tjmercier@google.com,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- kuohong.wang@mediatek.com, linux-kernel@vger.kernel.org,
- christian.koenig@amd.com
+Cc: alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
+ matthew.auld@intel.com, dri-devel@lists.freedesktop.org,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/m_y9/L720k3.YUUEknjTd2h
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Am 12.12.23 um 00:32 schrieb Felix Kuehling:
+>
+> On 2023-12-11 04:50, Christian König wrote:
+>> Am 08.12.23 um 20:53 schrieb Alex Deucher:
+>>> [SNIP]
+>>>> You also need a functionality which resets all cleared blocks to
+>>>> uncleared after suspend/resume.
+>>>>
+>>>> No idea how to do this, maybe Alex knows of hand.
+>>> Since the buffers are cleared on creation, is there actually 
+>>> anything to do?
+>>
+>> Well exactly that's the problem, the buffers are no longer always 
+>> cleared on creation with this patch.
+>>
+>> Instead we clear on free, track which areas are cleared and clear 
+>> only the ones which aren't cleared yet on creation.
+>
+> The code I added for clearing-on-free a long time ago, does not clear 
+> to 0, but to a non-0 poison value. That was meant to make it easier to 
+> catch applications incorrectly relying on 0-initialized memory. Is 
+> that being changed? I didn't see it in this patch series.
 
-On Wed, 13 Dec 2023 14:22:29 +0100
-Joakim Bech <joakim.bech@linaro.org> wrote:
+Yeah, Arun stumbled over that as well. Any objections that we fill with 
+zeros instead or is that poison value something necessary for debugging?
 
-> On Wed, Dec 13, 2023 at 01:38:25PM +0200, Pekka Paalanen wrote:
-> > On Wed, 13 Dec 2023 11:15:49 +0100
-> > Joakim Bech <joakim.bech@linaro.org> wrote:
-> >  =20
-> > > On Wed, Dec 13, 2023 at 11:05:17AM +0200, Pekka Paalanen wrote: =20
-> > > > On Tue, 12 Dec 2023 16:36:35 +0000
-> > > > Simon Ser <contact@emersion.fr> wrote:
-> > > >    =20
-> > > > > Is there a chance to pick a better name than "secure" here?
-> > > > >=20
-> > > > > "Secure" is super overloaded, it's not clear at all what it means=
- from
-> > > > > just the name. Something like "restricted" would be an improvemen=
-t.
-> > > > >    =20
-> > > >=20
-> > > > My thoughts exactly. Every time I see "secure" used for something t=
-hat
-> > > > either gives you garbage, refuses to work, or crashes your whole ma=
-chine
-> > > > *intentionally* when you try to do normal usual things to it in
-> > > > userspace (like use it for GL texturing, or try to use KMS writebac=
-k), I
-> > > > get an unscratchable itch.
-> > > >=20
-> > > > There is nothing "secure" from security perspective there for end u=
-sers
-> > > > and developers. It's just inaccessible buffers.
-> > > >=20
-> > > > I've been biting my lip until now, thinking it's too late.
-> > > >    =20
-> > > The characteristics we're looking for here is a buffer where the cont=
-ent
-> > > is inaccessible to the normal OS and user space, i.e., Non-secure EL0=
- to
-> > > EL2. I.e, the content of the buffer is meant to be used and accessible
-> > > primarily by the secure side and other devices that has been granted =
-=20
-> >=20
-> > s/secure side/proprietary side/
-> >  =20
-> I'm using the nomenclature as written by Arm (other architectures have
-> other names for their secure execution states).
->=20
-> > I presume nothing of the other side can ever be in any way open?
-> >  =20
-> I'm sure there are lots of examples of things running on the secure side
-> that are open. The OP-TEE project where I'm a maintainer has been fully
-> open source since 2014, to give one example that I'm familiar with
-> myself.
+Regards,
+Christian.
 
-Oh, I didn't realise there were FOSS implementations of the other side
-that tie in with this secure/restricted heap here. Sorry.
+>
+> Regards,
+>   Felix
+>
+>
+>>
+>> So some cases need special handling. E.g. when the engine is not 
+>> initialized yet or suspend/resume.
+>>
+>> In theory after a suspend/resume cycle the VRAM is cleared to zeros, 
+>> but in practice that's not always true.
+>>
+>> Christian.
+>>
+>>> Alex
 
-I think the patch series cover letter should point to those to give a
-view of the other side to the reviewers, just like DRM requires
-userspace to be open for new UAPI.
-
-> > Maybe the other side is even less secure than the FOSS side...
-> >  =20
-> > > access to it (for example decoders, display controllers if we're talk=
-ing
-> > > about video use cases). However, since the use cases for this exercis=
-es
-> > > the whole stack, from non-secure user space (EL0) all the way to secu=
-re
-> > > user space (S-EL0), with various devices needing access to the buffer=
- at
-> > > various times, it makes sense to let Linux manage the buffers, althou=
-gh
-> > > it still cannot access the content. That's the overall context. =20
-> >=20
-> > Yes, we know all this (except for the exact meaning of EL0 etc.).
-> >  =20
-> Great!
->=20
-> > > As for the name, it's always difficult to find a name suitable precis=
-ely
-> > > describing what it is. "Secure" is perhaps vague, but it might still a
-> > > good choice, if you carefully describe what secure means for this
-> > > particular heap (in the source code and the documentation for it). Fo=
-r =20
-> >=20
-> > Carefully describe, as in, re-define.
-> >  =20
-> > > example, the definition of "secure" for a secure heap as here could m=
-ean
-> > > that buffer content is inaccessible to the host OS and user space
-> > > running in normal world (using Arm nomenclature). I wouldn't have any
-> > > problems with calling it secure if, as said it's defined what we mean=
- by
-> > > saying so. But I'm all ears for other suggestions as well.
-> > >=20
-> > > Safe, protected, shielded, unreachable, isolated, inaccessible,
-> > > unaccessible, fortified, ... would any of these make more sense? =20
-> >=20
-> > "Restricted" sounds like a good compromise to me. The buffers' usage is
-> > severely restricted.
-> >  =20
-> Yes, restricted isn't a bad choice. We would still need to describe what
-> we mean by saying it's restricted, i.e., what is it restricted from,
-> since I'd guess that "restricted" by itself also could be a bit open
-> ended for a lot of people.
-
-Yes, but "restricted" also does not give out an immediate wrong
-impression. Label something as "secure", and it immediately raises the
-questions of what kind of attacks it prevents and how can I make use of
-it.
-
-Is there any use of restricted buffers outside of Digital Rights
-Management though? Could a private person somehow make use of it to
-protect their own contents? Like a photographer sending drafts to a
-customer while not wanting give out any digital copies?
-
-If not, then restricted buffers are something people would generally
-like to avoid, not embrace. "Secure" gives a positive impression,
-"restricted" a negative impression.
-
-> > It is the opposite of "safe", because accessing the contents the wrong
-> > way can return garbage or intentionally crash the whole system,
-> > depending on the hardware implementation. One example is attempting to
-> > put such a buffer on a KMS plane while the connector HDCP state is not
-> > high enough, or a writeback connector is connected to the CRTC. It is
-> > really fragile. (Do KMS drivers fail an atomic commit that would
-> > violate the heap rules? Somehow I doubt that, who'd even know what the
-> > rules are.)
-> >  =20
-> I believe one of the goals with reviewing the patches is to highlight
-> issues like this and try to figure out how to avoid ending up in
-> situations like what you described by suggesting alternative solutions
-> and ideas.
->=20
-> > It is protected/shielded/fortified from all the kernel and userspace,
-> > but a more familiar word to describe that is inaccessible.
-> > "Inaccessible buffer" per se OTOH sounds like a useless concept.
-> >=20
-> > It is not secure, because it does not involve security in any way. In
-> > fact, given it's so fragile, I'd classify it as mildly opposite of
-> > secure, as e.g. clients of a Wayland compositor can potentially DoS the
-> > compositor with it by simply sending such a dmabuf. Or DoS the whole
-> > system.
-> >  =20
-> I hear what you are saying and DoS is a known problem and attack vector,
-> but regardless, we have use cases where we don't want to expose
-> information in the clear and where we also would like to have some
-> guarantees about correctness. That is where various secure elements and
-> more generally security is needed.
->=20
-> So, it sounds like we have two things here, the first is the naming and
-> the meaning behind it. I'm pretty sure the people following and
-> contributing to this thread can agree on a name that makes sense. Would
-> you personally be OK with "restricted" as the name? It sounds like that.
-
-I would. I'm also just a by-stander, not a maintainer of kernel
-anything. I have no power to accept nor reject anything here.
-
-> The other thing is the feature and functionality itself offered by this
-> patch series. My impression from reading your replies is that you think
-> this is the wrong approach. If my impression is correct, what would you
-> suggest as an alternative approach?
-
-I just generally dislike locking people out of what their systems hold,
-but I also understand why extremely big companies want this Digital
-Rights Management technology for their business model. If Linux does
-not support that business model, they and the whole broadcast industry
-might use something else. At least it pays for kernel developers who
-can hopefully do some genuinely useful work on the side as well,
-benefiting the community.
-
-Let's just be honest about what is what.
-
-
-Thanks,
-pq
-
---Sig_/m_y9/L720k3.YUUEknjTd2h
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmV5vK4ACgkQI1/ltBGq
-qqeSrxAAsVMu1uwUAEiHOmIbdZ3IMpYONvvX9PjrsowXIzc4xZ+sohcdjwWsN9LM
-ZwyXBLhxVmbSKy55b8fNI2UR51yIDO8E6lZLQieSxAulEzya2aMjmJEHoXdBo/sS
-A3aGLk4Wu7hh4kSbyeOSoLf2Xf+Fg85puarR12WrxHwXn2JvFteRe1NX2v5+QJSn
-lzGOqYb4bFIIC7oL7qBVH3VBT/st+RdqvUGnsJlvngSO/YEZz8Q2AZTt8sE1R/mT
-6eZ9cidJoUdKqF9vKAxiKpTJyiVLpYqvhm9cvGQinbsYz3QKoUICKcSIGCGZlQti
-2GShGtnPL1qpZfo95xzcu+fw/9g9DC3BRbG/+dV84txlxzn8y1pD6kGka9HjPhi1
-ZuPC1MVNFvSOpv7tIvRRI/lD4ZRKdRJnvW4DDFntEhVfjGq0I5ezVjqBBHcic4QE
-tWWjkepYco492avLdzrJFuVbzj9VwzCRt+M/mlIyons/QfvX/SoRGDya2pk1DNvF
-NBK3Rf4qvOsooioZRNe8PnR/aBXw0MRFMN8htEKcuUHZnOCeIih+PV7VJwGMLMC2
-vjYC7/yXalMFutcYjBJeMyqQylgXUsoJY2WB4d4alazZvlMFrQ/v6+t9y2aOHdpZ
-+XGDbbjlVimKW1utrZlaHsi8w8Dbk9OH3I3tOZZQYfBgAFj6Nco=
-=IiKA
------END PGP SIGNATURE-----
-
---Sig_/m_y9/L720k3.YUUEknjTd2h--
