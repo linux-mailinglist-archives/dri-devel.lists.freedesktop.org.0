@@ -1,121 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E615811462
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 15:14:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 292EA811466
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 15:16:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3239410E2C4;
-	Wed, 13 Dec 2023 14:13:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BA8210E2BF;
+	Wed, 13 Dec 2023 14:16:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on20622.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7e88::622])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A80910E2C4;
- Wed, 13 Dec 2023 14:13:57 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=b/29kFfB6bPbypQGvk7CFKogbsxNRqzy6dl6k/NUfiglGLeTVaEGfZaYaG3WkxmMD1NFAZe9gwmsa41lTzUisjJ6WNpo+zyPE5rposaEyYkw4uzKW7yOAdYhdAxu+I4x3yDHEWH/aoxjRskWaq6a0lFsWoDqhu7j02W3JhIRLi2+LhcwnaE95+9oVDH5ul0o62Lh8ERxxYvbNx9pn8da4z3SeVD8/PJI9amHGY6XAIc33WRj6x8Vn7lydcF0/Pn89Bgk8KSqrxbzaZs7zkXfWEk8E1AQ5MR58WgI8YYJkYlXLjKx0YcuKEnpqWVW3muZd+R34V3+LrxQUnDrF7lucA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PyFKaOWMQY9iofJCLL8GyRsls28tVaP91EI/ChS9hOw=;
- b=NrseGh05XcE+djUD2545HxXb0G76zlCaVcJPbnK2O7i+MbxKw4LT+eaLKiqRDk6TNSz4Aiomm5smiVxlOhsMG5eB6Srpczc0pAJkkiuVCHU+7EiPzKY1B4ZziGE4snvh7C405oKx9I78RinFPTcPIP0xmlj8DC23uxD7psWNdxajCcXzdSdcg26TaH5Lme+PS5GO9a+2Rll26Z2MzWZAHXbBhnnMjbzgeBPEwORP7pAWJvT6uTSY0D/GB1vDrT44nML4JaFRgIEmlo4lYOh5S0f2EbssP/NFU4Z3DGtXNLbE2RTJu71iN9VwpIsALQYoaO/kMyaXapXH73CGsjAi5A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PyFKaOWMQY9iofJCLL8GyRsls28tVaP91EI/ChS9hOw=;
- b=FxYBWGFJlsspfIAaIzEpgISxlDuNIdJVQuozqmsurGYSRg5GEAXzyly6nHTNa8fufkwQjZO2cnOccPMwnGehqjM2ZE8YBOtmVbjFdZ6dK37BnfRuAlEUbxM3IV0I6RUmPK6qx8T6mssKL1Qglq+ndy/fFRb3SeqepI5xBN0M9sY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by DM8PR12MB5398.namprd12.prod.outlook.com (2603:10b6:8:3f::5) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7091.26; Wed, 13 Dec 2023 14:13:53 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::ca80:8f1c:c11:ded3]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::ca80:8f1c:c11:ded3%7]) with mapi id 15.20.7091.022; Wed, 13 Dec 2023
- 14:13:53 +0000
-Message-ID: <ae9bc39c-1724-4946-9227-ea74f05ea89e@amd.com>
-Date: Wed, 13 Dec 2023 15:13:48 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC] drm/i915: Allow dmabuf mmap forwarding
-Content-Language: en-US
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20230925131638.32808-1-tvrtko.ursulin@linux.intel.com>
- <4da147e7-44bf-4d19-952d-fa3bab141f71@linux.intel.com>
- <26b9d5bf-f895-4237-85fe-04f53040c26c@amd.com>
- <7387ea98-5854-45cc-a6c5-70cfe0febb3a@linux.intel.com>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <7387ea98-5854-45cc-a6c5-70cfe0febb3a@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0117.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a3::8) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
+ [IPv6:2a00:1450:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B7BF10E07D
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 14:16:29 +0000 (UTC)
+Received: by mail-lj1-x236.google.com with SMTP id
+ 38308e7fff4ca-2c9f7fe6623so88060531fa.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 06:16:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1702476987; x=1703081787; darn=lists.freedesktop.org;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=HnmrUE6uA1UjU0DGZJd+ywoyYgk2RFZ2Qv8HjSJNWug=;
+ b=cLAcxmTM2wic1lTVaspz/NxaFFUStJmAj7Ax18sCgt8xrfpAfgU9uKiVT7FEref8tM
+ KIMiJD0qlA5WXgu5hCnlmkCPkJT2RUZeEX1Qw4/u2a0a7yEJ9eKPGkVSD3MVCLGuR66p
+ qK7sDKqRZdB8Qgtpi4N60bJm0VdaloADhcnlhLFCGLZmrc/xnovS9ld8suPiSMhJqkr9
+ sINXxvnMu09Ljzqw/WN0zv6UEKypfIZRg54TnokT93y8bj2qF0TemxfY2vQ1RFxdaThT
+ 2ajLAkfImY3x5mypTCk+G7Hax7tXbEVTi5YrHH9ul1CTbsg4gTeJONdnBUw/nmQtkHrB
+ JPKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1702476987; x=1703081787;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=HnmrUE6uA1UjU0DGZJd+ywoyYgk2RFZ2Qv8HjSJNWug=;
+ b=nF3uupRjmq+0K5ewyXTly3nDzjE1Oxv5Bo9l9iACxck1AEPlg6tGOu63RevzX2vL1S
+ +/CR24WHWD+t/7V5XYc00s5BbiQ1E/9jijWfHSNZ5JnPV2u71aoRL1C+x1By0F2RIckQ
+ 6lEojFrr66dHGbTuVzFZDUWJfGGn6z6xYHwDvnJThVu6i24R3N4bCEAsWuse6ZzfPGoj
+ hmyQZQZNpdUYhZxauGFSCkS7M+XEuYmpVrsEFHfpHsugb5rzdXmD33PTIWksBDluI0fW
+ tUPSGM09jBBBagT5+pLjPoeJHKg/hHhI8gNzQ/7ScDoEH4uZa8/Ub99FcGkmVcL1dcPd
+ gBEA==
+X-Gm-Message-State: AOJu0YyHdu1MnCUP3VYgL6fjNlMzRRGKUC9JUclDb+aw2jr+j7nPyb3v
+ njBYC/P5Uw/QyTJURUp8pyk=
+X-Google-Smtp-Source: AGHT+IHMEFbwY2jxx7Eqytsu4ONvN/Lw6aO1DvwW9XsiwGhW/Welyye/FmxGvgN+8ji2wLeKZxibCA==
+X-Received: by 2002:a2e:9b03:0:b0:2ca:34cd:77ea with SMTP id
+ u3-20020a2e9b03000000b002ca34cd77eamr2472316lji.44.1702476987175; 
+ Wed, 13 Dec 2023 06:16:27 -0800 (PST)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ 20-20020a2eb954000000b002c9f62145f8sm1868126ljs.82.2023.12.13.06.16.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 Dec 2023 06:16:26 -0800 (PST)
+Date: Wed, 13 Dec 2023 16:16:14 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Joakim Bech <joakim.bech@linaro.org>
+Subject: Re: [PATCH v3 0/7] dma-buf: heaps: Add secure heap
+Message-ID: <20231213161614.43e5bca8@eldfell>
+In-Reply-To: <20231213132229.q3uxdhtdsxuzw3w6@pop-os.localdomain>
+References: <20231212024607.3681-1-yong.wu@mediatek.com>
+ <DPBmATfmfvSP8Cwjz99kj_JvCEiAqRfuMFJZEBF2aIgl8NZqWFR66eyPTX1E8bHyOlimBihEE3E80p9bfOJ-0SNu8pwoIzL9gD2Xae6r97g=@emersion.fr>
+ <20231213110517.6ce36aca@eldfell>
+ <20231213101549.lioqfzjxcvmqxqu3@pop-os.localdomain>
+ <20231213133825.0a329864@eldfell>
+ <20231213132229.q3uxdhtdsxuzw3w6@pop-os.localdomain>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DM8PR12MB5398:EE_
-X-MS-Office365-Filtering-Correlation-Id: 21e143c8-d3e4-44d0-7f68-08dbfbe5bc9f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: b/zHA/DZbSewW6YWJCnFR06L7HfJVjvOzDYEwM6NCyrLd5JHJ3UeZKWdl0IWzFqCq0SDPBMaUW3wFC2tmL+YSlbfdspJxYeeB5wzpWrOIHJSxUuIKOojMcjE1BMf4fqC5ZnXTQVUJg0gp4Xc5xTp9fsoMLvIwRF78ZSnj566Vt0PwOVWxQkJVds5S/xu6EW+vbwQo0vawjc+Y8W3d9W1tKqeZB8fRozSUcPOqNbrpr5Xtszs2i/7PZXVMrTNh9JUj/Zs0reKrCXULQuKg99NlS/L4po6hsQmoozHfsc3zkqpVhFOOyvp3p9tqGw8qVtQGl3MWWcMFltd+yQhL36Vlb4UrIO2BeOpsJsLovp+uP1bcjRSAl1uWW4vZWLCcr3D576Xovb69hAeFbu+ooWJ7bCF5ufWow79M+eseBGjKSHPh97qFmitRWXj5AwekYJzC493YwtqNdfISKLxVkHSSLM7axGK0H8jMXm0z/oLAUXb9hjldaj+SlTLwxT6Uu0pRpiGCQpltttvqB20UMMw3SNkL0DSYilNgyM16uYoX2b1PcDQ4dFvoL9H0E5n7vyP3qLcBIi+hKTHNTmd4KCzI71ui9pHj46Egu2iM2VCqxxKJyOSlvjV4EI2oaD5Ac9DKlOSgO3xSpbg64GWjls/BA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(366004)(136003)(396003)(39860400002)(376002)(346002)(230922051799003)(451199024)(1800799012)(186009)(64100799003)(83380400001)(26005)(66574015)(6666004)(478600001)(6486002)(6512007)(2616005)(6506007)(53546011)(41300700001)(4326008)(8936002)(8676002)(38100700002)(5660300002)(31686004)(30864003)(36756003)(2906002)(66476007)(66556008)(31696002)(66946007)(86362001)(316002)(54906003)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K0IvbGZJdWdBOHdtWTJHY0hLWXU1K08vT1ZsUzNnMjQ5ei9IWjcxN3JnNmF0?=
- =?utf-8?B?aWdTelE3TTZTSGtHMDNqWmJlZWhhTHRJcVNwbW43NHdEci8wN2pLQ0Z1ay9Z?=
- =?utf-8?B?WldOQ0NFNmYwM3VQbDZZd2FwWFNwd1ROU0IzY2NVekJFVlNzNUNYUDVqWlRa?=
- =?utf-8?B?SkovQ0tNSEdYL2NLSWIrT0trMTFBcjhrejRRUUhoeDQvWTJRTDJnREUyaFNN?=
- =?utf-8?B?bStFL01KdG10REhuTW43YVlJU0FadEdLRW1sbThPY2FQSER6QW5sRE8yQWV5?=
- =?utf-8?B?czk0eUFDNGlrVmo2QkkwRjJwdEU1NFdXbjdmM1lPbWovRmNQVm1FTm16Z3B0?=
- =?utf-8?B?aWFrMW9KRCs5em9GTTlBenVxbHJxVTloNjZKWC9CTXBqZTBWM3NiRUxlQTU0?=
- =?utf-8?B?REczd3Qva2xqWm5mZmxUM3o2ZEVWVmIzMTVTU3hTMml2ckFZR0Z3bkZDU09Z?=
- =?utf-8?B?Nm13QmFncDFIOWhzaWtaWFlUc2pud0JqRHlaOWZtNldCQWFXc1JXS1MyMXFL?=
- =?utf-8?B?OGRUVXJZTk9uWTJrNVBnQ0pUSnhPSTA3bFpxVThEV1luVktvcGJCUkl4TjR2?=
- =?utf-8?B?QkxzTS9yL2FqYmUrdHQ4WU1wSDhpZkdNbHltRkd2WEtialRSY1Boc2JQUjV4?=
- =?utf-8?B?M0ZZWlg1UWpiWkFCeStnb29WYzl2WU1XRUNsZDN4MzZjYm81TWdvQzJnODBM?=
- =?utf-8?B?RVZrYzMvNURIZUFjd3FuN1ZUYTY2OWFuQVRjc3BMbEIxdjF2aGF2MEJiTFdi?=
- =?utf-8?B?aXBVTUh0VnBwaGY1MEhDYXF4K1gvYldTWm1VT0ZlSG5FZzRqWW0wTVM0ak9B?=
- =?utf-8?B?dmk4djVWeFRLK1dFR0Z4NlVpZ2FXbWltRzd3QWJnY2xqQUJsU3ZRQi9LQmk0?=
- =?utf-8?B?SDF1di9HaS93d1hlazFVdnB5SzQ1TFo1bEx2blRvM09rQUFpcC95KzBoNEFs?=
- =?utf-8?B?aDBtbExOU2NDSVFtb1BGVnZPK0lCbDc3UDRJUnZtNitlelk0RlFhUE0rcXB0?=
- =?utf-8?B?RjRCdlIzM1ZWN2syeTZaSGFXMVRpbkZDNGg5czhGNWFBRFBZSmtmajB2TmVQ?=
- =?utf-8?B?c3pwSVp6TysxZmZGSFJLZHBpWXhPOE1TLy9yQ2hjYjA0c2NDNHUzY2VGVndQ?=
- =?utf-8?B?WHRyOHo2RHUwKzhyTytlcW1YcEozVjBsejhjN05waEpkRmVuY1M4anJNOU44?=
- =?utf-8?B?SXc3MWZzWThKM3o2UTFaL2d2c1R0UWxaZHQ1bmlUYnZGQUQzRkhuN1VVTHpC?=
- =?utf-8?B?SFh4bERNQXcwM2NISnBtNkFkdE1MQTlWcEQvMHh6YzU1TDZhODBHZkVqRTcy?=
- =?utf-8?B?eCtWczZCS0M2MWRPRi9wZVZId25Ocm9ISEQ4YUhhNGNETzVVUnRoZDlvMHpr?=
- =?utf-8?B?bVMrYUVGMmlsZHdQRzVFeFZmck05NG5Od05seEw0b1k2U3o0alJRNTRYUjlj?=
- =?utf-8?B?UXQ1ZEIzT293OFNXTDZDaGhVaTRIaG4rdWNKVU1BQ24rTFl2eXNhU2JEdDZj?=
- =?utf-8?B?emwxcEdsMkRVYllYaGVHMURIOThhWUFlNXVWQnU4ekhCc2RpdStVNXJqWEdi?=
- =?utf-8?B?a21mcVNvRndqNUNBa21EYzFUbFhJRFJOVTNXaTVzSlBNbjlCaUxyN3ZPRG9y?=
- =?utf-8?B?bS8wbEpHUjQ1NUZ4Zkk4ZHgvSS9jMFNnT1RtcjRMcUMwcXhEc1JqMUFXTWRZ?=
- =?utf-8?B?cnJyUGJoR09OeGsvc0hOOHA5RUxuUkhMVFVEU05MZ2lMa3A0QklSVnQxRWp6?=
- =?utf-8?B?T2RGdEt4emF1M2JEdE5YQzZTVThkQks1YWp3WGpNWlUzeWMyN3dvVHY0STFO?=
- =?utf-8?B?ZTFWR1VyM3pGa21OazIwYTJKK09yQlF5TGlpdGRsVkFLZWRwdFAxekJ5a2kx?=
- =?utf-8?B?MkplNnFMNW81VE9TZFJMMVBGQlE2eCtobTNjb1lSSDN1dHJLbHpHRVJLUjc0?=
- =?utf-8?B?YjBDdVZZbW50bHZwOGJvblY1N0crdFpFekxHbFVuenl5UWxpK2tpbm1LWHlG?=
- =?utf-8?B?aVlzTlA5RHF3Vm5YYXJZUXZIR2RDa21xRTVSK2ZZZCtEOFZyVFBiNys3WHpL?=
- =?utf-8?B?dFVOVCs4dnVCcHo4WjJiV2hjVFFmV3J0SUhreG45RWpzQ1dXZVQvTlVIR3l1?=
- =?utf-8?Q?P2od9tWRfnCwz3gRuvzqx+V5U?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 21e143c8-d3e4-44d0-7f68-08dbfbe5bc9f
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Dec 2023 14:13:53.5236 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PgWoIaqcayIcz4fASwLPnCFxw29vJJCi4ssOS7MYltK+WZ7LpVf/kPbjS9TH+xOA
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR12MB5398
+Content-Type: multipart/signed; boundary="Sig_/m_y9/L720k3.YUUEknjTd2h";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,320 +76,226 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Matthew Auld <matthew.auld@intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Nirmoy Das <nirmoy.das@intel.com>
+Cc: dri-devel@lists.freedesktop.org, John Stultz <jstultz@google.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Jeffrey Kardatzke <jkardatzke@google.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Vijayanand Jitta <quic_vjitta@quicinc.com>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>, Yong Wu <yong.wu@mediatek.com>,
+ jianjiao.zeng@mediatek.com, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ ckoenig.leichtzumerken@gmail.com, linaro-mm-sig@lists.linaro.org,
+ Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>, tjmercier@google.com,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ kuohong.wang@mediatek.com, linux-kernel@vger.kernel.org,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 13.12.23 um 12:46 schrieb Tvrtko Ursulin:
->
-> Hi,
->
-> On 12/12/2023 14:10, Christian König wrote:
->> Hi Tvrtko,
->>
->> Thanks for pointing this mail out once more, I've totally missed it.
->
-> That's okay, if it was really urgent I would have re-raised the thread 
-> earlier. :) As it stands so far it is only about acceptance test 
-> suites failing and no known real use cases affected.
->
->> Am 12.12.23 um 11:37 schrieb Tvrtko Ursulin:
->>>
->>> On 25/09/2023 14:16, Tvrtko Ursulin wrote:
->>>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>>
->>>> Allow mmap forwarding for imported buffers in order to allow 
->>>> minigbm mmap
->>>> to work on aperture-less platforms such as Meteorlake.
->>>>
->>>> So far i915 did not allow mmap on imported buffers but from minigbm
->>>> perspective that worked because of the DRM_IOCTL_I915_GEM_MMAP_GTT 
->>>> fall-
->>>> back would then be attempted, and would be successful.
->>>>
->>>> This stops working on Meteorlake since there is no aperture.
->>>>
->>>> Allow i915 to mmap imported buffers using forwarding via 
->>>> dma_buf_mmap(),
->>>> which allows the primary minigbm path of 
->>>> DRM_IOCTL_I915_GEM_MMAP_OFFSET /
->>>> I915_MMAP_OFFSET_WB to work.
->>>>
->>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
->>>> Cc: Christian König <christian.koenig@amd.com>
->>>> Cc: Matthew Auld <matthew.auld@intel.com>
->>>> Cc: Nirmoy Das <nirmoy.das@intel.com>
->>>> ---
->>>> 1)
->>>> It is unclear to me if any real userspace depends on this, but 
->>>> there are
->>>> certainly compliance suites which fail.
->>
->> Well that is actually intentional, but see below.
->>
->>>>
->>>> 2)
->>>> It is also a bit unclear to me if dma_buf_mmap() is exactly 
->>>> intended for
->>>> this kind of use. It seems that it is, but I also found some old 
->>>> mailing
->>>> list discussions suggesting there might be some unresolved questions
->>>> around VMA revocation.
->>
->> I actually solved those a few years back by introducing the 
->> vma_set_file() function which standardized the dance necessary for 
->> the dma_buf_mmap() function.
->>
->>>>
->>>> 1 + 2 = RFC for now.
->>>>
->>>> Daniel and Christian were involved in 2) in the past so comments would
->>>> be appreciated.
->>>
->>> Any comments on this one? I don't have all the historical knowledge 
->>> of when this was maybe attempted before and what problems were hit, 
->>> or something. So would there be downsides or it is fine to forward it.
->>
->> It works technically inside the kernel and Thomas Zimmerman suggested 
->> a patch set which made it possible to use for all DRM drivers.
->>
->> But IIRC this patch set was rejected with the rational that while 
->> doing an mmap() on an imported DMA-buf works when userspace actually 
->> does this then there is a bug in userspace. The UMD doesn't seems to 
->> be aware of the fact that the buffer is imported and so for example 
->> needs to call dma_buf_begin_cpu_access() and dma_buf_end_cpu_access().
->>
->> UMDs can trivially work around this by doing the mmap() on the 
->> DMA-buf file descriptor instead (potentially after re-exporting it), 
->> but the kernel really shouldn't help hide userspace bugs.
->
-> Hm right, however why does drm_gem_shmem_mmap:
->
->     if (obj->import_attach) {
->         ret = dma_buf_mmap(obj->dma_buf, vma, 0);
+--Sig_/m_y9/L720k3.YUUEknjTd2h
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Honestly I have absolutely no idea.
+On Wed, 13 Dec 2023 14:22:29 +0100
+Joakim Bech <joakim.bech@linaro.org> wrote:
 
-> Isn't that allowing drivers which use the helper to to forward to 
-> dma_buf_mmap?
+> On Wed, Dec 13, 2023 at 01:38:25PM +0200, Pekka Paalanen wrote:
+> > On Wed, 13 Dec 2023 11:15:49 +0100
+> > Joakim Bech <joakim.bech@linaro.org> wrote:
+> >  =20
+> > > On Wed, Dec 13, 2023 at 11:05:17AM +0200, Pekka Paalanen wrote: =20
+> > > > On Tue, 12 Dec 2023 16:36:35 +0000
+> > > > Simon Ser <contact@emersion.fr> wrote:
+> > > >    =20
+> > > > > Is there a chance to pick a better name than "secure" here?
+> > > > >=20
+> > > > > "Secure" is super overloaded, it's not clear at all what it means=
+ from
+> > > > > just the name. Something like "restricted" would be an improvemen=
+t.
+> > > > >    =20
+> > > >=20
+> > > > My thoughts exactly. Every time I see "secure" used for something t=
+hat
+> > > > either gives you garbage, refuses to work, or crashes your whole ma=
+chine
+> > > > *intentionally* when you try to do normal usual things to it in
+> > > > userspace (like use it for GL texturing, or try to use KMS writebac=
+k), I
+> > > > get an unscratchable itch.
+> > > >=20
+> > > > There is nothing "secure" from security perspective there for end u=
+sers
+> > > > and developers. It's just inaccessible buffers.
+> > > >=20
+> > > > I've been biting my lip until now, thinking it's too late.
+> > > >    =20
+> > > The characteristics we're looking for here is a buffer where the cont=
+ent
+> > > is inaccessible to the normal OS and user space, i.e., Non-secure EL0=
+ to
+> > > EL2. I.e, the content of the buffer is meant to be used and accessible
+> > > primarily by the secure side and other devices that has been granted =
+=20
+> >=20
+> > s/secure side/proprietary side/
+> >  =20
+> I'm using the nomenclature as written by Arm (other architectures have
+> other names for their secure execution states).
+>=20
+> > I presume nothing of the other side can ever be in any way open?
+> >  =20
+> I'm sure there are lots of examples of things running on the secure side
+> that are open. The OP-TEE project where I'm a maintainer has been fully
+> open source since 2014, to give one example that I'm familiar with
+> myself.
 
-Yes, Daniel mentioned that some drivers did this before we found that 
-it's actually not a good idea. It could be that this code piece was 
-meant with that and we only allow it to avoid breaking UAPI.
+Oh, I didn't realise there were FOSS implementations of the other side
+that tie in with this secure/restricted heap here. Sorry.
 
-Never the less I think we should add documentation for this.
+I think the patch series cover letter should point to those to give a
+view of the other side to the reviewers, just like DRM requires
+userspace to be open for new UAPI.
 
-> Maybe I am getting lost in the forest of callbacks in this area.. 
-> Because it is supposed to be about shmem objects, but drivers which 
-> use the helper and rely on common prime import look and also use 
-> drm_gem_shmem_prime_import_sg_table can get there.
+> > Maybe the other side is even less secure than the FOSS side...
+> >  =20
+> > > access to it (for example decoders, display controllers if we're talk=
+ing
+> > > about video use cases). However, since the use cases for this exercis=
+es
+> > > the whole stack, from non-secure user space (EL0) all the way to secu=
+re
+> > > user space (S-EL0), with various devices needing access to the buffer=
+ at
+> > > various times, it makes sense to let Linux manage the buffers, althou=
+gh
+> > > it still cannot access the content. That's the overall context. =20
+> >=20
+> > Yes, we know all this (except for the exact meaning of EL0 etc.).
+> >  =20
+> Great!
+>=20
+> > > As for the name, it's always difficult to find a name suitable precis=
+ely
+> > > describing what it is. "Secure" is perhaps vague, but it might still a
+> > > good choice, if you carefully describe what secure means for this
+> > > particular heap (in the source code and the documentation for it). Fo=
+r =20
+> >=20
+> > Carefully describe, as in, re-define.
+> >  =20
+> > > example, the definition of "secure" for a secure heap as here could m=
+ean
+> > > that buffer content is inaccessible to the host OS and user space
+> > > running in normal world (using Arm nomenclature). I wouldn't have any
+> > > problems with calling it secure if, as said it's defined what we mean=
+ by
+> > > saying so. But I'm all ears for other suggestions as well.
+> > >=20
+> > > Safe, protected, shielded, unreachable, isolated, inaccessible,
+> > > unaccessible, fortified, ... would any of these make more sense? =20
+> >=20
+> > "Restricted" sounds like a good compromise to me. The buffers' usage is
+> > severely restricted.
+> >  =20
+> Yes, restricted isn't a bad choice. We would still need to describe what
+> we mean by saying it's restricted, i.e., what is it restricted from,
+> since I'd guess that "restricted" by itself also could be a bit open
+> ended for a lot of people.
 
-I don't fully understand it either of hand.
+Yes, but "restricted" also does not give out an immediate wrong
+impression. Label something as "secure", and it immediately raises the
+questions of what kind of attacks it prevents and how can I make use of
+it.
 
-Regards,
-Christian.
+Is there any use of restricted buffers outside of Digital Rights
+Management though? Could a private person somehow make use of it to
+protect their own contents? Like a photographer sending drafts to a
+customer while not wanting give out any digital copies?
 
->
-> Regards,
->
-> Tvrtko
->
->>>>
->>>> Test-with: 20230925131539.32743-1-tvrtko.ursulin@linux.intel.com
->>>>
->>>> ---
->>>>   drivers/gpu/drm/i915/gem/i915_gem_mman.c      | 78 
->>>> +++++++++++++++----
->>>>   .../gpu/drm/i915/gem/i915_gem_object_types.h  |  1 +
->>>>   2 files changed, 65 insertions(+), 14 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c 
->>>> b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
->>>> index aa4d842d4c5a..78c84c0a8b08 100644
->>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
->>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
->>>> @@ -5,6 +5,7 @@
->>>>    */
->>>>     #include <linux/anon_inodes.h>
->>>> +#include <linux/dma-buf.h>
->>>>   #include <linux/mman.h>
->>>>   #include <linux/pfn_t.h>
->>>>   #include <linux/sizes.h>
->>>> @@ -664,6 +665,7 @@ insert_mmo(struct drm_i915_gem_object *obj, 
->>>> struct i915_mmap_offset *mmo)
->>>>   static struct i915_mmap_offset *
->>>>   mmap_offset_attach(struct drm_i915_gem_object *obj,
->>>>              enum i915_mmap_type mmap_type,
->>>> +           bool forward_mmap,
->>>>              struct drm_file *file)
->>>>   {
->>>>       struct drm_i915_private *i915 = to_i915(obj->base.dev);
->>>> @@ -682,6 +684,7 @@ mmap_offset_attach(struct drm_i915_gem_object 
->>>> *obj,
->>>>         mmo->obj = obj;
->>>>       mmo->mmap_type = mmap_type;
->>>> +    mmo->forward_mmap = forward_mmap;
->>>>       drm_vma_node_reset(&mmo->vma_node);
->>>>         err = drm_vma_offset_add(obj->base.dev->vma_offset_manager,
->>>> @@ -714,12 +717,25 @@ mmap_offset_attach(struct drm_i915_gem_object 
->>>> *obj,
->>>>       return ERR_PTR(err);
->>>>   }
->>>>   +static bool
->>>> +should_forward_mmap(struct drm_i915_gem_object *obj,
->>>> +            enum i915_mmap_type mmap_type)
->>>> +{
->>>> +    if (!obj->base.import_attach)
->>>> +        return false;
->>>> +
->>>> +    return mmap_type == I915_MMAP_TYPE_WB ||
->>>> +           mmap_type == I915_MMAP_TYPE_WC ||
->>>> +           mmap_type == I915_MMAP_TYPE_UC;
->>>> +}
->>>> +
->>>>   static int
->>>>   __assign_mmap_offset(struct drm_i915_gem_object *obj,
->>>>                enum i915_mmap_type mmap_type,
->>>>                u64 *offset, struct drm_file *file)
->>>>   {
->>>>       struct i915_mmap_offset *mmo;
->>>> +    bool should_forward;
->>>>         if (i915_gem_object_never_mmap(obj))
->>>>           return -ENODEV;
->>>> @@ -735,12 +751,15 @@ __assign_mmap_offset(struct 
->>>> drm_i915_gem_object *obj,
->>>>       if (mmap_type == I915_MMAP_TYPE_FIXED)
->>>>           return -ENODEV;
->>>>   +    should_forward = should_forward_mmap(obj, mmap_type);
->>>> +
->>>>       if (mmap_type != I915_MMAP_TYPE_GTT &&
->>>>           !i915_gem_object_has_struct_page(obj) &&
->>>> -        !i915_gem_object_has_iomem(obj))
->>>> +        !i915_gem_object_has_iomem(obj) &&
->>>> +        !should_forward)
->>>>           return -ENODEV;
->>>>   -    mmo = mmap_offset_attach(obj, mmap_type, file);
->>>> +    mmo = mmap_offset_attach(obj, mmap_type, should_forward, file);
->>>>       if (IS_ERR(mmo))
->>>>           return PTR_ERR(mmo);
->>>>   @@ -936,6 +955,32 @@ static struct file *mmap_singleton(struct 
->>>> drm_i915_private *i915)
->>>>       return file;
->>>>   }
->>>>   +static void
->>>> +__vma_mmap_pgprot(struct vm_area_struct *vma, enum i915_mmap_type 
->>>> mmap_type)
->>>> +{
->>>> +    const pgprot_t pgprot =vm_get_page_prot(vma->vm_flags);
->>>> +
->>>> +    switch (mmap_type) {
->>>> +    case I915_MMAP_TYPE_WC:
->>>> +        vma->vm_page_prot = pgprot_writecombine(pgprot);
->>>> +        break;
->>>> +    case I915_MMAP_TYPE_FIXED:
->>>> +        GEM_WARN_ON(1);
->>>> +        fallthrough;
->>>> +    case I915_MMAP_TYPE_WB:
->>>> +        vma->vm_page_prot = pgprot;
->>>> +        break;
->>>> +    case I915_MMAP_TYPE_UC:
->>>> +        vma->vm_page_prot = pgprot_noncached(pgprot);
->>>> +        break;
->>>> +    case I915_MMAP_TYPE_GTT:
->>>> +        vma->vm_page_prot = pgprot_writecombine(pgprot);
->>>> +        break;
->>>> +    }
->>>> +
->>>> +    vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
->>>> +}
->>>> +
->>>>   static int
->>>>   i915_gem_object_mmap(struct drm_i915_gem_object *obj,
->>>>                struct i915_mmap_offset *mmo,
->>>> @@ -953,6 +998,20 @@ i915_gem_object_mmap(struct 
->>>> drm_i915_gem_object *obj,
->>>>           vm_flags_clear(vma, VM_MAYWRITE);
->>>>       }
->>>>   +    /* dma-buf import */
->>>> +    if (mmo && mmo->forward_mmap) {
->>>> +        __vma_mmap_pgprot(vma, mmo->mmap_type);
->>>> +        vm_flags_set(vma, VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP 
->>>> | VM_IO);
->>>> +
->>>> +        /*
->>>> +         * Don't have our vm_ops to drop the reference in this 
->>>> case so
->>>> +         * drop it now and if object goes away userspace will fault.
->>>> +         */
->>>> +        i915_gem_object_put(mmo->obj);
->>>> +
->>>> +        return dma_buf_mmap(obj->base.dma_buf, vma, 0);
->>>> +    }
->>>> +
->>>>       anon = mmap_singleton(to_i915(dev));
->>>>       if (IS_ERR(anon)) {
->>>>           i915_gem_object_put(obj);
->>>> @@ -982,34 +1041,25 @@ i915_gem_object_mmap(struct 
->>>> drm_i915_gem_object *obj,
->>>>         vma->vm_private_data = mmo;
->>>>   +    __vma_mmap_pgprot(vma, mmo->mmap_type);
->>>> +
->>>>       switch (mmo->mmap_type) {
->>>>       case I915_MMAP_TYPE_WC:
->>>> -        vma->vm_page_prot =
->>>> - pgprot_writecombine(vm_get_page_prot(vma->vm_flags));
->>>>           vma->vm_ops = &vm_ops_cpu;
->>>>           break;
->>>> -
->>>>       case I915_MMAP_TYPE_FIXED:
->>>>           GEM_WARN_ON(1);
->>>>           fallthrough;
->>>>       case I915_MMAP_TYPE_WB:
->>>> -        vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
->>>>           vma->vm_ops = &vm_ops_cpu;
->>>>           break;
->>>> -
->>>>       case I915_MMAP_TYPE_UC:
->>>> -        vma->vm_page_prot =
->>>> - pgprot_noncached(vm_get_page_prot(vma->vm_flags));
->>>>           vma->vm_ops = &vm_ops_cpu;
->>>>           break;
->>>> -
->>>>       case I915_MMAP_TYPE_GTT:
->>>> -        vma->vm_page_prot =
->>>> - pgprot_writecombine(vm_get_page_prot(vma->vm_flags));
->>>>           vma->vm_ops = &vm_ops_gtt;
->>>>           break;
->>>>       }
->>>> -    vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
->>>>         return 0;
->>>>   }
->>>> @@ -1084,7 +1134,7 @@ int i915_gem_fb_mmap(struct 
->>>> drm_i915_gem_object *obj, struct vm_area_struct *vma
->>>>       } else {
->>>>           /* handle stolen and smem objects */
->>>>           mmap_type = i915_ggtt_has_aperture(ggtt) ? 
->>>> I915_MMAP_TYPE_GTT : I915_MMAP_TYPE_WC;
->>>> -        mmo = mmap_offset_attach(obj, mmap_type, NULL);
->>>> +        mmo = mmap_offset_attach(obj, mmap_type, false, NULL);
->>>>           if (IS_ERR(mmo))
->>>>               return PTR_ERR(mmo);
->>>>       }
->>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h 
->>>> b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
->>>> index 0c5cdab278b6..b4f86fa020aa 100644
->>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
->>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
->>>> @@ -225,6 +225,7 @@ struct i915_mmap_offset {
->>>>       struct drm_vma_offset_node vma_node;
->>>>       struct drm_i915_gem_object *obj;
->>>>       enum i915_mmap_type mmap_type;
->>>> +    bool forward_mmap;
->>>>         struct rb_node offset;
->>>>   };
->>
+If not, then restricted buffers are something people would generally
+like to avoid, not embrace. "Secure" gives a positive impression,
+"restricted" a negative impression.
 
+> > It is the opposite of "safe", because accessing the contents the wrong
+> > way can return garbage or intentionally crash the whole system,
+> > depending on the hardware implementation. One example is attempting to
+> > put such a buffer on a KMS plane while the connector HDCP state is not
+> > high enough, or a writeback connector is connected to the CRTC. It is
+> > really fragile. (Do KMS drivers fail an atomic commit that would
+> > violate the heap rules? Somehow I doubt that, who'd even know what the
+> > rules are.)
+> >  =20
+> I believe one of the goals with reviewing the patches is to highlight
+> issues like this and try to figure out how to avoid ending up in
+> situations like what you described by suggesting alternative solutions
+> and ideas.
+>=20
+> > It is protected/shielded/fortified from all the kernel and userspace,
+> > but a more familiar word to describe that is inaccessible.
+> > "Inaccessible buffer" per se OTOH sounds like a useless concept.
+> >=20
+> > It is not secure, because it does not involve security in any way. In
+> > fact, given it's so fragile, I'd classify it as mildly opposite of
+> > secure, as e.g. clients of a Wayland compositor can potentially DoS the
+> > compositor with it by simply sending such a dmabuf. Or DoS the whole
+> > system.
+> >  =20
+> I hear what you are saying and DoS is a known problem and attack vector,
+> but regardless, we have use cases where we don't want to expose
+> information in the clear and where we also would like to have some
+> guarantees about correctness. That is where various secure elements and
+> more generally security is needed.
+>=20
+> So, it sounds like we have two things here, the first is the naming and
+> the meaning behind it. I'm pretty sure the people following and
+> contributing to this thread can agree on a name that makes sense. Would
+> you personally be OK with "restricted" as the name? It sounds like that.
+
+I would. I'm also just a by-stander, not a maintainer of kernel
+anything. I have no power to accept nor reject anything here.
+
+> The other thing is the feature and functionality itself offered by this
+> patch series. My impression from reading your replies is that you think
+> this is the wrong approach. If my impression is correct, what would you
+> suggest as an alternative approach?
+
+I just generally dislike locking people out of what their systems hold,
+but I also understand why extremely big companies want this Digital
+Rights Management technology for their business model. If Linux does
+not support that business model, they and the whole broadcast industry
+might use something else. At least it pays for kernel developers who
+can hopefully do some genuinely useful work on the side as well,
+benefiting the community.
+
+Let's just be honest about what is what.
+
+
+Thanks,
+pq
+
+--Sig_/m_y9/L720k3.YUUEknjTd2h
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmV5vK4ACgkQI1/ltBGq
+qqeSrxAAsVMu1uwUAEiHOmIbdZ3IMpYONvvX9PjrsowXIzc4xZ+sohcdjwWsN9LM
+ZwyXBLhxVmbSKy55b8fNI2UR51yIDO8E6lZLQieSxAulEzya2aMjmJEHoXdBo/sS
+A3aGLk4Wu7hh4kSbyeOSoLf2Xf+Fg85puarR12WrxHwXn2JvFteRe1NX2v5+QJSn
+lzGOqYb4bFIIC7oL7qBVH3VBT/st+RdqvUGnsJlvngSO/YEZz8Q2AZTt8sE1R/mT
+6eZ9cidJoUdKqF9vKAxiKpTJyiVLpYqvhm9cvGQinbsYz3QKoUICKcSIGCGZlQti
+2GShGtnPL1qpZfo95xzcu+fw/9g9DC3BRbG/+dV84txlxzn8y1pD6kGka9HjPhi1
+ZuPC1MVNFvSOpv7tIvRRI/lD4ZRKdRJnvW4DDFntEhVfjGq0I5ezVjqBBHcic4QE
+tWWjkepYco492avLdzrJFuVbzj9VwzCRt+M/mlIyons/QfvX/SoRGDya2pk1DNvF
+NBK3Rf4qvOsooioZRNe8PnR/aBXw0MRFMN8htEKcuUHZnOCeIih+PV7VJwGMLMC2
+vjYC7/yXalMFutcYjBJeMyqQylgXUsoJY2WB4d4alazZvlMFrQ/v6+t9y2aOHdpZ
++XGDbbjlVimKW1utrZlaHsi8w8Dbk9OH3I3tOZZQYfBgAFj6Nco=
+=IiKA
+-----END PGP SIGNATURE-----
+
+--Sig_/m_y9/L720k3.YUUEknjTd2h--
