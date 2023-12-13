@@ -2,58 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E009810C3A
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 09:19:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AE41810B4A
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 08:16:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0A0A10E726;
-	Wed, 13 Dec 2023 08:19:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA76610E6FC;
+	Wed, 13 Dec 2023 07:16:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 903 seconds by postgrey-1.36 at gabe;
- Wed, 13 Dec 2023 03:51:05 UTC
-Received: from sender4-pp-o90.zoho.com (sender4-pp-o90.zoho.com
- [136.143.188.90])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A064710E013
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 03:51:05 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1702438559; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=hK4Hiz4nx65ev563xX5ZencFyZCpZWoPwq23hysUuWFbyfwDbrAFhSK9/SW8fxVoftF+9gLEXAKGVkRj2vSqKKnK3hgIDuiDMtqy4gsHgg9to3PRyF4KSDVUKeS9k+EQ9bnSyxU1d2KKi/1RhrOCrukdbl7vvXtHZkHxeHpN2To=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1702438559;
- h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=HuWh4qmbphVRX+L76rSigHxLLbTFyvF8fa701hSY5lI=; 
- b=IinN9cnI340BhT1jdek2J2vT8j1vxk5f/NCCu896ZzLx/Gbm7+HgjE/z1yCMj2opJU4sou6hk4E/ChwJt7ijsiyNlQON/3GGqVM+WRRthtnw7WaeKD47L+dTge1/8vx5y37Z+x7DFmBS7I/kZp5Tm1oSnJgIVSGe4f0zzAgHvlo=
-ARC-Authentication-Results: i=1; mx.zohomail.com; dkim=pass  header.i=zoho.com;
- spf=pass  smtp.mailfrom=dufresnep@zoho.com;
- dmarc=pass header.from=<dufresnep@zoho.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1702438559; 
- s=zm2022; d=zoho.com; i=dufresnep@zoho.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Message-Id:Message-Id:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Feedback-ID:Reply-To;
- bh=HuWh4qmbphVRX+L76rSigHxLLbTFyvF8fa701hSY5lI=;
- b=WZHV/Vq/oDEQXpufllSG7HohB+e1c2yvu9eh7o+DgFbMxG6srqP+RKWNFugs7Bs1
- c6NBCEW80d6aFLSXgCOg8nb6CCjv10IBg47H0FZpWeAV+O1337Gg3rvJW6k1wulV3Ns
- QgreJiKxK7jzzbJJTKb45Cb/bJ3S2jH0F3oG8X8w=
-Received: from mail.zoho.com by mx.zohomail.com
- with SMTP id 1702438551717925.4699308920207;
- Tue, 12 Dec 2023 19:35:51 -0800 (PST)
-Received: from  [66.129.153.16] by mail.zoho.com
- with HTTP;Tue, 12 Dec 2023 19:35:51 -0800 (PST)
-Date: Tue, 12 Dec 2023 22:35:51 -0500
-From: Paul Dufresne <dufresnep@zoho.com>
-To: "Borislav Petkov" <bp@alien8.de>
-Message-Id: <18c613ec092.ae61cf7d6029.4389632938517239705@zoho.com>
-In-Reply-To: <20231212224037.GAZXjhZUDeoq50xKJ5@fat_crate.local>
-References: <20231111120323.GAZU9tiw8e0RSzCGB9@fat_crate.local>
- <20231212224037.GAZXjhZUDeoq50xKJ5@fat_crate.local>
-Subject: Re: nouveau 0000:01:00.0: drm_WARN_ON(!found_head)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8625510E6FC
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 07:16:11 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 4248DCE0AD1;
+ Wed, 13 Dec 2023 07:16:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 022A2C433C8;
+ Wed, 13 Dec 2023 07:16:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1702451767;
+ bh=rjW4FqNS7dqFf2D6s0wEqUZechtIxjdG/6g1Uueb+xU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=XkJyYqUqmsv8rO254rdUW4eXIFC+gLoifUFXtE7qCu7DsCIBON/xSS0U0wc21QazB
+ rJK8Lq60VmOKEcAS3bIh5/xesPMvfpwujc4U7mejCJcNShGXQXY+2tvEMdgA2cSOzV
+ zMUrYTcAi4ytjc2q1YjCXcUYEjp5b4r4MbsUbSVpzz5/TRYnrhPrdHCwssy6siBKVA
+ 4g3d+lWT/ZEApSO5LSYHOKo3uawaCfiDJtwvdfr33JCmtluqt6RM8Rdz6/tufvqvOr
+ tMV3BKbcKQwe5paAnsZTd+kTQI40qefYumD/PkP7gptEep5V/lYPBjk/RJk2g6gFGl
+ mQbcT5pj2oZFw==
+Date: Wed, 13 Dec 2023 08:16:04 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH 0/5] clk: Make clk_rate_exclusive_get() return void
+Message-ID: <ki5n3rz5n4oxj2hhc3rj6xpn3e2tdi7fcp2q7exjbzilrlqflp@przautvhuy4g>
+References: <cover.1702400947.git.u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: multipart/alternative; 
- boundary="----=_Part_16953_1356003501.1702438551698"
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
-Feedback-ID: rr080112285d827e5c45a13e041e214f7600003d7743f64b06437c4050045f5d38a4372176b890d177f49fd626:zu08011227b40ee59a3be902460748c0e500009f5484675823e4de5a17e0694872081b8547938c4338ecfc0f:rf08011231b7c4bcf7de8aa555d2d80ec70000a8b4cc4c8d64552c0936069b6604e8a64c5b13f1030e0ee2d9b6a5465d1ef24c1f2a64:ZohoMail
-X-Mailman-Approved-At: Wed, 13 Dec 2023 08:19:05 +0000
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="m7hyngpcks2t5pei"
+Content-Disposition: inline
+In-Reply-To: <cover.1702400947.git.u.kleine-koenig@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,21 +50,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau <nouveau@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+ dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-clk@vger.kernel.org,
+ Jerome Brunet <jbrunet@baylibre.com>, Samuel Holland <samuel@sholland.org>,
+ Kevin Hilman <khilman@baylibre.com>, Russell King <linux@armlinux.org.uk>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Chanwoo Choi <cw00.choi@samsung.com>,
+ Chen-Yu Tsai <wens@csie.org>, MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Johan Hovold <johan+linaro@kernel.org>, linux-sunxi@lists.linux.dev,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-pm@vger.kernel.org,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org,
+ Neil Armstrong <neil.armstrong@linaro.org>, Stephen Boyd <sboyd@kernel.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Georgi Djakov <djakov@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-------=_Part_16953_1356003501.1702438551698
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-https://gitlab.freedesktop.org/drm/nouveau/-/issues/282
-------=_Part_16953_1356003501.1702438551698
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+--m7hyngpcks2t5pei
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><html><head><meta content="text/html;charset=UTF-8" http-equiv="Content-Type"></head><body ><div style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10pt;"><div><a target="_blank" href="https://gitlab.freedesktop.org/drm/nouveau/-/issues/282">https://gitlab.freedesktop.org/drm/nouveau/-/issues/282</a><br></div><div><br></div><div><br></div></div><br></body></html>
-------=_Part_16953_1356003501.1702438551698--
+Hi,
 
+On Tue, Dec 12, 2023 at 06:26:37PM +0100, Uwe Kleine-K=F6nig wrote:
+> Hello,
+>=20
+> clk_rate_exclusive_get() returns zero unconditionally. Most users "know"
+> that and don't check the return value. This series fixes the four users
+> that do error checking on the returned value and then makes function
+> return void.
+>=20
+> Given that the changes to the drivers are simple and so merge conflicts
+> (if any) should be easy to handle, I suggest to merge this complete
+> series via the clk tree.
+
+I don't think it's the right way to go about it.
+
+clk_rate_exclusive_get() should be expected to fail. For example if
+there's another user getting an exclusive rate on the same clock.
+
+If we're not checking for it right now, then it should probably be
+fixed, but the callers checking for the error are right to do so if they
+rely on an exclusive rate. It's the ones that don't that should be
+modified.
+
+Maxime
+
+--m7hyngpcks2t5pei
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZXlaNAAKCRDj7w1vZxhR
+xdMoAP0SfIOFl6Fc7FcIbVyoWZh/iWhJLszL7a709z02B76E0QEApMmexIdN3NIS
+P/kaPqH5SfyvBxS6tWkFW1spZ1vSVQE=
+=f1uM
+-----END PGP SIGNATURE-----
+
+--m7hyngpcks2t5pei--
