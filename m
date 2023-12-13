@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2B55810931
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 05:40:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02F02810932
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 05:41:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F2E110E250;
-	Wed, 13 Dec 2023 04:40:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E9FC10E251;
+	Wed, 13 Dec 2023 04:41:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bombadil.infradead.org (bombadil.infradead.org
  [IPv6:2607:7c80:54:3::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0223F10E24D;
- Wed, 13 Dec 2023 04:40:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5332B10E251
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 04:41:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
  MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
  Content-ID:Content-Description:In-Reply-To:References;
- bh=CasPHIeq22h3Vw5tbYJ/NrclreJ37L9028MUcfT6JXQ=; b=SPvwLJC1yW2bLEcF6UV2yLV5Gy
- sMKJQ1t0C19PvzCJNm4qnLwUkysD63lAzovMd+GI0uyMbnHzsFVOcXYWgRzvtIgF7+pw5cj3cRw3n
- 90T0hy0aBnWb3UsZ1N5x+AamFe94BWXcEHdIbv+HIk+m1GN9rTtz7kISFXn712zGQtfrZ8Mp9uli/
- QB6yCisg+LiJi6llpf8JAUm+N6RnJAXWwAdHhtUEnQq1P2XWzeND1pnIXjCpI5xmFiEHC7xklQW3K
- 1NK9fxeA3AmBEh8mRBJYCuu9Nnb0A3vql1Ex7yYzRg5R9SpGELMMPAjtiQqyUi/Jr43U+2F+YmjBZ
- ojaKk8UQ==;
+ bh=FzRZMyAWCntiSyw9AKWq2qS7y8hIqYTCApvF7MTMzs4=; b=XIcgshlfuoAxXRAnnBkJ39YlPv
+ 3vqbSA0Ov8ggvymYwVVOLE6bEw0HdmGQ32cIdb2hR++4XvEbsrl/clIBD4N2OC58xDZqKI9ocbfYE
+ u3nl5ZFe9fzRRIRLAmkdNT/h1txS37FnmMK6b2OQOhNeKlV5UrnEnMY8UAFqfme6RpQ493ySBGAGw
+ MIibzc2E3058/0KwRuqV6zv3rRWN92rRYFJpAOcVUpqcXoS9TadqtyhimbRas/G3DnTNQfqjWRzdw
+ JZrrw0FwcoeGRvgfG4t/eXt5cmRE3AVj0O2pn9kgL6WVcuc0dEFFbB0Zo11oFMUdpQya16VTToaVn
+ W5Ky9Ygw==;
 Received: from [50.53.46.231] (helo=bombadil.infradead.org)
  by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1rDH2d-00DbNX-1r; Wed, 13 Dec 2023 04:40:15 +0000
+ id 1rDH3T-00DbRt-3C; Wed, 13 Dec 2023 04:41:08 +0000
 From: Randy Dunlap <rdunlap@infradead.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/i915/uapi: fix typos/spellos and punctuation
-Date: Tue, 12 Dec 2023 20:40:14 -0800
-Message-ID: <20231213044014.21410-1-rdunlap@infradead.org>
+Subject: [PATCH] drm/uapi: drm_mode.h: fix spellos and grammar
+Date: Tue, 12 Dec 2023 20:41:07 -0800
+Message-ID: <20231213044107.29214-1-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -46,82 +46,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Randy Dunlap <rdunlap@infradead.org>, intel-gfx@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Randy Dunlap <rdunlap@infradead.org>, Maxime Ripard <mripard@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use "its" for possessive form instead of "it's".
-Hyphenate multi-word adjectives.
-Correct some spelling.
-End one line of code with ';' instead of ','. The before and after
-  object files are identical.
+Correct spellos reported by codespell.
+Fix some grammar (as 's' to a few words).
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: intel-gfx@lists.freedesktop.org
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- include/uapi/drm/i915_drm.h |   12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ include/uapi/drm/drm_mode.h |   18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff -- a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -693,7 +693,7 @@ typedef struct drm_i915_irq_wait {
- #define I915_PARAM_HAS_EXEC_FENCE	 44
- 
- /* Query whether DRM_I915_GEM_EXECBUFFER2 supports the ability to capture
-- * user specified bufffers for post-mortem debugging of GPU hangs. See
-+ * user-specified buffers for post-mortem debugging of GPU hangs. See
-  * EXEC_OBJECT_CAPTURE.
-  */
- #define I915_PARAM_HAS_EXEC_CAPTURE	 45
-@@ -1606,7 +1606,7 @@ struct drm_i915_gem_busy {
- 	 * is accurate.
- 	 *
- 	 * The returned dword is split into two fields to indicate both
--	 * the engine classess on which the object is being read, and the
-+	 * the engine classes on which the object is being read, and the
- 	 * engine class on which it is currently being written (if any).
- 	 *
- 	 * The low word (bits 0:15) indicate if the object is being written
-@@ -1815,7 +1815,7 @@ struct drm_i915_gem_madvise {
- 	__u32 handle;
- 
- 	/* Advice: either the buffer will be needed again in the near future,
--	 *         or wont be and could be discarded under memory pressure.
-+	 *         or won't be and could be discarded under memory pressure.
- 	 */
- 	__u32 madv;
- 
-@@ -3246,7 +3246,7 @@ struct drm_i915_query_topology_info {
-  * 	// enough to hold our array of engines. The kernel will fill out the
-  * 	// item.length for us, which is the number of bytes we need.
-  * 	//
-- * 	// Alternatively a large buffer can be allocated straight away enabling
-+ *	// Alternatively a large buffer can be allocated straightaway enabling
-  * 	// querying in one pass, in which case item.length should contain the
-  * 	// length of the provided buffer.
-  * 	err = ioctl(fd, DRM_IOCTL_I915_QUERY, &query);
-@@ -3256,7 +3256,7 @@ struct drm_i915_query_topology_info {
-  * 	// Now that we allocated the required number of bytes, we call the ioctl
-  * 	// again, this time with the data_ptr pointing to our newly allocated
-  * 	// blob, which the kernel can then populate with info on all engines.
-- * 	item.data_ptr = (uintptr_t)&info,
-+ *	item.data_ptr = (uintptr_t)&info;
-  *
-  * 	err = ioctl(fd, DRM_IOCTL_I915_QUERY, &query);
-  * 	if (err) ...
-@@ -3286,7 +3286,7 @@ struct drm_i915_query_topology_info {
+diff -- a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+--- a/include/uapi/drm/drm_mode.h
++++ b/include/uapi/drm/drm_mode.h
+@@ -36,10 +36,10 @@ extern "C" {
  /**
-  * struct drm_i915_engine_info
+  * DOC: overview
   *
-- * Describes one engine and it's capabilities as known to the driver.
-+ * Describes one engine and its capabilities as known to the driver.
+- * DRM exposes many UAPI and structure definition to have a consistent
+- * and standardized interface with user.
++ * DRM exposes many UAPI and structure definitions to have a consistent
++ * and standardized interface with users.
+  * Userspace can refer to these structure definitions and UAPI formats
+- * to communicate to driver
++ * to communicate to drivers.
   */
- struct drm_i915_engine_info {
- 	/** @engine: Engine class and instance. */
+ 
+ #define DRM_CONNECTOR_NAME_LEN	32
+@@ -540,7 +540,7 @@ struct drm_mode_get_connector {
+ /* the PROP_ATOMIC flag is used to hide properties from userspace that
+  * is not aware of atomic properties.  This is mostly to work around
+  * older userspace (DDX drivers) that read/write each prop they find,
+- * witout being aware that this could be triggering a lengthy modeset.
++ * without being aware that this could be triggering a lengthy modeset.
+  */
+ #define DRM_MODE_PROP_ATOMIC        0x80000000
+ 
+@@ -664,7 +664,7 @@ struct drm_mode_fb_cmd {
+ };
+ 
+ #define DRM_MODE_FB_INTERLACED	(1<<0) /* for interlaced framebuffers */
+-#define DRM_MODE_FB_MODIFIERS	(1<<1) /* enables ->modifer[] */
++#define DRM_MODE_FB_MODIFIERS	(1<<1) /* enables ->modifier[] */
+ 
+ /**
+  * struct drm_mode_fb_cmd2 - Frame-buffer metadata.
+@@ -881,8 +881,8 @@ struct hdr_metadata_infoframe {
+ 	 * These are coded as unsigned 16-bit values in units of
+ 	 * 0.00002, where 0x0000 represents zero and 0xC350
+ 	 * represents 1.0000.
+-	 * @display_primaries.x: X cordinate of color primary.
+-	 * @display_primaries.y: Y cordinate of color primary.
++	 * @display_primaries.x: X coordinate of color primary.
++	 * @display_primaries.y: Y coordinate of color primary.
+ 	 */
+ 	struct {
+ 		__u16 x, y;
+@@ -892,8 +892,8 @@ struct hdr_metadata_infoframe {
+ 	 * These are coded as unsigned 16-bit values in units of
+ 	 * 0.00002, where 0x0000 represents zero and 0xC350
+ 	 * represents 1.0000.
+-	 * @white_point.x: X cordinate of whitepoint of color primary.
+-	 * @white_point.y: Y cordinate of whitepoint of color primary.
++	 * @white_point.x: X coordinate of whitepoint of color primary.
++	 * @white_point.y: Y coordinate of whitepoint of color primary.
+ 	 */
+ 	struct {
+ 		__u16 x, y;
