@@ -1,41 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE13381184D
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 16:50:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A78AD811863
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 16:53:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95D9C10E28C;
-	Wed, 13 Dec 2023 15:50:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 524AB10E7CA;
+	Wed, 13 Dec 2023 15:53:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14DCB10E28C
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 15:50:44 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 97DD8BD1;
- Wed, 13 Dec 2023 16:49:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1702482596;
- bh=JtO/rPKqKpbxuHjqgc1fa/HQxv1i+GHSYeuvA2dOmtU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Pz3NQVa7sxXVBhmu8HFU5Oem9jGyPbOGJLIfSLeWW2ZR/Bdvx4UpoioKHBfMVhgbZ
- RiizCjh0A29z1QtahL9QcpfB3YHUBWszffpHEKxaJbFjfRELY59W/4+zuVRKuH9GrV
- iPzY6vAjM4nN6bqUWz1ANvdr48aXxmD+mYLZl2aw=
-Date: Wed, 13 Dec 2023 17:50:49 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 985F510E7B6
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 15:52:59 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1rDRXd-0000t5-N4; Wed, 13 Dec 2023 16:52:57 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1rDRXZ-00FbSV-8h; Wed, 13 Dec 2023 16:52:53 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1rDRXY-002Mb8-UB; Wed, 13 Dec 2023 16:52:52 +0100
+Date: Wed, 13 Dec 2023 16:52:52 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To: Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
-Message-ID: <20231213155049.GH12450@pendragon.ideasonboard.com>
-References: <20231128105129.161121-1-biju.das.jz@bp.renesas.com>
- <20231128105129.161121-4-biju.das.jz@bp.renesas.com>
- <sechknyg33iucaku37vfhk7ie7xgcealfqbvaopm4rrnqbo5g5@s35peonkzzoz>
+Subject: Re: [PATCH 0/5] clk: Make clk_rate_exclusive_get() return void
+Message-ID: <20231213155252.eq6cdzk2vuwllzdu@pengutronix.de>
+References: <cover.1702400947.git.u.kleine-koenig@pengutronix.de>
+ <ki5n3rz5n4oxj2hhc3rj6xpn3e2tdi7fcp2q7exjbzilrlqflp@przautvhuy4g>
+ <20231213074300.4bq7wkfqd4jhhcr4@pengutronix.de>
+ <2nvbag657mlniqwq7fbilapc6vfw5qumab3yd6bqul25ot6wcn@wdlkh5az2fgs>
+ <20231213110829.bjaxjjiyy4ug7o67@pengutronix.de>
+ <6wnsxbi27xdxjtaqaaaq5wtwwilp4jfw4mg5y2ctdl7xrs44ry@ns6y36pf7hge>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="4rnwsmpqrmgwol6u"
 Content-Disposition: inline
-In-Reply-To: <sechknyg33iucaku37vfhk7ie7xgcealfqbvaopm4rrnqbo5g5@s35peonkzzoz>
+In-Reply-To: <6wnsxbi27xdxjtaqaaaq5wtwwilp4jfw4mg5y2ctdl7xrs44ry@ns6y36pf7hge>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,307 +59,183 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Biju Das <biju.das.au@gmail.com>, Magnus Damm <magnus.damm@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+ dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ linux-clk@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>,
+ Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
+ Russell King <linux@armlinux.org.uk>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Chanwoo Choi <cw00.choi@samsung.com>,
+ Chen-Yu Tsai <wens@csie.org>, MyungJoo Ham <myungjoo.ham@samsung.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Kyungmin Park <kyungmin.park@samsung.com>, linux-sunxi@lists.linux.dev,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-pm@vger.kernel.org,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ kernel@pengutronix.de, Johan Hovold <johan+linaro@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Stephen Boyd <sboyd@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Georgi Djakov <djakov@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 13, 2023 at 04:47:09PM +0100, Maxime Ripard wrote:
-> On Tue, Nov 28, 2023 at 10:51:27AM +0000, Biju Das wrote:
-> > The LCD controller is composed of Frame Compression Processor (FCPVD),
-> > Video Signal Processor (VSPD), and Display Unit (DU).
-> > 
-> > It has DPI/DSI interfaces and supports a maximum resolution of 1080p
-> > along with 2 RPFs to support the blending of two picture layers and
-> > raster operations (ROPs).
-> > 
-> > The DU module is connected to VSPD. Add RZ/G2L DU support for RZ/G2L
-> > alike SoCs.
-> > 
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> 
-> I'd still like a review from Geert or Laurent, I don't know the SoC.
 
-I won't have time soon, and this driver has been blocked for way too
-long due to that :-S
+--4rnwsmpqrmgwol6u
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > +static int rzg2l_du_crtc_get(struct rzg2l_du_crtc *rcrtc)
-> > +{
-> > +	int ret;
-> > +
-> > +	/*
-> > +	 * Guard against double-get, as the function is called from both the
-> > +	 * .atomic_enable() and .atomic_flush() handlers.
-> > +	 */
-> > +	if (rcrtc->initialized)
-> > +		return 0;
-> > +
-> > +	ret = clk_prepare_enable(rcrtc->rzg2l_clocks.aclk);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	ret = clk_prepare_enable(rcrtc->rzg2l_clocks.pclk);
-> > +	if (ret < 0)
-> > +		goto error_bus_clock;
-> > +
-> > +	ret = reset_control_deassert(rcrtc->rstc);
-> > +	if (ret < 0)
-> > +		goto error_peri_clock;
-> > +
-> > +	rzg2l_du_crtc_setup(rcrtc);
-> > +	rcrtc->initialized = true;
-> > +
-> > +	return 0;
-> > +
-> > +error_peri_clock:
-> > +	clk_disable_unprepare(rcrtc->rzg2l_clocks.pclk);
-> > +error_bus_clock:
-> > +	clk_disable_unprepare(rcrtc->rzg2l_clocks.aclk);
-> > +	return ret;
-> > +}
-> 
-> [...]
-> 
-> > +static void rzg2l_du_crtc_atomic_flush(struct drm_crtc *crtc,
-> > +				       struct drm_atomic_state *state)
-> > +{
-> > +	struct rzg2l_du_crtc *rcrtc = to_rzg2l_crtc(crtc);
-> > +	struct drm_device *dev = rcrtc->crtc.dev;
-> > +	unsigned long flags;
-> > +
-> > +	WARN_ON(!crtc->state->enable);
-> > +
-> > +	/*
-> > +	 * If a mode set is in progress we can be called with the CRTC disabled.
-> > +	 * We thus need to first get and setup the CRTC in order to configure
-> > +	 * planes. We must *not* put the CRTC, as it must be kept awake until
-> > +	 * the .atomic_enable() call that will follow. The get operation in
-> > +	 * .atomic_enable() will in that case be a no-op, and the CRTC will be
-> > +	 * put later in .atomic_disable().
-> > +	 */
-> > +	rzg2l_du_crtc_get(rcrtc);
-> 
-> That's a bit suspicious. Have you looked at drm_atomic_helper_commit_tail_rpm() ?
-> 
-> > +static int rzg2l_du_crtc_enable_vblank(struct drm_crtc *crtc)
-> > +{
-> > +	struct rzg2l_du_crtc *rcrtc = to_rzg2l_crtc(crtc);
-> > +
-> > +	rcrtc->vblank_enable = true;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static void rzg2l_du_crtc_disable_vblank(struct drm_crtc *crtc)
-> > +{
-> > +	struct rzg2l_du_crtc *rcrtc = to_rzg2l_crtc(crtc);
-> > +
-> > +	rcrtc->vblank_enable = false;
-> > +}
-> 
-> You should enable / disable your interrupts here
-> 
-> > +int rzg2l_du_crtc_create(struct rzg2l_du_device *rcdu)
-> > +{
-> > +	struct rzg2l_du_crtc *rcrtc = &rcdu->crtcs[0];
-> > +	struct drm_crtc *crtc = &rcrtc->crtc;
-> > +	struct drm_plane *primary;
-> > +	int ret;
-> > +
-> > +	rcrtc->rstc = devm_reset_control_get_shared(rcdu->dev, NULL);
-> > +	if (IS_ERR(rcrtc->rstc)) {
-> > +		dev_err(rcdu->dev, "can't get cpg reset\n");
-> > +		return PTR_ERR(rcrtc->rstc);
-> > +	}
-> > +
-> > +	rcrtc->rzg2l_clocks.aclk = devm_clk_get(rcdu->dev, "aclk");
-> > +	if (IS_ERR(rcrtc->rzg2l_clocks.aclk)) {
-> > +		dev_err(rcdu->dev, "no axi clock for DU\n");
-> > +		return PTR_ERR(rcrtc->rzg2l_clocks.aclk);
-> > +	}
-> > +
-> > +	rcrtc->rzg2l_clocks.pclk = devm_clk_get(rcdu->dev, "pclk");
-> > +	if (IS_ERR(rcrtc->rzg2l_clocks.pclk)) {
-> > +		dev_err(rcdu->dev, "no peripheral clock for DU\n");
-> > +		return PTR_ERR(rcrtc->rzg2l_clocks.pclk);
-> > +	}
-> > +
-> > +	rcrtc->rzg2l_clocks.dclk = devm_clk_get(rcdu->dev, "vclk");
-> > +	if (IS_ERR(rcrtc->rzg2l_clocks.dclk)) {
-> > +		dev_err(rcdu->dev, "no video clock for DU\n");
-> > +		return PTR_ERR(rcrtc->rzg2l_clocks.dclk);
-> > +	}
-> > +
-> > +	init_waitqueue_head(&rcrtc->flip_wait);
-> > +	rcrtc->dev = rcdu;
-> > +
-> > +	primary = &rcrtc->vsp->planes[rcrtc->vsp_pipe].plane;
-> > +
-> > +	ret = drm_crtc_init_with_planes(&rcdu->ddev, crtc, primary, NULL,
-> > +					&crtc_funcs_rz, NULL);
-> > +	if (ret < 0)
-> > +		return ret;
-> 
-> You should use the drmm variant here
-> 
-> > +static void rzg2l_du_atomic_commit_tail(struct drm_atomic_state *old_state)
-> > +{
-> > +	struct drm_device *dev = old_state->dev;
-> > +
-> > +	/* Apply the atomic update. */
-> > +	drm_atomic_helper_commit_modeset_disables(dev, old_state);
-> > +	drm_atomic_helper_commit_planes(dev, old_state,
-> > +					DRM_PLANE_COMMIT_ACTIVE_ONLY);
-> > +	drm_atomic_helper_commit_modeset_enables(dev, old_state);
-> > +
-> > +	drm_atomic_helper_commit_hw_done(old_state);
-> > +	drm_atomic_helper_wait_for_flip_done(dev, old_state);
-> > +
-> > +	drm_atomic_helper_cleanup_planes(dev, old_state);
-> > +}
-> 
-> AFAIK, there's no reason to roll your commit_tail implementation
-> yourself here. You should at the very least document why you needed to
-> do so.
-> 
-> > +int rzg2l_du_vsp_map_fb(struct rzg2l_du_vsp *vsp, struct drm_framebuffer *fb,
-> > +			struct sg_table sg_tables[3])
-> > +{
-> > +	struct rzg2l_du_device *rcdu = vsp->dev;
-> > +	unsigned int i, j;
-> > +	int ret;
-> > +
-> > +	for (i = 0; i < fb->format->num_planes; ++i) {
-> > +		struct drm_gem_dma_object *gem = drm_fb_dma_get_gem_obj(fb, i);
-> > +		struct sg_table *sgt = &sg_tables[i];
-> > +
-> > +		if (gem->sgt) {
-> > +			struct scatterlist *src;
-> > +			struct scatterlist *dst;
-> > +
-> > +			/*
-> > +			 * If the GEM buffer has a scatter gather table, it has
-> > +			 * been imported from a dma-buf and has no physical
-> > +			 * address as it might not be physically contiguous.
-> > +			 * Copy the original scatter gather table to map it to
-> > +			 * the VSP.
-> > +			 */
-> > +			ret = sg_alloc_table(sgt, gem->sgt->orig_nents,
-> > +					     GFP_KERNEL);
-> > +			if (ret)
-> > +				goto fail;
-> > +
-> > +			src = gem->sgt->sgl;
-> > +			dst = sgt->sgl;
-> > +			for (j = 0; j < gem->sgt->orig_nents; ++j) {
-> > +				sg_set_page(dst, sg_page(src), src->length,
-> > +					    src->offset);
-> > +				src = sg_next(src);
-> > +				dst = sg_next(dst);
-> > +			}
-> > +		} else {
-> > +			ret = dma_get_sgtable(rcdu->dev, sgt, gem->vaddr,
-> > +					      gem->dma_addr, gem->base.size);
-> > +			if (ret)
-> > +				goto fail;
-> > +		}
-> > +
-> > +		ret = vsp1_du_map_sg(vsp->vsp, sgt);
-> > +		if (ret) {
-> > +			sg_free_table(sgt);
-> > +			goto fail;
-> > +		}
-> > +	}
-> > +
-> > +	return 0;
-> > +
-> > +fail:
-> > +	while (i--) {
-> > +		struct sg_table *sgt = &sg_tables[i];
-> > +
-> > +		vsp1_du_unmap_sg(vsp->vsp, sgt);
-> > +		sg_free_table(sgt);
-> > +	}
-> > +
-> > +	return ret;
-> > +}
-> 
-> Ditto, you should at least document why you're not using the helpers.
-> 
-> > +static void rzg2l_du_vsp_cleanup(struct drm_device *dev, void *res)
-> > +{
-> > +	struct rzg2l_du_vsp *vsp = res;
-> > +	unsigned int i;
-> > +
-> > +	for (i = 0; i < vsp->num_planes; ++i) {
-> > +		struct rzg2l_du_vsp_plane *plane = &vsp->planes[i];
-> > +
-> > +		drm_plane_cleanup(&plane->plane);
-> > +	}
-> > +
-> > +	kfree(vsp->planes);
-> > +
-> > +	put_device(vsp->vsp);
-> > +}
-> > +
-> > +int rzg2l_du_vsp_init(struct rzg2l_du_vsp *vsp, struct device_node *np,
-> > +		      unsigned int crtcs)
-> > +{
-> > +	struct rzg2l_du_device *rcdu = vsp->dev;
-> > +	struct platform_device *pdev;
-> > +	unsigned int num_crtcs = hweight32(crtcs);
-> > +	unsigned int num_planes = 2;
-> > +	unsigned int i;
-> > +	int ret;
-> > +
-> > +	/* Find the VSP device and initialize it. */
-> > +	pdev = of_find_device_by_node(np);
-> > +	if (!pdev)
-> > +		return -ENXIO;
-> > +
-> > +	vsp->vsp = &pdev->dev;
-> > +
-> > +	ret = drmm_add_action_or_reset(&rcdu->ddev, rzg2l_du_vsp_cleanup, vsp);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	ret = vsp1_du_init(vsp->vsp);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	vsp->planes = kcalloc(num_planes, sizeof(*vsp->planes), GFP_KERNEL);
-> > +	if (!vsp->planes)
-> > +		return -ENOMEM;
-> 
-> drmm_kcalloc or drmm_kmalloc_array
-> 
-> > +
-> > +	for (i = 0; i < num_planes; ++i) {
-> > +		enum drm_plane_type type = i < num_crtcs
-> > +					 ? DRM_PLANE_TYPE_PRIMARY
-> > +					 : DRM_PLANE_TYPE_OVERLAY;
-> > +		struct rzg2l_du_vsp_plane *plane = &vsp->planes[i];
-> > +
-> > +		plane->vsp = vsp;
-> > +		plane->index = i;
-> > +		ret = drm_universal_plane_init(&rcdu->ddev, &plane->plane,
-> > +					       crtcs, &rzg2l_du_vsp_plane_funcs,
-> > +					       rzg2l_du_vsp_formats,
-> > +					       ARRAY_SIZE(rzg2l_du_vsp_formats),
-> > +					       NULL, type, NULL);
-> > +		if (ret < 0)
-> > +			return ret;
-> 
-> you need to use drmm variant here too.
+On Wed, Dec 13, 2023 at 12:54:14PM +0100, Maxime Ripard wrote:
+> On Wed, Dec 13, 2023 at 12:08:29PM +0100, Uwe Kleine-K=F6nig wrote:
+> > On Wed, Dec 13, 2023 at 09:36:49AM +0100, Maxime Ripard wrote:
+> > > On Wed, Dec 13, 2023 at 08:43:00AM +0100, Uwe Kleine-K=F6nig wrote:
+> > > > On Wed, Dec 13, 2023 at 08:16:04AM +0100, Maxime Ripard wrote:
+> > > > > On Tue, Dec 12, 2023 at 06:26:37PM +0100, Uwe Kleine-K=F6nig wrot=
+e:
+> > > > > > clk_rate_exclusive_get() returns zero unconditionally. Most use=
+rs "know"
+> > > > > > that and don't check the return value. This series fixes the fo=
+ur users
+> > > > > > that do error checking on the returned value and then makes fun=
+ction
+> > > > > > return void.
+> > > > > >=20
+> > > > > > Given that the changes to the drivers are simple and so merge c=
+onflicts
+> > > > > > (if any) should be easy to handle, I suggest to merge this comp=
+lete
+> > > > > > series via the clk tree.
+> > > > >=20
+> > > > > I don't think it's the right way to go about it.
+> > > > >=20
+> > > > > clk_rate_exclusive_get() should be expected to fail. For example =
+if
+> > > > > there's another user getting an exclusive rate on the same clock.
+> > > > >=20
+> > > > > If we're not checking for it right now, then it should probably be
+> > > > > fixed, but the callers checking for the error are right to do so =
+if they
+> > > > > rely on an exclusive rate. It's the ones that don't that should be
+> > > > > modified.
+> > > >=20
+> > > > If some other consumer has already "locked" a clock that I call
+> > > > clk_rate_exclusive_get() for, this isn't an error. In my bubble I c=
+all
+> > > > this function because I don't want the rate to change e.g. because I
+> > > > setup some registers in the consuming device to provide a fixed UART
+> > > > baud rate or i2c bus frequency (and that works as expected).
+> > >=20
+> > > [a long text of mostly right things (Uwe's interpretation) that are
+> > > however totally unrelated to the patches under discussion.]
+>=20
+> I'm glad you consider it "mostly" right.
 
--- 
-Regards,
+there was no offense intended. I didn't agree to all points, but didn't
+think it was helpful to discuss that given that I considered them
+orthogonal to my suggested modifications.
+=20
+> > The clk API works with and without my patches in exactly the same way.
+> > It just makes more explicit that clk_rate_exclusive_get() cannot fail
+> > today and removes the error handling from consumers that is never used.
+>=20
+> Not really, no.
 
-Laurent Pinchart
+What exactly do you oppose here? Both of my sentences are correct?!
+=20
+> An API is an interface, meant to provide an abstraction. The only
+> relevant thing is whether or not that function, from an abstract point
+> of view, can fail.
+
+What is the ideal API that you imagine? For me the ideal API is:
+
+A consumer might call clk_rate_exclusive_get() and after that returns
+all other consumers are prohibited to change the rate of the clock
+(directly and indirectly) until clk_rate_exclusive_put() is called. If
+this ends in a double lock (i.e. two different consumers locked the
+clock), then I cannot change the rate (and neither can anybody else).
+
+That is fine iff I don't need to change the rate and just want to rely
+on it to keep its current value (which is a valid use case). And if I
+want to change the rate but another consumer prevents that, I handle
+that in the same away as I handle all other failures to set the rate to
+the value I need. I have to prepare for that anyhow even if I have
+ensured that I'm the only one having exclusivity on that clock.
+
+Letting clk_rate_exclusive_get() fail in the assumption that the
+consumer also wants to modify the rate is wrong. The obvious point where
+to stop such consumers is when they call clk_rate_set(). And those who
+don't modify the rate then continue without interruption even if there
+are two lockers.
+
+This can easily be implemented without clk_rate_exclusive_get() ever
+failing.
+
+> Can you fail to get the exclusivity? Yes. On a theoretical basis, you
+> can, and the function was explicitly documented as such.
+
+Sure, you could modify the clk internals such that
+clk_rate_exclusive_get() needs to allocate memory. Or that it fails if
+another consumer already has called it. At least the latter is a change
+in semantics that requires to review (and maybe fix) all users. Also
+note that calling clk_rate_exclusive_get() essentially locks all parent
+clocks up to the root clock. So if clk_rate_exclusive_get() fails in the
+presence of another locker, you can only have one locker per clock
+hierarchy because it's impossible that both grab the lock on the root
+clock.
+
+> > Is there anyone working on improving the clk framework regarding how clk
+> > rate exclusivity works? I'd probably not notice, but I guess there is
+> > noone that I need to consider for.
+>=20
+> I started working on it.
+
+That is indeed a reason to postpone my patches. Feel free to Cc: me when
+you're done. And please mention if you need longer than (say) 6 months,
+then I'd argue that applying my patches now without caring for
+out-of-tree users is the way to go.
+
+My demand for such a rework would be that there is a function for=20
+consumers to call that don't have the requirement for a certain rate but
+only any fixed rate that results in locking the clock's rate to whatever
+it currently is. Today that function exists and is called
+clk_rate_exclusive_get(); this might not be the best name, so maybe
+rename it to something that you consider more sensible at the start of
+your rework?!
+
+Semantically that is similar to read_lock() (which never fails and
+still prevents any writers). And clk_set_rate() is like=20
+
+	try_upgrade_read_lock_to_write_lock();
+	actually_change_the_rate()
+	downgrade_write_lock_to_read_lock();
+
+where try_upgrade_read_lock_to_write_lock() fails if there are other
+readers. So maybe a sensible name for today's clk_rate_exclusive_get()
+is clk_rate_read_lock()?
+
+If your variant of clk_rate_exclusive_get() might fail, you can already
+prepare for me questioning why this is sensible and needed.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--4rnwsmpqrmgwol6u
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmV501MACgkQj4D7WH0S
+/k51hQf8CRNymicQ4BgKO3Qz+szmXEUKIg8qmLZG6f+sJ77H3mvg7zlbvpI/W/hI
+rscYS06UjEHJM9ec8XTYACyQ1nJy98D8BxhawVTn+wrJa2z0tBDSg01HHBXZkVLe
+xG6BYa5Dx94GTfhTXr9H4zwiLgchRz6/FFp4H49wHQ8rHLX6YYwLBUMq258vYNN8
+Df1WULIGmruvRCkwWFyfhVC2OPyUy0FagJ5xsjJyRIavDaiFmuLEGg0avrbfEjN3
+CMcsnDtQD1pALNhIWwvovcLint4Iap8vDz6O3+MyEDj65AZf8DzO8TJZjTYwGnoI
+zj1/dV/j2h1+TK5lvLFOTKPzSD3u1Q==
+=Nnb7
+-----END PGP SIGNATURE-----
+
+--4rnwsmpqrmgwol6u--
