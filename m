@@ -2,76 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6210811FF7
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 21:29:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE676812035
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 21:52:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6259E10E80C;
-	Wed, 13 Dec 2023 20:29:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4954810E82F;
+	Wed, 13 Dec 2023 20:51:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9061010E80C
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 20:29:49 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id
- 5b1f17b1804b1-40c2718a768so72494635e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 12:29:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1702499388; x=1703104188; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Zw2AbkoN/4FIKkUWexE+EWqV2AcpdmgqKqjwrsLePhs=;
- b=T2ZcCIox//gi/42Xhm8xwe9KV0hOSn3aKkA+8ulAQkuZ6u9YiJt2ORQCrFA8r5166G
- gQ+lwLEXgQPromS0xdIFpTqb8spcTW5XbFthyoZYw3F+p056/oUkLuqKCbkKLL0WVqnK
- apD0pYta5SDT6WdJ4c2adk0CVtSYhNp5rM583LQCmeJXBJ/Jrhg1q+AOyYiIeqUUhnyB
- TXW+RH+zSHpv/lCzEfpzXK+p+mTlfZIZ76wdQxN79VDGaUgbYR9rtVs0U+N4ZEl//HJF
- awJU5r/KzIfmsyT7F2vQrotrtfaZCUo+UIk00i0sA/MeyjEBEyVeFtxR29PV2M3thZfF
- +K/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702499388; x=1703104188;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Zw2AbkoN/4FIKkUWexE+EWqV2AcpdmgqKqjwrsLePhs=;
- b=WQjKnQQ7V+fQTGThCYro0UjPkuLDwD3mRke1W/plCMrIW66U8uBIxlaV0fTvlLZJ3A
- A4NTdW6ZZhOWLKHvTE5TgVi1mvYHvjbXQixwq5Q3tgyNBLIgbMcpyf/tqZdIj1q90SaT
- hjn3D2vHXDWJg7moY3F10HkHou7G97G+V6l8ihAWYlLX64TU75YbE2GqDc6GkPw+Ph2a
- bQwOcmccW/01UUvbejKiFf4SbVWKiPkGnjnrwpO6cZ6ndxV5Zo/VmqDXUCze6s5ADf5U
- dosQVcyn/VAPRXNE+ZdZTFit5uec23iiszUFyG7VsbU33ZgGTRzMB+dPHcf5GeZ8tcB/
- IJUw==
-X-Gm-Message-State: AOJu0Yxc2e1Aty3kL7u8FLuE7HYXAiIiN5Z08UAEO/uL6WBfiXvlihc9
- Bu1bM00j/jNEoIIm60iCMg==
-X-Google-Smtp-Source: AGHT+IG20yw7g9GqI9IbadFk19Exl/zGderaqPqj/VFPT7HLhLixQNc2+B3uD+potrr7JRkM+oOFEA==
-X-Received: by 2002:a05:600c:3648:b0:40b:4812:22e2 with SMTP id
- y8-20020a05600c364800b0040b481222e2mr5226786wmq.11.1702499387771; 
- Wed, 13 Dec 2023 12:29:47 -0800 (PST)
-Received: from ?IPV6:2a02:810b:f40:4300:3bf6:bcc0:fe50:883f?
- ([2a02:810b:f40:4300:3bf6:bcc0:fe50:883f])
- by smtp.gmail.com with ESMTPSA id
- n21-20020a05600c4f9500b0040b36ad5413sm21179364wmq.46.2023.12.13.12.29.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Dec 2023 12:29:47 -0800 (PST)
-Message-ID: <a5889aba-75b6-4671-918b-26a4b9ec12c5@gmail.com>
-Date: Wed, 13 Dec 2023 21:29:45 +0100
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2208A10E828;
+ Wed, 13 Dec 2023 20:51:55 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 3BDKmbc9015487; Wed, 13 Dec 2023 20:51:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ from:subject:date:message-id:mime-version:content-type
+ :content-transfer-encoding:to:cc; s=qcppdkim1; bh=n2jNeRRxW01CtY
+ ew/3nk33eTHmhw6oPAngAUzCwNMGU=; b=R1WVgxilWhkkNy+otiXtSRfO5gldHZ
+ 6AevqZWnj27+Nq3tJR26sdntJN77PZchK+I/x70zcFRpLRjbdkKj2WaNhB8EQs1k
+ +xKhy12ifm9o/BVuw95nLIDYTE4zJGK/q1RyCuaBCnCpO6Q8QHqhJV10TOqw9/uG
+ QPOsArqIx/X9Ed/v7LpcVa2cAPHymCSvOSwhQUuhWiJAUAR8bwpJG/pCqnyg17m2
+ o1/EuG1Qu7I2zt4MhIdnGvGeia1UacLZrx3nU1ISMCKvtzP65PqD7WbR4I5Q/g8D
+ q8SznyttePzZpLjMlwmiFtcyi5B/6sGZq2VB56kBymjmeW1iTbImJYJA==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uy4kjjbrv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 13 Dec 2023 20:51:52 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BDKppE3015221
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 13 Dec 2023 20:51:51 GMT
+Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Wed, 13 Dec 2023 12:51:51 -0800
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+Subject: [PATCH v2 0/2] drm/msm/dpu: INTF CRC configuration cleanups and
+ fix
+Date: Wed, 13 Dec 2023 12:51:26 -0800
+Message-ID: <20231213-encoder-fixup-v2-0-b11a4ad35e5e@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/31] Fix and improve Rockchip RK3128 support
-Content-Language: en-US, de-DE
-To: Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Lee Jones <lee@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>
-References: <20230829171647.187787-1-knaerzche@gmail.com>
- <2167016.irdbgypaU6@phil>
-From: Alex Bee <knaerzche@gmail.com>
-In-Reply-To: <2167016.irdbgypaU6@phil>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAE4ZemUC/13MwQ6CMAzG8VchPTuzDragJ9/DcNBSpQc32GTRE
+ N7dSTx5/Lf5fgskjsIJjtUCkbMkCb6E2VVAw8XfWUlfGow2NaIxij2FnqO6yWselUPCg76i062
+ Fshkjl8fmnbvSg6RniO+Nz/i9/qRa/0kZlVa2tWQb6nXj+DTNQuJpT+EB3bquHzx+/yesAAAA
+To: Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
+ Vetter" <daniel@ffwll.ch>
+X-Mailer: b4 0.13-dev-53db1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1702500711; l=1183;
+ i=quic_jesszhan@quicinc.com; s=20230329; h=from:subject:message-id;
+ bh=ulDl1Z4359OgnVEnX7++7qFtELleztErj9mZLsaPNtQ=;
+ b=LvlJPGjOepSLoa0IIVoG2VOodfqIz4ggruPYN2yxOApKOeQ1eKB1H2eYC8bpcwRm6ROcYC7Bd
+ DUyKLd39MAcAcLPrUhcsBNJmolCiYVliJdFzZhZpayP4VN6RkPC3cJD
+X-Developer-Key: i=quic_jesszhan@quicinc.com; a=ed25519;
+ pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: YcK94_jxG1j7yDz6BQw-MGlWZW_5pt2V
+X-Proofpoint-ORIG-GUID: YcK94_jxG1j7yDz6BQw-MGlWZW_5pt2V
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0
+ priorityscore=1501 phishscore=0 bulkscore=0 lowpriorityscore=0 mlxscore=0
+ malwarescore=0 clxscore=1015 suspectscore=0 mlxlogscore=720 spamscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312130147
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,44 +91,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
- Elaine Zhang <zhangqing@rock-chips.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- linux-phy@lists.infradead.org, Johan Jonker <jbx6244@gmail.com>,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Heiko
+This series drops the frame_count and enable parameters (as they're always
+set to the same value). It also sets input_sel=0x1 for INTF.
 
-Am 12.12.23 um 21:03 schrieb Heiko Stuebner:
-> Hi Alex,
->
-> Am Dienstag, 29. August 2023, 19:16:16 CET schrieb Alex Bee:
->> this series fixes some issues I found when testing my "new" RK3128 board
->> with the mainline kernel and adds some core functionality like SMP bringup,
->> usb and networking.
-> before I discard this thread, is everything from here migrated to
-> separate serieses or are there patches in this big pile that are still
-> relevant on their own, that haven't been applied?
-> [I lost track of what did go where ;-) ]
+---
+Changes in v2:
+- Switched patch order
+- Changed input_sel parameter from bool to u8
+- Link to v1: https://lore.kernel.org/r/20231130-encoder-fixup-v1-0-585c54cd046e@quicinc.com
 
-No worries - I kept track :)
+---
+Jessica Zhang (2):
+      drm/msm/dpu: Set input_sel bit for INTF
+      drm/msm/dpu: Drop enable and frame_count parameters from dpu_hw_setup_misr()
 
-Not everything is re-sent yet (sound nodes, RK3126/RK3128 split-up) but 
-you can discard this and will re-send everything left in separate series 
-(as I said [0])
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |  4 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c |  4 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c |  6 +++---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h |  4 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c   |  6 +++---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h   |  3 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c | 20 ++++++++------------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h |  8 +++-----
+ 8 files changed, 25 insertions(+), 30 deletions(-)
+---
+base-commit: 0d9372c346d4cdf347354382e0659de8c1cc0236
+change-id: 20231122-encoder-fixup-61c190b16085
 
-[0] 
-https://lore.kernel.org/linux-arm-kernel/170109134007.42627.12929766893521974712.b4-ty@kernel.org/T/#m63efa1c1379353b5cf764d2f9a260cf0329c864c
+Best regards,
+-- 
+Jessica Zhang <quic_jesszhan@quicinc.com>
 
-Regards,
-
-Alex
-
->
->
-> Thanks
-> Heiko
->
->
