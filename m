@@ -2,36 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F3B9811078
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 12:47:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B6BC81107E
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 12:49:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56EF710E77C;
-	Wed, 13 Dec 2023 11:47:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B66E10E785;
+	Wed, 13 Dec 2023 11:49:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id E634710E77C
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 11:47:34 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 61FC6C15;
- Wed, 13 Dec 2023 03:48:20 -0800 (PST)
-Received: from [10.57.86.164] (unknown [10.57.86.164])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A02563F738;
- Wed, 13 Dec 2023 03:47:31 -0800 (PST)
-Message-ID: <d851e98e-3c51-4459-bbb3-3c917d567ab7@arm.com>
-Date: Wed, 13 Dec 2023 11:47:34 +0000
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9B2010E785
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 11:49:00 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.163.44])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4SqtyY5ySQz29g0y;
+ Wed, 13 Dec 2023 19:47:49 +0800 (CST)
+Received: from dggpemm500005.china.huawei.com (unknown [7.185.36.74])
+ by mail.maildlp.com (Postfix) with ESMTPS id 5ECA31400DA;
+ Wed, 13 Dec 2023 19:48:57 +0800 (CST)
+Received: from [10.69.30.204] (10.69.30.204) by dggpemm500005.china.huawei.com
+ (7.185.36.74) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Wed, 13 Dec
+ 2023 19:48:57 +0800
+Subject: Re: [net-next v1 09/16] page_pool: device memory support
+To: Mina Almasry <almasrymina@google.com>
+References: <20231208005250.2910004-1-almasrymina@google.com>
+ <20231208005250.2910004-10-almasrymina@google.com>
+ <32211cbf-3a4e-8a86-6214-4304ddb18a98@huawei.com>
+ <CAHS8izOQcuLPwvDff96fuNB7r6EU9OWt3ShueQp=u7wat3L5LA@mail.gmail.com>
+ <92e30bd9-6df4-b72f-7bcd-f4fe5670eba2@huawei.com>
+ <CAHS8izPEFsqw50qgM+sPot6XVvOExpd+DrwrmPSR3zsWGLysRw@mail.gmail.com>
+ <CAHS8izN6Cbjy0FCYhJyNsP396XfgJ_nTFXWuHb5QWNct=PifAg@mail.gmail.com>
+ <59e07233-24cb-7fb2-1aee-e1cf7eb72fa9@huawei.com>
+ <CAHS8izMdpo0D7GYzMkOtg1ueCODAVNxtwSP_qPseSYXNMhPGCw@mail.gmail.com>
+ <2cdf173c-95e4-2141-56f7-0761705cd737@huawei.com>
+ <CAHS8izOTdqqbS6ajAo+c646UwXkK-aB8ET9uJRS6Auszfi0nfA@mail.gmail.com>
+From: Yunsheng Lin <linyunsheng@huawei.com>
+Message-ID: <17adf1c0-e4ad-4baf-4d01-32d6544cc13e@huawei.com>
+Date: Wed, 13 Dec 2023 19:48:56 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 11/14] drm/panthor: Add the driver frontend block
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org
-References: <20231204173313.2098733-1-boris.brezillon@collabora.com>
- <20231204173313.2098733-12-boris.brezillon@collabora.com>
-Content-Language: en-GB
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20231204173313.2098733-12-boris.brezillon@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <CAHS8izOTdqqbS6ajAo+c646UwXkK-aB8ET9uJRS6Auszfi0nfA@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.69.30.204]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpemm500005.china.huawei.com (7.185.36.74)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,145 +60,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Boichat <drinkcat@chromium.org>, kernel@collabora.com,
- Daniel Stone <daniels@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Liviu Dudau <Liviu.Dudau@arm.com>,
- =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
- Grant Likely <grant.likely@linaro.org>,
- "Marty E . Plummer" <hanetzer@startmail.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Faith Ekstrand <faith.ekstrand@collabora.com>
+Cc: linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Eric Dumazet <edumazet@google.com>, linux-kselftest@vger.kernel.org,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-arch@vger.kernel.org, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jeroen de Borst <jeroendb@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ linux-media@vger.kernel.org, Jesper Dangaard Brouer <hawk@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Shailend Chand <shailend@google.com>,
+ Shakeel Butt <shakeelb@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>, netdev@vger.kernel.org,
+ David Ahern <dsahern@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>, bpf@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/12/2023 17:33, Boris Brezillon wrote:
-> This is the last piece missing to expose the driver to the outside
-> world.
+On 2023/12/12 22:28, Mina Almasry wrote:
+
+...
+
+>>
+>> the page_ref_*() API may be avoided using the below patch:
+>> https://patchwork.kernel.org/project/netdevbpf/patch/20231113130041.58124-7-linyunsheng@huawei.com/
+>>
 > 
-> This is basically a wrapper between the ioctls and the other logical
-> blocks.
+> Even after the patch above, you're still calling page_ref_count() in
+> the page_pool to check for recycling, so after that patch you're still
+> using page->_refcount.
+
+Yes, we still need page_ref_count(), which seems be a similar problem
+like the one for page_is_pfmemalloc(), can we deal with it like most
+of other fields?
+
 > 
-> v3:
-> - Add acks for the MIT/GPL2 relicensing
-> - Fix 32-bit support
-> - Account for panthor_vm and panthor_sched changes
-> - Simplify the resv preparation/update logic
-> - Use a linked list rather than xarray for list of signals.
-> - Simplify panthor_get_uobj_array by returning the newly allocated
->   array.
-> - Drop the "DOC" for job submission helpers and move the relevant
->   comments to panthor_ioctl_group_submit().
-> - Add helpers sync_op_is_signal()/sync_op_is_wait().
-> - Simplify return type of panthor_submit_ctx_add_sync_signal() and
->   panthor_submit_ctx_get_sync_signal().
-> - Drop WARN_ON from panthor_submit_ctx_add_job().
-> - Fix typos in comments.
+>> But I am not sure how to do that for tx part if devmem for tx is not
+>> intergating into page_pool, that is why I suggest having a tx implementation
+>> for the next version, so that we can have a whole picture of devmem.
+>>
 > 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Signed-off-by: Steven Price <steven.price@arm.com>
-> Acked-by: Steven Price <steven.price@arm.com> # MIT+GPL2 relicensing,Arm
-> Acked-by: Grant Likely <grant.likely@linaro.org> # MIT+GPL2 relicensing,Linaro
-> Acked-by: Boris Brezillon <boris.brezillon@collabora.com> # MIT+GPL2 relicensing,Collabora
+> I strongly prefer to keep the TX implementation in a separate series.
+> This series is complicated to implement and review as it is, and is
+> hitting the 15 patch limit anyway.
 
-A typo and I think the cleanup in panthor_init() is backwards, but with
-that fixed:
+I am not sure how complicated the TX implementation for devmem will be
+for the latest version, but from the RFCv1, it seems it is simple enough
+to keep it in one patchset.
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+Anyway, it would be good to sort out the basic idea what is the tx API
+for devmem when designing/implementing the rx API for devmem.
 
-> ---
->  drivers/gpu/drm/panthor/panthor_drv.c | 1454 +++++++++++++++++++++++++
->  1 file changed, 1454 insertions(+)
->  create mode 100644 drivers/gpu/drm/panthor/panthor_drv.c
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-> new file mode 100644
-> index 000000000000..9447a4e90018
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-
-<snip>
-
-> +
-> +/**
-> + * panthor_submit_ctx_push_jobs() - Push jobs to their scheduling entities.
-> + * @ctx: Submit context.
-> + * @upd_resvs: Callback used to update reservation objects that were previously
-> + * preapred.
-
-NIT: s/preapred/prepared/
-
-> + */
-> +static void
-> +panthor_submit_ctx_push_jobs(struct panthor_submit_ctx *ctx,
-> +			     void (*upd_resvs)(struct drm_exec *, struct drm_sched_job *))
-> +{
-> +	for (u32 i = 0; i < ctx->job_count; i++) {
-> +		upd_resvs(&ctx->exec, ctx->jobs[i].job);
-> +		drm_sched_entity_push_job(ctx->jobs[i].job);
-> +
-> +		/* Job is owned by the scheduler now. */
-> +		ctx->jobs[i].job = NULL;
-> +	}
-> +
-> +	panthor_submit_ctx_push_fences(ctx);
-> +}
-> +
-
-<snip>
-
-> +/*
-> + * Workqueue used to cleanup stuff.
-> + *
-> + * We create a dedicated workqueue so we can drain on unplug and
-> + * make sure all resources are freed before the module is unloaded.
-> + */
-> +struct workqueue_struct *panthor_cleanup_wq;
-> +
-> +static int __init panthor_init(void)
-> +{
-> +	int ret;
-> +
-> +	ret = panthor_mmu_pt_cache_init();
-> +	if (ret)
-> +		return ret;
-> +
-> +	panthor_cleanup_wq = alloc_workqueue("panthor-cleanup", WQ_UNBOUND, 0);
-> +	if (!panthor_cleanup_wq) {
-> +		pr_err("panthor: Failed to allocate the workqueues");
-> +		ret = -ENOMEM;
-> +		goto err_mmu_pt_cache_fini;
-> +	}
-> +
-> +	ret = platform_driver_register(&panthor_driver);
-> +	if (ret)
-> +		goto err_destroy_cleanup_wq;
-
-Here we skip the call to panthor_mmu_pt_cache_fini() which doesn't look
-right. I think the cleanup below is just backwards.
-
-Steve
-
-> +
-> +	return ret;
-> +
-> +err_mmu_pt_cache_fini:
-> +	panthor_mmu_pt_cache_fini();
-> +
-> +err_destroy_cleanup_wq:
-> +	destroy_workqueue(panthor_cleanup_wq);
-> +	return ret;
-> +}
-> +module_init(panthor_init);
-> +
-> +static void __exit panthor_exit(void)
-> +{
-> +	platform_driver_unregister(&panthor_driver);
-> +	destroy_workqueue(panthor_cleanup_wq);
-> +	panthor_mmu_pt_cache_fini();
-> +}
-> +module_exit(panthor_exit);
-> +
-> +MODULE_AUTHOR("Panthor Project Developers");
-> +MODULE_DESCRIPTION("Panthor DRM Driver");
-> +MODULE_LICENSE("Dual MIT/GPL");
-
