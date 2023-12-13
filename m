@@ -2,57 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07D1D811B90
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 18:53:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E96B811BC0
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 19:00:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B30B710E808;
-	Wed, 13 Dec 2023 17:53:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7985D10E095;
+	Wed, 13 Dec 2023 18:00:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com
- [209.85.161.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86CBA10E7F2
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 17:53:51 +0000 (UTC)
-Received: by mail-oo1-f41.google.com with SMTP id
- 006d021491bc7-5906e03a7a4so4106949eaf.1
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 09:53:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702490031; x=1703094831;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ik457hD1S5HlN6UXVZUgeJxpu7wQOeGH5KzQB0C5eQs=;
- b=tLg+xPZIIoVeQ7Yj3FXqNz7ZcgH9bfIiAn7hzKNZ2/nZinsxmfoKT7eemnlEBa3JpA
- 6m25JvSDcXChLNpi09Xa/5NA87/ZQyE+X03mJB57lPbDOYZI43j9DzI7SNFgMUWkYfpv
- 0ya+VhGLYwPfiGABUG9j2+cDboGmSeSQ6X7Pwx84a5i1tX+csUdAUvSQ9k7QCXNiKgGp
- TZUKa9fBKDPREvA0mIcyhZTywYHoyL1rRZdAK8vBfNDKHMZhbHVefkHgb9JUzBXaLeIz
- Slz75XtU3ez24tYmbZ5XzfZxSiQGRfM/Ro3Tj+DGP1pWaCqm85Fc8S5rOQ1kvlqhN10Z
- 9EDA==
-X-Gm-Message-State: AOJu0YzsWX3w5qZO7qNSlaqoPy/owSdytc4O6t9/lkPOJwXsTf2X5/18
- deg/8XQv/ivOpHviC1EqUg==
-X-Google-Smtp-Source: AGHT+IFQdhMh1dSsniMj2RNwPjv0B28HP5zPIeWWFOApyiATpZiK/dIcArxyl75Ywe09m3an1QfhbQ==
-X-Received: by 2002:a4a:385a:0:b0:590:8d23:34f0 with SMTP id
- o26-20020a4a385a000000b005908d2334f0mr5050443oof.10.1702490030707; 
- Wed, 13 Dec 2023 09:53:50 -0800 (PST)
-Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- b30-20020a4a98e1000000b00590ded91500sm2027111ooj.47.2023.12.13.09.53.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Dec 2023 09:53:50 -0800 (PST)
-Received: (nullmailer pid 1588510 invoked by uid 1000);
- Wed, 13 Dec 2023 17:53:48 -0000
-Date: Wed, 13 Dec 2023 11:53:48 -0600
-From: Rob Herring <robh@kernel.org>
-To: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-Subject: Re: [PATCH v6 3/4] dt-bindings: display: panel: Add synaptics r63353
- panel controller
-Message-ID: <170249002767.1588438.13395249907934528672.robh@kernel.org>
-References: <20231213140437.2769508-1-dario.binacchi@amarulasolutions.com>
- <20231213140437.2769508-4-dario.binacchi@amarulasolutions.com>
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF25110E095
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 18:00:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=ktJZ0d41GyynKto+sqLobmDOIfV0MP6FoedSStsH9RA=; b=eatWHUPRWvSEss1GcSYfmY11uk
+ xWhoYIR4TkYsh8pwdvnLUMgn2VG3bL1l73l9YsF85o2CSR+et9jUVhTlsiStvHVdjDN5jsvxC585+
+ pi1Q2dfJ4h0dCLroWL7jUGQnfUvpdZ+MMsJS2VNIZv7KuO1xWfCD2JM5qnAhC9MCLjrllwdmSwNAI
+ QqL7WvfjkGOxuxklgnX/yJ2Lr+kJWZ5in5FEVDzpM+zcIkkJe27ELH5hUSM8844JilfKW3U7mFEOF
+ 4r+5FGmWsBqB2BI1X15XU1XDt9RCychU0fd/eel7Brhc7qPpkV52U/e4+oTx4XMnAWba9JKee8l8V
+ OduTH1Nw==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red
+ Hat Linux)) id 1rDTX5-002Nk0-Oz; Wed, 13 Dec 2023 18:00:31 +0000
+Date: Wed, 13 Dec 2023 18:00:31 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Subject: Re: [PATCH v7 4/6] udmabuf: Convert udmabuf driver to use folios
+Message-ID: <ZXnxP5tsL0TWyo43@casper.infradead.org>
+References: <20231212073803.3233055-1-vivek.kasireddy@intel.com>
+ <20231212073803.3233055-5-vivek.kasireddy@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231213140437.2769508-4-dario.binacchi@amarulasolutions.com>
+In-Reply-To: <20231212073803.3233055-5-vivek.kasireddy@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,47 +48,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
- devicetree@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, michael@amarulasolutions.com,
- Amarula patchwork <linux-amarula@amarulasolutions.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Dongwon Kim <dongwon.kim@intel.com>,
+ David Hildenbrand <david@redhat.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Hugh Dickins <hughd@google.com>, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, Peter Xu <peterx@redhat.com>,
+ Jason Gunthorpe <jgg@nvidia.com>, Junxiao Chang <junxiao.chang@intel.com>,
+ Mike Kravetz <mike.kravetz@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Dec 11, 2023 at 11:38:01PM -0800, Vivek Kasireddy wrote:
+> @@ -42,7 +42,7 @@ static vm_fault_t udmabuf_vm_fault(struct vm_fault *vmf)
+>  	if (pgoff >= ubuf->pagecount)
+>  		return VM_FAULT_SIGBUS;
+>  
+> -	pfn = page_to_pfn(ubuf->pages[pgoff]);
+> +	pfn = page_to_pfn(&ubuf->folios[pgoff]->page);
 
-On Wed, 13 Dec 2023 15:03:44 +0100, Dario Binacchi wrote:
-> From: Michael Trimarchi <michael@amarulasolutions.com>
-> 
-> Add documentation for "synaptics,r63353" panel.
-> 
-> Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
-> Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> ---
-> 
-> (no changes since v3)
-> 
-> Changes in v3:
-> - Add 'Reviewed-by' tag of Krzysztof Kozlowski.
-> - Replace "synaptics,r63353" compatible with "syna,r63353", as
->   required by vendor-prefixes.yaml.
-> 
-> Changes in v2:
-> - Add $ref to panel-common.yaml
-> - Drop port, reset-gpios, and backlight
-> - Set port and backlight ad required
-> - Replace additionalProperties with unevaluatedProperties
-> 
->  .../display/panel/synaptics,r63353.yaml       | 61 +++++++++++++++++++
->  1 file changed, 61 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/synaptics,r63353.yaml
-> 
+We have folio_pfn().
 
-Applied, thanks!
+>  static int vmap_udmabuf(struct dma_buf *buf, struct iosys_map *map)
+>  {
+>  	struct udmabuf *ubuf = buf->priv;
+> +	struct page **pages;
+>  	void *vaddr;
+> +	pgoff_t pg;
+>  
+>  	dma_resv_assert_held(buf->resv);
+>  
+> -	vaddr = vm_map_ram(ubuf->pages, ubuf->pagecount, -1);
+> +	pages = kmalloc_array(ubuf->pagecount, sizeof(*pages), GFP_KERNEL);
+> +	if (!pages)
+> +		return -ENOMEM;
+> +
+> +	for (pg = 0; pg < ubuf->pagecount; pg++)
+> +		pages[pg] = &ubuf->folios[pg]->page;
+> +
+> +	vaddr = vm_map_ram(pages, ubuf->pagecount, -1);
+> +	kfree(pages);
+
+We don't yet have a vm_map_ram() variant that takes an array of
+folios.  We probably should; there was _something_ I was looking at
+recently that would have liked it ...
+
+> @@ -254,31 +262,70 @@ static int handle_shmem_pages(struct udmabuf *ubuf, struct file *memfd,
+>  			      pgoff_t *pgbuf)
+>  {
+>  	pgoff_t pgidx, pgoff = offset >> PAGE_SHIFT;
+> -	struct page *page;
+> +	struct folio *folio = NULL;
+>  
+>  	for (pgidx = 0; pgidx < pgcnt; pgidx++) {
+> -		page = shmem_read_mapping_page(memfd->f_mapping,
+> -					       pgoff + pgidx);
+> -		if (IS_ERR(page))
+> -			return PTR_ERR(page);
+> +		folio = shmem_read_folio(memfd->f_mapping,
+> +					 pgoff + pgidx);
+
+You could join these two lines.
 
