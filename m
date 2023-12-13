@@ -2,72 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 331998119E0
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 17:44:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D54BE8119F5
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 17:46:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77C1A10E08A;
-	Wed, 13 Dec 2023 16:44:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E06F89A5E;
+	Wed, 13 Dec 2023 16:46:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A521F10E08A
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 16:44:32 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- 5b1f17b1804b1-40c55872d80so10622835e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 08:44:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1702485871; x=1703090671; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=xr6toAXCsIC/bmSJ5B/sgzDjMz3Z0Uajw+zCN70ZLA8=;
- b=Z84qWVFkMJ6uktwrLFJNewP/VJYZoqNVi5Li4nlnDR7snwrTQIfM1f5i6P79B1nkbz
- URWhcpef3KB0esHjcjCqEH09m4dwwLzqwqm8b/hpvc1W8UgAZ8T7AzIT8s96lZ0dJxwD
- 3a6GFgfuOdBtBhSw4j7B5+J9s2LruIqfyvreW12dZq9kJXAf8e9gDp6zQ1/tfB4YPrff
- 4699Vxlw0RLo81miSIz4hcy0Kq2aqLK/lrDpxiUHS1Qm6UF4yIvEv1wOvuu6TeQg8bcs
- VeCLUuyOdTHY6c9Mvfoxi++JYlooTUui5tA80x/3seM0pQ6SXH85a2BwXnENiDUoEvK9
- aGPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702485871; x=1703090671;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xr6toAXCsIC/bmSJ5B/sgzDjMz3Z0Uajw+zCN70ZLA8=;
- b=QeBImwR65BkS8rjAxIzGCGU/iS55AHvWbM0f3YCH36MODXljdVmEz80/h7peZCK8A4
- hqbRIA6J8d4+4ehJ1N0CYhEqd3f6fQY7SoIcMcAbelGHcSBJ+grlD5YznPagBzW7Jno4
- 6/9vRQ7RdM+7SDNuQQK61NE6uSdzMBgUOL0Q+2IqhkXYp6x3GbxIsQ4bN0w5BuRj9CdM
- 6u5iisjHkgjFLWnkP9y1dCD9b4DoMgq7sB1AqyAx0B+imMio6441fv40i7Hgqo5h+T9X
- HApOQEoiXckNQqTdYvwPdYJtjhVN6/v46bVaHQwExSW3wtoIThwOnXkYZ0o/iaMszftN
- Vaog==
-X-Gm-Message-State: AOJu0YxOy/X4y9N8NIdYktyBSuwxadTAAJ02fr4hVWkJhEROrEJ32/cu
- SUAkHsFu/X1QGz7rPKrUpKP0hA==
-X-Google-Smtp-Source: AGHT+IHmb8ewYnbRlq6v/5rMQRoMcMWRfLl01skabFTAXrcQx6eTujOz4Paqf/1jHchf7eivqMmEQQ==
-X-Received: by 2002:a05:600c:2246:b0:40b:2a46:6f1 with SMTP id
- a6-20020a05600c224600b0040b2a4606f1mr4313509wmm.2.1702485870981; 
- Wed, 13 Dec 2023 08:44:30 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:ac4e:a5fe:7f71:8d59?
- ([2a01:e0a:982:cbb0:ac4e:a5fe:7f71:8d59])
- by smtp.gmail.com with ESMTPSA id
- o4-20020a5d58c4000000b0033333bee379sm13767115wrf.107.2023.12.13.08.44.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Dec 2023 08:44:30 -0800 (PST)
-Message-ID: <212239ae-60ab-46f3-a838-39a4d61091fe@linaro.org>
-Date: Wed, 13 Dec 2023 17:44:28 +0100
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com
+ (mail-tycjpn01on2111.outbound.protection.outlook.com [40.107.114.111])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C463289A5E
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 16:46:15 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kaTLbiE526B2Ez0hn3Pw9TRzdbzemld34imn7aSdxk60FTjf+wrj3924M/dRyz7ys0VzNKtWacXJ/p566TJuU9VKPk9wuI9BEdG77nHyEeVNRZLraS+YOZiABwHm+FddJW7RENVRhSfV603Ues1q5y9BRPyVIsiCDRjCKiWNxUXm8O6mtKPi/Jq27qdbXdJ0MRPU8Zky970fwzkriPn19CvuJRSaikbZzjEA5kuqIPLb0WFAOLXhKmCwMH1vdebYOA4NV0yoQHzPTUXaY40UdOCEOrPLQKFgqnNjBcoh8DCZCnfo/s4J1IqmlUdGy5qH/dtvNrCTbdU1pX6ZIEdBtw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TKGcGdumD4BoGvzTChFDqQlOnXQOcvz43rgrpSCE4PE=;
+ b=RhSBqX0iqPTJVJYE4NiMfhHAhq3o3zwJSrciBH/u8m27BkKFu7MCTe8NiptTgywVRSch515U7pPTLJeQVTpQt4BTgi4tjrbosEk3yBVa8FvzDZVTtN6xK0AMa0QpbF6br1J3b8xRmdiGug9OlaJ1SQNn0VqGhe0RGp/dsS+Y2mCi4rFH/6z1LT91YybODwvR5ioaGNRwQH08eYn6l4fjfM5k9s8+/kObVzUlofix2M1qLYiCNTvdsNI8S7+hpDUsIiao9F3Io7wHIp+5MrdK8Gk34QFUIMn6PU+PMYlYqIYrZsnz7W3GSVDpODip0Ltxjsbt3Or3H7ltotGUjYR44A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TKGcGdumD4BoGvzTChFDqQlOnXQOcvz43rgrpSCE4PE=;
+ b=WaXIDHFHSx0LOF5C3A5AXYtDsEi/6fx97DqqWNaxdvUD088JIMGoDlGRcVJFUOqQ4CjXyp9qAXJ5n+8c6eYUuL6JmUCj8yNoBkksMqYQsWTo3Ou7I2GQ6uOowa/1YNHTvVDvtQSOlyTodUp4Br0sckHs8MK4gBdIVZ0PpMEw8yk=
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ (2603:1096:400:3c0::10) by TYYPR01MB8262.jpnprd01.prod.outlook.com
+ (2603:1096:400:fe::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.28; Wed, 13 Dec
+ 2023 16:46:12 +0000
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::f216:24ab:3668:3a48]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::f216:24ab:3668:3a48%4]) with mapi id 15.20.7091.022; Wed, 13 Dec 2023
+ 16:46:12 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Maxime Ripard
+ <mripard@kernel.org>
+Subject: RE: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
+Thread-Topic: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
+Thread-Index: AQHaIejqQbh+O2CetkGmd2PHSouIl7Cnc3CAgAABB4CAAA8LQA==
+Date: Wed, 13 Dec 2023 16:46:12 +0000
+Message-ID: <TYCPR01MB11269D104AF4CE8CDF8A40B3D868DA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+References: <20231128105129.161121-1-biju.das.jz@bp.renesas.com>
+ <20231128105129.161121-4-biju.das.jz@bp.renesas.com>
+ <sechknyg33iucaku37vfhk7ie7xgcealfqbvaopm4rrnqbo5g5@s35peonkzzoz>
+ <20231213155049.GH12450@pendragon.ideasonboard.com>
+In-Reply-To: <20231213155049.GH12450@pendragon.ideasonboard.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|TYYPR01MB8262:EE_
+x-ms-office365-filtering-correlation-id: 66e06b8d-88a5-47cb-f134-08dbfbfb03bc
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: btQahSi1SStaX2XZ0lq7ffrmgaeQ2ZO/d3scMxioK7PzjxP5C7HvUAgiDwZBpRU0KXU26tAv9Wx0+y6Y3r2euA7Ck2j2X/hUcWCrU0Wqw5fGZMLKk9luRHrhIs/oAnLbQ7gZh1aY7ezW0rYQY0S/VI92rlnDk4zP//RF4I/1ALNUvUIRJi77LmYM0iJpJkZyES0e3k2sNutyYa0vDy2jjrSDSmr012fPo6Itfs5CEwm5YimbAbmVdXtV5fZ4wBU2IlGpILsAUBY9CAvltvYgwstqYLVgsmf4p2mcL/K23JvWIkjmrY10fxufoxk/pAAG+/v6xdkAD0Y0hmaGzLTZ+iHI68/5UEnthaXCajwNJfkTO31Uy3h5iYBBUDZXRKqRGSOvgk3KOk/PuYaH1nl6ACUbGVLMY0d+ZgFPkEpaCF02g3Sd0h1QsHFz0Q0+Nd5ry/mJW41kkVFGi4o1gIPWP44a2Wy7XTS6Z/u4LlP6kh7idfeSGdPQIn9AKiSyba1uEAISZt6fHR8eOtmd9LjzsTPIVZ477/mDNrQa2dHAcFbQkIFOryHWlSdd8+gTUXm8xJ70mKu1YP+gNkNkBz3OLErLWiy725+QbkxDEDKIwYg=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYCPR01MB11269.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(346002)(39860400002)(376002)(366004)(136003)(396003)(230922051799003)(1800799012)(451199024)(186009)(64100799003)(478600001)(55016003)(966005)(6506007)(7696005)(26005)(5660300002)(110136005)(9686003)(71200400001)(53546011)(66946007)(66446008)(66476007)(76116006)(66556008)(83380400001)(316002)(64756008)(54906003)(8936002)(8676002)(4326008)(52536014)(2906002)(38070700009)(41300700001)(86362001)(33656002)(122000001)(38100700002)(7416002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?eEpVREx5RTB0Q2x5dlhJZHp1b2U0Y2lkdVNCc3VsMU1adzlMNU1veldJQTM5?=
+ =?utf-8?B?VmkrU1BDMlNvUlhidHo2a1oxNTJYdjl0MnIrWUJHUXYyZVFsdmtkVW9BR3pQ?=
+ =?utf-8?B?Q0cySmVmdVYrVTVDU0h0bktWaVRBZGxqWU9wQ1VNb1V5c04zdmVxUk5sTWVC?=
+ =?utf-8?B?K1hPN01VYVArYXE2cGJ5VXpZOVhsb3dmOVR5QmtRNWRrWmI3bXc5ek14dlVK?=
+ =?utf-8?B?MTdXbWx2OXVQYlJUZzhaV0FRaVRQUWVsc1Z4MUVYcmN4S3M2NkxnWFRYZTZN?=
+ =?utf-8?B?MisvV2NLb3RFK0hpNVUrdTdoWi81WEpsUDhTL2tDVTFuTU53QVlUN2wyNG1V?=
+ =?utf-8?B?T1dpdHliVlVwTHdzQWtiZWwzTWhsTk1pbEYxNUU4WU9aVTJzeWVmaERMWU9i?=
+ =?utf-8?B?ZGpIb2JsSjZjbzgxZ3BaaXg3UURUTDk5L2o5WWtxc2RlRFdSNUJMNmxlOXNh?=
+ =?utf-8?B?dU9QY0NWQjlqUkpMeU5SQm9WZWx4MnZLQkNnUk9TSjlEN2tkZ01YelBxZnFM?=
+ =?utf-8?B?ajVNdzlkcWxiWk5PTHYxc3ZRckdEekNFV0svc2VqVU1nNm5RQzVtT2xOTnN2?=
+ =?utf-8?B?Y0g0SnY5UDZBL2FLbEZCbko1NXRmUHhodTJsendwWWNxVUpHeUVHcUY1RVY0?=
+ =?utf-8?B?M1hzVkJCOGtHNFRqYlg5QXBTZnBPMy94aTZMMURGaWhJTnkyUHVwV1ZnODBT?=
+ =?utf-8?B?am1rUFZxa3pESzJ5S2FzbFYyVFZKY21uTVVjTjUxdGFRNTY0QXRiRk5MeWdp?=
+ =?utf-8?B?WXZNWFZJMlNybERKNzVaU2ZndXNZcGVtdGI0NEdwNnRaRnlRN0EyeE9aWG5q?=
+ =?utf-8?B?ZUJISDNFMW0zeE1HWlA1VkNMN3Nqb2p6L3VHYURSZHVYSFFmMFNNMCtHTmZ5?=
+ =?utf-8?B?ZUJIVDM3ZDRDaXZyd0ZHeXFJUE8vU1VidHZuNElxM0tXc2RIMWpVN3hVaTA3?=
+ =?utf-8?B?ZWdVcEcrZVVHdjB4eHZabEhFM3VTd0R6ZnZJcjR5SjZOVUlXS3hkZDQrZ1NX?=
+ =?utf-8?B?K2E5WXdtMW1kYnVmVllFdmtCOVRrcW44bHF3Wjc0dyt3RWZVMERoL3Zvb0lv?=
+ =?utf-8?B?UDUxMUk0eWdtLzVVVlJ6aFV2U1pDUTBrTWRxbHY2T2NQNEREUm5nVjRya2hu?=
+ =?utf-8?B?Mzd3Z1o2SHorelBQVUQrc0J5QnRqbVJ1Q2tZbERjSmNLRktWUFZudTZTQ1NK?=
+ =?utf-8?B?RHU3WlNaeXMxTWllVGpncVI2V2ptT2VqOFVYUUNWTTFEV25wa2FmYTRaZFM1?=
+ =?utf-8?B?SCtUYzBUWFcvUTNtWFVrZ1ZRWnh0cEY2Znc3OVdnT1Y1MXhhRU1lNGRGaEd6?=
+ =?utf-8?B?QksveVI3V2VnNnBMOXlKVVJPQVo4bEkxYXlOR2FMTXFJUVpUZzdGanlXSWY3?=
+ =?utf-8?B?S2NpVHlXMzc1RnhIM1p3U2NLOUhvSE1zbjBtNWJOM1p6Tk96dTZEMDJxdGpo?=
+ =?utf-8?B?MEZKbFY3NzN3UzVGVk9zS2xMaEc4eGk2ZkVsV201ZjdxaTV2NlhucURSRENl?=
+ =?utf-8?B?alNVWjJBNkdaSHI3SzBLWTFUN1ZjaDBrZFJUQnQxNjJ1ekoxR1Yvamd4c1hC?=
+ =?utf-8?B?QnFjNjJncXZuY21vUllwMHZ4ZDJmcTNIT1dIQ1JWdFJvM3Rzc1EyRnF2ZFdv?=
+ =?utf-8?B?RlkvTEp6S0VFcy81bW40dWtKUjZ1a05XNlZzd3V2TUdvUlRpdU5zUjdES3k2?=
+ =?utf-8?B?dHpkeGp4ZjB6RnNnaXdidGQ4YUtyay9XcWZPZ3cvUjZzQ1NQK01NUzY3UkxT?=
+ =?utf-8?B?aStXSEpma3ZxMGtCVTBJN3lsbnZ0RDhVb3JRSTZpS1ptcGJMQWU1cjlEdk8w?=
+ =?utf-8?B?T295SjVsR2h6b0JIb1V2Mk9sN3JQZ0g5TXhmNGpVNW5SSjNUYmVmbm5Kbm1r?=
+ =?utf-8?B?YVNXZUZwSllXTDdSQlQyYzhQanNEdXIwQUtRYk11TThKY3FSUEE3aFJsZElm?=
+ =?utf-8?B?RDk3SDV3SjRTMExYTkp6QTl2ZUlEWWkyTzVQQW1Ed3lVZ3lVa0JTSmdIYnEv?=
+ =?utf-8?B?WFFtdWxKa3FXMTJFd3l3dHhIOHBQdEtBNWcvbWlKelRJaWRDMjR5NWVNbE5n?=
+ =?utf-8?B?OGlnVTRCS1pjS2RSWVRGRW5ERENxYzd3ZERoY1JMU0FDeWlBVXNCUXowakQ5?=
+ =?utf-8?B?amZBa0twN2FaNkFYTzBXVXgxdGN2eUpUci92Q0RLTm1hMlltS1lDVjNKcUh2?=
+ =?utf-8?B?SXc9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/5] clk: Make clk_rate_exclusive_get() return void
-Content-Language: en-GB
-To: Maxime Ripard <mripard@kernel.org>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-References: <cover.1702400947.git.u.kleine-koenig@pengutronix.de>
- <ki5n3rz5n4oxj2hhc3rj6xpn3e2tdi7fcp2q7exjbzilrlqflp@przautvhuy4g>
- <20231213074300.4bq7wkfqd4jhhcr4@pengutronix.de>
- <2nvbag657mlniqwq7fbilapc6vfw5qumab3yd6bqul25ot6wcn@wdlkh5az2fgs>
-From: Neil Armstrong <neil.armstrong@linaro.org>
-In-Reply-To: <2nvbag657mlniqwq7fbilapc6vfw5qumab3yd6bqul25ot6wcn@wdlkh5az2fgs>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 66e06b8d-88a5-47cb-f134-08dbfbfb03bc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Dec 2023 16:46:12.0963 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: xhdXYjAy/z7lza/R2/m43nQ4b1iL2J7qEV8e+yVT+aTxvNtafa5HTzQuYc41yrgdYNt4HeFAmqdvMjglUifMxFGNVUhflfhZBXhj+ZeLTxM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB8262
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,169 +131,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Turquette <mturquette@baylibre.com>,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- linux-clk@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>,
- Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
- Russell King <linux@armlinux.org.uk>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Chanwoo Choi <cw00.choi@samsung.com>,
- Chen-Yu Tsai <wens@csie.org>, MyungJoo Ham <myungjoo.ham@samsung.com>,
- linux-arm-kernel@lists.infradead.org,
- Kyungmin Park <kyungmin.park@samsung.com>, linux-sunxi@lists.linux.dev,
- kernel@pengutronix.de, linux-pm@vger.kernel.org,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
- Johan Hovold <johan+linaro@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Georgi Djakov <djakov@kernel.org>
+Cc: "biju.das.au" <biju.das.au@gmail.com>, Magnus Damm <magnus.damm@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
-
-Le 13/12/2023 à 09:36, Maxime Ripard a écrit :
-> Hi,
-> 
-> On Wed, Dec 13, 2023 at 08:43:00AM +0100, Uwe Kleine-König wrote:
->> On Wed, Dec 13, 2023 at 08:16:04AM +0100, Maxime Ripard wrote:
->>> On Tue, Dec 12, 2023 at 06:26:37PM +0100, Uwe Kleine-König wrote:
->>>> clk_rate_exclusive_get() returns zero unconditionally. Most users "know"
->>>> that and don't check the return value. This series fixes the four users
->>>> that do error checking on the returned value and then makes function
->>>> return void.
->>>>
->>>> Given that the changes to the drivers are simple and so merge conflicts
->>>> (if any) should be easy to handle, I suggest to merge this complete
->>>> series via the clk tree.
->>>
->>> I don't think it's the right way to go about it.
->>>
->>> clk_rate_exclusive_get() should be expected to fail. For example if
->>> there's another user getting an exclusive rate on the same clock.
->>>
->>> If we're not checking for it right now, then it should probably be
->>> fixed, but the callers checking for the error are right to do so if they
->>> rely on an exclusive rate. It's the ones that don't that should be
->>> modified.
->>
->> If some other consumer has already "locked" a clock that I call
->> clk_rate_exclusive_get() for, this isn't an error. In my bubble I call
->> this function because I don't want the rate to change e.g. because I
->> setup some registers in the consuming device to provide a fixed UART
->> baud rate or i2c bus frequency (and that works as expected).
-> 
-> I guess it's a larger conversation, but I don't see how that can
-> possibly work.
-> 
-> The way the API is designed, you have no guarantee (outside of
-> clk_rate_exclusive_*) that the rate is going to change.
-> 
-> And clk_rate_exclusive_get() doesn't allow the rate to change while in
-> the "critical section".
-> 
-> So the only possible thing to do is clk_set_rate() +
-> clk_rate_exclusive_get().
-
-There's clk_set_rate_exclusive() for this purpose.
-
-> 
-> So there's a window where the clock can indeed be changed, and the
-> consumer that is about to lock its rate wouldn't be aware of it.
-> 
-> I guess it would work if you don't care about the rate at all, you just
-> want to make sure it doesn't change.
-> 
-> Out of the 7 users of that function, 3 are in that situation, so I guess
-> it's fair.
-> 
-> 3 are open to that race condition I mentioned above.
-> 
-> 1 is calling clk_set_rate while in the critical section, which works if
-> there's a single user but not if there's multiple, so it should be
-> discouraged.
-> 
->> In this case I won't be able to change the rate of the clock, but that
->> is signalled by clk_set_rate() failing (iff and when I need awother
->> rate) which also seems the right place to fail to me.
-> 
-> Which is ignored by like half the callers, including the one odd case I
-> mentioned above.
-> 
-> And that's super confusing still: you can *always* get exclusivity, but
-> not always do whatever you want with the rate when you have it? How are
-> drivers supposed to recover from that? You can handle failing to get
-> exclusivity, but certainly not working around variable guarantees.
-> 
->> It's like that since clk_rate_exclusive_get() was introduced in 2017
->> (commit 55e9b8b7b806ec3f9a8817e13596682a5981c19c).
-> 
-> Right, but "it's always been that way" surely can't be an argument,
-> otherwise you wouldn't have done that series in the first place.
-> 
->> BTW, I just noticed that my assertion "Most users \"know\" that
->> [clk_rate_exclusive_get() returns zero unconditionally]" is wrong. As of
->> next-20231213 there are 3 callers ignoring the return value of
->> clk_rate_exclusive_get() and 4 that handle (imaginary) returned errors.
->> I expected this function to be used more extensively. (In fact I think
->> it should be used more as several drivers rely on the clk rate not
->> changing.)
-> 
-> Yes, but also it's super difficult to use in practice, and most devices
-> don't care.
-> 
-> The current situation is something like this:
-> 
->    * Only a handful of devices really care about their clock rate, and
->      often only for one of their clock if they have several. You would
->      probably get all the devices that create an analog signal somehow
->      there, so audio, display, i2c, spi, uarts, etc. Plus the ones doing
->      frequency scaling so CPU and GPUs.
-> 
->    * CPUs and GPUs are very likely to have a dedicated clock, so we can
->      rule the "another user is going to mess with my clock" case.
-> 
->    * UARTs/i2c/etc. are usually taking their clock from the bus interface
->      directly which is pretty much never going to change (for good
->      reason). And the rate of the bus is not really likely to change.
-> 
->    * SPI/NAND/MMC usually have their dedicated clock too, and the bus
->      rate is not likely to change after the initial setup either.
-> 
-> So, the only affected devices are the ones generating external signals,
-> with the rate changing during the life of the system. Even for audio or
-> video devices, that's fairly unlikely to happen. And you need to have
-> multiple devices sharing the same clock tree for that issue to occur,
-> which is further reducing the chances it happens.
-
-Well, thanks for HW designers, this exists and some SoCs has less PLLs than
-needed, and they can't be dedicated for some hw blocks.
-
-> 
-> Realistically speaking, this only occurs with multi-head display outputs
-> where it's somewhat likely to have all the display controllers feeding
-> from the same clock, and the power up of the various output is done in
-> sequence which creates that situation.
-> 
-> And even then, the clk_rate_exclusive_* interface effectively locks the
-> entire clock subtree to its current rate, so the effect on the rest of
-> the devices can be significant.
-> 
-> So... yeah. Even though you're right, it's trying to address a problem
-> that is super unlikely to happen with a pretty big hammer that might be
-> too much for most. So it's not really surprising it's not used more.
-
-Honestly I tried my best to find a smart way to set the DSI clock tree
-with only 2 endpoints of the tree, but CCF will explore all possibilities
-and since you cannot set constraints, locking a sub-tree is the smartest
-way I found.
-In this case, the PLL is common between the DSI controller and video generator,
-so to keep the expected clock ratio, the smart way is to set the freq on
-one side, lock the subtree and set the rate on the other side.
-An API permitting to set multiple rates to multiple clocks in a single call
-would be the solution, but not sure if we could possibly write such algorithm.
-
-> 
-> Maxime
-
-Neil
+SGkgTGF1cmVudCBhbmQgTWF4aW1lLA0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+
+IEZyb206IExhdXJlbnQgUGluY2hhcnQgPGxhdXJlbnQucGluY2hhcnRAaWRlYXNvbmJvYXJkLmNv
+bT4NCj4gU2VudDogV2VkbmVzZGF5LCBEZWNlbWJlciAxMywgMjAyMyAzOjUxIFBNDQo+IFN1Ympl
+Y3Q6IFJlOiBbUEFUQ0ggdjE1IDMvNV0gZHJtOiByZW5lc2FzOiBBZGQgUlovRzJMIERVIFN1cHBv
+cnQNCj4gDQo+IE9uIFdlZCwgRGVjIDEzLCAyMDIzIGF0IDA0OjQ3OjA5UE0gKzAxMDAsIE1heGlt
+ZSBSaXBhcmQgd3JvdGU6DQo+ID4gT24gVHVlLCBOb3YgMjgsIDIwMjMgYXQgMTA6NTE6MjdBTSAr
+MDAwMCwgQmlqdSBEYXMgd3JvdGU6DQo+ID4gPiBUaGUgTENEIGNvbnRyb2xsZXIgaXMgY29tcG9z
+ZWQgb2YgRnJhbWUgQ29tcHJlc3Npb24gUHJvY2Vzc29yDQo+ID4gPiAoRkNQVkQpLCBWaWRlbyBT
+aWduYWwgUHJvY2Vzc29yIChWU1BEKSwgYW5kIERpc3BsYXkgVW5pdCAoRFUpLg0KPiA+ID4NCj4g
+PiA+IEl0IGhhcyBEUEkvRFNJIGludGVyZmFjZXMgYW5kIHN1cHBvcnRzIGEgbWF4aW11bSByZXNv
+bHV0aW9uIG9mIDEwODBwDQo+ID4gPiBhbG9uZyB3aXRoIDIgUlBGcyB0byBzdXBwb3J0IHRoZSBi
+bGVuZGluZyBvZiB0d28gcGljdHVyZSBsYXllcnMgYW5kDQo+ID4gPiByYXN0ZXIgb3BlcmF0aW9u
+cyAoUk9QcykuDQo+ID4gPg0KPiA+ID4gVGhlIERVIG1vZHVsZSBpcyBjb25uZWN0ZWQgdG8gVlNQ
+RC4gQWRkIFJaL0cyTCBEVSBzdXBwb3J0IGZvciBSWi9HMkwNCj4gPiA+IGFsaWtlIFNvQ3MuDQo+
+ID4gPg0KPiA+ID4gU2lnbmVkLW9mZi1ieTogQmlqdSBEYXMgPGJpanUuZGFzLmp6QGJwLnJlbmVz
+YXMuY29tPg0KPiA+DQo+ID4gSSdkIHN0aWxsIGxpa2UgYSByZXZpZXcgZnJvbSBHZWVydCBvciBM
+YXVyZW50LCBJIGRvbid0IGtub3cgdGhlIFNvQy4NCj4gDQo+IEkgd29uJ3QgaGF2ZSB0aW1lIHNv
+b24sIGFuZCB0aGlzIGRyaXZlciBoYXMgYmVlbiBibG9ja2VkIGZvciB3YXkgdG9vIGxvbmcNCj4g
+ZHVlIHRvIHRoYXQgOi1TDQoNCg0KSXQgaXMgYmxvY2tlZCBmb3IgbW9yZSB0aGFuIHllYXIgbm93
+Lg0KDQpGWUksIEFsbCB0aGUgYml0cyBhbmQgcGllY2VzIG9mIHRoaXMgZGlzcGxheSBwaXBlbGlu
+ZSAoRkNQLCBWU1BELCBEU0ksIEFEVjc1MzUpDQppcyBtYWlubGluZWQgYW5kIHRoZW4gYmFja3Bv
+cnRlZCB0byBsaW51eCA1LjEwLnktY2lwWzFdIGFuZCBsaW51eC02LjEueS1jaXBbMl0gYWxvbmcg
+d2l0aA0KTUFMSSBHUFUgYW5kIE1FU0Egc3VwcG9ydC4NCg0KWzFdIGh0dHBzOi8vZ2l0Lmtlcm5l
+bC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L2NpcC9saW51eC1jaXAuZ2l0L2xvZy8/aD1s
+aW51eC01LjEwLnktY2lwDQoNClsyXSBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGlu
+dXgva2VybmVsL2dpdC9jaXAvbGludXgtY2lwLmdpdC9sb2cvP2g9bGludXgtNi4xLnktY2lwDQoN
+ClszXSBodHRwczovL2dpdGh1Yi5jb20vcmVuZXNhcy1yei9tZXRhLXJ6LXBhbmZyb3N0L2Jsb2Iv
+bWFpbi9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1rbXNyby1BZGQtcmNhci1kdS1l
+bnRyeS1wb2ludC1mb3ItUmVuZXNhcy1SWi1HMkx4LXNlLnBhdGNoDQoNCk9ubHkgRFUgZHJpdmVy
+IGlzIHBlbmRpbmcgZm9yIGNvbXBsZXRpb24gZm9yIFJaL0cyTCBmYW1pbHkgb2YgU29Dcy4NCg0K
+Q2hlZXJzLA0KQmlqdQ0K
