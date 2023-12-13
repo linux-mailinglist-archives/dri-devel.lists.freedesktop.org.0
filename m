@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60A2E811610
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 16:22:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE68F811611
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 16:22:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CF2310E2DC;
-	Wed, 13 Dec 2023 15:22:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0DAF10E764;
+	Wed, 13 Dec 2023 15:22:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5461510E273
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 15:22:29 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A09C10E764
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 15:22:36 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 702DB61BD2;
- Wed, 13 Dec 2023 15:22:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF8C5C433C9;
- Wed, 13 Dec 2023 15:22:27 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id B513DCE1F69;
+ Wed, 13 Dec 2023 15:22:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6F2AC433C8;
+ Wed, 13 Dec 2023 15:22:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1702480948;
- bh=C9ACrIQx0YJY336SuskexKm54RVQGARkMiX7As8+5/w=;
+ s=k20201202; t=1702480952;
+ bh=BOQd2PqXMpAxHexTtrg3Hc/jZKTRaDU86+Gy/WOQqb0=;
  h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=YRdNcSRaSfzN37r/VJOnPw7e5IES2F4lg3fgd2MNWAbfQxG7YqsWjstIrWYtnxakk
- 1n/V0E3NVymizqLBulu2cZM0CgiJo5doF1XOdIQ8YsigCofc50Lup7RQ137OSl1Hfm
- A/M6E31a3gHZqgwI8gVeOtQcNg0Pf3OBL1Qp7Kak/aPfthzuFANiIlQWqwcKCB5VuY
- uD/VizduZFgZD3f2XlhEcpDKDrnOSypHS9kLYAB1MTEiEstIdXjP+YATrn4deMR7gp
- UOBd2tsUE3WvKEzq84/YLkBrXfFZybIsGpBApfwSMRMMVDpDcBnu4ILCsZsHuSP5dx
- iqOBexE3c7zLQ==
+ b=eiAaLRm5mrz59icZnSi+8PFM6WxsVnO8pdVog6uGR4xoRDslpVCu34yYlSUuXiAmP
+ ioAypIeUWEjoWmnn0FbvxS06sEtNlQKTjv5CKwNzC9uXmyhnHaLWhFeSVWETu73G2Y
+ JZJosbMaloJjyhbRCOm4tjN1XAVhSpGDZQgVubXfK6dRz5kxyNCHSbBUj0LrnNQeOZ
+ RwWQJV+kLbPm6qjtDD2zov+a0MHKfOZfVjKhtbfId+6p85QniyLs9qyYmTRlQmKaO3
+ onlNOj41WsCf5YhQH9E8ENE2EDEJlL/X9UU4WxpyTryzzgLhNh70QvvG/pOeemwv4b
+ ik7UYKVHcefTg==
 From: Maxime Ripard <mripard@kernel.org>
 To: linux-kernel@vger.kernel.org, 
  Dario Binacchi <dario.binacchi@amarulasolutions.com>
-In-Reply-To: <20231213112432.2002832-1-dario.binacchi@amarulasolutions.com>
-References: <20231213112432.2002832-1-dario.binacchi@amarulasolutions.com>
-Subject: Re: (subset) [linux-next:master] drm/panel: synaptics-r63353:
- adjust the includes
-Message-Id: <170248094564.191897.4619829546699320404.b4-ty@kernel.org>
-Date: Wed, 13 Dec 2023 16:22:25 +0100
+In-Reply-To: <20231213112401.2000837-1-dario.binacchi@amarulasolutions.com>
+References: <20231213112401.2000837-1-dario.binacchi@amarulasolutions.com>
+Subject: Re: (subset) [linux-next:master] drm/panel: ilitek-ili9805: adjust
+ the includes
+Message-Id: <170248094841.191897.812940290291965613.b4-ty@kernel.org>
+Date: Wed, 13 Dec 2023 16:22:28 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -58,7 +58,7 @@ Cc: neil.armstrong@linaro.org, tzimmermann@suse.de, sam@ravnborg.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 13 Dec 2023 12:24:32 +0100, Dario Binacchi wrote:
+On Wed, 13 Dec 2023 12:24:01 +0100, Dario Binacchi wrote:
 > Adjust the includes to explicitly include the correct headers.
 > 
 > 
