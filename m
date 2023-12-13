@@ -2,82 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D6EA8107AF
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 02:34:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEB6E8107C6
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 02:40:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D862910E22B;
-	Wed, 13 Dec 2023 01:34:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADCDA10E1A7;
+	Wed, 13 Dec 2023 01:40:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4114F10E22B
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 01:33:58 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 3BD1FhEv010319; Wed, 13 Dec 2023 01:33:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=miMBAdaz8cO3oIR265yWqPR51wW8iYYznS3TBeCH6Xs=; b=MW
- H+tKOUkQ2+4Qof2jJlsNSrdvx6iOnnDd03olPuZf65my13d9AzYh4baB95EyIJvW
- 6lW7VXz1JdG3hfGL0gI9mLVdPdlOG3PJD4xtV3MYt8y5zm6wISs4fuNwJNt/AUlq
- tqueNVFaGUfo9bBdntfIcibjEmWVtwjkOTCidItDQUKbPxxa2vZMzkAGH3cZLV9X
- suBJJfwTCfIx39tFrWal3VKJhaohhZyfqYhiug3rEPaiLhjw6zTXZ5aq2aKfVW7D
- VcWXoFkc3xn82NnslfslJ4CcpghK1jcdNQNlS8R/YpJvinmjpxAdRaEVKTv+YpQj
- yfTlaKsxNU64hFP/7OJw==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uxnf71x4c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 13 Dec 2023 01:33:43 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BD1XfbM015396
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 13 Dec 2023 01:33:41 GMT
-Received: from [10.110.0.246] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 12 Dec
- 2023 17:33:40 -0800
-Message-ID: <a27e18e1-3a40-4a6c-a779-eb49cd829bc0@quicinc.com>
-Date: Tue, 12 Dec 2023 17:33:38 -0800
+Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com
+ [61.152.239.71])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5306B10E1A7
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 01:40:37 +0000 (UTC)
+Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
+ (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+ (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
+ by fd01.gateway.ufhost.com (Postfix) with ESMTP id 01BF07FF9;
+ Wed, 13 Dec 2023 09:40:32 +0800 (CST)
+Received: from EXMBX061.cuchost.com (172.16.6.61) by EXMBX165.cuchost.com
+ (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 13 Dec
+ 2023 09:40:31 +0800
+Received: from [192.168.60.110] (180.164.60.184) by EXMBX061.cuchost.com
+ (172.16.6.61) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 13 Dec
+ 2023 09:40:31 +0800
+Message-ID: <10e2ab3c-950f-4a1c-8806-74e5bba2c24a@starfivetech.com>
+Date: Wed, 13 Dec 2023 09:40:31 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] dt-bindings: panel-simple-dsi: move LG 5" HD TFT LCD
- panel into DSI yaml
+Subject: Re: [v3 5/6] drm/vs: Add hdmi driver
+To: Andy Yan <andyshrk@163.com>
+References: <20231204123315.28456-6-keith.zhao@starfivetech.com>
+ <esetsiqgqpk35zue4c6aq7l6zn4kezhxkqqa7ompaz2vhdy3lr@4d5awfqgs2ss>
+ <94a1f9fc-82fb-4a04-a44b-f9b20c2bdfdd@starfivetech.com>
+ <abdl6kmighvpwojvafq443q7grn6w3abwpvw7zwbna4jvtsvjf@fa42rv46n2wh>
+ <40cdd3c7-174e-4611-9ea6-22cb56d1f62b@starfivetech.com>
+ <e90142d.44b1.18c43833b63.Coremail.andyshrk@163.com>
+ <e0b84511-dbb4-46fa-9465-713369232f6f@starfivetech.com>
+ <43e42269.314.18c46dbb4c5.Coremail.andyshrk@163.com>
+ <e1c362dc-8aac-4d13-9356-8b7ccae4727f@starfivetech.com>
+ <5a79a4b9.1bd7.18c4773c1ea.Coremail.andyshrk@163.com>
+ <xevxqusbizjfs4qt5rufhntd3vd656o2smocvivvulzceh3aeu@uuihphhat5wi>
+ <2dc5ea49-9a5f-484a-98dc-1b35b79d0945@starfivetech.com>
+ <6f7acc9d.5648.18c58cba9be.Coremail.andyshrk@163.com>
 Content-Language: en-US
-To: David Heidelberg <david@ixit.cz>, Neil Armstrong
- <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, Brian Masney
- <masneyb@onstation.org>
-References: <20231212200934.99262-1-david@ixit.cz>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20231212200934.99262-1-david@ixit.cz>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: d7W2CSZQh8rz8gvKKP3QWeLW-RV7pceu
-X-Proofpoint-GUID: d7W2CSZQh8rz8gvKKP3QWeLW-RV7pceu
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 impostorscore=0
- spamscore=0 phishscore=0 clxscore=1011 adultscore=0 mlxlogscore=585
- lowpriorityscore=0 suspectscore=0 malwarescore=0 priorityscore=1501
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2312130008
+From: Keith Zhao <keith.zhao@starfivetech.com>
+In-Reply-To: <6f7acc9d.5648.18c58cba9be.Coremail.andyshrk@163.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [180.164.60.184]
+X-ClientProxiedBy: EXCAS064.cuchost.com (172.16.6.24) To EXMBX061.cuchost.com
+ (172.16.6.61)
+X-YovoleRuleAgent: yovoleflag
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,62 +64,201 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
+ "suijingfeng@loongson.cn" <suijingfeng@loongson.cn>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Xingyu Wu <xingyu.wu@starfivetech.com>, Jack Zhu <jack.zhu@starfivetech.com>,
+ "palmer@dabbelt.com" <palmer@dabbelt.com>, Maxime Ripard <mripard@kernel.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ William Qiu <william.qiu@starfivetech.com>,
+ Shengyang Chen <shengyang.chen@starfivetech.com>,
+ "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+ Changhuang Liang <changhuang.liang@starfivetech.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 12/12/2023 12:09 PM, David Heidelberg wrote:
-> Originally was in the panel-simple, but belongs to panel-simple-dsi.
-> 
-> See arch/arm/boot/dts/nvidia/tegra114-roth.dts for more details.
-> 
-> Resolves the following warning:
-> ```
-> arch/arm/boot/dts/tegra114-roth.dt.yaml: panel@0: 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
->          From schema: Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> ```
-> 
-> Fixes: 310abcea76e9 ("dt-bindings: display: convert simple lg panels to DT Schema")
-> Signed-off-by: David Heidelberg <david@ixit.cz>
+On 2023/12/11 20:13, Andy Yan wrote:
+> Hi Keith=EF=BC=9A
+>=20
+> =E5=9C=A8 2023-12-11 18:24:35=EF=BC=8C"Keith Zhao" <keith.zhao@starfive=
+tech.com> =E5=86=99=E9=81=93=EF=BC=9A
+>>hi Maxime:
+>>hi Andy:
+>>
+>>On 2023/12/8 17:14, Maxime Ripard wrote:
+>>> Hi,
+>>>=20
+>>> On Fri, Dec 08, 2023 at 11:23:37AM +0800, Andy Yan wrote:
+>>>> =E5=9C=A8 2023-12-08 11:00:31=EF=BC=8C"Keith Zhao" <keith.zhao@starf=
+ivetech.com> =E5=86=99=E9=81=93=EF=BC=9A
+>>>> >
+>>>> >
+>>>> >On 2023/12/8 8:37, Andy Yan wrote:
+>>>> >> Hi Keth=EF=BC=9A
+>>>> >>=20
+>>>> >>=20
+>>>> >>=20
+>>>> >>=20
+>>>> >>=20
+>>>> >>=20
+>>>> >> =E5=9C=A8 2023-12-07 18:48:13=EF=BC=8C"Keith Zhao" <keith.zhao@st=
+arfivetech.com> =E5=86=99=E9=81=93=EF=BC=9A
+>>>> >>>
+>>>> >>>
+>>>> >>>On 2023/12/7 17:02, Andy Yan wrote:
+>>>> >>>>=20
+>>>> >>>>=20
+>>>> >>>>=20
+>>>> >>>>=20
+>>>> >>>> Hi Keith=EF=BC=9A
+>>>> >>>>=20
+>>>> >>>>=20
+>>>> >>>>=20
+>>>> >>>>=20
+>>>> >>>>=20
+>>>> >>>>=20
+>>>> >>>>=20
+>>>> >>>>=20
+>>>> >>>>=20
+>>>> >>>>=20
+>>>> >>>>=20
+>>>> >>>> At 2023-12-06 22:11:33, "Keith Zhao" <keith.zhao@starfivetech.c=
+om> wrote:
+>>>> >>>>>
+>>>> >>>>>
+>>>> >>>>>On 2023/12/6 20:56, Maxime Ripard wrote:
+>>>> >>>>>> On Wed, Dec 06, 2023 at 08:02:55PM +0800, Keith Zhao wrote:
+>>>> >>>>>>> >> +static const struct of_device_id starfive_hdmi_dt_ids[] =
+=3D {
+>>>> >>>>>>> >> +	{ .compatible =3D "starfive,jh7110-inno-hdmi",},
+>>>> >>>>>>> >=20
+>>>> >>>>>>> > So it's inno hdmi, just like Rockchip then?
+>>>> >>>>>>> >=20
+>>>> >>>>>>> > This should be a common driver.
+>>>> >>>>>>>
+>>>> >>>>>>> Rockchip has a inno hdmi IP. and Starfive has a inno hdmi IP=
+.
+>>>> >>>>>>> but the harewawre difference of them is big , it is not easy=
+ to use the common driver
+>>>> >>>>>>> maybe i need the inno hdmi version here to make a distinctio=
+n
+>>>> >>>>>>=20
+>>>> >>>>>> I just had a look at the rockchip header file: all the regist=
+ers but the
+>>>> >>>>>> STARFIVE_* ones are identical.
+>>>> >>>>>>=20
+>>>> >>>>>> There's no need to have two identical drivers then, please us=
+e the
+>>>> >>>>>> rockchip driver instead.
+>>>> >>>>>>=20
+>>>> >>>>>> Maxime
+>>>> >>>>>
+>>>> >>>>>ok, have a simple test , edid can get . i will continue=20
+>>>> >>>>=20
+>>>> >>>> Maybe you can take drivers/gpu/drm/bridge/synopsys/dw-hdmi as a=
+ reference=EF=BC=8C this
+>>>> >>>> is also a hdmi ip used by rockchip/meson/sunxi/jz/imx=E3=80=82
+>>>> >>>> We finally make it share one driver=E3=80=82
+>>>> >>>>>
+>>>> >>>hi Andy:
+>>>> >>>
+>>>> >>>dw_hdmi seems a good choice , it can handle inno hdmi hardware by=
+ define its dw_hdmi_plat_data.
+>>>> >>>does it means i can write own driver files such as(dw_hdmi-starfi=
+ve.c) based on dw_hdmi instead of add plat_data in inno_hdmi.c
+>>>> >>>
+>>>> >>=20
+>>>> >> I think the process maybe like this=EF=BC=9A
+>>>> >>=20
+>>>> >> 1. split the inno_hdmi.c under rockchip to  inno_hdmi.c(the commo=
+n part), inno_hdmi-rockchip.c(the soc specific part)
+>>>> >> 2. move the common part inno_hdmi.c to drivers/gpu/drm/bridge/inn=
+osilicon/
+>>>> >> 3. add startfive specific part, inno_hdmi-startfive.c
+>>>> >>=20
+>>>> >> bellow git log from kernel three show how we convert  dw_hdmi to =
+a common driver:=20
+>>>> >>=20
+>>>> >>=20
+>>>> >>=20
+>>>> >> 12b9f204e804 drm: bridge/dw_hdmi: add rockchip rk3288 support
+>>>> >> 74af9e4d03b8 dt-bindings: Add documentation for rockchip dw hdmi
+>>>> >> d346c14eeea9 drm: bridge/dw_hdmi: add function dw_hdmi_phy_enable=
+_spare
+>>>> >> a4d3b8b050d5 drm: bridge/dw_hdmi: clear i2cmphy_stat0 reg in hdmi=
+_phy_wait_i2c_done
+>>>> >> 632d035bace2 drm: bridge/dw_hdmi: add mode_valid support
+>>>> >> 0cd9d1428322 drm: bridge/dw_hdmi: add support for multi-byte regi=
+ster width access
+>>>> >> cd152393967e dt-bindings: add document for dw_hdmi
+>>>> >> b21f4b658df8 drm: imx: imx-hdmi: move imx-hdmi to bridge/dw_hdmi
+>>>> >> aaa757a092c2 drm: imx: imx-hdmi: split phy configuration to platf=
+orm driver
+>>>> >> 3d1b35a3d9f3 drm: imx: imx-hdmi: convert imx-hdmi to drm_bridge m=
+ode
+>>>> >> c2c3848851a7 drm: imx: imx-hdmi: return defer if can't get ddc i2=
+c adapter
+>>>> >> b587833933de drm: imx: imx-hdmi: make checkpatch happy
+>>>> >>=20
+>>>> >hi Andy:
+>>>> >I got you means,=20
+>>>> >as I don't have a rockchip board on hand , to split the inno_hdmi.c=
+ can not be tested.
+>>>> >
+>>>> >how adout this idea:
+>>>> >1=E3=80=81split the starfive_hdmi.c under verisilicion to  inno_hdm=
+i.c(the common part), inno_hdmi-starfive.c(the soc specific part)
+>>>> >2. move the common part inno_hdmi.c to drivers/gpu/drm/bridge/innos=
+ilicon/
+>>>> >3. In the future, inno hdmi.c under rockchip will reuse the public =
+driver.
+>>>>=20
+>>>> I am not sure if drm maintainers are happy with this=E3=80=82
+>>>=20
+>>> Not really, no.
+>>>=20
+>>> Because we would still have two drivers for the same controller, and =
+a
+>>> common one that haven't really been tested on anything but a single
+>>> platform. So arguably a worse situation than what you were suggesting=
+ in
+>>> the first place.
+>>>=20
+>>> The best solution would be to find someone with a Rockchip board to t=
+est
+>>> your changes, or to get one if it's doable so you can test yourself.
+>>
+>>ok I will also try to buy a Rockchip 3036 board for self-test.
+>>According to the commit log idea provided by Andy before, make the inno=
+_hdmi driver common module.
+>=20
+> I finally  make my rk3036 based kylin board bootup =EF=BC=88use a linux=
+ 4.4 downstream bsp=EF=BC=8CI will find time to try boot
+> it with mainline=EF=BC=89=E3=80=82 So I can help do the test for rockch=
+ip side=E3=80=82
+>=20
+> It seems not that easy to buy a rk3036 based board from market now=E3=80=
+=82
+en, The online store seems to have stopped selling rk3036=20
+really not easy to buy one , I write the code first , need help testing r=
+k3036 in the future.
 
-Acked-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-
-> ---
-> v2: added Fixes tag (thx to Jessica)
-> 
->   .../devicetree/bindings/display/panel/panel-simple-dsi.yaml     | 2 ++
->   .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 --
->   2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-> index 73674baea75d..f9160d7bac3c 100644
-> --- a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-> @@ -42,6 +42,8 @@ properties:
->         - lg,acx467akm-7
->           # LG Corporation 7" WXGA TFT LCD panel
->         - lg,ld070wx3-sl01
-> +        # LG Corporation 5" HD TFT LCD panel
-> +      - lg,lh500wx1-sd03
->           # One Stop Displays OSD101T2587-53TS 10.1" 1920x1200 panel
->         - osddisplays,osd101t2587-53ts
->           # Panasonic 10" WUXGA TFT LCD panel
-> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> index 2021aa82871a..634a10c6f2dd 100644
-> --- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> @@ -212,8 +212,6 @@ properties:
->         - lemaker,bl035-rgb-002
->           # LG 7" (800x480 pixels) TFT LCD panel
->         - lg,lb070wv8
-> -        # LG Corporation 5" HD TFT LCD panel
-> -      - lg,lh500wx1-sd03
->           # LG LP079QX1-SP0V 7.9" (1536x2048 pixels) TFT LCD panel
->         - lg,lp079qx1-sp0v
->           # LG 9.7" (2048x1536 pixels) TFT LCD panel
-> -- 
-> 2.43.0
-> 
+thanks
+>=20
+>>
+>>would the steps be ok? (if I tested rockchip and starifve pass)
+>>1. split the inno_hdmi.c under rockchip to  inno_hdmi.c(the common part=
+), inno_hdmi-rockchip.c(the soc specific part)
+>>2. move the common part inno_hdmi.c to drivers/gpu/drm/bridge/innosilic=
+on/
+>>3. add startfive specific part, inno_hdmi-startfive.c
+>>
+>>Thanks
+>>>=20
+>>> Maxime
