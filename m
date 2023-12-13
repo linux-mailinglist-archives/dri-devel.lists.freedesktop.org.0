@@ -1,65 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 401B08106C5
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 01:38:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6229F8106BE
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 01:37:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAA7110E6B5;
-	Wed, 13 Dec 2023 00:37:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB92E10E6A2;
+	Wed, 13 Dec 2023 00:37:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77A8910E22A
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE1D910E22A
  for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 00:37:42 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id
- 2adb3069b0e04-50bffb64178so7465661e87.2
+Received: by mail-lf1-x129.google.com with SMTP id
+ 2adb3069b0e04-50bf3efe2cbso7296319e87.2
  for <dri-devel@lists.freedesktop.org>; Tue, 12 Dec 2023 16:37:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1702427861; x=1703032661; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=vsqmSxmu0xJgdSY1TmM313rSjq49izbWLOeg9C+GMN4=;
- b=e03JJtF2bXQK6mjUJQoh+CZe3zS4qaWSqePe4t7od3fbPJKjqChKn7tqCA486b5uBY
- VXJ77ND2lKiTxsQqRdC64Bi12ocAaMgI9GV0lt/XZoZYIIQ0A4dZ9z56vtFNcBRV62Bl
- HJshbB4nFWLCxKWquQC+qdgVf0RMgHoRXvLQfkXlxhsljvsz8vA3wfUL6sGhiv/iiAq4
- D+i6S+cY4hBiDxBe2KEKcj29bftPlBSpViBczq0wChKsIZ6QA/bzwZU6sjioqOjF/4wQ
- H/9Cv43IxE6JSejQBauLlkcgih7z7S3pXLdM3OjasFqxnb9my4RL7XbCdKLseXtDAWNg
- Mkug==
+ bh=qyawuRNxUOJx4krMuVIPeAGsZD64pCzULSxldkl4c04=;
+ b=Nt1btbo2Z9x+SOF2HdHOOCgZFM0NafC+w3teQecF1qWOia+GQdWPNO15SADEdZ2kz5
+ oOEK5HV2nH+nF3v4fcwn7Pl4vGtvGEUua1k+0pGwUxSTYzqsYpLSiMCZ2saPLCX59fXK
+ WE/oYGZuRAU3R64oSTQExYeC40n55iJhKy7EZHxoS/lnZm8yqWInfTEHbd3SYswoH3nc
+ bYYbbFLMFYyqsGhiWZ51oz2Qh9UMrEx1rXUvcsbdDliYjFMJzJndzUvqGeRzu0h3NZK+
+ HYnLArUBLX6dCD0mFA5DL8DhtFwO43ysqyuDwCTswYmvi6fhr1Z3pBQTqDAAQ/kZftuy
+ iwjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1702427861; x=1703032661;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=vsqmSxmu0xJgdSY1TmM313rSjq49izbWLOeg9C+GMN4=;
- b=fsxaMerD4/BIJH4DVvoA+Qd20lnjDvkCtsMPC6KXd3htPfFFk9vbRhksX0Qlaucxm3
- 5tYAIT628DXBet645Vvfwxz6mN12moGzziGpNb7PdV7wJOSr/PhglUDwa35PcQl/xFCq
- VRpNoQg4wmJFXDPMdFItUIPs3zBLbAgVp5KeG0u7cr+rL7STwEr5uA6RXFGnxj8OA/LO
- PteaIaSzlCZgUbb0Gs/efSKob0+MT8mmeksjnog4oO8p2rmTwyzq+nHxso5RVaFm4rfE
- J6P3oNbnarws09vOSW73gzEhBL4Esrj1EPakNFnpdBJC4E6qSEAHO9aVbdKv3MUFIvQT
- Wq3Q==
-X-Gm-Message-State: AOJu0YzivzyyZ2LPzl9SL6CweoQUNM5O1s3T1LGPoAZOZTMyUp5VjUrY
- palHiGbDawXy2Uq9IfiQYnhvIA==
-X-Google-Smtp-Source: AGHT+IGnxZfmXwGRxl0TGv4YBCCiJhChbbN5+q6TcfpOdUL8OsGUwXj9gV6A/J74IBYf4XGclhNPBQ==
-X-Received: by 2002:ac2:4219:0:b0:50b:f305:7802 with SMTP id
- y25-20020ac24219000000b0050bf3057802mr2753351lfh.129.1702427860287; 
- Tue, 12 Dec 2023 16:37:40 -0800 (PST)
+ bh=qyawuRNxUOJx4krMuVIPeAGsZD64pCzULSxldkl4c04=;
+ b=Dqte4NYpFscUUnixvEJCs7xQmweldQA3rrZV/wunocIsXZpRWHBgoOwYgcbKQOAHBx
+ wLjq701aNLDVkByzm112vL4+5mOqxyD4YSSulWDlSm25M7o/raNbCXqCbXGbb4l6E86s
+ qMY2mw9u31uyRBDcjYyNdYZRLT0fhdPdnmu6jaEz3FiQfFrTu5K4pCPN5aU3AqIK5JfB
+ rasG2xT37FkJQnijz6EIruwCin7ZCLxB884dn3pm3KYhdvtPyBO557loJKXe3egGeeE9
+ HujzB3HvNzvja/SBJgFJWhUF5SE02A6ScaBQNHTv2Gs6iz4ALGtBtEf+ZvTYOhx05rvt
+ X8zw==
+X-Gm-Message-State: AOJu0YwG60teIWP6CLfIjUEJRBcadcIzz/VdfcNNv6ucpjVBPjD4bRKC
+ 8OAzNquEoum9vbJAIv7YVWaJanjCqdjyWrRQbDNtpQ==
+X-Google-Smtp-Source: AGHT+IELJg6xtBV3YwWzHW35+oAMMuqoqq9emUlpwuefa9mMo13YdC5VxvXXbHCtbJlZxVgL/oczQQ==
+X-Received: by 2002:a05:6512:12cb:b0:50d:1a52:7760 with SMTP id
+ p11-20020a05651212cb00b0050d1a527760mr1929464lfg.149.1702427861132; 
+ Tue, 12 Dec 2023 16:37:41 -0800 (PST)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- a4-20020a194f44000000b0050bef1c5a50sm1517467lfk.267.2023.12.12.16.37.39
+ a4-20020a194f44000000b0050bef1c5a50sm1517467lfk.267.2023.12.12.16.37.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Dec 2023 16:37:39 -0800 (PST)
+ Tue, 12 Dec 2023 16:37:40 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: freedreno@lists.freedesktop.org,
- Paloma Arellano <quic_parellan@quicinc.com>
-Subject: Re: [PATCH v4 0/1] Stabilize use of vblank_refcount
-Date: Wed, 13 Dec 2023 02:37:33 +0200
-Message-Id: <170242755503.12964.15556030852951255362.b4-ty@linaro.org>
+To: dri-devel@lists.freedesktop.org,
+	Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH] drm/msm/dpu: Ratelimit framedone timeout msgs
+Date: Wed, 13 Dec 2023 02:37:34 +0200
+Message-Id: <170242755506.12964.11418268791653188536.b4-ty@linaro.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231212231101.9240-1-quic_parellan@quicinc.com>
-References: <20231212231101.9240-1-quic_parellan@quicinc.com>
+In-Reply-To: <20231211182000.218088-1-robdclark@gmail.com>
+References: <20231211182000.218088-1-robdclark@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -75,35 +75,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_bjorande@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, seanpaul@chromium.org, steev@kali.org,
- marijn.suijten@somainline.org, quic_jesszhan@quicinc.com
+Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Kalyan Thota <quic_kalyant@quicinc.com>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Vinod Polimera <quic_vpolimer@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Dan Carpenter <dan.carpenter@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Tue, 12 Dec 2023 15:10:57 -0800, Paloma Arellano wrote:
-> There is currently a race condition occuring when accessing
-> vblank_refcount. Therefore, vblank irq timeouts may occur.
+On Mon, 11 Dec 2023 10:19:55 -0800, Rob Clark wrote:
+> When we start getting these, we get a *lot*.  So ratelimit it to not
+> flood dmesg.
 > 
-> Avoid any vblank irq timeouts by stablizing the use of vblank_refcount.
 > 
-> Changes from prior versions:
->    v4: - Removed vblank_ctl_lock from dpu_encoder_virt, so it is only a
->          parameter of dpu_encoder_phys.
->        - Switch from atomic refcnt to a simple int counter as mutex has
->          now been added
->    v3: - Mistakenly did not change wording of patch #2 in last version.
->          It is done now.
->    v2: - Slightly changed wording of patch #2 commit message
-> 
-> [...]
 
 Applied, thanks!
 
-[1/1] drm/msm/dpu: Add mutex lock in control vblank irq
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/b9dc09b4e534
+[1/1] drm/msm/dpu: Ratelimit framedone timeout msgs
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/e37cb117b819
 
 Best regards,
 -- 
