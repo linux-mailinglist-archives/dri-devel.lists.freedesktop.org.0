@@ -1,80 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45E9C8120CD
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 22:32:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63A34812113
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 22:59:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0D6D10E859;
-	Wed, 13 Dec 2023 21:32:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DC1B10E844;
+	Wed, 13 Dec 2023 21:59:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BAF610E850;
- Wed, 13 Dec 2023 21:32:41 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 3BDLBOus003146; Wed, 13 Dec 2023 21:32:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=6vejkezcZEQefgDgr0xuBzSfHtQKgTo89Y5qtpw6Qm8=; b=n4
- lR9gaCh6627eRFdIyzscS8noTpw3rPNuPJQJkJvnC9GXYfCAHtwML0dX+jT2Qkqc
- g5DeWeBE01teiOLbSsJkRAWw1dTMn/ziFSNID4ymwJZmBSZYvGgtyP9CnIjE8ieM
- brsOmYea8Fo3aByoEfsKe5XqcqowjhXovyDn56SIwRsIirs1YUx7v3vXDvt04q2h
- rEEinBDN9nKW2zbDfDen20HjyGa0xlZzX7lvx9JEV9+maiK2ClrKmAd0v8gH/EGd
- xER3OrtYRQvfrVmi5s4vSiyNwjwZFbv5rLTupjZ4pcHTykAI/8Uu2RQ/5k3liDPQ
- IPdH/MS7K6w6fsiiUvRQ==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uy32najye-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 13 Dec 2023 21:32:38 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BDLWb8k020048
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 13 Dec 2023 21:32:37 GMT
-Received: from [10.71.109.77] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 13 Dec
- 2023 13:32:36 -0800
-Message-ID: <534d7029-c772-cf15-0eb7-219471e258a5@quicinc.com>
-Date: Wed, 13 Dec 2023 13:32:35 -0800
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8B0610E844
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 21:59:38 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id
+ 5b1f17b1804b1-40c2c65e6aaso77390225e9.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 13:59:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1702504777; x=1703109577; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=5R8Y7jc9NLGPyREc0JUtb8eKm2rIjrA9+VPMF6ejgso=;
+ b=iiYlzalXtb+Gc5nde5QQW/3MJUkGA9G8mjElLqcJw3enhSdd9AJDeJZgNY/RI4Gn9d
+ TVOmY03sIdN9/eJutS2kMDR3l03N+0yE5e0j4DPM2kGP+wyqSzOWHCp0ipK1jJkwQezI
+ p/AFSojGQi7gNmPe4J/dBewMgvqQ1vIkl0Syda8ay948QB8MLPghFYDMd8LxBsKPGUpF
+ m+/6ojh+fO6U2rA5y9W9103heEr9JH1tEh4FyoUwmsjhD7sh4/m/AeAjtyeWo4zWZwoD
+ qid7sAAPV5QwJ1zVH3brJo89QKsE+0H+0zGcsmfDn6nb6B1fPPNI/XfpTRdokZ8NWqLh
+ 2xoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1702504777; x=1703109577;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=5R8Y7jc9NLGPyREc0JUtb8eKm2rIjrA9+VPMF6ejgso=;
+ b=m8ZPuK0GH2wTrqdGO1spBVEJOTZuZBCrgPfaQzeWFp8I/alGdTDbfE9gAsYi0dF77Z
+ BJnVRc2u5uEuurqKbuqfg27rE9B1P5don7PmbTWZ7Xc7e2v23MYeMUsFMz9V4AHb9v6o
+ C2jXd7sQ36zGM7SXPNpxdsA8WyaL+BPpeyEQPIuCm6iM+lg+YRTQvIUo4rkI8kM2S0f3
+ cUWJnUWpdNhfVKRn4Xbl8ii27+qqP85qtsjOjfBuznhj5XcVBFURN18ZomSAe+18oeDi
+ H1CTfp8J0A/O6s8NwveR1MnM0vs862grSUvDL7ScD0MQuFe3gG9/0s/UeS57MVAQK/j5
+ BGyg==
+X-Gm-Message-State: AOJu0YyLjtVjQk2emxKDodNUWdxpLgtxXTaCwpcu3gWZfBKX/kHUbZBP
+ e0knpxa/e5gxM4qvB+tpsUafUw==
+X-Google-Smtp-Source: AGHT+IH8WBMrcy2RpgDyVtXzThQj76QcUxVNUDU/RnHWzVkOCspImqThjEx7TAvmErkgFn+mKeaRYg==
+X-Received: by 2002:a05:600c:1f1a:b0:40c:314a:42e with SMTP id
+ bd26-20020a05600c1f1a00b0040c314a042emr4345008wmb.246.1702504777134; 
+ Wed, 13 Dec 2023 13:59:37 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:ac4e:a5fe:7f71:8d59?
+ ([2a01:e0a:982:cbb0:ac4e:a5fe:7f71:8d59])
+ by smtp.gmail.com with ESMTPSA id
+ k40-20020a05600c1ca800b0040b45356b72sm24189351wms.33.2023.12.13.13.59.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Dec 2023 13:59:36 -0800 (PST)
+Message-ID: <98e93632-45e2-4d7b-bde2-4326d07b3c25@linaro.org>
+Date: Wed, 13 Dec 2023 22:59:35 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v4 2/2] drm/msm/dpu: Drop enable and frame_count
- parameters from dpu_hw_setup_misr()
-Content-Language: en-US
-To: Jessica Zhang <quic_jesszhan@quicinc.com>, Rob Clark <robdclark@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, "Sean
- Paul" <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
- "David Airlie" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20231213-encoder-fixup-v4-0-6da6cd1bf118@quicinc.com>
- <20231213-encoder-fixup-v4-2-6da6cd1bf118@quicinc.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20231213-encoder-fixup-v4-2-6da6cd1bf118@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: UwBQ69UB3RYNmwg7bhC8NvKDKxNux52U
-X-Proofpoint-GUID: UwBQ69UB3RYNmwg7bhC8NvKDKxNux52U
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- suspectscore=0 adultscore=0 spamscore=0 clxscore=1015 mlxlogscore=873
- priorityscore=1501 mlxscore=0 lowpriorityscore=0 bulkscore=0
- malwarescore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2311290000 definitions=main-2312130151
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 0/4] Add displays support for bsh-smm-s2/pro boards
+Content-Language: en-GB
+To: Rob Herring <robh@kernel.org>,
+ Dario Binacchi <dario.binacchi@amarulasolutions.com>
+References: <20231213140437.2769508-1-dario.binacchi@amarulasolutions.com>
+ <20231213175330.GA1582432-robh@kernel.org>
+From: Neil Armstrong <neil.armstrong@linaro.org>
+In-Reply-To: <20231213175330.GA1582432-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,33 +78,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Peng Fan <peng.fan@nxp.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Robert Foss <rfoss@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, michael@amarulasolutions.com,
+ Jagan Teki <jagan@amarulasolutions.com>, devicetree@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Maxime Ripard <mripard@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Shawn Guo <shawnguo@kernel.org>, linux-kernel@vger.kernel.org,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Amarula patchwork <linux-amarula@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 12/13/2023 1:30 PM, Jessica Zhang wrote:
-> Drop the enable and frame_count parameters from dpu_hw_setup_misr() as they
-> are always set to the same values.
+Le 13/12/2023 à 18:53, Rob Herring a écrit :
+> On Wed, Dec 13, 2023 at 03:03:41PM +0100, Dario Binacchi wrote:
+>> The series adds drivers for the displays used by bsh-smm-s2/pro boards.
+>> This required applying some patches to the samsung-dsim driver.
+>>
+>> Changes in v6:
+>> - Drop patches:
+>>    - [06/10] drm/panel: Add Synaptics R63353 panel driver
 > 
-> In addition, replace MISR_FRAME_COUNT_MASK with MISR_FRAME_COUNT as
-> frame_count is always set to the same value.
+> The binding should have gone with this. I'll apply it then.
 > 
-> Fixes: 7b37523fb1d1 ("drm/msm/dpu: Move MISR methods to dpu_hw_util")
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |  4 ++--
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c |  4 ++--
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c |  6 +++---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h |  4 ++--
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c   |  6 +++---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h   |  3 ++-
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c | 19 +++++--------------
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h |  9 +++------
->   8 files changed, 22 insertions(+), 33 deletions(-)
-> 
+> Rob
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Oops I missed it,
+
+Thanks for applying it
+
+Neil
