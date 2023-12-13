@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06B3D81140F
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 15:04:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EC4C811413
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Dec 2023 15:05:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8ED010E2A2;
-	Wed, 13 Dec 2023 14:04:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D602610E2B0;
+	Wed, 13 Dec 2023 14:04:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A04C10E2A2
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 14:04:51 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id
- a640c23a62f3a-a1c7b20f895so804864366b.2
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 06:04:51 -0800 (PST)
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6269410E2A2
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 14:04:53 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id
+ 2adb3069b0e04-50bf69afa99so8920382e87.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Dec 2023 06:04:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1702476290; x=1703081090;
+ d=amarulasolutions.com; s=google; t=1702476291; x=1703081091;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=LRuU/Yf3+WOs2/s3BqHchrpBnPmBNhkaR5Vfu/UBGmU=;
- b=jll7MxDI1aTO70X2wh+o6U5Dl6tZ1YTGhwqT2SzcYyp2xlE7xMRdwd/e8awEjYjD3U
- AfjU532PbgXrIbRmgx4iIgrvM73TRFvipQnpuiK0uqmMr7MJLB2yNcau5StsA9IkQ1uh
- 0OSwPYgeJn2aquZuMOtjC1FVZNaay20mZn6Qk=
+ bh=9dqXlBbcQt0R29oSjxr4jyi0yptqDX27ArBU37Ndav8=;
+ b=eg9mQOKc+jzHwzo1MBqC7nW5J8WzktzZnUarNV86+s89cHUGEocN8IXtFcPCRc7DMO
+ LnBSYc5JiUa8x5xdiZ9DI8TvlLdBgUY7kqTvzd5DCU/RwJKY+TvbY9KpD0N6o7gdkgiS
+ FHdaUtriG64N0o/SEJMfYdS1QMITrCanmeZJM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702476290; x=1703081090;
+ d=1e100.net; s=20230601; t=1702476291; x=1703081091;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=LRuU/Yf3+WOs2/s3BqHchrpBnPmBNhkaR5Vfu/UBGmU=;
- b=jTMyp6c1KkicejKm0k58KeogsAGQCVBm54me8nTzaFg7fFrItAeN+0qxBUyNIsFqfv
- QYgVdvEZEZc45o4BW7YiNI4tsF9audyz5Ow5B5HbhCLK8JDTIgGa8DKnk1fGNe4s3XM2
- eGN/mwMXrtCVPygU4KLI3IoQgwKnxi9ISGbvQU1Hd4f9uk1WaKZrzwOB27rHT0vL2GVq
- nYAFJ+e4n/MflO1pWtzFsj9fYdiWKgDLxAhAeqLSpq3ovMxYvlJZd5asC9XP6Bc3OXxX
- 3N4SBd4xs/gmR43zuSbiiqvRUJ7POeWrw8myF90Iv4V6wMbQD+Fk7DRu2Op6KJMvmYsM
- upcQ==
-X-Gm-Message-State: AOJu0YyIDdR2QK+lqceet37gznmPZWuVKjtYg7PiLr9EEmVxTkNmj+4C
- UsymtWgRqf6JhECjb/HVett54w==
-X-Google-Smtp-Source: AGHT+IH/DyKWXFFFShYbC0zIs86T8HHYGnLc0RMfq72z84+U64jUAOx/Wgh/+p7dSDv3JtasURZwyw==
-X-Received: by 2002:a17:907:720a:b0:a1d:e889:5276 with SMTP id
- dr10-20020a170907720a00b00a1de8895276mr5208788ejc.61.1702476290034; 
- Wed, 13 Dec 2023 06:04:50 -0800 (PST)
+ bh=9dqXlBbcQt0R29oSjxr4jyi0yptqDX27ArBU37Ndav8=;
+ b=ZNIeIuVM9SidHVedttYuIuM08c0B/pcBSdq5DGqSJSPLSpN/SQ9WybdLSOiSZDnb87
+ xEn/88lVehNARPRfquGKsh2Cd+DIZaFOvnJRr5WUBegvq4SYU4iKhOCO+4JIsKP5VglG
+ EP+qMYXxcc+g/c4iUQZhZOzGbIGvi3udlExDrGq4Ii9upPafzOic7yQEurbvPoJdpgME
+ WvF34OSfxQmMRLefYDmf3kI06ZFGmvu8zMja6XSbP/NLBGQM7NKVR6KdnpbCRUiFQwFS
+ CQ6y9ZRR68YW4BUftDT19fNAAhzkwKdJC8pGIAJDwuJNvvytoHT5t3MQTtZgbK9Zd1yE
+ UJmQ==
+X-Gm-Message-State: AOJu0Yy6sEiyuYF53w9zXaFJa1Jv1AntBVGnqmA/x9I36X3jwi0jGSkn
+ MvZnWe9GE7//7CRbEa+80UKQgg==
+X-Google-Smtp-Source: AGHT+IHfw1WlP9inuYGIENHnhTTUJtDuxBwuDowubx41cZfFvg/ZN3KRTyRxbBmkckspL7A9vZiN8g==
+X-Received: by 2002:a05:6512:5c3:b0:50b:f9b2:ced with SMTP id
+ o3-20020a05651205c300b0050bf9b20cedmr3452370lfo.22.1702476291575; 
+ Wed, 13 Dec 2023 06:04:51 -0800 (PST)
 Received: from dario-ThinkPad-T14s-Gen-2i.homenet.telecomitalia.it
  (host-80-182-13-188.pool80182.interbusiness.it. [80.182.13.188])
  by smtp.gmail.com with ESMTPSA id
- sf22-20020a1709078a9600b00a1ca020cdfasm7797635ejc.161.2023.12.13.06.04.48
+ sf22-20020a1709078a9600b00a1ca020cdfasm7797635ejc.161.2023.12.13.06.04.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Dec 2023 06:04:49 -0800 (PST)
+ Wed, 13 Dec 2023 06:04:51 -0800 (PST)
 From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v6 2/4] drm: bridge: samsung-dsim: complete the CLKLANE_STOP
- setting
-Date: Wed, 13 Dec 2023 15:03:43 +0100
-Message-ID: <20231213140437.2769508-3-dario.binacchi@amarulasolutions.com>
+Subject: [PATCH v6 3/4] dt-bindings: display: panel: Add synaptics r63353
+ panel controller
+Date: Wed, 13 Dec 2023 15:03:44 +0100
+Message-ID: <20231213140437.2769508-4-dario.binacchi@amarulasolutions.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231213140437.2769508-1-dario.binacchi@amarulasolutions.com>
 References: <20231213140437.2769508-1-dario.binacchi@amarulasolutions.com>
@@ -73,58 +73,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
  Dario Binacchi <dario.binacchi@amarulasolutions.com>,
- Robert Foss <rfoss@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
- Amarula patchwork <linux-amarula@amarulasolutions.com>,
- dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, michael@amarulasolutions.com,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, michael@amarulasolutions.com,
+ Amarula patchwork <linux-amarula@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The patch completes the setting of CLKLANE_STOP for the imx8mn and imx8mp
-platforms (i. e. not exynos).
+From: Michael Trimarchi <michael@amarulasolutions.com>
 
-Co-developed-by: Michael Trimarchi <michael@amarulasolutions.com>
+Add documentation for "synaptics,r63353" panel.
+
 Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
 Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
 ---
 
-(no changes since v1)
+(no changes since v3)
 
- drivers/gpu/drm/bridge/samsung-dsim.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+Changes in v3:
+- Add 'Reviewed-by' tag of Krzysztof Kozlowski.
+- Replace "synaptics,r63353" compatible with "syna,r63353", as
+  required by vendor-prefixes.yaml.
 
-diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index 15bf05b2bbe4..13f181c99d7e 100644
---- a/drivers/gpu/drm/bridge/samsung-dsim.c
-+++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -96,6 +96,7 @@
- #define DSIM_MFLUSH_VS			BIT(29)
- /* This flag is valid only for exynos3250/3472/5260/5430 */
- #define DSIM_CLKLANE_STOP		BIT(30)
-+#define DSIM_NON_CONTINUOUS_CLKLANE	BIT(31)
- 
- /* DSIM_ESCMODE */
- #define DSIM_TX_TRIGGER_RST		BIT(4)
-@@ -945,8 +946,12 @@ static int samsung_dsim_init_link(struct samsung_dsim *dsi)
- 	 * power consumption.
- 	 */
- 	if (driver_data->has_clklane_stop &&
--	    dsi->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS)
-+	    dsi->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS) {
-+		if (!samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type))
-+			reg |= DSIM_NON_CONTINUOUS_CLKLANE;
+Changes in v2:
+- Add $ref to panel-common.yaml
+- Drop port, reset-gpios, and backlight
+- Set port and backlight ad required
+- Replace additionalProperties with unevaluatedProperties
+
+ .../display/panel/synaptics,r63353.yaml       | 61 +++++++++++++++++++
+ 1 file changed, 61 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/synaptics,r63353.yaml
+
+diff --git a/Documentation/devicetree/bindings/display/panel/synaptics,r63353.yaml b/Documentation/devicetree/bindings/display/panel/synaptics,r63353.yaml
+new file mode 100644
+index 000000000000..e5617d125567
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/synaptics,r63353.yaml
+@@ -0,0 +1,61 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/synaptics,r63353.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- 		reg |= DSIM_CLKLANE_STOP;
-+	}
- 	samsung_dsim_write(dsi, DSIM_CONFIG_REG, reg);
- 
- 	lanes_mask = BIT(dsi->lanes) - 1;
++title: Synaptics R63353 based MIPI-DSI panels
++
++maintainers:
++  - Michael Trimarchi <michael@amarulasolutions.com>
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - sharp,ls068b3sx02
++      - const: syna,r63353
++
++  avdd-supply: true
++  dvdd-supply: true
++  reg: true
++
++required:
++  - compatible
++  - avdd-supply
++  - dvdd-supply
++  - reg
++  - reset-gpios
++  - port
++  - backlight
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        panel@0 {
++            compatible = "sharp,ls068b3sx02", "syna,r63353";
++            reg = <0>;
++            avdd-supply = <&avdd_display>;
++            dvdd-supply = <&dvdd_display>;
++            reset-gpios = <&r_pio 0 5 GPIO_ACTIVE_LOW>; /* PL05 */
++            backlight = <&backlight>;
++
++            port {
++                panel_in: endpoint {
++                    remote-endpoint = <&mipi_dsi_out>;
++                };
++            };
++        };
++    };
++
++...
 -- 
 2.43.0
 
