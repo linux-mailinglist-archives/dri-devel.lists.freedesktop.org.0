@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E8EA81301D
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 13:29:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78D51813037
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 13:33:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55D1610E2E0;
-	Thu, 14 Dec 2023 12:29:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A14510E2EF;
+	Thu, 14 Dec 2023 12:33:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A14A10E2E0
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 12:29:20 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C89F710E2EF
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 12:32:45 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id AA55E621FE;
- Thu, 14 Dec 2023 12:29:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0759DC433CA;
- Thu, 14 Dec 2023 12:29:18 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 2F6D962237;
+ Thu, 14 Dec 2023 12:32:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6448C433C7;
+ Thu, 14 Dec 2023 12:32:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1702556959;
- bh=ZrgiopH5ZvwjxmVIyJYm/63eTL6WoWUQTuAoEP2dkAE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=eYWUTK+m5vvrarorTLsDgr31MVemoxcyrk/O6p2BcN1rFb0rTqR31KicpgKkIqdVN
- 6yOaBRUGHBCJyhAqJa9Fw+yAWIWp8N89Na0UixNs5DaaSCE7/iXIMj5iwzZ9gixzX4
- 2wB3wRWDxtZ5xcYbRbsXb/C9IEQJCGLUS/hx/gdrH75gxrTFtbdOUjjwmcAna61zbf
- EDBEJBomOWfY+AzdxlE21tc8YRoK0xtnyhnW098AoX3IucKZMgO3EQmo1/cw9/C5Fb
- H98pkYtWZwu8H3tE7E7JhbFS63y9CaqNIpGLVrfW3nReIUp1DoJ1AYjkTaovEFZXfS
- voe7xkxDO+XVQ==
-Date: Thu, 14 Dec 2023 13:29:16 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Donald Robson <donald.robson@imgtec.com>
-Subject: Re: [PATCH] MAINTAINERS: Remove Donald Robson from powervr driver
- maintainers
-Message-ID: <b76jxgqgfuipd7fhwlyrecay4j6fi6ptcoiypf52tpg2iwz7tn@6it54w5c75rk>
-References: <20231214103353.122257-1-donald.robson@imgtec.com>
+ s=k20201202; t=1702557164;
+ bh=9BrA7lyu3u+qJ3w2HS8iC7OSGrx00yqnLUiF+PUY4qY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=RqGRfm7E4CUqLdMdONsQrsy9g06BSxdAmIdGsOYqJrCdTrL/bTqp2+5cE3ILnPqBQ
+ Y73DCSwKYh6rW6zdpzuMLHGp71tcHlXCqifNHDvgfz5tweMjGoVLm+RpRZa8oEyF7D
+ Cbe7vpzSEGuMSZe3QypQuE4l3oXf18a7bAibAh9n9OeWBirYvU/73yVhGuvAgM80KM
+ BlTw1u3MgLBT3yPwUapWu0rOH5ZvDPFJu8euhxMw8qAhf84lYj7+zFKkiOoNLY9/93
+ +p10vwkcu8ReFAVIKS7Zz+HUMZoBEuFW3CQdl4l7jj6el2sBazdyYtxl7ra3ghzpYW
+ u8F86cB/DgtGA==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Christoph Manszewski <c.manszewski@samsung.com>
+Subject: [PATCH] drm/exynos: fix accidental on-stack copy of exynos_drm_plane
+Date: Thu, 14 Dec 2023 13:32:15 +0100
+Message-Id: <20231214123237.1727428-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="7hc5enx5fvafxeg5"
-Content-Disposition: inline
-In-Reply-To: <20231214103353.122257-1-donald.robson@imgtec.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,40 +51,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matt.coster@imgtec.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: linux-samsung-soc@vger.kernel.org, Robert Foss <rfoss@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Liviu Dudau <liviu.dudau@arm.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Steven Price <steven.price@arm.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Alim Akhtar <alim.akhtar@samsung.com>, Thierry Reding <treding@nvidia.com>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Arnd Bergmann <arnd@arndb.de>
 
---7hc5enx5fvafxeg5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+gcc rightfully complains about excessive stack usage in the fimd_win_set_pixfmt()
+function:
 
-Hi,
+drivers/gpu/drm/exynos/exynos_drm_fimd.c: In function 'fimd_win_set_pixfmt':
+drivers/gpu/drm/exynos/exynos_drm_fimd.c:750:1: error: the frame size of 1032 bytes is larger than 1024 byte
+drivers/gpu/drm/exynos/exynos5433_drm_decon.c: In function 'decon_win_set_pixfmt':
+drivers/gpu/drm/exynos/exynos5433_drm_decon.c:381:1: error: the frame size of 1032 bytes is larger than 1024 bytes
 
-On Thu, Dec 14, 2023 at 10:33:53AM +0000, Donald Robson wrote:
-> I will be leaving Imagination Technologies on 2023-12-15 and will no
-> longer be working on this driver.
->=20
-> Signed-off-by: Donald Robson <donald.robson@imgtec.com>
+There is really no reason to copy the large exynos_drm_plane
+structure to the stack before using one of its members, so just
+use a pointer instead.
 
-Applied, thanks
+Fixes: 6f8ee5c21722 ("drm/exynos: fimd: Make plane alpha configurable")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/gpu/drm/exynos/exynos5433_drm_decon.c | 4 ++--
+ drivers/gpu/drm/exynos/exynos_drm_fimd.c      | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-Good luck on your next adventure :)
+diff --git a/drivers/gpu/drm/exynos/exynos5433_drm_decon.c b/drivers/gpu/drm/exynos/exynos5433_drm_decon.c
+index 4d986077738b..bce027552474 100644
+--- a/drivers/gpu/drm/exynos/exynos5433_drm_decon.c
++++ b/drivers/gpu/drm/exynos/exynos5433_drm_decon.c
+@@ -319,9 +319,9 @@ static void decon_win_set_bldmod(struct decon_context *ctx, unsigned int win,
+ static void decon_win_set_pixfmt(struct decon_context *ctx, unsigned int win,
+ 				 struct drm_framebuffer *fb)
+ {
+-	struct exynos_drm_plane plane = ctx->planes[win];
++	struct exynos_drm_plane *plane = &ctx->planes[win];
+ 	struct exynos_drm_plane_state *state =
+-		to_exynos_plane_state(plane.base.state);
++		to_exynos_plane_state(plane->base.state);
+ 	unsigned int alpha = state->base.alpha;
+ 	unsigned int pixel_alpha;
+ 	unsigned long val;
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_fimd.c b/drivers/gpu/drm/exynos/exynos_drm_fimd.c
+index 8dde7b1e9b35..5bdc246f5fad 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_fimd.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_fimd.c
+@@ -661,9 +661,9 @@ static void fimd_win_set_bldmod(struct fimd_context *ctx, unsigned int win,
+ static void fimd_win_set_pixfmt(struct fimd_context *ctx, unsigned int win,
+ 				struct drm_framebuffer *fb, int width)
+ {
+-	struct exynos_drm_plane plane = ctx->planes[win];
++	struct exynos_drm_plane *plane = &ctx->planes[win];
+ 	struct exynos_drm_plane_state *state =
+-		to_exynos_plane_state(plane.base.state);
++		to_exynos_plane_state(plane->base.state);
+ 	uint32_t pixel_format = fb->format->format;
+ 	unsigned int alpha = state->base.alpha;
+ 	u32 val = WINCONx_ENWIN;
+-- 
+2.39.2
 
-Maxime
-
---7hc5enx5fvafxeg5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZXr1HAAKCRDj7w1vZxhR
-xcPUAP9/IAB0sooZA/RTZEE9Id/2UyjW7dkuNR6Z5UFyUmmL1gEA1hj19mBq3nuC
-oxSWmnS8rVyhkS5tXtWZiZrHKBy/vgs=
-=ELuv
------END PGP SIGNATURE-----
-
---7hc5enx5fvafxeg5--
