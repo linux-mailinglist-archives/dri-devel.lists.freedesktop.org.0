@@ -1,62 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7688813AA9
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 20:23:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B59D6813AF2
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 20:46:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25E3A10E256;
-	Thu, 14 Dec 2023 19:23:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49EFD10E265;
+	Thu, 14 Dec 2023 19:45:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com
- [IPv6:2607:f8b0:4864:20::1133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 785C110E22D
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 19:23:01 +0000 (UTC)
-Received: by mail-yw1-x1133.google.com with SMTP id
- 00721157ae682-5e2e4c88c39so20110977b3.1
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 11:23:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1702581780; x=1703186580; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=yG7suejrqRA1mYwSLTmp+LIk2/7peq/L7UWtxNt32fU=;
- b=xvb2k9saArVCNtSTJ40HcV9j8qOzEBw/rTAHDpDU1md7R25NS5kDY7FFsE/i+ES5IM
- tRo6X7I+50AuWMd54u+WtW0uQ1418eENNBU7qLiJSsirFCsj+m7LQO+fGBDFfgBowrn8
- xDeGopKPZHgMtERj0OuY6aQoGO0V8OKjw1YCLdfiSvmWIFeGl86uki9n4N+HM9Td2L87
- 8l822RLUyvkNbFISt4RwmS6IF10VNEOSVYnoKLrNilfJPPLpIcQEh31rAeRpLuDZDlQI
- Wo5DyCZSZvUjWminpRDMtC/nGyLqJEXZd/5LvNpUjFmubMYb7UYwTnmZoy8DsfLIDr6H
- gZCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702581780; x=1703186580;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=yG7suejrqRA1mYwSLTmp+LIk2/7peq/L7UWtxNt32fU=;
- b=eRCJlstVEdNbnaoKVGwxBdL4/4Qip564VsDSB38U5TK/y8DHCSTUYrK4aqi5Fpk9Ro
- vEH3FZzLfz3eG6j/Egfcq1nnMa4gDdEr7q1jSh5NXXujLf5v9HbogZCkZdtrKKF2D9UP
- K06fYh3jmHGQcwZ/tMhEsUPK38Dv2xNth18kOJSQIGoW4x0OMNdJeoSsqjk2J0DC/rik
- D0ucLubuYbvaOJyGRpqzHnQ8E7mKcJLmGoj+W7ixKqc82UhnC+/HmmHZZRY0dZJoqWdZ
- Up62hpe2LtKuLe4WVQAUpBpY0gK0a0yCsVO7FjpitwIPnKu8Bnm7iKQkB79MyPh3YFOW
- gRNg==
-X-Gm-Message-State: AOJu0YxVXpEby1g0aPS65q2mG+GKWTZBfeGMY/ZgiCbdGrnPb16h+C/f
- uxNVsRn3Xlf3VaDkog0ZhzRm1vSgJNJ0jwXwn/sNFA==
-X-Google-Smtp-Source: AGHT+IGHgEYjjKO+laGz9YkrYFuIJVcK8YCew+uKOMkZmZYgNxF3CHdtysJHXl6PvN6SIOfG66h1mq9QwrAZVits0sI=
-X-Received: by 2002:a0d:ff44:0:b0:5d7:1940:b389 with SMTP id
- p65-20020a0dff44000000b005d71940b389mr9313100ywf.85.1702581780647; Thu, 14
- Dec 2023 11:23:00 -0800 (PST)
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DD5510E258;
+ Thu, 14 Dec 2023 19:45:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
+ Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=hT59JfzhB9C9oPzE8B3dJnvP0SZ39JBwJuYWOPRT5gE=; b=aVJEQ1IJhigTNekJ8K/FpqxBkh
+ XrYFzP0GerQdIeUQdoKPiBmIxj7qWgSXke4SmbW+twoQo9y6ez4UM2b+OM/U9ZNWyHTwkR9MXd8Lc
+ FnabyME8qxzLrX7jnm4xVrt05LJjowki7HU7j+IKDmmuM2fIeyxgR8usBXEaUU5sd67ZB1wi7XpJ/
+ JsJIXRLq3FlKV8wS28PdaNYVLppN6EsXwKEukYTpYuvnrQoA1BK09v85NT2wnRLCfiOVol9iRqPxj
+ uu3spE/phRC7R/qL3iXBlnw/T2AhfwBHlS8aAkZllpDmnWWmRJg0etcuzXLFJ3pewqFJVc2bpcWzc
+ KKsKlg6w==;
+Received: from [102.213.205.115] (helo=killbill.home)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1rDreJ-00E0Eu-Dx; Thu, 14 Dec 2023 20:45:35 +0100
+From: Melissa Wen <mwen@igalia.com>
+To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch
+Subject: [PATCH] drm/amd/display: fix documentation for
+ dm_crtc_additional_color_mgmt()
+Date: Thu, 14 Dec 2023 18:45:16 -0100
+Message-ID: <20231214194533.444097-1-mwen@igalia.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-References: <20231211154445.3666732-1-dmitry.baryshkov@linaro.org>
- <20231211154445.3666732-3-dmitry.baryshkov@linaro.org>
- <6f3c4692-ac87-4852-9a60-6df64ad8a803@linaro.org>
-In-Reply-To: <6f3c4692-ac87-4852-9a60-6df64ad8a803@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 14 Dec 2023 21:22:49 +0200
-Message-ID: <CAA8EJpoVXs4SmcwAwG57ii+C5j=W=z59XBdBq46eacG=njiEag@mail.gmail.com>
-Subject: Re: [PATCH v2 2/8] arm64: dts: qcom: sm8150: make dispcc cast minimal
- vote on MMCX
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,32 +52,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
- Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
+ kernel test robot <lkp@intel.com>, amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 14 Dec 2023 at 20:17, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
->
->
->
-> On 12/11/23 16:44, Dmitry Baryshkov wrote:
-> > Add required-opps property to the display clock controller. This makes
-> > it cast minimal vote on the MMCX lane and prevents further 'clock stuck'
-> > errors when enabling the display.
-> >
-> > Fixes: 2ef3bb17c45c ("arm64: dts: qcom: sm8150: Add DISPCC node")
-> > Acked-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> Only patches 2 and 4 made it to me..
+warning: expecting prototype for drm_crtc_additional_color_mgmt().
+Prototype was for dm_crtc_additional_color_mgmt() instead
 
-Hmm, interesting. I'll resent them.
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202312141801.o9eBCxt9-lkp@intel.com/
+Signed-off-by: Melissa Wen <mwen@igalia.com>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
+index 8b3aa674741d..4439e5a27362 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
+@@ -292,7 +292,7 @@ static int amdgpu_dm_crtc_late_register(struct drm_crtc *crtc)
+ 
+ #ifdef AMD_PRIVATE_COLOR
+ /**
+- * drm_crtc_additional_color_mgmt - enable additional color properties
++ * dm_crtc_additional_color_mgmt - enable additional color properties
+  * @crtc: DRM CRTC
+  *
+  * This function lets the driver enable post-blending CRTC regamma transfer
 -- 
-With best wishes
-Dmitry
+2.42.0
+
