@@ -1,72 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7102A812755
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 06:59:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4A3A8127D0
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 07:15:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E35310E8B2;
-	Thu, 14 Dec 2023 05:59:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A84F10E18B;
+	Thu, 14 Dec 2023 06:15:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A35D10E8BF
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 05:58:57 +0000 (UTC)
-X-UUID: dc6ab9ac9a4511eea5db2bebc7c28f94-20231214
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=HHX1jEUoL6Mf8DrcHwvOl88aw89wvX7S7JVecHhId2M=; 
- b=tXIMVimVzERdSn6TyF+pyo8kLz14HGDcqILW/DFJteUYpM6c/dAkFX/cfzuwp7YCA0Y8isbSM/OY5dFSv/RP+h9JQN1DxwWpnLq2m6GYpwxjyyvxZ7O8d+OkQyLfqUsns35OFtiHlxweFIL5wEXxs5+RqrXihQOz80n6DgdOey8=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.35, REQID:d76e4737-2114-43da-839a-3c60d8a0b3c3, IP:0,
- U
- RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:-5
-X-CID-META: VersionHash:5d391d7, CLOUDID:a23c29bd-2ac7-4da2-9f94-677a477649d9,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
- NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
-X-UUID: dc6ab9ac9a4511eea5db2bebc7c28f94-20231214
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
- mailgw01.mediatek.com (envelope-from <shawn.sung@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 593049922; Thu, 14 Dec 2023 13:58:53 +0800
-Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Thu, 14 Dec 2023 13:58:52 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Thu, 14 Dec 2023 13:58:52 +0800
-From: Hsiao Chien Sung <shawn.sung@mediatek.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, "CK
- Hu" <ck.hu@mediatek.com>
-Subject: [PATCH v12 23/23] drm/mediatek: Support MT8188 VDOSYS1 in display
- driver
-Date: Thu, 14 Dec 2023 13:58:47 +0800
-Message-ID: <20231214055847.4936-24-shawn.sung@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20231214055847.4936-1-shawn.sung@mediatek.com>
-References: <20231214055847.4936-1-shawn.sung@mediatek.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0349410E18B
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 06:14:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1702534499; x=1734070499;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=5t1LOiuEJntWFHQdvSiRvrUMe36npW7QzBe/Pw7UNS4=;
+ b=m8RGP/v/Lh4nfZhG2mgJtqqtkphLniwFGMafymxn1a94ESKbVUMT7KCT
+ re+UbKaaiSXDFOhxB0JQZPYBX4k/db5ntUuT8hzY5ob2ss06aZgJ9eCao
+ jbISFsS+w3NiDErtULkTJ6zxiXNCf8hbvaBJVNtw8k2r/d1DFrWV6PdX1
+ gy0o0FnR5ftzy61ql2wNKkaWlHXbrku1u5N2r1lh2XCbJDADQ7ikYXP5F
+ S6291rmFgBT/tLfouTIvrHY+6goSjKd8inrmLnTW6zEgZ7B2cJeNomJ8j
+ 6dbdvnQ7SAkNrZHc7rFh2rGJW9mQJkEi0GH/n898xXy3yCoci3w1TWKq9 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="16622482"
+X-IronPort-AV: E=Sophos;i="6.04,274,1695711600"; d="scan'208";a="16622482"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Dec 2023 22:14:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="723950203"
+X-IronPort-AV: E=Sophos;i="6.04,274,1695711600"; d="scan'208";a="723950203"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+ by orsmga003.jf.intel.com with ESMTP; 13 Dec 2023 22:14:55 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1rDezk-000Lfb-1F;
+ Thu, 14 Dec 2023 06:14:52 +0000
+Date: Thu, 14 Dec 2023 14:14:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2] ASoC: hdmi-codec: drop drm/drm_edid.h include
+Message-ID: <202312141302.SBNAHryl-lkp@intel.com>
+References: <20231213095023.3928703-1-jani.nikula@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--6.544100-8.000000
-X-TMASE-MatchedRID: k6EjByr1NNCA1UdczcLx7jvfsoCuAcP+uLwbhNl9B5VcKZwALwMGs43y
- qnCHUnfZLYexjI/F2s67aBKK8e6y8yUtdpGicV4RKaMQ6tw7oDJMkOX0UoduuQqiCYa6w8tv5pf
- 3ZiBJgsHc0NDBaoYShZjXlVZ6P0cvj2hRzH1UwuAURSScn+QSXt0H8LFZNFG7bkV4e2xSge4sw3
- GEmIriBSUhMPBH5sX4M517nGGNRDAnSTeZe+bs5kuFvzEYSdV+
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--6.544100-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: 9CD57752886B2D27EDB266D57A02EC8B0E9144DB819A1D626578D8FF6ECF02B42000:8
-X-MTK: N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231213095023.3928703-1-jani.nikula@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,55 +59,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- "Nancy . Lin" <nancy.lin@mediatek.com>, xinlei lee <xinlei.lee@mediatek.com>,
- "Roy-CW .
- Yeh" <roy-cw.yeh@mediatek.com>, Hsiao Chien Sung <shawn.sung@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org, Nathan Lu <nathan.lu@mediatek.com>,
- "Jason-JH . Lin" <jason-jh.lin@mediatek.com>, linux-kernel@vger.kernel.org,
- Moudy Ho <moudy.ho@mediatek.com>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: linux-arm-msm@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, dri-devel@lists.freedesktop.org,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-- The mmsys_dev_num in MT8188 VDOSYS0 was set to 1 since
-  VDOSYS1 was not available before. Increase it to support
-  VDOSYS1 in display driver.
-- Add compatible name for MT8188 VDOSYS1
-  (shares the same driver data with MT8195 VDOSYS1)
+Hi Jani,
 
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+kernel test robot noticed the following build warnings:
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index f7504d1edc62..8cbbf55a6454 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -293,7 +293,7 @@ static const struct mtk_mmsys_driver_data mt8188_vdosys0_driver_data = {
- 	.main_len = ARRAY_SIZE(mt8188_mtk_ddp_main),
- 	.conn_routes = mt8188_mtk_ddp_main_routes,
- 	.num_conn_routes = ARRAY_SIZE(mt8188_mtk_ddp_main_routes),
--	.mmsys_dev_num = 1,
-+	.mmsys_dev_num = 2,
- };
- 
- static const struct mtk_mmsys_driver_data mt8192_mmsys_driver_data = {
-@@ -334,6 +334,8 @@ static const struct of_device_id mtk_drm_of_ids[] = {
- 	  .data = &mt8186_mmsys_driver_data},
- 	{ .compatible = "mediatek,mt8188-vdosys0",
- 	  .data = &mt8188_vdosys0_driver_data},
-+	{ .compatible = "mediatek,mt8188-vdosys1",
-+	  .data = &mt8195_vdosys1_driver_data},
- 	{ .compatible = "mediatek,mt8192-mmsys",
- 	  .data = &mt8192_mmsys_driver_data},
- 	{ .compatible = "mediatek,mt8195-mmsys",
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on tiwai-sound/for-next tiwai-sound/for-linus drm-tip/drm-tip linus/master v6.7-rc5 next-20231213]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/ASoC-hdmi-codec-drop-drm-drm_edid-h-include/20231213-175633
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20231213095023.3928703-1-jani.nikula%40intel.com
+patch subject: [PATCH v2] ASoC: hdmi-codec: drop drm/drm_edid.h include
+config: i386-randconfig-002-20231214 (https://download.01.org/0day-ci/archive/20231214/202312141302.SBNAHryl-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312141302.SBNAHryl-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312141302.SBNAHryl-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/gpu/drm/bridge/lontium-lt9611uxc.c: In function 'lt9611uxc_connector_get_modes':
+   drivers/gpu/drm/bridge/lontium-lt9611uxc.c:301:10: error: implicit declaration of function 'drm_add_edid_modes'; did you mean 'drm_bridge_get_modes'? [-Werror=implicit-function-declaration]
+     count = drm_add_edid_modes(connector, edid);
+             ^~~~~~~~~~~~~~~~~~
+             drm_bridge_get_modes
+   drivers/gpu/drm/bridge/lontium-lt9611uxc.c: In function 'lt9611uxc_bridge_get_edid':
+   drivers/gpu/drm/bridge/lontium-lt9611uxc.c:512:9: error: implicit declaration of function 'drm_do_get_edid'; did you mean 'drm_bridge_get_edid'? [-Werror=implicit-function-declaration]
+     return drm_do_get_edid(connector, lt9611uxc_get_edid_block, lt9611uxc);
+            ^~~~~~~~~~~~~~~
+            drm_bridge_get_edid
+>> drivers/gpu/drm/bridge/lontium-lt9611uxc.c:512:9: warning: return makes pointer from integer without a cast [-Wint-conversion]
+     return drm_do_get_edid(connector, lt9611uxc_get_edid_block, lt9611uxc);
+            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +512 drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+
+0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  496  
+0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  497  static struct edid *lt9611uxc_bridge_get_edid(struct drm_bridge *bridge,
+0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  498  					      struct drm_connector *connector)
+0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  499  {
+0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  500  	struct lt9611uxc *lt9611uxc = bridge_to_lt9611uxc(bridge);
+0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  501  	int ret;
+0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  502  
+0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  503  	ret = lt9611uxc_wait_for_edid(lt9611uxc);
+0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  504  	if (ret < 0) {
+0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  505  		dev_err(lt9611uxc->dev, "wait for EDID failed: %d\n", ret);
+1bb7ab402da44e Dmitry Baryshkov 2021-01-22  506  		return NULL;
+1bb7ab402da44e Dmitry Baryshkov 2021-01-22  507  	} else if (ret == 0) {
+1bb7ab402da44e Dmitry Baryshkov 2021-01-22  508  		dev_err(lt9611uxc->dev, "wait for EDID timeout\n");
+1bb7ab402da44e Dmitry Baryshkov 2021-01-22  509  		return NULL;
+0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  510  	}
+0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  511  
+0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02 @512  	return drm_do_get_edid(connector, lt9611uxc_get_edid_block, lt9611uxc);
+0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  513  }
+0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  514  
+
 -- 
-2.18.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
