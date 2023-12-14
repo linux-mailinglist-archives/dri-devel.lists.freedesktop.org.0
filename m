@@ -2,51 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4A3A8127D0
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 07:15:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 553028127E5
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 07:21:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A84F10E18B;
-	Thu, 14 Dec 2023 06:15:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C9D910E2F3;
+	Thu, 14 Dec 2023 06:21:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0349410E18B
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 06:14:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1702534499; x=1734070499;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=5t1LOiuEJntWFHQdvSiRvrUMe36npW7QzBe/Pw7UNS4=;
- b=m8RGP/v/Lh4nfZhG2mgJtqqtkphLniwFGMafymxn1a94ESKbVUMT7KCT
- re+UbKaaiSXDFOhxB0JQZPYBX4k/db5ntUuT8hzY5ob2ss06aZgJ9eCao
- jbISFsS+w3NiDErtULkTJ6zxiXNCf8hbvaBJVNtw8k2r/d1DFrWV6PdX1
- gy0o0FnR5ftzy61ql2wNKkaWlHXbrku1u5N2r1lh2XCbJDADQ7ikYXP5F
- S6291rmFgBT/tLfouTIvrHY+6goSjKd8inrmLnTW6zEgZ7B2cJeNomJ8j
- 6dbdvnQ7SAkNrZHc7rFh2rGJW9mQJkEi0GH/n898xXy3yCoci3w1TWKq9 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="16622482"
-X-IronPort-AV: E=Sophos;i="6.04,274,1695711600"; d="scan'208";a="16622482"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Dec 2023 22:14:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="723950203"
-X-IronPort-AV: E=Sophos;i="6.04,274,1695711600"; d="scan'208";a="723950203"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
- by orsmga003.jf.intel.com with ESMTP; 13 Dec 2023 22:14:55 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1rDezk-000Lfb-1F;
- Thu, 14 Dec 2023 06:14:52 +0000
-Date: Thu, 14 Dec 2023 14:14:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jani Nikula <jani.nikula@intel.com>, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2] ASoC: hdmi-codec: drop drm/drm_edid.h include
-Message-ID: <202312141302.SBNAHryl-lkp@intel.com>
-References: <20231213095023.3928703-1-jani.nikula@intel.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA25E10E8DA
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 06:20:32 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 70000CE231B;
+ Thu, 14 Dec 2023 06:20:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id F0B1EC433CC;
+ Thu, 14 Dec 2023 06:20:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1702534828;
+ bh=+vkxHeCGMNypV4HTfFOZ2Yy/60cFLbQw3F9hivio95U=;
+ h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+ b=XCwoc/9WTOKFFdAICIMqPHMjv6oeO4Pp+v7+7n/BcwEpfIUwCaQGC1TyO90tc3s+F
+ 4iMuFSonb7td1SNtF1ARcta6HO3szQxo/eTWA3PWgh1n9ndKRu3EGh+nxdxwJCDwEF
+ C5wbcDdHDR9kDvws7qfFo2ZK3IFMZukwcHNhYfnGRauUxTzKDGsAZUwkEJjVzYYniB
+ rd8UTiTCDeYkElN+6hTQ17XC95nHuKkDorHWKjNxvgot4aPi0xBRyLLQeDnMf+uifL
+ xSTQdlfLVS9vWPcdZDdUGFtsUGZzqb7Z5spstpB1oT9YsbKWHGPQUAatOOPdI3jqXx
+ PsahGbgOBc0ag==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
+ D40E9DD4EFB; Thu, 14 Dec 2023 06:20:27 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231213095023.3928703-1-jani.nikula@intel.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [net-next v1 00/16] Device Memory TCP
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: <170253482786.28524.10625748175644260187.git-patchwork-notify@kernel.org>
+Date: Thu, 14 Dec 2023 06:20:27 +0000
+References: <20231208005250.2910004-1-almasrymina@google.com>
+In-Reply-To: <20231208005250.2910004-1-almasrymina@google.com>
+To: Mina Almasry <almasrymina@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,75 +54,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, dri-devel@lists.freedesktop.org,
- oe-kbuild-all@lists.linux.dev
+Cc: linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ edumazet@google.com, linux-kselftest@vger.kernel.org, shuah@kernel.org,
+ sumit.semwal@linaro.org, linux-arch@vger.kernel.org,
+ willemdebruijn.kernel@gmail.com, jeroendb@google.com, corbet@lwn.net,
+ kuba@kernel.org, pabeni@redhat.com, linux-media@vger.kernel.org,
+ hawk@kernel.org, arnd@arndb.de, shailend@google.com, shakeelb@google.com,
+ hramamurthy@google.com, netdev@vger.kernel.org, dsahern@kernel.org,
+ ilias.apalodimas@linaro.org, linux-kernel@vger.kernel.org,
+ christian.koenig@amd.com, linyunsheng@huawei.com, pkaligineedi@google.com,
+ bpf@vger.kernel.org, davem@davemloft.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jani,
+Hello:
 
-kernel test robot noticed the following build warnings:
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on tiwai-sound/for-next tiwai-sound/for-linus drm-tip/drm-tip linus/master v6.7-rc5 next-20231213]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On Thu,  7 Dec 2023 16:52:31 -0800 you wrote:
+> Major changes in v1:
+> --------------
+> 
+> 1. Implemented MVP queue API ndos to remove the userspace-visible
+>    driver reset.
+> 
+> 2. Fixed issues in the napi_pp_put_page() devmem frag unref path.
+> 
+> [...]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/ASoC-hdmi-codec-drop-drm-drm_edid-h-include/20231213-175633
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20231213095023.3928703-1-jani.nikula%40intel.com
-patch subject: [PATCH v2] ASoC: hdmi-codec: drop drm/drm_edid.h include
-config: i386-randconfig-002-20231214 (https://download.01.org/0day-ci/archive/20231214/202312141302.SBNAHryl-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312141302.SBNAHryl-lkp@intel.com/reproduce)
+Here is the summary with links:
+  - [net-next,v1,01/16] net: page_pool: factor out releasing DMA from releasing the page
+    https://git.kernel.org/netdev/net-next/c/c3f687d8dfeb
+  - [net-next,v1,02/16] net: page_pool: create hooks for custom page providers
+    (no matching commit)
+  - [net-next,v1,03/16] queue_api: define queue api
+    (no matching commit)
+  - [net-next,v1,04/16] gve: implement queue api
+    (no matching commit)
+  - [net-next,v1,05/16] net: netdev netlink api to bind dma-buf to a net device
+    (no matching commit)
+  - [net-next,v1,06/16] netdev: support binding dma-buf to netdevice
+    (no matching commit)
+  - [net-next,v1,07/16] netdev: netdevice devmem allocator
+    (no matching commit)
+  - [net-next,v1,08/16] memory-provider: dmabuf devmem memory provider
+    (no matching commit)
+  - [net-next,v1,09/16] page_pool: device memory support
+    (no matching commit)
+  - [net-next,v1,10/16] page_pool: don't release iov on elevanted refcount
+    (no matching commit)
+  - [net-next,v1,11/16] net: support non paged skb frags
+    (no matching commit)
+  - [net-next,v1,12/16] net: add support for skbs with unreadable frags
+    (no matching commit)
+  - [net-next,v1,13/16] tcp: RX path for devmem TCP
+    (no matching commit)
+  - [net-next,v1,14/16] net: add SO_DEVMEM_DONTNEED setsockopt to release RX frags
+    (no matching commit)
+  - [net-next,v1,15/16] net: add devmem TCP documentation
+    (no matching commit)
+  - [net-next,v1,16/16] selftests: add ncdevmem, netcat for devmem TCP
+    (no matching commit)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312141302.SBNAHryl-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/gpu/drm/bridge/lontium-lt9611uxc.c: In function 'lt9611uxc_connector_get_modes':
-   drivers/gpu/drm/bridge/lontium-lt9611uxc.c:301:10: error: implicit declaration of function 'drm_add_edid_modes'; did you mean 'drm_bridge_get_modes'? [-Werror=implicit-function-declaration]
-     count = drm_add_edid_modes(connector, edid);
-             ^~~~~~~~~~~~~~~~~~
-             drm_bridge_get_modes
-   drivers/gpu/drm/bridge/lontium-lt9611uxc.c: In function 'lt9611uxc_bridge_get_edid':
-   drivers/gpu/drm/bridge/lontium-lt9611uxc.c:512:9: error: implicit declaration of function 'drm_do_get_edid'; did you mean 'drm_bridge_get_edid'? [-Werror=implicit-function-declaration]
-     return drm_do_get_edid(connector, lt9611uxc_get_edid_block, lt9611uxc);
-            ^~~~~~~~~~~~~~~
-            drm_bridge_get_edid
->> drivers/gpu/drm/bridge/lontium-lt9611uxc.c:512:9: warning: return makes pointer from integer without a cast [-Wint-conversion]
-     return drm_do_get_edid(connector, lt9611uxc_get_edid_block, lt9611uxc);
-            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +512 drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-
-0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  496  
-0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  497  static struct edid *lt9611uxc_bridge_get_edid(struct drm_bridge *bridge,
-0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  498  					      struct drm_connector *connector)
-0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  499  {
-0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  500  	struct lt9611uxc *lt9611uxc = bridge_to_lt9611uxc(bridge);
-0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  501  	int ret;
-0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  502  
-0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  503  	ret = lt9611uxc_wait_for_edid(lt9611uxc);
-0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  504  	if (ret < 0) {
-0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  505  		dev_err(lt9611uxc->dev, "wait for EDID failed: %d\n", ret);
-1bb7ab402da44e Dmitry Baryshkov 2021-01-22  506  		return NULL;
-1bb7ab402da44e Dmitry Baryshkov 2021-01-22  507  	} else if (ret == 0) {
-1bb7ab402da44e Dmitry Baryshkov 2021-01-22  508  		dev_err(lt9611uxc->dev, "wait for EDID timeout\n");
-1bb7ab402da44e Dmitry Baryshkov 2021-01-22  509  		return NULL;
-0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  510  	}
-0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  511  
-0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02 @512  	return drm_do_get_edid(connector, lt9611uxc_get_edid_block, lt9611uxc);
-0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  513  }
-0cbbd5b1a012cd Dmitry Baryshkov 2020-11-02  514  
-
+You are awesome, thank you!
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
