@@ -1,43 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B59D6813AF2
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 20:46:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7208B813B0A
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 20:52:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49EFD10E265;
-	Thu, 14 Dec 2023 19:45:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 810D910E2F5;
+	Thu, 14 Dec 2023 19:52:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DD5510E258;
- Thu, 14 Dec 2023 19:45:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
- Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=hT59JfzhB9C9oPzE8B3dJnvP0SZ39JBwJuYWOPRT5gE=; b=aVJEQ1IJhigTNekJ8K/FpqxBkh
- XrYFzP0GerQdIeUQdoKPiBmIxj7qWgSXke4SmbW+twoQo9y6ez4UM2b+OM/U9ZNWyHTwkR9MXd8Lc
- FnabyME8qxzLrX7jnm4xVrt05LJjowki7HU7j+IKDmmuM2fIeyxgR8usBXEaUU5sd67ZB1wi7XpJ/
- JsJIXRLq3FlKV8wS28PdaNYVLppN6EsXwKEukYTpYuvnrQoA1BK09v85NT2wnRLCfiOVol9iRqPxj
- uu3spE/phRC7R/qL3iXBlnw/T2AhfwBHlS8aAkZllpDmnWWmRJg0etcuzXLFJ3pewqFJVc2bpcWzc
- KKsKlg6w==;
-Received: from [102.213.205.115] (helo=killbill.home)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1rDreJ-00E0Eu-Dx; Thu, 14 Dec 2023 20:45:35 +0100
-From: Melissa Wen <mwen@igalia.com>
-To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch
-Subject: [PATCH] drm/amd/display: fix documentation for
- dm_crtc_additional_color_mgmt()
-Date: Thu, 14 Dec 2023 18:45:16 -0100
-Message-ID: <20231214194533.444097-1-mwen@igalia.com>
-X-Mailer: git-send-email 2.42.0
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B3F610E2ED
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 19:52:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1702583524; x=1734119524;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=/fGXZ6UuZtPOIB3EPIcP7+ZSJO/azzgMGgHsLduVS8k=;
+ b=aEE+0VdRvam+/ttXl3WQ4bJNdjFQgBZtwB0qB4Qz93Bm/e/BbV4eO1JP
+ NBoGhSyF1NNrMgqpL9VmCHkl1f1r1qdal9S6oU4OpDkGjNfkMNDus/ZST
+ 7btgH5AsIKnhAabKnFja1eYbykjY00XxOl1IrFXyJ63PC0Pyyz+lzfIdM
+ 9kLIv9JJhu6BG6eAuw2h2fYAD92AL8kUAA9oZHFoOn0UDoqXSiwUinD8j
+ s5VaBbI+whoWeLkikJOpAcSbI109Zp4aSlMwzOKUZUzbuRUjsJ0RAOqXh
+ sgwZMnb7vgOw6zpY1B14oOb5Lps2bVuMKdp0C28ihsZ6e8e6GCGzZw8I/ A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="394047214"
+X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; d="scan'208";a="394047214"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Dec 2023 11:52:03 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="778006681"
+X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; d="scan'208";a="778006681"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by fmsmga007.fm.intel.com with ESMTP; 14 Dec 2023 11:52:00 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+ id 6B01218E; Thu, 14 Dec 2023 21:51:59 +0200 (EET)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Flavio Suligoi <f.suligoi@asem.it>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v1 0/2] backlight: mp3309c: Allow to use on non-OF platforms
+Date: Thu, 14 Dec 2023 21:51:12 +0200
+Message-ID: <20231214195158.1335727-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.43.0.rc1.1.gbec44491f096
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -52,34 +59,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
- kernel test robot <lkp@intel.com>, amd-gfx@lists.freedesktop.org
+Cc: Jingoo Han <jingoohan1@gmail.com>,
+ Daniel Thompson <daniel.thompson@linaro.org>, Lee Jones <lee@kernel.org>,
+ Helge Deller <deller@gmx.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-warning: expecting prototype for drm_crtc_additional_color_mgmt().
-Prototype was for dm_crtc_additional_color_mgmt() instead
+Allow to use driver on non-OF platforms and other cleanups.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202312141801.o9eBCxt9-lkp@intel.com/
-Signed-off-by: Melissa Wen <mwen@igalia.com>
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Andy Shevchenko (2):
+  backlight: mp3309c: Make use of device properties
+  backlight: mp3309c: Utilise temporary variable for struct device
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-index 8b3aa674741d..4439e5a27362 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-@@ -292,7 +292,7 @@ static int amdgpu_dm_crtc_late_register(struct drm_crtc *crtc)
- 
- #ifdef AMD_PRIVATE_COLOR
- /**
-- * drm_crtc_additional_color_mgmt - enable additional color properties
-+ * dm_crtc_additional_color_mgmt - enable additional color properties
-  * @crtc: DRM CRTC
-  *
-  * This function lets the driver enable post-blending CRTC regamma transfer
+ drivers/video/backlight/mp3309c.c | 76 +++++++++++++------------------
+ 1 file changed, 31 insertions(+), 45 deletions(-)
+
 -- 
-2.42.0
+2.43.0.rc1.1.gbec44491f096
 
