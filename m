@@ -1,41 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1105812C84
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 11:09:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE8E1812C85
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 11:09:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B5C810E918;
-	Thu, 14 Dec 2023 10:09:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 138D010E906;
+	Thu, 14 Dec 2023 10:09:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 195D110E911
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 10:09:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C515F10E906
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 10:09:33 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 551626216A;
- Thu, 14 Dec 2023 10:09:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A444DC433C7;
- Thu, 14 Dec 2023 10:09:29 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 1922E6216A;
+ Thu, 14 Dec 2023 10:09:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69114C433C7;
+ Thu, 14 Dec 2023 10:09:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1702548570;
- bh=5bqkfAelbOTqlj5Ldp8Y2gweUJ+1X2cnM1h4FqoT81E=;
+ s=k20201202; t=1702548572;
+ bh=sj83K/4JenSCs5c0jZW5byPMqZx5MToX9bHZtccVSfU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jig6IJ2m6JI9PvNPwgL1UnLjpkqTkTKDtMGl3w4StOKNRS9250mkgr0LgwPHmP0wW
- 4Et9rWN5C/EeY8AhRZibmHhBwDox7TYMCAMfBI+mj1AP0JQWS0LMCgX/f9wf/gxlrg
- 2SO1D9AtTcshCEPptFVJNjUGRm8nLSbV6Z5iBjZru+woy1QNmpovcZzgAypljGRILY
- ks4KNC9oUl9UH+VUYta9hygzdZivthoYaNaqTIkKdqkvJGB47QIz7HNOC6gzpCAUN/
- nsBIfdDWfV8OQYb4hjkU9Y3uGakoL2GxtrKor7IT3xSJWEkXdzRPWIT48GsxnZ6CVW
- NnP3mOiHy34bQ==
+ b=X5gtxfxYXKYydFks9OeLo6P5GxcARPpatR86VYI94yIYRwJdpaviZ3/dvu2eHDIx/
+ VUCkWdO0n0EZECaOLGnPgSM1JgSIBSfdwTz0iJWJlAslSbtk7yexUy0H4mjRTsgPKC
+ BeROysdCui/NoI+LyG0QkVqoRtgPMFsF30j3ZxImiv64H+Axo+O16W3DYTHFTtpt0G
+ vxM2MTouohUqYgTIgJej3wPxJOm0okSt9yFXt+KWUEpYxYXSBWwkgIuBNQmVJEqDCo
+ VBRMF8PA9y9iBt8nxluqRWTXQvkRQOW16QIcoznID140ehWM5PvAkt5vZ5k2z16AjP
+ odm+C7vOVyqGg==
 From: Maxime Ripard <mripard@kernel.org>
 To: Daniel Vetter <daniel.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH v2 4/5] drm/atomic: Make the drm_atomic_state documentation
- less ambiguous
-Date: Thu, 14 Dec 2023 11:09:15 +0100
-Message-ID: <20231214100917.277842-4-mripard@kernel.org>
+Subject: [PATCH v2 5/5] drm/todo: Add entry to rename drm_atomic_state
+Date: Thu, 14 Dec 2023 11:09:16 +0100
+Message-ID: <20231214100917.277842-5-mripard@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231214100917.277842-1-mripard@kernel.org>
 References: <20231214100917.277842-1-mripard@kernel.org>
@@ -58,38 +57,49 @@ Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current documentation of drm_atomic_state says that it's the "global
-state object". This is confusing since, while it does contain all the
-objects affected by an update and their respective states, if an object
-isn't affected by this update it won't be part of it.
+The name of the structure drm_atomic_state is confusing. Let's add an
+entry to our todo list to rename it.
 
-Thus, it's not truly a "global state", unlike object state structures
-that do contain the entire state of a given object.
-
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- include/drm/drm_atomic.h | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ Documentation/gpu/todo.rst | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-index 914574b58ae7..5df67e587816 100644
---- a/include/drm/drm_atomic.h
-+++ b/include/drm/drm_atomic.h
-@@ -346,7 +346,13 @@ struct __drm_private_objs_state {
- };
+diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+index 41a264bf84ce..fb9ad120b141 100644
+--- a/Documentation/gpu/todo.rst
++++ b/Documentation/gpu/todo.rst
+@@ -120,6 +120,29 @@ Contact: Daniel Vetter, respective driver maintainers
  
- /**
-- * struct drm_atomic_state - the global state object for atomic updates
-+ * struct drm_atomic_state - Atomic commit structure
-+ *
-+ * This structure is the kernel counterpart of @drm_mode_atomic and represents
-+ * an atomic commit that transitions from an old to a new display state. It
-+ * contains all the objects affected by an atomic commits and both the new
-+ * state structures and pointers to the old state structures for
-+ * these.
-  *
-  * States are added to an atomic update by calling drm_atomic_get_crtc_state(),
-  * drm_atomic_get_plane_state(), drm_atomic_get_connector_state(), or for
+ Level: Advanced
+ 
++Rename drm_atomic_state
++-----------------------
++
++The KMS framework uses two slightly different definitions for the ``state``
++concept. For a given object (plane, CRTC, encoder, etc., so
++``drm_$OBJECT_state``), the state is the entire state of that object. However,
++at the device level, ``drm_atomic_state`` refers to a state update for a
++limited number of objects.
++
++The state isn't the entire device state, but only the full state of some
++objects in that device. This is confusing to newcomers, and
++``drm_atomic_state`` should be renamed to something clearer like
++``drm_atomic_commit``.
++
++In addition to renaming the structure itself, it would also imply renaming some
++related functions (``drm_atomic_state_alloc``, ``drm_atomic_state_get``,
++``drm_atomic_state_put``, ``drm_atomic_state_init``,
++``__drm_atomic_state_free``, etc.).
++
++Contact: Maxime Ripard <mripard@kernel.org>
++
++Level: Advanced
++
+ Fallout from atomic KMS
+ -----------------------
+ 
 -- 
 2.43.0
 
