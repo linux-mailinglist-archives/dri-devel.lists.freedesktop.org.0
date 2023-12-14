@@ -1,44 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78D51813037
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 13:33:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F76F813106
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 14:11:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A14510E2EF;
-	Thu, 14 Dec 2023 12:33:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C1C610E050;
+	Thu, 14 Dec 2023 13:11:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C89F710E2EF
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 12:32:45 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DCC110E050
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 13:11:03 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 2F6D962237;
- Thu, 14 Dec 2023 12:32:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6448C433C7;
- Thu, 14 Dec 2023 12:32:40 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 7E5CECE238A;
+ Thu, 14 Dec 2023 13:11:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68A54C433C8;
+ Thu, 14 Dec 2023 13:10:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1702557164;
- bh=9BrA7lyu3u+qJ3w2HS8iC7OSGrx00yqnLUiF+PUY4qY=;
- h=From:To:Cc:Subject:Date:From;
- b=RqGRfm7E4CUqLdMdONsQrsy9g06BSxdAmIdGsOYqJrCdTrL/bTqp2+5cE3ILnPqBQ
- Y73DCSwKYh6rW6zdpzuMLHGp71tcHlXCqifNHDvgfz5tweMjGoVLm+RpRZa8oEyF7D
- Cbe7vpzSEGuMSZe3QypQuE4l3oXf18a7bAibAh9n9OeWBirYvU/73yVhGuvAgM80KM
- BlTw1u3MgLBT3yPwUapWu0rOH5ZvDPFJu8euhxMw8qAhf84lYj7+zFKkiOoNLY9/93
- +p10vwkcu8ReFAVIKS7Zz+HUMZoBEuFW3CQdl4l7jj6el2sBazdyYtxl7ra3ghzpYW
- u8F86cB/DgtGA==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Christoph Manszewski <c.manszewski@samsung.com>
-Subject: [PATCH] drm/exynos: fix accidental on-stack copy of exynos_drm_plane
-Date: Thu, 14 Dec 2023 13:32:15 +0100
-Message-Id: <20231214123237.1727428-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
+ s=k20201202; t=1702559459;
+ bh=sB2vhNYyNztdd2YEqVUSws2NiTt9u4xI67gGa0TAi5c=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=DwHaIYHwi4vRi5W2N8ZpWR2whX0yubosaXDz1Bx+uZ3bbREjNeZeBbGe/WjaVwBKU
+ LS08sqbExPjtZPjGgMyB1IjDniy8rV1j6QCs91+P8jnyPhaX4EEFNrBx9FlkQkWJB0
+ JtOhdeXpHfztZ0IdljkKF717V79VPv8NgesGbeb1hX8PhyUe1A5x2m19p18rHGBRLT
+ QkzQzXY2fCwwO3Qjkg77M0UgUEQA6+upyX7tVmFkNdFBPS1qMC7yQ7XlgJjy+EBv2R
+ w/SEN6W8IMMBMnpOe4+G6OqIsz/HWB9wdw1aqnKqChU/lGES715IBtHaH82EZlqYI0
+ LodQQX5htQ7Ww==
+Date: Thu, 14 Dec 2023 14:10:57 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Jocelyn Falempe <jfalempe@redhat.com>
+Subject: Re: [RFC][PATCH v6 0/5] drm/panic: Add a drm panic handler
+Message-ID: <qhkgcx3el7jkct7nfwln3asguot3gdqkmnhn4bt3hbmjnaj6nr@z3qkhisifzt2>
+References: <20231205095051.269841-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="zs5rws5dhrtiyych"
+Content-Disposition: inline
+In-Reply-To: <20231205095051.269841-1-jfalempe@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,69 +50,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, Robert Foss <rfoss@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Liviu Dudau <liviu.dudau@arm.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Steven Price <steven.price@arm.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Alim Akhtar <alim.akhtar@samsung.com>, Thierry Reding <treding@nvidia.com>,
- Sam Ravnborg <sam@ravnborg.org>, linux-arm-kernel@lists.infradead.org
+Cc: bluescreen_avenger@verizon.net, tzimmermann@suse.de, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, gpiccoli@igalia.com, noralf@tronnes.org,
+ airlied@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
 
-gcc rightfully complains about excessive stack usage in the fimd_win_set_pixfmt()
-function:
+--zs5rws5dhrtiyych
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-drivers/gpu/drm/exynos/exynos_drm_fimd.c: In function 'fimd_win_set_pixfmt':
-drivers/gpu/drm/exynos/exynos_drm_fimd.c:750:1: error: the frame size of 1032 bytes is larger than 1024 byte
-drivers/gpu/drm/exynos/exynos5433_drm_decon.c: In function 'decon_win_set_pixfmt':
-drivers/gpu/drm/exynos/exynos5433_drm_decon.c:381:1: error: the frame size of 1032 bytes is larger than 1024 bytes
+Hi,
 
-There is really no reason to copy the large exynos_drm_plane
-structure to the stack before using one of its members, so just
-use a pointer instead.
+Sorry for not taking a look at this sooner.
 
-Fixes: 6f8ee5c21722 ("drm/exynos: fimd: Make plane alpha configurable")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/gpu/drm/exynos/exynos5433_drm_decon.c | 4 ++--
- drivers/gpu/drm/exynos/exynos_drm_fimd.c      | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+On Tue, Dec 05, 2023 at 10:48:22AM +0100, Jocelyn Falempe wrote:
+> drm/panic: Add a drm panic handler
+>=20
+> This introduces a new drm panic handler, which displays a message when a =
+panic occurs.
+> So when fbcon is disabled, you can still see a kernel panic.
+>=20
+> This is one of the missing feature, when disabling VT/fbcon in the kernel:
+> https://www.reddit.com/r/linux/comments/10eccv9/config_vtn_in_2023/
+> Fbcon can be replaced by a userspace kms console, but the panic screen mu=
+st be done in the kernel.
+>=20
+> This is a proof of concept, and works with simpledrm and mgag200, using a=
+ new get_scanout_buffer() api
+>=20
+> To test it, make sure you're using the simpledrm driver, and trigger a pa=
+nic:
+> echo c > /proc/sysrq-trigger
+>=20
+> v2:
+>  * Use get_scanout_buffer() instead of the drm client API. (Thomas Zimmer=
+mann)
+>  * Add the panic reason to the panic message (Nerdopolis)
+>  * Add an exclamation mark (Nerdopolis)
+> =20
+> v3:
+>  * Rework the drawing functions, to write the pixels line by line and
+>  to use the drm conversion helper to support other formats.
+>  (Thomas Zimmermann)
+> =20
+> v4:
+>  * Fully support all simpledrm formats using drm conversion helpers
+>  * Rename dpanic_* to drm_panic_*, and have more coherent function name.
+>    (Thomas Zimmermann)
+>  * Use drm_fb_r1_to_32bit for fonts (Thomas Zimmermann)
+>  * Remove the default y to DRM_PANIC config option (Thomas Zimmermann)
+>  * Add foreground/background color config option
+>  * Fix the bottom lines not painted if the framebuffer height
+>    is not a multiple of the font height.
+>  * Automatically register the driver to drm_panic, if the function
+>    get_scanout_buffer() exists. (Thomas Zimmermann)
+>  * Add mgag200 support.
+> =20
+> v5:
+>  * Change the drawing API, use drm_fb_blit_from_r1() to draw the font.
+>    (Thomas Zimmermann)
+>  * Also add drm_fb_fill() to fill area with background color.
+>  * Add draw_pixel_xy() API for drivers that can't provide a linear buffer.
+>  * Add a flush() callback for drivers that needs to synchronize the buffe=
+r.
+>  * Add a void *private field, so drivers can pass private data to
+>    draw_pixel_xy() and flush().=20
+>  * Add ast support.
+>  * Add experimental imx/ipuv3 support, to test on an ARM hw. (Maxime Ripa=
+rd)
+>=20
+> v6:
+>  * Fix sparse and __le32 warnings
+>  * Drop the IMX/IPUV3 experiment, it was just to show that it works also =
+on ARM devices.
+>=20
+> With mgag200 support, I was able to test that the xrgb8888 to rgb565 conv=
+ersion is working.
+>=20
+> IMX/IPUV3 support is not complete, I wasn't able to have etnaviv working =
+on my board.
 
-diff --git a/drivers/gpu/drm/exynos/exynos5433_drm_decon.c b/drivers/gpu/drm/exynos/exynos5433_drm_decon.c
-index 4d986077738b..bce027552474 100644
---- a/drivers/gpu/drm/exynos/exynos5433_drm_decon.c
-+++ b/drivers/gpu/drm/exynos/exynos5433_drm_decon.c
-@@ -319,9 +319,9 @@ static void decon_win_set_bldmod(struct decon_context *ctx, unsigned int win,
- static void decon_win_set_pixfmt(struct decon_context *ctx, unsigned int win,
- 				 struct drm_framebuffer *fb)
- {
--	struct exynos_drm_plane plane = ctx->planes[win];
-+	struct exynos_drm_plane *plane = &ctx->planes[win];
- 	struct exynos_drm_plane_state *state =
--		to_exynos_plane_state(plane.base.state);
-+		to_exynos_plane_state(plane->base.state);
- 	unsigned int alpha = state->base.alpha;
- 	unsigned int pixel_alpha;
- 	unsigned long val;
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_fimd.c b/drivers/gpu/drm/exynos/exynos_drm_fimd.c
-index 8dde7b1e9b35..5bdc246f5fad 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_fimd.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_fimd.c
-@@ -661,9 +661,9 @@ static void fimd_win_set_bldmod(struct fimd_context *ctx, unsigned int win,
- static void fimd_win_set_pixfmt(struct fimd_context *ctx, unsigned int win,
- 				struct drm_framebuffer *fb, int width)
- {
--	struct exynos_drm_plane plane = ctx->planes[win];
-+	struct exynos_drm_plane *plane = &ctx->planes[win];
- 	struct exynos_drm_plane_state *state =
--		to_exynos_plane_state(plane.base.state);
-+		to_exynos_plane_state(plane->base.state);
- 	uint32_t pixel_format = fb->format->format;
- 	unsigned int alpha = state->base.alpha;
- 	u32 val = WINCONx_ENWIN;
--- 
-2.39.2
+I'm not sure what you mean here, etnaviv shouldn't be involved in the
+panic handling at all, so it's not super important that you couldn't get
+it to work.
 
+> But it shows that it can still work on ARM with DMA buffer in this
+> case.
+
+It simplifies the situation a bit, and looking at the v5 I think there's
+a couple of things that we need to handle / document, so it would still
+be very valuable.
+
+I'll review that v5 patch
+
+Maxime
+
+--zs5rws5dhrtiyych
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZXr+4AAKCRDj7w1vZxhR
+xTIIAP4qZQi3c8BJ/ZO7lVYYSeDVcDVWrWFohs0ogvbP/7UGGQEA8Z0nYJa8vuyt
+hTQdbjGOWWhBWJnyvk4+pKpZSK8P7wE=
+=zuIJ
+-----END PGP SIGNATURE-----
+
+--zs5rws5dhrtiyych--
