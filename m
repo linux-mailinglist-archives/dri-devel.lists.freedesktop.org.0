@@ -2,55 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C120813399
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 15:52:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2A7B8133E1
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 16:04:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B1D710E25C;
-	Thu, 14 Dec 2023 14:52:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB4C310E962;
+	Thu, 14 Dec 2023 15:04:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E808310E306;
- Thu, 14 Dec 2023 14:52:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1702565525; x=1734101525;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=qCIz9/wISOFhbzCPePMHPZHVxHo6rggiQe6i5Ba58Hs=;
- b=PrSOwy+b64SS1UMr4q8j1YhbqMT4DZWQ7m0ZWEoXlAY4/n47KFtReg/T
- /K3PtX36Qfrkz/xKd6NqKFnAXbbNxebsWHGx/DYcjcMSabIEB0oVop1CV
- 5d4V4FVWMVFqoqoh6L0+Kp6DrCWc/YgPwSE/8gqdA8cO2NeHYFlJanFdQ
- WujTzGPKWykWKxhwve5QGmZSXDTsqpm7UnbNxnZbEXyj4wW8dqfrqH7Ig
- dPApZaDOFaH+SJdrDANkGOz+8C2uIP6Rsv+9tjfFYE6pAby/55s7ijH/w
- 4DGHPAThi+FeDB3NPkd3XN6AIxx9hz1WlThEAnUGo6gv3dUOai5WNKuAo g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="8525600"
-X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="8525600"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Dec 2023 06:52:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="1105734919"
-X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; d="scan'208";a="1105734919"
-Received: from liuzhao-optiplex-7080.sh.intel.com (HELO localhost)
- ([10.239.160.36])
- by fmsmga005.fm.intel.com with ESMTP; 14 Dec 2023 06:52:00 -0800
-Date: Thu, 14 Dec 2023 23:04:24 +0800
-From: Zhao Liu <zhao1.liu@linux.intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [PATCH v3 0/9] drm/i915: Replace kmap_atomic() with
- kmap_local_page()
-Message-ID: <ZXsZeEw/w+LfaKyH@intel.com>
-References: <20231203132947.2328805-1-zhao1.liu@linux.intel.com>
- <ZXsA4ojbROLXMkfz@intel.com>
- <2abe6f02-b93e-4207-b9be-e9185c7b69e5@linux.intel.com>
- <c968f151-6445-4ab4-9d2f-c59568665707@linux.intel.com>
+Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com
+ [IPv6:2607:f8b0:4864:20::1134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 097FC10E961
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 15:04:50 +0000 (UTC)
+Received: by mail-yw1-x1134.google.com with SMTP id
+ 00721157ae682-5e2eccf46ddso6037367b3.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 07:04:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google; t=1702566289; x=1703171089;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=VI7W+I4bCeydzlGgal0wC/cMuPfjmbIH2bu8bhl5ntM=;
+ b=rXdtgSda6a8+7b2MQkkVKaeuL+cv3YYzBi4XqEAISvWPgvsCwZp4Fnd+lATW5DojrJ
+ V0rxMkfNYaVsA6Axl3xos1YvWz0g/m31DDCtNb+tLLLaztIMmCWCZlmZW9sLkRGDTmox
+ rgJtU3eIXnzgGOTfeI+BwGOijUO5OIjm5y8RuY5nty1esdLcoJSyERJKb1BsNGSaKA7C
+ x9bRn7K6NHBHmp9MWAaBqb0WceSwVdFeXHr/GhuwoNtMcG1v2ujtsfRR6ZzUgZIa93zH
+ 9oe9PDRCzF6tASv8dKoyn1yOZ5dFjgvDnmZ8LH2KEFTWHR+E8PYGAhTxAk79FiX7ate3
+ BTUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1702566289; x=1703171089;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=VI7W+I4bCeydzlGgal0wC/cMuPfjmbIH2bu8bhl5ntM=;
+ b=GT/+71NA219jbEa6UlfhPUMg+jQjtQ12Di1WfPAiTEycGB/4S1KxFezTBX/cO0z9qV
+ 8SSGF4BsAnGsioY8WZRTVfoxEs3mhseZoy1MH2aaaqr2jg3t+rHUj7gk+27ptdqi9EPQ
+ 1QaJW8rKhazN5sbfbhG2/hRgzsMX4WsAxHEvUj0XM2wYdV8Qau89esZniS6LJADnXjCF
+ foq2smmeWmxY3E6Rp3himSQwBkX8J1SjzWB/yVnFc6Yzv6HpLAI2mweZUrsKpg45LO2u
+ IyC+yY5fCOXSgJTZZd43brzoGuyDBFD6HeeZf2tOvK9O+Y82WVuKXPE+5ZsyfNWmCuAT
+ EEOg==
+X-Gm-Message-State: AOJu0YxbCStle9sD+euWneCCqPqYe7veHyeUndy59d4i+qJWxqFfpP/r
+ M3w0GUr2rzHXWXvKSaw0JmuYa/OREiAHLcUvhZv9Yw==
+X-Google-Smtp-Source: AGHT+IFMRkSZ4IqKlo5AZD0Dr2MFTPROkl/AUfAw0aINjSZF2m+ijvov/7DZQpSTN0qgNQXzAHLO2XwXbOcKanRwG4A=
+X-Received: by 2002:a81:94c6:0:b0:5d7:1a33:5ad4 with SMTP id
+ l189-20020a8194c6000000b005d71a335ad4mr8400993ywg.33.1702566288994; Thu, 14
+ Dec 2023 07:04:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c968f151-6445-4ab4-9d2f-c59568665707@linux.intel.com>
+References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
+ <20231207-kms-hdmi-connector-state-v5-13-6538e19d634d@kernel.org>
+In-Reply-To: <20231207-kms-hdmi-connector-state-v5-13-6538e19d634d@kernel.org>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Thu, 14 Dec 2023 15:04:32 +0000
+Message-ID: <CAPY8ntDzcyLNp=DYesmLcGpaaPgbAhJHWTVsTabdKUARS3V5xA@mail.gmail.com>
+Subject: Re: [PATCH v5 13/44] drm/connector: hdmi: Calculate TMDS character
+ rate
+To: Maxime Ripard <mripard@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,174 +69,566 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zhenyu Wang <zhenyu.z.wang@intel.com>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Dave Hansen <dave.hansen@intel.com>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Ira Weiny <ira.weiny@intel.com>, Zhao Liu <zhao1.liu@intel.com>,
- "Fabio M . De Francesco" <fmdefrancesco@gmail.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>,
+ Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+ Samuel Holland <samuel@sholland.org>, Sandy Huang <hjc@rock-chips.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-doc@vger.kernel.org,
+ Hans Verkuil <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org,
+ Chen-Yu Tsai <wens@csie.org>, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 14, 2023 at 02:35:26PM +0000, Tvrtko Ursulin wrote:
-> Date: Thu, 14 Dec 2023 14:35:26 +0000
-> From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> Subject: Re: [PATCH v3 0/9] drm/i915: Replace kmap_atomic() with
->  kmap_local_page()
-> 
-> 
-> On 14/12/2023 13:45, Tvrtko Ursulin wrote:
-> > 
-> > Hi Zhao,
-> > 
-> > On 14/12/2023 13:19, Zhao Liu wrote:
-> > > Hi maintainers,
-> > > 
-> > > Just kindly ping.
-> > > May I ask if this refresh version could be merged into the next tree of
-> > > the i915?
-> > 
-> > I certainly spotted your series last week or so but then it slipped my
-> > mind to go through it. Should be able to go through it today or
-> > tomorrow.
-> 
-> It all looks good to me. I only needed to queue a re-test in our CI since v3
-> failed BAT, but pretty sure it wasn't at fault. Once I am satisfied with the
-> results I will merge the series. Thanks for the cleanups and your patience!
-> 
-> Regards,
-> 
-> Tvrtko
-> 
+On Thu, 7 Dec 2023 at 15:50, Maxime Ripard <mripard@kernel.org> wrote:
+>
+> Most HDMI drivers have some code to calculate the TMDS character rate,
+> usually to adjust an internal clock to match what the mode requires.
+>
+> Since the TMDS character rates mostly depends on the resolution, whether
+> we need to repeat pixels or not, the bpc count and the format, we can
+> now derive it from the HDMI connector state that stores all those infos
+> and remove the duplication from drivers.
+>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-Thanks for your review!
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-Regards,
-Zhao
-
-> 
-> > Regards,
-> > 
-> > Tvrtko
-> > 
-> > > 
-> > > Thanks,
-> > > Zhao
-> > > 
-> > > On Sun, Dec 03, 2023 at 09:29:38PM +0800, Zhao Liu wrote:
-> > > > Date: Sun, 3 Dec 2023 21:29:38 +0800
-> > > > From: Zhao Liu <zhao1.liu@linux.intel.com>
-> > > > Subject: [PATCH v3 0/9] drm/i915: Replace kmap_atomic() with
-> > > >   kmap_local_page()
-> > > > X-Mailer: git-send-email 2.34.1
-> > > > 
-> > > > From: Zhao Liu <zhao1.liu@intel.com>
-> > > > 
-> > > > Hi all,
-> > > > 
-> > > > I refreshed this v3 by rebasing v2 [1] on the commit 968f35f4ab1c
-> > > > ("Merge tag 'v6.7-rc3-smb3-client-fixes' of git://git.samba.org/sfrench/
-> > > > cifs-2.6").
-> > > > 
-> > > > Based on the current code, I rechecked the substitutions in v2 and they
-> > > > still stand and are valid, so no code change in v3.
-> > > > 
-> > > > Thanks for all the review! And sorry v2 was missed, I'll pay more
-> > > > attention to this v3.
-> > > > 
-> > > > 
-> > > > Purpose of This Patchset
-> > > > ========================
-> > > > 
-> > > > The purpose of this pacthset is to replace all uses of kmap_atomic() in
-> > > > i915 with kmap_local_page() because the use of kmap_atomic() is being
-> > > > deprecated in favor of kmap_local_page()[2]. And 92b64bd (mm/highmem:
-> > > > add notes about conversions from kmap{,_atomic}()) has declared the
-> > > > deprecation of kmap_atomic().
-> > > > 
-> > > > 
-> > > > Motivation for Deprecating kmap_atomic() and Using kmap_local_page()
-> > > > ====================================================================
-> > > > 
-> > > > The main difference between atomic and local mappings is that local
-> > > > mappings doesn't disable page faults or preemption (the preemption is
-> > > > disabled for !PREEMPT_RT case, otherwise it only disables migration).
-> > > > 
-> > > > With kmap_local_page(), we can avoid the often unwanted side effect of
-> > > > unnecessary page faults and preemption disables.
-> > > > 
-> > > > 
-> > > > Patch summary
-> > > > =============
-> > > > 
-> > > > Patch 1, 4-6 and 8-9 replace kmap_atomic()/kunmap_atomic() with
-> > > >          kmap_local_page()/kunmap_local() directly. With these local
-> > > >          mappings, the page faults and preemption are allowed.
-> > > > 
-> > > > Patch 2 and 7 use memcpy_from_page() and memcpy_to_page() to replace
-> > > >          kmap_atomic()/kunmap_atomic(). These two variants of memcpy()
-> > > >          are based on the local mapping, so page faults and preemption
-> > > >          are also allowed in these two interfaces.
-> > > > 
-> > > > Patch 3 replaces kmap_atomic()/kunmap_atomic() with kmap_local_page()/
-> > > >          kunmap_local() and also disable page fault since the
-> > > > for special
-> > > >          handling (pls see the commit message).
-> > > > 
-> > > > 
-> > > > Reference
-> > > > =========
-> > > > 
-> > > > [1]: https://lore.kernel.org/all/20230329073220.3982460-1-zhao1.liu@linux.intel.com/
-> > > > [2]:
-> > > > https://lore.kernel.org/all/20220813220034.806698-1-ira.weiny@intel.com
-> > > > 
-> > > > 
-> > > > Thanks and Best Regards,
-> > > > Zhao
-> > > > 
-> > > > ---
-> > > > Changlog:
-> > > > 
-> > > > Changes since v2:
-> > > > * Rebased on 968f35f4ab1c ("Merge tag 'v6.7-rc3-smb3-client-fixes' of
-> > > >    git://git.samba.org/sfrench/cifs-2.6").
-> > > > * Removed changelog (of v2) in commit message.
-> > > > * Fixed typo in cover letter (Fabio).
-> > > > * Added Reviewed-by tags from Ira and Fabio.
-> > > > 
-> > > > Changes since v1:
-> > > > * Dropped hot plug related description in commit message since it has
-> > > >    nothing to do with kmap_local_page().
-> > > > * Emphasized the motivation for using kmap_local_page() in commit
-> > > >    message.
-> > > > * Rebased patch 1 on f47e630 (drm/i915/gem: Typecheck page lookups) to
-> > > >    keep the "idx" variable of type pgoff_t here.
-> > > > * Used memcpy_from_page() and memcpy_to_page() to replace
-> > > >    kmap_local_page() + memcpy() in patch 2.
-> > > > 
-> > > > ---
-> > > > Zhao Liu (9):
-> > > >    drm/i915: Use kmap_local_page() in gem/i915_gem_object.c
-> > > >    drm/i915: Use memcpy_[from/to]_page() in gem/i915_gem_pyhs.c
-> > > >    drm/i915: Use kmap_local_page() in gem/i915_gem_shmem.c
-> > > >    drm/i915: Use kmap_local_page() in gem/selftests/huge_pages.c
-> > > >    drm/i915: Use kmap_local_page() in gem/selftests/i915_gem_coherency.c
-> > > >    drm/i915: Use kmap_local_page() in gem/selftests/i915_gem_context.c
-> > > >    drm/i915: Use memcpy_from_page() in gt/uc/intel_uc_fw.c
-> > > >    drm/i915: Use kmap_local_page() in i915_cmd_parser.c
-> > > >    drm/i915: Use kmap_local_page() in gem/i915_gem_execbuffer.c
-> > > > 
-> > > >   drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c       | 10 +++++-----
-> > > >   drivers/gpu/drm/i915/gem/i915_gem_object.c           |  8 +++-----
-> > > >   drivers/gpu/drm/i915/gem/i915_gem_phys.c             | 10 ++--------
-> > > >   drivers/gpu/drm/i915/gem/i915_gem_shmem.c            |  6 ++++--
-> > > >   drivers/gpu/drm/i915/gem/selftests/huge_pages.c      |  6 +++---
-> > > >   .../gpu/drm/i915/gem/selftests/i915_gem_coherency.c  | 12 ++++--------
-> > > >   .../gpu/drm/i915/gem/selftests/i915_gem_context.c    |  8 ++++----
-> > > >   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c             |  5 +----
-> > > >   drivers/gpu/drm/i915/i915_cmd_parser.c               |  4 ++--
-> > > >   9 files changed, 28 insertions(+), 41 deletions(-)
-> > > > 
-> > > > -- 
-> > > > 2.34.1
-> > > > 
+> ---
+>  drivers/gpu/drm/drm_atomic.c                       |   1 +
+>  drivers/gpu/drm/drm_atomic_state_helper.c          |  44 +++++
+>  .../gpu/drm/tests/drm_atomic_state_helper_test.c   | 169 ++++++++++++++++
+>  drivers/gpu/drm/tests/drm_kunit_edid.h             | 216 +++++++++++++++++++++
+>  include/drm/drm_connector.h                        |   5 +
+>  5 files changed, 435 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> index 7aaa2a4d70d9..4f6493f91eed 100644
+> --- a/drivers/gpu/drm/drm_atomic.c
+> +++ b/drivers/gpu/drm/drm_atomic.c
+> @@ -1150,6 +1150,7 @@ static void drm_atomic_connector_print_state(struct drm_printer *p,
+>                 drm_printf(p, "\toutput_bpc=%u\n", state->hdmi.output_bpc);
+>                 drm_printf(p, "\toutput_format=%s\n",
+>                            drm_hdmi_connector_get_output_format_name(state->hdmi.output_format));
+> +               drm_printf(p, "\ttmds_char_rate=%llu\n", state->hdmi.tmds_char_rate);
+>         }
+>
+>         if (connector->connector_type == DRM_MODE_CONNECTOR_WRITEBACK)
+> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+> index 92e1b087c3d0..74bc3cc53c2d 100644
+> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> @@ -682,6 +682,41 @@ static bool hdmi_is_full_range(const struct drm_connector *connector,
+>         return drm_default_rgb_quant_range(mode) == HDMI_QUANTIZATION_RANGE_FULL ? true : false;
+>  }
+>
+> +static enum drm_mode_status
+> +hdmi_clock_valid(const struct drm_connector *connector,
+> +                const struct drm_display_mode *mode,
+> +                unsigned long long clock)
+> +{
+> +       const struct drm_display_info *info = &connector->display_info;
+> +
+> +       if (info->max_tmds_clock && clock > info->max_tmds_clock * 1000)
+> +               return MODE_CLOCK_HIGH;
+> +
+> +       return MODE_OK;
+> +}
+> +
+> +static int
+> +hdmi_compute_clock(const struct drm_connector *connector,
+> +                  struct drm_connector_state *state,
+> +                  const struct drm_display_mode *mode,
+> +                  unsigned int bpc, enum hdmi_colorspace fmt)
+> +{
+> +       enum drm_mode_status status;
+> +       unsigned long long clock;
+> +
+> +       clock = drm_connector_hdmi_compute_mode_clock(mode, bpc, fmt);
+> +       if (!clock)
+> +               return -EINVAL;
+> +
+> +       status = hdmi_clock_valid(connector, mode, clock);
+> +       if (status != MODE_OK)
+> +               return -EINVAL;
+> +
+> +       state->hdmi.tmds_char_rate = clock;
+> +
+> +       return 0;
+> +}
+> +
+>  /**
+>   * drm_atomic_helper_connector_hdmi_check() - Helper to check HDMI connector atomic state
+>   * @connector: DRM Connector
+> @@ -701,9 +736,18 @@ int drm_atomic_helper_connector_hdmi_check(struct drm_connector *connector,
+>                 drm_atomic_get_old_connector_state(state, connector);
+>         struct drm_connector_state *new_state =
+>                 drm_atomic_get_new_connector_state(state, connector);
+> +       const struct drm_display_mode *mode =
+> +               connector_state_get_mode(new_state);
+> +       int ret;
+>
+>         new_state->hdmi.is_full_range = hdmi_is_full_range(connector, new_state);
+>
+> +       ret = hdmi_compute_clock(connector, new_state, mode,
+> +                                new_state->hdmi.output_bpc,
+> +                                new_state->hdmi.output_format);
+> +       if (ret)
+> +               return ret;
+> +
+>         if (old_state->hdmi.broadcast_rgb != new_state->hdmi.broadcast_rgb ||
+>             old_state->hdmi.output_bpc != new_state->hdmi.output_bpc ||
+>             old_state->hdmi.output_format != new_state->hdmi.output_format) {
+> diff --git a/drivers/gpu/drm/tests/drm_atomic_state_helper_test.c b/drivers/gpu/drm/tests/drm_atomic_state_helper_test.c
+> index 4e2ec436987b..d76fafb91025 100644
+> --- a/drivers/gpu/drm/tests/drm_atomic_state_helper_test.c
+> +++ b/drivers/gpu/drm/tests/drm_atomic_state_helper_test.c
+> @@ -70,6 +70,9 @@ static int light_up_connector(struct kunit *test,
+>         conn_state = drm_atomic_get_connector_state(state, connector);
+>         KUNIT_ASSERT_NOT_ERR_OR_NULL(test, conn_state);
+>
+> +       conn_state->hdmi.output_bpc = connector->max_bpc;
+> +       conn_state->hdmi.output_format = HDMI_COLORSPACE_RGB;
+> +
+>         ret = drm_atomic_set_crtc_for_connector(conn_state, crtc);
+>         KUNIT_EXPECT_EQ(test, ret, 0);
+>
+> @@ -813,6 +816,146 @@ static void drm_test_check_output_bpc_crtc_mode_not_changed(struct kunit *test)
+>         KUNIT_EXPECT_FALSE(test, crtc_state->mode_changed);
+>  }
+>
+> +/*
+> + * Test that when doing a commit which would use RGB 8bpc, the TMDS
+> + * clock rate stored in the connector state is equal to the mode clock
+> + */
+> +static void drm_test_check_tmds_char_rate_rgb_8bpc(struct kunit *test)
+> +{
+> +       struct drm_atomic_helper_connector_hdmi_priv *priv;
+> +       struct drm_modeset_acquire_ctx *ctx;
+> +       struct drm_connector_state *conn_state;
+> +       struct drm_display_mode *preferred;
+> +       struct drm_connector *conn;
+> +       struct drm_device *drm;
+> +       struct drm_crtc *crtc;
+> +       int ret;
+> +
+> +       priv = drm_atomic_helper_connector_hdmi_init(test,
+> +                                                    BIT(HDMI_COLORSPACE_RGB),
+> +                                                    8);
+> +       KUNIT_ASSERT_NOT_NULL(test, priv);
+> +
+> +       conn = &priv->connector;
+> +       ret = set_connector_edid(test, conn,
+> +                                test_edid_hdmi_1080p_rgb_max_200mhz,
+> +                                ARRAY_SIZE(test_edid_hdmi_1080p_rgb_max_200mhz));
+> +       KUNIT_ASSERT_EQ(test, ret, 0);
+> +
+> +       ctx = drm_kunit_helper_acquire_ctx_alloc(test);
+> +       KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
+> +
+> +       preferred = find_preferred_mode(conn);
+> +       KUNIT_ASSERT_NOT_NULL(test, preferred);
+> +       KUNIT_ASSERT_FALSE(test, preferred->flags & DRM_MODE_FLAG_DBLCLK);
+> +
+> +       drm = &priv->drm;
+> +       crtc = priv->crtc;
+> +       ret = light_up_connector(test, drm, crtc, conn, preferred, ctx);
+> +       KUNIT_ASSERT_EQ(test, ret, 0);
+> +
+> +       conn_state = conn->state;
+> +       KUNIT_ASSERT_NOT_NULL(test, conn_state);
+> +
+> +       KUNIT_ASSERT_EQ(test, conn_state->hdmi.output_bpc, 8);
+> +       KUNIT_ASSERT_EQ(test, conn_state->hdmi.output_format, HDMI_COLORSPACE_RGB);
+> +       KUNIT_EXPECT_EQ(test, conn_state->hdmi.tmds_char_rate, preferred->clock * 1000);
+> +}
+> +
+> +/*
+> + * Test that when doing a commit which would use RGB 10bpc, the TMDS
+> + * clock rate stored in the connector state is equal to 1.25 times the
+> + * mode pixel clock
+> + */
+> +static void drm_test_check_tmds_char_rate_rgb_10bpc(struct kunit *test)
+> +{
+> +       struct drm_atomic_helper_connector_hdmi_priv *priv;
+> +       struct drm_modeset_acquire_ctx *ctx;
+> +       struct drm_connector_state *conn_state;
+> +       struct drm_display_mode *preferred;
+> +       struct drm_connector *conn;
+> +       struct drm_device *drm;
+> +       struct drm_crtc *crtc;
+> +       int ret;
+> +
+> +       priv = drm_atomic_helper_connector_hdmi_init(test,
+> +                                                    BIT(HDMI_COLORSPACE_RGB),
+> +                                                    10);
+> +       KUNIT_ASSERT_NOT_NULL(test, priv);
+> +
+> +       conn = &priv->connector;
+> +       ret = set_connector_edid(test, conn,
+> +                                test_edid_hdmi_1080p_rgb_yuv_dc_max_340mhz,
+> +                                ARRAY_SIZE(test_edid_hdmi_1080p_rgb_yuv_dc_max_340mhz));
+> +       KUNIT_ASSERT_EQ(test, ret, 0);
+> +
+> +       ctx = drm_kunit_helper_acquire_ctx_alloc(test);
+> +       KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
+> +
+> +       preferred = find_preferred_mode(conn);
+> +       KUNIT_ASSERT_NOT_NULL(test, preferred);
+> +       KUNIT_ASSERT_FALSE(test, preferred->flags & DRM_MODE_FLAG_DBLCLK);
+> +
+> +       drm = &priv->drm;
+> +       crtc = priv->crtc;
+> +       ret = light_up_connector(test, drm, crtc, conn, preferred, ctx);
+> +       KUNIT_ASSERT_EQ(test, ret, 0);
+> +
+> +       conn_state = conn->state;
+> +       KUNIT_ASSERT_NOT_NULL(test, conn_state);
+> +
+> +       KUNIT_ASSERT_EQ(test, conn_state->hdmi.output_bpc, 10);
+> +       KUNIT_ASSERT_EQ(test, conn_state->hdmi.output_format, HDMI_COLORSPACE_RGB);
+> +       KUNIT_EXPECT_EQ(test, conn_state->hdmi.tmds_char_rate, preferred->clock * 1250);
+> +}
+> +
+> +/*
+> + * Test that when doing a commit which would use RGB 12bpc, the TMDS
+> + * clock rate stored in the connector state is equal to 1.5 times the
+> + * mode pixel clock
+> + */
+> +static void drm_test_check_tmds_char_rate_rgb_12bpc(struct kunit *test)
+> +{
+> +       struct drm_atomic_helper_connector_hdmi_priv *priv;
+> +       struct drm_modeset_acquire_ctx *ctx;
+> +       struct drm_connector_state *conn_state;
+> +       struct drm_display_mode *preferred;
+> +       struct drm_connector *conn;
+> +       struct drm_device *drm;
+> +       struct drm_crtc *crtc;
+> +       int ret;
+> +
+> +       priv = drm_atomic_helper_connector_hdmi_init(test,
+> +                                                    BIT(HDMI_COLORSPACE_RGB),
+> +                                                    12);
+> +       KUNIT_ASSERT_NOT_NULL(test, priv);
+> +
+> +       conn = &priv->connector;
+> +       ret = set_connector_edid(test, conn,
+> +                                test_edid_hdmi_1080p_rgb_yuv_dc_max_340mhz,
+> +                                ARRAY_SIZE(test_edid_hdmi_1080p_rgb_yuv_dc_max_340mhz));
+> +       KUNIT_ASSERT_EQ(test, ret, 0);
+> +
+> +       ctx = drm_kunit_helper_acquire_ctx_alloc(test);
+> +       KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
+> +
+> +       preferred = find_preferred_mode(conn);
+> +       KUNIT_ASSERT_NOT_NULL(test, preferred);
+> +       KUNIT_ASSERT_FALSE(test, preferred->flags & DRM_MODE_FLAG_DBLCLK);
+> +
+> +       drm = &priv->drm;
+> +       crtc = priv->crtc;
+> +       ret = light_up_connector(test, drm, crtc, conn, preferred, ctx);
+> +       KUNIT_ASSERT_EQ(test, ret, 0);
+> +
+> +       conn_state = conn->state;
+> +       KUNIT_ASSERT_NOT_NULL(test, conn_state);
+> +
+> +       KUNIT_ASSERT_EQ(test, conn_state->hdmi.output_bpc, 12);
+> +       KUNIT_ASSERT_EQ(test, conn_state->hdmi.output_format, HDMI_COLORSPACE_RGB);
+> +       KUNIT_EXPECT_EQ(test, conn_state->hdmi.tmds_char_rate, preferred->clock * 1500);
+> +}
+> +
+>  static struct kunit_case drm_atomic_helper_connector_hdmi_check_tests[] = {
+>         KUNIT_CASE(drm_test_check_broadcast_rgb_auto_cea_mode),
+>         KUNIT_CASE(drm_test_check_broadcast_rgb_auto_cea_mode_vic_1),
+> @@ -824,6 +967,9 @@ static struct kunit_case drm_atomic_helper_connector_hdmi_check_tests[] = {
+>         KUNIT_CASE(drm_test_check_broadcast_rgb_crtc_mode_not_changed),
+>         KUNIT_CASE(drm_test_check_output_bpc_crtc_mode_changed),
+>         KUNIT_CASE(drm_test_check_output_bpc_crtc_mode_not_changed),
+> +       KUNIT_CASE(drm_test_check_tmds_char_rate_rgb_8bpc),
+> +       KUNIT_CASE(drm_test_check_tmds_char_rate_rgb_10bpc),
+> +       KUNIT_CASE(drm_test_check_tmds_char_rate_rgb_12bpc),
+>         /*
+>          * TODO: We should have tests to check that a change in the
+>          * format triggers a CRTC mode change just like we do for the
+> @@ -955,12 +1101,35 @@ static void drm_test_check_format_value(struct kunit *test)
+>         KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_format, HDMI_COLORSPACE_RGB);
+>  }
+>
+> +/*
+> + * Test that the value of the output format property out of reset is set
+> + * to 0, and will be computed at atomic_check time.
+> + */
+> +static void drm_test_check_tmds_char_value(struct kunit *test)
+> +{
+> +       struct drm_atomic_helper_connector_hdmi_priv *priv;
+> +       struct drm_connector_state *conn_state;
+> +       struct drm_connector *conn;
+> +
+> +       priv = drm_atomic_helper_connector_hdmi_init(test,
+> +                                                    BIT(HDMI_COLORSPACE_RGB) |
+> +                                                    BIT(HDMI_COLORSPACE_YUV422) |
+> +                                                    BIT(HDMI_COLORSPACE_YUV444),
+> +                                                    12);
+> +       KUNIT_ASSERT_NOT_NULL(test, priv);
+> +
+> +       conn = &priv->connector;
+> +       conn_state = conn->state;
+> +       KUNIT_EXPECT_EQ(test, conn_state->hdmi.tmds_char_rate, 0);
+> +}
+> +
+>  static struct kunit_case drm_atomic_helper_connector_hdmi_reset_tests[] = {
+>         KUNIT_CASE(drm_test_check_broadcast_rgb_value),
+>         KUNIT_CASE(drm_test_check_bpc_8_value),
+>         KUNIT_CASE(drm_test_check_bpc_10_value),
+>         KUNIT_CASE(drm_test_check_bpc_12_value),
+>         KUNIT_CASE(drm_test_check_format_value),
+> +       KUNIT_CASE(drm_test_check_tmds_char_value),
+>         { }
+>  };
+>
+> diff --git a/drivers/gpu/drm/tests/drm_kunit_edid.h b/drivers/gpu/drm/tests/drm_kunit_edid.h
+> index 2bba316de064..24f3377ef0f0 100644
+> --- a/drivers/gpu/drm/tests/drm_kunit_edid.h
+> +++ b/drivers/gpu/drm/tests/drm_kunit_edid.h
+> @@ -103,4 +103,220 @@ const unsigned char test_edid_hdmi_1080p_rgb_max_200mhz[] = {
+>    0x00, 0x00, 0x00, 0xd0
+>  };
+>
+> +/*
+> + * edid-decode (hex):
+> + *
+> + * 00 ff ff ff ff ff ff 00 31 d8 2a 00 00 00 00 00
+> + * 00 21 01 03 81 a0 5a 78 1a 00 00 00 00 00 00 00
+> + * 00 00 00 20 00 00 01 01 01 01 01 01 01 01 01 01
+> + * 01 01 01 01 01 01 02 3a 80 18 71 38 2d 40 58 2c
+> + * 45 00 40 84 63 00 00 1e 00 00 00 fc 00 54 65 73
+> + * 74 20 45 44 49 44 0a 20 20 20 00 00 00 fd 00 32
+> + * 46 1e 46 0f 00 0a 20 20 20 20 20 20 00 00 00 10
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 7a
+> + *
+> + * 02 03 1b b1 e3 05 00 20 41 10 e2 00 ca 6d 03 0c
+> + * 00 12 34 78 28 20 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 a8
+> + *
+> + * ----------------
+> + *
+> + * Block 0, Base EDID:
+> + *   EDID Structure Version & Revision: 1.3
+> + *   Vendor & Product Identification:
+> + *     Manufacturer: LNX
+> + *     Model: 42
+> + *     Made in: 2023
+> + *   Basic Display Parameters & Features:
+> + *     Digital display
+> + *     DFP 1.x compatible TMDS
+> + *     Maximum image size: 160 cm x 90 cm
+> + *     Gamma: 2.20
+> + *     Undefined display color type
+> + *     First detailed timing is the preferred timing
+> + *   Color Characteristics:
+> + *     Red  : 0.0000, 0.0000
+> + *     Green: 0.0000, 0.0000
+> + *     Blue : 0.0000, 0.0000
+> + *     White: 0.0000, 0.0000
+> + *   Established Timings I & II:
+> + *     DMT 0x04:   640x480    59.940476 Hz   4:3     31.469 kHz     25.175000 MHz
+> + *   Standard Timings: none
+> + *   Detailed Timing Descriptors:
+> + *     DTD 1:  1920x1080   60.000000 Hz  16:9     67.500 kHz    148.500000 MHz (1600 mm x 900 mm)
+> + *                  Hfront   88 Hsync  44 Hback  148 Hpol P
+> + *                  Vfront    4 Vsync   5 Vback   36 Vpol P
+> + *     Display Product Name: 'Test EDID'
+> + *     Display Range Limits:
+> + *       Monitor ranges (GTF): 50-70 Hz V, 30-70 kHz H, max dotclock 150 MHz
+> + *     Dummy Descriptor:
+> + *   Extension blocks: 1
+> + * Checksum: 0x7a
+> + *
+> + * ----------------
+> + *
+> + * Block 1, CTA-861 Extension Block:
+> + *   Revision: 3
+> + *   Underscans IT Video Formats by default
+> + *   Supports YCbCr 4:4:4
+> + *   Supports YCbCr 4:2:2
+> + *   Native detailed modes: 1
+> + *   Colorimetry Data Block:
+> + *     sRGB
+> + *   Video Data Block:
+> + *     VIC  16:  1920x1080   60.000000 Hz  16:9     67.500 kHz    148.500000 MHz
+> + *   Video Capability Data Block:
+> + *     YCbCr quantization: Selectable (via AVI YQ)
+> + *     RGB quantization: Selectable (via AVI Q)
+> + *     PT scan behavior: No Data
+> + *     IT scan behavior: Always Underscanned
+> + *     CE scan behavior: Always Underscanned
+> + *   Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
+> + *     Source physical address: 1.2.3.4
+> + *     DC_48bit
+> + *     DC_36bit
+> + *     DC_30bit
+> + *     DC_Y444
+> + *     Maximum TMDS clock: 200 MHz
+> + *     Extended HDMI video details:
+> + * Checksum: 0xa8  Unused space in Extension Block: 100 bytes
+> + */
+> +const unsigned char test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz[] = {
+> +  0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x31, 0xd8, 0x2a, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x21, 0x01, 0x03, 0x81, 0xa0, 0x5a, 0x78,
+> +  0x1a, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20,
+> +  0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+> +  0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x02, 0x3a, 0x80, 0x18, 0x71, 0x38,
+> +  0x2d, 0x40, 0x58, 0x2c, 0x45, 0x00, 0x40, 0x84, 0x63, 0x00, 0x00, 0x1e,
+> +  0x00, 0x00, 0x00, 0xfc, 0x00, 0x54, 0x65, 0x73, 0x74, 0x20, 0x45, 0x44,
+> +  0x49, 0x44, 0x0a, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x32,
+> +  0x46, 0x1e, 0x46, 0x0f, 0x00, 0x0a, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+> +  0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x7a, 0x02, 0x03, 0x1b, 0xb1,
+> +  0xe3, 0x05, 0x00, 0x20, 0x41, 0x10, 0xe2, 0x00, 0xca, 0x6d, 0x03, 0x0c,
+> +  0x00, 0x12, 0x34, 0x78, 0x28, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0xa8
+> +};
+> +
+> +/*
+> + * edid-decode (hex):
+> + *
+> + * 00 ff ff ff ff ff ff 00 31 d8 2a 00 00 00 00 00
+> + * 00 21 01 03 81 a0 5a 78 0a 00 00 00 00 00 00 00
+> + * 00 00 00 20 00 00 01 01 01 01 01 01 01 01 01 01
+> + * 01 01 01 01 01 01 02 3a 80 18 71 38 2d 40 58 2c
+> + * 45 00 40 84 63 00 00 1e 00 00 00 fc 00 54 65 73
+> + * 74 20 45 44 49 44 0a 20 20 20 00 00 00 fd 00 32
+> + * 46 1e 46 0f 00 0a 20 20 20 20 20 20 00 00 00 10
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 8a
+> + *
+> + * 02 03 1b b1 e3 05 00 20 41 10 e2 00 ca 6d 03 0c
+> + * 00 12 34 78 44 20 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 8c
+> + *
+> + * ----------------
+> + *
+> + * Block 0, Base EDID:
+> + *   EDID Structure Version & Revision: 1.3
+> + *   Vendor & Product Identification:
+> + *     Manufacturer: LNX
+> + *     Model: 42
+> + *     Made in: 2023
+> + *   Basic Display Parameters & Features:
+> + *     Digital display
+> + *     DFP 1.x compatible TMDS
+> + *     Maximum image size: 160 cm x 90 cm
+> + *     Gamma: 2.20
+> + *     RGB color display
+> + *     First detailed timing is the preferred timing
+> + *   Color Characteristics:
+> + *     Red  : 0.0000, 0.0000
+> + *     Green: 0.0000, 0.0000
+> + *     Blue : 0.0000, 0.0000
+> + *     White: 0.0000, 0.0000
+> + *   Established Timings I & II:
+> + *     DMT 0x04:   640x480    59.940476 Hz   4:3     31.469 kHz     25.175000 MHz
+> + *   Standard Timings: none
+> + *   Detailed Timing Descriptors:
+> + *     DTD 1:  1920x1080   60.000000 Hz  16:9     67.500 kHz    148.500000 MHz (1600 mm x 900 mm)
+> + *                  Hfront   88 Hsync  44 Hback  148 Hpol P
+> + *                  Vfront    4 Vsync   5 Vback   36 Vpol P
+> + *     Display Product Name: 'Test EDID'
+> + *     Display Range Limits:
+> + *       Monitor ranges (GTF): 50-70 Hz V, 30-70 kHz H, max dotclock 150 MHz
+> + *     Dummy Descriptor:
+> + *   Extension blocks: 1
+> + * Checksum: 0x8a
+> + *
+> + * ----------------
+> + *
+> + * Block 1, CTA-861 Extension Block:
+> + *   Revision: 3
+> + *   Underscans IT Video Formats by default
+> + *   Supports YCbCr 4:4:4
+> + *   Supports YCbCr 4:2:2
+> + *   Native detailed modes: 1
+> + *   Colorimetry Data Block:
+> + *     sRGB
+> + *   Video Data Block:
+> + *     VIC  16:  1920x1080   60.000000 Hz  16:9     67.500 kHz    148.500000 MHz
+> + *   Video Capability Data Block:
+> + *     YCbCr quantization: Selectable (via AVI YQ)
+> + *     RGB quantization: Selectable (via AVI Q)
+> + *     PT scan behavior: No Data
+> + *     IT scan behavior: Always Underscanned
+> + *     CE scan behavior: Always Underscanned
+> + *   Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
+> + *     Source physical address: 1.2.3.4
+> + *     DC_48bit
+> + *     DC_36bit
+> + *     DC_30bit
+> + *     DC_Y444
+> + *     Maximum TMDS clock: 340 MHz
+> + *     Extended HDMI video details:
+> + * Checksum: 0x8c  Unused space in Extension Block: 100 bytes
+> + */
+> +const unsigned char test_edid_hdmi_1080p_rgb_yuv_dc_max_340mhz[] = {
+> +  0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x31, 0xd8, 0x2a, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x21, 0x01, 0x03, 0x81, 0xa0, 0x5a, 0x78,
+> +  0x0a, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20,
+> +  0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+> +  0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x02, 0x3a, 0x80, 0x18, 0x71, 0x38,
+> +  0x2d, 0x40, 0x58, 0x2c, 0x45, 0x00, 0x40, 0x84, 0x63, 0x00, 0x00, 0x1e,
+> +  0x00, 0x00, 0x00, 0xfc, 0x00, 0x54, 0x65, 0x73, 0x74, 0x20, 0x45, 0x44,
+> +  0x49, 0x44, 0x0a, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x32,
+> +  0x46, 0x1e, 0x46, 0x0f, 0x00, 0x0a, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+> +  0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x8a, 0x02, 0x03, 0x1b, 0xb1,
+> +  0xe3, 0x05, 0x00, 0x20, 0x41, 0x10, 0xe2, 0x00, 0xca, 0x6d, 0x03, 0x0c,
+> +  0x00, 0x12, 0x34, 0x78, 0x44, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x8c
+> +};
+> +
+>  #endif // DRM_KUNIT_EDID_H_
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index 0cc5a8732664..59016d9c17f5 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -1085,6 +1085,11 @@ struct drm_connector_state {
+>                  * @output_format: Pixel format to output in.
+>                  */
+>                 enum hdmi_colorspace output_format;
+> +
+> +               /**
+> +                * @tmds_char_rate: TMDS Character Rate, in Hz.
+> +                */
+> +               unsigned long long tmds_char_rate;
+>         } hdmi;
+>  };
+>
+>
+> --
+> 2.43.0
+>
+>
