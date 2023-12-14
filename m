@@ -1,47 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 553028127E5
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 07:21:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06A2681286A
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 07:46:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C9D910E2F3;
-	Thu, 14 Dec 2023 06:21:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E7EF10E192;
+	Thu, 14 Dec 2023 06:46:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA25E10E8DA
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 06:20:32 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 70000CE231B;
- Thu, 14 Dec 2023 06:20:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id F0B1EC433CC;
- Thu, 14 Dec 2023 06:20:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1702534828;
- bh=+vkxHeCGMNypV4HTfFOZ2Yy/60cFLbQw3F9hivio95U=;
- h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
- b=XCwoc/9WTOKFFdAICIMqPHMjv6oeO4Pp+v7+7n/BcwEpfIUwCaQGC1TyO90tc3s+F
- 4iMuFSonb7td1SNtF1ARcta6HO3szQxo/eTWA3PWgh1n9ndKRu3EGh+nxdxwJCDwEF
- C5wbcDdHDR9kDvws7qfFo2ZK3IFMZukwcHNhYfnGRauUxTzKDGsAZUwkEJjVzYYniB
- rd8UTiTCDeYkElN+6hTQ17XC95nHuKkDorHWKjNxvgot4aPi0xBRyLLQeDnMf+uifL
- xSTQdlfLVS9vWPcdZDdUGFtsUGZzqb7Z5spstpB1oT9YsbKWHGPQUAatOOPdI3jqXx
- PsahGbgOBc0ag==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- D40E9DD4EFB; Thu, 14 Dec 2023 06:20:27 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+Received: from mail-m49222.qiye.163.com (mail-m49222.qiye.163.com
+ [45.254.49.222])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9649310E192
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 06:46:46 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256;
+ b=CnvD0IrkRnp+DmnzfgfteCXPBAsutHSVsMWQK1rzFcAblJYEkSweXgFANYqw3U88pMYtkO79l9NPInFWXnD8hXVCLdT/uGfcSOpoRB/rdY8p5rmXE/4TQuVE+Lx8BOFMINbrY+owqdLEaBAqVf9sYElyHBXbfm1pT585TwgcNJU=;
+ s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
+ bh=KlkoaA5PsGnM9dQhcrREu3MkNeyqWVDoqb2DLKgU9rM=;
+ h=date:mime-version:subject:message-id:from;
+Received: from [172.16.12.141] (unknown [58.22.7.114])
+ by mail-m12779.qiye.163.com (Hmail) with ESMTPA id 5272778019C;
+ Thu, 14 Dec 2023 14:46:38 +0800 (CST)
+Message-ID: <7a20761b-4cec-4b65-b9fa-efce73ac4c83@rock-chips.com>
+Date: Thu, 14 Dec 2023 14:46:37 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [net-next v1 00/16] Device Memory TCP
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: <170253482786.28524.10625748175644260187.git-patchwork-notify@kernel.org>
-Date: Thu, 14 Dec 2023 06:20:27 +0000
-References: <20231208005250.2910004-1-almasrymina@google.com>
-In-Reply-To: <20231208005250.2910004-1-almasrymina@google.com>
-To: Mina Almasry <almasrymina@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: (subset) [PATCH v5 00/16] Add VOP2 support on rk3588
+To: Heiko Stuebner <heiko@sntech.de>, Andy Yan <andyshrk@163.com>
+References: <20231211115547.1784587-1-andyshrk@163.com>
+ <170247871959.753029.11166929824242336708.b4-ty@sntech.de>
+Content-Language: en-US
+From: Andy Yan <andy.yan@rock-chips.com>
+In-Reply-To: <170247871959.753029.11166929824242336708.b4-ty@sntech.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGUhOH1ZOHhhPHhpOThhPTkxVEwETFh
+ oSFyQUDg9ZV1kYEgtZQVlOQ1VJSVVMVUpKT1lXWRYaDxIVHRRZQVlPS0hVSk1PSU5JVUpLS1VKQl
+ kG
+X-HM-Tid: 0a8c6713c726b24fkuuu5272778019c
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PD46GRw*FDw#MzJDAhI6HA4S
+ LEwaFApVSlVKTEtJTkhNSEJCSU1NVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
+ WUFZTkNVSUlVTFVKSk9ZV1kIAVlBSEtJQjcG
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,72 +55,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- edumazet@google.com, linux-kselftest@vger.kernel.org, shuah@kernel.org,
- sumit.semwal@linaro.org, linux-arch@vger.kernel.org,
- willemdebruijn.kernel@gmail.com, jeroendb@google.com, corbet@lwn.net,
- kuba@kernel.org, pabeni@redhat.com, linux-media@vger.kernel.org,
- hawk@kernel.org, arnd@arndb.de, shailend@google.com, shakeelb@google.com,
- hramamurthy@google.com, netdev@vger.kernel.org, dsahern@kernel.org,
- ilias.apalodimas@linaro.org, linux-kernel@vger.kernel.org,
- christian.koenig@amd.com, linyunsheng@huawei.com, pkaligineedi@google.com,
- bpf@vger.kernel.org, davem@davemloft.net
+Cc: devicetree@vger.kernel.org, hjc@rock-chips.com,
+ linux-kernel@vger.kernel.org, kever.yang@rock-chips.com,
+ dri-devel@lists.freedesktop.org, sebastian.reichel@collabora.com,
+ linux-rockchip@lists.infradead.org, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, chris.obbard@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello:
+Hi Heiko:
 
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Thu,  7 Dec 2023 16:52:31 -0800 you wrote:
-> Major changes in v1:
-> --------------
+On 12/13/23 22:46, Heiko Stuebner wrote:
+> On Mon, 11 Dec 2023 19:55:47 +0800, Andy Yan wrote:
+>> From: Andy Yan <andy.yan@rock-chips.com>
+>>
+>> This patch sets aims at enable the VOP2 support on rk3588.
+>>
+>> Main feature of VOP2 on rk3588:
+>> Four video ports:
+>> VP0 Max 4096x2160
+>> VP1 Max 4096x2160
+>> VP2 Max 4096x2160
+>> VP3 Max 2048x1080
+>>
+>> [...]
 > 
-> 1. Implemented MVP queue API ndos to remove the userspace-visible
->    driver reset.
+> Applied, thanks!
 > 
-> 2. Fixed issues in the napi_pp_put_page() devmem frag unref path.
+> [10/16] dt-bindings: display: vop2: Add rk3588 support
+>          commit: 4ccdc92c1fea732fac8f3438d6288719055fa141
+> [11/16] dt-bindings: rockchip,vop2: Add more endpoint definition
+>          commit: dc7226acacc6502291446f9e33cf96246ec49a30
+> [12/16] drm/rockchip: vop2: Add support for rk3588
+>          commit: 5a028e8f062fc862f051f8e62a0d5a1abac91955
+> [13/16] drm/rockchip: vop2: rename VOP_FEATURE_OUTPUT_10BIT to VOP2_VP_FEATURE_OUTPUT_10BIT
+>          commit: 9d7fe7704d534c2d043aff2987f10671a8b4373d
+> [16/16] MAINTAINERS: Add myself as a reviewer for rockchip drm
+>          commit: 6c3ab21f37a97a868193ccbeb8a492e51210ff31
 > 
-> [...]
+> 
+> I skipped the debugfs patch for now, as I need to look at that separately
+> and of course the dts patch as that needs to wait for iommu maintainers
+> to pick up the binding addition.
 
-Here is the summary with links:
-  - [net-next,v1,01/16] net: page_pool: factor out releasing DMA from releasing the page
-    https://git.kernel.org/netdev/net-next/c/c3f687d8dfeb
-  - [net-next,v1,02/16] net: page_pool: create hooks for custom page providers
-    (no matching commit)
-  - [net-next,v1,03/16] queue_api: define queue api
-    (no matching commit)
-  - [net-next,v1,04/16] gve: implement queue api
-    (no matching commit)
-  - [net-next,v1,05/16] net: netdev netlink api to bind dma-buf to a net device
-    (no matching commit)
-  - [net-next,v1,06/16] netdev: support binding dma-buf to netdevice
-    (no matching commit)
-  - [net-next,v1,07/16] netdev: netdevice devmem allocator
-    (no matching commit)
-  - [net-next,v1,08/16] memory-provider: dmabuf devmem memory provider
-    (no matching commit)
-  - [net-next,v1,09/16] page_pool: device memory support
-    (no matching commit)
-  - [net-next,v1,10/16] page_pool: don't release iov on elevanted refcount
-    (no matching commit)
-  - [net-next,v1,11/16] net: support non paged skb frags
-    (no matching commit)
-  - [net-next,v1,12/16] net: add support for skbs with unreadable frags
-    (no matching commit)
-  - [net-next,v1,13/16] tcp: RX path for devmem TCP
-    (no matching commit)
-  - [net-next,v1,14/16] net: add SO_DEVMEM_DONTNEED setsockopt to release RX frags
-    (no matching commit)
-  - [net-next,v1,15/16] net: add devmem TCP documentation
-    (no matching commit)
-  - [net-next,v1,16/16] selftests: add ncdevmem, netcat for devmem TCP
-    (no matching commit)
+That's fine. Thanks for picking these series.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+> 
+> 
+> Best regards,
