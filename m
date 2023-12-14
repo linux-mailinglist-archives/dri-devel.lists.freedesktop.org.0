@@ -2,44 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04567813719
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 17:59:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F78C813720
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 18:00:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0437E10E1D2;
-	Thu, 14 Dec 2023 16:59:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5DE610E970;
+	Thu, 14 Dec 2023 17:00:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net
- (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6015F10E1C5;
- Thu, 14 Dec 2023 16:59:04 +0000 (UTC)
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net
+ [207.46.229.174])
+ by gabe.freedesktop.org (Postfix) with ESMTP id EC7D010E96D;
+ Thu, 14 Dec 2023 17:00:03 +0000 (UTC)
 Received: from luzhipeng.223.5.5.5 (unknown [115.200.224.93])
- by mail-app4 (Coremail) with SMTP id cS_KCgBnbDRSNHtlxiSWAA--.37213S2;
- Fri, 15 Dec 2023 00:58:58 +0800 (CST)
+ by mail-app4 (Coremail) with SMTP id cS_KCgCHjTWKNHtlNyaWAA--.38081S2;
+ Fri, 15 Dec 2023 00:59:54 +0800 (CST)
 From: Zhipeng Lu <alexious@zju.edu.cn>
 To: alexious@zju.edu.cn
-Subject: [PATCH] gpu/drm/radeon: fix two memleaks in radeon_vm_init
-Date: Fri, 15 Dec 2023 00:58:42 +0800
-Message-Id: <20231214165843.3484373-1-alexious@zju.edu.cn>
+Subject: [PATCH] drm/amd/pm: fix a double-free in
+ amdgpu_parse_extended_power_table
+Date: Fri, 15 Dec 2023 00:59:38 +0800
+Message-Id: <20231214165941.3484829-1-alexious@zju.edu.cn>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: cS_KCgBnbDRSNHtlxiSWAA--.37213S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrtrWrGF4rtFyDXF45Zr4UCFg_yoWktrX_uF
- 18XasrJa4Dta4kZ3W7Z3Z7Zr92g3y0gw4rtrW8Kr1ft34xX3W8uFy3WFn5Xw45Wa13JFn8
- Cr4vqa4fCrsrGjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbc8FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
- 6F4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
- CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
- 2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
- W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67AK6r1l
- 42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJV
- WUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAK
- I48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F
- 4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY
- 6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU838nUUUUU
+X-CM-TRANSID: cS_KCgCHjTWKNHtlNyaWAA--.38081S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3XrW3Cr4kWFWktryUtw4ktFb_yoWfGry8pF
+ Z3Gr9xKry5Xr18Xr42qr4jvr1q9w4q9w4UGryUAry5ta47uryF93Z3ArWYva4kuFZ7uwnr
+ tFWjqFyDZa10gF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvC14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+ JVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26r
+ xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+ 6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
+ 0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E
+ 8cxan2IY04v7MxkIecxEwVAFwVWUMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r
+ 1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
+ b7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0x
+ vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAI
+ cVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kf
+ nxnUUI43ZEXa7VUUQVy7UUUUU==
 X-CM-SenderInfo: qrsrjiarszq6lmxovvfxof0/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,45 +55,197 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
+Cc: Lijo Lazar <lijo.lazar@amd.com>, Kees Cook <keescook@chromium.org>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Azeem Shaikh <azeemshaikh38@gmail.com>,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Evan Quan <evan.quan@amd.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When radeon_bo_create and radeon_vm_clear_bo fail, the vm->page_tables
-allocated before need to be freed. However, neither radeon_vm_init
-itself nor its caller have done such deallocation.
+The amdgpu_free_extended_power_table is called in every error-handling
+paths of amdgpu_parse_extended_power_table. However, after the following
+call chain of returning:
 
-Fixes: 6d2f2944e95e ("drm/radeon: use normal BOs for the page tables v4")
+amdgpu_parse_extended_power_table
+  |-> kv_dpm_init / si_dpm_init
+      (the only two caller of amdgpu_parse_extended_power_table)
+        |-> kv_dpm_sw_init / si_dpm_sw_init
+            (the only caller of kv_dpm_init / si_dpm_init, accordingly)
+              |-> kv_dpm_fini / si_dpm_fini
+                  (goto dpm_failed in xx_dpm_sw_init)
+                    |-> amdgpu_free_extended_power_table
+
+As above, the amdgpu_free_extended_power_table is called twice in this
+returning chain and thus a double-free is triggered. Similarily, the
+last kfree in amdgpu_parse_extended_power_table also cause a double free
+with amdgpu_free_extended_power_table in kv_dpm_fini.
+
+Fixes: 84176663e70d ("drm/amd/pm: create a new holder for those APIs used only by legacy ASICs(si/kv)")
 Signed-off-by: Zhipeng Lu <alexious@zju.edu.cn>
 ---
- drivers/gpu/drm/radeon/radeon_vm.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ .../gpu/drm/amd/pm/legacy-dpm/legacy_dpm.c    | 52 +++++--------------
+ 1 file changed, 13 insertions(+), 39 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_vm.c b/drivers/gpu/drm/radeon/radeon_vm.c
-index 987cabbf1318..c38b4d5d6a14 100644
---- a/drivers/gpu/drm/radeon/radeon_vm.c
-+++ b/drivers/gpu/drm/radeon/radeon_vm.c
-@@ -1204,13 +1204,17 @@ int radeon_vm_init(struct radeon_device *rdev, struct radeon_vm *vm)
- 	r = radeon_bo_create(rdev, pd_size, align, true,
- 			     RADEON_GEM_DOMAIN_VRAM, 0, NULL,
- 			     NULL, &vm->page_directory);
--	if (r)
-+	if (r) {
-+		kfree(vm->page_tables);
-+		vm->page_tables = NULL;
- 		return r;
--
-+	}
- 	r = radeon_vm_clear_bo(rdev, vm->page_directory);
- 	if (r) {
- 		radeon_bo_unref(&vm->page_directory);
- 		vm->page_directory = NULL;
-+		kfree(vm->page_tables);
-+		vm->page_tables = NULL;
- 		return r;
+diff --git a/drivers/gpu/drm/amd/pm/legacy-dpm/legacy_dpm.c b/drivers/gpu/drm/amd/pm/legacy-dpm/legacy_dpm.c
+index 81fb4e5dd804..60377747bab4 100644
+--- a/drivers/gpu/drm/amd/pm/legacy-dpm/legacy_dpm.c
++++ b/drivers/gpu/drm/amd/pm/legacy-dpm/legacy_dpm.c
+@@ -272,10 +272,8 @@ int amdgpu_parse_extended_power_table(struct amdgpu_device *adev)
+ 				 le16_to_cpu(power_info->pplib4.usVddcDependencyOnSCLKOffset));
+ 			ret = amdgpu_parse_clk_voltage_dep_table(&adev->pm.dpm.dyn_state.vddc_dependency_on_sclk,
+ 								 dep_table);
+-			if (ret) {
+-				amdgpu_free_extended_power_table(adev);
++			if (ret)
+ 				return ret;
+-			}
+ 		}
+ 		if (power_info->pplib4.usVddciDependencyOnMCLKOffset) {
+ 			dep_table = (ATOM_PPLIB_Clock_Voltage_Dependency_Table *)
+@@ -283,10 +281,8 @@ int amdgpu_parse_extended_power_table(struct amdgpu_device *adev)
+ 				 le16_to_cpu(power_info->pplib4.usVddciDependencyOnMCLKOffset));
+ 			ret = amdgpu_parse_clk_voltage_dep_table(&adev->pm.dpm.dyn_state.vddci_dependency_on_mclk,
+ 								 dep_table);
+-			if (ret) {
+-				amdgpu_free_extended_power_table(adev);
++			if (ret)
+ 				return ret;
+-			}
+ 		}
+ 		if (power_info->pplib4.usVddcDependencyOnMCLKOffset) {
+ 			dep_table = (ATOM_PPLIB_Clock_Voltage_Dependency_Table *)
+@@ -294,10 +290,8 @@ int amdgpu_parse_extended_power_table(struct amdgpu_device *adev)
+ 				 le16_to_cpu(power_info->pplib4.usVddcDependencyOnMCLKOffset));
+ 			ret = amdgpu_parse_clk_voltage_dep_table(&adev->pm.dpm.dyn_state.vddc_dependency_on_mclk,
+ 								 dep_table);
+-			if (ret) {
+-				amdgpu_free_extended_power_table(adev);
++			if (ret)
+ 				return ret;
+-			}
+ 		}
+ 		if (power_info->pplib4.usMvddDependencyOnMCLKOffset) {
+ 			dep_table = (ATOM_PPLIB_Clock_Voltage_Dependency_Table *)
+@@ -305,10 +299,8 @@ int amdgpu_parse_extended_power_table(struct amdgpu_device *adev)
+ 				 le16_to_cpu(power_info->pplib4.usMvddDependencyOnMCLKOffset));
+ 			ret = amdgpu_parse_clk_voltage_dep_table(&adev->pm.dpm.dyn_state.mvdd_dependency_on_mclk,
+ 								 dep_table);
+-			if (ret) {
+-				amdgpu_free_extended_power_table(adev);
++			if (ret)
+ 				return ret;
+-			}
+ 		}
+ 		if (power_info->pplib4.usMaxClockVoltageOnDCOffset) {
+ 			ATOM_PPLIB_Clock_Voltage_Limit_Table *clk_v =
+@@ -339,10 +331,8 @@ int amdgpu_parse_extended_power_table(struct amdgpu_device *adev)
+ 				kcalloc(psl->ucNumEntries,
+ 					sizeof(struct amdgpu_phase_shedding_limits_entry),
+ 					GFP_KERNEL);
+-			if (!adev->pm.dpm.dyn_state.phase_shedding_limits_table.entries) {
+-				amdgpu_free_extended_power_table(adev);
++			if (!adev->pm.dpm.dyn_state.phase_shedding_limits_table.entries)
+ 				return -ENOMEM;
+-			}
+ 
+ 			entry = &psl->entries[0];
+ 			for (i = 0; i < psl->ucNumEntries; i++) {
+@@ -383,10 +373,8 @@ int amdgpu_parse_extended_power_table(struct amdgpu_device *adev)
+ 			ATOM_PPLIB_CAC_Leakage_Record *entry;
+ 			u32 size = cac_table->ucNumEntries * sizeof(struct amdgpu_cac_leakage_table);
+ 			adev->pm.dpm.dyn_state.cac_leakage_table.entries = kzalloc(size, GFP_KERNEL);
+-			if (!adev->pm.dpm.dyn_state.cac_leakage_table.entries) {
+-				amdgpu_free_extended_power_table(adev);
++			if (!adev->pm.dpm.dyn_state.cac_leakage_table.entries)
+ 				return -ENOMEM;
+-			}
+ 			entry = &cac_table->entries[0];
+ 			for (i = 0; i < cac_table->ucNumEntries; i++) {
+ 				if (adev->pm.dpm.platform_caps & ATOM_PP_PLATFORM_CAP_EVV) {
+@@ -438,10 +426,8 @@ int amdgpu_parse_extended_power_table(struct amdgpu_device *adev)
+ 				sizeof(struct amdgpu_vce_clock_voltage_dependency_entry);
+ 			adev->pm.dpm.dyn_state.vce_clock_voltage_dependency_table.entries =
+ 				kzalloc(size, GFP_KERNEL);
+-			if (!adev->pm.dpm.dyn_state.vce_clock_voltage_dependency_table.entries) {
+-				amdgpu_free_extended_power_table(adev);
++			if (!adev->pm.dpm.dyn_state.vce_clock_voltage_dependency_table.entries)
+ 				return -ENOMEM;
+-			}
+ 			adev->pm.dpm.dyn_state.vce_clock_voltage_dependency_table.count =
+ 				limits->numEntries;
+ 			entry = &limits->entries[0];
+@@ -493,10 +479,8 @@ int amdgpu_parse_extended_power_table(struct amdgpu_device *adev)
+ 				sizeof(struct amdgpu_uvd_clock_voltage_dependency_entry);
+ 			adev->pm.dpm.dyn_state.uvd_clock_voltage_dependency_table.entries =
+ 				kzalloc(size, GFP_KERNEL);
+-			if (!adev->pm.dpm.dyn_state.uvd_clock_voltage_dependency_table.entries) {
+-				amdgpu_free_extended_power_table(adev);
++			if (!adev->pm.dpm.dyn_state.uvd_clock_voltage_dependency_table.entries)
+ 				return -ENOMEM;
+-			}
+ 			adev->pm.dpm.dyn_state.uvd_clock_voltage_dependency_table.count =
+ 				limits->numEntries;
+ 			entry = &limits->entries[0];
+@@ -525,10 +509,8 @@ int amdgpu_parse_extended_power_table(struct amdgpu_device *adev)
+ 				sizeof(struct amdgpu_clock_voltage_dependency_entry);
+ 			adev->pm.dpm.dyn_state.samu_clock_voltage_dependency_table.entries =
+ 				kzalloc(size, GFP_KERNEL);
+-			if (!adev->pm.dpm.dyn_state.samu_clock_voltage_dependency_table.entries) {
+-				amdgpu_free_extended_power_table(adev);
++			if (!adev->pm.dpm.dyn_state.samu_clock_voltage_dependency_table.entries)
+ 				return -ENOMEM;
+-			}
+ 			adev->pm.dpm.dyn_state.samu_clock_voltage_dependency_table.count =
+ 				limits->numEntries;
+ 			entry = &limits->entries[0];
+@@ -548,10 +530,8 @@ int amdgpu_parse_extended_power_table(struct amdgpu_device *adev)
+ 				 le16_to_cpu(ext_hdr->usPPMTableOffset));
+ 			adev->pm.dpm.dyn_state.ppm_table =
+ 				kzalloc(sizeof(struct amdgpu_ppm_table), GFP_KERNEL);
+-			if (!adev->pm.dpm.dyn_state.ppm_table) {
+-				amdgpu_free_extended_power_table(adev);
++			if (!adev->pm.dpm.dyn_state.ppm_table)
+ 				return -ENOMEM;
+-			}
+ 			adev->pm.dpm.dyn_state.ppm_table->ppm_design = ppm->ucPpmDesign;
+ 			adev->pm.dpm.dyn_state.ppm_table->cpu_core_number =
+ 				le16_to_cpu(ppm->usCpuCoreNumber);
+@@ -583,10 +563,8 @@ int amdgpu_parse_extended_power_table(struct amdgpu_device *adev)
+ 				sizeof(struct amdgpu_clock_voltage_dependency_entry);
+ 			adev->pm.dpm.dyn_state.acp_clock_voltage_dependency_table.entries =
+ 				kzalloc(size, GFP_KERNEL);
+-			if (!adev->pm.dpm.dyn_state.acp_clock_voltage_dependency_table.entries) {
+-				amdgpu_free_extended_power_table(adev);
++			if (!adev->pm.dpm.dyn_state.acp_clock_voltage_dependency_table.entries)
+ 				return -ENOMEM;
+-			}
+ 			adev->pm.dpm.dyn_state.acp_clock_voltage_dependency_table.count =
+ 				limits->numEntries;
+ 			entry = &limits->entries[0];
+@@ -606,10 +584,8 @@ int amdgpu_parse_extended_power_table(struct amdgpu_device *adev)
+ 			ATOM_PowerTune_Table *pt;
+ 			adev->pm.dpm.dyn_state.cac_tdp_table =
+ 				kzalloc(sizeof(struct amdgpu_cac_tdp_table), GFP_KERNEL);
+-			if (!adev->pm.dpm.dyn_state.cac_tdp_table) {
+-				amdgpu_free_extended_power_table(adev);
++			if (!adev->pm.dpm.dyn_state.cac_tdp_table)
+ 				return -ENOMEM;
+-			}
+ 			if (rev > 0) {
+ 				ATOM_PPLIB_POWERTUNE_Table_V1 *ppt = (ATOM_PPLIB_POWERTUNE_Table_V1 *)
+ 					(mode_info->atom_context->bios + data_offset +
+@@ -645,10 +621,8 @@ int amdgpu_parse_extended_power_table(struct amdgpu_device *adev)
+ 			ret = amdgpu_parse_clk_voltage_dep_table(
+ 					&adev->pm.dpm.dyn_state.vddgfx_dependency_on_sclk,
+ 					dep_table);
+-			if (ret) {
+-				kfree(adev->pm.dpm.dyn_state.vddgfx_dependency_on_sclk.entries);
++			if (ret)
+ 				return ret;
+-			}
+ 		}
  	}
  
 -- 
