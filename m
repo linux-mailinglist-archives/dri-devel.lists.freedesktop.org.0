@@ -2,79 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DBBC812BF4
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 10:48:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58961812C81
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 11:09:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A88110E06D;
-	Thu, 14 Dec 2023 09:48:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A4EB10E900;
+	Thu, 14 Dec 2023 10:09:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A945610E06D
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 09:48:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1702547330;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Aac/fS+HABTTdTt9Tjp0/ej5UaiGQ4YUyORo11HpcO0=;
- b=F4xp4/2I9DPL5e0cnrcWGagZNB3xkuv8HqlAFnoECAO2Wk/Ma2nklUVXuigh6C0+uv17kq
- vMbEFzszGtF5Ai721kT+AeQPEP+Om63JS+X8OuhadQB165Voghs/lptiGAYd8UAn1v4rjo
- IaWytgFVNSiIvw3vqFm7TKZeE3DYfKI=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-494-ht0tVaufMCeqygl7YoQdPg-1; Thu, 14 Dec 2023 04:48:48 -0500
-X-MC-Unique: ht0tVaufMCeqygl7YoQdPg-1
-Received: by mail-ed1-f71.google.com with SMTP id
- 4fb4d7f45d1cf-551da4f37baso1226235a12.1
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 01:48:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702547328; x=1703152128;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Aac/fS+HABTTdTt9Tjp0/ej5UaiGQ4YUyORo11HpcO0=;
- b=sv21QZFSanmFUPBnw3zdS1CoAG88ox2FgGxOi3/2+qteitVMsxd1b+lm9wAD3tY/nk
- QiEBGfsvtVkxak2TQNyE/dc8BZAqwX5c2f6JSihNDhb3xiVdC3cr1veXI/0H1yNJ0ilz
- 94SOYUEtKGlLECGuuZ0kHq0EY/ZSQRhHH0ppHpilkMDhH9yvgRo1cMEoCeu8zW1OXLrT
- zp00TifskJbyWL/EwYUetbSU9E8zwa2Y3MTlNtJWsyC7kRBiAXv8iX9ekAWKIaYI0CXM
- XpdZHEgS6GpAUoHZ8ki7wQPJYt3p90XzfGxOQ6RIg/PVw67nymdsB1dzWrIxXx6hez5F
- CFBw==
-X-Gm-Message-State: AOJu0YzIiyWrXiP8fVFH9caJT7/vSeCmGjJ1oINsPMqPupxmxwmPqr8u
- XH6f7sp85I7qdMzho3UCo3qVoiMPs2WF/uYMKblZX6sez9FXezf/MHA++XYg0Eg0bq5PpKsVfV6
- X3FsF2z8wVEGmeWXnUSIclLz679+Y
-X-Received: by 2002:a50:d692:0:b0:551:e5ea:cd32 with SMTP id
- r18-20020a50d692000000b00551e5eacd32mr1623886edi.23.1702547327863; 
- Thu, 14 Dec 2023 01:48:47 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHfAPTl0ZBTHUgp9clExLMwVaQJM4BXpD6DoX/3U7sXNMttZ5MP+uupqGj8TWjV6I+QQzg05Q==
-X-Received: by 2002:a50:d692:0:b0:551:e5ea:cd32 with SMTP id
- r18-20020a50d692000000b00551e5eacd32mr1623879edi.23.1702547327612; 
- Thu, 14 Dec 2023 01:48:47 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
- (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
- by smtp.gmail.com with ESMTPSA id
- k13-20020a50cb8d000000b0054cc7a4dc4csm6427998edi.13.2023.12.14.01.48.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Dec 2023 01:48:46 -0800 (PST)
-Message-ID: <a65ca848-20cc-4794-9731-c84eaa295fbc@redhat.com>
-Date: Thu, 14 Dec 2023 10:48:46 +0100
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3353F10E8F9
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 10:09:24 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id B7E43CE10E4;
+ Thu, 14 Dec 2023 10:09:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3E73C433C8;
+ Thu, 14 Dec 2023 10:09:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1702548561;
+ bh=+11YBo0kmFgr2krbb5UDhkf2knSUBIclo+6BcfnIGvs=;
+ h=From:To:Cc:Subject:Date:From;
+ b=juRBcW/iMj5z+FZai6bfPLjompiA9NKXlf5UGxldoNN/zCgTMD+x8Xi3YcmXLxCDN
+ pA5XhL+K50hHq0u6kpbAiImW3MtwsaanSmUbLRDsMbA7zKXx7LLOsGHds7oPrsrwXQ
+ gWaBEdTrDU6k62WiCseUJPHb/x6Ej38BZLldXQTFxuW+rXvPlbeI9P2dBmPWl843rH
+ PjVPpdSBHWcA071klJf2zqoePQiuboOWjGqyLFUztNya0JJXt7evV9j4EovUNZLUSj
+ FRIaGVKL+kxac+M1+tghLMdaqB14JSmIxFwNmj+0THskmXZEkgvMK8+iTsguSWy9g0
+ B9OxxYp8+uVOA==
+From: Maxime Ripard <mripard@kernel.org>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH v2 1/5] drm/atomic: Move the drm_atomic_state field doc inline
+Date: Thu, 14 Dec 2023 11:09:12 +0100
+Message-ID: <20231214100917.277842-1-mripard@kernel.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fbdev/simplefb: change loglevel when the power domains
- cannot be parsed
-To: Brian Masney <bmasney@redhat.com>, deller@gmx.de
-References: <20231212195754.232303-1-bmasney@redhat.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20231212195754.232303-1-bmasney@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,44 +49,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, treding@nvidia.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Sui Jingfeng <sui.jingfeng@linux.dev>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Some fields of drm_atomic_state have been documented in-line, but some
+were documented in the main kerneldoc block before the structure.
 
-On 12/12/23 20:57, Brian Masney wrote:
-> When the power domains cannot be parsed, the message is incorrectly
-> logged as an info message. Let's change this to an error since an error
-> is returned.
-> 
-> Fixes: 92a511a568e4 ("fbdev/simplefb: Add support for generic power-domains")
-> Signed-off-by: Brian Masney <bmasney@redhat.com>
+Since the former is the preferred option in DRM, let's move all the
+fields to an inline documentation.
 
-Thank you for your patch. I have pushed this to drm-misc-next now.
+Acked-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+ include/drm/drm_atomic.h | 50 ++++++++++++++++++++++++++++++++--------
+ 1 file changed, 40 insertions(+), 10 deletions(-)
 
-Regards,
-
-Hans
-
-
-
-> ---
->  drivers/video/fbdev/simplefb.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/video/fbdev/simplefb.c b/drivers/video/fbdev/simplefb.c
-> index 6f58ee276ad1..028a56525047 100644
-> --- a/drivers/video/fbdev/simplefb.c
-> +++ b/drivers/video/fbdev/simplefb.c
-> @@ -470,7 +470,7 @@ static int simplefb_attach_genpds(struct simplefb_par *par,
->  		if (err == -ENOENT)
->  			return 0;
->  
-> -		dev_info(dev, "failed to parse power-domains: %d\n", err);
-> +		dev_err(dev, "failed to parse power-domains: %d\n", err);
->  		return err;
->  	}
->  
+diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
+index cf8e1220a4ac..2a08030fcd75 100644
+--- a/include/drm/drm_atomic.h
++++ b/include/drm/drm_atomic.h
+@@ -347,24 +347,22 @@ struct __drm_private_objs_state {
+ 
+ /**
+  * struct drm_atomic_state - the global state object for atomic updates
+- * @ref: count of all references to this state (will not be freed until zero)
+- * @dev: parent DRM device
+- * @async_update: hint for asynchronous plane update
+- * @planes: pointer to array of structures with per-plane data
+- * @crtcs: pointer to array of CRTC pointers
+- * @num_connector: size of the @connectors and @connector_states arrays
+- * @connectors: pointer to array of structures with per-connector data
+- * @num_private_objs: size of the @private_objs array
+- * @private_objs: pointer to array of private object pointers
+- * @acquire_ctx: acquire context for this atomic modeset state update
+  *
+  * States are added to an atomic update by calling drm_atomic_get_crtc_state(),
+  * drm_atomic_get_plane_state(), drm_atomic_get_connector_state(), or for
+  * private state structures, drm_atomic_get_private_obj_state().
+  */
+ struct drm_atomic_state {
++	/**
++	 * @ref:
++	 *
++	 * Count of all references to this update (will not be freed until zero).
++	 */
+ 	struct kref ref;
+ 
++	/**
++	 * @dev: Parent DRM Device.
++	 */
+ 	struct drm_device *dev;
+ 
+ 	/**
+@@ -388,7 +386,12 @@ struct drm_atomic_state {
+ 	 * flag are not allowed.
+ 	 */
+ 	bool legacy_cursor_update : 1;
++
++	/**
++	 * @async_update: hint for asynchronous plane update
++	 */
+ 	bool async_update : 1;
++
+ 	/**
+ 	 * @duplicated:
+ 	 *
+@@ -398,13 +401,40 @@ struct drm_atomic_state {
+ 	 * states.
+ 	 */
+ 	bool duplicated : 1;
++
++	/**
++	 * @planes: pointer to array of structures with per-plane data
++	 */
+ 	struct __drm_planes_state *planes;
++
++	/**
++	 * @crtcs: pointer to array of CRTC pointers
++	 */
+ 	struct __drm_crtcs_state *crtcs;
++
++	/**
++	 * @num_connector: size of the @connectors and @connector_states arrays
++	 */
+ 	int num_connector;
++
++	/**
++	 * @connectors: pointer to array of structures with per-connector data
++	 */
+ 	struct __drm_connnectors_state *connectors;
++
++	/**
++	 * @num_private_objs: size of the @private_objs array
++	 */
+ 	int num_private_objs;
++
++	/**
++	 * @private_objs: pointer to array of private object pointers
++	 */
+ 	struct __drm_private_objs_state *private_objs;
+ 
++	/**
++	 * @acquire_ctx: acquire context for this atomic modeset state update
++	 */
+ 	struct drm_modeset_acquire_ctx *acquire_ctx;
+ 
+ 	/**
+-- 
+2.43.0
 
