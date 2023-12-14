@@ -1,151 +1,147 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91285812915
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 08:28:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFAD681297A
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 08:36:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68ED810E8E4;
-	Thu, 14 Dec 2023 07:27:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7B9C10E2B1;
+	Thu, 14 Dec 2023 07:36:23 +0000 (UTC)
 X-Original-To: DRI-Devel@lists.freedesktop.org
 Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC46B10E8D5;
- Thu, 14 Dec 2023 07:27:54 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BA1010E8D4;
+ Thu, 14 Dec 2023 07:35:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1702538874; x=1734074874;
+ t=1702539359; x=1734075359;
  h=message-id:date:subject:to:cc:references:from:
  in-reply-to:content-transfer-encoding:mime-version;
- bh=McGcqosdm+quR+LMFxAcF1Za+3Ka1TpreTreB0kGNOU=;
- b=HCP4J0QAl9VLvwLqRvYY/1xDkRAOBIPVk9jp0J7o3u/dtzU+IrtRbOvE
- z13oibfNsMPLN23OikuO4aschluCtsjIUAXCF4HGRVW5a+OSkPInB9WkU
- rgL86r/YWafunkEecGzA7dR9UGzrij26/PpLke6KKt+Nfz0Xa+foDtnDV
- wzu+f5sGURtQdQ0oImHJkB5FEcquWi+qCB4mA0yt/sUbecswG0BU3M5bs
- khbPOUpuqhQhzDxeh90pv4eb8czkgWZ+dtiLkTOznA6yYB0P0pMpydHUG
- pZ8cKb0qwoLZ87KrToe6xBVeBeoWSghtE3l4LanEgYApsGXg5Ib3m8A4x Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="2235665"
-X-IronPort-AV: E=Sophos;i="6.04,274,1695711600"; 
-   d="scan'208";a="2235665"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Dec 2023 23:27:54 -0800
+ bh=pJdxHeL8fgiZB6oeKGcubXS4gZxaG5LjSc9xyjI9xf0=;
+ b=cn4dcb3bXStxG/qgFLfVJtxZoR5s2BxpvJFhG76aV+F6bs6um5SIqiZW
+ Rge6l3TsudYuWIN6VbbQTvS2z/CYawoY5J5Cxi/NMNknJSlHb71/qKfWn
+ y9RtRJnK17RbZ8RL/nT15bgiMWRW8hM3Vh7ktfoYppxkw32d/CvbJAuQm
+ ecLe4BFSd+OA2q0saeYiLPkpsawFOJkZJyc20NNaX8/MDawA7PCD3BuAx
+ pRObzZB7tj42C6Tj2INlf1OEyajXLubvP1xWruwjBgzWryLWQOjVQsnN1
+ F6zfuKRued3Xp8f45j2VYQYPl1G9HXVOhaoDv4RvWfEJXhvvCuFUduEoT Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="16630935"
+X-IronPort-AV: E=Sophos;i="6.04,274,1695711600"; d="scan'208";a="16630935"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Dec 2023 23:35:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,274,1695711600"; d="scan'208";a="15736796"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by orviesa002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 13 Dec 2023 23:27:55 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="840178001"
+X-IronPort-AV: E=Sophos;i="6.04,274,1695711600"; d="scan'208";a="840178001"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by fmsmga008.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 13 Dec 2023 23:35:54 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 13 Dec 2023 23:27:53 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ 15.1.2507.35; Wed, 13 Dec 2023 23:35:54 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 13 Dec 2023 23:27:53 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Wed, 13 Dec 2023 23:27:53 -0800
+ 15.1.2507.35 via Frontend Transport; Wed, 13 Dec 2023 23:35:54 -0800
 Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Wed, 13 Dec 2023 23:27:52 -0800
+ 15.1.2507.35; Wed, 13 Dec 2023 23:35:53 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=K/NdnBxQVDrIsphQiZPTBAvnytMKOgv9aPaAZsKYlylCnUN7GTGwzb8XIpll/aez170kHFTwuIYmYPFn/Fx6vPXNHQ9srrE440G2hYhqD7DzTM4XdUmcTmNqTpWSqitXXmTYocCcbjyVfNlueUsZZ3xM4lPCn90W5+tnD1OHJatfa/C8g0RWs/BkA2vN9kJXizZYffo0GxN0Coam2yb7AMo8sS8UoFgQWoCttZR1soHkr3pX5qKoyqVbMABTv1mkZ3f5Mu3PJnA8e5Q/pNKyCuJ6Sd8gqLf7PmsPO/YdNFGa55AJgwmI/IfcCIELpJ/GyTZasZP4jYXiMJMd54cjkg==
+ b=avvV6YfCteK4Z6WUrhu4oqnF2DTN0TX7ucD7AizhDqBHwYvwyvl5zIesj/KdDhOb03R7GNy6wNIPkWP1Cy16vzLdSRYN42smjvLPETzgzZ75UccSq8QIHvGQrWEff7PeXSBGJWahOGQw30KJHBNqGKqX3aizwyQ+DC/IwdXd0zl34B0usG63hH0L8h8fUGdRlg1lIVQYaKqxbhq13IwkmMIQ0kIv6pPv/aQGXou/vtAmHDPfYT1WrKpLBULDb8gGXbR/8l5J4v+qVWdO1KqFsWW4wlCGaKJI6KJIndVyJb6EbhmwF/qr4M2/W1s82/NwkQAUIC9ivMZic8PABDp29Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yeS/yboyj9Z6olxAPGr5sNoKgB9BfUa8HCHQZVBsFqc=;
- b=lP/QrsBQic33/KnjdgLEpFIZprUOi023W0oF7BmR/AyC9JrDYp/S+5D63XvNhkI8uBtrkPlLAswXULte4uIEOmwQPovf1a2WnveHFe1i8IgzsXgKIvdA49xIFihj+kZz4pnXgkX6k6fJGZD9He+Rv0QGme7g15ZDKt1eldraPDT7ScAPk3EUIso+sNXuNLCUtHS0pgqchzdXHnf2ZbQ7SACHbVqTFd3N1Qs44ilxCmPh1yp7Bdl1FnfRnMf4bj/XESraP8DNPuHQOrpQVdvBxZAhZj1V7+XeGyohgvJxTteUqY3Ial0Sk0subYZm7svvVXZ9zVoOLdNr4dtr/bKbqw==
+ bh=0KsWYzSTnq/3jL8sTl5a4BOi0gtp6kTZKAo3FwbpVtI=;
+ b=RsSwPItBzS0U2THmWRcDQa2FPCkl3TX3w1tN5jZGR9+bAAYRvy9qEH3tK1Yir62mpDkRmQ6WBHw9e606MKYFlb8ZPbnYqh61C2mKsCf0yX5b9ksg54Wer+P1V7Gy7dJNYZVYg39BjEYe76Wp4nIs2zvWYKxqVWwEd04KJfPOPknbLuSyJCDhdWBd9d3QW5K1ULtzD5eOUal7n/3MxstjQ/3GoCYH5JcV5X5ckkVQa7TBxNNLQkXqF0oQFRaRhyQJKBwc47wqX8643acFsisHdo3Waiz4KOimzUN1HMLy0M85qZkC11TDVPHx2LEBzotjk4bA0Hqed86jv0Z2f5XcqA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from BY5PR11MB4274.namprd11.prod.outlook.com (2603:10b6:a03:1c1::23)
- by PH7PR11MB6427.namprd11.prod.outlook.com (2603:10b6:510:1f5::16)
+ by CY5PR11MB6342.namprd11.prod.outlook.com (2603:10b6:930:3d::20)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.28; Thu, 14 Dec
- 2023 07:27:50 +0000
+ 2023 07:35:51 +0000
 Received: from BY5PR11MB4274.namprd11.prod.outlook.com
  ([fe80::16a8:c3ae:ef16:3d13]) by BY5PR11MB4274.namprd11.prod.outlook.com
  ([fe80::16a8:c3ae:ef16:3d13%7]) with mapi id 15.20.7091.028; Thu, 14 Dec 2023
- 07:27:50 +0000
-Message-ID: <938c222b-843d-4891-9c94-f66d966b0e8f@intel.com>
-Date: Wed, 13 Dec 2023 23:27:47 -0800
+ 07:35:51 +0000
+Message-ID: <0fe8ca5d-ce97-4ef0-a609-519bedf04f93@intel.com>
+Date: Wed, 13 Dec 2023 23:35:49 -0800
 User-Agent: Mozilla Thunderbird
-Subject: Re: [Intel-gfx] [PATCH v2 2/4] drm/i915/guc: Add support for w/a KLVs
+Subject: Re: [Intel-gfx] [PATCH v2 3/4] drm/i915/guc: Enable Wa_14019159160
 Content-Language: en-US
 To: <John.C.Harrison@Intel.com>, <Intel-GFX@Lists.FreeDesktop.Org>
 References: <20231027211814.2696398-1-John.C.Harrison@Intel.com>
- <20231027211814.2696398-3-John.C.Harrison@Intel.com>
+ <20231027211814.2696398-4-John.C.Harrison@Intel.com>
 From: "Belgaumkar, Vinay" <vinay.belgaumkar@intel.com>
-In-Reply-To: <20231027211814.2696398-3-John.C.Harrison@Intel.com>
+In-Reply-To: <20231027211814.2696398-4-John.C.Harrison@Intel.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR05CA0054.namprd05.prod.outlook.com
- (2603:10b6:a03:74::31) To BY5PR11MB4274.namprd11.prod.outlook.com
+X-ClientProxiedBy: BY5PR16CA0027.namprd16.prod.outlook.com
+ (2603:10b6:a03:1a0::40) To BY5PR11MB4274.namprd11.prod.outlook.com
  (2603:10b6:a03:1c1::23)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR11MB4274:EE_|PH7PR11MB6427:EE_
-X-MS-Office365-Filtering-Correlation-Id: f4fbd6e0-c3c3-4e1e-671f-08dbfc762d45
+X-MS-TrafficTypeDiagnostic: BY5PR11MB4274:EE_|CY5PR11MB6342:EE_
+X-MS-Office365-Filtering-Correlation-Id: f38526b0-f0fb-442e-3532-08dbfc774c11
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: IXP/MofQ5fUPQW34VNhzHpfH7SflIFaeaDSYXN3za5e+urCY29I4/23nfG/bicX0vHIREG40dUUvTMPhrf1+RiKhK/Vg/5qjkwNiiU0jrw5y4gKXcsFxLnJoc2gdn0TDER96TIPsWOm7AcbIevlwrjCoLFZKwumnRj0CjQP9/cO9rfHO1cv02lyD5W3Jz/RuVGfb4+MsTi30wa7AxvywS39Y2MG/lgEtzTRXeH4Ivez3ZIuFA3SAWdmJpIw5t2hR2fZIJhGQ5L9O+4whVB2pxJeLbX8VhdtYiWO6yp2LDal8kW1Jp/01kjLRVzsA8+sbdu87HjwI9JBP2wj78VzRAiW3LHfdki3tcXhQKdaoQocEAaxsZ+UNTxktYjkNAPlefByWRKEmxdNXNB2cIJGM6GL1Ni9jTkh5aq1Qk/lSnctwWtgVDXEP7DzpbtaHLI5fm3YLWsIKEOQ6rQ6EzKNfiBBagUd6LYGaGy9Xj0W1NLZmOdmlcsSy9UJYzx8rFKLGfT4StVj8Og7iggSfj6BAPYnnFLmk7mTehhMN5xR1cZ1FW0AQUVbHKvULV4ayCO+cGVwrX7YRotrOJIcMr3DJpVUoIy1B54mATu+4AVYgDIQ6kHZV2Rmul2J5TiY0ccDl8dti7DcT3xrwHFAZpirPUg==
+X-Microsoft-Antispam-Message-Info: QSnAY1Xidd6zqmq1IHctsj/bewfBvPmkvsQ5ga/e8rVuMDaNZqYcfUBxJPk2eMMx2Nr8548tmLuo43ANhPJiMPAjVtOOpkD5Cvkde/SL480xxlOEYVAPJSj/qIrJkbZEccwxGBD8IF4L4iF0RqxeGkdfwT6hjX1WQChhNX9u33OyXVIVWZm1l1v2k5ZXYVpzNZLk3vCYSoKJbrtWlG3dY4m+0mtlWBywC0S2qIAmOPvmMWTzjNYD82Hex3vvcURVX89XDaCFNqp0RXHNK9Ct7jERvtNlWV0cHzyZWJCjXpQMZx10BeOnEOuL5DN9nenJUXC1Kn7PluvMfd+WjmEzXwyFl87Lp3FxlIa/+A+sGSQPSF1AAXogS70akRxlEtGxSOr6YRV1Ku3fAQhf6Oq0uNXovQCbYJ4mADb04qubjRCj4BkGBcJlfWlwA0sTcUyJbnHAESEQ9dFzBhwOwVNwT2RKQv8PSygTj8OrtRpOj/kbbzrlCWFfcPpZkj8olgBPOGJJ3R/nupEPEcHaYKXtYLHfE9+Qi9Uw0WQ8PJvCPLVq8I8rs1px1PXeHRW6saf0QkY7P0pZM7/frmgpf5kX3E43KvzXRj8yLNQ3zIUTYAR7WKrPR7APUwxYCHNXFneI4fXv+yqrvPs0R/Za6+Fu8g==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BY5PR11MB4274.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(39860400002)(136003)(376002)(346002)(366004)(396003)(230922051799003)(451199024)(186009)(64100799003)(1800799012)(4326008)(8936002)(8676002)(450100002)(82960400001)(38100700002)(36756003)(5660300002)(2906002)(6486002)(478600001)(2616005)(26005)(6506007)(53546011)(31696002)(6666004)(6512007)(86362001)(31686004)(41300700001)(316002)(66476007)(66556008)(66946007)(83380400001)(43740500002)(45980500001);
+ SFS:(13230031)(376002)(346002)(136003)(366004)(39860400002)(396003)(230922051799003)(64100799003)(451199024)(1800799012)(186009)(2616005)(450100002)(4326008)(8936002)(8676002)(316002)(26005)(478600001)(6486002)(82960400001)(38100700002)(53546011)(6512007)(66946007)(66556008)(66476007)(6506007)(5660300002)(36756003)(31686004)(83380400001)(2906002)(86362001)(31696002)(41300700001)(45980500001)(43740500002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SkppY3MzdENkMzVFRit2elp5VW1LREp2UzJ4bTNCT1JKampSTEVuWFFoSG5V?=
- =?utf-8?B?N3Q1Y0F6cWpvUFBvYkx5aS9yNlNGbDZ4NUgwa2lNR1dCNUs5V2hvdSszM0dL?=
- =?utf-8?B?bjNmMzRSMk01Yk9DSXhRbnN0TnVzbURjOWY1NGVzT3dnQnQwUFBTUXFrSFpG?=
- =?utf-8?B?MldsQ2NrVk1zalJEVkFzckFjUDJLTlV0cjA1c1h5V3pxYW9IUmtCVzRmcjg1?=
- =?utf-8?B?V1FlcmVXeHNHLzNvaU5XQTl1QUxDdEt1TkVtclBPOWFZdDBoYXJBTGZ1cWhi?=
- =?utf-8?B?Mkh4UDBYeUd0YktQU09tQ2xUYVcrbmxQVEM1OC9vTVphbHBGRHBYL3dKbXJ0?=
- =?utf-8?B?eGxZTHlrbHNzcVhCVDUvSlRxUktzbC9QbmNPN1VHWVlFbUNVNUNwRXJ0RmFm?=
- =?utf-8?B?T3E1U3BXMUgyQkMvZWN1bWpnN2l0NnhKZSt0MjI5cVBTTTdaUlJRUDBkSVd6?=
- =?utf-8?B?MFhsdE1zS0tRaUR5WEREbTRpbmtQV3VZQ2grR0FhRXMxUHlKNFpVZDdwTEJL?=
- =?utf-8?B?K0x0TmhrQ0ZWQTBicEMwZWF6T0x4VjFHenJHeGE1emNiVmFyZWZXdWRTeVhD?=
- =?utf-8?B?ZTYrMzk0MkRSQ0tQVzRzOEM1TXdiN0g2YXBjemNndDR3S1V2bTBRSlI3MnM5?=
- =?utf-8?B?SlVWOVJtZnc1R0RyTVZlRXV0VjFybm9oWVBUSm5RaFpTeFMzL0syYzd0dWRE?=
- =?utf-8?B?ZytoVHVyRGtueHR2L05HSGoxaWFpZmRVU2k3NUpLeGhDRXQxeHJESWRkSWxS?=
- =?utf-8?B?ZEpOU0VMaHorNVpkenFOMy83QXA0elRibW50cUt3amliMXdWRGcvZ0c1c1cy?=
- =?utf-8?B?WjFhb0pLTG5yNTAxb2YrQ3RjcUtwTGtudkVMOHpUVnFKTENHclpZdGtGcHJG?=
- =?utf-8?B?RFUzdEk2TzQzYjc0ME5VNW9SaUd5YWtZSWRVTTNFZ0lzMkR6K2F6eXdXT2Nh?=
- =?utf-8?B?V3R3b1FCWCtxV3N5ZU9JK0EweXQ0TmFSZGFKRzV3Vk1rL20wZ2hsREJQOGFH?=
- =?utf-8?B?R0FJTGw2Ykt2SlNoZnJjRHZPZmowOGp3M1dVL25hWXhzUEpkZlNrdiszaXAv?=
- =?utf-8?B?M2FiWjJXN2liUFNkOWF4Wjk2UWNWVndzKzFINjR6TkNhUWtwWm56WldGMlJ4?=
- =?utf-8?B?NlJwZjU1NlJxcDBiK3ljSDBIYUQwdW1XZ1VJMWFkdWZVbHJENTZwd2w5ejdL?=
- =?utf-8?B?Wjk3UWZFdEpOOTlqaGFrbmdLNzNXSUs5QlZNZHRsWWtKTnVoUUwyY2pyTEtu?=
- =?utf-8?B?NmIzeGliQjU5SmF5VEVZd1ZlMkN3TFgzMkhUbmhsM1lSY2dYTk10OW8xTStj?=
- =?utf-8?B?a0pxeSthU0kybXYzTkZ5bS8wZnArL3g3TUFKVGFYekkzMkl1cnZ1TEMzVHls?=
- =?utf-8?B?Sk1sSjg4NVdtTHBuWXU0MC9oTjc0N3UwbVVlNDRUUHlMN3A5K29sWHMrWk5k?=
- =?utf-8?B?RU96ZlduQzRKNUZ2TDk2Nnc3V25BM1FwbVphZmo0bTJVMVRwVGtnQjBtNlBo?=
- =?utf-8?B?RTVUZzFMZmM0LzdMRmtWOWFVcUNMY0VkMUh3aElQaHFPcldFOTVucjhaOS9O?=
- =?utf-8?B?MUNtMUw1elBIajg5M3Fkbisxb0tscXVjU0t3b3FuZzVOV2NsREQwS0VlbnVL?=
- =?utf-8?B?QUVIZDJYaWNqaVVyQS9GT1FsWUY3d3BVdDl0Zk05QWRackUzcXFVMExqR3VI?=
- =?utf-8?B?SE1WT0o1YmVIeEFLNkJZOTZhZC9SYjhRMi9wb0hncG5WUnE2ZG45a1lTbi9X?=
- =?utf-8?B?MmVqUUpORHVKN3ZYZWJYcG4zdGR0ejNzbzNYT2F4eHFIUlV4NVY1NitDM2Vw?=
- =?utf-8?B?azUrdUQ4Q25RSXp6bWhPL2pEYWZENSthdGhBZDF0aU5WRWxtLzJtWllsZkYx?=
- =?utf-8?B?cERzRlNhMTA3SllDRTNzbjBuRHhDRkVhd3BuWW1TSjhYdzdsMlRNeG9sSWk5?=
- =?utf-8?B?OWlhem1WNmpDOW8reXF2TUZlMGZRY3I0OXdaQy9zRk8weGJCckFnUUhYTmZU?=
- =?utf-8?B?MlFCSVdEUUZ6YjZ2R0toaWk3czg4dUNyN2ZFWUE2RHpkVUtuQ0xndnpGT0Mx?=
- =?utf-8?B?cjQ5WkVBT0xRcmZKMlRMVzlkYklyNHFHUmRORHoxSkdWZUd5dHYwS3p2Wmt0?=
- =?utf-8?B?RVpsVUtBdHlNR2tnOXhjNmtGV2N6eUFBS3l3blVHL0hFZjN3OUl1c0xxWGFN?=
- =?utf-8?B?eWc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: f4fbd6e0-c3c3-4e1e-671f-08dbfc762d45
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MVhWSTNLalRiTU1BNWNleXpLQWhyN2JlbHdBMGNEYlorMlNWSHBuSERuSDhB?=
+ =?utf-8?B?R3kwc2Q5bjByV2svb0JZcldXdDJweEtwUmc0TlpXd0plZkw2QXhZZVliUGJl?=
+ =?utf-8?B?Y2xYSldkek1ONHFWK1lycTlscFl1dnh0dHN1akdHd09XbVhMV1grWVVEc0JW?=
+ =?utf-8?B?SXdicE80RStvaUFma3l6U3EvMGRWc0ovN3J3dXZBNmNpNWNxS05UdHJhOW1z?=
+ =?utf-8?B?eXVBQU12K1Qyamk4eUZFaFBOUDFNUDBsc2RJdEFDOG01S0hQd25pTDV5T1Yz?=
+ =?utf-8?B?RUxBcXo1MkNFRytsNlczUlBFTGNEWkk1aGlwWFVPMTdRWUR4bFNqN2RsMW9o?=
+ =?utf-8?B?L1JHRWhBUHNrVnBkWWtVcitpUkd6UEsrT0FrbFA0OHErQ0ZMWTg1dWJOazZy?=
+ =?utf-8?B?RUJ2SWx5RDZTVmYzWWwwRTVqanlYV2JLczZZMmZQbVNIem94UXQrSGZKSzVi?=
+ =?utf-8?B?cElMYzVBZVdnQjl0VWUvWkV1TS96SWpqVWV4NUlHT2pIcjZkSWpqTExQQTl6?=
+ =?utf-8?B?eE8wbGp2TTgxMkloVEZYZUxQUTlwQjUwTEIyQ3NQV0toRFhhV3ZYV3ovUTdX?=
+ =?utf-8?B?Z3lzbE1Gb3JaVnNvZGVrRFlHWm9iK1F4ZVdaRVN1ekZoOURBL25ORkpTcWVh?=
+ =?utf-8?B?cVM1aXY1SVFIdVZHYUlhdmtrajdNcXRPYUc1ZzNUaTU0dDBjWkxPZ0Yvakkr?=
+ =?utf-8?B?SmRtenpHdkp0b2N2clVqNzdHQXExY09NYTYrMnIrTXJMTWVSVUpNVkx2eEVZ?=
+ =?utf-8?B?NElOeWcwUGdGUE5OSE9reEx5elQyNW5NdlZBdkpLSXN6L1oveW9JeGt1Sy9j?=
+ =?utf-8?B?UlYyN3h2OUE4K1hLK0ZhOXQ1WXB2MU1PclRub1VYd0MyUVV0RzRBYi9RNGJw?=
+ =?utf-8?B?OHJGbVRrVDB1RnFDWXNIWmJPaXp2ODdTYXQwU0dVL0ZYbDVnU2EzTXIwZU1F?=
+ =?utf-8?B?TVUwRlR0b3JYY256SGVGeXN2cnBBWm5ZZmhIM2lGWUVteFBwMUJKOXl1Zm9E?=
+ =?utf-8?B?WlFuaW9iYlB4RkUrY0pGRVU0ODVEZlovRXNYYUlwYzJ0RWkyN1Zyd1Y3RFBY?=
+ =?utf-8?B?OTRuRHJyRk5OcGxUbWdwUUZMYTkwTmxtbHZMcHFvNnBsdm9zV20vNU5xcTVy?=
+ =?utf-8?B?MXU4anFCT2Z0VkRyOWF3STNwTmNlR1N4ZzRHRktObW9KQ3JrOFhDRVRzM2Iw?=
+ =?utf-8?B?WTh3bldrTGgvWjZzRjgrT1pDckhsQ2FXZm9yMGZ0RWpIYXdLSTdSa1VxZjRX?=
+ =?utf-8?B?OUVuTWRpYmRUK3R0N282STJHTVlndktIb1JydUdONjZzUmwzUmp0c2ZhTVBz?=
+ =?utf-8?B?ZUNvV0ozM0s1b0Vmc25Da1JpSGVHODNCcFE1WnVPbFdPbllOV0FReGQxc1VO?=
+ =?utf-8?B?M3o5bzRIY0RNeVZ1NnJ5dXZUS2Mra0g5T0lHNXVCUHBmVENtVEpZTlU2SzdH?=
+ =?utf-8?B?cmZSNDBURC9IaVBkK2JNWDZZSG5BWVN1SVpkdk9Fc0xzbVVvc2syaG1pQTFM?=
+ =?utf-8?B?ZDEraDlWZmw3WjYwVFVhbWhsODFhZjBxMGUvU1ZjcXUxVFdIWG5qUzkyazBV?=
+ =?utf-8?B?b1JuR1VTNEhsMHEzaVZlemgrSkszaldDUUZKUE4vRDMzclBMa3FuMkt6NU5B?=
+ =?utf-8?B?L1ZWY0VTQzdmTGk1RXZERzVJM3cyZTV1QUtNZDN1YUNQdDh2R1FvQTlsM3pn?=
+ =?utf-8?B?V0g3Q1ZoV2dtSEUxVEpockNIWU1XU2NXeHRSaFBpMEtSWCs2ZklZUVV6VlVI?=
+ =?utf-8?B?TEJXeFh4Z2FYZFBkQ2N6cUZHeU83RHFXNHhSbGJjWWVFbVRudmd6dGlWWllD?=
+ =?utf-8?B?aWNyeW1iRk9QZmtGMGc2NXVnTXd0dktHQ0Y2NnFTYnpaWmlXT005d2VqZG8y?=
+ =?utf-8?B?dXA1bmt3ZjcvM0ZYbGY3eFRXM3lmYmsvaVpla3Z0Z0Uyc05pYUU0bU5Nb1RC?=
+ =?utf-8?B?M2I3UUpWVldPTzhXaER4VkpxZ0VDWE1DSzI1UUptTmZ2aHJHQ01zZUdYKzRS?=
+ =?utf-8?B?NDhScVV0VXloQnRLakRIVkUxb1lZYTNTeExIdERqYlMyQzNRejgvRmF2UVdt?=
+ =?utf-8?B?VVp5cldKcjlKK2xyVEMzaXF0MVUvOUhTV0h4OXFsM3A1bWdNSXdLYWtveGpq?=
+ =?utf-8?B?RU5XNnljZ1ZnUWt3dGZscDAvVm1oY0hUMEZzWUQ3d2tndHhUcmViMis3b1ow?=
+ =?utf-8?B?ZXc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: f38526b0-f0fb-442e-3532-08dbfc774c11
 X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4274.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Dec 2023 07:27:50.0148 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Dec 2023 07:35:51.3100 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rQxmLUryLrOpf8m9RxV+QlQ1CGPSy5S3NrHpa2sxissiOjNeubPDeFKZWs7aWZ2uEIsmg1fiUgWIm/1tU/rEG+E7UFBeowbaSmIRnDaAf7E=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6427
+X-MS-Exchange-CrossTenant-UserPrincipalName: flD/g0/RjMagRF/8CH5LmbHoscYV1j2NUrjjxXt89yNIAB90a/mXTcprwSin61kQxmWXSy9/Oq9L34hN87vgsdMXCWsNklRAJ9Rb5AuGXUg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6342
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -167,211 +163,154 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 10/27/2023 2:18 PM, John.C.Harrison@Intel.com wrote:
 > From: John Harrison <John.C.Harrison@Intel.com>
 >
-> To prevent running out of bits, new w/a enable flags are being added
-> via a KLV system instead of a 32 bit flags word.
+> Use the new w/a KLV support to enable a MTL w/a. Note, this w/a is a
+> super-set of Wa_16019325821, so requires turning that one as well as
+> setting the new flag for Wa_14019159160 itself.
 >
 > Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 > ---
->   .../gpu/drm/i915/gt/uc/abi/guc_errors_abi.h   |  1 +
->   drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  2 +
->   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    | 73 ++++++++++++++++++-
->   drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c     |  6 ++
->   drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |  5 +-
->   5 files changed, 85 insertions(+), 2 deletions(-)
+>   drivers/gpu/drm/i915/gt/gen8_engine_cs.c      |  3 ++
+>   drivers/gpu/drm/i915/gt/intel_engine_types.h  |  1 +
+>   drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h |  7 ++++
+>   drivers/gpu/drm/i915/gt/uc/intel_guc.c        |  1 +
+>   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    | 34 ++++++++++++++-----
+>   .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  1 +
+>   6 files changed, 38 insertions(+), 9 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h
-> index dabeaf4f245f3..00d6402333f8e 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h
-> @@ -36,6 +36,7 @@ enum intel_guc_load_status {
->   	INTEL_GUC_LOAD_STATUS_INVALID_INIT_DATA_RANGE_START,
->   	INTEL_GUC_LOAD_STATUS_MPU_DATA_INVALID                 = 0x73,
->   	INTEL_GUC_LOAD_STATUS_INIT_MMIO_SAVE_RESTORE_INVALID   = 0x74,
-> +	INTEL_GUC_LOAD_STATUS_KLV_WORKAROUND_INIT_ERROR        = 0x75,
->   	INTEL_GUC_LOAD_STATUS_INVALID_INIT_DATA_RANGE_END,
+> diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> index 9cccd60a5c41d..359b21fb02ab2 100644
+> --- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> +++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> @@ -744,6 +744,7 @@ static u32 *gen12_emit_preempt_busywait(struct i915_request *rq, u32 *cs)
 >   
->   	INTEL_GUC_LOAD_STATUS_READY                            = 0xF0,
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> index 2b6dfe62c8f2a..4113776ff3e19 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> @@ -198,6 +198,8 @@ struct intel_guc {
->   	struct guc_mmio_reg *ads_regset;
->   	/** @ads_golden_ctxt_size: size of the golden contexts in the ADS */
->   	u32 ads_golden_ctxt_size;
-> +	/** @ads_waklv_size: size of workaround KLVs */
-> +	u32 ads_waklv_size;
->   	/** @ads_capture_size: size of register lists in the ADS used for error capture */
->   	u32 ads_capture_size;
->   	/** @ads_engine_usage_size: size of engine usage in the ADS */
+>   /* Wa_14014475959:dg2 */
+>   /* Wa_16019325821 */
+> +/* Wa_14019159160 */
+>   #define HOLD_SWITCHOUT_SEMAPHORE_PPHWSP_OFFSET	0x540
+>   static u32 hold_switchout_semaphore_offset(struct i915_request *rq)
+>   {
+> @@ -753,6 +754,7 @@ static u32 hold_switchout_semaphore_offset(struct i915_request *rq)
+>   
+>   /* Wa_14014475959:dg2 */
+>   /* Wa_16019325821 */
+> +/* Wa_14019159160 */
+>   static u32 *hold_switchout_emit_wa_busywait(struct i915_request *rq, u32 *cs)
+>   {
+>   	int i;
+> @@ -793,6 +795,7 @@ gen12_emit_fini_breadcrumb_tail(struct i915_request *rq, u32 *cs)
+>   
+>   	/* Wa_14014475959:dg2 */
+>   	/* Wa_16019325821 */
+> +	/* Wa_14019159160 */
+>   	if (intel_engine_uses_wa_hold_switchout(rq->engine))
+>   		cs = hold_switchout_emit_wa_busywait(rq, cs);
+>   
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> index f08739d020332..3b4993955a4b6 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> @@ -695,6 +695,7 @@ intel_engine_has_relative_mmio(const struct intel_engine_cs * const engine)
+>   
+>   /* Wa_14014475959:dg2 */
+>   /* Wa_16019325821 */
+> +/* Wa_14019159160 */
+>   static inline bool
+>   intel_engine_uses_wa_hold_switchout(struct intel_engine_cs *engine)
+>   {
+> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
+> index 58012edd4eb0e..bebf28e3c4794 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
+> @@ -101,4 +101,11 @@ enum {
+>   	GUC_CONTEXT_POLICIES_KLV_NUM_IDS = 5,
+>   };
+>   
+> +/*
+> + * Workaround keys:
+> + */
+> +enum {
+> +	GUC_WORKAROUND_KLV_SERIALIZED_RA_MODE				= 0x9001,
+> +};
+> +
+>   #endif /* _ABI_GUC_KLVS_ABI_H */
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> index 0e6c160de3315..6252f32d67011 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> @@ -295,6 +295,7 @@ static u32 guc_ctl_wa_flags(struct intel_guc *guc)
+>   		flags |= GUC_WA_HOLD_CCS_SWITCHOUT;
+>   
+>   	/* Wa_16019325821 */
+> +	/* Wa_14019159160 */
+>   	if (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 71)))
+>   		flags |= GUC_WA_RCS_CCS_SWITCHOUT;
+>   
 > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-> index 63724e17829a7..251e7a7a05cb8 100644
+> index 251e7a7a05cb8..8f7298cbbc322 100644
 > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
 > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-> @@ -46,6 +46,10 @@
->    *      +---------------------------------------+
->    *      | padding                               |
->    *      +---------------------------------------+ <== 4K aligned
-> + *      | w/a KLVs                              |
-> + *      +---------------------------------------+
-> + *      | padding                               |
-> + *      +---------------------------------------+ <== 4K aligned
->    *      | capture lists                         |
->    *      +---------------------------------------+
->    *      | padding                               |
-> @@ -88,6 +92,11 @@ static u32 guc_ads_golden_ctxt_size(struct intel_guc *guc)
->   	return PAGE_ALIGN(guc->ads_golden_ctxt_size);
->   }
->   
-> +static u32 guc_ads_waklv_size(struct intel_guc *guc)
-> +{
-> +	return PAGE_ALIGN(guc->ads_waklv_size);
-> +}
-> +
->   static u32 guc_ads_capture_size(struct intel_guc *guc)
->   {
->   	return PAGE_ALIGN(guc->ads_capture_size);
-> @@ -113,7 +122,7 @@ static u32 guc_ads_golden_ctxt_offset(struct intel_guc *guc)
->   	return PAGE_ALIGN(offset);
->   }
->   
-> -static u32 guc_ads_capture_offset(struct intel_guc *guc)
-> +static u32 guc_ads_waklv_offset(struct intel_guc *guc)
->   {
->   	u32 offset;
->   
-> @@ -123,6 +132,16 @@ static u32 guc_ads_capture_offset(struct intel_guc *guc)
->   	return PAGE_ALIGN(offset);
->   }
->   
-> +static u32 guc_ads_capture_offset(struct intel_guc *guc)
-> +{
-> +	u32 offset;
-> +
-> +	offset = guc_ads_waklv_offset(guc) +
-> +		 guc_ads_waklv_size(guc);
-> +
-> +	return PAGE_ALIGN(offset);
-> +}
-> +
->   static u32 guc_ads_private_data_offset(struct intel_guc *guc)
->   {
->   	u32 offset;
-> @@ -791,6 +810,49 @@ guc_capture_prep_lists(struct intel_guc *guc)
+> @@ -810,6 +810,25 @@ guc_capture_prep_lists(struct intel_guc *guc)
 >   	return PAGE_ALIGN(total_size);
 >   }
 >   
-> +static void guc_waklv_init(struct intel_guc *guc)
+> +/* Wa_14019159160 */
+> +static u32 guc_waklv_ra_mode(struct intel_guc *guc, u32 offset, u32 remain)
 > +{
-> +	struct intel_gt *gt = guc_to_gt(guc);
-> +	u32 offset, addr_ggtt, remain, size;
+> +	u32 size;
+> +	u32 klv_entry[] = {
+> +		/* 16:16 key/length */
+> +		FIELD_PREP(GUC_KLV_0_KEY, GUC_WORKAROUND_KLV_SERIALIZED_RA_MODE) |
+> +		FIELD_PREP(GUC_KLV_0_LEN, 0),
+> +		/* 0 dwords data */
+> +	};
 > +
-> +	if (!intel_uc_uses_guc_submission(&gt->uc))
-> +		return;
+> +	size = sizeof(klv_entry);
+> +	GEM_BUG_ON(remain < size);
 > +
-> +	if (GUC_FIRMWARE_VER(guc) < MAKE_GUC_VER(70, 10, 0))
-> +		return;
+> +	iosys_map_memcpy_to(&guc->ads_map, offset, klv_entry, size);
 > +
-> +	GEM_BUG_ON(iosys_map_is_null(&guc->ads_map));
-> +	offset = guc_ads_waklv_offset(guc);
-> +	remain = guc_ads_waklv_size(guc);
-> +
-> +	/*
-> +	 * Add workarounds here:
-> +	 *
-> +	 * if (want_wa_<name>) {
-> +	 *	size = guc_waklv_<name>(guc, offset, remain);
-> +	 *	offset += size;
-> +	 *	remain -= size;
-> +	 * }
-> +	 */
-> +
-> +	size = guc_ads_waklv_size(guc) - remain;
-> +	if (!size)
-> +		return;
-> +
-> +	offset = guc_ads_waklv_offset(guc);
-> +	addr_ggtt = intel_guc_ggtt_offset(guc, guc->ads_vma) + offset;
-> +
-> +	ads_blob_write(guc, ads.wa_klv_addr_lo, addr_ggtt);
-> +	ads_blob_write(guc, ads.wa_klv_addr_hi, 0);
-> +	ads_blob_write(guc, ads.wa_klv_size, size);
+> +	return size;
 > +}
 > +
-> +static int guc_prep_waklv(struct intel_guc *guc)
-> +{
-> +	/* Fudge something chunky for now: */
-> +	return PAGE_SIZE;
-> +}
-> +
->   static void __guc_ads_init(struct intel_guc *guc)
+>   static void guc_waklv_init(struct intel_guc *guc)
 >   {
 >   	struct intel_gt *gt = guc_to_gt(guc);
-> @@ -838,6 +900,9 @@ static void __guc_ads_init(struct intel_guc *guc)
->   	/* MMIO save/restore list */
->   	guc_mmio_reg_state_init(guc);
+> @@ -825,15 +844,12 @@ static void guc_waklv_init(struct intel_guc *guc)
+>   	offset = guc_ads_waklv_offset(guc);
+>   	remain = guc_ads_waklv_size(guc);
 >   
-> +	/* Workaround KLV list */
-> +	guc_waklv_init(guc);
-> +
->   	/* Private Data */
->   	ads_blob_write(guc, ads.private_data, base +
->   		       guc_ads_private_data_offset(guc));
-> @@ -881,6 +946,12 @@ int intel_guc_ads_create(struct intel_guc *guc)
->   		return ret;
->   	guc->ads_capture_size = ret;
+> -	/*
+> -	 * Add workarounds here:
+> -	 *
+> -	 * if (want_wa_<name>) {
+> -	 *	size = guc_waklv_<name>(guc, offset, remain);
+> -	 *	offset += size;
+> -	 *	remain -= size;
+> -	 * }
+> -	 */
+> +	/* Wa_14019159160 */
+> +	if (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 71))) {
+> +		size = guc_waklv_ra_mode(guc, offset, remain);
+> +		offset += size;
+> +		remain -= size;
+> +	}
 >   
-> +	/* And don't forget the workaround KLVs: */
-> +	ret = guc_prep_waklv(guc);
-> +	if (ret < 0)
-> +		return ret;
-> +	guc->ads_waklv_size = ret;
-> +
->   	/* Now the total size can be determined: */
->   	size = guc_ads_blob_size(guc);
+>   	size = guc_ads_waklv_size(guc) - remain;
+>   	if (!size)
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> index bdb321d8e265d..225812b299524 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> @@ -4383,6 +4383,7 @@ static void guc_default_vfuncs(struct intel_engine_cs *engine)
+>   			engine->flags |= I915_ENGINE_USES_WA_HOLD_SWITCHOUT;
 >   
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
-> index 0f79cb6585182..a54d58b9243b0 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
-> @@ -115,6 +115,7 @@ static inline bool guc_load_done(struct intel_uncore *uncore, u32 *status, bool
->   	case INTEL_GUC_LOAD_STATUS_INIT_DATA_INVALID:
->   	case INTEL_GUC_LOAD_STATUS_MPU_DATA_INVALID:
->   	case INTEL_GUC_LOAD_STATUS_INIT_MMIO_SAVE_RESTORE_INVALID:
-> +	case INTEL_GUC_LOAD_STATUS_KLV_WORKAROUND_INIT_ERROR:
->   		*success = false;
->   		return true;
->   	}
-> @@ -241,6 +242,11 @@ static int guc_wait_ucode(struct intel_guc *guc)
->   			ret = -EPERM;
->   			break;
->   
-> +		case INTEL_GUC_LOAD_STATUS_KLV_WORKAROUND_INIT_ERROR:
-> +			guc_info(guc, "invalid w/a KLV entry\n");
-> +			ret = -EINVAL;
-> +			break;
-> +
->   		case INTEL_GUC_LOAD_STATUS_HWCONFIG_START:
->   			guc_info(guc, "still extracting hwconfig table.\n");
->   			ret = -ETIMEDOUT;
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-> index 48863188a130e..14797e80bc92c 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-> @@ -431,7 +431,10 @@ struct guc_ads {
->   	u32 capture_instance[GUC_CAPTURE_LIST_INDEX_MAX][GUC_MAX_ENGINE_CLASSES];
->   	u32 capture_class[GUC_CAPTURE_LIST_INDEX_MAX][GUC_MAX_ENGINE_CLASSES];
->   	u32 capture_global[GUC_CAPTURE_LIST_INDEX_MAX];
-> -	u32 reserved[14];
-> +	u32 wa_klv_addr_lo;
-> +	u32 wa_klv_addr_hi;
-> +	u32 wa_klv_size;
-> +	u32 reserved[11];
->   } __packed;
+>   	/* Wa_16019325821 */
+> +	/* Wa_14019159160 */
 
 LGTM,
 
 Reviewed-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 
->   
->   /* Engine usage stats */
+>   	if ((engine->class == COMPUTE_CLASS || engine->class == RENDER_CLASS) &&
+>   	    IS_GFX_GT_IP_RANGE(engine->gt, IP_VER(12, 70), IP_VER(12, 71)))
+>   		engine->flags |= I915_ENGINE_USES_WA_HOLD_SWITCHOUT;
