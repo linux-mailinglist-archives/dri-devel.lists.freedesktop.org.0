@@ -1,64 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54CC681333E
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 15:36:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3A85813340
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 15:37:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C2DF10E951;
-	Thu, 14 Dec 2023 14:35:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 466FE10E931;
+	Thu, 14 Dec 2023 14:37:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBB8310E92D;
- Thu, 14 Dec 2023 14:35:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1702564553; x=1734100553;
- h=message-id:date:mime-version:subject:from:to:cc:
- references:in-reply-to:content-transfer-encoding;
- bh=6RcJYPqcZ7O1HqqOUQV2pdfxSf/gE26ZIsryGJvozIw=;
- b=C5pA+EOEHNd629XBH0vCVNrHkQcm3mAFf7q3JaqV6qwreOVY0sca4gqU
- pOB7EUN+wgrL3haVHbFe9FOFoLjmDxT4kKgaMlk/A6k5NmE/2Pyo4KeZH
- dWx1gQAIutVCs/mZ+beZeA5z04VabtIKFpOHPE4tqTEzwKQvG481phl9/
- tXCrgbhcB8RyLGcSktTqz0HPw5wk2g8gyoulHT1BZuIvYuLdexYRkkVPm
- OGeSy8sNr0Ueqvrl+cfgwWTf1fPQX19se+RLoBC4xCOOpL3rPhpjs3nMy
- x73bFhA/k/rDJ59CUK51sUsOyJrA95/dFbo1I8BJGIKJu5V1zBv7YCTaX g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="392301350"
-X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; d="scan'208";a="392301350"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Dec 2023 06:35:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="1105731446"
-X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; d="scan'208";a="1105731446"
-Received: from viveks6x-mobl.ger.corp.intel.com (HELO [10.213.205.47])
- ([10.213.205.47])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Dec 2023 06:35:28 -0800
-Message-ID: <c968f151-6445-4ab4-9d2f-c59568665707@linux.intel.com>
-Date: Thu, 14 Dec 2023 14:35:26 +0000
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44EBD10E931
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 14:36:57 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id 4B6A2B822DF;
+ Thu, 14 Dec 2023 14:36:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CC45C433C7;
+ Thu, 14 Dec 2023 14:36:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1702564614;
+ bh=HPhal4ajNlpqTsuk3U92+JlLB95CdzW1vgQ8BebR6Zo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bHRBxD0kqGb9MqIMRDO+niGms5TPec+anv/4LuSZ/iqokSoUqk/rkv1qsk3Hari2O
+ dkO1L6oHHayaeIDrVIPpq7KpJZs0Iu9U6EjupebuZD12w6W4PofPfrROdHMaki9mLJ
+ LrNFBGOv9uyBIxQp+i3io1YNHjrWE5nWuom/We7GMxFZXgkNMC4/5EoQ9/VlFkMqLH
+ nXpsN+of/XumWb8lHa5qS3VRfC9rzH4U3nS0VGS9ntjzaJPPEx4RQD+kZ5JTZAfnkZ
+ pIRzcs6AeoxVMqrNgAArRU+xT+uaXeP/jmk6Ww0UBoAFtZZ5oU/z679dmPBem3hu6v
+ PobLLzJUmX4uw==
+Date: Thu, 14 Dec 2023 15:36:52 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Jocelyn Falempe <jfalempe@redhat.com>
+Subject: Re: [PATCH v5 6/6] drm/imx: Add drm_panic support
+Message-ID: <qfm2tke7xiclte5ka5fx5zsvvet3cvalqfoy26fr2zuohcr7b3@f2q43zovvytw>
+References: <20231103145526.628138-1-jfalempe@redhat.com>
+ <20231103145526.628138-7-jfalempe@redhat.com>
+ <4rmhvbb7kli4dm7swqhmjgbh5at6e4mwh73krloxanxgsd3bkv@zxz7mx4e5ft4>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/9] drm/i915: Replace kmap_atomic() with
- kmap_local_page()
-Content-Language: en-US
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Zhao Liu <zhao1.liu@linux.intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Ira Weiny <ira.weiny@intel.com>,
- "Fabio M . De Francesco" <fmdefrancesco@gmail.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20231203132947.2328805-1-zhao1.liu@linux.intel.com>
- <ZXsA4ojbROLXMkfz@intel.com>
- <2abe6f02-b93e-4207-b9be-e9185c7b69e5@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <2abe6f02-b93e-4207-b9be-e9185c7b69e5@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="oglnojtkshiyizm2"
+Content-Disposition: inline
+In-Reply-To: <4rmhvbb7kli4dm7swqhmjgbh5at6e4mwh73krloxanxgsd3bkv@zxz7mx4e5ft4>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,160 +53,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Hansen <dave.hansen@intel.com>, Zhao Liu <zhao1.liu@intel.com>,
- Zhenyu Wang <zhenyu.z.wang@intel.com>
+Cc: bluescreen_avenger@verizon.net, tzimmermann@suse.de, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, gpiccoli@igalia.com, noralf@tronnes.org,
+ airlied@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 14/12/2023 13:45, Tvrtko Ursulin wrote:
-> 
-> Hi Zhao,
-> 
-> On 14/12/2023 13:19, Zhao Liu wrote:
->> Hi maintainers,
->>
->> Just kindly ping.
->> May I ask if this refresh version could be merged into the next tree of
->> the i915?
-> 
-> I certainly spotted your series last week or so but then it slipped my 
-> mind to go through it. Should be able to go through it today or tomorrow.
+--oglnojtkshiyizm2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-It all looks good to me. I only needed to queue a re-test in our CI 
-since v3 failed BAT, but pretty sure it wasn't at fault. Once I am 
-satisfied with the results I will merge the series. Thanks for the 
-cleanups and your patience!
+On Thu, Dec 14, 2023 at 02:48:21PM +0100, Maxime Ripard wrote:
+> Hi,
+>=20
+> On Fri, Nov 03, 2023 at 03:53:30PM +0100, Jocelyn Falempe wrote:
+> > Proof of concept to add drm_panic support on an arm based GPU.
+> > I've tested it with X11/llvmpipe, because I wasn't able to have
+> > 3d rendering with etnaviv on my imx6 board.
+> >=20
+> > Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+>=20
+> Like I said in the v6, this shouldn't be dropped because it also kind of
+> documents and shows what we are expecting from a "real" driver.
+>=20
+> > ---
+> >  drivers/gpu/drm/imx/ipuv3/imx-drm-core.c | 30 ++++++++++++++++++++++++
+> >  1 file changed, 30 insertions(+)
+> >=20
+> > diff --git a/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c b/drivers/gpu/drm=
+/imx/ipuv3/imx-drm-core.c
+> > index 4a866ac60fff..db24b4976c61 100644
+> > --- a/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c
+> > +++ b/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c
+> > @@ -10,6 +10,7 @@
+> >  #include <linux/dma-buf.h>
+> >  #include <linux/module.h>
+> >  #include <linux/platform_device.h>
+> > +#include <linux/iosys-map.h>
+> > =20
+> >  #include <video/imx-ipu-v3.h>
+> > =20
+> > @@ -17,9 +18,12 @@
+> >  #include <drm/drm_atomic_helper.h>
+> >  #include <drm/drm_drv.h>
+> >  #include <drm/drm_fbdev_dma.h>
+> > +#include <drm/drm_fb_dma_helper.h>
+> > +#include <drm/drm_framebuffer.h>
+> >  #include <drm/drm_gem_dma_helper.h>
+> >  #include <drm/drm_gem_framebuffer_helper.h>
+> >  #include <drm/drm_managed.h>
+> > +#include <drm/drm_panic.h>
+> >  #include <drm/drm_of.h>
+> >  #include <drm/drm_probe_helper.h>
+> >  #include <drm/drm_vblank.h>
+> > @@ -160,6 +164,31 @@ static int imx_drm_dumb_create(struct drm_file *fi=
+le_priv,
+> >  	return ret;
+> >  }
+> > =20
+> > +static int imx_drm_get_scanout_buffer(struct drm_device *dev,
+> > +				      struct drm_scanout_buffer *sb)
+> > +{
+> > +	struct drm_plane *plane;
+> > +	struct drm_gem_dma_object *dma_obj;
+> > +
+> > +	drm_for_each_plane(plane, dev) {
+> > +		if (!plane->state || !plane->state->fb || !plane->state->visible ||
+> > +		    plane->type !=3D DRM_PLANE_TYPE_PRIMARY)
+> > +			continue;
+> > +
+> > +		dma_obj =3D drm_fb_dma_get_gem_obj(plane->state->fb, 0);
+> > +		if (!dma_obj->vaddr)
+> > +			continue;
+> > +
+> > +		iosys_map_set_vaddr(&sb->map, dma_obj->vaddr);
+> > +		sb->format =3D plane->state->fb->format;
+>=20
+> Planes can be using a framebuffer in one of the numerous YUV format the
+> driver advertises.
+>=20
+> > +		sb->height =3D plane->state->fb->height;
+> > +		sb->width =3D plane->state->fb->width;
+> > +		sb->pitch =3D plane->state->fb->pitches[0];
+>=20
+> And your code assumes that the buffer will be large enough for an RGB
+> buffer, which probably isn't the case for a single-planar YUV format,
+> and certainly not the case for a multi-planar one.
+>=20
+> When the driver gives back its current framebuffer, the code should check:
 
-Regards,
+Oh, and also, you need to keep an eye on the solid fill support:
 
-Tvrtko
+https://lore.kernel.org/all/20231027-solid-fill-v7-0-780188bfa7b2@quicinc.c=
+om/
+
+Because with that, a plane might not have a framebuffer anymore.
+
+>   * If the buffer backed by an actual buffer (and not a dma-buf handle)
+>   * If the buffer is mappable by the CPU
+>   * If the buffer is in a format that the panic code can handle
+>   * If the buffer uses a linear modifier
+>=20
+> Failing that, your code cannot work at the moment. We need to be clear
+> about that and "gracefully" handle things instead of going forward and
+> writing pixels to places we might not be able to write to.
+>=20
+> Which kind of makes me think, why do we need to involve the driver at
+> all there?
+>=20
+> If in the panic code, we're going over all enabled CRTCs, finding the
+> primary plane currently setup for them and getting the drm_framebuffer
+> assigned to them, it should be enough to get us all the informations we
+> need, right?
+>=20
+> Maxime
 
 
-> Regards,
-> 
-> Tvrtko
-> 
->>
->> Thanks,
->> Zhao
->>
->> On Sun, Dec 03, 2023 at 09:29:38PM +0800, Zhao Liu wrote:
->>> Date: Sun, 3 Dec 2023 21:29:38 +0800
->>> From: Zhao Liu <zhao1.liu@linux.intel.com>
->>> Subject: [PATCH v3 0/9] drm/i915: Replace kmap_atomic() with
->>>   kmap_local_page()
->>> X-Mailer: git-send-email 2.34.1
->>>
->>> From: Zhao Liu <zhao1.liu@intel.com>
->>>
->>> Hi all,
->>>
->>> I refreshed this v3 by rebasing v2 [1] on the commit 968f35f4ab1c
->>> ("Merge tag 'v6.7-rc3-smb3-client-fixes' of git://git.samba.org/sfrench/
->>> cifs-2.6").
->>>
->>> Based on the current code, I rechecked the substitutions in v2 and they
->>> still stand and are valid, so no code change in v3.
->>>
->>> Thanks for all the review! And sorry v2 was missed, I'll pay more
->>> attention to this v3.
->>>
->>>
->>> Purpose of This Patchset
->>> ========================
->>>
->>> The purpose of this pacthset is to replace all uses of kmap_atomic() in
->>> i915 with kmap_local_page() because the use of kmap_atomic() is being
->>> deprecated in favor of kmap_local_page()[2]. And 92b64bd (mm/highmem:
->>> add notes about conversions from kmap{,_atomic}()) has declared the
->>> deprecation of kmap_atomic().
->>>
->>>
->>> Motivation for Deprecating kmap_atomic() and Using kmap_local_page()
->>> ====================================================================
->>>
->>> The main difference between atomic and local mappings is that local
->>> mappings doesn't disable page faults or preemption (the preemption is
->>> disabled for !PREEMPT_RT case, otherwise it only disables migration).
->>>
->>> With kmap_local_page(), we can avoid the often unwanted side effect of
->>> unnecessary page faults and preemption disables.
->>>
->>>
->>> Patch summary
->>> =============
->>>
->>> Patch 1, 4-6 and 8-9 replace kmap_atomic()/kunmap_atomic() with
->>>          kmap_local_page()/kunmap_local() directly. With these local
->>>          mappings, the page faults and preemption are allowed.
->>>
->>> Patch 2 and 7 use memcpy_from_page() and memcpy_to_page() to replace
->>>          kmap_atomic()/kunmap_atomic(). These two variants of memcpy()
->>>          are based on the local mapping, so page faults and preemption
->>>          are also allowed in these two interfaces.
->>>
->>> Patch 3 replaces kmap_atomic()/kunmap_atomic() with kmap_local_page()/
->>>          kunmap_local() and also disable page fault since the for 
->>> special
->>>          handling (pls see the commit message).
->>>
->>>
->>> Reference
->>> =========
->>>
->>> [1]: 
->>> https://lore.kernel.org/all/20230329073220.3982460-1-zhao1.liu@linux.intel.com/
->>> [2]: 
->>> https://lore.kernel.org/all/20220813220034.806698-1-ira.weiny@intel.com
->>>
->>>
->>> Thanks and Best Regards,
->>> Zhao
->>>
->>> ---
->>> Changlog:
->>>
->>> Changes since v2:
->>> * Rebased on 968f35f4ab1c ("Merge tag 'v6.7-rc3-smb3-client-fixes' of
->>>    git://git.samba.org/sfrench/cifs-2.6").
->>> * Removed changelog (of v2) in commit message.
->>> * Fixed typo in cover letter (Fabio).
->>> * Added Reviewed-by tags from Ira and Fabio.
->>>
->>> Changes since v1:
->>> * Dropped hot plug related description in commit message since it has
->>>    nothing to do with kmap_local_page().
->>> * Emphasized the motivation for using kmap_local_page() in commit
->>>    message.
->>> * Rebased patch 1 on f47e630 (drm/i915/gem: Typecheck page lookups) to
->>>    keep the "idx" variable of type pgoff_t here.
->>> * Used memcpy_from_page() and memcpy_to_page() to replace
->>>    kmap_local_page() + memcpy() in patch 2.
->>>
->>> ---
->>> Zhao Liu (9):
->>>    drm/i915: Use kmap_local_page() in gem/i915_gem_object.c
->>>    drm/i915: Use memcpy_[from/to]_page() in gem/i915_gem_pyhs.c
->>>    drm/i915: Use kmap_local_page() in gem/i915_gem_shmem.c
->>>    drm/i915: Use kmap_local_page() in gem/selftests/huge_pages.c
->>>    drm/i915: Use kmap_local_page() in gem/selftests/i915_gem_coherency.c
->>>    drm/i915: Use kmap_local_page() in gem/selftests/i915_gem_context.c
->>>    drm/i915: Use memcpy_from_page() in gt/uc/intel_uc_fw.c
->>>    drm/i915: Use kmap_local_page() in i915_cmd_parser.c
->>>    drm/i915: Use kmap_local_page() in gem/i915_gem_execbuffer.c
->>>
->>>   drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c       | 10 +++++-----
->>>   drivers/gpu/drm/i915/gem/i915_gem_object.c           |  8 +++-----
->>>   drivers/gpu/drm/i915/gem/i915_gem_phys.c             | 10 ++--------
->>>   drivers/gpu/drm/i915/gem/i915_gem_shmem.c            |  6 ++++--
->>>   drivers/gpu/drm/i915/gem/selftests/huge_pages.c      |  6 +++---
->>>   .../gpu/drm/i915/gem/selftests/i915_gem_coherency.c  | 12 ++++--------
->>>   .../gpu/drm/i915/gem/selftests/i915_gem_context.c    |  8 ++++----
->>>   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c             |  5 +----
->>>   drivers/gpu/drm/i915/i915_cmd_parser.c               |  4 ++--
->>>   9 files changed, 28 insertions(+), 41 deletions(-)
->>>
->>> -- 
->>> 2.34.1
->>>
+
+--oglnojtkshiyizm2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZXsTBAAKCRDj7w1vZxhR
+xYPEAP43mpVh3nrZ+REHkVLrUXG3VSaCnOFDHvv3uhTUZp/ougEAyZFQ5mCCOOes
+EMOtAdjf7dvkStgtmQpH9hosDoAAaA4=
+=ar5y
+-----END PGP SIGNATURE-----
+
+--oglnojtkshiyizm2--
