@@ -2,64 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 831B6812BCF
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 10:38:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DBBC812BF4
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 10:48:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC1F910E065;
-	Thu, 14 Dec 2023 09:38:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A88110E06D;
+	Thu, 14 Dec 2023 09:48:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com
- [IPv6:2607:f8b0:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A458510E065
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 09:38:49 +0000 (UTC)
-Received: by mail-pf1-x434.google.com with SMTP id
- d2e1a72fcca58-6d099d316a8so4062865b3a.0
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 01:38:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1702546729; x=1703151529; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=GrXRlh1VZhf9ENLY+kgcCVCKL2qb4843BzZsjQawZy4=;
- b=Zx7M7zk2T4Vr7JTwLh9xpE6Mbb5yA4g9WjI3kXWLBd51eG/0akVlsn9tNXMPu/vhhS
- Sig4akRwGBb6iXc8L5DmcLu2OdjTEXNpmTo07p9AYv3iE0nAf+62vCN3uJJVkOoBqwJA
- YNhkXpJVGaNI/FhpnC9ClQCZDC9CR37ZYDwBmBjIqOjgayoUOg8iml61jTMxGz7O1gXn
- +luLpy+X5qVq9S/G3L8AR2IePKzQMXkqYVvBZr12if/M8JTe8NywYGAmDXPAyLHXog4m
- SjumqpqZ9AA526KqBs098skg6wzoGdl7yKY7GHt0UNRsZ9yDHaYDiGqvxfnOQcfZu4TL
- xzHw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A945610E06D
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 09:48:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1702547330;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Aac/fS+HABTTdTt9Tjp0/ej5UaiGQ4YUyORo11HpcO0=;
+ b=F4xp4/2I9DPL5e0cnrcWGagZNB3xkuv8HqlAFnoECAO2Wk/Ma2nklUVXuigh6C0+uv17kq
+ vMbEFzszGtF5Ai721kT+AeQPEP+Om63JS+X8OuhadQB165Voghs/lptiGAYd8UAn1v4rjo
+ IaWytgFVNSiIvw3vqFm7TKZeE3DYfKI=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-494-ht0tVaufMCeqygl7YoQdPg-1; Thu, 14 Dec 2023 04:48:48 -0500
+X-MC-Unique: ht0tVaufMCeqygl7YoQdPg-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ 4fb4d7f45d1cf-551da4f37baso1226235a12.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 01:48:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702546729; x=1703151529;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ d=1e100.net; s=20230601; t=1702547328; x=1703152128;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GrXRlh1VZhf9ENLY+kgcCVCKL2qb4843BzZsjQawZy4=;
- b=RIvS5EWx0jOtcIU7k5W9++m3wyiPukkZhO9jgVEg4Z8V6VqLheTsdl0SJbvhcFC2yf
- YQOfV7XYryPsJBBYIwECpqwExbHxUwwgcyzccW26rrpYWPpaG2b8T1H6r0r6Re5osIBo
- EOnuRb6r/sVROyIPxrRjoF0MLp6zBOQtkcQW51qaGOM3HND84JwQ4SBosq4MrEy+pMSX
- N9igrWpkYP+AgHw7rgfOMXWIX6WuiIZR9w/+it7k6yzOOcjx9glZTNWEITb85yOuS6Ge
- F/4RDijf75JpDasfFy1pcomWgChyLB/SyI6EslvSY6Dmmtc7BvfeFcM3j8sXeH3sf9h5
- 7dJw==
-X-Gm-Message-State: AOJu0YwrNX8tvQL4mkeeMTpI9QZpN0180GQjJir8uOcKHFv8OU90aDzo
- euGGH8hi7HU5PVVEREGC3Hg=
-X-Google-Smtp-Source: AGHT+IHQvwYZ1F7UuD3mjZKeIBdejzgLsccSVS8RgzZZLH9u8JxDHTD7CJmYWspvH8e0pq00nFDI3A==
-X-Received: by 2002:a05:6a00:9397:b0:6d2:430b:1cb0 with SMTP id
- ka23-20020a056a00939700b006d2430b1cb0mr704360pfb.23.1702546729141; 
- Thu, 14 Dec 2023 01:38:49 -0800 (PST)
-Received: from archie.me ([103.131.18.64]) by smtp.gmail.com with ESMTPSA id
- b9-20020a056a0002c900b006cee656cb3fsm10253158pft.132.2023.12.14.01.38.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Dec 2023 01:38:48 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
- id C19A410207011; Thu, 14 Dec 2023 16:38:43 +0700 (WIB)
-Date: Thu, 14 Dec 2023 16:38:43 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>
-Subject: Automatically update drm CI dependencies?
-Message-ID: <ZXrNI9Pqln9HVYVc@archie.me>
+ bh=Aac/fS+HABTTdTt9Tjp0/ej5UaiGQ4YUyORo11HpcO0=;
+ b=sv21QZFSanmFUPBnw3zdS1CoAG88ox2FgGxOi3/2+qteitVMsxd1b+lm9wAD3tY/nk
+ QiEBGfsvtVkxak2TQNyE/dc8BZAqwX5c2f6JSihNDhb3xiVdC3cr1veXI/0H1yNJ0ilz
+ 94SOYUEtKGlLECGuuZ0kHq0EY/ZSQRhHH0ppHpilkMDhH9yvgRo1cMEoCeu8zW1OXLrT
+ zp00TifskJbyWL/EwYUetbSU9E8zwa2Y3MTlNtJWsyC7kRBiAXv8iX9ekAWKIaYI0CXM
+ XpdZHEgS6GpAUoHZ8ki7wQPJYt3p90XzfGxOQ6RIg/PVw67nymdsB1dzWrIxXx6hez5F
+ CFBw==
+X-Gm-Message-State: AOJu0YzIiyWrXiP8fVFH9caJT7/vSeCmGjJ1oINsPMqPupxmxwmPqr8u
+ XH6f7sp85I7qdMzho3UCo3qVoiMPs2WF/uYMKblZX6sez9FXezf/MHA++XYg0Eg0bq5PpKsVfV6
+ X3FsF2z8wVEGmeWXnUSIclLz679+Y
+X-Received: by 2002:a50:d692:0:b0:551:e5ea:cd32 with SMTP id
+ r18-20020a50d692000000b00551e5eacd32mr1623886edi.23.1702547327863; 
+ Thu, 14 Dec 2023 01:48:47 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHfAPTl0ZBTHUgp9clExLMwVaQJM4BXpD6DoX/3U7sXNMttZ5MP+uupqGj8TWjV6I+QQzg05Q==
+X-Received: by 2002:a50:d692:0:b0:551:e5ea:cd32 with SMTP id
+ r18-20020a50d692000000b00551e5eacd32mr1623879edi.23.1702547327612; 
+ Thu, 14 Dec 2023 01:48:47 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
+ (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+ by smtp.gmail.com with ESMTPSA id
+ k13-20020a50cb8d000000b0054cc7a4dc4csm6427998edi.13.2023.12.14.01.48.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Dec 2023 01:48:46 -0800 (PST)
+Message-ID: <a65ca848-20cc-4794-9731-c84eaa295fbc@redhat.com>
+Date: Thu, 14 Dec 2023 10:48:46 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="kRMQUWEv/5erBWGx"
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fbdev/simplefb: change loglevel when the power domains
+ cannot be parsed
+To: Brian Masney <bmasney@redhat.com>, deller@gmx.de
+References: <20231212195754.232303-1-bmasney@redhat.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20231212195754.232303-1-bmasney@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,52 +87,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>,
- David Heidelberg <david.heidelberg@collabora.com>,
- Helen Koike <helen.koike@collabora.com>, Dorine Tipo <dorine.a.tipo@gmail.com>
+Cc: linux-fbdev@vger.kernel.org, treding@nvidia.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
---kRMQUWEv/5erBWGx
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 12/12/23 20:57, Brian Masney wrote:
+> When the power domains cannot be parsed, the message is incorrectly
+> logged as an info message. Let's change this to an error since an error
+> is returned.
+> 
+> Fixes: 92a511a568e4 ("fbdev/simplefb: Add support for generic power-domains")
+> Signed-off-by: Brian Masney <bmasney@redhat.com>
 
-Hi all,
+Thank you for your patch. I have pushed this to drm-misc-next now.
 
-I'm referring to dependabot PR on torvalds.git GitHub mirror [1]. I know=20
-that PRs submitted there are not accepted (the repo is essentially read-only
-mirror), hence this mail question.
+Regards,
 
-In summary, dependabot submitted automated PR that bumps package versions
-in `drivers/gpu/drm/ci/xfails/requirements.txt`. In this case, pip was
-upgraded to 23.3.
+Hans
 
-=46rom my experience, such automated PRs can pollute commit history (in
-some GitHub projects these PR kind can contribute up to half of total
-commits since the beginning of project). And in some projects, dependabot
-PRs are automatically merged without any maintainer intervention.
 
-Does such PRs (when submitted to LKML these will be patches) make sense
-for DRM subsystem?
 
-Thanks.
+> ---
+>  drivers/video/fbdev/simplefb.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/video/fbdev/simplefb.c b/drivers/video/fbdev/simplefb.c
+> index 6f58ee276ad1..028a56525047 100644
+> --- a/drivers/video/fbdev/simplefb.c
+> +++ b/drivers/video/fbdev/simplefb.c
+> @@ -470,7 +470,7 @@ static int simplefb_attach_genpds(struct simplefb_par *par,
+>  		if (err == -ENOENT)
+>  			return 0;
+>  
+> -		dev_info(dev, "failed to parse power-domains: %d\n", err);
+> +		dev_err(dev, "failed to parse power-domains: %d\n", err);
+>  		return err;
+>  	}
+>  
 
-[1]: https://github.com/torvalds/linux/pull/807
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---kRMQUWEv/5erBWGx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZXrNIAAKCRD2uYlJVVFO
-ozC2AQCxS3kryVSn5JLfUNWPaW/p4POxIllR4iEovVHReky5+QEA/T/ckSdfe5G7
-kUszFFqdFyATRQq4Dlz2X8R0DsN1kwM=
-=N1zN
------END PGP SIGNATURE-----
-
---kRMQUWEv/5erBWGx--
