@@ -1,72 +1,118 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58E328134C5
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 16:28:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E59CC813519
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 16:45:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9787710E978;
-	Thu, 14 Dec 2023 15:28:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4985B10E9E0;
+	Thu, 14 Dec 2023 15:45:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com
- [IPv6:2607:f8b0:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F4E810E1A5
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 15:28:31 +0000 (UTC)
-Received: by mail-pf1-x435.google.com with SMTP id
- d2e1a72fcca58-6ce9c8c45a7so5371544b3a.0
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 07:28:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1702567711; x=1703172511;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=cYiJim7EwvZmICmF4sAaIlVhRyzTthGFrkGF3qQRcUU=;
- b=kPkSTABA/qCRTpJnNQoTTHIrl0H4xNF61JyqcEgfkLoA5/lt9YDV9oN/ZQxy2JJ4F9
- LAVbrB8qPqNqVQ5MByxOUaCGgpBidU6WkqLg1yf9M1MoNVQN2b+hwBHnDD5BU7OtHC6d
- VsptLi3nMxNiolHoHG2qnCBlg9NaBP2bo3J0k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702567711; x=1703172511;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=cYiJim7EwvZmICmF4sAaIlVhRyzTthGFrkGF3qQRcUU=;
- b=goppLpNeyztSKBbUyw7liqZeQTPeqsgaWQqfk39jahxGsrNXCgJ7Tpe1oGPvtQAyee
- wTC3MJegS/x6zfZiG0qv7USt7YL3IvbD0TK+QjtPmT3NWfgYz4Q7nTVKha6ldqM0OPZe
- 585J2ZKboi2UxcDq33aF0M52/3uyEN921zSqP4wLbjvdwu0zJAxNF8frOCgCiw/VmeXv
- abHR2vify/eZ6m0+gu/hAHc5t9FbA9D7rJNW2lHXh7MLEhMT0NOCcDQMPltnN1JcCtZz
- nuH/RtQjLZQcdN3h81qWOtM56IKvZVi6K6Jz7ui2WCtuxAtVfE6AATmYNZOYMTzjO1xO
- ZYUw==
-X-Gm-Message-State: AOJu0YxDC2TKkc2LALSX4gVmxQrVCntX5QM1Yc1REpMniFH7RS7qK+6q
- imSVwNgzCfxFzCaDByACopJ6Ng==
-X-Google-Smtp-Source: AGHT+IGIwxJpdQroIIQ+oxSvIKisGyjF7WjwwR/b/nYQSjzCW2uENfxA6GXHFMi3aShXzI5LmOcVNw==
-X-Received: by 2002:a05:6a20:1445:b0:18b:fe45:90cb with SMTP id
- a5-20020a056a20144500b0018bfe4590cbmr5827576pzi.54.1702567710859; 
- Thu, 14 Dec 2023 07:28:30 -0800 (PST)
-Received: from treapking.tpe.corp.google.com
- ([2401:fa00:1:10:6530:8349:4ba8:984a])
- by smtp.gmail.com with ESMTPSA id
- b8-20020aa78108000000b006ce7bd009c0sm12281179pfi.149.2023.12.14.07.28.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Dec 2023 07:28:30 -0800 (PST)
-From: Pin-yen Lin <treapking@chromium.org>
-To: Douglas Anderson <dianders@chromium.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v3 3/3] drm/panel-edp: Add some panels with conservative
- timings
-Date: Thu, 14 Dec 2023 23:27:52 +0800
-Message-ID: <20231214152817.2766280-4-treapking@chromium.org>
-X-Mailer: git-send-email 2.43.0.472.g3155946c3a-goog
-In-Reply-To: <20231214152817.2766280-1-treapking@chromium.org>
-References: <20231214152817.2766280-1-treapking@chromium.org>
-MIME-Version: 1.0
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on20600.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:2412::600])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1FCB10E92D
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 15:45:01 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BLwvNU25XkNcUHMc/pgJT+ITVSsmG2D2ra09OsM+LAb5XG+sk/RPZEi8UkAuyCkPQTKlFPTUBtWVdT7VIwvMdUQ2ATZnvF7q6MBGkoThEBteRN2GuXQMOYzunVOQy7BitCXvYkNXOxn6L8AB4BVGv9vK0M+En7IKsTTVicij0/H2cEUUcR6zfQDfhb/qNeqm9Rw2/+yIVkRTv0VnoJrIj0oIyLwV6aZ35hyrSahf7gw8iMqIer1JDh/3MTax+U1y30xd3v+sEeXL6XQ2CUTIjBHeDTMCz8nxqtndf0+/xIpqLRRbD6tQl+6Ec6sMhIRbPKFTUI8A0eluwCHcexvyDA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5dOyEGbACx093MOh90I7ghYFDSLjo5CFGhKlUadrzd4=;
+ b=N6PwRvct0sC9wlzAyCZc1Xwu56A5zQljHvY0MHA4GMgkMdYznjTR6sI1yClUgMIrCbkWtMjCio8sy7CQIJataUGd1SoUvdvcOHwVW598t8gaigxPcSFnBF2loer4wZFo9lRD3Uq6ChkUYIMAZ7pwQIMGaNIVTGNbQuBVlPGCemZDq4GvwIjdZqMecK/9ePEfM+x0U7VyafaoXJR472i6Yajl3P1Jh5NaDfk1FY0quuILEFdObiZhKGbVe+2DSACByc7tU1CbJLexUPLyAOv3BiZhOZAFIuCrhXJKwRqiAZynFa8mJqpfG7UPyzEq0cjwfWX9Y6deuWA91Pnq4k8jag==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5dOyEGbACx093MOh90I7ghYFDSLjo5CFGhKlUadrzd4=;
+ b=YraqXRSpe5D8UooeFgaKQZ2+CvZUoLAK2UQ/ctcr3oda6RxiE1wXeicRCmhK2z7u9/QeiKamNswTOFZ7uI2er1DiCKyanNUG06KPfKIjZ9gZ6wVTAbrZtREKvsvhGF/ojD1pvMFE6w0DTQ+NWe6UJfSQ8Y546lniUqApbaMaLKY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by PH8PR12MB6794.namprd12.prod.outlook.com (2603:10b6:510:1c5::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.29; Thu, 14 Dec
+ 2023 15:44:59 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::ca80:8f1c:c11:ded3]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::ca80:8f1c:c11:ded3%7]) with mapi id 15.20.7091.029; Thu, 14 Dec 2023
+ 15:44:59 +0000
+Message-ID: <3a47cd8d-fc54-44b0-98ae-e90e81d53f91@amd.com>
+Date: Thu, 14 Dec 2023 16:44:53 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] dma-buf: Fix dma reservation with zero fences
+Content-Language: en-US
+To: Mika Kuoppala <mika.kuoppala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+References: <20231214120824.655946-1-mika.kuoppala@linux.intel.com>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20231214120824.655946-1-mika.kuoppala@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR5P281CA0018.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f1::18) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|PH8PR12MB6794:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9dd45faf-665e-4b33-9114-08dbfcbba0a2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: R+UBWeuf5BNTJpXlCZsSoESPz4mByAAKNaepo32N9CA+5EbuBb9El81KfWtXvXHrU0smw+swwYe1lozqBR8GU9Qom6ntpWAXe1AWwn9d1zSrrZYaWUcsfgkjiPnt8R5LyOqnCh9fWNQsBIjO5cxEAl2GyMdbMuaFYfRXfY0RurWU79SQVZ282gKS8hoTLmp9E5cYqAUOnHvWDHU1yDxR3V9ttFXVqxQLwyOWGgWuvt0dIYwd2EkeJHvAuW8bBuBT00ZmTsDM9q9VLNq9WC6fFtA7QBrjhc1aKKCuOXSYOxiS5qrswd/0avz3XPUwjJ17pQblxwZ4KI/aHrYbzbbEg0sHUDWPQere0iSsLwz0shnmkSCp6NQmanUo6dC0jdy9qxuPdcR4titsu/T+LyNPbqJ9gKz/5nifiVmqzcxILgG2A6j3h7QUl0cPxbWdCps6b2aq8rgpyLGws1NalcBPYqlhnUS7N+P+KcnR19G/bQesyTOCVaQNPGYVqCmR8zYZ4hjdQkNQqpKHmhHwh637Sio+gApXo/EI00mBIOXcFhZiZ9Z4XS0DQyIcifK2NY0DSwRtxcsa6G6llRydNeT+Xxx5A+NCVRS5JOdjMnUb7KXdvkRCTyY8/bVPJoP8eqQO/B6ZXXIQVK8kt6Hp+9y3LA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(346002)(136003)(396003)(376002)(39860400002)(366004)(230922051799003)(1800799012)(451199024)(186009)(64100799003)(31686004)(66574015)(26005)(6506007)(2616005)(36756003)(86362001)(31696002)(38100700002)(5660300002)(83380400001)(4326008)(6512007)(6666004)(316002)(66946007)(8676002)(6486002)(8936002)(66556008)(66476007)(41300700001)(2906002)(478600001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a2s1RVBpY3M0aHlvK04wYmJrbWczSEwzN3RBajF3WU94L3U0WUdXUytESXZr?=
+ =?utf-8?B?bDhlYi95bmJNMEJVbk9ML25ubGhnUkYzcytBMnF6U1BOaTMrcDFpQ1JWRjlB?=
+ =?utf-8?B?TkRkQzdKaDR6a05sQk9MdlVBd2cycndqU2xmN2dEK3hFWkpCVVBlTWVXQWFj?=
+ =?utf-8?B?b0dndndQanpIdnN5T3puNnRaRHhsS2p5T0hYcm1TVGUzZEdaNXY4MUtyRFo5?=
+ =?utf-8?B?M04zWlRsNXNnY3ErZU0vR3NyTGU4VWhmeHdXZWpWSTJvMmZpa1Fob2tSa3NH?=
+ =?utf-8?B?Z2pVQmVDWHpoR2d1Y0trS3ZYTWlDNTV5eFZNaWd3cE9iVndURGpRK2JSVCtJ?=
+ =?utf-8?B?d0Y4L2tvVkJrK0FmaThCWEVjcXFkcnI1RC9VNmlILyttNzM0S3cxNW15eDE3?=
+ =?utf-8?B?YytOU3V4RDQxNVE1TDQycTVaRG00VTR3QlRKakZDTmp0dk9SNG1WWVAyVWFI?=
+ =?utf-8?B?UWJRUkREVlpIWWh2aFFKMk55QjRrRW1NN2xZMVRZbnBQQWJBWXpOYlEzb0F6?=
+ =?utf-8?B?d1RLV0NaRFl6SHhCL3BISUd0UDc0YjNReEd2TXVUYlJNekptZmFWOHBFMEZT?=
+ =?utf-8?B?VzYxLy91anpuaFNONDJtTVdSdUV5cnJYMG1kcnIxMGQ5dlpncE1WWklzWStL?=
+ =?utf-8?B?bzF2dHEzOG5hZVlEQTNSSTVtTHFzYTEyWFRpK2lzZ3BmamY0bHU3UDV5TGdv?=
+ =?utf-8?B?OVh1RFVKWURaV01xZVFDWklTNUk5azhEMFJiWVBKMVRRVUdvejBzQXk4L1Vw?=
+ =?utf-8?B?R1NxUjlIVkJXTStJbWxseTh5Z3FoTlpBK0ZyZEdwQytPellGaTNNdjd3SCtm?=
+ =?utf-8?B?dnp5ZzZsOVpEbVJVVzNrbnBKOUU4eG1YVy9HUFVPS0FZa2FOanpMeGZBYmIw?=
+ =?utf-8?B?R0pyekNYbjUzTUU1M2tuc0pHeVJpb1VPVWhHK2MyL1F3bXJaWVVaZVFpa05E?=
+ =?utf-8?B?WnAyd293VVNtQVZOaW45VkQzVmtHZTkySUFPdk91WWxDcDVOWUpYRmRqbVhT?=
+ =?utf-8?B?UTRtajdGeVFRVEkwMDQvRDJsdWpmSy9XSmRPMFR5Q3RuSFpwQkN0enFla1hi?=
+ =?utf-8?B?TFI5R0pDQXRNMStTd29kRTF1RS9kY2ZWSG85cldJWmdWTkxFTmpneWQyZVFm?=
+ =?utf-8?B?aWZwYzRCYjlzWDVwRzI1ZWFYeEozVER5aVR6SGxGQVBCZkRpWWVjRUt1RXhr?=
+ =?utf-8?B?dzJjb0llR0hGNE1TNmF4b0xsNGtWK0NmVDRSOElWMFA4Rnp4aXl2cVFHeXFT?=
+ =?utf-8?B?ZjU3NG5Xc3dLYnhZMzFiZVdlWm1tZFJqcCszK1k4Y2MyYnlKd3BhQUJweE9N?=
+ =?utf-8?B?dld3K2NIZm1WWVY1WHZzK0lLVUdTNkN2bVF1NXFjbHVwODBVZGVrZHFCVWtm?=
+ =?utf-8?B?VElTSW1mdmhqVE5LZ2xWUGFHN3lGdkpmMjlrY3JrZ3V5QmJyMzk3dzhjRlhp?=
+ =?utf-8?B?ZGJ6dThVY0Y0eWJKRy93cldVUEE3ekpkWEJxYTR2UE45U2YralpPN0JENnNF?=
+ =?utf-8?B?MTBtRjloeVNsZ01MTTREKzhuTkVGRWFoSGx2Z21EUGM0ejByU0NtOUdJSTly?=
+ =?utf-8?B?ak1ONnlCK0VxYndBcU5mYlZpRTVaTUNFMkpoZm5kZk9PaTlwSG9pUDY2WmlW?=
+ =?utf-8?B?UE1lNUdDNU9YK2hJQVRZejdjZTdVYTI5WG5xWGl1TDhVWXluckszcGVaZUVP?=
+ =?utf-8?B?bzUzODU2MUpxdnZtYUR6MCtQRFNGdU9nc2NkTDFXK0IybmtseHE3NXNuVFlE?=
+ =?utf-8?B?WFpEZ1FSNXUxUEJpK013ejZ6N1VGR25LeE5lM3NFMVc2ZFp2ZWt5VkFrdU1N?=
+ =?utf-8?B?aGdwaUxxelg0NEVITjVXSFB5OGxiUkVJVHZaT0JkMERyRCt0cVFoQzR2M0Fy?=
+ =?utf-8?B?YzJjL2JTd0FDbW5reDhzeHRjTHYza0dQdFpxa0xsVGVaUFQyZUlQeVZZNlBC?=
+ =?utf-8?B?UG9kNEY5SDd6MUNxcEU1cThPSENqWTR6R0E3VmxsZi9iYi9xZytWK0l1Uzcr?=
+ =?utf-8?B?N3cvSkJGUUxmcWltdzJKSDlxQXB5SXVOVmM4U1V2Q2treTdvbWt3ZnMwWEtz?=
+ =?utf-8?B?NkJQanBrWUtZUnRkeVUyaUIyY011T3ZibmhkeEg4U09vWjhtRXdBRzYrcFpQ?=
+ =?utf-8?Q?oIvo=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9dd45faf-665e-4b33-9114-08dbfcbba0a2
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Dec 2023 15:44:59.1808 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: opfoCIUMpR1gCueFybB+G75lSWNXcWfRT7h8Zn2APcCDK3WpoH4EjNK+ZYUB8Fk+
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6794
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,153 +125,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Guenter Roeck <groeck@chromium.org>, Pin-yen Lin <treapking@chromium.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These panels are used by Mediatek MT8173 Chromebooks, and they used to
-work with the downstream v4.19 kernel without any specified delay.
-Back in the v4.19 kernel, they used the "little white lie" approach,
-which is making the devicetree claim a specific panel's compatible
-string for many different panels. That was a common solution before the
-generic edp-panel driver.
+Am 14.12.23 um 13:08 schrieb Mika Kuoppala:
+> Driver can initialize without any fences. If so
+> roundup_power_of_two will overflow as it will try to
+> subtract one from initial value before shift,
+> (1 << fls_long(-1)).
 
-After we uprevved the device to a newer kernel and used the edp-panel
-driver, we saw multiple devices reporting warnings of using an unknown
-panel and falling back to the conservative timings, which means that
-they turn on/off much more slowly than they should. We tried to fill in
-the timings for those panels, but we failed to find all the data sheets
-for them.
+Ah, yes that reminds me that I wanted to take care of this as well.
 
-Therefore, instead of having them use the default conservative timings,
-update them with less-conservative timings from other panels of the same
-vendor. The panels should still work under those timings, and we can
-save some delays and suppress the warnings.
+But solving it like this is the wrong approach. A couple of driver 
+calculate the number of fences needed based on userspace input. If that 
+results in zero then you certainly have a bug in your driver.
 
-Signed-off-by: Pin-yen Lin <treapking@chromium.org>
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Since calling dma_resv_reserve_fences() with num_fences==0 does make 
+much sense we should really just warn about it and just return early 
+from the function.
 
----
+Regards,
+Christian.
 
-Changes in v3:
-- Update the commit message.
-- Collect review tag.
 
- drivers/gpu/drm/panel/panel-edp.c | 31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
-
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index b059f5895d3a..e23737284f31 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -1955,6 +1955,7 @@ static const struct panel_delay delay_200_500_e50_po2e200 = {
- static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x105c, &delay_200_500_e50, "B116XTN01.0"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x1062, &delay_200_500_e50, "B120XAN01.0"),
-+	EDP_PANEL_ENTRY('A', 'U', 'O', 0x125c, &delay_200_500_e50, "Unknown"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x145c, &delay_200_500_e50, "B116XAB01.4"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x1e9b, &delay_200_500_e50, "B133UAN02.1"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x1ea5, &delay_200_500_e50, "B116XAK01.6"),
-@@ -1965,6 +1966,7 @@ static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x403d, &delay_200_500_e50, "B140HAN04.0"),
- 	EDP_PANEL_ENTRY2('A', 'U', 'O', 0x405c, &auo_b116xak01.delay, "B116XAK01.0",
- 			 &auo_b116xa3_mode),
-+	EDP_PANEL_ENTRY('A', 'U', 'O', 0x435c, &delay_200_500_e50, "Unknown"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x582d, &delay_200_500_e50, "B133UAN01.0"),
- 	EDP_PANEL_ENTRY2('A', 'U', 'O', 0x615c, &delay_200_500_e50, "B116XAN06.1",
- 			 &auo_b116xa3_mode),
-@@ -1974,18 +1976,34 @@ static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x8594, &delay_200_500_e50, "B133UAN01.0"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0xf390, &delay_200_500_e50, "B140XTN07.7"),
- 
-+	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0607, &delay_200_500_e200, "Unknown"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0608, &delay_200_500_e50, "NT116WHM-N11"),
-+	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0668, &delay_200_500_e200, "Unknown"),
-+	EDP_PANEL_ENTRY('B', 'O', 'E', 0x068f, &delay_200_500_e200, "Unknown"),
-+	EDP_PANEL_ENTRY('B', 'O', 'E', 0x06e5, &delay_200_500_e200, "Unknown"),
-+	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0705, &delay_200_500_e200, "Unknown"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0715, &delay_200_150_e200, "NT116WHM-N21"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0717, &delay_200_500_e50_po2e200, "NV133FHM-N42"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0731, &delay_200_500_e80, "NT116WHM-N42"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0741, &delay_200_500_e200, "NT116WHM-N44"),
-+	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0744, &delay_200_500_e200, "Unknown"),
-+	EDP_PANEL_ENTRY('B', 'O', 'E', 0x074c, &delay_200_500_e200, "Unknown"),
-+	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0751, &delay_200_500_e200, "Unknown"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0754, &delay_200_500_e50_po2e200, "NV116WHM-N45"),
-+	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0771, &delay_200_500_e200, "Unknown"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0786, &delay_200_500_p2e80, "NV116WHM-T01"),
-+	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0797, &delay_200_500_e200, "Unknown"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x07d1, &boe_nv133fhm_n61.delay, "NV133FHM-N61"),
-+	EDP_PANEL_ENTRY('B', 'O', 'E', 0x07d3, &delay_200_500_e200, "Unknown"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x07f6, &delay_200_500_e200, "NT140FHM-N44"),
-+	EDP_PANEL_ENTRY('B', 'O', 'E', 0x07f8, &delay_200_500_e200, "Unknown"),
-+	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0813, &delay_200_500_e200, "Unknown"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0827, &delay_200_500_e50_p2e80, "NT140WHM-N44 V8.0"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x082d, &boe_nv133fhm_n61.delay, "NV133FHM-N62"),
-+	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0843, &delay_200_500_e200, "Unknown"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x08b2, &delay_200_500_e200, "NT140WHM-N49"),
-+	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0848, &delay_200_500_e200, "Unknown"),
-+	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0849, &delay_200_500_e200, "Unknown"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x09c3, &delay_200_500_e50, "NT116WHM-N21,836X2"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x094b, &delay_200_500_e50, "NT116WHM-N21"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0951, &delay_200_500_e80, "NV116WHM-N47"),
-@@ -1997,6 +2015,7 @@ static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x09ad, &delay_200_500_e80, "NV116WHM-N47"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x09ae, &delay_200_500_e200, "NT140FHM-N45"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x09dd, &delay_200_500_e50, "NT116WHM-N21"),
-+	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0a36, &delay_200_500_e200, "Unknown"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0a5d, &delay_200_500_e50, "NV116WHM-N45"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0ac5, &delay_200_500_e50, "NV116WHM-N4C"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b43, &delay_200_500_e200, "NV140FHM-T09"),
-@@ -2007,11 +2026,14 @@ static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1132, &delay_200_500_e80_d50, "N116BGE-EA2"),
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1138, &innolux_n116bca_ea1.delay, "N116BCA-EA1-RC4"),
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1139, &delay_200_500_e80_d50, "N116BGE-EA2"),
-+	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1141, &delay_200_500_e80_d50, "Unknown"),
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1145, &delay_200_500_e80_d50, "N116BCN-EB1"),
-+	EDP_PANEL_ENTRY('C', 'M', 'N', 0x114a, &delay_200_500_e80_d50, "Unknown"),
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x114c, &innolux_n116bca_ea1.delay, "N116BCA-EA1"),
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1152, &delay_200_500_e80_d50, "N116BCN-EA1"),
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1153, &delay_200_500_e80_d50, "N116BGE-EA2"),
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1154, &delay_200_500_e80_d50, "N116BCA-EA2"),
-+	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1156, &delay_200_500_e80_d50, "Unknown"),
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1157, &delay_200_500_e80_d50, "N116BGE-EA2"),
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x115b, &delay_200_500_e80_d50, "N116BCN-EB1"),
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1247, &delay_200_500_e80_d50, "N120ACA-EA1"),
-@@ -2023,6 +2045,8 @@ static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x14d6, &delay_200_500_e80_d50, "N140BGA-EA4"),
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x14e5, &delay_200_500_e80_d50, "N140HGA-EA1"),
- 
-+	EDP_PANEL_ENTRY('H', 'K', 'C', 0x2d51, &delay_200_500_e200, "Unknown"),
-+	EDP_PANEL_ENTRY('H', 'K', 'C', 0x2d5b, &delay_200_500_e200, "Unknown"),
- 	EDP_PANEL_ENTRY('H', 'K', 'C', 0x2d5c, &delay_200_500_e200, "MB116AN01-2"),
- 
- 	EDP_PANEL_ENTRY('I', 'V', 'O', 0x048e, &delay_200_500_e200_d10, "M116NWR6 R5"),
-@@ -2031,6 +2055,7 @@ static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY('I', 'V', 'O', 0x854b, &delay_200_500_p2e100, "R133NW4K-R0"),
- 	EDP_PANEL_ENTRY('I', 'V', 'O', 0x8c4d, &delay_200_150_e200, "R140NWFM R1"),
- 
-+	EDP_PANEL_ENTRY('K', 'D', 'B', 0x044f, &delay_200_500_e80_d50, "Unknown"),
- 	EDP_PANEL_ENTRY('K', 'D', 'B', 0x0624, &kingdisplay_kd116n21_30nv_a010.delay, "116N21-30NV-A010"),
- 	EDP_PANEL_ENTRY('K', 'D', 'B', 0x1118, &delay_200_500_e50, "KD116N29-30NK-A005"),
- 	EDP_PANEL_ENTRY('K', 'D', 'B', 0x1120, &delay_200_500_e80_d50, "116N29-30NK-C007"),
-@@ -2039,9 +2064,15 @@ static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY('K', 'D', 'C', 0x05f1, &delay_200_500_e80_d50, "KD116N5-30NV-G7"),
- 	EDP_PANEL_ENTRY('K', 'D', 'C', 0x0809, &delay_200_500_e50, "KD116N2930A15"),
- 
-+	EDP_PANEL_ENTRY('L', 'G', 'D', 0x0000, &delay_200_500_e200_d200, "Unknown"),
-+	EDP_PANEL_ENTRY('L', 'G', 'D', 0x048d, &delay_200_500_e200_d200, "Unknown"),
- 	EDP_PANEL_ENTRY('L', 'G', 'D', 0x0497, &delay_200_500_e200_d200, "LP116WH7-SPB1"),
- 	EDP_PANEL_ENTRY('L', 'G', 'D', 0x052c, &delay_200_500_e200_d200, "LP133WF2-SPL7"),
-+	EDP_PANEL_ENTRY('L', 'G', 'D', 0x0537, &delay_200_500_e200_d200, "Unknown"),
- 	EDP_PANEL_ENTRY('L', 'G', 'D', 0x054a, &delay_200_500_e200_d200, "LP116WH8-SPC1"),
-+	EDP_PANEL_ENTRY('L', 'G', 'D', 0x0567, &delay_200_500_e200_d200, "Unknown"),
-+	EDP_PANEL_ENTRY('L', 'G', 'D', 0x05af, &delay_200_500_e200_d200, "Unknown"),
-+	EDP_PANEL_ENTRY('L', 'G', 'D', 0x05f1, &delay_200_500_e200_d200, "Unknown"),
- 
- 	EDP_PANEL_ENTRY('S', 'D', 'C', 0x416d, &delay_100_500_e200, "ATNA45AF01"),
- 
--- 
-2.43.0.472.g3155946c3a-goog
+>
+> Fix this using default (4) if num_fences is zero.
+>
+> Another more radical option would be to return error on
+> zero but that would need a callsite comb.
+>
+> Caught-by: UBSAN
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Signed-off-by: Mika Kuoppala <mika.kuoppala@linux.intel.com>
+> ---
+>   drivers/dma-buf/dma-resv.c | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+> index 38b4110378de..f5ad3ecd0d4f 100644
+> --- a/drivers/dma-buf/dma-resv.c
+> +++ b/drivers/dma-buf/dma-resv.c
+> @@ -192,7 +192,10 @@ int dma_resv_reserve_fences(struct dma_resv *obj, unsigned int num_fences)
+>   			return 0;
+>   		max = max(old->num_fences + num_fences, old->max_fences * 2);
+>   	} else {
+> -		max = max(4ul, roundup_pow_of_two(num_fences));
+> +		if (num_fences)
+> +			max = max(4ul, roundup_pow_of_two(num_fences));
+> +		else
+> +			max = 4ul;
+>   	}
+>   
+>   	new = dma_resv_list_alloc(max);
 
