@@ -1,44 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 264AB812467
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 02:18:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C67308124D9
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 02:57:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83F1010E8B8;
-	Thu, 14 Dec 2023 01:18:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90F4810E16B;
+	Thu, 14 Dec 2023 01:57:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD6DF10E8B8
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 01:18:01 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 54339CE2041;
- Thu, 14 Dec 2023 01:17:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 435CAC433C7;
- Thu, 14 Dec 2023 01:17:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1702516677;
- bh=zsaG1Z/V6aX7d8f9bjRUYAcyyvlRqu+OVBtKr82ilo8=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=ASB0owDzSZAjwNqEaZNw5l/tG4f5H9NX+k9wIaQk8aZXmjNXWFA3xs3z4915D3ydm
- 7Ny7vU+2Z7vaKSVVG1qq8axAQ/MCShUSGffVW9XOEwhE7c/wF53+YRFmoEGCRaSXJV
- xxx5jmq9TTDBawDFV+xQEVsShfQCo7hbn0fdbEXDcJggTLF+nKeQ0DUI/UxbZMIsOO
- 5BjG5ifdnXPja4ZIyPRc+ST7CoXQVV+Yuqp2Ss/x8LSXqj0MPfatQDbKpgwNw8T3UN
- XTW5ymxEA+Otu6nrG7yjCGi17kV/e48xzniquq3SrjsO19LqX8qx2v133Y2t3Q722V
- y4VWpmNMV+zfA==
-Date: Wed, 13 Dec 2023 17:17:55 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Mina Almasry <almasrymina@google.com>
-Subject: Re: [net-next v1 05/16] net: netdev netlink api to bind dma-buf to
- a net device
-Message-ID: <20231213171755.5965e1ec@kernel.org>
-In-Reply-To: <20231208005250.2910004-6-almasrymina@google.com>
-References: <20231208005250.2910004-1-almasrymina@google.com>
- <20231208005250.2910004-6-almasrymina@google.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 227F210E16B
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 01:57:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1702519044; x=1734055044;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=WOZigPxVQFl9wag0R+0M2h5FThcmE4i9MS0ylTEsJHg=;
+ b=Aujyp5mVgMZYw50kueaGLX3PDLPK9aWW5FftpYy00koa2c6Uh0yOLSkw
+ YHY16XNRDaaineO/HwczTsjEhq+j6ev1mmBtrzy6+863MTsW8xCPF6la5
+ 1tpFUGrV0BsQ9oFQsmkBQmcsrtm1boh08o5/KD/PvIgnDDPEJR2xAg2pi
+ Wic5BBjwyT1pbj45iTzRNw3tBELmiAMxwAX7hfkcF2fqT74MIOg1OugfO
+ p32QgGAkiPbIaKIH/SmcnI6hfO2F/fX2NdjaIh6CHDSNVsgAtGy6Po88r
+ D5YwJ8tNXZFF+57rX7tfP5hr20kPjZfxkXLNDmT95Yhu+PNvEFjMlsVo+ Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="8450351"
+X-IronPort-AV: E=Sophos;i="6.04,274,1695711600"; 
+   d="scan'208";a="8450351"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Dec 2023 17:57:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="844534205"
+X-IronPort-AV: E=Sophos;i="6.04,274,1695711600"; d="scan'208";a="844534205"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+ by fmsmga004.fm.intel.com with ESMTP; 13 Dec 2023 17:57:21 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1rDayV-000LPL-1y;
+ Thu, 14 Dec 2023 01:57:19 +0000
+Date: Thu, 14 Dec 2023 09:56:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2] ASoC: hdmi-codec: drop drm/drm_edid.h include
+Message-ID: <202312140917.YddZdAlJ-lkp@intel.com>
+References: <20231213095023.3928703-1-jani.nikula@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231213095023.3928703-1-jani.nikula@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,30 +60,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Eric Dumazet <edumazet@google.com>, Stanislav Fomichev <sdf@google.com>,
- linux-kselftest@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-arch@vger.kernel.org,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jeroen de Borst <jeroendb@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
- Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Shailend Chand <shailend@google.com>, Shakeel Butt <shakeelb@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>, netdev@vger.kernel.org,
- David Ahern <dsahern@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Yunsheng Lin <linyunsheng@huawei.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>, bpf@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>
+Cc: linux-arm-msm@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, dri-devel@lists.freedesktop.org,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu,  7 Dec 2023 16:52:36 -0800 Mina Almasry wrote:
-> +        name: type
-> +        doc: rx or tx queue
-> +        type: u8
-> +        enum: queue-type
+Hi Jani,
 
-nit: the queue/napi GET was applied to net-next, would be good to stick
-to the same types (s/u8/u32)
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on tiwai-sound/for-next tiwai-sound/for-linus drm-tip/drm-tip linus/master v6.7-rc5 next-20231213]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/ASoC-hdmi-codec-drop-drm-drm_edid-h-include/20231213-175633
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20231213095023.3928703-1-jani.nikula%40intel.com
+patch subject: [PATCH v2] ASoC: hdmi-codec: drop drm/drm_edid.h include
+config: i386-randconfig-006-20231214 (https://download.01.org/0day-ci/archive/20231214/202312140917.YddZdAlJ-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312140917.YddZdAlJ-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312140917.YddZdAlJ-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/gpu/drm/bridge/lontium-lt9611.c: In function 'lt9611_hdmi_set_infoframes':
+   drivers/gpu/drm/bridge/lontium-lt9611.c:346:8: error: implicit declaration of function 'drm_hdmi_avi_infoframe_from_display_mode'; did you mean 'hdmi_avi_infoframe_pack_only'? [-Werror=implicit-function-declaration]
+     ret = drm_hdmi_avi_infoframe_from_display_mode(&infoframe.avi,
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           hdmi_avi_infoframe_pack_only
+   drivers/gpu/drm/bridge/lontium-lt9611.c:359:8: error: implicit declaration of function 'drm_hdmi_vendor_infoframe_from_display_mode'; did you mean 'hdmi_vendor_infoframe_pack_only'? [-Werror=implicit-function-declaration]
+     ret = drm_hdmi_vendor_infoframe_from_display_mode(&infoframe.vendor.hdmi,
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           hdmi_vendor_infoframe_pack_only
+   drivers/gpu/drm/bridge/lontium-lt9611.c: In function 'lt9611_bridge_get_edid':
+   drivers/gpu/drm/bridge/lontium-lt9611.c:855:9: error: implicit declaration of function 'drm_do_get_edid'; did you mean 'drm_bridge_get_edid'? [-Werror=implicit-function-declaration]
+     return drm_do_get_edid(connector, lt9611_get_edid_block, lt9611);
+            ^~~~~~~~~~~~~~~
+            drm_bridge_get_edid
+>> drivers/gpu/drm/bridge/lontium-lt9611.c:855:9: warning: return makes pointer from integer without a cast [-Wint-conversion]
+     return drm_do_get_edid(connector, lt9611_get_edid_block, lt9611);
+            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +855 drivers/gpu/drm/bridge/lontium-lt9611.c
+
+23278bf54afe18 Vinod Koul 2020-07-23  848  
+23278bf54afe18 Vinod Koul 2020-07-23  849  static struct edid *lt9611_bridge_get_edid(struct drm_bridge *bridge,
+23278bf54afe18 Vinod Koul 2020-07-23  850  					   struct drm_connector *connector)
+23278bf54afe18 Vinod Koul 2020-07-23  851  {
+23278bf54afe18 Vinod Koul 2020-07-23  852  	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
+23278bf54afe18 Vinod Koul 2020-07-23  853  
+23278bf54afe18 Vinod Koul 2020-07-23  854  	lt9611_power_on(lt9611);
+23278bf54afe18 Vinod Koul 2020-07-23 @855  	return drm_do_get_edid(connector, lt9611_get_edid_block, lt9611);
+23278bf54afe18 Vinod Koul 2020-07-23  856  }
+23278bf54afe18 Vinod Koul 2020-07-23  857  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
