@@ -1,120 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A66B08125FA
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 04:39:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 571AF812748
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 06:59:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8DF310E8AF;
-	Thu, 14 Dec 2023 03:39:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FFB410E8BD;
+	Thu, 14 Dec 2023 05:58:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 091F110E8AF
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 03:39:28 +0000 (UTC)
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
- by mailout1.samsung.com (KnoxPortal) with ESMTP id
- 20231214033926epoutp012492ac9d2192d8a2525d4ad5d73cd0bb~glZ5VTElq0847408474epoutp01n
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 03:39:26 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
- 20231214033926epoutp012492ac9d2192d8a2525d4ad5d73cd0bb~glZ5VTElq0847408474epoutp01n
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1702525166;
- bh=oZGojsTaKV3z5XZlFVlJ4SAv73S6D4gkF2TIFY3/dm4=;
- h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
- b=PHnDroDb8h565gTEHnXdqOUgTRYxhCmCgHh3Ac8S9IZchLVCiOk0UDo5SiF1uRknp
- yhvhbCe0X/7GpIxGjwLBSSJPrXYo+GfwQGyRZiZyZ/R6cFi5n/skbQwtK2OHqLKdE4
- agsT9RzGVBOd5tY0JqZoKagqozbLyeINMiUDbFS0=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
- epcas5p4.samsung.com (KnoxPortal) with ESMTP id
- 20231214033925epcas5p4ac2a884d47713ee69fb621954b2c9aa9~glZ4Z34eo1412614126epcas5p4h;
- Thu, 14 Dec 2023 03:39:25 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.176]) by
- epsnrtp3.localdomain (Postfix) with ESMTP id 4SrJ4W563Jz4x9Pr; Thu, 14 Dec
- 2023 03:39:23 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
- epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
- A6.F4.09672.BE87A756; Thu, 14 Dec 2023 12:39:23 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
- epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
- 20231214033923epcas5p206f2e64ca52b37560a9fcc176cf4ac1e~glZ2P05qk2518125181epcas5p2Q;
- Thu, 14 Dec 2023 03:39:23 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
- epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20231214033923epsmtrp29892029d3ecd928c27d9f66e5c3657dc~glZ2O8UMT0036100361epsmtrp2c;
- Thu, 14 Dec 2023 03:39:23 +0000 (GMT)
-X-AuditID: b6c32a4b-60bfd700000025c8-87-657a78eb02b3
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
- epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
- 7B.6F.18939.AE87A756; Thu, 14 Dec 2023 12:39:22 +0900 (KST)
-Received: from INBRO000447 (unknown [107.122.12.5]) by epsmtip1.samsung.com
- (KnoxPortal) with ESMTPA id
- 20231214033920epsmtip1a230f85910395a4e85e58253695e3ac3~glZz9GOB81650516505epsmtip1T;
- Thu, 14 Dec 2023 03:39:20 +0000 (GMT)
-From: "Alim Akhtar" <alim.akhtar@samsung.com>
-To: "'Rob Herring'" <robh@kernel.org>, "'Inki Dae'" <inki.dae@samsung.com>,
- "'Seung-Woo Kim'" <sw0312.kim@samsung.com>, "'Kyungmin Park'"
- <kyungmin.park@samsung.com>, "'Maarten Lankhorst'"
- <maarten.lankhorst@linux.intel.com>, "'Maxime Ripard'" <mripard@kernel.org>,
- "'Thomas Zimmermann'" <tzimmermann@suse.de>, "'David Airlie'"
- <airlied@gmail.com>, "'Daniel Vetter'" <daniel@ffwll.ch>, "'Krzysztof
- Kozlowski'" <krzysztof.kozlowski+dt@linaro.org>, "'Conor Dooley'"
- <conor+dt@kernel.org>
-In-Reply-To: <20231213224201.2191358-1-robh@kernel.org>
-Subject: RE: [PATCH] dt-bindings: display: samsung,exynos-mixer: Fix 'regs'
- typo
-Date: Thu, 14 Dec 2023 09:09:19 +0530
-Message-ID: <007301da2e3f$20c35320$6249f960$@samsung.com>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D511710E8B2
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 05:58:55 +0000 (UTC)
+X-UUID: d9b4b0aa9a4511eea5db2bebc7c28f94-20231214
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=EnSvj2tYZP4NI1G6ATpw31JLDKJW7cSSRiBu7nXACMM=; 
+ b=gxgxSkFViOAvE73nLU7jo14ni4wASj4BO5NDacSKDkqqLHSodEsyWPfcRuwgKGxg32CUUvhY/oDMUu4GOKkuHGIMHMHIz2I91UzomfUOktXTLVrFQbHItn+A3SRijhw/uJ2BwCeibuIGlh82wCek5u/KKH4wKWH8uFjk9YgNX2I=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.35, REQID:9ae5fcbd-17f7-4770-842b-baf99f42421f, IP:0,
+ U
+ RL:25,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:25
+X-CID-META: VersionHash:5d391d7, CLOUDID:895fc673-1bd3-4f48-b671-ada88705968c,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
+ NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_ULN,TF_CID_SPAM_SNR
+X-UUID: d9b4b0aa9a4511eea5db2bebc7c28f94-20231214
+Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by
+ mailgw01.mediatek.com (envelope-from <shawn.sung@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1709734976; Thu, 14 Dec 2023 13:58:49 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Thu, 14 Dec 2023 13:58:48 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Thu, 14 Dec 2023 13:58:47 +0800
+From: Hsiao Chien Sung <shawn.sung@mediatek.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, CK
+ Hu <ck.hu@mediatek.com>
+Subject: [PATCH v12 00/23] Add display driver for MT8188 VDOSYS1
+Date: Thu, 14 Dec 2023 13:58:24 +0800
+Message-ID: <20231214055847.4936-1-shawn.sung@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Content-Language: en-us
-Thread-Index: AQGvaXTBCeAb7VPGqzttC4JYofnLoQCQk5KBsPkmauA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA02TfUxTVxjGd3pvb0uXusvXPJQESgOZ4IBWS7klwkiEeSP+gYNlbiHiHZxQ
- Rmm73jJAs80M7UAyZ3UxWBGRaTGEBVYZFIFJQIbMANMBi3FAQWAwUXFYZDLGWq46/vu973me
- vOc5H0LMZ5KQCHN1JmTUMVoZIcKbu8O3RN4vOojkruFQ6sZvNTyqvmOAR601WzDq/PUBPjXk
- ekRQJ8dP4NTgYKOAOj47gVH9X8wLKPu9ET7169VKgqoY/JFHXXj8A06Zy2x8aq3dIaAqTs0R
- VNO8hZ/oTXcsVeN0q3VUQNvrygj695F2gq7q20uPl/fy6CsXP6ePN9UB+srNQ/SiPShV9EHe
- Dg1ispFRinRZ+uxcXU68LCUtc2dmjEquiFSoqViZVMfko3hZ0p7UyLdzte44MuknjLbA3Upl
- WFYWnbDDqC8wIalGz5riZciQrTUoDVEsk88W6HKidMgUp5DLt8W4hQfyNJcu7jVUi4raS54Q
- h8G88BjwEkJSCW+fbiI87EO2AXi0jToGRG7+C8A/npwWvCzaZzuIF46x8rOAW2gF8JfVHoIr
- ZgGcblnie1QEGQkd35rXF/zIRQzO1NZingIjJwCs6FoFHpUXGQtLmy3rDl/yHVjfaF5nnAyD
- g+ZOzMNiUg1b68b4HHvDvjNTuIcxMhi2PKjEuD1J4d/TNj7X3wzneq4LPOxHxsEbdtd6CEiu
- CeFsyTM+Z0iCz1wdOMe+8M/eJgHHErj40BNU6GYa1vwj4doa+KC2AXD8FuwcqsQ9EowMhw1X
- o7mxm+BXK1M8zimGpWYfTh0GSx4OPx8UCC3l5c83QMM743b+CRBi3RDMuiGYdUMY6//DqgFe
- BwKQgc3PQWyMYbsOFb687yx9vh2sP/aIFAeYdC5EdQGeEHQBKMRkfuI+RyHyEWczxQeRUZ9p
- LNAitgvEuE/bgkn8s/Tu36IzZSqUarlSpVIp1dtVCtlm8f2j57J9yBzGhPIQMiDjCx9P6CU5
- zNu2Py7jTEHo0J5Tk2kfTzWWbP2sXpysCrUlL7GJ8yUfmc+XVcc1F6b6aqdHbmempi07q4vD
- 2ys7zmbF7jOffH/U9kqSxJWcIr/rdHV3vTmwrLR+yfs3uNN5aG14pn5XTEvRq4EkUUlklIY8
- /X75sTmhwlGT0H9rbuu5moUyAl7LFU8UK34+slhKJKZ/HX9NNZfv1P/0IaN4d/dTtjXpvXuW
- BX4D2JdyZ6lfF+zVf2Fnr8ibeq3H1z896JvCm+mqok/FEY8G28rU4EhUgGY/khy4JQ2oer1b
- PDqb4RV06Q2UFwQ3hazixsTdlwPvrogaWkdsnWEDaifr/110z0zKStWYDGc1jCICM7LMf0VW
- Mcd1BAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrGIsWRmVeSWpSXmKPExsWy7bCSnO7riqpUg71OFieuL2KyWLP3HJPF
- /20TmS3mHznHanHl63s2i0n3J7BYnD+/gd2i78VDZouzTW/YLTY9vsZqcXnXHDaLGef3MVks
- /LiVxaKtcxmrxf89O9gtZkx+yWax5c1EVgdBj73fFrB47Jx1l91j06pONo871/awecw7Gehx
- v/s4k8fmJfUefVtWMXpsPl3t8XmTXABXFJdNSmpOZllqkb5dAlfG0iWBBQu4KvY0f2FrYHzD
- 0cXIySEhYCJxr3s2YxcjF4eQwHZGidn9C5khEtIS1zdOYIewhSVW/nvODlH0jFFi1cXPYAk2
- AV2JHYvb2EASIgI/mSXW7r7FAuIwCzxllHj8cg/U3A5GiamzJ7KCtHAKmEt0bIOwhQUCJBb3
- /2IDsVkEVCXOtx0A280rYCmxc9U9VghbUOLkzCdAUzmApupJtG1kBAkzC8hLbH87B+pUBYmf
- T5exQsTFJV4ePQJ2nYiAlcSJTV/ZJzAKz0IyaRbCpFlIJs1C0r2AkWUVo2hqQXFuem5ygaFe
- cWJucWleul5yfu4mRnBUawXtYFy2/q/eIUYmDsZDjBIczEoivCd3lKcK8aYkVlalFuXHF5Xm
- pBYfYpTmYFES51XO6UwREkhPLEnNTk0tSC2CyTJxcEo1MK2Zeft9F1uciFjU7p3vToc6+83t
- u3Z1fVfeg7y3Hs8nzWMVYrE+c9Ll2vLFf3zVjs/1f3ec9Xpt5revxuJbWf5pzoyIbvbrEJw6
- 89zaideDDtScvjBdefnZ5s09sieCMkrSKy5fjWQvyjr84eUWdjHXmyfjuu6b+rKtfNSStM13
- 0stGTTfOjkLZ/ULe/crvXmw/fldppfedcxvYraJ3p6p83lZzvORMxBctMY6fprek9phLFUhu
- 4pQLSI30/zA94snB3ccntz7L4LrcZVRe5j7JfRnLionvX34X3+ZymmnhqcT6gz+v7Cw7UPYj
- 8bhcAHuH3ZnWCSumXHqyRCY988rWhf+TOt7kqZyZOu9/IW+eEktxRqKhFnNRcSIAzIsl8VkD
- AAA=
-X-CMS-MailID: 20231214033923epcas5p206f2e64ca52b37560a9fcc176cf4ac1e
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20231213224223epcas5p31386d8403f97b986d39cd738af0ba781
-References: <CGME20231213224223epcas5p31386d8403f97b986d39cd738af0ba781@epcas5p3.samsung.com>
- <20231213224201.2191358-1-robh@kernel.org>
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,47 +65,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- 'Krzysztof Kozlowski' <krzk@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ "Nancy . Lin" <nancy.lin@mediatek.com>, xinlei lee <xinlei.lee@mediatek.com>,
+ "Roy-CW .
+ Yeh" <roy-cw.yeh@mediatek.com>, Hsiao Chien Sung <shawn.sung@mediatek.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, Nathan Lu <nathan.lu@mediatek.com>,
+ "Jason-JH . Lin" <jason-jh.lin@mediatek.com>, linux-kernel@vger.kernel.org,
+ Moudy Ho <moudy.ho@mediatek.com>, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This series is based on mediatek-drm-next branch of
+kernel/git/chunkuang.hu/linux.git
 
+Changes in v12:
+- Rebase on mediatek-drm-next branch of kernel/git/chunkuang.hu/linux.git
 
-> -----Original Message-----
-> From: Rob Herring <robh@kernel.org>
-> Sent: Thursday, December 14, 2023 4:12 AM
-> To: Inki Dae <inki.dae@samsung.com>; Seung-Woo Kim
-> <sw0312.kim@samsung.com>; Kyungmin Park
-> <kyungmin.park@samsung.com>; Maarten Lankhorst
-> <maarten.lankhorst@linux.intel.com>; Maxime Ripard
-> <mripard@kernel.org>; Thomas Zimmermann <tzimmermann@suse.de>;
-> David Airlie <airlied@gmail.com>; Daniel Vetter <daniel@ffwll.ch>;
-Krzysztof
-> Kozlowski <krzysztof.kozlowski+dt@linaro.org>; Conor Dooley
-> <conor+dt@kernel.org>; Alim Akhtar <alim.akhtar@samsung.com>
-> Cc: Krzysztof Kozlowski <krzk@kernel.org>;
-dri-devel@lists.freedesktop.org;
-> devicetree@vger.kernel.org; linux-arm-kernel@lists.infradead.org; linux-
-> samsung-soc@vger.kernel.org; linux-kernel@vger.kernel.org
-> Subject: [PATCH] dt-bindings: display: samsung,exynos-mixer: Fix 'regs'
-typo
-> 
-> The correct property name is 'reg' not 'regs'.
-> 
-> Fixes: 68e89bb36d58 ("dt-bindings: display: samsung,exynos-mixer: convert
-> to dtschema")
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
-Thanks,
+Changes in v11:
+- Change "mtk-padding" to "mtk-disp-padding" for consistency
+- Remove patch "drm/mediatek: Remove ineffectual power management codes
+  for backward compatibility
 
-Reviewed-by: Alim Akhtar <alim.akhtar@samsung.com>
+Changes in v10:
+- Remove "Reviewed-by" tags from the following commits:
+    - drm/mediatek: Power on/off devices with function pointers
+    - drm/mediatek: Manage component's clock with function pointers
+- Separate the commit into smaller ones
+    - (new) drm/mediatek: Remove ineffectual power management codes
 
->  .../bindings/display/samsung/samsung,exynos-mixer.yaml      | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-[snip]
-> 2.43.0
+Changes in v9:
+- Add a static inline function to power off the device
+- Change driver name to "mediatek-disp-padding"
+- Fix typo and kernel doc format error
 
+Changes in v8:
+- Power on/off the components with .power_on() and .power_off()
+- Remove mtk_padding_config()
+- Remove "Reviewed-by" tags from "drm/mediatek: Add Padding to OVL adaptor"
+
+Changes in v7:
+- Start/Stop the components in OVL Adaptor with function pointers
+- Refine Padding driver
+- Fix underrun when the layer is switching off
+
+Changes in v6:
+- Separate the commits into smaller ones
+- Add DPI input mode setting
+- Fix VDOSYS1 power-on issues
+
+Changes in v5:
+- Reuse .clk_enable/.clk_disable in struct mtk_ddp_comp_funcs
+  in mtk_disp_ovl_adaptor.c
+- Adjust commits order
+
+Changes in v4:
+- Add new functions in mtk_disp_ovl_adaptor.c to enable/disable
+  components and reuse them when clock enable/disable
+- Rename components in mtk_disp_ovl_adaptor.c and sort them in
+  alphabetical order
+
+Changes in v3:
+- Define macro MMSYS_RST_NR in mtk-mmsys.h and update reset table
+- Fix typos (ETDHR -> ETHDR, VSNYC -> VSYNC)
+- Rebase dt-bindings on linux-next
+- Refine description of Padding
+- Squash reset bit map commits for VDO0 and VDO1 into one
+
+Changes in v2:
+- Remove redundant compatibles of MT8188 because it shares the same
+  configuration with MT8195
+- Separate dt-bindings by modules
+- Support reset bit mapping in mmsys driver
+
+Hsiao Chien Sung (23):
+  dt-bindings: display: mediatek: ethdr: Add compatible for MT8188
+  dt-bindings: display: mediatek: mdp-rdma: Add compatible for MT8188
+  dt-bindings: display: mediatek: merge: Add compatible for MT8188
+  dt-bindings: display: mediatek: padding: Add MT8188
+  dt-bindings: arm: mediatek: Add compatible for MT8188
+  dt-bindings: reset: mt8188: Add VDOSYS reset control bits
+  soc: mediatek: Support MT8188 VDOSYS1 in mtk-mmsys
+  soc: mediatek: Support MT8188 VDOSYS1 Padding in mtk-mmsys
+  soc: mediatek: Support reset bit mapping in mmsys driver
+  soc: mediatek: Add MT8188 VDOSYS reset bit map
+  drm/mediatek: Rename OVL_ADAPTOR_TYPE_RDMA
+  drm/mediatek: Add component ID to component match structure
+  drm/mediatek: Manage component's clock with function pointers
+  drm/mediatek: Power on/off devices with function pointers
+  drm/mediatek: Start/Stop components with function pointers
+  drm/mediatek: Sort OVL adaptor components
+  drm/mediatek: Refine device table of OVL adaptor
+  drm/mediatek: Support MT8188 Padding in display driver
+  drm/mediatek: Add Padding to OVL adaptor
+  drm/mediatek: Return error if MDP RDMA failed to enable the clock
+  drm/mediatek: Remove the redundant driver data for DPI
+  drm/mediatek: Fix underrun in VDO1 when switches off the layer
+  drm/mediatek: Support MT8188 VDOSYS1 in display driver
+
+ .../bindings/arm/mediatek/mediatek,mmsys.yaml |   1 +
+ .../display/mediatek/mediatek,ethdr.yaml      |   6 +-
+ .../display/mediatek/mediatek,mdp-rdma.yaml   |   6 +-
+ .../display/mediatek/mediatek,merge.yaml      |   3 +
+ .../display/mediatek/mediatek,padding.yaml    |  81 ++++++
+ drivers/gpu/drm/mediatek/Makefile             |   3 +-
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h       |   8 +
+ drivers/gpu/drm/mediatek/mtk_disp_merge.c     |   2 +-
+ .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   | 274 +++++++++++-------
+ drivers/gpu/drm/mediatek/mtk_dpi.c            |  16 +-
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |  10 +-
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   |   2 +
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |  20 ++
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |   5 +-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h        |   2 +-
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.c       |  19 +-
+ drivers/gpu/drm/mediatek/mtk_padding.c        | 160 ++++++++++
+ drivers/soc/mediatek/mt8188-mmsys.h           | 210 ++++++++++++++
+ drivers/soc/mediatek/mtk-mmsys.c              |  27 ++
+ drivers/soc/mediatek/mtk-mmsys.h              |  32 ++
+ drivers/soc/mediatek/mtk-mutex.c              |  51 ++++
+ include/dt-bindings/reset/mt8188-resets.h     |  75 +++++
+ include/linux/soc/mediatek/mtk-mmsys.h        |   8 +
+ 23 files changed, 890 insertions(+), 131 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,padding.yaml
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_padding.c
+
+--
+2.18.0
 
