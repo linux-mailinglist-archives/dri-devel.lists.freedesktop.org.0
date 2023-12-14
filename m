@@ -2,53 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 957B08139BD
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 19:16:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88B9D8139C8
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Dec 2023 19:17:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B01A610E1CB;
-	Thu, 14 Dec 2023 18:16:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67D6110E205;
+	Thu, 14 Dec 2023 18:17:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65AB410E1CB
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 18:16:44 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 93C7AB822E6;
- Thu, 14 Dec 2023 18:16:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D50DC433C7;
- Thu, 14 Dec 2023 18:16:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1702577801;
- bh=Pf8WEkmg/p1UYf/KczRbr+QOJbe21dt16Gmp2yRVACI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Xs1cYlmb6iE360KCEn9ot8ir0F934QmsYPpxsI9nXVWIsHdKhvZo/9kxt9XNlUHt3
- hOvjzMmQxEpGroOokP0vcdeW1Htb8iWrZPJCn9AeI/xDWA51wQqCdyboe583VmshfA
- GuNV03mpyIH6m/08ygL0bdGmJTglSyt+zMr/LtgT0wC/WiVeBgt2ZFQDerDOD81xKB
- Vv+hkIkS/gRNXNsmmev0nJXVv48QwupIEZSCtuiGVv1GFTjIFnLKgN3EMFYHtVAXdh
- AB6WfjhBS0rChH8HPqbSFj8DU/U3XbmB+hWFFUi0kwuRhhPIJ6as2u85/0ahIx+exn
- PsJI7/u13g/KA==
-Date: Thu, 14 Dec 2023 19:16:39 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v18 04/26] drm/shmem-helper: Refactor locked/unlocked
- functions
-Message-ID: <xvo6rwsripjoiwazvjhkxvyleiexuhvclh7wvt5kuiw5cmkaa7@jgcdrtkzw7a6>
-References: <kw5bho3jx73d3glvtewmjvqt4qty4khju6dcwypuh25ya3gi4b@7slmijjqdi4p>
- <20231128133712.53a6f6cb@collabora.com>
- <37208c72-7908-0a78-fc89-2fa9b8d756a5@collabora.com>
- <20231129085330.7ccb35d3@collabora.com>
- <ioqghyaeftyo7tuyfecn252ykxwgltrkhh2pwktjejqhewntbb@bym3rsjxnxfp>
- <20231129144609.7544e773@collabora.com>
- <6da6mzwfzwbn5rhiebypo5e2v6rhtpn2fovwvfnoo333zjgobf@bgtuwhum3trp>
- <20231129164705.7461a294@collabora.com>
- <jvhedgegvavn5mvvx2men2rxitvnq7u3dsxwfx3wokxldmysjz@y5av3l2w4gk6>
- <161189c2-db65-2542-5d19-77a56b56cfac@collabora.com>
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
+ [IPv6:2a00:1450:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76E9410E1E3
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 18:17:47 +0000 (UTC)
+Received: by mail-lj1-x236.google.com with SMTP id
+ 38308e7fff4ca-2ca02def690so107998921fa.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Dec 2023 10:17:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1702577866; x=1703182666; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=V996eBYA2jf5xw2cGVFX9AAMXUTvaenYf6TgfjPDZHc=;
+ b=q03Xx3wsEGK28tEhTbrMai9OEryQy5gLXRn0mcWwsdC/9bJqIfQ+GYO/UuHIEtC7bl
+ lKeJWresHF909VZil6v0kT82xr7kUdqwIbx3fxnht5a4bYznbtaAUXAKwV16fZNDcMSC
+ sm/x8rjazPQzZ5eQlPZFVIzexIy2TtEN1btTT6XucKu5vNq6qwZ59bp5e3zqfRTWN/OS
+ ZcuLMD2/MU/RKX80xTF/RXHkibPs87p2vqa3rlTgTQ7z6NSfMZwh/8gMGBJAtYohfO1i
+ 3E82oMhZOb6wC5RmJlYSv/LmINP5/mk5mKXjj2U1BbD4CUmfdezNKj7aI1u93e2oQeJo
+ 1OsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1702577866; x=1703182666;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=V996eBYA2jf5xw2cGVFX9AAMXUTvaenYf6TgfjPDZHc=;
+ b=DFDP1y0BTJYzLw8fMEhYMU8JOyNQW4ONbt/00yWky/pNRDo7Ud5K6KDWvtUy1Wm4rU
+ +3Gpvlw59eWXXJYPoEkxKQIT6/nGNG3GbcyyzW3lDfkGfcWsPV5C+zGxQNWBRKQkOyR4
+ Lqih4snUKyZuKuNOiV6sHgeWLcS8NKbvyKqTpBphV9doegB7uU/qrGtBEtYS/jKCg8oY
+ LS3+Z6zJB2sdlv9gIQYHwOT3KA0qF0aESmGm0ZQJ2QMwBsVUw1ZfXrv80W4Xu00cMCJu
+ Y82rglNBC4zPu8KNh/qe+p1qDcJUu5AsNSVlGW6nE6voFRnbqnUm0ODZYKvIxLlhcfEU
+ T1VQ==
+X-Gm-Message-State: AOJu0YzanRHIFuHOgMiYj5z7kHJT7nzc/wVBHuCDgs+M0FAhurp/J/dA
+ fzsOxwa+PgDHyZp+AXOIYmxgfA==
+X-Google-Smtp-Source: AGHT+IF2DbL11C4WswCDCL18BClKmLGUaGi2aE5JR5xUyvvipdw8GT/iJuHXV8rRDu2pezFGZS6/hg==
+X-Received: by 2002:a05:6512:b89:b0:50b:f351:6fb7 with SMTP id
+ b9-20020a0565120b8900b0050bf3516fb7mr6979265lfv.0.1702577865694; 
+ Thu, 14 Dec 2023 10:17:45 -0800 (PST)
+Received: from [172.30.205.72] (UNUSED.212-182-62-129.lubman.net.pl.
+ [212.182.62.129]) by smtp.gmail.com with ESMTPSA id
+ c16-20020a056512105000b0050d1a0e7129sm1659686lfb.291.2023.12.14.10.17.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Dec 2023 10:17:45 -0800 (PST)
+Message-ID: <6f3c4692-ac87-4852-9a60-6df64ad8a803@linaro.org>
+Date: Thu, 14 Dec 2023 19:17:42 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="5mogag3hjc3jfzn6"
-Content-Disposition: inline
-In-Reply-To: <161189c2-db65-2542-5d19-77a56b56cfac@collabora.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/8] arm64: dts: qcom: sm8150: make dispcc cast minimal
+ vote on MMCX
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+References: <20231211154445.3666732-1-dmitry.baryshkov@linaro.org>
+ <20231211154445.3666732-3-dmitry.baryshkov@linaro.org>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20231211154445.3666732-3-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,49 +80,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
- Emma Anholt <emma@anholt.net>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Steven Price <steven.price@arm.com>,
- virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---5mogag3hjc3jfzn6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 05, 2023 at 02:43:16PM +0300, Dmitry Osipenko wrote:
-> On 12/4/23 15:55, Maxime Ripard wrote:
-> >> Okay, that means s/_locked/_nolock/ in drm_gem_shmem_helpers.{c,h}, I
-> >> guess.
->=20
-> DRM subsys and majority of kernel uses common _locked postfix. We should
-> retain the old naming scheme by using _locked() in DRM. It's not
-> worthwhile changing the name to a much less popular variant for a no
-> good reason.
->=20
-> Maxime, are you okay with keeping the _locked name?
+On 12/11/23 16:44, Dmitry Baryshkov wrote:
+> Add required-opps property to the display clock controller. This makes
+> it cast minimal vote on the MMCX lane and prevents further 'clock stuck'
+> errors when enabling the display.
+> 
+> Fixes: 2ef3bb17c45c ("arm64: dts: qcom: sm8150: Add DISPCC node")
+> Acked-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+Only patches 2 and 4 made it to me..
 
-Yeah... I still don't really like it, but you're right that it's best to
-remain consistent over my opinion :)
-
-Maxime
-
---5mogag3hjc3jfzn6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZXtGhgAKCRDj7w1vZxhR
-xdWmAQCtgo8n/tvT2Kt3YvY+zwK+WyI5LucgGMiuXB4A1VJkmwEAgpA7YSFGzvRg
-qhtdUYJJREmkWwghndQNv4kd/aVYhw0=
-=rtVm
------END PGP SIGNATURE-----
-
---5mogag3hjc3jfzn6--
+Konrad
