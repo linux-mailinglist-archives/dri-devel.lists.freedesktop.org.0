@@ -1,51 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB1AB8149A7
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Dec 2023 14:52:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B97B8149AA
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Dec 2023 14:52:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B0BB10EA16;
-	Fri, 15 Dec 2023 13:51:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 836BE10EA1F;
+	Fri, 15 Dec 2023 13:52:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1A7D10EA16
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 13:51:57 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65E7A10EA1F
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 13:52:30 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 18A74CE2F04
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 13:51:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04B3CC433CC
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 13:51:55 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id F05D2B82916
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 13:52:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A3F3C43395
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 13:52:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1702648315;
- bh=73cEBtW9UsDu4O//mVBqd0mdthw/P2/m9c5bPDUwqnA=;
+ s=k20201202; t=1702648348;
+ bh=xhW+gQDydfgtnk1x2kzo1KDSgmPEztAN1KVLoTOnDWE=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=GEOrcjkRItVZtLtqlzAR21mRcINvyI+V6P4AjrMToWv/meD38KUSE5h7xmQr5p5Is
- 1R2ACeKTkaeQ23bm8uoZ4PT/J7TbnuV3CtSduxfVkYpMwsObDfAvwOlH44qpEEcgnr
- 491PBXCSypgfNydkEJwi+wdPoK56MhCKuUqidiwoKwyxFphGyGe9pMaUbkQIKOYhVt
- FGUZqrzKZBzZbZEjvGHJvR0PlnxA4+uQAuZRlm8F31hfwRW0hmLaXo6vHvfMWTZJSS
- J40CeLORGw6psx0e4Aer8t1YsjMnBeLb7lk6DGISFKQXu7xfTZ3vkpmhKpxJURM+nR
- UE9tEs8sObQZA==
+ b=vHQN/BO+33hNp/7wE6OOeGnUJfa/HbrUvcEqfV4XG+K6uHNkLncvA9/MbTyYpnfK5
+ Ib+7NSXPoAEmQuPZn6I8SSvaXl8t+/2K1FUhjGvOcwtd4FLisYbVOAQbcoWTjbT7s4
+ AvhEwNea7+8dRNglPFEcw1+K7mrL+PBsj6NUlUQenb+9M54y821gqt35z2uxLSwccm
+ cdJf696doHzkUlCy7W0onRENdchnGquS6eX21iKvx2FBsNqOjKks/0xNJ4CcFJ1pyW
+ MEIf052z/wrfzMGSeXVApuaOo1D2bhrAhj6nN6BRr9OUWIMBwRnkzhepSfqL56daI/
+ WCMPkFdL3wp+A==
 Received: by mail-pf1-f173.google.com with SMTP id
- d2e1a72fcca58-6ce6d926f76so1363799b3a.1
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 05:51:55 -0800 (PST)
-X-Gm-Message-State: AOJu0YycBoJROQSfxtyI89Gsg6R48wcvIKDQMkorV4xKdSAZgmT7aVCg
- xUjfI1N9L4G8XcHCcvpaeWDn6/STBMWsbYI8ztsPPw==
-X-Google-Smtp-Source: AGHT+IHgl+e58xs+t8lpzf5mxr7aBE2s5LCf385GMB9GBP/beSKytT0TF7lOMMng7ZeVcG783pqiJJd3b2ds+44qpkM=
-X-Received: by 2002:a05:6a20:3d0d:b0:18c:26cc:c054 with SMTP id
- y13-20020a056a203d0d00b0018c26ccc054mr14910421pzi.7.1702648314597; Fri, 15
- Dec 2023 05:51:54 -0800 (PST)
+ d2e1a72fcca58-6ceb27ec331so401619b3a.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 05:52:28 -0800 (PST)
+X-Gm-Message-State: AOJu0YzfcRf/ohCKsin4K/vBke85c6adKiTGpl36NrXlrRXVQ4lx0eyO
+ vtCpXGbgQfSoh3EBqEJtxQEjdGBAk5V9tXHcHCaLFg==
+X-Google-Smtp-Source: AGHT+IEE3m2y9YErKcKyovhZLrvHNx3eYoCNBbS65TlFzbRxgFIX02yExfvzWvnIcffStOPfA5ZwbsyYmbsEZjymPEM=
+X-Received: by 2002:a62:e819:0:b0:6d2:6eee:f0 with SMTP id
+ c25-20020a62e819000000b006d26eee00f0mr1242078pfi.69.1702648347622; 
+ Fri, 15 Dec 2023 05:52:27 -0800 (PST)
 MIME-Version: 1.0
 References: <20231212075257.75084-1-alexander.stein@ew.tq-group.com>
- <20231212075257.75084-6-alexander.stein@ew.tq-group.com>
-In-Reply-To: <20231212075257.75084-6-alexander.stein@ew.tq-group.com>
+ <20231212075257.75084-7-alexander.stein@ew.tq-group.com>
+In-Reply-To: <20231212075257.75084-7-alexander.stein@ew.tq-group.com>
 From: Robert Foss <rfoss@kernel.org>
-Date: Fri, 15 Dec 2023 14:51:40 +0100
-X-Gmail-Original-Message-ID: <CAN6tsi7dKL7hfByBmxKC5xsUOpUAAQx-HQVGErFS6Lut=20pyg@mail.gmail.com>
-Message-ID: <CAN6tsi7dKL7hfByBmxKC5xsUOpUAAQx-HQVGErFS6Lut=20pyg@mail.gmail.com>
-Subject: Re: [PATCH v3 5/7] drm/bridge: tc358767: Add more volatile registers
+Date: Fri, 15 Dec 2023 14:52:15 +0100
+X-Gmail-Original-Message-ID: <CAN6tsi4X7pFHjNhfh2Q5AJB4uSc6isYuvaW2e8wiMtqZ67LfVA@mail.gmail.com>
+Message-ID: <CAN6tsi4X7pFHjNhfh2Q5AJB4uSc6isYuvaW2e8wiMtqZ67LfVA@mail.gmail.com>
+Subject: Re: [PATCH v3 6/7] drm/bridge: tc358767: Add precious register SYSSTAT
 To: Alexander Stein <alexander.stein@ew.tq-group.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -71,37 +70,44 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Tue, Dec 12, 2023 at 8:53=E2=80=AFAM Alexander Stein
 <alexander.stein@ew.tq-group.com> wrote:
 >
-> These registers might change their value without any host write operation=
-.
+> This is the single register which clears its value upon read operation.
 >
 > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 > ---
->  drivers/gpu/drm/bridge/tc358767.c | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  drivers/gpu/drm/bridge/tc358767.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
 >
 > diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/t=
 c358767.c
-> index 61d8710f46293..152a6dc916079 100644
+> index 152a6dc916079..93fa057eca8dc 100644
 > --- a/drivers/gpu/drm/bridge/tc358767.c
 > +++ b/drivers/gpu/drm/bridge/tc358767.c
-> @@ -2049,9 +2049,16 @@ static bool tc_readable_reg(struct device *dev, un=
-signed int reg)
->  }
+> @@ -2070,6 +2070,15 @@ static const struct regmap_access_table tc_volatil=
+e_table =3D {
+>         .n_yes_ranges =3D ARRAY_SIZE(tc_volatile_ranges),
+>  };
 >
->  static const struct regmap_range tc_volatile_ranges[] =3D {
-> +       regmap_reg_range(PPI_BUSYPPI, PPI_BUSYPPI),
-> +       regmap_reg_range(DSI_BUSYDSI, DSI_BUSYDSI),
-> +       regmap_reg_range(DSI_LANESTATUS0, DSI_INTSTATUS),
-> +       regmap_reg_range(DSIERRCNT, DSIERRCNT),
->         regmap_reg_range(VFUEN0, VFUEN0),
+> +static const struct regmap_range tc_precious_ranges[] =3D {
 > +       regmap_reg_range(SYSSTAT, SYSSTAT),
->         regmap_reg_range(GPIOI, GPIOI),
->         regmap_reg_range(INTSTS_G, INTSTS_G),
-> +       regmap_reg_range(DP0_VMNGENSTATUS, DP0_VMNGENSTATUS),
-> +       regmap_reg_range(DP0_AMNGENSTATUS, DP0_AMNGENSTATUS),
->         regmap_reg_range(DP0_AUXWDATA(0), DP0_AUXSTATUS),
->         regmap_reg_range(DP0_LTSTAT, DP0_SNKLTCHGREQ),
->         regmap_reg_range(DP_PHY_CTRL, DP_PHY_CTRL),
+> +};
+> +
+> +static const struct regmap_access_table tc_precious_table =3D {
+> +       .yes_ranges =3D tc_precious_ranges,
+> +       .n_yes_ranges =3D ARRAY_SIZE(tc_precious_ranges),
+> +};
+> +
+>  static const struct regmap_range tc_non_writeable_ranges[] =3D {
+>         regmap_reg_range(PPI_BUSYPPI, PPI_BUSYPPI),
+>         regmap_reg_range(DSI_BUSYDSI, DSI_BUSYDSI),
+> @@ -2093,6 +2102,7 @@ static const struct regmap_config tc_regmap_config =
+=3D {
+>         .cache_type =3D REGCACHE_MAPLE,
+>         .readable_reg =3D tc_readable_reg,
+>         .volatile_table =3D &tc_volatile_table,
+> +       .precious_table =3D &tc_precious_table,
+>         .wr_table =3D &tc_writeable_table,
+>         .reg_format_endian =3D REGMAP_ENDIAN_BIG,
+>         .val_format_endian =3D REGMAP_ENDIAN_LITTLE,
 > --
 > 2.34.1
 >
