@@ -1,124 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BF488142DD
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Dec 2023 08:47:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FC458143AD
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Dec 2023 09:34:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC34C10E1F5;
-	Fri, 15 Dec 2023 07:47:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF15D10E211;
+	Fri, 15 Dec 2023 08:33:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com
- (mail-tycjpn01on2114.outbound.protection.outlook.com [40.107.114.114])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B69910E1F5
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 07:47:13 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e/LXgOKvviuvJ3VPzHjfxdK4+M+w0TglR/L/z2PwjKVwGJVSLd2gXF1asNIBjSFQIck0HpHVTDf2+U+dNZ5HwCRewmnlhhmBogyHMPhaujY0vNNNvTRHrLXFclsO+GJxjO2EjQq9siuvTRV55939I5XvycZAjDK06G0Oz67skYVSwc1c3HXTgxRBPV2dRM8wa9Fmuud/9gaD7cV4PFJ2eyboD2pMRW56rSiW6ZadCxYcfVJbebkd/0m1cIKwtmxC4tRXmRhHaQ7dN+WOj06Oj8AX0cN4dZTyzArId6KhwJI5u2Q3zFDJNQFitSqmX7Syvs/Rk6y7dwIkV7mQbIOsyQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4xEceD3arD9/8Xc6yV7Hyyk6/ZvL/YB6i9WpaytDqzg=;
- b=dKAqYyKU82jG42ytNnMcwZayp6PQsorA05uGgDM75nqn5C5cvww7ve47mp4QNUnmla9T1du3BKqO82hDSPNbcr91NpB6rDVpPw92lPjk7gHQXg2DGGup7ql9eHsPyNP/7eU0WFuOgz6LdPSEiqLh3PdehgfGkSN6QZMcYsPbfnL0fg66jGq1jrdD8bko3ckHMXHXtL2DcF1tzU12bGwcN40lTHEacfP56FVJF7wc9wqzBEXOsHpnKtn8fCxkGeWjrFlw2GK8wjBc2kknnmVGBdk9ygT2k2SIWcx6UeDF3AemmAMrDhsxHSo9D1aHh7xAwXPjhYVRHa48NU1o9hHtpg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4xEceD3arD9/8Xc6yV7Hyyk6/ZvL/YB6i9WpaytDqzg=;
- b=kEBkY+xRv8Rq650mMIMVTZhbAfijTyHoJoL2fgl+JYu0ox4p1qS102xmsDOtY0CcKSFT6JaUrpvx99Wvwn+TeXNhHk5edb1772sLSKH4ZYMGGeMWq2M3PMTCdg97MLCxK8r0r3AtnzZkSsGhMsuBEffD7QWQ8J8VLbTd+UbIXIc=
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- (2603:1096:400:3c0::10) by TYWPR01MB9421.jpnprd01.prod.outlook.com
- (2603:1096:400:1a3::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7113.10; Fri, 15 Dec
- 2023 07:47:10 +0000
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::f216:24ab:3668:3a48]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::f216:24ab:3668:3a48%4]) with mapi id 15.20.7113.010; Fri, 15 Dec 2023
- 07:47:07 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Maxime Ripard <mripard@kernel.org>
-Subject: RE: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
-Thread-Topic: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
-Thread-Index: AQHaIejqQbh+O2CetkGmd2PHSouIl7Cnc3CAgAFZmGCAAIbOgIAAt8VA
-Date: Fri, 15 Dec 2023 07:47:07 +0000
-Message-ID: <TYCPR01MB11269E2263C8D2A14F94CE50F8693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-References: <20231128105129.161121-1-biju.das.jz@bp.renesas.com>
- <20231128105129.161121-4-biju.das.jz@bp.renesas.com>
- <sechknyg33iucaku37vfhk7ie7xgcealfqbvaopm4rrnqbo5g5@s35peonkzzoz>
- <TYCPR01MB11269767836DEB995747B7ED3868CA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <TYVPR01MB112799FA3028E651D8BC9AA1F868CA@TYVPR01MB11279.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYVPR01MB112799FA3028E651D8BC9AA1F868CA@TYVPR01MB11279.jpnprd01.prod.outlook.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|TYWPR01MB9421:EE_
-x-ms-office365-filtering-correlation-id: aa40d135-474f-453e-dbf4-08dbfd4209bb
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: fxTUxV+mUqTuuOe++lIWFStIfAVEOd3bw601l8PD1Ohsh/8NE4QO1rV3BedasF2eBBRoaNlsGQmVomeqVEjPbAnd1KJGs7/azE/eEm8UMAF9O8A7bcQ3h6HDHgA0kNKbA0ouY0dCYTZxHEjLCENQD5Gu2+UNFo846dzJLsW/a+jCKmCTQ1MFKXP6fG1T5kuJE3vovcN86hoTl6dC+6YsvEDFGNHK7lJ+jRzT/jtap+UBZHjeFYkvr9j1+ynNJ6OXQhX1InAg+1qs/TmWTtoRIdHantCZRbOmAXVYE8OzBm9TXIvYBJ+0RGRsUjZJXv1tuHypXX97ahql0ASqDbYb7X+S62Lb7SSPUc2QwSr2VHFXZwYq0lfBg5tIh6Zd+cUeaD5f1HxHnMesR1uo80YehcVSM3Da90nibALMGy/c8vyhdAe8FL8VHdXPffHnS/km9eIMRw85clTl8wh6hlpxq64V41RWjO4hoe8GL+ZHIunA39n5XjRGySf+bUxLI5CTmWlpGp98DQfmOINvwNyNwEbkOClYBWU4DEow7s+FuK18JC7S/+gY1DH8LiONFHKODAylfd60N3VHhFifZPc4CHmavB1aPbh4RV+ads9H8Xd12+3VwUlIJbDMObPaq1WH
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYCPR01MB11269.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376002)(346002)(39860400002)(136003)(396003)(366004)(230922051799003)(64100799003)(186009)(1800799012)(451199024)(26005)(6506007)(7696005)(71200400001)(53546011)(9686003)(83380400001)(5660300002)(7416002)(52536014)(4326008)(41300700001)(2906002)(478600001)(8676002)(8936002)(76116006)(66946007)(316002)(6916009)(54906003)(64756008)(66446008)(66476007)(66556008)(33656002)(86362001)(122000001)(38100700002)(38070700009)(55016003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?N3VTN0FaYkZ2Y0cwcXYwSnhkd1NVeUN3QTRxRkhESzUwdTZYNmE3Y3pXT0lE?=
- =?utf-8?B?eTVyZU4yZ0kvSy9wektWNUFIcm1QZmtHNGF3MEdaaUJhVWp1T1MxVGEvMTZO?=
- =?utf-8?B?NyszQjYxS2kxUnRuei84MjdzRnU1L3kwNVM0Q3N4SjNVOTRGVjBROS9qUnFL?=
- =?utf-8?B?aFZvRU15UlBMQm5QS25NUnNwWWo1dkhNaHc4YmpObjBMZ2ZGQkE3V28wZEpo?=
- =?utf-8?B?N0k2aGFsdnR0dGhhemkrcFBpeXpUclBpcU8yakw5T1VSSVdMNHE2UlEzbFdF?=
- =?utf-8?B?WHR6ZVhkWjlNcVo3SFNUUy9ZNFdWUCsrczVFV1lRTXBOZVEyUk0vQlJvM05I?=
- =?utf-8?B?bzcyTkJLN0xoUkZjYUg2UytLclJHSVY0djFHQ1U0VFlVaGoxTTdua0kyVTRQ?=
- =?utf-8?B?b1lVYklHOXFaV1pzQnhoR0ZYZDNPdHlOOEpVNVZGQ2UzdVVyQzVXMGpvM2U1?=
- =?utf-8?B?TzNYRVJhVTlDTlRTREJlVkU2NlMzQSttUkJLeU1uSENJNGR5elg4QzYzcnN1?=
- =?utf-8?B?UTdUM25ianltYytIOE1GRHphYXNsVmkrQy8zUnJ5VWt2YlVaRlNqTlI3Skln?=
- =?utf-8?B?NVBpTWEyOC9jRXZ0eE1jUHNvZTJPSUxuSHFxREhTazMzY2ZyeGpiSjRMWlVl?=
- =?utf-8?B?OWlTdXR0U1lmSlBQSWtyWXZ0WWxCODRaMFQ1M0ZVSUF6b3U3aHpoaDczUWZQ?=
- =?utf-8?B?WFFTamc4OWNyWFRBdnUxNEhNbzBHZXNFMXB1NW9BZTUzdWxHb0hCd0VBNzAr?=
- =?utf-8?B?V2hteTUvWVd1c00wZm1PM2ZJTkJaOGExNGVVRG54VExhR3JTaGpxWjZ4RGNT?=
- =?utf-8?B?Y0oxc0wvYW95cjhNazhhZkkwM0g2dThNV1hBQ0tCMGt6TDBNSmswb0o0bGxv?=
- =?utf-8?B?NFNpeUV5TXVTUVR3bkVKcU5NRUw0QS9ZYlV2TTIzZXNXRktyTnlHemRaWitl?=
- =?utf-8?B?UlFCU1V0ZlptdXNTbVo5SnR1S1lLYVlGbjl5VTh6Q1VmTSsvWHZhRzU5eCtR?=
- =?utf-8?B?dDdOSTNqMktUQ1c4YzB5SkcrOGwvb2l0a1F2ZEduekdFMzJNN2E2T0NpUzla?=
- =?utf-8?B?Y29oR1l0UStjY1NhY2ltZng0UGJtejBkM1ZRcG81S0h0VFQrSjBOUXJtSUlz?=
- =?utf-8?B?b0xzNmtGU0RWdVNUS3gwNUhLNUM0Sk5oWWNtTC9ubENMNGxqbXFobXpWRVZu?=
- =?utf-8?B?UisxZWZ0VG9qdmtkTVRBT1lyQ3o3Um9ncUNEdWloaGpFRDVaemtzUmh0NjM0?=
- =?utf-8?B?ZnpiRTF0dHVlTHhBSVIwclJSQ1ovZE9YK29mOHFKL2VQT2l6WllPOXdBUDc1?=
- =?utf-8?B?MTIwVEMvbzJ0blFpdWVBL3ZibVU4ZXZPM2JYT2NFa01lek1FbHp6UFNXWFBW?=
- =?utf-8?B?dGEvOW5NUGgySUV0ZWRGY2VQWUp5RVdLa2xkRDRWL3MxMVFUbWVpc2J3TGJm?=
- =?utf-8?B?WVFwdm9GUXNvNmwybjZkd1BTcmJBcDBZOTZXWVhNanBBME9tczlnRmxXT0dN?=
- =?utf-8?B?TDZnVnlFTmYvMFlUdEVLdEl4Mlp0a3ZFaVBkUjMyMW5FQVBqeitpNkxJa3Bq?=
- =?utf-8?B?cXZZKzhLTkNTZzRIS3RLSXl4MUtaTUtsNlJpYU9DNTY3R0p6SEltWmxiOFNJ?=
- =?utf-8?B?cDN3Y0daUDB6M1V5cEdsenVrTWpLWC9ZWE91LzVHT0F4OEkzQ2hyT213Y0tG?=
- =?utf-8?B?RUIvbDFxN280V1ltNitEU0krcitYY041d3ZrZFNmZGlEQThqWk5pMDNhSXJC?=
- =?utf-8?B?ckJFajg0MkQrbnU5QVBYVjZ2Y3NZUFZkdW1tdTVLK2hmc29HQkVLdUpSNnNa?=
- =?utf-8?B?NVlxbHBnL1FPR1FIS2I2NzhLYUFleWNFU3ZBV0pOWTc2anY4OUlHV2tNeXFW?=
- =?utf-8?B?UG9MQnlHTkpJT3pUNHQ3R2hmQy96bXVGemRjOEs0Tks0S1E4Y3VlR3NEMGY3?=
- =?utf-8?B?L1hSY0hoa242NU5wbkg5NnU0dlhieG54TG9yV21tWWc3cjdsOHVMd0NxQjVJ?=
- =?utf-8?B?S1JSOGNRYjNhNXNXcHpiblVjQlNxVGxTZEkwWTlGeGxIZitUb2xaY05VaHpR?=
- =?utf-8?B?cGQrUVpuSklGaytpdG9qZXJ4bkd1U21CSmtNNkNkenEvbmJNbEtSVkJVNWJx?=
- =?utf-8?B?VmFvMTBOMW0rUlpBQlNHLzRva3VwV09OdXhkRlRsM1FUWmhOYWU0WnZsMlp3?=
- =?utf-8?B?NlE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mail-m49236.qiye.163.com (mail-m49236.qiye.163.com
+ [45.254.49.236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F62010E211
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 08:33:54 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256;
+ b=eTungaHxtG9o2RN74cKSPbOn+85wO2tMO4ncIArCUS71DzTpr2DX3IJN6ZK5vzmztZWzy6fw8pJgQ9WrfMCoCUKz8d6YD06IBcIu2DwvUfq4VwCFiJ12vlMErEZ7rGFZiDnA9dYMLWDZz+eKPIv6XFYy9Cs8Cwxj/wA+UWxLbRU=;
+ s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
+ bh=1/2rBCx/lnWR3M+PGIubYWvyI9fnaUUc2LvRInCRYNE=;
+ h=date:mime-version:subject:message-id:from;
+Received: from [172.16.12.141] (unknown [58.22.7.114])
+ by mail-m12779.qiye.163.com (Hmail) with ESMTPA id 4B02C780202;
+ Fri, 15 Dec 2023 16:33:48 +0800 (CST)
+Message-ID: <68971618-83c0-44ec-a694-84e3511351fe@rock-chips.com>
+Date: Fri, 15 Dec 2023 16:33:48 +0800
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: aa40d135-474f-453e-dbf4-08dbfd4209bb
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Dec 2023 07:47:07.5506 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 4k0pMYWFI2cABalYWrh1VNTxXVYiCRqXX0Xuidua2TlQMp0s7ZzCt8wFIRL7SPa+SIGR4OUSDHajeUexKcwP0azNfgsNuAqdgKWX4DfCnjY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB9421
+User-Agent: Mozilla Thunderbird
+Subject: Re: [v5, 02/16] Revert "drm/rockchip: vop2: Use regcache_sync() to fix
+ suspend/resume"
+Content-Language: en-US
+From: Andy Yan <andy.yan@rock-chips.com>
+To: Marek Szyprowski <m.szyprowski@samsung.com>, Andy Yan <andyshrk@163.com>, 
+ heiko@sntech.de
+References: <20231211115719.1784834-1-andyshrk@163.com>
+ <CGME20231214121339eucas1p105b5903b7a5f1933aa2c88c2cfd13288@eucas1p1.samsung.com>
+ <98a9f15d-30ac-47bf-9b93-3aa2c9900f7b@samsung.com>
+ <dea2b3a8-93f0-45fa-9022-0e2e8eb3ff68@rock-chips.com>
+In-Reply-To: <dea2b3a8-93f0-45fa-9022-0e2e8eb3ff68@rock-chips.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGh8fH1ZITUsYSE4eSh5KTkJVEwETFh
+ oSFyQUDg9ZV1kYEgtZQVlOQ1VJSVVMVUpKT1lXWRYaDxIVHRRZQVlPS0hVSk1PSU5JVUpLS1VKQl
+ kG
+X-HM-Tid: 0a8c6c9c4050b24fkuuu4b02c780202
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NVE6Txw6Vjw3DTcITxcTQhUY
+ PhhPCxlVSlVKTEtJTUlCSUlCSEhDVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
+ WUFZTkNVSUlVTFVKSk9ZV1kIAVlBSUlDQ043Bg++
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,55 +59,394 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- "biju.das.au" <biju.das.au@gmail.com>, Magnus Damm <magnus.damm@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: devicetree@vger.kernel.org, sebastian.reichel@collabora.com,
+ Sascha Hauer <s.hauer@pengutronix.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, hjc@rock-chips.com, kever.yang@rock-chips.com,
+ linux-rockchip@lists.infradead.org, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, chris.obbard@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTWF4aW1lIFJpcGFyZCwNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9t
-OiBCaWp1IERhcw0KPiBTZW50OiBUaHVyc2RheSwgRGVjZW1iZXIgMTQsIDIwMjMgODo1MCBQTQ0K
-PiBTdWJqZWN0OiBSRTogW1BBVENIIHYxNSAzLzVdIGRybTogcmVuZXNhczogQWRkIFJaL0cyTCBE
-VSBTdXBwb3J0DQo+IA0KPiBIaSBNYXhpbWUgUmlwYXJkLA0KPiANCj4gDQo+ID4gLS0tLS1Pcmln
-aW5hbCBNZXNzYWdlLS0tLS0NCj4gPiBGcm9tOiBCaWp1IERhcw0KPiA+IFNlbnQ6IFRodXJzZGF5
-LCBEZWNlbWJlciAxNCwgMjAyMyAzOjI0IFBNDQo+ID4gU3ViamVjdDogUkU6IFtQQVRDSCB2MTUg
-My81XSBkcm06IHJlbmVzYXM6IEFkZCBSWi9HMkwgRFUgU3VwcG9ydA0KPiA+DQo+ID4gPg0KPiA+
-ID4gPiArDQo+ID4gPiA+ICsJZm9yIChpID0gMDsgaSA8IG51bV9wbGFuZXM7ICsraSkgew0KPiA+
-ID4gPiArCQllbnVtIGRybV9wbGFuZV90eXBlIHR5cGUgPSBpIDwgbnVtX2NydGNzDQo+ID4gPiA+
-ICsJCQkJCSA/IERSTV9QTEFORV9UWVBFX1BSSU1BUlkNCj4gPiA+ID4gKwkJCQkJIDogRFJNX1BM
-QU5FX1RZUEVfT1ZFUkxBWTsNCj4gPiA+ID4gKwkJc3RydWN0IHJ6ZzJsX2R1X3ZzcF9wbGFuZSAq
-cGxhbmUgPSAmdnNwLT5wbGFuZXNbaV07DQo+ID4gPiA+ICsNCj4gPiA+ID4gKwkJcGxhbmUtPnZz
-cCA9IHZzcDsNCj4gPiA+ID4gKwkJcGxhbmUtPmluZGV4ID0gaTsNCj4gPiA+ID4gKwkJcmV0ID0g
-ZHJtX3VuaXZlcnNhbF9wbGFuZV9pbml0KCZyY2R1LT5kZGV2LCAmcGxhbmUtDQo+ID5wbGFuZSwN
-Cj4gPiA+ID4gKwkJCQkJICAgICAgIGNydGNzLA0KPiAmcnpnMmxfZHVfdnNwX3BsYW5lX2Z1bmNz
-LA0KPiA+ID4gPiArCQkJCQkgICAgICAgcnpnMmxfZHVfdnNwX2Zvcm1hdHMsDQo+ID4gPiA+ICsN
-Cj4gQVJSQVlfU0laRShyemcybF9kdV92c3BfZm9ybWF0cyksDQo+ID4gPiA+ICsJCQkJCSAgICAg
-ICBOVUxMLCB0eXBlLCBOVUxMKTsNCj4gPiA+ID4gKwkJaWYgKHJldCA8IDApDQo+ID4gPiA+ICsJ
-CQlyZXR1cm4gcmV0Ow0KPiA+ID4NCj4gPiA+IHlvdSBuZWVkIHRvIHVzZSBkcm1tIHZhcmlhbnQg
-aGVyZSB0b28uDQo+ID4NCj4gPiBJIGRpZCByZWJhc2VkIHRvIGxhdGVzdCBkcm1fbWlzY19uZXh0
-IGFuZCBJIGRvbid0IGZpbmQgdGhlDQo+ID4gZHJtbV91bml2ZXJzYWxfcGxhbmVfaW5pdCgpDQo+
-ID4NCj4gPiBDYW4geW91IHBsZWFzZSBwb2ludCBtZSB0byB0aGUgQVBJPw0KPiANCj4gV2UgY2Fu
-bm90IHVzZSBkcm1tX3VuaXZlcnNhbF9wbGFuZV9hbGxvYygpIGluIHRoaXMgYXJjaGl0ZWN0dXJl
-Lg0KPiANCj4gcnpnMmxfZHVfdnNwc19pbml0KCkgc3RvcmVzIHRoZSBWU1AgcG9pbnRlciBhbmQg
-cGlwZSBpbmRleCBmcm9tIERUIGZpcnN0Lg0KPiANCj4gVGhlbiBhbGwgdGhlIHBsYW5lcyBhcmUg
-Y3JlYXRlZCB1c2luZyByemcybF9kdV92c3BfaW5pdCgpDQo+IA0KPiBDUlRDIHVzZXMgVlNQIHBv
-aW50ZXIgYW5kIHBpcGVfaW5kZXggdG8gc2V0IHRoZQ0KPiBwbGFuZShyemcybF9kdV9jcnRjX2Ny
-ZWF0ZSgpKS4NCj4gDQo+IENSVEMtPnZzcC0+cGxhbmVzW3JjcnRjLT52c3BfcGlwZV0ucGxhbmUN
-Cj4gDQoNClRoaW5raW5nIGFnYWluLCBpdCBpcyBwb3NzaWJsZSB0byB1c2UgZHJtbV91bml2ZXJz
-YWxfcGxhbmVfYWxsb2MoKSBoZXJlDQoNCkludHJvZHVjZSBhIGxpbmtlZCBsaXN0IFsxXSBhbmQg
-dXNlIGFuIEFQSSBbMl0gdG8gcmV0cmlldmUgcGxhbmUNCmJ5IG1hdGNoaW5nIHZzcF9waXBlIGlu
-ZGV4IGFnYWluc3QgcGxhbmUtPmluZGV4Lg0KDQpXaXRoIHRoaXMgd2UgZG9uJ3QgbmVlZCBkcm1t
-X2tjYWxsb2MoKSBhbnkgbW9yZS4NCg0KSSB3aWxsIGltcGxlbWVudCBhbmQgdGVzdCB0aGlzIGFu
-ZCBzZW5kIHYxNiwgaWYgdGhlcmUgYXJlIG5vIGNvbW1lbnRzLg0KDQoNClsxXQ0Kc3RydWN0IHJ6
-ZzJsX2R1X3ZzcF9wbGFuZSB7DQoJc3RydWN0IGRybV9wbGFuZSBwbGFuZTsNCglzdHJ1Y3Qgcnpn
-MmxfZHVfdnNwICp2c3A7DQoJdW5zaWduZWQgaW50IGluZGV4Ow0KCXN0cnVjdCByemcybF9kdV92
-c3BfcGxhbmUgKm5leHQ7DQp9Ow0KDQpbMl0NCnN0cnVjdCBkcm1fcGxhbmUgKnJ6ZzJsX2R1X3Zz
-cF9nZXRfZHJtX3BsYW5lKHN0cnVjdCByemcybF9kdV9jcnRjICpjcnRjLA0KCQkJCQkgdW5zaWdu
-ZWQgaW50IHBpcGVfaW5kZXgpOw0KDQoNCkNoZWVycywNCkJpanUNCg==
+Hi Marek:
+
+On 12/15/23 08:59, Andy Yan wrote:
+> Hi Marek:
+> 
+>    Sorry for this issue.
+>    I also tested this series on RK3568/6 before I send them out.
+> But I didn't find anyahing unusal, would you please share the
+> linux kernel defconfig you used for this test and it would be
+> greatly appreciated if you can share more test detial.
+
+
+I can reproduce this warning when enable CONFIG_LOCKDEP, I will try
+to fix it asap.
+
+Thanks.
+> 
+> On 12/14/23 20:13, Marek Szyprowski wrote:
+>> Dear All,
+>>
+>> On 11.12.2023 12:57, Andy Yan wrote:
+>>> From: Andy Yan <andy.yan@rock-chips.com>
+>>>
+>>> This reverts commit b63a553e8f5aa6574eeb535a551817a93c426d8c.
+>>>
+>>> regcache_sync will try to reload the configuration in regcache to
+>>> hardware, but the registers of 4 Cluster windows and Esmart1/2/3 on
+>>> the upcoming rk3588 can not be set successfully before internal PD
+>>> power on.
+>>>
+>>> Also it's better to keep the hardware register as it is before we really
+>>> enable it.
+>>>
+>>> So let's revert this version, and keep the first version:
+>>> commit afa965a45e01 ("drm/rockchip: vop2: fix suspend/resume")
+>>>
+>>> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+>>> Reviewed-by: Sascha Hauer <s.hauer@pengutronix.de>
+>>
+>> This patch landed in today's linux-next as commit 81a06f1d02e5 ("Revert
+>> "drm/rockchip: vop2: Use regcache_sync() to fix suspend/resume"").
+>> Unfortunately it triggers a following lock dep warning on my Odroid-M1
+>> test board:
+>>
+>> ========================================================
+>> WARNING: possible irq lock inversion dependency detected
+>> 6.7.0-rc3+ #14328 Not tainted
+>> --------------------------------------------------------
+>> swapper/0/0 just changed the state of lock:
+>> ffff0001f3ae2c18
+>> (rockchip_drm_vop2:2723:(&vop2_regmap_config)->lock){-...}-{2:2}, at:
+>> regmap_lock_spinlock+0x18/0x2c
+>> but this lock took another, HARDIRQ-unsafe lock in the past:
+>>    (&mt->ma_lock){+.+.}-{2:2}
+>>
+>>
+>> and interrupts could create inverse lock ordering between them.
+>>
+>>
+>> other info that might help us debug this:
+>>    Possible interrupt unsafe locking scenario:
+>>
+>>          CPU0                    CPU1
+>>          ----                    ----
+>>     lock(&mt->ma_lock);
+>>                                  local_irq_disable();
+>> lock(rockchip_drm_vop2:2723:(&vop2_regmap_config)->lock);
+>>                                  lock(&mt->ma_lock);
+>>     <Interrupt>
+>> lock(rockchip_drm_vop2:2723:(&vop2_regmap_config)->lock);
+>>
+>>    *** DEADLOCK ***
+>>
+>> no locks held by swapper/0/0.
+>>
+>> the shortest dependencies between 2nd lock and 1st lock:
+>>    -> (&mt->ma_lock){+.+.}-{2:2} {
+>>       HARDIRQ-ON-W at:
+>>                         lock_acquire+0x1e8/0x318
+>>                         _raw_spin_lock+0x48/0x60
+>>                         regcache_maple_exit+0x5c/0xc0
+>>                         regcache_exit+0x48/0x74
+>>                         regmap_reinit_cache+0x1c/0xc4
+>>                         vop2_crtc_atomic_enable+0x86c/0xa0c [rockchipdrm]
+>> drm_atomic_helper_commit_modeset_enables+0xb4/0x26c
+>>                         drm_atomic_helper_commit_tail_rpm+0x50/0xa0
+>>                         commit_tail+0xa4/0x18c
+>>                         drm_atomic_helper_commit+0x19c/0x1b0
+>>                         drm_atomic_commit+0xa8/0xe0
+>>                         drm_client_modeset_commit_atomic+0x22c/0x298
+>>                         drm_client_modeset_commit_locked+0x60/0x1c0
+>>                         drm_client_modeset_commit+0x30/0x58
+>> __drm_fb_helper_restore_fbdev_mode_unlocked+0xbc/0xfc
+>>                         drm_fb_helper_set_par+0x30/0x4c
+>>                         fbcon_init+0x234/0x4c0
+>>                         visual_init+0xb0/0x108
+>>                         do_bind_con_driver.isra.0+0x19c/0x394
+>>                         do_take_over_console+0x144/0x1f0
+>>                         do_fbcon_takeover+0x6c/0xe4
+>>                         fbcon_fb_registered+0x1e0/0x1e8
+>>                         register_framebuffer+0x19c/0x228
+>> __drm_fb_helper_initial_config_and_unlock+0x348/0x4fc
+>> drm_fb_helper_hotplug_event.part.0+0xf0/0x110
+>>                         drm_fb_helper_hotplug_event+0x38/0x44
+>>                         drm_fbdev_generic_client_hotplug+0x28/0xd4
+>>                         drm_client_dev_hotplug+0xcc/0x130
+>>                         output_poll_execute+0x204/0x23c
+>>                         process_one_work+0x1ec/0x53c
+>>                         worker_thread+0x298/0x408
+>>                         kthread+0x124/0x128
+>>                         ret_from_fork+0x10/0x20
+>>       SOFTIRQ-ON-W at:
+>>                         lock_acquire+0x1e8/0x318
+>>                         _raw_spin_lock+0x48/0x60
+>>                         regcache_maple_exit+0x5c/0xc0
+>>                         regcache_exit+0x48/0x74
+>>                         regmap_reinit_cache+0x1c/0xc4
+>>                         vop2_crtc_atomic_enable+0x86c/0xa0c [rockchipdrm]
+>> drm_atomic_helper_commit_modeset_enables+0xb4/0x26c
+>>                         drm_atomic_helper_commit_tail_rpm+0x50/0xa0
+>>                         commit_tail+0xa4/0x18c
+>>                         drm_atomic_helper_commit+0x19c/0x1b0
+>>                         drm_atomic_commit+0xa8/0xe0
+>>                         drm_client_modeset_commit_atomic+0x22c/0x298
+>>                         drm_client_modeset_commit_locked+0x60/0x1c0
+>>                         drm_client_modeset_commit+0x30/0x58
+>> __drm_fb_helper_restore_fbdev_mode_unlocked+0xbc/0xfc
+>>                         drm_fb_helper_set_par+0x30/0x4c
+>>                         fbcon_init+0x234/0x4c0
+>>                         visual_init+0xb0/0x108
+>>                         do_bind_con_driver.isra.0+0x19c/0x394
+>>                         do_take_over_console+0x144/0x1f0
+>>                         do_fbcon_takeover+0x6c/0xe4
+>>                         fbcon_fb_registered+0x1e0/0x1e8
+>>                         register_framebuffer+0x19c/0x228
+>> __drm_fb_helper_initial_config_and_unlock+0x348/0x4fc
+>> drm_fb_helper_hotplug_event.part.0+0xf0/0x110
+>>                         drm_fb_helper_hotplug_event+0x38/0x44
+>>                         drm_fbdev_generic_client_hotplug+0x28/0xd4
+>>                         drm_client_dev_hotplug+0xcc/0x130
+>>                         output_poll_execute+0x204/0x23c
+>>                         process_one_work+0x1ec/0x53c
+>>                         worker_thread+0x298/0x408
+>>                         kthread+0x124/0x128
+>>                         ret_from_fork+0x10/0x20
+>>       INITIAL USE at:
+>>                        lock_acquire+0x1e8/0x318
+>>                        _raw_spin_lock+0x48/0x60
+>>                        regcache_maple_exit+0x5c/0xc0
+>>                        regcache_exit+0x48/0x74
+>>                        regmap_reinit_cache+0x1c/0xc4
+>>                        vop2_crtc_atomic_enable+0x86c/0xa0c [rockchipdrm]
+>> drm_atomic_helper_commit_modeset_enables+0xb4/0x26c
+>>                        drm_atomic_helper_commit_tail_rpm+0x50/0xa0
+>>                        commit_tail+0xa4/0x18c
+>>                        drm_atomic_helper_commit+0x19c/0x1b0
+>>                        drm_atomic_commit+0xa8/0xe0
+>>                        drm_client_modeset_commit_atomic+0x22c/0x298
+>>                        drm_client_modeset_commit_locked+0x60/0x1c0
+>>                        drm_client_modeset_commit+0x30/0x58
+>> __drm_fb_helper_restore_fbdev_mode_unlocked+0xbc/0xfc
+>>                        drm_fb_helper_set_par+0x30/0x4c
+>>                        fbcon_init+0x234/0x4c0
+>>                        visual_init+0xb0/0x108
+>>                        do_bind_con_driver.isra.0+0x19c/0x394
+>>                        do_take_over_console+0x144/0x1f0
+>>                        do_fbcon_takeover+0x6c/0xe4
+>>                        fbcon_fb_registered+0x1e0/0x1e8
+>>                        register_framebuffer+0x19c/0x228
+>> __drm_fb_helper_initial_config_and_unlock+0x348/0x4fc
+>>                        drm_fb_helper_hotplug_event.part.0+0xf0/0x110
+>>                        drm_fb_helper_hotplug_event+0x38/0x44
+>>                        drm_fbdev_generic_client_hotplug+0x28/0xd4
+>>                        drm_client_dev_hotplug+0xcc/0x130
+>>                        output_poll_execute+0x204/0x23c
+>>                        process_one_work+0x1ec/0x53c
+>>                        worker_thread+0x298/0x408
+>>                        kthread+0x124/0x128
+>>                        ret_from_fork+0x10/0x20
+>>     }
+>>     ... key      at: [<ffff800083de53b0>] __key.0+0x0/0x10
+>>     ... acquired at:
+>>      _raw_spin_lock+0x48/0x60
+>>      regcache_maple_write+0x1d8/0x31c
+>>      regcache_write+0x6c/0x84
+>>      _regmap_read+0x1b4/0x1f4
+>>      _regmap_update_bits+0xec/0x134
+>>      regmap_field_update_bits_base+0x6c/0xa0
+>>      vop2_plane_atomic_update+0x380/0x11d0 [rockchipdrm]
+>>      drm_atomic_helper_commit_planes+0xec/0x2a0
+>>      drm_atomic_helper_commit_tail_rpm+0x60/0xa0
+>>      commit_tail+0xa4/0x18c
+>>      drm_atomic_helper_commit+0x19c/0x1b0
+>>      drm_atomic_commit+0xa8/0xe0
+>>      drm_client_modeset_commit_atomic+0x22c/0x298
+>>      drm_client_modeset_commit_locked+0x60/0x1c0
+>>      drm_client_modeset_commit+0x30/0x58
+>>      __drm_fb_helper_restore_fbdev_mode_unlocked+0xbc/0xfc
+>>      drm_fb_helper_set_par+0x30/0x4c
+>>      fbcon_init+0x234/0x4c0
+>>      visual_init+0xb0/0x108
+>>      do_bind_con_driver.isra.0+0x19c/0x394
+>>      do_take_over_console+0x144/0x1f0
+>>      do_fbcon_takeover+0x6c/0xe4
+>>      fbcon_fb_registered+0x1e0/0x1e8
+>>      register_framebuffer+0x19c/0x228
+>>      __drm_fb_helper_initial_config_and_unlock+0x348/0x4fc
+>>      drm_fb_helper_hotplug_event.part.0+0xf0/0x110
+>>      drm_fb_helper_hotplug_event+0x38/0x44
+>>      drm_fbdev_generic_client_hotplug+0x28/0xd4
+>>      drm_client_dev_hotplug+0xcc/0x130
+>>      output_poll_execute+0x204/0x23c
+>>      process_one_work+0x1ec/0x53c
+>>      worker_thread+0x298/0x408
+>>      kthread+0x124/0x128
+>>      ret_from_fork+0x10/0x20
+>>
+>> -> (rockchip_drm_vop2:2723:(&vop2_regmap_config)->lock){-...}-{2:2} {
+>>      IN-HARDIRQ-W at:
+>>                       lock_acquire+0x1e8/0x318
+>>                       _raw_spin_lock_irqsave+0x60/0x88
+>>                       regmap_lock_spinlock+0x18/0x2c
+>>                       regmap_read+0x3c/0x78
+>>                       vop2_isr+0x84/0x2a4 [rockchipdrm]
+>>                       __handle_irq_event_percpu+0xb0/0x2d4
+>>                       handle_irq_event+0x4c/0xb8
+>>                       handle_fasteoi_irq+0xa4/0x1cc
+>>                       generic_handle_domain_irq+0x2c/0x44
+>>                       gic_handle_irq+0x4c/0x110
+>>                       call_on_irq_stack+0x24/0x4c
+>>                       do_interrupt_handler+0x80/0x84
+>>                       el1_interrupt+0x34/0x64
+>>                       el1h_64_irq_handler+0x18/0x24
+>>                       el1h_64_irq+0x64/0x68
+>>                       default_idle_call+0x9c/0x150
+>>                       do_idle+0x230/0x294
+>>                       cpu_startup_entry+0x34/0x3c
+>>                       rest_init+0x100/0x190
+>>                       arch_post_acpi_subsys_init+0x0/0x8
+>>                       start_kernel+0x594/0x684
+>>                       __primary_switched+0xbc/0xc4
+>>      INITIAL USE at:
+>>                      lock_acquire+0x1e8/0x318
+>>                      _raw_spin_lock_irqsave+0x60/0x88
+>>                      regmap_lock_spinlock+0x18/0x2c
+>>                      regmap_write+0x3c/0x78
+>>                      vop2_crtc_atomic_enable+0x894/0xa0c [rockchipdrm]
+>> drm_atomic_helper_commit_modeset_enables+0xb4/0x26c
+>>                      drm_atomic_helper_commit_tail_rpm+0x50/0xa0
+>>                      commit_tail+0xa4/0x18c
+>>                      drm_atomic_helper_commit+0x19c/0x1b0
+>>                      drm_atomic_commit+0xa8/0xe0
+>>                      drm_client_modeset_commit_atomic+0x22c/0x298
+>>                      drm_client_modeset_commit_locked+0x60/0x1c0
+>>                      drm_client_modeset_commit+0x30/0x58
+>> __drm_fb_helper_restore_fbdev_mode_unlocked+0xbc/0xfc
+>>                      drm_fb_helper_set_par+0x30/0x4c
+>>                      fbcon_init+0x234/0x4c0
+>>                      visual_init+0xb0/0x108
+>>                      do_bind_con_driver.isra.0+0x19c/0x394
+>>                      do_take_over_console+0x144/0x1f0
+>>                      do_fbcon_takeover+0x6c/0xe4
+>>                      fbcon_fb_registered+0x1e0/0x1e8
+>>                      register_framebuffer+0x19c/0x228
+>> __drm_fb_helper_initial_config_and_unlock+0x348/0x4fc
+>>                      drm_fb_helper_hotplug_event.part.0+0xf0/0x110
+>>                      drm_fb_helper_hotplug_event+0x38/0x44
+>>                      drm_fbdev_generic_client_hotplug+0x28/0xd4
+>>                      drm_client_dev_hotplug+0xcc/0x130
+>>                      output_poll_execute+0x204/0x23c
+>>                      process_one_work+0x1ec/0x53c
+>>                      worker_thread+0x298/0x408
+>>                      kthread+0x124/0x128
+>>                      ret_from_fork+0x10/0x20
+>>    }
+>>    ... key      at: [<ffff80007c090a18>] _key.6+0x0/0xffffffffffffd5e8
+>> [rockchipdrm]
+>>    ... acquired at:
+>>      __lock_acquire+0xad8/0x20c4
+>>      lock_acquire+0x1e8/0x318
+>>      _raw_spin_lock_irqsave+0x60/0x88
+>>      regmap_lock_spinlock+0x18/0x2c
+>>      regmap_read+0x3c/0x78
+>>      vop2_isr+0x84/0x2a4 [rockchipdrm]
+>>      __handle_irq_event_percpu+0xb0/0x2d4
+>>      handle_irq_event+0x4c/0xb8
+>>      handle_fasteoi_irq+0xa4/0x1cc
+>>      generic_handle_domain_irq+0x2c/0x44
+>>      gic_handle_irq+0x4c/0x110
+>>      call_on_irq_stack+0x24/0x4c
+>>      do_interrupt_handler+0x80/0x84
+>>      el1_interrupt+0x34/0x64
+>>      el1h_64_irq_handler+0x18/0x24
+>>      el1h_64_irq+0x64/0x68
+>>      default_idle_call+0x9c/0x150
+>>      do_idle+0x230/0x294
+>>      cpu_startup_entry+0x34/0x3c
+>>      rest_init+0x100/0x190
+>>      arch_post_acpi_subsys_init+0x0/0x8
+>>      start_kernel+0x594/0x684
+>>      __primary_switched+0xbc/0xc4
+>>
+>>
+>> stack backtrace:
+>> CPU: 0 PID: 0 Comm: swapper/0 Not tainted 6.7.0-rc3+ #14328
+>> Hardware name: Hardkernel ODROID-M1 (DT)
+>> Call trace:
+>>    dump_backtrace+0x98/0xf0
+>>    show_stack+0x18/0x24
+>>    dump_stack_lvl+0x60/0xac
+>>    dump_stack+0x18/0x24
+>>    print_irq_inversion_bug.part.0+0x1ec/0x27c
+>>    mark_lock+0x634/0x950
+>>    __lock_acquire+0xad8/0x20c4
+>>    lock_acquire+0x1e8/0x318
+>>    _raw_spin_lock_irqsave+0x60/0x88
+>>    regmap_lock_spinlock+0x18/0x2c
+>>    regmap_read+0x3c/0x78
+>>    vop2_isr+0x84/0x2a4 [rockchipdrm]
+>>    __handle_irq_event_percpu+0xb0/0x2d4
+>>    handle_irq_event+0x4c/0xb8
+>>    handle_fasteoi_irq+0xa4/0x1cc
+>>    generic_handle_domain_irq+0x2c/0x44
+>>    gic_handle_irq+0x4c/0x110
+>>    call_on_irq_stack+0x24/0x4c
+>>    do_interrupt_handler+0x80/0x84
+>>    el1_interrupt+0x34/0x64
+>>    el1h_64_irq_handler+0x18/0x24
+>>    el1h_64_irq+0x64/0x68
+>>    default_idle_call+0x9c/0x150
+>>    do_idle+0x230/0x294
+>>    cpu_startup_entry+0x34/0x3c
+>>    rest_init+0x100/0x190
+>>    arch_post_acpi_subsys_init+0x0/0x8
+>>    start_kernel+0x594/0x684
+>>    __primary_switched+0xbc/0xc4
+>> Console: switching to colour frame buffer device 240x67
+>> rockchip-drm display-subsystem: [drm] fb0: rockchipdrmfb frame buffer device
+>>
+>>
+>> Reverting it on top of next-20231214 and resolving a conflict
+>> fixes/hides the above lock dep issue.
+>>
+>>
+>>> ---
+>>>
+>>> (no changes since v1)
+>>>
+>>>    drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 10 +++++++---
+>>>    1 file changed, 7 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+>>> index 312da5783362..57784d0a22a6 100644
+>>> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+>>> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+>>> @@ -217,6 +217,8 @@ struct vop2 {
+>>>        struct vop2_win win[];
+>>>    };
+>>> +static const struct regmap_config vop2_regmap_config;
+>>> +
+>>>    static struct vop2_video_port *to_vop2_video_port(struct drm_crtc *crtc)
+>>>    {
+>>>        return container_of(crtc, struct vop2_video_port, crtc);
+>>> @@ -883,7 +885,11 @@ static void vop2_enable(struct vop2 *vop2)
+>>>            return;
+>>>        }
+>>> -    regcache_sync(vop2->map);
+>>> +    ret = regmap_reinit_cache(vop2->map, &vop2_regmap_config);
+>>> +    if (ret) {
+>>> +        drm_err(vop2->drm, "failed to reinit cache: %d\n", ret);
+>>> +        return;
+>>> +    }
+>>>        if (vop2->data->soc_id == 3566)
+>>>            vop2_writel(vop2, RK3568_OTP_WIN_EN, 1);
+>>> @@ -913,8 +919,6 @@ static void vop2_disable(struct vop2 *vop2)
+>>>        pm_runtime_put_sync(vop2->dev);
+>>> -    regcache_mark_dirty(vop2->map);
+>>> -
+>>>        clk_disable_unprepare(vop2->aclk);
+>>>        clk_disable_unprepare(vop2->hclk);
+>>>    }
+>>
+>> Best regards
