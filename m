@@ -1,102 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEC38813ECA
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Dec 2023 01:43:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 947FB813EE3
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Dec 2023 01:59:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F037910E301;
-	Fri, 15 Dec 2023 00:43:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E12C10E0F9;
+	Fri, 15 Dec 2023 00:59:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92AE610E301
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 00:43:28 +0000 (UTC)
-Received: from epcas1p4.samsung.com (unknown [182.195.41.48])
- by mailout2.samsung.com (KnoxPortal) with ESMTP id
- 20231215004326epoutp025590f892ad8f8743602cef708023cb52~g2pgtmFMX1375913759epoutp02w
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 00:43:26 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
- 20231215004326epoutp025590f892ad8f8743602cef708023cb52~g2pgtmFMX1375913759epoutp02w
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1702601006;
- bh=styQRLU5PmM8gAvGZI0V9/+SJ2jcOS7s+oCAE3VNHu0=;
- h=From:To:Cc:Subject:Date:References:From;
- b=kLUj85YZAEoL6jld3vX+LVFB6wLJ1YcOU3uwGdGQhoBiu1kQh0BgRQesEgdQkypCa
- K4PYTJvnWrSzpEgTRF46dGHa7D48RmLY1S9kcb8ZmuOh1ZtgHNvy6mNLpYuBUtgJuA
- sVpi2QCYeXgTuhedGfIoT8wKbJ0pqh2tCbaI7oC0=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
- epcas1p3.samsung.com (KnoxPortal) with ESMTP id
- 20231215004325epcas1p37347debb30507070a33b815c09924e7d~g2pgZK0RA2941629416epcas1p3F;
- Fri, 15 Dec 2023 00:43:25 +0000 (GMT)
-Received: from epsmges1p4.samsung.com (unknown [182.195.36.136]) by
- epsnrtp3.localdomain (Postfix) with ESMTP id 4Srr706Pztz4x9Q7; Fri, 15 Dec
- 2023 00:43:24 +0000 (GMT)
-Received: from epcas1p1.samsung.com ( [182.195.41.45]) by
- epsmges1p4.samsung.com (Symantec Messaging Gateway) with SMTP id
- B4.28.10211.C21AB756; Fri, 15 Dec 2023 09:43:24 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
- epcas1p4.samsung.com (KnoxPortal) with ESMTPA id
- 20231215004324epcas1p4815860461a1ab793af60e97ad1b90462~g2pfKRajq2689226892epcas1p4L;
- Fri, 15 Dec 2023 00:43:24 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
- epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20231215004324epsmtrp2b9f97d4ec7d56569aa3a9ea65719abbb~g2pfJnwFc0321603216epsmtrp2Z;
- Fri, 15 Dec 2023 00:43:24 +0000 (GMT)
-X-AuditID: b6c32a38-6d3fd700000027e3-01-657ba12c549c
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
- epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
- 58.41.18939.C21AB756; Fri, 15 Dec 2023 09:43:24 +0900 (KST)
-Received: from localhost.localdomain (unknown [10.113.221.211]) by
- epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20231215004324epsmtip1e7fb0aa3aace65c41a6986328b8eef8e~g2pe9VF7l0978309783epsmtip1S;
- Fri, 15 Dec 2023 00:43:24 +0000 (GMT)
-From: Inki Dae <inki.dae@samsung.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/exynos: fix incorrect type issue
-Date: Fri, 15 Dec 2023 09:43:23 +0900
-Message-Id: <20231215004323.147643-1-inki.dae@samsung.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-m49236.qiye.163.com (mail-m49236.qiye.163.com
+ [45.254.49.236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC3C710E0F9
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 00:59:45 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256;
+ b=eewXb5j2cY7pabvQKTcOXbzSEg1+32a7FPNJET23WbMt0Y78BszfmHeOr9j6jWNQlOt2EvU6pYhRpbz3NhiWztF7T2vRxfXMQIuIENvtVZTjRg6i4rt596dtuSkvCeZqmON0TEwVbfdRRYesVLJwoFnhZ3wt2ZjP1eTbaNaNOYU=;
+ s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
+ bh=BpndfV0BrYFXvpjo6vFGrp2daF1/MgBe+VkHNa97Wk8=;
+ h=date:mime-version:subject:message-id:from;
+Received: from [172.16.12.141] (unknown [58.22.7.114])
+ by mail-m12779.qiye.163.com (Hmail) with ESMTPA id AAAA27801A2;
+ Fri, 15 Dec 2023 08:59:39 +0800 (CST)
+Message-ID: <dea2b3a8-93f0-45fa-9022-0e2e8eb3ff68@rock-chips.com>
+Date: Fri, 15 Dec 2023 08:59:39 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [v5, 02/16] Revert "drm/rockchip: vop2: Use regcache_sync() to fix
+ suspend/resume"
+Content-Language: en-US
+To: Marek Szyprowski <m.szyprowski@samsung.com>, Andy Yan <andyshrk@163.com>, 
+ heiko@sntech.de
+References: <20231211115719.1784834-1-andyshrk@163.com>
+ <CGME20231214121339eucas1p105b5903b7a5f1933aa2c88c2cfd13288@eucas1p1.samsung.com>
+ <98a9f15d-30ac-47bf-9b93-3aa2c9900f7b@samsung.com>
+From: Andy Yan <andy.yan@rock-chips.com>
+In-Reply-To: <98a9f15d-30ac-47bf-9b93-3aa2c9900f7b@samsung.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrHKsWRmVeSWpSXmKPExsWy7bCmrq7OwupUg5NzjS2ufH3PZjHp/gQW
- ixnn9zFZvGp+xObA4rF4z0smj/vdx5k8+rasYvT4vEkugCUq2yYjNTEltUghNS85PyUzL91W
- yTs43jne1MzAUNfQ0sJcSSEvMTfVVsnFJ0DXLTMHaKWSQlliTilQKCCxuFhJ386mKL+0JFUh
- I7+4xFYptSAlp8C0QK84Mbe4NC9dLy+1xMrQwMDIFKgwITtj8vUz7AUtHBUnrq1mb2BsYO9i
- 5OSQEDCR+DvtABOILSSwg1Gi8QpfFyMXkP2JUWL5+1kscM703n4WmI6Jrx4xQyR2AiW2T2GF
- cL4wSlxcN4ENpIpNQFVi4or7YLaIgLLE34mrGEFsZoFsiQkfzgDZHBzCAqYSL/7qgYRZgMqb
- Ji8BO4NXwEri4NRuqGXyEjMvfWeHiAtKnJz5hAVijLxE89bZYEdICKxjl9i+bDEzyEwJAReJ
- D9sYIXqFJV4d3wL1ppTE53d72SDqJzNK3Lm+ggXCmcEocfjndagOY4n9SyczgQxiFtCUWL9L
- H2IZn8S7rz2sEPN5JTrahCCqlSSOXbwB1SkhcWHJRDYI20Pix49p7CDlQgKxEqcvJ01glJuF
- 5INZSD6YhbBrASPzKkax1ILi3PTUYsMCE3g8JufnbmIEJzQtix2Mc99+0DvEyMTBeIhRgoNZ
- SYT35I7yVCHelMTKqtSi/Pii0pzU4kOMpsAwncgsJZqcD0ypeSXxhiaWBiZmRsYmFoZmhkri
- vGeulKUKCaQnlqRmp6YWpBbB9DFxcEo1MGn5lP2r5IxcMGe+wguvoDq13yZFDvzc/w0PFMv5
- ypxq9/5fU7Fo9TydkLr5NheeGsz5J8zPfSN8Z4b1912L4p53vmR7nXFrnqDOeaUesfXxeyVz
- TnQ6rIvliXpjIT8j9tfKjiWCdxMX3kxd59xhFrhNXfhUf4NO+/9tyn3nzV+c9zGv/j4nQ0ty
- SzvT66MRlxxVM8Xm/vGfwPpF9t3ECFEDv0NJjQ3Z5X2vt7k+zXwwycHG7jBrEjN/SjBvy+Sw
- DxVZ7PFT18tYvenSMTUU7ryotqq+NuDyJ1bWjp8fz7VvVJ1hvEalfl2/ffZPmx8zrJu9t6lM
- mue+NWuWqNQ0YGKtXnNfNmiLcHQOt6wSS3FGoqEWc1FxIgBL4bnY8QMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprCLMWRmVeSWpSXmKPExsWy7bCSnK7OwupUg6atChZXvr5ns5h0fwKL
- xYzz+5gsXjU/YnNg8Vi85yWTx/3u40wefVtWMXp83iQXwBLFZZOSmpNZllqkb5fAlTH5+hn2
- ghaOihPXVrM3MDawdzFyckgImEhMfPWIuYuRi0NIYDujxOFzU4EcDqCEhMSWrRwQprDE4cPF
- ECWfGCXW7J7PAtLLJqAqMXHFfTYQW0RAWeLvxFWMIDazQK7E36Mf2UF6hQVMJV781QMJswCV
- N01ewgRi8wpYSRyc2s0CcYK8xMxL39kh4oISJ2c+YYEYIy/RvHU28wRGvllIUrOQpBYwMq1i
- FE0tKM5Nz00uMNQrTswtLs1L10vOz93ECA44raAdjMvW/9U7xMjEwXiIUYKDWUmE9+SO8lQh
- 3pTEyqrUovz4otKc1OJDjNIcLErivMo5nSlCAumJJanZqakFqUUwWSYOTqkGJqeUpgcXDjVe
- mNzU6+1l3DLxw50SLbO9itK2b9Rfd5x7Y8x/RHtJ4O6og31m1ZH8SuvjN0rNn/hiMptA5Fc2
- uVtbrvy4ezJyjvO2KXf3zJBJ330l4guPz2/zpBPNBzYGViss/i3tmDbFvPdrnt6Sjqjf2z9+
- lOgRc1me+HfXm+uav+cvm3009mSHkoaVldKhPzITFdnnW0/jW7rOaRXv29hZRYXxh/YyOEgL
- Gk5N8NX5+dY48qXtnzlCJe4HXgRukHdZPvWW4s/ksB8cXI//9KqxMU3YLSDlFs0Z+ro0Z/UR
- znN//wt4XypyD91rtXDiLUPTVxIv1sgpPTq+elp5+l8fo/tiVY/en+GfarzynKsSS3FGoqEW
- c1FxIgB00IjhpwIAAA==
-X-CMS-MailID: 20231215004324epcas1p4815860461a1ab793af60e97ad1b90462
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20231215004324epcas1p4815860461a1ab793af60e97ad1b90462
-References: <CGME20231215004324epcas1p4815860461a1ab793af60e97ad1b90462@epcas1p4.samsung.com>
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQkNOTlZOQktCT09MShhDTUhVEwETFh
+ oSFyQUDg9ZV1kYEgtZQVlOQ1VJSVVMVUpKT1lXWRYaDxIVHRRZQVlPS0hVSk1PSU5JVUpLS1VKQl
+ kG
+X-HM-Tid: 0a8c6afc7876b24fkuuuaaaa27801a2
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NBw6DSo*Gjw5HTAMKj4fCi8z
+ NgkwCj1VSlVKTEtJTUtKQkNLTU1IVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
+ WUFZTkNVSUlVTFVKSk9ZV1kIAVlBSUpDQ083Bg++
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,32 +58,390 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, kernel test robot <lkp@intel.com>
+Cc: devicetree@vger.kernel.org, sebastian.reichel@collabora.com,
+ Sascha Hauer <s.hauer@pengutronix.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, hjc@rock-chips.com, kever.yang@rock-chips.com,
+ linux-rockchip@lists.infradead.org, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, chris.obbard@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix incorrect type issue in fimd_commit() of exynos_drm_fimd.c module.
+Hi Marek:
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202312140930.Me9yWf8F-lkp@intel.com/
-Signed-off-by: Inki Dae <inki.dae@samsung.com>
----
- drivers/gpu/drm/exynos/exynos_drm_fimd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+   Sorry for this issue.
+   I also tested this series on RK3568/6 before I send them out.
+But I didn't find anyahing unusal, would you please share the
+linux kernel defconfig you used for this test and it would be
+greatly appreciated if you can share more test detial.
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_fimd.c b/drivers/gpu/drm/exynos/exynos_drm_fimd.c
-index a9f1c5c05894..60d1ef4010bb 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_fimd.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_fimd.c
-@@ -480,7 +480,7 @@ static void fimd_commit(struct exynos_drm_crtc *crtc)
- 	struct fimd_context *ctx = crtc->ctx;
- 	struct drm_display_mode *mode = &crtc->base.state->adjusted_mode;
- 	const struct fimd_driver_data *driver_data = ctx->driver_data;
--	void *timing_base = ctx->regs + driver_data->timing_base;
-+	void __iomem *timing_base = ctx->regs + driver_data->timing_base;
- 	u32 val;
- 
- 	if (ctx->suspended)
--- 
-2.25.1
-
+On 12/14/23 20:13, Marek Szyprowski wrote:
+> Dear All,
+> 
+> On 11.12.2023 12:57, Andy Yan wrote:
+>> From: Andy Yan <andy.yan@rock-chips.com>
+>>
+>> This reverts commit b63a553e8f5aa6574eeb535a551817a93c426d8c.
+>>
+>> regcache_sync will try to reload the configuration in regcache to
+>> hardware, but the registers of 4 Cluster windows and Esmart1/2/3 on
+>> the upcoming rk3588 can not be set successfully before internal PD
+>> power on.
+>>
+>> Also it's better to keep the hardware register as it is before we really
+>> enable it.
+>>
+>> So let's revert this version, and keep the first version:
+>> commit afa965a45e01 ("drm/rockchip: vop2: fix suspend/resume")
+>>
+>> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+>> Reviewed-by: Sascha Hauer <s.hauer@pengutronix.de>
+> 
+> This patch landed in today's linux-next as commit 81a06f1d02e5 ("Revert
+> "drm/rockchip: vop2: Use regcache_sync() to fix suspend/resume"").
+> Unfortunately it triggers a following lock dep warning on my Odroid-M1
+> test board:
+> 
+> ========================================================
+> WARNING: possible irq lock inversion dependency detected
+> 6.7.0-rc3+ #14328 Not tainted
+> --------------------------------------------------------
+> swapper/0/0 just changed the state of lock:
+> ffff0001f3ae2c18
+> (rockchip_drm_vop2:2723:(&vop2_regmap_config)->lock){-...}-{2:2}, at:
+> regmap_lock_spinlock+0x18/0x2c
+> but this lock took another, HARDIRQ-unsafe lock in the past:
+>    (&mt->ma_lock){+.+.}-{2:2}
+> 
+> 
+> and interrupts could create inverse lock ordering between them.
+> 
+> 
+> other info that might help us debug this:
+>    Possible interrupt unsafe locking scenario:
+> 
+>          CPU0                    CPU1
+>          ----                    ----
+>     lock(&mt->ma_lock);
+>                                  local_irq_disable();
+> lock(rockchip_drm_vop2:2723:(&vop2_regmap_config)->lock);
+>                                  lock(&mt->ma_lock);
+>     <Interrupt>
+> lock(rockchip_drm_vop2:2723:(&vop2_regmap_config)->lock);
+> 
+>    *** DEADLOCK ***
+> 
+> no locks held by swapper/0/0.
+> 
+> the shortest dependencies between 2nd lock and 1st lock:
+>    -> (&mt->ma_lock){+.+.}-{2:2} {
+>       HARDIRQ-ON-W at:
+>                         lock_acquire+0x1e8/0x318
+>                         _raw_spin_lock+0x48/0x60
+>                         regcache_maple_exit+0x5c/0xc0
+>                         regcache_exit+0x48/0x74
+>                         regmap_reinit_cache+0x1c/0xc4
+>                         vop2_crtc_atomic_enable+0x86c/0xa0c [rockchipdrm]
+> drm_atomic_helper_commit_modeset_enables+0xb4/0x26c
+>                         drm_atomic_helper_commit_tail_rpm+0x50/0xa0
+>                         commit_tail+0xa4/0x18c
+>                         drm_atomic_helper_commit+0x19c/0x1b0
+>                         drm_atomic_commit+0xa8/0xe0
+>                         drm_client_modeset_commit_atomic+0x22c/0x298
+>                         drm_client_modeset_commit_locked+0x60/0x1c0
+>                         drm_client_modeset_commit+0x30/0x58
+> __drm_fb_helper_restore_fbdev_mode_unlocked+0xbc/0xfc
+>                         drm_fb_helper_set_par+0x30/0x4c
+>                         fbcon_init+0x234/0x4c0
+>                         visual_init+0xb0/0x108
+>                         do_bind_con_driver.isra.0+0x19c/0x394
+>                         do_take_over_console+0x144/0x1f0
+>                         do_fbcon_takeover+0x6c/0xe4
+>                         fbcon_fb_registered+0x1e0/0x1e8
+>                         register_framebuffer+0x19c/0x228
+> __drm_fb_helper_initial_config_and_unlock+0x348/0x4fc
+> drm_fb_helper_hotplug_event.part.0+0xf0/0x110
+>                         drm_fb_helper_hotplug_event+0x38/0x44
+>                         drm_fbdev_generic_client_hotplug+0x28/0xd4
+>                         drm_client_dev_hotplug+0xcc/0x130
+>                         output_poll_execute+0x204/0x23c
+>                         process_one_work+0x1ec/0x53c
+>                         worker_thread+0x298/0x408
+>                         kthread+0x124/0x128
+>                         ret_from_fork+0x10/0x20
+>       SOFTIRQ-ON-W at:
+>                         lock_acquire+0x1e8/0x318
+>                         _raw_spin_lock+0x48/0x60
+>                         regcache_maple_exit+0x5c/0xc0
+>                         regcache_exit+0x48/0x74
+>                         regmap_reinit_cache+0x1c/0xc4
+>                         vop2_crtc_atomic_enable+0x86c/0xa0c [rockchipdrm]
+> drm_atomic_helper_commit_modeset_enables+0xb4/0x26c
+>                         drm_atomic_helper_commit_tail_rpm+0x50/0xa0
+>                         commit_tail+0xa4/0x18c
+>                         drm_atomic_helper_commit+0x19c/0x1b0
+>                         drm_atomic_commit+0xa8/0xe0
+>                         drm_client_modeset_commit_atomic+0x22c/0x298
+>                         drm_client_modeset_commit_locked+0x60/0x1c0
+>                         drm_client_modeset_commit+0x30/0x58
+> __drm_fb_helper_restore_fbdev_mode_unlocked+0xbc/0xfc
+>                         drm_fb_helper_set_par+0x30/0x4c
+>                         fbcon_init+0x234/0x4c0
+>                         visual_init+0xb0/0x108
+>                         do_bind_con_driver.isra.0+0x19c/0x394
+>                         do_take_over_console+0x144/0x1f0
+>                         do_fbcon_takeover+0x6c/0xe4
+>                         fbcon_fb_registered+0x1e0/0x1e8
+>                         register_framebuffer+0x19c/0x228
+> __drm_fb_helper_initial_config_and_unlock+0x348/0x4fc
+> drm_fb_helper_hotplug_event.part.0+0xf0/0x110
+>                         drm_fb_helper_hotplug_event+0x38/0x44
+>                         drm_fbdev_generic_client_hotplug+0x28/0xd4
+>                         drm_client_dev_hotplug+0xcc/0x130
+>                         output_poll_execute+0x204/0x23c
+>                         process_one_work+0x1ec/0x53c
+>                         worker_thread+0x298/0x408
+>                         kthread+0x124/0x128
+>                         ret_from_fork+0x10/0x20
+>       INITIAL USE at:
+>                        lock_acquire+0x1e8/0x318
+>                        _raw_spin_lock+0x48/0x60
+>                        regcache_maple_exit+0x5c/0xc0
+>                        regcache_exit+0x48/0x74
+>                        regmap_reinit_cache+0x1c/0xc4
+>                        vop2_crtc_atomic_enable+0x86c/0xa0c [rockchipdrm]
+> drm_atomic_helper_commit_modeset_enables+0xb4/0x26c
+>                        drm_atomic_helper_commit_tail_rpm+0x50/0xa0
+>                        commit_tail+0xa4/0x18c
+>                        drm_atomic_helper_commit+0x19c/0x1b0
+>                        drm_atomic_commit+0xa8/0xe0
+>                        drm_client_modeset_commit_atomic+0x22c/0x298
+>                        drm_client_modeset_commit_locked+0x60/0x1c0
+>                        drm_client_modeset_commit+0x30/0x58
+> __drm_fb_helper_restore_fbdev_mode_unlocked+0xbc/0xfc
+>                        drm_fb_helper_set_par+0x30/0x4c
+>                        fbcon_init+0x234/0x4c0
+>                        visual_init+0xb0/0x108
+>                        do_bind_con_driver.isra.0+0x19c/0x394
+>                        do_take_over_console+0x144/0x1f0
+>                        do_fbcon_takeover+0x6c/0xe4
+>                        fbcon_fb_registered+0x1e0/0x1e8
+>                        register_framebuffer+0x19c/0x228
+> __drm_fb_helper_initial_config_and_unlock+0x348/0x4fc
+>                        drm_fb_helper_hotplug_event.part.0+0xf0/0x110
+>                        drm_fb_helper_hotplug_event+0x38/0x44
+>                        drm_fbdev_generic_client_hotplug+0x28/0xd4
+>                        drm_client_dev_hotplug+0xcc/0x130
+>                        output_poll_execute+0x204/0x23c
+>                        process_one_work+0x1ec/0x53c
+>                        worker_thread+0x298/0x408
+>                        kthread+0x124/0x128
+>                        ret_from_fork+0x10/0x20
+>     }
+>     ... key      at: [<ffff800083de53b0>] __key.0+0x0/0x10
+>     ... acquired at:
+>      _raw_spin_lock+0x48/0x60
+>      regcache_maple_write+0x1d8/0x31c
+>      regcache_write+0x6c/0x84
+>      _regmap_read+0x1b4/0x1f4
+>      _regmap_update_bits+0xec/0x134
+>      regmap_field_update_bits_base+0x6c/0xa0
+>      vop2_plane_atomic_update+0x380/0x11d0 [rockchipdrm]
+>      drm_atomic_helper_commit_planes+0xec/0x2a0
+>      drm_atomic_helper_commit_tail_rpm+0x60/0xa0
+>      commit_tail+0xa4/0x18c
+>      drm_atomic_helper_commit+0x19c/0x1b0
+>      drm_atomic_commit+0xa8/0xe0
+>      drm_client_modeset_commit_atomic+0x22c/0x298
+>      drm_client_modeset_commit_locked+0x60/0x1c0
+>      drm_client_modeset_commit+0x30/0x58
+>      __drm_fb_helper_restore_fbdev_mode_unlocked+0xbc/0xfc
+>      drm_fb_helper_set_par+0x30/0x4c
+>      fbcon_init+0x234/0x4c0
+>      visual_init+0xb0/0x108
+>      do_bind_con_driver.isra.0+0x19c/0x394
+>      do_take_over_console+0x144/0x1f0
+>      do_fbcon_takeover+0x6c/0xe4
+>      fbcon_fb_registered+0x1e0/0x1e8
+>      register_framebuffer+0x19c/0x228
+>      __drm_fb_helper_initial_config_and_unlock+0x348/0x4fc
+>      drm_fb_helper_hotplug_event.part.0+0xf0/0x110
+>      drm_fb_helper_hotplug_event+0x38/0x44
+>      drm_fbdev_generic_client_hotplug+0x28/0xd4
+>      drm_client_dev_hotplug+0xcc/0x130
+>      output_poll_execute+0x204/0x23c
+>      process_one_work+0x1ec/0x53c
+>      worker_thread+0x298/0x408
+>      kthread+0x124/0x128
+>      ret_from_fork+0x10/0x20
+> 
+> -> (rockchip_drm_vop2:2723:(&vop2_regmap_config)->lock){-...}-{2:2} {
+>      IN-HARDIRQ-W at:
+>                       lock_acquire+0x1e8/0x318
+>                       _raw_spin_lock_irqsave+0x60/0x88
+>                       regmap_lock_spinlock+0x18/0x2c
+>                       regmap_read+0x3c/0x78
+>                       vop2_isr+0x84/0x2a4 [rockchipdrm]
+>                       __handle_irq_event_percpu+0xb0/0x2d4
+>                       handle_irq_event+0x4c/0xb8
+>                       handle_fasteoi_irq+0xa4/0x1cc
+>                       generic_handle_domain_irq+0x2c/0x44
+>                       gic_handle_irq+0x4c/0x110
+>                       call_on_irq_stack+0x24/0x4c
+>                       do_interrupt_handler+0x80/0x84
+>                       el1_interrupt+0x34/0x64
+>                       el1h_64_irq_handler+0x18/0x24
+>                       el1h_64_irq+0x64/0x68
+>                       default_idle_call+0x9c/0x150
+>                       do_idle+0x230/0x294
+>                       cpu_startup_entry+0x34/0x3c
+>                       rest_init+0x100/0x190
+>                       arch_post_acpi_subsys_init+0x0/0x8
+>                       start_kernel+0x594/0x684
+>                       __primary_switched+0xbc/0xc4
+>      INITIAL USE at:
+>                      lock_acquire+0x1e8/0x318
+>                      _raw_spin_lock_irqsave+0x60/0x88
+>                      regmap_lock_spinlock+0x18/0x2c
+>                      regmap_write+0x3c/0x78
+>                      vop2_crtc_atomic_enable+0x894/0xa0c [rockchipdrm]
+> drm_atomic_helper_commit_modeset_enables+0xb4/0x26c
+>                      drm_atomic_helper_commit_tail_rpm+0x50/0xa0
+>                      commit_tail+0xa4/0x18c
+>                      drm_atomic_helper_commit+0x19c/0x1b0
+>                      drm_atomic_commit+0xa8/0xe0
+>                      drm_client_modeset_commit_atomic+0x22c/0x298
+>                      drm_client_modeset_commit_locked+0x60/0x1c0
+>                      drm_client_modeset_commit+0x30/0x58
+> __drm_fb_helper_restore_fbdev_mode_unlocked+0xbc/0xfc
+>                      drm_fb_helper_set_par+0x30/0x4c
+>                      fbcon_init+0x234/0x4c0
+>                      visual_init+0xb0/0x108
+>                      do_bind_con_driver.isra.0+0x19c/0x394
+>                      do_take_over_console+0x144/0x1f0
+>                      do_fbcon_takeover+0x6c/0xe4
+>                      fbcon_fb_registered+0x1e0/0x1e8
+>                      register_framebuffer+0x19c/0x228
+> __drm_fb_helper_initial_config_and_unlock+0x348/0x4fc
+>                      drm_fb_helper_hotplug_event.part.0+0xf0/0x110
+>                      drm_fb_helper_hotplug_event+0x38/0x44
+>                      drm_fbdev_generic_client_hotplug+0x28/0xd4
+>                      drm_client_dev_hotplug+0xcc/0x130
+>                      output_poll_execute+0x204/0x23c
+>                      process_one_work+0x1ec/0x53c
+>                      worker_thread+0x298/0x408
+>                      kthread+0x124/0x128
+>                      ret_from_fork+0x10/0x20
+>    }
+>    ... key      at: [<ffff80007c090a18>] _key.6+0x0/0xffffffffffffd5e8
+> [rockchipdrm]
+>    ... acquired at:
+>      __lock_acquire+0xad8/0x20c4
+>      lock_acquire+0x1e8/0x318
+>      _raw_spin_lock_irqsave+0x60/0x88
+>      regmap_lock_spinlock+0x18/0x2c
+>      regmap_read+0x3c/0x78
+>      vop2_isr+0x84/0x2a4 [rockchipdrm]
+>      __handle_irq_event_percpu+0xb0/0x2d4
+>      handle_irq_event+0x4c/0xb8
+>      handle_fasteoi_irq+0xa4/0x1cc
+>      generic_handle_domain_irq+0x2c/0x44
+>      gic_handle_irq+0x4c/0x110
+>      call_on_irq_stack+0x24/0x4c
+>      do_interrupt_handler+0x80/0x84
+>      el1_interrupt+0x34/0x64
+>      el1h_64_irq_handler+0x18/0x24
+>      el1h_64_irq+0x64/0x68
+>      default_idle_call+0x9c/0x150
+>      do_idle+0x230/0x294
+>      cpu_startup_entry+0x34/0x3c
+>      rest_init+0x100/0x190
+>      arch_post_acpi_subsys_init+0x0/0x8
+>      start_kernel+0x594/0x684
+>      __primary_switched+0xbc/0xc4
+> 
+> 
+> stack backtrace:
+> CPU: 0 PID: 0 Comm: swapper/0 Not tainted 6.7.0-rc3+ #14328
+> Hardware name: Hardkernel ODROID-M1 (DT)
+> Call trace:
+>    dump_backtrace+0x98/0xf0
+>    show_stack+0x18/0x24
+>    dump_stack_lvl+0x60/0xac
+>    dump_stack+0x18/0x24
+>    print_irq_inversion_bug.part.0+0x1ec/0x27c
+>    mark_lock+0x634/0x950
+>    __lock_acquire+0xad8/0x20c4
+>    lock_acquire+0x1e8/0x318
+>    _raw_spin_lock_irqsave+0x60/0x88
+>    regmap_lock_spinlock+0x18/0x2c
+>    regmap_read+0x3c/0x78
+>    vop2_isr+0x84/0x2a4 [rockchipdrm]
+>    __handle_irq_event_percpu+0xb0/0x2d4
+>    handle_irq_event+0x4c/0xb8
+>    handle_fasteoi_irq+0xa4/0x1cc
+>    generic_handle_domain_irq+0x2c/0x44
+>    gic_handle_irq+0x4c/0x110
+>    call_on_irq_stack+0x24/0x4c
+>    do_interrupt_handler+0x80/0x84
+>    el1_interrupt+0x34/0x64
+>    el1h_64_irq_handler+0x18/0x24
+>    el1h_64_irq+0x64/0x68
+>    default_idle_call+0x9c/0x150
+>    do_idle+0x230/0x294
+>    cpu_startup_entry+0x34/0x3c
+>    rest_init+0x100/0x190
+>    arch_post_acpi_subsys_init+0x0/0x8
+>    start_kernel+0x594/0x684
+>    __primary_switched+0xbc/0xc4
+> Console: switching to colour frame buffer device 240x67
+> rockchip-drm display-subsystem: [drm] fb0: rockchipdrmfb frame buffer device
+> 
+> 
+> Reverting it on top of next-20231214 and resolving a conflict
+> fixes/hides the above lock dep issue.
+> 
+> 
+>> ---
+>>
+>> (no changes since v1)
+>>
+>>    drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 10 +++++++---
+>>    1 file changed, 7 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+>> index 312da5783362..57784d0a22a6 100644
+>> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+>> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+>> @@ -217,6 +217,8 @@ struct vop2 {
+>>    	struct vop2_win win[];
+>>    };
+>>    
+>> +static const struct regmap_config vop2_regmap_config;
+>> +
+>>    static struct vop2_video_port *to_vop2_video_port(struct drm_crtc *crtc)
+>>    {
+>>    	return container_of(crtc, struct vop2_video_port, crtc);
+>> @@ -883,7 +885,11 @@ static void vop2_enable(struct vop2 *vop2)
+>>    		return;
+>>    	}
+>>    
+>> -	regcache_sync(vop2->map);
+>> +	ret = regmap_reinit_cache(vop2->map, &vop2_regmap_config);
+>> +	if (ret) {
+>> +		drm_err(vop2->drm, "failed to reinit cache: %d\n", ret);
+>> +		return;
+>> +	}
+>>    
+>>    	if (vop2->data->soc_id == 3566)
+>>    		vop2_writel(vop2, RK3568_OTP_WIN_EN, 1);
+>> @@ -913,8 +919,6 @@ static void vop2_disable(struct vop2 *vop2)
+>>    
+>>    	pm_runtime_put_sync(vop2->dev);
+>>    
+>> -	regcache_mark_dirty(vop2->map);
+>> -
+>>    	clk_disable_unprepare(vop2->aclk);
+>>    	clk_disable_unprepare(vop2->hclk);
+>>    }
+> 
+> Best regards
