@@ -2,44 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2898814D14
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Dec 2023 17:31:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1029814D56
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Dec 2023 17:40:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A98A10E125;
-	Fri, 15 Dec 2023 16:31:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7CA810EA54;
+	Fri, 15 Dec 2023 16:40:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01A8410E125;
- Fri, 15 Dec 2023 16:31:43 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 5ACCACE3057;
- Fri, 15 Dec 2023 16:31:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44E71C433C7;
- Fri, 15 Dec 2023 16:31:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1702657900;
- bh=0LosaE7u8eBehBbtOhhzbFfU8u6hU9TUHpdDqS95mg4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=SY43EWQGoVCv6gr4NvXcCWAkQbCPGd2r0YmySPpP5h7SBC63JBgxNxcMtxvu7IDds
- 6Kog+3oBVOvPm2LUvZ9PPkNH9P2cxlEmt9RmSC35gGR3ChvMvbanuKlXifEYY7q3bX
- iSNvLRo9KdNrCbCOlPLPORYLV6FN1WaBZXtiMzpEOUA7glVs/R2hjNyvOn3XCFW8ze
- mA5mT6A/OjkQ6tKIxMNQiHNEogOIaboPeXGr3T2oFBMLfooOtX6ApP1z1Hr/tDHINC
- yeWAdFwRTw2T3zLe01ilRW5hN3VcyabKv2gtFedEQeBxv8sQI9iolXp9WscdC0Uhoa
- PU6sCApIKlPXQ==
-Date: Fri, 15 Dec 2023 17:31:38 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>
-Subject: Re: [PATCH v3 3/3] drm/tests: managed: Add a simple test for
- drmm_managed_release
-Message-ID: <mwdzi5424bvw57pqred3e2hcq7tp6xkaywj3dabixkbmq5hkbf@emquthxzlth3>
-References: <20231211220939.215024-1-michal.winiarski@intel.com>
- <20231211220939.215024-4-michal.winiarski@intel.com>
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
+ [IPv6:2607:f8b0:4864:20::1032])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41C1D10EA54
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 16:40:34 +0000 (UTC)
+Received: by mail-pj1-x1032.google.com with SMTP id
+ 98e67ed59e1d1-28b436f6cb9so103220a91.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 08:40:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1702658434; x=1703263234; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=P25CbsehI2ZDoWt8jYG9StimuRm4R3IkYru7E52Ud9o=;
+ b=LmWKcwXxGBChR9wHX0hLNICstld9Bc2NfnmNl8T3MoSzUGEdcYIEolCCD8j3Sk5Ot5
+ 4ZG80cF9OjB1Dcffl1B/ynvWD9TnRIk5dJn77nmTnP5t13ljMipzNEV2ewQYx3Kcm7WD
+ tfTdiPTXufPvAAIvtjdImp2g1YAyH4ycagMeN8W0n6ULxyMX/lHFKQrg3xCWH1+iG8Jd
+ n29RJjKTBbHMvCuuiqO1F7uCYBkxxrh73S4gE70H1PEqLDRt2spyBw3qhvKf8COY936V
+ ssDM3CetTi+Je4tZsI9uYV7wX5SpYfQMjmHckWtzrb93N7MwP1+HNIcPu0NofVaOv6dY
+ G6Yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1702658434; x=1703263234;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=P25CbsehI2ZDoWt8jYG9StimuRm4R3IkYru7E52Ud9o=;
+ b=axcr3dI7aFZfz5E242LunnKS6Hp/xgp+bEwYqm1NdxAkwP5qTTWPj3vk5yc0e6EGDF
+ GJ/uA7Ub0iJZvniK2wcvY/azTAhw9QN11xTE526fFoxa8Hq0tFx4UT0dNqICuGxSMARO
+ Yn2z0iRZh+iDhZj65SfgticSpgu7kl5JDbnSxj1o3IOL8cpswoJJpaqb9lfJYwSNZ/sF
+ GT3Bd38fVBZh1FlxMPXldxAorhRGzCHVAcqy3T3T8nyfFUjVNr2j8Jpl4nTnpjwWXi+q
+ W7VdmNf3IxMDr3rdw1PgTADcoLlK0lYG56kD+WZyYaGvdLLxp7nBjGNzAzN/vdj2o4vA
+ Qjjg==
+X-Gm-Message-State: AOJu0Yx8COITvbyiM5uWrzF6bg3+Hkn5ikPGFmEOIT9sQZp1xBbJOYYm
+ 9mmOkXiYRpUIJWgG5/18IgOopeK0AMDIAnwuuIU=
+X-Google-Smtp-Source: AGHT+IFuSK9mMYf2tzt4qdasmJNq1qeadzqiV6T7OQnjj9RaK23eMPy4F59kvNXJlhXKl73Qd4YLnG1VowwzUkWhndA=
+X-Received: by 2002:a17:90a:578c:b0:285:cc9c:7406 with SMTP id
+ g12-20020a17090a578c00b00285cc9c7406mr9402919pji.15.1702658433586; Fri, 15
+ Dec 2023 08:40:33 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="awnvecwbuslupev3"
-Content-Disposition: inline
-In-Reply-To: <20231211220939.215024-4-michal.winiarski@intel.com>
+References: <20230920171009.3193296-1-l.stach@pengutronix.de>
+ <20230920171009.3193296-2-l.stach@pengutronix.de>
+ <20230920205736.GB7723@pendragon.ideasonboard.com>
+ <CAHCN7xJz=rEH_8wHaBCVOUzP0kO6cM_c=zLf6ocjW8bt1FaCBw@mail.gmail.com>
+ <CAOMZO5C7_Rj-Ja0BO0D0Po+gy+XbvyMdQf-wH5YNyhAdMof2vg@mail.gmail.com>
+ <20231215142308.GL21146@pendragon.ideasonboard.com>
+In-Reply-To: <20231215142308.GL21146@pendragon.ideasonboard.com>
+From: Adam Ford <aford173@gmail.com>
+Date: Fri, 15 Dec 2023 10:40:22 -0600
+Message-ID: <CAHCN7xJPg_Nk=o9fKwkZfVTNSB-YL0m7vY6p1O7+i=PHShp7hg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] drm/bridge: imx: add driver for HDMI TX Parallel
+ Video Interface
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,107 +74,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-xe@lists.freedesktop.org, Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Jonas Karlman <jonas@kwiboo.se>, Liu Ying <victor.liu@nxp.com>,
+ Sandor Yu <sandor.yu@nxp.com>, dri-devel@lists.freedesktop.org,
+ patchwork-lst@pengutronix.de, devicetree@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Richard Leitner <richard.leitner@skidata.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org, Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Dec 15, 2023 at 8:23=E2=80=AFAM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> On Fri, Dec 15, 2023 at 10:31:27AM -0300, Fabio Estevam wrote:
+> > On Sun, Dec 10, 2023 at 2:35=E2=80=AFPM Adam Ford wrote:
+> >
+> > > Lucas,
+> > >
+> > > It's been a few months since there has been any action.  If you want,
+> > > I can help apply the suggestions that Laurent has and re-submit with
+> > > both of our names if you want.  It would be nice to get this
+> > > integrated.
+> >
+> > It would be nice if you could re-submit the series.
+>
+> Yes, that would be nice. It shouldn't cause any issue, the patches will
+> retain Lucas' authorship.
 
---awnvecwbuslupev3
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I started looking into this today, but there appears to be some
+dependencies missing because the PVI is just one small portion of
+this. The PVI needs to interact with the hdmi_blk_ctrl and the hdmi
+transmitter itself.
 
-Hi,
+It looks like there was at least one attempt to push the hdmi driver,
+but we're also missing some hdmi power domain information, and the dri
+patchwork lists a bunch of proposed patches for the lcdif driver.  I
+haven't looked through them all, so I don't know if they are
+necessary.  I found a git repo with Lucas' stuff, but it's based on
+the 6.0 kernel, so it's fairly old.  Either way it seems like there is
+more to the HDMI than just his one series.
 
-On Mon, Dec 11, 2023 at 11:09:39PM +0100, Micha=C5=82 Winiarski wrote:
-> Add a simple test that checks whether the action is indeed called right
-> away and that it is not called on the final drm_dev_put().
->=20
-> Signed-off-by: Micha=C5=82 Winiarski <michal.winiarski@intel.com>
-> ---
->  drivers/gpu/drm/tests/drm_managed_test.c | 29 ++++++++++++++++++++++++
->  1 file changed, 29 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/tests/drm_managed_test.c b/drivers/gpu/drm/t=
-ests/drm_managed_test.c
-> index 15bd2474440b5..ef5e784afbc6d 100644
-> --- a/drivers/gpu/drm/tests/drm_managed_test.c
-> +++ b/drivers/gpu/drm/tests/drm_managed_test.c
-> @@ -48,6 +48,34 @@ static void drm_test_managed_run_action(struct kunit *=
-test)
->  	KUNIT_EXPECT_GT_MSG(test, ret, 0, "Release action was not called");
->  }
-> =20
-> +/*
-> + * The test verifies that the release action is called immediately when
-> + * drmm_release_action is called and that it is not called for a second =
-time
-> + * when the device is released.
-> + */
-
-Thanks, it's much clearer now.
-
-> +static void drm_test_managed_release_action(struct kunit *test)
-> +{
-> +	struct managed_test_priv *priv =3D test->priv;
-> +	int ret;
-> +
-> +	ret =3D drmm_add_action_or_reset(priv->drm, drm_action, priv);
-> +	KUNIT_EXPECT_EQ(test, ret, 0);
-> +
-> +	ret =3D drm_dev_register(priv->drm, 0);
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> +
-> +	drmm_release_action(priv->drm, drm_action, priv);
-> +	KUNIT_EXPECT_TRUE_MSG(test, priv->action_done, "Release action was not =
-called");
-> +	priv->action_done =3D false;
-
-We should call wait_event_* here.
-
-> +
-> +	drm_dev_unregister(priv->drm);
-> +	drm_kunit_helper_free_device(test, priv->drm->dev);
-> +
-> +	ret =3D wait_event_interruptible_timeout(priv->action_wq, priv->action_=
-done,
-> +					       msecs_to_jiffies(TEST_TIMEOUT_MS));
-> +	KUNIT_EXPECT_EQ_MSG(test, ret, 0, "Unexpected release action call durin=
-g cleanup");
-> +}
-> +
-
-Tests should in general be as fast as possible. Waiting for 100ms for
-the success case is not ok. We have ~500 tests at the moment, if every
-test was doing that it would take at least 50s to run all our unit
-tests, while it takes less than a second at the moment on a capable
-machine.
-
-And also, I'm not sure we actually need to make sure it never happened.
-If only because nothing actually guarantees it wouldn't have happened
-after the timeout anyway, so the test isn't definitive.
-
-I guess what we could test is whether the action is still in the actions
-list through a function only exported to tests. If it's no longer in the
-action list, then it won't be run.
-
-But unless we ever have a bug, I'm not sure it's worth testing for that.
-
-Maxime
-
---awnvecwbuslupev3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZXx/agAKCRDj7w1vZxhR
-xajGAQDG1s2HQsiewBHqi42fHEPuZViUskhPW+PJ7c8GfgqlEQD/RTukNbiKlM+1
-Zl51xfDs0C5H73DX+sfNPRh3vIiq3AQ=
-=VvLf
------END PGP SIGNATURE-----
-
---awnvecwbuslupev3--
+adam
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
