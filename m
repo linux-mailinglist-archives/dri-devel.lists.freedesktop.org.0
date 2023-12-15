@@ -2,50 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 910E58149AE
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Dec 2023 14:52:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33A8A8149F2
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Dec 2023 15:04:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBAF910EA21;
-	Fri, 15 Dec 2023 13:52:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B93A10EA23;
+	Fri, 15 Dec 2023 14:04:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3BCD10EA21
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 13:52:46 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 856D210EA23
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 14:04:40 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 59EC862622
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 13:52:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BD01C43391
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 13:52:46 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id E5DFF6262C
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 14:04:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93EFCC4339A
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 14:04:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1702648366;
- bh=vjdJBXgB3CgJKNKKwjPm/ClnF8CuaIjDBKGu0wPgRvo=;
+ s=k20201202; t=1702649079;
+ bh=FhKPPt78Vf+g45RBRV5hED8LRF4V4FnS8ClJNfKBzWE=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=XJcb33hs5ztMEIHuoLHP4OdPBbLPjN5z4AdkI7AK9bQj9VyMYVzBDBbV6p3/nm0a4
- zBo5X2yLTWGYKpz+2ZgzKbNnVcbZZ0S71myEbr9PACXK0EzqdlDSR/X1dI/OSCPO/K
- oVnyYflJptXoVaAxLph6RIMen8CUDue5hyoUyXttuTdWXXWKH7qHcId7suXamBgN1a
- HMsu7mpOcYHPQr0IAWaVEA1JYoixuuCNAcWAEIoImRMS2Rr3wPXyzM9gsz1CW3BR+d
- OJG9QQqvWLNjaliuyaE+tSB9Q7aWuiC+WjtzRYlZ34xMA/qYhlc9cffPGW1s8yMGn+
- Sw92/bGmFBRlQ==
-Received: by mail-oo1-f54.google.com with SMTP id
- 006d021491bc7-59148c1ad35so482284eaf.2
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 05:52:46 -0800 (PST)
-X-Gm-Message-State: AOJu0YzfHwFP0f+a6w+9KZbl0TjzzSk0g4wk11fYW0gkD8OaRmWYHgsX
- MkoN9Ffu9Mr4b2tAnG75pdf+RjKvEn1IZTGE5dbKWg==
-X-Google-Smtp-Source: AGHT+IHZXfzFzL78YhBMewk/FnF0iIbD+5qrVyN96HVWfDXwSowKu4zcwV5A8GymmhtHJQsYk8J/4JXfBTR7J0IEoeg=
-X-Received: by 2002:a05:6358:915:b0:170:6ed7:3915 with SMTP id
- r21-20020a056358091500b001706ed73915mr15571082rwi.57.1702648365512; Fri, 15
- Dec 2023 05:52:45 -0800 (PST)
+ b=nlJpbftQ06nZVapbe0Ok7n05jmkYBOfvULXbU8nxD2lFMZCny2FrijKviQjTfH9u7
+ YsiSG92u1G66ZvXsW9QjsROcp4c648OnrUpO1JnQsV+u29jKusP5Wcoyk7Lbk1dgqv
+ b1p4FPgianpV+6QgveqYs3Vzm3QxnUdQ94ud+1KtFpJmXB/nTf3Tsg108uK779FnpE
+ wQVstefqnkKiqid2yPyM92CxY1IsEljZb+iN89/JgXuBrgik1WTLm/ZUmjqVfCy6fO
+ oI3IFi1DQyDE5R0BA5XQdOp8Z98k8XCqqQ+HuisJXQ98v40KpLTyiEeutVCIk8lImP
+ QjJNKL2p6nJag==
+Received: by mail-pf1-f173.google.com with SMTP id
+ d2e1a72fcca58-6d0a679fca7so338052b3a.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 06:04:39 -0800 (PST)
+X-Gm-Message-State: AOJu0YwfImBmNNHCixAIic8Ou9NFlpU5ocjC2K+54bJMG1RT2nSV+8Qh
+ QSRul4IikiR8qrwwYNKC51gAsSzVTrGXnkqFY/d7kA==
+X-Google-Smtp-Source: AGHT+IHXl3PbCabFeCBXX/vu1waa28tWQ/3iP9BXV2/Ojdvj7XaW81U2IoB2eB64jfdS+JJaXtOi+d5jmnjcOLwYVGc=
+X-Received: by 2002:a05:6a00:886:b0:6d0:8895:2cb with SMTP id
+ q6-20020a056a00088600b006d0889502cbmr5344546pfj.34.1702649079148; Fri, 15 Dec
+ 2023 06:04:39 -0800 (PST)
 MIME-Version: 1.0
 References: <20231212075257.75084-1-alexander.stein@ew.tq-group.com>
- <20231212075257.75084-8-alexander.stein@ew.tq-group.com>
-In-Reply-To: <20231212075257.75084-8-alexander.stein@ew.tq-group.com>
+In-Reply-To: <20231212075257.75084-1-alexander.stein@ew.tq-group.com>
 From: Robert Foss <rfoss@kernel.org>
-Date: Fri, 15 Dec 2023 14:52:32 +0100
-X-Gmail-Original-Message-ID: <CAN6tsi6gRJ-WfPXWoP=DjxuWNuEpnFJjAPRKiwRGsjYmvc8yaA@mail.gmail.com>
-Message-ID: <CAN6tsi6gRJ-WfPXWoP=DjxuWNuEpnFJjAPRKiwRGsjYmvc8yaA@mail.gmail.com>
-Subject: Re: [PATCH v3 7/7] drm/bridge: tc358767: Add descriptions to register
- definitions
+Date: Fri, 15 Dec 2023 15:04:27 +0100
+X-Gmail-Original-Message-ID: <CAN6tsi5fS1bBdExKjtZDArAu3Q+K3mWS6WJ5ao3q=1N+vQJ4XQ@mail.gmail.com>
+Message-ID: <CAN6tsi5fS1bBdExKjtZDArAu3Q+K3mWS6WJ5ao3q=1N+vQJ4XQ@mail.gmail.com>
+Subject: Re: [PATCH v3 0/7] Improve tc358767 regmap usage
 To: Alexander Stein <alexander.stein@ew.tq-group.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -71,105 +70,44 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Tue, Dec 12, 2023 at 8:53=E2=80=AFAM Alexander Stein
 <alexander.stein@ew.tq-group.com> wrote:
 >
-> Use the register names from the datasheet. No functional change intended.
+> Hi,
 >
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> ---
->  drivers/gpu/drm/bridge/tc358767.c | 30 +++++++++++++++---------------
->  1 file changed, 15 insertions(+), 15 deletions(-)
+> this series improves the regmap usage by cleaning up current usage as wel=
+l as
+> adding more registers to the list of volatile registers. SYSSTAT is added
+> to the list of precious registers as it is cleared upon read.
+> This series is based on [1].
 >
-> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/t=
-c358767.c
-> index 93fa057eca8dc..43e860796e683 100644
-> --- a/drivers/gpu/drm/bridge/tc358767.c
-> +++ b/drivers/gpu/drm/bridge/tc358767.c
-> @@ -145,10 +145,10 @@
->  #define VFUEN                          BIT(0)   /* Video Frame Timing Up=
-load */
+> Changes in v2:
+> * Patch 3: Use more symbolic names instead of register address numbers
+> * Patch 3: Add register group description for 0x300 and 0x400 area
 >
->  /* System */
-> -#define TC_IDREG               0x0500
-> -#define SYSSTAT                        0x0508
-> -#define SYSRSTENB              0x050c
-> +#define TC_IDREG               0x0500  /* Chip ID and Revision ID */
->  #define SYSBOOT                        0x0504  /* System BootStrap Statu=
-s Register */
-> +#define SYSSTAT                        0x0508  /* System Status Register=
- */
-> +#define SYSRSTENB              0x050c /* System Reset/Enable Register */
->  #define ENBI2C                         (1 << 0)
->  #define ENBLCD0                                (1 << 2)
->  #define ENBBM                          (1 << 3)
-> @@ -162,12 +162,12 @@
->  #define DP0_VIDSRC_DSI_RX              (1 << 0)
->  #define DP0_VIDSRC_DPI_RX              (2 << 0)
->  #define DP0_VIDSRC_COLOR_BAR           (3 << 0)
-> -#define GPIOM                  0x0540
-> -#define GPIOC                  0x0544
-> -#define GPIOO                  0x0548
-> -#define GPIOI                  0x054c
-> -#define INTCTL_G               0x0560
-> -#define INTSTS_G               0x0564
-> +#define GPIOM                  0x0540  /* GPIO Mode Control Register */
-> +#define GPIOC                  0x0544  /* GPIO Direction Control Registe=
-r */
-> +#define GPIOO                  0x0548  /* GPIO Output Register */
-> +#define GPIOI                  0x054c  /* GPIO Input Register */
-> +#define INTCTL_G               0x0560  /* General Interrupts Control Reg=
-ister */
-> +#define INTSTS_G               0x0564  /* General Interrupts Status Regi=
-ster */
+> Changes in v3:
+> * Rebased to next-20231212
+> * No changes despite the context due to commit 4dd9368671fb7 ("drm/bridge=
+:
+>   tc358767: Convert to use maple tree register cache")
 >
->  #define INT_SYSERR             BIT(16)
->  #define INT_GPIO_H(x)          (1 << (x =3D=3D 0 ? 2 : 10))
-> @@ -176,8 +176,8 @@
->  #define TEST_INT_C             0x0570  /* Test Interrupts Control Regist=
-er */
->  #define TEST_INT_S             0x0574  /* Test Interrupts Status Registe=
-r */
+> Best regards,
+> Alexander
 >
-> -#define INT_GP0_LCNT           0x0584
-> -#define INT_GP1_LCNT           0x0588
-> +#define INT_GP0_LCNT           0x0584  /* Interrupt GPIO0 Low Count Valu=
-e Register */
-> +#define INT_GP1_LCNT           0x0588  /* Interrupt GPIO1 Low Count Valu=
-e Register */
+> [1] https://lore.kernel.org/dri-devel/20230817075234.1075736-1-alexander.=
+stein@ew.tq-group.com/T/#t
 >
->  /* Control */
->  #define DP0CTL                 0x0600
-> @@ -187,9 +187,9 @@
->  #define DP_EN                          BIT(0)   /* Enable DPTX function =
-*/
+> Alexander Stein (7):
+>   drm/bridge: tc358767: Use regmap_access_table for writeable registers
+>   drm/bridge: tc358767: Fix order of register defines
+>   drm/bridge: tc358767: Add more registers to non-writeable range
+>   drm/bridge: tc358767: Sort volatile registers according to address
+>   drm/bridge: tc358767: Add more volatile registers
+>   drm/bridge: tc358767: Add precious register SYSSTAT
+>   drm/bridge: tc358767: Add descriptions to register definitions
 >
->  /* Clocks */
-> -#define DP0_VIDMNGEN0          0x0610
-> -#define DP0_VIDMNGEN1          0x0614
-> -#define DP0_VMNGENSTATUS       0x0618
-> +#define DP0_VIDMNGEN0          0x0610  /* DP0 Video Force M Value Regist=
-er */
-> +#define DP0_VIDMNGEN1          0x0614  /* DP0 Video Force N Value Regist=
-er */
-> +#define DP0_VMNGENSTATUS       0x0618  /* DP0 Video Current M Value Regi=
-ster */
->  #define DP0_AUDMNGEN0          0x0628  /* DP0 Audio Force M Value Regist=
-er */
->  #define DP0_AUDMNGEN1          0x062c  /* DP0 Audio Force N Value Regist=
-er */
->  #define DP0_AMNGENSTATUS       0x0630  /* DP0 Audio Current M Value Regi=
-ster */
-> @@ -277,7 +277,7 @@
->  #define AUDIFDATA5             0x071c  /* DP0 Audio Info Frame Bytes 23 =
-to 20 */
->  #define AUDIFDATA6             0x0720  /* DP0 Audio Info Frame Bytes 27 =
-to 24 */
+>  drivers/gpu/drm/bridge/tc358767.c | 171 +++++++++++++++++++++++-------
+>  1 file changed, 133 insertions(+), 38 deletions(-)
 >
-> -#define DP1_SRCCTRL            0x07a0
-> +#define DP1_SRCCTRL            0x07a0  /* DP1 Control Register */
->
->  /* PHY */
->  #define DP_PHY_CTRL            0x0800
 > --
 > 2.34.1
 >
 
-Reviewed-by: Robert Foss <rfoss@kernel.org>
+Applied to drm-misc-next
