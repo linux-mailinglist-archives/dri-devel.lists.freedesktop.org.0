@@ -1,52 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38C1B81503F
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Dec 2023 20:39:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C35728150E0
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Dec 2023 21:10:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C173910EAA3;
-	Fri, 15 Dec 2023 19:39:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79B8210EA8B;
+	Fri, 15 Dec 2023 20:09:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CD4210EA92
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 19:39:09 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id A98DD62766;
- Fri, 15 Dec 2023 19:39:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 579C8C433C8;
- Fri, 15 Dec 2023 19:39:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1702669148;
- bh=Pmc34ctQsXa6VXl3dwQb65VAAPy1a/s7K9nk2683PJI=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=V1DXM5OAvM/9gPoftNUkaWi8lxF6vthziPCXjmtEZBsdaVHNFnljNKwKi22wWZ3Md
- OOyw1BUF4n2rMa0I/EkwAVB5Ge9cv+O1NfMnZHaTROq5vt7VwGJW79v8d8tCl0p4lZ
- a95Ul4xt/sqDiqmZWiLL7NfkaMXiS/oSpKzUKtfv9e/3lEcvprJ+4wzYWB5xc97KcK
- 6z6N/u1tf8LTwHLNb+EpXIRZyEZmxS6ero0awkfig28BnNV/2O/Fbx0WxB5Mox+CVA
- kvgdpqFe3I+xSkIHxthqWthTn97dNnln+/aRbXRE3gyjwMelUKV1wX1KeVjLehjxND
- CUalVWTqese6Q==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- 46802C4314C; Fri, 15 Dec 2023 19:39:08 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 6.7-rc6
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9txCv2m6AKVoBPbAL4jpJL2aJy_T_vvH4Tj0rdtY004Hgw@mail.gmail.com>
-References: <CAPM=9txCv2m6AKVoBPbAL4jpJL2aJy_T_vvH4Tj0rdtY004Hgw@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAPM=9txCv2m6AKVoBPbAL4jpJL2aJy_T_vvH4Tj0rdtY004Hgw@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-fixes-2023-12-15
-X-PR-Tracked-Commit-Id: 7ba84cbf18c7a53107c64880d9c90f18fa68b481
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 595609b2ad023088dfd0ae74abb4602ea267e739
-Message-Id: <170266914827.22768.3697492589292240317.pr-tracker-bot@kernel.org>
-Date: Fri, 15 Dec 2023 19:39:08 +0000
-To: Dave Airlie <airlied@gmail.com>
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
+ [IPv6:2607:f8b0:4864:20::102f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9989310EA8B
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 20:09:54 +0000 (UTC)
+Received: by mail-pj1-x102f.google.com with SMTP id
+ 98e67ed59e1d1-28b24c3def1so218264a91.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 12:09:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1702670994; x=1703275794; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=C+VJ0FqQo5AdQg2VzGJ+KH4fOPDcPDhTzbSo5s9hBao=;
+ b=Jc3/vj550+lwJHMOGmayfcCCQPYsGk4u7mASxXB54dpE4eavRgGgf+0lmAjALn8p1B
+ cAV/fROhFrACWbY8FU/XaOLnNCm2zwX9FHQdFm5i2DZ46MDOg2t5S3lHCCwJzymualK2
+ 6zPLlrJV9KZY9/Kfa9UTnsFXbBXLrEZQiXcP4PLfXwNoGmXTl+2pujIvtDIoLjJ00bWv
+ GJ6Cop16fgSfj0Z2mjSzLhbyRb9GDAVSUYHlBYP9kwV6pZchurqwPhVvPNzsEwJePDoC
+ ttSklrg1yh3HHiAmYOZorvGwKkVfX0+Us7Tmtbena7Ly0vsvp+PWzFS8hxu5odM3/IKD
+ WOaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1702670994; x=1703275794;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=C+VJ0FqQo5AdQg2VzGJ+KH4fOPDcPDhTzbSo5s9hBao=;
+ b=d879muorNVfyPCF7NLK9CJTVDinrQHbrBMpnZxIdPk0kHzQ2WarG941zcEXI0asHK0
+ oG4wmLm8z/IHPzO7PvSlZe0/FG0lIOmuH5OiiZIAy3U+oB466+h6MxorRVVoKcQSvPsh
+ CauYRXO9q0lThMj4w7t6VhPSBZDMA1lKrOlCx2uoqWkqaOauPHHo2m7JJgzOwYdgOFG4
+ THwesXfsTnThZxNr4KLVM2uQ6XGWnnJgWbavPHrecopuzqFVp9d47SJxqglYoSpgv9pn
+ hqpzBILiKqe+Ijco2JlnS2D8e/ULMrcRCe1rivXHH9UIgT+NuNwotTq6B9aW6r5JBsCR
+ zwgQ==
+X-Gm-Message-State: AOJu0YxWttH2oqydLlL3a+ujPRMLThBgMk9R92KCR908DnfFnyvo06Yn
+ mRTd/HKrInoTdpZjBspb9o7hnNPI/oJKBKVg0DM=
+X-Google-Smtp-Source: AGHT+IH0DXnC8KtSTlCfY3zBgia7xIKVCPq2dsDSXxN0++zrX2TSX0wTvnY12iw3YyDWDu8qyD912bXhS1F9P8+/IFU=
+X-Received: by 2002:a17:90b:3a82:b0:283:5405:9e90 with SMTP id
+ om2-20020a17090b3a8200b0028354059e90mr20790095pjb.3.1702670994085; Fri, 15
+ Dec 2023 12:09:54 -0800 (PST)
+MIME-Version: 1.0
+References: <20230920171009.3193296-1-l.stach@pengutronix.de>
+ <20230920171009.3193296-2-l.stach@pengutronix.de>
+ <20230920205736.GB7723@pendragon.ideasonboard.com>
+ <CAHCN7xJz=rEH_8wHaBCVOUzP0kO6cM_c=zLf6ocjW8bt1FaCBw@mail.gmail.com>
+ <CAOMZO5C7_Rj-Ja0BO0D0Po+gy+XbvyMdQf-wH5YNyhAdMof2vg@mail.gmail.com>
+ <20231215142308.GL21146@pendragon.ideasonboard.com>
+ <CAHCN7xJPg_Nk=o9fKwkZfVTNSB-YL0m7vY6p1O7+i=PHShp7hg@mail.gmail.com>
+ <CAOMZO5AGAkPpds=5H-iQj53djcQtW5GsRQrzdC_JOOrcENhvvw@mail.gmail.com>
+ <CAHCN7xLHMGcS2-QTneqqpHYU66JwuEG4TyR0j0riFGqO6RC8ug@mail.gmail.com>
+In-Reply-To: <CAHCN7xLHMGcS2-QTneqqpHYU66JwuEG4TyR0j0riFGqO6RC8ug@mail.gmail.com>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Fri, 15 Dec 2023 17:09:41 -0300
+Message-ID: <CAOMZO5B2bWVciDEwSh+YQWu6b_Hp5ijk6Jq-bMePPTDRJ-vHFA@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] drm/bridge: imx: add driver for HDMI TX Parallel
+ Video Interface
+To: Adam Ford <aford173@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,22 +77,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Jonas Karlman <jonas@kwiboo.se>, Liu Ying <victor.liu@nxp.com>,
+ Sandor Yu <sandor.yu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ dri-devel@lists.freedesktop.org, patchwork-lst@pengutronix.de,
+ devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org, NXP Linux Team <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Fri, 15 Dec 2023 16:42:01 +1000:
+On Fri, Dec 15, 2023 at 4:01=E2=80=AFPM Adam Ford <aford173@gmail.com> wrot=
+e:
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2023-12-15
+> Thanks for the list.  I was able to successfully build the stable 6.6
+> branch with those patches applied and I have the HDMI working.
+> Unfortunately, I get build errors on the linux-next, so it's going to
+> take me a little time to sort through all of this.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/595609b2ad023088dfd0ae74abb4602ea267e739
+If you need help to figure this problem out, please let me know.
 
-Thank you!
+I haven't tried it against linux-next.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+> I am thinking that it would be better to consolidate all these
+> together into one series instead of piecemealing it.  However, there
+> are some items that can be submitted right away without significantly
+> reworking them against linux-next.  Do people have a preference?
+
+I think it makes sense to re-submit the "easy ones" right away.
