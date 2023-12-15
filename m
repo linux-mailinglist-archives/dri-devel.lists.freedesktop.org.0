@@ -2,46 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 099FD81443F
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Dec 2023 10:11:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86421814450
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Dec 2023 10:15:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B528310E168;
-	Fri, 15 Dec 2023 09:11:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2661710E220;
+	Fri, 15 Dec 2023 09:15:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2C9C10E168
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 09:11:23 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id BED04CE2C66;
- Fri, 15 Dec 2023 09:11:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81D68C433C7;
- Fri, 15 Dec 2023 09:11:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1702631480;
- bh=kKCmxtcl5MSg424p40e+BsGHD8SMbZdxG9H2LxbPPow=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XTGFD5gAci2HZRlK8c56c9BnKf6Ep9j4jkK4gWJd3uhtUhNjkdvBJaeKnDVnQjb5W
- 8zrUmyeT0DDb5fiIcnTUtqaaEgZP55SBQeTDYGdtQqCex1xV5VquEoZweJY40uSBH7
- U9nu83bDyhpJTbyNG8h8n5zrZjER9j3Sy7DEeFfpsrgDZBw5htbt3r/UHng/Y9L0by
- eJ/NZwkX/jG9j6K2g6vav0cgDbhJp3m+AZRA4uVMcHq2afEU7bNrdcplQAk7n7qf1k
- 7lD3ZH84PdJOvbuVfdwa+j2KUzFOrQvhPAg6TMTmzFKbjxC0pR9I372I0TnT+msS9z
- L5eYPk0My5cqg==
-Date: Fri, 15 Dec 2023 10:11:16 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 0/5] clk: Make clk_rate_exclusive_get() return void
-Message-ID: <lpcmyqxmf24tuwt72uxb6vyk7y23ot5d3vtwhwe77uwonhynxu@khe2zzjjq7fg>
-References: <cover.1702400947.git.u.kleine-koenig@pengutronix.de>
- <ki5n3rz5n4oxj2hhc3rj6xpn3e2tdi7fcp2q7exjbzilrlqflp@przautvhuy4g>
- <20231213074300.4bq7wkfqd4jhhcr4@pengutronix.de>
- <2nvbag657mlniqwq7fbilapc6vfw5qumab3yd6bqul25ot6wcn@wdlkh5az2fgs>
- <212239ae-60ab-46f3-a838-39a4d61091fe@linaro.org>
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com
+ (mail-tycjpn01on2097.outbound.protection.outlook.com [40.107.114.97])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8A6F10E220
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 09:15:43 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cKpzYXrE5joSEtGKhJzNRewZt1/PY1hf5MMpO3dwHic01BFqVAD1Dv4ZxwgA08nPQgNJFjUkHtP/pIkWfNoVn/DNY7VpJsFXo08MoXLyNLAbwzl9u8nsAGe/VFqdnFop1iExXGpr5kAbjTjrCIZ8+NMwIi3hJLe6qArVUffGPAtLsSUpq2qY0RhiXZaogwBxx0n0kAg+f1/m4NvLcetiRGyg0eB/HzfyLygIPbYn/onSQXZ9tVmp5SqXLqjpQLPwskbhJoTaZSNeKqfhALqW4WDStL0YWCdgQrcUFBTw1095DnCBhfH4WdEF0Z2SybcU19Ctzx5qDHBgbYBl3Wgm2w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VHlXBPqoT51Ts8b2S6hrfWmIm/7nhnnxDWaLsEHLkZo=;
+ b=JjODsrLcPwvlkFzIh4N1wR3ElOps6vuThxBucBng0nrKrOvnfFFbZgK4iZYSXAeHGmx8sCPqUj3N/Ccr1TOT32fA67+uxscwk6ZUNUK6nuBwtBBNKmWkWLlgVtUItSczHLsIU0x0uMUiaIGZVKGTBbGKMiBPDXHEMHuiYt4rWPWYVXdk3fFmbVnlih8avHBJ+IheskyJ5PTLJtmETx4bxa3hoqg5ubIxo/00azYHGi7F/Uj+TqdmRNiyCZ607eMnkjsmnCoLZCjlN23IKpxqCi0mMCRDNBCLvL9YXep8W8jjcLnp3Xp5NXK0JuOnoy3xmCIYYA0V3ECvZH1a6Kxceg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VHlXBPqoT51Ts8b2S6hrfWmIm/7nhnnxDWaLsEHLkZo=;
+ b=bJ6Q4Qq5QH+0WrfzFQzSNOVNOlnbPzhl7z9Hi30v/MzhR6YBca1i2lrjfUsAHgayzcKZ0Su0CIn2WqC0CeOuqSEUzuN3MnbNY5MoIdK3uaJoEe+CcEN1IItzJsIq8lxXHbrvMCvOPT5b0unSS1NEPNuczl78UTOnfOuYzt7CQwA=
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ (2603:1096:400:3c0::10) by TY1PR01MB10706.jpnprd01.prod.outlook.com
+ (2603:1096:400:31d::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7113.12; Fri, 15 Dec
+ 2023 09:15:40 +0000
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::f216:24ab:3668:3a48]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::f216:24ab:3668:3a48%4]) with mapi id 15.20.7113.010; Fri, 15 Dec 2023
+ 09:15:40 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: RE: [PATCH v2] drm: rcar-du: Fix memory leak in rcar_du_vsps_init()
+Thread-Topic: [PATCH v2] drm: rcar-du: Fix memory leak in rcar_du_vsps_init()
+Thread-Index: AQHaGIfbNkLqQJf+iUioLkutiw4N1LCqPUPg
+Date: Fri, 15 Dec 2023 09:15:40 +0000
+Message-ID: <TYCPR01MB11269D843BCF84CC0335208438693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+References: <20231116122424.80136-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20231116122424.80136-1-biju.das.jz@bp.renesas.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|TY1PR01MB10706:EE_
+x-ms-office365-filtering-correlation-id: d13bfba2-705f-4b60-0d4b-08dbfd4e685f
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: POeUPOgYbcyvJ7ZTcNt6m5TlsCNmxxMfOu0KCm6nQVB1AyaHItTE40puc+QCymypv2xWwLs2zC/r7nhF+Z5I2c+4Yw8Eja/acU4oI3tNT18bmMi4LQ5aymGyDCHmoVAGAwr2xuqDB3jrQXAr68oBoDuIEcPbDm8CcyP1LXbycA63fMZXT7n2QTsI89k8J8wplBEWmF407DsBlDisnlwZgQtl5D0v8AUSF8nt3AxGz5CWx2uK+5/QNAod2VJPPcVlvgBJ7JdiV6zgaJOJerdVm79WdIBnfVmuuZE+lKyDgkq104y2IoCTfHGEDzzjP5dEIEeiu2W5TOnP1cWijk+pMoMxw8w2RPBqaRhEYQ8OU02fw/yKS60IIQDB/Gd9XyUz70B/b6ZL16wLv3oztcgaal8hdVEmgRFgWiBzNrr/nHf5xDPdrhtBERwLtplGA5dXHHdDZzx0FNOxNRXosxJCmT0nSQ4djD3plm+tqJIwmcZCf7of2emAvl/6ptQ1lU2hbo2OgMFdrjpLwFfrbs5bcC0phFxpoDeP/GyTKVO8UOfS3Q+omUHKQhXWumtHInY3LsQzgXFlA2/yrgn/NdT8hoYi5tHHJsWKm8ZusyTDXg/YnbkKnsRxo8xGCBjizSaF
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYCPR01MB11269.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(136003)(346002)(39860400002)(366004)(396003)(376002)(230922051799003)(451199024)(1800799012)(186009)(64100799003)(26005)(6506007)(7696005)(71200400001)(53546011)(9686003)(83380400001)(5660300002)(52536014)(4326008)(41300700001)(2906002)(478600001)(8676002)(8936002)(76116006)(110136005)(66946007)(316002)(54906003)(64756008)(66446008)(66476007)(66556008)(33656002)(86362001)(122000001)(38100700002)(38070700009)(55016003);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?JhhHFuLDfnxKJBgwScGo3Utw+we2QKSGH/4ZjYbdjkXrIUaS+839PPpGp8Ol?=
+ =?us-ascii?Q?GKifJOwdPBkbxwwbEIMkAIOIqbglOGra/KfPu3sADjcdN7QH5NP/7D6fAbDf?=
+ =?us-ascii?Q?0oVsiXALRi0QGItRx8kXYiVW+b64BNWIOPSsXkD8kJZrBaFW+wqlsPCyw7Jd?=
+ =?us-ascii?Q?fV+tBb3vEAEb82bCtXTnOCuO3Qq1hkOVfWRnxpWZHUIgvAU9mem4jt+pJI14?=
+ =?us-ascii?Q?Xjc3wk9y8GOi0H3dG5TdHJQ+8vfPXrY84uMhoitmhaKXLwbbqnWG5ECN3rQR?=
+ =?us-ascii?Q?QNKHx/vYNu3XcazyUREkWKmvUVFh7YKAnRDLaB6ne68Zfg+ldhulO51lSkMo?=
+ =?us-ascii?Q?B8tgaAFljMogXiExVJCO4qxaVq9gJN1v8Rz8v5cmtz317vpqztXNzCLhtOan?=
+ =?us-ascii?Q?SWsV9mrvzbfZLNfu0ouUy3OOHf0v5Kq6Zd5+iEF/8B3CeO4ECTh1OPEcaCGM?=
+ =?us-ascii?Q?6Ick1ITu0jGHBinyFbK/EultL3rLsLcwAXBxtiXmAhjU89u+GREd1/5eE6eY?=
+ =?us-ascii?Q?NAfCgD7XtS1t9HKncG70CIj0tNUR9CVfRvDzWzVdjCkQgOMHsiABXX2gNopG?=
+ =?us-ascii?Q?Fg7gKnZImOZTUT22EbWKexCyczet7RIlvPnyCFA2iIgj6Szrb5mEziUZYavu?=
+ =?us-ascii?Q?oQaSqogx2CkPkzxKo8oCyiUiHNGNQuKw9YTbX4BFAy+YEexusufK9kFdGvQ9?=
+ =?us-ascii?Q?KaeX+3pWEFG+MRBwA4M66YmkCLMtb5r/jo7t6x9VPvRooSUmeTiRUw2b0JyG?=
+ =?us-ascii?Q?7sBTVPnLEH51244qAupTTMOlCv2N/2jqQw8CKTs5EyWXvHL8/xNnqzyjvWoS?=
+ =?us-ascii?Q?XBvAwELDKoYbKbmJhEh4niYdR+cJ1sPQhA5FBOfNXCbVgykpfBEu3b7llsyc?=
+ =?us-ascii?Q?aE2Zqa+2JR5TKLzC9L4pnHOvvk5AUcqsDGT4e59UaBZuA+rjGmxLqCzssqjf?=
+ =?us-ascii?Q?I3vi2+lZCd6E1LLHHazdVssdu6SbXXFaT9DztgRXW6h0qGbEvZ98KavIWW/s?=
+ =?us-ascii?Q?PrbwawBgz0AdP+soVJdOoOGbz/OjhS8w1uSf2KNuGKivQI9Qw1DkSwheVigu?=
+ =?us-ascii?Q?wrDfxCFmZJKC7ndZNDJyYwbRZ055bDd8fo73OCgq4kij8+Cgw+t4kQrRoPoo?=
+ =?us-ascii?Q?3i/LeNobT5i/77XCMRd4Y7SRtsl1yM2ufZkpkXWqgMpapqu4MNBKS8vOQoE5?=
+ =?us-ascii?Q?yoryfUGG0ruYwDG7XYZOfEZVURxjkAaGrZBkNtxDcvw9vbiec6MZagrBB7/B?=
+ =?us-ascii?Q?ItKD37E6VMddTh0GnKHA5RnQGCjKTiOFGq52BrEVsQdIZgvPyHRCkk+3Zwjv?=
+ =?us-ascii?Q?v2A7M3+/lXtuTYLgewQjveNbwOGaviAJ5PkIINxeUDR4IdG2djf9gQu+uWZg?=
+ =?us-ascii?Q?njNBXfnitrmt8APSGYptmlSqe3Hrqzhxssq4me8ynRWOpftmAFOiHBcbO+Ie?=
+ =?us-ascii?Q?XywsJTOet+MtNisRLQRrMGpWBrDlh+JtZ/f412HlK7/ONL6RO6ZmJGZlM96h?=
+ =?us-ascii?Q?EVis2Xbqp5+nZC1LvmcRdlbe65X83ig6S2OxSvb7307NopCZbICa56hUkEKa?=
+ =?us-ascii?Q?oeq9u3utxoFQGFpDLAO+IoztHWloJePm95yPMZvfc/I7vQskxosyp2XV77eR?=
+ =?us-ascii?Q?Xg=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="7garuxwpuj4i65vc"
-Content-Disposition: inline
-In-Reply-To: <212239ae-60ab-46f3-a838-39a4d61091fe@linaro.org>
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d13bfba2-705f-4b60-0d4b-08dbfd4e685f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Dec 2023 09:15:40.3297 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: AbqGGY5giLl5nY34voNqYC1QbY0zy9xir1wUYFyyAz1OfvrtqvIwWgraxpSj7vao8WeNLqX8HF3a6VmJ8lbA1c+cBCrcjqF385ZiBkh6ozA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB10706
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,206 +118,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Turquette <mturquette@baylibre.com>,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- linux-clk@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>,
- Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
- Russell King <linux@armlinux.org.uk>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Chanwoo Choi <cw00.choi@samsung.com>,
- Chen-Yu Tsai <wens@csie.org>, MyungJoo Ham <myungjoo.ham@samsung.com>,
- linux-arm-kernel@lists.infradead.org,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Kyungmin Park <kyungmin.park@samsung.com>, linux-sunxi@lists.linux.dev,
- kernel@pengutronix.de, linux-pm@vger.kernel.org,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
- Johan Hovold <johan+linaro@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Georgi Djakov <djakov@kernel.org>
+Cc: "biju.das.au" <biju.das.au@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi All,
 
---7garuxwpuj4i65vc
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Gentle ping.
 
-Hi Neil,
-
-On Wed, Dec 13, 2023 at 05:44:28PM +0100, Neil Armstrong wrote:
-> Le 13/12/2023 =E0 09:36, Maxime Ripard a =E9crit=A0:
-> > On Wed, Dec 13, 2023 at 08:43:00AM +0100, Uwe Kleine-K=F6nig wrote:
-> > > On Wed, Dec 13, 2023 at 08:16:04AM +0100, Maxime Ripard wrote:
-> > > > On Tue, Dec 12, 2023 at 06:26:37PM +0100, Uwe Kleine-K=F6nig wrote:
-> > > > > clk_rate_exclusive_get() returns zero unconditionally. Most users=
- "know"
-> > > > > that and don't check the return value. This series fixes the four=
- users
-> > > > > that do error checking on the returned value and then makes funct=
-ion
-> > > > > return void.
-> > > > >=20
-> > > > > Given that the changes to the drivers are simple and so merge con=
-flicts
-> > > > > (if any) should be easy to handle, I suggest to merge this comple=
-te
-> > > > > series via the clk tree.
-> > > >=20
-> > > > I don't think it's the right way to go about it.
-> > > >=20
-> > > > clk_rate_exclusive_get() should be expected to fail. For example if
-> > > > there's another user getting an exclusive rate on the same clock.
-> > > >=20
-> > > > If we're not checking for it right now, then it should probably be
-> > > > fixed, but the callers checking for the error are right to do so if=
- they
-> > > > rely on an exclusive rate. It's the ones that don't that should be
-> > > > modified.
-> > >=20
-> > > If some other consumer has already "locked" a clock that I call
-> > > clk_rate_exclusive_get() for, this isn't an error. In my bubble I call
-> > > this function because I don't want the rate to change e.g. because I
-> > > setup some registers in the consuming device to provide a fixed UART
-> > > baud rate or i2c bus frequency (and that works as expected).
-> >=20
-> > I guess it's a larger conversation, but I don't see how that can
-> > possibly work.
-> >=20
-> > The way the API is designed, you have no guarantee (outside of
-> > clk_rate_exclusive_*) that the rate is going to change.
-> >=20
-> > And clk_rate_exclusive_get() doesn't allow the rate to change while in
-> > the "critical section".
-> >=20
-> > So the only possible thing to do is clk_set_rate() +
-> > clk_rate_exclusive_get().
+> -----Original Message-----
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+> Sent: Thursday, November 16, 2023 12:24 PM
+> Subject: [PATCH v2] drm: rcar-du: Fix memory leak in rcar_du_vsps_init()
 >=20
-> There's clk_set_rate_exclusive() for this purpose.
-
-Sure. But that assumes you'll never need to change the rate while in the
-critical section.
-
-> > So there's a window where the clock can indeed be changed, and the
-> > consumer that is about to lock its rate wouldn't be aware of it.
-> >=20
-> > I guess it would work if you don't care about the rate at all, you just
-> > want to make sure it doesn't change.
-> >=20
-> > Out of the 7 users of that function, 3 are in that situation, so I guess
-> > it's fair.
-> >=20
-> > 3 are open to that race condition I mentioned above.
-> >=20
-> > 1 is calling clk_set_rate while in the critical section, which works if
-> > there's a single user but not if there's multiple, so it should be
-> > discouraged.
-> >=20
-> > > In this case I won't be able to change the rate of the clock, but that
-> > > is signalled by clk_set_rate() failing (iff and when I need awother
-> > > rate) which also seems the right place to fail to me.
-> >=20
-> > Which is ignored by like half the callers, including the one odd case I
-> > mentioned above.
-> >=20
-> > And that's super confusing still: you can *always* get exclusivity, but
-> > not always do whatever you want with the rate when you have it? How are
-> > drivers supposed to recover from that? You can handle failing to get
-> > exclusivity, but certainly not working around variable guarantees.
-> >=20
-> > > It's like that since clk_rate_exclusive_get() was introduced in 2017
-> > > (commit 55e9b8b7b806ec3f9a8817e13596682a5981c19c).
-> >=20
-> > Right, but "it's always been that way" surely can't be an argument,
-> > otherwise you wouldn't have done that series in the first place.
-> >=20
-> > > BTW, I just noticed that my assertion "Most users \"know\" that
-> > > [clk_rate_exclusive_get() returns zero unconditionally]" is wrong. As=
- of
-> > > next-20231213 there are 3 callers ignoring the return value of
-> > > clk_rate_exclusive_get() and 4 that handle (imaginary) returned error=
-s.
-> > > I expected this function to be used more extensively. (In fact I think
-> > > it should be used more as several drivers rely on the clk rate not
-> > > changing.)
-> >=20
-> > Yes, but also it's super difficult to use in practice, and most devices
-> > don't care.
-> >=20
-> > The current situation is something like this:
-> >=20
-> >    * Only a handful of devices really care about their clock rate, and
-> >      often only for one of their clock if they have several. You would
-> >      probably get all the devices that create an analog signal somehow
-> >      there, so audio, display, i2c, spi, uarts, etc. Plus the ones doing
-> >      frequency scaling so CPU and GPUs.
-> >=20
-> >    * CPUs and GPUs are very likely to have a dedicated clock, so we can
-> >      rule the "another user is going to mess with my clock" case.
-> >=20
-> >    * UARTs/i2c/etc. are usually taking their clock from the bus interfa=
-ce
-> >      directly which is pretty much never going to change (for good
-> >      reason). And the rate of the bus is not really likely to change.
-> >=20
-> >    * SPI/NAND/MMC usually have their dedicated clock too, and the bus
-> >      rate is not likely to change after the initial setup either.
-> >=20
-> > So, the only affected devices are the ones generating external signals,
-> > with the rate changing during the life of the system. Even for audio or
-> > video devices, that's fairly unlikely to happen. And you need to have
-> > multiple devices sharing the same clock tree for that issue to occur,
-> > which is further reducing the chances it happens.
+> The rcar_du_vsps_init() doesn't free the np allocated by
+> of_parse_phandle_with_fixed_args() for the non-error case.
 >=20
-> Well, thanks for HW designers, this exists and some SoCs has less PLLs th=
-an
-> needed, and they can't be dedicated for some hw blocks.
+> Fix memory leak for the non-error case.
 >=20
-> >=20
-> > Realistically speaking, this only occurs with multi-head display outputs
-> > where it's somewhat likely to have all the display controllers feeding
-> > from the same clock, and the power up of the various output is done in
-> > sequence which creates that situation.
-> >=20
-> > And even then, the clk_rate_exclusive_* interface effectively locks the
-> > entire clock subtree to its current rate, so the effect on the rest of
-> > the devices can be significant.
-> >=20
-> > So... yeah. Even though you're right, it's trying to address a problem
-> > that is super unlikely to happen with a pretty big hammer that might be
-> > too much for most. So it's not really surprising it's not used more.
+> While at it, replace the label 'error'->'done' as it applies to non-error
+> case as well and update the error check condition for rcar_du_vsp_init()
+> to avoid breakage in future, if it returns positive value.
 >=20
-> Honestly I tried my best to find a smart way to set the DSI clock tree
-> with only 2 endpoints of the tree, but CCF will explore all possibilities
-> and since you cannot set constraints, locking a sub-tree is the smartest
-> way I found.
-> In this case, the PLL is common between the DSI controller and video gene=
-rator,
-> so to keep the expected clock ratio, the smart way is to set the freq on
-> one side, lock the subtree and set the rate on the other side.
-> An API permitting to set multiple rates to multiple clocks in a single ca=
-ll
-> would be the solution, but not sure if we could possibly write such algor=
-ithm.
+> Fixes: 3e81374e2014 ("drm: rcar-du: Support multiple sources from the sam=
+e
+> VSP")
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v1->v2:
+>  * Replaced the label 'error'->'done' as it applies to non-error case as
+>    well.
+>  * Update the error check condition for rcar_du_vsp_init() to avoid
+>    breakage in future, if it returns positive value.
+> ---
+>  drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c | 10 ++++------
+>  1 file changed, 4 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+> b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+> index 70d8ad065bfa..4c8fe83dd610 100644
+> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+> @@ -705,7 +705,7 @@ static int rcar_du_vsps_init(struct rcar_du_device
+> *rcdu)
+>  		ret =3D of_parse_phandle_with_fixed_args(np, vsps_prop_name,
+>  						       cells, i, &args);
+>  		if (ret < 0)
+> -			goto error;
+> +			goto done;
+>=20
+>  		/*
+>  		 * Add the VSP to the list or update the corresponding
+> existing @@ -743,13 +743,11 @@ static int rcar_du_vsps_init(struct
+> rcar_du_device *rcdu)
+>  		vsp->dev =3D rcdu;
+>=20
+>  		ret =3D rcar_du_vsp_init(vsp, vsps[i].np, vsps[i].crtcs_mask);
+> -		if (ret < 0)
+> -			goto error;
+> +		if (ret)
+> +			goto done;
+>  	}
+>=20
+> -	return 0;
+> -
+> -error:
+> +done:
+>  	for (i =3D 0; i < ARRAY_SIZE(vsps); ++i)
+>  		of_node_put(vsps[i].np);
+>=20
+> --
+> 2.25.1
 
-Sure, and it's working great for some SoCs, so it was a good solution
-for the problem you had at the time.
+Cheers,
+Biju
 
-For some other SoCs it's not working that well however, so we need to
-improve things for those.
-
-Maxime
-
---7garuxwpuj4i65vc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZXwYNAAKCRDj7w1vZxhR
-xakLAP9GcHkCf7rMfdpKTVB0KahFy7/yq68gPTi4+2LCz/TXXAD/fsAdJUXHCeWp
-2Om50TZcBtUtxTuRDqmx0aUTY0ROFgE=
-=Z9RR
------END PGP SIGNATURE-----
-
---7garuxwpuj4i65vc--
