@@ -2,71 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76B7C8144E5
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Dec 2023 10:54:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA04F814503
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Dec 2023 11:00:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46B3510E0CA;
-	Fri, 15 Dec 2023 09:54:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B567110E9D1;
+	Fri, 15 Dec 2023 10:00:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6102D10E0CA
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 09:54:34 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id
- 5b1f17b1804b1-40c3f68b69aso4575805e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 01:54:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1702634073; x=1703238873;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ZaQhIJpC8RnPN69nCWAUDpbxZF8DURVfb/kY7Z31L0E=;
- b=qPqObz3Rhl7xziiHON068jWVRg1D6mPgn/3RBIVj/z/8hectmGZxx/1riaA/eKJkGN
- FXRxGDF38sH6kn1/1NJ+rpjoj9ZecpmreeTRiw9ZlIL02EcUhYXtbspc7VEUjk+Q61zx
- nF0tYK0aTn2D/jb2AfNc0l4m14f6VWEsN7aeCGIuPYrSgtPBZREU2YqVda4nmC3N/PEl
- iX1a6ZSuK3XY3S8qVmqwgkzyXafhLfCPHzoEDQjvYpSTMDuXgKwrpWRoBPJvcnJhmlRB
- 6p2E2ax1dY4XUZIZfzBbfJmASejNONvFPyyIzCe/xMbpGU/HtL6E5PFc2mv2xelKjguS
- drqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702634073; x=1703238873;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=ZaQhIJpC8RnPN69nCWAUDpbxZF8DURVfb/kY7Z31L0E=;
- b=e+UJbwpmLD2rDYsCyVTPYKqnZxMUaaGPD7rXUSB33mNFjN4t9yjGn3jb5qx+QvK186
- iHh5nDKWzadtulDTpSofeFOShq8LcGoLhLILmqQAq/EqmBih4uoY3dvQyCA530QEVqRO
- FZuaHS+QAejBWEX8+57TS+iMN6ubvxYOv0+rfMpFYhVVsKShWwij4o43tF3zd5j9Cv/4
- kbL0N3u2FRIP+1jruV3DaTo5tPLcuMZBRj9vcLR4DpGSg6lcJXePRkBEry5URhiMeHjN
- Ha/+j/IiqevZpfEN8Ppx7d5VwgBpXk65TcTnEUGUcXaxLKSfn8Tgkeq8Rt3vFL1GOVta
- CsYA==
-X-Gm-Message-State: AOJu0YyrlFsXE/TiUtO/amSmPc7YiK/99acmQzxeZmRA5nJ6HaQ0PYgF
- lYqbwHJD6oH568+BnP/o79DyUA==
-X-Google-Smtp-Source: AGHT+IFyuXAp+tPAhav4a3ImTRzZILmdqALz+G2oA3xWOMRjoAp1+b20I3piaoNv4URjDTOgIxk8Lg==
-X-Received: by 2002:a05:600c:470c:b0:40c:6bb8:17f2 with SMTP id
- v12-20020a05600c470c00b0040c6bb817f2mr286370wmo.59.1702634072718; 
- Fri, 15 Dec 2023 01:54:32 -0800 (PST)
-Received: from localhost ([2a01:e0a:3c5:5fb1:6e16:8a51:92cc:c70e])
- by smtp.gmail.com with ESMTPSA id
- je5-20020a05600c1f8500b0040c6b667ce3sm1461288wmb.1.2023.12.15.01.54.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Dec 2023 01:54:32 -0800 (PST)
-References: <cover.1702400947.git.u.kleine-koenig@pengutronix.de>
- <ki5n3rz5n4oxj2hhc3rj6xpn3e2tdi7fcp2q7exjbzilrlqflp@przautvhuy4g>
- <20231213074300.4bq7wkfqd4jhhcr4@pengutronix.de>
- <2nvbag657mlniqwq7fbilapc6vfw5qumab3yd6bqul25ot6wcn@wdlkh5az2fgs>
- <212239ae-60ab-46f3-a838-39a4d61091fe@linaro.org>
-User-agent: mu4e 1.10.8; emacs 29.1
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 0/5] clk: Make clk_rate_exclusive_get() return void
-Date: Fri, 15 Dec 2023 10:46:29 +0100
-In-reply-to: <212239ae-60ab-46f3-a838-39a4d61091fe@linaro.org>
-Message-ID: <1ja5qbpz8o.fsf@starbuckisacylon.baylibre.com>
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur04olkn080f.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe0e::80f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7CE010E320;
+ Fri, 15 Dec 2023 09:59:58 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iOGl2IZ9AjoH/lgQdzwL07RmzjdcOTqgdmVLgKP3NtmAGneog2kl+fmlfFjr+tFK7sR9p6hlsoFiLJjqc47OvN3X3sRAlDMPeBUkaYdLZEPwzKz0Ibx8bAvP7VoRnYrr/tV0gi/FdmnSBTnBN/ZABJt+mCltpnYqCdp4KN+cRaf6bU+Q71T52dGVFi+FxgMYWAoIJW2cAmXJlZLO7cZODV4loujUQg5rCSXrzbKg0izvAKnT44TMTZYqvMsnAQeEDRiQjP3TuEzJjzuVcD8Bvrzt726ZoC3f7C9r+E2pQRdMediZYUY/oWWcwP+4/nsnsWkbwpH+HD09DUwk5BsurA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZiU73NIN1lvCWdMVrKnNstqLDp7/niE9mrXFSgWiniE=;
+ b=TZ+hBCZrpGY6IJ6Dn9/5DDaOja9+K+5P0G64Bj5NIWk0CjVtMwQBehF652cQ1NLAGRDJ1dV/9aOI3dFXRr+mv7P/1d0n/tly+wLP5zbKUCGqEJqGZbG7+5t6lDQQ3CLjaiFDt5YCXlRRPH1ova5r26DaPxZ1PAdttUa2gatBqUQnOkJynh+uJU9qETboxMGG4VYMdzpxO1YvlOaedIJFeGlUEdISVq6tvJA4qnRnIqhHbRVdB7dO0XTpQm4RSCpl/Vmta8PAGGm3SWuGsQHGg/jiNMwgeVawAD+KCo51L+gfRmlWBr8sr/kwD0QnX4XhDJfEhhJAR8uhOyKiPPltlA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZiU73NIN1lvCWdMVrKnNstqLDp7/niE9mrXFSgWiniE=;
+ b=DYTeMV8mWsGJ8oaHGBYp/UAeGzBQZGKAgzYaAKe4/ryFIwt5i6RN5fuC05WBI3s0V8pIPpdA5CuZSvVoe78tkR+f0uhAUh7zYcsecB14a2PAsobD68ooY6PN/5l4miUlTsCajyoBx3KSqOeW0qrt6FIAOPN/ztmycCPQP6UIOBIb5HyGqQvN3XpPow76BhaZELcmFPzHIxH4psFWQSfs2Dr34q+vedTAadx2bg02h9oKmqTmk+xjSiPOPRZPjTYsFSJevCtK9SkM9Vqz0L0MKzFCy1moSltt+pgizZiytCMQZcwz/MCRFENVNtRjjq0gNcFdWcbJPv+wQMBGQfhejQ==
+Received: from DUZPR10MB8267.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:4ae::7)
+ by DB9PR10MB6738.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:3d2::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.28; Fri, 15 Dec
+ 2023 09:59:56 +0000
+Received: from DUZPR10MB8267.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::651:ac68:2cdb:49f0]) by DUZPR10MB8267.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::651:ac68:2cdb:49f0%4]) with mapi id 15.20.7091.028; Fri, 15 Dec 2023
+ 09:59:56 +0000
+Message-ID: <DUZPR10MB8267520A4F44DA38339969A78E93A@DUZPR10MB8267.EURPRD10.PROD.OUTLOOK.COM>
+Date: Fri, 15 Dec 2023 10:59:59 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Nouveau] Kernel problem with multiseat on one card - Wil be more
+ than one window manager on one card
+To: Timur Tabi <ttabi@nvidia.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "bagasdotme@gmail.com" <bagasdotme@gmail.com>
+References: <AM7PR10MB39235DD53D163910E88FDB938E82A@AM7PR10MB3923.EURPRD10.PROD.OUTLOOK.COM>
+ <AM7PR10MB3923E07D6024434077E95EBA8E82A@AM7PR10MB3923.EURPRD10.PROD.OUTLOOK.COM>
+ <ZWsuiq7zrYS-pDli@archie.me>
+ <655a02097e9b49c2da7a2be60d7c154a48a916f4.camel@nvidia.com>
+ <AM7PR10MB39235076485E2E3905F422508E86A@AM7PR10MB3923.EURPRD10.PROD.OUTLOOK.COM>
+ <e046050c7e9be5d4f816d33dd1a9dd50e2de3308.camel@nvidia.com>
+Content-Language: nl
+From: Gert Vanhaerents <gert.vanhaerents@hotmail.com>
+In-Reply-To: <e046050c7e9be5d4f816d33dd1a9dd50e2de3308.camel@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TMN: [Mpof9r8j6eSeeas/Y7h5pJyqXgLjdQ3d]
+X-ClientProxiedBy: AS4P190CA0018.EURP190.PROD.OUTLOOK.COM
+ (2603:10a6:20b:5d0::11) To DUZPR10MB8267.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:10:4ae::7)
+X-Microsoft-Original-Message-ID: <d0e7f742-a980-4d3e-92f6-58700907ebb4@hotmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DUZPR10MB8267:EE_|DB9PR10MB6738:EE_
+X-MS-Office365-Filtering-Correlation-Id: 17e4f1ee-e102-44d4-5a14-08dbfd549703
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: sr/f25hLW2rxYoudzAdRbqIDdXlw9i6mSgn7daWrUsnOLLRCAUSKZQL8oI/VqXkeO3/fgv+P/0mAVMEyOIvoMjOBOLlppnUrUgW9dSFmEm0iUeAIjJSWH4yqjLr2t0hsYRuyGjcGoi7L8mQujHEme8N5ky0GljaFPPodsCnmvKSjaz9VzXwiEj18TN41zKqRZo2YQf2/iZt5LXdsT4ISRY0Wz1AAe5Sh9qfReam1godRjzYQczbvHuNPBY0kb2k0adyP2ETBrcO7TJ6Fhe+CWuvHz4eYhzOZ+k7MohaYsciie3CaA6+4LrzJLLJeyWjVSM2FKoekL8hNLLqLpqXcdebzWei0dT2GURbV4yNXC9B1XzQExYPqQ4BV6apu/0b/QC1jduvSoV5O00U1Si7TRou9FYndralDd55ikG0URG1esG3jWKzGixZz+BjVSpID5ufBuwHXzWvTSdm2XRpK8Bkr4GEN3HX6CgqFmijDRNiplWMhPuUQtKX4jywfU5Yl49PC/muDPes6gJB9AlSznEmL5Hz9CiUcoUqmOisFhKss6DSL5NvJhYB/WYGb+7BB
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NC9SMk42NTRDWG1XOHIyMUtSVU5GaFFxbGhUVzhsVEk2VnVjcFJpTFRFdXdh?=
+ =?utf-8?B?OFlTRnFHS1JQWUs0bk1LZTJLdTdPUWFVMmx5bjNsSDRGQ3RYVlBiRHBiem5E?=
+ =?utf-8?B?S0hiVktWZnN5eUYyZlZPdXF0aUJ3ZXdGVURnZVh3VWJpNkFYNXMvNFhVUDNr?=
+ =?utf-8?B?VU41WTJZSkYyR2wwT1dPUHc2VWpTdFFqOHZKQ09tU3RRWml5dnpRQUdWblhX?=
+ =?utf-8?B?MDYzNyt4WDRXandqcG1QdVRkUG0rRkFSajVCV0RUUGE0bGdkR1k3TVBKWmN0?=
+ =?utf-8?B?N1MyclZNMFZyZC9sR1VWaExzcFdCRUVkcHhUQ0FEZm1GUzAxUjJ5L3NUNUlS?=
+ =?utf-8?B?cmlDbEUyVFZkL0dKQ3lvZWlXMlFxN1pWTGFDd1VCZmZUaWNLY1FsTnlMUFFG?=
+ =?utf-8?B?R0ZRUmh1VHVRanEzdnA2bGhJNERUVlBBRTlOZUY0L0V4SUhEZlh0U0RnVmg4?=
+ =?utf-8?B?WW01cWRscmkyTTVaNDV1dm1NKy9tOVBiM1I5OXowYjA5aXJPWHFwbU44U0N6?=
+ =?utf-8?B?eXpLNTZMMlZnQkVrbWd5VmJmdVJyL05CQUk3VDA1N0d6cjFYZnBLRGFIUjkw?=
+ =?utf-8?B?RWJBdUNzSmR3cmlnWnZ4NFNZc05MVU1RcGRUeTkwV1dGVjl2dHdGZVVwemQ5?=
+ =?utf-8?B?ei9zemM0WnpWc2QyMFUrbHlUd2NHQU5jM3k0QVduakMwSzRMdTZQc1diYXhu?=
+ =?utf-8?B?d01SYnpNWE9CSTdUSlljeE00V21DSlIvVFF0QlJDRTBKVGtNV2w2ekxMTWRs?=
+ =?utf-8?B?aVdXTWVzQ2dudzJZYTdBRU4zdUlYV3JHdXNPenlPQktRTnlXU0RiQjZBdHg1?=
+ =?utf-8?B?NzZYWm1wT3dyaDc3Z0hrNWJEY3BOWU5RWHBqQ2c4WDZTZG1jcVFyczZHTGE1?=
+ =?utf-8?B?NkRyRytJczdCekorWGhCNmI0MXpXYU4zQ3VlSmdlVnVzQ0dvTW1Mck5qMCtX?=
+ =?utf-8?B?RE9XOVEveDRUdFhJR09QcVdEV1JITGFkOFdMM1BTY0JCRW1oaVMzdFU2SlEr?=
+ =?utf-8?B?b1hDSnJSQjNZYis3Vy9ldW9nc0d5aVRRNHFSa2M2NWYrVzRBQ3Q5allzUnEw?=
+ =?utf-8?B?UzRFOVNna1NlcjNFODl1MlFlQmpYWWluUVRrSWpWaVNXVi9RNjMwc3hFaFpj?=
+ =?utf-8?B?SXhPKzQ0bVpPNVVXUGF0ekNjOTBuQjhmUk96TDlVNU05WGdTNUQrLzFTek9X?=
+ =?utf-8?B?SWprTzYwY0hURHo3Z0FmWmhHMkptcExETnBDYnlza1FhbHRsR3M2a3ErWUph?=
+ =?utf-8?B?RWtiL05ZQlYxMnFPd1NJb2tUaytrMU1ZdFVKSzZVUktMS0lsN2cxdVcvWE8r?=
+ =?utf-8?B?SkVneElEM3RmY1krOW5GbWlockt1OFhEbUQra25QZkQrdm9aa3J1dW04UlZW?=
+ =?utf-8?B?MExRS2xzTUV1Rkhxd0VRTzVxendQaWFDVXhuN3Y3Uk5zdUFGbEJqUlBQcERQ?=
+ =?utf-8?B?MlJ0b0dyb2Mxdkh3c1FSNTAwQm03eVFGZHRWZHRDcklFV2oyQ2xvOS9IdXdE?=
+ =?utf-8?B?eTl4eUlNTTNkcG9nY21ta1BoaGNIS3BIRUdKbjk0SWhIdklLVjR4SFVTOWFq?=
+ =?utf-8?B?Wmk0bUhPK1YyaHUxNnE0MW5Jbnh0eGNKNlVLSWdDZFVyV2hpMm1weUMzeGlU?=
+ =?utf-8?Q?H1Fz9ovoBMTkK6Sb6pDjrmQYtHVYelCYC2egaHtlkvFU=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-6b909.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 17e4f1ee-e102-44d4-5a14-08dbfd549703
+X-MS-Exchange-CrossTenant-AuthSource: DUZPR10MB8267.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2023 09:59:55.9562 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR10MB6738
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,178 +120,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Turquette <mturquette@baylibre.com>,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- linux-clk@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>,
- Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
- Russell King <linux@armlinux.org.uk>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Chanwoo Choi <cw00.choi@samsung.com>,
- Chen-Yu Tsai <wens@csie.org>, MyungJoo Ham <myungjoo.ham@samsung.com>,
- linux-arm-kernel@lists.infradead.org,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Kyungmin Park <kyungmin.park@samsung.com>, linux-sunxi@lists.linux.dev,
- kernel@pengutronix.de, linux-pm@vger.kernel.org,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Maxime Ripard <mripard@kernel.org>, linux-tegra@vger.kernel.org,
- linux-amlogic@lists.infradead.org, Johan Hovold <johan+linaro@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Georgi Djakov <djakov@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Wed 13 Dec 2023 at 17:44, Neil Armstrong <neil.armstrong@linaro.org> wro=
-te:
+Op 4/12/2023 om 15:11 schreef Timur Tabi:
+> On Mon, 2023-12-04 at 09:51 +0100, Gert Vanhaerents wrote:
+>> OK  i will report it to nvidia. But with the nouveau drivers it's also not
+>> working. Are you sure it's not a kernel problem?
+>> Because according to systemd it would be a kernel problem.  (personaly i am
+>> also thinking it's a driver problem)
+> Unfortunately, it's not easy for Nouveau to debug problems with GSP-RM.
+> However, if the problem exists in the proprietary driver, then Nvidia could
+> fix it.  That would then lead to a new version of OpenRM that Nouveau could
+> use.
 
-> Hi Maxime,
->
-> Le 13/12/2023 =C3=A0 09:36, Maxime Ripard a =C3=A9crit=C2=A0:
->> Hi,
->> On Wed, Dec 13, 2023 at 08:43:00AM +0100, Uwe Kleine-K=C3=B6nig wrote:
->>> On Wed, Dec 13, 2023 at 08:16:04AM +0100, Maxime Ripard wrote:
->>>> On Tue, Dec 12, 2023 at 06:26:37PM +0100, Uwe Kleine-K=C3=B6nig wrote:
->>>>> clk_rate_exclusive_get() returns zero unconditionally. Most users "kn=
-ow"
->>>>> that and don't check the return value. This series fixes the four use=
-rs
->>>>> that do error checking on the returned value and then makes function
->>>>> return void.
->>>>>
->>>>> Given that the changes to the drivers are simple and so merge conflic=
-ts
->>>>> (if any) should be easy to handle, I suggest to merge this complete
->>>>> series via the clk tree.
->>>>
->>>> I don't think it's the right way to go about it.
->>>>
->>>> clk_rate_exclusive_get() should be expected to fail. For example if
->>>> there's another user getting an exclusive rate on the same clock.
->>>>
->>>> If we're not checking for it right now, then it should probably be
->>>> fixed, but the callers checking for the error are right to do so if th=
-ey
->>>> rely on an exclusive rate. It's the ones that don't that should be
->>>> modified.
->>>
->>> If some other consumer has already "locked" a clock that I call
->>> clk_rate_exclusive_get() for, this isn't an error. In my bubble I call
->>> this function because I don't want the rate to change e.g. because I
->>> setup some registers in the consuming device to provide a fixed UART
->>> baud rate or i2c bus frequency (and that works as expected).
->> I guess it's a larger conversation, but I don't see how that can
->> possibly work.
->> The way the API is designed, you have no guarantee (outside of
->> clk_rate_exclusive_*) that the rate is going to change.
->> And clk_rate_exclusive_get() doesn't allow the rate to change while in
->> the "critical section".
->> So the only possible thing to do is clk_set_rate() +
->> clk_rate_exclusive_get().
->
-> There's clk_set_rate_exclusive() for this purpose.
->
->> So there's a window where the clock can indeed be changed, and the
->> consumer that is about to lock its rate wouldn't be aware of it.
->> I guess it would work if you don't care about the rate at all, you just
->> want to make sure it doesn't change.
->> Out of the 7 users of that function, 3 are in that situation, so I guess
->> it's fair.
->> 3 are open to that race condition I mentioned above.
->> 1 is calling clk_set_rate while in the critical section, which works if
->> there's a single user but not if there's multiple, so it should be
->> discouraged.
->>=20
->>> In this case I won't be able to change the rate of the clock, but that
->>> is signalled by clk_set_rate() failing (iff and when I need awother
->>> rate) which also seems the right place to fail to me.
->> Which is ignored by like half the callers, including the one odd case I
->> mentioned above.
->> And that's super confusing still: you can *always* get exclusivity, but
->> not always do whatever you want with the rate when you have it? How are
->> drivers supposed to recover from that? You can handle failing to get
->> exclusivity, but certainly not working around variable guarantees.
->>=20
->>> It's like that since clk_rate_exclusive_get() was introduced in 2017
->>> (commit 55e9b8b7b806ec3f9a8817e13596682a5981c19c).
->> Right, but "it's always been that way" surely can't be an argument,
->> otherwise you wouldn't have done that series in the first place.
->>=20
->>> BTW, I just noticed that my assertion "Most users \"know\" that
->>> [clk_rate_exclusive_get() returns zero unconditionally]" is wrong. As of
->>> next-20231213 there are 3 callers ignoring the return value of
->>> clk_rate_exclusive_get() and 4 that handle (imaginary) returned errors.
->>> I expected this function to be used more extensively. (In fact I think
->>> it should be used more as several drivers rely on the clk rate not
->>> changing.)
->> Yes, but also it's super difficult to use in practice, and most devices
->> don't care.
->> The current situation is something like this:
->>    * Only a handful of devices really care about their clock rate, and
->>      often only for one of their clock if they have several. You would
->>      probably get all the devices that create an analog signal somehow
->>      there, so audio, display, i2c, spi, uarts, etc. Plus the ones doing
->>      frequency scaling so CPU and GPUs.
->>    * CPUs and GPUs are very likely to have a dedicated clock, so we can
->>      rule the "another user is going to mess with my clock" case.
->>    * UARTs/i2c/etc. are usually taking their clock from the bus interface
->>      directly which is pretty much never going to change (for good
->>      reason). And the rate of the bus is not really likely to change.
->>    * SPI/NAND/MMC usually have their dedicated clock too, and the bus
->>      rate is not likely to change after the initial setup either.
->> So, the only affected devices are the ones generating external signals,
->> with the rate changing during the life of the system. Even for audio or
->> video devices, that's fairly unlikely to happen. And you need to have
->> multiple devices sharing the same clock tree for that issue to occur,
->> which is further reducing the chances it happens.
->
-> Well, thanks for HW designers, this exists and some SoCs has less PLLs th=
-an
-> needed, and they can't be dedicated for some hw blocks.
+I have contacted Nvidia and now i can see the outputs such like this:
 
-Indeed. Even if there are enough PLLs, the exclusive API might help.
-The idea is to force the second consumer to pick another "free" PLL if
-it needs another rate.
+─/sys/devices/pci0000:00/0000:00:03.1/0000:08:00.0/drm/card0
+           │ [MASTER] drm:card0
+           │ 
+├─/sys/devices/pci0000:00/0000:00:03.1/0000:08:00.0/drm/card0/card0-DVI-D-1
+           │ │ [MASTER] drm:card0-DVI-D-1
+           │ 
+├─/sys/devices/pci0000:00/0000:00:03.1/0000:08:00.0/drm/card0/card0-HDMI-A-1
+           │ │ [MASTER] drm:card0-HDMI-A-1
+           │ 
+└─/sys/devices/pci0000:00/0000:00:03.1/0000:08:00.0/drm/card0/card0-VGA-1
+           │   [MASTER] drm:card0-VGA-1
 
-If it can work with the rate currently locked by the first consumer,
-then CCF may just pick that one, saving a PLL for future use. If it cant,
-the protection will force the use of another PLL.
+But the problem is now the same of with the Nouveau driver. When you do 
+this:
 
-Without the exclusive API, the second consummer may just wreck the PLL of
-the first consummer, regardless of the other PLL available.
+loginctl attach seat1 
+/sys/devices/pci0000:00/0000:00:03.1/0000:08:00.0/drm/card0/card0-VGA-1
 
-Of course, if there is enough PLL, the other solution is manual
-allocation, using assigned-parent and CLK_NO_REPARENT.
+For the seat1 (the VGA d-sub output for seat1 and the other HDMI output 
+for seat0) and of course the mouse and keyboard.
 
->
->> Realistically speaking, this only occurs with multi-head display outputs
->> where it's somewhat likely to have all the display controllers feeding
->> from the same clock, and the power up of the various output is done in
->> sequence which creates that situation.
->> And even then, the clk_rate_exclusive_* interface effectively locks the
->> entire clock subtree to its current rate, so the effect on the rest of
->> the devices can be significant.
->> So... yeah. Even though you're right, it's trying to address a problem
->> that is super unlikely to happen with a pretty big hammer that might be
->> too much for most. So it's not really surprising it's not used more.
->
-> Honestly I tried my best to find a smart way to set the DSI clock tree
-> with only 2 endpoints of the tree, but CCF will explore all possibilities
-> and since you cannot set constraints, locking a sub-tree is the smartest
-> way I found.
-> In this case, the PLL is common between the DSI controller and video gene=
-rator,
-> so to keep the expected clock ratio, the smart way is to set the freq on
-> one side, lock the subtree and set the rate on the other side.
-> An API permitting to set multiple rates to multiple clocks in a single ca=
-ll
-> would be the solution, but not sure if we could possibly write such algor=
-ithm.
->
->> Maxime
->
-> Neil
+When you do this, all the graphics outputs are on the second seat 
+(seat1) and not anymore on the first seat. So i need to move only the 
+VGA output to seat1 and not all the outputs.
 
 
---=20
-Jerome
+The problem is that linux can not start 2 or more window managers on one 
+card (even if you don't need a multiseat, but use only one mouse and 
+keyboard).
+
+So how can i fix that i can use more than one window manager on one 
+physical graphics card? (without Xephyr or something because they are to 
+outdated and works not good).
+
+I have tried with: Linux Mint, Ubuntu and Debian all the same problem.
+
+
