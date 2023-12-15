@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D100181499B
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Dec 2023 14:49:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BEB881499C
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Dec 2023 14:50:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BEBF10EA17;
-	Fri, 15 Dec 2023 13:49:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44DD510EA1B;
+	Fri, 15 Dec 2023 13:50:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AA9D10EA17
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 13:49:52 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45A4610EA1B
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 13:50:39 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 87DE9CE2F31
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 13:49:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DF7DC433CA
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 13:49:49 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9DF0B6261D
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 13:50:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9651C43391
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 13:50:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1702648189;
- bh=bRMu56oXKzjZhuBwc7qRcspLL62d7kRDQ2eUirITWxA=;
+ s=k20201202; t=1702648237;
+ bh=VGGJGq9/BYIQp4QYY4naot3PR7Xp2yzpYMNIPl2+Bng=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=hUJUtevZ+yUWhx581l1IApZN4TjBMYfb+uHvXJoOwN0UPLBkIcNsBVPtgMpgMgxXc
- jNlazSs58hQZt6oc+zjVcRRWmqQxVhMObsDI8McxTeb8z2M11nn3uyeMumxOrSuN7q
- xghGQnkIYhdfAZtXDCHwpky9sIN3tnb0OIgR7qiMjfx2RA1YvlwWDA3pMrL7IuzgZr
- OQ8Abklio53ACMBmakLTaCQbRHFR7P8nmNpXvo0wn112HPxu2aNfgnxWJGb7dXuCfO
- rb1SaBnQeAT8fbMi+rhB/lJTR+b6tVYmwBylHwxVXSOZgYOmGjtrZY0l4klQbvcWO3
- TGf09BapnwDag==
-Received: by mail-pj1-f43.google.com with SMTP id
- 98e67ed59e1d1-28aea039fb4so1381320a91.1
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 05:49:49 -0800 (PST)
-X-Gm-Message-State: AOJu0YxkJuhOSoOEMxB0niOoO5eS9zOaSmMkxfy6a6ixTnpDYxHucAkQ
- nUrtony+IIw6So1VNLk4JvXdKieje5qkjdYwZlXdmg==
-X-Google-Smtp-Source: AGHT+IEqFWTmiT6R8vC3XB++GzuOGa4bxvnrYEr1nsB0FgkYoLT4cHlpGqU3d1rWeAUnZVhZdH9MxYpTY+lJ47QJZKA=
-X-Received: by 2002:a17:90b:23c1:b0:28b:bdd:a95b with SMTP id
- md1-20020a17090b23c100b0028b0bdda95bmr3146495pjb.3.1702648189229; Fri, 15 Dec
- 2023 05:49:49 -0800 (PST)
+ b=Bi2d8lyML7Nprc8qKvDKYd+s6l7jFhf8QrtokzK00Cv1tfpPXGU97V7tE2Idh3hN5
+ f0A6OuPK6lzprnmjvACTILVn3vuCmSNON5zC4dribDGtPapEn2Iaf0aq/61WtnNmoT
+ oOMPHxA5fKWzGw1nQR4qO7bvzCo4InKYlQW49Wr4sO9F62BWGUwfVWRkao6GKAmdxB
+ 25V9g83UVFW9+XgGSmPlczI618AUAWpDOR63XwwIE3HxKNR1VsJTfmViDACq/vFkbB
+ ZcMQHCnnDk1sKsQYxDj/en+HlQEgvncxqOXx0i488vYvfUMjASSaxMrM0+eb5m6Tk0
+ 0jJqzhxxyo29w==
+Received: by mail-pf1-f170.google.com with SMTP id
+ d2e1a72fcca58-6cea2a38b48so598804b3a.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 05:50:37 -0800 (PST)
+X-Gm-Message-State: AOJu0Yy9N44j7xpqBGKHa22TTehqHE1gaiaid+MaQk01+sjBHR8YMAxB
+ Z2BlDHANkGRbLz/OnhVPmopq1DeOY8hP0DqL2PHEXg==
+X-Google-Smtp-Source: AGHT+IGeYA1Mu6qqhJrGk6ZNRBZR4j41DXlGxVqJhSrKTApbTkAFkg0lUacI3002VNnlNdAQ5C/2RN9/QK/+o05ZMm8=
+X-Received: by 2002:a05:6a20:a10a:b0:18f:97c:8a46 with SMTP id
+ q10-20020a056a20a10a00b0018f097c8a46mr13790618pzk.113.1702648237496; Fri, 15
+ Dec 2023 05:50:37 -0800 (PST)
 MIME-Version: 1.0
 References: <20231212075257.75084-1-alexander.stein@ew.tq-group.com>
- <20231212075257.75084-3-alexander.stein@ew.tq-group.com>
-In-Reply-To: <20231212075257.75084-3-alexander.stein@ew.tq-group.com>
+ <20231212075257.75084-4-alexander.stein@ew.tq-group.com>
+In-Reply-To: <20231212075257.75084-4-alexander.stein@ew.tq-group.com>
 From: Robert Foss <rfoss@kernel.org>
-Date: Fri, 15 Dec 2023 14:49:36 +0100
-X-Gmail-Original-Message-ID: <CAN6tsi4aVzmRLB5UM3BaqZy+GcYoZmYE0jOtbHvC_CEsDzdr8g@mail.gmail.com>
-Message-ID: <CAN6tsi4aVzmRLB5UM3BaqZy+GcYoZmYE0jOtbHvC_CEsDzdr8g@mail.gmail.com>
-Subject: Re: [PATCH v3 2/7] drm/bridge: tc358767: Fix order of register defines
+Date: Fri, 15 Dec 2023 14:50:25 +0100
+X-Gmail-Original-Message-ID: <CAN6tsi4x137r4=EP-gUh-qHKfkFC3DmsknD3d4m9AXpDOmATJg@mail.gmail.com>
+Message-ID: <CAN6tsi4x137r4=EP-gUh-qHKfkFC3DmsknD3d4m9AXpDOmATJg@mail.gmail.com>
+Subject: Re: [PATCH v3 3/7] drm/bridge: tc358767: Add more registers to
+ non-writeable range
 To: Alexander Stein <alexander.stein@ew.tq-group.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -71,48 +71,224 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Tue, Dec 12, 2023 at 8:53=E2=80=AFAM Alexander Stein
 <alexander.stein@ew.tq-group.com> wrote:
 >
-> 0x0510 is bigger than 0x50c, order them accordingly.
-> No functional change intended.
+> While at it, also add missing register definitions. HDCP registers are
+> skipped as they are not named, range 0x0980 - 0x09ac.
 >
 > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 > ---
->  drivers/gpu/drm/bridge/tc358767.c | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
+>  drivers/gpu/drm/bridge/tc358767.c | 87 ++++++++++++++++++++++++++++---
+>  1 file changed, 81 insertions(+), 6 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/t=
 c358767.c
-> index 258eacb4125a4..ab0710a35d3d1 100644
+> index ab0710a35d3d1..5c0292b71e9fa 100644
 > --- a/drivers/gpu/drm/bridge/tc358767.c
 > +++ b/drivers/gpu/drm/bridge/tc358767.c
-> @@ -116,13 +116,6 @@
->  /* System */
+> @@ -41,8 +41,24 @@
+>
+>  /* Registers */
+>
+> +/* DSI D-PHY Layer registers */
+> +#define D0W_DPHYCONTTX         0x0004
+> +#define CLW_DPHYCONTTX         0x0020
+> +#define D0W_DPHYCONTRX         0x0024
+> +#define D1W_DPHYCONTRX         0x0028
+> +#define D2W_DPHYCONTRX         0x002c
+> +#define D3W_DPHYCONTRX         0x0030
+> +#define COM_DPHYCONTRX         0x0038
+> +#define CLW_CNTRL              0x0040
+> +#define D0W_CNTRL              0x0044
+> +#define D1W_CNTRL              0x0048
+> +#define D2W_CNTRL              0x004c
+> +#define D3W_CNTRL              0x0050
+> +#define TESTMODE_CNTRL         0x0054
+> +
+>  /* PPI layer registers */
+>  #define PPI_STARTPPI           0x0104 /* START control bit */
+> +#define PPI_BUSYPPI            0x0108 /* PPI busy status */
+>  #define PPI_LPTXTIMECNT                0x0114 /* LPTX timing signal */
+>  #define LPX_PERIOD                     3
+>  #define PPI_LANEENABLE         0x0134
+> @@ -59,6 +75,7 @@
+>
+>  /* DSI layer registers */
+>  #define DSI_STARTDSI           0x0204 /* START control bit of DSI-TX */
+> +#define DSI_BUSYDSI            0x0208 /* DSI busy status */
+>  #define DSI_LANEENABLE         0x0210 /* Enables each lane */
+>  #define DSI_RX_START                   BIT(0)
+>
+> @@ -69,6 +86,20 @@
+>  #define LANEENABLE_L2EN                BIT(1)
+>  #define LANEENABLE_L3EN                BIT(2)
+>
+> +#define DSI_LANESTATUS0                0x0214  /* DSI lane status 0 */
+> +#define DSI_LANESTATUS1                0x0218  /* DSI lane status 1 */
+> +#define DSI_INTSTATUS          0x0220  /* Interrupt Status */
+> +#define DSI_INTMASK            0x0224  /* Interrupt Mask */
+> +#define DSI_INTCLR             0x0228  /* Interrupt Clear */
+> +#define DSI_LPTXTO             0x0230  /* LPTX Time Out Counter */
+> +
+> +/* DSI General Registers */
+> +#define DSIERRCNT              0x0300  /* DSI Error Count Register */
+> +
+> +/* DSI Application Layer Registers */
+> +#define APLCTRL                        0x0400  /* Application layer Cont=
+rol Register */
+> +#define RDPKTLN                        0x0404  /* DSI Read packet Length=
+ Register */
+> +
+>  /* Display Parallel Input Interface */
+>  #define DPIPXLFMT              0x0440
+>  #define VS_POL_ACTIVE_LOW              (1 << 10)
+> @@ -117,6 +148,7 @@
 >  #define TC_IDREG               0x0500
 >  #define SYSSTAT                        0x0508
-> -#define SYSCTRL                        0x0510
-> -#define DP0_AUDSRC_NO_INPUT            (0 << 3)
-> -#define DP0_AUDSRC_I2S_RX              (1 << 3)
-> -#define DP0_VIDSRC_NO_INPUT            (0 << 0)
-> -#define DP0_VIDSRC_DSI_RX              (1 << 0)
-> -#define DP0_VIDSRC_DPI_RX              (2 << 0)
-> -#define DP0_VIDSRC_COLOR_BAR           (3 << 0)
 >  #define SYSRSTENB              0x050c
+> +#define SYSBOOT                        0x0504  /* System BootStrap Statu=
+s Register */
 >  #define ENBI2C                         (1 << 0)
 >  #define ENBLCD0                                (1 << 2)
-> @@ -130,6 +123,13 @@
->  #define ENBDSIRX                       (1 << 4)
->  #define ENBREG                         (1 << 5)
->  #define ENBHDCP                                (1 << 8)
-> +#define SYSCTRL                        0x0510  /* System Control Registe=
+>  #define ENBBM                          (1 << 3)
+> @@ -141,6 +173,9 @@
+>  #define INT_GPIO_H(x)          (1 << (x =3D=3D 0 ? 2 : 10))
+>  #define INT_GPIO_LC(x)         (1 << (x =3D=3D 0 ? 3 : 11))
+>
+> +#define TEST_INT_C             0x0570  /* Test Interrupts Control Regist=
+er */
+> +#define TEST_INT_S             0x0574  /* Test Interrupts Status Registe=
 r */
-> +#define DP0_AUDSRC_NO_INPUT            (0 << 3)
-> +#define DP0_AUDSRC_I2S_RX              (1 << 3)
-> +#define DP0_VIDSRC_NO_INPUT            (0 << 0)
-> +#define DP0_VIDSRC_DSI_RX              (1 << 0)
-> +#define DP0_VIDSRC_DPI_RX              (2 << 0)
-> +#define DP0_VIDSRC_COLOR_BAR           (3 << 0)
->  #define GPIOM                  0x0540
->  #define GPIOC                  0x0544
->  #define GPIOO                  0x0548
+> +
+>  #define INT_GP0_LCNT           0x0584
+>  #define INT_GP1_LCNT           0x0588
+>
+> @@ -155,6 +190,9 @@
+>  #define DP0_VIDMNGEN0          0x0610
+>  #define DP0_VIDMNGEN1          0x0614
+>  #define DP0_VMNGENSTATUS       0x0618
+> +#define DP0_AUDMNGEN0          0x0628  /* DP0 Audio Force M Value Regist=
+er */
+> +#define DP0_AUDMNGEN1          0x062c  /* DP0 Audio Force N Value Regist=
+er */
+> +#define DP0_AMNGENSTATUS       0x0630  /* DP0 Audio Current M Value Regi=
+ster */
+>
+>  /* Main Channel */
+>  #define DP0_SECSAMPLE          0x0640
+> @@ -224,6 +262,20 @@
+>  #define DP0_SNKLTCHGREQ                0x06d4
+>  #define DP0_LTLOOPCTRL         0x06d8
+>  #define DP0_SNKLTCTRL          0x06e4
+> +#define DP0_TPATDAT0           0x06e8  /* DP0 Test Pattern bits 29 to 0 =
+*/
+> +#define DP0_TPATDAT1           0x06ec  /* DP0 Test Pattern bits 59 to 30=
+ */
+> +#define DP0_TPATDAT2           0x06f0  /* DP0 Test Pattern bits 89 to 60=
+ */
+> +#define DP0_TPATDAT3           0x06f4  /* DP0 Test Pattern bits 119 to 9=
+0 */
+> +
+> +#define AUDCFG0                        0x0700  /* DP0 Audio Config0 Regi=
+ster */
+> +#define AUDCFG1                        0x0704  /* DP0 Audio Config1 Regi=
+ster */
+> +#define AUDIFDATA0             0x0708  /* DP0 Audio Info Frame Bytes 3 t=
+o 0 */
+> +#define AUDIFDATA1             0x070c  /* DP0 Audio Info Frame Bytes 7 t=
+o 4 */
+> +#define AUDIFDATA2             0x0710  /* DP0 Audio Info Frame Bytes 11 =
+to 8 */
+> +#define AUDIFDATA3             0x0714  /* DP0 Audio Info Frame Bytes 15 =
+to 12 */
+> +#define AUDIFDATA4             0x0718  /* DP0 Audio Info Frame Bytes 19 =
+to 16 */
+> +#define AUDIFDATA5             0x071c  /* DP0 Audio Info Frame Bytes 23 =
+to 20 */
+> +#define AUDIFDATA6             0x0720  /* DP0 Audio Info Frame Bytes 27 =
+to 24 */
+>
+>  #define DP1_SRCCTRL            0x07a0
+>
+> @@ -238,6 +290,25 @@
+>  #define PHY_2LANE                      BIT(2)   /* PHY Enable 2 lanes */
+>  #define PHY_A0_EN                      BIT(1)   /* PHY Aux Channel0 Enab=
+le */
+>  #define PHY_M0_EN                      BIT(0)   /* PHY Main Channel0 Ena=
+ble */
+> +#define DP_PHY_CFG_WR          0x0810  /* DP PHY Configuration Test Writ=
+e Register */
+> +#define DP_PHY_CFG_RD          0x0814  /* DP PHY Configuration Test Read=
+ Register */
+> +#define DP0_AUX_PHY_CTRL       0x0820  /* DP0 AUX PHY Control Register *=
+/
+> +#define DP0_MAIN_PHY_DBG       0x0840  /* DP0 Main PHY Test Debug Regist=
+er */
+> +
+> +/* I2S */
+> +#define I2SCFG                 0x0880  /* I2S Audio Config 0 Register */
+> +#define I2SCH0STAT0            0x0888  /* I2S Audio Channel 0 Status Byt=
+es 3 to 0 */
+> +#define I2SCH0STAT1            0x088c  /* I2S Audio Channel 0 Status Byt=
+es 7 to 4 */
+> +#define I2SCH0STAT2            0x0890  /* I2S Audio Channel 0 Status Byt=
+es 11 to 8 */
+> +#define I2SCH0STAT3            0x0894  /* I2S Audio Channel 0 Status Byt=
+es 15 to 12 */
+> +#define I2SCH0STAT4            0x0898  /* I2S Audio Channel 0 Status Byt=
+es 19 to 16 */
+> +#define I2SCH0STAT5            0x089c  /* I2S Audio Channel 0 Status Byt=
+es 23 to 20 */
+> +#define I2SCH1STAT0            0x08a0  /* I2S Audio Channel 1 Status Byt=
+es 3 to 0 */
+> +#define I2SCH1STAT1            0x08a4  /* I2S Audio Channel 1 Status Byt=
+es 7 to 4 */
+> +#define I2SCH1STAT2            0x08a8  /* I2S Audio Channel 1 Status Byt=
+es 11 to 8 */
+> +#define I2SCH1STAT3            0x08ac  /* I2S Audio Channel 1 Status Byt=
+es 15 to 12 */
+> +#define I2SCH1STAT4            0x08b0  /* I2S Audio Channel 1 Status Byt=
+es 19 to 16 */
+> +#define I2SCH1STAT5            0x08b4  /* I2S Audio Channel 1 Status Byt=
+es 23 to 20 */
+>
+>  /* PLL */
+>  #define DP0_PLLCTRL            0x0900
+> @@ -1833,16 +1904,16 @@ static bool tc_readable_reg(struct device *dev, u=
+nsigned int reg)
+>         case 0x1f4:
+>         /* DSI Protocol Layer */
+>         case DSI_STARTDSI:
+> -       case 0x208:
+> +       case DSI_BUSYDSI:
+>         case DSI_LANEENABLE:
+> -       case 0x214:
+> -       case 0x218:
+> -       case 0x220:
+> +       case DSI_LANESTATUS0:
+> +       case DSI_LANESTATUS1:
+> +       case DSI_INTSTATUS:
+>         case 0x224:
+>         case 0x228:
+>         case 0x230:
+>         /* DSI General */
+> -       case 0x300:
+> +       case DSIERRCNT:
+>         /* DSI Application Layer */
+>         case 0x400:
+>         case 0x404:
+> @@ -1993,7 +2064,11 @@ static const struct regmap_access_table tc_volatil=
+e_table =3D {
+>  };
+>
+>  static const struct regmap_range tc_non_writeable_ranges[] =3D {
+> -       regmap_reg_range(TC_IDREG, TC_IDREG),
+> +       regmap_reg_range(PPI_BUSYPPI, PPI_BUSYPPI),
+> +       regmap_reg_range(DSI_BUSYDSI, DSI_BUSYDSI),
+> +       regmap_reg_range(DSI_LANESTATUS0, DSI_INTSTATUS),
+> +       regmap_reg_range(TC_IDREG, SYSSTAT),
+> +       regmap_reg_range(GPIOI, GPIOI),
+>         regmap_reg_range(DP0_LTSTAT, DP0_SNKLTCHGREQ),
+>  };
+>
 > --
 > 2.34.1
 >
