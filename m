@@ -1,38 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5CDF8144C9
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Dec 2023 10:44:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70386814499
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Dec 2023 10:37:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8684A10E9A4;
-	Fri, 15 Dec 2023 09:44:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 723D810E32A;
+	Fri, 15 Dec 2023 09:37:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 585 seconds by postgrey-1.36 at gabe;
- Fri, 15 Dec 2023 09:43:59 UTC
-Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E831810E9A4
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 09:43:59 +0000 (UTC)
-Received: from localhost.localdomain (unknown [46.242.8.170])
- by mail.ispras.ru (Postfix) with ESMTPSA id 6598540F1DC5;
- Fri, 15 Dec 2023 09:34:11 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 6598540F1DC5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
- s=default; t=1702632851;
- bh=ccZp27R6c7ZeC11LFGMLzR031473jv38nkI+1DlG12s=;
- h=From:To:Cc:Subject:Date:From;
- b=JfA8lXMPcs09R7jTJgYkxAHZzWmAGdt7d5I+s5lhruo3caq4xyvs64vuUx0iCks+8
- 9oG9jWmNemVAgjdODNZjkiSCklUag4h9oKtkvK9G+kE/UPQBBT9q6TICKEhcplpKdJ
- VW7vFwzrpmYyBVD25+EeUcU0Xg6SJ57aHsXDc95M=
-From: Fedor Pchelkin <pchelkin@ispras.ru>
-To: Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH] drm/tegra: put drm_gem_object ref on error in tegra_fb_create
-Date: Fri, 15 Dec 2023 12:33:55 +0300
-Message-ID: <20231215093356.12067-1-pchelkin@ispras.ru>
-X-Mailer: git-send-email 2.43.0
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5053310E0A7;
+ Fri, 15 Dec 2023 09:37:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1702633039; x=1734169039;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=Zvg/lFItumenYrG3N2XhzoEUGv1fk0+uuv3sf6oiWUM=;
+ b=jrr2+/+SmLaK5kYMBXgbK1VYVBkLXCTaTF45Tofr2O3MZSeAaPm6+kNW
+ 3/s6bvipzyP0NTkxO5H8JVtdmRE4s60oBz8A1SZlpAFTzUnOq5yD8Nhu4
+ MI34kE9Iueme7nYiwbRXeNdYIo81p4dCuniCf/aSaR7me4QlQkVH9z+Rs
+ rZXdQxKtdCgan0NbQfKu/xUzp8TUua06HFlgQcdb3Ys71kB+9nz3TVBX5
+ FFxbLzgYOpzO54+JA3tt//fpjcwlfJuvurijY2pZFdQauct4vgOmXq5YV
+ LxTagARs9uw+zCykS1cvrbLiXbog1l+NHF77WJ+HRRc77cJdlP28gxa9V Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="459573622"
+X-IronPort-AV: E=Sophos;i="6.04,278,1695711600"; d="scan'208";a="459573622"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Dec 2023 01:37:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,278,1695711600"; d="scan'208";a="17743781"
+Received: from srgreatl-mobl2.ger.corp.intel.com (HELO [10.213.207.13])
+ ([10.213.207.13])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Dec 2023 01:37:16 -0800
+Message-ID: <4556f0c9-9ab0-4f8d-ad8b-68e51cd320d6@linux.intel.com>
+Date: Fri, 15 Dec 2023 09:37:14 +0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/9] drm/i915: Replace kmap_atomic() with
+ kmap_local_page()
+Content-Language: en-US
+To: Zhao Liu <zhao1.liu@linux.intel.com>
+References: <20231203132947.2328805-1-zhao1.liu@linux.intel.com>
+ <ZXsA4ojbROLXMkfz@intel.com>
+ <2abe6f02-b93e-4207-b9be-e9185c7b69e5@linux.intel.com>
+ <c968f151-6445-4ab4-9d2f-c59568665707@linux.intel.com>
+ <ZXsZeEw/w+LfaKyH@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <ZXsZeEw/w+LfaKyH@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,40 +65,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Terje Bergstrom <tbergstrom@nvidia.com>, lvc-project@linuxtesting.org,
- linux-kernel@vger.kernel.org, Fedor Pchelkin <pchelkin@ispras.ru>,
- dri-devel@lists.freedesktop.org, Jonathan Hunter <jonathanh@nvidia.com>,
- linux-tegra@vger.kernel.org, Mikko Perttunen <mperttunen@nvidia.com>,
- Arto Merilainen <amerilainen@nvidia.com>,
- Alexey Khoroshilov <khoroshilov@ispras.ru>
+Cc: Zhenyu Wang <zhenyu.z.wang@intel.com>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Dave Hansen <dave.hansen@intel.com>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Ira Weiny <ira.weiny@intel.com>, Zhao Liu <zhao1.liu@intel.com>,
+ "Fabio M . De Francesco" <fmdefrancesco@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Inside tegra_fb_create(), drm_gem_object_lookup() increments ref count of
-the found object. But if the following size check fails then the last
-found object's ref count should be put there as the unreferencing loop
-can't detect this situation.
 
-Found by Linux Verification Center (linuxtesting.org).
+On 14/12/2023 15:04, Zhao Liu wrote:
+> On Thu, Dec 14, 2023 at 02:35:26PM +0000, Tvrtko Ursulin wrote:
+>> Date: Thu, 14 Dec 2023 14:35:26 +0000
+>> From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+>> Subject: Re: [PATCH v3 0/9] drm/i915: Replace kmap_atomic() with
+>>   kmap_local_page()
+>>
+>>
+>> On 14/12/2023 13:45, Tvrtko Ursulin wrote:
+>>>
+>>> Hi Zhao,
+>>>
+>>> On 14/12/2023 13:19, Zhao Liu wrote:
+>>>> Hi maintainers,
+>>>>
+>>>> Just kindly ping.
+>>>> May I ask if this refresh version could be merged into the next tree of
+>>>> the i915?
+>>>
+>>> I certainly spotted your series last week or so but then it slipped my
+>>> mind to go through it. Should be able to go through it today or
+>>> tomorrow.
+>>
+>> It all looks good to me. I only needed to queue a re-test in our CI since v3
+>> failed BAT, but pretty sure it wasn't at fault. Once I am satisfied with the
+>> results I will merge the series. Thanks for the cleanups and your patience!
+>>
+>> Regards,
+>>
+>> Tvrtko
+>>
+> 
+> Thanks for your review!
 
-Fixes: de2ba664c30f ("gpu: host1x: drm: Add memory manager and fb")
-Signed-off-by: Fedor Pchelkin <pchelkin@ispras.ru>
----
- drivers/gpu/drm/tegra/fb.c | 1 +
- 1 file changed, 1 insertion(+)
+Pushed to drm-intel-gt-next, thanks again!
 
-diff --git a/drivers/gpu/drm/tegra/fb.c b/drivers/gpu/drm/tegra/fb.c
-index a719af1dc9a5..46170753699d 100644
---- a/drivers/gpu/drm/tegra/fb.c
-+++ b/drivers/gpu/drm/tegra/fb.c
-@@ -159,6 +159,7 @@ struct drm_framebuffer *tegra_fb_create(struct drm_device *drm,
- 
- 		if (gem->size < size) {
- 			err = -EINVAL;
-+			drm_gem_object_put(gem);
- 			goto unreference;
- 		}
- 
--- 
-2.43.0
+Regards,
 
+Tvrtko
