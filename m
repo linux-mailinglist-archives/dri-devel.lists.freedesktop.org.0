@@ -2,119 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA241814B07
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Dec 2023 15:58:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A88A814B75
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Dec 2023 16:16:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C05710E170;
-	Fri, 15 Dec 2023 14:58:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B02D010EA39;
+	Fri, 15 Dec 2023 15:15:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com
- (mail-tycjpn01on2123.outbound.protection.outlook.com [40.107.114.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4A1F10E170
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 14:58:08 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=E92fZh75Ykf7YoWD6wNUtS4I6dKrroMhnZaP3Lw0Gr31LTvN72fWVt3Gs7ytqGkmpWkTQ3N5QcbvU2y67+/5+/mBtJSU7twjTvOdsS5jJh/YDe4n6pPxRSsDe/iAOTSZC4LAhAgyBnYt1hgPQwh7dVE/0jUzxqYrZVzLN5k8ApHzbM1moFQxxTwGM4++gMhPKsFy5N54PLR9Y33zeohzEodNIbEBIyvdPbOYmr9gGQS/m1pEBM5f2imo6yDfMEsTBH2UTtAG1daWo9OHzWYLjeY32hCi1NwgAOcmqTGp6k5jZzdtyGGEq9egl/PUFOpccBjhSqQhHzDYAMClmS3jPA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dmGiryPWFYf744x4E2b6i+3HcAn46nRtQteTf7RUCb0=;
- b=DDrdbI59+jsIYKvbLA/g1UnzwMmSL4K32hSICmk+o7p/S/FPYYHWqBdKbHLoyWi9aAkmMJrx0no3pf9KgyiTxpbpu7nv8z9tqUtGnuLSOO7jBSlmq8OwgBPtwQ9mWq2E1dzWpezEOjnsdNufNuwOf8oUE8SmrThwboLAK3+1gaDOycWjC/AnCDEZDoam7PyBOSQIij/Zc8QsXqxvCu5es0HklwAKcXb4g4XWGmzYUyrSFbhVmOu9qZZtt68XUtLKeqVz1bVKWmOJkShltyqIxuUmLS4qOvVym7Vsv7xloWmsOMqNzy4kIg7qIUr90DVgsB6ul6yUNAY3pHAok2+7Cw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dmGiryPWFYf744x4E2b6i+3HcAn46nRtQteTf7RUCb0=;
- b=phiqXBkn86khvqzzrv3D4t/leepl+t8u+6IdbhONz3dPMmN91sX05lgVDAsHRFK734p1XmHFy4akKR09wERdLYl6rpGoJF+jqbJoLyBFeEtBc5SdReLNhX+aAKby698lXe8PaPDEmapvoXwSMnGOnJHrqqerjs73Ww4xHvaa/Lo=
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- (2603:1096:400:3c0::10) by TYYPR01MB10497.jpnprd01.prod.outlook.com
- (2603:1096:400:2f6::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7113.12; Fri, 15 Dec
- 2023 14:58:06 +0000
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::f216:24ab:3668:3a48]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::f216:24ab:3668:3a48%4]) with mapi id 15.20.7113.010; Fri, 15 Dec 2023
- 14:58:06 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37DC010EA39
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 15:15:53 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1rE9up-0002dd-7g; Fri, 15 Dec 2023 16:15:51 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1rE9um-00G3bn-Ay; Fri, 15 Dec 2023 16:15:48 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1rE9um-003ekE-0W; Fri, 15 Dec 2023 16:15:48 +0100
+Date: Fri, 15 Dec 2023 16:15:47 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To: Maxime Ripard <mripard@kernel.org>
-Subject: RE: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
-Thread-Topic: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
-Thread-Index: AQHaIejqQbh+O2CetkGmd2PHSouIl7Cnc3CAgAFZmGCAAXC4AIAAEXwwgAAZsoCAAANogIAAEt4AgAADUYCAAAewQA==
-Date: Fri, 15 Dec 2023 14:58:06 +0000
-Message-ID: <TYCPR01MB11269F94CD7854904B196933B8693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-References: <20231128105129.161121-1-biju.das.jz@bp.renesas.com>
- <20231128105129.161121-4-biju.das.jz@bp.renesas.com>
- <sechknyg33iucaku37vfhk7ie7xgcealfqbvaopm4rrnqbo5g5@s35peonkzzoz>
- <TYCPR01MB11269767836DEB995747B7ED3868CA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <zp2ews2by6fg5irmb7ms6blox6vruezdjlor3rutqtokbvlle2@tl775slyvhyf>
- <TYCPR01MB112699C55873FA75B8F4469C18693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <bw3qxved377k5pmh3dbnimiyxra7k6dgb2tmg23bvxnfglti4g@uqdxmgnqrkg2>
- <TYCPR01MB11269CC132B84CFAD11D307578693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <g4uqcavglw2md4ojiw7yxequy37ttozjazr3b4ypqzznlrsinv@zm6mvzaempwp>
- <TYCPR01MB11269BCE6CAEE3C5063C4D1728693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYCPR01MB11269BCE6CAEE3C5063C4D1728693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|TYYPR01MB10497:EE_
-x-ms-office365-filtering-correlation-id: ddf7b2b9-6509-46d5-ec36-08dbfd7e3ebd
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: W+RQBr16YCrDm6fijrxO7IBRVnLSvRen19IssjemtyTv3rIhrMTaCBaCPtqrkWU9EDlYKL3sfUvV7s/o/jF0p4F0rEBst7Zw79YTRQ7kRQqZZwZhnEJ4+p5V25isdhpd4g+2GX2Eu8T5QvhGwHG6j6+cZPeKQUxFsxwrwSW647JfYhK1XQ9PX3mKr9eqzegUvdRCGsCRybBrzVaw0Gh5yKePQNvURUyh3/vErgi7ALjTBIecyW80va4Kqjp3LBla2SDXV7N0BP72ZHgwvj4ad7bRZyyMrdT3B0enYTrs9Deb+6Juyq6zMlNlCx88ZmVqN+mNvUe3gRBMsri0K4ssm0xD2xD8iYxzFR/2vcttiSL0f357cVhTLoQTgBDuTPESkCw1/j3qwzaL3V4t9DCSyjbHqdtCwdKE0/Wt2mdhfo0CHj24EZKn/2n6QNgRMAm25OyOQxLs+pqiwfM4sVNXWIFNR8x7DZFojkRmzDIot0fw2PGnt4srkgqRXF2XKeETjQsccAHuEXdW+NVqAy05U2a71piK4+KBFez4xFUwIlsGEypODSVwekp+bj/ivBbJ4/EJX9Wbsd9/ua7qqS30bTlJGAESWIF0yrQi71R74ZYoeiVUN09fIfCZ9Xyrv8Oo
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYCPR01MB11269.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(366004)(396003)(39860400002)(136003)(346002)(376002)(230922051799003)(451199024)(1800799012)(186009)(64100799003)(55016003)(26005)(7696005)(6506007)(33656002)(38070700009)(86362001)(38100700002)(122000001)(83380400001)(4326008)(52536014)(5660300002)(7416002)(53546011)(9686003)(2940100002)(71200400001)(76116006)(6916009)(316002)(66946007)(8676002)(8936002)(54906003)(66556008)(66476007)(66446008)(64756008)(2906002)(41300700001)(478600001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?1SQ26YdVCa70DOrpcK3qf//W3yqZ5PUL+3rfqXQc5ONqiK586L6ecwRiNBAv?=
- =?us-ascii?Q?2r+ppV9vEcq+OoJ8WJs4/XGkv8BhZEg+8qSTrXDKNZ8MP0/1zDo2DJNZyJe0?=
- =?us-ascii?Q?qKeTctwpDS5PDU6vIm95urbYwuXiCNj8zo3oCBHOzysAFrXOtAKi535Bq3Rb?=
- =?us-ascii?Q?nufnUSFJ19/XCYE+4NkMKj5boYdzgUUs3ok+Qq9TdGiOHZSDnDM4V5BWUWuv?=
- =?us-ascii?Q?plvUWV+wEi7ZdAweD1jGZTJKdTZju5d+KHN1udfcMQQcRLh9auyKZx506ZP9?=
- =?us-ascii?Q?TRlDVjic41fpCaABCOZImHLNn6LklZ9P8FxSsYxpWJDGQaCLzx4SspYkbmKQ?=
- =?us-ascii?Q?JMdDm+Z9DW+DydJARL6Q0A7MNGNEIgU5uMRXc9K91GOqiU8sNjt4FbQcS1o4?=
- =?us-ascii?Q?4Cy+87p7wyo2hNll/z4T7LWB2fEd6em0oAThwl/j9+CXIxYtU9pnSxZhQIPY?=
- =?us-ascii?Q?c+0WoLFEHPqRLApxHDLsurrWAFxZb3z5BEcO3zP+iJ3xkxdGkp0iL45KHqmM?=
- =?us-ascii?Q?KCvhF8+0J86QsuwHexBhKG1zrRgBbEfLkphdhJRLKp2ff+GCUQM8TRDfvaXb?=
- =?us-ascii?Q?O6vhlvibG3WNIKRG7fM8HJRAfbzNILjKMis4Vi41QJjL8HJXlFB2Yh+vY4It?=
- =?us-ascii?Q?6YespmLiu5TXFJ47tnmtr2SOk8HltW7WuhdsGS8tddX/5zV/YhWW3Su2SqPM?=
- =?us-ascii?Q?21tKeCD7U3FwolgUfunVaZHadl5MpwCi5ubHesmywXmAyt0IywDeMQiQNMzK?=
- =?us-ascii?Q?ULxYDpKLlnK3yevHh0wKa2XxUhgtBGsWCr7ggtxF92pPrEB/OJ8AXd6DN3AD?=
- =?us-ascii?Q?vg2QKPRRJMbbbdueXqaOA4zpAgykqQ53J1tD9ye4PAypMUWfeU85f4s5ouoM?=
- =?us-ascii?Q?4gqvP8FegOCiGkYJ+C/8o+P7sG6Xb5ePE+6cWRIgAyoA9s7fZOHBMKljj2hI?=
- =?us-ascii?Q?xFasqlot6VjDSj7fA4qateO0A/u9wtpjpaDPUR3PmbUBvIS5u6SjoH/C6PAP?=
- =?us-ascii?Q?MG2gHD2McmnW0cCxpBx/LrNzPEiMo/hixjqXpQR+8C0O+JCkhfF8+tSA3cUq?=
- =?us-ascii?Q?3RpX8kpk8dWztSuYfpip6gdOv7WSBNhyY82HJc0kfYNrneWOEKYHqgL2qMvN?=
- =?us-ascii?Q?XZyFQJfwd+bhxETZ8fBrI4NXc8OAFte9tOJ9cNJ41KUwcnVQLB6owHrH5H2p?=
- =?us-ascii?Q?RkNsjNmkFZmN8tKxwi1jNMyhPj95qqE8R5QyQgaCpkQjn6PyT73NmrFuBYzo?=
- =?us-ascii?Q?/Bp5vnzJixWgjZzrcD2vZlg0N45NGk6TPk7a34uUC1g666UTfnWG4/4cVcfs?=
- =?us-ascii?Q?Yi0Gte4giPktOyINwNZ3VvcFBTFylmFLgy0vBlOxDKNIe6g3v0FG5xmiSUwe?=
- =?us-ascii?Q?y7mqAcfdPkX+hgyNAFcTUN72bTlZqU0sR515P+qfYJMyIVVq52Cf7P6Nathl?=
- =?us-ascii?Q?3I3u0Be9kTt2HojIP9s1CKeXWmPJIvcI9RelwrgR4FEi/x9Go5DJ9A9XoCUl?=
- =?us-ascii?Q?nyhTdgaI5xUt+60xGiXINXQ6Z+CCcZlVOxURJwOv+wN5lGN1zqZa4ega2vTQ?=
- =?us-ascii?Q?G7bZy1ROAU42KQkYe92o97lDHj/8CzVjwzxt3bi4qnZ1GPGUDFGC0ub+b8Se?=
- =?us-ascii?Q?HA=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 0/5] clk: Make clk_rate_exclusive_get() return void
+Message-ID: <20231215151547.y23fgs6hskng5izg@pengutronix.de>
+References: <cover.1702400947.git.u.kleine-koenig@pengutronix.de>
+ <ki5n3rz5n4oxj2hhc3rj6xpn3e2tdi7fcp2q7exjbzilrlqflp@przautvhuy4g>
+ <20231213074300.4bq7wkfqd4jhhcr4@pengutronix.de>
+ <2nvbag657mlniqwq7fbilapc6vfw5qumab3yd6bqul25ot6wcn@wdlkh5az2fgs>
+ <20231213110829.bjaxjjiyy4ug7o67@pengutronix.de>
+ <6wnsxbi27xdxjtaqaaaq5wtwwilp4jfw4mg5y2ctdl7xrs44ry@ns6y36pf7hge>
+ <20231213155252.eq6cdzk2vuwllzdu@pengutronix.de>
+ <nsa54fwu4ewmcaehesuqefoo5r7z3tuvj76hjb4ngtkaygxwxx@h73ihjon5gby>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ddf7b2b9-6509-46d5-ec36-08dbfd7e3ebd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Dec 2023 14:58:06.3075 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 9+j7/4GIKCaLo7eH52vpja5fVUZwvaJaNIclwDKm0/ZtHkDOHehvQA3CcjLGaYrYuupjjUPbd6SZEIbJ+Di9XxN+Znj/X1+a/reZY2TkH/M=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB10497
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="2dztccxgltw7uqlb"
+Content-Disposition: inline
+In-Reply-To: <nsa54fwu4ewmcaehesuqefoo5r7z3tuvj76hjb4ngtkaygxwxx@h73ihjon5gby>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,110 +61,178 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- "biju.das.au" <biju.das.au@gmail.com>, Magnus Damm <magnus.damm@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+ dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-clk@vger.kernel.org,
+ Jerome Brunet <jbrunet@baylibre.com>, Samuel Holland <samuel@sholland.org>,
+ Kevin Hilman <khilman@baylibre.com>, Russell King <linux@armlinux.org.uk>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Chanwoo Choi <cw00.choi@samsung.com>,
+ Chen-Yu Tsai <wens@csie.org>, MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Johan Hovold <johan+linaro@kernel.org>, linux-sunxi@lists.linux.dev,
+ kernel@pengutronix.de, linux-pm@vger.kernel.org,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org,
+ Neil Armstrong <neil.armstrong@linaro.org>, Stephen Boyd <sboyd@kernel.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Georgi Djakov <djakov@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Subject: RE: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
->=20
-> Hi Maxime Ripard,
->=20
-> > -----Original Message-----
-> > From: Maxime Ripard <mripard@kernel.org>
-> > Sent: Friday, December 15, 2023 2:18 PM
-> > Subject: Re: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
-> >
-> > On Fri, Dec 15, 2023 at 01:52:28PM +0000, Biju Das wrote:
-> > > > > > > > > +static int rzg2l_du_crtc_enable_vblank(struct drm_crtc
-> > *crtc) {
-> > > > > > > > > +	struct rzg2l_du_crtc *rcrtc =3D to_rzg2l_crtc(crtc);
-> > > > > > > > > +
-> > > > > > > > > +	rcrtc->vblank_enable =3D true;
-> > > > > > > > > +
-> > > > > > > > > +	return 0;
-> > > > > > > > > +}
-> > > > > > > > > +
-> > > > > > > > > +static void rzg2l_du_crtc_disable_vblank(struct
-> > > > > > > > > +drm_crtc
-> > > > > > > > > +*crtc)
-> > > > {
-> > > > > > > > > +	struct rzg2l_du_crtc *rcrtc =3D to_rzg2l_crtc(crtc);
-> > > > > > > > > +
-> > > > > > > > > +	rcrtc->vblank_enable =3D false; }
-> > > > > > > >
-> > > > > > > > You should enable / disable your interrupts here
-> > > > > > >
-> > > > > > > We don't have dedicated vblank IRQ for enabling/disabling
-> > vblank.
-> > > > > > >
-> > > > > > > vblank is handled by vspd.
-> > > > > > >
-> > > > > > > vspd is directly rendering images to display,
-> > > > > > > rcar_du_crtc_finish_page_flip() and drm_crtc_handle_vblank()
-> > > > > > > called in vspd's pageflip context.
-> > > > > > >
-> > > > > > > See rzg2l_du_vsp_complete()in rzg2l_du_vsp.c
-> > > > > >
-> > > > > > Sorry, I couldn't really get how the interrupt flow / vblank
-> > > > > > reporting is going to work. Could you explain it a bit more?
-> > > > >
-> > > > > We just need to handle vertical blanking in the VSP frame end
-> > handler.
-> > > > > See the code below.
-> > > > >
-> > > > > static void rzg2l_du_vsp_complete(void *private, unsigned int
-> > > > > status,
-> > > > > u32 crc) {
-> > > > > 	struct rzg2l_du_crtc *crtc =3D private;
-> > > > >
-> > > > > 	if (crtc->vblank_enable)
-> > > > > 		drm_crtc_handle_vblank(&crtc->crtc);
-> > > > >
-> > > > > 	if (status & VSP1_DU_STATUS_COMPLETE)
-> > > > > 		rzg2l_du_crtc_finish_page_flip(crtc);
-> > > > >
-> > > > > 	drm_crtc_add_crc_entry(&crtc->crtc, false, 0, &crc); }
-> > > >
-> > > > Then we're back to the same question :)
-> > > >
-> > > > Why can't you mask the frame end interrupt?
-> > >
-> > > We are masking interrupts.
-> > >
-> > > [   70.639139] #######rzg2l_du_crtc_disable_vblank#######
-> > > [   70.650243] #########rzg2l_du_vsp_disable ############
-> > > [   70.652003] ########## vsp1_wpf_stop###
-> > >
-> > > Unmask is,
-> > >
-> > > [ 176.354520] #######rzg2l_du_crtc_enable_vblank#######
-> > > [  176.354922] #########rzg2l_du_vsp_atomic_flush ############ [
-> > > 176.355198] ########## wpf_configure_stream###
-> >
-> > Sorry, my question was why aren't you unmasking and masking them in
-> > the enable/disable_vblank hooks of the CRTC.
->=20
-> I have n't tried that. Will try and provide feedback.
->=20
-> Currently the IRQ source belongs to VSPD in media subsystem.
-> So I need to export an API though vsp1_drm and test it.
->=20
->=20
-> Currently we disable IRQ in rzg2l_du_crtc_atomic_disable() context
->=20
-> And enable IRQ in rzg2l_du_vsp_atomic_flush().
 
+--2dztccxgltw7uqlb
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Typo, it is rzg2l_du_crtc_atomic_flush().
+Hello,
 
-Cheers,
-Biju
+On Fri, Dec 15, 2023 at 01:34:26PM +0100, Maxime Ripard wrote:
+> On Wed, Dec 13, 2023 at 04:52:52PM +0100, Uwe Kleine-K=F6nig wrote:
+> > On Wed, Dec 13, 2023 at 12:54:14PM +0100, Maxime Ripard wrote:
+> > > On Wed, Dec 13, 2023 at 12:08:29PM +0100, Uwe Kleine-K=F6nig wrote:
+> > > > On Wed, Dec 13, 2023 at 09:36:49AM +0100, Maxime Ripard wrote:
+> > > > > On Wed, Dec 13, 2023 at 08:43:00AM +0100, Uwe Kleine-K=F6nig wrot=
+e:
+> > > > > > On Wed, Dec 13, 2023 at 08:16:04AM +0100, Maxime Ripard wrote:
+> > > > > > > On Tue, Dec 12, 2023 at 06:26:37PM +0100, Uwe Kleine-K=F6nig =
+wrote:
+> > > > > > > > clk_rate_exclusive_get() returns zero unconditionally. Most=
+ users "know"
+> > > > > > > > that and don't check the return value. This series fixes th=
+e four users
+> > > > > > > > that do error checking on the returned value and then makes=
+ function
+> > > > > > > > return void.
+> > > > > > > >=20
+> > > > > > > > Given that the changes to the drivers are simple and so mer=
+ge conflicts
+> > > > > > > > (if any) should be easy to handle, I suggest to merge this =
+complete
+> > > > > > > > series via the clk tree.
+> > > > > > >=20
+> > > > > > > I don't think it's the right way to go about it.
+> > > > > > >=20
+> > > > > > > clk_rate_exclusive_get() should be expected to fail. For exam=
+ple if
+> > > > > > > there's another user getting an exclusive rate on the same cl=
+ock.
+> > > > > > >=20
+> > > > > > > If we're not checking for it right now, then it should probab=
+ly be
+> > > > > > > fixed, but the callers checking for the error are right to do=
+ so if they
+> > > > > > > rely on an exclusive rate. It's the ones that don't that shou=
+ld be
+> > > > > > > modified.
+> > > > > >=20
+> > > > > > If some other consumer has already "locked" a clock that I call
+> > > > > > clk_rate_exclusive_get() for, this isn't an error. In my bubble=
+ I call
+> > > > > > this function because I don't want the rate to change e.g. beca=
+use I
+> > > > > > setup some registers in the consuming device to provide a fixed=
+ UART
+> > > > > > baud rate or i2c bus frequency (and that works as expected).
+> > > > >=20
+> > > > > [a long text of mostly right things (Uwe's interpretation) that a=
+re
+> > > > > however totally unrelated to the patches under discussion.]
+> > >=20
+> > > I'm glad you consider it "mostly" right.
+> >=20
+> > there was no offense intended. I didn't agree to all points, but didn't
+> > think it was helpful to discuss that given that I considered them
+> > orthogonal to my suggested modifications.
+> > =20
+> > > > The clk API works with and without my patches in exactly the same w=
+ay.
+> > > > It just makes more explicit that clk_rate_exclusive_get() cannot fa=
+il
+> > > > today and removes the error handling from consumers that is never u=
+sed.
+> > >=20
+> > > Not really, no.
+> >=20
+> > What exactly do you oppose here? Both of my sentences are correct?!
+>=20
+> That the API works in the exact same way.
+
+Yeah ok, if you call clk_rate_exclusive_get() and want to check the
+return code you always got 0 before and now you get a compiler error. So
+there is a difference. What I meant is: Calling clk_rate_exclusive_get()
+with my patches has the exact same effects as before (apart from setting
+the register used to transport the return value to zero).
+=20
+> > > Can you fail to get the exclusivity? Yes. On a theoretical basis, you
+> > > can, and the function was explicitly documented as such.
+> >=20
+> > Sure, you could modify the clk internals such that
+> > clk_rate_exclusive_get() needs to allocate memory. Or that it fails if
+> > another consumer already has called it. At least the latter is a change
+> > in semantics that requires to review (and maybe fix) all users. Also
+> > note that calling clk_rate_exclusive_get() essentially locks all parent
+> > clocks up to the root clock. So if clk_rate_exclusive_get() fails in the
+> > presence of another locker, you can only have one locker per clock
+> > hierarchy because it's impossible that both grab the lock on the root
+> > clock.
+>=20
+> We're not discussing the same thing. You're talking about from a
+> technical point of view, I'm talking about it from an abstraction point
+> of view.
+
+In your abstract argumentation clk_rate_exclusive_get() has a
+different and stronger semantic than it has today. This stronger
+semantic indeed will make this function not succeed in every case. It
+should return an error indication and users should check it.
+
+But as your clk_rate_exclusive_get() is a different function than
+today's clk_rate_exclusive_get(), I still think our argument isn't
+helpful. I want to do something with apples and you're arguing against
+that by only talking about oranges.
+
+> Let's use another example: kmalloc cannot fail.
+
+Oh really?
+
+=2E.. [a few greps later] ...
+
+While the memory allocation stuff is sufficiently complex that I don't
+claim to have grokked it, I think it can (and should) fail. Either I
+missed something, or I just burned some more time to convince myself
+that kmalloc is just another orange :-\
+
+> Are we going to remove every possible check for a null pointer in the
+> kernel?
+
+If you were right with your claim that kmalloc() cannot fail, we should
+IMHO consider that. Or maybe better make it robust (in the sense that a
+caller of kmalloc() can indeed use the memory returned by it) which
+enforces that it might fail at times as even on big machines there is
+only a finite amount of memory.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--2dztccxgltw7uqlb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmV8baIACgkQj4D7WH0S
+/k574Af+N2CJpUlfOzeu0Ie59AWgqwUJO8RgmZG7ynlUPdOq+yqygCn7OuG54h66
+klHRjMgofoNzO9F7Yikj18FMsGWtxtpS2bcDkeSA2NATIYBdPFH7PhSqmKmvCVPW
+2GpNaqjaV7OMKEXnwzW5oexC2jYFKefUv1qhDk2WXnga1x19Tz+kZqcH8JQWaCz1
+wAxb5L/CsAtZh5MMsSbz/vMXXy/qwzprpsBsU1cfMZLYH9qUtyavOy5CNaBhZow1
+U5EH5dzuzN0srHzapLG9kKOnZpXRljVjhe2f4mCmC953cX1iO9ikjuGbcojvPFkK
+9lfT1JY71pcZtjZOSYsvGZ/9IYU3hg==
+=vfQ4
+-----END PGP SIGNATURE-----
+
+--2dztccxgltw7uqlb--
