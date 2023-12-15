@@ -1,54 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 843D4814D67
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Dec 2023 17:45:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85DF6814D70
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Dec 2023 17:47:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F03510EA66;
-	Fri, 15 Dec 2023 16:45:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2E6F10E23C;
+	Fri, 15 Dec 2023 16:47:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [IPv6:2a00:1098:ed:100::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C583710EA63
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 16:45:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1702658736;
- bh=vKEaU/E7paNN/LvyLgKhkKfx93q+/oWb8J2lSHxqsUc=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
- b=UzZK/XYRFidF/ekISFPtWY7Z6uyyApqvRwKGwZ+P3q1qGcikasLQ/MyE2k8qnqjwi
- 3tXsQWZOHIZDQOuLXmOmUEPun+4VyZrd67Cp0cVUz7fFzm6iVFu7BfvX5jIaECEn1T
- XZAox94eFhHv9CWaH3snbzyfc9Mu6SssR2+9rkW0EccjR8DdQ8qQi3/+JhO760Ki3Z
- nRrnTn7jR/hwje1caiU79iIZj0qA1yQv5S2sWQqTUGbr7ysX8DYuxSZuieSj/G1GYa
- t7jFhRWeABAwpr5naWBJ1kO31/A7H+ZQ5U2HfmAySIDUJp/PQyFns4u2pi0MQoDlgg
- oEHGuTTr0odMQ==
-Received: from [100.109.49.129] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id B16BF3781F93;
- Fri, 15 Dec 2023 16:45:35 +0000 (UTC)
-Message-ID: <b79dcf75-c9e8-490e-644f-3b97d95f7397@collabora.com>
-Date: Fri, 15 Dec 2023 19:45:32 +0300
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com
+ [IPv6:2607:f8b0:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A00710E23C
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 16:47:22 +0000 (UTC)
+Received: by mail-pf1-x42e.google.com with SMTP id
+ d2e1a72fcca58-6cea0ea6817so130068b3a.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 08:47:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1702658842; x=1703263642; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=oEPp7VwVape+PRLcyc7DkdEl3azZDbUT/G2Ugu6awLc=;
+ b=H6X5Znbl3HN4G1aiGNHD9dXhOM9r9x84EG+PpwKhRX/HtjfczBSrXhRD79d9nYEqvZ
+ eq4/Qc3/17Tkpr8GiLJcWM87Ky3Kvnt+XDExvayYv4FLqaZSGlEN7+pxz37Gas0BU8jn
+ BVWlReRUBQlTiVlRDcJi/UG1ObdxJAxsHexhXPAjhvz4TAEs347FllnEoEfEFv4SRQyY
+ ezN/wN6h+D62axKwpMvl42tx/ejw5a/RAGJJ1h4ip2LIQv36sy7XeBPiZXsDlJblKNSF
+ YYgAK3dP5nSmE0aqbUlqvvzXnFIYBrzdj5yawZ7lVuGTZ8TStXR03I5PUh0t+PGAiWXm
+ ribA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1702658842; x=1703263642;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=oEPp7VwVape+PRLcyc7DkdEl3azZDbUT/G2Ugu6awLc=;
+ b=BtQDUxQNJ/GqteWF0+kz863pyUeRPjhRFd/r7cvWbAb5TF8TEzq34tQzWyazDsjQXG
+ nCz80rxoC44EPBySS9tQqjf3uvtDyBUfDWqXBApDWsHSo6i8ivzfLJPRS4VuJiSRhsum
+ 2TBtgptDlg61N796w1xZdB3S/p3YO7mzny+v0CnUgvjtvZxxHzUbhTZ/nQNulWUEFhgY
+ IJE0jKZiJA5FGB2e6j4v7yLfsrR63JqBzq8smVpZPUodCpktU7fhYCG2Gvp7aSxZ/sKm
+ BfYfewYP21HcRvEk0AZfZ5alV1Kh042vNaIe9PWJmNKXTxJdTMJwmKY0uhDFcC/TPCyT
+ i5Xg==
+X-Gm-Message-State: AOJu0YzhfWDeDu9Ou94esJNzS2cASBR3PenKDR94EuYx7QeE58snbjlS
+ eYa/hQKQKHzqrhMIVaJ0dfTx4ZZNkljRHpCzKeM=
+X-Google-Smtp-Source: AGHT+IG6XM/cpbPyvUmpGmMVAIiaAGFLNuv+q8LFxY1OkI/0FMeQV7pk1x5j1JLtN7eqshBjH/oZ0QYQ3ZPAjrH5iWo=
+X-Received: by 2002:a05:6a00:4601:b0:6ce:72d7:1e74 with SMTP id
+ ko1-20020a056a00460100b006ce72d71e74mr25061297pfb.2.1702658841835; Fri, 15
+ Dec 2023 08:47:21 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH] drm/virtio: add definition for venus capset
-Content-Language: en-US
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: Huang Rui <ray.huang@amd.com>, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
- David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-References: <20230915105918.3763061-1-ray.huang@amd.com>
- <a7b783c8-b1c8-90e3-b6c7-7fa8c6d24d21@collabora.com>
- <68470997-bb4c-3c11-98b5-aa75c52cbaea@collabora.com>
-In-Reply-To: <68470997-bb4c-3c11-98b5-aa75c52cbaea@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20230920171009.3193296-1-l.stach@pengutronix.de>
+ <20230920171009.3193296-2-l.stach@pengutronix.de>
+ <20230920205736.GB7723@pendragon.ideasonboard.com>
+ <CAHCN7xJz=rEH_8wHaBCVOUzP0kO6cM_c=zLf6ocjW8bt1FaCBw@mail.gmail.com>
+ <CAOMZO5C7_Rj-Ja0BO0D0Po+gy+XbvyMdQf-wH5YNyhAdMof2vg@mail.gmail.com>
+ <20231215142308.GL21146@pendragon.ideasonboard.com>
+ <CAHCN7xJPg_Nk=o9fKwkZfVTNSB-YL0m7vY6p1O7+i=PHShp7hg@mail.gmail.com>
+In-Reply-To: <CAHCN7xJPg_Nk=o9fKwkZfVTNSB-YL0m7vY6p1O7+i=PHShp7hg@mail.gmail.com>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Fri, 15 Dec 2023 13:47:09 -0300
+Message-ID: <CAOMZO5AGAkPpds=5H-iQj53djcQtW5GsRQrzdC_JOOrcENhvvw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] drm/bridge: imx: add driver for HDMI TX Parallel
+ Video Interface
+To: Adam Ford <aford173@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,59 +75,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Jonas Karlman <jonas@kwiboo.se>, Liu Ying <victor.liu@nxp.com>,
+ Sandor Yu <sandor.yu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ dri-devel@lists.freedesktop.org, patchwork-lst@pengutronix.de,
+ devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Richard Leitner <richard.leitner@skidata.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org, NXP Linux Team <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/19/23 06:46, Dmitry Osipenko wrote:
-> On 9/21/23 00:16, Dmitry Osipenko wrote:
->> On 9/15/23 13:59, Huang Rui wrote:
->>> This definition is used fro qemu, and qemu imports this marco in the
->>> headers to enable venus for virtio gpu. So it should add it even kernel
->>> doesn't use this.
->>>
->>> Signed-off-by: Huang Rui <ray.huang@amd.com>
->>> ---
->>>
->>> Hi all,
->>>
->>> We would like to add a new definition for venus capset, it will be used for
->>> qemu. Please see details on below discussion:
->>>
->>> https://lore.kernel.org/qemu-devel/b82982aa-5b9e-481e-9491-b9313877bcaa@daynix.com/
->>>
->>> Thanks,
->>> Ray
->>>
->>>  include/uapi/linux/virtio_gpu.h | 2 ++
->>>  1 file changed, 2 insertions(+)
->>>
->>> diff --git a/include/uapi/linux/virtio_gpu.h b/include/uapi/linux/virtio_gpu.h
->>> index f556fde07b76..0e21f3998108 100644
->>> --- a/include/uapi/linux/virtio_gpu.h
->>> +++ b/include/uapi/linux/virtio_gpu.h
->>> @@ -309,6 +309,8 @@ struct virtio_gpu_cmd_submit {
->>>  
->>>  #define VIRTIO_GPU_CAPSET_VIRGL 1
->>>  #define VIRTIO_GPU_CAPSET_VIRGL2 2
->>> +/* 3 is reserved for gfxstream */
->>> +#define VIRTIO_GPU_CAPSET_VENUS 4
->>
->> Could you please add all other capsets, so we won't needed to do it
->> again in the future
-> 
-> I've opened request to update virtio-spec with the corrected/updated
-> capsets https://github.com/oasis-tcs/virtio-spec/issues/182. I'm
-> expecting that it will take some time until spec change will be merged
-> and now leaning to apply this v1 patch to not hold the Venus work.
-> 
-> Gerd, do you have objections? R-b/ack?
+Hi Adam,
 
-Applied patch to misc-next with edited commit message. Updating spec
-taking much time, not worth to hold this change longer. We'll add the
-rest of capsets later on. Thanks, Rui!
+On Fri, Dec 15, 2023 at 1:40=E2=80=AFPM Adam Ford <aford173@gmail.com> wrot=
+e:
 
--- 
-Best regards,
-Dmitry
+> I started looking into this today, but there appears to be some
+> dependencies missing because the PVI is just one small portion of
+> this. The PVI needs to interact with the hdmi_blk_ctrl and the hdmi
+> transmitter itself.
+>
+> It looks like there was at least one attempt to push the hdmi driver,
+> but we're also missing some hdmi power domain information, and the dri
+> patchwork lists a bunch of proposed patches for the lcdif driver.  I
+> haven't looked through them all, so I don't know if they are
+> necessary.  I found a git repo with Lucas' stuff, but it's based on
+> the 6.0 kernel, so it's fairly old.  Either way it seems like there is
+> more to the HDMI than just his one series.
 
+Here is the whole patchset that I tested against 6.6:
+
+https://patchwork.freedesktop.org/patch/485391/
+https://patchwork.freedesktop.org/patch/485392/
+https://patchwork.freedesktop.org/patch/485395/
+https://patchwork.freedesktop.org/patch/515299/
+https://patchwork.freedesktop.org/patch/515300/
+https://patchwork.kernel.org/project/linux-arm-kernel/patch/20220406153402.=
+1265474-12-l.stach@pengutronix.de/
