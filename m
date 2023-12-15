@@ -2,112 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA04F814503
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Dec 2023 11:00:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 173FC814575
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Dec 2023 11:23:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B567110E9D1;
-	Fri, 15 Dec 2023 10:00:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 117FD10E31C;
+	Fri, 15 Dec 2023 10:23:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur04olkn080f.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe0e::80f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7CE010E320;
- Fri, 15 Dec 2023 09:59:58 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iOGl2IZ9AjoH/lgQdzwL07RmzjdcOTqgdmVLgKP3NtmAGneog2kl+fmlfFjr+tFK7sR9p6hlsoFiLJjqc47OvN3X3sRAlDMPeBUkaYdLZEPwzKz0Ibx8bAvP7VoRnYrr/tV0gi/FdmnSBTnBN/ZABJt+mCltpnYqCdp4KN+cRaf6bU+Q71T52dGVFi+FxgMYWAoIJW2cAmXJlZLO7cZODV4loujUQg5rCSXrzbKg0izvAKnT44TMTZYqvMsnAQeEDRiQjP3TuEzJjzuVcD8Bvrzt726ZoC3f7C9r+E2pQRdMediZYUY/oWWcwP+4/nsnsWkbwpH+HD09DUwk5BsurA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZiU73NIN1lvCWdMVrKnNstqLDp7/niE9mrXFSgWiniE=;
- b=TZ+hBCZrpGY6IJ6Dn9/5DDaOja9+K+5P0G64Bj5NIWk0CjVtMwQBehF652cQ1NLAGRDJ1dV/9aOI3dFXRr+mv7P/1d0n/tly+wLP5zbKUCGqEJqGZbG7+5t6lDQQ3CLjaiFDt5YCXlRRPH1ova5r26DaPxZ1PAdttUa2gatBqUQnOkJynh+uJU9qETboxMGG4VYMdzpxO1YvlOaedIJFeGlUEdISVq6tvJA4qnRnIqhHbRVdB7dO0XTpQm4RSCpl/Vmta8PAGGm3SWuGsQHGg/jiNMwgeVawAD+KCo51L+gfRmlWBr8sr/kwD0QnX4XhDJfEhhJAR8uhOyKiPPltlA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZiU73NIN1lvCWdMVrKnNstqLDp7/niE9mrXFSgWiniE=;
- b=DYTeMV8mWsGJ8oaHGBYp/UAeGzBQZGKAgzYaAKe4/ryFIwt5i6RN5fuC05WBI3s0V8pIPpdA5CuZSvVoe78tkR+f0uhAUh7zYcsecB14a2PAsobD68ooY6PN/5l4miUlTsCajyoBx3KSqOeW0qrt6FIAOPN/ztmycCPQP6UIOBIb5HyGqQvN3XpPow76BhaZELcmFPzHIxH4psFWQSfs2Dr34q+vedTAadx2bg02h9oKmqTmk+xjSiPOPRZPjTYsFSJevCtK9SkM9Vqz0L0MKzFCy1moSltt+pgizZiytCMQZcwz/MCRFENVNtRjjq0gNcFdWcbJPv+wQMBGQfhejQ==
-Received: from DUZPR10MB8267.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:4ae::7)
- by DB9PR10MB6738.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:3d2::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.28; Fri, 15 Dec
- 2023 09:59:56 +0000
-Received: from DUZPR10MB8267.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::651:ac68:2cdb:49f0]) by DUZPR10MB8267.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::651:ac68:2cdb:49f0%4]) with mapi id 15.20.7091.028; Fri, 15 Dec 2023
- 09:59:56 +0000
-Message-ID: <DUZPR10MB8267520A4F44DA38339969A78E93A@DUZPR10MB8267.EURPRD10.PROD.OUTLOOK.COM>
-Date: Fri, 15 Dec 2023 10:59:59 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Nouveau] Kernel problem with multiseat on one card - Wil be more
- than one window manager on one card
-To: Timur Tabi <ttabi@nvidia.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "bagasdotme@gmail.com" <bagasdotme@gmail.com>
-References: <AM7PR10MB39235DD53D163910E88FDB938E82A@AM7PR10MB3923.EURPRD10.PROD.OUTLOOK.COM>
- <AM7PR10MB3923E07D6024434077E95EBA8E82A@AM7PR10MB3923.EURPRD10.PROD.OUTLOOK.COM>
- <ZWsuiq7zrYS-pDli@archie.me>
- <655a02097e9b49c2da7a2be60d7c154a48a916f4.camel@nvidia.com>
- <AM7PR10MB39235076485E2E3905F422508E86A@AM7PR10MB3923.EURPRD10.PROD.OUTLOOK.COM>
- <e046050c7e9be5d4f816d33dd1a9dd50e2de3308.camel@nvidia.com>
-Content-Language: nl
-From: Gert Vanhaerents <gert.vanhaerents@hotmail.com>
-In-Reply-To: <e046050c7e9be5d4f816d33dd1a9dd50e2de3308.camel@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TMN: [Mpof9r8j6eSeeas/Y7h5pJyqXgLjdQ3d]
-X-ClientProxiedBy: AS4P190CA0018.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:20b:5d0::11) To DUZPR10MB8267.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:10:4ae::7)
-X-Microsoft-Original-Message-ID: <d0e7f742-a980-4d3e-92f6-58700907ebb4@hotmail.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E75E10E31C
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 10:23:50 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 814C062464;
+ Fri, 15 Dec 2023 10:23:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D52A8C433C8;
+ Fri, 15 Dec 2023 10:23:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1702635829;
+ bh=tCAHS66eVgmZ57iqN7Mrr0Y2TmAFZVdVWNz4apn9D/I=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=DRltX7kYW7hLAHMkTv/XvtLnhKZHFOzBIsonzQT95l9YaTUeAf6WyY3iLkVzwWZ8J
+ 0+Uj3NTd1x0MBA0ke9/C7YggGnLyXLGehjyCHiqFzKuhI+eLwm48LS1K0bjYP8qEX8
+ ZRZwKflTyaju8L2VQHD/WKTh7I30Rv/yqgWJuWLhzih/UY2GfUoJVjzGNpEPZwUtbu
+ EqY5cLAQHX1SxWVAdhYA/LqjhYrl03pWg6iRQfenueOHvX5K2+6O1FnEHlD/RHpzNm
+ sEaD1wq/5dyYO32fEHf1oletcXhwNmP8EVcAqs0NjVClYt5br17yuQ8XzYNhfh6w2R
+ GB6ayJLNweHbg==
+Date: Fri, 15 Dec 2023 11:23:46 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
+Message-ID: <zp2ews2by6fg5irmb7ms6blox6vruezdjlor3rutqtokbvlle2@tl775slyvhyf>
+References: <20231128105129.161121-1-biju.das.jz@bp.renesas.com>
+ <20231128105129.161121-4-biju.das.jz@bp.renesas.com>
+ <sechknyg33iucaku37vfhk7ie7xgcealfqbvaopm4rrnqbo5g5@s35peonkzzoz>
+ <TYCPR01MB11269767836DEB995747B7ED3868CA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DUZPR10MB8267:EE_|DB9PR10MB6738:EE_
-X-MS-Office365-Filtering-Correlation-Id: 17e4f1ee-e102-44d4-5a14-08dbfd549703
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: sr/f25hLW2rxYoudzAdRbqIDdXlw9i6mSgn7daWrUsnOLLRCAUSKZQL8oI/VqXkeO3/fgv+P/0mAVMEyOIvoMjOBOLlppnUrUgW9dSFmEm0iUeAIjJSWH4yqjLr2t0hsYRuyGjcGoi7L8mQujHEme8N5ky0GljaFPPodsCnmvKSjaz9VzXwiEj18TN41zKqRZo2YQf2/iZt5LXdsT4ISRY0Wz1AAe5Sh9qfReam1godRjzYQczbvHuNPBY0kb2k0adyP2ETBrcO7TJ6Fhe+CWuvHz4eYhzOZ+k7MohaYsciie3CaA6+4LrzJLLJeyWjVSM2FKoekL8hNLLqLpqXcdebzWei0dT2GURbV4yNXC9B1XzQExYPqQ4BV6apu/0b/QC1jduvSoV5O00U1Si7TRou9FYndralDd55ikG0URG1esG3jWKzGixZz+BjVSpID5ufBuwHXzWvTSdm2XRpK8Bkr4GEN3HX6CgqFmijDRNiplWMhPuUQtKX4jywfU5Yl49PC/muDPes6gJB9AlSznEmL5Hz9CiUcoUqmOisFhKss6DSL5NvJhYB/WYGb+7BB
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NC9SMk42NTRDWG1XOHIyMUtSVU5GaFFxbGhUVzhsVEk2VnVjcFJpTFRFdXdh?=
- =?utf-8?B?OFlTRnFHS1JQWUs0bk1LZTJLdTdPUWFVMmx5bjNsSDRGQ3RYVlBiRHBiem5E?=
- =?utf-8?B?S0hiVktWZnN5eUYyZlZPdXF0aUJ3ZXdGVURnZVh3VWJpNkFYNXMvNFhVUDNr?=
- =?utf-8?B?VU41WTJZSkYyR2wwT1dPUHc2VWpTdFFqOHZKQ09tU3RRWml5dnpRQUdWblhX?=
- =?utf-8?B?MDYzNyt4WDRXandqcG1QdVRkUG0rRkFSajVCV0RUUGE0bGdkR1k3TVBKWmN0?=
- =?utf-8?B?N1MyclZNMFZyZC9sR1VWaExzcFdCRUVkcHhUQ0FEZm1GUzAxUjJ5L3NUNUlS?=
- =?utf-8?B?cmlDbEUyVFZkL0dKQ3lvZWlXMlFxN1pWTGFDd1VCZmZUaWNLY1FsTnlMUFFG?=
- =?utf-8?B?R0ZRUmh1VHVRanEzdnA2bGhJNERUVlBBRTlOZUY0L0V4SUhEZlh0U0RnVmg4?=
- =?utf-8?B?WW01cWRscmkyTTVaNDV1dm1NKy9tOVBiM1I5OXowYjA5aXJPWHFwbU44U0N6?=
- =?utf-8?B?eXpLNTZMMlZnQkVrbWd5VmJmdVJyL05CQUk3VDA1N0d6cjFYZnBLRGFIUjkw?=
- =?utf-8?B?RWJBdUNzSmR3cmlnWnZ4NFNZc05MVU1RcGRUeTkwV1dGVjl2dHdGZVVwemQ5?=
- =?utf-8?B?ei9zemM0WnpWc2QyMFUrbHlUd2NHQU5jM3k0QVduakMwSzRMdTZQc1diYXhu?=
- =?utf-8?B?d01SYnpNWE9CSTdUSlljeE00V21DSlIvVFF0QlJDRTBKVGtNV2w2ekxMTWRs?=
- =?utf-8?B?aVdXTWVzQ2dudzJZYTdBRU4zdUlYV3JHdXNPenlPQktRTnlXU0RiQjZBdHg1?=
- =?utf-8?B?NzZYWm1wT3dyaDc3Z0hrNWJEY3BOWU5RWHBqQ2c4WDZTZG1jcVFyczZHTGE1?=
- =?utf-8?B?NkRyRytJczdCekorWGhCNmI0MXpXYU4zQ3VlSmdlVnVzQ0dvTW1Mck5qMCtX?=
- =?utf-8?B?RE9XOVEveDRUdFhJR09QcVdEV1JITGFkOFdMM1BTY0JCRW1oaVMzdFU2SlEr?=
- =?utf-8?B?b1hDSnJSQjNZYis3Vy9ldW9nc0d5aVRRNHFSa2M2NWYrVzRBQ3Q5allzUnEw?=
- =?utf-8?B?UzRFOVNna1NlcjNFODl1MlFlQmpYWWluUVRrSWpWaVNXVi9RNjMwc3hFaFpj?=
- =?utf-8?B?SXhPKzQ0bVpPNVVXUGF0ekNjOTBuQjhmUk96TDlVNU05WGdTNUQrLzFTek9X?=
- =?utf-8?B?SWprTzYwY0hURHo3Z0FmWmhHMkptcExETnBDYnlza1FhbHRsR3M2a3ErWUph?=
- =?utf-8?B?RWtiL05ZQlYxMnFPd1NJb2tUaytrMU1ZdFVKSzZVUktMS0lsN2cxdVcvWE8r?=
- =?utf-8?B?SkVneElEM3RmY1krOW5GbWlockt1OFhEbUQra25QZkQrdm9aa3J1dW04UlZW?=
- =?utf-8?B?MExRS2xzTUV1Rkhxd0VRTzVxendQaWFDVXhuN3Y3Uk5zdUFGbEJqUlBQcERQ?=
- =?utf-8?B?MlJ0b0dyb2Mxdkh3c1FSNTAwQm03eVFGZHRWZHRDcklFV2oyQ2xvOS9IdXdE?=
- =?utf-8?B?eTl4eUlNTTNkcG9nY21ta1BoaGNIS3BIRUdKbjk0SWhIdklLVjR4SFVTOWFq?=
- =?utf-8?B?Wmk0bUhPK1YyaHUxNnE0MW5Jbnh0eGNKNlVLSWdDZFVyV2hpMm1weUMzeGlU?=
- =?utf-8?Q?H1Fz9ovoBMTkK6Sb6pDjrmQYtHVYelCYC2egaHtlkvFU=3D?=
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-6b909.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 17e4f1ee-e102-44d4-5a14-08dbfd549703
-X-MS-Exchange-CrossTenant-AuthSource: DUZPR10MB8267.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2023 09:59:55.9562 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR10MB6738
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="h75ngiwxrejsdylk"
+Content-Disposition: inline
+In-Reply-To: <TYCPR01MB11269767836DEB995747B7ED3868CA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,57 +53,238 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ "biju.das.au" <biju.das.au@gmail.com>, Magnus Damm <magnus.damm@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-Op 4/12/2023 om 15:11 schreef Timur Tabi:
-> On Mon, 2023-12-04 at 09:51 +0100, Gert Vanhaerents wrote:
->> OK  i will report it to nvidia. But with the nouveau drivers it's also not
->> working. Are you sure it's not a kernel problem?
->> Because according to systemd it would be a kernel problem.  (personaly i am
->> also thinking it's a driver problem)
-> Unfortunately, it's not easy for Nouveau to debug problems with GSP-RM.
-> However, if the problem exists in the proprietary driver, then Nvidia could
-> fix it.  That would then lead to a new version of OpenRM that Nouveau could
-> use.
+--h75ngiwxrejsdylk
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I have contacted Nvidia and now i can see the outputs such like this:
+On Thu, Dec 14, 2023 at 03:24:17PM +0000, Biju Das wrote:
+> Hi Maxime Ripard,
+>=20
+> Thanks for the feedback.
+>=20
+> > -----Original Message-----
+> > From: Maxime Ripard <mripard@kernel.org>
+> > Sent: Wednesday, December 13, 2023 3:47 PM
+> > To: Biju Das <biju.das.jz@bp.renesas.com>
+> > Subject: Re: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
+> >=20
+> > On Tue, Nov 28, 2023 at 10:51:27AM +0000, Biju Das wrote:
+> > > The LCD controller is composed of Frame Compression Processor (FCPVD),
+> > > Video Signal Processor (VSPD), and Display Unit (DU).
+> > >
+> > > It has DPI/DSI interfaces and supports a maximum resolution of 1080p
+> > > along with 2 RPFs to support the blending of two picture layers and
+> > > raster operations (ROPs).
+> > >
+> > > The DU module is connected to VSPD. Add RZ/G2L DU support for RZ/G2L
+> > > alike SoCs.
+> > >
+> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> >=20
+> > I'd still like a review from Geert or Laurent, I don't know the SoC.
+>=20
+> Since Laurent is super busy, maybe Kieran and Jacopo can provide feedback=
+ if any.
+>=20
+> The display blocks is shown in [1] and the pipe line is as below
+>=20
+> Memory-> fcpvd -->VSPD --> DU --> DSI --> Display panel.
+>=20
+> Fcpvd: Frame Compression Processor
+> VSPD: Video Signal Processor, Basically a blitter engine which directly r=
+ender images to DU
+> DU: Display Unit.
+>=20
+> On R-Car fpvcd, VSPD and (DU with planes) IPs are separate blocks
+> whereas here it is integrated inside LCDC.
+>=20
+> fcpvd and VSPD are in media subsystem and we are reusing the code here.
+> The vspd is based on display list, it downloads the register contents fro=
+m linked list in memory
+> and execute composite operation and generates interrupts for display star=
+t and frame end.
+>=20
+> du_vsp registers the frame completion callback with vspd driver in media =
+framework.
+> and we call the drm_crtc_handle_vblank() in this context.
+>=20
+> [1]
+> https://pasteboard.co/MDmbXdK3psSD.png
+>=20
+> =E2=97=8F FCPVD
+> =E2=88=92 Support out-of-order for the whole outstanding transactions
+> =E2=88=92 Read linear addressing image data
+> =E2=88=92 Read display list data
+> =E2=88=92 Write image data
+> =E2=97=8F VSPD
+> =E2=88=92 Supports various data formats and conversion
+> =E2=88=92 Supports YCbCr444/422/420, RGB, =CE=B1 RGB, =CE=B1 plane
+> =E2=88=92 Color space conversion and changes to the number of colors by d=
+ithering
+> =E2=88=92 Color keying
+> =E2=88=92 Supports combination between pixel alpha and global alpha
+> =E2=88=92 Supports generating pre multiplied alpha
+> =E2=88=92 Video processing
+> =E2=88=92 Blending of two picture layers and raster operations (ROPs)
+> =E2=88=92 Clipping
+> =E2=88=92 1D look up table
+> =E2=88=92 Vertical flipping in case of output to memory
+> =E2=88=92 Direct connection to display module
+> =E2=88=92 Supporting 1920 pixels in horizontal direction
+> =E2=88=92 Writing back image data which is transferred to Display Unit (D=
+U) to memory
+> =E2=97=8F DU
+> =E2=88=92 Supporting Display Parallel Interface (DPI) and MIPI LINK Video=
+ Interface
+> =E2=88=92 Display timing master
+> =E2=88=92 Generating video timings (Front porch, Back porch, Sync active,=
+ Active video area)
+> =E2=88=92 Selecting the polarity of output DCLK, HSYNC, VSYNC, and DE
+> =E2=88=92 Supporting Progressive (Non-interlace)
+> =E2=88=92 Not supports Interlace
+> =E2=88=92 Input data format (from VSPD): RGB888, RGB666 (not supports dit=
+hering of RGB565)
+> =E2=88=92 Output data format: same as Input data format
+> =E2=88=92 Supporting Full HD (1920 pixels =C3=97 1080 lines) for MIPI-DSI=
+ Output
+> =E2=88=92 Supporting WXGA (1280 pixels =C3=97 800 lines) for Parallel Out=
+put
 
-─/sys/devices/pci0000:00/0000:00:03.1/0000:08:00.0/drm/card0
-           │ [MASTER] drm:card0
-           │ 
-├─/sys/devices/pci0000:00/0000:00:03.1/0000:08:00.0/drm/card0/card0-DVI-D-1
-           │ │ [MASTER] drm:card0-DVI-D-1
-           │ 
-├─/sys/devices/pci0000:00/0000:00:03.1/0000:08:00.0/drm/card0/card0-HDMI-A-1
-           │ │ [MASTER] drm:card0-HDMI-A-1
-           │ 
-└─/sys/devices/pci0000:00/0000:00:03.1/0000:08:00.0/drm/card0/card0-VGA-1
-           │   [MASTER] drm:card0-VGA-1
+Thanks, that's super helpful. The architecture is thus similar to vc4
 
-But the problem is now the same of with the Nouveau driver. When you do 
-this:
+Some general questions related to bugs we had at some point with vc4:
 
-loginctl attach seat1 
-/sys/devices/pci0000:00/0000:00:03.1/0000:08:00.0/drm/card0/card0-VGA-1
+  * Where is the display list stored? In RAM or in a dedicated SRAM?
 
-For the seat1 (the VGA d-sub output for seat1 and the other HDMI output 
-for seat0) and of course the mouse and keyboard.
+  * Are the pointer to the current display list latched?
 
-When you do this, all the graphics outputs are on the second seat 
-(seat1) and not anymore on the first seat. So i need to move only the 
-VGA output to seat1 and not all the outputs.
+  * Is the display list itself latched? If it's not, what happens when
+    the display list is changed while the frame is being generated?
 
+> >=20
+> > > +static int rzg2l_du_crtc_get(struct rzg2l_du_crtc *rcrtc) {
+> > > +	int ret;
+> > > +
+> > > +	/*
+> > > +	 * Guard against double-get, as the function is called from both the
+> > > +	 * .atomic_enable() and .atomic_flush() handlers.
+> > > +	 */
+> > > +	if (rcrtc->initialized)
+> > > +		return 0;
+> > > +
+> > > +	ret =3D clk_prepare_enable(rcrtc->rzg2l_clocks.aclk);
+> > > +	if (ret < 0)
+> > > +		return ret;
+> > > +
+> > > +	ret =3D clk_prepare_enable(rcrtc->rzg2l_clocks.pclk);
+> > > +	if (ret < 0)
+> > > +		goto error_bus_clock;
+> > > +
+> > > +	ret =3D reset_control_deassert(rcrtc->rstc);
+> > > +	if (ret < 0)
+> > > +		goto error_peri_clock;
+> > > +
+> > > +	rzg2l_du_crtc_setup(rcrtc);
+> > > +	rcrtc->initialized =3D true;
+> > > +
+> > > +	return 0;
+> > > +
+> > > +error_peri_clock:
+> > > +	clk_disable_unprepare(rcrtc->rzg2l_clocks.pclk);
+> > > +error_bus_clock:
+> > > +	clk_disable_unprepare(rcrtc->rzg2l_clocks.aclk);
+> > > +	return ret;
+> > > +}
+> >=20
+> > [...]
+> >=20
+> > > +static void rzg2l_du_crtc_atomic_flush(struct drm_crtc *crtc,
+> > > +				       struct drm_atomic_state *state) {
+> > > +	struct rzg2l_du_crtc *rcrtc =3D to_rzg2l_crtc(crtc);
+> > > +	struct drm_device *dev =3D rcrtc->crtc.dev;
+> > > +	unsigned long flags;
+> > > +
+> > > +	WARN_ON(!crtc->state->enable);
+> > > +
+> > > +	/*
+> > > +	 * If a mode set is in progress we can be called with the CRTC
+> > disabled.
+> > > +	 * We thus need to first get and setup the CRTC in order to
+> > configure
+> > > +	 * planes. We must *not* put the CRTC, as it must be kept awake
+> > until
+> > > +	 * the .atomic_enable() call that will follow. The get operation in
+> > > +	 * .atomic_enable() will in that case be a no-op, and the CRTC will
+> > be
+> > > +	 * put later in .atomic_disable().
+> > > +	 */
+> > > +	rzg2l_du_crtc_get(rcrtc);
+> >=20
+> > That's a bit suspicious. Have you looked at
+> > drm_atomic_helper_commit_tail_rpm() ?
+>=20
+> Ok, I will drop this and start using  drm_atomic_helper_commit_tail_rpm()
+> instead of rzg2l_du_atomic_commit_tail().
 
-The problem is that linux can not start 2 or more window managers on one 
-card (even if you don't need a multiseat, but use only one mouse and 
-keyboard).
+It was more of a suggestion, really. I'm not sure whether it works for
+you, but it usually addresses similar issues in drivers.
 
-So how can i fix that i can use more than one window manager on one 
-physical graphics card? (without Xephyr or something because they are to 
-outdated and works not good).
+> >=20
+> > > +static int rzg2l_du_crtc_enable_vblank(struct drm_crtc *crtc) {
+> > > +	struct rzg2l_du_crtc *rcrtc =3D to_rzg2l_crtc(crtc);
+> > > +
+> > > +	rcrtc->vblank_enable =3D true;
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static void rzg2l_du_crtc_disable_vblank(struct drm_crtc *crtc) {
+> > > +	struct rzg2l_du_crtc *rcrtc =3D to_rzg2l_crtc(crtc);
+> > > +
+> > > +	rcrtc->vblank_enable =3D false;
+> > > +}
+> >=20
+> > You should enable / disable your interrupts here
+>=20
+> We don't have dedicated vblank IRQ for enabling/disabling vblank.
+>=20
+> vblank is handled by vspd.
+>=20
+> vspd is directly rendering images to display,
+> rcar_du_crtc_finish_page_flip() and drm_crtc_handle_vblank()
+> called in vspd's pageflip context.
+>=20
+> See rzg2l_du_vsp_complete()in rzg2l_du_vsp.c
 
-I have tried with: Linux Mint, Ubuntu and Debian all the same problem.
+Sorry, I couldn't really get how the interrupt flow / vblank reporting
+is going to work. Could you explain it a bit more?
 
+Maxime
 
+--h75ngiwxrejsdylk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZXwpMgAKCRDj7w1vZxhR
+xf9TAP4gKIDW41SXJZ8HXazfzRRo7CTDtG1gXhGJEYWKBexirwEA1nImmi++Jrx3
+17S1SWTPsal00Aw7d5bewG3VqbWF3w0=
+=dLne
+-----END PGP SIGNATURE-----
+
+--h75ngiwxrejsdylk--
