@@ -2,47 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA33B8147BC
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Dec 2023 13:12:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94F6D814828
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Dec 2023 13:34:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CC9D10E9F4;
-	Fri, 15 Dec 2023 12:12:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A597F10E122;
+	Fri, 15 Dec 2023 12:34:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 821DB10E8ED;
- Fri, 15 Dec 2023 12:12:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1702642321; x=1734178321;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=31U4jgfUJKwGBcafefxJidlE7XwYDZ7JBAtlg5q2cRE=;
- b=E1152HbJGt3KB076+7jfgUjK7+vOX/d5X/w9XFLM7aQ2YfcZweS8Cmn1
- ldfJZFefRLpFm3lL5ZhbUofy3nzfDVcxo8+hJptX0Mih5Yy5PZYUZsKm4
- aoun6IXL7XoJ9oanZqAVZyVJGSF5RpwHb9BhpYRk59QmkHtF3mDzypRue
- GI72gqhylamERyV9VsQV4XtjwbRlH5hKPd8Eh+JfNNLenafZmMf2Ov4Yr
- DtWQxz5IY6MU5Ung7xXlkJivyuIySOoczv+UUoJw7fM48BsJwmV/+B9MU
- c5GtZSNrHJaSXWmG3Yaw5CfBKydrpwHm8zXKm9U+0xkPSzlrDKesFjBOI w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="380263793"
-X-IronPort-AV: E=Sophos;i="6.04,278,1695711600"; d="scan'208";a="380263793"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Dec 2023 04:12:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="898119580"
-X-IronPort-AV: E=Sophos;i="6.04,278,1695711600"; d="scan'208";a="898119580"
-Received: from emnevill-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.10.148])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Dec 2023 04:11:56 -0800
-Date: Fri, 15 Dec 2023 14:11:53 +0200
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-gt-next
-Message-ID: <ZXxCibZZQqlqhDN3@jlahtine-mobl.ger.corp.intel.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62B7D10E122
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Dec 2023 12:34:31 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id 6B2E6B82817;
+ Fri, 15 Dec 2023 12:34:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45979C433C8;
+ Fri, 15 Dec 2023 12:34:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1702643668;
+ bh=FaCZ2fNraad49PiDtX3wes78ymtVFrS8O37vDr/7Bwk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=GqGTdqkSJTbeNCkys9izOFrKzzGLhSAUGY0S7zmNMp1fq9I+nGBTZ82rMYGw37rBh
+ YzsNrhE8bM3v+zM28ABp2cZCG3Xndyrx42SAlCImrSLIixr9CIiqpCuoWbH11oSw1o
+ H6d2m1s6vJpfhUc+yl3E8goo8CkW2kf2Z5GnIEz9BdmyvAem7g3SL0PJlPC9T0sf8G
+ bJrNdNN631TrOa5WbwoBq4/yfSS0xIg/FVZ+6BEmBDR5OaswBheC9dSsAnaMqFSG31
+ 3oCNJU4tNUgVycsGEWUuuAQY6lh1gZPM4LKW/3+mAxzk6GGV5DIlHW3//laGWdYu0E
+ BvWrQPiud4/0w==
+Date: Fri, 15 Dec 2023 13:34:26 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH 0/5] clk: Make clk_rate_exclusive_get() return void
+Message-ID: <nsa54fwu4ewmcaehesuqefoo5r7z3tuvj76hjb4ngtkaygxwxx@h73ihjon5gby>
+References: <cover.1702400947.git.u.kleine-koenig@pengutronix.de>
+ <ki5n3rz5n4oxj2hhc3rj6xpn3e2tdi7fcp2q7exjbzilrlqflp@przautvhuy4g>
+ <20231213074300.4bq7wkfqd4jhhcr4@pengutronix.de>
+ <2nvbag657mlniqwq7fbilapc6vfw5qumab3yd6bqul25ot6wcn@wdlkh5az2fgs>
+ <20231213110829.bjaxjjiyy4ug7o67@pengutronix.de>
+ <6wnsxbi27xdxjtaqaaaq5wtwwilp4jfw4mg5y2ctdl7xrs44ry@ns6y36pf7hge>
+ <20231213155252.eq6cdzk2vuwllzdu@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="wu77dsjz7uev4rk4"
 Content-Disposition: inline
+In-Reply-To: <20231213155252.eq6cdzk2vuwllzdu@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,92 +56,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: Michael Turquette <mturquette@baylibre.com>,
+ dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ linux-clk@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>,
+ Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
+ Russell King <linux@armlinux.org.uk>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Chanwoo Choi <cw00.choi@samsung.com>,
+ Chen-Yu Tsai <wens@csie.org>, MyungJoo Ham <myungjoo.ham@samsung.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Kyungmin Park <kyungmin.park@samsung.com>, linux-sunxi@lists.linux.dev,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-pm@vger.kernel.org,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ kernel@pengutronix.de, Johan Hovold <johan+linaro@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Stephen Boyd <sboyd@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Georgi Djakov <djakov@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave & Sima,
 
-Final drm-intel-gt-next PR for v6.8.
+--wu77dsjz7uev4rk4
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Elimination of kmap_atomic() from the driver to allow kernel wide
-cleanup. One new DG2 W/A and static checker/spelling fixes.
+On Wed, Dec 13, 2023 at 04:52:52PM +0100, Uwe Kleine-K=F6nig wrote:
+> On Wed, Dec 13, 2023 at 12:54:14PM +0100, Maxime Ripard wrote:
+> > On Wed, Dec 13, 2023 at 12:08:29PM +0100, Uwe Kleine-K=F6nig wrote:
+> > > On Wed, Dec 13, 2023 at 09:36:49AM +0100, Maxime Ripard wrote:
+> > > > On Wed, Dec 13, 2023 at 08:43:00AM +0100, Uwe Kleine-K=F6nig wrote:
+> > > > > On Wed, Dec 13, 2023 at 08:16:04AM +0100, Maxime Ripard wrote:
+> > > > > > On Tue, Dec 12, 2023 at 06:26:37PM +0100, Uwe Kleine-K=F6nig wr=
+ote:
+> > > > > > > clk_rate_exclusive_get() returns zero unconditionally. Most u=
+sers "know"
+> > > > > > > that and don't check the return value. This series fixes the =
+four users
+> > > > > > > that do error checking on the returned value and then makes f=
+unction
+> > > > > > > return void.
+> > > > > > >=20
+> > > > > > > Given that the changes to the drivers are simple and so merge=
+ conflicts
+> > > > > > > (if any) should be easy to handle, I suggest to merge this co=
+mplete
+> > > > > > > series via the clk tree.
+> > > > > >=20
+> > > > > > I don't think it's the right way to go about it.
+> > > > > >=20
+> > > > > > clk_rate_exclusive_get() should be expected to fail. For exampl=
+e if
+> > > > > > there's another user getting an exclusive rate on the same cloc=
+k.
+> > > > > >=20
+> > > > > > If we're not checking for it right now, then it should probably=
+ be
+> > > > > > fixed, but the callers checking for the error are right to do s=
+o if they
+> > > > > > rely on an exclusive rate. It's the ones that don't that should=
+ be
+> > > > > > modified.
+> > > > >=20
+> > > > > If some other consumer has already "locked" a clock that I call
+> > > > > clk_rate_exclusive_get() for, this isn't an error. In my bubble I=
+ call
+> > > > > this function because I don't want the rate to change e.g. becaus=
+e I
+> > > > > setup some registers in the consuming device to provide a fixed U=
+ART
+> > > > > baud rate or i2c bus frequency (and that works as expected).
+> > > >=20
+> > > > [a long text of mostly right things (Uwe's interpretation) that are
+> > > > however totally unrelated to the patches under discussion.]
+> >=20
+> > I'm glad you consider it "mostly" right.
+>=20
+> there was no offense intended. I didn't agree to all points, but didn't
+> think it was helpful to discuss that given that I considered them
+> orthogonal to my suggested modifications.
+> =20
+> > > The clk API works with and without my patches in exactly the same way.
+> > > It just makes more explicit that clk_rate_exclusive_get() cannot fail
+> > > today and removes the error handling from consumers that is never use=
+d.
+> >=20
+> > Not really, no.
+>=20
+> What exactly do you oppose here? Both of my sentences are correct?!
 
-Best Regards,
-Joonas
+That the API works in the exact same way.
 
-***
+> > An API is an interface, meant to provide an abstraction. The only
+> > relevant thing is whether or not that function, from an abstract point
+> > of view, can fail.
+>=20
+> What is the ideal API that you imagine? For me the ideal API is:
+>=20
+> A consumer might call clk_rate_exclusive_get() and after that returns
+> all other consumers are prohibited to change the rate of the clock
+> (directly and indirectly) until clk_rate_exclusive_put() is called. If
+> this ends in a double lock (i.e. two different consumers locked the
+> clock), then I cannot change the rate (and neither can anybody else).
+>=20
+> That is fine iff I don't need to change the rate and just want to rely
+> on it to keep its current value (which is a valid use case). And if I
+> want to change the rate but another consumer prevents that, I handle
+> that in the same away as I handle all other failures to set the rate to
+> the value I need. I have to prepare for that anyhow even if I have
+> ensured that I'm the only one having exclusivity on that clock.
+>=20
+> Letting clk_rate_exclusive_get() fail in the assumption that the
+> consumer also wants to modify the rate is wrong. The obvious point where
+> to stop such consumers is when they call clk_rate_set(). And those who
+> don't modify the rate then continue without interruption even if there
+> are two lockers.
+>=20
+> This can easily be implemented without clk_rate_exclusive_get() ever
+> failing.
+>=20
+> > Can you fail to get the exclusivity? Yes. On a theoretical basis, you
+> > can, and the function was explicitly documented as such.
+>=20
+> Sure, you could modify the clk internals such that
+> clk_rate_exclusive_get() needs to allocate memory. Or that it fails if
+> another consumer already has called it. At least the latter is a change
+> in semantics that requires to review (and maybe fix) all users. Also
+> note that calling clk_rate_exclusive_get() essentially locks all parent
+> clocks up to the root clock. So if clk_rate_exclusive_get() fails in the
+> presence of another locker, you can only have one locker per clock
+> hierarchy because it's impossible that both grab the lock on the root
+> clock.
 
-drm-intel-gt-next-2023-12-15:
+We're not discussing the same thing. You're talking about from a
+technical point of view, I'm talking about it from an abstraction point
+of view. Let's use another example: kmalloc cannot fail. Are we going to
+remove every possible check for a null pointer in the kernel?
 
-Driver Changes:
+No, of course we won't, because at some point it might and the error
+handling will be valuable.
 
-- Eliminate use of kmap_atomic() in i915 (Zhao)
-- Add Wa_14019877138 for DG2 (Haridhar)
+Same story here.
 
-- Static checker and spelling fixes (Colin, Karthik, Randy)
--
+Maxime
 
-The following changes since commit be5bcc4be9d9d3ae294072441a66fe39b74e5bba:
+--wu77dsjz7uev4rk4
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  drm/i915/guc: Create the guc_to_i915() wrapper (2023-12-08 12:31:01 +0100)
+-----BEGIN PGP SIGNATURE-----
 
-are available in the Git repository at:
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZXxH0gAKCRDj7w1vZxhR
+xV/qAQD3/+x4S05zuQ5N2nfPdpjw4SxrkhoevmzHBpy1FgHZiQD/VV4FJjb2kuQG
+qaKs9P5j71Zv3P0kGzQhaFxK9fkLCws=
+=lYpt
+-----END PGP SIGNATURE-----
 
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-gt-next-2023-12-15
-
-for you to fetch changes up to 31accc37eaee98a90b25809ed58c6ee4956ab642:
-
-  drm/i915: Use kmap_local_page() in gem/i915_gem_execbuffer.c (2023-12-15 09:34:31 +0000)
-
-----------------------------------------------------------------
-Driver Changes:
-
-- Eliminate use of kmap_atomic() in i915 (Zhao)
-- Add Wa_14019877138 for DG2 (Haridhar)
-
-- Static checker and spelling fixes (Colin, Karthik, Randy)
--
-
-----------------------------------------------------------------
-Colin Ian King (1):
-      drm/i915/selftests: Fix spelling mistake "initialiased" -> "initialised"
-
-Haridhar Kalvala (1):
-      drm/i915: Add Wa_14019877138
-
-Karthik Poosa (1):
-      drm/i915/hwmon: Fix static analysis tool reported issues
-
-Randy Dunlap (1):
-      drm/i915/uapi: fix typos/spellos and punctuation
-
-Zhao Liu (9):
-      drm/i915: Use kmap_local_page() in gem/i915_gem_object.c
-      drm/i915: Use memcpy_[from/to]_page() in gem/i915_gem_pyhs.c
-      drm/i915: Use kmap_local_page() in gem/i915_gem_shmem.c
-      drm/i915: Use kmap_local_page() in gem/selftests/huge_pages.c
-      drm/i915: Use kmap_local_page() in gem/selftests/i915_gem_coherency.c
-      drm/i915: Use kmap_local_page() in gem/selftests/i915_gem_context.c
-      drm/i915: Use memcpy_from_page() in gt/uc/intel_uc_fw.c
-      drm/i915: Use kmap_local_page() in i915_cmd_parser.c
-      drm/i915: Use kmap_local_page() in gem/i915_gem_execbuffer.c
-
- drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c          | 10 +++++-----
- drivers/gpu/drm/i915/gem/i915_gem_object.c              |  8 +++-----
- drivers/gpu/drm/i915/gem/i915_gem_phys.c                | 10 ++--------
- drivers/gpu/drm/i915/gem/i915_gem_shmem.c               |  6 ++++--
- drivers/gpu/drm/i915/gem/selftests/huge_pages.c         |  6 +++---
- drivers/gpu/drm/i915/gem/selftests/i915_gem_coherency.c | 12 ++++--------
- drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c   |  8 ++++----
- drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c    |  2 +-
- drivers/gpu/drm/i915/gt/intel_gt_regs.h                 |  3 +++
- drivers/gpu/drm/i915/gt/intel_workarounds.c             |  3 +++
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c                |  5 +----
- drivers/gpu/drm/i915/i915_cmd_parser.c                  |  4 ++--
- drivers/gpu/drm/i915/i915_hwmon.c                       |  4 ++--
- include/uapi/drm/i915_drm.h                             | 12 ++++++------
- 14 files changed, 43 insertions(+), 50 deletions(-)
+--wu77dsjz7uev4rk4--
