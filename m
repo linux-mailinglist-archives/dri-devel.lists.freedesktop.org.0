@@ -1,47 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4223A81580E
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Dec 2023 07:29:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26B6781580D
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Dec 2023 07:29:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBFE910EADA;
-	Sat, 16 Dec 2023 06:29:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D5CB10EA7B;
+	Sat, 16 Dec 2023 06:29:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BE8310E077
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6E1510E077
  for <dri-devel@lists.freedesktop.org>; Sat, 16 Dec 2023 06:28:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1702708137; x=1734244137;
+ t=1702708138; x=1734244138;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=srh+pDeiF4x93Sp9cmg48dB8ma2fshhkeNl1Nqm5xC4=;
- b=BmYnnPy1e+EL74Yu7ozD9kXnYHw4rB6+X89z+/UUguufvYCDqz9CR7B2
- 3Ek5pFz3E3Vbt4rK4UeXnguSjnu8Tdb4uAUnJso/O+APp2ZQBs0o29j6/
- Oj1I9L2W06yNFHW9j9GuMCet2d2gw5YPx+/R8ts2h3Sv0Af4m9fFHZyu2
- hke2j7hBzky4ygcsRkPx7j6UiECNlh+vZQgZ0oSly5zi0pHKnsNvOJy1H
- 6RijtlWbIIitXrC/XUYc5uBOmpsd+ra7pGX9olk42FnHiIiY8BuAN3hrd
- Z83R9hZeQtM8WBIAk40YPWu+e10GmYVqNIURDZj8d124llHH/D7iMhCXB A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="2186039"
+ bh=KZifQoWRpsSYXJ0ERWQORaReoIuSKvbcn4vSOcCzi/s=;
+ b=jrYmn4jQcTADvv85JwLO/cEykOiufPdsWENorbhQ8f509UMgsVOR2vP8
+ kA8s/IJGsh3sSQ0+X+6R9DFE5Hgk48jd/D60cCP7J5out/vL/+zgh8iWC
+ oyx/W/vnKY8+uY0J4yRI9tgusisz0WEO+eBe0C/lm4c1xfmpDYAszZcWE
+ q8lAr+JSlNP6OagQAQrDUEysyn8uuYYCyLcFUHcNr++5dlrcd6KPyXhOc
+ uVjLeyrJvGTTuqWNkZvuAmH0I8+QaD7JKdGPGZi4Z5s2GwzLwEIoyGI0A
+ 2C5LMSynbp3YrZHXxmuJtvOo9QdlEZs5A5MTAz57gW14kaD9Xco571ucj g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="2186048"
 X-IronPort-AV: E=Sophos;i="6.04,280,1695711600"; 
-   d="scan'208";a="2186039"
+   d="scan'208";a="2186048"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  15 Dec 2023 22:28:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="751178913"
-X-IronPort-AV: E=Sophos;i="6.04,280,1695711600"; d="scan'208";a="751178913"
+X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="751178916"
+X-IronPort-AV: E=Sophos;i="6.04,280,1695711600"; d="scan'208";a="751178916"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.132])
  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  15 Dec 2023 22:28:56 -0800
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: dri-devel@lists.freedesktop.org,
 	linux-mm@kvack.org
-Subject: [PATCH v8 4/6] udmabuf: Convert udmabuf driver to use folios (v2)
-Date: Fri, 15 Dec 2023 22:05:34 -0800
-Message-Id: <20231216060536.3716466-5-vivek.kasireddy@intel.com>
+Subject: [PATCH v8 5/6] udmabuf: Pin the pages using memfd_pin_folios() API
+ (v6)
+Date: Fri, 15 Dec 2023 22:05:35 -0800
+Message-Id: <20231216060536.3716466-6-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231216060536.3716466-1-vivek.kasireddy@intel.com>
 References: <20231216060536.3716466-1-vivek.kasireddy@intel.com>
@@ -68,20 +69,37 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>, Dongwon Kim <dongwon.kim@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is mainly a preparatory patch to use memfd_pin_folios() API
-for pinning folios. Using folios instead of pages makes sense as
-the udmabuf driver needs to handle both shmem and hugetlb cases.
-However, the function vmap_udmabuf() still needs a list of pages;
-so, we collect all the head pages into a local array in this case.
+Using memfd_pin_folios() will ensure that the pages are pinned
+correctly using FOLL_PIN. And, this also ensures that we don't
+accidentally break features such as memory hotunplug as it would
+not allow pinning pages in the movable zone.
 
-Other changes in this patch include the addition of helpers for
-checking the memfd seals and exporting dmabuf. Moving code from
-udmabuf_create() into these helpers improves readability given
-that udmabuf_create() is a bit long.
+Using this new API also simplifies the code as we no longer have
+to deal with extracting individual pages from their mappings or
+handle shmem and hugetlb cases separately.
 
-v2: (Matthew)
-- Use folio_pfn() on the folio instead of page_to_pfn() on head page
-- Don't split the arguments to shmem_read_folio() on multiple lines
+v2:
+- Adjust to the change in signature of pin_user_pages_fd() by
+  passing in file * instead of fd.
+
+v3:
+- Limit the changes in this patch only to those that are required
+  for using pin_user_pages_fd()
+- Slightly improve the commit message
+
+v4:
+- Adjust to the change in name of the API (memfd_pin_user_pages)
+
+v5:
+- Adjust to the changes in memfd_pin_folios which now populates
+  a list of folios and offsets
+
+v6:
+- Don't unnecessarily use folio_page() (Matthew)
+- Pass [start, end] and max_folios to memfd_pin_folios()
+- Create another temporary array to hold the folios returned by
+  memfd_pin_folios() as we populate ubuf->folios.
+- Unpin the folios only once as memfd_pin_folios pins them once
 
 Cc: David Hildenbrand <david@redhat.com>
 Cc: Matthew Wilcox <willy@infradead.org>
@@ -95,274 +113,186 @@ Cc: Dongwon Kim <dongwon.kim@intel.com>
 Cc: Junxiao Chang <junxiao.chang@intel.com>
 Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 ---
- drivers/dma-buf/udmabuf.c | 140 ++++++++++++++++++++++----------------
- 1 file changed, 83 insertions(+), 57 deletions(-)
+ drivers/dma-buf/udmabuf.c | 124 +++++++++++++++-----------------------
+ 1 file changed, 49 insertions(+), 75 deletions(-)
 
 diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-index 274defd3fa3e..a8f3af61f7f2 100644
+index a8f3af61f7f2..088f3a64e94c 100644
 --- a/drivers/dma-buf/udmabuf.c
 +++ b/drivers/dma-buf/udmabuf.c
-@@ -26,7 +26,7 @@ MODULE_PARM_DESC(size_limit_mb, "Max size of a dmabuf, in megabytes. Default is
+@@ -153,17 +153,30 @@ static void unmap_udmabuf(struct dma_buf_attachment *at,
+ 	return put_sg_table(at->dev, sg, direction);
+ }
  
- struct udmabuf {
- 	pgoff_t pagecount;
--	struct page **pages;
-+	struct folio **folios;
- 	struct sg_table *sg;
- 	struct miscdevice *device;
- 	pgoff_t *offsets;
-@@ -42,7 +42,7 @@ static vm_fault_t udmabuf_vm_fault(struct vm_fault *vmf)
- 	if (pgoff >= ubuf->pagecount)
- 		return VM_FAULT_SIGBUS;
- 
--	pfn = page_to_pfn(ubuf->pages[pgoff]);
-+	pfn = folio_pfn(ubuf->folios[pgoff]);
- 	pfn += ubuf->offsets[pgoff] >> PAGE_SHIFT;
- 
- 	return vmf_insert_pfn(vma, vmf->address, pfn);
-@@ -68,11 +68,21 @@ static int mmap_udmabuf(struct dma_buf *buf, struct vm_area_struct *vma)
- static int vmap_udmabuf(struct dma_buf *buf, struct iosys_map *map)
++static void unpin_all_folios(struct udmabuf *ubuf, pgoff_t pgbuf)
++{
++	unsigned int i = 0, j;
++
++	while (i < pgbuf) {
++		for (j = i + 1; j < pgbuf; j++) {
++			if (ubuf->folios[i] != ubuf->folios[j])
++				break;
++		}
++
++		unpin_user_page(&ubuf->folios[i]->page);
++		i = j;
++	}
++}
++
+ static void release_udmabuf(struct dma_buf *buf)
  {
  	struct udmabuf *ubuf = buf->priv;
-+	struct page **pages;
- 	void *vaddr;
-+	pgoff_t pg;
+ 	struct device *dev = ubuf->device->this_device;
+-	pgoff_t pg;
  
- 	dma_resv_assert_held(buf->resv);
- 
--	vaddr = vm_map_ram(ubuf->pages, ubuf->pagecount, -1);
-+	pages = kmalloc_array(ubuf->pagecount, sizeof(*pages), GFP_KERNEL);
-+	if (!pages)
-+		return -ENOMEM;
-+
-+	for (pg = 0; pg < ubuf->pagecount; pg++)
-+		pages[pg] = &ubuf->folios[pg]->page;
-+
-+	vaddr = vm_map_ram(pages, ubuf->pagecount, -1);
-+	kfree(pages);
- 	if (!vaddr)
- 		return -EINVAL;
- 
-@@ -107,7 +117,8 @@ static struct sg_table *get_sg_table(struct device *dev, struct dma_buf *buf,
- 		goto err_alloc;
- 
- 	for_each_sg(sg->sgl, sgl, ubuf->pagecount, i)
--		sg_set_page(sgl, ubuf->pages[i], PAGE_SIZE, ubuf->offsets[i]);
-+		sg_set_folio(sgl, ubuf->folios[i], PAGE_SIZE,
-+			     ubuf->offsets[i]);
- 
- 	ret = dma_map_sgtable(dev, sg, direction, 0);
- 	if (ret < 0)
-@@ -152,9 +163,9 @@ static void release_udmabuf(struct dma_buf *buf)
+ 	if (ubuf->sg)
  		put_sg_table(dev, ubuf->sg, DMA_BIDIRECTIONAL);
  
- 	for (pg = 0; pg < ubuf->pagecount; pg++)
--		put_page(ubuf->pages[pg]);
-+		folio_put(ubuf->folios[pg]);
+-	for (pg = 0; pg < ubuf->pagecount; pg++)
+-		folio_put(ubuf->folios[pg]);
++	unpin_all_folios(ubuf, ubuf->pagecount);
  	kfree(ubuf->offsets);
--	kfree(ubuf->pages);
-+	kfree(ubuf->folios);
+ 	kfree(ubuf->folios);
  	kfree(ubuf);
- }
+@@ -218,64 +231,6 @@ static const struct dma_buf_ops udmabuf_ops = {
+ #define SEALS_WANTED (F_SEAL_SHRINK)
+ #define SEALS_DENIED (F_SEAL_WRITE)
  
-@@ -215,36 +226,33 @@ static int handle_hugetlb_pages(struct udmabuf *ubuf, struct file *memfd,
- 	pgoff_t mapidx = offset >> huge_page_shift(hpstate);
- 	pgoff_t subpgoff = (offset & ~huge_page_mask(hpstate)) >> PAGE_SHIFT;
- 	pgoff_t maxsubpgs = huge_page_size(hpstate) >> PAGE_SHIFT;
--	struct page *hpage = NULL;
--	struct folio *folio;
-+	struct folio *folio = NULL;
- 	pgoff_t pgidx;
- 
- 	mapidx <<= huge_page_order(hpstate);
- 	for (pgidx = 0; pgidx < pgcnt; pgidx++) {
--		if (!hpage) {
-+		if (!folio) {
- 			folio = __filemap_get_folio(memfd->f_mapping,
- 						    mapidx,
- 						    FGP_ACCESSED, 0);
- 			if (IS_ERR(folio))
- 				return PTR_ERR(folio);
+-static int handle_hugetlb_pages(struct udmabuf *ubuf, struct file *memfd,
+-				pgoff_t offset, pgoff_t pgcnt,
+-				pgoff_t *pgbuf)
+-{
+-	struct hstate *hpstate = hstate_file(memfd);
+-	pgoff_t mapidx = offset >> huge_page_shift(hpstate);
+-	pgoff_t subpgoff = (offset & ~huge_page_mask(hpstate)) >> PAGE_SHIFT;
+-	pgoff_t maxsubpgs = huge_page_size(hpstate) >> PAGE_SHIFT;
+-	struct folio *folio = NULL;
+-	pgoff_t pgidx;
 -
--			hpage = &folio->page;
- 		}
- 
--		get_page(hpage);
--		ubuf->pages[*pgbuf] = hpage;
-+		folio_get(folio);
-+		ubuf->folios[*pgbuf] = folio;
- 		ubuf->offsets[*pgbuf] = subpgoff << PAGE_SHIFT;
- 		(*pgbuf)++;
- 		if (++subpgoff == maxsubpgs) {
--			put_page(hpage);
--			hpage = NULL;
-+			folio_put(folio);
-+			folio = NULL;
- 			subpgoff = 0;
- 			mapidx += pages_per_huge_page(hpstate);
- 		}
- 	}
- 
--	if (hpage)
--		put_page(hpage);
-+	if (folio)
-+		folio_put(folio);
- 
- 	return 0;
- }
-@@ -254,31 +262,69 @@ static int handle_shmem_pages(struct udmabuf *ubuf, struct file *memfd,
- 			      pgoff_t *pgbuf)
+-	mapidx <<= huge_page_order(hpstate);
+-	for (pgidx = 0; pgidx < pgcnt; pgidx++) {
+-		if (!folio) {
+-			folio = __filemap_get_folio(memfd->f_mapping,
+-						    mapidx,
+-						    FGP_ACCESSED, 0);
+-			if (IS_ERR(folio))
+-				return PTR_ERR(folio);
+-		}
+-
+-		folio_get(folio);
+-		ubuf->folios[*pgbuf] = folio;
+-		ubuf->offsets[*pgbuf] = subpgoff << PAGE_SHIFT;
+-		(*pgbuf)++;
+-		if (++subpgoff == maxsubpgs) {
+-			folio_put(folio);
+-			folio = NULL;
+-			subpgoff = 0;
+-			mapidx += pages_per_huge_page(hpstate);
+-		}
+-	}
+-
+-	if (folio)
+-		folio_put(folio);
+-
+-	return 0;
+-}
+-
+-static int handle_shmem_pages(struct udmabuf *ubuf, struct file *memfd,
+-			      pgoff_t offset, pgoff_t pgcnt,
+-			      pgoff_t *pgbuf)
+-{
+-	pgoff_t pgidx, pgoff = offset >> PAGE_SHIFT;
+-	struct folio *folio = NULL;
+-
+-	for (pgidx = 0; pgidx < pgcnt; pgidx++) {
+-		folio = shmem_read_folio(memfd->f_mapping, pgoff + pgidx);
+-		if (IS_ERR(folio))
+-			return PTR_ERR(folio);
+-
+-		ubuf->folios[*pgbuf] = folio;
+-		(*pgbuf)++;
+-	}
+-
+-	return 0;
+-}
+-
+ static int check_memfd_seals(struct file *memfd)
  {
- 	pgoff_t pgidx, pgoff = offset >> PAGE_SHIFT;
--	struct page *page;
-+	struct folio *folio = NULL;
- 
- 	for (pgidx = 0; pgidx < pgcnt; pgidx++) {
--		page = shmem_read_mapping_page(memfd->f_mapping,
--					       pgoff + pgidx);
--		if (IS_ERR(page))
--			return PTR_ERR(page);
-+		folio = shmem_read_folio(memfd->f_mapping, pgoff + pgidx);
-+		if (IS_ERR(folio))
-+			return PTR_ERR(folio);
- 
--		ubuf->pages[*pgbuf] = page;
-+		ubuf->folios[*pgbuf] = folio;
- 		(*pgbuf)++;
- 	}
- 
- 	return 0;
- }
- 
-+static int check_memfd_seals(struct file *memfd)
-+{
-+	int seals;
-+
-+	if (!memfd)
-+		return -EBADFD;
-+
-+	if (!shmem_file(memfd) && !is_file_hugepages(memfd))
-+		return -EBADFD;
-+
-+	seals = memfd_fcntl(memfd, F_GET_SEALS, 0);
-+	if (seals == -EINVAL)
-+		return -EBADFD;
-+
-+	if ((seals & SEALS_WANTED) != SEALS_WANTED ||
-+	    (seals & SEALS_DENIED) != 0)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+static int export_udmabuf(struct udmabuf *ubuf,
-+			  struct miscdevice *device,
-+			  u32 flags)
-+{
-+	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
-+	struct dma_buf *buf;
-+
-+	ubuf->device = device;
-+	exp_info.ops  = &udmabuf_ops;
-+	exp_info.size = ubuf->pagecount << PAGE_SHIFT;
-+	exp_info.priv = ubuf;
-+	exp_info.flags = O_RDWR;
-+
-+	buf = dma_buf_export(&exp_info);
-+	if (IS_ERR(buf))
-+		return PTR_ERR(buf);
-+
-+	return dma_buf_fd(buf, flags);
-+}
-+
- static long udmabuf_create(struct miscdevice *device,
+ 	int seals;
+@@ -321,11 +276,13 @@ static long udmabuf_create(struct miscdevice *device,
  			   struct udmabuf_create_list *head,
  			   struct udmabuf_create_item *list)
  {
--	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
-+	pgoff_t pgcnt, pgbuf = 0, pglimit;
- 	struct file *memfd = NULL;
- 	struct udmabuf *ubuf;
--	struct dma_buf *buf;
 -	pgoff_t pgcnt, pgbuf = 0, pglimit;
--	int seals, ret = -EINVAL;
-+	int ret = -EINVAL;
- 	u32 i, flags;
++	pgoff_t pgoff, pgcnt, pglimit, pgbuf = 0;
++	long nr_folios, ret = -EINVAL;
+ 	struct file *memfd = NULL;
++	struct folio **folios;
+ 	struct udmabuf *ubuf;
+-	int ret = -EINVAL;
+-	u32 i, flags;
++	u32 i, j, k, flags;
++	loff_t end;
  
  	ubuf = kzalloc(sizeof(*ubuf), GFP_KERNEL);
-@@ -299,9 +345,9 @@ static long udmabuf_create(struct miscdevice *device,
- 	if (!ubuf->pagecount)
- 		goto err;
- 
--	ubuf->pages = kmalloc_array(ubuf->pagecount, sizeof(*ubuf->pages),
-+	ubuf->folios = kmalloc_array(ubuf->pagecount, sizeof(*ubuf->folios),
- 				    GFP_KERNEL);
--	if (!ubuf->pages) {
-+	if (!ubuf->folios) {
- 		ret = -ENOMEM;
- 		goto err;
- 	}
-@@ -314,18 +360,9 @@ static long udmabuf_create(struct miscdevice *device,
- 
- 	pgbuf = 0;
- 	for (i = 0; i < head->count; i++) {
--		ret = -EBADFD;
- 		memfd = fget(list[i].memfd);
--		if (!memfd)
--			goto err;
--		if (!shmem_file(memfd) && !is_file_hugepages(memfd))
--			goto err;
--		seals = memfd_fcntl(memfd, F_GET_SEALS, 0);
--		if (seals == -EINVAL)
--			goto err;
--		ret = -EINVAL;
--		if ((seals & SEALS_WANTED) != SEALS_WANTED ||
--		    (seals & SEALS_DENIED) != 0)
-+		ret = check_memfd_seals(memfd);
-+		if (ret < 0)
+ 	if (!ubuf)
+@@ -366,17 +323,35 @@ static long udmabuf_create(struct miscdevice *device,
  			goto err;
  
  		pgcnt = list[i].size >> PAGE_SHIFT;
-@@ -341,33 +378,22 @@ static long udmabuf_create(struct miscdevice *device,
+-		if (is_file_hugepages(memfd))
+-			ret = handle_hugetlb_pages(ubuf, memfd,
+-						   list[i].offset,
+-						   pgcnt, &pgbuf);
+-		else
+-			ret = handle_shmem_pages(ubuf, memfd,
+-						 list[i].offset,
+-						 pgcnt, &pgbuf);
+-		if (ret < 0)
++		folios = kmalloc_array(pgcnt, sizeof(*folios), GFP_KERNEL);
++		if (!folios) {
++			ret = -ENOMEM;
  			goto err;
++		}
  
++		end = list[i].offset + (pgcnt << PAGE_SHIFT) - 1;
++		ret = memfd_pin_folios(memfd, list[i].offset, end,
++				       folios, pgcnt, &pgoff);
++		if (ret < 0) {
++			kfree(folios);
++			goto err;
++		}
++
++		nr_folios = ret;
++		pgoff >>= PAGE_SHIFT;
++		for (j = 0, k = 0; j < pgcnt; j++) {
++			ubuf->folios[pgbuf] = folios[k];
++			ubuf->offsets[pgbuf] = pgoff << PAGE_SHIFT;
++			pgbuf++;
++
++			if (++pgoff == folio_nr_pages(folios[k])) {
++				pgoff = 0;
++				if (++k == nr_folios)
++					break;
++			}
++		}
++
++		kfree(folios);
  		fput(memfd);
--		memfd = NULL;
  	}
  
--	exp_info.ops  = &udmabuf_ops;
--	exp_info.size = ubuf->pagecount << PAGE_SHIFT;
--	exp_info.priv = ubuf;
--	exp_info.flags = O_RDWR;
--
--	ubuf->device = device;
--	buf = dma_buf_export(&exp_info);
--	if (IS_ERR(buf)) {
--		ret = PTR_ERR(buf);
-+	flags = head->flags & UDMABUF_FLAGS_CLOEXEC ? O_CLOEXEC : 0;
-+	ret = export_udmabuf(ubuf, device, flags);
-+	if (ret < 0)
- 		goto err;
--	}
- 
--	flags = 0;
--	if (head->flags & UDMABUF_FLAGS_CLOEXEC)
--		flags |= O_CLOEXEC;
--	return dma_buf_fd(buf, flags);
-+	return ret;
+@@ -388,10 +363,9 @@ static long udmabuf_create(struct miscdevice *device,
+ 	return ret;
  
  err:
- 	while (pgbuf > 0)
--		put_page(ubuf->pages[--pgbuf]);
-+		folio_put(ubuf->folios[--pgbuf]);
+-	while (pgbuf > 0)
+-		folio_put(ubuf->folios[--pgbuf]);
  	if (memfd)
  		fput(memfd);
++	unpin_all_folios(ubuf, pgbuf);
  	kfree(ubuf->offsets);
--	kfree(ubuf->pages);
-+	kfree(ubuf->folios);
+ 	kfree(ubuf->folios);
  	kfree(ubuf);
- 	return ret;
- }
 -- 
 2.39.2
 
