@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E4458158CF
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Dec 2023 12:36:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 420768159E5
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Dec 2023 15:40:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A38210E33E;
-	Sat, 16 Dec 2023 11:36:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAED010E0D1;
+	Sat, 16 Dec 2023 14:40:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com
- [IPv6:2607:f8b0:4864:20::d2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A1AA10E33E
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Dec 2023 11:36:48 +0000 (UTC)
-Received: by mail-io1-xd2d.google.com with SMTP id
- ca18e2360f4ac-7b7a9f90edaso90791039f.0
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Dec 2023 03:36:48 -0800 (PST)
+Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com
+ [IPv6:2607:f8b0:4864:20::c2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BA1910E6E4;
+ Sat, 16 Dec 2023 06:29:30 +0000 (UTC)
+Received: by mail-oo1-xc2d.google.com with SMTP id
+ 006d021491bc7-5908a63a83fso1014344eaf.1; 
+ Fri, 15 Dec 2023 22:29:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1702726607; x=1703331407; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ocRgCXAtsKIhDY46/sNAXTkc2BKnazpPIGLZ/doKpcg=;
- b=g/PMPFu/WMufMSIkCW9IWxq3Egf86i7o/UTsGWTHYre/y7dyDL3Kw6E5Xhb7EVGSgh
- gLz3IYTZwMwhLtXlt4mM392wsiiNAJETC/qcH6AP8SdoP7PeI75tvJXTlIuniESmSzko
- RwB7vEViBwlv2zsit/Yzty1n6fiWCBpTEayDP9xD3q/rxzBj3hPz4ZipLlKeyu67RYjX
- ExAeItuSunSWMHBx2emkG5zPPlBORhOuPsIP9syZkqDmOdCeXHZHcYJwgtpMAGr8ZUrJ
- 1pOYpm2YZolQ6z1AUUIi6pPbVJwDzT6xX/sm1n9gdxcrewSm8GCEFiiS5NpnUNg2xNfd
- BWqQ==
+ d=gmail.com; s=20230601; t=1702708169; x=1703312969; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2IJK4GaizgrLiis48CUXncVArYOoTGeQV2TlJ9v+4Jg=;
+ b=kFMwGAzeRoeLQU7eJ6g4wYEBizPOVx99OUhBw+6CbX+QRF7MMqOQ52q9LcIAvWdrle
+ oyfQyNo801eeKVXp0lXoIe5lR9srdhQTPk/JQdbPlGgCIJfz1p9XfZWiPyKxwCsRwTI2
+ 1+BHnXX7hSWBy87bBur8xDd/OELYQn0YsTVqN39wTQ0sbPuT65v7/1TCRxlFiAJxSrAV
+ REsuabN/no/sZkEIcLnJMrE5grrqJ6a20eVAKIv9Ai8CeRJxkcUPDKAeQ4RxYFgaDWpF
+ OROs/kbGIlJ+ouWi8yK6Y3JtNBzMR8HTbbhbl+uEWyIhjHefbe6ckXcaDXudeFM98+xW
+ WOtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702726607; x=1703331407;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ocRgCXAtsKIhDY46/sNAXTkc2BKnazpPIGLZ/doKpcg=;
- b=n4FOE4JDb5Qh8dQSn4Z0Wt+SEMUDauxAFAwEkNbFf++2A+sgZat+FEOS+uYc6MRyvq
- elluG+liUdzvyHl8s9appF9bs9F79i5QkPQrFHdHJ+dBOWYAkC3NyBUblyGP+Aae7X8l
- jSD8Bg1GjqhmXeQWIp2r1hFYkv823SybYXB357Z+UUjzh7C5DDmFOF5Hu6NG8hjOqU1y
- SWj1H86a+ccn0rh1+gzXqxAjQBT9BYFxJb99H4b4JXUQLod1PCfsbGQIWRUgoOidvZGN
- jGbxdBHg2rKrvrFluw61/7vh6xIkfP3Hh3HZsuJha0KX+sAFn3Ik1PcfrXms0ya08d22
- hmKA==
-X-Gm-Message-State: AOJu0Yy8o5imqpObdEoqTlzotBVnJk08BrdLesuWs27ZynR4tsolHB2w
- ec63jI5ml+KUn+Cq1CUgOYDf7QbN2IZZJQ==
-X-Google-Smtp-Source: AGHT+IF+N7Bexz7tdLWcUJarav1fmFO0fqWWAeba5Apfcl2pQgC8kSDi30Q//cBzbgGdYCXBqmtv3w==
-X-Received: by 2002:a05:6e02:1706:b0:35f:9907:280c with SMTP id
- u6-20020a056e02170600b0035f9907280cmr2517183ill.1.1702726607524; 
- Sat, 16 Dec 2023 03:36:47 -0800 (PST)
-Received: from attreyee-HP-Pavilion-Laptop-14-ec0xxx.. ([27.5.150.118])
- by smtp.gmail.com with ESMTPSA id
- p4-20020a634204000000b005b856fab5e9sm14481504pga.18.2023.12.16.03.36.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 16 Dec 2023 03:36:46 -0800 (PST)
-From: attreyee-muk <tintinm2017@gmail.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch
-Subject: [PATCH] drm/drm_gem.c: Fixed WARNING in
- drm_gem_object_handle_put_unlocked
-Date: Sat, 16 Dec 2023 16:13:51 +0530
-Message-Id: <20231216104350.12375-1-tintinm2017@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ d=1e100.net; s=20230601; t=1702708169; x=1703312969;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=2IJK4GaizgrLiis48CUXncVArYOoTGeQV2TlJ9v+4Jg=;
+ b=oqjn3XvbrZolIiK2MCSSZmKVlwc23uLrlZB+qF0Lo7AJpVMkV/qgBGj6YjEvq4FVrW
+ UfLj6QLYf/iH+si82W3Zb6cRqztnugcKLNKyL705CLJkozjq3glM06fVShfeOV/N8u2I
+ 5LribKaOPIouVw7EnGDXHa1RJE22kIJg2fntiwPwgVbW7SdoLje9h+n7fJkXrD9KvKFe
+ fsiT4hTbJm8gHK7hb+WwDgy2QaQ95rH6UFN1TsTURmFkPnQ/nwge7PRTkSAraooaX0tS
+ AFAagROe7cxhkB9bhtMzC6k6GQ8rKKgTV7N1P9pqa375WPNr++8kh438sl6G0ysJ6qv0
+ nCnA==
+X-Gm-Message-State: AOJu0YzGMb7vz0GCn5OztiYnqfjWan4Ir+my9awyH/crR9LA4cNIPXfF
+ zRa6I+tX+imF8Ue8W14oGi+m3Ff8VSAjucXaKYg=
+X-Google-Smtp-Source: AGHT+IFVO5b/fxJ9lhSJ879XvFrsRuenl9hZQvW04aqgkEzF+07nwoSmElUj5FpYOGXztsvQGXg3h5RRceSXZ0MAdHw=
+X-Received: by 2002:a05:6871:3a0b:b0:203:743e:37ef with SMTP id
+ pu11-20020a0568713a0b00b00203743e37efmr2548588oac.33.1702708169397; Fri, 15
+ Dec 2023 22:29:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231215052033.550509-1-ghanshyam1898@gmail.com>
+ <5a58e510-e5b4-42ae-95a3-257ca802212a@infradead.org>
+ <CAG-Bmocu0nL-AW=nR7ZaTG4fzRvw4XSq5grk4N-wDRF0opMR4Q@mail.gmail.com>
+ <CADnq5_P4CjkYvbbF=t++d6EDb45gvA7rWK8f5Dc1WBjYLOt6dQ@mail.gmail.com>
+In-Reply-To: <CADnq5_P4CjkYvbbF=t++d6EDb45gvA7rWK8f5Dc1WBjYLOt6dQ@mail.gmail.com>
+From: Ghanshyam Agrawal <ghanshyam1898@gmail.com>
+Date: Sat, 16 Dec 2023 11:58:53 +0530
+Message-ID: <CAG-Bmofw2rR34ov4YrYHx5wuq0YpnUNOayq9ZzWtoP2WSTRvZA@mail.gmail.com>
+Subject: Re: [PATCH] gpu: drm: amd: fixed typos
+To: Alex Deucher <alexdeucher@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Sat, 16 Dec 2023 14:39:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,53 +72,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- attreyee-muk <tintinm2017@gmail.com>
+Cc: Xinhui.Pan@amd.com, dri-devel@lists.freedesktop.org, lijo.lazar@amd.com,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, Le.Ma@amd.com,
+ Randy Dunlap <rdunlap@infradead.org>, alexander.deucher@amd.com,
+ candice.li@amd.com, christian.koenig@amd.com, Hawking.Zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Previously, I was sending out the patch in a wrong format, hence sending
-this patch again describing my changes.
+On Fri, Dec 15, 2023 at 9:28=E2=80=AFPM Alex Deucher <alexdeucher@gmail.com=
+> wrote:
+>
+> On Fri, Dec 15, 2023 at 3:40=E2=80=AFAM Ghanshyam Agrawal
+> <ghanshyam1898@gmail.com> wrote:
+> >
+> > On Fri, Dec 15, 2023 at 10:59=E2=80=AFAM Randy Dunlap <rdunlap@infradea=
+d.org> wrote:
+> > >
+> > > Hi--
+> > >
+> > > On 12/14/23 21:20, Ghanshyam Agrawal wrote:
+> > > > Fixed multiple typos in atomfirmware.h
+> > > >
+> > > > Signed-off-by: Ghanshyam Agrawal <ghanshyam1898@gmail.com>
+> > > > ---
+> > > >  drivers/gpu/drm/amd/include/atomfirmware.h | 8 ++++----
+> > > >  1 file changed, 4 insertions(+), 4 deletions(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/amd/include/atomfirmware.h b/drivers/g=
+pu/drm/amd/include/atomfirmware.h
+> > > > index fa7d6ced786f..41d553921adf 100644
+> > > > --- a/drivers/gpu/drm/amd/include/atomfirmware.h
+> > > > +++ b/drivers/gpu/drm/amd/include/atomfirmware.h
+> > > > @@ -210,7 +210,7 @@ atom_bios_string          =3D "ATOM"
+> > > >  };
+> > > >  */
+> > > >
+> > > > -#pragma pack(1)                          /* BIOS data must use byt=
+e aligment*/
+> > > > +#pragma pack(1)                          /* BIOS data must use byt=
+e alignment */
+> > > >
+> > > >  enum atombios_image_offset{
+> > > >    OFFSET_TO_ATOM_ROM_HEADER_POINTER          =3D 0x00000048,
+> > > > @@ -452,7 +452,7 @@ struct atom_dtd_format
+> > > >    uint8_t   refreshrate;
+> > > >  };
+> > > >
+> > > > -/* atom_dtd_format.modemiscinfo defintion */
+> > > > +/* atom_dtd_format.modemiscinfo definition */
+> > > >  enum atom_dtd_format_modemiscinfo{
+> > > >    ATOM_HSYNC_POLARITY    =3D 0x0002,
+> > > >    ATOM_VSYNC_POLARITY    =3D 0x0004,
+> > > > @@ -645,7 +645,7 @@ struct lcd_info_v2_1
+> > > >    uint32_t reserved1[8];
+> > > >  };
+> > > >
+> > > > -/* lcd_info_v2_1.panel_misc defintion */
+> > > > +/* lcd_info_v2_1.panel_misc definition */
+> > > >  enum atom_lcd_info_panel_misc{
+> > > >    ATOM_PANEL_MISC_FPDI            =3D0x0002,
+> > > >  };
+> > > > @@ -683,7 +683,7 @@ enum atom_gpio_pin_assignment_gpio_id {
+> > > >    /* gpio_id pre-define id for multiple usage */
+> > > >    /* GPIO use to control PCIE_VDDC in certain SLT board */
+> > > >    PCIE_VDDC_CONTROL_GPIO_PINID =3D 56,
+> > > > -  /* if PP_AC_DC_SWITCH_GPIO_PINID in Gpio_Pin_LutTable, AC/DC swi=
+thing feature is enable */
+> > > > +  /* if PP_AC_DC_SWITCH_GPIO_PINID in Gpio_Pin_LutTable, AC/DC swi=
+tching feature is enable */
+> > >
+> > > s/enable/enabled/
+> > >
+> > > >    PP_AC_DC_SWITCH_GPIO_PINID =3D 60,
+> > > >    /* VDDC_REGULATOR_VRHOT_GPIO_PINID in Gpio_Pin_LutTable, VRHot f=
+eature is enable */
+> > >
+> > > Ditto.
+> > > There may be a few more that need this same treatment.
+> > >
+> > > >    VDDC_VRHOT_GPIO_PINID =3D 61,
+> > >
+> > > The other changes look good as far as they go, but codespell reports
+> > > a few more misspellings to consider:
+> > >
+> > > atomfirmware.h:213: aligment =3D=3D> alignment
+> > > atomfirmware.h:257: Offest =3D=3D> Offset
+> > > atomfirmware.h:258: Offest =3D=3D> Offset
+> > > atomfirmware.h:390: Offest =3D=3D> Offset
+> > > atomfirmware.h:455: defintion =3D=3D> definition
+> > > atomfirmware.h:648: defintion =3D=3D> definition
+> > > atomfirmware.h:686: swithing =3D=3D> switching
+> > > atomfirmware.h:704: calcualted =3D=3D> calculated
+> > > atomfirmware.h:967: compability =3D=3D> compatibility
+> > > atomfirmware.h:981: intenal =3D=3D> internal
+> > > atomfirmware.h:993: intenal =3D=3D> internal
+> > > atomfirmware.h:3469: sequece =3D=3D> sequence
+> > > atomfirmware.h:3507: indiate =3D=3D> indicate
+> > > atomfirmware.h:4429: stucture =3D=3D> structure
+> > > atomfirmware.h:4430: stucture =3D=3D> structure
+> > > atomfirmware.h:4462: regiser =3D=3D> register
+> > >
+> > >
+> > > thanks.
+> > > --
+> > > #Randy
+> > > https://people.kernel.org/tglx/notes-about-netiquette
+> > > https://subspace.kernel.org/etiquette.html
+> >
+> > Hi Randy,
+> >
+> > Thanks for your feedback. I will correct the grammatical errors.
+> >
+> > Regarding the other codespell suggestions, if I make the changes
+> > then checkpatch script gives a lot of errors and warnings. Some
+> > are related to usage of tabs, line lengths etc. Being a beginner
+> > in the linux kernel development, I am not sure how to fix
+> > (or whether to ignore) those warnings. Would it be okay if I
+> > proceed with only the small number of changes I have suggested
+> > with this patch itself?
+>
+> How concerned are you with fixing these?  This file is owned by
+> firmware teams within AMD and shared across different OSes.  It
+> defines the structures present in the ROM on the board.  I'm inclined
+> to just leave it be to avoid churn when syncing it with the canonical
+> source.  We can certainly try and push the fixes back up into the
+> canonical code as well, but that may not be the easiest process.
+>
+> Alex
 
-Looking at the code and the call trace reported by Syzbot (issue link : https://syzkaller.appspot.com/bug?extid=ef3256a360c02207a4cb), I understood
-that the issue lies in the drm_gem.c file in
-drm_gem_object_handle_put_unlocked(obj);. 
+Hi Alex,
 
-As per my understanding, I believe that a warning is given out when the DRM GEM object handle gets
-destroyed along with the function getting returned immediately. 
+Thanks for your review. I wanted to fix the typos because it helps
+someone while searching through the code using text/ code searching
+tools. If it is causing trouble as you suggested, we may as well
+leave it as is. Let the maintainers take a call on this.
 
-To take care of the warning only, I think that the WARN_ON can be removed with
-only the function getting returned when the object handle gets
-destroyed, without a warning. 
-Or else, we can even have a message logging in the place of a direct warning which will give out the
-information that the object handle has been destroyed.
-
-I also think that the WARN_ON is given for debugging purposes and hence proposing a
-solution if the warning can be replaced with a simple message log.
-
-I am looking forward to getting help in this regard from the respected maintainers.
-
-Thank You
-Attreyee Mukherjee
-
-Signed-off-by: Attreyee Mukherjee <tintinm2017@gmail.com>
----
- drivers/gpu/drm/drm_gem.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 44a948b80ee1..b6be9400cd11 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -222,7 +222,7 @@ drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
- 	struct drm_device *dev = obj->dev;
- 	bool final = false;
- 
--	if (WARN_ON(READ_ONCE(obj->handle_count) == 0))
-+	if (READ_ONCE(obj->handle_count) == 0)
- 		return;
- 
- 	/*
--- 
-2.34.1
-
+Thanks & Regards,
+Ghanshyam Agrawal
