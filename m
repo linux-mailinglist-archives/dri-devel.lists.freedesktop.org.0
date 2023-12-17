@@ -2,61 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04FC6815D0C
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Dec 2023 02:39:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90F4F817A73
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 20:00:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4234A10E114;
-	Sun, 17 Dec 2023 01:39:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E343810E3E5;
+	Mon, 18 Dec 2023 18:59:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
- [209.85.221.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D44710E114
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Dec 2023 01:39:29 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id
- ffacd0b85a97d-3363aa2bbfbso1777027f8f.0
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Dec 2023 17:39:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1702777108; x=1703381908;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=KZvP4fL3Nz75ZyOFfSnsYpgH0MiazCjRnOKU1EHMPm8=;
- b=iyjJ7D1P+qgYAi9KK1hLfQdUGxcQbqI8/j1KQCD0tgMubGNgoyAER/JkiDA9QmK0CK
- c9Cdo5duzyzJ/U4AJDrF+tN+48jr9k+J5KjlhmjWe0AF0ja8FiPcRnBn5ZC5dY/2ntSy
- +v8L+eAniLjuCsOrpXSI8SEWhVe92LxBpH6qY=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 801E710E1D9
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 18:57:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1702925829;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=PwCXRxshfx8ZM0R5hK4eeYL2KSGd//EyP+jsBCrOQIw=;
+ b=QVDdcYJeP1OpIFtdGyLRGXwHVkFMjPM4NPNdDXhTbXcdTE1djZ8Ox6ieOWDXQavvEqQa/R
+ ov+mNMqkaYSp9U6ZvDbvmUwN7HXF9fgBdO80XnXacF6ZacFnjgKOtLac6kPO0lfY8qbI29
+ Z7uuAImOxqo44e2ZlTh4Zvqh3V9uBf4=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-166-drZVjv0YPm66fsuISiG_9w-1; Sun, 17 Dec 2023 05:07:46 -0500
+X-MC-Unique: drZVjv0YPm66fsuISiG_9w-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-40c3307ccf4so16400985e9.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Dec 2023 02:07:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702777108; x=1703381908;
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=KZvP4fL3Nz75ZyOFfSnsYpgH0MiazCjRnOKU1EHMPm8=;
- b=CAfx9th03wVJonvz3stiKbC8tpEbXcZiBAqtmjpX/NW4uXGHIudmhlNBXBUuBEaizv
- Mgce0ri81DV6dnf/o6gN39++Prh2aMfJbx9Dh3r163/wNSEiVoQ5Mw25/gB66jR2i56P
- Z3FU2JOxu7tzeq0QRCWej2vKQ3Vg5MV6HYVXLbnJL/A+FL0/FonuYygpKSA0UQDqn4VY
- hy6kiv/tyOWdpMtpkJMXVcSLJLPPXZMTm778gnYtFgwIod5xl2c8judMcoQAyfTluhyY
- Q2k1VPrbZ2ItjTC97cIoMPNzOznfeF/d0Gmz5fywn7LYTGABeMO0lxh8hbNfQvPftu0+
- 1Jtg==
-X-Gm-Message-State: AOJu0YyVd93aEcF5dTHaLpet17Gpg9T4hFtPT+EpS5epbw83T3IQ20Vw
- EyaU1c9DlN/TSwRm/N64IIzFVodWokmgz8J0izFyAGpurAJCsnWd
-X-Google-Smtp-Source: AGHT+IEtsTVdo91RRo/T0ysvJXNkeuxkKFctEkemIJaU/LFJ344lorZ2hh3+CSEcbgLa2Zg87ZJvzN4cpfivGY6x0e4=
-X-Received: by 2002:a05:651c:2002:b0:2cc:30dd:1b59 with SMTP id
- s2-20020a05651c200200b002cc30dd1b59mr3443489ljo.84.1702775297334; Sat, 16 Dec
- 2023 17:08:17 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Sun, 17 Dec 2023 01:08:17 +0000
+ d=1e100.net; s=20230601; t=1702807665; x=1703412465;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=PwCXRxshfx8ZM0R5hK4eeYL2KSGd//EyP+jsBCrOQIw=;
+ b=jl6+FyY0c0dLvdlsWz/G1ZhgcQyrVFo7kt47aFff36kXlUEmmqvkDPETaaR1hUJy+r
+ 7YbWPuUukY9n5dbIEy70+KIPO1AFSmsSZrV1sGGkSZwZIF62wpK73zFhvtUcxbIUn1iH
+ 1s3tJnZocs0nCQGCUpcbFscSdLk2TYsEYD3s217oqHFAoXfSNvHKgOKs44+XBjTB7gkI
+ J6Jq408ei+MVqeQHAyWkRqBf22JCn2Q1EILy80YDW1f5hyHgzZa90YhuZiTNemMkA0Oh
+ GpCq1UE4QBj8uI/f9m4mpAwDfXkLoaHQhqC2kduXx9lsKpgToon1m1KDXrzS9uPQLlwo
+ VkdA==
+X-Gm-Message-State: AOJu0YxZ9guiags9uC6/erGPsBplXAd3na1xBieqbkWKDHV7IDO4FXgF
+ 3+HIeVucEEHz3MgWkP0MI9CQeJbwBnsiA3XjULvHGERcQda/6f0mDPfggBFkx+9aL7zclu/z9ad
+ pzuptTZdJugr7/pbvGALsXiV0R1iD
+X-Received: by 2002:a05:600c:5012:b0:40c:6bfc:4bb1 with SMTP id
+ n18-20020a05600c501200b0040c6bfc4bb1mr1982317wmr.38.1702807665097; 
+ Sun, 17 Dec 2023 02:07:45 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFr/dUnxatgvI3QmEkCMBXVdE2DJBX2ZugmD4z83PXtxRvr9gelZBQVfY9JdfW/nkdU7628ww==
+X-Received: by 2002:a05:600c:5012:b0:40c:6bfc:4bb1 with SMTP id
+ n18-20020a05600c501200b0040c6bfc4bb1mr1982297wmr.38.1702807664778; 
+ Sun, 17 Dec 2023 02:07:44 -0800 (PST)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ w7-20020a05600c474700b0040c41846919sm30661883wmo.41.2023.12.17.02.07.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 17 Dec 2023 02:07:44 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] drm/solomon: Add support for the SSD133x controller family
+Date: Sun, 17 Dec 2023 11:07:02 +0100
+Message-ID: <20231217100741.1943932-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-In-Reply-To: <20231214123752.v3.2.I7b83c0f31aeedc6b1dc98c7c741d3e1f94f040f8@changeid>
-References: <20231214123752.v3.1.I9d1afcaad76a3e2c0ca046dc4adbc2b632c22eda@changeid>
- <20231214123752.v3.2.I7b83c0f31aeedc6b1dc98c7c741d3e1f94f040f8@changeid>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Sun, 17 Dec 2023 01:08:16 +0000
-Message-ID: <CAE-0n52nK6fs_K8s1pfwGw0K_6HCzAMPfjNruxkVmWZfbEUTDA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] drm/bridge: ti-sn65dsi86: Never store more than
- msg->size bytes in AUX xfer
-To: Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,30 +80,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
- Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Guenter Roeck <groeck@chromium.org>
+Cc: Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>, Conor Dooley <conor@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Peter Robinson <pbrobinson@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Douglas Anderson (2023-12-14 12:37:52)
-> For aux reads, the value `msg->size` indicates the size of the buffer
-> provided by `msg->buffer`. We should never in any circumstances write
-> more bytes to the buffer since it may overflow the buffer.
->
-> In the ti-sn65dsi86 driver there is one code path that reads the
-> transfer length from hardware. Even though it's never been seen to be
-> a problem, we should make extra sure that the hardware isn't
-> increasing the length since doing so would cause us to overrun the
-> buffer.
->
-> Fixes: 982f589bde7a ("drm/bridge: ti-sn65dsi86: Update reply on aux failures")
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
+Hello,
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+This patch-set adds support for the family of SSD133x Solomon controllers,
+such as the SSD1331. These are used for RGB Dot Matrix OLED/PLED panels.
+
+The patches were tested on a Waveshare SSD1331 display using glmark2-drm,
+fbcon, fbtests and the retroarch emulator.
+
+Patch #1 adds a DT binding schema for the SSD133x controllers and patch #2
+extends the ssd130x DRM driver to support the SSD133x controller family.
+
+Best regards,
+Javier
+
+
+Javier Martinez Canillas (2):
+  dt-bindings: display: Add SSD133x OLED controllers
+  drm/ssd130x: Add support for the SSD133x OLED controller family
+
+ .../bindings/display/solomon,ssd133x.yaml     |  63 +++
+ drivers/gpu/drm/solomon/ssd130x-i2c.c         |   5 +
+ drivers/gpu/drm/solomon/ssd130x-spi.c         |   7 +
+ drivers/gpu/drm/solomon/ssd130x.c             | 370 ++++++++++++++++++
+ drivers/gpu/drm/solomon/ssd130x.h             |   5 +-
+ 5 files changed, 449 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/display/solomon,ssd133x.yaml
+
+-- 
+2.43.0
+
