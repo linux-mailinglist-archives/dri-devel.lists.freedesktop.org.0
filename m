@@ -2,64 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2024815CE9
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Dec 2023 02:05:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45809815D1B
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Dec 2023 02:54:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1C5310E3CE;
-	Sun, 17 Dec 2023 01:05:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0915E10E128;
+	Sun, 17 Dec 2023 01:54:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5223510E3CE
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Dec 2023 01:05:05 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id
- ffacd0b85a97d-3363aa2bbfbso1765684f8f.0
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Dec 2023 17:05:05 -0800 (PST)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
+ [209.85.208.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26BB610E128
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Dec 2023 01:54:17 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id
+ 38308e7fff4ca-2cc6863d43aso3065931fa.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Dec 2023 17:54:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1702775044; x=1703379844; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1702777995; x=1703382795; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=EORJjch+kRHuve9tu+TzRixoDnkZ1DPCxZXBpooX2uA=;
- b=hVkHuBeu27Y4PvLBFr/UEVVdIsXq5VMrbHtNpVw77qUYyJXdLREWHh1ttPaP0PCZi5
- KknaVLsvCBZzdhb5GLNW7EXBkm2cEj+lb6tq1RtfKtfI5B+NoNeZPM4la1xxHaTdhuy+
- sZlmH+6jkbHqd+JEnX7Dx+Gs1aAoxlanC4V+Yf+PqdUU0JL5Pm78tEhAedOSqpDu+0MY
- YV5aE5e8mRJtHq8alIylCtrpPnYtzS7yGG62qgCHzkHsAiBg41rxFxmWFr6+Qe2RaU0Y
- 1oIZrgPe1rSvdPBOZtlw+fnarVvnoRJJnaBaZ8FYh26V+uGsNCAKBN+4d/NPWUB4eG4W
- eJvA==
+ bh=6uo5Lzxunvm9Mynn/2j9jUQRRy7PFq4vPnnfrTSaOqM=;
+ b=gy6k3rQZWC63ZeNq6N5piOoV2Hm42vR+5FcXNEFir/lBybiobuoFf+G4ikTdi+R6XF
+ UzXrNwfvkBXXl0JQj6Y80++F8eyH8zki9xbdh3jdDWa0JQTj8/0Mi9kk0geK2Xagw7L7
+ /pTcRuaSI3LacBGb3qQwS68eRDuMUGTmQY61KkQ8+SHtcusR9KlhauQ1ipHkcFMsSqY7
+ EUNHeu8O359BD9923KPlyCx3y3MPAKAwR4jMQGzCw68ZvWWlVJfKfcbRrp+GR2K2Bee8
+ TEuY9GlO6kanz356L9dubcMb2c6J/T4Yw2Z/BDArxeYBC6FmJWmZYYPCIXdIILeVyBpY
+ /wog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702775044; x=1703379844;
+ d=1e100.net; s=20230601; t=1702777995; x=1703382795;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=EORJjch+kRHuve9tu+TzRixoDnkZ1DPCxZXBpooX2uA=;
- b=kao+y1HeSm8VAlwl8j3/8mPjp073Ya5w7hKypkh85anJHOh6dcGyszUd+962d2Hrc5
- NUsXrNkaDSyw1bvLdFVudZzVJr81b2M3O7KBkxhSG6+y1lFarC180YvT7GpcEpN8VPbD
- qLMenW1/IpLCpv3r1VMeE+4LfxyD/i558At4fuL5S0hwP9Y9+/F1IoVGYPEK2xJn5X7y
- GrU0rAIUwtQAwPoL3HWmeMYeObHaWUmb0i9Bjtdka22Hh27eWknsVi6Xz2sgpdSEnNOK
- BSHmCATqBTpbcBmMAX33WcI99GVHp4cRfbthYZSNtd+2+9C2SrPMCAbsX41fdsPQUkRb
- Btgg==
-X-Gm-Message-State: AOJu0Yz5KwAVEyxpUAmzJ6W5fGoRSp/LeKGm4G7o51UkIvbcsXbpdHuO
- lu/7HKJWsP1Q/M8JxaUhaFAjMwCWY47mi1WRvx4=
-X-Google-Smtp-Source: AGHT+IEnQkmrsNJ9hVsfbCKkIsEeu+nZ5bTu4VgzAc0L6WjUXz9o6uCxqdywfG2uf/4EhzNmoYDb+Q==
-X-Received: by 2002:a05:6512:ba8:b0:50c:d30:3a05 with SMTP id
- b40-20020a0565120ba800b0050c0d303a05mr8894366lfv.25.1702771152155; 
- Sat, 16 Dec 2023 15:59:12 -0800 (PST)
+ bh=6uo5Lzxunvm9Mynn/2j9jUQRRy7PFq4vPnnfrTSaOqM=;
+ b=xQWWVte/WIdZvGORkxjxzVBQLSmtymdeNo2JAl/VwHuufJSEnzwzFFHASf0GWOqNf+
+ tClpfMM2I1hUT1BHrfTLdpAkZ1KEAfHrA3O1uC5g3UbqtIf4zEd8NYG+IAta8LymQATF
+ hMKBhxvnu+DL1YJ2ZL434SLzddiQcod6ijElFL6IB/miTNurSfWLKBmq2pXat3Tw6M8e
+ pEcIB7lNkhONo4g4OXkZhbkI+lrtnCPQsHlz0E8hFgpPxO+dT+pgBQ4BR5Ui1L4hFXzk
+ W23cGRd8uG8WSD4RnCmz78UW2p2BKND2cVBfptyPgzpa+f8CiInMtJpCpKCPFVZcfubi
+ 0YZA==
+X-Gm-Message-State: AOJu0YxIGj+5dWXSS8KuYczfS+wT50VqaKLvkJnMvpZWQYtpJvaW9l2i
+ t6sk63YfduEjUHJAOyOHd7/GOtlbU+B0h5v92uo=
+X-Google-Smtp-Source: AGHT+IFzE8rG8RHeKf3trBTPvFqBV9VmDl0XIPR+mfv5S97Pwe963Auef5azXGURAwcyY531Rm+oKQ==
+X-Received: by 2002:a05:6512:2211:b0:50c:a89:a70e with SMTP id
+ h17-20020a056512221100b0050c0a89a70emr7926725lfu.94.1702771319064; 
+ Sat, 16 Dec 2023 16:01:59 -0800 (PST)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- v11-20020ac2592b000000b0050bfda10057sm2506647lfi.85.2023.12.16.15.59.11
+ q1-20020ac25141000000b0050e356b61c2sm30387lfd.179.2023.12.16.16.01.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 16 Dec 2023 15:59:11 -0800 (PST)
+ Sat, 16 Dec 2023 16:01:58 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH] drm/bridge: properly refcount DT nodes in aux bridge drivers
-Date: Sun, 17 Dec 2023 01:59:10 +0200
-Message-Id: <20231216235910.911958-1-dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+Subject: [PATCH] drm/msm/dpu: drop obsolete documentation for dpu_encoder_virt
+Date: Sun, 17 Dec 2023 02:01:58 +0200
+Message-Id: <20231217000158.912062-1-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -75,55 +72,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Luca Weiss <luca.weiss@fairphone.com>,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, kernel test robot <lkp@intel.com>,
+ linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The aux-bridge and aux-hpd-bridge drivers didn't call of_node_get() on
-the device nodes further used for dev->of_node and platform data. When
-bridge devices are released, the reference counts are decreased,
-resulting in refcount underflow / use-after-free warnings. Get
-corresponding refcounts during AUX bridge allocation.
+Drop obsolete kerneldoc for several fields in struct dpu_encoder_virt
 
-Reported-by: Luca Weiss <luca.weiss@fairphone.com>
-Fixes: 2a04739139b2 ("drm/bridge: add transparent bridge helper")
-Fixes: 26f4bac3d884 ("drm/bridge: aux-hpd: Replace of_device.h with explicit include")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202312170641.5exlvQQx-lkp@intel.com/
+Fixes: 62d35629da80 ("drm/msm/dpu: move encoder status to standard encoder debugfs dir")
+Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/bridge/aux-bridge.c     | 2 +-
- drivers/gpu/drm/bridge/aux-hpd-bridge.c | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/aux-bridge.c b/drivers/gpu/drm/bridge/aux-bridge.c
-index 49d7c2ab1ecc..54d721db0ea6 100644
---- a/drivers/gpu/drm/bridge/aux-bridge.c
-+++ b/drivers/gpu/drm/bridge/aux-bridge.c
-@@ -57,7 +57,7 @@ int drm_aux_bridge_register(struct device *parent)
- 	adev->id = ret;
- 	adev->name = "aux_bridge";
- 	adev->dev.parent = parent;
--	adev->dev.of_node = parent->of_node;
-+	adev->dev.of_node = of_node_get(parent->of_node);
- 	adev->dev.release = drm_aux_bridge_release;
- 
- 	ret = auxiliary_device_init(adev);
-diff --git a/drivers/gpu/drm/bridge/aux-hpd-bridge.c b/drivers/gpu/drm/bridge/aux-hpd-bridge.c
-index 1999a053d59b..bb55f697a181 100644
---- a/drivers/gpu/drm/bridge/aux-hpd-bridge.c
-+++ b/drivers/gpu/drm/bridge/aux-hpd-bridge.c
-@@ -68,9 +68,9 @@ struct device *drm_dp_hpd_bridge_register(struct device *parent,
- 	adev->id = ret;
- 	adev->name = "dp_hpd_bridge";
- 	adev->dev.parent = parent;
--	adev->dev.of_node = parent->of_node;
-+	adev->dev.of_node = of_node_get(parent->of_node);
- 	adev->dev.release = drm_aux_hpd_bridge_release;
--	adev->dev.platform_data = np;
-+	adev->dev.platform_data = of_node_get(np);
- 
- 	ret = auxiliary_device_init(adev);
- 	if (ret) {
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index 83380bc92a00..f2b82ca5efb3 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -144,10 +144,6 @@ enum dpu_enc_rc_states {
+  *			to track crtc in the disable() hook which is called
+  *			_after_ encoder_mask is cleared.
+  * @connector:		If a mode is set, cached pointer to the active connector
+- * @crtc_kickoff_cb:		Callback into CRTC that will flush & start
+- *				all CTL paths
+- * @crtc_kickoff_cb_data:	Opaque user data given to crtc_kickoff_cb
+- * @debugfs_root:		Debug file system root file node
+  * @enc_lock:			Lock around physical encoder
+  *				create/destroy/enable/disable
+  * @frame_busy_mask:		Bitmask tracking which phys_enc we are still
 -- 
 2.39.2
 
