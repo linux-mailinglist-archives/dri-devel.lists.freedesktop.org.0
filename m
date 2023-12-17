@@ -2,52 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A014C8179F7
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 19:46:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53BD28179EC
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 19:46:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 334AC10E3A0;
-	Mon, 18 Dec 2023 18:46:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABB3D10E021;
+	Mon, 18 Dec 2023 18:46:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1005910E29D;
- Mon, 18 Dec 2023 18:43:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1702924991; x=1734460991;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=2vkJ9UdkhUfc3Fyby+XZ9UErCG79JcAlyG3GkbzZWro=;
- b=X+T4s/otdF4gIwAHv5Sh4kqWtXJuUKFCSnCAbxfU5i6terInGZWc35o/
- bj43FtwX8yDoNt6CP2E2QWI1+DxPuxSVMIApAXvgOD0YiMeJ+QGOawVlR
- M2QUcsnSCgYOxmu/PywhBe/iP8IwreaJOT4Xk2xYkkVx7A19+JztxPlqr
- CyxD407dVKfHP29qcfMWDPnH+yR8RZuOTjDS2J6NpQIcOpYC1O8Cdpeg/
- q/oFxVkc4IFqaK5HdxmNh+rY/HwOSoCh29Ry6Oy7Raknj2Wn0sglSlQLs
- nx3xg9GlcUy+o667A17tv+vBPLp2jDjYLDVZ0rA8XbiC4d8gvOyMOqTFe A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="16984800"
-X-IronPort-AV: E=Sophos;i="6.04,284,1695711600"; d="scan'208";a="16984800"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Dec 2023 11:13:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="1106708317"
-X-IronPort-AV: E=Sophos;i="6.04,284,1695711600"; d="scan'208";a="1106708317"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
- by fmsmga005.fm.intel.com with ESMTP; 17 Dec 2023 11:13:44 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1rEwa6-0003M2-0y;
- Sun, 17 Dec 2023 19:13:42 +0000
-Date: Mon, 18 Dec 2023 03:13:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Subject: Re: [PATCH v3 1/2] drm/buddy: Implement tracking clear page feature
-Message-ID: <202312180258.cty6XurG-lkp@intel.com>
-References: <20231214134240.3183-1-Arunpravin.PaneerSelvam@amd.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0D2710E29D;
+ Mon, 18 Dec 2023 18:42:33 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 18AC760C75;
+ Sun, 17 Dec 2023 20:24:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F8B7C433BB;
+ Sun, 17 Dec 2023 20:24:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1702844671;
+ bh=+DX0N7UdIUqjXqpFVCPOLF099qME+OXVv4kkpQPaS9w=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=tE8XIjpiaHI1UXKM4RRe8VsYU03DL9s8UV3sNs3LwmPrhwtzOb6o83hzDr2bocAHu
+ cX/mSKqrtHPzv0Jgw1Iz26EgZs4o62eGBjRsqeY3+/+1bsvE+kUn2POrrOG9eOKMyw
+ WdabEXIbz0CnHSd2/hxhwqqSMmSotRnlHHal9nGkr7Zdtu4lscOKUN+LaxVfe+jazX
+ VqdwGckSxuOsJFBtH5nvaAAHwMnUKOGbeT57Ei7yX+H1AlSnZ0rKzAFDo9n5vDX41i
+ leiFIl/UCSGqybpds17i1hMOt32cAlJjXoWR9bR968AKmpYyME3pXfTiWjglHRqhRF
+ tyUNqR/rslG4Q==
+From: Bjorn Andersson <andersson@kernel.org>
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Andy Gross <agross@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Vinod Polimera <quic_vpolimer@quicinc.com>,
+ Ryan McCann <quic_rmccann@quicinc.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Liu Shixin <liushixin2@huawei.com>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ Richard Acayan <mailingradian@gmail.com>
+Subject: Re: (subset) [PATCH v4 0/6] SDM670 display subsystem support
+Date: Sun, 17 Dec 2023 14:24:25 -0600
+Message-ID: <170284466197.74678.17866515484062477720.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231017021805.1083350-9-mailingradian@gmail.com>
+References: <20231017021805.1083350-9-mailingradian@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231214134240.3183-1-Arunpravin.PaneerSelvam@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,39 +68,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
- felix.kuehling@amd.com, matthew.auld@intel.com, oe-kbuild-all@lists.linux.dev,
- alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Arunpravin,
 
-kernel test robot noticed the following build warnings:
+On Mon, 16 Oct 2023 22:18:07 -0400, Richard Acayan wrote:
+> Changes since v3 (20231009233337.485054-8-mailingradian@gmail.com):
+>  - move status properties down (review tag retained) (6/6)
+>  - accumulate review tag (3/6)
+> 
+> Changes since v2 (20231003012119.857198-9-mailingradian@gmail.com):
+>  - rebase on series and reference generic sblk definitions (5/6)
+>  - add interconnects properties in example (3/6)
+>  - remove phy-names properties from dtsi (6/6)
+>  - accumulate review tags (4/6, 6/6)
+> 
+> [...]
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm/drm-next drm-exynos/exynos-drm-next drm-tip/drm-tip linus/master v6.7-rc5 next-20231215]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Applied, thanks!
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Arunpravin-Paneer-Selvam/drm-amdgpu-Enable-clear-page-functionality/20231214-214811
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20231214134240.3183-1-Arunpravin.PaneerSelvam%40amd.com
-patch subject: [PATCH v3 1/2] drm/buddy: Implement tracking clear page feature
-config: arc-randconfig-001-20231215 (https://download.01.org/0day-ci/archive/20231218/202312180258.cty6XurG-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231218/202312180258.cty6XurG-lkp@intel.com/reproduce)
+[6/6] arm64: dts: qcom: sdm670: add display subsystem
+      commit: 5f8ba4f28ddb432c8a9720c337f9047e38fa7e36
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312180258.cty6XurG-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> scripts/kernel-doc: drivers/gpu/drm/drm_buddy.c:337: warning: Function parameter or struct member 'flags' not described in 'drm_buddy_free_list'
-
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Bjorn Andersson <andersson@kernel.org>
