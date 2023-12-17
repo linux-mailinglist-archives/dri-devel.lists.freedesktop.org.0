@@ -2,45 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AF50817A6D
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 20:00:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECF56817A13
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 19:51:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24CA810E384;
-	Mon, 18 Dec 2023 18:59:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A810C10E3DB;
+	Mon, 18 Dec 2023 18:50:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E9BC10E277
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 18:51:19 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id CB2A6B80B66;
- Sun, 17 Dec 2023 21:43:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FF3CC433C8;
- Sun, 17 Dec 2023 21:43:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1702849419;
- bh=ttHVxZrSl0fzPqXZ/8WzdupCtgmAwzVZdpIUtIeSJd0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=twzqiBMvBBonVZLV/2nXWJRdlkicH/UcNNNRecOo0pRinoOSn3+4ywPuL+byA3TI7
- jL2VhDL/HvKCO0JHjCDpR82blUWfrx1uoQ60IAsrTVQaXxGgIxdaEhV7nqkAFp6igE
- xBDvqZVnDNI9ETHGAfNtpk5Yi55EZdPX0YIlY2XbgkIbqv4lImAxt73kELE2nv+Gfw
- n1D2yywvZvdV8svhzqB9JAuzG7qO1Oyxg0gGTbmy1UWAWYs/Fqzi5PBJYdUrmWTc2u
- KKK0MOc69dsL96sHo7YPi/0nN77KnQfDSeshj/Ld1vYnJD0Yr4xDeFUKKkS8NPYnig
- YWLf1Sx096RHw==
-Date: Sun, 17 Dec 2023 21:43:33 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Javier Martinez Canillas <javierm@redhat.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 308F810E1E5
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 18:42:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1702924921;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=K/1scTb9pZ8OxgoYLobA+aJoXS1Kz//UW2qp4P8sctU=;
+ b=T0w4JK3KpBcFqez5u+PFgehJlIxoFLEha6eTDTmSZuhl8O31Cf9pbtEZ7I+uNs0247/GDF
+ cMsrqvu8XGn7MpAOKAtAG8wGAr0bONwUOAny2NnRrgszXY2DYgnxahFu+aA2rIy514dyki
+ rYMoRg7KB0kIQUjL+zSCDUfR/TTp4qw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-22-wM2zPIoIOMGoAOIjSYuUAA-1; Sun, 17 Dec 2023 17:00:10 -0500
+X-MC-Unique: wM2zPIoIOMGoAOIjSYuUAA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-3365bc111a5so1634942f8f.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Dec 2023 14:00:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1702850409; x=1703455209;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=K/1scTb9pZ8OxgoYLobA+aJoXS1Kz//UW2qp4P8sctU=;
+ b=lL4qZU/phRbgMrRZZcEBWhKa6RQopxRrcYKDy81O7phII4H+F3CGOxMoebeNwijX+N
+ V3Zsnt4Bt/noX03XsUN5y1+Tml4TOPLDKnGweSspCVlz/vfvwvS8sgCfQ93+GREmvx6D
+ kamHLRK3rKVsJNBw8mtc+DGZdLTvqV1yOybIbZ4o4tpFGh9lXTHbcoIoWRKfZfg1FNXs
+ hpjKzH7DXVmzv0+8KGZINm0FkYFD+PqxqdinfqQzcsym3DGRN8DMIYKC/uhIgPJD80HJ
+ EWZrTMi16igmSmWD4MyGyYPxzRV+O+chEVOnyOy0fRpVBkwdtUIReGUe9isdItRFuTp0
+ a38w==
+X-Gm-Message-State: AOJu0YxI3xjv6aRmy/2pNudjWmWZB9sIsIubKD7gp8ufity5BmNE12Tq
+ 4bq6Vbn0QLK0KV0EoOUDzcgH5L93UMkoVWX14QA+l418a8333tJLjMWhPysbuprVQDphvenBLJR
+ Vgb4MzzAjW6I8JXmnc4AZkUDXGK7r/k7r4vnh
+X-Received: by 2002:a5d:540a:0:b0:336:63f8:f22b with SMTP id
+ g10-20020a5d540a000000b0033663f8f22bmr771704wrv.0.1702850409153; 
+ Sun, 17 Dec 2023 14:00:09 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHoqV0a8ZQJtOtOTjzUvG0IqnhN0462vgUIhA5mW80Zhxv7i1WeESN7oYXQ7je3eicDjTrxGA==
+X-Received: by 2002:a5d:540a:0:b0:336:63f8:f22b with SMTP id
+ g10-20020a5d540a000000b0033663f8f22bmr771697wrv.0.1702850408843; 
+ Sun, 17 Dec 2023 14:00:08 -0800 (PST)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ l1-20020a5d5601000000b00336630c31b5sm2853900wrv.9.2023.12.17.14.00.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 17 Dec 2023 14:00:08 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Conor Dooley <conor@kernel.org>
 Subject: Re: [PATCH 1/2] dt-bindings: display: Add SSD133x OLED controllers
-Message-ID: <20231217-hunk-cross-4bf51740957c@spud>
+In-Reply-To: <20231217-hunk-cross-4bf51740957c@spud>
 References: <20231217100741.1943932-1-javierm@redhat.com>
  <20231217100741.1943932-2-javierm@redhat.com>
  <20231217-bacteria-amusable-77efb05770a4@spud>
  <87fs00ms4b.fsf@minerva.mail-host-address-is-not-set>
+ <20231217-hunk-cross-4bf51740957c@spud>
+Date: Sun, 17 Dec 2023 23:00:07 +0100
+Message-ID: <87cyv4mqvs.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="uvs7ymLunVDhuv2O"
-Content-Disposition: inline
-In-Reply-To: <87fs00ms4b.fsf@minerva.mail-host-address-is-not-set>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,97 +92,74 @@ Cc: Conor Dooley <conor+dt@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Conor Dooley <conor@kernel.org> writes:
 
---uvs7ymLunVDhuv2O
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hello Conor,
 
-On Sun, Dec 17, 2023 at 10:33:24PM +0100, Javier Martinez Canillas wrote:
-> Conor Dooley <conor@kernel.org> writes:
->=20
-> Hello Connor,
->=20
-> > On Sun, Dec 17, 2023 at 11:07:03AM +0100, Javier Martinez Canillas wrot=
-e:
->=20
-> [...]
->=20
-> >> +properties:
-> >> +  compatible:
-> >> +    enum:
-> >> +      - solomon,ssd1331
-> >> +
-> >> +required:
-> >> +  - compatible
-> >> +  - reg
-> >> +
-> >> +allOf:
-> >> +  - $ref: solomon,ssd-common.yaml#
-> >> +
-> >> +  - if:
-> >> +      properties:
-> >> +        compatible:
-> >> +          contains:
-> >> +            const: solomon,ssd1331
-> >> +    then:
-> >> +      properties:
-> >> +        width:
-> >> +          default: 96
-> >> +        height:
-> >> +          default: 64
-> >
-> > Do you envisage a rake of devices that are going to end up in this
-> > binding? Otherwise, why not unconditionally set the constraints?
-> >
->=20
-> Because these are only for the default width and height, there can be
-> panels using the same controller but that have a different resolution.
->=20
-> For example, there are panels using the SSD1306 controller that have
-> 128x32 [0], 64x32 [1] or 128x64 [2] resolutions.
+> On Sun, Dec 17, 2023 at 10:33:24PM +0100, Javier Martinez Canillas wrote:
 
-This, as you know, does not matter here.
+[...]
 
-> But answering your question, yes I think that more devices for this
-> SSD133x family are going to be added later. Looking at [3], there is
-> at least SSD1333 that has a different default resolutions (176x176).
+>> >> +    then:
+>> >> +      properties:
+>> >> +        width:
+>> >> +          default: 96
+>> >> +        height:
+>> >> +          default: 64
+>> >
+>> > Do you envisage a rake of devices that are going to end up in this
+>> > binding? Otherwise, why not unconditionally set the constraints?
+>> >
+>> 
+>> Because these are only for the default width and height, there can be
+>> panels using the same controller but that have a different resolution.
+>> 
+>> For example, there are panels using the SSD1306 controller that have
+>> 128x32 [0], 64x32 [1] or 128x64 [2] resolutions.
+>
+> This, as you know, does not matter here.
+>
 
-That's fair enough though. I'd probably err on the side of introducing
-this complexity when the other users actually show up though.
+Are you sure? What I tried to say is that the SSD133x are just OLED
+controllers and manufacturers use those chips to attach a panel that
+has a certain resolution.
 
->=20
-> I think that even the SSD135x family could be supported by the same
-> modsetting pipeline, but I need to get one to figure it out.
->=20
-> [0]: https://es.aliexpress.com/item/1005003648174074.html
-> [1]: https://www.buydisplay.com/white-0-49-inch-oled-display-64x32-iic-i2=
-c-ssd1306-connector-fpc
-> [2]: https://es.aliexpress.com/item/1005001582340858.html?gatewayAdapt=3D=
-glo2esp
-> [3]: https://www.solomon-systech.com/product-search/?technology=3Doled-di=
-splay
->=20
-> > Cheers,
-> > Conor.
->=20
-> --=20
-> Best regards,
->=20
-> Javier Martinez Canillas
-> Core Platforms
-> Red Hat
->=20
+While it makes sense to use all the supported width and height, some
+manufacturers chose to have a smaller panel instead (I used SSD1306
+as an example because I knew about these but the same might be true
+for let's say SSD1331).
 
---uvs7ymLunVDhuv2O
-Content-Type: application/pgp-signature; name="signature.asc"
+Or saying another way, are you sure that every manufacturer selling
+RGB OLED panels using the SSD1331 chip will use the default resolution
+and users won't have to set a custom width and height ?
 
------BEGIN PGP SIGNATURE-----
+I have already chosen to make the DT binding as simple as possible to
+prevent what happened with the SSD1306 "solomon,page-offset" property
+that has a broken default [0] but I think that not allowing to set the
+resolution is already too restrictive and would make it unusable for
+any panel that doesn't have the default width and height.
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZX9rhQAKCRB4tDGHoIJi
-0urZAQDdCk0O4EIhlmjwki+Jl0RqsfAslhFufBpKGUbKX4BvywD7Bb1X9ZmooXs8
-SNyUI6YvgDljaImUgx8KU/1k38YgfQA=
-=0pmm
------END PGP SIGNATURE-----
+[0]: https://lists.freedesktop.org/archives/dri-devel/2023-November/431150.html
 
---uvs7ymLunVDhuv2O--
+>> But answering your question, yes I think that more devices for this
+>> SSD133x family are going to be added later. Looking at [3], there is
+>> at least SSD1333 that has a different default resolutions (176x176).
+>
+> That's fair enough though. I'd probably err on the side of introducing
+> this complexity when the other users actually show up though.
+>
+
+Agree and the reason why I did not include entries for the SSD1332 and
+SSD1333. I was planning to add those only if there were users since it
+seems that the SSD1331 is the most popular controller from this family.
+
+But as explained, even for the SSD1331 it may be needed to set a width
+and height that is different than the default of this panel controller.
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
