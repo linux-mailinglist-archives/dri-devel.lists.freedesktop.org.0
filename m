@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72096817A0A
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 19:49:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0F26817A0B
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 19:49:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5317610E395;
-	Mon, 18 Dec 2023 18:48:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A20510E3D5;
+	Mon, 18 Dec 2023 18:48:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F0C710E1E5
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 18:42:06 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFFCD10E293
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 18:42:33 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 64E80CE10BD;
- Mon, 18 Dec 2023 12:44:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55FE5C433CA;
- Mon, 18 Dec 2023 12:44:27 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id A963360F7F;
+ Mon, 18 Dec 2023 12:45:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1917BC433C8;
+ Mon, 18 Dec 2023 12:45:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1702903468;
+ s=k20201202; t=1702903522;
  bh=2iwNU4oThQUd0yeP7a35z2BoHThYhHlJhvnTtyhpVTQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=iIY99PZnJFeyxxnliJ24wukQmDbwkpP8VDseS0UmxQKHqZAAyzCxp+xMf5vg8+NlK
- GjgM/50OSNmhFGrhpDlfytJF48JtIM1ZXi2BJvscrwWT/91DUU6c5098sM1QaNgn2m
- +Ri8P6hhfJiRh2DkoY+GBUjrrRF+VvreXGrL1bD3+Z0HZr8VxMqUSogNDgAvqfYn8z
- Hc7LSG6/pyDfOXu3abiLeBRkd08YeRu+Sxcb5CL4Bv4AheYD5sykK6pmglWDVe9q4I
- EZR/j727ODTO4092g+qdrjQ2vnKyup/eZr3XfrzW9VV8EmQRnhVidGttGF3Gk7KHZb
- gAKNu3EXt8PhA==
+ b=MkHd+m4l9nJBRAgcvvUkjWA1MbPRdJu6p84w8Vgm88uxdLjF7U79lDnN4VObI0jiO
+ bVJz+lvNu4qvjQMfiMv4WvqJ0URRUCGo7qBPZoLmgn1rczr+XbhL+yqHlgC4WXfoGu
+ sa0A0gh5DA4vb4U8/TnDc+rIEh0n7GzSQyTctV8ctBja4fXucisp4XsvJBkWIpIc9G
+ eqCOmfRZfwRPxXQaXErKbuno5AdXT7wSkJZGTSwT8CouRjEPzrQO3iTQjtXv+iCjmu
+ cUvW88u8hVAJFZxk4VR0kq/9d4tZaita8PWZuip2guylQOBCIQ4dRtauzP9B0PcPNz
+ vO5TfQSar289g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 07/18] drm/crtc: Fix uninit-value bug in
+Subject: [PATCH AUTOSEL 6.1 05/15] drm/crtc: Fix uninit-value bug in
  drm_mode_setcrtc
-Date: Mon, 18 Dec 2023 07:43:41 -0500
-Message-ID: <20231218124415.1379060-7-sashal@kernel.org>
+Date: Mon, 18 Dec 2023 07:44:52 -0500
+Message-ID: <20231218124513.1380056-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231218124415.1379060-1-sashal@kernel.org>
-References: <20231218124415.1379060-1-sashal@kernel.org>
+In-Reply-To: <20231218124513.1380056-1-sashal@kernel.org>
+References: <20231218124513.1380056-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.7
+X-stable-base: Linux 6.1.68
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
