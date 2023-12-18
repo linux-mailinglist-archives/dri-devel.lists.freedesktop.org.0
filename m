@@ -2,61 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E2D7817AD9
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 20:19:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 043E2817ACF
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 20:16:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B60E910E3C9;
-	Mon, 18 Dec 2023 19:19:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16DFD10E279;
+	Mon, 18 Dec 2023 19:16:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AB4310E27F
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 19:17:44 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id
- d9443c01a7336-1d39afa1eecso20284415ad.2
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 11:17:44 -0800 (PST)
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF1CE10E3AE
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 19:15:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1702927064; x=1703531864; darn=lists.freedesktop.org; 
- h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=orMvcLfAW1bWOmlNaHx4ffjlbLb3ietWU+HumE/aHms=;
- b=qFvnIibK25nLfdFNe+xtBnxDJbUCkXkfqPL0/7U1qGF4IRnk8x9wLCBHTqi5q7BL/B
- iCdYIozHUpb3RA2PKWnLCLDf5JhFoitjWJezMu/bGvMrtHwvAKQI8OgDd9msbszmld1o
- c3Apiyn7gDtvn2bjcDihDul30R2MpQMHz8fkBkw3w1lJK4Nf7QxXkhK4F8Ln1Zs/r/KL
- +ptnZHyDYQhiUbfM95e3c7aUrI1rTcCzvrwM0ulj1l+iO8K6ENpZlJ6lc44OKWl65QID
- qHEH/XcaSh8T9BSEuDx6eblfQga0M0vABz3VPtmQTKBrWO6c/iWx//ZqJJtStjuyUDqB
- psGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702927064; x=1703531864;
- h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=orMvcLfAW1bWOmlNaHx4ffjlbLb3ietWU+HumE/aHms=;
- b=wgf2lFoel7xtD4VKzshgRYL+auy0Z0gtkW6PCGwSd9wGVB+C5VNpDVLnNMCgVKhYjM
- p3rJqiN7klGFSSg1inq4J8NhpU0eRy56n1CZy89WuCHCowTzOqWkHpMGbALqcBD2X+Xb
- N5yyiUJBkxPz6ECAHnxmyHxdBDc7x4zYhbmRj9r/E2Lm0UAy6bMSa4Tu6XEs9kwfThWW
- ZqmOLACxvC/eFqwu9dvKeVhWhqJm+ZzqKtIGXtq6XfnpKSOoCbawCY8+PJtgSRJZA//k
- uHllPXMEHGYQ8kj8MQwz6U7EtHRCBealybhIjv6pw50AHzabe73ksIRSUnxdxvnumZVH
- Aclw==
-X-Gm-Message-State: AOJu0YyvMSYpw1oBSjAegNao084mCTkGoOPqRyrDVvtTQPOn7SCFuANY
- A6hAPPdh3jCYTpoO2i/THxXOa/pvOXuk6BRmoAo=
-X-Google-Smtp-Source: AGHT+IGDmpYsBu9vjzBqD2RVr9vd3yuOeOgqIoJ2O9xi1AOkmHMN6+eAJ7arABF3v+gsBl8fGZSQuQ==
-X-Received: by 2002:a17:90b:391:b0:28b:9117:d070 with SMTP id
- ga17-20020a17090b039100b0028b9117d070mr487023pjb.74.1702900729789; 
- Mon, 18 Dec 2023 03:58:49 -0800 (PST)
-Received: from ubuntu.huaqin.com ([116.66.212.162])
- by smtp.gmail.com with ESMTPSA id
- w10-20020a170902e88a00b001d38410aa13sm5868936plg.192.2023.12.18.03.58.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Dec 2023 03:58:49 -0800 (PST)
-From: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>
-To: dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/bridge: Fixed a DP link training bug
-Date: Mon, 18 Dec 2023 19:58:36 +0800
-Message-Id: <20231218115836.23686-1-xiazhengqiao@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.17.1
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1702926930; x=1734462930;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=W4RQmvsJRShbyg0yBw1LI7RK35V1/P7+WCpbSa+cNFk=;
+ b=iodETt3EsYFEskZgDGQ3iQGllqTQpIlV5LidTDu597T62igReKzZHofx
+ C9jKI0BGhl6AGhFGmIH1mB9HI+23jqzr//MCTWFQb/T58JgnnDnromMul
+ NjZFON/LCtV/avFEL1DaPTJWA+/rT2K2U8IcG1aUpgeaEwAkXjcBl+qct
+ CsQVnmkfipNebJAsW8qpeDGnSMfPuVoirOMK/nv8S4qFM+him7LU6EfOQ
+ se5koTKIbvJHpAzLsD4l5fK9Pg/cAkPGEbRnG9efvz3yrh1/FIrl3ed0N
+ SMIW7m1m9JkNXF/6rtpYdDDUbwz6RNFk0OZqYBLTmryz4jp6T+jTtjIJQ g==;
+X-IronPort-AV: E=Sophos;i="6.04,285,1695679200"; d="scan'208";a="34561388"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 18 Dec 2023 13:03:10 +0100
+Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.18])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 2A88C280075;
+ Mon, 18 Dec 2023 13:03:10 +0100 (CET)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>
+Subject: Re: [PATCH 5/6] drm/bridge: dpu-dprc: Use dev_err_probe
+Date: Mon, 18 Dec 2023 13:03:12 +0100
+Message-ID: <6003334.lOV4Wx5bFT@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20231218105718.2445136-6-alexander.stein@ew.tq-group.com>
+References: <20231218105718.2445136-1-alexander.stein@ew.tq-group.com>
+ <20231218105718.2445136-6-alexander.stein@ew.tq-group.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,48 +65,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>,
- neil.armstrong@linaro.org, rfoss@kernel.org, jonas@kwiboo.se, sam@ravnborg.org,
- jernej.skrabec@gmail.com, allen.chen@ite.corp-partner.google.com,
- Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com
+Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To have better compatibility for DP sink, there is a retry mechanism
-for the link training process to switch between different training process.
-The original driver code doesn't reset the retry counter when training
-state is pass. If the system triggers link training over 3 times,
-there will be a chance to causes the driver to use the wrong training
-method and return a training fail result.
+Am Montag, 18. Dezember 2023, 11:57:17 CET schrieb Alexander Stein:
+> This simplifies the code and gives additional information upon deferral.
 
-To Fix this, we reset the retry counter when training state is pass
-each time.
+Please ignore. I just noticed this file is added in a locally applied serie=
+s.
 
-Signed-off-by: Allen Chen <allen.chen@ite.corp-partner.google.com>
-Signed-off-by: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>
----
- drivers/gpu/drm/bridge/ite-it6505.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Thanks
+Alexander
 
-diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index 2f300f5ca051..b589136ca6da 100644
---- a/drivers/gpu/drm/bridge/ite-it6505.c
-+++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -2240,11 +2240,13 @@ static void it6505_link_training_work(struct work_struct *work)
- 	ret = it6505_link_start_auto_train(it6505);
- 	DRM_DEV_DEBUG_DRIVER(dev, "auto train %s, auto_train_retry: %d",
- 			     ret ? "pass" : "failed", it6505->auto_train_retry);
--	it6505->auto_train_retry--;
- 
- 	if (ret) {
-+		it6505->auto_train_retry = AUTO_TRAIN_RETRY;
- 		it6505_link_train_ok(it6505);
- 		return;
-+	} else {
-+		it6505->auto_train_retry--;
- 	}
- 
- 	it6505_dump(it6505);
--- 
-2.17.1
+> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> ---
+>  drivers/gpu/drm/imx/dpu/dpu-dprc.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/imx/dpu/dpu-dprc.c
+> b/drivers/gpu/drm/imx/dpu/dpu-dprc.c index 261c9566721e..6467ad960080
+> 100644
+> --- a/drivers/gpu/drm/imx/dpu/dpu-dprc.c
+> +++ b/drivers/gpu/drm/imx/dpu/dpu-dprc.c
+> @@ -612,7 +612,8 @@ static int dpu_dprc_probe(struct platform_device *pde=
+v)
+>=20
+>  		dprc->prgs[i] =3D dpu_prg_lookup_by_phandle(dev, "fsl,prgs",=20
+i);
+>  		if (!dprc->prgs[i])
+> -			return -EPROBE_DEFER;
+> +			return dev_err_probe(dev, -EPROBE_DEFER,
+> +					     "Failed to lookup=20
+fsl,prgs\n");
+>=20
+>  		if (i =3D=3D 1)
+>  			dpu_prg_set_auxiliary(dprc->prgs[i]);
+> @@ -623,11 +624,10 @@ static int dpu_dprc_probe(struct platform_device
+> *pdev)
+>=20
+>  	ret =3D devm_request_irq(dev, wrap_irq, dpu_dprc_wrap_irq_handler,
+>  			       IRQF_SHARED, dev_name(dev), dprc);
+> -	if (ret < 0) {
+> -		dev_err(dev, "failed to request dpr_wrap irq(%u): %d\n",
+> -			wrap_irq, ret);
+> -		return ret;
+> -	}
+> +	if (ret < 0)
+> +		return dev_err_probe(dev, ret,
+> +				     "failed to request dpr_wrap=20
+irq(%u)\n",
+> +				     wrap_irq);
+>=20
+>  	platform_set_drvdata(pdev, dprc);
+
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
 
