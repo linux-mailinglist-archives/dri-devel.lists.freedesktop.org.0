@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7BE78179BC
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 19:32:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D0DC8179A4
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 19:28:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 806E410E2C5;
-	Mon, 18 Dec 2023 18:32:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45F5110E1EC;
+	Mon, 18 Dec 2023 18:28:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
- [209.85.208.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A9C510E279
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 18:29:53 +0000 (UTC)
-Received: by mail-lj1-f169.google.com with SMTP id
- 38308e7fff4ca-2c9f413d6b2so37206041fa.1
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 10:29:53 -0800 (PST)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6772410E10A
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 18:26:40 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id
+ ffacd0b85a97d-336417c565eso3349917f8f.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 10:26:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1702924192; x=1703528992;
+ d=chromium.org; s=google; t=1702923999; x=1703528799;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=1aUBcpvKGT+MVST7gLJpsdhDGoD1QfbphX+istIq1xA=;
- b=V9igRyLl1f8wFotVB5l/xtagXqUOWYEAttFxrM/Q9agQB++8zeqRpFGnlWRdiGlrxw
- O2Frwwp7RAz1gU4HoOvXSaY4MB8gwLfw8BrQXhbCNJtQHQi3m+5057buc+hVVSeuYoTg
- dPdHiY4TrssIqDgrud8pxjoLFpyckXgKn+eaY=
+ bh=OcDMSZdXKbh1oCxHZVjJKFW1eLcVZ1Cx3Nt4LLC2cbU=;
+ b=jLHv+cj6fcY/B6Y0kkPc0NPOONfiGyLa92oc5Tmc1iU4Bq1+o2ekmgFfWVE+QV029V
+ G7GOXGD/7V02Rznb3EROsPkCokv92XJwlTs/75ThHkdxE+tpZGfNaUERb+g2SnNLfcQV
+ J0yBTqh5VVpwhvQsC/rU/AfHDS+lmCAwT/b7s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702924192; x=1703528992;
+ d=1e100.net; s=20230601; t=1702923999; x=1703528799;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=1aUBcpvKGT+MVST7gLJpsdhDGoD1QfbphX+istIq1xA=;
- b=JYdqHrPYCkJG2O4A9fwQtMZRHL244Rv3xlR9G51hVoyWZUHXrr4eQXnekGz29cqXLU
- XOSDMRsIGEllcSNLpOxzP0Ql2JbjAXXDpRFUEd2MmdchpMeHto0bvOVGEluVSADeHIwB
- Bo7SnTaVT0l8qQfqp1iquAIOpKb+TGOEl4uTl1NrzXEHuPPNNa0aI60yPfS6v5/I12i7
- KwumlSW1OkFKhO+J3h4FhZA2hTOMQA3E7erNMel5CpBnPThWIlsrShW638j4OWP56Fr5
- 3cQyHBcT+CtU/8YdWaJsFTxd4EUP6lc7ZCa+B/7K1heTzbv2nRw5Ef3fY4968UC54aF5
- iIWg==
-X-Gm-Message-State: AOJu0YyywFplK2hQP1ZVj0/DJgie1k9t5hyw0YP85g+5LhP1sjYFknNF
- aNdOF97hHWgHCED9S9igLqjOMj9641T7gtYsfLqe1EZ/
-X-Google-Smtp-Source: AGHT+IHrG5Y+hfI5RJ7QKve6Xgm48HiTdA1rbiTN94glHGThpgewychP/9tecPNrCw2ASTn2Cnth3A==
-X-Received: by 2002:a17:907:75ee:b0:a23:3383:8d23 with SMTP id
- jz14-20020a17090775ee00b00a2333838d23mr1082044ejc.22.1702917741257; 
- Mon, 18 Dec 2023 08:42:21 -0800 (PST)
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com.
- [209.85.208.42]) by smtp.gmail.com with ESMTPSA id
- ub27-20020a170907c81b00b00a1df4387f16sm14470742ejc.95.2023.12.18.08.42.20
+ bh=OcDMSZdXKbh1oCxHZVjJKFW1eLcVZ1Cx3Nt4LLC2cbU=;
+ b=mJi7kR17eeI713ZC7IwegpjdCn/6n18VdHPCseCGbA9xSb/f7dUkbZJ/52M3A+of9O
+ Pm9w3EwDqxm/0lQllT4eHb0qT2rVtBE9HQZbyUf5qTXzYC9XQ8/dFSQm5SGj2sr4x4N6
+ WKv22heGVGBf5qkuQu8BMPUkCpfhXgn5EOjHF8dhF5B/kbtah8SYvmH0tg2Un/I6m+LF
+ Gacge2hKbNP/wTe7nLRkDlC2wlGvck2DiEDnlHMKnUAE/v9uDhs7Dv0SsFpVgue5dUJJ
+ W+dnLHPSd8TBxw/WAJt8vLRanCkr+38DkdWISUh8DUOcv0CJipQPSw6N1FJo6Dq1hapZ
+ GNDw==
+X-Gm-Message-State: AOJu0YyqqErRVDVwlgZtm3pL+ilIpikhmj0zMCnZ6mNxgDWqhTIUgSrD
+ sspCvz6TJdIPpZRUKw/gTYVJCOXowC/vnplNb7JEcWPP
+X-Google-Smtp-Source: AGHT+IGv5X84WiDS5U6nfIOuhgX8v73Z8pKaEeK8dv/NgQZVnARaMpb4UT/1WOzzOX5DGqEZOraI4Q==
+X-Received: by 2002:a50:9f26:0:b0:553:513a:e31f with SMTP id
+ b35-20020a509f26000000b00553513ae31fmr749574edf.88.1702917748339; 
+ Mon, 18 Dec 2023 08:42:28 -0800 (PST)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com.
+ [209.85.128.43]) by smtp.gmail.com with ESMTPSA id
+ r10-20020a508d8a000000b0054cb88a353dsm10498515edh.14.2023.12.18.08.42.27
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Dec 2023 08:42:21 -0800 (PST)
-Received: by mail-ed1-f42.google.com with SMTP id
- 4fb4d7f45d1cf-552eaf800abso20513a12.0
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 08:42:20 -0800 (PST)
-X-Received: by 2002:a05:6402:22fc:b0:553:7ff4:5885 with SMTP id
- dn28-20020a05640222fc00b005537ff45885mr32312edb.2.1702917740102; Mon, 18 Dec
- 2023 08:42:20 -0800 (PST)
+ Mon, 18 Dec 2023 08:42:28 -0800 (PST)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-40c32bea30dso104745e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 08:42:27 -0800 (PST)
+X-Received: by 2002:a05:600c:3513:b0:40d:11cb:e5c8 with SMTP id
+ h19-20020a05600c351300b0040d11cbe5c8mr283442wmq.7.1702917747254; Mon, 18 Dec
+ 2023 08:42:27 -0800 (PST)
 MIME-Version: 1.0
 References: <20231214152817.2766280-1-treapking@chromium.org>
- <20231214152817.2766280-2-treapking@chromium.org>
-In-Reply-To: <20231214152817.2766280-2-treapking@chromium.org>
+ <20231214152817.2766280-3-treapking@chromium.org>
+In-Reply-To: <20231214152817.2766280-3-treapking@chromium.org>
 From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 18 Dec 2023 08:42:02 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=WshKAWRe44ke-C6XnmBBFoPn1sJovGfVAFrQ55LuB8tw@mail.gmail.com>
-Message-ID: <CAD=FV=WshKAWRe44ke-C6XnmBBFoPn1sJovGfVAFrQ55LuB8tw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] drm/panel-edp: Add powered_on_to_enable delay
+Date: Mon, 18 Dec 2023 08:42:12 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=VdvQHo1Lb7bNwwJNstQdo3Jghe2kBGp68Jd6KgvCnJTA@mail.gmail.com>
+Message-ID: <CAD=FV=VdvQHo1Lb7bNwwJNstQdo3Jghe2kBGp68Jd6KgvCnJTA@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] drm/edp-panel: Add panels delay entries
 To: Pin-yen Lin <treapking@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -92,11 +92,7 @@ Hi,
 On Thu, Dec 14, 2023 at 7:28=E2=80=AFAM Pin-yen Lin <treapking@chromium.org=
 > wrote:
 >
-> Add the support of powered_on_to_enable delay as the minimum time that
-> needs to have passed between the panel powered on and enable may begin.
->
-> This delay is seen in BOE panels as the minimum delay of T3+T4+T5+T6+T8
-> in the eDP timing diagrams.
+> Add panels used by Mediatek MT8173 Chromebooks.
 >
 > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
 > Reviewed-by: Douglas Anderson <dianders@chromium.org>
@@ -106,9 +102,9 @@ On Thu, Dec 14, 2023 at 7:28=E2=80=AFAM Pin-yen Lin <treapking@chromium.org=
 > Changes in v3:
 > - Collect review tag.
 >
->  drivers/gpu/drm/panel/panel-edp.c | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
+>  drivers/gpu/drm/panel/panel-edp.c | 39 +++++++++++++++++++++++++++++++
+>  1 file changed, 39 insertions(+)
 
 Pushed to drm-misc-next:
 
-4464af92f276 drm/panel-edp: Add powered_on_to_enable delay
+f4ccd9fea227 drm/edp-panel: Add panels delay entries
