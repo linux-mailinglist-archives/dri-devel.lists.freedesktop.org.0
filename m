@@ -2,71 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5713F8179C1
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 19:33:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1CBB817A34
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 19:57:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76D6F10E259;
-	Mon, 18 Dec 2023 18:32:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AF9910E366;
+	Mon, 18 Dec 2023 18:57:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CF9110E371
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 18:31:50 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id
- ffacd0b85a97d-33666fb9318so1583060f8f.2
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 10:31:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1702924308; x=1703529108;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FsmrM2oHtRClB02QA8pjdjW9Wbdn73CBnuj1SfAdY/I=;
- b=LSU+t6jtbiT7vA2FRYeHI8p+y+2siST1/otRy1ZpB7Aba0ZkHQgmQWKRpd9grNTiwL
- T4vhJ1/n7rnOc5fqxDkvadSqtXdfpZrY4PGPEIgzpcrJQdf6beM9It9NZF2DOgs0KFlx
- GYCgmgi2CADA3B1w1gpg12Q/F3YZfWsLEURKQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702924308; x=1703529108;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=FsmrM2oHtRClB02QA8pjdjW9Wbdn73CBnuj1SfAdY/I=;
- b=VpLZjqi18VhEJodiHL5fnzg/zVpE7wFg8qM3bNGo6HytKhQZsiSmm7HBvhhriu02pz
- D1XgDxhs0szcRK+iS8e3mBiW7SMjCLP7Jhs39sUKdfxq7FyOM4A3KwoZaDdSHZXL9Adq
- LMJG2J2Hkqyqk9SrovvUJdobZNVAdGnvFGK/7VvLzgLDH5AqaKhiN5i7+LrYf33QH+k0
- brVxb+ahJONjYR478Xx7koIy5iLAOYCJy0PGUXYow4UwDy2sQJMBokW9/gJaA2Y+dK/r
- iTNXZzgdTdYsNwbM3RV7RYgyi+WMacW5S3Fe94pzv9erXQiJreRuHSjPNYWRutEk+z27
- wT1Q==
-X-Gm-Message-State: AOJu0YzDzRDM2Lr/nhyiJuBeOpsLf3DUlesb3dmuJ03bTsAbrJll6Y1X
- cYktk125wDxHkuR1fB+YGu+ON8XV/EDd/IVcym+OPfps
-X-Google-Smtp-Source: AGHT+IE2Rt2HClus8GBMflhmYYbMXQJl8gsVCmRAK83DBuQ0c86G0573fCMdorU0HguyV40zkld3Dg==
-X-Received: by 2002:a05:600c:501e:b0:40b:5e21:ec0d with SMTP id
- n30-20020a05600c501e00b0040b5e21ec0dmr8775123wmr.63.1702920305455; 
- Mon, 18 Dec 2023 09:25:05 -0800 (PST)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com.
- [209.85.128.53]) by smtp.gmail.com with ESMTPSA id
- ss20-20020a170907c01400b00a18850d2240sm14660246ejc.143.2023.12.18.09.25.04
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Dec 2023 09:25:05 -0800 (PST)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-40c38e520e2so103905e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 09:25:04 -0800 (PST)
-X-Received: by 2002:a05:600c:3550:b0:40b:4355:a04b with SMTP id
- i16-20020a05600c355000b0040b4355a04bmr365476wmq.6.1702920303831; Mon, 18 Dec
- 2023 09:25:03 -0800 (PST)
+X-Greylist: delayed 1556 seconds by postgrey-1.36 at gabe;
+ Mon, 18 Dec 2023 18:47:54 UTC
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C81110E383
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 18:47:54 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4Sv6MX6LDzz9sp7;
+ Mon, 18 Dec 2023 18:32:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+ s=MBO0001; t=1702920728;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+vve0NiBqF/ep9e79zQnM4N2qRMtt/LCYu4PuzewmJ0=;
+ b=QZq2hHeyxhgZWBwpbBlpRX5VLY/977BHVX6kCqLDDjCUMrNBHnvN7SIPIneOtBnKlkjMmC
+ iL89+dK142E8S9UB7gyrpj/QdCIratTBdOK61d5RGJogDWj7BcgsfioU/ZG0efG3gOxI2J
+ WLIEovlqlukfGthr9hjkicgKNe/JuVFvIZIe0ykW47p4XXTlhjVff6bjOnAsW8L5Q3fl7k
+ RMQ2eDrZcOYd/fiXy+waNgXtKFFWs858qVZ29wnY2wSo5SgFZYvg9Ldw8420NCTrakhywn
+ x3/XY/u2ZqDgfjA2u/pizqRWIC1RqlVAYAdqBwM0EVYpcvGKp1uVgIu3+0uMRw==
+References: <20231218-pinephone-pll-fixes-v1-0-e238b6ed6dc1@oltmanns.dev>
+ <20231218-pinephone-pll-fixes-v1-1-e238b6ed6dc1@oltmanns.dev>
+From: Frank Oltmanns <frank@oltmanns.dev>
+To: Frank Oltmanns <frank@oltmanns.dev>
+Subject: Re: [PATCH 1/5] clk: sunxi-ng: nkm: Support constraints on m/n
+ ratio and parent rate
+Date: Mon, 18 Dec 2023 18:26:51 +0100
+In-reply-to: <20231218-pinephone-pll-fixes-v1-1-e238b6ed6dc1@oltmanns.dev>
+Message-ID: <8734vz1kok.fsf@oltmanns.dev>
 MIME-Version: 1.0
-References: <20231218090454.1.I5c6eb80b2f746439c4b58efab788e00701d08759@changeid>
-In-Reply-To: <20231218090454.1.I5c6eb80b2f746439c4b58efab788e00701d08759@changeid>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 18 Dec 2023 09:24:46 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=Xpp16ptOuQz=5UYfgm8B-WbNXF95YwA1t-FTkzOYRE_A@mail.gmail.com>
-Message-ID: <CAD=FV=Xpp16ptOuQz=5UYfgm8B-WbNXF95YwA1t-FTkzOYRE_A@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: ps8640: Fix size mismatch warning w/ len
-To: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,47 +54,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
- Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Guenter Roeck <groeck@chromium.org>
+Cc: dri-devel@lists.freedesktop.org, Neil Armstrong <neil.armstrong@linaro.org>,
+ Purism Kernel Team <kernel@puri.sm>, Samuel Holland <samuel@sholland.org>,
+ Stephen Boyd <sboyd@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ linux-clk@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ Chen-Yu Tsai <wens@csie.org>, Ondrej Jirman <megi@xff.cz>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Guido =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Mon, Dec 18, 2023 at 9:05=E2=80=AFAM Douglas Anderson <dianders@chromium=
-.org> wrote:
+On 2023-12-18 at 14:35:19 +0100, Frank Oltmanns <frank@oltmanns.dev> wrote:
+> The Allwinner A64 manual lists the following constraints for the
+> PLL-MIPI clock:
+>  - M/N >= 3
+>  - (PLL_VIDEO0)/M >= 24MHz
 >
-> After commit 26195af57798 ("drm/bridge: ps8640: Drop the ability of
-> ps8640 to fetch the EDID"), I got an error compiling:
+> The PLL-MIPI clock is implemented as ccu_nkm. Therefore, add support for
+> these constraints.
 >
->   error: comparison of distinct pointer types
->   ('typeof (len) *' (aka 'unsigned int *') and
->    'typeof (msg->size) *' (aka 'unsigned long *'))
->   [-Werror,-Wcompare-distinct-pointer-types]
->
-> Fix it by declaring the `len` as size_t.
->
-> Fixes: 26195af57798 ("drm/bridge: ps8640: Drop the ability of ps8640 to f=
-etch the EDID")
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
 > ---
-> Sorry for sending this hot on the heels of the other patch, but for
-> some reason that other patch compiled fine for me until I picked it
-> back to my downstream tree. I'll see if I can track down why. In any
-> case, as soon as I see a Reviewed-by tag I'll land this.
+>  drivers/clk/sunxi-ng/ccu_nkm.c | 23 +++++++++++++++++++++++
+>  drivers/clk/sunxi-ng/ccu_nkm.h |  8 ++++++++
+>  2 files changed, 31 insertions(+)
+>
+> diff --git a/drivers/clk/sunxi-ng/ccu_nkm.c b/drivers/clk/sunxi-ng/ccu_nkm.c
+> index eed64547ad42..2af5c1ebd527 100644
+> --- a/drivers/clk/sunxi-ng/ccu_nkm.c
+> +++ b/drivers/clk/sunxi-ng/ccu_nkm.c
+> @@ -16,6 +16,20 @@ struct _ccu_nkm {
+>  	unsigned long	m, min_m, max_m;
+>  };
+>
+> +static bool ccu_nkm_is_valid_rate(struct ccu_common *common, unsigned long parent,
+> +				  unsigned long n, unsigned long m)
+> +{
+> +	struct ccu_nkm *nkm = container_of(common, struct ccu_nkm, common);
+> +
+> +	if (nkm->max_mn_ratio && (m > nkm->max_mn_ratio * n))
+> +		return false;
+> +
+> +	if (nkm->parent_wo_nk && (parent < nkm->parent_wo_nk * m))
+> +		return false;
+> +
+> +	return true;
+> +}
+> +
+>  static unsigned long ccu_nkm_find_best_with_parent_adj(struct ccu_common *common,
+>  						       struct clk_hw *parent_hw,
+>  						       unsigned long *parent, unsigned long rate,
+> @@ -32,6 +46,9 @@ static unsigned long ccu_nkm_find_best_with_parent_adj(struct ccu_common *common
+>
+>  				tmp_parent = clk_hw_round_rate(parent_hw, rate * _m / (_n * _k));
+>
+> +				if (!ccu_nkm_is_valid_rate(common, tmp_parent, _n, _m))
+> +					continue;
+> +
+>  				tmp_rate = tmp_parent * _n * _k / _m;
+>
+>  				if (ccu_is_better_rate(common, rate, tmp_rate, best_rate) ||
+> @@ -65,6 +82,12 @@ static unsigned long ccu_nkm_find_best(unsigned long parent, unsigned long rate,
+>  	for (_k = nkm->min_k; _k <= nkm->max_k; _k++) {
+>  		for (_n = nkm->min_n; _n <= nkm->max_n; _n++) {
+>  			for (_m = nkm->min_m; _m <= nkm->max_m; _m++) {
+> +				if ((common->reg == 0x040) && (_m > 3 * _n))
+> +					break;
+> +
+> +				if ((common->reg == 0x040) && (parent < 24000000 * _m))
+> +					continue;
+> +
 
-Ah, I found it! <Phew> this makes me less worried that I had some
-failure in my testing. I believe that upstream things weren't a
-problem because of commit d03eba99f5bf ("minmax: allow
-min()/max()/clamp() if the arguments have the same signedness.").
-...so at least what's landed isn't actually broken upstream, just
-downstream. It still feels reasonable to change this to "size_t",
-though.
+This, of course, is rubbish and should be this instead:
++				if (!ccu_nkm_is_valid_rate(common, parent, _n, _m))
++					continue;
++
 
--Doug
+I'll submit a V2 after receiving some feedback.
+
+>  				unsigned long tmp_rate;
+>
+>  				tmp_rate = parent * _n * _k / _m;
+> diff --git a/drivers/clk/sunxi-ng/ccu_nkm.h b/drivers/clk/sunxi-ng/ccu_nkm.h
+> index 6601defb3f38..d3d3eaf55faf 100644
+> --- a/drivers/clk/sunxi-ng/ccu_nkm.h
+> +++ b/drivers/clk/sunxi-ng/ccu_nkm.h
+> @@ -16,6 +16,12 @@
+>   * struct ccu_nkm - Definition of an N-K-M clock
+>   *
+>   * Clocks based on the formula parent * N * K / M
+> + *
+> + * @max_mn_ratio:	Maximum value for M / N.
+> + * @parent_wo_nk:	The minimum rate the parent must provide after applying the divisor,
+> + *			but without applying the multipliers, i.e. the contstraint
+> + *			   (parent rate)/M >= parent_wo_nk
+> + *			must be fulfilled.
+>   */
+>  struct ccu_nkm {
+>  	u32			enable;
+> @@ -27,6 +33,8 @@ struct ccu_nkm {
+>  	struct ccu_mux_internal	mux;
+>
+>  	unsigned int		fixed_post_div;
+> +	unsigned long		max_mn_ratio;
+> +	unsigned long           parent_wo_nk;
+>
+>  	struct ccu_common	common;
+>  };
