@@ -2,59 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35DBE817BFC
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 21:33:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C290E817B9E
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 21:13:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E20810E0A8;
-	Mon, 18 Dec 2023 20:33:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F9A110E071;
+	Mon, 18 Dec 2023 20:13:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D7C410E0A8
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 20:33:24 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-40c3fe6c08fso42667695e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 12:33:24 -0800 (PST)
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com
+ [209.85.218.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1313410E277
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 20:13:29 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id
+ a640c23a62f3a-a2371eae8f1so12577666b.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 12:13:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1702931602; x=1703536402;
+ d=amarulasolutions.com; s=google; t=1702930408; x=1703535208;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=uwBMo6h6CLFvzeF8BNuqk3mwyXmRoxEOvbk3nd1BFNQ=;
- b=hdvwz9WZrDRJF0br2EYsqn/jIHwa+2gyck037V6TrRcgNrNliALOpe0wutWccMHkz0
- UqXtciQ0k192Tm321hQIbeUwO23IviK3DaWAbTjhc9l4uuphM94rJVoiFViQQuIlQn8k
- zWdkFCOM+lReorkQTqdy8frNK4PVIEayITKnQ=
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=vUOsBiPuxBvM6FDZ7VmJ/JCXXnby3Q2ff55p54IAZ7U=;
+ b=NBzjXglGVU4TzDENQvoSEZPeqVoQKzLGtevl2kDT5EEjZKFCVikIrTmgbQJ68lavm6
+ sA2MABJ2doeJhLGSlFWpB61rZQSSCfz3lSbVSV1ge1l450W+zlXlrGMmiI6CqDKseted
+ thYRQsgqPcu2/BbIaYnvlGvW73uIj3TxglAwI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702931602; x=1703536402;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=uwBMo6h6CLFvzeF8BNuqk3mwyXmRoxEOvbk3nd1BFNQ=;
- b=IPTmo2uB5v+89ojaK62lodpzN9lbSliA3Dt6v2o7KKLsSLZxDIgVzN8PfAjVWyIDXs
- kkPd/eTD6+wESvaodHZ+RpeOkP37hrE03nMsoiy6HKQmg+ccjHukfydMPhc9B2cmV3FE
- VtR65chxHU/oT1XAHFNeW3xiCOXad0Ye1GjkSQYhJFUkKEJmopqdcEUwM5QNq6KihTxv
- XX7yuGL0MQmlMzhPqK49iC5txvNwF6+w13433ZvDfcb2R8/Rc3cyetK9lqgKj2TdVSNc
- fAIDybYqRj9RRiKbxR/GG5ifjZliI7LLnDsJgvuUJJXmquYQ2HAho2ACxZ68O6SC0mNe
- Bcfg==
-X-Gm-Message-State: AOJu0YxVgUQc2hKCEXq/apVdP3/bAYpqxij5do0mhX7lIgZJo6JSxu33
- k0Y0jzLuf2rNc33TiFoX7m+FgDE5kx0jmGrdmXwszQ==
-X-Google-Smtp-Source: AGHT+IEm7GShvAvUVER372jEsNFgBOui/TD2GxKgfn1iLVvV9s2Ggpc1aSVL5uNloELUBBA8G0Q2fA==
-X-Received: by 2002:a17:906:20d3:b0:a23:4472:57e7 with SMTP id
- c19-20020a17090620d300b00a23447257e7mr553006ejc.174.1702889041657; 
- Mon, 18 Dec 2023 00:44:01 -0800 (PST)
+ d=1e100.net; s=20230601; t=1702930408; x=1703535208;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=vUOsBiPuxBvM6FDZ7VmJ/JCXXnby3Q2ff55p54IAZ7U=;
+ b=iO46oBxylFi1qRg9tRwk4AMQLLvR327NFTjhD9SZqO6M5G3tJIFBO1M/omW1ZE/6KY
+ buVA3F26kgdiWSAFtFV7XFcE95jeZwv32oFQHCXDULD4MvQ8pvNF7mC0StbWL3jFgCPT
+ cyveUIRtpYsLrkF5ed4lTnZdlDlzns/9RMj2gLN3EKWWHL+AP7lL+G4Dr2eKhxYHxUkM
+ z6k955R90GyZRV2jWNT9D0w9OhO2iCHCkRpEs0F5W1VKjxJ19g84qbhnuDW4CT7d8jsq
+ S2vHjGewiQ/ZF4P3ml4hrsb4hvtYZjFfOfGbYlYR3keFODGzqFq8Sm06DcN7miEq0Mdk
+ 0K6A==
+X-Gm-Message-State: AOJu0YzjMyIXkJZUgiw1xoCGVUGChp+cxzXh7BJ8URZs7i2205VGiI5z
+ hIP7sBs/IOD7k+p9zWbIEJX7Pu2Ft3owaZy3XzhWeQ==
+X-Google-Smtp-Source: AGHT+IHnI5pJOO1XvxphHcSVvqxQWGOBCsC2XszPbbyQs91sGn3IpyV+l3rc/uBb2YY0cLFmXx3IRQ==
+X-Received: by 2002:a17:906:af0d:b0:a23:6059:ec33 with SMTP id
+ lx13-20020a170906af0d00b00a236059ec33mr232832ejb.139.1702889044325; 
+ Mon, 18 Dec 2023 00:44:04 -0800 (PST)
 Received: from dario-ThinkPad-T14s-Gen-2i.homenet.telecomitalia.it
  (host-80-182-13-188.retail.telecomitalia.it. [80.182.13.188])
  by smtp.gmail.com with ESMTPSA id
- un5-20020a170907cb8500b009ff77c2e1dasm13775480ejc.167.2023.12.18.00.44.00
+ un5-20020a170907cb8500b009ff77c2e1dasm13775480ejc.167.2023.12.18.00.44.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Dec 2023 00:44:01 -0800 (PST)
+ Mon, 18 Dec 2023 00:44:04 -0800 (PST)
 From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v9 0/2] Add displays support for bsh-smm-s2/pro boards
-Date: Mon, 18 Dec 2023 09:43:36 +0100
-Message-ID: <20231218084354.508942-1-dario.binacchi@amarulasolutions.com>
+Subject: [PATCH v9 2/2] drm: bridge: samsung-dsim: complete the CLKLANE_STOP
+ setting
+Date: Mon, 18 Dec 2023 09:43:38 +0100
+Message-ID: <20231218084354.508942-3-dario.binacchi@amarulasolutions.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20231218084354.508942-1-dario.binacchi@amarulasolutions.com>
+References: <20231218084354.508942-1-dario.binacchi@amarulasolutions.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,10 +86,14 @@ Cc: Maxime Ripard <mripard@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The patch completes the setting of CLKLANE_STOP for the imx8m{m,n,p}
+platforms (i. e. not exynos).
 
-The series adds drivers for the displays used by bsh-smm-s2/pro boards.
-This required applying some patches to the samsung-dsim driver and the
-drm_bridge.c module.
+Co-developed-by: Michael Trimarchi <michael@amarulasolutions.com>
+Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
+Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+
+---
 
 Changes in v9:
 - Updated commit message
@@ -132,13 +140,35 @@ Changes in v2:
   - 0003 samsung-dsim: enter display mode in the enable() callback
   - 0004 drm: bridge: samsung-dsim: complete the CLKLANE_STOP setting
 
-Dario Binacchi (2):
-  drm: bridge: samsung-dsim: enter display mode in the enable() callback
-  drm: bridge: samsung-dsim: complete the CLKLANE_STOP setting
+ drivers/gpu/drm/bridge/samsung-dsim.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
- drivers/gpu/drm/bridge/samsung-dsim.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
-
+diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
+index 15bf05b2bbe4..13f181c99d7e 100644
+--- a/drivers/gpu/drm/bridge/samsung-dsim.c
++++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+@@ -96,6 +96,7 @@
+ #define DSIM_MFLUSH_VS			BIT(29)
+ /* This flag is valid only for exynos3250/3472/5260/5430 */
+ #define DSIM_CLKLANE_STOP		BIT(30)
++#define DSIM_NON_CONTINUOUS_CLKLANE	BIT(31)
+ 
+ /* DSIM_ESCMODE */
+ #define DSIM_TX_TRIGGER_RST		BIT(4)
+@@ -945,8 +946,12 @@ static int samsung_dsim_init_link(struct samsung_dsim *dsi)
+ 	 * power consumption.
+ 	 */
+ 	if (driver_data->has_clklane_stop &&
+-	    dsi->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS)
++	    dsi->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS) {
++		if (!samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type))
++			reg |= DSIM_NON_CONTINUOUS_CLKLANE;
++
+ 		reg |= DSIM_CLKLANE_STOP;
++	}
+ 	samsung_dsim_write(dsi, DSIM_CONFIG_REG, reg);
+ 
+ 	lanes_mask = BIT(dsi->lanes) - 1;
 -- 
 2.43.0
 
