@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31CD78179CE
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 19:37:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 804378179F6
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 19:46:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 185EA10E280;
-	Mon, 18 Dec 2023 18:37:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7CC510E367;
+	Mon, 18 Dec 2023 18:46:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com
- [209.85.214.202])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC60110E084
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 18:35:40 +0000 (UTC)
-Received: by mail-pl1-f202.google.com with SMTP id
- d9443c01a7336-1d3c55e0b46so4990235ad.0
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 10:35:40 -0800 (PST)
+Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com
+ [209.85.216.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A03FA10E1E5
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 18:42:24 +0000 (UTC)
+Received: by mail-pj1-f74.google.com with SMTP id
+ 98e67ed59e1d1-28b3b68be42so1145826a91.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 10:42:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1702924540; x=1703529340;
+ d=google.com; s=20230601; t=1702924944; x=1703529744;
  darn=lists.freedesktop.org; 
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=aoV0tDbNZgYvivQmYBKAP9GCcy/xYSu5tcLB8R1UGG0=;
- b=HsItVowzhHeadeWaLDVAXxG49B/fqCrA5NQ52LRv64V5XYleTPC8GSAh8+KYITgeWV
- DOD+Fwa/dpAQx2PBNTVeB3pgZoier82Zwupi+PrmcGwoAsyIzlE+QSHt/PHLwt7kUz6L
- rm5JmDa++8Qpg9JG57zG+UaUFYsowZiDeGHsYqrck7M3x9sKdyhbrzcAywEPw+HGR2Pt
- vGKxlDjXz+AOBo4Kw2TgBeU+fdlWux0Rq+d0xnZaovkpQXNDOc//Uerkm11ePkjO+Jbk
- DP4uO5x3JuzO9M+g18WDOiWBq4FCBkH9IGLTlPnxm8loiJ0MxA7xw8JLQGtnYl9YYsVi
- qpfA==
+ bh=G5EYHEqOKeBIt6a6HG2bP5krFWMMN/+OHgJTydxcJRs=;
+ b=mOMFfbi8VA3JMZ0whZaSjqdMvXZr0S81kOhQmbF1zEI/QgOCfnX7ZyaFiVVEF4uY+H
+ /p+v2m7l8MNviPrgflsGo2hLBB8WU65YanWD+kvFeKeUpebDT8HbeOLz8JIxe8+jR50J
+ Fi4Rw8KsbBwmAMnzVvD4NCH1KS3DkT+Uugsj1RBm0zZ/dtKLNfXRBW5EsE9PiYp2dKgv
+ CvPVfu+3xdt9rHw1p/FsFaLBJKW7CXfY3jyPjfM6MGDd3Hb9LNPk5IbJWuxQ4mFLQV51
+ jngH1xxlw5nsv9ePFVZhrxtjXguskdGeod9oc8aCg0xQX4XEepcf7kFQiX/n60kJxKtE
+ w5yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702924540; x=1703529340;
+ d=1e100.net; s=20230601; t=1702924944; x=1703529744;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aoV0tDbNZgYvivQmYBKAP9GCcy/xYSu5tcLB8R1UGG0=;
- b=xDhvmza4L5YoKvf94vdMN5GbkdTyc2Tm0uTlGpmGdvxd64K5Y/Ab5Z0IZZUjwwmhWo
- Q7NBxwfseIEwtDPHuAmH4HXspXVDCRIAASCLAa+ar34zAImGqb3vb1IomEAE/dqiYRzq
- umRcZdLmUXSu1f1TfxnA+9u5Lz9VhZOTGSXUlKOKO/eAPDKhFjBz4Ttlv9SM6I5E8zuI
- TE/QXvH3v/8yfPtpjausGbTM9uasWuHucMpcHu+JnizutrIP0BdR69sA1XQErrLyAS+w
- O2ThbMMaqMw6XPR1/PX7TNkTxy2z4tcKu/qFJxv3brPzGlyp48JEHYoEQyWGg3LYRs6k
- Va6w==
-X-Gm-Message-State: AOJu0YxpZ3xRjriqfIW46WXV/iMeGTEIP6bSHIOeBmBMq3p29Z2klzgA
- ZkSlnKKlAbfpE9K4wChyLPnvZVME84dNIy9/PQ==
-X-Google-Smtp-Source: AGHT+IEMfoIa/raGANjVA6sVzaFnIgW/UHU0mTfijiFIW4CyzMvFaY2GqRhlctpqAAwku+Eg67s2p0htTzoKdXQHcw==
+ bh=G5EYHEqOKeBIt6a6HG2bP5krFWMMN/+OHgJTydxcJRs=;
+ b=wJgSDkD+cZAbDU03JT/lMM6tVzZkK+muBv7CofbcLw+Wm6ul+2oLdDftdjU5qpjF4Z
+ wpr36QnaT7E5Muqj5QiLacB3+Rx16AJq0jNQEXirLNK+cHIgkzCElIdm3reXn/nk1XCl
+ eQequVswuLL+rPOyERv+eiykg+vjyghhzstnnYLbLlnr5qTiUKblQqBDgjgdPs5NJFJf
+ 0oqVICIkt/djlTvQ99TxMgZMHv3GEPXBw2QoW5UzJ+fCQK2Xh9vCE4Ruoh7Lnf2smdR0
+ 7LhJTjceU11M2s04bpmid6/4ImJpqS2FlwQNvvQ3RlJ/wa/bCV/23XpyJtFkqfrbE3pO
+ 9BPg==
+X-Gm-Message-State: AOJu0YwYfMFgHSiVHtMa4wrwkP5E55AwE6HJ03QHSyds//fhIAtdkevy
+ eZzYl8l46I+ubEco3e00AnCx+qvEB3DLbqSAOg==
+X-Google-Smtp-Source: AGHT+IGjcfEevp++Pd2H3pj+I2hiqHNx52lPAjqohjA2+exixRnO7jGoi61uq7cn0OD2rKiPydADTKL/EYRx+QoP2A==
 X-Received: from almasrymina.svl.corp.google.com
  ([2620:15c:2c4:200:5cbf:3534:fb34:758e])
- (user=almasrymina job=sendgmr) by 2002:a25:b904:0:b0:d9a:e3d9:99bd with SMTP
- id x4-20020a25b904000000b00d9ae3d999bdmr241027ybj.5.1702867235030; Sun, 17
- Dec 2023 18:40:35 -0800 (PST)
-Date: Sun, 17 Dec 2023 18:40:10 -0800
+ (user=almasrymina job=sendgmr) by 2002:a05:690c:338f:b0:5e3:b47a:2912 with
+ SMTP id fl15-20020a05690c338f00b005e3b47a2912mr1365708ywb.6.1702867239583;
+ Sun, 17 Dec 2023 18:40:39 -0800 (PST)
+Date: Sun, 17 Dec 2023 18:40:12 -0800
 In-Reply-To: <20231218024024.3516870-1-almasrymina@google.com>
 Mime-Version: 1.0
 References: <20231218024024.3516870-1-almasrymina@google.com>
 X-Mailer: git-send-email 2.43.0.472.g3155946c3a-goog
-Message-ID: <20231218024024.3516870-4-almasrymina@google.com>
-Subject: [RFC PATCH net-next v5 03/14] net: netdev netlink api to bind dma-buf
- to a net device
+Message-ID: <20231218024024.3516870-6-almasrymina@google.com>
+Subject: [RFC PATCH net-next v5 05/14] netdev: netdevice devmem allocator
 From: Mina Almasry <almasrymina@google.com>
 To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
  Martin KaFai Lau <martin.lau@linux.dev>, 
@@ -82,8 +81,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pavel Begunkov <asml.silence@gmail.com>,
- Alexei Starovoitov <ast@kernel.org>,
+Cc: Kaiyuan Zhang <kaiyuanz@google.com>,
+ Pavel Begunkov <asml.silence@gmail.com>, Alexei Starovoitov <ast@kernel.org>,
  "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
  Eric Dumazet <edumazet@google.com>, Shuah Khan <shuah@kernel.org>,
  Sumit Semwal <sumit.semwal@linaro.org>, Mina Almasry <almasrymina@google.com>,
@@ -99,6 +98,7 @@ Cc: Pavel Begunkov <asml.silence@gmail.com>,
  Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
  Harshitha Ramamurthy <hramamurthy@google.com>,
  Praveen Kaligineedi <pkaligineedi@google.com>,
+ Willem de Bruijn <willemb@google.com>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
  David Ahern <dsahern@kernel.org>,
  Ilias Apalodimas <ilias.apalodimas@linaro.org>, David Wei <dw@davidwei.uk>,
@@ -108,255 +108,147 @@ Cc: Pavel Begunkov <asml.silence@gmail.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-API takes the dma-buf fd as input, and binds it to the netdevice. The
-user can specify the rx queues to bind the dma-buf to.
+Implement netdev devmem allocator. The allocator takes a given struct
+netdev_dmabuf_binding as input and allocates net_iov from that
+binding.
 
-Suggested-by: Stanislav Fomichev <sdf@google.com>
+The allocation simply delegates to the binding's genpool for the
+allocation logic and wraps the returned memory region in a net_iov
+struct.
+
+Signed-off-by: Willem de Bruijn <willemb@google.com>
+Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
 Signed-off-by: Mina Almasry <almasrymina@google.com>
 
 ---
 
-Changes in v1:
-- Add rx-queue-type to distingish rx from tx (Jakub)
-- Return dma-buf ID from netlink API (David, Stan)
-
-Changes in RFC-v3:
-- Support binding multiple rx rx-queues
+v1:
+- Rename devmem -> dmabuf (David).
 
 ---
- Documentation/netlink/specs/netdev.yaml | 52 +++++++++++++++++++++++++
- include/uapi/linux/netdev.h             | 19 +++++++++
- net/core/netdev-genl-gen.c              | 19 +++++++++
- net/core/netdev-genl-gen.h              |  2 +
- net/core/netdev-genl.c                  |  6 +++
- tools/include/uapi/linux/netdev.h       | 19 +++++++++
- 6 files changed, 117 insertions(+)
+ include/net/devmem.h | 12 ++++++++++++
+ include/net/netmem.h | 26 ++++++++++++++++++++++++++
+ net/core/dev.c       | 38 ++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 76 insertions(+)
 
-diff --git a/Documentation/netlink/specs/netdev.yaml b/Documentation/netlink/specs/netdev.yaml
-index f2c76d103bd8..df6a11d47006 100644
---- a/Documentation/netlink/specs/netdev.yaml
-+++ b/Documentation/netlink/specs/netdev.yaml
-@@ -260,6 +260,45 @@ attribute-sets:
-         name: napi-id
-         doc: ID of the NAPI instance which services this queue.
-         type: u32
-+  -
-+    name: queue-dmabuf
-+    attributes:
-+      -
-+        name: type
-+        doc: rx or tx queue
-+        type: u8
-+        enum: queue-type
-+      -
-+        name: idx
-+        doc: queue index
-+        type: u32
-+
-+  -
-+    name: bind-dmabuf
-+    attributes:
-+      -
-+        name: ifindex
-+        doc: netdev ifindex to bind the dma-buf to.
-+        type: u32
-+        checks:
-+          min: 1
-+      -
-+        name: queues
-+        doc: receive queues to bind the dma-buf to.
-+        type: nest
-+        nested-attributes: queue-dmabuf
-+        multi-attr: true
-+      -
-+        name: dmabuf-fd
-+        doc: dmabuf file descriptor to bind.
-+        type: u32
-+      -
-+        name: dmabuf-id
-+        doc: id of the dmabuf binding
-+        type: u32
-+        checks:
-+          min: 1
-+
- 
- operations:
-   list:
-@@ -382,6 +421,19 @@ operations:
-           attributes:
-             - ifindex
-         reply: *queue-get-op
-+    -
-+      name: bind-rx
-+      doc: Bind dmabuf to netdev
-+      attribute-set: bind-dmabuf
-+      do:
-+        request:
-+          attributes:
-+            - ifindex
-+            - dmabuf-fd
-+            - queues
-+        reply:
-+          attributes:
-+            - dmabuf-id
-     -
-       name: napi-get
-       doc: Get information about NAPI instances configured on the system.
-diff --git a/include/uapi/linux/netdev.h b/include/uapi/linux/netdev.h
-index 424c5e28f495..35d201dc4b05 100644
---- a/include/uapi/linux/netdev.h
-+++ b/include/uapi/linux/netdev.h
-@@ -129,6 +129,24 @@ enum {
- 	NETDEV_A_QUEUE_MAX = (__NETDEV_A_QUEUE_MAX - 1)
+diff --git a/include/net/devmem.h b/include/net/devmem.h
+index 85ccbbe84c65..4207adadc2bb 100644
+--- a/include/net/devmem.h
++++ b/include/net/devmem.h
+@@ -67,6 +67,8 @@ struct dmabuf_genpool_chunk_owner {
  };
  
-+enum {
-+	NETDEV_A_QUEUE_DMABUF_TYPE = 1,
-+	NETDEV_A_QUEUE_DMABUF_IDX,
-+
-+	__NETDEV_A_QUEUE_DMABUF_MAX,
-+	NETDEV_A_QUEUE_DMABUF_MAX = (__NETDEV_A_QUEUE_DMABUF_MAX - 1)
-+};
-+
-+enum {
-+	NETDEV_A_BIND_DMABUF_IFINDEX = 1,
-+	NETDEV_A_BIND_DMABUF_QUEUES,
-+	NETDEV_A_BIND_DMABUF_DMABUF_FD,
-+	NETDEV_A_BIND_DMABUF_DMABUF_ID,
-+
-+	__NETDEV_A_BIND_DMABUF_MAX,
-+	NETDEV_A_BIND_DMABUF_MAX = (__NETDEV_A_BIND_DMABUF_MAX - 1)
-+};
-+
- enum {
- 	NETDEV_CMD_DEV_GET = 1,
- 	NETDEV_CMD_DEV_ADD_NTF,
-@@ -140,6 +158,7 @@ enum {
- 	NETDEV_CMD_PAGE_POOL_CHANGE_NTF,
- 	NETDEV_CMD_PAGE_POOL_STATS_GET,
- 	NETDEV_CMD_QUEUE_GET,
-+	NETDEV_CMD_BIND_RX,
- 	NETDEV_CMD_NAPI_GET,
- 
- 	__NETDEV_CMD_MAX,
-diff --git a/net/core/netdev-genl-gen.c b/net/core/netdev-genl-gen.c
-index be7f2ebd61b2..3384b1ae3f40 100644
---- a/net/core/netdev-genl-gen.c
-+++ b/net/core/netdev-genl-gen.c
-@@ -27,6 +27,11 @@ const struct nla_policy netdev_page_pool_info_nl_policy[NETDEV_A_PAGE_POOL_IFIND
- 	[NETDEV_A_PAGE_POOL_IFINDEX] = NLA_POLICY_FULL_RANGE(NLA_U32, &netdev_a_page_pool_ifindex_range),
- };
- 
-+const struct nla_policy netdev_queue_dmabuf_nl_policy[NETDEV_A_QUEUE_DMABUF_IDX + 1] = {
-+	[NETDEV_A_QUEUE_DMABUF_TYPE] = NLA_POLICY_MAX(NLA_U8, 1),
-+	[NETDEV_A_QUEUE_DMABUF_IDX] = { .type = NLA_U32, },
-+};
-+
- /* NETDEV_CMD_DEV_GET - do */
- static const struct nla_policy netdev_dev_get_nl_policy[NETDEV_A_DEV_IFINDEX + 1] = {
- 	[NETDEV_A_DEV_IFINDEX] = NLA_POLICY_MIN(NLA_U32, 1),
-@@ -58,6 +63,13 @@ static const struct nla_policy netdev_queue_get_dump_nl_policy[NETDEV_A_QUEUE_IF
- 	[NETDEV_A_QUEUE_IFINDEX] = NLA_POLICY_MIN(NLA_U32, 1),
- };
- 
-+/* NETDEV_CMD_BIND_RX - do */
-+static const struct nla_policy netdev_bind_rx_nl_policy[NETDEV_A_BIND_DMABUF_DMABUF_FD + 1] = {
-+	[NETDEV_A_BIND_DMABUF_IFINDEX] = NLA_POLICY_MIN(NLA_U32, 1),
-+	[NETDEV_A_BIND_DMABUF_DMABUF_FD] = { .type = NLA_U32, },
-+	[NETDEV_A_BIND_DMABUF_QUEUES] = NLA_POLICY_NESTED(netdev_queue_dmabuf_nl_policy),
-+};
-+
- /* NETDEV_CMD_NAPI_GET - do */
- static const struct nla_policy netdev_napi_get_do_nl_policy[NETDEV_A_NAPI_ID + 1] = {
- 	[NETDEV_A_NAPI_ID] = { .type = NLA_U32, },
-@@ -124,6 +136,13 @@ static const struct genl_split_ops netdev_nl_ops[] = {
- 		.maxattr	= NETDEV_A_QUEUE_IFINDEX,
- 		.flags		= GENL_CMD_CAP_DUMP,
- 	},
-+	{
-+		.cmd		= NETDEV_CMD_BIND_RX,
-+		.doit		= netdev_nl_bind_rx_doit,
-+		.policy		= netdev_bind_rx_nl_policy,
-+		.maxattr	= NETDEV_A_BIND_DMABUF_DMABUF_FD,
-+		.flags		= GENL_CMD_CAP_DO,
-+	},
- 	{
- 		.cmd		= NETDEV_CMD_NAPI_GET,
- 		.doit		= netdev_nl_napi_get_doit,
-diff --git a/net/core/netdev-genl-gen.h b/net/core/netdev-genl-gen.h
-index a47f2bcbe4fa..a7ede514eccd 100644
---- a/net/core/netdev-genl-gen.h
-+++ b/net/core/netdev-genl-gen.h
-@@ -13,6 +13,7 @@
- 
- /* Common nested types */
- extern const struct nla_policy netdev_page_pool_info_nl_policy[NETDEV_A_PAGE_POOL_IFINDEX + 1];
-+extern const struct nla_policy netdev_queue_dmabuf_nl_policy[NETDEV_A_QUEUE_DMABUF_IDX + 1];
- 
- int netdev_nl_dev_get_doit(struct sk_buff *skb, struct genl_info *info);
- int netdev_nl_dev_get_dumpit(struct sk_buff *skb, struct netlink_callback *cb);
-@@ -26,6 +27,7 @@ int netdev_nl_page_pool_stats_get_dumpit(struct sk_buff *skb,
- int netdev_nl_queue_get_doit(struct sk_buff *skb, struct genl_info *info);
- int netdev_nl_queue_get_dumpit(struct sk_buff *skb,
- 			       struct netlink_callback *cb);
-+int netdev_nl_bind_rx_doit(struct sk_buff *skb, struct genl_info *info);
- int netdev_nl_napi_get_doit(struct sk_buff *skb, struct genl_info *info);
- int netdev_nl_napi_get_dumpit(struct sk_buff *skb, struct netlink_callback *cb);
- 
-diff --git a/net/core/netdev-genl.c b/net/core/netdev-genl.c
-index fd98936da3ae..0ed292d87ae0 100644
---- a/net/core/netdev-genl.c
-+++ b/net/core/netdev-genl.c
-@@ -469,6 +469,12 @@ int netdev_nl_queue_get_dumpit(struct sk_buff *skb, struct netlink_callback *cb)
- 	return skb->len;
- }
- 
-+/* Stub */
-+int netdev_nl_bind_rx_doit(struct sk_buff *skb, struct genl_info *info)
+ #ifdef CONFIG_DMA_SHARED_BUFFER
++struct net_iov *netdev_alloc_dmabuf(struct netdev_dmabuf_binding *binding);
++void netdev_free_dmabuf(struct net_iov *ppiov);
+ void __netdev_dmabuf_binding_free(struct netdev_dmabuf_binding *binding);
+ int netdev_bind_dmabuf(struct net_device *dev, unsigned int dmabuf_fd,
+ 		       struct netdev_dmabuf_binding **out);
+@@ -74,6 +76,16 @@ void netdev_unbind_dmabuf(struct netdev_dmabuf_binding *binding);
+ int netdev_bind_dmabuf_to_queue(struct net_device *dev, u32 rxq_idx,
+ 				struct netdev_dmabuf_binding *binding);
+ #else
++static inline struct net_iov *
++netdev_alloc_dmabuf(struct netdev_dmabuf_binding *binding)
 +{
-+	return 0;
++	return NULL;
 +}
 +
- static int netdev_genl_netdevice_event(struct notifier_block *nb,
- 				       unsigned long event, void *ptr)
++static inline void netdev_free_dmabuf(struct net_iov *ppiov)
++{
++}
++
+ static inline void
+ __netdev_dmabuf_binding_free(struct netdev_dmabuf_binding *binding)
  {
-diff --git a/tools/include/uapi/linux/netdev.h b/tools/include/uapi/linux/netdev.h
-index 424c5e28f495..35d201dc4b05 100644
---- a/tools/include/uapi/linux/netdev.h
-+++ b/tools/include/uapi/linux/netdev.h
-@@ -129,6 +129,24 @@ enum {
- 	NETDEV_A_QUEUE_MAX = (__NETDEV_A_QUEUE_MAX - 1)
+diff --git a/include/net/netmem.h b/include/net/netmem.h
+index 45eb42d9990b..7fce2efc8707 100644
+--- a/include/net/netmem.h
++++ b/include/net/netmem.h
+@@ -14,8 +14,34 @@
+ 
+ struct net_iov {
+ 	struct dmabuf_genpool_chunk_owner *owner;
++	unsigned long dma_addr;
  };
  
-+enum {
-+	NETDEV_A_QUEUE_DMABUF_TYPE = 1,
-+	NETDEV_A_QUEUE_DMABUF_IDX,
++static inline struct dmabuf_genpool_chunk_owner *
++net_iov_owner(const struct net_iov *niov)
++{
++	return niov->owner;
++}
 +
-+	__NETDEV_A_QUEUE_DMABUF_MAX,
-+	NETDEV_A_QUEUE_DMABUF_MAX = (__NETDEV_A_QUEUE_DMABUF_MAX - 1)
-+};
++static inline unsigned int net_iov_idx(const struct net_iov *niov)
++{
++	return niov - net_iov_owner(niov)->niovs;
++}
 +
-+enum {
-+	NETDEV_A_BIND_DMABUF_IFINDEX = 1,
-+	NETDEV_A_BIND_DMABUF_QUEUES,
-+	NETDEV_A_BIND_DMABUF_DMABUF_FD,
-+	NETDEV_A_BIND_DMABUF_DMABUF_ID,
++static inline dma_addr_t net_iov_dma_addr(const struct net_iov *niov)
++{
++	struct dmabuf_genpool_chunk_owner *owner = net_iov_owner(niov);
 +
-+	__NETDEV_A_BIND_DMABUF_MAX,
-+	NETDEV_A_BIND_DMABUF_MAX = (__NETDEV_A_BIND_DMABUF_MAX - 1)
-+};
++	return owner->base_dma_addr +
++	       ((dma_addr_t)net_iov_idx(niov) << PAGE_SHIFT);
++}
 +
- enum {
- 	NETDEV_CMD_DEV_GET = 1,
- 	NETDEV_CMD_DEV_ADD_NTF,
-@@ -140,6 +158,7 @@ enum {
- 	NETDEV_CMD_PAGE_POOL_CHANGE_NTF,
- 	NETDEV_CMD_PAGE_POOL_STATS_GET,
- 	NETDEV_CMD_QUEUE_GET,
-+	NETDEV_CMD_BIND_RX,
- 	NETDEV_CMD_NAPI_GET,
++static inline struct netdev_dmabuf_binding *
++net_iov_binding(const struct net_iov *niov)
++{
++	return net_iov_owner(niov)->binding;
++}
++
+ /* netmem */
  
- 	__NETDEV_CMD_MAX,
+ struct netmem {
+diff --git a/net/core/dev.c b/net/core/dev.c
+index 2e474099267a..20ba528ef426 100644
+--- a/net/core/dev.c
++++ b/net/core/dev.c
+@@ -2119,6 +2119,44 @@ static int netdev_restart_rx_queue(struct net_device *dev, int rxq_idx)
+ 	return err;
+ }
+ 
++struct net_iov *netdev_alloc_dmabuf(struct netdev_dmabuf_binding *binding)
++{
++	struct dmabuf_genpool_chunk_owner *owner;
++	unsigned long dma_addr;
++	struct net_iov *niov;
++	ssize_t offset;
++	ssize_t index;
++
++	dma_addr = gen_pool_alloc_owner(binding->chunk_pool, PAGE_SIZE,
++					(void **)&owner);
++	if (!dma_addr)
++		return NULL;
++
++	offset = dma_addr - owner->base_dma_addr;
++	index = offset / PAGE_SIZE;
++	niov = &owner->niovs[index];
++
++	niov->pp_magic = 0;
++	niov->pp = NULL;
++	niov->dma_addr = 0;
++	atomic_long_set(&niov->pp_ref_count, 0);
++
++	netdev_dmabuf_binding_get(binding);
++
++	return niov;
++}
++
++void netdev_free_dmabuf(struct net_iov *niov)
++{
++	struct netdev_dmabuf_binding *binding = net_iov_binding(niov);
++	unsigned long dma_addr = net_iov_dma_addr(niov);
++
++	if (gen_pool_has_addr(binding->chunk_pool, dma_addr, PAGE_SIZE))
++		gen_pool_free(binding->chunk_pool, dma_addr, PAGE_SIZE);
++
++	netdev_dmabuf_binding_put(binding);
++}
++
+ /* Protected by rtnl_lock() */
+ static DEFINE_XARRAY_FLAGS(netdev_dmabuf_bindings, XA_FLAGS_ALLOC1);
+ 
 -- 
 2.43.0.472.g3155946c3a-goog
 
