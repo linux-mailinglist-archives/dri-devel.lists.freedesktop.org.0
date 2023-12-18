@@ -2,71 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 991F081799D
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 19:26:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CBF88179D5
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 19:40:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5522710E2B0;
-	Mon, 18 Dec 2023 18:25:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F175C10E3A4;
+	Mon, 18 Dec 2023 18:39:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
- [209.85.218.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8726B10E290
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 18:25:51 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id
- a640c23a62f3a-a233a60f8feso234358466b.0
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 10:25:51 -0800 (PST)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
+ [209.85.208.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0A8110E066
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 18:36:42 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id
+ 4fb4d7f45d1cf-54ba86ae133so3162459a12.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 10:36:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1702923950; x=1703528750;
+ d=chromium.org; s=google; t=1702924601; x=1703529401;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=NG2qZG/XdvJUEvAVYY7hNHtIGwP/B3fi4Ki1iIxEYOI=;
- b=aqd8mDKmB3+v3zwQaUG4Q22vtZW1DNVCk88v3JsYGdgqt378+jGpYKBYZcxTI6sZqm
- 04NAeFcP6X6o+fI2f8AFToEYadtEXma458vOoeReyLhk3FicXhmKRoZ3XtghzZEs3T0t
- I++d2ZjU5Yo9ZTDQPkxmOmZJIY1vswOh7b1DQ=
+ bh=nM0rc7/LDh8NwvQblcAD/SfzUIDE9JpJzu1fXo/7n0Y=;
+ b=a3KsF6HCWqSZOPKHwO74fU+q8VCzYftiX4mF4U4qOD935L9/Xt8HpGlJbpJdSb7RfX
+ jZGdQ6sAamdTsKhu595MjHkhHHgCVjw5ZvLDhN9E1RyaKCzNBU4v/dWApIoQo7b94OP6
+ Gn5/0wYPgpCWAavQNqlUIRAmX/8jcnntcgYdY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702923950; x=1703528750;
+ d=1e100.net; s=20230601; t=1702924601; x=1703529401;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=NG2qZG/XdvJUEvAVYY7hNHtIGwP/B3fi4Ki1iIxEYOI=;
- b=YVVPYsT5r8/9+lw+2VUpPXKiKim3ymcyw2YjkXuq+zZQq9eFIFWMH/KZGSF7lE23y0
- sS0ujxDAOgM3fnMw1o66O6tI9YeffszgI0FTomCYpGcybSB5k41vErcae+9f2ujiK3bp
- 0Gto5BN+PAwJMCmUpJ0hK0nRpr1QkiZwr7GAJbQVXBpSbp4uZKex9WEc76wwNeffs8lZ
- HZzaNBAkGKlZXRccwJgUilJr7NRlZ7I6a5fEoSRu7bsCp4YGl1/EHyK0t1pg52Ne7AIE
- YMcofb4uf/WjCfzd6BngmipDkMZmL5DfpAkdZDXhnnnEciVG5jwPbZmRQV/0KaqIILki
- 1bqA==
-X-Gm-Message-State: AOJu0YwmCC6kKJuWRpZxwOvKJobdbDVSHWDCA3RnS0LDKAd0yI/G7CxP
- LirUA7Yd/pRf6ETOQHAO0kKHdv5zDls90Ji6fBl89i8/
-X-Google-Smtp-Source: AGHT+IELCvjVBR93ODgx9+flmyr5uMzXWiyGSg7mq51xU2HRTg5hHy9HRRTlyHNLVZyoXyIUpzP7Fw==
-X-Received: by 2002:a17:906:c14b:b0:a1d:182:efcc with SMTP id
- dp11-20020a170906c14b00b00a1d0182efccmr9893305ejc.65.1702917753410; 
- Mon, 18 Dec 2023 08:42:33 -0800 (PST)
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com.
- [209.85.208.46]) by smtp.gmail.com with ESMTPSA id
- wb13-20020a170907d50d00b00a1d4be88019sm14278060ejc.43.2023.12.18.08.42.32
+ bh=nM0rc7/LDh8NwvQblcAD/SfzUIDE9JpJzu1fXo/7n0Y=;
+ b=o8QNLo3Px8IAajTbY4WT876PmUExj8rsYKgC0CLIElil1MU2hIv3veVgdSC7QYzzTO
+ YjLLIFk46QFKNUzg/4LHlHj+2h9oPlMFJxCuaHXfmV0oVDiIwdEMEETIHi8qkThSNUuy
+ f5gp/6/QOY2OGZJULdl0mpQSGMZSYZWT+Vj0rgH2AVz/D1Wh1bnvX2m8SzC+aCpK+mPF
+ 7u4oYCj9SiVo7yNrH3FjhTactNKhCXM0x2UC4S5d7gaNeeEtWXNKDW0l4RlpAMuryaIy
+ teygBuydV7ZNjjZtGP7Xxo+6d8G8xufAi/63J+beoOnLdYUOUSiDLXjwlXFa2NuwFecR
+ VVjg==
+X-Gm-Message-State: AOJu0Yy6ulNn0GmWfeDsrjJDEuyGCq1D4KzZ8NYPVEHBHeNZQAjYvSdm
+ 97uyI5dcVwZBG3PX1mC6ymhUdlWZXot5vpo6l12M07wq
+X-Google-Smtp-Source: AGHT+IH0Q2Huf7P0pb6wp2BTJvaqhT45z0lfICOBVWhpuJIxDRzCvfxfuBhvE7fP7FdyIW+bDIlRJg==
+X-Received: by 2002:a05:600c:3501:b0:40c:6b9c:eb49 with SMTP id
+ h1-20020a05600c350100b0040c6b9ceb49mr3084742wmq.95.1702918051868; 
+ Mon, 18 Dec 2023 08:47:31 -0800 (PST)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com.
+ [209.85.128.53]) by smtp.gmail.com with ESMTPSA id
+ k10-20020a170906680a00b00a236193fe3esm868009ejr.96.2023.12.18.08.47.29
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Dec 2023 08:42:33 -0800 (PST)
-Received: by mail-ed1-f46.google.com with SMTP id
- 4fb4d7f45d1cf-552eaf800abso20518a12.0
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 08:42:32 -0800 (PST)
-X-Received: by 2002:a05:6402:5216:b0:553:6de7:43d7 with SMTP id
- s22-20020a056402521600b005536de743d7mr111830edd.6.1702917752681; Mon, 18 Dec
- 2023 08:42:32 -0800 (PST)
+ Mon, 18 Dec 2023 08:47:29 -0800 (PST)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-40c38e520e2so100865e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 08:47:29 -0800 (PST)
+X-Received: by 2002:a05:600c:3b03:b0:40d:174c:9295 with SMTP id
+ m3-20020a05600c3b0300b0040d174c9295mr213133wms.3.1702918048764; Mon, 18 Dec
+ 2023 08:47:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20231214152817.2766280-1-treapking@chromium.org>
- <20231214152817.2766280-4-treapking@chromium.org>
-In-Reply-To: <20231214152817.2766280-4-treapking@chromium.org>
+References: <20231214123752.v3.1.I9d1afcaad76a3e2c0ca046dc4adbc2b632c22eda@changeid>
+In-Reply-To: <20231214123752.v3.1.I9d1afcaad76a3e2c0ca046dc4adbc2b632c22eda@changeid>
 From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 18 Dec 2023 08:42:20 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=Xd3TJNBSzUQ=4td9t6Nqnbd3QAt7fmnn_aT0QXSkRn0Q@mail.gmail.com>
-Message-ID: <CAD=FV=Xd3TJNBSzUQ=4td9t6Nqnbd3QAt7fmnn_aT0QXSkRn0Q@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] drm/panel-edp: Add some panels with conservative
- timings
-To: Pin-yen Lin <treapking@chromium.org>
+Date: Mon, 18 Dec 2023 08:47:16 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=VtGN-qU-jqHsD0XpPc5uJwm2xd_rO+ueR_PqK-VJcukQ@mail.gmail.com>
+Message-ID: <CAD=FV=VtGN-qU-jqHsD0XpPc5uJwm2xd_rO+ueR_PqK-VJcukQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] drm/bridge: parade-ps8640: Never store more than
+ msg->size bytes in AUX xfer
+To: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,49 +80,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Guenter Roeck <groeck@chromium.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Philip Chen <philipchen@chromium.org>, Robert Foss <rfoss@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Stephen Boyd <swboyd@chromium.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Guenter Roeck <groeck@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Thu, Dec 14, 2023 at 7:28=E2=80=AFAM Pin-yen Lin <treapking@chromium.org=
-> wrote:
+On Thu, Dec 14, 2023 at 12:38=E2=80=AFPM Douglas Anderson <dianders@chromiu=
+m.org> wrote:
 >
-> These panels are used by Mediatek MT8173 Chromebooks, and they used to
-> work with the downstream v4.19 kernel without any specified delay.
-> Back in the v4.19 kernel, they used the "little white lie" approach,
-> which is making the devicetree claim a specific panel's compatible
-> string for many different panels. That was a common solution before the
-> generic edp-panel driver.
+> While testing, I happened to notice a random crash that looked like:
 >
-> After we uprevved the device to a newer kernel and used the edp-panel
-> driver, we saw multiple devices reporting warnings of using an unknown
-> panel and falling back to the conservative timings, which means that
-> they turn on/off much more slowly than they should. We tried to fill in
-> the timings for those panels, but we failed to find all the data sheets
-> for them.
+>   Kernel panic - not syncing: stack-protector:
+>   Kernel stack is corrupted in: drm_dp_dpcd_probe+0x120/0x120
 >
-> Therefore, instead of having them use the default conservative timings,
-> update them with less-conservative timings from other panels of the same
-> vendor. The panels should still work under those timings, and we can
-> save some delays and suppress the warnings.
+> Analysis of drm_dp_dpcd_probe() shows that we pass in a 1-byte buffer
+> (allocated on the stack) to the aux->transfer() function. Presumably
+> if the aux->transfer() writes more than one byte to this buffer then
+> we're in a bad shape.
 >
-> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> Dropping into kgdb, I noticed that "aux->transfer" pointed at
+> ps8640_aux_transfer().
 >
-> ---
+> Reading through ps8640_aux_transfer(), I can see that there are cases
+> where it could write more bytes to msg->buffer than were specified by
+> msg->size. This could happen if the hardware reported back something
+> bogus to us. Let's fix this so we never write more than msg->size
+> bytes. We'll still read all the bytes from the hardware just in case
+> the hardware requires it since the aux transfer data comes through an
+> auto-incrementing register.
 >
-> Changes in v3:
-> - Update the commit message.
-> - Collect review tag.
+> NOTE: I have no actual way to reproduce this issue but it seems likely
+> this is what was happening in the crash I looked at.
 >
->  drivers/gpu/drm/panel/panel-edp.c | 31 +++++++++++++++++++++++++++++++
->  1 file changed, 31 insertions(+)
+> Fixes: 13afcdd7277e ("drm/bridge: parade-ps8640: Add support for AUX chan=
+nel")
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
 
-Pushed to drm-misc-next:
+Since the patch fixes a crash, has two Reviews (even if they're both
+from @chromium), and doesn't seem controversial, I didn't want a full
+week and just landed it in drm-misc-fixes. If anyone is upset by this
+then please shout and we can revert or I can post a followup patch.
 
-7c8690d8fc80 drm/panel-edp: Add some panels with conservative timings
+3164c8a70073 drm/bridge: parade-ps8640: Never store more than
+msg->size bytes in AUX xfer
