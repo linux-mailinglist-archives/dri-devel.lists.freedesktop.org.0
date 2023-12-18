@@ -2,74 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F7BC817AD0
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 20:16:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35DBE817BFC
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 21:33:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9124F10E3A5;
-	Mon, 18 Dec 2023 19:16:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E20810E0A8;
+	Mon, 18 Dec 2023 20:33:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BEE310E3D8
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 19:16:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1702926982;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=aE81s+rpsMUIps3Hpsmx+/hY64xiBrpWlJ3caeLyXLg=;
- b=douxQ76Ppi6UfwpmCDQdKw8Ih8a/T7jJcsOMIKA9Zs1ZPkVY/1rZMDhdzZD6t5mWXPjMYR
- dEkL4nXn/LSxc/suMY3fmbsxWuuxquzGGN74OYo4cS/HZokQLWQNdOGzJSdyQX0E7WMVvm
- jfJP97AH8YxvqH4j6VUzdfvZldJaEbU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-185-DW98PkkkOlO8w3fa3DtXXQ-1; Mon, 18 Dec 2023 03:42:30 -0500
-X-MC-Unique: DW98PkkkOlO8w3fa3DtXXQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-40c1d2b1559so21667745e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 00:42:30 -0800 (PST)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D7C410E0A8
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 20:33:24 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-40c3fe6c08fso42667695e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 12:33:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google; t=1702931602; x=1703536402;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=uwBMo6h6CLFvzeF8BNuqk3mwyXmRoxEOvbk3nd1BFNQ=;
+ b=hdvwz9WZrDRJF0br2EYsqn/jIHwa+2gyck037V6TrRcgNrNliALOpe0wutWccMHkz0
+ UqXtciQ0k192Tm321hQIbeUwO23IviK3DaWAbTjhc9l4uuphM94rJVoiFViQQuIlQn8k
+ zWdkFCOM+lReorkQTqdy8frNK4PVIEayITKnQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702888950; x=1703493750;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aE81s+rpsMUIps3Hpsmx+/hY64xiBrpWlJ3caeLyXLg=;
- b=v1ZBKw42nf5idpHQlqQH25ezQnOZLqG6libmaRaHyW8pYyflnJn/AC9bZRlZiQoBv/
- OL2mzIiHW7FXKbTtr3GMxk878qu7AtXDK+BQUafS8gzbxW+eB4td1SOoN+K4ACv8DWXS
- 2tgOnZj6AeHsAQj+hCHJgAjbDHP7fUhbpght51eOQhvmFqw9MG9cJTxyQwdluzjdn2/X
- 7Fnz2nM4q7tiLqR2rhjWRg5LKrjQTasXiRJOTw6vistCxcVtEHXry5WhFw+zawPiIvCa
- 6n+vJgHQTDvVqu+yCfYTsjQglhLCcWZYx1DsQVm5Ljx+iga/ZUapiB1jrCbmtyDNUaNq
- FPQA==
-X-Gm-Message-State: AOJu0YwZr8tUZ/P7ephSXeIbajKWrCgQLiCzz1ZDNDNZwAz+zEFE6qq2
- zF/PXPH+MSFqCnvex6vmaBZ6AGOarR02hJi/V+7qmdbPuOI8FeRSDxaKoMLArywU/B8D4avMu+n
- 5wiRTsbcvohvvafrIKySPeveWbJyz
-X-Received: by 2002:a05:600c:480a:b0:40c:5971:615a with SMTP id
- i10-20020a05600c480a00b0040c5971615amr4700441wmo.13.1702888949865; 
- Mon, 18 Dec 2023 00:42:29 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEDbJozhTIyhGKsrROqfZ9kJ86y/4TSXjAJ9EZdeOE+d+zYkSPgYGAJdd9a/HPYX6i0fLLHDw==
-X-Received: by 2002:a05:600c:480a:b0:40c:5971:615a with SMTP id
- i10-20020a05600c480a00b0040c5971615amr4700420wmo.13.1702888949543; 
- Mon, 18 Dec 2023 00:42:29 -0800 (PST)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- u9-20020a05600c19c900b0040d1746f672sm5439115wmq.14.2023.12.18.00.42.28
+ d=1e100.net; s=20230601; t=1702931602; x=1703536402;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=uwBMo6h6CLFvzeF8BNuqk3mwyXmRoxEOvbk3nd1BFNQ=;
+ b=IPTmo2uB5v+89ojaK62lodpzN9lbSliA3Dt6v2o7KKLsSLZxDIgVzN8PfAjVWyIDXs
+ kkPd/eTD6+wESvaodHZ+RpeOkP37hrE03nMsoiy6HKQmg+ccjHukfydMPhc9B2cmV3FE
+ VtR65chxHU/oT1XAHFNeW3xiCOXad0Ye1GjkSQYhJFUkKEJmopqdcEUwM5QNq6KihTxv
+ XX7yuGL0MQmlMzhPqK49iC5txvNwF6+w13433ZvDfcb2R8/Rc3cyetK9lqgKj2TdVSNc
+ fAIDybYqRj9RRiKbxR/GG5ifjZliI7LLnDsJgvuUJJXmquYQ2HAho2ACxZ68O6SC0mNe
+ Bcfg==
+X-Gm-Message-State: AOJu0YxVgUQc2hKCEXq/apVdP3/bAYpqxij5do0mhX7lIgZJo6JSxu33
+ k0Y0jzLuf2rNc33TiFoX7m+FgDE5kx0jmGrdmXwszQ==
+X-Google-Smtp-Source: AGHT+IEm7GShvAvUVER372jEsNFgBOui/TD2GxKgfn1iLVvV9s2Ggpc1aSVL5uNloELUBBA8G0Q2fA==
+X-Received: by 2002:a17:906:20d3:b0:a23:4472:57e7 with SMTP id
+ c19-20020a17090620d300b00a23447257e7mr553006ejc.174.1702889041657; 
+ Mon, 18 Dec 2023 00:44:01 -0800 (PST)
+Received: from dario-ThinkPad-T14s-Gen-2i.homenet.telecomitalia.it
+ (host-80-182-13-188.retail.telecomitalia.it. [80.182.13.188])
+ by smtp.gmail.com with ESMTPSA id
+ un5-20020a170907cb8500b009ff77c2e1dasm13775480ejc.167.2023.12.18.00.44.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Dec 2023 00:42:29 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: display: Add SSD133x OLED controllers
-In-Reply-To: <3d1fb191-5ef2-4569-962f-1d727c1499c5@linaro.org>
-References: <20231217100741.1943932-1-javierm@redhat.com>
- <20231217100741.1943932-2-javierm@redhat.com>
- <3d1fb191-5ef2-4569-962f-1d727c1499c5@linaro.org>
-Date: Mon, 18 Dec 2023 09:42:28 +0100
-Message-ID: <871qbjnbpn.fsf@minerva.mail-host-address-is-not-set>
+ Mon, 18 Dec 2023 00:44:01 -0800 (PST)
+From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v9 0/2] Add displays support for bsh-smm-s2/pro boards
+Date: Mon, 18 Dec 2023 09:43:36 +0100
+Message-ID: <20231218084354.508942-1-dario.binacchi@amarulasolutions.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,54 +69,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Conor Dooley <conor@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Peter Robinson <pbrobinson@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ Robert Foss <rfoss@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
+ Amarula patchwork <linux-amarula@amarulasolutions.com>,
+ dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, michael@amarulasolutions.com,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> writes:
 
-Hello Krzysztof,
+The series adds drivers for the displays used by bsh-smm-s2/pro boards.
+This required applying some patches to the samsung-dsim driver and the
+drm_bridge.c module.
 
-> On 17/12/2023 11:07, Javier Martinez Canillas wrote:
->>> +  - if:
->> +      properties:
->> +        compatible:
->> +          contains:
->> +            const: solomon,ssd1331
->> +    then:
->> +      properties:
->> +        width:
->> +          default: 96
->> +        height:
->> +          default: 64
->> +
->> +unevaluatedProperties: false
->> +
->> +examples:
->> +  - |
->> +    i2c {
->> +            #address-cells = <1>;
->> +            #size-cells = <0>;
->> +
->
-> Use 4 spaces for example indentation.
->
+Changes in v9:
+- Updated commit message
+- Drop [3/3] arm64: dts: imx8mn-bsh-smm-s2/pro: add display setup
+  because applied.
 
-Sure, I'll change it in v2.
+Changes in v8:
+- Move the 'status' property to the end of the list of nodes:
+  - pwm1
+  - lcdif
+  - mipi_dsi
+- Add a newline between properties and child node (mipi_dsi_out).
+- Sort the iomuxc node alphabetically
+- Rename pwm1grp to blgrp
 
-> Best regards,
-> Krzysztof
->
+Changes in v7:
+- Drop [3/4] dt-bindings: display: panel: Add synaptics r63353 panel controller
+  because applied.
+
+Changes in v6:
+- Drop patches:
+  - [06/10] drm/panel: Add Synaptics R63353 panel driver
+  - [07/10] dt-bindings: display: panel: Add Ilitek ili9805 panel controller
+  - [08/10] drm/panel: Add Ilitek ILI9805 panel driver
+  - [09/10] drm/panel: ilitek-ili9805: add support for Tianma TM041XDHG01 panel
+  Because applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
+  Drop patches:
+  - [01/10] drm/bridge: Fix bridge disable logic
+  - [02/10] drm/bridge: Fix a use case in the bridge disable logic
+  Because they are wrong
+
+Changes in v3:
+- Replace "synaptics,r63353" compatible with "syna,r63353", as
+  required by vendor-prefixes.yaml.
+- Squash patch [09/11] dt-bindings: ili9805: add compatible string for Tianma TM041XDHG01
+  into [07/11] dt-bindings: display: panel: Add Ilitek ili9805 panel controller.
+
+Changes in v2:
+- Adjust the mipi_dsi node based on the latest patches merged into
+  the mainline in the dtsi files it includes.
+- Added to the series the following patches:
+  - 0001 drm/bridge: Fix bridge disable logic
+  - 0002 drm/bridge: Fix a use case in the bridge disable logic
+  - 0003 samsung-dsim: enter display mode in the enable() callback
+  - 0004 drm: bridge: samsung-dsim: complete the CLKLANE_STOP setting
+
+Dario Binacchi (2):
+  drm: bridge: samsung-dsim: enter display mode in the enable() callback
+  drm: bridge: samsung-dsim: complete the CLKLANE_STOP setting
+
+ drivers/gpu/drm/bridge/samsung-dsim.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+2.43.0
 
