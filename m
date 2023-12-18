@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75F49817981
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 19:20:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D3BB817983
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 19:21:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6E8F10E28E;
-	Mon, 18 Dec 2023 18:20:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0813F10E23D;
+	Mon, 18 Dec 2023 18:20:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
- [209.85.218.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE54610E290
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 18:20:28 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id
- a640c23a62f3a-a234dc0984fso193705466b.0
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 10:20:28 -0800 (PST)
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
+ [209.85.218.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DADA10E23D
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 18:20:48 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id
+ a640c23a62f3a-a235500d0e1so184656366b.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 10:20:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1702923627; x=1703528427;
+ d=amarulasolutions.com; s=google; t=1702923646; x=1703528446;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
  bh=3CX2gA6r/dtvGkH0YEYWwI6mzbAd5lMyIJziHnyg55Q=;
- b=fvhZ1lIjD4ghUur3u11IySseoO0BduorZxfAjkW9I5peMy9zjgk9p2L78OzOxn97G9
- iMVQV0Se+YqOI2dp6OOMMCzMq9YxMcghazQCkWAXZ4ljOYi0dgBBNn0smSTHCSfAD3nQ
- euw5EgpLaQ2HEKBLL/+43RXfwYbxX1smGhK1o=
+ b=R4FuD3G0TboQo39YRaEUsjco6/C5Q4qxLSaFBgv9np4NiEFi6sfxOfun9Auir9nAVu
+ PqsOq2eK5WsD6/wcE6QhmXT6SaZodMNkTLxet0ho+qiOWE6f+RjFFwV7hV6oB8/2nIz0
+ jm5Vc91MPhCtrJgKpqZ9UX/aKR6s4TxbwTs6k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702923627; x=1703528427;
+ d=1e100.net; s=20230601; t=1702923646; x=1703528446;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
  bh=3CX2gA6r/dtvGkH0YEYWwI6mzbAd5lMyIJziHnyg55Q=;
- b=HTmwxh0XjfjoIKAjS//jvhD8snbluRc6xqKLitZny7E2L7OQUydunmGApqVbY83Vas
- Vng88uffi4VDicZH1QzJUUxJbG7zCR5x9hFTmlBj7mkajiNsJXFbfo8ddnob2GSpfN8D
- hGW8q1x0wg31YuHqngR9rAVLcXVScW3CGmcCzWsMQxIsu6hniXgqePCmKD0RaTLyGABg
- FYQLfeJuSrXRwxhJpPs7i75l7YDmxtfv40xj3weMdaUAXpTJ4D90xTst7nQOuptD6L1M
- R6kimvCEwbZpqvqQuWLDk5ULTwaFjH3/PsxSzsmx9zKX4FZcR60dW04FiIWvotPdp69B
- ib3A==
-X-Gm-Message-State: AOJu0YxDhjMoMcZc2+BCq7/A9yfttTCwTZD17R65uMaVleVXf9SS8uXg
- 6+L5DvrbGfbBm1ABZR4+G5T2kfpqstt5QMt1SpX7Jw==
+ b=EUaM+gjs0mtqT6bTtpS6CKnZ9W4R9o6QtjUFJE1RqjjVwf4/GIZ4KEYMRlIR77tK4F
+ q1sN1LHoPs5CFx9xZNVIz6W3Iu08aozRyvyxuknao/Ut78NT/SVs1fThjfhQwDU69Ktj
+ szN2MLsu8/1/gcOTb5WsCQljDeCG65cFm0YCL6jXUSIXKkRwDsSBMXcJtiRyJwMT1OO0
+ xV/9gIWl0IHsnTTgCy5WsohiatSaclT1MwLvdWZ6YWbE35yEh88DhZt7InatdUY6fCid
+ wxJVNdFGdpIreTxR8bkCKVsK1BKojFXbPZangDhdNnSnWZVFnw6sG9XVk3ZN80Qxxj5Y
+ pQzA==
+X-Gm-Message-State: AOJu0YxvYeXxNun5ZrfWipru0ouYptUZYJBfFVaxgHeWa5iL+Kr85lpM
+ cP64L4fRs+unVxug6NZv61cBxXO9E3I99wDzMMpoJg==
 X-Google-Smtp-Source: AGHT+IFQIjmnqwJHXBWuNV3lOiYbeAZ7NPxnsnxpiSweOVnDxxJk9dtKKOT/fn1raM0scBnAt9eeTA==
 X-Received: by 2002:a17:907:e8d:b0:a1f:5e5d:d71b with SMTP id
  ho13-20020a1709070e8d00b00a1f5e5dd71bmr10134407ejc.40.1702889042999; 
