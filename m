@@ -2,68 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A398817A74
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 20:00:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD838817A61
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 19:59:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71FF210E3F1;
-	Mon, 18 Dec 2023 18:59:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0FB810E398;
+	Mon, 18 Dec 2023 18:59:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0329710E2A1
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 18:52:23 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id
- 2adb3069b0e04-50e2786e71fso2994043e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 10:52:23 -0800 (PST)
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com
+ [209.85.222.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 760A310E398;
+ Mon, 18 Dec 2023 18:58:48 +0000 (UTC)
+Received: by mail-qk1-f173.google.com with SMTP id
+ af79cd13be357-77f8308616eso322019585a.2; 
+ Mon, 18 Dec 2023 10:58:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1702925542; x=1703530342; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
- :cc:subject:date:message-id:reply-to;
- bh=DCQzgc7HZIXkjhrSZNLJQoxchuiI/YLWggopgdNCG/w=;
- b=Iz4vSDRZzE8JXpYiwRNCFpbvg2z5R/U/elBbgnjk/6y2OS1eJUhq6cB7Slfllqr5NV
- KncOBQ3J/G6T9UteoMjQC714vTFPAViaL918z8UHYsKzs2X7TCwiMZDWjIyBFlRplrR2
- OyErVX3HILqubV6VkQkywjgsRB5zCNXSXtevSCnril5v4L3oXaS23hdOYUmg3ySeryMD
- qzF6vFVqubUZX5pX8umv/UfJnULuPDj6nJSKjM93EHNEswMLd8DCm5DlI84k4dO5ACwD
- EQY7o08AFWE+dFbBIy8ar3IsEN3sAQZST+nPnnRwjAc3lQJFUJeHOIOUkB+cFtg1EjNb
- GfnQ==
+ d=gmail.com; s=20230601; t=1702925924; x=1703530724; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=X5RGGPLxL7RmqDldU4zVC+vRt1k5TON9j6VLsGbzQWQ=;
+ b=itab5J4X4shaZzSXoG9Ihjg7+EAXpMPuvE/drTP18TziPGBjtd57/H+H3OyCc6rCTN
+ 56OGVyrcAfrSEP3UDlnvcDtVXEFtd/3Z5T45wNTNSaJ8vZqK0wut25oAOFcTk6AgmaVf
+ ccQq4qrxx9TBQDY2LJH6EHQbij+txBfwMXdCPb4TmvHV9u29i+2qEDPHWqLX0RuF/tpo
+ tyCaVhVOl5244AknEbhdRkgEKaP4WybnSndIlU+RMjGw3sHAj5JqHyXHrWlX9/rthbpU
+ ZUwUnP+3wdrRsr7wvfxeV8kfgC65vLLBwySf/P9thOZf6brtym0QvzykxHMSvxhILwDg
+ PJ9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702925542; x=1703530342;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:subject:from:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=DCQzgc7HZIXkjhrSZNLJQoxchuiI/YLWggopgdNCG/w=;
- b=GRaNDBcr8f/QlzdxAOsnjoh2Zj10/OF9h4o2Y9thEoXWKPz42WkHClof154p9jZgSW
- Ix15UyrgHWOiwj6sAFRP6mnDq7CaheJbsfCXebGvPAcFFHUXrWsNqk1ccSc/92ZsIKsy
- /3SPwoxe5HHuXTPfsiGB67awFk2JTOtUKLGcaAobAnbwSGB2SIPcQyqRmV2JTF9N9jlf
- HVNgTfbpzOX44/xH/oqPm2ddZtXQCr7Yj5Fkug+ncW8XIEBQ6zPa7v2ezSF4danDNUYC
- G8Dd8xji4dRBAr4dzI5Tjyvn5Ebig7PfjNuHaQDO18dB1+1j3oGXuClqoKizBWGhdThf
- Ev4Q==
-X-Gm-Message-State: AOJu0Yxeiq4ziCXe1tYEJjJhSEsXGm+Xcc86YtRSiKpuAfPCdCd/j7BF
- 8rmG9soRNuZOQYBxrL1opZrA++Y8NT4=
-X-Google-Smtp-Source: AGHT+IE0dLdHYhpXc1l9yUsJLLTeyu7fPpLWHCXq007NrPDn70yB+TVn+T7YKt5u3Yd3coevCH6ExA==
-X-Received: by 2002:a17:906:da08:b0:a19:a19a:eadf with SMTP id
- fi8-20020a170906da0800b00a19a19aeadfmr7048806ejb.152.1702914547563; 
- Mon, 18 Dec 2023 07:49:07 -0800 (PST)
-Received: from [192.168.2.1] (81-204-249-205.fixed.kpn.net. [81.204.249.205])
+ d=1e100.net; s=20230601; t=1702925924; x=1703530724;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=X5RGGPLxL7RmqDldU4zVC+vRt1k5TON9j6VLsGbzQWQ=;
+ b=OTTGjJexhwtbaU7z9nloDPCg0exmUs5FsQWjFBqSrNsf5Jqz83is+15vOVOCvOg3e2
+ 7tUDXx947qIvLxztlI7uDIr1u3e5sUoDcBmmZEgk2saTsF49FEDcZnT/vofIwsmrMcNR
+ PuOAUDcNm+s7aWFKDPcphDbuy43COzceY3VLBUg2GUkEL7cNiDT1Hu2yglo0gKorEOMb
+ 1XkIaqWHGI3TpXnl0moipN6lbuffxiQjQ4dvhHIPu+Cwh+nvZxp7BCX3YERn20mAVpv3
+ 1+HUrv7F/+lsY2kRuceCGn60KF7is5tpeEjtgu3rq2llL0p7HR3DRTXo4HoGgO08OmzD
+ UB/w==
+X-Gm-Message-State: AOJu0YyOW0j/X4UIKXoXGpD5yMJq754hqujR4wEWz86/IyiP5Kbr+4bv
+ LcpxdXBBJQGmvtDBIMUH9790houzE/4=
+X-Google-Smtp-Source: AGHT+IE7d7GDHTHnS8E5/AboMKPlZPnuoc6gcsADQrBLRGPYI2JmLd8QBiWoJ/biThaG/8vYNNumhg==
+X-Received: by 2002:a17:90a:bb04:b0:280:cd7b:1fa5 with SMTP id
+ u4-20020a17090abb0400b00280cd7b1fa5mr6789760pjr.4.1702915175541; 
+ Mon, 18 Dec 2023 07:59:35 -0800 (PST)
+Received: from localhost ([2a00:79e1:2e00:1301:e1c5:6354:b45d:8ffc])
  by smtp.gmail.com with ESMTPSA id
- v19-20020a170906489300b00a236378a43fsm654118ejq.62.2023.12.18.07.49.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Dec 2023 07:49:07 -0800 (PST)
-Message-ID: <410b116b-cb63-7ba7-3689-4f0832ab5796@gmail.com>
-Date: Mon, 18 Dec 2023 16:49:06 +0100
+ pb7-20020a17090b3c0700b0028aea6c24bcsm6535129pjb.53.2023.12.18.07.59.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Dec 2023 07:59:34 -0800 (PST)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/msm/a6xx: Fix recovery vs runpm race
+Date: Mon, 18 Dec 2023 07:59:24 -0800
+Message-ID: <20231218155927.368881-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-From: Johan Jonker <jbx6244@gmail.com>
-Subject: [PATCH v2 2/2] drm/rockchip: rk3066_hdmi: drop custom fill_modes hook
-To: hjc@rock-chips.com, heiko@sntech.de, andy.yan@rock-chips.com
-References: <f86ec29f-194a-800d-0aaf-9e16e551b37d@gmail.com>
-Content-Language: en-US
-In-Reply-To: <f86ec29f-194a-800d-0aaf-9e16e551b37d@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,53 +70,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- mripard@kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Danylo Piliaiev <dpiliaiev@igalia.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ David Heidelberg <david.heidelberg@collabora.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>,
+ freedreno@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CRTC size validation for the display controller has been added with
-Commit 8e140cb60270 ("drm/rockchip: vop: limit maximum resolution to
-hardware capabilities"), so we can drop the custom fill_modes hook.
+From: Rob Clark <robdclark@chromium.org>
 
-Signed-off-by: Johan Jonker <jbx6244@gmail.com>
+a6xx_recover() is relying on the gpu lock to serialize against incoming
+submits doing a runpm get, as it tries to temporarily balance out the
+runpm gets with puts in order to power off the GPU.  Unfortunately this
+gets worse when we (in a later patch) will move the runpm get out of the
+scheduler thread/work to move it out of the fence signaling path.
+
+Instead we can just simplify the whole thing by using force_suspend() /
+force_resume() instead of trying to be clever.
+
+Reported-by: David Heidelberg <david.heidelberg@collabora.com>
+Closes: https://gitlab.freedesktop.org/mesa/mesa/-/issues/10272
+Fixes: abe2023b4cea ("drm/msm/gpu: Push gpu lock down past runpm")
+Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/rockchip/rk3066_hdmi.c | 14 +-------------
- 1 file changed, 1 insertion(+), 13 deletions(-)
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 12 ++----------
+ 1 file changed, 2 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/rockchip/rk3066_hdmi.c b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
-index 0dac6d133767..6dadd753985c 100644
---- a/drivers/gpu/drm/rockchip/rk3066_hdmi.c
-+++ b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
-@@ -501,18 +501,6 @@ rk3066_hdmi_connector_best_encoder(struct drm_connector *connector)
- 	return &hdmi->encoder.encoder;
- }
-
--static int
--rk3066_hdmi_probe_single_connector_modes(struct drm_connector *connector,
--					 uint32_t maxX, uint32_t maxY)
--{
--	if (maxX > 1920)
--		maxX = 1920;
--	if (maxY > 1080)
--		maxY = 1080;
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index 268737e59131..a5660d63535b 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -1244,12 +1244,7 @@ static void a6xx_recover(struct msm_gpu *gpu)
+ 	dev_pm_genpd_add_notifier(gmu->cxpd, &gmu->pd_nb);
+ 	dev_pm_genpd_synced_poweroff(gmu->cxpd);
+ 
+-	/* Drop the rpm refcount from active submits */
+-	if (active_submits)
+-		pm_runtime_put(&gpu->pdev->dev);
 -
--	return drm_helper_probe_single_connector_modes(connector, maxX, maxY);
--}
+-	/* And the final one from recover worker */
+-	pm_runtime_put_sync(&gpu->pdev->dev);
++	pm_runtime_force_suspend(&gpu->pdev->dev);
+ 
+ 	if (!wait_for_completion_timeout(&gmu->pd_gate, msecs_to_jiffies(1000)))
+ 		DRM_DEV_ERROR(&gpu->pdev->dev, "cx gdsc didn't collapse\n");
+@@ -1258,10 +1253,7 @@ static void a6xx_recover(struct msm_gpu *gpu)
+ 
+ 	pm_runtime_use_autosuspend(&gpu->pdev->dev);
+ 
+-	if (active_submits)
+-		pm_runtime_get(&gpu->pdev->dev);
 -
- static void rk3066_hdmi_connector_destroy(struct drm_connector *connector)
- {
- 	drm_connector_unregister(connector);
-@@ -520,7 +508,7 @@ static void rk3066_hdmi_connector_destroy(struct drm_connector *connector)
- }
-
- static const struct drm_connector_funcs rk3066_hdmi_connector_funcs = {
--	.fill_modes = rk3066_hdmi_probe_single_connector_modes,
-+	.fill_modes = drm_helper_probe_single_connector_modes,
- 	.detect = rk3066_hdmi_connector_detect,
- 	.destroy = rk3066_hdmi_connector_destroy,
- 	.reset = drm_atomic_helper_connector_reset,
---
-2.39.2
+-	pm_runtime_get_sync(&gpu->pdev->dev);
++	pm_runtime_force_resume(&gpu->pdev->dev);
+ 
+ 	gpu->active_submits = active_submits;
+ 	mutex_unlock(&gpu->active_lock);
+-- 
+2.43.0
 
