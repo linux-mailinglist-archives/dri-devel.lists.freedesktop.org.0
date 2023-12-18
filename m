@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA0B0817ACC
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 20:16:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF729817AC5
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 20:15:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2E9310E403;
-	Mon, 18 Dec 2023 19:16:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7853D10E3C2;
+	Mon, 18 Dec 2023 19:15:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A30410E396
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 19:15:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59B6610E390
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 19:15:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1702926929; x=1734462929;
+ t=1702926930; x=1734462930;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=ues8RonNkqtXNeQTmjHWB7sVdRAozhdTlsj5rYeL0Go=;
- b=QhQDr8skG8veRw7noIztetwPiEZFIf94e/PQxch+ytOA2YmcPBJ2Nhcj
- brAMeCC33VekH6dP73o4X+czaNOQ6zlnekmc/9eAI9PozcU/8zrLzSZdI
- gJTgFPITIq06JzdjdKpE0c/xtkMZ9Dyk/noh2ZVwbPDafjVjxnH0Icopp
- 76vEFXLpcngxNSxq/A9TwjvHOLrmvNdUOTdzSkyJiw+wp+lYMCN2tA0iX
- 8YfLBxrznGUr3xWXMOG3mVp/Fv+3FbttJjuqfU/aN2LVLUxvF9ewAn/vr
- Le4b89jWL4ZLFk4w583lKhkbuIgWf86fy6Z8zjtqr3aMpBB4yo8Zj2VB6 w==;
-X-IronPort-AV: E=Sophos;i="6.04,285,1695679200"; d="scan'208";a="34559833"
+ bh=LF02UyNK/xpkLqe9tr31YIzv+kTaNRG9vqb7cPz4ldI=;
+ b=XNjCPprALbsqTe6F/o7m35kGpueJQI7CFY74Juwmh3lnDlTe8frFyPNR
+ dFRJI79ir7zQ1vfAzOru6b5UfBdYoTztpBM1HiBLQyNGsoNOvwxotKdBJ
+ 3cJmq0DQDJW0B7o+Ir/jLJvMpkuU6T2ago+fUn1bJ/iLwgxCJtGiCqp5+
+ vM+C+dGHegtn90TEfht24g5RN2QF2h/cFk3wDxHkY3/S06s4ETR8pCBtQ
+ DfMtDJrWLoA9S1/ACaOPRSFjc08TydWfvPkgync/QndoYBy/wpGOt2JdB
+ bTtxbz89nj8pc9ffjE3TfIx09TmlD9XjGgB6UK/6TPjQJuDNrO/YWC4KJ A==;
+X-IronPort-AV: E=Sophos;i="6.04,285,1695679200"; d="scan'208";a="34559834"
 Received: from vtuxmail01.tq-net.de ([10.115.0.20])
  by mx1.tq-group.com with ESMTP; 18 Dec 2023 11:57:22 +0100
 Received: from steina-w.tq-net.de (steina-w.tq-net.de [10.123.53.18])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id C4F08280075;
- Mon, 18 Dec 2023 11:57:21 +0100 (CET)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 24E1F280084;
+ Mon, 18 Dec 2023 11:57:22 +0100 (CET)
 From: Alexander Stein <alexander.stein@ew.tq-group.com>
 To: Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
@@ -43,9 +43,9 @@ To: Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, Shawn Guo <shawnguo@kernel.org>,
  Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>
-Subject: [PATCH 4/6] drm/bridge: imx8qxp-pixel-link: Use dev_err_probe
-Date: Mon, 18 Dec 2023 11:57:16 +0100
-Message-Id: <20231218105718.2445136-5-alexander.stein@ew.tq-group.com>
+Subject: [PATCH 5/6] drm/bridge: dpu-dprc: Use dev_err_probe
+Date: Mon, 18 Dec 2023 11:57:17 +0100
+Message-Id: <20231218105718.2445136-6-alexander.stein@ew.tq-group.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231218105718.2445136-1-alexander.stein@ew.tq-group.com>
 References: <20231218105718.2445136-1-alexander.stein@ew.tq-group.com>
@@ -74,45 +74,38 @@ This simplifies the code and gives additional information upon deferral.
 
 Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 ---
- .../gpu/drm/bridge/imx/imx8qxp-pixel-link.c   | 19 ++++++-------------
- 1 file changed, 6 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/imx/dpu/dpu-dprc.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
-index ed8b7a4e0e11..b8cc1df3e572 100644
---- a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
-+++ b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
-@@ -338,12 +338,9 @@ static int imx8qxp_pixel_link_bridge_probe(struct platform_device *pdev)
- 		return -ENOMEM;
+diff --git a/drivers/gpu/drm/imx/dpu/dpu-dprc.c b/drivers/gpu/drm/imx/dpu/dpu-dprc.c
+index 261c9566721e..6467ad960080 100644
+--- a/drivers/gpu/drm/imx/dpu/dpu-dprc.c
++++ b/drivers/gpu/drm/imx/dpu/dpu-dprc.c
+@@ -612,7 +612,8 @@ static int dpu_dprc_probe(struct platform_device *pdev)
  
- 	ret = imx_scu_get_handle(&pl->ipc_handle);
--	if (ret) {
--		if (ret != -EPROBE_DEFER)
--			DRM_DEV_ERROR(dev, "failed to get SCU ipc handle: %d\n",
--				      ret);
+ 		dprc->prgs[i] = dpu_prg_lookup_by_phandle(dev, "fsl,prgs", i);
+ 		if (!dprc->prgs[i])
+-			return -EPROBE_DEFER;
++			return dev_err_probe(dev, -EPROBE_DEFER,
++					     "Failed to lookup fsl,prgs\n");
+ 
+ 		if (i == 1)
+ 			dpu_prg_set_auxiliary(dprc->prgs[i]);
+@@ -623,11 +624,10 @@ static int dpu_dprc_probe(struct platform_device *pdev)
+ 
+ 	ret = devm_request_irq(dev, wrap_irq, dpu_dprc_wrap_irq_handler,
+ 			       IRQF_SHARED, dev_name(dev), dprc);
+-	if (ret < 0) {
+-		dev_err(dev, "failed to request dpr_wrap irq(%u): %d\n",
+-			wrap_irq, ret);
 -		return ret;
 -	}
-+	if (ret)
++	if (ret < 0)
 +		return dev_err_probe(dev, ret,
-+				     "failed to get SCU ipc handle\n");
++				     "failed to request dpr_wrap irq(%u)\n",
++				     wrap_irq);
  
- 	ret = of_property_read_u8(np, "fsl,dc-id", &pl->dc_id);
- 	if (ret) {
-@@ -379,13 +376,9 @@ static int imx8qxp_pixel_link_bridge_probe(struct platform_device *pdev)
- 		return ret;
- 
- 	pl->next_bridge = imx8qxp_pixel_link_find_next_bridge(pl);
--	if (IS_ERR(pl->next_bridge)) {
--		ret = PTR_ERR(pl->next_bridge);
--		if (ret != -EPROBE_DEFER)
--			DRM_DEV_ERROR(dev, "failed to find next bridge: %d\n",
--				      ret);
--		return ret;
--	}
-+	if (IS_ERR(pl->next_bridge))
-+		return dev_err_probe(dev, PTR_ERR(pl->next_bridge),
-+				     "failed to find next bridge\n");
- 
- 	platform_set_drvdata(pdev, pl);
+ 	platform_set_drvdata(pdev, dprc);
  
 -- 
 2.34.1
