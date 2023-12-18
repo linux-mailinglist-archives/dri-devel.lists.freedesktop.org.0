@@ -2,77 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A88388179DB
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 19:40:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEE2C817989
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 19:22:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E9DC10E393;
-	Mon, 18 Dec 2023 18:39:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F36C10E147;
+	Mon, 18 Dec 2023 18:21:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C699910E2D2;
- Mon, 18 Dec 2023 18:39:31 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 3BIFGl19023039; Mon, 18 Dec 2023 17:57:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=oy1j4gHw9m8wJi/sQa6RAt8VyMz1RG9TKk7aRrTamTQ=; b=nM
- 37E/7dQ/JFJEcYpxiXVd9MBze3cYPtWr3LM9ahVJZcsxoa+nrstshIpBqvkT8oVr
- F45BDDxiucrn983nGLGqneZxKAH4HVPCNm25r2MCmUtcvrZ7d6xNywcUXOycJhdw
- 6VlUkCSSqcdBmZSGYwqgwClm9esq46ngTZBT8vgY66MDtOfdmibMSwYO1jxRpznZ
- 9hrcEWCVn8/2aAE8OpPys4lmoc2QU4G1UDJCj3hU1skOTfg7yBfoSkJV1EMr+IYc
- yAJRJNpysjwQGtMaUwBpKrgWnmxA6Cz9E1tE8OZyZ1HAtIoIAMzJbGR6MWdzqS0S
- p6fXOA81IgO6gq6MNacQ==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v2nxs8yu3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 18 Dec 2023 17:57:37 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BIHvaaa006098
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 18 Dec 2023 17:57:37 GMT
-Received: from [10.71.109.77] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 18 Dec
- 2023 09:57:36 -0800
-Message-ID: <64967f7a-8c7d-ca63-c126-e187905d3470@quicinc.com>
-Date: Mon, 18 Dec 2023 09:57:28 -0800
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6600A10E293
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 18:21:39 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-40c3963f9fcso2535e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 10:21:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1702923698; x=1703528498;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=DPggsM3NCSPNHuDW6MYkybcIgkppTmiteb7qARs7Z58=;
+ b=WdaebPxsrxcTM98/XAlbzivvUc/tZ4sQPZLrRcAPl5FsINKpvFbcNK4oSIw8390BLt
+ fOCiHlf1CAVnEIaPwsQyQ0kc+0JJMSY6Ku9/FvuPW9zyrxHpysdHBNrc6LV+irT+r7Ni
+ 5kzosHA1vbFDclSjZ+aiyUNIG1OsNzOLxFC4MTEFsbUDJqipmfEhZUCcYUnWlFnS8X0G
+ ubL8ZJ75aLMSMNByzZiB3bvUCK/TZjgnQlTCVbLK4njn7cJTD8mw4sFkgjemWCPUSZLN
+ z0ZOjuuw2HAYc2x5TyKKktc42g0j9OZLunfVtQ8EO8Al6RvCUWrbv2wz1G75kZ0cUkof
+ d2pA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1702923698; x=1703528498;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=DPggsM3NCSPNHuDW6MYkybcIgkppTmiteb7qARs7Z58=;
+ b=Iqt5R/6GsYZLWEqUgYKrxqbDnQ1YwGW3mmR1QGxU9RzvJDvCoI+R8DgXZHqjEznM0X
+ DAiWyHFjdrHPfhH3hrdVc5Rn1W29oeaBudlpUccB1gzD4nR5G2FFxIDmpfeiIv08eJtS
+ szJBNEhLEz2EObbSwkE8QMaIl1Rl8kkyQDz9T1pt1oSPtNJuzxS5PpTisDasymcDSKjG
+ C7QA6lbNsDdopjFsq9qLeOxI3kgb0FKNGPs79HFwIsuIlX8cgG9Ga2GKDYHklqEM/5Lg
+ oUlrUnZO8EkYjXHSMwU5d73UZFLxU8r1pwtq+mPKMInvDnUHESIBvqiJI7yeCuo8yLPC
+ /6sg==
+X-Gm-Message-State: AOJu0Ywc3doChAPfGz2aO3X0DCpTx6i+D09MWiA3j5o5WNQt2q/Ppv2E
+ WpYWMjrTVmVkrqFGtZ9gFQi8cKDlHgFphaCD6A4jF1goJFfl+NXobjv06d+5
+X-Google-Smtp-Source: AGHT+IEEzb76/Ah4Nlk8QgfziJRiEwlA6qkmZn/0hGHqfDBA43ntvwLYD5q36eVD4juH+vKRnm9fEY94vwSvJAHuo1g=
+X-Received: by 2002:a50:9e49:0:b0:553:62b4:5063 with SMTP id
+ z67-20020a509e49000000b0055362b45063mr16629ede.4.1702923263119; Mon, 18 Dec
+ 2023 10:14:23 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm/msm/dpu: drop obsolete documentation for
- dpu_encoder_virt
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>
-References: <20231217000158.912062-1-dmitry.baryshkov@linaro.org>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20231217000158.912062-1-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 7K-L2vIPhns4q4kg2V6qmHkVn4NKaZVB
-X-Proofpoint-ORIG-GUID: 7K-L2vIPhns4q4kg2V6qmHkVn4NKaZVB
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=684
- malwarescore=0 bulkscore=0 phishscore=0 spamscore=0 mlxscore=0
- impostorscore=0 priorityscore=1501 clxscore=1015 suspectscore=0
- adultscore=0 lowpriorityscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2311290000 definitions=main-2312180133
+References: <20231214103520.7198-1-yan.y.zhao@intel.com>
+ <BN9PR11MB5276BE04CBB6D07039086D658C93A@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <ZXzx1zXfZ6GV9TgI@google.com>
+In-Reply-To: <ZXzx1zXfZ6GV9TgI@google.com>
+From: Yiwei Zhang <zzyiwei@google.com>
+Date: Mon, 18 Dec 2023 10:14:09 -0800
+Message-ID: <CAKT=dDnMaX=sxU5i=tdPDB5Wpw6TQUVrUL-JJYD3xrgxEE=acw@mail.gmail.com>
+Subject: Re: [RFC PATCH] KVM: Introduce KVM VIRTIO device
+To: Sean Christopherson <seanjc@google.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,25 +69,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, kernel test robot <lkp@intel.com>,
- linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>
+Cc: Kevin Tian <kevin.tian@intel.com>, Yan Y Zhao <yan.y.zhao@intel.com>,
+ Zhenyu Z Wang <zhenyu.z.wang@intel.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "joro@8bytes.org" <joro@8bytes.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "gurchetansingh@chromium.org" <gurchetansingh@chromium.org>,
+ "kraxel@redhat.com" <kraxel@redhat.com>,
+ "wanpengli@tencent.com" <wanpengli@tencent.com>,
+ Yongwei Ma <yongwei.ma@intel.com>, Zhiyuan Lv <zhiyuan.lv@intel.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "vkuznets@redhat.com" <vkuznets@redhat.com>,
+ "jmattson@google.com" <jmattson@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+> +Yiwei
+>
+> On Fri, Dec 15, 2023, Kevin Tian wrote:
+> > > From: Zhao, Yan Y <yan.y.zhao@intel.com>
+> > > Sent: Thursday, December 14, 2023 6:35 PM
+> > >
+> > > - For host non-MMIO pages,
+> > >   * virtio guest frontend and host backend driver should be synced to use
+> > >     the same memory type to map a buffer. Otherwise, there will be
+> > >     potential problem for incorrect memory data. But this will only impact
+> > >     the buggy guest alone.
+> > >   * for live migration,
+> > >     as QEMU will read all guest memory during live migration, page aliasing
+> > >     could happen.
+> > >     Current thinking is to disable live migration if a virtio device has
+> > >     indicated its noncoherent state.
+> > >     As a follow-up, we can discuss other solutions. e.g.
+> > >     (a) switching back to coherent path before starting live migration.
+> >
+> > both guest/host switching to coherent or host-only?
+> >
+> > host-only certainly is problematic if guest is still using non-coherent.
+> >
+> > on the other hand I'm not sure whether the host/guest gfx stack is
+> > capable of switching between coherent and non-coherent path in-fly
+> > when the buffer is right being rendered.
+> >
+> > >     (b) read/write of guest memory with clflush during live migration.
+> >
+> > write is irrelevant as it's only done in the resume path where the
+> > guest is not running.
+> >
+> > >
+> > > Implementation Consideration
+> > > ===
+> > > There is a previous series [1] from google to serve the same purpose to
+> > > let KVM be aware of virtio GPU's noncoherent DMA status. That series
+> > > requires a new memslot flag, and special memslots in user space.
+> > >
+> > > We don't choose to use memslot flag to request honoring guest memory
+> > > type.
+> >
+> > memslot flag has the potential to restrict the impact e.g. when using
+> > clflush-before-read in migration?
+>
+> Yep, exactly.  E.g. if KVM needs to ensure coherency when freeing memory back to
+> the host kernel, then the memslot flag will allow for a much more targeted
+> operation.
+>
+> > Of course the implication is to honor guest type only for the selected slot
+> > in KVM instead of applying to the entire guest memory as in previous series
+> > (which selects this way because vmx_get_mt_mask() is in perf-critical path
+> > hence not good to check memslot flag?)
+>
+> Checking a memslot flag won't impact performance.  KVM already has the memslot
+> when creating SPTEs, e.g. the sole caller of vmx_get_mt_mask(), make_spte(), has
+> access to the memslot.
+>
+> That isn't coincidental, KVM _must_ have the memslot to construct the SPTE, e.g.
+> to retrieve the associated PFN, update write-tracking for shadow pages, etc.
+>
+> I added Yiwei, who I think is planning on posting another RFC for the memslot
+> idea (I actually completely forgot that the memslot idea had been thought of and
+> posted a few years back).
 
+We've deferred to Yan (Intel side) to drive the userspace opt-in. So
+it's up to Yan to
+revise the series to be memslot flag based. I'm okay with what
+upstream folks think
+to be safer for the opt-in. Thanks!
 
-On 12/16/2023 4:01 PM, Dmitry Baryshkov wrote:
-> Drop obsolete kerneldoc for several fields in struct dpu_encoder_virt
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202312170641.5exlvQQx-lkp@intel.com/
-> Fixes: 62d35629da80 ("drm/msm/dpu: move encoder status to standard encoder debugfs dir")
-> Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 4 ----
->   1 file changed, 4 deletions(-)
-> 
-
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> > > Instead we hope to make the honoring request to be explicit (not tied to a
+> > > memslot flag). This is because once guest memory type is honored, not only
+> > > memory used by guest virtio device, but all guest memory is facing page
+> > > aliasing issue potentially. KVM needs a generic solution to take care of
+> > > page aliasing issue rather than counting on memory type of a special
+> > > memslot being aligned in host and guest.
+> > > (we can discuss what a generic solution to handle page aliasing issue will
+> > > look like in later follow-up series).
+> > >
+> > > On the other hand, we choose to introduce a KVM virtio device rather than
+> > > just provide an ioctl to wrap kvm_arch_[un]register_noncoherent_dma()
+> > > directly, which is based on considerations that
+> >
+> > I wonder it's over-engineered for the purpose.
+> >
+> > why not just introducing a KVM_CAP and allowing the VMM to enable?
+> > KVM doesn't need to know the exact source of requiring it...
+>
+> Agreed.  If we end up needing to grant the whole VM access for some reason, just
+> give userspace a direct toggle.
