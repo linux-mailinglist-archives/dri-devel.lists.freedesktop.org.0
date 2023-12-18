@@ -2,68 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CBF88179D5
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 19:40:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7D3D8179D3
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 19:39:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F175C10E3A4;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F21E10E3A3;
 	Mon, 18 Dec 2023 18:39:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
- [209.85.208.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0A8110E066
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 18:36:42 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id
- 4fb4d7f45d1cf-54ba86ae133so3162459a12.2
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 10:36:42 -0800 (PST)
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com
+ [209.85.218.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24FB610E290
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 18:39:07 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id
+ a640c23a62f3a-a2330a92ae6so253446766b.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 10:39:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1702924601; x=1703529401;
+ d=chromium.org; s=google; t=1702924745; x=1703529545;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=nM0rc7/LDh8NwvQblcAD/SfzUIDE9JpJzu1fXo/7n0Y=;
- b=a3KsF6HCWqSZOPKHwO74fU+q8VCzYftiX4mF4U4qOD935L9/Xt8HpGlJbpJdSb7RfX
- jZGdQ6sAamdTsKhu595MjHkhHHgCVjw5ZvLDhN9E1RyaKCzNBU4v/dWApIoQo7b94OP6
- Gn5/0wYPgpCWAavQNqlUIRAmX/8jcnntcgYdY=
+ bh=i6y3ll1JV4kECb7ETSXvUzgYXA9pzoacjYnpy2l56Ho=;
+ b=NvOiRQPD25DAe19S6O4HSfBWl3xAaqXXSzUOPOX6DGuG6JyqIxbL+VmyZxFe+AvjN3
+ DMzetGzOestyMDFQ8kDCA9hj1Z6NmPOdfNtjAOMVn7iZuXTaqpsYsVv1ol7H7sd42hFZ
+ 5iTIOBS9o0CPCmmFoSWAOXYZlUGv03GEWH+lM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702924601; x=1703529401;
+ d=1e100.net; s=20230601; t=1702924745; x=1703529545;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=nM0rc7/LDh8NwvQblcAD/SfzUIDE9JpJzu1fXo/7n0Y=;
- b=o8QNLo3Px8IAajTbY4WT876PmUExj8rsYKgC0CLIElil1MU2hIv3veVgdSC7QYzzTO
- YjLLIFk46QFKNUzg/4LHlHj+2h9oPlMFJxCuaHXfmV0oVDiIwdEMEETIHi8qkThSNUuy
- f5gp/6/QOY2OGZJULdl0mpQSGMZSYZWT+Vj0rgH2AVz/D1Wh1bnvX2m8SzC+aCpK+mPF
- 7u4oYCj9SiVo7yNrH3FjhTactNKhCXM0x2UC4S5d7gaNeeEtWXNKDW0l4RlpAMuryaIy
- teygBuydV7ZNjjZtGP7Xxo+6d8G8xufAi/63J+beoOnLdYUOUSiDLXjwlXFa2NuwFecR
- VVjg==
-X-Gm-Message-State: AOJu0Yy6ulNn0GmWfeDsrjJDEuyGCq1D4KzZ8NYPVEHBHeNZQAjYvSdm
- 97uyI5dcVwZBG3PX1mC6ymhUdlWZXot5vpo6l12M07wq
-X-Google-Smtp-Source: AGHT+IH0Q2Huf7P0pb6wp2BTJvaqhT45z0lfICOBVWhpuJIxDRzCvfxfuBhvE7fP7FdyIW+bDIlRJg==
-X-Received: by 2002:a05:600c:3501:b0:40c:6b9c:eb49 with SMTP id
- h1-20020a05600c350100b0040c6b9ceb49mr3084742wmq.95.1702918051868; 
- Mon, 18 Dec 2023 08:47:31 -0800 (PST)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com.
- [209.85.128.53]) by smtp.gmail.com with ESMTPSA id
- k10-20020a170906680a00b00a236193fe3esm868009ejr.96.2023.12.18.08.47.29
+ bh=i6y3ll1JV4kECb7ETSXvUzgYXA9pzoacjYnpy2l56Ho=;
+ b=sck8cOvwgqo+HRhz6v7cB/K+IkcCzcAMQXnl88EQdVDE8U+ZjROyyTSy2J+jrYRWPd
+ LeLsCAlDb0zrqIoHS/LnpE7dr+Cv7lcW3mvCdTlu405uKiHzngqi0+cCIdsHnSEubpDn
+ eBsNtl7VdUapgTO1egD/HUHSsfTYdU1TmNl4HCSeHTm/i5VuHVsORtpOt+y5hVuVMcKC
+ qGIBU0FrcbP0HlZyVlSGj3xA0hF7tYEVqOmOw+AZfvTTdaI2uu8nRk8RO4uUTS4g/j8b
+ 197E8B3rNijFBg/R4x+EmJXEIYEUEtMvMvVW+QV+cYDRjy2ApIwbTDf5DC7bRsHGDwd2
+ enYg==
+X-Gm-Message-State: AOJu0Yw4fHmL9+GudyG4H4IefmBVAXhQ4eQxwA/g+VT2EIRomgeqZs69
+ GZMXoSH0RTzbR6b8cxehnZblMd51uRd43HXBt64ANDuA
+X-Google-Smtp-Source: AGHT+IF9J+G888MqNPB5/jROGCHxwoh87R40Y+NF5LW4G2GXIS8OKn9tp3dUCkqxIOn4Up/TiEjHpQ==
+X-Received: by 2002:a17:906:b246:b0:a23:6715:7372 with SMTP id
+ ce6-20020a170906b24600b00a2367157372mr569894ejb.112.1702918093644; 
+ Mon, 18 Dec 2023 08:48:13 -0800 (PST)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com.
+ [209.85.128.54]) by smtp.gmail.com with ESMTPSA id
+ vs4-20020a170907a58400b00a22fb8901c4sm7597738ejc.12.2023.12.18.08.48.12
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Dec 2023 08:47:29 -0800 (PST)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-40c38e520e2so100865e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 08:47:29 -0800 (PST)
-X-Received: by 2002:a05:600c:3b03:b0:40d:174c:9295 with SMTP id
- m3-20020a05600c3b0300b0040d174c9295mr213133wms.3.1702918048764; Mon, 18 Dec
- 2023 08:47:28 -0800 (PST)
+ Mon, 18 Dec 2023 08:48:13 -0800 (PST)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-40c3963f9fcso92495e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 08:48:12 -0800 (PST)
+X-Received: by 2002:a05:600c:1ca7:b0:40c:6557:733d with SMTP id
+ k39-20020a05600c1ca700b0040c6557733dmr366346wms.0.1702918092382; Mon, 18 Dec
+ 2023 08:48:12 -0800 (PST)
 MIME-Version: 1.0
 References: <20231214123752.v3.1.I9d1afcaad76a3e2c0ca046dc4adbc2b632c22eda@changeid>
-In-Reply-To: <20231214123752.v3.1.I9d1afcaad76a3e2c0ca046dc4adbc2b632c22eda@changeid>
+ <20231214123752.v3.2.I7b83c0f31aeedc6b1dc98c7c741d3e1f94f040f8@changeid>
+In-Reply-To: <20231214123752.v3.2.I7b83c0f31aeedc6b1dc98c7c741d3e1f94f040f8@changeid>
 From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 18 Dec 2023 08:47:16 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=VtGN-qU-jqHsD0XpPc5uJwm2xd_rO+ueR_PqK-VJcukQ@mail.gmail.com>
-Message-ID: <CAD=FV=VtGN-qU-jqHsD0XpPc5uJwm2xd_rO+ueR_PqK-VJcukQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] drm/bridge: parade-ps8640: Never store more than
+Date: Mon, 18 Dec 2023 08:48:00 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=U8eJ3J_zY2uaCYGcEjuxkNeTUd1ir33r1f0Xdk+nD3sQ@mail.gmail.com>
+Message-ID: <CAD=FV=U8eJ3J_zY2uaCYGcEjuxkNeTUd1ir33r1f0Xdk+nD3sQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] drm/bridge: ti-sn65dsi86: Never store more than
  msg->size bytes in AUX xfer
 To: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
@@ -81,8 +82,7 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Philip Chen <philipchen@chromium.org>, Robert Foss <rfoss@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
  Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
@@ -97,38 +97,36 @@ Hi,
 On Thu, Dec 14, 2023 at 12:38=E2=80=AFPM Douglas Anderson <dianders@chromiu=
 m.org> wrote:
 >
-> While testing, I happened to notice a random crash that looked like:
+> For aux reads, the value `msg->size` indicates the size of the buffer
+> provided by `msg->buffer`. We should never in any circumstances write
+> more bytes to the buffer since it may overflow the buffer.
 >
->   Kernel panic - not syncing: stack-protector:
->   Kernel stack is corrupted in: drm_dp_dpcd_probe+0x120/0x120
+> In the ti-sn65dsi86 driver there is one code path that reads the
+> transfer length from hardware. Even though it's never been seen to be
+> a problem, we should make extra sure that the hardware isn't
+> increasing the length since doing so would cause us to overrun the
+> buffer.
 >
-> Analysis of drm_dp_dpcd_probe() shows that we pass in a 1-byte buffer
-> (allocated on the stack) to the aux->transfer() function. Presumably
-> if the aux->transfer() writes more than one byte to this buffer then
-> we're in a bad shape.
->
-> Dropping into kgdb, I noticed that "aux->transfer" pointed at
-> ps8640_aux_transfer().
->
-> Reading through ps8640_aux_transfer(), I can see that there are cases
-> where it could write more bytes to msg->buffer than were specified by
-> msg->size. This could happen if the hardware reported back something
-> bogus to us. Let's fix this so we never write more than msg->size
-> bytes. We'll still read all the bytes from the hardware just in case
-> the hardware requires it since the aux transfer data comes through an
-> auto-incrementing register.
->
-> NOTE: I have no actual way to reproduce this issue but it seems likely
-> this is what was happening in the crash I looked at.
->
-> Fixes: 13afcdd7277e ("drm/bridge: parade-ps8640: Add support for AUX chan=
-nel")
+> Fixes: 982f589bde7a ("drm/bridge: ti-sn65dsi86: Update reply on aux failu=
+res")
 > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
+>
+> (no changes since v2)
+>
+> Changes in v2:
+> - Updated patch subject to match ps8640 patch.
+>
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 
-Since the patch fixes a crash, has two Reviews (even if they're both
-from @chromium), and doesn't seem controversial, I didn't want a full
-week and just landed it in drm-misc-fixes. If anyone is upset by this
-then please shout and we can revert or I can post a followup patch.
+Since the patch fixes a potential crash, has two Reviews (even if
+they're both from @chromium), and doesn't seem controversial, I didn't
+want a full week and just landed it in drm-misc-fixes. If anyone is
+upset by this then please shout and we can revert or I can post a
+followup patch.
 
-3164c8a70073 drm/bridge: parade-ps8640: Never store more than
-msg->size bytes in AUX xfer
+Pushed to drm-misc-fixes:
+
+aca58eac52b8 drm/bridge: ti-sn65dsi86: Never store more than msg->size
+bytes in AUX xfer
