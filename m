@@ -2,112 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3536A81797D
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 19:19:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39C7B817A85
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 20:02:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9A7B10E249;
-	Mon, 18 Dec 2023 18:19:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E97F10E3B7;
+	Mon, 18 Dec 2023 19:02:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EAA310E0A6
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 18:19:25 +0000 (UTC)
-Received: from DS0PR12MB9422.namprd12.prod.outlook.com (2603:10b6:8:1bb::16)
- by CH2PR12MB4117.namprd12.prod.outlook.com (2603:10b6:610:ae::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.38; Mon, 18 Dec
- 2023 16:31:25 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BoY6Q4J59kuhgCJXZYf5woohgUcmN0+v1rNgpjBf67A/ucwSThSsFsIF1xvs8FUVTw5oBQzGFoBoJSbW5y6FWwblvTXxXwvCaJYGczSZtgyy673vrl2jCHt9YUKpmfE3+zPExjWSJKIZ0FbV90vaoqraQK8KRozOsRYEd6FC52f4yOEOzAiQp6BF1e4ygtgTuAWYYGxubPCPkZPtBhcZgPmCa9zZC8XaSV3zJWdMXq2CDr9Y0nQ6AEI3ApmFl4kNT7IbDOxo54BsvQZkGQU8vzZR7cixBvyBceCC6s6BYlw0Xd4J5YrfrP7qrabNvqColui3dT7m06tsevI2pN3oSg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PWIolyEP0YV6kZ598cmZFNzsxYYq8H2XW72mdEnyYRU=;
- b=lld6SucgIUc/MC0ggILWdPEuf+OTZj6RFIecUoFQsfrWxPgVIZYZLNeZB41wzXLaI1w3WfGpy9BuGdsi7iWplnfy1JvsA9lRGFyyIibq67bnYPPv024VXkqZxYprPZcJi/4sw2yZ5BjTCgfsZbZ3XLcA0zxSNgGR9YFFgT/vfsHUnGSemMij2+NxUbKim6bbJUqLXvzYJUlaEalEzHU0batzjxeF+Hr0VoTuPnBDGxLRRkr+u1Ga8od/A5s+OsBr7tmKzZ5TQKIC/yWPHbTEXYtA8OXX56RHQtjOZ4/t/hD0dlhgtU2Zao/cMiUhg3iE2U+iTR1v8+Ax5h1PwoBZVQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PWIolyEP0YV6kZ598cmZFNzsxYYq8H2XW72mdEnyYRU=;
- b=iYfc9FbtauqqoOaxfdZ2h8ODTA6ov4ndkSHrQvGBCLDPc7o1NwWsQ8wwfbqKClX/uPHkQ2voslWeMZBE+BnChgKJGg7aueT0PPQOIcd83jGhpbZhIwfDI2b4g79bN8bzSXAzHPuQvt6G7iRk14SVFafat2Xc0YKbFsGu2kouQis=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from SJ2PR12MB8690.namprd12.prod.outlook.com (2603:10b6:a03:540::10)
- by DS0PR12MB9422.namprd12.prod.outlook.com (2603:10b6:8:1bb::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.37; Mon, 18 Dec
- 2023 05:30:19 +0000
-Received: from SJ2PR12MB8690.namprd12.prod.outlook.com
- ([fe80::87d4:680b:51ef:181]) by SJ2PR12MB8690.namprd12.prod.outlook.com
- ([fe80::87d4:680b:51ef:181%7]) with mapi id 15.20.7091.034; Mon, 18 Dec 2023
- 05:30:18 +0000
-Date: Mon, 18 Dec 2023 13:29:57 +0800
-From: Huang Rui <ray.huang@amd.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH] drm/virtio: add definition for venus capset
-Message-ID: <ZX/Y1Rp0RoFdpi1Q@amd.com>
-References: <20230915105918.3763061-1-ray.huang@amd.com>
- <a7b783c8-b1c8-90e3-b6c7-7fa8c6d24d21@collabora.com>
- <68470997-bb4c-3c11-98b5-aa75c52cbaea@collabora.com>
- <b79dcf75-c9e8-490e-644f-3b97d95f7397@collabora.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b79dcf75-c9e8-490e-644f-3b97d95f7397@collabora.com>
-X-ClientProxiedBy: SI2PR02CA0043.apcprd02.prod.outlook.com
- (2603:1096:4:196::12) To SJ2PR12MB8690.namprd12.prod.outlook.com
- (2603:10b6:a03:540::10)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
+ [209.85.218.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1BDD10E3B7
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 19:02:52 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id
+ a640c23a62f3a-a23350cd51cso237737366b.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 11:02:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1702926171; x=1703530971; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=yFQrPgR+3Pni0z+ATA3/uugI0iVz9H1eIgiHuZebRJ8=;
+ b=Cu01MgudbS/iqRLx4JrOksn07ITepftNlU/PzNLjSM0Su0n9Uiqp/V+jocAIRWCAMI
+ hXf8b4P0dgjsNvtKEMcL3aSEixdTwF5BiNSTqtO8Ht5rKo0o1FlZ1FPMPQFRGfkxfeWa
+ 0Rr5sO28cdDCe58XzWwEF6xBLRER2eHs6iKj5TEsJAsFswLHEUejPcchRwdBjx1Iw6qu
+ BY5ZHvMVjsarjK5QIKCPXqm8zUa2PCl3/In5DgvKYsTlvT+rLiSgqyeCKs9/9+AshvZ6
+ hG7IYwEqtjcGpppYVR2dMdbxm1tnXtzgAfQUCtgZTihT8oo+6/vbgcRU4URFNeQgkWeO
+ LGPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1702926171; x=1703530971;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=yFQrPgR+3Pni0z+ATA3/uugI0iVz9H1eIgiHuZebRJ8=;
+ b=unBy1/poU7vbDUr1gHlwz2vQtpUbxC6Hi1pQKS52Gg9Q6TyvKyqI6JrKdUKoigzlH0
+ nWR0eV5leoPAUGqaRae/olToS4yOQ1lYmHPnBMWupMVUJklSC64OjrV85rB0/ws0CvTN
+ 03p5+bJUOJhrSaH6x9bpxAkzDib5xrIiEdmNjA8NEQI5DcH5UrvmiyLS5F9JUQXUFLZB
+ kyYrMin+j7L4R3Fl79kBaoFsNK6iXAMOp0+h6UEBcwTNgHiCE+SR99mrMcAAWEd/DUjS
+ NAOwdPnXho11r0zfXDWdE9ytkCXUnE824yWYXQXjZDstwd+0vW8TgXmA+YVuI/yDcwyE
+ x0yg==
+X-Gm-Message-State: AOJu0YyYut8FbMIatI1g8GEPa52WabvA27gd4U4UhcZNk4rSa2LNnmm0
+ X+/5ovJ1l7lwmazHEzG18so7VxNLTAiopE2pI2Q/Yg==
+X-Google-Smtp-Source: AGHT+IEXwhBEFEpoLLHX9QB2O/gzS9jobP+EypJB/UzJwzDDKKquwOHvIdtg+bBGAPc7kCBY7+lmig==
+X-Received: by 2002:a17:906:20d6:b0:a22:fe3c:49c9 with SMTP id
+ c22-20020a17090620d600b00a22fe3c49c9mr3764882ejc.27.1702884900983; 
+ Sun, 17 Dec 2023 23:35:00 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.218.27])
+ by smtp.gmail.com with ESMTPSA id
+ ub27-20020a170907c81b00b00a1df4387f16sm13957323ejc.95.2023.12.17.23.34.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 17 Dec 2023 23:35:00 -0800 (PST)
+Message-ID: <3d1fb191-5ef2-4569-962f-1d727c1499c5@linaro.org>
+Date: Mon, 18 Dec 2023 08:34:58 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR12MB8690:EE_|DS0PR12MB9422:EE_|CH2PR12MB4117:EE_
-X-MS-Office365-Filtering-Correlation-Id: c1c788d9-e276-40cf-b6cb-08dbff8a6c0a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: bNXpqQ9CiSL+3JbK7ax/+0CwHVA1YSMQOJ9E4LCjpcYnuGQr+5YXVpPbSRGeMoYcvAik5xTpUEdlbC8fzxTmBBddq29P9g/Ycr+2C5SJ2cRFyZgz+EllhZ+Z2LhjznbGiu9bpqj5tnzBbEw0V1MoeLTxtKCu6n9GsC7GYYEVokUfHZmEy9xXANZwMjXFW+FlQj5oIZ+CiWirDCZEvhTR5YmvbU1T/lF/IQHkHWRECZnsa8ptZeDtouYDGCwxe07jzi+qNRa7sgveVYP6JadTLp+8Y3cs10AtoZRZyI6IDYGZclZHVcuMVwK337ATCZUdUcmjlMzFp4uhR0rcLcwyhiO6bLFjb3LcLPCDvAv8uk6Vx7e/ookN09J16nKfuvM9/SDv8ZiKi7kNc239RAdweUcNCFNa28NfqvIo3oRn/KTmaOrgNnAONNJ5krgT1Wy1nhzksxCJoYW94iBRp/NiQZkmfe1HMqwhdj1czWfKW+/PGBNcRFr5cv5TgT4WWfPV8HjMu1MP5zfFPwXMOCQg1QAjNPAjMNsleyqrKKNPJafXubXFb/vq0pNh+TFDv98++ZQrWC+Y86ZOX4oo4lNsug==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ2PR12MB8690.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(366004)(346002)(136003)(396003)(39860400002)(376002)(230922051799003)(451199024)(186009)(64100799003)(1800799012)(5660300002)(38100700002)(86362001)(2906002)(2616005)(26005)(83380400001)(6506007)(53546011)(6512007)(6666004)(316002)(66556008)(66476007)(966005)(6486002)(36756003)(41300700001)(54906003)(6916009)(478600001)(66946007)(4326008)(8676002)(8936002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?WsWxN8OiZ8CN80qBLhy/CnCG1uvnHi7CwX6hwY7wzVQCnDf+6oWEpGnFGq7g?=
- =?us-ascii?Q?O/8UBq8kC5gs8RLKx2iqyC+hzGvksFlClI051B5Of6zi6N/BxB+8lBa5HKcF?=
- =?us-ascii?Q?3KZYT1VSf0taISbwEIqb7nskRiBODS1a0I50XYzdSGs+O6488nlbJTxKd/66?=
- =?us-ascii?Q?YbSMaZIkNBsrmsRqc1wC7M91iy/3V0mcQyE+CU19vnMyWtR/UzJciwX1GjIG?=
- =?us-ascii?Q?5IX2E2jIHI+BWlOkG/j2Tn5h+TGta2wefve8HHHNpylLDXLiHW4JGaGqO7kn?=
- =?us-ascii?Q?hHTJJOvH8btqhN0FdAaI/y5mcYPkH7JpSEa+YiB/QgB1lGRxkhek1pEwVS0K?=
- =?us-ascii?Q?x8FXXe70mKWXHixIWewpE6qd9e602nGoTTQy5aeUVwM+TDaL22qLHnJSJKGD?=
- =?us-ascii?Q?Pm1tqCvu9WupcB8+LkwvnFDYYAs6q1P7noASaDpYuCRi9gwSZyiWIskIK79W?=
- =?us-ascii?Q?EA1XTk1A1RGJ5cK0xkrh1zjjEt5E2PpyVxrNmAxQQWC9qbQ0NYDS8eYUqdca?=
- =?us-ascii?Q?ljL0O47oCvNlEv60YejQaxvmJ5X8UyZ7Aylq6zTPKaThybsOOz4Oa0fYozO1?=
- =?us-ascii?Q?/hLpqV7VHHC6xEhxtWH3m69Yj2roObhYBP/Jvtn/Hq7Db5x9jpnXDe89dD1m?=
- =?us-ascii?Q?NN97qGDYfwF9tZcJUBlQabWLSJxAhGR1HpU8ADsZeefN3+AtZOBJRWKqFSJY?=
- =?us-ascii?Q?uzXstvn6SSc/WTpBZNFpCLUdBs8+cV4juHUxFDXlSAgwC3Pc+iQxh+NS6act?=
- =?us-ascii?Q?P+uC2DK9EEWGXc7yT8GX0gscUVNbXdBo5COTE4tcKxwv/iUncM8LIEyoDu0c?=
- =?us-ascii?Q?kQozQ8WWZ2wb7U0LR40Lqe3wjum4agwjmGg/xzGlexNB1/mckEsgl7f89MQw?=
- =?us-ascii?Q?z2M3sHhv3lGg3s1lcH3Ax2X4FjpPtxeya9KsJxfHOthorJX3TUsiBu7pq3qB?=
- =?us-ascii?Q?qF0lsQlU6bHTlSs1PHpAAPXSWmYdOmdNeuLr9gfqsnzw7E2RDbC7t27dBon8?=
- =?us-ascii?Q?CvBzjFGmUAhXHohcyTAvACaEJldkiF8N3Of6NRqPUC5t3bIRoOmaj9od/iBf?=
- =?us-ascii?Q?FK0fn/KgpupMcCBcjgXSzr5SOI90WGAXTNV40VV3/wTo0coOqhz7Pb0nT62p?=
- =?us-ascii?Q?XnllUvQ4CvMQ9S0htfbISHRamtkF/esiRU37TzOoYBZ+EMDM5BQLEuUOjx21?=
- =?us-ascii?Q?m2smQHq0Kt3+lg+m9tFXTPEZ+6kXjMdaJs4P8480E7PsgldGR3LiVrfKkCAi?=
- =?us-ascii?Q?PEqiSrXZiihdRII1lysqKKNDyBN1lSN4bSI2mlo88x05BssBpG0vXsWRsYWr?=
- =?us-ascii?Q?W4jlxIg4hO0rtMTsWZwlBQW/M/Rqwu/qfOSiGsb3WW8aDD87KX2QrwTYNP9X?=
- =?us-ascii?Q?QKVVVIVu6aDtrWeumGU4OFxm06AVw3AE9dqtCX4rYfg5vMDF83CLa3mMjoYc?=
- =?us-ascii?Q?nF1EcyZazXxjxSMUdfa2sifcD7mHjC1KoOOCnl+3m56vJbGYnZbX+5jQfYeR?=
- =?us-ascii?Q?91wH4JhWQ68Mptn10bsRnKfMKCq10/0/g+pYT1xzoC76tTlSgojMTjK/eHLt?=
- =?us-ascii?Q?VkgkIrnApI9fvnLJZD7WngV2Cy6uRlJA2r93JwCT?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c1c788d9-e276-40cf-b6cb-08dbff8a6c0a
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR12MB8690.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2023 05:30:18.7558 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0YwqD54XtJKOw8EZdVa1Mo13dHI+jj6boHuaeOeZ5EQ353f1Zdp61XleT+aEL2mMcRFp7jOcaQQFiR/+du8cUQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB9422
-X-OriginatorOrg: amd.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] dt-bindings: display: Add SSD133x OLED controllers
+Content-Language: en-US
+To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
+References: <20231217100741.1943932-1-javierm@redhat.com>
+ <20231217100741.1943932-2-javierm@redhat.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20231217100741.1943932-2-javierm@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,70 +120,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Xenia Ragiadakou <xenia.ragiadakou@amd.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, David Airlie <airlied@redhat.com>,
- "virtualization@lists.linux-foundation.org"
- <virtualization@lists.linux-foundation.org>
+Cc: Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Conor Dooley <conor@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Peter Robinson <pbrobinson@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Dec 16, 2023 at 12:45:32AM +0800, Dmitry Osipenko wrote:
-> On 11/19/23 06:46, Dmitry Osipenko wrote:
-> > On 9/21/23 00:16, Dmitry Osipenko wrote:
-> >> On 9/15/23 13:59, Huang Rui wrote:
-> >>> This definition is used fro qemu, and qemu imports this marco in the
-> >>> headers to enable venus for virtio gpu. So it should add it even kernel
-> >>> doesn't use this.
-> >>>
-> >>> Signed-off-by: Huang Rui <ray.huang@amd.com>
-> >>> ---
-> >>>
-> >>> Hi all,
-> >>>
-> >>> We would like to add a new definition for venus capset, it will be used for
-> >>> qemu. Please see details on below discussion:
-> >>>
-> >>> https://lore.kernel.org/qemu-devel/b82982aa-5b9e-481e-9491-b9313877bcaa@daynix.com/
-> >>>
-> >>> Thanks,
-> >>> Ray
-> >>>
-> >>>  include/uapi/linux/virtio_gpu.h | 2 ++
-> >>>  1 file changed, 2 insertions(+)
-> >>>
-> >>> diff --git a/include/uapi/linux/virtio_gpu.h b/include/uapi/linux/virtio_gpu.h
-> >>> index f556fde07b76..0e21f3998108 100644
-> >>> --- a/include/uapi/linux/virtio_gpu.h
-> >>> +++ b/include/uapi/linux/virtio_gpu.h
-> >>> @@ -309,6 +309,8 @@ struct virtio_gpu_cmd_submit {
-> >>>  
-> >>>  #define VIRTIO_GPU_CAPSET_VIRGL 1
-> >>>  #define VIRTIO_GPU_CAPSET_VIRGL2 2
-> >>> +/* 3 is reserved for gfxstream */
-> >>> +#define VIRTIO_GPU_CAPSET_VENUS 4
-> >>
-> >> Could you please add all other capsets, so we won't needed to do it
-> >> again in the future
-> > 
-> > I've opened request to update virtio-spec with the corrected/updated
-> > capsets https://github.com/oasis-tcs/virtio-spec/issues/182. I'm
-> > expecting that it will take some time until spec change will be merged
-> > and now leaning to apply this v1 patch to not hold the Venus work.
-> > 
-> > Gerd, do you have objections? R-b/ack?
-> 
-> Applied patch to misc-next with edited commit message. Updating spec
-> taking much time, not worth to hold this change longer. We'll add the
-> rest of capsets later on. Thanks, Rui!
-> 
+On 17/12/2023 11:07, Javier Martinez Canillas wrote:
+>> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: solomon,ssd1331
+> +    then:
+> +      properties:
+> +        width:
+> +          default: 96
+> +        height:
+> +          default: 64
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
 
-Thank you, Dmitry! I will update corresponding patch in qemu, and send v6
-qemu patches.
+Use 4 spaces for example indentation.
 
-Best Regards,
-Ray
+Best regards,
+Krzysztof
+
