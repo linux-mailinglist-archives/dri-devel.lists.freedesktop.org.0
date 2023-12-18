@@ -2,65 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D3BB817983
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 19:21:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28238817A31
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 19:57:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0813F10E23D;
-	Mon, 18 Dec 2023 18:20:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2538510E363;
+	Mon, 18 Dec 2023 18:57:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
- [209.85.218.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DADA10E23D
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 18:20:48 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id
- a640c23a62f3a-a235500d0e1so184656366b.2
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 10:20:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1702923646; x=1703528446;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=3CX2gA6r/dtvGkH0YEYWwI6mzbAd5lMyIJziHnyg55Q=;
- b=R4FuD3G0TboQo39YRaEUsjco6/C5Q4qxLSaFBgv9np4NiEFi6sfxOfun9Auir9nAVu
- PqsOq2eK5WsD6/wcE6QhmXT6SaZodMNkTLxet0ho+qiOWE6f+RjFFwV7hV6oB8/2nIz0
- jm5Vc91MPhCtrJgKpqZ9UX/aKR6s4TxbwTs6k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702923646; x=1703528446;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=3CX2gA6r/dtvGkH0YEYWwI6mzbAd5lMyIJziHnyg55Q=;
- b=EUaM+gjs0mtqT6bTtpS6CKnZ9W4R9o6QtjUFJE1RqjjVwf4/GIZ4KEYMRlIR77tK4F
- q1sN1LHoPs5CFx9xZNVIz6W3Iu08aozRyvyxuknao/Ut78NT/SVs1fThjfhQwDU69Ktj
- szN2MLsu8/1/gcOTb5WsCQljDeCG65cFm0YCL6jXUSIXKkRwDsSBMXcJtiRyJwMT1OO0
- xV/9gIWl0IHsnTTgCy5WsohiatSaclT1MwLvdWZ6YWbE35yEh88DhZt7InatdUY6fCid
- wxJVNdFGdpIreTxR8bkCKVsK1BKojFXbPZangDhdNnSnWZVFnw6sG9XVk3ZN80Qxxj5Y
- pQzA==
-X-Gm-Message-State: AOJu0YxvYeXxNun5ZrfWipru0ouYptUZYJBfFVaxgHeWa5iL+Kr85lpM
- cP64L4fRs+unVxug6NZv61cBxXO9E3I99wDzMMpoJg==
-X-Google-Smtp-Source: AGHT+IFQIjmnqwJHXBWuNV3lOiYbeAZ7NPxnsnxpiSweOVnDxxJk9dtKKOT/fn1raM0scBnAt9eeTA==
-X-Received: by 2002:a17:907:e8d:b0:a1f:5e5d:d71b with SMTP id
- ho13-20020a1709070e8d00b00a1f5e5dd71bmr10134407ejc.40.1702889042999; 
- Mon, 18 Dec 2023 00:44:02 -0800 (PST)
-Received: from dario-ThinkPad-T14s-Gen-2i.homenet.telecomitalia.it
- (host-80-182-13-188.retail.telecomitalia.it. [80.182.13.188])
- by smtp.gmail.com with ESMTPSA id
- un5-20020a170907cb8500b009ff77c2e1dasm13775480ejc.167.2023.12.18.00.44.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Dec 2023 00:44:02 -0800 (PST)
-From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v9 1/2] drm: bridge: samsung-dsim: enter display mode in the
- enable() callback
-Date: Mon, 18 Dec 2023 09:43:37 +0100
-Message-ID: <20231218084354.508942-2-dario.binacchi@amarulasolutions.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231218084354.508942-1-dario.binacchi@amarulasolutions.com>
-References: <20231218084354.508942-1-dario.binacchi@amarulasolutions.com>
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE88C10E399
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 18:51:04 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::229])
+ by mslow1.mail.gandi.net (Postfix) with ESMTP id AF511C4EBE
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 08:49:35 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id DD407FF80D;
+ Mon, 18 Dec 2023 08:48:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1702889335;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WEjNyui8dpICoN03Dmtc/o7axfHFy2V2/ve4imiJSQY=;
+ b=EfxGBHupUDheNnjomSJdSFxBQyn7KjPnJ87Dukk7wAEypxePvm+GJYd5W0WeQ8bKMIrLsU
+ chq/IgWlXZwksnhFYshwV74+dNMUfgRFUIxG3mc+DysLRL5xOFctbqtCo35x8ezYLvi2LL
+ FQZTSz0O83/lP8BlyMPRjLkoS2cyRGrrDVbXijwphB4PgF4ScLXm+WExn7WLFP4WnzdJU3
+ jUWF2/dgr5Riq/CUvbP0YQJo1hEoR00BJmxbU3p6vj2S93oT1IPe7xHEWyit5FnKEYo/5E
+ CMH+6dJYBJdSuKvaKaBJc5ojCo5uo9iIKKG9owtN+rhZtTUl0LKECkoCqoXbFQ==
+Date: Mon, 18 Dec 2023 09:48:49 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v3 2/2] drm/bridge: imx: add driver for HDMI TX Parallel
+ Video Interface
+Message-ID: <20231218094849.4aa15a97@booty>
+In-Reply-To: <20231218023655.GG5290@pendragon.ideasonboard.com>
+References: <20230920171009.3193296-1-l.stach@pengutronix.de>
+ <20230920171009.3193296-2-l.stach@pengutronix.de>
+ <20230920205736.GB7723@pendragon.ideasonboard.com>
+ <CAHCN7xJz=rEH_8wHaBCVOUzP0kO6cM_c=zLf6ocjW8bt1FaCBw@mail.gmail.com>
+ <CAOMZO5C7_Rj-Ja0BO0D0Po+gy+XbvyMdQf-wH5YNyhAdMof2vg@mail.gmail.com>
+ <20231215142308.GL21146@pendragon.ideasonboard.com>
+ <CAHCN7xJPg_Nk=o9fKwkZfVTNSB-YL0m7vY6p1O7+i=PHShp7hg@mail.gmail.com>
+ <CAOMZO5AGAkPpds=5H-iQj53djcQtW5GsRQrzdC_JOOrcENhvvw@mail.gmail.com>
+ <CAHCN7xLHMGcS2-QTneqqpHYU66JwuEG4TyR0j0riFGqO6RC8ug@mail.gmail.com>
+ <CAOMZO5B2bWVciDEwSh+YQWu6b_Hp5ijk6Jq-bMePPTDRJ-vHFA@mail.gmail.com>
+ <20231218023655.GG5290@pendragon.ideasonboard.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,87 +65,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Dario Binacchi <dario.binacchi@amarulasolutions.com>,
- Robert Foss <rfoss@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
- Amarula patchwork <linux-amarula@amarulasolutions.com>,
- dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, michael@amarulasolutions.com,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Jonas Karlman <jonas@kwiboo.se>, Liu Ying <victor.liu@nxp.com>,
+ dri-devel@lists.freedesktop.org, patchwork-lst@pengutronix.de,
+ devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sandor Yu <sandor.yu@nxp.com>, Adam Ford <aford173@gmail.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org, Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The synaptics-r63353 (panel-bridge) can only be configured in command mode.
-So, samsung-dsim (bridge) must not be in display mode during the
-prepare()/unprepare() of the panel-bridge. Setting the
-"pre_enable_prev_first" flag to true allows the prepare() of the
-panel-bridge to be called between the pre_enabled() and enabled() of the
-bridge. So, the bridge can enter display mode only in the enabled().
-The unprepare() of the panel-bridge is instead called between the disable()
-and post_disable() of the bridge. So, the disable() must exit the display
-mode (i .e. enter command mode) to allow the panel-bridge to receive DSI
-commands.
+Hi,
 
-samsung_dsim_atomic_pre_enable   -> command mode
-r63353_panel_prepare             -> send DSI commands
-samsung_dsim_atomic_enable       -> enter display mode
+On Mon, 18 Dec 2023 04:36:55 +0200
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
 
-samsung_dsim_atomic_disable      -> exit display mode (command mode)
-r63353_panel_unprepare           -> send DSI commands
-samsung_dsim_atomic_post_disable
+> On Fri, Dec 15, 2023 at 05:09:41PM -0300, Fabio Estevam wrote:
+> > On Fri, Dec 15, 2023 at 4:01=E2=80=AFPM Adam Ford <aford173@gmail.com> =
+wrote:
+> >  =20
+> > > Thanks for the list.  I was able to successfully build the stable 6.6
+> > > branch with those patches applied and I have the HDMI working.
+> > > Unfortunately, I get build errors on the linux-next, so it's going to
+> > > take me a little time to sort through all of this. =20
+> >=20
+> > If you need help to figure this problem out, please let me know.
+> >=20
+> > I haven't tried it against linux-next.
+> >  =20
+> > > I am thinking that it would be better to consolidate all these
+> > > together into one series instead of piecemealing it.  However, there
+> > > are some items that can be submitted right away without significantly
+> > > reworking them against linux-next.  Do people have a preference? =20
+> >=20
+> > I think it makes sense to re-submit the "easy ones" right away. =20
+>=20
+> Agreed. The more we can merge quickly, the easier it will become to
+> rebase and upstream the rest.
 
-Co-developed-by: Michael Trimarchi <michael@amarulasolutions.com>
-Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
-Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
----
+I agree as well, "release early, release often". These patches are
+around since a long time and lots of people are using them already, and
+tracking all of them from different threads is time-consuming. I will
+happily test them early as soon as they are sent.
 
-(no changes since v1)
+Luca
 
- drivers/gpu/drm/bridge/samsung-dsim.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index be5914caa17d..15bf05b2bbe4 100644
---- a/drivers/gpu/drm/bridge/samsung-dsim.c
-+++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -1494,7 +1494,6 @@ static void samsung_dsim_atomic_pre_enable(struct drm_bridge *bridge,
- 			return;
- 
- 		samsung_dsim_set_display_mode(dsi);
--		samsung_dsim_set_display_enable(dsi, true);
- 	}
- }
- 
-@@ -1507,6 +1506,7 @@ static void samsung_dsim_atomic_enable(struct drm_bridge *bridge,
- 		samsung_dsim_set_display_mode(dsi);
- 		samsung_dsim_set_display_enable(dsi, true);
- 	} else {
-+		samsung_dsim_set_display_enable(dsi, true);
- 		samsung_dsim_set_stop_state(dsi, false);
- 	}
- 
-@@ -1524,6 +1524,8 @@ static void samsung_dsim_atomic_disable(struct drm_bridge *bridge,
- 	if (!samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type))
- 		samsung_dsim_set_stop_state(dsi, true);
- 
-+	samsung_dsim_set_display_enable(dsi, false);
-+
- 	dsi->state &= ~DSIM_STATE_VIDOUT_AVAILABLE;
- }
- 
-@@ -1532,7 +1534,8 @@ static void samsung_dsim_atomic_post_disable(struct drm_bridge *bridge,
- {
- 	struct samsung_dsim *dsi = bridge_to_dsi(bridge);
- 
--	samsung_dsim_set_display_enable(dsi, false);
-+	if (!samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type))
-+		samsung_dsim_set_stop_state(dsi, true);
- 
- 	dsi->state &= ~DSIM_STATE_ENABLED;
- 	pm_runtime_put_sync(dsi->dev);
--- 
-2.43.0
-
+--=20
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
