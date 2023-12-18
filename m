@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8924817CF7
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 22:53:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E0F5817CFA
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 22:53:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B18A210E371;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E022810E38D;
 	Mon, 18 Dec 2023 21:52:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FA0910E383
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 405F710E394
  for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 20:34:34 +0000 (UTC)
 From: Nam Cao <namcao@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1702893460;
+ s=2020; t=1702893461;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=m8g1705acTr/tgoPBJPCxDzSYFLliwXwTit5yL2vhLY=;
- b=QYB7/wZCAy3GKkvWhPXPJbjtv5jqKhrH0IhYndaJGvRnNE5S1hUB61ByPMusRDvNNvXgM2
- Q42MtKtQcxIyvDOHEYF2bCyRS3fRHM1KxPYBheyoHag0Q60sHOgHrQe4WBs4L4E4anC+yZ
- XqiLqjsIHSNwrd5uf/LED1uVcwDCIqsepv6Tq0iX/+/+w5S6Ew9QTde2vjoYJDeY+j6Tjs
- 9VL/bFO4UEd87V4BsklZqXav85aVZRZpD1ecWcON3F/ygKc/m7ezm5g0C7R0qmcFXlFlK/
- RYNSGG5Ff4hjhg06dbm+Df+XIta8gHP6ifJnPlez0yxhdqzWqMKtqAyhV/b1qg==
+ bh=VQgbUD/9nx5mi5GS7bnC72VqZMbKoUb8rPJa0pNUbQg=;
+ b=Kkxi3zSonUFc6y94k8nGCK8agXTv2WfFgXRqzSp3Kk+EiUi7x+4dK3FUjlcRqGkqKnqrdG
+ kb8BZYzCINHtS1fVRyZf7x+513wa1htBnuxQmfHW+ipRyBldeMol/tQQjK6WMkAxuB3x6K
+ x8B+X5gwp697Y88VxGi60b4L/rUbzzD+8ILa8C+86UpcVy922Z+CjbUOPVqhCRDMcCDu0I
+ 6H4/oeqWUo/2lr6tyNgT+jEndcAWIYt4FDNOfX3cSQKyo5trqc6JMZGTffcRRBnajXkN4r
+ estX+xLS1zqN2YQaL4H1thIpODq6P2R9DzFsGaaBWsuXXA+2hNhFi/W0S98fWw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1702893460;
+ s=2020e; t=1702893461;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=m8g1705acTr/tgoPBJPCxDzSYFLliwXwTit5yL2vhLY=;
- b=2c6pIzvCC2pWWiknD+IJ9Ed+Cd9zmCRkfZrO1U/2cAVRfSf59hAhENuaciIIH6Edz/mnb5
- Z7ATSmsGmX1ghRCA==
+ bh=VQgbUD/9nx5mi5GS7bnC72VqZMbKoUb8rPJa0pNUbQg=;
+ b=faqY/3zT2f1RnxKjUVyMNBjYHnbagbsIJ2OtxRfsf+0e6/fXqcPT1MzTJJJRoZZvDJzJid
+ B41FU8hSdvRtjnAA==
 To: Jaya Kumar <jayalk@intworks.biz>, Daniel Vetter <daniel@ffwll.ch>,
  Helge Deller <deller@gmx.de>, Antonino Daplas <adaplas@gmail.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  Paul Mundt <lethal@linux-sh.org>, linux-fbdev@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] fb: flush deferred work in fb_deferred_io_fsync()
-Date: Mon, 18 Dec 2023 10:57:30 +0100
-Message-Id: <d15187348e7d7f76b7a1adf95aa5e3e3ecfc10b4.1702890493.git.namcao@linutronix.de>
+Subject: [PATCH 2/2] fb: flush deferred IO before closing
+Date: Mon, 18 Dec 2023 10:57:31 +0100
+Message-Id: <bd017f29c0c3d0a91e7be35520d3994218465562.1702890493.git.namcao@linutronix.de>
 In-Reply-To: <cover.1702890493.git.namcao@linutronix.de>
 References: <cover.1702890493.git.namcao@linutronix.de>
 MIME-Version: 1.0
@@ -64,50 +64,45 @@ Cc: Nam Cao <namcao@linutronix.de>, bigeasy@linutronix.de,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The driver's fsync() is supposed to flush any pending operation to
-hardware. It is implemented in this driver by cancelling the queued
-deferred IO first, then schedule it for "immediate execution" by calling
-schedule_delayed_work() again with delay=3D0. However, setting delay=3D0
-only means the work is scheduled immediately, it does not mean the work
-is executed immediately. There is no guarantee that the work is finished
-after schedule_delayed_work() returns. After this driver's fsync()
-returns, there can still be pending work. Furthermore, if close() is
-called by users immediately after fsync(), the pending work gets
-cancelled and fsync() may do nothing.
+When framebuffer gets closed, the queued deferred IO gets cancelled. This
+can cause some last display data to vanish. This is problematic for users
+who send a still image to the framebuffer, then close the file: the image
+may never appear.
 
-To ensure that the deferred IO completes, use flush_delayed_work()
-instead. Write operations to this driver either write to the device
-directly, or invoke schedule_delayed_work(); so by flushing the
-workqueue, it can be guaranteed that all previous writes make it to the
-device.
+To ensure none of display data get lost, flush the queued deferred IO
+first before closing.
 
-Fixes: 5e841b88d23d ("fb: fsync() method for deferred I/O flush.")
+Another possible solution is to delete the cancel_delayed_work_sync()
+instead. The difference is that the display may appear some time after
+closing. However, the clearing of page mapping after this needs to be
+removed too, because the page mapping is used by the deferred work. It is
+not completely obvious whether it is okay to not clear the page mapping.
+For a patch intended for stable trees, go with the simple and obvious
+solution.
+
+Fixes: 60b59beafba8 ("fbdev: mm: Deferred IO support")
 Cc: stable@vger.kernel.org
 Signed-off-by: Nam Cao <namcao@linutronix.de>
 Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- drivers/video/fbdev/core/fb_defio.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ drivers/video/fbdev/core/fb_defio.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/video/fbdev/core/fb_defio.c b/drivers/video/fbdev/core=
 /fb_defio.c
-index 274f5d0fa247..6c8b81c452f0 100644
+index 6c8b81c452f0..1ae1d35a5942 100644
 --- a/drivers/video/fbdev/core/fb_defio.c
 +++ b/drivers/video/fbdev/core/fb_defio.c
-@@ -132,11 +132,7 @@ int fb_deferred_io_fsync(struct file *file, loff_t sta=
-rt, loff_t end, int datasy
- 		return 0;
+@@ -313,7 +313,7 @@ static void fb_deferred_io_lastclose(struct fb_info *in=
+fo)
+ 	struct page *page;
+ 	int i;
 =20
- 	inode_lock(inode);
--	/* Kill off the delayed work */
 -	cancel_delayed_work_sync(&info->deferred_work);
--
--	/* Run it immediately */
--	schedule_delayed_work(&info->deferred_work, 0);
 +	flush_delayed_work(&info->deferred_work);
- 	inode_unlock(inode);
 =20
- 	return 0;
+ 	/* clear out the mapping that we setup */
+ 	for (i =3D 0 ; i < info->fix.smem_len; i +=3D PAGE_SIZE) {
 --=20
 2.39.2
 
