@@ -2,51 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E0F5817CFA
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 22:53:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0914817DD1
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 00:03:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E022810E38D;
-	Mon, 18 Dec 2023 21:52:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4167910E093;
+	Mon, 18 Dec 2023 23:02:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 405F710E394
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 20:34:34 +0000 (UTC)
-From: Nam Cao <namcao@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1702893461;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VQgbUD/9nx5mi5GS7bnC72VqZMbKoUb8rPJa0pNUbQg=;
- b=Kkxi3zSonUFc6y94k8nGCK8agXTv2WfFgXRqzSp3Kk+EiUi7x+4dK3FUjlcRqGkqKnqrdG
- kb8BZYzCINHtS1fVRyZf7x+513wa1htBnuxQmfHW+ipRyBldeMol/tQQjK6WMkAxuB3x6K
- x8B+X5gwp697Y88VxGi60b4L/rUbzzD+8ILa8C+86UpcVy922Z+CjbUOPVqhCRDMcCDu0I
- 6H4/oeqWUo/2lr6tyNgT+jEndcAWIYt4FDNOfX3cSQKyo5trqc6JMZGTffcRRBnajXkN4r
- estX+xLS1zqN2YQaL4H1thIpODq6P2R9DzFsGaaBWsuXXA+2hNhFi/W0S98fWw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1702893461;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VQgbUD/9nx5mi5GS7bnC72VqZMbKoUb8rPJa0pNUbQg=;
- b=faqY/3zT2f1RnxKjUVyMNBjYHnbagbsIJ2OtxRfsf+0e6/fXqcPT1MzTJJJRoZZvDJzJid
- B41FU8hSdvRtjnAA==
-To: Jaya Kumar <jayalk@intworks.biz>, Daniel Vetter <daniel@ffwll.ch>,
- Helge Deller <deller@gmx.de>, Antonino Daplas <adaplas@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Paul Mundt <lethal@linux-sh.org>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] fb: flush deferred IO before closing
-Date: Mon, 18 Dec 2023 10:57:31 +0100
-Message-Id: <bd017f29c0c3d0a91e7be35520d3994218465562.1702890493.git.namcao@linutronix.de>
-In-Reply-To: <cover.1702890493.git.namcao@linutronix.de>
-References: <cover.1702890493.git.namcao@linutronix.de>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3EF510E093
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 23:01:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=IHpZAXACTDBncxav1LfL+Ysk/B3+Ti17IrNOwSskF1o=; b=RlMs2h5N5/jbFd/diAJz43vkby
+ ISdayJW+2+QuruQm6SK/iH3PSXFLRnQN4nCTG5VRPtTPvVuDKdyj9YjjrJTDWZRgm9Fg7UMpFRWym
+ nZf0p57cBLZCKWGP6AMKMMFsTRSC23SCv/9ezPTPJSiJ07Uj06da3TTbVEBbZqD4anztS/fcs8+mh
+ aC848XcOVgdcrhmlRnHaAyO04dB4TBIXQMZtyG8ZRflFga5xdihwyEuQSF2rDbkFEXaHpNx0OUiWD
+ GNxv7/lUwArVfByO80WC1x1jFF3n3tUVKhFjVpTsWtt2ybtGZm5JQLo5af9r0n0pAQZnHu9Fz1Qiw
+ pmrkBM6w==;
+Received: from [179.234.233.159] (helo=[192.168.1.212])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1rFBv1-00FB4B-FL; Mon, 18 Dec 2023 12:36:19 +0100
+Message-ID: <5aaa5156-5441-18cf-02a0-b451ecb1f622@igalia.com>
+Date: Mon, 18 Dec 2023 08:36:13 -0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Mon, 18 Dec 2023 21:52:28 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH] drm/vc4: plane: check drm_gem_plane_helper_prepare_fb()
+ return value
+Content-Language: en-US
+To: Simon Ser <contact@emersion.fr>, dri-devel@lists.freedesktop.org
+References: <20231216141518.242811-1-contact@emersion.fr>
+From: Maira Canal <mcanal@igalia.com>
+In-Reply-To: <20231216141518.242811-1-contact@emersion.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,50 +55,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nam Cao <namcao@linutronix.de>, bigeasy@linutronix.de,
- stable@vger.kernel.org
+Cc: Kees Cook <keescook@chromium.org>, Maxime Ripard <mripard@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When framebuffer gets closed, the queued deferred IO gets cancelled. This
-can cause some last display data to vanish. This is problematic for users
-who send a still image to the framebuffer, then close the file: the image
-may never appear.
+Hi Simon,
 
-To ensure none of display data get lost, flush the queued deferred IO
-first before closing.
+On 12/16/23 11:15, Simon Ser wrote:
+> Bubble up any error to the caller.
+> 
+> Signed-off-by: Simon Ser <contact@emersion.fr>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-Another possible solution is to delete the cancel_delayed_work_sync()
-instead. The difference is that the display may appear some time after
-closing. However, the clearing of page mapping after this needs to be
-removed too, because the page mapping is used by the deferred work. It is
-not completely obvious whether it is okay to not clear the page mapping.
-For a patch intended for stable trees, go with the simple and obvious
-solution.
+Reviewed-by: Maíra Canal <mcanal@igalia.com>
 
-Fixes: 60b59beafba8 ("fbdev: mm: Deferred IO support")
-Cc: stable@vger.kernel.org
-Signed-off-by: Nam Cao <namcao@linutronix.de>
-Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- drivers/video/fbdev/core/fb_defio.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Best Regards,
+- Maíra
 
-diff --git a/drivers/video/fbdev/core/fb_defio.c b/drivers/video/fbdev/core=
-/fb_defio.c
-index 6c8b81c452f0..1ae1d35a5942 100644
---- a/drivers/video/fbdev/core/fb_defio.c
-+++ b/drivers/video/fbdev/core/fb_defio.c
-@@ -313,7 +313,7 @@ static void fb_deferred_io_lastclose(struct fb_info *in=
-fo)
- 	struct page *page;
- 	int i;
-=20
--	cancel_delayed_work_sync(&info->deferred_work);
-+	flush_delayed_work(&info->deferred_work);
-=20
- 	/* clear out the mapping that we setup */
- 	for (i =3D 0 ; i < info->fix.smem_len; i +=3D PAGE_SIZE) {
---=20
-2.39.2
-
+> ---
+>   drivers/gpu/drm/vc4/vc4_plane.c | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
+> index 00e713faecd5..b8184374332c 100644
+> --- a/drivers/gpu/drm/vc4/vc4_plane.c
+> +++ b/drivers/gpu/drm/vc4/vc4_plane.c
+> @@ -1497,13 +1497,16 @@ static int vc4_prepare_fb(struct drm_plane *plane,
+>   			  struct drm_plane_state *state)
+>   {
+>   	struct vc4_bo *bo;
+> +	int ret;
+>   
+>   	if (!state->fb)
+>   		return 0;
+>   
+>   	bo = to_vc4_bo(&drm_fb_dma_get_gem_obj(state->fb, 0)->base);
+>   
+> -	drm_gem_plane_helper_prepare_fb(plane, state);
+> +	ret = drm_gem_plane_helper_prepare_fb(plane, state);
+> +	if (ret)
+> +		return ret;
+>   
+>   	if (plane->state->fb == state->fb)
+>   		return 0;
