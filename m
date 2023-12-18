@@ -2,36 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCDB4817ACE
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 20:16:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0D00817B19
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 20:36:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 981FB10E3C4;
-	Mon, 18 Dec 2023 19:15:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8693110E2C4;
+	Mon, 18 Dec 2023 19:35:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 64C8810E3CB
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 19:15:40 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BCB9C1FB;
- Mon, 18 Dec 2023 05:20:54 -0800 (PST)
-Received: from [10.57.4.158] (unknown [10.57.4.158])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C3B5F3F64C;
- Mon, 18 Dec 2023 05:20:08 -0800 (PST)
-Message-ID: <c2097a0e-aa8a-4cdf-bca5-2fd2b0c5402e@foss.arm.com>
-Date: Mon, 18 Dec 2023 13:20:07 +0000
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FF8B10E2C4
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 19:33:45 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4Sv16y72qnz9snW;
+ Mon, 18 Dec 2023 14:35:54 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+ s=MBO0001; t=1702906555;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=tos2FwQlFwhzvaXEQTYM8a4T8bK+EoPuJg3G1O90NAc=;
+ b=Fl4x0IcJYh9uwO1wNscgM7PXzen4xdJv0zkHkRoA8bMKdQpP9Yb4evGFvDqNTzWSXpg8kp
+ l4LY/6hwrN3hBJNUTRQqM/2+1saX9qBfPA7U/CqG/RzepxnjiAEzE0ONFvQ7Gy3PMOm39+
+ sXEyC8LMThAkARo0YuQw/AopJy0RtFyIoIdN0P0+rg/1nuUdhrsPAeAf89ghDCLPhLnkVR
+ 1CJtSGYpb2O818tAGiEnSEP+RdtGUHXbtnRAv3FTh/84jFw5VH6+HKVUSZ1wqCXDDkh4+0
+ AYmfaLpT2t9iU0jnqeBMHHnabnNgFoUwKCsYuyejIy15q1gpb8KnFPTVHl+gzw==
+From: Frank Oltmanns <frank@oltmanns.dev>
+Subject: [PATCH 0/5] Pinephone video out fixes (flipping between two
+ frames)
+Date: Mon, 18 Dec 2023 14:35:18 +0100
+Message-Id: <20231218-pinephone-pll-fixes-v1-0-e238b6ed6dc1@oltmanns.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 01/14] drm/panthor: Add uAPI
-Content-Language: en-US
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org
-References: <20231204173313.2098733-1-boris.brezillon@collabora.com>
- <20231204173313.2098733-2-boris.brezillon@collabora.com>
-From: Chris Diamand <chris.diamand@foss.arm.com>
-In-Reply-To: <20231204173313.2098733-2-boris.brezillon@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJZKgGUC/x3LQQqAIBBG4avErBtIDYquEi1Cf2sgVBQikO6et
+ Px4vEoFWVBo6Spl3FIkhgbVd2TPPRxgcc2kB22UVjMnCUhnDOB0XezlQeHBWucd9GQwUjtTxh/
+ auG7v+wHb/Xl3ZQAAAA==
+To: Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ =?utf-8?q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
+ Purism Kernel Team <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2183; i=frank@oltmanns.dev;
+ h=from:subject:message-id; bh=olgN/dTexxSci4bqC/SYnH4Qe3D2ahceKuSWI8wI15w=;
+ b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBlgEq04Zmk0Dn4zmQRslaV0ONyjY0uQhR1xoFlA
+ vkMMXKgseaJAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZYBKtAAKCRCaaaIIlErT
+ xypkC/4vBt6X+ZMcmFfqSZYPKcB1uMlq3fPUGuL3OQ8RVbGGg1oMRwBjyD2inb3eaSeHLBuhwwu
+ uhjngKAE/R2HUtZnnj/0DLJpJ0p2a/tkDgybA6PZQ3y0hfLgMOb5/fv/aRErnxghSnNEFbcUDMB
+ d8C+xiFEougioK35GpWb8LNb3QRdXm0W9+CTdjjVxv50Csy8RI1SeBGwnz1zMtMTZN5RlgeWFG2
+ 1GQU2wQABJEDqbdXg1Lr95BGKVgh3I1K2s5PkvqTBuEOzlfB0yJ6skd+ntb0D0hZqAwIK9WcjUT
+ f/wzbaGMBrShGb6mVtsX2so96vQr8avsXamOb5XO13XTmN6v1QAfoDeXpiYXMYlnf8iPRurj6jk
+ rEzFf6/XrcOUP48rybQOyYCkVw3Ga+TyXTtBN54NWIo8w28TuHGfFs4JtOW93SHQuViDmkDtZqf
+ ARyJ0gEOu59hLRUxYwcPmVf+A5toFaw/UyUJx1lZZ6k5RHoQZwL6H4YtVnHtOA2gxOHzk=
+X-Developer-Key: i=frank@oltmanns.dev; a=openpgp;
+ fpr=02FD257B7F90E6B9A5444F969A69A208944AD3C7
+X-Rspamd-Queue-Id: 4Sv16y72qnz9snW
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,153 +78,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Nicolas Boichat <drinkcat@chromium.org>, Daniel Stone <daniels@collabora.com>,
- Liviu Dudau <Liviu.Dudau@arm.com>, Steven Price <steven.price@arm.com>,
- =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>, kernel@collabora.com,
- Robin Murphy <robin.murphy@arm.com>,
- Faith Ekstrand <faith.ekstrand@collabora.com>,
- "Marty E . Plummer" <hanetzer@startmail.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Frank Oltmanns <frank@oltmanns.dev>, linux-sunxi@lists.linux.dev,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
-> new file mode 100644
-> index 000000000000..6d815df5e829
-> --- /dev/null
-> +++ b/include/uapi/drm/panthor_drm.h
-> @@ -0,0 +1,892 @@
-> +/* SPDX-License-Identifier: MIT */
-> +/* Copyright (C) 2023 Collabora ltd. */
-> +#ifndef _PANTHOR_DRM_H_
-> +#define _PANTHOR_DRM_H_
-> +
-> +#include "drm.h"
-> +
-> +#if defined(__cplusplus)
-> +extern "C" {
-> +#endif
-> +
-> +/**
-> + * DOC: Introduction
+On some pinephones the video output sometimes freezes (flips between two
+frames) [1]. It seems to be that the reason for this behaviour is that
+PLL-MIPI and PLL-VIDEO0 are operating outside there specified limits.
 
-...
+The changes I propose in this patch series consists of two major parts:
+  1. sunxi-ng: Adhere to the following constraints given in the
+     Allwinner A64 Manual:
+      a. PLL-MIPI:
+          * M/N >= 3
+          * (PLL_VIDEO0)/M >= 24MHz
+      b. PLL-VIDEO0:
+          * 8 <= N/M <= 25
 
-> +/**
-> + * struct drm_panthor_group_submit - Arguments passed to DRM_IOCTL_PANTHOR_VM_BIND
-> + */
-> +struct drm_panthor_group_submit {
-> +	/** @group_handle: Handle of the group to queue jobs to. */
-> +	__u32 group_handle;
-> +
-> +	/** @pad: MBZ. */
-> +	__u32 pad;
-> +
-> +	/** @queue_submits: Array of drm_panthor_queue_submit objects. */
-> +	struct drm_panthor_obj_array queue_submits;
-> +};
+  2. Choose a higher clock rate for the ST7703 based XDB599 panel, so
+     that the panel functions with the Allwinner A64 SOC. PLL-MIPI
+     must run between 500 MHz and 1.4 GHz. As PLL-MIPI runs at 6 times
+     the panel's clock rate, we need its clock to be at least 83.333
+     MHz.
 
+So far, I've tested the patches only on my pinephone. Before the patches
+it would freeze at least every other day. With the patches it has not
+shown this behavior in over a week.
 
-Hi! Very minor nit - but shouldn't the comment above say DRM_IOCTL_PANTHOR_GROUP_SUBMIT, not VM_BIND?
+I very much appreciate your feedback!
 
-> +
-> +/**
-> + * enum drm_panthor_group_state_flags - Group state flags
-> + */
-> +enum drm_panthor_group_state_flags {
-> +	/**
-> +	 * @DRM_PANTHOR_GROUP_STATE_TIMEDOUT: Group had unfinished jobs.
-> +	 *
-> +	 * When a group ends up with this flag set, no jobs can be submitted to its queues.
-> +	 */
-> +	DRM_PANTHOR_GROUP_STATE_TIMEDOUT = 1 << 0,
-> +
-> +	/**
-> +	 * @DRM_PANTHOR_GROUP_STATE_FATAL_FAULT: Group had fatal faults.
-> +	 *
-> +	 * When a group ends up with this flag set, no jobs can be submitted to its queues.
-> +	 */
-> +	DRM_PANTHOR_GROUP_STATE_FATAL_FAULT = 1 << 1,
-> +};
-> +
-> +/**
-> + * struct drm_panthor_group_get_state - Arguments passed to DRM_IOCTL_PANTHOR_GROUP_GET_STATE
-> + *
-> + * Used to query the state of a group and decide whether a new group should be created to
-> + * replace it.
-> + */
-> +struct drm_panthor_group_get_state {
-> +	/** @group_handle: Handle of the group to query state on */
-> +	__u32 group_handle;
-> +
-> +	/**
-> +	 * @state: Combination of DRM_PANTHOR_GROUP_STATE_* flags encoding the
-> +	 * group state.
-> +	 */
-> +	__u32 state;
-> +
-> +	/** @fatal_queues: Bitmask of queues that faced fatal faults. */
-> +	__u32 fatal_queues;
-> +
-> +	/** @pad: MBZ */
-> +	__u32 pad;
-> +};
-> +
-> +/**
-> + * struct drm_panthor_tiler_heap_create - Arguments passed to DRM_IOCTL_PANTHOR_TILER_HEAP_CREATE
-> + */
-> +struct drm_panthor_tiler_heap_create {
-> +	/** @vm_id: VM ID the tiler heap should be mapped to */
-> +	__u32 vm_id;
-> +
-> +	/** @initial_chunk_count: Initial number of chunks to allocate. */
-> +	__u32 initial_chunk_count;
-> +
-> +	/** @chunk_size: Chunk size. Must be a power of two at least 256KB large. */
-> +	__u32 chunk_size;
-> +
-> +	/** @max_chunks: Maximum number of chunks that can be allocated. */
-> +	__u32 max_chunks;
-> +
-> +	/**
-> +	 * @target_in_flight: Maximum number of in-flight render passes.
-> +	 *
-> +	 * If the heap has more than tiler jobs in-flight, the FW will wait for render
-> +	 * passes to finish before queuing new tiler jobs.
-> +	 */
-> +	__u32 target_in_flight;
-> +
-> +	/** @handle: Returned heap handle. Passed back to DESTROY_TILER_HEAP. */
-> +	__u32 handle;
-> +
-> +	/** @tiler_heap_ctx_gpu_va: Returned heap GPU virtual address returned */
-> +	__u64 tiler_heap_ctx_gpu_va;
-> +
-> +	/**
-> +	 * @first_heap_chunk_gpu_va: First heap chunk.
-> +	 *
-> +	 * The tiler heap is formed of heap chunks forming a single-link list. This
-> +	 * is the first element in the list.
-> +	 */
-> +	__u64 first_heap_chunk_gpu_va;
-> +};
-> +
-> +/**
-> + * struct drm_panthor_tiler_heap_destroy - Arguments passed to DRM_IOCTL_PANTHOR_TILER_HEAP_DESTROY
-> + */
-> +struct drm_panthor_tiler_heap_destroy {
-> +	/** @handle: Handle of the tiler heap to destroy */
-> +	__u32 handle;
-> +
-> +	/** @pad: Padding field, MBZ. */
-> +	__u32 pad;
-> +};
-> +
-> +#if defined(__cplusplus)
-> +}
-> +#endif
-> +
-> +#endif /* _PANTHOR_DRM_H_ */
+[1] https://gitlab.com/postmarketOS/pmaports/-/issues/805
 
-Cheers,
-Chris
+Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+---
+Frank Oltmanns (5):
+      clk: sunxi-ng: nkm: Support constraints on m/n ratio and parent rate
+      clk: sunxi-ng: a64: Add constraints on PLL-MIPI's n/m ratio and parent rate
+      clk: sunxi-ng: nm: Support constraints on n/m ratio and parent rate
+      clk: sunxi-ng: a64: Add constraints on PLL-VIDEO0's n/m ratio
+      drm/panel: st7703: Drive XBD599 panel at higher clock rate
+
+ drivers/clk/sunxi-ng/ccu-sun50i-a64.c         | 10 ++++++--
+ drivers/clk/sunxi-ng/ccu_nkm.c                | 23 ++++++++++++++++++
+ drivers/clk/sunxi-ng/ccu_nkm.h                |  8 +++++++
+ drivers/clk/sunxi-ng/ccu_nm.c                 | 21 +++++++++++++++--
+ drivers/clk/sunxi-ng/ccu_nm.h                 | 34 +++++++++++++++++++++++++--
+ drivers/gpu/drm/panel/panel-sitronix-st7703.c | 14 +++++------
+ 6 files changed, 97 insertions(+), 13 deletions(-)
+---
+base-commit: d0ac5722dae5f4302bb4ef6df10d0afa718df80b
+change-id: 20231218-pinephone-pll-fixes-0ccdfde273e4
+
+Best regards,
+-- 
+Frank Oltmanns <frank@oltmanns.dev>
+
