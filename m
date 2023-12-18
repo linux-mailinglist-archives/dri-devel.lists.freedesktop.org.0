@@ -2,41 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CE308179D6
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 19:40:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 318C58179C7
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Dec 2023 19:35:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B98B10E3B4;
-	Mon, 18 Dec 2023 18:39:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CAEE10E389;
+	Mon, 18 Dec 2023 18:34:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 013E010E1B4
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 18:37:33 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 297F36103E;
- Mon, 18 Dec 2023 14:58:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AE9AC433C8;
- Mon, 18 Dec 2023 14:58:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1702911510;
- bh=6LAl176ZhST6JB0D7GcBf8KrJiM7ETJQxrahsxZmBok=;
- h=From:To:Cc:Subject:Date:From;
- b=muTOJZ8woBy6swRqoxPS4w+YQaS2b1WXqn+sySIkIuQMoB2FoGs4CYSNCh2abm3Zm
- XGZJ/ugBxCiE0CsuR4rpTTw/HjdyYZ6XnGkY2p/fQVPHZwyMppEn5OylbHD0XSzFzW
- B6e+i88s0Bw5a1RY8UEnyIwI1bTOxCjzO+co0722beET9uSPWUv+YHpxNP2OokrRMI
- 90m9WszrI/r6LVtMTtyoNHHiVhMYFZpnBb+K3YITrOfnwWh9sD/KlhXEtgIBgtxkm+
- dueVeARKlqWnPAMagflm0A+B8dKgj5NqKtI5SxoLQ1cZhCBp2EW7boDMHwG/gCDvwk
- pekvP7R8/6lzg==
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org
-Subject: [GIT PULL] mediatek drm next for 6.8
-Date: Mon, 18 Dec 2023 14:58:26 +0000
-Message-Id: <20231218145826.5643-1-chunkuang.hu@kernel.org>
-X-Mailer: git-send-email 2.34.1
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B15B10E370
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 18:31:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1702924308;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=HuaiH4rqzFFEALDPC43fTJimMBRbpfVpYg9fBcqQC3E=;
+ b=HlipYlzk1mpzt4lXz4vl0pF36Xcl/e/hucWkZryaM2LGQi78REqeyx29CGtJDEMgyZHE+a
+ 9Gpr/K3B+L+JzITO+XC0aVeADwUX4b0p/yaqo0KEuK3+RDjtgZ0+mdLH/Vmxr2dX4RgFHz
+ +/i455pbn5kpO9o6uPFiyIPEC+YK4EE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-418-wJDtwhAbPEGcSZ-xN-m41A-1; Mon, 18 Dec 2023 10:15:16 -0500
+X-MC-Unique: wJDtwhAbPEGcSZ-xN-m41A-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-40c3cea4c19so29120535e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Dec 2023 07:15:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1702912515; x=1703517315;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=HuaiH4rqzFFEALDPC43fTJimMBRbpfVpYg9fBcqQC3E=;
+ b=SqpI9X0SRuL2HsTWQ9EMI5YQ+hs1HzBOkwALbqDBYrETqOOVFMIvUi5kIThhj5zViT
+ 4wx5oL/1S/aTFMst9e9wyJ+Hf6YPI62ih4QDJSQmAXJ1YV4XXsGsJdfgXrokBMJDO2KT
+ wajt32wMNq2qxuzZGqAxuJ08FXArZDzMMWqZJ7RHXWyhDEjwVW+a70GUU9gdnZ4o1wi7
+ EeEht376rjnCkwGeQm0CR2n4PBd2cGYJEjHNy4Qs2XPcFu4zhSjvzdYjzUi7ZrqsJ8MS
+ 7MESBmjqUHuhKpQKzaqFmdJWzcoUXOV9nxP/yQ6cHkwTs4x6Zg3xJDaD/FIE4dN/OGhp
+ BPZw==
+X-Gm-Message-State: AOJu0YyapxiLJyV6CbqPT29ttqtY2DxsuUfJMPBIqmCS6979catabVHJ
+ eDJ/e0/1iCJvGuJWfn0iGqoYEcwqHvw4tWLy8KyBYY7Sn+RCrPDzt4hCmg3e6x7UW59NUKJtkLz
+ 60TS5szpN4keV8bYnNZIODCuNK3nd
+X-Received: by 2002:a05:600c:3146:b0:40c:3e7c:9e45 with SMTP id
+ h6-20020a05600c314600b0040c3e7c9e45mr7221897wmo.179.1702912515185; 
+ Mon, 18 Dec 2023 07:15:15 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IH01NYRqs0cLPJmrbSp3Nv2uqyGIyLK81ZTxxjSLq4MH5WQAhaSsNI+INBXpQtGjJJeLQo86Q==
+X-Received: by 2002:a05:600c:3146:b0:40c:3e7c:9e45 with SMTP id
+ h6-20020a05600c314600b0040c3e7c9e45mr7221888wmo.179.1702912514806; 
+ Mon, 18 Dec 2023 07:15:14 -0800 (PST)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ a16-20020adffad0000000b003366fa08c2dsm41371wrs.83.2023.12.18.07.15.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Dec 2023 07:15:14 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Conor Dooley <conor@kernel.org>
+Subject: Re: [PATCH v2 1/2] dt-bindings: display: Add SSD133x OLED controllers
+In-Reply-To: <20231218-example-envision-b41ca8efa251@spud>
+References: <20231218132045.2066576-1-javierm@redhat.com>
+ <20231218132045.2066576-2-javierm@redhat.com>
+ <20231218-example-envision-b41ca8efa251@spud>
+Date: Mon, 18 Dec 2023 16:15:13 +0100
+Message-ID: <87plz3leym.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,91 +81,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Robin Murphy <robin.murphy@arm.com>, Yang Li <yang.lee@linux.alibaba.com>,
- =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
- <nfraprado@collabora.com>, Hsiao Chien Sung <shawn.sung@mediatek.com>
+Cc: Conor Dooley <conor+dt@kernel.org>, Jocelyn Falempe <jfalempe@redhat.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Peter Robinson <pbrobinson@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Dave & Daniel:
+Conor Dooley <conor@kernel.org> writes:
 
-This includes:
+Hello Conor,
 
-1. Use devm_platform_ioremap_resource()
-2. Stop using iommu_present()
-3. Add display driver for MT8188 VDOSYS1
-4. Add phy_mtk_dp module as pre-dependency
+Thanks a lot for your feedback.
 
-Regards,
-Chun-Kuang.
+> On Mon, Dec 18, 2023 at 02:20:35PM +0100, Javier Martinez Canillas wrote:
 
-The following changes since commit b85ea95d086471afb4ad062012a4d73cd328fa86:
+[...]
 
-  Linux 6.7-rc1 (2023-11-12 16:19:07 -0800)
+>> +
+>> +  - properties:
+>> +      width:
+>> +        default: 96
+>> +      height:
+>> +        default: 64
+>
+> diff --git a/Documentation/devicetree/bindings/display/solomon,ssd133x.yaml b/Documentation/devicetree/bindings/display/solomon,ssd133x.yaml
+> index 8feee9eef0fd..ffc939c782eb 100644
+> --- a/Documentation/devicetree/bindings/display/solomon,ssd133x.yaml
+> +++ b/Documentation/devicetree/bindings/display/solomon,ssd133x.yaml
+> @@ -9,24 +9,24 @@ title: Solomon SSD133x OLED Display Controllers
+>  maintainers:
+>    - Javier Martinez Canillas <javierm@redhat.com>
+>  
+> +allOf:
+> +  - $ref: solomon,ssd-common.yaml#
+> +
+>  properties:
+>    compatible:
+>      enum:
+>        - solomon,ssd1331
+>  
+> +  width:
+> +    default: 96
+> +
+> +  height:
+> +    default: 64
+> +
+>  required:
+>    - compatible
+>    - reg
+>  
+> -allOf:
+> -  - $ref: solomon,ssd-common.yaml#
+> -
+> -  - properties:
+> -      width:
+> -        default: 96
+> -      height:
+> -        default: 64
+> -
+>  unevaluatedProperties: false
+>  
+>  examples:
+>
+> The properties stuff doesn't need to be in the allOf. Although, I took
 
-are available in the Git repository at:
+Ok.
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git tags/mediatek-drm-next-6.8
+> the opportunity to look at ssd-common.yaml. How do the height/width here
+> differ from the vendor prefixed versions in that file?
 
-for you to fetch changes up to c8048dd0b07df68724805254b9e994d99e9a7af4:
+Oh! That is an error in the schema that I introduced when adding the
+binding for the SSD132x family in commit 2d23e7d6bacb ("dt-bindings:
+display: Add SSD132x OLED controllers"), and I just copied it to this
+binding as well making the same mistake...
 
-  drm/mediatek: dp: Add phy_mtk_dp module as pre-dependency (2023-12-18 14:31:32 +0000)
+I'll fix that with a preparatory patch to use "solomon,{width,height}"
+everywhere in v3 and also include your suggested changes for this patch.
 
-----------------------------------------------------------------
-Mediatek DRM Next for Linux 6.8
+-- 
+Best regards,
 
-1. Use devm_platform_ioremap_resource()
-2. Stop using iommu_present()
-3. Add display driver for MT8188 VDOSYS1
-4. Add phy_mtk_dp module as pre-dependency
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
-----------------------------------------------------------------
-Hsiao Chien Sung (15):
-      dt-bindings: display: mediatek: ethdr: Add compatible for MT8188
-      dt-bindings: display: mediatek: mdp-rdma: Add compatible for MT8188
-      dt-bindings: display: mediatek: merge: Add compatible for MT8188
-      dt-bindings: display: mediatek: padding: Add MT8188
-      drm/mediatek: Rename OVL_ADAPTOR_TYPE_RDMA
-      drm/mediatek: Add component ID to component match structure
-      drm/mediatek: Manage component's clock with function pointers
-      drm/mediatek: Power on/off devices with function pointers
-      drm/mediatek: Start/Stop components with function pointers
-      drm/mediatek: Sort OVL adaptor components
-      drm/mediatek: Refine device table of OVL adaptor
-      drm/mediatek: Support MT8188 Padding in display driver
-      drm/mediatek: Return error if MDP RDMA failed to enable the clock
-      drm/mediatek: Remove the redundant driver data for DPI
-      drm/mediatek: Fix underrun in VDO1 when switches off the layer
-
-Nícolas F. R. A. Prado (1):
-      drm/mediatek: dp: Add phy_mtk_dp module as pre-dependency
-
-Robin Murphy (1):
-      drm/mediatek: Stop using iommu_present()
-
-Yang Li (1):
-      drm/mediatek: Use devm_platform_ioremap_resource()
-
- .../bindings/display/mediatek/mediatek,ethdr.yaml  |   6 +-
- .../display/mediatek/mediatek,mdp-rdma.yaml        |   6 +-
- .../bindings/display/mediatek/mediatek,merge.yaml  |   3 +
- .../display/mediatek/mediatek,padding.yaml         |  81 +++++++
- drivers/gpu/drm/mediatek/Makefile                  |   3 +-
- drivers/gpu/drm/mediatek/mtk_cec.c                 |   4 +-
- drivers/gpu/drm/mediatek/mtk_disp_aal.c            |   4 +-
- drivers/gpu/drm/mediatek/mtk_disp_ccorr.c          |   4 +-
- drivers/gpu/drm/mediatek/mtk_disp_drv.h            |   8 +
- drivers/gpu/drm/mediatek/mtk_disp_merge.c          |   2 +-
- drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c    | 248 ++++++++++++---------
- drivers/gpu/drm/mediatek/mtk_dp.c                  |   1 +
- drivers/gpu/drm/mediatek/mtk_dpi.c                 |  16 +-
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c            |  10 +-
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c        |   2 +
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h        |  20 ++
- drivers/gpu/drm/mediatek/mtk_drm_drv.c             |   5 +-
- drivers/gpu/drm/mediatek/mtk_drm_drv.h             |   2 +-
- drivers/gpu/drm/mediatek/mtk_mdp_rdma.c            |  19 +-
- drivers/gpu/drm/mediatek/mtk_padding.c             | 160 +++++++++++++
- 20 files changed, 461 insertions(+), 143 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,padding.yaml
- create mode 100644 drivers/gpu/drm/mediatek/mtk_padding.c
