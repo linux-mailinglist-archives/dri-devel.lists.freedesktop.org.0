@@ -1,63 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85082818ABE
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 16:03:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C00FA818AF0
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 16:14:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB7AA10E4CB;
-	Tue, 19 Dec 2023 15:03:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9513710E2E9;
+	Tue, 19 Dec 2023 15:14:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2126210E4C2;
- Tue, 19 Dec 2023 15:03:22 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id
- 5b1f17b1804b1-40c2db2ee28so58607525e9.2; 
- Tue, 19 Dec 2023 07:03:22 -0800 (PST)
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B57CB10E2E9
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 15:14:39 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id
+ ffacd0b85a97d-3366e78d872so1848615f8f.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 07:14:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1702998200; x=1703603000; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1702998878; x=1703603678; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=j+2uydkqP7/GP5xpG18IqG/AnXLR2V5zI/Eof83ojXM=;
- b=LqmC1MtbZMXcAIu9FC9Pfjiz1FAkxwH9lSxwtUQkHbCGF7xB1M/zCJ9zhRmG/Qh0bG
- pJijtJrXmQwGEbpeX95hWiYNCYc7/Iup1O0oG4C+UfzOiDcOiWfz2cJQQVdk1Pl0jtcn
- 8Z+DAIi/r3j16zqfsaIxxz4LXv0t39dVGjaXlwPx/gYkCOQLU0Szsr8Qel75NYrJ0jgV
- cQcbgTd/sMz5a3cz5eM8piKXaemp/2gbCEI4v2j6LITOwymE28NRVHTfR/4ahb2qE/Rg
- GmdBw+eN9dtgWTs8NKVPUAN1nXTpD5Hblp0Ew/rVkXJBbB0yCh/asA1XIZ6DQ+k3SxnU
- YLgQ==
+ bh=bRzX3hUbPtrAVrbHdB/NlfsXUqLfq91OinN9p1IBzVk=;
+ b=nr/GQWm+WFbYE85P3Rg6ztXnIoIka/HL3xdyt4XwmIJHuseon07Z1e7shFjmks7h3q
+ bRQ3GoYCnwbV8WXumlyEyxx39rUHd5rYInSzdDhD9VmoMJEgLE0BL1JjCv2YaKkylbqO
+ w4o35VpHHP9yYGwHHtksoopTJYGmDa1IeoxlIQVCaz2OrDevS015f72V/xD+CQH/OE9t
+ Bz/7Na8A5SeIcfZeS3Ql1c53EaTaM6xqCQDK16/VPlashr15aa2VF/N035LXIlrsG2Vm
+ ogLwbwJ+JrbsfQfDzLT4/PCfZomHn3iksklRJdEhpKMkJWwk69Ov536lisUDuEjvJcP5
+ kkJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702998200; x=1703603000;
+ d=1e100.net; s=20230601; t=1702998878; x=1703603678;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=j+2uydkqP7/GP5xpG18IqG/AnXLR2V5zI/Eof83ojXM=;
- b=J6JV+rNV6i2ubPilBXqIwqBv4uSnOVFD515vl14C4xO+a7yRldNlKvuWs1cY/qdXal
- xqfsoUO/sEki5AGrs7mXZ62gOb/oaNfS1drwZaViWd2ZeIFrouWlJoR7HKoGElw/5t1u
- 5ezkUoCWrKj7XRV+zbBVMu5VrCRtrSi+rChd1OSpliwZ6OMyIxtRfAjGCYhfrDYeqxM/
- LKISIA9T5vyo5ALr4GFSj2dzhv1OfNFVvKMkJJ33uPmO+haExu0TD15tUcge2kaIL+Sd
- 1O+te9Qter7wa0oPem+tfxqoYCYqUSKaZxGqq9xDLpzYkXBIvQwC2kt+9ROe8rYukMPy
- AVIA==
-X-Gm-Message-State: AOJu0Yzx20lDTPbvoP6gyeEEz4ROrCflMmhimc0TQFFNYBQbnLpxR24G
- Ns13fkxyThysLdNhpat40KsFukIBCfVXwA==
-X-Google-Smtp-Source: AGHT+IGxnNsXzTz9OUKp2xip5KTPq0mzABVaftCPhQeLID8u1htUaLAIfs8yDDd4UNZQPtmE2nIdMQ==
-X-Received: by 2002:a05:600c:46c6:b0:40c:2ba6:809 with SMTP id
- q6-20020a05600c46c600b0040c2ba60809mr10002784wmo.157.1702998200183; 
- Tue, 19 Dec 2023 07:03:20 -0800 (PST)
+ bh=bRzX3hUbPtrAVrbHdB/NlfsXUqLfq91OinN9p1IBzVk=;
+ b=cnEOOKRSugaCxkLDoi1NR79uTsXdf5YbLy3VZX5DX99ozJThpXvlyyXL8EKP5ubaRg
+ wJClHb1Prfm+s+dEsy+Ss/nzMM5Zw3x+4lU1/maEJjhfYpHfi8SYME19ICsVWbe3nXoN
+ n4EUvtH4FOEQuRA0f2CuFDXwsNqlcngp9lR0GarfkN38E+8hhXnvr3bAvKwM3UVi45Mb
+ c692yO9h21VxjEpeqgHObjztHPWdf4atainHPjAyRS/sfNAX9cWmx1utXE4knFtp7zO/
+ CSft51Yn+BWzKf2mIKlK0Vl0mRrl3HlzgiH3vi4qvH+2ECC1X53+BrWIvtUXBiGuPam9
+ p2Fw==
+X-Gm-Message-State: AOJu0YyTtfdL5+2yC/hjETyCdd5Rlr9IBSy+9vrl9Une3xpTX/+kc3JG
+ LlYjA5FCd45qjR9pof//Bo8=
+X-Google-Smtp-Source: AGHT+IEgxSk4I/pZ3tdRsHVUcpmoX5T3UR/Qn+n42lmm5pkIOSmNqTF+iyUc87KbTBOBW/gp1MkJuQ==
+X-Received: by 2002:a5d:47cf:0:b0:336:3db1:1c1f with SMTP id
+ o15-20020a5d47cf000000b003363db11c1fmr4370056wrc.235.1702998877941; 
+ Tue, 19 Dec 2023 07:14:37 -0800 (PST)
 Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
  [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
- n7-20020a05600c4f8700b0040b45282f88sm3190226wmq.36.2023.12.19.07.03.19
+ v30-20020adfa1de000000b003366cb73f74sm4217956wrv.66.2023.12.19.07.14.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Dec 2023 07:03:19 -0800 (PST)
+ Tue, 19 Dec 2023 07:14:37 -0800 (PST)
 From: Colin Ian King <colin.i.king@gmail.com>
-To: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@redhat.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Ben Skeggs <bskeggs@redhat.com>,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
-Subject: [PATCH] drm/nouveau/therm: remove redundant duty == target check
-Date: Tue, 19 Dec 2023 15:03:18 +0000
-Message-Id: <20231219150318.368398-1-colin.i.king@gmail.com>
+To: Helge Deller <deller@gmx.de>, Nikita Romanyuk <ufh8945@gmail.com>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH] drivers: video: logo: use %u format specifier for unsigned
+ int values
+Date: Tue, 19 Dec 2023 15:14:36 +0000
+Message-Id: <20231219151436.368696-1-colin.i.king@gmail.com>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -78,33 +77,36 @@ Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The check for duty == target is always false because it is in an if block
-where duty != target. A previous change added the duty != target check
-and so the check duty == target check is now redundant and can be removed.
-Cleans up a cppcheck warning:
+Currently the %d format specifier is being used for unsigned int values.
+Fix this by using the correct %u format specifier. Cleans up cppcheck
+warnings:
 
-drivers/gpu/drm/nouveau/nvkm/subdev/therm/fan.c:93:17: warning: Opposite
-inner 'if' condition leads to a dead code block. [oppositeInnerCondition]
+warning: %d in format string (no. 1) requires 'int' but the argument
+type is 'unsigned int'. [invalidPrintfArgType_sint]
 
-Fixes: e4311ee51d1e ("drm/nouveau/therm: remove ineffective workarounds for alarm bugs")
 Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 ---
- drivers/gpu/drm/nouveau/nvkm/subdev/therm/fan.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/video/logo/pnmtologo.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/fan.c b/drivers/gpu/drm/nouveau/nvkm/subdev/therm/fan.c
-index f8fa43c8a7d2..c4aaf7473065 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/fan.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/therm/fan.c
-@@ -90,8 +90,6 @@ nvkm_fan_update(struct nvkm_fan *fan, bool immediate, int target)
- 
- 		if (duty > target)
- 			delay = slow_down_period;
--		else if (duty == target)
--			delay = min(bump_period, slow_down_period) ;
- 		else
- 			delay = bump_period;
- 
+diff --git a/drivers/video/logo/pnmtologo.c b/drivers/video/logo/pnmtologo.c
+index ada5ef6e51b7..2434a25afb64 100644
+--- a/drivers/video/logo/pnmtologo.c
++++ b/drivers/video/logo/pnmtologo.c
+@@ -249,10 +249,10 @@ static void write_footer(void)
+ 	fputs("\n};\n\n", out);
+ 	fprintf(out, "const struct linux_logo %s __initconst = {\n", logoname);
+ 	fprintf(out, "\t.type\t\t= %s,\n", logo_types[logo_type]);
+-	fprintf(out, "\t.width\t\t= %d,\n", logo_width);
+-	fprintf(out, "\t.height\t\t= %d,\n", logo_height);
++	fprintf(out, "\t.width\t\t= %u,\n", logo_width);
++	fprintf(out, "\t.height\t\t= %u,\n", logo_height);
+ 	if (logo_type == LINUX_LOGO_CLUT224) {
+-		fprintf(out, "\t.clutsize\t= %d,\n", logo_clutsize);
++		fprintf(out, "\t.clutsize\t= %u,\n", logo_clutsize);
+ 		fprintf(out, "\t.clut\t\t= %s_clut,\n", logoname);
+ 	}
+ 	fprintf(out, "\t.data\t\t= %s_data\n", logoname);
 -- 
 2.39.2
 
