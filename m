@@ -1,37 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4CA68186A2
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 12:49:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AC45818728
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 13:13:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12E0510E0AA;
-	Tue, 19 Dec 2023 11:49:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17CF010E46F;
+	Tue, 19 Dec 2023 12:13:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id E1DB310E0AA
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 11:49:30 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9C1981FB;
- Tue, 19 Dec 2023 03:50:14 -0800 (PST)
-Received: from [10.57.75.187] (unknown [10.57.75.187])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 742FC3F64C;
- Tue, 19 Dec 2023 03:49:28 -0800 (PST)
-Message-ID: <cb31820e-4cd7-4495-977d-99f1da1fe602@arm.com>
-Date: Tue, 19 Dec 2023 12:50:21 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36E1010E188
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 12:13:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1702987992; x=1734523992;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=+MrEafeNI2bji1qIUK95N5xIPX4N/cZzvPCOZdaopQg=;
+ b=mAr9T/GXNHD0NHVMuvxRMASYFRJscYSZA3WfLIU8TihjG6cXd3PiWDgA
+ js5TKztJ7mrOi3rUgavf0yqrAqgEIJLJBGBJXXbK4W1c/d8skUGGMgyi9
+ H0Bd8XBJ1F8CYrxzyPnxUlqCdbX9/a81sUuLaZ18Vpgh3TZjRF4CRLB3L
+ OJocWN0MHEziVuOS+IKLBz9VmnMUq/2AQ/2EEHefz70/iSlnCKBsr1l1b
+ HH7ua3zcQTyvv993xNFL6xulGNNz0StL83Qa8WVOe/eHU2evFDgrZe9we
+ XNEj+H/OweEWn9355+ePldIpEAV8j2S2iHBNPZGrCTmKaHHs/t81Kv+h3 g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="380633931"
+X-IronPort-AV: E=Sophos;i="6.04,288,1695711600"; d="scan'208";a="380633931"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Dec 2023 04:12:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="899342018"
+X-IronPort-AV: E=Sophos;i="6.04,288,1695711600"; d="scan'208";a="899342018"
+Received: from alexeyze-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.34.118])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Dec 2023 04:12:14 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>,
+	linux-sound@vger.kernel.org
+Subject: [PATCH v4] ASoC: hdmi-codec: drop drm/drm_edid.h include
+Date: Tue, 19 Dec 2023 14:12:10 +0200
+Message-Id: <20231219121210.1076152-1-jani.nikula@intel.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20231214092856.4019251-1-jani.nikula@intel.com>
+References: <20231214092856.4019251-1-jani.nikula@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 10/14] drm/panthor: Add the scheduler logical block
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org
-References: <20231204173313.2098733-1-boris.brezillon@collabora.com>
- <20231204173313.2098733-11-boris.brezillon@collabora.com>
-Content-Language: en-US
-From: Ketil Johnsen <ketil.johnsen@arm.com>
-In-Reply-To: <20231204173313.2098733-11-boris.brezillon@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,39 +60,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Nicolas Boichat <drinkcat@chromium.org>, Daniel Stone <daniels@collabora.com>,
- Liviu Dudau <Liviu.Dudau@arm.com>, Steven Price <steven.price@arm.com>,
- =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>, kernel@collabora.com,
- Robin Murphy <robin.murphy@arm.com>,
- Faith Ekstrand <faith.ekstrand@collabora.com>,
- "Marty E . Plummer" <hanetzer@startmail.com>
+Cc: linux-arm-msm@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
+ dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/12/2023 18:33, Boris Brezillon wrote:
+hdmi-codec.h does not appear to directly need drm/drm_edid.h for
+anything. Remove it.
 
-<snip>
+There are some files that get drm/edid.h by proxy; include it where
+needed.
 
-> +static void
-> +panthor_queue_put_syncwait_obj(struct panthor_queue *queue)
-> +{
-> +	if (queue->syncwait.kmap) {
-> +		struct iosys_map map = IOSYS_MAP_INIT_VADDR(queue->syncwait.kmap);
-> +
-> +		drm_gem_vmap_unlocked(queue->syncwait.obj, &map);
+v2-v4: Fix build (kernel test robot <lkp@intel.com>)
 
-pretty sure you mean vUNmap here...
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-> +		queue->syncwait.kmap = NULL;
-> +	}
-> +
-> +	drm_gem_object_put(queue->syncwait.obj);
-> +	queue->syncwait.obj = NULL;
-> +}
+---
 
-<snip>
+I'm pretty sure I haven't compiled everything that might implicitly
+depend on the include. However, the right thing to do is to include
+drm_edid.h where needed, not from somewhat random intermediate
+headers. I hope this uncovers anything I missed.
+---
+ drivers/gpu/drm/bridge/lontium-lt9611.c    | 1 +
+ drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 1 +
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c  | 1 +
+ drivers/gpu/drm/msm/dp/dp_display.c        | 1 +
+ drivers/gpu/drm/vc4/vc4_hdmi.c             | 1 +
+ include/sound/hdmi-codec.h                 | 1 -
+ 6 files changed, 5 insertions(+), 1 deletion(-)
 
---
-Thanks,
-Ketil
+diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
+index 9663601ce098..b9205d14d943 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt9611.c
++++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
+@@ -18,6 +18,7 @@
+ 
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
++#include <drm/drm_edid.h>
+ #include <drm/drm_mipi_dsi.h>
+ #include <drm/drm_of.h>
+ #include <drm/drm_print.h>
+diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+index e971b75e90ad..f3f130c1ef0a 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
++++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+@@ -21,6 +21,7 @@
+ 
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
++#include <drm/drm_edid.h>
+ #include <drm/drm_mipi_dsi.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+index 52d91a0df85e..fa63a21bdd1c 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+@@ -31,6 +31,7 @@
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
++#include <drm/drm_edid.h>
+ #include <drm/drm_of.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index 1b88fb52726f..766c8d01e6b3 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -11,6 +11,7 @@
+ #include <linux/of_irq.h>
+ #include <linux/delay.h>
+ #include <drm/display/drm_dp_aux_bus.h>
++#include <drm/drm_edid.h>
+ 
+ #include "msm_drv.h"
+ #include "msm_kms.h"
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index f05e2c95a60d..34f807ed1c31 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -35,6 +35,7 @@
+ #include <drm/display/drm_scdc_helper.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_drv.h>
++#include <drm/drm_edid.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_simple_kms_helper.h>
+ #include <linux/clk.h>
+diff --git a/include/sound/hdmi-codec.h b/include/sound/hdmi-codec.h
+index 9b162ac1e08e..5e1a9eafd10f 100644
+--- a/include/sound/hdmi-codec.h
++++ b/include/sound/hdmi-codec.h
+@@ -12,7 +12,6 @@
+ 
+ #include <linux/of_graph.h>
+ #include <linux/hdmi.h>
+-#include <drm/drm_edid.h>
+ #include <sound/asoundef.h>
+ #include <sound/soc.h>
+ #include <uapi/sound/asound.h>
+-- 
+2.39.2
+
