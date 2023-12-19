@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C14B818D44
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 18:01:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A637C818D45
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 18:01:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CEBF10E4E4;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8319210E4EC;
 	Tue, 19 Dec 2023 17:01:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44A3910E4D8
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 17:01:26 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- 5b1f17b1804b1-40c39e936b4so54780655e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 09:01:26 -0800 (PST)
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 372EE10E4D2
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 17:01:27 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id
+ 5b1f17b1804b1-40d13e4f7abso29706785e9.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 09:01:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20230601; t=1703005285; x=1703610085; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=lK+KwYJlEuYLJRgnAK/weBabBFLF0yUxX6bkfoGTqMQ=;
- b=bGGAKJHOYZlLeEPhkQKSznZLShtdm+u79LTBgKX/ORMVtUjb5uUUhJJzu8j2bmopNO
- dLt4M3DtY5w/yrI27Akdhbkywvymp5mKD+UfziaI7bnPssCGlq61DTCvJb1BuiQvcYaZ
- zcHZ5UqX0kDUmGTqJdOYsxLaeAaxAgO1/ghSgCFqDND7yCT2NWfteUZC2mrVzFHKO23k
- 9zARC5HbsOrtg8Jtd2u/xN8qMTtiUgwW0vnv717Duv1bXxo867G5speb0WqFHfr0F46i
- DPd9dJ8LH8SOVUXQeXYGQ6VJS2DqLd9cPBcULD9AoGpPSctgSvKJyWXCSKWPBVhMnL/o
- JVUw==
+ bh=XAqGTQIWGOGvPcvI30gGZkG+UcVd1X4ARFNZ3GdyHUM=;
+ b=b+yNd2oxxNLB7nLx90XaR4rCWPxRHgWwtYkHVMFGB9RyhIbCERWXCJdKyvouMTruLz
+ O8dbkQb1lCiC8EjF6U3wGDGAFOLy/nT/MVSjw23Gj6ux+ctqrLyijKxwGkl9xbyuoZqc
+ dBvygAA64NoWUQcg0cgZYHtCKMrq9UKHu3U98KSsdlgnhPj+D+IyVkfqMwqEfTuRQwfm
+ Z2vRLil+LSJ1eOc8pT3aBRsovl4v3j3HeI5zZqq9VdU03mWQ+mVAG8B3miqcTpqx22uL
+ SF9fOyhproTDqLY2TpH0TQZYTPxUHdxw8OfN1W67Crwsg5pavgkuyvTQMn6VIbZZoON5
+ Mj9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1703005285; x=1703610085;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=lK+KwYJlEuYLJRgnAK/weBabBFLF0yUxX6bkfoGTqMQ=;
- b=FTxfVdeON4I+u4TekOoxdnHSlErifFWgRJU48wXEat9/wkhLvIT/IshFIiJUAh2PQR
- dMopigFEPVgIlRAkNcTQo7HTTlVeZ9r2+iqAySLTrbMAx3eFDKWLe+BG/WiHUvPRKBd8
- p+E0DAgksR6lsooq7nOobrH+hX+s2TAV6cws6gND9lPeiTFw5owgFvHTJhCBwA/8JNbG
- R4d84zXSrYXPZU0Jh0hJfzkeLa26PmxK3qnNzYqVw6/3MMLGybvLf6llyQlL/kFCLo9s
- tk6f92tdYsuK2p0TWOWQR7KWVdUkVuid2qR90YfQLt1zlpwAZGsuea+3akRTjnOowOaO
- IR8w==
-X-Gm-Message-State: AOJu0Yz8ZTxVHoDdx4kTpbU9pz/q7HobYmaEprUlfbW5APDvCBC4vKB5
- s1WcYdRl5+kU4JHlRza1Yg==
-X-Google-Smtp-Source: AGHT+IETQmMzH+henkOgliDkz1y5rywNaPyW9KekS+gO8IgEZVGyMFIqPXmM3wVLtN835ZWXDX1vsg==
-X-Received: by 2002:a05:600c:4c8a:b0:40b:5f03:b3d6 with SMTP id
- g10-20020a05600c4c8a00b0040b5f03b3d6mr4719088wmp.248.1703005284670; 
- Tue, 19 Dec 2023 09:01:24 -0800 (PST)
+ bh=XAqGTQIWGOGvPcvI30gGZkG+UcVd1X4ARFNZ3GdyHUM=;
+ b=BFCaJzvsxtrn0lQEIm/ofg4iF8lexJvSH99Y0L+vgFGP1V8JeDxemYVnFmh1esTWgp
+ HNPUs+yZ4zyOltPpLKcmTdcrAyW/pS6SL1ykEmid8DMf2NqVl+Vq/SSb/ATe/QnjoEbG
+ b1DNJTf6htLiBaiAdqepvOmdOXw5f1ZSxMIhFLXk1nv6w2EsFYUG6toK/srDZ7iM+xlD
+ dBZTf5BqUrbw+RW3PhnS2hV4wAWlrlYQrQ0tPXBX7V7qCzkKZ95JYlIdT/RU2AusvRo8
+ iV6fAiJeUQf6zYGpAZrHj2NNYNd8J5RXWTY2PBMM1Jzt4ifQwbbA7aStF0VaflrQmv3h
+ n3eQ==
+X-Gm-Message-State: AOJu0YzWLLm+WLTgqV5I2PwXkS9bJO2VNWGzhLZF8lANqdEMC1lqMdRv
+ tWedrTTRYpnTV4Wh1vCyusuWUEUkVA==
+X-Google-Smtp-Source: AGHT+IH+E5UeGRN5eSjeOL+7FoXZ7yugNnZYROlsSGPz8s7Ex5qjyxn+jCN6zIVj9hVPz9tQj3kqMw==
+X-Received: by 2002:a05:600c:3b06:b0:40c:3158:6467 with SMTP id
+ m6-20020a05600c3b0600b0040c31586467mr10786965wms.1.1703005285545; 
+ Tue, 19 Dec 2023 09:01:25 -0800 (PST)
 Received: from U4.lan ([2a02:810b:f40:4300:7ae5:3e:d1c6:a138])
  by smtp.gmail.com with ESMTPSA id
- i7-20020a05600c354700b0040d2805d158sm3225878wmq.48.2023.12.19.09.01.23
+ i7-20020a05600c354700b0040d2805d158sm3225878wmq.48.2023.12.19.09.01.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Dec 2023 09:01:24 -0800 (PST)
+ Tue, 19 Dec 2023 09:01:25 -0800 (PST)
 From: Alex Bee <knaerzche@gmail.com>
 To: Sandy Huang <hjc@rock-chips.com>,
  =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
@@ -59,9 +59,10 @@ To: Sandy Huang <hjc@rock-chips.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>
-Subject: [PATCH v3 19/29] drm/rockchip: inno_hdmi: Subclass connector state
-Date: Tue, 19 Dec 2023 18:00:49 +0100
-Message-ID: <20231219170100.188800-20-knaerzche@gmail.com>
+Subject: [PATCH v3 20/29] drm/rockchip: inno_hdmi: Correctly setup HDMI
+ quantization range
+Date: Tue, 19 Dec 2023 18:00:50 +0100
+Message-ID: <20231219170100.188800-21-knaerzche@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231219170100.188800-1-knaerzche@gmail.com>
 References: <20231219170100.188800-1-knaerzche@gmail.com>
@@ -86,232 +87,129 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The data which is currently hold in hdmi_data should not be part of device
-itself but of the connector state.
-Introduce a connector state subclass and move the data from hdmi_data in
-there.
+The display controller will always give full range RGB regardless of the
+mode set, but HDMI requires certain modes to be transmitted in limited
+range RGB. This is especially required for HDMI sinks which do not support
+non-standard quantization ranges.
 
-Suggested-by: Maxime Ripard <mripard@kernel.org>
+This enables color space conversion for those modes and sets the
+quantization range accordingly in the AVI infoframe.
+
 Signed-off-by: Alex Bee <knaerzche@gmail.com>
 ---
 changes in v2:
- - new patch
+ - made rgb_limited_range part of the new custom connector state
 
 changes in v3:
- - added missing customizations of reset and atomic_destroy_state connector hooks
- - moved inno_conn_state member assignments to atomic_check
+ - moved assignment of rgb_limited_range to atomic check
 
- drivers/gpu/drm/rockchip/inno_hdmi.c | 111 ++++++++++++++++++++-------
- 1 file changed, 84 insertions(+), 27 deletions(-)
+ drivers/gpu/drm/rockchip/inno_hdmi.c | 60 +++++++++++++++++++---------
+ 1 file changed, 42 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
-index c306db90832a..7ce5836fc80d 100644
+index 7ce5836fc80d..e6d37772500c 100644
 --- a/drivers/gpu/drm/rockchip/inno_hdmi.c
 +++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
-@@ -26,11 +26,6 @@
- 
- #include "inno_hdmi.h"
- 
--struct hdmi_data_info {
--	unsigned int enc_out_format;
--	unsigned int colorimetry;
--};
--
- struct inno_hdmi_i2c {
- 	struct i2c_adapter adap;
- 
-@@ -52,8 +47,12 @@ struct inno_hdmi {
- 
- 	struct inno_hdmi_i2c *i2c;
- 	struct i2c_adapter *ddc;
-+};
- 
--	struct hdmi_data_info	hdmi_data;
-+struct inno_hdmi_connector_state {
-+	struct drm_connector_state	base;
-+	unsigned int			enc_out_format;
-+	unsigned int			colorimetry;
+@@ -53,6 +53,7 @@ struct inno_hdmi_connector_state {
+ 	struct drm_connector_state	base;
+ 	unsigned int			enc_out_format;
+ 	unsigned int			colorimetry;
++	bool				rgb_limited_range;
  };
  
  static struct inno_hdmi *encoder_to_inno_hdmi(struct drm_encoder *encoder)
-@@ -68,6 +67,9 @@ static struct inno_hdmi *connector_to_inno_hdmi(struct drm_connector *connector)
- 	return container_of(connector, struct inno_hdmi, connector);
- }
- 
-+#define to_inno_hdmi_conn_state(conn_state) \
-+	container_of_const(conn_state, struct inno_hdmi_connector_state, base)
-+
- enum {
- 	CSC_RGB_0_255_TO_ITU601_16_235_8BIT,
- 	CSC_RGB_0_255_TO_ITU709_16_235_8BIT,
-@@ -246,6 +248,10 @@ static int inno_hdmi_upload_frame(struct inno_hdmi *hdmi,
- static int inno_hdmi_config_video_avi(struct inno_hdmi *hdmi,
- 				      struct drm_display_mode *mode)
- {
-+	struct drm_connector *connector = &hdmi->connector;
-+	struct drm_connector_state *conn_state = connector->state;
-+	struct inno_hdmi_connector_state *inno_conn_state =
-+					to_inno_hdmi_conn_state(conn_state);
- 	union hdmi_infoframe frame;
- 	int rc;
- 
-@@ -257,9 +263,9 @@ static int inno_hdmi_config_video_avi(struct inno_hdmi *hdmi,
- 		return rc;
- 	}
- 
--	if (hdmi->hdmi_data.enc_out_format == HDMI_COLORSPACE_YUV444)
-+	if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_YUV444)
- 		frame.avi.colorspace = HDMI_COLORSPACE_YUV444;
--	else if (hdmi->hdmi_data.enc_out_format == HDMI_COLORSPACE_YUV422)
-+	else if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_YUV422)
- 		frame.avi.colorspace = HDMI_COLORSPACE_YUV422;
+@@ -270,6 +271,18 @@ static int inno_hdmi_config_video_avi(struct inno_hdmi *hdmi,
  	else
  		frame.avi.colorspace = HDMI_COLORSPACE_RGB;
-@@ -269,7 +275,10 @@ static int inno_hdmi_config_video_avi(struct inno_hdmi *hdmi,
  
- static int inno_hdmi_config_video_csc(struct inno_hdmi *hdmi)
- {
--	struct hdmi_data_info *data = &hdmi->hdmi_data;
-+	struct drm_connector *connector = &hdmi->connector;
-+	struct drm_connector_state *conn_state = connector->state;
-+	struct inno_hdmi_connector_state *inno_conn_state =
-+					to_inno_hdmi_conn_state(conn_state);
- 	int c0_c2_change = 0;
- 	int csc_enable = 0;
- 	int csc_mode = 0;
-@@ -287,7 +296,7 @@ static int inno_hdmi_config_video_csc(struct inno_hdmi *hdmi)
- 		v_VIDEO_INPUT_CSP(0);
++	if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_RGB) {
++		drm_hdmi_avi_infoframe_quant_range(&frame.avi,
++						   connector, mode,
++						   inno_conn_state->rgb_limited_range ?
++						   HDMI_QUANTIZATION_RANGE_LIMITED :
++						   HDMI_QUANTIZATION_RANGE_FULL);
++	} else {
++		frame.avi.quantization_range = HDMI_QUANTIZATION_RANGE_DEFAULT;
++		frame.avi.ycc_quantization_range =
++			HDMI_YCC_QUANTIZATION_RANGE_LIMITED;
++	}
++
+ 	return inno_hdmi_upload_frame(hdmi, &frame, HDMI_INFOFRAME_TYPE_AVI);
+ }
+ 
+@@ -297,29 +310,37 @@ static int inno_hdmi_config_video_csc(struct inno_hdmi *hdmi)
  	hdmi_writeb(hdmi, HDMI_VIDEO_CONTRL2, value);
  
--	if (data->enc_out_format == HDMI_COLORSPACE_RGB) {
-+	if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_RGB) {
- 		value = v_SOF_DISABLE | v_COLOR_DEPTH_NOT_INDICATED(1);
- 		hdmi_writeb(hdmi, HDMI_VIDEO_CONTRL3, value);
- 
-@@ -298,15 +307,15 @@ static int inno_hdmi_config_video_csc(struct inno_hdmi *hdmi)
- 		return 0;
- 	}
- 
--	if (data->colorimetry == HDMI_COLORIMETRY_ITU_601) {
--		if (data->enc_out_format == HDMI_COLORSPACE_YUV444) {
-+	if (inno_conn_state->colorimetry == HDMI_COLORIMETRY_ITU_601) {
-+		if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_YUV444) {
- 			csc_mode = CSC_RGB_0_255_TO_ITU601_16_235_8BIT;
+ 	if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_RGB) {
+-		value = v_SOF_DISABLE | v_COLOR_DEPTH_NOT_INDICATED(1);
+-		hdmi_writeb(hdmi, HDMI_VIDEO_CONTRL3, value);
+-
+-		hdmi_modb(hdmi, HDMI_VIDEO_CONTRL,
+-			  m_VIDEO_AUTO_CSC | m_VIDEO_C0_C2_SWAP,
+-			  v_VIDEO_AUTO_CSC(AUTO_CSC_DISABLE) |
+-			  v_VIDEO_C0_C2_SWAP(C0_C2_CHANGE_DISABLE));
+-		return 0;
+-	}
+-
+-	if (inno_conn_state->colorimetry == HDMI_COLORIMETRY_ITU_601) {
+-		if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_YUV444) {
+-			csc_mode = CSC_RGB_0_255_TO_ITU601_16_235_8BIT;
++		if (inno_conn_state->rgb_limited_range) {
++			csc_mode = CSC_RGB_0_255_TO_RGB_16_235_8BIT;
  			auto_csc = AUTO_CSC_DISABLE;
  			c0_c2_change = C0_C2_CHANGE_DISABLE;
  			csc_enable = v_CSC_ENABLE;
++
++		} else {
++			value = v_SOF_DISABLE | v_COLOR_DEPTH_NOT_INDICATED(1);
++			hdmi_writeb(hdmi, HDMI_VIDEO_CONTRL3, value);
++
++			hdmi_modb(hdmi, HDMI_VIDEO_CONTRL,
++				  m_VIDEO_AUTO_CSC | m_VIDEO_C0_C2_SWAP,
++				  v_VIDEO_AUTO_CSC(AUTO_CSC_DISABLE) |
++				  v_VIDEO_C0_C2_SWAP(C0_C2_CHANGE_DISABLE));
++			return 0;
  		}
  	} else {
--		if (data->enc_out_format == HDMI_COLORSPACE_YUV444) {
-+		if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_YUV444) {
- 			csc_mode = CSC_RGB_0_255_TO_ITU709_16_235_8BIT;
- 			auto_csc = AUTO_CSC_DISABLE;
- 			c0_c2_change = C0_C2_CHANGE_DISABLE;
-@@ -383,17 +392,6 @@ static int inno_hdmi_setup(struct inno_hdmi *hdmi,
- 			   struct drm_display_mode *mode)
- {
- 	struct drm_display_info *display = &hdmi->connector.display_info;
--	u8 vic = drm_match_cea_mode(mode);
--
--	hdmi->hdmi_data.enc_out_format = HDMI_COLORSPACE_RGB;
--
--	if (vic == 6 || vic == 7 ||
--	    vic == 21 || vic == 22 ||
--	    vic == 2 || vic == 3 ||
--	    vic == 17 || vic == 18)
--		hdmi->hdmi_data.colorimetry = HDMI_COLORIMETRY_ITU_601;
--	else
--		hdmi->hdmi_data.colorimetry = HDMI_COLORIMETRY_ITU_709;
+-		if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_YUV444) {
+-			csc_mode = CSC_RGB_0_255_TO_ITU709_16_235_8BIT;
+-			auto_csc = AUTO_CSC_DISABLE;
+-			c0_c2_change = C0_C2_CHANGE_DISABLE;
+-			csc_enable = v_CSC_ENABLE;
++		if (inno_conn_state->colorimetry == HDMI_COLORIMETRY_ITU_601) {
++			if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_YUV444) {
++				csc_mode = CSC_RGB_0_255_TO_ITU601_16_235_8BIT;
++				auto_csc = AUTO_CSC_DISABLE;
++				c0_c2_change = C0_C2_CHANGE_DISABLE;
++				csc_enable = v_CSC_ENABLE;
++			}
++		} else {
++			if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_YUV444) {
++				csc_mode = CSC_RGB_0_255_TO_ITU709_16_235_8BIT;
++				auto_csc = AUTO_CSC_DISABLE;
++				c0_c2_change = C0_C2_CHANGE_DISABLE;
++				csc_enable = v_CSC_ENABLE;
++			}
+ 		}
+ 	}
  
- 	/* Mute video and audio output */
- 	hdmi_modb(hdmi, HDMI_AV_MUTE, m_AUDIO_MUTE | m_VIDEO_BLACK,
-@@ -458,10 +456,24 @@ inno_hdmi_encoder_atomic_check(struct drm_encoder *encoder,
- 			       struct drm_connector_state *conn_state)
- {
- 	struct rockchip_crtc_state *s = to_rockchip_crtc_state(crtc_state);
-+	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
-+	u8 vic = drm_match_cea_mode(mode);
-+	struct inno_hdmi_connector_state *inno_conn_state =
-+					to_inno_hdmi_conn_state(conn_state);
+@@ -473,6 +494,8 @@ inno_hdmi_encoder_atomic_check(struct drm_encoder *encoder,
+ 		inno_conn_state->colorimetry = HDMI_COLORIMETRY_ITU_709;
  
- 	s->output_mode = ROCKCHIP_OUT_MODE_P888;
- 	s->output_type = DRM_MODE_CONNECTOR_HDMIA;
+ 	inno_conn_state->enc_out_format = HDMI_COLORSPACE_RGB;
++	inno_conn_state->rgb_limited_range =
++		drm_default_rgb_quant_range(mode) == HDMI_QUANTIZATION_RANGE_LIMITED;
  
-+	if (vic == 6 || vic == 7 ||
-+	    vic == 21 || vic == 22 ||
-+	    vic == 2 || vic == 3 ||
-+	    vic == 17 || vic == 18)
-+		inno_conn_state->colorimetry = HDMI_COLORIMETRY_ITU_601;
-+	else
-+		inno_conn_state->colorimetry = HDMI_COLORIMETRY_ITU_709;
-+
-+	inno_conn_state->enc_out_format = HDMI_COLORSPACE_RGB;
-+
  	return 0;
  }
+@@ -543,6 +566,7 @@ static void inno_hdmi_connector_reset(struct drm_connector *connector)
  
-@@ -519,13 +531,58 @@ static void inno_hdmi_connector_destroy(struct drm_connector *connector)
- 	drm_connector_cleanup(connector);
+ 	inno_conn_state->colorimetry = HDMI_COLORIMETRY_ITU_709;
+ 	inno_conn_state->enc_out_format = HDMI_COLORSPACE_RGB;
++	inno_conn_state->rgb_limited_range = false;
  }
  
-+static void inno_hdmi_connector_reset(struct drm_connector *connector)
-+{
-+	struct inno_hdmi_connector_state *inno_conn_state;
-+
-+	inno_conn_state = kzalloc(sizeof(*inno_conn_state), GFP_KERNEL);
-+	if (!inno_conn_state)
-+		return;
-+
-+	__drm_atomic_helper_connector_reset(connector, &inno_conn_state->base);
-+
-+	inno_conn_state->colorimetry = HDMI_COLORIMETRY_ITU_709;
-+	inno_conn_state->enc_out_format = HDMI_COLORSPACE_RGB;
-+}
-+
-+static struct drm_connector_state *
-+inno_hdmi_connector_duplicate_state(struct drm_connector *connector)
-+{
-+	struct inno_hdmi_connector_state *inno_conn_state;
-+
-+	if (WARN_ON(!connector->state))
-+		return NULL;
-+
-+	inno_conn_state = kmemdup(to_inno_hdmi_conn_state(connector->state),
-+				  sizeof(*inno_conn_state), GFP_KERNEL);
-+
-+	if (!inno_conn_state)
-+		return NULL;
-+
-+	__drm_atomic_helper_connector_duplicate_state(connector,
-+						      &inno_conn_state->base);
-+
-+	return &inno_conn_state->base;
-+}
-+
-+static void
-+inno_hdmi_connector_destroy_state(struct drm_connector *connector,
-+				  struct drm_connector_state *state)
-+{
-+	struct inno_hdmi_connector_state *inno_conn_state =
-+						to_inno_hdmi_conn_state(state);
-+
-+	__drm_atomic_helper_connector_destroy_state(&inno_conn_state->base);
-+	kfree(inno_conn_state);
-+}
-+
- static const struct drm_connector_funcs inno_hdmi_connector_funcs = {
- 	.fill_modes = inno_hdmi_probe_single_connector_modes,
- 	.detect = inno_hdmi_connector_detect,
- 	.destroy = inno_hdmi_connector_destroy,
--	.reset = drm_atomic_helper_connector_reset,
--	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
--	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-+	.reset = inno_hdmi_connector_reset,
-+	.atomic_duplicate_state = inno_hdmi_connector_duplicate_state,
-+	.atomic_destroy_state = inno_hdmi_connector_destroy_state,
- };
- 
- static struct drm_connector_helper_funcs inno_hdmi_connector_helper_funcs = {
+ static struct drm_connector_state *
 -- 
 2.43.0
 
