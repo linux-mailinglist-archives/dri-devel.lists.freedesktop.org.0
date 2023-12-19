@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD4AF8192D0
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 23:03:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EC9A8192CF
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 23:03:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0040810E510;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E00C310E503;
 	Tue, 19 Dec 2023 22:03:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB75110E2E2
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E89D210E2F7
  for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 22:03:17 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B0E08614E7;
+ by dfw.source.kernel.org (Postfix) with ESMTP id B2675614F0;
  Tue, 19 Dec 2023 22:03:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A6119C116CB;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B2DB6C116D3;
  Tue, 19 Dec 2023 22:03:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1703023396;
- bh=+Beebx9gfnLAs0pJuWOQEcNAx7I2nncuMk7Ra3DGun4=;
+ bh=QnND/gGVLF0OcIynd0NzBifJ9tXmmVVguZf1/YrvZlE=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=L8fickSy6u96Be9sQJspXpPb56FKoD0S4i5jLfrPPcsl6TTLwv7Tq5O893li6Hypb
- UZISRFNeQvm7YHmldvqP+mid9tEHOh2kLcRJxle5z+zEKYjZtYgf3OItXiIXp/bejK
- 0Ai1BsMQ80n/UE8VtxQyxDewQxSExtLPtyDojbJsnR1u7gfBmH/CKnrYx25s2iK6eE
- u+L9EO6ICbYr+h6EnoM/qk/ahrelnR69YFVEnUauvJPIYDEZlFB+2QyG0BwaJZLuH6
- d2k1QeUxa8rBXXIa2cewb4ZciWiy4ZvhX5Xxyqv8J8GjxsABu+YFqY+lltoc4YuL3h
- BKK2zv6IqZJTw==
+ b=IbLmhewLtb9NgYTBXxk9+pJ6F6O7GDiEkdRt39Jr3Df9jR9SdrXxyQiv/YFppNq+/
+ qwFsyX/0MfmyGAgH36Wy2pPGzJmTw+teedQBNRERXZ4W2rWDObtonhM+AMv2Yao+d1
+ yR82N7tifL04Y9kaq3FOQgGk85CTuE1Z1MXlZDn0aBstvd+3uHDrAbCpG8CeC5uGOE
+ PAlpjf/C6trNHTxOyV1Y48Wd8Yk19tXOEaVEH1YdO4PBYyLoGbpmDu8MET/fIalXty
+ Ag+55/7cM5j2c8RgEJjXtkktAop2o3eIT/v1eDJRAtW9rUJCRPm+rWMqIvGk3aOUaK
+ ixrWwmUQ4z4XQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 9511FC41535;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id A1F18C46CD8;
  Tue, 19 Dec 2023 22:03:16 +0000 (UTC)
 From: Sam Ravnborg via B4 Relay <devnull+sam.ravnborg.org@kernel.org>
-Date: Tue, 19 Dec 2023 23:03:30 +0100
-Subject: [PATCH 25/27] sparc32: Drop sbus support
+Date: Tue, 19 Dec 2023 23:03:31 +0100
+Subject: [PATCH 26/27] sbus: char: Drop now unused uctrl driver
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231219-sam-sparc32-sunset-v3-v1-25-64bb44b598c5@ravnborg.org>
+Message-Id: <20231219-sam-sparc32-sunset-v3-v1-26-64bb44b598c5@ravnborg.org>
 References: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
 In-Reply-To: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
 To: "David S. Miller" <davem@davemloft.net>, 
  Arnd Bergmann <arnd@kernel.org>, Andreas Larsson <andreas@gaisler.com>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1703023392; l=8434;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1703023392; l=13722;
  i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=noFWwB2355JcJw34vZTjvjPZYxXfFOJ+ZxyTkfyT2mI=; =?utf-8?q?b=3De82fXd+odSNL?=
- =?utf-8?q?BQG5iBX6UXvJFUrU3yTayR5X1rsd79iibtwClLcKPPTffy2mjGn5mm6zqBvofsMi?=
- VNVMYAp+C/vLDPhIqt9t7cbV649lfDaS3ATBb7q+ZXuZUo4m+yzW
+ bh=21mOYM4NXXv1JubhTtkzgWKnjnePccKISVDYYRtLAHM=; =?utf-8?q?b=3Da8Qe94bhAct6?=
+ =?utf-8?q?6WlqV9dEh8/bwMD/3XMBirbscfDOp5PFd9jkoKkZv6zyzdaM5huRLWpwci0D96L4?=
+ 2XW50tqDACwSfIRbQKO9Ax+KTn2XDF1zi8+EFnR2k6wbfPMiJ3/j
 X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
  pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
 X-Endpoint-Received: by B4 Relay for sam@ravnborg.org/20230107 with auth_id=22
@@ -77,304 +77,490 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sam Ravnborg <sam@ravnborg.org>
 
-LEON do not have an sbus - so drop support for that for sparc32.
-Fix a few Kconfig expressions to use CONFIG_SBUS rather than SPARC
-as only SPARC64 has an sbus now.
+The uctrl driver is only relevant for the Sparcbook 3 machine,
+and with sun4m support removed this driver is no logner relevant.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Arnd Bergmann <arnd@kernel.org>
 Cc: Andreas Larsson <andreas@gaisler.com>
 ---
- arch/sparc/Kconfig               |  4 +-
- arch/sparc/include/asm/fb.h      |  8 ++--
- arch/sparc/include/asm/io_32.h   | 83 ----------------------------------------
- arch/sparc/kernel/ioport.c       | 49 ------------------------
- arch/sparc/kernel/of_device_32.c | 14 -------
- drivers/video/fbdev/Kconfig      |  2 +-
- sound/sparc/Kconfig              |  1 +
- 7 files changed, 9 insertions(+), 152 deletions(-)
+ drivers/sbus/char/Kconfig  |   8 -
+ drivers/sbus/char/Makefile |   1 -
+ drivers/sbus/char/uctrl.c  | 435 ---------------------------------------------
+ 3 files changed, 444 deletions(-)
 
-diff --git a/arch/sparc/Kconfig b/arch/sparc/Kconfig
-index 0fc52c3c7487..1b9cf7f3c500 100644
---- a/arch/sparc/Kconfig
-+++ b/arch/sparc/Kconfig
-@@ -392,11 +392,11 @@ endmenu
- menu "Bus options (PCI etc.)"
- config SBUS
- 	bool
--	default y
-+	default y if SPARC64
+diff --git a/drivers/sbus/char/Kconfig b/drivers/sbus/char/Kconfig
+index 7c0a308e4959..8b80abc554ed 100644
+--- a/drivers/sbus/char/Kconfig
++++ b/drivers/sbus/char/Kconfig
+@@ -21,14 +21,6 @@ config OBP_FLASH
+ 	  The OpenBoot PROM on Ultra systems is flashable. If you want to be
+ 	  able to upgrade the OBP firmware, say Y here.
  
- config SBUSCHAR
- 	bool
--	default y
-+	default y if SPARC64
- 
- config SUN_LDOMS
- 	bool "Sun Logical Domains support"
-diff --git a/arch/sparc/include/asm/fb.h b/arch/sparc/include/asm/fb.h
-index 24440c0fda49..15b007875457 100644
---- a/arch/sparc/include/asm/fb.h
-+++ b/arch/sparc/include/asm/fb.h
-@@ -8,6 +8,9 @@
- 
- struct fb_info;
- 
-+int fb_is_primary_device(struct fb_info *info);
-+#define fb_is_primary_device fb_is_primary_device
-+
- #ifdef CONFIG_SPARC32
- static inline pgprot_t pgprot_framebuffer(pgprot_t prot,
- 					  unsigned long vm_start, unsigned long vm_end,
-@@ -18,9 +21,7 @@ static inline pgprot_t pgprot_framebuffer(pgprot_t prot,
- #define pgprot_framebuffer pgprot_framebuffer
- #endif
- 
--int fb_is_primary_device(struct fb_info *info);
--#define fb_is_primary_device fb_is_primary_device
+-config TADPOLE_TS102_UCTRL
+-	tristate "Tadpole TS102 Microcontroller support"
+-	help
+-	  Say Y here to directly support the TS102 Microcontroller interface
+-	  on the Tadpole Sparcbook 3.  This device handles power-management
+-	  events, and can also notice the attachment/detachment of external
+-	  monitors and mice.
 -
-+#ifdef CONFIG_SPARC64
- static inline void fb_memcpy_fromio(void *to, const volatile void __iomem *from, size_t n)
- {
- 	sbus_memcpy_fromio(to, from, n);
-@@ -38,6 +39,7 @@ static inline void fb_memset_io(volatile void __iomem *addr, int c, size_t n)
- 	sbus_memset_io(addr, c, n);
- }
- #define fb_memset fb_memset_io
-+#endif
- 
- #include <asm-generic/fb.h>
- 
-diff --git a/arch/sparc/include/asm/io_32.h b/arch/sparc/include/asm/io_32.h
-index 83abe709d120..b9f280ee1b11 100644
---- a/arch/sparc/include/asm/io_32.h
-+++ b/arch/sparc/include/asm/io_32.h
-@@ -56,78 +56,6 @@ static inline void _memcpy_toio(volatile void __iomem *dst, const void *src,
- 	}
- }
- 
--/*
-- * SBus accessors.
+ config BBC_I2C
+ 	tristate "UltraSPARC-III bootbus i2c controller driver"
+ 	depends on PCI && SPARC64
+diff --git a/drivers/sbus/char/Makefile b/drivers/sbus/char/Makefile
+index 44347c918f6b..9db2faabfae8 100644
+--- a/drivers/sbus/char/Makefile
++++ b/drivers/sbus/char/Makefile
+@@ -14,6 +14,5 @@ obj-$(CONFIG_ENVCTRL)			+= envctrl.o
+ obj-$(CONFIG_DISPLAY7SEG)		+= display7seg.o
+ obj-$(CONFIG_OBP_FLASH)			+= flash.o
+ obj-$(CONFIG_SUN_OPENPROMIO)		+= openprom.o
+-obj-$(CONFIG_TADPOLE_TS102_UCTRL)	+= uctrl.o
+ obj-$(CONFIG_BBC_I2C)			+= bbc.o
+ obj-$(CONFIG_ORACLE_DAX) 		+= oradax.o
+diff --git a/drivers/sbus/char/uctrl.c b/drivers/sbus/char/uctrl.c
+deleted file mode 100644
+index 0660425e3a5a..000000000000
+--- a/drivers/sbus/char/uctrl.c
++++ /dev/null
+@@ -1,435 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-only
+-/* uctrl.c: TS102 Microcontroller interface on Tadpole Sparcbook 3
 - *
-- * SBus has only one, memory mapped, I/O space.
-- * We do not need to flip bytes for SBus of course.
+- * Copyright 1999 Derrick J Brashear (shadow@dementia.org)
+- * Copyright 2008 David S. Miller (davem@davemloft.net)
 - */
--static inline u8 sbus_readb(const volatile void __iomem *addr)
--{
--	return *(__force volatile u8 *)addr;
--}
 -
--static inline u16 sbus_readw(const volatile void __iomem *addr)
--{
--	return *(__force volatile u16 *)addr;
--}
+-#include <linux/module.h>
+-#include <linux/errno.h>
+-#include <linux/delay.h>
+-#include <linux/interrupt.h>
+-#include <linux/slab.h>
+-#include <linux/mutex.h>
+-#include <linux/ioport.h>
+-#include <linux/miscdevice.h>
+-#include <linux/mm.h>
+-#include <linux/of.h>
+-#include <linux/platform_device.h>
 -
--static inline u32 sbus_readl(const volatile void __iomem *addr)
--{
--	return *(__force volatile u32 *)addr;
--}
+-#include <asm/openprom.h>
+-#include <asm/oplib.h>
+-#include <asm/irq.h>
+-#include <asm/io.h>
 -
--static inline void sbus_writeb(u8 b, volatile void __iomem *addr)
--{
--	*(__force volatile u8 *)addr = b;
--}
--
--static inline void sbus_writew(u16 w, volatile void __iomem *addr)
--{
--	*(__force volatile u16 *)addr = w;
--}
--
--static inline void sbus_writel(u32 l, volatile void __iomem *addr)
--{
--	*(__force volatile u32 *)addr = l;
--}
--
--static inline void sbus_memset_io(volatile void __iomem *__dst, int c,
--                                  __kernel_size_t n)
--{
--	while(n--) {
--		sbus_writeb(c, __dst);
--		__dst++;
--	}
--}
--
--static inline void sbus_memcpy_fromio(void *dst,
--                                      const volatile void __iomem *src,
--                                      __kernel_size_t n)
--{
--	char *d = dst;
--
--	while (n--) {
--		char tmp = sbus_readb(src);
--		*d++ = tmp;
--		src++;
--	}
--}
--
--static inline void sbus_memcpy_toio(volatile void __iomem *dst,
--                                    const void *src,
--                                    __kernel_size_t n)
--{
--	const char *s = src;
--	volatile void __iomem *d = dst;
--
--	while (n--) {
--		char tmp = *s++;
--		sbus_writeb(tmp, d);
--		d++;
--	}
--}
--
- /* Create a virtual mapping cookie for an IO port range */
- void __iomem *ioport_map(unsigned long port, unsigned int nr);
- void ioport_unmap(void __iomem *);
-@@ -136,17 +64,6 @@ void ioport_unmap(void __iomem *);
- struct pci_dev;
- void pci_iounmap(struct pci_dev *dev, void __iomem *);
- 
--static inline int sbus_can_dma_64bit(void)
--{
--	return 0;
--}
--static inline int sbus_can_burst64(void)
--{
--	return 0;
--}
--struct device;
--void sbus_set_sbus64(struct device *, int);
--
- #define __ARCH_HAS_NO_PAGE_ZERO_MAPPED		1
- 
- 
-diff --git a/arch/sparc/kernel/ioport.c b/arch/sparc/kernel/ioport.c
-index 9c4c72775274..97b836f3be25 100644
---- a/arch/sparc/kernel/ioport.c
-+++ b/arch/sparc/kernel/ioport.c
-@@ -55,8 +55,6 @@ static void __iomem *_sparc_alloc_io(unsigned int busno, unsigned long phys,
-     unsigned long size, char *name);
- static void _sparc_free_io(struct resource *res);
- 
--static void register_proc_sparc_ioport(void);
--
- /* This points to the next to use virtual memory for DVMA mappings */
- static struct resource _sparc_dvma = {
- 	.name = "sparc_dvma", .start = DVMA_VADDR, .end = DVMA_END - 1
-@@ -279,25 +277,6 @@ bool sparc_dma_free_resource(void *cpu_addr, size_t size)
- 	return true;
- }
- 
--#ifdef CONFIG_SBUS
--
--void sbus_set_sbus64(struct device *dev, int x)
--{
--	printk("sbus_set_sbus64: unsupported\n");
--}
--EXPORT_SYMBOL(sbus_set_sbus64);
--
--static int __init sparc_register_ioport(void)
--{
--	register_proc_sparc_ioport();
--
--	return 0;
--}
--
--arch_initcall(sparc_register_ioport);
--
--#endif /* CONFIG_SBUS */
--
- /*
-  * IIep is write-through, not flushing on cpu to device transfer.
-  *
-@@ -310,31 +289,3 @@ void arch_sync_dma_for_cpu(phys_addr_t paddr, size_t size,
- 	if (dir != DMA_TO_DEVICE && !sparc_leon3_snooping_enabled())
- 		leon_flush_dcache_all();
- }
--
--#ifdef CONFIG_PROC_FS
--
--static int sparc_io_proc_show(struct seq_file *m, void *v)
--{
--	struct resource *root = m->private, *r;
--	const char *nm;
--
--	for (r = root->child; r != NULL; r = r->sibling) {
--		if ((nm = r->name) == NULL) nm = "???";
--		seq_printf(m, "%016llx-%016llx: %s\n",
--				(unsigned long long)r->start,
--				(unsigned long long)r->end, nm);
--	}
--
--	return 0;
--}
--#endif /* CONFIG_PROC_FS */
--
--static void register_proc_sparc_ioport(void)
--{
--#ifdef CONFIG_PROC_FS
--	proc_create_single_data("io_map", 0, NULL, sparc_io_proc_show,
--			&sparc_iomap);
--	proc_create_single_data("dvma_map", 0, NULL, sparc_io_proc_show,
--			&_sparc_dvma);
+-#define DEBUG 1
+-#ifdef DEBUG
+-#define dprintk(x) printk x
+-#else
+-#define dprintk(x)
 -#endif
--}
-diff --git a/arch/sparc/kernel/of_device_32.c b/arch/sparc/kernel/of_device_32.c
-index ddb3b197d5e4..99ec26782bcc 100644
---- a/arch/sparc/kernel/of_device_32.c
-+++ b/arch/sparc/kernel/of_device_32.c
-@@ -96,11 +96,6 @@ static unsigned long of_bus_pci_get_flags(const u32 *addr, unsigned long flags)
- 	return flags;
- }
- 
--static unsigned long of_bus_sbus_get_flags(const u32 *addr, unsigned long flags)
+-
+-struct uctrl_regs {
+-	u32 uctrl_intr;
+-	u32 uctrl_data;
+-	u32 uctrl_stat;
+-	u32 uctrl_xxx[5];
+-};
+-
+-struct ts102_regs {
+-	u32 card_a_intr;
+-	u32 card_a_stat;
+-	u32 card_a_ctrl;
+-	u32 card_a_xxx;
+-	u32 card_b_intr;
+-	u32 card_b_stat;
+-	u32 card_b_ctrl;
+-	u32 card_b_xxx;
+-	u32 uctrl_intr;
+-	u32 uctrl_data;
+-	u32 uctrl_stat;
+-	u32 uctrl_xxx;
+-	u32 ts102_xxx[4];
+-};
+-
+-/* Bits for uctrl_intr register */
+-#define UCTRL_INTR_TXE_REQ         0x01    /* transmit FIFO empty int req */
+-#define UCTRL_INTR_TXNF_REQ        0x02    /* transmit FIFO not full int req */
+-#define UCTRL_INTR_RXNE_REQ        0x04    /* receive FIFO not empty int req */
+-#define UCTRL_INTR_RXO_REQ         0x08    /* receive FIFO overflow int req */
+-#define UCTRL_INTR_TXE_MSK         0x10    /* transmit FIFO empty mask */
+-#define UCTRL_INTR_TXNF_MSK        0x20    /* transmit FIFO not full mask */
+-#define UCTRL_INTR_RXNE_MSK        0x40    /* receive FIFO not empty mask */
+-#define UCTRL_INTR_RXO_MSK         0x80    /* receive FIFO overflow mask */
+-
+-/* Bits for uctrl_stat register */
+-#define UCTRL_STAT_TXE_STA         0x01    /* transmit FIFO empty status */
+-#define UCTRL_STAT_TXNF_STA        0x02    /* transmit FIFO not full status */
+-#define UCTRL_STAT_RXNE_STA        0x04    /* receive FIFO not empty status */
+-#define UCTRL_STAT_RXO_STA         0x08    /* receive FIFO overflow status */
+-
+-static DEFINE_MUTEX(uctrl_mutex);
+-static const char *uctrl_extstatus[16] = {
+-        "main power available",
+-        "internal battery attached",
+-        "external battery attached",
+-        "external VGA attached",
+-        "external keyboard attached",
+-        "external mouse attached",
+-        "lid down",
+-        "internal battery currently charging",
+-        "external battery currently charging",
+-        "internal battery currently discharging",
+-        "external battery currently discharging",
+-};
+-
+-/* Everything required for one transaction with the uctrl */
+-struct uctrl_txn {
+-	u8 opcode;
+-	u8 inbits;
+-	u8 outbits;
+-	u8 *inbuf;
+-	u8 *outbuf;
+-};
+-
+-struct uctrl_status {
+-	u8 current_temp; /* 0x07 */
+-	u8 reset_status; /* 0x0b */
+-	u16 event_status; /* 0x0c */
+-	u16 error_status; /* 0x10 */
+-	u16 external_status; /* 0x11, 0x1b */
+-	u8 internal_charge; /* 0x18 */
+-	u8 external_charge; /* 0x19 */
+-	u16 control_lcd; /* 0x20 */
+-	u8 control_bitport; /* 0x21 */
+-	u8 speaker_volume; /* 0x23 */
+-	u8 control_tft_brightness; /* 0x24 */
+-	u8 control_kbd_repeat_delay; /* 0x28 */
+-	u8 control_kbd_repeat_period; /* 0x29 */
+-	u8 control_screen_contrast; /* 0x2F */
+-};
+-
+-enum uctrl_opcode {
+-  READ_SERIAL_NUMBER=0x1,
+-  READ_ETHERNET_ADDRESS=0x2,
+-  READ_HARDWARE_VERSION=0x3,
+-  READ_MICROCONTROLLER_VERSION=0x4,
+-  READ_MAX_TEMPERATURE=0x5,
+-  READ_MIN_TEMPERATURE=0x6,
+-  READ_CURRENT_TEMPERATURE=0x7,
+-  READ_SYSTEM_VARIANT=0x8,
+-  READ_POWERON_CYCLES=0x9,
+-  READ_POWERON_SECONDS=0xA,
+-  READ_RESET_STATUS=0xB,
+-  READ_EVENT_STATUS=0xC,
+-  READ_REAL_TIME_CLOCK=0xD,
+-  READ_EXTERNAL_VGA_PORT=0xE,
+-  READ_MICROCONTROLLER_ROM_CHECKSUM=0xF,
+-  READ_ERROR_STATUS=0x10,
+-  READ_EXTERNAL_STATUS=0x11,
+-  READ_USER_CONFIGURATION_AREA=0x12,
+-  READ_MICROCONTROLLER_VOLTAGE=0x13,
+-  READ_INTERNAL_BATTERY_VOLTAGE=0x14,
+-  READ_DCIN_VOLTAGE=0x15,
+-  READ_HORIZONTAL_POINTER_VOLTAGE=0x16,
+-  READ_VERTICAL_POINTER_VOLTAGE=0x17,
+-  READ_INTERNAL_BATTERY_CHARGE_LEVEL=0x18,
+-  READ_EXTERNAL_BATTERY_CHARGE_LEVEL=0x19,
+-  READ_REAL_TIME_CLOCK_ALARM=0x1A,
+-  READ_EVENT_STATUS_NO_RESET=0x1B,
+-  READ_INTERNAL_KEYBOARD_LAYOUT=0x1C,
+-  READ_EXTERNAL_KEYBOARD_LAYOUT=0x1D,
+-  READ_EEPROM_STATUS=0x1E,
+-  CONTROL_LCD=0x20,
+-  CONTROL_BITPORT=0x21,
+-  SPEAKER_VOLUME=0x23,
+-  CONTROL_TFT_BRIGHTNESS=0x24,
+-  CONTROL_WATCHDOG=0x25,
+-  CONTROL_FACTORY_EEPROM_AREA=0x26,
+-  CONTROL_KBD_TIME_UNTIL_REPEAT=0x28,
+-  CONTROL_KBD_TIME_BETWEEN_REPEATS=0x29,
+-  CONTROL_TIMEZONE=0x2A,
+-  CONTROL_MARK_SPACE_RATIO=0x2B,
+-  CONTROL_DIAGNOSTIC_MODE=0x2E,
+-  CONTROL_SCREEN_CONTRAST=0x2F,
+-  RING_BELL=0x30,
+-  SET_DIAGNOSTIC_STATUS=0x32,
+-  CLEAR_KEY_COMBINATION_TABLE=0x33,
+-  PERFORM_SOFTWARE_RESET=0x34,
+-  SET_REAL_TIME_CLOCK=0x35,
+-  RECALIBRATE_POINTING_STICK=0x36,
+-  SET_BELL_FREQUENCY=0x37,
+-  SET_INTERNAL_BATTERY_CHARGE_RATE=0x39,
+-  SET_EXTERNAL_BATTERY_CHARGE_RATE=0x3A,
+-  SET_REAL_TIME_CLOCK_ALARM=0x3B,
+-  READ_EEPROM=0x40,
+-  WRITE_EEPROM=0x41,
+-  WRITE_TO_STATUS_DISPLAY=0x42,
+-  DEFINE_SPECIAL_CHARACTER=0x43,
+-  DEFINE_KEY_COMBINATION_ENTRY=0x50,
+-  DEFINE_STRING_TABLE_ENTRY=0x51,
+-  DEFINE_STATUS_SCREEN_DISPLAY=0x52,
+-  PERFORM_EMU_COMMANDS=0x64,
+-  READ_EMU_REGISTER=0x65,
+-  WRITE_EMU_REGISTER=0x66,
+-  READ_EMU_RAM=0x67,
+-  WRITE_EMU_RAM=0x68,
+-  READ_BQ_REGISTER=0x69,
+-  WRITE_BQ_REGISTER=0x6A,
+-  SET_USER_PASSWORD=0x70,
+-  VERIFY_USER_PASSWORD=0x71,
+-  GET_SYSTEM_PASSWORD_KEY=0x72,
+-  VERIFY_SYSTEM_PASSWORD=0x73,
+-  POWER_OFF=0x82,
+-  POWER_RESTART=0x83,
+-};
+-
+-static struct uctrl_driver {
+-	struct uctrl_regs __iomem *regs;
+-	int irq;
+-	int pending;
+-	struct uctrl_status status;
+-} *global_driver;
+-
+-static void uctrl_get_event_status(struct uctrl_driver *);
+-static void uctrl_get_external_status(struct uctrl_driver *);
+-
+-static long
+-uctrl_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 -{
--	return IORESOURCE_MEM;
+-	switch (cmd) {
+-		default:
+-			return -EINVAL;
+-	}
+-	return 0;
 -}
 -
-  /*
-  * AMBAPP bus specific translator
-  */
-@@ -145,15 +140,6 @@ static struct of_bus of_busses[] = {
- 		.map = of_bus_pci_map,
- 		.get_flags = of_bus_pci_get_flags,
- 	},
--	/* SBUS */
+-static int
+-uctrl_open(struct inode *inode, struct file *file)
+-{
+-	mutex_lock(&uctrl_mutex);
+-	uctrl_get_event_status(global_driver);
+-	uctrl_get_external_status(global_driver);
+-	mutex_unlock(&uctrl_mutex);
+-	return 0;
+-}
+-
+-static irqreturn_t uctrl_interrupt(int irq, void *dev_id)
+-{
+-	return IRQ_HANDLED;
+-}
+-
+-static const struct file_operations uctrl_fops = {
+-	.owner =	THIS_MODULE,
+-	.llseek =	no_llseek,
+-	.unlocked_ioctl =	uctrl_ioctl,
+-	.open =		uctrl_open,
+-};
+-
+-static struct miscdevice uctrl_dev = {
+-	UCTRL_MINOR,
+-	"uctrl",
+-	&uctrl_fops
+-};
+-
+-/* Wait for space to write, then write to it */
+-#define WRITEUCTLDATA(value) \
+-{ \
+-  unsigned int i; \
+-  for (i = 0; i < 10000; i++) { \
+-      if (UCTRL_STAT_TXNF_STA & sbus_readl(&driver->regs->uctrl_stat)) \
+-      break; \
+-  } \
+-  dprintk(("write data 0x%02x\n", value)); \
+-  sbus_writel(value, &driver->regs->uctrl_data); \
+-}
+-
+-/* Wait for something to read, read it, then clear the bit */
+-#define READUCTLDATA(value) \
+-{ \
+-  unsigned int i; \
+-  value = 0; \
+-  for (i = 0; i < 10000; i++) { \
+-      if ((UCTRL_STAT_RXNE_STA & sbus_readl(&driver->regs->uctrl_stat)) == 0) \
+-      break; \
+-    udelay(1); \
+-  } \
+-  value = sbus_readl(&driver->regs->uctrl_data); \
+-  dprintk(("read data 0x%02x\n", value)); \
+-  sbus_writel(UCTRL_STAT_RXNE_STA, &driver->regs->uctrl_stat); \
+-}
+-
+-static void uctrl_do_txn(struct uctrl_driver *driver, struct uctrl_txn *txn)
+-{
+-	int stat, incnt, outcnt, bytecnt, intr;
+-	u32 byte;
+-
+-	stat = sbus_readl(&driver->regs->uctrl_stat);
+-	intr = sbus_readl(&driver->regs->uctrl_intr);
+-	sbus_writel(stat, &driver->regs->uctrl_stat);
+-
+-	dprintk(("interrupt stat 0x%x int 0x%x\n", stat, intr));
+-
+-	incnt = txn->inbits;
+-	outcnt = txn->outbits;
+-	byte = (txn->opcode << 8);
+-	WRITEUCTLDATA(byte);
+-
+-	bytecnt = 0;
+-	while (incnt > 0) {
+-		byte = (txn->inbuf[bytecnt] << 8);
+-		WRITEUCTLDATA(byte);
+-		incnt--;
+-		bytecnt++;
+-	}
+-
+-	/* Get the ack */
+-	READUCTLDATA(byte);
+-	dprintk(("ack was %x\n", (byte >> 8)));
+-
+-	bytecnt = 0;
+-	while (outcnt > 0) {
+-		READUCTLDATA(byte);
+-		txn->outbuf[bytecnt] = (byte >> 8);
+-		dprintk(("set byte to %02x\n", byte));
+-		outcnt--;
+-		bytecnt++;
+-	}
+-}
+-
+-static void uctrl_get_event_status(struct uctrl_driver *driver)
+-{
+-	struct uctrl_txn txn;
+-	u8 outbits[2];
+-
+-	txn.opcode = READ_EVENT_STATUS;
+-	txn.inbits = 0;
+-	txn.outbits = 2;
+-	txn.inbuf = NULL;
+-	txn.outbuf = outbits;
+-
+-	uctrl_do_txn(driver, &txn);
+-
+-	dprintk(("bytes %x %x\n", (outbits[0] & 0xff), (outbits[1] & 0xff)));
+-	driver->status.event_status = 
+-		((outbits[0] & 0xff) << 8) | (outbits[1] & 0xff);
+-	dprintk(("ev is %x\n", driver->status.event_status));
+-}
+-
+-static void uctrl_get_external_status(struct uctrl_driver *driver)
+-{
+-	struct uctrl_txn txn;
+-	u8 outbits[2];
+-	int i, v;
+-
+-	txn.opcode = READ_EXTERNAL_STATUS;
+-	txn.inbits = 0;
+-	txn.outbits = 2;
+-	txn.inbuf = NULL;
+-	txn.outbuf = outbits;
+-
+-	uctrl_do_txn(driver, &txn);
+-
+-	dprintk(("bytes %x %x\n", (outbits[0] & 0xff), (outbits[1] & 0xff)));
+-	driver->status.external_status = 
+-		((outbits[0] * 256) + (outbits[1]));
+-	dprintk(("ex is %x\n", driver->status.external_status));
+-	v = driver->status.external_status;
+-	for (i = 0; v != 0; i++, v >>= 1) {
+-		if (v & 1) {
+-			dprintk(("%s%s", " ", uctrl_extstatus[i]));
+-		}
+-	}
+-	dprintk(("\n"));
+-	
+-}
+-
+-static int uctrl_probe(struct platform_device *op)
+-{
+-	struct uctrl_driver *p;
+-	int err = -ENOMEM;
+-
+-	p = kzalloc(sizeof(*p), GFP_KERNEL);
+-	if (!p) {
+-		printk(KERN_ERR "uctrl: Unable to allocate device struct.\n");
+-		goto out;
+-	}
+-
+-	p->regs = of_ioremap(&op->resource[0], 0,
+-			     resource_size(&op->resource[0]),
+-			     "uctrl");
+-	if (!p->regs) {
+-		printk(KERN_ERR "uctrl: Unable to map registers.\n");
+-		goto out_free;
+-	}
+-
+-	p->irq = op->archdata.irqs[0];
+-	err = request_irq(p->irq, uctrl_interrupt, 0, "uctrl", p);
+-	if (err) {
+-		printk(KERN_ERR "uctrl: Unable to register irq.\n");
+-		goto out_iounmap;
+-	}
+-
+-	err = misc_register(&uctrl_dev);
+-	if (err) {
+-		printk(KERN_ERR "uctrl: Unable to register misc device.\n");
+-		goto out_free_irq;
+-	}
+-
+-	sbus_writel(UCTRL_INTR_RXNE_REQ|UCTRL_INTR_RXNE_MSK, &p->regs->uctrl_intr);
+-	printk(KERN_INFO "%pOF: uctrl regs[0x%p] (irq %d)\n",
+-	       op->dev.of_node, p->regs, p->irq);
+-	uctrl_get_event_status(p);
+-	uctrl_get_external_status(p);
+-
+-	dev_set_drvdata(&op->dev, p);
+-	global_driver = p;
+-
+-out:
+-	return err;
+-
+-out_free_irq:
+-	free_irq(p->irq, p);
+-
+-out_iounmap:
+-	of_iounmap(&op->resource[0], p->regs, resource_size(&op->resource[0]));
+-
+-out_free:
+-	kfree(p);
+-	goto out;
+-}
+-
+-static int uctrl_remove(struct platform_device *op)
+-{
+-	struct uctrl_driver *p = dev_get_drvdata(&op->dev);
+-
+-	if (p) {
+-		misc_deregister(&uctrl_dev);
+-		free_irq(p->irq, p);
+-		of_iounmap(&op->resource[0], p->regs, resource_size(&op->resource[0]));
+-		kfree(p);
+-	}
+-	return 0;
+-}
+-
+-static const struct of_device_id uctrl_match[] = {
 -	{
--		.name = "sbus",
--		.addr_prop_name = "reg",
--		.match = of_bus_sbus_match,
--		.count_cells = of_bus_sbus_count_cells,
--		.map = of_bus_default_map,
--		.get_flags = of_bus_sbus_get_flags,
+-		.name = "uctrl",
 -	},
- 	/* AMBA */
- 	{
- 		.name = "ambapp",
-diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index 53693c826ebd..94f6dca5856f 100644
---- a/drivers/video/fbdev/Kconfig
-+++ b/drivers/video/fbdev/Kconfig
-@@ -518,7 +518,7 @@ config FB_GBE_MEM
- 
- config FB_SBUS
- 	bool "SBUS and UPA framebuffers"
--	depends on (FB = y) && SPARC
-+	depends on (FB = y) && SBUS
- 	help
- 	  Say Y if you want support for SBUS or UPA based frame buffer device.
- 
-diff --git a/sound/sparc/Kconfig b/sound/sparc/Kconfig
-index 59b9f16e8dea..af2fb963a455 100644
---- a/sound/sparc/Kconfig
-+++ b/sound/sparc/Kconfig
-@@ -4,6 +4,7 @@
- menuconfig SND_SPARC
- 	bool "Sparc sound devices"
- 	depends on SPARC
-+	depends on SBUS
- 	default y
- 	help
- 	  Support for sound devices specific to Sun SPARC architectures.
+-	{},
+-};
+-MODULE_DEVICE_TABLE(of, uctrl_match);
+-
+-static struct platform_driver uctrl_driver = {
+-	.driver = {
+-		.name = "uctrl",
+-		.of_match_table = uctrl_match,
+-	},
+-	.probe		= uctrl_probe,
+-	.remove		= uctrl_remove,
+-};
+-
+-
+-module_platform_driver(uctrl_driver);
+-
+-MODULE_LICENSE("GPL");
 
 -- 
 2.34.1
