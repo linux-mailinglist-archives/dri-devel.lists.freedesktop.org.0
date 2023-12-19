@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F064818D2C
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 18:01:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4922D818D2D
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 18:01:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D9DF10E1BC;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9C4710E1A4;
 	Tue, 19 Dec 2023 17:01:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
  [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5C9C10E027
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 17:01:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4ECBF10E1A4
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 17:01:10 +0000 (UTC)
 Received: by mail-wm1-x332.google.com with SMTP id
- 5b1f17b1804b1-40d2764c0f2so11335115e9.2
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 09:01:09 -0800 (PST)
+ 5b1f17b1804b1-40c29f7b068so52843815e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 09:01:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1703005268; x=1703610068; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1703005269; x=1703610069; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=LuKwY9nW5+R7DeHCNpC77KMqCvSYagjOBXGDTeiO2JI=;
- b=VcH8okqraNjtIIkfaCgMYFiP82ZcjsxQpNdtK9L7K2BJSMVnGXZ49YQc9aiv/8kC8Y
- 8BcPzoQYiZ6m6ex8IwSgdv7JVSddYEw1oFoop6xWj/Hy+x+Zsfw3hpuq8MKMt3t5mEhE
- CZYqSsPdHLBykPSN9OqEMnYQ0kdCGrXsSvDkmezz2nmmyWTlJveBxRUe4alQRrUKRcEY
- JrOxN90R2Z8Gn/D3ABXN76x81867uk9I0+5svuiz/3aUIMp6ueg+JFBvlPI0erZilM3y
- tNIQeWt2pfmiTc3+hdOVpuaah/+LB7pY40eqRX1Qphjost84Dhm5JVxh7ll5cUl7qvTf
- Q8wA==
+ bh=tvxDLNOYjKdWlkXmI7fVu1cGUQmdpgYMh9GlbetV5JM=;
+ b=W9m+5okkenslM6zdsxA8sBQCVb15bQY3IVrkT0+uj1R7IG90Vkr/NktpQ6vs+/pFnQ
+ 16mONDIqDLzvzCfpkkuqSp54IUBlu+DsKD+Up6FdlsBoRazyoH13JckO4PkUgIatzdhd
+ Ffd7f/YPDxtX3XtxFoWoAsC5zEWo0V8I6lAgqNUF/Tgce/xnV7PSB23ee37tQA+5mnfI
+ fBsU3L281wEmQYNidaXbOC2WoJx3I14/8nHeBex7/OhOlET7xFspyp6ekcr0JeMNeVRL
+ pPzxUVaw2c9bXQ6R/X5X5UHX+gFW6kPNk7UdZRBgpfF98zErRB+3U7qP6FUhEScTVxnv
+ j6lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1703005268; x=1703610068;
+ d=1e100.net; s=20230601; t=1703005269; x=1703610069;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=LuKwY9nW5+R7DeHCNpC77KMqCvSYagjOBXGDTeiO2JI=;
- b=NKm1vpyIsnVW/7WSsJJRzW0NEjxsg1lrtcriJMPsetKVTp5z1i8WSBKwWulZsk2As3
- pqlK7xO0OXmfWnGqWInMZk03jfQAK3xb8PREhtGQV+wuzzw+Ka1MqyER4YT56gtXP3Lb
- BtWebWDCb7M9I+n+Zn/dhXYbJMQTta763UeH7J2iMpqQiMjalDpVpykAR1Mb6uDtdK/p
- pg8xd/qwoI7l2SSBeZGWOmqq56RKVQTQsfvHwS7k75CxwYxK7HpCG8jzzycvr1x/1OUt
- Npwl5568M4a3t42C8ON4r6u0A4TLk0cQT/1nGpyhlYK/y2j2k0T5uhEebdrP1sDmlNQ2
- shZA==
-X-Gm-Message-State: AOJu0YxJas4o/sjryIWsZi7zXOnt/rHytB86qbohMKbtgVMFnDvSHI2Z
- SUXKZDZ5fLF9FfG7wM//GQ==
-X-Google-Smtp-Source: AGHT+IHjyJcBo9pFgVWTlwbgCdScLicwo5eWIY6pSPcbe8l2hqtFhG18/pJv3xIxu5MSaFiQGfmU6A==
-X-Received: by 2002:a05:600c:5408:b0:40d:3084:e66b with SMTP id
- he8-20020a05600c540800b0040d3084e66bmr127509wmb.163.1703005267997; 
- Tue, 19 Dec 2023 09:01:07 -0800 (PST)
+ bh=tvxDLNOYjKdWlkXmI7fVu1cGUQmdpgYMh9GlbetV5JM=;
+ b=bHRJ4vjw/oF5a7ze1WpHtY59L+NOHYSru3WgBSsArGtfkHonL0TOSzdvFTgC/dpq6m
+ jTIe6222COeIU0VlqT3RC5PqAVUuDKJ+J9tAvPwjiaK9cD03Vggmx2u/eaMEGrB0yQDn
+ aQ/Aj2/GnkDwfSXv99D2Qm7cwldXsdep4XkgBUGfNawyx5srftN70k6zyWa+YK204mQU
+ fTFK1BTxR3Zq52jDQaB85d6MpP+eoIJ9a6t1F8ZEmI+zy2LpOQtNFX0nhd6pALLZr+5v
+ 77CXoMGfIn2CUtWGP8QZzYBcJb1TyrPG97qYNZ7NL6DARdNI88m6BHNqnqDChUMDgJli
+ gYsw==
+X-Gm-Message-State: AOJu0YyaVV2LFH00AYtnVFYDH8XBakckTZL4pBV+wVYzjNzWXmGfNHrN
+ wwo/5bvF3Oi6CHzpwzTWmQ==
+X-Google-Smtp-Source: AGHT+IGsWNsaajXe5v4hjIqM1EZLyrRrx1NOmjW0Jf66/vPQv93o4u79++vXB9ZEkUXdq2ViVM1Bow==
+X-Received: by 2002:a05:600c:1d1f:b0:40c:f7b:67e5 with SMTP id
+ l31-20020a05600c1d1f00b0040c0f7b67e5mr8969956wms.37.1703005268722; 
+ Tue, 19 Dec 2023 09:01:08 -0800 (PST)
 Received: from U4.lan ([2a02:810b:f40:4300:7ae5:3e:d1c6:a138])
  by smtp.gmail.com with ESMTPSA id
- i7-20020a05600c354700b0040d2805d158sm3225878wmq.48.2023.12.19.09.01.07
+ i7-20020a05600c354700b0040d2805d158sm3225878wmq.48.2023.12.19.09.01.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Dec 2023 09:01:07 -0800 (PST)
+ Tue, 19 Dec 2023 09:01:08 -0800 (PST)
 From: Alex Bee <knaerzche@gmail.com>
 To: Sandy Huang <hjc@rock-chips.com>,
  =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
@@ -59,10 +59,10 @@ To: Sandy Huang <hjc@rock-chips.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>
-Subject: [PATCH v3 01/29] dt-bindings: display: rockchip,
- inno-hdmi: Document RK3128 compatible
-Date: Tue, 19 Dec 2023 18:00:31 +0100
-Message-ID: <20231219170100.188800-2-knaerzche@gmail.com>
+Subject: [PATCH v3 02/29] drm/rockchip: vop: Add output selection registers
+ for RK312x
+Date: Tue, 19 Dec 2023 18:00:32 +0100
+Message-ID: <20231219170100.188800-3-knaerzche@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231219170100.188800-1-knaerzche@gmail.com>
 References: <20231219170100.188800-1-knaerzche@gmail.com>
@@ -82,97 +82,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Alex Bee <knaerzche@gmail.com>,
- linux-rockchip@lists.infradead.org, Conor Dooley <conor.dooley@microchip.com>,
- David Airlie <airlied@gmail.com>, linux-arm-kernel@lists.infradead.org
+ linux-rockchip@lists.infradead.org, David Airlie <airlied@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The integration for this SoC is different from the currently existing: It
-needs it's PHY's reference clock rate to calculate the DDC bus frequency
-correctly. The controller is also part of a powerdomain, so this gets added
-as an mandatory property for this variant.
+In contrast to RK3036, RK312x SoCs have multiple output channels such as
+RGB (i.e. LVDS TTL), LVDS, DSI and HDMI.
+
+In order to support that, this splits output from RK3036 and defines an
+separate one for RK3126 with the registers required to enable the
+appropriate output and setup the correct polarity.
 
 Signed-off-by: Alex Bee <knaerzche@gmail.com>
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 ---
 changes in v2:
- - clarify that the controller itself is part of the powerdomain
- - simplify clock-names
- - made power-domains property only allowed (and required) for new variant
+ - rephrase commit message
 
 changes in v3:
- - collect RB
+ - none
 
- .../display/rockchip/rockchip,inno-hdmi.yaml  | 40 ++++++++++++++++++-
- 1 file changed, 38 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/rockchip/rockchip_vop_reg.c | 13 ++++++++++++-
+ drivers/gpu/drm/rockchip/rockchip_vop_reg.h |  3 +++
+ 2 files changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,inno-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,inno-hdmi.yaml
-index 96889c86849a..be78dcfa1c76 100644
---- a/Documentation/devicetree/bindings/display/rockchip/rockchip,inno-hdmi.yaml
-+++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,inno-hdmi.yaml
-@@ -14,6 +14,7 @@ properties:
-   compatible:
-     enum:
-       - rockchip,rk3036-inno-hdmi
-+      - rockchip,rk3128-inno-hdmi
+diff --git a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
+index c51ca82320cb..b9ee02061d5b 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
++++ b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
+@@ -227,11 +227,22 @@ static const struct vop_win_data rk3126_vop_win_data[] = {
+ 	  .type = DRM_PLANE_TYPE_CURSOR },
+ };
  
-   reg:
-     maxItems: 1
-@@ -22,10 +23,19 @@ properties:
-     maxItems: 1
- 
-   clocks:
--    maxItems: 1
-+    minItems: 1
-+    items:
-+      - description: The HDMI controller main clock
-+      - description: The HDMI PHY reference clock
- 
-   clock-names:
--    const: pclk
-+    minItems: 1
-+    items:
-+      - const: pclk
-+      - const: ref
++static const struct vop_output rk3126_output = {
++	.pin_pol = VOP_REG(RK3036_DSP_CTRL0, 0xf, 4),
++	.hdmi_pin_pol = VOP_REG(RK3126_INT_SCALER, 0x7, 4),
++	.hdmi_en = VOP_REG(RK3036_AXI_BUS_CTRL, 0x1, 22),
++	.hdmi_dclk_pol = VOP_REG(RK3036_AXI_BUS_CTRL, 0x1, 23),
++	.rgb_en = VOP_REG(RK3036_AXI_BUS_CTRL, 0x1, 24),
++	.rgb_dclk_pol = VOP_REG(RK3036_AXI_BUS_CTRL, 0x1, 25),
++	.mipi_en = VOP_REG(RK3036_AXI_BUS_CTRL, 0x1, 28),
++	.mipi_dclk_pol = VOP_REG(RK3036_AXI_BUS_CTRL, 0x1, 29),
++};
 +
-+  power-domains:
-+    maxItems: 1
+ static const struct vop_data rk3126_vop = {
+ 	.intr = &rk3036_intr,
+ 	.common = &rk3036_common,
+ 	.modeset = &rk3036_modeset,
+-	.output = &rk3036_output,
++	.output = &rk3126_output,
+ 	.win = rk3126_vop_win_data,
+ 	.win_size = ARRAY_SIZE(rk3126_vop_win_data),
+ 	.max_output = { 1920, 1080 },
+diff --git a/drivers/gpu/drm/rockchip/rockchip_vop_reg.h b/drivers/gpu/drm/rockchip/rockchip_vop_reg.h
+index 406e981c75bd..fbf1bcc68625 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_vop_reg.h
++++ b/drivers/gpu/drm/rockchip/rockchip_vop_reg.h
+@@ -872,6 +872,9 @@
+ /* rk3036 register definition end */
  
-   ports:
-     $ref: /schemas/graph.yaml#/properties/ports
-@@ -55,6 +65,32 @@ required:
-   - pinctrl-names
-   - ports
- 
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: rockchip,rk3036-inno-hdmi
+ /* rk3126 register definition */
++#define RK3126_INT_SCALER		0x0c
 +
-+    then:
-+      properties:
-+        power-domains: false
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: rockchip,rk3128-inno-hdmi
-+
-+    then:
-+      properties:
-+        clocks:
-+          minItems: 2
-+        clock-names:
-+          minItems: 2
-+      required:
-+        - power-domains
-+
- additionalProperties: false
- 
- examples:
++/* win1 register */
+ #define RK3126_WIN1_MST			0x4c
+ #define RK3126_WIN1_DSP_INFO		0x50
+ #define RK3126_WIN1_DSP_ST		0x54
 -- 
 2.43.0
 
