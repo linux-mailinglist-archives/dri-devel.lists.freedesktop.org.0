@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 557648192DB
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 23:03:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE2D58192E4
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 23:03:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E93210E51A;
-	Tue, 19 Dec 2023 22:03:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0080D10E52A;
+	Tue, 19 Dec 2023 22:03:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E520110E25E
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 22:03:17 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A40410E267
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 22:03:19 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B118C614ED;
+ by ams.source.kernel.org (Postfix) with ESMTP id EF260B81AEE;
  Tue, 19 Dec 2023 22:03:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 90686C116B6;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9B0C4C116B9;
  Tue, 19 Dec 2023 22:03:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1703023396;
- bh=Xx5e5JXE5o3eSx1BDCkTaoAn1nu0Tcx74g9aZDg0gdg=;
+ bh=ZxiWPYjJNlwW0ZoUuTe7kh12NGJyutpG6BCChPYhLqM=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=u8k9tG6iBmhBCtOjUZAoi5aPfizQ3FYNoD/I2iLaI20nlTBj0mVS07YAPto+7abY+
- aQdvyxNU+nsIpscUGSpQ05lqt5JYbMeHh3ZFiNorItQwD8lfq5Zbtlr7xLmrNz+pk1
- eIHPfRjJTOotDHzAULpIJbx1HIR/5KPbc1Zy5N9C80RBn4cxrk4N6EdIE/C1eOcmJG
- UurNyNIAzmI9BPdsS8xS/6dY23M1CyWfXEFIft9RTzs+vHvmf4Om/8AkRJOee2ZUQt
- JwXbAFrqIT39HzdThRb37oV4Ak9nEPJ+zRNfN6By98SdDfVYskgEtJv2Y2wcWHcZMM
- ENIEQdSNp7KCQ==
+ b=VKJVj4Izenm3fSSO97yRxDQOQN0qwh7a4oiChirWK9a9NR1DOIYLaCNiaCBS55NuD
+ rgJFBnkYqeph05C5GVKLVwYYRSh8sA4kSuuAbB9UTpzZO/5+xUxo4y3oDC7anUo7op
+ HWUPRmVUdA1ETWGPkRz0+fhHMAvSfziCDWbk5K8jYfiVdbgputLzhd1ztkiBRseyzX
+ 07AOVYP0cyRP3GX6v5Zlvf/NidVOBMAHCCxS4r4hkqYUYvovjmaX4YsO3AehXJzsMX
+ Jz7Xl1L/486uV3XwlEmYQvd+QqHk8z/AF0gxPgDBylHdTaVhnTLApqyqKBKferscEC
+ i5U0sPpIN3dOw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 80118C46CD2;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 8A002C46CCD;
  Tue, 19 Dec 2023 22:03:16 +0000 (UTC)
 From: Sam Ravnborg via B4 Relay <devnull+sam.ravnborg.org@kernel.org>
-Date: Tue, 19 Dec 2023 23:03:28 +0100
-Subject: [PATCH 23/27] sparc32: Drop unused trampoline code
+Date: Tue, 19 Dec 2023 23:03:29 +0100
+Subject: [PATCH 24/27] sparc32: Drop config SPARC_LEON
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231219-sam-sparc32-sunset-v3-v1-23-64bb44b598c5@ravnborg.org>
+Message-Id: <20231219-sam-sparc32-sunset-v3-v1-24-64bb44b598c5@ravnborg.org>
 References: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
 In-Reply-To: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
 To: "David S. Miller" <davem@davemloft.net>, 
  Arnd Bergmann <arnd@kernel.org>, Andreas Larsson <andreas@gaisler.com>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1703023392; l=4127;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1703023392; l=4414;
  i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=uzksINTbhFvBhLNvlUDgb4UOBHR2yU8G2Z2Ss1msiEI=; =?utf-8?q?b=3DIu2To745+yyR?=
- =?utf-8?q?3EXnr2Zb0eY4uBlUFnm81YV0HjegE5uRvg7LKgAC0vaYfDXXenG6hZOVFuslEMQx?=
- fAACjGtqBIxq2YSBw8iT3MawaikYyK0oFDUMkVfpYUZAPSnF0xtb
+ bh=yguXtsAztu+g6VS1K/Ca2l8EKOhlR4mQ7eIgq+RPLKI=; =?utf-8?q?b=3DFP777UvBaxp1?=
+ =?utf-8?q?SiwfpSSLW9EamkRu8kUaC20yflmyMorWFySES8L/kN5EdEsA08eskSUyRrG/P6uB?=
+ OnxjkQroDmvjESJ2jBLsRzy++IbHaFfo7eXfbWhpMLGU7cRhkzYF
 X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
  pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
 X-Endpoint-Received: by B4 Relay for sam@ravnborg.org/20230107 with auth_id=22
@@ -77,179 +78,147 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sam Ravnborg <sam@ravnborg.org>
 
-Drop the sun4m and sun4d code from trampoline_32
+The only support sparc32 CPU is LEON, so there is no need for a
+config option to select it.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Arnd Bergmann <arnd@kernel.org>
 Cc: Andreas Larsson <andreas@gaisler.com>
 ---
- arch/sparc/kernel/kernel.h        |   3 +-
- arch/sparc/kernel/trampoline_32.S | 127 +-------------------------------------
- 2 files changed, 3 insertions(+), 127 deletions(-)
+ arch/sparc/Kconfig                   | 27 +++++++++------------------
+ arch/sparc/configs/sparc32_defconfig |  1 -
+ drivers/usb/host/Kconfig             |  2 +-
+ drivers/usb/host/ehci-hcd.c          |  4 ++--
+ drivers/usb/host/uhci-hcd.c          |  2 +-
+ 5 files changed, 13 insertions(+), 23 deletions(-)
 
-diff --git a/arch/sparc/kernel/kernel.h b/arch/sparc/kernel/kernel.h
-index 30adbec894f7..aea96b6b881c 100644
---- a/arch/sparc/kernel/kernel.h
-+++ b/arch/sparc/kernel/kernel.h
-@@ -112,8 +112,7 @@ extern unsigned int real_irq_entry[];
- extern unsigned int smp4d_ticker[];
+diff --git a/arch/sparc/Kconfig b/arch/sparc/Kconfig
+index 7ae304bab2d8..0fc52c3c7487 100644
+--- a/arch/sparc/Kconfig
++++ b/arch/sparc/Kconfig
+@@ -9,6 +9,10 @@ config 64BIT
  
- /* trampoline_32.S */
--extern unsigned long sun4m_cpu_startup;
--extern unsigned long sun4d_cpu_startup;
-+void leon_smp_cpu_startup(int boot_cpu);
+ 	  Say yes to build a 64-bit kernel - formerly known as sparc64
+ 	  Say no to build a 32-bit kernel - formerly known as sparc
++	  The 32-bit kernel target the synthesizable LEON SPARC processor.
++	  LEON is a part of the GRLIB collection of IP cores that are
++	  distributed under GPL. GRLIB can be downloaded from www.gaisler.com.
++	  You can download a sparc-linux cross-compilation toolchain at www.gaisler.com.
  
- /* signal_32.c */
- asmlinkage void do_sigreturn(struct pt_regs *regs);
-diff --git a/arch/sparc/kernel/trampoline_32.S b/arch/sparc/kernel/trampoline_32.S
-index 82fafeeb3a62..685b20923f6b 100644
---- a/arch/sparc/kernel/trampoline_32.S
-+++ b/arch/sparc/kernel/trampoline_32.S
-@@ -15,136 +15,12 @@
- #include <asm/contregs.h>
- #include <asm/thread_info.h>
+ config SPARC
+ 	bool
+@@ -60,6 +64,10 @@ config SPARC32
+ 	select HAVE_UID16
+ 	select LOCK_MM_AND_FIND_VMA
+ 	select OLD_SIGACTION
++	select USB_EHCI_BIG_ENDIAN_MMIO
++	select USB_EHCI_BIG_ENDIAN_DESC
++	select USB_UHCI_BIG_ENDIAN_MMIO
++	select USB_UHCI_BIG_ENDIAN_DESC
+ 	select ZONE_DMA
  
--	.globl sun4m_cpu_startup
--	.globl sun4d_cpu_startup
--
--	.align 4
--
- /* When we start up a cpu for the first time it enters this routine.
-  * This initializes the chip from whatever state the prom left it
-  * in and sets PIL in %psr to 15, no irqs.
-  */
--
--sun4m_cpu_startup:
--cpu1_startup:
--	sethi	%hi(trapbase_cpu1), %g3
--	b	1f
--	 or	%g3, %lo(trapbase_cpu1), %g3
--
--cpu2_startup:
--	sethi	%hi(trapbase_cpu2), %g3
--	b	1f
--	 or	%g3, %lo(trapbase_cpu2), %g3
--
--cpu3_startup:
--	sethi	%hi(trapbase_cpu3), %g3
--	b	1f
--	 or	%g3, %lo(trapbase_cpu3), %g3
--
--1:
--	/* Set up a sane %psr -- PIL<0xf> S<0x1> PS<0x1> CWP<0x0> */
--	set	(PSR_PIL | PSR_S | PSR_PS), %g1
--	wr	%g1, 0x0, %psr		! traps off though
--	WRITE_PAUSE
--
--	/* Our %wim is one behind CWP */
--	mov	2, %g1
--	wr	%g1, 0x0, %wim
--	WRITE_PAUSE
--
--	/* This identifies "this cpu". */
--	wr	%g3, 0x0, %tbr
--	WRITE_PAUSE
--
--	/* Give ourselves a stack and curptr. */
--	set	current_set, %g5
--	srl	%g3, 10, %g4
--	and	%g4, 0xc, %g4
--	ld	[%g5 + %g4], %g6
--
--	sethi	%hi(THREAD_SIZE - STACKFRAME_SZ), %sp
--	or	%sp, %lo(THREAD_SIZE - STACKFRAME_SZ), %sp
--	add	%g6, %sp, %sp
--
--	/* Turn on traps (PSR_ET). */
--	rd	%psr, %g1
--	wr	%g1, PSR_ET, %psr	! traps on
--	WRITE_PAUSE
--
--	/* Init our caches, etc. */
--	set	poke_srmmu, %g5
--	ld	[%g5], %g5
--	call	%g5
--	 nop
--
--	/* Start this processor. */
--	call	smp_callin
--	 nop
--
--	b,a	smp_panic
--
- 	.text
- 	.align	4
--
--smp_panic:
--	call	cpu_panic
--	 nop
--
--/* CPUID in bootbus can be found at PA 0xff0140000 */
--#define SUN4D_BOOTBUS_CPUID	0xf0140000
--
--	.align	4
--
--sun4d_cpu_startup:
--	/* Set up a sane %psr -- PIL<0xf> S<0x1> PS<0x1> CWP<0x0> */
--	set	(PSR_PIL | PSR_S | PSR_PS), %g1
--	wr	%g1, 0x0, %psr		! traps off though
--	WRITE_PAUSE
--
--	/* Our %wim is one behind CWP */
--	mov	2, %g1
--	wr	%g1, 0x0, %wim
--	WRITE_PAUSE
--
--	/* Set tbr - we use just one trap table. */
--	set	trapbase, %g1
--	wr	%g1, 0x0, %tbr
--	WRITE_PAUSE
--
--	/* Get our CPU id out of bootbus */
--	set	SUN4D_BOOTBUS_CPUID, %g3
--	lduba	[%g3] ASI_M_CTL, %g3
--	and	%g3, 0xf8, %g3
--	srl	%g3, 3, %g1
--	sta	%g1, [%g0] ASI_M_VIKING_TMP1
--
--	/* Give ourselves a stack and curptr. */
--	set	current_set, %g5
--	srl	%g3, 1, %g4
--	ld	[%g5 + %g4], %g6
--
--	sethi	%hi(THREAD_SIZE - STACKFRAME_SZ), %sp
--	or	%sp, %lo(THREAD_SIZE - STACKFRAME_SZ), %sp
--	add	%g6, %sp, %sp
--
--	/* Turn on traps (PSR_ET). */
--	rd	%psr, %g1
--	wr	%g1, PSR_ET, %psr	! traps on
--	WRITE_PAUSE
--
--	/* Init our caches, etc. */
--	set	poke_srmmu, %g5
--	ld	[%g5], %g5
--	call	%g5
--	 nop
--
--	/* Start this processor. */
--	call	smp_callin
--	 nop
--
--	b,a	smp_panic
--
--	.align	4
-         .global leon_smp_cpu_startup, smp_penguin_ctable
+ config SPARC64
+@@ -348,22 +356,6 @@ config SERIAL_CONSOLE
  
- leon_smp_cpu_startup:
-@@ -198,4 +74,5 @@ leon_smp_cpu_startup:
- 	call	smp_callin
- 	 nop
+ 	  If unsure, say N.
  
--	b,a	smp_panic
-+	b,a	cpu_panic
-+	 nop
+-config SPARC_LEON
+-	bool "Sparc Leon processor family"
+-	depends on SPARC32
+-	select USB_EHCI_BIG_ENDIAN_MMIO
+-	select USB_EHCI_BIG_ENDIAN_DESC
+-	select USB_UHCI_BIG_ENDIAN_MMIO
+-	select USB_UHCI_BIG_ENDIAN_DESC
+-	help
+-	  If you say Y here if you are running on a SPARC-LEON processor.
+-	  The LEON processor is a synthesizable VHDL model of the
+-	  SPARC-v8 standard. LEON is  part of the GRLIB collection of
+-	  IP cores that are distributed under GPL. GRLIB can be downloaded
+-	  from www.gaisler.com. You can download a sparc-linux cross-compilation
+-	  toolchain at www.gaisler.com.
+-
+-if SPARC_LEON
+ menu "U-Boot options"
+ 
+ config UBOOT_LOAD_ADDR
+@@ -394,7 +386,6 @@ config UBOOT_ENTRY_ADDR
+ 	 Kernel.
+ 
+ endmenu
+-endif
+ 
+ endmenu
+ 
+@@ -416,7 +407,7 @@ config SUN_LDOMS
+ 
+ config LEON_PCI
+ 	bool
+-	depends on PCI && SPARC_LEON
++	depends on PCI && SPARC32
+ 	default y
+ 
+ config SPARC_GRPCI1
+diff --git a/arch/sparc/configs/sparc32_defconfig b/arch/sparc/configs/sparc32_defconfig
+index 71273fc578bf..dfd326f20876 100644
+--- a/arch/sparc/configs/sparc32_defconfig
++++ b/arch/sparc/configs/sparc32_defconfig
+@@ -10,7 +10,6 @@ CONFIG_BLK_DEV_INITRD=y
+ # CONFIG_RD_ZSTD is not set
+ CONFIG_SMP=y
+ CONFIG_HZ_100=y
+-CONFIG_SPARC_LEON=y
+ CONFIG_SUN_OPENPROMFS=y
+ CONFIG_SUN_OPENPROMIO=y
+ # CONFIG_CORE_DUMP_DEFAULT_ELF_HEADERS is not set
+diff --git a/drivers/usb/host/Kconfig b/drivers/usb/host/Kconfig
+index 4448d0ab06f0..c5f94c70482f 100644
+--- a/drivers/usb/host/Kconfig
++++ b/drivers/usb/host/Kconfig
+@@ -595,7 +595,7 @@ config USB_UHCI_HCD
+ 
+ config USB_UHCI_SUPPORT_NON_PCI_HC
+ 	bool
+-	default y if (SPARC_LEON || USB_UHCI_PLATFORM)
++	default y if (SPARC32 || USB_UHCI_PLATFORM)
+ 
+ config USB_UHCI_PLATFORM
+ 	bool
+diff --git a/drivers/usb/host/ehci-hcd.c b/drivers/usb/host/ehci-hcd.c
+index 802bfafb1012..5011bc8348bb 100644
+--- a/drivers/usb/host/ehci-hcd.c
++++ b/drivers/usb/host/ehci-hcd.c
+@@ -1329,7 +1329,7 @@ MODULE_LICENSE ("GPL");
+ #include "ehci-xilinx-of.c"
+ #endif
+ 
+-#ifdef CONFIG_SPARC_LEON
++#ifdef CONFIG_SPARC32
+ #include "ehci-grlib.c"
+ #endif
+ 
+@@ -1343,7 +1343,7 @@ static struct platform_driver * const platform_drivers[] = {
+ #ifdef CONFIG_XPS_USB_HCD_XILINX
+ 	&ehci_hcd_xilinx_of_driver,
+ #endif
+-#ifdef CONFIG_SPARC_LEON
++#ifdef CONFIG_SPARC32
+ 	&ehci_grlib_driver,
+ #endif
+ };
+diff --git a/drivers/usb/host/uhci-hcd.c b/drivers/usb/host/uhci-hcd.c
+index fd2408b553cf..7cb820963988 100644
+--- a/drivers/usb/host/uhci-hcd.c
++++ b/drivers/usb/host/uhci-hcd.c
+@@ -846,7 +846,7 @@ static const char hcd_name[] = "uhci_hcd";
+ #define	PCI_DRIVER		uhci_pci_driver
+ #endif
+ 
+-#ifdef CONFIG_SPARC_LEON
++#ifdef CONFIG_SPARC32
+ #include "uhci-grlib.c"
+ #define PLATFORM_DRIVER		uhci_grlib_driver
+ #endif
 
 -- 
 2.34.1
