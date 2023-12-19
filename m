@@ -1,53 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 490208192CD
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 23:03:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EE598192ED
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 23:03:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB1FB10E2F7;
-	Tue, 19 Dec 2023 22:03:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5388C10E530;
+	Tue, 19 Dec 2023 22:03:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBE1A10E24E
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 22:03:17 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20C5F10E24E
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 22:03:18 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 64569614E3;
+ by dfw.source.kernel.org (Postfix) with ESMTP id 7576D614E4;
  Tue, 19 Dec 2023 22:03:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6621BC4163D;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 74334C116B3;
  Tue, 19 Dec 2023 22:03:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1703023396;
- bh=jpHwPU0gk4FHdyFw3KgXjHoqiB7e+wJP0mRdIuIuUx0=;
+ bh=bLoZlXD+uyujBiI2QIHjJyBWQ7WHglpOzYi0YEMALhI=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=MBAvXVLekpp934cBCMH0Cys1yiWhQ6CWj65thhlPOr175CXNEr4UTTht5SdpIVUTw
- Oghn75vgOIf83TgLicfTdxuP4qfeZ/tXwG7Thp7AraDLm8x7fxgEz6Ra+zfHfgmqT3
- X6DrvP/UuvtOWS7KKW+WuhKljTaqK0NYo2jDjq6V6Zw+BZ3ThVanJT1H1QggxjvLN7
- xe7b6Cd8qTDMOXn8zMSQZ08SghSgl5kHXJwa/M0mUUJCTx4QZ0I9DMn3zeegCH5xKR
- a6pMstfU9F+Kq42HyQ0i8G/z+fxPlkkw+cFzX1l8ftDqMUaCY9nKwmopB7zpeRxpPO
- odIYzNkcyb3aQ==
+ b=hiFZYARLvw+cpesK+MbG5CFYiNTMuLIBzfQOKzXeuvXzZzQM1qg6OMJD5YXWDasX5
+ zJdVqmsufRiCvLG67nWP0AxNoWTK+GDBOHgkKDH9k12Oxi2O9haAV8gW8NX9kdY4nH
+ 3ngMfjm56Ltl/gXRG67TIvkk8TPfvJTxF/h7ykgrpDbsSZYVxah5vlmrMHYGopjYlv
+ 72sYg21txveDBj2hC0Up40rped7bdo69Q2p3inl4mVPmNvz7p9Qb+8VTCBBhjN2+SF
+ VZdAopWgK4gxmjG3GVWyer30Fy5r9oNx7WRSRfdUKeohDqGv7btdHOUP3jf4mb92lT
+ 7rygtWgpV4l7w==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 53894C46CD2;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 5DA0CC41535;
  Tue, 19 Dec 2023 22:03:16 +0000 (UTC)
 From: Sam Ravnborg via B4 Relay <devnull+sam.ravnborg.org@kernel.org>
-Date: Tue, 19 Dec 2023 23:03:24 +0100
-Subject: [PATCH 19/27] sparc32: Drop additional sun4d bits
+Date: Tue, 19 Dec 2023 23:03:25 +0100
+Subject: [PATCH 20/27] sparc32: Drop unused prom ranges support
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231219-sam-sparc32-sunset-v3-v1-19-64bb44b598c5@ravnborg.org>
+Message-Id: <20231219-sam-sparc32-sunset-v3-v1-20-64bb44b598c5@ravnborg.org>
 References: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
 In-Reply-To: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
 To: "David S. Miller" <davem@davemloft.net>, 
  Arnd Bergmann <arnd@kernel.org>, Andreas Larsson <andreas@gaisler.com>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1703023392; l=24568;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1703023392; l=6494;
  i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=WOwW/xTD5mvfxe2MXV7hahYtctLoaln6PTPy2VeVKFE=; =?utf-8?q?b=3DorF7WX438Tah?=
- =?utf-8?q?CPFGZqUUThn4ZK2sURruS/n77/D7SMZeftaqlMMCIB8ydi6w6M/mNfVT3PNnr4z0?=
- yrJuauytDSpY9masJIVU44ZzjvgHg5eggcVSYQ8gTudQs2eBE9O7
+ bh=JWUMPYjeM7nZeaLhzjjM6ATuORPYfX7XPb+WWflq45I=; =?utf-8?q?b=3DpeEDLnJfNsDv?=
+ =?utf-8?q?bMEUyLIfk5KCN4dAImCHU1GZ0JD0n/cOF0IpbTfq7Erj+RhLDOeOO0ivzmtmiCOY?=
+ w+qPEBwLCvTPNLWgyuz3ImztuQA+VjR0A01A3WxdeMxU5GIypt81
 X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
  pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
 X-Endpoint-Received: by B4 Relay for sam@ravnborg.org/20230107 with auth_id=22
@@ -77,780 +78,186 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sam Ravnborg <sam@ravnborg.org>
 
-Drop sun4d specific support. Not used by LEON.
+Drop support for prom ranges - not used anymore.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Arnd Bergmann <arnd@kernel.org>
 Cc: Andreas Larsson <andreas@gaisler.com>
 ---
- arch/sparc/include/asm/io-unit.h |  59 --------
- arch/sparc/include/asm/obio.h    | 226 -------------------------------
- arch/sparc/include/asm/sbi.h     | 116 ----------------
- arch/sparc/kernel/entry.S        |   1 -
- arch/sparc/kernel/ioport.c       |   1 -
- arch/sparc/mm/Makefile           |   2 +-
- arch/sparc/mm/io-unit.c          | 283 ---------------------------------------
- arch/sparc/mm/srmmu.c            |   1 -
- 8 files changed, 1 insertion(+), 688 deletions(-)
+ arch/sparc/include/asm/oplib_32.h |  11 ----
+ arch/sparc/prom/Makefile          |   1 -
+ arch/sparc/prom/init_32.c         |   2 -
+ arch/sparc/prom/ranges.c          | 114 --------------------------------------
+ 4 files changed, 128 deletions(-)
 
-diff --git a/arch/sparc/include/asm/io-unit.h b/arch/sparc/include/asm/io-unit.h
-deleted file mode 100644
-index 8c38f5b9f927..000000000000
---- a/arch/sparc/include/asm/io-unit.h
-+++ /dev/null
-@@ -1,59 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--/* io-unit.h: Definitions for the sun4d IO-UNIT.
-- *
-- * Copyright (C) 1997,1998 Jakub Jelinek (jj@sunsite.mff.cuni.cz)
-- */
--#ifndef _SPARC_IO_UNIT_H
--#define _SPARC_IO_UNIT_H
--
--#include <linux/spinlock.h>
--#include <linux/pgtable.h>
--#include <asm/page.h>
--
--/* The io-unit handles all virtual to physical address translations
-- * that occur between the SBUS and physical memory.  Access by
-- * the cpu to IO registers and similar go over the xdbus so are
-- * translated by the on chip SRMMU.  The io-unit and the srmmu do
-- * not need to have the same translations at all, in fact most
-- * of the time the translations they handle are a disjunct set.
-- * Basically the io-unit handles all dvma sbus activity.
-- */
-- 
--/* AIEEE, unlike the nice sun4m, these monsters have 
--   fixed DMA range 64M */
-- 
--#define IOUNIT_DMA_BASE	    0xfc000000 /* TOP - 64M */
--#define IOUNIT_DMA_SIZE	    0x04000000 /* 64M */
--/* We use last 1M for sparc_dvma_malloc */
--#define IOUNIT_DVMA_SIZE    0x00100000 /* 1M */
--
--/* The format of an iopte in the external page tables */
--#define IOUPTE_PAGE          0xffffff00 /* Physical page number (PA[35:12])	*/
--#define IOUPTE_CACHE         0x00000080 /* Cached (in Viking/MXCC)		*/
--/* XXX Jakub, find out how to program SBUS streaming cache on XDBUS/sun4d.
-- * XXX Actually, all you should need to do is find out where the registers
-- * XXX are and copy over the sparc64 implementation I wrote.  There may be
-- * XXX some horrible hwbugs though, so be careful.  -DaveM
-- */
--#define IOUPTE_STREAM        0x00000040 /* Translation can use streaming cache	*/
--#define IOUPTE_INTRA	     0x00000008 /* SBUS direct slot->slot transfer	*/
--#define IOUPTE_WRITE         0x00000004 /* Writeable				*/
--#define IOUPTE_VALID         0x00000002 /* IOPTE is valid			*/
--#define IOUPTE_PARITY        0x00000001 /* Parity is checked during DVMA	*/
--
--struct iounit_struct {
--	unsigned long		bmap[(IOUNIT_DMA_SIZE >> (PAGE_SHIFT + 3)) / sizeof(unsigned long)];
--	spinlock_t		lock;
--	iopte_t __iomem		*page_table;
--	unsigned long		rotor[3];
--	unsigned long		limit[4];
--};
--
--#define IOUNIT_BMAP1_START	0x00000000
--#define IOUNIT_BMAP1_END	(IOUNIT_DMA_SIZE >> (PAGE_SHIFT + 1))
--#define IOUNIT_BMAP2_START	IOUNIT_BMAP1_END
--#define IOUNIT_BMAP2_END	IOUNIT_BMAP2_START + (IOUNIT_DMA_SIZE >> (PAGE_SHIFT + 2))
--#define IOUNIT_BMAPM_START	IOUNIT_BMAP2_END
--#define IOUNIT_BMAPM_END	((IOUNIT_DMA_SIZE - IOUNIT_DVMA_SIZE) >> PAGE_SHIFT)
--
--#endif /* !(_SPARC_IO_UNIT_H) */
-diff --git a/arch/sparc/include/asm/obio.h b/arch/sparc/include/asm/obio.h
-deleted file mode 100644
-index 1b151f738b00..000000000000
---- a/arch/sparc/include/asm/obio.h
-+++ /dev/null
-@@ -1,226 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--/*
-- * obio.h:  Some useful locations in 0xFXXXXXXXX PA obio space on sun4d.
-- *
-- * Copyright (C) 1997 Jakub Jelinek <jj@sunsite.mff.cuni.cz>
-- */
--
--#ifndef _SPARC_OBIO_H
--#define _SPARC_OBIO_H
--
--#include <asm/asi.h>
--
--/* This weird monster likes to use the very upper parts of
--   36bit PA for these things :) */
--   
--/* CSR space (for each XDBUS)
-- *  ------------------------------------------------------------------------
-- *  |   0xFE  |   DEVID    |                | XDBUS ID |                   |
-- *  ------------------------------------------------------------------------
-- *  35      28 27        20 19            10 9        8 7                 0
-- */
--   
--#define CSR_BASE_ADDR		0xe0000000
--#define CSR_CPU_SHIFT		(32 - 4 - 5)
--#define CSR_XDBUS_SHIFT		8
--
--#define CSR_BASE(cpu) (((CSR_BASE_ADDR >> CSR_CPU_SHIFT) + cpu) << CSR_CPU_SHIFT)
--
--/* ECSR space (not for each XDBUS)
-- *  ------------------------------------------------------------------------
-- *  |   0xF  | DEVID[7:1] |                			           |
-- *  ------------------------------------------------------------------------
-- *  35     32 31        25 24                 				  0
-- */
--   
--#define ECSR_BASE_ADDR		0x00000000
--#define ECSR_CPU_SHIFT		(32 - 5)
--#define ECSR_DEV_SHIFT		(32 - 8)
--
--#define ECSR_BASE(cpu) ((cpu) << ECSR_CPU_SHIFT)
--#define ECSR_DEV_BASE(devid) ((devid) << ECSR_DEV_SHIFT) 
--
--/* Bus Watcher */
--#define BW_LOCAL_BASE		0xfff00000
--
--#define BW_CID			0x00000000
--#define BW_DBUS_CTRL		0x00000008
--#define BW_DBUS_DATA		0x00000010
--#define BW_CTRL			0x00001000
--#define BW_INTR_TABLE		0x00001040
--#define BW_INTR_TABLE_CLEAR	0x00001080
--#define BW_PRESCALER		0x000010c0
--#define BW_PTIMER_LIMIT		0x00002000
--#define BW_PTIMER_COUNTER2	0x00002004
--#define BW_PTIMER_NDLIMIT	0x00002008
--#define BW_PTIMER_CTRL		0x0000200c
--#define BW_PTIMER_COUNTER	0x00002010
--#define BW_TIMER_LIMIT		0x00003000
--#define BW_TIMER_COUNTER2	0x00003004
--#define BW_TIMER_NDLIMIT	0x00003008
--#define BW_TIMER_CTRL		0x0000300c
--#define BW_TIMER_COUNTER	0x00003010
--
--/* BW Control */
--#define BW_CTRL_USER_TIMER	0x00000004	/* Is User Timer Free run enabled */
--
--/* Boot Bus */
--#define BB_LOCAL_BASE		0xf0000000
--
--#define BB_STAT1		0x00100000
--#define BB_STAT2		0x00120000
--#define BB_STAT3		0x00140000
--#define BB_LEDS			0x002e0000
--
--/* Bits in BB_STAT2 */
--#define BB_STAT2_AC_INTR	0x04	/* Aiee! 5ms and power is gone... */
--#define BB_STAT2_TMP_INTR	0x10	/* My Penguins are burning. Are you able to smell it? */
--#define BB_STAT2_FAN_INTR	0x20	/* My fan refuses to work */
--#define BB_STAT2_PWR_INTR	0x40	/* On SC2000, one of the two ACs died. Ok, we go on... */
--#define BB_STAT2_MASK		(BB_STAT2_AC_INTR|BB_STAT2_TMP_INTR|BB_STAT2_FAN_INTR|BB_STAT2_PWR_INTR)
--
--/* Cache Controller */
--#define CC_BASE		0x1F00000
--#define CC_DATSTREAM	0x1F00000  /* Data stream register */
--#define CC_DATSIZE	0x1F0003F  /* Size */
--#define CC_SRCSTREAM	0x1F00100  /* Source stream register */
--#define CC_DESSTREAM	0x1F00200  /* Destination stream register */
--#define CC_RMCOUNT	0x1F00300  /* Count of references and misses */
--#define CC_IPEN		0x1F00406  /* Pending Interrupts */
--#define CC_IMSK		0x1F00506  /* Interrupt Mask */
--#define CC_ICLR		0x1F00606  /* Clear pending Interrupts */
--#define CC_IGEN		0x1F00704  /* Generate Interrupt register */
--#define CC_STEST	0x1F00804  /* Internal self-test */
--#define CC_CREG		0x1F00A04  /* Control register */
--#define CC_SREG		0x1F00B00  /* Status register */
--#define CC_RREG		0x1F00C04  /* Reset register */
--#define CC_EREG		0x1F00E00  /* Error code register */
--#define CC_CID		0x1F00F04  /* Component ID */
--
--#ifndef __ASSEMBLY__
--
--static inline int bw_get_intr_mask(int sbus_level)
--{
--	int mask;
--	
--	__asm__ __volatile__ ("lduha [%1] %2, %0" :
--			      "=r" (mask) :
--			      "r" (BW_LOCAL_BASE + BW_INTR_TABLE + (sbus_level << 3)),
--			      "i" (ASI_M_CTL));
--	return mask;
--}
--
--static inline void bw_clear_intr_mask(int sbus_level, int mask)
--{
--	__asm__ __volatile__ ("stha %0, [%1] %2" : :
--			      "r" (mask),
--			      "r" (BW_LOCAL_BASE + BW_INTR_TABLE_CLEAR + (sbus_level << 3)),
--			      "i" (ASI_M_CTL));
--}
--
--static inline unsigned int bw_get_prof_limit(int cpu)
--{
--	unsigned int limit;
--	
--	__asm__ __volatile__ ("lda [%1] %2, %0" :
--			      "=r" (limit) :
--			      "r" (CSR_BASE(cpu) + BW_PTIMER_LIMIT),
--			      "i" (ASI_M_CTL));
--	return limit;
--}
--
--static inline void bw_set_prof_limit(int cpu, unsigned int limit)
--{
--	__asm__ __volatile__ ("sta %0, [%1] %2" : :
--			      "r" (limit),
--			      "r" (CSR_BASE(cpu) + BW_PTIMER_LIMIT),
--			      "i" (ASI_M_CTL));
--}
--
--static inline unsigned int bw_get_ctrl(int cpu)
--{
--	unsigned int ctrl;
--	
--	__asm__ __volatile__ ("lda [%1] %2, %0" :
--			      "=r" (ctrl) :
--			      "r" (CSR_BASE(cpu) + BW_CTRL),
--			      "i" (ASI_M_CTL));
--	return ctrl;
--}
--
--static inline void bw_set_ctrl(int cpu, unsigned int ctrl)
--{
--	__asm__ __volatile__ ("sta %0, [%1] %2" : :
--			      "r" (ctrl),
--			      "r" (CSR_BASE(cpu) + BW_CTRL),
--			      "i" (ASI_M_CTL));
--}
--
--static inline unsigned int cc_get_ipen(void)
--{
--	unsigned int pending;
--	
--	__asm__ __volatile__ ("lduha [%1] %2, %0" :
--			      "=r" (pending) :
--			      "r" (CC_IPEN),
--			      "i" (ASI_M_MXCC));
--	return pending;
--}
--
--static inline void cc_set_iclr(unsigned int clear)
--{
--	__asm__ __volatile__ ("stha %0, [%1] %2" : :
--			      "r" (clear),
--			      "r" (CC_ICLR),
--			      "i" (ASI_M_MXCC));
--}
--
--static inline unsigned int cc_get_imsk(void)
--{
--	unsigned int mask;
--	
--	__asm__ __volatile__ ("lduha [%1] %2, %0" :
--			      "=r" (mask) :
--			      "r" (CC_IMSK),
--			      "i" (ASI_M_MXCC));
--	return mask;
--}
--
--static inline void cc_set_imsk(unsigned int mask)
--{
--	__asm__ __volatile__ ("stha %0, [%1] %2" : :
--			      "r" (mask),
--			      "r" (CC_IMSK),
--			      "i" (ASI_M_MXCC));
--}
--
--static inline unsigned int cc_get_imsk_other(int cpuid)
--{
--	unsigned int mask;
--	
--	__asm__ __volatile__ ("lduha [%1] %2, %0" :
--			      "=r" (mask) :
--			      "r" (ECSR_BASE(cpuid) | CC_IMSK),
--			      "i" (ASI_M_CTL));
--	return mask;
--}
--
--static inline void cc_set_imsk_other(int cpuid, unsigned int mask)
--{
--	__asm__ __volatile__ ("stha %0, [%1] %2" : :
--			      "r" (mask),
--			      "r" (ECSR_BASE(cpuid) | CC_IMSK),
--			      "i" (ASI_M_CTL));
--}
--
--static inline void cc_set_igen(unsigned int gen)
--{
--	__asm__ __volatile__ ("sta %0, [%1] %2" : :
--			      "r" (gen),
--			      "r" (CC_IGEN),
--			      "i" (ASI_M_MXCC));
--}
--
--#endif /* !__ASSEMBLY__ */
--
--#endif /* !(_SPARC_OBIO_H) */
-diff --git a/arch/sparc/include/asm/sbi.h b/arch/sparc/include/asm/sbi.h
-deleted file mode 100644
-index 4d6026c1e446..000000000000
---- a/arch/sparc/include/asm/sbi.h
-+++ /dev/null
-@@ -1,116 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--/*
-- * sbi.h:  SBI (Sbus Interface on sun4d) definitions
-- *
-- * Copyright (C) 1997 Jakub Jelinek <jj@sunsite.mff.cuni.cz>
-- */
--
--#ifndef _SPARC_SBI_H
--#define _SPARC_SBI_H
--
--#include <asm/obio.h>
--
--/* SBI */
--struct sbi_regs {
--/* 0x0000 */	u32		cid;		/* Component ID */
--/* 0x0004 */	u32		ctl;		/* Control */
--/* 0x0008 */	u32		status;		/* Status */
--		u32		_unused1;
--		
--/* 0x0010 */	u32		cfg0;		/* Slot0 config reg */
--/* 0x0014 */	u32		cfg1;		/* Slot1 config reg */
--/* 0x0018 */	u32		cfg2;		/* Slot2 config reg */
--/* 0x001c */	u32		cfg3;		/* Slot3 config reg */
--
--/* 0x0020 */	u32		stb0;		/* Streaming buf control for slot 0 */
--/* 0x0024 */	u32		stb1;		/* Streaming buf control for slot 1 */
--/* 0x0028 */	u32		stb2;		/* Streaming buf control for slot 2 */
--/* 0x002c */	u32		stb3;		/* Streaming buf control for slot 3 */
--
--/* 0x0030 */	u32		intr_state;	/* Interrupt state */
--/* 0x0034 */	u32		intr_tid;	/* Interrupt target ID */
--/* 0x0038 */	u32		intr_diag;	/* Interrupt diagnostics */
--};
--
--#define SBI_CID			0x02800000
--#define SBI_CTL			0x02800004
--#define SBI_STATUS		0x02800008
--#define SBI_CFG0		0x02800010
--#define SBI_CFG1		0x02800014
--#define SBI_CFG2		0x02800018
--#define SBI_CFG3		0x0280001c
--#define SBI_STB0		0x02800020
--#define SBI_STB1		0x02800024
--#define SBI_STB2		0x02800028
--#define SBI_STB3		0x0280002c
--#define SBI_INTR_STATE		0x02800030
--#define SBI_INTR_TID		0x02800034
--#define SBI_INTR_DIAG		0x02800038
--
--/* Burst bits for 8, 16, 32, 64 are in cfgX registers at bits 2, 3, 4, 5 respectively */
--#define SBI_CFG_BURST_MASK	0x0000001e
--
--/* How to make devid from sbi no */
--#define SBI2DEVID(sbino) ((sbino<<4)|2)
--
--/* intr_state has 4 bits for slots 0 .. 3 and these bits are repeated for each sbus irq level
-- *
-- *		   +-------+-------+-------+-------+-------+-------+-------+-------+
-- *  SBUS IRQ LEVEL |   7   |   6   |   5   |   4   |   3   |   2   |   1   |       |
-- *		   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ Reser |
-- *  SLOT #         |3|2|1|0|3|2|1|0|3|2|1|0|3|2|1|0|3|2|1|0|3|2|1|0|3|2|1|0|  ved  |
-- *                 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-------+
-- *  Bits           31      27      23      19      15      11      7       3      0
-- */
--
--
--#ifndef __ASSEMBLY__
--
--static inline int acquire_sbi(int devid, int mask)
--{
--	__asm__ __volatile__ ("swapa [%2] %3, %0" :
--			      "=r" (mask) :
--			      "0" (mask),
--			      "r" (ECSR_DEV_BASE(devid) | SBI_INTR_STATE),
--			      "i" (ASI_M_CTL));
--	return mask;
--}
--
--static inline void release_sbi(int devid, int mask)
--{
--	__asm__ __volatile__ ("sta %0, [%1] %2" : :
--			      "r" (mask),
--			      "r" (ECSR_DEV_BASE(devid) | SBI_INTR_STATE),
--			      "i" (ASI_M_CTL));
--}
--
--static inline void set_sbi_tid(int devid, int targetid)
--{
--	__asm__ __volatile__ ("sta %0, [%1] %2" : :
--			      "r" (targetid),
--			      "r" (ECSR_DEV_BASE(devid) | SBI_INTR_TID),
--			      "i" (ASI_M_CTL));
--}
--
--static inline int get_sbi_ctl(int devid, int cfgno)
--{
--	int cfg;
--	
--	__asm__ __volatile__ ("lda [%1] %2, %0" :
--			      "=r" (cfg) :
--			      "r" ((ECSR_DEV_BASE(devid) | SBI_CFG0) + (cfgno<<2)),
--			      "i" (ASI_M_CTL));
--	return cfg;
--}
--
--static inline void set_sbi_ctl(int devid, int cfgno, int cfg)
--{
--	__asm__ __volatile__ ("sta %0, [%1] %2" : :
--			      "r" (cfg),
--			      "r" ((ECSR_DEV_BASE(devid) | SBI_CFG0) + (cfgno<<2)),
--			      "i" (ASI_M_CTL));
--}
--
--#endif /* !__ASSEMBLY__ */
--
--#endif /* !(_SPARC_SBI_H) */
-diff --git a/arch/sparc/kernel/entry.S b/arch/sparc/kernel/entry.S
-index 078a8f7f8383..eecbe0be7bf6 100644
---- a/arch/sparc/kernel/entry.S
-+++ b/arch/sparc/kernel/entry.S
-@@ -24,7 +24,6 @@
- #include <asm/page.h>
- #include <asm/winmacro.h>
- #include <asm/signal.h>
--#include <asm/obio.h>
- #include <asm/thread_info.h>
- #include <asm/param.h>
- #include <asm/unistd.h>
-diff --git a/arch/sparc/kernel/ioport.c b/arch/sparc/kernel/ioport.c
-index cf0ace29704a..745579a40785 100644
---- a/arch/sparc/kernel/ioport.c
-+++ b/arch/sparc/kernel/ioport.c
-@@ -49,7 +49,6 @@
- #include <asm/pgalloc.h>
- #include <asm/dma.h>
- #include <asm/iommu.h>
--#include <asm/io-unit.h>
- #include <asm/leon.h>
+diff --git a/arch/sparc/include/asm/oplib_32.h b/arch/sparc/include/asm/oplib_32.h
+index d1cf3a27a40d..4ef7f05978d3 100644
+--- a/arch/sparc/include/asm/oplib_32.h
++++ b/arch/sparc/include/asm/oplib_32.h
+@@ -163,17 +163,6 @@ int prom_setprop(phandle node, const char *prop_name, char *prop_value,
  
- static void __iomem *_sparc_ioremap(struct resource *res, u32 bus, u32 pa, int sz);
-diff --git a/arch/sparc/mm/Makefile b/arch/sparc/mm/Makefile
-index 357a5816a6bf..ee33053b170a 100644
---- a/arch/sparc/mm/Makefile
-+++ b/arch/sparc/mm/Makefile
-@@ -8,7 +8,7 @@ ccflags-y := -Werror
- obj-$(CONFIG_SPARC64)   += ultra.o tlb.o tsb.o
- obj-y                   += fault_$(BITS).o
- obj-y                   += init_$(BITS).o
--obj-$(CONFIG_SPARC32)   += srmmu.o iommu.o io-unit.o
-+obj-$(CONFIG_SPARC32)   += srmmu.o iommu.o
- obj-$(CONFIG_SPARC32)   += leon_mm.o
+ phandle prom_inst2pkg(int);
  
- # Only used by sparc64
-diff --git a/arch/sparc/mm/io-unit.c b/arch/sparc/mm/io-unit.c
+-/* Dorking with Bus ranges... */
+-
+-/* Apply promlib probes OBIO ranges to registers. */
+-void prom_apply_obio_ranges(struct linux_prom_registers *obioregs, int nregs);
+-
+-/* Apply ranges of any prom node (and optionally parent node as well) to registers. */
+-void prom_apply_generic_ranges(phandle node, phandle parent,
+-			       struct linux_prom_registers *sbusregs, int nregs);
+-
+-void prom_ranges_init(void);
+-
+ /* CPU probing helpers.  */
+ int cpu_find_by_instance(int instance, phandle *prom_node, int *mid);
+ int cpu_find_by_mid(int mid, phandle *prom_node);
+diff --git a/arch/sparc/prom/Makefile b/arch/sparc/prom/Makefile
+index 397b79af77f7..6d94d8b28bcf 100644
+--- a/arch/sparc/prom/Makefile
++++ b/arch/sparc/prom/Makefile
+@@ -10,7 +10,6 @@ lib-y                 += init_$(BITS).o
+ lib-$(CONFIG_SPARC32) += memory.o
+ lib-y                 += misc_$(BITS).o
+ lib-$(CONFIG_SPARC32) += mp.o
+-lib-$(CONFIG_SPARC32) += ranges.o
+ lib-y                 += console_$(BITS).o
+ lib-y                 += printf.o
+ lib-y                 += tree_$(BITS).o
+diff --git a/arch/sparc/prom/init_32.c b/arch/sparc/prom/init_32.c
+index d20470166cb1..1681f1f980d4 100644
+--- a/arch/sparc/prom/init_32.c
++++ b/arch/sparc/prom/init_32.c
+@@ -67,8 +67,6 @@ void __init prom_init(struct linux_romvec *rp)
+ 
+ 	prom_meminit();
+ 
+-	prom_ranges_init();
+-
+ 	printk("PROMLIB: Sun Boot Prom Version %d Revision %d\n",
+ 	       romvec->pv_romvers, prom_rev);
+ 
+diff --git a/arch/sparc/prom/ranges.c b/arch/sparc/prom/ranges.c
 deleted file mode 100644
-index a2cfa8757795..000000000000
---- a/arch/sparc/mm/io-unit.c
+index 20cb828bc5f4..000000000000
+--- a/arch/sparc/prom/ranges.c
 +++ /dev/null
-@@ -1,283 +0,0 @@
+@@ -1,114 +0,0 @@
 -// SPDX-License-Identifier: GPL-2.0
 -/*
-- * io-unit.c:  IO-UNIT specific routines for memory management.
+- * ranges.c: Handle ranges in newer proms for obio/sbus.
 - *
-- * Copyright (C) 1997,1998 Jakub Jelinek    (jj@sunsite.mff.cuni.cz)
+- * Copyright (C) 1995 David S. Miller (davem@caip.rutgers.edu)
+- * Copyright (C) 1997 Jakub Jelinek (jj@sunsite.mff.cuni.cz)
 - */
-- 
--#include <linux/kernel.h>
+-
 -#include <linux/init.h>
--#include <linux/slab.h>
--#include <linux/spinlock.h>
--#include <linux/mm.h>
--#include <linux/bitops.h>
--#include <linux/dma-map-ops.h>
--#include <linux/of.h>
--#include <linux/of_platform.h>
--#include <linux/platform_device.h>
+-#include <linux/module.h>
 -
--#include <asm/io.h>
--#include <asm/io-unit.h>
--#include <asm/cacheflush.h>
--#include <asm/tlbflush.h>
--#include <asm/dma.h>
+-#include <asm/openprom.h>
 -#include <asm/oplib.h>
+-#include <asm/types.h>
 -
--#include "mm_32.h"
+-static struct linux_prom_ranges promlib_obio_ranges[PROMREG_MAX];
+-static int num_obio_ranges;
 -
--/* #define IOUNIT_DEBUG */
--#ifdef IOUNIT_DEBUG
--#define IOD(x) printk(x)
--#else
--#define IOD(x) do { } while (0)
--#endif
--
--#define IOPERM        (IOUPTE_CACHE | IOUPTE_WRITE | IOUPTE_VALID)
--#define MKIOPTE(phys) __iopte((((phys)>>4) & IOUPTE_PAGE) | IOPERM)
--
--static const struct dma_map_ops iounit_dma_ops;
--
--static void __init iounit_iommu_init(struct platform_device *op)
+-/* Adjust register values based upon the ranges parameters. */
+-static void prom_adjust_regs(struct linux_prom_registers *regp, int nregs,
+-			     struct linux_prom_ranges *rangep, int nranges)
 -{
--	struct iounit_struct *iounit;
--	iopte_t __iomem *xpt;
--	iopte_t __iomem *xptend;
+-	int regc, rngc;
 -
--	iounit = kzalloc(sizeof(struct iounit_struct), GFP_ATOMIC);
--	if (!iounit) {
--		prom_printf("SUN4D: Cannot alloc iounit, halting.\n");
--		prom_halt();
+-	for (regc = 0; regc < nregs; regc++) {
+-		for (rngc = 0; rngc < nranges; rngc++)
+-			if (regp[regc].which_io == rangep[rngc].ot_child_space)
+-				break; /* Fount it */
+-		if (rngc == nranges) /* oops */
+-			prom_printf("adjust_regs: Could not find range with matching bus type...\n");
+-		regp[regc].which_io = rangep[rngc].ot_parent_space;
+-		regp[regc].phys_addr -= rangep[rngc].ot_child_base;
+-		regp[regc].phys_addr += rangep[rngc].ot_parent_base;
 -	}
--
--	iounit->limit[0] = IOUNIT_BMAP1_START;
--	iounit->limit[1] = IOUNIT_BMAP2_START;
--	iounit->limit[2] = IOUNIT_BMAPM_START;
--	iounit->limit[3] = IOUNIT_BMAPM_END;
--	iounit->rotor[1] = IOUNIT_BMAP2_START;
--	iounit->rotor[2] = IOUNIT_BMAPM_START;
--
--	xpt = of_ioremap(&op->resource[2], 0, PAGE_SIZE * 16, "XPT");
--	if (!xpt) {
--		prom_printf("SUN4D: Cannot map External Page Table.");
--		prom_halt();
--	}
--	
--	op->dev.archdata.iommu = iounit;
--	iounit->page_table = xpt;
--	spin_lock_init(&iounit->lock);
--
--	xptend = iounit->page_table + (16 * PAGE_SIZE) / sizeof(iopte_t);
--	for (; xpt < xptend; xpt++)
--		sbus_writel(0, xpt);
--
--	op->dev.dma_ops = &iounit_dma_ops;
 -}
 -
--static int __init iounit_init(void)
+-static void prom_adjust_ranges(struct linux_prom_ranges *ranges1, int nranges1,
+-			       struct linux_prom_ranges *ranges2, int nranges2)
 -{
--	extern void sun4d_init_sbi_irq(void);
--	struct device_node *dp;
+-	int rng1c, rng2c;
 -
--	for_each_node_by_name(dp, "sbi") {
--		struct platform_device *op = of_find_device_by_node(dp);
--
--		iounit_iommu_init(op);
--		of_propagate_archdata(op);
+-	for (rng1c = 0; rng1c < nranges1; rng1c++) {
+-		for (rng2c = 0; rng2c < nranges2; rng2c++)
+-			if (ranges1[rng1c].ot_parent_space == ranges2[rng2c].ot_child_space &&
+-			   ranges1[rng1c].ot_parent_base >= ranges2[rng2c].ot_child_base &&
+-			   ranges2[rng2c].ot_child_base + ranges2[rng2c].or_size - ranges1[rng1c].ot_parent_base > 0U)
+-			break;
+-		if (rng2c == nranges2) /* oops */
+-			prom_printf("adjust_ranges: Could not find matching bus type...\n");
+-		else if (ranges1[rng1c].ot_parent_base + ranges1[rng1c].or_size > ranges2[rng2c].ot_child_base + ranges2[rng2c].or_size)
+-			ranges1[rng1c].or_size = ranges2[rng2c].ot_child_base + ranges2[rng2c].or_size - ranges1[rng1c].ot_parent_base;
+-		ranges1[rng1c].ot_parent_space = ranges2[rng2c].ot_parent_space;
+-		ranges1[rng1c].ot_parent_base += ranges2[rng2c].ot_parent_base;
 -	}
--
--	return 0;
 -}
 -
--subsys_initcall(iounit_init);
--
--/* One has to hold iounit->lock to call this */
--static unsigned long iounit_get_area(struct iounit_struct *iounit, unsigned long vaddr, int size)
+-/* Apply probed obio ranges to registers passed, if no ranges return. */
+-void prom_apply_obio_ranges(struct linux_prom_registers *regs, int nregs)
 -{
--	int i, j, k, npages;
--	unsigned long rotor, scan, limit;
--	iopte_t iopte;
+-	if (num_obio_ranges)
+-		prom_adjust_regs(regs, nregs, promlib_obio_ranges, num_obio_ranges);
+-}
+-EXPORT_SYMBOL(prom_apply_obio_ranges);
 -
--        npages = ((vaddr & ~PAGE_MASK) + size + (PAGE_SIZE-1)) >> PAGE_SHIFT;
+-void __init prom_ranges_init(void)
+-{
+-	phandle node, obio_node;
+-	int success;
 -
--	/* A tiny bit of magic ingredience :) */
--	switch (npages) {
--	case 1: i = 0x0231; break;
--	case 2: i = 0x0132; break;
--	default: i = 0x0213; break;
+-	num_obio_ranges = 0;
+-
+-	/* Check for obio and sbus ranges. */
+-	node = prom_getchild(prom_root_node);
+-	obio_node = prom_searchsiblings(node, "obio");
+-
+-	if (obio_node) {
+-		success = prom_getproperty(obio_node, "ranges",
+-					   (char *) promlib_obio_ranges,
+-					   sizeof(promlib_obio_ranges));
+-		if (success != -1)
+-			num_obio_ranges = (success / sizeof(struct linux_prom_ranges));
 -	}
--	
--	IOD(("iounit_get_area(%08lx,%d[%d])=", vaddr, size, npages));
--	
--next:	j = (i & 15);
--	rotor = iounit->rotor[j - 1];
--	limit = iounit->limit[j];
--	scan = rotor;
--nexti:	scan = find_next_zero_bit(iounit->bmap, limit, scan);
--	if (scan + npages > limit) {
--		if (limit != rotor) {
--			limit = rotor;
--			scan = iounit->limit[j - 1];
--			goto nexti;
+-
+-	if (num_obio_ranges)
+-		prom_printf("PROMLIB: obio_ranges %d\n", num_obio_ranges);
+-}
+-
+-void prom_apply_generic_ranges(phandle node, phandle parent,
+-			       struct linux_prom_registers *regs, int nregs)
+-{
+-	int success;
+-	int num_ranges;
+-	struct linux_prom_ranges ranges[PROMREG_MAX];
+-
+-	success = prom_getproperty(node, "ranges",
+-				   (char *) ranges,
+-				   sizeof(ranges));
+-	if (success != -1) {
+-		num_ranges = (success / sizeof(struct linux_prom_ranges));
+-		if (parent) {
+-			struct linux_prom_ranges parent_ranges[PROMREG_MAX];
+-			int num_parent_ranges;
+-
+-			success = prom_getproperty(parent, "ranges",
+-						   (char *) parent_ranges,
+-						   sizeof(parent_ranges));
+-			if (success != -1) {
+-				num_parent_ranges = (success / sizeof(struct linux_prom_ranges));
+-				prom_adjust_ranges(ranges, num_ranges, parent_ranges, num_parent_ranges);
+-			}
 -		}
--		i >>= 4;
--		if (!(i & 15))
--			panic("iounit_get_area: Couldn't find free iopte slots for (%08lx,%d)\n", vaddr, size);
--		goto next;
+-		prom_adjust_regs(regs, nregs, ranges, num_ranges);
 -	}
--	for (k = 1, scan++; k < npages; k++)
--		if (test_bit(scan++, iounit->bmap))
--			goto nexti;
--	iounit->rotor[j - 1] = (scan < limit) ? scan : iounit->limit[j - 1];
--	scan -= npages;
--	iopte = MKIOPTE(__pa(vaddr & PAGE_MASK));
--	vaddr = IOUNIT_DMA_BASE + (scan << PAGE_SHIFT) + (vaddr & ~PAGE_MASK);
--	for (k = 0; k < npages; k++, iopte = __iopte(iopte_val(iopte) + 0x100), scan++) {
--		set_bit(scan, iounit->bmap);
--		sbus_writel(iopte_val(iopte), &iounit->page_table[scan]);
--	}
--	IOD(("%08lx\n", vaddr));
--	return vaddr;
 -}
--
--static dma_addr_t iounit_map_page(struct device *dev, struct page *page,
--		unsigned long offset, size_t len, enum dma_data_direction dir,
--		unsigned long attrs)
--{
--	void *vaddr = page_address(page) + offset;
--	struct iounit_struct *iounit = dev->archdata.iommu;
--	unsigned long ret, flags;
--	
--	/* XXX So what is maxphys for us and how do drivers know it? */
--	if (!len || len > 256 * 1024)
--		return DMA_MAPPING_ERROR;
--
--	spin_lock_irqsave(&iounit->lock, flags);
--	ret = iounit_get_area(iounit, (unsigned long)vaddr, len);
--	spin_unlock_irqrestore(&iounit->lock, flags);
--	return ret;
--}
--
--static int iounit_map_sg(struct device *dev, struct scatterlist *sgl, int nents,
--		enum dma_data_direction dir, unsigned long attrs)
--{
--	struct iounit_struct *iounit = dev->archdata.iommu;
--	struct scatterlist *sg;
--	unsigned long flags;
--	int i;
--
--	/* FIXME: Cache some resolved pages - often several sg entries are to the same page */
--	spin_lock_irqsave(&iounit->lock, flags);
--	for_each_sg(sgl, sg, nents, i) {
--		sg->dma_address = iounit_get_area(iounit, (unsigned long) sg_virt(sg), sg->length);
--		sg->dma_length = sg->length;
--	}
--	spin_unlock_irqrestore(&iounit->lock, flags);
--	return nents;
--}
--
--static void iounit_unmap_page(struct device *dev, dma_addr_t vaddr, size_t len,
--		enum dma_data_direction dir, unsigned long attrs)
--{
--	struct iounit_struct *iounit = dev->archdata.iommu;
--	unsigned long flags;
--	
--	spin_lock_irqsave(&iounit->lock, flags);
--	len = ((vaddr & ~PAGE_MASK) + len + (PAGE_SIZE-1)) >> PAGE_SHIFT;
--	vaddr = (vaddr - IOUNIT_DMA_BASE) >> PAGE_SHIFT;
--	IOD(("iounit_release %08lx-%08lx\n", (long)vaddr, (long)len+vaddr));
--	for (len += vaddr; vaddr < len; vaddr++)
--		clear_bit(vaddr, iounit->bmap);
--	spin_unlock_irqrestore(&iounit->lock, flags);
--}
--
--static void iounit_unmap_sg(struct device *dev, struct scatterlist *sgl,
--		int nents, enum dma_data_direction dir, unsigned long attrs)
--{
--	struct iounit_struct *iounit = dev->archdata.iommu;
--	unsigned long flags, vaddr, len;
--	struct scatterlist *sg;
--	int i;
--
--	spin_lock_irqsave(&iounit->lock, flags);
--	for_each_sg(sgl, sg, nents, i) {
--		len = ((sg->dma_address & ~PAGE_MASK) + sg->length + (PAGE_SIZE-1)) >> PAGE_SHIFT;
--		vaddr = (sg->dma_address - IOUNIT_DMA_BASE) >> PAGE_SHIFT;
--		IOD(("iounit_release %08lx-%08lx\n", (long)vaddr, (long)len+vaddr));
--		for (len += vaddr; vaddr < len; vaddr++)
--			clear_bit(vaddr, iounit->bmap);
--	}
--	spin_unlock_irqrestore(&iounit->lock, flags);
--}
--
--#ifdef CONFIG_SBUS
--static void *iounit_alloc(struct device *dev, size_t len,
--		dma_addr_t *dma_handle, gfp_t gfp, unsigned long attrs)
--{
--	struct iounit_struct *iounit = dev->archdata.iommu;
--	unsigned long va, addr, page, end, ret;
--	pgprot_t dvma_prot;
--	iopte_t __iomem *iopte;
--
--	/* XXX So what is maxphys for us and how do drivers know it? */
--	if (!len || len > 256 * 1024)
--		return NULL;
--
--	len = PAGE_ALIGN(len);
--	va = __get_free_pages(gfp | __GFP_ZERO, get_order(len));
--	if (!va)
--		return NULL;
--
--	addr = ret = sparc_dma_alloc_resource(dev, len);
--	if (!addr)
--		goto out_free_pages;
--	*dma_handle = addr;
--
--	dvma_prot = __pgprot(SRMMU_CACHE | SRMMU_ET_PTE | SRMMU_PRIV);
--	end = PAGE_ALIGN((addr + len));
--	while(addr < end) {
--		page = va;
--		{
--			pmd_t *pmdp;
--			pte_t *ptep;
--			long i;
--
--			pmdp = pmd_off_k(addr);
--			ptep = pte_offset_kernel(pmdp, addr);
--
--			set_pte(ptep, mk_pte(virt_to_page(page), dvma_prot));
--
--			i = ((addr - IOUNIT_DMA_BASE) >> PAGE_SHIFT);
--
--			iopte = iounit->page_table + i;
--			sbus_writel(iopte_val(MKIOPTE(__pa(page))), iopte);
--		}
--		addr += PAGE_SIZE;
--		va += PAGE_SIZE;
--	}
--	flush_cache_all();
--	flush_tlb_all();
--
--	return (void *)ret;
--
--out_free_pages:
--	free_pages(va, get_order(len));
--	return NULL;
--}
--
--static void iounit_free(struct device *dev, size_t size, void *cpu_addr,
--		dma_addr_t dma_addr, unsigned long attrs)
--{
--	/* XXX Somebody please fill this in */
--}
--#endif
--
--static const struct dma_map_ops iounit_dma_ops = {
--#ifdef CONFIG_SBUS
--	.alloc			= iounit_alloc,
--	.free			= iounit_free,
--#endif
--	.map_page		= iounit_map_page,
--	.unmap_page		= iounit_unmap_page,
--	.map_sg			= iounit_map_sg,
--	.unmap_sg		= iounit_unmap_sg,
--};
-diff --git a/arch/sparc/mm/srmmu.c b/arch/sparc/mm/srmmu.c
-index 4a3778549c6f..949247a6896b 100644
---- a/arch/sparc/mm/srmmu.c
-+++ b/arch/sparc/mm/srmmu.c
-@@ -26,7 +26,6 @@
- #include <asm/mmu_context.h>
- #include <asm/cacheflush.h>
- #include <asm/tlbflush.h>
--#include <asm/io-unit.h>
- #include <asm/pgalloc.h>
- #include <asm/pgtable.h>
- #include <asm/bitext.h>
 
 -- 
 2.34.1
