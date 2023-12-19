@@ -1,45 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0C2281850E
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 11:11:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C448681863C
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 12:21:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 513A610E43D;
-	Tue, 19 Dec 2023 10:11:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B503210E092;
+	Tue, 19 Dec 2023 11:21:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [IPv6:2a00:1098:ed:100::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CD4510E43D
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 10:11:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1702980661;
- bh=pj0lIA9Q31kjFuIIwauPHWLe6dxO8mUSAxs/Y/O05fE=;
- h=Date:From:Subject:To:Cc:From;
- b=EuVUp0u4zuytOE5fNxYB3j0yd1OVnJEE6GLKgLjmx/aFplW/WyN4tgOgknfIe9b0A
- v3/EpqhI1xCdZzEwMeldks2pNcvohMiMagZdm8DuZVu1R5QORuji7KLb/mJEqouiZ5
- KUKUnQncTevvLo/cjNka/c3mYE31RndhdxL4nbHSmVgNZ+tY9sSaRlBx1mGOCIKOlz
- cr0dyM3Wr73Gt/YJDejfTmUzKmnFpnBBPKmEIZ28cdf23z1XevP16lXWYT2Vwp5NuZ
- PsFhC6bxYFAagBQJKem62asn0n3vgqyZAWOaroajRPoqWBEmwCMlYDOmvSWU39TIPT
- MMJRHPrGfxbgw==
-Received: from [100.66.96.193] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: vignesh)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 1C37D37813F2;
- Tue, 19 Dec 2023 10:10:57 +0000 (UTC)
-Message-ID: <931e3f9a-9c5c-fc42-16fc-abaac4e0c0ff@collabora.com>
-Date: Tue, 19 Dec 2023 15:40:49 +0530
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFDB410E092
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 11:21:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1702984864;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=vrHI+C/8N+6WMywKa2Mtsu2yooelBSjntgs3OJkiMbU=;
+ b=FbsilIYeF3RsncUdVN7rQ3di0eQk8hVAJJDzNv7MySQyfdMY7QEVxBDkgzoWsa8ms0f5X3
+ ukmM1GdDKN8y9K3ad5uKVYezC6cBpJL1mebK3+NMwifRXWRvrZx0aMlZglTtmULSHA+1gl
+ ckkpQdbNTknDle359NwcyH4a7Z8pHfM=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-688-c3Ikp-UGN1iRCRl8UH6ZhA-1; Tue, 19 Dec 2023 06:21:00 -0500
+X-MC-Unique: c3Ikp-UGN1iRCRl8UH6ZhA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-33676de86b9so9313f8f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 03:20:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1702984859; x=1703589659;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=vrHI+C/8N+6WMywKa2Mtsu2yooelBSjntgs3OJkiMbU=;
+ b=p5WdgRl+mcd7oaVeaask1oQGqEsIZ6bNZzfSquhIeVJgHE/0nUjYEJSIbioRMJwenm
+ T8hJ728ox4PcpDl4kwneSfRNLPOSK5EMhD+CVt70s2LuUVNsHv0deXDuVn3O50JnuzOq
+ gsdQB6imMAY1Yq/r/7cUH+DOc1vI1/ilU9/5XfRfdZ4NmWMSrWuPondDYKOyEZaTBnAS
+ cM7sNCy87adeNQ3tdBgLVLyH1rBeFICcYF70cnC3+EaufKSn/bskIRBqbI1TiTY/COeF
+ L1vtnvISnDGCFeAR0ncvsUlCobjuZAHPppjykFj0kwBfnGf+ycMTV/iJG5/s06jR1Uf3
+ 586g==
+X-Gm-Message-State: AOJu0Yzbj6In69cbIjkLA0rsqWKLRXc8utKTtlChNsuQJy/Cz0hiX3Wc
+ JRe4uu2xwrkEYJnvwVOXugRBB7RibQ6HaAo20u8YYeetVyNES8r+pjTJ+bqa9cQYb/V6dc0Gi7u
+ HFc+Z9zmwR+gVwo3lbGteRVL9PQ0y
+X-Received: by 2002:a5d:4d05:0:b0:336:58fb:f458 with SMTP id
+ z5-20020a5d4d05000000b0033658fbf458mr2986536wrt.36.1702984858887; 
+ Tue, 19 Dec 2023 03:20:58 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEm9OABKgWalersq3dWUQ+/G4ZU/EwjszYlINMkbd4HSl17b3TLGC/tl0msGG4gFGtypoj4iA==
+X-Received: by 2002:a5d:4d05:0:b0:336:58fb:f458 with SMTP id
+ z5-20020a5d4d05000000b0033658fbf458mr2986525wrt.36.1702984858527; 
+ Tue, 19 Dec 2023 03:20:58 -0800 (PST)
+Received: from localhost (127.red-79-152-77.dynamicip.rima-tde.net.
+ [79.152.77.127]) by smtp.gmail.com with ESMTPSA id
+ h15-20020a5d504f000000b00336566b885csm11182577wrt.87.2023.12.19.03.20.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 Dec 2023 03:20:58 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Conor Dooley <conor@kernel.org>
+Subject: Re: [PATCH v2 1/2] dt-bindings: display: Add SSD133x OLED controllers
+In-Reply-To: <20231218-example-envision-b41ca8efa251@spud>
+References: <20231218132045.2066576-1-javierm@redhat.com>
+ <20231218132045.2066576-2-javierm@redhat.com>
+ <20231218-example-envision-b41ca8efa251@spud>
+Date: Tue, 19 Dec 2023 12:20:57 +0100
+Message-ID: <87il4u5tgm.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-From: Vignesh Raman <vignesh.raman@collabora.com>
-Subject: Flaky tests for mediatek mt8173/mt8183
-Content-Language: en-US
-To: chunkuang.hu@kernel.org, p.zabel@pengutronix.de
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,102 +81,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Stone <daniels@collabora.com>,
- Guilherme Alcarde Gallo <guilherme.gallo@collabora.com>,
- Sergi Blanch Torne <sergi.blanch.torne@collabora.com>,
- dri-devel@lists.freedesktop.org,
- David Heidelberg <david.heidelberg@collabora.com>,
- Helen Mae Koike Fornazier <helen.koike@collabora.com>,
- linux-mediatek@lists.infradead.org
+Cc: Conor Dooley <conor+dt@kernel.org>, Jocelyn Falempe <jfalempe@redhat.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Peter Robinson <pbrobinson@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maintainers,
+Conor Dooley <conor@kernel.org> writes:
 
-There are some flaky tests reported for mediatek mt8173 and mt8183 
-display driver testing in drm-ci.
+Hello Conor,
 
-=== mediatek mt8173 ===
-# Board Name: mt8173-elm-hana.dtb
-# Linux Version: 6.7.0-rc3
-# IGT Version: 1.28-gd2af13d9f
-# Failure Rate: 50
+> On Mon, Dec 18, 2023 at 02:20:35PM +0100, Javier Martinez Canillas wrote:
 
-Pipeline url:
-https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/52857571
-https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/52923475
+[...]
 
-Below test shows inconsistency across multiple runs, giving
-results of Pass and Timeout/Fail alternately
+>> +allOf:
+>> +  - $ref: solomon,ssd-common.yaml#
+>> +
+>> +  - properties:
+>> +      width:
+>> +        default: 96
+>> +      height:
+>> +        default: 64
+>
+> diff --git a/Documentation/devicetree/bindings/display/solomon,ssd133x.yaml b/Documentation/devicetree/bindings/display/solomon,ssd133x.yaml
+> index 8feee9eef0fd..ffc939c782eb 100644
+> --- a/Documentation/devicetree/bindings/display/solomon,ssd133x.yaml
+> +++ b/Documentation/devicetree/bindings/display/solomon,ssd133x.yaml
+> @@ -9,24 +9,24 @@ title: Solomon SSD133x OLED Display Controllers
+>  maintainers:
+>    - Javier Martinez Canillas <javierm@redhat.com>
+>  
+> +allOf:
+> +  - $ref: solomon,ssd-common.yaml#
+> +
 
-kms_cursor_legacy@cursor-vs-flip-atomic-transitions: Timeout and also 
-reported as flaky by deqp-runner:
-Starting subtest: cursor-vs-flip-atomic-transitions
-Using pipe A & eDP-1
-Using a target of 128 cursor updates per quarter-vblank
-page flip 8 was delayed, missed 6 frames
-page flip 25 was delayed, missed 6 frames
-page flip 1 was delayed, missed 15 frames
+This part worked correctly...
 
-kms_prop_blob@invalid-set-prop (Fail):
-CRITICAL: Test assertion failure function prop_tests, file ../tests 
-/kms_prop_blob.c:342:
-CRITICAL: Failed assertion: drmIoctl(fd, DRM_IOCTL_MODE_OBJ_SETPROPERTY, 
-&set_prop) == -1 && errno == EINVAL
-CRITICAL: Last errno: 13, Permission denied
-igt_core-INFO: Stack trace:
-igt_core-INFO:   #0 ../lib/igt_core.c:1988 __igt_fail_assert()
-igt_core-INFO:   #1 ../tests/kms_prop_blob.c:312 prop_tests()
-igt_core-INFO:   #2 ../tests/kms_prop_blob.c:382 
-__igt_unique____real_main350()
-igt_core-INFO:   #3 ../tests/kms_prop_blob.c:350 main()
-igt_core-INFO:   #4 [__libc_init_first+0x80]
-igt_core-INFO:   #5 [__libc_start_main+0x98]
-igt_core-INFO:   #6 [_start+0x30]
+>  properties:
+>    compatible:
+>      enum:
+>        - solomon,ssd1331
+>  
+> +  width:
+> +    default: 96
+> +
+> +  height:
+> +    default: 64
+> +
 
-kms_prop_blob@invalid-set-prop-any (Fail):
-CRITICAL: Test assertion failure function prop_tests, file 
-../tests/kms_prop_blob.c:334:
-CRITICAL: Failed assertion: drmIoctl(fd, DRM_IOCTL_MODE_OBJ_SETPROPERTY, 
-&set_prop) == -1 && errno == EINVAL
-CRITICAL: Last errno: 13, Permission denied
-igt_core-INFO: Stack trace:
-igt_core-INFO:   #0 ../lib/igt_core.c:1988 __igt_fail_assert()
-igt_core-INFO:   #1 ../tests/kms_prop_blob.c:321 prop_tests()
-igt_core-INFO:   #2 ../tests/kms_prop_blob.c:382 
-__igt_unique____real_main350()
-igt_core-INFO:   #3 ../tests/kms_prop_blob.c:350 main()
-igt_core-INFO:   #4 [__libc_init_first+0x80]
-igt_core-INFO:   #5 [__libc_start_main+0x98]
-igt_core-INFO:   #6 [_start+0x30]
+...but when trying move the default for the "solomon,width" and
+"solomon,height" to the properties section, make dt_binding_check
+complains as follows:
 
-=== mediatek mt8183 ===
-# Board Name: mt8183-kukui-jacuzzi-juniper-sku16.dtb
-# Linux Version: 6.7.0-rc3
-# IGT Version: 1.28-gd2af13d9f
-# Failure Rate: 100
+  LINT    Documentation/devicetree/bindings
+  CHKDT   Documentation/devicetree/bindings/processed-schema.json
+/home/javier/devel/linux/Documentation/devicetree/bindings/display/solomon,ssd133x.yaml: properties:solomon,height: 'oneOf' conditional failed, one must be fixed:
+        'type' is a required property
+                hint: A vendor boolean property can use "type: boolean"
+        'description' is a required property
+                hint: A vendor boolean property can use "type: boolean"
+        Additional properties are not allowed ('default' was unexpected)
+                hint: A vendor boolean property can use "type: boolean"
+        /home/javier/devel/linux/Documentation/devicetree/bindings/display/solomon,ssd133x.yaml: properties:solomon,height: 'oneOf' conditional failed, one must be fixed:
+                'enum' is a required property
+                'const' is a required property
+                hint: A vendor string property with exact values has an implicit type
+                from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+        /home/javier/devel/linux/Documentation/devicetree/bindings/display/solomon,ssd133x.yaml: properties:solomon,height: 'oneOf' conditional failed, one must be fixed:
+                '$ref' is a required property
+                'allOf' is a required property
+                hint: A vendor property needs a $ref to types.yaml
+                from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+        hint: Vendor specific properties must have a type and description unless they have a defined, common suffix.
+        from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+/home/javier/devel/linux/Documentation/devicetree/bindings/display/solomon,ssd133x.yaml: properties:solomon,width: 'oneOf' conditional failed, one must be fixed:
+        'type' is a required property
+                hint: A vendor boolean property can use "type: boolean"
+        'description' is a required property
+                hint: A vendor boolean property can use "type: boolean"
+        Additional properties are not allowed ('default' was unexpected)
+                hint: A vendor boolean property can use "type: boolean"
+        /home/javier/devel/linux/Documentation/devicetree/bindings/display/solomon,ssd133x.yaml: properties:solomon,width: 'oneOf' conditional failed, one must be fixed:
+                'enum' is a required property
+                'const' is a required property
+                hint: A vendor string property with exact values has an implicit type
+                from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+        /home/javier/devel/linux/Documentation/devicetree/bindings/display/solomon,ssd133x.yaml: properties:solomon,width: 'oneOf' conditional failed, one must be fixed:
+                '$ref' is a required property
+                'allOf' is a required property
+                hint: A vendor property needs a $ref to types.yaml
+                from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+        hint: Vendor specific properties must have a type and description unless they have a defined, common suffix.
+        from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+  SCHEMA  Documentation/devicetree/bindings/processed-schema.json
+  DTEX    Documentation/devicetree/bindings/display/solomon,ssd133x.example.dts
+/home/javier/.local/bin/dt-extract-example:75: SyntaxWarning: invalid escape sequence '\s'
+  root_node = re.search('/\s*{', ex)
+/home/javier/.local/bin/dt-extract-example:79: SyntaxWarning: invalid escape sequence '\s'
+  int_val = re.search('\sinterrupts\s*=\s*<([0-9a-zA-Z |()_]+)>', ex).group(1)
+  DTC_CHK Documentation/devicetree/bindings/display/solomon,ssd133x.example.dtb
 
-Pipeline url:
-https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/52925486
+The warning goes away if I follow the hints and add a type and description
+to the properties, i.e:
 
-# Reported as flaky by deqp-runner
-kms_cursor_legacy@cursor-vs-flip-atomic-transitions:
+diff --git a/Documentation/devicetree/bindings/display/solomon,ssd133x.yaml b/Documentation/devicetree/bindings/display/solomon,ssd133x.yaml
+index 880c71fdec68..0f4d9ca7456b 100644
+--- a/Documentation/devicetree/bindings/display/solomon,ssd133x.yaml
++++ b/Documentation/devicetree/bindings/display/solomon,ssd133x.yaml
+@@ -17,6 +17,20 @@ properties:
+     enum:
+       - solomon,ssd1331
+ 
++  solomon,width:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description:
++      Width in pixel of the screen driven by the controller.
++      The default value is controller-dependent.
++    default: 96
++
++  solomon,height:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description:
++      Height in pixel of the screen driven by the controller.
++      The default value is controller-dependent.
++    default: 64
++
+ required:
+   - compatible
+   - reg
 
-Starting subtest: cursor-vs-flip-atomic-transitions
-Using pipe A & eDP-1
-Using a target of 128 cursor updates per quarter-vblank
-page flip 1 was delayed, missed 2 frames
-page flip 2 was delayed, missed 9 frames
-page flip 7 was delayed, missed 1 frames
-page flip 8 was delayed, missed 2 frames
+But that would duplicate information that is already present in the
+included solomon,ssd-common.yaml schema. Do you know what is the proper
+way to do this?
 
-I will add these tests in 
-drivers/gpu/drm/ci/xfails/mediatek-mt8173-display-flakes.txt and 
-drivers/gpu/drm/ci/xfails/mediatek-mt8183-display-flakes.txt 
-(https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/Documentation/gpu/automated_testing.rst#n70)
+Or maybe should I just drop the default values for the width and height
+properties? I just think that is good information to have in the schema.
 
-Please could you have a look at these failures and let us know if you 
-need more information. Thank you.
+-- 
+Best regards,
 
-Regards,
-Vignesh
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
