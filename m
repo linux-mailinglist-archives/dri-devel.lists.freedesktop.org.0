@@ -1,112 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D454818279
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 08:43:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA3708183A1
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 09:44:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C1D110E179;
-	Tue, 19 Dec 2023 07:43:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DED110E41C;
+	Tue, 19 Dec 2023 08:44:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD8A310E179
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 07:43:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1702971807; x=1703576607; i=deller@gmx.de;
- bh=ao3lASXOiNWcc7cDKLYuzfMPAsA0HEJVIK0BWVEMLLc=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
- In-Reply-To;
- b=r+Kf4vYixeIXa6UCNjgw+98vUWhaq8/hY1QiUt2t+wRJM6mQA45rTnKJBFcc6Seh
- iovi/lzSIc70rrFzksoZk1w6FUODGMIP9/EkCF78OQi5Swe9SgBeS2Du+3DCLgN3w
- HHPqrKhVsXPbFX6kXFVh/bisVCys+BgYg5ttNECFLMB3CxrtfDYeJts3jpMjMXLiq
- M8EhX3wEgB0uUG+MJBsiMP0POqbSmzg1bP0ShJbtPQw/DP21/3CHW9GVGDy8pSLMt
- oviGb7dslVPIOIOP0JzQ+WV1InPBgYNWsE2vUEU2lqnZ1iLiHkrd9BH196NMIGQPn
- HzdwC7JvCqxCmwfmYw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.55] ([94.134.148.220]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1N7iCg-1rBlee41Ks-014mb8; Tue, 19
- Dec 2023 08:43:27 +0100
-Message-ID: <4dd7ec87-eceb-4015-a0a0-45f6f0c12e9d@gmx.de>
-Date: Tue, 19 Dec 2023 08:43:25 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD44410E41C
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 08:44:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1702975447; x=1734511447;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=y23D3/S71Dkftkw0q5rEVVQsi0eBjpjp26UrTr3izLc=;
+ b=gbfSib0crA41g31i+9LATPovgkDo/ZjIyNwUPmkJ/cNr+Q/eLMWaBv8e
+ loSK8wd6zdP9Aa1DIp2GzZK9iR1FHrZ+ckBFomG1wN5kp7jIc24xfz6HP
+ khHz2gOi0H47pOYY+2Jw3r6PIBRupd3Pmo59wWQL8WpFSx0kXrQpN0r8a
+ kW7WZNNKruuDsrQleMp5XeMOLbkOGnAFzdGE1/A/4u3coziRtyLMnSDPK
+ TAx8GnDleQ2v5gFu9ZaLPj7EI85l0l6LZKm1ox1aUuWXR37anVE+v+5I2
+ pNiUcv7xQzwMLlHtA++w7Fc2urT02mcfxwthNXKuQx1+oCG93jUQMImo1 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="459969794"
+X-IronPort-AV: E=Sophos;i="6.04,287,1695711600"; d="scan'208";a="459969794"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Dec 2023 00:44:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="1107277246"
+X-IronPort-AV: E=Sophos;i="6.04,287,1695711600"; d="scan'208";a="1107277246"
+Received: from alexeyze-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.34.118])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Dec 2023 00:44:04 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 4.14 3/6] drm/crtc: Fix uninit-value bug in
+ drm_mode_setcrtc
+In-Reply-To: <20231218124725.1382738-3-sashal@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20231218124725.1382738-1-sashal@kernel.org>
+ <20231218124725.1382738-3-sashal@kernel.org>
+Date: Tue, 19 Dec 2023 10:44:02 +0200
+Message-ID: <87bkamvay5.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] fb: flush deferred work in fb_deferred_io_fsync()
-Content-Language: en-US
-To: Nam Cao <namcao@linutronix.de>, Daniel Vetter <daniel@ffwll.ch>,
- Antonino Daplas <adaplas@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>, Paul Mundt <lethal@linux-sh.org>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <cover.1702890493.git.namcao@linutronix.de>
- <d15187348e7d7f76b7a1adf95aa5e3e3ecfc10b4.1702890493.git.namcao@linutronix.de>
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <d15187348e7d7f76b7a1adf95aa5e3e3ecfc10b4.1702890493.git.namcao@linutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:U75OHBIVqTUSxk9MGyO4MovlBguzl0rDduhnVmoBCtMXnVzK7E6
- CZjB/wq7rsbDmVN+9TfXcEIf55plUqCFHaKHoP7F/SIQA6k4PNHCE3mypVrpXGcRVZDQFkk
- T2j2i8a7+toZJd5VxuO1T1MJ6g4F5qM9VDHbmZ6GAXTbZy8xZ6ipFomrbgmS30YOXrHyzG2
- TGBZZeHqdG8i99r9krSow==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:akZ1uFC8LKI=;SYz2qC5Is+YGsi/0WP8MeST33CJ
- WRjUOtO3uj2MsdHcy/faov7wT0Blwg8j75A8ZON1mKk/EDWF7kSLd9Ai8q00td5c1pX6wwWCh
- Gs9FAxM2kL0q+aXy+Ik6qHziLhwdLk556oGhyH7hoROIWwX8g5q4DNIyk+1s+7SZ7IE2fYyd/
- UJdUTF4BgR1Wq3KT0ros9aNPqzzi8eaA58ZHLITkN/Nnw1vTGrHudj7+h3RmGooLcQDU3Prbh
- kWpBNCe9QGtSJN+/aOzwh70QxhAL0IuVrndKIso5fGWeECS1pgR648WbMqOFR3WJEh9FErK2y
- kJPSR88SKHleZqkkKGtz6QjSwbtUkpYB9BUERW+Vs/gxOKWWgOZef3PrlcKK+2Wx1WxPL5zao
- 1vjlmKgrFhLYAkiNLuC3yvZm4uZTBADG+KGc+LJziTL/88A6Vqiuy+veAyC5B/9TRtdD368P2
- fZXnpp01NhrQxZnU+mgDdGBMGgfbQevWhPvktAJCEqba+48pUlvy/yOoiWfnF7nd9Ue6NZ3fn
- 33ZHnIPB31x06XZ8CekmzCOt5hlblkCKEMAyVK53lMrBNgm+yZXusOyo10pJ/PdyDIr+qTm1f
- tQiUB30FDeoStV0RYIr7S/+mnULmDmPpZygwrXWbr529bxW6/P6nO78+/psWM9T2NCVzxnlSI
- kSI7SvkoXrtxVdQ2HstlPUJicre7LIuQMv4wMBcUvCiJUjqJwJcdi/Z1T0ghq/ETMNBSSl1JR
- w16kpNKulcRnOg6dqluM+k1tNylbLuQij6NLdSWEWq2Rg+RJ9XSsguyx8wbGM6WgNiq43gDoL
- Gyqv5YRNudf0jopADhODxWG9rMZ+az2FqH7joyrPiH6c4cfM3SxdZXuh00JDFyaAIBelcJ3+I
- 9NzXfIa4/qWUoaCilteXMXHplsY5bzz5CLmrxV5iuzvUqQhy17Sf22iG6AO8zjpsOuA8Ph0vo
- 1qrh3w==
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,38 +61,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: bigeasy@linutronix.de, stable@vger.kernel.org
+Cc: Sasha Levin <sashal@kernel.org>, tzimmermann@suse.de,
+ Ziqi Zhao <astrajoan@yahoo.com>, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>,
+ Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>,
+ syzbot+4fad2e57beb6397ab2fc@syzkaller.appspotmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/18/23 10:57, Nam Cao wrote:
-> The driver's fsync() is supposed to flush any pending operation to
-> hardware. It is implemented in this driver by cancelling the queued
-> deferred IO first, then schedule it for "immediate execution" by calling
-> schedule_delayed_work() again with delay=3D0. However, setting delay=3D0
-> only means the work is scheduled immediately, it does not mean the work
-> is executed immediately. There is no guarantee that the work is finished
-> after schedule_delayed_work() returns. After this driver's fsync()
-> returns, there can still be pending work. Furthermore, if close() is
-> called by users immediately after fsync(), the pending work gets
-> cancelled and fsync() may do nothing.
+On Mon, 18 Dec 2023, Sasha Levin <sashal@kernel.org> wrote:
+> From: Ziqi Zhao <astrajoan@yahoo.com>
 >
-> To ensure that the deferred IO completes, use flush_delayed_work()
-> instead. Write operations to this driver either write to the device
-> directly, or invoke schedule_delayed_work(); so by flushing the
-> workqueue, it can be guaranteed that all previous writes make it to the
-> device.
+> [ Upstream commit 3823119b9c2b5f9e9b760336f75bc989b805cde6 ]
 >
-> Fixes: 5e841b88d23d ("fb: fsync() method for deferred I/O flush.")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Nam Cao <namcao@linutronix.de>
-> Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> The connector_set contains uninitialized values when allocated with
+> kmalloc_array. However, in the "out" branch, the logic assumes that any
+> element in connector_set would be equal to NULL if failed to
+> initialize, which causes the bug reported by Syzbot. The fix is to use
+> an extra variable to keep track of how many connectors are initialized
+> indeed, and use that variable to decrease any refcounts in the "out"
+> branch.
+>
+> Reported-by: syzbot+4fad2e57beb6397ab2fc@syzkaller.appspotmail.com
+> Signed-off-by: Ziqi Zhao <astrajoan@yahoo.com>
+> Reported-and-tested-by: syzbot+4fad2e57beb6397ab2fc@syzkaller.appspotmail.com
+> Tested-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+> Link: https://lore.kernel.org/r/20230721161446.8602-1-astrajoan@yahoo.com
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+
+This commit fixes an uninitialized value, but introduces a new
+one. Please backport 6e455f5dcdd1 ("drm/crtc: fix uninitialized variable
+use") from v6.7-rc6 to go with it.
+
+Thanks,
+Jani.
+
 > ---
->   drivers/video/fbdev/core/fb_defio.c | 6 +-----
->   1 file changed, 1 insertion(+), 5 deletions(-)
+>  drivers/gpu/drm/drm_crtc.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
+> index 5af25ce5bf7c2..5ae3adfbc5e80 100644
+> --- a/drivers/gpu/drm/drm_crtc.c
+> +++ b/drivers/gpu/drm/drm_crtc.c
+> @@ -556,8 +556,7 @@ int drm_mode_setcrtc(struct drm_device *dev, void *data,
+>  	struct drm_mode_set set;
+>  	uint32_t __user *set_connectors_ptr;
+>  	struct drm_modeset_acquire_ctx ctx;
+> -	int ret;
+> -	int i;
+> +	int ret, i, num_connectors;
+>  
+>  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
+>  		return -EINVAL;
+> @@ -672,6 +671,7 @@ int drm_mode_setcrtc(struct drm_device *dev, void *data,
+>  			goto out;
+>  		}
+>  
+> +		num_connectors = 0;
+>  		for (i = 0; i < crtc_req->count_connectors; i++) {
+>  			connector_set[i] = NULL;
+>  			set_connectors_ptr = (uint32_t __user *)(unsigned long)crtc_req->set_connectors_ptr;
+> @@ -692,6 +692,7 @@ int drm_mode_setcrtc(struct drm_device *dev, void *data,
+>  					connector->name);
+>  
+>  			connector_set[i] = connector;
+> +			num_connectors++;
+>  		}
+>  	}
+>  
+> @@ -700,7 +701,7 @@ int drm_mode_setcrtc(struct drm_device *dev, void *data,
+>  	set.y = crtc_req->y;
+>  	set.mode = mode;
+>  	set.connectors = connector_set;
+> -	set.num_connectors = crtc_req->count_connectors;
+> +	set.num_connectors = num_connectors;
+>  	set.fb = fb;
+>  	ret = __drm_mode_set_config_internal(&set, &ctx);
+>  
+> @@ -709,7 +710,7 @@ int drm_mode_setcrtc(struct drm_device *dev, void *data,
+>  		drm_framebuffer_put(fb);
+>  
+>  	if (connector_set) {
+> -		for (i = 0; i < crtc_req->count_connectors; i++) {
+> +		for (i = 0; i < num_connectors; i++) {
+>  			if (connector_set[i])
+>  				drm_connector_put(connector_set[i]);
+>  		}
 
-both patches applied to fbdev for-next git tree.
-
-Thanks!
-Helge
-
+-- 
+Jani Nikula, Intel
