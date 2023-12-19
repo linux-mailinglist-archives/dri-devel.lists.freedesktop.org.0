@@ -2,70 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6E7381899E
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 15:19:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36C8F8189EA
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 15:29:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA76710E195;
-	Tue, 19 Dec 2023 14:19:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3DC410E483;
+	Tue, 19 Dec 2023 14:29:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8052310E195;
- Tue, 19 Dec 2023 14:19:33 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id
- 5b1f17b1804b1-40c38de1ee4so46077135e9.0; 
- Tue, 19 Dec 2023 06:19:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1702995572; x=1703600372; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Pejp2iczdWxF7uQVAlzk9w8bQVEry9Ccx9GLBVSdAiw=;
- b=VvGnAe607WqS+RxBOmHxZSAZW6Mp7VRwtYWffTHYw5eUyCkL/ab8MpY04fJ2h9MEot
- pHUJjxcxx70swKG5KbsKTjNfgl3gRJ4KPia2nsni4RrXgEvdhuP5Ku2kikLBvoykCkPz
- ipgZtDOW7oiuDE0gBADOrgIJtDvuHweI2sCcW+GR+yrwhrNtoTUhngebPrqsAb4U334H
- neL2S1pfwTCbi1wTWmzCvjCeaKwRk6Ll2qqRuHEwXdFIhMTgxIeH1ajUVzblgSv9mUeV
- X5kNF2xz/Iz7pkkazfPvWE5X0AnasRtziYsMvpfrZKqR1YNtYCpfzHuuFh+Qq7ySqQtS
- CYEg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A364010E2FD
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 14:29:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1702996189;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=FJ0fIgJFxprsIyxEkHhdAMJUwfKqBB8ndzukjaekHFY=;
+ b=WN3B01W6SJUs4P4ksh8+wVW8jKU7ZRBw9WJ2uwK6ESfH5elwFAR3vAIn++9Rdc+9h0drqx
+ MzMkuN01ETjYdmjXslMuCFekNZx8lvc4HE+mn3FXKck0n/NCiIl4I+S2Bfe1YjzzGHwZhv
+ Wh7ivL4CQ6q+vTZ/LDKrRWzNJ676OVA=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-626-lzmgKTUROoCu4lxWCIC3eA-1; Tue, 19 Dec 2023 09:29:47 -0500
+X-MC-Unique: lzmgKTUROoCu4lxWCIC3eA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-40c2c6f0893so34227555e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 06:29:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702995572; x=1703600372;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Pejp2iczdWxF7uQVAlzk9w8bQVEry9Ccx9GLBVSdAiw=;
- b=IGwhu6apRiQ0u+9QPiOCvGia4rZrMP0B8Yry2V6Jk+dM0OQO+rDD1WCqkz6j45xe00
- wbpcJQZWzx5RTo7GIwWlKZq3rkEEjSXSJHRwWUDdUbGgpJ+CzG2o0qKBCViLxKPiVS4+
- vtF1zyF4QlYbPbZPlf4DHAGqaPDRXIVIZTPm0UhCUWX7XNXMsusX1rZSlm8ftqYHUV3d
- fbrGTf4hITLx9/CgykdyFiZCq7FqGZcG7X98VLukLh/4LE3e0OzWSXL0hVhAkyxge+MD
- WGby6T0c1SbQOU2g/8SKJSIxSL4P2LtoOrGbvRHz2FG8eI3WTRkHEvw1qTSnAA5gGP24
- JmPg==
-X-Gm-Message-State: AOJu0YzHkcDeQHvGlzpPcygMhn6eYVV0ah3ApwW1QMieglHIV4af2X2a
- 329cmkq0VUpX95Gp9W5yGg0=
-X-Google-Smtp-Source: AGHT+IF1aG81n3QckfqzCx5kXe1hHH5po9wN30gDtf7kGI9NGXY6aka+rEQuePN7k7d7rWgIRVEHuA==
-X-Received: by 2002:a05:600c:2043:b0:40c:6204:d597 with SMTP id
- p3-20020a05600c204300b0040c6204d597mr4952779wmg.65.1702995571614; 
- Tue, 19 Dec 2023 06:19:31 -0800 (PST)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
- [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
- d1-20020adfe841000000b00333404e9935sm8390805wrn.54.2023.12.19.06.19.30
+ d=1e100.net; s=20230601; t=1702996185; x=1703600985;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FJ0fIgJFxprsIyxEkHhdAMJUwfKqBB8ndzukjaekHFY=;
+ b=SBhoDvwWe7ioYjU1rFquMs9/zjk/apJiDzn9oDcZcT+maEY0genzeQ9hwZu4SNmiwk
+ PKt8CAwFogeafuqEP+IwqQR21p0bzBj1XEDJ121i+cUQU+F5qxRE6g/Tk/zvfHNTMDNj
+ +ruBYbMsDj7uYcONzL7P+exQvS0M0doaUocmYdZADCRBWbI/RweSU6234x2y+ss/JDNb
+ mH4c7p2UZm2qVJkLuau34RvDndEkK61bNDvfSCsxBP0A/U+doSDNp0oH410gMqh3oqzX
+ CWVddLIalnF94oCKVVThBO+tU8OCBciAWpzwBFQ46qtRK2iy15b7c+lLtv7j1UKemhs9
+ oSwg==
+X-Gm-Message-State: AOJu0Yz3DtaGcCHymKmAhxJSTFYfO3ohkRHbQZfrl6QJ9PkMd2WyCiCY
+ j9FUzcJl7gp1ukKYhvhCqUu4ojTD+Vvjj/q3u+/jqAoHiS55trdi0ozAx0pbMZEvP6fOhhWFOeC
+ 4BkhnzyxyDu2C4E1JB01vzqSunMlq
+X-Received: by 2002:a7b:c388:0:b0:40c:3469:96d1 with SMTP id
+ s8-20020a7bc388000000b0040c346996d1mr9196310wmj.162.1702996184743; 
+ Tue, 19 Dec 2023 06:29:44 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEA8keZt2+RMeG+32PCDrITixe94PgFwfVoCxcAnFpxFM09R5EooqJSvimnMtjpUTQWIJr13g==
+X-Received: by 2002:a7b:c388:0:b0:40c:3469:96d1 with SMTP id
+ s8-20020a7bc388000000b0040c346996d1mr9196303wmj.162.1702996184377; 
+ Tue, 19 Dec 2023 06:29:44 -0800 (PST)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ g3-20020a05600c310300b0040c6b2c8fa9sm3083353wmo.41.2023.12.19.06.29.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Dec 2023 06:19:31 -0800 (PST)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Xinhui.Pan@amd.com, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/amd/display: remove redundant initialization of variable
- remainder
-Date: Tue, 19 Dec 2023 14:19:30 +0000
-Message-Id: <20231219141930.367426-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.39.2
+ Tue, 19 Dec 2023 06:29:44 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Conor Dooley
+ <conor@kernel.org>
+Subject: Re: [PATCH v2 1/2] dt-bindings: display: Add SSD133x OLED controllers
+In-Reply-To: <1fa5f658-fef1-49e0-b1ca-21359a74e409@linaro.org>
+References: <20231218132045.2066576-1-javierm@redhat.com>
+ <20231218132045.2066576-2-javierm@redhat.com>
+ <20231218-example-envision-b41ca8efa251@spud>
+ <87il4u5tgm.fsf@minerva.mail-host-address-is-not-set>
+ <1fa5f658-fef1-49e0-b1ca-21359a74e409@linaro.org>
+Date: Tue, 19 Dec 2023 15:29:43 +0100
+Message-ID: <87frzy5kq0.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,33 +84,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Conor Dooley <conor+dt@kernel.org>, Jocelyn Falempe <jfalempe@redhat.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Peter Robinson <pbrobinson@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Variable remainder is being initialized with a value that is never read,
-the assignment is redundant and can be removed. Also add a newline
-after the declaration to clean up the coding style.
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> writes:
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/gpu/drm/amd/display/dc/basics/conversion.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Hello Krzysztof,
 
-diff --git a/drivers/gpu/drm/amd/display/dc/basics/conversion.c b/drivers/gpu/drm/amd/display/dc/basics/conversion.c
-index e295a839ab47..1090d235086a 100644
---- a/drivers/gpu/drm/amd/display/dc/basics/conversion.c
-+++ b/drivers/gpu/drm/amd/display/dc/basics/conversion.c
-@@ -103,7 +103,8 @@ void convert_float_matrix(
- 
- static uint32_t find_gcd(uint32_t a, uint32_t b)
- {
--	uint32_t remainder = 0;
-+	uint32_t remainder;
-+
- 	while (b != 0) {
- 		remainder = a % b;
- 		a = b;
+> On 19/12/2023 12:20, Javier Martinez Canillas wrote:
+
+[...]
+
+>>>> +allOf:
+>>>> +  - $ref: solomon,ssd-common.yaml#
+>>>> +
+
+[...]
+
+>>>  
+>>> +  width:
+>>> +    default: 96
+>>> +
+>>> +  height:
+>>> +    default: 64
+>
+> Which also looks wrong on its own. Where is the definition of these
+
+Yes, I already discussed this with Conor and mentioned to him that is a
+typo but already fixed it locally and I'm testing with the correct ones.
+
+> properties? IOW, where do they come from?
+>
+
+The "solomon,width" and "solomon,height" properties are defined in the
+solomon,ssd-common.yaml binding schema file that is referenced.
+
+>>> +
+>> 
+>> ...but when trying move the default for the "solomon,width" and
+>> "solomon,height" to the properties section, make dt_binding_check
+>> complains as follows:
+>
+> Worked for me.
+>
+
+Oh, that's good to know. I wonder what's the difference...
+
+> ...
+>
+>>   DTC_CHK Documentation/devicetree/bindings/display/solomon,ssd133x.example.dtb
+>> 
+>> The warning goes away if I follow the hints and add a type and description
+>> to the properties, i.e:
+>
+> Hm, I wonder what's different in your case. I assume you run the latest
+> dtschema.
+>
+
+Not the latest but had a recent one. I've updated it, so I do now :)
+
+$ pip list | grep dtschema
+dtschema                      2023.9
+
+$ pip install --upgrade dtschema
+
+$ pip list | grep dtschema
+dtschema                      2023.11
+
+[...]
+
+>> But that would duplicate information that is already present in the
+>> included solomon,ssd-common.yaml schema. Do you know what is the proper
+>> way to do this?
+>
+> Works for me, so please paste somewhere proper diff so we can compare.
+>
+
+With the latest dtschema version it works indeed. Thanks for the pointer!
+
+$ make W=1 dt_binding_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/display/solomon,ssd133x.yaml 
+  LINT    Documentation/devicetree/bindings
+  CHKDT   Documentation/devicetree/bindings/processed-schema.json
+  SCHEMA  Documentation/devicetree/bindings/processed-schema.json
+  DTEX    Documentation/devicetree/bindings/display/solomon,ssd133x.example.dts
+  DTC_CHK Documentation/devicetree/bindings/display/solomon,ssd133x.example.dtb
+
+> Best regards,
+> Krzysztof
+>
+
 -- 
-2.39.2
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
