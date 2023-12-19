@@ -1,55 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12CD48192D8
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 23:03:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CE2D8192E0
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 23:03:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E980D10E267;
-	Tue, 19 Dec 2023 22:03:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5569610E523;
+	Tue, 19 Dec 2023 22:03:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C511110E206
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 22:03:17 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D1F010E267
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 22:03:18 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 26A8FB81AD6;
+ by ams.source.kernel.org (Postfix) with ESMTP id 2F799B81ADA;
  Tue, 19 Dec 2023 22:03:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 77895C433C8;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 80296C433C7;
  Tue, 19 Dec 2023 22:03:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1703023395;
- bh=LSGLbURhz4kXuH8yA/CEvKS5/EgYgYOz98eK0xHObss=;
- h=From:Subject:Date:To:Cc:Reply-To:From;
- b=l5QMTCd6HhdF6a60y0+ypSrNUmQuyb4sq4bLoTyTncjbOyZItzHM6lQ0IBaj9nXSI
- jQXPiShC+bJup8TdCwu1KZEo8Ih+xleXNciySMqkDRqvFLr056+Mfysy2vwgkhHlUT
- mmdJSEZ66+3B/AQ2lAmIYxIMu9XmxQkATGzgcF5ReuuhmNPVdzUIScE7hdV/PTUULF
- spCjtLWprJcYRhO0llpsDvTW01Z6boNbm4CAj7OxHMWVyZJDlBBg9SSD+4fcuaNT+z
- EW1KAZlPCobJ4NGCgxJycaZC/nwEqLJMAN5G/2g1+P3Vt6d0pEc8UVJ/9XMp67Z81h
- gZckrNAhMoFww==
+ bh=YFya8cjl2YMIZ2BGNXSyO7VFh6vdNDD29XFJtjD3Qgs=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+ b=mlI+2wMhej0GqAm3pIx6nJwRQaXL0Ljc6Qqy33Dv1a79jja2BJkbLICVksM4Midah
+ xIVIhjMCLKUooQl+tQiQ65fWInRLOoKwD44xHxCncGB3GXOYmGRxZg+S1IdcovXgpa
+ VE718Flncfbv5UEU6gTAHzFXzoLAaVUV8t+ZyufhtIvvoE1FpE3/py5rm1aVeWuewu
+ ONpAPgh2vB9kuoIRRsYcaYxxQPD2JgUYW1CLIf24dgSgxDHA3OAvFbkH8Ds9LEQSxe
+ CdDqismitNHTrzCR+td52u6XdFtkpGkdBku+pEEJGG9uV5v5O4hEa03fo69Y+X8vUz
+ TqzbTuBx1aZqg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 5B7DBC46CCD;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 68938C46CD2;
  Tue, 19 Dec 2023 22:03:15 +0000 (UTC)
 From: Sam Ravnborg via B4 Relay <devnull+sam.ravnborg.org@kernel.org>
-Subject: [PATCH 00/27] sparc32: sunset sun4m and sun4d
-Date: Tue, 19 Dec 2023 23:03:05 +0100
-Message-Id: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
+Date: Tue, 19 Dec 2023 23:03:06 +0100
+Subject: [PATCH 01/27] sparc32: Update defconfig to LEON SMP
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIABoTgmUC/x3MTQqEMAxA4atI1gZs6uDPVcRFsHHMwiqNiiDef
- cosv8V7D5gkFYO+eCDJpaZbzHBlAdPC8SuoIRuoIu/IdWi8ou2cJk9oZzQ58PJYNx8n3HaBKUB
- u9ySz3v/vML7vDwFqAWNnAAAA
+Message-Id: <20231219-sam-sparc32-sunset-v3-v1-1-64bb44b598c5@ravnborg.org>
+References: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
+In-Reply-To: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
 To: "David S. Miller" <davem@davemloft.net>, 
  Arnd Bergmann <arnd@kernel.org>, Andreas Larsson <andreas@gaisler.com>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1703023392; l=8425;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1703023392; l=5892;
  i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=LSGLbURhz4kXuH8yA/CEvKS5/EgYgYOz98eK0xHObss=; =?utf-8?q?b=3DO6RVaNl0bgru?=
- =?utf-8?q?hPQwsWhDUiXWfR4vIytJ1HAcnLakB1LjztJc5BZKZw3ByqrtNAf2zZmJ5AdxcVpi?=
- zfZrtpnDADyn77qNG90KZonJHpAywnInvHSywzOhGk578Gr1t+y+
+ bh=4xRMgdzxVUR69RuJPbYdmx8fpxa4KGV3jSh8dHTx33M=; =?utf-8?q?b=3DUt+SgWiuqIJ1?=
+ =?utf-8?q?fcBO5uM2ZyyLaIVPVtNKbLLeU5qWiEXJIGyUHCGi//nT7YLbhGwE+4rIVG8RJW8P?=
+ QuDhe6DTDywG73/E+3rudhmc4LolHLjrJFMs9Uc7BHNCRelDBQ1J
 X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
  pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
 X-Endpoint-Received: by B4 Relay for sam@ravnborg.org/20230107 with auth_id=22
@@ -77,184 +75,213 @@ Cc: linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is the second attempt to sunset sun4m and sun4d.
-See [1] for the inital attempt.
+From: Sam Ravnborg <sam@ravnborg.org>
 
-The sun4m and sun4d parts of the kernel have seen no real interest
-for several years now. Last time a few people surfaced, but it was
-either due to a personal project or for nostalgic reasons.
-It is time to let go and drop the parts of sparc32 that in reality
-are not in use.
+This is a copy of the leon_smp defconfig found in
+gaisler-buildroot-2023.02-1.0.
 
-LEON from Frontgrade Gaisler is the only real user of sparc32,
-and this patchset reduces sparc32 to what is required by LEON.
-
-The defconfig is first adapted to the one used by Gaisler.
-Then the patches removes sun4m and sun4d specific
-implementations such as small drivers, SMP support, IRQ suppor etc.
-
-Removing sun4m and sun4d support allowed removal of the run time
-patching of the code as well as a lot of assembler code.
-The result is a much cleaner assembler code that is easier to
-understand and thus maintain and extend.
-
-So far the code builds but it has seen no run-time testing.
-
-If anyone can tell me how to boot a linux kernel with the leon_genric
-machine with QEMU that would be super as this would be a minimal
-testing that others can reproduce as well.
-I assume QEMU needs a few patches to make it work, but maybe I
-just failed to use the right bootloader.
-
-TODO before this can be applied:
-- Ack from davem - as he is the principal sparc maintainer
-- Tested-by: preferably on a target or QEMU (see above)
-  I expect bugs as there are some involved changes!
-
-Ideas for the future
-- Apply the most relevant downstream Gaisler patches
-  - The ones introducing CAS should have preference as we then
-    can drop the cmpxchg emulation
-- Adjust defconfig to include all Gaisler drivers to make sure they
-  see build time coverage
-- Move the leon bits from leon files to the general files
-  - Add leon smp support to smp_32.c
-  - Add leon irq support to irq_32.c
-- Integrate leom_mm support with srmmu and drop some of the
-  function operations that are no longer needed
-- The current sparc32 code assume the bootloader uses the prom
-  provided by sun. Maybe migrate over to a more modern device tree
-  way of working.
-- Drop some of the homegrown memory allocators and use memblocks
-
-[1]: https://lore.kernel.org/all/20201218184347.2180772-1-sam@ravnborg.org/
-
-        Sam
-
+Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Arnd Bergmann <arnd@kernel.org>
+Cc: Andreas Larsson <andreas@gaisler.com>
 ---
-Sam Ravnborg (27):
-      sparc32: Update defconfig to LEON SMP
-      sparc32: Drop sun4m/sun4d support from head_32.S
-      sparc32: Drop floppy support
-      sparc32: Drop sun4m specific led driver
-      sparc32: Drop sun specific power management drivers
-      sparc32: Drop auxio support
-      sparc32: Drop run-time patching of ipi trap
-      sparc32: Drop patching of interrupt vector
-      sparc32: Drop sun4m/sun4d specific irq handling
-      sparc32: Drop sun4d/sun4m smp support
-      sparc32: Drop pcic support
-      sparc32: Drop mbus support
-      sparc32: Drop unused function __get_{phys,iospace}
-      sparc32: Drop unused mmu models
-      sparc32: Drop check for sparc_model
-      sparc32: Drop use of sparc_config
-      sparc32: Drop run-time patching of ASI instructions
-      sparc32: Drop support for 7 register windows
-      sparc32: Drop additional sun4d bits
-      sparc32: Drop unused prom ranges support
-      sparc32: Drop unused iommu support
-      sparc32: Drop sun4m irq support
-      sparc32: Drop unused trampoline code
-      sparc32: Drop config SPARC_LEON
-      sparc32: Drop sbus support
-      sbus: char: Drop now unused uctrl driver
-      fbdev/p9100: Drop now unused driver p9100
+ arch/sparc/configs/sparc32_defconfig | 171 +++++++++++++++++++----------------
+ 1 file changed, 91 insertions(+), 80 deletions(-)
 
- arch/sparc/Kconfig                    |  54 +--
- arch/sparc/configs/sparc32_defconfig  | 170 +++----
- arch/sparc/include/asm/asmmacro.h     |  22 -
- arch/sparc/include/asm/auxio_32.h     |  73 +--
- arch/sparc/include/asm/cpu_type.h     |  18 -
- arch/sparc/include/asm/elf_32.h       |   2 -
- arch/sparc/include/asm/fb.h           |   8 +-
- arch/sparc/include/asm/floppy.h       |   2 -
- arch/sparc/include/asm/floppy_32.h    | 393 ----------------
- arch/sparc/include/asm/io-unit.h      |  59 ---
- arch/sparc/include/asm/io_32.h        |  83 ----
- arch/sparc/include/asm/iommu.h        |   2 -
- arch/sparc/include/asm/iommu_32.h     | 122 -----
- arch/sparc/include/asm/irq_32.h       |   2 -
- arch/sparc/include/asm/mbus.h         |  97 ----
- arch/sparc/include/asm/mxcc.h         | 138 ------
- arch/sparc/include/asm/obio.h         | 226 ---------
- arch/sparc/include/asm/oplib_32.h     |  11 -
- arch/sparc/include/asm/pcic.h         | 130 ------
- arch/sparc/include/asm/pgtable_32.h   |  24 -
- arch/sparc/include/asm/pgtsrmmu.h     |  33 +-
- arch/sparc/include/asm/ross.h         | 192 --------
- arch/sparc/include/asm/sbi.h          | 116 -----
- arch/sparc/include/asm/sections.h     |   3 -
- arch/sparc/include/asm/swift.h        | 107 -----
- arch/sparc/include/asm/switch_to_32.h |   1 -
- arch/sparc/include/asm/timer_32.h     |   1 +
- arch/sparc/include/asm/tsunami.h      |  65 ---
- arch/sparc/include/asm/turbosparc.h   | 126 -----
- arch/sparc/include/asm/viking.h       | 255 -----------
- arch/sparc/include/asm/winmacro.h     |  11 +-
- arch/sparc/kernel/Makefile            |   8 +-
- arch/sparc/kernel/apc.c               | 196 --------
- arch/sparc/kernel/auxio_32.c          | 139 ------
- arch/sparc/kernel/cpu.c               |   1 -
- arch/sparc/kernel/devices.c           |  10 +-
- arch/sparc/kernel/entry.S             | 413 +----------------
- arch/sparc/kernel/etrap_32.S          |  50 +-
- arch/sparc/kernel/head_32.S           | 255 +----------
- arch/sparc/kernel/ioport.c            |  55 +--
- arch/sparc/kernel/irq.h               |  85 +---
- arch/sparc/kernel/irq_32.c            | 133 +-----
- arch/sparc/kernel/kernel.h            |  53 +--
- arch/sparc/kernel/led.c               | 146 ------
- arch/sparc/kernel/leon_kernel.c       |  53 +--
- arch/sparc/kernel/leon_pmc.c          |  16 +-
- arch/sparc/kernel/leon_smp.c          |   3 -
- arch/sparc/kernel/of_device_32.c      |  18 +-
- arch/sparc/kernel/pcic.c              | 840 ----------------------------------
- arch/sparc/kernel/pmc.c               | 100 ----
- arch/sparc/kernel/process_32.c        |  10 -
- arch/sparc/kernel/rtrap_32.S          |  73 ++-
- arch/sparc/kernel/setup_32.c          | 115 -----
- arch/sparc/kernel/smp_32.c            | 102 +----
- arch/sparc/kernel/sun4d_irq.c         | 519 ---------------------
- arch/sparc/kernel/sun4d_smp.c         | 415 -----------------
- arch/sparc/kernel/sun4m_irq.c         | 478 -------------------
- arch/sparc/kernel/sun4m_smp.c         | 275 -----------
- arch/sparc/kernel/time_32.c           |  68 +--
- arch/sparc/kernel/trampoline_32.S     | 127 +----
- arch/sparc/kernel/ttable_32.S         |   9 +-
- arch/sparc/kernel/vmlinux.lds.S       |   5 -
- arch/sparc/kernel/wof.S               |  61 +--
- arch/sparc/kernel/wuf.S               |  41 +-
- arch/sparc/mm/Makefile                |   4 +-
- arch/sparc/mm/hypersparc.S            | 414 -----------------
- arch/sparc/mm/io-unit.c               | 286 ------------
- arch/sparc/mm/iommu.c                 | 455 ------------------
- arch/sparc/mm/mm_32.h                 |   4 -
- arch/sparc/mm/srmmu.c                 | 836 +--------------------------------
- arch/sparc/mm/srmmu_access.S          |  83 ----
- arch/sparc/mm/swift.S                 | 256 -----------
- arch/sparc/mm/tsunami.S               | 132 ------
- arch/sparc/mm/viking.S                | 284 ------------
- arch/sparc/prom/Makefile              |   1 -
- arch/sparc/prom/init_32.c             |   2 -
- arch/sparc/prom/misc_32.c             |   2 -
- arch/sparc/prom/ranges.c              | 114 -----
- drivers/sbus/char/Kconfig             |   8 -
- drivers/sbus/char/Makefile            |   1 -
- drivers/sbus/char/uctrl.c             | 435 ------------------
- drivers/usb/host/Kconfig              |   2 +-
- drivers/usb/host/ehci-hcd.c           |   4 +-
- drivers/usb/host/uhci-hcd.c           |   2 +-
- drivers/video/fbdev/Kconfig           |  10 +-
- drivers/video/fbdev/Makefile          |   1 -
- drivers/video/fbdev/p9100.c           | 372 ---------------
- sound/sparc/Kconfig                   |   1 +
- 88 files changed, 318 insertions(+), 10809 deletions(-)
----
-base-commit: bee0e7762ad2c6025b9f5245c040fcc36ef2bde8
-change-id: 20231219-sam-sparc32-sunset-v3-4751ea89da2d
+diff --git a/arch/sparc/configs/sparc32_defconfig b/arch/sparc/configs/sparc32_defconfig
+index 5010164de3e4..71273fc578bf 100644
+--- a/arch/sparc/configs/sparc32_defconfig
++++ b/arch/sparc/configs/sparc32_defconfig
+@@ -1,97 +1,108 @@
++CONFIG_DEFAULT_HOSTNAME="leon"
+ CONFIG_SYSVIPC=y
+-CONFIG_POSIX_MQUEUE=y
+ CONFIG_LOG_BUF_SHIFT=14
+-CONFIG_SYSFS_DEPRECATED_V2=y
+ CONFIG_BLK_DEV_INITRD=y
+-# CONFIG_CC_OPTIMIZE_FOR_SIZE is not set
+-CONFIG_MODULES=y
+-CONFIG_MODULE_UNLOAD=y
+-# CONFIG_BLK_DEV_BSG is not set
+-CONFIG_PCI=y
+-CONFIG_SUN_OPENPROMFS=m
+-CONFIG_BINFMT_MISC=m
++# CONFIG_RD_BZIP2 is not set
++# CONFIG_RD_LZMA is not set
++# CONFIG_RD_XZ is not set
++# CONFIG_RD_LZO is not set
++# CONFIG_RD_LZ4 is not set
++# CONFIG_RD_ZSTD is not set
++CONFIG_SMP=y
++CONFIG_HZ_100=y
++CONFIG_SPARC_LEON=y
++CONFIG_SUN_OPENPROMFS=y
++CONFIG_SUN_OPENPROMIO=y
++# CONFIG_CORE_DUMP_DEFAULT_ELF_HEADERS is not set
++CONFIG_BINFMT_MISC=y
++# CONFIG_COMPACTION is not set
+ CONFIG_NET=y
+ CONFIG_PACKET=y
+ CONFIG_UNIX=y
+-CONFIG_XFRM_USER=m
+-CONFIG_NET_KEY=m
+ CONFIG_INET=y
+ CONFIG_IP_PNP=y
+-CONFIG_IP_PNP_DHCP=y
+-CONFIG_INET_AH=y
+-CONFIG_INET_ESP=y
+-CONFIG_INET_IPCOMP=y
+-CONFIG_INET6_AH=m
+-CONFIG_INET6_ESP=m
+-CONFIG_INET6_IPCOMP=m
+-CONFIG_IPV6_TUNNEL=m
+-CONFIG_NET_PKTGEN=m
+-CONFIG_BLK_DEV_LOOP=m
+-CONFIG_BLK_DEV_CRYPTOLOOP=m
+-CONFIG_BLK_DEV_RAM=y
+-CONFIG_SCSI=y
+-CONFIG_BLK_DEV_SD=y
+-CONFIG_BLK_DEV_SR=m
+-CONFIG_CHR_DEV_SG=m
+-CONFIG_SCSI_QLOGICPTI=m
+-CONFIG_SCSI_SUNESP=y
++# CONFIG_WIRELESS is not set
++CONFIG_UEVENT_HELPER=y
++CONFIG_DEVTMPFS=y
++CONFIG_DEVTMPFS_MOUNT=y
+ CONFIG_NETDEVICES=y
+-CONFIG_DUMMY=m
+-CONFIG_NET_ETHERNET=y
+-CONFIG_MII=m
+-CONFIG_SUNLANCE=y
+-CONFIG_HAPPYMEAL=m
+-CONFIG_SUNBMAC=m
+-CONFIG_SUNQE=m
++CONFIG_GRETH=y
++# CONFIG_NET_VENDOR_ALACRITECH is not set
++# CONFIG_NET_VENDOR_AMAZON is not set
++# CONFIG_NET_VENDOR_AMD is not set
++# CONFIG_NET_VENDOR_AQUANTIA is not set
++# CONFIG_NET_VENDOR_ARC is not set
++# CONFIG_NET_VENDOR_BROADCOM is not set
++# CONFIG_NET_VENDOR_CADENCE is not set
++# CONFIG_NET_VENDOR_CAVIUM is not set
++# CONFIG_NET_VENDOR_CORTINA is not set
++# CONFIG_NET_VENDOR_EZCHIP is not set
++# CONFIG_NET_VENDOR_GOOGLE is not set
++# CONFIG_NET_VENDOR_HUAWEI is not set
++# CONFIG_NET_VENDOR_INTEL is not set
++# CONFIG_NET_VENDOR_MARVELL is not set
++# CONFIG_NET_VENDOR_MICREL is not set
++# CONFIG_NET_VENDOR_MICROCHIP is not set
++# CONFIG_NET_VENDOR_MICROSEMI is not set
++# CONFIG_NET_VENDOR_NI is not set
++# CONFIG_NET_VENDOR_NATSEMI is not set
++# CONFIG_NET_VENDOR_NETRONOME is not set
++# CONFIG_NET_VENDOR_PENSANDO is not set
++# CONFIG_NET_VENDOR_QUALCOMM is not set
++# CONFIG_NET_VENDOR_RENESAS is not set
++# CONFIG_NET_VENDOR_ROCKER is not set
++# CONFIG_NET_VENDOR_SAMSUNG is not set
++# CONFIG_NET_VENDOR_SEEQ is not set
++# CONFIG_NET_VENDOR_SOLARFLARE is not set
++# CONFIG_NET_VENDOR_SOCIONEXT is not set
++# CONFIG_NET_VENDOR_STMICRO is not set
++# CONFIG_NET_VENDOR_SUN is not set
++# CONFIG_NET_VENDOR_SYNOPSYS is not set
++# CONFIG_NET_VENDOR_VIA is not set
++# CONFIG_NET_VENDOR_WIZNET is not set
++# CONFIG_NET_VENDOR_XILINX is not set
++CONFIG_BROADCOM_PHY=y
++CONFIG_CICADA_PHY=y
++CONFIG_DAVICOM_PHY=y
++CONFIG_ICPLUS_PHY=y
++CONFIG_LXT_PHY=y
++CONFIG_LSI_ET1011C_PHY=y
++CONFIG_MARVELL_PHY=y
++CONFIG_MICREL_PHY=y
++CONFIG_NATIONAL_PHY=y
++CONFIG_QSEMI_PHY=y
++CONFIG_REALTEK_PHY=y
++CONFIG_SMSC_PHY=y
++CONFIG_STE10XP=y
++CONFIG_VITESSE_PHY=y
+ # CONFIG_WLAN is not set
+-CONFIG_INPUT_JOYDEV=m
+-CONFIG_INPUT_EVDEV=m
+-CONFIG_INPUT_EVBUG=m
+-CONFIG_KEYBOARD_ATKBD=m
+-CONFIG_KEYBOARD_SUNKBD=m
+-CONFIG_MOUSE_PS2=m
+-CONFIG_MOUSE_SERIAL=m
+-CONFIG_SERIO=m
++# CONFIG_INPUT_KEYBOARD is not set
++# CONFIG_INPUT_MOUSE is not set
+ # CONFIG_SERIO_I8042 is not set
+ CONFIG_SERIAL_SUNZILOG=y
+ CONFIG_SERIAL_SUNZILOG_CONSOLE=y
+-CONFIG_SERIAL_SUNSU=y
+-CONFIG_SERIAL_SUNSU_CONSOLE=y
+-CONFIG_SPI=y
+-CONFIG_SPI_XILINX=m
+-CONFIG_SPI_XILINX_PLTFM=m
+-CONFIG_SUN_OPENPROMIO=m
+-CONFIG_EXT2_FS=y
+-CONFIG_EXT2_FS_XATTR=y
+-CONFIG_EXT2_FS_POSIX_ACL=y
+-CONFIG_EXT2_FS_SECURITY=y
+-CONFIG_AUTOFS_FS=m
+-CONFIG_ISO9660_FS=m
++CONFIG_SERIAL_GRLIB_GAISLER_APBUART=y
++CONFIG_SERIAL_GRLIB_GAISLER_APBUART_CONSOLE=y
++# CONFIG_HW_RANDOM is not set
++# CONFIG_HWMON is not set
++# CONFIG_HID_GENERIC is not set
++# CONFIG_USB_SUPPORT is not set
++# CONFIG_RTC_HCTOSYS is not set
++# CONFIG_RTC_INTF_SYSFS is not set
++# CONFIG_RTC_INTF_PROC is not set
++# CONFIG_RTC_INTF_DEV is not set
++# CONFIG_VIRTIO_MENU is not set
++# CONFIG_VHOST_MENU is not set
++# CONFIG_IOMMU_SUPPORT is not set
++CONFIG_FSCACHE=y
+ CONFIG_PROC_KCORE=y
+-CONFIG_ROMFS_FS=m
++CONFIG_TMPFS=y
++# CONFIG_MISC_FILESYSTEMS is not set
+ CONFIG_NFS_FS=y
++CONFIG_NFS_V4=y
+ CONFIG_ROOT_NFS=y
+-CONFIG_RPCSEC_GSS_KRB5=m
++CONFIG_NFS_FSCACHE=y
+ CONFIG_NLS=y
+-CONFIG_DEBUG_KERNEL=y
+-CONFIG_DETECT_HUNG_TASK=y
+-# CONFIG_SCHED_DEBUG is not set
+-CONFIG_KGDB=y
+-CONFIG_KGDB_TESTS=y
+-CONFIG_CRYPTO_NULL=m
+-CONFIG_CRYPTO_ECB=m
+-CONFIG_CRYPTO_PCBC=m
+-CONFIG_CRYPTO_MD4=y
+-CONFIG_CRYPTO_MICHAEL_MIC=m
+-CONFIG_CRYPTO_SHA256=m
+-CONFIG_CRYPTO_SHA512=m
+-CONFIG_CRYPTO_AES=m
+-CONFIG_CRYPTO_ARC4=m
+-CONFIG_CRYPTO_BLOWFISH=m
+-CONFIG_CRYPTO_CAST5=m
+-CONFIG_CRYPTO_CAST6=m
+-CONFIG_CRYPTO_SERPENT=m
+-CONFIG_CRYPTO_TWOFISH=m
+-# CONFIG_CRYPTO_ANSI_CPRNG is not set
+-# CONFIG_CRYPTO_HW is not set
+-CONFIG_LIBCRC32C=m
++CONFIG_MAGIC_SYSRQ=y
++CONFIG_DEBUG_FS=y
++# CONFIG_RUNTIME_TESTING_MENU is not set
 
-Best regards,
 -- 
-Sam Ravnborg <sam@ravnborg.org>
+2.34.1
 
