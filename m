@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74B49818D42
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 18:01:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88169818D43
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 18:01:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DBE810E4E0;
-	Tue, 19 Dec 2023 17:01:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26DBF10E4E3;
+	Tue, 19 Dec 2023 17:01:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A9F710E4D4
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 17:01:24 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id
- 5b1f17b1804b1-40d2376db79so9388555e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 09:01:24 -0800 (PST)
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F52010E4D2
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 17:01:25 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id
+ 5b1f17b1804b1-40c2bb872e2so54681585e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 09:01:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20230601; t=1703005283; x=1703610083; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=0WseMEHOavtmxykYRA2JtvMxiK/FtoaZXXQqi1uMlW0=;
- b=B6Z78D85HnJU3X0nixdMCagShJ0es8VSxk0mibRdDdJPgm2d22+w43meKKplptCNJR
- d+D73QiHOWJAmuKfPns1Xq3KLYNL70ZZ/mXlhCz0ptLq/9ZCmxk5VMlRYT62yGy/Qx/W
- 3OlyqE6JVgNYjKLT9ydMQFWQL66Gfxx0UvnjLD9gmmRvYQhUfJS8neF3tbD7bX3yAXtP
- bWmTSD9447gZX6cwkx+PuXnaZnoCcHxUztsKjpkT25zsgdntcLI7QWQEPaoOqZ/+7+7K
- S3g8jV8nS60MMh8HZOPFDQl4S8M6idFZNCNI5nWRmb8RtNzs7VjyGe+GfVJNDwQU6pXR
- qTGg==
+ bh=bc0b+TzRBYlgBswaLzZiZATkVZXs4jtzYrqChWAdmP8=;
+ b=NnuBIwKXU/rg2zS8x1UbC9xr+g+eHB/R2pC8Nh8h0+MIrCwWEp+0BLrNe2c1krVuen
+ Xomx9K0RhyAUBkFfvPqd+rEdJfa+X3bYqdGrgyyFDQLYfK6+ZB4E1+GlUjianwiTxnAl
+ hZKAWlLrnT4SLt/+tesFvzFUYwDKJUmamKdWY0WYyEVZ+Zz211vqhJNh1+MQgxyc0QAT
+ FxXlpANs1oxjp/kt29nO/sykJfdnfK4024y7zOAIPQgctkX9Ip4brq6j8AOstB6D0Nyj
+ 5m3X5tnumeD2tZNyKJ3rG+vU4hA8a5vgUy7NyfSRo+bjGsdHwLPruSLaVdLNDNa81B5j
+ wxNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1703005283; x=1703610083;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=0WseMEHOavtmxykYRA2JtvMxiK/FtoaZXXQqi1uMlW0=;
- b=MSbkT6jDQvHRtq26sEWxlbTKPoABLppo/kKFeJPdgwp+C+tzyP9FRVBnRPWgN0xnqg
- VtnG6DjaqciH6dFr4NdUwaey9tin904OMDWbTWtVlBq8iDFfFtLKWWHsZYG+EA6dkTn6
- M1FltsDQpS0OOPkmETmy3s/ATAfQ3DEunOD5dMAyu9CScOISt7qoDjx9pwUgeoEvSWGa
- DczM+IkkK3dMhGbCHiev8XQPCgw4tmTfbJHr4Rpmt6SVi1kZzO94psZWHpEqWtE4R3xY
- fdzz5fjgUs7R9rgR9QVcv5VNRml1ifL4lv5pcFefIFiGRHJWmPP35HD6pNxFCvZInRhd
- kySw==
-X-Gm-Message-State: AOJu0Ywh02uCGKFTo70SMUgpSugNmpkD+2v4Bm2n0Ef27tz77O+PTbpd
- t/ZPACFu512gE2dzhf4SsA==
-X-Google-Smtp-Source: AGHT+IGOZJZnOnuHfdIdouJRryXsfventVWMJzlbA9qGEmVPHmZahIRRyc0+LTqlmnQmmG0gfJFPiw==
-X-Received: by 2002:a05:600c:1d10:b0:40c:50c:9f3f with SMTP id
- l16-20020a05600c1d1000b0040c050c9f3fmr10565023wms.95.1703005282571; 
- Tue, 19 Dec 2023 09:01:22 -0800 (PST)
+ bh=bc0b+TzRBYlgBswaLzZiZATkVZXs4jtzYrqChWAdmP8=;
+ b=WLvlwzqMGeHhJq3xVjM4bhwrzU1JWa33kp3RvIsDje3X087oIMqSx7Dh3r4/lhfW5x
+ N2tqmGeO43CHQuesqvVb+9Pb7Br0im060+qHgjaONINmJ+/HlNjV+gWs6KmbIF+TDgPh
+ ANtjIyVxA+UKHf0HZdjd9VZDc3iDLw8+Ucd1Qz6kqV7geSoHfWSMWhbs1XbHqfziwTXd
+ fXtBsCVlkAE6ONHYfnM4f+NHuHVXTntymt1/BOr6cAlolQ5q+YfNbMmGa9MvocaUJIm+
+ ecZ2tQBvRaluCnd7mbq7qOThaTrC2U24Dutcs3EqzhJ6UZNZyxKhigQG4PmAWNsmcrMs
+ tfuA==
+X-Gm-Message-State: AOJu0YyFpfWOVM0vHPoc+8ogd/gf631wkumnKtUxKPeVmp4W4bWbrtXZ
+ vOIRE2QxsCg1QwY9DCCFfA==
+X-Google-Smtp-Source: AGHT+IGsXiyRLPSKTLiCmb5HKcIoTm/Gx4nMKjVc/FhMnHN1ip8FwDTTR8xwruHseC++DoM215yynw==
+X-Received: by 2002:a05:600c:4588:b0:40c:6b55:2a0f with SMTP id
+ r8-20020a05600c458800b0040c6b552a0fmr2064612wmo.224.1703005283542; 
+ Tue, 19 Dec 2023 09:01:23 -0800 (PST)
 Received: from U4.lan ([2a02:810b:f40:4300:7ae5:3e:d1c6:a138])
  by smtp.gmail.com with ESMTPSA id
- i7-20020a05600c354700b0040d2805d158sm3225878wmq.48.2023.12.19.09.01.21
+ i7-20020a05600c354700b0040d2805d158sm3225878wmq.48.2023.12.19.09.01.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Dec 2023 09:01:22 -0800 (PST)
+ Tue, 19 Dec 2023 09:01:23 -0800 (PST)
 From: Alex Bee <knaerzche@gmail.com>
 To: Sandy Huang <hjc@rock-chips.com>,
  =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
@@ -59,9 +59,9 @@ To: Sandy Huang <hjc@rock-chips.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>
-Subject: [PATCH v3 17/29] drm/rockchip: inno_hdmi: Drop irq struct member
-Date: Tue, 19 Dec 2023 18:00:47 +0100
-Message-ID: <20231219170100.188800-18-knaerzche@gmail.com>
+Subject: [PATCH v3 18/29] drm/rockchip: inno_hdmi: Remove useless include
+Date: Tue, 19 Dec 2023 18:00:48 +0100
+Message-ID: <20231219170100.188800-19-knaerzche@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231219170100.188800-1-knaerzche@gmail.com>
 References: <20231219170100.188800-1-knaerzche@gmail.com>
@@ -86,7 +86,7 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The struct member irq isn't used anywhere. Drop it.
+The inclusion syscon.h isn't used anywhere. Remove it.
 
 Signed-off-by: Alex Bee <knaerzche@gmail.com>
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
@@ -101,17 +101,17 @@ changes in v3:
  1 file changed, 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
-index 51c1a69dfcc0..138cd4287dea 100644
+index 138cd4287dea..c306db90832a 100644
 --- a/drivers/gpu/drm/rockchip/inno_hdmi.c
 +++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
-@@ -45,7 +45,6 @@ struct inno_hdmi_i2c {
- struct inno_hdmi {
- 	struct device *dev;
- 
--	int irq;
- 	struct clk *pclk;
- 	void __iomem *regs;
- 
+@@ -10,7 +10,6 @@
+ #include <linux/delay.h>
+ #include <linux/err.h>
+ #include <linux/hdmi.h>
+-#include <linux/mfd/syscon.h>
+ #include <linux/mod_devicetable.h>
+ #include <linux/module.h>
+ #include <linux/mutex.h>
 -- 
 2.43.0
 
