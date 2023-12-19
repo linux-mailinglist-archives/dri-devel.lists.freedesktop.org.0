@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E499818D37
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 18:01:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F25FF818D36
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 18:01:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B29F10E4C7;
-	Tue, 19 Dec 2023 17:01:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EEFE10E492;
+	Tue, 19 Dec 2023 17:01:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
  [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53DCB10E1D0
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 17:01:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E5D810E1D0
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 17:01:17 +0000 (UTC)
 Received: by mail-wm1-x32e.google.com with SMTP id
- 5b1f17b1804b1-40d12b56a38so39141525e9.2
+ 5b1f17b1804b1-40d05ebe642so17225035e9.0
  for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 09:01:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20230601; t=1703005275; x=1703610075; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=VvJhWTUaZ1kAS2FjYOCcewK/+2L6xqjKsMInEMuEacc=;
- b=GP1u7eaGdFaFsNYrQjm5DhzBN8oQjIx/tLhwqXUg9mgw39mL3I5ToyW1eWnDTGxrH0
- kzp9VFHiqDdwjDxhmL9buzWledvbwXAIt7R5VpHMh1dXeXmHKrkH1Vb9CE6Tj386w0FV
- Dn0qUoOFPdrvh7Fa0JvnRxgoMO0YkEB/jKTDlQJNQXVCCwz2U9rhvxodVzEUXJ21UKlp
- rdPL+xRkA5bMWfYSPR4+l+BulVlmAFc01yhPvShM8+94dtbtP4BKLxSnB4jUl0bK118l
- 2VtiIdOaR3A+SKyQxGVrKJfrefZ+8qDUyMrK5zP27k2riAhQXpAIATs+ZArBYu7tfQnS
- GkMQ==
+ bh=SMIbD+dY7Kjgg6ECXdMxWD6N2Rzqy4kZE/eQIX1m8rA=;
+ b=Ul8aV2IzAeGF0g+1yUAAvdySY144U85fVBAD4nm0BAdWUf2y8pp4mW2T3rXY+PdVKf
+ LpH2hUirJzqxxCuh5zYzzUDt3OZZUPUBN36sa63SXWZ7zQ0UejDaZxpAET8/+ugEwiJR
+ N1i8cdtTXYRXNQDfmiaodohKcaV3EUibaJqvUDY29a6chZknKpM1JlgEtPppsK6OV5Y8
+ joOJKW5PUSdhtDNJiwHIJD1+6HOOUzk/b7piPtAe5cRwpWvNIr3TOtilT/KdjRh6dDGk
+ NZ1lvDEIPBdrMut4iTZ38YcCx27QinZ4nB1hkRGyHjcu3FmENJ73kVgvqsg+SCQPjU9w
+ 0/AA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1703005275; x=1703610075;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=VvJhWTUaZ1kAS2FjYOCcewK/+2L6xqjKsMInEMuEacc=;
- b=IQaoyh/gmlWFcUrU1kafJWofluzeRM0RBjk+S7u3d35Bic+CZYbfQBs/djnO3kZuLK
- jYIYqAU/pnzqiBqWKD0Q6l929F3JOa/EmfPI3scQ1zfDMP6MP6iEkDzGZZBCfjeQnnun
- 0z+I2efTSWosipgTY63v/1VZCDGn727LqmjpRKTSg7aa6PoOywdsBv7omEnpHwXlAGpR
- ue8/QpD/lm32NEdJkY9JIWsTu8kNgOM/pb06b+1DAZFpdva+vLvRlBCFgyTV4t+orsUN
- zeYtjKl5miSOTmhiy3X0yTuxwqq5qbKv6xHATtrsdwZRTGM/N4GJ3/BJmGsCNmqqndzu
- Pz3g==
-X-Gm-Message-State: AOJu0Yxt9Iz0ajlXI0FWdOGnT6ma8LH902t9o9y0TB8/Iov/ZPH5qqMb
- QpGIHhhmgrmmQyRCwj/bxQ==
-X-Google-Smtp-Source: AGHT+IGSTG2bZEzpSu8nSWJckWftmgfOLD5ECMR1O8HR3EFeEhnatTb8aS+6tL1yBM93D+staL9K0w==
-X-Received: by 2002:a7b:ce8f:0:b0:40c:2205:e5f6 with SMTP id
- q15-20020a7bce8f000000b0040c2205e5f6mr5185131wmj.293.1703005274526; 
- Tue, 19 Dec 2023 09:01:14 -0800 (PST)
+ bh=SMIbD+dY7Kjgg6ECXdMxWD6N2Rzqy4kZE/eQIX1m8rA=;
+ b=VXzuYNejld75Sxgketp1KK3cnNJoi4GPENLXxMDT0RP26l0QIVwrS0+AP7TeNxKGcE
+ d8lIqTLTvQLBh3ts5VjFKvOk182vueO347dWRpqRvIYbbeqOTHi1rGVqIyUyW03g2Bzp
+ RB9qKxNfhU4M6skwokPegXmC7w+tGa6Tu50C4pCJwdVAFOU9k2re7fzFkHSqQ1rCcVAN
+ WPzz750EWyS2HvF6xa0gDyZCURLgThNeXOoz1k3KAR4Au6WDv6+ZgO0QyliZxK4sZrxm
+ AXfFJEZx5CKkAHFCTp/UTD2eyWTcevb8dygsCDe8D689i7jEXzFWoVn8k1lmv0NNgVKy
+ YpgQ==
+X-Gm-Message-State: AOJu0YxMdcS8H0wy0Bo6HdV4yk9DeDhrnYmW+f3CXs8RzVHXksiU4h4z
+ FKuAySOec8WypBnKF/Gu6Q==
+X-Google-Smtp-Source: AGHT+IFd/r09bOpDmnqqwNJVgTHnXa/6FuakfAQjMYF9yiMWHDt7k1Pyk+VRkFPu8kUv7M2V8n7jSg==
+X-Received: by 2002:a05:600c:6988:b0:40b:5e4a:233e with SMTP id
+ fp8-20020a05600c698800b0040b5e4a233emr768909wmb.64.1703005275517; 
+ Tue, 19 Dec 2023 09:01:15 -0800 (PST)
 Received: from U4.lan ([2a02:810b:f40:4300:7ae5:3e:d1c6:a138])
  by smtp.gmail.com with ESMTPSA id
- i7-20020a05600c354700b0040d2805d158sm3225878wmq.48.2023.12.19.09.01.13
+ i7-20020a05600c354700b0040d2805d158sm3225878wmq.48.2023.12.19.09.01.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Dec 2023 09:01:14 -0800 (PST)
+ Tue, 19 Dec 2023 09:01:15 -0800 (PST)
 From: Alex Bee <knaerzche@gmail.com>
 To: Sandy Huang <hjc@rock-chips.com>,
  =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
@@ -59,9 +59,10 @@ To: Sandy Huang <hjc@rock-chips.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>
-Subject: [PATCH v3 08/29] drm/rockchip: inno_hdmi: no need to store vic
-Date: Tue, 19 Dec 2023 18:00:38 +0100
-Message-ID: <20231219170100.188800-9-knaerzche@gmail.com>
+Subject: [PATCH v3 09/29] drm/rockchip: inno_hdmi: Remove unneeded has audio
+ flag
+Date: Tue, 19 Dec 2023 18:00:39 +0100
+Message-ID: <20231219170100.188800-10-knaerzche@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231219170100.188800-1-knaerzche@gmail.com>
 References: <20231219170100.188800-1-knaerzche@gmail.com>
@@ -88,57 +89,42 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Maxime Ripard <mripard@kernel.org>
 
-The mode's VIC is only ever used in the inno_hdmi_setup() function so
-there's no need to store it in the main structure.
+The sink_has_audio flag is not used anywhere in the driver so let's get
+rid of it. It's redundant with drm_display_info.has_audio anyway.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 Tested-by: Alex Bee <knaerzche@gmail.com>
-[made checkpatch happy]
 Signed-off-by: Alex Bee <knaerzche@gmail.com>
 ---
 changes in v2:
  - imported patch
 
 changes in v3:
- - none
+ - added my SoB
 
- drivers/gpu/drm/rockchip/inno_hdmi.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/rockchip/inno_hdmi.c | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
-index 299770e481b7..d99896f1a73a 100644
+index d99896f1a73a..58aff7a9c09a 100644
 --- a/drivers/gpu/drm/rockchip/inno_hdmi.c
 +++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
 @@ -28,7 +28,6 @@
  #include "inno_hdmi.h"
  
  struct hdmi_data_info {
--	int vic;
- 	bool sink_has_audio;
+-	bool sink_has_audio;
  	unsigned int enc_in_format;
  	unsigned int enc_out_format;
-@@ -443,16 +442,15 @@ static int inno_hdmi_setup(struct inno_hdmi *hdmi,
- 			   struct drm_display_mode *mode)
- {
- 	struct drm_display_info *display = &hdmi->connector.display_info;
--
--	hdmi->hdmi_data.vic = drm_match_cea_mode(mode);
-+	u8 vic = drm_match_cea_mode(mode);
+ 	unsigned int colorimetry;
+@@ -554,7 +553,6 @@ static int inno_hdmi_connector_get_modes(struct drm_connector *connector)
  
- 	hdmi->hdmi_data.enc_in_format = HDMI_COLORSPACE_RGB;
- 	hdmi->hdmi_data.enc_out_format = HDMI_COLORSPACE_RGB;
- 
--	if ((hdmi->hdmi_data.vic == 6) || (hdmi->hdmi_data.vic == 7) ||
--	    (hdmi->hdmi_data.vic == 21) || (hdmi->hdmi_data.vic == 22) ||
--	    (hdmi->hdmi_data.vic == 2) || (hdmi->hdmi_data.vic == 3) ||
--	    (hdmi->hdmi_data.vic == 17) || (hdmi->hdmi_data.vic == 18))
-+	if (vic == 6 || vic == 7 ||
-+	    vic == 21 || vic == 22 ||
-+	    vic == 2 || vic == 3 ||
-+	    vic == 17 || vic == 18)
- 		hdmi->hdmi_data.colorimetry = HDMI_COLORIMETRY_ITU_601;
- 	else
- 		hdmi->hdmi_data.colorimetry = HDMI_COLORIMETRY_ITU_709;
+ 	edid = drm_get_edid(connector, hdmi->ddc);
+ 	if (edid) {
+-		hdmi->hdmi_data.sink_has_audio = drm_detect_monitor_audio(edid);
+ 		drm_connector_update_edid_property(connector, edid);
+ 		ret = drm_add_edid_modes(connector, edid);
+ 		kfree(edid);
 -- 
 2.43.0
 
