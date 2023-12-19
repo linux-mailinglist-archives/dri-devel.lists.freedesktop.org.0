@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB9438192CA
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 23:03:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21BE88192D9
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 23:03:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7860B10E206;
-	Tue, 19 Dec 2023 22:03:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0975C10E2E2;
+	Tue, 19 Dec 2023 22:03:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A09D910E25E
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 22:03:17 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D57910E510
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 22:03:18 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 0B4DD614D5;
+ by dfw.source.kernel.org (Postfix) with ESMTP id 3EA2F614DC;
  Tue, 19 Dec 2023 22:03:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 40287C4167D;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4D512C41679;
  Tue, 19 Dec 2023 22:03:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1703023396;
- bh=jplkjx8KqxEm4GLkaXEG2Z4HbaFqY312HYZeES0ZtrE=;
+ bh=ueTE/yyYgHzSFp5WMKMe/Lefd/L2b24jmufTFHxAvfE=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=H3YyyvsxfiS6k44YxC/qRiEBp7u6VA6JILXBOBPtvDxC6pMp3O2eAkGMFHhtABWj3
- 7s0iOY5MY/nS9YCsv6q3ozlTGTiYcZENEDdQt+3gMhSSExgtKdmMseMPgG2KnLN49f
- HJpXQxX/8NNPC2PycdPMEsXXS3j5KRYEBqdrTaMlUZil0juQz6Xrir3FCtVnluaEwb
- IvmSafv/WbiJVDE40QjtEvtzeMVBmatsdkIuJaNTXa9xgmDJVFSrrro1dRtQHjLLb2
- VkgxHP26d+0ffNPeloDk/8nE1Bb6YQ9VY0zeqw9U2Z6KMGvSylX8CpsaP2qBWNkkBM
- akaFxUS6vNhhQ==
+ b=DfpFm8ha4/lLJICaxIkhacldZVqeWfVpTTifZ3hNoTs1e8tkpbLpD/diqwYuD9wSX
+ qRFNSgbDntYGtqiS/c12y5jJLzfKeQat99DJx7kZ+JOm/mwLARG8+zvfYoMbNMYfRa
+ +Vk2pUOBvJ0UAn1w3wBusWPX02ToFjGc6yXLmDeBhH8kGwqgnscj6fZ4A19Kv5sULS
+ 3RF8S0cw7/GQLYVPHGkgfPt3sOTN9s2alQDdXTGF74m7pSWAe+8Gd6kbnWyroIQ2uw
+ 3yMAgTRKt6nPSv348iXoQE2EEiFyDTG4epHBdyHONHB2AcB9fr2108NjGGSn4hmCda
+ cce50rATGbI+A==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 31A33C41535;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 3C7C5C4706C;
  Tue, 19 Dec 2023 22:03:16 +0000 (UTC)
 From: Sam Ravnborg via B4 Relay <devnull+sam.ravnborg.org@kernel.org>
-Date: Tue, 19 Dec 2023 23:03:21 +0100
-Subject: [PATCH 16/27] sparc32: Drop use of sparc_config
+Date: Tue, 19 Dec 2023 23:03:22 +0100
+Subject: [PATCH 17/27] sparc32: Drop run-time patching of ASI instructions
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231219-sam-sparc32-sunset-v3-v1-16-64bb44b598c5@ravnborg.org>
+Message-Id: <20231219-sam-sparc32-sunset-v3-v1-17-64bb44b598c5@ravnborg.org>
 References: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
 In-Reply-To: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
 To: "David S. Miller" <davem@davemloft.net>, 
  Arnd Bergmann <arnd@kernel.org>, Andreas Larsson <andreas@gaisler.com>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1703023392; l=12280;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1703023392; l=17578;
  i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=towcWv/IYNk7Hr20WNSh7PMItPdPneNjwiK/fXzUXBw=; =?utf-8?q?b=3DV1cnAV/sOaE2?=
- =?utf-8?q?3j6mQAoXJ8XD3mN9KWAjrZjSKN6qIEqfPE6+95qYg6Iyd8Jljo/koYkJsy+p4Nfv?=
- 5oWz9OgsBFCB9lJ/Rtpax43gJ1nkhx8t33AGEPrHUm/A+1ct60ek
+ bh=orJ6Re0yMKNUE7LoDpDBGUldkQ5REsl/uMUDjutJ2ic=; =?utf-8?q?b=3Dr7NiAbPFxlch?=
+ =?utf-8?q?I+UKz5Osj//zaLUhUn6gUspaj0xpNy0ZPBY6BdVlAXvdMFamLS1Lty0uqM9nC6At?=
+ YcK0tjS9AP7yJaMnNbcP/MLfgNCPBFvj/FCH2lPr0qbdmLMEDkzt
 X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
  pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
 X-Endpoint-Received: by B4 Relay for sam@ravnborg.org/20230107 with auth_id=22
@@ -77,373 +78,520 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sam Ravnborg <sam@ravnborg.org>
 
-sparc_config were used to handle the differences between the machines.
-With only LEON supported sparc_config is no longer required.
+With only LEON supported there is no need to run-time patch
+the instructions to match ASI.
 
-Refactor the time code a litte as some parts are obsolete and other
-parts are only used when SMP is not enabled.
+Move a few functions back to C with inline asm, now that
+run-time patching is not needed.
+
+Deleted a few functions that turns out not to be used rather
+than re-implement them in C.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Arnd Bergmann <arnd@kernel.org>
 Cc: Andreas Larsson <andreas@gaisler.com>
 ---
- arch/sparc/include/asm/timer_32.h |  1 +
- arch/sparc/kernel/irq.h           | 37 +++-------------------
- arch/sparc/kernel/irq_32.c        |  3 --
- arch/sparc/kernel/leon_kernel.c   | 27 +++--------------
- arch/sparc/kernel/of_device_32.c  |  4 +--
- arch/sparc/kernel/time_32.c       | 64 +++++++++++++--------------------------
- 6 files changed, 33 insertions(+), 103 deletions(-)
+ arch/sparc/include/asm/asmmacro.h | 22 -----------
+ arch/sparc/include/asm/pgtsrmmu.h | 29 +++++++-------
+ arch/sparc/include/asm/sections.h |  3 --
+ arch/sparc/include/asm/winmacro.h | 11 +-----
+ arch/sparc/kernel/entry.S         |  7 +---
+ arch/sparc/kernel/etrap_32.S      | 15 +++----
+ arch/sparc/kernel/rtrap_32.S      | 18 +++------
+ arch/sparc/kernel/setup_32.c      | 37 -----------------
+ arch/sparc/kernel/vmlinux.lds.S   |  5 ---
+ arch/sparc/kernel/wof.S           | 18 +++------
+ arch/sparc/kernel/wuf.S           | 21 ++++------
+ arch/sparc/mm/Makefile            |  1 -
+ arch/sparc/mm/srmmu_access.S      | 83 ---------------------------------------
+ 13 files changed, 43 insertions(+), 227 deletions(-)
 
-diff --git a/arch/sparc/include/asm/timer_32.h b/arch/sparc/include/asm/timer_32.h
-index eecd2696922d..1cd89a99966f 100644
---- a/arch/sparc/include/asm/timer_32.h
-+++ b/arch/sparc/include/asm/timer_32.h
-@@ -17,6 +17,7 @@
- #include <asm/cpu_type.h>  /* For SUN4M_NCPUS */
+diff --git a/arch/sparc/include/asm/asmmacro.h b/arch/sparc/include/asm/asmmacro.h
+index 49aaf6f3bc55..d5782dbc7810 100644
+--- a/arch/sparc/include/asm/asmmacro.h
++++ b/arch/sparc/include/asm/asmmacro.h
+@@ -21,26 +21,4 @@
+ /* All traps low-level code here must end with this macro. */
+ #define RESTORE_ALL b ret_trap_entry; clr %l6;
  
- #define SBUS_CLOCK_RATE   2000000 /* 2MHz */
-+#define LEON_CLOCK_RATE   1000000
- #define TIMER_VALUE_SHIFT 9
- #define TIMER_VALUE_MASK  0x3fffff
- #define TIMER_LIMIT_BIT   (1 << 31)  /* Bit 31 in Counter-Timer register */
-diff --git a/arch/sparc/kernel/irq.h b/arch/sparc/kernel/irq.h
-index 0d9b740725b4..8a0b314c8299 100644
---- a/arch/sparc/kernel/irq.h
-+++ b/arch/sparc/kernel/irq.h
-@@ -44,38 +44,6 @@ struct sun4m_irq_global {
- extern struct sun4m_irq_percpu __iomem *sun4m_irq_percpu[SUN4M_NCPUS];
- extern struct sun4m_irq_global __iomem *sun4m_irq_global;
- 
--/* The following definitions describe the individual platform features: */
--#define FEAT_L10_CLOCKSOURCE (1 << 0) /* L10 timer is used as a clocksource */
--#define FEAT_L10_CLOCKEVENT  (1 << 1) /* L10 timer is used as a clockevent */
--#define FEAT_L14_ONESHOT     (1 << 2) /* L14 timer clockevent can oneshot */
--
--/*
-- * Platform specific configuration
-- * The individual platforms assign their platform
-- * specifics in their init functions.
+-/* Support for run-time patching of single instructions.
+- * This is used to handle the differences in the ASI for
+- * MMUREGS for LEON and SUN.
+- *
+- * Sample:
+- * LEON_PI(lda [%g0] ASI_LEON_MMUREGS, %o0
+- * SUN_PI_(lda [%g0] ASI_M_MMUREGS, %o0
+- * PI == Patch Instruction
+- *
+- * For LEON we will use the first variant,
+- * and for all other we will use the SUN variant.
+- * The order is important.
 - */
--struct sparc_config {
--	void (*init_timers)(void);
--	unsigned int (*build_device_irq)(struct platform_device *op,
--	                                 unsigned int real_irq);
+-#define LEON_PI(...)				\
+-662:	__VA_ARGS__
 -
--	/* generic clockevent features - see FEAT_* above */
--	int features;
+-#define SUN_PI_(...)				\
+-	.section .leon_1insn_patch, "ax";	\
+-	.word 662b;				\
+-	__VA_ARGS__;				\
+-	.previous
 -
--	/* clock rate used for clock event timer */
--	int clock_rate;
--
--	/* one period for clock source timer */
--	unsigned int cs_period;
--
--	/* function to obtain offsett for cs period */
--	unsigned int (*get_cycles_offset)(void);
--
--	void (*clear_clock_irq)(void);
--	void (*load_profile_irq)(int cpu, unsigned int limit);
--};
--extern struct sparc_config sparc_config;
--
- unsigned int irq_alloc(unsigned int real_irq, unsigned int pil);
- void irq_link(unsigned int irq);
- void irq_unlink(unsigned int irq);
-@@ -89,6 +57,11 @@ void sun4m_nmi(struct pt_regs *regs);
- /* sun4d_irq.c */
- void sun4d_handler_irq(unsigned int pil, struct pt_regs *regs);
+ #endif /* !(_SPARC_ASMMACRO_H) */
+diff --git a/arch/sparc/include/asm/pgtsrmmu.h b/arch/sparc/include/asm/pgtsrmmu.h
+index 664d4bba1bcb..69c28ff3c4c4 100644
+--- a/arch/sparc/include/asm/pgtsrmmu.h
++++ b/arch/sparc/include/asm/pgtsrmmu.h
+@@ -107,23 +107,24 @@ extern void *srmmu_nocache_pool;
+ #define __nocache_va(PADDR) (__va((unsigned long)PADDR) - (unsigned long)srmmu_nocache_pool + SRMMU_NOCACHE_VADDR)
+ #define __nocache_fix(VADDR) ((__typeof__(VADDR))__va(__nocache_pa(VADDR)))
  
-+/* leon_kernel.c */
-+void leon_clear_clock_irq(void);
-+void leon_load_profile_irq(int cpu, unsigned int limit);
-+u32 leon_cycles_offset(void);
-+
- #ifdef CONFIG_SMP
- 
- /* All SUN4D IPIs are sent on this IRQ, may be shared with hard IRQs */
-diff --git a/arch/sparc/kernel/irq_32.c b/arch/sparc/kernel/irq_32.c
-index a6af08fce796..f76f57073323 100644
---- a/arch/sparc/kernel/irq_32.c
-+++ b/arch/sparc/kernel/irq_32.c
-@@ -24,9 +24,6 @@
- #include "kernel.h"
- #include "irq.h"
- 
--/* platform specific irq setup */
--struct sparc_config sparc_config;
+-/* Accessing the MMU control register. */
+-unsigned int srmmu_get_mmureg(void);
+-void srmmu_set_mmureg(unsigned long regval);
+-void srmmu_set_ctable_ptr(unsigned long paddr);
+-void srmmu_set_context(int context);
+-int srmmu_get_context(void);
+-unsigned int srmmu_get_fstatus(void);
+-unsigned int srmmu_get_faddr(void);
 -
- unsigned long arch_local_irq_save(void)
+-/* This is guaranteed on all SRMMU's. */
+-static inline void srmmu_flush_whole_tlb(void)
++static inline void srmmu_set_ctable_ptr(unsigned long paddr)
  {
- 	unsigned long retval;
-diff --git a/arch/sparc/kernel/leon_kernel.c b/arch/sparc/kernel/leon_kernel.c
-index ea04bad6a118..fa9cdaffdc6b 100644
---- a/arch/sparc/kernel/leon_kernel.c
-+++ b/arch/sparc/kernel/leon_kernel.c
-@@ -237,12 +237,6 @@ unsigned int leon_build_device_irq(unsigned int real_irq,
- 	return irq;
- }
+-	__asm__ __volatile__("sta %%g0, [%0] %1\n\t": :
+-			     "r" (0x400),        /* Flush entire TLB!! */
+-			     "i" (ASI_M_FLUSH_PROBE) : "memory");
++	paddr = ((paddr >> 4) & SRMMU_CTX_PMASK);
++	asm volatile("sta %0, [%1] %2\n\t" : : "r" (paddr), "r" (SRMMU_CTXTBL_PTR), "i" (ASI_LEON_MMUREGS) : "memory");
++}
++
++static inline void srmmu_set_context(int context)
++{
++	asm volatile("sta %0, [%1] %2\n\t" : : "r" (context), "r" (SRMMU_CTX_REG), "i" (ASI_LEON_MMUREGS) : "memory");
++}
  
--static unsigned int _leon_build_device_irq(struct platform_device *op,
--					   unsigned int real_irq)
++static inline int srmmu_get_context(void)
++{
++	register int retval;
++	asm volatile("lda [%1] %2, %0\n\t" : "=r" (retval) : "r" (SRMMU_CTX_REG), "i" (ASI_LEON_MMUREGS));
++	return retval;
+ }
++
+ #endif /* !(__ASSEMBLY__) */
+ 
+ #endif /* !(_SPARC_PGTSRMMU_H) */
+diff --git a/arch/sparc/include/asm/sections.h b/arch/sparc/include/asm/sections.h
+index 08f833453ab3..e9d28148850b 100644
+--- a/arch/sparc/include/asm/sections.h
++++ b/arch/sparc/include/asm/sections.h
+@@ -8,7 +8,4 @@
+ /* sparc entry point */
+ extern char _start[];
+ 
+-extern char __leon_1insn_patch[];
+-extern char __leon_1insn_patch_end[];
+-
+ #endif
+diff --git a/arch/sparc/include/asm/winmacro.h b/arch/sparc/include/asm/winmacro.h
+index b6e911f5d93c..c496b04cdfaf 100644
+--- a/arch/sparc/include/asm/winmacro.h
++++ b/arch/sparc/include/asm/winmacro.h
+@@ -108,18 +108,11 @@
+ 661:	rd	%tbr, %idreg;				\
+ 	srl	%idreg, 10, %idreg;			\
+ 	and	%idreg, 0xc, %idreg;			\
+-	.section	.cpuid_patch, "ax";		\
+-	/* Instruction location. */			\
+-	.word		661b;				\
+-	/* SUN4D implementation. */			\
+-	lda	 [%g0] ASI_M_VIKING_TMP1, %idreg;	\
+-	sll	 %idreg, 2, %idreg;			\
+-	nop;						\
+-	/* LEON implementation. */			\
++							\
+ 	rd 	%asr17, %idreg;				\
+ 	srl	%idreg, 0x1c, %idreg;			\
+ 	sll	%idreg, 0x02, %idreg;			\
+-	.previous;					\
++							\
+ 	sethi    %hi(current_set), %dest_reg; 		\
+ 	or       %dest_reg, %lo(current_set), %dest_reg;\
+ 	ld       [%idreg + %dest_reg], %dest_reg;
+diff --git a/arch/sparc/kernel/entry.S b/arch/sparc/kernel/entry.S
+index 0f2417ee3f95..9cf8f87e8c42 100644
+--- a/arch/sparc/kernel/entry.S
++++ b/arch/sparc/kernel/entry.S
+@@ -469,11 +469,8 @@ srmmu_fault:
+ 	mov	0x400, %l5
+ 	mov	0x300, %l4
+ 
+-LEON_PI(lda	[%l5] ASI_LEON_MMUREGS, %l6)	! read sfar first
+-SUN_PI_(lda	[%l5] ASI_M_MMUREGS, %l6)	! read sfar first
+-
+-LEON_PI(lda	[%l4] ASI_LEON_MMUREGS, %l5)	! read sfsr last
+-SUN_PI_(lda	[%l4] ASI_M_MMUREGS, %l5)	! read sfsr last
++	lda	[%l5] ASI_LEON_MMUREGS, %l6	! read sfar first
++	lda	[%l4] ASI_LEON_MMUREGS, %l5	! read sfsr last
+ 
+ 	andn	%l6, 0xfff, %l6
+ 	srl	%l5, 6, %l5			! and encode all info into l7
+diff --git a/arch/sparc/kernel/etrap_32.S b/arch/sparc/kernel/etrap_32.S
+index 9f243f918619..bb222459f097 100644
+--- a/arch/sparc/kernel/etrap_32.S
++++ b/arch/sparc/kernel/etrap_32.S
+@@ -235,8 +235,7 @@ tsetup_srmmu_stackchk:
+ 
+ 	cmp	%glob_tmp, %sp
+ 	bleu,a	1f
+-LEON_PI( lda	[%g0] ASI_LEON_MMUREGS, %glob_tmp)	! read MMU control
+-SUN_PI_( lda	[%g0] ASI_M_MMUREGS, %glob_tmp)		! read MMU control
++	 lda	[%g0] ASI_LEON_MMUREGS, %glob_tmp	! read MMU control
+ 
+ trap_setup_user_stack_is_bolixed:
+ 	/* From user/kernel into invalid window w/bad user
+@@ -251,24 +250,20 @@ trap_setup_user_stack_is_bolixed:
+ 1:
+ 	/* Clear the fault status and turn on the no_fault bit. */
+ 	or	%glob_tmp, 0x2, %glob_tmp		! or in no_fault bit
+-LEON_PI(sta	%glob_tmp, [%g0] ASI_LEON_MMUREGS)		! set it
+-SUN_PI_(sta	%glob_tmp, [%g0] ASI_M_MMUREGS)		! set it
++	sta	%glob_tmp, [%g0] ASI_LEON_MMUREGS	! set it
+ 
+ 	/* Dump the registers and cross fingers. */
+ 	STORE_WINDOW(sp)
+ 
+ 	/* Clear the no_fault bit and check the status. */
+ 	andn	%glob_tmp, 0x2, %glob_tmp
+-LEON_PI(sta	%glob_tmp, [%g0] ASI_LEON_MMUREGS)
+-SUN_PI_(sta	%glob_tmp, [%g0] ASI_M_MMUREGS)
++	sta	%glob_tmp, [%g0] ASI_LEON_MMUREGS
+ 
+ 	mov	AC_M_SFAR, %glob_tmp
+-LEON_PI(lda	[%glob_tmp] ASI_LEON_MMUREGS, %g0)
+-SUN_PI_(lda	[%glob_tmp] ASI_M_MMUREGS, %g0)
++	lda	[%glob_tmp] ASI_LEON_MMUREGS, %g0
+ 
+ 	mov	AC_M_SFSR, %glob_tmp
+-LEON_PI(lda	[%glob_tmp] ASI_LEON_MMUREGS, %glob_tmp)! save away status of winstore
+-SUN_PI_(lda	[%glob_tmp] ASI_M_MMUREGS, %glob_tmp)	! save away status of winstore
++	lda	[%glob_tmp] ASI_LEON_MMUREGS, %glob_tmp	! save away status of winstore
+ 
+ 	andcc	%glob_tmp, 0x2, %g0			! did we fault?
+ 	bne	trap_setup_user_stack_is_bolixed	! failure
+diff --git a/arch/sparc/kernel/rtrap_32.S b/arch/sparc/kernel/rtrap_32.S
+index 8931fe266346..a232b367c219 100644
+--- a/arch/sparc/kernel/rtrap_32.S
++++ b/arch/sparc/kernel/rtrap_32.S
+@@ -232,14 +232,11 @@ srmmu_rett_stackchk:
+ 	cmp	%g1, %fp
+ 	bleu	ret_trap_user_stack_is_bolixed
+ 	 mov	AC_M_SFSR, %g1
+-LEON_PI(lda	[%g1] ASI_LEON_MMUREGS, %g0)
+-SUN_PI_(lda	[%g1] ASI_M_MMUREGS, %g0)
++	lda	[%g1] ASI_LEON_MMUREGS, %g0
+ 
+-LEON_PI(lda	[%g0] ASI_LEON_MMUREGS, %g1)
+-SUN_PI_(lda	[%g0] ASI_M_MMUREGS, %g1)
++	lda	[%g0] ASI_LEON_MMUREGS, %g1
+ 	or	%g1, 0x2, %g1
+-LEON_PI(sta	%g1, [%g0] ASI_LEON_MMUREGS)
+-SUN_PI_(sta	%g1, [%g0] ASI_M_MMUREGS)
++	sta	%g1, [%g0] ASI_LEON_MMUREGS
+ 
+ 	restore	%g0, %g0, %g0
+ 
+@@ -248,16 +245,13 @@ SUN_PI_(sta	%g1, [%g0] ASI_M_MMUREGS)
+ 	save	%g0, %g0, %g0
+ 
+ 	andn	%g1, 0x2, %g1
+-LEON_PI(sta	%g1, [%g0] ASI_LEON_MMUREGS)
+-SUN_PI_(sta	%g1, [%g0] ASI_M_MMUREGS)
++	sta	%g1, [%g0] ASI_LEON_MMUREGS
+ 
+ 	mov	AC_M_SFAR, %g2
+-LEON_PI(lda	[%g2] ASI_LEON_MMUREGS, %g2)
+-SUN_PI_(lda	[%g2] ASI_M_MMUREGS, %g2)
++	lda	[%g2] ASI_LEON_MMUREGS, %g2
+ 
+ 	mov	AC_M_SFSR, %g1
+-LEON_PI(lda	[%g1] ASI_LEON_MMUREGS, %g1)
+-SUN_PI_(lda	[%g1] ASI_M_MMUREGS, %g1)
++	lda	[%g1] ASI_LEON_MMUREGS, %g1
+ 	andcc	%g1, 0x2, %g0
+ 	be	ret_trap_userwins_ok
+ 	 nop
+diff --git a/arch/sparc/kernel/setup_32.c b/arch/sparc/kernel/setup_32.c
+index cb981f2794b3..1035d553d27a 100644
+--- a/arch/sparc/kernel/setup_32.c
++++ b/arch/sparc/kernel/setup_32.c
+@@ -178,39 +178,6 @@ extern int root_mountflags;
+ 
+ char reboot_command[COMMAND_LINE_SIZE];
+ 
+-struct cpuid_patch_entry {
+-	unsigned int	addr;
+-	unsigned int	sun4d[3];
+-	unsigned int	leon[3];
+-};
+-extern struct cpuid_patch_entry __cpuid_patch, __cpuid_patch_end;
+-
+-static void __init per_cpu_patch(void)
 -{
--	return leon_build_device_irq(real_irq, handle_simple_irq, "edge", 0);
+-	struct cpuid_patch_entry *p;
+-
+-	p = &__cpuid_patch;
+-	while (p < &__cpuid_patch_end) {
+-		unsigned long addr = p->addr;
+-		unsigned int *insns;
+-
+-		insns = &p->leon[0];
+-		*(unsigned int *) (addr + 0) = insns[0];
+-		flushi(addr + 0);
+-		*(unsigned int *) (addr + 4) = insns[1];
+-		flushi(addr + 4);
+-		*(unsigned int *) (addr + 8) = insns[2];
+-		flushi(addr + 8);
+-
+-		p++;
+-	}
 -}
 -
- void leon_update_virq_handling(unsigned int virq,
- 			      irq_flow_handler_t flow_handler,
- 			      const char *name, int do_ack)
-@@ -258,7 +252,7 @@ void leon_update_virq_handling(unsigned int virq,
- 	irq_set_chip_data(virq, (void *)mask);
- }
- 
--static u32 leon_cycles_offset(void)
-+u32 leon_cycles_offset(void)
- {
- 	u32 rld, val, ctrl, off;
- 
-@@ -312,14 +306,6 @@ void __init leon_init_timers(void)
- 	u32 config;
- 	u32 ctrl;
- 
--	sparc_config.get_cycles_offset = leon_cycles_offset;
--	sparc_config.cs_period = 1000000 / HZ;
--	sparc_config.features |= FEAT_L10_CLOCKSOURCE;
+-static __init void leon_patch(void)
+-{
+-	/* Default instruction is leon - no patching */
+-}
 -
--#ifndef CONFIG_SMP
--	sparc_config.features |= FEAT_L10_CLOCKEVENT;
--#endif
--
- 	leondebug_irq_disable = 0;
- 	leon_debug_irqout = 0;
- 	master_l10_counter = (u32 __iomem *)&dummy_master_l10_counter;
-@@ -434,7 +420,7 @@ void __init leon_init_timers(void)
- 	err = request_irq(irq, leon_percpu_timer_ce_interrupt,
- 			  IRQF_PERCPU | IRQF_TIMER, "timer", NULL);
- #else
--	irq = _leon_build_device_irq(NULL, leon3_gptimer_irq);
-+	irq = leon_build_device_irq(leon3_gptimer_irq, handle_simple_irq, "edge", 0);
- 	err = request_irq(irq, timer_interrupt, IRQF_TIMER, "timer", NULL);
- #endif
- 	if (err) {
-@@ -453,7 +439,7 @@ void __init leon_init_timers(void)
- 	return;
- }
+ struct tt_entry *sparc_ttable;
  
--static void leon_clear_clock_irq(void)
-+void leon_clear_clock_irq(void)
+ /* Called from head_32.S - before we have setup anything
+@@ -219,7 +186,6 @@ struct tt_entry *sparc_ttable;
+ void __init sparc32_start_kernel(struct linux_romvec *rp)
  {
- 	u32 ctrl;
- 
-@@ -462,7 +448,7 @@ static void leon_clear_clock_irq(void)
- 			      ctrl & leon3_gptimer_ackmask);
+ 	prom_init(rp);
+-	leon_patch();
+ 	start_kernel();
  }
  
--static void leon_load_profile_irq(int cpu, unsigned int limit)
-+void leon_load_profile_irq(int cpu, unsigned int limit)
- {
- }
- 
-@@ -485,9 +471,4 @@ void leon_enable_irq_cpu(unsigned int irq_nr, unsigned int cpu)
- 
- void __init leon_init_IRQ(void)
- {
--	sparc_config.init_timers      = leon_init_timers;
--	sparc_config.build_device_irq = _leon_build_device_irq;
--	sparc_config.clock_rate       = 1000000;
--	sparc_config.clear_clock_irq  = leon_clear_clock_irq;
--	sparc_config.load_profile_irq = leon_load_profile_irq;
- }
-diff --git a/arch/sparc/kernel/of_device_32.c b/arch/sparc/kernel/of_device_32.c
-index 06012e68bdca..ddb3b197d5e4 100644
---- a/arch/sparc/kernel/of_device_32.c
-+++ b/arch/sparc/kernel/of_device_32.c
-@@ -358,7 +358,7 @@ static struct platform_device * __init scan_one_device(struct device_node *dp,
- 		op->archdata.num_irqs = len / sizeof(struct linux_prom_irqs);
- 		for (i = 0; i < op->archdata.num_irqs; i++)
- 			op->archdata.irqs[i] =
--			    sparc_config.build_device_irq(op, intr[i].pri);
-+			    leon_build_device_irq(intr[i].pri, handle_simple_irq, "edge", 0);
- 	} else {
- 		const unsigned int *irq =
- 			of_get_property(dp, "interrupts", &len);
-@@ -367,7 +367,7 @@ static struct platform_device * __init scan_one_device(struct device_node *dp,
- 			op->archdata.num_irqs = len / sizeof(unsigned int);
- 			for (i = 0; i < op->archdata.num_irqs; i++)
- 				op->archdata.irqs[i] =
--				    sparc_config.build_device_irq(op, irq[i]);
-+				    leon_build_device_irq(irq[i], handle_simple_irq, "edge", 0);
- 		} else {
- 			op->archdata.num_irqs = 0;
- 		}
-diff --git a/arch/sparc/kernel/time_32.c b/arch/sparc/kernel/time_32.c
-index 848404610b86..e6a2cb444777 100644
---- a/arch/sparc/kernel/time_32.c
-+++ b/arch/sparc/kernel/time_32.c
-@@ -44,6 +44,7 @@
- #include <asm/idprom.h>
- #include <asm/page.h>
- #include <asm/irq_regs.h>
-+#include <asm/leon.h>
- #include <asm/setup.h>
- 
- #include "kernel.h"
-@@ -88,10 +89,10 @@ irqreturn_t notrace timer_interrupt(int dummy, void *dev_id)
- 	if (timer_cs_enabled) {
- 		write_seqlock(&timer_cs_lock);
- 		timer_cs_internal_counter++;
--		sparc_config.clear_clock_irq();
-+		leon_clear_clock_irq();
- 		write_sequnlock(&timer_cs_lock);
- 	} else {
--		sparc_config.clear_clock_irq();
-+		leon_clear_clock_irq();
+@@ -271,9 +237,6 @@ void __init setup_arch(char **cmdline_p)
+ 		(*(linux_dbvec->teach_debugger))();
  	}
  
- 	if (timer_ce_enabled)
-@@ -100,6 +101,7 @@ irqreturn_t notrace timer_interrupt(int dummy, void *dev_id)
- 	return IRQ_HANDLED;
- }
- 
-+#ifndef CONFIG_SMP
- static int timer_ce_shutdown(struct clock_event_device *evt)
- {
- 	timer_ce_enabled = 0;
-@@ -128,24 +130,10 @@ static __init void setup_timer_ce(void)
- 	ce->tick_resume = timer_ce_set_periodic;
- 	ce->cpumask  = cpu_possible_mask;
- 	ce->shift    = 32;
--	ce->mult     = div_sc(sparc_config.clock_rate, NSEC_PER_SEC,
--	                      ce->shift);
-+	ce->mult     = div_sc(LEON_CLOCK_RATE, NSEC_PER_SEC, ce->shift);
- 	clockevents_register_device(ce);
- }
+-	/* Run-time patch instructions to match the cpu model */
+-	per_cpu_patch();
 -
--static unsigned int sbus_cycles_offset(void)
--{
--	u32 val, offset;
+ 	paging_init();
+ 
+ 	smp_setup_cpu_possible_map();
+diff --git a/arch/sparc/kernel/vmlinux.lds.S b/arch/sparc/kernel/vmlinux.lds.S
+index d317a843f7ea..1cc4d3e79321 100644
+--- a/arch/sparc/kernel/vmlinux.lds.S
++++ b/arch/sparc/kernel/vmlinux.lds.S
+@@ -113,11 +113,6 @@ SECTIONS
+ 		*(.sun4v_2insn_patch)
+ 		__sun4v_2insn_patch_end = .;
+ 	}
+-	.leon_1insn_patch : {
+-		__leon_1insn_patch = .;
+-		*(.leon_1insn_patch)
+-		__leon_1insn_patch_end = .;
+-	}
+ 	.swapper_tsb_phys_patch : {
+ 		__swapper_tsb_phys_patch = .;
+ 		*(.swapper_tsb_phys_patch)
+diff --git a/arch/sparc/kernel/wof.S b/arch/sparc/kernel/wof.S
+index 96a3a112423a..fe4cfd4abcd2 100644
+--- a/arch/sparc/kernel/wof.S
++++ b/arch/sparc/kernel/wof.S
+@@ -333,30 +333,24 @@ spwin_srmmu_stackchk:
+ 	 mov	AC_M_SFSR, %glob_tmp
+ 
+ 	/* Clear the fault status and turn on the no_fault bit. */
+-LEON_PI(lda	[%glob_tmp] ASI_LEON_MMUREGS, %g0)	! eat SFSR
+-SUN_PI_(lda	[%glob_tmp] ASI_M_MMUREGS, %g0)		! eat SFSR
++	lda	[%glob_tmp] ASI_LEON_MMUREGS, %g0	! eat SFSR
+ 
+-LEON_PI(lda	[%g0] ASI_LEON_MMUREGS, %glob_tmp)	! read MMU control
+-SUN_PI_(lda	[%g0] ASI_M_MMUREGS, %glob_tmp)		! read MMU control
++	lda	[%g0] ASI_LEON_MMUREGS, %glob_tmp	! read MMU control
+ 	or	%glob_tmp, 0x2, %glob_tmp		! or in no_fault bit
+-LEON_PI(sta	%glob_tmp, [%g0] ASI_LEON_MMUREGS)	! set it
+-SUN_PI_(sta	%glob_tmp, [%g0] ASI_M_MMUREGS)		! set it
++	sta	%glob_tmp, [%g0] ASI_LEON_MMUREGS	! set it
+ 
+ 	/* Dump the registers and cross fingers. */
+ 	STORE_WINDOW(sp)
+ 
+ 	/* Clear the no_fault bit and check the status. */
+ 	andn	%glob_tmp, 0x2, %glob_tmp
+-LEON_PI(sta	%glob_tmp, [%g0] ASI_LEON_MMUREGS)
+-SUN_PI_(sta	%glob_tmp, [%g0] ASI_M_MMUREGS)
++	sta	%glob_tmp, [%g0] ASI_LEON_MMUREGS
+ 
+ 	mov	AC_M_SFAR, %glob_tmp
+-LEON_PI(lda	[%glob_tmp] ASI_LEON_MMUREGS, %g0)
+-SUN_PI_(lda	[%glob_tmp] ASI_M_MMUREGS, %g0)
++	lda	[%glob_tmp] ASI_LEON_MMUREGS, %g0
+ 
+ 	mov	AC_M_SFSR, %glob_tmp
+-LEON_PI(lda	[%glob_tmp] ASI_LEON_MMUREGS, %glob_tmp)
+-SUN_PI_(lda	[%glob_tmp] ASI_M_MMUREGS, %glob_tmp)
++	lda	[%glob_tmp] ASI_LEON_MMUREGS, %glob_tmp
+ 	andcc	%glob_tmp, 0x2, %g0			! did we fault?
+ 	be,a	spwin_finish_up + 0x4			! cool beans, success
+ 	 restore %g0, %g0, %g0
+diff --git a/arch/sparc/kernel/wuf.S b/arch/sparc/kernel/wuf.S
+index 1a4ca490e9c2..4c52b69d4b7a 100644
+--- a/arch/sparc/kernel/wuf.S
++++ b/arch/sparc/kernel/wuf.S
+@@ -255,19 +255,16 @@ srmmu_fwin_stackchk:
+ 	mov	AC_M_SFSR, %l4
+ 	cmp	%l5, %sp
+ 	bleu	fwin_user_stack_is_bolixed
+-LEON_PI( lda	[%l4] ASI_LEON_MMUREGS, %g0)	! clear fault status
+-SUN_PI_( lda	[%l4] ASI_M_MMUREGS, %g0)	! clear fault status
++	 lda	[%l4] ASI_LEON_MMUREGS, %g0	! clear fault status
+ 
+ 	/* The technique is, turn off faults on this processor,
+ 	 * just let the load rip, then check the sfsr to see if
+ 	 * a fault did occur.  Then we turn on fault traps again
+ 	 * and branch conditionally based upon what happened.
+ 	 */
+-LEON_PI(lda	[%g0] ASI_LEON_MMUREGS, %l5)	! read mmu-ctrl reg
+-SUN_PI_(lda	[%g0] ASI_M_MMUREGS, %l5)	! read mmu-ctrl reg
++	lda	[%g0] ASI_LEON_MMUREGS, %l5	! read mmu-ctrl reg
+ 	or	%l5, 0x2, %l5			! turn on no-fault bit
+-LEON_PI(sta	%l5, [%g0] ASI_LEON_MMUREGS)	! store it
+-SUN_PI_(sta	%l5, [%g0] ASI_M_MMUREGS)	! store it
++	sta	%l5, [%g0] ASI_LEON_MMUREGS	! store it
+ 
+ 	/* Cross fingers and go for it. */
+ 	LOAD_WINDOW(sp)
+@@ -279,19 +276,15 @@ SUN_PI_(sta	%l5, [%g0] ASI_M_MMUREGS)	! store it
+ 
+ 	/* LOCATION: Window 'T' */
+ 
+-LEON_PI(lda	[%g0] ASI_LEON_MMUREGS, %twin_tmp1)	! load mmu-ctrl again
+-SUN_PI_(lda	[%g0] ASI_M_MMUREGS, %twin_tmp1)	! load mmu-ctrl again
++	lda	[%g0] ASI_LEON_MMUREGS, %twin_tmp1	! load mmu-ctrl again
+ 	andn	%twin_tmp1, 0x2, %twin_tmp1		! clear no-fault bit
+-LEON_PI(sta	%twin_tmp1, [%g0] ASI_LEON_MMUREGS)	! store it
+-SUN_PI_(sta	%twin_tmp1, [%g0] ASI_M_MMUREGS)	! store it
++	sta	%twin_tmp1, [%g0] ASI_LEON_MMUREGS	! store it
+ 
+ 	mov	AC_M_SFAR, %twin_tmp2
+-LEON_PI(lda	[%twin_tmp2] ASI_LEON_MMUREGS, %g0)	! read fault address
+-SUN_PI_(lda	[%twin_tmp2] ASI_M_MMUREGS, %g0)	! read fault address
++	lda	[%twin_tmp2] ASI_LEON_MMUREGS, %g0	! read fault address
+ 
+ 	mov	AC_M_SFSR, %twin_tmp2
+-LEON_PI(lda	[%twin_tmp2] ASI_LEON_MMUREGS, %twin_tmp2) ! read fault status
+-SUN_PI_(lda	[%twin_tmp2] ASI_M_MMUREGS, %twin_tmp2)	   ! read fault status
++	lda	[%twin_tmp2] ASI_LEON_MMUREGS, %twin_tmp2 ! read fault status
+ 	andcc	%twin_tmp2, 0x2, %g0			   ! did fault occur?
+ 
+ 	bne	1f					   ! yep, cleanup
+diff --git a/arch/sparc/mm/Makefile b/arch/sparc/mm/Makefile
+index 4347247d6cb0..357a5816a6bf 100644
+--- a/arch/sparc/mm/Makefile
++++ b/arch/sparc/mm/Makefile
+@@ -9,7 +9,6 @@ obj-$(CONFIG_SPARC64)   += ultra.o tlb.o tsb.o
+ obj-y                   += fault_$(BITS).o
+ obj-y                   += init_$(BITS).o
+ obj-$(CONFIG_SPARC32)   += srmmu.o iommu.o io-unit.o
+-obj-$(CONFIG_SPARC32)   += srmmu_access.o
+ obj-$(CONFIG_SPARC32)   += leon_mm.o
+ 
+ # Only used by sparc64
+diff --git a/arch/sparc/mm/srmmu_access.S b/arch/sparc/mm/srmmu_access.S
+deleted file mode 100644
+index d8d2e644a5ca..000000000000
+--- a/arch/sparc/mm/srmmu_access.S
++++ /dev/null
+@@ -1,83 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-/* Assembler variants of srmmu access functions.
+- * Implemented in assembler to allow run-time patching.
+- * LEON uses a different ASI for MMUREGS than SUN.
+- *
+- * The leon_1insn_patch infrastructure is used
+- * for the run-time patching.
+- */
 -
--	val = sbus_readl(master_l10_counter);
--	offset = (val >> TIMER_VALUE_SHIFT) & TIMER_VALUE_MASK;
+-#include <linux/linkage.h>
 -
--	/* Limit hit? */
--	if (val & TIMER_LIMIT_BIT)
--		offset += sparc_config.cs_period;
+-#include <asm/asmmacro.h>
+-#include <asm/pgtsrmmu.h>
+-#include <asm/asi.h>
 -
--	return offset;
--}
-+#endif
- 
- static u64 timer_cs_read(struct clocksource *cs)
- {
-@@ -156,11 +144,11 @@ static u64 timer_cs_read(struct clocksource *cs)
- 		seq = read_seqbegin(&timer_cs_lock);
- 
- 		cycles = timer_cs_internal_counter;
--		offset = sparc_config.get_cycles_offset();
-+		offset = leon_cycles_offset();
- 	} while (read_seqretry(&timer_cs_lock, seq));
- 
- 	/* Count absolute cycles */
--	cycles *= sparc_config.cs_period;
-+	cycles *= LEON_CLOCK_RATE / HZ;
- 	cycles += offset;
- 
- 	return cycles;
-@@ -177,7 +165,7 @@ static struct clocksource timer_cs = {
- static __init int setup_timer_cs(void)
- {
- 	timer_cs_enabled = 1;
--	return clocksource_register_hz(&timer_cs, sparc_config.clock_rate);
-+	return clocksource_register_hz(&timer_cs, LEON_CLOCK_RATE);
- }
- 
- #ifdef CONFIG_SMP
-@@ -185,7 +173,7 @@ static int percpu_ce_shutdown(struct clock_event_device *evt)
- {
- 	int cpu = cpumask_first(evt->cpumask);
- 
--	sparc_config.load_profile_irq(cpu, 0);
-+	leon_load_profile_irq(cpu, 0);
- 	return 0;
- }
- 
-@@ -193,7 +181,7 @@ static int percpu_ce_set_periodic(struct clock_event_device *evt)
- {
- 	int cpu = cpumask_first(evt->cpumask);
- 
--	sparc_config.load_profile_irq(cpu, SBUS_CLOCK_RATE / HZ);
-+	leon_load_profile_irq(cpu, SBUS_CLOCK_RATE / HZ);
- 	return 0;
- }
- 
-@@ -203,7 +191,7 @@ static int percpu_ce_set_next_event(unsigned long delta,
- 	int cpu = cpumask_first(evt->cpumask);
- 	unsigned int next = (unsigned int)delta;
- 
--	sparc_config.load_profile_irq(cpu, next);
-+	leon_load_profile_irq(cpu, next);
- 	return 0;
- }
- 
-@@ -212,9 +200,6 @@ void register_percpu_ce(int cpu)
- 	struct clock_event_device *ce = &per_cpu(sparc32_clockevent, cpu);
- 	unsigned int features = CLOCK_EVT_FEAT_PERIODIC;
- 
--	if (sparc_config.features & FEAT_L14_ONESHOT)
--		features |= CLOCK_EVT_FEAT_ONESHOT;
+-/* unsigned int srmmu_get_mmureg(void) */
+-ENTRY(srmmu_get_mmureg)
+-LEON_PI(lda	[%g0] ASI_LEON_MMUREGS, %o0)
+-SUN_PI_(lda	[%g0] ASI_M_MMUREGS, %o0)
+-	retl
+-	 nop
+-ENDPROC(srmmu_get_mmureg)
 -
- 	ce->name           = "percpu_ce";
- 	ce->rating         = 200;
- 	ce->features       = features;
-@@ -224,10 +209,9 @@ void register_percpu_ce(int cpu)
- 	ce->set_next_event = percpu_ce_set_next_event;
- 	ce->cpumask        = cpumask_of(cpu);
- 	ce->shift          = 32;
--	ce->mult           = div_sc(sparc_config.clock_rate, NSEC_PER_SEC,
--	                            ce->shift);
--	ce->max_delta_ns   = clockevent_delta2ns(sparc_config.clock_rate, ce);
--	ce->max_delta_ticks = (unsigned long)sparc_config.clock_rate;
-+	ce->mult           = div_sc(LEON_CLOCK_RATE, NSEC_PER_SEC, ce->shift);
-+	ce->max_delta_ns   = clockevent_delta2ns(LEON_CLOCK_RATE, ce);
-+	ce->max_delta_ticks = (unsigned long)LEON_CLOCK_RATE;
- 	ce->min_delta_ns   = clockevent_delta2ns(100, ce);
- 	ce->min_delta_ticks = 100;
- 
-@@ -326,26 +310,20 @@ fs_initcall(clock_init);
- 
- static void __init sparc32_late_time_init(void)
- {
--	if (sparc_config.features & FEAT_L10_CLOCKEVENT)
--		setup_timer_ce();
--	if (sparc_config.features & FEAT_L10_CLOCKSOURCE)
--		setup_timer_cs();
-+#ifndef CONFIG_SMP
-+	setup_timer_ce();
-+#endif
-+	setup_timer_cs();
-+
- #ifdef CONFIG_SMP
- 	register_percpu_ce(smp_processor_id());
- #endif
- }
- 
--static void __init sbus_time_init(void)
--{
--	sparc_config.get_cycles_offset = sbus_cycles_offset;
--	sparc_config.init_timers();
--}
+-/* void srmmu_set_mmureg(unsigned long regval) */
+-ENTRY(srmmu_set_mmureg)
+-LEON_PI(sta	%o0, [%g0] ASI_LEON_MMUREGS)
+-SUN_PI_(sta	%o0, [%g0] ASI_M_MMUREGS)
+-	retl
+-	 nop
+-ENDPROC(srmmu_set_mmureg)
 -
- void __init time_init(void)
- {
--	sparc_config.features = 0;
- 	late_time_init = sparc32_late_time_init;
- 
--	sbus_time_init();
-+	leon_init_timers();
- }
- 
+-/* void srmmu_set_ctable_ptr(unsigned long paddr) */
+-ENTRY(srmmu_set_ctable_ptr)
+-	/* paddr = ((paddr >> 4) & SRMMU_CTX_PMASK); */
+-	srl	%o0, 4, %g1
+-	and	%g1, SRMMU_CTX_PMASK, %g1
+-
+-	mov	SRMMU_CTXTBL_PTR, %g2
+-LEON_PI(sta	%g1, [%g2] ASI_LEON_MMUREGS)
+-SUN_PI_(sta	%g1, [%g2] ASI_M_MMUREGS)
+-	retl
+-	 nop
+-ENDPROC(srmmu_set_ctable_ptr)
+-
+-
+-/* void srmmu_set_context(int context) */
+-ENTRY(srmmu_set_context)
+-	mov	SRMMU_CTX_REG, %g1
+-LEON_PI(sta	%o0, [%g1] ASI_LEON_MMUREGS)
+-SUN_PI_(sta	%o0, [%g1] ASI_M_MMUREGS)
+-	retl
+-	 nop
+-ENDPROC(srmmu_set_context)
+-
+-
+-/* int srmmu_get_context(void) */
+-ENTRY(srmmu_get_context)
+-	mov	SRMMU_CTX_REG, %o0
+-LEON_PI(lda     [%o0] ASI_LEON_MMUREGS, %o0)
+-SUN_PI_(lda	[%o0] ASI_M_MMUREGS, %o0)
+-	retl
+-	 nop
+-ENDPROC(srmmu_get_context)
+-
+-
+-/* unsigned int srmmu_get_fstatus(void) */
+-ENTRY(srmmu_get_fstatus)
+-	mov	SRMMU_FAULT_STATUS, %o0
+-LEON_PI(lda     [%o0] ASI_LEON_MMUREGS, %o0)
+-SUN_PI_(lda	[%o0] ASI_M_MMUREGS, %o0)
+-	retl
+-	 nop
+-ENDPROC(srmmu_get_fstatus)
+-
+-
+-/* unsigned int srmmu_get_faddr(void) */
+-ENTRY(srmmu_get_faddr)
+-	mov	SRMMU_FAULT_ADDR, %o0
+-LEON_PI(lda     [%o0] ASI_LEON_MMUREGS, %o0)
+-SUN_PI_(lda	[%o0] ASI_M_MMUREGS, %o0)
+-	retl
+-	 nop
+-ENDPROC(srmmu_get_faddr)
 
 -- 
 2.34.1
