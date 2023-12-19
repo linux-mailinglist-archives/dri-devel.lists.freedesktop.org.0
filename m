@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3958E8192D2
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 23:03:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 490208192CD
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 23:03:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11B5F10E511;
-	Tue, 19 Dec 2023 22:03:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB1FB10E2F7;
+	Tue, 19 Dec 2023 22:03:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA47910E267
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBE1A10E24E
  for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 22:03:17 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 1B06B614D7;
+ by dfw.source.kernel.org (Postfix) with ESMTP id 64569614E3;
  Tue, 19 Dec 2023 22:03:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 56423C4163C;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6621BC4163D;
  Tue, 19 Dec 2023 22:03:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1703023396;
- bh=hUeer878kHfZToHNcJoRPcV1xECdXnEhs/Nyvz2zVvc=;
+ bh=jpHwPU0gk4FHdyFw3KgXjHoqiB7e+wJP0mRdIuIuUx0=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=RqHa9edS2lcZtGxaOHUorag9ZUWw2PIcweiVofAtU8YbY/pchL+SZ/W+rYqqrFjnF
- pRgQeVUTBRCT8Adp2alKxKZ4q2Sp9F1R8FJFTm4i02eeCQYRV7mkKPPrbPLYhAt4kf
- d0nAbVNmBHunwFW1rUgTRCqmPYemUEgeJ1GVtfKciQZ11lsHh7H1EKJyLhEqcIImU2
- /5/ysjo3gcHNxGbHjWSs+MWhdQT7p+vYfM7kkLjWi7Tssbb+ICBrnE+Oq+QY5DDCcX
- 5Wqwc9Q3RCIAprb0ATOImyHP2LfzLUG/cJln+p3thVI8IxXq7hj8Mq2q/SKf7dD1V8
- uQSijh84etlKA==
+ b=MBAvXVLekpp934cBCMH0Cys1yiWhQ6CWj65thhlPOr175CXNEr4UTTht5SdpIVUTw
+ Oghn75vgOIf83TgLicfTdxuP4qfeZ/tXwG7Thp7AraDLm8x7fxgEz6Ra+zfHfgmqT3
+ X6DrvP/UuvtOWS7KKW+WuhKljTaqK0NYo2jDjq6V6Zw+BZ3ThVanJT1H1QggxjvLN7
+ xe7b6Cd8qTDMOXn8zMSQZ08SghSgl5kHXJwa/M0mUUJCTx4QZ0I9DMn3zeegCH5xKR
+ a6pMstfU9F+Kq42HyQ0i8G/z+fxPlkkw+cFzX1l8ftDqMUaCY9nKwmopB7zpeRxpPO
+ odIYzNkcyb3aQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 47AEEC4706E;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 53894C46CD2;
  Tue, 19 Dec 2023 22:03:16 +0000 (UTC)
 From: Sam Ravnborg via B4 Relay <devnull+sam.ravnborg.org@kernel.org>
-Date: Tue, 19 Dec 2023 23:03:23 +0100
-Subject: [PATCH 18/27] sparc32: Drop support for 7 register windows
+Date: Tue, 19 Dec 2023 23:03:24 +0100
+Subject: [PATCH 19/27] sparc32: Drop additional sun4d bits
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231219-sam-sparc32-sunset-v3-v1-18-64bb44b598c5@ravnborg.org>
+Message-Id: <20231219-sam-sparc32-sunset-v3-v1-19-64bb44b598c5@ravnborg.org>
 References: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
 In-Reply-To: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
 To: "David S. Miller" <davem@davemloft.net>, 
  Arnd Bergmann <arnd@kernel.org>, Andreas Larsson <andreas@gaisler.com>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1703023392; l=15090;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1703023392; l=24568;
  i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=ihMG1Y5AtoVjy/gldPt3VrNpQv5kvVGjd8vY2r8DSK8=; =?utf-8?q?b=3DtitO9Jm1CDCe?=
- =?utf-8?q?qX4B3E34NGwQ5uja4Jo/TcmtNONt1AhdQWk3eRRbOAgRwXBHfA/BxOvXa7PR5r93?=
- GziGgtPkCqF1zmfel+mEKYviAW1/tiKSdY2RHp574D9dVDMaCNzu
+ bh=WOwW/xTD5mvfxe2MXV7hahYtctLoaln6PTPy2VeVKFE=; =?utf-8?q?b=3DorF7WX438Tah?=
+ =?utf-8?q?CPFGZqUUThn4ZK2sURruS/n77/D7SMZeftaqlMMCIB8ydi6w6M/mNfVT3PNnr4z0?=
+ yrJuauytDSpY9masJIVU44ZzjvgHg5eggcVSYQ8gTudQs2eBE9O7
 X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
  pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
 X-Endpoint-Received: by B4 Relay for sam@ravnborg.org/20230107 with auth_id=22
@@ -77,473 +77,780 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sam Ravnborg <sam@ravnborg.org>
 
-Some older SPARC CPUs had support for only 7 register windows.
-To support this run-time patching was used.
-
-LEON demand 8 register windows for use with Linux so
-there is no need to support the 7 window configuration.
-
-The complexity of the assembler code is reduced
-when dropping the run-time patching, thus increasing
-the maintainability.
+Drop sun4d specific support. Not used by LEON.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Sam Ravnborg <sam@ravnborg.org>
 Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Arnd Bergmann <arnd@kernel.org>
 Cc: Andreas Larsson <andreas@gaisler.com>
 ---
- arch/sparc/include/asm/switch_to_32.h |  1 -
- arch/sparc/kernel/entry.S             | 28 ++++-----------
- arch/sparc/kernel/etrap_32.S          | 35 +++++--------------
- arch/sparc/kernel/head_32.S           | 65 -----------------------------------
- arch/sparc/kernel/rtrap_32.S          | 55 +++++++++++++----------------
- arch/sparc/kernel/wof.S               | 43 ++++++++---------------
- arch/sparc/kernel/wuf.S               | 20 +++--------
- 7 files changed, 57 insertions(+), 190 deletions(-)
+ arch/sparc/include/asm/io-unit.h |  59 --------
+ arch/sparc/include/asm/obio.h    | 226 -------------------------------
+ arch/sparc/include/asm/sbi.h     | 116 ----------------
+ arch/sparc/kernel/entry.S        |   1 -
+ arch/sparc/kernel/ioport.c       |   1 -
+ arch/sparc/mm/Makefile           |   2 +-
+ arch/sparc/mm/io-unit.c          | 283 ---------------------------------------
+ arch/sparc/mm/srmmu.c            |   1 -
+ 8 files changed, 1 insertion(+), 688 deletions(-)
 
-diff --git a/arch/sparc/include/asm/switch_to_32.h b/arch/sparc/include/asm/switch_to_32.h
-index 42eeafcb8a41..7aaaf31c09b4 100644
---- a/arch/sparc/include/asm/switch_to_32.h
-+++ b/arch/sparc/include/asm/switch_to_32.h
-@@ -37,7 +37,6 @@ extern struct thread_info *current_set[NR_CPUS];
- 
- #define prepare_arch_switch(next) do { \
- 	__asm__ __volatile__( \
--	".globl\tflush_patch_switch\nflush_patch_switch:\n\t" \
- 	"save %sp, -0x40, %sp; save %sp, -0x40, %sp; save %sp, -0x40, %sp\n\t" \
- 	"save %sp, -0x40, %sp; save %sp, -0x40, %sp; save %sp, -0x40, %sp\n\t" \
- 	"save %sp, -0x40, %sp\n\t" \
+diff --git a/arch/sparc/include/asm/io-unit.h b/arch/sparc/include/asm/io-unit.h
+deleted file mode 100644
+index 8c38f5b9f927..000000000000
+--- a/arch/sparc/include/asm/io-unit.h
++++ /dev/null
+@@ -1,59 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-/* io-unit.h: Definitions for the sun4d IO-UNIT.
+- *
+- * Copyright (C) 1997,1998 Jakub Jelinek (jj@sunsite.mff.cuni.cz)
+- */
+-#ifndef _SPARC_IO_UNIT_H
+-#define _SPARC_IO_UNIT_H
+-
+-#include <linux/spinlock.h>
+-#include <linux/pgtable.h>
+-#include <asm/page.h>
+-
+-/* The io-unit handles all virtual to physical address translations
+- * that occur between the SBUS and physical memory.  Access by
+- * the cpu to IO registers and similar go over the xdbus so are
+- * translated by the on chip SRMMU.  The io-unit and the srmmu do
+- * not need to have the same translations at all, in fact most
+- * of the time the translations they handle are a disjunct set.
+- * Basically the io-unit handles all dvma sbus activity.
+- */
+- 
+-/* AIEEE, unlike the nice sun4m, these monsters have 
+-   fixed DMA range 64M */
+- 
+-#define IOUNIT_DMA_BASE	    0xfc000000 /* TOP - 64M */
+-#define IOUNIT_DMA_SIZE	    0x04000000 /* 64M */
+-/* We use last 1M for sparc_dvma_malloc */
+-#define IOUNIT_DVMA_SIZE    0x00100000 /* 1M */
+-
+-/* The format of an iopte in the external page tables */
+-#define IOUPTE_PAGE          0xffffff00 /* Physical page number (PA[35:12])	*/
+-#define IOUPTE_CACHE         0x00000080 /* Cached (in Viking/MXCC)		*/
+-/* XXX Jakub, find out how to program SBUS streaming cache on XDBUS/sun4d.
+- * XXX Actually, all you should need to do is find out where the registers
+- * XXX are and copy over the sparc64 implementation I wrote.  There may be
+- * XXX some horrible hwbugs though, so be careful.  -DaveM
+- */
+-#define IOUPTE_STREAM        0x00000040 /* Translation can use streaming cache	*/
+-#define IOUPTE_INTRA	     0x00000008 /* SBUS direct slot->slot transfer	*/
+-#define IOUPTE_WRITE         0x00000004 /* Writeable				*/
+-#define IOUPTE_VALID         0x00000002 /* IOPTE is valid			*/
+-#define IOUPTE_PARITY        0x00000001 /* Parity is checked during DVMA	*/
+-
+-struct iounit_struct {
+-	unsigned long		bmap[(IOUNIT_DMA_SIZE >> (PAGE_SHIFT + 3)) / sizeof(unsigned long)];
+-	spinlock_t		lock;
+-	iopte_t __iomem		*page_table;
+-	unsigned long		rotor[3];
+-	unsigned long		limit[4];
+-};
+-
+-#define IOUNIT_BMAP1_START	0x00000000
+-#define IOUNIT_BMAP1_END	(IOUNIT_DMA_SIZE >> (PAGE_SHIFT + 1))
+-#define IOUNIT_BMAP2_START	IOUNIT_BMAP1_END
+-#define IOUNIT_BMAP2_END	IOUNIT_BMAP2_START + (IOUNIT_DMA_SIZE >> (PAGE_SHIFT + 2))
+-#define IOUNIT_BMAPM_START	IOUNIT_BMAP2_END
+-#define IOUNIT_BMAPM_END	((IOUNIT_DMA_SIZE - IOUNIT_DVMA_SIZE) >> PAGE_SHIFT)
+-
+-#endif /* !(_SPARC_IO_UNIT_H) */
+diff --git a/arch/sparc/include/asm/obio.h b/arch/sparc/include/asm/obio.h
+deleted file mode 100644
+index 1b151f738b00..000000000000
+--- a/arch/sparc/include/asm/obio.h
++++ /dev/null
+@@ -1,226 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-/*
+- * obio.h:  Some useful locations in 0xFXXXXXXXX PA obio space on sun4d.
+- *
+- * Copyright (C) 1997 Jakub Jelinek <jj@sunsite.mff.cuni.cz>
+- */
+-
+-#ifndef _SPARC_OBIO_H
+-#define _SPARC_OBIO_H
+-
+-#include <asm/asi.h>
+-
+-/* This weird monster likes to use the very upper parts of
+-   36bit PA for these things :) */
+-   
+-/* CSR space (for each XDBUS)
+- *  ------------------------------------------------------------------------
+- *  |   0xFE  |   DEVID    |                | XDBUS ID |                   |
+- *  ------------------------------------------------------------------------
+- *  35      28 27        20 19            10 9        8 7                 0
+- */
+-   
+-#define CSR_BASE_ADDR		0xe0000000
+-#define CSR_CPU_SHIFT		(32 - 4 - 5)
+-#define CSR_XDBUS_SHIFT		8
+-
+-#define CSR_BASE(cpu) (((CSR_BASE_ADDR >> CSR_CPU_SHIFT) + cpu) << CSR_CPU_SHIFT)
+-
+-/* ECSR space (not for each XDBUS)
+- *  ------------------------------------------------------------------------
+- *  |   0xF  | DEVID[7:1] |                			           |
+- *  ------------------------------------------------------------------------
+- *  35     32 31        25 24                 				  0
+- */
+-   
+-#define ECSR_BASE_ADDR		0x00000000
+-#define ECSR_CPU_SHIFT		(32 - 5)
+-#define ECSR_DEV_SHIFT		(32 - 8)
+-
+-#define ECSR_BASE(cpu) ((cpu) << ECSR_CPU_SHIFT)
+-#define ECSR_DEV_BASE(devid) ((devid) << ECSR_DEV_SHIFT) 
+-
+-/* Bus Watcher */
+-#define BW_LOCAL_BASE		0xfff00000
+-
+-#define BW_CID			0x00000000
+-#define BW_DBUS_CTRL		0x00000008
+-#define BW_DBUS_DATA		0x00000010
+-#define BW_CTRL			0x00001000
+-#define BW_INTR_TABLE		0x00001040
+-#define BW_INTR_TABLE_CLEAR	0x00001080
+-#define BW_PRESCALER		0x000010c0
+-#define BW_PTIMER_LIMIT		0x00002000
+-#define BW_PTIMER_COUNTER2	0x00002004
+-#define BW_PTIMER_NDLIMIT	0x00002008
+-#define BW_PTIMER_CTRL		0x0000200c
+-#define BW_PTIMER_COUNTER	0x00002010
+-#define BW_TIMER_LIMIT		0x00003000
+-#define BW_TIMER_COUNTER2	0x00003004
+-#define BW_TIMER_NDLIMIT	0x00003008
+-#define BW_TIMER_CTRL		0x0000300c
+-#define BW_TIMER_COUNTER	0x00003010
+-
+-/* BW Control */
+-#define BW_CTRL_USER_TIMER	0x00000004	/* Is User Timer Free run enabled */
+-
+-/* Boot Bus */
+-#define BB_LOCAL_BASE		0xf0000000
+-
+-#define BB_STAT1		0x00100000
+-#define BB_STAT2		0x00120000
+-#define BB_STAT3		0x00140000
+-#define BB_LEDS			0x002e0000
+-
+-/* Bits in BB_STAT2 */
+-#define BB_STAT2_AC_INTR	0x04	/* Aiee! 5ms and power is gone... */
+-#define BB_STAT2_TMP_INTR	0x10	/* My Penguins are burning. Are you able to smell it? */
+-#define BB_STAT2_FAN_INTR	0x20	/* My fan refuses to work */
+-#define BB_STAT2_PWR_INTR	0x40	/* On SC2000, one of the two ACs died. Ok, we go on... */
+-#define BB_STAT2_MASK		(BB_STAT2_AC_INTR|BB_STAT2_TMP_INTR|BB_STAT2_FAN_INTR|BB_STAT2_PWR_INTR)
+-
+-/* Cache Controller */
+-#define CC_BASE		0x1F00000
+-#define CC_DATSTREAM	0x1F00000  /* Data stream register */
+-#define CC_DATSIZE	0x1F0003F  /* Size */
+-#define CC_SRCSTREAM	0x1F00100  /* Source stream register */
+-#define CC_DESSTREAM	0x1F00200  /* Destination stream register */
+-#define CC_RMCOUNT	0x1F00300  /* Count of references and misses */
+-#define CC_IPEN		0x1F00406  /* Pending Interrupts */
+-#define CC_IMSK		0x1F00506  /* Interrupt Mask */
+-#define CC_ICLR		0x1F00606  /* Clear pending Interrupts */
+-#define CC_IGEN		0x1F00704  /* Generate Interrupt register */
+-#define CC_STEST	0x1F00804  /* Internal self-test */
+-#define CC_CREG		0x1F00A04  /* Control register */
+-#define CC_SREG		0x1F00B00  /* Status register */
+-#define CC_RREG		0x1F00C04  /* Reset register */
+-#define CC_EREG		0x1F00E00  /* Error code register */
+-#define CC_CID		0x1F00F04  /* Component ID */
+-
+-#ifndef __ASSEMBLY__
+-
+-static inline int bw_get_intr_mask(int sbus_level)
+-{
+-	int mask;
+-	
+-	__asm__ __volatile__ ("lduha [%1] %2, %0" :
+-			      "=r" (mask) :
+-			      "r" (BW_LOCAL_BASE + BW_INTR_TABLE + (sbus_level << 3)),
+-			      "i" (ASI_M_CTL));
+-	return mask;
+-}
+-
+-static inline void bw_clear_intr_mask(int sbus_level, int mask)
+-{
+-	__asm__ __volatile__ ("stha %0, [%1] %2" : :
+-			      "r" (mask),
+-			      "r" (BW_LOCAL_BASE + BW_INTR_TABLE_CLEAR + (sbus_level << 3)),
+-			      "i" (ASI_M_CTL));
+-}
+-
+-static inline unsigned int bw_get_prof_limit(int cpu)
+-{
+-	unsigned int limit;
+-	
+-	__asm__ __volatile__ ("lda [%1] %2, %0" :
+-			      "=r" (limit) :
+-			      "r" (CSR_BASE(cpu) + BW_PTIMER_LIMIT),
+-			      "i" (ASI_M_CTL));
+-	return limit;
+-}
+-
+-static inline void bw_set_prof_limit(int cpu, unsigned int limit)
+-{
+-	__asm__ __volatile__ ("sta %0, [%1] %2" : :
+-			      "r" (limit),
+-			      "r" (CSR_BASE(cpu) + BW_PTIMER_LIMIT),
+-			      "i" (ASI_M_CTL));
+-}
+-
+-static inline unsigned int bw_get_ctrl(int cpu)
+-{
+-	unsigned int ctrl;
+-	
+-	__asm__ __volatile__ ("lda [%1] %2, %0" :
+-			      "=r" (ctrl) :
+-			      "r" (CSR_BASE(cpu) + BW_CTRL),
+-			      "i" (ASI_M_CTL));
+-	return ctrl;
+-}
+-
+-static inline void bw_set_ctrl(int cpu, unsigned int ctrl)
+-{
+-	__asm__ __volatile__ ("sta %0, [%1] %2" : :
+-			      "r" (ctrl),
+-			      "r" (CSR_BASE(cpu) + BW_CTRL),
+-			      "i" (ASI_M_CTL));
+-}
+-
+-static inline unsigned int cc_get_ipen(void)
+-{
+-	unsigned int pending;
+-	
+-	__asm__ __volatile__ ("lduha [%1] %2, %0" :
+-			      "=r" (pending) :
+-			      "r" (CC_IPEN),
+-			      "i" (ASI_M_MXCC));
+-	return pending;
+-}
+-
+-static inline void cc_set_iclr(unsigned int clear)
+-{
+-	__asm__ __volatile__ ("stha %0, [%1] %2" : :
+-			      "r" (clear),
+-			      "r" (CC_ICLR),
+-			      "i" (ASI_M_MXCC));
+-}
+-
+-static inline unsigned int cc_get_imsk(void)
+-{
+-	unsigned int mask;
+-	
+-	__asm__ __volatile__ ("lduha [%1] %2, %0" :
+-			      "=r" (mask) :
+-			      "r" (CC_IMSK),
+-			      "i" (ASI_M_MXCC));
+-	return mask;
+-}
+-
+-static inline void cc_set_imsk(unsigned int mask)
+-{
+-	__asm__ __volatile__ ("stha %0, [%1] %2" : :
+-			      "r" (mask),
+-			      "r" (CC_IMSK),
+-			      "i" (ASI_M_MXCC));
+-}
+-
+-static inline unsigned int cc_get_imsk_other(int cpuid)
+-{
+-	unsigned int mask;
+-	
+-	__asm__ __volatile__ ("lduha [%1] %2, %0" :
+-			      "=r" (mask) :
+-			      "r" (ECSR_BASE(cpuid) | CC_IMSK),
+-			      "i" (ASI_M_CTL));
+-	return mask;
+-}
+-
+-static inline void cc_set_imsk_other(int cpuid, unsigned int mask)
+-{
+-	__asm__ __volatile__ ("stha %0, [%1] %2" : :
+-			      "r" (mask),
+-			      "r" (ECSR_BASE(cpuid) | CC_IMSK),
+-			      "i" (ASI_M_CTL));
+-}
+-
+-static inline void cc_set_igen(unsigned int gen)
+-{
+-	__asm__ __volatile__ ("sta %0, [%1] %2" : :
+-			      "r" (gen),
+-			      "r" (CC_IGEN),
+-			      "i" (ASI_M_MXCC));
+-}
+-
+-#endif /* !__ASSEMBLY__ */
+-
+-#endif /* !(_SPARC_OBIO_H) */
+diff --git a/arch/sparc/include/asm/sbi.h b/arch/sparc/include/asm/sbi.h
+deleted file mode 100644
+index 4d6026c1e446..000000000000
+--- a/arch/sparc/include/asm/sbi.h
++++ /dev/null
+@@ -1,116 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-/*
+- * sbi.h:  SBI (Sbus Interface on sun4d) definitions
+- *
+- * Copyright (C) 1997 Jakub Jelinek <jj@sunsite.mff.cuni.cz>
+- */
+-
+-#ifndef _SPARC_SBI_H
+-#define _SPARC_SBI_H
+-
+-#include <asm/obio.h>
+-
+-/* SBI */
+-struct sbi_regs {
+-/* 0x0000 */	u32		cid;		/* Component ID */
+-/* 0x0004 */	u32		ctl;		/* Control */
+-/* 0x0008 */	u32		status;		/* Status */
+-		u32		_unused1;
+-		
+-/* 0x0010 */	u32		cfg0;		/* Slot0 config reg */
+-/* 0x0014 */	u32		cfg1;		/* Slot1 config reg */
+-/* 0x0018 */	u32		cfg2;		/* Slot2 config reg */
+-/* 0x001c */	u32		cfg3;		/* Slot3 config reg */
+-
+-/* 0x0020 */	u32		stb0;		/* Streaming buf control for slot 0 */
+-/* 0x0024 */	u32		stb1;		/* Streaming buf control for slot 1 */
+-/* 0x0028 */	u32		stb2;		/* Streaming buf control for slot 2 */
+-/* 0x002c */	u32		stb3;		/* Streaming buf control for slot 3 */
+-
+-/* 0x0030 */	u32		intr_state;	/* Interrupt state */
+-/* 0x0034 */	u32		intr_tid;	/* Interrupt target ID */
+-/* 0x0038 */	u32		intr_diag;	/* Interrupt diagnostics */
+-};
+-
+-#define SBI_CID			0x02800000
+-#define SBI_CTL			0x02800004
+-#define SBI_STATUS		0x02800008
+-#define SBI_CFG0		0x02800010
+-#define SBI_CFG1		0x02800014
+-#define SBI_CFG2		0x02800018
+-#define SBI_CFG3		0x0280001c
+-#define SBI_STB0		0x02800020
+-#define SBI_STB1		0x02800024
+-#define SBI_STB2		0x02800028
+-#define SBI_STB3		0x0280002c
+-#define SBI_INTR_STATE		0x02800030
+-#define SBI_INTR_TID		0x02800034
+-#define SBI_INTR_DIAG		0x02800038
+-
+-/* Burst bits for 8, 16, 32, 64 are in cfgX registers at bits 2, 3, 4, 5 respectively */
+-#define SBI_CFG_BURST_MASK	0x0000001e
+-
+-/* How to make devid from sbi no */
+-#define SBI2DEVID(sbino) ((sbino<<4)|2)
+-
+-/* intr_state has 4 bits for slots 0 .. 3 and these bits are repeated for each sbus irq level
+- *
+- *		   +-------+-------+-------+-------+-------+-------+-------+-------+
+- *  SBUS IRQ LEVEL |   7   |   6   |   5   |   4   |   3   |   2   |   1   |       |
+- *		   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ Reser |
+- *  SLOT #         |3|2|1|0|3|2|1|0|3|2|1|0|3|2|1|0|3|2|1|0|3|2|1|0|3|2|1|0|  ved  |
+- *                 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-------+
+- *  Bits           31      27      23      19      15      11      7       3      0
+- */
+-
+-
+-#ifndef __ASSEMBLY__
+-
+-static inline int acquire_sbi(int devid, int mask)
+-{
+-	__asm__ __volatile__ ("swapa [%2] %3, %0" :
+-			      "=r" (mask) :
+-			      "0" (mask),
+-			      "r" (ECSR_DEV_BASE(devid) | SBI_INTR_STATE),
+-			      "i" (ASI_M_CTL));
+-	return mask;
+-}
+-
+-static inline void release_sbi(int devid, int mask)
+-{
+-	__asm__ __volatile__ ("sta %0, [%1] %2" : :
+-			      "r" (mask),
+-			      "r" (ECSR_DEV_BASE(devid) | SBI_INTR_STATE),
+-			      "i" (ASI_M_CTL));
+-}
+-
+-static inline void set_sbi_tid(int devid, int targetid)
+-{
+-	__asm__ __volatile__ ("sta %0, [%1] %2" : :
+-			      "r" (targetid),
+-			      "r" (ECSR_DEV_BASE(devid) | SBI_INTR_TID),
+-			      "i" (ASI_M_CTL));
+-}
+-
+-static inline int get_sbi_ctl(int devid, int cfgno)
+-{
+-	int cfg;
+-	
+-	__asm__ __volatile__ ("lda [%1] %2, %0" :
+-			      "=r" (cfg) :
+-			      "r" ((ECSR_DEV_BASE(devid) | SBI_CFG0) + (cfgno<<2)),
+-			      "i" (ASI_M_CTL));
+-	return cfg;
+-}
+-
+-static inline void set_sbi_ctl(int devid, int cfgno, int cfg)
+-{
+-	__asm__ __volatile__ ("sta %0, [%1] %2" : :
+-			      "r" (cfg),
+-			      "r" ((ECSR_DEV_BASE(devid) | SBI_CFG0) + (cfgno<<2)),
+-			      "i" (ASI_M_CTL));
+-}
+-
+-#endif /* !__ASSEMBLY__ */
+-
+-#endif /* !(_SPARC_SBI_H) */
 diff --git a/arch/sparc/kernel/entry.S b/arch/sparc/kernel/entry.S
-index 9cf8f87e8c42..078a8f7f8383 100644
+index 078a8f7f8383..eecbe0be7bf6 100644
 --- a/arch/sparc/kernel/entry.S
 +++ b/arch/sparc/kernel/entry.S
-@@ -384,11 +384,8 @@ do_flush_windows:
+@@ -24,7 +24,6 @@
+ #include <asm/page.h>
+ #include <asm/winmacro.h>
+ #include <asm/signal.h>
+-#include <asm/obio.h>
+ #include <asm/thread_info.h>
+ #include <asm/param.h>
+ #include <asm/unistd.h>
+diff --git a/arch/sparc/kernel/ioport.c b/arch/sparc/kernel/ioport.c
+index cf0ace29704a..745579a40785 100644
+--- a/arch/sparc/kernel/ioport.c
++++ b/arch/sparc/kernel/ioport.c
+@@ -49,7 +49,6 @@
+ #include <asm/pgalloc.h>
+ #include <asm/dma.h>
+ #include <asm/iommu.h>
+-#include <asm/io-unit.h>
+ #include <asm/leon.h>
  
- 	RESTORE_ALL
+ static void __iomem *_sparc_ioremap(struct resource *res, u32 bus, u32 pa, int sz);
+diff --git a/arch/sparc/mm/Makefile b/arch/sparc/mm/Makefile
+index 357a5816a6bf..ee33053b170a 100644
+--- a/arch/sparc/mm/Makefile
++++ b/arch/sparc/mm/Makefile
+@@ -8,7 +8,7 @@ ccflags-y := -Werror
+ obj-$(CONFIG_SPARC64)   += ultra.o tlb.o tsb.o
+ obj-y                   += fault_$(BITS).o
+ obj-y                   += init_$(BITS).o
+-obj-$(CONFIG_SPARC32)   += srmmu.o iommu.o io-unit.o
++obj-$(CONFIG_SPARC32)   += srmmu.o iommu.o
+ obj-$(CONFIG_SPARC32)   += leon_mm.o
  
--	.globl	flush_patch_one
+ # Only used by sparc64
+diff --git a/arch/sparc/mm/io-unit.c b/arch/sparc/mm/io-unit.c
+deleted file mode 100644
+index a2cfa8757795..000000000000
+--- a/arch/sparc/mm/io-unit.c
++++ /dev/null
+@@ -1,283 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * io-unit.c:  IO-UNIT specific routines for memory management.
+- *
+- * Copyright (C) 1997,1998 Jakub Jelinek    (jj@sunsite.mff.cuni.cz)
+- */
+- 
+-#include <linux/kernel.h>
+-#include <linux/init.h>
+-#include <linux/slab.h>
+-#include <linux/spinlock.h>
+-#include <linux/mm.h>
+-#include <linux/bitops.h>
+-#include <linux/dma-map-ops.h>
+-#include <linux/of.h>
+-#include <linux/of_platform.h>
+-#include <linux/platform_device.h>
 -
- 	/* We get these for debugging routines using __builtin_return_address() */
- dfw_kernel:
--flush_patch_one:
- 	FLUSH_ALL_KERNEL_WINDOWS
- 
- 	/* Advance over the trap instruction. */
-@@ -558,10 +555,9 @@ sys_rt_sigreturn:
- 	 * XXX code just like on sparc64... -DaveM
- 	 */
- 	.align	4
--	.globl	sys_fork, flush_patch_two
-+	.globl	sys_fork
- sys_fork:
- 	mov	%o7, %l5
--flush_patch_two:
- 	FLUSH_ALL_KERNEL_WINDOWS;
- 	ld	[%curptr + TI_TASK], %o4
- 	rd	%psr, %g4
-@@ -574,10 +570,9 @@ flush_patch_two:
- 	 mov	%l5, %o7
- 
- 	/* Whee, kernel threads! */
--	.globl	sys_clone, flush_patch_three
-+	.globl	sys_clone
- sys_clone:
- 	mov	%o7, %l5
--flush_patch_three:
- 	FLUSH_ALL_KERNEL_WINDOWS;
- 	ld	[%curptr + TI_TASK], %o4
- 	rd	%psr, %g4
-@@ -590,9 +585,8 @@ flush_patch_three:
- 	 mov	%l5, %o7
- 
- 	/* Whee, real vfork! */
--	.globl	sys_vfork, flush_patch_four
-+	.globl	sys_vfork
- sys_vfork:
--flush_patch_four:
- 	FLUSH_ALL_KERNEL_WINDOWS;
- 	ld	[%curptr + TI_TASK], %o4
- 	rd	%psr, %g4
-@@ -909,17 +903,7 @@ breakpoint_trap:
- #endif
- 
- 	.align	4
--	.globl	flush_patch_exception
--flush_patch_exception:
--	FLUSH_ALL_KERNEL_WINDOWS;
--	ldd	[%o0], %o6
--	jmpl	%o7 + 0xc, %g0			! see asm-sparc/processor.h
--	 mov	1, %g1				! signal EFAULT condition
+-#include <asm/io.h>
+-#include <asm/io-unit.h>
+-#include <asm/cacheflush.h>
+-#include <asm/tlbflush.h>
+-#include <asm/dma.h>
+-#include <asm/oplib.h>
 -
--	.align	4
--	.globl	kill_user_windows, kuw_patch1_7win
--	.globl	kuw_patch1
--kuw_patch1_7win:	sll	%o3, 6, %o3
-+	.globl	kill_user_windows
- 
- 	/* No matter how much overhead this routine has in the worst
- 	 * case scenario, it is several times better than taking the
-@@ -939,11 +923,11 @@ kill_user_windows:
- 	be	4f				! yep, we are done
- 	 rd	%wim, %o3			! get current wim
- 	srl	%o3, 1, %o4			! simulate a save
--kuw_patch1:
-+kuw_next:
- 	sll	%o3, 7, %o3			! compute next wim
- 	or	%o4, %o3, %o3			! result
- 	andncc	%o0, %o3, %o0			! clean this bit in umask
--	bne	kuw_patch1			! not done yet
-+	bne	kuw_next			! not done yet
- 	 srl	%o3, 1, %o4			! begin another save simulation
- 	wr	%o3, 0x0, %wim			! set the new wim
- 	st	%g0, [%g6 + TI_UWINMASK]	! clear uwinmask
-diff --git a/arch/sparc/kernel/etrap_32.S b/arch/sparc/kernel/etrap_32.S
-index bb222459f097..95dfdea1f36c 100644
---- a/arch/sparc/kernel/etrap_32.S
-+++ b/arch/sparc/kernel/etrap_32.S
-@@ -30,18 +30,6 @@
- 	.text
- 	.align 4
- 
--	/* SEVEN WINDOW PATCH INSTRUCTIONS */
--	.globl	tsetup_7win_patch1, tsetup_7win_patch2
--	.globl	tsetup_7win_patch3, tsetup_7win_patch4
--	.globl	tsetup_7win_patch5, tsetup_7win_patch6
--tsetup_7win_patch1:	sll	%t_wim, 0x6, %t_wim
--tsetup_7win_patch2:	and	%g2, 0x7f, %g2
--tsetup_7win_patch3:	and	%g2, 0x7f, %g2
--tsetup_7win_patch4:	and	%g1, 0x7f, %g1
--tsetup_7win_patch5:	sll	%t_wim, 0x6, %t_wim
--tsetup_7win_patch6:	and	%g2, 0x7f, %g2
--	/* END OF PATCH INSTRUCTIONS */
+-#include "mm_32.h"
 -
- 	/* At trap time, interrupts and all generic traps do the
- 	 * following:
- 	 *
-@@ -72,9 +60,7 @@ tsetup_7win_patch6:	and	%g2, 0x7f, %g2
- 	 * trap pc and npc, and %l3 contains the trap time %wim.
- 	 */
- 
--	.globl	trap_setup, tsetup_patch1, tsetup_patch2
--	.globl	tsetup_patch3, tsetup_patch4
--	.globl	tsetup_patch5, tsetup_patch6
-+	.globl	trap_setup
- trap_setup:
- 	/* Calculate mask of trap window.  See if from user
- 	 * or kernel and branch conditionally.
-@@ -109,11 +95,10 @@ trap_setup_kernel_spill:
- 	 * %wim and go.
- 	 */
- 	 srl	%t_wim, 0x1, %g2	! begin computation of new %wim
--tsetup_patch1:
--	sll	%t_wim, 0x7, %t_wim	! patched on 7 window Sparcs
-+
-+	sll	%t_wim, 0x7, %t_wim
- 	or	%t_wim, %g2, %g2
--tsetup_patch2:
--	and	%g2, 0xff, %g2		! patched on 7 window Sparcs
-+	and	%g2, 0xff, %g2
- 
- 	save	%g0, %g0, %g0
- 
-@@ -185,8 +170,7 @@ trap_setup_from_user:
- 	 sub	%g2, 0x1, %g2
- 1:
- 	andn	%g2, %t_twinmask, %g2
--tsetup_patch3:
--	and	%g2, 0xff, %g2			! patched on 7win Sparcs
-+	and	%g2, 0xff, %g2
- 	st	%g2, [%curptr + TI_UWINMASK]	! store new umask
- 
- 	jmpl	%t_retpc + 0x8, %g0		! return to caller
-@@ -199,14 +183,11 @@ trap_setup_user_spill:
- 	 * is in %g1 upon entry to here.
- 	 */
- 
--tsetup_patch4:
--	and	%g1, 0xff, %g1		! patched on 7win Sparcs, mask
-+	and	%g1, 0xff, %g1
- 	srl	%t_wim, 0x1, %g2	! compute new %wim
--tsetup_patch5:
--	sll	%t_wim, 0x7, %t_wim	! patched on 7win Sparcs
-+	sll	%t_wim, 0x7, %t_wim
- 	or	%t_wim, %g2, %g2	! %g2 is new %wim
--tsetup_patch6:
--	and	%g2, 0xff, %g2		! patched on 7win Sparcs
-+	and	%g2, 0xff, %g2
- 	andn	%g1, %g2, %g1		! clear this bit in %g1
- 	st	%g1, [%curptr + TI_UWINMASK]
- 
-diff --git a/arch/sparc/kernel/head_32.S b/arch/sparc/kernel/head_32.S
-index 03dc232dd235..908c77cb456e 100644
---- a/arch/sparc/kernel/head_32.S
-+++ b/arch/sparc/kernel/head_32.S
-@@ -404,71 +404,6 @@ leon_init:
- 		wr	%g1, 0x0, %wim			! make window 1 invalid
- 		WRITE_PAUSE
- 
--		cmp	%g3, 0x7
--		bne	2f
--		 nop
+-/* #define IOUNIT_DEBUG */
+-#ifdef IOUNIT_DEBUG
+-#define IOD(x) printk(x)
+-#else
+-#define IOD(x) do { } while (0)
+-#endif
 -
--		/* Adjust our window handling routines to
--		 * do things correctly on 7 window Sparcs.
--		 */
+-#define IOPERM        (IOUPTE_CACHE | IOUPTE_WRITE | IOUPTE_VALID)
+-#define MKIOPTE(phys) __iopte((((phys)>>4) & IOUPTE_PAGE) | IOPERM)
 -
--#define		PATCH_INSN(src, dest) \
--		set	src, %g5; \
--		set	dest, %g2; \
--		ld	[%g5], %g4; \
--		st	%g4, [%g2];
+-static const struct dma_map_ops iounit_dma_ops;
 -
--		/* Patch for window spills... */
--		PATCH_INSN(spnwin_patch1_7win, spnwin_patch1)
--		PATCH_INSN(spnwin_patch2_7win, spnwin_patch2)
--		PATCH_INSN(spnwin_patch3_7win, spnwin_patch3)
+-static void __init iounit_iommu_init(struct platform_device *op)
+-{
+-	struct iounit_struct *iounit;
+-	iopte_t __iomem *xpt;
+-	iopte_t __iomem *xptend;
 -
--		/* Patch for window fills... */
--		PATCH_INSN(fnwin_patch1_7win, fnwin_patch1)
--		PATCH_INSN(fnwin_patch2_7win, fnwin_patch2)
+-	iounit = kzalloc(sizeof(struct iounit_struct), GFP_ATOMIC);
+-	if (!iounit) {
+-		prom_printf("SUN4D: Cannot alloc iounit, halting.\n");
+-		prom_halt();
+-	}
 -
--		/* Patch for trap entry setup... */
--		PATCH_INSN(tsetup_7win_patch1, tsetup_patch1)
--		PATCH_INSN(tsetup_7win_patch2, tsetup_patch2)
--		PATCH_INSN(tsetup_7win_patch3, tsetup_patch3)
--		PATCH_INSN(tsetup_7win_patch4, tsetup_patch4)
--		PATCH_INSN(tsetup_7win_patch5, tsetup_patch5)
--		PATCH_INSN(tsetup_7win_patch6, tsetup_patch6)
+-	iounit->limit[0] = IOUNIT_BMAP1_START;
+-	iounit->limit[1] = IOUNIT_BMAP2_START;
+-	iounit->limit[2] = IOUNIT_BMAPM_START;
+-	iounit->limit[3] = IOUNIT_BMAPM_END;
+-	iounit->rotor[1] = IOUNIT_BMAP2_START;
+-	iounit->rotor[2] = IOUNIT_BMAPM_START;
 -
--		/* Patch for returning from traps... */
--		PATCH_INSN(rtrap_7win_patch1, rtrap_patch1)
--		PATCH_INSN(rtrap_7win_patch2, rtrap_patch2)
--		PATCH_INSN(rtrap_7win_patch3, rtrap_patch3)
--		PATCH_INSN(rtrap_7win_patch4, rtrap_patch4)
--		PATCH_INSN(rtrap_7win_patch5, rtrap_patch5)
+-	xpt = of_ioremap(&op->resource[2], 0, PAGE_SIZE * 16, "XPT");
+-	if (!xpt) {
+-		prom_printf("SUN4D: Cannot map External Page Table.");
+-		prom_halt();
+-	}
+-	
+-	op->dev.archdata.iommu = iounit;
+-	iounit->page_table = xpt;
+-	spin_lock_init(&iounit->lock);
 -
--		/* Patch for killing user windows from the register file. */
--		PATCH_INSN(kuw_patch1_7win, kuw_patch1)
+-	xptend = iounit->page_table + (16 * PAGE_SIZE) / sizeof(iopte_t);
+-	for (; xpt < xptend; xpt++)
+-		sbus_writel(0, xpt);
 -
--		/* Now patch the kernel window flush sequences.
--		 * This saves 2 traps on every switch and fork.
--		 */
--		set	0x01000000, %g4
--		set	flush_patch_one, %g5
--		st	%g4, [%g5 + 0x18]
--		st	%g4, [%g5 + 0x1c]
--		set	flush_patch_two, %g5
--		st	%g4, [%g5 + 0x18]
--		st	%g4, [%g5 + 0x1c]
--		set	flush_patch_three, %g5
--		st	%g4, [%g5 + 0x18]
--		st	%g4, [%g5 + 0x1c]
--		set	flush_patch_four, %g5
--		st	%g4, [%g5 + 0x18]
--		st	%g4, [%g5 + 0x1c]
--		set	flush_patch_exception, %g5
--		st	%g4, [%g5 + 0x18]
--		st	%g4, [%g5 + 0x1c]
--		set	flush_patch_switch, %g5
--		st	%g4, [%g5 + 0x18]
--		st	%g4, [%g5 + 0x1c]
+-	op->dev.dma_ops = &iounit_dma_ops;
+-}
 -
--2:
- 		sethi	%hi(nwindows), %g4
- 		st	%g3, [%g4 + %lo(nwindows)]	! store final value
- 		sub	%g3, 0x1, %g3
-diff --git a/arch/sparc/kernel/rtrap_32.S b/arch/sparc/kernel/rtrap_32.S
-index a232b367c219..8383048c3b5e 100644
---- a/arch/sparc/kernel/rtrap_32.S
-+++ b/arch/sparc/kernel/rtrap_32.S
-@@ -23,15 +23,6 @@
- #define glob_tmp  g4
- #define curptr    g6
- 
--	/* 7 WINDOW SPARC PATCH INSTRUCTIONS */
--	.globl	rtrap_7win_patch1, rtrap_7win_patch2, rtrap_7win_patch3
--	.globl	rtrap_7win_patch4, rtrap_7win_patch5
--rtrap_7win_patch1:	srl	%t_wim, 0x6, %glob_tmp
--rtrap_7win_patch2:	and	%glob_tmp, 0x7f, %glob_tmp
--rtrap_7win_patch3:	srl	%g1, 7, %g2
--rtrap_7win_patch4:	srl	%g2, 6, %g2
--rtrap_7win_patch5:	and	%g1, 0x7f, %g1
--	/* END OF PATCH INSTRUCTIONS */
- 
- 	/* We need to check for a few things which are:
- 	 * 1) The need to call schedule() because this
-@@ -117,17 +108,17 @@ ret_trap_nobufwins:
- 	bne	ret_trap_userwins_ok
- 	 nop
- 
--		/* Calculate new %wim, we have to pull a register
--		 * window from the users stack.
--		 */
-+	/* Calculate new %wim, we have to pull a register
-+	 * window from the users stack.
-+	 */
- ret_trap_pull_one_window:
--		rd	%wim, %t_wim
--		sll	%t_wim, 0x1, %twin_tmp1
--rtrap_patch1:	srl	%t_wim, 0x7, %glob_tmp
--		or	%glob_tmp, %twin_tmp1, %glob_tmp
--rtrap_patch2:	and	%glob_tmp, 0xff, %glob_tmp
-+	rd	%wim, %t_wim
-+	sll	%t_wim, 0x1, %twin_tmp1
-+	srl	%t_wim, 0x7, %glob_tmp
-+	or	%glob_tmp, %twin_tmp1, %glob_tmp
-+	and	%glob_tmp, 0xff, %glob_tmp
- 
--		wr	%glob_tmp, 0x0, %wim
-+	wr	%glob_tmp, 0x0, %wim
- 
- 	/* Here comes the architecture specific
- 	 * branch to the user stack checking routine
-@@ -174,20 +165,20 @@ ret_trap_unaligned_pc:
- 	 ld	[%curptr + TI_FLAGS], %g2
- 
- ret_trap_kernel:
--		/* Will the rett land us in the invalid window? */
--		mov	2, %g1
--		sll	%g1, %t_psr, %g1
--rtrap_patch3:	srl	%g1, 8, %g2
--		or	%g1, %g2, %g1
--		rd	%wim, %g2
--		andcc	%g2, %g1, %g0
--		be	1f		! Nope, just return from the trap
--		 sll	%g2, 0x1, %g1
+-static int __init iounit_init(void)
+-{
+-	extern void sun4d_init_sbi_irq(void);
+-	struct device_node *dp;
 -
--		/* We have to grab a window before returning. */
--rtrap_patch4:	srl	%g2, 7,  %g2
--		or	%g1, %g2, %g1
--rtrap_patch5:	and	%g1, 0xff, %g1
-+	/* Will the rett land us in the invalid window? */
-+	mov	2, %g1
-+	sll	%g1, %t_psr, %g1
-+	srl	%g1, 8, %g2
-+	or	%g1, %g2, %g1
-+	rd	%wim, %g2
-+	andcc	%g2, %g1, %g0
-+	be	1f		! Nope, just return from the trap
-+	 sll	%g2, 0x1, %g1
-+
-+	/* We have to grab a window before returning. */
-+	srl	%g2, 7,  %g2
-+	or	%g1, %g2, %g1
-+	and	%g1, 0xff, %g1
- 
- 	wr	%g1, 0x0, %wim
- 
-diff --git a/arch/sparc/kernel/wof.S b/arch/sparc/kernel/wof.S
-index fe4cfd4abcd2..30c5ebdd035c 100644
---- a/arch/sparc/kernel/wof.S
-+++ b/arch/sparc/kernel/wof.S
-@@ -43,18 +43,6 @@
- #define twin_tmp    l4 /* Temp reg, only usable in trap window  T */
- #define glob_tmp    g5 /* Global temporary reg, usable anywhere G */
- 
--	.text
--	.align	4
--	/* BEGINNING OF PATCH INSTRUCTIONS */
--	/* On a 7-window Sparc the boot code patches spnwin_*
--	 * instructions with the following ones.
--	 */
--	.globl	spnwin_patch1_7win, spnwin_patch2_7win, spnwin_patch3_7win
--spnwin_patch1_7win:	sll	%t_wim, 6, %glob_tmp
--spnwin_patch2_7win:	and	%glob_tmp, 0x7f, %glob_tmp
--spnwin_patch3_7win:	and	%twin_tmp, 0x7f, %twin_tmp
--	/* END OF PATCH INSTRUCTIONS */
+-	for_each_node_by_name(dp, "sbi") {
+-		struct platform_device *op = of_find_device_by_node(dp);
 -
- 	/* The trap entry point has done the following:
- 	 *
- 	 * rd    %psr, %l0
-@@ -69,7 +57,6 @@ spnwin_patch3_7win:	and	%twin_tmp, 0x7f, %twin_tmp
- 	 * will be all zeroes.
- 	 */
- 	.globl	spill_window_entry 
--	.globl	spnwin_patch1, spnwin_patch2, spnwin_patch3
- spill_window_entry:
- 	/* LOCATION: Trap Window */
- 
-@@ -81,10 +68,10 @@ spill_window_entry:
- 	 *
- 	 * newwim = ((%wim>>1) | (%wim<<(nwindows - 1)));
- 	 */
--		srl	%t_wim, 0x1, %twin_tmp
--spnwin_patch1:	sll	%t_wim, 7, %glob_tmp
--		or	%glob_tmp, %twin_tmp, %glob_tmp
--spnwin_patch2:	and	%glob_tmp, 0xff, %glob_tmp
-+	srl	%t_wim, 0x1, %twin_tmp
-+	sll	%t_wim, 7, %glob_tmp
-+	or	%glob_tmp, %twin_tmp, %glob_tmp
-+	and	%glob_tmp, 0xff, %glob_tmp
- 
- 	/* The trap entry point has set the condition codes
- 	 * up for us to see if this is from user or kernel.
-@@ -222,17 +209,17 @@ spwin_user_stack_is_bolixed:
- 	mov	1, %twin_tmp
- 	st	%twin_tmp, [%curptr + TI_W_SAVED]
- 
--		/* Compute new user window mask.  What we are basically
--		 * doing is taking two windows, the invalid one at trap
--		 * time and the one we attempted to throw onto the users
--		 * stack, and saying that everything else is an ok user
--		 * window.  umask = ((~(%t_wim | %wim)) & valid_wim_bits)
--		 */
--		rd	%wim, %twin_tmp
--		or	%twin_tmp, %t_wim, %twin_tmp
--		not	%twin_tmp
--spnwin_patch3:	and	%twin_tmp, 0xff, %twin_tmp	! patched on 7win Sparcs
--		st	%twin_tmp, [%curptr + TI_UWINMASK]
-+	/* Compute new user window mask.  What we are basically
-+	 * doing is taking two windows, the invalid one at trap
-+	 * time and the one we attempted to throw onto the users
-+	 * stack, and saying that everything else is an ok user
-+	 * window.  umask = ((~(%t_wim | %wim)) & valid_wim_bits)
-+	 */
-+	rd	%wim, %twin_tmp
-+	or	%twin_tmp, %t_wim, %twin_tmp
-+	not	%twin_tmp
-+	and	%twin_tmp, 0xff, %twin_tmp
-+	st	%twin_tmp, [%curptr + TI_UWINMASK]
- 
- #define STACK_OFFSET (THREAD_SIZE - TRACEREG_SZ - STACKFRAME_SZ)
- 
-diff --git a/arch/sparc/kernel/wuf.S b/arch/sparc/kernel/wuf.S
-index 4c52b69d4b7a..dd2a539f92ff 100644
---- a/arch/sparc/kernel/wuf.S
-+++ b/arch/sparc/kernel/wuf.S
-@@ -68,27 +68,17 @@
- 	 *           are done and return from trap if successful
- 	 */
- 
--	/* BEGINNING OF PATCH INSTRUCTIONS */
+-		iounit_iommu_init(op);
+-		of_propagate_archdata(op);
+-	}
 -
--	/* On 7-window Sparc the boot code patches fnwin_patch1
--	 * with the following instruction.
--	 */
--	.globl	fnwin_patch1_7win, fnwin_patch2_7win
--fnwin_patch1_7win:	srl	%t_wim, 6, %twin_tmp2
--fnwin_patch2_7win:	and	%twin_tmp1, 0x7f, %twin_tmp1
--	/* END OF PATCH INSTRUCTIONS */
+-	return 0;
+-}
 -
--	.globl	fill_window_entry, fnwin_patch1, fnwin_patch2
-+	.globl	fill_window_entry
- fill_window_entry:
- 	/* LOCATION: Window 'T' */
- 
- 	/* Compute what the new %wim is going to be if we retrieve
- 	 * the proper window off of the stack.
- 	 */
--		sll	%t_wim, 1, %twin_tmp1
--fnwin_patch1:	srl	%t_wim, 7, %twin_tmp2
--		or	%twin_tmp1, %twin_tmp2, %twin_tmp1
--fnwin_patch2:	and	%twin_tmp1, 0xff, %twin_tmp1
-+	sll	%t_wim, 1, %twin_tmp1
-+	srl	%t_wim, 7, %twin_tmp2
-+	or	%twin_tmp1, %twin_tmp2, %twin_tmp1
-+	and	%twin_tmp1, 0xff, %twin_tmp1
- 
- 	wr	%twin_tmp1, 0x0, %wim	/* Make window 'I' invalid */
- 
+-subsys_initcall(iounit_init);
+-
+-/* One has to hold iounit->lock to call this */
+-static unsigned long iounit_get_area(struct iounit_struct *iounit, unsigned long vaddr, int size)
+-{
+-	int i, j, k, npages;
+-	unsigned long rotor, scan, limit;
+-	iopte_t iopte;
+-
+-        npages = ((vaddr & ~PAGE_MASK) + size + (PAGE_SIZE-1)) >> PAGE_SHIFT;
+-
+-	/* A tiny bit of magic ingredience :) */
+-	switch (npages) {
+-	case 1: i = 0x0231; break;
+-	case 2: i = 0x0132; break;
+-	default: i = 0x0213; break;
+-	}
+-	
+-	IOD(("iounit_get_area(%08lx,%d[%d])=", vaddr, size, npages));
+-	
+-next:	j = (i & 15);
+-	rotor = iounit->rotor[j - 1];
+-	limit = iounit->limit[j];
+-	scan = rotor;
+-nexti:	scan = find_next_zero_bit(iounit->bmap, limit, scan);
+-	if (scan + npages > limit) {
+-		if (limit != rotor) {
+-			limit = rotor;
+-			scan = iounit->limit[j - 1];
+-			goto nexti;
+-		}
+-		i >>= 4;
+-		if (!(i & 15))
+-			panic("iounit_get_area: Couldn't find free iopte slots for (%08lx,%d)\n", vaddr, size);
+-		goto next;
+-	}
+-	for (k = 1, scan++; k < npages; k++)
+-		if (test_bit(scan++, iounit->bmap))
+-			goto nexti;
+-	iounit->rotor[j - 1] = (scan < limit) ? scan : iounit->limit[j - 1];
+-	scan -= npages;
+-	iopte = MKIOPTE(__pa(vaddr & PAGE_MASK));
+-	vaddr = IOUNIT_DMA_BASE + (scan << PAGE_SHIFT) + (vaddr & ~PAGE_MASK);
+-	for (k = 0; k < npages; k++, iopte = __iopte(iopte_val(iopte) + 0x100), scan++) {
+-		set_bit(scan, iounit->bmap);
+-		sbus_writel(iopte_val(iopte), &iounit->page_table[scan]);
+-	}
+-	IOD(("%08lx\n", vaddr));
+-	return vaddr;
+-}
+-
+-static dma_addr_t iounit_map_page(struct device *dev, struct page *page,
+-		unsigned long offset, size_t len, enum dma_data_direction dir,
+-		unsigned long attrs)
+-{
+-	void *vaddr = page_address(page) + offset;
+-	struct iounit_struct *iounit = dev->archdata.iommu;
+-	unsigned long ret, flags;
+-	
+-	/* XXX So what is maxphys for us and how do drivers know it? */
+-	if (!len || len > 256 * 1024)
+-		return DMA_MAPPING_ERROR;
+-
+-	spin_lock_irqsave(&iounit->lock, flags);
+-	ret = iounit_get_area(iounit, (unsigned long)vaddr, len);
+-	spin_unlock_irqrestore(&iounit->lock, flags);
+-	return ret;
+-}
+-
+-static int iounit_map_sg(struct device *dev, struct scatterlist *sgl, int nents,
+-		enum dma_data_direction dir, unsigned long attrs)
+-{
+-	struct iounit_struct *iounit = dev->archdata.iommu;
+-	struct scatterlist *sg;
+-	unsigned long flags;
+-	int i;
+-
+-	/* FIXME: Cache some resolved pages - often several sg entries are to the same page */
+-	spin_lock_irqsave(&iounit->lock, flags);
+-	for_each_sg(sgl, sg, nents, i) {
+-		sg->dma_address = iounit_get_area(iounit, (unsigned long) sg_virt(sg), sg->length);
+-		sg->dma_length = sg->length;
+-	}
+-	spin_unlock_irqrestore(&iounit->lock, flags);
+-	return nents;
+-}
+-
+-static void iounit_unmap_page(struct device *dev, dma_addr_t vaddr, size_t len,
+-		enum dma_data_direction dir, unsigned long attrs)
+-{
+-	struct iounit_struct *iounit = dev->archdata.iommu;
+-	unsigned long flags;
+-	
+-	spin_lock_irqsave(&iounit->lock, flags);
+-	len = ((vaddr & ~PAGE_MASK) + len + (PAGE_SIZE-1)) >> PAGE_SHIFT;
+-	vaddr = (vaddr - IOUNIT_DMA_BASE) >> PAGE_SHIFT;
+-	IOD(("iounit_release %08lx-%08lx\n", (long)vaddr, (long)len+vaddr));
+-	for (len += vaddr; vaddr < len; vaddr++)
+-		clear_bit(vaddr, iounit->bmap);
+-	spin_unlock_irqrestore(&iounit->lock, flags);
+-}
+-
+-static void iounit_unmap_sg(struct device *dev, struct scatterlist *sgl,
+-		int nents, enum dma_data_direction dir, unsigned long attrs)
+-{
+-	struct iounit_struct *iounit = dev->archdata.iommu;
+-	unsigned long flags, vaddr, len;
+-	struct scatterlist *sg;
+-	int i;
+-
+-	spin_lock_irqsave(&iounit->lock, flags);
+-	for_each_sg(sgl, sg, nents, i) {
+-		len = ((sg->dma_address & ~PAGE_MASK) + sg->length + (PAGE_SIZE-1)) >> PAGE_SHIFT;
+-		vaddr = (sg->dma_address - IOUNIT_DMA_BASE) >> PAGE_SHIFT;
+-		IOD(("iounit_release %08lx-%08lx\n", (long)vaddr, (long)len+vaddr));
+-		for (len += vaddr; vaddr < len; vaddr++)
+-			clear_bit(vaddr, iounit->bmap);
+-	}
+-	spin_unlock_irqrestore(&iounit->lock, flags);
+-}
+-
+-#ifdef CONFIG_SBUS
+-static void *iounit_alloc(struct device *dev, size_t len,
+-		dma_addr_t *dma_handle, gfp_t gfp, unsigned long attrs)
+-{
+-	struct iounit_struct *iounit = dev->archdata.iommu;
+-	unsigned long va, addr, page, end, ret;
+-	pgprot_t dvma_prot;
+-	iopte_t __iomem *iopte;
+-
+-	/* XXX So what is maxphys for us and how do drivers know it? */
+-	if (!len || len > 256 * 1024)
+-		return NULL;
+-
+-	len = PAGE_ALIGN(len);
+-	va = __get_free_pages(gfp | __GFP_ZERO, get_order(len));
+-	if (!va)
+-		return NULL;
+-
+-	addr = ret = sparc_dma_alloc_resource(dev, len);
+-	if (!addr)
+-		goto out_free_pages;
+-	*dma_handle = addr;
+-
+-	dvma_prot = __pgprot(SRMMU_CACHE | SRMMU_ET_PTE | SRMMU_PRIV);
+-	end = PAGE_ALIGN((addr + len));
+-	while(addr < end) {
+-		page = va;
+-		{
+-			pmd_t *pmdp;
+-			pte_t *ptep;
+-			long i;
+-
+-			pmdp = pmd_off_k(addr);
+-			ptep = pte_offset_kernel(pmdp, addr);
+-
+-			set_pte(ptep, mk_pte(virt_to_page(page), dvma_prot));
+-
+-			i = ((addr - IOUNIT_DMA_BASE) >> PAGE_SHIFT);
+-
+-			iopte = iounit->page_table + i;
+-			sbus_writel(iopte_val(MKIOPTE(__pa(page))), iopte);
+-		}
+-		addr += PAGE_SIZE;
+-		va += PAGE_SIZE;
+-	}
+-	flush_cache_all();
+-	flush_tlb_all();
+-
+-	return (void *)ret;
+-
+-out_free_pages:
+-	free_pages(va, get_order(len));
+-	return NULL;
+-}
+-
+-static void iounit_free(struct device *dev, size_t size, void *cpu_addr,
+-		dma_addr_t dma_addr, unsigned long attrs)
+-{
+-	/* XXX Somebody please fill this in */
+-}
+-#endif
+-
+-static const struct dma_map_ops iounit_dma_ops = {
+-#ifdef CONFIG_SBUS
+-	.alloc			= iounit_alloc,
+-	.free			= iounit_free,
+-#endif
+-	.map_page		= iounit_map_page,
+-	.unmap_page		= iounit_unmap_page,
+-	.map_sg			= iounit_map_sg,
+-	.unmap_sg		= iounit_unmap_sg,
+-};
+diff --git a/arch/sparc/mm/srmmu.c b/arch/sparc/mm/srmmu.c
+index 4a3778549c6f..949247a6896b 100644
+--- a/arch/sparc/mm/srmmu.c
++++ b/arch/sparc/mm/srmmu.c
+@@ -26,7 +26,6 @@
+ #include <asm/mmu_context.h>
+ #include <asm/cacheflush.h>
+ #include <asm/tlbflush.h>
+-#include <asm/io-unit.h>
+ #include <asm/pgalloc.h>
+ #include <asm/pgtable.h>
+ #include <asm/bitext.h>
 
 -- 
 2.34.1
