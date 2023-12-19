@@ -2,53 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE2D58192E4
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 23:03:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD4AF8192D0
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 23:03:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0080D10E52A;
-	Tue, 19 Dec 2023 22:03:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0040810E510;
+	Tue, 19 Dec 2023 22:03:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A40410E267
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 22:03:19 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB75110E2E2
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 22:03:17 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id EF260B81AEE;
+ by dfw.source.kernel.org (Postfix) with ESMTP id B0E08614E7;
  Tue, 19 Dec 2023 22:03:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9B0C4C116B9;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A6119C116CB;
  Tue, 19 Dec 2023 22:03:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1703023396;
- bh=ZxiWPYjJNlwW0ZoUuTe7kh12NGJyutpG6BCChPYhLqM=;
+ bh=+Beebx9gfnLAs0pJuWOQEcNAx7I2nncuMk7Ra3DGun4=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=VKJVj4Izenm3fSSO97yRxDQOQN0qwh7a4oiChirWK9a9NR1DOIYLaCNiaCBS55NuD
- rgJFBnkYqeph05C5GVKLVwYYRSh8sA4kSuuAbB9UTpzZO/5+xUxo4y3oDC7anUo7op
- HWUPRmVUdA1ETWGPkRz0+fhHMAvSfziCDWbk5K8jYfiVdbgputLzhd1ztkiBRseyzX
- 07AOVYP0cyRP3GX6v5Zlvf/NidVOBMAHCCxS4r4hkqYUYvovjmaX4YsO3AehXJzsMX
- Jz7Xl1L/486uV3XwlEmYQvd+QqHk8z/AF0gxPgDBylHdTaVhnTLApqyqKBKferscEC
- i5U0sPpIN3dOw==
+ b=L8fickSy6u96Be9sQJspXpPb56FKoD0S4i5jLfrPPcsl6TTLwv7Tq5O893li6Hypb
+ UZISRFNeQvm7YHmldvqP+mid9tEHOh2kLcRJxle5z+zEKYjZtYgf3OItXiIXp/bejK
+ 0Ai1BsMQ80n/UE8VtxQyxDewQxSExtLPtyDojbJsnR1u7gfBmH/CKnrYx25s2iK6eE
+ u+L9EO6ICbYr+h6EnoM/qk/ahrelnR69YFVEnUauvJPIYDEZlFB+2QyG0BwaJZLuH6
+ d2k1QeUxa8rBXXIa2cewb4ZciWiy4ZvhX5Xxyqv8J8GjxsABu+YFqY+lltoc4YuL3h
+ BKK2zv6IqZJTw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 8A002C46CCD;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 9511FC41535;
  Tue, 19 Dec 2023 22:03:16 +0000 (UTC)
 From: Sam Ravnborg via B4 Relay <devnull+sam.ravnborg.org@kernel.org>
-Date: Tue, 19 Dec 2023 23:03:29 +0100
-Subject: [PATCH 24/27] sparc32: Drop config SPARC_LEON
+Date: Tue, 19 Dec 2023 23:03:30 +0100
+Subject: [PATCH 25/27] sparc32: Drop sbus support
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231219-sam-sparc32-sunset-v3-v1-24-64bb44b598c5@ravnborg.org>
+Message-Id: <20231219-sam-sparc32-sunset-v3-v1-25-64bb44b598c5@ravnborg.org>
 References: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
 In-Reply-To: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
 To: "David S. Miller" <davem@davemloft.net>, 
  Arnd Bergmann <arnd@kernel.org>, Andreas Larsson <andreas@gaisler.com>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1703023392; l=4414;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1703023392; l=8434;
  i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=yguXtsAztu+g6VS1K/Ca2l8EKOhlR4mQ7eIgq+RPLKI=; =?utf-8?q?b=3DFP777UvBaxp1?=
- =?utf-8?q?SiwfpSSLW9EamkRu8kUaC20yflmyMorWFySES8L/kN5EdEsA08eskSUyRrG/P6uB?=
- OnxjkQroDmvjESJ2jBLsRzy++IbHaFfo7eXfbWhpMLGU7cRhkzYF
+ bh=noFWwB2355JcJw34vZTjvjPZYxXfFOJ+ZxyTkfyT2mI=; =?utf-8?q?b=3De82fXd+odSNL?=
+ =?utf-8?q?BQG5iBX6UXvJFUrU3yTayR5X1rsd79iibtwClLcKPPTffy2mjGn5mm6zqBvofsMi?=
+ VNVMYAp+C/vLDPhIqt9t7cbV649lfDaS3ATBb7q+ZXuZUo4m+yzW
 X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
  pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
 X-Endpoint-Received: by B4 Relay for sam@ravnborg.org/20230107 with auth_id=22
@@ -78,147 +77,304 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sam Ravnborg <sam@ravnborg.org>
 
-The only support sparc32 CPU is LEON, so there is no need for a
-config option to select it.
+LEON do not have an sbus - so drop support for that for sparc32.
+Fix a few Kconfig expressions to use CONFIG_SBUS rather than SPARC
+as only SPARC64 has an sbus now.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Arnd Bergmann <arnd@kernel.org>
 Cc: Andreas Larsson <andreas@gaisler.com>
 ---
- arch/sparc/Kconfig                   | 27 +++++++++------------------
- arch/sparc/configs/sparc32_defconfig |  1 -
- drivers/usb/host/Kconfig             |  2 +-
- drivers/usb/host/ehci-hcd.c          |  4 ++--
- drivers/usb/host/uhci-hcd.c          |  2 +-
- 5 files changed, 13 insertions(+), 23 deletions(-)
+ arch/sparc/Kconfig               |  4 +-
+ arch/sparc/include/asm/fb.h      |  8 ++--
+ arch/sparc/include/asm/io_32.h   | 83 ----------------------------------------
+ arch/sparc/kernel/ioport.c       | 49 ------------------------
+ arch/sparc/kernel/of_device_32.c | 14 -------
+ drivers/video/fbdev/Kconfig      |  2 +-
+ sound/sparc/Kconfig              |  1 +
+ 7 files changed, 9 insertions(+), 152 deletions(-)
 
 diff --git a/arch/sparc/Kconfig b/arch/sparc/Kconfig
-index 7ae304bab2d8..0fc52c3c7487 100644
+index 0fc52c3c7487..1b9cf7f3c500 100644
 --- a/arch/sparc/Kconfig
 +++ b/arch/sparc/Kconfig
-@@ -9,6 +9,10 @@ config 64BIT
- 
- 	  Say yes to build a 64-bit kernel - formerly known as sparc64
- 	  Say no to build a 32-bit kernel - formerly known as sparc
-+	  The 32-bit kernel target the synthesizable LEON SPARC processor.
-+	  LEON is a part of the GRLIB collection of IP cores that are
-+	  distributed under GPL. GRLIB can be downloaded from www.gaisler.com.
-+	  You can download a sparc-linux cross-compilation toolchain at www.gaisler.com.
- 
- config SPARC
+@@ -392,11 +392,11 @@ endmenu
+ menu "Bus options (PCI etc.)"
+ config SBUS
  	bool
-@@ -60,6 +64,10 @@ config SPARC32
- 	select HAVE_UID16
- 	select LOCK_MM_AND_FIND_VMA
- 	select OLD_SIGACTION
-+	select USB_EHCI_BIG_ENDIAN_MMIO
-+	select USB_EHCI_BIG_ENDIAN_DESC
-+	select USB_UHCI_BIG_ENDIAN_MMIO
-+	select USB_UHCI_BIG_ENDIAN_DESC
- 	select ZONE_DMA
+-	default y
++	default y if SPARC64
  
- config SPARC64
-@@ -348,22 +356,6 @@ config SERIAL_CONSOLE
+ config SBUSCHAR
+ 	bool
+-	default y
++	default y if SPARC64
  
- 	  If unsure, say N.
+ config SUN_LDOMS
+ 	bool "Sun Logical Domains support"
+diff --git a/arch/sparc/include/asm/fb.h b/arch/sparc/include/asm/fb.h
+index 24440c0fda49..15b007875457 100644
+--- a/arch/sparc/include/asm/fb.h
++++ b/arch/sparc/include/asm/fb.h
+@@ -8,6 +8,9 @@
  
--config SPARC_LEON
--	bool "Sparc Leon processor family"
--	depends on SPARC32
--	select USB_EHCI_BIG_ENDIAN_MMIO
--	select USB_EHCI_BIG_ENDIAN_DESC
--	select USB_UHCI_BIG_ENDIAN_MMIO
--	select USB_UHCI_BIG_ENDIAN_DESC
--	help
--	  If you say Y here if you are running on a SPARC-LEON processor.
--	  The LEON processor is a synthesizable VHDL model of the
--	  SPARC-v8 standard. LEON is  part of the GRLIB collection of
--	  IP cores that are distributed under GPL. GRLIB can be downloaded
--	  from www.gaisler.com. You can download a sparc-linux cross-compilation
--	  toolchain at www.gaisler.com.
+ struct fb_info;
+ 
++int fb_is_primary_device(struct fb_info *info);
++#define fb_is_primary_device fb_is_primary_device
++
+ #ifdef CONFIG_SPARC32
+ static inline pgprot_t pgprot_framebuffer(pgprot_t prot,
+ 					  unsigned long vm_start, unsigned long vm_end,
+@@ -18,9 +21,7 @@ static inline pgprot_t pgprot_framebuffer(pgprot_t prot,
+ #define pgprot_framebuffer pgprot_framebuffer
+ #endif
+ 
+-int fb_is_primary_device(struct fb_info *info);
+-#define fb_is_primary_device fb_is_primary_device
 -
--if SPARC_LEON
- menu "U-Boot options"
++#ifdef CONFIG_SPARC64
+ static inline void fb_memcpy_fromio(void *to, const volatile void __iomem *from, size_t n)
+ {
+ 	sbus_memcpy_fromio(to, from, n);
+@@ -38,6 +39,7 @@ static inline void fb_memset_io(volatile void __iomem *addr, int c, size_t n)
+ 	sbus_memset_io(addr, c, n);
+ }
+ #define fb_memset fb_memset_io
++#endif
  
- config UBOOT_LOAD_ADDR
-@@ -394,7 +386,6 @@ config UBOOT_ENTRY_ADDR
- 	 Kernel.
+ #include <asm-generic/fb.h>
  
- endmenu
--endif
+diff --git a/arch/sparc/include/asm/io_32.h b/arch/sparc/include/asm/io_32.h
+index 83abe709d120..b9f280ee1b11 100644
+--- a/arch/sparc/include/asm/io_32.h
++++ b/arch/sparc/include/asm/io_32.h
+@@ -56,78 +56,6 @@ static inline void _memcpy_toio(volatile void __iomem *dst, const void *src,
+ 	}
+ }
  
- endmenu
+-/*
+- * SBus accessors.
+- *
+- * SBus has only one, memory mapped, I/O space.
+- * We do not need to flip bytes for SBus of course.
+- */
+-static inline u8 sbus_readb(const volatile void __iomem *addr)
+-{
+-	return *(__force volatile u8 *)addr;
+-}
+-
+-static inline u16 sbus_readw(const volatile void __iomem *addr)
+-{
+-	return *(__force volatile u16 *)addr;
+-}
+-
+-static inline u32 sbus_readl(const volatile void __iomem *addr)
+-{
+-	return *(__force volatile u32 *)addr;
+-}
+-
+-static inline void sbus_writeb(u8 b, volatile void __iomem *addr)
+-{
+-	*(__force volatile u8 *)addr = b;
+-}
+-
+-static inline void sbus_writew(u16 w, volatile void __iomem *addr)
+-{
+-	*(__force volatile u16 *)addr = w;
+-}
+-
+-static inline void sbus_writel(u32 l, volatile void __iomem *addr)
+-{
+-	*(__force volatile u32 *)addr = l;
+-}
+-
+-static inline void sbus_memset_io(volatile void __iomem *__dst, int c,
+-                                  __kernel_size_t n)
+-{
+-	while(n--) {
+-		sbus_writeb(c, __dst);
+-		__dst++;
+-	}
+-}
+-
+-static inline void sbus_memcpy_fromio(void *dst,
+-                                      const volatile void __iomem *src,
+-                                      __kernel_size_t n)
+-{
+-	char *d = dst;
+-
+-	while (n--) {
+-		char tmp = sbus_readb(src);
+-		*d++ = tmp;
+-		src++;
+-	}
+-}
+-
+-static inline void sbus_memcpy_toio(volatile void __iomem *dst,
+-                                    const void *src,
+-                                    __kernel_size_t n)
+-{
+-	const char *s = src;
+-	volatile void __iomem *d = dst;
+-
+-	while (n--) {
+-		char tmp = *s++;
+-		sbus_writeb(tmp, d);
+-		d++;
+-	}
+-}
+-
+ /* Create a virtual mapping cookie for an IO port range */
+ void __iomem *ioport_map(unsigned long port, unsigned int nr);
+ void ioport_unmap(void __iomem *);
+@@ -136,17 +64,6 @@ void ioport_unmap(void __iomem *);
+ struct pci_dev;
+ void pci_iounmap(struct pci_dev *dev, void __iomem *);
  
-@@ -416,7 +407,7 @@ config SUN_LDOMS
+-static inline int sbus_can_dma_64bit(void)
+-{
+-	return 0;
+-}
+-static inline int sbus_can_burst64(void)
+-{
+-	return 0;
+-}
+-struct device;
+-void sbus_set_sbus64(struct device *, int);
+-
+ #define __ARCH_HAS_NO_PAGE_ZERO_MAPPED		1
  
- config LEON_PCI
- 	bool
--	depends on PCI && SPARC_LEON
-+	depends on PCI && SPARC32
+ 
+diff --git a/arch/sparc/kernel/ioport.c b/arch/sparc/kernel/ioport.c
+index 9c4c72775274..97b836f3be25 100644
+--- a/arch/sparc/kernel/ioport.c
++++ b/arch/sparc/kernel/ioport.c
+@@ -55,8 +55,6 @@ static void __iomem *_sparc_alloc_io(unsigned int busno, unsigned long phys,
+     unsigned long size, char *name);
+ static void _sparc_free_io(struct resource *res);
+ 
+-static void register_proc_sparc_ioport(void);
+-
+ /* This points to the next to use virtual memory for DVMA mappings */
+ static struct resource _sparc_dvma = {
+ 	.name = "sparc_dvma", .start = DVMA_VADDR, .end = DVMA_END - 1
+@@ -279,25 +277,6 @@ bool sparc_dma_free_resource(void *cpu_addr, size_t size)
+ 	return true;
+ }
+ 
+-#ifdef CONFIG_SBUS
+-
+-void sbus_set_sbus64(struct device *dev, int x)
+-{
+-	printk("sbus_set_sbus64: unsupported\n");
+-}
+-EXPORT_SYMBOL(sbus_set_sbus64);
+-
+-static int __init sparc_register_ioport(void)
+-{
+-	register_proc_sparc_ioport();
+-
+-	return 0;
+-}
+-
+-arch_initcall(sparc_register_ioport);
+-
+-#endif /* CONFIG_SBUS */
+-
+ /*
+  * IIep is write-through, not flushing on cpu to device transfer.
+  *
+@@ -310,31 +289,3 @@ void arch_sync_dma_for_cpu(phys_addr_t paddr, size_t size,
+ 	if (dir != DMA_TO_DEVICE && !sparc_leon3_snooping_enabled())
+ 		leon_flush_dcache_all();
+ }
+-
+-#ifdef CONFIG_PROC_FS
+-
+-static int sparc_io_proc_show(struct seq_file *m, void *v)
+-{
+-	struct resource *root = m->private, *r;
+-	const char *nm;
+-
+-	for (r = root->child; r != NULL; r = r->sibling) {
+-		if ((nm = r->name) == NULL) nm = "???";
+-		seq_printf(m, "%016llx-%016llx: %s\n",
+-				(unsigned long long)r->start,
+-				(unsigned long long)r->end, nm);
+-	}
+-
+-	return 0;
+-}
+-#endif /* CONFIG_PROC_FS */
+-
+-static void register_proc_sparc_ioport(void)
+-{
+-#ifdef CONFIG_PROC_FS
+-	proc_create_single_data("io_map", 0, NULL, sparc_io_proc_show,
+-			&sparc_iomap);
+-	proc_create_single_data("dvma_map", 0, NULL, sparc_io_proc_show,
+-			&_sparc_dvma);
+-#endif
+-}
+diff --git a/arch/sparc/kernel/of_device_32.c b/arch/sparc/kernel/of_device_32.c
+index ddb3b197d5e4..99ec26782bcc 100644
+--- a/arch/sparc/kernel/of_device_32.c
++++ b/arch/sparc/kernel/of_device_32.c
+@@ -96,11 +96,6 @@ static unsigned long of_bus_pci_get_flags(const u32 *addr, unsigned long flags)
+ 	return flags;
+ }
+ 
+-static unsigned long of_bus_sbus_get_flags(const u32 *addr, unsigned long flags)
+-{
+-	return IORESOURCE_MEM;
+-}
+-
+  /*
+  * AMBAPP bus specific translator
+  */
+@@ -145,15 +140,6 @@ static struct of_bus of_busses[] = {
+ 		.map = of_bus_pci_map,
+ 		.get_flags = of_bus_pci_get_flags,
+ 	},
+-	/* SBUS */
+-	{
+-		.name = "sbus",
+-		.addr_prop_name = "reg",
+-		.match = of_bus_sbus_match,
+-		.count_cells = of_bus_sbus_count_cells,
+-		.map = of_bus_default_map,
+-		.get_flags = of_bus_sbus_get_flags,
+-	},
+ 	/* AMBA */
+ 	{
+ 		.name = "ambapp",
+diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
+index 53693c826ebd..94f6dca5856f 100644
+--- a/drivers/video/fbdev/Kconfig
++++ b/drivers/video/fbdev/Kconfig
+@@ -518,7 +518,7 @@ config FB_GBE_MEM
+ 
+ config FB_SBUS
+ 	bool "SBUS and UPA framebuffers"
+-	depends on (FB = y) && SPARC
++	depends on (FB = y) && SBUS
+ 	help
+ 	  Say Y if you want support for SBUS or UPA based frame buffer device.
+ 
+diff --git a/sound/sparc/Kconfig b/sound/sparc/Kconfig
+index 59b9f16e8dea..af2fb963a455 100644
+--- a/sound/sparc/Kconfig
++++ b/sound/sparc/Kconfig
+@@ -4,6 +4,7 @@
+ menuconfig SND_SPARC
+ 	bool "Sparc sound devices"
+ 	depends on SPARC
++	depends on SBUS
  	default y
- 
- config SPARC_GRPCI1
-diff --git a/arch/sparc/configs/sparc32_defconfig b/arch/sparc/configs/sparc32_defconfig
-index 71273fc578bf..dfd326f20876 100644
---- a/arch/sparc/configs/sparc32_defconfig
-+++ b/arch/sparc/configs/sparc32_defconfig
-@@ -10,7 +10,6 @@ CONFIG_BLK_DEV_INITRD=y
- # CONFIG_RD_ZSTD is not set
- CONFIG_SMP=y
- CONFIG_HZ_100=y
--CONFIG_SPARC_LEON=y
- CONFIG_SUN_OPENPROMFS=y
- CONFIG_SUN_OPENPROMIO=y
- # CONFIG_CORE_DUMP_DEFAULT_ELF_HEADERS is not set
-diff --git a/drivers/usb/host/Kconfig b/drivers/usb/host/Kconfig
-index 4448d0ab06f0..c5f94c70482f 100644
---- a/drivers/usb/host/Kconfig
-+++ b/drivers/usb/host/Kconfig
-@@ -595,7 +595,7 @@ config USB_UHCI_HCD
- 
- config USB_UHCI_SUPPORT_NON_PCI_HC
- 	bool
--	default y if (SPARC_LEON || USB_UHCI_PLATFORM)
-+	default y if (SPARC32 || USB_UHCI_PLATFORM)
- 
- config USB_UHCI_PLATFORM
- 	bool
-diff --git a/drivers/usb/host/ehci-hcd.c b/drivers/usb/host/ehci-hcd.c
-index 802bfafb1012..5011bc8348bb 100644
---- a/drivers/usb/host/ehci-hcd.c
-+++ b/drivers/usb/host/ehci-hcd.c
-@@ -1329,7 +1329,7 @@ MODULE_LICENSE ("GPL");
- #include "ehci-xilinx-of.c"
- #endif
- 
--#ifdef CONFIG_SPARC_LEON
-+#ifdef CONFIG_SPARC32
- #include "ehci-grlib.c"
- #endif
- 
-@@ -1343,7 +1343,7 @@ static struct platform_driver * const platform_drivers[] = {
- #ifdef CONFIG_XPS_USB_HCD_XILINX
- 	&ehci_hcd_xilinx_of_driver,
- #endif
--#ifdef CONFIG_SPARC_LEON
-+#ifdef CONFIG_SPARC32
- 	&ehci_grlib_driver,
- #endif
- };
-diff --git a/drivers/usb/host/uhci-hcd.c b/drivers/usb/host/uhci-hcd.c
-index fd2408b553cf..7cb820963988 100644
---- a/drivers/usb/host/uhci-hcd.c
-+++ b/drivers/usb/host/uhci-hcd.c
-@@ -846,7 +846,7 @@ static const char hcd_name[] = "uhci_hcd";
- #define	PCI_DRIVER		uhci_pci_driver
- #endif
- 
--#ifdef CONFIG_SPARC_LEON
-+#ifdef CONFIG_SPARC32
- #include "uhci-grlib.c"
- #define PLATFORM_DRIVER		uhci_grlib_driver
- #endif
+ 	help
+ 	  Support for sound devices specific to Sun SPARC architectures.
 
 -- 
 2.34.1
