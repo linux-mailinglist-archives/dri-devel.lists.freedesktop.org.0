@@ -2,72 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 711CD818B5A
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 16:39:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DB2F818B60
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 16:40:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A85D010E137;
-	Tue, 19 Dec 2023 15:39:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D724F10E48D;
+	Tue, 19 Dec 2023 15:40:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0300F10E2E3
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 15:39:37 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id
- 4fb4d7f45d1cf-54c79968ffbso5198994a12.3
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 07:39:37 -0800 (PST)
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC61F10E48D
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 15:40:15 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id
+ a640c23a62f3a-a235500d0e1so305153366b.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 07:40:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fairphone.com; s=fair; t=1703000376; x=1703605176; darn=lists.freedesktop.org;
- h=in-reply-to:references:to:from:subject:cc:message-id:date
- :content-transfer-encoding:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=33rECMRqDeZ6LFCSYivys/cg11bX52zFIasnF3TDX6Y=;
- b=KmDCXdyZ8pjnWJ/NBggEz+U9YJipDKz760vqwGUrypu030Q3f3aj/CtEilrtQpiNJY
- Em4PoRzSdpZOINwhCNEgyxoz4zr6gf6d5pzEKK2civOSVlxFhP2WCuor9v4+Ah3xFFjE
- UIMNjABttwAEnqaDuObOucfasyz+pjceOAM+I1QuJ2792aQWDism57z1IC+ZSOIqgKfI
- OqQs4GxdVbUFbflwBOnaZj2cKf1+6Xhh889xj3TCxhvRbyS0zTe0luMEPC8A4Ran5xQu
- 2tYRaShDssyCwVKqoBG3xRMfgWWlSKd4WrL55ad2WWVb/eN8KYOx/CvJR4IzUyfZlvhK
- zEmw==
+ d=gmail.com; s=20230601; t=1703000414; x=1703605214; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=z28CWlKNnNm8FLZVai7/EGWCqrY9/wHM89gG+Y7cx2Y=;
+ b=PAB7V5Zshphsahss9k2Xv806VURjNsGr82fnUpiWGScxCzA9nm2sFihbmKSunZeYD7
+ EvNoUqtT9hTsZ860u8Hsv8d1HGZ7+gJlSszwMxYUk/KYAUuuXOIDan8tjm9v1rUyQhZU
+ yGqu1hoCFfFrDTNJ31sDQR/bg+iirdU8xSB+iSGpjZOqOV73MTo4Hmk7N0UTIlPuRoSc
+ EfioNvDy6uuipst9hLOSCHA2LrXSjbcLsYVSgS5ZsaXqL5LgVrgNNDcsBdhYQvfDryYj
+ ov/RUTn0bl3kK/87Ug6zVcI4FFEkIZSX9VsNua7eIZ+wFd/iuxi/9IHxUfUYFpB/EqbB
+ /TRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1703000376; x=1703605176;
- h=in-reply-to:references:to:from:subject:cc:message-id:date
- :content-transfer-encoding:mime-version:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=33rECMRqDeZ6LFCSYivys/cg11bX52zFIasnF3TDX6Y=;
- b=w3IvTtHrQP4q/Lt/61LWvktmJRbTMRHBfvcECJt0xUmy+tGMzxjAUE1oq9yGKbsrKo
- JXKsWzv1kToFMS2WdWeKTuyx+WnOV3MYzh+oy6OErcehFyuRbdCwm0sju7vfESG2mlAz
- I0EiH56niRroKjpAWgiJbvtzkpD6YNwldNVE8WrZru1ZYldRuoLIo5tSDUDdtQdp/wXX
- hvtqLeX5flCwx1oZGTUd+SNbC2lftNns8QVNGAa2MbBOLODqnykuJntYwePk18r8gvd5
- xt9MGlOFmG+wTWEv+sSQ8hF2EyzXImENutIhvyGJMC4P59Rqxv/4XuK0LyTmtl/xNjDT
- RAnQ==
-X-Gm-Message-State: AOJu0YwxX59kdu+LlX/LW59wId9sakW5Y+yWG+cerfozsN75j0socP+D
- bcQtlovBA4fxivaEsJFLwO59jg==
-X-Google-Smtp-Source: AGHT+IGRCCZ9M/tSiYLOOr44KOGM/Syqm1u08LfUdX2y/9Lq3TeklhrujtRQ7TfnC0nSCK0Pum82lQ==
-X-Received: by 2002:a17:907:b59c:b0:a23:699a:8421 with SMTP id
- qx28-20020a170907b59c00b00a23699a8421mr1234208ejc.147.1703000376206; 
- Tue, 19 Dec 2023 07:39:36 -0800 (PST)
-Received: from localhost
- (2a02-8388-6584-6400-d322-7350-96d2-429d.cable.dynamic.v6.surfer.at.
- [2a02:8388:6584:6400:d322:7350:96d2:429d])
+ d=1e100.net; s=20230601; t=1703000414; x=1703605214;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=z28CWlKNnNm8FLZVai7/EGWCqrY9/wHM89gG+Y7cx2Y=;
+ b=YOXt7zJgwgq5GM/xsQw0iQXCLHAnBOugsg4juTnNxUN8KxkwAvKzR4N1VJZw69m9Jh
+ +Kk3cJIUx6v4dt0qLONHGZUwLMryb37m9CGijPPwbJPpNpUbbweT+N8hw9LGUJVfPGWc
+ u35N2KNJJK4+HENAbXwZWbPzvPpr/CWboppHESYL8pfKtpnAdxf1MOroH76USs0GOnvR
+ BJdlLvctMSWXv0phpvXMxCDlsufmFP5mDxiub2tis7lnJ30AIUXB3Ke393rIqldWLMqe
+ ZlVtqbqbIXTtYfh0x1IsoAjKbE7ZGM1U/+HG3G3CFcvrlIIBoPdhmpE8CWAtXqGEDAvn
+ l+RQ==
+X-Gm-Message-State: AOJu0YzpgKh2Kwd2CgeOe2lA8rPVMa5RyGD89/VnxneFc92MWs8cLt6U
+ k4PL06G0j2V6K4mo43BgSBI=
+X-Google-Smtp-Source: AGHT+IHMdPQ2QtW5yU2b2dt9f2R5tCBBY9cZcDjn3kOiBkH32eq4Hro3OHpjk2HifsZJuPKZ+LswRw==
+X-Received: by 2002:a17:907:6194:b0:a23:8918:2399 with SMTP id
+ mt20-20020a170907619400b00a2389182399mr608683ejc.130.1703000413674; 
+ Tue, 19 Dec 2023 07:40:13 -0800 (PST)
+Received: from [192.168.2.1] (81-204-249-205.fixed.kpn.net. [81.204.249.205])
  by smtp.gmail.com with ESMTPSA id
- my44-20020a1709065a6c00b00a2471bb0d11sm775510ejc.31.2023.12.19.07.39.35
+ wg13-20020a1709078f0d00b00a2687065e28sm307346ejc.45.2023.12.19.07.40.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Dec 2023 07:39:35 -0800 (PST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+ Tue, 19 Dec 2023 07:40:13 -0800 (PST)
+Message-ID: <4aeef6df-2616-0741-00a3-6e45ec63f920@gmail.com>
+Date: Tue, 19 Dec 2023 16:40:12 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v2 2/2] drm/rockchip: rk3066_hdmi: drop custom fill_modes
+ hook
+To: Maxime Ripard <mripard@kernel.org>
+References: <f86ec29f-194a-800d-0aaf-9e16e551b37d@gmail.com>
+ <410b116b-cb63-7ba7-3689-4f0832ab5796@gmail.com>
+ <evaq3yfbqf4gchsps2qoojemtii7tmcss24aruiuze5kkzlnhy@mih7rky7viqz>
+Content-Language: en-US
+From: Johan Jonker <jbx6244@gmail.com>
+In-Reply-To: <evaq3yfbqf4gchsps2qoojemtii7tmcss24aruiuze5kkzlnhy@mih7rky7viqz>
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 19 Dec 2023 16:39:34 +0100
-Message-Id: <CXSF8ZPWKRD9.9CMJU31KG4KP@fairphone.com>
-Subject: Re: [RFT PATCH v2 4/4] drm/msm/dpu: enable writeback on SM6350
-From: "Luca Weiss" <luca.weiss@fairphone.com>
-To: "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>, "Rob Clark"
- <robdclark@gmail.com>, "Sean Paul" <sean@poorly.run>, "Abhinav Kumar"
- <quic_abhinavk@quicinc.com>, "Marijn Suijten"
- <marijn.suijten@somainline.org>
-X-Mailer: aerc 0.15.2
-References: <20231203003203.1293087-1-dmitry.baryshkov@linaro.org>
- <20231203003203.1293087-5-dmitry.baryshkov@linaro.org>
-In-Reply-To: <20231203003203.1293087-5-dmitry.baryshkov@linaro.org>
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,293 +79,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, David Airlie <airlied@gmail.com>
+Cc: hjc@rock-chips.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ tzimmermann@suse.de, andy.yan@rock-chips.com, airlied@gmail.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun Dec 3, 2023 at 1:32 AM CET, Dmitry Baryshkov wrote:
-> Enable WB2 hardware block, enabling writeback support on this platform.
->
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-Hi Dmitry,
-
-I've tried this on sm7225-fairphone-fp4 but having trouble testing this.
-
-I guess I'm using some ID wrong with modetest, could you check and see
-what I do wrong?
-
-libdrm is on version 2.4.118 from Alpine Linux/postmarketOS, kernel is
-v6.7.0-rc6 plus a few patches for hardware enablement (like display).
-
-See log:
-
-fairphone-fp4:~$ sudo modetest -ac
-trying to open device 'i915'...failed
-trying to open device 'amdgpu'...failed
-trying to open device 'radeon'...failed
-trying to open device 'nouveau'...failed
-trying to open device 'vmwgfx'...failed
-trying to open device 'omapdrm'...failed
-trying to open device 'exynos'...failed
-trying to open device 'tilcdc'...failed
-trying to open device 'msm'...done
-Connectors:
-id      encoder status          name            size (mm)       modes   enc=
-oders
-32      31      connected       DSI-1           65x115          1       31
-  modes:
-        index name refresh (Hz) hdisp hss hse htot vdisp vss vse vtot
-  #0 1080x2340 60.00 1080 1108 1116 1124 2340 2367 2372 2377 160304 flags: =
-; type: preferred, driver
-  props:
-        1 EDID:
-                flags: immutable blob
-                blobs:
-
-                value:
-        2 DPMS:
-                flags: enum
-                enums: On=3D0 Standby=3D1 Suspend=3D2 Off=3D3
-                value: 0
-        5 link-status:
-                flags: enum
-                enums: Good=3D0 Bad=3D1
-                value: 0
-        6 non-desktop:
-                flags: immutable range
-                values: 0 1
-                value: 0
-        4 TILE:
-                flags: immutable blob
-                blobs:
-
-                value:
-        20 CRTC_ID:
-                flags: object
-                value: 63
-38      0       unknown Writeback-1     0x0             0       33
-  props:
-        2 DPMS:
-                flags: enum
-                enums: On=3D0 Standby=3D1 Suspend=3D2 Off=3D3
-                value: 0
-        5 link-status:
-                flags: enum
-                enums: Good=3D0 Bad=3D1
-                value: 0
-        6 non-desktop:
-                flags: immutable range
-                values: 0 1
-                value: 0
-        4 TILE:
-                flags: immutable blob
-                blobs:
-
-                value:
-        20 CRTC_ID:
-                flags: object
-                value: 0
-        36 WRITEBACK_OUT_FENCE_PTR:
-                flags: range
-                values: 0 18446744073709551615
-                value: 0
-        34 WRITEBACK_FB_ID:
-                flags: object
-                value: 0
-        35 WRITEBACK_PIXEL_FORMATS:
-                flags: immutable blob
-                blobs:
-
-                value:
-                        52473136424731365247323441523234
-                        52413234414232345852323452583234
-                        58423234415231355241313558523135
-                        52583135415231325241313252583132
-                        58523132424731364247323441423234
-                        42413234425832345842323441423135
-                        42413135584231354258313541423132
-                        424131324258313258423132
 
 
+On 12/19/23 13:55, Maxime Ripard wrote:
+> Hi,
+> 
+> On Mon, Dec 18, 2023 at 04:49:06PM +0100, Johan Jonker wrote:
+>> CRTC size validation for the display controller has been added with
+>> Commit 8e140cb60270 ("drm/rockchip: vop: limit maximum resolution to
+>> hardware capabilities"), so we can drop the custom fill_modes hook.
+>>
+>> Signed-off-by: Johan Jonker <jbx6244@gmail.com>
+> 
 
-fairphone-fp4:~$ sudo cat /sys/kernel/debug/dri/0/state
-plane[39]: plane-0
-        crtc=3Dcrtc-0
-        fb=3D66
-                allocated by =3D phoc
-                refcount=3D2
-                format=3DXR24 little-endian (0x34325258)
-                modifier=3D0x500000000000001
-                size=3D1080x2340
-                layers:
-                        size[0]=3D1080x2340
-                        pitch[0]=3D4352
-                        offset[0]=3D0
-                        obj[0]:
-                                name=3D0
-                                refcount=3D3
-                                start=3D00101fec
-                                size=3D10485760
-                                imported=3Dno
-        crtc-pos=3D1080x2340+0+0
-        src-pos=3D1080.000000x2340.000000+0.000000+0.000000
-        rotation=3D1
-        normalized-zpos=3D0
-        color-encoding=3DITU-R BT.601 YCbCr
-        color-range=3DYCbCr limited range
-        stage=3D1
-        sspp[0]=3Dsspp_0
-        multirect_mode[0]=3Dnone
-        multirect_index[0]=3Dsolo
-        src[0]=3D1080x2340+0+0
-        dst[0]=3D1080x2340+0+0
-plane[45]: plane-1
-        crtc=3D(null)
-        fb=3D0
-        crtc-pos=3D0x0+0+0
-        src-pos=3D0.000000x0.000000+0.000000+0.000000
-        rotation=3D1
-        normalized-zpos=3D0
-        color-encoding=3DITU-R BT.601 YCbCr
-        color-range=3DYCbCr limited range
-        stage=3D0
-        sspp[0]=3Dsspp_8
-        multirect_mode[0]=3Dnone
-        multirect_index[0]=3Dsolo
-        src[0]=3D0x0+0+0
-        dst[0]=3D0x0+0+0
-plane[51]: plane-2
-        crtc=3D(null)
-        fb=3D0
-        crtc-pos=3D0x0+0+0
-        src-pos=3D0.000000x0.000000+0.000000+0.000000
-        rotation=3D1
-        normalized-zpos=3D0
-        color-encoding=3DITU-R BT.601 YCbCr
-        color-range=3DYCbCr limited range
-        stage=3D0
-        sspp[0]=3Dsspp_9
-        multirect_mode[0]=3Dnone
-        multirect_index[0]=3Dsolo
-        src[0]=3D0x0+0+0
-        dst[0]=3D0x0+0+0
-plane[57]: plane-3
-        crtc=3D(null)
-        fb=3D0
-        crtc-pos=3D0x0+0+0
-        src-pos=3D0.000000x0.000000+0.000000+0.000000
-        rotation=3D1
-        normalized-zpos=3D0
-        color-encoding=3DITU-R BT.601 YCbCr
-        color-range=3DYCbCr limited range
-        stage=3D0
-        sspp[0]=3Dsspp_10
-        multirect_mode[0]=3Dnone
-        multirect_index[0]=3Dsolo
-        src[0]=3D0x0+0+0
-        dst[0]=3D0x0+0+0
-crtc[63]: crtc-0
-        enable=3D1
-        active=3D1
-        self_refresh_active=3D0
-        planes_changed=3D1
-        mode_changed=3D0
-        active_changed=3D0
-        connectors_changed=3D0
-        color_mgmt_changed=3D0
-        plane_mask=3D1
-        connector_mask=3D1
-        encoder_mask=3D1
-        mode: "1080x2340": 60 160304 1080 1108 1116 1124 2340 2367 2372 237=
-7 0x48 0x0
-        lm[0]=3D0
-        ctl[0]=3D0
-crtc[64]: crtc-1
-        enable=3D0
-        active=3D0
-        self_refresh_active=3D0
-        planes_changed=3D0
-        mode_changed=3D0
-        active_changed=3D0
-        connectors_changed=3D0
-        color_mgmt_changed=3D0
-        plane_mask=3D0
-        connector_mask=3D0
-        encoder_mask=3D0
-        mode: "": 0 0 0 0 0 0 0 0 0 0 0x0 0x0
-connector[32]: DSI-1
-        crtc=3Dcrtc-0
-        self_refresh_aware=3D0
-        max_requested_bpc=3D0
-        colorspace=3DDefault
-connector[38]: Writeback-1
-        crtc=3D(null)
-        self_refresh_aware=3D0
-        max_requested_bpc=3D0
-        colorspace=3DDefault
+> I'm not sure those two are equivalent. CRTC and connectors usually have
+> different requirements and capabilities, and thus different,
+> supplementary, mode_valid/atomic_check implementations.
+
+Rockchip RK3066 CRTC and connector resolution max_output are equivalent.
+
+From Rockchip PX2 TRM V1.0.pdf page 17:
+- Video Encoder
+  Maximum frame rate is up to 30fps@1920x1080
+
+- Display Interface
+  Support LCD or TFT interfaces up to 1920x1080
+
+- HDMI TX Interface
+   HDMI version 1.4a, HDCP revision 1.4 and DVI version 1.0 compliant transmitter
+   Supports DTV from 480i to 1080i/p HD resolution, and PC from VGA to UXGA by LCDC0 or LCDC1 in RK PX2
 
 
-fairphone-fp4:~$ sudo modetest -M msm -a -s 38@64:1080x2340 -o test.d -P 45=
-@64:1080x2340
-failed to find mode "1080x2340" for connector 38
-no mode for writeback
-failed to set gamma: Permission denied
-testing 1080x2340@XR24 on plane 45, crtc 64
-Atomic Commit failed [1]
+Compared to the drm_helper_probe_single_connector_modes() this function added an extra max_output
 
-Regards
-Luca
+Checked in rockchip_drm_vop.c is:
+https://lore.kernel.org/linux-rockchip/20230216102447.582905-2-s.hauer@pengutronix.de/
 
++	if (vop->data->max_output.width && mode->hdisplay > vop->data->max_output.width)
++		return MODE_BAD_HVALUE;
++
++	if (vop->data->max_output.height && mode->vdisplay > vop->data->max_output.height)
++		return MODE_BAD_VVALUE;
 
-> ---
->  .../drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
->
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h b/dri=
-vers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h
-> index 62db84bd15f2..3c179a73c030 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h
-> @@ -27,6 +27,7 @@ static const struct dpu_mdp_cfg sm6350_mdp =3D {
->  		[DPU_CLK_CTRL_DMA0] =3D { .reg_off =3D 0x2ac, .bit_off =3D 8 },
->  		[DPU_CLK_CTRL_DMA1] =3D { .reg_off =3D 0x2b4, .bit_off =3D 8 },
->  		[DPU_CLK_CTRL_DMA2] =3D { .reg_off =3D 0x2c4, .bit_off =3D 8 },
-> +		[DPU_CLK_CTRL_WB2] =3D { .reg_off =3D 0x2bc, .bit_off =3D 16 },
->  		[DPU_CLK_CTRL_REG_DMA] =3D { .reg_off =3D 0x2bc, .bit_off =3D 20 },
->  	},
->  };
-> @@ -146,6 +147,21 @@ static const struct dpu_dsc_cfg sm6350_dsc[] =3D {
->  	},
->  };
-> =20
-> +static const struct dpu_wb_cfg sm6350_wb[] =3D {
-> +	{
-> +		.name =3D "wb_2", .id =3D WB_2,
-> +		.base =3D 0x65000, .len =3D 0x2c8,
-> +		.features =3D WB_SM8250_MASK,
-> +		.format_list =3D wb2_formats,
-> +		.num_formats =3D ARRAY_SIZE(wb2_formats),
-> +		.clk_ctrl =3D DPU_CLK_CTRL_WB2,
-> +		.xin_id =3D 6,
-> +		.vbif_idx =3D VBIF_RT,
-> +		.maxlinewidth =3D 1920,
-> +		.intr_wb_done =3D DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 4),
-> +	},
-> +};
-> +
->  static const struct dpu_intf_cfg sm6350_intf[] =3D {
->  	{
->  		.name =3D "intf_0", .id =3D INTF_0,
-> @@ -219,6 +235,8 @@ const struct dpu_mdss_cfg dpu_sm6350_cfg =3D {
->  	.dsc =3D sm6350_dsc,
->  	.pingpong_count =3D ARRAY_SIZE(sm6350_pp),
->  	.pingpong =3D sm6350_pp,
-> +	.wb_count =3D ARRAY_SIZE(sm6350_wb),
-> +	.wb =3D sm6350_wb,
->  	.intf_count =3D ARRAY_SIZE(sm6350_intf),
->  	.intf =3D sm6350_intf,
->  	.vbif_count =3D ARRAY_SIZE(sdm845_vbif),
+For RK3066 VOP max_output:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/gpu/drm/rockchip/rockchip_vop_reg.c#n506
 
+This patch was made with HDMI in mind.
+
+	.max_output = { 1920, 1080 },
+
+This first part was added by Heiko, but not was not part my patch that I submitted:
+-	if (maxX > 1920)
+-		maxX = 1920;
+-	if (maxY > 1080)
+-		maxY = 1080;
+-
+-	return drm_helper_probe_single_connector_modes(connector, maxX, maxY);
+-}
+
+Original patch:
+https://patchwork.freedesktop.org/patch/msgid/20190330095639.14626-2-jbx6244@gmail.com
+
++static int
++rk3066_hdmi_probe_single_connector_modes(struct drm_connector *connector,
++					 uint32_t maxX, uint32_t maxY)
++{
++	return drm_helper_probe_single_connector_modes(connector, 1920, 1080);
++}
+
+Rockchip RK3066 CRTC and connector resolution max_output are equivalent.
+
+Johan
+
+> 
+> Maxime
