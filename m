@@ -2,53 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3A5F819313
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 23:04:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D58C8192C5
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 23:03:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FEFE10E539;
-	Tue, 19 Dec 2023 22:04:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5746210E25E;
+	Tue, 19 Dec 2023 22:03:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 406A610E2C0
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 22:03:18 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DC0610E24E
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 22:03:17 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id F0C81B81ADB;
+ by dfw.source.kernel.org (Postfix) with ESMTP id 957DB614C8;
  Tue, 19 Dec 2023 22:03:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CFD05C433AD;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D5C25C433AB;
  Tue, 19 Dec 2023 22:03:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1703023395;
- bh=go2X7Puo/mSsLfh/2Z4SXudqW4mEkrXFh2pimTmpnJE=;
+ bh=l7H1/Ge1nRjMVx7Hs3hW3qsONOZuyDDJPFFUe8cJFmQ=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=FAPqsKcsrSXE/WTx+4+Q1gqjBLjvCHkGHtHq1Lr5ObaTcJB0ipXQ9kKzsQgSv+/yK
- rlNuyD6HI/AGbZRDyqwc3Rz/q3tj4co904hiG3EYU2IzSfHplj+jtDVf5SNvM1m9QQ
- ouCIu4jGLv7vDxcDTBw60elbVe064DKoP6jKFeWbLCfPZJaZoytHqLadRtNQM8ebCx
- xtoBHIyZsVH7tEjhkPKxJcxv8eoAoIQGnlCPa6zZnzbj8LeSY5WfF71HLyf5Qmf7eD
- 6Kg4pLWSU4bdguN1Sr2O4Mw5fJuKzoly108Duct0AyQljW0siiyMypspqp5ZypzhHe
- SDet2HulNF2Qg==
+ b=pGlZ5+O5pKRM6RW7wKXknomhhgWrvXmEIoGDufYCMR+zfAJJv3im9hAuAFfhC07Ne
+ s57NHK1ysjzspCYzJm5IpXFg2Rk7F9ck9MNTCihb+vyMeyvStDfhVarwS8FycM8dxd
+ dwstzXu13cn6ModN0JH+6huwj2SazPw86Ld0Gs46KiJR/RncCGdRn3tzR+OnHd0aK0
+ 5nGnbzqU0GyC/WBZbHTMCjC9gXZPfhs+o4IzfozejtG4gNxgv76s+JmtRtt0TNqyFc
+ DkjG0WdbEgw0q7+4dC1p0E/3yECAnxq4yhLaSNh/6r5lPx7/3USuAgzOAh2Iyt8KZv
+ ULnYcZKGRWqEg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id B6285C41535;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id C4A75C46CD7;
  Tue, 19 Dec 2023 22:03:15 +0000 (UTC)
 From: Sam Ravnborg via B4 Relay <devnull+sam.ravnborg.org@kernel.org>
-Date: Tue, 19 Dec 2023 23:03:12 +0100
-Subject: [PATCH 07/27] sparc32: Drop run-time patching of ipi trap
+Date: Tue, 19 Dec 2023 23:03:13 +0100
+Subject: [PATCH 08/27] sparc32: Drop patching of interrupt vector
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231219-sam-sparc32-sunset-v3-v1-7-64bb44b598c5@ravnborg.org>
+Message-Id: <20231219-sam-sparc32-sunset-v3-v1-8-64bb44b598c5@ravnborg.org>
 References: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
 In-Reply-To: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
 To: "David S. Miller" <davem@davemloft.net>, 
  Arnd Bergmann <arnd@kernel.org>, Andreas Larsson <andreas@gaisler.com>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1703023392; l=7101;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1703023392; l=6266;
  i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=tlF0Qzdtgp0HGemO/3+10iER+Qu3gIwXh+jWbYpA4f4=; =?utf-8?q?b=3DMyIGvjJP7bUD?=
- =?utf-8?q?rXZZtLLpa4qa5DIwBZGuMWmURrw3ibHK+n9qjHJyP0rgnw47bT+8q7WQAU6TRW7C?=
- pmUpczzCCQStma11zhOnkkUy9FOoVQbElF0QDaqLoLT5MnlqTAO9
+ bh=6WXUtHucXVIC1CvsnHFkmt7ZnTvhcm6yclCPOtQXlG8=; =?utf-8?q?b=3D+fl0Mw1vxUIC?=
+ =?utf-8?q?jNtGXW2+/mruhy0H+Fj6QtYuJqYz5LoeHz3J4Is35ammoJ3uxSYREENnAYIwXtc8?=
+ qq5N8hUlD1Dg1MOvNvVUgGcqe6sTi+mZXrLmK7J2j0DupzTex70N
 X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
  pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
 X-Endpoint-Received: by B4 Relay for sam@ravnborg.org/20230107 with auth_id=22
@@ -78,228 +77,218 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sam Ravnborg <sam@ravnborg.org>
 
-There is no longer any need for the run-time patching of the ipi trap
-with the removal of sun4m and sun4d. Remove the patching and drop the
-ipi implementation for the two machines.
-
-The patch includes removal of patching from pcic as this was needed to
-fix the build. pcic will be removed in a later commit.
+Drop the sun4m specific handling and the patching that
+takes place in sun4d and LEON.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Arnd Bergmann <arnd@kernel.org>
 Cc: Andreas Larsson <andreas@gaisler.com>
 ---
- arch/sparc/kernel/entry.S     | 70 ++-----------------------------------------
- arch/sparc/kernel/kernel.h    |  4 ---
- arch/sparc/kernel/leon_smp.c  |  3 --
- arch/sparc/kernel/pcic.c      | 11 -------
- arch/sparc/kernel/sun4d_smp.c |  3 --
- arch/sparc/kernel/ttable_32.S |  9 +++---
- 6 files changed, 7 insertions(+), 93 deletions(-)
+ arch/sparc/kernel/entry.S       | 98 -----------------------------------------
+ arch/sparc/kernel/kernel.h      |  1 -
+ arch/sparc/kernel/leon_kernel.c | 16 -------
+ arch/sparc/kernel/sun4d_irq.c   | 25 -----------
+ 4 files changed, 140 deletions(-)
 
 diff --git a/arch/sparc/kernel/entry.S b/arch/sparc/kernel/entry.S
-index c6a5cb949381..7cf148a996b9 100644
+index 7cf148a996b9..9bd3813b872d 100644
 --- a/arch/sparc/kernel/entry.S
 +++ b/arch/sparc/kernel/entry.S
-@@ -174,32 +174,6 @@ maybe_smp4m_msg_check_resched:
- maybe_smp4m_msg_out:
- 	RESTORE_ALL
+@@ -79,15 +79,6 @@ bad_trap_handler:
+ real_irq_entry:
+ 	SAVE_ALL
  
--	.align	4
--	.globl	linux_trap_ipi15_sun4m
--linux_trap_ipi15_sun4m:
--	SAVE_ALL
--	sethi	%hi(0x80000000), %o2
--	GET_PROCESSOR4M_ID(o0)
--	sethi	%hi(sun4m_irq_percpu), %l5
--	or	%l5, %lo(sun4m_irq_percpu), %o5
--	sll	%o0, 2, %o0
--	ld	[%o5 + %o0], %o5
--	ld	[%o5 + 0x00], %o3	! sun4m_irq_percpu[cpu]->pending
--	andcc	%o3, %o2, %g0
--	be	sun4m_nmi_error		! Must be an NMI async memory error
--	 st	%o2, [%o5 + 0x04]	! sun4m_irq_percpu[cpu]->clear=0x80000000
--	WRITE_PAUSE
--	ld	[%o5 + 0x00], %g0	! sun4m_irq_percpu[cpu]->pending
--	WRITE_PAUSE
--	or	%l0, PSR_PIL, %l4
--	wr	%l4, 0x0, %psr
--	WRITE_PAUSE
--	wr	%l4, PSR_ET, %psr
--	WRITE_PAUSE
--	call	smp4m_cross_call_irq
--	 nop
--	b	ret_trap_lockless_ipi
--	 clr	%l6
- 
- 	.globl	smp4d_ticker
- 	/* SMP per-cpu ticker interrupts are handled specially. */
-@@ -220,44 +194,6 @@ smp4d_ticker:
- 	WRITE_PAUSE
- 	RESTORE_ALL
- 
--	.align	4
--	.globl	linux_trap_ipi15_sun4d
--linux_trap_ipi15_sun4d:
--	SAVE_ALL
--	sethi	%hi(CC_BASE), %o4
--	sethi	%hi(MXCC_ERR_ME|MXCC_ERR_PEW|MXCC_ERR_ASE|MXCC_ERR_PEE), %o2
--	or	%o4, (CC_EREG - CC_BASE), %o0
--	ldda	[%o0] ASI_M_MXCC, %o0
--	andcc	%o0, %o2, %g0
--	bne	1f
--	 sethi	%hi(BB_STAT2), %o2
--	lduba	[%o2] ASI_M_CTL, %o2
--	andcc	%o2, BB_STAT2_MASK, %g0
--	bne	2f
--	 or	%o4, (CC_ICLR - CC_BASE), %o0
--	sethi	%hi(1 << 15), %o1
--	stha	%o1, [%o0] ASI_M_MXCC	/* Clear PIL 15 in MXCC's ICLR */
--	or	%l0, PSR_PIL, %l4
--	wr	%l4, 0x0, %psr
--	WRITE_PAUSE
--	wr	%l4, PSR_ET, %psr
--	WRITE_PAUSE
--	call	smp4d_cross_call_irq
--	 nop
--	b	ret_trap_lockless_ipi
--	 clr	%l6
+-#ifdef CONFIG_SMP
+-	.globl	patchme_maybe_smp_msg
 -
--1:	/* MXCC error */
--2:	/* BB error */
--	/* Disable PIL 15 */
--	set	CC_IMSK, %l4
--	lduha	[%l4] ASI_M_MXCC, %l5
--	sethi	%hi(1 << 15), %l7
--	or	%l5, %l7, %l5
--	stha	%l5, [%l4] ASI_M_MXCC
--	/* FIXME */
--1:	b,a	1b
+-	cmp	%l7, 11
+-patchme_maybe_smp_msg:
+-	bgu	maybe_smp4m_msg
+-	 nop
+-#endif
+-
+ real_irq_continue:
+ 	or	%l0, PSR_PIL, %g2
+ 	wr	%g2, 0x0, %psr
+@@ -105,95 +96,6 @@ patch_handler_irq:
+ 	RESTORE_ALL
+ 
+ #ifdef CONFIG_SMP
+-	/* SMP per-cpu ticker interrupts are handled specially. */
+-smp4m_ticker:
+-	bne	real_irq_continue+4
+-	 or	%l0, PSR_PIL, %g2
+-	wr	%g2, 0x0, %psr
+-	WRITE_PAUSE
+-	wr	%g2, PSR_ET, %psr
+-	WRITE_PAUSE
+-	call	smp4m_percpu_timer_interrupt
+-	 add	%sp, STACKFRAME_SZ, %o0
+-	wr	%l0, PSR_ET, %psr
+-	WRITE_PAUSE
+-	RESTORE_ALL
+-
+-#define GET_PROCESSOR4M_ID(reg)	\
+-	rd	%tbr, %reg;	\
+-	srl	%reg, 12, %reg;	\
+-	and	%reg, 3, %reg;
+-
+-	/* Here is where we check for possible SMP IPI passed to us
+-	 * on some level other than 15 which is the NMI and only used
+-	 * for cross calls.  That has a separate entry point below.
+-	 *
+-	 * IPIs are sent on Level 12, 13 and 14. See IRQ_IPI_*.
+-	 */
+-maybe_smp4m_msg:
+-	GET_PROCESSOR4M_ID(o3)
+-	sethi	%hi(sun4m_irq_percpu), %l5
+-	sll	%o3, 2, %o3
+-	or	%l5, %lo(sun4m_irq_percpu), %o5
+-	sethi	%hi(0x70000000), %o2	! Check all soft-IRQs
+-	ld	[%o5 + %o3], %o1
+-	ld	[%o1 + 0x00], %o3	! sun4m_irq_percpu[cpu]->pending
+-	andcc	%o3, %o2, %g0
+-	be,a	smp4m_ticker
+-	 cmp	%l7, 14
+-	/* Soft-IRQ IPI */
+-	st	%o2, [%o1 + 0x04]	! sun4m_irq_percpu[cpu]->clear=0x70000000
+-	WRITE_PAUSE
+-	ld	[%o1 + 0x00], %g0	! sun4m_irq_percpu[cpu]->pending
+-	WRITE_PAUSE
+-	or	%l0, PSR_PIL, %l4
+-	wr	%l4, 0x0, %psr
+-	WRITE_PAUSE
+-	wr	%l4, PSR_ET, %psr
+-	WRITE_PAUSE
+-	srl	%o3, 28, %o2		! shift for simpler checks below
+-maybe_smp4m_msg_check_single:
+-	andcc	%o2, 0x1, %g0
+-	beq,a	maybe_smp4m_msg_check_mask
+-	 andcc	%o2, 0x2, %g0
+-	call	smp_call_function_single_interrupt
+-	 nop
+-	andcc	%o2, 0x2, %g0
+-maybe_smp4m_msg_check_mask:
+-	beq,a	maybe_smp4m_msg_check_resched
+-	 andcc	%o2, 0x4, %g0
+-	call	smp_call_function_interrupt
+-	 nop
+-	andcc	%o2, 0x4, %g0
+-maybe_smp4m_msg_check_resched:
+-	/* rescheduling is done in RESTORE_ALL regardless, but incr stats */
+-	beq,a	maybe_smp4m_msg_out
+-	 nop
+-	call	smp_resched_interrupt
+-	 nop
+-maybe_smp4m_msg_out:
+-	RESTORE_ALL
+-
+-
+-	.globl	smp4d_ticker
+-	/* SMP per-cpu ticker interrupts are handled specially. */
+-smp4d_ticker:
+-	SAVE_ALL
+-	or	%l0, PSR_PIL, %g2
+-	sethi	%hi(CC_ICLR), %o0
+-	sethi	%hi(1 << 14), %o1
+-	or	%o0, %lo(CC_ICLR), %o0
+-	stha	%o1, [%o0] ASI_M_MXCC	/* Clear PIL 14 in MXCC's ICLR */
+-	wr	%g2, 0x0, %psr
+-	WRITE_PAUSE
+-	wr	%g2, PSR_ET, %psr
+-	WRITE_PAUSE
+-	call	smp4d_percpu_timer_interrupt
+-	 add	%sp, STACKFRAME_SZ, %o0
+-	wr	%l0, PSR_ET, %psr
+-	WRITE_PAUSE
+-	RESTORE_ALL
 -
  	.globl	smpleon_ipi
  	.extern leon_ipi_interrupt
  	/* SMP per-cpu IPI interrupts are handled specially. */
-@@ -618,11 +554,11 @@ sun4m_nmi_error:
- 
- #ifndef CONFIG_SMP
- 	.align	4
--	.globl	linux_trap_ipi15_sun4m
--linux_trap_ipi15_sun4m:
-+	.globl	linux_trap_ipi15_leon
-+linux_trap_ipi15_leon:
- 	SAVE_ALL
- 
--	ba	sun4m_nmi_error
-+	ba      sun4m_nmi_error
- 	 nop
- #endif /* CONFIG_SMP */
- 
 diff --git a/arch/sparc/kernel/kernel.h b/arch/sparc/kernel/kernel.h
-index c8ba3bc7e137..1d3980ac0658 100644
+index 1d3980ac0658..85a3c3d1195e 100644
 --- a/arch/sparc/kernel/kernel.h
 +++ b/arch/sparc/kernel/kernel.h
-@@ -134,10 +134,6 @@ void leonsmp_ipi_interrupt(void);
- void leon_cross_call_irq(void);
+@@ -145,7 +145,6 @@ extern char cputypval[];
+ extern unsigned long lvl14_save[4];
+ extern unsigned int real_irq_entry[];
+ extern unsigned int smp4d_ticker[];
+-extern unsigned int patchme_maybe_smp_msg[];
  
- /* head_32.S */
--extern unsigned int t_nmi[];
--extern unsigned int linux_trap_ipi15_sun4d[];
--extern unsigned int linux_trap_ipi15_sun4m[];
--
- extern struct tt_entry trapbase;
- extern struct tt_entry trapbase_cpu1;
- extern struct tt_entry trapbase_cpu2;
-diff --git a/arch/sparc/kernel/leon_smp.c b/arch/sparc/kernel/leon_smp.c
-index 991e9ad3d3e8..42820c7422dd 100644
---- a/arch/sparc/kernel/leon_smp.c
-+++ b/arch/sparc/kernel/leon_smp.c
-@@ -463,8 +463,5 @@ static const struct sparc32_ipi_ops leon_ipi_ops = {
+ /* trampoline_32.S */
+ extern unsigned long sun4m_cpu_startup;
+diff --git a/arch/sparc/kernel/leon_kernel.c b/arch/sparc/kernel/leon_kernel.c
+index 4c61da491fee..ea04bad6a118 100644
+--- a/arch/sparc/kernel/leon_kernel.c
++++ b/arch/sparc/kernel/leon_kernel.c
+@@ -421,22 +421,6 @@ void __init leon_init_timers(void)
+ 	if (eirq != 0)
+ 		leon_eirq_setup(eirq);
  
- void __init leon_init_smp(void)
- {
--	/* Patch ipi15 trap table */
--	t_nmi[1] = t_nmi[1] + (linux_trap_ipi15_leon - linux_trap_ipi15_sun4m);
--
- 	sparc32_ipi_ops = &leon_ipi_ops;
- }
-diff --git a/arch/sparc/kernel/pcic.c b/arch/sparc/kernel/pcic.c
-index 25fe0a061732..d952bcbbc395 100644
---- a/arch/sparc/kernel/pcic.c
-+++ b/arch/sparc/kernel/pcic.c
-@@ -354,17 +354,6 @@ int __init pcic_probe(void)
- 	prom_getstring(node, "name", namebuf, 63);  namebuf[63] = 0;
- 	strcpy(pbm->prom_name, namebuf);
- 
+-#ifdef CONFIG_SMP
 -	{
--		extern int pcic_nmi_trap_patch[4];
+-		unsigned long flags;
 -
--		t_nmi[0] = pcic_nmi_trap_patch[0];
--		t_nmi[1] = pcic_nmi_trap_patch[1];
--		t_nmi[2] = pcic_nmi_trap_patch[2];
--		t_nmi[3] = pcic_nmi_trap_patch[3];
--		swift_flush_dcache();
--		pcic_regs = pcic->pcic_regs;
+-		/*
+-		 * In SMP, sun4m adds a IPI handler to IRQ trap handler that
+-		 * LEON never must take, sun4d and LEON overwrites the branch
+-		 * with a NOP.
+-		 */
+-		local_irq_save(flags);
+-		patchme_maybe_smp_msg[0] = 0x01000000; /* NOP out the branch */
+-		local_ops->cache_all();
+-		local_irq_restore(flags);
 -	}
+-#endif
 -
- 	prom_getstring(prom_root_node, "name", namebuf, 63);  namebuf[63] = 0;
- 	{
- 		struct pcic_sn2list *p;
-diff --git a/arch/sparc/kernel/sun4d_smp.c b/arch/sparc/kernel/sun4d_smp.c
-index 9a62a5cf3337..be5bcbee1af4 100644
---- a/arch/sparc/kernel/sun4d_smp.c
-+++ b/arch/sparc/kernel/sun4d_smp.c
-@@ -403,9 +403,6 @@ void __init sun4d_init_smp(void)
+ 	config = LEON3_BYPASS_LOAD_PA(&leon3_gptimer_regs->config);
+ 	if (config & (1 << LEON3_GPTIMER_SEPIRQ))
+ 		leon3_gptimer_irq += leon3_gptimer_idx;
+diff --git a/arch/sparc/kernel/sun4d_irq.c b/arch/sparc/kernel/sun4d_irq.c
+index 9a137c70e8d1..7140cff04b54 100644
+--- a/arch/sparc/kernel/sun4d_irq.c
++++ b/arch/sparc/kernel/sun4d_irq.c
+@@ -391,30 +391,6 @@ static unsigned int sun4d_build_timer_irq(unsigned int board,
+ }
+ 
+ 
+-static void __init sun4d_fixup_trap_table(void)
+-{
+-#ifdef CONFIG_SMP
+-	unsigned long flags;
+-	struct tt_entry *trap_table = &sparc_ttable[SP_TRAP_IRQ1 + (14 - 1)];
+-
+-	/* Adjust so that we jump directly to smp4d_ticker */
+-	lvl14_save[2] += smp4d_ticker - real_irq_entry;
+-
+-	/* For SMP we use the level 14 ticker, however the bootup code
+-	 * has copied the firmware's level 14 vector into the boot cpu's
+-	 * trap table, we must fix this now or we get squashed.
+-	 */
+-	local_irq_save(flags);
+-	patchme_maybe_smp_msg[0] = 0x01000000; /* NOP out the branch */
+-	trap_table->inst_one = lvl14_save[0];
+-	trap_table->inst_two = lvl14_save[1];
+-	trap_table->inst_three = lvl14_save[2];
+-	trap_table->inst_four = lvl14_save[3];
+-	local_ops->cache_all();
+-	local_irq_restore(flags);
+-#endif
+-}
+-
+ static void __init sun4d_init_timers(void)
  {
- 	int i;
+ 	struct device_node *dp;
+@@ -478,7 +454,6 @@ static void __init sun4d_init_timers(void)
+ 		prom_halt();
+ 	}
+ 	sun4d_load_profile_irqs();
+-	sun4d_fixup_trap_table();
+ }
  
--	/* Patch ipi15 trap table */
--	t_nmi[1] = t_nmi[1] + (linux_trap_ipi15_sun4d - linux_trap_ipi15_sun4m);
--
- 	sparc32_ipi_ops = &sun4d_ipi_ops;
- 
- 	for (i = 0; i < NR_CPUS; i++) {
-diff --git a/arch/sparc/kernel/ttable_32.S b/arch/sparc/kernel/ttable_32.S
-index e79fd786fbbb..78bbf2548e1f 100644
---- a/arch/sparc/kernel/ttable_32.S
-+++ b/arch/sparc/kernel/ttable_32.S
-@@ -43,8 +43,7 @@ t_irq12:TRAP_ENTRY_INTERRUPT(12)            /* IRQ Zilog serial chip         */
- t_irq13:TRAP_ENTRY_INTERRUPT(13)            /* IRQ Audio Intr.               */
- t_irq14:TRAP_ENTRY_INTERRUPT(14)            /* IRQ Timer #2                  */
- 
--	.globl	t_nmi
--t_nmi:	TRAP_ENTRY(0x1f, linux_trap_ipi15_sun4m)
-+t_nmi:	TRAP_ENTRY(0x1f, linux_trap_ipi15_leon)
- 
- t_racc:	TRAP_ENTRY(0x20, do_reg_access)     /* General Register Access Error */
- t_iacce:BAD_TRAP(0x21)                      /* Instr Access Error            */
-@@ -146,7 +145,7 @@ trapbase_cpu1:
- 	TRAP_ENTRY_INTERRUPT(9) TRAP_ENTRY_INTERRUPT(10)
- 	TRAP_ENTRY_INTERRUPT(11) TRAP_ENTRY_INTERRUPT(12)
- 	TRAP_ENTRY_INTERRUPT(13) TRAP_ENTRY_INTERRUPT(14)
--	TRAP_ENTRY(0x1f, linux_trap_ipi15_sun4m)
-+	TRAP_ENTRY(0x1f, linux_trap_ipi15_leon)
- 	TRAP_ENTRY(0x20, do_reg_access)
- 	BAD_TRAP(0x21)
- 	BAD_TRAP(0x22)
-@@ -245,7 +244,7 @@ trapbase_cpu2:
- 	TRAP_ENTRY_INTERRUPT(12)
- 	TRAP_ENTRY_INTERRUPT(13)
- 	TRAP_ENTRY_INTERRUPT(14)
--	TRAP_ENTRY(0x1f, linux_trap_ipi15_sun4m)
-+	TRAP_ENTRY(0x1f, linux_trap_ipi15_leon)
- 	TRAP_ENTRY(0x20, do_reg_access)
- 	BAD_TRAP(0x21)
- 	BAD_TRAP(0x22)
-@@ -345,7 +344,7 @@ trapbase_cpu3:
- 	TRAP_ENTRY_INTERRUPT(12)
- 	TRAP_ENTRY_INTERRUPT(13)
- 	TRAP_ENTRY_INTERRUPT(14)
--	TRAP_ENTRY(0x1f, linux_trap_ipi15_sun4m)
-+	TRAP_ENTRY(0x1f, linux_trap_ipi15_leon)
- 	TRAP_ENTRY(0x20, do_reg_access)
- 	BAD_TRAP(0x21)
- 	BAD_TRAP(0x22)
+ void __init sun4d_init_sbi_irq(void)
 
 -- 
 2.34.1
