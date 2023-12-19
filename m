@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DE478192E2
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 23:03:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4D4D8192D4
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 23:03:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D7C010E525;
-	Tue, 19 Dec 2023 22:03:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CDA710E2C0;
+	Tue, 19 Dec 2023 22:03:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84DDE10E24E
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 22:03:19 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42CBE10E206
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 22:03:17 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id B56CCCE1A49;
+ by dfw.source.kernel.org (Postfix) with ESMTP id 83F00614C7;
  Tue, 19 Dec 2023 22:03:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A0E10C433CD;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id AF230C43391;
  Tue, 19 Dec 2023 22:03:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1703023395;
- bh=PvOL9owNF2Ng6LxW7GH7pqhSC0pz/LAIOTcjgaK0OH4=;
+ bh=i8P0wIY8MHNR0IMtWcJ3lmr2A2+O0+vGlp41TmDW9Ws=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=tk3vhMhvqHmOnXWItGr8nAQvwmYbUhB3feES7BPxAn8Hcie4cRM1hYReHXfQjXaKT
- tEOhRGzwg8CS8+PTABIuRcFS1AxYb2J0YA0frp/bH1Fi7VK/LnTSX/VgDTErEkgy0h
- uIc8Usem7yKoHIMfSdZYIh4JdGhT06fj3wEpJffC2zPN/F5kAieNgB/qaYeJANEfwH
- JuV3tTk1XWyf1vlVbpqsPBrDsDWuNJMGpEB93ZxdgbrHgJLaVM56thLRNBFFHzTcZY
- 8dMzLa9dhpKpYgvqLNDmRUO0dajPof1OmPIUbKVRGM4Hr5lM+IoAZQ4g65ZaiUf45n
- tjeX79QI4MuoQ==
+ b=UUvylM7rIglGvj739qnp45YIczwIDgMAS6sj4ktXX+qZAcpZL9Jp1WoQr6g87GoMT
+ pLUhCNvqCas0JWFfGHFTPAygsN3pkDyof2ZD0Ie1cnVS7fE4uG5xZWfbpciFCCK0r0
+ X/+AcDWmp8fqzdAGPwGGogrZ/Yh62oz0c7A+S0BAUOJYmpfoytBo1c3tRFK1GCGhXK
+ 2oyRge7VChXNjdfCAYqNHhk+0E250TKp/K5PHy+efwk3TGep784q+1SrFcVi/YD1pG
+ 1F4waGytTQygWFsvPn1iiw2nuN703RGjG5ylwG1Bwj8/qSHLSms/M7YFWmzgFJONgq
+ aeiEdjRwgQh9A==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 8A399C46CD7;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 98D24C46CCD;
  Tue, 19 Dec 2023 22:03:15 +0000 (UTC)
 From: Sam Ravnborg via B4 Relay <devnull+sam.ravnborg.org@kernel.org>
-Date: Tue, 19 Dec 2023 23:03:09 +0100
-Subject: [PATCH 04/27] sparc32: Drop sun4m specific led driver
+Date: Tue, 19 Dec 2023 23:03:10 +0100
+Subject: [PATCH 05/27] sparc32: Drop sun specific power management drivers
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231219-sam-sparc32-sunset-v3-v1-4-64bb44b598c5@ravnborg.org>
+Message-Id: <20231219-sam-sparc32-sunset-v3-v1-5-64bb44b598c5@ravnborg.org>
 References: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
 In-Reply-To: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
 To: "David S. Miller" <davem@davemloft.net>, 
  Arnd Bergmann <arnd@kernel.org>, Andreas Larsson <andreas@gaisler.com>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1703023392; l=5266;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1703023392; l=8689;
  i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=w/RBrmmZ8Yg5ZhjQjAlbJAmo7mwa0rCWWJGIHV2crps=; =?utf-8?q?b=3DTeV6xXOFygK5?=
- =?utf-8?q?5e17IwhpcZDv8UodKRmHjUsOo5OdOB31c5kiG9eX2d59myzar3EODv/zPQnrG0Nr?=
- easM3BasDDyIMfs3BRDC5uRzyD9VOZoN+HRnA+lB7XfHNrrOW/MI
+ bh=fThpDz4+PMLtttr9htY2gCawX85PeqZND9L6UPVn/AU=; =?utf-8?q?b=3DOtsYhDQL2gfc?=
+ =?utf-8?q?36sjUQEkqHM5Gpi2qOmZo9mUeeInVwO/EiodJOjzL2CLQ6HIKMCVVNmZbBU88Oyw?=
+ 1xqlbiSlCV4/vr/mH/KffmBQTiaOxktZzxxr8w0r28UXQfg8ZBhV
 X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
  pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
 X-Endpoint-Received: by B4 Relay for sam@ravnborg.org/20230107 with auth_id=22
@@ -78,202 +78,357 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sam Ravnborg <sam@ravnborg.org>
 
-The led driver is only relevant for the sun4m machines.
+Drop the two sun specific apc and pmc drivers.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Arnd Bergmann <arnd@kernel.org>
 Cc: Andreas Larsson <andreas@gaisler.com>
 ---
- arch/sparc/Kconfig         |   9 ---
+ arch/sparc/Kconfig         |   7 --
  arch/sparc/kernel/Makefile |   1 -
- arch/sparc/kernel/led.c    | 146 ---------------------------------------------
- 3 files changed, 156 deletions(-)
+ arch/sparc/kernel/apc.c    | 196 ---------------------------------------------
+ arch/sparc/kernel/pmc.c    | 100 -----------------------
+ 4 files changed, 304 deletions(-)
 
 diff --git a/arch/sparc/Kconfig b/arch/sparc/Kconfig
-index 54c91431724b..1520f68e944a 100644
+index 1520f68e944a..55a9e67c482e 100644
 --- a/arch/sparc/Kconfig
 +++ b/arch/sparc/Kconfig
-@@ -331,15 +331,6 @@ config SUN_PM
- 	  Enable power management and CPU standby features on supported
- 	  SPARC platforms.
+@@ -324,13 +324,6 @@ config CMDLINE
  
--config SPARC_LED
--	tristate "Sun4m LED driver"
--	depends on SPARC32
+ 	  NOTE: This option WILL override the PROM bootargs setting!
+ 
+-config SUN_PM
+-	bool
+-	default y if SPARC32
 -	help
--	  This driver toggles the front-panel LED on sun4m systems
--	  in a user-specifiable manner.  Its state can be probed
--	  by reading /proc/led and its blinking mode can be changed
--	  via writes to /proc/led
+-	  Enable power management and CPU standby features on supported
+-	  SPARC platforms.
 -
  config SERIAL_CONSOLE
  	bool
  	depends on SPARC32
 diff --git a/arch/sparc/kernel/Makefile b/arch/sparc/kernel/Makefile
-index 0984bb6f0f17..95687af45d20 100644
+index 95687af45d20..ab47823f8b4e 100644
 --- a/arch/sparc/kernel/Makefile
 +++ b/arch/sparc/kernel/Makefile
-@@ -90,7 +90,6 @@ obj-y                     += termios.o
+@@ -84,7 +84,6 @@ obj-$(CONFIG_SPARC32_SMP) += sun4m_smp.o sun4d_smp.o leon_smp.o
+ obj-$(CONFIG_SPARC64_SMP) += hvtramp.o
  
- obj-$(CONFIG_MODULES)     += module.o
- obj-$(CONFIG_MODULES)     += sparc_ksyms.o
--obj-$(CONFIG_SPARC_LED)   += led.o
- obj-$(CONFIG_KGDB)        += kgdb_$(BITS).o
+ obj-y                     += auxio_$(BITS).o
+-obj-$(CONFIG_SUN_PM)      += apc.o pmc.o
  
- obj-$(CONFIG_DYNAMIC_FTRACE) += ftrace.o
-diff --git a/arch/sparc/kernel/led.c b/arch/sparc/kernel/led.c
+ obj-y                     += termios.o
+ 
+diff --git a/arch/sparc/kernel/apc.c b/arch/sparc/kernel/apc.c
 deleted file mode 100644
-index ab657b359789..000000000000
---- a/arch/sparc/kernel/led.c
+index d44725d37e30..000000000000
+--- a/arch/sparc/kernel/apc.c
 +++ /dev/null
-@@ -1,146 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-only
+@@ -1,196 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/* apc - Driver implementation for power management functions
+- * of Aurora Personality Chip (APC) on SPARCstation-4/5 and
+- * derivatives.
+- *
+- * Copyright (c) 2002 Eric Brower (ebrower@usa.net)
+- */
+-
 -#include <linux/kernel.h>
--#include <linux/module.h>
+-#include <linux/fs.h>
+-#include <linux/errno.h>
 -#include <linux/init.h>
--#include <linux/proc_fs.h>
--#include <linux/seq_file.h>
--#include <linux/slab.h>
--#include <linux/string.h>
--#include <linux/jiffies.h>
--#include <linux/timer.h>
+-#include <linux/miscdevice.h>
+-#include <linux/pm.h>
+-#include <linux/of.h>
+-#include <linux/platform_device.h>
+-#include <linux/module.h>
+-
+-#include <asm/io.h>
+-#include <asm/oplib.h>
 -#include <linux/uaccess.h>
--#include <linux/sched/loadavg.h>
--
 -#include <asm/auxio.h>
+-#include <asm/apc.h>
+-#include <asm/processor.h>
 -
--#define LED_MAX_LENGTH 8 /* maximum chars written to proc file */
+-/* Debugging
+- * 
+- * #define APC_DEBUG_LED
+- */
 -
--static inline void led_toggle(void)
+-#define APC_MINOR	MISC_DYNAMIC_MINOR
+-#define APC_OBPNAME	"power-management"
+-#define APC_DEVNAME "apc"
+-
+-static u8 __iomem *regs;
+-static int apc_no_idle = 0;
+-
+-#define apc_readb(offs)		(sbus_readb(regs+offs))
+-#define apc_writeb(val, offs) 	(sbus_writeb(val, regs+offs))
+-
+-/* Specify "apc=noidle" on the kernel command line to 
+- * disable APC CPU standby support.  Certain prototype
+- * systems (SPARCstation-Fox) do not play well with APC
+- * CPU idle, so disable this if your system has APC and 
+- * crashes randomly.
+- */
+-static int __init apc_setup(char *str) 
 -{
--	unsigned char val = get_auxio();
--	unsigned char on, off;
--
--	if (val & AUXIO_LED) {
--		on = 0;
--		off = AUXIO_LED;
--	} else {
--		on = AUXIO_LED;
--		off = 0;
+-	if(!strncmp(str, "noidle", strlen("noidle"))) {
+-		apc_no_idle = 1;
+-		return 1;
 -	}
+-	return 0;
+-}
+-__setup("apc=", apc_setup);
 -
--	set_auxio(on, off);
+-/* 
+- * CPU idle callback function
+- * See .../arch/sparc/kernel/process.c
+- */
+-static void apc_swift_idle(void)
+-{
+-#ifdef APC_DEBUG_LED
+-	set_auxio(0x00, AUXIO_LED); 
+-#endif
+-
+-	apc_writeb(apc_readb(APC_IDLE_REG) | APC_IDLE_ON, APC_IDLE_REG);
+-
+-#ifdef APC_DEBUG_LED
+-	set_auxio(AUXIO_LED, 0x00); 
+-#endif
+-} 
+-
+-static inline void apc_free(struct platform_device *op)
+-{
+-	of_iounmap(&op->resource[0], regs, resource_size(&op->resource[0]));
 -}
 -
--static struct timer_list led_blink_timer;
--static unsigned long led_blink_timer_timeout;
--
--static void led_blink(struct timer_list *unused)
+-static int apc_open(struct inode *inode, struct file *f)
 -{
--	unsigned long timeout = led_blink_timer_timeout;
--
--	led_toggle();
--
--	/* reschedule */
--	if (!timeout) { /* blink according to load */
--		led_blink_timer.expires = jiffies +
--			((1 + (avenrun[0] >> FSHIFT)) * HZ);
--	} else { /* blink at user specified interval */
--		led_blink_timer.expires = jiffies + (timeout * HZ);
--	}
--	add_timer(&led_blink_timer);
--}
--
--#ifdef CONFIG_PROC_FS
--static int led_proc_show(struct seq_file *m, void *v)
--{
--	if (get_auxio() & AUXIO_LED)
--		seq_puts(m, "on\n");
--	else
--		seq_puts(m, "off\n");
 -	return 0;
 -}
 -
--static int led_proc_open(struct inode *inode, struct file *file)
+-static int apc_release(struct inode *inode, struct file *f)
 -{
--	return single_open(file, led_proc_show, NULL);
+-	return 0;
 -}
 -
--static ssize_t led_proc_write(struct file *file, const char __user *buffer,
--			      size_t count, loff_t *ppos)
+-static long apc_ioctl(struct file *f, unsigned int cmd, unsigned long __arg)
 -{
--	char *buf = NULL;
+-	__u8 inarg, __user *arg = (__u8 __user *) __arg;
 -
--	if (count > LED_MAX_LENGTH)
--		count = LED_MAX_LENGTH;
+-	switch (cmd) {
+-	case APCIOCGFANCTL:
+-		if (put_user(apc_readb(APC_FANCTL_REG) & APC_REGMASK, arg))
+-			return -EFAULT;
+-		break;
 -
--	buf = memdup_user_nul(buffer, count);
--	if (IS_ERR(buf))
--		return PTR_ERR(buf);
+-	case APCIOCGCPWR:
+-		if (put_user(apc_readb(APC_CPOWER_REG) & APC_REGMASK, arg))
+-			return -EFAULT;
+-		break;
 -
--	/* work around \n when echo'ing into proc */
--	if (buf[count - 1] == '\n')
--		buf[count - 1] = '\0';
+-	case APCIOCGBPORT:
+-		if (put_user(apc_readb(APC_BPORT_REG) & APC_BPMASK, arg))
+-			return -EFAULT;
+-		break;
 -
--	/* before we change anything we want to stop any running timers,
--	 * otherwise calls such as on will have no persistent effect
--	 */
--	del_timer_sync(&led_blink_timer);
+-	case APCIOCSFANCTL:
+-		if (get_user(inarg, arg))
+-			return -EFAULT;
+-		apc_writeb(inarg & APC_REGMASK, APC_FANCTL_REG);
+-		break;
 -
--	if (!strcmp(buf, "on")) {
--		auxio_set_led(AUXIO_LED_ON);
--	} else if (!strcmp(buf, "toggle")) {
--		led_toggle();
--	} else if ((*buf > '0') && (*buf <= '9')) {
--		led_blink_timer_timeout = simple_strtoul(buf, NULL, 10);
--		led_blink(&led_blink_timer);
--	} else if (!strcmp(buf, "load")) {
--		led_blink_timer_timeout = 0;
--		led_blink(&led_blink_timer);
--	} else {
--		auxio_set_led(AUXIO_LED_OFF);
+-	case APCIOCSCPWR:
+-		if (get_user(inarg, arg))
+-			return -EFAULT;
+-		apc_writeb(inarg & APC_REGMASK, APC_CPOWER_REG);
+-		break;
+-
+-	case APCIOCSBPORT:
+-		if (get_user(inarg, arg))
+-			return -EFAULT;
+-		apc_writeb(inarg & APC_BPMASK, APC_BPORT_REG);
+-		break;
+-
+-	default:
+-		return -EINVAL;
 -	}
 -
--	kfree(buf);
--
--	return count;
+-	return 0;
 -}
 -
--static const struct proc_ops led_proc_ops = {
--	.proc_open	= led_proc_open,
--	.proc_read	= seq_read,
--	.proc_lseek	= seq_lseek,
--	.proc_release	= single_release,
--	.proc_write	= led_proc_write,
+-static const struct file_operations apc_fops = {
+-	.unlocked_ioctl =	apc_ioctl,
+-	.open =			apc_open,
+-	.release =		apc_release,
+-	.llseek =		noop_llseek,
 -};
--#endif
 -
--#define LED_VERSION	"0.1"
+-static struct miscdevice apc_miscdev = { APC_MINOR, APC_DEVNAME, &apc_fops };
 -
--static int __init led_init(void)
+-static int apc_probe(struct platform_device *op)
 -{
--	timer_setup(&led_blink_timer, led_blink, 0);
+-	int err;
 -
--#ifdef CONFIG_PROC_FS
--	if (!proc_create("led", 0, NULL, &led_proc_ops))
--		return -ENOMEM;
--#endif
--	printk(KERN_INFO
--	       "led: version %s, Lars Kotthoff <metalhead@metalhead.ws>\n",
--	       LED_VERSION);
+-	regs = of_ioremap(&op->resource[0], 0,
+-			  resource_size(&op->resource[0]), APC_OBPNAME);
+-	if (!regs) {
+-		printk(KERN_ERR "%s: unable to map registers\n", APC_DEVNAME);
+-		return -ENODEV;
+-	}
+-
+-	err = misc_register(&apc_miscdev);
+-	if (err) {
+-		printk(KERN_ERR "%s: unable to register device\n", APC_DEVNAME);
+-		apc_free(op);
+-		return -ENODEV;
+-	}
+-
+-	/* Assign power management IDLE handler */
+-	if (!apc_no_idle)
+-		sparc_idle = apc_swift_idle;
+-
+-	printk(KERN_INFO "%s: power management initialized%s\n", 
+-	       APC_DEVNAME, apc_no_idle ? " (CPU idle disabled)" : "");
 -
 -	return 0;
 -}
 -
--static void __exit led_exit(void)
+-static const struct of_device_id apc_match[] = {
+-	{
+-		.name = APC_OBPNAME,
+-	},
+-	{},
+-};
+-MODULE_DEVICE_TABLE(of, apc_match);
+-
+-static struct platform_driver apc_driver = {
+-	.driver = {
+-		.name = "apc",
+-		.of_match_table = apc_match,
+-	},
+-	.probe		= apc_probe,
+-};
+-
+-static int __init apc_init(void)
 -{
--	remove_proc_entry("led", NULL);
--	del_timer_sync(&led_blink_timer);
+-	return platform_driver_register(&apc_driver);
 -}
 -
--module_init(led_init);
--module_exit(led_exit);
+-/* This driver is not critical to the boot process
+- * and is easiest to ioremap when SBus is already
+- * initialized, so we install ourselves thusly:
+- */
+-__initcall(apc_init);
+diff --git a/arch/sparc/kernel/pmc.c b/arch/sparc/kernel/pmc.c
+deleted file mode 100644
+index 69a0206e56f0..000000000000
+--- a/arch/sparc/kernel/pmc.c
++++ /dev/null
+@@ -1,100 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/* pmc - Driver implementation for power management functions
+- * of Power Management Controller (PMC) on SPARCstation-Voyager.
+- *
+- * Copyright (c) 2002 Eric Brower (ebrower@usa.net)
+- */
 -
--MODULE_AUTHOR("Lars Kotthoff <metalhead@metalhead.ws>");
--MODULE_DESCRIPTION("Provides control of the front LED on SPARC systems.");
--MODULE_LICENSE("GPL");
--MODULE_VERSION(LED_VERSION);
+-#include <linux/kernel.h>
+-#include <linux/fs.h>
+-#include <linux/errno.h>
+-#include <linux/init.h>
+-#include <linux/pm.h>
+-#include <linux/of.h>
+-#include <linux/platform_device.h>
+-#include <linux/module.h>
+-
+-#include <asm/io.h>
+-#include <asm/oplib.h>
+-#include <linux/uaccess.h>
+-#include <asm/auxio.h>
+-#include <asm/processor.h>
+-
+-/* Debug
+- *
+- * #define PMC_DEBUG_LED
+- * #define PMC_NO_IDLE
+- */
+-
+-#define PMC_OBPNAME	"SUNW,pmc"
+-#define PMC_DEVNAME	"pmc"
+-
+-#define PMC_IDLE_REG	0x00
+-#define PMC_IDLE_ON	0x01
+-
+-static u8 __iomem *regs;
+-
+-#define pmc_readb(offs)		(sbus_readb(regs+offs))
+-#define pmc_writeb(val, offs)	(sbus_writeb(val, regs+offs))
+-
+-/*
+- * CPU idle callback function
+- * See .../arch/sparc/kernel/process.c
+- */
+-static void pmc_swift_idle(void)
+-{
+-#ifdef PMC_DEBUG_LED
+-	set_auxio(0x00, AUXIO_LED);
+-#endif
+-
+-	pmc_writeb(pmc_readb(PMC_IDLE_REG) | PMC_IDLE_ON, PMC_IDLE_REG);
+-
+-#ifdef PMC_DEBUG_LED
+-	set_auxio(AUXIO_LED, 0x00);
+-#endif
+-}
+-
+-static int pmc_probe(struct platform_device *op)
+-{
+-	regs = of_ioremap(&op->resource[0], 0,
+-			  resource_size(&op->resource[0]), PMC_OBPNAME);
+-	if (!regs) {
+-		printk(KERN_ERR "%s: unable to map registers\n", PMC_DEVNAME);
+-		return -ENODEV;
+-	}
+-
+-#ifndef PMC_NO_IDLE
+-	/* Assign power management IDLE handler */
+-	sparc_idle = pmc_swift_idle;
+-#endif
+-
+-	printk(KERN_INFO "%s: power management initialized\n", PMC_DEVNAME);
+-	return 0;
+-}
+-
+-static const struct of_device_id pmc_match[] = {
+-	{
+-		.name = PMC_OBPNAME,
+-	},
+-	{},
+-};
+-MODULE_DEVICE_TABLE(of, pmc_match);
+-
+-static struct platform_driver pmc_driver = {
+-	.driver = {
+-		.name = "pmc",
+-		.of_match_table = pmc_match,
+-	},
+-	.probe		= pmc_probe,
+-};
+-
+-static int __init pmc_init(void)
+-{
+-	return platform_driver_register(&pmc_driver);
+-}
+-
+-/* This driver is not critical to the boot process
+- * and is easiest to ioremap when SBus is already
+- * initialized, so we install ourselves thusly:
+- */
+-__initcall(pmc_init);
 
 -- 
 2.34.1
