@@ -1,55 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9731F818730
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 13:15:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC2A781874D
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 13:22:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFF8710E48C;
-	Tue, 19 Dec 2023 12:15:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D30A610E2E5;
+	Tue, 19 Dec 2023 12:21:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6347410E48C
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 12:15:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1702988142; x=1734524142;
- h=from:to:subject:in-reply-to:references:date:message-id:
- mime-version; bh=lmSP+s2quBd1WrxnpUaM0qffn94kZ7wfgiSpXA276Xk=;
- b=Vk9Zb6yj4vMu7bGj7QwAMbUd3YZfvNqzuVZOn9uU5xz9cOgbCjEjTgcF
- eVO3D6rRc1iB3UpwYNpfS9I/IIq6wRiIor3LnmNpNNSanuvL7NtUIZWpH
- XI3fzZWmxta8TCZRCnO5Y7VhAFJExKctb7gMSugpdi09ffUmQPUya2643
- NT5aE5Bk0eIETCXiAHWGnz0nuBvWh3a/Mx836hFj3uVo6a0Rq6ivXzaL1
- xXgInin1MMiu69QydSfaSXIsWQGyUQ9GjNO25QW/W8XnvvQZzuUdvgonm
- MjRz7DkEoa2+3xFLfkXRRfZZ4qTh8yJfOkif9CjN6KEF4Az59WDhTUhRt w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="375139536"
-X-IronPort-AV: E=Sophos;i="6.04,288,1695711600"; d="scan'208";a="375139536"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2023 04:15:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="919604022"
-X-IronPort-AV: E=Sophos;i="6.04,288,1695711600"; d="scan'208";a="919604022"
-Received: from alexeyze-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.34.118])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2023 04:15:39 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: Re: [PATCH 0/2] drm/bridge: start moving towards struct drm_edid
-In-Reply-To: <87jzqksg8g.fsf@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1698312534.git.jani.nikula@intel.com>
- <87jzqksg8g.fsf@intel.com>
-Date: Tue, 19 Dec 2023 14:15:36 +0200
-Message-ID: <87frzytml3.fsf@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1816A10E156;
+ Tue, 19 Dec 2023 12:21:55 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 7998C612AF;
+ Tue, 19 Dec 2023 12:21:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90502C433C8;
+ Tue, 19 Dec 2023 12:21:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1702988514;
+ bh=uWwoGx6BSf0sx3lwgE1mNoor+NzDx9o7uDvaSK1T8bI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=GzdXXPSsK0hiixAhqNs+7imikO+MVIDZaFFHk3ZvBhMTdDvYNgNsgjMjZxRpz/CPC
+ 8hF4EvwD59QKRDBfakhFzDxZjE9K2fSAQ4UHAFv9vUZEQsokGnNtruc2mBtjjd+AqP
+ UZDPNTf6I3dDsv3JUgbnCazUQ+t19CW0rLIrtLr4JpFcLkAHkS65h/Dbz9MXq8Xbnx
+ KZ2rhg6Lec10aG6bRShM09AOBrlWrtSbkyKQHlQPcj5rTJG4G1CyfJMNkDsxjZ+KPc
+ Hnr5LNc4OIrdJEGA1Grk3oQ9ez1DgPkg0JQNMwTJa8lFQ7t9IMGbJ+2TY+U6AJEVxi
+ 3oCyghSAQrKJg==
+Date: Tue, 19 Dec 2023 13:21:50 +0100
+From: Wolfram Sang <wsa@kernel.org>
+To: Heiner Kallweit <hkallweit1@gmail.com>
+Subject: Re: [PATCH] drm/amd/pm: Remove I2C_CLASS_SPD support
+Message-ID: <ZYGK3s0ciA3I1Vnd@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+ Heiner Kallweit <hkallweit1@gmail.com>,
+ Evan Quan <evan.quan@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ "open list:AMD KFD" <dri-devel@lists.freedesktop.org>,
+ "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+References: <839c0546-9bad-4b5a-9216-d5e3bab32370@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="eKnS0Rr6oV1VXCD6"
+Content-Disposition: inline
+In-Reply-To: <839c0546-9bad-4b5a-9216-d5e3bab32370@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,57 +61,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ "open list:AMD KFD" <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
+ David Airlie <airlied@gmail.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 14 Nov 2023, Jani Nikula <jani.nikula@intel.com> wrote:
-> On Thu, 26 Oct 2023, Jani Nikula <jani.nikula@intel.com> wrote:
->> This is just the first two patches of a lengthy series that I'm not
->> really sure how to proceed with. Basically the series converts all of
->> drm/bridge to the new struct drm_edid infrastructure. It's safer than
->> struct edid, because it contains meta information about the allocated
->> size of the EDID, instead of relying on the size (number of extensions)
->> originating from outside of the kernel.
->>
->> The rest is at [1]. The commit messages are lacking, and I don't really
->> have the toolchain to even build test most of it. But I think this is
->> where drm/bridge should go. Among all of drm, I think bridge has the
->> most uses of struct edid that do not originate from the drm_get_edid()
->> family of functions, which means the validity checks are somewhat
->> inconsistent, and having the meta information is more crucial.
->>
->> Bridge maintainers, please instruct how to best proceed with this.
->
-> Ping.
 
-Ping.
+--eKnS0Rr6oV1VXCD6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->
-> The two patches posted here could be merged, to add something to build
-> the later commits on gradually.
->
-> BR,
-> Jani.
->
->>
->>
->> Thanks,
->> Jani.
->>
->>
->>
->> [1] https://gitlab.freedesktop.org/jani/linux/-/commits/drm-edid-bridge
->>
->>
->>
->> Jani Nikula (2):
->>   drm/bridge: add ->edid_read hook and drm_bridge_edid_read()
->>   drm/bridge: switch to drm_bridge_read_edid()
->>
->>  drivers/gpu/drm/drm_bridge.c           | 46 +++++++++++++++++++++++++-
->>  drivers/gpu/drm/drm_bridge_connector.c | 16 ++++-----
->>  include/drm/drm_bridge.h               | 33 ++++++++++++++++++
->>  3 files changed, 86 insertions(+), 9 deletions(-)
+On Mon, Nov 13, 2023 at 12:37:15PM +0100, Heiner Kallweit wrote:
+> I2C_CLASS_SPD was used to expose the EEPROM content to user space,
+> via the legacy eeprom driver. Now that this driver has been removed,
+> we can remove I2C_CLASS_SPD support. at24 driver with explicit
+> instantiation should be used instead.
+>=20
+> If in doubt this patch could be applied via the i2c tree.
+>=20
+> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 
--- 
-Jani Nikula, Intel
+Applied to for-next, thanks!
+
+
+--eKnS0Rr6oV1VXCD6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmWBit4ACgkQFA3kzBSg
+Kba03xAAirEpADqK4nRslNqocGuQh0p92d4JR85d/0ZNNz9mmwluGCKn9YClAb1X
+BI//Xi9OGWsH8WUPF54/jCnGKJZjTAl8oxEvGcTiLAw03PJrLi8Qz2945avrkn51
+ipLZX9R3U4CT8jSRqwfWc5/FCOCwfnSIQ3uvNz1i+yiSl2b5ABL2/AIQxAMNSiSV
+dEhzkPSrdS/N2gYNt0DMsSjIuzgg54BqbNyW/dft2Bg0WFy1sg4Vr1aBx+Rf46Hm
+iaqMyHjVPegQ3PIVtNpt18mVId8q0HB+XR/0xI/JFXTBJT5z17SWZH8dufjbt8wf
+Hf1A3+/WAIF24/JEL6jkdDXfTv/sOr2YDotEpSa6D+vQVT7n7oV8xnfeh/oKt4Ou
+Kx3Ax5Igh7Bo8c0G0S15NVSx+z6YcM/Y4PbRShQ0MkhMZlHPodjnGwmixxDMOslX
+uykOQuVyyYM18DCQeRpZMLxNZBY0k50Ue53b3/oBXYaKuuYKRKt9Sb9e2oZKXehz
+zdp1bTtYWPzLq3Ar/QBn59k/7MejsGRWS4x41EVGswIg5UG1EgNb6B/GsLCUJjLH
++PTgE9J6WmdmqByc1iHiuJsLv0LeRoGo4uE/vEgxnl+3KhkNj215VVOutiF+Xi/U
+F168k8/sWnxZC1z8Z8PJ4pQmBUEMAq3h8rKqdR8EE5XZdg2BSZ0=
+=ufJA
+-----END PGP SIGNATURE-----
+
+--eKnS0Rr6oV1VXCD6--
