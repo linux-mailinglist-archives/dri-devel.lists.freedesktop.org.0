@@ -2,42 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43C81818B6F
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 16:42:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9309D818BC5
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Dec 2023 17:05:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D648510E16A;
-	Tue, 19 Dec 2023 15:42:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0BB310E4BA;
+	Tue, 19 Dec 2023 16:05:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from www61.your-server.de (www61.your-server.de [213.133.104.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 396B210E16A
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Dec 2023 15:42:15 +0000 (UTC)
-Received: from sslproxy01.your-server.de ([78.46.139.224])
- by www61.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
- (Exim 4.94.2) (envelope-from <stefan.hoffmeister@econos.de>)
- id 1rFcEW-0006md-Sf; Tue, 19 Dec 2023 16:42:12 +0100
-Received: from [192.168.0.30] (helo=webmail.your-server.de)
- by sslproxy01.your-server.de with esmtpsa
- (TLSv1.2:ECDHE-RSA-CHACHA20-POLY1305:256) (Exim 4.92)
- (envelope-from <stefan.hoffmeister@econos.de>)
- id 1rFcEW-000GwU-I1; Tue, 19 Dec 2023 16:42:12 +0100
-Received: from [2a02:1210:249e:f00:24d4:59da:a98b:e722]
- ([2a02:1210:249e:f00:24d4:59da:a98b:e722]) by webmail.your-server.de (Horde
- Framework) with HTTPS; Tue, 19 Dec 2023 16:42:12 +0100
-Date: Tue, 19 Dec 2023 16:42:12 +0100
-Message-ID: <20231219164212.Horde.zexl-kniXSfQ5tdu8TCITYL@webmail.your-server.de>
-From: Stefan Hoffmeister <stefan.hoffmeister@econos.de>
-To: dri-devel@lists.freedesktop.org, Zack Rusin <zackr@vmware.com>, ";
- VMware Graphics Reviewers" <linux-graphics-maintainer@vmware.com>
-Subject: Re: BUG [vmwgfx] kernel oops atomic cursors /
- vmw_du_cursor_plane_cleanup_fb / KDE Plasma 6
-In-Reply-To: <20231214122709.Horde.5IIbIXWYbtITSEoTi0k2e1H@webmail.your-server.de>
-User-Agent: Horde Application Framework 5
-Content-Type: text/plain; charset=utf-8; format=flowed; DelSp=Yes
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67B9110E2F7;
+ Tue, 19 Dec 2023 16:05:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1703001947; x=1734537947;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=E/4G/640BLyW6ewtFRM5tFKJC3TzPRtX941yRQny8NE=;
+ b=V+kLbLv2RO972TuPWkCEc/Cd1ZzYk+TarAeOAWDDyTS4ObKeD8vJL/n+
+ iQt3uk2QVL3LVbgcANSwRfYcp37PeTsx0fJDmHtylZk+5l2YwzezjLY0D
+ aLB9SNhuQ7SUkERh0WMSAvTvMLzAVGN8yTYDaxkEXfr/f0ACRHuVXUlWr
+ /+VRurTtJoOWLNY0M+mDq+JPg2XKh/ugg96PXEkFYkXruAOwOEWdHuEiw
+ cuyy6h0mcEpONCV/Sv0gtOdsJKK3INhBfQYhleT6y+OUGeuEEWmaPLTRI
+ pyxpI09Mnsc7TKzoCyEEr9mk31tYkbR6VET9qDLVlyQPzL8RouKzKntMP w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="394561372"
+X-IronPort-AV: E=Sophos;i="6.04,288,1695711600"; d="scan'208";a="394561372"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Dec 2023 08:05:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="919658780"
+X-IronPort-AV: E=Sophos;i="6.04,288,1695711600"; d="scan'208";a="919658780"
+Received: from hasifnax-mobl1.gar.corp.intel.com (HELO fedora..)
+ ([10.249.254.69])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Dec 2023 08:05:43 -0800
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-xe@lists.freedesktop.org
+Subject: [PATCH] locking/ww_mutex: Adjust to lockdep nest_lock requirements
+Date: Tue, 19 Dec 2023 17:05:24 +0100
+Message-ID: <20231219160524.3646-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Disposition: inline
-X-Authenticated-Sender: stefan.hoffmeister@econos.de
-X-Virus-Scanned: Clear (ClamAV 0.103.10/27128/Tue Dec 19 10:36:48 2023)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,255 +57,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Peter Zijlstra <peterz@infradead.org>, Boqun Feng <boqun.feng@gmail.com>,
+ Maarten Lankhorst <maarten@lankhorst.se>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Ingo Molnar <mingo@redhat.com>,
+ Waiman Long <longman@redhat.com>, Will Deacon <will@kernel.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+When using mutex_acquire_nest() with a nest_lock, lockdep refcounts the
+number of acquired lockdep_maps of mutexes of the same class, and also
+keeps a pointer to the first acquired lockdep_map of a class. That pointer
+is then used for various comparison-, printing- and checking purposes,
+but there is no mechanism to actively ensure that lockdep_map stays in
+memory. Instead, a warning is printed if the lockdep_map is freed and
+there are still held locks of the same lock class, even if the lockdep_map
+itself has been released.
 
-Resending with all MAINTAINTERS cc'ed because no ACK.
+In the context of WW/WD transactions that means that if a user unlocks
+and frees a ww_mutex from within an ongoing ww transaction, and that
+mutex happens to be the first ww_mutex grabbed in the transaction,
+such a warning is printed and there might be a risk of a UAF.
 
-Quoting Stefan Hoffmeister <stefan.hoffmeister@econos.de>:
+Note that this is only problem when lockdep is enabled and affects only
+dereferences of struct lockdep_map.
 
-> Previously reported at  
-> https://gitlab.freedesktop.org/drm/misc/-/issues/34 and  
-> https://bugs.kde.org/show_bug.cgi?id=478308
->
-> vmwgfx runs into kernel oops related to atomic cursors with KDE  
-> Plasma 6. I am able to reproduce this with
->
-> * VMware Workstation 17.5 (on Windows 11 Professional) at CPL0
-> * install Fedora Rawhide (40) + KDE Plasma 6 beta 1 as offered by  
-> Fedora (kernel 6.7.0-rc5 at the time of this writing)
-> * echo "KWIN_DRM_NO_AMS=0" >> /etc/environment to explicitly enable  
-> use of atomic mode-setting from within KDE
-> * reboot
-> * log into a Wayland session
-> * use system (e.g. start Visual Studio Code, which is X11)
->
-> ---> oops
->
-> Note that I am explicitly atomic mode-setting now, because in a few  
-> weeks time DRM cursor plane hotspot improvements are supposed to be  
-> released into kernel 6.8 - and then KDE Plasma 6 will automatically  
-> switch to the atomic mode-setting code path.
->
-> Regardless of KDE does, the kernel should not oops.
->
-> Oops is
-> ************
-> BUG: kernel NULL pointer dereference, address: 0000000000000028
-> #PF: supervisor read access in kernel mode
-> #PF: error_code(0x0000) - not-present page
-> PGD 0 P4D 0
-> Oops: 0000 [#1] PREEMPT SMP NOPTI
-> Hardware name: VMware, Inc. VMware20,1/440BX Desktop Reference  
-> Platform, BIOS VMW201.00V.21805430.B64.2305221830 05/22/2023
-> Workqueue: events_unbound commit_work
-> RIP: 0010:vmw_du_cursor_plane_cleanup_fb  
-> (/usr/src/debug/kernel-6.7-rc4-111-g5e3f5b81de80/linux-6.7.0-0.rc4.20231208git5e3f5b81de80.38.fc40.x86_64/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c:649)  
-> vmwgfx
-> Code: 00 00 00 00 00 00 48 8b 44 24 08 65 48 2b 04 25 28 00 00 00 75  
-> 29 48 83 c4 10 5b 5d 41 5c c3 cc cc cc cc 48 8b 86 98 00 00 00 <48>  
-> 8b 78 28 e8 0a f1 00 00 c6 83 c0 00 00 00 00 e9 d2 fe ff ff e8
-> All code
-> ========
->    0:   00 00                   add    %al,(%rax)
->    2:   00 00                   add    %al,(%rax)
->    4:   00 00                   add    %al,(%rax)
->    6:   48 8b 44 24 08          mov    0x8(%rsp),%rax
->    b:   65 48 2b 04 25 28 00    sub    %gs:0x28,%rax
->   12:   00 00
->   14:   75 29                   jne    0x3f
->   16:   48 83 c4 10             add    $0x10,%rsp
->   1a:   5b                      pop    %rbx
->   1b:   5d                      pop    %rbp
->   1c:   41 5c                   pop    %r12
->   1e:   c3                      ret
->   1f:   cc                      int3
->   20:   cc                      int3
->   21:   cc                      int3
->   22:   cc                      int3
->   23:   48 8b 86 98 00 00 00    mov    0x98(%rsi),%rax
->   2a:*  48 8b 78 28             mov    0x28(%rax),%rdi          <--  
-> trapping instruction
->   2e:   e8 0a f1 00 00          call   0xf13d
->   33:   c6 83 c0 00 00 00 00    movb   $0x0,0xc0(%rbx)
->   3a:   e9 d2 fe ff ff          jmp    0xffffffffffffff11
->   3f:   e8                      .byte 0xe8
->
-> Code starting with the faulting instruction
-> ===========================================
->    0:   48 8b 78 28             mov    0x28(%rax),%rdi
->    4:   e8 0a f1 00 00          call   0xf113
->    9:   c6 83 c0 00 00 00 00    movb   $0x0,0xc0(%rbx)
->   10:   e9 d2 fe ff ff          jmp    0xfffffffffffffee7
->   15:   e8                      .byte 0xe8
-> RSP: 0018:ffffc9000008be00 EFLAGS: 00010202
-> RAX: 0000000000000000 RBX: ffff88818e889300 RCX: 0000000000000000
-> RDX: ffff888109c10000 RSI: ffff88818e889300 RDI: ffff888111974c38
-> RBP: ffff888111974c38 R08: ffff88812a668ae0 R09: 0000000000000040
-> R10: 000000000000000f R11: fefefefefefefeff R12: 0000000000000000
-> R13: 0000000000000000 R14: ffff8881001cc405 R15: ffff888106e1f4e0
-> FS:  0000000000000000(0000) GS:ffff88842dfc0000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 0000000000000028 CR3: 00000001484c0005 CR4: 0000000000f70ef0
-> PKRU: 55555554
-> Call Trace:
-> <TASK>
-> ? __die+0x23/0x70
-> ? page_fault_oops+0x171/0x4e0
-> ? wb_over_bg_thresh+0x283/0x2a0
-> ? exc_page_fault+0x7f/0x180
-> ? asm_exc_page_fault+0x26/0x30
-> ? vmw_du_cursor_plane_cleanup_fb  
-> (/usr/src/debug/kernel-6.7-rc4-111-g5e3f5b81de80/linux-6.7.0-0.rc4.20231208git5e3f5b81de80.38.fc40.x86_64/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c:649)  
-> vmwgfx
-> drm_atomic_helper_cleanup_planes+0x9b/0xc0
-> commit_tail+0xd1/0x130
-> process_one_work+0x171/0x340
-> worker_thread+0x27b/0x3a0
-> ? __pfx_worker_thread+0x10/0x10
-> kthread+0xe5/0x120
-> ? __pfx_kthread+0x10/0x10
-> ret_from_fork+0x31/0x50
-> ? __pfx_kthread+0x10/0x10
-> ret_from_fork_asm+0x1b/0x30
-> </TASK>
-> Modules linked in: uinput snd_seq_dummy snd_hrtimer  
-> nf_conntrack_netbios_ns nf_conntrack_broadcast nft_fib_inet  
-> nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet nf_reject_ipv4  
-> nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat nf_conntrack  
-> nf_defrag_ipv6 nf_defrag_ipv4 rfkill ip_set nf_tables nfnetlink qrtr  
-> snd_seq_midi snd_seq_midi_event sunrpc vsock_loopback  
-> vmw_vsock_virtio_transport_common vmw_vsock_vmci_transport vsock  
-> snd_ens1371 intel_rapl_msr snd_ac97_codec intel_rapl_common  
-> snd_rawmidi vmw_balloon rapl gameport ac97_bus snd_seq  
-> snd_seq_device snd_pcm vfat pcspkr snd_timer fat snd soundcore  
-> pktcdvd vmw_vmci i2c_piix4 joydev loop zram crct10dif_pclmul  
-> crc32_pclmul crc32c_intel polyval_clmulni polyval_generic  
-> ghash_clmulni_intel nvme vmwgfx sha512_ssse3 sha256_ssse3 sha1_ssse3  
-> nvme_core drm_ttm_helper ttm vmxnet3 serio_raw ata_generic pata_acpi  
-> fuse
-> CR2: 0000000000000028
->
-> *****************
->
-> This maps to
-> ***********
-> void
-> vmw_du_cursor_plane_cleanup_fb(struct drm_plane *plane,
-> 			       struct drm_plane_state *old_state)
-> {
-> 	struct vmw_cursor_plane *vcp = vmw_plane_to_vcp(plane);
-> 	struct vmw_plane_state *vps = vmw_plane_state_to_vps(old_state);
-> 	bool is_iomem;
->
-> 	if (vps->surf_mapped) {
-> 		vmw_bo_unmap(vps->surf->res.guest_memory_bo);     
-> <------------------ affected line
-> 		vps->surf_mapped = false;
-> 	}
->
-> **************
->
-> Note that close to that oops there was also
->
->
-> **************
-> Dec 12 12:34:58 fedora kwin_wayland_wrapper[1716]: (EE)
-> Dec 12 12:34:58 fedora kwin_wayland_wrapper[1716]: (EE) glamor0: GL  
-> error: GL_OUT_OF_MEMORY in glTexSubImage
-> Dec 12 12:34:58 fedora kwin_wayland_wrapper[1716]: (EE)
-> Dec 12 12:34:58 fedora kwin_wayland_wrapper[1716]: (EE) Backtrace:
-> Dec 12 12:34:58 fedora kwin_wayland_wrapper[1716]: (EE) 0:  
-> /usr/bin/Xwayland (0x55befed80000+0x17a432) [0x55befeefa432]
-> Dec 12 12:34:58 fedora kwin_wayland_wrapper[1716]: (EE) 1:  
-> /usr/lib64/dri/vmwgfx_dri.so (0x7f1d1a400000+0x36e0ef)  
-> [0x7f1d1a76e0ef]
-> Dec 12 12:34:58 fedora kwin_wayland_wrapper[1716]: (EE) 2:  
-> /usr/lib64/dri/vmwgfx_dri.so (0x7f1d1a400000+0x1aff13)  
-> [0x7f1d1a5aff13]
-> Dec 12 12:34:58 fedora kwin_wayland_wrapper[1716]: (EE) 3:  
-> /usr/lib64/dri/vmwgfx_dri.so (0x7f1d1a400000+0x1c2bf8)  
-> [0x7f1d1a5c2bf8]
-> Dec 12 12:34:58 fedora kwin_wayland_wrapper[1716]: (EE) 4:  
-> /usr/lib64/dri/vmwgfx_dri.so (0x7f1d1a400000+0x1953ba)  
-> [0x7f1d1a5953ba]
-> Dec 12 12:34:58 fedora kwin_wayland_wrapper[1716]: (EE) 5:  
-> /usr/lib64/dri/vmwgfx_dri.so (0x7f1d1a400000+0x198903)  
-> [0x7f1d1a598903]
-> Dec 12 12:34:58 fedora kwin_wayland_wrapper[1716]: (EE) 6:  
-> /usr/lib64/dri/vmwgfx_dri.so (0x7f1d1a400000+0x19f1b9)  
-> [0x7f1d1a59f1b9]
-> Dec 12 12:34:58 fedora kwin_wayland_wrapper[1716]: (EE) 7:  
-> /usr/bin/Xwayland (0x55befed80000+0x729f7) [0x55befedf29f7]
-> Dec 12 12:34:58 fedora kwin_wayland_wrapper[1716]: (EE) 8:  
-> /usr/bin/Xwayland (0x55befed80000+0x6117a) [0x55befede117a]
-> Dec 12 12:34:58 fedora kwin_wayland_wrapper[1716]: (EE) 9:  
-> /usr/bin/Xwayland (0x55befed80000+0x61911) [0x55befede1911]
-> Dec 12 12:34:58 fedora kwin_wayland_wrapper[1716]: (EE) 10:  
-> /usr/bin/Xwayland (0x55befed80000+0x1b9ff5) [0x55befef39ff5]
-> Dec 12 12:34:58 fedora kwin_wayland_wrapper[1716]: (EE) 11:  
-> /usr/bin/Xwayland (0x55befed80000+0x1ba748) [0x55befef3a748]
-> Dec 12 12:34:58 fedora kwin_wayland_wrapper[1716]: (EE) 12:  
-> /usr/bin/Xwayland (0x55befed80000+0x5cb37) [0x55befeddcb37]
-> Dec 12 12:34:58 fedora kwin_wayland_wrapper[1716]: (EE) 13:  
-> /usr/bin/Xwayland (0x55befed80000+0xff76b) [0x55befee7f76b]
-> Dec 12 12:34:58 fedora kwin_wayland_wrapper[1716]: (EE) 14:  
-> /usr/bin/Xwayland (0x55befed80000+0x11b17a) [0x55befee9b17a]
-> Dec 12 12:34:58 fedora kwin_wayland_wrapper[1716]: (EE) 15:  
-> /usr/bin/Xwayland (0x55befed80000+0xb5887) [0x55befee35887]
-> Dec 12 12:34:58 fedora kwin_wayland_wrapper[1716]: (EE) 16:  
-> /usr/bin/Xwayland (0x55befed80000+0x3b840) [0x55befedbb840]
-> Dec 12 12:34:58 fedora kwin_wayland_wrapper[1716]: (EE) 17:  
-> /lib64/libc.so.6 (0x7f1d2741d000+0x2814a) [0x7f1d2744514a]
-> Dec 12 12:34:58 fedora kwin_wayland_wrapper[1716]: (EE) 18:  
-> /lib64/libc.so.6 (__libc_start_main+0x8b) [0x7f1d2744520b]
-> Dec 12 12:34:58 fedora kwin_wayland_wrapper[1716]: (EE) 19:  
-> /usr/bin/Xwayland (0x55befed80000+0x3d255) [0x55befedbd255]
-> Dec 12 12:34:58 fedora kwin_wayland_wrapper[1716]: (EE)
-> *************
-> 0x17a432 is  
-> /usr/src/debug/xorg-x11-server-Xwayland-23.2.2-2.fc40.x86_64/redhat-linux-build/../os/backtrace.c:200:19
-> 0x36e0ef is  
-> /usr/src/debug/mesa-23.3.0-1.fc40.x86_64/redhat-linux-build/../src/mesa/main/errors.c:326:10
-> 0x1aff13 is  
-> /usr/src/debug/mesa-23.3.0-1.fc40.x86_64/redhat-linux-build/../src/mesa/main/texstore.c:1105:4
-> 0x1c2bf8 is  
-> /usr/src/debug/mesa-23.3.0-1.fc40.x86_64/redhat-linux-build/../src/mesa/state_tracker/st_cb_texture.c:2342:4
-> 0x1953ba is  
-> /usr/src/debug/mesa-23.3.0-1.fc40.x86_64/redhat-linux-build/../src/mesa/main/teximage.c:2893:7
-> 0x198903 is  
-> /usr/src/debug/mesa-23.3.0-1.fc40.x86_64/redhat-linux-build/../src/mesa/main/teximage.c:3829:4
-> 0x19f1b9 is  
-> /usr/src/debug/mesa-23.3.0-1.fc40.x86_64/redhat-linux-build/../src/mesa/main/teximage.c:4055:1
-> 0x729f7 is  
-> /usr/src/debug/xorg-x11-server-Xwayland-23.2.2-2.fc40.x86_64/redhat-linux-build/../glamor/glamor_transfer.c:97:17
-> 0x6117a is  
-> /usr/src/debug/xorg-x11-server-Xwayland-23.2.2-2.fc40.x86_64/redhat-linux-build/../glamor/glamor_copy.c:269:9
-> 0x61911 is  
-> /usr/src/debug/xorg-x11-server-Xwayland-23.2.2-2.fc40.x86_64/redhat-linux-build/../glamor/glamor_copy.c:741:8
-> 0x1b9ff5 is  
-> /usr/src/debug/xorg-x11-server-Xwayland-23.2.2-2.fc40.x86_64/redhat-linux-build/../mi/micopy.c:126:5
-> 0x1ba748 is  
-> /usr/src/debug/xorg-x11-server-Xwayland-23.2.2-2.fc40.x86_64/redhat-linux-build/../mi/micopy.c:294:9
-> 0x5cb37 is  
-> /usr/src/debug/xorg-x11-server-Xwayland-23.2.2-2.fc40.x86_64/redhat-linux-build/../glamor/glamor_copy.c:753:1
-> 0xff76b is  
-> /usr/src/debug/xorg-x11-server-Xwayland-23.2.2-2.fc40.x86_64/redhat-linux-build/../miext/damage/damage.c:777:5
-> 0x11b17a is  
-> /usr/src/debug/xorg-x11-server-Xwayland-23.2.2-2.fc40.x86_64/redhat-linux-build/../dix/pixmap.c:76:19
-> 0xb5887 is  
-> /usr/src/debug/xorg-x11-server-Xwayland-23.2.2-2.fc40.x86_64/redhat-linux-build/../dix/dispatch.c:550:20
-> 0x3b840 is  
-> /usr/src/debug/xorg-x11-server-Xwayland-23.2.2-2.fc40.x86_64/redhat-linux-build/../dix/devices.c:1124:14
-> 0x2814a is  
-> /usr/src/debug/glibc-2.38.9000-26.fc40.x86_64/csu/../sysdeps/nptl/libc_start_call_main.h:74:3
-> 0x3d255 is ??:0
-> **********
->
-> All this is getting spammed very regularly on KDE Wayland when  
-> interacting with an Xwayland window (above, that is Visual Studio  
-> Code, which is running as an X11 application).
+Adjust to this by adding a fake lockdep_map to the acquired context and
+make sure it is the first acquired lockdep map of the associated
+ww_mutex class. Then hold it for the duration of the WW/WD transaction.
 
+This has the side effect that trying to lock a ww mutex *without* a
+ww_acquire_context but where a such context has been acquire, we'd see
+a lockdep splat. The test-ww_mutex.c selftest attempts to do that, so
+modify that particular test to not acquire a ww_acquire_context if it
+is not going to be used.
 
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: Waiman Long <longman@redhat.com>
+Cc: Boqun Feng <boqun.feng@gmail.com>
+Cc: Maarten Lankhorst <maarten@lankhorst.se>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+---
+ include/linux/ww_mutex.h       | 14 ++++++++++++++
+ kernel/locking/test-ww_mutex.c |  6 ++++--
+ 2 files changed, 18 insertions(+), 2 deletions(-)
+
+diff --git a/include/linux/ww_mutex.h b/include/linux/ww_mutex.h
+index bb763085479a..a401a2f31a77 100644
+--- a/include/linux/ww_mutex.h
++++ b/include/linux/ww_mutex.h
+@@ -65,6 +65,16 @@ struct ww_acquire_ctx {
+ #endif
+ #ifdef CONFIG_DEBUG_LOCK_ALLOC
+ 	struct lockdep_map dep_map;
++	/**
++	 * @first_lock_dep_map: fake lockdep_map for first locked ww_mutex.
++	 *
++	 * lockdep requires the lockdep_map for the first locked ww_mutex
++	 * in a ww transaction to remain in memory until all ww_mutexes of
++	 * the transaction have been unlocked. Ensure this by keeping a
++	 * fake locked ww_mutex lockdep map between ww_acquire_init() and
++	 * ww_acquire_fini().
++	 */
++	struct lockdep_map first_lock_dep_map;
+ #endif
+ #ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
+ 	unsigned int deadlock_inject_interval;
+@@ -146,7 +156,10 @@ static inline void ww_acquire_init(struct ww_acquire_ctx *ctx,
+ 	debug_check_no_locks_freed((void *)ctx, sizeof(*ctx));
+ 	lockdep_init_map(&ctx->dep_map, ww_class->acquire_name,
+ 			 &ww_class->acquire_key, 0);
++	lockdep_init_map(&ctx->first_lock_dep_map, ww_class->mutex_name,
++			 &ww_class->mutex_key, 0);
+ 	mutex_acquire(&ctx->dep_map, 0, 0, _RET_IP_);
++	mutex_acquire_nest(&ctx->first_lock_dep_map, 0, 0, &ctx->dep_map, _RET_IP_);
+ #endif
+ #ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
+ 	ctx->deadlock_inject_interval = 1;
+@@ -185,6 +198,7 @@ static inline void ww_acquire_done(struct ww_acquire_ctx *ctx)
+ static inline void ww_acquire_fini(struct ww_acquire_ctx *ctx)
+ {
+ #ifdef CONFIG_DEBUG_LOCK_ALLOC
++	mutex_release(&ctx->first_lock_dep_map, _THIS_IP_);
+ 	mutex_release(&ctx->dep_map, _THIS_IP_);
+ #endif
+ #ifdef DEBUG_WW_MUTEXES
+diff --git a/kernel/locking/test-ww_mutex.c b/kernel/locking/test-ww_mutex.c
+index 78719e1ef1b1..c688131ed8f4 100644
+--- a/kernel/locking/test-ww_mutex.c
++++ b/kernel/locking/test-ww_mutex.c
+@@ -62,7 +62,8 @@ static int __test_mutex(unsigned int flags)
+ 	int ret;
+ 
+ 	ww_mutex_init(&mtx.mutex, &ww_class);
+-	ww_acquire_init(&ctx, &ww_class);
++	if (flags & TEST_MTX_CTX)
++		ww_acquire_init(&ctx, &ww_class);
+ 
+ 	INIT_WORK_ONSTACK(&mtx.work, test_mutex_work);
+ 	init_completion(&mtx.ready);
+@@ -90,7 +91,8 @@ static int __test_mutex(unsigned int flags)
+ 		ret = wait_for_completion_timeout(&mtx.done, TIMEOUT);
+ 	}
+ 	ww_mutex_unlock(&mtx.mutex);
+-	ww_acquire_fini(&ctx);
++	if (flags & TEST_MTX_CTX)
++		ww_acquire_fini(&ctx);
+ 
+ 	if (ret) {
+ 		pr_err("%s(flags=%x): mutual exclusion failure\n",
+-- 
+2.42.0
 
