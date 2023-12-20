@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85EDA8198E3
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 07:59:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A95DA8198F0
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 08:02:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6737710E055;
-	Wed, 20 Dec 2023 06:59:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B3A310E30B;
+	Wed, 20 Dec 2023 07:02:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 963 seconds by postgrey-1.36 at gabe;
- Wed, 20 Dec 2023 06:59:48 UTC
-Received: from mailrelay3-1.pub.mailoutpod2-cph3.one.com
- (mailrelay3-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:402::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04D7F10E055
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 06:59:48 +0000 (UTC)
-X-HalOne-ID: 1db2c7e6-9f03-11ee-8462-a587b82ce961
-Received: from mailrelay1.pub.mailoutpod3-cph3.one.com (unknown [104.37.34.38])
- by mailrelay3 (Halon) with ESMTPS
- id 1db2c7e6-9f03-11ee-8462-a587b82ce961;
- Wed, 20 Dec 2023 06:43:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa2;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=czDnAIGqZkpfvoL/iiaTcwjziBrJyFAvdctS7icVWtc=;
- b=WTEfw2kBTisB9iFEa9k6bTNf3ZeFtX6YS/mDbeFYMeHjQUFMj+djmcVbc1cef/pSFwCRLCub/jnhv
- 2fHatP15emjbQbFiDThaWGqVzKmKZTqQ1B30zZ7bUqpGRIOScf1BV7XfkO0q+w/lvty/Pn0cL0On8W
- oqU+A1ANEhmyyXukEtwPJG+6D/eltnGFElclkTn/gw7ypdxput8jsuCt5HYFjedLwRgmL7k62wX2W5
- IiKKWdWv7A7Xvv0i7iN81LrU2MqpDrNWGFNT+dneqOhojAAtmAXX9/HCCeJ7aTlgviXPoBFtM6EX86
- AexoXyioyxNrhwepKSz3ee+qdLEEb0Q==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed2;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=czDnAIGqZkpfvoL/iiaTcwjziBrJyFAvdctS7icVWtc=;
- b=I7V1QNB20dvpYRV1erNIT0+pk9yXU6uliif9Cl438drmSB++wNLblgBunf6TvAnxaAm4ycM59iEKF
- M4AyopcBg==
-X-HalOne-ID: 1ce66959-9f03-11ee-964d-27feea414716
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay1 (Halon) with ESMTPSA
- id 1ce66959-9f03-11ee-964d-27feea414716;
- Wed, 20 Dec 2023 06:43:43 +0000 (UTC)
-Date: Wed, 20 Dec 2023 07:43:41 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Subject: Re: [PATCH 01/27] sparc32: Update defconfig to LEON SMP
-Message-ID: <20231220064341.GA847783@ravnborg.org>
-References: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
- <20231219-sam-sparc32-sunset-v3-v1-1-64bb44b598c5@ravnborg.org>
- <2fc75a39-a6f4-42f4-ab09-d7622cb23b10@app.fastmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 710CE10E30B
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 07:02:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1703055761; x=1734591761;
+ h=message-id:date:mime-version:subject:to:references:from:
+ in-reply-to:content-transfer-encoding;
+ bh=vL9PMXI8odI9hUWBJ4I8AXiOoIzrZ+Uitq44gt2pMys=;
+ b=c/bGdqEnllVO3uQEWVL731vMh6Lsk+fUQ4icqSMC3Ok0+zxyLlAj34/R
+ RIb8bHYyg+HA8ztyPapu9o9OZnaHRk11rOgFpEbHnLeyhx52EvqD/nyl8
+ rb3vc1g02tKSby7imYv84+yETC0AF1HcKrbJjnTJD+FLhnHS+1R4UOa5Y
+ b5FuWFU+HLoeG601Hb/e0F3v3s1hEo8ma9LXNYUmXEB9bBt/ieFasINlN
+ SMRNTQXJwB7/eBtgs/ZURj3PoXkW6fctI8LYNZfgOYHm07kfk2NarsAE6
+ b//C0aL3LemjtO4oQomevIVKLh8dqEOAdJ/EJIleNIhA25S72uVwVm/Zp A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="394655200"
+X-IronPort-AV: E=Sophos;i="6.04,290,1695711600"; d="scan'208";a="394655200"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Dec 2023 23:02:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="769484035"
+X-IronPort-AV: E=Sophos;i="6.04,290,1695711600"; d="scan'208";a="769484035"
+Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.249.130.98])
+ ([10.249.130.98])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Dec 2023 23:02:39 -0800
+Message-ID: <dddc3acc-fe15-4d0c-b9f7-5cc475534498@linux.intel.com>
+Date: Wed, 20 Dec 2023 08:02:37 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2fc75a39-a6f4-42f4-ab09-d7622cb23b10@app.fastmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/7] accel/qaic: Leverage DRM managed APIs to release
+ resources
+To: dri-devel@lists.freedesktop.org
+References: <20231208163457.1295993-1-quic_jhugo@quicinc.com>
+ <20231208163457.1295993-7-quic_jhugo@quicinc.com>
+ <9c314cf9-0291-2879-9a78-80cf97ca4ce6@quicinc.com>
+Content-Language: en-US
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <9c314cf9-0291-2879-9a78-80cf97ca4ce6@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,39 +65,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Andreas Larsson <andreas@gaisler.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
- linux-usb@vger.kernel.org, linux-sound@vger.kernel.org,
- Takashi Iwai <tiwai@suse.com>, dri-devel@lists.freedesktop.org,
- Jaroslav Kysela <perex@perex.cz>, Alan Stern <stern@rowland.harvard.edu>,
- Alexander Viro <viro@zeniv.linux.org.uk>, sparclinux@vger.kernel.org,
- "David S . Miller" <davem@davemloft.net>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Arnd,
-
-On Tue, Dec 19, 2023 at 10:23:05PM +0000, Arnd Bergmann wrote:
-> On Tue, Dec 19, 2023, at 22:03, Sam Ravnborg via B4 Relay wrote:
-> > From: Sam Ravnborg <sam@ravnborg.org>
-> >
-> > This is a copy of the leon_smp defconfig found in
-> > gaisler-buildroot-2023.02-1.0.
-> >
-> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: "David S. Miller" <davem@davemloft.net>
-> > Cc: Arnd Bergmann <arnd@kernel.org>
-> > Cc: Andreas Larsson <andreas@gaisler.com>
+On 15.12.2023 19:06, Jeffrey Hugo wrote:
+> On 12/8/2023 9:34 AM, Jeffrey Hugo wrote:
+>> From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+>>
+>> Offload the balancing of init and destroy calls to DRM managed APIs.
+>> mutex destroy for ->cntl_mutex is not called during device release and
+>> destroy workqueue is not called in error path of create_qdev(). So, use
+>> DRM managed APIs to manage the release of resources and avoid such
+>> problems.
+>>
+>> Signed-off-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+>> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+>> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 > 
-> I did not get a cover letter for the series, but I looked at
-You are listed as a receiver?!?
+> Jacek, I saw a review from you for 1-5, and 7 but not this patch (6). Did I miss something?
 
-It can be found here:
-https://lore.kernel.org/sparclinux/20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org/T/#m2fc5b3c23331efd12492a61ba39ac000a563ac52
+Sorry, I was out of office for a couple days and I wasn't able to finish the review.
 
-> all 27 patches and they all look good to me, nice cleanup!
-> 
-> Acked-by: Arnd Bergmann <arnd@arndb.de>
-Thanks!
-
-	Sam
+Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
