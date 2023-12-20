@@ -1,107 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38833819D0F
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 11:39:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2600E819D49
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 11:48:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72D0C10E211;
-	Wed, 20 Dec 2023 10:39:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 225C310E337;
+	Wed, 20 Dec 2023 10:48:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E6B610E211
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 10:39:36 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20231220103935euoutp02810b6c1f41af8e734f34f0c701d299c8~ihAcbzso01566515665euoutp02f
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 10:39:35 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20231220103935euoutp02810b6c1f41af8e734f34f0c701d299c8~ihAcbzso01566515665euoutp02f
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1703068775;
- bh=TFBsvCINmEriidTZBHaDtaqOu3mdpDyVL7CdLeBbcwU=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=V8RNUcvu8VLCe6PIVPpK8sLdbCq5VmzDrgvhAwaz5KSBH0UQpQzQ8ohf3ZcBqvmzw
- q0DsI7Qu4fXg7lDqktXC6vtLOfGWWkUtaXUveK1dBkOXSOT03AmP9Zv4WoVDJNWeuv
- mQil3uTDk+2GtLuGOp3QaffeWxSLXUSEMzUKoBws=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20231220103934eucas1p226848411e2faf198815082e4f018e528~ihAcEnALh0402304023eucas1p2p;
- Wed, 20 Dec 2023 10:39:34 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id D2.F2.09539.664C2856; Wed, 20
- Dec 2023 10:39:34 +0000 (GMT)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20231220103934eucas1p18a70564f77e4dfef3b83ba11b20c60ae~ihAbj7Tii0155701557eucas1p1F;
- Wed, 20 Dec 2023 10:39:34 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20231220103934eusmtrp16ba5daa0ba976cef02ccde105b78a5ec~ihAbjPwY43254832548eusmtrp1V;
- Wed, 20 Dec 2023 10:39:34 +0000 (GMT)
-X-AuditID: cbfec7f2-515ff70000002543-74-6582c46662c4
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 41.1B.09146.664C2856; Wed, 20
- Dec 2023 10:39:34 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20231220103933eusmtip12e7d4be67ee3218d1a091619543802df~ihAa2X8u70415704157eusmtip1D;
- Wed, 20 Dec 2023 10:39:33 +0000 (GMT)
-Message-ID: <111adf74-5239-420a-880c-be92a2f663fd@samsung.com>
-Date: Wed, 20 Dec 2023 11:39:32 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D29910E337
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 10:48:17 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 5F558615E4;
+ Wed, 20 Dec 2023 10:48:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C343C433C9;
+ Wed, 20 Dec 2023 10:48:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1703069296;
+ bh=affP7wF8+XMw8uG5v8noirtoXKryiDk9LMZdxtuSBpQ=;
+ h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
+ b=WccBeKYu1X+hqSW24q0mFGP3KDKZ7RzPDM0pm2HpuKJZ8Yja8m8M9lSpLbJRMV295
+ AnMLjR956icFaR1wFTju5W8NNHaLacr+6WycC6l1Gdyq9Q6SoMy706bGsoNJfbZtAK
+ XeaaljEXsgUv2FNdjfswg610tCQEJchtQrCRJN/NIIIznqFoefS3/C9hBjARTeQ0cw
+ OYDaf8dgs4p0N9hfOxnGthL1MiDH03H6gXTuEH7s3mblTA++YosBvK3fG7KLnDWzhS
+ IErCEk7yD+5CTC6APCXSDp49+Jwe/6UI9qyGx4A++KLuYUz8oW9447nx6MZxJhWk1K
+ N7xmv+vmOzw4g==
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailauth.nyi.internal (Postfix) with ESMTP id 59CCC27C0061;
+ Wed, 20 Dec 2023 05:48:14 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+ by compute5.internal (MEProxy); Wed, 20 Dec 2023 05:48:14 -0500
+X-ME-Sender: <xms:bcaCZa-dYaDSNN36puMBjYL2UZjPu7XIDmrS9ZbAtZmLOLHzRsRkmQ>
+ <xme:bcaCZat5hWRhwFchay4HQaiInMmMJezm4FaDG4D7qWJ-QMer37ZYU0DBDBILQhArg
+ 4Ew8i-upCvuurJzD3s>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdduvddgvdduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+ nhguuceuvghrghhmrghnnhdfuceorghrnhgusehkvghrnhgvlhdrohhrgheqnecuggftrf
+ grthhtvghrnhepgedtudegtdejhfdtjeeglefhhfduhedtjeejgeegieelgeduudeiueev
+ ffetjefgnecuffhomhgrihhnpehqvghmuhdrohhrghenucevlhhushhtvghrufhiiigvpe
+ dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugdomhgvshhmthhprghuthhhphgv
+ rhhsohhnrghlihhthidquddvkeehudejtddvgedqvdekjedttddvieegqdgrrhhnugeppe
+ hkvghrnhgvlhdrohhrghesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:bcaCZQDIKCNj7awbmv8GAKA4WgNCD1CdNaOAL918zpCfYGwv1bP6tQ>
+ <xmx:bcaCZSeU8EDkSAwPx0LydaLR2A-g-Npf-ECxnOrW3cDEcyCKfKWFCQ>
+ <xmx:bcaCZfPiwW0oa83V1FG959Vcn7M1gbIp-lc-37NNQpZjt5Ir6z56Yg>
+ <xmx:bsaCZduisMTzT6YuRGasRasp3nG8XGAP5iAFXKnUBRYcf05Nq05azg>
+Feedback-ID: i36794607:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 5080DB6008D; Wed, 20 Dec 2023 05:48:13 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-1364-ga51d5fd3b7-fm-20231219.001-ga51d5fd3
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/exynos: gsc: minor fix for loop iteration in
- gsc_runtime_resume
-Content-Language: en-US
-To: Fedor Pchelkin <pchelkin@ispras.ru>, Inki Dae <inki.dae@samsung.com>
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20231220095316.23098-1-pchelkin@ispras.ru>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrKKsWRmVeSWpSXmKPExsWy7djPc7ppR5pSDbpfq1mcuL6IyeLBvG1s
- Fv+3TWS2uPL1PZvFpPsTWCx2rNvJbrH39VZ2i7NNb9gtNj2+xmpxedccNosZ5/cxWXw4v5rJ
- YuaVBYwWMya/ZHPg89j7bQGLx85Zd9k9Zvybyuhx59oeNo87r/+yetzvPs7ksXlJvUffllWM
- Hp83yQVwRnHZpKTmZJalFunbJXBl3FlxgqXgD0fF34Mf2RoYV7N3MXJySAiYSOy8cIupi5GL
- Q0hgBaPE7nmzWSCcL4wSW5fBZD4zSiy9tocVpuXz25mMEInljBKtD++xQzgfGSWu3OsGq+IV
- sJO4umQxC4jNIqAqcXNHPwtEXFDi5MwnYLaogLzE/VszwA4RFoiS2LnlFzOIzSwgLnHryXwm
- EFtEwENi9qp9rCALmAUuM0vsvtgIlmATMJToetvFBmJzClhILOu5yATRLC+x/e0cZpAGCYHN
- nBK/329jgrjbReLV+SmMELawxKvjW6BBICNxenIPC0RDO6PEgt/3mSCcCYwSDc9vQXVYS9w5
- 9wtoHQfQCk2J9bv0QUwJAUeJPwtMIEw+iRtvBSFu4JOYtG06M0SYV6KjTQhihprErOPr4LYe
- vHCJeQKj0iykYJmF5P1ZSL6ZhbB2ASPLKkbx1NLi3PTUYsO81HK94sTc4tK8dL3k/NxNjMCU
- d/rf8U87GOe++qh3iJGJg/EQowQHs5II797OplQh3pTEyqrUovz4otKc1OJDjNIcLErivKop
- 8qlCAumJJanZqakFqUUwWSYOTqkGJi1NXTOO0AqzKIaK+cw/pe4vPFJTKLbN+dmPUp3dTt+r
- Cm7mhQjOCyzv2PTha5LPt1c7VHU/cFWocd9xiHk0kdtjy/yJVpNE1jDfnb76l9m5f76FkbK/
- /So9y5OSW34WLw790aEqLnvP3Y3556Hz+cbO2900/zkt5L3l7LDW+uDs2/qsa5WcT9qI5ejP
- mdvcmZ3/NUF/MuMEt2BXxx3FXWKumz+9tJnzz9Tw3JeMNBaLlA6Zn9Efb1gy2NzxD53j/6hy
- udmO0we9LouvM7nw/7NYsYdJUJTB3dl5HH9f6Xf+0o9fdDaxcZuGk/SdqybTXl8r6UxyXj3r
- I2dWi2n5/Q1fl/IuKy6/ftNf3e2oEktxRqKhFnNRcSIAWpfviegDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrBIsWRmVeSWpSXmKPExsVy+t/xu7ppR5pSDR5N4rA4cX0Rk8WDedvY
- LP5vm8hsceXrezaLSfcnsFjsWLeT3WLv663sFmeb3rBbbHp8jdXi8q45bBYzzu9jsvhwfjWT
- xcwrCxgtZkx+yebA57H32wIWj52z7rJ7zPg3ldHjzrU9bB53Xv9l9bjffZzJY/OSeo++LasY
- PT5vkgvgjNKzKcovLUlVyMgvLrFVija0MNIztLTQMzKx1DM0No+1MjJV0rezSUnNySxLLdK3
- S9DLuLPiBEvBH46Kvwc/sjUwrmbvYuTkkBAwkfj8diZjFyMXh5DAUkaJtsOrGSESMhInpzWw
- QtjCEn+udbFBFL1nlPix9zFYEa+AncTVJYtZQGwWAVWJmzv6WSDighInZz4Bs0UF5CXu35oB
- tk1YIEpi55ZfzCA2s4C4xK0n85lAbBEBD4nZq/axgixgFrjKLNF84R8zxLZuRomzu76DdbMJ
- GEp0vQU5g5ODU8BCYlnPRSaISWYSXVu7GCFseYntb+cwT2AUmoXkkFlIFs5C0jILScsCRpZV
- jCKppcW56bnFhnrFibnFpXnpesn5uZsYgVG+7djPzTsY5736qHeIkYmD8RCjBAezkgjv3s6m
- VCHelMTKqtSi/Pii0pzU4kOMpsDQmMgsJZqcD0wzeSXxhmYGpoYmZpYGppZmxkrivJ4FHYlC
- AumJJanZqakFqUUwfUwcnFINTCVPMqvF44Kr/hx9d+bV9luaFruPRiW/m3rC43ngfPUSP/v8
- 27wzls5TP1X1dfnNe2n6XPWr+gNVlD9+5dWx5H3g0119QPz+L75Pkjm+ARxbVK89ERRzufrv
- /I29d7cdnngzOMn/7aOtiVVlm3efqfoouGvG83OlKywMf35Yufzzbue4HYcLr9gL9TToPHds
- Tb+91cG2WVTvwtw/Qde6V+j7v9t/aLNRjsMrk/cVDtKsXQ++fZLRX1AQtdrqwdRa2+ypy2UL
- suIWmZ6yCJtW1B/NeOXG+52mL1d3f92y5qdA+bpfIjd+9JTuagpreXN224tw1brSyorWkkOR
- XZ1aE0uTI9l3vGQ2st3UuEN22QclluKMREMt5qLiRAA49h6mewMAAA==
-X-CMS-MailID: 20231220103934eucas1p18a70564f77e4dfef3b83ba11b20c60ae
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20231220095336eucas1p1f6cec297f84463fbf50a875cc0fb64f6
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20231220095336eucas1p1f6cec297f84463fbf50a875cc0fb64f6
-References: <CGME20231220095336eucas1p1f6cec297f84463fbf50a875cc0fb64f6@eucas1p1.samsung.com>
- <20231220095316.23098-1-pchelkin@ispras.ru>
+Message-Id: <dbb60b13-565f-43b8-8cb8-6f8cd98b06df@app.fastmail.com>
+In-Reply-To: <e897e6d5a88ec2f9024c62f7bee5c13bfb2cab55.camel@physik.fu-berlin.de>
+References: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
+ <01ea8c41-88cd-4123-95c7-391640845fc3@app.fastmail.com>
+ <e897e6d5a88ec2f9024c62f7bee5c13bfb2cab55.camel@physik.fu-berlin.de>
+Date: Wed, 20 Dec 2023 10:47:56 +0000
+From: "Arnd Bergmann" <arnd@kernel.org>
+To: "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
+ "Sam Ravnborg" <sam@ravnborg.org>, "David S . Miller" <davem@davemloft.net>,
+ "Andreas Larsson" <andreas@gaisler.com>
+Subject: Re: [PATCH 00/27] sparc32: sunset sun4m and sun4d
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,45 +79,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Alexey Khoroshilov <khoroshilov@ispras.ru>,
- Alim Akhtar <alim.akhtar@samsung.com>, David Airlie <airlied@gmail.com>,
- linux-arm-kernel@lists.infradead.org, lvc-project@linuxtesting.org
+Cc: linux-fbdev@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
+ linux-usb@vger.kernel.org, linux-sound@vger.kernel.org,
+ Takashi Iwai <tiwai@suse.com>, dri-devel@lists.freedesktop.org,
+ Jaroslav Kysela <perex@perex.cz>, Alan Stern <stern@rowland.harvard.edu>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, sparclinux@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 20.12.2023 10:53, Fedor Pchelkin wrote:
-> Do not forget to call clk_disable_unprepare() on the first element of
-> ctx->clocks array.
+On Wed, Dec 20, 2023, at 09:54, John Paul Adrian Glaubitz wrote:
+> On Wed, 2023-12-20 at 08:36 +0000, Arnd Bergmann wrote:
+>> All of these were found through inspection rather than testing,
+>> so there is a good chance that other fatal kernel bugs prevent
+>> testing in qemu, at least until the fixes from Andreas' tree
+>> are included.
 >
-> Found by Linux Verification Center (linuxtesting.org).
->
-> Fixes: 8b7d3ec83aba ("drm/exynos: gsc: Convert driver to IPP v2 core API")
-> Signed-off-by: Fedor Pchelkin <pchelkin@ispras.ru>
-Reviewed-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> ---
->   drivers/gpu/drm/exynos/exynos_drm_gsc.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_gsc.c b/drivers/gpu/drm/exynos/exynos_drm_gsc.c
-> index 34cdabc30b4f..5302bebbe38c 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_gsc.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_gsc.c
-> @@ -1342,7 +1342,7 @@ static int __maybe_unused gsc_runtime_resume(struct device *dev)
->   	for (i = 0; i < ctx->num_clocks; i++) {
->   		ret = clk_prepare_enable(ctx->clocks[i]);
->   		if (ret) {
-> -			while (--i > 0)
-> +			while (--i >= 0)
->   				clk_disable_unprepare(ctx->clocks[i]);
->   			return ret;
->   		}
+> Andreas has fixes for these issues?
 
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+Not sure, all I know is that
 
+- Andreas has some fixes for Leon in his tree
+- Sam is unable to boot mainline in qemu
+- There is an unknown set of bugs in sparc32 since it has not
+  been tested for many years without Andreas' patches
+
+it appears that the qemu developers are still testing the sun4m
+model against old Linux and Solaris installations [1], but
+failure to run the leon3 model could still be any combination
+of kernel, qemu or configuration problems.
+
+        Arnd
+
+[1] https://wiki.qemu.org/Documentation/Platforms/SPARC#Compatibility
