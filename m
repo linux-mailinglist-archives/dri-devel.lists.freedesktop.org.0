@@ -1,63 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F301E819F1C
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 13:35:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E7B6819F7B
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 14:06:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B44A110E575;
-	Wed, 20 Dec 2023 12:34:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0527610E173;
+	Wed, 20 Dec 2023 13:06:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA34210E575
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 12:34:53 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 2BA3461138
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 12:34:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D1613C433C9
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 12:34:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1703075692;
- bh=9TUUC97u3GLDDd7x645cNxnlZ3q9bcGwwLIB3IOJyEg=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=js4BvCWh0EOmDaTv/9t4J8vHQiAyRCwFXtZKAWCiCCETb8RFeGe1E6jM+p0RSHFSJ
- GX4C12swEifGKaZvNCykMUYZrWudj7GeVCa8wavKBT2J0+0+FVFOrdIDfE2EIOC1mr
- Pj60LG1CfJ8+qY0CNoD9jfClMA262ZXLZJsh5nXYxyD24yzexLDcO5ld94yQfr9qDN
- gx244YhR4hqRcZsbcpSaBT2oPz1H2f7odk9gJjeLPSJWAC4n1JxcPUlzUAAfrKxruQ
- QLpQDVGPKA5d2bRcBJudzEHWTvWIhmYDqDdcs8znJyKig0t5xKYadAZkbgvdl3/uAG
- +eGzpg0+OTKdg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id B53D6C53BD0; Wed, 20 Dec 2023 12:34:52 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 218292] Built in Screen (Laptop) won't wake up from sleep (AMD
- Graphics)
-Date: Wed, 20 Dec 2023 12:34:52 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: bagasdotme@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-218292-2300-GHTNrKJUQ6@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-218292-2300@https.bugzilla.kernel.org/>
-References: <bug-218292-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1010E10E173
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 13:06:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1703077595;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JcDrbjyjMazetuP2IXFq19+KBQ/5Rh6HiivXC6HpT8A=;
+ b=QLWp91iev6Qa/la6/Yj6I7bobn1xUV9HSE21UmMuqCby6Qzg/OpCd7GxjlkPUnsiWL+G0i
+ i8lrnRrkhm3npTv13sgvw/o7EIhgoPb6btb3Z9EVn94GG2xFikUEzR489nKtTsK8g0Oxyt
+ Ciw8EGfdgAcSdT8uZxRMuOSqUJFyTxE=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-264-48qfdNm1NeOiXiD5qFJkWw-1; Wed, 20 Dec 2023 08:06:33 -0500
+X-MC-Unique: 48qfdNm1NeOiXiD5qFJkWw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-40c42205ed0so46327305e9.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 05:06:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1703077592; x=1703682392;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=JcDrbjyjMazetuP2IXFq19+KBQ/5Rh6HiivXC6HpT8A=;
+ b=nP5x+TsqK8H/gV3RqS0a0H193D8gU19TQMJngy8zme/Rp2xMBd+nzSU5EnsYOEqEXQ
+ MLqIiFOPpTUuyMCIDMpDOaNz+ivvnGIETQ4Lwc3FFQjBE8zibWBOi4wskUJ18ZHwA9G1
+ jh+Boa6myIpvjI5xhU4lu9E21i1TkTDS1mqMYVLTfYmZOX+yvc0MG8bUgbn+TRtSN/WF
+ 3QzB9/VGxkW8Qv5B0wjvQxaoiDthQthz+2NdGuR8x/PLBOnNwQy+FCZ3Mv83zfbPKECP
+ 3uiOVCvdmDws3C1xMhKwrE0I6Uep9bTFgMcWIr7uFhQaWSU1qtyZG8l48Z+Mv0Pnh194
+ FUug==
+X-Gm-Message-State: AOJu0YyFSErGg+8C6Lxvdzab/GvDY9RFWk/7F9GL1x4V39FTXTtbi516
+ hAG4aOC3tzktfRXmFuoBtTVCNONjST7GAiyfXLX8LtUxv9akIzNlxeIUO7Aj6o71e2NZiIgCgV2
+ G9nYD2prys0sErmb65YAN56PW9VXx
+X-Received: by 2002:a05:600c:35c5:b0:40d:2399:e8ab with SMTP id
+ r5-20020a05600c35c500b0040d2399e8abmr1373984wmq.119.1703077592265; 
+ Wed, 20 Dec 2023 05:06:32 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFRoNwYKhAj9t3QDcijJmqblCCgPo565UJi8JqwdyfEV+aS8fatsnVqDe5IgX5UWy1Iu5IsxQ==
+X-Received: by 2002:a05:600c:35c5:b0:40d:2399:e8ab with SMTP id
+ r5-20020a05600c35c500b0040d2399e8abmr1373972wmq.119.1703077591912; 
+ Wed, 20 Dec 2023 05:06:31 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ m1-20020a05600c4f4100b0040c03c3289bsm7180907wmq.37.2023.12.20.05.06.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Dec 2023 05:06:31 -0800 (PST)
+Message-ID: <3b2fbb7f-3243-4f98-90bc-edb1b4db2bb4@redhat.com>
+Date: Wed, 20 Dec 2023 14:06:30 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/mgag200: Fix gamma lut not initialized for G200ER,
+ G200EV, G200SE
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
+ airlied@redhat.com, daniel@ffwll.ch, javierm@redhat.com
+References: <20231214163849.359691-1-jfalempe@redhat.com>
+ <641bc7e1-5c13-4af1-ae2e-8cdc58ee92a9@suse.de>
+ <beec3b5d-689a-4b25-be4b-9ff7532bb2e6@redhat.com>
+In-Reply-To: <beec3b5d-689a-4b25-be4b-9ff7532bb2e6@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,61 +89,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Roger Sewell <roger.sewell@cantab.net>, stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D218292
+I just merged it to drm-misc-fixes:
 
-Bagas Sanjaya (bagasdotme@gmail.com) changed:
+https://cgit.freedesktop.org/drm/drm-misc/commit/?h=drm-misc-fixes&id=11f9eb899ecc8c02b769cf8d2532ba12786a7af7
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |bagasdotme@gmail.com
+Thanks,
 
---- Comment #1 from Bagas Sanjaya (bagasdotme@gmail.com) ---
-(In reply to mail from comment #0)
-> Hello all!
->=20
-> I=E2=80=99ve a problem with the wake up from screen sleep (not whole comp=
-uter sleeo,
-> only display) and latest kernels. When the computer screen goes to sleep =
-it
-> won=E2=80=99t wake up anymore. No mouse cursor nor i can change to tty (S=
-trg + Alt +
-> F1 =E2=80=A6). The journals logs are also empty and only a hard reset hel=
-ps. I=E2=80=99ve
-> tested it with the lastest Linux Kernel 6.6.6 and 6.6.7. Funnily if the
-> whole computer goes to sleep (for example Sleep, Hybrid Sleep or Hibernat=
-e),
-> and i disable Screen Sleep before, the screen wakes up. The problem exists
-> only when the screen goes to sleep. With older kernels (i don't know the
-> exact version, i think before 6.6.x) it does work. I've tested the same
-> behaviour on OpenSUSE Tumbleweed and Arch Linux. Also i changed to Waylan=
-d,
-> but the same problem.
->=20
+-- 
 
-Does waking up from sleep work on v6.5.y? v6.1.y? Also, can you attach
-full dmesg (from both v6.6.y and working kernel)?
+Jocelyn
 
-> Info for my System:
->=20
-> Graphics Platform: X11
-> Processors: 16 =C3=97 AMD Ryzen 7 PRO 7840U w/ Radeon 780M Graphics
-> Memory: 30,1 GiB of RAM
-> Graphics Processor: AMD Radeon Graphics
-
-What amdgpu model?
-
-> Manufacturer: LENOVO
-> Product Name: 21F80041GE
-> System Version: ThinkPad T14s Gen 4
->=20
-
-Confused...
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
