@@ -1,51 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBDBA819BC6
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 10:54:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFF61819C3F
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 11:09:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A36210E346;
-	Wed, 20 Dec 2023 09:54:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9789610E54B;
+	Wed, 20 Dec 2023 10:09:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de
- [130.133.4.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 968FC10E346
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 09:54:17 +0000 (UTC)
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
- by outpost.zedat.fu-berlin.de (Exim 4.95) with esmtps (TLS1.3)
- tls TLS_AES_256_GCM_SHA384
- (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1rFtHC-003o3L-8D; Wed, 20 Dec 2023 10:54:06 +0100
-Received: from dynamic-078-054-126-053.78.54.pool.telefonica.de
- ([78.54.126.53] helo=[192.168.1.11])
- by inpost2.zedat.fu-berlin.de (Exim 4.95) with esmtpsa (TLS1.3)
- tls TLS_AES_256_GCM_SHA384
- (envelope-from <glaubitz@physik.fu-berlin.de>)
- id 1rFtHC-000ogW-07; Wed, 20 Dec 2023 10:54:06 +0100
-Message-ID: <e897e6d5a88ec2f9024c62f7bee5c13bfb2cab55.camel@physik.fu-berlin.de>
-Subject: Re: [PATCH 00/27] sparc32: sunset sun4m and sun4d
-From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-To: Arnd Bergmann <arnd@kernel.org>, Sam Ravnborg <sam@ravnborg.org>, "David
- S . Miller" <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>
-Date: Wed, 20 Dec 2023 10:54:05 +0100
-In-Reply-To: <01ea8c41-88cd-4123-95c7-391640845fc3@app.fastmail.com>
-References: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
- <01ea8c41-88cd-4123-95c7-391640845fc3@app.fastmail.com>
-Autocrypt: addr=glaubitz@physik.fu-berlin.de; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.2 
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C1BA10E331
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 10:09:06 +0000 (UTC)
+X-UUID: c8f85e0e9f1f11eeba30773df0976c77-20231220
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=BB/db8kwBAgYmnmKYFiiM6LqADno4HrExJ7cxr5YTxs=; 
+ b=lIBMkDL7bs2HWDaru4WTJBYrxXDHxu4xeOtt3LVm1sJpFeWJnH2KYxbHSHRo5deRMtnsmr1s2wrGMpLO6XZs5HIyroFKuok4PpM/+jA8Rp3vd1dMRplVV4ck6WCvdB9bn59u/Y0ks5pK8liTpsTPPGLhL6MV/mo6UQz6laHg5IM=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.35, REQID:280067e6-3abe-41db-9c37-c72000c4bb1f, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:5d391d7, CLOUDID:9b537a7e-4f93-4875-95e7-8c66ea833d57,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
+ DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-UUID: c8f85e0e9f1f11eeba30773df0976c77-20231220
+Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by
+ mailgw02.mediatek.com (envelope-from <moudy.ho@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1194438982; Wed, 20 Dec 2023 18:08:55 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Wed, 20 Dec 2023 18:08:54 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Wed, 20 Dec 2023 18:08:54 +0800
+From: Moudy Ho <moudy.ho@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+ <conor+dt@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Matthias
+ Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Hans Verkuil
+ <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH v10 00/16] introduce more MDP3 components in MT8195
+Date: Wed, 20 Dec 2023 18:08:37 +0800
+Message-ID: <20231220100853.20616-1-moudy.ho@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-Originating-IP: 78.54.126.53
-X-ZEDAT-Hint: PO
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,28 +73,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
- linux-usb@vger.kernel.org, linux-sound@vger.kernel.org,
- Takashi Iwai <tiwai@suse.com>, dri-devel@lists.freedesktop.org,
- Jaroslav Kysela <perex@perex.cz>, Alan Stern <stern@rowland.harvard.edu>,
- Alexander Viro <viro@zeniv.linux.org.uk>, sparclinux@vger.kernel.org,
- linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ Moudy Ho <moudy.ho@mediatek.corp-partner.google.com>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2023-12-20 at 08:36 +0000, Arnd Bergmann wrote:
-> All of these were found through inspection rather than testing,
-> so there is a good chance that other fatal kernel bugs prevent
-> testing in qemu, at least until the fixes from Andreas' tree
-> are included.
+From: Moudy Ho <moudy.ho@mediatek.corp-partner.google.com>
 
-Andreas has fixes for these issues?
+Changes since v9:
+- Rebase on linux-next.
+- Dependent dtsi files:
+  Message ID = 20231030094840.2479-1-moudy.ho@mediatek.com
+- Depends on:
+  Message ID = 20231214055847.4936-1-shawn.sung@mediatek.com
+- Include the missing compatible name 'mediatek,mt8188-vdo1-rdma' in
+  patch [2/16].
 
-Adrian
+Changes since v8:
+- Rebase on linux-next.
+- Dependent dtsi files:
+  https://patchwork.kernel.org/project/linux-mediatek/list/?series=797543
+- Depends on:
+  Message ID = 20231024130048.14749-9-shawn.sung@mediatek.com
+- Following Rob's suggestion, the number of 'clocks' and 'mboxes' items are
+  restricted using the 'minItems' in [2/16] and [3/16].
+- Revise the dependent mt8188 disp padding compatible name in [16/16].
 
---=20
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer
-`. `'   Physicist
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+Changes since v7:
+- Rebase on linux-next.
+- Dependent dtsi files:
+  https://patchwork.kernel.org/project/linux-mediatek/list/?series=797543
+- Depends on:
+  Message ID = 20231024130048.14749-9-shawn.sung@mediatek.com
+- Correct the bindings of the four components: FG, TCC, TDSHP and HDR.
+  The names of the first three are expanded in the title, and
+  the descriptions of all four have been enhanced.
+
+Changes since v6:
+- Rebase on v6.6-rc5.
+- Dependent dtsi files:
+  https://patchwork.kernel.org/project/linux-mediatek/list/?series=792079
+- Depends on:
+  Message ID = 20231006073831.10402-5-shawn.sung@mediatek.com
+- Discard splitting RDMA's common properties and instead use 'allOf' to
+  isolate different platform features.
+- Revise the incorrect properties in FG, HDR, STITCH, TCC and TDAP bindings.
+- Adding SoC-specific compatible string to components, like WROT and RSZ,
+  that are inherited from MT8183.
+- Fixed typos in TCC patch and enhancing its hardware description.
+
+Changes since v5:
+- Rebase on v6.6-rc2.
+- Dependent dtsi files:
+  https://patchwork.kernel.org/project/linux-mediatek/list/?series=786511
+- Depends on:
+  Message ID = 20230911074233.31556-5-shawn.sung@mediatek.com
+- Split out common propertis for RDMA.
+- Split each component into independent patches.
+
+Changes since v4:
+- Rebase on v6.6-rc1
+- Organize identical hardware components into their respective files.
+
+Hi,
+
+The purpose of this patch is to separate the MDP3-related bindings from
+the original mailing list mentioned below:
+https://lore.kernel.org/all/20230208092209.19472-1-moudy.ho@mediatek.com/
+Those binding files describe additional components that
+are present in the mt8195.
+
+Moudy Ho (16):
+  dt-bindings: media: mediatek: mdp3: correct RDMA and WROT node with
+    generic names
+  dt-bindings: media: mediatek: mdp3: merge the indentical RDMA under
+    display
+  dt-bindings: media: mediatek: mdp3: add config for MT8195 RDMA
+  dt-bindings: media: mediatek: mdp3: add compatible for MT8195 RSZ
+  dt-bindings: media: mediatek: mdp3: add compatible for MT8195 WROT
+  dt-bindings: media: mediatek: mdp3: add component FG for MT8195
+  dt-bindings: media: mediatek: mdp3: add component HDR for MT8195
+  dt-bindings: media: mediatek: mdp3: add component STITCH for MT8195
+  dt-bindings: media: mediatek: mdp3: add component TCC for MT8195
+  dt-bindings: media: mediatek: mdp3: add component TDSHP for MT8195
+  dt-bindings: display: mediatek: aal: add compatible for MT8195
+  dt-bindings: display: mediatek: color: add compatible for MT8195
+  dt-bindings: display: mediatek: merge: add compatible for MT8195
+  dt-bindings: display: mediatek: ovl: add compatible for MT8195
+  dt-bindings: display: mediatek: split: add compatible for MT8195
+  dt-bindings: display: mediatek: padding: add compatible for MT8195
+
+ .../display/mediatek/mediatek,aal.yaml        |  1 +
+ .../display/mediatek/mediatek,color.yaml      |  1 +
+ .../display/mediatek/mediatek,mdp-rdma.yaml   | 92 ------------------
+ .../display/mediatek/mediatek,merge.yaml      |  1 +
+ .../display/mediatek/mediatek,ovl.yaml        |  1 +
+ .../display/mediatek/mediatek,padding.yaml    |  4 +-
+ .../display/mediatek/mediatek,split.yaml      | 27 ++++++
+ .../bindings/media/mediatek,mdp3-fg.yaml      | 61 ++++++++++++
+ .../bindings/media/mediatek,mdp3-hdr.yaml     | 61 ++++++++++++
+ .../bindings/media/mediatek,mdp3-rdma.yaml    | 93 ++++++++++++++++---
+ .../bindings/media/mediatek,mdp3-rsz.yaml     |  6 +-
+ .../bindings/media/mediatek,mdp3-stitch.yaml  | 61 ++++++++++++
+ .../bindings/media/mediatek,mdp3-tcc.yaml     | 62 +++++++++++++
+ .../bindings/media/mediatek,mdp3-tdshp.yaml   | 61 ++++++++++++
+ .../bindings/media/mediatek,mdp3-wrot.yaml    | 29 ++++--
+ 15 files changed, 442 insertions(+), 119 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-rdma.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-fg.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-hdr.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-stitch.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-tcc.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-tdshp.yaml
+
+-- 
+2.18.0
+
