@@ -2,44 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCD98819D7B
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 12:01:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F2DA819DB4
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 12:11:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 701D510E0A7;
-	Wed, 20 Dec 2023 11:01:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6231B10E313;
+	Wed, 20 Dec 2023 11:11:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [IPv6:2a00:1098:ed:100::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D78D10E0A7
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 11:01:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1703070069;
- bh=I8w6PJkXNy6rGE5GGqTHbqFhMg1a+ToqNjIbCukuil0=;
- h=Date:From:To:Subject:Cc:From;
- b=KAhXTKbP5GZ808RucxdEt0Yi8apDhn2C0GdSuPTEeT0Fg62Jm6jhG6AsTx8AKuF+5
- ma9qQC0aLRndsqZ+y8P3UcwHfpIMQ6AlJScqbjDcVJSYjrvpCMYJcOqTBG5oywNLgo
- Dn5XMveGxiHAYWjhtm2HTZ5kbOkDhVKWbesjc/YSlgw3W7gKnKTznpqVrP/5bugDkB
- Lz7hWvkIan9gFFKeEwyLOt+h1awLjdHPm/O5JOZmDThT5lDeTVzWblCrlM2qp/US88
- o+HiNTfw1tKrp73p1RIZvoLrSravFrxoz5Btb3yffuEcGptaLsrihAWeUVEL+xcbfu
- QIMAduUkoV1VQ==
-Received: from [100.66.96.193] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: vignesh)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id E985B3781FED;
- Wed, 20 Dec 2023 11:01:05 +0000 (UTC)
-Message-ID: <bdb53650-1888-30b8-93ee-2290d020af4a@collabora.com>
-Date: Wed, 20 Dec 2023 16:31:02 +0530
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
+ [IPv6:2607:f8b0:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9EFE10E313
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 11:11:32 +0000 (UTC)
+Received: by mail-pl1-x634.google.com with SMTP id
+ d9443c01a7336-1d3e05abcaeso9283045ad.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 03:11:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1703070692; x=1703675492; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=CW8QHigc7u7A+LxPdR2yYff29cC2tGJrVqzNJzM3nrI=;
+ b=Bl9UKmNciLhh8kxCMdqdfmyQCWwyDtKCg5a2yZRTl+JFytGITkCN6yFiUOAWiRCvFV
+ 8HCQR3JefR0YQbTJJYoLjuOG77Hq7QebRjAEl8tPk4WD4kSxgEwQX2XP09Qn0H8bBptX
+ KEOQaCN5dwQGmmdFQIUxJmCuYJC7e73uimfzaOPpSpJbWj97Kg2ItD9Pr3D7Cqpep4c7
+ CxzH1D0xqGgnzEsmIxM/TQxGCMkGUPjd+Sb/2tIX+LDCxymfEst349liTVEHRGvC9TWY
+ cvHB7seFBUaIoVu77gf4/d5HNbtujGinx/gUJzVz4GWLLhVlZchERufVcea/9xI/SQUp
+ 4rIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1703070692; x=1703675492;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=CW8QHigc7u7A+LxPdR2yYff29cC2tGJrVqzNJzM3nrI=;
+ b=ii4JBytWh2mpZFsm/Ahfe0KyuAaPRX/BFpwPI1J0A2Z84KUPwjG1XgxfFi3jWtJmmk
+ 4Cvz8ANXI0pRB7cGaB1ZgyqK1v2lzihZbBoMzOD4O7o+4tHAH9lZhYYWGMS14ccx8HNm
+ ygl/eMCoysypYbSmgbCewiAVh8t2qqrqni/oPE6NL8z5ZHKFYB7wstDodJEaNYVHq8JR
+ /pcGReAL5KcLdGaCN08z0dmw1xedv5nKgffmWN2lW3xDm4mb95u07BxvpTb1g0AXYL4d
+ Wf/91jzLXObkwDamHiPTUcyWxQcBM3V9OAYdgL+tBiOyG3EpfMA/ddWDqfp0l79lNBx4
+ JusA==
+X-Gm-Message-State: AOJu0Yw0/1H61BohBJn2L/gWvXGhR1oDpoH18as6tQJwxQno8Kwcn4TQ
+ 0/mH8nKGs0OIAea4lergz8Q=
+X-Google-Smtp-Source: AGHT+IGpcm3ixSliatDE5AEQWq865kgGOdLVdZhDB9BzNjLdE46gUA+YSII+K9jbur9v6K3pU26NBg==
+X-Received: by 2002:a17:902:8bc6:b0:1d0:c942:37c4 with SMTP id
+ r6-20020a1709028bc600b001d0c94237c4mr10322705plo.52.1703070692228; 
+ Wed, 20 Dec 2023 03:11:32 -0800 (PST)
+Received: from [192.168.0.106] ([103.131.18.64])
+ by smtp.gmail.com with ESMTPSA id
+ b16-20020a170902d51000b001d365153d09sm11871707plg.184.2023.12.20.03.11.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Dec 2023 03:11:31 -0800 (PST)
+Message-ID: <846e883c-e3ae-426f-83e3-38e357e53ef3@gmail.com>
+Date: Wed, 20 Dec 2023 18:11:25 +0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: Automatically update drm CI dependencies?
 Content-Language: en-US
-From: Vignesh Raman <vignesh.raman@collabora.com>
-To: hjc@rock-chips.com, heiko@sntech.de
-Subject: Flaky tests for rockchip rk3288/rk3399
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: Helen Koike <helen.koike@collabora.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>
+References: <ZXrNI9Pqln9HVYVc@archie.me>
+ <1844c32e-13f9-4225-88a7-1c621a3bfc75@collabora.com>
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <1844c32e-13f9-4225-88a7-1c621a3bfc75@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,93 +78,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Stone <daniels@collabora.com>, linux-rockchip@lists.infradead.org,
- Guilherme Alcarde Gallo <guilherme.gallo@collabora.com>,
- Sergi Blanch Torne <sergi.blanch.torne@collabora.com>,
- dri-devel@lists.freedesktop.org,
- David Heidelberg <david.heidelberg@collabora.com>,
- Helen Mae Koike Fornazier <helen.koike@collabora.com>
+Cc: David Heidelberg <david.heidelberg@collabora.com>,
+ Dorine Tipo <dorine.a.tipo@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maintainers,
+On 12/19/23 23:43, Helen Koike wrote:
+> Hi,
+> 
+> On 14/12/2023 06:38, Bagas Sanjaya wrote:
+>> Hi all,
+>>
+>> I'm referring to dependabot PR on torvalds.git GitHub mirror [1]. I know
+>> that PRs submitted there are not accepted (the repo is essentially read-only
+>> mirror), hence this mail question.
+>>
+>> In summary, dependabot submitted automated PR that bumps package versions
+>> in `drivers/gpu/drm/ci/xfails/requirements.txt`. In this case, pip was
+>> upgraded to 23.3.
+>>
+>>  From my experience, such automated PRs can pollute commit history (in
+>> some GitHub projects these PR kind can contribute up to half of total
+>> commits since the beginning of project). And in some projects, dependabot
+>> PRs are automatically merged without any maintainer intervention.
+>>
+>> Does such PRs (when submitted to LKML these will be patches) make sense
+>> for DRM subsystem?
+>>
+>> Thanks.
+>>
+>> [1]: https://github.com/torvalds/linux/pull/807
+>>
+> 
+> imho I rather not having this automated patches, but I would like to hear the opinions from others.
+> 
 
-There are some flaky tests reported for rk3288 and rk3399 rockchip-drm 
-display driver testing in drm-ci.
+But why? Did you mean that making the CI always depends on latest version
+of dependencies create another maintenance variable (and may constantly
+broke CI)?
 
-=== rockchip rk3288 ===
-# Board Name: rk3288-veyron-jaq.dtb
-# Failure Rate: 50
-# IGT Version: 1.28-gd2af13d9f
-# Linux Version: 6.7.0-rc3
+Confused...
 
-Pipeline url:
-https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/52974828
-https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/52979524
-https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/52933410
+-- 
+An old man doll... just what I always wanted! - Clara
 
-# Reported by deqp-runner
-kms_cursor_crc@cursor-offscreen-64x21
-kms_cursor_crc@cursor-offscreen-32x32
-
-kms_cursor_legacy@flip-vs-cursor-legacy:
-(kms_cursor_legacy:1366) CRITICAL: Test assertion failure function 
-flip_vs_cursor, file ../tests/kms_cursor_legacy.c:1015:
-(kms_cursor_legacy:1366) CRITICAL: Failed assertion: 
-kmstest_get_vblank(display->drm_fd, pipe, 0) == vblank_start
-(kms_cursor_legacy:1366) CRITICAL: error: 25330 != 25329
-Received signal SIGSEGV.
-
-# The below test shows inconsistency across multiple runs, giving
-# results of Pass and Crash alternately.
-kms_cursor_crc@cursor-size-change:
-(kms_cursor_crc:1047) igt_pipe_crc-CRITICAL: Test assertion failure 
-function igt_assert_crc_equal, file ../lib/igt_pipe_crc.c:112:
-(kms_cursor_crc:1047) igt_pipe_crc-CRITICAL: Failed assertion: !mismatch 
-|| igt_skip_crc_compare
-(kms_cursor_crc:1047) igt_pipe_crc-CRITICAL: Last errno: 11, Resource 
-temporarily unavailable
-Received signal SIGSEGV.
-
-
-=== rockchip rk3399 ===
-# Board Name: rk3399-gru-kevin.dtb
-# Failure Rate: 50
-# IGT Version: 1.28-gd2af13d9f
-# Linux Version: 6.7.0-rc3
-
-Pipeline url:
-https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/52978575
-https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/52940368
-https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/52933412
-https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/52929703
-
-# Reported by deqp-runner
-kms_color@gamma
-kms_cursor_legacy@cursorA-vs-flipA-toggle
-kms_flip@dpms-vs-vblank-race
-kms_flip@dpms-vs-vblank-race-interruptible
-kms_flip@flip-vs-absolute-wf_vblank-interruptible
-kms_flip@flip-vs-wf_vblank-interruptible
-kms_flip@modeset-vs-vblank-race-interruptible
-kms_pipe_crc_basic@compare-crc-sanitycheck-xr24
-kms_setmode@basic
-
-# The below test shows inconsistency across multiple runs, giving
-# results of Pass and Fail alternately.
-kms_cursor_crc@cursor-rapid-movement-32x10:
-(kms_cursor_crc:1495) igt_fb-DEBUG: Test requirement passed: 
-cairo_surface_status(fb->cairo_surface) == CAIRO_STATUS_SUCCESS
-(kms_cursor_crc:1495) igt_core-INFO: Timed out: Opening crc fd, and poll 
-for first CRC.
-
-I will add these tests in 
-drivers/gpu/drm/ci/xfails/rockchip-rk3288-display-flakes.txt and 
-drivers/gpu/drm/ci/xfails/rockchip-rk3399-display-flakes.txt 
-(https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/Documentation/gpu/automated_testing.rst#n70)
-
-Please could you have a look at these test results and let us know if 
-you need more information. Thank you.
-
-Regards,
-Vignesh
