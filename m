@@ -1,65 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76D0A81A1EE
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 16:12:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 359FC81A211
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 16:19:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C31EA10E5C5;
-	Wed, 20 Dec 2023 15:12:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED84C10E5C1;
+	Wed, 20 Dec 2023 15:18:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F65810E5C5
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 15:12:47 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id
- 5b1f17b1804b1-40c60dfa5bfso67641685e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 07:12:47 -0800 (PST)
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7A6610E5C1
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 15:18:54 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id
+ 5b1f17b1804b1-40d38f03712so4171505e9.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 07:18:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1703085166; x=1703689966; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1703085533; x=1703690333; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=yicW/0g5zGKG++pwwlmWWUmEq4VzIsF4byaTzV8risI=;
- b=P32uLuiw+t7y1UmPDvcj07bMC/WeK0FuK4r3pRMQhMAT9trZFv7P6lF1aa9C3wDJCD
- lAOQNkZ9o/QQZTfpeH4JceCTCtV1vyRH0PODVHNFNVSn9eKtROH3o2qtgPeCZ3+D7tEG
- 9LJK+831e8T2m+aSiO35T5B+ZUBNFjzWqu0yjmdqkDch9kwY3NL6LMstFxMlik3wDqw2
- YQTGXRox2uQPMq1WzKMAM7DzPh/nYEqcJ4L6VvMndDc1ghaWK3pxILpXCq5+FxQiZNoG
- 7Y9PgcXUPRRu+mUpHEzN73d14KMamCMHWe/VlhGUHm/fP+Mx1AXPYy4uZlhUglqcQ1nO
- P4cg==
+ bh=XQznE3T4sDko9wo85ONtxZv9jJ6ZRKGfTKvps55TZXU=;
+ b=mxVziUwhLFhUUTAkpOx/SA2IzqLoBNNZDdw7oOBpDmL0KtfK8aBq3olHsGg5URSQx6
+ 4SBKcy3N+b+PLMh+rHD4lyPXIbGEf0HVG9xyy4XWmAmTSlNR8YsKPERWArGK1nUnmf9j
+ hYjvhzttFkLKz/eR5MTjNzRkFxwl2cGMmHVfGGnA0yQ06N7JIivSGYOP7gM1MgjuKpI7
+ u7M762b3AeJXnxh6xYPgB2gIeJpXE2eHwqlurnr+zRBtUKhqKnvVzbPi6uDu7ftrCKc3
+ KOiXmAtYEwT83FIsVl1bzDf2ej1g7G/KeLvlP0J9pCXHfKzgTfjPTd1hWTaluX7Tqmuq
+ Njiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1703085166; x=1703689966;
+ d=1e100.net; s=20230601; t=1703085533; x=1703690333;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=yicW/0g5zGKG++pwwlmWWUmEq4VzIsF4byaTzV8risI=;
- b=YnvFrsh/tg/MacmN4L6yVU8IJxKzCF7I8uI0ppAE4t73MRvBDjeNHsvBCUVXIMqZXD
- qdvLW2REdXeSKe9w7PJYrne0f7oP6fFE/jOfR8+51MNrQ7cLNTj+w+0Ymf2NA43fUG+Q
- afk9Djs3/KJtFuTOZigF/WXVRC5ZraE677yNYE5PyCGGX9Gx81TeL1ccAeP4jyp0guDK
- z7Ain9whh1w/JoLdsVcmbp5X2S7fcDLcfXIo89lCNY80k3sejwvxhI+nqsc70ByKqgtd
- EfNgXRMw0W+LNr/f7i+JDQwKoCnCWaZlmRZCpBCcmePG5HcqRmsg2+rJgG+QFLBnweG6
- I5ig==
-X-Gm-Message-State: AOJu0YwP9kC0k4ztUA8dLDs2I5CrY1wARZHKrXHAbqIYb1LYLxypzKAd
- 70NMyqqTAZTEM+HdGdGHUzLXaFxjB/RZfA==
-X-Google-Smtp-Source: AGHT+IEKaIqHWDfrMHQzZy/DZQAUnHiC5clwJLE6Mzl2x0m3qk5dXSE5YR5bdZlk9zrAuj1HQst5eA==
-X-Received: by 2002:a05:600c:4d0e:b0:40b:47c5:35e4 with SMTP id
- u14-20020a05600c4d0e00b0040b47c535e4mr10309451wmp.39.1703085165645; 
- Wed, 20 Dec 2023 07:12:45 -0800 (PST)
+ bh=XQznE3T4sDko9wo85ONtxZv9jJ6ZRKGfTKvps55TZXU=;
+ b=dYLdhc4W2O4df0N3vxszhKYTKl4jHuFbe7VMH4pxSZMyXQ5HmU5x3iZp3QLYoYZq/8
+ mXVRaIeU96BAEiAZGDPmjQmJCYyowVv/DueFshF9yumnc3HwnjTBbh1z60Slilbdrrdi
+ JadcvEtf0Hf0AsDT70aWQKrQjGQ2ZGUDg7yT5vNQBU8dZZ1HnP7LY/Rn4auHQh+I43wo
+ eE1m7acsVwhPdGE64BLkXWVFmh+fXySic0xQlT6mAETBIz0m5/LES8/IITtpXEaav2a2
+ J98MWq1eghKhHGpix7gnHIQlOIt/IPfzjjL0LowDzcLS8AVwsMOzRLnuvcsZFXw1zy+r
+ 25ZQ==
+X-Gm-Message-State: AOJu0YzCwOTicCNdBqB5vOJCn7+dl/G8EA8sSzRddhSkbUko0FSrnfyZ
+ p90prsSOTt/N1qOwRXXHCOQ=
+X-Google-Smtp-Source: AGHT+IHpTRb9ZsNlOdTaOnmxWls02DlZ24RU1byhkjNqQfZJBGR9fk7exiKPi9UZ9wdarAw/oWoKfA==
+X-Received: by 2002:a05:600c:c10:b0:40d:33cb:b577 with SMTP id
+ fm16-20020a05600c0c1000b0040d33cbb577mr716095wmb.3.1703085532684; 
+ Wed, 20 Dec 2023 07:18:52 -0800 (PST)
 Received: from jernej-laptop.localnet (82-149-12-148.dynamic.telemach.net.
  [82.149.12.148]) by smtp.gmail.com with ESMTPSA id
- e2-20020adfef02000000b00336644c400bsm9770223wro.64.2023.12.20.07.12.44
+ j35-20020a05600c1c2300b0040b3515cdf8sm3593917wms.7.2023.12.20.07.18.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Dec 2023 07:12:45 -0800 (PST)
+ Wed, 20 Dec 2023 07:18:52 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Frank Oltmanns <frank@oltmanns.dev>
-Subject: Re: [PATCH 4/5] clk: sunxi-ng: a64: Add constraints on PLL-VIDEO0's
- n/m ratio
-Date: Wed, 20 Dec 2023 16:12:42 +0100
-Message-ID: <2174554.Mh6RI2rZIc@jernej-laptop>
-In-Reply-To: <87il4t9wi1.fsf@oltmanns.dev>
+Subject: Re: [PATCH 5/5] drm/panel: st7703: Drive XBD599 panel at higher clock
+ rate
+Date: Wed, 20 Dec 2023 16:18:49 +0100
+Message-ID: <1845418.atdPhlSkOF@jernej-laptop>
+In-Reply-To: <87edfh9ud8.fsf@oltmanns.dev>
 References: <20231218-pinephone-pll-fixes-v1-0-e238b6ed6dc1@oltmanns.dev>
- <13411739.uLZWGnKmhe@jernej-laptop> <87il4t9wi1.fsf@oltmanns.dev>
+ <10386431.nUPlyArG6x@jernej-laptop> <87edfh9ud8.fsf@oltmanns.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
@@ -89,83 +89,126 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dne sreda, 20. december 2023 ob 08:09:28 CET je Frank Oltmanns napisal(a):
+Dne sreda, 20. december 2023 ob 08:14:27 CET je Frank Oltmanns napisal(a):
 >=20
-> On 2023-12-19 at 17:54:19 +0100, Jernej =C5=A0krabec <jernej.skrabec@gmai=
+> On 2023-12-19 at 18:04:29 +0100, Jernej =C5=A0krabec <jernej.skrabec@gmai=
 l.com> wrote:
-> > Dne ponedeljek, 18. december 2023 ob 14:35:22 CET je Frank Oltmanns nap=
+> > Dne ponedeljek, 18. december 2023 ob 14:35:23 CET je Frank Oltmanns nap=
 isal(a):
-> >> The Allwinner A64 manual lists the following constraint for the
-> >> PLL-VIDEO0 clock: 8 <=3D N/M <=3D 25
+> >> This panel is used in the pinephone that runs on a Allwinner A64 SOC.
+> >> Acoording to it's datasheet, the SOC requires PLL-MIPI to run at more
+> >> than 500 MHz.
 > >>
-> >> Use this constraint.
+> >> Therefore, change [hv]sync_(start|end) so that we reach a clock rate
+> >> that is high enough to drive PLL-MIPI within its limits.
 > >>
 > >> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
-> >> ---
-> >>  drivers/clk/sunxi-ng/ccu-sun50i-a64.c | 8 ++++++--
-> >>  1 file changed, 6 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c b/drivers/clk/sunxi=
-=2Dng/ccu-sun50i-a64.c
-> >> index c034ac027d1c..75d839da446c 100644
-> >> --- a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
-> >> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
-> >> @@ -68,7 +68,8 @@ static SUNXI_CCU_NM_WITH_SDM_GATE_LOCK(pll_audio_bas=
-e_clk, "pll-audio-base",
-> >>  				       BIT(28),	/* lock */
-> >>  				       CLK_SET_RATE_UNGATE);
-> >>
-> >> -static SUNXI_CCU_NM_WITH_FRAC_GATE_LOCK_MIN_MAX_CLOSEST(pll_video0_cl=
-k, "pll-video0",
-> >> +static SUNXI_CCU_NM_WITH_FRAC_GATE_LOCK_MIN_MAX_FEAT_NM_RATIO(pll_vid=
-eo0_clk,
-> >> +						"pll-video0",
-> >>  						"osc24M", 0x010,
-> >>  						192000000,	/* Minimum rate */
-> >>  						1008000000,	/* Maximum rate */
-> >> @@ -80,7 +81,10 @@ static SUNXI_CCU_NM_WITH_FRAC_GATE_LOCK_MIN_MAX_CLO=
-SEST(pll_video0_clk, "pll-vid
-> >>  						297000000,	/* frac rate 1 */
-> >>  						BIT(31),	/* gate */
-> >>  						BIT(28),	/* lock */
-> >> -						CLK_SET_RATE_UNGATE);
-> >> +						CLK_SET_RATE_UNGATE,
-> >> +						CCU_FEATURE_FRACTIONAL |
-> >> +						CCU_FEATURE_CLOSEST_RATE,
 > >
-> > Above flags are unrelated change, put them in new patch if needed.
+> > I'm not too sure about this patch. I see that PLL_MIPI doesn't have set
+> > minimum frequency limit in clock driver. If you add it, clock framework
+> > should find rate that is high enough and divisible with target rate.
 >=20
-> You might notice that I am using a new macro for initializing the
-> pll_video0_clk struct:
-> New: SUNXI_CCU_NM_WITH_FRAC_GATE_LOCK_MIN_MAX_FEAT_NM_RATIO
-> Old: SUNXI_CCU_NM_WITH_FRAC_GATE_LOCK_MIN_MAX_CLOSEST
+> This one is really a tough nut. Unfortunately, the PLL_MIPI clock for
+> this panel has to run exactly at 6 * panel clock. Let me start by
+> showing the relevant part of the clock tree (this is on the pinephone
+> after applying the patches):
+>     pll-video0                 393600000
+>        pll-mipi                500945454
+>           tcon0                500945454
+>              tcon-data-clock   125236363
 >=20
-> Setting the two CCU_FEATURE flags is part of the old initialization
-> macro.
+> To elaborate, tcon-data-clock has to run at 1/4 the DSI per-lane bit
+> rate [1]. It's a fixed divisor
 >=20
-> I'll add SUNXI_CCU_NM_WITH_FRAC_GATE_LOCK_MIN_MAX_NM_RATIO_CLOSEST which
-> hopefully resolves the confusion.
+> The panel I'm proposing to change is defined as this:
+>=20
+>     static const struct st7703_panel_desc xbd599_desc =3D {
+>     	.mode =3D &xbd599_mode,
+>     	.lanes =3D 4,
+>     	.mode_flags =3D MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE,
+>     	.format =3D MIPI_DSI_FMT_RGB888,
+>     	.init_sequence =3D xbd599_init_sequence,
+>     };
+>=20
+> So, we have 24 bpp and 4 lanes. Therefore, the resulting requested
+> tcon-data-clock rate is
+>     crtc_clock * 1000 * (24 / 4) / 4
+>=20
+> tcon-data-clock therefore requests a parent rate of
+>     4 * (crtc_clock * 1000 * (24 / 4) / 4)
+>=20
+> The initial 4 is the fixed divisor between tcon0 and tcon-data-clock.
+> Since tcon0 is a ccu_mux, the rate of tcon0 equals the rate of pll-mipi.
+>=20
+> Since PLL-MIPI has to run at at least at 500MHz this forces us to have a
+> crtc_clock >=3D 83.333 MHz. The mode I'm prorposing results in a rate of
+> 83.502 MHz.
 
-I'm in doubt if we need so many macros. How many users of these macro we'll=
- have?
-I see that R40 SoC would also need same ratio limits, but other that that, =
-none?
+This is much better explanation why this change is needed. Still, I think
+adding min and max rate to PLL_MIPI would make sense, so proper rates
+are guaranteed.
+
+Anyway, do you know where are all those old values come from? And how did
+you come up with new ones? I guess you can't just simply change timings,
+there are probably some HW limitations? Do you know if BSP kernel support
+this panel and how this situation is solved there?
+
+>=20
+> If we only changed the constraints on the PLL_MIPI without changing the
+> panel mode, we end up with a mismatch. This, in turn, would result in
+> dropped frames, right?
+
+=46rom what I read, I think frame rate would be higher than 60 fps. What
+exactly would happen depends on the panel.
 
 Best regards,
 Jernej
 
 >=20
-> Thanks,
+> Best regards,
 >   Frank
+>=20
+> [1] Source:
+> https://elixir.bootlin.com/linux/v6.6.7/source/drivers/gpu/drm/sun4i/sun4=
+i_tcon.c#L346
 >=20
 > >
 > > Best regards,
 > > Jernej
 > >
-> >> +						8, 25);		/* min/max nm ratio */
+> >> ---
+> >>  drivers/gpu/drm/panel/panel-sitronix-st7703.c | 14 +++++++-------
+> >>  1 file changed, 7 insertions(+), 7 deletions(-)
 > >>
-> >>  static SUNXI_CCU_NM_WITH_FRAC_GATE_LOCK(pll_ve_clk, "pll-ve",
-> >>  					"osc24M", 0x018,
+> >> diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7703.c b/drivers/g=
+pu/drm/panel/panel-sitronix-st7703.c
+> >> index b55bafd1a8be..6886fd7f765e 100644
+> >> --- a/drivers/gpu/drm/panel/panel-sitronix-st7703.c
+> >> +++ b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
+> >> @@ -320,14 +320,14 @@ static int xbd599_init_sequence(struct st7703 *c=
+tx)
+> >>
+> >>  static const struct drm_display_mode xbd599_mode =3D {
+> >>  	.hdisplay    =3D 720,
+> >> -	.hsync_start =3D 720 + 40,
+> >> -	.hsync_end   =3D 720 + 40 + 40,
+> >> -	.htotal	     =3D 720 + 40 + 40 + 40,
+> >> +	.hsync_start =3D 720 + 65,
+> >> +	.hsync_end   =3D 720 + 65 + 65,
+> >> +	.htotal      =3D 720 + 65 + 65 + 65,
+> >>  	.vdisplay    =3D 1440,
+> >> -	.vsync_start =3D 1440 + 18,
+> >> -	.vsync_end   =3D 1440 + 18 + 10,
+> >> -	.vtotal	     =3D 1440 + 18 + 10 + 17,
+> >> -	.clock	     =3D 69000,
+> >> +	.vsync_start =3D 1440 + 30,
+> >> +	.vsync_end   =3D 1440 + 30 + 22,
+> >> +	.vtotal	     =3D 1440 + 30 + 22 + 29,
+> >> +	.clock	     =3D (720 + 65 + 65 + 65) * (1440 + 30 + 22 + 29) * 60 / =
+1000,
+> >>  	.flags	     =3D DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
+> >>  	.width_mm    =3D 68,
+> >>  	.height_mm   =3D 136,
 > >>
 > >>
 >=20
