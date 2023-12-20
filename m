@@ -2,53 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3829819F85
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 14:09:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E06D81A01C
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 14:46:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDA9910E59F;
-	Wed, 20 Dec 2023 13:09:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7252710E58B;
+	Wed, 20 Dec 2023 13:46:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D174310E59F
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 13:09:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1703077792; x=1734613792;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=YmJJ/ywwMFUEe1HB9Rdue5kNC/FoUdtA01gR+RQluFc=;
- b=JXWzBHVtS4hdOjzy1UY6l7Hpm8477abh9YizZTRhF7fCrKZSze46AHKz
- bBEj1iOVPKSTcNaZhOuRbICht7kYLMjMBXWKu1dknYXu1f9d1hDSVVqZP
- Cik3knpEMuG1j/mE0047+iPF6pUxfJL6MJYO8JzLp2LAe8kHyPzOieiYu
- hFl5IDTV92+fzmM08gS+pPFrhPTMKC5SkJiFedKm48GTkd9FIMuMiokUr
- iGcks01buL5R1sV+q269/U0IeHcfK1W1hgi0rtjWJzUprG+gBcIVXOenC
- lgMzPAK8xe+5fAE/zFUXbAn8YH4XY26FjIi+RyIjGCUYUogZsj5sYw3Gx Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="375966913"
-X-IronPort-AV: E=Sophos;i="6.04,291,1695711600"; d="scan'208";a="375966913"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Dec 2023 05:09:52 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,291,1695711600"; d="scan'208";a="10751570"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
- by fmviesa002.fm.intel.com with ESMTP; 20 Dec 2023 05:09:45 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1rFwKV-0006tP-0m;
- Wed, 20 Dec 2023 13:09:43 +0000
-Date: Wed, 20 Dec 2023 21:09:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alexey Makhalov <alexey.makhalov@broadcom.com>,
- linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
- bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com,
- mingo@redhat.com, tglx@linutronix.de
-Subject: Re: [PATCH v3 6/6] x86/vmware: Add TDX hypercall support
-Message-ID: <202312202020.5O1T2aSk-lkp@intel.com>
-References: <20231219215751.9445-7-alexey.makhalov@broadcom.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de
+ [IPv6:2a07:de40:b251:101:10:150:64:1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FE8910E579
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 13:46:49 +0000 (UTC)
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:98])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 1D6E622325;
+ Wed, 20 Dec 2023 13:46:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1703080008; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=V7rBKRF5U987GZ2V8rZcJdNb2y/t5gEqQqzMEkY87+0=;
+ b=CvP87Lp96ZVhf93/hO3DsuljHUILOS3KNAgoxKETii+o2l5q6E3h6DCvDV5gokHO9d5Z+J
+ EqN9MbnuF4V//nc8R++1ezMg/eS53MzD81wuNSB8vgfLwvJVewhno6gd8G9rO1ho6HKqqN
+ dz9+40ppv71zhCHdyrRnb1sOrUNcUCo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1703080008;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=V7rBKRF5U987GZ2V8rZcJdNb2y/t5gEqQqzMEkY87+0=;
+ b=3Ak8jNhlSRr9Pbh/PwzdWin3e9M9Tbf8Z+qbFEFZ1v9j/LOZo6qEq436tAtxZgYuSux0Am
+ RQLud70eryy2omBA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1703080007; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=V7rBKRF5U987GZ2V8rZcJdNb2y/t5gEqQqzMEkY87+0=;
+ b=W6ZQsU/yggrAGOPSa2X/Kds/aUT6z90Mo30fuBRW7jmbJOBHQhIKfQY0OWYdZcm8viPqpD
+ lel+P0rVGiGjeb3R3IQqD9oVxmubZReaZeWcEz3s3MTaOJg1uNSzfHI1JUXC8x+jZGfqFC
+ NeN3DP75uaADwHkQ+aB54ElaO9KAZls=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1703080007;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=V7rBKRF5U987GZ2V8rZcJdNb2y/t5gEqQqzMEkY87+0=;
+ b=wTc+iQ6tLepEtqIn0nxfOKzjoh6QXPl0IjAvpJHQ7s4Ts1IwJhvJTQOvm0rNF4+exHA5n6
+ IhXPl+9saIJXH+BQ==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id DD91513A08;
+ Wed, 20 Dec 2023 13:46:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+ by imap2.dmz-prg2.suse.org with ESMTPSA id 4W3VNEbwgmWZJwAAn2gu4w
+ (envelope-from <tzimmermann@suse.de>); Wed, 20 Dec 2023 13:46:46 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: deller@gmx.de,
+	James.Bottomley@HansenPartnership.com,
+	arnd@arndb.de
+Subject: [PATCH 0/4] arch/parisc: Detect primary framebuffer from device
+Date: Wed, 20 Dec 2023 14:22:53 +0100
+Message-ID: <20231220134639.8190-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231219215751.9445-7-alexey.makhalov@broadcom.com>
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: ***
+X-Spamd-Bar: +++
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b="W6ZQsU/y";
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=wTc+iQ6t
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [3.49 / 50.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
+ TO_DN_SOME(0.00)[]; R_MISSING_CHARSET(2.50)[];
+ BROKEN_CONTENT_TYPE(1.50)[]; RCVD_COUNT_THREE(0.00)[3];
+ DKIM_TRACE(0.00)[suse.de:+]; MX_GOOD(-0.01)[];
+ RCPT_COUNT_SEVEN(0.00)[7]; NEURAL_HAM_SHORT(-0.20)[-1.000];
+ FREEMAIL_TO(0.00)[gmx.de,HansenPartnership.com,arndb.de];
+ FROM_EQ_ENVFROM(0.00)[]; MIME_TRACE(0.00)[0:+];
+ BAYES_HAM(-0.00)[22.46%]; ARC_NA(0.00)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmx.de];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ MID_CONTAINS_FROM(1.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: 3.49
+X-Rspamd-Queue-Id: 1D6E622325
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,86 +105,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jsipek@vmware.com, linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
- horms@kernel.org, zackr@vmware.com, pv-drivers@vmware.com,
- netdev@vger.kernel.org, richardcochran@gmail.com, llvm@lists.linux.dev,
- x86@kernel.org, dri-devel@lists.freedesktop.org, akaher@vmware.com,
- timothym@vmware.com, linux-graphics-maintainer@vmware.com, mripard@kernel.org,
- tzimmermann@suse.de, oe-kbuild-all@lists.linux.dev, namit@vmware.com,
- airlied@gmail.com, kirill.shutemov@linux.intel.com
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-parisc@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Alexey,
+On parisc, change detection of the primary framebuffer to test for
+the Linux device instead of fbdev's fb_info in fb_is_primary_device().
+Makes the test independent from fbdev.
 
-kernel test robot noticed the following build warnings:
+This patchset is part of a larger effort to clean up the low-level
+display handling. There are various functions that attempt to detect
+the system's primary framebuffer device, such as in vgaarb, [1]
+fbcon, [2] or fbmon. [3] This code should be unified in a single helper
+that implements the test. The function fb_is_primary_device() already
+does this, but requires fbdev on parisc. With the patchset applied, the
+parisc implementation tests directly with the Linux device. No fbdev is
+required.
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on dtor-input/next dtor-input/for-linus linus/master v6.7-rc6 next-20231220]
-[cannot apply to tip/x86/vmware]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Patch 1 adds the framebuffer's Linux device to the STI ROM structures,
+which represents the graphics firmware. Patches 2 updates the stifb
+driver to refer to the correct Linux device. The device is used in
+patch 3 to change the test in fb_is_primary_device(). Patch 4 removes
+the obsolete fb_info from the STI ROM structures.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexey-Makhalov/x86-vmware-Move-common-macros-to-vmware-h/20231220-060028
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20231219215751.9445-7-alexey.makhalov%40broadcom.com
-patch subject: [PATCH v3 6/6] x86/vmware: Add TDX hypercall support
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231220/202312202020.5O1T2aSk-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231220/202312202020.5O1T2aSk-lkp@intel.com/reproduce)
+A later patchset will update the interface of fb_is_primary_device() to
+receive a Linux device instead of an instance of fb_info. This involves
+several architectures, so it better done in a separate patch.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312202020.5O1T2aSk-lkp@intel.com/
+[1] https://elixir.bootlin.com/linux/v6.6/source/drivers/pci/vgaarb.c#L557
+[2] https://elixir.bootlin.com/linux/v6.6/source/drivers/video/fbdev/core/fbcon.c#L2943
+[3] https://elixir.bootlin.com/linux/v6.6/source/drivers/video/fbdev/core/fbmon.c#L1503
 
-All warnings (new ones prefixed by >>):
+Thomas Zimmermann (4):
+  video/sticore: Store ROM device in STI struct
+  fbdev/stifb: Allocate fb_info instance with framebuffer_alloc()
+  arch/parisc: Detect primary video device from device instance
+  video/sticore: Remove info field from STI struct
 
->> arch/x86/kernel/cpu/vmware.c:439:40: warning: format specifies type 'unsigned int' but the argument has type 'unsigned long' [-Wformat]
-                   pr_warn("Out of range command %x\n", cmd);
-                                                 ~~     ^~~
-                                                 %lx
-   include/linux/printk.h:508:37: note: expanded from macro 'pr_warn'
-           printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-                                      ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:455:60: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                                                       ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
-                   _p_func(_fmt, ##__VA_ARGS__);                           \
-                           ~~~~    ^~~~~~~~~~~
-   1 warning generated.
+ arch/parisc/video/fbdev.c   |   2 +-
+ drivers/video/fbdev/stifb.c | 109 ++++++++++++++++++------------------
+ drivers/video/sticore.c     |   5 ++
+ include/video/sticore.h     |   6 +-
+ 4 files changed, 65 insertions(+), 57 deletions(-)
 
 
-vim +439 arch/x86/kernel/cpu/vmware.c
-
-   430	
-   431	#ifdef CONFIG_INTEL_TDX_GUEST
-   432	unsigned long vmware_tdx_hypercall(unsigned long cmd,
-   433					   struct tdx_module_args *args)
-   434	{
-   435		if (!hypervisor_is_type(X86_HYPER_VMWARE))
-   436			return 0;
-   437	
-   438		if (cmd & ~VMWARE_CMD_MASK) {
- > 439			pr_warn("Out of range command %x\n", cmd);
-   440			return 0;
-   441		}
-   442	
-   443		args->r10 = VMWARE_TDX_VENDOR_LEAF;
-   444		args->r11 = VMWARE_TDX_HCALL_FUNC;
-   445		args->r12 = VMWARE_HYPERVISOR_MAGIC;
-   446		args->r13 = cmd;
-   447	
-   448		__tdx_hypercall(args);
-   449	
-   450		return args->r12;
-   451	}
-   452	EXPORT_SYMBOL_GPL(vmware_tdx_hypercall);
-   453	#endif
-   454	
-
+base-commit: 8da6351b7194938a876184d34c4c0802e805d3cf
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
