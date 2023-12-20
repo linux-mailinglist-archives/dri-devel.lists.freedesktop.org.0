@@ -2,71 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2600E819D49
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 11:48:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCD98819D7B
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 12:01:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 225C310E337;
-	Wed, 20 Dec 2023 10:48:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 701D510E0A7;
+	Wed, 20 Dec 2023 11:01:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D29910E337
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 10:48:17 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 5F558615E4;
- Wed, 20 Dec 2023 10:48:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C343C433C9;
- Wed, 20 Dec 2023 10:48:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1703069296;
- bh=affP7wF8+XMw8uG5v8noirtoXKryiDk9LMZdxtuSBpQ=;
- h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
- b=WccBeKYu1X+hqSW24q0mFGP3KDKZ7RzPDM0pm2HpuKJZ8Yja8m8M9lSpLbJRMV295
- AnMLjR956icFaR1wFTju5W8NNHaLacr+6WycC6l1Gdyq9Q6SoMy706bGsoNJfbZtAK
- XeaaljEXsgUv2FNdjfswg610tCQEJchtQrCRJN/NIIIznqFoefS3/C9hBjARTeQ0cw
- OYDaf8dgs4p0N9hfOxnGthL1MiDH03H6gXTuEH7s3mblTA++YosBvK3fG7KLnDWzhS
- IErCEk7yD+5CTC6APCXSDp49+Jwe/6UI9qyGx4A++KLuYUz8oW9447nx6MZxJhWk1K
- N7xmv+vmOzw4g==
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailauth.nyi.internal (Postfix) with ESMTP id 59CCC27C0061;
- Wed, 20 Dec 2023 05:48:14 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
- by compute5.internal (MEProxy); Wed, 20 Dec 2023 05:48:14 -0500
-X-ME-Sender: <xms:bcaCZa-dYaDSNN36puMBjYL2UZjPu7XIDmrS9ZbAtZmLOLHzRsRkmQ>
- <xme:bcaCZat5hWRhwFchay4HQaiInMmMJezm4FaDG4D7qWJ-QMer37ZYU0DBDBILQhArg
- 4Ew8i-upCvuurJzD3s>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdduvddgvdduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
- nhguuceuvghrghhmrghnnhdfuceorghrnhgusehkvghrnhgvlhdrohhrgheqnecuggftrf
- grthhtvghrnhepgedtudegtdejhfdtjeeglefhhfduhedtjeejgeegieelgeduudeiueev
- ffetjefgnecuffhomhgrihhnpehqvghmuhdrohhrghenucevlhhushhtvghrufhiiigvpe
- dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugdomhgvshhmthhprghuthhhphgv
- rhhsohhnrghlihhthidquddvkeehudejtddvgedqvdekjedttddvieegqdgrrhhnugeppe
- hkvghrnhgvlhdrohhrghesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:bcaCZQDIKCNj7awbmv8GAKA4WgNCD1CdNaOAL918zpCfYGwv1bP6tQ>
- <xmx:bcaCZSeU8EDkSAwPx0LydaLR2A-g-Npf-ECxnOrW3cDEcyCKfKWFCQ>
- <xmx:bcaCZfPiwW0oa83V1FG959Vcn7M1gbIp-lc-37NNQpZjt5Ir6z56Yg>
- <xmx:bsaCZduisMTzT6YuRGasRasp3nG8XGAP5iAFXKnUBRYcf05Nq05azg>
-Feedback-ID: i36794607:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 5080DB6008D; Wed, 20 Dec 2023 05:48:13 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-1364-ga51d5fd3b7-fm-20231219.001-ga51d5fd3
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [IPv6:2a00:1098:ed:100::25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D78D10E0A7
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 11:01:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1703070069;
+ bh=I8w6PJkXNy6rGE5GGqTHbqFhMg1a+ToqNjIbCukuil0=;
+ h=Date:From:To:Subject:Cc:From;
+ b=KAhXTKbP5GZ808RucxdEt0Yi8apDhn2C0GdSuPTEeT0Fg62Jm6jhG6AsTx8AKuF+5
+ ma9qQC0aLRndsqZ+y8P3UcwHfpIMQ6AlJScqbjDcVJSYjrvpCMYJcOqTBG5oywNLgo
+ Dn5XMveGxiHAYWjhtm2HTZ5kbOkDhVKWbesjc/YSlgw3W7gKnKTznpqVrP/5bugDkB
+ Lz7hWvkIan9gFFKeEwyLOt+h1awLjdHPm/O5JOZmDThT5lDeTVzWblCrlM2qp/US88
+ o+HiNTfw1tKrp73p1RIZvoLrSravFrxoz5Btb3yffuEcGptaLsrihAWeUVEL+xcbfu
+ QIMAduUkoV1VQ==
+Received: from [100.66.96.193] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id E985B3781FED;
+ Wed, 20 Dec 2023 11:01:05 +0000 (UTC)
+Message-ID: <bdb53650-1888-30b8-93ee-2290d020af4a@collabora.com>
+Date: Wed, 20 Dec 2023 16:31:02 +0530
 MIME-Version: 1.0
-Message-Id: <dbb60b13-565f-43b8-8cb8-6f8cd98b06df@app.fastmail.com>
-In-Reply-To: <e897e6d5a88ec2f9024c62f7bee5c13bfb2cab55.camel@physik.fu-berlin.de>
-References: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
- <01ea8c41-88cd-4123-95c7-391640845fc3@app.fastmail.com>
- <e897e6d5a88ec2f9024c62f7bee5c13bfb2cab55.camel@physik.fu-berlin.de>
-Date: Wed, 20 Dec 2023 10:47:56 +0000
-From: "Arnd Bergmann" <arnd@kernel.org>
-To: "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
- "Sam Ravnborg" <sam@ravnborg.org>, "David S . Miller" <davem@davemloft.net>,
- "Andreas Larsson" <andreas@gaisler.com>
-Subject: Re: [PATCH 00/27] sparc32: sunset sun4m and sun4d
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Content-Language: en-US
+From: Vignesh Raman <vignesh.raman@collabora.com>
+To: hjc@rock-chips.com, heiko@sntech.de
+Subject: Flaky tests for rockchip rk3288/rk3399
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,37 +52,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
- linux-usb@vger.kernel.org, linux-sound@vger.kernel.org,
- Takashi Iwai <tiwai@suse.com>, dri-devel@lists.freedesktop.org,
- Jaroslav Kysela <perex@perex.cz>, Alan Stern <stern@rowland.harvard.edu>,
- Alexander Viro <viro@zeniv.linux.org.uk>, sparclinux@vger.kernel.org,
- linux-kernel@vger.kernel.org
+Cc: Daniel Stone <daniels@collabora.com>, linux-rockchip@lists.infradead.org,
+ Guilherme Alcarde Gallo <guilherme.gallo@collabora.com>,
+ Sergi Blanch Torne <sergi.blanch.torne@collabora.com>,
+ dri-devel@lists.freedesktop.org,
+ David Heidelberg <david.heidelberg@collabora.com>,
+ Helen Mae Koike Fornazier <helen.koike@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 20, 2023, at 09:54, John Paul Adrian Glaubitz wrote:
-> On Wed, 2023-12-20 at 08:36 +0000, Arnd Bergmann wrote:
->> All of these were found through inspection rather than testing,
->> so there is a good chance that other fatal kernel bugs prevent
->> testing in qemu, at least until the fixes from Andreas' tree
->> are included.
->
-> Andreas has fixes for these issues?
+Hi Maintainers,
 
-Not sure, all I know is that
+There are some flaky tests reported for rk3288 and rk3399 rockchip-drm 
+display driver testing in drm-ci.
 
-- Andreas has some fixes for Leon in his tree
-- Sam is unable to boot mainline in qemu
-- There is an unknown set of bugs in sparc32 since it has not
-  been tested for many years without Andreas' patches
+=== rockchip rk3288 ===
+# Board Name: rk3288-veyron-jaq.dtb
+# Failure Rate: 50
+# IGT Version: 1.28-gd2af13d9f
+# Linux Version: 6.7.0-rc3
 
-it appears that the qemu developers are still testing the sun4m
-model against old Linux and Solaris installations [1], but
-failure to run the leon3 model could still be any combination
-of kernel, qemu or configuration problems.
+Pipeline url:
+https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/52974828
+https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/52979524
+https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/52933410
 
-        Arnd
+# Reported by deqp-runner
+kms_cursor_crc@cursor-offscreen-64x21
+kms_cursor_crc@cursor-offscreen-32x32
 
-[1] https://wiki.qemu.org/Documentation/Platforms/SPARC#Compatibility
+kms_cursor_legacy@flip-vs-cursor-legacy:
+(kms_cursor_legacy:1366) CRITICAL: Test assertion failure function 
+flip_vs_cursor, file ../tests/kms_cursor_legacy.c:1015:
+(kms_cursor_legacy:1366) CRITICAL: Failed assertion: 
+kmstest_get_vblank(display->drm_fd, pipe, 0) == vblank_start
+(kms_cursor_legacy:1366) CRITICAL: error: 25330 != 25329
+Received signal SIGSEGV.
+
+# The below test shows inconsistency across multiple runs, giving
+# results of Pass and Crash alternately.
+kms_cursor_crc@cursor-size-change:
+(kms_cursor_crc:1047) igt_pipe_crc-CRITICAL: Test assertion failure 
+function igt_assert_crc_equal, file ../lib/igt_pipe_crc.c:112:
+(kms_cursor_crc:1047) igt_pipe_crc-CRITICAL: Failed assertion: !mismatch 
+|| igt_skip_crc_compare
+(kms_cursor_crc:1047) igt_pipe_crc-CRITICAL: Last errno: 11, Resource 
+temporarily unavailable
+Received signal SIGSEGV.
+
+
+=== rockchip rk3399 ===
+# Board Name: rk3399-gru-kevin.dtb
+# Failure Rate: 50
+# IGT Version: 1.28-gd2af13d9f
+# Linux Version: 6.7.0-rc3
+
+Pipeline url:
+https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/52978575
+https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/52940368
+https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/52933412
+https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/52929703
+
+# Reported by deqp-runner
+kms_color@gamma
+kms_cursor_legacy@cursorA-vs-flipA-toggle
+kms_flip@dpms-vs-vblank-race
+kms_flip@dpms-vs-vblank-race-interruptible
+kms_flip@flip-vs-absolute-wf_vblank-interruptible
+kms_flip@flip-vs-wf_vblank-interruptible
+kms_flip@modeset-vs-vblank-race-interruptible
+kms_pipe_crc_basic@compare-crc-sanitycheck-xr24
+kms_setmode@basic
+
+# The below test shows inconsistency across multiple runs, giving
+# results of Pass and Fail alternately.
+kms_cursor_crc@cursor-rapid-movement-32x10:
+(kms_cursor_crc:1495) igt_fb-DEBUG: Test requirement passed: 
+cairo_surface_status(fb->cairo_surface) == CAIRO_STATUS_SUCCESS
+(kms_cursor_crc:1495) igt_core-INFO: Timed out: Opening crc fd, and poll 
+for first CRC.
+
+I will add these tests in 
+drivers/gpu/drm/ci/xfails/rockchip-rk3288-display-flakes.txt and 
+drivers/gpu/drm/ci/xfails/rockchip-rk3399-display-flakes.txt 
+(https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/Documentation/gpu/automated_testing.rst#n70)
+
+Please could you have a look at these test results and let us know if 
+you need more information. Thank you.
+
+Regards,
+Vignesh
