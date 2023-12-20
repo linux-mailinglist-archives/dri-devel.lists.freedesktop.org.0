@@ -1,71 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F2DA819DB4
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 12:11:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97E8C819E9E
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 13:04:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6231B10E313;
-	Wed, 20 Dec 2023 11:11:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3499C10E339;
+	Wed, 20 Dec 2023 12:04:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
- [IPv6:2607:f8b0:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9EFE10E313
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 11:11:32 +0000 (UTC)
-Received: by mail-pl1-x634.google.com with SMTP id
- d9443c01a7336-1d3e05abcaeso9283045ad.1
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 03:11:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1703070692; x=1703675492; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=CW8QHigc7u7A+LxPdR2yYff29cC2tGJrVqzNJzM3nrI=;
- b=Bl9UKmNciLhh8kxCMdqdfmyQCWwyDtKCg5a2yZRTl+JFytGITkCN6yFiUOAWiRCvFV
- 8HCQR3JefR0YQbTJJYoLjuOG77Hq7QebRjAEl8tPk4WD4kSxgEwQX2XP09Qn0H8bBptX
- KEOQaCN5dwQGmmdFQIUxJmCuYJC7e73uimfzaOPpSpJbWj97Kg2ItD9Pr3D7Cqpep4c7
- CxzH1D0xqGgnzEsmIxM/TQxGCMkGUPjd+Sb/2tIX+LDCxymfEst349liTVEHRGvC9TWY
- cvHB7seFBUaIoVu77gf4/d5HNbtujGinx/gUJzVz4GWLLhVlZchERufVcea/9xI/SQUp
- 4rIQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C059110E332
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 12:04:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1703073845;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lka5tYrad/R/08SV2MTuchYw7orCVUyJFKIPJol5JAg=;
+ b=QIVoNBPYYePg/27ouEu70z1OVDsbEN/xicHZM2VC7h0joY1iOzukBMJ+7V9HaPyb/TaMOn
+ hIKERgNlTudP5OVeRdu3jzzYbs8wkIi/YFGuJXPjdSi9sRmegfexKt/XBsMtsu1pG9Mvkk
+ kHCFKDXd2Rd3vRA2h8t0o6cnN9bO4/c=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-216-MO-nmqRtO4y6aNjguaVgoA-1; Wed, 20 Dec 2023 07:04:04 -0500
+X-MC-Unique: MO-nmqRtO4y6aNjguaVgoA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-3335231c733so324072f8f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 04:04:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1703070692; x=1703675492;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CW8QHigc7u7A+LxPdR2yYff29cC2tGJrVqzNJzM3nrI=;
- b=ii4JBytWh2mpZFsm/Ahfe0KyuAaPRX/BFpwPI1J0A2Z84KUPwjG1XgxfFi3jWtJmmk
- 4Cvz8ANXI0pRB7cGaB1ZgyqK1v2lzihZbBoMzOD4O7o+4tHAH9lZhYYWGMS14ccx8HNm
- ygl/eMCoysypYbSmgbCewiAVh8t2qqrqni/oPE6NL8z5ZHKFYB7wstDodJEaNYVHq8JR
- /pcGReAL5KcLdGaCN08z0dmw1xedv5nKgffmWN2lW3xDm4mb95u07BxvpTb1g0AXYL4d
- Wf/91jzLXObkwDamHiPTUcyWxQcBM3V9OAYdgL+tBiOyG3EpfMA/ddWDqfp0l79lNBx4
- JusA==
-X-Gm-Message-State: AOJu0Yw0/1H61BohBJn2L/gWvXGhR1oDpoH18as6tQJwxQno8Kwcn4TQ
- 0/mH8nKGs0OIAea4lergz8Q=
-X-Google-Smtp-Source: AGHT+IGpcm3ixSliatDE5AEQWq865kgGOdLVdZhDB9BzNjLdE46gUA+YSII+K9jbur9v6K3pU26NBg==
-X-Received: by 2002:a17:902:8bc6:b0:1d0:c942:37c4 with SMTP id
- r6-20020a1709028bc600b001d0c94237c4mr10322705plo.52.1703070692228; 
- Wed, 20 Dec 2023 03:11:32 -0800 (PST)
-Received: from [192.168.0.106] ([103.131.18.64])
- by smtp.gmail.com with ESMTPSA id
- b16-20020a170902d51000b001d365153d09sm11871707plg.184.2023.12.20.03.11.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Dec 2023 03:11:31 -0800 (PST)
-Message-ID: <846e883c-e3ae-426f-83e3-38e357e53ef3@gmail.com>
-Date: Wed, 20 Dec 2023 18:11:25 +0700
+ d=1e100.net; s=20230601; t=1703073843; x=1703678643;
+ h=content-transfer-encoding:mime-version:message-id:date:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=fOIBv5aCgCzFx82SAqfImjdfdj7hcvw8IGRj+pX8Llk=;
+ b=QY12vyC/GMdBtJ/AvOr9+CDcCQwzxwLjE4uejgc0OFVRYKP+xiGATVHF4h/tqafsrg
+ QBEkgIJTacxCew3kPwuChT8vCDFSkqnqBiCl4wohzsnbTaMGz4a2dIdEVub/mEcu/Qa4
+ 5/N3MXW870bj28Qtu3TLitHZJxZVNmhFVT7tHpSKUoEd3bUleCL1NHqhulORODmDQxEi
+ 3tvoetI79b4+4c8T531LLtNry0ZRohZQAEYVMg/Sg+5Bn0eLDg4B4B1rFaYDPmweDv2l
+ fefzSRhIfz1bAPe7AcNb3gKATmL/UgKl3J+B4VQhJ4ho0mQkHgbFhdAn9oCF2UfPYzRl
+ 5BEg==
+X-Gm-Message-State: AOJu0Yyh3bBfmwvlpwP8lFm0OXL88KGSltJY3kenLNCdGZeqBcb/bYLk
+ H42ALmz/TTTGAz8lpFsr2OdvOV/PJZoIDt4DNPNrsFAkKaWXhM8P/hZeqEAkgC7LQRG1M7tlJkD
+ yJSuebj46rTJNY1Dur6JsiA4O1GoQ
+X-Received: by 2002:a05:600c:4e4f:b0:40d:3773:36f0 with SMTP id
+ e15-20020a05600c4e4f00b0040d377336f0mr475079wmq.87.1703073843110; 
+ Wed, 20 Dec 2023 04:04:03 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFbZC41p9v3kAdf252seL2X9D2BEjOUjveeox/+jZ4LdlgSM8+7oshKXYQu/k1Umxzj3KQqVA==
+X-Received: by 2002:a05:600c:4e4f:b0:40d:3773:36f0 with SMTP id
+ e15-20020a05600c4e4f00b0040d377336f0mr475069wmq.87.1703073842683; 
+ Wed, 20 Dec 2023 04:04:02 -0800 (PST)
+Received: from localhost ([195.166.127.210]) by smtp.gmail.com with ESMTPSA id
+ t3-20020a05600c450300b0040c6dd9e7aesm7122634wmo.34.2023.12.20.04.04.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Dec 2023 04:04:02 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 1/2] drm: Don't unref the same fb many times by mistake
+ due to deadlock handling
+In-Reply-To: <20231211081625.25704-1-ville.syrjala@linux.intel.com>
+References: <20231211081625.25704-1-ville.syrjala@linux.intel.com>
+Date: Wed, 20 Dec 2023 13:04:01 +0100
+Message-ID: <87cyv15bda.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Automatically update drm CI dependencies?
-Content-Language: en-US
-To: Helen Koike <helen.koike@collabora.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>
-References: <ZXrNI9Pqln9HVYVc@archie.me>
- <1844c32e-13f9-4225-88a7-1c621a3bfc75@collabora.com>
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <1844c32e-13f9-4225-88a7-1c621a3bfc75@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,48 +83,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Heidelberg <david.heidelberg@collabora.com>,
- Dorine Tipo <dorine.a.tipo@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: intel-gfx@lists.freedesktop.org, stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/19/23 23:43, Helen Koike wrote:
-> Hi,
-> 
-> On 14/12/2023 06:38, Bagas Sanjaya wrote:
->> Hi all,
->>
->> I'm referring to dependabot PR on torvalds.git GitHub mirror [1]. I know
->> that PRs submitted there are not accepted (the repo is essentially read-only
->> mirror), hence this mail question.
->>
->> In summary, dependabot submitted automated PR that bumps package versions
->> in `drivers/gpu/drm/ci/xfails/requirements.txt`. In this case, pip was
->> upgraded to 23.3.
->>
->>  From my experience, such automated PRs can pollute commit history (in
->> some GitHub projects these PR kind can contribute up to half of total
->> commits since the beginning of project). And in some projects, dependabot
->> PRs are automatically merged without any maintainer intervention.
->>
->> Does such PRs (when submitted to LKML these will be patches) make sense
->> for DRM subsystem?
->>
->> Thanks.
->>
->> [1]: https://github.com/torvalds/linux/pull/807
->>
-> 
-> imho I rather not having this automated patches, but I would like to hear the opinions from others.
-> 
+Ville Syrjala <ville.syrjala@linux.intel.com> writes:
 
-But why? Did you mean that making the CI always depends on latest version
-of dependencies create another maintenance variable (and may constantly
-broke CI)?
+Hello Ville,
 
-Confused...
+> From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+>
+> If we get a deadlock after the fb lookup in drm_mode_page_flip_ioctl()
+> we proceed to unref the fb and then retry the whole thing from the top.
+> But we forget to reset the fb pointer back to NULL, and so if we then
+> get another error during the retry, before the fb lookup, we proceed
+> the unref the same fb again without having gotten another reference.
+> The end result is that the fb will (eventually) end up being freed
+> while it's still in use.
+>
+> Reset fb to NULL once we've unreffed it to avoid doing it again
+> until we've done another fb lookup.
+>
+> This turned out to be pretty easy to hit on a DG2 when doing async
+> flips (and CONFIG_DEBUG_WW_MUTEX_SLOWPATH=3Dy). The first symptom I
+> saw that drm_closefb() simply got stuck in a busy loop while walking
+> the framebuffer list. Fortunately I was able to convince it to oops
+> instead, and from there it was easier to track down the culprit.
+>
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+> ---
 
--- 
-An old man doll... just what I always wanted! - Clara
+Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+
+>  drivers/gpu/drm/drm_plane.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+> index 9e8e4c60983d..672c655c7a8e 100644
+> --- a/drivers/gpu/drm/drm_plane.c
+> +++ b/drivers/gpu/drm/drm_plane.c
+> @@ -1503,6 +1503,7 @@ int drm_mode_page_flip_ioctl(struct drm_device *dev=
+,
+>  out:
+>  =09if (fb)
+>  =09=09drm_framebuffer_put(fb);
+> +=09fb =3D NULL;
+>  =09if (plane->old_fb)
+>  =09=09drm_framebuffer_put(plane->old_fb);
+>  =09plane->old_fb =3D NULL;
+
+Interesting that it was done correctly for old_fb.
+
+--=20
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
