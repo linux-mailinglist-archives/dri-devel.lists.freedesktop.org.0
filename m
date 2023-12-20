@@ -1,68 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 359FC81A211
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 16:19:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B755981A22E
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 16:23:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED84C10E5C1;
-	Wed, 20 Dec 2023 15:18:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 186E910E5DF;
+	Wed, 20 Dec 2023 15:23:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7A6610E5C1
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 15:18:54 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- 5b1f17b1804b1-40d38f03712so4171505e9.2
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 07:18:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1703085533; x=1703690333; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=XQznE3T4sDko9wo85ONtxZv9jJ6ZRKGfTKvps55TZXU=;
- b=mxVziUwhLFhUUTAkpOx/SA2IzqLoBNNZDdw7oOBpDmL0KtfK8aBq3olHsGg5URSQx6
- 4SBKcy3N+b+PLMh+rHD4lyPXIbGEf0HVG9xyy4XWmAmTSlNR8YsKPERWArGK1nUnmf9j
- hYjvhzttFkLKz/eR5MTjNzRkFxwl2cGMmHVfGGnA0yQ06N7JIivSGYOP7gM1MgjuKpI7
- u7M762b3AeJXnxh6xYPgB2gIeJpXE2eHwqlurnr+zRBtUKhqKnvVzbPi6uDu7ftrCKc3
- KOiXmAtYEwT83FIsVl1bzDf2ej1g7G/KeLvlP0J9pCXHfKzgTfjPTd1hWTaluX7Tqmuq
- Njiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1703085533; x=1703690333;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=XQznE3T4sDko9wo85ONtxZv9jJ6ZRKGfTKvps55TZXU=;
- b=dYLdhc4W2O4df0N3vxszhKYTKl4jHuFbe7VMH4pxSZMyXQ5HmU5x3iZp3QLYoYZq/8
- mXVRaIeU96BAEiAZGDPmjQmJCYyowVv/DueFshF9yumnc3HwnjTBbh1z60Slilbdrrdi
- JadcvEtf0Hf0AsDT70aWQKrQjGQ2ZGUDg7yT5vNQBU8dZZ1HnP7LY/Rn4auHQh+I43wo
- eE1m7acsVwhPdGE64BLkXWVFmh+fXySic0xQlT6mAETBIz0m5/LES8/IITtpXEaav2a2
- J98MWq1eghKhHGpix7gnHIQlOIt/IPfzjjL0LowDzcLS8AVwsMOzRLnuvcsZFXw1zy+r
- 25ZQ==
-X-Gm-Message-State: AOJu0YzCwOTicCNdBqB5vOJCn7+dl/G8EA8sSzRddhSkbUko0FSrnfyZ
- p90prsSOTt/N1qOwRXXHCOQ=
-X-Google-Smtp-Source: AGHT+IHpTRb9ZsNlOdTaOnmxWls02DlZ24RU1byhkjNqQfZJBGR9fk7exiKPi9UZ9wdarAw/oWoKfA==
-X-Received: by 2002:a05:600c:c10:b0:40d:33cb:b577 with SMTP id
- fm16-20020a05600c0c1000b0040d33cbb577mr716095wmb.3.1703085532684; 
- Wed, 20 Dec 2023 07:18:52 -0800 (PST)
-Received: from jernej-laptop.localnet (82-149-12-148.dynamic.telemach.net.
- [82.149.12.148]) by smtp.gmail.com with ESMTPSA id
- j35-20020a05600c1c2300b0040b3515cdf8sm3593917wms.7.2023.12.20.07.18.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Dec 2023 07:18:52 -0800 (PST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Frank Oltmanns <frank@oltmanns.dev>
-Subject: Re: [PATCH 5/5] drm/panel: st7703: Drive XBD599 panel at higher clock
- rate
-Date: Wed, 20 Dec 2023 16:18:49 +0100
-Message-ID: <1845418.atdPhlSkOF@jernej-laptop>
-In-Reply-To: <87edfh9ud8.fsf@oltmanns.dev>
-References: <20231218-pinephone-pll-fixes-v1-0-e238b6ed6dc1@oltmanns.dev>
- <10386431.nUPlyArG6x@jernej-laptop> <87edfh9ud8.fsf@oltmanns.dev>
+X-Greylist: delayed 31123 seconds by postgrey-1.36 at gabe;
+ Wed, 20 Dec 2023 15:23:30 UTC
+Received: from mailrelay1-1.pub.mailoutpod2-cph3.one.com
+ (mailrelay1-1.pub.mailoutpod2-cph3.one.com [46.30.211.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D92D910E5DF
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 15:23:30 +0000 (UTC)
+X-HalOne-ID: 955a2286-9f4b-11ee-a08e-2b733b0ff8f0
+Received: from mailrelay3.pub.mailoutpod3-cph3.one.com (unknown [104.37.34.40])
+ by mailrelay1 (Halon) with ESMTPS
+ id 955a2286-9f4b-11ee-a08e-2b733b0ff8f0;
+ Wed, 20 Dec 2023 15:22:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa2;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=sfJdNm2lEIQrBamytj/tsjayfAn2mE9Fqg6pTRTtass=;
+ b=V7JO3UfrJBPi8Mr4OiXidEj06nbi+4dGqF8lTDUxAatPOa3Mlnk4cPWWCp6rGFSmlg84dMYhGH/wx
+ 4eh7YufTH9Qozp7hyl38p0/Vv1AI7NML/gCxBRIhhZLfnIbFn3caGKYQ/7wivxRtQN/16oNIZzSo2V
+ N2s36hSKm4Pt5lKXpk0BXH5WGbx7T/X0mH1z2U+ITgvz27/1ufXwAp1FScDIWkBWTsDWNjTd/Emckp
+ WETFeHTLl3ZUd/z5sZBLDt1vXIn83aLFyP3iYwoSs+yVIt/MXx8fX/UB1wnfyTb/ziMcH3Pr/2CIs5
+ D2IOP+s/C4QBkFTkqlNSczAHv+lQTtg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed2;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=sfJdNm2lEIQrBamytj/tsjayfAn2mE9Fqg6pTRTtass=;
+ b=wuQzVB+0GMurqsA05DzExqKKRiWf8flOefeaAYoYt6rspJIl/01szyGy0a5mE+hUuX/vB2ZkfXV8H
+ ABCWeGuDg==
+X-HalOne-ID: 938bf566-9f4b-11ee-b5cb-85e425223685
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay3 (Halon) with ESMTPSA
+ id 938bf566-9f4b-11ee-b5cb-85e425223685;
+ Wed, 20 Dec 2023 15:22:26 +0000 (UTC)
+Date: Wed, 20 Dec 2023 16:22:24 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH 00/27] sparc32: sunset sun4m and sun4d
+Message-ID: <20231220152224.GA867968@ravnborg.org>
+References: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
+ <01ea8c41-88cd-4123-95c7-391640845fc3@app.fastmail.com>
+ <e897e6d5a88ec2f9024c62f7bee5c13bfb2cab55.camel@physik.fu-berlin.de>
+ <dbb60b13-565f-43b8-8cb8-6f8cd98b06df@app.fastmail.com>
+ <3d733b57-884a-4755-a32a-74061b48e182@ilande.co.uk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3d733b57-884a-4755-a32a-74061b48e182@ilande.co.uk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,144 +67,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Purism Kernel Team <kernel@puri.sm>, Samuel Holland <samuel@sholland.org>,
- Stephen Boyd <sboyd@kernel.org>, David Airlie <airlied@gmail.com>,
- Michael Turquette <mturquette@baylibre.com>, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, linux-clk@vger.kernel.org,
- linux-sunxi@lists.linux.dev, Chen-Yu Tsai <wens@csie.org>,
- Ondrej Jirman <megi@xff.cz>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Guido =?ISO-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: Arnd Bergmann <arnd@kernel.org>, linux-fbdev@vger.kernel.org,
+ Andreas Larsson <andreas@gaisler.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
+ linux-usb@vger.kernel.org, linux-sound@vger.kernel.org,
+ Takashi Iwai <tiwai@suse.com>, dri-devel@lists.freedesktop.org,
+ Jaroslav Kysela <perex@perex.cz>, Alan Stern <stern@rowland.harvard.edu>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ sparclinux@vger.kernel.org, "David S . Miller" <davem@davemloft.net>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dne sreda, 20. december 2023 ob 08:14:27 CET je Frank Oltmanns napisal(a):
->=20
-> On 2023-12-19 at 18:04:29 +0100, Jernej =C5=A0krabec <jernej.skrabec@gmai=
-l.com> wrote:
-> > Dne ponedeljek, 18. december 2023 ob 14:35:23 CET je Frank Oltmanns nap=
-isal(a):
-> >> This panel is used in the pinephone that runs on a Allwinner A64 SOC.
-> >> Acoording to it's datasheet, the SOC requires PLL-MIPI to run at more
-> >> than 500 MHz.
-> >>
-> >> Therefore, change [hv]sync_(start|end) so that we reach a clock rate
-> >> that is high enough to drive PLL-MIPI within its limits.
-> >>
-> >> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
-> >
-> > I'm not too sure about this patch. I see that PLL_MIPI doesn't have set
-> > minimum frequency limit in clock driver. If you add it, clock framework
-> > should find rate that is high enough and divisible with target rate.
->=20
-> This one is really a tough nut. Unfortunately, the PLL_MIPI clock for
-> this panel has to run exactly at 6 * panel clock. Let me start by
-> showing the relevant part of the clock tree (this is on the pinephone
-> after applying the patches):
->     pll-video0                 393600000
->        pll-mipi                500945454
->           tcon0                500945454
->              tcon-data-clock   125236363
->=20
-> To elaborate, tcon-data-clock has to run at 1/4 the DSI per-lane bit
-> rate [1]. It's a fixed divisor
->=20
-> The panel I'm proposing to change is defined as this:
->=20
->     static const struct st7703_panel_desc xbd599_desc =3D {
->     	.mode =3D &xbd599_mode,
->     	.lanes =3D 4,
->     	.mode_flags =3D MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE,
->     	.format =3D MIPI_DSI_FMT_RGB888,
->     	.init_sequence =3D xbd599_init_sequence,
->     };
->=20
-> So, we have 24 bpp and 4 lanes. Therefore, the resulting requested
-> tcon-data-clock rate is
->     crtc_clock * 1000 * (24 / 4) / 4
->=20
-> tcon-data-clock therefore requests a parent rate of
->     4 * (crtc_clock * 1000 * (24 / 4) / 4)
->=20
-> The initial 4 is the fixed divisor between tcon0 and tcon-data-clock.
-> Since tcon0 is a ccu_mux, the rate of tcon0 equals the rate of pll-mipi.
->=20
-> Since PLL-MIPI has to run at at least at 500MHz this forces us to have a
-> crtc_clock >=3D 83.333 MHz. The mode I'm prorposing results in a rate of
-> 83.502 MHz.
+Hi Mark,
 
-This is much better explanation why this change is needed. Still, I think
-adding min and max rate to PLL_MIPI would make sense, so proper rates
-are guaranteed.
+On Wed, Dec 20, 2023 at 11:30:27AM +0000, Mark Cave-Ayland wrote:
+> On 20/12/2023 10:47, Arnd Bergmann wrote:
+> 
+> > On Wed, Dec 20, 2023, at 09:54, John Paul Adrian Glaubitz wrote:
+> > > On Wed, 2023-12-20 at 08:36 +0000, Arnd Bergmann wrote:
+> > > > All of these were found through inspection rather than testing,
+> > > > so there is a good chance that other fatal kernel bugs prevent
+> > > > testing in qemu, at least until the fixes from Andreas' tree
+> > > > are included.
+> > > 
+> > > Andreas has fixes for these issues?
+> > 
+> > Not sure, all I know is that
+> > 
+> > - Andreas has some fixes for Leon in his tree
+> > - Sam is unable to boot mainline in qemu
+> > - There is an unknown set of bugs in sparc32 since it has not
+> >    been tested for many years without Andreas' patches
+> > 
+> > it appears that the qemu developers are still testing the sun4m
+> > model against old Linux and Solaris installations [1], but
+> > failure to run the leon3 model could still be any combination
+> > of kernel, qemu or configuration problems.
+> > 
+> >          Arnd
+> > 
+> > [1] https://wiki.qemu.org/Documentation/Platforms/SPARC#Compatibility
+> 
+> Hi all: I'm one of the QEMU sun4m and sun4u maintainers so thought it would
+> be worth a few comments here.
 
-Anyway, do you know where are all those old values come from? And how did
-you come up with new ones? I guess you can't just simply change timings,
-there are probably some HW limitations? Do you know if BSP kernel support
-this panel and how this situation is solved there?
+I can imagine that the proposal to drop sun4m from the kernel is then
+not the best news this December - sorry about that.
 
->=20
-> If we only changed the constraints on the PLL_MIPI without changing the
-> panel mode, we end up with a mismatch. This, in turn, would result in
-> dropped frames, right?
+> 
+> My SPARC work on QEMU is unsponsored, so of course it is reliant upon me
+> finding time between work and family to fix various bugs. This means that I
+> simply don't have the time to constantly build and test the latest kernels:
+> what generally happens is that someone pings me a regression bug report when
+> something breaks and provides a test kernel/rootfs for me to look at. In the
+> past both Rob Landley and Guenter Roeck have often flagged regressions and
+> kindly provided these for me.
+> 
+> Other than that I just assume that everything is still working against the
+> upstream kernel.
 
-=46rom what I read, I think frame rate would be higher than 60 fps. What
-exactly would happen depends on the panel.
+It is a fantastic tool that we can build and boot a kernel using qemu
+and your work is appreciated - thanks!
 
-Best regards,
-Jernej
+> 
+> The leon3_generic machine is maintained by different people so I'd suggest
+> contacting them: see [1] for their contact details. I see there is an
+> avocado boot test for the leon3_generic machine included within the QEMU
+> source tree, but it uses a downloadable image of HelenOS rather than Linux.
 
->=20
-> Best regards,
->   Frank
->=20
-> [1] Source:
-> https://elixir.bootlin.com/linux/v6.6.7/source/drivers/gpu/drm/sun4i/sun4=
-i_tcon.c#L346
->=20
-> >
-> > Best regards,
-> > Jernej
-> >
-> >> ---
-> >>  drivers/gpu/drm/panel/panel-sitronix-st7703.c | 14 +++++++-------
-> >>  1 file changed, 7 insertions(+), 7 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7703.c b/drivers/g=
-pu/drm/panel/panel-sitronix-st7703.c
-> >> index b55bafd1a8be..6886fd7f765e 100644
-> >> --- a/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-> >> +++ b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-> >> @@ -320,14 +320,14 @@ static int xbd599_init_sequence(struct st7703 *c=
-tx)
-> >>
-> >>  static const struct drm_display_mode xbd599_mode =3D {
-> >>  	.hdisplay    =3D 720,
-> >> -	.hsync_start =3D 720 + 40,
-> >> -	.hsync_end   =3D 720 + 40 + 40,
-> >> -	.htotal	     =3D 720 + 40 + 40 + 40,
-> >> +	.hsync_start =3D 720 + 65,
-> >> +	.hsync_end   =3D 720 + 65 + 65,
-> >> +	.htotal      =3D 720 + 65 + 65 + 65,
-> >>  	.vdisplay    =3D 1440,
-> >> -	.vsync_start =3D 1440 + 18,
-> >> -	.vsync_end   =3D 1440 + 18 + 10,
-> >> -	.vtotal	     =3D 1440 + 18 + 10 + 17,
-> >> -	.clock	     =3D 69000,
-> >> +	.vsync_start =3D 1440 + 30,
-> >> +	.vsync_end   =3D 1440 + 30 + 22,
-> >> +	.vtotal	     =3D 1440 + 30 + 22 + 29,
-> >> +	.clock	     =3D (720 + 65 + 65 + 65) * (1440 + 30 + 22 + 29) * 60 / =
-1000,
-> >>  	.flags	     =3D DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
-> >>  	.width_mm    =3D 68,
-> >>  	.height_mm   =3D 136,
-> >>
-> >>
->=20
+Thanks for the pointer, I will try to reach out to them when I have
+something a bit more solid than "it does not work".
 
+I tried to hack around a little in qemu and I have an idea where things
+goes wrong. The leon_generic assumes another address layout than what is
+used by the kernel, so the very first jump to a kernel address fails.
 
-
-
+	Sam
