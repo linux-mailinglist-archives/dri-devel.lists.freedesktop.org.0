@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5DF7819C41
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 11:09:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B860A819C36
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 11:09:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92B5F10E556;
-	Wed, 20 Dec 2023 10:09:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 939D010E513;
+	Wed, 20 Dec 2023 10:09:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D66A410E21F
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D671610E331
  for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 10:09:04 +0000 (UTC)
-X-UUID: c901860a9f1f11eeba30773df0976c77-20231220
+X-UUID: c9056fe09f1f11eeba30773df0976c77-20231220
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=Vb24kkSmzFqLkYt275IGRO8kfWGasUiCdUh0M9mkibA=; 
- b=HN9tVu73nph1XIrN5v4vcZ/csfFUxCRvjRqQ4Pe6Pu0eXHZmxkxcn/RtP27zWBPlyIUxOXT6h1fLJxi4hZ2F3U+6rehYYSejp8updZo5HYkjLKqXT89NMw3XfyWMsPYu8JFGPpmQr1HBsgmhLE/oIIV+fUdHrr97X9PoMhk/LfE=;
+ bh=ZbKsTEXQ06nZKi8eEHm/YLTPz1FZJoAUmXN9IUI475U=; 
+ b=TumoAhe/2tbsmE5lsLyC16m9fk5HoaFOmdRajhpiFXjmFaxF438JbYYElfUbJ5Tw2MfFl/poaXfOhtKRCDEzvgDjCJcfD5GzHZZ06+ALTXrKw4Z9j3tPFI0Q9VSCDUPld68nNBerEapSvfxwWBjAqSr9GXDo79mXmRJNbRKTRuU=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.35, REQID:245400d5-d759-4e9e-98cb-d2d815148f39, IP:0,
+X-CID-O-INFO: VERSION:1.1.35, REQID:442cc47a-c99c-4970-bc15-77e14671194b, IP:0,
  U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:5d391d7, CLOUDID:725d618d-e2c0-40b0-a8fe-7c7e47299109,
+ RL:25,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+ N:release,TS:20
+X-CID-META: VersionHash:5d391d7, CLOUDID:48c64b2e-1ab8-4133-9780-81938111c800,
  B
  ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
- DKR:0,DKP:0,BRR:0,BRE:0
+ RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
+ NO,DKR:0,DKP:0,BRR:0,BRE:0
 X-CID-BVR: 0
 X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: c901860a9f1f11eeba30773df0976c77-20231220
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
+X-UUID: c9056fe09f1f11eeba30773df0976c77-20231220
 Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by
  mailgw02.mediatek.com (envelope-from <moudy.ho@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 168523288; Wed, 20 Dec 2023 18:08:56 +0800
+ with ESMTP id 398409639; Wed, 20 Dec 2023 18:08:56 +0800
 Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
  mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
@@ -54,10 +54,10 @@ To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
  Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
  <angelogioacchino.delregno@collabora.com>, Hans Verkuil
  <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH v10 05/16] dt-bindings: media: mediatek: mdp3: add compatible
- for MT8195 WROT
-Date: Wed, 20 Dec 2023 18:08:42 +0800
-Message-ID: <20231220100853.20616-6-moudy.ho@mediatek.com>
+Subject: [PATCH v10 06/16] dt-bindings: media: mediatek: mdp3: add component
+ FG for MT8195
+Date: Wed, 20 Dec 2023 18:08:43 +0800
+Message-ID: <20231220100853.20616-7-moudy.ho@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20231220100853.20616-1-moudy.ho@mediatek.com>
 References: <20231220100853.20616-1-moudy.ho@mediatek.com>
@@ -83,35 +83,84 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MT8195 WROT inherited from MT8183, add the corresponding
-compatible name to it.
+Add the fundamental hardware configuration of component FG,
+which is controlled by MDP3 on MT8195.
 
 Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: AngeloGioacchino Del Regno <zangelogioacchino.delregno@collabora.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- .../devicetree/bindings/media/mediatek,mdp3-wrot.yaml       | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ .../bindings/media/mediatek,mdp3-fg.yaml      | 61 +++++++++++++++++++
+ 1 file changed, 61 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-fg.yaml
 
-diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-wrot.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-wrot.yaml
-index 64ea98aa0592..53a679338402 100644
---- a/Documentation/devicetree/bindings/media/mediatek,mdp3-wrot.yaml
-+++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-wrot.yaml
-@@ -15,9 +15,13 @@ description: |
- 
- properties:
-   compatible:
--    items:
-+    oneOf:
-       - enum:
-           - mediatek,mt8183-mdp3-wrot
-+      - items:
-+          - enum:
-+              - mediatek,mt8195-mdp3-wrot
-+          - const: mediatek,mt8183-mdp3-wrot
- 
-   reg:
-     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-fg.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-fg.yaml
+new file mode 100644
+index 000000000000..03f31b009085
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-fg.yaml
+@@ -0,0 +1,61 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: MediaTek Media Data Path 3 Film Grain
++
++maintainers:
++  - Matthias Brugger <matthias.bgg@gmail.com>
++  - Moudy Ho <moudy.ho@mediatek.com>
++
++description:
++  Film Grain (FG) is a Media Data Path 3 (MDP3) component used to add
++  the film grain according to the AOMedia Video 1 (AV1) standard.
++
++properties:
++  compatible:
++    enum:
++      - mediatek,mt8195-mdp3-fg
++
++  reg:
++    maxItems: 1
++
++  mediatek,gce-client-reg:
++    description:
++      The register of display function block to be set by gce. There are 4 arguments,
++      such as gce node, subsys id, offset and register size. The subsys id that is
++      mapping to the register of display function blocks is defined in the gce header
++      include/dt-bindings/gce/<chip>-gce.h of each chips.
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    items:
++      items:
++        - description: phandle of GCE
++        - description: GCE subsys id
++        - description: register offset
++        - description: register size
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - mediatek,gce-client-reg
++  - clocks
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/mt8195-clk.h>
++    #include <dt-bindings/gce/mt8195-gce.h>
++
++    display@14002000 {
++        compatible = "mediatek,mt8195-mdp3-fg";
++        reg = <0x14002000 0x1000>;
++        mediatek,gce-client-reg = <&gce1 SUBSYS_1400XXXX 0x2000 0x1000>;
++        clocks = <&vppsys0 CLK_VPP0_MDP_FG>;
++    };
 -- 
 2.18.0
 
