@@ -1,62 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A7A1819A8E
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 09:33:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20D0B819A97
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 09:37:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 891D110E30D;
-	Wed, 20 Dec 2023 08:33:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D2BF10E319;
+	Wed, 20 Dec 2023 08:37:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3B9210E30D
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 08:33:11 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC55C10E319
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 08:36:59 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 54B79CE1BA2
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 08:33:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 950C3C433C7
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 08:33:08 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id EC734B81C17;
+ Wed, 20 Dec 2023 08:36:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5C92C433C9;
+ Wed, 20 Dec 2023 08:36:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1703061188;
- bh=0eqeUTFGxLOadZ0VUXVxhgNFSDdUuTnVmM5KTxTqGnw=;
- h=From:To:Subject:Date:From;
- b=qfBVgz871wIbEiM8KBtcd0rjkyU/c1GksnvHDFRSJT05ebGplV7xLhHTkC/GeO1Uh
- 9H8C9mVaJUBQaqdYBPtmyCVnkF4HBDtd2KrgXcZK+XrigWnQ20kqXCxce4TY/K6V8Z
- qi66tW8pmat1+u88Z4PEuAVoWWN0XriMepwA0npFppcYYaIrrWJXM1rPCytEzM5N2T
- 4gK6tpzPUvGuWgiupgnL8FNVQS3ME2ec52I7yRH8/fxNcMe/KiCFqltWlPpjOPe4wm
- xT8AQwtImbJbRXimq3Q5lPA+EcDjjpAWipBcoXWO//ZgPxgRaPxd1Dcs226E7msokR
- yKoiAiOL6Hwow==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 800C6C53BCD; Wed, 20 Dec 2023 08:33:08 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 218292] New: Built in Screen (Laptop) won't wake up from sleep
- (AMD Graphics)
-Date: Wed, 20 Dec 2023 08:33:08 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: mail@bewi.at
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- cf_regression
-Message-ID: <bug-218292-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+ s=k20201202; t=1703061417;
+ bh=AdqAwz81NSKcWiMU11RDDZBgCQhJ9xWGLTtbQCSJNbU=;
+ h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
+ b=mEDYC2jQqWm8vnT9Nkrs+3k0nHT+0K4lQ81FXcmNW9hquUi1VceiooL6YC+EoD/v3
+ E45aScEhmnrdWxm4r26Vnxr3Rh7k+dJidaRRZ4RSjKfvl7q1yxCo6V4LpWHEdDgPhB
+ ds7woxKIH/rFoQZYoLzGAzcU0D0XzSzCn4aVWulmweX5orveJg58kyG+GspFDnbkSb
+ qSVBse1t2OgkYQQZ1c2Jrq7v7yzV4JoTZ2LsotOOEz1ScV10Ljpsk80fA5wHV3vze7
+ xDgyn3V75H+2vBfcbDeCKMPzJyhox0V3p7xlDmTsj4T3jcyMiypTc9VYAHi2Tweq9O
+ M2Pe3ZFztQnhg==
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailauth.nyi.internal (Postfix) with ESMTP id 8650227C0061;
+ Wed, 20 Dec 2023 03:36:55 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+ by compute5.internal (MEProxy); Wed, 20 Dec 2023 03:36:55 -0500
+X-ME-Sender: <xms:pqeCZVVgQ9feUAubE_UGRljNpRwTNFakBlr6_WNwG2tE7FM85ux4qg>
+ <xme:pqeCZVl-jvy4st4hso5ixDc_suLOsRu9EGHi-PSiZ-09bn9KA78kCkw5CJCPvYAQh
+ inqyHR-7xiP15wgrKE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdduuddguddvtdcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
+ rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugeskhgvrhhnvghlrdhorhhgqeenucggtf
+ frrghtthgvrhhnpedvveeigfetudegveeiledvgfevuedvgfetgeefieeijeejffeggeeh
+ udegtdevheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+ hmpegrrhhnugdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidquddvkeehudej
+ tddvgedqvdekjedttddvieegqdgrrhhnugeppehkvghrnhgvlhdrohhrghesrghrnhgusg
+ druggv
+X-ME-Proxy: <xmx:pqeCZRYanC1WLiEFsG4-MAjWuA71k30OI4ivWyXUx3Ddq9cT3QLZzQ>
+ <xmx:pqeCZYVLEhDPnmxHjnu2xZge4p1LMU2JvFdnJbnWOeQMjLDlPoxCCg>
+ <xmx:pqeCZflpg3gqgULnEtvhu0bbQ5eyV2JyOrf1ABOQrweuKE4PBe8Rww>
+ <xmx:p6eCZS-EHB8GVnpcX6MaGvLUsgqvB2pxWXT_ilSCWGl1_CSKvPBxZA>
+Feedback-ID: i36794607:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 4B72AB6008D; Wed, 20 Dec 2023 03:36:54 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-1364-ga51d5fd3b7-fm-20231219.001-ga51d5fd3
 MIME-Version: 1.0
+Message-Id: <01ea8c41-88cd-4123-95c7-391640845fc3@app.fastmail.com>
+In-Reply-To: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
+References: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
+Date: Wed, 20 Dec 2023 08:36:36 +0000
+From: "Arnd Bergmann" <arnd@kernel.org>
+To: "Sam Ravnborg" <sam@ravnborg.org>,
+ "David S . Miller" <davem@davemloft.net>,
+ "Andreas Larsson" <andreas@gaisler.com>
+Subject: Re: [PATCH 00/27] sparc32: sunset sun4m and sun4d
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,59 +77,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-fbdev@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
+ linux-usb@vger.kernel.org, linux-sound@vger.kernel.org,
+ Takashi Iwai <tiwai@suse.com>, dri-devel@lists.freedesktop.org,
+ Jaroslav Kysela <perex@perex.cz>, Alan Stern <stern@rowland.harvard.edu>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, sparclinux@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D218292
+On Tue, Dec 19, 2023, at 22:03, Sam Ravnborg via B4 Relay wrote:
+> TODO before this can be applied:
+> - Ack from davem - as he is the principal sparc maintainer
+> - Tested-by: preferably on a target or QEMU (see above)
+>   I expect bugs as there are some involved changes!
+>
+> Ideas for the future
+> - Apply the most relevant downstream Gaisler patches
+>   - The ones introducing CAS should have preference as we then
+>     can drop the cmpxchg emulation
 
-            Bug ID: 218292
-           Summary: Built in Screen (Laptop) won't wake up from sleep (AMD
-                    Graphics)
-           Product: Drivers
-           Version: 2.5
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P3
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: mail@bewi.at
-        Regression: No
+One note about the CAS -- as far as I can tell, the absence
+of the futex() syscall on sparc32 kernels means that no glibc
+from the past decade can work correctly as it now requires futex
+for its internal locking, though it does work on sparc64 kernels
+in compat32 mode as well as the LEON3 kernel that adds futex
+support.
 
-Hello all!
+There have been a number of other bugs in sun4m/sun4d support that
+ended up making the system unusable during the same timeframe,
+I remember sysvipc being broken in native 32-bit mode (but again
+not in compat mode) and I think Al Viro has a list of things that
+he fixed over the years.
 
-I=E2=80=99ve a problem with the wake up from screen sleep (not whole comput=
-er sleeo,
-only display) and latest kernels. When the computer screen goes to sleep it
-won=E2=80=99t wake up anymore. No mouse cursor nor i can change to tty (Str=
-g + Alt + F1
-=E2=80=A6). The journals logs are also empty and only a hard reset helps. I=
-=E2=80=99ve tested
-it with the lastest Linux Kernel 6.6.6 and 6.6.7. Funnily if the whole comp=
-uter
-goes to sleep (for example Sleep, Hybrid Sleep or Hibernate), and i disable
-Screen Sleep before, the screen wakes up. The problem exists only when the
-screen goes to sleep. With older kernels (i don't know the exact version, i
-think before 6.6.x) it does work. I've tested the same behaviour on OpenSUSE
-Tumbleweed and Arch Linux. Also i changed to Wayland, but the same problem.
+All of these were found through inspection rather than testing,
+so there is a good chance that other fatal kernel bugs prevent
+testing in qemu, at least until the fixes from Andreas' tree
+are included.
 
-Info for my System:
-
-Graphics Platform: X11
-Processors: 16 =C3=97 AMD Ryzen 7 PRO 7840U w/ Radeon 780M Graphics
-Memory: 30,1 GiB of RAM
-Graphics Processor: AMD Radeon Graphics
-Manufacturer: LENOVO
-Product Name: 21F80041GE
-System Version: ThinkPad T14s Gen 4
-
-Maybe someone have an idea. Thank you very much.
-
-Best regards!
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+       Arnd
