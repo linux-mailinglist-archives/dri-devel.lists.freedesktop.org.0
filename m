@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0299581A149
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 15:41:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8CA581A150
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 15:43:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0B2810E5A7;
-	Wed, 20 Dec 2023 14:41:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A56D10E5C4;
+	Wed, 20 Dec 2023 14:43:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C04810E5A7
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 14:41:24 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29CB210E5C4
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 14:43:09 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 97BFF61659
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 14:41:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 45E98C433C8
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 14:41:23 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id F2D54B81D92
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 14:43:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 57424C433CA
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 14:43:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1703083283;
- bh=ihtx5sShVAGKVO7WCu5qUOB6U3nux8/iM5G0twyZnmc=;
+ s=k20201202; t=1703083386;
+ bh=182KQb2CyJfWvNu2nvPcIvRcnmKEc12yLM77BdEwmGI=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=elfxc9Cdx9FiHI+vnoxhFdRwGXmHG8aTV3br1c4CLe0svxOusEtRft4AKFn5qu0iR
- 9G7l+iwEFTTx+Z/WqPFzj/ncLtUvsPBQorrFAmlIo7mtqKfyka4uFrkuLjjQhYD/dx
- H30DVgkFzkrydOcmKnqYz8O/gd2idfqAEo8MXNMRzrDz+Cyh4ri6vQEH+YQiWfkGJo
- WFirPnx5lCfkVe/qWYgbT+eKo3iOYeJ916XoX4bnucRIW0iBCzgJAp8+l2FDIi80Ss
- e1Im5encSZibAW1CNMl+ibkRTwUdDPPkxDWa+/TL3NMTnfNFZEAv90F0EV3yBGwIro
- 3ZgApAlgrzU6w==
+ b=Cul7wRha7irAqe3J5rr3ODBH+k1DVuaf5C3+TKfigTkmf8FCQNhtM83q9lethPqqK
+ 3p2yBWy9nA0dAD7lM+ePgh1dZUPCqaIUY3ZgWxXlv7sME2JnQK2P1hO2+N/btPPEa9
+ R9moC9cLZke/lnyJLNtERaKAb7Ld9zgRvmi8aWSx9WJSu6zEf8CmDtvSSqRw5YnMZD
+ LTZzeTaFbU10ELDebTuU7Qshr/0bgQQKIDoaOYUrFhxZ88Ku9WXG+4v1MgdIYHFDbG
+ 5ofZCnK4U4VZQ2bW4sJZRQbrcM68C+ozPdWwiByb9enay3h2r+8dZ/I05IC8a2mqK+
+ FSB/jfrV3zP/w==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 36692C53BCD; Wed, 20 Dec 2023 14:41:23 +0000 (UTC)
+ from userid 48) id 43622C53BD0; Wed, 20 Dec 2023 14:43:06 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 218292] Built in Screen (Laptop) won't wake up from sleep (AMD
  Graphics)
-Date: Wed, 20 Dec 2023 14:41:23 +0000
+Date: Wed, 20 Dec 2023 14:43:06 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -49,7 +49,7 @@ X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-218292-2300-TlSuXNCJiD@https.bugzilla.kernel.org/>
+Message-ID: <bug-218292-2300-ErUunYWn2A@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-218292-2300@https.bugzilla.kernel.org/>
 References: <bug-218292-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -74,69 +74,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D218292
 
---- Comment #4 from mail@bewi.at ---
-(In reply to Bagas Sanjaya from comment #1)
-> (In reply to mail from comment #0)
-> > Hello all!
-> >=20
-> > I=E2=80=99ve a problem with the wake up from screen sleep (not whole co=
-mputer
-> sleeo,
-> > only display) and latest kernels. When the computer screen goes to slee=
-p it
-> > won=E2=80=99t wake up anymore. No mouse cursor nor i can change to tty =
-(Strg + Alt
-> +
-> > F1 =E2=80=A6). The journals logs are also empty and only a hard reset h=
-elps. I=E2=80=99ve
-> > tested it with the lastest Linux Kernel 6.6.6 and 6.6.7. Funnily if the
-> > whole computer goes to sleep (for example Sleep, Hybrid Sleep or
-> Hibernate),
-> > and i disable Screen Sleep before, the screen wakes up. The problem exi=
-sts
-> > only when the screen goes to sleep. With older kernels (i don't know the
-> > exact version, i think before 6.6.x) it does work. I've tested the same
-> > behaviour on OpenSUSE Tumbleweed and Arch Linux. Also i changed to Wayl=
-and,
-> > but the same problem.
-> >=20
->=20
-> Does waking up from sleep work on v6.5.y? v6.1.y? Also, can you attach
-> full dmesg (from both v6.6.y and working kernel)?
-
-First of all thank you for the reply. I've attached the logs. I hope i made=
- it
-correctly.
-
->=20
-> > Info for my System:
-> >=20
-> > Graphics Platform: X11
-> > Processors: 16 =C3=97 AMD Ryzen 7 PRO 7840U w/ Radeon 780M Graphics
-> > Memory: 30,1 GiB of RAM
-> > Graphics Processor: AMD Radeon Graphics
->=20
-> What amdgpu model?
->=20
-> > Manufacturer: LENOVO
-> > Product Name: 21F80041GE
-> > System Version: ThinkPad T14s Gen 4
-> >=20
->=20
-> Confused...
-
-I'm also confused. ;-) Did you mean this?
-
-
-[root@xyz user]# lspci -k | grep -EA2 'VGA|3D'
-pcilib: Error reading /sys/bus/pci/devices/0000:00:08.3/label: Operation not
-permitted
-c3:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI]
-Phoenix1 (rev dd)
-        Subsystem: Lenovo Phoenix1
-        Kernel driver in use: amdgpu
-
-Thanks again.
+--- Comment #5 from mail@bewi.at ---
+Sorry i forgot to say. I don't tried the 6.5 Kernel. v6.1. works. v6.6. doe=
+sn't
+work.
 
 --=20
 You may reply to this email to add a comment.
