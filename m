@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEB46819EB6
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 13:12:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19FCC819EB7
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 13:12:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D37BA10E57F;
-	Wed, 20 Dec 2023 12:12:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B6E710E580;
+	Wed, 20 Dec 2023 12:12:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [IPv6:2a00:1098:ed:100::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C315B10E57F
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 12:12:05 +0000 (UTC)
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A322C10E580
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 12:12:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1703074324;
- bh=o5VygW2F7/dS/7MDJfHNbT3yI/+OvM90k1Msadpf4uk=;
+ s=mail; t=1703074330;
+ bh=qpXtJHOu5jSPOW1f5fkCH+JXOiMtY3P5YzcKQ2FIVkw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=eWwyjF15SvtXp/ZxTBm2Nsl7Jwjq0tr2ptKcIRwgyNUAHJDcx96FAbQX9FW1EPjzV
- UO4qPeKpcr7cIAu9Z+d2CiM4X3MBHWjY5t1LThv6Upybpqpk06F+DiMJVjWh8ehLZr
- lDgrP8vH6CWxGsq4cgtgkN8v8Ci6EkRhQQYCdxSd9awlbnWJsEYMpugAOmvlcou+E0
- G6L/ZgaKI8j4Ch1yd0aS4cGv+pYDg3qWm+avQGWN8QC/zKyOQee3+e05y6s0nHrpwE
- LFLLzc/nzKxyQPn28SaAKmGKBJNhxolKGkzPFQrw0OLqBIPt8jkh0kJrfP4K8BPCIY
- k12gasUBKmZPw==
+ b=Ywssx7ScKZjCM2E1EcQbkx1F9qHokqUu/A/4/4eRBCWi1Rg05UrivLLMwmzgqCTnW
+ ubFieah8nosM+C42rFcVICmu+qAKFt5b+ZRZVWk/SumefaiWsd+MCIyj3XUdIsERQz
+ YrZPFZdeqHwAqzR7hY1/pRjaYIZNWWD0Ho4ydN+3OdxQv0c7WohDWlJwWjgzSvXdoR
+ aEYd6UsuoHtnv50peP1+gZi81jNZ/x89IeEFrm0HuHkATG8t9m+LT2CQIZ1vQ/kOFO
+ hnV66AB+zBycKo+mCjIQ11LdQ7mOEnfJxsusMGDk0lDcyOx1fBr7AXXvHh9Eb6pEZM
+ KfRsK3ziOhXAg==
 Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: vignesh)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id BB48C3781FD5;
- Wed, 20 Dec 2023 12:11:59 +0000 (UTC)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 682393781FEF;
+ Wed, 20 Dec 2023 12:12:05 +0000 (UTC)
 From: Vignesh Raman <vignesh.raman@collabora.com>
 To: helen.koike@collabora.com, airlied@gmail.com, daniel@ffwll.ch,
  daniels@collabora.com
-Subject: [PATCH v1 6/8] MAINTAINERS: drm/ci: xfails: add entry for panfrost
-Date: Wed, 20 Dec 2023 17:41:08 +0530
-Message-Id: <20231220121110.1441160-7-vignesh.raman@collabora.com>
+Subject: [PATCH v1 7/8] drm/ci: Rename xfails file
+Date: Wed, 20 Dec 2023 17:41:09 +0530
+Message-Id: <20231220121110.1441160-8-vignesh.raman@collabora.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20231220121110.1441160-1-vignesh.raman@collabora.com>
 References: <20231220121110.1441160-1-vignesh.raman@collabora.com>
@@ -60,29 +60,63 @@ Cc: emma@anholt.net, linux-rockchip@lists.infradead.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DRM CI tests panfrost drivers, and track of which tests
-are failing, flaking or being skipped by the ci in the
-expectations files. So add entry for these files, so
-that the corresponding driver maintainer can be notified
-when they change.
+Rename the names of xfail files for Mediatek (mt8173 and mt8183),
+Rockchip (rk3288 and rk3399), and Meson (g12b) to include
+information about the tested driver and whether it is related
+to display or GPU testing.
 
 Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
 ---
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+ ...ediatek-mt8173-fails.txt => mediatek-mt8173-display-fails.txt} | 0
+ .../xfails/{meson-g12b-fails.txt => panfrost-g12b-gpu-fails.txt}  | 0
+ .../{mediatek-mt8183-fails.txt => panfrost-mt8183-gpu-fails.txt}  | 0
+ .../{rockchip-rk3288-fails.txt => panfrost-rk3288-gpu-fails.txt}  | 0
+ .../{rockchip-rk3288-skips.txt => panfrost-rk3288-gpu-skips.txt}  | 0
+ .../{rockchip-rk3399-fails.txt => panfrost-rk3399-gpu-fails.txt}  | 0
+ ...{rockchip-rk3399-flakes.txt => panfrost-rk3399-gpu-flakes.txt} | 0
+ .../{rockchip-rk3399-skips.txt => panfrost-rk3399-gpu-skips.txt}  | 0
+ 8 files changed, 0 insertions(+), 0 deletions(-)
+ rename drivers/gpu/drm/ci/xfails/{mediatek-mt8173-fails.txt => mediatek-mt8173-display-fails.txt} (100%)
+ rename drivers/gpu/drm/ci/xfails/{meson-g12b-fails.txt => panfrost-g12b-gpu-fails.txt} (100%)
+ rename drivers/gpu/drm/ci/xfails/{mediatek-mt8183-fails.txt => panfrost-mt8183-gpu-fails.txt} (100%)
+ rename drivers/gpu/drm/ci/xfails/{rockchip-rk3288-fails.txt => panfrost-rk3288-gpu-fails.txt} (100%)
+ rename drivers/gpu/drm/ci/xfails/{rockchip-rk3288-skips.txt => panfrost-rk3288-gpu-skips.txt} (100%)
+ rename drivers/gpu/drm/ci/xfails/{rockchip-rk3399-fails.txt => panfrost-rk3399-gpu-fails.txt} (100%)
+ rename drivers/gpu/drm/ci/xfails/{rockchip-rk3399-flakes.txt => panfrost-rk3399-gpu-flakes.txt} (100%)
+ rename drivers/gpu/drm/ci/xfails/{rockchip-rk3399-skips.txt => panfrost-rk3399-gpu-skips.txt} (100%)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9d959a6881f7..bcdc17d1aa26 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1645,6 +1645,7 @@ L:	dri-devel@lists.freedesktop.org
- S:	Supported
- T:	git git://anongit.freedesktop.org/drm/drm-misc
- F:	Documentation/gpu/panfrost.rst
-+F:	drivers/gpu/drm/ci/xfails/panfrost*
- F:	drivers/gpu/drm/panfrost/
- F:	include/uapi/drm/panfrost_drm.h
- 
+diff --git a/drivers/gpu/drm/ci/xfails/mediatek-mt8173-fails.txt b/drivers/gpu/drm/ci/xfails/mediatek-mt8173-display-fails.txt
+similarity index 100%
+rename from drivers/gpu/drm/ci/xfails/mediatek-mt8173-fails.txt
+rename to drivers/gpu/drm/ci/xfails/mediatek-mt8173-display-fails.txt
+diff --git a/drivers/gpu/drm/ci/xfails/meson-g12b-fails.txt b/drivers/gpu/drm/ci/xfails/panfrost-g12b-gpu-fails.txt
+similarity index 100%
+rename from drivers/gpu/drm/ci/xfails/meson-g12b-fails.txt
+rename to drivers/gpu/drm/ci/xfails/panfrost-g12b-gpu-fails.txt
+diff --git a/drivers/gpu/drm/ci/xfails/mediatek-mt8183-fails.txt b/drivers/gpu/drm/ci/xfails/panfrost-mt8183-gpu-fails.txt
+similarity index 100%
+rename from drivers/gpu/drm/ci/xfails/mediatek-mt8183-fails.txt
+rename to drivers/gpu/drm/ci/xfails/panfrost-mt8183-gpu-fails.txt
+diff --git a/drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt b/drivers/gpu/drm/ci/xfails/panfrost-rk3288-gpu-fails.txt
+similarity index 100%
+rename from drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt
+rename to drivers/gpu/drm/ci/xfails/panfrost-rk3288-gpu-fails.txt
+diff --git a/drivers/gpu/drm/ci/xfails/rockchip-rk3288-skips.txt b/drivers/gpu/drm/ci/xfails/panfrost-rk3288-gpu-skips.txt
+similarity index 100%
+rename from drivers/gpu/drm/ci/xfails/rockchip-rk3288-skips.txt
+rename to drivers/gpu/drm/ci/xfails/panfrost-rk3288-gpu-skips.txt
+diff --git a/drivers/gpu/drm/ci/xfails/rockchip-rk3399-fails.txt b/drivers/gpu/drm/ci/xfails/panfrost-rk3399-gpu-fails.txt
+similarity index 100%
+rename from drivers/gpu/drm/ci/xfails/rockchip-rk3399-fails.txt
+rename to drivers/gpu/drm/ci/xfails/panfrost-rk3399-gpu-fails.txt
+diff --git a/drivers/gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt b/drivers/gpu/drm/ci/xfails/panfrost-rk3399-gpu-flakes.txt
+similarity index 100%
+rename from drivers/gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt
+rename to drivers/gpu/drm/ci/xfails/panfrost-rk3399-gpu-flakes.txt
+diff --git a/drivers/gpu/drm/ci/xfails/rockchip-rk3399-skips.txt b/drivers/gpu/drm/ci/xfails/panfrost-rk3399-gpu-skips.txt
+similarity index 100%
+rename from drivers/gpu/drm/ci/xfails/rockchip-rk3399-skips.txt
+rename to drivers/gpu/drm/ci/xfails/panfrost-rk3399-gpu-skips.txt
 -- 
 2.40.1
 
