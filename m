@@ -1,37 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D315281A76E
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 20:58:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3703581A7CC
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 21:56:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2E1B10E106;
-	Wed, 20 Dec 2023 19:58:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E2E910E611;
+	Wed, 20 Dec 2023 20:55:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7906210E106
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 19:58:49 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DA8471FB;
- Wed, 20 Dec 2023 11:59:33 -0800 (PST)
-Received: from [10.57.75.35] (unknown [10.57.75.35])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 06D4A3F738;
- Wed, 20 Dec 2023 11:58:46 -0800 (PST)
-Message-ID: <a185918b-19d0-40c3-8cef-92a91196d09e@arm.com>
-Date: Wed, 20 Dec 2023 20:59:43 +0100
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59D6D10E61C
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 20:55:56 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 3BKKkIaf022527; Wed, 20 Dec 2023 20:55:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=FzeRGjQx/fY0YT5VrAkIf5yvGf+ZU72nLHj+ptlaO5Y=; b=XA
+ 7YOmw/q3BSD6hxqFs0IcaJkGxR5MHVyI3uXw94ElpG6HlVxMmZSqpTEFHAWblAwq
+ 4B+oe7sEFNi87oJFHDfkkBeJcBUffCK59e8z67UKlbC4cPQXZrGn9FVZo2efg6Pt
+ NWbyBkGYxScQMWL/ZMgQNhjeMQ9dENMKelfIpz1T+xJjFfHIaa4GFOlMqhVt8i8S
+ SABrCMZfmkcsMSz6Qfb+Abw6XjAS4FlD9ySNSKCQGHn8efPJI6Kxk8VPm8Qd8YID
+ a1bB/a+A8wwdsC03sG0diZBxbj/SllPyeWCI8gWkHWWj3QXSZHrbQGRRlx0h85Br
+ Pp4Ldo4mGt8hpPEDdtdg==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v37vxvv4d-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 20 Dec 2023 20:55:26 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BKKtPCT001957
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 20 Dec 2023 20:55:25 GMT
+Received: from [10.110.87.50] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 20 Dec
+ 2023 12:55:23 -0800
+Message-ID: <6e83caa5-4648-4ab4-b825-3c1f964aa113@quicinc.com>
+Date: Wed, 20 Dec 2023 12:55:06 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 10/14] drm/panthor: Add the scheduler logical block
+Subject: Re: [PATCH linux-next] drm/panel: Simplify with dev_err_probe()
+To: <yang.guang5@zte.com.cn>, <hanxu5@huaqin.corp-partner.google.com>
+References: <202312201048538333616@zte.com.cn>
 Content-Language: en-US
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org
-References: <20231204173313.2098733-1-boris.brezillon@collabora.com>
- <20231204173313.2098733-11-boris.brezillon@collabora.com>
-From: Ketil Johnsen <ketil.johnsen@arm.com>
-In-Reply-To: <20231204173313.2098733-11-boris.brezillon@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <202312201048538333616@zte.com.cn>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: YYIAfmd5pcsoPzjhtPdEUeylxuFrAumm
+X-Proofpoint-GUID: YYIAfmd5pcsoPzjhtPdEUeylxuFrAumm
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ suspectscore=0 impostorscore=0 lowpriorityscore=0 malwarescore=0
+ bulkscore=0 phishscore=0 spamscore=0 clxscore=1011 mlxscore=0 adultscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312200148
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,93 +81,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Nicolas Boichat <drinkcat@chromium.org>, Daniel Stone <daniels@collabora.com>,
- Liviu Dudau <Liviu.Dudau@arm.com>, Steven Price <steven.price@arm.com>,
- =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>, kernel@collabora.com,
- Robin Murphy <robin.murphy@arm.com>,
- Faith Ekstrand <faith.ekstrand@collabora.com>,
- "Marty E . Plummer" <hanetzer@startmail.com>
+Cc: neil.armstrong@linaro.org, tzimmermann@suse.de, cgel.zte@gmail.com,
+ linux-kernel@vger.kernel.org, mripard@kernel.org, chen.haonan2@zte.com.cn,
+ dri-devel@lists.freedesktop.org, jiang.xuexin@zte.com.cn, airlied@gmail.com,
+ sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/12/2023 18:33, Boris Brezillon wrote:
 
-<snip>
 
-> +/**
-> + * cs_slot_sync_queue_state_locked() - Synchronize the queue slot priority
-> + * @ptdev: Device.
-> + * @csg_id: Group slot.
-> + * @cs_id: Queue slot.
-> + *
-> + * Queue state is updated on group suspend or STATUS_UPDATE event.
-> + */
-> +static void
-> +cs_slot_sync_queue_state_locked(struct panthor_device *ptdev, u32 csg_id, u32 cs_id)
-> +{
-> +	struct panthor_group *group = ptdev->scheduler->csg_slots[csg_id].group;
-> +	struct panthor_queue *queue = group->queues[cs_id];
-> +	struct panthor_fw_cs_iface *cs_iface =
-> +		panthor_fw_get_cs_iface(group->ptdev, csg_id, cs_id);
-> +
-> +	u32 status_wait_cond;
-> +
-> +	switch (cs_iface->output->status_blocked_reason) {
-> +	case CS_STATUS_BLOCKED_REASON_UNBLOCKED:
-> +		if (queue->iface.input->insert == queue->iface.output->extract &&
-> +		    cs_iface->output->status_scoreboards == 0)
-> +			group->idle_queues |= BIT(cs_id);
-> +		break;
-> +
-> +	case CS_STATUS_BLOCKED_REASON_SYNC_WAIT:
-> +		drm_WARN_ON(&ptdev->base, !list_empty(&group->wait_node));
+On 12/19/2023 6:48 PM, yang.guang5@zte.com.cn wrote:
+> From: Yang Guang <yang.guang5@zte.com.cn>
+> 
+> dev_err_probe() can check if the error code is -EPROBE_DEFER
+> and can return the error code, replacing dev_err() with it
+> simplifies the code.
+> 
+> Signed-off-by: Chen Haonan <chen.haonan2@zte.com.cn>
+Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 
-I think we should remove this drm_WARN_ON(). With my user submission 
-experiments, I keep hitting this warning because I'm a bit slow to 
-signal a Mali sync object. In other words; I'm keeping a stream blocked 
-for a while.
-
-It is quite common to get two rapid job IRQs, e.g. one for a global 
-event, and one for a particular CSG event. Depending on timing of the 
-scheduled work to deal with the IRQs, I quite often end up with two 
-tick_work() being scheduled and executed as a result of this. Both of 
-these will see the same stream as CS_STATUS_BLOCKED_REASON_UNBLOCKED, 
-and hence the second will trigger the drm_WARN_ON(), as the first run 
-already added the group to the waiting list.
-
-I'm pretty sure we can hit this drm_WARN_ON() when user space starts 
-making use of multiple streams pr group as well, since two or more 
-streams for the same group could both be 
-CS_STATUS_BLOCKED_REASON_SYNC_WAIT, thus running into the same issue.
-
-> +		list_move_tail(&group->wait_node, &group->ptdev->scheduler->groups.waiting);
-> +		group->blocked_queues |= BIT(cs_id);
-> +		queue->syncwait.gpu_va = cs_iface->output->status_wait_sync_ptr;
-> +		queue->syncwait.ref = cs_iface->output->status_wait_sync_value;
-> +		status_wait_cond = cs_iface->output->status_wait & CS_STATUS_WAIT_SYNC_COND_MASK;
-> +		queue->syncwait.gt = status_wait_cond == CS_STATUS_WAIT_SYNC_COND_GT;
-> +		if (cs_iface->output->status_wait & CS_STATUS_WAIT_SYNC_64B) {
-> +			u64 sync_val_hi = cs_iface->output->status_wait_sync_value_hi;
-> +
-> +			queue->syncwait.sync64 = true;
-> +			queue->syncwait.ref |= sync_val_hi << 32;
-> +		} else {
-> +			queue->syncwait.sync64 = false;
-> +		}
-> +		break;
-> +
-> +	default:
-> +		/* Other reasons are not blocking. Consider the queue as runnable
-> +		 * in those cases.
-> +		 */
-> +		break;
-> +	}
-> +}
-
-<snip>
-
---
 Thanks,
-Ketil
 
+Jessica Zhang
+
+> ---
+>   drivers/gpu/drm/panel/panel-boe-himax8279d.c | 18 ++++++------------
+>   1 file changed, 6 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-boe-himax8279d.c b/drivers/gpu/drm/panel/panel-boe-himax8279d.c
+> index 11b64acbe8a9..e225840b0d67 100644
+> --- a/drivers/gpu/drm/panel/panel-boe-himax8279d.c
+> +++ b/drivers/gpu/drm/panel/panel-boe-himax8279d.c
+> @@ -854,26 +854,20 @@ static int panel_add(struct panel_info *pinfo)
+> 
+>   	pinfo->pp18_gpio = devm_gpiod_get(dev, "pp18", GPIOD_OUT_HIGH);
+>   	if (IS_ERR(pinfo->pp18_gpio)) {
+> -		ret = PTR_ERR(pinfo->pp18_gpio);
+> -		if (ret != -EPROBE_DEFER)
+> -			dev_err(dev, "failed to get pp18 gpio: %d\n", ret);
+> -		return ret;
+> +		return dev_err_probe(dev, PTR_ERR(pinfo->pp18_gpio),
+> +							 "failed to get pp18 gpio\n");
+>   	}
+> 
+>   	pinfo->pp33_gpio = devm_gpiod_get(dev, "pp33", GPIOD_OUT_HIGH);
+>   	if (IS_ERR(pinfo->pp33_gpio)) {
+> -		ret = PTR_ERR(pinfo->pp33_gpio);
+> -		if (ret != -EPROBE_DEFER)
+> -			dev_err(dev, "failed to get pp33 gpio: %d\n", ret);
+> -		return ret;
+> +		return	dev_err_probe(dev, PTR_ERR(pinfo->pp33_gpio),
+> +							 "failed to get pp33 gpio\n");
+>   	}
+> 
+>   	pinfo->enable_gpio = devm_gpiod_get(dev, "enable", GPIOD_OUT_HIGH);
+>   	if (IS_ERR(pinfo->enable_gpio)) {
+> -		ret = PTR_ERR(pinfo->enable_gpio);
+> -		if (ret != -EPROBE_DEFER)
+> -			dev_err(dev, "failed to get enable gpio: %d\n", ret);
+> -		return ret;
+> +		return	dev_err_probe(dev, PTR_ERR(pinfo->enable_gpio),
+> +						 "failed to get enable gpio\n");
+>   	}
+> 
+>   	drm_panel_init(&pinfo->base, dev, &panel_funcs,
+> -- 
+> 2.25.1
