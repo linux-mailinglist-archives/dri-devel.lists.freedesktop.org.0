@@ -2,72 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15183819BB1
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 10:51:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36EA2819BC3
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 10:53:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DA5C10E110;
-	Wed, 20 Dec 2023 09:51:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B0BF10E546;
+	Wed, 20 Dec 2023 09:53:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FA9A10E110
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 09:51:54 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 0E372B81C38;
- Wed, 20 Dec 2023 09:51:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B63D0C433C7;
- Wed, 20 Dec 2023 09:51:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1703065912;
- bh=Cp6gzt3q4v5XnTntRjirvjcv/I42KDzoFGvVKYV/ZYA=;
- h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
- b=KUPj6oFWlnLEtsziChPP6fNg6KLO22ByvgKX47tRye5w0L3zPZHC3qn4pmIBBCHik
- j92jbvRoK9SXAcBTYyMO2QPjs1o0KtcilwdCMqpDDX90y8fJG3lsmsbr+XNFnSmyuc
- /1kEIGuHhFtqtTejF54pmipy01C2DDUpvbBM1URSsnTL9T9LZMGpGJSsZZl0ijJPt5
- snrx+3Z1qvT3sJqmRWD8+v1lZC6io5wn9elGVGvlZbQXOtWs7yx7JBYb2NJxffYURU
- tYOQpw+65Y024Z/VVT1z2wXVb/5o37JrDEx70Um1/N6UigmQzSN+unknc6alOKzyXc
- 23V55hKIXsebw==
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailauth.nyi.internal (Postfix) with ESMTP id 926C227C005A;
- Wed, 20 Dec 2023 04:51:50 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
- by compute5.internal (MEProxy); Wed, 20 Dec 2023 04:51:50 -0500
-X-ME-Sender: <xms:NLmCZbZl8gKQKvH6_jEgGanAWRBW0IZ9wSq2V-Xq4b7yZ4S2j9wxdw>
- <xme:NLmCZabuVOhCENTUuNyROA8RzCLAKX2XuSSoruo5P6aq9agWJDiowVbzia3M5VZtX
- 1zls5TgLGThqnqqS7Y>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdduvddguddtucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
- nhguuceuvghrghhmrghnnhdfuceorghrnhgusehkvghrnhgvlhdrohhrgheqnecuggftrf
- grthhtvghrnhepvdeviefgtedugeevieelvdfgveeuvdfgteegfeeiieejjeffgeeghedu
- gedtveehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
- eprghrnhguodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduvdekhedujedt
- vdegqddvkeejtddtvdeigedqrghrnhgupeepkhgvrhhnvghlrdhorhhgsegrrhhnuggsrd
- guvg
-X-ME-Proxy: <xmx:NbmCZd8Y-yYEchDqoN_ntfXRavuxioD9eu7W4WXdOf2ztyRZGuMCxA>
- <xmx:NbmCZRpducWjQsjhpng9BGJFM1gihhAQnIydaUX0iRt8Ff-A7W7Iiw>
- <xmx:NbmCZWrEzVWoia2K0Iwijp9UcgvYJ_gMbOTKiAdIZZaY8RREb-4zmg>
- <xmx:NrmCZb62Iw048aegq2kvAtL_NfPBQ1wXuVZi7RU4NCk0hLEiQ7teNw>
-Feedback-ID: i36794607:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id E3684B6008D; Wed, 20 Dec 2023 04:51:48 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-1364-ga51d5fd3b7-fm-20231219.001-ga51d5fd3
+Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 894E710E346
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 09:53:34 +0000 (UTC)
+Received: from localhost.ispras.ru (unknown [10.10.165.4])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 497C140F1DC3;
+ Wed, 20 Dec 2023 09:53:31 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 497C140F1DC3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
+ s=default; t=1703066011;
+ bh=fkPlk9QOXBUg/k3FjQRsnSKdPa0KJL00WGVvsE/i3dA=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Trv9tXZvm1wV7BQ/LrnJvbCYWoYO0k0HXzowr4ubM0O8M5L8LT4Ev/elpRfApKN1m
+ 78ovhPmblZ/1x0Q3PfftlloLqq9yUHBqoiIaQr3Lg7f4op3EQj8kHfJAcATotP4Fey
+ C4HbYjfVMw6ywINCYilDngwxaX8BXMaD8OzCOpeY=
+From: Fedor Pchelkin <pchelkin@ispras.ru>
+To: Inki Dae <inki.dae@samsung.com>
+Subject: [PATCH] drm/exynos: gsc: minor fix for loop iteration in
+ gsc_runtime_resume
+Date: Wed, 20 Dec 2023 12:53:15 +0300
+Message-ID: <20231220095316.23098-1-pchelkin@ispras.ru>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Message-Id: <55c0b9a5-6ba3-4582-97f0-225d0119da5d@app.fastmail.com>
-In-Reply-To: <9c4479a3d194450593d541ae02ad288a@AcuMS.aculab.com>
-References: <20231219-sam-sparc32-sunset-v3-v1-0-64bb44b598c5@ravnborg.org>
- <01ea8c41-88cd-4123-95c7-391640845fc3@app.fastmail.com>
- <9c4479a3d194450593d541ae02ad288a@AcuMS.aculab.com>
-Date: Wed, 20 Dec 2023 09:51:27 +0000
-From: "Arnd Bergmann" <arnd@kernel.org>
-To: "David Laight" <David.Laight@ACULAB.COM>,
- "Sam Ravnborg" <sam@ravnborg.org>, "David S . Miller" <davem@davemloft.net>,
- "Andreas Larsson" <andreas@gaisler.com>
-Subject: Re: [PATCH 00/27] sparc32: sunset sun4m and sun4d
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,64 +44,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- Takashi Iwai <tiwai@suse.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Jaroslav Kysela <perex@perex.cz>, Alan Stern <stern@rowland.harvard.edu>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: lvc-project@linuxtesting.org, linux-samsung-soc@vger.kernel.org,
+ Alim Akhtar <alim.akhtar@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Fedor Pchelkin <pchelkin@ispras.ru>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Alexey Khoroshilov <khoroshilov@ispras.ru>, David Airlie <airlied@gmail.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 20, 2023, at 09:34, David Laight wrote:
-> From: Arnd Bergmann
->> Sent: 20 December 2023 08:37
->> 
->> On Tue, Dec 19, 2023, at 22:03, Sam Ravnborg via B4 Relay wrote:
->> > TODO before this can be applied:
->> > - Ack from davem - as he is the principal sparc maintainer
->> > - Tested-by: preferably on a target or QEMU (see above)
->> >   I expect bugs as there are some involved changes!
->> >
->> > Ideas for the future
->> > - Apply the most relevant downstream Gaisler patches
->> >   - The ones introducing CAS should have preference as we then
->> >     can drop the cmpxchg emulation
->> 
->> One note about the CAS -- as far as I can tell, the absence
->> of the futex() syscall on sparc32 kernels means that no glibc
->> from the past decade can work correctly as it now requires futex
->> for its internal locking, though it does work on sparc64 kernels
->> in compat32 mode as well as the LEON3 kernel that adds futex
->> support.
->
-> Does the glibc mutex 'fast path' also require a CAS instruction?
+Do not forget to call clk_disable_unprepare() on the first element of
+ctx->clocks array.
 
-I think that depends on whether glibc is built for a CPU with
-CAS or not. If it's built for 32-bit sparcv9 or leon, it should use
-CAS and crash on sparcv8 without CAS. If it's built for pure
-sparcv8, it should try to use an emulation that is incompatible
-with the kernel futex syscall.
+Found by Linux Verification Center (linuxtesting.org).
 
-> Presumably having CAS also removes the 'really horrid (tm)' code
-> required to make all the bitmap operations atomic?
+Fixes: 8b7d3ec83aba ("drm/exynos: gsc: Convert driver to IPP v2 core API")
+Signed-off-by: Fedor Pchelkin <pchelkin@ispras.ru>
+---
+ drivers/gpu/drm/exynos/exynos_drm_gsc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Yes, but I'm not sure this is implemented in the leon3 tree.
-With CAS enabled, at least asm/atomic.h, asm/bitops.h,
-asm/cmpxchg.h and asm/spinlock.h can be implemented as efficiently
-as they are in the 64-bit version.
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_gsc.c b/drivers/gpu/drm/exynos/exynos_drm_gsc.c
+index 34cdabc30b4f..5302bebbe38c 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_gsc.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_gsc.c
+@@ -1342,7 +1342,7 @@ static int __maybe_unused gsc_runtime_resume(struct device *dev)
+ 	for (i = 0; i < ctx->num_clocks; i++) {
+ 		ret = clk_prepare_enable(ctx->clocks[i]);
+ 		if (ret) {
+-			while (--i > 0)
++			while (--i >= 0)
+ 				clk_disable_unprepare(ctx->clocks[i]);
+ 			return ret;
+ 		}
+-- 
+2.43.0
 
-> Seems a shame to lose old sparc32 support when (I think) the sun3
-> in my cupboard would still work - if only it had a working psu.
-> (The 110/220V switch wasn't connected and the FET wasn't rated
-> for 450V. UK mains can be 240+10% if you are near a substation.)
-
-sun3 support has never worked upstream. There is an old series from
-20 years ago that made it work but nobody ever tried to get it
-merged.
-
-       Arnd
