@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1116D81A064
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 14:57:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FF9581A066
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 14:57:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B5B510E5A3;
-	Wed, 20 Dec 2023 13:57:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E9FA10E5B8;
+	Wed, 20 Dec 2023 13:57:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0897D10E5A3
+ [IPv6:2a00:1098:ed:100::25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E650310E5A3
  for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 13:57:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1703080651;
- bh=k61tRW8yS3BzK3cMQHtq3EYuHMcvpO3gN4VZxttnP+A=;
+ s=mail; t=1703080652;
+ bh=YE4rVheJi9RiBpz74kRowAaD1u+38Nqkvny8szX9Jjg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kF1ruH8OAxpExyp0Sv2u12sxLq7V3qoO02wqahBDtB/gAW/Uz26tJTPJMV6smd53T
- kGTFVLTatFK+iURZlMw743w2NcYo0ZKh8UPwrU63oy4eo8IwIaMDPbPXWHHZo1X0JD
- AuUcvC71piNh/J/Bqf791Efr99N1MAJ8AA6tLSPkDLSmDFnPjaAYuKV/i6XaN3Mdj7
- Tyx36DLaNcyMeWetrnbfjXnnZ1cxwmx6Ee4Yz3NYwmPiV/FRILhZ3r89nAl4fLeRpJ
- AKwYH5NvBe/u15mGIJgcyxeXEwfnhIfERyf0vKGlL0tM+kBJS/7Iet+zreA4o1xWxn
- 51nPoIEhlvceA==
+ b=NSnjvO65LHJWlObLa/kmD7uhjkyfcuGE3pc1tL+ydpVWYy6YVMGrSeBMWWwP9q1bk
+ sGsGBBqwW5R67V1BnTAXyWgNyZf4zCaHAAMOiTBCUjE5PHKRF6BULqmxB0BOiBwZ/P
+ LIaBawdxoqKSw5C2aGrx+ox0FGzFXdzL6hFaDWMelg8sU0A6JpzZZmAtOryuy38z9c
+ W3goaiyihrEjTfrzBDapURVB8U/rwuaxHuNn6UjCVzX9Fjmm0ctZHjS4ZI6wGKlpCa
+ 6Wf6rb/V36EpWees+zRm5CsPkffHQuOyHJUk+8aKPuRLQoZ/7zASLaK2PZCOLtXlrI
+ yYpmWO308EsoQ==
 Received: from IcarusMOD.eternityproject.eu (cola.collaboradmins.com
  [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id E1A113781FCE;
- Wed, 20 Dec 2023 13:57:30 +0000 (UTC)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id F01463781FED;
+ Wed, 20 Dec 2023 13:57:31 +0000 (UTC)
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: chunkuang.hu@kernel.org
-Subject: [PATCH v2 1/4] drm/mediatek: dsi: Use GENMASK() for register mask
- definitions
-Date: Wed, 20 Dec 2023 14:57:19 +0100
-Message-ID: <20231220135722.192080-2-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v2 2/4] drm/mediatek: dsi: Cleanup functions
+ mtk_dsi_ps_control{_vact}()
+Date: Wed, 20 Dec 2023 14:57:20 +0100
+Message-ID: <20231220135722.192080-3-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231220135722.192080-1-angelogioacchino.delregno@collabora.com>
 References: <20231220135722.192080-1-angelogioacchino.delregno@collabora.com>
@@ -60,104 +60,137 @@ Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Change magic numerical masks with usage of the GENMASK() macro
-to improve readability.
-
-This commit brings no functional changes.
+Function mtk_dsi_ps_control() is a subset of mtk_dsi_ps_control_vact():
+merge the two in one mtk_dsi_ps_control() function by adding one
+function parameter `config_vact` which, when true, writes the VACT
+related registers.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/gpu/drm/mediatek/mtk_dsi.c | 46 ++++++++++++++++--------------
- 1 file changed, 24 insertions(+), 22 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_dsi.c | 76 +++++++++---------------------
+ 1 file changed, 23 insertions(+), 53 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index a2fdfc8ddb15..23d2c5be8dbb 100644
+index 23d2c5be8dbb..b618e2e31022 100644
 --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
 +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -58,18 +58,18 @@
+@@ -352,40 +352,6 @@ static void mtk_dsi_set_vm_cmd(struct mtk_dsi *dsi)
+ 	mtk_dsi_mask(dsi, DSI_VM_CMD_CON, TS_VFP_EN, TS_VFP_EN);
+ }
  
- #define DSI_TXRX_CTRL		0x18
- #define VC_NUM				BIT(1)
--#define LANE_NUM			(0xf << 2)
-+#define LANE_NUM			GENMASK(5, 2)
- #define DIS_EOT				BIT(6)
- #define NULL_EN				BIT(7)
- #define TE_FREERUN			BIT(8)
- #define EXT_TE_EN			BIT(9)
- #define EXT_TE_EDGE			BIT(10)
--#define MAX_RTN_SIZE			(0xf << 12)
-+#define MAX_RTN_SIZE			GENMASK(15, 12)
- #define HSTX_CKLP_EN			BIT(16)
+-static void mtk_dsi_ps_control_vact(struct mtk_dsi *dsi)
+-{
+-	struct videomode *vm = &dsi->vm;
+-	u32 dsi_buf_bpp, ps_wc;
+-	u32 ps_bpp_mode;
+-
+-	if (dsi->format == MIPI_DSI_FMT_RGB565)
+-		dsi_buf_bpp = 2;
+-	else
+-		dsi_buf_bpp = 3;
+-
+-	ps_wc = vm->hactive * dsi_buf_bpp;
+-	ps_bpp_mode = ps_wc;
+-
+-	switch (dsi->format) {
+-	case MIPI_DSI_FMT_RGB888:
+-		ps_bpp_mode |= PACKED_PS_24BIT_RGB888;
+-		break;
+-	case MIPI_DSI_FMT_RGB666:
+-		ps_bpp_mode |= PACKED_PS_18BIT_RGB666;
+-		break;
+-	case MIPI_DSI_FMT_RGB666_PACKED:
+-		ps_bpp_mode |= LOOSELY_PS_18BIT_RGB666;
+-		break;
+-	case MIPI_DSI_FMT_RGB565:
+-		ps_bpp_mode |= PACKED_PS_16BIT_RGB565;
+-		break;
+-	}
+-
+-	writel(vm->vactive, dsi->regs + DSI_VACT_NL);
+-	writel(ps_bpp_mode, dsi->regs + DSI_PSCTRL);
+-	writel(ps_wc, dsi->regs + DSI_HSTX_CKL_WC);
+-}
+-
+ static void mtk_dsi_rxtx_control(struct mtk_dsi *dsi)
+ {
+ 	u32 tmp_reg;
+@@ -417,36 +383,40 @@ static void mtk_dsi_rxtx_control(struct mtk_dsi *dsi)
+ 	writel(tmp_reg, dsi->regs + DSI_TXRX_CTRL);
+ }
  
- #define DSI_PSCTRL		0x1c
--#define DSI_PS_WC			0x3fff
--#define DSI_PS_SEL			(3 << 16)
-+#define DSI_PS_WC			GENMASK(14, 0)
-+#define DSI_PS_SEL			GENMASK(19, 16)
- #define PACKED_PS_16BIT_RGB565		(0 << 16)
- #define LOOSELY_PS_18BIT_RGB666		(1 << 16)
- #define PACKED_PS_18BIT_RGB666		(2 << 16)
-@@ -109,26 +109,27 @@
- #define LD0_WAKEUP_EN			BIT(2)
+-static void mtk_dsi_ps_control(struct mtk_dsi *dsi)
++static void mtk_dsi_ps_control(struct mtk_dsi *dsi, bool config_vact)
+ {
+-	u32 dsi_tmp_buf_bpp;
+-	u32 tmp_reg;
++	struct videomode *vm = &dsi->vm;
++	u32 dsi_buf_bpp, ps_wc;
++	u32 ps_bpp_mode;
++
++	if (dsi->format == MIPI_DSI_FMT_RGB565)
++		dsi_buf_bpp = 2;
++	else
++		dsi_buf_bpp = 3;
++
++	ps_wc = vm->hactive * dsi_buf_bpp;
++	ps_bpp_mode = ps_wc;
  
- #define DSI_PHY_TIMECON0	0x110
--#define LPX				(0xff << 0)
--#define HS_PREP				(0xff << 8)
--#define HS_ZERO				(0xff << 16)
--#define HS_TRAIL			(0xff << 24)
-+#define LPX				GENMASK(7, 0)
-+#define HS_PREP				GENMASK(15, 8)
-+#define HS_ZERO				GENMASK(23, 16)
-+#define HS_TRAIL			GENMASK(31, 24)
+ 	switch (dsi->format) {
+ 	case MIPI_DSI_FMT_RGB888:
+-		tmp_reg = PACKED_PS_24BIT_RGB888;
+-		dsi_tmp_buf_bpp = 3;
++		ps_bpp_mode |= PACKED_PS_24BIT_RGB888;
+ 		break;
+ 	case MIPI_DSI_FMT_RGB666:
+-		tmp_reg = LOOSELY_PS_18BIT_RGB666;
+-		dsi_tmp_buf_bpp = 3;
++		ps_bpp_mode |= PACKED_PS_18BIT_RGB666;
+ 		break;
+ 	case MIPI_DSI_FMT_RGB666_PACKED:
+-		tmp_reg = PACKED_PS_18BIT_RGB666;
+-		dsi_tmp_buf_bpp = 3;
++		ps_bpp_mode |= LOOSELY_PS_18BIT_RGB666;
+ 		break;
+ 	case MIPI_DSI_FMT_RGB565:
+-		tmp_reg = PACKED_PS_16BIT_RGB565;
+-		dsi_tmp_buf_bpp = 2;
+-		break;
+-	default:
+-		tmp_reg = PACKED_PS_24BIT_RGB888;
+-		dsi_tmp_buf_bpp = 3;
++		ps_bpp_mode |= PACKED_PS_16BIT_RGB565;
+ 		break;
+ 	}
  
- #define DSI_PHY_TIMECON1	0x114
--#define TA_GO				(0xff << 0)
--#define TA_SURE				(0xff << 8)
--#define TA_GET				(0xff << 16)
--#define DA_HS_EXIT			(0xff << 24)
-+#define TA_GO				GENMASK(7, 0)
-+#define TA_SURE				GENMASK(15, 8)
-+#define TA_GET				GENMASK(23, 16)
-+#define DA_HS_EXIT			GENMASK(31, 24)
+-	tmp_reg += dsi->vm.hactive * dsi_tmp_buf_bpp & DSI_PS_WC;
+-	writel(tmp_reg, dsi->regs + DSI_PSCTRL);
++	if (config_vact) {
++		writel(vm->vactive, dsi->regs + DSI_VACT_NL);
++		writel(ps_wc, dsi->regs + DSI_HSTX_CKL_WC);
++	}
++	writel(ps_bpp_mode, dsi->regs + DSI_PSCTRL);
+ }
  
- #define DSI_PHY_TIMECON2	0x118
--#define CONT_DET			(0xff << 0)
--#define CLK_ZERO			(0xff << 16)
--#define CLK_TRAIL			(0xff << 24)
-+#define CONT_DET			GENMASK(7, 0)
-+#define DA_HS_SYNC			GENMASK(15, 8)
-+#define CLK_ZERO			GENMASK(23, 16)
-+#define CLK_TRAIL			GENMASK(31, 24)
+ static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
+@@ -522,7 +492,7 @@ static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
+ 	writel(horizontal_backporch_byte, dsi->regs + DSI_HBP_WC);
+ 	writel(horizontal_frontporch_byte, dsi->regs + DSI_HFP_WC);
  
- #define DSI_PHY_TIMECON3	0x11c
--#define CLK_HS_PREP			(0xff << 0)
--#define CLK_HS_POST			(0xff << 8)
--#define CLK_HS_EXIT			(0xff << 16)
-+#define CLK_HS_PREP			GENMASK(7, 0)
-+#define CLK_HS_POST			GENMASK(15, 8)
-+#define CLK_HS_EXIT			GENMASK(23, 16)
+-	mtk_dsi_ps_control(dsi);
++	mtk_dsi_ps_control(dsi, false);
+ }
  
- #define DSI_VM_CMD_CON		0x130
- #define VM_CMD_EN			BIT(0)
-@@ -138,13 +139,14 @@
- #define FORCE_COMMIT			BIT(0)
- #define BYPASS_SHADOW			BIT(1)
+ static void mtk_dsi_start(struct mtk_dsi *dsi)
+@@ -667,7 +637,7 @@ static int mtk_dsi_poweron(struct mtk_dsi *dsi)
+ 	mtk_dsi_reset_engine(dsi);
+ 	mtk_dsi_phy_timconfig(dsi);
  
--#define CONFIG				(0xff << 0)
-+/* CMDQ related bits */
-+#define CONFIG				GENMASK(7, 0)
- #define SHORT_PACKET			0
- #define LONG_PACKET			2
- #define BTA				BIT(2)
--#define DATA_ID				(0xff << 8)
--#define DATA_0				(0xff << 16)
--#define DATA_1				(0xff << 24)
-+#define DATA_ID				GENMASK(15, 8)
-+#define DATA_0				GENMASK(23, 16)
-+#define DATA_1				GENMASK(31, 24)
- 
- #define NS_TO_CYCLE(n, c)    ((n) / (c) + (((n) % (c)) ? 1 : 0))
- 
+-	mtk_dsi_ps_control_vact(dsi);
++	mtk_dsi_ps_control(dsi, true);
+ 	mtk_dsi_set_vm_cmd(dsi);
+ 	mtk_dsi_config_vdo_timing(dsi);
+ 	mtk_dsi_set_interrupt_enable(dsi);
 -- 
 2.43.0
 
