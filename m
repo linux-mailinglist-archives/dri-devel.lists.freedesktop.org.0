@@ -2,73 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3703581A7CC
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 21:56:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7324081A8E4
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Dec 2023 23:14:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E2E910E611;
-	Wed, 20 Dec 2023 20:55:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6F7F10E619;
+	Wed, 20 Dec 2023 22:14:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59D6D10E61C
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 20:55:56 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 3BKKkIaf022527; Wed, 20 Dec 2023 20:55:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=FzeRGjQx/fY0YT5VrAkIf5yvGf+ZU72nLHj+ptlaO5Y=; b=XA
- 7YOmw/q3BSD6hxqFs0IcaJkGxR5MHVyI3uXw94ElpG6HlVxMmZSqpTEFHAWblAwq
- 4B+oe7sEFNi87oJFHDfkkBeJcBUffCK59e8z67UKlbC4cPQXZrGn9FVZo2efg6Pt
- NWbyBkGYxScQMWL/ZMgQNhjeMQ9dENMKelfIpz1T+xJjFfHIaa4GFOlMqhVt8i8S
- SABrCMZfmkcsMSz6Qfb+Abw6XjAS4FlD9ySNSKCQGHn8efPJI6Kxk8VPm8Qd8YID
- a1bB/a+A8wwdsC03sG0diZBxbj/SllPyeWCI8gWkHWWj3QXSZHrbQGRRlx0h85Br
- Pp4Ldo4mGt8hpPEDdtdg==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v37vxvv4d-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 20 Dec 2023 20:55:26 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BKKtPCT001957
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 20 Dec 2023 20:55:25 GMT
-Received: from [10.110.87.50] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 20 Dec
- 2023 12:55:23 -0800
-Message-ID: <6e83caa5-4648-4ab4-b825-3c1f964aa113@quicinc.com>
-Date: Wed, 20 Dec 2023 12:55:06 -0800
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com
+ [IPv6:2607:f8b0:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D8CF10E619
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 22:14:31 +0000 (UTC)
+Received: by mail-pl1-x62f.google.com with SMTP id
+ d9443c01a7336-1d3ac87553bso1683395ad.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 14:14:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1703110471; x=1703715271;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZD3VpyHhC0C+pwwNEc0NgWoPlzlh6lpsOAPY3FHREss=;
+ b=lN6jpfgVZ/A2TVWczAyzL+zsXVVF8OHoLnoXqqGFN1d09P7MQVbxfPWQsAP06DyAq8
+ YNKNs/YgvCwR6mXfhHq2EeUeftI3bHWHvfpkUT6rFguk7wyDLij2a/LwrkztZmPeDiNd
+ 4BjEcGf7Iy5onzYiv6y0cgiVqaqYuWy9Qeu0Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1703110471; x=1703715271;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ZD3VpyHhC0C+pwwNEc0NgWoPlzlh6lpsOAPY3FHREss=;
+ b=DgdCtBjunPUrx0nvEdWmZF7AjQMtxuXP1tegnnRXbPpkpgjDFZdZzQ6mntfbKhFhZz
+ f2oJ7FNtaN+r4HiEaHSabXfzEwtx5FyiqKgLIvoBC4vFvH4zoi8GwOjreUlNsjiZaPMR
+ ZJ5zau17eWecjeLCS+qu49Kop6qh8DYiYIocaSw3WuPFaly7LKN6+f8iCftzCBN0tvXX
+ YWI4cvKPhRSQAdbFtThY+/XOcvy/iXO56RpUPJ+5SDOl/S8AmfX30emA/L6mDcS+Znqy
+ 22b0wjtd5QNZFjNyGCs//HIu5M0/NH9nJDUzcQJBDk0yNF948nKvbcEHsPudkrnp5L5P
+ SegA==
+X-Gm-Message-State: AOJu0Yyq7zwA5dVsJ9C6DOxQTBUnhvEpUOuVXGHHeCEBore6B0Zh5m8a
+ pMg+5pnS8PCuzWehwGlrGlofEA==
+X-Google-Smtp-Source: AGHT+IE49xQhoPUy1M+E8LWgCI2XEpW3zeBU1Pxn4Yw80hEdINh2bomR+e06vtYbgIK0Lmg8RUeSPA==
+X-Received: by 2002:a17:903:1cc:b0:1d3:5f99:17df with SMTP id
+ e12-20020a17090301cc00b001d35f9917dfmr8812369plh.38.1703110471046; 
+ Wed, 20 Dec 2023 14:14:31 -0800 (PST)
+Received: from hsinyi.sjc.corp.google.com ([2620:15c:9d:2:8e1f:dd12:809:b2c8])
+ by smtp.gmail.com with ESMTPSA id
+ d14-20020a170902aa8e00b001bf52834696sm203086plr.207.2023.12.20.14.14.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Dec 2023 14:14:30 -0800 (PST)
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+To: Douglas Anderson <dianders@chromium.org>
+Subject: [PATCH] drm/panel-edp: use put_sync in unprepare
+Date: Wed, 20 Dec 2023 14:13:11 -0800
+Message-ID: <20231220221418.2610185-1-hsinyi@chromium.org>
+X-Mailer: git-send-email 2.43.0.472.g3155946c3a-goog
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH linux-next] drm/panel: Simplify with dev_err_probe()
-To: <yang.guang5@zte.com.cn>, <hanxu5@huaqin.corp-partner.google.com>
-References: <202312201048538333616@zte.com.cn>
-Content-Language: en-US
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <202312201048538333616@zte.com.cn>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: YYIAfmd5pcsoPzjhtPdEUeylxuFrAumm
-X-Proofpoint-GUID: YYIAfmd5pcsoPzjhtPdEUeylxuFrAumm
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- suspectscore=0 impostorscore=0 lowpriorityscore=0 malwarescore=0
- bulkscore=0 phishscore=0 spamscore=0 clxscore=1011 mlxscore=0 adultscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2312200148
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,69 +68,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, tzimmermann@suse.de, cgel.zte@gmail.com,
- linux-kernel@vger.kernel.org, mripard@kernel.org, chen.haonan2@zte.com.cn,
- dri-devel@lists.freedesktop.org, jiang.xuexin@zte.com.cn, airlied@gmail.com,
- sam@ravnborg.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ David Airlie <airlied@gmail.com>, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Some edp panel requires T10 (Delay from end of valid video data transmitted
+by the Source device to power-off) less than 500ms. Using autosuspend with
+delay set as 1000 violates this requirement.
 
+Use put_sync_suspend in unprepare to meet the spec. For other cases (such
+as getting EDID), it still uses autosuspend.
 
-On 12/19/2023 6:48 PM, yang.guang5@zte.com.cn wrote:
-> From: Yang Guang <yang.guang5@zte.com.cn>
-> 
-> dev_err_probe() can check if the error code is -EPROBE_DEFER
-> and can return the error code, replacing dev_err() with it
-> simplifies the code.
-> 
-> Signed-off-by: Chen Haonan <chen.haonan2@zte.com.cn>
-Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+Suggested-by: Douglas Anderson <dianders@chromium.org>
+Fixes: 5f04e7ce392d ("drm/panel-edp: Split eDP panels out of panel-simple")
+Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+---
+ drivers/gpu/drm/panel/panel-edp.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Thanks,
+diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+index cd05c76868e3..7d556b1bfa82 100644
+--- a/drivers/gpu/drm/panel/panel-edp.c
++++ b/drivers/gpu/drm/panel/panel-edp.c
+@@ -429,8 +429,7 @@ static int panel_edp_unprepare(struct drm_panel *panel)
+ 	if (!p->prepared)
+ 		return 0;
+ 
+-	pm_runtime_mark_last_busy(panel->dev);
+-	ret = pm_runtime_put_autosuspend(panel->dev);
++	ret = pm_runtime_put_sync_suspend(panel->dev);
+ 	if (ret < 0)
+ 		return ret;
+ 	p->prepared = false;
+-- 
+2.43.0.472.g3155946c3a-goog
 
-Jessica Zhang
-
-> ---
->   drivers/gpu/drm/panel/panel-boe-himax8279d.c | 18 ++++++------------
->   1 file changed, 6 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-boe-himax8279d.c b/drivers/gpu/drm/panel/panel-boe-himax8279d.c
-> index 11b64acbe8a9..e225840b0d67 100644
-> --- a/drivers/gpu/drm/panel/panel-boe-himax8279d.c
-> +++ b/drivers/gpu/drm/panel/panel-boe-himax8279d.c
-> @@ -854,26 +854,20 @@ static int panel_add(struct panel_info *pinfo)
-> 
->   	pinfo->pp18_gpio = devm_gpiod_get(dev, "pp18", GPIOD_OUT_HIGH);
->   	if (IS_ERR(pinfo->pp18_gpio)) {
-> -		ret = PTR_ERR(pinfo->pp18_gpio);
-> -		if (ret != -EPROBE_DEFER)
-> -			dev_err(dev, "failed to get pp18 gpio: %d\n", ret);
-> -		return ret;
-> +		return dev_err_probe(dev, PTR_ERR(pinfo->pp18_gpio),
-> +							 "failed to get pp18 gpio\n");
->   	}
-> 
->   	pinfo->pp33_gpio = devm_gpiod_get(dev, "pp33", GPIOD_OUT_HIGH);
->   	if (IS_ERR(pinfo->pp33_gpio)) {
-> -		ret = PTR_ERR(pinfo->pp33_gpio);
-> -		if (ret != -EPROBE_DEFER)
-> -			dev_err(dev, "failed to get pp33 gpio: %d\n", ret);
-> -		return ret;
-> +		return	dev_err_probe(dev, PTR_ERR(pinfo->pp33_gpio),
-> +							 "failed to get pp33 gpio\n");
->   	}
-> 
->   	pinfo->enable_gpio = devm_gpiod_get(dev, "enable", GPIOD_OUT_HIGH);
->   	if (IS_ERR(pinfo->enable_gpio)) {
-> -		ret = PTR_ERR(pinfo->enable_gpio);
-> -		if (ret != -EPROBE_DEFER)
-> -			dev_err(dev, "failed to get enable gpio: %d\n", ret);
-> -		return ret;
-> +		return	dev_err_probe(dev, PTR_ERR(pinfo->enable_gpio),
-> +						 "failed to get enable gpio\n");
->   	}
-> 
->   	drm_panel_init(&pinfo->base, dev, &panel_funcs,
-> -- 
-> 2.25.1
