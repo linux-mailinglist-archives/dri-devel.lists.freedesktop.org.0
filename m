@@ -1,51 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF1B581C10D
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Dec 2023 23:28:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B48081C113
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Dec 2023 23:29:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0CF610E72E;
-	Thu, 21 Dec 2023 22:28:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCEE010E707;
+	Thu, 21 Dec 2023 22:29:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46D0410E722;
- Thu, 21 Dec 2023 22:28:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1703197695; x=1734733695;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=3sFxOzignG7QJ8LUvSkwRZ0eN/kd+CsuzD/vIyAotPY=;
- b=lYOXOEuqH48D3jbxOdCVBP0iC3bvCrLm0mmfjEuun/AafRJg/23C59R/
- EDyHWWMpnhDOzkgOzYmZRJRW0KzojhO09XRbz9TZl8vo0BIMtIcByB2G1
- K9sq9zDQTIZtzZJX1GrJD56mK2Nni34aXljgGBUXp8fqi42+QCQZpnRPJ
- lA9Hk3gkaHfKTT6FSwnU04DAMXHQ5lfHSc0uyj8H0eCxUcZTJ3FJgdD4j
- CE7U61+FGn8f0fd1zFEBURWpS1nYlJMPs4KUFPP1OhVk6PA1AtSvtuLer
- 2G66m3bSqsWA9wYBWRWCY9RETcGBeu9L5/HuhP4w7b3Cot0uqShMx5lRk A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10931"; a="2876535"
-X-IronPort-AV: E=Sophos;i="6.04,294,1695711600"; 
-   d="scan'208";a="2876535"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Dec 2023 14:28:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10931"; a="920458225"
-X-IronPort-AV: E=Sophos;i="6.04,294,1695711600"; d="scan'208";a="920458225"
-Received: from lucas-s2600cw.jf.intel.com ([10.165.21.196])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Dec 2023 14:28:14 -0800
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: intel-xe@lists.freedesktop.org
-Subject: [PATCH 6/6] drm/xe: Enable 32bits build
-Date: Thu, 21 Dec 2023 14:28:09 -0800
-Message-Id: <20231221222809.4123220-7-lucas.demarchi@intel.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20231221222809.4123220-1-lucas.demarchi@intel.com>
-References: <20231221222809.4123220-1-lucas.demarchi@intel.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9315310E707
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Dec 2023 22:29:37 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 6FEFBCE203C;
+ Thu, 21 Dec 2023 22:29:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 227AAC433C8;
+ Thu, 21 Dec 2023 22:29:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1703197774;
+ bh=3olSdqCH1RJ2MPrPxBn2yqWGIxPoGVfij5wrm0E4WBw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=WQmpAzbQVhum7pt8MnB5a/VRcUcuMzWWOygOildljSPEjspTWsN83Xs3do5JEyt4B
+ wOCQgDpqhdFiW0WB/4sfRaIcd+qt5e7eTZSHRVCWTIFXFmZWl3uUc4gJ5glMTBM9pC
+ 8opfAwrvBB5vm3T4T6bfmRyk3L3xtHbGRrKQgs+ztgCeb9W7qwzwX0LS/nQOPDFmk/
+ 1J9++p45KKmNAvXL4jeQgaDDYSYHdw4nnmacHwrGB/e20j87aqa572TAD0p2q4cdB8
+ Q8cHuXjlwkKXyyGPSr03UR34eKjWumho6+z1zy94B2cm6b2v72lysJKg8LDsDKrji0
+ zqwj9JXTs/AeA==
+Received: (nullmailer pid 205437 invoked by uid 1000);
+ Thu, 21 Dec 2023 22:29:32 -0000
+Date: Thu, 21 Dec 2023 16:29:32 -0600
+From: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v10 02/16] dt-bindings: media: mediatek: mdp3: merge the
+ indentical RDMA under display
+Message-ID: <20231221222932.GA196757-robh@kernel.org>
+References: <20231220100853.20616-1-moudy.ho@mediatek.com>
+ <20231220100853.20616-3-moudy.ho@mediatek.com>
+ <250fead9-868b-4063-a054-4cb966dc4ba3@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <250fead9-868b-4063-a054-4cb966dc4ba3@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,33 +55,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: thomas.hellstrom@linux.intel.com, daniel.vetter@ffwll.ch,
- ogabbay@kernel.org, Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- airlied@gmail.com
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, linux-media@vger.kernel.org,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Moudy Ho <moudy.ho@mediatek.com>,
+ linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, David Airlie <airlied@gmail.com>,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that all the issues with 32bits are fixed, enable it again.
+On Thu, Dec 21, 2023 at 10:28:52AM +0100, Krzysztof Kozlowski wrote:
+> On 20/12/2023 11:08, Moudy Ho wrote:
+> > To simplify maintenance and avoid branches, the identical component
+> > should be merged and placed in the path belonging to the MDP
+> > (from display/* to media/*).
+> 
+> Combining bindings into one bigger meta-binding makes it usually more
+> difficult to maintain and review.
 
-Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
----
- drivers/gpu/drm/xe/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Yeah, but these mediatek blocks appear to be used for both display and 
+video codec pipelines. So having different bindings was probably wrong 
+to start with.
 
-diff --git a/drivers/gpu/drm/xe/Kconfig b/drivers/gpu/drm/xe/Kconfig
-index a53b0fdc15a7..5b3da06e7ba3 100644
---- a/drivers/gpu/drm/xe/Kconfig
-+++ b/drivers/gpu/drm/xe/Kconfig
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
- config DRM_XE
- 	tristate "Intel Xe Graphics"
--	depends on DRM && PCI && MMU && (m || (y && KUNIT=y)) && 64BIT
-+	depends on DRM && PCI && MMU && (m || (y && KUNIT=y))
- 	select INTERVAL_TREE
- 	# we need shmfs for the swappable backing store, and in particular
- 	# the shmem_readpage() which depends upon tmpfs
--- 
-2.40.1
-
+Rob
