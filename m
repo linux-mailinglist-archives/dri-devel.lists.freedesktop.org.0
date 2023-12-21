@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EC7A81AE03
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Dec 2023 05:28:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3F0381AE01
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Dec 2023 05:28:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B31E10E676;
-	Thu, 21 Dec 2023 04:28:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E280010E675;
+	Thu, 21 Dec 2023 04:28:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39BF010E65B;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BBDA10E65C;
  Thu, 21 Dec 2023 04:28:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1703132903; x=1734668903;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=GJo+44jDv+g6nOzMQZgGJ5rlhefDr6WjxKA4AakuTqs=;
- b=JIkzV1YEU+Z2+PTVJ2FAbhayj78NMf8kD6tWrZsXOOEjincd+D88TUop
- DCfnSBaRy9CbvgcV2fYbFA/+zwDRz49hxhMbSOhxBiLIhqAGBeLeHmUQh
- BNV5reu2siVgT74rrO8zBVyVXID2Iy5UXRjJLM01j9/ZyCzhmSb4q7Js2
- AQBPR3FWGkNAw0TE1X4ibDEkedkSEjVMr/sRsuKpRk+y4e+LP3CiEkZuy
- qn1gXdXkAyPYkMzLb3tibCG+nT+uUTNFTWeVINPL/w7Y7jv7P18MUUaJY
- MinLDx6ivT7M4LpLIxiwqxDQG3OmdlzGsfHJnnGACx0q/wYHP+mFax9jj Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10930"; a="427069777"
-X-IronPort-AV: E=Sophos;i="6.04,293,1695711600"; d="scan'208";a="427069777"
+ bh=48hfptNhzrcO9krlOeJxd2g9CKO7QM3DEf3WOpS2jvo=;
+ b=HOrECIuFMjmYrZ1bqw6kaT13ZO+GmzJ5KBiY5+XLLHu3lWDuGY++cEMI
+ mYBBnyezfX4Dn3dCFIvIyYGnic+M/r6PCHq/b6vEIYh/Dnwja2wppIyQq
+ OJFdMZPmHrpkRGxdipOpP6dzkdijl9XGHJomY5I5ZgkuKxG75ZAcmJcUj
+ nluKHH96jzoWDH0YgHXy5gHEXkloquygc80L1Q7HMByf9vZfKz55EDTy9
+ C+b8jqtp2FJOCz7rQW2N9Uu30PWV9lGZuSR6W/5czWttvtDzZlk7wOgKK
+ rgVdDaoVcEbaMvxDyT77uwUGNhoC2No7sm7JhdPJgwkpzN62hbr1F4Djo w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10930"; a="427069778"
+X-IronPort-AV: E=Sophos;i="6.04,293,1695711600"; d="scan'208";a="427069778"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  20 Dec 2023 20:28:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10930"; a="805481388"
-X-IronPort-AV: E=Sophos;i="6.04,293,1695711600"; d="scan'208";a="805481388"
+X-IronPort-AV: E=McAfee;i="6600,9927,10930"; a="805481391"
+X-IronPort-AV: E=Sophos;i="6.04,293,1695711600"; d="scan'208";a="805481391"
 Received: from szeng-desk.jf.intel.com ([10.165.21.149])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  20 Dec 2023 20:28:21 -0800
 From: Oak Zeng <oak.zeng@intel.com>
 To: dri-devel@lists.freedesktop.org,
 	intel-xe@lists.freedesktop.org
-Subject: [PATCH 17/22] drm/xe/svm: clean up svm range during process exit
-Date: Wed, 20 Dec 2023 23:38:07 -0500
-Message-Id: <20231221043812.3783313-18-oak.zeng@intel.com>
+Subject: [PATCH 18/22] drm/xe/svm: Move a few structures to xe_gt.h
+Date: Wed, 20 Dec 2023 23:38:08 -0500
+Message-Id: <20231221043812.3783313-19-oak.zeng@intel.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20231221043812.3783313-1-oak.zeng@intel.com>
 References: <20231221043812.3783313-1-oak.zeng@intel.com>
@@ -64,10 +64,9 @@ Cc: matthew.brost@intel.com, Thomas.Hellstrom@linux.intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Clean up svm range during process exit: Zap GPU page table of
-the svm process on process exit; unregister all the mmu interval
-notifiers which are registered before; free svm range and svm
-data structure.
+Move access_type and pagefault struct to header file so it
+can be shared with svm sub-system. This is preparation work
+for enabling page fault for svm.
 
 Signed-off-by: Oak Zeng <oak.zeng@intel.com>
 Cc: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
@@ -75,93 +74,73 @@ Cc: Matthew Brost <matthew.brost@intel.com>
 Cc: Thomas Hellström <thomas.hellstrom@intel.com>
 Cc: Brian Welty <brian.welty@intel.com>
 ---
- drivers/gpu/drm/xe/xe_svm.c       | 24 ++++++++++++++++++++++++
- drivers/gpu/drm/xe/xe_svm.h       |  1 +
- drivers/gpu/drm/xe/xe_svm_range.c | 17 +++++++++++++++++
- 3 files changed, 42 insertions(+)
+ drivers/gpu/drm/xe/xe_gt.h           | 20 ++++++++++++++++++++
+ drivers/gpu/drm/xe/xe_gt_pagefault.c | 21 ---------------------
+ 2 files changed, 20 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
-index 6393251c0051..5772bfcf7da4 100644
---- a/drivers/gpu/drm/xe/xe_svm.c
-+++ b/drivers/gpu/drm/xe/xe_svm.c
-@@ -9,6 +9,8 @@
- #include <linux/hmm.h>
- #include <linux/scatterlist.h>
- #include "xe_pt.h"
-+#include "xe_assert.h"
-+#include "xe_vm_types.h"
+diff --git a/drivers/gpu/drm/xe/xe_gt.h b/drivers/gpu/drm/xe/xe_gt.h
+index 4486e083f5ef..51dd288cf1cf 100644
+--- a/drivers/gpu/drm/xe/xe_gt.h
++++ b/drivers/gpu/drm/xe/xe_gt.h
+@@ -17,6 +17,26 @@
+ 			  xe_hw_engine_is_valid((hwe__)))
  
- DEFINE_HASHTABLE(xe_svm_table, XE_MAX_SVM_PROCESS);
+ #define CCS_MASK(gt) (((gt)->info.engine_mask & XE_HW_ENGINE_CCS_MASK) >> XE_HW_ENGINE_CCS0)
++enum access_type {
++	ACCESS_TYPE_READ = 0,
++	ACCESS_TYPE_WRITE = 1,
++	ACCESS_TYPE_ATOMIC = 2,
++	ACCESS_TYPE_RESERVED = 3,
++};
++
++struct pagefault {
++	u64 page_addr;
++	u32 asid;
++	u16 pdata;
++	u8 vfid;
++	u8 access_type;
++	u8 fault_type;
++	u8 fault_level;
++	u8 engine_class;
++	u8 engine_instance;
++	u8 fault_unsuccessful;
++	bool trva_fault;
++};
  
-@@ -19,9 +21,31 @@ DEFINE_HASHTABLE(xe_svm_table, XE_MAX_SVM_PROCESS);
-  */
- void xe_destroy_svm(struct xe_svm *svm)
- {
-+#define MAX_SVM_RANGE (1024*1024)
-+	struct xe_svm_range **range_array;
-+	struct interval_tree_node *node;
-+	struct xe_svm_range *range;
-+	int i = 0;
-+
-+	range_array = kzalloc(sizeof(struct xe_svm_range *) * MAX_SVM_RANGE,
-+							GFP_KERNEL);
-+	node = interval_tree_iter_first(&svm->range_tree, 0, ~0ULL);
-+	while (node) {
-+		range = container_of(node, struct xe_svm_range, inode);
-+		xe_svm_range_prepare_destroy(range);
-+		node = interval_tree_iter_next(node, 0, ~0ULL);
-+		xe_assert(svm->vm->xe, i < MAX_SVM_RANGE);
-+		range_array[i++] = range;
-+	}
-+
-+	/** Free range (thus range->inode) while traversing above is not safe */
-+	for(; i >= 0; i--)
-+		kfree(range_array[i]);
-+
- 	hash_del_rcu(&svm->hnode);
- 	mutex_destroy(&svm->mutex);
- 	kfree(svm);
-+	kfree(range_array);
- }
+ #ifdef CONFIG_FAULT_INJECTION
+ #include <linux/fault-inject.h> /* XXX: fault-inject.h is broken */
+diff --git a/drivers/gpu/drm/xe/xe_gt_pagefault.c b/drivers/gpu/drm/xe/xe_gt_pagefault.c
+index 4489aadc7a52..6de1ff195aaa 100644
+--- a/drivers/gpu/drm/xe/xe_gt_pagefault.c
++++ b/drivers/gpu/drm/xe/xe_gt_pagefault.c
+@@ -23,27 +23,6 @@
+ #include "xe_trace.h"
+ #include "xe_vm.h"
  
- /**
-diff --git a/drivers/gpu/drm/xe/xe_svm.h b/drivers/gpu/drm/xe/xe_svm.h
-index 0038f98c0cc7..5b3bd2c064f5 100644
---- a/drivers/gpu/drm/xe/xe_svm.h
-+++ b/drivers/gpu/drm/xe/xe_svm.h
-@@ -90,6 +90,7 @@ bool xe_svm_range_belongs_to_vma(struct mm_struct *mm,
- 								struct vm_area_struct *vma);
- void xe_svm_range_unregister_mmu_notifier(struct xe_svm_range *range);
- int xe_svm_range_register_mmu_notifier(struct xe_svm_range *range);
-+void xe_svm_range_prepare_destroy(struct xe_svm_range *range);
- 
- int xe_svm_build_sg(struct hmm_range *range, struct sg_table *st);
- int xe_svm_devm_add(struct xe_tile *tile, struct xe_mem_region *mem);
-diff --git a/drivers/gpu/drm/xe/xe_svm_range.c b/drivers/gpu/drm/xe/xe_svm_range.c
-index 53dd3be7ab9f..dfb4660dc26f 100644
---- a/drivers/gpu/drm/xe/xe_svm_range.c
-+++ b/drivers/gpu/drm/xe/xe_svm_range.c
-@@ -165,3 +165,20 @@ int xe_svm_range_register_mmu_notifier(struct xe_svm_range *range)
- 	range->mmu_notifier_registered = true;
- 	return ret;
- }
-+
-+/**
-+ * xe_svm_range_prepare_destroy() - prepare work to destroy a svm range
-+ *
-+ * @range: the svm range to destroy
-+ *
-+ * prepare for a svm range destroy: Zap this range from GPU, unregister mmu
-+ * notifier.
-+ */
-+void xe_svm_range_prepare_destroy(struct xe_svm_range *range)
-+{
-+	struct xe_vm *vm = range->svm->vm;
-+	unsigned long length = range->end - range->start;
-+
-+	xe_invalidate_svm_range(vm, range->start, length);
-+	xe_svm_range_unregister_mmu_notifier(range);
-+}
+-struct pagefault {
+-	u64 page_addr;
+-	u32 asid;
+-	u16 pdata;
+-	u8 vfid;
+-	u8 access_type;
+-	u8 fault_type;
+-	u8 fault_level;
+-	u8 engine_class;
+-	u8 engine_instance;
+-	u8 fault_unsuccessful;
+-	bool trva_fault;
+-};
+-
+-enum access_type {
+-	ACCESS_TYPE_READ = 0,
+-	ACCESS_TYPE_WRITE = 1,
+-	ACCESS_TYPE_ATOMIC = 2,
+-	ACCESS_TYPE_RESERVED = 3,
+-};
+-
+ enum fault_type {
+ 	NOT_PRESENT = 0,
+ 	WRITE_ACCESS_VIOLATION = 1,
 -- 
 2.26.3
 
