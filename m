@@ -1,42 +1,131 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95AD981BD08
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Dec 2023 18:22:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C2F781BD33
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Dec 2023 18:27:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 995A310E70E;
-	Thu, 21 Dec 2023 17:21:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 776F310E121;
+	Thu, 21 Dec 2023 17:27:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 990CA10E6D0
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Dec 2023 17:21:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1703179313;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=BlZlxbLzNCNMyCpcVFlFbc9xCSSGUZy0/AkVj3iZWds=;
- b=2Rm/2nyPRNQnLESexxS6mQA71ENwnzPq46ed4Pz90okyf+JJpxNHm91TWMZ/SktES/D8Fo
- A7YkNFEFnXquXNYtUeEGCnQB/cvyej/IsmVaijDRBuwEjrI59M0Z8WdKlZpueTZV+uqY+g
- uu7/BsjrT396Nd/j2Qa/sL/ukTxMnxw=
-Message-ID: <baee615936893ab5e28e6fff1014211286579476.camel@crapouillou.net>
-Subject: Re: [PATCH v5 5/8] iio: core: Add new DMABUF interface infrastructure
-From: Paul Cercueil <paul@crapouillou.net>
-To: Jonathan Cameron <jic23@kernel.org>
-Date: Thu, 21 Dec 2023 18:21:51 +0100
-In-Reply-To: <20231221120624.7bcdc302@jic23-huawei>
-References: <20231219175009.65482-1-paul@crapouillou.net>
- <20231219175009.65482-6-paul@crapouillou.net>
- <20231221120624.7bcdc302@jic23-huawei>
-Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
- keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
- YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2986610E121
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Dec 2023 17:27:17 +0000 (UTC)
+Received: by mail-ed1-x52f.google.com with SMTP id
+ 4fb4d7f45d1cf-552d39ac3ccso3955411a12.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Dec 2023 09:27:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1703179635; x=1703784435; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=E9fZnvcr17iWEnEDx/jO4bNozX7Sbo2SKEDCBqZmguQ=;
+ b=l6L61zKbMjk8HyK9N/eWeIFY5M0X3kvfNxwq3k1yRfebRhTZ2ipjWSl1ZtA6GFvGvc
+ huR4oWm6prGPPZTgVxKs0itIUIw5WteuI4olPAmUI7gjrSXUUA+pfY91pstNrfbF2Hcu
+ 1iDNjm20ITClDqurvy+jq6UrqJm5bpikNoTUmdYOepXuH7dExA9Uyh9LAFF8Y4rYmUuq
+ czLALGRlmpYxuLPSsDFIE0KpIxhbY9Sa9/V1sF7UebngpXSTqRY+AHvhOKwzS5hwvkAd
+ wRa8CUk2XAgXNCV0OILAwUeyDNZjUDpepAiKNexdt/8tZCu9TwUwaykeV1y+vlKb8wpR
+ t5PA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1703179635; x=1703784435;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=E9fZnvcr17iWEnEDx/jO4bNozX7Sbo2SKEDCBqZmguQ=;
+ b=DVtpf8oY0VGKf1ss3qIWSQjAmWcPh0s9q/4QSZMm2MWdK9m7daqNPSCvdtEMkFw2w9
+ NNp7AoSWBGHKJ5lotET1BRXbpNG0z4uR6jnH3RHphSO4JWy9zf+8t83z8WyNYbFsz7UN
+ U6R/SBbo4fsQqr0SuXHyA7sutfpVLulU5q8ldJXtnzcbwo3K2LMCRvLIHfNZo3rZt0sZ
+ DAkHqNUUFBgEjFhlGEfHjlPoi8GTi9nSYzF8kxkYsz9zvg+WDeVdKgoM14rg7MEShXfv
+ yzcKTDXfPwO2TItlXVcI0EWHHpwCC8LwA3RRmp/w4dGYwSX0618Vwk3cru1wxEB7tu6d
+ UNsQ==
+X-Gm-Message-State: AOJu0YzYdu6qtuk6DK6hFgqPn9v2MnguNOZf+NRe97aCK8dxbjD1umvb
+ W/wdrJ409NLoKztkaLjai+vI+TahOJrOLw==
+X-Google-Smtp-Source: AGHT+IH2vTxRhlOEolIghnp/12hUc4XPl/V+sTUI3T7RdIIuDCcBJV7zVip8AxYZZVVY/HQzwWMGrA==
+X-Received: by 2002:a17:906:df52:b0:a19:a409:37dc with SMTP id
+ if18-20020a170906df5200b00a19a40937dcmr23369ejc.53.1703179635603; 
+ Thu, 21 Dec 2023 09:27:15 -0800 (PST)
+Received: from [192.168.0.22] ([78.10.206.178])
+ by smtp.gmail.com with ESMTPSA id
+ mf8-20020a1709071a4800b00a26a4b935b0sm919298ejc.166.2023.12.21.09.27.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 21 Dec 2023 09:27:15 -0800 (PST)
+Message-ID: <fcd68fbe-c543-4b6d-9b7f-bcea09918fb9@linaro.org>
+Date: Thu, 21 Dec 2023 18:27:12 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 2/8] dt-bindings: display: add dt-bindings for STM32
+ LVDS device
+To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Yannick Fertre <yannick.fertre@foss.st.com>,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Thierry Reding <thierry.reding@gmail.com>
+References: <20231221122843.418650-1-raphael.gallais-pou@foss.st.com>
+ <20231221122843.418650-3-raphael.gallais-pou@foss.st.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20231221122843.418650-3-raphael.gallais-pou@foss.st.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,425 +138,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Hennerich <Michael.Hennerich@analog.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, Vinod Koul <vkoul@kernel.org>,
- Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>, dmaengine@vger.kernel.org,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jonathan,
+On 21/12/2023 13:28, Raphael Gallais-Pou wrote:
+> Add dt-binding file for "st,stm32-lvds" compatible.
+> 
 
-Le jeudi 21 d=C3=A9cembre 2023 =C3=A0 12:06 +0000, Jonathan Cameron a =C3=
-=A9crit=C2=A0:
-> On Tue, 19 Dec 2023 18:50:06 +0100
-> Paul Cercueil <paul@crapouillou.net> wrote:
->=20
-> > Add the necessary infrastructure to the IIO core to support a new
-> > optional DMABUF based interface.
-> >=20
-> > With this new interface, DMABUF objects (externally created) can be
-> > attached to a IIO buffer, and subsequently used for data transfer.
-> >=20
-> > A userspace application can then use this interface to share DMABUF
-> > objects between several interfaces, allowing it to transfer data in
-> > a
-> > zero-copy fashion, for instance between IIO and the USB stack.
-> >=20
-> > The userspace application can also memory-map the DMABUF objects,
-> > and
-> > access the sample data directly. The advantage of doing this vs.
-> > the
-> > read() interface is that it avoids an extra copy of the data
-> > between the
-> > kernel and userspace. This is particularly userful for high-speed
-> > devices which produce several megabytes or even gigabytes of data
-> > per
-> > second.
-> >=20
-> > As part of the interface, 3 new IOCTLs have been added:
-> >=20
-> > IIO_BUFFER_DMABUF_ATTACH_IOCTL(int fd):
-> > =C2=A0Attach the DMABUF object identified by the given file descriptor
-> > to the
-> > =C2=A0buffer.
-> >=20
-> > IIO_BUFFER_DMABUF_DETACH_IOCTL(int fd):
-> > =C2=A0Detach the DMABUF object identified by the given file descriptor
-> > from
-> > =C2=A0the buffer. Note that closing the IIO buffer's file descriptor
-> > will
-> > =C2=A0automatically detach all previously attached DMABUF objects.
-> >=20
-> > IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf *):
-> > =C2=A0Request a data transfer to/from the given DMABUF object. Its file
-> > =C2=A0descriptor, as well as the transfer size and flags are provided i=
-n
-> > the
-> > =C2=A0"iio_dmabuf" structure.
-> >=20
-> > These three IOCTLs have to be performed on the IIO buffer's file
-> > descriptor, obtained using the IIO_BUFFER_GET_FD_IOCTL() ioctl.
-> >=20
->=20
-> Fair enough - so they don't apply to the 'legacy' buffer which
-> simplifies
-> things but in one place you assume that logic is used (given error
-> return
-> values).
->=20
-> > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> >=20
-> This is big and complex and I'm out of time for now, so I've made
-> some
-> comments but should revisit it.
-> I'm also looking for review from those more familiar with dmabuf side
-> of things than I am!
->=20
-> Jonathan
->=20
->=20
-> > =C2=A0
-> > +static int iio_dma_resv_lock(struct dma_buf *dmabuf, bool
-> > nonblock)
-> > +{
-> > +	int ret;
-> > +
-> > +	ret =3D dma_resv_lock_interruptible(dmabuf->resv, NULL);
-> > +	if (ret) {
-> > +		if (ret !=3D -EDEADLK)
-> > +			goto out;
-> > +		if (nonblock) {
-> > +			ret =3D -EBUSY;
-> > +			goto out;
-> > +		}
-> > +
-> > +		ret =3D dma_resv_lock_slow_interruptible(dmabuf-
-> > >resv, NULL);
-> > +	}
-> > +
-> > +out:
-> > +	return ret;
->=20
-> I'm not a fan gotos that do nothing.=C2=A0 Just return in appropriate
-> places above.
->=20
-> > +}
-> >=20
-> > +static int iio_buffer_detach_dmabuf(struct iio_dev_buffer_pair
-> > *ib, int *user_req)
-> > +{
-> > +	struct dma_buf_attachment *attach;
-> > +	struct iio_dmabuf_priv *priv;
-> > +	struct dma_buf *dmabuf;
-> > +	int dmabuf_fd, ret =3D 0;
-> > +
-> > +	if (copy_from_user(&dmabuf_fd, user_req,
-> > sizeof(dmabuf_fd)))
-> > +		return -EFAULT;
-> > +
-> > +	dmabuf =3D dma_buf_get(dmabuf_fd);
-> > +	if (IS_ERR(dmabuf))
-> > +		return PTR_ERR(dmabuf);
-> > +
-> > +	attach =3D iio_buffer_find_attachment(ib->indio_dev,
-> > dmabuf);
-> > +	if (IS_ERR(attach)) {
-> > +		ret =3D PTR_ERR(attach);
-> > +		goto out_dmabuf_put;
-> > +	}
-> > +
-> > +	priv =3D attach->importer_priv;
-> > +	list_del_init(&priv->entry);
-> > +
-> > +	/*
-> > +	 * Unref twice to release the reference obtained with
-> > +	 * iio_buffer_find_attachment() above, and the one
-> > obtained in
-> > +	 * iio_buffer_attach_dmabuf().
-> > +	 */
-> > +	iio_buffer_dmabuf_put(attach);
-> > +	iio_buffer_dmabuf_put(attach);
-> > +
-> > +out_dmabuf_put:
-> > +	dma_buf_put(dmabuf);
-> As below. Feels like a __free(dma_buf_put) bit of magic would be a
-> nice to have.
+A nit, subject: drop second/last, redundant "dt-bindings for". The
+"dt-bindings" prefix is already stating that these are bindings.
 
-Whoa, never heard about this. That looks great!
+> Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+> ---
+>  .../bindings/display/st,stm32-lvds.yaml       | 114 ++++++++++++++++++
+>  1 file changed, 114 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/st,stm32-lvds.yaml
+> 
 
->=20
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static const char *
-> > +iio_buffer_dma_fence_get_driver_name(struct dma_fence *fence)
-> > +{
-> > +	return "iio";
-> > +}
-> > +
-> > +static void iio_buffer_dma_fence_release(struct dma_fence *fence)
-> > +{
-> > +	struct iio_dma_fence *iio_fence =3D
-> > +		container_of(fence, struct iio_dma_fence, base);
-> > +
-> > +	kfree(iio_fence);
-> > +}
-> > +
-> > +static const struct dma_fence_ops iio_buffer_dma_fence_ops =3D {
-> > +	.get_driver_name	=3D
-> > iio_buffer_dma_fence_get_driver_name,
-> > +	.get_timeline_name	=3D
-> > iio_buffer_dma_fence_get_driver_name,
-> > +	.release		=3D iio_buffer_dma_fence_release,
-> > +};
-> > +
-> > +static int iio_buffer_enqueue_dmabuf(struct iio_dev_buffer_pair
-> > *ib,
-> > +				=C2=A0=C2=A0=C2=A0=C2=A0 struct iio_dmabuf __user
-> > *iio_dmabuf_req,
-> > +				=C2=A0=C2=A0=C2=A0=C2=A0 bool nonblock)
-> > +{
-> > +	struct iio_dev *indio_dev =3D ib->indio_dev;
-> > +	struct iio_buffer *buffer =3D ib->buffer;
-> > +	struct iio_dmabuf iio_dmabuf;
-> > +	struct dma_buf_attachment *attach;
-> > +	struct iio_dmabuf_priv *priv;
-> > +	enum dma_data_direction dir;
-> > +	struct iio_dma_fence *fence;
-> > +	struct dma_buf *dmabuf;
-> > +	struct sg_table *sgt;
-> > +	unsigned long timeout;
-> > +	bool dma_to_ram;
-> > +	bool cyclic;
-> > +	int ret;
-> > +
-> > +	if (copy_from_user(&iio_dmabuf, iio_dmabuf_req,
-> > sizeof(iio_dmabuf)))
-> > +		return -EFAULT;
-> > +
-> > +	if (iio_dmabuf.flags & ~IIO_BUFFER_DMABUF_SUPPORTED_FLAGS)
-> > +		return -EINVAL;
-> > +
-> > +	cyclic =3D iio_dmabuf.flags & IIO_BUFFER_DMABUF_CYCLIC;
-> > +
-> > +	/* Cyclic flag is only supported on output buffers */
-> > +	if (cyclic && buffer->direction !=3D
-> > IIO_BUFFER_DIRECTION_OUT)
-> > +		return -EINVAL;
-> > +
-> > +	dmabuf =3D dma_buf_get(iio_dmabuf.fd);
-> > +	if (IS_ERR(dmabuf))
-> > +		return PTR_ERR(dmabuf);
-> > +
-> > +	if (!iio_dmabuf.bytes_used || iio_dmabuf.bytes_used >
-> > dmabuf->size) {
-> > +		ret =3D -EINVAL;
-> > +		goto err_dmabuf_put;
-> > +	}
-> > +
-> > +	attach =3D iio_buffer_find_attachment(indio_dev, dmabuf);
-> > +	if (IS_ERR(attach)) {
-> > +		ret =3D PTR_ERR(attach);
-> > +		goto err_dmabuf_put;
->=20
-> Might be worth some cleanup.h magic given this put happens in all
-> exit paths.
->=20
-> > +	}
-> > +
-> > +	priv =3D attach->importer_priv;
-> > +
-> > +	dma_to_ram =3D buffer->direction =3D=3D IIO_BUFFER_DIRECTION_IN;
-> > +	dir =3D dma_to_ram ? DMA_FROM_DEVICE : DMA_TO_DEVICE;
-> > +
-> > +	sgt =3D dma_buf_map_attachment(attach, dir);
-> > +	if (IS_ERR(sgt)) {
-> > +		ret =3D PTR_ERR(sgt);
-> > +		dev_err(&indio_dev->dev, "Unable to map
-> > attachment: %d\n", ret);
-> > +		goto err_attachment_put;
-> > +	}
-> > +
-> > +	fence =3D kmalloc(sizeof(*fence), GFP_KERNEL);
-> > +	if (!fence) {
-> > +		ret =3D -ENOMEM;
-> > +		goto err_unmap_attachment;
-> > +	}
-> > +
-> > +	fence->priv =3D priv;
-> > +	fence->sgt =3D sgt;
-> > +	fence->dir =3D dir;
-> > +	priv->fence =3D fence;
-> > +
-> > +	dma_fence_init(&fence->base, &iio_buffer_dma_fence_ops,
-> > +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &priv->lock, priv->context, 0);
-> > +
-> > +	ret =3D iio_dma_resv_lock(dmabuf, nonblock);
-> > +	if (ret)
-> > +		goto err_fence_put;
-> > +
-> > +	timeout =3D nonblock ? 0 :
-> > msecs_to_jiffies(DMABUF_ENQUEUE_TIMEOUT_MS);
-> > +
-> > +	/* Make sure we don't have writers */
-> > +	ret =3D (int) dma_resv_wait_timeout(dmabuf->resv,
-> > DMA_RESV_USAGE_WRITE,
-> > +					=C2=A0 true, timeout);
->=20
-> I'd handle this and similar cases as long rather than adding the odd
-> looking cast and making
-> me think too much about it.
->=20
-> > +	if (ret =3D=3D 0)
-> > +		ret =3D -EBUSY;
-> > +	if (ret < 0)
-> > +		goto err_resv_unlock;
-> > +
-> > +	if (dma_to_ram) {
-> > +		/*
-> > +		 * If we're writing to the DMABUF, make sure we
-> > don't have
-> > +		 * readers
-> > +		 */
-> > +		ret =3D (int) dma_resv_wait_timeout(dmabuf->resv,
-> > +						=C2=A0
-> > DMA_RESV_USAGE_READ, true,
-> > +						=C2=A0 timeout);
-> > +		if (ret =3D=3D 0)
-> > +			ret =3D -EBUSY;
-> > +		if (ret < 0)
-> > +			goto err_resv_unlock;
-> > +	}
-> > +
-> > +	ret =3D dma_resv_reserve_fences(dmabuf->resv, 1);
-> > +	if (ret)
-> > +		goto err_resv_unlock;
-> > +
-> > +	dma_resv_add_fence(dmabuf->resv, &fence->base,
-> > +			=C2=A0=C2=A0 dma_resv_usage_rw(dma_to_ram));
-> > +	dma_resv_unlock(dmabuf->resv);
-> > +
-> > +	ret =3D buffer->access->enqueue_dmabuf(buffer, priv->block,
-> > sgt,
-> > +					=C2=A0=C2=A0=C2=A0=C2=A0
-> > iio_dmabuf.bytes_used, cyclic);
-> > +	if (ret)
-> > +		iio_buffer_signal_dmabuf_done(attach, ret);
->=20
-> I'd like a comment on why using the 'successful' path cleanup makes
-> sense in this
-> error case.=C2=A0 It's possible to figure it out, but reviewers are lazy
-> and generally
-> we like the cleanup to be obvious and local on error paths.
->=20
-> > +
-> > +	dma_buf_put(dmabuf);
-> > +
-> > +	return ret;
-> > +
-> > +err_resv_unlock:
-> > +	dma_resv_unlock(dmabuf->resv);
-> > +err_fence_put:
-> > +	dma_fence_put(&fence->base);
-> > +err_unmap_attachment:
-> > +	dma_buf_unmap_attachment(attach, sgt, dir);
-> > +err_attachment_put:
-> > +	iio_buffer_dmabuf_put(attach);
-> > +err_dmabuf_put:
-> > +	dma_buf_put(dmabuf);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +void iio_buffer_signal_dmabuf_done(struct dma_buf_attachment
-> > *attach, int ret)
-> > +{
-> > +	struct iio_dmabuf_priv *priv =3D attach->importer_priv;
-> > +	struct iio_dma_fence *fence =3D priv->fence;
-> > +	enum dma_data_direction dir =3D fence->dir;
-> > +	struct sg_table *sgt =3D fence->sgt;
-> > +
-> > +	dma_fence_get(&fence->base);
->=20
-> I don't know much about dma_fence, but is it valid to access
-> contents of it (sgt, etc) before getting a reference?
-> Ultimately dma_fence_put() can result in a kfree_rcu() so seems
-> unlikely to be safe and definitely fails the 'obviously correct'
-> test.=C2=A0 Given those are I assume trivial accesses just do them=20
-> down here perhaps?
+...
 
-It is valid to access the fence before getting a reference - the fence
-won't be freed before it is signaled down below. It would be illegal to
-access it after the dma_fence_put() though, which I'm not doing here.
+> +properties:
+> +  "#clock-cells":
+> +    const: 0
+> +
+> +  compatible:
+> +    const: st,stm32-lvds
 
->=20
->=20
-> > +	fence->base.error =3D ret;
-> > +	dma_fence_signal(&fence->base);
-> > +	dma_fence_put(&fence->base);
-> > +
-> > +	dma_buf_unmap_attachment(attach, sgt, dir);
-> > +	iio_buffer_dmabuf_put(attach);
-> > +}
-> > +EXPORT_SYMBOL_GPL(iio_buffer_signal_dmabuf_done);
-> > +
->=20
-> > +static long iio_buffer_chrdev_ioctl(struct file *filp,
-> > +				=C2=A0=C2=A0=C2=A0 unsigned int cmd, unsigned
-> > long arg)
-> > +{
-> > +	struct iio_dev_buffer_pair *ib =3D filp->private_data;
-> > +	void __user *_arg =3D (void __user *)arg;
-> > +
-> > +	switch (cmd) {
-> > +	case IIO_BUFFER_DMABUF_ATTACH_IOCTL:
-> > +		return iio_buffer_attach_dmabuf(ib, _arg);
-> > +	case IIO_BUFFER_DMABUF_DETACH_IOCTL:
-> > +		return iio_buffer_detach_dmabuf(ib, _arg);
-> > +	case IIO_BUFFER_DMABUF_ENQUEUE_IOCTL:
-> > +		return iio_buffer_enqueue_dmabuf(ib, _arg,
-> > +						 filp->f_flags &
-> > O_NONBLOCK);
-> > +	default:
-> > +		return IIO_IOCTL_UNHANDLED;
->=20
-> Given you aren't using the ioctl handling on the legacy buffer, I
-> think this
-> should simply return an error code, not the magic value we use to
-> indicate
-> 'all fine, but it's not mine'.
-> Probably -EINVAL or similar.=C2=A0 Note that the wrapper around the legac=
-y
-> buffer
-> ioctls translates this to -ENODEV; rather than returning from the
-> ioctl.
+Please put compatible as first.
 
-ACK for this and the other comments.
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: APB peripheral clock
+> +      - description: Reference clock for the internal PLL
+> +
+> +  clock-names:
+> +    items:
+> +      - const: pclk
+> +      - const: ref
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: |
+> +          LVDS input port node, connected to the LTDC RGB output port.
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: |
+> +          LVDS output port node, connected to a panel or bridge input port.
 
-Thanks for reviewing!
+Ports are not required? I would assume it won't work without input and
+output.
 
-Cheers,
--Paul
+> +
+> +required:
+> +  - "#clock-cells"
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - resets
+> +  - ports
+> +
+> +unevaluatedProperties: false
 
-> > +	}
-> > +}
-> > +
-> > =C2=A0static const struct file_operations iio_buffer_chrdev_fileops =3D=
- {
-> > =C2=A0	.owner =3D THIS_MODULE,
-> > =C2=A0	.llseek =3D noop_llseek,
-> > =C2=A0	.read =3D iio_buffer_read,
-> > =C2=A0	.write =3D iio_buffer_write,
-> > +	.unlocked_ioctl =3D iio_buffer_chrdev_ioctl,
-> > +	.compat_ioctl =3D compat_ptr_ioctl,
-> > =C2=A0	.poll =3D iio_buffer_poll,
-> > =C2=A0	.release =3D iio_buffer_chrdev_release,
-> > =C2=A0};
->=20
+additionalProperties instead... or did I miss some $ref anywhere?
+
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/bus/stm32mp25_sys_bus.h>
+> +    #include <dt-bindings/clock/stm32mp25-clks.h>
+> +    #include <dt-bindings/reset/stm32mp25-resets.h>
+> +
+> +    lvds: lvds@48060000 {
+> +        #clock-cells = <0>;
+> +        compatible = "st,stm32-lvds";
+
+compatible is always the first property.
+
+> +        reg = <0x48060000 0x2000>;
+
+put clock-cells here
+
+> +        clocks = <&rcc CK_BUS_LVDS>, <&rcc CK_KER_LVDSPHY>;
+> +        clock-names = "pclk", "ref";
+> +        resets = <&rcc LVDS_R>;
+
+Best regards,
+Krzysztof
 
