@@ -2,48 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE31981B9C0
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Dec 2023 15:43:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AF0E81B9CD
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Dec 2023 15:46:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5094510E358;
-	Thu, 21 Dec 2023 14:43:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99B9B10E051;
+	Thu, 21 Dec 2023 14:46:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-184.mta1.migadu.com (out-184.mta1.migadu.com
- [95.215.58.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B58B210E358
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Dec 2023 14:43:50 +0000 (UTC)
-Message-ID: <df5406ae-aca4-459f-bf70-4a5efbf3864e@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1703169828;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xTV/q8RDwQu2LAWOhY4c4geyJjIHSwAWDVPGvEOOSYc=;
- b=CKXSo6yrxKSN0Z8ODEsMtrBgLszB1j8X4f8dzgGkYKd2FeNBHAKA9hH3JBjYZwj8N4RTzm
- WcJ0AkAOZ4JHapVZoAiuDoJBw71qorIYsCmlSj/KS5f7quMEZLvsu88Mz7iEvseAahRn2k
- OjZh1xAZriJIFgVj7GQ/uTBoOc1BdrI=
-Date: Thu, 21 Dec 2023 22:43:39 +0800
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D65F510E051
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Dec 2023 14:46:04 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id 22AC4B82073;
+ Thu, 21 Dec 2023 14:46:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BCFFC433C7;
+ Thu, 21 Dec 2023 14:45:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1703169962;
+ bh=thWZKn3LobCE6e6aQM2Yre45Naiy5TVPR/p07htNFWs=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=h/CjY5L+a5dEjJqvVIGFMZj2f59MlKhsq9pFWymGuLHkq4VT2WmdJWnHPm/D7mvgD
+ SYGt/ajHFVTDkxhUgq+0orV0jRDbHAdKrlq853JzqVVHOX86FgDMJENp2EarMFvEnV
+ T5RwD6M+XWbM+lqeNVyOSORS9+0LPaUB1Z+rUkhx4m6/BUvAoWcJCtaVw3ykP3Jh7C
+ Ea1QAE21miY5PmyynsJeuvYK6zb7KSd/ufObGbLwTWd0ztaty0I2qZ29b8+DmGIoJ8
+ vPtoSwsjmenOl4QweCo4nveV/Mo1mNb2U9+6KJOsqTaBNeHzc4mlio6SzFZe97DEiM
+ dsp0/UzakXuIw==
+Received: (nullmailer pid 3869255 invoked by uid 1000);
+ Thu, 21 Dec 2023 14:45:59 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-Subject: Re: [v5,41/44] drm/sun4i: hdmi: Move mode_set into enable
-Content-Language: en-US
-To: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
- Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-References: <20231207-kms-hdmi-connector-state-v5-41-6538e19d634d@kernel.org>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <20231207-kms-hdmi-connector-state-v5-41-6538e19d634d@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+From: Rob Herring <robh@kernel.org>
+To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+In-Reply-To: <20231221124339.420119-3-raphael.gallais-pou@foss.st.com>
+References: <20231221124339.420119-1-raphael.gallais-pou@foss.st.com>
+ <20231221124339.420119-3-raphael.gallais-pou@foss.st.com>
+Message-Id: <170316995910.3869238.14321525013510097521.robh@kernel.org>
+Subject: Re: [PATCH RESEND v1 2/8] dt-bindings: display: add dt-bindings
+ for STM32 LVDS device
+Date: Thu, 21 Dec 2023 08:45:59 -0600
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,22 +54,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Hans Verkuil <hverkuil@xs4all.nl>,
- linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-stm32@st-md-mailman.stormreply.com,
+ David Airlie <airlied@gmail.com>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, devicetree@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ linux-arm-kernel@lists.infradead.org,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Yannick Fertre <yannick.fertre@foss.st.com>, linux-kernel@vger.kernel.org,
+ Philippe Cornu <philippe.cornu@foss.st.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
+On Thu, 21 Dec 2023 13:43:33 +0100, Raphael Gallais-Pou wrote:
+> Add dt-binding file for "st,stm32-lvds" compatible.
+> 
+> Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+> ---
+>  .../bindings/display/st,stm32-lvds.yaml       | 114 ++++++++++++++++++
+>  1 file changed, 114 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/st,stm32-lvds.yaml
+> 
 
-On 2023/12/7 23:50, Maxime Ripard wrote:
-> We're not doing anything special in atomic_mode_set so we can simply
-> merge it into atomic_enable.
->
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
+yamllint warnings/errors:
 
-Acked-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/display/st,stm32-lvds.example.dts:18:18: fatal error: dt-bindings/bus/stm32mp25_sys_bus.h: No such file or directory
+   18 |         #include <dt-bindings/bus/stm32mp25_sys_bus.h>
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[2]: *** [scripts/Makefile.lib:419: Documentation/devicetree/bindings/display/st,stm32-lvds.example.dtb] Error 1
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1424: dt_binding_check] Error 2
+make: *** [Makefile:234: __sub-make] Error 2
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20231221124339.420119-3-raphael.gallais-pou@foss.st.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
