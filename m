@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61A9581C108
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Dec 2023 23:28:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 924D481C109
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Dec 2023 23:28:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D48A10E71C;
-	Thu, 21 Dec 2023 22:28:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E2F810E724;
+	Thu, 21 Dec 2023 22:28:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 804E810E716;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A611E10E718;
  Thu, 21 Dec 2023 22:28:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1703197694; x=1734733694;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=XmD6xMGWVeq1qWnVvU1CNrzCFsAIQn1lcBHypKh9pHI=;
- b=Io5IcS7barAWzd3bLWiSBLldVxYzY4mAWtXUTgeUcBbnz0CkKH4zD/er
- uW4nDaXylrr18zC3eR19TyyiRMgb5wBX/vxO2lyFq/d45S4YuwYp8kSwq
- lqnkxmWDRdl/QjF6jfIw9XnmsKBZBwPd+qLroL8wejD66Jla/rGY0eibt
- UCq8zdSy11++WhW6WuR9ARO+cgeNceuEk5EZs25UjHGkKFTrFa0yOygcy
- l9Emh8lYnuHEfXla7WS0o8RSLLo1pLXppwNPUatjO21dujxTATSDYh87Z
- s+DUPQj6SEcOKM2m6CTUU/DLXQRAWlxrpEEEsQeQCA3g9SEm8M95XFbLv Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10931"; a="2876519"
+ bh=2vlhA0Z+yUURdiyoYIjeL3Dtqhk6Yo4zPyy/4tJp7E4=;
+ b=gqCTzPW/wqFay8vz4BrjTD5KVvLOh+gwbECapwSaDna8uCqBtiBBo0PC
+ CETPJQKHDm6PwgEoFruLy8jaljtPIpQx6S7bkJnJDlQFddlF05KJP/gKb
+ O0j0J82Z+5YgvEl950MxbbSCG2Hx8TFqXcsdZk4/YafJYExkJPnTYxWoi
+ +6QaQmYzaITDOEFtmX6lfl8fFVTtxbShXxrvrlstcA6F632pg6yv43kjX
+ YBXj3vOjqsRUdnJUMJaAj/A2/3mgQm+qWhAwqj+kUQPGFdGSemO3ORXIc
+ ChFGoA6xJk441DCreFa045/4xYsz4tHDH6jZALMn52waSR8G30Krxm1F+ g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10931"; a="2876523"
 X-IronPort-AV: E=Sophos;i="6.04,294,1695711600"; 
-   d="scan'208";a="2876519"
+   d="scan'208";a="2876523"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  21 Dec 2023 14:28:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10931"; a="920458213"
-X-IronPort-AV: E=Sophos;i="6.04,294,1695711600"; d="scan'208";a="920458213"
+X-IronPort-AV: E=McAfee;i="6600,9927,10931"; a="920458216"
+X-IronPort-AV: E=Sophos;i="6.04,294,1695711600"; d="scan'208";a="920458216"
 Received: from lucas-s2600cw.jf.intel.com ([10.165.21.196])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Dec 2023 14:28:13 -0800
+ 21 Dec 2023 14:28:14 -0800
 From: Lucas De Marchi <lucas.demarchi@intel.com>
 To: intel-xe@lists.freedesktop.org
-Subject: [PATCH 2/6] drm/xe: Use _ULL for u64 division
-Date: Thu, 21 Dec 2023 14:28:05 -0800
-Message-Id: <20231221222809.4123220-3-lucas.demarchi@intel.com>
+Subject: [PATCH 3/6] drm/xe/mmio: Cast to u64 when printing
+Date: Thu, 21 Dec 2023 14:28:06 -0800
+Message-Id: <20231221222809.4123220-4-lucas.demarchi@intel.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20231221222809.4123220-1-lucas.demarchi@intel.com>
 References: <20231221222809.4123220-1-lucas.demarchi@intel.com>
@@ -58,34 +58,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: thomas.hellstrom@linux.intel.com, daniel.vetter@ffwll.ch,
- ogabbay@kernel.org, Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- airlied@gmail.com
+Cc: Matthew Brost <matthew.brost@intel.com>, thomas.hellstrom@linux.intel.com,
+ daniel.vetter@ffwll.ch, ogabbay@kernel.org,
+ Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
+ "Michael J . Ruhl" <michael.j.ruhl@intel.com>, Oak Zeng <oak.zeng@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, airlied@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use DIV_ROUND_UP_ULL() so it also works on 32bit build.
+resource_size_t uses %pa format in printk since the size varies
+depending on build options. However to keep the io_size/physical_size
+addition in the same call we can't pass the address without adding yet
+another variable in these function. Simply cast it to u64 and keep using
+%llx.
 
-Fixes: dd08ebf6c352 ("drm/xe: Introduce a new DRM driver for Intel GPUs")
+Fixes: 286089ce6929 ("drm/xe: Improve vram info debug printing")
+Cc: Oak Zeng <oak.zeng@intel.com>
+Cc: Michael J. Ruhl <michael.j.ruhl@intel.com>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
 Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 ---
- drivers/gpu/drm/xe/xe_device.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/xe/xe_mmio.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
-index 86867d42d532..3f0dcf54277b 100644
---- a/drivers/gpu/drm/xe/xe_device.c
-+++ b/drivers/gpu/drm/xe/xe_device.c
-@@ -620,7 +620,7 @@ void xe_device_wmb(struct xe_device *xe)
- u32 xe_device_ccs_bytes(struct xe_device *xe, u64 size)
- {
- 	return xe_device_has_flat_ccs(xe) ?
--		DIV_ROUND_UP(size, NUM_BYTES_PER_CCS_BYTE(xe)) : 0;
-+		DIV_ROUND_UP_ULL(size, NUM_BYTES_PER_CCS_BYTE(xe)) : 0;
- }
+diff --git a/drivers/gpu/drm/xe/xe_mmio.c b/drivers/gpu/drm/xe/xe_mmio.c
+index f660cfb79f50..5c46f2d0b6dc 100644
+--- a/drivers/gpu/drm/xe/xe_mmio.c
++++ b/drivers/gpu/drm/xe/xe_mmio.c
+@@ -272,8 +272,8 @@ int xe_mmio_probe_vram(struct xe_device *xe)
+ 		drm_info(&xe->drm, "VRAM[%u, %u]: Actual physical size %pa, usable size exclude stolen %pa, CPU accessible size %pa\n", id,
+ 			 tile->id, &tile->mem.vram.actual_physical_size, &tile->mem.vram.usable_size, &tile->mem.vram.io_size);
+ 		drm_info(&xe->drm, "VRAM[%u, %u]: DPA range: [%pa-%llx], io range: [%pa-%llx]\n", id, tile->id,
+-			 &tile->mem.vram.dpa_base, tile->mem.vram.dpa_base + tile->mem.vram.actual_physical_size,
+-			 &tile->mem.vram.io_start, tile->mem.vram.io_start + tile->mem.vram.io_size);
++			 &tile->mem.vram.dpa_base, tile->mem.vram.dpa_base + (u64)tile->mem.vram.actual_physical_size,
++			 &tile->mem.vram.io_start, tile->mem.vram.io_start + (u64)tile->mem.vram.io_size);
  
- bool xe_device_mem_access_ongoing(struct xe_device *xe)
+ 		/* calculate total size using tile size to get the correct HW sizing */
+ 		total_size += tile_size;
 -- 
 2.40.1
 
