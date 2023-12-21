@@ -2,76 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8742B81B646
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Dec 2023 13:46:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F9F481B73F
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Dec 2023 14:22:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9ECBA10E355;
-	Thu, 21 Dec 2023 12:46:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 342E910E6B7;
+	Thu, 21 Dec 2023 13:22:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35C6C10E355
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Dec 2023 12:46:48 +0000 (UTC)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id
- 3BL8o3BO011875; Thu, 21 Dec 2023 13:46:32 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding:content-type; s=
- selector1; bh=f+RuX/Eia9uR2MHJdZssTap6bVCpuc5frqUe4l82QhE=; b=yM
- bGXGTbRhCoPDtMjIarTTcmjFrL7lidjkKbrr1iUAEOGF+Z32SFEmzT2VnvYAQomy
- F7vjYPDQi5JS8x1Etz6qc/wkHeNYnB/nUmJ15X3voaCAL9KslDlMgkERKsBN7YPy
- 6Khru6YrLUPcBZ3AoorbrZem1hY9ouN0/ZvyNv4fZIsDIjLTVMHTqRZE0DH0Dym8
- EB4AMWT+VHsIQ2yMhPFf6QqO0omesZZSzminBoVMRbU7xtV5ByzxTjYqVYUYdtHp
- ZQiGhEY1mYQOo+/iN1KxvKRBPbcaTp5MV3kwRIiNdLxnlIm14Wd4Nwn/h7HEXtrT
- N2Sa8MXbl2BPPHIijlJw==
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3v13nhq73w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Dec 2023 13:46:32 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 80E5C100053;
- Thu, 21 Dec 2023 13:46:30 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 7655329D7E8;
- Thu, 21 Dec 2023 13:46:30 +0100 (CET)
-Received: from localhost (10.252.25.159) by SHFDAG1NODE2.st.com (10.75.129.70)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Thu, 21 Dec
- 2023 13:46:29 +0100
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>, Sam
- Ravnborg <sam@ravnborg.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Yannick Fertre
- <yannick.fertre@foss.st.com>, Raphael Gallais-Pou
- <raphael.gallais-pou@foss.st.com>, Philippe Cornu
- <philippe.cornu@foss.st.com>, Philipp Zabel <p.zabel@pengutronix.de>, Lad
- Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Thierry Reding
- <thierry.reding@gmail.com>
-Subject: [PATCH RESEND v1 8/8] arm64: dts: st: add display support on
- stm32mp257f-ev
-Date: Thu, 21 Dec 2023 13:43:39 +0100
-Message-ID: <20231221124339.420119-9-raphael.gallais-pou@foss.st.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231221124339.420119-1-raphael.gallais-pou@foss.st.com>
-References: <20231221124339.420119-1-raphael.gallais-pou@foss.st.com>
+X-Greylist: delayed 401 seconds by postgrey-1.36 at gabe;
+ Thu, 21 Dec 2023 10:50:32 UTC
+Received: from forward203a.mail.yandex.net (forward203a.mail.yandex.net
+ [IPv6:2a02:6b8:c0e:500:1:45:d181:d203])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3513010E696;
+ Thu, 21 Dec 2023 10:50:32 +0000 (UTC)
+Received: from forward101a.mail.yandex.net (forward101a.mail.yandex.net
+ [IPv6:2a02:6b8:c0e:500:1:45:d181:d101])
+ by forward203a.mail.yandex.net (Yandex) with ESMTP id ABA616B1CF;
+ Thu, 21 Dec 2023 13:43:53 +0300 (MSK)
+Received: from mail-nwsmtp-smtp-production-main-39.vla.yp-c.yandex.net
+ (mail-nwsmtp-smtp-production-main-39.vla.yp-c.yandex.net
+ [IPv6:2a02:6b8:c1d:3e29:0:640:6566:0])
+ by forward101a.mail.yandex.net (Yandex) with ESMTP id 2052A608FC;
+ Thu, 21 Dec 2023 13:43:48 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-39.vla.yp-c.yandex.net
+ (smtp/Yandex) with ESMTPSA id lhLioBTTsqM0-Z4CLrQXm; 
+ Thu, 21 Dec 2023 13:43:47 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
+ t=1703155427; bh=KxttoY911M9pQ6nQTQMh2QMpx7SWhFqshPKl0r8C8w4=;
+ h=Message-ID:Date:Cc:Subject:To:From;
+ b=EQWEIWkfhP4quQgbPKMu9QrPVVOWh7KeMiBk7EgCwXCIe7jbesrzQJhNxAGndYdif
+ vAMVx4g/T8OZAKOJkzejRGZJFe+oMZ2s/+Z6kaxF9tBBuAnz4dYp2g51NsUgTR+7FH
+ FVTzCmTG392M7ZJY8pqB1DsTKL6/l98L7E1e2H8Q=
+Authentication-Results: mail-nwsmtp-smtp-production-main-39.vla.yp-c.yandex.net;
+ dkim=pass header.i=@yandex.ru
+From: Dmitry Antipov <dmantipov@yandex.ru>
+To: David Airlie <airlied@gmail.com>
+Subject: [PATCH] drm/nouveau: svm: fix kvcalloc() arguments order
+Date: Thu, 21 Dec 2023 13:40:49 +0300
+Message-ID: <20231221104051.23680-1-dmantipov@yandex.ru>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.252.25.159]
-X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-21_06,2023-12-20_01,2023-05-22_02
+X-Mailman-Approved-At: Thu, 21 Dec 2023 13:22:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,128 +57,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-stm32@st-md-mailman.stormreply.com
+Cc: nouveau@lists.freedesktop.org, Dmitry Antipov <dmantipov@yandex.ru>,
+ "Gustavo A . R . Silva" <gustavoars@kernel.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch enables the following IPs on stm32mp257f-ev :
-  * LTDC
-  * LVDS
-  * WSVGA LVDS panel (1024x600)
-  * Panel backlight
-  * Ilitek touchescreen
+When compiling with gcc version 14.0.0 20231220 (experimental)
+and W=1, I've noticed the following warning:
 
-Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+drivers/gpu/drm/nouveau/nouveau_svm.c: In function 'nouveau_svm_fault_buffer_ctor':
+drivers/gpu/drm/nouveau/nouveau_svm.c:1014:40: warning: 'kvcalloc' sizes specified with
+'sizeof' in the earlier argument and not in the later argument [-Wcalloc-transposed-args]
+ 1014 |         buffer->fault = kvcalloc(sizeof(*buffer->fault), buffer->entries, GFP_KERNEL);
+      |                                        ^
+
+Since 'n' and 'size' arguments of 'kvcalloc()' are multiplied to
+calculate the final size, their actual order doesn't affect the
+result and so this is not a bug. But it's still worth to fix it.
+
+Signed-off-by: Dmitry Antipov <dmantipov@yandex.ru>
 ---
- arch/arm64/boot/dts/st/stm32mp257f-ev1.dts | 79 ++++++++++++++++++++++
- 1 file changed, 79 insertions(+)
+ drivers/gpu/drm/nouveau/nouveau_svm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/st/stm32mp257f-ev1.dts b/arch/arm64/boot/dts/st/stm32mp257f-ev1.dts
-index 0ea8e69bfb3d..ca2da988d91c 100644
---- a/arch/arm64/boot/dts/st/stm32mp257f-ev1.dts
-+++ b/arch/arm64/boot/dts/st/stm32mp257f-ev1.dts
-@@ -29,6 +29,43 @@ memory@80000000 {
- 		reg = <0x0 0x80000000 0x1 0x0>;
- 	};
+diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
+index cc03e0c22ff3..5e4565c5011a 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_svm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
+@@ -1011,7 +1011,7 @@ nouveau_svm_fault_buffer_ctor(struct nouveau_svm *svm, s32 oclass, int id)
+ 	if (ret)
+ 		return ret;
  
-+	panel_lvds: panel-lvds {
-+		compatible = "edt,etml0700z9ndha", "panel-lvds";
-+		enable-gpios = <&gpiog 15 GPIO_ACTIVE_HIGH>;
-+		backlight = <&panel_lvds_backlight>;
-+		status = "okay";
-+
-+		width-mm = <156>;
-+		height-mm = <92>;
-+		data-mapping = "vesa-24";
-+
-+		panel-timing {
-+			clock-frequency = <54000000>;
-+			hactive = <1024>;
-+			vactive = <600>;
-+			hfront-porch = <150>;
-+			hback-porch = <150>;
-+			hsync-len = <21>;
-+			vfront-porch = <24>;
-+			vback-porch = <24>;
-+			vsync-len = <21>;
-+		};
-+
-+		port {
-+			lvds_panel_in: endpoint {
-+				remote-endpoint = <&lvds_out0>;
-+			};
-+		};
-+	};
-+
-+	panel_lvds_backlight: panel-lvds-backlight {
-+		compatible = "gpio-backlight";
-+		gpios = <&gpioi 5 GPIO_ACTIVE_HIGH>;
-+		default-on;
-+		default-brightness-level = <0>;
-+		status = "okay";
-+	};
-+
- 	reserved-memory {
- 		#address-cells = <2>;
- 		#size-cells = <2>;
-@@ -63,6 +100,15 @@ &i2c2 {
- 	i2c-scl-falling-time-ns = <13>;
- 	clock-frequency = <400000>;
- 	status = "okay";
-+
-+	ili2511: ili2511@41 {
-+		compatible = "ilitek,ili251x";
-+		reg = <0x41>;
-+		interrupt-parent = <&gpioi>;
-+		interrupts = <13 IRQ_TYPE_EDGE_FALLING>;
-+		reset-gpios = <&gpiog 14 GPIO_ACTIVE_LOW>;
-+		status = "okay";
-+	};
- };
+-	buffer->fault = kvcalloc(sizeof(*buffer->fault), buffer->entries, GFP_KERNEL);
++	buffer->fault = kvcalloc(buffer->entries, sizeof(*buffer->fault), GFP_KERNEL);
+ 	if (!buffer->fault)
+ 		return -ENOMEM;
  
- &i2c8 {
-@@ -75,6 +121,39 @@ &i2c8 {
- 	status = "disabled";
- };
- 
-+&ltdc {
-+	status = "okay";
-+
-+	port {
-+		ltdc_ep0_out: endpoint {
-+			remote-endpoint = <&lvds_in>;
-+		};
-+	};
-+};
-+
-+&lvds {
-+	status = "okay";
-+
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@0 {
-+			reg = <0>;
-+			lvds_in: endpoint {
-+				remote-endpoint = <&ltdc_ep0_out>;
-+			};
-+		};
-+
-+		port@1 {
-+			reg = <1>;
-+			lvds_out0: endpoint {
-+				remote-endpoint = <&lvds_panel_in>;
-+			};
-+		};
-+	};
-+};
-+
- &sdmmc1 {
- 	pinctrl-names = "default", "opendrain", "sleep";
- 	pinctrl-0 = <&sdmmc1_b4_pins_a>;
 -- 
-2.25.1
+2.43.0
 
