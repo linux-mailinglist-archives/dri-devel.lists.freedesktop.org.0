@@ -1,45 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5F7681C0D9
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Dec 2023 23:14:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E56FA81C10A
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Dec 2023 23:28:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28AEA10E720;
-	Thu, 21 Dec 2023 22:14:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0520B10E722;
+	Thu, 21 Dec 2023 22:28:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6FF710E720
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Dec 2023 22:14:29 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id F011DB821CD;
- Thu, 21 Dec 2023 22:14:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F47EC433C7;
- Thu, 21 Dec 2023 22:14:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1703196867;
- bh=cYS3cTDbw5ZEO4RjMQJxm2bzTbH7s3/S3JHSmNe9LI4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=r3PgqdPPNA0G2/m4c2P6d/DNk03EOFgdBDVbb9yFwFSiYav/aVFEgskn5ffIJmlaL
- 9MF0hK8gDjJY23vJZP0s3MHRqyN8RzoA/MjxHLCJnNCQx3SFKmMLB6uaJf7tMktxdG
- U0qy7IRnkA47Z0Vl5mvT6vL4d7KQYB95RDWgm+upcaMfDb4Eb8FegPhwwyz21Gzp4f
- mm70kstEkaMyEcSP2agMqZEB0+iYKB6bEgZq2KiaIUXFfCH1AmwkAENsV0Cucqtiez
- A3S5y+HfOFoLOv0E//1GYTl5ybtBOt3hz4i3D76jhAdlD8vTr3V8IHZqeOEPmEy8Up
- hUygrIuwakyaA==
-Received: (nullmailer pid 186572 invoked by uid 1000);
- Thu, 21 Dec 2023 22:14:25 -0000
-Date: Thu, 21 Dec 2023 16:14:25 -0600
-From: Rob Herring <robh@kernel.org>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v3 3/4] dt-bindings: display: Add SSD133x OLED controllers
-Message-ID: <170319686456.186513.13956120421237374815.robh@kernel.org>
-References: <20231219203416.2299702-1-javierm@redhat.com>
- <20231219203416.2299702-4-javierm@redhat.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2ABAE10E716;
+ Thu, 21 Dec 2023 22:28:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1703197694; x=1734733694;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=tL8NDVg4RLLrNjGICPg5VaR/lBc+sCQgEXLb05HhDAQ=;
+ b=MWRdNz9I9RK1ePXUoopO6UxVbsVz7+NgpGm+y+ZYaV9zljOcXgWGf3Xw
+ iUS8Cabhk3aIuotdqR0EJjd1kvAy+YalJF50cFEUm3Dt6VdTK4igAsVGf
+ WBtRB8/RjFK6vNrJPnwFwX1+auE51Z9rQa+6WhH8glbud90LPm3OWWpmd
+ +LqcYidKcoeitFla3BzdHQQJ4+QgGSN77pPK//M0aHoqKm/xZ5CVPrnot
+ zOjbPCCDx+wcDV5knOmGRdYTQWN05Zzp7f4Z5iw7hmWOaMB66kEb9/PGQ
+ ciI5Wo329YnF40Hzuu1HIyM+g/r9jNdsmSAa6ZtLeUR4tblw14TMIzvsZ w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10931"; a="2876509"
+X-IronPort-AV: E=Sophos;i="6.04,294,1695711600"; 
+   d="scan'208";a="2876509"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Dec 2023 14:28:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10931"; a="920458207"
+X-IronPort-AV: E=Sophos;i="6.04,294,1695711600"; d="scan'208";a="920458207"
+Received: from lucas-s2600cw.jf.intel.com ([10.165.21.196])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Dec 2023 14:28:13 -0800
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: intel-xe@lists.freedesktop.org
+Subject: [PATCH 0/6] drm/xe: Fix 32bit build
+Date: Thu, 21 Dec 2023 14:28:03 -0800
+Message-Id: <20231221222809.4123220-1-lucas.demarchi@intel.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231219203416.2299702-4-javierm@redhat.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,38 +56,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jocelyn Falempe <jfalempe@redhat.com>, Conor Dooley <conor@kernel.org>,
- linux-kernel@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Peter Robinson <pbrobinson@gmail.com>
+Cc: thomas.hellstrom@linux.intel.com, daniel.vetter@ffwll.ch,
+ ogabbay@kernel.org, Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ airlied@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+A few fixes when building xe with ARCH=i386. If getting the whole lot,
+we can simply skip the first and last patches. However they probably
+need to got through CI and be reviewed to avoid regressions. For the
+current pull request, simply disabling 32bits build is an alternative,
+so we'd apply patch 1 now and let the rest come later.
 
-On Tue, 19 Dec 2023 21:34:08 +0100, Javier Martinez Canillas wrote:
-> Add a Device Tree binding schema for the OLED panels based on the
-> Solomon SSD133x family of controllers.
-> 
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> ---
-> 
-> Changes in v3:
-> - Move solomon,ssd-common.yaml ref before the properties section and
->   width/height constraints after the other properties (Conor Dooley).
-> 
-> Changes in v2:
-> - Unconditionally set the width and height constraints (Conor Dooley).
-> - Fix indentation in the DTS examples (Krzysztof Kozlowski).
-> 
->  .../bindings/display/solomon,ssd133x.yaml     | 57 +++++++++++++++++++
->  1 file changed, 57 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/solomon,ssd133x.yaml
-> 
+Lucas De Marchi (6):
+  drm/xe: Disable 32bits build
+  drm/xe: Use _ULL for u64 division
+  drm/xe/mmio: Cast to u64 when printing
+  drm/xe/display: Avoid calling readq()
+  drm/xe: Fix cast on trace variable
+  drm/xe: Enable 32bits build
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+ .../gpu/drm/xe/compat-i915-headers/gem/i915_gem_object.h   | 7 +++++--
+ drivers/gpu/drm/xe/xe_device.c                             | 2 +-
+ drivers/gpu/drm/xe/xe_mmio.c                               | 4 ++--
+ drivers/gpu/drm/xe/xe_trace.h                              | 2 +-
+ 4 files changed, 9 insertions(+), 6 deletions(-)
+
+-- 
+2.40.1
 
