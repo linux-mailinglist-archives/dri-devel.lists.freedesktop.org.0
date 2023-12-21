@@ -1,32 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CDAE81B99C
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Dec 2023 15:33:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE31981B9C0
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Dec 2023 15:43:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 914A610E087;
-	Thu, 21 Dec 2023 14:33:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5094510E358;
+	Thu, 21 Dec 2023 14:43:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-175.mta0.migadu.com (out-175.mta0.migadu.com
- [91.218.175.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BEE510E087
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Dec 2023 14:33:39 +0000 (UTC)
-Message-ID: <29c8523b-6554-4716-91dd-b4e7c0697b33@linux.dev>
+Received: from out-184.mta1.migadu.com (out-184.mta1.migadu.com
+ [95.215.58.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B58B210E358
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Dec 2023 14:43:50 +0000 (UTC)
+Message-ID: <df5406ae-aca4-459f-bf70-4a5efbf3864e@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1703169217;
+ t=1703169828;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ER5Li4YUkTrQ5sLdp19RWCOPTn5sa6zUgZcNZaJrI98=;
- b=tTb44zhc57HP8nj4wGnPm9XDpK6WEm1NDG0J3VJnI9oYIVy4ikdNSYtIFJDz8MIu70dstZ
- bScMCNxyEMQTs/88WUrnZpJSEtGXRZqM4S/xaGV2jjujJH+KUltz3Yr+TLFnmtg4idmoIL
- QETW309M/cEm7fq9jZ/qFcY2x8G4YHs=
-Date: Thu, 21 Dec 2023 22:33:21 +0800
+ bh=xTV/q8RDwQu2LAWOhY4c4geyJjIHSwAWDVPGvEOOSYc=;
+ b=CKXSo6yrxKSN0Z8ODEsMtrBgLszB1j8X4f8dzgGkYKd2FeNBHAKA9hH3JBjYZwj8N4RTzm
+ WcJ0AkAOZ4JHapVZoAiuDoJBw71qorIYsCmlSj/KS5f7quMEZLvsu88Mz7iEvseAahRn2k
+ OjZh1xAZriJIFgVj7GQ/uTBoOc1BdrI=
+Date: Thu, 21 Dec 2023 22:43:39 +0800
 MIME-Version: 1.0
-Subject: Re: [v5,40/44] drm/sun4i: hdmi: Convert encoder to atomic
+Subject: Re: [v5,41/44] drm/sun4i: hdmi: Move mode_set into enable
+Content-Language: en-US
 To: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
@@ -35,12 +36,11 @@ To: Maxime Ripard <mripard@kernel.org>,
  =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
  Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Samuel Holland <samuel@sholland.org>
-References: <20231207-kms-hdmi-connector-state-v5-40-6538e19d634d@kernel.org>
-Content-Language: en-US
+References: <20231207-kms-hdmi-connector-state-v5-41-6538e19d634d@kernel.org>
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <20231207-kms-hdmi-connector-state-v5-40-6538e19d634d@kernel.org>
+In-Reply-To: <20231207-kms-hdmi-connector-state-v5-41-6538e19d634d@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
@@ -66,14 +66,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Hi,
 
 
-LGTM,
-
-
 On 2023/12/7 23:50, Maxime Ripard wrote:
-> The sun4i_hdmi driver still uses the non-atomic variants of the encoder
-> hooks, so let's convert to their atomic equivalents.
+> We're not doing anything special in atomic_mode_set so we can simply
+> merge it into atomic_enable.
 >
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+
 
 Acked-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 
