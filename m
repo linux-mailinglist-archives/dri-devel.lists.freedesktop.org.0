@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ADEC81B5D5
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Dec 2023 13:30:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A133E81B5D7
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Dec 2023 13:30:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DDA710E34B;
-	Thu, 21 Dec 2023 12:30:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14B4B10E368;
+	Thu, 21 Dec 2023 12:30:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
  [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1628810E34B
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1689D10E378
  for <dri-devel@lists.freedesktop.org>; Thu, 21 Dec 2023 12:30:00 +0000 (UTC)
 Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
  by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id
- 3BL8jmp8012041; Thu, 21 Dec 2023 13:29:41 +0100
+ 3BL8jmp9012041; Thu, 21 Dec 2023 13:29:44 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding:content-type; s=selector1; bh=uRYfWrQ
- hXzw+M+0seKB6CQA/JwDHEIQuybIPuZL1Ego=; b=IxtmiNBZvyI+0vjIfaXpEWv
- NiKFuUNm8Sy2Pd/YUC+2QD0olf6MyA1SFF49i183CFOoIA086srUC/4WxS60GZGR
- Hoc1/WaX8elLo/h9sMTFmEjetk3dbihIfFlizI6vbGvhGxWfdcR1jlPqYf6qLZKb
- htqeCzDzs/AFr+2D/VZsW/d+c0tI9njDFTl7NLAiVWElYy4MB7zIjzT16gfR32xF
- BeFWG/G9NRZB/LGBeTjvb5crhWO9+nRyBKvotKOSmydevygTQwpF7sQN8J//VRNB
- vTPmnVGoLeIqAnhGG6loks11ovaoaTynKBmLuT5c3bzrf5LB9EOzqNfziofONPg=
- =
+ from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding:content-type; s=
+ selector1; bh=wAIVUm7V9taORVR8870mPd+pd5ISYdF2B1dtf5GRRcM=; b=Pa
+ GWNHDXB5Vt/DAgoCLOc1N0/3qJczcw8uqM5c3beox1b8VQEeJCxSE1VthQImjiIA
+ Ltg5amjelWCY76L+bGWKTcg7DhVul4fBnjCVLFhd4iaaIZVIns1/ERl0LvpkTyax
+ 5kf/v780uB33m9fzjeN+BYcPMrOMqY+xT3bJCPq0YEMiPxmIeUjRNVKjFAZRURr+
+ +WeYXPLJl+od99Wdil+vxDIDSM8dim2JdT9PSdsmVfamJdidVQ7iP0rrXMhPzekf
+ rLfGf0R/SlsnjgNQjlJR0nQu8IdiAYBbsm70K86cXokzrg3EPtIzg2wtWNauHR2K
+ N8xbglVL6OcUlcVpADqw==
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3v13nhq559-1
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3v13nhq55d-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Dec 2023 13:29:41 +0100 (CET)
+ Thu, 21 Dec 2023 13:29:44 +0100 (CET)
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 88FBA100053;
- Thu, 21 Dec 2023 13:29:38 +0100 (CET)
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 65DFB100053;
+ Thu, 21 Dec 2023 13:29:42 +0100 (CET)
 Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 36BBB2747B8;
- Thu, 21 Dec 2023 13:29:38 +0100 (CET)
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 82EFA208006;
+ Thu, 21 Dec 2023 13:29:41 +0100 (CET)
 Received: from localhost (10.252.25.159) by SHFDAG1NODE2.st.com (10.75.129.70)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Thu, 21 Dec
- 2023 13:29:37 +0100
+ 2023 13:29:40 +0100
 From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Neil Armstrong
  <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>, Sam
@@ -56,10 +56,13 @@ To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Neil Armstrong
  <philippe.cornu@foss.st.com>, Philipp Zabel <p.zabel@pengutronix.de>, Lad
  Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Thierry Reding
  <thierry.reding@gmail.com>
-Subject: [PATCH v1 0/8] Introduce STM32 LVDS driver
-Date: Thu, 21 Dec 2023 13:28:35 +0100
-Message-ID: <20231221122843.418650-1-raphael.gallais-pou@foss.st.com>
+Subject: [PATCH v1 1/8] dt-bindings: panel: lvds: Append edt,
+ etml0700z9ndha in panel-lvds
+Date: Thu, 21 Dec 2023 13:28:36 +0100
+Message-ID: <20231221122843.418650-2-raphael.gallais-pou@foss.st.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20231221122843.418650-1-raphael.gallais-pou@foss.st.com>
+References: <20231221122843.418650-1-raphael.gallais-pou@foss.st.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -87,38 +90,26 @@ Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This serie introduces a new DRM bridge driver for STM32MP257 platforms
-based on Arm Cortex-35. It also adds an instance in the device-tree and
-handle the inclusion of the driver within the DRM framework. First patch
-adds a new panel compatible in the panel-lvds driver, which is used by
-default on the STM32MP257.
+List EDT ETML0700Z9NDHA in the LVDS panel enumeration.
 
-Raphael Gallais-Pou (7):
-  dt-bindings: panel: lvds: Append edt,etml0700z9ndha in panel-lvds
-  dt-bindings: display: add dt-bindings for STM32 LVDS device
-  drm/stm: lvds: add new STM32 LVDS Display Interface Transmitter driver
-  drm/stm: ltdc: add lvds pixel clock
-  arm64: dts: st: add ltdc support on stm32mp251
-  arm64: dts: st: add lvds support on stm32mp253
-  arm64: dts: st: add display support on stm32mp257f-ev
+Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+---
+ Documentation/devicetree/bindings/display/panel/panel-lvds.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Yannick Fertre (1):
-  drm/stm: ltdc: implement bus clock
-
- .../bindings/display/panel/panel-lvds.yaml    |    2 +
- .../bindings/display/st,stm32-lvds.yaml       |  114 ++
- arch/arm64/boot/dts/st/stm32mp251.dtsi        |   12 +
- arch/arm64/boot/dts/st/stm32mp253.dtsi        |   17 +
- arch/arm64/boot/dts/st/stm32mp257f-ev1.dts    |   79 ++
- drivers/gpu/drm/stm/Kconfig                   |   11 +
- drivers/gpu/drm/stm/Makefile                  |    2 +
- drivers/gpu/drm/stm/ltdc.c                    |   26 +
- drivers/gpu/drm/stm/ltdc.h                    |    2 +
- drivers/gpu/drm/stm/lvds.c                    | 1226 +++++++++++++++++
- 10 files changed, 1491 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/st,stm32-lvds.yaml
- create mode 100644 drivers/gpu/drm/stm/lvds.c
-
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml b/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
+index 9f1016551e0b..3fb24393529c 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
+@@ -42,6 +42,8 @@ properties:
+           - auo,b101ew05
+           # Chunghwa Picture Tubes Ltd. 7" WXGA (800x1280) TFT LCD LVDS panel
+           - chunghwa,claa070wp03xg
++          # EDT ETML0700Z9NDHA 7.0" WSVGA (1024x600) color TFT LCD LVDS panel
++          - edt,etml0700z9ndha
+           # HannStar Display Corp. HSD101PWW2 10.1" WXGA (1280x800) LVDS panel
+           - hannstar,hsd101pww2
+           # Hydis Technologies 7" WXGA (800x1280) TFT LCD LVDS panel
 -- 
 2.25.1
 
