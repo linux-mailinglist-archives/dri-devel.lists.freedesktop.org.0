@@ -1,47 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E56FA81C10A
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Dec 2023 23:28:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0240781C10B
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Dec 2023 23:28:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0520B10E722;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3872710E729;
 	Thu, 21 Dec 2023 22:28:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2ABAE10E716;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5373710E718;
  Thu, 21 Dec 2023 22:28:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1703197694; x=1734733694;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=tL8NDVg4RLLrNjGICPg5VaR/lBc+sCQgEXLb05HhDAQ=;
- b=MWRdNz9I9RK1ePXUoopO6UxVbsVz7+NgpGm+y+ZYaV9zljOcXgWGf3Xw
- iUS8Cabhk3aIuotdqR0EJjd1kvAy+YalJF50cFEUm3Dt6VdTK4igAsVGf
- WBtRB8/RjFK6vNrJPnwFwX1+auE51Z9rQa+6WhH8glbud90LPm3OWWpmd
- +LqcYidKcoeitFla3BzdHQQJ4+QgGSN77pPK//M0aHoqKm/xZ5CVPrnot
- zOjbPCCDx+wcDV5knOmGRdYTQWN05Zzp7f4Z5iw7hmWOaMB66kEb9/PGQ
- ciI5Wo329YnF40Hzuu1HIyM+g/r9jNdsmSAa6ZtLeUR4tblw14TMIzvsZ w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10931"; a="2876509"
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=2kcPciUEqH8SQV45LDXl4Zh0ttsAlaPTH30v07QTwH4=;
+ b=lCW7lb15BRxsE3MoSnqLSPwK7fUJ5OKg0GT87AtHLZbEhMoGpQmYWH+8
+ B8Dr2p9tnLSTcNAnoJbYdyGNcMVIwrVkdjaCR2V+hJfk0OEovPFV4GMRQ
+ 52RwoLW+zZ8p4A2y7FckOmoeknG0QMUijVnDQ9+JvrIyjJvP3pHlQ/Was
+ lDCEjm2HvB0vLiELbrwK+v08t+V9kBYDmI1zOm8C0dD/jbdmdR+NkcsQH
+ dj9rkiS84HdPU3jKiYswNUm373zAK6w9rLyeHvCrsNyeFDN+JuHokLs1Y
+ ejzgmhd8myAc3X1Tj7ME5U730znx7r05bMDhasYsEfCXy39jkIldRAY8K w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10931"; a="2876514"
 X-IronPort-AV: E=Sophos;i="6.04,294,1695711600"; 
-   d="scan'208";a="2876509"
+   d="scan'208";a="2876514"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Dec 2023 14:28:13 -0800
+ 21 Dec 2023 14:28:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10931"; a="920458207"
-X-IronPort-AV: E=Sophos;i="6.04,294,1695711600"; d="scan'208";a="920458207"
+X-IronPort-AV: E=McAfee;i="6600,9927,10931"; a="920458210"
+X-IronPort-AV: E=Sophos;i="6.04,294,1695711600"; d="scan'208";a="920458210"
 Received: from lucas-s2600cw.jf.intel.com ([10.165.21.196])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  21 Dec 2023 14:28:13 -0800
 From: Lucas De Marchi <lucas.demarchi@intel.com>
 To: intel-xe@lists.freedesktop.org
-Subject: [PATCH 0/6] drm/xe: Fix 32bit build
-Date: Thu, 21 Dec 2023 14:28:03 -0800
-Message-Id: <20231221222809.4123220-1-lucas.demarchi@intel.com>
+Subject: [PATCH 1/6] drm/xe: Disable 32bits build
+Date: Thu, 21 Dec 2023 14:28:04 -0800
+Message-Id: <20231221222809.4123220-2-lucas.demarchi@intel.com>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20231221222809.4123220-1-lucas.demarchi@intel.com>
+References: <20231221222809.4123220-1-lucas.demarchi@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -63,26 +65,27 @@ Cc: thomas.hellstrom@linux.intel.com, daniel.vetter@ffwll.ch,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A few fixes when building xe with ARCH=i386. If getting the whole lot,
-we can simply skip the first and last patches. However they probably
-need to got through CI and be reviewed to avoid regressions. For the
-current pull request, simply disabling 32bits build is an alternative,
-so we'd apply patch 1 now and let the rest come later.
+Add a dependency on CONFIG_64BIT since currently the xe driver doesn't
+build on 32bits. It may be enabled again after all the issues are fixed.
 
-Lucas De Marchi (6):
-  drm/xe: Disable 32bits build
-  drm/xe: Use _ULL for u64 division
-  drm/xe/mmio: Cast to u64 when printing
-  drm/xe/display: Avoid calling readq()
-  drm/xe: Fix cast on trace variable
-  drm/xe: Enable 32bits build
+Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+---
+ drivers/gpu/drm/xe/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- .../gpu/drm/xe/compat-i915-headers/gem/i915_gem_object.h   | 7 +++++--
- drivers/gpu/drm/xe/xe_device.c                             | 2 +-
- drivers/gpu/drm/xe/xe_mmio.c                               | 4 ++--
- drivers/gpu/drm/xe/xe_trace.h                              | 2 +-
- 4 files changed, 9 insertions(+), 6 deletions(-)
-
+diff --git a/drivers/gpu/drm/xe/Kconfig b/drivers/gpu/drm/xe/Kconfig
+index 5b3da06e7ba3..a53b0fdc15a7 100644
+--- a/drivers/gpu/drm/xe/Kconfig
++++ b/drivers/gpu/drm/xe/Kconfig
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ config DRM_XE
+ 	tristate "Intel Xe Graphics"
+-	depends on DRM && PCI && MMU && (m || (y && KUNIT=y))
++	depends on DRM && PCI && MMU && (m || (y && KUNIT=y)) && 64BIT
+ 	select INTERVAL_TREE
+ 	# we need shmfs for the swappable backing store, and in particular
+ 	# the shmem_readpage() which depends upon tmpfs
 -- 
 2.40.1
 
