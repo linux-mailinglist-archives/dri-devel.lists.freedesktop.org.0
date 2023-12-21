@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBAF781BB73
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Dec 2023 17:05:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C533081BB93
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Dec 2023 17:13:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1906E10E0AC;
-	Thu, 21 Dec 2023 16:05:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E5CC10E0D0;
+	Thu, 21 Dec 2023 16:13:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0C7E10E0AC
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Dec 2023 16:05:04 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A93510E0D0
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Dec 2023 16:13:19 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id EB2DDB820E8;
- Thu, 21 Dec 2023 16:05:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F4F5C433C7;
- Thu, 21 Dec 2023 16:04:56 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 83754CE1FF6;
+ Thu, 21 Dec 2023 16:13:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4218C433CB;
+ Thu, 21 Dec 2023 16:13:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1703174702;
- bh=XNhUqOfjLcvVCPjO3xJPt6Xx/mZDgeiWV3XsOhPh4Vk=;
+ s=k20201202; t=1703175195;
+ bh=KVesujFyxk8g+PzjFWaKsdIwlbPbsy9MmO8ani2Ia+Q=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=LQ/dRIxyEykhaBg/e9Ihe5IbyYWnpkkkGKyOLTU93BFsq8+5ZOAgdmSAG9vOxvqWV
- kbc91kyOf+yyqvdR8roJQsivmoJq5JDH0nuBrkihYsQTIlHxseXIA5Ta0vZn79LUmY
- Gft3yaWQlqRKG7FnOpXXvKpZCq69Sm6Ft3vBVC17cFjXxpGehRofszd/tPmrEoPQx+
- gAIkXrdSDB3l8KZzS6mRXgQmKr/G9g1RRaAo91WbMrvRHXNMRDP32mj+Uta6RlQG/v
- yVzKRCqmgD9dc0JY4lHihSlQM0tqp3giTf/O0b4f3/T7NGM19qqVwZ42SX/78Hnh8v
- saLEUlh2E8xyw==
-Date: Thu, 21 Dec 2023 16:04:45 +0000
+ b=LQbBRiV2NxFUlEtQl9y5+GPe98N7iyUbmlEtAJYC69/jn5YMiEp1tfhq/lyTEFOGn
+ fdRPQMVVnE1xFlCoa3XIHzGdf2/7FfSm0loSmFlaeWDW8gPEfT2ZfXlukBd0aLLy3l
+ qyiWwUipdrLQHBBDY5IUzQV8xVXYAc33ENr9DFcqCc6Y9YMfJgrKshGdN+bVjWdwBy
+ bIdM8FsrbnbjT4D4d0E8htI1K0bodi1FkJ9SREYSRULMgFLxVKZsBEwJ/J/v8aTcye
+ 9aqYrHcTGq0q68Eln1R4BfbgPOBj3TOIWa44/Gr7WzeQQ5Mx7DQgLLYpNiUfQp9Uhz
+ 3GYgpXjn6n3QA==
+Date: Thu, 21 Dec 2023 16:12:58 +0000
 From: Jonathan Cameron <jic23@kernel.org>
 To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v5 6/8] iio: buffer-dma: Enable support for DMABUFs
-Message-ID: <20231221160445.0e3e5a8c@jic23-huawei>
-In-Reply-To: <20231219175009.65482-7-paul@crapouillou.net>
+Subject: Re: [PATCH v5 7/8] iio: buffer-dmaengine: Support new DMABUF based
+ userspace API
+Message-ID: <20231221161258.056f5ce4@jic23-huawei>
+In-Reply-To: <20231219175009.65482-8-paul@crapouillou.net>
 References: <20231219175009.65482-1-paul@crapouillou.net>
- <20231219175009.65482-7-paul@crapouillou.net>
+ <20231219175009.65482-8-paul@crapouillou.net>
 X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -63,339 +63,98 @@ Cc: Michael Hennerich <Michael.Hennerich@analog.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 19 Dec 2023 18:50:07 +0100
+On Tue, 19 Dec 2023 18:50:08 +0100
 Paul Cercueil <paul@crapouillou.net> wrote:
 
-> Implement iio_dma_buffer_attach_dmabuf(), iio_dma_buffer_detach_dmabuf()
-> and iio_dma_buffer_transfer_dmabuf(), which can then be used by the IIO
-> DMA buffer implementations.
+> Use the functions provided by the buffer-dma core to implement the
+> DMABUF userspace API in the buffer-dmaengine IIO buffer implementation.
+> 
+> Since we want to be able to transfer an arbitrary number of bytes and
+> not necesarily the full DMABUF, the associated scatterlist is converted
+> to an array of DMA addresses + lengths, which is then passed to
+> dmaengine_prep_slave_dma_array().
 > 
 > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+One question inline. Otherwise looks fine to me.
+
+J
 > 
-Hi Paul,
-
-A few comments in here. Mostly places where the cleanup.h guard() stuff
-can simplify error paths.
-
-Overall this looks reasonable to me.
-
-Jonathan
-
 > ---
-> v3: Update code to provide the functions that will be used as callbacks
->     for the new IOCTLs.
-> ---
->  drivers/iio/buffer/industrialio-buffer-dma.c | 157 +++++++++++++++++--
->  include/linux/iio/buffer-dma.h               |  26 +++
->  2 files changed, 170 insertions(+), 13 deletions(-)
+> v3: Use the new dmaengine_prep_slave_dma_array(), and adapt the code to
+>     work with the new functions introduced in industrialio-buffer-dma.c.
 > 
-> diff --git a/drivers/iio/buffer/industrialio-buffer-dma.c b/drivers/iio/buffer/industrialio-buffer-dma.c
-> index 5610ba67925e..adb64f975064 100644
-> --- a/drivers/iio/buffer/industrialio-buffer-dma.c
-> +++ b/drivers/iio/buffer/industrialio-buffer-dma.c
-> @@ -14,6 +14,7 @@
->  #include <linux/poll.h>
->  #include <linux/iio/buffer_impl.h>
->  #include <linux/iio/buffer-dma.h>
-> +#include <linux/dma-buf.h>
->  #include <linux/dma-mapping.h>
->  #include <linux/sizes.h>
+> v5: - Use the new dmaengine_prep_slave_dma_vec().
+>     - Restrict to input buffers, since output buffers are not yet
+>       supported by IIO buffers.
+> ---
+>  .../buffer/industrialio-buffer-dmaengine.c    | 52 ++++++++++++++++---
+>  1 file changed, 46 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/iio/buffer/industrialio-buffer-dmaengine.c b/drivers/iio/buffer/industrialio-buffer-dmaengine.c
+> index 5f85ba38e6f6..825d76a24a67 100644
+> --- a/drivers/iio/buffer/industrialio-buffer-dmaengine.c
+> +++ b/drivers/iio/buffer/industrialio-buffer-dmaengine.c
+> @@ -64,15 +64,51 @@ static int iio_dmaengine_buffer_submit_block(struct iio_dma_buffer_queue *queue,
+>  	struct dmaengine_buffer *dmaengine_buffer =
+>  		iio_buffer_to_dmaengine_buffer(&queue->buffer);
+>  	struct dma_async_tx_descriptor *desc;
+> +	unsigned int i, nents;
+> +	struct scatterlist *sgl;
+> +	struct dma_vec *vecs;
+> +	size_t max_size;
+>  	dma_cookie_t cookie;
+> +	size_t len_total;
 >  
-> @@ -94,14 +95,24 @@ static void iio_buffer_block_release(struct kref *kref)
->  {
->  	struct iio_dma_buffer_block *block = container_of(kref,
->  		struct iio_dma_buffer_block, kref);
-> +	struct iio_dma_buffer_queue *queue = block->queue;
->  
-> -	WARN_ON(block->state != IIO_BLOCK_STATE_DEAD);
-> +	WARN_ON(block->fileio && block->state != IIO_BLOCK_STATE_DEAD);
->  
-> -	dma_free_coherent(block->queue->dev, PAGE_ALIGN(block->size),
-> -					block->vaddr, block->phys_addr);
-> +	mutex_lock(&queue->lock);
->  
-> -	iio_buffer_put(&block->queue->buffer);
-> +	if (block->fileio) {
-> +		dma_free_coherent(queue->dev, PAGE_ALIGN(block->size),
-> +				  block->vaddr, block->phys_addr);
-> +		queue->num_fileio_blocks--;
+> -	block->bytes_used = min(block->size, dmaengine_buffer->max_size);
+> -	block->bytes_used = round_down(block->bytes_used,
+> -			dmaengine_buffer->align);
+> +	if (queue->buffer.direction != IIO_BUFFER_DIRECTION_IN) {
+> +		/* We do not yet support output buffers. */
+> +		return -EINVAL;
 > +	}
+>  
+> -	desc = dmaengine_prep_slave_single(dmaengine_buffer->chan,
+> -		block->phys_addr, block->bytes_used, DMA_DEV_TO_MEM,
+> -		DMA_PREP_INTERRUPT);
+> +	if (block->sg_table) {
+> +		sgl = block->sg_table->sgl;
+> +		nents = sg_nents_for_len(sgl, block->bytes_used);
+
+Are we guaranteed the length in the sglist is enough?  If not this
+can return an error code.
+
+
 > +
-> +	queue->num_blocks--;
->  	kfree(block);
+> +		vecs = kmalloc_array(nents, sizeof(*vecs), GFP_KERNEL);
+> +		if (!vecs)
+> +			return -ENOMEM;
 > +
-> +	mutex_unlock(&queue->lock);
+> +		len_total = block->bytes_used;
 > +
-> +	iio_buffer_put(&queue->buffer);
->  }
->  
->  static void iio_buffer_block_get(struct iio_dma_buffer_block *block)
-> @@ -163,7 +174,7 @@ static struct iio_dma_buffer_queue *iio_buffer_to_queue(struct iio_buffer *buf)
->  }
->  
->  static struct iio_dma_buffer_block *iio_dma_buffer_alloc_block(
-> -	struct iio_dma_buffer_queue *queue, size_t size)
-> +	struct iio_dma_buffer_queue *queue, size_t size, bool fileio)
->  {
->  	struct iio_dma_buffer_block *block;
->  
-> @@ -171,13 +182,16 @@ static struct iio_dma_buffer_block *iio_dma_buffer_alloc_block(
->  	if (!block)
->  		return NULL;
->  
-> -	block->vaddr = dma_alloc_coherent(queue->dev, PAGE_ALIGN(size),
-> -		&block->phys_addr, GFP_KERNEL);
-> -	if (!block->vaddr) {
-> -		kfree(block);
-> -		return NULL;
-> +	if (fileio) {
-> +		block->vaddr = dma_alloc_coherent(queue->dev, PAGE_ALIGN(size),
-> +						  &block->phys_addr, GFP_KERNEL);
-> +		if (!block->vaddr) {
-> +			kfree(block);
-> +			return NULL;
+> +		for (i = 0; i < nents; i++) {
+> +			vecs[i].addr = sg_dma_address(sgl);
+> +			vecs[i].len = min(sg_dma_len(sgl), len_total);
+> +			len_total -= vecs[i].len;
+> +
+> +			sgl = sg_next(sgl);
 > +		}
->  	}
->  
-> +	block->fileio = fileio;
->  	block->size = size;
->  	block->state = IIO_BLOCK_STATE_DONE;
->  	block->queue = queue;
-> @@ -186,6 +200,9 @@ static struct iio_dma_buffer_block *iio_dma_buffer_alloc_block(
->  
->  	iio_buffer_get(&queue->buffer);
->  
-> +	queue->num_blocks++;
-> +	queue->num_fileio_blocks += fileio;
-Adding a boolean is non intuitive.
-
-	if (fileio)
-		queue->num_fileio_blocks++;
-
-probably easier to read and compiler should be able to figure out how to
-optimise the condition away.
-
 > +
->  	return block;
->  }
->  
-> @@ -211,6 +228,9 @@ void iio_dma_buffer_block_done(struct iio_dma_buffer_block *block)
->  	_iio_dma_buffer_block_done(block);
->  	spin_unlock_irqrestore(&queue->list_lock, flags);
->  
-> +	if (!block->fileio)
-> +		iio_buffer_signal_dmabuf_done(block->attach, 0);
+> +		desc = dmaengine_prep_slave_dma_vec(dmaengine_buffer->chan,
+> +						    vecs, nents, DMA_DEV_TO_MEM,
+> +						    DMA_PREP_INTERRUPT);
+> +		kfree(vecs);
+> +	} else {
+> +		max_size = min(block->size, dmaengine_buffer->max_size);
+> +		max_size = round_down(max_size, dmaengine_buffer->align);
+> +		block->bytes_used = max_size;
 > +
->  	iio_buffer_block_put_atomic(block);
->  	wake_up_interruptible_poll(&queue->buffer.pollq, EPOLLIN | EPOLLRDNORM);
->  }
-> @@ -237,10 +257,14 @@ void iio_dma_buffer_block_list_abort(struct iio_dma_buffer_queue *queue,
->  		list_del(&block->head);
->  		block->bytes_used = 0;
->  		_iio_dma_buffer_block_done(block);
-> +
-> +		if (!block->fileio)
-> +			iio_buffer_signal_dmabuf_done(block->attach, -EINTR);
->  		iio_buffer_block_put_atomic(block);
->  	}
->  	spin_unlock_irqrestore(&queue->list_lock, flags);
->  
-> +	queue->fileio.enabled = false;
-
-While this obviously doesn't need to be conditional if it can already be false
-it might be easier to follow the code flow it if didn't check if we were doing
-fileio or not before disabling it.
-
->  	wake_up_interruptible_poll(&queue->buffer.pollq, EPOLLIN | EPOLLRDNORM);
->  }
->  EXPORT_SYMBOL_GPL(iio_dma_buffer_block_list_abort);
-> @@ -261,6 +285,12 @@ static bool iio_dma_block_reusable(struct iio_dma_buffer_block *block)
->  	}
->  }
->  
-> +static bool iio_dma_buffer_fileio_mode(struct iio_dma_buffer_queue *queue)
-> +{
-> +	return queue->fileio.enabled ||
-> +		queue->num_blocks == queue->num_fileio_blocks;
-This is a little odd. So would be good have a comment on why this condition.
-Or rename the function to imply it's checking if enabled, or can be enabled.
-
-At first glanced I expected a function with this name to just be an accessor
-function. e.g.
-	return queue->fileio.enabled;
-
-> +}
-> +
->  /**
->   * iio_dma_buffer_request_update() - DMA buffer request_update callback
->   * @buffer: The buffer which to request an update
-> @@ -287,6 +317,12 @@ int iio_dma_buffer_request_update(struct iio_buffer *buffer)
->  
->  	mutex_lock(&queue->lock);
->  
-> +	queue->fileio.enabled = iio_dma_buffer_fileio_mode(queue);
-> +
-> +	/* If DMABUFs were created, disable fileio interface */
-> +	if (!queue->fileio.enabled)
-> +		goto out_unlock;
-> +
->  	/* Allocations are page aligned */
->  	if (PAGE_ALIGN(queue->fileio.block_size) == PAGE_ALIGN(size))
->  		try_reuse = true;
-> @@ -317,7 +353,7 @@ int iio_dma_buffer_request_update(struct iio_buffer *buffer)
->  			block = queue->fileio.blocks[i];
->  			if (block->state == IIO_BLOCK_STATE_DEAD) {
->  				/* Could not reuse it */
-> -				iio_buffer_block_put(block);
-> +				iio_buffer_block_put_atomic(block);
->  				block = NULL;
->  			} else {
->  				block->size = size;
-> @@ -327,7 +363,7 @@ int iio_dma_buffer_request_update(struct iio_buffer *buffer)
->  		}
->  
->  		if (!block) {
-> -			block = iio_dma_buffer_alloc_block(queue, size);
-> +			block = iio_dma_buffer_alloc_block(queue, size, true);
->  			if (!block) {
->  				ret = -ENOMEM;
->  				goto out_unlock;
-> @@ -363,7 +399,7 @@ static void iio_dma_buffer_fileio_free(struct iio_dma_buffer_queue *queue)
->  	for (i = 0; i < ARRAY_SIZE(queue->fileio.blocks); i++) {
->  		if (!queue->fileio.blocks[i])
->  			continue;
-> -		iio_buffer_block_put(queue->fileio.blocks[i]);
-> +		iio_buffer_block_put_atomic(queue->fileio.blocks[i]);
-
-For these cases that are atomic or not, it might be worth calling out why they need to be
-atomic.
-
->  		queue->fileio.blocks[i] = NULL;
->  	}
->  	queue->fileio.active_block = NULL;
-> @@ -384,8 +420,12 @@ static void iio_dma_buffer_submit_block(struct iio_dma_buffer_queue *queue,
->  
->  	block->state = IIO_BLOCK_STATE_ACTIVE;
->  	iio_buffer_block_get(block);
-> +
->  	ret = queue->ops->submit(queue, block);
->  	if (ret) {
-> +		if (!block->fileio)
-> +			iio_buffer_signal_dmabuf_done(block->attach, ret);
-> +
->  		/*
->  		 * This is a bit of a problem and there is not much we can do
->  		 * other then wait for the buffer to be disabled and re-enabled
-> @@ -588,6 +628,97 @@ size_t iio_dma_buffer_data_available(struct iio_buffer *buf)
->  }
->  EXPORT_SYMBOL_GPL(iio_dma_buffer_data_available);
->  
-> +struct iio_dma_buffer_block *
-> +iio_dma_buffer_attach_dmabuf(struct iio_buffer *buffer,
-> +			     struct dma_buf_attachment *attach)
-> +{
-> +	struct iio_dma_buffer_queue *queue = iio_buffer_to_queue(buffer);
-> +	struct iio_dma_buffer_block *block;
-> +	int err;
-> +
-> +	mutex_lock(&queue->lock);
-
-	guard(mutex)(&queue->lock);
-> +
-> +	/*
-> +	 * If the buffer is enabled and in fileio mode new blocks can't be
-> +	 * allocated.
-> +	 */
-> +	if (queue->fileio.enabled) {
-> +		err = -EBUSY;
-		return ERR_PTR(-EBUSY);
-> +		goto err_unlock;
+> +		desc = dmaengine_prep_slave_single(dmaengine_buffer->chan,
+> +						   block->phys_addr,
+> +						   block->bytes_used,
+> +						   DMA_DEV_TO_MEM,
+> +						   DMA_PREP_INTERRUPT);
 > +	}
-> +
-> +	block = iio_dma_buffer_alloc_block(queue, attach->dmabuf->size, false);
-> +	if (!block) {
-> +		err = -ENOMEM;
-
-		return 
-
-> +		goto err_unlock;
-> +	}
-> +
-> +	block->attach = attach;
-> +
-> +	/* Free memory that might be in use for fileio mode */
-> +	iio_dma_buffer_fileio_free(queue);
-> +
-> +	mutex_unlock(&queue->lock);
-
-Drop this as unneeded if you use guard()
-
-> +
-> +	return block;
-> +
-> +err_unlock:
-> +	mutex_unlock(&queue->lock);
-> +	return ERR_PTR(err);
-> +}
-> +EXPORT_SYMBOL_GPL(iio_dma_buffer_attach_dmabuf);
-
-
-> +static int iio_dma_can_enqueue_block(struct iio_dma_buffer_block *block)
-> +{
-> +	struct iio_dma_buffer_queue *queue = block->queue;
-> +
-> +	/* If in fileio mode buffers can't be enqueued. */
-> +	if (queue->fileio.enabled)
-> +		return -EBUSY;
-> +
-> +	switch (block->state) {
-> +	case IIO_BLOCK_STATE_QUEUED:
-> +		return -EPERM;
-> +	case IIO_BLOCK_STATE_DONE:
-> +		return 0;
-> +	default:
-> +		return -EBUSY;
-
-Is this a real condition or just avoiding a compile warning?  If it's real
-I'd like the various states that lead to it be listed here just so we
-can more easily understand why -EBUSY is appropriate.
-
-> +	}
-> +}
-> +
-> +int iio_dma_buffer_enqueue_dmabuf(struct iio_buffer *buffer,
-> +				  struct iio_dma_buffer_block *block,
-> +				  struct sg_table *sgt,
-> +				  size_t size, bool cyclic)
-> +{
-> +	struct iio_dma_buffer_queue *queue = iio_buffer_to_queue(buffer);
-> +	int ret = 0;
-
-No need to init as it's always set.
-
-
-> +
-> +	mutex_lock(&queue->lock);
-
-guard(mutex)(&queue->lock);
-
-Then can do direct returns on error and not bother with the manual
-unlock.
-
-> +	ret = iio_dma_can_enqueue_block(block);
-> +	if (ret < 0)
-> +		goto out_mutex_unlock;
-> +
-> +	block->bytes_used = size;
-> +	block->cyclic = cyclic;
-> +	block->sg_table = sgt;
-> +
-> +	iio_dma_buffer_enqueue(queue, block);
-> +
-> +out_mutex_unlock:
-> +	mutex_unlock(&queue->lock);
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(iio_dma_buffer_enqueue_dmabuf);
-
+>  	if (!desc)
+>  		return -ENOMEM;
+>  
 
