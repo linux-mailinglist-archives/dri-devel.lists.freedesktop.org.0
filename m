@@ -2,51 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A7C981AC61
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Dec 2023 02:56:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEF6E81AC86
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Dec 2023 03:13:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 746E910E04D;
-	Thu, 21 Dec 2023 01:55:53 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A21FD10E04D;
- Thu, 21 Dec 2023 01:55:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1703123753; x=1734659753;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=JuBdRwxOHETuBGAP5MtOJf3fh6oe9eTBNj9XrkhUj1s=;
- b=P96pgEOha3X76cl8e3jin78yglUKMWhsaLjL808k8R++x5mdWAt2koKr
- axsza+dReD0ozVAkNUvNa2Dm8jMQwPGJoyd+XX2fHIiu28Vx4wfUScaVC
- yFTEHUHeSvs081yA75wpVHkOnniuLMWW5/0rpprnsNlneLQXMT5PiAJK4
- XZ+xnEYdnimY2aVaXUqnuQmM/6TiBAIXjJ3W9uVud+gFoz6kgfoyTojR+
- bIhJmyYCDO9eTbXru7bciMpTwyGlpemdGMLo44Yk1XMXJIDhM+4BMNSbm
- 8v0uXZjP/iwoPE9wuTQUdHwzVMcIVL5jbb3M/9/RUMYljSqwWRTXD7PUZ w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10930"; a="2744018"
-X-IronPort-AV: E=Sophos;i="6.04,292,1695711600"; 
-   d="scan'208";a="2744018"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Dec 2023 17:55:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10930"; a="810814033"
-X-IronPort-AV: E=Sophos;i="6.04,292,1695711600"; d="scan'208";a="810814033"
-Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
- by orsmga001.jf.intel.com with ESMTP; 20 Dec 2023 17:55:52 -0800
-From: John.C.Harrison@Intel.com
-To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH v3 3/3] drm/i915/guc: Enable Wa_14019159160
-Date: Wed, 20 Dec 2023 17:57:22 -0800
-Message-ID: <20231221015722.3027448-4-John.C.Harrison@Intel.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231221015722.3027448-1-John.C.Harrison@Intel.com>
-References: <20231221015722.3027448-1-John.C.Harrison@Intel.com>
-MIME-Version: 1.0
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
- Swindon SN3 1RJ
-Content-Transfer-Encoding: 8bit
+	by gabe.freedesktop.org (Postfix) with ESMTP id C633010E046;
+	Thu, 21 Dec 2023 02:12:59 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com
+ [IPv6:2607:f8b0:4864:20::b49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F7FF10E046
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Dec 2023 02:12:58 +0000 (UTC)
+Received: by mail-yb1-xb49.google.com with SMTP id
+ 3f1490d57ef6-dbdad99096fso462935276.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Dec 2023 18:12:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1703124777; x=1703729577;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=qZL4eZ6u9CkNNM8zLim6V4IndhkBqKjZUwKwl+b+dig=;
+ b=YKZIsfSMK/szQh81wLM0I9aoRzJewElkb/4rYBrOsK3/jeGNDjvauHgZY+bGbAguG3
+ 1uf34cCXAR/fCw5lgW7ERoZ/bqzYuTiscdHgehDOyfNZXLz/aY4VaW+8zuKWAVO44fBk
+ nly4NmabpnHa8sBaWoD+GV1R8MwIAEFhBnKd38C++ZSb7fiz46dzVcMDQSI5/cYnzaoi
+ 2qjNdMgD0G9fdxn7e7FaCik9iFK49KqDHshWhTc962RnMeflgELZgXYANDpeRkVRUxwy
+ s22mG08QI6iLThtfunASM7GmGHqeGWn1nYfsA/HJbfChcYz2+EoNQxDtogxq1UjnR+Lk
+ HM2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1703124777; x=1703729577;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=qZL4eZ6u9CkNNM8zLim6V4IndhkBqKjZUwKwl+b+dig=;
+ b=dSa7AccDc+Bmw5R+Q50iVfBcU2lXMaaDwuhsuayhLBJTJYTjAuNG2bAzictCT/+E9B
+ De0C85HJXz2VdMBsTuLS0TkkIV6wUZDB7JTPH0rIIq1GH5t8Q5UxotqhG25PW8jThLA0
+ TER4LHE6FJu4xN0Qmw62S/Fo5fXdGUOhWZY8v5UObz/DPmmwruzr1ztBNfjJbQLM14Wg
+ nsqeliGe5f6tSVJ0M45tP2FFVztmF9U1RD1lagE5siwutLODtuhf4Nt0cFMLlXbibsw9
+ U5Xs99t1bMWuX1K2vsFup7uqpJDZaJvVH3fhqjGaeoifXrikorw+WhhJZoDqL8cN/L8f
+ pjWQ==
+X-Gm-Message-State: AOJu0YyLzdP0v8Yg2K8HiQlbDbAC8MhI1/thV/AuR/DHiFd2Bv2hTaCY
+ GvlvOS7EBJeY+yjWu/pt5ulvwktXH44=
+X-Google-Smtp-Source: AGHT+IHZcmSZfB7sL8/DN2qPbVmszZ2Jby/ac3YVH1l0ZSD4QHL8Y190bGfTeBcn+OFXVpkLGzQYnrzycAs=
+X-Received: from zagreus.c.googlers.com
+ ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a25:664d:0:b0:dbd:bf0f:6fff with SMTP id
+ z13-20020a25664d000000b00dbdbf0f6fffmr260745ybm.1.1703124777494; Wed, 20 Dec
+ 2023 18:12:57 -0800 (PST)
+Date: Wed, 20 Dec 2023 18:12:55 -0800
+In-Reply-To: <ZYJOTLwreD+8l4gU@yzhao56-desk.sh.intel.com>
+Mime-Version: 1.0
+References: <20231214103520.7198-1-yan.y.zhao@intel.com>
+ <BN9PR11MB5276BE04CBB6D07039086D658C93A@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <ZXzx1zXfZ6GV9TgI@google.com> <ZYEbhadnn6+clzX9@yzhao56-desk.sh.intel.com>
+ <ZYJOTLwreD+8l4gU@yzhao56-desk.sh.intel.com>
+Message-ID: <ZYOfJ_QWG01aL8Hl@google.com>
+Subject: Re: [RFC PATCH] KVM: Introduce KVM VIRTIO device
+From: Sean Christopherson <seanjc@google.com>
+To: Yan Zhao <yan.y.zhao@intel.com>
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,160 +71,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
+Cc: Kevin Tian <kevin.tian@intel.com>,
+ "wanpengli@tencent.com" <wanpengli@tencent.com>,
+ Zhenyu Z Wang <zhenyu.z.wang@intel.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>, Yiwei Zhang <zzyiwei@google.com>,
+ "joro@8bytes.org" <joro@8bytes.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "gurchetansingh@chromium.org" <gurchetansingh@chromium.org>,
+ "kraxel@redhat.com" <kraxel@redhat.com>, Yongwei Ma <yongwei.ma@intel.com>,
+ Zhiyuan Lv <zhiyuan.lv@intel.com>, "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "vkuznets@redhat.com" <vkuznets@redhat.com>,
+ "jmattson@google.com" <jmattson@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Harrison <John.C.Harrison@Intel.com>
+On Wed, Dec 20, 2023, Yan Zhao wrote:
+> On Tue, Dec 19, 2023 at 12:26:45PM +0800, Yan Zhao wrote:
+> > On Mon, Dec 18, 2023 at 07:08:51AM -0800, Sean Christopherson wrote:
+> > > > > Implementation Consideration
+> > > > > ===
+> > > > > There is a previous series [1] from google to serve the same purpose to
+> > > > > let KVM be aware of virtio GPU's noncoherent DMA status. That series
+> > > > > requires a new memslot flag, and special memslots in user space.
+> > > > > 
+> > > > > We don't choose to use memslot flag to request honoring guest memory
+> > > > > type.
+> > > > 
+> > > > memslot flag has the potential to restrict the impact e.g. when using
+> > > > clflush-before-read in migration?
+> > > 
+> > > Yep, exactly.  E.g. if KVM needs to ensure coherency when freeing memory back to
+> > > the host kernel, then the memslot flag will allow for a much more targeted
+> > > operation.
+> > > 
+> > > > Of course the implication is to honor guest type only for the selected slot
+> > > > in KVM instead of applying to the entire guest memory as in previous series
+> > > > (which selects this way because vmx_get_mt_mask() is in perf-critical path
+> > > > hence not good to check memslot flag?)
+> > > 
+> > > Checking a memslot flag won't impact performance.  KVM already has the memslot
+> > > when creating SPTEs, e.g. the sole caller of vmx_get_mt_mask(), make_spte(), has
+> > > access to the memslot.
+> > > 
+> > > That isn't coincidental, KVM _must_ have the memslot to construct the SPTE, e.g.
+> > > to retrieve the associated PFN, update write-tracking for shadow pages, etc.
+> > > 
+> > Hi Sean,
+> > Do you prefer to introduce a memslot flag KVM_MEM_DMA or KVM_MEM_WC?
+> > For KVM_MEM_DMA, KVM needs to
+> > (a) search VMA for vma->vm_page_prot and convert it to page cache mode (with
+> >     pgprot2cachemode()? ), or
+> > (b) look up memtype of the PFN, by calling lookup_memtype(), similar to that in
+> >     pat_pfn_immune_to_uc_mtrr().
+> > 
+> > But pgprot2cachemode() and lookup_memtype() are not exported by x86 code now.
+> > 
+> > For KVM_MEM_WC, it requires user to ensure the memory is actually mapped
+> > to WC, right?
+> > 
+> > Then, vmx_get_mt_mask() just ignores guest PAT and programs host PAT as EPT type
+> > for the special memslot only, as below.
+> > Is this understanding correct?
+> > 
+> > static u8 vmx_get_mt_mask(struct kvm_vcpu *vcpu, gfn_t gfn, bool is_mmio)
+> > {
+> >         if (is_mmio)                                                                           
+> >                 return MTRR_TYPE_UNCACHABLE << VMX_EPT_MT_EPTE_SHIFT;                          
+> >                                                                                                
+> >         if (gfn_in_dma_slot(vcpu->kvm, gfn)) {                                                 
+> >                 u8 type = MTRR_TYPE_WRCOMB;                                      
+> >                 //u8 type = pat_pfn_memtype(pfn);                                
+> >                 return (type << VMX_EPT_MT_EPTE_SHIFT) | VMX_EPT_IPAT_BIT;       
+> >         }                                                                                      
+> >                                                                                                
+> >         if (!kvm_arch_has_noncoherent_dma(vcpu->kvm))                            
+> >                 return (MTRR_TYPE_WRBACK << VMX_EPT_MT_EPTE_SHIFT) | VMX_EPT_IPAT_BIT;         
+> >                                                                                                
+> >         if (kvm_read_cr0_bits(vcpu, X86_CR0_CD)) {                                             
+> >                 if (kvm_check_has_quirk(vcpu->kvm, KVM_X86_QUIRK_CD_NW_CLEARED))               
+> >                         return MTRR_TYPE_WRBACK << VMX_EPT_MT_EPTE_SHIFT;                      
+> >                 else                                                                           
+> >                         return (MTRR_TYPE_UNCACHABLE << VMX_EPT_MT_EPTE_SHIFT) | 
+> >                                 VMX_EPT_IPAT_BIT;                                
+> >         }                                                                        
+> >                                                                                  
+> >         return kvm_mtrr_get_guest_memory_type(vcpu, gfn) << VMX_EPT_MT_EPTE_SHIFT;
+> > }
+> > 
+> > BTW, since the special memslot must be exposed to guest as virtio GPU BAR in
+> > order to prevent other guest drivers from access, I wonder if it's better to
+> > include some keyword like VIRTIO_GPU_BAR in memslot flag name.
+> Another choice is to add a memslot flag KVM_MEM_HONOR_GUEST_PAT, then user
+> (e.g. QEMU) does special treatment to this kind of memslots (e.g. skipping
+> reading/writing to them in general paths).
+> 
+> @@ -7589,26 +7589,29 @@ static u8 vmx_get_mt_mask(struct kvm_vcpu *vcpu, gfn_t gfn, bool is_mmio)
+>         if (is_mmio)
+>                 return MTRR_TYPE_UNCACHABLE << VMX_EPT_MT_EPTE_SHIFT;
+> 
+> +       if (in_slot_honor_guest_pat(vcpu->kvm, gfn))
+> +               return kvm_mtrr_get_guest_memory_type(vcpu, gfn) << VMX_EPT_MT_EPTE_SHIFT;
 
-Use the new w/a KLV support to enable a MTL w/a. Note, this w/a is a
-super-set of Wa_16019325821, so requires turning that one as well as
-setting the new flag for Wa_14019159160 itself.
+This is more along the lines of what I was thinking, though the name should be
+something like KVM_MEM_NON_COHERENT_DMA, i.e. not x86 specific and not contradictory
+for AMD (which already honors guest PAT).
 
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-Reviewed-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
----
- drivers/gpu/drm/i915/gt/gen8_engine_cs.c      |  3 ++
- drivers/gpu/drm/i915/gt/intel_engine_types.h  |  1 +
- drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h |  7 ++++
- drivers/gpu/drm/i915/gt/uc/intel_guc.c        |  1 +
- drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    | 34 ++++++++++++++-----
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  1 +
- 6 files changed, 38 insertions(+), 9 deletions(-)
+I also vote to deliberately ignore MTRRs, i.e. start us on the path of ripping
+those out.  This is a new feature, so we have the luxury of defining KVM's ABI
+for that feature, i.e. can state that on x86 it honors guest PAT, but not MTRRs.
 
-diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-index 9cccd60a5c41d..359b21fb02ab2 100644
---- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-+++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-@@ -744,6 +744,7 @@ static u32 *gen12_emit_preempt_busywait(struct i915_request *rq, u32 *cs)
- 
- /* Wa_14014475959:dg2 */
- /* Wa_16019325821 */
-+/* Wa_14019159160 */
- #define HOLD_SWITCHOUT_SEMAPHORE_PPHWSP_OFFSET	0x540
- static u32 hold_switchout_semaphore_offset(struct i915_request *rq)
- {
-@@ -753,6 +754,7 @@ static u32 hold_switchout_semaphore_offset(struct i915_request *rq)
- 
- /* Wa_14014475959:dg2 */
- /* Wa_16019325821 */
-+/* Wa_14019159160 */
- static u32 *hold_switchout_emit_wa_busywait(struct i915_request *rq, u32 *cs)
- {
- 	int i;
-@@ -793,6 +795,7 @@ gen12_emit_fini_breadcrumb_tail(struct i915_request *rq, u32 *cs)
- 
- 	/* Wa_14014475959:dg2 */
- 	/* Wa_16019325821 */
-+	/* Wa_14019159160 */
- 	if (intel_engine_uses_wa_hold_switchout(rq->engine))
- 		cs = hold_switchout_emit_wa_busywait(rq, cs);
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-index b519812ba120d..ba55c059063db 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-@@ -697,6 +697,7 @@ intel_engine_has_relative_mmio(const struct intel_engine_cs * const engine)
- 
- /* Wa_14014475959:dg2 */
- /* Wa_16019325821 */
-+/* Wa_14019159160 */
- static inline bool
- intel_engine_uses_wa_hold_switchout(struct intel_engine_cs *engine)
- {
-diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
-index 58012edd4eb0e..bebf28e3c4794 100644
---- a/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
-+++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
-@@ -101,4 +101,11 @@ enum {
- 	GUC_CONTEXT_POLICIES_KLV_NUM_IDS = 5,
- };
- 
-+/*
-+ * Workaround keys:
-+ */
-+enum {
-+	GUC_WORKAROUND_KLV_SERIALIZED_RA_MODE				= 0x9001,
-+};
-+
- #endif /* _ABI_GUC_KLVS_ABI_H */
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-index d5c856be31491..db3cb628f40dc 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-@@ -295,6 +295,7 @@ static u32 guc_ctl_wa_flags(struct intel_guc *guc)
- 		flags |= GUC_WA_HOLD_CCS_SWITCHOUT;
- 
- 	/* Wa_16019325821 */
-+	/* Wa_14019159160 */
- 	if (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 71)))
- 		flags |= GUC_WA_RCS_CCS_SWITCHOUT;
- 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-index 251e7a7a05cb8..8f7298cbbc322 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-@@ -810,6 +810,25 @@ guc_capture_prep_lists(struct intel_guc *guc)
- 	return PAGE_ALIGN(total_size);
+Like so?
+
+diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+index d21f55f323ea..ed527acb2bd3 100644
+--- a/arch/x86/kvm/vmx/vmx.c
++++ b/arch/x86/kvm/vmx/vmx.c
+@@ -7575,7 +7575,8 @@ static int vmx_vm_init(struct kvm *kvm)
+        return 0;
  }
  
-+/* Wa_14019159160 */
-+static u32 guc_waklv_ra_mode(struct intel_guc *guc, u32 offset, u32 remain)
-+{
-+	u32 size;
-+	u32 klv_entry[] = {
-+		/* 16:16 key/length */
-+		FIELD_PREP(GUC_KLV_0_KEY, GUC_WORKAROUND_KLV_SERIALIZED_RA_MODE) |
-+		FIELD_PREP(GUC_KLV_0_LEN, 0),
-+		/* 0 dwords data */
-+	};
-+
-+	size = sizeof(klv_entry);
-+	GEM_BUG_ON(remain < size);
-+
-+	iosys_map_memcpy_to(&guc->ads_map, offset, klv_entry, size);
-+
-+	return size;
-+}
-+
- static void guc_waklv_init(struct intel_guc *guc)
+-static u8 vmx_get_mt_mask(struct kvm_vcpu *vcpu, gfn_t gfn, bool is_mmio)
++static u8 vmx_get_mt_mask(struct kvm_vcpu *vcpu, gfn_t gfn, bool is_mmio,
++                         struct kvm_memory_slot *slot)
  {
- 	struct intel_gt *gt = guc_to_gt(guc);
-@@ -825,15 +844,12 @@ static void guc_waklv_init(struct intel_guc *guc)
- 	offset = guc_ads_waklv_offset(guc);
- 	remain = guc_ads_waklv_size(guc);
+        /* We wanted to honor guest CD/MTRR/PAT, but doing so could result in
+         * memory aliases with conflicting memory types and sometimes MCEs.
+@@ -7598,6 +7599,9 @@ static u8 vmx_get_mt_mask(struct kvm_vcpu *vcpu, gfn_t gfn, bool is_mmio)
+        if (is_mmio)
+                return MTRR_TYPE_UNCACHABLE << VMX_EPT_MT_EPTE_SHIFT;
  
--	/*
--	 * Add workarounds here:
--	 *
--	 * if (want_wa_<name>) {
--	 *	size = guc_waklv_<name>(guc, offset, remain);
--	 *	offset += size;
--	 *	remain -= size;
--	 * }
--	 */
-+	/* Wa_14019159160 */
-+	if (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 71))) {
-+		size = guc_waklv_ra_mode(guc, offset, remain);
-+		offset += size;
-+		remain -= size;
-+	}
- 
- 	size = guc_ads_waklv_size(guc) - remain;
- 	if (!size)
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index b09b97c9cd120..80da3573706fa 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -4385,6 +4385,7 @@ static void guc_default_vfuncs(struct intel_engine_cs *engine)
- 			engine->flags |= I915_ENGINE_USES_WA_HOLD_SWITCHOUT;
- 
- 	/* Wa_16019325821 */
-+	/* Wa_14019159160 */
- 	if ((engine->class == COMPUTE_CLASS || engine->class == RENDER_CLASS) &&
- 	    IS_GFX_GT_IP_RANGE(engine->gt, IP_VER(12, 70), IP_VER(12, 71)))
- 		engine->flags |= I915_ENGINE_USES_WA_HOLD_SWITCHOUT;
--- 
-2.41.0
++       if (kvm_memslot_has_non_coherent_dma(slot))
++               return MTRR_TYPE_WRBACK << VMX_EPT_MT_EPTE_SHIFT;
++
+        if (!kvm_arch_has_noncoherent_dma(vcpu->kvm))
+                return (MTRR_TYPE_WRBACK << VMX_EPT_MT_EPTE_SHIFT) | VMX_EPT_IPAT_BIT;
 
+I like the idea of pulling the memtype from the host, but if we can make that
+work then I don't see the need for a special memslot flag, i.e. just do it for
+*all* SPTEs on VMX.  I don't think we need a VMA for that, e.g. we should be able
+to get the memtype from the host PTEs, just like we do the page size.
+
+KVM_MEM_WC is a hard "no" for me.  It's far too x86 centric, and as you alluded
+to, it requires coordination from the guest, i.e. is effectively limited to
+paravirt scenarios.
+
+> +
+>         if (!kvm_arch_has_noncoherent_dma(vcpu->kvm))
+>                 return (MTRR_TYPE_WRBACK << VMX_EPT_MT_EPTE_SHIFT) | VMX_EPT_IPAT_BIT;
+> 
+>         if (kvm_read_cr0_bits(vcpu, X86_CR0_CD)) {
+>                 if (kvm_check_has_quirk(vcpu->kvm, KVM_X86_QUIRK_CD_NW_CLEARED))
+>                         return MTRR_TYPE_WRBACK << VMX_EPT_MT_EPTE_SHIFT;
+>                 else
+>                         return (MTRR_TYPE_UNCACHABLE << VMX_EPT_MT_EPTE_SHIFT) |
+>                                 VMX_EPT_IPAT_BIT;
+>         }
+> 
+>         return kvm_mtrr_get_guest_memory_type(vcpu, gfn) << VMX_EPT_MT_EPTE_SHIFT;
+>  }
