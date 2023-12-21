@@ -2,59 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2242781B725
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Dec 2023 14:17:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7069F81B980
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Dec 2023 15:26:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F12E10E6CD;
-	Thu, 21 Dec 2023 13:17:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D70A10E44E;
+	Thu, 21 Dec 2023 14:26:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com
- [IPv6:2607:f8b0:4864:20::b31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB62910E6CD
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Dec 2023 13:17:43 +0000 (UTC)
-Received: by mail-yb1-xb31.google.com with SMTP id
- 3f1490d57ef6-dbdb124491cso612694276.1
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Dec 2023 05:17:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1703164662; x=1703769462; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=yz4iMeRIk9TAyj97jIuOOIhseoq5SQwyyx45BqaJo/Y=;
- b=VMDf3cee5TSJiuF2SOFLvpWwxlwPZZuH7cGaHVgRJjZPluRz4pXZ5bQGVxCmHJoGoa
- wQ0ZXC9Y6zJvYzK1JSsMsUWYhY43QjOEgVPLeGeo1Dsj7h6xMAcyUvx9dulDwTB2Kcfe
- MNUOYADbr2PseGvSaLvySQ0c4QvTLB+j7w5dcunl94Uhxnnt3svYgtF/EPld1W2tJ56i
- MzbC3167JjbhQbXZ4Ui6s1oCUCDJV4F7w4TavPGOtxPaM9PxDi2IGdFqoyBoIQLaGN+h
- 1EYTvaVvKN0jLLAoWm4Fsp/ub0LTMy88PDdyW2Z9ygD+zo3D0QbHDl+OhVmCtnGMcjP0
- LsTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1703164662; x=1703769462;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=yz4iMeRIk9TAyj97jIuOOIhseoq5SQwyyx45BqaJo/Y=;
- b=u0aT5/AWPvNQi43HQGUTuErylMyh3NDSFHX3zEOdfQn9t26//W2PW0QTzmR3TZOVMt
- iDgVZ3YMT9d+ofFOvUJRmQGOUGhjM6+2GguR5kzctz9OHpOSyeQ58bOa+hVW19HmCi+3
- 8WJ+yV3L4KhNCfau1ozMzS8YS0tKsoBDRAuFWGrOUSAwtYJSJ0Iq9ZDs6gFIXPBeyIkS
- LEo9RLWnT+OpWTFWCEUz0MfFJBwHGAC+3iJrs51r7Dreh0VcbLj0ELyN4Nu9o+/gO4rm
- lPGut51Id1milV8QZqBPOgXFzFd/8BqTu7mtmS5sPI9qs1KCUs5wX54lV7vu4gIUk+dd
- Mcmw==
-X-Gm-Message-State: AOJu0Yx8NP8y2+3EQmb+dymkiz16KfUS0nIHB34DJZY3qWCfzsr1Zfun
- 3mmY5hL6WhEghYyWT+HicgVIuIA9PuZxDdxEcK/2D8c2GvxD7Q==
-X-Google-Smtp-Source: AGHT+IE6C22+LNsiW2F843YHTth236QybUB1q3GOCwkhb/XTsX0HV0yBBuaiZlIIsroN5Kv3yXPy3tcoUpEyfVuKgWw=
-X-Received: by 2002:a25:b312:0:b0:dbd:9a2f:be3d with SMTP id
- l18-20020a25b312000000b00dbd9a2fbe3dmr322201ybj.3.1703164662693; Thu, 21 Dec
- 2023 05:17:42 -0800 (PST)
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [IPv6:2a00:1098:ed:100::25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8118010E44E;
+ Thu, 21 Dec 2023 14:26:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1703168771;
+ bh=vbn1EXleyZtDuKIke5KjfSmPkONCiF542/aWo5ip2Jk=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=fB/4g4yOJMpQcH6ewX7Xagioop7Ych+Y1RJftKahCduDTcXMz23/t/HANQilLvoAW
+ GCoAopo4J6TTU+Nf6+9CmVbtSmHKQj1SAvqkHoYyi8PHNrh5BxPaa0O3sBgNBeV8h2
+ eGCUk8AcomhsE4NP6yMxFxrInBgMABF0qHxUxDhf8eAAQSuc+q2P+GiT9o+mDtvpn+
+ k8xp5Z2yXyzZL4iDgufqcKlGPGzlrQwov6lgrOgU+smk5+MQvSWdUY8N+j5Unn7Raf
+ ZT0e6HNciac8L29nbBbCNO+5fbtJwqEI09C42m3ke4K4FOxdH9DVOHLz31J1BpLiaw
+ 5w3XvSdXdivHA==
+Received: from [100.66.96.193] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 8B5A63781FD5;
+ Thu, 21 Dec 2023 14:26:07 +0000 (UTC)
+Message-ID: <981a49d2-19ed-21fb-77af-ba9684a60cc3@collabora.com>
+Date: Thu, 21 Dec 2023 19:56:04 +0530
 MIME-Version: 1.0
-References: <20231221124339.420119-1-raphael.gallais-pou@foss.st.com>
- <20231221124339.420119-5-raphael.gallais-pou@foss.st.com>
-In-Reply-To: <20231221124339.420119-5-raphael.gallais-pou@foss.st.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 21 Dec 2023 15:17:31 +0200
-Message-ID: <CAA8EJpq-NWUEe8QbUwDHu0BBSViWKh92PujD7PA84xgvSUsvhg@mail.gmail.com>
-Subject: Re: [PATCH RESEND v1 4/8] drm/stm: ltdc: implement bus clock
-To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] drm/ci: uprev mesa version: fix kdl commit fetch
+Content-Language: en-US
+To: Helen Koike <helen.koike@collabora.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20231212160448.883358-1-vignesh.raman@collabora.com>
+ <CAA8EJpro5Hb0yRaxPWzBQBikKjw9JnNVkUuPFvWeXjegzCuxHw@mail.gmail.com>
+ <e747581b-d5e0-4622-827b-48fb51fa9711@collabora.com>
+From: Vignesh Raman <vignesh.raman@collabora.com>
+In-Reply-To: <e747581b-d5e0-4622-827b-48fb51fa9711@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,86 +57,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- David Airlie <airlied@gmail.com>, linux-stm32@st-md-mailman.stormreply.com,
- Sam Ravnborg <sam@ravnborg.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- linux-arm-kernel@lists.infradead.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Yannick Fertre <yannick.fertre@foss.st.com>, linux-kernel@vger.kernel.org,
- Philippe Cornu <philippe.cornu@foss.st.com>
+Cc: daniels@collabora.com, emma@anholt.net, guilherme.gallo@collabora.com,
+ sergi.blanch.torne@collabora.com, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ david.heidelberg@collabora.com, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 21 Dec 2023 at 14:45, Raphael Gallais-Pou
-<raphael.gallais-pou@foss.st.com> wrote:
->
-> From: Yannick Fertre <yannick.fertre@foss.st.com>
->
-> The latest hardware version of the LTDC presents the addition of a bus
-> clock, which contains the global configuration registers and the interrupt
-> register.
->
-> Signed-off-by: Yannick Fertre <yannick.fertre@foss.st.com>
-> ---
->  drivers/gpu/drm/stm/ltdc.c | 8 ++++++++
->  drivers/gpu/drm/stm/ltdc.h | 1 +
->  2 files changed, 9 insertions(+)
+Hi,
 
-I might be missing something, but I don't see this clock being set
-(compare this patch to the patch 5/8)
+On 14/12/23 17:50, Helen Koike wrote:
+> 
+> 
+> On 14/12/2023 05:00, Dmitry Baryshkov wrote:
+>> On Tue, 12 Dec 2023 at 18:04, Vignesh Raman 
+>> <vignesh.raman@collabora.com> wrote:
+>>>
+>>> build-kdl.sh was doing a `clone --depth 1` of the default branch,
+>>> then checking out a commit that might not be the latest of that
+>>> branch, resulting in container build error.
+>>>
+>>> https://gitlab.freedesktop.org/mesa/mesa/-/commit/5efa4d56 fixes
+>>> kdl commit fetch issue. Uprev mesa in drm-ci to fix this.
+>>>
+>>> This commit also updates the kernel tag and adds .never-post-merge-rules
+>>> due to the mesa uprev.
+>>>
+>>> Tested-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>>> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+>>
+>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> 
+> Acked-by: Helen Koike <helen.koike@collabora.com>
+> 
 
->
-> diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-> index 5576fdae4962..67064f47a4cb 100644
-> --- a/drivers/gpu/drm/stm/ltdc.c
-> +++ b/drivers/gpu/drm/stm/ltdc.c
-> @@ -1896,6 +1896,8 @@ void ltdc_suspend(struct drm_device *ddev)
->
->         DRM_DEBUG_DRIVER("\n");
->         clk_disable_unprepare(ldev->pixel_clk);
-> +       if (ldev->bus_clk)
-> +               clk_disable_unprepare(ldev->bus_clk);
->  }
->
->  int ltdc_resume(struct drm_device *ddev)
-> @@ -1910,6 +1912,12 @@ int ltdc_resume(struct drm_device *ddev)
->                 DRM_ERROR("failed to enable pixel clock (%d)\n", ret);
->                 return ret;
->         }
-> +       if (ldev->bus_clk) {
-> +               if (clk_prepare_enable(ldev->bus_clk)) {
-> +                       DRM_ERROR("Unable to prepare bus clock\n");
-> +                       return -ENODEV;
-> +               }
-> +       }
->
->         return 0;
->  }
-> diff --git a/drivers/gpu/drm/stm/ltdc.h b/drivers/gpu/drm/stm/ltdc.h
-> index 9d488043ffdb..155d8e4a7c6b 100644
-> --- a/drivers/gpu/drm/stm/ltdc.h
-> +++ b/drivers/gpu/drm/stm/ltdc.h
-> @@ -44,6 +44,7 @@ struct ltdc_device {
->         void __iomem *regs;
->         struct regmap *regmap;
->         struct clk *pixel_clk;  /* lcd pixel clock */
-> +       struct clk *bus_clk;    /* bus clock */
->         struct mutex err_lock;  /* protecting error_status */
->         struct ltdc_caps caps;
->         u32 irq_status;
-> --
-> 2.25.1
->
+With this mesa uprev, the virtio-gpu jobs are not getting created and
+other jobs are not affected. The issue is identified and fixed, will be 
+sending a v2.
 
-
--- 
-With best wishes
-Dmitry
+Regards,
+Vignesh
