@@ -2,52 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50F9881AB00
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Dec 2023 00:25:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C2F881AC65
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Dec 2023 02:56:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0462610E63D;
-	Wed, 20 Dec 2023 23:25:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 978DD10E62D;
+	Thu, 21 Dec 2023 01:55:53 +0000 (UTC)
 X-Original-To: DRI-Devel@lists.freedesktop.org
 Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DF3410E63C;
- Wed, 20 Dec 2023 23:25:36 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40FE810E02B;
+ Thu, 21 Dec 2023 01:55:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1703114737; x=1734650737;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=9K2nRtVniCRLeJk82cRYz2YcN0wincSMSqfvmRjYvfs=;
- b=UdfcLAqHHHpiuZ+cfBxQrbTcT5Tz29ZlQcqa4onRd8/DViVR3lAFUGYQ
- tVNhj4ELPwgHCAKJiaGK3Y3F7QlSGnWiAOapxmD8dBEsaFX9CglssXWoJ
- A8YGoWSFjnLWFGEGVJ56/J9d1P3yDG0QdZGSJmAIsmqggMj5FN0VEWUuD
- m7nAm7Dm1CVqxBJofQQ4mHY0LeOeYfeJGqxRNDCv6HNvQbtQfNTCFWUJE
- SAhzx0TE6ieKaiF9tope3bFGnmnd4cIU64ZvKikCCzlqBdgclNBqExrYv
- UpYXne5bhCnpbrirzAwytIOSzaegHn+dllC1QU0/lQ0d8Ovwoid9dHwWL A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10930"; a="2744438"
+ t=1703123752; x=1734659752;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Almu+5HVhzrc9strF3ex5NeGVgFPibqHVWEr+UqtA2U=;
+ b=Kv/AoLwFQwAkNMdsqHCTW9WZLPG8LngSEmxcC+iFMFzJrBsfrgiBoq7+
+ 7s0ocXesQ8aAPEY7w/dKJi+NZWtPJFVmC0hP7hdU1ko+5gKDViWWExNxu
+ sj6w9NYChw0sEDiA0fMPx+Oo3DFEwbTV+sw2FADpT1IO3QzOelH4vd39b
+ G4q9QiPSzMvGQrq9Bdu37syrLZEceoA+YLqAtQPQrAB240AC8pb0ykQY4
+ 7tZeEQwZGZlewTuivvnqjtMrLQz3TG1MDEVGuHYJvCWPmQVsB4+zMq2Gd
+ rcyTodnhllf5r1yJfnGcRh/mvgUJMbNfJ+K4Nhr5ILlcF6DIkMWMNJyra Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10930"; a="2744015"
 X-IronPort-AV: E=Sophos;i="6.04,292,1695711600"; 
-   d="scan'208";a="2744438"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Dec 2023 15:25:33 -0800
+   d="scan'208";a="2744015"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Dec 2023 17:55:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10930"; a="1107881160"
-X-IronPort-AV: E=Sophos;i="6.04,292,1695711600"; d="scan'208";a="1107881160"
-Received: from anaperez-mobl.ger.corp.intel.com (HELO intel.com)
- ([10.249.35.101])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Dec 2023 15:25:30 -0800
-Date: Thu, 21 Dec 2023 00:25:28 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: John.C.Harrison@intel.com
-Subject: Re: [PATCH] drm/i915/guc: Avoid circular locking issue on busyness
- flush
-Message-ID: <ZYN36KOa5eXyhGrc@ashyti-mobl2.lan>
-References: <20231219195957.212600-1-John.C.Harrison@Intel.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10930"; a="810814020"
+X-IronPort-AV: E=Sophos;i="6.04,292,1695711600"; d="scan'208";a="810814020"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
+ by orsmga001.jf.intel.com with ESMTP; 20 Dec 2023 17:55:51 -0800
+From: John.C.Harrison@Intel.com
+To: Intel-GFX@Lists.FreeDesktop.Org
+Subject: [PATCH v3 0/3] Enable Wa_14019159160 and  Wa_16019325821 for MTL
+Date: Wed, 20 Dec 2023 17:57:19 -0800
+Message-ID: <20231221015722.3027448-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231219195957.212600-1-John.C.Harrison@Intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,58 +57,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zhanjun Dong <zhanjun.dong@intel.com>, Intel-GFX@lists.freedesktop.org,
- Andi Shyti <andi.shyti@linux.intel.com>, DRI-Devel@lists.freedesktop.org
+Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi John,
+From: John Harrison <John.C.Harrison@Intel.com>
 
-On Tue, Dec 19, 2023 at 11:59:57AM -0800, John.C.Harrison@Intel.com wrote:
-> From: John Harrison <John.C.Harrison@Intel.com>
-> 
-> Avoid the following lockdep complaint:
-> <4> [298.856498] ======================================================
-> <4> [298.856500] WARNING: possible circular locking dependency detected
-> <4> [298.856503] 6.7.0-rc5-CI_DRM_14017-g58ac4ffc75b6+ #1 Tainted: G
->     N
-> <4> [298.856505] ------------------------------------------------------
-> <4> [298.856507] kworker/4:1H/190 is trying to acquire lock:
-> <4> [298.856509] ffff8881103e9978 (&gt->reset.backoff_srcu){++++}-{0:0}, at:
-> _intel_gt_reset_lock+0x35/0x380 [i915]
-> <4> [298.856661]
-> but task is already holding lock:
-> <4> [298.856663] ffffc900013f7e58
-> ((work_completion)(&(&guc->timestamp.work)->work)){+.+.}-{0:0}, at:
-> process_scheduled_works+0x264/0x530
-> <4> [298.856671]
-> which lock already depends on the new lock.
-> 
-> The complaint is not actually valid. The busyness worker thread does
-> indeed hold the worker lock and then attempt to acquire the reset lock
-> (which may have happened in reverse order elsewhere). However, it does
-> so with a trylock that exits if the reset lock is not available
-> (specifically to prevent this and other similar deadlocks).
-> Unfortunately, lockdep does not understand the trylock semantics (the
-> lock is an i915 specific custom implementation for resets).
-> 
-> Not doing a synchronous flush of the worker thread when a reset is in
-> progress resolves the lockdep splat by never even attempting to grab
-> the lock in this particular scenario.
-> 
-> There are situatons where a synchronous cancel is required, however.
-> So, always do the synchronous cancel if not in reset. And add an extra
-> synchronous cancel to the end of the reset flow to account for when a
-> reset is occurring at driver shutdown and the cancel is no longer
-> synchronous but could lead to unallocated memory accesses if the
-> worker is not stopped.
-> 
-> Signed-off-by: Zhanjun Dong <zhanjun.dong@intel.com>
-> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-> Cc: Andi Shyti <andi.shyti@linux.intel.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
+Enable Wa_14019159160 and  Wa_16019325821 for MTL
 
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+RCS/CCS workarounds for MTL.
 
-Thanks,
-Andi
+v2: Fix bug in WA KLV implementation (offset not being reset to start
+of list). Add better comment to prep patch about how KLVs can be added.
+Add a module parameter override and disable the w/a by default as it
+causes performance regressions and is only required by very specific
+workloads.
+v3: Rebase to latest tree. Drop module parameter as performance
+regression is apparently not detectable after all and a bunch of more
+common workloads have been seen to hit the issue.
+
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+
+
+John Harrison (3):
+  drm/i915: Enable Wa_16019325821
+  drm/i915/guc: Add support for w/a KLVs
+  drm/i915/guc: Enable Wa_14019159160
+
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.c      | 22 +++--
+ drivers/gpu/drm/i915/gt/intel_engine_types.h  |  8 +-
+ .../gpu/drm/i915/gt/uc/abi/guc_errors_abi.h   |  1 +
+ drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h |  7 ++
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c        |  5 ++
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  2 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    | 89 ++++++++++++++++++-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c     |  6 ++
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |  8 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  8 +-
+ 10 files changed, 141 insertions(+), 15 deletions(-)
+
+-- 
+2.41.0
+
