@@ -1,50 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F9F481B73F
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Dec 2023 14:22:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF88B81B702
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Dec 2023 14:08:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 342E910E6B7;
-	Thu, 21 Dec 2023 13:22:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1118510E6C4;
+	Thu, 21 Dec 2023 13:08:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 401 seconds by postgrey-1.36 at gabe;
- Thu, 21 Dec 2023 10:50:32 UTC
-Received: from forward203a.mail.yandex.net (forward203a.mail.yandex.net
- [IPv6:2a02:6b8:c0e:500:1:45:d181:d203])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3513010E696;
- Thu, 21 Dec 2023 10:50:32 +0000 (UTC)
-Received: from forward101a.mail.yandex.net (forward101a.mail.yandex.net
- [IPv6:2a02:6b8:c0e:500:1:45:d181:d101])
- by forward203a.mail.yandex.net (Yandex) with ESMTP id ABA616B1CF;
- Thu, 21 Dec 2023 13:43:53 +0300 (MSK)
-Received: from mail-nwsmtp-smtp-production-main-39.vla.yp-c.yandex.net
- (mail-nwsmtp-smtp-production-main-39.vla.yp-c.yandex.net
- [IPv6:2a02:6b8:c1d:3e29:0:640:6566:0])
- by forward101a.mail.yandex.net (Yandex) with ESMTP id 2052A608FC;
- Thu, 21 Dec 2023 13:43:48 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-39.vla.yp-c.yandex.net
- (smtp/Yandex) with ESMTPSA id lhLioBTTsqM0-Z4CLrQXm; 
- Thu, 21 Dec 2023 13:43:47 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
- t=1703155427; bh=KxttoY911M9pQ6nQTQMh2QMpx7SWhFqshPKl0r8C8w4=;
- h=Message-ID:Date:Cc:Subject:To:From;
- b=EQWEIWkfhP4quQgbPKMu9QrPVVOWh7KeMiBk7EgCwXCIe7jbesrzQJhNxAGndYdif
- vAMVx4g/T8OZAKOJkzejRGZJFe+oMZ2s/+Z6kaxF9tBBuAnz4dYp2g51NsUgTR+7FH
- FVTzCmTG392M7ZJY8pqB1DsTKL6/l98L7E1e2H8Q=
-Authentication-Results: mail-nwsmtp-smtp-production-main-39.vla.yp-c.yandex.net;
- dkim=pass header.i=@yandex.ru
-From: Dmitry Antipov <dmantipov@yandex.ru>
-To: David Airlie <airlied@gmail.com>
-Subject: [PATCH] drm/nouveau: svm: fix kvcalloc() arguments order
-Date: Thu, 21 Dec 2023 13:40:49 +0300
-Message-ID: <20231221104051.23680-1-dmantipov@yandex.ru>
-X-Mailer: git-send-email 2.43.0
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C92D10E358;
+ Thu, 21 Dec 2023 13:08:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1703164130; x=1734700130;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=LvCH5Weeh81IDDie0Q2DXhlRjemIowRDzjYnmRDZVtU=;
+ b=BsISFcGj+1ehAg0+p/KhdG3voqzSVn1U3JIrdpyBQGfF9UdIfARSiEW4
+ l16H8s3wBDhQPgKQOKwmaFBYTgUhFyf9D4VkEsfMQW796znX0PHcw+mk1
+ 9SyF6pK9qVcTnn3qXO3jzifnEhcVRFZ3uyl2u8w0loLQ6s+m8UcUm7Hq5
+ QHL/cBlEEnMv/+F9HUANb+1l4z5hriOxY9e6klG1lpvl8XOvaKwkqou8X
+ QiNMmZ4z623hQNr6qnM/GC+QkgDggdUdI1+YP6eOCCXzsCLPWBNxwvZE9
+ mg1IvYl9fzg+3do1yUQKQt+zQBiZYl3WinHLgEJVPapHsSJHOkdBMgtM9 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10930"; a="395697803"
+X-IronPort-AV: E=Sophos;i="6.04,293,1695711600"; d="scan'208";a="395697803"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Dec 2023 05:08:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10930"; a="842624092"
+X-IronPort-AV: E=Sophos;i="6.04,293,1695711600"; d="scan'208";a="842624092"
+Received: from unknown (HELO localhost) ([10.237.66.162])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Dec 2023 05:08:45 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-intel-fixes
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Date: Thu, 21 Dec 2023 15:08:41 +0200
+Message-ID: <87plyzsnxi.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Thu, 21 Dec 2023 13:22:39 +0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,43 +56,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, Dmitry Antipov <dmantipov@yandex.ru>,
- "Gustavo A . R . Silva" <gustavoars@kernel.org>,
- dri-devel@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When compiling with gcc version 14.0.0 20231220 (experimental)
-and W=1, I've noticed the following warning:
 
-drivers/gpu/drm/nouveau/nouveau_svm.c: In function 'nouveau_svm_fault_buffer_ctor':
-drivers/gpu/drm/nouveau/nouveau_svm.c:1014:40: warning: 'kvcalloc' sizes specified with
-'sizeof' in the earlier argument and not in the later argument [-Wcalloc-transposed-args]
- 1014 |         buffer->fault = kvcalloc(sizeof(*buffer->fault), buffer->entries, GFP_KERNEL);
-      |                                        ^
+Hi Dave & Sima -
 
-Since 'n' and 'size' arguments of 'kvcalloc()' are multiplied to
-calculate the final size, their actual order doesn't affect the
-result and so this is not a bug. But it's still worth to fix it.
+A bit more than I'd like at this stage, but next week will be quiet.
 
-Signed-off-by: Dmitry Antipov <dmantipov@yandex.ru>
----
- drivers/gpu/drm/nouveau/nouveau_svm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+drm-intel-fixes-2023-12-21:
+drm/i915 fixes for v6.7-rc7:
+- Fix state readout and check for DSC and bigjoiner combo
+- Fix a potential integer overflow
+- Reject async flips with bigjoiner
+- Fix MTL HDMI/DP PLL clock selection
+- Fix various issues by disabling pipe DMC events
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
-index cc03e0c22ff3..5e4565c5011a 100644
---- a/drivers/gpu/drm/nouveau/nouveau_svm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
-@@ -1011,7 +1011,7 @@ nouveau_svm_fault_buffer_ctor(struct nouveau_svm *svm, s32 oclass, int id)
- 	if (ret)
- 		return ret;
- 
--	buffer->fault = kvcalloc(sizeof(*buffer->fault), buffer->entries, GFP_KERNEL);
-+	buffer->fault = kvcalloc(buffer->entries, sizeof(*buffer->fault), GFP_KERNEL);
- 	if (!buffer->fault)
- 		return -ENOMEM;
- 
--- 
-2.43.0
+BR,
+Jani.
 
+The following changes since commit ceb6a6f023fd3e8b07761ed900352ef574010bcb:
+
+  Linux 6.7-rc6 (2023-12-17 15:19:28 -0800)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2023-12-=
+21
+
+for you to fetch changes up to 49e0a85ec3441edc6c77aa40206d6e5ee4597efc:
+
+  drm/i915/dmc: Don't enable any pipe DMC events (2023-12-18 15:29:23 +0200)
+
+----------------------------------------------------------------
+drm/i915 fixes for v6.7-rc7:
+- Fix state readout and check for DSC and bigjoiner combo
+- Fix a potential integer overflow
+- Reject async flips with bigjoiner
+- Fix MTL HDMI/DP PLL clock selection
+- Fix various issues by disabling pipe DMC events
+
+----------------------------------------------------------------
+Ankit Nautiyal (1):
+      drm/i915/display: Get bigjoiner config before dsc config during reado=
+ut
+
+Imre Deak (1):
+      drm/i915/mtl: Fix HDMI/DP PLL clock selection
+
+Karthik Poosa (1):
+      drm/i915/hwmon: Fix static analysis tool reported issues
+
+Ville Syrj=C3=A4l=C3=A4 (2):
+      drm/i915: Reject async flips with bigjoiner
+      drm/i915/dmc: Don't enable any pipe DMC events
+
+ drivers/gpu/drm/i915/display/intel_cx0_phy.c |  3 +-
+ drivers/gpu/drm/i915/display/intel_display.c | 13 ++++++++-
+ drivers/gpu/drm/i915/display/intel_dmc.c     | 43 ++++++++++++++++++++++++=
+++--
+ drivers/gpu/drm/i915/i915_hwmon.c            |  4 +--
+ 4 files changed, 57 insertions(+), 6 deletions(-)
+
+--=20
+Jani Nikula, Intel
