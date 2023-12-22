@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3915B81CDD1
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 18:43:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 324F581CDB9
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 18:42:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AA7810E85B;
-	Fri, 22 Dec 2023 17:43:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1E0910E81B;
+	Fri, 22 Dec 2023 17:42:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FB5810E81B
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D50A810E81B
  for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 17:42:33 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id
- ffacd0b85a97d-33694bf8835so686292f8f.3
+Received: by mail-wr1-x432.google.com with SMTP id
+ ffacd0b85a97d-33666fb9318so1833340f8f.2
  for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 09:42:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1703266951; x=1703871751; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1703266952; x=1703871752; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=LfMKOfn5qhMsr90aHA0q/zpw4x0Di/ZdGH16UYVoiok=;
- b=d4iYeSZCdoKjwjjdh8uGk8rLySCvNjhwqy4TZhAUokPMbsPvaM+fjsFQV6K+MUaua5
- +Y2wvu1LRNYXUn3fEe/+Mn0vXcKYxZCJblPozgbpuiiejQiytHajlxsipJ+XXCTGtXYV
- 9WYDwi1ZSM8TehxEHF/jqCnTGZR1R8/kW4Ea9AsfalS6JJ8EHNgmVkpzaJrVquVbKCOc
- yv3zwGhtYbXHTSEMq1OfyB3u8nlp7ADgGogPpdC8kLsAjuQQ84C7fA59nGmV7F1xgi2f
- nI26i07fwTV3BWSQCYKF7hHTu9sWW2kThdlM7ysV97xHwcI+KcvqkGWpJhZeAPvcHbGE
- uiqw==
+ bh=hxV163vg4WaEsUhoUGEXFBcX2Ll0vd6Pc97F0FYEm9Q=;
+ b=BwBzUKLL436vn40GsVeDZQjx3RbE5e+3Qayl1rwpOD5iXGhfRqKIsObuKbgFdCv29R
+ GWvAtRYE19kLsC+KmhNmdP2OAabhSqiZWEuj5qXwuEkjsdQ94Sqe296ROAnXwjsS08AO
+ KPyz6a1fxAVCRj7p74KybWOw5VHaCZYcifEEYoTp+iPmwZlER51paAsTz48+tzVMyV3y
+ n1J3BRxP86qx2gbQ2kQOnjkX6nVNjBw4EA75LgWpj1+oCh66UVtxIdUqqoVvBTrI7bGk
+ gF9dY2dzz6MYh0NWMhvAiNWMHJM/EjlpZ27ojgyf8Vjrqe4H5sSfkP5KP+7en1UdimeW
+ 6GSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1703266951; x=1703871751;
+ d=1e100.net; s=20230601; t=1703266952; x=1703871752;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=LfMKOfn5qhMsr90aHA0q/zpw4x0Di/ZdGH16UYVoiok=;
- b=bPCG36ViKgBBV7CxCjNpHBjTgIK0Uwn8ZsiLQiVodgyUEUADkWSUwweZ9H5LUJ4mlE
- 1hOVQS41MJBEhT6nwiVwOzB428T0UYCPmXfsQ1lj4K1yKDWsmhDOD/BryhEMnbhjBEJk
- EtPSb3lacJGYoRnHRYVP5D478owQ9FTtP42nnqUb+M01lyKoWrJRZi6SOzNJ3+tRAifN
- sq1yWIKkI+QcW47vmQ3RLYhccTHIzb2vUboa6P6hCGEUblh9bTClj7xoMF/Z22FCxYcW
- uVASDEddBJsrWKEAElKryi8JgxGUYlR6d4dwqb1YfdRwXpA2h4445bn0m48Yo5Sn5k3h
- syuA==
-X-Gm-Message-State: AOJu0YwHHyn/s5UFm3y50iCq3nlS+yqqMbVWOJx0+U97JD6Xw504/C/r
- EWqi8QKuQdxfxHByf4qEfA==
-X-Google-Smtp-Source: AGHT+IG3YWjTrYpe1ubpbeRtz8cVdvTTRZfBcpLPWcobSABejxp0JmC9wWRL1LNQLRIzXRY/WodRrQ==
-X-Received: by 2002:a05:6000:235:b0:333:12a3:644a with SMTP id
- l21-20020a056000023500b0033312a3644amr946812wrz.18.1703266951663; 
- Fri, 22 Dec 2023 09:42:31 -0800 (PST)
+ bh=hxV163vg4WaEsUhoUGEXFBcX2Ll0vd6Pc97F0FYEm9Q=;
+ b=VpGfT9vG9yR9ZBDxJotY/cXoSodLhJagqD4AhT7xssWH9H+9jgKhYuXBO2XCq0nhK8
+ BnlIXdJ7Zq+63EUHLF4Gk50pjiQ4VbFdRvUJX2eDwzcVJKYE1AQFFRkJ+yOStSe5FO6p
+ TqZHjCkYQlXHBpYBOIYJXd5OJkQ4PMdztcrNOh/39ZGGqdVlxxewYWjhmHRYYHR7nD+1
+ fObwAyZmn7UoowviDLVPZlohEtKIrAgnvHfjvHPSSW9wU2cggEDwKUXGiPiiTFNXU4GY
+ ZuFhQCXqOqVY7L84M0Zr4zVKO3JKeD4f/SJXmGKO3M5297STe6K1cZ9JR+Qq8YDUDCgY
+ woWQ==
+X-Gm-Message-State: AOJu0YwiLx5xxEz09d/DBXbmtl1g7+07ajvWesFx+nvTjf72ZgbCoz4C
+ pAzfUahgwD/FikYrTPV0Iw==
+X-Google-Smtp-Source: AGHT+IECszl5yDhXXOpNKzi8n8qsuV7BMf+6/+DcPImMeEO1sJKFSTRO7RRtsvDcoVqGutyEkY+Vcg==
+X-Received: by 2002:adf:e4d1:0:b0:336:5fac:d845 with SMTP id
+ v17-20020adfe4d1000000b003365facd845mr1065480wrm.34.1703266952323; 
+ Fri, 22 Dec 2023 09:42:32 -0800 (PST)
 Received: from U4.lan ([2a02:810b:f40:4300:f3ae:2788:7e03:f44])
  by smtp.gmail.com with ESMTPSA id
  w10-20020adfec4a000000b00336670abdcasm4777116wrn.40.2023.12.22.09.42.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Dec 2023 09:42:31 -0800 (PST)
+ Fri, 22 Dec 2023 09:42:32 -0800 (PST)
 From: Alex Bee <knaerzche@gmail.com>
 To: Sandy Huang <hjc@rock-chips.com>,
  =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
@@ -59,10 +59,10 @@ To: Sandy Huang <hjc@rock-chips.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>
-Subject: [PATCH v4 13/29] drm/rockchip: inno_hdmi: Drop HDMI Vendor Infoframe
- support
-Date: Fri, 22 Dec 2023 18:42:04 +0100
-Message-ID: <20231222174220.55249-14-knaerzche@gmail.com>
+Subject: [PATCH v4 14/29] drm/rockchip: inno_hdmi: Move infoframe disable to
+ separate function
+Date: Fri, 22 Dec 2023 18:42:05 +0100
+Message-ID: <20231222174220.55249-15-knaerzche@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231222174220.55249-1-knaerzche@gmail.com>
 References: <20231222174220.55249-1-knaerzche@gmail.com>
@@ -82,18 +82,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Alex Bee <knaerzche@gmail.com>,
- linux-rockchip@lists.infradead.org, Johan Jonker <jbx6244@gmail.com>,
- David Airlie <airlied@gmail.com>, linux-arm-kernel@lists.infradead.org
+ linux-rockchip@lists.infradead.org, David Airlie <airlied@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Maxime Ripard <mripard@kernel.org>
 
-The HDMI vendor infoframe is only meant to be sent with 4k60 modes and
-higher, but the controller doesn't support them. Let's drop them from
-the kernel.
+The code to upload infoframes to the controller uses a weird construct
+which, based on the previous function call return code, will either
+disable or enable that infoframe.
 
-Suggested-by: Johan Jonker <jbx6244@gmail.com>
+In order to get rid of that argument, let's split the function to
+disable the infoframe into a separate function and make it obvious what
+we are doing in the error path.
+
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 Tested-by: Alex Bee <knaerzche@gmail.com>
 Signed-off-by: Alex Bee <knaerzche@gmail.com>
@@ -107,83 +110,93 @@ changes in v3:
 changes in v4:
  - none
 
- drivers/gpu/drm/rockchip/inno_hdmi.c | 35 ++++++++--------------------
- 1 file changed, 10 insertions(+), 25 deletions(-)
+ drivers/gpu/drm/rockchip/inno_hdmi.c | 46 ++++++++++++++++++----------
+ 1 file changed, 30 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
-index 102195837206..5c9f1325441f 100644
+index 5c9f1325441f..10466c2aa520 100644
 --- a/drivers/gpu/drm/rockchip/inno_hdmi.c
 +++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
-@@ -206,11 +206,15 @@ static void inno_hdmi_reset(struct inno_hdmi *hdmi)
+@@ -205,34 +205,44 @@ static void inno_hdmi_reset(struct inno_hdmi *hdmi)
+ 	inno_hdmi_set_pwr_mode(hdmi, NORMAL);
  }
  
- static int inno_hdmi_upload_frame(struct inno_hdmi *hdmi, int setup_rc,
--				  union hdmi_infoframe *frame, u32 frame_index,
--				  u32 mask, u32 disable, u32 enable)
-+				  union hdmi_infoframe *frame, u32 frame_index)
+-static int inno_hdmi_upload_frame(struct inno_hdmi *hdmi, int setup_rc,
+-				  union hdmi_infoframe *frame, u32 frame_index)
++static void inno_hdmi_disable_frame(struct inno_hdmi *hdmi, u32 frame_index)
  {
--	if (mask)
--		hdmi_modb(hdmi, HDMI_PACKET_SEND_AUTO, mask, disable);
+ 	struct drm_connector *connector = &hdmi->connector;
+ 
+ 	if (frame_index != INFOFRAME_AVI) {
+ 		drm_err(connector->dev,
+ 			"Unsupported infoframe type: %u\n", frame_index);
+-		return 0;
++		return;
+ 	}
+ 
+ 	hdmi_writeb(hdmi, HDMI_CONTROL_PACKET_BUF_INDEX, frame_index);
++}
+ 
+-	if (setup_rc >= 0) {
+-		u8 packed_frame[HDMI_MAXIMUM_INFO_FRAME_SIZE];
+-		ssize_t rc, i;
+-
+-		rc = hdmi_infoframe_pack(frame, packed_frame,
+-					 sizeof(packed_frame));
+-		if (rc < 0)
+-			return rc;
++static int inno_hdmi_upload_frame(struct inno_hdmi *hdmi,
++				  union hdmi_infoframe *frame, u32 frame_index)
++{
 +	struct drm_connector *connector = &hdmi->connector;
-+
++	u8 packed_frame[HDMI_MAXIMUM_INFO_FRAME_SIZE];
++	ssize_t rc, i;
+ 
+-		for (i = 0; i < rc; i++)
+-			hdmi_writeb(hdmi, HDMI_CONTROL_PACKET_ADDR + i,
+-				    packed_frame[i]);
 +	if (frame_index != INFOFRAME_AVI) {
 +		drm_err(connector->dev,
 +			"Unsupported infoframe type: %u\n", frame_index);
 +		return 0;
-+	}
- 
- 	hdmi_writeb(hdmi, HDMI_CONTROL_PACKET_BUF_INDEX, frame_index);
- 
-@@ -226,28 +230,11 @@ static int inno_hdmi_upload_frame(struct inno_hdmi *hdmi, int setup_rc,
- 		for (i = 0; i < rc; i++)
- 			hdmi_writeb(hdmi, HDMI_CONTROL_PACKET_ADDR + i,
- 				    packed_frame[i]);
--
--		if (mask)
--			hdmi_modb(hdmi, HDMI_PACKET_SEND_AUTO, mask, enable);
  	}
  
- 	return setup_rc;
+-	return setup_rc;
++	inno_hdmi_disable_frame(hdmi, frame_index);
++
++	rc = hdmi_infoframe_pack(frame, packed_frame,
++				 sizeof(packed_frame));
++	if (rc < 0)
++		return rc;
++
++	for (i = 0; i < rc; i++)
++		hdmi_writeb(hdmi, HDMI_CONTROL_PACKET_ADDR + i,
++			    packed_frame[i]);
++
++	return 0;
  }
  
--static int inno_hdmi_config_video_vsi(struct inno_hdmi *hdmi,
--				      struct drm_display_mode *mode)
--{
--	union hdmi_infoframe frame;
--	int rc;
--
--	rc = drm_hdmi_vendor_infoframe_from_display_mode(&frame.vendor.hdmi,
--							 &hdmi->connector,
--							 mode);
--
--	return inno_hdmi_upload_frame(hdmi, rc, &frame, INFOFRAME_VSI,
--		m_PACKET_VSI_EN, v_PACKET_VSI_EN(0), v_PACKET_VSI_EN(1));
--}
--
  static int inno_hdmi_config_video_avi(struct inno_hdmi *hdmi,
- 				      struct drm_display_mode *mode)
- {
-@@ -265,7 +252,7 @@ static int inno_hdmi_config_video_avi(struct inno_hdmi *hdmi,
+@@ -244,6 +254,10 @@ static int inno_hdmi_config_video_avi(struct inno_hdmi *hdmi,
+ 	rc = drm_hdmi_avi_infoframe_from_display_mode(&frame.avi,
+ 						      &hdmi->connector,
+ 						      mode);
++	if (rc) {
++		inno_hdmi_disable_frame(hdmi, INFOFRAME_AVI);
++		return rc;
++	}
+ 
+ 	if (hdmi->hdmi_data.enc_out_format == HDMI_COLORSPACE_YUV444)
+ 		frame.avi.colorspace = HDMI_COLORSPACE_YUV444;
+@@ -252,7 +266,7 @@ static int inno_hdmi_config_video_avi(struct inno_hdmi *hdmi,
  	else
  		frame.avi.colorspace = HDMI_COLORSPACE_RGB;
  
--	return inno_hdmi_upload_frame(hdmi, rc, &frame, INFOFRAME_AVI, 0, 0, 0);
-+	return inno_hdmi_upload_frame(hdmi, rc, &frame, INFOFRAME_AVI);
+-	return inno_hdmi_upload_frame(hdmi, rc, &frame, INFOFRAME_AVI);
++	return inno_hdmi_upload_frame(hdmi, &frame, INFOFRAME_AVI);
  }
  
  static int inno_hdmi_config_video_csc(struct inno_hdmi *hdmi)
-@@ -408,10 +395,8 @@ static int inno_hdmi_setup(struct inno_hdmi *hdmi,
- 
- 	inno_hdmi_config_video_csc(hdmi);
- 
--	if (display->is_hdmi) {
-+	if (display->is_hdmi)
- 		inno_hdmi_config_video_avi(hdmi, mode);
--		inno_hdmi_config_video_vsi(hdmi, mode);
--	}
- 
- 	/*
- 	 * When IP controller have configured to an accurate video
 -- 
 2.43.0
 
