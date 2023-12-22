@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED21881CDCC
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 18:43:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B23881CDC4
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 18:42:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6579410E85D;
-	Fri, 22 Dec 2023 17:42:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91DE310E836;
+	Fri, 22 Dec 2023 17:42:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 306C410E81B
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3EF710E81B
  for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 17:42:38 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id
- 5b1f17b1804b1-40d4a222818so3419655e9.0
+Received: by mail-wr1-x436.google.com with SMTP id
+ ffacd0b85a97d-33666fb9318so1833406f8f.2
  for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 09:42:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1703266956; x=1703871756; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1703266957; x=1703871757; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=SzkYbwlGueFkeXw8MQWVExgytplkJ2Nf/UnR4OES2p8=;
- b=jws0tdBzzcmXbZmol+eV0/92NKJkHlANBs3H5pBiwtCBd3+5oDrfKKAocRELgTcp/Y
- 2mlEfDoDfx9cRlffYNCpo8VpeYqbF02rThzxiYUM+5exjOwifPldKz/fNpCpqnd+u/uG
- oIRzqDO6SEylcdeaR0T+s7dO65TeMndOalbnDpu0rW806/V3NeNz9kH9Vc9OVHG03MzK
- ZQPmsowKogNc6miLn8g7qd9myIB2QVhcCzzYtnns3XTQ3LLmErfJiJTrcfNIvQKYVTPb
- dYvtRHY9Le7gq6uBYMlfU/DiiySXhGuDEcRNvgyNu4gaOyML0cTYnjHYffX+hpr1Njoa
- MA+g==
+ bh=3qEiW87NdWMqG1i3IC5TsTsEJY+4saJvfxd4Py7tBWk=;
+ b=m/c8QDsMSO7F2ENiAIxjPOfGIcr9okzZzGl7nQOLjrK6uJeKm3ssG5scHkwFZkwmOy
+ F6rheOT3d+AZ0LppXIpHQP0odv3bwxMSkI9FJRL0JIM5xII1fw514DwJccNGwxezZgKk
+ xwoOBtfPhmONIBn9VJ8IqtX7kdanRtVk2TyrSJ/fV7iu6GTtythyCOHZFDta99z2rNlj
+ xr++MQZckAoUfN1V9hYvzI2TkftASP56xt7tJzDnfAFoA8vqphNXiqnDIwigOFHk9NNK
+ ziBlz0mTBSUvnTrRv5oO4vvtSOxzmIHwF76VbocW3+UNbvtBDP0Fs4fELJTbkZ1y1bxe
+ qcqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1703266956; x=1703871756;
+ d=1e100.net; s=20230601; t=1703266957; x=1703871757;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=SzkYbwlGueFkeXw8MQWVExgytplkJ2Nf/UnR4OES2p8=;
- b=MXhbAqynnB5uB2/s9rTqaEO22TySfdgqlDmkdn9DCcJP1fu3Rw/doZaH415XmFyNUe
- osXYhnyimnleObTgZHjdjBujyjn/3OqdlC39c6J3ysnlRz6b8HNHwtxppCopF9lZZ0ka
- zA/OGeClSLH0ZFmYYhu1Hd0jqPjgpqaZyvQhpEoV/JIpqbP9ZHyj5MgDKv+NOTjAUUUg
- cwDx8PPeFaI9FbclzhxO/FIB83Ip1tVDu+a58sTCJo1cByGLFGn/JjRj3u0vRU0Z8bW4
- u7iB1UPB9QjNUyqGUUr3W0m38uwnc2dnccwqfTp29tXTO7B0edMKx0FBXZL+pftJ7qlB
- kL+g==
-X-Gm-Message-State: AOJu0YxqJIBMVfmpNWisa6YmydZxhrG9j9q0CoqdvPyJbbQ7NvzJuSmx
- k/TpYPEoX5NHxglMbk8oEQ==
-X-Google-Smtp-Source: AGHT+IGjw9eaTW3bYuJzaeJRxodZiDLkX0kYbSh2SunwyP2K37rlC164b3cp2fGSEgNHWdq2zTdZoQ==
-X-Received: by 2002:a05:600c:4e87:b0:40b:4808:5d0a with SMTP id
- f7-20020a05600c4e8700b0040b48085d0amr983939wmq.17.1703266956443; 
- Fri, 22 Dec 2023 09:42:36 -0800 (PST)
+ bh=3qEiW87NdWMqG1i3IC5TsTsEJY+4saJvfxd4Py7tBWk=;
+ b=KwXhKqdakyJjB8aGYfDmslY0RvFaOAd0dm/lj7uzMwTsI9MZ9J0CAdzyty9Mwvh2tQ
+ SfMpQCYo7mk2YRIzAkL6hcG61LmZHlEtm/gNT0AhWqjFTAPnc/W5zps45q0OwAocTh4v
+ Ke2okRVem8q5txBfhzhM28N2S33QgsjbJ97GSGMo1vUGJPQKKxCaX4nUGQT8V2cQevjx
+ 509aOxvG+4yxS634/+kbb6F2bkAlFXQ96euJp/Vp1TVbhK0RCt9eWZgFgP0tscwQ0W2l
+ Qfq7vrqJMjZW95A2Ss1rRjjqmkW56vE8tNXzkd78b87YWoUZbtWGyFAuWwLCS5JRU8wY
+ k4sA==
+X-Gm-Message-State: AOJu0YyiLgpFIH5BSy6eIoB1pUOUSCzfM/U2l0YhWL8RBNu8abhMe8YO
+ AxX0mtgq/xUNz/kKKihlCA==
+X-Google-Smtp-Source: AGHT+IF/ILntBURjV10Ff56yN/onR9KNU6i4awRUbCKr+V/5OKfVGrXyAKwoOVxh00kqNwRL7i24VQ==
+X-Received: by 2002:adf:dd8b:0:b0:336:8940:c4dd with SMTP id
+ x11-20020adfdd8b000000b003368940c4ddmr968833wrl.8.1703266957184; 
+ Fri, 22 Dec 2023 09:42:37 -0800 (PST)
 Received: from U4.lan ([2a02:810b:f40:4300:f3ae:2788:7e03:f44])
  by smtp.gmail.com with ESMTPSA id
- w10-20020adfec4a000000b00336670abdcasm4777116wrn.40.2023.12.22.09.42.35
+ w10-20020adfec4a000000b00336670abdcasm4777116wrn.40.2023.12.22.09.42.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 22 Dec 2023 09:42:36 -0800 (PST)
 From: Alex Bee <knaerzche@gmail.com>
@@ -59,14 +59,15 @@ To: Sandy Huang <hjc@rock-chips.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>
-Subject: [PATCH v4 20/29] drm/rockchip: inno_hdmi: Correctly setup HDMI
- quantization range
-Date: Fri, 22 Dec 2023 18:42:11 +0100
-Message-ID: <20231222174220.55249-21-knaerzche@gmail.com>
+Subject: [PATCH v4 21/29] drm/rockchip: inno_hdmi: Don't power up the phy
+ after resetting
+Date: Fri, 22 Dec 2023 18:42:12 +0100
+Message-ID: <20231222174220.55249-22-knaerzche@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231222174220.55249-1-knaerzche@gmail.com>
 References: <20231222174220.55249-1-knaerzche@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,132 +88,37 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The display controller will always give full range RGB regardless of the
-mode set, but HDMI requires certain modes to be transmitted in limited
-range RGB. This is especially required for HDMI sinks which do not support
-non-standard quantization ranges.
-
-This enables color space conversion for those modes and sets the
-quantization range accordingly in the AVI infoframe.
+inno_hdmi_reset is only ever called when initializing the controller. At
+this point it’s completely uneccessary to power up the PHY, since all
+what has to work at this point is the DDC bus. The phy will be powered up
+correctly when a mode is set in inno_hdmi_encoder_enable and disabled in
+inno_hdmi_encoder_disable.
+Set it to LOWER_PWR after resetting the controller.
 
 Signed-off-by: Alex Bee <knaerzche@gmail.com>
 ---
-changes in v2:
- - made rgb_limited_range part of the new custom connector state
-
 changes in v3:
- - moved assignment of rgb_limited_range to atomic check
+ - new patch
 
 changes in v4:
  - none
 
- drivers/gpu/drm/rockchip/inno_hdmi.c | 60 +++++++++++++++++++---------
- 1 file changed, 42 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/rockchip/inno_hdmi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
-index e43fce968310..f3b90b479ab9 100644
+index f3b90b479ab9..52b49f44a4f4 100644
 --- a/drivers/gpu/drm/rockchip/inno_hdmi.c
 +++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
-@@ -53,6 +53,7 @@ struct inno_hdmi_connector_state {
- 	struct drm_connector_state	base;
- 	unsigned int			enc_out_format;
- 	unsigned int			colorimetry;
-+	bool				rgb_limited_range;
- };
+@@ -202,7 +202,7 @@ static void inno_hdmi_reset(struct inno_hdmi *hdmi)
+ 	val = v_REG_CLK_INV | v_REG_CLK_SOURCE_SYS | v_PWR_ON | v_INT_POL_HIGH;
+ 	hdmi_modb(hdmi, HDMI_SYS_CTRL, msk, val);
  
- static struct inno_hdmi *encoder_to_inno_hdmi(struct drm_encoder *encoder)
-@@ -270,6 +271,18 @@ static int inno_hdmi_config_video_avi(struct inno_hdmi *hdmi,
- 	else
- 		frame.avi.colorspace = HDMI_COLORSPACE_RGB;
- 
-+	if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_RGB) {
-+		drm_hdmi_avi_infoframe_quant_range(&frame.avi,
-+						   connector, mode,
-+						   inno_conn_state->rgb_limited_range ?
-+						   HDMI_QUANTIZATION_RANGE_LIMITED :
-+						   HDMI_QUANTIZATION_RANGE_FULL);
-+	} else {
-+		frame.avi.quantization_range = HDMI_QUANTIZATION_RANGE_DEFAULT;
-+		frame.avi.ycc_quantization_range =
-+			HDMI_YCC_QUANTIZATION_RANGE_LIMITED;
-+	}
-+
- 	return inno_hdmi_upload_frame(hdmi, &frame, HDMI_INFOFRAME_TYPE_AVI);
+-	inno_hdmi_set_pwr_mode(hdmi, NORMAL);
++	inno_hdmi_set_pwr_mode(hdmi, LOWER_PWR);
  }
  
-@@ -297,29 +310,37 @@ static int inno_hdmi_config_video_csc(struct inno_hdmi *hdmi)
- 	hdmi_writeb(hdmi, HDMI_VIDEO_CONTRL2, value);
- 
- 	if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_RGB) {
--		value = v_SOF_DISABLE | v_COLOR_DEPTH_NOT_INDICATED(1);
--		hdmi_writeb(hdmi, HDMI_VIDEO_CONTRL3, value);
--
--		hdmi_modb(hdmi, HDMI_VIDEO_CONTRL,
--			  m_VIDEO_AUTO_CSC | m_VIDEO_C0_C2_SWAP,
--			  v_VIDEO_AUTO_CSC(AUTO_CSC_DISABLE) |
--			  v_VIDEO_C0_C2_SWAP(C0_C2_CHANGE_DISABLE));
--		return 0;
--	}
--
--	if (inno_conn_state->colorimetry == HDMI_COLORIMETRY_ITU_601) {
--		if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_YUV444) {
--			csc_mode = CSC_RGB_0_255_TO_ITU601_16_235_8BIT;
-+		if (inno_conn_state->rgb_limited_range) {
-+			csc_mode = CSC_RGB_0_255_TO_RGB_16_235_8BIT;
- 			auto_csc = AUTO_CSC_DISABLE;
- 			c0_c2_change = C0_C2_CHANGE_DISABLE;
- 			csc_enable = v_CSC_ENABLE;
-+
-+		} else {
-+			value = v_SOF_DISABLE | v_COLOR_DEPTH_NOT_INDICATED(1);
-+			hdmi_writeb(hdmi, HDMI_VIDEO_CONTRL3, value);
-+
-+			hdmi_modb(hdmi, HDMI_VIDEO_CONTRL,
-+				  m_VIDEO_AUTO_CSC | m_VIDEO_C0_C2_SWAP,
-+				  v_VIDEO_AUTO_CSC(AUTO_CSC_DISABLE) |
-+				  v_VIDEO_C0_C2_SWAP(C0_C2_CHANGE_DISABLE));
-+			return 0;
- 		}
- 	} else {
--		if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_YUV444) {
--			csc_mode = CSC_RGB_0_255_TO_ITU709_16_235_8BIT;
--			auto_csc = AUTO_CSC_DISABLE;
--			c0_c2_change = C0_C2_CHANGE_DISABLE;
--			csc_enable = v_CSC_ENABLE;
-+		if (inno_conn_state->colorimetry == HDMI_COLORIMETRY_ITU_601) {
-+			if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_YUV444) {
-+				csc_mode = CSC_RGB_0_255_TO_ITU601_16_235_8BIT;
-+				auto_csc = AUTO_CSC_DISABLE;
-+				c0_c2_change = C0_C2_CHANGE_DISABLE;
-+				csc_enable = v_CSC_ENABLE;
-+			}
-+		} else {
-+			if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_YUV444) {
-+				csc_mode = CSC_RGB_0_255_TO_ITU709_16_235_8BIT;
-+				auto_csc = AUTO_CSC_DISABLE;
-+				c0_c2_change = C0_C2_CHANGE_DISABLE;
-+				csc_enable = v_CSC_ENABLE;
-+			}
- 		}
- 	}
- 
-@@ -473,6 +494,8 @@ inno_hdmi_encoder_atomic_check(struct drm_encoder *encoder,
- 		inno_conn_state->colorimetry = HDMI_COLORIMETRY_ITU_709;
- 
- 	inno_conn_state->enc_out_format = HDMI_COLORSPACE_RGB;
-+	inno_conn_state->rgb_limited_range =
-+		drm_default_rgb_quant_range(mode) == HDMI_QUANTIZATION_RANGE_LIMITED;
- 
- 	return 0;
- }
-@@ -559,6 +582,7 @@ static void inno_hdmi_connector_reset(struct drm_connector *connector)
- 
- 	inno_conn_state->colorimetry = HDMI_COLORIMETRY_ITU_709;
- 	inno_conn_state->enc_out_format = HDMI_COLORSPACE_RGB;
-+	inno_conn_state->rgb_limited_range = false;
- }
- 
- static struct drm_connector_state *
+ static void inno_hdmi_disable_frame(struct inno_hdmi *hdmi,
 -- 
 2.43.0
 
