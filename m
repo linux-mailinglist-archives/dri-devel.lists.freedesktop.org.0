@@ -1,69 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFC4981C691
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 09:27:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 202F681C68F
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 09:27:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9ABCE10E10C;
-	Fri, 22 Dec 2023 08:27:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB46D10E0FB;
+	Fri, 22 Dec 2023 08:27:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com
- [IPv6:2607:f8b0:4864:20::f2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 517E510E71F
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 00:45:26 +0000 (UTC)
-Received: by mail-qv1-xf2f.google.com with SMTP id
- 6a1803df08f44-67f02843e91so7511536d6.0
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Dec 2023 16:45:26 -0800 (PST)
+Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com
+ [IPv6:2607:f8b0:4864:20::836])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 799FD10E049
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 03:02:22 +0000 (UTC)
+Received: by mail-qt1-x836.google.com with SMTP id
+ d75a77b69052e-42792fe28c2so10805551cf.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Dec 2023 19:02:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dionne-riel-com.20230601.gappssmtp.com; s=20230601; t=1703205925;
- x=1703810725; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :references:in-reply-to:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vO72U8OhvgCsTxx/aC8/ALqxbW9fKG0Z3MExzKQqln8=;
- b=xaxFeX9F9bR4DXXiPJal5iKOoKbZ29CLGN1z9/e9MN/M0knkg/j6W3WnGtYPrasfno
- pQgNQZ6VepipddZQK/+Sgb5ZyYKkA3GEIK/749D2ip2AehePD4p3hE6Th+fNDoCYk+hQ
- NYpLwEdVmyuFgVW4h1BPfCyueSSSstdAGsWy1cKy1y7b/CI06vxxgiVa2SyV+1rAWyAG
- Ou35SlHLMRLjp7l7opL6FV7xOjoBhaDiPxREofC36ngDiKkvgJg3V5N9cJJbEShnfTLZ
- 3nYb1szL1KhBwQFwb6QOHTArWD53zQ6cWDtYO4TUoEdQC23gzzIcUaU+8g2VIJktyS6m
- CiTA==
+ d=dionne-riel-com.20230601.gappssmtp.com; s=20230601; t=1703214141;
+ x=1703818941; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=/ycJodXT+JZm9RNjkqB/4yrbtDWd2hG7NkdRmpVRoew=;
+ b=gHlc8XkZhdFu2zP4+4iSa7lFwK2Fg2BaRPCpy0H7OcIeUdDIOol4J8pCFQJZ1R/tDA
+ m5uss+9WF/fLquUzbAftRU2NWufni9HA+JSv+WLB6NBx4Ij7LPaQGcc3q7s+C0mXRq3L
+ SFRGfKSZv/ZMDSY4D+r64wusNDRr0R4/jNujNSA+qSFoO4Td2bAMZ1d5dHxJ35vYZGyn
+ cSVTVyNcZtoPXmCN0TZ/SEDpbV4M2IbqsS19rxBQj6tB9ytE4HPJsCIIyzYwc3OCA6ns
+ 6YZd9y5P4xqi4AyM4EUvqzDQ6PFHVCImTqgf6RkwbenW8NhE2RY7uNqnkTL/X4lmnWiB
+ jwPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1703205925; x=1703810725;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :references:in-reply-to:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=vO72U8OhvgCsTxx/aC8/ALqxbW9fKG0Z3MExzKQqln8=;
- b=nJTzTjQjEeN4yG00A+IhR9jOZAHddH8Fu6A41L2sSL/CZdCdlEjnifOc+uSp78tdqd
- pJGEkH1tXC6Vi/yik9El4KDV862CoZqLvlf3413tMqKNUxRGlEH4zl/g2k/fyO2N7BiO
- elrXXXXiNztlhZ+Ii9r4QZHdgY7yb0B9GkCq7a8T2XTISUfdHcH6um+XovabncsZSGMl
- E7F48IwFQmOASi74anu2wYJPavHdcoqv0vxz4sHnyLZbktLfd956V8z2mYMGQeg0wxPu
- QS3EFUrWcl7tiFvzKMOhAVoRZQAZU5fQ+e9JFU5dNwC+YMiqavg7kvKyheV4h6/+O4Qn
- QrYQ==
-X-Gm-Message-State: AOJu0YyXxteSwMVIOzsbZ9qSbYVamnvGzXoxvopUXXgRWDuMfu4/pD41
- qzsEOKbyyeFKpRt5Fc5+oLSxsL6L/tOQA4ncaIFp+PLhTcIP
-X-Google-Smtp-Source: AGHT+IGlXvi3g0g2VEeP4AL+AxR5RLB0jBCBrh4ZfaNIWy6p/3fXWWJfTWzmA43P7UWukKd7BgYhkilgv+25o8qOUYs=
-X-Received: by 2002:a05:6214:27c1:b0:67f:7aa:2b75 with SMTP id
- ge1-20020a05621427c100b0067f07aa2b75mr546603qvb.104.1703205925444; Thu, 21
- Dec 2023 16:45:25 -0800 (PST)
-MIME-Version: 1.0
-Received: by 2002:a05:6200:3989:b0:52b:9b0d:f9a8 with HTTP; Thu, 21 Dec 2023
- 16:45:25 -0800 (PST)
-X-Originating-IP: [135.23.195.66]
-In-Reply-To: <20231222003830.3733310-1-samuel@dionne-riel.com>
-References: <20231222003830.3733310-1-samuel@dionne-riel.com>
+ d=1e100.net; s=20230601; t=1703214141; x=1703818941;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=/ycJodXT+JZm9RNjkqB/4yrbtDWd2hG7NkdRmpVRoew=;
+ b=cvDfXSRFihz+lhp+UGyFpkzWvq/4DKHKN9pUX2IX0GGEkWUOnw9zHTBpPK++70IbgM
+ DGLyNECRSK0D3vHRafbN4Mf7jajYOTTbjT/rkmNKbCpVpcGmsnZDIXNkvlbIm9WkXCTY
+ WfOOLQIn8tNNtco8VCToiVV6qT5weajH7LkgJVMgwj1KVX5eZ6vvCt6KSd76lpL9jP1G
+ Rs7FEKHDJ6A4iuf4Q0tpYDp2hhovECG7Qm9+lo1RhbagnziA+7GhfdJpMhNpI5wOxomA
+ NPWu1x6MuupgZVT7C5cVapI/97ET0GpxGZVQGjOgp97zFPtjDSpLJEf+Grwipw73Esra
+ Zi7A==
+X-Gm-Message-State: AOJu0YwlxFxB8kVQXZbmMmuRUr/2bfn1dfvIDn4WAWPPf0K6pQyACVDy
+ 4c9uDx08Ax84SEp+1tzuaAsmJsO2NSB1Ml9UBnVWZo2Npl96
+X-Google-Smtp-Source: AGHT+IE40nhHEoelPMU/O3MVy2WfMGSFfflA4Fa2S4y1VDWTmTHF7liaXsitD4NIA5+wJEBX0bQRog==
+X-Received: by 2002:a05:622a:1ba0:b0:423:732e:c345 with SMTP id
+ bp32-20020a05622a1ba000b00423732ec345mr882621qtb.26.1703214141401; 
+ Thu, 21 Dec 2023 19:02:21 -0800 (PST)
+Received: from localhost.localdomain (135-23-195-66.cpe.pppoe.ca.
+ [135.23.195.66]) by smtp.gmail.com with ESMTPSA id
+ ev4-20020a05622a510400b0042387bd254bsm1419008qtb.9.2023.12.21.19.02.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 21 Dec 2023 19:02:20 -0800 (PST)
 From: Samuel Dionne-Riel <samuel@dionne-riel.com>
-Date: Thu, 21 Dec 2023 19:45:25 -0500
-Message-ID: <CAN1fySWi_QJt8ufUc99vRiE17-SfQOGfMsxFqH+TJC1PgjRsDw@mail.gmail.com>
-Subject: Re: [PATCH] drm: panel-orientation-quirks: Add quirk for GPD Win Mini
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
+ Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm: panel-orientation-quirks: Add quirk for GPD Win Mini
+Date: Thu, 21 Dec 2023 22:01:50 -0500
+Message-ID: <20231222030149.3740815-2-samuel@dionne-riel.com>
+X-Mailer: git-send-email 2.42.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Fri, 22 Dec 2023 08:27:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,47 +80,47 @@ Cc: Samuel Dionne-Riel <samuel@dionne-riel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Signed-off-by: Samuel Dionne-Riel <samuel@dionne-riel.com>
+---
 
-Sorry, I was preparing for sending to the mailing list, and sent
-before I should have.
+Changes since v1:
 
-I believe I have the orientation on the wrong side, though, so please
-wait for a follow-up here or the v2.
+ - Add 1080p right-side up panel data
+ - Use the correct panel orientation
 
-Sorry again,
+ drivers/gpu/drm/drm_panel_orientation_quirks.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-On 12/21/23, Samuel Dionne-Riel <samuel@dionne-riel.com> wrote:
-> Signed-off-by: Samuel Dionne-Riel <samuel@dionne-riel.com>
-> ---
->  drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> index 3d92f66e550c3..f730886ae10df 100644
-> --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> @@ -279,6 +279,12 @@ static const struct dmi_system_id orientation_data[]=
- =3D
-> {
->  		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "G1618-03")
->  		},
->  		.driver_data =3D (void *)&lcd720x1280_rightside_up,
-> +	}, {	/* GPD Win Mini */
-> +		.matches =3D {
-> +		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "GPD"),
-> +		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "G1617-01")
-> +		},
-> +		.driver_data =3D (void *)&lcd1080x1920_leftside_up,
->  	}, {	/* I.T.Works TW891 */
->  		.matches =3D {
->  		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "To be filled by O.E.M."),
-> --
-> 2.42.0
->
->
+diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+index 3d92f66e550c3..aa93129c3397e 100644
+--- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
++++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+@@ -117,6 +117,12 @@ static const struct drm_dmi_panel_orientation_data lcd1080x1920_leftside_up = {
+ 	.orientation = DRM_MODE_PANEL_ORIENTATION_LEFT_UP,
+ };
+ 
++static const struct drm_dmi_panel_orientation_data lcd1080x1920_rightside_up = {
++	.width = 1080,
++	.height = 1920,
++	.orientation = DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
++};
++
+ static const struct drm_dmi_panel_orientation_data lcd1200x1920_rightside_up = {
+ 	.width = 1200,
+ 	.height = 1920,
+@@ -279,6 +285,12 @@ static const struct dmi_system_id orientation_data[] = {
+ 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "G1618-03")
+ 		},
+ 		.driver_data = (void *)&lcd720x1280_rightside_up,
++	}, {	/* GPD Win Mini */
++		.matches = {
++		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "GPD"),
++		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "G1617-01")
++		},
++		.driver_data = (void *)&lcd1080x1920_rightside_up,
+ 	}, {	/* I.T.Works TW891 */
+ 		.matches = {
+ 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "To be filled by O.E.M."),
+-- 
+2.42.0
 
-
---=20
-=E2=80=94 Samuel Dionne-Riel
