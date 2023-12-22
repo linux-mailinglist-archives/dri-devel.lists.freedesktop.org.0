@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E83F81CDBE
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 18:42:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 964DF81CDDD
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 18:43:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C616110E845;
-	Fri, 22 Dec 2023 17:42:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66FAD10E86D;
+	Fri, 22 Dec 2023 17:43:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F10F10E81B
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 17:42:39 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id
- ffacd0b85a97d-336755f1688so1824656f8f.0
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 09:42:39 -0800 (PST)
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A85E10E82B
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 17:42:40 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id
+ ffacd0b85a97d-33697caf9a6so423048f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 09:42:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20230601; t=1703266958; x=1703871758; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=nfTDEigy6tmq2Mn9E1wnnsAPUxEbWwuqi0N9nc+qdGo=;
- b=E/b7ZLoE027MhNDvFovApn1jUVpd3pn2CRs4d25YXcXv9KAlEiWu8VziD2p8Iu/qCb
- RiIUkla4lXkgSx6+ppfMyVvQsq+4pztyWFtwx9Szy3iG2vYjGEBTaYLn+w0te8rD0Xdy
- y6VfslMVRFNCNwIR5hcb7Xrt/96kXWnwaCVMN6yhSy1cRr9A7nHJchVyqZ/D+3MRlTVN
- 880Nwyt1h5Hv7FoAMFUjzu1/7wYWMBp46Z/WOFFe0Wiw/kE/ZH4Jp+p+evI1XyF5er/c
- 820vP7PLoB811ZX4A22LwZyIQvVn1tqWN9jzFss8D8HD9OnMVgYhQ2BdCaAIoqiTRDIU
- v70A==
+ bh=OuPa/UCZ+S+tpMXY2+ZSGIMlsWF9xT2DWjDbU4B7UZI=;
+ b=aN81pmmZrz/j1maAzK9szMY60/KQy+ac69voXEqTAiElB/0WKPEon9qhLmBQAuQXOe
+ YEgqaLzon4KFksrn9d9aECuZlmx2G6mtgTYezgXKY/aXHVKA+0OOdieeoCABj+SBjPwH
+ bcunubaE3FGPCQe8UdperBJV4D6frsXhJAIa8ZjATZkYxYE41UbXfDKn60foOMcJB4+A
+ WSnPqXh4BtCP1xlf+j/kEVvDqnfoZtrU5CeRt3Yo6hwquKZvtT7Xx2fAfq876H0tQQsL
+ TJMmqhkUxTxLRNkzZo4M1B24O26I32uwpyUUXrzwLYYLK9CSTnF5Ljc+KySTEHmQlRnf
+ cPAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1703266958; x=1703871758;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=nfTDEigy6tmq2Mn9E1wnnsAPUxEbWwuqi0N9nc+qdGo=;
- b=Y3GgK9T6NZoq8tcBrn/2O1dAHjeo2MyDnoB3fzG1AsHG/I3YI+7PDZeDvHzTshOy0w
- CLM6CPYR3uc6Bw0h83pxmTS2CUI0kSvYxYPgrMb9IscathJcRc2SUgsCUcqvrn0s1I6T
- lGd8o9Eh7IPFOOPJlIBVuXJ1YqoFfQ/J5wusGjtvNlxUuzpnEWMJBKOpsxCPqBofHxaF
- jvbRuUYJY81AsuAmwuFqpWeccBSMxCPY4Upk48CkzK1IrScQBVj9/wxfNMBIGUHNcsBQ
- Lm583pOy8WKXMSerTyb+JiOiI2sQycB96s83vg4dHGAVGr1mL0ZZHI6emi4YPen7tb8f
- IYHQ==
-X-Gm-Message-State: AOJu0Yzf6E6nNf10rZNABQgyLzkIO00BE8YYI/YPA0kDsbuiO4voyQeV
- f9g6iV1h+3Dqi1PzEFbkRw==
-X-Google-Smtp-Source: AGHT+IHD1sMRR0b9UfvVWSWGlPGdgDIwu7H3ElnGmo67e7+XKWlpbK8y3mbb/mtv5CeniedxhpSZ1Q==
-X-Received: by 2002:adf:e74b:0:b0:332:e667:4277 with SMTP id
- c11-20020adfe74b000000b00332e6674277mr1205025wrn.40.1703266957871; 
- Fri, 22 Dec 2023 09:42:37 -0800 (PST)
+ bh=OuPa/UCZ+S+tpMXY2+ZSGIMlsWF9xT2DWjDbU4B7UZI=;
+ b=iNhwcRSpqftHOEbvxoFaTlAcuUQOzk2Wtw9u5ajq8HExdLA/DyVhdH5wCj1ecZHa5A
+ ga13BRYTZiQWeOdAFaW9uBJr+kp0qQPPOCqnNhV+G+X8nnxfz4rm7GHziKXZM/IVvCWn
+ y1Sn8OTZxtFdwL09ZcDg+UnZkxba+9f7B1i4RNUpSEy98vZBwC+zD737CRHTASPNO3X1
+ bnhMhe6o+7UBsxslQSFIKu/P6KwPzBSUDDaBnEBcHsmGxExZiYybIoon5X461+7hKQRp
+ C5lrmnDjSk8qF6gWVX9VcXSbyjlEtyN4MPu7/40SzDTeGDN7wd42WcDNXgKZsI5edvss
+ KLsw==
+X-Gm-Message-State: AOJu0YzvZDnfHYoFQpKQ/weC6/+ol9AlPMr+fkFsnIe1dk+F9QkwyxGf
+ Ia2v4U77R0GaXOdiL5KDHQ==
+X-Google-Smtp-Source: AGHT+IEjk2JX3cryTNZLnr1na63oKaFCjP2+oPseqP9/67kTJYx/j+qLJatXCAdYf2yZBPppd7BLkQ==
+X-Received: by 2002:a05:6000:1c9:b0:336:6dd3:bfd3 with SMTP id
+ t9-20020a05600001c900b003366dd3bfd3mr1061282wrx.37.1703266958541; 
+ Fri, 22 Dec 2023 09:42:38 -0800 (PST)
 Received: from U4.lan ([2a02:810b:f40:4300:f3ae:2788:7e03:f44])
  by smtp.gmail.com with ESMTPSA id
  w10-20020adfec4a000000b00336670abdcasm4777116wrn.40.2023.12.22.09.42.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Dec 2023 09:42:37 -0800 (PST)
+ Fri, 22 Dec 2023 09:42:38 -0800 (PST)
 From: Alex Bee <knaerzche@gmail.com>
 To: Sandy Huang <hjc@rock-chips.com>,
  =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
@@ -59,9 +59,9 @@ To: Sandy Huang <hjc@rock-chips.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>
-Subject: [PATCH v4 22/29] drm/rockchip: inno_hdmi: Split power mode setting
-Date: Fri, 22 Dec 2023 18:42:13 +0100
-Message-ID: <20231222174220.55249-23-knaerzche@gmail.com>
+Subject: [PATCH v4 23/29] drm/rockchip: inno_hdmi: Add variant support
+Date: Fri, 22 Dec 2023 18:42:14 +0100
+Message-ID: <20231222174220.55249-24-knaerzche@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231222174220.55249-1-knaerzche@gmail.com>
 References: <20231222174220.55249-1-knaerzche@gmail.com>
@@ -86,138 +86,177 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This splits setting the power mode of the controller / phy in two
-functions. It's done in preparation of setting up the phy based on the
-pixelclock.
-
-No functional changes intended.
+In preparation to support RK3128's integration of the controller, this
+patch adds a simple variant implementation. They mainly differ in the phy
+configuration required, so those are part of the match_data. The values
+have been taken from downstream. The pixelclocks in there are meant to be
+max-inclusive.
 
 Signed-off-by: Alex Bee <knaerzche@gmail.com>
 ---
+changes in v2:
+ - no changes
+
 changes in v3:
- - new patch
+ - adapt to the newly introduced inno_hdmi_power_up / inno_hdmi_standby functions
 
 changes in v4:
  - none
 
- drivers/gpu/drm/rockchip/inno_hdmi.c | 54 +++++++++++++---------------
- drivers/gpu/drm/rockchip/inno_hdmi.h |  5 ---
- 2 files changed, 24 insertions(+), 35 deletions(-)
+ drivers/gpu/drm/rockchip/inno_hdmi.c | 74 ++++++++++++++++++++++++++--
+ 1 file changed, 69 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
-index 52b49f44a4f4..44c311e7e2d3 100644
+index 44c311e7e2d3..34f0358e8d7b 100644
 --- a/drivers/gpu/drm/rockchip/inno_hdmi.c
 +++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
-@@ -154,38 +154,31 @@ static void inno_hdmi_sys_power(struct inno_hdmi *hdmi, bool enable)
- 		hdmi_modb(hdmi, HDMI_SYS_CTRL, m_POWER, v_PWR_OFF);
- }
+@@ -26,6 +26,17 @@
  
--static void inno_hdmi_set_pwr_mode(struct inno_hdmi *hdmi, int mode)
-+static void inno_hdmi_standby(struct inno_hdmi *hdmi)
- {
--	switch (mode) {
--	case NORMAL:
--		inno_hdmi_sys_power(hdmi, false);
-+	inno_hdmi_sys_power(hdmi, false);
+ #include "inno_hdmi.h"
  
--		hdmi_writeb(hdmi, HDMI_PHY_PRE_EMPHASIS, 0x6f);
--		hdmi_writeb(hdmi, HDMI_PHY_DRIVER, 0xbb);
--
--		hdmi_writeb(hdmi, HDMI_PHY_SYS_CTL, 0x15);
--		hdmi_writeb(hdmi, HDMI_PHY_SYS_CTL, 0x14);
--		hdmi_writeb(hdmi, HDMI_PHY_SYS_CTL, 0x10);
--		hdmi_writeb(hdmi, HDMI_PHY_CHG_PWR, 0x0f);
--		hdmi_writeb(hdmi, HDMI_PHY_SYNC, 0x00);
--		hdmi_writeb(hdmi, HDMI_PHY_SYNC, 0x01);
--
--		inno_hdmi_sys_power(hdmi, true);
--		break;
-+	hdmi_writeb(hdmi, HDMI_PHY_DRIVER, 0x00);
-+	hdmi_writeb(hdmi, HDMI_PHY_PRE_EMPHASIS, 0x00);
-+	hdmi_writeb(hdmi, HDMI_PHY_CHG_PWR, 0x00);
-+	hdmi_writeb(hdmi, HDMI_PHY_SYS_CTL, 0x15);
++struct inno_hdmi_phy_config {
++	unsigned long pixelclock;
++	u8 pre_emphasis;
++	u8 voltage_level_control;
 +};
++
++struct inno_hdmi_variant {
++	struct inno_hdmi_phy_config *phy_configs;
++	struct inno_hdmi_phy_config *default_phy_config;
++};
++
+ struct inno_hdmi_i2c {
+ 	struct i2c_adapter adap;
  
--	case LOWER_PWR:
--		inno_hdmi_sys_power(hdmi, false);
--		hdmi_writeb(hdmi, HDMI_PHY_DRIVER, 0x00);
--		hdmi_writeb(hdmi, HDMI_PHY_PRE_EMPHASIS, 0x00);
--		hdmi_writeb(hdmi, HDMI_PHY_CHG_PWR, 0x00);
--		hdmi_writeb(hdmi, HDMI_PHY_SYS_CTL, 0x15);
-+static void inno_hdmi_power_up(struct inno_hdmi *hdmi)
+@@ -47,6 +58,8 @@ struct inno_hdmi {
+ 
+ 	struct inno_hdmi_i2c *i2c;
+ 	struct i2c_adapter *ddc;
++
++	const struct inno_hdmi_variant *variant;
+ };
+ 
+ struct inno_hdmi_connector_state {
+@@ -113,6 +126,30 @@ static const char coeff_csc[][24] = {
+ 	},
+ };
+ 
++static struct inno_hdmi_phy_config rk3036_hdmi_phy_configs[] = {
++	{  74250000, 0x3f, 0xbb },
++	{ 165000000, 0x6f, 0xbb },
++	{      ~0UL, 0x00, 0x00 }
++};
++
++static int inno_hdmi_find_phy_config(struct inno_hdmi *hdmi,
++				     unsigned long pixelclk)
 +{
-+	inno_hdmi_sys_power(hdmi, false);
- 
--		break;
-+	hdmi_writeb(hdmi, HDMI_PHY_PRE_EMPHASIS, 0x6f);
-+	hdmi_writeb(hdmi, HDMI_PHY_DRIVER, 0xbb);
-+	hdmi_writeb(hdmi, HDMI_PHY_SYS_CTL, 0x15);
-+	hdmi_writeb(hdmi, HDMI_PHY_SYS_CTL, 0x14);
-+	hdmi_writeb(hdmi, HDMI_PHY_SYS_CTL, 0x10);
-+	hdmi_writeb(hdmi, HDMI_PHY_CHG_PWR, 0x0f);
-+	hdmi_writeb(hdmi, HDMI_PHY_SYNC, 0x00);
-+	hdmi_writeb(hdmi, HDMI_PHY_SYNC, 0x01);
- 
--	default:
--		DRM_DEV_ERROR(hdmi->dev, "Unknown power mode %d\n", mode);
--	}
--}
-+	inno_hdmi_sys_power(hdmi, true);
-+};
- 
- static void inno_hdmi_reset(struct inno_hdmi *hdmi)
++	const struct inno_hdmi_phy_config *phy_configs =
++						hdmi->variant->phy_configs;
++	int i;
++
++	for (i = 0; phy_configs[i].pixelclock != ~0UL; i++) {
++		if (pixelclk <= phy_configs[i].pixelclock)
++			return i;
++	}
++
++	DRM_DEV_DEBUG(hdmi->dev, "No phy configuration for pixelclock %lu\n",
++		      pixelclk);
++
++	return -EINVAL;
++}
++
+ static inline u8 hdmi_readb(struct inno_hdmi *hdmi, u16 offset)
  {
-@@ -202,7 +195,7 @@ static void inno_hdmi_reset(struct inno_hdmi *hdmi)
- 	val = v_REG_CLK_INV | v_REG_CLK_SOURCE_SYS | v_PWR_ON | v_INT_POL_HIGH;
- 	hdmi_modb(hdmi, HDMI_SYS_CTRL, msk, val);
+ 	return readl_relaxed(hdmi->regs + (offset) * 0x04);
+@@ -164,12 +201,25 @@ static void inno_hdmi_standby(struct inno_hdmi *hdmi)
+ 	hdmi_writeb(hdmi, HDMI_PHY_SYS_CTL, 0x15);
+ };
  
--	inno_hdmi_set_pwr_mode(hdmi, LOWER_PWR);
-+	inno_hdmi_standby(hdmi);
- }
+-static void inno_hdmi_power_up(struct inno_hdmi *hdmi)
++static void inno_hdmi_power_up(struct inno_hdmi *hdmi,
++			       unsigned long mpixelclock)
+ {
++	struct inno_hdmi_phy_config *phy_config;
++	int ret = inno_hdmi_find_phy_config(hdmi, mpixelclock);
++
++	if (ret < 0) {
++		phy_config = hdmi->variant->default_phy_config;
++		DRM_DEV_ERROR(hdmi->dev,
++			      "Using default phy configuration for TMDS rate %lu",
++			      mpixelclock);
++	} else {
++		phy_config = &hdmi->variant->phy_configs[ret];
++	}
++
+ 	inno_hdmi_sys_power(hdmi, false);
  
- static void inno_hdmi_disable_frame(struct inno_hdmi *hdmi,
-@@ -441,6 +434,8 @@ static int inno_hdmi_setup(struct inno_hdmi *hdmi,
+-	hdmi_writeb(hdmi, HDMI_PHY_PRE_EMPHASIS, 0x6f);
+-	hdmi_writeb(hdmi, HDMI_PHY_DRIVER, 0xbb);
++	hdmi_writeb(hdmi, HDMI_PHY_PRE_EMPHASIS, phy_config->pre_emphasis);
++	hdmi_writeb(hdmi, HDMI_PHY_DRIVER, phy_config->voltage_level_control);
+ 	hdmi_writeb(hdmi, HDMI_PHY_SYS_CTL, 0x15);
+ 	hdmi_writeb(hdmi, HDMI_PHY_SYS_CTL, 0x14);
+ 	hdmi_writeb(hdmi, HDMI_PHY_SYS_CTL, 0x10);
+@@ -406,6 +456,7 @@ static int inno_hdmi_setup(struct inno_hdmi *hdmi,
+ 			   struct drm_display_mode *mode)
+ {
+ 	struct drm_display_info *display = &hdmi->connector.display_info;
++	unsigned long mpixelclock = mode->clock * 1000;
+ 
+ 	/* Mute video and audio output */
+ 	hdmi_modb(hdmi, HDMI_AV_MUTE, m_AUDIO_MUTE | m_VIDEO_BLACK,
+@@ -428,13 +479,13 @@ static int inno_hdmi_setup(struct inno_hdmi *hdmi,
+ 	 * DCLK_LCDC, so we need to init the TMDS rate to mode pixel
+ 	 * clock rate, and reconfigure the DDC clock.
+ 	 */
+-	inno_hdmi_i2c_init(hdmi, mode->clock * 1000);
++	inno_hdmi_i2c_init(hdmi, mpixelclock);
+ 
+ 	/* Unmute video and audio output */
  	hdmi_modb(hdmi, HDMI_AV_MUTE, m_AUDIO_MUTE | m_VIDEO_BLACK,
  		  v_AUDIO_MUTE(0) | v_VIDEO_MUTE(0));
  
-+	inno_hdmi_power_up(hdmi);
-+
+-	inno_hdmi_power_up(hdmi);
++	inno_hdmi_power_up(hdmi, mpixelclock);
+ 
  	return 0;
  }
+@@ -827,6 +878,7 @@ static int inno_hdmi_bind(struct device *dev, struct device *master,
+ 	struct platform_device *pdev = to_platform_device(dev);
+ 	struct drm_device *drm = data;
+ 	struct inno_hdmi *hdmi;
++	const struct inno_hdmi_variant *variant;
+ 	int irq;
+ 	int ret;
  
-@@ -460,7 +455,6 @@ static void inno_hdmi_encoder_enable(struct drm_encoder *encoder,
- 		return;
+@@ -836,6 +888,12 @@ static int inno_hdmi_bind(struct device *dev, struct device *master,
  
- 	inno_hdmi_setup(hdmi, &crtc_state->adjusted_mode);
--	inno_hdmi_set_pwr_mode(hdmi, NORMAL);
+ 	hdmi->dev = dev;
+ 
++	variant = of_device_get_match_data(hdmi->dev);
++	if (!variant)
++		return -EINVAL;
++
++	hdmi->variant = variant;
++
+ 	hdmi->regs = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(hdmi->regs))
+ 		return PTR_ERR(hdmi->regs);
+@@ -929,8 +987,14 @@ static void inno_hdmi_remove(struct platform_device *pdev)
+ 	component_del(&pdev->dev, &inno_hdmi_ops);
  }
  
- static void inno_hdmi_encoder_disable(struct drm_encoder *encoder,
-@@ -468,7 +462,7 @@ static void inno_hdmi_encoder_disable(struct drm_encoder *encoder,
- {
- 	struct inno_hdmi *hdmi = encoder_to_inno_hdmi(encoder);
- 
--	inno_hdmi_set_pwr_mode(hdmi, LOWER_PWR);
-+	inno_hdmi_standby(hdmi);
- }
- 
- static int
-diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.h b/drivers/gpu/drm/rockchip/inno_hdmi.h
-index 93245b55f967..a7edf3559e60 100644
---- a/drivers/gpu/drm/rockchip/inno_hdmi.h
-+++ b/drivers/gpu/drm/rockchip/inno_hdmi.h
-@@ -10,11 +10,6 @@
- 
- #define DDC_SEGMENT_ADDR		0x30
- 
--enum PWR_MODE {
--	NORMAL,
--	LOWER_PWR,
--};
--
- #define HDMI_SCL_RATE			(100*1000)
- #define DDC_BUS_FREQ_L			0x4b
- #define DDC_BUS_FREQ_H			0x4c
++static const struct inno_hdmi_variant rk3036_inno_hdmi_variant = {
++	.phy_configs = rk3036_hdmi_phy_configs,
++	.default_phy_config = &rk3036_hdmi_phy_configs[1],
++};
++
+ static const struct of_device_id inno_hdmi_dt_ids[] = {
+ 	{ .compatible = "rockchip,rk3036-inno-hdmi",
++	  .data = &rk3036_inno_hdmi_variant,
+ 	},
+ 	{},
+ };
 -- 
 2.43.0
 
