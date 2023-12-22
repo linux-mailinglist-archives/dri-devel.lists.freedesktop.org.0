@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25FB681CDC0
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 18:42:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9AFF81CDC5
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 18:42:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCD2C10E844;
-	Fri, 22 Dec 2023 17:42:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB5AF10E850;
+	Fri, 22 Dec 2023 17:42:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BEC610E7F8
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF5CC10E7F8
  for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 17:42:26 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id
- ffacd0b85a97d-3368abe1093so1458591f8f.2
+Received: by mail-wr1-x42c.google.com with SMTP id
+ ffacd0b85a97d-336755f1688so1824484f8f.0
  for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 09:42:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1703266944; x=1703871744; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1703266945; x=1703871745; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=U2HtmTELSCmQNqADg2Zx1cwuvSj7RPiUvZpCNIv/8+8=;
- b=PBDYCdN4Sn+/FfRpBwHQ9BRJBKmz839wdAOKrItorEgYcB1Mce1xUK3VYKV209tnqQ
- 33x7AX4cC2qNY7mEVP5hyuR/YJCzAuJnGPVwvf4Y4CmgRDFn4RjXctLWplX2CcfMcRn4
- YEaJbylUj3RXD3Xr6FISORnYuDKwQsGmOmu53oEY0Ex5CPLcckANHQB4XadRW2DEuH+q
- LqrwfzoXyTJtvJJ2i9+pNyvZ84nQQmbN2kqcYR6bDBRE9eT95peClzcqxPkn6qJyLwm/
- u9XrwVxAAm1ge9arR8tnfWftSKDI6lteOau9YuciuO24uw3vYvXlXFMs3TRBgX1Sx4kl
- NHIA==
+ bh=8AvJnFMeaIBZd6lDR2+1UVvuB0inJkI3zLE1woR+vGw=;
+ b=QTYzJsYfvx/wwA1quQJdOvjAU5Ji95wsEzSP5FN5XG+HWrWTrH5/n1zCRySrc7CX1M
+ PfNYWSBoob6EV0CzOowyiZRhZKIxvNP9xhNA8jyDHsWuuX62/gSs9Mljf9KBQmG3KZK+
+ ZBiZ9wCz+aTxByCfU3LbZLdPx+TIhLYOBDlR5AQ6WyQdWhfXBd+jGGZcwRsMI6oyLQ3X
+ ENCQ3hJVdxSbg/L7H+zbrkteXQFKl3mR/0fnFOj7goxBvhaMuzJ1BkIqzS+1029pOh9O
+ oXs9aKRWTFi52t4WtCwJk/gnXNNG74s5yxhRXkemX0+xzby1RAIqrr6yTAPYpN5SrWA3
+ XOsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1703266944; x=1703871744;
+ d=1e100.net; s=20230601; t=1703266945; x=1703871745;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=U2HtmTELSCmQNqADg2Zx1cwuvSj7RPiUvZpCNIv/8+8=;
- b=E1OXE7IiyRGHBE6Rcxp5mSwIzq2HXyYKJQ+hEO0ECetozNYjMs/70VF0zRLBAJ31dU
- rVofweo0vvMFMDtw+pYhqvEEuhOqMuFDaFZqRcZGNPF0TDmne6ZtBZx7PyGh+I42YpTi
- Ys1tS+zqGZdlTMC5blSYeGaep1TXwd/KvG0jIm3Fb95caVAQrSouTUt6dyutBkTGPjlR
- tv6TdTNRBdL/SHMsyeApaJkdpxmZj9vDtbru/u5q0p1ZJYRTF38zPptDr+LXdPr4J03G
- RcPcygr6KBr8BKT4NFIe0Ep3UPmgkDV8RsqgvvzXO1RfgjKVqj+spVSvfjP/TC3JGSdG
- 3POQ==
-X-Gm-Message-State: AOJu0YyrfCdVIfcGspCBd9TeQ08uWuQidSXAKX72XrKQ8UEwFhF7nf+Y
- kKQdShL02qKL4zvx/9vVRw==
-X-Google-Smtp-Source: AGHT+IFV/fIOXodbE6RmpDPeWLOnH4XmVWoyKpBmq+L8MCu5fyIARaUJmQScH13sxNwDp3moadiGgQ==
-X-Received: by 2002:adf:dd8c:0:b0:336:77a3:2fbf with SMTP id
- x12-20020adfdd8c000000b0033677a32fbfmr947364wrl.31.1703266944629; 
- Fri, 22 Dec 2023 09:42:24 -0800 (PST)
+ bh=8AvJnFMeaIBZd6lDR2+1UVvuB0inJkI3zLE1woR+vGw=;
+ b=UbquC3ePou1KFh7M3Myhtr9DjdsvgvvKgE0ix6LINYYVkUPJ8LCW4A3NRk1INXShRN
+ 6X9W6Lv2Qybp/mp9RHxvuhw4NTL+zy+OaPuKt2sAZDmtZfrEjWs0Yl46+DhRFtx2L/cT
+ NY0UtFrNmvAU373tkFi8IKmKMGVq0QYRUkzpwhS6T0npv+f+nqUwysYb5YQ99vzltaYv
+ XstRTWRBd4cKBmtRQbmywsAG9aSJlx9HawvHAMDZqOJN+ZKqFv5TmLyi1YirSmZUf/eV
+ GKKuFipiHYqjPtgFKli1+oTFe7Ccpg3DzKC5ngI1FuvpHgYVmBQwZJQ6MZRORcNGAQ3k
+ gIBw==
+X-Gm-Message-State: AOJu0YwxoECzToHHmUUGKZOU2wb8TNvHgjHpJUgM2W1Za4UVJ/ECfex2
+ avGrQj9qMKtwUqH9H0vtzw==
+X-Google-Smtp-Source: AGHT+IHILFPGV8bXVLgso5JM9ZKyQoow6IG9KXyZ1hSIhSMLEgPOaAW0iXyaQSbizVOd8/5R10rStQ==
+X-Received: by 2002:adf:f749:0:b0:336:8af1:5127 with SMTP id
+ z9-20020adff749000000b003368af15127mr1196473wrp.97.1703266945283; 
+ Fri, 22 Dec 2023 09:42:25 -0800 (PST)
 Received: from U4.lan ([2a02:810b:f40:4300:f3ae:2788:7e03:f44])
  by smtp.gmail.com with ESMTPSA id
  w10-20020adfec4a000000b00336670abdcasm4777116wrn.40.2023.12.22.09.42.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Dec 2023 09:42:24 -0800 (PST)
+ Fri, 22 Dec 2023 09:42:25 -0800 (PST)
 From: Alex Bee <knaerzche@gmail.com>
 To: Sandy Huang <hjc@rock-chips.com>,
  =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
@@ -59,9 +59,9 @@ To: Sandy Huang <hjc@rock-chips.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>
-Subject: [PATCH v4 03/29] drm/rockchip: inno_hdmi: Fix video timing
-Date: Fri, 22 Dec 2023 18:41:54 +0100
-Message-ID: <20231222174220.55249-4-knaerzche@gmail.com>
+Subject: [PATCH v4 04/29] drm/rockchip: inno_hdmi: Remove useless mode_fixup
+Date: Fri, 22 Dec 2023 18:41:55 +0100
+Message-ID: <20231222174220.55249-5-knaerzche@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231222174220.55249-1-knaerzche@gmail.com>
 References: <20231222174220.55249-1-knaerzche@gmail.com>
@@ -82,55 +82,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Alex Bee <knaerzche@gmail.com>,
  linux-rockchip@lists.infradead.org, David Airlie <airlied@gmail.com>,
- linux-arm-kernel@lists.infradead.org, Zheng Yang <zhengyang@rock-chips.com>
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The controller wants the difference between *total and *sync_start in the
-HDMI_VIDEO_EXT_*DELAY registers. Otherwise the signal is very unstable for
-certain non-VIC modes. See downstream commit [0].
+From: Maxime Ripard <mripard@kernel.org>
 
-[0] https://github.com/rockchip-linux/kernel/commit/8eb559f2502c
+The mode_fixup implementation doesn't do anything, so we can simply
+remove it.
 
-Fixes: 412d4ae6b7a5 ("drm/rockchip: hdmi: add Innosilicon HDMI support")
-Co-developed-by: Zheng Yang <zhengyang@rock-chips.com>
-Signed-off-by: Zheng Yang <zhengyang@rock-chips.com>
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+Tested-by: Alex Bee <knaerzche@gmail.com>
 Signed-off-by: Alex Bee <knaerzche@gmail.com>
 ---
 changes in v2:
- - none
+ - imported patch
 
 changes in v3:
- - none
+ - added my SoB
 
 changes in v4:
  - none
 
- drivers/gpu/drm/rockchip/inno_hdmi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/rockchip/inno_hdmi.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
-index 6e5b922a121e..345253e033c5 100644
+index 345253e033c5..0b1740b38c7b 100644
 --- a/drivers/gpu/drm/rockchip/inno_hdmi.c
 +++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
-@@ -412,7 +412,7 @@ static int inno_hdmi_config_video_timing(struct inno_hdmi *hdmi,
- 	hdmi_writeb(hdmi, HDMI_VIDEO_EXT_HBLANK_L, value & 0xFF);
- 	hdmi_writeb(hdmi, HDMI_VIDEO_EXT_HBLANK_H, (value >> 8) & 0xFF);
+@@ -517,13 +517,6 @@ static void inno_hdmi_encoder_disable(struct drm_encoder *encoder)
+ 	inno_hdmi_set_pwr_mode(hdmi, LOWER_PWR);
+ }
  
--	value = mode->hsync_start - mode->hdisplay;
-+	value = mode->htotal - mode->hsync_start;
- 	hdmi_writeb(hdmi, HDMI_VIDEO_EXT_HDELAY_L, value & 0xFF);
- 	hdmi_writeb(hdmi, HDMI_VIDEO_EXT_HDELAY_H, (value >> 8) & 0xFF);
- 
-@@ -427,7 +427,7 @@ static int inno_hdmi_config_video_timing(struct inno_hdmi *hdmi,
- 	value = mode->vtotal - mode->vdisplay;
- 	hdmi_writeb(hdmi, HDMI_VIDEO_EXT_VBLANK, value & 0xFF);
- 
--	value = mode->vsync_start - mode->vdisplay;
-+	value = mode->vtotal - mode->vsync_start;
- 	hdmi_writeb(hdmi, HDMI_VIDEO_EXT_VDELAY, value & 0xFF);
- 
- 	value = mode->vsync_end - mode->vsync_start;
+-static bool inno_hdmi_encoder_mode_fixup(struct drm_encoder *encoder,
+-					 const struct drm_display_mode *mode,
+-					 struct drm_display_mode *adj_mode)
+-{
+-	return true;
+-}
+-
+ static int
+ inno_hdmi_encoder_atomic_check(struct drm_encoder *encoder,
+ 			       struct drm_crtc_state *crtc_state,
+@@ -540,7 +533,6 @@ inno_hdmi_encoder_atomic_check(struct drm_encoder *encoder,
+ static struct drm_encoder_helper_funcs inno_hdmi_encoder_helper_funcs = {
+ 	.enable     = inno_hdmi_encoder_enable,
+ 	.disable    = inno_hdmi_encoder_disable,
+-	.mode_fixup = inno_hdmi_encoder_mode_fixup,
+ 	.mode_set   = inno_hdmi_encoder_mode_set,
+ 	.atomic_check = inno_hdmi_encoder_atomic_check,
+ };
 -- 
 2.43.0
 
