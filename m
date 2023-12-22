@@ -1,55 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 319B181CDB2
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 18:42:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B590E81CDB3
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 18:42:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 313A910E142;
-	Fri, 22 Dec 2023 17:42:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F030010E7F8;
+	Fri, 22 Dec 2023 17:42:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36BA210E142
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 17:42:23 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id
- ffacd0b85a97d-33697caf9a6so422935f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 09:42:23 -0800 (PST)
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E48210E7F8
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 17:42:24 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id
+ ffacd0b85a97d-336990fb8fbso479603f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 09:42:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1703266941; x=1703871741; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=hHFkedPmax7f2jMznqg0TqRbSWkPKtd98J+qp1ddTP0=;
- b=Dv8M5ulg1GwNW2K9v5wWFniXFMjsItFBZJYPAXnUIUEnZFE4Q9UEBzt3dfbKAd08aQ
- mCLP6ixduxXlN8xhBwIccBFZboyfo44gm5vlHFK9yXQ2r+eWTTINDdzD4PPWtUJvm4NM
- fBY6D0mqyd+GotYkyHIb0jsgigBdjzWqC8T9O2ey4ocyshf9R+VBc3c9MMavdy1h0n/Q
- 0vuqcFqevCMebSkbrUxmPMZqKkfDGywZmFHicRVY6M3xHR3ittrAvDY7daNCfHJuP49Z
- w1hjPVHRdTd/jQC8ATqOD/OpDIMRR5J664enzz8j+FphyyyNOvB1hnpEPq3mqazL80dd
- v8Kg==
+ d=gmail.com; s=20230601; t=1703266943; x=1703871743; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xcMMn1wo5ecoqzzFfZ/NThvc+Exg7NREzlaFXx0npiA=;
+ b=f0J7evQ2s9nsAQPWsg+20cyvzNKuYz1w1j6fgt0afH1vh9Nb3hNQMYhT374XSpKkgt
+ UbdaoHGmxuKnWzWHMKBDawdXN7R4+pOWuh5uCLUGY1ycR/g1B7nuo19QYNFRTZV0Ovvk
+ WKNuyfD7peSwt6Iu2VYGIOJlYCyRo9f/+wweAJmrnCpTHPYZqfLri5KWAYlPy4o2oOsH
+ y3TwPGm6TtE/o2Bll+rfdbdlAcxPAhE1TEE8piA5oNIB4jVZbipEKa3/OaQn9ABYoMwu
+ mdlF0YGEOcKd7OUYFW4yZz/YVKIpVTw25yQEyQE6V2k62hoOtSI15svW6uqv1J0vLeQ7
+ /oEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1703266941; x=1703871741;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=hHFkedPmax7f2jMznqg0TqRbSWkPKtd98J+qp1ddTP0=;
- b=S302fWCt0BvZdYUYo/KbsqIG80aw/xmAfCIUgiBOWbLBwwmL9W6EwI0GGD2zOH3ezg
- G/suZCMZoKkWXT5r0HUvgfwnKIgRiJdJdtcsbJZInPn9aPCIF2GGXt3+jtb1wiNMuoCq
- gf5HkV275UEPx5iorMg1/bDYqzQCYc4YZB2QpDRfhhBgbg0eqNulVMnXZXc6FzqB4ejA
- LelHmStzJegy4WWMuKh8ughAkqnshjAJ+hE9hkq82LDoH26vgwHRIORncjKHAHW+/egf
- HMrs0WDLlV1IzORHlWCjTFJQn0IpJp2yvljxIXj3Ym00N21JxWBrqUpY4uzehpSZFC/Z
- OxyQ==
-X-Gm-Message-State: AOJu0YxE13nHHaiOOlqwT2wNGGPKuc/lwySxFYy/DU2Fr4xUE8ntBuM6
- npsl6oNWLouXVbRC1i3GzA==
-X-Google-Smtp-Source: AGHT+IHwJ7vKkIduWkKIJWTuwfloN+HwqKIaLADdUtYCaF29vwkh72hGBlvXCgEZafcU5IlivtWLFw==
-X-Received: by 2002:a5d:6102:0:b0:336:5bc1:f53 with SMTP id
- v2-20020a5d6102000000b003365bc10f53mr1693282wrt.10.1703266941511; 
- Fri, 22 Dec 2023 09:42:21 -0800 (PST)
+ d=1e100.net; s=20230601; t=1703266943; x=1703871743;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=xcMMn1wo5ecoqzzFfZ/NThvc+Exg7NREzlaFXx0npiA=;
+ b=fann5j5o/68u+7aATSN9QrzIH8RPIAW1VrXJ3IbDRO/ANKBJsSvD9I83AY/545++2W
+ 5P7CQe8igXgnPhyGyRrlyZloQln1v1VBQhv9VNK4KWeVSuEFWI1IkAXGOLQ9iS7EOmtp
+ +Km/Q4G8dqekMByVnbr13o1i9gLPOCePUT6ChHOnzM605TFNeNxNLp3YevSTV7BK5mX4
+ eT9EEUYV80xNqinIdXu7DKncLBi+tEWGiJzEaeUtSjscm06KqWqTgcUX7LO/ojPXRx/C
+ 7Vd+iQuaGaDGF/suix4FcmBLrvxHpWNEweQBfKp/3B0BCCSAfpNEXabuy5TLPktcKm2A
+ R8OQ==
+X-Gm-Message-State: AOJu0YzfhwwNsNtMgm1AZwycgvZ64oyP/baxRXz6pnxWUMIcVN3Om86+
+ Nl14SzGl7YbpK68kTlxVLA==
+X-Google-Smtp-Source: AGHT+IH55tOdjFEvsimvQ0AWwkhlparYzELlSEvcxba6ID4XqVa/0ncC9dCVT9baJ10rAbzbikAuQg==
+X-Received: by 2002:a5d:6546:0:b0:336:7794:4475 with SMTP id
+ z6-20020a5d6546000000b0033677944475mr992813wrv.109.1703266943072; 
+ Fri, 22 Dec 2023 09:42:23 -0800 (PST)
 Received: from U4.lan ([2a02:810b:f40:4300:f3ae:2788:7e03:f44])
  by smtp.gmail.com with ESMTPSA id
- w10-20020adfec4a000000b00336670abdcasm4777116wrn.40.2023.12.22.09.42.20
+ w10-20020adfec4a000000b00336670abdcasm4777116wrn.40.2023.12.22.09.42.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Dec 2023 09:42:21 -0800 (PST)
+ Fri, 22 Dec 2023 09:42:22 -0800 (PST)
 From: Alex Bee <knaerzche@gmail.com>
 To: Sandy Huang <hjc@rock-chips.com>,
  =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
@@ -58,12 +59,14 @@ To: Sandy Huang <hjc@rock-chips.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>
-Subject: [PATCH v4 00/29]  Add HDMI support for RK3128
-Date: Fri, 22 Dec 2023 18:41:51 +0100
-Message-ID: <20231222174220.55249-1-knaerzche@gmail.com>
+Subject: [PATCH v4 01/29] dt-bindings: display: rockchip,
+ inno-hdmi: Document RK3128 compatible
+Date: Fri, 22 Dec 2023 18:41:52 +0100
+Message-ID: <20231222174220.55249-2-knaerzche@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20231222174220.55249-1-knaerzche@gmail.com>
+References: <20231222174220.55249-1-knaerzche@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,99 +82,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Alex Bee <knaerzche@gmail.com>,
- linux-rockchip@lists.infradead.org, David Airlie <airlied@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+ linux-rockchip@lists.infradead.org, Conor Dooley <conor.dooley@microchip.com>,
+ David Airlie <airlied@gmail.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is version 4 of my series that aims to add support for the display
-controller (VOP) and the HDMI controller block of RK3128 (which is very
-similar to the one found in RK3036). The original intention of this series
-was to add support for this slightly different integration but is by now,
-driven by maintainer's feedback, exploded to be a rework of inno-hdmi
-driver in large parts. It is, however, a change for the better.
+The integration for this SoC is different from the currently existing: It
+needs it's PHY's reference clock rate to calculate the DDC bus frequency
+correctly. The controller is also part of a powerdomain, so this gets added
+as an mandatory property for this variant.
 
-The VOP part is very simple -  everything we need for HDMI support is
-already there. I only needed to split the output selection registers from
-RK3036. The VOP has an IOMMU attached, but it has a serious silicon bug:
-Registers can only be written, but not be read. As it's not possible to use
-it with the IOMMU driver in it's current state I'm not adding it here and
-we have to live with CMA for now - which works fine also. I got response
-from the vendor, that there is no possibility to read the registers and an
-workaround must be implemented in software in order to use it.
+Signed-off-by: Alex Bee <knaerzche@gmail.com>
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+---
+changes in v2:
+ - clarify that the controller itself is part of the powerdomain
+ - simplify clock-names
+ - made power-domains property only allowed (and required) for new variant
 
-The inno-hdmi driver currently gets a lot of attention [0-2] and I'm
-hooking in now also. As requested I incorporated some of Maxime's series
-[0] (and tested them).
-I have intentionally not removed any code dealing with output format
-conversion in this series. In contrast to the input format, which is always
-RGB on this platform and certainly can be dropped, that can be implemented
-later. And secondly I need the conversion for RGB full range to RGB limited
-range for this series.
+changes in v3:
+ - collect RB
 
-I did also some smaller driver cleanups from my side and implemented a
-custom connector state which now holds the data that belongs there and it
-is not longer in the device structure and, of course, addressed the
-feedback from v1 [3] and v2 [4].
-There hasn't been any feedback to v3[5] so far, but I fixed an issue with
-the new custom connector reset hook: If there is a connector state already
-it needs to be destroyed in there as well.
+changes in v4:
+ - none
 
-Please see individual patches for detailed changelog.
+ .../display/rockchip/rockchip,inno-hdmi.yaml  | 40 ++++++++++++++++++-
+ 1 file changed, 38 insertions(+), 2 deletions(-)
 
-Note: Patches are based and tested on next-20231213.
-
-[0] https://lore.kernel.org/all/20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org
-[1] https://lore.kernel.org/all/20231204123315.28456-1-keith.zhao@starfivetech.com
-[2] https://lore.kernel.org/all/2601b669-c570-f39d-8cf9-bff56c939912@gmail.com
-[3] https://lore.kernel.org/all/20231213195125.212923-1-knaerzche@gmail.com/
-[4] https://lore.kernel.org/all/20231216162639.125215-1-knaerzche@gmail.com/
-[5] https://lore.kernel.org/all/20231219170100.188800-1-knaerzche@gmail.com/
-
-Alex Bee (17):
-  dt-bindings: display: rockchip,inno-hdmi: Document RK3128 compatible
-  drm/rockchip: vop: Add output selection registers for RK312x
-  drm/rockchip: inno_hdmi: Fix video timing
-  drm/rockchip: inno_hdmi: Remove YUV-based csc coefficents
-  drm/rockchip: inno_hdmi: Drop irq struct member
-  drm/rockchip: inno_hdmi: Remove useless include
-  drm/rockchip: inno_hdmi: Subclass connector state
-  drm/rockchip: inno_hdmi: Correctly setup HDMI quantization range
-  drm/rockchip: inno_hdmi: Don't power up the phy after resetting
-  drm/rockchip: inno_hdmi: Split power mode setting
-  drm/rockchip: inno_hdmi: Add variant support
-  drm/rockchip: inno_hdmi: Add RK3128 support
-  drm/rockchip: inno_hdmi: Add basic mode validation
-  drm/rockchip: inno_hdmi: Drop custom fill_modes hook
-  ARM: dts: rockchip: Add display subsystem for RK3128
-  ARM: dts: rockchip: Add HDMI node for RK3128
-  ARM: dts: rockchip: Enable HDMI output for XPI-3128
-
-Maxime Ripard (12):
-  drm/rockchip: inno_hdmi: Remove useless mode_fixup
-  drm/rockchip: inno_hdmi: Remove useless copy of drm_display_mode
-  drm/rockchip: inno_hdmi: Switch encoder hooks to atomic
-  drm/rockchip: inno_hdmi: Get rid of mode_set
-  drm/rockchip: inno_hdmi: no need to store vic
-  drm/rockchip: inno_hdmi: Remove unneeded has audio flag
-  drm/rockchip: inno_hdmi: Remove useless input format
-  drm/rockchip: inno_hdmi: Remove tmds rate from structure
-  drm/rockchip: inno_hdmi: Drop HDMI Vendor Infoframe support
-  drm/rockchip: inno_hdmi: Move infoframe disable to separate function
-  drm/rockchip: inno_hdmi: Switch to infoframe type
-  drm/rockchip: inno_hdmi: Remove unused drm device pointer
-
- .../display/rockchip/rockchip,inno-hdmi.yaml  |  40 +-
- .../arm/boot/dts/rockchip/rk3128-xpi-3128.dts |  29 +
- arch/arm/boot/dts/rockchip/rk3128.dtsi        |  60 ++
- drivers/gpu/drm/rockchip/inno_hdmi.c          | 549 +++++++++++-------
- drivers/gpu/drm/rockchip/inno_hdmi.h          |   5 -
- drivers/gpu/drm/rockchip/rockchip_vop_reg.c   |  13 +-
- drivers/gpu/drm/rockchip/rockchip_vop_reg.h   |   3 +
- 7 files changed, 484 insertions(+), 215 deletions(-)
-
-
-base-commit: 48e8992e33abf054bcc0bb2e77b2d43bb899212e
+diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,inno-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,inno-hdmi.yaml
+index 96889c86849a..be78dcfa1c76 100644
+--- a/Documentation/devicetree/bindings/display/rockchip/rockchip,inno-hdmi.yaml
++++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,inno-hdmi.yaml
+@@ -14,6 +14,7 @@ properties:
+   compatible:
+     enum:
+       - rockchip,rk3036-inno-hdmi
++      - rockchip,rk3128-inno-hdmi
+ 
+   reg:
+     maxItems: 1
+@@ -22,10 +23,19 @@ properties:
+     maxItems: 1
+ 
+   clocks:
+-    maxItems: 1
++    minItems: 1
++    items:
++      - description: The HDMI controller main clock
++      - description: The HDMI PHY reference clock
+ 
+   clock-names:
+-    const: pclk
++    minItems: 1
++    items:
++      - const: pclk
++      - const: ref
++
++  power-domains:
++    maxItems: 1
+ 
+   ports:
+     $ref: /schemas/graph.yaml#/properties/ports
+@@ -55,6 +65,32 @@ required:
+   - pinctrl-names
+   - ports
+ 
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: rockchip,rk3036-inno-hdmi
++
++    then:
++      properties:
++        power-domains: false
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: rockchip,rk3128-inno-hdmi
++
++    then:
++      properties:
++        clocks:
++          minItems: 2
++        clock-names:
++          minItems: 2
++      required:
++        - power-domains
++
+ additionalProperties: false
+ 
+ examples:
 -- 
 2.43.0
 
