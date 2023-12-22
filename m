@@ -1,124 +1,142 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21CCC81CC8C
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 17:07:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 472AA81CCFB
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 17:28:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9814310E7B0;
-	Fri, 22 Dec 2023 16:07:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2810C10E7C5;
+	Fri, 22 Dec 2023 16:28:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1A7E10E7B0
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 16:07:34 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id
- 2adb3069b0e04-50e4a637958so2480835e87.2
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 08:07:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1703261253; x=1703866053; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=B+wXRXUTOZMyl1LFRrfsL0kKZmHY+nM2UvjNpacptSo=;
- b=IJBE82YcL3NvNruVIiZApoOT31mExnabPGWwrnPrkotH2yctLDblOvSfm0Hc6aJeTu
- TU7HBbSb4yuUYXicWvNjmpQiCVF2k1pJz+EPCbgMfbVRkiqCChuKKIywOsW2e8qO1vtg
- gQst4MM44n8d6TvX4qahn49aApwfkaAAHDidNpGtpKWnRn4585PmK63AVyk0oo9x1HI+
- nHzGfR510WTqEma/iz9+M5I6D2jaVYi1IGhxdpymOUbvCGYZkD5SzryruSa5N8GwC/hf
- UvZYfNYXOp9sUtbvgI5fQerqJSGxUZdeMSBOsueoTq7yNZJ2xGh9G21a+TgcSjjLUU2/
- dKFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1703261253; x=1703866053;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=B+wXRXUTOZMyl1LFRrfsL0kKZmHY+nM2UvjNpacptSo=;
- b=N1eqkTUv10fAMUKsYhV/lCbBo8VBTA6hYhJymz6yUd1lKhAYmGuAGw+URCN8BWbO1a
- yteZMtYrlW5d4m1UIMrdyhgimRvwXQkq6bCbdkC72xk28vGc4gpdxTcDMOarT3zBN4Io
- tbXaTivHYd+uFKXGfreXUdsNEiocEb+4oaRHmT/9667hKUXgdNAljaZOoy+ssskzfq4n
- XvCijaH2rOJNNouXkYsRU+vS3BPE1g9I1VSWRu7Xaz+ilRKuW2AehD4SQm1242Qdsvsn
- JH7ASlpGpkooycNfx6tJfLc3obzIMk+q8Ac7OdM60DMEWgjYu6FIj5te+xcrMW9EitMJ
- 6vug==
-X-Gm-Message-State: AOJu0Yz0I7b/rZ+U0HyZqktjm6ZdFfY0J1Srm07u3JWi9AgFTILxq95P
- gYmIDGigSzAL0B0x48fn7jTWUUbal+Nhyw==
-X-Google-Smtp-Source: AGHT+IG9zmrWqdLHelPmE88vblgo1ArESfXchHRQ7uFdNxlL7DHEWhHb84tBucYdOTEMaOyk6ACT4g==
-X-Received: by 2002:a19:700e:0:b0:50e:5a39:bbeb with SMTP id
- h14-20020a19700e000000b0050e5a39bbebmr430335lfc.173.1703261253060; 
- Fri, 22 Dec 2023 08:07:33 -0800 (PST)
-Received: from [192.168.0.22] ([78.10.206.178])
- by smtp.gmail.com with ESMTPSA id
- zr16-20020a170907711000b00a26af905229sm1269203ejb.29.2023.12.22.08.07.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Dec 2023 08:07:32 -0800 (PST)
-Message-ID: <d59a60d9-6bd3-4945-a345-0b01eaf1ead8@linaro.org>
-Date: Fri, 22 Dec 2023 17:07:31 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFB4E10E798;
+ Fri, 22 Dec 2023 16:28:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1703262515; x=1734798515;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=BzuFRwrbvkZ5NBUall44xmhrSoW/AFp28SN1QSraeMA=;
+ b=ASko+KJ+qvMVwZnou7McY709wcyKPKjnKS9cR0EsfacfgYlbzKtozB8n
+ V7NOAniZXeH58k4XJwgY+9mG8f9se2V3lm1XWKKXnM9muHLZuuvPUCwqj
+ Qk3JC8nicceJyLgvNLueHGEO7h8UVWH3FM4CE4pMmesIuunqV9QTezqD6
+ ugf7cTde1Umt0HPZgyDp1H2ZyxAikTmNuLIZrgN3XCgVR6gLoEVii2hp8
+ C7lIN271vLuFWHRrpH+aDMKHiqF3E7rfEKs9yDDbGdJziDcqRYZyu9/jO
+ wnonQwazDb9DbKgJD4H1VeNm2xJDgP+82n5kCHvY8eWB+p4bd7D4yislm w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="395024406"
+X-IronPort-AV: E=Sophos;i="6.04,297,1695711600"; d="scan'208";a="395024406"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Dec 2023 08:28:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="777081237"
+X-IronPort-AV: E=Sophos;i="6.04,297,1695711600"; d="scan'208";a="777081237"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orsmga002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 22 Dec 2023 08:28:34 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Fri, 22 Dec 2023 08:28:34 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Fri, 22 Dec 2023 08:28:33 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Fri, 22 Dec 2023 08:28:33 -0800
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.41) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Fri, 22 Dec 2023 08:28:33 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CwSD9dQGZ4wv9LKpATbgVAeBKCcClP9EvttYiKPm/3nS7E1d0llN6nXhgvU+0e4LKX+sPGP47oMVV6qGJP7nZehgf80kAdjtAhA4PVyWinQjCM6wOJKA52bUahbLZQT0ojEWoqyXTwrL5TWUjHURyXuNbUL/SC41yIhozu6yHPFep5FnkYn9DIWS39B6k08rVWgN8+AoJQPY0VCCzWxIuXqgLbPrjVRxZTc9PsRg/owfwY54xuXi8aMTGvVXM06PuElENclodCU9lcZkFjC1lTlIa6Q7wS/3wJ+k6u75vO+sGEOFmq+g6BYrHC72Dbdg2Z2ssIRSkuCzA1O5PsW+Jg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iEp1UxcklIkMVAC9OfGCVeb73fQNSos84FyHwc7QimI=;
+ b=h+ya9PPgN6APlxtLyS73rJuiJ0xRpS5W/wmoNNapG8jDtVROY4niLDRHTSDyv6pmHuiv72NWt8pSIQwYs4yldbCjtab9g8k4sMcR1z3hoTsxMZdnMZaN+kFxL/1bAn7/2Oqsw+qI98iJWZCdu5Antx7Vnl1VotYSNp1NOCAJDkeCjVxLD8oONSTNmAFD4bAiampOka/u0lOFTxanP99HQ7rf+bOgXHgMzHbaFOvsAqPm8HH8Z9JBvujwfLRMNWuXX9Awd6c+ncPisuQyH0xzn/fZXyz7xHclAzkhcnqkGdNm8rgNi2LoTCmEM1l1GjUbWXPdd5esgCYX995A0T76Ow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by PH8PR11MB8285.namprd11.prod.outlook.com (2603:10b6:510:1c5::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7113.18; Fri, 22 Dec
+ 2023 16:28:31 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::b870:a8ae:c4f1:c39b]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::b870:a8ae:c4f1:c39b%4]) with mapi id 15.20.7113.019; Fri, 22 Dec 2023
+ 16:28:31 +0000
+Date: Fri, 22 Dec 2023 10:28:27 -0600
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Subject: Re: [PATCH] nightly.conf: Add the xe repo to drm-tip
+Message-ID: <ofbaryl76bbqcaqu2g5lvbre2ny7xtkz74eh4muunvkhcioibr@76qwoychzxmh>
+References: <20231222113640.14038-1-thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset="iso-8859-1"; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231222113640.14038-1-thomas.hellstrom@linux.intel.com>
+X-ClientProxiedBy: SJ0PR13CA0134.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c6::19) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/6] arm64: dts: rockchip: Fix some dtb-check warnings
-Content-Language: en-US
-To: Manuel Traut <manut@mecka.net>, Neil Armstrong
- <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
- Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Sandy Huang <hjc@rock-chips.com>, Mark Yao <markyao0591@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>, Segfault
- <awarnecke002@hotmail.com>, Arnaud Ferraris <aferraris@debian.org>
-References: <20231222-pinetab2-v1-0-e148a7f61bd1@mecka.net>
- <20231222-pinetab2-v1-5-e148a7f61bd1@mecka.net>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTRLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+wsGUBBMBCgA+FiEE
- m9B+DgxR+NWWd7dUG5NDfTtBYpsFAmI+BxMCGwMFCRRfreEFCwkIBwIGFQoJCAsCBBYCAwEC
- HgECF4AACgkQG5NDfTtBYptgbhAAjAGunRoOTduBeC7V6GGOQMYIT5n3OuDSzG1oZyM4kyvO
- XeodvvYv49/ng473E8ZFhXfrre+c1olbr1A8pnz9vKVQs9JGVa6wwr/6ddH7/yvcaCQnHRPK
- mnXyP2BViBlyDWQ71UC3N12YCoHE2cVmfrn4JeyK/gHCvcW3hUW4i5rMd5M5WZAeiJj3rvYh
- v8WMKDJOtZFXxwaYGbvFJNDdvdTHc2x2fGaWwmXMJn2xs1ZyFAeHQvrp49mS6PBQZzcx0XL5
- cU9ZjhzOZDn6Apv45/C/lUJvPc3lo/pr5cmlOvPq1AsP6/xRXsEFX/SdvdxJ8w9KtGaxdJuf
- rpzLQ8Ht+H0lY2On1duYhmro8WglOypHy+TusYrDEry2qDNlc/bApQKtd9uqyDZ+rx8bGxyY
- qBP6bvsQx5YACI4p8R0J43tSqWwJTP/R5oPRQW2O1Ye1DEcdeyzZfifrQz58aoZrVQq+innR
- aDwu8qDB5UgmMQ7cjDSeAQABdghq7pqrA4P8lkA7qTG+aw8Z21OoAyZdUNm8NWJoQy8m4nUP
- gmeeQPRc0vjp5JkYPgTqwf08cluqO6vQuYL2YmwVBIbO7cE7LNGkPDA3RYMu+zPY9UUi/ln5
- dcKuEStFZ5eqVyqVoZ9eu3RTCGIXAHe1NcfcMT9HT0DPp3+ieTxFx6RjY3kYTGLOwU0EVUNc
- NAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDyfv4dEKuCqeh0
- hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOGmLPRIBkXHqJY
- oHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6H79LIsiYqf92
- H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4argt4e+jum3Nwt
- yupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8nO2N5OsFJOcd
- 5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFFknCmLpowhct9
- 5ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz7fMkcaZU+ok/
- +HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgNyxBZepj41oVq
- FPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMip+12jgw4mGjy
- 5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYCGwwWIQSb0H4O
- DFH41ZZ3t1Qbk0N9O0FimwUCYDzvagUJFF+UtgAKCRAbk0N9O0Fim9JzD/0auoGtUu4mgnna
- oEEpQEOjgT7l9TVuO3Qa/SeH+E0m55y5Fjpp6ZToc481za3xAcxK/BtIX5Wn1mQ6+szfrJQ6
- 59y2io437BeuWIRjQniSxHz1kgtFECiV30yHRgOoQlzUea7FgsnuWdstgfWi6LxstswEzxLZ
- Sj1EqpXYZE4uLjh6dW292sO+j4LEqPYr53hyV4I2LPmptPE9Rb9yCTAbSUlzgjiyyjuXhcwM
- qf3lzsm02y7Ooq+ERVKiJzlvLd9tSe4jRx6Z6LMXhB21fa5DGs/tHAcUF35hSJrvMJzPT/+u
- /oVmYDFZkbLlqs2XpWaVCo2jv8+iHxZZ9FL7F6AHFzqEFdqGnJQqmEApiRqH6b4jRBOgJ+cY
- qc+rJggwMQcJL9F+oDm3wX47nr6jIsEB5ZftdybIzpMZ5V9v45lUwmdnMrSzZVgC4jRGXzsU
- EViBQt2CopXtHtYfPAO5nAkIvKSNp3jmGxZw4aTc5xoAZBLo0OV+Ezo71pg3AYvq0a3/oGRG
- KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
- fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231222-pinetab2-v1-5-e148a7f61bd1@mecka.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|PH8PR11MB8285:EE_
+X-MS-Office365-Filtering-Correlation-Id: 85c2e656-bb5c-46d3-dc5a-08dc030b0922
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: k6hg2Jsi6c8oY9HtckwVZG7q59l6XlARmFMaIMsco82OU9473fVE9/HN9IzGNFo6s7sBTHKW52kbg6JwpGfPw42YVlmR73ANr/oF2SN8JYK7DgOOqmOG8SZzcwEKI/Ap6O4kV3em7/cNAGLuoYB7woBk5GI1HbMF3QUzWTxpsQ54r3jWlj8z1a+gEa5FBoQs9xPkTvw5mgmNchv91zbw5BNBW42lUyKv427HT1iJTDbUotWSWUSYTvwz5U/EpZcvnajtNp7pR4uD/lGtB+pGU1R2FytaRTjKkBm3R9STNMyXAImgxY5pq60TtvwqDLGe+cyK9kh9JI3k34i1IqIAM8JXYJeOrDXxLqzDhYHQgWIuPd9OVf0+GnzYNrG6Xvzn5o9znnQZV/GkcKe8/S8g/ge6EegNORmdvaBgjIiAVylWLjBARI/fveIDYlr7Lj1sNEd1CM936R6CRpYm4X8wWAK0cmrLd3qXrsuVBhi0KqZwvglUyDGA+XkDIEiXLkmYYV3k6FGLNjP+YtcgcpHoYh1OmbKPZ+Gl26yvz8OAF+Y=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(7916004)(396003)(366004)(376002)(346002)(39860400002)(136003)(230922051799003)(186009)(1800799012)(451199024)(64100799003)(966005)(5660300002)(6666004)(6512007)(6506007)(478600001)(9686003)(6486002)(26005)(66574015)(83380400001)(8676002)(4326008)(8936002)(41300700001)(2906002)(86362001)(33716001)(38100700002)(66556008)(66476007)(66946007)(6916009)(316002)(82960400001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?q2Ru9M7j3pOUTN3bIEoZZOuAwkIkVAowUFjqSAOO++PPBUJjof6jLLrWXm?=
+ =?iso-8859-1?Q?ooSn9fPqHtTzU9ckzah111BzT6jR4h/keIZAHRGBYC1Ls3k16uKtiH4WrE?=
+ =?iso-8859-1?Q?8/x2DF4jNi4MyYx/KKu5EKEbLheNxnrGERPYE69t4aza6yNWcYpkoQjeJX?=
+ =?iso-8859-1?Q?Mkaa0NEv7rAOFasmADfPmlVSobeVHLXpftGWSy0YpVirZ0QcwKXq5NwtaD?=
+ =?iso-8859-1?Q?Rhz9vsSRi+fh/MaYVsFOaEnCOqP94hq8xGj9k1sQPV378FKpOqZUbf7p1o?=
+ =?iso-8859-1?Q?jwNLOA3NM4rxQtyYg+rolvmWNgOKZ4Pa9xcsC1v5udV1cPb4bBVyWs0+Sn?=
+ =?iso-8859-1?Q?cZxCLddWzzDbc2vv0h0lzdwOvuE9MNhrKFDUPcoX+33KHGt97/sHTQV+vQ?=
+ =?iso-8859-1?Q?DxBILyo82gFC3WFfdY0hlGOWSZX/gaQUWsRFLKUHX3s1wJVgZcLXSCMEAv?=
+ =?iso-8859-1?Q?GHoBTjOERUTx5H06O0k22cNWfkOkn9BZamuzn/GEKxfia4COjiA8ZjhGls?=
+ =?iso-8859-1?Q?YNE7nkVe1O/Io2mOoXfQ1EoSz7RdgvkUuzZIOmxI0v2878JxRtzU5nuBtu?=
+ =?iso-8859-1?Q?oigMgG7UPX/sqNsK72ZHhro8HIwOXW/VyonbNOZBwq82wlZ7QJOuBuMVTM?=
+ =?iso-8859-1?Q?z4HMaVScuulViUgmow4nn2RqM4OGNI2PkZIKns73dBDavnlxMn0iL1iDPf?=
+ =?iso-8859-1?Q?rVBBTouoOz5XY9GLZnYIcyX2uK9DidVr2u/TVaMhRWckU0pwQfxsZbSVWU?=
+ =?iso-8859-1?Q?DgVImEcAal+tpOMa1EXC/eu5/KKeSJczXU6ZSfut0WXxAKS2RsVpq3LM2Z?=
+ =?iso-8859-1?Q?Wv0npqVRm69MSXB8JQI9RDMCNSagEaUH+BesZ7JSz/adnx4/1kfJtXn+QM?=
+ =?iso-8859-1?Q?tZx3HZElGyQabQC0oFj0NCQRt7JOsF9PahsUn6hy1zRoA91Qn1noD4+/tv?=
+ =?iso-8859-1?Q?528RK7OQqA7txaWEsKC8OVDVt7UaiiCIPre0Xr4yhu2i5c6GrNu9d/a7Xk?=
+ =?iso-8859-1?Q?+BGA4V4iv0z23aMycJkD9W6uepn9AkXS5HXri+GDW/YkkR3xvqZw2do3lJ?=
+ =?iso-8859-1?Q?U3l7gRkc1H3ETCzJlaEzAXn2Z2UiMoRO/Hnf04uhz25sVa7GQ165GuPbfG?=
+ =?iso-8859-1?Q?lS66McHTbwPklTIjC23oJZp2FonqX9+093W1FvOuQVT2OyfJzSQNyBlz7p?=
+ =?iso-8859-1?Q?YKzIc7aS3svBwhh8tM3cqAekzrZFdeqZojD4EP7vsqMUBo9Dy37Fs84Bi3?=
+ =?iso-8859-1?Q?ZABj/ZIUWLdqU82x+NitX4abyqG8A5eVR9haU/1+hplDJxDwFL5f9Zx2qR?=
+ =?iso-8859-1?Q?e5KywjWDnujpx+9kiX9B7J1yre6xjW9g74/u6GVRKVyxZeWAbe/5vRWJo9?=
+ =?iso-8859-1?Q?YxgpElucA9vtSmzDCzx/PePLgKFkV+jPEs81NS0vlW4AeZvdN07H3LGA1E?=
+ =?iso-8859-1?Q?WVlr8P/nKp0lAAqj5EGbVYOr11QQCToojK4abT2xO4agxPTU6Nvc/FGPmp?=
+ =?iso-8859-1?Q?H66HvaZovwPLt9rbXLtKz9rOahIBTvnP3BmTI5e/lisXA9F/t9m0pwS1uQ?=
+ =?iso-8859-1?Q?erU3qHDkmNVw9DHYu9qAbiLfnMQOPRPV6d3ngM/VSu0E3V3AxoGAQ5UlqW?=
+ =?iso-8859-1?Q?m7mivB+vnj3v2DOeIVt/ybA+ox5tZ/SlvyvRdhghPozSgL7bAHAj5XJw?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 85c2e656-bb5c-46d3-dc5a-08dc030b0922
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2023 16:28:31.4287 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XQi4A8aeGFTTfglc6WSiNqRfCY4ZWR0qxOnJwcHqa+jzu02AVZcfozOW8AnkSsHaAY4UNXhbdvUnIKwqUNiORVEG0p8sAlRYBQ/xR3YhQTs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB8285
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,44 +149,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org
+Cc: dim-tools@lists.freedesktop.org, daniel.vetter@ffwll.ch,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-xe@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/12/2023 12:05, Manuel Traut wrote:
-> devicetree checks show some warnings:
-> 
-> video-codec@fdea0400: 'interrupt-names' is a required property
-> from schema $id: http://devicetree.org/schemas/media/rockchip-vpu.yaml#
-> 
-> hdmi@fe0a0000: Unevaluated properties are not allowed ('power-domains' were unexpected)
-> from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
-> 
+On Fri, Dec 22, 2023 at 12:36:39PM +0100, Thomas Hellström wrote:
+>Add the xe repo to drm-tip and the dim tools.
+>For now use the sha1 of the first drm-xe-next pull request for drm-tip,
+>since that branch tip is currently adapted for our CI testing.
+>
+>Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+>Cc: Oded Gabbay <ogabbay@kernel.org>
+>Cc: daniel.vetter@ffwll.ch
+>Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>Cc: dim-tools@lists.freedesktop.org
+>Cc: dri-devel@lists.freedesktop.org
+>Cc: intel-gfx@lists.freedesktop.org
+>Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
-...
 
-> @@ -819,7 +820,6 @@ hdmi: hdmi@fe0a0000 {
->  		clock-names = "iahb", "isfr", "cec", "ref";
->  		pinctrl-names = "default";
->  		pinctrl-0 = <&hdmitx_scl &hdmitx_sda &hdmitxm0_cec>;
-> -		power-domains = <&power RK3568_PD_VO>;
->  		reg-io-width = <4>;
->  		rockchip,grf = <&grf>;
->  		#sound-dai-cells = <0>;
-> @@ -1123,7 +1123,7 @@ i2s2_2ch: i2s@fe420000 {
->  		dmas = <&dmac1 4>, <&dmac1 5>;
->  		dma-names = "tx", "rx";
->  		resets = <&cru SRST_M_I2S2_2CH>;
-> -		reset-names = "m";
-> +		reset-names = "tx-m", "rx-m";
+Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
 
-That's not correct. Look at line above. How many entries it has?
+Lucas De Marchi
 
-Do not fix warnings just to make the warning disappear. Your change here
-clearly suggests you did just that.
-
-Best regards,
-Krzysztof
-
+>---
+> nightly.conf | 7 +++++++
+> 1 file changed, 7 insertions(+)
+>
+>diff --git a/nightly.conf b/nightly.conf
+>index 24126b61b797..accd3ff2cc39 100644
+>--- a/nightly.conf
+>+++ b/nightly.conf
+>@@ -24,6 +24,10 @@ git://anongit.freedesktop.org/drm-tip
+> https://anongit.freedesktop.org/git/drm/drm-tip
+> https://anongit.freedesktop.org/git/drm/drm-tip.git
+> "
+>+drm_tip_repos[drm-xe]="
+>+ssh://git@gitlab.freedesktop.org/drm/xe/kernel.git
+>+https://gitlab.freedesktop.org/drm/xe/kernel.git
+>+"
+> drm_tip_repos[drm-intel]="
+> ssh://git.freedesktop.org/git/drm/drm-intel
+> ssh://git.freedesktop.org/git/drm-intel
+>@@ -65,14 +69,17 @@ drm_tip_config=(
+> 	"drm			drm-fixes"
+> 	"drm-misc		drm-misc-fixes"
+> 	"drm-intel		drm-intel-fixes"
+>+	"drm-xe			drm-xe-fixes"
+>
+> 	"drm			drm-next"
+> 	"drm-misc		drm-misc-next-fixes"
+> 	"drm-intel		drm-intel-next-fixes"
+>+	"drm-xe			drm-xe-next-fixes"
+>
+> 	"drm-misc		drm-misc-next"
+> 	"drm-intel		drm-intel-next"
+> 	"drm-intel		drm-intel-gt-next"
+>+	"drm-xe			drm-xe-next b6e1b7081768"
+>
+> 	"drm-intel		topic/core-for-CI"
+> 	"drm-misc		topic/i915-ttm"
+>-- 
+>2.42.0
+>
