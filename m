@@ -2,35 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C63F81CD9D
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 18:32:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B74381CD9F
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 18:32:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F5BD10E82D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7E3D10E83B;
 	Fri, 22 Dec 2023 17:32:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mecka.net (unknown [IPv6:2a01:4f8:1c1c:934f::1])
- by gabe.freedesktop.org (Postfix) with ESMTP id 98C2F10E783
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 11:16:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 309EC10E787
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 11:11:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mecka.net; s=2016.11;
- t=1703243146; bh=t84Ye1Vunm9rsBxmkx+eugbyukky8gFBZMvr0DsoBqM=;
+ t=1703243147; bh=BOl5n/LD2BBcBkSdOXNe2omY7nWrdquIwWyNKjcl3/o=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=BAkwvsQ1fC/kR2HsFf1zF4Zf63nToVM+yFY8q3B+f56aTF6MkWbKu1iUGdtIrMGoB
- JP5E2dUt/h2ffvOKqSo06SUrlvsNpQerNx0Stoh8Bbr6ekJBEIQIKea2UZ1/cgKd6T
- W/WoaX3j1zeeykfwy8x9RyvV3Z16JK/vbhe2M3SVFU0UeoeckEue1bdduk6CdoOnGE
- SMwvQISXQC5qu/qwLFV0mnCpUAJ9w3jq46867Rwnt1zqu++Hs2S2O/YGKXH/JBrE4H
- ye8V4sOOyhgfC56b70rIFwHJNz29Jpq2emT6dRvSQY3Neo7a4fCaVORcGP+GY7Yv05
- 5mj4stH1kHteQ==
+ b=DTaLgZ6qP86N7YKevWdWipg/yVZipTobTmGgmJCS2lxA+0Nro7QP9+oJB+XbxhYSk
+ faQtPZVP3ecpRDl7BrGG6A80Ze22RmUZrl/DLvUr7yV5bfh2AkFP1KEi1UOxgrLFWG
+ kkWpDBZeGHVgw3Rp6tsrOQipFWTI7uOT2d2/QNTvTc2aTn5xsE7tlA2IZ5mexvr2PZ
+ FX1aFPKR05t47ugqMc7+vOa5Yolv3GDxcOpp8Xn8sxNXVBp58FsVV9J8yXQT8bj/2J
+ oZOZIrv5cn9s3jO43jPpMKRVMZFawRfESb4DX0no8GEUWOyKrr/Mnuv7rJs/m1gMly
+ 9+F0cwf1qfQDg==
 Received: from arthur.fritz.box (unknown [185.147.11.134])
- by mecka.net (Postfix) with ESMTPSA id D61E4370D42;
- Fri, 22 Dec 2023 12:05:45 +0100 (CET)
+ by mecka.net (Postfix) with ESMTPSA id 7A74E370D44;
+ Fri, 22 Dec 2023 12:05:46 +0100 (CET)
 From: Manuel Traut <manut@mecka.net>
-Date: Fri, 22 Dec 2023 12:05:45 +0100
-Subject: [PATCH 5/6] arm64: dts: rockchip: Fix some dtb-check warnings
+Date: Fri, 22 Dec 2023 12:05:46 +0100
+Subject: [PATCH 6/6] dt-bindings: display: rockchip: dw-hdmi: Add missing
+ sound-dai-cells property
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231222-pinetab2-v1-5-e148a7f61bd1@mecka.net>
+Message-Id: <20231222-pinetab2-v1-6-e148a7f61bd1@mecka.net>
 References: <20231222-pinetab2-v1-0-e148a7f61bd1@mecka.net>
 In-Reply-To: <20231222-pinetab2-v1-0-e148a7f61bd1@mecka.net>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -64,68 +65,35 @@ Cc: devicetree@vger.kernel.org, Manuel Traut <manut@mecka.net>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-devicetree checks show some warnings:
-
-video-codec@fdea0400: 'interrupt-names' is a required property
-from schema $id: http://devicetree.org/schemas/media/rockchip-vpu.yaml#
-
-hdmi@fe0a0000: Unevaluated properties are not allowed ('power-domains' were unexpected)
-from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
-
-i2s@fe420000: reset-names:0: 'm' is not one of ['tx-m', 'rx-m']
-from schema $id: http://devicetree.org/schemas/sound/rockchip,i2s-tdm.yaml#
-
-phy@fe870000: 'power-domains' is a required property
-from schema $id: http://devicetree.org/schemas/phy/rockchip-inno-csi-dphy.yaml#
-
-Fix them by
-  - setting a interrupt-name for the video-codec
-  - remove the unevaluated power-domain property from hdmi
-  - set reset-names according to the spec for i2s
-  - add a power-domain property for the CSI phy
+The sound-dai-cells property is used, e.g. in rk356x.dtsi
 
 Signed-off-by: Manuel Traut <manut@mecka.net>
 ---
- arch/arm64/boot/dts/rockchip/rk356x.dtsi | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ .../devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml        | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk356x.dtsi b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
-index c19c0f1b3778..651156759582 100644
---- a/arch/arm64/boot/dts/rockchip/rk356x.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
-@@ -597,6 +597,7 @@ vpu: video-codec@fdea0400 {
- 		compatible = "rockchip,rk3568-vpu";
- 		reg = <0x0 0xfdea0000 0x0 0x800>;
- 		interrupts = <GIC_SPI 139 IRQ_TYPE_LEVEL_HIGH>;
-+		interrupt-names = "vdpu";
- 		clocks = <&cru ACLK_VPU>, <&cru HCLK_VPU>;
- 		clock-names = "aclk", "hclk";
- 		iommus = <&vdpu_mmu>;
-@@ -819,7 +820,6 @@ hdmi: hdmi@fe0a0000 {
- 		clock-names = "iahb", "isfr", "cec", "ref";
- 		pinctrl-names = "default";
- 		pinctrl-0 = <&hdmitx_scl &hdmitx_sda &hdmitxm0_cec>;
--		power-domains = <&power RK3568_PD_VO>;
- 		reg-io-width = <4>;
- 		rockchip,grf = <&grf>;
- 		#sound-dai-cells = <0>;
-@@ -1123,7 +1123,7 @@ i2s2_2ch: i2s@fe420000 {
- 		dmas = <&dmac1 4>, <&dmac1 5>;
- 		dma-names = "tx", "rx";
- 		resets = <&cru SRST_M_I2S2_2CH>;
--		reset-names = "m";
-+		reset-names = "tx-m", "rx-m";
- 		rockchip,grf = <&grf>;
- 		pinctrl-names = "default";
- 		pinctrl-0 = <&i2s2m0_sclktx
-@@ -1739,6 +1739,7 @@ csi_dphy: phy@fe870000 {
- 		clocks = <&cru PCLK_MIPICSIPHY>;
- 		clock-names = "pclk";
- 		#phy-cells = <0>;
-+		power-domains = <&power RK3568_PD_VO>;
- 		resets = <&cru SRST_P_MIPICSIPHY>;
- 		reset-names = "apb";
- 		rockchip,grf = <&grf>;
+diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+index 7e59dee15a5f..43250255fb6f 100644
+--- a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
++++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+@@ -94,6 +94,9 @@ properties:
+       - const: default
+       - const: unwedge
+ 
++  '#sound-dai-cells':
++    const: 0
++
+   ports:
+     $ref: /schemas/graph.yaml#/properties/ports
+ 
+@@ -145,6 +148,7 @@ examples:
+         interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
+         clocks = <&cru  PCLK_HDMI_CTRL>, <&cru SCLK_HDMI_HDCP>;
+         clock-names = "iahb", "isfr";
++        #sound-dai-cells = <0>;
+ 
+         ports {
+             port {
 
 -- 
 2.43.0
