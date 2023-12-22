@@ -2,76 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D457F81CDA0
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 18:33:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38E8581CD9C
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 18:32:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB33210E831;
-	Fri, 22 Dec 2023 17:33:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97AF710E82A;
+	Fri, 22 Dec 2023 17:32:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C36210E76D;
- Fri, 22 Dec 2023 08:59:02 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 3BM6MlFc028055; Fri, 22 Dec 2023 08:58:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=OL2XzN7EDGy5bMY0OFne4LQrBx0wrnoKoEQ7MaxQsXQ=; b=Dj
- 5wJ+5uD6XqCemRRD726eiD+AjrvVMPe78wH2oRHtccab1hfsymipxD0S7olIP/G6
- rCtqNzwnmsFXGSeRgeWDTx3XP9p50EHFqkYyv/6DEjV/Ac3EvQPI12+5uThjhrYD
- 2VFyxZwou2coHvvtJ2uTDmr7sbDr+Bb6pDvwbKNjunrz/i1wA22RDpnolGKR+vh+
- 1LxJfHFL1Kv7/MovZQqLd3ifqhvJrSRYQYjVsNE2pWoisCEnWP82b4oRVCNCjC67
- LhcS/atzN9MsWLeR6bUZvN9bvwebCsye1pIm4IyW2NyK9Jl+nkLiSOfmFx1p2KAb
- KL6UlE8sAXNdZZ1YuUVA==
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v4xpq944q-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 22 Dec 2023 08:58:57 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com
- [10.52.223.231])
- by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BM8wuAh021049
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 22 Dec 2023 08:58:56 GMT
-Received: from [10.239.132.150] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 22 Dec
- 2023 00:58:50 -0800
-Message-ID: <27f8bc0a-0262-48dc-a879-552c3c5ec9e2@quicinc.com>
-Date: Fri, 22 Dec 2023 16:58:45 +0800
+Received: from mecka.net (mecka.net [159.69.159.214])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C494E10E03B
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 11:11:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mecka.net; s=2016.11;
+ t=1703243143; bh=0fR2LDFcxwDpap7qMyCNCyANGL/FAUTkYz5H7M+mUm8=;
+ h=From:Subject:Date:To:Cc:From;
+ b=E7ei35fEyNQLV6kQpHiNwkAdt2o4MDhvff5xMX2p+pxe6p+w8dI04tejBk5yVnzzh
+ veVgo0e1+YojtbRNvZQx+YdqQ8PowrU1BUtbRUs7WakAfmdSFqS1qvJy/X2/vV43Fz
+ NAzHgQ6mGnGi9cqPc0s5OgMXM+aVKCYO7tHyoxEsfZoJeFNupw9i/xbPCXx09BT8Vp
+ SZ+7IfqRkROge97dRETC0k42t6vLUkWRf8XGS+2gzxIP/0P6OoB2Ga8uih050pDNcr
+ j6FLVuQvOcrmsNY8DXCNMgva0zWv2R9gwd2G6PnoM/i2vMj1qGYkFNtlSKt1wKK1K3
+ gvUh4643vzCew==
+Received: from arthur.fritz.box (unknown [185.147.11.134])
+ by mecka.net (Postfix) with ESMTPSA id 8BFC3370D3B;
+ Fri, 22 Dec 2023 12:05:42 +0100 (CET)
+From: Manuel Traut <manut@mecka.net>
+Subject: [PATCH 0/6] arm64: rockchip: Pine64 pinetab2 support
+Date: Fri, 22 Dec 2023 12:05:40 +0100
+Message-Id: <20231222-pinetab2-v1-0-e148a7f61bd1@mecka.net>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 2/2] dt-bindings: display: msm: mass-rename files
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>
-References: <20231221102506.18320-1-dmitry.baryshkov@linaro.org>
- <20231221102506.18320-3-dmitry.baryshkov@linaro.org>
- <170319289437.96441.9965499072649831420.robh@kernel.org>
-From: "Aiqun Yu (Maria)" <quic_aiquny@quicinc.com>
-In-Reply-To: <170319289437.96441.9965499072649831420.robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: Ck5j7imLKK1HMHeZYYRirQhcvywRSUYs
-X-Proofpoint-ORIG-GUID: Ck5j7imLKK1HMHeZYYRirQhcvywRSUYs
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- suspectscore=0 impostorscore=0 malwarescore=0 adultscore=0 mlxscore=0
- spamscore=0 clxscore=1011 bulkscore=0 lowpriorityscore=0 mlxlogscore=999
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2312220063
+X-B4-Tracking: v=1; b=H4sIAIRthWUC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI2NDIyMj3YLMvNSSxCQj3bTERHPzVAPDlCSzNCWg8oKi1LTMCrBR0bG1tQA
+ RoX8xWgAAAA==
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
+ Sandy Huang <hjc@rock-chips.com>, Mark Yao <markyao0591@gmail.com>, 
+ Diederik de Haas <didi.debian@cknow.org>, 
+ Segfault <awarnecke002@hotmail.com>, Arnaud Ferraris <aferraris@debian.org>
+X-Mailer: b4 0.12.4
 X-Mailman-Approved-At: Fri, 22 Dec 2023 17:32:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,48 +59,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kishon Vijay Abraham I <kishon@kernel.org>, devicetree@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jonathan Marek <jonathan@marek.ca>, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh+dt@kernel.org>,
- Rob Clark <robdclark@gmail.com>, Andy Gross <agross@kernel.org>, Krishna
- Manikandan <quic_mkrishn@quicinc.com>, linux-arm-msm@vger.kernel.org,
- linux-phy@lists.infradead.org, Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, freedreno@lists.freedesktop.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: devicetree@vger.kernel.org, Manuel Traut <manut@mecka.net>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This adds support for the BOE TH101MB31IG002 LCD Panel used in Pinetab2 [1] and
+Pinetab-V [2] as well as the devictrees for the Pinetab2 v0.1 and v2.0.
 
+The BOE LCD Panel patch was retrieved from [3]. The function-name prefix has
+been adapted and the LCD init section was simplified.
 
-On 12/22/2023 5:08 AM, Rob Herring wrote:
-> 
-> On Thu, 21 Dec 2023 12:25:06 +0200, Dmitry Baryshkov wrote:
->> Rename the Qualcomm MSM Display schemas to follow the main compatible
->> string instead of just using the block type. This follows the
->> established practice for YAML file names.
->>
->> Cc: Aiqun Yu (Maria) <quic_aiquny@quicinc.com>
->> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> ---
->>   .../bindings/display/msm/{gmu.yaml => qcom,adreno-gmu.yaml}     | 2 +-
->>   .../bindings/display/msm/{gpu.yaml => qcom,adreno.yaml}         | 2 +-
->>   .../bindings/display/msm/{hdmi.yaml => qcom,hdmi-tx.yaml}       | 2 +-
->>   .../bindings/display/msm/{mdp4.yaml => qcom,mdp4.yaml}          | 2 +-
->>   .../msm/{dsi-controller-main.yaml => qcom,mdss-dsi-ctrl.yaml}   | 2 +-
->>   5 files changed, 5 insertions(+), 5 deletions(-)
->>   rename Documentation/devicetree/bindings/display/msm/{gmu.yaml => qcom,adreno-gmu.yaml} (99%)
->>   rename Documentation/devicetree/bindings/display/msm/{gpu.yaml => qcom,adreno.yaml} (99%)
->>   rename Documentation/devicetree/bindings/display/msm/{hdmi.yaml => qcom,hdmi-tx.yaml} (98%)
->>   rename Documentation/devicetree/bindings/display/msm/{mdp4.yaml => qcom,mdp4.yaml} (97%)
->>   rename Documentation/devicetree/bindings/display/msm/{dsi-controller-main.yaml => qcom,mdss-dsi-ctrl.yaml} (99%)
->>
-> 
-> Acked-by: Rob Herring <robh@kernel.org>
-> Nice to see names get more unified!
+The Pinetab2 devicetree patch was retrieved from [4]. Some renaming was needed
+to pass the dtb-checks, the brightness-levels are specified as range and steps
+instead of a list of values.
 
+The last to patches fix some dtb-checker warnings that showed up with the new
+device-trees.
+
+[1] https://wiki.pine64.org/wiki/PineTab2
+[2] https://wiki.pine64.org/wiki/PineTab-V
+[3] https://salsa.debian.org/Mobian-team/devices/kernels/rockchip-linux/-/blob/mobian-6.6/debian/patches/display/0018-drm-panel-add-BOE-TH101MB31IG002-28A-driver.patch?ref_type=heads
+[4] https://salsa.debian.org/Mobian-team/devices/kernels/rockchip-linux/-/blob/mobian-6.6/debian/patches/device-tree/0134-arch-arm64-add-Pine64-PineTab2-device-trees.patch?ref_type=heads
+
+Signed-off-by: Manuel Traut <manut@mecka.net>
+---
+Manuel Traut (4):
+      dt-bindings: display: panel: Add BOE TH101MB31IG002-28A panel
+      dt-bindings: arm64: rockchip: Add Pine64 Pinetab2
+      arm64: dts: rockchip: Fix some dtb-check warnings
+      dt-bindings: display: rockchip: dw-hdmi: Add missing sound-dai-cells property
+
+Segfault (2):
+      drm/panel: Add driver for BOE TH101MB31IG002-28A panel
+      arm64: dts: rockchip: Add devicetree for Pine64 Pinetab2
+
+ .../devicetree/bindings/arm/rockchip.yaml          |    8 +
+ .../display/panel/boe,th101mb31ig002-28a.yaml      |   73 ++
+ .../display/rockchip/rockchip,dw-hdmi.yaml         |    4 +
+ arch/arm64/boot/dts/rockchip/Makefile              |    2 +
+ .../boot/dts/rockchip/rk3566-pinetab2-v0.1.dts     |   26 +
+ .../boot/dts/rockchip/rk3566-pinetab2-v2.0.dts     |   46 +
+ arch/arm64/boot/dts/rockchip/rk3566-pinetab2.dtsi  | 1032 ++++++++++++++++++++
+ arch/arm64/boot/dts/rockchip/rk356x.dtsi           |    5 +-
+ drivers/gpu/drm/panel/Kconfig                      |   11 +
+ drivers/gpu/drm/panel/Makefile                     |    1 +
+ .../gpu/drm/panel/panel-boe-th101mb31ig002-28a.c   |  307 ++++++
+ 11 files changed, 1513 insertions(+), 2 deletions(-)
+---
+base-commit: 24e0d2e527a39f64caeb2e6be39ad5396fb2da5e
+change-id: 20231222-pinetab2-faa77e01db6f
+
+Best regards,
 -- 
-Thx and BRs,
-Aiqun(Maria) Yu
+Manuel Traut <manut@mecka.net>
+
