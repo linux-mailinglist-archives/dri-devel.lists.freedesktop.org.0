@@ -1,82 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE70C81C640
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 09:10:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CA7F81C6D0
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 09:47:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3ECC10E766;
-	Fri, 22 Dec 2023 08:10:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0749A10E108;
+	Fri, 22 Dec 2023 08:47:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0217610E766
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 08:10:35 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- 5b1f17b1804b1-40d3ae326f6so15678045e9.3
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 00:10:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1703232634; x=1703837434; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=lM68vCaPXNUUDycrx+XvGL33ppz+BtAdK19lvJ8+7sw=;
- b=iLZLEzQLxIBEafKC1wu382UcRPt1umNETTAPGPt1T8P17EmI16v65Pr8FQPTEznIBS
- EVkjCYGGJEN8wgJM0S9OpTXhQWDP6PL639IF8sqjR7XZ8e2hBnMADBpDOS00BV3dvtOL
- WrHhTPF4xUVY1AVfQRKz2Uc+KdQQnMNRKhn/T9YR7FIwQrDAwuOGt6ks0W2wzBswoJW2
- kOVXBaEoe/p1Q3YPx/2C13P0s5FvXrIa1lTRIzUac2Jqh3Rqxk+6PXunSivJLTDnbOXp
- vY6+uj0RYz+OkvfS9TvhLMJWNSP7hbgolxPYlsPJvDZYxWBnDRgbnynhzspWUDNA6Dy8
- FeBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1703232634; x=1703837434;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=lM68vCaPXNUUDycrx+XvGL33ppz+BtAdK19lvJ8+7sw=;
- b=Fjy1SUokni8VAicxRVi4guyymlCE5QLSR2YPsRrT+mBVvjTHiyKOIb8j2xsUGwzk6V
- wOVuVYQpXSpZCZW1xpXFNNTgPi5ziQNsy4Zq8w6EZy7VXfeea9/FmBJY3aM17a3i6ln9
- YUQDh2cAVRTt+VGy6iBNqAYvci3gaJiq4e225NMEga/wW6NsLOHy6gQoGCEdtpYhNd7Z
- VTyBjLyN2rjiztg+8w3DD+VtMG4+f8Qxn1Et9iBSZiQrrOV/gGcEyegr30Wt1Y5MIWQp
- Pit8QtgftEleTOaWmBTnmJe4o+1L4YXuxZKwRjyf5NzL6ixYhUQfibMZFHwnbZUiGL2k
- dJHA==
-X-Gm-Message-State: AOJu0Yw4PlqKWRZ2wO3mRN+NVXYXlF65Gt++qoz0bZsmz4mBnrGIq+ch
- wQANubFqFneowwjCqeUDiwSGqx9st2iwfw==
-X-Google-Smtp-Source: AGHT+IEXWH54whXuzJ+v2aRaRnfaeKABy4t4cZ8sKiFBmqzByppB9AgX/JMhJXGJHk1onMtQ80/7DA==
-X-Received: by 2002:a05:600c:6010:b0:40d:4a25:ee0e with SMTP id
- az16-20020a05600c601000b0040d4a25ee0emr16278wmb.11.1703232634442; 
- Fri, 22 Dec 2023 00:10:34 -0800 (PST)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
- by smtp.gmail.com with ESMTPSA id
- g17-20020a05600c001100b0040d44dcf233sm1527024wmc.12.2023.12.22.00.10.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Dec 2023 00:10:34 -0800 (PST)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Yannick Fertre <yannick.fertre@foss.st.com>, 
- Philippe Cornu <philippe.cornu@foss.st.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-In-Reply-To: <20231221124339.420119-1-raphael.gallais-pou@foss.st.com>
-References: <20231221124339.420119-1-raphael.gallais-pou@foss.st.com>
-Subject: Re: (subset) [PATCH RESEND v1 0/8] Introduce STM32 LVDS driver
-Message-Id: <170323263335.3968091.3418124758627043970.b4-ty@linaro.org>
-Date: Fri, 22 Dec 2023 09:10:33 +0100
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D591C10E108
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 08:47:20 +0000 (UTC)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id
+ 3BM8gWRR020437; Fri, 22 Dec 2023 09:46:04 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ selector1; bh=geMwC/2ntrBKDmWRx2A6oK+EjPDa7RQe5GUkgEu5yMA=; b=19
+ jzXM/cdHYRiNxPeaXV9jlu54ksQqvS/HkDVNh9fbrMOGaGAv3jpGrybJL+HhrVuc
+ ocFnig6wO69DtuqybcCbfaOs+AF/JAxXEP7PZLRhVpDNOjd9t9yqJUuiqZy57XPF
+ qZJUes8XzS+jMRr0K6pm9+dLrV3RQUaYaT6nhGlsdWG9o85usXvA1KdLR9/IOf5A
+ AAV39EcbTHmyRo9r962D7sGIy7h9WakKLgeB0OFWPstsbcK4ndsaIHSfH9ZXhE0g
+ YfDNeq0WSYQrzHYRfxeARZhE0hTrDrIzcrMjcb35barCTBO+L5sMLgL0ki1sAJQp
+ H+H+Omhfylvf2wOt6hPw==
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3v1442bj0f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 22 Dec 2023 09:46:04 +0100 (CET)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id BD515100060;
+ Fri, 22 Dec 2023 09:46:00 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 6C53A20B23A;
+ Fri, 22 Dec 2023 09:46:00 +0100 (CET)
+Received: from [10.252.15.82] (10.252.15.82) by SHFDAG1NODE2.st.com
+ (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 22 Dec
+ 2023 09:45:59 +0100
+Message-ID: <5c5fde3c-8073-430c-b9e6-b3e6d84eddee@foss.st.com>
+Date: Fri, 22 Dec 2023 09:45:59 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.4
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND v1 2/8] dt-bindings: display: add dt-bindings for
+ STM32 LVDS device
+Content-Language: en-US
+To: Rob Herring <robh@kernel.org>
+References: <20231221124339.420119-1-raphael.gallais-pou@foss.st.com>
+ <20231221124339.420119-3-raphael.gallais-pou@foss.st.com>
+ <170316995910.3869238.14321525013510097521.robh@kernel.org>
+From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+In-Reply-To: <170316995910.3869238.14321525013510097521.robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.252.15.82]
+X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE2.st.com
+ (10.75.129.70)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-22_04,2023-12-21_02,2023-05-22_02
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,37 +73,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-stm32@st-md-mailman.stormreply.com
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-stm32@st-md-mailman.stormreply.com,
+ David Airlie <airlied@gmail.com>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, devicetree@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ linux-arm-kernel@lists.infradead.org,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Yannick Fertre <yannick.fertre@foss.st.com>, linux-kernel@vger.kernel.org,
+ Philippe Cornu <philippe.cornu@foss.st.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Rob
 
-On Thu, 21 Dec 2023 13:43:31 +0100, Raphael Gallais-Pou wrote:
-> This serie introduces a new DRM bridge driver for STM32MP257 platforms
-> based on Arm Cortex-35. It also adds an instance in the device-tree and
-> handle the inclusion of the driver within the DRM framework. First patch
-> adds a new panel compatible in the panel-lvds driver, which is used by
-> default on the STM32MP257.
-> 
-> Raphael Gallais-Pou (7):
->   dt-bindings: panel: lvds: Append edt,etml0700z9ndha in panel-lvds
->   dt-bindings: display: add dt-bindings for STM32 LVDS device
->   drm/stm: lvds: add new STM32 LVDS Display Interface Transmitter driver
->   drm/stm: ltdc: add lvds pixel clock
->   arm64: dts: st: add ltdc support on stm32mp251
->   arm64: dts: st: add lvds support on stm32mp253
->   arm64: dts: st: add display support on stm32mp257f-ev
-> 
-> [...]
+On 12/21/23 15:45, Rob Herring wrote:
+> On Thu, 21 Dec 2023 13:43:33 +0100, Raphael Gallais-Pou wrote:
+>> Add dt-binding file for "st,stm32-lvds" compatible.
+>>
+>> Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+>> ---
+>>  .../bindings/display/st,stm32-lvds.yaml       | 114 ++++++++++++++++++
+>>  1 file changed, 114 insertions(+)
+>>  create mode 100644 Documentation/devicetree/bindings/display/st,stm32-lvds.yaml
+>>
+> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+> on your patch (DT_CHECKER_FLAGS is new in v5.13):
+>
+> yamllint warnings/errors:
+>
+> dtschema/dtc warnings/errors:
+> Documentation/devicetree/bindings/display/st,stm32-lvds.example.dts:18:18: fatal error: dt-bindings/bus/stm32mp25_sys_bus.h: No such file or directory
+>    18 |         #include <dt-bindings/bus/stm32mp25_sys_bus.h>
+>       |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> compilation terminated.
+> make[2]: *** [scripts/Makefile.lib:419: Documentation/devicetree/bindings/display/st,stm32-lvds.example.dtb] Error 1
+> make[2]: *** Waiting for unfinished jobs....
+> make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1424: dt_binding_check] Error 2
+> make: *** [Makefile:234: __sub-make] Error 2
 
-Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
+This is because I forgot to remove this line from the example. I'll remove it in V2.
 
-[1/8] dt-bindings: panel: lvds: Append edt,etml0700z9ndha in panel-lvds
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=021a81e7ac8f579b049e5bc76efabd9e67bd627c
 
--- 
-Neil
+Thanks,
 
+Raphaël
+
+
+> doc reference errors (make refcheckdocs):
+>
+> See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20231221124339.420119-3-raphael.gallais-pou@foss.st.com
+>
+> The base for the series is generally the latest rc1. A different dependency
+> should be noted in *this* patch.
+>
+> If you already ran 'make dt_binding_check' and didn't see the above
+> error(s), then make sure 'yamllint' is installed and dt-schema is up to
+> date:
+>
+> pip3 install dtschema --upgrade
+>
+> Please check and re-submit after running the above command yourself. Note
+> that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+> your schema. However, it must be unset to test all examples with your schema.
+>
