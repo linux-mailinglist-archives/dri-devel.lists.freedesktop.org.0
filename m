@@ -2,65 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AE0E81CC49
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 16:34:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 442BB81CC4D
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 16:34:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B740310E7D1;
-	Fri, 22 Dec 2023 15:34:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9482D10E7C1;
+	Fri, 22 Dec 2023 15:34:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8EF510E7D1
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 15:34:20 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id
- 2adb3069b0e04-50e49a0b5caso2413085e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 07:34:20 -0800 (PST)
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
+ [IPv6:2a00:1450:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35B6910E7C1
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 15:34:56 +0000 (UTC)
+Received: by mail-lj1-x232.google.com with SMTP id
+ 38308e7fff4ca-2cc6b56eadaso24319311fa.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 07:34:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1703259259; x=1703864059; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1703259294; x=1703864094; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Tiv43+rTrw52gDic8qSBj7YIXfHsI2sRrrEjE4Sw/z8=;
- b=GC7UF3XqM7qzmovnP0uDBFJFbuH6Jnh2QO6bqwwdfRCfDB9/75atgoQJTfZvgq9A7+
- 9rqZAiVm61Hajz3v1W2dhR3gp+A+cHerAf4cQVJEuwOsebnxNfHTo0VmJiGQGomjwcmK
- U3Ruv2kvcnlG7X5RWPVe0G2YewriwSslTHwg42vdpg6ws1/N7EV51Oboepz40NEtEDsY
- BW5lAkkLn7Vkmwyp+fnCzZWBMgDl2cB17wb7F3Z2Qvuj0CLvshJYqvGhq1aukKcxwkR/
- 4JxWjWd58Z9jdokYKlL+cMYGHZHDoZNyZuE/HWUYUnBypAyWeYijHHfNfMOeBPvQP1wx
- 1MKw==
+ bh=mvy0l+mnUMzQT0sw/oz2Zb688LyIcrZR0yebYIVgabY=;
+ b=t7hTDBLChzsznVV5YU2p4zo89jBwaPzAXXne4tKAVI7N3SXouIGuIv5MyTF1RLpALE
+ oVct2ZRnSNJCpdZW6ZXeo3xOpYgh88mCOXMk7FENHCu33NPAQz5dWp04KFHVJ48G4nO/
+ IP77iA8OTCRiPZr6w4rcfHLLM/KBxbGpoL1hYNGIJQ0r1y7SFA6POJ6liqMNd4okg1EF
+ KWZc9VHsdaN2BNIS2Mj8CNlyOVeeCfvJxKBGcn40KEgJG+atpYpm1DgQAkigMPYWQWn0
+ AwbHXvfhbQdlW07vu8pOfuS/3O7WWORj8RdaDxvLQ19npbWwSMBIYV3Y59rvo86Ov76g
+ HrAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1703259259; x=1703864059;
+ d=1e100.net; s=20230601; t=1703259294; x=1703864094;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Tiv43+rTrw52gDic8qSBj7YIXfHsI2sRrrEjE4Sw/z8=;
- b=FBHZEdPJPoK5W4xERSBg171IrcGojQ9sOJ2ZmY3m8LNNjZni2MXPWWPzE5NF6WNWOA
- yb6HvAdc7HyZBHrSu9v702tilS7oNMC9CSzW/uOz/nPaGdu23EvWrHOixsK1VMjAIbxG
- JW5mIGvsaG6FqLzbRX+xCpHhjdg2lmmW29YOPmyT5VB8uAVu3NAXmSWCc3DLpYuGmD7l
- zZhUMTOCwbdRKmtqeqXMz5iMrvDzQf9FHmBgiEfUWhee83t/W7w920Tk65Gn7/CsLXT7
- KKelMbl+jqMAPV5NLQMfq5LayNoqxCmGpYCHFTYbKyXI21N/Pny+5JzPk9Sipy5TM0uD
- 3x9A==
-X-Gm-Message-State: AOJu0YyyUak1D/ERSFpwtWCJfQzrN6q1YeXOLlIVKcFJxrQcY9xL8VtM
- i87geUl7jU2u1LZZfrWxvqMxN2FpIFU+7g==
-X-Google-Smtp-Source: AGHT+IECwkU4gyZWjMBJ0Y+bOFPZR8XvmP72K5017dbEotyOU02HvdyWVF+Zr2dP2q+6wv5CNaNWcw==
-X-Received: by 2002:ac2:5e2b:0:b0:50e:6d96:4b29 with SMTP id
- o11-20020ac25e2b000000b0050e6d964b29mr224019lfg.91.1703259258778; 
- Fri, 22 Dec 2023 07:34:18 -0800 (PST)
+ bh=mvy0l+mnUMzQT0sw/oz2Zb688LyIcrZR0yebYIVgabY=;
+ b=UBu5j9AuCPnxrKc3+7yIAXdPGQdXL75BOb84y/bDpOTzUGsP/KWUSb/1yGCaCsQgHE
+ Il8OeLp8NdWet2IWLk99/URutjsdjFR7n6iD3Bh+du3dtAnquy3mfChrrNV2/bSornYr
+ b+fcMYzg4dIOFTx0TF05IOJsyXiEvAT57jW6cgor4zYxOaTeWN9wEoWVDO2wqiYfVKLl
+ UipHu+tmHXq1a6ySV+Wrj0YZbeCCybke6+3emgEJuZymbxg1y8ONcjvCf1cg9GViSL4w
+ D94022LKEKUwp+xZX/D3pV/dBVuOAO4S3NXOiMvyXgLJi/8G23NNJT9xwkYUgUepMLsD
+ L5wg==
+X-Gm-Message-State: AOJu0YyGAiuPH0ZePR+liHWBEl9DnauNfEttOhGmRRsxJZUkpsRaskdr
+ 3twWl3M4h7laBvbWWMpTREmeb67AIZbRcg==
+X-Google-Smtp-Source: AGHT+IGHcStp5sBNVQbyPoJVoUA4wlUiKdXUUxRTWgh9Uhj4w+ErorhdQxx7S5EIciTm+1TwUNlyjA==
+X-Received: by 2002:a05:6512:4c3:b0:50e:57dd:7394 with SMTP id
+ w3-20020a05651204c300b0050e57dd7394mr743417lfq.79.1703259294269; 
+ Fri, 22 Dec 2023 07:34:54 -0800 (PST)
 Received: from [192.168.0.22] ([78.10.206.178])
  by smtp.gmail.com with ESMTPSA id
- z17-20020a170906715100b00a26966683e3sm2188014ejj.144.2023.12.22.07.34.17
+ z17-20020a170906715100b00a26966683e3sm2188014ejj.144.2023.12.22.07.34.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Dec 2023 07:34:18 -0800 (PST)
-Message-ID: <46526faf-5789-442d-9fb1-ca80a8cadde9@linaro.org>
-Date: Fri, 22 Dec 2023 16:34:16 +0100
+ Fri, 22 Dec 2023 07:34:53 -0800 (PST)
+Message-ID: <b2472f53-2e60-46ba-9ae7-aeca1b323f37@linaro.org>
+Date: Fri, 22 Dec 2023 16:34:52 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [v1 2/2] drm/panel: Add support for Truly NT36672E panel driver
+Subject: Re: [v1 0/2] Add support for Truly NT36672E LCD DSI panel
 Content-Language: en-US
 To: Ritesh Kumar <quic_riteshk@quicinc.com>, dri-devel@lists.freedesktop.org, 
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20231222110710.19397-1-quic_riteshk@quicinc.com>
- <20231222110710.19397-3-quic_riteshk@quicinc.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -106,7 +105,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231222110710.19397-3-quic_riteshk@quicinc.com>
+In-Reply-To: <20231222110710.19397-1-quic_riteshk@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -130,17 +129,10 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 22/12/2023 12:07, Ritesh Kumar wrote:
-> Add support for the 1080x2408 Truly NT36672E video mode
-> DSI panel driver.
-> 
-> Signed-off-by: Ritesh Kumar <quic_riteshk@quicinc.com>
-> ---
->  drivers/gpu/drm/panel/Kconfig                |   9 +
->  drivers/gpu/drm/panel/Makefile               |   1 +
+> Add support for the 1080x2408 Truly NT36672E LCD DSI mode panel
 
-
-Integrate it with existing Novatek driver or at least consult its
-maintainers what to do.
+Google does not find anything for "Truly NT36672E", so I have some
+doubts whether you used correct vendor name or product ID.
 
 Best regards,
 Krzysztof
