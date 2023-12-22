@@ -2,112 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 442BB81CC4D
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 16:34:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EEAE81CC6A
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 16:53:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9482D10E7C1;
-	Fri, 22 Dec 2023 15:34:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C891A10E7B8;
+	Fri, 22 Dec 2023 15:53:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35B6910E7C1
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 15:34:56 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id
- 38308e7fff4ca-2cc6b56eadaso24319311fa.1
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 07:34:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1703259294; x=1703864094; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=mvy0l+mnUMzQT0sw/oz2Zb688LyIcrZR0yebYIVgabY=;
- b=t7hTDBLChzsznVV5YU2p4zo89jBwaPzAXXne4tKAVI7N3SXouIGuIv5MyTF1RLpALE
- oVct2ZRnSNJCpdZW6ZXeo3xOpYgh88mCOXMk7FENHCu33NPAQz5dWp04KFHVJ48G4nO/
- IP77iA8OTCRiPZr6w4rcfHLLM/KBxbGpoL1hYNGIJQ0r1y7SFA6POJ6liqMNd4okg1EF
- KWZc9VHsdaN2BNIS2Mj8CNlyOVeeCfvJxKBGcn40KEgJG+atpYpm1DgQAkigMPYWQWn0
- AwbHXvfhbQdlW07vu8pOfuS/3O7WWORj8RdaDxvLQ19npbWwSMBIYV3Y59rvo86Ov76g
- HrAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1703259294; x=1703864094;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mvy0l+mnUMzQT0sw/oz2Zb688LyIcrZR0yebYIVgabY=;
- b=UBu5j9AuCPnxrKc3+7yIAXdPGQdXL75BOb84y/bDpOTzUGsP/KWUSb/1yGCaCsQgHE
- Il8OeLp8NdWet2IWLk99/URutjsdjFR7n6iD3Bh+du3dtAnquy3mfChrrNV2/bSornYr
- b+fcMYzg4dIOFTx0TF05IOJsyXiEvAT57jW6cgor4zYxOaTeWN9wEoWVDO2wqiYfVKLl
- UipHu+tmHXq1a6ySV+Wrj0YZbeCCybke6+3emgEJuZymbxg1y8ONcjvCf1cg9GViSL4w
- D94022LKEKUwp+xZX/D3pV/dBVuOAO4S3NXOiMvyXgLJi/8G23NNJT9xwkYUgUepMLsD
- L5wg==
-X-Gm-Message-State: AOJu0YyGAiuPH0ZePR+liHWBEl9DnauNfEttOhGmRRsxJZUkpsRaskdr
- 3twWl3M4h7laBvbWWMpTREmeb67AIZbRcg==
-X-Google-Smtp-Source: AGHT+IGHcStp5sBNVQbyPoJVoUA4wlUiKdXUUxRTWgh9Uhj4w+ErorhdQxx7S5EIciTm+1TwUNlyjA==
-X-Received: by 2002:a05:6512:4c3:b0:50e:57dd:7394 with SMTP id
- w3-20020a05651204c300b0050e57dd7394mr743417lfq.79.1703259294269; 
- Fri, 22 Dec 2023 07:34:54 -0800 (PST)
-Received: from [192.168.0.22] ([78.10.206.178])
- by smtp.gmail.com with ESMTPSA id
- z17-20020a170906715100b00a26966683e3sm2188014ejj.144.2023.12.22.07.34.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Dec 2023 07:34:53 -0800 (PST)
-Message-ID: <b2472f53-2e60-46ba-9ae7-aeca1b323f37@linaro.org>
-Date: Fri, 22 Dec 2023 16:34:52 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9839E10E7B8
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 15:53:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1703260394; x=1734796394;
+ h=from:to:subject:in-reply-to:references:date:message-id:
+ mime-version; bh=CFoJa5ypwAz/SUt5Uf6VhykKJNuyXga6qSB/d5ti3uk=;
+ b=P/orfo5/5dF/McSwqOaMkhZw29p4IZkm6Ph/g67HBU88dL0f+RVzNgqs
+ VMP179TMbym/A7jmtMVhFFSCyzwGxKJcvDwzWS++H3mEHmzJqHrcT6cY5
+ Vl4koh/b5oXCYlrmQ8WciPnfK4IY2quJJpVttV88P9QI7b1dfyuIfGpBn
+ YUG8Gf8M29XTphdEF5OFWkZrZne6uyUgSQxYr8RRndUq5vg2Ewo9qZzJ5
+ NToUCHWmelYpHMBf/7QyrQ1Q9ulZM0agELt/M4t5WcO84Q88Ut7G5yHWq
+ QEKd0r4L+tKXZA4DIp4qArhDFAZXb8HBQJKWnefnvG3ip5ed4+JwtXySF g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="9528663"
+X-IronPort-AV: E=Sophos;i="6.04,296,1695711600"; 
+   d="scan'208";a="9528663"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Dec 2023 07:53:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="867667122"
+X-IronPort-AV: E=Sophos;i="6.04,296,1695711600"; d="scan'208";a="867667122"
+Received: from yspisare-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.252.50.156])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Dec 2023 07:53:09 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: neil.armstrong@linaro.org, dri-devel@lists.freedesktop.org, Andrzej
+ Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: Re: [PATCH 0/2] drm/bridge: start moving towards struct drm_edid
+In-Reply-To: <87msu2si7q.fsf@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1698312534.git.jani.nikula@intel.com>
+ <87jzqksg8g.fsf@intel.com> <87frzytml3.fsf@intel.com>
+ <dcad8756-c723-4dc9-91db-a386a1b2824a@linaro.org>
+ <87msu2si7q.fsf@intel.com>
+Date: Fri, 22 Dec 2023 17:53:06 +0200
+Message-ID: <87edfes07x.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v1 0/2] Add support for Truly NT36672E LCD DSI panel
-Content-Language: en-US
-To: Ritesh Kumar <quic_riteshk@quicinc.com>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20231222110710.19397-1-quic_riteshk@quicinc.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231222110710.19397-1-quic_riteshk@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,20 +64,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, conor+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, quic_vproddut@quicinc.com,
- airlied@gmail.com, quic_abhinavk@quicinc.com, mripard@kernel.org,
- robh+dt@kernel.org, tzimmermann@suse.de, quic_rajeevny@quicinc.com,
- quic_jesszhan@quicinc.com, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/12/2023 12:07, Ritesh Kumar wrote:
-> Add support for the 1080x2408 Truly NT36672E LCD DSI mode panel
+On Fri, 22 Dec 2023, Jani Nikula <jani.nikula@intel.com> wrote:
+> On Fri, 22 Dec 2023, Neil Armstrong <neil.armstrong@linaro.org> wrote:
+>> On 19/12/2023 13:15, Jani Nikula wrote:
+>>> On Tue, 14 Nov 2023, Jani Nikula <jani.nikula@intel.com> wrote:
+>>>> On Thu, 26 Oct 2023, Jani Nikula <jani.nikula@intel.com> wrote:
+>>>>> This is just the first two patches of a lengthy series that I'm not
+>>>>> really sure how to proceed with. Basically the series converts all of
+>>>>> drm/bridge to the new struct drm_edid infrastructure. It's safer than
+>>>>> struct edid, because it contains meta information about the allocated
+>>>>> size of the EDID, instead of relying on the size (number of extensions)
+>>>>> originating from outside of the kernel.
+>>>>>
+>>>>> The rest is at [1]. The commit messages are lacking, and I don't really
+>>>>> have the toolchain to even build test most of it. But I think this is
+>>>>> where drm/bridge should go. Among all of drm, I think bridge has the
+>>>>> most uses of struct edid that do not originate from the drm_get_edid()
+>>>>> family of functions, which means the validity checks are somewhat
+>>>>> inconsistent, and having the meta information is more crucial.
+>>>>>
+>>>>> Bridge maintainers, please instruct how to best proceed with this.
+>>>>
+>>>> Ping.
+>>> 
+>>> Ping.
+>>
+>> Sorry for the delay, I would have preferred changing the get_edid to return
+>> a drm_edid, but I understand the task is too high, could you instead use
+>> @get_drm_edid instead of @edid_read ?
+>
+> edid_read matches the changes in drm_edid.c, going from drm_get_edid()
+> to drm_edid_read().
+>
+> There's a nice symmetry when ->get_edid() hooks using drm_get_edid() are
+> converted to ->edid_read() hooks using drm_edid_read().
+>
+>> And perhaps convert one very common bridge to this so we can validate
+>> the change in CI.
+>
+> So I did convert all of bridge over a few months back, and pushed the
+> branch to [1]. Should I brush that up and send the entire series? I
+> don't really know what's common and what's not.
 
-Google does not find anything for "Truly NT36672E", so I have some
-doubts whether you used correct vendor name or product ID.
+Okay, I rebased and pushed [1]. Probably doesn't make sense to send a
+patch bomb like that right now...
 
-Best regards,
-Krzysztof
+BR,
+Jani.
 
+
+[1] https://gitlab.freedesktop.org/jani/linux/-/commits/drm-edid-bridge
+
+
+-- 
+Jani Nikula, Intel
