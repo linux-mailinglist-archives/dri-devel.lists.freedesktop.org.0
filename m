@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2ED981CDD2
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 18:43:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81FD081CDDC
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 18:43:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0C0E10E85F;
-	Fri, 22 Dec 2023 17:43:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46D0B10E86C;
+	Fri, 22 Dec 2023 17:43:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0708B10E855
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2B6C10E855
  for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 17:42:43 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id
- ffacd0b85a97d-336746a545fso1256709f8f.0
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 09:42:42 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id
+ 5b1f17b1804b1-40d490a1936so5922075e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 09:42:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1703266961; x=1703871761; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1703266962; x=1703871762; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=rLzYp4+k7Wco/dLyvbXtMOp2x7OPvW43+Ey3FkfhV04=;
- b=PQ7dD83qU30jBKvB0J5rII+FXv5Ca6Fel1TosIj1ZuckvlV7uVjapUgMElu6GAtQIP
- mPkNFLsD0HZa6TBVcalkpjcw/BLGoUmaqY3yt7IR22ZHpBx1M9ZjeiLP6+mtqZe644VW
- 6q76NwypOWrfgwB0FFhz191m5s0PF9hHRV5Ht0rUC1IML8ee1zwEuTGpkHaYcxgctj1J
- s/lZtJcGBjiXDsWDv8ql5Ih1EnasyDTZBJ/Spm+ImDMk8JAY3yAJu5qBzkMP/erZ8NMY
- JNY8mbj+KKX81gI5EEKhOorCjF/PErL5S2F9FPnNuSF2MOCI5MuN5Dv4fg3YnQAowxUJ
- 9h3w==
+ bh=gRLz1zrBuFNm0Af22mx0D2/7q2j0Q/CWyrbrvtrtVPY=;
+ b=AK/suBumAD00ckFNRZMyIlxxLnRKD0eMb4BmeyGuDvzYkEhkh987/AcUdxqK1B86zu
+ JEf8rkgXUcXJzb1sDIfswTbmaHatpFi3UeKTY0KDiLp+xCv65k94g9EDQ8DdftOI4Xx5
+ sPx7OMyM8YYSRi2jYquMD4iWt+vKR0kfJw1wCiREKKgEQK8JrCtqj/kbrXqUR2J7RtXe
+ eTbD+G+L46eDgtkwNHnkqc6lstlfCAdee4DlaV4vsbFUpjNkrdsM0YUnPe9Ga13n5shU
+ pz4Nw/WnHHCwOpPnzTaH7TI3+BX2Hj2/SThhGOy7dKooq6P1R0RXcc4Vs2auM8CHd1ZF
+ FoUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1703266961; x=1703871761;
+ d=1e100.net; s=20230601; t=1703266962; x=1703871762;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=rLzYp4+k7Wco/dLyvbXtMOp2x7OPvW43+Ey3FkfhV04=;
- b=U08sIMvordCwG6ymsyA7aXPOL2c9+oiyKdxNkTOIktaEnpNSh4meAWAeFHywa9K1/V
- 89gI7YNlxf1vumQrdT58mYd6h/j8wT/sdfKLnXROr2V6tveG4gQXKAatw0Jri8cLCfWA
- 8bQ9sd8EJvdy7XQECCnIrkYtDbPu8lHP2F7Md4dYmSJpqXdx8KlvVInUrLNomd1gkFuy
- Ww2aFZ9TA5FjBNa78sElicT09uaTDt2EaM/WoNs/Hf0lhPc7PvWtkFH7hfsEZgKI3g0p
- KChWPcEYB2iIbwvtFvZ7ORWPVuGwKvRnexxO/r503VN5BhbmuweRyopGIef+lCWNK4w+
- uM9A==
-X-Gm-Message-State: AOJu0Yzp09iBBvfFjzcHQFA2TXPezP70V/hN83FcjYVkkf4QBTeMLpO5
- 7rdPFJYFtjb1ilYOBSg4+w==
-X-Google-Smtp-Source: AGHT+IGbd8E/7UYhaxEGvqWFhQLwqbcpgCocA70NL6yVomx8hW0OvFLh92M66p/2d8jdHube5d2uBA==
-X-Received: by 2002:a5d:6046:0:b0:336:8d2e:77a1 with SMTP id
- j6-20020a5d6046000000b003368d2e77a1mr945167wrt.47.1703266961379; 
- Fri, 22 Dec 2023 09:42:41 -0800 (PST)
+ bh=gRLz1zrBuFNm0Af22mx0D2/7q2j0Q/CWyrbrvtrtVPY=;
+ b=VlEKXsyRXFJAkLwgy/VfWhj+X2WksojQd+GEkWSbUWPCS0i27y9u305c2U3mPhP67T
+ XgENuYxKUS+HjZ8aoEmx7KK19icjy7M0rgPcpgWZjkht44f6yt+mswL4vHVO2RPJAw4D
+ YD+JpKf/7AXCYM1FvtElDj6HpPMFvsNMaSzpD/8Qq9LDW8FRuwxd2l1q05YVp+y2Sesx
+ C1RZjPfkAettQE6qUQZjMwkHGwj4F8cgYat5F+Dg14sQhXuTDnCzQyL3YqxgesSpLopZ
+ FmcMk3CS0OIAaWCIAzXUANgAc7CwtT0SxOnhhOSTd+4BLI2Jv9zIxYPXIDoEQoLOU8XI
+ Kf6g==
+X-Gm-Message-State: AOJu0Yz/c5vZ4EqpcZcRxcrYfH74j88Mooch8M0Y09SSUOYm1mMwzHCl
+ uMxWoHBsi22ZUgEndw5kDg==
+X-Google-Smtp-Source: AGHT+IEHpUVIRCbHP3AshFALoArBl6E2zYs7rd6xJQGGfnJ//3nhB9bjJ/XDbpPL3zjGmIJ8dwji1w==
+X-Received: by 2002:a05:600c:a02:b0:40d:3868:6b85 with SMTP id
+ z2-20020a05600c0a0200b0040d38686b85mr544367wmp.198.1703266962256; 
+ Fri, 22 Dec 2023 09:42:42 -0800 (PST)
 Received: from U4.lan ([2a02:810b:f40:4300:f3ae:2788:7e03:f44])
  by smtp.gmail.com with ESMTPSA id
- w10-20020adfec4a000000b00336670abdcasm4777116wrn.40.2023.12.22.09.42.40
+ w10-20020adfec4a000000b00336670abdcasm4777116wrn.40.2023.12.22.09.42.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 22 Dec 2023 09:42:41 -0800 (PST)
 From: Alex Bee <knaerzche@gmail.com>
@@ -59,9 +59,9 @@ To: Sandy Huang <hjc@rock-chips.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>
-Subject: [PATCH v4 27/29] ARM: dts: rockchip: Add display subsystem for RK3128
-Date: Fri, 22 Dec 2023 18:42:18 +0100
-Message-ID: <20231222174220.55249-28-knaerzche@gmail.com>
+Subject: [PATCH v4 28/29] ARM: dts: rockchip: Add HDMI node for RK3128
+Date: Fri, 22 Dec 2023 18:42:19 +0100
+Message-ID: <20231222174220.55249-29-knaerzche@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231222174220.55249-1-knaerzche@gmail.com>
 References: <20231222174220.55249-1-knaerzche@gmail.com>
@@ -86,7 +86,9 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add vop and display-subsystem nodes to RK3128's device tree.
+RK3128 has Innosilicon based HDMI TX controller similar to the one found in
+RK3036.
+Add it and the respective port nodes to the SoC device tree.
 
 Signed-off-by: Alex Bee <knaerzche@gmail.com>
 ---
@@ -99,54 +101,60 @@ changes in v3:
 changes in v4:
  - none
 
- arch/arm/boot/dts/rockchip/rk3128.dtsi | 27 ++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+ arch/arm/boot/dts/rockchip/rk3128.dtsi | 33 ++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
 
 diff --git a/arch/arm/boot/dts/rockchip/rk3128.dtsi b/arch/arm/boot/dts/rockchip/rk3128.dtsi
-index e2264c40b924..1a3bc8b2bc6e 100644
+index 1a3bc8b2bc6e..fb98873fd94e 100644
 --- a/arch/arm/boot/dts/rockchip/rk3128.dtsi
 +++ b/arch/arm/boot/dts/rockchip/rk3128.dtsi
-@@ -115,6 +115,12 @@ opp-1200000000 {
- 		};
- 	};
- 
-+	display_subsystem: display-subsystem {
-+		compatible = "rockchip,display-subsystem";
-+		ports = <&vop_out>;
-+		status = "disabled";
-+	};
+@@ -270,6 +270,11 @@ vop: vop@1010e000 {
+ 		vop_out: port {
+ 			#address-cells = <1>;
+ 			#size-cells = <0>;
 +
- 	gpu_opp_table: opp-table-1 {
- 		compatible = "operating-points-v2";
- 
-@@ -246,6 +252,27 @@ power-domain@RK3128_PD_GPU {
++			vop_out_hdmi: endpoint@0 {
++				reg = <0>;
++				remote-endpoint = <&hdmi_in_vop>;
++			};
  		};
  	};
  
-+	vop: vop@1010e000 {
-+		compatible = "rockchip,rk3126-vop";
-+		reg = <0x1010e000 0x300>;
-+		interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
-+		clocks = <&cru ACLK_LCDC0>, <&cru DCLK_VOP>,
-+			 <&cru HCLK_LCDC0>;
-+		clock-names = "aclk_vop", "dclk_vop",
-+			      "hclk_vop";
-+		resets = <&cru SRST_VOP_A>, <&cru SRST_VOP_H>,
-+			 <&cru SRST_VOP_D>;
-+		reset-names = "axi", "ahb",
-+			      "dclk";
+@@ -463,6 +468,34 @@ usb2phy_otg: otg-port {
+ 		};
+ 	};
+ 
++	hdmi: hdmi@20034000 {
++		compatible = "rockchip,rk3128-inno-hdmi";
++		reg = <0x20034000 0x4000>;
++		interrupts = <GIC_SPI 45 IRQ_TYPE_LEVEL_HIGH>;
++		clocks = <&cru PCLK_HDMI>, <&cru DCLK_VOP>;
++		clock-names = "pclk", "ref";
++		pinctrl-names = "default";
++		pinctrl-0 = <&hdmii2c_xfer &hdmi_hpd &hdmi_cec>;
 +		power-domains = <&power RK3128_PD_VIO>;
 +		status = "disabled";
 +
-+		vop_out: port {
++		ports {
 +			#address-cells = <1>;
 +			#size-cells = <0>;
++
++			hdmi_in: port@0 {
++				reg = <0>;
++				hdmi_in_vop: endpoint {
++					remote-endpoint = <&vop_out_hdmi>;
++				};
++			};
++
++			hdmi_out: port@1 {
++				reg = <1>;
++			};
 +		};
 +	};
 +
- 	qos_gpu: qos@1012d000 {
- 		compatible = "rockchip,rk3128-qos", "syscon";
- 		reg = <0x1012d000 0x20>;
+ 	timer0: timer@20044000 {
+ 		compatible = "rockchip,rk3128-timer", "rockchip,rk3288-timer";
+ 		reg = <0x20044000 0x20>;
 -- 
 2.43.0
 
