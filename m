@@ -2,56 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD73481C9F6
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 13:29:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B7AA81CAA5
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 14:26:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A715F10E791;
-	Fri, 22 Dec 2023 12:29:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1C8A10E115;
+	Fri, 22 Dec 2023 13:26:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA67D10E133;
- Fri, 22 Dec 2023 12:29:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1703248160; x=1734784160;
- h=message-id:date:mime-version:subject:from:to:cc:
- references:in-reply-to:content-transfer-encoding;
- bh=Bjcr2BpdVoicVzwyRniF395QLVOaKLzfFmT+l2BvJwI=;
- b=mvZNhPaEX+Axyc0TuXUallu0y9FUAZGyRjigVK6q4k23Gat/VQmx0hNe
- RWm0Yy0f+LVhvfnLN8tWKbwgeLpI0n4EMAUNIyQrfVgr/15AareXLk+c2
- FDBNz8BRMxew7/nTmpTkp/LkMY5fc/AuGb4W9bdQFJEOcRxWurr5f3Abf
- g165TeAKyA5+MxwB9J8O5+iox56b50yxF+g39vRfYt+t7MHJPzl1ZU+Tu
- 1vVDb/kDBhcrXuRNU6/yHRVFNaEcwidVW74Hh8uppUk8i0hQ6y3+63HAM
- lNJ0f+Js6Kf+9mOTMOQqxYOA7ylNWPzMxW01rOLeLkDDONmCzczyyvY4+ w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10931"; a="3195363"
-X-IronPort-AV: E=Sophos;i="6.04,296,1695711600"; 
-   d="scan'208";a="3195363"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2023 04:29:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10931"; a="805932787"
-X-IronPort-AV: E=Sophos;i="6.04,296,1695711600"; d="scan'208";a="805932787"
-Received: from ktonsber-mobl1.ger.corp.intel.com (HELO [10.249.254.207])
- ([10.249.254.207])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2023 04:29:17 -0800
-Message-ID: <d2cbe861-2969-399f-a9cd-fc79060e7f70@linux.intel.com>
-Date: Fri, 22 Dec 2023 13:29:15 +0100
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B63E610E113
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 13:26:25 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 805FF2F4
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 05:27:10 -0800 (PST)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id BFA6F3F64C
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 05:26:24 -0800 (PST)
+Date: Fri, 22 Dec 2023 13:26:22 +0000
+From: Liviu Dudau <Liviu.Dudau@arm.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Subject: Re: [PATCH v3 03/14] drm/panthor: Add the device logical block
+Message-ID: <ZYWOfhMa2ljntUJW@e110455-lin.cambridge.arm.com>
+References: <20231204173313.2098733-1-boris.brezillon@collabora.com>
+ <20231204173313.2098733-4-boris.brezillon@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH] nightly.conf: Add the xe repo to drm-tip
-Content-Language: en-US
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>, intel-xe@lists.freedesktop.org
-References: <20231222113640.14038-1-thomas.hellstrom@linux.intel.com>
- <87h6kasaxx.fsf@intel.com>
- <ec58bfd4-2bd8-6a5b-dd01-74815a058c39@linux.intel.com>
-In-Reply-To: <ec58bfd4-2bd8-6a5b-dd01-74815a058c39@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231204173313.2098733-4-boris.brezillon@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,91 +43,1011 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, daniel.vetter@ffwll.ch,
- intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Nicolas Boichat <drinkcat@chromium.org>, kernel@collabora.com,
+ Daniel Stone <daniels@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, dri-devel@lists.freedesktop.org,
+ Steven Price <steven.price@arm.com>,
+ =?utf-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
+ Grant Likely <grant.likely@linaro.org>,
+ "Marty E . Plummer" <hanetzer@startmail.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Boris,
 
-On 12/22/23 13:25, Thomas Hellström wrote:
-> Hi,
->
-> On 12/22/23 13:01, Jani Nikula wrote:
->> On Fri, 22 Dec 2023, Thomas Hellström 
->> <thomas.hellstrom@linux.intel.com> wrote:
->>> Add the xe repo to drm-tip and the dim tools.
->>> For now use the sha1 of the first drm-xe-next pull request for drm-tip,
->>> since that branch tip is currently adapted for our CI testing.
->> I guess we'll need xe CI to switch to drm-tip based testing, and then
->> force push drm-xe-next to drop that core-for-CI thing. But I think it's
->> fine.
->
-> Yes, that's in the plan.
->
->>
->> However, please first push v6.7-rc6 to drm-xe-fixes and current drm-next
->> to drm-xe-next-fixes as a starting point. AFAICT the branches don't
->> exist yet.
->
-> Yes, I have that queued-up. Still waiting for the right people to wake 
-> up, though, since I'm ATM lacking the right to create those branches 
-> in the xe repo. I did a dry-run building drm-tip with these patches
-s/patches/branches/ ...
-> present in a clone of the xe repo for testing purposes...
->
->>
->> Other than that, LGTM.
->
-> Thanks,
->
-> Thomas
->
->
->>
->> BR,
->> Jani.
->>
->>> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
->>> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
->>> Cc: Oded Gabbay <ogabbay@kernel.org>
->>> Cc: daniel.vetter@ffwll.ch
->>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->>> Cc: dim-tools@lists.freedesktop.org
->>> Cc: dri-devel@lists.freedesktop.org
->>> Cc: intel-gfx@lists.freedesktop.org
->>> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->>> ---
->>>   nightly.conf | 7 +++++++
->>>   1 file changed, 7 insertions(+)
->>>
->>> diff --git a/nightly.conf b/nightly.conf
->>> index 24126b61b797..accd3ff2cc39 100644
->>> --- a/nightly.conf
->>> +++ b/nightly.conf
->>> @@ -24,6 +24,10 @@ git://anongit.freedesktop.org/drm-tip
->>>   https://anongit.freedesktop.org/git/drm/drm-tip
->>>   https://anongit.freedesktop.org/git/drm/drm-tip.git
->>>   "
->>> +drm_tip_repos[drm-xe]="
->>> +ssh://git@gitlab.freedesktop.org/drm/xe/kernel.git
->>> +https://gitlab.freedesktop.org/drm/xe/kernel.git
->>> +"
->>>   drm_tip_repos[drm-intel]="
->>>   ssh://git.freedesktop.org/git/drm/drm-intel
->>>   ssh://git.freedesktop.org/git/drm-intel
->>> @@ -65,14 +69,17 @@ drm_tip_config=(
->>>       "drm            drm-fixes"
->>>       "drm-misc        drm-misc-fixes"
->>>       "drm-intel        drm-intel-fixes"
->>> +    "drm-xe            drm-xe-fixes"
->>>         "drm            drm-next"
->>>       "drm-misc        drm-misc-next-fixes"
->>>       "drm-intel        drm-intel-next-fixes"
->>> +    "drm-xe            drm-xe-next-fixes"
->>>         "drm-misc        drm-misc-next"
->>>       "drm-intel        drm-intel-next"
->>>       "drm-intel        drm-intel-gt-next"
->>> +    "drm-xe            drm-xe-next b6e1b7081768"
->>>         "drm-intel        topic/core-for-CI"
->>>       "drm-misc        topic/i915-ttm"
+On Mon, Dec 04, 2023 at 06:32:56PM +0100, Boris Brezillon wrote:
+> The panthor driver is designed in a modular way, where each logical
+> block is dealing with a specific HW-block or software feature. In order
+> for those blocks to communicate with each other, we need a central
+> panthor_device collecting all the blocks, and exposing some common
+> features, like interrupt handling, power management, reset, ...
+> 
+> This what this panthor_device logical block is about.
+> 
+> v3:
+> - Add acks for the MIT+GPL2 relicensing
+> - Fix 32-bit support
+> - Shorten the sections protected by panthor_device::pm::mmio_lock to fix
+>   lock ordering issues.
+> - Rename panthor_device::pm::lock into panthor_device::pm::mmio_lock to
+>   better reflect what this lock is protecting
+> - Use dev_err_probe()
+> - Make sure we call drm_dev_exit() when something fails half-way in
+>   panthor_device_reset_work()
+> - Replace CSF_GPU_LATEST_FLUSH_ID_DEFAULT with a constant '1' and a
+>   comment to explain. Also remove setting the dummy flush ID on suspend.
+> - Remove drm_WARN_ON() in panthor_exception_name()
+> - Check pirq->suspended in panthor_xxx_irq_raw_handler()
+> 
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Signed-off-by: Steven Price <steven.price@arm.com>
+> Acked-by: Steven Price <steven.price@arm.com> # MIT+GPL2 relicensing,Arm
+> Acked-by: Grant Likely <grant.likely@linaro.org> # MIT+GPL2 relicensing,Linaro
+> Acked-by: Boris Brezillon <boris.brezillon@collabora.com> # MIT+GPL2 relicensing,Collabora
+> ---
+>  drivers/gpu/drm/panthor/panthor_device.c | 497 +++++++++++++++++++++++
+>  drivers/gpu/drm/panthor/panthor_device.h | 381 +++++++++++++++++
+>  2 files changed, 878 insertions(+)
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_device.c
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_device.h
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+> new file mode 100644
+> index 000000000000..40038bac147a
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panthor/panthor_device.c
+> @@ -0,0 +1,497 @@
+> +// SPDX-License-Identifier: GPL-2.0 or MIT
+> +/* Copyright 2018 Marty E. Plummer <hanetzer@startmail.com> */
+> +/* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
+> +/* Copyright 2023 Collabora ltd. */
+> +
+> +#include <linux/clk.h>
+> +#include <linux/reset.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_domain.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/regulator/consumer.h>
+> +
+> +#include <drm/drm_drv.h>
+> +#include <drm/drm_managed.h>
+> +
+> +#include "panthor_sched.h"
+> +#include "panthor_device.h"
+> +#include "panthor_devfreq.h"
+> +#include "panthor_gpu.h"
+> +#include "panthor_fw.h"
+> +#include "panthor_mmu.h"
+> +#include "panthor_regs.h"
+> +
+> +static int panthor_clk_init(struct panthor_device *ptdev)
+> +{
+> +	ptdev->clks.core = devm_clk_get(ptdev->base.dev, NULL);
+> +	if (IS_ERR(ptdev->clks.core))
+> +		return dev_err_probe(ptdev->base.dev,
+> +				     PTR_ERR(ptdev->clks.core),
+> +				     "get 'core' clock failed");
+> +
+> +	ptdev->clks.stacks = devm_clk_get_optional(ptdev->base.dev, "stacks");
+> +	if (IS_ERR(ptdev->clks.stacks))
+> +		return dev_err_probe(ptdev->base.dev,
+> +				     PTR_ERR(ptdev->clks.stacks),
+> +				     "get 'stacks' clock failed");
+> +
+> +	ptdev->clks.coregroup = devm_clk_get_optional(ptdev->base.dev, "coregroup");
+> +	if (IS_ERR(ptdev->clks.coregroup))
+> +		return dev_err_probe(ptdev->base.dev,
+> +				     PTR_ERR(ptdev->clks.coregroup),
+> +				     "get 'coregroup' clock failed");
+> +
+> +	drm_info(&ptdev->base, "clock rate = %lu\n", clk_get_rate(ptdev->clks.core));
+> +	return 0;
+> +}
+> +
+> +void panthor_device_unplug(struct panthor_device *ptdev)
+> +{
+> +	/* FIXME: This is racy. */
+> +	if (drm_dev_is_unplugged(&ptdev->base))
+> +		return;
+> +
+> +	drm_WARN_ON(&ptdev->base, pm_runtime_get_sync(ptdev->base.dev) < 0);
+> +
+> +	/* Call drm_dev_unplug() so any access to HW block happening after
+> +	 * that point get rejected.
+> +	 */
+> +	drm_dev_unplug(&ptdev->base);
+> +
+> +	/* Now, try to cleanly shutdown the GPU before the device resources
+> +	 * get reclaimed.
+> +	 */
+> +	panthor_sched_unplug(ptdev);
+> +	panthor_fw_unplug(ptdev);
+> +	panthor_mmu_unplug(ptdev);
+> +	panthor_gpu_unplug(ptdev);
+> +
+> +	pm_runtime_dont_use_autosuspend(ptdev->base.dev);
+> +	pm_runtime_put_sync_suspend(ptdev->base.dev);
+> +}
+> +
+> +static void panthor_device_reset_cleanup(struct drm_device *ddev, void *data)
+> +{
+> +	struct panthor_device *ptdev = container_of(ddev, struct panthor_device, base);
+> +
+> +	cancel_work_sync(&ptdev->reset.work);
+> +	destroy_workqueue(ptdev->reset.wq);
+> +}
+> +
+> +static void panthor_device_reset_work(struct work_struct *work)
+> +{
+> +	struct panthor_device *ptdev = container_of(work, struct panthor_device, reset.work);
+> +	int ret = 0, cookie;
+> +
+> +	if (atomic_read(&ptdev->pm.state) != PANTHOR_DEVICE_PM_STATE_ACTIVE) {
+> +		/*
+> +		 * No need for a reset as the device has been (or will be)
+> +		 * powered down
+> +		 */
+> +		atomic_set(&ptdev->reset.pending, 0);
+> +		return;
+> +	}
+> +
+> +	if (!drm_dev_enter(&ptdev->base, &cookie))
+> +		return;
+> +
+> +	panthor_sched_pre_reset(ptdev);
+> +	panthor_fw_pre_reset(ptdev, true);
+> +	panthor_mmu_pre_reset(ptdev);
+> +	panthor_gpu_soft_reset(ptdev);
+> +	panthor_gpu_l2_power_on(ptdev);
+> +	panthor_mmu_post_reset(ptdev);
+> +	ret = panthor_fw_post_reset(ptdev);
+> +	if (ret)
+> +		goto out_dev_exit;
+> +
+> +	atomic_set(&ptdev->reset.pending, 0);
+> +	panthor_sched_post_reset(ptdev);
+> +
+> +	if (ret) {
+> +		panthor_device_unplug(ptdev);
+> +		drm_err(&ptdev->base, "Failed to boot MCU after reset, making device unusable.");
+> +	}
+> +
+> +out_dev_exit:
+> +	drm_dev_exit(cookie);
+> +}
+> +
+> +static bool panthor_device_is_initialized(struct panthor_device *ptdev)
+> +{
+> +	return !!ptdev->scheduler;
+> +}
+> +
+> +static void panthor_device_free_page(struct drm_device *ddev, void *data)
+> +{
+> +	free_page((unsigned long)data);
+> +}
+> +
+> +int panthor_device_init(struct panthor_device *ptdev)
+> +{
+> +	struct resource *res;
+> +	struct page *p;
+> +	int ret;
+> +
+> +	ptdev->coherent = device_get_dma_attr(ptdev->base.dev) == DEV_DMA_COHERENT;
+> +
+> +	drmm_mutex_init(&ptdev->base, &ptdev->pm.mmio_lock);
+> +	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_SUSPENDED);
+> +	p = alloc_page(GFP_KERNEL | __GFP_ZERO);
+> +	if (!p)
+> +		return -ENOMEM;
+> +
+> +	ptdev->pm.dummy_latest_flush = page_address(p);
+> +	ret = drmm_add_action_or_reset(&ptdev->base, panthor_device_free_page,
+> +				       ptdev->pm.dummy_latest_flush);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/*
+> +	 * Set the dummy page holding the latest flush to 1. This will cause the
+> +	 * flush to avoided as we know it isn't necessary if the submission
+> +	 * happens while the dummy page is mapped. Zero cannot be used because
+> +	 * that means 'always flush'.
+> +	 */
+> +	*ptdev->pm.dummy_latest_flush = 1;
+> +
+> +	INIT_WORK(&ptdev->reset.work, panthor_device_reset_work);
+> +	ptdev->reset.wq = alloc_ordered_workqueue("panthor-reset-wq", 0);
+> +	if (!ptdev->reset.wq)
+> +		return -ENOMEM;
+> +
+> +	ret = drmm_add_action_or_reset(&ptdev->base, panthor_device_reset_cleanup, NULL);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = panthor_clk_init(ptdev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = panthor_devfreq_init(ptdev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ptdev->iomem = devm_platform_get_and_ioremap_resource(to_platform_device(ptdev->base.dev),
+> +							      0, &res);
+> +	if (IS_ERR(ptdev->iomem))
+> +		return PTR_ERR(ptdev->iomem);
+> +
+> +	ptdev->phys_addr = res->start;
+> +
+> +	ret = devm_pm_runtime_enable(ptdev->base.dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = pm_runtime_resume_and_get(ptdev->base.dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = panthor_gpu_init(ptdev);
+> +	if (ret)
+> +		goto err_rpm_put;
+> +
+> +	ret = panthor_mmu_init(ptdev);
+> +	if (ret)
+> +		goto err_rpm_put;
+> +
+> +	ret = panthor_fw_init(ptdev);
+> +	if (ret)
+> +		goto err_rpm_put;
+> +
+> +	ret = panthor_sched_init(ptdev);
+> +	if (ret)
+> +		goto err_rpm_put;
+> +
+> +	/* ~3 frames */
+> +	pm_runtime_set_autosuspend_delay(ptdev->base.dev, 50);
+> +	pm_runtime_use_autosuspend(ptdev->base.dev);
+> +	pm_runtime_put_autosuspend(ptdev->base.dev);
+> +	return 0;
+> +
+> +err_rpm_put:
+> +	pm_runtime_put_sync_suspend(ptdev->base.dev);
+
+I'm afraid this is not enough to cleanup the driver if firmware fails to load
+or if panthor_sched_init() fails. I was playing with another device that's
+based on RK3588 and forgot to move the firmware to the new location. I've got
+a kernel crash with an SError due to failure to load the firmware. It was in
+panthor_mmu_irq_raw_handler() which fired because the MMU was not unplugged.
+
+My local fix was:
+
+-- >8 --------------------------------------------------------------
+diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+index 834b828fc1b59..d8374f8b9333a 100644
+--- a/drivers/gpu/drm/panthor/panthor_device.c
++++ b/drivers/gpu/drm/panthor/panthor_device.c
+@@ -224,15 +224,15 @@ int panthor_device_init(struct panthor_device *ptdev)
+ 
+ 	ret = panthor_mmu_init(ptdev);
+ 	if (ret)
+-		goto err_rpm_put;
++		goto err_mmu_init;
+ 
+ 	ret = panthor_fw_init(ptdev);
+ 	if (ret)
+-		goto err_rpm_put;
++		goto err_fw_init;
+ 
+ 	ret = panthor_sched_init(ptdev);
+ 	if (ret)
+-		goto err_rpm_put;
++		goto err_sched_init;
+ 
+ 	/* ~3 frames */
+ 	pm_runtime_set_autosuspend_delay(ptdev->base.dev, 50);
+@@ -240,6 +240,12 @@ int panthor_device_init(struct panthor_device *ptdev)
+ 	pm_runtime_put_autosuspend(ptdev->base.dev);
+ 	return 0;
+ 
++err_sched_init:
++	panthor_fw_unplug(ptdev);
++err_fw_init:
++	panthor_mmu_unplug(ptdev);
++err_mmu_init:
++	panthor_gpu_unplug(ptdev);
+ err_rpm_put:
+ 	pm_runtime_put_sync_suspend(ptdev->base.dev);
+ 	return ret;
+
+-- >8 -------------------------------------------------------------
+
+I can send a fully formed patch if you agree with the fix.
+
+Best regards,
+Liviu
+
+
+> +	return ret;
+> +}
+> +
+> +#define PANTHOR_EXCEPTION(id) \
+> +	[DRM_PANTHOR_EXCEPTION_ ## id] = { \
+> +		.name = #id, \
+> +	}
+> +
+> +struct panthor_exception_info {
+> +	const char *name;
+> +};
+> +
+> +static const struct panthor_exception_info panthor_exception_infos[] = {
+> +	PANTHOR_EXCEPTION(OK),
+> +	PANTHOR_EXCEPTION(TERMINATED),
+> +	PANTHOR_EXCEPTION(KABOOM),
+> +	PANTHOR_EXCEPTION(EUREKA),
+> +	PANTHOR_EXCEPTION(ACTIVE),
+> +	PANTHOR_EXCEPTION(CS_RES_TERM),
+> +	PANTHOR_EXCEPTION(CS_CONFIG_FAULT),
+> +	PANTHOR_EXCEPTION(CS_ENDPOINT_FAULT),
+> +	PANTHOR_EXCEPTION(CS_BUS_FAULT),
+> +	PANTHOR_EXCEPTION(CS_INSTR_INVALID),
+> +	PANTHOR_EXCEPTION(CS_CALL_STACK_OVERFLOW),
+> +	PANTHOR_EXCEPTION(CS_INHERIT_FAULT),
+> +	PANTHOR_EXCEPTION(INSTR_INVALID_PC),
+> +	PANTHOR_EXCEPTION(INSTR_INVALID_ENC),
+> +	PANTHOR_EXCEPTION(INSTR_BARRIER_FAULT),
+> +	PANTHOR_EXCEPTION(DATA_INVALID_FAULT),
+> +	PANTHOR_EXCEPTION(TILE_RANGE_FAULT),
+> +	PANTHOR_EXCEPTION(ADDR_RANGE_FAULT),
+> +	PANTHOR_EXCEPTION(IMPRECISE_FAULT),
+> +	PANTHOR_EXCEPTION(OOM),
+> +	PANTHOR_EXCEPTION(CSF_FW_INTERNAL_ERROR),
+> +	PANTHOR_EXCEPTION(CSF_RES_EVICTION_TIMEOUT),
+> +	PANTHOR_EXCEPTION(GPU_BUS_FAULT),
+> +	PANTHOR_EXCEPTION(GPU_SHAREABILITY_FAULT),
+> +	PANTHOR_EXCEPTION(SYS_SHAREABILITY_FAULT),
+> +	PANTHOR_EXCEPTION(GPU_CACHEABILITY_FAULT),
+> +	PANTHOR_EXCEPTION(TRANSLATION_FAULT_0),
+> +	PANTHOR_EXCEPTION(TRANSLATION_FAULT_1),
+> +	PANTHOR_EXCEPTION(TRANSLATION_FAULT_2),
+> +	PANTHOR_EXCEPTION(TRANSLATION_FAULT_3),
+> +	PANTHOR_EXCEPTION(TRANSLATION_FAULT_4),
+> +	PANTHOR_EXCEPTION(PERM_FAULT_0),
+> +	PANTHOR_EXCEPTION(PERM_FAULT_1),
+> +	PANTHOR_EXCEPTION(PERM_FAULT_2),
+> +	PANTHOR_EXCEPTION(PERM_FAULT_3),
+> +	PANTHOR_EXCEPTION(ACCESS_FLAG_1),
+> +	PANTHOR_EXCEPTION(ACCESS_FLAG_2),
+> +	PANTHOR_EXCEPTION(ACCESS_FLAG_3),
+> +	PANTHOR_EXCEPTION(ADDR_SIZE_FAULT_IN),
+> +	PANTHOR_EXCEPTION(ADDR_SIZE_FAULT_OUT0),
+> +	PANTHOR_EXCEPTION(ADDR_SIZE_FAULT_OUT1),
+> +	PANTHOR_EXCEPTION(ADDR_SIZE_FAULT_OUT2),
+> +	PANTHOR_EXCEPTION(ADDR_SIZE_FAULT_OUT3),
+> +	PANTHOR_EXCEPTION(MEM_ATTR_FAULT_0),
+> +	PANTHOR_EXCEPTION(MEM_ATTR_FAULT_1),
+> +	PANTHOR_EXCEPTION(MEM_ATTR_FAULT_2),
+> +	PANTHOR_EXCEPTION(MEM_ATTR_FAULT_3),
+> +};
+> +
+> +const char *panthor_exception_name(struct panthor_device *ptdev, u32 exception_code)
+> +{
+> +	if (exception_code >= ARRAY_SIZE(panthor_exception_infos) ||
+> +	    !panthor_exception_infos[exception_code].name)
+> +		return "Unknown exception type";
+> +
+> +	return panthor_exception_infos[exception_code].name;
+> +}
+> +
+> +static vm_fault_t panthor_mmio_vm_fault(struct vm_fault *vmf)
+> +{
+> +	struct vm_area_struct *vma = vmf->vma;
+> +	struct panthor_device *ptdev = vma->vm_private_data;
+> +	u64 id = (u64)vma->vm_pgoff << PAGE_SHIFT;
+> +	unsigned long pfn;
+> +	pgprot_t pgprot;
+> +	vm_fault_t ret;
+> +	bool active;
+> +	int cookie;
+> +
+> +	if (!drm_dev_enter(&ptdev->base, &cookie))
+> +		return VM_FAULT_SIGBUS;
+> +
+> +	mutex_lock(&ptdev->pm.mmio_lock);
+> +	active = atomic_read(&ptdev->pm.state) == PANTHOR_DEVICE_PM_STATE_ACTIVE;
+> +
+> +	switch (panthor_device_mmio_offset(id)) {
+> +	case DRM_PANTHOR_USER_FLUSH_ID_MMIO_OFFSET:
+> +		if (active)
+> +			pfn = __phys_to_pfn(ptdev->phys_addr + CSF_GPU_LATEST_FLUSH_ID);
+> +		else
+> +			pfn = virt_to_pfn(ptdev->pm.dummy_latest_flush);
+> +		break;
+> +
+> +	default:
+> +		ret = VM_FAULT_SIGBUS;
+> +		goto out_unlock;
+> +	}
+> +
+> +	pgprot = vma->vm_page_prot;
+> +	if (active)
+> +		pgprot = pgprot_noncached(pgprot);
+> +
+> +	ret = vmf_insert_pfn_prot(vma, vmf->address, pfn, pgprot);
+> +
+> +out_unlock:
+> +	mutex_unlock(&ptdev->pm.mmio_lock);
+> +	drm_dev_exit(cookie);
+> +	return ret;
+> +}
+> +
+> +static const struct vm_operations_struct panthor_mmio_vm_ops = {
+> +	.fault = panthor_mmio_vm_fault,
+> +};
+> +
+> +int panthor_device_mmap_io(struct panthor_device *ptdev, struct vm_area_struct *vma)
+> +{
+> +	u64 id = (u64)vma->vm_pgoff << PAGE_SHIFT;
+> +
+> +	switch (panthor_device_mmio_offset(id)) {
+> +	case DRM_PANTHOR_USER_FLUSH_ID_MMIO_OFFSET:
+> +		if (vma->vm_end - vma->vm_start != PAGE_SIZE ||
+> +		    (vma->vm_flags & (VM_WRITE | VM_EXEC)))
+> +			return -EINVAL;
+> +
+> +		break;
+> +
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	/* Defer actual mapping to the fault handler. */
+> +	vma->vm_private_data = ptdev;
+> +	vma->vm_ops = &panthor_mmio_vm_ops;
+> +	vm_flags_set(vma,
+> +		     VM_IO | VM_DONTCOPY | VM_DONTEXPAND |
+> +		     VM_NORESERVE | VM_DONTDUMP | VM_PFNMAP);
+> +	return 0;
+> +}
+> +
+> +#ifdef CONFIG_PM
+> +int panthor_device_resume(struct device *dev)
+> +{
+> +	struct panthor_device *ptdev = dev_get_drvdata(dev);
+> +	int ret, cookie;
+> +
+> +	if (atomic_read(&ptdev->pm.state) != PANTHOR_DEVICE_PM_STATE_SUSPENDED)
+> +		return -EINVAL;
+> +
+> +	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_RESUMING);
+> +
+> +	ret = clk_prepare_enable(ptdev->clks.core);
+> +	if (ret)
+> +		goto err_set_suspended;
+> +
+> +	ret = clk_prepare_enable(ptdev->clks.stacks);
+> +	if (ret)
+> +		goto err_disable_core_clk;
+> +
+> +	ret = clk_prepare_enable(ptdev->clks.coregroup);
+> +	if (ret)
+> +		goto err_disable_stacks_clk;
+> +
+> +	ret = panthor_devfreq_resume(ptdev);
+> +	if (ret)
+> +		goto err_disable_coregroup_clk;
+> +
+> +	if (panthor_device_is_initialized(ptdev) &&
+> +	    drm_dev_enter(&ptdev->base, &cookie)) {
+> +		panthor_gpu_resume(ptdev);
+> +		panthor_mmu_resume(ptdev);
+> +		ret = drm_WARN_ON(&ptdev->base, panthor_fw_resume(ptdev));
+> +		if (!ret)
+> +			panthor_sched_resume(ptdev);
+> +
+> +		drm_dev_exit(cookie);
+> +
+> +		if (ret)
+> +			goto err_devfreq_suspend;
+> +	}
+> +
+> +	if (atomic_read(&ptdev->reset.pending))
+> +		queue_work(ptdev->reset.wq, &ptdev->reset.work);
+> +
+> +	/* Clear all IOMEM mappings pointing to this device after we've
+> +	 * resumed. This way the fake mappings pointing to the dummy pages
+> +	 * are removed and the real iomem mapping will be restored on next
+> +	 * access.
+> +	 */
+> +	mutex_lock(&ptdev->pm.mmio_lock);
+> +	unmap_mapping_range(ptdev->base.anon_inode->i_mapping,
+> +			    DRM_PANTHOR_USER_MMIO_OFFSET, 0, 1);
+> +	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_ACTIVE);
+> +	mutex_unlock(&ptdev->pm.mmio_lock);
+> +	return 0;
+> +
+> +err_devfreq_suspend:
+> +	panthor_devfreq_suspend(ptdev);
+> +
+> +err_disable_coregroup_clk:
+> +	clk_disable_unprepare(ptdev->clks.coregroup);
+> +
+> +err_disable_stacks_clk:
+> +	clk_disable_unprepare(ptdev->clks.stacks);
+> +
+> +err_disable_core_clk:
+> +	clk_disable_unprepare(ptdev->clks.core);
+> +
+> +err_set_suspended:
+> +	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_SUSPENDED);
+> +	return ret;
+> +}
+> +
+> +int panthor_device_suspend(struct device *dev)
+> +{
+> +	struct panthor_device *ptdev = dev_get_drvdata(dev);
+> +	int ret, cookie;
+> +
+> +	if (atomic_read(&ptdev->pm.state) != PANTHOR_DEVICE_PM_STATE_ACTIVE)
+> +		return -EINVAL;
+> +
+> +	/* Clear all IOMEM mappings pointing to this device before we
+> +	 * shutdown the power-domain and clocks. Failing to do that results
+> +	 * in external aborts when the process accesses the iomem region.
+> +	 * We change the state and call unmap_mapping_range() with the
+> +	 * mmio_lock held to make sure the vm_fault handler won't set up
+> +	 * invalid mappings.
+> +	 */
+> +	mutex_lock(&ptdev->pm.mmio_lock);
+> +	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_SUSPENDING);
+> +	unmap_mapping_range(ptdev->base.anon_inode->i_mapping,
+> +			    DRM_PANTHOR_USER_MMIO_OFFSET, 0, 1);
+> +	mutex_unlock(&ptdev->pm.mmio_lock);
+> +
+> +	if (panthor_device_is_initialized(ptdev) &&
+> +	    drm_dev_enter(&ptdev->base, &cookie)) {
+> +		cancel_work_sync(&ptdev->reset.work);
+> +
+> +		/* We prepare everything as if we were resetting the GPU.
+> +		 * The end of the reset will happen in the resume path though.
+> +		 */
+> +		panthor_sched_suspend(ptdev);
+> +		panthor_fw_suspend(ptdev);
+> +		panthor_mmu_suspend(ptdev);
+> +		panthor_gpu_suspend(ptdev);
+> +		drm_dev_exit(cookie);
+> +	}
+> +
+> +	ret = panthor_devfreq_suspend(ptdev);
+> +	if (ret) {
+> +		if (panthor_device_is_initialized(ptdev) &&
+> +		    drm_dev_enter(&ptdev->base, &cookie)) {
+> +			panthor_gpu_resume(ptdev);
+> +			panthor_mmu_resume(ptdev);
+> +			drm_WARN_ON(&ptdev->base, panthor_fw_resume(ptdev));
+> +			panthor_sched_resume(ptdev);
+> +			drm_dev_exit(cookie);
+> +		}
+> +
+> +		goto err_set_active;
+> +	}
+> +
+> +	clk_disable_unprepare(ptdev->clks.coregroup);
+> +	clk_disable_unprepare(ptdev->clks.stacks);
+> +	clk_disable_unprepare(ptdev->clks.core);
+> +	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_SUSPENDED);
+> +	return 0;
+> +
+> +err_set_active:
+> +	/* If something failed and we have to revert back to an
+> +	 * active state, we also need to clear the MMIO userspace
+> +	 * mappings, so any dumb pages that were mapped while we
+> +	 * were trying to suspend gets invalidated.
+> +	 */
+> +	mutex_lock(&ptdev->pm.mmio_lock);
+> +	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_ACTIVE);
+> +	unmap_mapping_range(ptdev->base.anon_inode->i_mapping,
+> +			    DRM_PANTHOR_USER_MMIO_OFFSET, 0, 1);
+> +	mutex_unlock(&ptdev->pm.mmio_lock);
+> +	return ret;
+> +}
+> +#endif
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+> new file mode 100644
+> index 000000000000..944a8ed59d79
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> @@ -0,0 +1,381 @@
+> +/* SPDX-License-Identifier: GPL-2.0 or MIT */
+> +/* Copyright 2018 Marty E. Plummer <hanetzer@startmail.com> */
+> +/* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
+> +/* Copyright 2023 Collabora ltd. */
+> +
+> +#ifndef __PANTHOR_DEVICE_H__
+> +#define __PANTHOR_DEVICE_H__
+> +
+> +#include <linux/atomic.h>
+> +#include <linux/io-pgtable.h>
+> +#include <linux/regulator/consumer.h>
+> +#include <linux/sched.h>
+> +#include <linux/spinlock.h>
+> +#include <drm/drm_device.h>
+> +#include <drm/drm_mm.h>
+> +#include <drm/gpu_scheduler.h>
+> +#include <drm/panthor_drm.h>
+> +
+> +struct panthor_csf;
+> +struct panthor_csf_ctx;
+> +struct panthor_device;
+> +struct panthor_gpu;
+> +struct panthor_group_pool;
+> +struct panthor_heap_pool;
+> +struct panthor_job;
+> +struct panthor_mmu;
+> +struct panthor_fw;
+> +struct panthor_perfcnt;
+> +struct panthor_vm;
+> +struct panthor_vm_pool;
+> +
+> +/**
+> + * enum panthor_device_pm_state - PM state
+> + */
+> +enum panthor_device_pm_state {
+> +	/** @PANTHOR_DEVICE_PM_STATE_SUSPENDED: Device is suspended. */
+> +	PANTHOR_DEVICE_PM_STATE_SUSPENDED = 0,
+> +
+> +	/** @PANTHOR_DEVICE_PM_STATE_RESUMING: Device is being resumed. */
+> +	PANTHOR_DEVICE_PM_STATE_RESUMING,
+> +
+> +	/** @PANTHOR_DEVICE_PM_STATE_ACTIVE: Device is active. */
+> +	PANTHOR_DEVICE_PM_STATE_ACTIVE,
+> +
+> +	/** @PANTHOR_DEVICE_PM_STATE_SUSPENDING: Device is being suspended. */
+> +	PANTHOR_DEVICE_PM_STATE_SUSPENDING,
+> +};
+> +
+> +/**
+> + * struct panthor_irq - IRQ data
+> + *
+> + * Used to automate IRQ handling for the 3 different IRQs we have in this driver.
+> + */
+> +struct panthor_irq {
+> +	/** @ptdev: Panthor device */
+> +	struct panthor_device *ptdev;
+> +
+> +	/** @irq: IRQ number. */
+> +	int irq;
+> +
+> +	/** @mask: Current mask being applied to xxx_INT_MASK. */
+> +	u32 mask;
+> +
+> +	/** @suspended: Set to true when the IRQ is suspended. */
+> +	atomic_t suspended;
+> +};
+> +
+> +/**
+> + * struct panthor_device - Panthor device
+> + */
+> +struct panthor_device {
+> +	/** @base: Base drm_device. */
+> +	struct drm_device base;
+> +
+> +	/** @phys_addr: Physical address of the iomem region. */
+> +	phys_addr_t phys_addr;
+> +
+> +	/** @iomem: CPU mapping of the IOMEM region. */
+> +	void __iomem *iomem;
+> +
+> +	/** @clks: GPU clocks. */
+> +	struct {
+> +		/** @core: Core clock. */
+> +		struct clk *core;
+> +
+> +		/** @stacks: Stacks clock. This clock is optional. */
+> +		struct clk *stacks;
+> +
+> +		/** @coregroup: Core group clock. This clock is optional. */
+> +		struct clk *coregroup;
+> +	} clks;
+> +
+> +	/** @coherent: True if the CPU/GPU are memory coherent. */
+> +	bool coherent;
+> +
+> +	/** @gpu_info: GPU information. */
+> +	struct drm_panthor_gpu_info gpu_info;
+> +
+> +	/** @csif_info: Command stream interface information. */
+> +	struct drm_panthor_csif_info csif_info;
+> +
+> +	/** @gpu: GPU management data. */
+> +	struct panthor_gpu *gpu;
+> +
+> +	/** @fw: FW management data. */
+> +	struct panthor_fw *fw;
+> +
+> +	/** @mmu: MMU management data. */
+> +	struct panthor_mmu *mmu;
+> +
+> +	/** @scheduler: Scheduler management data. */
+> +	struct panthor_scheduler *scheduler;
+> +
+> +	/** @devfreq: Device frequency scaling management data. */
+> +	struct panthor_devfreq *devfreq;
+> +
+> +	/** @reset: Reset related fields. */
+> +	struct {
+> +		/** @wq: Ordered worqueud used to schedule reset operations. */
+> +		struct workqueue_struct *wq;
+> +
+> +		/** @work: Reset work. */
+> +		struct work_struct work;
+> +
+> +		/** @pending: Set to true if a reset is pending. */
+> +		atomic_t pending;
+> +	} reset;
+> +
+> +	/** @pm: Power management related data. */
+> +	struct {
+> +		/** @state: Power state. */
+> +		atomic_t state;
+> +
+> +		/**
+> +		 * @mmio_lock: Lock protecting MMIO userspace CPU mappings.
+> +		 *
+> +		 * This is needed to ensure we map the dummy IO pages when
+> +		 * the device is being suspended, and the real IO pages when
+> +		 * the device is being resumed. We can't just do with the
+> +		 * state atomicity to deal with this race.
+> +		 */
+> +		struct mutex mmio_lock;
+> +
+> +		/**
+> +		 * @dummy_latest_flush: Dummy LATEST_FLUSH page.
+> +		 *
+> +		 * Used to replace the real LATEST_FLUSH page when the GPU
+> +		 * is suspended.
+> +		 */
+> +		u32 *dummy_latest_flush;
+> +	} pm;
+> +};
+> +
+> +/**
+> + * struct panthor_file - Panthor file
+> + */
+> +struct panthor_file {
+> +	/** @ptdev: Device attached to this file. */
+> +	struct panthor_device *ptdev;
+> +
+> +	/** @vms: VM pool attached to this file. */
+> +	struct panthor_vm_pool *vms;
+> +
+> +	/** @groups: Scheduling group pool attached to this file. */
+> +	struct panthor_group_pool *groups;
+> +};
+> +
+> +int panthor_device_init(struct panthor_device *ptdev);
+> +void panthor_device_unplug(struct panthor_device *ptdev);
+> +
+> +/**
+> + * panthor_device_schedule_reset() - Schedules a reset operation
+> + */
+> +static inline void panthor_device_schedule_reset(struct panthor_device *ptdev)
+> +{
+> +	if (!atomic_cmpxchg(&ptdev->reset.pending, 0, 1) &&
+> +	    atomic_read(&ptdev->pm.state) == PANTHOR_DEVICE_PM_STATE_ACTIVE)
+> +		queue_work(ptdev->reset.wq, &ptdev->reset.work);
+> +}
+> +
+> +/**
+> + * panthor_device_reset_is_pending() - Checks if a reset is pending.
+> + *
+> + * Return: true if a reset is pending, false otherwise.
+> + */
+> +static inline bool panthor_device_reset_is_pending(struct panthor_device *ptdev)
+> +{
+> +	return atomic_read(&ptdev->reset.pending) != 0;
+> +}
+> +
+> +int panthor_device_mmap_io(struct panthor_device *ptdev,
+> +			   struct vm_area_struct *vma);
+> +
+> +int panthor_device_resume(struct device *dev);
+> +int panthor_device_suspend(struct device *dev);
+> +
+> +enum drm_panthor_exception_type {
+> +	DRM_PANTHOR_EXCEPTION_OK = 0x00,
+> +	DRM_PANTHOR_EXCEPTION_TERMINATED = 0x04,
+> +	DRM_PANTHOR_EXCEPTION_KABOOM = 0x05,
+> +	DRM_PANTHOR_EXCEPTION_EUREKA = 0x06,
+> +	DRM_PANTHOR_EXCEPTION_ACTIVE = 0x08,
+> +	DRM_PANTHOR_EXCEPTION_CS_RES_TERM = 0x0f,
+> +	DRM_PANTHOR_EXCEPTION_MAX_NON_FAULT = 0x3f,
+> +	DRM_PANTHOR_EXCEPTION_CS_CONFIG_FAULT = 0x40,
+> +	DRM_PANTHOR_EXCEPTION_CS_ENDPOINT_FAULT = 0x44,
+> +	DRM_PANTHOR_EXCEPTION_CS_BUS_FAULT = 0x48,
+> +	DRM_PANTHOR_EXCEPTION_CS_INSTR_INVALID = 0x49,
+> +	DRM_PANTHOR_EXCEPTION_CS_CALL_STACK_OVERFLOW = 0x4a,
+> +	DRM_PANTHOR_EXCEPTION_CS_INHERIT_FAULT = 0x4b,
+> +	DRM_PANTHOR_EXCEPTION_INSTR_INVALID_PC = 0x50,
+> +	DRM_PANTHOR_EXCEPTION_INSTR_INVALID_ENC = 0x51,
+> +	DRM_PANTHOR_EXCEPTION_INSTR_BARRIER_FAULT = 0x55,
+> +	DRM_PANTHOR_EXCEPTION_DATA_INVALID_FAULT = 0x58,
+> +	DRM_PANTHOR_EXCEPTION_TILE_RANGE_FAULT = 0x59,
+> +	DRM_PANTHOR_EXCEPTION_ADDR_RANGE_FAULT = 0x5a,
+> +	DRM_PANTHOR_EXCEPTION_IMPRECISE_FAULT = 0x5b,
+> +	DRM_PANTHOR_EXCEPTION_OOM = 0x60,
+> +	DRM_PANTHOR_EXCEPTION_CSF_FW_INTERNAL_ERROR = 0x68,
+> +	DRM_PANTHOR_EXCEPTION_CSF_RES_EVICTION_TIMEOUT = 0x69,
+> +	DRM_PANTHOR_EXCEPTION_GPU_BUS_FAULT = 0x80,
+> +	DRM_PANTHOR_EXCEPTION_GPU_SHAREABILITY_FAULT = 0x88,
+> +	DRM_PANTHOR_EXCEPTION_SYS_SHAREABILITY_FAULT = 0x89,
+> +	DRM_PANTHOR_EXCEPTION_GPU_CACHEABILITY_FAULT = 0x8a,
+> +	DRM_PANTHOR_EXCEPTION_TRANSLATION_FAULT_0 = 0xc0,
+> +	DRM_PANTHOR_EXCEPTION_TRANSLATION_FAULT_1 = 0xc1,
+> +	DRM_PANTHOR_EXCEPTION_TRANSLATION_FAULT_2 = 0xc2,
+> +	DRM_PANTHOR_EXCEPTION_TRANSLATION_FAULT_3 = 0xc3,
+> +	DRM_PANTHOR_EXCEPTION_TRANSLATION_FAULT_4 = 0xc4,
+> +	DRM_PANTHOR_EXCEPTION_PERM_FAULT_0 = 0xc8,
+> +	DRM_PANTHOR_EXCEPTION_PERM_FAULT_1 = 0xc9,
+> +	DRM_PANTHOR_EXCEPTION_PERM_FAULT_2 = 0xca,
+> +	DRM_PANTHOR_EXCEPTION_PERM_FAULT_3 = 0xcb,
+> +	DRM_PANTHOR_EXCEPTION_ACCESS_FLAG_1 = 0xd9,
+> +	DRM_PANTHOR_EXCEPTION_ACCESS_FLAG_2 = 0xda,
+> +	DRM_PANTHOR_EXCEPTION_ACCESS_FLAG_3 = 0xdb,
+> +	DRM_PANTHOR_EXCEPTION_ADDR_SIZE_FAULT_IN = 0xe0,
+> +	DRM_PANTHOR_EXCEPTION_ADDR_SIZE_FAULT_OUT0 = 0xe4,
+> +	DRM_PANTHOR_EXCEPTION_ADDR_SIZE_FAULT_OUT1 = 0xe5,
+> +	DRM_PANTHOR_EXCEPTION_ADDR_SIZE_FAULT_OUT2 = 0xe6,
+> +	DRM_PANTHOR_EXCEPTION_ADDR_SIZE_FAULT_OUT3 = 0xe7,
+> +	DRM_PANTHOR_EXCEPTION_MEM_ATTR_FAULT_0 = 0xe8,
+> +	DRM_PANTHOR_EXCEPTION_MEM_ATTR_FAULT_1 = 0xe9,
+> +	DRM_PANTHOR_EXCEPTION_MEM_ATTR_FAULT_2 = 0xea,
+> +	DRM_PANTHOR_EXCEPTION_MEM_ATTR_FAULT_3 = 0xeb,
+> +};
+> +
+> +/**
+> + * panthor_exception_is_fault() - Checks if an exception is a fault.
+> + *
+> + * Return: true if the exception is a fault, false otherwise.
+> + */
+> +static inline bool
+> +panthor_exception_is_fault(u32 exception_code)
+> +{
+> +	return exception_code > DRM_PANTHOR_EXCEPTION_MAX_NON_FAULT;
+> +}
+> +
+> +const char *panthor_exception_name(struct panthor_device *ptdev,
+> +				   u32 exception_code);
+> +
+> +/**
+> + * PANTHOR_IRQ_HANDLER() - Define interrupt handlers and the interrupt
+> + * registration function.
+> + *
+> + * The boiler-plate to gracefully deal with shared interrupts is
+> + * auto-generated. All you have to do is call PANTHOR_IRQ_HANDLER()
+> + * just after the actual handler. The handler prototype is:
+> + *
+> + * void (*handler)(struct panthor_device *, u32 status);
+> + */
+> +#define PANTHOR_IRQ_HANDLER(__name, __reg_prefix, __handler)					\
+> +static irqreturn_t panthor_ ## __name ## _irq_raw_handler(int irq, void *data)			\
+> +{												\
+> +	struct panthor_irq *pirq = data;							\
+> +	struct panthor_device *ptdev = pirq->ptdev;						\
+> +												\
+> +	if (atomic_read(&pirq->suspended))							\
+> +		return IRQ_NONE;								\
+> +	if (!gpu_read(ptdev, __reg_prefix ## _INT_STAT))					\
+> +		return IRQ_NONE;								\
+> +												\
+> +	gpu_write(ptdev, __reg_prefix ## _INT_MASK, 0);						\
+> +	return IRQ_WAKE_THREAD;									\
+> +}												\
+> +												\
+> +static irqreturn_t panthor_ ## __name ## _irq_threaded_handler(int irq, void *data)		\
+> +{												\
+> +	struct panthor_irq *pirq = data;							\
+> +	struct panthor_device *ptdev = pirq->ptdev;						\
+> +	irqreturn_t ret = IRQ_NONE;								\
+> +												\
+> +	while (true) {										\
+> +		u32 status = gpu_read(ptdev, __reg_prefix ## _INT_RAWSTAT) & pirq->mask;	\
+> +												\
+> +		if (!status)									\
+> +			break;									\
+> +												\
+> +		gpu_write(ptdev, __reg_prefix ## _INT_CLEAR, status);				\
+> +												\
+> +		__handler(ptdev, status);							\
+> +		ret = IRQ_HANDLED;								\
+> +	}											\
+> +												\
+> +	if (!atomic_read(&pirq->suspended))							\
+> +		gpu_write(ptdev, __reg_prefix ## _INT_MASK, pirq->mask);			\
+> +												\
+> +	return ret;										\
+> +}												\
+> +												\
+> +static inline void panthor_ ## __name ## _irq_suspend(struct panthor_irq *pirq)			\
+> +{												\
+> +	int cookie;										\
+> +												\
+> +	atomic_set(&pirq->suspended, true);							\
+> +												\
+> +	if (drm_dev_enter(&pirq->ptdev->base, &cookie)) {					\
+> +		gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, 0);				\
+> +		synchronize_irq(pirq->irq);							\
+> +		drm_dev_exit(cookie);								\
+> +	}											\
+> +												\
+> +	pirq->mask = 0;										\
+> +}												\
+> +												\
+> +static inline void panthor_ ## __name ## _irq_resume(struct panthor_irq *pirq, u32 mask)	\
+> +{												\
+> +	int cookie;										\
+> +												\
+> +	atomic_set(&pirq->suspended, false);							\
+> +	pirq->mask = mask;									\
+> +												\
+> +	if (drm_dev_enter(&pirq->ptdev->base, &cookie)) {					\
+> +		gpu_write(pirq->ptdev, __reg_prefix ## _INT_CLEAR, mask);			\
+> +		gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, mask);			\
+> +		drm_dev_exit(cookie);								\
+> +	}											\
+> +}												\
+> +												\
+> +static int panthor_request_ ## __name ## _irq(struct panthor_device *ptdev,			\
+> +					      struct panthor_irq *pirq,				\
+> +					      int irq, u32 mask)				\
+> +{												\
+> +	pirq->ptdev = ptdev;									\
+> +	pirq->irq = irq;									\
+> +	panthor_ ## __name ## _irq_resume(pirq, mask);						\
+> +												\
+> +	return devm_request_threaded_irq(ptdev->base.dev, irq,					\
+> +					 panthor_ ## __name ## _irq_raw_handler,		\
+> +					 panthor_ ## __name ## _irq_threaded_handler,		\
+> +					 IRQF_SHARED, KBUILD_MODNAME "-" # __name,		\
+> +					 pirq);							\
+> +}
+> +
+> +/**
+> + * panthor_device_mmio_offset() - Turn a user MMIO offset into a kernel one
+> + * @offset: Offset to convert.
+> + *
+> + * With 32-bit systems being limited by the 32-bit representation of mmap2's
+> + * pgoffset field, we need to make the MMIO offset arch specific. This function
+> + * converts a user MMIO offset into something the kernel driver understands.
+> + *
+> + * If the kernel and userspace architecture match, the offset is unchanged. If
+> + * the kernel is 64-bit and userspace is 32-bit, the offset is adjusted to match
+> + * 64-bit offsets. 32-bit kernel with 64-bit userspace is impossible.
+> + *
+> + * Return: Adjusted offset.
+> + */
+> +static inline u64 panthor_device_mmio_offset(u64 offset)
+> +{
+> +#ifdef CONFIG_ARM64
+> +	if (test_tsk_thread_flag(current, TIF_32BIT))
+> +		offset += DRM_PANTHOR_USER_MMIO_OFFSET_64BIT - DRM_PANTHOR_USER_MMIO_OFFSET_32BIT;
+> +#endif
+> +
+> +	return offset;
+> +}
+> +
+> +extern struct workqueue_struct *panthor_cleanup_wq;
+> +
+> +#endif
+> -- 
+> 2.43.0
+> 
+
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
