@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECE4581C3ED
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 05:33:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE1F081C3F0
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 05:33:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88BCE10E745;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 466A010E741;
 	Fri, 22 Dec 2023 04:33:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-44.mimecast.com
- (us-smtp-delivery-44.mimecast.com [207.211.30.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D787F10E731
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 04:33:24 +0000 (UTC)
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-625-863jhRSFOJiCt9Rh4DFKAA-1; Thu,
- 21 Dec 2023 23:33:21 -0500
-X-MC-Unique: 863jhRSFOJiCt9Rh4DFKAA-1
+ (us-smtp-delivery-44.mimecast.com [205.139.111.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8235D10E73A
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 04:33:26 +0000 (UTC)
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-614-A9bP8Wl6N2-K0PCnHhy8AQ-1; Thu, 21 Dec 2023 23:33:23 -0500
+X-MC-Unique: A9bP8Wl6N2-K0PCnHhy8AQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 54ED71C05AF6;
- Fri, 22 Dec 2023 04:33:21 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C8894832D1A;
+ Fri, 22 Dec 2023 04:33:22 +0000 (UTC)
 Received: from dreadlord.redhat.com (unknown [10.64.136.90])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 563E82026D66;
- Fri, 22 Dec 2023 04:33:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CA06C2026D66;
+ Fri, 22 Dec 2023 04:33:21 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org,
 	nouveau@lists.freedesktop.org
-Subject: [PATCH 06/11] drm/nouveau/gsp: Fix ACPI MXDM/MXDS method invocations
-Date: Fri, 22 Dec 2023 14:31:55 +1000
-Message-ID: <20231222043308.3090089-7-airlied@gmail.com>
+Subject: [PATCH 07/11] nouveau/gsp: convert gsp errors to generic errors
+Date: Fri, 22 Dec 2023 14:31:56 +1000
+Message-ID: <20231222043308.3090089-8-airlied@gmail.com>
 In-Reply-To: <20231222043308.3090089-1-airlied@gmail.com>
 References: <20231222043308.3090089-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -57,58 +57,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Lyude Paul <lyude@redhat.com>
+This should let the upper layers retry as needed on EAGAIN.
 
-Currently we get an error from ACPI because both of these arguments expect
-a single argument, and we don't provide one. I'm not totally clear on what
-that argument does, but we're able to find the missing value from
-_acpiCacheMethodData() in src/kernel/platform/acpi_common.c in nvidia's
-driver. So, let's add that - which doesn't get eDP displays to power on
-quite yet, but gets rid of the argument warning at least.
+There may be other values we will care about in the future, but
+this covers our present needs.
 
-Signed-off-by: Lyude Paul <lyude@redhat.com>
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ .../gpu/drm/nouveau/nvkm/subdev/gsp/r535.c    | 26 +++++++++++++++----
+ 1 file changed, 21 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c b/drivers/gpu/d=
 rm/nouveau/nvkm/subdev/gsp/r535.c
-index 1a6d7c89660d..774ca47b019f 100644
+index 774ca47b019f..54c1fbccc013 100644
 --- a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
 +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
-@@ -1150,6 +1150,8 @@ static void
- r535_gsp_acpi_mux_id(acpi_handle handle, u32 id, MUX_METHOD_DATA_ELEMENT *=
-mode,
- =09=09=09=09=09=09 MUX_METHOD_DATA_ELEMENT *part)
- {
-+=09union acpi_object mux_arg =3D { ACPI_TYPE_INTEGER };
-+=09struct acpi_object_list input =3D { 1, &mux_arg };
- =09acpi_handle iter =3D NULL, handle_mux =3D NULL;
- =09acpi_status status;
- =09unsigned long long value;
-@@ -1172,14 +1174,18 @@ r535_gsp_acpi_mux_id(acpi_handle handle, u32 id, MU=
-X_METHOD_DATA_ELEMENT *mode,
- =09if (!handle_mux)
- =09=09return;
+@@ -70,6 +70,20 @@ struct r535_gsp_msg {
 =20
--=09status =3D acpi_evaluate_integer(handle_mux, "MXDM", NULL, &value);
-+=09/* I -think- 0 means "acquire" according to nvidia's driver source */
-+=09input.pointer->integer.type =3D ACPI_TYPE_INTEGER;
-+=09input.pointer->integer.value =3D 0;
+ #define GSP_MSG_HDR_SIZE offsetof(struct r535_gsp_msg, data)
+=20
++static int
++r535_rpc_status_to_errno(uint32_t rpc_status)
++{
++       switch (rpc_status) {
++       case 0x55: /* NV_ERR_NOT_READY */
++       case 0x66: /* NV_ERR_TIMEOUT_RETRY */
++              return -EAGAIN;
++       case 0x51: /* NV_ERR_NO_MEMORY */
++               return -ENOMEM;
++       default:
++               return -EINVAL;
++       }
++}
 +
-+=09status =3D acpi_evaluate_integer(handle_mux, "MXDM", &input, &value);
- =09if (ACPI_SUCCESS(status)) {
- =09=09mode->acpiId =3D id;
- =09=09mode->mode   =3D value;
- =09=09mode->status =3D 0;
- =09}
+ static void *
+ r535_gsp_msgq_wait(struct nvkm_gsp *gsp, u32 repc, u32 *prepc, int *ptime)
+ {
+@@ -584,8 +598,9 @@ r535_gsp_rpc_rm_alloc_push(struct nvkm_gsp_object *obje=
+ct, void *argv, u32 repc)
+ =09=09return rpc;
 =20
--=09status =3D acpi_evaluate_integer(handle_mux, "MXDS", NULL, &value);
-+=09status =3D acpi_evaluate_integer(handle_mux, "MXDS", &input, &value);
- =09if (ACPI_SUCCESS(status)) {
- =09=09part->acpiId =3D id;
- =09=09part->mode   =3D value;
+ =09if (rpc->status) {
+-=09=09nvkm_error(&gsp->subdev, "RM_ALLOC: 0x%x\n", rpc->status);
+-=09=09ret =3D ERR_PTR(-EINVAL);
++=09=09ret =3D ERR_PTR(r535_rpc_status_to_errno(rpc->status));
++=09=09if (ret !=3D -EAGAIN)
++=09=09=09nvkm_error(&gsp->subdev, "RM_ALLOC: 0x%x\n", rpc->status);
+ =09} else {
+ =09=09ret =3D repc ? rpc->params : NULL;
+ =09}
+@@ -639,9 +654,10 @@ r535_gsp_rpc_rm_ctrl_push(struct nvkm_gsp_object *obje=
+ct, void *argv, u32 repc)
+ =09=09return rpc;
+=20
+ =09if (rpc->status) {
+-=09=09nvkm_error(&gsp->subdev, "cli:0x%08x obj:0x%08x ctrl cmd:0x%08x fail=
+ed: 0x%08x\n",
+-=09=09=09   object->client->object.handle, object->handle, rpc->cmd, rpc->=
+status);
+-=09=09ret =3D ERR_PTR(-EINVAL);
++=09=09ret =3D ERR_PTR(r535_rpc_status_to_errno(rpc->status));
++=09=09if (ret !=3D -EAGAIN)
++=09=09=09nvkm_error(&gsp->subdev, "cli:0x%08x obj:0x%08x ctrl cmd:0x%08x f=
+ailed: 0x%08x\n",
++=09=09=09=09   object->client->object.handle, object->handle, rpc->cmd, rp=
+c->status);
+ =09} else {
+ =09=09ret =3D repc ? rpc->params : NULL;
+ =09}
 --=20
 2.43.0
 
