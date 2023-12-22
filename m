@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B23881CDC4
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 18:42:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E83F81CDBE
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 18:42:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91DE310E836;
-	Fri, 22 Dec 2023 17:42:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C616110E845;
+	Fri, 22 Dec 2023 17:42:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3EF710E81B
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 17:42:38 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id
- ffacd0b85a97d-33666fb9318so1833406f8f.2
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 09:42:38 -0800 (PST)
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F10F10E81B
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 17:42:39 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id
+ ffacd0b85a97d-336755f1688so1824656f8f.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 09:42:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1703266957; x=1703871757; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1703266958; x=1703871758; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=3qEiW87NdWMqG1i3IC5TsTsEJY+4saJvfxd4Py7tBWk=;
- b=m/c8QDsMSO7F2ENiAIxjPOfGIcr9okzZzGl7nQOLjrK6uJeKm3ssG5scHkwFZkwmOy
- F6rheOT3d+AZ0LppXIpHQP0odv3bwxMSkI9FJRL0JIM5xII1fw514DwJccNGwxezZgKk
- xwoOBtfPhmONIBn9VJ8IqtX7kdanRtVk2TyrSJ/fV7iu6GTtythyCOHZFDta99z2rNlj
- xr++MQZckAoUfN1V9hYvzI2TkftASP56xt7tJzDnfAFoA8vqphNXiqnDIwigOFHk9NNK
- ziBlz0mTBSUvnTrRv5oO4vvtSOxzmIHwF76VbocW3+UNbvtBDP0Fs4fELJTbkZ1y1bxe
- qcqA==
+ bh=nfTDEigy6tmq2Mn9E1wnnsAPUxEbWwuqi0N9nc+qdGo=;
+ b=E/b7ZLoE027MhNDvFovApn1jUVpd3pn2CRs4d25YXcXv9KAlEiWu8VziD2p8Iu/qCb
+ RiIUkla4lXkgSx6+ppfMyVvQsq+4pztyWFtwx9Szy3iG2vYjGEBTaYLn+w0te8rD0Xdy
+ y6VfslMVRFNCNwIR5hcb7Xrt/96kXWnwaCVMN6yhSy1cRr9A7nHJchVyqZ/D+3MRlTVN
+ 880Nwyt1h5Hv7FoAMFUjzu1/7wYWMBp46Z/WOFFe0Wiw/kE/ZH4Jp+p+evI1XyF5er/c
+ 820vP7PLoB811ZX4A22LwZyIQvVn1tqWN9jzFss8D8HD9OnMVgYhQ2BdCaAIoqiTRDIU
+ v70A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1703266957; x=1703871757;
+ d=1e100.net; s=20230601; t=1703266958; x=1703871758;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3qEiW87NdWMqG1i3IC5TsTsEJY+4saJvfxd4Py7tBWk=;
- b=KwXhKqdakyJjB8aGYfDmslY0RvFaOAd0dm/lj7uzMwTsI9MZ9J0CAdzyty9Mwvh2tQ
- SfMpQCYo7mk2YRIzAkL6hcG61LmZHlEtm/gNT0AhWqjFTAPnc/W5zps45q0OwAocTh4v
- Ke2okRVem8q5txBfhzhM28N2S33QgsjbJ97GSGMo1vUGJPQKKxCaX4nUGQT8V2cQevjx
- 509aOxvG+4yxS634/+kbb6F2bkAlFXQ96euJp/Vp1TVbhK0RCt9eWZgFgP0tscwQ0W2l
- Qfq7vrqJMjZW95A2Ss1rRjjqmkW56vE8tNXzkd78b87YWoUZbtWGyFAuWwLCS5JRU8wY
- k4sA==
-X-Gm-Message-State: AOJu0YyiLgpFIH5BSy6eIoB1pUOUSCzfM/U2l0YhWL8RBNu8abhMe8YO
- AxX0mtgq/xUNz/kKKihlCA==
-X-Google-Smtp-Source: AGHT+IF/ILntBURjV10Ff56yN/onR9KNU6i4awRUbCKr+V/5OKfVGrXyAKwoOVxh00kqNwRL7i24VQ==
-X-Received: by 2002:adf:dd8b:0:b0:336:8940:c4dd with SMTP id
- x11-20020adfdd8b000000b003368940c4ddmr968833wrl.8.1703266957184; 
+ bh=nfTDEigy6tmq2Mn9E1wnnsAPUxEbWwuqi0N9nc+qdGo=;
+ b=Y3GgK9T6NZoq8tcBrn/2O1dAHjeo2MyDnoB3fzG1AsHG/I3YI+7PDZeDvHzTshOy0w
+ CLM6CPYR3uc6Bw0h83pxmTS2CUI0kSvYxYPgrMb9IscathJcRc2SUgsCUcqvrn0s1I6T
+ lGd8o9Eh7IPFOOPJlIBVuXJ1YqoFfQ/J5wusGjtvNlxUuzpnEWMJBKOpsxCPqBofHxaF
+ jvbRuUYJY81AsuAmwuFqpWeccBSMxCPY4Upk48CkzK1IrScQBVj9/wxfNMBIGUHNcsBQ
+ Lm583pOy8WKXMSerTyb+JiOiI2sQycB96s83vg4dHGAVGr1mL0ZZHI6emi4YPen7tb8f
+ IYHQ==
+X-Gm-Message-State: AOJu0Yzf6E6nNf10rZNABQgyLzkIO00BE8YYI/YPA0kDsbuiO4voyQeV
+ f9g6iV1h+3Dqi1PzEFbkRw==
+X-Google-Smtp-Source: AGHT+IHD1sMRR0b9UfvVWSWGlPGdgDIwu7H3ElnGmo67e7+XKWlpbK8y3mbb/mtv5CeniedxhpSZ1Q==
+X-Received: by 2002:adf:e74b:0:b0:332:e667:4277 with SMTP id
+ c11-20020adfe74b000000b00332e6674277mr1205025wrn.40.1703266957871; 
  Fri, 22 Dec 2023 09:42:37 -0800 (PST)
 Received: from U4.lan ([2a02:810b:f40:4300:f3ae:2788:7e03:f44])
  by smtp.gmail.com with ESMTPSA id
- w10-20020adfec4a000000b00336670abdcasm4777116wrn.40.2023.12.22.09.42.36
+ w10-20020adfec4a000000b00336670abdcasm4777116wrn.40.2023.12.22.09.42.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Dec 2023 09:42:36 -0800 (PST)
+ Fri, 22 Dec 2023 09:42:37 -0800 (PST)
 From: Alex Bee <knaerzche@gmail.com>
 To: Sandy Huang <hjc@rock-chips.com>,
  =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
@@ -59,15 +59,13 @@ To: Sandy Huang <hjc@rock-chips.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>
-Subject: [PATCH v4 21/29] drm/rockchip: inno_hdmi: Don't power up the phy
- after resetting
-Date: Fri, 22 Dec 2023 18:42:12 +0100
-Message-ID: <20231222174220.55249-22-knaerzche@gmail.com>
+Subject: [PATCH v4 22/29] drm/rockchip: inno_hdmi: Split power mode setting
+Date: Fri, 22 Dec 2023 18:42:13 +0100
+Message-ID: <20231222174220.55249-23-knaerzche@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231222174220.55249-1-knaerzche@gmail.com>
 References: <20231222174220.55249-1-knaerzche@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -88,12 +86,11 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-inno_hdmi_reset is only ever called when initializing the controller. At
-this point it’s completely uneccessary to power up the PHY, since all
-what has to work at this point is the DDC bus. The phy will be powered up
-correctly when a mode is set in inno_hdmi_encoder_enable and disabled in
-inno_hdmi_encoder_disable.
-Set it to LOWER_PWR after resetting the controller.
+This splits setting the power mode of the controller / phy in two
+functions. It's done in preparation of setting up the phy based on the
+pixelclock.
+
+No functional changes intended.
 
 Signed-off-by: Alex Bee <knaerzche@gmail.com>
 ---
@@ -103,22 +100,124 @@ changes in v3:
 changes in v4:
  - none
 
- drivers/gpu/drm/rockchip/inno_hdmi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/rockchip/inno_hdmi.c | 54 +++++++++++++---------------
+ drivers/gpu/drm/rockchip/inno_hdmi.h |  5 ---
+ 2 files changed, 24 insertions(+), 35 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
-index f3b90b479ab9..52b49f44a4f4 100644
+index 52b49f44a4f4..44c311e7e2d3 100644
 --- a/drivers/gpu/drm/rockchip/inno_hdmi.c
 +++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
-@@ -202,7 +202,7 @@ static void inno_hdmi_reset(struct inno_hdmi *hdmi)
+@@ -154,38 +154,31 @@ static void inno_hdmi_sys_power(struct inno_hdmi *hdmi, bool enable)
+ 		hdmi_modb(hdmi, HDMI_SYS_CTRL, m_POWER, v_PWR_OFF);
+ }
+ 
+-static void inno_hdmi_set_pwr_mode(struct inno_hdmi *hdmi, int mode)
++static void inno_hdmi_standby(struct inno_hdmi *hdmi)
+ {
+-	switch (mode) {
+-	case NORMAL:
+-		inno_hdmi_sys_power(hdmi, false);
++	inno_hdmi_sys_power(hdmi, false);
+ 
+-		hdmi_writeb(hdmi, HDMI_PHY_PRE_EMPHASIS, 0x6f);
+-		hdmi_writeb(hdmi, HDMI_PHY_DRIVER, 0xbb);
+-
+-		hdmi_writeb(hdmi, HDMI_PHY_SYS_CTL, 0x15);
+-		hdmi_writeb(hdmi, HDMI_PHY_SYS_CTL, 0x14);
+-		hdmi_writeb(hdmi, HDMI_PHY_SYS_CTL, 0x10);
+-		hdmi_writeb(hdmi, HDMI_PHY_CHG_PWR, 0x0f);
+-		hdmi_writeb(hdmi, HDMI_PHY_SYNC, 0x00);
+-		hdmi_writeb(hdmi, HDMI_PHY_SYNC, 0x01);
+-
+-		inno_hdmi_sys_power(hdmi, true);
+-		break;
++	hdmi_writeb(hdmi, HDMI_PHY_DRIVER, 0x00);
++	hdmi_writeb(hdmi, HDMI_PHY_PRE_EMPHASIS, 0x00);
++	hdmi_writeb(hdmi, HDMI_PHY_CHG_PWR, 0x00);
++	hdmi_writeb(hdmi, HDMI_PHY_SYS_CTL, 0x15);
++};
+ 
+-	case LOWER_PWR:
+-		inno_hdmi_sys_power(hdmi, false);
+-		hdmi_writeb(hdmi, HDMI_PHY_DRIVER, 0x00);
+-		hdmi_writeb(hdmi, HDMI_PHY_PRE_EMPHASIS, 0x00);
+-		hdmi_writeb(hdmi, HDMI_PHY_CHG_PWR, 0x00);
+-		hdmi_writeb(hdmi, HDMI_PHY_SYS_CTL, 0x15);
++static void inno_hdmi_power_up(struct inno_hdmi *hdmi)
++{
++	inno_hdmi_sys_power(hdmi, false);
+ 
+-		break;
++	hdmi_writeb(hdmi, HDMI_PHY_PRE_EMPHASIS, 0x6f);
++	hdmi_writeb(hdmi, HDMI_PHY_DRIVER, 0xbb);
++	hdmi_writeb(hdmi, HDMI_PHY_SYS_CTL, 0x15);
++	hdmi_writeb(hdmi, HDMI_PHY_SYS_CTL, 0x14);
++	hdmi_writeb(hdmi, HDMI_PHY_SYS_CTL, 0x10);
++	hdmi_writeb(hdmi, HDMI_PHY_CHG_PWR, 0x0f);
++	hdmi_writeb(hdmi, HDMI_PHY_SYNC, 0x00);
++	hdmi_writeb(hdmi, HDMI_PHY_SYNC, 0x01);
+ 
+-	default:
+-		DRM_DEV_ERROR(hdmi->dev, "Unknown power mode %d\n", mode);
+-	}
+-}
++	inno_hdmi_sys_power(hdmi, true);
++};
+ 
+ static void inno_hdmi_reset(struct inno_hdmi *hdmi)
+ {
+@@ -202,7 +195,7 @@ static void inno_hdmi_reset(struct inno_hdmi *hdmi)
  	val = v_REG_CLK_INV | v_REG_CLK_SOURCE_SYS | v_PWR_ON | v_INT_POL_HIGH;
  	hdmi_modb(hdmi, HDMI_SYS_CTRL, msk, val);
  
--	inno_hdmi_set_pwr_mode(hdmi, NORMAL);
-+	inno_hdmi_set_pwr_mode(hdmi, LOWER_PWR);
+-	inno_hdmi_set_pwr_mode(hdmi, LOWER_PWR);
++	inno_hdmi_standby(hdmi);
  }
  
  static void inno_hdmi_disable_frame(struct inno_hdmi *hdmi,
+@@ -441,6 +434,8 @@ static int inno_hdmi_setup(struct inno_hdmi *hdmi,
+ 	hdmi_modb(hdmi, HDMI_AV_MUTE, m_AUDIO_MUTE | m_VIDEO_BLACK,
+ 		  v_AUDIO_MUTE(0) | v_VIDEO_MUTE(0));
+ 
++	inno_hdmi_power_up(hdmi);
++
+ 	return 0;
+ }
+ 
+@@ -460,7 +455,6 @@ static void inno_hdmi_encoder_enable(struct drm_encoder *encoder,
+ 		return;
+ 
+ 	inno_hdmi_setup(hdmi, &crtc_state->adjusted_mode);
+-	inno_hdmi_set_pwr_mode(hdmi, NORMAL);
+ }
+ 
+ static void inno_hdmi_encoder_disable(struct drm_encoder *encoder,
+@@ -468,7 +462,7 @@ static void inno_hdmi_encoder_disable(struct drm_encoder *encoder,
+ {
+ 	struct inno_hdmi *hdmi = encoder_to_inno_hdmi(encoder);
+ 
+-	inno_hdmi_set_pwr_mode(hdmi, LOWER_PWR);
++	inno_hdmi_standby(hdmi);
+ }
+ 
+ static int
+diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.h b/drivers/gpu/drm/rockchip/inno_hdmi.h
+index 93245b55f967..a7edf3559e60 100644
+--- a/drivers/gpu/drm/rockchip/inno_hdmi.h
++++ b/drivers/gpu/drm/rockchip/inno_hdmi.h
+@@ -10,11 +10,6 @@
+ 
+ #define DDC_SEGMENT_ADDR		0x30
+ 
+-enum PWR_MODE {
+-	NORMAL,
+-	LOWER_PWR,
+-};
+-
+ #define HDMI_SCL_RATE			(100*1000)
+ #define DDC_BUS_FREQ_L			0x4b
+ #define DDC_BUS_FREQ_H			0x4c
 -- 
 2.43.0
 
