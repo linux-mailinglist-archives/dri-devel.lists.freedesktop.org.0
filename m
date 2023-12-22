@@ -2,61 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3433F81CE6B
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 19:26:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D17B181CEBB
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 20:27:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FC7510E1D6;
-	Fri, 22 Dec 2023 18:26:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 543A310E2D3;
+	Fri, 22 Dec 2023 19:27:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com
- [IPv6:2607:f8b0:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DC2B10E7DD
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 18:26:07 +0000 (UTC)
-Received: by mail-pf1-x42f.google.com with SMTP id
- d2e1a72fcca58-6d98e7baad4so91648b3a.1
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 10:26:07 -0800 (PST)
+Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com
+ [IPv6:2607:f8b0:4864:20::1135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB3DF10E2D3
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 19:27:53 +0000 (UTC)
+Received: by mail-yw1-x1135.google.com with SMTP id
+ 00721157ae682-5e54d40cca2so16674367b3.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 11:27:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1703269566; x=1703874366; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=TQCbbwN+IZ5AZDdDw8ibn0GB1x1uSwPGN8scwOmeiUI=;
- b=D+iJFjKM2qvgh3FhcmN2mx6E/8iyDHKJp8jO8jBCCb52X2E4+bEg5FF4yu6xA9vdRD
- FHzNQK9uwFcuo21PAJpv8BLNPA9n/EkkHnTSE6klzoSHaxYRfgJKfQT9Cn3ThR9MwcBA
- lc9VxlqA9CSu+0l7NUjUARUYoC7MjV1i0ZSFexABOiQ0b9JI8fTEGmxQWlNzpNBIWsui
- 8nVLjR/ibVKKLHHYyYgVJwxZ4EpfNaIB1RM1i2ctu10rK4Gb/xz/PZOnvWDBrD5EbwUF
- ORwgzU3K007y00IjLdG2wqrc3nhw5CFh11tfvQnUj5aBC3pAQLSjX6MmJ3P6Ont/c6jz
- UKiQ==
+ d=linaro.org; s=google; t=1703273273; x=1703878073; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=qcU9r4AVrvbf4WtHpqcHBpTh4EF03JkTAkr1e7pqyOs=;
+ b=qmEOd4m9ti0skXVYpIfw8AES/yHoubKRHbuZqBt018Xn7l2nii3Ko9BlwL6N8OtDC0
+ Iqw4nP7Ox8MxX7DJSDZbZm6G/V+9gmfWwulPRJcCfn/PVUtmtn8f2dKqDv0SCwGd1td1
+ +3tCXf1+x/qwRBCtZTio18pno2fEkXGI8AznTdBwwIVF5L0weAY7ZOo0jhkTL479dF4D
+ 1t8C9rtOIBeNDVikB08eySwraEWzA1rtSB3HRCnNfZrh8iXh16GIL3MsRbWU3uxIUR+q
+ HjgxW1+z0igH3+u/LdbLyEzm9ZiRZtxDsln7CXd2CaFs2PJhWvRS+tN+9MsLNonVTrWd
+ mL9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1703269566; x=1703874366;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=TQCbbwN+IZ5AZDdDw8ibn0GB1x1uSwPGN8scwOmeiUI=;
- b=JCp25WaHFlBXe0SGy2yTd2IAD5KPl55En65vPQ7TTemyrct3c4zPXxnpmx1qa6Ju/i
- zeUzybByk9i4E0wl4AU89sRgq7TgJwzL6fqh9QDgv1Yd+j5aCvBnKCUV6iJfXw5G8CBk
- rBlxaQccJm8BGccuf9FAD20zVsRnLsjI1l7iYFS9BqxfrrMVikeMOwFqL97kSs4F+p6/
- HfZ5KoBZpKBn5H8dmE2QUBsjUtbq7WRFU/qa2xj6dgtFsxh78PSjmFfLH7VtwPndOU4N
- A4X47nceBYmRjytNFNAdKhkrlAeR9Vr+Wj5TMhBDPGzn1UCFjBB8E91g0BUxqTRl7ure
- Gv1Q==
-X-Gm-Message-State: AOJu0YyHgUmPcr2723CAxNalJi2Y9YuRn3abvyGZOO6JRAICSjWPR0U5
- r+3z6elGOFeI9nIHg2eGAJlhTDcj/HefD1vcj6o=
-X-Google-Smtp-Source: AGHT+IH5cXRrWZNDyUoWIRpwVuNnU+yNXTGgQDkhlNaQbX4AQ1uo+xOVVl4p+hpKuc4WJ5eJ/3Y8WCkWXh62pdtDPCM=
-X-Received: by 2002:a05:6a20:a2a5:b0:18d:4821:f75d with SMTP id
- a37-20020a056a20a2a500b0018d4821f75dmr2871144pzl.4.1703269566543; Fri, 22 Dec
- 2023 10:26:06 -0800 (PST)
+ d=1e100.net; s=20230601; t=1703273273; x=1703878073;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=qcU9r4AVrvbf4WtHpqcHBpTh4EF03JkTAkr1e7pqyOs=;
+ b=NA5BLT3/CAovomUEg9tAoDdIhZmfEQeInC/9LBDCuZEw/CAC6EkhhyohY1Tm+A4tLC
+ u/hVl+qJmcm3DzGQXji+MrNnRGxM+aa394uoVhfDa9WgD4ZUBNbpTeSAODRNucMaDaQr
+ W885IDj7U/7iyaVj24tV/cvW+fYyz1Ix0shPDoyIC1PcKX1rMsxtgiV/gSUFHwWm3hUV
+ UYCjLSkdhHkvfkxPJwjtSwS1BMeL5HXwFjFO34D0+tfv4FZeAYRHcqlFDaB8HTJ92v35
+ WpWfh36+k2jm8pnVrsWF/gNQgVVmEoPpRY5TJEsMGZw1PUnLtHpYUj9gLWLz2Dd5bmO0
+ T+Kw==
+X-Gm-Message-State: AOJu0YxoBdJHUzg/tlgSVRTC78gkqcbnBVtCJlRHOVC34kgaqiDoRHbT
+ EqwjfZFK6A++c9qO6fL31vfiK8aHro1N1fvXoT7zByzDXDbuZw==
+X-Google-Smtp-Source: AGHT+IGeaSYUG1cyrn3ypOpX9BrwgZ5g1vm+eRi1MomBm7xA9GGBF0W8jrXpfOmFxw8h9lJcSd3TusgaxjlIwkjChJU=
+X-Received: by 2002:a81:5483:0:b0:5e5:39aa:2b4e with SMTP id
+ i125-20020a815483000000b005e539aa2b4emr1274633ywb.26.1703273272787; Fri, 22
+ Dec 2023 11:27:52 -0800 (PST)
 MIME-Version: 1.0
-References: <20231222-pinetab2-v1-0-e148a7f61bd1@mecka.net>
- <20231222-pinetab2-v1-2-e148a7f61bd1@mecka.net>
-In-Reply-To: <20231222-pinetab2-v1-2-e148a7f61bd1@mecka.net>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Fri, 22 Dec 2023 15:25:53 -0300
-Message-ID: <CAOMZO5DV9Kev8njR5ORhUM+mxSa9WxewB3xNKjEWP4zcuTZtiQ@mail.gmail.com>
-Subject: Re: [PATCH 2/6] drm/panel: Add driver for BOE TH101MB31IG002-28A panel
-To: Manuel Traut <manut@mecka.net>
+References: <cover.1698312534.git.jani.nikula@intel.com>
+ <daa4703cc30ee05836fb477a1a8da4b89a391afd.1698312534.git.jani.nikula@intel.com>
+In-Reply-To: <daa4703cc30ee05836fb477a1a8da4b89a391afd.1698312534.git.jani.nikula@intel.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 22 Dec 2023 21:27:40 +0200
+Message-ID: <CAA8EJprSKWXZ20-=1-Wx+TkG+6BnYMvqTwtqFA1nwFr=6Rn1Xw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/bridge: add ->edid_read hook and
+ drm_bridge_edid_read()
+To: Jani Nikula <jani.nikula@intel.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,33 +68,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Diederik de Haas <didi.debian@cknow.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- David Airlie <airlied@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- linux-rockchip@lists.infradead.org, Jessica Zhang <quic_jesszhan@quicinc.com>,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
- linux-arm-kernel@lists.infradead.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Segfault <awarnecke002@hotmail.com>, Sandy Huang <hjc@rock-chips.com>,
- Arnaud Ferraris <aferraris@debian.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 22, 2023 at 2:32=E2=80=AFPM Manuel Traut <manut@mecka.net> wrot=
-e:
+On Thu, 26 Oct 2023 at 12:40, Jani Nikula <jani.nikula@intel.com> wrote:
 >
-> From: Segfault <awarnecke002@hotmail.com>
+> Add new struct drm_edid based ->edid_read hook and
+> drm_bridge_edid_read() function to call the hook.
 >
-> The BOE TH101MB31IG002-28A panel is a WXGA panel.
-> It is used in Pine64 Pinetab2 and PinetabV.
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> ---
+>  drivers/gpu/drm/drm_bridge.c | 46 +++++++++++++++++++++++++++++++++++-
+>  include/drm/drm_bridge.h     | 33 ++++++++++++++++++++++++++
+>  2 files changed, 78 insertions(+), 1 deletion(-)
 >
-> Signed-off-by: Segfault <awarnecke002@hotmail.com>
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index 30d66bee0ec6..e1cfba2ff583 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -27,8 +27,9 @@
+>  #include <linux/mutex.h>
+>
+>  #include <drm/drm_atomic_state_helper.h>
+> -#include <drm/drm_debugfs.h>
+>  #include <drm/drm_bridge.h>
+> +#include <drm/drm_debugfs.h>
+> +#include <drm/drm_edid.h>
+>  #include <drm/drm_encoder.h>
+>  #include <drm/drm_file.h>
+>  #include <drm/drm_of.h>
+> @@ -1206,6 +1207,47 @@ int drm_bridge_get_modes(struct drm_bridge *bridge,
+>  }
+>  EXPORT_SYMBOL_GPL(drm_bridge_get_modes);
+>
+> +/**
+> + * drm_bridge_edid_read - read the EDID data of the connected display
+> + * @bridge: bridge control structure
+> + * @connector: the connector to read EDID for
+> + *
+> + * If the bridge supports output EDID retrieval, as reported by the
+> + * DRM_BRIDGE_OP_EDID bridge ops flag, call &drm_bridge_funcs.edid_read to get
+> + * the EDID and return it. Otherwise return NULL.
+> + *
+> + * If &drm_bridge_funcs.edid_read is not set, fall back to using
+> + * drm_bridge_get_edid() and wrapping it in struct drm_edid.
+> + *
+> + * RETURNS:
+> + * The retrieved EDID on success, or NULL otherwise.
 
-Please use a real name instead...
+Wouldn't it be better to return an ERR_PTR instead of NULL?
 
-> +MODULE_AUTHOR("Alexander Warnecke <awarnecke002@hotmail.com>");
+> + */
+> +const struct drm_edid *drm_bridge_edid_read(struct drm_bridge *bridge,
+> +                                           struct drm_connector *connector)
+> +{
+> +       if (!(bridge->ops & DRM_BRIDGE_OP_EDID))
+> +               return NULL;
+> +
+> +       /* Transitional: Fall back to ->get_edid. */
+> +       if (!bridge->funcs->edid_read) {
+> +               const struct drm_edid *drm_edid;
+> +               struct edid *edid;
+> +
+> +               edid = drm_bridge_get_edid(bridge, connector);
+> +               if (!edid)
+> +                       return NULL;
+> +
+> +               drm_edid = drm_edid_alloc(edid, (edid->extensions + 1) * EDID_LENGTH);
+> +
+> +               kfree(edid);
+> +
+> +               return drm_edid;
+> +       }
+> +
+> +       return bridge->funcs->edid_read(bridge, connector);
+> +}
+> +EXPORT_SYMBOL_GPL(drm_bridge_edid_read);
 
-like here.
+[skipped the rest]
+
+-- 
+With best wishes
+Dmitry
