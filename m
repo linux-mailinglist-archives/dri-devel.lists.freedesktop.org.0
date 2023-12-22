@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9AFF81CDC5
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 18:42:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59B3881CDB7
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 18:42:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB5AF10E850;
-	Fri, 22 Dec 2023 17:42:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C340310E815;
+	Fri, 22 Dec 2023 17:42:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF5CC10E7F8
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 17:42:26 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id
- ffacd0b85a97d-336755f1688so1824484f8f.0
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 09:42:26 -0800 (PST)
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8987810E7F8
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 17:42:27 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id
+ ffacd0b85a97d-33694bf8835so686224f8f.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 09:42:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1703266945; x=1703871745; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1703266946; x=1703871746; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8AvJnFMeaIBZd6lDR2+1UVvuB0inJkI3zLE1woR+vGw=;
- b=QTYzJsYfvx/wwA1quQJdOvjAU5Ji95wsEzSP5FN5XG+HWrWTrH5/n1zCRySrc7CX1M
- PfNYWSBoob6EV0CzOowyiZRhZKIxvNP9xhNA8jyDHsWuuX62/gSs9Mljf9KBQmG3KZK+
- ZBiZ9wCz+aTxByCfU3LbZLdPx+TIhLYOBDlR5AQ6WyQdWhfXBd+jGGZcwRsMI6oyLQ3X
- ENCQ3hJVdxSbg/L7H+zbrkteXQFKl3mR/0fnFOj7goxBvhaMuzJ1BkIqzS+1029pOh9O
- oXs9aKRWTFi52t4WtCwJk/gnXNNG74s5yxhRXkemX0+xzby1RAIqrr6yTAPYpN5SrWA3
- XOsg==
+ bh=JDZw6NA00pLIWCPFGMihyx1IVwowkY8XOiwDd7TasQE=;
+ b=LGfT/6rLTDYtXk8Yp4tiZyGX7xT1Y/331W1VWOXfuK4PFKoN7SdEzEL89f6ePR4cNH
+ AFf19VUgpmxJw+CaXzoELJTrfzztlVv27QDwNcesaxRFuRDFkAqagAmqQbUCaZvsmOT4
+ alYi4XQkSYhso/ymVHo4ubSMCKnDIW111G7/rTvmceLbPkExp3ArSnEG8ydevPNY4m0Y
+ QIIK0benJkrtGDn/MjPChq3HW80ZrNwczhjIzz7ehodLmHPsDuSBN/kZCxu0wfaZ8Xx+
+ ehNYWG+34GolGx3h2Ep3WfPa7I2g4AfqFsllhSPltUf6zEnqOVv8C21zy+tMzFuGLqmS
+ WNgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1703266945; x=1703871745;
+ d=1e100.net; s=20230601; t=1703266946; x=1703871746;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=8AvJnFMeaIBZd6lDR2+1UVvuB0inJkI3zLE1woR+vGw=;
- b=UbquC3ePou1KFh7M3Myhtr9DjdsvgvvKgE0ix6LINYYVkUPJ8LCW4A3NRk1INXShRN
- 6X9W6Lv2Qybp/mp9RHxvuhw4NTL+zy+OaPuKt2sAZDmtZfrEjWs0Yl46+DhRFtx2L/cT
- NY0UtFrNmvAU373tkFi8IKmKMGVq0QYRUkzpwhS6T0npv+f+nqUwysYb5YQ99vzltaYv
- XstRTWRBd4cKBmtRQbmywsAG9aSJlx9HawvHAMDZqOJN+ZKqFv5TmLyi1YirSmZUf/eV
- GKKuFipiHYqjPtgFKli1+oTFe7Ccpg3DzKC5ngI1FuvpHgYVmBQwZJQ6MZRORcNGAQ3k
- gIBw==
-X-Gm-Message-State: AOJu0YwxoECzToHHmUUGKZOU2wb8TNvHgjHpJUgM2W1Za4UVJ/ECfex2
- avGrQj9qMKtwUqH9H0vtzw==
-X-Google-Smtp-Source: AGHT+IHILFPGV8bXVLgso5JM9ZKyQoow6IG9KXyZ1hSIhSMLEgPOaAW0iXyaQSbizVOd8/5R10rStQ==
-X-Received: by 2002:adf:f749:0:b0:336:8af1:5127 with SMTP id
- z9-20020adff749000000b003368af15127mr1196473wrp.97.1703266945283; 
+ bh=JDZw6NA00pLIWCPFGMihyx1IVwowkY8XOiwDd7TasQE=;
+ b=sptYVQekmvuFHuhqhDw8mGeRe2eIMsTuFI3ZVXzmEnHwsQj2MT6goNzGjLs2Z9MKoO
+ speHhKSLI21QODC8l46un/XV7lvhL6rb342LQv0yr7mK9ocNdmLbocOM8fRsWhFSfVV9
+ wQaYJ5R2JY12eN2pxETyrZ1QfBq6NyxAjxJnu4tdbcWs6rbdGYL22G7BlFINW8IKMRTO
+ GIlCJUEtIad5u1wTU7/ndkizHVBbKMIsyqlnV4Lh1shqyVFYDcKaHzFtqKAw5qcDo4LO
+ FguaJhTQNox/Etl02klGuZKKbUGN0xSKcTzUwT8e9EZqH4XnDOudyhyKWwu5xCSu0KxD
+ itWg==
+X-Gm-Message-State: AOJu0Yxt8k9csEZPdS3I7kr91FSiHmHuBV7543XFM3Vnch51T87T5ggD
+ J0+u6M9lKnTR/AWoF5rb0w==
+X-Google-Smtp-Source: AGHT+IGOfU9ODiH9NLfSXETtkHv9WTh+X98b43SlP0OW8MLrcFPW+Mc6NKBN1yINEst4gkgEd8TDVw==
+X-Received: by 2002:a5d:58c1:0:b0:336:48fd:3458 with SMTP id
+ o1-20020a5d58c1000000b0033648fd3458mr1123123wrf.68.1703266945929; 
  Fri, 22 Dec 2023 09:42:25 -0800 (PST)
 Received: from U4.lan ([2a02:810b:f40:4300:f3ae:2788:7e03:f44])
  by smtp.gmail.com with ESMTPSA id
- w10-20020adfec4a000000b00336670abdcasm4777116wrn.40.2023.12.22.09.42.24
+ w10-20020adfec4a000000b00336670abdcasm4777116wrn.40.2023.12.22.09.42.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 22 Dec 2023 09:42:25 -0800 (PST)
 From: Alex Bee <knaerzche@gmail.com>
@@ -59,9 +59,10 @@ To: Sandy Huang <hjc@rock-chips.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>
-Subject: [PATCH v4 04/29] drm/rockchip: inno_hdmi: Remove useless mode_fixup
-Date: Fri, 22 Dec 2023 18:41:55 +0100
-Message-ID: <20231222174220.55249-5-knaerzche@gmail.com>
+Subject: [PATCH v4 05/29] drm/rockchip: inno_hdmi: Remove useless copy of
+ drm_display_mode
+Date: Fri, 22 Dec 2023 18:41:56 +0100
+Message-ID: <20231222174220.55249-6-knaerzche@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231222174220.55249-1-knaerzche@gmail.com>
 References: <20231222174220.55249-1-knaerzche@gmail.com>
@@ -88,8 +89,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Maxime Ripard <mripard@kernel.org>
 
-The mode_fixup implementation doesn't do anything, so we can simply
-remove it.
+The driver maintains a copy of the adjusted mode but doesn't use it
+anywhere. Remove it.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 Tested-by: Alex Bee <knaerzche@gmail.com>
@@ -104,35 +105,31 @@ changes in v3:
 changes in v4:
  - none
 
- drivers/gpu/drm/rockchip/inno_hdmi.c | 8 --------
- 1 file changed, 8 deletions(-)
+ drivers/gpu/drm/rockchip/inno_hdmi.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
-index 345253e033c5..0b1740b38c7b 100644
+index 0b1740b38c7b..14d2ba92a606 100644
 --- a/drivers/gpu/drm/rockchip/inno_hdmi.c
 +++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
-@@ -517,13 +517,6 @@ static void inno_hdmi_encoder_disable(struct drm_encoder *encoder)
- 	inno_hdmi_set_pwr_mode(hdmi, LOWER_PWR);
+@@ -62,7 +62,6 @@ struct inno_hdmi {
+ 	unsigned int tmds_rate;
+ 
+ 	struct hdmi_data_info	hdmi_data;
+-	struct drm_display_mode previous_mode;
+ };
+ 
+ static struct inno_hdmi *encoder_to_inno_hdmi(struct drm_encoder *encoder)
+@@ -498,9 +497,6 @@ static void inno_hdmi_encoder_mode_set(struct drm_encoder *encoder,
+ 	struct inno_hdmi *hdmi = encoder_to_inno_hdmi(encoder);
+ 
+ 	inno_hdmi_setup(hdmi, adj_mode);
+-
+-	/* Store the display mode for plugin/DPMS poweron events */
+-	drm_mode_copy(&hdmi->previous_mode, adj_mode);
  }
  
--static bool inno_hdmi_encoder_mode_fixup(struct drm_encoder *encoder,
--					 const struct drm_display_mode *mode,
--					 struct drm_display_mode *adj_mode)
--{
--	return true;
--}
--
- static int
- inno_hdmi_encoder_atomic_check(struct drm_encoder *encoder,
- 			       struct drm_crtc_state *crtc_state,
-@@ -540,7 +533,6 @@ inno_hdmi_encoder_atomic_check(struct drm_encoder *encoder,
- static struct drm_encoder_helper_funcs inno_hdmi_encoder_helper_funcs = {
- 	.enable     = inno_hdmi_encoder_enable,
- 	.disable    = inno_hdmi_encoder_disable,
--	.mode_fixup = inno_hdmi_encoder_mode_fixup,
- 	.mode_set   = inno_hdmi_encoder_mode_set,
- 	.atomic_check = inno_hdmi_encoder_atomic_check,
- };
+ static void inno_hdmi_encoder_enable(struct drm_encoder *encoder)
 -- 
 2.43.0
 
