@@ -2,98 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 409D381C63D
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 09:10:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE70C81C640
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 09:10:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 868A410E769;
-	Fri, 22 Dec 2023 08:10:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3ECC10E766;
+	Fri, 22 Dec 2023 08:10:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43E6010E770
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 08:09:59 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id
- 5b1f17b1804b1-40c41b43e1eso19515175e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 00:09:59 -0800 (PST)
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0217610E766
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 08:10:35 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id
+ 5b1f17b1804b1-40d3ae326f6so15678045e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 00:10:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1703232597; x=1703837397; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :references:to:content-language:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=1xKprI4ApsnVR9gU4stlnL3C1P3r+mVPb82XFlyptG8=;
- b=wgbbcD1WsoQCATs1DUBpU+3XrZkXYk6B6KceoID/KndCT6JAmM+3eXipRDsWkKg9TP
- O4b5D8Yne9HgohKTRgGpV2XD9VAjgnfwCaTL/SvCC32LD4+riYfU4AHuleIouqZQfXJm
- K4p2c8eWJR4Mjs9hImPqFQ83gCgIBllM+aYtNMMvP1OOQThm4THubz3KFN4aFWPbel2c
- 9Lv7gYGzU7xuSsirMF/XOlfTcHYfMh6ZQr6tLMeNzunK8DLPf38nN4IPSwv2vrbHgBA1
- diUxiFhObwHC77TZJf+2j/YN2qsv20JTWZG/f33tx86g6w+SWQ+PerVn57ySZYQOJLXz
- NMlg==
+ d=linaro.org; s=google; t=1703232634; x=1703837434; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=lM68vCaPXNUUDycrx+XvGL33ppz+BtAdK19lvJ8+7sw=;
+ b=iLZLEzQLxIBEafKC1wu382UcRPt1umNETTAPGPt1T8P17EmI16v65Pr8FQPTEznIBS
+ EVkjCYGGJEN8wgJM0S9OpTXhQWDP6PL639IF8sqjR7XZ8e2hBnMADBpDOS00BV3dvtOL
+ WrHhTPF4xUVY1AVfQRKz2Uc+KdQQnMNRKhn/T9YR7FIwQrDAwuOGt6ks0W2wzBswoJW2
+ kOVXBaEoe/p1Q3YPx/2C13P0s5FvXrIa1lTRIzUac2Jqh3Rqxk+6PXunSivJLTDnbOXp
+ vY6+uj0RYz+OkvfS9TvhLMJWNSP7hbgolxPYlsPJvDZYxWBnDRgbnynhzspWUDNA6Dy8
+ FeBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1703232597; x=1703837397;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :references:to:content-language:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=1xKprI4ApsnVR9gU4stlnL3C1P3r+mVPb82XFlyptG8=;
- b=NnKJsxQiqm+SHcRt3R3QQADlqPtsrZNS4bbZGR0Nmtxn1VZ9cZ1HuQOXY+Z2ML/QFe
- vfjs2q2h92fef42KWKPMqCW9M0FcUGr1cbNE1DduPw7WhdeSufJ8f7CC9PYNn9Mk/THF
- c9347ULgWm3ZnpJyDNSaFL+Ni1/jSOYTBoZL5OK5YH+gi8SyxZXjsnl5Eyb0XjWM8Lq+
- HeOYX/1dQ14eXA2MucrPsmF+nuPSCBLCcUgTpeTXwkz+H4HNUrHMD1/96Q+F5cnuBkpf
- mdecqRvwWQNffP34Zjcuc8tiWS+W8d4pHF/x3b75ihSlu0kqkp0JqnNtLAzuVI3A/033
- 4NNA==
-X-Gm-Message-State: AOJu0Yz+CYu/p7in0aXvtCtE5soDoPs2GD1nINJD/RxT+GrUUCSVowvB
- awYGvT2dvhGtMRoWP4sMEQQfZDUgnCmMSX2ztJ0nFZaowZuYQKZ1
-X-Google-Smtp-Source: AGHT+IHHMSDStnxJOEA7UcW0fad8FbjbUhf65pjge9pIp05plYDNFPaDWwJ71tgyyO96Qj5in/wXaQ==
-X-Received: by 2002:a05:600c:1615:b0:40c:6e31:9248 with SMTP id
- m21-20020a05600c161500b0040c6e319248mr465566wmn.4.1703232597453; 
- Fri, 22 Dec 2023 00:09:57 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:6d8d:fe46:4f99:9799?
- ([2a01:e0a:982:cbb0:6d8d:fe46:4f99:9799])
+ d=1e100.net; s=20230601; t=1703232634; x=1703837434;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=lM68vCaPXNUUDycrx+XvGL33ppz+BtAdK19lvJ8+7sw=;
+ b=Fjy1SUokni8VAicxRVi4guyymlCE5QLSR2YPsRrT+mBVvjTHiyKOIb8j2xsUGwzk6V
+ wOVuVYQpXSpZCZW1xpXFNNTgPi5ziQNsy4Zq8w6EZy7VXfeea9/FmBJY3aM17a3i6ln9
+ YUQDh2cAVRTt+VGy6iBNqAYvci3gaJiq4e225NMEga/wW6NsLOHy6gQoGCEdtpYhNd7Z
+ VTyBjLyN2rjiztg+8w3DD+VtMG4+f8Qxn1Et9iBSZiQrrOV/gGcEyegr30Wt1Y5MIWQp
+ Pit8QtgftEleTOaWmBTnmJe4o+1L4YXuxZKwRjyf5NzL6ixYhUQfibMZFHwnbZUiGL2k
+ dJHA==
+X-Gm-Message-State: AOJu0Yw4PlqKWRZ2wO3mRN+NVXYXlF65Gt++qoz0bZsmz4mBnrGIq+ch
+ wQANubFqFneowwjCqeUDiwSGqx9st2iwfw==
+X-Google-Smtp-Source: AGHT+IEXWH54whXuzJ+v2aRaRnfaeKABy4t4cZ8sKiFBmqzByppB9AgX/JMhJXGJHk1onMtQ80/7DA==
+X-Received: by 2002:a05:600c:6010:b0:40d:4a25:ee0e with SMTP id
+ az16-20020a05600c601000b0040d4a25ee0emr16278wmb.11.1703232634442; 
+ Fri, 22 Dec 2023 00:10:34 -0800 (PST)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
  by smtp.gmail.com with ESMTPSA id
- v16-20020a05600c471000b0040c4886f254sm13725924wmo.13.2023.12.22.00.09.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Dec 2023 00:09:56 -0800 (PST)
-Message-ID: <dcad8756-c723-4dc9-91db-a386a1b2824a@linaro.org>
-Date: Fri, 22 Dec 2023 09:09:55 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+ g17-20020a05600c001100b0040d44dcf233sm1527024wmc.12.2023.12.22.00.10.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 Dec 2023 00:10:34 -0800 (PST)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 0/2] drm/bridge: start moving towards struct drm_edid
-Content-Language: en-US, fr
-To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-References: <cover.1698312534.git.jani.nikula@intel.com>
- <87jzqksg8g.fsf@intel.com> <87frzytml3.fsf@intel.com>
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro Developer Services
-In-Reply-To: <87frzytml3.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Yannick Fertre <yannick.fertre@foss.st.com>, 
+ Philippe Cornu <philippe.cornu@foss.st.com>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+In-Reply-To: <20231221124339.420119-1-raphael.gallais-pou@foss.st.com>
+References: <20231221124339.420119-1-raphael.gallais-pou@foss.st.com>
+Subject: Re: (subset) [PATCH RESEND v1 0/8] Introduce STM32 LVDS driver
+Message-Id: <170323263335.3968091.3418124758627043970.b4-ty@linaro.org>
+Date: Fri, 22 Dec 2023 09:10:33 +0100
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,68 +89,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/12/2023 13:15, Jani Nikula wrote:
-> On Tue, 14 Nov 2023, Jani Nikula <jani.nikula@intel.com> wrote:
->> On Thu, 26 Oct 2023, Jani Nikula <jani.nikula@intel.com> wrote:
->>> This is just the first two patches of a lengthy series that I'm not
->>> really sure how to proceed with. Basically the series converts all of
->>> drm/bridge to the new struct drm_edid infrastructure. It's safer than
->>> struct edid, because it contains meta information about the allocated
->>> size of the EDID, instead of relying on the size (number of extensions)
->>> originating from outside of the kernel.
->>>
->>> The rest is at [1]. The commit messages are lacking, and I don't really
->>> have the toolchain to even build test most of it. But I think this is
->>> where drm/bridge should go. Among all of drm, I think bridge has the
->>> most uses of struct edid that do not originate from the drm_get_edid()
->>> family of functions, which means the validity checks are somewhat
->>> inconsistent, and having the meta information is more crucial.
->>>
->>> Bridge maintainers, please instruct how to best proceed with this.
->>
->> Ping.
+Hi,
+
+On Thu, 21 Dec 2023 13:43:31 +0100, Raphael Gallais-Pou wrote:
+> This serie introduces a new DRM bridge driver for STM32MP257 platforms
+> based on Arm Cortex-35. It also adds an instance in the device-tree and
+> handle the inclusion of the driver within the DRM framework. First patch
+> adds a new panel compatible in the panel-lvds driver, which is used by
+> default on the STM32MP257.
 > 
-> Ping.
+> Raphael Gallais-Pou (7):
+>   dt-bindings: panel: lvds: Append edt,etml0700z9ndha in panel-lvds
+>   dt-bindings: display: add dt-bindings for STM32 LVDS device
+>   drm/stm: lvds: add new STM32 LVDS Display Interface Transmitter driver
+>   drm/stm: ltdc: add lvds pixel clock
+>   arm64: dts: st: add ltdc support on stm32mp251
+>   arm64: dts: st: add lvds support on stm32mp253
+>   arm64: dts: st: add display support on stm32mp257f-ev
+> 
+> [...]
 
-Sorry for the delay, I would have preferred changing the get_edid to return
-a drm_edid, but I understand the task is too high, could you instead use
-@get_drm_edid instead of @edid_read ?
+Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
 
-And perhaps convert one very common bridge to this so we can validate
-the change in CI.
+[1/8] dt-bindings: panel: lvds: Append edt,etml0700z9ndha in panel-lvds
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=021a81e7ac8f579b049e5bc76efabd9e67bd627c
 
+-- 
 Neil
-
-> 
->>
->> The two patches posted here could be merged, to add something to build
->> the later commits on gradually.
->>
->> BR,
->> Jani.
->>
->>>
->>>
->>> Thanks,
->>> Jani.
->>>
->>>
->>>
->>> [1] https://gitlab.freedesktop.org/jani/linux/-/commits/drm-edid-bridge
->>>
->>>
->>>
->>> Jani Nikula (2):
->>>    drm/bridge: add ->edid_read hook and drm_bridge_edid_read()
->>>    drm/bridge: switch to drm_bridge_read_edid()
->>>
->>>   drivers/gpu/drm/drm_bridge.c           | 46 +++++++++++++++++++++++++-
->>>   drivers/gpu/drm/drm_bridge_connector.c | 16 ++++-----
->>>   include/drm/drm_bridge.h               | 33 ++++++++++++++++++
->>>   3 files changed, 86 insertions(+), 9 deletions(-)
-> 
 
