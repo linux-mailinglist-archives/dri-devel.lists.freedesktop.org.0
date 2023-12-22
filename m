@@ -1,39 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38E8581CD9C
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 18:32:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8452E81CD98
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 18:32:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97AF710E82A;
-	Fri, 22 Dec 2023 17:32:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8ADEF10E81D;
+	Fri, 22 Dec 2023 17:32:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mecka.net (mecka.net [159.69.159.214])
- by gabe.freedesktop.org (Postfix) with ESMTP id C494E10E03B
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 11:11:10 +0000 (UTC)
+X-Greylist: delayed 325 seconds by postgrey-1.36 at gabe;
+ Fri, 22 Dec 2023 11:11:09 UTC
+Received: from mecka.net (unknown [IPv6:2a01:4f8:1c1c:934f::1])
+ by gabe.freedesktop.org (Postfix) with ESMTP id EE85410E77E
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 11:11:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mecka.net; s=2016.11;
- t=1703243143; bh=0fR2LDFcxwDpap7qMyCNCyANGL/FAUTkYz5H7M+mUm8=;
- h=From:Subject:Date:To:Cc:From;
- b=E7ei35fEyNQLV6kQpHiNwkAdt2o4MDhvff5xMX2p+pxe6p+w8dI04tejBk5yVnzzh
- veVgo0e1+YojtbRNvZQx+YdqQ8PowrU1BUtbRUs7WakAfmdSFqS1qvJy/X2/vV43Fz
- NAzHgQ6mGnGi9cqPc0s5OgMXM+aVKCYO7tHyoxEsfZoJeFNupw9i/xbPCXx09BT8Vp
- SZ+7IfqRkROge97dRETC0k42t6vLUkWRf8XGS+2gzxIP/0P6OoB2Ga8uih050pDNcr
- j6FLVuQvOcrmsNY8DXCNMgva0zWv2R9gwd2G6PnoM/i2vMj1qGYkFNtlSKt1wKK1K3
- gvUh4643vzCew==
+ t=1703243143; bh=lLn1TvkFpD62y29Aa+jQpFVZRQMCpTszyZVqB2SdRCE=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+ b=G4AUWUolEsmkt6OUpTMTH0p4mm9gguHy0BTTSr8GCPunr5uBvbmsJ8s06hnd61QFG
+ lMsKyEtqm+KrIfON8N8WO7cR44V7arfzqXaGkiNsDF7q0wW73Bb5hhaNS2X/R6SJwd
+ xHgLWvdlQW+Jf2YSbAR+DdGaUr8HSghf1YooLUu3btDeC+e9EnmIgvFcCwtJPnQNWy
+ fsMKSJEXDXV9ZznTB/Lz8zJQCrxB0KOXHIjBW3DTazx4f8mkixFInqvhrLvJfe0Nc6
+ CijCW6RaZv1o9LHu2OWKdBqE9aVJSPrgvSw+t6Ab7z82IrgdKdJ3irQVku8ebrlJJ0
+ m7uLqcnTzu2Ng==
 Received: from arthur.fritz.box (unknown [185.147.11.134])
- by mecka.net (Postfix) with ESMTPSA id 8BFC3370D3B;
- Fri, 22 Dec 2023 12:05:42 +0100 (CET)
+ by mecka.net (Postfix) with ESMTPSA id 3E255370D3C;
+ Fri, 22 Dec 2023 12:05:43 +0100 (CET)
 From: Manuel Traut <manut@mecka.net>
-Subject: [PATCH 0/6] arm64: rockchip: Pine64 pinetab2 support
-Date: Fri, 22 Dec 2023 12:05:40 +0100
-Message-Id: <20231222-pinetab2-v1-0-e148a7f61bd1@mecka.net>
+Date: Fri, 22 Dec 2023 12:05:41 +0100
+Subject: [PATCH 1/6] dt-bindings: display: panel: Add BOE
+ TH101MB31IG002-28A panel
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAIRthWUC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI2NDIyMj3YLMvNSSxCQj3bTERHPzVAPDlCSzNCWg8oKi1LTMCrBR0bG1tQA
- RoX8xWgAAAA==
+Message-Id: <20231222-pinetab2-v1-1-e148a7f61bd1@mecka.net>
+References: <20231222-pinetab2-v1-0-e148a7f61bd1@mecka.net>
+In-Reply-To: <20231222-pinetab2-v1-0-e148a7f61bd1@mecka.net>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
  Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -65,53 +67,94 @@ Cc: devicetree@vger.kernel.org, Manuel Traut <manut@mecka.net>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds support for the BOE TH101MB31IG002 LCD Panel used in Pinetab2 [1] and
-Pinetab-V [2] as well as the devictrees for the Pinetab2 v0.1 and v2.0.
-
-The BOE LCD Panel patch was retrieved from [3]. The function-name prefix has
-been adapted and the LCD init section was simplified.
-
-The Pinetab2 devicetree patch was retrieved from [4]. Some renaming was needed
-to pass the dtb-checks, the brightness-levels are specified as range and steps
-instead of a list of values.
-
-The last to patches fix some dtb-checker warnings that showed up with the new
-device-trees.
-
-[1] https://wiki.pine64.org/wiki/PineTab2
-[2] https://wiki.pine64.org/wiki/PineTab-V
-[3] https://salsa.debian.org/Mobian-team/devices/kernels/rockchip-linux/-/blob/mobian-6.6/debian/patches/display/0018-drm-panel-add-BOE-TH101MB31IG002-28A-driver.patch?ref_type=heads
-[4] https://salsa.debian.org/Mobian-team/devices/kernels/rockchip-linux/-/blob/mobian-6.6/debian/patches/device-tree/0134-arch-arm64-add-Pine64-PineTab2-device-trees.patch?ref_type=heads
+Add bindings for the BOE TH101MB31IG002-28A LCD panel. It is
+used e.g. in the Pine64 Pinetab2 and PinetabV.
 
 Signed-off-by: Manuel Traut <manut@mecka.net>
 ---
-Manuel Traut (4):
-      dt-bindings: display: panel: Add BOE TH101MB31IG002-28A panel
-      dt-bindings: arm64: rockchip: Add Pine64 Pinetab2
-      arm64: dts: rockchip: Fix some dtb-check warnings
-      dt-bindings: display: rockchip: dw-hdmi: Add missing sound-dai-cells property
+ .../display/panel/boe,th101mb31ig002-28a.yaml      | 73 ++++++++++++++++++++++
+ 1 file changed, 73 insertions(+)
 
-Segfault (2):
-      drm/panel: Add driver for BOE TH101MB31IG002-28A panel
-      arm64: dts: rockchip: Add devicetree for Pine64 Pinetab2
+diff --git a/Documentation/devicetree/bindings/display/panel/boe,th101mb31ig002-28a.yaml b/Documentation/devicetree/bindings/display/panel/boe,th101mb31ig002-28a.yaml
+new file mode 100644
+index 000000000000..a8a5e1b4439b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/boe,th101mb31ig002-28a.yaml
+@@ -0,0 +1,73 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/boe,th101mb31ig002-28a.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: BOE TH101MB31IG002-28A Pine64 Pinetab2 DSI Display Panel
++
++maintainers:
++  - Manuel Traut <manut@mecka.net>
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    enum:
++        # BOE TH101MB31IG002-28A 10.1" WXGA TFT LCD panel
++      - boe,th101mb31ig002-28a
++
++  reg:
++    description: the virtual channel number of a DSI peripheral
++
++  backlight:
++    description: phandle of the backlight device attached to the panel
++
++  enable-gpios:
++    description: a GPIO spec for the enable pin
++
++  power-supply:
++    description: core voltage supply
++
++
++  ports: true
++  rotation: true
++
++required:
++  - compatible
++  - reg
++  - enable-gpios
++  - power-supply
++
++additionalProperties: false
++
++examples:
++  - |
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++        panel@0 {
++            compatible = "boe,th101mb31ig002-28a";
++            reg = <0>;
++            backlight = <&backlight_lcd0>;
++            enable-gpios = <&pio 45 0>;
++            rotation = <90>;
++            power-supply = <&vcc_3v3>;
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++                port@0 {
++                    reg = <0>;
++                    #address-cells = <1>;
++                    #size-cells = <0>;
++                    panel_in_dsi: endpoint@0 {
++                        reg = <0>;
++                        remote-endpoint = <&dsi0_out_con>;
++                    };
++                };
++            };
++        };
++    };
++
++...
 
- .../devicetree/bindings/arm/rockchip.yaml          |    8 +
- .../display/panel/boe,th101mb31ig002-28a.yaml      |   73 ++
- .../display/rockchip/rockchip,dw-hdmi.yaml         |    4 +
- arch/arm64/boot/dts/rockchip/Makefile              |    2 +
- .../boot/dts/rockchip/rk3566-pinetab2-v0.1.dts     |   26 +
- .../boot/dts/rockchip/rk3566-pinetab2-v2.0.dts     |   46 +
- arch/arm64/boot/dts/rockchip/rk3566-pinetab2.dtsi  | 1032 ++++++++++++++++++++
- arch/arm64/boot/dts/rockchip/rk356x.dtsi           |    5 +-
- drivers/gpu/drm/panel/Kconfig                      |   11 +
- drivers/gpu/drm/panel/Makefile                     |    1 +
- .../gpu/drm/panel/panel-boe-th101mb31ig002-28a.c   |  307 ++++++
- 11 files changed, 1513 insertions(+), 2 deletions(-)
----
-base-commit: 24e0d2e527a39f64caeb2e6be39ad5396fb2da5e
-change-id: 20231222-pinetab2-faa77e01db6f
-
-Best regards,
 -- 
-Manuel Traut <manut@mecka.net>
+2.43.0
 
