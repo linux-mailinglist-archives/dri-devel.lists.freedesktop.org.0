@@ -2,79 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10B4081C739
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 10:18:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A06181C73B
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 10:19:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D0F310E780;
-	Fri, 22 Dec 2023 09:18:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D2B610E78B;
+	Fri, 22 Dec 2023 09:19:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B15A10E780
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 09:18:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1703236679;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Rxx12Ow8etcgTYo8TFhIqtSHwFWel53/NDvAae+ByFo=;
- b=cQ2QgA/p4N7WdXa5VrTj/v+AtSEMbHX5ypIkYKGrfjQ0z2IGpmaHyNw6Af3TqSXVEQdvnG
- G87QMbyAjaytO6m4tvU51Srj+KZjKg3EA3VCr0TxMrcA11BBsF/ltG4+SteWO6yxgo5wC7
- N2S9tBRno/hZiQeFi+0dXg2Q/YA33n8=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-481-vsHZM-PDMhazK45Nuhf8LA-1; Fri, 22 Dec 2023 04:17:58 -0500
-X-MC-Unique: vsHZM-PDMhazK45Nuhf8LA-1
-Received: by mail-lf1-f69.google.com with SMTP id
- 2adb3069b0e04-50bfae5b114so1506978e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 01:17:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1703236676; x=1703841476;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Rxx12Ow8etcgTYo8TFhIqtSHwFWel53/NDvAae+ByFo=;
- b=RHUWga3d1R7C3ll46JIoqRd/fbCLgKRRRp1C3j+RssiKDmbqVgWemMIDojqLgFtwub
- bnNrO068Ni23+ryEwxe/zPd/BpSmHNUmn/ipeScULt9rwm2Av/LvKqtxWUi5/DF7DCNe
- KnIq04lhVtqpYuI1enLwkNFOk7x6N193qNm4KXWavVN96HIvlGR/UvzuPiKLFo4dYhSo
- Xjw8Cm28ZRTin/Pq27HLiRAcUw/dk6DVov+q5uuilBymPeOImUiFp8JJUGrDX30AGvqM
- wMSsQfMyfHlKUgzSq0RDvp5RKvAjwnxFnamKYtIrUmA319sdKn/hI7VFv4f2GZShtMeR
- Ibzw==
-X-Gm-Message-State: AOJu0Yzg1aEMHqaeWyVm1TNQzkZSo84EPZcLd0GQJFMtHYQdP2U/LMtA
- Ps7XIzVmbOsAO7Ny2i6HjpImwxnVoD5tR4CFlQO1kSAvxztM+Vh354MjM+IsmwkjMujX4GDx5jr
- P0W42aD1XvXKNzspxskz+srKmGNAroeO9eTUY
-X-Received: by 2002:a05:6512:3c8c:b0:50e:2b22:f8ef with SMTP id
- h12-20020a0565123c8c00b0050e2b22f8efmr350485lfv.157.1703236676317; 
- Fri, 22 Dec 2023 01:17:56 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEFn8NUoimj6n/dd+ekFd81vZ/XTq0jBGFQgQTvFGu/QMWaOUIvd6dP4AxJep+XdpkG0AC/Rw==
-X-Received: by 2002:a05:6512:3c8c:b0:50e:2b22:f8ef with SMTP id
- h12-20020a0565123c8c00b0050e2b22f8efmr350467lfv.157.1703236675823; 
- Fri, 22 Dec 2023 01:17:55 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- l4-20020a5d6744000000b00336710ddea0sm3827890wrw.59.2023.12.22.01.17.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Dec 2023 01:17:55 -0800 (PST)
-Message-ID: <01cc7bd1-25d8-43ad-a305-05fcc81bfd22@redhat.com>
-Date: Fri, 22 Dec 2023 10:17:53 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15AAB10E781;
+ Fri, 22 Dec 2023 09:19:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1703236755; x=1734772755;
+ h=date:from:to:cc:subject:message-id:in-reply-to: mime-version;
+ bh=OhSMewe1WYEcQerjm8uONPnME1wpuu7rc7d+g1QNhLs=;
+ b=VSzjxCmzCnRyGPn9izpa72XH/9O92WVPPAXvW09OnCp89zCOaEphfYBL
+ d6Wun/n5WZt/FWRyP8Yd/N6NDF9/ORf/40k6dl3OhWoZvV2osdivcXnJv
+ I81iOeD3LwNMzeLVhVrQ2FXelB3iuPHjnij4v8dTkrWimtWleWDYEVWvw
+ 0jfaDwu5luM12o6hQjnq/guXaaDJtGc4KiFE1EVl21AfekyBtm94cjIWa
+ nnIToJmLOhuA1haXQrZJmtqZ/prJ4Hamx/wAjjKRmysVXpSWXLnxxMUqo
+ tqMa9g1BLs1GdAptACtWn21Uu+XrAzxRksIf/q7uqHPx0tzdnqTw9If1c g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10931"; a="381077528"
+X-IronPort-AV: E=Sophos;i="6.04,296,1695711600"; d="scan'208";a="381077528"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Dec 2023 01:19:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10931"; a="726729831"
+X-IronPort-AV: E=Sophos;i="6.04,296,1695711600"; d="scan'208";a="726729831"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by orsmga003.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 22 Dec 2023 01:19:09 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Fri, 22 Dec 2023 01:19:08 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Fri, 22 Dec 2023 01:19:08 -0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.100)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Fri, 22 Dec 2023 01:19:08 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Wi23dxzzpKCwx/YI8VVn+ijpuFhRgIdOWpWv1MkWHpjtjie+F0lmT1R7u+loiPonOrJP+mzEz3Gz1F0XWfJ8Vouv1NysII5pbYz5OkYfg+8z72JlO2oGw6hr3k7O19/0HZHdDSQMIGWqFBD2ggbwYtKJTVEK+8ZYdvDJ83qff/o6MaCx/OWP/aWup3/UstmSJUn+r4fkclvMeJ3nqaT7Ulhf9S+EMtwIBoVq/bubBeqcI9aWnFy75/TRTawMLm4oUT19EHslHbjrK3Fh6wLhAlBp53Mxqck3DddTlShARZ3Cyk4U1+0G1cIRwndIzfTidlSh3IBnp/8xNSv5MBKPXw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZgFQ77BYWusH/K75gjnjL6YVk/Vv7e4LRfpewysVOHU=;
+ b=m9EU9Wox+nQgpkXzjrAX16ajNgzceGA8tSfaEFMOP/rJx7YH4AzvO9Fs3YlGmF1NZEa2WUYxvbqX3JmBPs5KhuKrf6svN03+iLDmnJ4gC8CW4Uo+O3TWHL2mTN9ipEyKoxGBX2X5H1NIr66jHSUDChAYwivpIMrPYD5A18b7LPUnxKNqmv5D4pvUo0bM3PFJ79AjIE/iaIh1nXK0kbL1bjqmKCynB7hVgi8K+xYE4yIGqCn7JzGDcJ0gHyromhF7rcVdTUfbKit+2yARTVJOeXjZQEDZmGCx+ynLsNzCqM5JBIyHyISftqJ/jKPQxamzmAop4XZd3xm5sYDYybqaXQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
+ by CY8PR11MB7685.namprd11.prod.outlook.com (2603:10b6:930:73::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7113.21; Fri, 22 Dec
+ 2023 09:19:06 +0000
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::1236:9a2e:5acd:a7f]) by LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::1236:9a2e:5acd:a7f%3]) with mapi id 15.20.7113.019; Fri, 22 Dec 2023
+ 09:19:05 +0000
+Date: Fri, 22 Dec 2023 17:18:55 +0800
+From: kernel test robot <oliver.sang@intel.com>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+Subject: Re: [PATCH] locking/ww_mutex: Adjust to lockdep nest_lock requirements
+Message-ID: <202312221708.b143534-oliver.sang@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20231219160524.3646-1-thomas.hellstrom@linux.intel.com>
+X-ClientProxiedBy: SI2PR06CA0015.apcprd06.prod.outlook.com
+ (2603:1096:4:186::7) To LV3PR11MB8603.namprd11.prod.outlook.com
+ (2603:10b6:408:1b6::9)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/4] drm/ssd130x: Add support for the SSD133x OLED
- controller family
-To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
-References: <20231219203416.2299702-1-javierm@redhat.com>
- <20231219203416.2299702-5-javierm@redhat.com>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20231219203416.2299702-5-javierm@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|CY8PR11MB7685:EE_
+X-MS-Office365-Filtering-Correlation-Id: b057fe96-4c0c-4df4-5ae5-08dc02cf0b3c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: rn9KlndM4SP5c8Y+E2RCDG++RZG5cg9yqjLUN+bKqlT7w3zMACo+SzX1bKQsoRMZSOm2AYtVw00fzHqd2hfuykmWi2MrRHp3EWMeDqdfMLkXzWwUFIv3PwuI6tvtL4xGnwTQqHUI8ynE84uVJh/w117XvYGHiMTSWP9z/JHyVLaSYslcRoPgGUPu2uGuvLs+/2cBgZvrkFc5jV86fir2JXJecqLFsuz+aMOQXxTl9JB8r0g/1aTGSe5Qnv0M+BWJoqes5xuQuBIljV+XNRYEhcCWAebe561Q8SKwqgDYlufrkPrqkwoC8jA4zrh+Wv3krRYiU4Qq7ZRcmxltU+JaAAuD947T07erzDwtvU4zJwP/cVoIWYGjqrv8NkzJdX6cywzw1uWC//Fmd+XNOv3Mk0/17CBnTx75edBwUJaBts8KgZaEQhWxzZBCR+6RmixFCiPPDNpALNtT/xvItslVFk4EBIqVT8DMwN8pJyyz1drXBkBt+EsKH7zDUSb761kJBTbpNBPx8HpkuucUJGX1RtY+trB8woF1/+5L/j5I8l67CcD37Us5YrAsnyNal1WMKYgx5fORaw4jgkfl5d4by4G5sJKSaLbO4oWh2S/SS+4tHugWpTQtw2hsiEmMOTyaqYqcvozLgps0WNiJ5yhbMtr/vRpPf8ooupg9WowOAO8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LV3PR11MB8603.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376002)(396003)(346002)(136003)(39860400002)(366004)(230173577357003)(230922051799003)(230273577357003)(1800799012)(451199024)(186009)(64100799003)(966005)(6486002)(38100700002)(4326008)(478600001)(82960400001)(5660300002)(54906003)(6916009)(316002)(66556008)(66476007)(66946007)(8676002)(8936002)(2616005)(26005)(1076003)(83380400001)(45080400002)(6666004)(6512007)(6506007)(41300700001)(86362001)(36756003)(2906002)(7416002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?L7w4jf2BEUQwh5H/bmj/MREScTttjdbV1QJ/I0VY2xthv7opUXd5e50gHNMv?=
+ =?us-ascii?Q?FQM6n7KzliVl3MEQst4xi1IoOpqoN2aR41KEzma+gIhc1LnjcFXs1SOHN6iz?=
+ =?us-ascii?Q?4Bhx4/I08YZoTojSKImE0SrrldDHM6BnEKi1h8CSGSIqQBFfbWLkvo6ZaPx8?=
+ =?us-ascii?Q?qDVTYWWVTseJFBuJCTnBAWfAN2QoA+l/AqCvoktgkuiwCJnBPagtMeMcrmQf?=
+ =?us-ascii?Q?bDimxK66IT1EYQbX8Jr10U5OBc8AAqGAEC1tWbG6JII0nyAcf9d3KFq7+upG?=
+ =?us-ascii?Q?6Vaxt2eNIDjTVpWVDFaP7dZqnyUEu4Cnz7t5Yqltv/xwrFaTdzrYwc4S08WZ?=
+ =?us-ascii?Q?rIWGFhDMru4Va8Am3PvttQilFrIgpwj4s/Vkm3vI6ZIauxPIRSAtQmvDnbVL?=
+ =?us-ascii?Q?fo2CwrMG7QfjCQDTUF1G8RwcPIZkOH5J6498isyDkzTSSnop0rgk6W5RSK6I?=
+ =?us-ascii?Q?1ULgKGw6Fwc8EucD9Rg7accYvoAqmAqsA/zKhiiBH/+sDHhfrpAF8r0XdS1l?=
+ =?us-ascii?Q?4Hbm6zDE4XXGiW9GB4MhTuvSHFQ7M8jw/MxW0jr5LFSRFfhezS1x6lsGb9O+?=
+ =?us-ascii?Q?fBJkZV5jI3ki9YnIg3F4Gb/SKDFpl/fvW7kaDGEoXC8HoAEjcj1R3B0C+fVr?=
+ =?us-ascii?Q?2HHx/xBX56AybeiX0hFwdyFbtOgjnwSxQrcaOD6Zojr5nXXso42d40VKB7nS?=
+ =?us-ascii?Q?q2fgqj9VfrMl5W9G0Lra7HqBN/3roV4RMtAr+mBNZz9LmbedIPQkjpsjZVrO?=
+ =?us-ascii?Q?Dmy442npSMxe/wz55Vai0v08iy1jO+tauNRI4E7LPs7VZs+1dZzhJ4R9flya?=
+ =?us-ascii?Q?//gX5E6vdEXMKvT1cYtYP7OfvS0j4zWg/qBKCeGBFhzds4U/5OFDHGJ/4E26?=
+ =?us-ascii?Q?hRm6gZSKTz8AHq3Dnw1O6hLmGq/RwXOBjOZAPrQntlCAmsSy0gwVVZt0lwML?=
+ =?us-ascii?Q?yIPbIjb8pOytp1gKqLu4WoNwsOwVPqhS7/oXtXjeSMvch0E5Ep/Nj25Nq2V3?=
+ =?us-ascii?Q?wXShiGmiZBY4mcm5utR/kWJwtApDlOP5FWkpnHBtpUpUiYzOPWB8NsFFhUZe?=
+ =?us-ascii?Q?UTwMM3qPK+w5PcShASrzHyUAMk24cQx3eXnKo0DWzyFlcaJAn0WlRgJj3avq?=
+ =?us-ascii?Q?sh3BB5G7thLRd/Y9+pq6ctFRCbcbuMOcEd/kSqPjZVLZzHx6hey6w3N2KU4R?=
+ =?us-ascii?Q?gLvLgllqgA7lDdcXSR9lY7eFHDrlyatBBIrTF06voWk+kqj0g1TUZhAcpnhC?=
+ =?us-ascii?Q?nqn9CL6iRu2n0ym1h6tN1cd4rcvbA0PG7tq06RvRKWjRfcb075RTup+AAZaZ?=
+ =?us-ascii?Q?c3VuBJi289Oxos6rVhR+XlWpi9WeeMfuY6MydupyMhNn5X2tsu7RSmIv1yrc?=
+ =?us-ascii?Q?IdP7+/RG1wXiVeO5YPqX26HOMvhMORHcxqh2AepP52DE1vs55xq3mg3XSRDW?=
+ =?us-ascii?Q?L1Fw6EGu/pUaua4quO/QbvZ9FYTbNislaf+gyZqlFvDL3JnU4O3r8epmAN/v?=
+ =?us-ascii?Q?4hRaw50BjJmgfXXqLUFef6zUwMSnAjLWtGqUHt8gY2TI+Xj9M9lNrs14Deb0?=
+ =?us-ascii?Q?7K4FbKC5nFO2luKCyNI+VHpEX1FuTNyFB9J03JC4bmCacBB7x5Isni80tnmb?=
+ =?us-ascii?Q?ng=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: b057fe96-4c0c-4df4-5ae5-08dc02cf0b3c
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8603.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2023 09:19:05.3172 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kb93ywReGzWN4A/diPohpQJX1MAxgdk4bBUAomgS5Z+4YK+zjYcNKBMRz/d1p4IAehCuT85bWey+10iiss61Lg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7685
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,580 +141,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Conor Dooley <conor@kernel.org>, dri-devel@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Peter Robinson <pbrobinson@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>
+Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ lkp@intel.com, Peter Zijlstra <peterz@infradead.org>,
+ Boqun Feng <boqun.feng@gmail.com>, Maarten Lankhorst <maarten@lankhorst.se>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, Ingo Molnar <mingo@redhat.com>,
+ oliver.sang@intel.com, oe-lkp@lists.linux.dev,
+ Waiman Long <longman@redhat.com>, Will Deacon <will@kernel.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 19/12/2023 21:34, Javier Martinez Canillas wrote:
-> The Solomon SSD133x controllers (such as the SSD1331) are used by RGB dot
-> matrix OLED panels, add a modesetting pipeline to support the chip family.
-> 
-> The SSD133x controllers support 256 (8-bit) and 65k (16-bit) color depths
-> but only the former is implemented for now. This is because the 256 color
-> depth format matches a fourcc code already present in DRM (RGB8), but the
-> 65k pixel format does not match the existing RG16 fourcc code format.
-> 
-> Instead of a R:G:B 5:6:5, the controller expects the 16-bit pixels to be
-> R:G:B 6:5:6, and so a new fourcc needs to be added to support this format.
+Hello,
 
-small typo here, R:G:B 6:5:6 => that's 17 bits
+kernel test robot noticed "WARNING:at_kernel/locking/lockdep.c:#__lock_acquire" on:
 
-other than that, it looks good to me, feel free to add:
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+commit: 4f37585fa02f3eaebc72efa1260e6742478c00fa ("[PATCH] locking/ww_mutex: Adjust to lockdep nest_lock requirements")
+url: https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/locking-ww_mutex-Adjust-to-lockdep-nest_lock-requirements/20231220-000906
+base: https://git.kernel.org/cgit/linux/kernel/git/tip/tip.git a51749ab34d9e5dec548fe38ede7e01e8bb26454
+patch link: https://lore.kernel.org/all/20231219160524.3646-1-thomas.hellstrom@linux.intel.com/
+patch subject: [PATCH] locking/ww_mutex: Adjust to lockdep nest_lock requirements
 
-> 
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> ---
-> 
-> (no changes since v1)
-> 
->   drivers/gpu/drm/solomon/ssd130x-i2c.c |   5 +
->   drivers/gpu/drm/solomon/ssd130x-spi.c |   7 +
->   drivers/gpu/drm/solomon/ssd130x.c     | 370 ++++++++++++++++++++++++++
->   drivers/gpu/drm/solomon/ssd130x.h     |   5 +-
->   4 files changed, 386 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/solomon/ssd130x-i2c.c b/drivers/gpu/drm/solomon/ssd130x-i2c.c
-> index f2ccab9c06d9..a047dbec4e48 100644
-> --- a/drivers/gpu/drm/solomon/ssd130x-i2c.c
-> +++ b/drivers/gpu/drm/solomon/ssd130x-i2c.c
-> @@ -105,6 +105,11 @@ static const struct of_device_id ssd130x_of_match[] = {
->   		.compatible = "solomon,ssd1327",
->   		.data = &ssd130x_variants[SSD1327_ID],
->   	},
-> +	/* ssd133x family */
-> +	{
-> +		.compatible = "solomon,ssd1331",
-> +		.data = &ssd130x_variants[SSD1331_ID],
-> +	},
->   	{ /* sentinel */ }
->   };
->   MODULE_DEVICE_TABLE(of, ssd130x_of_match);
-> diff --git a/drivers/gpu/drm/solomon/ssd130x-spi.c b/drivers/gpu/drm/solomon/ssd130x-spi.c
-> index 84e035a7ab3f..84bfde31d172 100644
-> --- a/drivers/gpu/drm/solomon/ssd130x-spi.c
-> +++ b/drivers/gpu/drm/solomon/ssd130x-spi.c
-> @@ -142,6 +142,11 @@ static const struct of_device_id ssd130x_of_match[] = {
->   		.compatible = "solomon,ssd1327",
->   		.data = &ssd130x_variants[SSD1327_ID],
->   	},
-> +	/* ssd133x family */
-> +	{
-> +		.compatible = "solomon,ssd1331",
-> +		.data = &ssd130x_variants[SSD1331_ID],
-> +	},
->   	{ /* sentinel */ }
->   };
->   MODULE_DEVICE_TABLE(of, ssd130x_of_match);
-> @@ -166,6 +171,8 @@ static const struct spi_device_id ssd130x_spi_table[] = {
->   	{ "ssd1322", SSD1322_ID },
->   	{ "ssd1325", SSD1325_ID },
->   	{ "ssd1327", SSD1327_ID },
-> +	/* ssd133x family */
-> +	{ "ssd1331", SSD1331_ID },
->   	{ /* sentinel */ }
->   };
->   MODULE_DEVICE_TABLE(spi, ssd130x_spi_table);
-> diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
-> index bef293922b98..447d0c7c88c6 100644
-> --- a/drivers/gpu/drm/solomon/ssd130x.c
-> +++ b/drivers/gpu/drm/solomon/ssd130x.c
-> @@ -119,6 +119,26 @@
->   #define SSD130X_SET_VCOMH_VOLTAGE		0xbe
->   #define SSD132X_SET_FUNCTION_SELECT_B		0xd5
->   
-> +/* ssd133x commands */
-> +#define SSD133X_SET_COL_RANGE			0x15
-> +#define SSD133X_SET_ROW_RANGE			0x75
-> +#define SSD133X_CONTRAST_A			0x81
-> +#define SSD133X_CONTRAST_B			0x82
-> +#define SSD133X_CONTRAST_C			0x83
-> +#define SSD133X_SET_MASTER_CURRENT		0x87
-> +#define SSD132X_SET_PRECHARGE_A			0x8a
-> +#define SSD132X_SET_PRECHARGE_B			0x8b
-> +#define SSD132X_SET_PRECHARGE_C			0x8c
-> +#define SSD133X_SET_DISPLAY_START		0xa1
-> +#define SSD133X_SET_DISPLAY_OFFSET		0xa2
-> +#define SSD133X_SET_DISPLAY_NORMAL		0xa4
-> +#define SSD133X_SET_MASTER_CONFIG		0xad
-> +#define SSD133X_POWER_SAVE_MODE			0xb0
-> +#define SSD133X_PHASES_PERIOD			0xb1
-> +#define SSD133X_SET_CLOCK_FREQ			0xb3
-> +#define SSD133X_SET_PRECHARGE_VOLTAGE		0xbb
-> +#define SSD133X_SET_VCOMH_VOLTAGE		0xbe
-> +
->   #define MAX_CONTRAST 255
->   
->   const struct ssd130x_deviceinfo ssd130x_variants[] = {
-> @@ -180,6 +200,12 @@ const struct ssd130x_deviceinfo ssd130x_variants[] = {
->   		.default_width = 128,
->   		.default_height = 128,
->   		.family_id = SSD132X_FAMILY,
-> +	},
-> +	/* ssd133x family */
-> +	[SSD1331_ID] = {
-> +		.default_width = 96,
-> +		.default_height = 64,
-> +		.family_id = SSD133X_FAMILY,
->   	}
->   };
->   EXPORT_SYMBOL_NS_GPL(ssd130x_variants, DRM_SSD130X);
-> @@ -589,6 +615,117 @@ static int ssd132x_init(struct ssd130x_device *ssd130x)
->   	return 0;
->   }
->   
-> +static int ssd133x_init(struct ssd130x_device *ssd130x)
-> +{
-> +	int ret;
-> +
-> +	/* Set color A contrast */
-> +	ret = ssd130x_write_cmd(ssd130x, 2, SSD133X_CONTRAST_A, 0x91);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* Set color B contrast */
-> +	ret = ssd130x_write_cmd(ssd130x, 2, SSD133X_CONTRAST_B, 0x50);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* Set color C contrast */
-> +	ret = ssd130x_write_cmd(ssd130x, 2, SSD133X_CONTRAST_C, 0x7d);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* Set master current */
-> +	ret = ssd130x_write_cmd(ssd130x, 2, SSD133X_SET_MASTER_CURRENT, 0x06);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* Set column start and end */
-> +	ret = ssd130x_write_cmd(ssd130x, 3, SSD133X_SET_COL_RANGE, 0x00, ssd130x->width - 1);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* Set row start and end */
-> +	ret = ssd130x_write_cmd(ssd130x, 3, SSD133X_SET_ROW_RANGE, 0x00, ssd130x->height - 1);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/*
-> +	 * Horizontal Address Increment
-> +	 * Normal order SA,SB,SC (e.g. RGB)
-> +	 * COM Split Odd Even
-> +	 * 256 color format
-> +	 */
-> +	ret = ssd130x_write_cmd(ssd130x, 2, SSD13XX_SET_SEG_REMAP, 0x20);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* Set display start and offset */
-> +	ret = ssd130x_write_cmd(ssd130x, 2, SSD133X_SET_DISPLAY_START, 0x00);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret = ssd130x_write_cmd(ssd130x, 2, SSD133X_SET_DISPLAY_OFFSET, 0x00);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* Set display mode normal */
-> +	ret = ssd130x_write_cmd(ssd130x, 1, SSD133X_SET_DISPLAY_NORMAL);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* Set multiplex ratio value */
-> +	ret = ssd130x_write_cmd(ssd130x, 2, SSD13XX_SET_MULTIPLEX_RATIO, ssd130x->height - 1);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* Set master configuration */
-> +	ret = ssd130x_write_cmd(ssd130x, 2, SSD133X_SET_MASTER_CONFIG, 0x8e);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* Set power mode */
-> +	ret = ssd130x_write_cmd(ssd130x, 2, SSD133X_POWER_SAVE_MODE, 0x0b);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* Set Phase 1 and 2 period */
-> +	ret = ssd130x_write_cmd(ssd130x, 2, SSD133X_PHASES_PERIOD, 0x31);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* Set clock divider */
-> +	ret = ssd130x_write_cmd(ssd130x, 2, SSD133X_SET_CLOCK_FREQ, 0xf0);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* Set pre-charge A */
-> +	ret = ssd130x_write_cmd(ssd130x, 2, SSD132X_SET_PRECHARGE_A, 0x64);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* Set pre-charge B */
-> +	ret = ssd130x_write_cmd(ssd130x, 2, SSD132X_SET_PRECHARGE_B, 0x78);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* Set pre-charge C */
-> +	ret = ssd130x_write_cmd(ssd130x, 2, SSD132X_SET_PRECHARGE_C, 0x64);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* Set pre-charge level */
-> +	ret = ssd130x_write_cmd(ssd130x, 2, SSD133X_SET_PRECHARGE_VOLTAGE, 0x3a);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* Set VCOMH voltage */
-> +	ret = ssd130x_write_cmd(ssd130x, 2, SSD133X_SET_VCOMH_VOLTAGE, 0x3e);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +
->   static int ssd130x_update_rect(struct ssd130x_device *ssd130x,
->   			       struct drm_rect *rect, u8 *buf,
->   			       u8 *data_array)
-> @@ -753,6 +890,47 @@ static int ssd132x_update_rect(struct ssd130x_device *ssd130x,
->   	return ret;
->   }
->   
-> +static int ssd133x_update_rect(struct ssd130x_device *ssd130x,
-> +			       struct drm_rect *rect, u8 *data_array,
-> +			       unsigned int pitch)
-> +{
-> +	unsigned int x = rect->x1;
-> +	unsigned int y = rect->y1;
-> +	unsigned int columns = drm_rect_width(rect);
-> +	unsigned int rows = drm_rect_height(rect);
-> +	int ret;
-> +
-> +	/*
-> +	 * The screen is divided in Segment and Common outputs, where
-> +	 * COM0 to COM[N - 1] are the rows and SEG0 to SEG[M - 1] are
-> +	 * the columns.
-> +	 *
-> +	 * Each Segment has a 8-bit pixel and each Common output has a
-> +	 * row of pixels. When using the (default) horizontal address
-> +	 * increment mode, each byte of data sent to the controller has
-> +	 * a Segment (e.g: SEG0).
-> +	 *
-> +	 * When using the 256 color depth format, each pixel contains 3
-> +	 * sub-pixels for color A, B and C. These have 3 bit, 3 bit and
-> +	 * 2 bits respectively.
-> +	 */
-> +
-> +	/* Set column start and end */
-> +	ret = ssd130x_write_cmd(ssd130x, 3, SSD133X_SET_COL_RANGE, x, columns - 1);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* Set row start and end */
-> +	ret = ssd130x_write_cmd(ssd130x, 3, SSD133X_SET_ROW_RANGE, y, rows - 1);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* Write out update in one go since horizontal addressing mode is used */
-> +	ret = ssd130x_write_data(ssd130x, data_array, pitch * rows);
-> +
-> +	return ret;
-> +}
-> +
->   static void ssd130x_clear_screen(struct ssd130x_device *ssd130x, u8 *data_array)
->   {
->   	unsigned int pages = DIV_ROUND_UP(ssd130x->height, SSD130X_PAGE_HEIGHT);
-> @@ -805,6 +983,22 @@ static void ssd132x_clear_screen(struct ssd130x_device *ssd130x, u8 *data_array)
->   	ssd130x_write_data(ssd130x, data_array, columns * height);
->   }
->   
-> +static void ssd133x_clear_screen(struct ssd130x_device *ssd130x, u8 *data_array)
-> +{
-> +	const struct drm_format_info *fi = drm_format_info(DRM_FORMAT_RGB332);
-> +	unsigned int pitch;
-> +
-> +	if (!fi)
-> +		return;
-> +
-> +	pitch = drm_format_info_min_pitch(fi, 0, ssd130x->width);
-> +
-> +	memset(data_array, 0, pitch * ssd130x->height);
-> +
-> +	/* Write out update in one go since horizontal addressing mode is used */
-> +	ssd130x_write_data(ssd130x, data_array, pitch * ssd130x->height);
-> +}
-> +
->   static int ssd130x_fb_blit_rect(struct drm_framebuffer *fb,
->   				const struct iosys_map *vmap,
->   				struct drm_rect *rect,
-> @@ -866,6 +1060,36 @@ static int ssd132x_fb_blit_rect(struct drm_framebuffer *fb,
->   	return ret;
->   }
->   
-> +static int ssd133x_fb_blit_rect(struct drm_framebuffer *fb,
-> +				const struct iosys_map *vmap,
-> +				struct drm_rect *rect, u8 *data_array,
-> +				struct drm_format_conv_state *fmtcnv_state)
-> +{
-> +	struct ssd130x_device *ssd130x = drm_to_ssd130x(fb->dev);
-> +	const struct drm_format_info *fi = drm_format_info(DRM_FORMAT_RGB332);
-> +	unsigned int dst_pitch;
-> +	struct iosys_map dst;
-> +	int ret = 0;
-> +
-> +	if (!fi)
-> +		return -EINVAL;
-> +
-> +	dst_pitch = drm_format_info_min_pitch(fi, 0, drm_rect_width(rect));
-> +
-> +	ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
-> +	if (ret)
-> +		return ret;
-> +
-> +	iosys_map_set_vaddr(&dst, data_array);
-> +	drm_fb_xrgb8888_to_rgb332(&dst, &dst_pitch, vmap, fb, rect, fmtcnv_state);
-> +
-> +	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
-> +
-> +	ssd133x_update_rect(ssd130x, rect, data_array, dst_pitch);
-> +
-> +	return ret;
-> +}
-> +
->   static int ssd130x_primary_plane_atomic_check(struct drm_plane *plane,
->   					      struct drm_atomic_state *state)
->   {
-> @@ -964,6 +1188,29 @@ static int ssd132x_primary_plane_atomic_check(struct drm_plane *plane,
->   	return 0;
->   }
->   
-> +static int ssd133x_primary_plane_atomic_check(struct drm_plane *plane,
-> +					      struct drm_atomic_state *state)
-> +{
-> +	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
-> +	struct drm_crtc *crtc = plane_state->crtc;
-> +	struct drm_crtc_state *crtc_state = NULL;
-> +	int ret;
-> +
-> +	if (crtc)
-> +		crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
-> +
-> +	ret = drm_atomic_helper_check_plane_state(plane_state, crtc_state,
-> +						  DRM_PLANE_NO_SCALING,
-> +						  DRM_PLANE_NO_SCALING,
-> +						  false, false);
-> +	if (ret)
-> +		return ret;
-> +	else if (!plane_state->visible)
-> +		return 0;
-> +
-> +	return 0;
-> +}
-> +
->   static void ssd130x_primary_plane_atomic_update(struct drm_plane *plane,
->   						struct drm_atomic_state *state)
->   {
-> @@ -1034,6 +1281,39 @@ static void ssd132x_primary_plane_atomic_update(struct drm_plane *plane,
->   	drm_dev_exit(idx);
->   }
->   
-> +static void ssd133x_primary_plane_atomic_update(struct drm_plane *plane,
-> +						struct drm_atomic_state *state)
-> +{
-> +	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
-> +	struct drm_plane_state *old_plane_state = drm_atomic_get_old_plane_state(state, plane);
-> +	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
-> +	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state, plane_state->crtc);
-> +	struct ssd130x_crtc_state *ssd130x_crtc_state =  to_ssd130x_crtc_state(crtc_state);
-> +	struct drm_framebuffer *fb = plane_state->fb;
-> +	struct drm_atomic_helper_damage_iter iter;
-> +	struct drm_device *drm = plane->dev;
-> +	struct drm_rect dst_clip;
-> +	struct drm_rect damage;
-> +	int idx;
-> +
-> +	if (!drm_dev_enter(drm, &idx))
-> +		return;
-> +
-> +	drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
-> +	drm_atomic_for_each_plane_damage(&iter, &damage) {
-> +		dst_clip = plane_state->dst;
-> +
-> +		if (!drm_rect_intersect(&dst_clip, &damage))
-> +			continue;
-> +
-> +		ssd133x_fb_blit_rect(fb, &shadow_plane_state->data[0], &dst_clip,
-> +				     ssd130x_crtc_state->data_array,
-> +				     &shadow_plane_state->fmtcnv_state);
-> +	}
-> +
-> +	drm_dev_exit(idx);
-> +}
-> +
->   static void ssd130x_primary_plane_atomic_disable(struct drm_plane *plane,
->   						 struct drm_atomic_state *state)
->   {
-> @@ -1082,6 +1362,30 @@ static void ssd132x_primary_plane_atomic_disable(struct drm_plane *plane,
->   	drm_dev_exit(idx);
->   }
->   
-> +static void ssd133x_primary_plane_atomic_disable(struct drm_plane *plane,
-> +						 struct drm_atomic_state *state)
-> +{
-> +	struct drm_device *drm = plane->dev;
-> +	struct ssd130x_device *ssd130x = drm_to_ssd130x(drm);
-> +	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
-> +	struct drm_crtc_state *crtc_state;
-> +	struct ssd130x_crtc_state *ssd130x_crtc_state;
-> +	int idx;
-> +
-> +	if (!plane_state->crtc)
-> +		return;
-> +
-> +	crtc_state = drm_atomic_get_new_crtc_state(state, plane_state->crtc);
-> +	ssd130x_crtc_state = to_ssd130x_crtc_state(crtc_state);
-> +
-> +	if (!drm_dev_enter(drm, &idx))
-> +		return;
-> +
-> +	ssd133x_clear_screen(ssd130x, ssd130x_crtc_state->data_array);
-> +
-> +	drm_dev_exit(idx);
-> +}
-> +
->   /* Called during init to allocate the plane's atomic state. */
->   static void ssd130x_primary_plane_reset(struct drm_plane *plane)
->   {
-> @@ -1144,6 +1448,12 @@ static const struct drm_plane_helper_funcs ssd130x_primary_plane_helper_funcs[]
->   		.atomic_check = ssd132x_primary_plane_atomic_check,
->   		.atomic_update = ssd132x_primary_plane_atomic_update,
->   		.atomic_disable = ssd132x_primary_plane_atomic_disable,
-> +	},
-> +	[SSD133X_FAMILY] = {
-> +		DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
-> +		.atomic_check = ssd133x_primary_plane_atomic_check,
-> +		.atomic_update = ssd133x_primary_plane_atomic_update,
-> +		.atomic_disable = ssd133x_primary_plane_atomic_disable,
->   	}
->   };
->   
-> @@ -1214,6 +1524,33 @@ static int ssd132x_crtc_atomic_check(struct drm_crtc *crtc,
->   	return 0;
->   }
->   
-> +static int ssd133x_crtc_atomic_check(struct drm_crtc *crtc,
-> +				     struct drm_atomic_state *state)
-> +{
-> +	struct drm_device *drm = crtc->dev;
-> +	struct ssd130x_device *ssd130x = drm_to_ssd130x(drm);
-> +	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
-> +	struct ssd130x_crtc_state *ssd130x_state = to_ssd130x_crtc_state(crtc_state);
-> +	const struct drm_format_info *fi = drm_format_info(DRM_FORMAT_RGB332);
-> +	unsigned int pitch;
-> +	int ret;
-> +
-> +	if (!fi)
-> +		return -EINVAL;
-> +
-> +	ret = drm_crtc_helper_atomic_check(crtc, state);
-> +	if (ret)
-> +		return ret;
-> +
-> +	pitch = drm_format_info_min_pitch(fi, 0, ssd130x->width);
-> +
-> +	ssd130x_state->data_array = kmalloc(pitch * ssd130x->height, GFP_KERNEL);
-> +	if (!ssd130x_state->data_array)
-> +		return -ENOMEM;
-> +
-> +	return 0;
-> +}
-> +
->   /* Called during init to allocate the CRTC's atomic state. */
->   static void ssd130x_crtc_reset(struct drm_crtc *crtc)
->   {
-> @@ -1275,6 +1612,10 @@ static const struct drm_crtc_helper_funcs ssd130x_crtc_helper_funcs[] = {
->   		.mode_valid = ssd130x_crtc_mode_valid,
->   		.atomic_check = ssd132x_crtc_atomic_check,
->   	},
-> +	[SSD133X_FAMILY] = {
-> +		.mode_valid = ssd130x_crtc_mode_valid,
-> +		.atomic_check = ssd133x_crtc_atomic_check,
-> +	},
->   };
->   
->   static const struct drm_crtc_funcs ssd130x_crtc_funcs = {
-> @@ -1337,6 +1678,31 @@ static void ssd132x_encoder_atomic_enable(struct drm_encoder *encoder,
->   	ssd130x_power_off(ssd130x);
->   }
->   
-> +static void ssd133x_encoder_atomic_enable(struct drm_encoder *encoder,
-> +					  struct drm_atomic_state *state)
-> +{
-> +	struct drm_device *drm = encoder->dev;
-> +	struct ssd130x_device *ssd130x = drm_to_ssd130x(drm);
-> +	int ret;
-> +
-> +	ret = ssd130x_power_on(ssd130x);
-> +	if (ret)
-> +		return;
-> +
-> +	ret = ssd133x_init(ssd130x);
-> +	if (ret)
-> +		goto power_off;
-> +
-> +	ssd130x_write_cmd(ssd130x, 1, SSD13XX_DISPLAY_ON);
-> +
-> +	backlight_enable(ssd130x->bl_dev);
-> +
-> +	return;
-> +
-> +power_off:
-> +	ssd130x_power_off(ssd130x);
-> +}
-> +
->   static void ssd130x_encoder_atomic_disable(struct drm_encoder *encoder,
->   					   struct drm_atomic_state *state)
->   {
-> @@ -1358,6 +1724,10 @@ static const struct drm_encoder_helper_funcs ssd130x_encoder_helper_funcs[] = {
->   	[SSD132X_FAMILY] = {
->   		.atomic_enable = ssd132x_encoder_atomic_enable,
->   		.atomic_disable = ssd130x_encoder_atomic_disable,
-> +	},
-> +	[SSD133X_FAMILY] = {
-> +		.atomic_enable = ssd133x_encoder_atomic_enable,
-> +		.atomic_disable = ssd130x_encoder_atomic_disable,
->   	}
->   };
->   
-> diff --git a/drivers/gpu/drm/solomon/ssd130x.h b/drivers/gpu/drm/solomon/ssd130x.h
-> index 075c5c3ee75a..a4554018bb2a 100644
-> --- a/drivers/gpu/drm/solomon/ssd130x.h
-> +++ b/drivers/gpu/drm/solomon/ssd130x.h
-> @@ -25,7 +25,8 @@
->   
->   enum ssd130x_family_ids {
->   	SSD130X_FAMILY,
-> -	SSD132X_FAMILY
-> +	SSD132X_FAMILY,
-> +	SSD133X_FAMILY
->   };
->   
->   enum ssd130x_variants {
-> @@ -39,6 +40,8 @@ enum ssd130x_variants {
->   	SSD1322_ID,
->   	SSD1325_ID,
->   	SSD1327_ID,
-> +	/* ssd133x family */
-> +	SSD1331_ID,
->   	NR_SSD130X_VARIANTS
->   };
->   
+in testcase: boot
+
+compiler: gcc-7
+test machine: qemu-system-x86_64 -enable-kvm -cpu SandyBridge -smp 2 -m 16G
+
+(please refer to attached dmesg/kmsg for entire log/backtrace)
+
+
++-----------------------------------------------------+------------+------------+
+|                                                     | a51749ab34 | 4f37585fa0 |
++-----------------------------------------------------+------------+------------+
+| WARNING:at_kernel/locking/lockdep.c:#__lock_acquire | 0          | 6          |
+| EIP:__lock_acquire                                  | 0          | 6          |
++-----------------------------------------------------+------------+------------+
+
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <oliver.sang@intel.com>
+| Closes: https://lore.kernel.org/oe-lkp/202312221708.b143534-oliver.sang@intel.com
+
+
+[    9.777113][   T10] ------------[ cut here ]------------
+[    9.777784][   T10] DEBUG_LOCKS_WARN_ON(hlock->references < references)
+[ 9.777795][ T10] WARNING: CPU: 0 PID: 10 at kernel/locking/lockdep.c:5055 __lock_acquire (kernel/locking/lockdep.c:5055 (discriminator 9)) 
+[    9.778839][   T10] Modules linked in:
+[    9.778839][   T10] CPU: 0 PID: 10 Comm: kworker/u2:0 Not tainted 6.7.0-rc1-00006-g4f37585fa02f #5
+[    9.778839][   T10] Workqueue: test-ww_mutex stress_inorder_work
+[ 9.778839][ T10] EIP: __lock_acquire (kernel/locking/lockdep.c:5055 (discriminator 9)) 
+[ 9.778839][ T10] Code: e8 ae 10 2e 00 85 c0 0f 84 0e 0f 00 00 8b 1d 94 9c b5 ce 85 db 0f 85 00 0f 00 00 68 64 16 34 ce 68 fe 17 33 ce e8 09 22 fc ff <0f> 0b 58 5a e9 28 12 00 00 a1 90 ef 24 cf 85 c0 74 07 eb 2a 8d 74
+All code
+========
+   0:	e8 ae 10 2e 00       	callq  0x2e10b3
+   5:	85 c0                	test   %eax,%eax
+   7:	0f 84 0e 0f 00 00    	je     0xf1b
+   d:	8b 1d 94 9c b5 ce    	mov    -0x314a636c(%rip),%ebx        # 0xffffffffceb59ca7
+  13:	85 db                	test   %ebx,%ebx
+  15:	0f 85 00 0f 00 00    	jne    0xf1b
+  1b:	68 64 16 34 ce       	pushq  $0xffffffffce341664
+  20:	68 fe 17 33 ce       	pushq  $0xffffffffce3317fe
+  25:	e8 09 22 fc ff       	callq  0xfffffffffffc2233
+  2a:*	0f 0b                	ud2    		<-- trapping instruction
+  2c:	58                   	pop    %rax
+  2d:	5a                   	pop    %rdx
+  2e:	e9 28 12 00 00       	jmpq   0x125b
+  33:	a1 90 ef 24 cf 85 c0 	movabs 0x774c085cf24ef90,%eax
+  3a:	74 07 
+  3c:	eb 2a                	jmp    0x68
+  3e:	8d                   	.byte 0x8d
+  3f:	74                   	.byte 0x74
+
+Code starting with the faulting instruction
+===========================================
+   0:	0f 0b                	ud2    
+   2:	58                   	pop    %rax
+   3:	5a                   	pop    %rdx
+   4:	e9 28 12 00 00       	jmpq   0x1231
+   9:	a1 90 ef 24 cf 85 c0 	movabs 0x774c085cf24ef90,%eax
+  10:	74 07 
+  12:	eb 2a                	jmp    0x3e
+  14:	8d                   	.byte 0x8d
+  15:	74                   	.byte 0x74
+[    9.778839][   T10] EAX: 00000033 EBX: 00000000 ECX: c0245cb4 EDX: ce9da1ac
+[    9.778839][   T10] ESI: c26cb37c EDI: c02569ac EBP: c0245db0 ESP: c0245d60
+[    9.778839][   T10] DS: 007b ES: 007b FS: 0000 GS: 0000 SS: 0068 EFLAGS: 00010002
+[    9.778839][   T10] CR0: 80050033 CR2: ffdda000 CR3: 0ec21000 CR4: 00040690
+[    9.778839][   T10] DR0: 00000000 DR1: 00000000 DR2: 00000000 DR3: 00000000
+[    9.778839][   T10] DR6: fffe0ff0 DR7: 00000400
+[    9.778839][   T10] Call Trace:
+[ 9.778839][ T10] ? show_regs (arch/x86/kernel/dumpstack.c:478) 
+[ 9.778839][ T10] ? __warn (kernel/panic.c:677) 
+[ 9.778839][ T10] ? __lock_acquire (kernel/locking/lockdep.c:5055 (discriminator 9)) 
+[ 9.778839][ T10] ? report_bug (lib/bug.c:201 lib/bug.c:219) 
+[ 9.778839][ T10] ? exc_overflow (arch/x86/kernel/traps.c:250) 
+[ 9.778839][ T10] ? handle_bug (arch/x86/kernel/traps.c:237) 
+[ 9.778839][ T10] ? exc_invalid_op (arch/x86/kernel/traps.c:258 (discriminator 1)) 
+[ 9.778839][ T10] ? handle_exception (arch/x86/entry/entry_32.S:1056) 
+[ 9.778839][ T10] ? __lock_acquire (kernel/locking/lockdep.c:5047) 
+[ 9.778839][ T10] ? exc_overflow (arch/x86/kernel/traps.c:250) 
+[ 9.778839][ T10] ? __lock_acquire (kernel/locking/lockdep.c:5055 (discriminator 9)) 
+[ 9.778839][ T10] ? exc_overflow (arch/x86/kernel/traps.c:250) 
+[ 9.778839][ T10] ? __lock_acquire (kernel/locking/lockdep.c:5055 (discriminator 9)) 
+[ 9.778839][ T10] ? kvm_sched_clock_read (arch/x86/kernel/kvmclock.c:91) 
+[ 9.778839][ T10] lock_acquire (kernel/locking/lockdep.c:467 kernel/locking/lockdep.c:5755) 
+[ 9.778839][ T10] ? stress_inorder_work (kernel/locking/test-ww_mutex.c:457) 
+[ 9.778839][ T10] ? lock_is_held_type (kernel/locking/lockdep.c:5494 kernel/locking/lockdep.c:5824) 
+[ 9.778839][ T10] __ww_mutex_lock+0xb1/0xd84 
+[ 9.778839][ T10] ? stress_inorder_work (kernel/locking/test-ww_mutex.c:457) 
+[ 9.778839][ T10] ww_mutex_lock (kernel/locking/mutex.c:878) 
+[ 9.778839][ T10] stress_inorder_work (kernel/locking/test-ww_mutex.c:457) 
+[ 9.778839][ T10] process_scheduled_works (kernel/workqueue.c:2630 include/linux/jump_label.h:207 include/trace/events/workqueue.h:108 kernel/workqueue.c:2635 kernel/workqueue.c:2703) 
+[ 9.778839][ T10] worker_thread (include/linux/list.h:373 kernel/workqueue.c:841 kernel/workqueue.c:2785) 
+[ 9.778839][ T10] kthread (kernel/kthread.c:390) 
+[ 9.778839][ T10] ? rescuer_thread (kernel/workqueue.c:2730) 
+[ 9.778839][ T10] ? kthread_complete_and_exit (kernel/kthread.c:341) 
+[ 9.778839][ T10] ret_from_fork (arch/x86/kernel/process.c:153) 
+[ 9.778839][ T10] ? kthread_complete_and_exit (kernel/kthread.c:341) 
+[ 9.778839][ T10] ret_from_fork_asm (arch/x86/entry/entry_32.S:741) 
+[ 9.778839][ T10] entry_INT80_32 (arch/x86/entry/entry_32.S:947) 
+[    9.778839][   T10] irq event stamp: 14037
+[ 9.778839][ T10] hardirqs last enabled at (14037): irqentry_exit (kernel/entry/common.c:435) 
+[ 9.778839][ T10] hardirqs last disabled at (14036): common_interrupt (arch/x86/kernel/irq.c:247) 
+[ 9.778839][ T10] softirqs last enabled at (8978): __do_softirq (arch/x86/include/asm/preempt.h:27 kernel/softirq.c:400 kernel/softirq.c:582) 
+[ 9.778839][ T10] softirqs last disabled at (8969): do_softirq_own_stack (arch/x86/kernel/irq_32.c:57 arch/x86/kernel/irq_32.c:147) 
+[    9.778839][   T10] ---[ end trace 0000000000000000 ]---
+[    9.917906][   T36] torture_spin_lock_write_delay: delay = 25 jiffies.
+[   10.273181][   T36] torture_spin_lock_write_delay: delay = 25 jiffies.
+[   10.621916][   T36] torture_spin_lock_write_delay: delay = 25 jiffies.
+[   10.788923][   T36] torture_spin_lock_write_delay: delay = 25 jiffies.
+[   10.919665][   T36] torture_spin_lock_write_delay: delay = 26 jiffies.
+[   11.085916][   T36] torture_spin_lock_write_delay: delay = 25 jiffies.
+[   11.471931][   T35] torture_spin_lock_write_delay: delay = 25 jiffies.
+[   11.784602][    T1] All ww mutex selftests passed
+
+
+
+The kernel config and materials to reproduce are available at:
+https://download.01.org/0day-ci/archive/20231222/202312221708.b143534-oliver.sang@intel.com
+
+
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
