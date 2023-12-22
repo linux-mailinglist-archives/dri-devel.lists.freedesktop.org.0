@@ -2,54 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 991B781CD6E
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 18:02:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D457F81CDA0
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Dec 2023 18:33:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA6E210E7A1;
-	Fri, 22 Dec 2023 17:02:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB33210E831;
+	Fri, 22 Dec 2023 17:33:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com
- [91.218.175.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EE2110E7EB
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Dec 2023 17:02:18 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
- t=1703264536;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=px3/C2GAp78mWv3p8bN07M1WSx6501Th3bqcTa2ov/U=;
- b=hMDkNbAovGIvQXqMv9oaj7Q5hNQDVlxWc60o9k1oRnAISXnsGbddJaVrt1ZFF3BWojKP0L
- oP/Y05IxzcYG8Hn0HqT+hcDNx3EUNt52DH1dfnZnWQFiV6MIgpceY2GWeQKgWR5nCAUIDQ
- DLCiy18i12XBzdvl5f+dsE1pDVKJRhXF56EwoT4Wj+9eSmDgqN5bV4HuTgVZFWChSV/J1T
- 5rwKqRBiA6oQZG8yg2GbSnwMl0SYwb8s76KlpZRssfnP/OrmMGAgB2L75cGKp7xUrhtw/L
- +wI3rNCNotFvEwOhQZuHF5ECOx/4IycDLXd+gaxRoZxxa1gGp6hE4BfkVNlqyg==
-From: Diederik de Haas <didi.debian@cknow.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Sandy Huang <hjc@rock-chips.com>, Mark Yao <markyao0591@gmail.com>,
- Segfault <awarnecke002@hotmail.com>, Arnaud Ferraris <aferraris@debian.org>,
- Manuel Traut <manut@mecka.net>
-Subject: Re: [PATCH 4/6] arm64: dts: rockchip: Add devicetree for Pine64
- Pinetab2
-Date: Fri, 22 Dec 2023 18:01:54 +0100
-Message-ID: <2121710.IWpXjAX0fk@bagend>
-Organization: Connecting Knowledge
-In-Reply-To: <20231222-pinetab2-v1-4-e148a7f61bd1@mecka.net>
-References: <20231222-pinetab2-v1-0-e148a7f61bd1@mecka.net>
- <20231222-pinetab2-v1-4-e148a7f61bd1@mecka.net>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C36210E76D;
+ Fri, 22 Dec 2023 08:59:02 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 3BM6MlFc028055; Fri, 22 Dec 2023 08:58:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=OL2XzN7EDGy5bMY0OFne4LQrBx0wrnoKoEQ7MaxQsXQ=; b=Dj
+ 5wJ+5uD6XqCemRRD726eiD+AjrvVMPe78wH2oRHtccab1hfsymipxD0S7olIP/G6
+ rCtqNzwnmsFXGSeRgeWDTx3XP9p50EHFqkYyv/6DEjV/Ac3EvQPI12+5uThjhrYD
+ 2VFyxZwou2coHvvtJ2uTDmr7sbDr+Bb6pDvwbKNjunrz/i1wA22RDpnolGKR+vh+
+ 1LxJfHFL1Kv7/MovZQqLd3ifqhvJrSRYQYjVsNE2pWoisCEnWP82b4oRVCNCjC67
+ LhcS/atzN9MsWLeR6bUZvN9bvwebCsye1pIm4IyW2NyK9Jl+nkLiSOfmFx1p2KAb
+ KL6UlE8sAXNdZZ1YuUVA==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v4xpq944q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 22 Dec 2023 08:58:57 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com
+ [10.52.223.231])
+ by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BM8wuAh021049
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 22 Dec 2023 08:58:56 GMT
+Received: from [10.239.132.150] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 22 Dec
+ 2023 00:58:50 -0800
+Message-ID: <27f8bc0a-0262-48dc-a879-552c3c5ec9e2@quicinc.com>
+Date: Fri, 22 Dec 2023 16:58:45 +0800
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart1748370.CxT9PIvavd";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 2/2] dt-bindings: display: msm: mass-rename files
+Content-Language: en-US
+To: Rob Herring <robh@kernel.org>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>
+References: <20231221102506.18320-1-dmitry.baryshkov@linaro.org>
+ <20231221102506.18320-3-dmitry.baryshkov@linaro.org>
+ <170319289437.96441.9965499072649831420.robh@kernel.org>
+From: "Aiqun Yu (Maria)" <quic_aiquny@quicinc.com>
+In-Reply-To: <170319289437.96441.9965499072649831420.robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: Ck5j7imLKK1HMHeZYYRirQhcvywRSUYs
+X-Proofpoint-ORIG-GUID: Ck5j7imLKK1HMHeZYYRirQhcvywRSUYs
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ suspectscore=0 impostorscore=0 malwarescore=0 adultscore=0 mlxscore=0
+ spamscore=0 clxscore=1011 bulkscore=0 lowpriorityscore=0 mlxlogscore=999
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312220063
+X-Mailman-Approved-At: Fri, 22 Dec 2023 17:32:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,103 +85,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Manuel Traut <manut@mecka.net>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: Kishon Vijay Abraham I <kishon@kernel.org>, devicetree@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonathan Marek <jonathan@marek.ca>, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ Rob Clark <robdclark@gmail.com>, Andy Gross <agross@kernel.org>, Krishna
+ Manikandan <quic_mkrishn@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ linux-phy@lists.infradead.org, Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, freedreno@lists.freedesktop.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---nextPart1748370.CxT9PIvavd
-Content-Type: multipart/mixed; boundary="nextPart3145776.fJ4KNo4xjy";
- protected-headers="v1"
-Content-Transfer-Encoding: 7Bit
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Diederik de Haas <didi.debian@cknow.org>
-Date: Fri, 22 Dec 2023 18:01:54 +0100
-Message-ID: <2121710.IWpXjAX0fk@bagend>
-Organization: Connecting Knowledge
-In-Reply-To: <20231222-pinetab2-v1-4-e148a7f61bd1@mecka.net>
-MIME-Version: 1.0
 
-This is a multi-part message in MIME format.
 
---nextPart3145776.fJ4KNo4xjy
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+On 12/22/2023 5:08 AM, Rob Herring wrote:
+> 
+> On Thu, 21 Dec 2023 12:25:06 +0200, Dmitry Baryshkov wrote:
+>> Rename the Qualcomm MSM Display schemas to follow the main compatible
+>> string instead of just using the block type. This follows the
+>> established practice for YAML file names.
+>>
+>> Cc: Aiqun Yu (Maria) <quic_aiquny@quicinc.com>
+>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> ---
+>>   .../bindings/display/msm/{gmu.yaml => qcom,adreno-gmu.yaml}     | 2 +-
+>>   .../bindings/display/msm/{gpu.yaml => qcom,adreno.yaml}         | 2 +-
+>>   .../bindings/display/msm/{hdmi.yaml => qcom,hdmi-tx.yaml}       | 2 +-
+>>   .../bindings/display/msm/{mdp4.yaml => qcom,mdp4.yaml}          | 2 +-
+>>   .../msm/{dsi-controller-main.yaml => qcom,mdss-dsi-ctrl.yaml}   | 2 +-
+>>   5 files changed, 5 insertions(+), 5 deletions(-)
+>>   rename Documentation/devicetree/bindings/display/msm/{gmu.yaml => qcom,adreno-gmu.yaml} (99%)
+>>   rename Documentation/devicetree/bindings/display/msm/{gpu.yaml => qcom,adreno.yaml} (99%)
+>>   rename Documentation/devicetree/bindings/display/msm/{hdmi.yaml => qcom,hdmi-tx.yaml} (98%)
+>>   rename Documentation/devicetree/bindings/display/msm/{mdp4.yaml => qcom,mdp4.yaml} (97%)
+>>   rename Documentation/devicetree/bindings/display/msm/{dsi-controller-main.yaml => qcom,mdss-dsi-ctrl.yaml} (99%)
+>>
+> 
+> Acked-by: Rob Herring <robh@kernel.org>
+> Nice to see names get more unified!
 
-On Friday, 22 December 2023 12:05:44 CET Manuel Traut wrote:
-> +
-> +&cru {
-> +       assigned-clocks = <&cru PLL_GPLL>, <&pmucru PLL_PPLL>, <&cru
-> PLL_VPLL>; +       assigned-clock-rates = <1200000000>, <200000000>,
-> <500000000>; +};
-
-Attachment seem to work and for this I also have the attached patch in my 
-patch set.
-IIRC without it you get an error in dmesg immediately at boot up which is 
-visible on the PT2 *if* you have immediate visual output (which is not (yet?) 
-the case in my image/kernel).
-
-Cheers,
-  Diederik
---nextPart3145776.fJ4KNo4xjy
-Content-Disposition: attachment;
- filename="0006-arm64-dts-rk3566-pinetab2-Fix-cru-assigned-clocks.patch"
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/x-patch; charset="x-UTF_8J";
- name="0006-arm64-dts-rk3566-pinetab2-Fix-cru-assigned-clocks.patch"
-
-From d782a64f3b51ffb2f33d3ba3e11e2ebc416542e3 Mon Sep 17 00:00:00 2001
-From: Jonas Karlman <jonas@kwiboo.se>
-Date: Thu, 17 Aug 2023 17:52:47 +0200
-Subject: [PATCH 6/8] arm64: dts: rk3566-pinetab2: Fix cru assigned clocks
-
-Jonas Karlman provided/linked to the patch on IRC.
-Seems related to upstream commit 64b69474edf3b885c19a89bb165f978ba1b4be00.
-
-Signed-off-by: Diederik de Haas <didi.debian@cknow.org>
-Link: https://github.com/Kwiboo/u-boot-rockchip/blob/rk3568-2023.10/arch/arm/dts/rk3566-pinetab2-u-boot.dtsi#L11-L15
-Link: https://lore.kernel.org/all/20230110225547.1563119-2-jonas@kwiboo.se/
----
- arch/arm64/boot/dts/rockchip/rk3566-pinetab2.dtsi | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/arch/arm64/boot/dts/rockchip/rk3566-pinetab2.dtsi b/arch/arm64/boot/dts/rockchip/rk3566-pinetab2.dtsi
-index bbd7ed53602a..4a5bee5a28a7 100644
---- a/arch/arm64/boot/dts/rockchip/rk3566-pinetab2.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3566-pinetab2.dtsi
-@@ -288,8 +288,9 @@ &cpu3 {
- };
- 
- &cru {
--	assigned-clocks = <&cru PLL_GPLL>, <&pmucru PLL_PPLL>, <&cru PLL_VPLL>;
--	assigned-clock-rates = <1200000000>, <200000000>, <500000000>;
-+	assigned-clocks = <&pmucru CLK_RTC_32K>, <&cru PLL_GPLL>, <&pmucru PLL_PPLL>, <&cru PLL_VPLL>;
-+	assigned-clock-rates = <32768>, <1200000000>, <200000000>, <500000000>;
-+	assigned-clock-parents = <&pmucru CLK_RTC32K_FRAC>;
- };
- 
- &csi_dphy {
 -- 
-2.42.0
-
-
---nextPart3145776.fJ4KNo4xjy--
-
---nextPart1748370.CxT9PIvavd
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZYXBAgAKCRDXblvOeH7b
-bhcpAQCGga/E5eb2w/0+X/AHwmyoGxkSCdFMHH5O+JASROW0NAD/cer+0/CX3l23
-ubyIofrQa3gkr+ini5cyFgQy37IsKAY=
-=fTG/
------END PGP SIGNATURE-----
-
---nextPart1748370.CxT9PIvavd--
-
-
-
+Thx and BRs,
+Aiqun(Maria) Yu
