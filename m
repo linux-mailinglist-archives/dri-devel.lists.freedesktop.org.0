@@ -1,43 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79C4281D3CE
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Dec 2023 12:44:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B37481D460
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Dec 2023 14:59:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43DB810E0D4;
-	Sat, 23 Dec 2023 11:44:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30B2310E0DE;
+	Sat, 23 Dec 2023 13:59:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E99710E0D4
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Dec 2023 11:44:27 +0000 (UTC)
-Received: from i53875b78.versanet.de ([83.135.91.120] helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1rH0Q9-0001Y7-IL; Sat, 23 Dec 2023 12:43:57 +0100
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
- Mark Yao <markyao0591@gmail.com>, Diederik de Haas <didi.debian@cknow.org>,
- Segfault <awarnecke002@hotmail.com>, Arnaud Ferraris <aferraris@debian.org>,
- Manuel Traut <manut@mecka.net>
-Subject: Re: [PATCH 5/6] arm64: dts: rockchip: Fix some dtb-check warnings
-Date: Sat, 23 Dec 2023 12:43:56 +0100
-Message-ID: <2337863.6tgchFWduM@diego>
-In-Reply-To: <20231222-pinetab2-v1-5-e148a7f61bd1@mecka.net>
+Received: from mecka.net (mecka.net [159.69.159.214])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C7F2210E0DE
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Dec 2023 13:59:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mecka.net; s=2016.11;
+ t=1703339976; bh=6Xv3jIezLLrGsPqesJGGEmcdDlVoYdKAL1CcLWN2x+8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=e84tp7Gj3gga8cNmaXGRKwtVXr6tILWml91YIF4LTDDeiRWLFo+wFeJFiuAPwSnGC
+ NG0U0VAbnPGRG9qgB7ZNhXW/+QKvpAbRXhvNHZqW2Fh3RsWlpUhboeJYezwOJ60tBO
+ JFJQFuEztp+0a/cCK9auofz755xb17UQwc4+aWr4KdGpZ/dA49F/eE+XsnN8guLX6h
+ 33H++c/MqcUubrBvpZQw4VaQyb5Pa+pr2yC0Xv/Wmfwtxu8dGvxLY3vRRT7k7s/2u8
+ HVHOeqrD1LA4iYCqaCbeBvncELNpnzRB0wb8Yj2ROv5BzH6sDSmh/Y5JxzHEH7aiwI
+ Yf8et5MQEJ/rw==
+Received: from mecka.net (unknown [185.147.11.134])
+ by mecka.net (Postfix) with ESMTPSA id B748E3718AE;
+ Sat, 23 Dec 2023 14:59:35 +0100 (CET)
+Date: Sat, 23 Dec 2023 14:59:34 +0100
+From: Manuel Traut <manut@mecka.net>
+To: Diederik de Haas <didi.debian@cknow.org>
+Subject: Re: [PATCH 4/6] arm64: dts: rockchip: Add devicetree for Pine64
+ Pinetab2
+Message-ID: <ZYbnxkkCIJtzqa0h@mecka.net>
 References: <20231222-pinetab2-v1-0-e148a7f61bd1@mecka.net>
- <20231222-pinetab2-v1-5-e148a7f61bd1@mecka.net>
+ <20231222-pinetab2-v1-4-e148a7f61bd1@mecka.net>
+ <2121710.IWpXjAX0fk@bagend>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2121710.IWpXjAX0fk@bagend>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,61 +49,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Manuel Traut <manut@mecka.net>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: linux-arm-kernel@lists.infradead.org,
+ Neil Armstrong <neil.armstrong@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Segfault <awarnecke002@hotmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, David Airlie <airlied@gmail.com>,
+ Sandy Huang <hjc@rock-chips.com>, Maxime Ripard <mripard@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Mark Yao <markyao0591@gmail.com>, Arnaud Ferraris <aferraris@debian.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Freitag, 22. Dezember 2023, 12:05:45 CET schrieb Manuel Traut:
-> devicetree checks show some warnings:
+Hi Diederik,
+
+On Fri, Dec 22, 2023 at 06:01:54PM +0100, Diederik de Haas wrote:
+> On Friday, 22 December 2023 12:05:44 CET Manuel Traut wrote:
+> > +
+> > +&cru {
+> > +       assigned-clocks = <&cru PLL_GPLL>, <&pmucru PLL_PPLL>, <&cru
+> > PLL_VPLL>; +       assigned-clock-rates = <1200000000>, <200000000>,
+> > <500000000>; +};
 > 
-> video-codec@fdea0400: 'interrupt-names' is a required property
-> from schema $id: http://devicetree.org/schemas/media/rockchip-vpu.yaml#
+> Attachment seem to work and for this I also have the attached patch in my 
+> patch set.
+> IIRC without it you get an error in dmesg immediately at boot up which is 
+> visible on the PT2 *if* you have immediate visual output (which is not (yet?) 
+> the case in my image/kernel).
+
+you can see the message also by calling "dmesg --level err".
+I could verify that your patch removes the error message.
+I will pick the change for v2.
+
+> Cheers,
+>   Diederik
+
+> From d782a64f3b51ffb2f33d3ba3e11e2ebc416542e3 Mon Sep 17 00:00:00 2001
+> From: Jonas Karlman <jonas@kwiboo.se>
+> Date: Thu, 17 Aug 2023 17:52:47 +0200
+> Subject: [PATCH 6/8] arm64: dts: rk3566-pinetab2: Fix cru assigned clocks
 > 
-> hdmi@fe0a0000: Unevaluated properties are not allowed ('power-domains' were unexpected)
-> from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
+> Jonas Karlman provided/linked to the patch on IRC.
+> Seems related to upstream commit 64b69474edf3b885c19a89bb165f978ba1b4be00.
 > 
-> i2s@fe420000: reset-names:0: 'm' is not one of ['tx-m', 'rx-m']
-> from schema $id: http://devicetree.org/schemas/sound/rockchip,i2s-tdm.yaml#
-> 
-> phy@fe870000: 'power-domains' is a required property
-> from schema $id: http://devicetree.org/schemas/phy/rockchip-inno-csi-dphy.yaml#
-> 
-> Fix them by
->   - setting a interrupt-name for the video-codec
->   - remove the unevaluated power-domain property from hdmi
->   - set reset-names according to the spec for i2s
->   - add a power-domain property for the CSI phy
-> 
-> Signed-off-by: Manuel Traut <manut@mecka.net>
+> Signed-off-by: Diederik de Haas <didi.debian@cknow.org>
+> Link: https://github.com/Kwiboo/u-boot-rockchip/blob/rk3568-2023.10/arch/arm/dts/rk3566-pinetab2-u-boot.dtsi#L11-L15
+> Link: https://lore.kernel.org/all/20230110225547.1563119-2-jonas@kwiboo.se/
 > ---
->  arch/arm64/boot/dts/rockchip/rk356x.dtsi | 5 +++--
+>  arch/arm64/boot/dts/rockchip/rk3566-pinetab2.dtsi | 5 +++--
 >  1 file changed, 3 insertions(+), 2 deletions(-)
 > 
-> diff --git a/arch/arm64/boot/dts/rockchip/rk356x.dtsi b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
-> index c19c0f1b3778..651156759582 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk356x.dtsi
-> +++ b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
-> @@ -597,6 +597,7 @@ vpu: video-codec@fdea0400 {
->  		compatible = "rockchip,rk3568-vpu";
->  		reg = <0x0 0xfdea0000 0x0 0x800>;
->  		interrupts = <GIC_SPI 139 IRQ_TYPE_LEVEL_HIGH>;
-> +		interrupt-names = "vdpu";
->  		clocks = <&cru ACLK_VPU>, <&cru HCLK_VPU>;
->  		clock-names = "aclk", "hclk";
->  		iommus = <&vdpu_mmu>;
-> @@ -819,7 +820,6 @@ hdmi: hdmi@fe0a0000 {
->  		clock-names = "iahb", "isfr", "cec", "ref";
->  		pinctrl-names = "default";
->  		pinctrl-0 = <&hdmitx_scl &hdmitx_sda &hdmitxm0_cec>;
-> -		power-domains = <&power RK3568_PD_VO>;
+> diff --git a/arch/arm64/boot/dts/rockchip/rk3566-pinetab2.dtsi b/arch/arm64/boot/dts/rockchip/rk3566-pinetab2.dtsi
+> index bbd7ed53602a..4a5bee5a28a7 100644
+> --- a/arch/arm64/boot/dts/rockchip/rk3566-pinetab2.dtsi
+> +++ b/arch/arm64/boot/dts/rockchip/rk3566-pinetab2.dtsi
+> @@ -288,8 +288,9 @@ &cpu3 {
+>  };
+>  
+>  &cru {
+> -	assigned-clocks = <&cru PLL_GPLL>, <&pmucru PLL_PPLL>, <&cru PLL_VPLL>;
+> -	assigned-clock-rates = <1200000000>, <200000000>, <500000000>;
+> +	assigned-clocks = <&pmucru CLK_RTC_32K>, <&cru PLL_GPLL>, <&pmucru PLL_PPLL>, <&cru PLL_VPLL>;
+> +	assigned-clock-rates = <32768>, <1200000000>, <200000000>, <500000000>;
+> +	assigned-clock-parents = <&pmucru CLK_RTC32K_FRAC>;
+>  };
+>  
+>  &csi_dphy {
+> -- 
+> 2.42.0
+> 
 
-are you really sure that the hdmi controller is _not_ part of
-the VO powerdomain? I.e. Depending on that knowledge it could
-also simply be necessary to add the property to the binding.
-
-
-Heiko
 
 
