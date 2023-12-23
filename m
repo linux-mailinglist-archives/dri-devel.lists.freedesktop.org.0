@@ -1,52 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20EE981D2A5
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Dec 2023 07:20:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1324681D2E9
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Dec 2023 08:37:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1745110E086;
-	Sat, 23 Dec 2023 06:20:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACDC510E097;
+	Sat, 23 Dec 2023 07:37:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 085CC10E086;
- Sat, 23 Dec 2023 06:20:19 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 230AD608C1;
- Sat, 23 Dec 2023 06:20:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8566C433C8;
- Sat, 23 Dec 2023 06:20:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1703312417;
- bh=reDZvGjlO+iBGplMJj/6eDRmk8mNnCJLmcblb0YbRNk=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=VVsnJWq3GsE8C+0DblkEoGqENVkAUl2oKSs1mgU7Hq2DSwstrzLI4mYOUFF7vtLh5
- IX3qrwIq+A84/Y9ubgRZQDDNssGVvWbDjKWaY87YOFez6XjkgrpPYcS3f7kj+CNtlI
- S/jwAmsb0oAeAwUBJPNIK6zDrkVKUlTkZboM4yCbcptRNUNbqRbPVPQm8tOYW+Z18n
- RR5PmtiEGRbq/QypQGMFkfjr65SLnXoyIdlNE9UdRCfSO1WqvHVOT5anmbuoJ1uW6H
- isFh+u49qvd34tTk0C+vTuedmgmW/4iW9khfv93oQtLUoAb95ABFjtf2LDKGeaT8vd
- f/is2IWAx1zHw==
-Received: by mail-ej1-f43.google.com with SMTP id
- a640c23a62f3a-a23566e91d5so293889466b.0; 
- Fri, 22 Dec 2023 22:20:17 -0800 (PST)
-X-Gm-Message-State: AOJu0YwaGg0mdn3AsiLlMeFHMAiDsOlRcoky45ATVVB5dG3L4/bDkSd4
- czfGBzSp+C36FNpqt0XjJtgdeVR4EPmRBI8Xc/A=
-X-Google-Smtp-Source: AGHT+IEAV5HXB0+Ozv/qhH3l6SMNoZhPYWpbngaP3jDI2sLK/C0GvBIiZ8md3Y4DfBubMJyhqh2cPhSRTB0DLPh0x9Y=
-X-Received: by 2002:a17:906:3659:b0:a23:6215:47a with SMTP id
- r25-20020a170906365900b00a236215047amr942739ejb.60.1703312416436; Fri, 22 Dec
- 2023 22:20:16 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D5FD10E097
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Dec 2023 07:37:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1703317038; x=1734853038;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=a2m4tM/yHyh0WQQ5DyOfXe4Sy7woCWkTH+cVcUpAHIY=;
+ b=UsFjYHT7vpnWj27oGVO14U0sLvnZ8VFKKGiOkFolu0OVBQlQOiXuOjFI
+ XL0GdJpDg2KhHOFBXE1r66cNueOkHKqYsxHp3we/kyqIZYyZLTyTbuGJV
+ 6Pv8lhoHf2BV/OX2tDaaqdsZ277a1iY3RLk5zGA7zhQLhEyTC6yNVxHUP
+ MAntx93sQD1FcdQyHbTtrLed8wLqrkenerptS0ykbCoghvTWF4ScH92N6
+ fDkvmUJPNq+t/tSU0OYEN924CjjJQLlbwdEAergP1CtYbNvWAeW03pTWl
+ YrR3RUQdCiasNzlnbAoTw8YCZGITZ19edpUtALkUR5wEclpqxo1Jx62AX A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="3027971"
+X-IronPort-AV: E=Sophos;i="6.04,298,1695711600"; 
+   d="scan'208";a="3027971"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Dec 2023 23:37:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="1108711237"
+X-IronPort-AV: E=Sophos;i="6.04,298,1695711600"; d="scan'208";a="1108711237"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+ by fmsmga005.fm.intel.com with ESMTP; 22 Dec 2023 23:37:11 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1rGwZJ-000AQV-2N;
+ Sat, 23 Dec 2023 07:37:09 +0000
+Date: Sat, 23 Dec 2023 15:36:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ chunkuang.hu@kernel.org
+Subject: Re: [PATCH v2 3/4] drm/mediatek: dsi: Use bitfield macros where useful
+Message-ID: <202312231512.ioiD48LA-lkp@intel.com>
+References: <20231220135722.192080-4-angelogioacchino.delregno@collabora.com>
 MIME-Version: 1.0
-References: <20231222043308.3090089-1-airlied@gmail.com>
- <20231222043308.3090089-8-airlied@gmail.com>
-In-Reply-To: <20231222043308.3090089-8-airlied@gmail.com>
-From: Timur Tabi <timur@kernel.org>
-Date: Sat, 23 Dec 2023 00:20:03 -0600
-X-Gmail-Original-Message-ID: <CAOZdJXU+aj1YhfGDqHh2Gqd=Rktn_biM6uTGNvvwDg_zz6s+eA@mail.gmail.com>
-Message-ID: <CAOZdJXU+aj1YhfGDqHh2Gqd=Rktn_biM6uTGNvvwDg_zz6s+eA@mail.gmail.com>
-Subject: Re: [PATCH 07/11] nouveau/gsp: convert gsp errors to generic errors
-To: Dave Airlie <airlied@gmail.com>
-Content-Type: multipart/alternative; boundary="00000000000085f96b060d27539b"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231220135722.192080-4-angelogioacchino.delregno@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,71 +61,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, oe-kbuild-all@lists.linux.dev,
+ matthias.bgg@gmail.com, kernel@collabora.com, airlied@gmail.com,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000085f96b060d27539b
-Content-Type: text/plain; charset="UTF-8"
+Hi AngeloGioacchino,
 
-On Thu, Dec 21, 2023, 10:33 PM Dave Airlie <airlied@gmail.com> wrote:
+kernel test robot noticed the following build errors:
 
-> This should let the upper layers retry as needed on EAGAIN.
->
-> There may be other values we will care about in the future, but
-> this covers our present needs.
->
-> Signed-off-by: Dave Airlie <airlied@redhat.com>
->
-> +static int
-> +r535_rpc_status_to_errno(uint32_t rpc_status)
-> +{
-> +       switch (rpc_status) {
-> +       case 0x55: /* NV_ERR_NOT_READY */
-> +       case 0x66: /* NV_ERR_TIMEOUT_RETRY */
-> +              return -EAGAIN;
-> +       case 0x51: /* NV_ERR_NO_MEMORY */
-> +               return -ENOMEM;
-> +       default:
-> +               return -EINVAL;
-> +       }
->
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.7-rc6 next-20231222]
+[cannot apply to drm-intel/for-linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Shouldn't you also have this:
+url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/drm-mediatek-dsi-Use-GENMASK-for-register-mask-definitions/20231222-164513
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20231220135722.192080-4-angelogioacchino.delregno%40collabora.com
+patch subject: [PATCH v2 3/4] drm/mediatek: dsi: Use bitfield macros where useful
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20231223/202312231512.ioiD48LA-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231223/202312231512.ioiD48LA-lkp@intel.com/reproduce)
 
-case 0:
-    return 0;
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312231512.ioiD48LA-lkp@intel.com/
 
---00000000000085f96b060d27539b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+All errors (new ones prefixed by >>):
 
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Thu, Dec 21, 2023, 10:33 PM Dave Airlie &lt;<a href=
-=3D"mailto:airlied@gmail.com">airlied@gmail.com</a>&gt; wrote:<br></div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
-ccc solid;padding-left:1ex">This should let the upper layers retry as neede=
-d on EAGAIN.<br>
-<br>
-There may be other values we will care about in the future, but<br>
-this covers our present needs.<br>
-<br>
-Signed-off-by: Dave Airlie &lt;<a href=3D"mailto:airlied@redhat.com" target=
-=3D"_blank" rel=3D"noreferrer">airlied@redhat.com</a>&gt;<br><br>
-+static int<br>
-+r535_rpc_status_to_errno(uint32_t rpc_status)<br>
-+{<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0switch (rpc_status) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0case 0x55: /* NV_ERR_NOT_READY */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0case 0x66: /* NV_ERR_TIMEOUT_RETRY */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -EAGAIN;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0case 0x51: /* NV_ERR_NO_MEMORY */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -ENOMEM;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0default:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -EINVAL;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br></blockquote></div></div><div dir=3D"auto"=
-><br></div><div dir=3D"auto">Shouldn&#39;t you also have this:</div><div di=
-r=3D"auto"><br></div><div dir=3D"auto">case 0:</div><div dir=3D"auto">=C2=
-=A0 =C2=A0 return 0;</div></div>
+   drivers/gpu/drm/mediatek/mtk_dsi.c: In function 'mtk_dsi_phy_timconfig':
+>> drivers/gpu/drm/mediatek/mtk_dsi.c:260:19: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
+     260 |         timcon0 = FIELD_PREP(LPX, timing->lpx) |
+         |                   ^~~~~~~~~~
+   cc1: some warnings being treated as errors
 
---00000000000085f96b060d27539b--
+
+vim +/FIELD_PREP +260 drivers/gpu/drm/mediatek/mtk_dsi.c
+
+   236	
+   237	static void mtk_dsi_phy_timconfig(struct mtk_dsi *dsi)
+   238	{
+   239		u32 timcon0, timcon1, timcon2, timcon3;
+   240		u32 data_rate_mhz = DIV_ROUND_UP(dsi->data_rate, 1000000);
+   241		struct mtk_phy_timing *timing = &dsi->phy_timing;
+   242	
+   243		timing->lpx = (60 * data_rate_mhz / (8 * 1000)) + 1;
+   244		timing->da_hs_prepare = (80 * data_rate_mhz + 4 * 1000) / 8000;
+   245		timing->da_hs_zero = (170 * data_rate_mhz + 10 * 1000) / 8000 + 1 -
+   246				     timing->da_hs_prepare;
+   247		timing->da_hs_trail = timing->da_hs_prepare + 1;
+   248	
+   249		timing->ta_go = 4 * timing->lpx - 2;
+   250		timing->ta_sure = timing->lpx + 2;
+   251		timing->ta_get = 4 * timing->lpx;
+   252		timing->da_hs_exit = 2 * timing->lpx + 1;
+   253	
+   254		timing->clk_hs_prepare = 70 * data_rate_mhz / (8 * 1000);
+   255		timing->clk_hs_post = timing->clk_hs_prepare + 8;
+   256		timing->clk_hs_trail = timing->clk_hs_prepare;
+   257		timing->clk_hs_zero = timing->clk_hs_trail * 4;
+   258		timing->clk_hs_exit = 2 * timing->clk_hs_trail;
+   259	
+ > 260		timcon0 = FIELD_PREP(LPX, timing->lpx) |
+   261			  FIELD_PREP(HS_PREP, timing->da_hs_prepare) |
+   262			  FIELD_PREP(HS_ZERO, timing->da_hs_zero) |
+   263			  FIELD_PREP(HS_TRAIL, timing->da_hs_trail);
+   264	
+   265		timcon1 = FIELD_PREP(TA_GO, timing->ta_go) |
+   266			  FIELD_PREP(TA_SURE, timing->ta_sure) |
+   267			  FIELD_PREP(TA_GET, timing->ta_get) |
+   268			  FIELD_PREP(DA_HS_EXIT, timing->da_hs_exit);
+   269	
+   270		timcon2 = FIELD_PREP(DA_HS_SYNC, 1) |
+   271			  FIELD_PREP(CLK_ZERO, timing->clk_hs_zero) |
+   272			  FIELD_PREP(CLK_TRAIL, timing->clk_hs_trail);
+   273	
+   274		timcon3 = FIELD_PREP(CLK_HS_PREP, timing->clk_hs_prepare) |
+   275			  FIELD_PREP(CLK_HS_POST, timing->clk_hs_post) |
+   276			  FIELD_PREP(CLK_HS_EXIT, timing->clk_hs_exit);
+   277	
+   278		writel(timcon0, dsi->regs + DSI_PHY_TIMECON0);
+   279		writel(timcon1, dsi->regs + DSI_PHY_TIMECON1);
+   280		writel(timcon2, dsi->regs + DSI_PHY_TIMECON2);
+   281		writel(timcon3, dsi->regs + DSI_PHY_TIMECON3);
+   282	}
+   283	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
