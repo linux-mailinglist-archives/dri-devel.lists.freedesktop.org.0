@@ -1,45 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 679EB81D480
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Dec 2023 15:18:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B848B81D4C9
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Dec 2023 16:20:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8632F10E0D5;
-	Sat, 23 Dec 2023 14:18:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD70D10E0E7;
+	Sat, 23 Dec 2023 15:20:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com
- [IPv6:2001:41d0:1004:224b::bc])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF4E610E0D5
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Dec 2023 14:18:11 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
- t=1703341089;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PgAKrzFUuBY/aRZdG/sV9t0Klms7KMGcDs+12G81t/o=;
- b=mjWC7BbO22IYp9BhC/jUQ1r8tbAUbhktMbgJwM99pf3WvyVc1sI1SOnFItgAj87ZFAdsqk
- uiamEOz6g8pKsPX/FBQUTBsnqhoHGbq6uFNSXHJ5Oz7MPU0mX2f+dqKL2rHm/Rv0KLDUaX
- +Ls+BuIi6iTiv6fyafYawZ63NGyHqoNqc0KupplpFdw+e6kDTFbTwOcTBWHwfY+/yFSg48
- wVwcq1FjcVQ6GWnQbSr2e3rWcRZ3nt91chwlQ60tAvt47FmoR8Z7wwsbukc/lNsL6i44Dj
- J3ImyV5P2/dzL2d7m28SIqgb5/0K43I43OvM0U0onbOsmVfQYsP0e2pgs1oUqg==
-From: Diederik de Haas <didi.debian@cknow.org>
-To: Manuel Traut <manut@mecka.net>
-Subject: Re: [PATCH 4/6] arm64: dts: rockchip: Add devicetree for Pine64
- Pinetab2
-Date: Sat, 23 Dec 2023 15:17:58 +0100
-Message-ID: <1883322.fLvJxeCpJd@bagend>
-Organization: Connecting Knowledge
-In-Reply-To: <ZYbnxkkCIJtzqa0h@mecka.net>
-References: <20231222-pinetab2-v1-0-e148a7f61bd1@mecka.net>
- <2121710.IWpXjAX0fk@bagend> <ZYbnxkkCIJtzqa0h@mecka.net>
+Received: from mecka.net (unknown [IPv6:2a01:4f8:1c1c:934f::1])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CF8EF10E0E3
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Dec 2023 15:20:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mecka.net; s=2016.11;
+ t=1703344837; bh=gjmk34cgD8+7am+EzGIKiXzgLsLe0EolSOD4WblBzXo=;
+ h=From:Subject:Date:To:Cc:From;
+ b=A/Y10BnzEC6vegjs4Djnb775+rgfUD+izHRI2vOAXaddj9y+xDeWc1cCiVOXsSaDr
+ 9FeTvsE1pggSdnnKBMrZM1XcwqFMA35s7yU1u3OsMyRrGInTmyThVMwigLRrD4/Wpa
+ pL4WSlewSef/lucS2PHuGwIYwINkPf68X6K/DpiDBSo41GsfI/tsW6E5h1Mrh8nAlA
+ awl06zHCw4fCkUfcfmijp/dkunt87aRRbdZg72AxyBL5JDzHdsLgdfhd7HYsM71XAj
+ B+7VLnRShQUQ3uga0jdxgQ2fGrLNKQNXdbxxezczjqBUZNHKPmzVL0sBh6wvAwoOi+
+ 2dHkN48NQicfw==
+Received: from arthur.fritz.box (unknown [185.147.11.134])
+ by mecka.net (Postfix) with ESMTPSA id 13CDF371958;
+ Sat, 23 Dec 2023 16:20:37 +0100 (CET)
+From: Manuel Traut <manut@mecka.net>
+Subject: [PATCH v2 0/4] arm64: rockchip: Pine64 pinetab2 support
+Date: Sat, 23 Dec 2023 16:20:14 +0100
+Message-Id: <20231223-pinetab2-v2-0-ec1856d0030e@mecka.net>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart28392273.q4UQjrvTh7";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAK76hmUC/22MQQ7CIBBFr9LMWgwzmmJceQ/TBZTBToy0gYZoG
+ u4udu3y/f/yNsichDNcuw0SF8kyxwZ06GCcbHywEt8YSNMJiUgtEnm1jlSw1hjW6F0foOlL4iD
+ vPXUfGk+S1zl99nLB3/onUlBpxXi+WBN6dB5vLx6f9thuGGqtX90PBjmgAAAA
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
+ Sandy Huang <hjc@rock-chips.com>, Mark Yao <markyao0591@gmail.com>, 
+ Diederik de Haas <didi.debian@cknow.org>, 
+ Segfault <awarnecke002@hotmail.com>, Arnaud Ferraris <aferraris@debian.org>, 
+ Danct12 <danct12@riseup.net>
+X-Mailer: b4 0.12.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,77 +59,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org,
- Neil Armstrong <neil.armstrong@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Segfault <awarnecke002@hotmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, David Airlie <airlied@gmail.com>,
- Sandy Huang <hjc@rock-chips.com>, Maxime Ripard <mripard@kernel.org>,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Mark Yao <markyao0591@gmail.com>, Arnaud Ferraris <aferraris@debian.org>
+Cc: devicetree@vger.kernel.org, Manuel Traut <manut@mecka.net>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---nextPart28392273.q4UQjrvTh7
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Diederik de Haas <didi.debian@cknow.org>
-To: Manuel Traut <manut@mecka.net>
-Date: Sat, 23 Dec 2023 15:17:58 +0100
-Message-ID: <1883322.fLvJxeCpJd@bagend>
-Organization: Connecting Knowledge
-In-Reply-To: <ZYbnxkkCIJtzqa0h@mecka.net>
-MIME-Version: 1.0
+This adds support for the BOE TH101MB31IG002 LCD Panel used in Pinetab2 [1] and
+Pinetab-V [2] as well as the devictrees for the Pinetab2 v0.1 and v2.0.
 
-Hi Manuel,
+The BOE LCD Panel patch was retrieved from [3]. The function-name prefix has
+been adapted and the LCD init section was simplified.
 
-On Saturday, 23 December 2023 14:59:34 CET Manuel Traut wrote:
-> On Fri, Dec 22, 2023 at 06:01:54PM +0100, Diederik de Haas wrote:
-> > On Friday, 22 December 2023 12:05:44 CET Manuel Traut wrote:
-> > > +
-> > > +&cru {
-> > > +       assigned-clocks = <&cru PLL_GPLL>, <&pmucru PLL_PPLL>, <&cru
-> > > PLL_VPLL>; +       assigned-clock-rates = <1200000000>, <200000000>,
-> > > <500000000>; +};
-> > 
-> > Attachment seem to work and for this I also have the attached patch in my
-> > patch set.
-> > IIRC without it you get an error in dmesg immediately at boot up which is
-> > visible on the PT2 *if* you have immediate visual output (which is not
-> > (yet?) the case in my image/kernel).
-> 
-> you can see the message also by calling "dmesg --level err".
-> I could verify that your patch removes the error message.
+The Pinetab2 devicetree patch was retrieved from [4]. Some renaming was needed
+to pass the dtb-checks, the brightness-levels are specified as range and steps
+instead of a list of values.
 
-As I have been using that patch for a while, I couldn't verify it myself 
-anymore ;-)
-If you use the (default) danctnix image, then you see it immediately at boot 
-up (at least the last time I tried it). With my (WIP) image, I only get visual 
-output after 5-7 seconds, so you'll likely miss that visual error if the image 
-you use also has a delay before outputting things on the screen.
-But indeed, it would still show up in dmesg (without the patch).
+[5] was also used as source for this queue.
 
-> I will pick the change for v2.
+The last to patches fix some dtb-checker warnings that showed up with the new
+device-trees.
 
-Great :-)
---nextPart28392273.q4UQjrvTh7
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
+[1] https://wiki.pine64.org/wiki/PineTab2
+[2] https://wiki.pine64.org/wiki/PineTab-V
+[3] https://salsa.debian.org/Mobian-team/devices/kernels/rockchip-linux/-/blob/mobian-6.6/debian/patches/display/0018-drm-panel-add-BOE-TH101MB31IG002-28A-driver.patch?ref_type=heads
+[4] https://salsa.debian.org/Mobian-team/devices/kernels/rockchip-linux/-/blob/mobian-6.6/debian/patches/device-tree/0134-arch-arm64-add-Pine64-PineTab2-device-trees.patch?ref_type=heads
+[5] https://github.com/dreemurrs-embedded/linux-pinetab2/tree/v6.6.7-danctnix1
 
------BEGIN PGP SIGNATURE-----
+Signed-off-by: Manuel Traut <manut@mecka.net>
+---
+Changes in v2:
+- Removed dtb-checker fixups, cause I am not sure if they are correct
+- Applied review comments for dt bindings
+- pinetab2 dts:
+    * Remove unverified WLAN entries, as in [5]
+    * Simplify flash LED definition, as in [5]
+    * Fix headphone detection and sound routing, as in [5]
+    * Fix CRU clock configuration
+- BOE TH101MB31IG002 LCD Panel:
+    * Reworked prepare/enable unprepare/disable, as in [5]
+- Replaced nicknames by realnames in author and signed-offs
 
-iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZYbsFgAKCRDXblvOeH7b
-bnfaAQCB19vhFqKkdKyoVT/ScgOlKuwEnm2ELd5BtzT6OGdHaAEAjHsFPIBnxiw3
-Tqs+4hbh0skq43sF8GQX35lzxGjgYg4=
-=q5pl
------END PGP SIGNATURE-----
+- Link to v1: https://lore.kernel.org/r/20231222-pinetab2-v1-0-e148a7f61bd1@mecka.net
 
---nextPart28392273.q4UQjrvTh7--
+---
+Alexander Warnecke (2):
+      drm/panel: Add driver for BOE TH101MB31IG002-28A panel
+      arm64: dts: rockchip: Add devicetree for Pine64 Pinetab2
 
+Manuel Traut (2):
+      dt-bindings: display: panel: Add BOE TH101MB31IG002-28A panel
+      dt-bindings: arm64: rockchip: Add Pine64 Pinetab2
 
+ .../devicetree/bindings/arm/rockchip.yaml          |   8 +
+ .../display/panel/boe,th101mb31ig002-28a.yaml      |  58 ++
+ arch/arm64/boot/dts/rockchip/Makefile              |   2 +
+ .../boot/dts/rockchip/rk3566-pinetab2-v0.1.dts     |  26 +
+ .../boot/dts/rockchip/rk3566-pinetab2-v2.0.dts     |  46 +
+ arch/arm64/boot/dts/rockchip/rk3566-pinetab2.dtsi  | 979 +++++++++++++++++++++
+ drivers/gpu/drm/panel/Kconfig                      |  11 +
+ drivers/gpu/drm/panel/Makefile                     |   1 +
+ .../gpu/drm/panel/panel-boe-th101mb31ig002-28a.c   | 348 ++++++++
+ 9 files changed, 1479 insertions(+)
+---
+base-commit: 5254c0cbc92d2a08e75443bdb914f1c4839cdf5a
+change-id: 20231222-pinetab2-faa77e01db6f
+
+Best regards,
+-- 
+Manuel Traut <manut@mecka.net>
 
