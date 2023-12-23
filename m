@@ -2,74 +2,126 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 344CB81D5CD
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Dec 2023 19:30:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E176B81D5F5
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Dec 2023 19:32:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 161A510E154;
-	Sat, 23 Dec 2023 18:29:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B35D110E159;
+	Sat, 23 Dec 2023 18:32:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C9CD10E008
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Dec 2023 18:29:43 +0000 (UTC)
-X-UUID: 3a82dd08a1c111eea5db2bebc7c28f94-20231224
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=9Q8RSiyjSUfHILmoW4urj0AJtB2OmdXHTaWG7QUm9as=; 
- b=r24UaKmH/FI/yIQky0l3ENlyXwCdAlVWFVRxAcU2CFEM6HPhL/NkoBDSrdO5hKb/R02Uxz3llbrDowVx7hdZEd1tQRz9jbjy+QBWFtlO2u4tWGXoF3o+Z55VjNf1Ioruchc4PanXjxC5hkc4U3qs0xmXga9tsQ/1A2YPUdlhhlU=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.35, REQID:932576f9-4e5a-4c83-9471-840984a4b0bd, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:5d391d7, CLOUDID:ba5d7f8d-e2c0-40b0-a8fe-7c7e47299109,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
- DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 3a82dd08a1c111eea5db2bebc7c28f94-20231224
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
- mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1170136593; Sun, 24 Dec 2023 02:29:37 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Sun, 24 Dec 2023 02:29:36 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Sun, 24 Dec 2023 02:29:35 +0800
-From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-To: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>
-Subject: [PATCH v3 11/11] arm64: dts: mt8195: Add secure mbox settings for
- vdosys
-Date: Sun, 24 Dec 2023 02:29:32 +0800
-Message-ID: <20231223182932.27683-12-jason-jh.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20231223182932.27683-1-jason-jh.lin@mediatek.com>
-References: <20231223182932.27683-1-jason-jh.lin@mediatek.com>
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 222BD10E159
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Dec 2023 18:32:46 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id
+ ffacd0b85a97d-33680da01d6so2541299f8f.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Dec 2023 10:32:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1703356364; x=1703961164; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=ymqOumckHRX9oQyr84P1Hen9nHtiSxQv3+kFcM5hxqQ=;
+ b=c0XDK9xFQvNdi97xIJaheTQauQi6N0o8sTNAk10NiGvK4NOaMzQese1/2e7WBaCGDi
+ X00e/bCxG7knD1IfAA/eMIA1VAO3BeZE3FMrxaBF7f/o49kde0wOJsJ7bxSOD3wPPzVe
+ kawx0unQH4y93qhUYzmx1C/+2InNGSCnvAiU+pzqHShUjn88BhFsEjCuWLPPfnq/SerH
+ ZH5elHMLqFovDychcSG/AxgUGQKn+ZpOBZ6YgJdiIrValy6THP4y6fAq2/JrEKa8dGxq
+ a+XSMqZz+Y4D3WcR0GiFYfc6+rRGFLvJplxNZ/Q+HikGNbragCo+9T2zlr7Pos/r1cIa
+ +3SQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1703356364; x=1703961164;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ymqOumckHRX9oQyr84P1Hen9nHtiSxQv3+kFcM5hxqQ=;
+ b=KrCsS7PgLauEA9OGfEdO3lsHXkxKu3fzijsrvjKHC6TRimROgwm8yKb2roVSOQWBvl
+ qNVix1A942tKP+hTs/Rjbj2gNEePj8Zv1qNh69GuuZgXUSbG0NL2yI/ZdrfOeMWpFDMm
+ kyxW0Del0uG5fEme2sgiF1BuNnLNxj6eO0qg6EmBxNJjhpNLqaFObEGBv2Q+dDoxUqHf
+ V7JE3El5aEoOfB6VxN5wAYSar+lGGhOqLjEkHO81ntejIrTPnxjQMwIEH8vai6WSnf12
+ dnmz/jbvaZF2FBllIpg0mIj2JDLk2dVUbv6dhg2jkYsH5glygP6xPGHaPJK8DXVAGttE
+ uNbw==
+X-Gm-Message-State: AOJu0YwwkTVdgISGCXZF9Lki53mmvgnXlB0gMhZKYJL8087Ah6U4Nwwq
+ 7mHzNtXiqS6ZvIP35YYstGEyVnrFOjfURg==
+X-Google-Smtp-Source: AGHT+IFG/I+3QBn+vhny0zKSE/HFbh4hq/Dnk8cosqYeo2NR33s88Tt2bTc/VRuuYPjwFnyA3EoGkQ==
+X-Received: by 2002:a5d:558f:0:b0:336:8b8f:e048 with SMTP id
+ i15-20020a5d558f000000b003368b8fe048mr1721642wrv.135.1703356364499; 
+ Sat, 23 Dec 2023 10:32:44 -0800 (PST)
+Received: from [192.168.0.22] ([78.10.206.178])
+ by smtp.gmail.com with ESMTPSA id
+ az16-20020a170907905000b00a26ac53c2b7sm2645464ejc.98.2023.12.23.10.32.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 23 Dec 2023 10:32:43 -0800 (PST)
+Message-ID: <9cf495b8-eaa6-4dfc-9286-ba07f09c1f76@linaro.org>
+Date: Sat, 23 Dec 2023 19:32:41 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--0.491300-8.000000
-X-TMASE-MatchedRID: hnk2xlnUc9YCNMj/7qB/g11tpWYE7Ops31GU/N5W5BDOb3+o8TfeDuLz
- NWBegCW2wgn7iDBesS0nRE+fI6etkuizN9J3NgBH8RJ/GoffvHkPcq5zA38+/6zzbOcnWu8Z9mP
- 29bcY/jAyNkLr5kiba29MNrHNAnxNgFAkt5cKyJCWOeeZGiKp5ICE5xpCtDRTUbJFyh4XXyqYo/
- TPOlMB4bCh3zE4wqa8DUCRr8oin+k=
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--0.491300-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: 717D133535D00CDDC830E6143AA284E0754963BD2A23C955C3A4D68E41B2C6A02000:8
-X-MTK: N
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/4] dt-bindings: display: panel: Add BOE
+ TH101MB31IG002-28A panel
+To: Manuel Traut <manut@mecka.net>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Sandy Huang <hjc@rock-chips.com>, Mark Yao <markyao0591@gmail.com>,
+ Diederik de Haas <didi.debian@cknow.org>, Segfault
+ <awarnecke002@hotmail.com>, Arnaud Ferraris <aferraris@debian.org>,
+ Danct12 <danct12@riseup.net>
+References: <20231223-pinetab2-v2-0-ec1856d0030e@mecka.net>
+ <20231223-pinetab2-v2-1-ec1856d0030e@mecka.net>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTRLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+wsGUBBMBCgA+FiEE
+ m9B+DgxR+NWWd7dUG5NDfTtBYpsFAmI+BxMCGwMFCRRfreEFCwkIBwIGFQoJCAsCBBYCAwEC
+ HgECF4AACgkQG5NDfTtBYptgbhAAjAGunRoOTduBeC7V6GGOQMYIT5n3OuDSzG1oZyM4kyvO
+ XeodvvYv49/ng473E8ZFhXfrre+c1olbr1A8pnz9vKVQs9JGVa6wwr/6ddH7/yvcaCQnHRPK
+ mnXyP2BViBlyDWQ71UC3N12YCoHE2cVmfrn4JeyK/gHCvcW3hUW4i5rMd5M5WZAeiJj3rvYh
+ v8WMKDJOtZFXxwaYGbvFJNDdvdTHc2x2fGaWwmXMJn2xs1ZyFAeHQvrp49mS6PBQZzcx0XL5
+ cU9ZjhzOZDn6Apv45/C/lUJvPc3lo/pr5cmlOvPq1AsP6/xRXsEFX/SdvdxJ8w9KtGaxdJuf
+ rpzLQ8Ht+H0lY2On1duYhmro8WglOypHy+TusYrDEry2qDNlc/bApQKtd9uqyDZ+rx8bGxyY
+ qBP6bvsQx5YACI4p8R0J43tSqWwJTP/R5oPRQW2O1Ye1DEcdeyzZfifrQz58aoZrVQq+innR
+ aDwu8qDB5UgmMQ7cjDSeAQABdghq7pqrA4P8lkA7qTG+aw8Z21OoAyZdUNm8NWJoQy8m4nUP
+ gmeeQPRc0vjp5JkYPgTqwf08cluqO6vQuYL2YmwVBIbO7cE7LNGkPDA3RYMu+zPY9UUi/ln5
+ dcKuEStFZ5eqVyqVoZ9eu3RTCGIXAHe1NcfcMT9HT0DPp3+ieTxFx6RjY3kYTGLOwU0EVUNc
+ NAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDyfv4dEKuCqeh0
+ hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOGmLPRIBkXHqJY
+ oHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6H79LIsiYqf92
+ H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4argt4e+jum3Nwt
+ yupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8nO2N5OsFJOcd
+ 5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFFknCmLpowhct9
+ 5ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz7fMkcaZU+ok/
+ +HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgNyxBZepj41oVq
+ FPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMip+12jgw4mGjy
+ 5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYCGwwWIQSb0H4O
+ DFH41ZZ3t1Qbk0N9O0FimwUCYDzvagUJFF+UtgAKCRAbk0N9O0Fim9JzD/0auoGtUu4mgnna
+ oEEpQEOjgT7l9TVuO3Qa/SeH+E0m55y5Fjpp6ZToc481za3xAcxK/BtIX5Wn1mQ6+szfrJQ6
+ 59y2io437BeuWIRjQniSxHz1kgtFECiV30yHRgOoQlzUea7FgsnuWdstgfWi6LxstswEzxLZ
+ Sj1EqpXYZE4uLjh6dW292sO+j4LEqPYr53hyV4I2LPmptPE9Rb9yCTAbSUlzgjiyyjuXhcwM
+ qf3lzsm02y7Ooq+ERVKiJzlvLd9tSe4jRx6Z6LMXhB21fa5DGs/tHAcUF35hSJrvMJzPT/+u
+ /oVmYDFZkbLlqs2XpWaVCo2jv8+iHxZZ9FL7F6AHFzqEFdqGnJQqmEApiRqH6b4jRBOgJ+cY
+ qc+rJggwMQcJL9F+oDm3wX47nr6jIsEB5ZftdybIzpMZ5V9v45lUwmdnMrSzZVgC4jRGXzsU
+ EViBQt2CopXtHtYfPAO5nAkIvKSNp3jmGxZw4aTc5xoAZBLo0OV+Ezo71pg3AYvq0a3/oGRG
+ KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
+ fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20231223-pinetab2-v2-1-ec1856d0030e@mecka.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,50 +134,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jeffrey Kardatzke <jkardatzke@google.com>, devicetree@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
- Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Jason-ch Chen <jason-ch.chen@mediatek.com>, Nancy
- Lin <nancy.lin@mediatek.com>, linux-mediatek@lists.infradead.org,
- Shawn Sung <shawn.sung@mediatek.com>, Johnson Wang <johnson.wang@mediatek.com>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a secure mailbox channel to support secure video path on
-vdosys0 and vdosys1.
+On 23/12/2023 16:20, Manuel Traut wrote:
+> Add bindings for the BOE TH101MB31IG002-28A LCD panel. It is
+> used e.g. in the Pine64 Pinetab2 and PinetabV.
+> 
+> Signed-off-by: Manuel Traut <manut@mecka.net>
 
-Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
----
- arch/arm64/boot/dts/mediatek/mt8195.dtsi | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8195.dtsi b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-index e0ac2e9f5b72..416d575be123 100644
---- a/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-@@ -2621,7 +2621,8 @@
- 		vdosys0: syscon@1c01a000 {
- 			compatible = "mediatek,mt8195-vdosys0", "mediatek,mt8195-mmsys", "syscon";
- 			reg = <0 0x1c01a000 0 0x1000>;
--			mboxes = <&gce0 0 CMDQ_THR_PRIO_4>;
-+			mboxes = <&gce0 0 CMDQ_THR_PRIO_4>,
-+				 <&gce0 8 CMDQ_THR_PRIO_4>; /* secure mbox */
- 			#clock-cells = <1>;
- 		};
- 
-@@ -2806,7 +2807,8 @@
- 		vdosys1: syscon@1c100000 {
- 			compatible = "mediatek,mt8195-vdosys1", "syscon";
- 			reg = <0 0x1c100000 0 0x1000>;
--			mboxes = <&gce0 1 CMDQ_THR_PRIO_4>;
-+			mboxes = <&gce0 1 CMDQ_THR_PRIO_4>,
-+				 <&gce0 9 CMDQ_THR_PRIO_4>; /* secure mbox */;
- 			mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX 0x0000 0x1000>;
- 			#clock-cells = <1>;
- 			#reset-cells = <1>;
--- 
-2.18.0
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Best regards,
+Krzysztof
 
