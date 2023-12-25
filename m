@@ -2,43 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0724581E1ED
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Dec 2023 18:57:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE0AB81E1AD
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Dec 2023 18:08:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6726E10E069;
-	Mon, 25 Dec 2023 17:57:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 242AF10E009;
+	Mon, 25 Dec 2023 17:08:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 980 seconds by postgrey-1.36 at gabe;
- Mon, 25 Dec 2023 14:43:25 UTC
-Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.215])
- by gabe.freedesktop.org (Postfix) with ESMTP id CFE8E10E009
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Dec 2023 14:43:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=3Edaz
- bBuWn+zR00jVC2IdNv8Gvt/eD6wDHkffcQ4WIU=; b=mq7VgsxvzC25fxBq8Bs4X
- EzQG6tcDcREDQJG6Y7Mna7g12xzFIn0TsvWpMpi6Kh85tFnYn2Kl5md1mOVUup6E
- mEC+O/8PrKlEr68W1fM/6mluL28XGGGH1MFLYRo2OEY8sk9M73QsLy5l3qmDjN8C
- IHbw04CeO0ZKbzlq559iOM=
-Received: from ubuntu22.localdomain (unknown [117.176.219.50])
- by zwqz-smtp-mta-g4-0 (Coremail) with SMTP id _____wDHF0wJkYllJEGXGg--.64396S2;
- Mon, 25 Dec 2023 22:26:18 +0800 (CST)
-From: chenguanxi11234@163.com
-To: hanxu5@huaqin.corp-partner.google.com
-Subject: [PATCH linux-next v2] drm/panel: Simplify with dev_err_probe()
-Date: Mon, 25 Dec 2023 22:26:15 +0800
-Message-Id: <3ac20d355b0b3ad3cedb87c8f4efa819a055624b.1702967834.git.chen.haonan2@zte.com.cn>
-X-Mailer: git-send-email 2.34.1
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:3::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D288210E009;
+ Mon, 25 Dec 2023 17:08:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+ Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+ bh=xFIKp49g9qtmgLHHMQDPljPyQKT4HBMsbNmu6sA9PR8=; b=iAp5UAUk7p6ad0qrzYfv6hy2pn
+ rCpp3wPlDwi5qInqm+10NcE4U/ulDeWFRXxXAWQuVjHu7Gw5S5oIP9XkhBiJ04HI9QqIZ03JRvJWJ
+ 4laG5NxSMycfFfTqmiNb+WPgH1n5tF6+5VbTDHqilM1UP96amyC2NiUZpMDjEoq+ZCbesfnfDaccZ
+ DZzq8r2Kv0vzzvmZox2EjgjdedE+NY4KQXl7qfsVSQnAiWihVlhUFW11cLKj2wlSyntnguO8CMOXt
+ KNc5xmUsrRVs9m5IWIfNKkY+IvxIWCzCErqpmlklm0TqToNrfE6uSrmgnK3F7CibH14tZuqnKucWw
+ ZIN1pn4Q==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+ by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1rHoRC-00B6zo-35; Mon, 25 Dec 2023 17:08:23 +0000
+Message-ID: <df7d110b-a50c-4293-b5d4-45913fa6909e@infradead.org>
+Date: Mon, 25 Dec 2023 09:08:22 -0800
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH -next] drm/nouveau: uapi: fix kerneldoc warnings
+Content-Language: en-US
+To: Vegard Nossum <vegard.nossum@oracle.com>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@redhat.com>
+References: <20231225065145.3060754-1-vegard.nossum@oracle.com>
+ <009fcdc4-b10a-4ab9-b368-7cea75bb74e2@infradead.org>
+ <0f04dd81-1b0f-4408-b4de-63a01895b0a5@oracle.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <0f04dd81-1b0f-4408-b4de-63a01895b0a5@oracle.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wDHF0wJkYllJEGXGg--.64396S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7WF1DZFW8CFy3Cr4ftr1DZFb_yoW8Cr1kpF
- 4UJF9FvF98AFWS939xAF97AF1jya1xKF4YkFs2g397Aw17tr4xWr17GFy0vFW5tFyrXFW5
- JF1xXFy3ua4UZr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jM89_UUUUU=
-X-Originating-IP: [117.176.219.50]
-X-CM-SenderInfo: xfkh0wxxdq5xirrsjki6rwjhhfrp/xtbBzwVR+mV4G-HRcAABs2
-X-Mailman-Approved-At: Mon, 25 Dec 2023 17:57:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,61 +54,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, cgel.zte@gmail.com, linux-kernel@vger.kernel.org,
- mripard@kernel.org, Chen Haonan <chen.haonan2@zte.com.cn>,
- jiang.xuexin@zte.com.cn, yang.guang5@zte.com.cn,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
- quic_jesszhan@quicinc.com, airlied@gmail.com, sam@ravnborg.org
+Cc: nouveau@lists.freedesktop.org, Jonathan Corbet <corbet@lwn.net>,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chen Haonan <chen.haonan2@zte.com.cn>
 
-dev_err_probe() can check if the error code is -EPROBE_DEFER 
-and can return the error code, replacing dev_err() with it 
-simplifies the code.
 
-Signed-off-by: Chen Haonan <chen.haonan2@zte.com.cn>
----
- drivers/gpu/drm/panel/panel-boe-himax8279d.c | 18 ++++++------------
- 1 file changed, 6 insertions(+), 12 deletions(-)
-diff --git a/drivers/gpu/drm/panel/panel-boe-himax8279d.c b/drivers/gpu/drm/panel/panel-boe-himax8279d.c
-index 11b64acbe8a9..e225840b0d67 100644
---- a/drivers/gpu/drm/panel/panel-boe-himax8279d.c
-+++ b/drivers/gpu/drm/panel/panel-boe-himax8279d.c
-@@ -854,26 +854,20 @@ static int panel_add(struct panel_info *pinfo)
- 
- 	pinfo->pp18_gpio = devm_gpiod_get(dev, "pp18", GPIOD_OUT_HIGH);
- 	if (IS_ERR(pinfo->pp18_gpio)) {
--		ret = PTR_ERR(pinfo->pp18_gpio);
--		if (ret != -EPROBE_DEFER)
--			dev_err(dev, "failed to get pp18 gpio: %d\n", ret);
--		return ret;
-+		return dev_err_probe(dev, PTR_ERR(pinfo->pp18_gpio),
-+							 "failed to get pp18 gpio\n");
- 	}
- 
- 	pinfo->pp33_gpio = devm_gpiod_get(dev, "pp33", GPIOD_OUT_HIGH);
- 	if (IS_ERR(pinfo->pp33_gpio)) {
--		ret = PTR_ERR(pinfo->pp33_gpio);
--		if (ret != -EPROBE_DEFER)
--			dev_err(dev, "failed to get pp33 gpio: %d\n", ret);
--		return ret;
-+		return	dev_err_probe(dev, PTR_ERR(pinfo->pp33_gpio),
-+							 "failed to get pp33 gpio\n");
- 	}
- 
- 	pinfo->enable_gpio = devm_gpiod_get(dev, "enable", GPIOD_OUT_HIGH);
- 	if (IS_ERR(pinfo->enable_gpio)) {
--		ret = PTR_ERR(pinfo->enable_gpio);
--		if (ret != -EPROBE_DEFER)
--			dev_err(dev, "failed to get enable gpio: %d\n", ret);
--		return ret;
-+		return	dev_err_probe(dev, PTR_ERR(pinfo->enable_gpio),
-+						 "failed to get enable gpio\n");
- 	}
- 
- 	drm_panel_init(&pinfo->base, dev, &panel_funcs,
+On 12/25/23 00:30, Vegard Nossum wrote:
+> 
+> On 25/12/2023 08:40, Randy Dunlap wrote:
+>> I do see one thing that I don't like in the generated html output.
+>> It's not a problem with this patch.
+>> The #defines for DRM_NOUVEAU_VM_BIND_OP_MAP etc. have a ';' at the
+>> end of each line:
+>>
+>> struct drm_nouveau_vm_bind_op {
+>>      __u32 op;
+>> #define DRM_NOUVEAU_VM_BIND_OP_MAP 0x0;
+>> #define DRM_NOUVEAU_VM_BIND_OP_UNMAP 0x1;
+>>      __u32 flags;
+>> #define DRM_NOUVEAU_VM_BIND_SPARSE (1 << 8);
+>>      __u32 handle;
+>>      __u32 pad;
+>>      __u64 addr;
+>>      __u64 bo_offset;
+>>      __u64 range;
+>> };
+> 
+> Do we actually ever want preprocessor directives to appear inside
+> definitions in the output? If not, I think this should work:
+
+Not necessarily.
+
+> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+> index 3cdc7dba37e3..61425fc9645e 100755
+> --- a/scripts/kernel-doc
+> +++ b/scripts/kernel-doc
+> @@ -1259,6 +1259,8 @@ sub dump_struct($$) {
+>                 $clause =~ s/\s+$//;
+>                 $clause =~ s/\s+/ /;
+>                 next if (!$clause);
+> +               # skip preprocessor directives
+> +               next if $clause =~ m/^#/;
+>                 $level-- if ($clause =~ m/(\})/ && $level > 1);
+>                 if (!($clause =~ m/^\s*#/)) {
+>                         $declaration .= "\t" x $level;
+> 
+> 
+
+but that didn't work for me.
+I don't have time to look into it any more today.  :)
+
+Thanks.
+
 -- 
-2.25.1
-
+#Randy
+https://people.kernel.org/tglx/notes-about-netiquette
+https://subspace.kernel.org/etiquette.html
