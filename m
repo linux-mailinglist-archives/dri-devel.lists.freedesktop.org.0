@@ -2,61 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DB8181DF62
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Dec 2023 10:08:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C12781E0BD
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Dec 2023 14:09:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AE5A10E0EB;
-	Mon, 25 Dec 2023 09:08:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 939F710E134;
+	Mon, 25 Dec 2023 13:08:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x135.google.com (mail-il1-x135.google.com
- [IPv6:2607:f8b0:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B783110E0EB
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Dec 2023 09:08:18 +0000 (UTC)
-Received: by mail-il1-x135.google.com with SMTP id
- e9e14a558f8ab-35fd0154368so18587935ab.0
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Dec 2023 01:08:18 -0800 (PST)
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
+ [IPv6:2a00:1450:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6828F10E143
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Dec 2023 13:08:56 +0000 (UTC)
+Received: by mail-lj1-x236.google.com with SMTP id
+ 38308e7fff4ca-2ccce3bc472so1041191fa.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Dec 2023 05:08:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1703495298; x=1704100098;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5GaJDOeVX+a5k01RPdTA9Ji7XUnbBCMon+kA4ZX7Kl0=;
- b=OfTaHlUHtchb0fFeuUIOYnY/KSKJwP/kco/sEjLrhw+wPFQSX/4CVXQXhI2+GE7Xya
- Z9KuCe3u/DAHRKUN3SuwqsivvyV4WsM5A7izwKweGaBRWOk2MBw62iVRMr8Pglh1hTSK
- 7kGLWHvIDjO+K2Y8qdCIRwXprNhvpJq6N9mbM=
+ d=linaro.org; s=google; t=1703509734; x=1704114534; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=rrAR/dFA4g96DilCitrwfpxd2eb5zoEPG4NTNguHbJU=;
+ b=Oa+MSqVWU0iRKKUi9In+1lE/HnftcczWJMgUVaUuEVyBvsQN5lcjwV7bkM/x3w2GoV
+ reWgpTqEQzLRFjlhC3A+JLG45EFt2D9ftZHCBdUWI/kmTiuFZDc3cp3MGxcBOmfR3Ywf
+ GHeipmKbpTvyEsvWGNORzW/8aAE+Ocf7mB6x2v3IUVwoiH47cOvluymYCNiQdJKbujjm
+ WCNEvA/vF1hqLSNZ1KL3GqSANlAqnc34FHRNGwi1vLX7PtsLj3MdtEF/z7iqHI86l7uN
+ KQKAMUkKap7VaWdUvi2Yp8qfK2Mdfh6f4sRBiBZoL85FJcD1DYALaV+FtsAqjsyuzcnH
+ iMeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1703495298; x=1704100098;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=5GaJDOeVX+a5k01RPdTA9Ji7XUnbBCMon+kA4ZX7Kl0=;
- b=OeMHc+TEg5r8olnawivOTSgd8uUv7YSX4xoF2wupBPtwfpFJuOH7tw5HNA2zkKF5yO
- aYSPCd1rZwORS6giELTrreuU0LjctYYS4oLeWVha+8AzhJT+0NyMZXrfWecF9goN/AnB
- NyrbEKrja0sbqdWGErvRtF0jhgMY5UOPIStKzJPufJMfWpbEKCU6zZvbJ1hGjyI9QKYd
- SrbLO63ESOa5oFwa3w0fzXWZ1eziJkdFsgsZ6MAlQG/NZOdQTf8WigQpZLFrfEfbSoNc
- MCM+4fbNMjSdQ7VLmpWE9qcUpkaW1cOsplwqiDdeekPW8krAq6gfVU0S0H5eNnV9dEZW
- 61WA==
-X-Gm-Message-State: AOJu0YyfnXb06d/A5jms8QikZK9w1nwrP3PkSIFT26Mlanzk7uVpH8rT
- y1EZQ/xUbDMuBAdk61OgL6Vh8MR+pymi4F2t0rggb0TX0Ah5
-X-Google-Smtp-Source: AGHT+IHHs+FFEAJ0LUOibcCM5Ef2h1iH5PS2ZU+74IFmDvaeMZ93K646IdSYB8bvUePKKxGDxwVMmj029urPxM7OhLc=
-X-Received: by 2002:a92:ca4c:0:b0:35f:efdc:f067 with SMTP id
- q12-20020a92ca4c000000b0035fefdcf067mr6304522ilo.11.1703495297937; Mon, 25
- Dec 2023 01:08:17 -0800 (PST)
+ d=1e100.net; s=20230601; t=1703509734; x=1704114534;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=rrAR/dFA4g96DilCitrwfpxd2eb5zoEPG4NTNguHbJU=;
+ b=ZlRrMiZ5dCROi+1bqvda079w1Gth16p+ooEc1pbiyPGXmDjqV2E9MwA6W0ejwP+7Fj
+ 1nCpcjVb3MGPAPqORcQJHMIIO7tPJLngaGKchxlTOwdc5JJmcL//7RcJu97BXr98i8TS
+ JCSiSOI2AfT2oWv+kkl7A4hR0GyJ2j2GsLgfdFehppL0Mbu3u0BRxiCeVl/9nrPpIX4v
+ hKyLXQcUEL9sKVlRFkt10fHBSxhaqaLKK6qIiCu0XAoG6ut9xNTFf2VQeggYRnbpL/+c
+ rURfon0VqnWRtijQkfzaZMBtLIemnZGqFb0ChO824M45Ej4ii9udr61+RgQYxqbVW6RZ
+ Sl8A==
+X-Gm-Message-State: AOJu0YwsYRoIvPvMEm4Nx69GlvEi0S7adBodCsny/tRnABnnAc57UHin
+ l9m9Rh3axI7jGouKKxjWDrJht3buk7Wmqg==
+X-Google-Smtp-Source: AGHT+IE0tj28bje8aWKNl3TYJJNRjyVn6TReeqskiSHh8g/35ShrubXo76hswGkCfAefmRCLy/LLQA==
+X-Received: by 2002:a2e:b754:0:b0:2cc:9d5d:7182 with SMTP id
+ k20-20020a2eb754000000b002cc9d5d7182mr2108643ljo.2.1703509734243; 
+ Mon, 25 Dec 2023 05:08:54 -0800 (PST)
+Received: from umbar.unikie.fi ([192.130.178.91])
+ by smtp.gmail.com with ESMTPSA id
+ c19-20020a05651c015300b002c9f75a48fcsm1030207ljd.16.2023.12.25.05.08.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Dec 2023 05:08:53 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+Subject: [PATCH v3 0/5] drm/msm/dpu: remove
+ dpu_encoder_phys_ops::atomic_mode_set callback
+Date: Mon, 25 Dec 2023 15:08:48 +0200
+Message-Id: <20231225130853.3659424-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20231221135548.1.I10f326a9305d57ad32cee7f8d9c60518c8be20fb@changeid>
- <CAEXTbpdUjCvLE+m3d1vSvsE2njRSk1Ou3bZZGEvD_7oYt4+k4Q@mail.gmail.com>
- <CAD=FV=WDb7y-9dRgb0D=VxVB6EjUkcOJ+9D0Mp0-vw6wuKUHEg@mail.gmail.com>
-In-Reply-To: <CAD=FV=WDb7y-9dRgb0D=VxVB6EjUkcOJ+9D0Mp0-vw6wuKUHEg@mail.gmail.com>
-From: Pin-yen Lin <treapking@chromium.org>
-Date: Mon, 25 Dec 2023 17:08:07 +0800
-Message-ID: <CAEXTbpdWPcc9==xb-_+2wY29aNdieLThmn_7JD4KV8U1LWgB2g@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: parade-ps8640: Wait for HPD when doing an AUX
- transfer
-To: Doug Anderson <dianders@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,125 +73,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- hsinyi@chromium.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- David Airlie <airlied@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, David Airlie <airlied@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+The dpu_encoder_phys_ops::atomic_mode_set() callback is mostly
+redundant. Implementations only set the IRQ indices there. Move
+statically allocated IRQs to dpu_encoder_phys_*_init() and set
+dynamically allocated IRQs in the irq_enable() callback.
 
-On Fri, Dec 22, 2023 at 11:34=E2=80=AFPM Doug Anderson <dianders@chromium.o=
-rg> wrote:
->
-> Hi,
->
-> On Fri, Dec 22, 2023 at 2:29=E2=80=AFAM Pin-yen Lin <treapking@chromium.o=
-rg> wrote:
-> >
-> > Hi Douglas,
-> >
-> > On Fri, Dec 22, 2023 at 5:56=E2=80=AFAM Douglas Anderson <dianders@chro=
-mium.org> wrote:
-> > >
-> > > Unlike what is claimed in commit f5aa7d46b0ee ("drm/bridge:
-> > > parade-ps8640: Provide wait_hpd_asserted() in struct drm_dp_aux"), if
-> > > someone manually tries to do an AUX transfer (like via `i2cdump ${bus=
-}
-> > > 0x50 i`) while the panel is off we don't just get a simple transfer
-> > > error. Instead, the whole ps8640 gets thrown for a loop and goes into
-> > > a bad state.
-> > >
-> > > Let's put the function to wait for the HPD (and the magical 50 ms
-> > > after first reset) back in when we're doing an AUX transfer. This
-> > > shouldn't actually make things much slower (assuming the panel is on)
-> > > because we should immediately poll and see the HPD high. Mostly this
-> > > is just an extra i2c transfer to the bridge.
-> > >
-> > > Fixes: f5aa7d46b0ee ("drm/bridge: parade-ps8640: Provide wait_hpd_ass=
-erted() in struct drm_dp_aux")
-> > > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> > > ---
-> > >
-> > >  drivers/gpu/drm/bridge/parade-ps8640.c | 5 +++++
-> > >  1 file changed, 5 insertions(+)
-> > >
-> > > diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm=
-/bridge/parade-ps8640.c
-> > > index 541e4f5afc4c..fb5e9ae9ad81 100644
-> > > --- a/drivers/gpu/drm/bridge/parade-ps8640.c
-> > > +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-> > > @@ -346,6 +346,11 @@ static ssize_t ps8640_aux_transfer(struct drm_dp=
-_aux *aux,
-> > >         int ret;
-> > >
-> > >         pm_runtime_get_sync(dev);
-> > > +       ret =3D _ps8640_wait_hpd_asserted(ps_bridge, 200 * 1000);
-> > > +       if (ret) {
-> > > +               pm_runtime_put_sync_suspend(dev);
-> > > +               return ret;
-> > > +       }
-> > >         ret =3D ps8640_aux_transfer_msg(aux, msg);
-> > >         pm_runtime_mark_last_busy(dev);
-> > >         pm_runtime_put_autosuspend(dev);
-> > > --
-> > > 2.43.0.472.g3155946c3a-goog
-> > >
-> >
-> > I think commit 9294914dd550 ("drm/bridge: parade-ps8640: Link device
-> > to ensure suspend/resume order")  is trying to address the same
-> > problem, but we see this issue here because the device link is missing
-> > DL_FLAG_PM_RUNTIME. I prefer to add DL_FLAG_PM_RUNTIME here so we
-> > don't need to add a _ps8640_wait_hpd_asserted() after every
-> > pm_runtime_get_*() call.
->
-> I disagree. We've had several discussions on the lists about this
-> topic before, though since I'm technically on vacation right now I'm
-> not going to go look them up. In general "pm_runtime" is not
-> sufficient for powering up DRM components. While DRM components can
-> use pm_runtime themselves (as we are doing here), powering up another
-> DRM component by grabbing a pm_runtime reference isn't right. There is
-> a reason for the complexity of the DRM prepare/enable and all the
-> current debates about the right order to call components in prepare()
-> just demonstrates further that a simple pm_runtime reference isn't
-> enough.
->
-> It can be noted that, with ${SUBJECT} patch we _aren't_ powering up
-> the panel. I actually tested two cases on sc7180-lazor. In one case I
-> just closed the lid, which powered off the panel, but the touchscreen
-> kept the panel power rail on. In this case with my patch I could still
-> read the panel EDID. I then hacked the touchscreen off. Now when I
-> closed the lid I'd get a timeout. This is different than if we tried
-> to get a pm_runtime reference to the panel.
->
-Okay, thanks for the detailed explanation. Then, let's go with the
-approach in this patch. So,
+The writeback backend of the dpu_encoder is the only user of the
+dpu_encoder_phys_ops::atomic_check() callback. Move corresponding code
+to the DPU's drm_writeback_connector implementation (dpu_writeback.c)
+and drop corresponding callback code.
 
-Tested-by: Pin-yen Lin <treapking@chromium.org>
-Reviewed-by: Pin-yen Lin <treapking@chromium.org>
+Changes since v2:
+- Rebase on top of linux-next
+- Also incorporate the dpu_encoder_phys::atomic_check series
 
->
-> > As a side note, I've verified both this patch and DL_FLAG_PM_RUNTIME
-> > in our downstream v5.15 kernel and panel-edp driver. Both of them
-> > successfully wait for HPD asserted when the timeout used to happen,
-> > but the panel is black in that situation. That being said, this patch
-> > still brings us to a better state. Originally, panel_edp_resume()
-> > would return an error when the timeout occurs, so the panel-edp driver
-> > is stuck at an unexpected state. With this patch or
-> > DL_FLAG_PM_RUNTIME, the runtime PM callbacks won't fail and a system
-> > suspend/resume brings the panel back.
->
-> OK. I'm going to shut off email for real this time while I enjoy some
-> time off. Hopefully the above convinces you. Otherwise I guess we can
-> continue to debate in mid-January.
->
-> -Doug
+Changes since v1:
+- Split trace events into enable/disable pairs (Abhinav).
 
-Happy holiday!
+Dmitry Baryshkov (5):
+  drm/msm/dpu: split irq_control into irq_enable and _disable
+  drm/msm/dpu: split _dpu_encoder_resource_control_helper()
+  drm/msm/dpu: drop dpu_encoder_phys_ops.atomic_mode_set
+  drm/msm/dpu: move writeback's atomic_check to dpu_writeback.c
+  drm/msm/dpu: drop dpu_encoder_phys_ops::atomic_check()
 
-Pin-yen
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   | 94 ++++++++++--------
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  | 15 +--
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  | 95 +++++++++----------
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  | 59 ++++++------
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   | 88 ++++-------------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  9 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h     | 74 +++++++++++----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c | 57 ++++++++++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.h |  3 +-
+ 9 files changed, 270 insertions(+), 224 deletions(-)
+
+-- 
+2.39.2
+
