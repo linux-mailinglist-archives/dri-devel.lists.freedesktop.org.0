@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C621381E31B
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Dec 2023 01:22:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F34181E32F
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Dec 2023 01:24:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC30D10E1A8;
-	Tue, 26 Dec 2023 00:21:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7C4C10E1A3;
+	Tue, 26 Dec 2023 00:23:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF7EB10E19F;
- Tue, 26 Dec 2023 00:21:56 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FD0F10E1A3;
+ Tue, 26 Dec 2023 00:23:55 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 257C2B80B68;
- Tue, 26 Dec 2023 00:21:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A56AC433C7;
- Tue, 26 Dec 2023 00:21:52 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9844660C86;
+ Tue, 26 Dec 2023 00:23:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA0E3C433C8;
+ Tue, 26 Dec 2023 00:23:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1703550114;
- bh=cv4WUXIqphIpmOPoJxccd5/RtHTWdT2jtGutA6Lu+6A=;
+ s=k20201202; t=1703550234;
+ bh=V9LLZOKMYg2cApF+yQE2TATMfBerVgJKTtP4pZS5U0A=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GaLytztLBzAXztXQmz+XBDR2PEvGoPH+Jq2oPG15mp0BtqFYlcXb1xY8gg50SA1JJ
- HrXh5LiMp2mDtYo194b1qmCy0jcRMpuyf3NSvUOa1L+sPd2Vb3KuuEp14rKfS0RcrT
- W0vn8Pn05EwAlCduzCzIk5FYDIKMlObYRjFQIFinpG58rj85eY6bE/Hr8SDlDvNiB2
- xEIHi6XdItqn6MTyohT/g2raQ5a32UY691SeOrvZQ4QLPPoRFz11CQRx4mE55gvnBc
- pUQzfWvAR97pvthaZAOhW1RUxhrltKSCZhqnTFvgJe3KAMVc+GircLtOT5IRCRfF4y
- Y272Mpk3wkzuA==
+ b=K3uHcbwFKiuxL1Xr33wSYGdsDx3+XIrUr72+nclapr+B0PvgKfqvparD0rwIMdoxi
+ Fc1FTLL0LIM9PHbgvg6CoYQ8tAkJwWdAcXAr5mjCt+4OCT6yKBFpgJe88C70vv53A8
+ 8OMpqim2qYDti0mkBu/B2gOWqYIuIKfuTLOSxfqcPdJfV01hl4deQCodhqUCH5CQnT
+ aCxuRC2O+IvRAsLFDAGhOrYyD8RKR2YZQqKXeHpdSNNisZVLinyVoGIMAsdsLRsX9T
+ yREj+2nTVQtV25G+cOTalq890c82NTpfWvWfE58GQb3J/Ir4vX/ym3GjlOD/zvc3b1
+ 9WgD9IJlNwoPQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 34/39] drm/amd/display: get dprefclk ss info from
+Subject: [PATCH AUTOSEL 6.1 20/24] drm/amd/display: get dprefclk ss info from
  integration info table
-Date: Mon, 25 Dec 2023 19:19:24 -0500
-Message-ID: <20231226002021.4776-34-sashal@kernel.org>
+Date: Mon, 25 Dec 2023 19:22:13 -0500
+Message-ID: <20231226002255.5730-20-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231226002021.4776-1-sashal@kernel.org>
-References: <20231226002021.4776-1-sashal@kernel.org>
+In-Reply-To: <20231226002255.5730-1-sashal@kernel.org>
+References: <20231226002255.5730-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.8
+X-stable-base: Linux 6.1.69
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,12 +56,12 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sasha Levin <sashal@kernel.org>, Charlene Liu <charlene.liu@amd.com>,
- sunran001@208suo.com, sunpeng.li@amd.com, airlied@gmail.com,
- dri-devel@lists.freedesktop.org, Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com,
- amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
- tony.tascioglu@amd.com, drv@mailo.com, Daniel Wheeler <daniel.wheeler@amd.com>,
- alvin.lee2@amd.com, Wayne Lin <wayne.lin@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
+ sunran001@208suo.com, felipe.clark@amd.com, sunpeng.li@amd.com,
+ airlied@gmail.com, dri-devel@lists.freedesktop.org, Xinhui.Pan@amd.com,
+ Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org,
+ christian.koenig@amd.com, tony.tascioglu@amd.com, drv@mailo.com,
+ Daniel Wheeler <daniel.wheeler@amd.com>, alvin.lee2@amd.com,
+ Wayne Lin <wayne.lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
  Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>, mario.limonciello@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
@@ -90,10 +90,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 16 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-index 484d62bcf2c2e..518c5672d3848 100644
+index e507d2e1410b7..93e40e0a15087 100644
 --- a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
 +++ b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-@@ -1015,13 +1015,20 @@ static enum bp_result get_ss_info_v4_5(
+@@ -1018,13 +1018,20 @@ static enum bp_result get_ss_info_v4_5(
  		DC_LOG_BIOS("AS_SIGNAL_TYPE_HDMI ss_percentage: %d\n", ss_info->spread_spectrum_percentage);
  		break;
  	case AS_SIGNAL_TYPE_DISPLAY_PORT:
@@ -119,7 +119,7 @@ index 484d62bcf2c2e..518c5672d3848 100644
  		DC_LOG_BIOS("AS_SIGNAL_TYPE_DISPLAY_PORT ss_percentage: %d\n", ss_info->spread_spectrum_percentage);
  		break;
  	case AS_SIGNAL_TYPE_GPU_PLL:
-@@ -2826,6 +2833,8 @@ static enum bp_result get_integrated_info_v2_2(
+@@ -2830,6 +2837,8 @@ static enum bp_result get_integrated_info_v2_2(
  	info->ma_channel_number = info_v2_2->umachannelnumber;
  	info->dp_ss_control =
  		le16_to_cpu(info_v2_2->reserved1);
