@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 826DE81E314
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Dec 2023 01:21:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3231881E317
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Dec 2023 01:21:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AA5210E0E6;
-	Tue, 26 Dec 2023 00:21:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBDE510E19D;
+	Tue, 26 Dec 2023 00:21:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A076810E0E6;
- Tue, 26 Dec 2023 00:21:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1107D10E18C;
+ Tue, 26 Dec 2023 00:21:50 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 87547B80B6A;
- Tue, 26 Dec 2023 00:21:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75F9DC433C7;
- Tue, 26 Dec 2023 00:21:40 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id 66193B80B6A;
+ Tue, 26 Dec 2023 00:21:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B30A2C433C7;
+ Tue, 26 Dec 2023 00:21:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1703550101;
- bh=p/BebQ48YEVn+IHs/jwEKLnGLxZZ7Nzj/lUF+KWf0DY=;
+ s=k20201202; t=1703550107;
+ bh=l1bu6sJvkRQeESXtDmr6quCUcJlzaRI0yOcXoP+DPj8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=SdsWkxdI02HtKGF6JtMWpZZrZUZ+6B6dqwcSAY729uEU71CwLFfTWgdlKYa0pExiD
- Fp5THzbNF32ljZ5u35s86x2PanZIIbhWD70zOBqylTCY047dBCCX1/D6XZcraNBqNi
- iML8uzNBSHnVd+HcBb5fPKFf18+eVi/8KBTSkzTmzjMjLHMjTcrIFcAORZdQZI+QQx
- ZLw8wck3NjxMCF813x6shN5BXo89Ca840awGbwAgtnQNyG1YCvpvaOXhF6vkBP5G1y
- 34Rsc/69VsWWv/6hfRAN1vAMeLg0qNzEQE51/nQHnLiN7bZuaVTNyuX5jd20B0RXom
- uGE9TELYnANEQ==
+ b=mbUOtfqEiGNuLYkY1TEZy9u50za3PdLHr2+5RpVdMbZ56FZbSoXjUHpAyoA0PKOnl
+ QRO7J2zHK1tDwCXBVbt70UriK0tiqT5i/kJavdQu4a7ONWqP8cS0gdH1aOlH+sssTk
+ 0il35JKQvlcCKYD14L5GLhNSxpT5BFlw23qG23zPCGXHP5U/oyDvFxrPyolww92yc3
+ bHbkRQZ9qfkvOJStgzaB2PycgJpSFh9i1l8B8TzwaWv3ZJX1ormIspylAIIEucQGG9
+ uGOz8xa3txx2qXM90PgfVT4TXx2HeT3NMtQDZB+BYhqxa+CaJ6Yt42CXomi8rIDC85
+ mlvziXFlmkn3g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 32/39] drm/amdkfd: svm range always mapped flag
- not working on APU
-Date: Mon, 25 Dec 2023 19:19:22 -0500
-Message-ID: <20231226002021.4776-32-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 33/39] drm/amd/display: Add case for dcn35 to
+ support usb4 dmub hpd event
+Date: Mon, 25 Dec 2023 19:19:23 -0500
+Message-ID: <20231226002021.4776-33-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231226002021.4776-1-sashal@kernel.org>
 References: <20231226002021.4776-1-sashal@kernel.org>
@@ -54,75 +54,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Philip Yang <Philip.Yang@amd.com>,
- Felix.Kuehling@amd.com, Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- airlied@gmail.com, christian.koenig@amd.com
+Cc: wenjing.liu@amd.com, dri-devel@lists.freedesktop.org,
+ Jun Lei <jun.lei@amd.com>, airlied@gmail.com, Sasha Levin <sashal@kernel.org>,
+ Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org, alvin.lee2@amd.com,
+ sunpeng.li@amd.com, chiawen.huang@amd.com,
+ Daniel Wheeler <daniel.wheeler@amd.com>, samson.tam@amd.com,
+ Qingqing.Zhuo@amd.com, Xinhui.Pan@amd.com, Roman Li <roman.li@amd.com>,
+ gabe.teeger@amd.com, Wayne Lin <wayne.lin@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Philip Yang <Philip.Yang@amd.com>
+From: Wayne Lin <wayne.lin@amd.com>
 
-[ Upstream commit ebab8c3eb6a6515dc14cd93fc29dd287709da6d3 ]
+[ Upstream commit 989824589f793120833bef13aa4e21f5a836a707 ]
 
-On gfx943 APU there is no VRAM and page migration, queue CWSR area, svm
-range with always mapped flag, is not mapped to GPU correctly. This
-works fine if retry fault on CWSR area can be recovered, but could cause
-deadlock if there is another retry fault recover waiting for CWSR to
-finish.
+[Why & how]
+Refactor dc_is_dmub_outbox_supported() a bit and add case for dcn35 to
+register dmub outbox notification irq to handle usb4 relevant hpd event.
 
-Fix this by mapping svm range with always mapped flag to GPU with ACCESS
-attribute if XNACK ON.
-
-There is side effect, because all GPUs have ACCESS attribute by default
-on new svm range with XNACK on, the CWSR area will be mapped to all GPUs
-after this change. This side effect will be fixed with Thunk change to
-set CWSR svm range with ACCESS_IN_PLACE attribute on the GPU that user
-queue is created.
-
-Signed-off-by: Philip Yang <Philip.Yang@amd.com>
-Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
+Reviewed-by: Roman Li <roman.li@amd.com>
+Reviewed-by: Jun Lei <jun.lei@amd.com>
+Signed-off-by: Wayne Lin <wayne.lin@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_svm.c | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/amd/display/dc/core/dc.c | 26 ++++++++++++++++--------
+ 1 file changed, 18 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-index 63ce30ea68915..8e368e4659fd5 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-@@ -1632,18 +1632,24 @@ static int svm_range_validate_and_map(struct mm_struct *mm,
- 			if (test_bit(gpuidx, prange->bitmap_access))
- 				bitmap_set(ctx->bitmap, gpuidx, 1);
- 		}
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
+index a1be93f6385c6..8cdf380bf3665 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+@@ -4865,18 +4865,28 @@ void dc_mclk_switch_using_fw_based_vblank_stretch_shut_down(struct dc *dc)
+  */
+ bool dc_is_dmub_outbox_supported(struct dc *dc)
+ {
+-	/* DCN31 B0 USB4 DPIA needs dmub notifications for interrupts */
+-	if (dc->ctx->asic_id.chip_family == FAMILY_YELLOW_CARP &&
+-	    dc->ctx->asic_id.hw_internal_rev == YELLOW_CARP_B0 &&
+-	    !dc->debug.dpia_debug.bits.disable_dpia)
+-		return true;
++	switch (dc->ctx->asic_id.chip_family) {
+ 
+-	if (dc->ctx->asic_id.chip_family == AMDGPU_FAMILY_GC_11_0_1 &&
+-	    !dc->debug.dpia_debug.bits.disable_dpia)
+-		return true;
++	case FAMILY_YELLOW_CARP:
++		/* DCN31 B0 USB4 DPIA needs dmub notifications for interrupts */
++		if (dc->ctx->asic_id.hw_internal_rev == YELLOW_CARP_B0 &&
++		    !dc->debug.dpia_debug.bits.disable_dpia)
++			return true;
++	break;
 +
-+		/*
-+		 * If prange is already mapped or with always mapped flag,
-+		 * update mapping on GPUs with ACCESS attribute
-+		 */
-+		if (bitmap_empty(ctx->bitmap, MAX_GPU_INSTANCE)) {
-+			if (prange->mapped_to_gpu ||
-+			    prange->flags & KFD_IOCTL_SVM_FLAG_GPU_ALWAYS_MAPPED)
-+				bitmap_copy(ctx->bitmap, prange->bitmap_access, MAX_GPU_INSTANCE);
-+		}
- 	} else {
- 		bitmap_or(ctx->bitmap, prange->bitmap_access,
- 			  prange->bitmap_aip, MAX_GPU_INSTANCE);
- 	}
++	case AMDGPU_FAMILY_GC_11_0_1:
++	case AMDGPU_FAMILY_GC_11_5_0:
++		if (!dc->debug.dpia_debug.bits.disable_dpia)
++			return true;
++	break;
++
++	default:
++		break;
++	}
  
- 	if (bitmap_empty(ctx->bitmap, MAX_GPU_INSTANCE)) {
--		bitmap_copy(ctx->bitmap, prange->bitmap_access, MAX_GPU_INSTANCE);
--		if (!prange->mapped_to_gpu ||
--		    bitmap_empty(ctx->bitmap, MAX_GPU_INSTANCE)) {
--			r = 0;
--			goto free_ctx;
--		}
-+		r = 0;
-+		goto free_ctx;
- 	}
+ 	/* dmub aux needs dmub notifications to be enabled */
+ 	return dc->debug.enable_dmub_aux_for_legacy_ddc;
++
+ }
  
- 	if (prange->actual_loc && !prange->ttm_res) {
+ /**
 -- 
 2.43.0
 
