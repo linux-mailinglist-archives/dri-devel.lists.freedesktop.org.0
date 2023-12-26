@@ -1,71 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 269B281E6F0
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Dec 2023 11:47:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0399681E6F5
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Dec 2023 11:49:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BF7D10E07E;
-	Tue, 26 Dec 2023 10:46:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E86F10E1A0;
+	Tue, 26 Dec 2023 10:48:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe35.google.com (mail-vs1-xe35.google.com
- [IPv6:2607:f8b0:4864:20::e35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6D0510E07E
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Dec 2023 10:46:57 +0000 (UTC)
-Received: by mail-vs1-xe35.google.com with SMTP id
- ada2fe7eead31-4672008b2c7so66734137.0
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Dec 2023 02:46:57 -0800 (PST)
+Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com
+ [IPv6:2607:f8b0:4864:20::1134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B895B10E1A0
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Dec 2023 10:48:57 +0000 (UTC)
+Received: by mail-yw1-x1134.google.com with SMTP id
+ 00721157ae682-5e54d40cca2so25837107b3.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Dec 2023 02:48:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1703587616; x=1704192416;
+ d=chromium.org; s=google; t=1703587736; x=1704192536;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9XQX9ADRpW0fV0acmqNA3+e/T+xSUGBzzTRQ8O4YnQM=;
- b=WcIlBNkzzIY98BgpvY4zscQfd296MmbQ8GPSkqgLx2LTpdJZtJK3OroYuSGEH7iZvj
- 1EKG4zRd9058i9Y6rgMpA74UAGt+Kn6qb6JV28ipiIYUssXfS/Sa/vI1DwfO0gehuYSz
- 16m2+7SFxV+gqcnVSTWo+JK6HoWhbK/KvKcF4=
+ bh=6Qv4TX+Q3LNkRer/VYBfFYjaPXdCM6iONKvmb/cRKfE=;
+ b=mMyxGVxnsTlgJhmx7OcOe347wCJs4jY+vsCNry9uSB+9w10h0r7bmJhmWJkIsA0P+n
+ +XPDzU+YHaARMVBi2LpgM5AVwpTSzzLG6xTtH8Z91GGSJjruMBRYuCfsgWLX28ZA8xqI
+ YkOKBBCnkt/FRR4MdkHxFQY3C3yk4IUc0RwMw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1703587616; x=1704192416;
+ d=1e100.net; s=20230601; t=1703587736; x=1704192536;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=9XQX9ADRpW0fV0acmqNA3+e/T+xSUGBzzTRQ8O4YnQM=;
- b=ixa+LLTHHbbMO4VhbREUGZsYyHicftkDoWN2ssu55jJmft+EMCpgI9z4pbSD2O2szD
- n7gi9sKKmX8L3U7ATczLLETmHwuhY2OcpuRmpgMzOxGD1bbm/pCDjAi/8VRJnQu0y2n1
- sDc9iwIbKdWoXgWXUwhHvQo6jM5Pi/FzkFiVentCLx72KyGxx1plkvj0BsSyxj45NrNW
- /jpWGLUfFLa9LtqtVHbjCpBhw48E9+5YB/zQ0ux4rGAIjvEOyT0QK4UERi2qir3L5iLO
- cPuaCX1Y1qXM5seFyDc3PB5K9ja0CJg4lxZ61hUlErRDuz2ikCzmdGqNAspf9SuI17A2
- wcEQ==
-X-Gm-Message-State: AOJu0YweEQh+5vS1+y0fyQ60HLW90PmSYBUK8MHjdL8C3LCMeqwwi+/k
- s6Rth4kIDDCgy4SJjFmNlvvNTX6eIVwVEZ2XUwmqDkx28Q==
-X-Google-Smtp-Source: AGHT+IFAuAzbRQP7VQ6bKBh18V2M8T1fTbH+ouTD3wQvWahGLMjP+yd2YADJv5pFsqpysRntQRilWw==
-X-Received: by 2002:a05:6102:48b:b0:466:f50b:69ae with SMTP id
- n11-20020a056102048b00b00466f50b69aemr1941890vsa.26.1703587616433; 
- Tue, 26 Dec 2023 02:46:56 -0800 (PST)
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com.
- [209.85.217.51]) by smtp.gmail.com with ESMTPSA id
- d22-20020ab03796000000b007cc9525263asm186704uav.1.2023.12.26.02.46.55
+ bh=6Qv4TX+Q3LNkRer/VYBfFYjaPXdCM6iONKvmb/cRKfE=;
+ b=YX0B2SuPsuqdLJF0po9oHVD5zdXlMqF7SEJiNOZyyBZUuiufcZR3Vjxo2PISxIS4rO
+ JE5muyrjHzzObcg3XtTPrVXSzFt78NpLtpyOnCcrCSTAqlvhpnc7GDRj5O6/JvSgZrdz
+ m9c64qegfDEc8p1Z126KqtomyGXbGUIKejCCGNNVx5fwuwxaPkh7mP6mHD00wLS07Pin
+ +5YeiBNTeMRouGm5e7mnMRNflvOmr3UzpAT6PeyQPsT227nsZfmdeT98d3MhPwb1j/fw
+ egafpfsCG5w/nnSKLRLITHl+gnkCxq94PDpIlopB0BMi/n5rCxBkJeT5J/X/fj8HUyjT
+ UMwA==
+X-Gm-Message-State: AOJu0YzoyEnElPdMLoupMeCd1nzjxz82p/sxv46pXGZfMXW0Bz0xbNVG
+ 86zQPlFSdHq69VhQMjbfILSVtVOwmaUceAA9VJiFHbbu+Q==
+X-Google-Smtp-Source: AGHT+IEynuE5cozov+mYg8gCjd/XrTEPvUDKJOCXpXpR0p9m/6IBIbBVZEYcVBKZbSJWVvAMHKIxzQ==
+X-Received: by 2002:a05:690c:318e:b0:5e8:eaa3:b365 with SMTP id
+ fd14-20020a05690c318e00b005e8eaa3b365mr1874694ywb.78.1703587735657; 
+ Tue, 26 Dec 2023 02:48:55 -0800 (PST)
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com.
+ [209.85.217.50]) by smtp.gmail.com with ESMTPSA id
+ v12-20020ab036cc000000b007ccd27a84c2sm106235uau.7.2023.12.26.02.48.54
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Dec 2023 02:46:55 -0800 (PST)
-Received: by mail-vs1-f51.google.com with SMTP id
- ada2fe7eead31-4672008b2c7so66724137.0
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Dec 2023 02:46:55 -0800 (PST)
-X-Received: by 2002:a05:6102:5593:b0:464:77f1:f34a with SMTP id
- dc19-20020a056102559300b0046477f1f34amr3642595vsb.24.1703587614863; Tue, 26
- Dec 2023 02:46:54 -0800 (PST)
+ Tue, 26 Dec 2023 02:48:54 -0800 (PST)
+Received: by mail-vs1-f50.google.com with SMTP id
+ ada2fe7eead31-466f4be526bso326634137.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Dec 2023 02:48:54 -0800 (PST)
+X-Received: by 2002:a05:6122:4089:b0:4b6:cdd2:b553 with SMTP id
+ cb9-20020a056122408900b004b6cdd2b553mr1074016vkb.13.1703587734078; Tue, 26
+ Dec 2023 02:48:54 -0800 (PST)
 MIME-Version: 1.0
 References: <20231220135722.192080-1-angelogioacchino.delregno@collabora.com>
- <20231220135722.192080-2-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20231220135722.192080-2-angelogioacchino.delregno@collabora.com>
+ <20231220135722.192080-3-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20231220135722.192080-3-angelogioacchino.delregno@collabora.com>
 From: Fei Shao <fshao@chromium.org>
-Date: Tue, 26 Dec 2023 18:46:18 +0800
-X-Gmail-Original-Message-ID: <CAC=S1ng+kkJS-g3FHe4SC-r1a6hegj3=Any07TCdvTU_apvZNg@mail.gmail.com>
-Message-ID: <CAC=S1ng+kkJS-g3FHe4SC-r1a6hegj3=Any07TCdvTU_apvZNg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] drm/mediatek: dsi: Use GENMASK() for register mask
- definitions
+Date: Tue, 26 Dec 2023 18:48:18 +0800
+X-Gmail-Original-Message-ID: <CAC=S1nhNfyEWKaJZjb_G-pXpxSpXvNQd2EMJUzWWwxmC+TzSaA@mail.gmail.com>
+Message-ID: <CAC=S1nhNfyEWKaJZjb_G-pXpxSpXvNQd2EMJUzWWwxmC+TzSaA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] drm/mediatek: dsi: Cleanup functions
+ mtk_dsi_ps_control{_vact}()
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -93,119 +93,168 @@ Hi Angelo,
 On Wed, Dec 20, 2023 at 9:57=E2=80=AFPM AngeloGioacchino Del Regno
 <angelogioacchino.delregno@collabora.com> wrote:
 >
-> Change magic numerical masks with usage of the GENMASK() macro
-> to improve readability.
->
-> This commit brings no functional changes.
+> Function mtk_dsi_ps_control() is a subset of mtk_dsi_ps_control_vact():
+> merge the two in one mtk_dsi_ps_control() function by adding one
+> function parameter `config_vact` which, when true, writes the VACT
+> related registers.
 >
 > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
 abora.com>
 > ---
->  drivers/gpu/drm/mediatek/mtk_dsi.c | 46 ++++++++++++++++--------------
->  1 file changed, 24 insertions(+), 22 deletions(-)
+>  drivers/gpu/drm/mediatek/mtk_dsi.c | 76 +++++++++---------------------
+>  1 file changed, 23 insertions(+), 53 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediate=
 k/mtk_dsi.c
-> index a2fdfc8ddb15..23d2c5be8dbb 100644
+> index 23d2c5be8dbb..b618e2e31022 100644
 > --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
 > +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> @@ -58,18 +58,18 @@
+> @@ -352,40 +352,6 @@ static void mtk_dsi_set_vm_cmd(struct mtk_dsi *dsi)
+>         mtk_dsi_mask(dsi, DSI_VM_CMD_CON, TS_VFP_EN, TS_VFP_EN);
+>  }
 >
->  #define DSI_TXRX_CTRL          0x18
->  #define VC_NUM                         BIT(1)
-> -#define LANE_NUM                       (0xf << 2)
-> +#define LANE_NUM                       GENMASK(5, 2)
->  #define DIS_EOT                                BIT(6)
->  #define NULL_EN                                BIT(7)
->  #define TE_FREERUN                     BIT(8)
->  #define EXT_TE_EN                      BIT(9)
->  #define EXT_TE_EDGE                    BIT(10)
-> -#define MAX_RTN_SIZE                   (0xf << 12)
-> +#define MAX_RTN_SIZE                   GENMASK(15, 12)
->  #define HSTX_CKLP_EN                   BIT(16)
+> -static void mtk_dsi_ps_control_vact(struct mtk_dsi *dsi)
+> -{
+> -       struct videomode *vm =3D &dsi->vm;
+> -       u32 dsi_buf_bpp, ps_wc;
+> -       u32 ps_bpp_mode;
+> -
+> -       if (dsi->format =3D=3D MIPI_DSI_FMT_RGB565)
+> -               dsi_buf_bpp =3D 2;
+> -       else
+> -               dsi_buf_bpp =3D 3;
+> -
+> -       ps_wc =3D vm->hactive * dsi_buf_bpp;
+> -       ps_bpp_mode =3D ps_wc;
+> -
+> -       switch (dsi->format) {
+> -       case MIPI_DSI_FMT_RGB888:
+> -               ps_bpp_mode |=3D PACKED_PS_24BIT_RGB888;
+> -               break;
+> -       case MIPI_DSI_FMT_RGB666:
+> -               ps_bpp_mode |=3D PACKED_PS_18BIT_RGB666;
+> -               break;
+> -       case MIPI_DSI_FMT_RGB666_PACKED:
+> -               ps_bpp_mode |=3D LOOSELY_PS_18BIT_RGB666;
+> -               break;
+> -       case MIPI_DSI_FMT_RGB565:
+> -               ps_bpp_mode |=3D PACKED_PS_16BIT_RGB565;
+> -               break;
+> -       }
+> -
+> -       writel(vm->vactive, dsi->regs + DSI_VACT_NL);
+> -       writel(ps_bpp_mode, dsi->regs + DSI_PSCTRL);
+> -       writel(ps_wc, dsi->regs + DSI_HSTX_CKL_WC);
+> -}
+> -
+>  static void mtk_dsi_rxtx_control(struct mtk_dsi *dsi)
+>  {
+>         u32 tmp_reg;
+> @@ -417,36 +383,40 @@ static void mtk_dsi_rxtx_control(struct mtk_dsi *ds=
+i)
+>         writel(tmp_reg, dsi->regs + DSI_TXRX_CTRL);
+>  }
 >
->  #define DSI_PSCTRL             0x1c
-> -#define DSI_PS_WC                      0x3fff
-> -#define DSI_PS_SEL                     (3 << 16)
-> +#define DSI_PS_WC                      GENMASK(14, 0)
-> +#define DSI_PS_SEL                     GENMASK(19, 16)
+> -static void mtk_dsi_ps_control(struct mtk_dsi *dsi)
+> +static void mtk_dsi_ps_control(struct mtk_dsi *dsi, bool config_vact)
+>  {
+> -       u32 dsi_tmp_buf_bpp;
+> -       u32 tmp_reg;
+> +       struct videomode *vm =3D &dsi->vm;
+> +       u32 dsi_buf_bpp, ps_wc;
+> +       u32 ps_bpp_mode;
+> +
+> +       if (dsi->format =3D=3D MIPI_DSI_FMT_RGB565)
+> +               dsi_buf_bpp =3D 2;
+> +       else
+> +               dsi_buf_bpp =3D 3;
 
-GENMASK(17, 16)
+The same is also in mtk_dsi_config_vdo_timing(). Given this is a
+cleanup series, I think it'd be a good chance to add another patch
+and integrate those usages. Just a thought.  :)
 >
->  #define PACKED_PS_16BIT_RGB565         (0 << 16)
->  #define LOOSELY_PS_18BIT_RGB666                (1 << 16)
->  #define PACKED_PS_18BIT_RGB666         (2 << 16)
-> @@ -109,26 +109,27 @@
->  #define LD0_WAKEUP_EN                  BIT(2)
->
->  #define DSI_PHY_TIMECON0       0x110
-> -#define LPX                            (0xff << 0)
-> -#define HS_PREP                                (0xff << 8)
-> -#define HS_ZERO                                (0xff << 16)
-> -#define HS_TRAIL                       (0xff << 24)
-> +#define LPX                            GENMASK(7, 0)
-> +#define HS_PREP                                GENMASK(15, 8)
-> +#define HS_ZERO                                GENMASK(23, 16)
-> +#define HS_TRAIL                       GENMASK(31, 24)
->
->  #define DSI_PHY_TIMECON1       0x114
-> -#define TA_GO                          (0xff << 0)
-> -#define TA_SURE                                (0xff << 8)
-> -#define TA_GET                         (0xff << 16)
-> -#define DA_HS_EXIT                     (0xff << 24)
-> +#define TA_GO                          GENMASK(7, 0)
-> +#define TA_SURE                                GENMASK(15, 8)
-> +#define TA_GET                         GENMASK(23, 16)
-> +#define DA_HS_EXIT                     GENMASK(31, 24)
->
->  #define DSI_PHY_TIMECON2       0x118
-> -#define CONT_DET                       (0xff << 0)
-> -#define CLK_ZERO                       (0xff << 16)
-> -#define CLK_TRAIL                      (0xff << 24)
-> +#define CONT_DET                       GENMASK(7, 0)
-> +#define DA_HS_SYNC                     GENMASK(15, 8)
+> +
+> +       ps_wc =3D vm->hactive * dsi_buf_bpp;
 
-This is new, so please introduce it in a separate patch if intended.
+I noticed the "& DSI_PS_WC" part was dropped (but perhaps with awareness?).
 
-The rest looks good to me.
+While the outcome seems to always fall within the range of
+DSI_PS_WC so we should be fine in practice, I think it doesn't hurt to
+keep the value masked to save readers some time to check if this would
+ever be possible to overflow and write undesired bits down the line.
+WDYT?
+
+Regardless of that, I didn't find obvious issue in this patch, so
+
+Reviewed-by: Fei Shao <fshao@chromium.org>
 
 Regards,
 Fei
 
 
+
+
 >
-> +#define CLK_ZERO                       GENMASK(23, 16)
-> +#define CLK_TRAIL                      GENMASK(31, 24)
+> +       ps_bpp_mode =3D ps_wc;
 >
->  #define DSI_PHY_TIMECON3       0x11c
-> -#define CLK_HS_PREP                    (0xff << 0)
-> -#define CLK_HS_POST                    (0xff << 8)
-> -#define CLK_HS_EXIT                    (0xff << 16)
-> +#define CLK_HS_PREP                    GENMASK(7, 0)
-> +#define CLK_HS_POST                    GENMASK(15, 8)
-> +#define CLK_HS_EXIT                    GENMASK(23, 16)
+>         switch (dsi->format) {
+>         case MIPI_DSI_FMT_RGB888:
+> -               tmp_reg =3D PACKED_PS_24BIT_RGB888;
+> -               dsi_tmp_buf_bpp =3D 3;
+> +               ps_bpp_mode |=3D PACKED_PS_24BIT_RGB888;
+>                 break;
+>         case MIPI_DSI_FMT_RGB666:
+> -               tmp_reg =3D LOOSELY_PS_18BIT_RGB666;
+> -               dsi_tmp_buf_bpp =3D 3;
+> +               ps_bpp_mode |=3D PACKED_PS_18BIT_RGB666;
+>                 break;
+>         case MIPI_DSI_FMT_RGB666_PACKED:
+> -               tmp_reg =3D PACKED_PS_18BIT_RGB666;
+> -               dsi_tmp_buf_bpp =3D 3;
+> +               ps_bpp_mode |=3D LOOSELY_PS_18BIT_RGB666;
+>                 break;
+>         case MIPI_DSI_FMT_RGB565:
+> -               tmp_reg =3D PACKED_PS_16BIT_RGB565;
+> -               dsi_tmp_buf_bpp =3D 2;
+> -               break;
+> -       default:
 >
->  #define DSI_VM_CMD_CON         0x130
->  #define VM_CMD_EN                      BIT(0)
-> @@ -138,13 +139,14 @@
->  #define FORCE_COMMIT                   BIT(0)
->  #define BYPASS_SHADOW                  BIT(1)
+> -               tmp_reg =3D PACKED_PS_24BIT_RGB888;
+> -               dsi_tmp_buf_bpp =3D 3;
+> +               ps_bpp_mode |=3D PACKED_PS_16BIT_RGB565;
+>                 break;
+>         }
 >
-> -#define CONFIG                         (0xff << 0)
-> +/* CMDQ related bits */
-> +#define CONFIG                         GENMASK(7, 0)
->  #define SHORT_PACKET                   0
->  #define LONG_PACKET                    2
->  #define BTA                            BIT(2)
-> -#define DATA_ID                                (0xff << 8)
-> -#define DATA_0                         (0xff << 16)
-> -#define DATA_1                         (0xff << 24)
-> +#define DATA_ID                                GENMASK(15, 8)
-> +#define DATA_0                         GENMASK(23, 16)
-> +#define DATA_1                         GENMASK(31, 24)
+> -       tmp_reg +=3D dsi->vm.hactive * dsi_tmp_buf_bpp & DSI_PS_WC;
 >
->  #define NS_TO_CYCLE(n, c)    ((n) / (c) + (((n) % (c)) ? 1 : 0))
+> -       writel(tmp_reg, dsi->regs + DSI_PSCTRL);
+> +       if (config_vact) {
+> +               writel(vm->vactive, dsi->regs + DSI_VACT_NL);
+> +               writel(ps_wc, dsi->regs + DSI_HSTX_CKL_WC);
+> +       }
+> +       writel(ps_bpp_mode, dsi->regs + DSI_PSCTRL);
+>  }
 >
+>  static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
+> @@ -522,7 +492,7 @@ static void mtk_dsi_config_vdo_timing(struct mtk_dsi =
+*dsi)
+>         writel(horizontal_backporch_byte, dsi->regs + DSI_HBP_WC);
+>         writel(horizontal_frontporch_byte, dsi->regs + DSI_HFP_WC);
+>
+> -       mtk_dsi_ps_control(dsi);
+> +       mtk_dsi_ps_control(dsi, false);
+>  }
+>
+>  static void mtk_dsi_start(struct mtk_dsi *dsi)
+> @@ -667,7 +637,7 @@ static int mtk_dsi_poweron(struct mtk_dsi *dsi)
+>         mtk_dsi_reset_engine(dsi);
+>         mtk_dsi_phy_timconfig(dsi);
+>
+> -       mtk_dsi_ps_control_vact(dsi);
+> +       mtk_dsi_ps_control(dsi, true);
+>         mtk_dsi_set_vm_cmd(dsi);
+>         mtk_dsi_config_vdo_timing(dsi);
+>         mtk_dsi_set_interrupt_enable(dsi);
 > --
 > 2.43.0
 >
