@@ -1,40 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6027981E6A1
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Dec 2023 10:46:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AB0981E6B4
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Dec 2023 10:48:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACCB110E047;
-	Tue, 26 Dec 2023 09:46:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7384410E04E;
+	Tue, 26 Dec 2023 09:48:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 453 seconds by postgrey-1.36 at gabe;
- Tue, 26 Dec 2023 09:46:13 UTC
-Received: from mout.web.de (mout.web.de [212.227.17.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CADA10E047
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Dec 2023 09:46:13 +0000 (UTC)
+X-Greylist: delayed 329 seconds by postgrey-1.36 at gabe;
+ Tue, 26 Dec 2023 09:48:41 UTC
+Received: from mout.web.de (mout.web.de [217.72.192.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF01210E04E
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Dec 2023 09:48:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1703583972; x=1704188772; i=markus.elfring@web.de;
- bh=QEIlNohXQKR5iUvYT2jHXT8Fr7MmOczXQbaPuHwZhWk=;
+ t=1703584120; x=1704188920; i=markus.elfring@web.de;
+ bh=qxz2rsOrCokjtYz9AWLg6FevZKjSyqvDp8Ajz81lcQs=;
  h=X-UI-Sender-Class:Date:Subject:From:To:Cc:References:
  In-Reply-To;
- b=pvcFW2mSCuF9ILmVdyqf6/ZIfF1Bp2YMWUbFJWC8n8qKBghjohi1ewToaw2FNfho
- RXFPOFbbYkkSPmDrA+gXoxL/6cd9lMkum72kjN3Qb1X3Jd24E6u0g+Y7ClX7fyZuy
- f4/EPpSSPLLjQVxd04k1jQdGmcdbE4trWWWSySHNbxbzEKSwsd1mIccq7O9u+EjC+
- efYrmeZzz+xL5AOF1l41iPssOiy6a8/dmmVkLir24OweADtB8ePluMHQD3zRRZye2
- ybYlPJRwEkcOvxlg1knD78DZ9NbaWxuDPhi+cLyb01furt/4Q8+lJMqXeJM47zW0m
- GNVcnbyl59iC9WqUMg==
+ b=k5u9FA8QAFY/cVVcSZfY87ScHyCHQb0gMXRbIWlfo35YhY1w3mc8zsyCayL80kEU
+ pGR8Rmp7VMaSyZiM6T3L0htiA9ANdiyLhooUlgsXOm+lN+9V6t54hTgMkw+n9tNzk
+ Kon1nQAMHqgVLPGu06iKICFAy9EaIwxmKK6H4wjZg1EaZUD1YUhpYItEN48thPI6a
+ E9PV0J0rUkZssH+qm8Ves/E9ig5Y+RjY56RiarvXPEmh/Ug9WSwlNy1thc614rqer
+ 8o5KZ5R4mV6rPF36Haq/l189SmGLK1MXydj2uf5uaOQ9czjkwGp99/CPZsHAvoxS+
+ zxevmDNb8cniTtbUsQ==
 X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
 Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MIc7b-1rWeFb0x1B-00EoEL; Tue, 26
- Dec 2023 10:40:50 +0100
-Message-ID: <7c6a919c-3757-42af-aee4-3d48721d1959@web.de>
-Date: Tue, 26 Dec 2023 10:40:48 +0100
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MV2Ka-1rj3J42GTm-00SCDN; Tue, 26
+ Dec 2023 10:42:44 +0100
+Message-ID: <29dea8dc-5a57-4c07-a857-e2c6a86c5c06@web.de>
+Date: Tue, 26 Dec 2023 10:42:43 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: [PATCH 2/3] drm: property: Delete an unnecessary initialisation in
- drm_property_create()
+Subject: [PATCH 3/3] drm: property: Improve four size determinations
 Content-Language: en-GB
 From: Markus Elfring <Markus.Elfring@web.de>
 To: dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
@@ -45,26 +44,26 @@ References: <ff7ce5d0-59fa-470c-8dd6-68dbe65c18e5@web.de>
 In-Reply-To: <ff7ce5d0-59fa-470c-8dd6-68dbe65c18e5@web.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:gHRM60fhbiROJai12btJyLRtTcOd7dO9E0nCoV0k4kI2NBX1xi4
- 7CaFJ2MqRCS3EHB4tsGMJ4lf3o0qYjBCYPC9yunWXgxZ3RwuHNqmmHStQSXiziC5JQgrldI
- ntssKn3BLAuw3gvZFt3VmkSKemER4GRqnCxY9LZAJ8nLgChA9FZg7Mxxa09u5/yszpHqJzr
- JakSRCxwcYASditzdkqtA==
+X-Provags-ID: V03:K1:GtcwZYw63MR0A1EIcUKicxaHVuhNQ4NE2Q9F/CqwM34DRchuZXK
+ wywcZKRJt5lRazac4orphzD6v1YnJl5Gx2no5F6WAVx45dhemxyyqsYntn2KZiH2GapZof/
+ rz9FtnZZOwYoRSdqlAdEQnPyvIQkxlIr7n5EUsOyN2JY5bbKkRuliS02Cz2PrFDYJPaIGTj
+ HrCoUKRthmVVmEulu76/g==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:gljqOLCqXLQ=;x20GOpeX3B3G3AqjdqQaLRQZ73j
- QC2lXrWqsKXfu3EimjtFIR0i7TOZUjzioUhMyJUs5VXm965UaM0W+0beqgTmFh9tF2Z5gXGfd
- Im4misHfGHueJI3UHmvo/y7bNo66Mv/DUQC+6gO1p2dx7ArmZXjlTyZlANNe2jmDg5M0y74qf
- dSzH0kIRyC8GHNLgPQKrpqkyLJAQ6Eyiai/WygZzL4se4ayeQStH8upoDxtsP0GDgzyep88nC
- Qs8m/jXVpeTkaQBwmFCUQv0i6UsrUx+URTRSJvLC9HoYDL2Ug6Vr2t4D9BrYjhmxJtOnfJ4Mn
- yKC1fjr8VPu4vT7/+7pxBXJ7fKZaVxm+Aw1jC9Ferk6Rn5A1V/gOglnuCsTjwT0RT7fnXEGou
- QGQOPxV7is8+RV8vcpOD3mMiVQzjU24vx92vFD09JmXl1vyffBEvKOQACteWDeWbp+0o50t2W
- xNuY9XAjmzLo41R/TZYvd1qUVPOBr0JR4gvxVpS1gA5IXf3xWikrvKAaGADku3T3+/GsqAp7z
- Qn/zMB9LXmgNItXL+dcFxG66JH5ZD0lYR3ZyMQKzLmZBgNapGA7LD6NFUy9UUQ2bQnYT/P60m
- twaaSJj8N+Ywv5HQ7T/h2S2Ujis5zBZWkr+gzoIJGE3SYwEASTR3wedaP8QQZbvtd0liHOjbx
- +iVWhfIAvJyVfO66TiE7tLRKw63f8JjNo4S26q8EYuLs1uggc2p+R+bbWwMZkA7oITVJkGXnt
- Ez0PVuEqL6Ya8SUfmr/Ghcf+PX+4YgsYzrRpWOhwjx7cWDoX4ItWHYs7GGiY6Aj7l85z8bBc6
- ST73S/uI0e/4jbj288izsVaBrCmv4e/+p0Fzy/Rdh2XcVSy5yXdpJaQuY7RcPa5/aZv4zTWPX
- pV5HjsdWMS1BuBvIOixEgKEwfLbaqkn0ZuPCzpbxCqERYp0htEfYU13f6DJbeTY3AmbcyKZCq
- cWVrcg==
+UI-OutboundReport: notjunk:1;M01:P0:az/XwOoWEUQ=;PHeV3bjcrRjz+UMRbl1zPibUqPH
+ r0JTuGNN0TfYVORl346J3RA0insCWbpvcig458NaEIFFSTNb2GBVWEAwIJU0fR+K0eN3ZUazT
+ SqMRxiOj2m9wFPEj0HBvi9vCJ+x4Iqqy/jFNJq4z+Xrgip2Huh2Ite0MRNe2/7YImLQ/r96F8
+ qsTTrq2C2o3HgZ6HXnRQl7m+P+4yfUr7f5W095iy4+RcP6tXnaMk2w3+rJyK5EhzLIWQwFtZq
+ qVaUDRB/BVuWRW1d9u4ymeMeGHxlTAUpOh5/ouLsDXkjkNGL20NAEbN9j2UmChgz3ceuvggM5
+ wHdApXP/RBYTBtW87HacO4paA9qDUZIv1sEkdeNbtRJ2e+SL6rEpCNSuev1+xmyfvhvKxYyB4
+ oqZaVeP8SdSIWPz8buYgoIMQ2pdRuvIho5de8arybvgGCXXTPuNGGfDXmutK8trQnfWgG7PMj
+ dCMbC05b8+y4F/sji5g2ZKFhN+tEP3YAuTjhewqfCyBQ/RfEoL3Ks9QFw0vR56cG9iMPY+VNE
+ vYmyrhe2YpXzH6Zp5nYLryETUco4VtTOarjrttt+uZOo+w/DYlKYD7D8iGPMOBx9WCh7pmDSU
+ keB0uImHjtg3BrCqs7V3KbT99ynsat0h06I5Kd5rNJuVugHWXUlWShwBlNvlYpXpqnknEyk+2
+ NydCATIGqkhkuTomZwHMlnLPyR+J/tlQRu5xCzG30L3jobXez2K4c2WPTOlQKApEKR9hTgaMr
+ BoXK2a3R2td7UlUhfmThy6G4H6UdSCUf1VW+2E0tL2luDUUnGMCS3sCpt0jvtgygMHFBUBLFo
+ 7Y7xC8cz9jN1II3I1oScv2vRVba73VEv9yqlxVRcOVMPyAY1VpYU5I0qqkf/KRBikQBh2DvX4
+ 69mY3/oWGsz73xGf4wBbS+U7tsk38NhoBHrrDyB5jt/nVWi8jOmOZHFkERC4dFYoqOx62UHli
+ 33/xlw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,32 +81,59 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Markus Elfring <elfring@users.sourceforge.net>
-Date: Tue, 26 Dec 2023 08:46:12 +0100
+Date: Tue, 26 Dec 2023 09:45:36 +0100
 
-The variable =E2=80=9Cproperty=E2=80=9D will eventually be set to an appro=
-priate pointer
-a bit later. Thus omit the explicit initialisation at the beginning.
+Replace the specification of data structures by pointer dereferences
+as the parameter for the operator =E2=80=9Csizeof=E2=80=9D to make the cor=
+responding size
+determination a bit safer according to the Linux coding style convention.
+
+This issue was detected by using the Coccinelle software.
 
 Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
 =2D--
- drivers/gpu/drm/drm_property.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/drm_property.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_property.c b/drivers/gpu/drm/drm_property=
 .c
-index 3440f4560e6e..ea365f00e890 100644
+index ea365f00e890..1fe54cbf1c83 100644
 =2D-- a/drivers/gpu/drm/drm_property.c
 +++ b/drivers/gpu/drm/drm_property.c
-@@ -98,7 +98,7 @@ struct drm_property *drm_property_create(struct drm_devi=
-ce *dev,
- 					 u32 flags, const char *name,
- 					 int num_values)
- {
--	struct drm_property *property =3D NULL;
-+	struct drm_property *property;
+@@ -107,7 +107,7 @@ struct drm_property *drm_property_create(struct drm_de=
+vice *dev,
+ 	if (WARN_ON(strlen(name) >=3D DRM_PROP_NAME_LEN))
+ 		return NULL;
+
+-	property =3D kzalloc(sizeof(struct drm_property), GFP_KERNEL);
++	property =3D kzalloc(sizeof(*property), GFP_KERNEL);
+ 	if (!property)
+ 		return NULL;
+
+@@ -418,7 +418,7 @@ int drm_property_add_enum(struct drm_property *propert=
+y,
+ 	if (WARN_ON(index >=3D property->num_values))
+ 		return -EINVAL;
+
+-	prop_enum =3D kzalloc(sizeof(struct drm_property_enum), GFP_KERNEL);
++	prop_enum =3D kzalloc(sizeof(*prop_enum), GFP_KERNEL);
+ 	if (!prop_enum)
+ 		return -ENOMEM;
+
+@@ -560,10 +560,10 @@ drm_property_create_blob(struct drm_device *dev, siz=
+e_t length,
+ 	struct drm_property_blob *blob;
  	int ret;
 
- 	if (WARN_ON(!drm_property_flags_valid(flags)))
+-	if (!length || length > INT_MAX - sizeof(struct drm_property_blob))
++	if (!length || length > INT_MAX - sizeof(*blob))
+ 		return ERR_PTR(-EINVAL);
+
+-	blob =3D kvzalloc(sizeof(struct drm_property_blob)+length, GFP_KERNEL);
++	blob =3D kvzalloc(sizeof(*blob) + length, GFP_KERNEL);
+ 	if (!blob)
+ 		return ERR_PTR(-ENOMEM);
+
 =2D-
 2.43.0
 
