@@ -2,49 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E807581EA65
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Dec 2023 23:52:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4FEC81EA6C
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Dec 2023 23:57:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D02710E0E0;
-	Tue, 26 Dec 2023 22:52:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C317410E0A2;
+	Tue, 26 Dec 2023 22:57:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 737DA10E0A2
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Dec 2023 22:52:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D731110E0A2
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Dec 2023 22:57:51 +0000 (UTC)
 Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 3BQMpCJr012323; Tue, 26 Dec 2023 22:51:33 GMT
+ 3BQMpvFi015277; Tue, 26 Dec 2023 22:57:03 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
  message-id:date:mime-version:subject:to:cc:references:from
  :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=SYGUVY+UmaauR562PbcqjdKMb0wR6VSm6vagIVeqRGo=; b=li
- z/p8FfzzRfplh/ewxt8MvcLOel1zueV87QuyR/WrgaucgKbFeS4hjP2qzT8YU+V0
- LYdPFI9yXqDNWFvLJyQfku4MKxsjdUGDbCUGhLBG64Hkik1kx6cgd2EM2vYsJ96o
- nGSwEWbu3QQdvzbzzkZ4ovzcjomIwOCCW08HbV0eiPjLHb782NcesnLbkthIsfTJ
- 1wnThGjH/Dcx0OoO+sRh74NLXGjBVleXKWTsDWvaMygPIHzq7J/dlm7RLHyuZfcA
- 1Uh4ZX1KOdPj1rb65yhlBE0IoZBVfAB7AVoL3x0OSpp5St/1uVhGyX754bzy3jCn
- rn9WKJlmG+gXvsWSxYlw==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
+ qcppdkim1; bh=EC9GG/d3VhKi5zBly4dEMV4dBCnylliZgybv1p8LOfk=; b=nZ
+ SPrHQxcI/+FSjC7CtOY0s0Y7Z1IxbAsaL8Nv80s1KQNSzwefwEKiIBPCCLpOz6qR
+ FEDxG/Ye+4PUGJE9dZHwdS2VY57namR9ZaJnbADrxXcjMg/W5TnTiNN8GwXgAkwm
+ OGrLdiPimUA2TZzZJ7CSOgXz2yrdSJpZhEwmbxmyJdUVGmPMTNwew854x5TVqmvE
+ GEFiK7SXKDprh0sFTpmRgxHeJpWIpQyaYbaTphAvAXI2poux+CTRG0nJj0OBphlq
+ 3/SNMzv/2nkoxW1i7j1+WFpezAxpq78MaPJVn7va3zIWgpJtllNepS61b3tDTR2E
+ dSqDevBFrMuAg+Rfie4g==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v80kfrt6e-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v80kfrtbr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 26 Dec 2023 22:51:32 +0000 (GMT)
+ Tue, 26 Dec 2023 22:57:02 +0000 (GMT)
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
  [10.46.141.250])
- by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BQMpVep026218
+ by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BQMv1wO006879
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 26 Dec 2023 22:51:31 GMT
+ Tue, 26 Dec 2023 22:57:01 GMT
 Received: from [10.110.123.205] (10.80.80.8) by nasanex01b.na.qualcomm.com
  (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 26 Dec
- 2023 14:51:29 -0800
-Message-ID: <1eab96e0-fad1-437b-b8bc-77013e32f724@quicinc.com>
-Date: Tue, 26 Dec 2023 14:51:28 -0800
+ 2023 14:56:59 -0800
+Message-ID: <342bf5a0-8454-4fd6-be45-462f1e31e606@quicinc.com>
+Date: Tue, 26 Dec 2023 14:56:58 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/6] drm/panel: Add driver for BOE TH101MB31IG002-28A panel
+Subject: Re: [PATCH v2 2/4] drm/panel: Add driver for BOE TH101MB31IG002-28A
+ panel
 Content-Language: en-US
 To: Manuel Traut <manut@mecka.net>, Neil Armstrong <neil.armstrong@linaro.org>,
  Sam Ravnborg <sam@ravnborg.org>, Maarten
@@ -56,21 +57,22 @@ To: Manuel Traut <manut@mecka.net>, Neil Armstrong <neil.armstrong@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
  Sandy Huang <hjc@rock-chips.com>, Mark Yao <markyao0591@gmail.com>,
  Diederik de Haas <didi.debian@cknow.org>, Segfault
- <awarnecke002@hotmail.com>, Arnaud Ferraris <aferraris@debian.org>
-References: <20231222-pinetab2-v1-0-e148a7f61bd1@mecka.net>
- <20231222-pinetab2-v1-2-e148a7f61bd1@mecka.net>
+ <awarnecke002@hotmail.com>, Arnaud Ferraris <aferraris@debian.org>, Danct12
+ <danct12@riseup.net>
+References: <20231223-pinetab2-v2-0-ec1856d0030e@mecka.net>
+ <20231223-pinetab2-v2-2-ec1856d0030e@mecka.net>
 From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20231222-pinetab2-v1-2-e148a7f61bd1@mecka.net>
+In-Reply-To: <20231223-pinetab2-v2-2-ec1856d0030e@mecka.net>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: q5RlT8qdRJyWlDqxxTvLd5FKV_pP9hhc
-X-Proofpoint-GUID: q5RlT8qdRJyWlDqxxTvLd5FKV_pP9hhc
+X-Proofpoint-ORIG-GUID: TumLrRfuEae19PVbY2IC7D6l1nIji7Kn
+X-Proofpoint-GUID: TumLrRfuEae19PVbY2IC7D6l1nIji7Kn
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
@@ -79,7 +81,7 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  mlxlogscore=999 malwarescore=0 clxscore=1011 priorityscore=1501 mlxscore=0
  spamscore=0 lowpriorityscore=0 adultscore=0 bulkscore=0 suspectscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2311290000
- definitions=main-2312260174
+ definitions=main-2312260175
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,19 +102,19 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 12/22/2023 3:05 AM, Manuel Traut wrote:
-> From: Segfault <awarnecke002@hotmail.com>
+On 12/23/2023 7:20 AM, Manuel Traut wrote:
+> From: Alexander Warnecke <awarnecke002@hotmail.com>
 > 
 > The BOE TH101MB31IG002-28A panel is a WXGA panel.
 > It is used in Pine64 Pinetab2 and PinetabV.
 > 
-> Signed-off-by: Segfault <awarnecke002@hotmail.com>
+> Signed-off-by: Alexander Warnecke <awarnecke002@hotmail.com>
 > Signed-off-by: Manuel Traut <manut@mecka.net>
 > ---
 >   drivers/gpu/drm/panel/Kconfig                      |  11 +
 >   drivers/gpu/drm/panel/Makefile                     |   1 +
->   .../gpu/drm/panel/panel-boe-th101mb31ig002-28a.c   | 307 +++++++++++++++++++++
->   3 files changed, 319 insertions(+)
+>   .../gpu/drm/panel/panel-boe-th101mb31ig002-28a.c   | 348 +++++++++++++++++++++
+>   3 files changed, 360 insertions(+)
 > 
 > diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
 > index 99e14dc212ec..927ddd10e688 100644
@@ -150,14 +152,15 @@ On 12/22/2023 3:05 AM, Manuel Traut wrote:
 >   obj-$(CONFIG_DRM_PANEL_LVDS) += panel-lvds.o
 > diff --git a/drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c b/drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c
 > new file mode 100644
-> index 000000000000..ac1dc99a0300
+> index 000000000000..ffe4047b7434
 > --- /dev/null
 > +++ b/drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c
-> @@ -0,0 +1,307 @@
+> @@ -0,0 +1,348 @@
 > +// SPDX-License-Identifier: GPL-2.0-only
 > +/*
 > + * Copyright (c) 2023 Alexander Warnecke <awarnecke002@hotmail.com>
 > + * Copyright (c) 2023 Manuel Traut <manut@mecka.net>
+> + * Copyright (c) 2023 Dang Huynh <danct12@riseup.net>
 > + */
 > +
 > +#include <linux/delay.h>
@@ -179,9 +182,11 @@ On 12/22/2023 3:05 AM, Manuel Traut wrote:
 
 Hi Manuel,
 
-If I remember correctly, commit 
-d2aacaf07395bd798373cbec6af05fff4147aff3 should have introduced 
-prepared/enabled do the drm_panel struct.
+Sorry, I responded to the v1 instead of the latest version. Carrying my 
+comment over to here:
+
+If I remember correctly, commit d2aacaf07395bd798373cbec6af05fff4147aff3 
+should have introduced prepared/enabled do the drm_panel struct.
 
 Thanks,
 
@@ -197,17 +202,113 @@ Jessica Zhang
 > +	enum drm_panel_orientation orientation;
 > +};
 > +
+> +static void boe_th101mb31ig002_reset(struct boe_th101mb31ig002 *ctx)
+> +{
+> +	gpiod_direction_output(ctx->reset, 0);
+> +	usleep_range(10, 100);
+> +	gpiod_direction_output(ctx->reset, 1);
+> +	usleep_range(10, 100);
+> +	gpiod_direction_output(ctx->reset, 0);
+> +	usleep_range(5000, 6000);
+> +}
+> +
+> +static int boe_th101mb31ig002_enable(struct drm_panel *panel)
+> +{
+> +	struct boe_th101mb31ig002 *ctx = container_of(panel,
+> +						      struct boe_th101mb31ig002,
+> +						      panel);
+> +	struct mipi_dsi_device *dsi = ctx->dsi;
+> +	struct device *dev = &dsi->dev;
+> +	int ret;
+> +
+> +	if (ctx->enabled)
+> +		return 0;
+> +
+> +	mipi_dsi_dcs_write_seq(dsi, 0xE0, 0xAB, 0xBA);
+> +	mipi_dsi_dcs_write_seq(dsi, 0xE1, 0xBA, 0xAB);
+> +	mipi_dsi_dcs_write_seq(dsi, 0xB1, 0x10, 0x01, 0x47, 0xFF);
+> +	mipi_dsi_dcs_write_seq(dsi, 0xB2, 0x0C, 0x14, 0x04, 0x50, 0x50, 0x14);
+> +	mipi_dsi_dcs_write_seq(dsi, 0xB3, 0x56, 0x53, 0x00);
+> +	mipi_dsi_dcs_write_seq(dsi, 0xB4, 0x33, 0x30, 0x04);
+> +	mipi_dsi_dcs_write_seq(dsi, 0xB6, 0xB0, 0x00, 0x00, 0x10, 0x00, 0x10,
+> +				    0x00);
+> +	mipi_dsi_dcs_write_seq(dsi, 0xB8, 0x05, 0x12, 0x29, 0x49, 0x48, 0x00,
+> +				    0x00);
+> +	mipi_dsi_dcs_write_seq(dsi, 0xB9, 0x7C, 0x65, 0x55, 0x49, 0x46, 0x36,
+> +				    0x3B, 0x24, 0x3D, 0x3C, 0x3D, 0x5C, 0x4C,
+> +				    0x55, 0x47, 0x46, 0x39, 0x26, 0x06, 0x7C,
+> +				    0x65, 0x55, 0x49, 0x46, 0x36, 0x3B, 0x24,
+> +				    0x3D, 0x3C, 0x3D, 0x5C, 0x4C, 0x55, 0x47,
+> +				    0x46, 0x39, 0x26, 0x06);
+> +	mipi_dsi_dcs_write_seq(dsi, 0x00, 0xFF, 0x87, 0x12, 0x34, 0x44, 0x44,
+> +				    0x44, 0x44, 0x98, 0x04, 0x98, 0x04, 0x0F,
+> +				    0x00, 0x00, 0xC1);
+> +	mipi_dsi_dcs_write_seq(dsi, 0xC1, 0x54, 0x94, 0x02, 0x85, 0x9F, 0x00,
+> +				    0x7F, 0x00, 0x54, 0x00);
+> +	mipi_dsi_dcs_write_seq(dsi, 0xC2, 0x17, 0x09, 0x08, 0x89, 0x08, 0x11,
+> +				    0x22, 0x20, 0x44, 0xFF, 0x18, 0x00);
+> +	mipi_dsi_dcs_write_seq(dsi, 0xC3, 0x86, 0x46, 0x05, 0x05, 0x1C, 0x1C,
+> +				    0x1D, 0x1D, 0x02, 0x1F, 0x1F, 0x1E, 0x1E,
+> +				    0x0F, 0x0F, 0x0D, 0x0D, 0x13, 0x13, 0x11,
+> +				    0x11, 0x00);
+> +	mipi_dsi_dcs_write_seq(dsi, 0xC4, 0x07, 0x07, 0x04, 0x04, 0x1C, 0x1C,
+> +				    0x1D, 0x1D, 0x02, 0x1F, 0x1F, 0x1E, 0x1E,
+> +				    0x0E, 0x0E, 0x0C, 0x0C, 0x12, 0x12, 0x10,
+> +				    0x10, 0x00);
+> +	mipi_dsi_dcs_write_seq(dsi, 0xC6, 0x2A, 0x2A);
+> +	mipi_dsi_dcs_write_seq(dsi, 0xC8, 0x21, 0x00, 0x31, 0x42, 0x34, 0x16);
+> +	mipi_dsi_dcs_write_seq(dsi, 0xCA, 0xCB, 0x43);
+> +	mipi_dsi_dcs_write_seq(dsi, 0xCD, 0x0E, 0x4B, 0x4B, 0x20, 0x19, 0x6B,
+> +				    0x06, 0xB3);
+> +	mipi_dsi_dcs_write_seq(dsi, 0xD2, 0xE3, 0x2B, 0x38, 0x00);
+> +	mipi_dsi_dcs_write_seq(dsi, 0xD4, 0x00, 0x01, 0x00, 0x0E, 0x04, 0x44,
+> +				    0x08, 0x10, 0x00, 0x00, 0x00);
+> +	mipi_dsi_dcs_write_seq(dsi, 0xE6, 0x80, 0x01, 0xFF, 0xFF, 0xFF, 0xFF,
+> +				    0xFF, 0xFF);
+> +	mipi_dsi_dcs_write_seq(dsi, 0xF0, 0x12, 0x03, 0x20, 0x00, 0xFF);
+> +	mipi_dsi_dcs_write_seq(dsi, 0xF3, 0x00);
+> +
+> +	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	msleep(120);
+> +
+> +	ret = mipi_dsi_dcs_set_display_on(dsi);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to set panel on: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	ctx->enabled = true;
+> +
+> +	return 0;
+> +}
+> +
 > +static int boe_th101mb31ig002_disable(struct drm_panel *panel)
 > +{
 > +	struct boe_th101mb31ig002 *ctx = container_of(panel,
 > +						      struct boe_th101mb31ig002,
 > +						      panel);
+> +	struct mipi_dsi_device *dsi = ctx->dsi;
+> +	struct device *dev = &dsi->dev;
+> +	int ret;
 > +
 > +	if (!ctx->enabled)
 > +		return 0;
 > +
-> +	mipi_dsi_dcs_set_display_off(ctx->dsi);
+> +	ret = mipi_dsi_dcs_set_display_off(dsi);
+> +	if (ret < 0)
+> +		dev_err(dev, "Failed to set panel off: %d\n", ret);
+> +
 > +	msleep(120);
+> +
+> +	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
+> +	if (ret < 0)
+> +		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
+> +
 > +	ctx->enabled = false;
 > +
 > +	return 0;
@@ -222,11 +323,10 @@ Jessica Zhang
 > +	if (!ctx->prepared)
 > +		return 0;
 > +
-> +	mipi_dsi_dcs_enter_sleep_mode(ctx->dsi);
-> +	msleep(220);
 > +	gpiod_set_value_cansleep(ctx->reset, 1);
 > +	gpiod_set_value_cansleep(ctx->enable, 0);
 > +	regulator_disable(ctx->power);
+> +
 > +	ctx->prepared = false;
 > +
 > +	return 0;
@@ -237,7 +337,7 @@ Jessica Zhang
 > +	struct boe_th101mb31ig002 *ctx = container_of(panel,
 > +						      struct boe_th101mb31ig002,
 > +						      panel);
-> +	struct mipi_dsi_device *dsi = ctx->dsi;
+> +	struct device *dev = &ctx->dsi->dev;
 > +	int ret;
 > +
 > +	if (ctx->prepared)
@@ -245,77 +345,16 @@ Jessica Zhang
 > +
 > +	ret = regulator_enable(ctx->power);
 > +	if (ret) {
-> +		dev_err(&dsi->dev, "Failed to enable power supply: %d\n", ret);
+> +		dev_err(dev, "Failed to enable power supply: %d\n", ret);
 > +		return ret;
 > +	}
 > +
 > +	gpiod_set_value_cansleep(ctx->enable, 1);
-> +	msleep(120);
-> +	gpiod_direction_output(ctx->reset, 1);
-> +	msleep(120);
-> +	gpiod_direction_output(ctx->reset, 0);
-> +	msleep(120);
+> +	msleep(50);
+> +	boe_th101mb31ig002_reset(ctx);
+> +	boe_th101mb31ig002_enable(panel);
 > +
-> +	mipi_dsi_dcs_write_seq(dsi, 0xE0, 0xAB, 0xBA);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xE1, 0xBA, 0xAB);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xB1, 0x10, 0x01, 0x47, 0xFF);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xB2, 0x0C, 0x14, 0x04, 0x50, 0x50, 0x14);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xB3, 0x56, 0x53, 0x00);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xB4, 0x33, 0x30, 0x04);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xB6, 0xB0, 0x00, 0x00, 0x10, 0x00, 0x10,
-> +			       0x00);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xB8, 0x05, 0x12, 0x29, 0x49, 0x48, 0x00,
-> +			       0x00);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xB9, 0x7C, 0x65, 0x55, 0x49, 0x46, 0x36,
-> +			       0x3B, 0x24, 0x3D, 0x3C, 0x3D, 0x5C, 0x4C, 0x55,
-> +			       0x47, 0x46, 0x39, 0x26, 0x06, 0x7C, 0x65, 0x55,
-> +			       0x49, 0x46, 0x36, 0x3B, 0x24, 0x3D, 0x3C, 0x3D,
-> +			       0x5C, 0x4C, 0x55, 0x47, 0x46, 0x39, 0x26, 0x06);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xC0, 0xFF, 0x87, 0x12, 0x34, 0x44, 0x44,
-> +			       0x44, 0x44, 0x98, 0x04, 0x98, 0x04, 0x0F, 0x00,
-> +			       0x00, 0xC1);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xC1, 0x54, 0x94, 0x02, 0x85, 0x9F, 0x00,
-> +			       0x7F, 0x00, 0x54, 0x00);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xC2, 0x17, 0x09, 0x08, 0x89, 0x08, 0x11,
-> +			       0x22, 0x20, 0x44, 0xFF, 0x18, 0x00);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xC3, 0x86, 0x46, 0x05, 0x05, 0x1C, 0x1C,
-> +			       0x1D, 0x1D, 0x02, 0x1F, 0x1F, 0x1E, 0x1E, 0x0F,
-> +			       0x0F, 0x0D, 0x0D, 0x13, 0x13, 0x11, 0x11, 0x00);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xC4, 0x07, 0x07, 0x04, 0x04, 0x1C, 0x1C,
-> +			       0x1D, 0x1D, 0x02, 0x1F, 0x1F, 0x1E, 0x1E, 0x0E,
-> +			       0x0E, 0x0C, 0x0C, 0x12, 0x12, 0x10, 0x10, 0x00);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xC6, 0x2A, 0x2A);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xC8, 0x21, 0x00, 0x31, 0x42, 0x34, 0x16);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xCA, 0xCB, 0x43);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xCD, 0x0E, 0x4B, 0x4B, 0x20, 0x19, 0x6B,
-> +			       0x06, 0xB3);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xD2, 0xE3, 0x2B, 0x38, 0x00);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xD4, 0x00, 0x01, 0x00, 0x0E, 0x04, 0x44,
-> +			       0x08, 0x10, 0x00, 0x00, 0x00);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xE6, 0x80, 0x01, 0xFF, 0xFF, 0xFF, 0xFF,
-> +			       0xFF, 0xFF);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xF0, 0x12, 0x03, 0x20, 0x00, 0xFF);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xF3, 0x00);
-> +
-> +	mipi_dsi_dcs_exit_sleep_mode(dsi);
-> +	msleep(120);
 > +	ctx->prepared = true;
-> +
-> +	return 0;
-> +}
-> +
-> +static int boe_th101mb31ig002_enable(struct drm_panel *panel)
-> +{
-> +	struct boe_th101mb31ig002 *ctx = container_of(panel,
-> +						      struct boe_th101mb31ig002,
-> +						      panel);
-> +
-> +	if (ctx->enabled)
-> +		return 0;
-> +
-> +	mipi_dsi_dcs_set_display_on(ctx->dsi);
-> +	msleep(120);
-> +	ctx->enabled = true;
 > +
 > +	return 0;
 > +}
@@ -330,6 +369,8 @@ Jessica Zhang
 > +	.vsync_start	= 1280 + 2,
 > +	.vsync_end	= 1280 + 2 + 4,
 > +	.vtotal		= 1280 + 2 + 4 + 12,
+> +	.width_mm	= 135,
+> +	.height_mm	= 216,
 > +	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
 > +};
 > +
@@ -352,11 +393,10 @@ Jessica Zhang
 > +	}
 > +
 > +	drm_mode_set_name(mode);
-> +	drm_mode_probed_add(connector, mode);
 > +
 > +	connector->display_info.bpc = 8;
-> +	connector->display_info.width_mm = 216;
-> +	connector->display_info.height_mm = 135;
+> +	connector->display_info.width_mm = mode->width_mm;
+> +	connector->display_info.height_mm = mode->height_mm;
 > +
 > +	/*
 > +	 * TODO: Remove once all drm drivers call
@@ -364,10 +404,13 @@ Jessica Zhang
 > +	 */
 > +	drm_connector_set_panel_orientation(connector, ctx->orientation);
 > +
+> +	drm_mode_probed_add(connector, mode);
+> +
 > +	return 1;
 > +}
 > +
-> +static enum drm_panel_orientation boe_th101mb31ig002_get_orientation(struct drm_panel *panel)
+> +static enum drm_panel_orientation
+> +boe_th101mb31ig002_get_orientation(struct drm_panel *panel)
 > +{
 > +	struct boe_th101mb31ig002 *ctx = container_of(panel,
 > +						      struct boe_th101mb31ig002,
@@ -377,10 +420,10 @@ Jessica Zhang
 > +}
 > +
 > +static const struct drm_panel_funcs boe_th101mb31ig002_funcs = {
-> +	.disable = boe_th101mb31ig002_disable,
-> +	.unprepare = boe_th101mb31ig002_unprepare,
 > +	.prepare = boe_th101mb31ig002_prepare,
+> +	.unprepare = boe_th101mb31ig002_unprepare,
 > +	.enable = boe_th101mb31ig002_enable,
+> +	.disable = boe_th101mb31ig002_disable,
 > +	.get_modes = boe_th101mb31ig002_get_modes,
 > +	.get_orientation = boe_th101mb31ig002_get_orientation,
 > +};
@@ -400,8 +443,11 @@ Jessica Zhang
 > +	mipi_dsi_set_drvdata(dsi, ctx);
 > +	ctx->dsi = dsi;
 > +
-> +	drm_panel_init(&ctx->panel, &dsi->dev, &boe_th101mb31ig002_funcs,
-> +		       DRM_MODE_CONNECTOR_DSI);
+> +	dsi->lanes = 4;
+> +	dsi->format = MIPI_DSI_FMT_RGB888;
+> +	dsi->mode_flags = MIPI_DSI_MODE_VIDEO_BURST |
+> +			  MIPI_DSI_MODE_NO_EOT_PACKET |
+> +			  MIPI_DSI_MODE_LPM;
 > +
 > +	ctx->power = devm_regulator_get(&dsi->dev, "power");
 > +	if (IS_ERR(ctx->power))
@@ -424,20 +470,19 @@ Jessica Zhang
 > +		return dev_err_probe(&dsi->dev, ret,
 > +				     "Failed to get orientation\n");
 > +
+> +	drm_panel_init(&ctx->panel, &dsi->dev, &boe_th101mb31ig002_funcs,
+> +		       DRM_MODE_CONNECTOR_DSI);
+> +
 > +	ret = drm_panel_of_backlight(&ctx->panel);
 > +	if (ret)
 > +		return ret;
 > +
 > +	drm_panel_add(&ctx->panel);
 > +
-> +	dsi->lanes = 4;
-> +	dsi->format = MIPI_DSI_FMT_RGB888;
-> +	dsi->mode_flags = MIPI_DSI_MODE_VIDEO_BURST |
-> +			  MIPI_DSI_MODE_NO_EOT_PACKET |
-> +			  MIPI_DSI_MODE_LPM;
-> +
 > +	ret = mipi_dsi_attach(dsi);
 > +	if (ret < 0) {
+> +		dev_err_probe(&dsi->dev, ret,
+> +			      "Failed to attach panel to DSI host\n");
 > +		drm_panel_remove(&ctx->panel);
 > +		return ret;
 > +	}
