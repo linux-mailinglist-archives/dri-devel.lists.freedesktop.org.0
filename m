@@ -2,66 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76A6D81E67F
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Dec 2023 10:42:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB2EA81E6B6
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Dec 2023 10:51:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C2DB10E00B;
-	Tue, 26 Dec 2023 09:42:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E21710E056;
+	Tue, 26 Dec 2023 09:51:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 327 seconds by postgrey-1.36 at gabe;
- Tue, 26 Dec 2023 09:42:06 UTC
-Received: from mout.web.de (mout.web.de [212.227.15.3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38DB710E00B
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Dec 2023 09:42:06 +0000 (UTC)
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 406D910E056
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Dec 2023 09:51:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1703583724; x=1704188524; i=markus.elfring@web.de;
- bh=7s7Czem3g9WjULia5nQz77gt2Cg/2yiGOV1liYLC2qQ=;
- h=X-UI-Sender-Class:Date:To:From:Subject:Cc;
- b=md4k7huEs/1eJ9OepKwBvgHkavUTK3UtLEYYBnJcUe/zRFt+4ArQqdbCKGtKOnIK
- 3FN/qfsjaGQvjGbuY9f0swDj69THjYGdYFllFip5mJ6DnxsTZe7FQWrghmQhz8fkI
- 2buPbl0kcDdgImHHU36j+ko04DBmqJV8t6tsAggzLnI3TBpYtw0CsfEHSckjgoiqB
- YfA+RwSLUO/DfRMVMoVox+F4VjpSp7nxr6J7pFC2SaLhTgDatSbDYXFWClIgQB1Rf
- +FMeo2gEOXJA+75570EMjhAkN0oYGOzMuxk22EXfHtHJl0N0Bl8pJ/CGbjW15XHTp
- oPee/vBn3D18OlbnYw==
+ t=1703584310; x=1704189110; i=markus.elfring@web.de;
+ bh=qqBCvkgxbSr3g6FTVllb7hWAQXmgVICHt5PVFl7CIWM=;
+ h=X-UI-Sender-Class:Date:Subject:From:To:Cc:References:
+ In-Reply-To;
+ b=Rv6hN/iyeLdFHniWZUs7+vkaqcq/vai6u22H9xyDKL6f8z39Z4R1SXmMFkW1KrI/
+ y341pMbSaACxL4aNj+BBarrQAe8uv4N8bdeauOTI5FrWPtgh8K5EGO9AR+fOgSUXS
+ /kyq7/1jC6J1MLP4VZgOwahAl3XyYxPpKgIKYcW3dbBcgrL5VUTKFEb9Mghsf7+Ky
+ iTGH/squ4nZrjdv6z9qp82iVsCBOlrplUTW+GqwrcGaTe/wT8aJZPawINhtt1bmx+
+ zRQm2HbUBDrdgUwXCxQmYDE36h1GIA/+oUUJeUy/RkBAv7UR9/xtX8jwwru5COuso
+ aywzcU2+c599DVuUng==
 X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1Mmhnu-1qs6RZ3Cy6-00jyS5; Tue, 26
- Dec 2023 10:36:19 +0100
-Message-ID: <ff7ce5d0-59fa-470c-8dd6-68dbe65c18e5@web.de>
-Date: Tue, 26 Dec 2023 10:36:18 +0100
+Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MC0LH-1rQ3aP0NaP-00CKaS; Tue, 26
+ Dec 2023 10:38:24 +0100
+Message-ID: <9b1e7330-f4f6-47f8-a568-eaea1624bb6f@web.de>
+Date: Tue, 26 Dec 2023 10:38:22 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
+Subject: [PATCH 1/3] drm: property: One function call less in
+ drm_property_create() after error detection
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
 To: dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
  Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-Subject: [PATCH 0/3] drm: property: Adjustments for three function
- implementations
+References: <ff7ce5d0-59fa-470c-8dd6-68dbe65c18e5@web.de>
+In-Reply-To: <ff7ce5d0-59fa-470c-8dd6-68dbe65c18e5@web.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:DcL70u3CW7ium0TLeQa8v3pqMAuHd3U3ffavREKGtKtoIotqohU
- vVm/sRhXjJKwXOYQ9pFWJucZSe+994yhW2o0ijsxi6iHZ/Q0zgliCRzPJonYzGsCVBbzBz/
- 0zNekbaZqRGP3FS8eocU6giczTt17vn0lz2CUyuIihbAwCRdssrlhFRRrdRUfkOPsL5/oRF
- eZxsilcj30qz1vpdWDsDg==
+X-Provags-ID: V03:K1:iDixZmNvylQDuMt0skzUFKjo8Mh89iiU1EhN0o+/2elM/jOlggR
+ 6muOk7JjgmGLlXj3ITzr5rhHM9PHeCLjkWxFXiVhflFrt6iRboOIWS7Dl5KJDHi1vkOUj71
+ pvU/i0C+PKKkNZ+eU5BzCX/eLI33iBrs+IvDwscaU8Vvv/c0iWdWouXu1c0vmuzAwXne416
+ rBGEr9tTaR33LkfrfkioA==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:jXVMJvSsLhc=;0fHUYYFzN4C1J6DGhZyjpQwf/Fo
- XZp/NOmmmO0OtxJn2l/yfkC7ELhlyfFMcL3xNthARpOpzfT5hTpUTseEv/ZLvcbqWMhci38fC
- heqsNSzNQ28p4SZ68lm0FmTwrDOLrbckxa/dcUewHltrV1B/uJHSp0805qsdEPu1Oe7mJger4
- uivAoSyHFVBDxE6oZKVGkHIcMTMCY6mC4WqVf/lJ17nLRSMPWQ+Pb+5Qcv/QvtTdLQ3AZ5ixq
- +GwXtEFZ8gQnGS717MsVUdTlcYCwj2PuJkBS2AjGBtgQF3gEdLhqb2G1dm/w9OadWJ8JVg5Df
- NTgPSXEmhbpq9i4wODGoR3Q/hxJPodznNThr1gP/nP5fJ47Zti9WPd3Sm5O0tFg07o09Q4Buw
- Ki7LT6Ci1sBmEXa2q+37K2NysK2M47i61yrRpJogdVPZXriXCGQ5wJw9yTlrNf6R2VLABsmu1
- O69jqaYLTl1Ww7j2vu/55rCjrRsXK54kMVZEDHNImy6xNPY+kBR071ONM2mOt1tgXYR5XZOtb
- jwni40cgOXswkjilWLjcd4ajlNt2M6WezlycyLClNShN12Kln4PB2KtxWfRU8KzeQd8ss9+pE
- KUVu2sxwXJJ4WsEaHfuXnikTMecx6a3CfNRjgwov/c7SBsjcgjDWNfo30Cz9IMwPVcs9q8Gcd
- Bys3ilmuIpv3TBx2zz1YUtp1AMI5thmvFcG68udWw1HG7D8imbxEqxgfoK8Aa1iJNNVWBJVdY
- HYwDLjDw2cl/FHwn01170tSq/hknMzcOFbNDSn1tlMWQUfXsA+ndyujtHyvGt+3i/KgWF2c9Y
- ZBadQFoRufGHeNInDtS8qv4MpqWOCEqMfGzexq3U623oPjhAuOkSQK6uoAvhTqToPzwC5Zq0R
- EO9mYK+GnndZU9wK0YspZSmDxjzozY3SskxjW8I6HJnp7Ufb5ngaDeQKBJ0SvTcVRv/FukUvZ
- GgwQOg==
+UI-OutboundReport: notjunk:1;M01:P0:Wmc5gWNHOhs=;qoeq99pJR2dILbNukPSk2js/p2M
+ QeB83kd7QzWSYCzDMxYKVUrO4jhcYwxMvfsv6b0lFYVMNxgzE7P917+swKfZa8WFbyLAK86C3
+ M+Ci0Z+8zpEai5EcGEYxfu3+39/aRGnZdXbZBzQmTqDnrC5hiSqwnvKdYVlDheCyLdGR1D4qN
+ 41eRG0y23/hxpQJpR2fPVHhUl1gW3Y0CvJWwuiXdvb8vDwiyrvZTI/OtENhe1XRpAOKpoFhEI
+ qJcqx2xnICNFKIEzptdIiSqh5oT53S1jjeRXLxCcO9DkVZfZeFX4K10rR3hKUdSWy7ae0Zmo7
+ Dl9yMGaVHga6f7vZFSGqc8s3lr52flqES9bSiR80MXrBGv4WMcmfMeTpwaDDz6XD3nOmeRPuP
+ A2NpK8YmgV40aDZdegdFsEccLOlO57b7UqARWDW2s9KzQkNyQn7KQlZTa8HLR9mrUw0e77rwE
+ QUHoy7thqJ8jHVdl5A+vWkG6TUTurqq9bMSykpL3eG+8tlfRAKAnFcF5NrrmbPgOsfqInMJaq
+ ufeH/U6zSVzqF6kGYKGC/UDpvmZNnzoAJ4/s49jMxCRfv3Nb6pSkOP9zlU7YP+SAUzYTfaNXK
+ u2bVzFy8kgHQcJmlOX0KbQr53yhZos3+grwryZIqHCZV0TU0vXyEzjjQQvNMn7StdT6Hp3TJS
+ AeUkPQc/OmBogK/w2OPcn/oQZux24BtvR/bZTyLFRfv7lLQ15Lc37RLyk1jB2V00539L0l7aL
+ psV3pXSsxHuVfHscOt5eUD2RIn41BA2to6m6eHthKeZxc5M9h6vslCUvShvnICQJAJBPCx9yC
+ qSo/Zx+1G7KsVIzXoYpUkfU7m+wRhgaZeVsBsAhXBHP43lRvY+08hzFZwlxFHHkASa5cpwd/b
+ 3NbCPQVFyll+mrS9lzPdIocRMwbSGgN9SbKVx1U/WaG1Yjtk2AGKPZl/zGyJQzpHwzTViUMnL
+ 13fDqA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,19 +80,45 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Markus Elfring <elfring@users.sourceforge.net>
-Date: Tue, 26 Dec 2023 10:26:36 +0100
+Date: Tue, 26 Dec 2023 08:44:37 +0100
 
-A few update suggestions were taken into account
-from static source code analysis.
+The kfree() function was called in one case by the
+drm_property_create() function during error handling
+even if the passed data structure member contained a null pointer.
+This issue was detected by using the Coccinelle software.
 
-Markus Elfring (3):
-  One function call less in drm_property_create() after error detection
-  Delete an unnecessary initialisation in drm_property_create()
-  Improve four size determinations
+Thus use another label.
 
- drivers/gpu/drm/drm_property.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+=2D--
+ drivers/gpu/drm/drm_property.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/gpu/drm/drm_property.c b/drivers/gpu/drm/drm_property=
+.c
+index 596272149a35..3440f4560e6e 100644
+=2D-- a/drivers/gpu/drm/drm_property.c
++++ b/drivers/gpu/drm/drm_property.c
+@@ -117,7 +117,7 @@ struct drm_property *drm_property_create(struct drm_de=
+vice *dev,
+ 		property->values =3D kcalloc(num_values, sizeof(uint64_t),
+ 					   GFP_KERNEL);
+ 		if (!property->values)
+-			goto fail;
++			goto free_property;
+ 	}
+
+ 	ret =3D drm_mode_object_add(dev, &property->base, DRM_MODE_OBJECT_PROPER=
+TY);
+@@ -135,6 +135,7 @@ struct drm_property *drm_property_create(struct drm_de=
+vice *dev,
+ 	return property;
+ fail:
+ 	kfree(property->values);
++free_property:
+ 	kfree(property);
+ 	return NULL;
+ }
 =2D-
 2.43.0
 
