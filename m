@@ -2,63 +2,137 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 670B481E8B9
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Dec 2023 18:34:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2190C81E90A
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Dec 2023 19:27:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DD7410E09B;
-	Tue, 26 Dec 2023 17:34:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44AEF10E1ED;
+	Tue, 26 Dec 2023 18:27:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [217.72.192.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2EB810E09B
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Dec 2023 17:34:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1703612004; x=1704216804; i=markus.elfring@web.de;
- bh=AuhcszHwHjGP9Acn89BVl5MLLXrMpR0aVvDveRatoik=;
- h=X-UI-Sender-Class:Date:To:Cc:From:Subject;
- b=bG5SFJ+bYfMdlpGE1cElBR5x1ijpvWLrkp6loXWkOoDmOoBXR0L53mMfHRgyu1v2
- RrVDJqRD9hd6SX+zDKcIjeq77aF3DPWOogjNATijcmLPRbqn8bMO8tqucz3Ndz6JK
- 3IYE/RQgrbtSIijS9YSHaveF+38NNWHbb55wi6bgiOujYezqxmIITs3Vqh468A7mn
- nCfwUKWtqf4aGEJ469/wks35vDHZ1oZ9TsfMmEcRlEAR8wj1VOGSIQpRP2vfwOANe
- FMjGchaP6nVU2vm1F/G/kQCr3CN/Vstyf0BaFKXJVbDeP2K+cxsy5FRhzYVhmZLC8
- 2bkjcKS04SntJZ0o1g==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MElV3-1rSOi72PWd-00GAan; Tue, 26
- Dec 2023 18:33:24 +0100
-Message-ID: <189166d6-b76a-412a-bfcf-8ba14578a317@web.de>
-Date: Tue, 26 Dec 2023 18:33:23 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D66B210E0E5;
+ Tue, 26 Dec 2023 18:27:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1703615252; x=1735151252;
+ h=date:from:to:subject:message-id:mime-version;
+ bh=qreT88JgGqJ3eyvpIhZhd4Zl89phed7M31gMFi7mVvE=;
+ b=UW4i0lXEEuvLaUFsYhG3e24s6G0ePyKlJCHP3wtcuSYkq85HndKgACkh
+ 3Hz0UtynX8TWHiBr1hfa79NFVrI6CpeSL14W2lE39MM2lhcx6FXS6bF5c
+ elLnGMr4TLI/PJaIMlNW/vACW7+U9NT+gbtx7mSFRhNv4c7Br4+E3d9l1
+ aKpqRR+UzPIro/OBbBlIjn3u8ApRT2DjKHolsiXKAlGKHg+glsLi2uLGX
+ OuB1BM9OSCYFdWhEoUkiGqa7nlTU4wvCYhQc4o/p0ovqsnL3ZDfS/y8r6
+ 4JIqqSaVfF/EpgwNir2dgsnP1Vyns4EqP7m24+iOSqD7eB3tI+uBpz0Dz Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10935"; a="386797112"
+X-IronPort-AV: E=Sophos;i="6.04,307,1695711600"; d="scan'208";a="386797112"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Dec 2023 10:27:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10935"; a="806939328"
+X-IronPort-AV: E=Sophos;i="6.04,307,1695711600"; d="scan'208";a="806939328"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by orsmga008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 26 Dec 2023 10:27:32 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 26 Dec 2023 10:27:31 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 26 Dec 2023 10:27:31 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Tue, 26 Dec 2023 10:27:31 -0800
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.40) by
+ edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Tue, 26 Dec 2023 10:27:31 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PwYg4SpEhJB2BLpASEptDZSL0Uw9ftS36H4geewdbQ/Fa2X2Ui0fBE8LW7Y/Z6jXFCHCIsCNYu4yFV+6zJDkagZvLU6E2qX3zYAAh3EWew2v5YA7D+Ccz3Q5tlTFVOksaLT6Stv8XbQmnsSzkx/WG8q1zFOn5muRV8lE6NXe2PJUhf+NqZlhMz9d+9kNyTcJH5eAo/TPXni3tJz13PRlmD6vFFF5SJiSDyxk6LZziP+6DiGIdUFJQS3arta2pczRhg5rxlg0d60XHGHXzdNZ0hui0pohRj8Fw39hBzZlrW4vVMRlmkblX4zFy8JsAomddJq85vBI4XL/naR5CY05Cw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=T58VnkOQLqA7fd/w4OgOQiuChTP6EbLB80ISa6BhJRQ=;
+ b=MDTtMcnQDTMVDrJmlOZksG/hZYEIoBfhclYwxgfLaXeZP2t6kZRJGpvAKr5TlF+aUEYDCmKo9+HsKWf5gi9c0msm1+rTwExjXxUaUIDzohrow2jjXTJikc+zDn6gI83TeCz5kPMci3eG7ZUM3+qQIIMYqZOp3Up5HNXBqN9yzsAHVzvyJBizIRZAc0Z4wKqYW85p1CGBgLRSkZzX2udoepapydiDbcMS/AOG8hoHncCDsNQ4t0Ct3asO8hAE3uAfntri2XUzYvhdRmHzcNJJIFH0Ma5XDYBY5VIg0PZzP7EwxBkYmML13RyMyymI4ASVTm6X7PJpHrEVIjqmPYp05w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
+ by SN7PR11MB8111.namprd11.prod.outlook.com (2603:10b6:806:2e9::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7113.27; Tue, 26 Dec
+ 2023 18:27:29 +0000
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::ada2:f954:a3a5:6179]) by MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::ada2:f954:a3a5:6179%5]) with mapi id 15.20.7113.027; Tue, 26 Dec 2023
+ 18:27:29 +0000
+Date: Tue, 26 Dec 2023 13:27:24 -0500
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: <dri-devel@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+ <airlied@gmail.com>, <daniel.vetter@ffwll.ch>, <lucas.demarchi@intel.com>,
+ <ogabbay@kernel.org>, <thomas.hellstrom@linux.intel.com>
+Subject: [PULL] drm-xe-next-fixes
+Message-ID: <ZYsbDPBLUiqDevLt@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: BY5PR20CA0009.namprd20.prod.outlook.com
+ (2603:10b6:a03:1f4::22) To MN0PR11MB6059.namprd11.prod.outlook.com
+ (2603:10b6:208:377::9)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-GB
-To: dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-From: Markus Elfring <Markus.Elfring@web.de>
-Subject: [PATCH] drm/vc4: Improve exception handling in vc4_validate_shader()
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:cqYAChBIlAwDCrpDesRT8Rcxu7TED955U2F15R9o1Lvz0JJr2FN
- uTKhH5RtR8P3nvpkDaA6FP3Z3AbzDluXJ9BYxHm7kZw+Wsl6SUnXMBcxkzReBqCZJWFYIZD
- +qKKAvP4dAuXEx9vhylypm1hlJdFyORz9GujswISk/AkMx8D9gvS82GVer/xy+zvDsQstS6
- U9M8IklMQJXMOEO59DWqA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:riS9T522lis=;57fc1AQoeN3UHWwK3JukaIDA71E
- oQuOiPMRZaDTXd0YVGVRZE+jXL0z8W6Bujhd0Q9IZ5uRgiedPwsqmvoKDuW37PaceJ6sRPCpG
- D9/G21S0YOVs/dUqtHHm1uaJKuVXYwqaiDSFeiu9dkywsjC2ZLP1iSSb00Gxfj35YRtH8R1k5
- HEY3Q5yST+1Y1SkCN92+dxUsOe8FkGKOUyUBAwN4bgfanTwcVZNjHwGy4IFAP1MZeHJQl/iv7
- OXuLrgiqUBG0OW+goOGFqXiZtFnQgpbXEIBFdoMJ93uTUetUCOQJLY9AqrUrqZjQeulaAzK8U
- 4DKjLvIt908q0FbLhPffo4sOGBIMOmqvw9/ZM4W1pi6KrlqCCn69asLMstQcLwRoqcl3VcNyE
- wUIzIRa5SDAJ6/adhbIQJUu0vJLB8cYfmQFwz2XVOS8feiujbhaxruhTDUdWrQwAsibSunSWr
- EDOFHdlqumaLo0HoLHhH1fIrrmPw3gdn3q66xrqPxGMO7iT6azfn3+RgKVwOmk9Kd/2dXP5ml
- 2/a3S9zs4LF7GDVYN7U9RDmY5GsIyCzxdBjaWwc2Fvs2hCmrHT5GDVNiU1eAIUZ3uEnrSR1hT
- QBf7vNXjqE7lO2qZEg8hANyH3xR2wJpL4RuZ+w9rDLT+96EIpWdsghb99ljNFB4uSOdVYqsAB
- PQyCLQcYNadkiurQTQ6rL5QnuKTBEznJ5Qh8+vjvSaiFvMtLksunegF9uF1/8f5T2fRmAOsKK
- QegbLA3QlO62jPozlTViu3vNSxP5mlJQDFqjqQld6cN8kHgXgifllQsotBPf6JGllZ7NToWOi
- L+gghKSFDbhLQGhWd64phzNSbrkSJYhTBaFvPZV9ywHCsjQPlVtIQyyM4hB5AjZpjwApcFhpp
- o/4ct1Fi/qDO81XIE9h8bIYrfK5uvPCE5AlHoZmF9ebd/Oc+Pr6pqwZjZ+dveKVLpv5YPZdjd
- qMj77gRzkgSUok4y7iyPo6/3pQ0=
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|SN7PR11MB8111:EE_
+X-MS-Office365-Filtering-Correlation-Id: c4d9a7ff-e38e-4166-1d7a-08dc064050c2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: fSFmrOhcbpQBosT1LXDhXZwQRNJb5wEQuhovWpMgJDhnA6nJ8Hj4vAMe2TjkAJq3S1OBWrONvIYPjGTYmDm4p3OAOG4npJU1AYAsaJlhMsr/gvD7p7nkfrG5egjL8YKNHXzJuqe0O9iYYWLrVYmL6L+u8Y1mcVM4EDailC0HRv6/Gi74MCUfU3yEamABis/36gmL+eNO5vD/2y7p+9ac3rOlUTomPzfn2a3E6l/bGjbobj6KdY7XnezOGRT49PnF68KBr5SO3DcaAtqbYj3XMok9TdQO1l79xqpfWBGjPpvJCmLrBgAlFPyGufGzF4ZndTWZ3cs9X+WL9KKgiRtoZjwsTTnZ1npByCRjOJSb476qLQKCaSBpcVPobxZHfYEmFrNb5kAf0l2ZITJK4Q0yltHF76zE4ou8K5lzHtmmOmKYG9GY1noMgXrmB21OfVwp3mHJMKkOvkuFN0/tBBeqzeIEO/XFb3wTfAVAY02Do0fsicYvpCF0E7kslAWQ7a72EIhelTMyHLGD1kzdDI1kOJOjAcB+kyaO282vUHZQPqGzDOUS955KTg/Q6r472wXiBsEE3f7p3IMnUzjPNZSIxkJXe1zb4oMo9vl3hA88jz4=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376002)(39860400002)(136003)(396003)(366004)(346002)(230173577357003)(230922051799003)(230273577357003)(64100799003)(186009)(451199024)(1800799012)(36756003)(6666004)(6512007)(6506007)(966005)(66946007)(66556008)(66476007)(6486002)(86362001)(82960400001)(26005)(38100700002)(83380400001)(2616005)(41300700001)(2906002)(5660300002)(4001150100001)(8936002)(8676002)(478600001)(44832011)(316002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?iyeH3J4xWnR7KW11x8fjGg7j+CZxSN42Hliqd7ROz1jblMrYlzaWDVE4wZiU?=
+ =?us-ascii?Q?7BAmpt+lSS6z4u1blNkdQb6r4ltd306OJouygheI+lT34VXGbyigkV9TCxvY?=
+ =?us-ascii?Q?LSj6oFe1YpiGCJfucOUgKxXZIKYC4TPZveaQVt8ubq7ZVklXGCXgArb/BLiE?=
+ =?us-ascii?Q?q7aKNSL/eZBe3cUWSpoxnWeR/wA1+jdOQHUApCz4uonI+YyRFSCX70eenUgo?=
+ =?us-ascii?Q?G/w8zScBYP5m2+FsfmmNmJkgxey8aUS6TsEVdPh+3JSkxwuOcAPaRN2DWBct?=
+ =?us-ascii?Q?QuJnZzzt1wz2B5GTwKDep8mpYfQtPaKpwX/wjMiZcWmNsNbqTlvjArwmCHXv?=
+ =?us-ascii?Q?iIDFxZobkjrnUlWo6LVT15MdQ2KMQKUTqXz6JA87JWTIF/psgsG4tYrcEgNy?=
+ =?us-ascii?Q?g7TWoLGl6bmbh7ireYha7Hy3qCKT3kTtmmLudl9qukdkYOViI441iATpbgEI?=
+ =?us-ascii?Q?xvfI1cYIoKW7PmA0OgZIODMw3hiAfDvgTj6yd+a15ULgVS0KQhcmpbFy/mQV?=
+ =?us-ascii?Q?scG32NOd84icnyEpYeY9XmxHrPUrcZurmTnk3+2ZUq/1vooq67cwk0DBPsJ7?=
+ =?us-ascii?Q?01I0QKSPOlB7yYJPQs3peXdxxP1VZEFA5HNOxonDp9V++AwGLMNWoORRtlGg?=
+ =?us-ascii?Q?N6qWaJlsiaYIsFhO/WGtQ2kmOwdKv+S4EA7/2ROhsqoSOHhr6yAFPShJYo+G?=
+ =?us-ascii?Q?RkEgNaObov5P4HrKICtMB1BxX1cxOV5vDde3xcS7L1HmvjcFYttLUL/ateTv?=
+ =?us-ascii?Q?fSUnoHYb3/V504dt6monXJlXpkrU6NTc++wuwCaSrE06krMt6KwqmSWK47du?=
+ =?us-ascii?Q?38HFROMPxfFh3Ok3DzUHUwepiY+45ooujjx+x9b+rKuH9peQOzNU4Vhg9orD?=
+ =?us-ascii?Q?+MolKHciukVQlaWnKo7GEYEalzDaW8cyRCP4BNERaQwt7WEqMAHarmEUl6i+?=
+ =?us-ascii?Q?Bk6qwDTbtaz5MtSE48vzERlLoegfJU7vx8ipzNt9pnESokJqWDvtUmW/W35K?=
+ =?us-ascii?Q?BXkV057GYyHxYFmOrhfbWitSJU+cfDzK8CFWDG8701n/bOrLa8btrFlksHJE?=
+ =?us-ascii?Q?R5gkVqPfUEJ3fqruOcXNx6/vf+1TDR1YCNDMVKzfgp4FtapAiquMDD+nA1ub?=
+ =?us-ascii?Q?yGwYvK7oIa1zMFOq+pRPf1a8wfSpE5mUMgcP3h0EIpgY8YYiFmF8VuRzt04e?=
+ =?us-ascii?Q?AGUYO1q3USvDJ6EsAuy3Cue7Fs3eYqb2AHUKoqdko5scFgDqTjO1rK2EBik2?=
+ =?us-ascii?Q?8tX2SH7VHWyjBAFVkdnjOpSGy7XNwxXvwSxb0L+8s5iWl399v23HcAJUIG65?=
+ =?us-ascii?Q?jAwyexf1MraSVeuLGwqkmQdbbX+dvYLo9pGuuCxCDFj2G2wtrE/natWk3K+e?=
+ =?us-ascii?Q?lRG7JzKr7mIlGCB5GiM/EQzjL3XiGMoX7LVZg0zCxWuZCas4QjT1/oPSt7Vq?=
+ =?us-ascii?Q?HmYEr0UBto0yN/wIRTklHf0Y+AarqJ8SYAy2igGPmR8lvI1pdFZ+GJjdjFRH?=
+ =?us-ascii?Q?1/wyC2zdL4UyyhVtEKDPIeJR6CxlWTOnDuBOYNgEL1l4Vce+aORn7qrv975Z?=
+ =?us-ascii?Q?1wO/7SViQUPPqEg7OeJveMIdzlpUftopK/iCyHXh?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: c4d9a7ff-e38e-4166-1d7a-08dc064050c2
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Dec 2023 18:27:28.4326 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IpM49otKIPZqEHzXctBplJSpcUMPtuenV+VincNRAIMAAMjdNxZi/znZfEOQ0BKfBckA7lFWSccWIgClYta52g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB8111
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,184 +145,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>, cocci@inria.fr
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Markus Elfring <elfring@users.sourceforge.net>
-Date: Tue, 26 Dec 2023 18:22:54 +0100
+Hi Dave and Sima,
 
-Memory releases were triggered during error handling only over
-the label =E2=80=9Cfail=E2=80=9D.
+Here goes the fixes that I had promised last week.
 
-1. Return directly after a call of the function =E2=80=9Ckcalloc=E2=80=9D =
-failed
-   at the beginning.
+With these in place we should be good now with the all yes config W=1
+and different compilers.
 
-2. Reduce the data processing at the end to a required kfree() call order
-   also by adjusting jump targets.
+Thanks for already include that one that disables the 32-bit. I had
+just noticed when I was trying to cherry-pick it to the -next-fixes branch.
 
-3. Delete an initialisation for the variable =E2=80=9Cvalidated_shader=E2=
-=80=9D
-   which became unnecessary with this refactoring.
+Thanks,
+Rodrigo.
 
-Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-=2D--
- drivers/gpu/drm/vc4/vc4_validate_shaders.c | 42 +++++++++++-----------
- 1 file changed, 21 insertions(+), 21 deletions(-)
+The following changes since commit 92242716ee92d2aa3c38c736b53d8910d443566d:
 
-diff --git a/drivers/gpu/drm/vc4/vc4_validate_shaders.c b/drivers/gpu/drm/=
-vc4/vc4_validate_shaders.c
-index 9745f8810eca..d76787bb7d51 100644
-=2D-- a/drivers/gpu/drm/vc4/vc4_validate_shaders.c
-+++ b/drivers/gpu/drm/vc4/vc4_validate_shaders.c
-@@ -783,7 +783,7 @@ vc4_validate_shader(struct drm_gem_dma_object *shader_=
-obj)
- 	int shader_end_ip =3D 0;
- 	uint32_t last_thread_switch_ip =3D -3;
- 	uint32_t ip;
--	struct vc4_validated_shader_info *validated_shader =3D NULL;
-+	struct vc4_validated_shader_info *validated_shader;
- 	struct vc4_shader_validation_state validation_state;
+  Merge tag 'drm-habanalabs-next-2023-12-19' of https://git.kernel.org/pub/scm/linux/kernel/git/ogabbay/linux into drm-next (2023-12-22 14:52:04 +1000)
 
- 	if (WARN_ON_ONCE(vc4->is_vc5))
-@@ -799,14 +799,14 @@ vc4_validate_shader(struct drm_gem_dma_object *shade=
-r_obj)
- 		kcalloc(BITS_TO_LONGS(validation_state.max_ip),
- 			sizeof(unsigned long), GFP_KERNEL);
- 	if (!validation_state.branch_targets)
--		goto fail;
-+		return NULL;
+are available in the Git repository at:
 
- 	validated_shader =3D kcalloc(1, sizeof(*validated_shader), GFP_KERNEL);
- 	if (!validated_shader)
--		goto fail;
-+		goto free_targets;
+  https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-next-fixes-2023-12-26
 
- 	if (!vc4_validate_branches(&validation_state))
--		goto fail;
-+		goto free_shader;
+for you to fetch changes up to 315acff5196f4e2f84a2a2d093000e0c6b0b4d1c:
 
- 	for (ip =3D 0; ip < validation_state.max_ip; ip++) {
- 		uint64_t inst =3D validation_state.shader[ip];
-@@ -815,7 +815,7 @@ vc4_validate_shader(struct drm_gem_dma_object *shader_=
-obj)
- 		validation_state.ip =3D ip;
+  drm/xe: Fix warning on impossible condition (2023-12-26 12:53:26 -0500)
 
- 		if (!vc4_handle_branch_target(&validation_state))
--			goto fail;
-+			goto free_offsets;
+----------------------------------------------------------------
+- Fix couple unfined behavior cases to calm UBSAN and clang (Matt Brost, Lucas)
 
- 		if (ip =3D=3D last_thread_switch_ip + 3) {
- 			/* Reset r0-r3 live clamp data */
-@@ -842,12 +842,12 @@ vc4_validate_shader(struct drm_gem_dma_object *shade=
-r_obj)
- 			if (!check_instruction_writes(validated_shader,
- 						      &validation_state)) {
- 				DRM_DEBUG("Bad write at ip %d\n", ip);
--				goto fail;
-+				goto free_offsets;
- 			}
+----------------------------------------------------------------
+Lucas De Marchi (1):
+      drm/xe: Fix warning on impossible condition
 
- 			if (!check_instruction_reads(validated_shader,
- 						     &validation_state))
--				goto fail;
-+				goto free_offsets;
+Matthew Brost (1):
+      drm/xe: Fix UBSAN splat in add_preempt_fences()
 
- 			if (sig =3D=3D QPU_SIG_PROG_END) {
- 				found_shader_end =3D true;
-@@ -861,7 +861,7 @@ vc4_validate_shader(struct drm_gem_dma_object *shader_=
-obj)
- 				if (ip < last_thread_switch_ip + 3) {
- 					DRM_DEBUG("Thread switch too soon after "
- 						  "last switch at ip %d\n", ip);
--					goto fail;
-+					goto free_offsets;
- 				}
- 				last_thread_switch_ip =3D ip;
- 			}
-@@ -872,26 +872,26 @@ vc4_validate_shader(struct drm_gem_dma_object *shade=
-r_obj)
- 			if (!check_instruction_writes(validated_shader,
- 						      &validation_state)) {
- 				DRM_DEBUG("Bad LOAD_IMM write at ip %d\n", ip);
--				goto fail;
-+				goto free_offsets;
- 			}
- 			break;
-
- 		case QPU_SIG_BRANCH:
- 			if (!check_branch(inst, validated_shader,
- 					  &validation_state, ip))
--				goto fail;
-+				goto free_offsets;
-
- 			if (ip < last_thread_switch_ip + 3) {
- 				DRM_DEBUG("Branch in thread switch at ip %d",
- 					  ip);
--				goto fail;
-+				goto free_offsets;
- 			}
-
- 			break;
- 		default:
- 			DRM_DEBUG("Unsupported QPU signal %d at "
- 				  "instruction %d\n", sig, ip);
--			goto fail;
-+			goto free_offsets;
- 		}
-
- 		/* There are two delay slots after program end is signaled
-@@ -905,7 +905,7 @@ vc4_validate_shader(struct drm_gem_dma_object *shader_=
-obj)
- 		DRM_DEBUG("shader failed to terminate before "
- 			  "shader BO end at %zd\n",
- 			  shader_obj->base.size);
--		goto fail;
-+		goto free_offsets;
- 	}
-
- 	/* Might corrupt other thread */
-@@ -913,7 +913,7 @@ vc4_validate_shader(struct drm_gem_dma_object *shader_=
-obj)
- 	    validation_state.all_registers_used) {
- 		DRM_DEBUG("Shader uses threading, but uses the upper "
- 			  "half of the registers, too\n");
--		goto fail;
-+		goto free_offsets;
- 	}
-
- 	/* If we did a backwards branch and we haven't emitted a uniforms
-@@ -927,7 +927,7 @@ vc4_validate_shader(struct drm_gem_dma_object *shader_=
-obj)
- 	 */
- 	if (validation_state.needs_uniform_address_for_loop) {
- 		if (!require_uniform_address_uniform(validated_shader))
--			goto fail;
-+			goto free_offsets;
- 		validated_shader->uniforms_size +=3D 4;
- 	}
-
-@@ -943,12 +943,12 @@ vc4_validate_shader(struct drm_gem_dma_object *shade=
-r_obj)
-
- 	return validated_shader;
-
--fail:
-+free_offsets:
-+	kfree(validated_shader->uniform_addr_offsets);
-+	kfree(validated_shader->texture_samples);
-+free_shader:
-+	kfree(validated_shader);
-+free_targets:
- 	kfree(validation_state.branch_targets);
--	if (validated_shader) {
--		kfree(validated_shader->uniform_addr_offsets);
--		kfree(validated_shader->texture_samples);
--		kfree(validated_shader);
--	}
- 	return NULL;
- }
-=2D-
-2.43.0
-
+ drivers/gpu/drm/xe/xe_vm.c              | 3 +++
+ drivers/gpu/drm/xe/xe_wait_user_fence.c | 1 +
+ 2 files changed, 4 insertions(+)
