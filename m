@@ -2,86 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4FEC81EA6C
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Dec 2023 23:57:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EC2581EB4D
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Dec 2023 02:29:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C317410E0A2;
-	Tue, 26 Dec 2023 22:57:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43DD110E20B;
+	Wed, 27 Dec 2023 01:29:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D731110E0A2
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Dec 2023 22:57:51 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 3BQMpvFi015277; Tue, 26 Dec 2023 22:57:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=EC9GG/d3VhKi5zBly4dEMV4dBCnylliZgybv1p8LOfk=; b=nZ
- SPrHQxcI/+FSjC7CtOY0s0Y7Z1IxbAsaL8Nv80s1KQNSzwefwEKiIBPCCLpOz6qR
- FEDxG/Ye+4PUGJE9dZHwdS2VY57namR9ZaJnbADrxXcjMg/W5TnTiNN8GwXgAkwm
- OGrLdiPimUA2TZzZJ7CSOgXz2yrdSJpZhEwmbxmyJdUVGmPMTNwew854x5TVqmvE
- GEFiK7SXKDprh0sFTpmRgxHeJpWIpQyaYbaTphAvAXI2poux+CTRG0nJj0OBphlq
- 3/SNMzv/2nkoxW1i7j1+WFpezAxpq78MaPJVn7va3zIWgpJtllNepS61b3tDTR2E
- dSqDevBFrMuAg+Rfie4g==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v80kfrtbr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 26 Dec 2023 22:57:02 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BQMv1wO006879
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 26 Dec 2023 22:57:01 GMT
-Received: from [10.110.123.205] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 26 Dec
- 2023 14:56:59 -0800
-Message-ID: <342bf5a0-8454-4fd6-be45-462f1e31e606@quicinc.com>
-Date: Tue, 26 Dec 2023 14:56:58 -0800
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
+ [IPv6:2a00:1450:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7514D10E20B
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Dec 2023 01:29:53 +0000 (UTC)
+Received: by mail-ed1-x532.google.com with SMTP id
+ 4fb4d7f45d1cf-5553f251e3cso361206a12.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Dec 2023 17:29:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1703640591; x=1704245391;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=qwq6TihVCAiposGoRNa81eZR5i3BAxdMKch0z/UC8LI=;
+ b=HZ66FmIXVM6405EzlTsWlNU2tYNgI/JIe/PPUUZYJPPzUlY4yu/fTnXuyargkzJQUb
+ zlr9xZeCvi8kPW9wpb0PXjH+9hmh3PauRwiFf0j/XQXdZbDmirx2PocjDvMJXMpkBWnb
+ hQ+BvrZwKSHdYp3niPp+N3JJQn+D6S19+tweM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1703640591; x=1704245391;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=qwq6TihVCAiposGoRNa81eZR5i3BAxdMKch0z/UC8LI=;
+ b=nVBE5kLHC7P73eYCNGvS0hCeG6metbkliiENqfloo4s1G6dsc21cW6Oe1sv2wZA2QP
+ tVW9zB8WxgkCQiBtBZhcPoEYRH/tkqhwJQ1x16LW0tEaTlYneUf3QbhWVRGP3zirxhjB
+ iZA44El0aa6/s/ZY62Qc4z/j4HWbgHaxRnbR6POvZ9FIXMEFOjKyrgYow73X6aT0PdnD
+ vlEHwIm5utaziscmc7XyC5miX1Crqq2pI1AaUJMAnbTDSPkdpPj0IgVJpLpSnMbpG16X
+ jidaxyA0ZKgvn8aSoDl4d207mpgg0fhVYWRLt5Vbk6wSNzrR47TAo/39WIyeZuSlh3po
+ 7a8g==
+X-Gm-Message-State: AOJu0YwB2CAS0c5E2Q+RqkNbuc+pgqUHGz3SIo2TXK3vhkYIhsb0wAL/
+ FCndj2QWwpvsD4yBAvVcvJYNMw4RRHa0D4Esja5Yst+cueey
+X-Google-Smtp-Source: AGHT+IGBcItAipV7bztpXaj4GDr3Krpprd9YoaxY9/PXQ5/uLcL0Aybh54KlvZgD94GXhQj7NPPYVA==
+X-Received: by 2002:a50:aadc:0:b0:553:452d:5070 with SMTP id
+ r28-20020a50aadc000000b00553452d5070mr5773780edc.38.1703640591061; 
+ Tue, 26 Dec 2023 17:29:51 -0800 (PST)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com.
+ [209.85.208.44]) by smtp.gmail.com with ESMTPSA id
+ p12-20020a05640243cc00b0055493aa8905sm4561348edc.63.2023.12.26.17.29.50
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 Dec 2023 17:29:50 -0800 (PST)
+Received: by mail-ed1-f44.google.com with SMTP id
+ 4fb4d7f45d1cf-548ae9a5eeaso42256a12.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Dec 2023 17:29:50 -0800 (PST)
+X-Received: by 2002:a50:cd8a:0:b0:553:9d94:9f6a with SMTP id
+ p10-20020a50cd8a000000b005539d949f6amr518011edi.7.1703640590301; Tue, 26 Dec
+ 2023 17:29:50 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/4] drm/panel: Add driver for BOE TH101MB31IG002-28A
- panel
-Content-Language: en-US
-To: Manuel Traut <manut@mecka.net>, Neil Armstrong <neil.armstrong@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Sandy Huang <hjc@rock-chips.com>, Mark Yao <markyao0591@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>, Segfault
- <awarnecke002@hotmail.com>, Arnaud Ferraris <aferraris@debian.org>, Danct12
- <danct12@riseup.net>
-References: <20231223-pinetab2-v2-0-ec1856d0030e@mecka.net>
- <20231223-pinetab2-v2-2-ec1856d0030e@mecka.net>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20231223-pinetab2-v2-2-ec1856d0030e@mecka.net>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: TumLrRfuEae19PVbY2IC7D6l1nIji7Kn
-X-Proofpoint-GUID: TumLrRfuEae19PVbY2IC7D6l1nIji7Kn
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 impostorscore=0
- mlxlogscore=999 malwarescore=0 clxscore=1011 priorityscore=1501 mlxscore=0
- spamscore=0 lowpriorityscore=0 adultscore=0 bulkscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2311290000
- definitions=main-2312260175
+References: <20231221100016.4022353-1-julia.zhang@amd.com>
+In-Reply-To: <20231221100016.4022353-1-julia.zhang@amd.com>
+From: Gurchetan Singh <gurchetansingh@chromium.org>
+Date: Tue, 26 Dec 2023 17:29:37 -0800
+X-Gmail-Original-Message-ID: <CAAfnVBm+oo=dnDuqp1hYVj+OrQHHp5NPUHh2oxmEVjNrsDDUTQ@mail.gmail.com>
+Message-ID: <CAAfnVBm+oo=dnDuqp1hYVj+OrQHHp5NPUHh2oxmEVjNrsDDUTQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/1] Implementation of resource_query_layout
+To: Julia Zhang <julia.zhang@amd.com>
+Content-Type: multipart/alternative; boundary="00000000000036599d060d73bc65"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,430 +77,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org
+Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Chen Jiqian <Jiqian.Chen@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>,
+ Erik Faye-Lund <kusmabite@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ Huang Rui <ray.huang@amd.com>, amd-gfx@lists.freedesktop.org,
+ Honglei Huang <honglei1.huang@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@redhat.com>,
+ David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--00000000000036599d060d73bc65
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Dec 21, 2023 at 2:01=E2=80=AFAM Julia Zhang <julia.zhang@amd.com> w=
+rote:
+
+> Hi all,
+>
+> Sorry to late reply. This is v2 of the implementation of
+> resource_query_layout. This adds a new ioctl to let guest query informati=
+on
+> of host resource, which is originally from Daniel Stone. We add some
+> changes to support query the correct stride of host resource before it's
+> created, which is to support to blit data from dGPU to virtio iGPU for dG=
+PU
+> prime feature.
+>
+> Changes from v1 to v2:
+> -Squash two patches to a single patch.
+> -A small modification of VIRTIO_GPU_F_RESOURCE_QUERY_LAYOUT
+>
+>
+> Below is description of v1:
+> This add implementation of resource_query_layout to get the information o=
+f
+> how the host has actually allocated the buffer. This function is now used
+> to query the stride for guest linear resource for dGPU prime on guest VMs=
+.
+>
+
+You can use a context specific protocol or even the virgl capabilities [for
+a linear strided resource].  For example, Sommelier does the following:
+
+https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/vm_tools/somm=
+elier/virtualization/virtgpu_channel.cc#549
+
+i.e, you should be able to avoid extra ioctl + hypercall.
 
 
-On 12/23/2023 7:20 AM, Manuel Traut wrote:
-> From: Alexander Warnecke <awarnecke002@hotmail.com>
-> 
-> The BOE TH101MB31IG002-28A panel is a WXGA panel.
-> It is used in Pine64 Pinetab2 and PinetabV.
-> 
-> Signed-off-by: Alexander Warnecke <awarnecke002@hotmail.com>
-> Signed-off-by: Manuel Traut <manut@mecka.net>
-> ---
->   drivers/gpu/drm/panel/Kconfig                      |  11 +
->   drivers/gpu/drm/panel/Makefile                     |   1 +
->   .../gpu/drm/panel/panel-boe-th101mb31ig002-28a.c   | 348 +++++++++++++++++++++
->   3 files changed, 360 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-> index 99e14dc212ec..927ddd10e688 100644
-> --- a/drivers/gpu/drm/panel/Kconfig
-> +++ b/drivers/gpu/drm/panel/Kconfig
-> @@ -67,6 +67,17 @@ config DRM_PANEL_BOE_HIMAX8279D
->   	  24 bit RGB per pixel. It provides a MIPI DSI interface to
->   	  the host and has a built-in LED backlight.
->   
-> +config DRM_PANEL_BOE_TH101MB31UIG002_28A
-> +	tristate "Boe TH101MB31UIG002-28A panel"
-> +	depends on OF
-> +	depends on DRM_MIPI_DSI
-> +	depends on BACKLIGHT_CLASS_DEVICE
-> +	help
-> +	  Say Y here if you want to enable support for Boe
-> +	  TH101MB31UIG002-28A TFT-LCD modules. The panel has a 800x1280
-> +	  resolution and uses 24 bit RGB per pixel. It provides a MIPI DSI
-> +	  interface to the host and has a built-in LED backlight.
-> +
->   config DRM_PANEL_BOE_TV101WUM_NL6
->   	tristate "BOE TV101WUM and AUO KD101N80 45NA 1200x1920 panel"
->   	depends on OF
-> diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-> index d10c3de51c6d..dd6e1ac9d0a2 100644
-> --- a/drivers/gpu/drm/panel/Makefile
-> +++ b/drivers/gpu/drm/panel/Makefile
-> @@ -5,6 +5,7 @@ obj-$(CONFIG_DRM_PANEL_ASUS_Z00T_TM5P5_NT35596) += panel-asus-z00t-tm5p5-n35596.
->   obj-$(CONFIG_DRM_PANEL_AUO_A030JTN01) += panel-auo-a030jtn01.o
->   obj-$(CONFIG_DRM_PANEL_BOE_BF060Y8M_AJ0) += panel-boe-bf060y8m-aj0.o
->   obj-$(CONFIG_DRM_PANEL_BOE_HIMAX8279D) += panel-boe-himax8279d.o
-> +obj-$(CONFIG_DRM_PANEL_BOE_TH101MB31UIG002_28A) += panel-boe-th101mb31ig002-28a.o
->   obj-$(CONFIG_DRM_PANEL_BOE_TV101WUM_NL6) += panel-boe-tv101wum-nl6.o
->   obj-$(CONFIG_DRM_PANEL_DSI_CM) += panel-dsi-cm.o
->   obj-$(CONFIG_DRM_PANEL_LVDS) += panel-lvds.o
-> diff --git a/drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c b/drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c
-> new file mode 100644
-> index 000000000000..ffe4047b7434
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c
-> @@ -0,0 +1,348 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) 2023 Alexander Warnecke <awarnecke002@hotmail.com>
-> + * Copyright (c) 2023 Manuel Traut <manut@mecka.net>
-> + * Copyright (c) 2023 Dang Huynh <danct12@riseup.net>
-> + */
-> +
-> +#include <linux/delay.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/of_device.h>
-> +#include <linux/regulator/consumer.h>
-> +
-> +#include <drm/drm_connector.h>
-> +#include <drm/drm_mipi_dsi.h>
-> +#include <drm/drm_modes.h>
-> +#include <drm/drm_panel.h>
-> +
-> +struct boe_th101mb31ig002 {
-> +	struct drm_panel panel;
-> +	bool enabled;
-> +	bool prepared;
+>
+> v1 of kernel side:
+>  https:
+> //
+> lore.kernel.org/xen-devel/20231110074027.24862-1-julia.zhang@amd.com/T/#t
+>
+> v1 of qemu side:
+> https:
+> //
+> lore.kernel.org/qemu-devel/20231110074027.24862-1-julia.zhang@amd.com/T/#=
+t
+>
+> Daniel Stone (1):
+>   drm/virtio: Implement RESOURCE_GET_LAYOUT ioctl
+>
+>  drivers/gpu/drm/virtio/virtgpu_drv.c   |  1 +
+>  drivers/gpu/drm/virtio/virtgpu_drv.h   | 22 ++++++++-
+>  drivers/gpu/drm/virtio/virtgpu_ioctl.c | 66 ++++++++++++++++++++++++++
+>  drivers/gpu/drm/virtio/virtgpu_kms.c   |  8 +++-
+>  drivers/gpu/drm/virtio/virtgpu_vq.c    | 63 ++++++++++++++++++++++++
+>  include/uapi/drm/virtgpu_drm.h         | 21 ++++++++
+>  include/uapi/linux/virtio_gpu.h        | 30 ++++++++++++
+>  7 files changed, 208 insertions(+), 3 deletions(-)
+>
+> --
+> 2.34.1
+>
+>
 
-Hi Manuel,
+--00000000000036599d060d73bc65
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Sorry, I responded to the v1 instead of the latest version. Carrying my 
-comment over to here:
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Dec 21, 2023 at 2:01=E2=80=AF=
+AM Julia Zhang &lt;<a href=3D"mailto:julia.zhang@amd.com">julia.zhang@amd.c=
+om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+">Hi all,<br>
+<br>
+Sorry to late reply. This is v2 of the implementation of<br>
+resource_query_layout. This adds a new ioctl to let guest query information=
+<br>
+of host resource, which is originally from Daniel Stone. We add some<br>
+changes to support query the correct stride of host resource before it&#39;=
+s<br>
+created, which is to support to blit data from dGPU to virtio iGPU for dGPU=
+<br>
+prime feature. <br>
+<br>
+Changes from v1 to v2:<br>
+-Squash two patches to a single patch. <br>
+-A small modification of VIRTIO_GPU_F_RESOURCE_QUERY_LAYOUT<br>
+<br>
+<br>
+Below is description of v1:<br>
+This add implementation of resource_query_layout to get the information of<=
+br>
+how the host has actually allocated the buffer. This function is now used<b=
+r>
+to query the stride for guest linear resource for dGPU prime on guest VMs.<=
+br></blockquote><div><br></div><div>You can use a context specific protocol=
+ or even the virgl capabilities=C2=A0[for a linear strided resource].=C2=A0=
+ For example, Sommelier does the following:</div><div><br></div><div><a hre=
+f=3D"https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/vm_tools=
+/sommelier/virtualization/virtgpu_channel.cc#549">https://chromium.googleso=
+urce.com/chromiumos/platform2/+/HEAD/vm_tools/sommelier/virtualization/virt=
+gpu_channel.cc#549</a><br></div><div><br></div><div>i.e, you should be able=
+ to avoid extra ioctl=C2=A0+ hypercall.</div><div>=C2=A0</div><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
+d rgb(204,204,204);padding-left:1ex">
+<br>
+v1 of kernel side:<br>
+=C2=A0https:<br>
+//<a href=3D"http://lore.kernel.org/xen-devel/20231110074027.24862-1-julia.=
+zhang@amd.com/T/#t" rel=3D"noreferrer" target=3D"_blank">lore.kernel.org/xe=
+n-devel/20231110074027.24862-1-julia.zhang@amd.com/T/#t</a><br>
+<br>
+v1 of qemu side:<br>
+https:<br>
+//<a href=3D"http://lore.kernel.org/qemu-devel/20231110074027.24862-1-julia=
+.zhang@amd.com/T/#t" rel=3D"noreferrer" target=3D"_blank">lore.kernel.org/q=
+emu-devel/20231110074027.24862-1-julia.zhang@amd.com/T/#t</a><br>
+<br>
+Daniel Stone (1):<br>
+=C2=A0 drm/virtio: Implement RESOURCE_GET_LAYOUT ioctl<br>
+<br>
+=C2=A0drivers/gpu/drm/virtio/virtgpu_drv.c=C2=A0 =C2=A0|=C2=A0 1 +<br>
+=C2=A0drivers/gpu/drm/virtio/virtgpu_drv.h=C2=A0 =C2=A0| 22 ++++++++-<br>
+=C2=A0drivers/gpu/drm/virtio/virtgpu_ioctl.c | 66 +++++++++++++++++++++++++=
++<br>
+=C2=A0drivers/gpu/drm/virtio/virtgpu_kms.c=C2=A0 =C2=A0|=C2=A0 8 +++-<br>
+=C2=A0drivers/gpu/drm/virtio/virtgpu_vq.c=C2=A0 =C2=A0 | 63 +++++++++++++++=
++++++++++<br>
+=C2=A0include/uapi/drm/virtgpu_drm.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 21 =
+++++++++<br>
+=C2=A0include/uapi/linux/virtio_gpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 30 +++++=
++++++++<br>
+=C2=A07 files changed, 208 insertions(+), 3 deletions(-)<br>
+<br>
+-- <br>
+2.34.1<br>
+<br>
+</blockquote></div></div>
 
-If I remember correctly, commit d2aacaf07395bd798373cbec6af05fff4147aff3 
-should have introduced prepared/enabled do the drm_panel struct.
-
-Thanks,
-
-Jessica Zhang
-
-> +
-> +	struct mipi_dsi_device *dsi;
-> +
-> +	struct regulator *power;
-> +	struct gpio_desc *enable;
-> +	struct gpio_desc *reset;
-> +
-> +	enum drm_panel_orientation orientation;
-> +};
-> +
-> +static void boe_th101mb31ig002_reset(struct boe_th101mb31ig002 *ctx)
-> +{
-> +	gpiod_direction_output(ctx->reset, 0);
-> +	usleep_range(10, 100);
-> +	gpiod_direction_output(ctx->reset, 1);
-> +	usleep_range(10, 100);
-> +	gpiod_direction_output(ctx->reset, 0);
-> +	usleep_range(5000, 6000);
-> +}
-> +
-> +static int boe_th101mb31ig002_enable(struct drm_panel *panel)
-> +{
-> +	struct boe_th101mb31ig002 *ctx = container_of(panel,
-> +						      struct boe_th101mb31ig002,
-> +						      panel);
-> +	struct mipi_dsi_device *dsi = ctx->dsi;
-> +	struct device *dev = &dsi->dev;
-> +	int ret;
-> +
-> +	if (ctx->enabled)
-> +		return 0;
-> +
-> +	mipi_dsi_dcs_write_seq(dsi, 0xE0, 0xAB, 0xBA);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xE1, 0xBA, 0xAB);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xB1, 0x10, 0x01, 0x47, 0xFF);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xB2, 0x0C, 0x14, 0x04, 0x50, 0x50, 0x14);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xB3, 0x56, 0x53, 0x00);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xB4, 0x33, 0x30, 0x04);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xB6, 0xB0, 0x00, 0x00, 0x10, 0x00, 0x10,
-> +				    0x00);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xB8, 0x05, 0x12, 0x29, 0x49, 0x48, 0x00,
-> +				    0x00);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xB9, 0x7C, 0x65, 0x55, 0x49, 0x46, 0x36,
-> +				    0x3B, 0x24, 0x3D, 0x3C, 0x3D, 0x5C, 0x4C,
-> +				    0x55, 0x47, 0x46, 0x39, 0x26, 0x06, 0x7C,
-> +				    0x65, 0x55, 0x49, 0x46, 0x36, 0x3B, 0x24,
-> +				    0x3D, 0x3C, 0x3D, 0x5C, 0x4C, 0x55, 0x47,
-> +				    0x46, 0x39, 0x26, 0x06);
-> +	mipi_dsi_dcs_write_seq(dsi, 0x00, 0xFF, 0x87, 0x12, 0x34, 0x44, 0x44,
-> +				    0x44, 0x44, 0x98, 0x04, 0x98, 0x04, 0x0F,
-> +				    0x00, 0x00, 0xC1);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xC1, 0x54, 0x94, 0x02, 0x85, 0x9F, 0x00,
-> +				    0x7F, 0x00, 0x54, 0x00);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xC2, 0x17, 0x09, 0x08, 0x89, 0x08, 0x11,
-> +				    0x22, 0x20, 0x44, 0xFF, 0x18, 0x00);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xC3, 0x86, 0x46, 0x05, 0x05, 0x1C, 0x1C,
-> +				    0x1D, 0x1D, 0x02, 0x1F, 0x1F, 0x1E, 0x1E,
-> +				    0x0F, 0x0F, 0x0D, 0x0D, 0x13, 0x13, 0x11,
-> +				    0x11, 0x00);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xC4, 0x07, 0x07, 0x04, 0x04, 0x1C, 0x1C,
-> +				    0x1D, 0x1D, 0x02, 0x1F, 0x1F, 0x1E, 0x1E,
-> +				    0x0E, 0x0E, 0x0C, 0x0C, 0x12, 0x12, 0x10,
-> +				    0x10, 0x00);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xC6, 0x2A, 0x2A);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xC8, 0x21, 0x00, 0x31, 0x42, 0x34, 0x16);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xCA, 0xCB, 0x43);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xCD, 0x0E, 0x4B, 0x4B, 0x20, 0x19, 0x6B,
-> +				    0x06, 0xB3);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xD2, 0xE3, 0x2B, 0x38, 0x00);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xD4, 0x00, 0x01, 0x00, 0x0E, 0x04, 0x44,
-> +				    0x08, 0x10, 0x00, 0x00, 0x00);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xE6, 0x80, 0x01, 0xFF, 0xFF, 0xFF, 0xFF,
-> +				    0xFF, 0xFF);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xF0, 0x12, 0x03, 0x20, 0x00, 0xFF);
-> +	mipi_dsi_dcs_write_seq(dsi, 0xF3, 0x00);
-> +
-> +	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	msleep(120);
-> +
-> +	ret = mipi_dsi_dcs_set_display_on(dsi);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to set panel on: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ctx->enabled = true;
-> +
-> +	return 0;
-> +}
-> +
-> +static int boe_th101mb31ig002_disable(struct drm_panel *panel)
-> +{
-> +	struct boe_th101mb31ig002 *ctx = container_of(panel,
-> +						      struct boe_th101mb31ig002,
-> +						      panel);
-> +	struct mipi_dsi_device *dsi = ctx->dsi;
-> +	struct device *dev = &dsi->dev;
-> +	int ret;
-> +
-> +	if (!ctx->enabled)
-> +		return 0;
-> +
-> +	ret = mipi_dsi_dcs_set_display_off(dsi);
-> +	if (ret < 0)
-> +		dev_err(dev, "Failed to set panel off: %d\n", ret);
-> +
-> +	msleep(120);
-> +
-> +	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
-> +	if (ret < 0)
-> +		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
-> +
-> +	ctx->enabled = false;
-> +
-> +	return 0;
-> +}
-> +
-> +static int boe_th101mb31ig002_unprepare(struct drm_panel *panel)
-> +{
-> +	struct boe_th101mb31ig002 *ctx = container_of(panel,
-> +						      struct boe_th101mb31ig002,
-> +						      panel);
-> +
-> +	if (!ctx->prepared)
-> +		return 0;
-> +
-> +	gpiod_set_value_cansleep(ctx->reset, 1);
-> +	gpiod_set_value_cansleep(ctx->enable, 0);
-> +	regulator_disable(ctx->power);
-> +
-> +	ctx->prepared = false;
-> +
-> +	return 0;
-> +}
-> +
-> +static int boe_th101mb31ig002_prepare(struct drm_panel *panel)
-> +{
-> +	struct boe_th101mb31ig002 *ctx = container_of(panel,
-> +						      struct boe_th101mb31ig002,
-> +						      panel);
-> +	struct device *dev = &ctx->dsi->dev;
-> +	int ret;
-> +
-> +	if (ctx->prepared)
-> +		return 0;
-> +
-> +	ret = regulator_enable(ctx->power);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to enable power supply: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	gpiod_set_value_cansleep(ctx->enable, 1);
-> +	msleep(50);
-> +	boe_th101mb31ig002_reset(ctx);
-> +	boe_th101mb31ig002_enable(panel);
-> +
-> +	ctx->prepared = true;
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct drm_display_mode boe_th101mb31ig002_default_mode = {
-> +	.clock		= 73500,
-> +	.hdisplay	= 800,
-> +	.hsync_start	= 800 + 64,
-> +	.hsync_end	= 800 + 64 + 16,
-> +	.htotal		= 800 + 64 + 16 + 64,
-> +	.vdisplay	= 1280,
-> +	.vsync_start	= 1280 + 2,
-> +	.vsync_end	= 1280 + 2 + 4,
-> +	.vtotal		= 1280 + 2 + 4 + 12,
-> +	.width_mm	= 135,
-> +	.height_mm	= 216,
-> +	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
-> +};
-> +
-> +static int boe_th101mb31ig002_get_modes(struct drm_panel *panel,
-> +					struct drm_connector *connector)
-> +{
-> +	struct boe_th101mb31ig002 *ctx = container_of(panel,
-> +						      struct boe_th101mb31ig002,
-> +						      panel);
-> +	struct drm_display_mode *mode;
-> +
-> +	mode = drm_mode_duplicate(connector->dev,
-> +				  &boe_th101mb31ig002_default_mode);
-> +	if (!mode) {
-> +		dev_err(panel->dev, "Failed to add mode %ux%u@%u\n",
-> +			boe_th101mb31ig002_default_mode.hdisplay,
-> +			boe_th101mb31ig002_default_mode.vdisplay,
-> +			drm_mode_vrefresh(&boe_th101mb31ig002_default_mode));
-> +		return -ENOMEM;
-> +	}
-> +
-> +	drm_mode_set_name(mode);
-> +
-> +	connector->display_info.bpc = 8;
-> +	connector->display_info.width_mm = mode->width_mm;
-> +	connector->display_info.height_mm = mode->height_mm;
-> +
-> +	/*
-> +	 * TODO: Remove once all drm drivers call
-> +	 * drm_connector_set_orientation_from_panel()
-> +	 */
-> +	drm_connector_set_panel_orientation(connector, ctx->orientation);
-> +
-> +	drm_mode_probed_add(connector, mode);
-> +
-> +	return 1;
-> +}
-> +
-> +static enum drm_panel_orientation
-> +boe_th101mb31ig002_get_orientation(struct drm_panel *panel)
-> +{
-> +	struct boe_th101mb31ig002 *ctx = container_of(panel,
-> +						      struct boe_th101mb31ig002,
-> +						      panel);
-> +
-> +	return ctx->orientation;
-> +}
-> +
-> +static const struct drm_panel_funcs boe_th101mb31ig002_funcs = {
-> +	.prepare = boe_th101mb31ig002_prepare,
-> +	.unprepare = boe_th101mb31ig002_unprepare,
-> +	.enable = boe_th101mb31ig002_enable,
-> +	.disable = boe_th101mb31ig002_disable,
-> +	.get_modes = boe_th101mb31ig002_get_modes,
-> +	.get_orientation = boe_th101mb31ig002_get_orientation,
-> +};
-> +
-> +static int boe_th101mb31ig002_dsi_probe(struct mipi_dsi_device *dsi)
-> +{
-> +	struct boe_th101mb31ig002 *ctx;
-> +	int ret;
-> +
-> +	ctx = devm_kzalloc(&dsi->dev, sizeof(*ctx), GFP_KERNEL);
-> +	if (!ctx)
-> +		return -ENOMEM;
-> +
-> +	ctx->enabled = false;
-> +	ctx->prepared = false;
-> +
-> +	mipi_dsi_set_drvdata(dsi, ctx);
-> +	ctx->dsi = dsi;
-> +
-> +	dsi->lanes = 4;
-> +	dsi->format = MIPI_DSI_FMT_RGB888;
-> +	dsi->mode_flags = MIPI_DSI_MODE_VIDEO_BURST |
-> +			  MIPI_DSI_MODE_NO_EOT_PACKET |
-> +			  MIPI_DSI_MODE_LPM;
-> +
-> +	ctx->power = devm_regulator_get(&dsi->dev, "power");
-> +	if (IS_ERR(ctx->power))
-> +		return dev_err_probe(&dsi->dev, PTR_ERR(ctx->power),
-> +				     "Failed to get power regulator\n");
-> +
-> +	ctx->enable = devm_gpiod_get(&dsi->dev, "enable", GPIOD_OUT_LOW);
-> +	if (IS_ERR(ctx->enable))
-> +		return dev_err_probe(&dsi->dev, PTR_ERR(ctx->enable),
-> +				     "Failed to get enable GPIO\n");
-> +
-> +	ctx->reset = devm_gpiod_get(&dsi->dev, "reset", GPIOD_OUT_HIGH);
-> +	if (IS_ERR(ctx->reset))
-> +		return dev_err_probe(&dsi->dev, PTR_ERR(ctx->reset),
-> +				     "Failed to get reset GPIO\n");
-> +
-> +	ret = of_drm_get_panel_orientation(dsi->dev.of_node,
-> +					   &ctx->orientation);
-> +	if (ret)
-> +		return dev_err_probe(&dsi->dev, ret,
-> +				     "Failed to get orientation\n");
-> +
-> +	drm_panel_init(&ctx->panel, &dsi->dev, &boe_th101mb31ig002_funcs,
-> +		       DRM_MODE_CONNECTOR_DSI);
-> +
-> +	ret = drm_panel_of_backlight(&ctx->panel);
-> +	if (ret)
-> +		return ret;
-> +
-> +	drm_panel_add(&ctx->panel);
-> +
-> +	ret = mipi_dsi_attach(dsi);
-> +	if (ret < 0) {
-> +		dev_err_probe(&dsi->dev, ret,
-> +			      "Failed to attach panel to DSI host\n");
-> +		drm_panel_remove(&ctx->panel);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void boe_th101mb31ig002_dsi_remove(struct mipi_dsi_device *dsi)
-> +{
-> +	struct boe_th101mb31ig002 *ctx = mipi_dsi_get_drvdata(dsi);
-> +
-> +	mipi_dsi_detach(dsi);
-> +	drm_panel_remove(&ctx->panel);
-> +}
-> +
-> +static const struct of_device_id boe_th101mb31ig002_of_match[] = {
-> +	{ .compatible = "boe,th101mb31ig002-28a", },
-> +	{ /* sentinel */ }
-> +};
-> +MODULE_DEVICE_TABLE(of, boe_th101mb31ig002_of_match);
-> +
-> +static struct mipi_dsi_driver boe_th101mb31ig002_driver = {
-> +	.driver = {
-> +		.name = "boe-th101mb31ig002-28a",
-> +		.of_match_table = boe_th101mb31ig002_of_match,
-> +	},
-> +	.probe = boe_th101mb31ig002_dsi_probe,
-> +	.remove = boe_th101mb31ig002_dsi_remove,
-> +};
-> +module_mipi_dsi_driver(boe_th101mb31ig002_driver);
-> +
-> +MODULE_AUTHOR("Alexander Warnecke <awarnecke002@hotmail.com>");
-> +MODULE_DESCRIPTION("BOE TH101MB31IG002-28A MIPI-DSI LCD panel");
-> +MODULE_LICENSE("GPL");
-> 
-> -- 
-> 2.43.0
-> 
+--00000000000036599d060d73bc65--
