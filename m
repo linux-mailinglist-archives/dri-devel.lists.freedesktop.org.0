@@ -1,52 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C17B081ED18
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Dec 2023 09:02:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 570C381EE3A
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Dec 2023 11:33:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D83AE10E216;
-	Wed, 27 Dec 2023 08:02:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E94010E22C;
+	Wed, 27 Dec 2023 10:33:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD8DA10E216
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Dec 2023 08:02:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1703664158; x=1735200158;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=r39C9fURv/tYjjTgfRvVfOiacLkGBXJF65fG2x4l+b0=;
- b=LJSk7ayYy+snZmXTXAskD7bUdco9z7kc8BRA3L6oepwvKmIb4JdkCaJN
- KZfQNuO4TXcjvX7CBMpDFAvYc0bvy0Nr6bgQT1o9ZFz+hg6s4ArfNKRpO
- OhJu69ZB0/eC23CRFpCh2gnlrPVyPDHgvIYQzsbNzbirqSzZHtcRee0YP
- AyKQMnj4m1bFPnz70OL14+VLVptAPGIM/9LKwlefGqAd9dv724LgLAg9Q
- O4PoIfNxbPdCZ9xVFETgGc+ndiVA8iqnhEiupG2ipEM6s2axWvSyRr7AH
- /N0KWkCXWSF89I5HXSjGte/XVFYnm//B3WiKW+u04WWc7AJbvcDSAQLN1 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10935"; a="482604322"
-X-IronPort-AV: E=Sophos;i="6.04,308,1695711600"; d="scan'208";a="482604322"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Dec 2023 00:02:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10935"; a="781668197"
-X-IronPort-AV: E=Sophos;i="6.04,308,1695711600"; d="scan'208";a="781668197"
-Received: from vkasired-desk2.fm.intel.com ([10.105.128.132])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Dec 2023 00:02:36 -0800
-From: Vivek Kasireddy <vivek.kasireddy@intel.com>
-To: dri-devel@lists.freedesktop.org,
-	linux-mm@kvack.org
-Subject: [PATCH v9 6/6] selftests/dma-buf/udmabuf: Add tests to verify data
- after page migration
-Date: Tue, 26 Dec 2023 23:38:22 -0800
-Message-Id: <20231227073822.390518-7-vivek.kasireddy@intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231227073822.390518-1-vivek.kasireddy@intel.com>
-References: <20231227073822.390518-1-vivek.kasireddy@intel.com>
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 81D3910E22C
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Dec 2023 10:33:17 +0000 (UTC)
+Received: by linux.microsoft.com (Postfix, from userid 1127)
+ id 1AAAF20ACE45; Wed, 27 Dec 2023 02:33:17 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 1AAAF20ACE45
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+ s=default; t=1703673197;
+ bh=rhta6OTcxm/C8G8aN3PzA3WRmHZVCVAC8GPPqF2VtbM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=StNOX7ireyxckzQYnApNhOyLTaxgkg+zAaQyG4RKrAIjysqHKC0oUy9iwbPkJD2HP
+ xLSjfZsmiW4teICvPna4GuplGirzIc/0mMdilsWoY3JnUSP50/RVYpep3NIDJTqeVo
+ rUDMcYZM95vcPE2OKhX95orAfjVqP/ZvMsjsIxHU=
+Date: Wed, 27 Dec 2023 02:33:17 -0800
+From: Saurabh Singh Sengar <ssengar@linux.microsoft.com>
+To: Shradha Gupta <shradhagupta@linux.microsoft.com>
+Subject: Re: [PATCH] drm: Check output polling initialized before disabling
+Message-ID: <20231227103317.GA25288@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <1703662035-1373-1-git-send-email-shradhagupta@linux.microsoft.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1703662035-1373-1-git-send-email-shradhagupta@linux.microsoft.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,234 +45,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dongwon Kim <dongwon.kim@intel.com>, David Hildenbrand <david@redhat.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Hugh Dickins <hughd@google.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, Peter Xu <peterx@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Junxiao Chang <junxiao.chang@intel.com>, Shuah Khan <shuah@kernel.org>,
- Mike Kravetz <mike.kravetz@oracle.com>
+Cc: linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.dev>, dri-devel@lists.freedesktop.org,
+ Shradha Gupta <shradhagupta@microsoft.com>, David Airlie <airlied@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since the memfd pages associated with a udmabuf may be migrated
-as part of udmabuf create, we need to verify the data coherency
-after successful migration. The new tests added in this patch try
-to do just that using 4k sized pages and also 2 MB sized huge
-pages for the memfd.
+On Tue, Dec 26, 2023 at 11:27:15PM -0800, Shradha Gupta wrote:
+> In drm_mode_config_helper_suspend() check if output polling
+> support is initialized before enabling/disabling polling.
+> For drivers like hyperv-drm, that do not initialize connector
+> polling, if suspend is called without this check, it leads to
+> suspend failure with following stack
+> 
+> [  770.719392] Freezing remaining freezable tasks ... (elapsed 0.001 seconds) done.
+> [  770.720592] printk: Suspending console(s) (use no_console_suspend to debug)
+> [  770.948823] ------------[ cut here ]------------
+> [  770.948824] WARNING: CPU: 1 PID: 17197 at kernel/workqueue.c:3162 __flush_work.isra.0+0x212/0x230
+> [  770.948831] Modules linked in: rfkill nft_counter xt_conntrack xt_owner udf nft_compat crc_itu_t nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 ip_set nf_tables nfnetlink vfat fat mlx5_ib ib_uverbs ib_core mlx5_core intel_rapl_msr intel_rapl_common kvm_amd ccp mlxfw kvm psample hyperv_drm tls drm_shmem_helper drm_kms_helper irqbypass pcspkr syscopyarea sysfillrect sysimgblt hv_balloon hv_utils joydev drm fuse xfs libcrc32c pci_hyperv pci_hyperv_intf sr_mod sd_mod cdrom t10_pi sg hv_storvsc scsi_transport_fc hv_netvsc serio_raw hyperv_keyboard hid_hyperv crct10dif_pclmul crc32_pclmul crc32c_intel hv_vmbus ghash_clmulni_intel dm_mirror dm_region_hash dm_log dm_mod
+> [  770.948863] CPU: 1 PID: 17197 Comm: systemd-sleep Not tainted 5.14.0-362.2.1.el9_3.x86_64 #1
+> [  770.948865] Hardware name: Microsoft Corporation Virtual Machine/Virtual Machine, BIOS Hyper-V UEFI Release v4.1 05/09/2022
+> [  770.948866] RIP: 0010:__flush_work.isra.0+0x212/0x230
+> [  770.948869] Code: 8b 4d 00 4c 8b 45 08 89 ca 48 c1 e9 04 83 e2 08 83 e1 0f 83 ca 02 89 c8 48 0f ba 6d 00 03 e9 25 ff ff ff 0f 0b e9 4e ff ff ff <0f> 0b 45 31 ed e9 44 ff ff ff e8 8f 89 b2 00 66 66 2e 0f 1f 84 00
+> [  770.948870] RSP: 0018:ffffaf4ac213fb10 EFLAGS: 00010246
+> [  770.948871] RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffffffff8c992857
+> [  770.948872] RDX: 0000000000000001 RSI: 0000000000000001 RDI: ffff9aad82b00330
+> [  770.948873] RBP: ffff9aad82b00330 R08: 0000000000000000 R09: ffff9aad87ee3d10
+> [  770.948874] R10: 0000000000000200 R11: 0000000000000000 R12: ffff9aad82b00330
+> [  770.948874] R13: 0000000000000001 R14: 0000000000000000 R15: 0000000000000001
+> [  770.948875] FS:  00007ff1b2f6bb40(0000) GS:ffff9aaf37d00000(0000) knlGS:0000000000000000
+> [  770.948878] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [  770.948878] CR2: 0000555f345cb666 CR3: 00000001462dc005 CR4: 0000000000370ee0
+> [  770.948879] Call Trace:
+> [  770.948880]  <TASK>
+> [  770.948881]  ? show_trace_log_lvl+0x1c4/0x2df
+> [  770.948884]  ? show_trace_log_lvl+0x1c4/0x2df
+> [  770.948886]  ? __cancel_work_timer+0x103/0x190
+> [  770.948887]  ? __flush_work.isra.0+0x212/0x230
+> [  770.948889]  ? __warn+0x81/0x110
+> [  770.948891]  ? __flush_work.isra.0+0x212/0x230
+> [  770.948892]  ? report_bug+0x10a/0x140
+> [  770.948895]  ? handle_bug+0x3c/0x70
+> [  770.948898]  ? exc_invalid_op+0x14/0x70
+> [  770.948899]  ? asm_exc_invalid_op+0x16/0x20
+> [  770.948903]  ? __flush_work.isra.0+0x212/0x230
+> [  770.948905]  __cancel_work_timer+0x103/0x190
+> [  770.948907]  ? _raw_spin_unlock_irqrestore+0xa/0x30
+> [  770.948910]  drm_kms_helper_poll_disable+0x1e/0x40 [drm_kms_helper]
+> [  770.948923]  drm_mode_config_helper_suspend+0x1c/0x80 [drm_kms_helper]
+> [  770.948933]  ? __pfx_vmbus_suspend+0x10/0x10 [hv_vmbus]
+> [  770.948942]  hyperv_vmbus_suspend+0x17/0x40 [hyperv_drm]
+> [  770.948944]  ? __pfx_vmbus_suspend+0x10/0x10 [hv_vmbus]
+> [  770.948951]  dpm_run_callback+0x4c/0x140
+> [  770.948954]  __device_suspend_noirq+0x74/0x220
+> [  770.948956]  dpm_noirq_suspend_devices+0x148/0x2a0
+> [  770.948958]  dpm_suspend_end+0x54/0xe0
+> [  770.948960]  create_image+0x14/0x290
+> [  770.948963]  hibernation_snapshot+0xd6/0x200
+> [  770.948964]  hibernate.cold+0x8b/0x1fb
+> [  770.948967]  state_store+0xcd/0xd0
+> [  770.948969]  kernfs_fop_write_iter+0x124/0x1b0
+> [  770.948973]  new_sync_write+0xff/0x190
+> [  770.948976]  vfs_write+0x1ef/0x280
+> [  770.948978]  ksys_write+0x5f/0xe0
+> [  770.948979]  do_syscall_64+0x5c/0x90
+> [  770.948981]  ? syscall_exit_work+0x103/0x130
+> [  770.948983]  ? syscall_exit_to_user_mode+0x12/0x30
+> [  770.948985]  ? do_syscall_64+0x69/0x90
+> [  770.948986]  ? do_syscall_64+0x69/0x90
+> [  770.948987]  ? do_user_addr_fault+0x1d6/0x6a0
+> [  770.948989]  ? do_syscall_64+0x69/0x90
+> [  770.948990]  ? exc_page_fault+0x62/0x150
+> [  770.948992]  entry_SYSCALL_64_after_hwframe+0x72/0xdc
+> [  770.948995] RIP: 0033:0x7ff1b293eba7
+> [  770.949010] Code: 0b 00 f7 d8 64 89 02 48 c7 c0 ff ff ff ff eb b7 0f 1f 00 f3 0f 1e fa 64 8b 04 25 18 00 00 00 85 c0 75 10 b8 01 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 51 c3 48 83 ec 28 48 89 54 24 18 48 89 74 24
+> [  770.949011] RSP: 002b:00007ffde3912128 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+> [  770.949012] RAX: ffffffffffffffda RBX: 0000000000000005 RCX: 00007ff1b293eba7
+> [  770.949013] RDX: 0000000000000005 RSI: 00007ffde3912210 RDI: 0000000000000004
+> [  770.949014] RBP: 00007ffde3912210 R08: 000055d7dd4c9510 R09: 00007ff1b29b14e0
+> [  770.949014] R10: 00007ff1b29b13e0 R11: 0000000000000246 R12: 0000000000000005
+> [  770.949015] R13: 000055d7dd4c53e0 R14: 0000000000000005 R15: 00007ff1b29f69e0
+> [  770.949016]  </TASK>
+> [  770.949017] ---[ end trace e6fa0618bfa2f31d ]---
+> 
+> Built-on: Rhel9, Ubuntu22
+> Signed-off-by: Shradha Gupta <shradhagupta@linux.microsoft.com>
+> ---
+>  drivers/gpu/drm/drm_modeset_helper.c | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_modeset_helper.c b/drivers/gpu/drm/drm_modeset_helper.c
+> index f858dfedf2cf..ac8ce709e3c1 100644
+> --- a/drivers/gpu/drm/drm_modeset_helper.c
+> +++ b/drivers/gpu/drm/drm_modeset_helper.c
+> @@ -194,12 +194,17 @@ int drm_mode_config_helper_suspend(struct drm_device *dev)
+>  	if (!dev)
+>  		return 0;
+>  
+> -	drm_kms_helper_poll_disable(dev);
+> +	if (dev->mode_config.poll_enabled)
+> +		drm_kms_helper_poll_disable(dev);
+> +
+>  	drm_fb_helper_set_suspend_unlocked(dev->fb_helper, 1);
+>  	state = drm_atomic_helper_suspend(dev);
+>  	if (IS_ERR(state)) {
+>  		drm_fb_helper_set_suspend_unlocked(dev->fb_helper, 0);
+> -		drm_kms_helper_poll_enable(dev);
+> +
+> +		if (dev->mode_config.poll_enabled)
+> +			drm_kms_helper_poll_enable(dev);
 
-Successful completion of the tests would mean that there is no
-disconnect between the memfd pages and the ones associated with
-a udmabuf. And, these tests can also be augmented in the future
-to test newer udmabuf features (such as handling memfd hole punch).
+This can be avoided as drm_kms_helper_poll_enable already check for
+dev->mode_config.poll_enabled.
+Further I was thinking may be we can add a similar check in
+drm_kms_helper_poll_disable but, there is already a function
+drm_kms_helper_poll_fini which does something similar. May be worth
+using it instead of drm_kms_helper_poll_disable ?
 
-Cc: Shuah Khan <shuah@kernel.org>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Mike Kravetz <mike.kravetz@oracle.com>
-Cc: Hugh Dickins <hughd@google.com>
-Cc: Peter Xu <peterx@redhat.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Dongwon Kim <dongwon.kim@intel.com>
-Cc: Junxiao Chang <junxiao.chang@intel.com>
-Based-on-patch-by: Mike Kravetz <mike.kravetz@oracle.com>
-Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
----
- .../selftests/drivers/dma-buf/udmabuf.c       | 151 +++++++++++++++++-
- 1 file changed, 147 insertions(+), 4 deletions(-)
+Moreover I see the below comments in description of
+drm_kms_helper_poll_disable. Apparently which is not true. Possibly
+Daniel or other DRM maintainers can share their opinion on this
+comment if it can be taken out.
+"
+ * Drivers can call this helper from their device suspend implementation. It is
+ * not an error to call this even when output polling isn't enabled or already
+ * disabled. 
+"
 
-diff --git a/tools/testing/selftests/drivers/dma-buf/udmabuf.c b/tools/testing/selftests/drivers/dma-buf/udmabuf.c
-index c812080e304e..d76c813fe652 100644
---- a/tools/testing/selftests/drivers/dma-buf/udmabuf.c
-+++ b/tools/testing/selftests/drivers/dma-buf/udmabuf.c
-@@ -9,26 +9,132 @@
- #include <errno.h>
- #include <fcntl.h>
- #include <malloc.h>
-+#include <stdbool.h>
- 
- #include <sys/ioctl.h>
- #include <sys/syscall.h>
-+#include <sys/mman.h>
- #include <linux/memfd.h>
- #include <linux/udmabuf.h>
- 
- #define TEST_PREFIX	"drivers/dma-buf/udmabuf"
- #define NUM_PAGES       4
-+#define NUM_ENTRIES     4
-+#define MEMFD_SIZE      1024 /* in pages */
- 
--static int memfd_create(const char *name, unsigned int flags)
-+static unsigned int page_size;
-+
-+static int create_memfd_with_seals(off64_t size, bool hpage)
-+{
-+	int memfd, ret;
-+	unsigned int flags = MFD_ALLOW_SEALING;
-+
-+	if (hpage)
-+		flags |= MFD_HUGETLB;
-+
-+	memfd = memfd_create("udmabuf-test", flags);
-+	if (memfd < 0) {
-+		printf("%s: [skip,no-memfd]\n", TEST_PREFIX);
-+		exit(77);
-+	}
-+
-+	ret = fcntl(memfd, F_ADD_SEALS, F_SEAL_SHRINK);
-+	if (ret < 0) {
-+		printf("%s: [skip,fcntl-add-seals]\n", TEST_PREFIX);
-+		exit(77);
-+	}
-+
-+	ret = ftruncate(memfd, size);
-+	if (ret == -1) {
-+		printf("%s: [FAIL,memfd-truncate]\n", TEST_PREFIX);
-+		exit(1);
-+	}
-+
-+	return memfd;
-+}
-+
-+static int create_udmabuf_list(int devfd, int memfd, off64_t memfd_size)
-+{
-+	struct udmabuf_create_list *list;
-+	int ubuf_fd, i;
-+
-+	list = malloc(sizeof(struct udmabuf_create_list) +
-+		      sizeof(struct udmabuf_create_item) * NUM_ENTRIES);
-+	if (!list) {
-+		printf("%s: [FAIL, udmabuf-malloc]\n", TEST_PREFIX);
-+		exit(1);
-+	}
-+
-+	for (i = 0; i < NUM_ENTRIES; i++) {
-+		list->list[i].memfd  = memfd;
-+		list->list[i].offset = i * (memfd_size / NUM_ENTRIES);
-+		list->list[i].size   = getpagesize() * NUM_PAGES;
-+	}
-+
-+	list->count = NUM_ENTRIES;
-+	list->flags = UDMABUF_FLAGS_CLOEXEC;
-+	ubuf_fd = ioctl(devfd, UDMABUF_CREATE_LIST, list);
-+	free(list);
-+	if (ubuf_fd < 0) {
-+		printf("%s: [FAIL, udmabuf-create]\n", TEST_PREFIX);
-+		exit(1);
-+	}
-+
-+	return ubuf_fd;
-+}
-+
-+static void write_to_memfd(void *addr, off64_t size, char chr)
-+{
-+	int i;
-+
-+	for (i = 0; i < size / page_size; i++) {
-+		*((char *)addr + (i * page_size)) = chr;
-+	}
-+}
-+
-+static void *mmap_fd(int fd, off64_t size)
- {
--	return syscall(__NR_memfd_create, name, flags);
-+	void *addr;
-+
-+	addr = mmap(NULL, size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
-+	if (addr == MAP_FAILED) {
-+		printf("%s: ubuf_fd mmap fail\n", TEST_PREFIX);
-+		exit(1);
-+	}
-+
-+	return addr;
-+}
-+
-+static int compare_chunks(void *addr1, void *addr2, off64_t memfd_size)
-+{
-+	off64_t off;
-+	int i = 0, j, k = 0, ret = 0;
-+	char char1, char2;
-+
-+	while (i < NUM_ENTRIES) {
-+		off = i * (memfd_size / NUM_ENTRIES);
-+		for (j = 0; j < NUM_PAGES; j++, k++) {
-+			char1 = *((char *)addr1 + off + (j * getpagesize()));
-+			char2 = *((char *)addr2 + (k * getpagesize()));
-+			if (char1 != char2) {
-+				ret = -1;
-+				goto err;
-+			}
-+		}
-+		i++;
-+	}
-+err:
-+	munmap(addr1, memfd_size);
-+	munmap(addr2, NUM_ENTRIES * NUM_PAGES * getpagesize());
-+	return ret;
- }
- 
- int main(int argc, char *argv[])
- {
- 	struct udmabuf_create create;
- 	int devfd, memfd, buf, ret;
--	off_t size;
--	void *mem;
-+	off64_t size;
-+	void *addr1, *addr2;
- 
- 	devfd = open("/dev/udmabuf", O_RDWR);
- 	if (devfd < 0) {
-@@ -90,6 +196,9 @@ int main(int argc, char *argv[])
- 	}
- 
- 	/* should work */
-+	page_size = getpagesize();
-+	addr1 = mmap_fd(memfd, size);
-+	write_to_memfd(addr1, size, 'a');
- 	create.memfd  = memfd;
- 	create.offset = 0;
- 	create.size   = size;
-@@ -98,6 +207,40 @@ int main(int argc, char *argv[])
- 		printf("%s: [FAIL,test-4]\n", TEST_PREFIX);
- 		exit(1);
- 	}
-+	munmap(addr1, size);
-+	close(buf);
-+	close(memfd);
-+
-+	/* should work (migration of 4k size pages)*/
-+	size = MEMFD_SIZE * page_size;
-+	memfd = create_memfd_with_seals(size, false);
-+	addr1 = mmap_fd(memfd, size);
-+	write_to_memfd(addr1, size, 'a');
-+	buf = create_udmabuf_list(devfd, memfd, size);
-+	addr2 = mmap_fd(buf, NUM_PAGES * NUM_ENTRIES * getpagesize());
-+	write_to_memfd(addr1, size, 'b');
-+	ret = compare_chunks(addr1, addr2, size);
-+	if (ret < 0) {
-+		printf("%s: [FAIL,test-5]\n", TEST_PREFIX);
-+		exit(1);
-+	}
-+	close(buf);
-+	close(memfd);
-+
-+	/* should work (migration of 2MB size huge pages)*/
-+	page_size = getpagesize() * 512; /* 2 MB */
-+	size = MEMFD_SIZE * page_size;
-+	memfd = create_memfd_with_seals(size, true);
-+	addr1 = mmap_fd(memfd, size);
-+	write_to_memfd(addr1, size, 'a');
-+	buf = create_udmabuf_list(devfd, memfd, size);
-+	addr2 = mmap_fd(buf, NUM_PAGES * NUM_ENTRIES * getpagesize());
-+	write_to_memfd(addr1, size, 'b');
-+	ret = compare_chunks(addr1, addr2, size);
-+	if (ret < 0) {
-+		printf("%s: [FAIL,test-6]\n", TEST_PREFIX);
-+		exit(1);
-+	}
- 
- 	fprintf(stderr, "%s: ok\n", TEST_PREFIX);
- 	close(buf);
--- 
-2.39.2
+- Saurabh
 
+> +
+>  		return PTR_ERR(state);
+>  	}
+>  
+> -- 
+> 2.34.1
