@@ -1,47 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF39181ED1A
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Dec 2023 09:02:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC3D281ED1C
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Dec 2023 09:02:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2ACC510E21B;
-	Wed, 27 Dec 2023 08:02:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CFEA10E226;
+	Wed, 27 Dec 2023 08:02:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6422510E218
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53B1F10E216
  for <dri-devel@lists.freedesktop.org>; Wed, 27 Dec 2023 08:02:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1703664158; x=1735200158;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Ysvgkra0A4hz+Fh+hWsAQrFZ6yvogefwsiMZ4geO3JM=;
- b=Em+2G9sgjN+DaH/aYzL2JzJzjZF4T4a+dkDqpy1+DBcHCO0JlO/RqucX
- cjtk6vSpTBzE4fGQFWN3wvDTc6REDyK+iL28Ld+MuyqkG4bsydxmEMeE/
- gnqaF7X15RMEA4qOuHWTQ/7SpMeclOqAL5hPienQuICgUBkdgavAWqlq5
- F0JX78YxfedNpICWrN3VTlJaLRB2/asDwHXqKyJ71fyLjvMbxDiANApXj
- sv5wQZd4lEvcP0xnAfA2BFpjlv7aQO1fHZgNQHl6SJzoinfgpe/zgVaaL
- d+gWak+AjYEcjOcd77RnAFzjPVtvuqCfSgsmDDZL9N8Pf9ZxrgGUMdyDK A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10935"; a="482604299"
-X-IronPort-AV: E=Sophos;i="6.04,308,1695711600"; d="scan'208";a="482604299"
+ bh=srh+pDeiF4x93Sp9cmg48dB8ma2fshhkeNl1Nqm5xC4=;
+ b=J9cZtPRkmMc39dNQyzaQczjLS/+OXWUvUYPAowaBWOL6IuA9e71rfpC8
+ 6aMOg/a+F40kT5Ym+ATEnQR6yQiQQzxE0e9ZWKGytLXJj9bxYQuDJREh5
+ /S68xACxk238OZKx8gHGmgtrAYW0gfQeHFRBY4hD71HK9TzaNqn8h5Hbm
+ onhSYj8XrOWPTi6nPRx/qf9cjzd7L8Owj6mD2Pc1SHIJQ27oJUD3wn9zr
+ ENdvAqDAHkS7hhfQIlb2Gzw+Tko1HNSe4TtthO2idGb9vfpb5wTVcmg2y
+ yrw+hO/rh01T8CjbUL+VOyN6ASkxUNdpozmz+ibizwu5D66P9oVLD5DpS w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10935"; a="482604308"
+X-IronPort-AV: E=Sophos;i="6.04,308,1695711600"; d="scan'208";a="482604308"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  27 Dec 2023 00:02:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10935"; a="781668188"
-X-IronPort-AV: E=Sophos;i="6.04,308,1695711600"; d="scan'208";a="781668188"
+X-IronPort-AV: E=McAfee;i="6600,9927,10935"; a="781668191"
+X-IronPort-AV: E=Sophos;i="6.04,308,1695711600"; d="scan'208";a="781668191"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.132])
  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  27 Dec 2023 00:02:36 -0800
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: dri-devel@lists.freedesktop.org,
 	linux-mm@kvack.org
-Subject: [PATCH v9 3/6] mm/gup: Introduce memfd_pin_folios() for pinning memfd
- folios (v9)
-Date: Tue, 26 Dec 2023 23:38:19 -0800
-Message-Id: <20231227073822.390518-4-vivek.kasireddy@intel.com>
+Subject: [PATCH v9 4/6] udmabuf: Convert udmabuf driver to use folios (v2)
+Date: Tue, 26 Dec 2023 23:38:20 -0800
+Message-Id: <20231227073822.390518-5-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231227073822.390518-1-vivek.kasireddy@intel.com>
 References: <20231227073822.390518-1-vivek.kasireddy@intel.com>
@@ -62,353 +61,307 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Gerd Hoffmann <kraxel@redhat.com>, Dongwon Kim <dongwon.kim@intel.com>,
  David Hildenbrand <david@redhat.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
  Hugh Dickins <hughd@google.com>, Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Matthew Wilcox <willy@infradead.org>, Christoph Hellwig <hch@infradead.org>,
- Peter Xu <peterx@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Junxiao Chang <junxiao.chang@intel.com>, Christoph Hellwig <hch@lst.de>,
+ Matthew Wilcox <willy@infradead.org>, Peter Xu <peterx@redhat.com>,
+ Jason Gunthorpe <jgg@nvidia.com>, Junxiao Chang <junxiao.chang@intel.com>,
  Mike Kravetz <mike.kravetz@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For drivers that would like to longterm-pin the folios associated
-with a memfd, the memfd_pin_folios() API provides an option to
-not only pin the folios via FOLL_PIN but also to check and migrate
-them if they reside in movable zone or CMA block. This API
-currently works with memfds but it should work with any files
-that belong to either shmemfs or hugetlbfs. Files belonging to
-other filesystems are rejected for now.
+This is mainly a preparatory patch to use memfd_pin_folios() API
+for pinning folios. Using folios instead of pages makes sense as
+the udmabuf driver needs to handle both shmem and hugetlb cases.
+However, the function vmap_udmabuf() still needs a list of pages;
+so, we collect all the head pages into a local array in this case.
 
-The folios need to be located first before pinning them via FOLL_PIN.
-If they are found in the page cache, they can be immediately pinned.
-Otherwise, they need to be allocated using the filesystem specific
-APIs and then pinned.
+Other changes in this patch include the addition of helpers for
+checking the memfd seals and exporting dmabuf. Moving code from
+udmabuf_create() into these helpers improves readability given
+that udmabuf_create() is a bit long.
 
-v2:
-- Drop gup_flags and improve comments and commit message (David)
-- Allocate a page if we cannot find in page cache for the hugetlbfs
-  case as well (David)
-- Don't unpin pages if there is a migration related failure (David)
-- Drop the unnecessary nr_pages <= 0 check (Jason)
-- Have the caller of the API pass in file * instead of fd (Jason)
-
-v3: (David)
-- Enclose the huge page allocation code with #ifdef CONFIG_HUGETLB_PAGE
-  (Build error reported by kernel test robot <lkp@intel.com>)
-- Don't forget memalloc_pin_restore() on non-migration related errors
-- Improve the readability of the cleanup code associated with
-  non-migration related errors
-- Augment the comments by describing FOLL_LONGTERM like behavior
-- Include the R-b tag from Jason
-
-v4:
-- Remove the local variable "page" and instead use 3 return statements
-  in alloc_file_page() (David)
-- Add the R-b tag from David
-
-v5: (David)
-- For hugetlb case, ensure that we only obtain head pages from the
-  mapping by using __filemap_get_folio() instead of find_get_page_flags()
-- Handle -EEXIST when two or more potential users try to simultaneously
-  add a huge page to the mapping by forcing them to retry on failure
-
-v6: (Christoph)
-- Rename this API to memfd_pin_user_pages() to make it clear that it
-  is intended for memfds
-- Move the memfd page allocation helper from gup.c to memfd.c
-- Fix indentation errors in memfd_pin_user_pages()
-- For contiguous ranges of folios, use a helper such as
-  filemap_get_folios_contig() to lookup the page cache in batches
-
-v7:
-- Rename this API to memfd_pin_folios() and make it return folios
-  and offsets instead of pages (David)
-- Don't continue processing the folios in the batch returned by
-  filemap_get_folios_contig() if they do not have correct next_idx
-- Add the R-b tag from Christoph
-
-v8: (David)
-- Have caller pass [start, end], max_folios instead of start, nr_pages
-- Replace offsets array with just offset into the first page
-- Add comments explaning the need for next_idx
-- Pin (and return) the folio (via FOLL_PIN) only once
-
-v9: (Matthew)
-- Drop the extern while declaring memfd_alloc_folio()
-- Fix memfd_alloc_folio() declaration to have it return struct folio *
-  instead of struct page * when CONFIG_MEMFD_CREATE is not defined
+v2: (Matthew)
+- Use folio_pfn() on the folio instead of page_to_pfn() on head page
+- Don't split the arguments to shmem_read_folio() on multiple lines
 
 Cc: David Hildenbrand <david@redhat.com>
-Cc: Matthew Wilcox (Oracle) <willy@infradead.org>
-Cc: Christoph Hellwig <hch@infradead.org>
+Cc: Matthew Wilcox <willy@infradead.org>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Cc: Mike Kravetz <mike.kravetz@oracle.com>
 Cc: Hugh Dickins <hughd@google.com>
 Cc: Peter Xu <peterx@redhat.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>
 Cc: Gerd Hoffmann <kraxel@redhat.com>
 Cc: Dongwon Kim <dongwon.kim@intel.com>
 Cc: Junxiao Chang <junxiao.chang@intel.com>
-Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com> (v2)
-Reviewed-by: David Hildenbrand <david@redhat.com> (v3)
-Reviewed-by: Christoph Hellwig <hch@lst.de> (v6)
 Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 ---
- include/linux/memfd.h |   5 ++
- include/linux/mm.h    |   3 +
- mm/gup.c              | 149 ++++++++++++++++++++++++++++++++++++++++++
- mm/memfd.c            |  34 ++++++++++
- 4 files changed, 191 insertions(+)
+ drivers/dma-buf/udmabuf.c | 140 ++++++++++++++++++++++----------------
+ 1 file changed, 83 insertions(+), 57 deletions(-)
 
-diff --git a/include/linux/memfd.h b/include/linux/memfd.h
-index e7abf6fa4c52..3f2cf339ceaf 100644
---- a/include/linux/memfd.h
-+++ b/include/linux/memfd.h
-@@ -6,11 +6,16 @@
+diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+index 274defd3fa3e..a8f3af61f7f2 100644
+--- a/drivers/dma-buf/udmabuf.c
++++ b/drivers/dma-buf/udmabuf.c
+@@ -26,7 +26,7 @@ MODULE_PARM_DESC(size_limit_mb, "Max size of a dmabuf, in megabytes. Default is
  
- #ifdef CONFIG_MEMFD_CREATE
- extern long memfd_fcntl(struct file *file, unsigned int cmd, unsigned int arg);
-+struct folio *memfd_alloc_folio(struct file *memfd, pgoff_t idx);
- #else
- static inline long memfd_fcntl(struct file *f, unsigned int c, unsigned int a)
+ struct udmabuf {
+ 	pgoff_t pagecount;
+-	struct page **pages;
++	struct folio **folios;
+ 	struct sg_table *sg;
+ 	struct miscdevice *device;
+ 	pgoff_t *offsets;
+@@ -42,7 +42,7 @@ static vm_fault_t udmabuf_vm_fault(struct vm_fault *vmf)
+ 	if (pgoff >= ubuf->pagecount)
+ 		return VM_FAULT_SIGBUS;
+ 
+-	pfn = page_to_pfn(ubuf->pages[pgoff]);
++	pfn = folio_pfn(ubuf->folios[pgoff]);
+ 	pfn += ubuf->offsets[pgoff] >> PAGE_SHIFT;
+ 
+ 	return vmf_insert_pfn(vma, vmf->address, pfn);
+@@ -68,11 +68,21 @@ static int mmap_udmabuf(struct dma_buf *buf, struct vm_area_struct *vma)
+ static int vmap_udmabuf(struct dma_buf *buf, struct iosys_map *map)
  {
- 	return -EINVAL;
- }
-+static inline struct folio *memfd_alloc_folio(struct file *memfd, pgoff_t idx)
-+{
-+	return ERR_PTR(-EINVAL);
-+}
- #endif
- 
- #endif /* __LINUX_MEMFD_H */
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 418d26608ece..942d2e618253 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -2472,6 +2472,9 @@ long get_user_pages_unlocked(unsigned long start, unsigned long nr_pages,
- 		    struct page **pages, unsigned int gup_flags);
- long pin_user_pages_unlocked(unsigned long start, unsigned long nr_pages,
- 		    struct page **pages, unsigned int gup_flags);
-+long memfd_pin_folios(struct file *memfd, loff_t start, loff_t end,
-+		      struct folio **folios, unsigned int max_folios,
-+		      pgoff_t *offset);
- 
- int get_user_pages_fast(unsigned long start, int nr_pages,
- 			unsigned int gup_flags, struct page **pages);
-diff --git a/mm/gup.c b/mm/gup.c
-index 231711efa390..42eb212af73f 100644
---- a/mm/gup.c
-+++ b/mm/gup.c
-@@ -5,6 +5,7 @@
- #include <linux/spinlock.h>
- 
- #include <linux/mm.h>
-+#include <linux/memfd.h>
- #include <linux/memremap.h>
- #include <linux/pagemap.h>
- #include <linux/rmap.h>
-@@ -17,6 +18,7 @@
- #include <linux/hugetlb.h>
- #include <linux/migrate.h>
- #include <linux/mm_inline.h>
-+#include <linux/pagevec.h>
- #include <linux/sched/mm.h>
- #include <linux/shmem_fs.h>
- 
-@@ -3410,3 +3412,150 @@ long pin_user_pages_unlocked(unsigned long start, unsigned long nr_pages,
- 				     &locked, gup_flags);
- }
- EXPORT_SYMBOL(pin_user_pages_unlocked);
-+
-+/**
-+ * memfd_pin_folios() - pin folios associated with a memfd
-+ * @memfd:      the memfd whose folios are to be pinned
-+ * @start:      the first memfd offset
-+ * @end:        the last memfd offset (inclusive)
-+ * @folios:     array that receives pointers to the folios pinned
-+ * @max_folios: maximum number of entries in @folios
-+ * @offset:     the offset into the first folio
-+ *
-+ * Attempt to pin folios associated with a memfd in the contiguous range
-+ * [start, end]. Given that a memfd is either backed by shmem or hugetlb,
-+ * the folios can either be found in the page cache or need to be allocated
-+ * if necessary. Once the folios are located, they are all pinned via
-+ * FOLL_PIN and @offset is populatedwith the offset into the first folio.
-+ * And, eventually, these pinned folios must be released either using
-+ * unpin_user_pages() or unpin_user_page().
-+ *
-+ * It must be noted that the folios may be pinned for an indefinite amount
-+ * of time. And, in most cases, the duration of time they may stay pinned
-+ * would be controlled by the userspace. This behavior is effectively the
-+ * same as using FOLL_LONGTERM with other GUP APIs.
-+ *
-+ * Returns number of folios pinned, which could be less than @max_folios
-+ * as it depends on the folio sizes that cover the range [start, end].
-+ * If no folios were pinned, it returns -errno.
-+ */
-+long memfd_pin_folios(struct file *memfd, loff_t start, loff_t end,
-+		      struct folio **folios, unsigned int max_folios,
-+		      pgoff_t *offset)
-+{
-+	unsigned int flags, nr_folios, nr_found;
-+	unsigned int i, pgshift = PAGE_SHIFT;
-+	pgoff_t start_idx, end_idx, next_idx;
-+	struct folio *folio = NULL;
-+	struct folio_batch fbatch;
+ 	struct udmabuf *ubuf = buf->priv;
 +	struct page **pages;
-+	struct hstate *h;
-+	long ret;
-+
-+	if (start > end || !max_folios)
-+		return -EINVAL;
-+
-+	if (!memfd)
-+		return -EINVAL;
-+
-+	if (!shmem_file(memfd) && !is_file_hugepages(memfd))
-+		return -EINVAL;
-+
-+	pages = kmalloc_array(max_folios, sizeof(*pages), GFP_KERNEL);
+ 	void *vaddr;
++	pgoff_t pg;
+ 
+ 	dma_resv_assert_held(buf->resv);
+ 
+-	vaddr = vm_map_ram(ubuf->pages, ubuf->pagecount, -1);
++	pages = kmalloc_array(ubuf->pagecount, sizeof(*pages), GFP_KERNEL);
 +	if (!pages)
 +		return -ENOMEM;
 +
-+	if (is_file_hugepages(memfd)) {
-+		h = hstate_file(memfd);
-+		pgshift = huge_page_shift(h);
-+	}
++	for (pg = 0; pg < ubuf->pagecount; pg++)
++		pages[pg] = &ubuf->folios[pg]->page;
 +
-+	flags = memalloc_pin_save();
-+	do {
-+		nr_folios = 0;
-+		start_idx = start >> pgshift;
-+		end_idx = end >> pgshift;
-+		if (is_file_hugepages(memfd)) {
-+			start_idx <<= huge_page_order(h);
-+			end_idx <<= huge_page_order(h);
-+		}
-+
-+		folio_batch_init(&fbatch);
-+		while (start_idx <= end_idx && nr_folios < max_folios) {
-+			/*
-+			 * In most cases, we should be able to find the folios
-+			 * in the page cache. If we cannot find them for some
-+			 * reason, we try to allocate them and add them to the
-+			 * page cache.
-+			 */
-+			nr_found = filemap_get_folios_contig(memfd->f_mapping,
-+							     &start_idx,
-+							     end_idx,
-+							     &fbatch);
-+			if (folio) {
-+				folio_put(folio);
-+				folio = NULL;
-+			}
-+
-+			next_idx = 0;
-+			for (i = 0; i < nr_found; i++) {
-+				/*
-+				 * As there can be multiple entries for a
-+				 * given folio in the batch returned by
-+				 * filemap_get_folios_contig(), the below
-+				 * check is to ensure that we pin and return a
-+				 * unique set of folios between start and end.
-+				 */
-+				if (next_idx &&
-+				    next_idx != folio_index(fbatch.folios[i]))
-+					continue;
-+
-+				folio = try_grab_folio(&fbatch.folios[i]->page,
-+						       1, FOLL_PIN);
-+				if (!folio) {
-+					folio_batch_release(&fbatch);
-+					kfree(pages);
-+					goto err;
-+				}
-+
-+				if (nr_folios == 0)
-+					*offset = offset_in_folio(folio, start);
-+
-+				folios[nr_folios] = folio;
-+				pages[nr_folios] = folio_page(folio, 0);
-+				next_idx = folio_next_index(folio);
-+
-+				if (++nr_folios == max_folios)
-+					break;
-+			}
-+
-+			folio = NULL;
-+			folio_batch_release(&fbatch);
-+			if (!nr_found) {
-+				folio = memfd_alloc_folio(memfd, start_idx);
-+				if (IS_ERR(folio)) {
-+					ret = PTR_ERR(folio);
-+					if (ret != -EEXIST) {
-+						kfree(pages);
-+						goto err;
-+					}
-+				}
-+			}
-+		}
-+
-+		ret = check_and_migrate_movable_pages(nr_folios, pages);
-+	} while (ret == -EAGAIN);
-+
++	vaddr = vm_map_ram(pages, ubuf->pagecount, -1);
 +	kfree(pages);
-+	memalloc_pin_restore(flags);
-+	return ret ? ret : nr_folios;
-+err:
-+	memalloc_pin_restore(flags);
-+	while (i-- > 0)
-+		if (folios[i])
-+			gup_put_folio(folios[i], 1, FOLL_PIN);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(memfd_pin_folios);
-+
-diff --git a/mm/memfd.c b/mm/memfd.c
-index d3a1ba4208c9..36a75e8249f8 100644
---- a/mm/memfd.c
-+++ b/mm/memfd.c
-@@ -63,6 +63,40 @@ static void memfd_tag_pins(struct xa_state *xas)
- 	xas_unlock_irq(xas);
+ 	if (!vaddr)
+ 		return -EINVAL;
+ 
+@@ -107,7 +117,8 @@ static struct sg_table *get_sg_table(struct device *dev, struct dma_buf *buf,
+ 		goto err_alloc;
+ 
+ 	for_each_sg(sg->sgl, sgl, ubuf->pagecount, i)
+-		sg_set_page(sgl, ubuf->pages[i], PAGE_SIZE, ubuf->offsets[i]);
++		sg_set_folio(sgl, ubuf->folios[i], PAGE_SIZE,
++			     ubuf->offsets[i]);
+ 
+ 	ret = dma_map_sgtable(dev, sg, direction, 0);
+ 	if (ret < 0)
+@@ -152,9 +163,9 @@ static void release_udmabuf(struct dma_buf *buf)
+ 		put_sg_table(dev, ubuf->sg, DMA_BIDIRECTIONAL);
+ 
+ 	for (pg = 0; pg < ubuf->pagecount; pg++)
+-		put_page(ubuf->pages[pg]);
++		folio_put(ubuf->folios[pg]);
+ 	kfree(ubuf->offsets);
+-	kfree(ubuf->pages);
++	kfree(ubuf->folios);
+ 	kfree(ubuf);
  }
  
-+/*
-+ * This is a helper function used by memfd_pin_user_pages() in GUP (gup.c).
-+ * It is mainly called to allocate a page in a memfd when the caller
-+ * (memfd_pin_user_pages()) cannot find a page in the page cache at a given
-+ * index in the mapping.
-+ */
-+struct folio *memfd_alloc_folio(struct file *memfd, pgoff_t idx)
+@@ -215,36 +226,33 @@ static int handle_hugetlb_pages(struct udmabuf *ubuf, struct file *memfd,
+ 	pgoff_t mapidx = offset >> huge_page_shift(hpstate);
+ 	pgoff_t subpgoff = (offset & ~huge_page_mask(hpstate)) >> PAGE_SHIFT;
+ 	pgoff_t maxsubpgs = huge_page_size(hpstate) >> PAGE_SHIFT;
+-	struct page *hpage = NULL;
+-	struct folio *folio;
++	struct folio *folio = NULL;
+ 	pgoff_t pgidx;
+ 
+ 	mapidx <<= huge_page_order(hpstate);
+ 	for (pgidx = 0; pgidx < pgcnt; pgidx++) {
+-		if (!hpage) {
++		if (!folio) {
+ 			folio = __filemap_get_folio(memfd->f_mapping,
+ 						    mapidx,
+ 						    FGP_ACCESSED, 0);
+ 			if (IS_ERR(folio))
+ 				return PTR_ERR(folio);
+-
+-			hpage = &folio->page;
+ 		}
+ 
+-		get_page(hpage);
+-		ubuf->pages[*pgbuf] = hpage;
++		folio_get(folio);
++		ubuf->folios[*pgbuf] = folio;
+ 		ubuf->offsets[*pgbuf] = subpgoff << PAGE_SHIFT;
+ 		(*pgbuf)++;
+ 		if (++subpgoff == maxsubpgs) {
+-			put_page(hpage);
+-			hpage = NULL;
++			folio_put(folio);
++			folio = NULL;
+ 			subpgoff = 0;
+ 			mapidx += pages_per_huge_page(hpstate);
+ 		}
+ 	}
+ 
+-	if (hpage)
+-		put_page(hpage);
++	if (folio)
++		folio_put(folio);
+ 
+ 	return 0;
+ }
+@@ -254,31 +262,69 @@ static int handle_shmem_pages(struct udmabuf *ubuf, struct file *memfd,
+ 			      pgoff_t *pgbuf)
+ {
+ 	pgoff_t pgidx, pgoff = offset >> PAGE_SHIFT;
+-	struct page *page;
++	struct folio *folio = NULL;
+ 
+ 	for (pgidx = 0; pgidx < pgcnt; pgidx++) {
+-		page = shmem_read_mapping_page(memfd->f_mapping,
+-					       pgoff + pgidx);
+-		if (IS_ERR(page))
+-			return PTR_ERR(page);
++		folio = shmem_read_folio(memfd->f_mapping, pgoff + pgidx);
++		if (IS_ERR(folio))
++			return PTR_ERR(folio);
+ 
+-		ubuf->pages[*pgbuf] = page;
++		ubuf->folios[*pgbuf] = folio;
+ 		(*pgbuf)++;
+ 	}
+ 
+ 	return 0;
+ }
+ 
++static int check_memfd_seals(struct file *memfd)
 +{
-+#ifdef CONFIG_HUGETLB_PAGE
-+	struct folio *folio;
-+	int err;
++	int seals;
 +
-+	if (is_file_hugepages(memfd)) {
-+		folio = alloc_hugetlb_folio_nodemask(hstate_file(memfd),
-+						     NUMA_NO_NODE,
-+						     NULL,
-+						     GFP_USER);
-+		if (folio && folio_try_get(folio)) {
-+			err = hugetlb_add_to_page_cache(folio,
-+							memfd->f_mapping,
-+							idx);
-+			if (err) {
-+				folio_put(folio);
-+				free_huge_folio(folio);
-+				return ERR_PTR(err);
-+			}
-+			return folio;
-+		}
-+		return ERR_PTR(-ENOMEM);
-+	}
-+#endif
-+	return shmem_read_folio(memfd->f_mapping, idx);
++	if (!memfd)
++		return -EBADFD;
++
++	if (!shmem_file(memfd) && !is_file_hugepages(memfd))
++		return -EBADFD;
++
++	seals = memfd_fcntl(memfd, F_GET_SEALS, 0);
++	if (seals == -EINVAL)
++		return -EBADFD;
++
++	if ((seals & SEALS_WANTED) != SEALS_WANTED ||
++	    (seals & SEALS_DENIED) != 0)
++		return -EINVAL;
++
++	return 0;
 +}
 +
- /*
-  * Setting SEAL_WRITE requires us to verify there's no pending writer. However,
-  * via get_user_pages(), drivers might have some pending I/O without any active
++static int export_udmabuf(struct udmabuf *ubuf,
++			  struct miscdevice *device,
++			  u32 flags)
++{
++	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
++	struct dma_buf *buf;
++
++	ubuf->device = device;
++	exp_info.ops  = &udmabuf_ops;
++	exp_info.size = ubuf->pagecount << PAGE_SHIFT;
++	exp_info.priv = ubuf;
++	exp_info.flags = O_RDWR;
++
++	buf = dma_buf_export(&exp_info);
++	if (IS_ERR(buf))
++		return PTR_ERR(buf);
++
++	return dma_buf_fd(buf, flags);
++}
++
+ static long udmabuf_create(struct miscdevice *device,
+ 			   struct udmabuf_create_list *head,
+ 			   struct udmabuf_create_item *list)
+ {
+-	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
++	pgoff_t pgcnt, pgbuf = 0, pglimit;
+ 	struct file *memfd = NULL;
+ 	struct udmabuf *ubuf;
+-	struct dma_buf *buf;
+-	pgoff_t pgcnt, pgbuf = 0, pglimit;
+-	int seals, ret = -EINVAL;
++	int ret = -EINVAL;
+ 	u32 i, flags;
+ 
+ 	ubuf = kzalloc(sizeof(*ubuf), GFP_KERNEL);
+@@ -299,9 +345,9 @@ static long udmabuf_create(struct miscdevice *device,
+ 	if (!ubuf->pagecount)
+ 		goto err;
+ 
+-	ubuf->pages = kmalloc_array(ubuf->pagecount, sizeof(*ubuf->pages),
++	ubuf->folios = kmalloc_array(ubuf->pagecount, sizeof(*ubuf->folios),
+ 				    GFP_KERNEL);
+-	if (!ubuf->pages) {
++	if (!ubuf->folios) {
+ 		ret = -ENOMEM;
+ 		goto err;
+ 	}
+@@ -314,18 +360,9 @@ static long udmabuf_create(struct miscdevice *device,
+ 
+ 	pgbuf = 0;
+ 	for (i = 0; i < head->count; i++) {
+-		ret = -EBADFD;
+ 		memfd = fget(list[i].memfd);
+-		if (!memfd)
+-			goto err;
+-		if (!shmem_file(memfd) && !is_file_hugepages(memfd))
+-			goto err;
+-		seals = memfd_fcntl(memfd, F_GET_SEALS, 0);
+-		if (seals == -EINVAL)
+-			goto err;
+-		ret = -EINVAL;
+-		if ((seals & SEALS_WANTED) != SEALS_WANTED ||
+-		    (seals & SEALS_DENIED) != 0)
++		ret = check_memfd_seals(memfd);
++		if (ret < 0)
+ 			goto err;
+ 
+ 		pgcnt = list[i].size >> PAGE_SHIFT;
+@@ -341,33 +378,22 @@ static long udmabuf_create(struct miscdevice *device,
+ 			goto err;
+ 
+ 		fput(memfd);
+-		memfd = NULL;
+ 	}
+ 
+-	exp_info.ops  = &udmabuf_ops;
+-	exp_info.size = ubuf->pagecount << PAGE_SHIFT;
+-	exp_info.priv = ubuf;
+-	exp_info.flags = O_RDWR;
+-
+-	ubuf->device = device;
+-	buf = dma_buf_export(&exp_info);
+-	if (IS_ERR(buf)) {
+-		ret = PTR_ERR(buf);
++	flags = head->flags & UDMABUF_FLAGS_CLOEXEC ? O_CLOEXEC : 0;
++	ret = export_udmabuf(ubuf, device, flags);
++	if (ret < 0)
+ 		goto err;
+-	}
+ 
+-	flags = 0;
+-	if (head->flags & UDMABUF_FLAGS_CLOEXEC)
+-		flags |= O_CLOEXEC;
+-	return dma_buf_fd(buf, flags);
++	return ret;
+ 
+ err:
+ 	while (pgbuf > 0)
+-		put_page(ubuf->pages[--pgbuf]);
++		folio_put(ubuf->folios[--pgbuf]);
+ 	if (memfd)
+ 		fput(memfd);
+ 	kfree(ubuf->offsets);
+-	kfree(ubuf->pages);
++	kfree(ubuf->folios);
+ 	kfree(ubuf);
+ 	return ret;
+ }
 -- 
 2.39.2
 
