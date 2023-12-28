@@ -2,37 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51AFC81F650
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Dec 2023 10:33:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4AE181F64F
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Dec 2023 10:33:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F13A310E097;
+	by gabe.freedesktop.org (Postfix) with ESMTP id F151210E09D;
 	Thu, 28 Dec 2023 09:33:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2302810E11E
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Dec 2023 07:27:18 +0000 (UTC)
-Received: by linux.microsoft.com (Postfix, from userid 1134)
- id 8658A20B3CC1; Tue, 26 Dec 2023 23:27:17 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8658A20B3CC1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1703662037;
- bh=/qpujY2lUiYVg2duSeKiUzXj4dwXb1QCj4qV8j4itDQ=;
- h=From:To:Cc:Subject:Date:From;
- b=RvLmYDC+232pQ7wk9b8AvBJtsZTCZuIz5mlf7aJgmNT1gr3T12+jRiRPUj56HtV5A
- 5sUZUVwnUW3vuVL/mCkkZG9lBYPCrVnUJsnn4I7pmwtuQJcovzfNHrw+IgYU5YBg1F
- lyCzcivyna5hFfZtgow6+TIM5ddhXBApmhdovjLc=
-From: Shradha Gupta <shradhagupta@linux.microsoft.com>
-To: linux-kernel@vger.kernel.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.dev>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Saurabh Singh Sengar <ssengar@linux.microsoft.com>
-Subject: [PATCH] drm: Check output polling initialized before disabling
-Date: Tue, 26 Dec 2023 23:27:15 -0800
-Message-Id: <1703662035-1373-1-git-send-email-shradhagupta@linux.microsoft.com>
-X-Mailer: git-send-email 1.8.3.1
+Received: from APC01-SG2-obe.outbound.protection.outlook.com
+ (mail-sgaapc01olkn2047.outbound.protection.outlook.com [40.92.53.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8675C10E08F
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Dec 2023 08:08:01 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UEGom5VvxSY1g0VOAXhJ0fBvNAt8L/FLGfiCZK5nUHPkwAcJxPQcnL62pKfkOnPE2WVLlrZxCmWNGe7sGCBgd0tG7zEyj5w0yp0i+0wRVgJA0pCAFeWneUm0xmkEQCUXQIIqMJRbI3jw4Xy7XBVlR3/RuGnfjUkfClQHxJGwzCwXX3UTU/6ZRw6CXYg3JJLQuylL3gMzilMI/jL2XHksJe0KUFHbfyU3B6xL6ALwvJbA1neUituePns/uk9CwNMABTikP93StHXZQ8az1FWFkzWSq83yGmfY3T6pm97XX2VGuAKYo6gT54wBQXOgcdk4yTUdw5MTyB4LjToajwRnbw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6KhU1Hof14KPOFkZ7YHBAB0CFRJlVyUDj+i3qSKwn8o=;
+ b=R/Hr1z25sDAvZEGc/ObDsPt9CUb+au0SIJPSfLqE/dmNdXRQj8LAKeFLbAU6wDcMSnj63zMqS6/oJ9nRK5LZNf8TmEDMMCFIg7twH+INSk0s4IVB/x32iUGyYTWkms10rFxwG7o0mad2ySojZWaAUr6sWQYf45fY2EkgGGv788r6Le9+KLUwIWu4NBbMk7rvCFBGeBLKQYy2wPeQtXztg/F3ITMEUeWNvIa9PmMnr9GaT2+beMkUz2xfzrCDAUiVOxaRmUGYwEXY7KDON68Qdgcx+QQnaNN1horYYOPXt7nyPhfhRAcZGruEZoZpJ0f3ruiojW81RNyeNWWBELDr4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6KhU1Hof14KPOFkZ7YHBAB0CFRJlVyUDj+i3qSKwn8o=;
+ b=N340caaNruoFQLdozJ5KRgC6BhHVTfypHF83xKxGQ5YC8SAnOgsltZ9whiGiTG59RRxDKAdyFYNiLquggBtGr66UtvDn/THS23+c/rh3GQXzAIAA48TtvGsPIAnjVs2vCukGb4vgCtzadeeoPSR/YQDgZYymHqVo3LdJBEdf4PtQ/nITimPTt9nGOjj4XZAiNztJ3cB4j37PgmtD1VzswnocbQza8vwqTBB1yfsD/MOS1EQH8GaX7GoPmSFgwrWb1i6PTcN75nKJnSYKxp6sfrdfv+GurlxAQb9agWRo30XOx6Xm7XiKVsfMseL9Gs2pKNIijYq3mFOxzUIGNLdhVQ==
+Received: from PUZPR01MB4775.apcprd01.prod.exchangelabs.com
+ (2603:1096:301:fd::6) by SEZPR01MB5944.apcprd01.prod.exchangelabs.com
+ (2603:1096:101:1ef::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7113.27; Thu, 28 Dec
+ 2023 08:07:56 +0000
+Received: from PUZPR01MB4775.apcprd01.prod.exchangelabs.com
+ ([fe80::5e38:f99d:bccd:14a5]) by PUZPR01MB4775.apcprd01.prod.exchangelabs.com
+ ([fe80::5e38:f99d:bccd:14a5%6]) with mapi id 15.20.7135.017; Thu, 28 Dec 2023
+ 08:07:56 +0000
+From: Yaxiong Tian <iambestgod@outlook.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch
+Subject: [PATCH] drm/debugfs: fix memory leak in drm_debugfs_remove_files()
+Date: Thu, 28 Dec 2023 16:07:40 +0800
+Message-ID: <PUZPR01MB4775A8F67AE31D6A4927E6B7D59EA@PUZPR01MB4775.apcprd01.prod.exchangelabs.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN: [/hptjANvati6qck8aLecKrUbnA8HAplvagiuBBoyCzIVGxgoSCO5vlZFC94Xtty2]
+X-ClientProxiedBy: SG2PR01CA0175.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:28::31) To PUZPR01MB4775.apcprd01.prod.exchangelabs.com
+ (2603:1096:301:fd::6)
+X-Microsoft-Original-Message-ID: <20231228080740.147585-1-iambestgod@outlook.com>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PUZPR01MB4775:EE_|SEZPR01MB5944:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9ebe75ac-0883-4883-0b5f-08dc077c18ff
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: y3hypHBf6ELCAShY3skCiBmtAL5ljcpywkF8kGc76YYxmXSFOwNOvLicnEDv3tEhPywK5PUef3t4wLX/Gcs0zgADvpEX3O0jULJ49ezCf0BZEh+TFVWHjfwa51MclkPXQQMXtkQKZeg3b0NSwAJapb0ZRZ9yfl0xRZzMpXUt7tLXNKKBZZDfIpbFFN3c01arbLdXH2DAY5jNAvq7Uq6q6ti7bwFKvKK613r0NFtMMzIIeb0MeEM5xHYjq3rDna0KLTfIjpl2VkBrfP6+LgGhtkPS3WC58Pj/EaYo5Oo60xIMQ456c+urlzuDdF78FL6M/TQqpuX8SaVIvhx739ICWzfIPijCPTE/rXOjCaq81Fn7Y6YJTinDk2E4XFRK+JmgNmJ5s5VEhBr0huJ/OyoAZC7L2JWKzMrZiB1hN0CkscVl1JaQSm3oehkYOp9YLdyVzoHDWjk6ZgUGYLYiLEJDOFeBYcczuKFAOfA8wKa6roZyn0CzoTxUIOKzAvyF2ZIqmYrIMnoci4M8Uym5F0O1IePmSwH5ICmvEf7VGlULxaSmFVozCVnddvh7EPVRS0Iq
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?aQaiVbiOsDZHh1DPhAAhAJ9AoL/qsV2W8jRHYaIF+7+RNbU20NUalOKRWknu?=
+ =?us-ascii?Q?Up2TaU5eZfWdC9blDiwE21kGgnRoo2nqq9iLe2qpXMe29uzksjNI+BHT2vj2?=
+ =?us-ascii?Q?IuvcALONtCoI3V6OvhVuZMt0Ah92ToC2uQF6B9OQU6zP77Q6g69KvwfqEwWV?=
+ =?us-ascii?Q?ft/2RkRF+B8ZaMTz6FVZ01v3Qas5162IgS8lo+DtTgGaDg5KQRT3vS2CDYpd?=
+ =?us-ascii?Q?cWn9LIMaXqg22RjNa5cqvrVB2W/hYEAxdGH5kD5BY35DTopmgFfnA27tONGt?=
+ =?us-ascii?Q?h0wzaMj+rAda2AxbpOa3XTMMupsystCiCY3K7mC6Kanb4HusB0N9VM7jw7gd?=
+ =?us-ascii?Q?MnATg6dxFFj75Tr3ZK7W6meOTONvM4ASibzXkKPZiibff2IrN0kt5cvfmu/N?=
+ =?us-ascii?Q?gy8S0jvQ+WJ+hC7CpkJYNiUR6nz6J8dD7aU9Gq5tB0qRvjPgrV5N3217H95K?=
+ =?us-ascii?Q?D3Qah5S0Ifl0O/TeqjmDSd5i+1ttZVe+BahUgvk/U3wAokjAF9mq642ZWyDl?=
+ =?us-ascii?Q?fqSL7WfXUjH/ETsuO5wIdSXA3fvupOA4kTfP8Yff1ACClL+Ekrbmjw3ejkoi?=
+ =?us-ascii?Q?VEFCjuAD36Zzljlg3ZSkKuhd84YXctdHeN+hz8vMkYhvRQEps3ggqOyt0ift?=
+ =?us-ascii?Q?kuT4kdgM07WchUjgUkF9YWv9Cs12mCYvzRDKv8rSxywWiBvEJR4GRW87OdRB?=
+ =?us-ascii?Q?3J5xXoMf2vSuIBR1ENKBW1RZ+9kICACiaq4huB62OuI9LbWpOKozPCf+iisw?=
+ =?us-ascii?Q?Ox67fZ7CJWkjT5IBqtV2IaFIK+8lvcMXFLz9Mq5Vfif3Biu/NWP17bWdRzVc?=
+ =?us-ascii?Q?Q2Lzbpa5RhQd9GffeUWo3L8VOB2RJ2MG0mjG3e0ir+wqHe/6EkwfXNW/dNg1?=
+ =?us-ascii?Q?v5+WSQrxiP26ys2IwM1hqdNL9QPs1DIVIvo4e6ybBRDAIh5w3pYP8r5d60qN?=
+ =?us-ascii?Q?lAIAW/xizm+jYOZpGCQOPapJnmRpZNAxrz3NsbnH8gMxkhZTdg6T7tzeirSE?=
+ =?us-ascii?Q?x++oAgOFs7rOOVEnasRI0ihKF0Hi5swG7iWKMMbhiyP6J3etuY9RLe1U9kHy?=
+ =?us-ascii?Q?DbfVxuXhS5LubLFdj78XFdk/lgPknNP0RwiT3AR7ouQXP6j2AFGt8hUVnKLD?=
+ =?us-ascii?Q?4Uyjm2okw7n3rLTy1vkiwN5ep0go944AiL0G3nTSi2bjtyhHwTdp+LK4zRHE?=
+ =?us-ascii?Q?nzJFdx+jT1yhKnPdVudQaK4EoV04UBRSM70ydlaWsj78siK9kUi75qNfc8tj?=
+ =?us-ascii?Q?ogDfU+K1ICn4Ljnh9QJnCtr8uTU6cLXZ4xCqLAanhfwSjtPdFoqdVLrexKaD?=
+ =?us-ascii?Q?vF4=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9ebe75ac-0883-4883-0b5f-08dc077c18ff
+X-MS-Exchange-CrossTenant-AuthSource: PUZPR01MB4775.apcprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Dec 2023 08:07:56.3404 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR01MB5944
 X-Mailman-Approved-At: Thu, 28 Dec 2023 09:33:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,117 +103,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Shradha Gupta <shradhagupta@linux.microsoft.com>,
- Shradha Gupta <shradhagupta@microsoft.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Yaxiong Tian <tianyaxiong@kylinos.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In drm_mode_config_helper_suspend() check if output polling
-support is initialized before enabling/disabling polling.
-For drivers like hyperv-drm, that do not initialize connector
-polling, if suspend is called without this check, it leads to
-suspend failure with following stack
+From: Yaxiong Tian <tianyaxiong@kylinos.cn>
 
-[  770.719392] Freezing remaining freezable tasks ... (elapsed 0.001 seconds) done.
-[  770.720592] printk: Suspending console(s) (use no_console_suspend to debug)
-[  770.948823] ------------[ cut here ]------------
-[  770.948824] WARNING: CPU: 1 PID: 17197 at kernel/workqueue.c:3162 __flush_work.isra.0+0x212/0x230
-[  770.948831] Modules linked in: rfkill nft_counter xt_conntrack xt_owner udf nft_compat crc_itu_t nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 ip_set nf_tables nfnetlink vfat fat mlx5_ib ib_uverbs ib_core mlx5_core intel_rapl_msr intel_rapl_common kvm_amd ccp mlxfw kvm psample hyperv_drm tls drm_shmem_helper drm_kms_helper irqbypass pcspkr syscopyarea sysfillrect sysimgblt hv_balloon hv_utils joydev drm fuse xfs libcrc32c pci_hyperv pci_hyperv_intf sr_mod sd_mod cdrom t10_pi sg hv_storvsc scsi_transport_fc hv_netvsc serio_raw hyperv_keyboard hid_hyperv crct10dif_pclmul crc32_pclmul crc32c_intel hv_vmbus ghash_clmulni_intel dm_mirror dm_region_hash dm_log dm_mod
-[  770.948863] CPU: 1 PID: 17197 Comm: systemd-sleep Not tainted 5.14.0-362.2.1.el9_3.x86_64 #1
-[  770.948865] Hardware name: Microsoft Corporation Virtual Machine/Virtual Machine, BIOS Hyper-V UEFI Release v4.1 05/09/2022
-[  770.948866] RIP: 0010:__flush_work.isra.0+0x212/0x230
-[  770.948869] Code: 8b 4d 00 4c 8b 45 08 89 ca 48 c1 e9 04 83 e2 08 83 e1 0f 83 ca 02 89 c8 48 0f ba 6d 00 03 e9 25 ff ff ff 0f 0b e9 4e ff ff ff <0f> 0b 45 31 ed e9 44 ff ff ff e8 8f 89 b2 00 66 66 2e 0f 1f 84 00
-[  770.948870] RSP: 0018:ffffaf4ac213fb10 EFLAGS: 00010246
-[  770.948871] RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffffffff8c992857
-[  770.948872] RDX: 0000000000000001 RSI: 0000000000000001 RDI: ffff9aad82b00330
-[  770.948873] RBP: ffff9aad82b00330 R08: 0000000000000000 R09: ffff9aad87ee3d10
-[  770.948874] R10: 0000000000000200 R11: 0000000000000000 R12: ffff9aad82b00330
-[  770.948874] R13: 0000000000000001 R14: 0000000000000000 R15: 0000000000000001
-[  770.948875] FS:  00007ff1b2f6bb40(0000) GS:ffff9aaf37d00000(0000) knlGS:0000000000000000
-[  770.948878] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  770.948878] CR2: 0000555f345cb666 CR3: 00000001462dc005 CR4: 0000000000370ee0
-[  770.948879] Call Trace:
-[  770.948880]  <TASK>
-[  770.948881]  ? show_trace_log_lvl+0x1c4/0x2df
-[  770.948884]  ? show_trace_log_lvl+0x1c4/0x2df
-[  770.948886]  ? __cancel_work_timer+0x103/0x190
-[  770.948887]  ? __flush_work.isra.0+0x212/0x230
-[  770.948889]  ? __warn+0x81/0x110
-[  770.948891]  ? __flush_work.isra.0+0x212/0x230
-[  770.948892]  ? report_bug+0x10a/0x140
-[  770.948895]  ? handle_bug+0x3c/0x70
-[  770.948898]  ? exc_invalid_op+0x14/0x70
-[  770.948899]  ? asm_exc_invalid_op+0x16/0x20
-[  770.948903]  ? __flush_work.isra.0+0x212/0x230
-[  770.948905]  __cancel_work_timer+0x103/0x190
-[  770.948907]  ? _raw_spin_unlock_irqrestore+0xa/0x30
-[  770.948910]  drm_kms_helper_poll_disable+0x1e/0x40 [drm_kms_helper]
-[  770.948923]  drm_mode_config_helper_suspend+0x1c/0x80 [drm_kms_helper]
-[  770.948933]  ? __pfx_vmbus_suspend+0x10/0x10 [hv_vmbus]
-[  770.948942]  hyperv_vmbus_suspend+0x17/0x40 [hyperv_drm]
-[  770.948944]  ? __pfx_vmbus_suspend+0x10/0x10 [hv_vmbus]
-[  770.948951]  dpm_run_callback+0x4c/0x140
-[  770.948954]  __device_suspend_noirq+0x74/0x220
-[  770.948956]  dpm_noirq_suspend_devices+0x148/0x2a0
-[  770.948958]  dpm_suspend_end+0x54/0xe0
-[  770.948960]  create_image+0x14/0x290
-[  770.948963]  hibernation_snapshot+0xd6/0x200
-[  770.948964]  hibernate.cold+0x8b/0x1fb
-[  770.948967]  state_store+0xcd/0xd0
-[  770.948969]  kernfs_fop_write_iter+0x124/0x1b0
-[  770.948973]  new_sync_write+0xff/0x190
-[  770.948976]  vfs_write+0x1ef/0x280
-[  770.948978]  ksys_write+0x5f/0xe0
-[  770.948979]  do_syscall_64+0x5c/0x90
-[  770.948981]  ? syscall_exit_work+0x103/0x130
-[  770.948983]  ? syscall_exit_to_user_mode+0x12/0x30
-[  770.948985]  ? do_syscall_64+0x69/0x90
-[  770.948986]  ? do_syscall_64+0x69/0x90
-[  770.948987]  ? do_user_addr_fault+0x1d6/0x6a0
-[  770.948989]  ? do_syscall_64+0x69/0x90
-[  770.948990]  ? exc_page_fault+0x62/0x150
-[  770.948992]  entry_SYSCALL_64_after_hwframe+0x72/0xdc
-[  770.948995] RIP: 0033:0x7ff1b293eba7
-[  770.949010] Code: 0b 00 f7 d8 64 89 02 48 c7 c0 ff ff ff ff eb b7 0f 1f 00 f3 0f 1e fa 64 8b 04 25 18 00 00 00 85 c0 75 10 b8 01 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 51 c3 48 83 ec 28 48 89 54 24 18 48 89 74 24
-[  770.949011] RSP: 002b:00007ffde3912128 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-[  770.949012] RAX: ffffffffffffffda RBX: 0000000000000005 RCX: 00007ff1b293eba7
-[  770.949013] RDX: 0000000000000005 RSI: 00007ffde3912210 RDI: 0000000000000004
-[  770.949014] RBP: 00007ffde3912210 R08: 000055d7dd4c9510 R09: 00007ff1b29b14e0
-[  770.949014] R10: 00007ff1b29b13e0 R11: 0000000000000246 R12: 0000000000000005
-[  770.949015] R13: 000055d7dd4c53e0 R14: 0000000000000005 R15: 00007ff1b29f69e0
-[  770.949016]  </TASK>
-[  770.949017] ---[ end trace e6fa0618bfa2f31d ]---
+The dentry returned by debugfs_lookup() needs to be released by calling
+dput() which is missing in drm_debugfs_remove_files(). Fix this by adding
+dput().
 
-Built-on: Rhel9, Ubuntu22
-Signed-off-by: Shradha Gupta <shradhagupta@linux.microsoft.com>
+Signed-off-by: Yaxiong Tian <tianyaxiong@kylinos.cn>
 ---
- drivers/gpu/drm/drm_modeset_helper.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/drm_debugfs.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/drm_modeset_helper.c b/drivers/gpu/drm/drm_modeset_helper.c
-index f858dfedf2cf..ac8ce709e3c1 100644
---- a/drivers/gpu/drm/drm_modeset_helper.c
-+++ b/drivers/gpu/drm/drm_modeset_helper.c
-@@ -194,12 +194,17 @@ int drm_mode_config_helper_suspend(struct drm_device *dev)
- 	if (!dev)
- 		return 0;
+diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+index f4715a67e340..4d299152c302 100644
+--- a/drivers/gpu/drm/drm_debugfs.c
++++ b/drivers/gpu/drm/drm_debugfs.c
+@@ -277,6 +277,7 @@ int drm_debugfs_remove_files(const struct drm_info_list *files, int count,
  
--	drm_kms_helper_poll_disable(dev);
-+	if (dev->mode_config.poll_enabled)
-+		drm_kms_helper_poll_disable(dev);
-+
- 	drm_fb_helper_set_suspend_unlocked(dev->fb_helper, 1);
- 	state = drm_atomic_helper_suspend(dev);
- 	if (IS_ERR(state)) {
- 		drm_fb_helper_set_suspend_unlocked(dev->fb_helper, 0);
--		drm_kms_helper_poll_enable(dev);
-+
-+		if (dev->mode_config.poll_enabled)
-+			drm_kms_helper_poll_enable(dev);
-+
- 		return PTR_ERR(state);
+ 		drmm_kfree(minor->dev, d_inode(dent)->i_private);
+ 		debugfs_remove(dent);
++		dput(dent);
  	}
- 
+ 	return 0;
+ }
 -- 
-2.34.1
+2.25.1
 
