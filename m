@@ -1,19 +1,19 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BB7381FA44
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Dec 2023 18:16:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6C1E81FA43
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Dec 2023 18:16:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E710C10E13B;
-	Thu, 28 Dec 2023 17:16:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9FE110E11C;
+	Thu, 28 Dec 2023 17:16:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 643 seconds by postgrey-1.36 at gabe;
- Thu, 28 Dec 2023 17:16:47 UTC
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [167.172.40.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DDDB10E13B
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Dec 2023 17:16:47 +0000 (UTC)
+X-Greylist: delayed 1308 seconds by postgrey-1.36 at gabe;
+ Thu, 28 Dec 2023 17:16:41 UTC
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCE4410E11C
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Dec 2023 17:16:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
  h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
  Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
@@ -53,7 +53,7 @@ X-Report-Abuse: abuse@forwardemail.net
 X-Complaints-To: abuse@forwardemail.net
 X-ForwardEmail-Version: 0.4.40
 X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 167.172.40.54
+ 149.28.215.223
 X-ForwardEmail-ID: 658da840582984eac403ebd7
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
