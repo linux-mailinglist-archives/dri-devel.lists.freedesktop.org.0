@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B77B81FA09
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Dec 2023 17:51:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BAD181F9E8
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Dec 2023 17:21:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 658A410E0CF;
-	Thu, 28 Dec 2023 16:51:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CE1410E0DF;
+	Thu, 28 Dec 2023 16:21:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95F9710E0CF
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Dec 2023 16:51:18 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E2E210E0DE;
+ Thu, 28 Dec 2023 16:21:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1703782278; x=1735318278;
+ t=1703780475; x=1735316475;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=XYOTYJ77YKnUFrVlaJSxWr2I93Md1Ed7ac29wDvu4Fg=;
- b=XjY3XksUTn12S+n8xcjUpru1jnLXPYoxRNT7Nu23x51x+i1cCCjzVXhy
- LkwsNAEAwf76U1xOsc7u88BaoKFd0xCKb290HKrLSWPWMOG6uhxCc0y67
- sRTspJqyA1pI0WmJorqA5eOEKqqIv3bU6RGBXA+KjTXKatgbXu3seSc+0
- Ul8TuO0DEd3JztLMjevpC6uSkwVr8Aueq+u/Vqwd77NOEZbc0LCIIYjWf
- RpIoHAtAk24M9nxAAAjQ05nMfPB8t/r5HYuG6rtYVZDLhYsnPiAb9UF/L
- S6HeKjxTCdw2L9QknUxomETMLh48x9YOGCIr2ShPkqPB0nYM0yh4U7hQe g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10937"; a="395455934"
-X-IronPort-AV: E=Sophos;i="6.04,312,1695711600"; d="scan'208";a="395455934"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Dec 2023 08:51:18 -0800
+ bh=vPPwiSf/usejUsjALBFvqgyVM1AHjnr7aw+GHuW/3LA=;
+ b=ncXu2KjcoNLqSPIamF7ZEcT6RlZQKwd6WAwu8YPtk7eCGOOC27YLSVvd
+ 1OH0+3aHwuxvnlzIr/RUgow1fniIaisoP4u+aJlkiWJI8odH7J5BO6kOw
+ Xb72Fc6H27ab3m1pDiQ7hGg2MzBcTXSmK4qiNB+A/n9bJQ1ybadcX4MST
+ HSvYUp6j/kv9+CMfoJUl2pwRYafvlh5pdKMellJmNNplEq3nlCYWuF8zr
+ imB2WdCzK1plJZzxPVq7ZKYrPJXyfTaP+Tz9LluEJTLcG0k3qAf2b/I/b
+ PwKp8IYN5SbAPN0MjPAFVX6qPxDR7QKcxi6fYPahpSLOnpdW9LXwYTR1D w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10937"; a="10118872"
+X-IronPort-AV: E=Sophos;i="6.04,312,1695711600"; d="scan'208";a="10118872"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Dec 2023 08:21:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10937"; a="848987390"
-X-IronPort-AV: E=Sophos;i="6.04,312,1695711600"; d="scan'208";a="848987390"
-Received: from noblecat-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.35.63])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Dec 2023 08:51:15 -0800
-Date: Thu, 28 Dec 2023 15:04:37 +0100
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: Yaxiong Tian <iambestgod@outlook.com>
-Subject: Re: [PATCH] drm/debugfs: fix memory leak in drm_debugfs_remove_files()
-Message-ID: <ZY2AdV1DP6YnSh6g@linux.intel.com>
-References: <PUZPR01MB4775A8F67AE31D6A4927E6B7D59EA@PUZPR01MB4775.apcprd01.prod.exchangelabs.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10937"; a="812827906"
+X-IronPort-AV: E=Sophos;i="6.04,312,1695711600"; d="scan'208";a="812827906"
+Received: from ceyeghel-mobl.amr.corp.intel.com (HELO intel.com)
+ ([10.252.50.226])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Dec 2023 08:21:11 -0800
+Date: Thu, 28 Dec 2023 17:21:07 +0100
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v2 1/4] drm/i915/gem: reconcile Excess struct member
+ kernel-doc warnings
+Message-ID: <ZY2gc0gaR5i1Yct9@ashyti-mobl2.lan>
+References: <20231226195432.10891-1-rdunlap@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <PUZPR01MB4775A8F67AE31D6A4927E6B7D59EA@PUZPR01MB4775.apcprd01.prod.exchangelabs.com>
+In-Reply-To: <20231226195432.10891-1-rdunlap@infradead.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,38 +59,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, linux-kernel@vger.kernel.org, mripard@kernel.org,
- dri-devel@lists.freedesktop.org, Yaxiong Tian <tianyaxiong@kylinos.cn>,
- airlied@gmail.com
+Cc: intel-gfx@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jonathan Corbet <corbet@lwn.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 28, 2023 at 04:07:40PM +0800, Yaxiong Tian wrote:
-> From: Yaxiong Tian <tianyaxiong@kylinos.cn>
-> 
-> The dentry returned by debugfs_lookup() needs to be released by calling
-> dput() which is missing in drm_debugfs_remove_files(). Fix this by adding
-> dput().
-> 
-> Signed-off-by: Yaxiong Tian <tianyaxiong@kylinos.cn>
-Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+Hi Randy,
 
-> ---
->  drivers/gpu/drm/drm_debugfs.c | 1 +
->  1 file changed, 1 insertion(+)
+On Tue, Dec 26, 2023 at 11:54:29AM -0800, Randy Dunlap wrote:
+> Document nested struct members with full names as described in
+> Documentation/doc-guide/kernel-doc.rst.
 > 
-> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-> index f4715a67e340..4d299152c302 100644
-> --- a/drivers/gpu/drm/drm_debugfs.c
-> +++ b/drivers/gpu/drm/drm_debugfs.c
-> @@ -277,6 +277,7 @@ int drm_debugfs_remove_files(const struct drm_info_list *files, int count,
->  
->  		drmm_kfree(minor->dev, d_inode(dent)->i_private);
->  		debugfs_remove(dent);
-> +		dput(dent);
->  	}
->  	return 0;
->  }
-> -- 
-> 2.25.1
+> i915_gem_context_types.h:420: warning: Excess struct member 'lock' description in 'i915_gem_context'
 > 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> Cc: intel-gfx@lists.freedesktop.org
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: dri-devel@lists.freedesktop.org
+> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+
+Thanks,
+Andi
