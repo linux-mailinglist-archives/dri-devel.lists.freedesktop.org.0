@@ -2,54 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8BB281FA57
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Dec 2023 18:29:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C59F81FA9E
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Dec 2023 20:24:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFD8110E131;
-	Thu, 28 Dec 2023 17:29:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D009310E008;
+	Thu, 28 Dec 2023 19:24:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD44910E131
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Dec 2023 17:29:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Subject:References:Cc:To:Message-ID:From:
- Content-Transfer-Encoding:Content-Type:Date:MIME-Version:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=rtDkFjG4UEMR0PjUgaZp0uUgO7ggIMJp7j+YKLSw+8k=; b=EMk2cQCxOyGl3ud6E2QSBNpsyl
- YybtKOq0s6fvIEUSWx29MjsK/CAO3w8TnHPxITIoQBk+w5RyHRXbWeQ71GpjmYNwMig834VXmyIgF
- SPDABDCAyA3UkRQZLETn+mNQOo1xEfCTXw1rRoohNhEG9V3IFfqqpOptkj7h/CqHPnlYO0Y3dCu52
- k9ZfP0WaC7KPxabv3Rw40hR/xv/vRBhAbvSwgpamLokFaLJB68PW6UK+TDWPuf+nCEG8hNX98Ph5t
- 10CbLOvUyaSybjlOqnqPle04j0DF+sjOFczcwjAwlN9KMmjsira17D/TeJPKCq5ya+Wgue8znJ/X9
- Ga4FcBHA==;
-Received: from [2001:67c:1be8::200] (helo=rainloop.kapsi.fi)
- by mail.kapsi.fi with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
- (envelope-from <jyri.sarha@iki.fi>) id 1rIuBc-008JHs-19;
- Thu, 28 Dec 2023 19:28:48 +0200
+Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com
+ [IPv6:2001:4860:4864:20::2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D442E10E008
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Dec 2023 19:24:36 +0000 (UTC)
+Received: by mail-oa1-x2a.google.com with SMTP id
+ 586e51a60fabf-2041bb80cb3so4666725fac.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Dec 2023 11:24:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1703791475; x=1704396275;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=4eXRhqd1yBwc+Z6yATNh3shIkHH9Y9LTIopAG5eguMQ=;
+ b=SvIO9xGg6uG8MNuWQcIEsnGlEisvXKJENJ6qPyuP6V7sJ+wN4WlV2r88n5oJ9dtNuM
+ A5ro06Sm4glSc/vZNKPEL6ykHq3LVhBOGa6AnLrqJcRDpXFThrpJfDH0RH4tlQCqI9Nk
+ ZRvJ+ohfCEja3lrUQLQrsSGqIaUvBWgIw5Vy0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1703791475; x=1704396275;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=4eXRhqd1yBwc+Z6yATNh3shIkHH9Y9LTIopAG5eguMQ=;
+ b=JHnREV02f2OpxKk+8TfVHAUFS5JzSeBqMtCDMQNHX73Gi1tVTPGXMmSZL3YQqZDBp/
+ Yvqusa6eYuoJ+i3u6UqRhFpTpaVt4DOlLGI0t5WM6+SUdFK+207Jdg4KxUj4AbcHC7hg
+ Lb3iRelpipJ6Li95jyMcmsTE0tWowKJy2eRE3gqWOWJPAP8x3u8O4qVF7xjCqRjSvW56
+ JfBSX9s/xljVI9S2R8ffA/Gs6+3XNWAEtIoliYmr85ihPuIBQGdzGP+Haim6gzMVaBGT
+ Wk6wIJHAWgcuubvxHl/3z8Yaa1o7rRjMCMbITF4eV0la8u7trekjeXNoRBqLxBRumcXg
+ WDxQ==
+X-Gm-Message-State: AOJu0YzS1IJOkzNep5HHlUHQiwnC41Kxc+0Mkw8TQ9lRF9Q1ucI7MP1W
+ DIX4kRB9hgVhtWwsq2kYsiNXGh1L+Ngf
+X-Google-Smtp-Source: AGHT+IGbLBUPIfQHiKai+8RHWPNYuqXRw43QCHnGQB70v03pdYwtq9pCK3CZzd+u6yZat7Ii/tgXpQ==
+X-Received: by 2002:a05:6870:1490:b0:1fb:75b:131e with SMTP id
+ k16-20020a056870149000b001fb075b131emr13111421oab.112.1703791475661; 
+ Thu, 28 Dec 2023 11:24:35 -0800 (PST)
+Received: from amakhalov-build-vm.eng.vmware.com ([128.177.82.146])
+ by smtp.gmail.com with ESMTPSA id
+ k16-20020aa79990000000b006d9aa04574csm9522987pfh.52.2023.12.28.11.24.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 Dec 2023 11:24:35 -0800 (PST)
+From: Alexey Makhalov <alexey.makhalov@broadcom.com>
+To: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev, bp@alien8.de,
+ hpa@zytor.com, dave.hansen@linux.intel.com, mingo@redhat.com,
+ tglx@linutronix.de
+Subject: [PATCH v4 0/6] VMware hypercalls enhancements
+Date: Thu, 28 Dec 2023 11:24:15 -0800
+Message-Id: <20231228192421.29894-1-alexey.makhalov@broadcom.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Date: Thu, 28 Dec 2023 17:28:48 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-From: jyri.sarha@iki.fi
-Message-ID: <7fee3509faf9d134db2f537dccacbc1adf284cce@iki.fi>
-To: "Philipp Stanner" <pstanner@redhat.com>, "Jyri Sarha"
- <jyri.sarha@iki.fi>, "Tomi Valkeinen" <tomi.valkeinen@ideasonboard.com>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
- Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>
-References: undefined
-X-SA-Exim-Connect-IP: 2001:67c:1be8::200
-X-SA-Exim-Mail-From: jyri.sarha@iki.fi
-X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on mail
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00,
- T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=4.0.0
-Subject: Re: [PATCH] drm/tilcdc: request and mapp iomem with devres
-X-SA-Exim-Version: 4.2.1 (built Wed, 06 Jul 2022 17:57:39 +0000)
-X-SA-Exim-Scanned: Yes (on mail.kapsi.fi)
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,85 +70,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: dmitry.torokhov@gmail.com, tzimmermann@suse.de, pv-drivers@vmware.com,
+ netdev@vger.kernel.org, richardcochran@gmail.com, x86@kernel.org,
+ dri-devel@lists.freedesktop.org, horms@kernel.org, akaher@vmware.com,
+ timothym@vmware.com, linux-graphics-maintainer@vmware.com, mripard@kernel.org,
+ jsipek@vmware.com, linux-input@vger.kernel.org, namit@vmware.com,
+ kirill.shutemov@linux.intel.com, airlied@gmail.com, zackr@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-December 22, 2023 at 1:52 PM, "Philipp Stanner" <pstanner@redhat.com mail=
-to:pstanner@redhat.com?to=3D%22Philipp%20Stanner%22%20%3Cpstanner%40redha=
-t.com%3E > wrote:
+VMware hypercalls invocations were all spread out across the kernel
+implementing same ABI as in-place asm-inline. With encrypted memory
+and confidential computing it became harder to maintain every changes
+in these hypercall implementations.
 
->=20
->=20tilcdc currently just ioremaps its iomem, without doing the (a bit mo=
-re
-> robust) request on the memory first. The devm_ functions provide a hand=
-y
-> way to both request and ioremap the memory with automatic cleanup.
->=20
->=20Replace the manual ioremap with the devm_ version.
->=20
->=20Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+Intention of this patchset is to introduce arch independent VMware
+hypercall API layer other subsystems such as device drivers can call
+to, while hiding architecture specific implementation behind.
 
-Reviewed-by: Jyri Sarha <jyri.sarha@iki.fi>
-Tested-by: Jyri Sarha <jyri.sarha@iki.fi>
+Second patch introduces the vmware_hypercall low and high bandwidth
+families of functions, with little enhancements there.
+Sixth patch adds tdx hypercall support
 
-I'll apply this shortly to drm-misc-next.
+arm64 implementation of vmware_hypercalls is in drivers/gpu/drm/
+vmwgfx/vmwgfx_msg_arm64.h and going to be moved to arch/arm64 with
+a separate patchset with the introduction of VMware Linux guest
+support for arm64.
 
-Thanks,
-Jyri
+No functional changes in drivers/input/mouse/vmmouse.c and
+drivers/ptp/ptp_vmw.c
 
-> ---
-> drivers/gpu/drm/tilcdc/tilcdc_drv.c | 19 ++++---------------
-> 1 file changed, 4 insertions(+), 15 deletions(-)
->=20
->=20diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/ti=
-lcdc/tilcdc_drv.c
-> index 8ebd7134ee21..2ad3f44a6e2d 100644
-> --- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> +++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> @@ -182,9 +182,6 @@ static void tilcdc_fini(struct drm_device *dev)
->  if (priv->clk)
->  clk_put(priv->clk);
->=20
->=20- if (priv->mmio)
-> - iounmap(priv->mmio);
-> -
->  if (priv->wq)
->  destroy_workqueue(priv->wq);
->=20
->=20@@ -201,7 +198,6 @@ static int tilcdc_init(const struct drm_driver *d=
-drv, struct device *dev)
->  struct platform_device *pdev =3D to_platform_device(dev);
->  struct device_node *node =3D dev->of_node;
->  struct tilcdc_drm_private *priv;
-> - struct resource *res;
->  u32 bpp =3D 0;
->  int ret;
->=20
->=20@@ -226,17 +222,10 @@ static int tilcdc_init(const struct drm_driver =
-*ddrv, struct device *dev)
->  goto init_failed;
->  }
->=20
->=20- res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> - if (!res) {
-> - dev_err(dev, "failed to get memory resource\n");
-> - ret =3D -EINVAL;
-> - goto init_failed;
-> - }
-> -
-> - priv->mmio =3D ioremap(res->start, resource_size(res));
-> - if (!priv->mmio) {
-> - dev_err(dev, "failed to ioremap\n");
-> - ret =3D -ENOMEM;
-> + priv->mmio =3D devm_platform_ioremap_resource(pdev, 0);
-> + if (IS_ERR(priv->mmio)) {
-> + dev_err(dev, "failed to request / ioremap\n");
-> + ret =3D PTR_ERR(priv->mmio);
->  goto init_failed;
->  }
->=20
->=20--=20
->=202.43.0
->
+v3->v4 changes: (no functional changes in patches 1-5)
+  [patch 2]:
+- Added the comment with VMware hypercall ABI description.
+  [patch 6]:
+- vmware_tdx_hypercall_args remove in6/out6 arguments as excessive.
+- vmware_tdx_hypercall return ULONG_MAX on error to mimic bad hypercall
+  command error from the hypervisor.
+- Replaced pr_warn by pr_warn_once as pointed by Kirill Shutemov.
+- Fixed the warning reported by Intel's kernel test robot.
+- Added the comment describing VMware TDX hypercall ABI.
+
+v2->v3 changes: (no functional changes in patches 1-5)
+- Improved commit message in patches 1, 2 and 5 as was suggested by
+  Borislav Petkov.
+- To address Dave Hansen's concern, patch 6 was reorganized to avoid
+  exporting bare __tdx_hypercall and to make exported vmware_tdx_hypercall
+  VMWare guest specific.
+
+v1->v2 changes (no functional changes):
+- Improved commit message in patches 2 and 5.
+- Added Reviewed-by for all patches.
+- Added Ack from Dmitry Torokhov in patch 4. No fixes regarding reported
+  by Simon Horman gcc error in this patch.
+
+Alexey Makhalov (6):
+  x86/vmware: Move common macros to vmware.h
+  x86/vmware: Introduce VMware hypercall API
+  ptp/vmware: Use VMware hypercall API
+  input/vmmouse: Use VMware hypercall API
+  drm/vmwgfx: Use VMware hypercall API
+  x86/vmware: Add TDX hypercall support
+
+ arch/x86/include/asm/vmware.h             | 364 ++++++++++++++++++++--
+ arch/x86/kernel/cpu/vmware.c              | 116 +++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg.c       | 173 ++++------
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg_arm64.h | 197 ++++++++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg_x86.h   | 185 -----------
+ drivers/input/mouse/vmmouse.c             |  76 ++---
+ drivers/ptp/ptp_vmw.c                     |  12 +-
+ 7 files changed, 598 insertions(+), 525 deletions(-)
+
+-- 
+2.39.0
+
