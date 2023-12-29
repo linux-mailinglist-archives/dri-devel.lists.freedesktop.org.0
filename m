@@ -1,53 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AB1481FF08
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Dec 2023 12:11:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C29F481FF1B
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Dec 2023 12:20:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FEEE10E29C;
-	Fri, 29 Dec 2023 11:11:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AABC010E2AF;
+	Fri, 29 Dec 2023 11:20:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA3C710E28E;
- Fri, 29 Dec 2023 11:11:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1703848270; x=1735384270;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=Uu234CAaECbHgWP+k1RYVl0ZXipe5oU9nmz0akr/2QA=;
- b=Tb0UeD2GYRnZd/kSiRuDUanyn8r3ub1AxpFkImDI5aVohLrtuCgEkCXJ
- uMPtDgV2oremZu5PiSfs08Vdn7cUFp6Xpsp15kzkXyD2GYSqPmnoFKCrs
- i/rQ/cmX30r9lt7In1H1i7FkUzBaeU2vheaW09ORcXcYAklV+bLRN7SdN
- ML7a/uEMP72Dm9Q8bFuS2CNIlgjhqXZOHafvMXLS6WF7ITp/4txT4htti
- 16/k6k0aTPiyh+S44WaMRgNQdSNTvuoKrav1embVBSsFB8nFiONYWFhZd
- mOBGoBHOS0WyjVOv0j5A+Jwab3SP1FC2h/W7LFdNyaFUXh6HTu3dxFBIE Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10937"; a="10027350"
-X-IronPort-AV: E=Sophos;i="6.04,314,1695711600"; d="scan'208";a="10027350"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Dec 2023 02:30:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10937"; a="813017170"
-X-IronPort-AV: E=Sophos;i="6.04,314,1695711600"; d="scan'208";a="813017170"
-Received: from jquigley-mobl.ger.corp.intel.com (HELO intel.com)
- ([10.252.51.13])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Dec 2023 02:30:46 -0800
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v4 4/4] drm/i915/guc: Use the ce_to_guc() wrapper whenever
- possible
-Date: Fri, 29 Dec 2023 11:27:34 +0100
-Message-ID: <20231229102734.674362-5-andi.shyti@linux.intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2135010E2A1
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Dec 2023 11:20:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1703848839;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=d3KNTkAHMEq6kRnLdtQoUQE4cKQn8zc78RB5qaLNfps=;
+ b=EFOwvIaKGdwHNSXmIvW4p2IlTxZ5tm1Bj81Di35Uy10z/TH2Xk13IxBD0nEJgTGP9tQlNJ
+ LYBqM1Pn29//awmg/LvyMtbxNqJJeZNKdFc0OFAyA6pDOGZ1Va4/F4tgzu+9Z53sNv5rnq
+ +Lawn90NJgYtKPC6668wKYBCr8xHNs0=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-596-zOm-npsWOzCYntueiKg6ig-1; Fri, 29 Dec 2023 06:20:33 -0500
+X-MC-Unique: zOm-npsWOzCYntueiKg6ig-1
+Received: by mail-lf1-f69.google.com with SMTP id
+ 2adb3069b0e04-50e7ce2713cso3251589e87.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Dec 2023 03:20:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1703848831; x=1704453631;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=d3KNTkAHMEq6kRnLdtQoUQE4cKQn8zc78RB5qaLNfps=;
+ b=I+gPNrgZKEK3ONVnrxsivS/kSQOLNfMdeEaLH91jqwcWA5N3X957eeHzTo+Cxkoc/O
+ 9dTLkCYThN1CgtvEOKLle0TWvWRbEPeRkstKfbX7Rfxk4Vx2/Pj8g0oK/JVppWXsM/rN
+ SLlt2jWfkdg++T2EqlKjypnTq/Dm84Wh40AWjfX1wK6lTdwjHgzO04pSF3Po4x9ajWMw
+ EykhqasZ9cB3Kta7ex3N62Ynj0A5VTPVxaa01x5xe9OlGK1X6b3gFVSpBCHob3lDrEdc
+ 2O5AvH/78JKh+yQ4g6u6IS0Mx0XXQ4KPem1MQ0d4+E76U5p9UtEUD4GYKOVvopP6xxLK
+ dMYQ==
+X-Gm-Message-State: AOJu0Yz5DFor4E+HMY3sW/eWHP/3XKsnFWEE5TctXNJ0sU+a4Oj72t6v
+ hBFtt6AQmEGRXwcvBgmZj6VF9xkNwWRLk/NVGuDw+h3TZToXGj+fXXmyPZyq5G35NmVUktKp+mq
+ +ycxpDFJ7CFpi7SlY7SK0PybqoogiCEge4cxO
+X-Received: by 2002:ac2:47e6:0:b0:50e:7702:a189 with SMTP id
+ b6-20020ac247e6000000b0050e7702a189mr3613954lfp.22.1703848831380; 
+ Fri, 29 Dec 2023 03:20:31 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHH/ywHRre541SoLTPy1QECA7NUgjNY8fcN4VeI019+xCIjYOchbO5JRtdR/qeeHiOlbvC6jw==
+X-Received: by 2002:ac2:47e6:0:b0:50e:7702:a189 with SMTP id
+ b6-20020ac247e6000000b0050e7702a189mr3613937lfp.22.1703848830973; 
+ Fri, 29 Dec 2023 03:20:30 -0800 (PST)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ m2-20020a05600c4f4200b0040d5c58c41dsm10315024wmq.24.2023.12.29.03.20.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Dec 2023 03:20:30 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v5 0/4] drm/solomon: Add support for the SSD133x controller
+ family
+Date: Fri, 29 Dec 2023 12:20:17 +0100
+Message-ID: <20231229112026.2797483-1-javierm@redhat.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231229102734.674362-1-andi.shyti@linux.intel.com>
-References: <20231229102734.674362-1-andi.shyti@linux.intel.com>
 MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,32 +81,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>, Nirmoy Das <nirmoy.das@intel.com>
+Cc: Conor Dooley <conor+dt@kernel.org>, Jocelyn Falempe <jfalempe@redhat.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Conor Dooley <conor@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Peter Robinson <pbrobinson@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Get the guc reference from the ce using the ce_to_guc() helper.
-Just a leftover from previous cleanups.
+Hello,
 
-Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
----
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This patch-set adds support for the family of SSD133x Solomon controllers,
+such as the SSD1331. These are used for RGB Dot Matrix OLED/PLED panels.
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 17629e26e899..7d73e056cd76 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -3513,7 +3513,7 @@ static inline void sub_context_inflight_prio(struct intel_context *ce,
- 
- static inline void update_context_prio(struct intel_context *ce)
- {
--	struct intel_guc *guc = &ce->engine->gt->uc.guc;
-+	struct intel_guc *guc = ce_to_guc(ce);
- 	int i;
- 
- 	BUILD_BUG_ON(GUC_CLIENT_PRIORITY_KMD_HIGH != 0);
+This is a v5 that is basically the same than the previous v4 but dropping
+support for I2C since the ssd133x family does not support that interface.
+
+The patches were tested on a Waveshare SSD1331 display using glmark2-drm,
+fbcon, fbtests and the retroarch emulator. The binding schema were tested
+using the `make W=1 dt_binding_check` target.
+
+Patch #1 and #2 are fixes for the DT binding schema of the existing SSD130x
+and SSD132x families.
+
+Patch #3 adds a DT binding schema for the SSD133x controllers and patch #4
+extends the ssd130x DRM driver to support the SSD133x controller family.
+
+Best regards,
+Javier
+
+Changes in v5:
+- Drop I2C example in DT binding schema due that bus not being supported.
+- Drop "solomon,ssd1331" entry from ssd130x-i2c due I2C bus not being supported.
+
+Changes in v4:
+- Fix typo in commit message (Jocelyn Falempe).
+- Add collected tags.
+
+Changes in v3:
+- Move solomon,ssd-common.yaml ref before the properties section and
+  width/height constraints after the other properties (Conor Dooley).
+
+Changes in v2:
+- Unconditionally set the width and height constraints (Conor Dooley).
+- Fix indentation in the DTS examples (Krzysztof Kozlowski).
+
+Javier Martinez Canillas (4):
+  dt-bindings: display: ssd1307fb: Add vendor prefix to width and height
+  dt-bindings: display: ssd132x: Add vendor prefix to width and height
+  dt-bindings: display: Add SSD133x OLED controllers
+  drm/ssd130x: Add support for the SSD133x OLED controller family
+
+ .../bindings/display/solomon,ssd1307fb.yaml   |  20 +-
+ .../bindings/display/solomon,ssd132x.yaml     |  12 +-
+ .../bindings/display/solomon,ssd133x.yaml     |  45 +++
+ drivers/gpu/drm/solomon/ssd130x-spi.c         |   7 +
+ drivers/gpu/drm/solomon/ssd130x.c             | 370 ++++++++++++++++++
+ drivers/gpu/drm/solomon/ssd130x.h             |   5 +-
+ 6 files changed, 442 insertions(+), 17 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/solomon,ssd133x.yaml
+
 -- 
 2.43.0
 
