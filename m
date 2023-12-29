@@ -2,68 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C29F481FF1B
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Dec 2023 12:20:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21D8981FF16
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Dec 2023 12:20:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AABC010E2AF;
-	Fri, 29 Dec 2023 11:20:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 144EF10E280;
+	Fri, 29 Dec 2023 11:20:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2135010E2A1
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Dec 2023 11:20:40 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 317D010E280
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Dec 2023 11:20:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1703848839;
+ s=mimecast20190719; t=1703848837;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=d3KNTkAHMEq6kRnLdtQoUQE4cKQn8zc78RB5qaLNfps=;
- b=EFOwvIaKGdwHNSXmIvW4p2IlTxZ5tm1Bj81Di35Uy10z/TH2Xk13IxBD0nEJgTGP9tQlNJ
- LYBqM1Pn29//awmg/LvyMtbxNqJJeZNKdFc0OFAyA6pDOGZ1Va4/F4tgzu+9Z53sNv5rnq
- +Lawn90NJgYtKPC6668wKYBCr8xHNs0=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1KrXB2l1sK5WNrgL14b/nrn7vl1GLfrzGJcKXH5lPKk=;
+ b=TPrQ59cRF2Lqltqr7X4SCgveDrz8Xm8Tze9YKItlLi/9sKhvzShzh8d8Ts54Hf4it8Atrr
+ jfuQj0Xxzgx0rIjBDliovawZAjjC6y0F6/3mOIeVQSDR9dMgA/WPx/nbCTt3fPaL62rWlj
+ /KkvNnJAH7qgf5UrsXXkOh1epm16gGg=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-596-zOm-npsWOzCYntueiKg6ig-1; Fri, 29 Dec 2023 06:20:33 -0500
-X-MC-Unique: zOm-npsWOzCYntueiKg6ig-1
-Received: by mail-lf1-f69.google.com with SMTP id
- 2adb3069b0e04-50e7ce2713cso3251589e87.3
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Dec 2023 03:20:32 -0800 (PST)
+ us-mta-597-ox4sEGQlMhG_0KevK0PGAw-1; Fri, 29 Dec 2023 06:20:33 -0500
+X-MC-Unique: ox4sEGQlMhG_0KevK0PGAw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-40d27ea0165so63819695e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Dec 2023 03:20:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1703848831; x=1704453631;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=d3KNTkAHMEq6kRnLdtQoUQE4cKQn8zc78RB5qaLNfps=;
- b=I+gPNrgZKEK3ONVnrxsivS/kSQOLNfMdeEaLH91jqwcWA5N3X957eeHzTo+Cxkoc/O
- 9dTLkCYThN1CgtvEOKLle0TWvWRbEPeRkstKfbX7Rfxk4Vx2/Pj8g0oK/JVppWXsM/rN
- SLlt2jWfkdg++T2EqlKjypnTq/Dm84Wh40AWjfX1wK6lTdwjHgzO04pSF3Po4x9ajWMw
- EykhqasZ9cB3Kta7ex3N62Ynj0A5VTPVxaa01x5xe9OlGK1X6b3gFVSpBCHob3lDrEdc
- 2O5AvH/78JKh+yQ4g6u6IS0Mx0XXQ4KPem1MQ0d4+E76U5p9UtEUD4GYKOVvopP6xxLK
- dMYQ==
-X-Gm-Message-State: AOJu0Yz5DFor4E+HMY3sW/eWHP/3XKsnFWEE5TctXNJ0sU+a4Oj72t6v
- hBFtt6AQmEGRXwcvBgmZj6VF9xkNwWRLk/NVGuDw+h3TZToXGj+fXXmyPZyq5G35NmVUktKp+mq
- +ycxpDFJ7CFpi7SlY7SK0PybqoogiCEge4cxO
-X-Received: by 2002:ac2:47e6:0:b0:50e:7702:a189 with SMTP id
- b6-20020ac247e6000000b0050e7702a189mr3613954lfp.22.1703848831380; 
- Fri, 29 Dec 2023 03:20:31 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHH/ywHRre541SoLTPy1QECA7NUgjNY8fcN4VeI019+xCIjYOchbO5JRtdR/qeeHiOlbvC6jw==
-X-Received: by 2002:ac2:47e6:0:b0:50e:7702:a189 with SMTP id
- b6-20020ac247e6000000b0050e7702a189mr3613937lfp.22.1703848830973; 
- Fri, 29 Dec 2023 03:20:30 -0800 (PST)
+ d=1e100.net; s=20230601; t=1703848832; x=1704453632;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=1KrXB2l1sK5WNrgL14b/nrn7vl1GLfrzGJcKXH5lPKk=;
+ b=v3zyi5mTk9oz3m15aVDDvjirAJHswLV2+knZik9/fP5MLXGn8QEoMgIg4+R84phrdG
+ n86qdIkLDN0RJKQujvmS7J7dEVwBtFWfDb+YJ/q7eiKSYcENxPlStI3E1leH0xa3fnFq
+ mta6vAg9jo5wEAT4o3x64pNEEAX9BCbkUm9PTaLJ800Qm44tbIrAl6MAkg34we1KZyuo
+ DJRPAVgmP5wnR320PpBUCRaf2OVpluz18aL6kdpFpB/7d6n9dYZ69NqodkGX/P7/SCXp
+ e9CBCN3IJsH4W6433s5yoWkCTPoYfr5fjXVgQBvNQm0U6GlE3dws7TAO+li2m1lw7BaO
+ T51A==
+X-Gm-Message-State: AOJu0YwWmV+cE9lpb2o41iiLOAkSo/rMGkWokypY1Nv4B28PxyeFyozr
+ DXLvL0B3rv0Y7SUmjMpJgXI0DjkC8rXRc+NfmyQwfDXMsKXWsoQ96K7L9TtG/vmmymERnhgRL+M
+ 9OMNbsW4jxrx5li5iKcIX4UkRTI4J1VrUCNBl
+X-Received: by 2002:a05:600c:5006:b0:40d:5f3e:f058 with SMTP id
+ n6-20020a05600c500600b0040d5f3ef058mr1970522wmr.179.1703848832772; 
+ Fri, 29 Dec 2023 03:20:32 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFhNkbC6wTKaV7ceYhGd3wJqwAROupHIXBLke7SzKs9QNM4PK1OxxXjBt/V5Sz1m4Hsc4u5NQ==
+X-Received: by 2002:a05:600c:5006:b0:40d:5f3e:f058 with SMTP id
+ n6-20020a05600c500600b0040d5f3ef058mr1970510wmr.179.1703848832437; 
+ Fri, 29 Dec 2023 03:20:32 -0800 (PST)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- m2-20020a05600c4f4200b0040d5c58c41dsm10315024wmq.24.2023.12.29.03.20.30
+ p35-20020a05600c1da300b0040b360cc65csm31388976wms.0.2023.12.29.03.20.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Dec 2023 03:20:30 -0800 (PST)
+ Fri, 29 Dec 2023 03:20:31 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v5 0/4] drm/solomon: Add support for the SSD133x controller
- family
-Date: Fri, 29 Dec 2023 12:20:17 +0100
-Message-ID: <20231229112026.2797483-1-javierm@redhat.com>
+Subject: [PATCH v5 1/4] dt-bindings: display: ssd1307fb: Add vendor prefix to
+ width and height
+Date: Fri, 29 Dec 2023 12:20:18 +0100
+Message-ID: <20231229112026.2797483-2-javierm@redhat.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20231229112026.2797483-1-javierm@redhat.com>
+References: <20231229112026.2797483-1-javierm@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -93,58 +96,88 @@ Cc: Conor Dooley <conor+dt@kernel.org>, Jocelyn Falempe <jfalempe@redhat.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+The commit 591825fba8a2 ("dt-bindings: display: ssd1307fb: Remove default
+width and height values") used the wrong properties for width and height,
+instead of the correct "solomon,width" and "solomon,height" properties.
 
-This patch-set adds support for the family of SSD133x Solomon controllers,
-such as the SSD1331. These are used for RGB Dot Matrix OLED/PLED panels.
+Fix this by adding the vendor prefix to the width and height properties.
 
-This is a v5 that is basically the same than the previous v4 but dropping
-support for I2C since the ssd133x family does not support that interface.
+Fixes: 591825fba8a2 ("dt-bindings: display: ssd1307fb: Remove default width and height values")
+Reported-by: Conor Dooley <conor@kernel.org>
+Closes: https://lore.kernel.org/dri-devel/20231218-example-envision-b41ca8efa251@spud/
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+Acked-by: Rob Herring <robh@kernel.org>
+---
 
-The patches were tested on a Waveshare SSD1331 display using glmark2-drm,
-fbcon, fbtests and the retroarch emulator. The binding schema were tested
-using the `make W=1 dt_binding_check` target.
+(no changes since v1)
 
-Patch #1 and #2 are fixes for the DT binding schema of the existing SSD130x
-and SSD132x families.
+ .../bindings/display/solomon,ssd1307fb.yaml   | 20 +++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-Patch #3 adds a DT binding schema for the SSD133x controllers and patch #4
-extends the ssd130x DRM driver to support the SSD133x controller family.
-
-Best regards,
-Javier
-
-Changes in v5:
-- Drop I2C example in DT binding schema due that bus not being supported.
-- Drop "solomon,ssd1331" entry from ssd130x-i2c due I2C bus not being supported.
-
-Changes in v4:
-- Fix typo in commit message (Jocelyn Falempe).
-- Add collected tags.
-
-Changes in v3:
-- Move solomon,ssd-common.yaml ref before the properties section and
-  width/height constraints after the other properties (Conor Dooley).
-
-Changes in v2:
-- Unconditionally set the width and height constraints (Conor Dooley).
-- Fix indentation in the DTS examples (Krzysztof Kozlowski).
-
-Javier Martinez Canillas (4):
-  dt-bindings: display: ssd1307fb: Add vendor prefix to width and height
-  dt-bindings: display: ssd132x: Add vendor prefix to width and height
-  dt-bindings: display: Add SSD133x OLED controllers
-  drm/ssd130x: Add support for the SSD133x OLED controller family
-
- .../bindings/display/solomon,ssd1307fb.yaml   |  20 +-
- .../bindings/display/solomon,ssd132x.yaml     |  12 +-
- .../bindings/display/solomon,ssd133x.yaml     |  45 +++
- drivers/gpu/drm/solomon/ssd130x-spi.c         |   7 +
- drivers/gpu/drm/solomon/ssd130x.c             | 370 ++++++++++++++++++
- drivers/gpu/drm/solomon/ssd130x.h             |   5 +-
- 6 files changed, 442 insertions(+), 17 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/solomon,ssd133x.yaml
-
+diff --git a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
+index 3afbb52d1b7f..153ff86fb405 100644
+--- a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
++++ b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
+@@ -131,9 +131,9 @@ allOf:
+             const: sinowealth,sh1106
+     then:
+       properties:
+-        width:
++        solomon,width:
+           default: 132
+-        height:
++        solomon,height:
+           default: 64
+         solomon,dclk-div:
+           default: 1
+@@ -149,9 +149,9 @@ allOf:
+               - solomon,ssd1305
+     then:
+       properties:
+-        width:
++        solomon,width:
+           default: 132
+-        height:
++        solomon,height:
+           default: 64
+         solomon,dclk-div:
+           default: 1
+@@ -167,9 +167,9 @@ allOf:
+               - solomon,ssd1306
+     then:
+       properties:
+-        width:
++        solomon,width:
+           default: 128
+-        height:
++        solomon,height:
+           default: 64
+         solomon,dclk-div:
+           default: 1
+@@ -185,9 +185,9 @@ allOf:
+               - solomon,ssd1307
+     then:
+       properties:
+-        width:
++        solomon,width:
+           default: 128
+-        height:
++        solomon,height:
+           default: 39
+         solomon,dclk-div:
+           default: 2
+@@ -205,9 +205,9 @@ allOf:
+               - solomon,ssd1309
+     then:
+       properties:
+-        width:
++        solomon,width:
+           default: 128
+-        height:
++        solomon,height:
+           default: 64
+         solomon,dclk-div:
+           default: 1
 -- 
 2.43.0
 
