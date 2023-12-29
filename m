@@ -1,48 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E7AD81FEDF
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Dec 2023 11:27:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B26081FEE0
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Dec 2023 11:28:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACC9B10E0A8;
-	Fri, 29 Dec 2023 10:27:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59CC310E286;
+	Fri, 29 Dec 2023 10:28:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC34710E00E;
- Fri, 29 Dec 2023 10:27:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CDFD10E286;
+ Fri, 29 Dec 2023 10:28:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1703845668; x=1735381668;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=44vgCtyD59dehyHacLYNX1eeul6GV764P8/2QEts/Po=;
- b=c6xREOch75+TeT/EwUT/2M0J1sPGxegqlnTYI4acI9hQtM7Y9hkedfX8
- 0bRVL8b2WndQgeEJXUEDnBuGaC6nkTBRGTOWs1VuwsnpKflWizgPtTOTn
- m7J+gkZ8xxYLtGLZQN99jqA1tOoZY4e52QEdO2OL8YdRI+9o1V9B4Um+E
- dU7NwXrwbO4+qeULt3MiX0l788lTGgv0KL8zt9fyNVtaTtVrx5cRF8pv4
- bSc6otlOSI4qN/t2eWVfPctl2s+dRSxTfuDVECadFCz1yccvMHtXzPc5y
- FzbLgfNSivsO2HaYTEAeHh/atn6CYalySS63gWvjxYDSqdKuoYVTt53Z6 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10937"; a="393780545"
-X-IronPort-AV: E=Sophos;i="6.04,314,1695711600"; d="scan'208";a="393780545"
+ t=1703845720; x=1735381720;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=+Xa9XrRnaRVAngEFZ+XUrsixWLA6pC2eQShV9CDibnc=;
+ b=edOgCuvFC2NUbeV4VPKWDEZj/h/AXwZr9WNXoETlItvb7k7jlXTEMKBZ
+ 6PU4ghAi44X861Wn7PxmNTyt9DyaAJKr2DZ/2kJiLX7IH4+FFYvy1iSSv
+ tcLVeGnx2UlVqJ/BHflQ9zFZjMFHL0qC88SXAXlQNZGVigNJMW3nxpsWg
+ CcRfRh32iU9lvYQ7qpY5s/iEvOHrXZgX6RMfw7fXQEDJi/1Eor4sIsgzE
+ BMLmNg+efAyDz7scrljr9Y08WqJxX31j0qe5UUgVdAlckkhkvof5fCwGF
+ +mThaeN5wU6SZGX3jnqdul8luF420yt5SmhQ7WEwFRa8mpu7q+4sqqbo4 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10937"; a="393780589"
+X-IronPort-AV: E=Sophos;i="6.04,314,1695711600"; d="scan'208";a="393780589"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Dec 2023 02:27:48 -0800
+ 29 Dec 2023 02:28:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10937"; a="897462791"
-X-IronPort-AV: E=Sophos;i="6.04,314,1695711600"; d="scan'208";a="897462791"
+X-IronPort-AV: E=McAfee;i="6600,9927,10937"; a="897462932"
+X-IronPort-AV: E=Sophos;i="6.04,314,1695711600"; d="scan'208";a="897462932"
 Received: from jquigley-mobl.ger.corp.intel.com (HELO intel.com)
  ([10.252.51.13])
  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Dec 2023 02:27:45 -0800
+ 29 Dec 2023 02:27:57 -0800
 From: Andi Shyti <andi.shyti@linux.intel.com>
 To: intel-gfx <intel-gfx@lists.freedesktop.org>,
  dri-devel <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v4 0/4] Add gt_to_guc() helper
-Date: Fri, 29 Dec 2023 11:27:30 +0100
-Message-ID: <20231229102734.674362-1-andi.shyti@linux.intel.com>
+Subject: [PATCH v4 1/4] drm/i915/gt: Create the gt_to_guc() wrapper
+Date: Fri, 29 Dec 2023 11:27:31 +0100
+Message-ID: <20231229102734.674362-2-andi.shyti@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20231229102734.674362-1-andi.shyti@linux.intel.com>
+References: <20231229102734.674362-1-andi.shyti@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -61,54 +63,251 @@ Cc: Andi Shyti <andi.shyti@linux.intel.com>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+We already have guc_to_gt() and getting to guc from the GT it
+requires some mental effort. Add the gt_to_guc().
 
-respinning this series as there was a rebase conflict in its
-latest version.
+Given the reference to the "gt", the gt_to_guc() will return the
+pinter to the "guc".
 
-Andi
+Update all the files under the gt/ directory.
 
-Changelog:
-==========
-v3 -> v4:
- - Rebase on top of the latest drm-tip
-v2 -> v3:
- - Remove patch 1 that contained guc_to_i915()
-v1 -> v2:
- - add the gt_to_guc() helper and change files in:
-    - i915/gt/
-    - i915/gt/uc
-    - i915/
+Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     | 4 ++--
+ drivers/gpu/drm/i915/gt/intel_ggtt.c          | 9 +++------
+ drivers/gpu/drm/i915/gt/intel_gt.h            | 5 +++++
+ drivers/gpu/drm/i915/gt/intel_gt_irq.c        | 6 +++---
+ drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c | 2 +-
+ drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c   | 8 ++++----
+ drivers/gpu/drm/i915/gt/intel_rc6.c           | 4 ++--
+ drivers/gpu/drm/i915/gt/intel_rps.c           | 2 +-
+ drivers/gpu/drm/i915/gt/intel_tlb.c           | 2 +-
+ drivers/gpu/drm/i915/gt/selftest_slpc.c       | 6 +++---
+ 10 files changed, 25 insertions(+), 23 deletions(-)
 
-Andi Shyti (4):
-  drm/i915/gt: Create the gt_to_guc() wrapper
-  drm/i915/guc: Use the new gt_to_guc() wrapper
-  drm/i915: Use the new gt_to_guc() wrapper
-  drm/i915/guc: Use the ce_to_guc() wrapper whenever possible
-
- drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  4 +--
- drivers/gpu/drm/i915/gt/intel_ggtt.c          |  9 ++----
- drivers/gpu/drm/i915/gt/intel_gt.h            |  5 ++++
- drivers/gpu/drm/i915/gt/intel_gt_irq.c        |  6 ++--
- drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c |  2 +-
- drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c   |  8 ++---
- drivers/gpu/drm/i915/gt/intel_rc6.c           |  4 +--
- drivers/gpu/drm/i915/gt/intel_rps.c           |  2 +-
- drivers/gpu/drm/i915/gt/intel_tlb.c           |  2 +-
- drivers/gpu/drm/i915/gt/selftest_slpc.c       |  6 ++--
- drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c     |  4 +--
- drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.c  |  3 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  2 +-
- .../gpu/drm/i915/gt/uc/intel_guc_capture.c    |  6 ++--
- .../gpu/drm/i915/gt/uc/intel_guc_hwconfig.c   |  2 +-
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 30 +++++++++----------
- drivers/gpu/drm/i915/gt/uc/intel_huc.c        |  4 +--
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      |  4 +--
- drivers/gpu/drm/i915/gt/uc/selftest_guc.c     |  2 +-
- drivers/gpu/drm/i915/i915_debugfs_params.c    |  2 +-
- .../i915/selftests/intel_scheduler_helpers.c  |  4 +--
- 21 files changed, 57 insertions(+), 54 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+index 40687806d22a..bede7f09d4af 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+@@ -589,7 +589,7 @@ u64 intel_clamp_preempt_timeout_ms(struct intel_engine_cs *engine, u64 value)
+ 	 * NB: The GuC API only supports 32bit values. However, the limit is further
+ 	 * reduced due to internal calculations which would otherwise overflow.
+ 	 */
+-	if (intel_guc_submission_is_wanted(&engine->gt->uc.guc))
++	if (intel_guc_submission_is_wanted(gt_to_guc(engine->gt)))
+ 		value = min_t(u64, value, guc_policy_max_preempt_timeout_ms());
+ 
+ 	value = min_t(u64, value, jiffies_to_msecs(MAX_SCHEDULE_TIMEOUT));
+@@ -610,7 +610,7 @@ u64 intel_clamp_timeslice_duration_ms(struct intel_engine_cs *engine, u64 value)
+ 	 * NB: The GuC API only supports 32bit values. However, the limit is further
+ 	 * reduced due to internal calculations which would otherwise overflow.
+ 	 */
+-	if (intel_guc_submission_is_wanted(&engine->gt->uc.guc))
++	if (intel_guc_submission_is_wanted(gt_to_guc(engine->gt)))
+ 		value = min_t(u64, value, guc_policy_max_exec_quantum_ms());
+ 
+ 	value = min_t(u64, value, jiffies_to_msecs(MAX_SCHEDULE_TIMEOUT));
+diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+index 21a7e3191c18..aa1e9249d393 100644
+--- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
++++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+@@ -230,11 +230,8 @@ static void guc_ggtt_ct_invalidate(struct intel_gt *gt)
+ 	struct intel_uncore *uncore = gt->uncore;
+ 	intel_wakeref_t wakeref;
+ 
+-	with_intel_runtime_pm_if_active(uncore->rpm, wakeref) {
+-		struct intel_guc *guc = &gt->uc.guc;
+-
+-		intel_guc_invalidate_tlb_guc(guc);
+-	}
++	with_intel_runtime_pm_if_active(uncore->rpm, wakeref)
++		intel_guc_invalidate_tlb_guc(gt_to_guc(gt));
+ }
+ 
+ static void guc_ggtt_invalidate(struct i915_ggtt *ggtt)
+@@ -245,7 +242,7 @@ static void guc_ggtt_invalidate(struct i915_ggtt *ggtt)
+ 	gen8_ggtt_invalidate(ggtt);
+ 
+ 	list_for_each_entry(gt, &ggtt->gt_list, ggtt_link) {
+-		if (intel_guc_tlb_invalidation_is_available(&gt->uc.guc))
++		if (intel_guc_tlb_invalidation_is_available(gt_to_guc(gt)))
+ 			guc_ggtt_ct_invalidate(gt);
+ 		else if (GRAPHICS_VER(i915) >= 12)
+ 			intel_uncore_write_fw(gt->uncore,
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt.h b/drivers/gpu/drm/i915/gt/intel_gt.h
+index 608f5c872928..6e7cab60834c 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt.h
+@@ -123,6 +123,11 @@ static inline struct drm_i915_private *guc_to_i915(struct intel_guc *guc)
+ 	return guc_to_gt(guc)->i915;
+ }
+ 
++static inline struct intel_guc *gt_to_guc(struct intel_gt *gt)
++{
++	return &gt->uc.guc;
++}
++
+ void intel_gt_common_init_early(struct intel_gt *gt);
+ int intel_root_gt_init_early(struct drm_i915_private *i915);
+ int intel_gt_assign_ggtt(struct intel_gt *gt);
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_irq.c b/drivers/gpu/drm/i915/gt/intel_gt_irq.c
+index 77fb57223465..ad4c51f18d3a 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_irq.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_irq.c
+@@ -68,9 +68,9 @@ gen11_other_irq_handler(struct intel_gt *gt, const u8 instance,
+ 	struct intel_gt *media_gt = gt->i915->media_gt;
+ 
+ 	if (instance == OTHER_GUC_INSTANCE)
+-		return guc_irq_handler(&gt->uc.guc, iir);
++		return guc_irq_handler(gt_to_guc(gt), iir);
+ 	if (instance == OTHER_MEDIA_GUC_INSTANCE && media_gt)
+-		return guc_irq_handler(&media_gt->uc.guc, iir);
++		return guc_irq_handler(gt_to_guc(media_gt), iir);
+ 
+ 	if (instance == OTHER_GTPM_INSTANCE)
+ 		return gen11_rps_irq_handler(&gt->rps, iir);
+@@ -442,7 +442,7 @@ void gen8_gt_irq_handler(struct intel_gt *gt, u32 master_ctl)
+ 		iir = raw_reg_read(regs, GEN8_GT_IIR(2));
+ 		if (likely(iir)) {
+ 			gen6_rps_irq_handler(&gt->rps, iir);
+-			guc_irq_handler(&gt->uc.guc, iir >> 16);
++			guc_irq_handler(gt_to_guc(gt), iir >> 16);
+ 			raw_reg_write(regs, GEN8_GT_IIR(2), iir);
+ 		}
+ 	}
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+index 7114c116e928..37e8d50c99ed 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+@@ -538,7 +538,7 @@ static bool rps_eval(void *data)
+ {
+ 	struct intel_gt *gt = data;
+ 
+-	if (intel_guc_slpc_is_used(&gt->uc.guc))
++	if (intel_guc_slpc_is_used(gt_to_guc(gt)))
+ 		return false;
+ 	else
+ 		return HAS_RPS(gt->i915);
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+index f0dea54880af..8b7813cac33e 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+@@ -456,7 +456,7 @@ static ssize_t slpc_ignore_eff_freq_show(struct kobject *kobj,
+ 					 char *buff)
+ {
+ 	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(kobj, attr->attr.name);
+-	struct intel_guc_slpc *slpc = &gt->uc.guc.slpc;
++	struct intel_guc_slpc *slpc = &gt_to_guc(gt)->slpc;
+ 
+ 	return sysfs_emit(buff, "%u\n", slpc->ignore_eff_freq);
+ }
+@@ -466,7 +466,7 @@ static ssize_t slpc_ignore_eff_freq_store(struct kobject *kobj,
+ 					  const char *buff, size_t count)
+ {
+ 	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(kobj, attr->attr.name);
+-	struct intel_guc_slpc *slpc = &gt->uc.guc.slpc;
++	struct intel_guc_slpc *slpc = &gt_to_guc(gt)->slpc;
+ 	int err;
+ 	u32 val;
+ 
+@@ -587,7 +587,7 @@ static ssize_t media_freq_factor_show(struct kobject *kobj,
+ 				      char *buff)
+ {
+ 	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(kobj, attr->attr.name);
+-	struct intel_guc_slpc *slpc = &gt->uc.guc.slpc;
++	struct intel_guc_slpc *slpc = &gt_to_guc(gt)->slpc;
+ 	intel_wakeref_t wakeref;
+ 	u32 mode;
+ 
+@@ -618,7 +618,7 @@ static ssize_t media_freq_factor_store(struct kobject *kobj,
+ 				       const char *buff, size_t count)
+ {
+ 	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(kobj, attr->attr.name);
+-	struct intel_guc_slpc *slpc = &gt->uc.guc.slpc;
++	struct intel_guc_slpc *slpc = &gt_to_guc(gt)->slpc;
+ 	u32 factor, mode;
+ 	int err;
+ 
+diff --git a/drivers/gpu/drm/i915/gt/intel_rc6.c b/drivers/gpu/drm/i915/gt/intel_rc6.c
+index 7090e4be29cb..ee14d376ca7b 100644
+--- a/drivers/gpu/drm/i915/gt/intel_rc6.c
++++ b/drivers/gpu/drm/i915/gt/intel_rc6.c
+@@ -109,7 +109,7 @@ static void gen11_rc6_enable(struct intel_rc6 *rc6)
+ 	 * thus allowing GuC to control RC6 entry/exit fully instead.
+ 	 * We will not set the HW ENABLE and EI bits
+ 	 */
+-	if (!intel_guc_rc_enable(&gt->uc.guc))
++	if (!intel_guc_rc_enable(gt_to_guc(gt)))
+ 		rc6->ctl_enable = GEN6_RC_CTL_RC6_ENABLE;
+ 	else
+ 		rc6->ctl_enable =
+@@ -569,7 +569,7 @@ static void __intel_rc6_disable(struct intel_rc6 *rc6)
+ 	struct intel_gt *gt = rc6_to_gt(rc6);
+ 
+ 	/* Take control of RC6 back from GuC */
+-	intel_guc_rc_disable(&gt->uc.guc);
++	intel_guc_rc_disable(gt_to_guc(gt));
+ 
+ 	intel_uncore_forcewake_get(uncore, FORCEWAKE_ALL);
+ 	if (GRAPHICS_VER(i915) >= 9)
+diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
+index 4feef874e6d6..9c6812257ac2 100644
+--- a/drivers/gpu/drm/i915/gt/intel_rps.c
++++ b/drivers/gpu/drm/i915/gt/intel_rps.c
+@@ -52,7 +52,7 @@ static struct intel_guc_slpc *rps_to_slpc(struct intel_rps *rps)
+ {
+ 	struct intel_gt *gt = rps_to_gt(rps);
+ 
+-	return &gt->uc.guc.slpc;
++	return &gt_to_guc(gt)->slpc;
+ }
+ 
+ static bool rps_uses_slpc(struct intel_rps *rps)
+diff --git a/drivers/gpu/drm/i915/gt/intel_tlb.c b/drivers/gpu/drm/i915/gt/intel_tlb.c
+index 4bb13d1890e3..756e9ebbc725 100644
+--- a/drivers/gpu/drm/i915/gt/intel_tlb.c
++++ b/drivers/gpu/drm/i915/gt/intel_tlb.c
+@@ -132,7 +132,7 @@ void intel_gt_invalidate_tlb_full(struct intel_gt *gt, u32 seqno)
+ 		return;
+ 
+ 	with_intel_gt_pm_if_awake(gt, wakeref) {
+-		struct intel_guc *guc = &gt->uc.guc;
++		struct intel_guc *guc = gt_to_guc(gt);
+ 
+ 		mutex_lock(&gt->tlb.invalidate_lock);
+ 		if (tlb_seqno_passed(gt, seqno))
+diff --git a/drivers/gpu/drm/i915/gt/selftest_slpc.c b/drivers/gpu/drm/i915/gt/selftest_slpc.c
+index 302d0540295d..4ecc4ae74a54 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_slpc.c
++++ b/drivers/gpu/drm/i915/gt/selftest_slpc.c
+@@ -53,7 +53,7 @@ static int slpc_set_max_freq(struct intel_guc_slpc *slpc, u32 freq)
+ static int slpc_set_freq(struct intel_gt *gt, u32 freq)
+ {
+ 	int err;
+-	struct intel_guc_slpc *slpc = &gt->uc.guc.slpc;
++	struct intel_guc_slpc *slpc = &gt_to_guc(gt)->slpc;
+ 
+ 	err = slpc_set_max_freq(slpc, freq);
+ 	if (err) {
+@@ -182,7 +182,7 @@ static int vary_min_freq(struct intel_guc_slpc *slpc, struct intel_rps *rps,
+ 
+ static int slpc_power(struct intel_gt *gt, struct intel_engine_cs *engine)
+ {
+-	struct intel_guc_slpc *slpc = &gt->uc.guc.slpc;
++	struct intel_guc_slpc *slpc = &gt_to_guc(gt)->slpc;
+ 	struct {
+ 		u64 power;
+ 		int freq;
+@@ -262,7 +262,7 @@ static int max_granted_freq(struct intel_guc_slpc *slpc, struct intel_rps *rps,
+ 
+ static int run_test(struct intel_gt *gt, int test_type)
+ {
+-	struct intel_guc_slpc *slpc = &gt->uc.guc.slpc;
++	struct intel_guc_slpc *slpc = &gt_to_guc(gt)->slpc;
+ 	struct intel_rps *rps = &gt->rps;
+ 	struct intel_engine_cs *engine;
+ 	enum intel_engine_id id;
 -- 
 2.43.0
 
