@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 565B9820316
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Dec 2023 01:07:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38020820325
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Dec 2023 01:12:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96A2D10E2E8;
-	Sat, 30 Dec 2023 00:07:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F325010E2EB;
+	Sat, 30 Dec 2023 00:12:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A7ED10E2E8
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Dec 2023 00:07:49 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id
- a640c23a62f3a-a22f59c6ae6so868941566b.1
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Dec 2023 16:07:49 -0800 (PST)
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1AB910E2EB
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Dec 2023 00:12:14 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id
+ a640c23a62f3a-a235eb41251so825787266b.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Dec 2023 16:12:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1703894867; x=1704499667; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1703895133; x=1704499933; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=T4T59RusT15dYOgazFhB6a5w+yRhWAHzIjbG4EPEBN8=;
- b=j2aJnKZdKPetidTQz1DWn/xW9Hhgkwn6tlBEWA+IQOsjaKAfzVlu32CHsERpF/FzQz
- bO+Y6qBVvm/fHDUKuf4shIgcsYdsKXsVXD8mQwuD3f4ow9qNpjGeQaN17Szb/Hn2kRky
- V1NxxhKcN+QO3d1TzjdmskqllTT9nFGlv1QB1vTyLZ4F+scuF/y4pBEsLtosaMq3FMMB
- v8cuEpJ5uKlZ1JZXwdnLcgkcSfkN34x2LmHSPW8d+CtYXIOpEAecr7Y26rWPVqG5Ehxb
- X35SeYkQozab7B1WjCUnmN+bUOlzqsv780KiNZ0kZKw+rbi0LvN0UyzKr97lzyr4Jlf/
- fdVQ==
+ bh=wli4NoQY8VlNG56wC/hFOSwd6o8qeR4x0eMtWXnYdmQ=;
+ b=SA3rf/ScGTwSqaxRhuOeswqqRN+FKytl4pPf2FoDIaDfgXAU5yy8IoelwFs0qLRi29
+ 4EUq0AVqqGLSk4N5kxPMGCDPSLTYccUOavMzlU6bdaGRNaqr+JE0DzM5U+6FAqP+ty3L
+ dI3GPfJLcyqbdjEpxqKKl7pgLpexItZ4gDrwuI1+IfFmkckC1Ljxn65dU0d6FzkTI50O
+ P6bh8CM+/dRpLTx9qrg1XSIRbLBsqKNCHVZ3le87ekMRz55mikYEqK59cvPxALwP4k83
+ Z/8wRqUDCeSQE0pPOIqOpfJX+9TMjewkFtsPl70qHtr9P2yNN1ad7vvMBS5032tIhLkF
+ tehA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1703894867; x=1704499667;
+ d=1e100.net; s=20230601; t=1703895133; x=1704499933;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=T4T59RusT15dYOgazFhB6a5w+yRhWAHzIjbG4EPEBN8=;
- b=FcYl5Q+JTZltW1pO1jYfv6pfw44M7f03pRp2M0tbNRVA9p6oYzwoRUdZ7H5wDBPOMT
- OfM4T8d1jmjLaGc54/F/RHGlXNjXgt7AvKIv/Mu1Da9I3dt1Ia7N5+TZTzxXddhTwteF
- dSJ9jVVBKI7aGP5aFsBq+wt/Mix0/JBIfnaZQaeuKtXWNFUbAhHr59i6MOewM5wx+AcT
- xiYjiRnXXWUP8ClPCB++nh+7ARaHWmajzAarIPZiVCmHoTu1Vm5GVXDGcsik/iLMBN4J
- BS/TrWkwRPmI8ZWZ6heNdGGc2XuDj/4XOUKxEbnetifwxMMXBNBiy9oJA4VvbQ24TOyC
- evYw==
-X-Gm-Message-State: AOJu0Yze241Jhhx8x8ObqPG2DovJ8tflxeCrvaQHlJrtZcYJJjRDMBQp
- as47/JlCViWAdDZKcoai6O+Gb6QPFD7UnQ==
-X-Google-Smtp-Source: AGHT+IHeHx1IfUZN6A+rnvnWNQ8BgJZPOzmfazP931olYiOu1I+K2KIK9qhYhdTw1n1IO4vLGVfjEw==
-X-Received: by 2002:a17:907:9488:b0:a23:3592:a62 with SMTP id
- dm8-20020a170907948800b00a2335920a62mr3662609ejc.83.1703894867519; 
- Fri, 29 Dec 2023 16:07:47 -0800 (PST)
+ bh=wli4NoQY8VlNG56wC/hFOSwd6o8qeR4x0eMtWXnYdmQ=;
+ b=n39ADQR5nMgXAmH3VyyDjvyYYsmsbf/891a1eRPRrlDiIVV3pplj/N92l5vw/Lrxu/
+ tB+avuzLx0hVtXUyJP9jFB+MVrdftqlhov8mP6EE13uGZ8CrvdTiNuk85Vz3BpKaXeId
+ rjkM3Bvh0Iwxo3gZK7iZkukOgnN7VVUyeucj1oSqZpw433i+c2cTiM+It2/DniUM1J2c
+ hnL5iYDzyJLi+GJDY0sZxUAjmnZIAjoqcpC2S1/O+UwjisiV/LVdcqy1ouZq9hBDh1xN
+ eejqtQ2M4W4NNhd2ikBoLet95mJ07rK6oR2NaM8+YBaRAeXV0+Id7enaY5rGC36JE0gm
+ SnkQ==
+X-Gm-Message-State: AOJu0YyfHQNGLwryH+P0jqURrU7XA3A0PDRenPpEl0GcrsbLBzCNgal9
+ Qm1nveatSW2jL+EDw2gARJwjGyxNGVXUow==
+X-Google-Smtp-Source: AGHT+IHZiC3cWCgcDM5IivmmRV2fLEapj83hqmUykJn7eVSI0oQ/gTSn3U43tM44wAyRS4KkNJn13A==
+X-Received: by 2002:a17:906:3891:b0:a23:6edb:d394 with SMTP id
+ q17-20020a170906389100b00a236edbd394mr3948964ejd.102.1703895133080; 
+ Fri, 29 Dec 2023 16:12:13 -0800 (PST)
 Received: from [192.168.199.125]
  (178235179036.dynamic-4-waw-k-1-3-0.vectranet.pl. [178.235.179.36])
  by smtp.gmail.com with ESMTPSA id
- r25-20020a170906281900b00a1f7c502736sm8828080ejc.164.2023.12.29.16.07.45
+ d17-20020a170906175100b00a235b01886dsm8874452eje.10.2023.12.29.16.12.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Dec 2023 16:07:47 -0800 (PST)
-Message-ID: <d918ff8e-3858-4a38-abfd-93f2a1371fd6@linaro.org>
-Date: Sat, 30 Dec 2023 01:07:45 +0100
+ Fri, 29 Dec 2023 16:12:12 -0800 (PST)
+Message-ID: <d6447285-5485-4a89-b8e9-43625f00f960@linaro.org>
+Date: Sat, 30 Dec 2023 01:12:10 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/14] drm/msm/dp: inline dp_power_(de)init
+Subject: Re: [PATCH 05/14] drm/msm/dp: fold dp_power into dp_ctrl module
 Content-Language: en-US
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
@@ -64,7 +64,7 @@ To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Kuogee Hsieh <quic_khsieh@quicinc.com>,
  Sankeerth Billakanti <quic_sbillaka@quicinc.com>
 References: <20231229225650.912751-1-dmitry.baryshkov@linaro.org>
- <20231229225650.912751-5-dmitry.baryshkov@linaro.org>
+ <20231229225650.912751-6-dmitry.baryshkov@linaro.org>
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
 Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  xsFNBF9ALYUBEADWAhxdTBWrwAgDQQzc1O/bJ5O7b6cXYxwbBd9xKP7MICh5YA0DcCjJSOum
@@ -101,7 +101,7 @@ Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  bGqMHex48FVZhexNPYOd58EY9/7mL5u0sJmo+jTeb4JBgIbFPJCFyng4HwbniWgQJZ1WqaUC
  nas9J77uICis2WH7N8Bs9jy0wQYezNzqS+FxoNXmDQg2jetX8en4bO2Di7Pmx0jXA4TOb9TM
  izWDgYvmBE8=
-In-Reply-To: <20231229225650.912751-5-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20231229225650.912751-6-dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -123,14 +123,45 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 29.12.2023 23:56, Dmitry Baryshkov wrote:
-> In preparation to cleanup of the dp_power module, inline dp_power_init()
-> and dp_power_deinit() functions, which are now just turning the clocks
-> on and off.
+> The dp_power submodule is limited to handling the clocks only following
+> previous cleanups. Fold it into the dp_ctrl submodule, removing one
+> unnecessary level of indirection.
 > 
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
-Oh wow, talk about sugar (salt?) syntax :P
+[...]
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+>  
+> -	/* set dongle to D3 (power off) mode */
+> +	/* set dongle to D3 (ctrl off) mode */
+:thinking emoji:
+
+[...]
+
+> +int dp_ctrl_clk_enable(struct dp_ctrl *dp_ctrl,
+> +		enum dp_pm_type pm_type, bool enable)
+> +{
+> +	int rc = 0;
+> +	struct dp_ctrl_private *ctrl;
+> +	struct dss_module_power *mp;
+I haven't checked out the rest of the series yet, but cleaning
+this up with rc->ret and reverse-Christmas-tree (merry late
+Christmas!) would be nice
+
+> +
+> +	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
+> +
+> +	if (pm_type != DP_CORE_PM && pm_type != DP_CTRL_PM &&
+> +			pm_type != DP_STREAM_PM) {
+> +		DRM_ERROR("unsupported ctrl module: %s\n",
+> +				dp_parser_pm_name(pm_type));
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (enable) {
+> +		if (pm_type == DP_CORE_PM && ctrl->core_clks_on) {
+again, haven't yet looked through all the patches but this screams
+"if (enable && pm_type == DP_CORE_PM)"
+
 
 Konrad
