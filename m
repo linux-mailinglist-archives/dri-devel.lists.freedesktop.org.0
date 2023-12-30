@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 718C28202F5
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Dec 2023 01:05:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E48182030D
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Dec 2023 01:07:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 340F610E2DA;
-	Sat, 30 Dec 2023 00:05:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3414010E2E4;
+	Sat, 30 Dec 2023 00:07:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3EFD10E156
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Dec 2023 00:05:41 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id
- a640c23a62f3a-a27733ae1dfso180754066b.3
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Dec 2023 16:05:41 -0800 (PST)
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
+ [IPv6:2a00:1450:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5920710E2E4
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Dec 2023 00:07:15 +0000 (UTC)
+Received: by mail-ed1-x529.google.com with SMTP id
+ 4fb4d7f45d1cf-555aa7fddeaso1633819a12.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Dec 2023 16:07:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1703894740; x=1704499540; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1703894833; x=1704499633; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=33A76yFoQkKr5deY2FSzkn/TJXZS1uCS5tWMAGyUQQY=;
- b=KnHfLU8OlgMNt6zAPZbX+wvUaHiomXYWBbafSNcusnLaFcOl4Rs7ZGbrU1Y9bus1SZ
- it3Xz1SThe49I5pP1aptt6v27bOQQtsAr9SqXRSTL4XLcQIh9MVW6DufLFEInNBJzMbw
- zuWNe63LSMwdu3YNLQyVBwcutCAOotDMSslgS2JgVGVpVeTy0F1hnwYZdDNLH+FBsc1y
- ECQvcdf4CI3L6cyFoOhC6BZAKlKW4H7Q9K2VAYs70Cg6PBUTLPzP890F8E1Q3FdS50No
- PNxa/oGZgZY1NcL5fjWlnaoYWgxSx9qeFP6iwMEOHv2cR9kqJr4Z23ldyq7ne8UvWjZy
- qHHg==
+ bh=rpjHr4Hj7eiSl3KURQb40f1bEV2YZNNP1ZWcRV/mmho=;
+ b=m65YOxKjDz9GiUrWA5YOGmbpzgN22BXSw6Y3mx6yLG1Tv2Te8FyCYB12PRB3syol3o
+ d3Mc8GZ3Dg7vB5NE9ivlJ/XeyXUtOldZy8ENTQ3MqPn40a3Kpb9kdQuvtBDnuMN4P0rk
+ aDBbnlvIoJUaWmRASiBQF6JVKCpW9MsBciq7AYi0mTI5/M8CgwZXEHjnw3aJzafHdasv
+ hPbiyA5HqF+rShgi4fTgWiyPc0gJ5fgGL4akShPZ0jnpdHjZG73WVrqluo6CVKe+clG0
+ TQSMB5lgmD7PogT+B9jMLNSZdW1fwWQjkBCcfaPVk2sMz7f/RAFJ32KEf1SzsUmFKzCl
+ 6rug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1703894740; x=1704499540;
+ d=1e100.net; s=20230601; t=1703894833; x=1704499633;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=33A76yFoQkKr5deY2FSzkn/TJXZS1uCS5tWMAGyUQQY=;
- b=T9PzfZvWk0fSnFw2ibXOaTmpCP74dSPeT0pIV89VJDpfkCQHHodKalEwdXzeZAyWXw
- Yk+4irp/pz5AnIx0jpe18OCJvlMP/Nh2Ab/flnkaru61tpgPLKqiPsn//Rr8KA/OHSjT
- 7JtdfHvjeMuzPL7+u74yvBq5m+QASvLlqJXnvTbKTsMGGta7mqVb2oDYsEEpdDDcjWwj
- rHzFKmfl82aL0AkRNdQkAuoSzSVyuUl5nVT1MkgF5qsZwbDGAyU1N1C64Jkr1vNxl6QV
- IMNAjdiACqLS+JViT6aZdbkJyqeXVjKRDHhGnZlC+V0s4eXtCptQQsHfoGuoDczMfeFq
- GhjA==
-X-Gm-Message-State: AOJu0YyD1vcbQT1lYyKzXN3qkYrQ8nkWphYe3rjkVr/hrqN0EykOdF2t
- rdGGxDNtyXOAwc29hDgosVtEhpZGOPJrtw==
-X-Google-Smtp-Source: AGHT+IETOmzjCUGEVVeHeMzVYXAiTPXiJXWmampkZpasbuwoomx7lwH3QUYzvYL9FExgMdJ0HqGGrA==
-X-Received: by 2002:a17:906:cec9:b0:a23:46b9:9970 with SMTP id
- si9-20020a170906cec900b00a2346b99970mr2651479ejb.72.1703894740474; 
- Fri, 29 Dec 2023 16:05:40 -0800 (PST)
+ bh=rpjHr4Hj7eiSl3KURQb40f1bEV2YZNNP1ZWcRV/mmho=;
+ b=IbZ/Rd7Rh8w6e5iuT8XNYCSp5PtBkKFGjsvMOS5nwL+/5W/ATGF4qXOUX+zwmENNQS
+ FDCzGXHHkQCz8Buid3Myfp0qohp8qFRQTS2KHRD/DNjz7hy9/Apfx2LliQgkL9h4I5sy
+ 48SqEgYc6G7YCvkJUje2gn1VmfvTwk5DqPWzLjTrQGBZp2jDSpb1XyDBxmnQxK3UAOm/
+ 1j+GONgigsOoNU6pw9cIR5Jva41tQIBp57ibIRlQCXm/ndrsl/Wn/11VPtiRu2uOnt8z
+ 2Fcio+TAz82u2/NLJL9RK21L3URu3wYLsdA06DIevF9tuha1+8MQ+BXlxeeIbKeWFrDC
+ HHbA==
+X-Gm-Message-State: AOJu0YwTg5mZ9DTE5lnqFIEqMW30UOcuQp8FNqtgkUPaGV+xcVMU8exF
+ Jq4iGSFDgARd6rQzLAc0j/MBOwy4fCRzAg==
+X-Google-Smtp-Source: AGHT+IGAcq8IYOIzGFtf3MSlPAkVy9HO1nsOfyJ1SdMu8YsxT6kw69UmQ3+hwFPf+1XFdztvQ1OjQw==
+X-Received: by 2002:a17:906:c0d2:b0:a23:f50:60f7 with SMTP id
+ bn18-20020a170906c0d200b00a230f5060f7mr6034331ejb.102.1703894833620; 
+ Fri, 29 Dec 2023 16:07:13 -0800 (PST)
 Received: from [192.168.199.125]
  (178235179036.dynamic-4-waw-k-1-3-0.vectranet.pl. [178.235.179.36])
  by smtp.gmail.com with ESMTPSA id
- r25-20020a170906281900b00a1f7c502736sm8828080ejc.164.2023.12.29.16.05.39
+ r25-20020a170906281900b00a1f7c502736sm8828080ejc.164.2023.12.29.16.07.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Dec 2023 16:05:40 -0800 (PST)
-Message-ID: <df2359e2-f00e-45d8-badb-f458d88fe56a@linaro.org>
-Date: Sat, 30 Dec 2023 01:05:38 +0100
+ Fri, 29 Dec 2023 16:07:13 -0800 (PST)
+Message-ID: <015155f0-f0d9-4600-869d-9795fbd8d220@linaro.org>
+Date: Sat, 30 Dec 2023 01:07:11 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/14] drm/msm/dp: drop unused fields from dp_power_private
+Subject: Re: [PATCH 03/14] drm/msm/dp: parse DT from dp_parser_get
 Content-Language: en-US
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
@@ -64,7 +64,7 @@ To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Kuogee Hsieh <quic_khsieh@quicinc.com>,
  Sankeerth Billakanti <quic_sbillaka@quicinc.com>
 References: <20231229225650.912751-1-dmitry.baryshkov@linaro.org>
- <20231229225650.912751-3-dmitry.baryshkov@linaro.org>
+ <20231229225650.912751-4-dmitry.baryshkov@linaro.org>
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
 Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  xsFNBF9ALYUBEADWAhxdTBWrwAgDQQzc1O/bJ5O7b6cXYxwbBd9xKP7MICh5YA0DcCjJSOum
@@ -101,7 +101,7 @@ Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  bGqMHex48FVZhexNPYOd58EY9/7mL5u0sJmo+jTeb4JBgIbFPJCFyng4HwbniWgQJZ1WqaUC
  nas9J77uICis2WH7N8Bs9jy0wQYezNzqS+FxoNXmDQg2jetX8en4bO2Di7Pmx0jXA4TOb9TM
  izWDgYvmBE8=
-In-Reply-To: <20231229225650.912751-3-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20231229225650.912751-4-dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -123,7 +123,9 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 29.12.2023 23:56, Dmitry Baryshkov wrote:
-> Drop unused and obsolete fields from struct dp_power_private.
+> It makes little sense to split the submodule get and actual DT parsing.
+> Call dp_parser_parse() directly from dp_parser_get(), so that the parser
+> data is fully initialised once it is returned to the caller.
 > 
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
