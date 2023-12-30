@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B82E982048E
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Dec 2023 12:27:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FEBF820498
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Dec 2023 12:29:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94EDB10E02E;
-	Sat, 30 Dec 2023 11:27:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B9E710E055;
+	Sat, 30 Dec 2023 11:29:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com
- [IPv6:2607:f8b0:4864:20::1132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 462F910E02E
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Dec 2023 11:27:31 +0000 (UTC)
-Received: by mail-yw1-x1132.google.com with SMTP id
- 00721157ae682-5cece20f006so66560647b3.3
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Dec 2023 03:27:31 -0800 (PST)
+Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com
+ [IPv6:2607:f8b0:4864:20::82e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A17E810E055
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Dec 2023 11:29:36 +0000 (UTC)
+Received: by mail-qt1-x82e.google.com with SMTP id
+ d75a77b69052e-427e59202ceso23268511cf.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Dec 2023 03:29:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1703935650; x=1704540450;
+ d=amarulasolutions.com; s=google; t=1703935776; x=1704540576;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=BqmTg07L9Xjis/7k4DxCa7tRnJDtPkHV1RraDq6khcg=;
- b=F+lNbR7J+Qe2jjY5nP4TC+UuHmVRK3R+tabI+oIgzodt5kyqGwOUJ+M5NeiTYri7pY
- dOFr2dCGTmpyoLsk95OT/AR+qLW5Z71QZpgbpGOD1L9HVReks3WP4JnPHrXOyXC+RxaV
- TQH3lW3IfOZNR/fjhnftyiDs5ZfIw+mLWDVG0=
+ bh=rdHRZOJmLihwmundfIYh/Hz760M3I/Nde2Bk7xxTT8A=;
+ b=WTlzTIItX1kMfolg8N01smJg/4ib6i3Rt+iSFyniRVfbFt/xelD38L1HW+5qZBRdFt
+ Yw/Z0s50DDqkf2gMzgxG5+Kj/Y4Njk6lV6cTD8GIe6ivpUZl9/omXK+l9pHBW2vp56ln
+ 1Mld+rOmjkE3J0GA12KPKHDWs6sOcd6ShsE+s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1703935650; x=1704540450;
+ d=1e100.net; s=20230601; t=1703935776; x=1704540576;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=BqmTg07L9Xjis/7k4DxCa7tRnJDtPkHV1RraDq6khcg=;
- b=SeWjHPyttsSD4iSJGmANpJ7ooUEBENyW4P6eYW6kRYSxU34qyfGKB+tu/ruEm/aoMB
- 9iZNW5bj/7Ptqt6+uwq031Of+RyyytCQ1PlnGcil1xwuQ55CNRTvOC86wLgWYMpB949I
- PUFpp/WWgGWAClnLiPwdaMB++SamKFARvWvVySDNECQZflapFJUBHh6d7CnZg4lAzHkW
- cMTPjdSsc0hss/ypPtsYxHKAejgNAwHbaMnpE+sqf2YFwZ12JXVfnp9sdHNMiaTBno3Z
- A7G4R1n8G55hILReIOe3YgxIVfCPA8+Ewb42YGT8Kklm5D3uM0+aGwWDLvpuXnxnF2oa
- d9FQ==
-X-Gm-Message-State: AOJu0YxThdp3+IjG88LW2A+MphVuNxY23ZpIIxNo1Z1AA/oevKmMiFfC
- xOC/gmm50+01NKL82e6w7+7iVmBp2ypRbNwYLNcL5X9Cb9uLZw==
-X-Google-Smtp-Source: AGHT+IE1r0S0LAjVTcbxxyQYJGt6YexIbq2As4b4Kc1EgXx/p5ebd2qlHzqdVuAFQXXYksM4upWkuU9Jq0EgWSNg4pI=
-X-Received: by 2002:a25:ada5:0:b0:dbc:ec6b:3e47 with SMTP id
- z37-20020a25ada5000000b00dbcec6b3e47mr7826906ybi.33.1703935650320; Sat, 30
- Dec 2023 03:27:30 -0800 (PST)
+ bh=rdHRZOJmLihwmundfIYh/Hz760M3I/Nde2Bk7xxTT8A=;
+ b=olMLOcOlKv+EOd5fRXrofjCm9MXMzeniQOlaG6aBZZZcriRPZkN5DOPUtRetJqajrR
+ kSNdyg0Cyimkgd5VPgncv5zRbslXqzEn54+cNESz+TyUldN+7miDxSnf82CBi4k9wtsh
+ WSFVD3ndm47u4unZBEilYxxB9K2WTEmZ40tttmqvzYViHFqpCrMDEBDNsNYseQQntLNB
+ rXgauohdrCUFUgjmADoG+tnsLJ5MYalBfLkyl/4+zLiHN2DxMQHN7b25NfdqcBiPWmQE
+ yiDUxeVS8I/v0Vh7qNNoEdY1BueJK2ikwZdzzdRy6BABAw/iC3RmktHD3x8/TI4f6OX2
+ Ni4g==
+X-Gm-Message-State: AOJu0Ywm91eJDPAfrY0RXotvt/BmdEFYLYSAdtrHr5w5vsfcrv0E6zG9
+ c+6RvxQ/o/qmf4nfy8BGM/egy9BjpbPBlsgE1/+/YXuSMywXu6jiQp0m4zOF
+X-Google-Smtp-Source: AGHT+IERnlTpmOwuxpaJxtAALpkHsOCMYmErEeE799Q8hbMelUhNiSF7yID6JUsxUnY0tfGC2aD2IOPLZZPULy041zE=
+X-Received: by 2002:a05:622a:1393:b0:428:c11:47aa with SMTP id
+ o19-20020a05622a139300b004280c1147aamr1958131qtk.57.1703935775771; Sat, 30
+ Dec 2023 03:29:35 -0800 (PST)
 MIME-Version: 1.0
 References: <20231229135154.675946-1-dario.binacchi@amarulasolutions.com>
- <20231229135154.675946-6-dario.binacchi@amarulasolutions.com>
- <CACRpkdbBBQ96qfdmNHrbOdV9hhFheyTwTkwATFZRPBRiRcN4tw@mail.gmail.com>
-In-Reply-To: <CACRpkdbBBQ96qfdmNHrbOdV9hhFheyTwTkwATFZRPBRiRcN4tw@mail.gmail.com>
+ <20231229135154.675946-8-dario.binacchi@amarulasolutions.com>
+ <CACRpkdbHodbAwoaTyxTX4LxYm6ZrBV6m6ht31Y2OaUPxS0Zhrw@mail.gmail.com>
+In-Reply-To: <CACRpkdbHodbAwoaTyxTX4LxYm6ZrBV6m6ht31Y2OaUPxS0Zhrw@mail.gmail.com>
 From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-Date: Sat, 30 Dec 2023 12:27:19 +0100
-Message-ID: <CABGWkvrs+yqCC64Hugmp8jd-+Co7_oakYuMX36zpiFDJ5bvy=Q@mail.gmail.com>
-Subject: Re: [PATCH 5/8] dt-bindings: nt35510: add compatible for FRIDA
- FRD400B25025-A-CTK
+Date: Sat, 30 Dec 2023 12:29:25 +0100
+Message-ID: <CABGWkvpvze9pBg9_3r9A0oWjTQ8JrRzXU+-0HX_9kkJFNNW8ig@mail.gmail.com>
+Subject: Re: [PATCH 7/8] drm/panel: nt35510: refactor panel initialization
 To: Linus Walleij <linus.walleij@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -70,49 +69,61 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, devicetree@vger.kernel.org,
- linux-amarula@amarulasolutions.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-amarula@amarulasolutions.com, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>,
  Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Rob Herring <robh+dt@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>
+ dri-devel@lists.freedesktop.org, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ David Airlie <airlied@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Linus,
 
-On Fri, Dec 29, 2023 at 6:34=E2=80=AFPM Linus Walleij <linus.walleij@linaro=
+On Fri, Dec 29, 2023 at 6:43=E2=80=AFPM Linus Walleij <linus.walleij@linaro=
 .org> wrote:
->
-> Hi Dario,
->
-> thanks for your patch!
 >
 > On Fri, Dec 29, 2023 at 2:52=E2=80=AFPM Dario Binacchi
 > <dario.binacchi@amarulasolutions.com> wrote:
 >
-> > The patch adds the FRIDA FRD400B25025-A-CTK panel, which belongs to the
-> > Novatek NT35510-based panel family.
+> > The previous implementation did not make it easy to support new
+> > NT35510-based panels with different initialization sequences.
+> > This patch, preparatory for future developmentes, simplifies the
+> > addition of new NT35510-based displays and also avoids the risk of
+> > creating regressions on already managed panels.
 > >
 > > Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-> (...)
 >
+> The idea is to have the driver adapt to different panels, and encode a de=
+ep
+> understanding just like we do with all hardware drivers.
 >
-> > +    oneOf:
-> > +      items:
-> > +        - const: hydis,hva40wv1
-> > +        - const: novatek,nt35510
-> > +      items:
-> > +        - const: frida,frd400b25025
-> > +        - const: novatek,nt35510
+> NAK.
 >
-> You need a dash in from of each "items:" for that to work.
+> This patch:
+>
+> - Deletes a lot of useful documentation on how the panel works.
+>
+> - Deletes defines and replaces them with magic numbers
+>
+> All it achieves is a bit of "magic sequences because we are used to
+> magic sequences" and that doesn't look like an improvement at all,
+> instead it creates a dumber driver which has no explanations at all
+> to what is going on.
+>
+> Please rewrite the patch in the same style as the original driver.
+> The fact that you (probably) are not used to writing display drivers
+> in this way is not an excuse to destroy this nice structure.
+>
+> There are things that can be done, like create an abstraction for
+> sequence encoding with less open coded command issue
+> statements, by adding helpers to the DRM core, so if that is what
+> you want to do, then do that instead?
 
-Thanks for your help.
+Thanks for your explanations and suggestions.
+I will rewrite the patch following your suggestions.
 
-Regards
+Thanks and regards,
 Dario
 
 >
