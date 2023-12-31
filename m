@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DC4B821139
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Jan 2024 00:36:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F25B821137
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Jan 2024 00:36:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B54010E06B;
-	Sun, 31 Dec 2023 23:36:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5A8510E036;
+	Sun, 31 Dec 2023 23:36:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bombadil.infradead.org (bombadil.infradead.org
  [IPv6:2607:7c80:54:3::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E12110E06B;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85C7310E028;
  Sun, 31 Dec 2023 23:36:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
  :Reply-To:Content-Type:Content-ID:Content-Description;
- bh=ZZl3ZVYS6VWZ7TtNvTnO/A3XmatGpgWfEn/FisFC5YM=; b=GX6KzpbLTBkQPIawU4MASFBjTg
- gu0Aa5TK+fHo1uUu7736YZK/pgPHQ0P7DQ60xH//bp3ongeyJ+84vL9p4qECDA07THVSYIL0UMckY
- wKTC30YzeXoNIZqK0LzvSMOxPRV69f6QpTk1rZ2ToMFtq2x3555jyDSSpZS4i4gWSam/9BcV1+EBU
- /pTG6nKj5ZTiHvX5zC4U6VW0qLPfc/V4Zc6WVMwgFlD0AROC1EpCXFs0t0aUIAu94OiJksw75nbug
- mszl41sooRRcCOTBA2rXDWkHqItxtcQWYMEf2P4GLUHAbNvp4hWiEHshGVafJ0XEYCJJ39iJvbDEV
- k+QDT+tA==;
+ bh=ZT2sZ2VwZXh+6J4iR0XwYrjm84BKYbnUTlDoeyNt2MY=; b=RmavZUgDBFFfvp/534EVeTZSHd
+ +1wnV3Pn2m4tRrOnhoZ1uqnyhqVIpgc9xkHomKThwgz5FWNku6YFGF9o06Ok5Wkp3tIYxpBpwYMvU
+ Wzj0Pk1OCuPtwyZ80/pMAlHemkKv7ur0Qf+jVXYKT6yjOEQYsQiff+6PD8ubLXS2dZvmb/AiaIdba
+ wl1NNRkVf9Rwe+idGwUFk7I/Y6LaH2oBeYcGdNXMBWeS12A2bZ8vrq3Iuq2UfE5WzDzmbKw0bbBaX
+ HZ4j/bKa3zDIkd2U9p2KZu0jhhwyDlenejkd51OLlvrGNNzMEBMhvTwUaxI/rxSFPGhHa/mA6lIMw
+ q9aB3iww==;
 Received: from [50.53.46.231] (helo=bombadil.infradead.org)
  by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1rK5MA-005MeM-1H; Sun, 31 Dec 2023 23:36:34 +0000
+ id 1rK5MA-005MeM-2H; Sun, 31 Dec 2023 23:36:34 +0000
 From: Randy Dunlap <rdunlap@infradead.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/4] drm/nouveau: don't misuse kernel-doc comments
-Date: Sun, 31 Dec 2023 15:36:31 -0800
-Message-ID: <20231231233633.6596-2-rdunlap@infradead.org>
+Subject: [PATCH 3/4] drm/nouveau/gr/gf100: don't misuse kernel-doc comments
+Date: Sun, 31 Dec 2023 15:36:32 -0800
+Message-ID: <20231231233633.6596-3-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231231233633.6596-1-rdunlap@infradead.org>
 References: <20231231233633.6596-1-rdunlap@infradead.org>
@@ -57,12 +57,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Change kernel-doc "/**" comments to common "/*" comments to prevent
 kernel-doc warnings:
 
-nouveau_ioc32.c:2: warning: Cannot understand  * \file mga_ioc32.c
- on line 2 - I thought it was a doc line
-nouveau_ioc32.c:52: warning: Function parameter or member 'filp' not described in 'nouveau_compat_ioctl'
-nouveau_ioc32.c:52: warning: Function parameter or member 'cmd' not described in 'nouveau_compat_ioctl'
-nouveau_ioc32.c:52: warning: Function parameter or member 'arg' not described in 'nouveau_compat_ioctl'
-nouveau_ioc32.c:52: warning: expecting prototype for Called whenever a 32-bit process running under a 64(). Prototype was for nouveau_compat_ioctl() instead
+gf100.c:1044: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ * Wait until GR goes idle. GR is considered idle if it is disabled by the
+gf100.c:1044: warning: missing initial short description on line:
+ * Wait until GR goes idle. GR is considered idle if it is disabled by the
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 Cc: Karol Herbst <kherbst@redhat.com>
@@ -73,24 +71,18 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 Cc: Maxime Ripard <mripard@kernel.org>
 Cc: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/nouveau/nouveau_ioc32.c |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff -- a/drivers/gpu/drm/nouveau/nouveau_ioc32.c b/drivers/gpu/drm/nouveau/nouveau_ioc32.c
---- a/drivers/gpu/drm/nouveau/nouveau_ioc32.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_ioc32.c
-@@ -1,4 +1,4 @@
--/**
-+/*
-  * \file mga_ioc32.c
-  *
-  * 32-bit ioctl compatibility routines for the MGA DRM.
-@@ -38,7 +38,7 @@
- 
- #include "nouveau_ioctl.h"
+diff -- a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
+@@ -1040,7 +1040,7 @@ gf100_gr_zbc_init(struct gf100_gr *gr)
+ 	}
+ }
  
 -/**
 +/*
-  * Called whenever a 32-bit process running under a 64-bit kernel
-  * performs an ioctl on /dev/dri/card<n>.
-  *
+  * Wait until GR goes idle. GR is considered idle if it is disabled by the
+  * MC (0x200) register, or GR is not busy and a context switch is not in
+  * progress.
