@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AF92820959
-	for <lists+dri-devel@lfdr.de>; Sun, 31 Dec 2023 01:44:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECF93820967
+	for <lists+dri-devel@lfdr.de>; Sun, 31 Dec 2023 01:44:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F7C010E106;
-	Sun, 31 Dec 2023 00:44:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04BDD10E174;
+	Sun, 31 Dec 2023 00:44:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5E3110E0E6
- for <dri-devel@lists.freedesktop.org>; Sun, 31 Dec 2023 00:44:04 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id
- 2adb3069b0e04-50e68e93be1so7003082e87.0
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Dec 2023 16:44:04 -0800 (PST)
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6320610E0E2
+ for <dri-devel@lists.freedesktop.org>; Sun, 31 Dec 2023 00:44:05 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id
+ 2adb3069b0e04-50e759ece35so5662324e87.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Dec 2023 16:44:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1703983443; x=1704588243; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=FDjngIAgyaNOEXPfDUMIuujOfmjvFlpOeLVhFSGQ3io=;
- b=Mg4e6+EwPJGVpvFALa+scZj1iI9bONnjdycjyNSn0JFapnSac+16SwyutsJZXxPKjh
- Y5/vI990+ZYNcdEc31tSawvo0Oo+VvmkCkd0EgHRhT+ClaA9xV0bUDA7jNgNO5cA6KHm
- nUrcPkzX+US4vUeiPa1H9tgztqjiuSracbaHZ/iw4TLLXIoXEkCn6EKoKKKL5frSSNc/
- qfPvlFYSgDLlVTSt43zM2fVA0B6+H3sUNs71fKPUbE8C/jyu1ISdgru6DXHpnoK3yhrZ
- g7aRNx1muc91rovDRpYWR1LYEWs47MoDH/ujKyEdYETLiFHPPAvGevNtBddT7w+WEn00
- bLdA==
+ :reply-to; bh=f23f6k2NURR3hjj9IxLe37rVyBQBMzjyoSIDJiZdG1c=;
+ b=EKRfQBPNULsCJPtRJ/t6EdCCTLSog2vP07lQK/lY379bZ5DUUr2FssOOnqcdQDj5nl
+ WF4+2FsISSIeqcNG2fW3C8ThoMIjL3NrKjniASdkaP7q7Mr7QOEV7J4a2gfh6GadsGL8
+ Rctxm5RVw7FluRgbMwCKaCg2rONrXtu2DQhdUBX0WbxFkkkI32OCO5jMNf6YTg9igYC/
+ mwXjUbBzDK7Kt6XkD5lEKGFDAdsuNGlW6dNV1K66siLjs2hfm5ucx0oXZm+T/7to9Prl
+ OJGqlhehHl739OgxI8UM12/xgobJrMUiWFkV/eVEbiHcY17WvtCFfJrKnCM8GDF8EREK
+ 1uLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1703983443; x=1704588243;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=FDjngIAgyaNOEXPfDUMIuujOfmjvFlpOeLVhFSGQ3io=;
- b=GePjhilh1mw0j6S6E7HMTcR1LHrTAZvQNWaAhJ2O+KcHKlplo5HwbikX5rxkpRYGEJ
- TQIrbwnlLl4zcHP8CKaT71Cc4VWY/SKZuXeAtYSu4eUZ8ut66iPzsJFxsUr2wcTH0+VR
- GEEihEfTxjkH/hbOTj1wWADsTwBpnfykK3cbdyXLUPWam/pW3y+pH2PhlVZ4XB/F5kHu
- NJEF0/P7JkWpSEUaPtn52HeUePFLX1HG3BmRFGwls4m5u+VETmfgiIBVxoW7ly8arSWK
- CFkWskNJjWrgQrQbJAxxhBineYSHksb6uOSo1Ds3LgPnbddgafZfkIQFconKi48hZpRC
- 2tpg==
-X-Gm-Message-State: AOJu0YxJVPXQcm1wJBwPoYhem+z/yHJ1lHGV4x6EKaqU2CJbumc3jok9
- q0JtZ9HFtC/9eRw8B9ybNizU6UhPR5RJkg==
-X-Google-Smtp-Source: AGHT+IG2Dmq005vFZQacVNihz3kjkXTIw6fEUE/vqK2TYzyt+fFrP8NiaBuS7lsgmWOsdDAjbmD8bg==
-X-Received: by 2002:a05:6512:1109:b0:50e:76ca:8d28 with SMTP id
- l9-20020a056512110900b0050e76ca8d28mr4825016lfg.34.1703983442962; 
- Sat, 30 Dec 2023 16:44:02 -0800 (PST)
+ bh=f23f6k2NURR3hjj9IxLe37rVyBQBMzjyoSIDJiZdG1c=;
+ b=TtJutnaDJC7t2WnD1mk+ZrInbYXLERlhh/uHlsjKKAvB2LrE6UQYiNqLR23dt3vueE
+ 5DUePb4HoHtrWhyFl/AWoGtBIDMRqtn/OSBaVVCy4SuZB8PUJs3rXULWOu1ZO93/cra9
+ xtZdeUn8yBo1ZDEOdYVxq9R2odsnQ6fSQNGbMhEdGRM/PWk+ooR9b3YT+HsnfPUB9GsF
+ 81Eg0xzUiOp7/KxSitUQ6uxI+kYMoygkgNicesrlGa9j2i7H4vBhTw/dl4fgeg3z83+7
+ 8WVLSUCGwok2VHo1OidpzSw+07VrATPIKo/6izJJDUfSGdqmIGSxlC+IM2jqlGmHHwD6
+ Y6XQ==
+X-Gm-Message-State: AOJu0YzDxY2NRwdSLm1Y5uJcFBfQZ2Y9RFWYw2nh5otcN2eW8UOyOisD
+ r7qX8xJ3cJFhGcHrcoSWWE4qvC/2lj71Aw==
+X-Google-Smtp-Source: AGHT+IGo3QVbbuztsYi/hkw7G7J2Q7A7Wjez+g7zFg/0SAjx4ORvy+3ZbCef4K3kR93437TeWEbP1Q==
+X-Received: by 2002:a19:6549:0:b0:50e:558e:1259 with SMTP id
+ c9-20020a196549000000b0050e558e1259mr5058894lfj.19.1703983443757; 
+ Sat, 30 Dec 2023 16:44:03 -0800 (PST)
 Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- n13-20020a05651203ed00b0050e84be8127sm1295995lfq.101.2023.12.30.16.44.02
+ n13-20020a05651203ed00b0050e84be8127sm1295995lfq.101.2023.12.30.16.44.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Dec 2023 16:44:02 -0800 (PST)
+ Sat, 30 Dec 2023 16:44:03 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 31 Dec 2023 02:43:55 +0200
-Subject: [PATCH v2 08/15] drm/msm/dp: split dp_ctrl_clk_enable into four
- functuions
+Date: Sun, 31 Dec 2023 02:43:56 +0200
+Subject: [PATCH v2 09/15] drm/msm/dp: move phy_configure_opts to dp_ctrl
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231231-dp-power-parser-cleanup-v2-8-fc3e902a6f5b@linaro.org>
+Message-Id: <20231231-dp-power-parser-cleanup-v2-9-fc3e902a6f5b@linaro.org>
 References: <20231231-dp-power-parser-cleanup-v2-0-fc3e902a6f5b@linaro.org>
 In-Reply-To: <20231231-dp-power-parser-cleanup-v2-0-fc3e902a6f5b@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -66,16 +65,16 @@ To: Rob Clark <robdclark@gmail.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
  Kuogee Hsieh <quic_khsieh@quicinc.com>, Stephen Boyd <swboyd@chromium.org>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=15067;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6449;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=CuOUcUYoOW9aEzG7k566U8KJoISzql09wErRpuOUKaE=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBlkLlKDWR08VDjNPqcsHj2WrSBgWkR+IXxUx674
- BPw4rD6KeqJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZZC5SgAKCRCLPIo+Aiko
- 1dZpB/9dat5uBA0Spg0tVDJXyxWClaBN5J/ZM4mOIB5qnh+pmRjmX6tleUSYQcoeqCACFP2eq09
- ikE3xEo3QIs7mk2UpgOwdtlx15x/8nEHvhOpLWkYTYgV4mKJfGnXqLIEIn3V6BoZK4OvZuAxn12
- eK9ihmVb1k/2ZEAtPmmueRqSRYzSyevG+KbokiXyfCBJELNJZFwBRbNbN4F6f0YoXf65nKknG+H
- +XD/6NQYCs73KYLHyaPmiqQW962RvY/75xQs7lgmS+VqKO9Zt5sjXSZJZDsI9WbBAKge6Bcl3YQ
- OlndYqbUTvz/z0T3KElzOxImaQVjWhRKVRZaufolgIJzRR8L
+ bh=JHMCbSPE7gZXRzZ8Yh8uYk+Fdg3YzXkUqA/+AlXGaYM=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBlkLlKHK7IATSmw6bh0J/WgmalOpsadKPT+lVOo
+ 2Vd8ZEHEHiJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZZC5SgAKCRCLPIo+Aiko
+ 1SRKB/9OTjUhJi3PtlZUs+9HvdLVY9H3o+ZsUSwd2PWuq81ipwfpsICrlCdZqQ+2jZ8qd2gcQM7
+ c3ihVMqCs73XElAlVBbKBSwswP1XVM63TyKnQs3K2IKaFTrDQ1ON3/FSATz05djdq5mJGvWWMT3
+ WK4upsYVckKgMKxQHkQumi+XeiXA5YXPPoEbpRwuzIy/LvkdbqIGpo6roRLAQldSZYU20wy6BjI
+ ei0xAr1UKWaKOabbV5hZjFuooMDMDSvDj81ZDrzgkut7eb266e/FU/nM3ncscRUGHrfsVQfoOg1
+ VzGFcy6i8Laa2y6V5A+YfYi9TcWuihF+8/tbQ3/bqukO1N2J
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -96,477 +95,175 @@ Cc: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Split the dp_ctrl_clk_enable() beast into four functions, each of them
-doing just a single item: enabling or disabling core or link clocks.
-This allows us to cleanup the dss_module_power structure and makes
-several dp_ctrl functions return void.
+There is little point in sharing phy configuration structure between
+several modules. Move it to dp_ctrl, which becomes the only submodule
+re-configuring the PHY.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/dp/dp_ctrl.c    | 220 +++++++++++++++++-------------------
- drivers/gpu/drm/msm/dp/dp_ctrl.h    |  16 +--
- drivers/gpu/drm/msm/dp/dp_display.c |   4 +-
- 3 files changed, 108 insertions(+), 132 deletions(-)
+ drivers/gpu/drm/msm/dp/dp_catalog.c | 19 -----------------
+ drivers/gpu/drm/msm/dp/dp_catalog.h |  2 --
+ drivers/gpu/drm/msm/dp/dp_ctrl.c    | 41 ++++++++++++++++++++++++-------------
+ drivers/gpu/drm/msm/dp/dp_parser.h  |  3 ---
+ 4 files changed, 27 insertions(+), 38 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-index cfcf6136ffa6..e367eb8e5bea 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-@@ -69,11 +69,6 @@ struct dp_vc_tu_mapping_table {
- 	u8 tu_size_minus1;
- };
+diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
+index 5142aeb705a4..e07651768805 100644
+--- a/drivers/gpu/drm/msm/dp/dp_catalog.c
++++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
+@@ -765,25 +765,6 @@ void dp_catalog_ctrl_phy_reset(struct dp_catalog *dp_catalog)
+ 	dp_write_ahb(catalog, REG_DP_PHY_CTRL, 0x0);
+ }
  
--struct dss_module_power {
--	unsigned int num_clk;
--	struct clk_bulk_data *clocks;
--};
--
- struct dp_ctrl_private {
- 	struct dp_ctrl dp_ctrl;
- 	struct drm_device *drm_dev;
-@@ -84,7 +79,12 @@ struct dp_ctrl_private {
- 	struct dp_parser *parser;
- 	struct dp_catalog *catalog;
- 
--	struct dss_module_power mp[DP_MAX_PM];
-+	unsigned int num_core_clks;
-+	struct clk_bulk_data *core_clks;
-+
-+	unsigned int num_link_clks;
-+	struct clk_bulk_data *link_clks;
-+
- 	struct clk *pixel_clk;
- 
- 	struct completion idle_comp;
-@@ -96,15 +96,6 @@ struct dp_ctrl_private {
- 	bool stream_clks_on;
- };
- 
--static inline const char *dp_pm_name(enum dp_pm_type module)
+-int dp_catalog_ctrl_update_vx_px(struct dp_catalog *dp_catalog,
+-		u8 v_level, u8 p_level)
 -{
--	switch (module) {
--	case DP_CORE_PM:	return "DP_CORE_PM";
--	case DP_CTRL_PM:	return "DP_CTRL_PM";
--	default:		return "???";
--	}
+-	struct dp_catalog_private *catalog = container_of(dp_catalog,
+-				struct dp_catalog_private, dp_catalog);
+-	struct dp_io *dp_io = catalog->io;
+-	struct phy *phy = dp_io->phy;
+-	struct phy_configure_opts_dp *opts_dp = &dp_io->phy_opts.dp;
+-
+-	/* TODO: Update for all lanes instead of just first one */
+-	opts_dp->voltage[0] = v_level;
+-	opts_dp->pre[0] = p_level;
+-	opts_dp->set_voltages = 1;
+-	phy_configure(phy, &dp_io->phy_opts);
+-	opts_dp->set_voltages = 0;
+-
+-	return 0;
 -}
 -
- static int dp_aux_link_configure(struct drm_dp_aux *aux,
- 					struct dp_link_info *link)
+ void dp_catalog_ctrl_send_phy_pattern(struct dp_catalog *dp_catalog,
+ 			u32 pattern)
  {
-@@ -1337,67 +1328,76 @@ static int dp_ctrl_setup_main_link(struct dp_ctrl_private *ctrl,
+diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
+index 38786e855b51..ba7c62ba7ca3 100644
+--- a/drivers/gpu/drm/msm/dp/dp_catalog.h
++++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
+@@ -111,8 +111,6 @@ void dp_catalog_ctrl_set_psr(struct dp_catalog *dp_catalog, bool enter);
+ u32 dp_catalog_link_is_connected(struct dp_catalog *dp_catalog);
+ u32 dp_catalog_hpd_get_intr_status(struct dp_catalog *dp_catalog);
+ void dp_catalog_ctrl_phy_reset(struct dp_catalog *dp_catalog);
+-int dp_catalog_ctrl_update_vx_px(struct dp_catalog *dp_catalog, u8 v_level,
+-				u8 p_level);
+ int dp_catalog_ctrl_get_interrupt(struct dp_catalog *dp_catalog);
+ u32 dp_catalog_ctrl_read_psr_interrupt_status(struct dp_catalog *dp_catalog);
+ void dp_catalog_ctrl_update_transfer_unit(struct dp_catalog *dp_catalog,
+diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+index e367eb8e5bea..4aea72a2b8e8 100644
+--- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
++++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+@@ -87,6 +87,8 @@ struct dp_ctrl_private {
+ 
+ 	struct clk *pixel_clk;
+ 
++	union phy_configure_opts phy_opts;
++
+ 	struct completion idle_comp;
+ 	struct completion psr_op_comp;
+ 	struct completion video_comp;
+@@ -1017,6 +1019,21 @@ static int dp_ctrl_wait4video_ready(struct dp_ctrl_private *ctrl)
  	return ret;
  }
  
--int dp_ctrl_clk_enable(struct dp_ctrl *dp_ctrl,
--		       enum dp_pm_type pm_type, bool enable)
-+int dp_ctrl_core_clk_enable(struct dp_ctrl *dp_ctrl)
- {
- 	struct dp_ctrl_private *ctrl;
--	struct dss_module_power *mp;
- 	int ret = 0;
- 
- 	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
- 
--	if (pm_type != DP_CORE_PM &&
--	    pm_type != DP_CTRL_PM) {
--		DRM_ERROR("unsupported ctrl module: %s\n",
--			  dp_pm_name(pm_type));
--		return -EINVAL;
-+	if (ctrl->core_clks_on) {
-+		drm_dbg_dp(ctrl->drm_dev, "core clks already enabled\n");
-+		return 0;
- 	}
- 
--	if (enable) {
--		if (pm_type == DP_CORE_PM && ctrl->core_clks_on) {
--			drm_dbg_dp(ctrl->drm_dev,
--				   "core clks already enabled\n");
--			return 0;
--		}
-+	ret = clk_bulk_prepare_enable(ctrl->num_core_clks, ctrl->core_clks);
-+	if (ret)
-+		return ret;
- 
--		if (pm_type == DP_CTRL_PM && ctrl->link_clks_on) {
--			drm_dbg_dp(ctrl->drm_dev,
--				   "links clks already enabled\n");
--			return 0;
--		}
-+	ctrl->core_clks_on = true;
- 
--		if ((pm_type == DP_CTRL_PM) && (!ctrl->core_clks_on)) {
--			drm_dbg_dp(ctrl->drm_dev,
--				   "Enable core clks before link clks\n");
--			mp = &ctrl->mp[DP_CORE_PM];
-+	drm_dbg_dp(ctrl->drm_dev, "enable core clocks \n");
-+	drm_dbg_dp(ctrl->drm_dev, "stream_clks:%s link_clks:%s core_clks:%s\n",
-+		   ctrl->stream_clks_on ? "on" : "off",
-+		   ctrl->link_clks_on ? "on" : "off",
-+		   ctrl->core_clks_on ? "on" : "off");
- 
--			ret = clk_bulk_prepare_enable(mp->num_clk, mp->clocks);
--			if (ret)
--				return ret;
++static int dp_ctrl_set_vx_px(struct dp_ctrl_private *ctrl,
++			     u8 v_level, u8 p_level)
++{
++	union phy_configure_opts *phy_opts = &ctrl->phy_opts;
++
++	/* TODO: Update for all lanes instead of just first one */
++	phy_opts->dp.voltage[0] = v_level;
++	phy_opts->dp.pre[0] = p_level;
++	phy_opts->dp.set_voltages = 1;
++	phy_configure(ctrl->parser->io.phy, phy_opts);
++	phy_opts->dp.set_voltages = 0;
++
 +	return 0;
 +}
++
+ static int dp_ctrl_update_vx_px(struct dp_ctrl_private *ctrl)
+ {
+ 	struct dp_link *link = ctrl->link;
+@@ -1029,7 +1046,7 @@ static int dp_ctrl_update_vx_px(struct dp_ctrl_private *ctrl)
+ 	drm_dbg_dp(ctrl->drm_dev,
+ 		"voltage level: %d emphasis level: %d\n",
+ 			voltage_swing_level, pre_emphasis_level);
+-	ret = dp_catalog_ctrl_update_vx_px(ctrl->catalog,
++	ret = dp_ctrl_set_vx_px(ctrl,
+ 		voltage_swing_level, pre_emphasis_level);
  
--			ctrl->core_clks_on = true;
--		}
-+void dp_ctrl_core_clk_disable(struct dp_ctrl *dp_ctrl)
-+{
-+	struct dp_ctrl_private *ctrl;
-+
-+	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
-+
-+	clk_bulk_disable_unprepare(ctrl->num_core_clks, ctrl->core_clks);
-+
-+	ctrl->core_clks_on = false;
-+
-+	drm_dbg_dp(ctrl->drm_dev, "disable core clocks \n");
-+	drm_dbg_dp(ctrl->drm_dev, "stream_clks:%s link_clks:%s core_clks:%s\n",
-+		   ctrl->stream_clks_on ? "on" : "off",
-+		   ctrl->link_clks_on ? "on" : "off",
-+		   ctrl->core_clks_on ? "on" : "off");
-+}
-+
-+static int dp_ctrl_link_clk_enable(struct dp_ctrl *dp_ctrl)
-+{
-+	struct dp_ctrl_private *ctrl;
-+	int ret = 0;
-+
-+	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
-+
-+	if (ctrl->link_clks_on) {
-+		drm_dbg_dp(ctrl->drm_dev, "links clks already enabled\n");
-+		return 0;
- 	}
- 
--	mp = &ctrl->mp[pm_type];
--	if (enable) {
--		ret = clk_bulk_prepare_enable(mp->num_clk, mp->clocks);
--		if (ret)
--			return ret;
--	} else {
--		clk_bulk_disable_unprepare(mp->num_clk, mp->clocks);
-+	if (!ctrl->core_clks_on) {
-+		drm_dbg_dp(ctrl->drm_dev, "Enable core clks before link clks\n");
-+
-+		dp_ctrl_core_clk_enable(dp_ctrl);
- 	}
- 
--	if (pm_type == DP_CORE_PM)
--		ctrl->core_clks_on = enable;
--	else
--		ctrl->link_clks_on = enable;
-+	ret = clk_bulk_prepare_enable(ctrl->num_link_clks, ctrl->link_clks);
-+	if (ret)
-+		return ret;
- 
--	drm_dbg_dp(ctrl->drm_dev, "%s clocks for %s\n",
--		   enable ? "enable" : "disable",
--		   dp_pm_name(pm_type));
--	drm_dbg_dp(ctrl->drm_dev,
--		   "stream_clks:%s link_clks:%s core_clks:%s\n",
-+	ctrl->link_clks_on = true;
-+
-+	drm_dbg_dp(ctrl->drm_dev, "enale link clocks\n");
-+	drm_dbg_dp(ctrl->drm_dev, "stream_clks:%s link_clks:%s core_clks:%s\n",
- 		   ctrl->stream_clks_on ? "on" : "off",
- 		   ctrl->link_clks_on ? "on" : "off",
- 		   ctrl->core_clks_on ? "on" : "off");
-@@ -1405,6 +1405,23 @@ int dp_ctrl_clk_enable(struct dp_ctrl *dp_ctrl,
- 	return 0;
- }
- 
-+static void dp_ctrl_link_clk_disable(struct dp_ctrl *dp_ctrl)
-+{
-+	struct dp_ctrl_private *ctrl;
-+
-+	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
-+
-+	clk_bulk_disable_unprepare(ctrl->num_link_clks, ctrl->link_clks);
-+
-+	ctrl->link_clks_on = false;
-+
-+	drm_dbg_dp(ctrl->drm_dev, "disabled link clocks\n");
-+	drm_dbg_dp(ctrl->drm_dev, "stream_clks:%s link_clks:%s core_clks:%s\n",
-+		   ctrl->stream_clks_on ? "on" : "off",
-+		   ctrl->link_clks_on ? "on" : "off",
-+		   ctrl->core_clks_on ? "on" : "off");
-+}
-+
+ 	if (ret)
+@@ -1425,16 +1442,14 @@ static void dp_ctrl_link_clk_disable(struct dp_ctrl *dp_ctrl)
  static int dp_ctrl_enable_mainlink_clocks(struct dp_ctrl_private *ctrl)
  {
  	int ret = 0;
-@@ -1421,7 +1438,7 @@ static int dp_ctrl_enable_mainlink_clocks(struct dp_ctrl_private *ctrl)
+-	struct dp_io *dp_io = &ctrl->parser->io;
+-	struct phy *phy = dp_io->phy;
+-	struct phy_configure_opts_dp *opts_dp = &dp_io->phy_opts.dp;
++	struct phy *phy = ctrl->parser->io.phy;
+ 	const u8 *dpcd = ctrl->panel->dpcd;
+ 
+-	opts_dp->lanes = ctrl->link->link_params.num_lanes;
+-	opts_dp->link_rate = ctrl->link->link_params.rate / 100;
+-	opts_dp->ssc = drm_dp_max_downspread(dpcd);
++	ctrl->phy_opts.dp.lanes = ctrl->link->link_params.num_lanes;
++	ctrl->phy_opts.dp.link_rate = ctrl->link->link_params.rate / 100;
++	ctrl->phy_opts.dp.ssc = drm_dp_max_downspread(dpcd);
+ 
+-	phy_configure(phy, &dp_io->phy_opts);
++	phy_configure(phy, &ctrl->phy_opts);
  	phy_power_on(phy);
  
  	dev_pm_opp_set_rate(ctrl->dev, ctrl->link->link_params.rate * 1000);
--	ret = dp_ctrl_clk_enable(&ctrl->dp_ctrl, DP_CTRL_PM, true);
-+	ret = dp_ctrl_link_clk_enable(&ctrl->dp_ctrl);
- 	if (ret)
- 		DRM_ERROR("Unable to start link clocks. ret=%d\n", ret);
+@@ -1572,14 +1587,12 @@ static bool dp_ctrl_use_fixed_nvid(struct dp_ctrl_private *ctrl)
  
-@@ -1569,11 +1586,9 @@ static int dp_ctrl_reinitialize_mainlink(struct dp_ctrl_private *ctrl)
- 	 * link maintenance.
- 	 */
- 	dev_pm_opp_set_rate(ctrl->dev, 0);
--	ret = dp_ctrl_clk_enable(&ctrl->dp_ctrl, DP_CTRL_PM, false);
--	if (ret) {
--		DRM_ERROR("Failed to disable clocks. ret=%d\n", ret);
--		return ret;
--	}
-+
-+	dp_ctrl_link_clk_disable(&ctrl->dp_ctrl);
-+
- 	phy_power_off(phy);
- 	/* hw recommended delay before re-enabling clocks */
- 	msleep(20);
-@@ -1591,7 +1606,6 @@ static int dp_ctrl_deinitialize_mainlink(struct dp_ctrl_private *ctrl)
+ static int dp_ctrl_reinitialize_mainlink(struct dp_ctrl_private *ctrl)
  {
- 	struct dp_io *dp_io;
- 	struct phy *phy;
--	int ret;
- 
- 	dp_io = &ctrl->parser->io;
- 	phy = dp_io->phy;
-@@ -1601,10 +1615,7 @@ static int dp_ctrl_deinitialize_mainlink(struct dp_ctrl_private *ctrl)
- 	dp_catalog_ctrl_reset(ctrl->catalog);
- 
- 	dev_pm_opp_set_rate(ctrl->dev, 0);
--	ret = dp_ctrl_clk_enable(&ctrl->dp_ctrl, DP_CTRL_PM, false);
--	if (ret) {
--		DRM_ERROR("Failed to disable link clocks. ret=%d\n", ret);
--	}
-+	dp_ctrl_link_clk_disable(&ctrl->dp_ctrl);
- 
- 	phy_power_off(phy);
- 
-@@ -1708,11 +1719,7 @@ static int dp_ctrl_process_phy_test_request(struct dp_ctrl_private *ctrl)
- 	 * running. Add the global reset just before disabling the
- 	 * link clocks and core clocks.
- 	 */
--	ret = dp_ctrl_off(&ctrl->dp_ctrl);
--	if (ret) {
--		DRM_ERROR("failed to disable DP controller\n");
--		return ret;
--	}
-+	dp_ctrl_off(&ctrl->dp_ctrl);
- 
- 	ret = dp_ctrl_on_link(&ctrl->dp_ctrl);
- 	if (ret) {
-@@ -1828,7 +1835,7 @@ int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
- 	rate = ctrl->panel->link_info.rate;
- 	pixel_rate = ctrl->panel->dp_mode.drm_mode.clock;
- 
--	dp_ctrl_clk_enable(&ctrl->dp_ctrl, DP_CORE_PM, true);
-+	dp_ctrl_core_clk_enable(&ctrl->dp_ctrl);
- 
- 	if (ctrl->link->sink_request & DP_TEST_LINK_PHY_TEST_PATTERN) {
- 		drm_dbg_dp(ctrl->drm_dev,
-@@ -2024,12 +2031,11 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl, bool force_link_train)
- 	return ret;
- }
- 
--int dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl)
-+void dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl)
- {
- 	struct dp_ctrl_private *ctrl;
- 	struct dp_io *dp_io;
- 	struct phy *phy;
--	int ret;
- 
- 	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
- 	dp_io = &ctrl->parser->io;
-@@ -2046,11 +2052,7 @@ int dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl)
- 	}
- 
- 	dev_pm_opp_set_rate(ctrl->dev, 0);
--	ret = dp_ctrl_clk_enable(&ctrl->dp_ctrl, DP_CTRL_PM, false);
--	if (ret) {
--		DRM_ERROR("Failed to disable link clocks. ret=%d\n", ret);
--		return ret;
--	}
-+	dp_ctrl_link_clk_disable(&ctrl->dp_ctrl);
- 
- 	phy_power_off(phy);
- 
-@@ -2060,15 +2062,13 @@ int dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl)
- 
- 	drm_dbg_dp(ctrl->drm_dev, "phy=%p init=%d power_on=%d\n",
- 			phy, phy->init_count, phy->power_count);
--	return ret;
- }
- 
--int dp_ctrl_off_link(struct dp_ctrl *dp_ctrl)
-+void dp_ctrl_off_link(struct dp_ctrl *dp_ctrl)
- {
- 	struct dp_ctrl_private *ctrl;
- 	struct dp_io *dp_io;
- 	struct phy *phy;
--	int ret;
- 
- 	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
- 	dp_io = &ctrl->parser->io;
-@@ -2076,10 +2076,7 @@ int dp_ctrl_off_link(struct dp_ctrl *dp_ctrl)
++	struct phy *phy = ctrl->parser->io.phy;
+ 	int ret = 0;
+-	struct dp_io *dp_io = &ctrl->parser->io;
+-	struct phy *phy = dp_io->phy;
+-	struct phy_configure_opts_dp *opts_dp = &dp_io->phy_opts.dp;
  
  	dp_catalog_ctrl_mainlink_ctrl(ctrl->catalog, false);
+-	opts_dp->lanes = ctrl->link->link_params.num_lanes;
+-	phy_configure(phy, &dp_io->phy_opts);
++	ctrl->phy_opts.dp.lanes = ctrl->link->link_params.num_lanes;
++	phy_configure(phy, &ctrl->phy_opts);
+ 	/*
+ 	 * Disable and re-enable the mainlink clock since the
+ 	 * link clock might have been adjusted as part of the
+@@ -1659,7 +1672,7 @@ static bool dp_ctrl_send_phy_test_pattern(struct dp_ctrl_private *ctrl)
  
--	ret = dp_ctrl_clk_enable(&ctrl->dp_ctrl, DP_CTRL_PM, false);
--	if (ret) {
--		DRM_ERROR("Failed to disable link clocks. ret=%d\n", ret);
--	}
-+	dp_ctrl_link_clk_disable(&ctrl->dp_ctrl);
+ 	drm_dbg_dp(ctrl->drm_dev, "request: 0x%x\n", pattern_requested);
  
- 	DRM_DEBUG_DP("Before, phy=%p init_count=%d power_on=%d\n",
- 		phy, phy->init_count, phy->power_count);
-@@ -2088,19 +2085,13 @@ int dp_ctrl_off_link(struct dp_ctrl *dp_ctrl)
+-	if (dp_catalog_ctrl_update_vx_px(ctrl->catalog,
++	if (dp_ctrl_set_vx_px(ctrl,
+ 			ctrl->link->phy_params.v_level,
+ 			ctrl->link->phy_params.p_level)) {
+ 		DRM_ERROR("Failed to set v/p levels\n");
+diff --git a/drivers/gpu/drm/msm/dp/dp_parser.h b/drivers/gpu/drm/msm/dp/dp_parser.h
+index cad82c4d07da..b28052e87101 100644
+--- a/drivers/gpu/drm/msm/dp/dp_parser.h
++++ b/drivers/gpu/drm/msm/dp/dp_parser.h
+@@ -7,8 +7,6 @@
+ #define _DP_PARSER_H_
  
- 	DRM_DEBUG_DP("After, phy=%p init_count=%d power_on=%d\n",
- 		phy, phy->init_count, phy->power_count);
--
--	return ret;
- }
+ #include <linux/platform_device.h>
+-#include <linux/phy/phy.h>
+-#include <linux/phy/phy-dp.h>
  
--int dp_ctrl_off(struct dp_ctrl *dp_ctrl)
-+void dp_ctrl_off(struct dp_ctrl *dp_ctrl)
- {
- 	struct dp_ctrl_private *ctrl;
- 	struct dp_io *dp_io;
+ #include "msm_drv.h"
+ 
+@@ -37,7 +35,6 @@ struct dss_io_data {
+ struct dp_io {
+ 	struct dss_io_data dp_controller;
  	struct phy *phy;
--	int ret = 0;
--
--	if (!dp_ctrl)
--		return -EINVAL;
- 
- 	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
- 	dp_io = &ctrl->parser->io;
-@@ -2116,16 +2107,11 @@ int dp_ctrl_off(struct dp_ctrl *dp_ctrl)
- 	}
- 
- 	dev_pm_opp_set_rate(ctrl->dev, 0);
--	ret = dp_ctrl_clk_enable(&ctrl->dp_ctrl, DP_CTRL_PM, false);
--	if (ret) {
--		DRM_ERROR("Failed to disable link clocks. ret=%d\n", ret);
--	}
-+	dp_ctrl_link_clk_disable(&ctrl->dp_ctrl);
- 
- 	phy_power_off(phy);
- 	drm_dbg_dp(ctrl->drm_dev, "phy=%p init=%d power_on=%d\n",
- 			phy, phy->init_count, phy->power_count);
--
--	return ret;
- }
- 
- irqreturn_t dp_ctrl_isr(struct dp_ctrl *dp_ctrl)
-@@ -2186,37 +2172,33 @@ static const char *ctrl_clks[] = {
- static int dp_ctrl_clk_init(struct dp_ctrl *dp_ctrl)
- {
- 	struct dp_ctrl_private *ctrl;
--	struct dss_module_power *core, *link;
- 	struct device *dev;
- 	int i, rc;
- 
- 	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
- 	dev = ctrl->dev;
- 
--	core = &ctrl->mp[DP_CORE_PM];
--	link = &ctrl->mp[DP_CTRL_PM];
--
--	core->num_clk = ARRAY_SIZE(core_clks);
--	core->clocks = devm_kcalloc(dev, core->num_clk, sizeof(*core->clocks), GFP_KERNEL);
--	if (!core->clocks)
-+	ctrl->num_core_clks = ARRAY_SIZE(core_clks);
-+	ctrl->core_clks = devm_kcalloc(dev, ctrl->num_core_clks, sizeof(*ctrl->core_clks), GFP_KERNEL);
-+	if (!ctrl->core_clks)
- 		return -ENOMEM;
- 
--	for (i = 0; i < core->num_clk; i++)
--		core->clocks[i].id = core_clks[i];
-+	for (i = 0; i < ctrl->num_core_clks; i++)
-+		ctrl->core_clks[i].id = core_clks[i];
- 
--	rc = devm_clk_bulk_get(dev, core->num_clk, core->clocks);
-+	rc = devm_clk_bulk_get(dev, ctrl->num_core_clks, ctrl->core_clks);
- 	if (rc)
- 		return rc;
- 
--	link->num_clk = ARRAY_SIZE(ctrl_clks);
--	link->clocks = devm_kcalloc(dev, link->num_clk, sizeof(*link->clocks), GFP_KERNEL);
--	if (!link->clocks)
-+	ctrl->num_link_clks = ARRAY_SIZE(ctrl_clks);
-+	ctrl->link_clks = devm_kcalloc(dev, ctrl->num_link_clks, sizeof(*ctrl->link_clks), GFP_KERNEL);
-+	if (!ctrl->link_clks)
- 		return -ENOMEM;
- 
--	for (i = 0; i < link->num_clk; i++)
--		link->clocks[i].id = ctrl_clks[i];
-+	for (i = 0; i < ctrl->num_link_clks; i++)
-+		ctrl->link_clks[i].id = ctrl_clks[i];
- 
--	rc = devm_clk_bulk_get(dev, link->num_clk, link->clocks);
-+	rc = devm_clk_bulk_get(dev, ctrl->num_link_clks, ctrl->link_clks);
- 	if (rc)
- 		return rc;
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-index d8007a9d8260..023f14d0b021 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-@@ -17,17 +17,11 @@ struct dp_ctrl {
- 	bool wide_bus_en;
+-	union phy_configure_opts phy_opts;
  };
  
--enum dp_pm_type {
--	DP_CORE_PM,
--	DP_CTRL_PM,
--	DP_MAX_PM
--};
--
- int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl);
- int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl, bool force_link_train);
--int dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl);
--int dp_ctrl_off_link(struct dp_ctrl *dp_ctrl);
--int dp_ctrl_off(struct dp_ctrl *dp_ctrl);
-+void dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl);
-+void dp_ctrl_off_link(struct dp_ctrl *dp_ctrl);
-+void dp_ctrl_off(struct dp_ctrl *dp_ctrl);
- void dp_ctrl_push_idle(struct dp_ctrl *dp_ctrl);
- irqreturn_t dp_ctrl_isr(struct dp_ctrl *dp_ctrl);
- void dp_ctrl_handle_sink_request(struct dp_ctrl *dp_ctrl);
-@@ -44,7 +38,7 @@ void dp_ctrl_irq_phy_exit(struct dp_ctrl *dp_ctrl);
- void dp_ctrl_set_psr(struct dp_ctrl *dp_ctrl, bool enable);
- void dp_ctrl_config_psr(struct dp_ctrl *dp_ctrl);
- 
--int dp_ctrl_clk_enable(struct dp_ctrl *ctrl, enum dp_pm_type pm_type,
--		       bool enable);
-+int dp_ctrl_core_clk_enable(struct dp_ctrl *dp_ctrl);
-+void dp_ctrl_core_clk_disable(struct dp_ctrl *dp_ctrl);
- 
- #endif /* _DP_CTRL_H_ */
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 33e9d7deb3f8..6fbbd0f93d13 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -432,7 +432,7 @@ static void dp_display_host_init(struct dp_display_private *dp)
- 		dp->dp_display.connector_type, dp->core_initialized,
- 		dp->phy_initialized);
- 
--	dp_ctrl_clk_enable(dp->ctrl, DP_CORE_PM, true);
-+	dp_ctrl_core_clk_enable(dp->ctrl);
- 	dp_ctrl_reset_irq_ctrl(dp->ctrl, true);
- 	dp_aux_init(dp->aux);
- 	dp->core_initialized = true;
-@@ -446,7 +446,7 @@ static void dp_display_host_deinit(struct dp_display_private *dp)
- 
- 	dp_ctrl_reset_irq_ctrl(dp->ctrl, false);
- 	dp_aux_deinit(dp->aux);
--	dp_ctrl_clk_enable(dp->ctrl, DP_CORE_PM, false);
-+	dp_ctrl_core_clk_disable(dp->ctrl);
- 	dp->core_initialized = false;
- }
- 
+ /**
 
 -- 
 2.39.2
