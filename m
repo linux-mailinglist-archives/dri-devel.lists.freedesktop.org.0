@@ -2,40 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BF71820B89
-	for <lists+dri-devel@lfdr.de>; Sun, 31 Dec 2023 15:39:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C991821135
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Jan 2024 00:36:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76C3A10E04E;
-	Sun, 31 Dec 2023 14:39:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 890BA10E028;
+	Sun, 31 Dec 2023 23:36:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail02.habana.ai (habanamailrelay02.habana.ai [62.90.112.121])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 609D910E04E;
- Sun, 31 Dec 2023 14:39:11 +0000 (UTC)
-Received: internal info suppressed
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=habana.ai; s=default;
- t=1704033524; bh=Gbv3uhKrlYkpm1RVuHuU6BzQ7lY53S6ikSobyFwhv6Y=;
- h=From:To:Cc:Subject:Date:From;
- b=lsEnzn5ksU2xoJ8Y4Xoy2ykO582uniizlQ4Pdlh0xagK5lAM2df+paHZS9ZP/jROF
- VRYSFfQzAWIHolEr7gTmuL07TKsiMkxFpIWUD9eAxourBj+xJzCrkxy+AQsLWnP2Sv
- d7KZxu9RJOuh1h9teeI8P9C2kUJFM4kQ1nxdMRQkuZ2SshNNpdAZCrVqLzVudFbl3Z
- lBOUU7iVDBMm4Ca+I60mFZPBtjTB4VxZUidpO7cVGp6p/WXyIkqLJ7QYBFi24zmF+a
- 1IszGvUXRHErS3k3Nvz4w5Udv8q3Cc+CGpN6Tw6fZSDeIZH47zCdXvTJZKCbbfEQ7g
- uCVEOGdYT8o8Q==
-Received: from dhirschfeld-vm-u22.habana-labs.com (localhost [127.0.0.1])
- by dhirschfeld-vm-u22.habana-labs.com (8.15.2/8.15.2/Debian-22ubuntu3) with
- ESMTPS id 3BVEce03893872
- (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
- Sun, 31 Dec 2023 16:38:40 +0200
-Received: (from dhirschfeld@localhost)
- by dhirschfeld-vm-u22.habana-labs.com (8.15.2/8.15.2/Submit) id 3BVEceco893871;
- Sun, 31 Dec 2023 16:38:40 +0200
-From: Dafna Hirschfeld <dhirschfeld@habana.ai>
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:3::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9099410E070;
+ Sun, 31 Dec 2023 23:36:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=DQQOq7uMuqC+LUmYlsu8L+wWzEZWSGnRaRM1vF458w8=; b=jD0bKOK5DR9L4enLf/EHEUGkYb
+ Db1VFFkRgEEqmhO62Bv/HRTURxaPOfokmOl7iC1GPpFY2tA52os0IKB8RKTY+T/SI3rWVQbZq7D1x
+ ST91eSLiMAZbeuhWgtwSA79W1KB6SrAeUdG7puTcUTiyaYgkbOHqdrJmeNCfoasGm+sNhnRfd085J
+ GFEyHl5SYld9h4sHRUJVb88yvymVXJviiY5VOfa7me5IryQlGmmnj0ITIjJe7oDCmfFEPYQNAW2J/
+ 6iNxIe0n15SVWePV6eRJnkTNXXo45bPU4/xuUhAV/9217EJ8h61xpHIdxJFZwgsjm/8WSVGTVISIB
+ hAy8V8Fw==;
+Received: from [50.53.46.231] (helo=bombadil.infradead.org)
+ by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1rK5MA-005MeM-0G; Sun, 31 Dec 2023 23:36:34 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/amdkfd: fixes for HMM mem allocation
-Date: Sun, 31 Dec 2023 16:37:00 +0200
-Message-Id: <20231231143700.893822-1-dhirschfeld@habana.ai>
-X-Mailer: git-send-email 2.34.1
+Subject: [PATCH 1/4] drm/nouveau/disp: don't misuse kernel-doc comments
+Date: Sun, 31 Dec 2023 15:36:30 -0800
+Message-ID: <20231231233633.6596-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -50,61 +46,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ogabbay@kernel.org, Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org,
- christian.koenig@amd.com, Dafna Hirschfeld <dhirschfeld@habana.ai>,
- alexander.deucher@amd.com, Felix.Kuehling@amd.com, obitton@habana.ai
+Cc: Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org,
+ Randy Dunlap <rdunlap@infradead.org>, Maxime Ripard <mripard@kernel.org>,
+ Danilo Krummrich <dakr@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Few fixes to amdkfd and the doc of
-devm_request_free_mem_region.
+Change kernel-doc "/**" comments to common "/*" comments to prevent
+kernel-doc warnings:
 
-Signed-off-by: Dafna Hirschfeld <dhirschfeld@habana.ai>
+crtc.c:453: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ * Sets up registers for the given mode/adjusted_mode pair.
+crtc.c:453: warning: missing initial short description on line:
+ * Sets up registers for the given mode/adjusted_mode pair.
+crtc.c:629: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ * Sets up registers for the given mode/adjusted_mode pair.
+crtc.c:629: warning: missing initial short description on line:
+ * Sets up registers for the given mode/adjusted_mode pair.
+
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Karol Herbst <kherbst@redhat.com>
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Danilo Krummrich <dakr@redhat.com>
+Cc: nouveau@lists.freedesktop.org
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_migrate.c | 6 +++---
- kernel/resource.c                        | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/nouveau/dispnv04/crtc.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-index 6c25dab051d5..b8680e0753ca 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-@@ -1021,7 +1021,7 @@ int kgd2kfd_init_zone_device(struct amdgpu_device *adev)
- 	} else {
- 		res = devm_request_free_mem_region(adev->dev, &iomem_resource, size);
- 		if (IS_ERR(res))
--			return -ENOMEM;
-+			return PTR_ERR(res);
- 		pgmap->range.start = res->start;
- 		pgmap->range.end = res->end;
- 		pgmap->type = MEMORY_DEVICE_PRIVATE;
-@@ -1037,10 +1037,10 @@ int kgd2kfd_init_zone_device(struct amdgpu_device *adev)
- 	r = devm_memremap_pages(adev->dev, pgmap);
- 	if (IS_ERR(r)) {
- 		pr_err("failed to register HMM device memory\n");
--		/* Disable SVM support capability */
--		pgmap->type = 0;
- 		if (pgmap->type == MEMORY_DEVICE_PRIVATE)
- 			devm_release_mem_region(adev->dev, res->start, resource_size(res));
-+		/* Disable SVM support capability */
-+		pgmap->type = 0;
- 		return PTR_ERR(r);
- 	}
+diff -- a/drivers/gpu/drm/nouveau/dispnv04/crtc.c b/drivers/gpu/drm/nouveau/dispnv04/crtc.c
+--- a/drivers/gpu/drm/nouveau/dispnv04/crtc.c
++++ b/drivers/gpu/drm/nouveau/dispnv04/crtc.c
+@@ -449,7 +449,7 @@ nv_crtc_mode_set_vga(struct drm_crtc *cr
+ 	regp->Attribute[NV_CIO_AR_CSEL_INDEX] = 0x00;
+ }
  
-diff --git a/kernel/resource.c b/kernel/resource.c
-index 866ef3663a0b..fe890b874606 100644
---- a/kernel/resource.c
-+++ b/kernel/resource.c
-@@ -1905,8 +1905,8 @@ get_free_mem_region(struct device *dev, struct resource *base,
-  * devm_request_free_mem_region - find free region for device private memory
+-/**
++/*
+  * Sets up registers for the given mode/adjusted_mode pair.
   *
-  * @dev: device struct to bind the resource to
-- * @size: size in bytes of the device memory to add
-  * @base: resource tree to look in
-+ * @size: size in bytes of the device memory to add
+  * The clocks, CRTCs and outputs attached to this CRTC must be off.
+@@ -625,7 +625,7 @@ nv_crtc_swap_fbs(struct drm_crtc *crtc,
+ 	return ret;
+ }
+ 
+-/**
++/*
+  * Sets up registers for the given mode/adjusted_mode pair.
   *
-  * This function tries to find an empty range of physical address big enough to
-  * contain the new resource, so that it can later be hotplugged as ZONE_DEVICE
--- 
-2.34.1
-
+  * The clocks, CRTCs and outputs attached to this CRTC must be off.
