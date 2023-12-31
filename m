@@ -2,36 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 456FA8209D6
-	for <lists+dri-devel@lfdr.de>; Sun, 31 Dec 2023 06:49:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1E588209D7
+	for <lists+dri-devel@lfdr.de>; Sun, 31 Dec 2023 06:49:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF50A10E038;
-	Sun, 31 Dec 2023 05:49:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0155A10E02B;
+	Sun, 31 Dec 2023 05:49:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bombadil.infradead.org (bombadil.infradead.org
  [IPv6:2607:7c80:54:3::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A27110E038
- for <dri-devel@lists.freedesktop.org>; Sun, 31 Dec 2023 05:49:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 359A710E02B
+ for <dri-devel@lists.freedesktop.org>; Sun, 31 Dec 2023 05:49:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
  MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
  Content-ID:Content-Description:In-Reply-To:References;
- bh=BESTCzzD+5VKhuQ+KvwSqvUyr0NIxH77E9a/qlyXlEo=; b=hArNe9pULz6W0hnjtIE/d7bFFx
- ioHpEvdg/KC7xYU8BkMU/dk5kG7vxIpxzi4oVnKOVBuIMZwcM9Sqv+tAcMspLTfttTYG7KchoQ3rq
- JTc7EgBKfira7vkW0ZvpXnwuMPJ0+OUgg6mM8nSMctUmMfzDdNxtAv74794zNNP107oimt+7OdhSq
- gKeZskjyoj/+exn+cGKcs42FvOPvIXkBA0ikW2kpd1Ol+SXB5Vg+DZj29OPYSBn9CR+jtF4u4sgR7
- dwQStepemYtJ+/8MKRxGgFcbBaYNWF0ayep6O10qh4vGhb+4ufKB6WAnO+2+bRT/SATpBv7LH2yz2
- c26k6K4g==;
+ bh=sbB7maGQ0Pjc+3G4bBvIiBwsq0OWbX3og3kP0LcQmcI=; b=FbMBJWTrPqZ6TYlnXhNUY0iffg
+ 1JTkmY8htlvL1T1oRw2cAd3VWwTX55srLRdoHdu4jRByDa6nlXIstmpxGbjSp2gXhKR9kdX9PTF0f
+ CHdKjqFcsWQdekYafPCINPaJTZRpS3opF+PTwD2i3gegeyWQY0XbG3w2/oO/zNXPOhZ98M6Yk2Lk6
+ gelxjJ55FPmAHRwXnKxdUgjNmYTNfCLTsw684Sap69QPrDyueHp7UVa2kvszpf9AHqMdFkMNQJjDY
+ YOH2EzkwxzM1qKgSETH8ZI8yGPoHGO8/gS0oucBWTIdYaXjk8wPjUCsDB6IPe7L0m/emIk4VScubq
+ 23MrwtMg==;
 Received: from [50.53.46.231] (helo=bombadil.infradead.org)
  by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1rJogy-0041ad-2u; Sun, 31 Dec 2023 05:48:56 +0000
+ id 1rJohD-0041cE-1I; Sun, 31 Dec 2023 05:49:11 +0000
 From: Randy Dunlap <rdunlap@infradead.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/gpuvm: fix all kernel-doc warnings in
- include/drm/drm_gpuvm.h
-Date: Sat, 30 Dec 2023 21:48:56 -0800
-Message-ID: <20231231054856.31786-1-rdunlap@infradead.org>
+Subject: [PATCH] drm/imagination: pvr_device.h: fix all kernel-doc warnings
+Date: Sat, 30 Dec 2023 21:49:10 -0800
+Message-ID: <20231231054910.31805-1-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -47,54 +46,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vegard Nossum <vegard.nossum@oracle.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
- Randy Dunlap <rdunlap@infradead.org>, Maxime Ripard <mripard@kernel.org>,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>
+Cc: Vegard Nossum <vegard.nossum@oracle.com>, Jonathan Corbet <corbet@lwn.net>,
+ dri-devel@lists.freedesktop.org, Randy Dunlap <rdunlap@infradead.org>,
+ Maxime Ripard <mripard@kernel.org>, Matt Coster <matt.coster@imgtec.com>,
+ Donald Robson <donald.robson@imgtec.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update kernel-doc comments in <drm/drm_gpuvm.h> to correct all
-kernel-doc warnings:
+Correct all kernel-doc notation on pvr_device.h so that there are no
+kernel-doc warnings remaining.
 
-drm_gpuvm.h:148: warning: Excess struct member 'addr' description in 'drm_gpuva'
-drm_gpuvm.h:148: warning: Excess struct member 'offset' description in 'drm_gpuva'
-drm_gpuvm.h:148: warning: Excess struct member 'obj' description in 'drm_gpuva'
-drm_gpuvm.h:148: warning: Excess struct member 'entry' description in 'drm_gpuva'
-drm_gpuvm.h:148: warning: Excess struct member '__subtree_last' description in 'drm_gpuva'
-drm_gpuvm.h:192: warning: No description found for return value of 'drm_gpuva_invalidated'
-drm_gpuvm.h:331: warning: Excess struct member 'tree' description in 'drm_gpuvm'
-drm_gpuvm.h:331: warning: Excess struct member 'list' description in 'drm_gpuvm'
-drm_gpuvm.h:331: warning: Excess struct member 'list' description in 'drm_gpuvm'
-drm_gpuvm.h:331: warning: Excess struct member 'local_list' description in 'drm_gpuvm'
-drm_gpuvm.h:331: warning: Excess struct member 'lock' description in 'drm_gpuvm'
-drm_gpuvm.h:331: warning: Excess struct member 'list' description in 'drm_gpuvm'
-drm_gpuvm.h:331: warning: Excess struct member 'local_list' description in 'drm_gpuvm'
-drm_gpuvm.h:331: warning: Excess struct member 'lock' description in 'drm_gpuvm'
-drm_gpuvm.h:352: warning: No description found for return value of 'drm_gpuvm_get'
-drm_gpuvm.h:545: warning: Excess struct member 'fn' description in 'drm_gpuvm_exec'
-drm_gpuvm.h:545: warning: Excess struct member 'priv' description in 'drm_gpuvm_exec'
-drm_gpuvm.h:597: warning: missing initial short description on line:
- * drm_gpuvm_exec_resv_add_fence()
-drm_gpuvm.h:616: warning: missing initial short description on line:
- * drm_gpuvm_exec_validate()
-drm_gpuvm.h:623: warning: No description found for return value of 'drm_gpuvm_exec_validate'
-drm_gpuvm.h:698: warning: Excess struct member 'gpuva' description in 'drm_gpuvm_bo'
-drm_gpuvm.h:698: warning: Excess struct member 'entry' description in 'drm_gpuvm_bo'
-drm_gpuvm.h:698: warning: Excess struct member 'gem' description in 'drm_gpuvm_bo'
-drm_gpuvm.h:698: warning: Excess struct member 'evict' description in 'drm_gpuvm_bo'
-drm_gpuvm.h:726: warning: No description found for return value of 'drm_gpuvm_bo_get'
-drm_gpuvm.h:738: warning: missing initial short description on line:
- * drm_gpuvm_bo_gem_evict()
-drm_gpuvm.h:740: warning: missing initial short description on line:
- * drm_gpuvm_bo_gem_evict()
-drm_gpuvm.h:698: warning: Excess struct member 'evict' description in 'drm_gpuvm_bo'
-drm_gpuvm.h:844: warning: Excess struct member 'addr' description in 'drm_gpuva_op_map'
-drm_gpuvm.h:844: warning: Excess struct member 'range' description in 'drm_gpuva_op_map'
-drm_gpuvm.h:844: warning: Excess struct member 'offset' description in 'drm_gpuva_op_map'
-drm_gpuvm.h:844: warning: Excess struct member 'obj' description in 'drm_gpuva_op_map'
+pvr_device.h:292: warning: Excess struct member 'active' description in 'pvr_device'
+pvr_device.h:292: warning: Excess struct member 'idle' description in 'pvr_device'
+pvr_device.h:292: warning: Excess struct member 'lock' description in 'pvr_device'
+pvr_device.h:292: warning: Excess struct member 'work' description in 'pvr_device'
+pvr_device.h:292: warning: Excess struct member 'old_kccb_cmds_executed' description in 'pvr_device'
+pvr_device.h:292: warning: Excess struct member 'kccb_stall_count' description in 'pvr_device'
+pvr_device.h:292: warning: Excess struct member 'ccb' description in 'pvr_device'
+pvr_device.h:292: warning: Excess struct member 'rtn_q' description in 'pvr_device'
+pvr_device.h:292: warning: Excess struct member 'rtn_obj' description in 'pvr_device'
+pvr_device.h:292: warning: Excess struct member 'rtn' description in 'pvr_device'
+pvr_device.h:292: warning: Excess struct member 'slot_count' description in 'pvr_device'
+pvr_device.h:292: warning: Excess struct member 'reserved_count' description in 'pvr_device'
+pvr_device.h:292: warning: Excess struct member 'waiters' description in 'pvr_device'
+pvr_device.h:292: warning: Excess struct member 'fence_ctx' description in 'pvr_device'
+pvr_device.h:292: warning: Excess struct member 'id' description in 'pvr_device'
+pvr_device.h:292: warning: Excess struct member 'seqno' description in 'pvr_device'
+pvr_device.h:292: warning: Excess struct member 'lock' description in 'pvr_device'
+pvr_device.h:292: warning: Excess struct member 'active' description in 'pvr_device'
+pvr_device.h:292: warning: Excess struct member 'idle' description in 'pvr_device'
+pvr_device.h:292: warning: Excess struct member 'lock' description in 'pvr_device'
+pvr_device.h:292: warning: Excess struct member 'work' description in 'pvr_device'
+pvr_device.h:292: warning: Excess struct member 'old_kccb_cmds_executed' description in 'pvr_device'
+pvr_device.h:292: warning: Excess struct member 'kccb_stall_count' description in 'pvr_device'
+pvr_device.h:292: warning: Excess struct member 'ccb' description in 'pvr_device'
+pvr_device.h:292: warning: Excess struct member 'rtn_q' description in 'pvr_device'
+pvr_device.h:292: warning: Excess struct member 'rtn_obj' description in 'pvr_device'
+pvr_device.h:292: warning: Excess struct member 'rtn' description in 'pvr_device'
+pvr_device.h:292: warning: Excess struct member 'slot_count' description in 'pvr_device'
+pvr_device.h:292: warning: Excess struct member 'reserved_count' description in 'pvr_device'
+pvr_device.h:292: warning: Excess struct member 'waiters' description in 'pvr_device'
+pvr_device.h:292: warning: Excess struct member 'fence_ctx' description in 'pvr_device'
+pvr_device.h:292: warning: Excess struct member 'id' description in 'pvr_device'
+pvr_device.h:292: warning: Excess struct member 'seqno' description in 'pvr_device'
+pvr_device.h:292: warning: Excess struct member 'lock' description in 'pvr_device'
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Frank Binns <frank.binns@imgtec.com>
+Cc: Donald Robson <donald.robson@imgtec.com>
+Cc: Matt Coster <matt.coster@imgtec.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 Cc: Maxime Ripard <mripard@kernel.org>
 Cc: Thomas Zimmermann <tzimmermann@suse.de>
@@ -104,275 +105,111 @@ Cc: dri-devel@lists.freedesktop.org
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: Vegard Nossum <vegard.nossum@oracle.com>
 ---
- include/drm/drm_gpuvm.h |   80 +++++++++++++++++++++-----------------
- 1 file changed, 45 insertions(+), 35 deletions(-)
+ drivers/gpu/drm/imagination/pvr_device.h |   46 +++++++++++----------
+ 1 file changed, 25 insertions(+), 21 deletions(-)
 
-diff -- a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
---- a/include/drm/drm_gpuvm.h
-+++ b/include/drm/drm_gpuvm.h
-@@ -92,7 +92,7 @@ struct drm_gpuva {
+diff -- a/drivers/gpu/drm/imagination/pvr_device.h b/drivers/gpu/drm/imagination/pvr_device.h
+--- a/drivers/gpu/drm/imagination/pvr_device.h
++++ b/drivers/gpu/drm/imagination/pvr_device.h
+@@ -193,13 +193,14 @@ struct pvr_device {
+ 	 * @queues: Queue-related fields.
  	 */
  	struct {
- 		/**
--		 * @addr: the start address
-+		 * @va.addr: the start address
- 		 */
- 		u64 addr;
+-		/** @active: Active queue list. */
++		/** @queues.active: Active queue list. */
+ 		struct list_head active;
  
-@@ -107,17 +107,17 @@ struct drm_gpuva {
+-		/** @idle: Idle queue list. */
++		/** @queues.idle: Idle queue list. */
+ 		struct list_head idle;
+ 
+-		/** @lock: Lock protecting access to the active/idle lists. */
++		/** @queues.lock: Lock protecting access to the active/idle
++		 *  lists. */
+ 		struct mutex lock;
+ 	} queues;
+ 
+@@ -207,18 +208,18 @@ struct pvr_device {
+ 	 * @watchdog: Watchdog for communications with firmware.
  	 */
  	struct {
- 		/**
--		 * @offset: the offset within the &drm_gem_object
-+		 * @gem.offset: the offset within the &drm_gem_object
- 		 */
- 		u64 offset;
+-		/** @work: Work item for watchdog callback. */
++		/** @watchdog.work: Work item for watchdog callback. */
+ 		struct delayed_work work;
  
  		/**
--		 * @obj: the mapped &drm_gem_object
-+		 * @gem.obj: the mapped &drm_gem_object
+-		 * @old_kccb_cmds_executed: KCCB command execution count at last
+-		 * watchdog poll.
++		 * @watchdog.old_kccb_cmds_executed: KCCB command execution
++		 * count at last watchdog poll.
  		 */
- 		struct drm_gem_object *obj;
+ 		u32 old_kccb_cmds_executed;
  
  		/**
--		 * @entry: the &list_head to attach this object to a &drm_gpuvm_bo
-+		 * @gem.entry: the &list_head to attach this object to a &drm_gpuvm_bo
+-		 * @kccb_stall_count: Number of watchdog polls KCCB has been
+-		 * stalled for.
++		 * @watchdog.kccb_stall_count: Number of watchdog polls
++		 * KCCB has been stalled for.
  		 */
- 		struct list_head entry;
- 	} gem;
-@@ -127,12 +127,12 @@ struct drm_gpuva {
+ 		u32 kccb_stall_count;
+ 	} watchdog;
+@@ -227,43 +228,46 @@ struct pvr_device {
+ 	 * @kccb: Circular buffer for communications with firmware.
  	 */
  	struct {
- 		/**
--		 * @rb: the rb-tree node
-+		 * @rb.node: the rb-tree node
- 		 */
- 		struct rb_node node;
+-		/** @ccb: Kernel CCB. */
++		/** @kccb.ccb: Kernel CCB. */
+ 		struct pvr_ccb ccb;
+ 
+-		/** @rtn_q: Waitqueue for KCCB command return waiters. */
++		/** @kccb.rtn_q: Waitqueue for KCCB command return waiters. */
+ 		wait_queue_head_t rtn_q;
+ 
+-		/** @rtn_obj: Object representing KCCB return slots. */
++		/** @kccb.rtn_obj: Object representing KCCB return slots. */
+ 		struct pvr_fw_object *rtn_obj;
  
  		/**
--		 * @entry: The &list_head to additionally connect &drm_gpuvas
-+		 * @rb.entry: The &list_head to additionally connect &drm_gpuvas
- 		 * in the same order they appear in the interval tree. This is
- 		 * useful to keep iterating &drm_gpuvas from a start node found
- 		 * through the rb-tree while doing modifications on the rb-tree
-@@ -141,7 +141,7 @@ struct drm_gpuva {
- 		struct list_head entry;
+-		 * @rtn: Pointer to CPU mapping of KCCB return slots. Must be
+-		 * accessed by READ_ONCE()/WRITE_ONCE().
++		 * @kccb.rtn: Pointer to CPU mapping of KCCB return slots.
++		 * Must be accessed by READ_ONCE()/WRITE_ONCE().
+ 		 */
+ 		u32 *rtn;
+ 
+-		/** @slot_count: Total number of KCCB slots available. */
++		/** @kccb.slot_count: Total number of KCCB slots available. */
+ 		u32 slot_count;
+ 
+-		/** @reserved_count: Number of KCCB slots reserved for future use. */
++		/** @kccb.reserved_count: Number of KCCB slots reserved for
++		 *  future use. */
+ 		u32 reserved_count;
  
  		/**
--		 * @__subtree_last: needed by the interval tree, holding last-in-subtree
-+		 * @rb.__subtree_last: needed by the interval tree, holding last-in-subtree
+-		 * @waiters: List of KCCB slot waiters.
++		 * @kccb.waiters: List of KCCB slot waiters.
  		 */
- 		u64 __subtree_last;
- 	} rb;
-@@ -187,6 +187,8 @@ static inline void drm_gpuva_invalidate(
-  * drm_gpuva_invalidated() - indicates whether the backing BO of this &drm_gpuva
-  * is invalidated
-  * @va: the &drm_gpuva to check
-+ *
-+ * Returns: %true if the GPU VA is invalidated, %false otherwise
-  */
- static inline bool drm_gpuva_invalidated(struct drm_gpuva *va)
- {
-@@ -252,12 +254,12 @@ struct drm_gpuvm {
- 	 */
- 	struct {
- 		/**
--		 * @tree: the rb-tree to track GPU VA mappings
-+		 * @rb.tree: the rb-tree to track GPU VA mappings
- 		 */
- 		struct rb_root_cached tree;
+ 		struct list_head waiters;
  
- 		/**
--		 * @list: the &list_head to track GPU VA mappings
-+		 * @rb.list: the &list_head to track GPU VA mappings
- 		 */
- 		struct list_head list;
- 	} rb;
-@@ -290,19 +292,19 @@ struct drm_gpuvm {
- 	 */
- 	struct {
- 		/**
--		 * @list: &list_head storing &drm_gpuvm_bos serving as
-+		 * @extobj.list: &list_head storing &drm_gpuvm_bos serving as
- 		 * external object
- 		 */
- 		struct list_head list;
- 
- 		/**
--		 * @local_list: pointer to the local list temporarily storing
--		 * entries from the external object list
-+		 * @extobj.local_list: pointer to the local list temporarily
-+		 * storing entries from the external object list
- 		 */
- 		struct list_head *local_list;
- 
- 		/**
--		 * @lock: spinlock to protect the extobj list
-+		 * @extobj.lock: spinlock to protect the extobj list
- 		 */
- 		spinlock_t lock;
- 	} extobj;
-@@ -312,19 +314,19 @@ struct drm_gpuvm {
- 	 */
- 	struct {
- 		/**
--		 * @list: &list_head storing &drm_gpuvm_bos currently being
--		 * evicted
-+		 * @evict.list: &list_head storing &drm_gpuvm_bos currently
-+		 * being evicted
- 		 */
- 		struct list_head list;
- 
- 		/**
--		 * @local_list: pointer to the local list temporarily storing
--		 * entries from the evicted object list
-+		 * @evict.local_list: pointer to the local list temporarily
-+		 * storing entries from the evicted object list
- 		 */
- 		struct list_head *local_list;
- 
- 		/**
--		 * @lock: spinlock to protect the evict list
-+		 * @evict.lock: spinlock to protect the evict list
- 		 */
- 		spinlock_t lock;
- 	} evict;
-@@ -344,6 +346,8 @@ void drm_gpuvm_init(struct drm_gpuvm *gp
-  *
-  * This function acquires an additional reference to @gpuvm. It is illegal to
-  * call this without already holding a reference. No locks required.
-+ *
-+ * Returns: the &struct drm_gpuvm pointer
-  */
- static inline struct drm_gpuvm *
- drm_gpuvm_get(struct drm_gpuvm *gpuvm)
-@@ -533,12 +537,13 @@ struct drm_gpuvm_exec {
- 	 */
- 	struct {
- 		/**
--		 * @fn: The driver callback to lock additional &drm_gem_objects.
-+		 * @extra.fn: The driver callback to lock additional
-+		 * &drm_gem_objects.
- 		 */
- 		int (*fn)(struct drm_gpuvm_exec *vm_exec);
- 
- 		/**
--		 * @priv: driver private data for the @fn callback
-+		 * @extra.priv: driver private data for the @fn callback
- 		 */
- 		void *priv;
- 	} extra;
-@@ -589,7 +594,7 @@ void drm_gpuvm_resv_add_fence(struct drm
- 			      enum dma_resv_usage extobj_usage);
- 
- /**
-- * drm_gpuvm_exec_resv_add_fence()
-+ * drm_gpuvm_exec_resv_add_fence() - add fence to private and all extobj
-  * @vm_exec: the &drm_gpuvm_exec wrapper
-  * @fence: fence to add
-  * @private_usage: private dma-resv usage
-@@ -608,10 +613,12 @@ drm_gpuvm_exec_resv_add_fence(struct drm
- }
- 
- /**
-- * drm_gpuvm_exec_validate()
-+ * drm_gpuvm_exec_validate() - validate all BOs marked as evicted
-  * @vm_exec: the &drm_gpuvm_exec wrapper
-  *
-  * See drm_gpuvm_validate().
-+ *
-+ * Returns: 0 on success, negative error code on failure.
-  */
- static inline int
- drm_gpuvm_exec_validate(struct drm_gpuvm_exec *vm_exec)
-@@ -664,7 +671,7 @@ struct drm_gpuvm_bo {
- 	 */
- 	struct {
- 		/**
--		 * @gpuva: The list of linked &drm_gpuvas.
-+		 * @list.gpuva: The list of linked &drm_gpuvas.
- 		 *
- 		 * It is safe to access entries from this list as long as the
- 		 * GEM's gpuva lock is held. See also struct drm_gem_object.
-@@ -672,25 +679,25 @@ struct drm_gpuvm_bo {
- 		struct list_head gpuva;
- 
- 		/**
--		 * @entry: Structure containing all &list_heads serving as
-+		 * @list.entry: Structure containing all &list_heads serving as
- 		 * entry.
- 		 */
+-		/** @fence_ctx: KCCB fence context. */
++		/** @kccb.fence_ctx: KCCB fence context. */
  		struct {
- 			/**
--			 * @gem: List entry to attach to the &drm_gem_objects
--			 * gpuva list.
-+			 * @list.entry.gem: List entry to attach to the
-+			 * &drm_gem_objects gpuva list.
- 			 */
- 			struct list_head gem;
+-			/** @id: KCCB fence context ID allocated with dma_fence_context_alloc(). */
++			/** @kccb.fence_ctx.id: KCCB fence context ID
++			 *  allocated with dma_fence_context_alloc(). */
+ 			u64 id;
+ 
+-			/** @seqno: Sequence number incremented each time a fence is created. */
++			/** @kccb.fence_ctx.seqno: Sequence number incremented
++			 *  each time a fence is created. */
+ 			atomic_t seqno;
  
  			/**
--			 * @evict: List entry to attach to the &drm_gpuvms
--			 * extobj list.
-+			 * @list.entry.evict: List entry to attach to the
-+			 * &drm_gpuvms extobj list.
+-			 * @lock: Lock used to synchronize access to fences allocated by this
+-			 * context.
++			 * @kccb.fence_ctx.lock: Lock used to synchronize
++			 * access to fences allocated by this context.
  			 */
- 			struct list_head extobj;
- 
- 			/**
--			 * @evict: List entry to attach to the &drm_gpuvms evict
--			 * list.
-+			 * @list.entry.evict: List entry to attach to the
-+			 * &drm_gpuvms evict list.
- 			 */
- 			struct list_head evict;
- 		} entry;
-@@ -713,6 +720,8 @@ drm_gpuvm_bo_obtain_prealloc(struct drm_
-  *
-  * This function acquires an additional reference to @vm_bo. It is illegal to
-  * call this without already holding a reference. No locks required.
-+ *
-+ * Returns: the &struct vm_bo pointer
-  */
- static inline struct drm_gpuvm_bo *
- drm_gpuvm_bo_get(struct drm_gpuvm_bo *vm_bo)
-@@ -730,7 +739,8 @@ drm_gpuvm_bo_find(struct drm_gpuvm *gpuv
- void drm_gpuvm_bo_evict(struct drm_gpuvm_bo *vm_bo, bool evict);
- 
- /**
-- * drm_gpuvm_bo_gem_evict()
-+ * drm_gpuvm_bo_gem_evict() - add/remove all &drm_gpuvm_bo's in the list
-+ * to/from the &drm_gpuvms evicted list
-  * @obj: the &drm_gem_object
-  * @evict: indicates whether @obj is evicted
-  *
-@@ -817,12 +827,12 @@ struct drm_gpuva_op_map {
- 	 */
- 	struct {
- 		/**
--		 * @addr: the base address of the new mapping
-+		 * @va.addr: the base address of the new mapping
- 		 */
- 		u64 addr;
- 
- 		/**
--		 * @range: the range of the new mapping
-+		 * @va.range: the range of the new mapping
- 		 */
- 		u64 range;
- 	} va;
-@@ -832,12 +842,12 @@ struct drm_gpuva_op_map {
- 	 */
- 	struct {
- 		/**
--		 * @offset: the offset within the &drm_gem_object
-+		 * @gem.offset: the offset within the &drm_gem_object
- 		 */
- 		u64 offset;
- 
- 		/**
--		 * @obj: the &drm_gem_object to map
-+		 * @gem.obj: the &drm_gem_object to map
- 		 */
- 		struct drm_gem_object *obj;
- 	} gem;
+ 			spinlock_t lock;
+ 		} fence_ctx;
