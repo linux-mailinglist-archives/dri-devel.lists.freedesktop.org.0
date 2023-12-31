@@ -2,40 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3916782113C
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Jan 2024 00:36:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A205821144
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Jan 2024 00:38:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FF5B10E076;
-	Sun, 31 Dec 2023 23:36:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C667D10E087;
+	Sun, 31 Dec 2023 23:38:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:3::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AAF810E036;
- Sun, 31 Dec 2023 23:36:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
- :Reply-To:Content-Type:Content-ID:Content-Description;
- bh=YkItcnuo5x1taVeM+oJSMjte9KpmqBD29r0EejLD2Bo=; b=PfM91DZiaQo44ixDoBeAkKm58j
- kwImdjM+PAOGGsbWLDW6trkYoU25954IAZuGYYtzxtQMmyRLpTjC6K+v6kdZjEjg2MsuEnqEJGTW0
- vk0rBbY+8CN91mSezQSJZ4OYfAjuxRPuNmusM5AonNSz3yCKuvZ6ibhIvEyaKUZcAGv4qY+U/y7KN
- 7NfO6Xc+2x/f7309Bn6TF0St/kNuPRcoOJLU/5CP/rJHUA3wr2iRHABdLFYRU3ay72Th3DIiHTBE5
- q3FaZhTo0vGCyQbtPcM2o+mei0cd2QvC3LtVLbd925HPQDg8humEysuDe8F8otYDSBwd/v2aLIsWH
- 9bcA+0hA==;
-Received: from [50.53.46.231] (helo=bombadil.infradead.org)
- by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1rK5MB-005MeM-03; Sun, 31 Dec 2023 23:36:35 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 4/4] drm/nouveau/volt/gk20a: don't misuse kernel-doc comments
-Date: Sun, 31 Dec 2023 15:36:33 -0800
-Message-ID: <20231231233633.6596-4-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231231233633.6596-1-rdunlap@infradead.org>
-References: <20231231233633.6596-1-rdunlap@infradead.org>
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
+ [209.85.166.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60B2410E087
+ for <dri-devel@lists.freedesktop.org>; Sun, 31 Dec 2023 23:38:20 +0000 (UTC)
+Received: by mail-il1-f197.google.com with SMTP id
+ e9e14a558f8ab-35f766cf0f6so68590765ab.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 31 Dec 2023 15:38:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1704065899; x=1704670699;
+ h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=yBPG0jD4joUl5mOrKlSvFtp8B+BSg6tUyqdhSm2Q0kQ=;
+ b=GKkyvccH9hCBSMy8n0EYVQaF3/J2psFB5rSyRtsMVNpaYkedcNQcM+PfSD+5vj7lq5
+ qFoToLn6NCWKCspIj9mMcL4/7G5s6lDZaTTOFlo0TI2d787fBFI+qe7AIlA43lBDH190
+ My4Rz/uaK/2eBvjTRQsNBl2yYd663YJzeQm7N28RykqPKrXJPAyUpoP2qGFTXT8fFtOq
+ QBKruuIMV8q4u+DXB9eKU4sgdiBCAvFf9Rd2TYkuSYZhKYTu2BxSFM4tfL8IZiMhDtRY
+ qFbK09wUIJJh/IGI2HrIQa6TNeQKrMNiePqw/H+mHTKkq+E4AO9zoguBp/g/nYhsFpeD
+ jqvg==
+X-Gm-Message-State: AOJu0YwbbkL7TNMbpYQdVdAT68Kf1Yp6y1GpROJ+oPgMV20lpEBg535L
+ SNyuPo6ngjnLDE4khocj/l78uAiJ4lJKTr3BhVaM71BuajLF
+X-Google-Smtp-Source: AGHT+IHwz08QnIlLH5aNgXdvdbRNIKqMY+Lw393O4cvAu/HZtiBwRJxOWncqg6U9KkQG6IypcozWLB/NOnma1Y07Ct0V8ZfsqJgJ
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6e02:b4c:b0:360:290:902d with SMTP id
+ f12-20020a056e020b4c00b003600290902dmr1940705ilu.3.1704065899585; Sun, 31 Dec
+ 2023 15:38:19 -0800 (PST)
+Date: Sun, 31 Dec 2023 15:38:19 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000009e6825060dd6c287@google.com>
+Subject: [syzbot] [dri?] [media?] memory leak in get_sg_table
+From: syzbot <syzbot+9b4adfed366b14496e7e@syzkaller.appspotmail.com>
+To: christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
+ kraxel@redhat.com, linaro-mm-sig@lists.linaro.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,54 +57,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org,
- Randy Dunlap <rdunlap@infradead.org>, Maxime Ripard <mripard@kernel.org>,
- Danilo Krummrich <dakr@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Change kernel-doc "/**" comments to common "/*" comments to prevent
-kernel-doc warnings:
+Hello,
 
-gk20a.c:49: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- * cvb_mv = ((c2 * speedo / s_scale + c1) * speedo / s_scale + c0)
-gk20a.c:49: warning: missing initial short description on line:
- * cvb_mv = ((c2 * speedo / s_scale + c1) * speedo / s_scale + c0)
-gk20a.c:62: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- * cvb_t_mv =
-gk20a.c:62: warning: missing initial short description on line:
- * cvb_t_mv =
+syzbot found the following issue on:
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Karol Herbst <kherbst@redhat.com>
-Cc: Lyude Paul <lyude@redhat.com>
-Cc: Danilo Krummrich <dakr@redhat.com>
-Cc: nouveau@lists.freedesktop.org
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
+HEAD commit:    fbafc3e621c3 Merge tag 'for_linus' of git://git.kernel.org..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=10ae11cee80000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=e81921f96ae24ec0
+dashboard link: https://syzkaller.appspot.com/bug?extid=9b4adfed366b14496e7e
+compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1635d436e80000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15e8171ae80000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/76e4a40f41aa/disk-fbafc3e6.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/a2f88511ce98/vmlinux-fbafc3e6.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/2b21933ed8f1/bzImage-fbafc3e6.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+9b4adfed366b14496e7e@syzkaller.appspotmail.com
+
+Warning: Permanently added '10.128.0.162' (ED25519) to the list of known hosts.
+executing program
+executing program
+BUG: memory leak
+unreferenced object 0xffff88810af03840 (size 16):
+  comm "syz-executor111", pid 5038, jiffies 4294942820 (age 13.250s)
+  hex dump (first 16 bytes):
+    80 8b 89 0b 81 88 ff ff 04 00 00 00 04 00 00 00  ................
+  backtrace:
+    [<ffffffff816346ed>] kmemleak_alloc_recursive include/linux/kmemleak.h:42 [inline]
+    [<ffffffff816346ed>] slab_post_alloc_hook mm/slab.h:766 [inline]
+    [<ffffffff816346ed>] slab_alloc_node mm/slub.c:3478 [inline]
+    [<ffffffff816346ed>] __kmem_cache_alloc_node+0x2dd/0x3f0 mm/slub.c:3517
+    [<ffffffff8157f315>] kmalloc_trace+0x25/0x90 mm/slab_common.c:1098
+    [<ffffffff82cfd7fa>] kmalloc include/linux/slab.h:600 [inline]
+    [<ffffffff82cfd7fa>] kzalloc include/linux/slab.h:721 [inline]
+    [<ffffffff82cfd7fa>] get_sg_table.isra.0+0x2a/0xe0 drivers/dma-buf/udmabuf.c:93
+    [<ffffffff82cfd943>] begin_cpu_udmabuf+0x63/0xa0 drivers/dma-buf/udmabuf.c:156
+    [<ffffffff82cf114b>] dma_buf_begin_cpu_access+0x3b/0xc0 drivers/dma-buf/dma-buf.c:1402
+    [<ffffffff82cf1d90>] dma_buf_ioctl+0x550/0x660 drivers/dma-buf/dma-buf.c:475
+    [<ffffffff816bf4a2>] vfs_ioctl fs/ioctl.c:51 [inline]
+    [<ffffffff816bf4a2>] __do_sys_ioctl fs/ioctl.c:871 [inline]
+    [<ffffffff816bf4a2>] __se_sys_ioctl fs/ioctl.c:857 [inline]
+    [<ffffffff816bf4a2>] __x64_sys_ioctl+0xf2/0x140 fs/ioctl.c:857
+    [<ffffffff84b71e2f>] do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+    [<ffffffff84b71e2f>] do_syscall_64+0x3f/0x110 arch/x86/entry/common.c:83
+    [<ffffffff84c0008b>] entry_SYSCALL_64_after_hwframe+0x63/0x6b
+
+BUG: memory leak
+unreferenced object 0xffff88810b898b80 (size 128):
+  comm "syz-executor111", pid 5038, jiffies 4294942820 (age 13.250s)
+  hex dump (first 32 bytes):
+    c0 09 2a 04 00 ea ff ff 00 00 00 00 00 10 00 00  ..*.............
+    00 70 82 0a 01 00 00 00 00 10 00 00 00 00 00 00  .p..............
+  backtrace:
+    [<ffffffff816346ed>] kmemleak_alloc_recursive include/linux/kmemleak.h:42 [inline]
+    [<ffffffff816346ed>] slab_post_alloc_hook mm/slab.h:766 [inline]
+    [<ffffffff816346ed>] slab_alloc_node mm/slub.c:3478 [inline]
+    [<ffffffff816346ed>] __kmem_cache_alloc_node+0x2dd/0x3f0 mm/slub.c:3517
+    [<ffffffff8157f9bb>] __do_kmalloc_node mm/slab_common.c:1006 [inline]
+    [<ffffffff8157f9bb>] __kmalloc+0x4b/0x150 mm/slab_common.c:1020
+    [<ffffffff8251661f>] kmalloc_array include/linux/slab.h:637 [inline]
+    [<ffffffff8251661f>] sg_kmalloc lib/scatterlist.c:167 [inline]
+    [<ffffffff8251661f>] get_next_sg lib/scatterlist.c:402 [inline]
+    [<ffffffff8251661f>] sg_alloc_append_table_from_pages+0x35f/0x770 lib/scatterlist.c:526
+    [<ffffffff82516abc>] sg_alloc_table_from_pages_segment+0x8c/0x120 lib/scatterlist.c:586
+    [<ffffffff82cfd82e>] sg_alloc_table_from_pages include/linux/scatterlist.h:477 [inline]
+    [<ffffffff82cfd82e>] get_sg_table.isra.0+0x5e/0xe0 drivers/dma-buf/udmabuf.c:96
+    [<ffffffff82cfd943>] begin_cpu_udmabuf+0x63/0xa0 drivers/dma-buf/udmabuf.c:156
+    [<ffffffff82cf114b>] dma_buf_begin_cpu_access+0x3b/0xc0 drivers/dma-buf/dma-buf.c:1402
+    [<ffffffff82cf1d90>] dma_buf_ioctl+0x550/0x660 drivers/dma-buf/dma-buf.c:475
+    [<ffffffff816bf4a2>] vfs_ioctl fs/ioctl.c:51 [inline]
+    [<ffffffff816bf4a2>] __do_sys_ioctl fs/ioctl.c:871 [inline]
+    [<ffffffff816bf4a2>] __se_sys_ioctl fs/ioctl.c:857 [inline]
+    [<ffffffff816bf4a2>] __x64_sys_ioctl+0xf2/0x140 fs/ioctl.c:857
+    [<ffffffff84b71e2f>] do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+    [<ffffffff84b71e2f>] do_syscall_64+0x3f/0x110 arch/x86/entry/common.c:83
+    [<ffffffff84c0008b>] entry_SYSCALL_64_after_hwframe+0x63/0x6b
+
+
+
 ---
- drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff -- a/drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c b/drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c
-@@ -45,7 +45,7 @@ static const struct cvb_coef gk20a_cvb_c
- 	/* 852 */ { 1608418, -21643, -269,     0,    763,  -48},
- };
- 
--/**
-+/*
-  * cvb_mv = ((c2 * speedo / s_scale + c1) * speedo / s_scale + c0)
-  */
- static inline int
-@@ -58,7 +58,7 @@ gk20a_volt_get_cvb_voltage(int speedo, i
- 	return mv;
- }
- 
--/**
-+/*
-  * cvb_t_mv =
-  * ((c2 * speedo / s_scale + c1) * speedo / s_scale + c0) +
-  * ((c3 * speedo / s_scale + c4 + c5 * T / t_scale) * T / t_scale)
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
