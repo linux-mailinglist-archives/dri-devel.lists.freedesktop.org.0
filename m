@@ -2,80 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4E67821558
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Jan 2024 22:00:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E1E78215EF
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jan 2024 00:52:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E002910E0FB;
-	Mon,  1 Jan 2024 21:00:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E791910E091;
+	Mon,  1 Jan 2024 23:52:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80C0910E0FB
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Jan 2024 21:00:26 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id
- 2adb3069b0e04-50e835800adso4954867e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Jan 2024 13:00:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1704142824; x=1704747624; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=ZKO7t2hG9wQZbOuOZ2OBdmSsh90rgqQlCZCF6Y6YFcg=;
- b=BipKakr0eyteNrgemu2izjL6aWyFuJ+L7A/bNO9IVkjmPGVgd7qKPzQsfoupAc7xXE
- AHQ9TItNVCujLETsf92QdsnN8uTCnH/Di1c7uyXdF0aHp73rpSo2HWjzOAYNRjM8Z2Cy
- rTZJ6/c4jt8SOdtbPtHRAMPNCj9zUtmsFfPiRZlU8my3xTVjgupkWf8CS9NZzi1+jADR
- O8aP1EXvei/YYKZtqZu+pVCVeR+9wHbrrJLzzwzhF5bX6bYskbRpYXhnwmaJ7kcmTQf3
- uO5DzPc1OCnCnHZ3P2ev4pbpqKAR4rexLxTzbwJLnFaxeAzw8+OWic8ILO/3wO7LMsk9
- 66YQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704142824; x=1704747624;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ZKO7t2hG9wQZbOuOZ2OBdmSsh90rgqQlCZCF6Y6YFcg=;
- b=YG6SEU91fUwLC8fMcdejzCjfQMhi8jjzp8YWW8wsV61cODDX+ixx2CSZo/hX5hSv+A
- vvHSE7GygsmC1Th5KYS9XqybobSk3H5WhhNiqxoj7FnWoXU3Hsr04QNBh7UlWQLhhm4T
- j0+yuY6NShZUPIejzBB4kIxHaPHR8gAFb/1eRmNlPHKzNKfeSRnXzJr7PqH+JU/2HtQA
- hCVlAuScb+lIUCVMqlr9IEFEh7bi5zCvfx0XQX+6uY+KwkDwsQiAIQo+8N9hg4+hYle8
- Gr1gbErfXf3W0X2IsaXSsXRvuSTjXa14elg0Vc+jEurc+vfZb3BBM2MN9t56R/i3iMZM
- RhoQ==
-X-Gm-Message-State: AOJu0YzKvOT/ybYI2SKa287PiOIzMuisJujUw//KnXx2Ojmr14mDj3Vz
- Q0muE/xIQJNXQdNGsrzE60k=
-X-Google-Smtp-Source: AGHT+IE86fSR+lttAonljpboKktMB8Ji41vcG9rV4MNjyxOno5Zp8U6svFT8fnkFNZxZ561m0wvtBA==
-X-Received: by 2002:a05:6512:33d5:b0:50e:7e1c:9049 with SMTP id
- d21-20020a05651233d500b0050e7e1c9049mr4083434lfg.70.1704142824646; 
- Mon, 01 Jan 2024 13:00:24 -0800 (PST)
-Received: from hex.my.domain (83.11.207.119.ipv4.supernova.orange.pl.
- [83.11.207.119]) by smtp.gmail.com with ESMTPSA id
- i15-20020a05640200cf00b0055404e08589sm15122045edu.85.2024.01.01.13.00.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Jan 2024 13:00:23 -0800 (PST)
-From: Artur Weber <aweber.kernel@gmail.com>
-Date: Mon, 01 Jan 2024 22:00:16 +0100
-Subject: [PATCH 2/2] drm/panel: samsung-s6d7aa0: drop DRM_BUS_FLAG_DE_HIGH
- for lsl080al02
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E3AB10E091
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Jan 2024 23:52:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1704153147;
+ bh=fT41D17aS053xSaBSdZ3kdXTNCwLSGWr3ETa4koZxS8=;
+ h=Date:From:To:Cc:Subject:From;
+ b=P8mvohA+p/ebDhIvw/T9nlWkUTd4qKsZrS1kZ9xSZHdCPrD2x8VU2+Y2ULHn3xIS7
+ 5RZRSn0M7HvtfLGubOmmZEntUqUwtg3IIDSgPZhbQBKxCkRgomKYRlpuDMil2EWRsy
+ KZ6++jVYDmBN7kfBA5s3pHnVMQTgC79zU4UUlrLh71Wc9DU4TFwZCN5Znb3DmTkiyj
+ 8tLf8LNIS2KxQdPH/Q8MgQpMNJ6JBN1UNQW1N5aUfG4nqQ0p8prZHrHQsKB+4B/drI
+ TZE/qIQM2qoimJfB6TZShNhxJeFqBpBGmu5203dgW484W0rvzQjm5aV1DBiqmQSa6d
+ siM3uTWu4yLXw==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4T3t7s510tz4wny;
+ Tue,  2 Jan 2024 10:52:25 +1100 (AEDT)
+Date: Tue, 2 Jan 2024 10:52:23 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@redhat.com>, Andrew Morton <akpm@linux-foundation.org>
+Subject: linux-next: manual merge of the drm tree with the mm tree
+Message-ID: <20240102105223.7634699d@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240101-tab3-display-fixes-v1-2-887ba4dbd16b@gmail.com>
-References: <20240101-tab3-display-fixes-v1-0-887ba4dbd16b@gmail.com>
-In-Reply-To: <20240101-tab3-display-fixes-v1-0-887ba4dbd16b@gmail.com>
-To: Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1704142819; l=1047;
- i=aweber.kernel@gmail.com; s=20231030; h=from:subject:message-id;
- bh=pg28sLvX5GdC5bOF/yyzGASGCCoIgKs1qHIpKvHG7pQ=;
- b=V1bj5lEkTVkRcuqmS/0vog/IRKcLOnQ/VyKrfKyWkMBtEXBwTIYRhz1D8Isd2VzvjtsLbDXb0
- DvkWU1R5FlRBed5qaJ/SpcpwyEMKCETBnjzMpeIDR9/2JAqKyROVfsf
-X-Developer-Key: i=aweber.kernel@gmail.com; a=ed25519;
- pk=RhDBfWbJEHqDibXbhNEBAnc9FMkyznGxX/hwfhL8bv8=
+Content-Type: multipart/signed; boundary="Sig_/nj3n3oz8ER.n_Fp.+QqdXTS";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,37 +49,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- Artur Weber <aweber.kernel@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It turns out that I had misconfigured the device I was using the panel
-with; the bus data polarity is not high for this panel, I had to change
-the config on the display controller's side.
+--Sig_/nj3n3oz8ER.n_Fp.+QqdXTS
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Fix the panel config to properly reflect its accurate settings.
+Hi all,
 
-Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
----
- drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Today's linux-next merge of the drm tree got a conflict in:
 
-diff --git a/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c b/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
-index ea5a85779382..f23d8832a1ad 100644
---- a/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
-@@ -309,7 +309,7 @@ static const struct s6d7aa0_panel_desc s6d7aa0_lsl080al02_desc = {
- 	.off_func = s6d7aa0_lsl080al02_off,
- 	.drm_mode = &s6d7aa0_lsl080al02_mode,
- 	.mode_flags = MIPI_DSI_MODE_VSYNC_FLUSH | MIPI_DSI_MODE_VIDEO_NO_HFP,
--	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
-+	.bus_flags = 0,
- 
- 	.has_backlight = false,
- 	.use_passwd3 = false,
+  drivers/accel/qaic/qaic_data.c
 
--- 
-2.43.0
+between commit:
 
+  78f5d33f3dd4 ("mm, treewide: rename MAX_ORDER to MAX_PAGE_ORDER")
+
+from the mm tree and commit:
+
+  47fbee5f27ed ("accel/qaic: Update MAX_ORDER use to be inclusive")
+
+from the drm tree.
+
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+diff --cc drivers/accel/qaic/qaic_data.c
+index 24e886f857d5,cf2898eda7ae..000000000000
+--- a/drivers/accel/qaic/qaic_data.c
++++ b/drivers/accel/qaic/qaic_data.c
+@@@ -451,7 -452,7 +452,7 @@@ static int create_sgt(struct qaic_devic
+  		 * later
+  		 */
+  		buf_extra =3D (PAGE_SIZE - size % PAGE_SIZE) % PAGE_SIZE;
+- 		max_order =3D min(MAX_PAGE_ORDER - 1, get_order(size));
+ -		max_order =3D min(MAX_ORDER, get_order(size));
+++		max_order =3D min(MAX_PAGE_ORDER, get_order(size));
+  	} else {
+  		/* allocate a single page for book keeping */
+  		nr_pages =3D 1;
+
+--Sig_/nj3n3oz8ER.n_Fp.+QqdXTS
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmWTUDcACgkQAVBC80lX
+0GwR1Af+MZT5Ie1hMcp412OyeJLJP0VMgjSICZYZoyTVEuZm4DiYz+eWPvLkvOh8
+rmdRatJrE/Y29xaFjIHtAiCv0ab4M+f50hkw3p/6aA4PHCUKf8+Zg5bRQqjAcXB+
+O8TQ6K+ZrrLSgbkCSPuhJa1aiSXL3jlraM6MPBrkepIWeTw53aBS80BnRXO0kZh0
++5gwMvO2UqZ/9t/vEH0TYVrVmau1zAiRx+20miBvHlk8wlF0gStwWuhKrRxZkMqE
+4gzZnQGqbpTEpyqlodNQO9AIhHH3vu/p5CYrrluEplEGsH54Cel091bvjXyoEALF
+ETWtLZ+Ng6X289xTrivLUWqYUc3N9w==
+=eTR6
+-----END PGP SIGNATURE-----
+
+--Sig_/nj3n3oz8ER.n_Fp.+QqdXTS--
