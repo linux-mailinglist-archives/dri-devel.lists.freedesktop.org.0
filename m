@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E1C7821557
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Jan 2024 22:00:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4E67821558
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Jan 2024 22:00:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94F7610E0F1;
-	Mon,  1 Jan 2024 21:00:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E002910E0FB;
+	Mon,  1 Jan 2024 21:00:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
- [IPv6:2a00:1450:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA19910E0E6
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Jan 2024 21:00:24 +0000 (UTC)
-Received: by mail-lj1-x22c.google.com with SMTP id
- 38308e7fff4ca-2ccb4adbffbso72902901fa.0
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Jan 2024 13:00:24 -0800 (PST)
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80C0910E0FB
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Jan 2024 21:00:26 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id
+ 2adb3069b0e04-50e835800adso4954867e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Jan 2024 13:00:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1704142823; x=1704747623; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1704142824; x=1704747624; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=G+XZ4nybj4bZroxHF/K5QreEHMx55uD+jWsZAAJ9ETE=;
- b=HsVu73t/y4+qAUkcs1ZVm6famDCeHkPRus0IQvT9k/7f+VrH35yJtexFunviinO6uA
- Rd0f+dKaCKjYVztVxglPiM7v22OqGv2arnxHRTEV48gO8nuYY/OXhXRxXsWFnsbg6mQr
- R1IcDHMdO070JDnvXNZSEakkd5eKAq+BLHs7cdljM88ZNXXb/LY0dtSyVggkid/uujeN
- n55lVplwD0krJ+dMcFVrLt/hYZSHuGI+7RRGspGhucqzHuFwWA1uDRsSU8dQoUwqeck7
- dkQudgk1fYirJ2/mw3hh87h8BmELuR6DpLWvZAqlKUdHDIxDQfByZrrJpMIugxA9kEUT
- Jv/w==
+ :reply-to; bh=ZKO7t2hG9wQZbOuOZ2OBdmSsh90rgqQlCZCF6Y6YFcg=;
+ b=BipKakr0eyteNrgemu2izjL6aWyFuJ+L7A/bNO9IVkjmPGVgd7qKPzQsfoupAc7xXE
+ AHQ9TItNVCujLETsf92QdsnN8uTCnH/Di1c7uyXdF0aHp73rpSo2HWjzOAYNRjM8Z2Cy
+ rTZJ6/c4jt8SOdtbPtHRAMPNCj9zUtmsFfPiRZlU8my3xTVjgupkWf8CS9NZzi1+jADR
+ O8aP1EXvei/YYKZtqZu+pVCVeR+9wHbrrJLzzwzhF5bX6bYskbRpYXhnwmaJ7kcmTQf3
+ uO5DzPc1OCnCnHZ3P2ev4pbpqKAR4rexLxTzbwJLnFaxeAzw8+OWic8ILO/3wO7LMsk9
+ 66YQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704142823; x=1704747623;
+ d=1e100.net; s=20230601; t=1704142824; x=1704747624;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=G+XZ4nybj4bZroxHF/K5QreEHMx55uD+jWsZAAJ9ETE=;
- b=qQM8Ib2CBO7XYx/2gfAL+8OSkKFhBr7RtSKegPMxFXGMad61Da3Ymq6whQTHofGjhB
- +zHYBiZZPW7kA20jCTorOt+g9C78UDOVOVEj/QnP+w4nd4LNVA8iodpNvv/e/iKqV9yN
- KtNphnCCSxQNuDMzfORT5IropahqWhEsSezy2LUNrB47lJkUc/vPzabcLhm63rjAaaIR
- MKNVIQOyuSrV3fMepPstNr+qZFzU8RAMwSJEEmYS5Tu/6QBbGdi+UEWLIq5qYA+uhRnt
- ibN9dSgiRmLOZA9EtjB1HaIXGFAM4D8fLGzdUrLOW72+ZmWmH5eGtw9n9N7mELSxdpLy
- XdOA==
-X-Gm-Message-State: AOJu0Yx6CmARJfJYk5fjd4qtltiL1NpAp19w65M+iOM2XheDGzEUpdv1
- vKfi6VYo0x5z/dWICxpKU80=
-X-Google-Smtp-Source: AGHT+IEyt54Orz1g1iSdDIT58gjh8S+dJZUEQWPhmkpP2Zw9GRBQBsp4FnO+/E+W4japXdG6IOsJrg==
-X-Received: by 2002:a2e:a229:0:b0:2cc:df75:79b3 with SMTP id
- i9-20020a2ea229000000b002ccdf7579b3mr3727095ljm.12.1704142822801; 
- Mon, 01 Jan 2024 13:00:22 -0800 (PST)
+ bh=ZKO7t2hG9wQZbOuOZ2OBdmSsh90rgqQlCZCF6Y6YFcg=;
+ b=YG6SEU91fUwLC8fMcdejzCjfQMhi8jjzp8YWW8wsV61cODDX+ixx2CSZo/hX5hSv+A
+ vvHSE7GygsmC1Th5KYS9XqybobSk3H5WhhNiqxoj7FnWoXU3Hsr04QNBh7UlWQLhhm4T
+ j0+yuY6NShZUPIejzBB4kIxHaPHR8gAFb/1eRmNlPHKzNKfeSRnXzJr7PqH+JU/2HtQA
+ hCVlAuScb+lIUCVMqlr9IEFEh7bi5zCvfx0XQX+6uY+KwkDwsQiAIQo+8N9hg4+hYle8
+ Gr1gbErfXf3W0X2IsaXSsXRvuSTjXa14elg0Vc+jEurc+vfZb3BBM2MN9t56R/i3iMZM
+ RhoQ==
+X-Gm-Message-State: AOJu0YzKvOT/ybYI2SKa287PiOIzMuisJujUw//KnXx2Ojmr14mDj3Vz
+ Q0muE/xIQJNXQdNGsrzE60k=
+X-Google-Smtp-Source: AGHT+IE86fSR+lttAonljpboKktMB8Ji41vcG9rV4MNjyxOno5Zp8U6svFT8fnkFNZxZ561m0wvtBA==
+X-Received: by 2002:a05:6512:33d5:b0:50e:7e1c:9049 with SMTP id
+ d21-20020a05651233d500b0050e7e1c9049mr4083434lfg.70.1704142824646; 
+ Mon, 01 Jan 2024 13:00:24 -0800 (PST)
 Received: from hex.my.domain (83.11.207.119.ipv4.supernova.orange.pl.
  [83.11.207.119]) by smtp.gmail.com with ESMTPSA id
- i15-20020a05640200cf00b0055404e08589sm15122045edu.85.2024.01.01.13.00.21
+ i15-20020a05640200cf00b0055404e08589sm15122045edu.85.2024.01.01.13.00.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Jan 2024 13:00:22 -0800 (PST)
+ Mon, 01 Jan 2024 13:00:23 -0800 (PST)
 From: Artur Weber <aweber.kernel@gmail.com>
-Date: Mon, 01 Jan 2024 22:00:15 +0100
-Subject: [PATCH 1/2] ARM: dts: exynos4212-tab3: add samsung,invert-vclk
- flag to fimd
+Date: Mon, 01 Jan 2024 22:00:16 +0100
+Subject: [PATCH 2/2] drm/panel: samsung-s6d7aa0: drop DRM_BUS_FLAG_DE_HIGH
+ for lsl080al02
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240101-tab3-display-fixes-v1-1-887ba4dbd16b@gmail.com>
+Message-Id: <20240101-tab3-display-fixes-v1-2-887ba4dbd16b@gmail.com>
 References: <20240101-tab3-display-fixes-v1-0-887ba4dbd16b@gmail.com>
 In-Reply-To: <20240101-tab3-display-fixes-v1-0-887ba4dbd16b@gmail.com>
 To: Rob Herring <robh+dt@kernel.org>, 
@@ -69,11 +69,11 @@ To: Rob Herring <robh+dt@kernel.org>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1704142819; l=781;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1704142819; l=1047;
  i=aweber.kernel@gmail.com; s=20231030; h=from:subject:message-id;
- bh=kgQ6hReH0wzI/acEF9QXTsrDq3bCAXF+wc7FhUZWg+4=;
- b=7ohf2QoqecR3WiauAHzQUR3+ckbuzk8rHVISPaWwZek5KfK2snxhjEVFaYXEd/XhZKmMWgcbW
- mL7cAAnGc+uCDAIE86dOdGOy9C0Y9j499m3IgkJ5UnsF480rkJKSsaU
+ bh=pg28sLvX5GdC5bOF/yyzGASGCCoIgKs1qHIpKvHG7pQ=;
+ b=V1bj5lEkTVkRcuqmS/0vog/IRKcLOnQ/VyKrfKyWkMBtEXBwTIYRhz1D8Isd2VzvjtsLbDXb0
+ DvkWU1R5FlRBed5qaJ/SpcpwyEMKCETBnjzMpeIDR9/2JAqKyROVfsf
 X-Developer-Key: i=aweber.kernel@gmail.com; a=ed25519;
  pk=RhDBfWbJEHqDibXbhNEBAnc9FMkyznGxX/hwfhL8bv8=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -94,30 +94,30 @@ Cc: devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After more investigation, I've found that it's not the panel driver
-config that needs to be modified to invert the data polarity, but
-the FIMD config.
+It turns out that I had misconfigured the device I was using the panel
+with; the bus data polarity is not high for this panel, I had to change
+the config on the display controller's side.
 
-Add the missing invert-vclk option that is required to get the display
-to work correctly.
+Fix the panel config to properly reflect its accurate settings.
 
 Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
 ---
- arch/arm/boot/dts/samsung/exynos4212-tab3.dtsi | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm/boot/dts/samsung/exynos4212-tab3.dtsi b/arch/arm/boot/dts/samsung/exynos4212-tab3.dtsi
-index d7954ff466b4..e5254e32aa8f 100644
---- a/arch/arm/boot/dts/samsung/exynos4212-tab3.dtsi
-+++ b/arch/arm/boot/dts/samsung/exynos4212-tab3.dtsi
-@@ -434,6 +434,7 @@ &exynos_usbphy {
- };
+diff --git a/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c b/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
+index ea5a85779382..f23d8832a1ad 100644
+--- a/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
++++ b/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
+@@ -309,7 +309,7 @@ static const struct s6d7aa0_panel_desc s6d7aa0_lsl080al02_desc = {
+ 	.off_func = s6d7aa0_lsl080al02_off,
+ 	.drm_mode = &s6d7aa0_lsl080al02_mode,
+ 	.mode_flags = MIPI_DSI_MODE_VSYNC_FLUSH | MIPI_DSI_MODE_VIDEO_NO_HFP,
+-	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
++	.bus_flags = 0,
  
- &fimd {
-+	samsung,invert-vclk;
- 	status = "okay";
- };
- 
+ 	.has_backlight = false,
+ 	.use_passwd3 = false,
 
 -- 
 2.43.0
