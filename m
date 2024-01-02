@@ -2,114 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D9C98222FF
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jan 2024 22:10:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59DB382232E
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jan 2024 22:18:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 765EC10E17E;
-	Tue,  2 Jan 2024 21:10:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBA5810E23A;
+	Tue,  2 Jan 2024 21:18:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64A5D10E17E
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Jan 2024 21:10:43 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id
- 4fb4d7f45d1cf-556996d52e5so1080680a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Jan 2024 13:10:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1704229842; x=1704834642; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=BaHYHUWobcXQie/ag5w6XPmRSgJVSfJQtfkEK9bsvgY=;
- b=oYQraESdR7N5dO0YnhV4h8jNoBU2Uehn5CJM9KxK+MvxPrz99UEO55ojDnZXG7ASDe
- ug7Hd0PDk6pL4U3A1zjMFKgjhycKVSd2xeclXrHE3RhYnVczC+faNNTej4fmdwj6DQmH
- R9M/2BkSr6d7k2MvE17Dnw/cY++6IhtQvMmWW64S63OEquFKbi7CSRFKVwMgJ+KgW2IU
- NjGe+L/TwPRS+gKne+E99K0/CrKHIgGrrcGKMtw9Ot845Hi0oxeuTBzW34WBiPT4Yikc
- BotL6AoHmTm31SIz+tmBKJOzgJb1g0oEPCzCyMravde/33SyF0pEzVX/XKobnb+qaxbL
- x80g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704229842; x=1704834642;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=BaHYHUWobcXQie/ag5w6XPmRSgJVSfJQtfkEK9bsvgY=;
- b=hKRlG96+EMMa+HSbziNvP05zxK+LMwiYf+FxpcZy8s7o/WNBC63YJDrzgFcRlUITZJ
- qs8r/eN9fe8zR+SpH+EvLQcHBb4DG0wFdD7Z0gxnCDYErqVCf0XTu3U2rz8jfhYtPfjq
- fHujGEsigd4p+wyJrSZlrfF897HBOuFQssdQ5H6mLZO1W8lfYnep/nc25XoRntmNMD2x
- mVI7EIMqL83usGEqSn2aYUdTx3RtPoQZLWgAIrkwuxtvNipjN5kde258ViSOX5dDXKxs
- MCYcmsWVbMGl6X4UPMsevk1nyXEK3Ehj15XX4Y6qrj3/nIZDNEFl5eyGKI5yHpcS62Up
- LALA==
-X-Gm-Message-State: AOJu0Yy3iZZQbehnskYFAK2177sEE6xJfPuioJvCgHKo0ZOaUwCAe6a5
- 4E/RbxUHEPv3PTzYi+kc/d1Qz7OMmhjiRQ==
-X-Google-Smtp-Source: AGHT+IEYFYoM04vnPqWa8qCsO2QZLiy304Qe4hkj0IqLjYuGzChSqt80LIUYpcCtQyGgw+NQ+JNzbA==
-X-Received: by 2002:a17:907:5010:b0:a27:a80a:917b with SMTP id
- fw16-20020a170907501000b00a27a80a917bmr1822693ejc.109.1704229841804; 
- Tue, 02 Jan 2024 13:10:41 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.218.27])
- by smtp.gmail.com with ESMTPSA id
- se24-20020a170906ce5800b00a27cfc17785sm3059171ejb.127.2024.01.02.13.10.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Jan 2024 13:10:41 -0800 (PST)
-Message-ID: <ac1519a9-ae6b-4bba-8ce4-d9d3616d34e7@linaro.org>
-Date: Tue, 2 Jan 2024 22:10:39 +0100
+Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8561110E23A
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Jan 2024 21:18:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
+ t=1704230330; bh=NkgNNWrU5A+qrlyuoridyMA0T+gww6nA9Sf4hu63gmI=;
+ h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
+ b=Fi02OVej7qHAlyYnp+pT6vaLbwXZjF/w4bjtOyReDOlrriSZqpWmfDA2KgpkXwriC
+ L8prIzUKpNvdjwZg3bEywTq+VGwN3nVUNanL4DcEnx9xMHrMCbuzzRo8NkpTxFhUJw
+ GglC0TZWR+N0WyOOckCsdRESaRUwgzH1WTQZLBbg=
+Date: Tue, 2 Jan 2024 22:18:48 +0100
+From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
+To: Jonas Karlman <jonas@kwiboo.se>
+Subject: Re: [PATCH v3 4/4] arm64: dts: rockchip: Add devicetree for Pine64
+ PineTab2
+Message-ID: <qwndrkppuctp2mybnibbf6fppp6abzimqs4hirrwjauig34why@gawjwsbauffm>
+Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
+ Jonas Karlman <jonas@kwiboo.se>, Manuel Traut <manut@mecka.net>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
+ Sandy Huang <hjc@rock-chips.com>, Mark Yao <markyao0591@gmail.com>, 
+ Diederik de Haas <didi.debian@cknow.org>, Segfault <awarnecke002@hotmail.com>, 
+ Arnaud Ferraris <aferraris@debian.org>, Danct12 <danct12@riseup.net>,
+ dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org
+X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
+ <https://xff.cz/key.txt>
+References: <20240102-pinetab2-v3-0-cb1aa69f8c30@mecka.net>
+ <20240102-pinetab2-v3-4-cb1aa69f8c30@mecka.net>
+ <775vjfucu2g2s6zzeutj7f7tapx3q2geccpxvv4ppcms4hxbq7@cbrdmlu2ryzp>
+ <903e9d0c-a00c-4214-9f0e-dd676b13b428@kwiboo.se>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/8] dt-bindings: nt35510: add compatible for FRIDA
- FRD400B25025-A-CTK
-Content-Language: en-US
-To: Dario Binacchi <dario.binacchi@amarulasolutions.com>,
- linux-kernel@vger.kernel.org
-References: <20240101161601.2232247-1-dario.binacchi@amarulasolutions.com>
- <20240101161601.2232247-6-dario.binacchi@amarulasolutions.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240101161601.2232247-6-dario.binacchi@amarulasolutions.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <903e9d0c-a00c-4214-9f0e-dd676b13b428@kwiboo.se>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,54 +64,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Neil Armstrong <neil.armstrong@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
+Cc: Diederik de Haas <didi.debian@cknow.org>, Danct12 <danct12@riseup.net>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, devicetree@vger.kernel.org,
- linux-amarula@amarulasolutions.com,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ David Airlie <airlied@gmail.com>, Manuel Traut <manut@mecka.net>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-rockchip@lists.infradead.org,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, devicetree@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>
+ Mark Yao <markyao0591@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Segfault <awarnecke002@hotmail.com>, Sandy Huang <hjc@rock-chips.com>,
+ Arnaud Ferraris <aferraris@debian.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/01/2024 17:15, Dario Binacchi wrote:
-> The patch adds the FRIDA FRD400B25025-A-CTK panel, which belongs to the
-> Novatek NT35510-based panel family.
+On Tue, Jan 02, 2024 at 09:56:20PM +0100, Jonas Karlman wrote:
+> Hi Manuel and Ondřej,
 > 
-> Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+> On 2024-01-02 19:07, Ondřej Jirman wrote:
+> > Hello Manuel,
 > 
-> ---
+> [...]
 > 
-> Changes in v2:
-> - Add a dash in front of each "items:"
+> >> +
+> >> +&sfc {
+> >> +	pinctrl-names = "default";
+> >> +	pinctrl-0 = <&fspi_dual_io_pins>;
+> >> +	status = "okay";
+> >> +	#address-cells = <1>;
+> >> +	#size-cells = <0>;
+> >> +
+> >> +	flash@0 {
+> >> +		compatible = "jedec,spi-nor";
+> >> +		reg = <0>;
+> >> +		spi-max-frequency = <24000000>;
+> > 
+> > That's a bit on the low side. The flash chip should work for all commands up to
+> > 80MHz https://megous.com/dl/tmp/b428ad9b85ac4633.png and SGM3157YC6 switch
+> > for the FSPI-CLK should have high enough bandwidth, too.
 > 
->  .../bindings/display/panel/novatek,nt35510.yaml        | 10 +++++++---
->  1 file changed, 7 insertions(+), 3 deletions(-)
+> I agree that this is a little bit on the low side, it was a safe rate
+> that I used for U-Boot. U-Boot required an exact rate of the supported
+> sfc clk rates: 24, 50, 75, 100, 125 or 150 MHz.
 > 
-> diff --git a/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml b/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
-> index bc92928c805b..8e69446e00e0 100644
-> --- a/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
-> @@ -14,9 +14,13 @@ allOf:
->  
->  properties:
->    compatible:
-> -    items:
-> -      - const: hydis,hva40wv1
-> -      - const: novatek,nt35510
-> +    oneOf:
-> +      - items:
-> +          - const: hydis,hva40wv1
-> +          - const: novatek,nt35510
-> +      - items:
-> +          - const: frida,frd400b25025
-> +          - const: novatek,nt35510
+> Please also note that the SPI NOR flash chip used in PineTab2 is not a
+> GigaDevice GD25LQ128E, it should be a SiliconKaiser SK25LP128, same as
+> found in the Pine64 PinePhone Pro.
 
-If fallback compatibles are the same, just make  the first item as enum.
-Less code.
+According to this http://en.siliconkaiser.com/pro/  it should maybe go up to
+133MHz. No idea what's the difference between LP vs LE variant. So it may work
+with 100 MHz.
 
-Best regards,
-Krzysztof
+On Pinephone Pro variants with nerfed SPI CLK signal integrity (any variant with
+RE instead of a RESET button - so all production batches), anything above 10 MHz
+has real trouble working. But this should not be the case here with PT2, looking
+at the schematic...
 
+Anyway, it's a nice to have.
+
+> > 
+> >> +		spi-rx-bus-width = <2>;
+> > 
+> > GD25LQ128E supports quad I/O. Maybe try 4 if it will work.
+> 
+> The schematic only shows fspi D0 and D1 connected, and use the D2 line
+> for eMMC_RSTn, so spi-rx-bus-width = <2> should be correct.
+
+Ah, I see.
+
+regards,
+	o.
+
+> > 
+> >> +		spi-tx-bus-width = <1>;
+> >> +	};
+> >> +};
+> >> +
+> 
+> Regards,
+> Jonas
