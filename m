@@ -2,82 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7EDA8222C1
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jan 2024 21:58:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D9C98222FF
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jan 2024 22:10:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3023C10E204;
-	Tue,  2 Jan 2024 20:58:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 765EC10E17E;
+	Tue,  2 Jan 2024 21:10:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E1FC10E204
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Jan 2024 20:58:42 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 402IBch4007301; Tue, 2 Jan 2024 20:58:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=NUPBWwzrWce/11pJJZOMDE/OxoFWKfvmYb5nB8VG/44=; b=gb
- jTlTiKCzC1UJb+S2jxGNbrQ1GDG30RaG1WyDn3YP7ahAuZMCl5GZ7ibbYnN3P+2k
- RUL98emA5GMMzbh/PbZ1yj+kWVBvtrCrYRKz9UGZqeeyP1s+ie3Mu+XMx4Em/XxO
- mFoK77zV7Ia1dds7mVKAnxP+KgMa+4l3C2tXqO2bTwoyy+WHc1A6APyw9q6FPdwq
- zCUYDvaFudWucTwuFXn3gAP7Fzs/K5XZgODjkaYQi0kDDXYA6428Om46imCIJqGU
- p5WCQv0JI52ond5ZQEPpdSJgXsk6L84Orr3eBg+v6Ge+REsFegzHyEt7G12KYlLW
- VqRW+03vqZSqCcGBG8TQ==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vcets9dfj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 02 Jan 2024 20:58:34 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 402KwXPC002559
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 2 Jan 2024 20:58:33 GMT
-Received: from [10.110.68.103] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 2 Jan
- 2024 12:58:31 -0800
-Message-ID: <996dacdd-428a-4098-a0de-d4a12662d302@quicinc.com>
-Date: Tue, 2 Jan 2024 12:58:30 -0800
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64A5D10E17E
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Jan 2024 21:10:43 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id
+ 4fb4d7f45d1cf-556996d52e5so1080680a12.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Jan 2024 13:10:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1704229842; x=1704834642; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=BaHYHUWobcXQie/ag5w6XPmRSgJVSfJQtfkEK9bsvgY=;
+ b=oYQraESdR7N5dO0YnhV4h8jNoBU2Uehn5CJM9KxK+MvxPrz99UEO55ojDnZXG7ASDe
+ ug7Hd0PDk6pL4U3A1zjMFKgjhycKVSd2xeclXrHE3RhYnVczC+faNNTej4fmdwj6DQmH
+ R9M/2BkSr6d7k2MvE17Dnw/cY++6IhtQvMmWW64S63OEquFKbi7CSRFKVwMgJ+KgW2IU
+ NjGe+L/TwPRS+gKne+E99K0/CrKHIgGrrcGKMtw9Ot845Hi0oxeuTBzW34WBiPT4Yikc
+ BotL6AoHmTm31SIz+tmBKJOzgJb1g0oEPCzCyMravde/33SyF0pEzVX/XKobnb+qaxbL
+ x80g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1704229842; x=1704834642;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=BaHYHUWobcXQie/ag5w6XPmRSgJVSfJQtfkEK9bsvgY=;
+ b=hKRlG96+EMMa+HSbziNvP05zxK+LMwiYf+FxpcZy8s7o/WNBC63YJDrzgFcRlUITZJ
+ qs8r/eN9fe8zR+SpH+EvLQcHBb4DG0wFdD7Z0gxnCDYErqVCf0XTu3U2rz8jfhYtPfjq
+ fHujGEsigd4p+wyJrSZlrfF897HBOuFQssdQ5H6mLZO1W8lfYnep/nc25XoRntmNMD2x
+ mVI7EIMqL83usGEqSn2aYUdTx3RtPoQZLWgAIrkwuxtvNipjN5kde258ViSOX5dDXKxs
+ MCYcmsWVbMGl6X4UPMsevk1nyXEK3Ehj15XX4Y6qrj3/nIZDNEFl5eyGKI5yHpcS62Up
+ LALA==
+X-Gm-Message-State: AOJu0Yy3iZZQbehnskYFAK2177sEE6xJfPuioJvCgHKo0ZOaUwCAe6a5
+ 4E/RbxUHEPv3PTzYi+kc/d1Qz7OMmhjiRQ==
+X-Google-Smtp-Source: AGHT+IEYFYoM04vnPqWa8qCsO2QZLiy304Qe4hkj0IqLjYuGzChSqt80LIUYpcCtQyGgw+NQ+JNzbA==
+X-Received: by 2002:a17:907:5010:b0:a27:a80a:917b with SMTP id
+ fw16-20020a170907501000b00a27a80a917bmr1822693ejc.109.1704229841804; 
+ Tue, 02 Jan 2024 13:10:41 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.218.27])
+ by smtp.gmail.com with ESMTPSA id
+ se24-20020a170906ce5800b00a27cfc17785sm3059171ejb.127.2024.01.02.13.10.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Jan 2024 13:10:41 -0800 (PST)
+Message-ID: <ac1519a9-ae6b-4bba-8ce4-d9d3616d34e7@linaro.org>
+Date: Tue, 2 Jan 2024 22:10:39 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/panel: samsung-s6d7aa0: drop DRM_BUS_FLAG_DE_HIGH
- for lsl080al02
+Subject: Re: [PATCH v2 5/8] dt-bindings: nt35510: add compatible for FRIDA
+ FRD400B25025-A-CTK
 Content-Language: en-US
-To: Artur Weber <aweber.kernel@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20240101-tab3-display-fixes-v1-0-887ba4dbd16b@gmail.com>
- <20240101-tab3-display-fixes-v1-2-887ba4dbd16b@gmail.com>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20240101-tab3-display-fixes-v1-2-887ba4dbd16b@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ linux-kernel@vger.kernel.org
+References: <20240101161601.2232247-1-dario.binacchi@amarulasolutions.com>
+ <20240101161601.2232247-6-dario.binacchi@amarulasolutions.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240101161601.2232247-6-dario.binacchi@amarulasolutions.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: WO5dtklJ8Xgb6m4_0rfjLf1Gmaw4sT5S
-X-Proofpoint-GUID: WO5dtklJ8Xgb6m4_0rfjLf1Gmaw4sT5S
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- suspectscore=0 bulkscore=0 clxscore=1011 priorityscore=1501 spamscore=0
- lowpriorityscore=0 phishscore=0 malwarescore=0 mlxlogscore=999
- adultscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2401020155
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,51 +122,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: dri-devel@lists.freedesktop.org, Neil Armstrong <neil.armstrong@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, devicetree@vger.kernel.org,
+ linux-amarula@amarulasolutions.com,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 1/1/2024 1:00 PM, Artur Weber wrote:
-> It turns out that I had misconfigured the device I was using the panel
-> with; the bus data polarity is not high for this panel, I had to change
-> the config on the display controller's side.
+On 01/01/2024 17:15, Dario Binacchi wrote:
+> The patch adds the FRIDA FRD400B25025-A-CTK panel, which belongs to the
+> Novatek NT35510-based panel family.
 > 
-> Fix the panel config to properly reflect its accurate settings.
+> Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 > 
-> Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
-
-Hi Artur,
-
-With Henrik's suggestion to add the Fixes tag,
-
-Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-
-Thanks,
-
-Jessica Zhang
-
 > ---
->   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c b/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
-> index ea5a85779382..f23d8832a1ad 100644
-> --- a/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
-> +++ b/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
-> @@ -309,7 +309,7 @@ static const struct s6d7aa0_panel_desc s6d7aa0_lsl080al02_desc = {
->   	.off_func = s6d7aa0_lsl080al02_off,
->   	.drm_mode = &s6d7aa0_lsl080al02_mode,
->   	.mode_flags = MIPI_DSI_MODE_VSYNC_FLUSH | MIPI_DSI_MODE_VIDEO_NO_HFP,
-> -	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
-> +	.bus_flags = 0,
->   
->   	.has_backlight = false,
->   	.use_passwd3 = false,
+> Changes in v2:
+> - Add a dash in front of each "items:"
 > 
-> -- 
-> 2.43.0
+>  .../bindings/display/panel/novatek,nt35510.yaml        | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
 > 
+> diff --git a/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml b/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
+> index bc92928c805b..8e69446e00e0 100644
+> --- a/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
+> @@ -14,9 +14,13 @@ allOf:
+>  
+>  properties:
+>    compatible:
+> -    items:
+> -      - const: hydis,hva40wv1
+> -      - const: novatek,nt35510
+> +    oneOf:
+> +      - items:
+> +          - const: hydis,hva40wv1
+> +          - const: novatek,nt35510
+> +      - items:
+> +          - const: frida,frd400b25025
+> +          - const: novatek,nt35510
+
+If fallback compatibles are the same, just make  the first item as enum.
+Less code.
+
+Best regards,
+Krzysztof
+
