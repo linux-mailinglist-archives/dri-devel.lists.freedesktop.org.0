@@ -2,48 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ECFA8224A4
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jan 2024 23:20:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4511822959
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 09:13:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB1B610E221;
-	Tue,  2 Jan 2024 22:20:14 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B35310E221;
- Tue,  2 Jan 2024 22:20:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704234014; x=1735770014;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=xP8O99wKmbh+kQZU3ZD1ZyXh7v0LzQG+T1sU+ydo66I=;
- b=WpizH9vXj3txg1Y8SUubsJ+gL48yfXyZncU6+o5OtWLvUnGyNxiJvqRz
- 4I5JDNQlwnrzBK4XNTCoWoQlb1NnBM/TY2+ahrKZk0x94z0oedY31OG3W
- msYaPZW35OBIRxOh/hJNMXaQM7jsNMhucQLU5PSbGaLbccQjwEGpjvLwN
- 4UQACT66lc0RJ4Cud9vwf+jBE5KklW3cjxBeRukD269uTDpOyjuCq5KPg
- xB38tT2Q10CeQfsnDlO8+UMXzXpnENEZvQXEZSJ2cMzirYKbS6CI6/mdA
- NwXdu7zXiKN6XhWttTIj72wS/o1/ATToABNCLTaxmnAVCGUYkIzVaNwhV A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="3700085"
-X-IronPort-AV: E=Sophos;i="6.04,326,1695711600"; 
-   d="scan'208";a="3700085"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jan 2024 14:20:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,326,1695711600"; d="scan'208";a="14297447"
-Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
- by fmviesa002.fm.intel.com with ESMTP; 02 Jan 2024 14:20:12 -0800
-From: John.C.Harrison@Intel.com
-To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH] drm/i915/huc: Allow for very slow HuC loading
-Date: Tue,  2 Jan 2024 14:22:02 -0800
-Message-ID: <20240102222202.310495-1-John.C.Harrison@Intel.com>
-X-Mailer: git-send-email 2.41.0
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C74D10E25F;
+	Wed,  3 Jan 2024 08:13:11 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com
+ [IPv6:2607:f8b0:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7139710E22F
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Jan 2024 22:55:51 +0000 (UTC)
+Received: by mail-pg1-x532.google.com with SMTP id
+ 41be03b00d2f7-5ce6b5e3c4eso875290a12.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Jan 2024 14:55:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1704236151; x=1704840951;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=4SowcMGS/cxz8zwv9eFgdC73hvGSoN9UkdYSL0+83qw=;
+ b=LdHKUbwYbA5PILbEX3ejnay7vBe18yq8ESXGeqGWg5zua+jtleVl5buzFGtF0ncMPG
+ skTDZzYRYgYLMWTL7lPa0KYv/rP6jJBwdE4gyo2XH1A2yzA5RCnH4CAnolYKFDkNVRij
+ MMklLjmH4Zkk2cPl4p4jOFzSvlPBIxrqX6cWs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1704236151; x=1704840951;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=4SowcMGS/cxz8zwv9eFgdC73hvGSoN9UkdYSL0+83qw=;
+ b=rCul6hFgn2eu6O+aZs+a65VmMdXU+yvefzcxBmSVX/iCvX+qdLnv3h3Fyml4zXpcol
+ MnQtLgi9XSmRlGyvy5Q8dwy9Qw6EvjPpb6mv2wufRrQWs2FxtPwPG4N1dfo7iViDlj1P
+ COs/CdEHm2A4xHxnwKRsRpdBxXXciky+XKD+FklXsrToNeDWi0NqKB8lEh4GBzItSyhT
+ 8Q5XfocO6HA7hslZJYA5Xii9x82F2sTQOlEZczo6F69JCgvw0VFa/pc6IjBK0GW6P2ZP
+ iZTdO35XDDqKREpCtxAAWPNQl3o0sgazRu7682eQiHIfe3mxytNUR5eDvaWlk7jEKj7P
+ DRaQ==
+X-Gm-Message-State: AOJu0Yx98OsGOPkbB+bA+3I56Ib/u76/2iPpBUotljfMEzXFbEHsoVQT
+ mC1/TRgqiT0qdmVIRDW6760fIvuH03ZCYB6IJ1jy/nvLICcQTv0=
+X-Google-Smtp-Source: AGHT+IEv88HYlv6uoDUUcHkrfKcs+VOypwJCou2QEfZSFJEYrAITSr5GWljJbuzw9NsIcWFxA3BhUA==
+X-Received: by 2002:a05:6a20:c601:b0:194:9750:fb9c with SMTP id
+ gp1-20020a056a20c60100b001949750fb9cmr6732437pzb.54.1704236150889; 
+ Tue, 02 Jan 2024 14:55:50 -0800 (PST)
+Received: from [10.20.136.39] ([66.170.99.2]) by smtp.gmail.com with ESMTPSA id
+ e14-20020a170902ed8e00b001d4c8eb6d8esm1807303plj.294.2024.01.02.14.55.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Jan 2024 14:55:50 -0800 (PST)
+Message-ID: <72d6c2d0-03b7-41c6-92f1-027eeaf15096@broadcom.com>
+Date: Tue, 2 Jan 2024 14:55:49 -0800
 MIME-Version: 1.0
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
- Swindon SN3 1RJ
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/vmwgfx: Unmap the surface before resetting it on a
+ plane state
+Content-Language: en-US
+To: Zack Rusin <zack.rusin@broadcom.com>, dri-devel@lists.freedesktop.org
+References: <20231224052540.605040-1-zack.rusin@broadcom.com>
+From: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
+In-Reply-To: <20231224052540.605040-1-zack.rusin@broadcom.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Wed, 03 Jan 2024 08:13:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,161 +74,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
+Cc: Ian Forbes <ian.forbes@broadcom.com>, Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Martin Krastev <martin.krastev@broadcom.com>,
+ Stefan Hoffmeister <stefan.hoffmeister@econos.de>, stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Harrison <John.C.Harrison@Intel.com>
+On 12/23/23 21:25, Zack Rusin wrote:
+> Switch to a new plane state requires unreferencing of all held surfaces.
+> In the work required for mob cursors the mapped surfaces started being
+> cached but the variable indicating whether the surface is currently
+> mapped was not being reset. This leads to crashes as the duplicated
+> state, incorrectly, indicates the that surface is mapped even when
+> no surface is present. That's because after unreferencing the surface
+> it's perfectly possible for the plane to be backed by a bo instead of a
+> surface.
+>
+> Reset the surface mapped flag when unreferencing the plane state surface
+> to fix null derefs in cleanup. Fixes crashes in KDE KWin 6.0 on Wayland:
+>
+> Oops: 0000 [#1] PREEMPT SMP PTI
+> CPU: 4 PID: 2533 Comm: kwin_wayland Not tainted 6.7.0-rc3-vmwgfx #2
+> Hardware name: VMware, Inc. VMware Virtual Platform/440BX Desktop Reference Platform, BIOS 6.00 11/12/2020
+> RIP: 0010:vmw_du_cursor_plane_cleanup_fb+0x124/0x140 [vmwgfx]
+> Code: 00 00 00 75 3a 48 83 c4 10 5b 5d c3 cc cc cc cc 48 8b b3 a8 00 00 00 48 c7 c7 99 90 43 c0 e8 93 c5 db ca 48 8b 83 a8 00 00 00 <48> 8b 78 28 e8 e3 f>
+> RSP: 0018:ffffb6b98216fa80 EFLAGS: 00010246
+> RAX: 0000000000000000 RBX: ffff969d84cdcb00 RCX: 0000000000000027
+> RDX: 0000000000000000 RSI: 0000000000000001 RDI: ffff969e75f21600
+> RBP: ffff969d4143dc50 R08: 0000000000000000 R09: ffffb6b98216f920
+> R10: 0000000000000003 R11: ffff969e7feb3b10 R12: 0000000000000000
+> R13: 0000000000000000 R14: 000000000000027b R15: ffff969d49c9fc00
+> FS:  00007f1e8f1b4180(0000) GS:ffff969e75f00000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 0000000000000028 CR3: 0000000104006004 CR4: 00000000003706f0
+> Call Trace:
+>  <TASK>
+>  ? __die+0x23/0x70
+>  ? page_fault_oops+0x171/0x4e0
+>  ? exc_page_fault+0x7f/0x180
+>  ? asm_exc_page_fault+0x26/0x30
+>  ? vmw_du_cursor_plane_cleanup_fb+0x124/0x140 [vmwgfx]
+>  drm_atomic_helper_cleanup_planes+0x9b/0xc0
+>  commit_tail+0xd1/0x130
+>  drm_atomic_helper_commit+0x11a/0x140
+>  drm_atomic_commit+0x97/0xd0
+>  ? __pfx___drm_printfn_info+0x10/0x10
+>  drm_atomic_helper_update_plane+0xf5/0x160
+>  drm_mode_cursor_universal+0x10e/0x270
+>  drm_mode_cursor_common+0x102/0x230
+>  ? __pfx_drm_mode_cursor2_ioctl+0x10/0x10
+>  drm_ioctl_kernel+0xb2/0x110
+>  drm_ioctl+0x26d/0x4b0
+>  ? __pfx_drm_mode_cursor2_ioctl+0x10/0x10
+>  ? __pfx_drm_ioctl+0x10/0x10
+>  vmw_generic_ioctl+0xa4/0x110 [vmwgfx]
+>  __x64_sys_ioctl+0x94/0xd0
+>  do_syscall_64+0x61/0xe0
+>  ? __x64_sys_ioctl+0xaf/0xd0
+>  ? syscall_exit_to_user_mode+0x2b/0x40
+>  ? do_syscall_64+0x70/0xe0
+>  ? __x64_sys_ioctl+0xaf/0xd0
+>  ? syscall_exit_to_user_mode+0x2b/0x40
+>  ? do_syscall_64+0x70/0xe0
+>  ? exc_page_fault+0x7f/0x180
+>  entry_SYSCALL_64_after_hwframe+0x6e/0x76
+> RIP: 0033:0x7f1e93f279ed
+> Code: 04 25 28 00 00 00 48 89 45 c8 31 c0 48 8d 45 10 c7 45 b0 10 00 00 00 48 89 45 b8 48 8d 45 d0 48 89 45 c0 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff f>
+> RSP: 002b:00007ffca0faf600 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+> RAX: ffffffffffffffda RBX: 000055db876ed2c0 RCX: 00007f1e93f279ed
+> RDX: 00007ffca0faf6c0 RSI: 00000000c02464bb RDI: 0000000000000015
+> RBP: 00007ffca0faf650 R08: 000055db87184010 R09: 0000000000000007
+> R10: 000055db886471a0 R11: 0000000000000246 R12: 00007ffca0faf6c0
+> R13: 00000000c02464bb R14: 0000000000000015 R15: 00007ffca0faf790
+>  </TASK>
+> Modules linked in: snd_seq_dummy snd_hrtimer nf_conntrack_netbios_ns nf_conntrack_broadcast nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_ine>
+> CR2: 0000000000000028
+> ---[ end trace 0000000000000000 ]---
+> RIP: 0010:vmw_du_cursor_plane_cleanup_fb+0x124/0x140 [vmwgfx]
+> Code: 00 00 00 75 3a 48 83 c4 10 5b 5d c3 cc cc cc cc 48 8b b3 a8 00 00 00 48 c7 c7 99 90 43 c0 e8 93 c5 db ca 48 8b 83 a8 00 00 00 <48> 8b 78 28 e8 e3 f>
+> RSP: 0018:ffffb6b98216fa80 EFLAGS: 00010246
+> RAX: 0000000000000000 RBX: ffff969d84cdcb00 RCX: 0000000000000027
+> RDX: 0000000000000000 RSI: 0000000000000001 RDI: ffff969e75f21600
+> RBP: ffff969d4143dc50 R08: 0000000000000000 R09: ffffb6b98216f920
+> R10: 0000000000000003 R11: ffff969e7feb3b10 R12: 0000000000000000
+> R13: 0000000000000000 R14: 000000000000027b R15: ffff969d49c9fc00
+> FS:  00007f1e8f1b4180(0000) GS:ffff969e75f00000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 0000000000000028 CR3: 0000000104006004 CR4: 00000000003706f0
+>
+> Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
+> Fixes: 485d98d472d5 ("drm/vmwgfx: Add support for CursorMob and CursorBypass 4")
+> Reported-by: Stefan Hoffmeister <stefan.hoffmeister@econos.de>
+> Closes: https://gitlab.freedesktop.org/drm/misc/-/issues/34
+> Cc: Martin Krastev <martin.krastev@broadcom.com>
+> Cc: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
+> Cc: Ian Forbes <ian.forbes@broadcom.com>
+> Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: <stable@vger.kernel.org> # v5.19+
+> ---
+>  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+> index 65ed9b061753..e7bbe4b05233 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+> @@ -693,6 +693,10 @@ vmw_du_cursor_plane_prepare_fb(struct drm_plane *plane,
+>  	int ret = 0;
+>  
+>  	if (vps->surf) {
+> +		if (vps->surf_mapped) {
+> +			vmw_bo_unmap(vps->surf->res.guest_memory_bo);
+> +			vps->surf_mapped = false;
+> +		}
+>  		vmw_surface_unreference(&vps->surf);
+>  		vps->surf = NULL;
+>  	}
 
-A failure to load the HuC is occasionally observed where the cause is
-believed to be a low GT frequency leading to very long load times.
 
-So a) increase the timeout so that the user still gets a working
-system even in the case of slow load. And b) report the frequency
-during the load to see if that is the cause of the slow down.
+LGTM!
 
-Also update the similar code on the GuC load to not use uncore->gt
-when there is a local gt available. The two should match, but no need
-for unnecessary de-referencing.
+Reviewed-by: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
 
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
----
- drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c | 10 ++--
- drivers/gpu/drm/i915/gt/uc/intel_huc.c    | 64 ++++++++++++++++++++---
- 2 files changed, 63 insertions(+), 11 deletions(-)
+Thanks,
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
-index 0f79cb6585182..52332bb143395 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
-@@ -184,7 +184,7 @@ static int guc_wait_ucode(struct intel_guc *guc)
- 	 * in the seconds range. However, there is a limit on how long an
- 	 * individual wait_for() can wait. So wrap it in a loop.
- 	 */
--	before_freq = intel_rps_read_actual_frequency(&uncore->gt->rps);
-+	before_freq = intel_rps_read_actual_frequency(&gt->rps);
- 	before = ktime_get();
- 	for (count = 0; count < GUC_LOAD_RETRY_LIMIT; count++) {
- 		ret = wait_for(guc_load_done(uncore, &status, &success), 1000);
-@@ -192,7 +192,7 @@ static int guc_wait_ucode(struct intel_guc *guc)
- 			break;
- 
- 		guc_dbg(guc, "load still in progress, count = %d, freq = %dMHz, status = 0x%08X [0x%02X/%02X]\n",
--			count, intel_rps_read_actual_frequency(&uncore->gt->rps), status,
-+			count, intel_rps_read_actual_frequency(&gt->rps), status,
- 			REG_FIELD_GET(GS_BOOTROM_MASK, status),
- 			REG_FIELD_GET(GS_UKERNEL_MASK, status));
- 	}
-@@ -204,7 +204,7 @@ static int guc_wait_ucode(struct intel_guc *guc)
- 		u32 bootrom = REG_FIELD_GET(GS_BOOTROM_MASK, status);
- 
- 		guc_info(guc, "load failed: status = 0x%08X, time = %lldms, freq = %dMHz, ret = %d\n",
--			 status, delta_ms, intel_rps_read_actual_frequency(&uncore->gt->rps), ret);
-+			 status, delta_ms, intel_rps_read_actual_frequency(&gt->rps), ret);
- 		guc_info(guc, "load failed: status: Reset = %d, BootROM = 0x%02X, UKernel = 0x%02X, MIA = 0x%02X, Auth = 0x%02X\n",
- 			 REG_FIELD_GET(GS_MIA_IN_RESET, status),
- 			 bootrom, ukernel,
-@@ -254,11 +254,11 @@ static int guc_wait_ucode(struct intel_guc *guc)
- 		guc_warn(guc, "excessive init time: %lldms! [status = 0x%08X, count = %d, ret = %d]\n",
- 			 delta_ms, status, count, ret);
- 		guc_warn(guc, "excessive init time: [freq = %dMHz, before = %dMHz, perf_limit_reasons = 0x%08X]\n",
--			 intel_rps_read_actual_frequency(&uncore->gt->rps), before_freq,
-+			 intel_rps_read_actual_frequency(&gt->rps), before_freq,
- 			 intel_uncore_read(uncore, intel_gt_perf_limit_reasons_reg(gt)));
- 	} else {
- 		guc_dbg(guc, "init took %lldms, freq = %dMHz, before = %dMHz, status = 0x%08X, count = %d, ret = %d\n",
--			delta_ms, intel_rps_read_actual_frequency(&uncore->gt->rps),
-+			delta_ms, intel_rps_read_actual_frequency(&gt->rps),
- 			before_freq, status, count, ret);
- 	}
- 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-index ba9e07fc2b577..9ccec7de9628a 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-@@ -6,6 +6,7 @@
- #include <linux/types.h>
- 
- #include "gt/intel_gt.h"
-+#include "gt/intel_rps.h"
- #include "intel_guc_reg.h"
- #include "intel_huc.h"
- #include "intel_huc_print.h"
-@@ -447,17 +448,68 @@ static const char *auth_mode_string(struct intel_huc *huc,
- 	return partial ? "clear media" : "all workloads";
- }
- 
-+/*
-+ * Use a longer timeout for debug builds so that problems can be detected
-+ * and analysed. But a shorter timeout for releases so that user's don't
-+ * wait forever to find out there is a problem. Note that the only reason
-+ * an end user should hit the timeout is in case of extreme thermal throttling.
-+ * And a system that is that hot during boot is probably dead anyway!
-+ */
-+#if defined(CONFIG_DRM_I915_DEBUG_GEM)
-+#define HUC_LOAD_RETRY_LIMIT   20
-+#else
-+#define HUC_LOAD_RETRY_LIMIT   3
-+#endif
-+
- int intel_huc_wait_for_auth_complete(struct intel_huc *huc,
- 				     enum intel_huc_authentication_type type)
- {
- 	struct intel_gt *gt = huc_to_gt(huc);
--	int ret;
-+	struct intel_uncore *uncore = gt->uncore;
-+	ktime_t before, after, delta;
-+	int ret, count;
-+	u64 delta_ms;
-+	u32 before_freq;
- 
--	ret = __intel_wait_for_register(gt->uncore,
--					huc->status[type].reg,
--					huc->status[type].mask,
--					huc->status[type].value,
--					2, 50, NULL);
-+	/*
-+	 * The KMD requests maximum frequency during driver load, however thermal
-+	 * throttling can force the frequency down to minimum (although the board
-+	 * really should never get that hot in real life!). IFWI  issues have been
-+	 * seen to cause sporadic failures to grant the higher frequency. And at
-+	 * minimum frequency, the load time can be in the seconds range. Note that
-+	 * there is a limit on how long an individual wait_for() can wait. So wrap
-+	 * it in a loop.
-+	 */
-+	before_freq = intel_rps_read_actual_frequency(&gt->rps);
-+	before = ktime_get();
-+	for (count = 0; count < HUC_LOAD_RETRY_LIMIT; count++) {
-+		ret = __intel_wait_for_register(gt->uncore,
-+						huc->status[type].reg,
-+						huc->status[type].mask,
-+						huc->status[type].value,
-+						2, 1000, NULL);
-+		if (!ret)
-+			break;
-+
-+		huc_dbg(huc, "auth still in progress, count = %d, freq = %dMHz, status = 0x%08X\n",
-+			count, intel_rps_read_actual_frequency(&gt->rps),
-+			huc->status[type].reg.reg);
-+	}
-+	after = ktime_get();
-+	delta = ktime_sub(after, before);
-+	delta_ms = ktime_to_ms(delta);
-+
-+	if (delta_ms > 50) {
-+		huc_warn(huc, "excessive auth time: %lldms! [status = 0x%08X, count = %d, ret = %d]\n",
-+			 delta_ms, huc->status[type].reg.reg, count, ret);
-+		huc_warn(huc, "excessive auth time: [freq = %dMHz, before = %dMHz, perf_limit_reasons = 0x%08X]\n",
-+			 intel_rps_read_actual_frequency(&gt->rps), before_freq,
-+			 intel_uncore_read(uncore, intel_gt_perf_limit_reasons_reg(gt)));
-+	} else {
-+		huc_dbg(huc, "auth took %lldms, freq = %dMHz, before = %dMHz, status = 0x%08X, count = %d, ret = %d\n",
-+			delta_ms, intel_rps_read_actual_frequency(&gt->rps),
-+			before_freq, huc->status[type].reg.reg, count, ret);
-+	}
- 
- 	/* mark the load process as complete even if the wait failed */
- 	delayed_huc_load_complete(huc);
--- 
-2.41.0
+Maaz Mombasawala <maaz.mombasawala@broadcom.com>
 
