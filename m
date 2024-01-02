@@ -1,75 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 607CD822497
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jan 2024 23:13:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ECFA8224A4
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jan 2024 23:20:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1167510E229;
-	Tue,  2 Jan 2024 22:13:36 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2747810E213;
- Tue,  2 Jan 2024 22:13:35 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 402M0sHD000831; Tue, 2 Jan 2024 22:13:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=81lbXW4HImZGl+eDhFTN5fAxXcaost06Oz288uO0jaQ=; b=Qa
- FV9zW1EoWOM4jG3lejXyWdFpZnkFxrocibQp4TXCDJd2uJ/yWd8KWGLT43mARpfL
- szlezZMPE61NDiMWrpw2+i4Tdy2AOJjpSNldman6yV9XAHZuKQXR3aw3mbmEH+q9
- u2bX9SCy5QPMCF8EWQzq0YpeHSQkJpQYr0R+29g80syJy1LDmTibr+D17L9spQfH
- 6vNP6RwzDYo98Keuzhv5YifL1u3KHfstdRaCyy99AP+iCY00kiuinpX1zrMlL9YK
- x0G6M4hTfUndSLfFC1PtQJGH3tA1TcRlQyvut84kEN9AedpsCtdq2LKsguyzBQQO
- 3GWKdHlVRAiuZ1IB0Xqw==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vch7n98pr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 02 Jan 2024 22:13:17 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
- [10.47.97.35])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 402MDGMm013272
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 2 Jan 2024 22:13:16 GMT
-Received: from [10.71.111.96] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 2 Jan
- 2024 14:13:16 -0800
-Message-ID: <48e19422-77ba-a876-4552-783d54ac9bf6@quicinc.com>
-Date: Tue, 2 Jan 2024 14:13:15 -0800
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB1B610E221;
+	Tue,  2 Jan 2024 22:20:14 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B35310E221;
+ Tue,  2 Jan 2024 22:20:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1704234014; x=1735770014;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=xP8O99wKmbh+kQZU3ZD1ZyXh7v0LzQG+T1sU+ydo66I=;
+ b=WpizH9vXj3txg1Y8SUubsJ+gL48yfXyZncU6+o5OtWLvUnGyNxiJvqRz
+ 4I5JDNQlwnrzBK4XNTCoWoQlb1NnBM/TY2+ahrKZk0x94z0oedY31OG3W
+ msYaPZW35OBIRxOh/hJNMXaQM7jsNMhucQLU5PSbGaLbccQjwEGpjvLwN
+ 4UQACT66lc0RJ4Cud9vwf+jBE5KklW3cjxBeRukD269uTDpOyjuCq5KPg
+ xB38tT2Q10CeQfsnDlO8+UMXzXpnENEZvQXEZSJ2cMzirYKbS6CI6/mdA
+ NwXdu7zXiKN6XhWttTIj72wS/o1/ATToABNCLTaxmnAVCGUYkIzVaNwhV A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="3700085"
+X-IronPort-AV: E=Sophos;i="6.04,326,1695711600"; 
+   d="scan'208";a="3700085"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jan 2024 14:20:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,326,1695711600"; d="scan'208";a="14297447"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
+ by fmviesa002.fm.intel.com with ESMTP; 02 Jan 2024 14:20:12 -0800
+From: John.C.Harrison@Intel.com
+To: Intel-GFX@Lists.FreeDesktop.Org
+Subject: [PATCH] drm/i915/huc: Allow for very slow HuC loading
+Date: Tue,  2 Jan 2024 14:22:02 -0800
+Message-ID: <20240102222202.310495-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] drm/msm/dpu: fix kernel-doc warnings
-Content-Language: en-US
-To: Randy Dunlap <rdunlap@infradead.org>, <linux-kernel@vger.kernel.org>
-References: <20231231060823.1934-1-rdunlap@infradead.org>
-From: Paloma Arellano <quic_parellan@quicinc.com>
-In-Reply-To: <20231231060823.1934-1-rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: vVOOCgP4NBmMg3iT98FJWBz6hEU1c1Q9
-X-Proofpoint-ORIG-GUID: vVOOCgP4NBmMg3iT98FJWBz6hEU1c1Q9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- impostorscore=0 phishscore=0 mlxlogscore=999 mlxscore=0 lowpriorityscore=0
- priorityscore=1501 malwarescore=0 bulkscore=0 spamscore=0 clxscore=1011
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2401020165
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,40 +56,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Vegard Nossum <vegard.nossum@oracle.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Rob Clark <robdclark@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org
+Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: John Harrison <John.C.Harrison@Intel.com>
 
-On 12/30/2023 10:08 PM, Randy Dunlap wrote:
-> Correct all kernel-doc warnings in dpu_encoder.c and dpu_rm.c:
->
-> dpu_encoder.c:212: warning: Excess struct member 'crtc_kickoff_cb' description in 'dpu_encoder_virt'
-> dpu_encoder.c:212: warning: Excess struct member 'crtc_kickoff_cb_data' description in 'dpu_encoder_virt'
-> dpu_encoder.c:212: warning: Excess struct member 'debugfs_root' description in 'dpu_encoder_virt'
->
-> dpu_rm.c:35: warning: Excess struct member 'hw_res' description in 'dpu_rm_requirements'
-> dpu_rm.c:208: warning: No description found for return value of '_dpu_rm_get_lm_peer'
->
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Reviewed-by: Paloma Arellano <quic_parellan@quicinc.com>
-> Cc: Rob Clark <robdclark@gmail.com>
-> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: Sean Paul <sean@poorly.run>
-> Cc: Marijn Suijten <marijn.suijten@somainline.org>
-> Cc: linux-arm-msm@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: freedreno@lists.freedesktop.org
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Vegard Nossum <vegard.nossum@oracle.com>
+A failure to load the HuC is occasionally observed where the cause is
+believed to be a low GT frequency leading to very long load times.
+
+So a) increase the timeout so that the user still gets a working
+system even in the case of slow load. And b) report the frequency
+during the load to see if that is the cause of the slow down.
+
+Also update the similar code on the GuC load to not use uncore->gt
+when there is a local gt available. The two should match, but no need
+for unnecessary de-referencing.
+
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+---
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c | 10 ++--
+ drivers/gpu/drm/i915/gt/uc/intel_huc.c    | 64 ++++++++++++++++++++---
+ 2 files changed, 63 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
+index 0f79cb6585182..52332bb143395 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
+@@ -184,7 +184,7 @@ static int guc_wait_ucode(struct intel_guc *guc)
+ 	 * in the seconds range. However, there is a limit on how long an
+ 	 * individual wait_for() can wait. So wrap it in a loop.
+ 	 */
+-	before_freq = intel_rps_read_actual_frequency(&uncore->gt->rps);
++	before_freq = intel_rps_read_actual_frequency(&gt->rps);
+ 	before = ktime_get();
+ 	for (count = 0; count < GUC_LOAD_RETRY_LIMIT; count++) {
+ 		ret = wait_for(guc_load_done(uncore, &status, &success), 1000);
+@@ -192,7 +192,7 @@ static int guc_wait_ucode(struct intel_guc *guc)
+ 			break;
+ 
+ 		guc_dbg(guc, "load still in progress, count = %d, freq = %dMHz, status = 0x%08X [0x%02X/%02X]\n",
+-			count, intel_rps_read_actual_frequency(&uncore->gt->rps), status,
++			count, intel_rps_read_actual_frequency(&gt->rps), status,
+ 			REG_FIELD_GET(GS_BOOTROM_MASK, status),
+ 			REG_FIELD_GET(GS_UKERNEL_MASK, status));
+ 	}
+@@ -204,7 +204,7 @@ static int guc_wait_ucode(struct intel_guc *guc)
+ 		u32 bootrom = REG_FIELD_GET(GS_BOOTROM_MASK, status);
+ 
+ 		guc_info(guc, "load failed: status = 0x%08X, time = %lldms, freq = %dMHz, ret = %d\n",
+-			 status, delta_ms, intel_rps_read_actual_frequency(&uncore->gt->rps), ret);
++			 status, delta_ms, intel_rps_read_actual_frequency(&gt->rps), ret);
+ 		guc_info(guc, "load failed: status: Reset = %d, BootROM = 0x%02X, UKernel = 0x%02X, MIA = 0x%02X, Auth = 0x%02X\n",
+ 			 REG_FIELD_GET(GS_MIA_IN_RESET, status),
+ 			 bootrom, ukernel,
+@@ -254,11 +254,11 @@ static int guc_wait_ucode(struct intel_guc *guc)
+ 		guc_warn(guc, "excessive init time: %lldms! [status = 0x%08X, count = %d, ret = %d]\n",
+ 			 delta_ms, status, count, ret);
+ 		guc_warn(guc, "excessive init time: [freq = %dMHz, before = %dMHz, perf_limit_reasons = 0x%08X]\n",
+-			 intel_rps_read_actual_frequency(&uncore->gt->rps), before_freq,
++			 intel_rps_read_actual_frequency(&gt->rps), before_freq,
+ 			 intel_uncore_read(uncore, intel_gt_perf_limit_reasons_reg(gt)));
+ 	} else {
+ 		guc_dbg(guc, "init took %lldms, freq = %dMHz, before = %dMHz, status = 0x%08X, count = %d, ret = %d\n",
+-			delta_ms, intel_rps_read_actual_frequency(&uncore->gt->rps),
++			delta_ms, intel_rps_read_actual_frequency(&gt->rps),
+ 			before_freq, status, count, ret);
+ 	}
+ 
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+index ba9e07fc2b577..9ccec7de9628a 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+@@ -6,6 +6,7 @@
+ #include <linux/types.h>
+ 
+ #include "gt/intel_gt.h"
++#include "gt/intel_rps.h"
+ #include "intel_guc_reg.h"
+ #include "intel_huc.h"
+ #include "intel_huc_print.h"
+@@ -447,17 +448,68 @@ static const char *auth_mode_string(struct intel_huc *huc,
+ 	return partial ? "clear media" : "all workloads";
+ }
+ 
++/*
++ * Use a longer timeout for debug builds so that problems can be detected
++ * and analysed. But a shorter timeout for releases so that user's don't
++ * wait forever to find out there is a problem. Note that the only reason
++ * an end user should hit the timeout is in case of extreme thermal throttling.
++ * And a system that is that hot during boot is probably dead anyway!
++ */
++#if defined(CONFIG_DRM_I915_DEBUG_GEM)
++#define HUC_LOAD_RETRY_LIMIT   20
++#else
++#define HUC_LOAD_RETRY_LIMIT   3
++#endif
++
+ int intel_huc_wait_for_auth_complete(struct intel_huc *huc,
+ 				     enum intel_huc_authentication_type type)
+ {
+ 	struct intel_gt *gt = huc_to_gt(huc);
+-	int ret;
++	struct intel_uncore *uncore = gt->uncore;
++	ktime_t before, after, delta;
++	int ret, count;
++	u64 delta_ms;
++	u32 before_freq;
+ 
+-	ret = __intel_wait_for_register(gt->uncore,
+-					huc->status[type].reg,
+-					huc->status[type].mask,
+-					huc->status[type].value,
+-					2, 50, NULL);
++	/*
++	 * The KMD requests maximum frequency during driver load, however thermal
++	 * throttling can force the frequency down to minimum (although the board
++	 * really should never get that hot in real life!). IFWI  issues have been
++	 * seen to cause sporadic failures to grant the higher frequency. And at
++	 * minimum frequency, the load time can be in the seconds range. Note that
++	 * there is a limit on how long an individual wait_for() can wait. So wrap
++	 * it in a loop.
++	 */
++	before_freq = intel_rps_read_actual_frequency(&gt->rps);
++	before = ktime_get();
++	for (count = 0; count < HUC_LOAD_RETRY_LIMIT; count++) {
++		ret = __intel_wait_for_register(gt->uncore,
++						huc->status[type].reg,
++						huc->status[type].mask,
++						huc->status[type].value,
++						2, 1000, NULL);
++		if (!ret)
++			break;
++
++		huc_dbg(huc, "auth still in progress, count = %d, freq = %dMHz, status = 0x%08X\n",
++			count, intel_rps_read_actual_frequency(&gt->rps),
++			huc->status[type].reg.reg);
++	}
++	after = ktime_get();
++	delta = ktime_sub(after, before);
++	delta_ms = ktime_to_ms(delta);
++
++	if (delta_ms > 50) {
++		huc_warn(huc, "excessive auth time: %lldms! [status = 0x%08X, count = %d, ret = %d]\n",
++			 delta_ms, huc->status[type].reg.reg, count, ret);
++		huc_warn(huc, "excessive auth time: [freq = %dMHz, before = %dMHz, perf_limit_reasons = 0x%08X]\n",
++			 intel_rps_read_actual_frequency(&gt->rps), before_freq,
++			 intel_uncore_read(uncore, intel_gt_perf_limit_reasons_reg(gt)));
++	} else {
++		huc_dbg(huc, "auth took %lldms, freq = %dMHz, before = %dMHz, status = 0x%08X, count = %d, ret = %d\n",
++			delta_ms, intel_rps_read_actual_frequency(&gt->rps),
++			before_freq, huc->status[type].reg.reg, count, ret);
++	}
+ 
+ 	/* mark the load process as complete even if the wait failed */
+ 	delayed_huc_load_complete(huc);
+-- 
+2.41.0
+
