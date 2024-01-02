@@ -1,57 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59DB382232E
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jan 2024 22:18:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 607CD822497
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jan 2024 23:13:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBA5810E23A;
-	Tue,  2 Jan 2024 21:18:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1167510E229;
+	Tue,  2 Jan 2024 22:13:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8561110E23A
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Jan 2024 21:18:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
- t=1704230330; bh=NkgNNWrU5A+qrlyuoridyMA0T+gww6nA9Sf4hu63gmI=;
- h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
- b=Fi02OVej7qHAlyYnp+pT6vaLbwXZjF/w4bjtOyReDOlrriSZqpWmfDA2KgpkXwriC
- L8prIzUKpNvdjwZg3bEywTq+VGwN3nVUNanL4DcEnx9xMHrMCbuzzRo8NkpTxFhUJw
- GglC0TZWR+N0WyOOckCsdRESaRUwgzH1WTQZLBbg=
-Date: Tue, 2 Jan 2024 22:18:48 +0100
-From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
-To: Jonas Karlman <jonas@kwiboo.se>
-Subject: Re: [PATCH v3 4/4] arm64: dts: rockchip: Add devicetree for Pine64
- PineTab2
-Message-ID: <qwndrkppuctp2mybnibbf6fppp6abzimqs4hirrwjauig34why@gawjwsbauffm>
-Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
- Jonas Karlman <jonas@kwiboo.se>, Manuel Traut <manut@mecka.net>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
- Sandy Huang <hjc@rock-chips.com>, Mark Yao <markyao0591@gmail.com>, 
- Diederik de Haas <didi.debian@cknow.org>, Segfault <awarnecke002@hotmail.com>, 
- Arnaud Ferraris <aferraris@debian.org>, Danct12 <danct12@riseup.net>,
- dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
-References: <20240102-pinetab2-v3-0-cb1aa69f8c30@mecka.net>
- <20240102-pinetab2-v3-4-cb1aa69f8c30@mecka.net>
- <775vjfucu2g2s6zzeutj7f7tapx3q2geccpxvv4ppcms4hxbq7@cbrdmlu2ryzp>
- <903e9d0c-a00c-4214-9f0e-dd676b13b428@kwiboo.se>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2747810E213;
+ Tue,  2 Jan 2024 22:13:35 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 402M0sHD000831; Tue, 2 Jan 2024 22:13:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=81lbXW4HImZGl+eDhFTN5fAxXcaost06Oz288uO0jaQ=; b=Qa
+ FV9zW1EoWOM4jG3lejXyWdFpZnkFxrocibQp4TXCDJd2uJ/yWd8KWGLT43mARpfL
+ szlezZMPE61NDiMWrpw2+i4Tdy2AOJjpSNldman6yV9XAHZuKQXR3aw3mbmEH+q9
+ u2bX9SCy5QPMCF8EWQzq0YpeHSQkJpQYr0R+29g80syJy1LDmTibr+D17L9spQfH
+ 6vNP6RwzDYo98Keuzhv5YifL1u3KHfstdRaCyy99AP+iCY00kiuinpX1zrMlL9YK
+ x0G6M4hTfUndSLfFC1PtQJGH3tA1TcRlQyvut84kEN9AedpsCtdq2LKsguyzBQQO
+ 3GWKdHlVRAiuZ1IB0Xqw==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vch7n98pr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 02 Jan 2024 22:13:17 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
+ [10.47.97.35])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 402MDGMm013272
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 2 Jan 2024 22:13:16 GMT
+Received: from [10.71.111.96] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 2 Jan
+ 2024 14:13:16 -0800
+Message-ID: <48e19422-77ba-a876-4552-783d54ac9bf6@quicinc.com>
+Date: Tue, 2 Jan 2024 14:13:15 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <903e9d0c-a00c-4214-9f0e-dd676b13b428@kwiboo.se>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] drm/msm/dpu: fix kernel-doc warnings
+Content-Language: en-US
+To: Randy Dunlap <rdunlap@infradead.org>, <linux-kernel@vger.kernel.org>
+References: <20231231060823.1934-1-rdunlap@infradead.org>
+From: Paloma Arellano <quic_parellan@quicinc.com>
+In-Reply-To: <20231231060823.1934-1-rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: vVOOCgP4NBmMg3iT98FJWBz6hEU1c1Q9
+X-Proofpoint-ORIG-GUID: vVOOCgP4NBmMg3iT98FJWBz6hEU1c1Q9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0
+ impostorscore=0 phishscore=0 mlxlogscore=999 mlxscore=0 lowpriorityscore=0
+ priorityscore=1501 malwarescore=0 bulkscore=0 spamscore=0 clxscore=1011
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2401020165
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,83 +82,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Diederik de Haas <didi.debian@cknow.org>, Danct12 <danct12@riseup.net>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- David Airlie <airlied@gmail.com>, Manuel Traut <manut@mecka.net>,
- Sam Ravnborg <sam@ravnborg.org>, linux-rockchip@lists.infradead.org,
- Jessica Zhang <quic_jesszhan@quicinc.com>, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Mark Yao <markyao0591@gmail.com>, linux-arm-kernel@lists.infradead.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Segfault <awarnecke002@hotmail.com>, Sandy Huang <hjc@rock-chips.com>,
- Arnaud Ferraris <aferraris@debian.org>
+Cc: Sean Paul <sean@poorly.run>, Vegard Nossum <vegard.nossum@oracle.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Rob Clark <robdclark@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 02, 2024 at 09:56:20PM +0100, Jonas Karlman wrote:
-> Hi Manuel and Ondřej,
-> 
-> On 2024-01-02 19:07, Ondřej Jirman wrote:
-> > Hello Manuel,
-> 
-> [...]
-> 
-> >> +
-> >> +&sfc {
-> >> +	pinctrl-names = "default";
-> >> +	pinctrl-0 = <&fspi_dual_io_pins>;
-> >> +	status = "okay";
-> >> +	#address-cells = <1>;
-> >> +	#size-cells = <0>;
-> >> +
-> >> +	flash@0 {
-> >> +		compatible = "jedec,spi-nor";
-> >> +		reg = <0>;
-> >> +		spi-max-frequency = <24000000>;
-> > 
-> > That's a bit on the low side. The flash chip should work for all commands up to
-> > 80MHz https://megous.com/dl/tmp/b428ad9b85ac4633.png and SGM3157YC6 switch
-> > for the FSPI-CLK should have high enough bandwidth, too.
-> 
-> I agree that this is a little bit on the low side, it was a safe rate
-> that I used for U-Boot. U-Boot required an exact rate of the supported
-> sfc clk rates: 24, 50, 75, 100, 125 or 150 MHz.
-> 
-> Please also note that the SPI NOR flash chip used in PineTab2 is not a
-> GigaDevice GD25LQ128E, it should be a SiliconKaiser SK25LP128, same as
-> found in the Pine64 PinePhone Pro.
 
-According to this http://en.siliconkaiser.com/pro/  it should maybe go up to
-133MHz. No idea what's the difference between LP vs LE variant. So it may work
-with 100 MHz.
-
-On Pinephone Pro variants with nerfed SPI CLK signal integrity (any variant with
-RE instead of a RESET button - so all production batches), anything above 10 MHz
-has real trouble working. But this should not be the case here with PT2, looking
-at the schematic...
-
-Anyway, it's a nice to have.
-
-> > 
-> >> +		spi-rx-bus-width = <2>;
-> > 
-> > GD25LQ128E supports quad I/O. Maybe try 4 if it will work.
-> 
-> The schematic only shows fspi D0 and D1 connected, and use the D2 line
-> for eMMC_RSTn, so spi-rx-bus-width = <2> should be correct.
-
-Ah, I see.
-
-regards,
-	o.
-
-> > 
-> >> +		spi-tx-bus-width = <1>;
-> >> +	};
-> >> +};
-> >> +
-> 
-> Regards,
-> Jonas
+On 12/30/2023 10:08 PM, Randy Dunlap wrote:
+> Correct all kernel-doc warnings in dpu_encoder.c and dpu_rm.c:
+>
+> dpu_encoder.c:212: warning: Excess struct member 'crtc_kickoff_cb' description in 'dpu_encoder_virt'
+> dpu_encoder.c:212: warning: Excess struct member 'crtc_kickoff_cb_data' description in 'dpu_encoder_virt'
+> dpu_encoder.c:212: warning: Excess struct member 'debugfs_root' description in 'dpu_encoder_virt'
+>
+> dpu_rm.c:35: warning: Excess struct member 'hw_res' description in 'dpu_rm_requirements'
+> dpu_rm.c:208: warning: No description found for return value of '_dpu_rm_get_lm_peer'
+>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Reviewed-by: Paloma Arellano <quic_parellan@quicinc.com>
+> Cc: Rob Clark <robdclark@gmail.com>
+> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Cc: Sean Paul <sean@poorly.run>
+> Cc: Marijn Suijten <marijn.suijten@somainline.org>
+> Cc: linux-arm-msm@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: freedreno@lists.freedesktop.org
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Vegard Nossum <vegard.nossum@oracle.com>
