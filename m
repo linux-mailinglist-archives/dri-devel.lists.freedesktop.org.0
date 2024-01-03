@@ -1,64 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9B86822FCD
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 15:47:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B012A822FD5
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 15:49:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F26710E2CC;
-	Wed,  3 Jan 2024 14:47:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E813E10E319;
+	Wed,  3 Jan 2024 14:49:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1005010E2CC
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jan 2024 14:47:04 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id
- a640c23a62f3a-a27cd5850d6so297108266b.1
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Jan 2024 06:47:03 -0800 (PST)
+Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com
+ [IPv6:2001:4860:4864:20::34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1063310E315;
+ Wed,  3 Jan 2024 14:49:15 +0000 (UTC)
+Received: by mail-oa1-x34.google.com with SMTP id
+ 586e51a60fabf-2046b2cd2d3so6985721fac.0; 
+ Wed, 03 Jan 2024 06:49:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1704293222; x=1704898022; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
- :to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=DkQTXlmizBAkyVFlUiGkuraalrFSpRvtAnDL1m0Kue8=;
- b=AzyuGKvCdYORG6xZKijzOixy/0eNvc62i0A63xGwX0rEHZwhF9uw2eaS1QRWmhTZBx
- w98DoLeyaV25TZXXLBMWYJ6o93klJa3rsOOF6KTC0VGXy1k55liL22orq9ylZs/W6lIf
- 5dYO8IPitj5D9aI5dplohAtBI+lFx5GsK3qjVweD7sGsGixGoix87ht29EixSQRfujXd
- E088rOyMycixjLtGEr1NZ41spONstgVCrdDyQypqpNbxUw4aqZmUtD501cd7uTvdGgqS
- GdeS7u+3oITS2CFBObR1O0TDzKGMCUiuAXVZbTERnmJyAhOO3xFh0fdePHpcnPrfUykX
- TUsg==
+ d=gmail.com; s=20230601; t=1704293354; x=1704898154; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ufp4vRBdchU/yun+kCRIt0+8UCXvzfiwI6xueBPpbEo=;
+ b=Ic1ecYaAS+WKhXoqCnSdAD8h2MVIfi8hQquVzaTg7qhAe4yum1Z9T3omwphCYkpLlR
+ /k3H1fO/a00FHP+YYoFR2siosZVcitoxf7/kIn0S44LbvTyhi9RybaTy71m3P+UbKLyZ
+ MDVwjRbgYKL82OUxzlEuiF1xFKdAfSvz7sOnNuhAvo/7yZ9YIhpCr/esaGoRUKFmmbod
+ mR+Wq52WIUyvMA0BzAhpkRfMmO7DaViQPDNonrj7ImstgyVE4+HZIYLuuWG+gQUaBO/C
+ fx54PNfoczPRP6bvtaskkt4N3bJSzgA5s8fGZYHAaZwiS+ZHf9eE3pJEM+mPNiTApTyf
+ fokQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704293222; x=1704898022;
- h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
- :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=DkQTXlmizBAkyVFlUiGkuraalrFSpRvtAnDL1m0Kue8=;
- b=NV7mprSosKzcMEtYPcPG4TBE7eK6pZaUARm44mE3ApXOli7zlgoxAAq2NqkT53NN+1
- 3vJZWhuqaoh5VpIn1aMiICBRn7Ug+eYmRduTGiGIbNLs+85F3yHAQESFV1unr7qnjCEY
- Egn1wUz0kbB5RakaemccfvIrRzkuEHfbUwxwSUedoeKnMUE05vGyIlAugUR2FvJHFb7C
- IyR5C/jOLDTjhIPdbWTw5FLkw3BNrfKRUFlJBNuYBLF5v21AKHdsbZypj4lyglLsZ4+e
- /dtWUUCzjx8IIE+SX1XGr/x2fmaENQa1O6VBn3vF4eYAe8/kVCvMlI9E9EVYkK4D5NzN
- dsqQ==
-X-Gm-Message-State: AOJu0Yw+VyIowY9bsEY68HiOGYs83bqYOZv1g/13rGhrifCPnBJqU9ux
- Nd0nLAXkwfh6aes5srmAL6oql1os0zYxKA==
-X-Google-Smtp-Source: AGHT+IGnQ/hc04miCFDBs5K2klhNYUqvXoYPap16F2AH4FHBqGO7Dws7XHL16fTco6/6DK8pEnmnUQ==
-X-Received: by 2002:a17:906:38d6:b0:a23:57f3:95a9 with SMTP id
- r22-20020a17090638d600b00a2357f395a9mr8736283ejd.2.1704293222446; 
- Wed, 03 Jan 2024 06:47:02 -0800 (PST)
-Received: from localhost ([102.140.209.237]) by smtp.gmail.com with ESMTPSA id
- f15-20020a17090660cf00b00a26f66ce72fsm8694249ejk.83.2024.01.03.06.47.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Jan 2024 06:47:02 -0800 (PST)
-Date: Wed, 3 Jan 2024 17:46:58 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Dave Airlie <airlied@gmail.com>,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
-Subject: Re: [PATCH 08/11] nouveau/gsp: don't free ctrl messages on errors
-Message-ID: <f8594217-59b7-431c-9fdc-15e2ef6197ab@moroto.mountain>
+ d=1e100.net; s=20230601; t=1704293354; x=1704898154;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ufp4vRBdchU/yun+kCRIt0+8UCXvzfiwI6xueBPpbEo=;
+ b=NROoCzk12Z0Q3qf9OPY0O/xrRryVWMsrfX9t6GyOBoHlK+TCymLGH6uQAO41oLTGF2
+ FvYNjM2ZWqdZFoN5kAGcDKF74kViZdckcMI7Ccm9Kh7CYvZNKWmJMPpyNFf57JK3I0IG
+ aQiM4jFfuYJZ2aF6U4J/Nc0X+X490rK6VhI60RZPUXV4IK4GgJWntqiLLpeBaxe5KfOI
+ u5s+aNKoiTQgT9FPHyf/1qRhhgzGXCz8HhqJC2EuG57ABRy3cxBnr8crm7pKhnQtfd+n
+ gRHV+SN2USBYoz2OSp9t4T5UDJSnNELcRWJ9RKo4Oc6DPed76ZJ7lXP4RdTYnqNrdosQ
+ Q8kQ==
+X-Gm-Message-State: AOJu0YzK/n6t4BRKShwaxjHtabcUyR4/BmTRTX2l49S8qp/aQ/GeqOiA
+ xjHsjl7YLcPSLaEs0HP16KGq7N+E2crhJxyY0VGdD3Rp
+X-Google-Smtp-Source: AGHT+IHSBZz2vMnviOtqfzzL8k/DYFyaP559afobIFqxIsn26VMxo6cpgS5jfL8RtysNy5czj+Ih+Xir/VELvwy3SSo=
+X-Received: by 2002:a05:6870:c114:b0:1fb:205d:756b with SMTP id
+ f20-20020a056870c11400b001fb205d756bmr27160386oad.19.1704293354292; Wed, 03
+ Jan 2024 06:49:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231222043308.3090089-9-airlied@gmail.com>
+References: <20231122221421.2944301-1-arnd@kernel.org>
+ <536a5850-34af-4a7d-b65d-82147895ef04@infradead.org>
+In-Reply-To: <536a5850-34af-4a7d-b65d-82147895ef04@infradead.org>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 3 Jan 2024 09:49:03 -0500
+Message-ID: <CADnq5_NN+gW5rRezagGr=uno0qSD1rAqMbtLtH-YWV9hGmhfPw@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: avoid stringop-overflow warnings for
+ dp_decide_lane_settings()
+To: Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,71 +70,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Cc: Alan Liu <haoping.liu@amd.com>, Arnd Bergmann <arnd@kernel.org>,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Arnd Bergmann <arnd@arndb.de>, Leo Li <sunpeng.li@amd.com>,
+ Wenjing Liu <wenjing.liu@amd.com>, Qingqing Zhuo <qingqing.zhuo@amd.com>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ Michael Mityushkin <michael.mityushkin@amd.com>,
+ Michael Strauss <michael.strauss@amd.com>, dri-devel@lists.freedesktop.org,
+ George Shen <george.shen@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Jun Lei <Jun.Lei@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
+Applied.  Thanks!
 
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Airlie/nouveau-gsp-drop-some-acpi-related-debug/20231222-180432
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20231222043308.3090089-9-airlied%40gmail.com
-patch subject: [PATCH 08/11] nouveau/gsp: don't free ctrl messages on errors
-config: powerpc-randconfig-r071-20231226 (https://download.01.org/0day-ci/archive/20231227/202312271917.55xuDMdc-lkp@intel.com/config)
-compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project d3ef86708241a3bee902615c190dead1638c4e09)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202312271917.55xuDMdc-lkp@intel.com/
-
-New smatch warnings:
-drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:659 r535_gsp_rpc_rm_ctrl_push() warn: passing zero to 'PTR_ERR'
-drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c:1063 r535_dp_aux_xfer() warn: passing a valid pointer to 'PTR_ERR'
-
-Old smatch warnings:
-drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1887 nvkm_gsp_radix3_sg() error: uninitialized symbol 'addr'.
-
-vim +/PTR_ERR +659 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
-
-af265ee961627a Dave Airlie 2023-12-22  649  static int
-af265ee961627a Dave Airlie 2023-12-22  650  r535_gsp_rpc_rm_ctrl_push(struct nvkm_gsp_object *object, void **argv, u32 repc)
-4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  651  {
-af265ee961627a Dave Airlie 2023-12-22  652  	rpc_gsp_rm_control_v03_00 *rpc = container_of((*argv), typeof(*rpc), params);
-4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  653  	struct nvkm_gsp *gsp = object->client->gsp;
-af265ee961627a Dave Airlie 2023-12-22  654  	int ret = 0;
-4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  655  
-4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  656  	rpc = nvkm_gsp_rpc_push(gsp, rpc, true, repc);
-af265ee961627a Dave Airlie 2023-12-22  657  	if (IS_ERR_OR_NULL(rpc)) {
-af265ee961627a Dave Airlie 2023-12-22  658  		*argv = NULL;
-af265ee961627a Dave Airlie 2023-12-22 @659  		return PTR_ERR(rpc);
-
-If nvkm_gsp_rpc_push() returns NULL (probably a failure) then this
-returns PTR_ERR(NULL) which is zero/success.
-
-af265ee961627a Dave Airlie 2023-12-22  660  	}
-4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  661  
-4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  662  	if (rpc->status) {
-af265ee961627a Dave Airlie 2023-12-22  663  		ret = r535_rpc_status_to_errno(rpc->status);
-555bb9c29a45be Dave Airlie 2023-12-22  664  		if (ret != -EAGAIN)
-4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  665  			nvkm_error(&gsp->subdev, "cli:0x%08x obj:0x%08x ctrl cmd:0x%08x failed: 0x%08x\n",
-4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  666  				   object->client->object.handle, object->handle, rpc->cmd, rpc->status);
-4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  667  	}
-4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  668  
-af265ee961627a Dave Airlie 2023-12-22  669  	if (repc)
-af265ee961627a Dave Airlie 2023-12-22  670  		*argv = rpc->params;
-af265ee961627a Dave Airlie 2023-12-22  671  	else
-4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  672  		nvkm_gsp_rpc_done(gsp, rpc);
-4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  673  
-4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  674  	return ret;
-4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  675  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+On Mon, Dec 25, 2023 at 5:30=E2=80=AFAM Randy Dunlap <rdunlap@infradead.org=
+> wrote:
+>
+>
+>
+> On 11/22/23 14:13, Arnd Bergmann wrote:
+> > From: Arnd Bergmann <arnd@arndb.de>
+> >
+> > gcc prints a warning about a possible array overflow for a couple of
+> > callers of dp_decide_lane_settings() after commit 1b56c90018f0 ("Makefi=
+le:
+> > Enable -Wstringop-overflow globally"):
+> >
+> > drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_trainin=
+g_fixed_vs_pe_retimer.c: In function 'dp_perform_fixed_vs_pe_training_seque=
+nce_legacy':
+> > drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_trainin=
+g_fixed_vs_pe_retimer.c:426:25: error: 'dp_decide_lane_settings' accessing =
+4 bytes in a region of size 1 [-Werror=3Dstringop-overflow=3D]
+> >   426 |                         dp_decide_lane_settings(lt_settings, dp=
+cd_lane_adjust,
+> >       |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~
+> >   427 |                                         lt_settings->hw_lane_se=
+ttings, lt_settings->dpcd_lane_settings);
+> >       |                                         ~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_trainin=
+g_fixed_vs_pe_retimer.c:426:25: note: referencing argument 4 of type 'union=
+ dpcd_training_lane[4]'
+> >
+> > I'm not entirely sure what caused this, but changing the prototype to e=
+xpect
+> > a pointer instead of an array avoids the warnings.
+> >
+> > Fixes: 7727e7b60f82 ("drm/amd/display: Improve robustness of FIXED_VS l=
+ink training at DP1 rates")
+> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+>
+>
+> Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> Tested-by: Randy Dunlap <rdunlap@infradead.org> # build-tested
+>
+> Thanks.
+>
+> > ---
+> >  .../gpu/drm/amd/display/dc/link/protocols/link_dp_training.c    | 2 +-
+> >  .../gpu/drm/amd/display/dc/link/protocols/link_dp_training.h    | 2 +-
+> >  2 files changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_trai=
+ning.c b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_training.c
+> > index 90339c2dfd84..5a0b04518956 100644
+> > --- a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_training.c
+> > +++ b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_training.c
+> > @@ -807,7 +807,7 @@ void dp_decide_lane_settings(
+> >               const struct link_training_settings *lt_settings,
+> >               const union lane_adjust ln_adjust[LANE_COUNT_DP_MAX],
+> >               struct dc_lane_settings hw_lane_settings[LANE_COUNT_DP_MA=
+X],
+> > -             union dpcd_training_lane dpcd_lane_settings[LANE_COUNT_DP=
+_MAX])
+> > +             union dpcd_training_lane *dpcd_lane_settings)
+> >  {
+> >       uint32_t lane;
+> >
+> > diff --git a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_trai=
+ning.h b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_training.h
+> > index 7d027bac8255..851bd17317a0 100644
+> > --- a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_training.h
+> > +++ b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_training.h
+> > @@ -111,7 +111,7 @@ void dp_decide_lane_settings(
+> >       const struct link_training_settings *lt_settings,
+> >       const union lane_adjust ln_adjust[LANE_COUNT_DP_MAX],
+> >       struct dc_lane_settings hw_lane_settings[LANE_COUNT_DP_MAX],
+> > -     union dpcd_training_lane dpcd_lane_settings[LANE_COUNT_DP_MAX]);
+> > +     union dpcd_training_lane *dpcd_lane_settings);
+> >
+> >  enum dc_dp_training_pattern decide_cr_training_pattern(
+> >               const struct dc_link_settings *link_settings);
+>
+> --
+> #Randy
+> https://people.kernel.org/tglx/notes-about-netiquette
+> https://subspace.kernel.org/etiquette.html
