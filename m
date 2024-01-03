@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76CAC822B05
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 11:11:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32BEE822B06
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 11:11:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D63A910E287;
-	Wed,  3 Jan 2024 10:11:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5688E10E2C5;
+	Wed,  3 Jan 2024 10:11:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 614A010E287
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jan 2024 10:11:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7410E10E2C5
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jan 2024 10:11:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704276698; x=1735812698;
+ t=1704276704; x=1735812704;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=SdS8ErvE2o0wsD7Bvf3Lu0Ie3+LMTWu1Pe9aqp51eUc=;
- b=CZbqD1XlC5bl7qAJHwvQNspuUzz6LU54lJ8oaTequTA8UDT01+1XwxBv
- 4cZ+QDhaaNxge3A92J2iiC+NP+m00BdQFIcfpvrnqe83Nc7VTbUDvL3mx
- M7PvCKHK6o+/gac13C5Qy1FB0IMRPVd3GLzfKIlEZWQV41cXcdxP4RLra
- GmWrLnRT4FOFbUnvAkN/wqRZVoir5Dn8mLsZjftv6Vn33i95ysGChOH9T
- NxwHgDC9f5nR+CIhgRR81ZInEySJYZk3Chbe4Kz9ZDJcRnmUK964Yu0fF
- 6/5WhZ82j7mIsKK63fnlCSEnmcYJ+ProFef6+Ash9p3qQdyputR8Xl1M8 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="396721215"
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="396721215"
+ bh=pWM99FTRb5JFPMT+3lqiE2cNbgzWcLkZVG6zFUY5yHc=;
+ b=HuUJVq0S8I5nxH2o/g52wgcT3Z1DaXN5q8LJpurpkAR63pBc1GYI5a/1
+ k6nOX1Cotd7aiK74Eb0wD1/vhIkjK2n7dZ34hxmvGFy5AaULl4wh7trkV
+ iljEXX33T55oOVUzOsix7rVhrsuvwBBcslflSbRmnzGyDQmx2NhQ1ozHF
+ i/ISSg9jWKPIY/V3VfkpcPfwkgHk+Xxid69RnanB5LgCAje+0m8D6foW0
+ FXTGLvmCIAhUyh5Ery+tfpEjtN2ZLT1yLVymmo4qPSFAltly9qwlDku2S
+ dyeDNwF01QyyJbG5Qcg2bNlp//ujhBHv68alh7FRuknq8iOO7r1rJAcw/ Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="396721237"
+X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="396721237"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2024 02:11:37 -0800
+ 03 Jan 2024 02:11:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="756172552"
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="756172552"
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="756172556"
+X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="756172556"
 Received: from lwenners-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.35.39])
  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2024 02:11:34 -0800
+ 03 Jan 2024 02:11:40 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v2 24/39] drm/bridge: sii902x: use display info is_hdmi
-Date: Wed,  3 Jan 2024 12:08:38 +0200
-Message-Id: <8611d4c1e514bde26abfb0a53d25e11be8e0c00e.1704276309.git.jani.nikula@intel.com>
+Subject: [PATCH v2 25/39] drm/bridge: sii902x: switch to ->edid_read callback
+Date: Wed,  3 Jan 2024 12:08:39 +0200
+Message-Id: <7dabbcd98ed2bf22aeed08b0826dbdc258e78972.1704276309.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1704276309.git.jani.nikula@intel.com>
 References: <cover.1704276309.git.jani.nikula@intel.com>
@@ -66,39 +66,85 @@ Cc: Jani Nikula <jani.nikula@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the pre-parsed information instead of parsing EDID again.
+Prefer using the struct drm_edid based callback and functions.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/bridge/sii902x.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/bridge/sii902x.c | 30 +++++++++++++++---------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
-index 2bdc5b439beb..2f876b805b83 100644
+index 2f876b805b83..12346bacecaf 100644
 --- a/drivers/gpu/drm/bridge/sii902x.c
 +++ b/drivers/gpu/drm/bridge/sii902x.c
-@@ -286,12 +286,6 @@ static struct edid *sii902x_get_edid(struct sii902x *sii902x,
+@@ -278,31 +278,31 @@ static const struct drm_connector_funcs sii902x_connector_funcs = {
+ 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+ };
+ 
+-static struct edid *sii902x_get_edid(struct sii902x *sii902x,
+-				     struct drm_connector *connector)
++static const struct drm_edid *sii902x_edid_read(struct sii902x *sii902x,
++						struct drm_connector *connector)
+ {
+-	struct edid *edid;
++	const struct drm_edid *drm_edid;
+ 
  	mutex_lock(&sii902x->mutex);
  
- 	edid = drm_get_edid(connector, sii902x->i2cmux->adapter[0]);
--	if (edid) {
--		if (drm_detect_hdmi_monitor(edid))
--			sii902x->sink_is_hdmi = true;
--		else
--			sii902x->sink_is_hdmi = false;
--	}
+-	edid = drm_get_edid(connector, sii902x->i2cmux->adapter[0]);
++	drm_edid = drm_edid_read_ddc(connector, sii902x->i2cmux->adapter[0]);
  
  	mutex_unlock(&sii902x->mutex);
  
-@@ -311,6 +305,8 @@ static int sii902x_get_modes(struct drm_connector *connector)
- 		kfree(edid);
- 	}
- 
-+	sii902x->sink_is_hdmi = connector->display_info.is_hdmi;
-+
- 	return num;
+-	return edid;
++	return drm_edid;
  }
  
+ static int sii902x_get_modes(struct drm_connector *connector)
+ {
+ 	struct sii902x *sii902x = connector_to_sii902x(connector);
+-	struct edid *edid;
++	const struct drm_edid *drm_edid;
+ 	int num = 0;
+ 
+-	edid = sii902x_get_edid(sii902x, connector);
+-	drm_connector_update_edid_property(connector, edid);
+-	if (edid) {
+-		num = drm_add_edid_modes(connector, edid);
+-		kfree(edid);
++	drm_edid = sii902x_edid_read(sii902x, connector);
++	drm_edid_connector_update(connector, drm_edid);
++	if (drm_edid) {
++		num = drm_edid_connector_add_modes(connector);
++		drm_edid_free(drm_edid);
+ 	}
+ 
+ 	sii902x->sink_is_hdmi = connector->display_info.is_hdmi;
+@@ -461,12 +461,12 @@ static enum drm_connector_status sii902x_bridge_detect(struct drm_bridge *bridge
+ 	return sii902x_detect(sii902x);
+ }
+ 
+-static struct edid *sii902x_bridge_get_edid(struct drm_bridge *bridge,
+-					    struct drm_connector *connector)
++static const struct drm_edid *sii902x_bridge_edid_read(struct drm_bridge *bridge,
++						       struct drm_connector *connector)
+ {
+ 	struct sii902x *sii902x = bridge_to_sii902x(bridge);
+ 
+-	return sii902x_get_edid(sii902x, connector);
++	return sii902x_edid_read(sii902x, connector);
+ }
+ 
+ static u32 *sii902x_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
+@@ -510,7 +510,7 @@ static const struct drm_bridge_funcs sii902x_bridge_funcs = {
+ 	.disable = sii902x_bridge_disable,
+ 	.enable = sii902x_bridge_enable,
+ 	.detect = sii902x_bridge_detect,
+-	.get_edid = sii902x_bridge_get_edid,
++	.edid_read = sii902x_bridge_edid_read,
+ 	.atomic_reset = drm_atomic_helper_bridge_reset,
+ 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
 -- 
 2.39.2
 
