@@ -1,49 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AF5A822B10
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 11:12:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DC99822B11
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 11:12:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C21A10E2F6;
-	Wed,  3 Jan 2024 10:12:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5721110E2FF;
+	Wed,  3 Jan 2024 10:12:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE71810E2F6
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jan 2024 10:12:14 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DED4E10E2FF
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jan 2024 10:12:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704276734; x=1735812734;
+ t=1704276740; x=1735812740;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=lVdsejW3IJtODk0kBe3vJmeJLCJmguS5Ym+M4fAQPMc=;
- b=Mvpp9QgbtN5+7LcbosnRfC8BrMgFixWDtFQU7WQWC+uTxpQR6ubpqpAn
- PThhUMhjGRGbVDAQbQnIxqgJICHx71lLVLb3BJrqm5uSNtpjgIgcKiW26
- qlaNWx3AFrnAp0cqmxv8YDpHNQMRQT9kPiKsnUe14TDLYEvEksPo7WZsU
- 2qoxl2JFWqveffB6S1VyPKinG1h8tPzaYGU4UfOD+7Czotb7f28gdzi4U
- pJ901ISjOHmYCFNyhsA7Ndt/V4zZglwyjG6QFtehQ0bL0xwFQThkhOU70
- oEkWeyMfy5btEmhlSdbU9C7o3Cy0GmUaPFBr6v0/5XbMg5p3aQSiHO53c g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="428159679"
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="428159679"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2024 02:12:14 -0800
+ bh=OAOJVIPn6o4km+cNoynO4sjDJt7nIhyKQmckIeJLuUU=;
+ b=U7cXnw7OXw4ab77J09dWN/5kMT7pJXAV7PRm6LKFAVxCQXqCTvp8Aiyi
+ pYJI6Oe7duMOSmqGMp1WioD2TXqno4QcZ8SIZrFEwlqkzcwUj4FIgP/zT
+ rxnTcNpAPaMzbltHJTavieZnG+I+vedYlAVWeWanhlaVTC1t5j5ypC9tf
+ 8pJM4tWMhUiLjzRfUTuegLWPlWSoZauLWEQy1C53rV0DLeRa6VryYY/gI
+ 2wtmpNf4ZoatSnRj5x4LCgxksDpMAqTp8e/tAdT/54hGWx69OUO5Lefa1
+ Wf9GWd/HuZh2N4XoGnF4tm5E/HsuWaq0KwMswESHHJTj4N4JTR01KEMip Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="4341986"
+X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; 
+   d="scan'208";a="4341986"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jan 2024 02:12:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="783464014"
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="783464014"
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="953185047"
+X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="953185047"
 Received: from lwenners-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.35.39])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2024 02:12:10 -0800
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jan 2024 02:12:16 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v2 30/39] drm/omap/hdmi4: switch to ->edid_read callback
-Date: Wed,  3 Jan 2024 12:08:44 +0200
-Message-Id: <fae4c8ba44e496e27ae27e41ae599d8f9897f2f5.1704276309.git.jani.nikula@intel.com>
+Subject: [PATCH v2 31/39] drm/omap/hdmi5: switch to ->edid_read callback
+Date: Wed,  3 Jan 2024 12:08:45 +0200
+Message-Id: <3e11d83be8dc4977bc1798bf6e1e6e704c989b37.1704276309.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1704276309.git.jani.nikula@intel.com>
 References: <cover.1704276309.git.jani.nikula@intel.com>
@@ -70,70 +71,55 @@ Prefer using the struct drm_edid based callback and functions.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/omapdrm/dss/hdmi4.c | 22 +++++++++++++++-------
- 1 file changed, 15 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/omapdrm/dss/hdmi5.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4.c b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-index a26b77d99d52..9b8747d83ee8 100644
---- a/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-+++ b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-@@ -436,11 +436,11 @@ static void hdmi4_bridge_hpd_notify(struct drm_bridge *bridge,
- 		hdmi4_cec_set_phys_addr(&hdmi->core, CEC_PHYS_ADDR_INVALID);
+diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5.c b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
+index e6611c683857..c7ae2235ae99 100644
+--- a/drivers/gpu/drm/omapdrm/dss/hdmi5.c
++++ b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
+@@ -425,11 +425,11 @@ static void hdmi5_bridge_disable(struct drm_bridge *bridge,
+ 	mutex_unlock(&hdmi->lock);
  }
  
--static struct edid *hdmi4_bridge_get_edid(struct drm_bridge *bridge,
+-static struct edid *hdmi5_bridge_get_edid(struct drm_bridge *bridge,
 -					  struct drm_connector *connector)
-+static const struct drm_edid *hdmi4_bridge_edid_read(struct drm_bridge *bridge,
++static const struct drm_edid *hdmi5_bridge_edid_read(struct drm_bridge *bridge,
 +						     struct drm_connector *connector)
  {
  	struct omap_hdmi *hdmi = drm_bridge_to_hdmi(bridge);
--	struct edid *edid = NULL;
-+	const struct drm_edid *drm_edid = NULL;
- 	unsigned int cec_addr;
+-	struct edid *edid;
++	const struct drm_edid *drm_edid;
  	bool need_enable;
+ 	int idlemode;
  	int r;
-@@ -461,13 +461,21 @@ static struct edid *hdmi4_bridge_get_edid(struct drm_bridge *bridge,
- 	if (r)
- 		goto done;
+@@ -452,7 +452,7 @@ static struct edid *hdmi5_bridge_get_edid(struct drm_bridge *bridge,
  
--	edid = drm_do_get_edid(connector, hdmi4_core_ddc_read, &hdmi->core);
-+	drm_edid = drm_edid_read_custom(connector, hdmi4_core_ddc_read, &hdmi->core);
+ 	hdmi5_core_ddc_init(&hdmi->core);
  
- done:
- 	hdmi_runtime_put(hdmi);
- 	mutex_unlock(&hdmi->lock);
+-	edid = drm_do_get_edid(connector, hdmi5_core_ddc_read, &hdmi->core);
++	drm_edid = drm_edid_read_custom(connector, hdmi5_core_ddc_read, &hdmi->core);
  
--	if (edid && edid->extensions) {
-+	if (drm_edid) {
-+		/*
-+		 * FIXME: The CEC physical address should be set using
-+		 * hdmi4_cec_set_phys_addr(&hdmi->core,
-+		 * connector->display_info.source_physical_address) from a path
-+		 * that has read the EDID and called
-+		 * drm_edid_connector_update().
-+		 */
-+		const struct edid *edid = drm_edid_raw(drm_edid);
- 		unsigned int len = (edid->extensions + 1) * EDID_LENGTH;
+ 	hdmi5_core_ddc_uninit(&hdmi->core);
  
- 		cec_addr = cec_get_edid_phys_addr((u8 *)edid, len, NULL);
-@@ -480,7 +488,7 @@ static struct edid *hdmi4_bridge_get_edid(struct drm_bridge *bridge,
+@@ -464,7 +464,7 @@ static struct edid *hdmi5_bridge_get_edid(struct drm_bridge *bridge,
  	if (need_enable)
- 		hdmi4_core_disable(&hdmi->core);
+ 		hdmi_core_disable(hdmi);
  
--	return edid;
+-	return (struct edid *)edid;
 +	return drm_edid;
  }
  
- static const struct drm_bridge_funcs hdmi4_bridge_funcs = {
-@@ -492,7 +500,7 @@ static const struct drm_bridge_funcs hdmi4_bridge_funcs = {
- 	.atomic_enable = hdmi4_bridge_enable,
- 	.atomic_disable = hdmi4_bridge_disable,
- 	.hpd_notify = hdmi4_bridge_hpd_notify,
--	.get_edid = hdmi4_bridge_get_edid,
-+	.edid_read = hdmi4_bridge_edid_read,
+ static const struct drm_bridge_funcs hdmi5_bridge_funcs = {
+@@ -475,7 +475,7 @@ static const struct drm_bridge_funcs hdmi5_bridge_funcs = {
+ 	.atomic_reset = drm_atomic_helper_bridge_reset,
+ 	.atomic_enable = hdmi5_bridge_enable,
+ 	.atomic_disable = hdmi5_bridge_disable,
+-	.get_edid = hdmi5_bridge_get_edid,
++	.edid_read = hdmi5_bridge_edid_read,
  };
  
- static void hdmi4_bridge_init(struct omap_hdmi *hdmi)
+ static void hdmi5_bridge_init(struct omap_hdmi *hdmi)
 -- 
 2.39.2
 
