@@ -1,49 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CAA7822AF9
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 11:10:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C65C2822AFA
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 11:10:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45FB210E29A;
-	Wed,  3 Jan 2024 10:10:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0681910E2A0;
+	Wed,  3 Jan 2024 10:10:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B43AB10E29A
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jan 2024 10:10:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D39A810E2A0
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jan 2024 10:10:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704276624; x=1735812624;
+ t=1704276630; x=1735812630;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=fdhGERFC02rkb+dK2SMrz68fbHDv5PCApK1v1TrSgm0=;
- b=awp6H3lZ1Hoe4FesqUHOKPdPbpfTChDd6w0XrsxGAUTycBU6tXnWCQ5n
- vahA94ccWQSAWqXYPz3sGxbiLcdEBcF3PwKIXjPBPCCN+x6qwHp/SoccV
- WW+oeIEUZWSdjip+Xl/a7Ne4Tsmy71nyH8e3Gp3Yinfib0+Uz9MJg/05E
- S20aRnBABepkbowc+u/NFZBaTHU66nRuKtUkGlyZZdI9TmQLUZIfpCQye
- 9f+136MHIc2BWQTRpj5bbM4/D1kRFy6KqBkKaW4KqwJ6x1CL8aNiq31G5
- nuOJJQ6EPeq4MLE7+6/G58MIDw+wEPEENp5a3NzGNAYPj77BtLKxQEtAO g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="396721077"
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="396721077"
+ bh=0Q5yfJHvMZWQCnsiByOXKTr+qtbniF3CKdf+7QwVuuY=;
+ b=NWPaxfwu/GS90XDohBSo/FCOnPt8oGJ18vOSv6mIeWibKhn/CQZhxLJA
+ XMeTLg+mO11XHvHwfhu5gQk+66Q4r3Nsff+hhm5fxhuWNpc2glIf4tmYq
+ HDHi6Rm0T4Mss1kq90QUT/TKmWSKLS/9046xVz2iwYC/1lYsmQ6CBA8Fz
+ zdJPLrNMX5i4lwyz8HU6K77X54V8g01a9gErYXV7TTqmXFsGzGaPRi/3s
+ 9AjDjbBUSA5CNFvQPF5CffknFjBS+pRu12psFLb5zkCyvDWZpN+2SJZh2
+ UvX7CoDFhDV9eUeU+dj+kbswwZ5CTI9KZzKw3OzR2n986VFsaohD/ZzCa g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="396721085"
+X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="396721085"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2024 02:10:24 -0800
+ 03 Jan 2024 02:10:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="903398432"
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="903398432"
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="903398455"
+X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="903398455"
 Received: from lwenners-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.35.39])
  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2024 02:10:21 -0800
+ 03 Jan 2024 02:10:27 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v2 12/39] drm/meson: switch to drm_bridge_edid_read()
-Date: Wed,  3 Jan 2024 12:08:26 +0200
-Message-Id: <82e11fe658fc39db6c7d65fdca3e4f36cd56dc67.1704276309.git.jani.nikula@intel.com>
+Subject: [PATCH v2 13/39] drm/bridge: remove drm_bridge_get_edid() in favour
+ of drm_bridge_edid_read()
+Date: Wed,  3 Jan 2024 12:08:27 +0200
+Message-Id: <b481f9e993367e6a7017e29a9e8912e2bb448fed.1704276309.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1704276309.git.jani.nikula@intel.com>
 References: <cover.1704276309.git.jani.nikula@intel.com>
@@ -66,55 +67,81 @@ Cc: Jani Nikula <jani.nikula@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Prefer using the struct drm_edid based functions.
-
-Not ideal, should use source physical address from connector info.
+All users of drm_bridge_get_edid() have been converted to use
+drm_bridge_edid_read(). Remove drm_bridge_get_edid().
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/meson/meson_encoder_hdmi.c | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/drm_bridge.c | 28 ++--------------------------
+ include/drm/drm_bridge.h     |  2 --
+ 2 files changed, 2 insertions(+), 28 deletions(-)
 
-diff --git a/drivers/gpu/drm/meson/meson_encoder_hdmi.c b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
-index 25ea76558690..fff6ce394f98 100644
---- a/drivers/gpu/drm/meson/meson_encoder_hdmi.c
-+++ b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
-@@ -323,19 +323,31 @@ static void meson_encoder_hdmi_hpd_notify(struct drm_bridge *bridge,
- 					  enum drm_connector_status status)
- {
- 	struct meson_encoder_hdmi *encoder_hdmi = bridge_to_meson_encoder_hdmi(bridge);
--	struct edid *edid;
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index 4f6f8c662d3f..a3065d4aa3d6 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -1217,7 +1217,7 @@ EXPORT_SYMBOL_GPL(drm_bridge_get_modes);
+  * the EDID and return it. Otherwise return NULL.
+  *
+  * If &drm_bridge_funcs.edid_read is not set, fall back to using
+- * drm_bridge_get_edid() and wrapping it in struct drm_edid.
++ * &drm_bridge_funcs.get_edid and wrapping it in struct drm_edid.
+  *
+  * RETURNS:
+  * The retrieved EDID on success, or NULL otherwise.
+@@ -1233,7 +1233,7 @@ const struct drm_edid *drm_bridge_edid_read(struct drm_bridge *bridge,
+ 		const struct drm_edid *drm_edid;
+ 		struct edid *edid;
  
- 	if (!encoder_hdmi->cec_notifier)
- 		return;
+-		edid = drm_bridge_get_edid(bridge, connector);
++		edid = bridge->funcs->get_edid(bridge, connector);
+ 		if (!edid)
+ 			return NULL;
  
- 	if (status == connector_status_connected) {
--		edid = drm_bridge_get_edid(encoder_hdmi->next_bridge, encoder_hdmi->connector);
--		if (!edid)
-+		const struct drm_edid *drm_edid;
-+		const struct edid *edid;
-+
-+		drm_edid = drm_bridge_edid_read(encoder_hdmi->next_bridge,
-+						encoder_hdmi->connector);
-+		if (!drm_edid)
- 			return;
- 
-+		/*
-+		 * FIXME: The CEC physical address should be set using
-+		 * cec_notifier_set_phys_addr(encoder_hdmi->cec_notifier,
-+		 * connector->display_info.source_physical_address) from a path
-+		 * that has read the EDID and called
-+		 * drm_edid_connector_update().
-+		 */
-+		edid = drm_edid_raw(drm_edid);
-+
- 		cec_notifier_set_phys_addr_from_edid(encoder_hdmi->cec_notifier, edid);
- 
--		kfree(edid);
-+		drm_edid_free(drm_edid);
- 	} else
- 		cec_notifier_phys_addr_invalidate(encoder_hdmi->cec_notifier);
+@@ -1248,30 +1248,6 @@ const struct drm_edid *drm_bridge_edid_read(struct drm_bridge *bridge,
  }
+ EXPORT_SYMBOL_GPL(drm_bridge_edid_read);
+ 
+-/**
+- * drm_bridge_get_edid - get the EDID data of the connected display
+- * @bridge: bridge control structure
+- * @connector: the connector to read EDID for
+- *
+- * If the bridge supports output EDID retrieval, as reported by the
+- * DRM_BRIDGE_OP_EDID bridge ops flag, call &drm_bridge_funcs.get_edid to
+- * get the EDID and return it. Otherwise return NULL.
+- *
+- * Deprecated. Prefer using drm_bridge_edid_read().
+- *
+- * RETURNS:
+- * The retrieved EDID on success, or NULL otherwise.
+- */
+-struct edid *drm_bridge_get_edid(struct drm_bridge *bridge,
+-				 struct drm_connector *connector)
+-{
+-	if (!(bridge->ops & DRM_BRIDGE_OP_EDID))
+-		return NULL;
+-
+-	return bridge->funcs->get_edid(bridge, connector);
+-}
+-EXPORT_SYMBOL_GPL(drm_bridge_get_edid);
+-
+ /**
+  * drm_bridge_hpd_enable - enable hot plug detection for the bridge
+  * @bridge: bridge control structure
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index b7aed3ead705..ee12f829aaf7 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -921,8 +921,6 @@ int drm_bridge_get_modes(struct drm_bridge *bridge,
+ 			 struct drm_connector *connector);
+ const struct drm_edid *drm_bridge_edid_read(struct drm_bridge *bridge,
+ 					    struct drm_connector *connector);
+-struct edid *drm_bridge_get_edid(struct drm_bridge *bridge,
+-				 struct drm_connector *connector);
+ void drm_bridge_hpd_enable(struct drm_bridge *bridge,
+ 			   void (*cb)(void *data,
+ 				      enum drm_connector_status status),
 -- 
 2.39.2
 
