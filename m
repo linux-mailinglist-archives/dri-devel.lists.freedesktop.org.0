@@ -2,43 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 406BB823132
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 17:24:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F2BD82313C
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 17:25:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E355510E155;
-	Wed,  3 Jan 2024 16:24:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED1BB10E164;
+	Wed,  3 Jan 2024 16:25:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90A3C10E155
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jan 2024 16:24:13 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id A89CACE16C9;
- Wed,  3 Jan 2024 16:24:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9D1FC433C7;
- Wed,  3 Jan 2024 16:24:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1704299050;
- bh=oDxUJ0csC6lWNRIuyYFs6Gg2tiCMbVHu/gNkuWzoWzM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=NKpfvShb6tkMIJpN0xEoI1S0zR4aLeaRArZwkobSudX3RkKpGjhNHy7iR044qE4HK
- zvd6GWk3J7PgtL/GHT0G+bH7zAu57/uWcaWQpl5nx7+3IBolmGkmWRh77k32S1xFb9
- xvQV48hg5VbrUz/0abaminyQw6+uu42GfcWgX792V6X4CooopX/mcrkaLa9KuEQK7a
- OCwGZ8d3eQJGe7BxWsFYgxw5etLbuRKscIsP8BJuXk6bD4qyHF2joQcWgyl9H5PftA
- syayVLlMizbNxE4C5uOh4kdVTMjdA5sia4spSl9GLJz4Mi8zT7Fg2MATiYcCUxvmij
- enitnIElliOow==
-Date: Wed, 3 Jan 2024 16:24:02 +0000
-From: Simon Horman <horms@kernel.org>
-To: Alexey Makhalov <alexey.makhalov@broadcom.com>
-Subject: Re: [PATCH v4 2/6] x86/vmware: Introduce VMware hypercall API
-Message-ID: <20240103162402.GA31813@kernel.org>
-References: <20231228192421.29894-1-alexey.makhalov@broadcom.com>
- <20231228192421.29894-3-alexey.makhalov@broadcom.com>
+Received: from mout.web.de (mout.web.de [217.72.192.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B702410E164
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jan 2024 16:25:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
+ t=1704299096; x=1704903896; i=markus.elfring@web.de;
+ bh=ClXQs64Aybn4pQe7H31+xNfShyDpOwOZKsYydbx2rjA=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+ In-Reply-To;
+ b=fLAJKfpkrLG9s4UgDUFDP3oIUuxwbdEVTCLm2Bu68Zlw8xL5zmIcHVdq+QQbjvxy
+ XikMA3IxCAA/zqX2Iz7S1Q+xeCtBI6mOFbAdUyHP448rUvYpe/2kRGoInjlmrZSAF
+ rUwUgiePTeUzFqgskwsWyxLcnqRsYXQIUckwuDEzECs54FCuOazgBkpUnR2BjObG4
+ Ka0ACPJ1IYlFEv8GdcgswYPjhIvNxb7ZagHZHdSeHz7j48YtEQDi18aluMkKShKhj
+ UgQd3dYsu8AWbhUJWvSPR7kcZy2bBAFgDAsNPPQ6OmeNWQU/IwtcmoHjemz3Ja1ee
+ A37NTp8A3elNUfQvZQ==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.88.95]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1Mvbn2-1r2qi60Q5e-00sm8S; Wed, 03
+ Jan 2024 17:24:56 +0100
+Message-ID: <c5f1a7bf-b444-4934-a205-3c2b3a045ff7@web.de>
+Date: Wed, 3 Jan 2024 17:24:53 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231228192421.29894-3-alexey.makhalov@broadcom.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] drm: property: One function call less in
+ drm_property_create() after error detection
+Content-Language: en-GB
+To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+References: <ff7ce5d0-59fa-470c-8dd6-68dbe65c18e5@web.de>
+ <9b1e7330-f4f6-47f8-a568-eaea1624bb6f@web.de>
+ <37647c33-7f9d-4763-8bf4-cfc5c9a811de@mailbox.org>
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <37647c33-7f9d-4763-8bf4-cfc5c9a811de@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:m52ma2VKpDCFMhQhjPfaQSHvNMcIEZqritcXHHLGW3bJuSnNW0V
+ KbJHlIwID4pTZjo+NtHfxXqxjnURS5twcbiC+E47w5mbyvuJcDICd7vCJEdZsfpk00OTXFi
+ 47y6MIvagOxoo+NLlzdISCDsKTge0EspM5uLcZ+CSkkODIBWdn1Xj15cUhGB8nKsYe+ILFS
+ agPjAnMNbDP5zDe4ksrpw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:UuoOhNjX3vY=;TThZ/Kyymlf05+h0ctlxFzQW+Sv
+ Yv6cYl0qVJGnivhBtF/e0aquTh8g0tpw7Y+jy1KSBJ/eEKowyV0mqYukZ40qOcyUok9tfOTqm
+ +vrnNbeilm3FqYN26pAHaZ2cR09uIMESQYdT3DcCTgGiwkuZK0mTqriuFdkkpSv+yZbT4Fhfc
+ u4KXhsAN9cPhCF9TD+8s39YyaNViGuQoK3L9o83z8c9n3kEoHAV9hGeGYHuSrB+Vf7dx8wWyp
+ pzjW3Xwe2Va/WgmnTyVBG+5PP6ElrLzccYBvAVRnKtu008jiM0vcT99slwHS//aBgXpEnvMXm
+ //E6Zw6jA+FPZ/SzgFjcjOQtY7niBlWsh46+BBDJPygJBPzYrV9GJm1vkcmtet3eQufh4r6Sx
+ IjeU+LrJcJrUB2Ac0iJOrS/osioP0+vkt0k3IrC5eLeelBzug44RZfofSomc6s344XSYdk4SH
+ M4oEbCxq1maXc9KAUja1o9+nDKwICGz1Sn8aAzp/KoYwn+ejRApYjTlydCJFdOmKOOwmxohaU
+ Zzvpc38fuZvrp4yBO5prB7VmXon5JzAtaucdtfI9cKqAm8KTdF+c3J04okGrrxK/tt4to/9ka
+ g57Qi1w4cLwZcxj83PAORfZ5KQDf+XeTC6jLBivZzfOCtF039UzgbC/IFEw1OdtlkvJXXt/ca
+ u/n96kdC/nhxVM0m/3rlTJkhVd3GkvhSaHUYNhSKIYEsQVwcZ80GdHcE4i0FOq0aVLpRNtRaW
+ S3laOZJB794Qb9MCCeFZ1eTIfF9C/bbHfNiTM6/agd+TBCJjWeGMCuKcKHIq160dcmYwUobP3
+ nS3HUi7R+ztTG1DN+OGRnNxWJVJ/H0NbS5CCRpHyg5OiatRBcv20ewji7jZufkKAjZHZWXr5p
+ POAY7Kxw4Cuz6MKfvgKUQg70//dZSufZKF3iRgu6ryfxwtX5RaWrZqXm7XUkkxL9HJzR+Lzg7
+ Wahs/w==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,55 +78,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pv-drivers@vmware.com, dave.hansen@linux.intel.com,
- dri-devel@lists.freedesktop.org, namit@vmware.com, hpa@zytor.com,
- timothym@vmware.com, x86@kernel.org, mingo@redhat.com,
- linux-graphics-maintainer@vmware.com, linux-input@vger.kernel.org,
- tzimmermann@suse.de, richardcochran@gmail.com, virtualization@lists.linux.dev,
- mripard@kernel.org, akaher@vmware.com, bp@alien8.de, jsipek@vmware.com,
- tglx@linutronix.de, netdev@vger.kernel.org, dmitry.torokhov@gmail.com,
- linux-kernel@vger.kernel.org, kirill.shutemov@linux.intel.com,
- zackr@vmware.com
+Cc: LKML <linux-kernel@vger.kernel.org>, cocci@inria.fr
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 28, 2023 at 11:24:17AM -0800, Alexey Makhalov wrote:
-> From: Alexey Makhalov <amakhalov@vmware.com>
-> 
-> Introduce vmware_hypercall family of functions. It is a common
-> implementation to be used by the VMware guest code and virtual
-> device drivers in architecture independent manner.
-> 
-> The API consists of vmware_hypercallX and vmware_hypercall_hb_{out,in}
-> set of functions by analogy with KVM hypercall API. Architecture
-> specific implementation is hidden inside.
-> 
-> It will simplify future enhancements in VMware hypercalls such
-> as SEV-ES and TDX related changes without needs to modify a
-> caller in device drivers code.
-> 
-> Current implementation extends an idea from commit bac7b4e84323
-> ("x86/vmware: Update platform detection code for VMCALL/VMMCALL
-> hypercalls") to have a slow, but safe path in VMWARE_HYPERCALL
-> earlier during the boot when alternatives are not yet applied.
-> This logic was inherited from VMWARE_CMD from the commit mentioned
-> above. Default alternative code was optimized by size to reduce
-> excessive nop alignment once alternatives are applied. Total
-> default code size is 26 bytes, in worse case (3 bytes alternative)
-> remaining 23 bytes will be aligned by only 3 long NOP instructions.
-> 
-> Signed-off-by: Alexey Makhalov <amakhalov@vmware.com>
-> Reviewed-by: Nadav Amit <namit@vmware.com>
-> Reviewed-by: Jeff Sipek <jsipek@vmware.com>
+>> The kfree() function was called in one case by the
+>> drm_property_create() function during error handling
+>> even if the passed data structure member contained a null pointer.
+>> This issue was detected by using the Coccinelle software.
+>>
+>> Thus use another label.
+=E2=80=A6
+>> +++ b/drivers/gpu/drm/drm_property.c
+>> @@ -117,7 +117,7 @@ struct drm_property *drm_property_create(struct drm=
+_device *dev,
+>>  		property->values =3D kcalloc(num_values, sizeof(uint64_t),
+>>  					   GFP_KERNEL);
+>>  		if (!property->values)
+>> -			goto fail;
+>> +			goto free_property;
+>>  	}
+>>
+>>  	ret =3D drm_mode_object_add(dev, &property->base, DRM_MODE_OBJECT_PRO=
+PERTY);
+>> @@ -135,6 +135,7 @@ struct drm_property *drm_property_create(struct drm=
+_device *dev,
+>>  	return property;
+>>  fail:
+>>  	kfree(property->values);
+>> +free_property:
+>>  	kfree(property);
+>>  	return NULL;
+>>  }
+=E2=80=A6
+> This change is pointless at best, kfree(NULL) works fine.
 
-Hi Alexey,
+* Would you interpret such a special function call as redundant?
 
-I'd like to flag that this breaks gcc-13 x86_64 allmodconfig builds of the
-following files. And although this is resolved by the subsequent 3 patches
-in this series, it does still break bisection.
+* Do you find advices applicable from another information source
+  also for this function implementation?
+  https://wiki.sei.cmu.edu/confluence/display/c/MEM12-C.+Consider+using+a+=
+goto+chain+when+leaving+a+function+on+error+when+using+and+releasing+resou=
+rces
 
- drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
- drivers/input/mouse/vmmouse.c
- drivers/ptp/ptp_vmw.c
 
-...
+> Out of curiosity, what exactly did Coccinelle report?
+
+Some SmPL scripts from my own selection tend to point questionable impleme=
+ntation details out.
+
+Regards,
+Markus
