@@ -1,56 +1,91 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 120A1822B20
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 11:14:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D617A822B46
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 11:26:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67AC610E30D;
-	Wed,  3 Jan 2024 10:14:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1418C10E243;
+	Wed,  3 Jan 2024 10:26:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EFE210E30D
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jan 2024 10:14:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704276844; x=1735812844;
- h=from:to:subject:in-reply-to:references:date:message-id:
- mime-version; bh=RhE9+ddq7espxYDtQJygiVnkj6Ol7E0W6F65UFpffb4=;
- b=PTXHWVnRYzfLu5OAKHbBBmlTcqj4zkB6z1ojBGLvJirSsDig8YkTFceh
- iJvLnzXMXd0ieRtaVGT1l7GIt3gbgi6X0CRh+sBrRZqjAZS6Wet8PD3ch
- NdKdhbXM98IecP9jAlXUTacqSmQOyZVuLZiOKd+fleNMSlFJepKbzlpxP
- QwOe792e5I0T4156KvLWTnChSxfrFP4o+gXMuUlmnQxJaVG0H4tr6m+yp
- rRM7ltgLX0afZFcPCogrEtoJYfyWEZKOST84K32x7o4mXoMJmPl2aFtbV
- VUtWS7FrbORcYPMM6NbFzvfKh4YujRh+yd2nC5bmC/BOQzSR/QXoI329X g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="395865625"
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="395865625"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2024 02:14:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="850396503"
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="850396503"
-Received: from lwenners-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.35.39])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2024 02:13:58 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: neil.armstrong@linaro.org, dri-devel@lists.freedesktop.org, Andrzej
- Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: Re: [PATCH 0/2] drm/bridge: start moving towards struct drm_edid
-In-Reply-To: <87edfes07x.fsf@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1698312534.git.jani.nikula@intel.com>
- <87jzqksg8g.fsf@intel.com> <87frzytml3.fsf@intel.com>
- <dcad8756-c723-4dc9-91db-a386a1b2824a@linaro.org>
- <87msu2si7q.fsf@intel.com> <87edfes07x.fsf@intel.com>
-Date: Wed, 03 Jan 2024 12:13:45 +0200
-Message-ID: <87a5pm2086.fsf@intel.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A14F610E07F
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jan 2024 10:26:43 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 2AFC621CE4;
+ Wed,  3 Jan 2024 10:26:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1704277602; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=abc6UaxFIPj+xDBAAYtizVyMNL31WYzON1HiYHlhgYw=;
+ b=HtU/LYl/ChOnzFQqbwrYRYELAX0Ik+t55F7j6Wr67fPTV3u61BkfcPkdYjw+RbhxfpFsqq
+ g+BRrbKmMa8xqtnWD5e9xfGRPcXfnHOQg7zTCBqpbvVdMuyQ7S4cKALDA7ux9mqOmYuBGJ
+ 6AM3XD6acRpgKqelRHjspwtAE3xQvDE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1704277602;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=abc6UaxFIPj+xDBAAYtizVyMNL31WYzON1HiYHlhgYw=;
+ b=Gif3NOEViHGIs3VobpDcfVsmyzB+o2QJvT/zyR9yW5F5bYTdie0tBHsGd4PEemCz7Bhd1Y
+ VlX4KhJzvVWUeFBQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1704277602; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=abc6UaxFIPj+xDBAAYtizVyMNL31WYzON1HiYHlhgYw=;
+ b=HtU/LYl/ChOnzFQqbwrYRYELAX0Ik+t55F7j6Wr67fPTV3u61BkfcPkdYjw+RbhxfpFsqq
+ g+BRrbKmMa8xqtnWD5e9xfGRPcXfnHOQg7zTCBqpbvVdMuyQ7S4cKALDA7ux9mqOmYuBGJ
+ 6AM3XD6acRpgKqelRHjspwtAE3xQvDE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1704277602;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=abc6UaxFIPj+xDBAAYtizVyMNL31WYzON1HiYHlhgYw=;
+ b=Gif3NOEViHGIs3VobpDcfVsmyzB+o2QJvT/zyR9yW5F5bYTdie0tBHsGd4PEemCz7Bhd1Y
+ VlX4KhJzvVWUeFBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CBD491340C;
+ Wed,  3 Jan 2024 10:26:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 2y2GMGE2lWWmfgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 03 Jan 2024 10:26:41 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: drawat.floss@gmail.com, javierm@redhat.com, deller@gmx.de,
+ decui@microsoft.com, wei.liu@kernel.org, haiyangz@microsoft.com,
+ kys@microsoft.com, daniel@ffwll.ch, airlied@gmail.com
+Subject: [PATCH 0/4] hyperv, sysfb: Do not use screen_info in drivers
+Date: Wed,  3 Jan 2024 11:15:08 +0100
+Message-ID: <20240103102640.31751-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spam-Level: *****
+X-Spam-Score: 5.20
+X-Spamd-Result: default: False [5.20 / 50.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; BAYES_HAM(-0.00)[30.08%];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+ R_MISSING_CHARSET(2.50)[]; TAGGED_RCPT(0.00)[];
+ MIME_GOOD(-0.10)[text/plain]; BROKEN_CONTENT_TYPE(1.50)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_RATELIMIT(0.00)[to_ip_from(RLw9gjjhh8cousxs3wi4trssza)];
+ RCVD_COUNT_THREE(0.00)[3];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; RCPT_COUNT_TWELVE(0.00)[13];
+ MID_CONTAINS_FROM(1.00)[];
+ FREEMAIL_TO(0.00)[gmail.com,redhat.com,gmx.de,microsoft.com,kernel.org,ffwll.ch];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
+ MIME_TRACE(0.00)[0:+]; RCVD_TLS_ALL(0.00)[];
+ SUSPICIOUS_RECIPS(1.50)[]
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,27 +98,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-hyperv@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 22 Dec 2023, Jani Nikula <jani.nikula@intel.com> wrote:
-> Okay, I rebased and pushed [1]. Probably doesn't make sense to send a
-> patch bomb like that right now...
+The global screen_info state is only meant for architecture and
+firmware code. Replace its use in hyperv graphics drivers with the
+correct aperture helpers.
 
-And here are the patches:
+Patches 1 and 2 update hyperv-drm and hyperv-fb to use the correct
+aperture helpers instead of screen_info for removing existing firmware
+framebuffers.
 
-https://patchwork.freedesktop.org/series/128149/
+Hyperv-fb also modifies screen_info for better use with kexec. While
+that update makes sense, it's not supposed to be done by the driver.
+Patch 3 adds similar code to sysfb and patch 4 removes the code from
+the driver.
 
-BR,
-Jani.
+An intented side effect of this patchset is that all systems now
+benefit from better kexec support. After rebooting with kexec, the
+kernel operated on stale settings on screen_info. Patch 3 fixes this
+and the kexec kernel will use screen_info in any meaningful way.
+
+Thomas Zimmermann (4):
+  drm/hyperv: Remove firmware framebuffers with aperture helper
+  fbdev/hyperv_fb: Remove firmware framebuffers with aperture helpers
+  firmware/sysfb: Clear screen_info state after consuming it
+  fbdev/hyperv_fb: Do not clear global screen_info
+
+ drivers/firmware/sysfb.c                | 14 +++++++++++++-
+ drivers/gpu/drm/hyperv/hyperv_drm_drv.c |  8 ++------
+ drivers/video/fbdev/hyperv_fb.c         | 20 +++++++-------------
+ 3 files changed, 22 insertions(+), 20 deletions(-)
 
 
->
-> BR,
-> Jani.
->
->
-> [1] https://gitlab.freedesktop.org/jani/linux/-/commits/drm-edid-bridge
-
+base-commit: 25232eb8a9ac7fa0dac7e846a4bf7fba2b6db39a
 -- 
-Jani Nikula, Intel
+2.43.0
+
