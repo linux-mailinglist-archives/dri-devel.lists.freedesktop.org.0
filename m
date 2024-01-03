@@ -2,47 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39475822766
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 04:10:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B40508227BB
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 05:10:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FEA610E1B7;
-	Wed,  3 Jan 2024 03:10:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FB1A10E071;
+	Wed,  3 Jan 2024 04:10:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:3::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7642F10E161;
- Wed,  3 Jan 2024 03:10:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=+wqhVrLRvZUgx/4O+BPqigJfeuY9KmuscSyp/l86YBk=; b=SDj6v7c05qdR+rdoLIzSylvMHD
- dSZVgKLaxVFQ5SV0gUZKJqwnX0RkffIzAI8qEmn4KEGbkXOVnEtS/3ZQuIoXFaEjNH7CHbo7Ay+Gt
- /6L0RG2vp8UTX73uqWvyUuyEP+5xqo3cz6/15WtMND5mBdQPU8cxV1u/d6wIsqvrxDkSpBM5MH3JD
- Zc/xa7ErX3wAdob8wjtHhn1MZAORk7hftuduzs3x2mU35yqyUKogP4cFc5q0NQ1yWsav2Eiqpt2Dh
- nPZ3zvDu2iyeQ5v7Yzp7/Ev8RvPrCD2g5T6ehi09YDkJCQh9dWth9sgHZ5L/xWd0zjf+xIg7V/MlL
- LNFqBs2w==;
-Received: from [50.53.46.231] (helo=[192.168.254.15])
- by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1rKrdt-009eXx-0t; Wed, 03 Jan 2024 03:10:05 +0000
-Message-ID: <70b16de0-b213-464f-a318-d9b96b76b967@infradead.org>
-Date: Tue, 2 Jan 2024 19:10:04 -0800
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D668C10E071
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jan 2024 04:10:19 +0000 (UTC)
+Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx0.riseup.net (Postfix) with ESMTPS id 4T4bpx2l20z9vy5;
+ Wed,  3 Jan 2024 04:10:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1704255018; bh=Q4QSWB4lpoWhI6LvZXYA/LFlYxYL0e3ql56uc4uLsUs=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=TRxxtCGuzWmXNaAyM/tnH6YN8e4sGhtY9nP3iz88vSpD56P+4Qi2Tuvp0NK5lDUuJ
+ MkIRN4QDAyPnJK2KNAhtazIXRQFS5kuVTv01x00IeB5G7lFl6JxNF7zMyjnsUfxg1X
+ siFJKtKYGbllHXv/M9T69EGCSNLXfD9fW+12UtYw=
+X-Riseup-User-ID: 405420CC388E9EF22FE493B6FCB7CB07418DA6345B23D1C17FCD1E61398A9170
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4T4bpp3Bf5zJmps;
+ Wed,  3 Jan 2024 04:10:09 +0000 (UTC)
+From: Dang Huynh <danct12@riseup.net>
+To: =?utf-8?B?T25kxZllag==?= Jirman <megi@xff.cz>,
+ Manuel Traut <manut@mecka.net>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Sandy Huang <hjc@rock-chips.com>, Mark Yao <markyao0591@gmail.com>,
+ Diederik de Haas <didi.debian@cknow.org>,
+ Segfault <awarnecke002@hotmail.com>, Arnaud Ferraris <aferraris@debian.org>,
+ Danct12 <danct12@riseup.net>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v3 4/4] arm64: dts: rockchip: Add devicetree for Pine64
+ PineTab2
+Date: Wed, 03 Jan 2024 04:09:55 +0000
+Message-ID: <4814116.aeNJFYEL58@melttower>
+In-Reply-To: <775vjfucu2g2s6zzeutj7f7tapx3q2geccpxvv4ppcms4hxbq7@cbrdmlu2ryzp>
+References: <20240102-pinetab2-v3-0-cb1aa69f8c30@mecka.net>
+ <20240102-pinetab2-v3-4-cb1aa69f8c30@mecka.net>
+ <775vjfucu2g2s6zzeutj7f7tapx3q2geccpxvv4ppcms4hxbq7@cbrdmlu2ryzp>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH -next] drm/nouveau: uapi: fix kerneldoc warnings
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-To: Vegard Nossum <vegard.nossum@oracle.com>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@redhat.com>
-References: <20231225065145.3060754-1-vegard.nossum@oracle.com>
- <009fcdc4-b10a-4ab9-b368-7cea75bb74e2@infradead.org>
- <0f04dd81-1b0f-4408-b4de-63a01895b0a5@oracle.com>
- <df7d110b-a50c-4293-b5d4-45913fa6909e@infradead.org>
-In-Reply-To: <df7d110b-a50c-4293-b5d4-45913fa6909e@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,66 +67,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, Jonathan Corbet <corbet@lwn.net>,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Vegard,
+On Tuesday, January 2, 2024 6:07:56 PM UTC Ond=C5=99ej Jirman wrote:
+> On Tue, Jan 02, 2024 at 05:15:47PM +0100, Manuel Traut wrote:
+> > +&pcie2x1 {
+> > +	pinctrl-names =3D "default";
+> > +	pinctrl-0 =3D <&pcie_reset_h>;
+> > +	reset-gpios =3D <&gpio1 RK_PB2 GPIO_ACTIVE_HIGH>;
+> > +	vpcie3v3-supply =3D <&vcc3v3_minipcie>;
+> > +	status =3D "okay";
+> > +};
+>=20
+> Does it make sense to enable this HW block by default, when it isn't used=
+ on
+> actual HW?
+>=20
 
-On 12/25/23 09:08, Randy Dunlap wrote:
-> 
-> 
-> On 12/25/23 00:30, Vegard Nossum wrote:
->>
->> On 25/12/2023 08:40, Randy Dunlap wrote:
->>> I do see one thing that I don't like in the generated html output.
->>> It's not a problem with this patch.
->>> The #defines for DRM_NOUVEAU_VM_BIND_OP_MAP etc. have a ';' at the
->>> end of each line:
->>>
->>> struct drm_nouveau_vm_bind_op {
->>>      __u32 op;
->>> #define DRM_NOUVEAU_VM_BIND_OP_MAP 0x0;
->>> #define DRM_NOUVEAU_VM_BIND_OP_UNMAP 0x1;
->>>      __u32 flags;
->>> #define DRM_NOUVEAU_VM_BIND_SPARSE (1 << 8);
->>>      __u32 handle;
->>>      __u32 pad;
->>>      __u64 addr;
->>>      __u64 bo_offset;
->>>      __u64 range;
->>> };
->>
->> Do we actually ever want preprocessor directives to appear inside
->> definitions in the output? If not, I think this should work:
-> 
-> Not necessarily.
-> 
->> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
->> index 3cdc7dba37e3..61425fc9645e 100755
->> --- a/scripts/kernel-doc
->> +++ b/scripts/kernel-doc
->> @@ -1259,6 +1259,8 @@ sub dump_struct($$) {
->>                 $clause =~ s/\s+$//;
->>                 $clause =~ s/\s+/ /;
->>                 next if (!$clause);
->> +               # skip preprocessor directives
->> +               next if $clause =~ m/^#/;
->>                 $level-- if ($clause =~ m/(\})/ && $level > 1);
->>                 if (!($clause =~ m/^\s*#/)) {
->>                         $declaration .= "\t" x $level;
->>
->>
-> 
-> but that didn't work for me.
-> I don't have time to look into it any more today.  :)
+PCI-E is hooked up to a connector in the schematics, so I think it make sen=
+se=20
+to enable it when there's one available.
 
-I retested this patch. I must have really messed up my testing
-in the first round. This now LGTM. Thanks.
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-
--- 
-#Randy
