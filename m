@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C8EA822AFC
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 11:10:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C450E822AFD
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 11:10:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DF5510E2AC;
-	Wed,  3 Jan 2024 10:10:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CA3310E296;
+	Wed,  3 Jan 2024 10:10:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A324510E2AC
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jan 2024 10:10:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8B7410E296
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jan 2024 10:10:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704276644; x=1735812644;
+ t=1704276650; x=1735812650;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=DMjqPdGs/7IHipYTP1BzVivkdxYsdN4cjKVOtHqrQEQ=;
- b=Ez0JAqjtZaX7sveSnWAwR2K+BrdQDSaJT+IDAZVn8fUHoIBPrO9Z3c2X
- jnmGkSOhEJFk67Fs+XYYNvIU+QhPaP93B2SGzme52Q8X6gFnw1O3DwIqm
- YCtduiNLUg67FOuml8cJ+zosT15BBDv3ZE1LtCD5NH5Sk6EiZ0AXw9v7X
- uJXw+k+HYifPXQyen/ZgExUmkVZLMGYKiud2DFNbFD6TOI76UlZM6pd9d
- 6Wuf+Q3SMuJei5fV5ni82sMpRnq8Jg822vzOsT5fRAxDH05pAUUKd0Row
- qNHqtZVH6h6UBExlPIvIRvD4K7HU+uU/UKoGLoI7g+Dv8KgJHo5Yc5VT2 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="396721106"
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="396721106"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ bh=3bi336qNdVKLv7Oe0t6dIo7X3g/wOyaVBYR60m//wzc=;
+ b=QdsBM7SQC/jdENhhXXpNOVobogoF8bZ+ES1x3gsXf/FX6UENYFk/y5m8
+ 8ITo+zgO3uPWrrFmIe07xfwkC7BGrloVGwakmgvcV1IM26zxwVOoX0x/+
+ lEUEgbDDYOTMxGcyIjr2XbXeYsRLJeiALUi1oKMt9bh+unIV2yXyx9m3X
+ s5h798DgPviLSY6VJdkG0hoLDB66VkafqrqigswlZeW6LJgzOpC6VHnN2
+ HigPK0/HKbzkorOK/qoT9sokDD3MvYP47ecpVFTWvwuZZhkRFOHDxM619
+ QK4qv1558v+pcc3BIXWBUJi48gbrkmL0XRrZn2RHfG3L+QXTwvdiIHE9b A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="396721113"
+X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="396721113"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2024 02:10:43 -0800
+ 03 Jan 2024 02:10:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="903398494"
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="903398494"
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="756172455"
+X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="756172455"
 Received: from lwenners-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.35.39])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2024 02:10:39 -0800
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jan 2024 02:10:46 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v2 15/39] drm/bridge: cdns-mhdp8546: switch to ->edid_read
- callback
-Date: Wed,  3 Jan 2024 12:08:29 +0200
-Message-Id: <0c355b1457e6e86fdc014c8159fbbcdb54cc2e00.1704276309.git.jani.nikula@intel.com>
+Subject: [PATCH v2 16/39] drm/bridge: cdns-mhdp8546: clear the EDID property
+ on failures
+Date: Wed,  3 Jan 2024 12:08:30 +0200
+Message-Id: <1c4830fe81cf202dc07dd273be77582a4f15dc45.1704276309.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1704276309.git.jani.nikula@intel.com>
 References: <cover.1704276309.git.jani.nikula@intel.com>
@@ -67,85 +67,33 @@ Cc: Jani Nikula <jani.nikula@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Prefer using the struct drm_edid based callback and functions.
+If EDID read fails, clear the EDID property.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 26 +++++++++----------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-index 7d470527455b..e44cb89c33f0 100644
+index e44cb89c33f0..e226acc5c15e 100644
 --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
 +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-@@ -1505,33 +1505,33 @@ static void cdns_mhdp_link_down(struct cdns_mhdp_device *mhdp)
- 	mhdp->link_up = false;
- }
- 
--static struct edid *cdns_mhdp_get_edid(struct cdns_mhdp_device *mhdp,
--				       struct drm_connector *connector)
-+static const struct drm_edid *cdns_mhdp_edid_read(struct cdns_mhdp_device *mhdp,
-+						  struct drm_connector *connector)
- {
- 	if (!mhdp->plugged)
- 		return NULL;
- 
--	return drm_do_get_edid(connector, cdns_mhdp_get_edid_block, mhdp);
-+	return drm_edid_read_custom(connector, cdns_mhdp_get_edid_block, mhdp);
- }
- 
- static int cdns_mhdp_get_modes(struct drm_connector *connector)
- {
- 	struct cdns_mhdp_device *mhdp = connector_to_mhdp(connector);
--	struct edid *edid;
-+	const struct drm_edid *drm_edid;
- 	int num_modes;
- 
- 	if (!mhdp->plugged)
+@@ -1524,12 +1524,14 @@ static int cdns_mhdp_get_modes(struct drm_connector *connector)
  		return 0;
  
--	edid = cdns_mhdp_get_edid(mhdp, connector);
--	if (!edid) {
-+	drm_edid = cdns_mhdp_edid_read(mhdp, connector);
-+	if (!drm_edid) {
+ 	drm_edid = cdns_mhdp_edid_read(mhdp, connector);
++
++	drm_edid_connector_update(connector, drm_edid);
++
+ 	if (!drm_edid) {
  		dev_err(mhdp->dev, "Failed to read EDID\n");
  		return 0;
  	}
  
--	drm_connector_update_edid_property(connector, edid);
--	num_modes = drm_add_edid_modes(connector, edid);
--	kfree(edid);
-+	drm_edid_connector_update(connector, drm_edid);
-+	num_modes = drm_edid_connector_add_modes(connector);
-+	drm_edid_free(drm_edid);
+-	drm_edid_connector_update(connector, drm_edid);
+ 	num_modes = drm_edid_connector_add_modes(connector);
+ 	drm_edid_free(drm_edid);
  
- 	/*
- 	 * HACK: Warn about unsupported display formats until we deal
-@@ -2220,12 +2220,12 @@ static enum drm_connector_status cdns_mhdp_bridge_detect(struct drm_bridge *brid
- 	return cdns_mhdp_detect(mhdp);
- }
- 
--static struct edid *cdns_mhdp_bridge_get_edid(struct drm_bridge *bridge,
--					      struct drm_connector *connector)
-+static const struct drm_edid *cdns_mhdp_bridge_edid_read(struct drm_bridge *bridge,
-+							 struct drm_connector *connector)
- {
- 	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
- 
--	return cdns_mhdp_get_edid(mhdp, connector);
-+	return cdns_mhdp_edid_read(mhdp, connector);
- }
- 
- static const struct drm_bridge_funcs cdns_mhdp_bridge_funcs = {
-@@ -2239,7 +2239,7 @@ static const struct drm_bridge_funcs cdns_mhdp_bridge_funcs = {
- 	.atomic_reset = cdns_mhdp_bridge_atomic_reset,
- 	.atomic_get_input_bus_fmts = cdns_mhdp_get_input_bus_fmts,
- 	.detect = cdns_mhdp_bridge_detect,
--	.get_edid = cdns_mhdp_bridge_get_edid,
-+	.edid_read = cdns_mhdp_bridge_edid_read,
- 	.hpd_enable = cdns_mhdp_bridge_hpd_enable,
- 	.hpd_disable = cdns_mhdp_bridge_hpd_disable,
- };
 -- 
 2.39.2
 
