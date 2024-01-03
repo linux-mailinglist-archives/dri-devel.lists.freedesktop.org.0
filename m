@@ -1,50 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6722822B08
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 11:11:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95B19822B09
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 11:12:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 048E610E2F1;
-	Wed,  3 Jan 2024 10:11:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9AE110E2F3;
+	Wed,  3 Jan 2024 10:12:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6C7210E2F1
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jan 2024 10:11:55 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 356AF10E2F3
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jan 2024 10:12:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704276716; x=1735812716;
+ t=1704276722; x=1735812722;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=awx+PIr/X+qF58NaPquGwAzW8T7ZaD1c7rPYDXZbyyk=;
- b=Y5uLeX/Fck/Dg/xYbgEWIkuUsko27jo1Uj4POMJCS0KYH/MHWt1khqyQ
- h4Y7J6nXwFUJwowcsND7RLjlmyIMunTZumipXclVtfM+htNW1Npx5tqFI
- Pb5vQyZeKinjnHo07bxdSv0myusMLrX3HfW0QMmJrFMlWpSs5FEDNpXWl
- YqTMwz+4yTji+q8OnKm/1w43zvU3fJpBkJ77R0C6lpRQea2OmQHuG6G1L
- NdyUp8JErbiREQeXTZKU5TE2Kb2xcR+t9SYSvSL+5K1GpNTU5mYgY1B7S
- RfGkarKm4r0osvpdJdS6t+atugyHAV8IhyVGnHUsPAQ8nIVYLFqQ+ezBF w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="4341912"
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; 
-   d="scan'208";a="4341912"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2024 02:11:56 -0800
+ bh=eesg6+lfrgBW7TYet6kYNJpTpyzqGjIHgxWV/Am2Lzg=;
+ b=W8k7puO4/y2SEgvAUKgusPrQZLCuJDn/v90W7KzdC79ri+U7DaTNsRQh
+ XRViLC6FJ+9iJ0R9EXy/r4UTdx6EYJQ1vikqN+XqvU5R2skG+g8NIWdNS
+ IOm4TAqaIt5APxlTbhOJkDcJFC2Mn4VwqcHejGAplqv1+z90datug5Fl4
+ VnQfUSQy9/vPrI4gMI1Fa8inqvTfR7Vfe1x0Xv1WQVDdTacjQpvAA27rC
+ lxVFYTK31SnyaGZy8wPidQpS7pVF5a6xQ1rHHzfkoowtRG/2U603DS6h/
+ iJgYexEOn2pua9V9Na3P+iK0iD6ctKWH+zDs0TGNeodU2HWUtIj2j0wGJ g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="428159645"
+X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="428159645"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jan 2024 02:12:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="953185023"
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="953185023"
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="783463957"
+X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="783463957"
 Received: from lwenners-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.35.39])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2024 02:11:52 -0800
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jan 2024 02:11:58 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v2 27/39] drm/mediatek/hdmi: switch to ->edid_read callback
-Date: Wed,  3 Jan 2024 12:08:41 +0200
-Message-Id: <86810aa84406512832dc3fb1ad20720a8bc567a6.1704276309.git.jani.nikula@intel.com>
+Subject: [PATCH v2 28/39] drm/msm/hdmi: fix indent
+Date: Wed,  3 Jan 2024 12:08:42 +0200
+Message-Id: <6cce077f9ee87e5b5440682134919ca7f52e7417.1704276309.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1704276309.git.jani.nikula@intel.com>
 References: <cover.1704276309.git.jani.nikula@intel.com>
@@ -67,62 +66,36 @@ Cc: Jani Nikula <jani.nikula@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Prefer using the struct drm_edid based callback and functions.
+Remove the excess leading tabs.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/mediatek/mtk_hdmi.c | 26 +++++++++++++++++---------
- 1 file changed, 17 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/msm/hdmi/hdmi_bridge.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-index 86133bf16326..c6bdc565e4a9 100644
---- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-@@ -1265,19 +1265,27 @@ static enum drm_connector_status mtk_hdmi_bridge_detect(struct drm_bridge *bridg
- 	return mtk_hdmi_detect(hdmi);
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+index f5e01471b0b0..f28c61570533 100644
+--- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
++++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+@@ -290,12 +290,12 @@ static enum drm_mode_status msm_hdmi_bridge_mode_valid(struct drm_bridge *bridge
  }
  
--static struct edid *mtk_hdmi_bridge_get_edid(struct drm_bridge *bridge,
--					     struct drm_connector *connector)
-+static const struct drm_edid *mtk_hdmi_bridge_edid_read(struct drm_bridge *bridge,
-+							struct drm_connector *connector)
- {
- 	struct mtk_hdmi *hdmi = hdmi_ctx_from_bridge(bridge);
--	struct edid *edid;
-+	const struct drm_edid *drm_edid;
- 
- 	if (!hdmi->ddc_adpt)
- 		return NULL;
--	edid = drm_get_edid(connector, hdmi->ddc_adpt);
--	if (!edid)
--		return NULL;
--	hdmi->dvi_mode = !drm_detect_monitor_audio(edid);
--	return edid;
-+	drm_edid = drm_edid_read_ddc(connector, hdmi->ddc_adpt);
-+	if (drm_edid) {
-+		/*
-+		 * FIXME: This should use !connector->display_info.has_audio (or
-+		 * !connector->display_info.is_hdmi) from a path that has read
-+		 * the EDID and called drm_edid_connector_update().
-+		 */
-+		const struct edid *edid = drm_edid_raw(drm_edid);
-+
-+		hdmi->dvi_mode = !drm_detect_monitor_audio(edid);
-+	}
-+
-+	return drm_edid;
- }
- 
- static int mtk_hdmi_bridge_attach(struct drm_bridge *bridge,
-@@ -1417,7 +1425,7 @@ static const struct drm_bridge_funcs mtk_hdmi_bridge_funcs = {
- 	.atomic_pre_enable = mtk_hdmi_bridge_atomic_pre_enable,
- 	.atomic_enable = mtk_hdmi_bridge_atomic_enable,
- 	.detect = mtk_hdmi_bridge_detect,
--	.get_edid = mtk_hdmi_bridge_get_edid,
-+	.edid_read = mtk_hdmi_bridge_edid_read,
+ static const struct drm_bridge_funcs msm_hdmi_bridge_funcs = {
+-		.pre_enable = msm_hdmi_bridge_pre_enable,
+-		.post_disable = msm_hdmi_bridge_post_disable,
+-		.mode_set = msm_hdmi_bridge_mode_set,
+-		.mode_valid = msm_hdmi_bridge_mode_valid,
+-		.get_edid = msm_hdmi_bridge_get_edid,
+-		.detect = msm_hdmi_bridge_detect,
++	.pre_enable = msm_hdmi_bridge_pre_enable,
++	.post_disable = msm_hdmi_bridge_post_disable,
++	.mode_set = msm_hdmi_bridge_mode_set,
++	.mode_valid = msm_hdmi_bridge_mode_valid,
++	.get_edid = msm_hdmi_bridge_get_edid,
++	.detect = msm_hdmi_bridge_detect,
  };
  
- static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi,
+ static void
 -- 
 2.39.2
 
