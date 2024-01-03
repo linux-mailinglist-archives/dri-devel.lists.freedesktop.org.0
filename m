@@ -1,51 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05128822B8E
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 11:47:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CF7C822BB2
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 11:57:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E8B910E277;
-	Wed,  3 Jan 2024 10:47:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DD6110E274;
+	Wed,  3 Jan 2024 10:57:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE72610E261;
- Wed,  3 Jan 2024 10:47:11 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6EAA10E274
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jan 2024 10:57:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704278831; x=1735814831;
- h=message-id:date:mime-version:from:to:cc:subject:
- content-transfer-encoding;
- bh=HJmziMp+fsfe558FHZbjsXt3Qp2AuBHeXRFZiVluDq0=;
- b=nUJQMiFoe72yME69TF9/YwsE8QFM5TRdtpWRGB9upx2FbJygkphPZo8D
- QM6iGbdHMksgQj2lGqglYuJhjCVLiiLz+ruuAvlTNX/Io8pGx6N8vQ2NU
- vaquwqylMoZLxDu0AmblWoNx+48k5iwfCJdQMZRz4P0BkKfdnSDNzPPnd
- NMBHEGgdK7hk6AqPXXFNfPQiPB8MsU+3GIHl7sRT0hu7ypXBEl8OseUfN
- qUuao+A7I0vIQgPt5MjF8F9V8FCaIHdLIUckhl5oEZSjjXI4Tgo/IL5qS
- KI0gqcCh76qJKuDXHhSNcznuwgzMNFsqIZMcS4jEoy4OfaNyfHNrdLNpI A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="399766015"
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="399766015"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2024 02:47:11 -0800
+ t=1704279440; x=1735815440;
+ h=from:to:subject:in-reply-to:references:date:message-id:
+ mime-version; bh=/sTx7DraN8ocmcK9bePXkJBevqtU2CZtlqunazeftMg=;
+ b=MVDFXX2VlgwVGWtN7b5vV/8mQScR/gsHkBBrZFTyXgWISK9X6aqMP9H5
+ hHnTZdL7Y88PmNlH/onhiXTBW/qc97tDvUVejAHYjuy9ANfgRuduXXbwM
+ rKLmsYvMVQG0tfzFvRs4AgnFU7c02UK8ywkVY32vL9mwEtL+H5NgMArjJ
+ rz368M88lp0YZ5LxzXze1Ptlt8DeHpn93udpRgS4L58WUPbFfpaA+KEAl
+ /CrrcxUuFapzrHsJlkq7ziPyzd4AM/5wtdzcD++sY+tI0f/xYoB5l77tm
+ lZh3gq3c0reyCoSuYy+BwG3wgVkwpF5Cs1WUEPIyrzue8r0L5Vcu0piAH Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="396725425"
+X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="396725425"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jan 2024 02:57:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="845847786"
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="845847786"
-Received: from jcrametz-mobl1.ger.corp.intel.com (HELO [10.251.211.58])
- ([10.251.211.58])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2024 02:47:08 -0800
-Message-ID: <9ba866b4-3144-47a9-a2c0-7313c67249d7@linux.intel.com>
-Date: Wed, 3 Jan 2024 11:47:06 +0100
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="783471944"
+X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="783471944"
+Received: from lwenners-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.35.39])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jan 2024 02:57:16 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss
+ <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: Re: [PATCH v2 02/39] drm/bridge: switch to drm_bridge_read_edid()
+In-Reply-To: <0750897a-94b6-4a7f-bcb5-89c5658943ca@suse.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1704276309.git.jani.nikula@intel.com>
+ <3bf556369d2e81e0391a42035a85beb303937158.1704276309.git.jani.nikula@intel.com>
+ <0750897a-94b6-4a7f-bcb5-89c5658943ca@suse.de>
+Date: Wed, 03 Jan 2024 12:57:03 +0200
+Message-ID: <877ckq1y80.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>
-Subject: [PULL] drm-misc-fixes
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,70 +63,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+On Wed, 03 Jan 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> Hi Jani
+>
+>  > drm/bridge: switch to drm_bridge_read_edid()
+>
+> Did you mean drm_bridge_edid_read(), here and in the other patches?
 
-Happy new year!
+Ah, yeah, I did.
 
-~Maarten
+> (Personally, I'd prefer read_edid over edid_read. The former is common 
+> style and easier to read.)
 
-drm-misc-fixes-2024-01-03:
-drm-misc-fixes for v6.7 final:
-- 2 small qaic fixes.
-- Fixes for overflow in aux xfer.
-- Fix uninitialised gamma lut in gmag200.
-- Small compiler warning fix for backports of a ps8640 fix.
-The following changes since commit 6c9dbee84cd005bed5f9d07b3a2797ae6414b435:
+The name comes from drm_edid_read() family of functions, which are so
+named because they reside in drm_edid.[ch].
 
-   drm/panel: ltk050h3146w: Set burst mode for ltk050h3148w (2023-12-13 
-18:33:43 +0100)
+BR,
+Jani.
 
-are available in the Git repository at:
+>
+> Best regards
+> Thomas
+>
+> Am 03.01.24 um 11:08 schrieb Jani Nikula:
+>> Prefer using the struct drm_edid based functions.
+>> 
+>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>> ---
+>>   drivers/gpu/drm/drm_bridge_connector.c | 16 ++++++++--------
+>>   1 file changed, 8 insertions(+), 8 deletions(-)
+>> 
+>> diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/drm_bridge_connector.c
+>> index 3acd67021ec6..982552c9f92c 100644
+>> --- a/drivers/gpu/drm/drm_bridge_connector.c
+>> +++ b/drivers/gpu/drm/drm_bridge_connector.c
+>> @@ -239,27 +239,27 @@ static int drm_bridge_connector_get_modes_edid(struct drm_connector *connector,
+>>   					       struct drm_bridge *bridge)
+>>   {
+>>   	enum drm_connector_status status;
+>> -	struct edid *edid;
+>> +	const struct drm_edid *drm_edid;
+>>   	int n;
+>>   
+>>   	status = drm_bridge_connector_detect(connector, false);
+>>   	if (status != connector_status_connected)
+>>   		goto no_edid;
+>>   
+>> -	edid = drm_bridge_get_edid(bridge, connector);
+>> -	if (!drm_edid_is_valid(edid)) {
+>> -		kfree(edid);
+>> +	drm_edid = drm_bridge_edid_read(bridge, connector);
+>> +	if (!drm_edid_valid(drm_edid)) {
+>> +		drm_edid_free(drm_edid);
+>>   		goto no_edid;
+>>   	}
+>>   
+>> -	drm_connector_update_edid_property(connector, edid);
+>> -	n = drm_add_edid_modes(connector, edid);
+>> +	drm_edid_connector_update(connector, drm_edid);
+>> +	n = drm_edid_connector_add_modes(connector);
+>>   
+>> -	kfree(edid);
+>> +	drm_edid_free(drm_edid);
+>>   	return n;
+>>   
+>>   no_edid:
+>> -	drm_connector_update_edid_property(connector, NULL);
+>> +	drm_edid_connector_update(connector, NULL);
+>>   	return 0;
+>>   }
+>>   
 
-   git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2024-01-03
-
-for you to fetch changes up to 11f9eb899ecc8c02b769cf8d2532ba12786a7af7:
-
-   drm/mgag200: Fix gamma lut not initialized for G200ER, G200EV, G200SE 
-(2023-12-20 13:26:57 +0100)
-
-----------------------------------------------------------------
-drm-misc-fixes for v6.7 final:
-- 2 small qaic fixes.
-- Fixes for overflow in aux xfer.
-- Fix uninitialised gamma lut in gmag200.
-- Small compiler warning fix for backports of a ps8640 fix.
-
-----------------------------------------------------------------
-Douglas Anderson (3):
-       drm/bridge: parade-ps8640: Never store more than msg->size bytes 
-in AUX xfer
-       drm/bridge: ti-sn65dsi86: Never store more than msg->size bytes 
-in AUX xfer
-       drm/bridge: ps8640: Fix size mismatch warning w/ len
-
-Jeffrey Hugo (1):
-       accel/qaic: Implement quirk for SOC_HW_VERSION
-
-Jocelyn Falempe (1):
-       drm/mgag200: Fix gamma lut not initialized for G200ER, G200EV, G200SE
-
-Pranjal Ramajor Asha Kanojiya (1):
-       accel/qaic: Fix GEM import path code
-
-  drivers/accel/qaic/mhi_controller.c      | 15 ++++++++++++++-
-  drivers/accel/qaic/qaic_data.c           |  6 ++----
-  drivers/gpu/drm/bridge/parade-ps8640.c   |  7 ++++---
-  drivers/gpu/drm/bridge/ti-sn65dsi86.c    |  4 +++-
-  drivers/gpu/drm/mgag200/mgag200_drv.h    |  5 +++++
-  drivers/gpu/drm/mgag200/mgag200_g200er.c |  5 +++++
-  drivers/gpu/drm/mgag200/mgag200_g200ev.c |  5 +++++
-  drivers/gpu/drm/mgag200/mgag200_g200se.c |  5 +++++
-  drivers/gpu/drm/mgag200/mgag200_mode.c   | 10 +++++-----
-  9 files changed, 48 insertions(+), 14 deletions(-)
+-- 
+Jani Nikula, Intel
