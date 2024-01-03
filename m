@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DC99822B11
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 11:12:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C89B4822B13
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 11:12:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5721110E2FF;
-	Wed,  3 Jan 2024 10:12:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0597210E301;
+	Wed,  3 Jan 2024 10:12:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DED4E10E2FF
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jan 2024 10:12:19 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2354410E301
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jan 2024 10:12:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704276740; x=1735812740;
+ t=1704276746; x=1735812746;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=OAOJVIPn6o4km+cNoynO4sjDJt7nIhyKQmckIeJLuUU=;
- b=U7cXnw7OXw4ab77J09dWN/5kMT7pJXAV7PRm6LKFAVxCQXqCTvp8Aiyi
- pYJI6Oe7duMOSmqGMp1WioD2TXqno4QcZ8SIZrFEwlqkzcwUj4FIgP/zT
- rxnTcNpAPaMzbltHJTavieZnG+I+vedYlAVWeWanhlaVTC1t5j5ypC9tf
- 8pJM4tWMhUiLjzRfUTuegLWPlWSoZauLWEQy1C53rV0DLeRa6VryYY/gI
- 2wtmpNf4ZoatSnRj5x4LCgxksDpMAqTp8e/tAdT/54hGWx69OUO5Lefa1
- Wf9GWd/HuZh2N4XoGnF4tm5E/HsuWaq0KwMswESHHJTj4N4JTR01KEMip Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="4341986"
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; 
-   d="scan'208";a="4341986"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2024 02:12:20 -0800
+ bh=z9KAu5XpuQmkb6FICe4JPb43WPifpjg1Bghh6UEt5Xo=;
+ b=UW+0epr7iVRqyB4+1cuCkkiqKB8SGGNWGsRSUeqlCr8eIuBCP4n87FYv
+ CH3Zb3ojUx73FQ80c9sD0F36LBp7PVJZEG3aykYm09aVacPWhQrzBpjZP
+ /RJxSOCLKgqrS23K2LwUpjmP0AYlJsw6fNr2vNY0ruI7+NrLCjL8iHc5k
+ TVUki993Q5T5rBvyWu+UUEJnFdUUHi5O1Knpu01D5ngFztOhDttmdNyxR
+ zeegnQKZP7YYjL5K/zWosyJI5nnlu5AnXZjNTlFMnDDNyeCpXbwOSsNMk
+ +S3i2LYHAc+ycsbys12cUp/G0Heepk28Cy+X01ewmhV6PRBidl3x5KXFX w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="428159729"
+X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="428159729"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jan 2024 02:12:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="953185047"
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="953185047"
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="783464077"
+X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="783464077"
 Received: from lwenners-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.35.39])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2024 02:12:16 -0800
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jan 2024 02:12:22 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v2 31/39] drm/omap/hdmi5: switch to ->edid_read callback
-Date: Wed,  3 Jan 2024 12:08:45 +0200
-Message-Id: <3e11d83be8dc4977bc1798bf6e1e6e704c989b37.1704276309.git.jani.nikula@intel.com>
+Subject: [PATCH v2 32/39] drm: xlnx: zynqmp_dpsub: switch to ->edid_read
+ callback
+Date: Wed,  3 Jan 2024 12:08:46 +0200
+Message-Id: <816729df00ac5e8e041194e74fd620ff1c3a7653.1704276309.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1704276309.git.jani.nikula@intel.com>
 References: <cover.1704276309.git.jani.nikula@intel.com>
@@ -71,55 +71,38 @@ Prefer using the struct drm_edid based callback and functions.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/omapdrm/dss/hdmi5.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/xlnx/zynqmp_dp.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5.c b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
-index e6611c683857..c7ae2235ae99 100644
---- a/drivers/gpu/drm/omapdrm/dss/hdmi5.c
-+++ b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
-@@ -425,11 +425,11 @@ static void hdmi5_bridge_disable(struct drm_bridge *bridge,
- 	mutex_unlock(&hdmi->lock);
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+index a0606fab0e22..24213eaa38d0 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
++++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+@@ -1560,12 +1560,12 @@ static enum drm_connector_status zynqmp_dp_bridge_detect(struct drm_bridge *brid
+ 	return connector_status_disconnected;
  }
  
--static struct edid *hdmi5_bridge_get_edid(struct drm_bridge *bridge,
--					  struct drm_connector *connector)
-+static const struct drm_edid *hdmi5_bridge_edid_read(struct drm_bridge *bridge,
-+						     struct drm_connector *connector)
+-static struct edid *zynqmp_dp_bridge_get_edid(struct drm_bridge *bridge,
+-					      struct drm_connector *connector)
++static const struct drm_edid *zynqmp_dp_bridge_edid_read(struct drm_bridge *bridge,
++							 struct drm_connector *connector)
  {
- 	struct omap_hdmi *hdmi = drm_bridge_to_hdmi(bridge);
--	struct edid *edid;
-+	const struct drm_edid *drm_edid;
- 	bool need_enable;
- 	int idlemode;
- 	int r;
-@@ -452,7 +452,7 @@ static struct edid *hdmi5_bridge_get_edid(struct drm_bridge *bridge,
+ 	struct zynqmp_dp *dp = bridge_to_dp(bridge);
  
- 	hdmi5_core_ddc_init(&hdmi->core);
- 
--	edid = drm_do_get_edid(connector, hdmi5_core_ddc_read, &hdmi->core);
-+	drm_edid = drm_edid_read_custom(connector, hdmi5_core_ddc_read, &hdmi->core);
- 
- 	hdmi5_core_ddc_uninit(&hdmi->core);
- 
-@@ -464,7 +464,7 @@ static struct edid *hdmi5_bridge_get_edid(struct drm_bridge *bridge,
- 	if (need_enable)
- 		hdmi_core_disable(hdmi);
- 
--	return (struct edid *)edid;
-+	return drm_edid;
+-	return drm_get_edid(connector, &dp->aux.ddc);
++	return drm_edid_read_ddc(connector, &dp->aux.ddc);
  }
  
- static const struct drm_bridge_funcs hdmi5_bridge_funcs = {
-@@ -475,7 +475,7 @@ static const struct drm_bridge_funcs hdmi5_bridge_funcs = {
+ static const struct drm_bridge_funcs zynqmp_dp_bridge_funcs = {
+@@ -1579,7 +1579,7 @@ static const struct drm_bridge_funcs zynqmp_dp_bridge_funcs = {
  	.atomic_reset = drm_atomic_helper_bridge_reset,
- 	.atomic_enable = hdmi5_bridge_enable,
- 	.atomic_disable = hdmi5_bridge_disable,
--	.get_edid = hdmi5_bridge_get_edid,
-+	.edid_read = hdmi5_bridge_edid_read,
+ 	.atomic_check = zynqmp_dp_bridge_atomic_check,
+ 	.detect = zynqmp_dp_bridge_detect,
+-	.get_edid = zynqmp_dp_bridge_get_edid,
++	.edid_read = zynqmp_dp_bridge_edid_read,
  };
  
- static void hdmi5_bridge_init(struct omap_hdmi *hdmi)
+ /* -----------------------------------------------------------------------------
 -- 
 2.39.2
 
