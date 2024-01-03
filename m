@@ -2,60 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51A1F822E79
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 14:35:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2515C822D55
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 13:41:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F45310E2A4;
-	Wed,  3 Jan 2024 13:35:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1485110E280;
+	Wed,  3 Jan 2024 12:41:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 399 seconds by postgrey-1.36 at gabe;
- Wed, 03 Jan 2024 12:37:40 UTC
 Received: from mail.kernel-space.org (mail.kernel-space.org [195.201.34.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 022C510E280;
- Wed,  3 Jan 2024 12:37:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E55610E14B;
+ Wed,  3 Jan 2024 12:41:08 +0000 (UTC)
 Received: from kernel-space.org (localhost [127.0.0.1])
- by kernel-space.org (OpenSMTPD) with ESMTP id 5225f19b;
- Wed, 3 Jan 2024 12:29:55 +0000 (UTC)
+ by kernel-space.org (OpenSMTPD) with ESMTP id a984163b;
+ Wed, 3 Jan 2024 12:40:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=kernel-space.org; h=
- message-id:date:mime-version:from:to:subject:content-type
+ message-id:date:mime-version:from:subject:to:content-type
  :content-transfer-encoding; s=s1; bh=jJ51hW6QK8xSwgliZjmDtf2wAhE
- =; b=euk35juEWF/iGRUkt0AjfmTmCgQWJnaF7pXerXVMmzq1EonAZXOt1TEQ4Vz
- w0hDJWW4LH5BJ3y+/lgmhAKg69TgF4SJ1WB7BXM4u4DM13nc+MJLBTS5oaOOBCyP
- RQ+99hPoVjWw5zXtAO9ogVPovv3bpzbaExT3AsDo93WSap4o=
+ =; b=j7GdNGdb0yZRv0ti9mO3OcGNEd0UGCmfnTGYK+pBgGGzGAIN1ukm0D0lThS
+ 3BOj0gA+vpCDWoKWj/2iciFZVgM1/AUHk4+/ohv+y35yB+w3iLa0i8HGaBzp/W2C
+ AlW9XzRtt3sA3+ATnHx97MFvF5yeGCfgv8CqfUhzbNGgGQnw=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=kernel-space.org; h=
- message-id:date:mime-version:from:to:subject:content-type
- :content-transfer-encoding; q=dns; s=s1; b=ClvWMrhhxoW9NbhZSVzIi
- U0J+/C6oO8TJmCjBrR0/NtKpgm/6/WTQZ7WZYTZqyPr5hXtS8zFozKT87T+SCpM3
- dNvrJqISMkmLpczUmQC20AQkR6WmzBAirEcXJ3xESLdcUrzGTjkL0PV5ImpQfT0l
- UwnO1BVeFxq5PHm/rihhX4=
+ message-id:date:mime-version:from:subject:to:content-type
+ :content-transfer-encoding; q=dns; s=s1; b=XT1LM56d0f794Gmg1Bo7s
+ MXLspb+gTwqQlW17hNz9T4l2QIXngxPzArpxvCI+7GFvbpDFbZNJp7r583CqU6E0
+ 2ipQgk7j2hycTv4VGmgJk8uOz+/qkZZmH6bMisoL0qqLVg5mb5yDR7JOgY3sHnFF
+ GaCEySI6UrIvLeQ98jpadU=
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel-space.org;
- s=s1; t=1704284994;
+ s=s1; t=1704285603;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
  bh=Jso+kg0PCrUfKK3VrwCFHag8Ddx6YoUU5qjOQHaiT0g=;
- b=zjFq6HYUOZUhQR46j0UkdkWAltPLbvU7dN1ANsDZmmEi87BGGlbEHelvWXt8/f71V/UPJi
- MgfJgSDNYKKkUS9xNkj7Sgnm2p/G8Pi82cqrhEMVjswllCFIRpQT1K4LkjfVRDAuWrNYzj
- tWDAiUKUbA5oI0aUB2zbllh+YagnvuY=
+ b=llPk5QihMzHFtDheSmk1FFMzHTVG9jdK30tPRweYYe4Tomyvl5EYNsITDC5cqzTDrCNpKX
+ AsxxB430E23Zwrfm6K0L2ohx2FmrrNiLZqv0y7baOIWCQVnWLX0lWyQgqpZ7eJlEn47paH
+ sLtZf6kdPaRUjmG9rtbNG2XTdaH3Hy4=
 Received: from [192.168.0.2] (host-79-41-232-3.retail.telecomitalia.it
  [79.41.232.3])
- by kernel-space.org (OpenSMTPD) with ESMTPSA id 20df6116
+ by kernel-space.org (OpenSMTPD) with ESMTPSA id 0228b807
  (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Wed, 3 Jan 2024 12:29:54 +0000 (UTC)
-Message-ID: <3419b50b-2ac7-c7b7-1289-d8eb5cc467f8@kernel-space.org>
-Date: Wed, 3 Jan 2024 13:30:17 +0100
+ Wed, 3 Jan 2024 12:40:03 +0000 (UTC)
+Message-ID: <52131e33-fc34-1a6f-17b8-4e3f30757192@kernel-space.org>
+Date: Wed, 3 Jan 2024 13:40:26 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Betterbird/102.11.0
-Content-Language: en-US, it
 From: Angelo Dureghello <angelo@kernel-space.org>
+Subject: AD107M (197), black screen
 To: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  dakr@redhat.com, bskeggs@redhat.com
-Subject: AD107M (197), black screen
+Content-Language: en-US, it
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Wed, 03 Jan 2024 13:35:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
