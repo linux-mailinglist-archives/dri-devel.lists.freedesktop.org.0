@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C450E822AFD
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 11:10:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9647C822AFE
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 11:10:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CA3310E296;
-	Wed,  3 Jan 2024 10:10:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9DCB10E2BD;
+	Wed,  3 Jan 2024 10:10:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8B7410E296
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jan 2024 10:10:50 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9849B10E2BD
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jan 2024 10:10:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704276650; x=1735812650;
+ t=1704276657; x=1735812657;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=3bi336qNdVKLv7Oe0t6dIo7X3g/wOyaVBYR60m//wzc=;
- b=QdsBM7SQC/jdENhhXXpNOVobogoF8bZ+ES1x3gsXf/FX6UENYFk/y5m8
- 8ITo+zgO3uPWrrFmIe07xfwkC7BGrloVGwakmgvcV1IM26zxwVOoX0x/+
- lEUEgbDDYOTMxGcyIjr2XbXeYsRLJeiALUi1oKMt9bh+unIV2yXyx9m3X
- s5h798DgPviLSY6VJdkG0hoLDB66VkafqrqigswlZeW6LJgzOpC6VHnN2
- HigPK0/HKbzkorOK/qoT9sokDD3MvYP47ecpVFTWvwuZZhkRFOHDxM619
- QK4qv1558v+pcc3BIXWBUJi48gbrkmL0XRrZn2RHfG3L+QXTwvdiIHE9b A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="396721113"
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="396721113"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2024 02:10:50 -0800
+ bh=gcqtDEgmttw7VElUwFIUW3NCGombT1QAkRd+2Smeb1I=;
+ b=FprEAroaKvW73yxYtSJ3L1l/ti/QG3kYe/8iqv67pzzv7fiom6wzN+2U
+ YqI/L5H6yNsK1L5B67gR8AMbb1VNv5KXHJJYThjjhgIf3hYQqtGiphS3a
+ dFVm7AK3ZnzHxn2TftT4pMg61kinCVju/7fuWgowuIYiUGnmEJhJM4oBC
+ MNuuAdW0i4bhn3vA8/VCtLDbiv+IONDa5eLExj/ciF7Xexq8HbJrfddsZ
+ 14c2Zu6kKAcwoVrfGyVjAJYEReTH59IviZLyIOCLKsTQT4JSCyIdm+SBS
+ h5jf9/nPU7RTZCcb0LIFH/bhDShVCodQIdRNAl5fTjrfEczJzTUm0+6Xb Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="3760014"
+X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; 
+   d="scan'208";a="3760014"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jan 2024 02:10:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="756172455"
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="756172455"
+X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="22053228"
 Received: from lwenners-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.35.39])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2024 02:10:46 -0800
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jan 2024 02:10:53 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v2 16/39] drm/bridge: cdns-mhdp8546: clear the EDID property
- on failures
-Date: Wed,  3 Jan 2024 12:08:30 +0200
-Message-Id: <1c4830fe81cf202dc07dd273be77582a4f15dc45.1704276309.git.jani.nikula@intel.com>
+Subject: [PATCH v2 17/39] drm/bridge: display-connector: switch to ->edid_read
+ callback
+Date: Wed,  3 Jan 2024 12:08:31 +0200
+Message-Id: <9f72f9409933cae69967fa055bdb2ba1eae1b05e.1704276309.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1704276309.git.jani.nikula@intel.com>
 References: <cover.1704276309.git.jani.nikula@intel.com>
@@ -67,33 +67,42 @@ Cc: Jani Nikula <jani.nikula@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If EDID read fails, clear the EDID property.
+Prefer using the struct drm_edid based callback and functions.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/bridge/display-connector.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-index e44cb89c33f0..e226acc5c15e 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-@@ -1524,12 +1524,14 @@ static int cdns_mhdp_get_modes(struct drm_connector *connector)
- 		return 0;
- 
- 	drm_edid = cdns_mhdp_edid_read(mhdp, connector);
-+
-+	drm_edid_connector_update(connector, drm_edid);
-+
- 	if (!drm_edid) {
- 		dev_err(mhdp->dev, "Failed to read EDID\n");
- 		return 0;
+diff --git a/drivers/gpu/drm/bridge/display-connector.c b/drivers/gpu/drm/bridge/display-connector.c
+index 08bd5695ddae..ab8e00baf3f1 100644
+--- a/drivers/gpu/drm/bridge/display-connector.c
++++ b/drivers/gpu/drm/bridge/display-connector.c
+@@ -81,12 +81,12 @@ display_connector_detect(struct drm_bridge *bridge)
  	}
+ }
  
--	drm_edid_connector_update(connector, drm_edid);
- 	num_modes = drm_edid_connector_add_modes(connector);
- 	drm_edid_free(drm_edid);
+-static struct edid *display_connector_get_edid(struct drm_bridge *bridge,
+-					       struct drm_connector *connector)
++static const struct drm_edid *display_connector_edid_read(struct drm_bridge *bridge,
++							  struct drm_connector *connector)
+ {
+ 	struct display_connector *conn = to_display_connector(bridge);
  
+-	return drm_get_edid(connector, conn->bridge.ddc);
++	return drm_edid_read_ddc(connector, conn->bridge.ddc);
+ }
+ 
+ /*
+@@ -172,7 +172,7 @@ static u32 *display_connector_get_input_bus_fmts(struct drm_bridge *bridge,
+ static const struct drm_bridge_funcs display_connector_bridge_funcs = {
+ 	.attach = display_connector_attach,
+ 	.detect = display_connector_detect,
+-	.get_edid = display_connector_get_edid,
++	.edid_read = display_connector_edid_read,
+ 	.atomic_get_output_bus_fmts = display_connector_get_output_bus_fmts,
+ 	.atomic_get_input_bus_fmts = display_connector_get_input_bus_fmts,
+ 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
 -- 
 2.39.2
 
