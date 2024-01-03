@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33905822B1C
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 11:13:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E6CE822B0C
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 11:12:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 782FE10E30B;
-	Wed,  3 Jan 2024 10:13:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 374A010E2F7;
+	Wed,  3 Jan 2024 10:12:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A66AA10E30B
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jan 2024 10:13:09 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69C4110E2F7
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jan 2024 10:12:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704276789; x=1735812789;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=VrPQ2AgnEuYEXfZI0myUYU84TFkFrm9pa/6weGgvnHM=;
- b=OZuEOOAknhQdu2cz4wGFCOgQCeOl24rq/2TiHAycvsecp2xe6o3rLotj
- 1sCT4ae1Tl7IFNJcqzUnkJCiObvT41ef4cXAOgYEkhqkVG3Jqtv55p/Dn
- 8O5Q4BFjQQ/CY2XKgtkN+qFeA4Ytm+nsjbMZiRh0BtVyvo5QZg4iC1zTW
- +TatBfnGaYtIupWPc3VuyZQnSDj16x9FpKiZM2r3bsxnTIgQeYcW6up/m
- vGbCNFJpdqUYtHepx6i+/RtMYGHEcP83dmRpfu7kp/vnVHZyVbZjjs/nB
- H+2AYV5MkROQ236qlVsNkDE8nhvZDuO63Bhi534B3mbCEg5REnyX5PV3Z w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="394142901"
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="394142901"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2024 02:13:09 -0800
+ t=1704276727; x=1735812727;
+ h=from:to:subject:in-reply-to:references:date:message-id:
+ mime-version; bh=1Ohq92M45n7tnua1yF5LE1RuAOsMqFIxQOuHHS8pOOI=;
+ b=b93po0Z2vmKo2MZylnYXO5boRTUrx4cDqsbdL6VKWjNayKnwqcTQ7crC
+ lsQSAItIa5a95E+JmTHEOcUOjCokkkL8wxl5TCZeR9ekYmxWGmVpZzFkt
+ jJTvoTJ9JaRNanbGJItMb2jVcXVql8j8UK3lfChf28B1YQowxU2hOHUgL
+ vugt40yBPFo1Pm8695IOu5BWePJSgBdTEKuuZUvvK/xSVD69mCBECA5BQ
+ nibDigEO3TiE89mOJ8S5BXb3MgZM/8KXPQYYYGBdrT4mFodfnLoZck6eU
+ xorCN9g+akAOhupDxfpArOOh2McNfO8/cX4dnmiN6OwpM093/4vgLmv7M w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="4341940"
+X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; 
+   d="scan'208";a="4341940"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jan 2024 02:12:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="14462202"
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="953185033"
+X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="953185033"
 Received: from lwenners-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.35.39])
- by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2024 02:13:06 -0800
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jan 2024 02:12:03 -0800
 From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v2 39/39] drm/bridge: remove ->get_edid callback
-Date: Wed,  3 Jan 2024 12:08:53 +0200
-Message-Id: <09308b5024b0fd54ce6516fc229390421bf88b64.1704276309.git.jani.nikula@intel.com>
-X-Mailer: git-send-email 2.39.2
+To: dri-devel@lists.freedesktop.org, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: Re: [PATCH v2 00/39] drm/bridge: switch to struct drm_edid
 In-Reply-To: <cover.1704276309.git.jani.nikula@intel.com>
-References: <cover.1704276309.git.jani.nikula@intel.com>
-MIME-Version: 1.0
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Content-Transfer-Encoding: 8bit
+References: <cover.1704276309.git.jani.nikula@intel.com>
+Date: Wed, 03 Jan 2024 12:11:50 +0200
+Message-ID: <87cyui20bd.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,98 +62,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are no more users of the ->get_edid callback left. They've all
-been converted to ->edid_read. Remove the callback, and the fallback in
-drm_bridge_edid_read().
+On Wed, 03 Jan 2024, Jani Nikula <jani.nikula@intel.com> wrote:
+> Convert all of drm/bridge to the new struct drm_edid
+> infrastructure. It's safer than struct edid, because it contains meta
+> information about the allocated size of the EDID, instead of relying on
+> the size (number of extensions) originating from outside of the kernel.
+>
+> Among all of drm, I think bridge has the most uses of struct edid that
+> do not originate from the drm_get_edid() family of functions, which
+> means the validity checks are somewhat inconsistent, and having the meta
+> information is more crucial.
+>
+> Only build tested. I'm sure there should be more Cc's especially in the
+> patches towards the end of the series, but I just wanted to get the
+> series out the door now.
 
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
----
- drivers/gpu/drm/drm_bridge.c | 19 -------------------
- include/drm/drm_bridge.h     | 30 ------------------------------
- 2 files changed, 49 deletions(-)
+PS. It's also available at
+https://gitlab.freedesktop.org/jani/linux/-/commits/drm-edid-bridge
 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index a3065d4aa3d6..521a71c61b16 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -1216,9 +1216,6 @@ EXPORT_SYMBOL_GPL(drm_bridge_get_modes);
-  * DRM_BRIDGE_OP_EDID bridge ops flag, call &drm_bridge_funcs.edid_read to get
-  * the EDID and return it. Otherwise return NULL.
-  *
-- * If &drm_bridge_funcs.edid_read is not set, fall back to using
-- * &drm_bridge_funcs.get_edid and wrapping it in struct drm_edid.
-- *
-  * RETURNS:
-  * The retrieved EDID on success, or NULL otherwise.
-  */
-@@ -1228,22 +1225,6 @@ const struct drm_edid *drm_bridge_edid_read(struct drm_bridge *bridge,
- 	if (!(bridge->ops & DRM_BRIDGE_OP_EDID))
- 		return NULL;
- 
--	/* Transitional: Fall back to ->get_edid. */
--	if (!bridge->funcs->edid_read) {
--		const struct drm_edid *drm_edid;
--		struct edid *edid;
--
--		edid = bridge->funcs->get_edid(bridge, connector);
--		if (!edid)
--			return NULL;
--
--		drm_edid = drm_edid_alloc(edid, (edid->extensions + 1) * EDID_LENGTH);
--
--		kfree(edid);
--
--		return drm_edid;
--	}
--
- 	return bridge->funcs->edid_read(bridge, connector);
- }
- EXPORT_SYMBOL_GPL(drm_bridge_edid_read);
-diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index ee12f829aaf7..7293c02e17c5 100644
---- a/include/drm/drm_bridge.h
-+++ b/include/drm/drm_bridge.h
-@@ -588,36 +588,6 @@ struct drm_bridge_funcs {
- 	const struct drm_edid *(*edid_read)(struct drm_bridge *bridge,
- 					    struct drm_connector *connector);
- 
--	/**
--	 * @get_edid:
--	 *
--	 * Read and parse the EDID data of the connected display.
--	 *
--	 * The @get_edid callback is the preferred way of reporting mode
--	 * information for a display connected to the bridge output. Bridges
--	 * that support reading EDID shall implement this callback and leave
--	 * the @get_modes callback unimplemented.
--	 *
--	 * The caller of this operation shall first verify the output
--	 * connection status and refrain from reading EDID from a disconnected
--	 * output.
--	 *
--	 * This callback is optional. Bridges that implement it shall set the
--	 * DRM_BRIDGE_OP_EDID flag in their &drm_bridge->ops.
--	 *
--	 * The connector parameter shall be used for the sole purpose of EDID
--	 * retrieval and parsing, and shall not be stored internally by bridge
--	 * drivers for future usage.
--	 *
--	 * RETURNS:
--	 *
--	 * An edid structure newly allocated with kmalloc() (or similar) on
--	 * success, or NULL otherwise. The caller is responsible for freeing
--	 * the returned edid structure with kfree().
--	 */
--	struct edid *(*get_edid)(struct drm_bridge *bridge,
--				 struct drm_connector *connector);
--
- 	/**
- 	 * @hpd_notify:
- 	 *
+
 -- 
-2.39.2
-
+Jani Nikula, Intel
