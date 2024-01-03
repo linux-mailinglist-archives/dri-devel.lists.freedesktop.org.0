@@ -1,62 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 841358234E5
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 19:49:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6071823676
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 21:21:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1641410E32B;
-	Wed,  3 Jan 2024 18:49:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34A4A10E332;
+	Wed,  3 Jan 2024 20:21:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
- [IPv6:2a00:1450:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBC4910E32B;
- Wed,  3 Jan 2024 18:49:10 +0000 (UTC)
-Received: by mail-lj1-x231.google.com with SMTP id
- 38308e7fff4ca-2ccbf8cbf3aso102867761fa.3; 
- Wed, 03 Jan 2024 10:49:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1704307749; x=1704912549; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=HSwdtsY61fYy46M5QE5KizBE3QaiBoSxLHAq5Tnp4Uw=;
- b=aSDgCoxPTV66XGpEXdVXsrvnpEZdDHfzmbPwouxkRiYgaKyKnGryHwaQ5T4epXpSBM
- 4b4zulgHXzmNTJyPxIYSLey51Pf9bXnoKpzm+JVsiIvMtv40aJmdCYJ+d8gfYMwcaFWp
- F2UkOCiLVW4kVodg1RZdkNJAdAK0AAGuArfxxsbP87kQEueuTpjBOJ/emaO/Cn9/ALMd
- oMEUndshKOsIUuAiXiONMJI3cwIWMx2cpGce4F669gv/0vUZ+Uj+iLSLLUjHLjEonsNW
- DjNsNufglhhWklX3CO2c5ZWKI5DY7S9ZMMY/jqEIRMRj9Aadh+wd/zL3nXxpGCrZzzvz
- SRIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704307749; x=1704912549;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=HSwdtsY61fYy46M5QE5KizBE3QaiBoSxLHAq5Tnp4Uw=;
- b=wmnOWPXwblFqSERGHeXvPH9d6km1b8Mz3rov6ufKtDpOoqnYMqqEb1Q02CmvGuB9dT
- IE/tsPZrm1NtzDFnEHVltRTZEq3Dj2s5Kp6LVuPeDUCcCWhRxE6ulyL010bC8Y7Zkvpi
- 6QzpdnIX+0KUyK+g8JHr1T0sVaKSALemj4GurNCy+HP6+dVY3V/4nzaNvTifB1JUkNsO
- ml7Euqs474t9c5tW4M3UgMyLecpeHd95BT6q7rcbk+e3xFvL3dyuUQyyYkkTHLC7PrZH
- eauubJLq9qJK0y3tjg7fce6VrhPGkT6gsUXk0egktw7sqqLUmgUWI2AlmMwIuw5HVSlP
- bCuA==
-X-Gm-Message-State: AOJu0Yz0FdJ/we9dZYMX1OytJahvEQGsVgF5conh68ISnserHPBn9Qb7
- iahwyr7Rs/F7SA/sIlr+aiPJE4pO2HKWe3QGW5g=
-X-Google-Smtp-Source: AGHT+IG+OC/fH5CHJHM4KYYgGuSRIAloVFSbQRrYKWlazIMzUbmSodkBi162LLgz+u6vZOa9YXsBO0vakCfp0mrOPbY=
-X-Received: by 2002:a05:651c:4c6:b0:2cd:dfe:74bb with SMTP id
- e6-20020a05651c04c600b002cd0dfe74bbmr2277411lji.49.1704307748788; Wed, 03 Jan
- 2024 10:49:08 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF9F110E332
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jan 2024 20:21:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1704313314; x=1735849314;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=vgm8K58iZ83lULNb8SnKKP0qiNGCo1sVMEr08z4LBCs=;
+ b=AMg2N5hIoMObcZBAb217U/RTDmHflndNsVyF9lLjqXokaFxYpchyojnG
+ o0pkcANp5qSX1CvXBC+o3VhiS7IHQhEClQMalg5oir2QQ0JyTmLGTKopm
+ 3vX3zLCM8Q435HFNriL6f4DL2oNyWQuXeJ/uZN7jLKb2q5fTIXmqipVhA
+ pdvPN8xjCDueJ1XIIJ+osALDQiJCdkdp2MFgD9Zev8GvnN0n0wYqdeGSb
+ qvlax7ZIAYJRUSw6ANPHPFGnP2eLEo6PnPDxmmtGiIydy5zq9+dVMBCoJ
+ bfVb/1AIAcLVgcAUrl5XT1sVizfVpgq0GTlE2Fj7bYrKuAxLWIvsqMDUt Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="3829990"
+X-IronPort-AV: E=Sophos;i="6.04,328,1695711600"; 
+   d="scan'208";a="3829990"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jan 2024 12:21:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="780094216"
+X-IronPort-AV: E=Sophos;i="6.04,328,1695711600"; d="scan'208";a="780094216"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+ by orsmga002.jf.intel.com with ESMTP; 03 Jan 2024 12:21:51 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1rL7kL-000MWW-0v;
+ Wed, 03 Jan 2024 20:21:49 +0000
+Date: Thu, 4 Jan 2024 04:20:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: Re: [PATCH v2 23/39] drm/bridge: nxp-ptn3460: switch to ->edid_read
+ callback
+Message-ID: <202401040455.PPhqJiVr-lkp@intel.com>
+References: <87fb7fd52d087dd9a15b7194f3915b6b1c4146d6.1704276309.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-References: <20240102193348.250917-1-robdclark@gmail.com>
- <fd88a067-63f6-4467-9787-989890287083@linaro.org>
-In-Reply-To: <fd88a067-63f6-4467-9787-989890287083@linaro.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 3 Jan 2024 10:48:56 -0800
-Message-ID: <CAF6AEGtk7qS5hPYDGKVnrcEfcQEkr1J4=UTL7sikVJB3AvDBFQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/a7xx: Fix LLC typo
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87fb7fd52d087dd9a15b7194f3915b6b1c4146d6.1704276309.git.jani.nikula@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,53 +65,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Danylo Piliaiev <dpiliaiev@igalia.com>, Sean Paul <sean@poorly.run>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>
+Cc: Jani Nikula <jani.nikula@intel.com>, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 2, 2024 at 12:12=E2=80=AFPM Konrad Dybcio <konrad.dybcio@linaro=
-.org> wrote:
->
-> On 2.01.2024 20:33, Rob Clark wrote:
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > We'd miss actually activating LLC.
-> >
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > ---
-> >  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/ms=
-m/adreno/a6xx_gpu.c
-> > index a5660d63535b..54dc5eb37f70 100644
-> > --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> > @@ -1646,7 +1646,7 @@ static int a6xx_gmu_pm_resume(struct msm_gpu *gpu=
-)
-> >
-> >       msm_devfreq_resume(gpu);
-> >
-> > -     adreno_is_a7xx(adreno_gpu) ? a7xx_llc_activate : a6xx_llc_activat=
-e(a6xx_gpu);
-> > +     adreno_is_a7xx(adreno_gpu) ? a7xx_llc_activate(a6xx_gpu) : a6xx_l=
-lc_activate(a6xx_gpu);
->
-> /me cleans glasses
->
-> oh..
->
-> Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Hi Jani,
 
-I suppose I should also add,
+kernel test robot noticed the following build warnings:
 
-Fixes: af66706accdf ("drm/msm/a6xx: Add skeleton A7xx support")
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.7-rc8 next-20240103]
+[cannot apply to drm-intel/for-linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> Konrad
+url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-bridge-add-edid_read-hook-and-drm_bridge_edid_read/20240103-181513
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/87fb7fd52d087dd9a15b7194f3915b6b1c4146d6.1704276309.git.jani.nikula%40intel.com
+patch subject: [PATCH v2 23/39] drm/bridge: nxp-ptn3460: switch to ->edid_read callback
+config: arm-randconfig-001-20240103 (https://download.01.org/0day-ci/archive/20240104/202401040455.PPhqJiVr-lkp@intel.com/config)
+compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 7e186d366d6c7def0543acc255931f617e76dff0)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240104/202401040455.PPhqJiVr-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401040455.PPhqJiVr-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/bridge/nxp-ptn3460.c:170:6: warning: variable 'drm_edid' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     170 |         if (!edid) {
+         |             ^~~~~
+   drivers/gpu/drm/bridge/nxp-ptn3460.c:189:9: note: uninitialized use occurs here
+     189 |         return drm_edid;
+         |                ^~~~~~~~
+   drivers/gpu/drm/bridge/nxp-ptn3460.c:170:2: note: remove the 'if' if its condition is always false
+     170 |         if (!edid) {
+         |         ^~~~~~~~~~~~
+     171 |                 DRM_ERROR("Failed to allocate EDID\n");
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     172 |                 goto out;
+         |                 ~~~~~~~~~
+     173 |         }
+         |         ~
+   drivers/gpu/drm/bridge/nxp-ptn3460.c:161:33: note: initialize the variable 'drm_edid' to silence this warning
+     161 |         const struct drm_edid *drm_edid;
+         |                                        ^
+         |                                         = NULL
+   1 warning generated.
+
+
+vim +170 drivers/gpu/drm/bridge/nxp-ptn3460.c
+
+a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  155  
+a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  156  
+dd6c2ed9dace84 drivers/gpu/drm/bridge/nxp-ptn3460.c Jani Nikula  2024-01-03  157  static const struct drm_edid *ptn3460_edid_read(struct drm_bridge *bridge,
+4151c14cdda689 drivers/gpu/drm/bridge/nxp-ptn3460.c Sam Ravnborg 2020-07-27  158  						struct drm_connector *connector)
+a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  159  {
+4151c14cdda689 drivers/gpu/drm/bridge/nxp-ptn3460.c Sam Ravnborg 2020-07-27  160  	struct ptn3460_bridge *ptn_bridge = bridge_to_ptn3460(bridge);
+dd6c2ed9dace84 drivers/gpu/drm/bridge/nxp-ptn3460.c Jani Nikula  2024-01-03  161  	const struct drm_edid *drm_edid;
+a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  162  	bool power_off;
+4151c14cdda689 drivers/gpu/drm/bridge/nxp-ptn3460.c Sam Ravnborg 2020-07-27  163  	u8 *edid;
+4151c14cdda689 drivers/gpu/drm/bridge/nxp-ptn3460.c Sam Ravnborg 2020-07-27  164  	int ret;
+a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  165  
+a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  166  	power_off = !ptn_bridge->enabled;
+94d50d57c4403a drivers/gpu/drm/bridge/ptn3460.c     Ajay Kumar   2015-01-20  167  	ptn3460_pre_enable(&ptn_bridge->bridge);
+a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  168  
+a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  169  	edid = kmalloc(EDID_LENGTH, GFP_KERNEL);
+a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24 @170  	if (!edid) {
+94d50d57c4403a drivers/gpu/drm/bridge/ptn3460.c     Ajay Kumar   2015-01-20  171  		DRM_ERROR("Failed to allocate EDID\n");
+4151c14cdda689 drivers/gpu/drm/bridge/nxp-ptn3460.c Sam Ravnborg 2020-07-27  172  		goto out;
+a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  173  	}
+a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  174  
+a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  175  	ret = ptn3460_read_bytes(ptn_bridge, PTN3460_EDID_ADDR, edid,
+a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  176  				 EDID_LENGTH);
+a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  177  	if (ret) {
+a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  178  		kfree(edid);
+dd6c2ed9dace84 drivers/gpu/drm/bridge/nxp-ptn3460.c Jani Nikula  2024-01-03  179  		drm_edid = NULL;
+a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  180  		goto out;
+a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  181  	}
+a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  182  
+dd6c2ed9dace84 drivers/gpu/drm/bridge/nxp-ptn3460.c Jani Nikula  2024-01-03  183  	drm_edid = drm_edid_alloc(edid, EDID_LENGTH);
+dd6c2ed9dace84 drivers/gpu/drm/bridge/nxp-ptn3460.c Jani Nikula  2024-01-03  184  
+a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  185  out:
+a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  186  	if (power_off)
+94d50d57c4403a drivers/gpu/drm/bridge/ptn3460.c     Ajay Kumar   2015-01-20  187  		ptn3460_disable(&ptn_bridge->bridge);
+a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  188  
+dd6c2ed9dace84 drivers/gpu/drm/bridge/nxp-ptn3460.c Jani Nikula  2024-01-03  189  	return drm_edid;
+4151c14cdda689 drivers/gpu/drm/bridge/nxp-ptn3460.c Sam Ravnborg 2020-07-27  190  }
+4151c14cdda689 drivers/gpu/drm/bridge/nxp-ptn3460.c Sam Ravnborg 2020-07-27  191  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
