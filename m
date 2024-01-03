@@ -1,55 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A939822CFA
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 13:25:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51A1F822E79
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 14:35:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8F0310E10A;
-	Wed,  3 Jan 2024 12:25:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F45310E2A4;
+	Wed,  3 Jan 2024 13:35:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B498D10E10A
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jan 2024 12:25:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704284749; x=1735820749;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=7NZPFuLqIaZYxF8kzjwORU+cPOyFb8rBNMttLqHxoyI=;
- b=UDMfLmqrSvJ7f4Xfhg+a6pdId2N+iIJ76n+VkfdQVd2LdvWHWTNLpXu1
- Z+T08AoSiE7mwNTeznB4hWiJpfBCFn4aHGbPV0iWLX1iWwg2aF6vbegFu
- VG2GP2BQRYCkc7IMp2N+7V9NO9bGAllSK7tRDxn5McW1wdcewW7N/pW+/
- WIEZvyxkwTGvDuVuetvklHiAkBUx7dNLwehTFs18429srWHdL+XWLQeul
- joSWkPZwcUxeowXu9jpLdziPJLeOwv3YNVlvUsrNMTOdMX5Z42jXR7t1K
- HEj55mVknwVEg9em94cqojKy7POQrnPqakvSdKe3xpdsp8VUlSPxpceCR Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="4085313"
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; 
-   d="scan'208";a="4085313"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2024 04:25:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="783498077"
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="783498077"
-Received: from sharadav-mobl.amr.corp.intel.com (HELO box.shutemov.name)
- ([10.249.36.97])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2024 04:25:42 -0800
-Received: by box.shutemov.name (Postfix, from userid 1000)
- id C10E610A567; Wed,  3 Jan 2024 15:25:39 +0300 (+03)
-Date: Wed, 3 Jan 2024 15:25:39 +0300
-From: kirill.shutemov@linux.intel.com
-To: Alexey Makhalov <alexey.makhalov@broadcom.com>
-Subject: Re: [PATCH v4 6/6] x86/vmware: Add TDX hypercall support
-Message-ID: <20240103122539.agoq7647bzwcgjep@box.shutemov.name>
-References: <20231228192421.29894-1-alexey.makhalov@broadcom.com>
- <20231228192421.29894-7-alexey.makhalov@broadcom.com>
+X-Greylist: delayed 399 seconds by postgrey-1.36 at gabe;
+ Wed, 03 Jan 2024 12:37:40 UTC
+Received: from mail.kernel-space.org (mail.kernel-space.org [195.201.34.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 022C510E280;
+ Wed,  3 Jan 2024 12:37:40 +0000 (UTC)
+Received: from kernel-space.org (localhost [127.0.0.1])
+ by kernel-space.org (OpenSMTPD) with ESMTP id 5225f19b;
+ Wed, 3 Jan 2024 12:29:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=kernel-space.org; h=
+ message-id:date:mime-version:from:to:subject:content-type
+ :content-transfer-encoding; s=s1; bh=jJ51hW6QK8xSwgliZjmDtf2wAhE
+ =; b=euk35juEWF/iGRUkt0AjfmTmCgQWJnaF7pXerXVMmzq1EonAZXOt1TEQ4Vz
+ w0hDJWW4LH5BJ3y+/lgmhAKg69TgF4SJ1WB7BXM4u4DM13nc+MJLBTS5oaOOBCyP
+ RQ+99hPoVjWw5zXtAO9ogVPovv3bpzbaExT3AsDo93WSap4o=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=kernel-space.org; h=
+ message-id:date:mime-version:from:to:subject:content-type
+ :content-transfer-encoding; q=dns; s=s1; b=ClvWMrhhxoW9NbhZSVzIi
+ U0J+/C6oO8TJmCjBrR0/NtKpgm/6/WTQZ7WZYTZqyPr5hXtS8zFozKT87T+SCpM3
+ dNvrJqISMkmLpczUmQC20AQkR6WmzBAirEcXJ3xESLdcUrzGTjkL0PV5ImpQfT0l
+ UwnO1BVeFxq5PHm/rihhX4=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel-space.org;
+ s=s1; t=1704284994;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Jso+kg0PCrUfKK3VrwCFHag8Ddx6YoUU5qjOQHaiT0g=;
+ b=zjFq6HYUOZUhQR46j0UkdkWAltPLbvU7dN1ANsDZmmEi87BGGlbEHelvWXt8/f71V/UPJi
+ MgfJgSDNYKKkUS9xNkj7Sgnm2p/G8Pi82cqrhEMVjswllCFIRpQT1K4LkjfVRDAuWrNYzj
+ tWDAiUKUbA5oI0aUB2zbllh+YagnvuY=
+Received: from [192.168.0.2] (host-79-41-232-3.retail.telecomitalia.it
+ [79.41.232.3])
+ by kernel-space.org (OpenSMTPD) with ESMTPSA id 20df6116
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Wed, 3 Jan 2024 12:29:54 +0000 (UTC)
+Message-ID: <3419b50b-2ac7-c7b7-1289-d8eb5cc467f8@kernel-space.org>
+Date: Wed, 3 Jan 2024 13:30:17 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231228192421.29894-7-alexey.makhalov@broadcom.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Betterbird/102.11.0
+Content-Language: en-US, it
+From: Angelo Dureghello <angelo@kernel-space.org>
+To: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ dakr@redhat.com, bskeggs@redhat.com
+Subject: AD107M (197), black screen
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Wed, 03 Jan 2024 13:35:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,32 +68,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pv-drivers@vmware.com, dave.hansen@linux.intel.com,
- dri-devel@lists.freedesktop.org, namit@vmware.com, hpa@zytor.com,
- timothym@vmware.com, x86@kernel.org, mingo@redhat.com,
- linux-graphics-maintainer@vmware.com, linux-input@vger.kernel.org,
- tzimmermann@suse.de, richardcochran@gmail.com, virtualization@lists.linux.dev,
- mripard@kernel.org, akaher@vmware.com, bp@alien8.de, jsipek@vmware.com,
- tglx@linutronix.de, netdev@vger.kernel.org, dmitry.torokhov@gmail.com,
- linux-kernel@vger.kernel.org, horms@kernel.org, zackr@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 28, 2023 at 11:24:21AM -0800, Alexey Makhalov wrote:
-> From: Alexey Makhalov <amakhalov@vmware.com>
-> 
-> VMware hypercalls use I/O port, VMCALL or VMMCALL instructions.
-> Add __tdx_hypercall path to support TDX guests.
-> 
-> No change in high bandwidth hypercalls, as only low bandwidth
-> ones are supported for TDX guests.
-> 
-> Co-developed-by: Tim Merrifield <timothym@vmware.com>
-> Signed-off-by: Tim Merrifield <timothym@vmware.com>
-> Signed-off-by: Alexey Makhalov <amakhalov@vmware.com>
-> Reviewed-by: Nadav Amit <namit@vmware.com>
+Hi all,
 
-Acked-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+i am testing current mainline (6.7.rc8), on
+a lenovo legion, with AD107M (chipset 197000a1).
 
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+Looks like somewhere at driver probe, screen turns
+black and stays forever. If any hint, welcome.
+
+I can help debugging, rebuilding and testing in case.
+
+Regards,
+Angelo Dureghello
