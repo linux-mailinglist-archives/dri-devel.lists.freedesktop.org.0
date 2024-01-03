@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0455A822A5B
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 10:43:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 472B1822AEC
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 11:09:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D78110E25C;
-	Wed,  3 Jan 2024 09:43:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2917410E268;
+	Wed,  3 Jan 2024 10:09:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C2AE10E25C
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jan 2024 09:42:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
- t=1704274974; bh=+FuXJj2iKg82sXCjmgWQQwQpfkrjPVRuS95BkQPHOsw=;
- h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
- b=DWllvzcsi439e2+YBGopYhr7/9P4TW/n11basEqxa5WmGOsOuP9HnwC1kXB4B2o1+
- SbiCHP4a0BGb1mZFtaJjf3sSm54STGsn0NSLu5ZpzdrxDb3+tuGLSgdyPZpmbBYqrL
- 7VHgotempQviHZ7yLqhZT+zg9JoMETqwqz2oaZt8=
-Date: Wed, 3 Jan 2024 10:42:54 +0100
-From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
-To: Manuel Traut <manut@mecka.net>
-Subject: Re: [PATCH v3 4/4] arm64: dts: rockchip: Add devicetree for Pine64
- PineTab2
-Message-ID: <vj3elmkt6czisvwqouv2hhvut2va5jw6bbj5kjyxawvrnrdfwm@tlpo3dp3qcyb>
-Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
- Manuel Traut <manut@mecka.net>, Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>, 
- Mark Yao <markyao0591@gmail.com>, Diederik de Haas <didi.debian@cknow.org>, 
- Segfault <awarnecke002@hotmail.com>, Arnaud Ferraris <aferraris@debian.org>, 
- Danct12 <danct12@riseup.net>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
-References: <20240102-pinetab2-v3-0-cb1aa69f8c30@mecka.net>
- <20240102-pinetab2-v3-4-cb1aa69f8c30@mecka.net>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DB5A10E268
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jan 2024 10:09:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1704276555; x=1735812555;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=cIxaJJI4MDeQbz7nPGeZtfqMamaaHYTNZwnDjOrv9bk=;
+ b=Y8YIN8DBnwnFAzTeaLsI5c13TZHp0BX+a1qXec3m1vnkiAsxg6PEIgA1
+ u5tTE6E8iaSk1cAppsBz/qIyAPeb0sc0nClA+xU4G2U2oCTCL3SRejMS3
+ PP8efy2umsa2DvUfhlc4AJWyWmMkGI9+HgjjrYIdFNMfk8q8U7Nx14OKL
+ xQsk4Nf+ITEgf0S1ZnI36aw3YblxUst/VA6Y3h+3boGfgNbUzg55ah01c
+ vEzz/6dlvIDfeziG7LgPRzAvf4+AcBq7d3jO5YPMAaLYK9rofroFxMhEY
+ y64LAR6WNDu9SzOCJdGMyRqpEDM+6ZqUrlhwz5ZaFmhwBCdlbSQ/2vgyA A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="3759799"
+X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; 
+   d="scan'208";a="3759799"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jan 2024 02:09:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="22052938"
+Received: from lwenners-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.35.39])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jan 2024 02:09:10 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH v2 00/39] drm/bridge: switch to struct drm_edid
+Date: Wed,  3 Jan 2024 12:08:14 +0200
+Message-Id: <cover.1704276309.git.jani.nikula@intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240102-pinetab2-v3-4-cb1aa69f8c30@mecka.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,152 +60,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Diederik de Haas <didi.debian@cknow.org>, Danct12 <danct12@riseup.net>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, linux-rockchip@lists.infradead.org,
- Jessica Zhang <quic_jesszhan@quicinc.com>, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Mark Yao <markyao0591@gmail.com>, linux-arm-kernel@lists.infradead.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Segfault <awarnecke002@hotmail.com>, Sandy Huang <hjc@rock-chips.com>,
- Arnaud Ferraris <aferraris@debian.org>
+Cc: Jani Nikula <jani.nikula@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Manuel,
+Convert all of drm/bridge to the new struct drm_edid
+infrastructure. It's safer than struct edid, because it contains meta
+information about the allocated size of the EDID, instead of relying on
+the size (number of extensions) originating from outside of the kernel.
 
-a few more things I noticed:
+Among all of drm, I think bridge has the most uses of struct edid that
+do not originate from the drm_get_edid() family of functions, which
+means the validity checks are somewhat inconsistent, and having the meta
+information is more crucial.
 
-On Tue, Jan 02, 2024 at 05:15:47PM +0100, Manuel Traut wrote:
-> From: Alexander Warnecke <awarnecke002@hotmail.com>
-> 
-> +	leds {
-> +		compatible = "gpio-leds";
-> +
-> +		pinctrl-names = "default";
-> +		pinctrl-0 = <&flash_led_en_h>;
-> +
-> +		led-0 {
-> +			gpios = <&gpio4 RK_PA5 GPIO_ACTIVE_HIGH>;
-> +			color = <LED_COLOR_ID_WHITE>;
-> +			function = LED_FUNCTION_FLASH;
-> +		};
+Only build tested. I'm sure there should be more Cc's especially in the
+patches towards the end of the series, but I just wanted to get the
+series out the door now.
 
-This LED is supplied by VCC5V_MIDU, so maybe this should be a regulator-led
-supplied by gpio (FLASH_LED_EN_H) controlled regulator-fixed named f_led which
-is in turn supplied by VCC5V_MIDU.
+BR,
+Jani.
 
-https://megous.com/dl/tmp/9bf0d85d78946b5e.png
+Jani Nikula (39):
+  drm/bridge: add ->edid_read hook and drm_bridge_edid_read()
+  drm/bridge: switch to drm_bridge_read_edid()
+  drm/bridge: chrontel-ch7033: switch to drm_bridge_read_edid()
+  drm/bridge: lt8912b: use drm_bridge_read_edid()
+  drm/bridge: lt8912b: clear the EDID property on failures
+  drm/bridge: lt8912b: use ->edid_read callback
+  drm/bridge: lt9611uxc: use drm_bridge_read_edid()
+  drm: bridge: simple-bridge: use drm_bridge_edid_read()
+  drm: bridge: simple-bridge: clear the EDID property on failures
+  drm/bridge: tfp410: use drm_bridge_edid_read()
+  drm/bridge: tfp410: clear the EDID property on failures
+  drm/meson: switch to drm_bridge_edid_read()
+  drm/bridge: remove drm_bridge_get_edid() in favour of
+    drm_bridge_edid_read()
+  drm/bridge: anx7625: switch to ->edid_read callback
+  drm/bridge: cdns-mhdp8546: switch to ->edid_read callback
+  drm/bridge: cdns-mhdp8546: clear the EDID property on failures
+  drm/bridge: display-connector: switch to ->edid_read callback
+  drm/bridge: it6505: switch to ->edid_read callback
+  drm: bridge: it66121: switch to ->edid_read callback
+  drm/bridge: lt9611: switch to ->edid_read callback
+  drm/bridge: lt9611uxc: switch to ->edid_read callback
+  drm/bridge: megachips: switch to ->edid_read callback
+  drm/bridge: nxp-ptn3460: switch to ->edid_read callback
+  drm/bridge: sii902x: use display info is_hdmi
+  drm/bridge: sii902x: switch to ->edid_read callback
+  drm/mediatek/dp: switch to ->edid_read callback
+  drm/mediatek/hdmi: switch to ->edid_read callback
+  drm/msm/hdmi: fix indent
+  drm/msm/hdmi: switch to ->edid_read callback
+  drm/omap/hdmi4: switch to ->edid_read callback
+  drm/omap/hdmi5: switch to ->edid_read callback
+  drm: xlnx: zynqmp_dpsub: switch to ->edid_read callback
+  drm: adv7511: switch to ->edid_read callback
+  drm: bridge: dw_hdmi: switch to ->edid_read callback
+  drm: bridge: dw_hdmi: clear the EDID property and CEC address on
+    failures
+  drm/bridge: tc358767: update the EDID property
+  drm/bridge: tc358767: switch to ->edid_read callback
+  drm/bridge: ti-sn65dsi86: switch to ->edid_read callback
+  drm/bridge: remove ->get_edid callback
 
-> +	};
-> +
-> [...]
->
-> +
-> +	speaker_amp: speaker-amplifier {
-> +		compatible = "simple-audio-amplifier";
-> +		pinctrl-names = "default";
-> +		pinctrl-0 = <&spk_ctl>;
-> +		enable-gpios = <&gpio4 RK_PC2 GPIO_ACTIVE_HIGH>;
-> +		sound-name-prefix = "Speaker Amplifier";
-> +		VCC-supply = <&vcc_bat>;
-> +	};
-> +
-> +	vcc_3v3: vcc-3v3 {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vcc_3v3";
-> +		regulator-always-on;
-> +		regulator-boot-on;
-> +		regulator-min-microvolt = <3300000>;
-> +		regulator-max-microvolt = <3300000>;
-> +		vin-supply = <&vcc3v3_sys>;
-> +	};
-> +
-> +	vcc3v3_minipcie: vcc3v3-minipcie {
-> +		compatible = "regulator-fixed";
-> +		enable-active-high;
-> +		gpio = <&gpio4 RK_PC3 GPIO_ACTIVE_HIGH>;
-> +		pinctrl-names = "default";
-> +		pinctrl-0 = <&pcie_pwren_h>;
-> +		regulator-name = "vcc3v3_minipcie";
-> +		regulator-min-microvolt = <3300000>;
-> +		regulator-max-microvolt = <3300000>;
-> +		vin-supply = <&vcc_sys>;
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c  | 47 ++++++++++++-------
+ drivers/gpu/drm/bridge/analogix/anx7625.c     | 30 ++++--------
+ .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 28 ++++++-----
+ drivers/gpu/drm/bridge/chrontel-ch7033.c      | 12 ++---
+ drivers/gpu/drm/bridge/display-connector.c    |  8 ++--
+ drivers/gpu/drm/bridge/ite-it6505.c           | 17 +++----
+ drivers/gpu/drm/bridge/ite-it66121.c          | 16 +++----
+ drivers/gpu/drm/bridge/lontium-lt8912b.c      | 20 ++++----
+ drivers/gpu/drm/bridge/lontium-lt9611.c       |  8 ++--
+ drivers/gpu/drm/bridge/lontium-lt9611uxc.c    | 18 +++----
+ .../bridge/megachips-stdpxxxx-ge-b850v3-fw.c  | 18 +++----
+ drivers/gpu/drm/bridge/nxp-ptn3460.c          | 23 +++++----
+ drivers/gpu/drm/bridge/sii902x.c              | 38 +++++++--------
+ drivers/gpu/drm/bridge/simple-bridge.c        | 17 +++----
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c     | 43 ++++++++++-------
+ drivers/gpu/drm/bridge/tc358767.c             | 17 +++----
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c         |  8 ++--
+ drivers/gpu/drm/bridge/ti-tfp410.c            | 18 +++----
+ drivers/gpu/drm/drm_bridge.c                  | 17 +++----
+ drivers/gpu/drm/drm_bridge_connector.c        | 16 +++----
+ drivers/gpu/drm/mediatek/mtk_dp.c             | 31 +++++++-----
+ drivers/gpu/drm/mediatek/mtk_hdmi.c           | 26 ++++++----
+ drivers/gpu/drm/meson/meson_encoder_hdmi.c    | 20 ++++++--
+ drivers/gpu/drm/msm/hdmi/hdmi_bridge.c        | 33 ++++++++-----
+ drivers/gpu/drm/omapdrm/dss/hdmi4.c           | 22 ++++++---
+ drivers/gpu/drm/omapdrm/dss/hdmi5.c           | 12 ++---
+ drivers/gpu/drm/xlnx/zynqmp_dp.c              |  8 ++--
+ include/drm/drm_bridge.h                      | 25 +++++-----
+ 28 files changed, 329 insertions(+), 267 deletions(-)
 
-This regulator is supplied by vcc_bat: https://megous.com/dl/tmp/4ec71a4a2aea9498.png
+-- 
+2.39.2
 
-> +	};
-> +
-> +	vcc3v3_sd: vcc3v3-sd {
-> +		compatible = "regulator-fixed";
-> +		gpio = <&gpio0 RK_PA5 GPIO_ACTIVE_HIGH>;
-> +		pinctrl-names = "default";
-> +		pinctrl-0 = <&sdmmc_pwren_l>;
-> +		regulator-name = "vcc3v3_sd";
-> +		regulator-min-microvolt = <3300000>;
-> +		regulator-max-microvolt = <3300000>;
-> +		vin-supply = <&vcc3v3_sys>;
-> +	};
-> +
-> +	vcc5v0_usb_host0: vcc5v0-usb-host0 {
-> +		compatible = "regulator-fixed";
-> +		enable-active-high;
-> +		gpio = <&gpio4 RK_PC4 GPIO_ACTIVE_HIGH>;
-> +		pinctrl-names = "default";
-> +		pinctrl-0 = <&usb_host_pwren1_h>;
-> +		regulator-name = "vcc5v0_usb_host0";
-> +		regulator-min-microvolt = <5000000>;
-> +		regulator-max-microvolt = <5000000>;
-> +		vin-supply = <&vcc5v_midu>;
-> +	};
-> +
-> +	vcc5v0_usb_host2: vcc5v0-usb-host2 {
-> +		compatible = "regulator-fixed";
-> +		enable-active-high;
-> +		gpio = <&gpio4 RK_PC5 GPIO_ACTIVE_HIGH>;
-> +		pinctrl-names = "default";
-> +		pinctrl-0 = <&usb_host_pwren2_h>;
-> +		regulator-name = "vcc5v0_usb_host2";
-> +		regulator-min-microvolt = <5000000>;
-> +		regulator-max-microvolt = <5000000>;
-> +		vin-supply = <&vcc5v_midu>;
-> +	};
-> +
-> +	vcc_bat: vcc-bat {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vcc_bat";
-> +		regulator-always-on;
-> +		regulator-boot-on;
-> +	};
-> +
-> +	vcc_sys: vcc-sys {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vcc_sys";
-> +		regulator-always-on;
-> +		regulator-boot-on;
-> +		vin-supply = <&vcc_bat>;
-> +	};
-> +
-> +	vdd1v2_dvp: vdd1v2-dvp {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vdd1v2_dvp";
-> +		regulator-min-microvolt = <1200000>;
-> +		regulator-max-microvolt = <1200000>;
-> +		vin-supply = <&vcc_3v3>;
-> +		/*enable-supply = <&vcc2v8_dvp>;*/
-> +	};
-
-There's no vdd1v2_dvp in the schematic on the camera sensor connector, or elsewhere:
-
-  https://megous.com/dl/tmp/fd95f003d8f3fbfb.png
-
-So I guess, you can drop this, entirely. Maybe it's VDD1V5_DVP but I don't think
-it needs to be described in DT, since it's pretty local to this camera sensor,
-and nothing else uses it.
-
-  https://megous.com/dl/tmp/7fc384e196c5428f.png
-
-regards,
-	o.
