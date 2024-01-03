@@ -2,49 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9647C822AFE
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 11:10:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2AEA822AFF
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 11:11:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9DCB10E2BD;
-	Wed,  3 Jan 2024 10:10:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED57310E098;
+	Wed,  3 Jan 2024 10:11:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9849B10E2BD
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jan 2024 10:10:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5049A10E098
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jan 2024 10:11:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704276657; x=1735812657;
+ t=1704276663; x=1735812663;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=gcqtDEgmttw7VElUwFIUW3NCGombT1QAkRd+2Smeb1I=;
- b=FprEAroaKvW73yxYtSJ3L1l/ti/QG3kYe/8iqv67pzzv7fiom6wzN+2U
- YqI/L5H6yNsK1L5B67gR8AMbb1VNv5KXHJJYThjjhgIf3hYQqtGiphS3a
- dFVm7AK3ZnzHxn2TftT4pMg61kinCVju/7fuWgowuIYiUGnmEJhJM4oBC
- MNuuAdW0i4bhn3vA8/VCtLDbiv+IONDa5eLExj/ciF7Xexq8HbJrfddsZ
- 14c2Zu6kKAcwoVrfGyVjAJYEReTH59IviZLyIOCLKsTQT4JSCyIdm+SBS
- h5jf9/nPU7RTZCcb0LIFH/bhDShVCodQIdRNAl5fTjrfEczJzTUm0+6Xb Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="3760014"
+ bh=ozbhNyE+qi0IBfiJH1Qu1GdQkHtULUmyjPNjMv97yBI=;
+ b=ERGs6gxkr1BTOsSZkuqsMCzLwcNCZQ8Ph/4tR2j77BtuGjg0YYXArhnM
+ Ncuy+ClPm/oLq0SbtlXMxqExZU/0OOXcQm+U3FIa6CenyglDH5bf02RQw
+ bdYaZJIDJY4AonoBdlJLxSEWim3A6efRFkUPt91RPA6WsrW+oJN/+0xaE
+ /91GRUOpjn/YIFCBBZ+5peNyvHtvGvtXxMc81OxogyF5Zvbahm3GjeNHt
+ N2NyGt1C3JSzxu8rnA3tHuXoSZXnD+MAMDxZJroFg4RP2MjQnKyL0G5/B
+ /+JBVYWSi6klDnClC1AvpAYAowPxOnOjdSYTKpHolNKEaTUoWprqluvjS w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="3760036"
 X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; 
-   d="scan'208";a="3760014"
+   d="scan'208";a="3760036"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2024 02:10:57 -0800
+ 03 Jan 2024 02:11:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="22053228"
+X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="22053245"
 Received: from lwenners-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.35.39])
  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2024 02:10:53 -0800
+ 03 Jan 2024 02:10:59 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v2 17/39] drm/bridge: display-connector: switch to ->edid_read
- callback
-Date: Wed,  3 Jan 2024 12:08:31 +0200
-Message-Id: <9f72f9409933cae69967fa055bdb2ba1eae1b05e.1704276309.git.jani.nikula@intel.com>
+Subject: [PATCH v2 18/39] drm/bridge: it6505: switch to ->edid_read callback
+Date: Wed,  3 Jan 2024 12:08:32 +0200
+Message-Id: <942484544b26d7c0d13429c1e91663c0d9052683.1704276309.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1704276309.git.jani.nikula@intel.com>
 References: <cover.1704276309.git.jani.nikula@intel.com>
@@ -71,38 +70,70 @@ Prefer using the struct drm_edid based callback and functions.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/bridge/display-connector.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/bridge/ite-it6505.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/display-connector.c b/drivers/gpu/drm/bridge/display-connector.c
-index 08bd5695ddae..ab8e00baf3f1 100644
---- a/drivers/gpu/drm/bridge/display-connector.c
-+++ b/drivers/gpu/drm/bridge/display-connector.c
-@@ -81,12 +81,12 @@ display_connector_detect(struct drm_bridge *bridge)
- 	}
- }
+diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
+index 2f300f5ca051..914b58ec130d 100644
+--- a/drivers/gpu/drm/bridge/ite-it6505.c
++++ b/drivers/gpu/drm/bridge/ite-it6505.c
+@@ -458,7 +458,7 @@ struct it6505 {
+ 	/* it6505 driver hold option */
+ 	bool enable_drv_hold;
  
--static struct edid *display_connector_get_edid(struct drm_bridge *bridge,
--					       struct drm_connector *connector)
-+static const struct drm_edid *display_connector_edid_read(struct drm_bridge *bridge,
-+							  struct drm_connector *connector)
+-	struct edid *cached_edid;
++	const struct drm_edid *cached_edid;
+ };
+ 
+ struct it6505_step_train_para {
+@@ -2261,7 +2261,7 @@ static void it6505_plugged_status_to_codec(struct it6505 *it6505)
+ 
+ static void it6505_remove_edid(struct it6505 *it6505)
  {
- 	struct display_connector *conn = to_display_connector(bridge);
- 
--	return drm_get_edid(connector, conn->bridge.ddc);
-+	return drm_edid_read_ddc(connector, conn->bridge.ddc);
+-	kfree(it6505->cached_edid);
++	drm_edid_free(it6505->cached_edid);
+ 	it6505->cached_edid = NULL;
  }
  
- /*
-@@ -172,7 +172,7 @@ static u32 *display_connector_get_input_bus_fmts(struct drm_bridge *bridge,
- static const struct drm_bridge_funcs display_connector_bridge_funcs = {
- 	.attach = display_connector_attach,
- 	.detect = display_connector_detect,
--	.get_edid = display_connector_get_edid,
-+	.edid_read = display_connector_edid_read,
- 	.atomic_get_output_bus_fmts = display_connector_get_output_bus_fmts,
- 	.atomic_get_input_bus_fmts = display_connector_get_input_bus_fmts,
- 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+@@ -3032,15 +3032,16 @@ it6505_bridge_detect(struct drm_bridge *bridge)
+ 	return it6505_detect(it6505);
+ }
+ 
+-static struct edid *it6505_bridge_get_edid(struct drm_bridge *bridge,
+-					   struct drm_connector *connector)
++static const struct drm_edid *it6505_bridge_edid_read(struct drm_bridge *bridge,
++						      struct drm_connector *connector)
+ {
+ 	struct it6505 *it6505 = bridge_to_it6505(bridge);
+ 	struct device *dev = it6505->dev;
+ 
+ 	if (!it6505->cached_edid) {
+-		it6505->cached_edid = drm_do_get_edid(connector, it6505_get_edid_block,
+-						      it6505);
++		it6505->cached_edid = drm_edid_read_custom(connector,
++							   it6505_get_edid_block,
++							   it6505);
+ 
+ 		if (!it6505->cached_edid) {
+ 			DRM_DEV_DEBUG_DRIVER(dev, "failed to get edid!");
+@@ -3048,7 +3049,7 @@ static struct edid *it6505_bridge_get_edid(struct drm_bridge *bridge,
+ 		}
+ 	}
+ 
+-	return drm_edid_duplicate(it6505->cached_edid);
++	return drm_edid_dup(it6505->cached_edid);
+ }
+ 
+ static const struct drm_bridge_funcs it6505_bridge_funcs = {
+@@ -3063,7 +3064,7 @@ static const struct drm_bridge_funcs it6505_bridge_funcs = {
+ 	.atomic_pre_enable = it6505_bridge_atomic_pre_enable,
+ 	.atomic_post_disable = it6505_bridge_atomic_post_disable,
+ 	.detect = it6505_bridge_detect,
+-	.get_edid = it6505_bridge_get_edid,
++	.edid_read = it6505_bridge_edid_read,
+ };
+ 
+ static __maybe_unused int it6505_bridge_resume(struct device *dev)
 -- 
 2.39.2
 
