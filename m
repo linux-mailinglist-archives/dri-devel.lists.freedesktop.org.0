@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 796AE822B18
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 11:12:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12B1B822B1A
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 11:13:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCD6F10E306;
-	Wed,  3 Jan 2024 10:12:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 744B610E307;
+	Wed,  3 Jan 2024 10:12:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03C5210E306
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jan 2024 10:12:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E5E010E307
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jan 2024 10:12:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704276770; x=1735812770;
+ t=1704276778; x=1735812778;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=rZwH19IQ0PPWCzjpK0Dvo48+X/KhH8+T63DKcwUOniY=;
- b=X5CgMMLBTH65UFFSTtgWXPuaZHf1ErsxtsN9xVoukABtKiv5vwdKEmHe
- leMEU5MPb9HVj/lR8U2ph1XV+bBrNq+tvazcr5lJuZnVrln+hEutJ1n6K
- h+IUwyqFFZk/IgGtEU3xzFlLNagdPokWM8cP1lQtJrffGwT4yfHbeafy5
- PFB5MY4/EuZmbvQNRVLkKr/ueI7Yu4euIxC7j9UTcPOenWC7ZZ9HOnkTr
- ubRSTvxLmTyzKcz6FcJ9Fk/WSaX1wCbERB3lltDuig0A+8B3uTFu54aoL
- YiWDzBt4bD+r3r9mTdITwvo8j6uwVbwMfCPDShbZ9AV8ZeusuhY2SMusR Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="483173985"
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="483173985"
+ bh=9m8lKGADEH8vsf/N691EpA4S8PDnCN6vgFXpPamD+oE=;
+ b=T30QzOPYYwQj5tak1eGn+p5DR3uN3CO6ddp5u9gM2Vfk1d1fwDqrYsLG
+ MtKFnuPuEtN7jEg3aMt1B6evYSktE5MtUGFPtCefTie+xh8uN8q2SNayd
+ /UO8xHy6S4oOaBj2NZd5U9/Y6RooSrlF5Moc4cMT4fVaaYuyQv6HWDEpZ
+ f0ryEruwFPnzeu1te/nO4+IJyBQ0GbutHGMJTeCx/zRI+Rr7rVm8r2hU4
+ HvGKMc/Doq45XBkqxT6otV9xGiTDfEVaIAmn6UY1QrjbaT1Kwb5yfq4AJ
+ MdG/SqvFXRqAsPQUweYMRh52BVGlwbI4qEdBQTh0T1/5nYZlKTPtPYFnW A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="483174000"
+X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="483174000"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2024 02:12:50 -0800
+ 03 Jan 2024 02:12:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="729746283"
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="729746283"
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="729746352"
+X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="729746352"
 Received: from lwenners-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.35.39])
  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2024 02:12:47 -0800
+ 03 Jan 2024 02:12:53 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v2 36/39] drm/bridge: tc358767: update the EDID property
-Date: Wed,  3 Jan 2024 12:08:50 +0200
-Message-Id: <aba68195f3ea280b2e6d50083a5394aab93310ec.1704276309.git.jani.nikula@intel.com>
+Subject: [PATCH v2 37/39] drm/bridge: tc358767: switch to ->edid_read callback
+Date: Wed,  3 Jan 2024 12:08:51 +0200
+Message-Id: <1b8ec9040552117e1f094ddadee32a5ff5d82c3d.1704276309.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1704276309.git.jani.nikula@intel.com>
 References: <cover.1704276309.git.jani.nikula@intel.com>
@@ -66,26 +66,65 @@ Cc: Jani Nikula <jani.nikula@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The EDID property should be updated between reading the EDID and adding
-the modes.
+Prefer using the struct drm_edid based callback and functions.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/bridge/tc358767.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/bridge/tc358767.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index eb0d82a91cb9..da2aec5110c2 100644
+index da2aec5110c2..975cec698452 100644
 --- a/drivers/gpu/drm/bridge/tc358767.c
 +++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -1674,6 +1674,7 @@ static int tc_connector_get_modes(struct drm_connector *connector)
+@@ -1646,19 +1646,19 @@ static void tc_bridge_mode_set(struct drm_bridge *bridge,
+ 	drm_mode_copy(&tc->mode, mode);
+ }
+ 
+-static struct edid *tc_get_edid(struct drm_bridge *bridge,
+-				struct drm_connector *connector)
++static const struct drm_edid *tc_edid_read(struct drm_bridge *bridge,
++					   struct drm_connector *connector)
+ {
+ 	struct tc_data *tc = bridge_to_tc(bridge);
+ 
+-	return drm_get_edid(connector, &tc->aux.ddc);
++	return drm_edid_read_ddc(connector, &tc->aux.ddc);
+ }
+ 
+ static int tc_connector_get_modes(struct drm_connector *connector)
+ {
+ 	struct tc_data *tc = connector_to_tc(connector);
+ 	int num_modes;
+-	struct edid *edid;
++	const struct drm_edid *drm_edid;
+ 	int ret;
+ 
+ 	ret = tc_get_display_props(tc);
+@@ -1673,10 +1673,10 @@ static int tc_connector_get_modes(struct drm_connector *connector)
+ 			return num_modes;
  	}
  
- 	edid = tc_get_edid(&tc->bridge, connector);
-+	drm_connector_update_edid_property(connector, edid);
- 	num_modes = drm_add_edid_modes(connector, edid);
- 	kfree(edid);
+-	edid = tc_get_edid(&tc->bridge, connector);
+-	drm_connector_update_edid_property(connector, edid);
+-	num_modes = drm_add_edid_modes(connector, edid);
+-	kfree(edid);
++	drm_edid = tc_edid_read(&tc->bridge, connector);
++	drm_edid_connector_update(connector, drm_edid);
++	num_modes = drm_edid_connector_add_modes(connector);
++	drm_edid_free(drm_edid);
  
+ 	return num_modes;
+ }
+@@ -1845,7 +1845,7 @@ static const struct drm_bridge_funcs tc_edp_bridge_funcs = {
+ 	.atomic_enable = tc_edp_bridge_atomic_enable,
+ 	.atomic_disable = tc_edp_bridge_atomic_disable,
+ 	.detect = tc_bridge_detect,
+-	.get_edid = tc_get_edid,
++	.edid_read = tc_edid_read,
+ 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+ 	.atomic_reset = drm_atomic_helper_bridge_reset,
 -- 
 2.39.2
 
