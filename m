@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 392E5822B01
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 11:11:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0E90822B02
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 11:11:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E9C910E2C6;
-	Wed,  3 Jan 2024 10:11:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F004710E27A;
+	Wed,  3 Jan 2024 10:11:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35FAF10E27A
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jan 2024 10:11:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1566C10E287
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jan 2024 10:11:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704276675; x=1735812675;
+ t=1704276681; x=1735812681;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=KcRwH7nwtEN8CaRJEFZJf/qLkNQSk6hJgy0PxP78fjY=;
- b=Dh0qtS/C5jrftcsEhviD3viEpjwCeDUtU8vcnNPXKK+eGy32HAtQ6HvZ
- fl+JVqhO5lFRQWbTTyiPt7runOFnv+O88qUHMzsSC37X76A39zHDtZdhf
- 9w+/BqoOrsM5wYkX3vXpuuNGIF5DfUjCOGWTUfs07ONUbEoNn6mYztK5c
- EaaOBaX+ZhdAEKvRn5yfoTQZOWSFA4y0EQDTrOeb87GY96yhpiGC7JOGY
- tXgrZPTwPG60QhnW2shBYt/5y8mzfsifFXX2SW7Z1en+yyy3uhoXgAoM3
- izpaY+0s/krhrXn2dFezYBF2AlhS846elNFO95GgIgGeabpRPxBcG9m03 g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="3760066"
+ bh=XMsUPbcsiOhwIOBW8Sl5ZAqxyVjtHheTk0Ub8kUzzBE=;
+ b=i7ob+0BQ5RTUmogsIO5xCBN5tCzpyb7Y8T4mzwDSr6heFUolsl90BC83
+ XVIMC8kMWm+9LnT8/ExHYcNE4C2coUxoKoM+siogNXODzadq7Ztrvh53i
+ B8LWIeCO4xpxzohTE4k9G7tUvPX5+fUXy/cekbiAs3thyYEQ0iiR5XwkJ
+ UxiFYK1AH5IBS3fNJutBmAyhkGIE0gpROkEXfHN+76Bo8q2UFb75W9NHT
+ ZKFTHJMsabeJiKT9ckdyspdIE7fz10GcghEXWKtdTlgh60G4r903MUsRd
+ 80Rzu59cOlizp64HKObCqF04DkyS/253lKO4/+HIPn4cfWcTPaeAVkajY Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="3760078"
 X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; 
-   d="scan'208";a="3760066"
+   d="scan'208";a="3760078"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2024 02:11:14 -0800
+ 03 Jan 2024 02:11:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="22053275"
+X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="22053288"
 Received: from lwenners-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.35.39])
  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2024 02:11:10 -0800
+ 03 Jan 2024 02:11:16 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v2 20/39] drm/bridge: lt9611: switch to ->edid_read callback
-Date: Wed,  3 Jan 2024 12:08:34 +0200
-Message-Id: <be109714343ecd68bd3dccabb91e1b8110eb1ce8.1704276309.git.jani.nikula@intel.com>
+Subject: [PATCH v2 21/39] drm/bridge: lt9611uxc: switch to ->edid_read callback
+Date: Wed,  3 Jan 2024 12:08:35 +0200
+Message-Id: <54ca929a5bf43f8999453f583d4337565599a6bd.1704276309.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1704276309.git.jani.nikula@intel.com>
 References: <cover.1704276309.git.jani.nikula@intel.com>
@@ -70,39 +70,42 @@ Prefer using the struct drm_edid based callback and functions.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/bridge/lontium-lt9611.c | 8 ++++----
+ drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 8 ++++----
  1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
-index 9663601ce098..1385e3378985 100644
---- a/drivers/gpu/drm/bridge/lontium-lt9611.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
-@@ -846,13 +846,13 @@ lt9611_bridge_atomic_post_disable(struct drm_bridge *bridge,
- 	lt9611_sleep_setup(lt9611);
- }
+diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+index 3d916306a47d..28ceae10fa25 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
++++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+@@ -494,8 +494,8 @@ static int lt9611uxc_get_edid_block(void *data, u8 *buf, unsigned int block, siz
+ 	return 0;
+ };
  
--static struct edid *lt9611_bridge_get_edid(struct drm_bridge *bridge,
--					   struct drm_connector *connector)
-+static const struct drm_edid *lt9611_bridge_edid_read(struct drm_bridge *bridge,
-+						      struct drm_connector *connector)
+-static struct edid *lt9611uxc_bridge_get_edid(struct drm_bridge *bridge,
+-					      struct drm_connector *connector)
++static const struct drm_edid *lt9611uxc_bridge_edid_read(struct drm_bridge *bridge,
++							 struct drm_connector *connector)
  {
- 	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
+ 	struct lt9611uxc *lt9611uxc = bridge_to_lt9611uxc(bridge);
+ 	int ret;
+@@ -509,7 +509,7 @@ static struct edid *lt9611uxc_bridge_get_edid(struct drm_bridge *bridge,
+ 		return NULL;
+ 	}
  
- 	lt9611_power_on(lt9611);
--	return drm_do_get_edid(connector, lt9611_get_edid_block, lt9611);
-+	return drm_edid_read_custom(connector, lt9611_get_edid_block, lt9611);
+-	return drm_do_get_edid(connector, lt9611uxc_get_edid_block, lt9611uxc);
++	return drm_edid_read_custom(connector, lt9611uxc_get_edid_block, lt9611uxc);
  }
  
- static void lt9611_bridge_hpd_enable(struct drm_bridge *bridge)
-@@ -892,7 +892,7 @@ static const struct drm_bridge_funcs lt9611_bridge_funcs = {
- 	.attach = lt9611_bridge_attach,
- 	.mode_valid = lt9611_bridge_mode_valid,
- 	.detect = lt9611_bridge_detect,
--	.get_edid = lt9611_bridge_get_edid,
-+	.edid_read = lt9611_bridge_edid_read,
- 	.hpd_enable = lt9611_bridge_hpd_enable,
+ static const struct drm_bridge_funcs lt9611uxc_bridge_funcs = {
+@@ -517,7 +517,7 @@ static const struct drm_bridge_funcs lt9611uxc_bridge_funcs = {
+ 	.mode_valid = lt9611uxc_bridge_mode_valid,
+ 	.mode_set = lt9611uxc_bridge_mode_set,
+ 	.detect = lt9611uxc_bridge_detect,
+-	.get_edid = lt9611uxc_bridge_get_edid,
++	.edid_read = lt9611uxc_bridge_edid_read,
+ };
  
- 	.atomic_pre_enable = lt9611_bridge_atomic_pre_enable,
+ static int lt9611uxc_parse_dt(struct device *dev,
 -- 
 2.39.2
 
