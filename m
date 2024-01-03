@@ -1,56 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CF7C822BB2
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 11:57:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A53F822C54
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 12:48:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DD6110E274;
-	Wed,  3 Jan 2024 10:57:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 826FC10E291;
+	Wed,  3 Jan 2024 11:48:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6EAA10E274
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jan 2024 10:57:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704279440; x=1735815440;
- h=from:to:subject:in-reply-to:references:date:message-id:
- mime-version; bh=/sTx7DraN8ocmcK9bePXkJBevqtU2CZtlqunazeftMg=;
- b=MVDFXX2VlgwVGWtN7b5vV/8mQScR/gsHkBBrZFTyXgWISK9X6aqMP9H5
- hHnTZdL7Y88PmNlH/onhiXTBW/qc97tDvUVejAHYjuy9ANfgRuduXXbwM
- rKLmsYvMVQG0tfzFvRs4AgnFU7c02UK8ywkVY32vL9mwEtL+H5NgMArjJ
- rz368M88lp0YZ5LxzXze1Ptlt8DeHpn93udpRgS4L58WUPbFfpaA+KEAl
- /CrrcxUuFapzrHsJlkq7ziPyzd4AM/5wtdzcD++sY+tI0f/xYoB5l77tm
- lZh3gq3c0reyCoSuYy+BwG3wgVkwpF5Cs1WUEPIyrzue8r0L5Vcu0piAH Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="396725425"
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="396725425"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2024 02:57:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="783471944"
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; d="scan'208";a="783471944"
-Received: from lwenners-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.35.39])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2024 02:57:16 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss
- <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: Re: [PATCH v2 02/39] drm/bridge: switch to drm_bridge_read_edid()
-In-Reply-To: <0750897a-94b6-4a7f-bcb5-89c5658943ca@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1704276309.git.jani.nikula@intel.com>
- <3bf556369d2e81e0391a42035a85beb303937158.1704276309.git.jani.nikula@intel.com>
- <0750897a-94b6-4a7f-bcb5-89c5658943ca@suse.de>
-Date: Wed, 03 Jan 2024 12:57:03 +0200
-Message-ID: <877ckq1y80.fsf@intel.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1483F10E291;
+ Wed,  3 Jan 2024 11:48:29 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id 04B09B8110F;
+ Wed,  3 Jan 2024 11:48:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10F35C433C7;
+ Wed,  3 Jan 2024 11:48:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1704282506;
+ bh=TN4lVGjd6QgiOjbr2X4wDvGDWbLRLSblB4xYrWWI6lw=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Kf4DKVDsaGBDnt0o7IU4upkaXehBOSF80PmZtgxGgRffIJ1uxSqOP1/tZyXSBswG+
+ 1REoSI3SpAFR6jT2GFB2HtuZtLsi6w8pNyFOw8FPN3Cpmja0Ymiy3gZYTAzwTxKIhl
+ WR/7PQFUdC5BRh/5Dzlb9TwWA/cXneE//2OMWKuyxbO8xY5HOPdfgnDXVg38oVwsX/
+ lUury3x+DdDfHLNMhtIVnEgtYhqFTAPJTTXuPANGO+F6TsEpbeAErEo8BNzzbv9IAO
+ bVNsCnj7LORrfJ8sm6rPqMj5rVx9xwfCT35Dcbt0UrW8Gmerqs+trqLYZSmECGDRJ8
+ vhQ+2tVYB/KUw==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Lucas De Marchi <lucas.demarchi@intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: [PATCH] drm/xe: circumvent bogus stringop-overflow warning
+Date: Wed,  3 Jan 2024 12:48:02 +0100
+Message-Id: <20240103114819.2913937-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,79 +55,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Arnd Bergmann <arnd@arndb.de>, Brian Welty <brian.welty@intel.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Matt Roper <matthew.d.roper@intel.com>, intel-xe@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 03 Jan 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Hi Jani
->
->  > drm/bridge: switch to drm_bridge_read_edid()
->
-> Did you mean drm_bridge_edid_read(), here and in the other patches?
+From: Arnd Bergmann <arnd@arndb.de>
 
-Ah, yeah, I did.
+gcc-13 warns about an array overflow that it sees but that is
+prevented by the "asid % NUM_PF_QUEUE" calculation:
 
-> (Personally, I'd prefer read_edid over edid_read. The former is common 
-> style and easier to read.)
+drivers/gpu/drm/xe/xe_gt_pagefault.c: In function 'xe_guc_pagefault_handler':
+include/linux/fortify-string.h:57:33: error: writing 16 bytes into a region of size 0 [-Werror=stringop-overflow=]
+include/linux/fortify-string.h:689:26: note: in expansion of macro '__fortify_memcpy_chk'
+  689 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+      |                          ^~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/xe/xe_gt_pagefault.c:341:17: note: in expansion of macro 'memcpy'
+  341 |                 memcpy(pf_queue->data + pf_queue->tail, msg, len * sizeof(u32));
+      |                 ^~~~~~
+drivers/gpu/drm/xe/xe_gt_types.h:102:25: note: at offset [1144, 265324] into destination object 'tile' of size 8
 
-The name comes from drm_edid_read() family of functions, which are so
-named because they reside in drm_edid.[ch].
+I found that rewriting the assignment using pointer addition rather than the
+equivalent array index calculation prevents the warning, so use that instead.
 
-BR,
-Jani.
+I sent a bug report against gcc for the false positive warning.
 
->
-> Best regards
-> Thomas
->
-> Am 03.01.24 um 11:08 schrieb Jani Nikula:
->> Prefer using the struct drm_edid based functions.
->> 
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->> ---
->>   drivers/gpu/drm/drm_bridge_connector.c | 16 ++++++++--------
->>   1 file changed, 8 insertions(+), 8 deletions(-)
->> 
->> diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/drm_bridge_connector.c
->> index 3acd67021ec6..982552c9f92c 100644
->> --- a/drivers/gpu/drm/drm_bridge_connector.c
->> +++ b/drivers/gpu/drm/drm_bridge_connector.c
->> @@ -239,27 +239,27 @@ static int drm_bridge_connector_get_modes_edid(struct drm_connector *connector,
->>   					       struct drm_bridge *bridge)
->>   {
->>   	enum drm_connector_status status;
->> -	struct edid *edid;
->> +	const struct drm_edid *drm_edid;
->>   	int n;
->>   
->>   	status = drm_bridge_connector_detect(connector, false);
->>   	if (status != connector_status_connected)
->>   		goto no_edid;
->>   
->> -	edid = drm_bridge_get_edid(bridge, connector);
->> -	if (!drm_edid_is_valid(edid)) {
->> -		kfree(edid);
->> +	drm_edid = drm_bridge_edid_read(bridge, connector);
->> +	if (!drm_edid_valid(drm_edid)) {
->> +		drm_edid_free(drm_edid);
->>   		goto no_edid;
->>   	}
->>   
->> -	drm_connector_update_edid_property(connector, edid);
->> -	n = drm_add_edid_modes(connector, edid);
->> +	drm_edid_connector_update(connector, drm_edid);
->> +	n = drm_edid_connector_add_modes(connector);
->>   
->> -	kfree(edid);
->> +	drm_edid_free(drm_edid);
->>   	return n;
->>   
->>   no_edid:
->> -	drm_connector_update_edid_property(connector, NULL);
->> +	drm_edid_connector_update(connector, NULL);
->>   	return 0;
->>   }
->>   
+Fixes: dd08ebf6c352 ("drm/xe: Introduce a new DRM driver for Intel GPUs")
+Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=113214
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/gpu/drm/xe/xe_gt_pagefault.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/gpu/drm/xe/xe_gt_pagefault.c b/drivers/gpu/drm/xe/xe_gt_pagefault.c
+index 59a70d2e0a7a..78dc08cc2bfe 100644
+--- a/drivers/gpu/drm/xe/xe_gt_pagefault.c
++++ b/drivers/gpu/drm/xe/xe_gt_pagefault.c
+@@ -332,7 +332,7 @@ int xe_guc_pagefault_handler(struct xe_guc *guc, u32 *msg, u32 len)
+ 		return -EPROTO;
+ 
+ 	asid = FIELD_GET(PFD_ASID, msg[1]);
+-	pf_queue = &gt->usm.pf_queue[asid % NUM_PF_QUEUE];
++	pf_queue = gt->usm.pf_queue + (asid % NUM_PF_QUEUE);
+ 
+ 	spin_lock_irqsave(&pf_queue->lock, flags);
+ 	full = pf_queue_full(pf_queue);
 -- 
-Jani Nikula, Intel
+2.39.2
+
