@@ -2,71 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9AD6823F24
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jan 2024 11:02:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FAA0823F98
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jan 2024 11:41:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D130710E3FF;
-	Thu,  4 Jan 2024 10:02:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B968610E3FE;
+	Thu,  4 Jan 2024 10:41:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com
- [IPv6:2607:f8b0:4864:20::d2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85F8310E400
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jan 2024 10:02:46 +0000 (UTC)
-Received: by mail-io1-xd2f.google.com with SMTP id
- ca18e2360f4ac-7bb97d5ee3aso10033339f.2
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Jan 2024 02:02:46 -0800 (PST)
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
+ [IPv6:2a00:1450:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9DFD10E3FE
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jan 2024 10:41:35 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id
+ a640c23a62f3a-a26f73732c5so38546066b.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Jan 2024 02:41:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1704362566; x=1704967366; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=SsqoTQQ6S/KQGXZbxBXDB57O2mR0DxuaSI6RPEYNPsE=;
- b=eE1x7lyBw17e7/CfiY5r95kR1w2geEAJnIZOwo4W0flw7jv63J6Nr5V4Jo5c54pVWS
- BQOqEXiYewFlFgGdfnSbtkR8BMOsiFskZMy+WBp8pHLU8Ob9HVbjltFgpumPJ7jmSedM
- 6xm7Cr+skOYn6v5yRtDN2W56OSbsv4MMgGd9JBBH1LgsWbH4uXfVxwu8+/PhDggkf/WK
- uNUPd7M3vVttuyg+ehA1OrW99yx1Cgw5lpwTrpcHMvCEdCKOxPImzZv8kRwEtW+WnczU
- y/hql1zV/6YyHhQDGq36HeloDGtpsqEgDso6HqBuAEgsGt2+8ng8k0zM7n9LCD/VdTT7
- 5lUA==
+ d=linaro.org; s=google; t=1704364894; x=1704969694; darn=lists.freedesktop.org;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=AvkxvNYRN0ZQmExWKCsl/JqtEr8oFbTjh04dpezCVK4=;
+ b=JYkVB+b5pD4jmwdibEHaC17H90EmD5afrdxMWDa4dJ1D5Vw2xtyV6bR4Z9uO1drysb
+ RW3FuT3Fkbr/yH2goGberNAQu/RmCMd0Nqfka5tZawrh83crfQELLgvxiuR2jp7Hw6rX
+ LWeeuTul++dJGs23YYx1kyYm4IUrpaLMBklYZSVqjtjT1nx6LyBeQ4upMeLTEyEl3uYC
+ n447+5ud0qs4zU/qbyP81j5ERZvGc6Evwc9bN5UCy/NpXcZByCd1gWyB8WFg75yK6M38
+ s5jAhGcSDN6p7h9q6aAiUlt0VpUUGC01fuDU+tfgT/XDn11uHKoL83VZSU906GPWDpSB
+ /6wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704362566; x=1704967366;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SsqoTQQ6S/KQGXZbxBXDB57O2mR0DxuaSI6RPEYNPsE=;
- b=OA9pyY8wG55wssbrtuGRrgwVbO6rudY6gUQc1f8Vv2oQsZdD0HBq+eGk8j3/UhO1by
- /LEGYMWn4SAZWycI2CWJyuyl7VtpQSbryEkPAcKK/5/ftkbLsHPdgrYCQHpXPb5ahMjF
- onikhwq20dDP0RozmnlPOgVPVnBb4B+MmnyiW/Y7YNxB2FNJPqTVRXxS75Thvzi+Lcfc
- 1ZtADzApBzGenugwMNN+cgK3CR5kAMtr+ACJ6DKUToAYmU52GFtHv3CBbvX9jXn3aHTQ
- wsZsxnlc0xtNX612qcaba+f36Pu9k1gVBIK7d6DeWj7I4MWGcxNGYJT8a9w9iyU8GBkL
- EwyA==
-X-Gm-Message-State: AOJu0YyEI83JPre1NAJFTNnVblA2T9/QZ6JtPv8UFgfChIymiG9zVDu5
- LrqYucIAxkQ4wge/qQ0VYQM=
-X-Google-Smtp-Source: AGHT+IHtMu0xJK7BgXR1mY9KqI8ZLSMyeedAVcmhyKe3ivPI1qN0EGK2LBFepnpRDMyyXgJILbV73g==
-X-Received: by 2002:a6b:6505:0:b0:7b7:fac9:b3aa with SMTP id
- z5-20020a6b6505000000b007b7fac9b3aamr320812iob.29.1704362565707; 
- Thu, 04 Jan 2024 02:02:45 -0800 (PST)
-Received: from archie.me ([103.131.18.64]) by smtp.gmail.com with ESMTPSA id
- g33-20020a635221000000b0058ee60f8e4dsm23870038pgb.34.2024.01.04.02.02.45
+ d=1e100.net; s=20230601; t=1704364894; x=1704969694;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=AvkxvNYRN0ZQmExWKCsl/JqtEr8oFbTjh04dpezCVK4=;
+ b=Qx1Qt6dJmQvGDe1Wrz2/FhVsCGZsGxrrSVckUPR1smc/ML+JsoyztYuoMgm0wNWGbp
+ Z+6QtduO7DkV5GnmUQ0YyW3tS5Vq+sN6fuzqAq9LJyNndhZMo1Sg1kusmZzg/84wCREO
+ Nxqxt12Q9EOKQiK+j3H9l+PZYqnKxcpETGmG+484M7BXdBbBLhFQ+dfeRDxjCh+Ojjlq
+ FDgL0unwKfLaNOVfNajXVcjWNxtc1TUtu1CaFTVx6dDh7j5irR56c+01FJ51sswHyeCJ
+ Qfj9gwy1BKFfa+0+c58yAVZc8r5v6afa9fjMtn0xsYbA8jO0A65RC9xbXcK/l7ioTxLa
+ exxg==
+X-Gm-Message-State: AOJu0YzlZplb13ypO1tVqmEwHz6Mb28CQ/eIPEFnRV5YJO3I4XW3Iuce
+ 0BWDTNGqH4mvQPFs9PBgWOcaHcMbRcJtfA==
+X-Google-Smtp-Source: AGHT+IHxEn3+F0nPe5X2rb/SYkHNQT3flgBa6t4xwBy3Yq1KTKD1kyVaWiT4bgAJCGdj9LVcaeMJTg==
+X-Received: by 2002:a17:906:fc26:b0:a23:5814:4b76 with SMTP id
+ ov38-20020a170906fc2600b00a2358144b76mr216745ejb.35.1704364894160; 
+ Thu, 04 Jan 2024 02:41:34 -0800 (PST)
+Received: from localhost ([102.140.209.237]) by smtp.gmail.com with ESMTPSA id
+ lz2-20020a170906fb0200b00a26aa845084sm13238517ejb.17.2024.01.04.02.41.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Jan 2024 02:02:45 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
- id 582A91837AF8A; Thu,  4 Jan 2024 17:02:41 +0700 (WIB)
-Date: Thu, 4 Jan 2024 17:02:41 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee@kernel.org>,
- Jingoo Han <jingoohan1@gmail.com>,
- Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: (subset) linux-next: build failure after merge of the pwm tree
-Message-ID: <ZZaCQahr3t8CUumD@archie.me>
-References: <20231221165805.0c4771c1@canb.auug.org.au>
- <170316329164.542553.8341559295114557258.b4-ty@kernel.org>
- <20231221125801.GG10102@google.com>
- <ZYSFUZf8NcK5vvLv@orome.fritz.box>
+ Thu, 04 Jan 2024 02:41:33 -0800 (PST)
+Date: Thu, 4 Jan 2024 13:41:30 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: matthew.brost@intel.com
+Subject: [bug report] drm/xe: Introduce a new DRM driver for Intel GPUs
+Message-ID: <eb17321a-5db8-4828-b5ea-0b90d968e1cb@moroto.mountain>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="QNFbmQpVZ93cppeG"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZYSFUZf8NcK5vvLv@orome.fritz.box>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,90 +68,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, Sean Young <sean@mess.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Flavio Suligoi <f.suligoi@asem.it>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello Matthew Brost,
 
---QNFbmQpVZ93cppeG
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The patch dd08ebf6c352: "drm/xe: Introduce a new DRM driver for Intel
+GPUs" from Mar 30, 2023 (linux-next), leads to the following Smatch
+static checker warning:
 
-[also add Jingoo (additional backlight maintainer) and Linus]
+	drivers/gpu/drm/xe/tests/xe_bo.c:298 evict_test_run_tile()
+	error: double unlocked 'external->ttm.base.resv' (orig line 220)
 
-On Thu, Dec 21, 2023 at 07:34:57PM +0100, Thierry Reding wrote:
-> On Thu, Dec 21, 2023 at 12:58:01PM +0000, Lee Jones wrote:
-> > On Thu, 21 Dec 2023, Lee Jones wrote:
-> >=20
-> > > On Thu, 21 Dec 2023 16:58:05 +1100, Stephen Rothwell wrote:
-> > > > After merging the backlight tree, today's linux-next build (x86_64
-> > > > allmodconfig) failed like this:
-> > > >=20
-> > > > drivers/video/backlight/mp3309c.c: In function 'mp3309c_bl_update_s=
-tatus':
-> > > > drivers/video/backlight/mp3309c.c:134:23: error: implicit declarati=
-on of function 'pwm_apply_state'; did you mean 'pwm_apply_args'? [-Werror=
-=3Dimplicit-function-declaration]
-> > > >   134 |                 ret =3D pwm_apply_state(chip->pwmd, &pwmsta=
-te);
-> > > >       |                       ^~~~~~~~~~~~~~~
-> > > >       |                       pwm_apply_args
-> > > >=20
-> > > > [...]
-> > >=20
-> > > Applied, thanks!
-> > >=20
-> > > [1/1] linux-next: build failure after merge of the pwm tree
-> > >       commit: f7baa9ccef93ba1c36a8ecf58c2f4e86fb3181b9
-> >=20
-> > Actually it's:
-> >=20
-> >   f7baa9ccef93b ("backlight: mp3309c: Rename  pwm_apply_state() to pwm_=
-apply_might_sleep()")
-> >=20
-> > But don't bank on the commit ID staying the same.
->=20
-> This is likely going to break the build on your branch because
-> pwm_apply_might_sleep() is only available in the PWM tree right now. In
-> any case, I've now pushed a commit that adds pwm_apply_state() back as a
-> compatibility stub, so it should be okay for you to drop this if you
-> run into problems. It's always possible that somebody else wants to add
-> a new caller of pwm_apply_state() and in retrospect we should've
-> probably done this from the start, at least as a transitional measure
-> for one or two cycles.
->=20
+drivers/gpu/drm/xe/tests/xe_bo.c
+    294 
+    295                 xe_bo_lock(external, false);
+    296                 xe_bo_unpin_external(external);
+    297                 xe_bo_unlock(external);
 
-Hi Lee and Thierry,
+This is a false positive, but the API is ugly...  xe_bo_lock() is an
+interruptible lock if the second argument is true.  Why not just
+create a xe_bo_lock_interruptible()?  This has several advantages:
 
-I know that we're still on New Year vibes, so some things are not up to full
-steam for now; but since we're close to v6.7 release and v6.8 merge window,
-hence allow me to ask:
+1) More readable and you could delete the comments explaining how to
+   use it because it's so obvious.
+2) Less typing because you wouldn't have to write ", false" so much.
+3) You could mark the _interruptible version as must check and the other
+   version could be a void function.
+4) Smatch could parse it automatically.  I can write some custom code
+   to parse the existing function but it's a small hassle for me.
 
-Stephen Rothwell is still complaining about backlight tree build failure
-due to f7baa9ccef93b, yet it has not been fixed so far. Has the culprit
-been dropped/reverted as he requested? The worst case is the culprit slips
-through and become part of backlight PR and Linus will likely not happy
-with the build regression (maybe he had to fix by himself).
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---QNFbmQpVZ93cppeG
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZZaCPQAKCRD2uYlJVVFO
-o30uAQCpOUQNLZSsWEF7o4VwnEeONRRU8z0ZDQlzK20JAUQHPwEA2mqQa3jDEv5p
-vSerVltHJ5q3FS1SCjRw9gKeiD+FjQo=
-=wZkt
------END PGP SIGNATURE-----
-
---QNFbmQpVZ93cppeG--
+regards,
+dan carpenter
