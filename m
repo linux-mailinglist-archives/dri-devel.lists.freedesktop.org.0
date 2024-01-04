@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 068BC824124
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jan 2024 12:57:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BAAA7824125
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jan 2024 12:57:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32DF510E463;
-	Thu,  4 Jan 2024 11:57:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2D0810E46A;
+	Thu,  4 Jan 2024 11:57:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 881F210E45F
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jan 2024 11:57:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA42110E463
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jan 2024 11:57:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704369464; x=1735905464;
+ t=1704369465; x=1735905465;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=sUwA4iT2mEK5Hm1yApbGW6cRB/IYNoMsiMzlD1TSJCE=;
- b=f1O2Ma/M2X8NSUw3DWjy/xjvz45d3ryI4lx0lFyBZ+SlMhKks1pUUOYo
- NYtRKPeYPCiO4+S1Q3heLPPcQsms92BapZ0cRl46QTfDtOXQ4Zm3iJgpJ
- I9I8RRtnmm09jaTZYRC0+Zacms7ADUYfcDPCNNjUH09kfgTiqNgQetv7H
- qkEQE77K14+KhQeB67as4Fk9WaLrO4XISPQBpF/D/04Dq0b4jv37mr9cr
- M4UNU7cBZ2C5wWutWEeQITWQOXv3R6L4RkdqAouHwt7vvOGnkFI/9Ss7x
- y3dBfnvnQFkZmuZt0ETbvTSZuPFEmwJzKQOJzLgnxNCDG0cup4K1AQXoY g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="4584201"
+ bh=OU4rRXZVwGxHLoJmDQmKsP0QhtxlLNAKvh2VLtq4zaI=;
+ b=AVz4g59WFLjwRxS1Xu7NsyrrSe558DnJvdzQF4I1l0mGbmJqDBkZ3AH0
+ xz7Zj4rldwLAQc5DhjP0eSZkIX355870ct3bd8lAR032YxauliSozSXE6
+ 8I7ZsETKzLZFxp5oY87NWyIn+XLn8021VTOZQD1eqEtQdHGLepdv3cuqN
+ JKPmB3QZgP0t2ioVxp2CWUNfXYalexRZqfKgXxm/t5FlCZyGi0JmGr0fd
+ MYySBwMtzjPNcrHKDO6AyLH8aSWu9ylchnm8WI2T5ZkcjUEyAI3dhtEd3
+ HfL/4qEQcqFaTXOR9w6NDvb8wQQ+CpIOLFrUKNtOFcSXceeDdn72/oj0e A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="4584207"
 X-IronPort-AV: E=Sophos;i="6.04,330,1695711600"; 
-   d="scan'208";a="4584201"
+   d="scan'208";a="4584207"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jan 2024 03:57:43 -0800
+ 04 Jan 2024 03:57:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="899275831"
-X-IronPort-AV: E=Sophos;i="6.04,330,1695711600"; d="scan'208";a="899275831"
+X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="899275835"
+X-IronPort-AV: E=Sophos;i="6.04,330,1695711600"; d="scan'208";a="899275835"
 Received: from jlawryno.igk.intel.com ([10.91.220.59])
  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jan 2024 03:57:42 -0800
+ 04 Jan 2024 03:57:43 -0800
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 14/16] accel/ivpu: Refactor ivpu_submit_ioctl()
-Date: Thu,  4 Jan 2024 12:57:11 +0100
-Message-ID: <20240104115713.8657-15-jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH 15/16] accel/ivpu: Improve recovery and reset support
+Date: Thu,  4 Jan 2024 12:57:12 +0100
+Message-ID: <20240104115713.8657-16-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240104115713.8657-1-jacek.lawrynowicz@linux.intel.com>
 References: <20240104115713.8657-1-jacek.lawrynowicz@linux.intel.com>
@@ -63,311 +63,362 @@ Cc: quic_jhugo@quicinc.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-- Wake up the device as late as possible
-- Remove job reference counting in order to simplify the code
-- Don't put jobs that are not fully submitted on submitted_jobs_xa in
-  order to avoid potential races with reset/recovery
-- Split job_destroy/rpm_put which is needed for TDR refactor
+  - Synchronize job submission with reset/recovery using reset_lock
+  - Always print recovery reason and call diagnose_failure()
+  - Prevent immediate autosuspend after reset/recovery
 
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_job.c | 139 +++++++++++++++-------------------
- drivers/accel/ivpu/ivpu_job.h |   1 -
- 2 files changed, 62 insertions(+), 78 deletions(-)
+ drivers/accel/ivpu/ivpu_debugfs.c | 20 ++++++++++---
+ drivers/accel/ivpu/ivpu_hw_37xx.c | 14 +++------
+ drivers/accel/ivpu/ivpu_hw_40xx.c |  8 +++---
+ drivers/accel/ivpu/ivpu_ipc.c     |  8 ++----
+ drivers/accel/ivpu/ivpu_job.c     |  2 ++
+ drivers/accel/ivpu/ivpu_mmu.c     |  4 +--
+ drivers/accel/ivpu/ivpu_pm.c      | 48 ++++++++++++++++++++-----------
+ drivers/accel/ivpu/ivpu_pm.h      |  6 ++--
+ 8 files changed, 67 insertions(+), 43 deletions(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
-index 4fed0c05e051..d9b47a04b35f 100644
---- a/drivers/accel/ivpu/ivpu_job.c
-+++ b/drivers/accel/ivpu/ivpu_job.c
-@@ -125,7 +125,7 @@ void ivpu_cmdq_release_all_locked(struct ivpu_file_priv *file_priv)
- /*
-  * Mark the doorbell as unregistered and reset job queue pointers.
-  * This function needs to be called when the VPU hardware is restarted
-- * and FW looses job queue state. The next time job queue is used it
-+ * and FW loses job queue state. The next time job queue is used it
-  * will be registered again.
-  */
- static void ivpu_cmdq_reset_locked(struct ivpu_file_priv *file_priv, u16 engine)
-@@ -239,60 +239,32 @@ static struct dma_fence *ivpu_fence_create(struct ivpu_device *vdev)
- 	return &fence->base;
- }
- 
--static void job_get(struct ivpu_job *job, struct ivpu_job **link)
-+static void ivpu_job_destroy(struct ivpu_job *job)
+diff --git a/drivers/accel/ivpu/ivpu_debugfs.c b/drivers/accel/ivpu/ivpu_debugfs.c
+index 19035230563d..7cb962e21453 100644
+--- a/drivers/accel/ivpu/ivpu_debugfs.c
++++ b/drivers/accel/ivpu/ivpu_debugfs.c
+@@ -102,7 +102,7 @@ static int reset_pending_show(struct seq_file *s, void *v)
  {
- 	struct ivpu_device *vdev = job->vdev;
--
--	kref_get(&job->ref);
--	*link = job;
--
--	ivpu_dbg(vdev, KREF, "Job get: id %u refcount %u\n", job->job_id, kref_read(&job->ref));
--}
--
--static void job_release(struct kref *ref)
--{
--	struct ivpu_job *job = container_of(ref, struct ivpu_job, ref);
--	struct ivpu_device *vdev = job->vdev;
- 	u32 i;
+ 	struct ivpu_device *vdev = seq_to_ivpu(s);
  
-+	ivpu_dbg(vdev, JOB, "Job destroyed: id %3u ctx %2d engine %d",
-+		 job->job_id, job->file_priv->ctx.id, job->engine_idx);
-+
- 	for (i = 0; i < job->bo_count; i++)
- 		if (job->bos[i])
- 			drm_gem_object_put(&job->bos[i]->base.base);
- 
- 	dma_fence_put(job->done_fence);
- 	ivpu_file_priv_put(&job->file_priv);
--
--	ivpu_dbg(vdev, KREF, "Job released: id %u\n", job->job_id);
- 	kfree(job);
--
--	/* Allow the VPU to get suspended, must be called after ivpu_file_priv_put() */
--	ivpu_rpm_put(vdev);
--}
--
--static void job_put(struct ivpu_job *job)
--{
--	struct ivpu_device *vdev = job->vdev;
--
--	ivpu_dbg(vdev, KREF, "Job put: id %u refcount %u\n", job->job_id, kref_read(&job->ref));
--	kref_put(&job->ref, job_release);
- }
- 
- static struct ivpu_job *
--ivpu_create_job(struct ivpu_file_priv *file_priv, u32 engine_idx, u32 bo_count)
-+ivpu_job_create(struct ivpu_file_priv *file_priv, u32 engine_idx, u32 bo_count)
- {
- 	struct ivpu_device *vdev = file_priv->vdev;
- 	struct ivpu_job *job;
--	int ret;
--
--	ret = ivpu_rpm_get(vdev);
--	if (ret < 0)
--		return NULL;
- 
- 	job = kzalloc(struct_size(job, bos, bo_count), GFP_KERNEL);
- 	if (!job)
--		goto err_rpm_put;
--
--	kref_init(&job->ref);
-+		return NULL;
- 
- 	job->vdev = vdev;
- 	job->engine_idx = engine_idx;
-@@ -306,17 +278,14 @@ ivpu_create_job(struct ivpu_file_priv *file_priv, u32 engine_idx, u32 bo_count)
- 	job->file_priv = ivpu_file_priv_get(file_priv);
- 
- 	ivpu_dbg(vdev, JOB, "Job created: ctx %2d engine %d", file_priv->ctx.id, job->engine_idx);
--
- 	return job;
- 
- err_free_job:
- 	kfree(job);
--err_rpm_put:
--	ivpu_rpm_put(vdev);
- 	return NULL;
- }
- 
--static int ivpu_job_done(struct ivpu_device *vdev, u32 job_id, u32 job_status)
-+static int ivpu_job_signal_and_destroy(struct ivpu_device *vdev, u32 job_id, u32 job_status)
- {
- 	struct ivpu_job *job;
- 
-@@ -333,9 +302,10 @@ static int ivpu_job_done(struct ivpu_device *vdev, u32 job_id, u32 job_status)
- 	ivpu_dbg(vdev, JOB, "Job complete:  id %3u ctx %2d engine %d status 0x%x\n",
- 		 job->job_id, job->file_priv->ctx.id, job->engine_idx, job_status);
- 
-+	ivpu_job_destroy(job);
- 	ivpu_stop_job_timeout_detection(vdev);
- 
--	job_put(job);
-+	ivpu_rpm_put(vdev);
+-	seq_printf(s, "%d\n", atomic_read(&vdev->pm->in_reset));
++	seq_printf(s, "%d\n", atomic_read(&vdev->pm->reset_pending));
  	return 0;
  }
  
-@@ -345,10 +315,10 @@ void ivpu_jobs_abort_all(struct ivpu_device *vdev)
- 	unsigned long id;
+@@ -130,7 +130,9 @@ dvfs_mode_fops_write(struct file *file, const char __user *user_buf, size_t size
  
- 	xa_for_each(&vdev->submitted_jobs_xa, id, job)
--		ivpu_job_done(vdev, id, VPU_JSM_STATUS_ABORTED);
-+		ivpu_job_signal_and_destroy(vdev, id, VPU_JSM_STATUS_ABORTED);
+ 	fw->dvfs_mode = dvfs_mode;
+ 
+-	ivpu_pm_schedule_recovery(vdev);
++	ret = pci_try_reset_function(to_pci_dev(vdev->drm.dev));
++	if (ret)
++		return ret;
+ 
+ 	return size;
  }
+@@ -190,7 +192,10 @@ fw_profiling_freq_fops_write(struct file *file, const char __user *user_buf,
+ 		return ret;
  
--static int ivpu_direct_job_submission(struct ivpu_job *job)
-+static int ivpu_job_submit(struct ivpu_job *job)
+ 	ivpu_hw_profiling_freq_drive(vdev, enable);
+-	ivpu_pm_schedule_recovery(vdev);
++
++	ret = pci_try_reset_function(to_pci_dev(vdev->drm.dev));
++	if (ret)
++		return ret;
+ 
+ 	return size;
+ }
+@@ -301,11 +306,18 @@ static ssize_t
+ ivpu_force_recovery_fn(struct file *file, const char __user *user_buf, size_t size, loff_t *pos)
  {
- 	struct ivpu_file_priv *file_priv = job->file_priv;
- 	struct ivpu_device *vdev = job->vdev;
-@@ -356,53 +326,65 @@ static int ivpu_direct_job_submission(struct ivpu_job *job)
- 	struct ivpu_cmdq *cmdq;
- 	int ret;
+ 	struct ivpu_device *vdev = file->private_data;
++	int ret;
  
+ 	if (!size)
+ 		return -EINVAL;
+ 
+-	ivpu_pm_schedule_recovery(vdev);
 +	ret = ivpu_rpm_get(vdev);
-+	if (ret < 0)
++	if (ret)
 +		return ret;
 +
- 	mutex_lock(&file_priv->lock);
- 
- 	cmdq = ivpu_cmdq_acquire(job->file_priv, job->engine_idx);
- 	if (!cmdq) {
--		ivpu_warn(vdev, "Failed get job queue, ctx %d engine %d\n",
--			  file_priv->ctx.id, job->engine_idx);
-+		ivpu_warn_ratelimited(vdev, "Failed get job queue, ctx %d engine %d\n",
-+				      file_priv->ctx.id, job->engine_idx);
- 		ret = -EINVAL;
--		goto err_unlock;
-+		goto err_unlock_file_priv;
- 	}
- 
- 	job_id_range.min = FIELD_PREP(JOB_ID_CONTEXT_MASK, (file_priv->ctx.id - 1));
- 	job_id_range.max = job_id_range.min | JOB_ID_JOB_MASK;
- 
--	job_get(job, &job);
--	ret = xa_alloc(&vdev->submitted_jobs_xa, &job->job_id, job, job_id_range, GFP_KERNEL);
-+	xa_lock(&vdev->submitted_jobs_xa);
-+	ret = __xa_alloc(&vdev->submitted_jobs_xa, &job->job_id, job, job_id_range, GFP_KERNEL);
- 	if (ret) {
--		ivpu_warn_ratelimited(vdev, "Failed to allocate job id: %d\n", ret);
--		goto err_job_put;
-+		ivpu_dbg(vdev, JOB, "Too many active jobs in ctx %d\n",
-+			 file_priv->ctx.id);
-+		ret = -EBUSY;
-+		goto err_unlock_submitted_jobs_xa;
- 	}
- 
- 	ret = ivpu_cmdq_push_job(cmdq, job);
- 	if (ret)
--		goto err_xa_erase;
-+		goto err_erase_xa;
- 
- 	ivpu_start_job_timeout_detection(vdev);
- 
--	ivpu_dbg(vdev, JOB, "Job submitted: id %3u addr 0x%llx ctx %2d engine %d next %d\n",
--		 job->job_id, job->cmd_buf_vpu_addr, file_priv->ctx.id,
--		 job->engine_idx, cmdq->jobq->header.tail);
--
--	if (ivpu_test_mode & IVPU_TEST_MODE_NULL_HW) {
--		ivpu_job_done(vdev, job->job_id, VPU_JSM_STATUS_SUCCESS);
-+	if (unlikely(ivpu_test_mode & IVPU_TEST_MODE_NULL_HW)) {
- 		cmdq->jobq->header.head = cmdq->jobq->header.tail;
- 		wmb(); /* Flush WC buffer for jobq header */
- 	} else {
- 		ivpu_cmdq_ring_db(vdev, cmdq);
- 	}
- 
-+	ivpu_dbg(vdev, JOB, "Job submitted: id %3u ctx %2d engine %d addr 0x%llx next %d\n",
-+		 job->job_id, file_priv->ctx.id, job->engine_idx,
-+		 job->cmd_buf_vpu_addr, cmdq->jobq->header.tail);
-+
-+	xa_unlock(&vdev->submitted_jobs_xa);
-+
- 	mutex_unlock(&file_priv->lock);
-+
-+	if (unlikely(ivpu_test_mode & IVPU_TEST_MODE_NULL_HW))
-+		ivpu_job_signal_and_destroy(vdev, job->job_id, VPU_JSM_STATUS_SUCCESS);
-+
- 	return 0;
- 
--err_xa_erase:
--	xa_erase(&vdev->submitted_jobs_xa, job->job_id);
--err_job_put:
--	job_put(job);
--err_unlock:
-+err_erase_xa:
-+	__xa_erase(&vdev->submitted_jobs_xa, job->job_id);
-+err_unlock_submitted_jobs_xa:
-+	xa_unlock(&vdev->submitted_jobs_xa);
-+err_unlock_file_priv:
- 	mutex_unlock(&file_priv->lock);
++	ivpu_pm_trigger_recovery(vdev, "debugfs");
++	flush_work(&vdev->pm->recovery_work);
 +	ivpu_rpm_put(vdev);
- 	return ret;
+ 	return size;
  }
  
-@@ -508,44 +490,47 @@ int ivpu_submit_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
- 			     params->buffer_count * sizeof(u32));
- 	if (ret) {
- 		ret = -EFAULT;
--		goto free_handles;
-+		goto err_free_handles;
- 	}
+diff --git a/drivers/accel/ivpu/ivpu_hw_37xx.c b/drivers/accel/ivpu/ivpu_hw_37xx.c
+index e33dfe3089af..2a67a457ec7b 100644
+--- a/drivers/accel/ivpu/ivpu_hw_37xx.c
++++ b/drivers/accel/ivpu/ivpu_hw_37xx.c
+@@ -869,24 +869,18 @@ static void ivpu_hw_37xx_irq_disable(struct ivpu_device *vdev)
  
- 	if (!drm_dev_enter(&vdev->drm, &idx)) {
- 		ret = -ENODEV;
--		goto free_handles;
-+		goto err_free_handles;
- 	}
+ static void ivpu_hw_37xx_irq_wdt_nce_handler(struct ivpu_device *vdev)
+ {
+-	ivpu_err_ratelimited(vdev, "WDT NCE irq\n");
+-
+-	ivpu_pm_schedule_recovery(vdev);
++	ivpu_pm_trigger_recovery(vdev, "WDT NCE IRQ");
+ }
  
- 	ivpu_dbg(vdev, JOB, "Submit ioctl: ctx %u buf_count %u\n",
- 		 file_priv->ctx.id, params->buffer_count);
+ static void ivpu_hw_37xx_irq_wdt_mss_handler(struct ivpu_device *vdev)
+ {
+-	ivpu_err_ratelimited(vdev, "WDT MSS irq\n");
+-
+ 	ivpu_hw_wdt_disable(vdev);
+-	ivpu_pm_schedule_recovery(vdev);
++	ivpu_pm_trigger_recovery(vdev, "WDT MSS IRQ");
+ }
  
--	job = ivpu_create_job(file_priv, params->engine, params->buffer_count);
-+	job = ivpu_job_create(file_priv, params->engine, params->buffer_count);
- 	if (!job) {
- 		ivpu_err(vdev, "Failed to create job\n");
- 		ret = -ENOMEM;
--		goto dev_exit;
-+		goto err_exit_dev;
- 	}
+ static void ivpu_hw_37xx_irq_noc_firewall_handler(struct ivpu_device *vdev)
+ {
+-	ivpu_err_ratelimited(vdev, "NOC Firewall irq\n");
+-
+-	ivpu_pm_schedule_recovery(vdev);
++	ivpu_pm_trigger_recovery(vdev, "NOC Firewall IRQ");
+ }
  
- 	ret = ivpu_job_prepare_bos_for_submit(file, job, buf_handles, params->buffer_count,
- 					      params->commands_offset);
- 	if (ret) {
--		ivpu_err(vdev, "Failed to prepare job, ret %d\n", ret);
--		goto job_put;
-+		ivpu_err(vdev, "Failed to prepare job: %d\n", ret);
-+		goto err_destroy_job;
- 	}
+ /* Handler for IRQs from VPU core (irqV) */
+@@ -964,7 +958,7 @@ static bool ivpu_hw_37xx_irqb_handler(struct ivpu_device *vdev, int irq)
+ 		REGB_WR32(VPU_37XX_BUTTRESS_INTERRUPT_STAT, status);
  
--	ret = ivpu_direct_job_submission(job);
--	if (ret) {
--		dma_fence_signal(job->done_fence);
--		ivpu_err(vdev, "Failed to submit job to the HW, ret %d\n", ret);
+ 	if (schedule_recovery)
+-		ivpu_pm_schedule_recovery(vdev);
++		ivpu_pm_trigger_recovery(vdev, "Buttress IRQ");
+ 
+ 	return true;
+ }
+diff --git a/drivers/accel/ivpu/ivpu_hw_40xx.c b/drivers/accel/ivpu/ivpu_hw_40xx.c
+index bbb93cac0190..22c9a8f70d83 100644
+--- a/drivers/accel/ivpu/ivpu_hw_40xx.c
++++ b/drivers/accel/ivpu/ivpu_hw_40xx.c
+@@ -1027,18 +1027,18 @@ static void ivpu_hw_40xx_irq_disable(struct ivpu_device *vdev)
+ static void ivpu_hw_40xx_irq_wdt_nce_handler(struct ivpu_device *vdev)
+ {
+ 	/* TODO: For LNN hang consider engine reset instead of full recovery */
+-	ivpu_pm_schedule_recovery(vdev);
++	ivpu_pm_trigger_recovery(vdev, "WDT NCE IRQ");
+ }
+ 
+ static void ivpu_hw_40xx_irq_wdt_mss_handler(struct ivpu_device *vdev)
+ {
+ 	ivpu_hw_wdt_disable(vdev);
+-	ivpu_pm_schedule_recovery(vdev);
++	ivpu_pm_trigger_recovery(vdev, "WDT MSS IRQ");
+ }
+ 
+ static void ivpu_hw_40xx_irq_noc_firewall_handler(struct ivpu_device *vdev)
+ {
+-	ivpu_pm_schedule_recovery(vdev);
++	ivpu_pm_trigger_recovery(vdev, "NOC Firewall IRQ");
+ }
+ 
+ /* Handler for IRQs from VPU core (irqV) */
+@@ -1132,7 +1132,7 @@ static bool ivpu_hw_40xx_irqb_handler(struct ivpu_device *vdev, int irq)
+ 	REGB_WR32(VPU_40XX_BUTTRESS_INTERRUPT_STAT, status);
+ 
+ 	if (schedule_recovery)
+-		ivpu_pm_schedule_recovery(vdev);
++		ivpu_pm_trigger_recovery(vdev, "Buttress IRQ");
+ 
+ 	return true;
+ }
+diff --git a/drivers/accel/ivpu/ivpu_ipc.c b/drivers/accel/ivpu/ivpu_ipc.c
+index f69780248803..1e86ec2d62d2 100644
+--- a/drivers/accel/ivpu/ivpu_ipc.c
++++ b/drivers/accel/ivpu/ivpu_ipc.c
+@@ -343,10 +343,8 @@ int ivpu_ipc_send_receive_active(struct ivpu_device *vdev, struct vpu_jsm_msg *r
+ 	hb_ret = ivpu_ipc_send_receive_internal(vdev, &hb_req, VPU_JSM_MSG_QUERY_ENGINE_HB_DONE,
+ 						&hb_resp, VPU_IPC_CHAN_ASYNC_CMD,
+ 						vdev->timeout.jsm);
+-	if (hb_ret == -ETIMEDOUT) {
+-		ivpu_hw_diagnose_failure(vdev);
+-		ivpu_pm_schedule_recovery(vdev);
 -	}
-+	ret = ivpu_job_submit(job);
-+	if (ret)
-+		goto err_signal_fence;
++	if (hb_ret == -ETIMEDOUT)
++		ivpu_pm_trigger_recovery(vdev, "IPC timeout");
  
--job_put:
--	job_put(job);
--dev_exit:
- 	drm_dev_exit(idx);
--free_handles:
- 	kfree(buf_handles);
-+	return ret;
- 
-+err_signal_fence:
-+	dma_fence_signal(job->done_fence);
-+err_destroy_job:
-+	ivpu_job_destroy(job);
-+err_exit_dev:
-+	drm_dev_exit(idx);
-+err_free_handles:
-+	kfree(buf_handles);
  	return ret;
  }
+@@ -397,7 +395,7 @@ void ivpu_ipc_irq_handler(struct ivpu_device *vdev, bool *wake_thread)
+ 	 */
+ 	while (ivpu_hw_reg_ipc_rx_count_get(vdev)) {
+ 		if (++msg_count > IPC_MAX_RX_MSG) {
+-			ivpu_pm_schedule_recovery(vdev);
++			ivpu_pm_trigger_recovery(vdev, "IPC msg limit");
+ 			return;
+ 		}
  
-@@ -567,7 +552,7 @@ ivpu_job_done_callback(struct ivpu_device *vdev, struct ivpu_ipc_hdr *ipc_hdr,
+diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
+index d9b47a04b35f..0440bee3ecaf 100644
+--- a/drivers/accel/ivpu/ivpu_job.c
++++ b/drivers/accel/ivpu/ivpu_job.c
+@@ -515,7 +515,9 @@ int ivpu_submit_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
+ 		goto err_destroy_job;
  	}
  
- 	payload = (struct vpu_ipc_msg_payload_job_done *)&jsm_msg->payload;
--	ret = ivpu_job_done(vdev, payload->job_id, payload->job_status);
-+	ret = ivpu_job_signal_and_destroy(vdev, payload->job_id, payload->job_status);
- 	if (!ret && !xa_empty(&vdev->submitted_jobs_xa))
- 		ivpu_start_job_timeout_detection(vdev);
++	down_read(&vdev->pm->reset_lock);
+ 	ret = ivpu_job_submit(job);
++	up_read(&vdev->pm->reset_lock);
+ 	if (ret)
+ 		goto err_signal_fence;
+ 
+diff --git a/drivers/accel/ivpu/ivpu_mmu.c b/drivers/accel/ivpu/ivpu_mmu.c
+index c82929b0ae9d..9910755c9951 100644
+--- a/drivers/accel/ivpu/ivpu_mmu.c
++++ b/drivers/accel/ivpu/ivpu_mmu.c
+@@ -898,13 +898,13 @@ void ivpu_mmu_irq_evtq_handler(struct ivpu_device *vdev)
+ 	while ((event = ivpu_mmu_get_event(vdev)) != NULL) {
+ 		ivpu_mmu_dump_event(vdev, event);
+ 		if (++event_count > IVPU_MMU_MAX_EVENT_COUNT) {
+-			ivpu_pm_schedule_recovery(vdev);
++			ivpu_pm_trigger_recovery(vdev, "MMU event limit");
+ 			return;
+ 		}
+ 
+ 		ssid = FIELD_GET(IVPU_MMU_EVT_SSID_MASK, event[0]);
+ 		if (ssid == IVPU_GLOBAL_CONTEXT_MMU_SSID) {
+-			ivpu_pm_schedule_recovery(vdev);
++			ivpu_pm_trigger_recovery(vdev, "MMU event");
+ 			return;
+ 		}
+ 
+diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
+index 8407f1d8c99c..f501f27ebafd 100644
+--- a/drivers/accel/ivpu/ivpu_pm.c
++++ b/drivers/accel/ivpu/ivpu_pm.c
+@@ -112,6 +112,14 @@ static void ivpu_pm_recovery_work(struct work_struct *work)
+ 	char *evt[2] = {"IVPU_PM_EVENT=IVPU_RECOVER", NULL};
+ 	int ret;
+ 
++	ivpu_err(vdev, "Recovering the VPU (reset #%d)\n", atomic_read(&vdev->pm->reset_counter));
++
++	ret = pm_runtime_resume_and_get(vdev->drm.dev);
++	if (ret)
++		ivpu_err(vdev, "Failed to resume VPU: %d\n", ret);
++
++	ivpu_fw_log_dump(vdev);
++
+ retry:
+ 	ret = pci_try_reset_function(to_pci_dev(vdev->drm.dev));
+ 	if (ret == -EAGAIN && !drm_dev_is_unplugged(&vdev->drm)) {
+@@ -123,11 +131,13 @@ static void ivpu_pm_recovery_work(struct work_struct *work)
+ 		ivpu_err(vdev, "Failed to reset VPU: %d\n", ret);
+ 
+ 	kobject_uevent_env(&vdev->drm.dev->kobj, KOBJ_CHANGE, evt);
++	pm_runtime_mark_last_busy(vdev->drm.dev);
++	pm_runtime_put_autosuspend(vdev->drm.dev);
  }
-diff --git a/drivers/accel/ivpu/ivpu_job.h b/drivers/accel/ivpu/ivpu_job.h
-index bd22cf8e39e7..ca4984071cc7 100644
---- a/drivers/accel/ivpu/ivpu_job.h
-+++ b/drivers/accel/ivpu/ivpu_job.h
-@@ -43,7 +43,6 @@ struct ivpu_cmdq {
- 			  will update the job status
-  */
- struct ivpu_job {
--	struct kref ref;
+ 
+-void ivpu_pm_schedule_recovery(struct ivpu_device *vdev)
++void ivpu_pm_trigger_recovery(struct ivpu_device *vdev, const char *reason)
+ {
+-	struct ivpu_pm_info *pm = vdev->pm;
++	ivpu_err(vdev, "Recovery triggered by %s\n", reason);
+ 
+ 	if (ivpu_disable_recovery) {
+ 		ivpu_err(vdev, "Recovery not available when disable_recovery param is set\n");
+@@ -139,10 +149,11 @@ void ivpu_pm_schedule_recovery(struct ivpu_device *vdev)
+ 		return;
+ 	}
+ 
+-	/* Schedule recovery if it's not in progress */
+-	if (atomic_cmpxchg(&pm->in_reset, 0, 1) == 0) {
+-		ivpu_hw_irq_disable(vdev);
+-		queue_work(system_long_wq, &pm->recovery_work);
++	/* Trigger recovery if it's not in progress */
++	if (atomic_cmpxchg(&vdev->pm->reset_pending, 0, 1) == 0) {
++		ivpu_hw_diagnose_failure(vdev);
++		ivpu_hw_irq_disable(vdev); /* Disable IRQ early to protect from IRQ storm */
++		queue_work(system_long_wq, &vdev->pm->recovery_work);
+ 	}
+ }
+ 
+@@ -150,12 +161,8 @@ static void ivpu_job_timeout_work(struct work_struct *work)
+ {
+ 	struct ivpu_pm_info *pm = container_of(work, struct ivpu_pm_info, job_timeout_work.work);
+ 	struct ivpu_device *vdev = pm->vdev;
+-	unsigned long timeout_ms = ivpu_tdr_timeout_ms ? ivpu_tdr_timeout_ms : vdev->timeout.tdr;
+ 
+-	ivpu_err(vdev, "TDR detected, timeout %lu ms", timeout_ms);
+-	ivpu_hw_diagnose_failure(vdev);
+-
+-	ivpu_pm_schedule_recovery(vdev);
++	ivpu_pm_trigger_recovery(vdev, "TDR");
+ }
+ 
+ void ivpu_start_job_timeout_detection(struct ivpu_device *vdev)
+@@ -228,6 +235,9 @@ int ivpu_pm_runtime_suspend_cb(struct device *dev)
+ 	bool hw_is_idle = true;
+ 	int ret;
+ 
++	drm_WARN_ON(&vdev->drm, !xa_empty(&vdev->submitted_jobs_xa));
++	drm_WARN_ON(&vdev->drm, work_pending(&vdev->pm->recovery_work));
++
+ 	ivpu_dbg(vdev, PM, "Runtime suspend..\n");
+ 
+ 	if (!ivpu_hw_is_idle(vdev) && vdev->pm->suspend_reschedule_counter) {
+@@ -310,11 +320,12 @@ void ivpu_pm_reset_prepare_cb(struct pci_dev *pdev)
+ {
+ 	struct ivpu_device *vdev = pci_get_drvdata(pdev);
+ 
+-	pm_runtime_get_sync(vdev->drm.dev);
+-
+ 	ivpu_dbg(vdev, PM, "Pre-reset..\n");
+ 	atomic_inc(&vdev->pm->reset_counter);
+-	atomic_set(&vdev->pm->in_reset, 1);
++	atomic_set(&vdev->pm->reset_pending, 1);
++
++	pm_runtime_get_sync(vdev->drm.dev);
++	down_write(&vdev->pm->reset_lock);
+ 	ivpu_prepare_for_reset(vdev);
+ 	ivpu_hw_reset(vdev);
+ 	ivpu_pm_prepare_cold_boot(vdev);
+@@ -331,9 +342,11 @@ void ivpu_pm_reset_done_cb(struct pci_dev *pdev)
+ 	ret = ivpu_resume(vdev);
+ 	if (ret)
+ 		ivpu_err(vdev, "Failed to set RESUME state: %d\n", ret);
+-	atomic_set(&vdev->pm->in_reset, 0);
++	up_write(&vdev->pm->reset_lock);
++	atomic_set(&vdev->pm->reset_pending, 0);
+ 	ivpu_dbg(vdev, PM, "Post-reset done.\n");
+ 
++	pm_runtime_mark_last_busy(vdev->drm.dev);
+ 	pm_runtime_put_autosuspend(vdev->drm.dev);
+ }
+ 
+@@ -346,7 +359,10 @@ void ivpu_pm_init(struct ivpu_device *vdev)
+ 	pm->vdev = vdev;
+ 	pm->suspend_reschedule_counter = PM_RESCHEDULE_LIMIT;
+ 
+-	atomic_set(&pm->in_reset, 0);
++	init_rwsem(&pm->reset_lock);
++	atomic_set(&pm->reset_pending, 0);
++	atomic_set(&pm->reset_counter, 0);
++
+ 	INIT_WORK(&pm->recovery_work, ivpu_pm_recovery_work);
+ 	INIT_DELAYED_WORK(&pm->job_timeout_work, ivpu_job_timeout_work);
+ 
+diff --git a/drivers/accel/ivpu/ivpu_pm.h b/drivers/accel/ivpu/ivpu_pm.h
+index 97c6e0b0aa42..ec60fbeefefc 100644
+--- a/drivers/accel/ivpu/ivpu_pm.h
++++ b/drivers/accel/ivpu/ivpu_pm.h
+@@ -6,6 +6,7 @@
+ #ifndef __IVPU_PM_H__
+ #define __IVPU_PM_H__
+ 
++#include <linux/rwsem.h>
+ #include <linux/types.h>
+ 
+ struct ivpu_device;
+@@ -14,8 +15,9 @@ struct ivpu_pm_info {
  	struct ivpu_device *vdev;
- 	struct ivpu_file_priv *file_priv;
- 	struct dma_fence *done_fence;
+ 	struct delayed_work job_timeout_work;
+ 	struct work_struct recovery_work;
+-	atomic_t in_reset;
++	struct rw_semaphore reset_lock;
+ 	atomic_t reset_counter;
++	atomic_t reset_pending;
+ 	bool is_warmboot;
+ 	u32 suspend_reschedule_counter;
+ };
+@@ -37,7 +39,7 @@ int __must_check ivpu_rpm_get(struct ivpu_device *vdev);
+ int __must_check ivpu_rpm_get_if_active(struct ivpu_device *vdev);
+ void ivpu_rpm_put(struct ivpu_device *vdev);
+ 
+-void ivpu_pm_schedule_recovery(struct ivpu_device *vdev);
++void ivpu_pm_trigger_recovery(struct ivpu_device *vdev, const char *reason);
+ void ivpu_start_job_timeout_detection(struct ivpu_device *vdev);
+ void ivpu_stop_job_timeout_detection(struct ivpu_device *vdev);
+ 
 -- 
 2.43.0
 
