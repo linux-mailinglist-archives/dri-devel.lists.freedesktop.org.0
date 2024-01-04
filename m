@@ -2,46 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77436824122
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jan 2024 12:57:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D4D7824123
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jan 2024 12:57:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 446C310E456;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E12A710E458;
 	Thu,  4 Jan 2024 11:57:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5F8910E455
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jan 2024 11:57:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2731B10E456
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jan 2024 11:57:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704369461; x=1735905461;
+ t=1704369462; x=1735905462;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=3U6JNlF8rN/rZFVV/XWqbUZhlYS2OZNmc8cYIiYK4x4=;
- b=U+Ezd4ruNjjokdWdLRRMZXkfLxGQMDU6ln0kErvBuDdkFl2uKxFVJcrA
- 1IZ9fn/Ceh9qjl0IsRvdwcMTOQBv0ZJ8DyrCikVc0A/2XkSl9Q1fQwK0F
- 2sb6/0oATKYUhig9K5hRmH7hRgj24MxvwcI7B63QHHd8hAF8DVeTppA0B
- 9bZwR0S1mrMXcKq9GXBX05gzE+zJ5axAOiKgoUw3Kq7K6N0bgXolluffA
- cNyFsA7ecir9kO+IQy0MqrB3G2smbcjVO8hH7rduFjIv6hxvxs/mEotOa
- rFmro7AOHmNnqO0bMahttQ604wkn2TZAvAhKVeZVWkUrVm0wcSygFBNRI Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="4584189"
+ bh=A4Ozc5/C8PBXzk3J+PaGg/9tDoPNQyvn4w4YGJIN0SU=;
+ b=gx096d2arnbSUUmgQvm8dIT3K3vvsnZdIS6a5VRHMS8lQTDgjLeFto8N
+ N1GISUy4LLjsSiS91DNVYjljg49Qa5Pfxt9ogC7L82uEbDmbvP+gPYm2o
+ X+QWoSVx5OItIOOKJVODqbc6IuwxtojS0SIWOnigjn9yHsws3usHflp0Y
+ yyIQnfq5KSA/LAmO1nEtK1dzds1zQuk16EGjFJXJgtdZKNsnYCI/GqyIO
+ dm2M8AnQitRq5AvdWzvau9htqbNEeAD3AnwBWkolGxCxTiF6zuTF3N2SH
+ rYmDEvLa6NJv8XNNwUWO/F/qVeT27iI/unipy5uFWyE0DbHuv3IFT45ve g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="4584194"
 X-IronPort-AV: E=Sophos;i="6.04,330,1695711600"; 
-   d="scan'208";a="4584189"
+   d="scan'208";a="4584194"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jan 2024 03:57:41 -0800
+ 04 Jan 2024 03:57:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="899275815"
-X-IronPort-AV: E=Sophos;i="6.04,330,1695711600"; d="scan'208";a="899275815"
+X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="899275817"
+X-IronPort-AV: E=Sophos;i="6.04,330,1695711600"; d="scan'208";a="899275817"
 Received: from jlawryno.igk.intel.com ([10.91.220.59])
  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jan 2024 03:57:39 -0800
+ 04 Jan 2024 03:57:40 -0800
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 12/16] accel/ivpu: Add diagnostic messages when VPU fails to
- boot or suspend
-Date: Thu,  4 Jan 2024 12:57:09 +0100
-Message-ID: <20240104115713.8657-13-jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH 13/16] accel/ivpu: Fix dev open/close races with unbind
+Date: Thu,  4 Jan 2024 12:57:10 +0100
+Message-ID: <20240104115713.8657-14-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240104115713.8657-1-jacek.lawrynowicz@linux.intel.com>
 References: <20240104115713.8657-1-jacek.lawrynowicz@linux.intel.com>
@@ -60,76 +59,344 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: quic_jhugo@quicinc.com,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>, "Wachowski,
- Karol" <karol.wachowski@intel.com>
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Wachowski, Karol" <karol.wachowski@intel.com>
+  - Add context_list_lock to synchronize user context addition/removal
+  - Add ivpu_file_priv->bound to indicate if context is bound to a device
+  - Use drm_dev_enter() to prevent unbinding the device during ivpu_open()
+  - Mark all user contexts as not bound when the device is removed
 
-Make boot/suspend failure debugging easier by dumping FW logs and error
-registers.
-
-Signed-off-by: Wachowski, Karol <karol.wachowski@intel.com>
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_drv.c | 5 +++--
- drivers/accel/ivpu/ivpu_pm.c  | 4 +++-
- 2 files changed, 6 insertions(+), 3 deletions(-)
+ drivers/accel/ivpu/ivpu_drv.c | 110 +++++++++++++++++++++-------------
+ drivers/accel/ivpu/ivpu_drv.h |   3 +-
+ drivers/accel/ivpu/ivpu_gem.c |   9 ++-
+ drivers/accel/ivpu/ivpu_gem.h |   2 +-
+ drivers/accel/ivpu/ivpu_job.c |  16 ++---
+ drivers/accel/ivpu/ivpu_job.h |   2 +-
+ 6 files changed, 85 insertions(+), 57 deletions(-)
 
 diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
-index c3f9a0f62c9d..546c0899bb9e 100644
+index 546c0899bb9e..551f4b8fd3a9 100644
 --- a/drivers/accel/ivpu/ivpu_drv.c
 +++ b/drivers/accel/ivpu/ivpu_drv.c
-@@ -17,6 +17,7 @@
- #include "ivpu_debugfs.h"
- #include "ivpu_drv.h"
- #include "ivpu_fw.h"
-+#include "ivpu_fw_log.h"
- #include "ivpu_gem.h"
- #include "ivpu_hw.h"
- #include "ivpu_ipc.h"
-@@ -329,8 +330,6 @@ static int ivpu_wait_for_ready(struct ivpu_device *vdev)
+@@ -6,6 +6,7 @@
+ #include <linux/firmware.h>
+ #include <linux/module.h>
+ #include <linux/pci.h>
++#include <linux/pm_runtime.h>
  
- 	if (!ret)
- 		ivpu_dbg(vdev, PM, "VPU ready message received successfully\n");
--	else
--		ivpu_hw_diagnose_failure(vdev);
- 
- 	return ret;
+ #include <drm/drm_accel.h>
+ #include <drm/drm_file.h>
+@@ -66,22 +67,20 @@ struct ivpu_file_priv *ivpu_file_priv_get(struct ivpu_file_priv *file_priv)
+ 	return file_priv;
  }
-@@ -358,7 +357,9 @@ int ivpu_boot(struct ivpu_device *vdev)
- 	ret = ivpu_wait_for_ready(vdev);
- 	if (ret) {
- 		ivpu_err(vdev, "Failed to boot the firmware: %d\n", ret);
-+		ivpu_hw_diagnose_failure(vdev);
- 		ivpu_mmu_evtq_dump(vdev);
-+		ivpu_fw_log_dump(vdev);
- 		return ret;
+ 
+-struct ivpu_file_priv *ivpu_file_priv_get_by_ctx_id(struct ivpu_device *vdev, unsigned long id)
++static void file_priv_unbind(struct ivpu_device *vdev, struct ivpu_file_priv *file_priv)
+ {
+-	struct ivpu_file_priv *file_priv;
+-
+-	xa_lock_irq(&vdev->context_xa);
+-	file_priv = xa_load(&vdev->context_xa, id);
+-	/* file_priv may still be in context_xa during file_priv_release() */
+-	if (file_priv && !kref_get_unless_zero(&file_priv->ref))
+-		file_priv = NULL;
+-	xa_unlock_irq(&vdev->context_xa);
+-
+-	if (file_priv)
+-		ivpu_dbg(vdev, KREF, "file_priv get by id: ctx %u refcount %u\n",
+-			 file_priv->ctx.id, kref_read(&file_priv->ref));
+-
+-	return file_priv;
++	mutex_lock(&file_priv->lock);
++	if (file_priv->bound) {
++		ivpu_dbg(vdev, FILE, "file_priv unbind: ctx %u\n", file_priv->ctx.id);
++
++		ivpu_cmdq_release_all_locked(file_priv);
++		ivpu_jsm_context_release(vdev, file_priv->ctx.id);
++		ivpu_bo_unbind_all_bos_from_context(vdev, &file_priv->ctx);
++		ivpu_mmu_user_context_fini(vdev, &file_priv->ctx);
++		file_priv->bound = false;
++		drm_WARN_ON(&vdev->drm, !xa_erase_irq(&vdev->context_xa, file_priv->ctx.id));
++	}
++	mutex_unlock(&file_priv->lock);
+ }
+ 
+ static void file_priv_release(struct kref *ref)
+@@ -89,13 +88,15 @@ static void file_priv_release(struct kref *ref)
+ 	struct ivpu_file_priv *file_priv = container_of(ref, struct ivpu_file_priv, ref);
+ 	struct ivpu_device *vdev = file_priv->vdev;
+ 
+-	ivpu_dbg(vdev, FILE, "file_priv release: ctx %u\n", file_priv->ctx.id);
++	ivpu_dbg(vdev, FILE, "file_priv release: ctx %u bound %d\n",
++		 file_priv->ctx.id, (bool)file_priv->bound);
++
++	pm_runtime_get_sync(vdev->drm.dev);
++	mutex_lock(&vdev->context_list_lock);
++	file_priv_unbind(vdev, file_priv);
++	mutex_unlock(&vdev->context_list_lock);
++	pm_runtime_put_autosuspend(vdev->drm.dev);
+ 
+-	ivpu_cmdq_release_all(file_priv);
+-	ivpu_jsm_context_release(vdev, file_priv->ctx.id);
+-	ivpu_bo_remove_all_bos_from_context(vdev, &file_priv->ctx);
+-	ivpu_mmu_user_context_fini(vdev, &file_priv->ctx);
+-	drm_WARN_ON(&vdev->drm, xa_erase_irq(&vdev->context_xa, file_priv->ctx.id) != file_priv);
+ 	mutex_destroy(&file_priv->lock);
+ 	kfree(file_priv);
+ }
+@@ -232,49 +233,54 @@ static int ivpu_open(struct drm_device *dev, struct drm_file *file)
+ 	struct ivpu_device *vdev = to_ivpu_device(dev);
+ 	struct ivpu_file_priv *file_priv;
+ 	u32 ctx_id;
+-	void *old;
+-	int ret;
++	int idx, ret;
+ 
+-	ret = xa_alloc_irq(&vdev->context_xa, &ctx_id, NULL, vdev->context_xa_limit, GFP_KERNEL);
+-	if (ret) {
+-		ivpu_err(vdev, "Failed to allocate context id: %d\n", ret);
+-		return ret;
+-	}
++	if (!drm_dev_enter(dev, &idx))
++		return -ENODEV;
+ 
+ 	file_priv = kzalloc(sizeof(*file_priv), GFP_KERNEL);
+ 	if (!file_priv) {
++		ivpu_err(vdev, "Failed to allocate file_priv\n");
+ 		ret = -ENOMEM;
+-		goto err_xa_erase;
++		goto err_dev_exit;
  	}
  
-diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
-index 0af8864cb3b5..8407f1d8c99c 100644
---- a/drivers/accel/ivpu/ivpu_pm.c
-+++ b/drivers/accel/ivpu/ivpu_pm.c
-@@ -13,6 +13,7 @@
- #include "ivpu_drv.h"
- #include "ivpu_hw.h"
- #include "ivpu_fw.h"
-+#include "ivpu_fw_log.h"
- #include "ivpu_ipc.h"
- #include "ivpu_job.h"
- #include "ivpu_jsm_msg.h"
-@@ -247,7 +248,8 @@ int ivpu_pm_runtime_suspend_cb(struct device *dev)
- 		ivpu_err(vdev, "Failed to set suspend VPU: %d\n", ret);
+ 	file_priv->vdev = vdev;
++	file_priv->bound = true;
+ 	kref_init(&file_priv->ref);
+ 	mutex_init(&file_priv->lock);
  
- 	if (!hw_is_idle) {
--		ivpu_warn(vdev, "VPU failed to enter idle, force suspended.\n");
-+		ivpu_err(vdev, "VPU failed to enter idle, force suspended.\n");
-+		ivpu_fw_log_dump(vdev);
- 		ivpu_pm_prepare_cold_boot(vdev);
- 	} else {
- 		ivpu_pm_prepare_warm_boot(vdev);
++	mutex_lock(&vdev->context_list_lock);
++
++	ret = xa_alloc_irq(&vdev->context_xa, &ctx_id, file_priv,
++			   vdev->context_xa_limit, GFP_KERNEL);
++	if (ret) {
++		ivpu_err(vdev, "Failed to allocate context id: %d\n", ret);
++		goto err_unlock;
++	}
++
+ 	ret = ivpu_mmu_user_context_init(vdev, &file_priv->ctx, ctx_id);
+ 	if (ret)
+-		goto err_mutex_destroy;
++		goto err_xa_erase;
+ 
+-	old = xa_store_irq(&vdev->context_xa, ctx_id, file_priv, GFP_KERNEL);
+-	if (xa_is_err(old)) {
+-		ret = xa_err(old);
+-		ivpu_err(vdev, "Failed to store context %u: %d\n", ctx_id, ret);
+-		goto err_ctx_fini;
+-	}
++	mutex_unlock(&vdev->context_list_lock);
++	drm_dev_exit(idx);
++
++	file->driver_priv = file_priv;
+ 
+ 	ivpu_dbg(vdev, FILE, "file_priv create: ctx %u process %s pid %d\n",
+ 		 ctx_id, current->comm, task_pid_nr(current));
+ 
+-	file->driver_priv = file_priv;
+ 	return 0;
+ 
+-err_ctx_fini:
+-	ivpu_mmu_user_context_fini(vdev, &file_priv->ctx);
+-err_mutex_destroy:
+-	mutex_destroy(&file_priv->lock);
+-	kfree(file_priv);
+ err_xa_erase:
+ 	xa_erase_irq(&vdev->context_xa, ctx_id);
++err_unlock:
++	mutex_unlock(&vdev->context_list_lock);
++	mutex_destroy(&file_priv->lock);
++	kfree(file_priv);
++err_dev_exit:
++	drm_dev_exit(idx);
+ 	return ret;
+ }
+ 
+@@ -531,6 +537,10 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
+ 	lockdep_set_class(&vdev->submitted_jobs_xa.xa_lock, &submitted_jobs_xa_lock_class_key);
+ 	INIT_LIST_HEAD(&vdev->bo_list);
+ 
++	ret = drmm_mutex_init(&vdev->drm, &vdev->context_list_lock);
++	if (ret)
++		goto err_xa_destroy;
++
+ 	ret = drmm_mutex_init(&vdev->drm, &vdev->bo_list_lock);
+ 	if (ret)
+ 		goto err_xa_destroy;
+@@ -602,14 +612,30 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
+ 	return ret;
+ }
+ 
++static void ivpu_bo_unbind_all_user_contexts(struct ivpu_device *vdev)
++{
++	struct ivpu_file_priv *file_priv;
++	unsigned long ctx_id;
++
++	mutex_lock(&vdev->context_list_lock);
++
++	xa_for_each(&vdev->context_xa, ctx_id, file_priv)
++		file_priv_unbind(vdev, file_priv);
++
++	mutex_unlock(&vdev->context_list_lock);
++}
++
+ static void ivpu_dev_fini(struct ivpu_device *vdev)
+ {
+ 	ivpu_pm_disable(vdev);
+ 	ivpu_shutdown(vdev);
+ 	if (IVPU_WA(d3hot_after_power_off))
+ 		pci_set_power_state(to_pci_dev(vdev->drm.dev), PCI_D3hot);
++
++	ivpu_jobs_abort_all(vdev);
+ 	ivpu_job_done_consumer_fini(vdev);
+ 	ivpu_pm_cancel_recovery(vdev);
++	ivpu_bo_unbind_all_user_contexts(vdev);
+ 
+ 	ivpu_ipc_fini(vdev);
+ 	ivpu_fw_fini(vdev);
+diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
+index 7a6bc1918780..069ace4adb2d 100644
+--- a/drivers/accel/ivpu/ivpu_drv.h
++++ b/drivers/accel/ivpu/ivpu_drv.h
+@@ -115,6 +115,7 @@ struct ivpu_device {
+ 
+ 	struct ivpu_mmu_context gctx;
+ 	struct ivpu_mmu_context rctx;
++	struct mutex context_list_lock; /* Protects user context addition/removal */
+ 	struct xarray context_xa;
+ 	struct xa_limit context_xa_limit;
+ 
+@@ -147,6 +148,7 @@ struct ivpu_file_priv {
+ 	struct ivpu_cmdq *cmdq[IVPU_NUM_ENGINES];
+ 	struct ivpu_mmu_context ctx;
+ 	bool has_mmu_faults;
++	bool bound;
+ };
+ 
+ extern int ivpu_dbg_mask;
+@@ -162,7 +164,6 @@ extern bool ivpu_disable_mmu_cont_pages;
+ extern int ivpu_test_mode;
+ 
+ struct ivpu_file_priv *ivpu_file_priv_get(struct ivpu_file_priv *file_priv);
+-struct ivpu_file_priv *ivpu_file_priv_get_by_ctx_id(struct ivpu_device *vdev, unsigned long id);
+ void ivpu_file_priv_put(struct ivpu_file_priv **link);
+ 
+ int ivpu_boot(struct ivpu_device *vdev);
+diff --git a/drivers/accel/ivpu/ivpu_gem.c b/drivers/accel/ivpu/ivpu_gem.c
+index dd327d7eda0d..266a34c578c5 100644
+--- a/drivers/accel/ivpu/ivpu_gem.c
++++ b/drivers/accel/ivpu/ivpu_gem.c
+@@ -77,7 +77,10 @@ ivpu_bo_alloc_vpu_addr(struct ivpu_bo *bo, struct ivpu_mmu_context *ctx,
+ 		       const struct ivpu_addr_range *range)
+ {
+ 	struct ivpu_device *vdev = ivpu_bo_to_vdev(bo);
+-	int ret;
++	int idx, ret;
++
++	if (!drm_dev_enter(&vdev->drm, &idx))
++		return -ENODEV;
+ 
+ 	mutex_lock(&bo->lock);
+ 
+@@ -93,6 +96,8 @@ ivpu_bo_alloc_vpu_addr(struct ivpu_bo *bo, struct ivpu_mmu_context *ctx,
+ 
+ 	mutex_unlock(&bo->lock);
+ 
++	drm_dev_exit(idx);
++
+ 	return ret;
+ }
+ 
+@@ -128,7 +133,7 @@ static void ivpu_bo_unbind_locked(struct ivpu_bo *bo)
+ 	dma_resv_unlock(bo->base.base.resv);
+ }
+ 
+-void ivpu_bo_remove_all_bos_from_context(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx)
++void ivpu_bo_unbind_all_bos_from_context(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx)
+ {
+ 	struct ivpu_bo *bo;
+ 
+diff --git a/drivers/accel/ivpu/ivpu_gem.h b/drivers/accel/ivpu/ivpu_gem.h
+index 5cb1dda3e58e..a8559211c70d 100644
+--- a/drivers/accel/ivpu/ivpu_gem.h
++++ b/drivers/accel/ivpu/ivpu_gem.h
+@@ -25,7 +25,7 @@ struct ivpu_bo {
+ };
+ 
+ int ivpu_bo_pin(struct ivpu_bo *bo);
+-void ivpu_bo_remove_all_bos_from_context(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx);
++void ivpu_bo_unbind_all_bos_from_context(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx);
+ 
+ struct drm_gem_object *ivpu_gem_create_object(struct drm_device *dev, size_t size);
+ struct ivpu_bo *ivpu_bo_alloc_internal(struct ivpu_device *vdev, u64 vpu_addr, u64 size, u32 flags);
+diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
+index 82e40bb4803c..4fed0c05e051 100644
+--- a/drivers/accel/ivpu/ivpu_job.c
++++ b/drivers/accel/ivpu/ivpu_job.c
+@@ -112,16 +112,14 @@ static void ivpu_cmdq_release_locked(struct ivpu_file_priv *file_priv, u16 engin
+ 	}
+ }
+ 
+-void ivpu_cmdq_release_all(struct ivpu_file_priv *file_priv)
++void ivpu_cmdq_release_all_locked(struct ivpu_file_priv *file_priv)
+ {
+ 	int i;
+ 
+-	mutex_lock(&file_priv->lock);
++	lockdep_assert_held(&file_priv->lock);
+ 
+ 	for (i = 0; i < IVPU_NUM_ENGINES; i++)
+ 		ivpu_cmdq_release_locked(file_priv, i);
+-
+-	mutex_unlock(&file_priv->lock);
+ }
+ 
+ /*
+@@ -161,15 +159,13 @@ void ivpu_cmdq_reset_all_contexts(struct ivpu_device *vdev)
+ 	struct ivpu_file_priv *file_priv;
+ 	unsigned long ctx_id;
+ 
+-	xa_for_each(&vdev->context_xa, ctx_id, file_priv) {
+-		file_priv = ivpu_file_priv_get_by_ctx_id(vdev, ctx_id);
+-		if (!file_priv)
+-			continue;
++	mutex_lock(&vdev->context_list_lock);
+ 
++	xa_for_each(&vdev->context_xa, ctx_id, file_priv)
+ 		ivpu_cmdq_reset_all(file_priv);
+ 
+-		ivpu_file_priv_put(&file_priv);
+-	}
++	mutex_unlock(&vdev->context_list_lock);
++
+ }
+ 
+ static int ivpu_cmdq_push_job(struct ivpu_cmdq *cmdq, struct ivpu_job *job)
+diff --git a/drivers/accel/ivpu/ivpu_job.h b/drivers/accel/ivpu/ivpu_job.h
+index 45a2f2ec82e5..bd22cf8e39e7 100644
+--- a/drivers/accel/ivpu/ivpu_job.h
++++ b/drivers/accel/ivpu/ivpu_job.h
+@@ -56,7 +56,7 @@ struct ivpu_job {
+ 
+ int ivpu_submit_ioctl(struct drm_device *dev, void *data, struct drm_file *file);
+ 
+-void ivpu_cmdq_release_all(struct ivpu_file_priv *file_priv);
++void ivpu_cmdq_release_all_locked(struct ivpu_file_priv *file_priv);
+ void ivpu_cmdq_reset_all_contexts(struct ivpu_device *vdev);
+ 
+ void ivpu_job_done_consumer_init(struct ivpu_device *vdev);
 -- 
 2.43.0
 
