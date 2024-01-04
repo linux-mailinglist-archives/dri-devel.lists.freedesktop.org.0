@@ -1,52 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD227824126
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jan 2024 12:57:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E9E782417C
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jan 2024 13:17:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF77F10E46F;
-	Thu,  4 Jan 2024 11:57:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82EF510E055;
+	Thu,  4 Jan 2024 12:17:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B671610E46A
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jan 2024 11:57:46 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A07A310E055
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jan 2024 12:17:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704369467; x=1735905467;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=U+ItTXLBqv7kDg1IBdHJtPA/W/pb+Lgw/JetGe4sI/Q=;
- b=GSbA1tFAPPY0Z+oKpJg8lL4dmIzRJFBZhCnWc2nDJ5T0VY78IGiCM+O1
- qc4Mnz5Rygn4RzMQk/quY66e4OFEIesk5lf+omjSfz0Wl5wQub7wlVadP
- NufYgtiru3iDHSKAOfWg7beN92MD3QLM7/xDA19TJTHc380USlHOxIzu0
- EyzcrO+K3SeNJTS3IylxOZS7SGVIIUSh4iTZ4jf2jeTfuHczHi/wgju6z
- ihTrnNKlYXSrwMFGcH/99RFWRh9YXk4e0OjEzS82tLFPw+kjV4T/GU++n
- WK+skDCzBsZ7CFTyjt/2CwOV05p6YPfusACwkdF5mpbWbSGKxwYpQOYgz A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="4584211"
-X-IronPort-AV: E=Sophos;i="6.04,330,1695711600"; 
-   d="scan'208";a="4584211"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jan 2024 03:57:46 -0800
+ t=1704370669; x=1735906669;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=38ZdTWKxn3CScgJvy/fi3YUFYW5BHXEAc9RRKzwiruM=;
+ b=IiU+ONv/0+z3d9i88m25uToIztvkPO3HHNZ7SLKvYXpfZrZIhhNm9mVb
+ 5PY0zO+uxylNRJHE/9JVx/kUcng4QwqbS1tcKA/FO8+ABbLTzKzrWXg4W
+ D4KEIzpckFQ5TB5LnR5/FuMSG6qtnF1Airc0HovQCtw4F7r8JeoGSYE+w
+ HQ2rcD9Yx/YwmSzKjMhHuhTKeUytKebctaA0OoTCxkWquGza23SaRzwXb
+ 1WcsHsSBvEm4AcvmLV/BpefQDsDT7pgoTqScPwpr/QKqMeMLid0pUqTv1
+ /MbfaPo14kuWsT0urnc93oVUFsEJWQ/90DxQ9uEasTonMs4E48DaV+YVe g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="377375543"
+X-IronPort-AV: E=Sophos;i="6.04,330,1695711600"; d="scan'208";a="377375543"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jan 2024 04:17:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="899275849"
-X-IronPort-AV: E=Sophos;i="6.04,330,1695711600"; d="scan'208";a="899275849"
-Received: from jlawryno.igk.intel.com ([10.91.220.59])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jan 2024 03:57:44 -0800
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 16/16] accel/ivpu: New job status for jobs aborted by the
- driver
-Date: Thu,  4 Jan 2024 12:57:13 +0100
-Message-ID: <20240104115713.8657-17-jacek.lawrynowicz@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240104115713.8657-1-jacek.lawrynowicz@linux.intel.com>
-References: <20240104115713.8657-1-jacek.lawrynowicz@linux.intel.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="870893950"
+X-IronPort-AV: E=Sophos;i="6.04,330,1695711600"; d="scan'208";a="870893950"
+Received: from pdelarag-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.36.32])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jan 2024 04:17:45 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: kernel test robot <lkp@intel.com>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: Re: [PATCH v2 23/39] drm/bridge: nxp-ptn3460: switch to ->edid_read
+ callback
+In-Reply-To: <202401040455.PPhqJiVr-lkp@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <87fb7fd52d087dd9a15b7194f3915b6b1c4146d6.1704276309.git.jani.nikula@intel.com>
+ <202401040455.PPhqJiVr-lkp@intel.com>
+Date: Thu, 04 Jan 2024 14:17:42 +0200
+Message-ID: <87plyhz40p.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,61 +64,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_jhugo@quicinc.com,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- Grzegorz Trzebiatowski <grzegorz.trzebiatowski@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Grzegorz Trzebiatowski <grzegorz.trzebiatowski@intel.com>
+On Thu, 04 Jan 2024, kernel test robot <lkp@intel.com> wrote:
+> Hi Jani,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on drm-misc/drm-misc-next]
+> [also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.7-rc8 next-20240103]
+> [cannot apply to drm-intel/for-linux-next]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-bridge-add-edid_read-hook-and-drm_bridge_edid_read/20240103-181513
+> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+> patch link:    https://lore.kernel.org/r/87fb7fd52d087dd9a15b7194f3915b6b1c4146d6.1704276309.git.jani.nikula%40intel.com
+> patch subject: [PATCH v2 23/39] drm/bridge: nxp-ptn3460: switch to ->edid_read callback
+> config: arm-randconfig-001-20240103 (https://download.01.org/0day-ci/archive/20240104/202401040455.PPhqJiVr-lkp@intel.com/config)
+> compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 7e186d366d6c7def0543acc255931f617e76dff0)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240104/202401040455.PPhqJiVr-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202401040455.PPhqJiVr-lkp@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>>> drivers/gpu/drm/bridge/nxp-ptn3460.c:170:6: warning: variable 'drm_edid' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+>      170 |         if (!edid) {
+>          |             ^~~~~
+>    drivers/gpu/drm/bridge/nxp-ptn3460.c:189:9: note: uninitialized use occurs here
+>      189 |         return drm_edid;
+>          |                ^~~~~~~~
+>    drivers/gpu/drm/bridge/nxp-ptn3460.c:170:2: note: remove the 'if' if its condition is always false
+>      170 |         if (!edid) {
+>          |         ^~~~~~~~~~~~
+>      171 |                 DRM_ERROR("Failed to allocate EDID\n");
+>          |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>      172 |                 goto out;
+>          |                 ~~~~~~~~~
+>      173 |         }
+>          |         ~
+>    drivers/gpu/drm/bridge/nxp-ptn3460.c:161:33: note: initialize the variable 'drm_edid' to silence this warning
+>      161 |         const struct drm_edid *drm_edid;
+>          |                                        ^
+>          |                                         = NULL
+>    1 warning generated.
 
-Add DRM_IVPU_JOB_STATUS_ABORTED to indicate that the job was aborted
-by the driver due to e.g. TDR or user context MMU faults.
+This is a valid report, fixed locally.
 
-This will help UMD and tests distinguish if job was aborted by the FW
-or the driver.
+BR,
+Jani.
 
-Signed-off-by: Grzegorz Trzebiatowski <grzegorz.trzebiatowski@intel.com>
-Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
----
- drivers/accel/ivpu/ivpu_job.c | 4 ++--
- include/uapi/drm/ivpu_accel.h | 1 +
- 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
-index 0440bee3ecaf..e70cfb859339 100644
---- a/drivers/accel/ivpu/ivpu_job.c
-+++ b/drivers/accel/ivpu/ivpu_job.c
-@@ -294,7 +294,7 @@ static int ivpu_job_signal_and_destroy(struct ivpu_device *vdev, u32 job_id, u32
- 		return -ENOENT;
- 
- 	if (job->file_priv->has_mmu_faults)
--		job_status = VPU_JSM_STATUS_ABORTED;
-+		job_status = DRM_IVPU_JOB_STATUS_ABORTED;
- 
- 	job->bos[CMD_BUF_IDX]->job_status = job_status;
- 	dma_fence_signal(job->done_fence);
-@@ -315,7 +315,7 @@ void ivpu_jobs_abort_all(struct ivpu_device *vdev)
- 	unsigned long id;
- 
- 	xa_for_each(&vdev->submitted_jobs_xa, id, job)
--		ivpu_job_signal_and_destroy(vdev, id, VPU_JSM_STATUS_ABORTED);
-+		ivpu_job_signal_and_destroy(vdev, id, DRM_IVPU_JOB_STATUS_ABORTED);
- }
- 
- static int ivpu_job_submit(struct ivpu_job *job)
-diff --git a/include/uapi/drm/ivpu_accel.h b/include/uapi/drm/ivpu_accel.h
-index cc9a0504ee2f..1254ec9bee70 100644
---- a/include/uapi/drm/ivpu_accel.h
-+++ b/include/uapi/drm/ivpu_accel.h
-@@ -309,6 +309,7 @@ struct drm_ivpu_submit {
- 
- /* drm_ivpu_bo_wait job status codes */
- #define DRM_IVPU_JOB_STATUS_SUCCESS 0
-+#define DRM_IVPU_JOB_STATUS_ABORTED 256
- 
- /**
-  * struct drm_ivpu_bo_wait - Wait for BO to become inactive
 -- 
-2.43.0
-
+Jani Nikula, Intel
