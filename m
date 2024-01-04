@@ -1,70 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A9DD82440F
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jan 2024 15:46:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B85D5824457
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jan 2024 16:02:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D341710E482;
-	Thu,  4 Jan 2024 14:45:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C709910E427;
+	Thu,  4 Jan 2024 15:02:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6723310E49F
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jan 2024 14:45:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1704379557;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=vafT9aFcJjnmQvuSHkbQY1E3TaxMVcjMmIh6EpI/G0E=;
- b=OhfvFe/6pA+U9O5SbPCbJNKj16dqD38Xvwc0LlC21XyQfRDRE+mBx+zRkREgI9X8RJEmG7
- oPwnuHJ9cVGyiE6KV+QzE9dvgRpBBmOVPFQEeaPsg756hyZkOGQBqnHLqj9HXXUZ9FHYEP
- mDfeEVGaxkHTfmAwggLzcqMVQqTl95o=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-302-tI6hokhqMGO3GTyNsbZlNw-1; Thu, 04 Jan 2024 09:45:55 -0500
-X-MC-Unique: tI6hokhqMGO3GTyNsbZlNw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-3371263463fso344768f8f.0
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Jan 2024 06:45:55 -0800 (PST)
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D655110E427;
+ Thu,  4 Jan 2024 15:02:07 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id
+ ffacd0b85a97d-3368d1c7b23so465526f8f.0; 
+ Thu, 04 Jan 2024 07:02:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1704380526; x=1704985326; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Nz6wgSvtDxdn5W5MMKrsDHjNFgiWM0XnkScPndx0kOc=;
+ b=iHul9tuP7DI/Ny1zgY0qbct1f+7a7i8lfXsZYTe3K8rj4DETo6E0gzSNbXjC3MCiMj
+ 3a1fhdVVLfO4ekzN84wQhUKuFRffHmgyN+LawJfY6nwWdAyMqbWLzqAkrWfp+hQAHXhm
+ BWG2g2DwxK8Kk+eH77ZuI9MO8yd47/NDoFnvkNYOwGONekg2uIYMPhERN+Ids6nef5el
+ VVcxQJ3Poj3/Vbg0jidw2fiwDDcm+IVnBrHk6aNqpY/HksQBh+GtD/2NQrnWcSu/LODY
+ Byc2kgKCi+jFNHIZ7W2Eyx1UDy1ytAwQN0ebhKxAiNBLbpcGAX03tSchMmyPqvvssqWU
+ BsGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704379554; x=1704984354;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vafT9aFcJjnmQvuSHkbQY1E3TaxMVcjMmIh6EpI/G0E=;
- b=YWUpo+J5Sx28q13Kgqg2h+Fdble0uFY0bQDT1MTx1776PnmQPXIcrDQBIzs+xW+v67
- ttp4l83xdJURrkKFTYpW3hcRxa7FsqSP5TdgDCtgnenv/fhP2fWgSJItWAUEIQjHr0/c
- gACCZoRAWS2Lhm4hsPoZxUp/DaahbrdTVqhse7rSAHQ1ZJRgb7qh8/EMmploGc2ya3Dp
- 6IAsVbbRZyvXOmHxUWCCWaoRrP6UzDLllmyZu9XvsFjBp6KfPFUp1cgxeIUwJLMgipI0
- xDSvk0EzP1X8zSLKrYWRsTlRt6coH/Nr6R+HRxfZXznzdCotjn2lWml2F2+pRXbdNYa3
- xUFg==
-X-Gm-Message-State: AOJu0Yw6iB6bSsU8LsEIfOi8jLL6U9mbF7TbZ6sBwq95jwDMh4zqNwHK
- DFqv/xuG3ogZgwx7m/UZp+H57SWbNOUMY839YJF4d5ZuXfSUzX/9R720dSDGnyNiAB3jQlZQDYd
- fadwIEASS0T61nyu6trOJZfmfGx0Rfiy26FiG
-X-Received: by 2002:adf:e382:0:b0:336:c120:854b with SMTP id
- e2-20020adfe382000000b00336c120854bmr506122wrm.113.1704379554449; 
- Thu, 04 Jan 2024 06:45:54 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEMrLnT8/EkVP25txr75cnq65PVvtSBnrZoxkdPB/n9Q+1xyKcSeAN1pdjmKO2vq0qIQCrhSw==
-X-Received: by 2002:adf:e382:0:b0:336:c120:854b with SMTP id
- e2-20020adfe382000000b00336c120854bmr506108wrm.113.1704379554081; 
- Thu, 04 Jan 2024 06:45:54 -0800 (PST)
-Received: from localhost ([2a01:e0a:b25:f902::ff])
+ d=1e100.net; s=20230601; t=1704380526; x=1704985326;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Nz6wgSvtDxdn5W5MMKrsDHjNFgiWM0XnkScPndx0kOc=;
+ b=gLHWOy0ArYk/pb64YYtV7YRCqHyEvzSobQXAjbjvF8Ynvz9P1gzMl8avP6GNcdMnCt
+ uTk/Iu2G97YOCwVSosFa+oH1w//MjfRdX8+r2CB8KX4iau/odO9bkDmoNO1EYlbUZZoj
+ wJS+OecN3irLRWlvwLTawhF8Euh3y0esNTcq3k2cOW49+jiS4+vU15ZLXGjk5bUg3k+m
+ P4Tb80fKiSKvANZIxoBHmuy3EmX34ZBoAfpAHUtAPiVU0vFCgcUaTueLZMGup4SgYfV4
+ F0i/vOn6st3gY8SyzvpSOqSVwC8yi+PtoTwZFVTRusQZovnWTxGzgDb0nS912UjJZsr7
+ Uuww==
+X-Gm-Message-State: AOJu0YzeZa/0aYUvDNwpy/uIyLIOkCmXy4A3egb9QYtRw6ZR5OuhpfqD
+ ECCnpANCqobtuWt34kiwfkdH4e3Bpcc=
+X-Google-Smtp-Source: AGHT+IG5HiC0x4W+n+qys8FBgYK9JxkdZTlC7eENA/zhPd+9bPgbzVBM0HzLlRg3cdOo8Q82wYtCeA==
+X-Received: by 2002:adf:f7c8:0:b0:333:492b:e5e1 with SMTP id
+ a8-20020adff7c8000000b00333492be5e1mr410943wrq.22.1704380525958; 
+ Thu, 04 Jan 2024 07:02:05 -0800 (PST)
+Received: from able.fritz.box ([2a00:e180:157f:4100:7224:7d9c:a8ca:3fe9])
  by smtp.gmail.com with ESMTPSA id
- b7-20020adfe307000000b0033674734a58sm17669090wrj.79.2024.01.04.06.45.53
+ n14-20020a5d51ce000000b00336765e9babsm33020998wrv.83.2024.01.04.07.02.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Jan 2024 06:45:53 -0800 (PST)
-Date: Thu, 4 Jan 2024 15:45:53 +0100
-From: Maxime Ripard <mripard@redhat.com>
-To: Dave Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-next-fixes
-Message-ID: <enhl33v2oeihktta2yfyc4exvezdvm3eexcuwxkethc5ommrjo@lkidkv2kwakq>
+ Thu, 04 Jan 2024 07:02:05 -0800 (PST)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ thomas.hellstrom@linux.intel.com, nouveau@lists.freedesktop.org,
+ jani.nikula@linux.intel.com, kherbst@redhat.com, lyude@redhat.com,
+ zackr@vmware.com
+Subject: [PATCH 1/4] drm/ttm: return ENOSPC from ttm_bo_mem_space
+Date: Thu,  4 Jan 2024 16:02:01 +0100
+Message-Id: <20240104150204.1466-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="mxcuae33wdg4jqul"
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,85 +75,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Only convert it to ENOMEM in ttm_bo_validate.
 
---mxcuae33wdg4jqul
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ drivers/gpu/drm/ttm/ttm_bo.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Hi!
-
-Here's this week drm-misc-next-fixes PR
-
-Maxime
-
-drm-misc-next-fixes-2024-01-04:
-One fix for drm/plane to avoid a use-after-free and some additional
-warnings to prevent more of these occurences, a lock inversion
-dependency fix and an indentation fix for drm/rockchip, and some doc
-warning fixes for imagination and gpuvm.
-The following changes since commit 933a2a376fb3f22ba4774f74233571504ac56b02:
-
-  drm: using mul_u32_u32() requires linux/math64.h (2023-12-19 15:29:17 +02=
-00)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-fixes-2024-=
-01-04
-
-for you to fetch changes up to eee706839333ec0643f1b4898a37588025bf4cb5:
-
-  drm/imagination: pvr_device.h: fix all kernel-doc warnings (2024-01-02 11=
-:50:05 +0100)
-
-----------------------------------------------------------------
-One fix for drm/plane to avoid a use-after-free and some additional
-warnings to prevent more of these occurences, a lock inversion
-dependency fix and an indentation fix for drm/rockchip, and some doc
-warning fixes for imagination and gpuvm.
-
-----------------------------------------------------------------
-Andy Yan (1):
-      drm/rockchip: vop2: Avoid use regmap_reinit_cache at runtime
-
-Jiapeng Chong (1):
-      drm/rockchip: vop2: clean up some inconsistent indenting
-
-Randy Dunlap (2):
-      drm/gpuvm: fix all kernel-doc warnings in include/drm/drm_gpuvm.h
-      drm/imagination: pvr_device.h: fix all kernel-doc warnings
-
-Ville Syrj=E4l=E4 (2):
-      drm: Don't unref the same fb many times by mistake due to deadlock ha=
-ndling
-      drm: Warn when freeing a framebuffer that's still on a list
-
- drivers/gpu/drm/drm_framebuffer.c            |  5 +-
- drivers/gpu/drm/drm_plane.c                  |  1 +
- drivers/gpu/drm/imagination/pvr_device.h     | 46 ++++++++--------
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 12 ++---
- include/drm/drm_gpuvm.h                      | 80 ++++++++++++++++--------=
-----
- 5 files changed, 79 insertions(+), 65 deletions(-)
-
---mxcuae33wdg4jqul
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZZbEoAAKCRDj7w1vZxhR
-xaIlAQCREOGVj9u+v2f3G80x84sTB6c7UTTSp+58ImkdPAx3EgD/QGaOyCvUWVcc
-4+V+DXobiKd/q9/86S5RdcGL5QOlyAs=
-=aO1Z
------END PGP SIGNATURE-----
-
---mxcuae33wdg4jqul--
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index edf10618fe2b..8c1eaa74fa21 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -830,7 +830,7 @@ int ttm_bo_mem_space(struct ttm_buffer_object *bo,
+ 			goto error;
+ 	}
+ 
+-	ret = -ENOMEM;
++	ret = -ENOSPC;
+ 	if (!type_found) {
+ 		pr_err(TTM_PFX "No compatible memory type found\n");
+ 		ret = -EINVAL;
+@@ -916,6 +916,9 @@ int ttm_bo_validate(struct ttm_buffer_object *bo,
+ 		return -EINVAL;
+ 
+ 	ret = ttm_bo_move_buffer(bo, placement, ctx);
++	/* For backward compatibility with userspace */
++	if (ret == -ENOSPC)
++		return -ENOMEM;
+ 	if (ret)
+ 		return ret;
+ 
+-- 
+2.34.1
 
