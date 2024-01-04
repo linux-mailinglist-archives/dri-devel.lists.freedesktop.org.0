@@ -1,52 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 762298247EE
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jan 2024 19:04:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D586E824860
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jan 2024 19:50:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03A0210E4F9;
-	Thu,  4 Jan 2024 18:03:53 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7D2F10E4C6;
- Thu,  4 Jan 2024 18:03:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704391431; x=1735927431;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=H6wvKEc/axy0jN26hrGljWmYX27vGiI60bbJsKZRdkI=;
- b=ah4F81RNWkIzRbzFr4dhCTqrL69T+C0a8T5Cz3l/0sBlVQloJgnm+/6d
- quQECl1f1hD9YDIhRw5SWIHxLFRJUwsPBF5GXO7YV7AyUYvZl17OmDpiX
- Vsyjf9U/uGd3kdShRns9DoRNofxQv6q72dQv3OjReIl4ScIMzNgG7W8Ij
- CFfUXqGo6k1rkrVYnHKKUyUwa4z+UrGmmmYrifNxIN8ORrADXWckTnyrQ
- dujIFOl85mOHzfK1Ri3L/ZBt8Sg1k7XccSRMDM67lwIx9cwaYvlSF+SGw
- JAlCBmCO88vZGQrgfOggIZ9LpHepamzm+MSEVmtzUVaJkRn8QnuZnlm0B Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="4430223"
-X-IronPort-AV: E=Sophos;i="6.04,331,1695711600"; 
-   d="scan'208";a="4430223"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jan 2024 10:03:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="850894359"
-X-IronPort-AV: E=Sophos;i="6.04,331,1695711600"; d="scan'208";a="850894359"
-Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
- by fmsmga004.fm.intel.com with ESMTP; 04 Jan 2024 10:03:49 -0800
-From: John.C.Harrison@Intel.com
-To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH v3 3/3] drm/i915/guc: Enable Wa_14019159160
-Date: Thu,  4 Jan 2024 10:05:41 -0800
-Message-ID: <20240104180541.2966374-4-John.C.Harrison@Intel.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20240104180541.2966374-1-John.C.Harrison@Intel.com>
-References: <20240104180541.2966374-1-John.C.Harrison@Intel.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D59510E519;
+	Thu,  4 Jan 2024 18:50:49 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECF4B10E519
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jan 2024 18:50:47 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id
+ 4fb4d7f45d1cf-55569b59f81so1016869a12.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Jan 2024 10:50:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google; t=1704394246; x=1704999046;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=XxCIeQ9j4EehMbMWWRhFVXo20FPclvu+h4tS5qZG5ug=;
+ b=fe6qSeJIXmGuBCwXANHy7/UeJmkZeYrQjVw0EU3+zk1SzRIBTMapD7xV9OJ7MEUoVT
+ SnSiJBvc/zXGZwu0NVNIWg4Y8MvA6/vXOZZgBNQwrI0U1EE0W0658PWp/A9ZGPcbmRUs
+ wIiYP0UlmFSIQoIhty+HJI3j8lyem8uOd7JHU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1704394246; x=1704999046;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=XxCIeQ9j4EehMbMWWRhFVXo20FPclvu+h4tS5qZG5ug=;
+ b=wj9PKg12cfJHmhiJ881HByYQGjnd1nsKk9PdJGa258M3J2JTTSmG67k+WiFyg7M5U0
+ Ju6Eb180dyuEGW4Dt4eK2NEzWFXUY+TF34njNRmRzYiNd/C8WygQH1PBXXkrKJkhxgLb
+ 9OE0tlOEmMbiQkD6bZJt9ZGN0zMHPQzqKhQo/IQ7merUKcDEZyKb89ba32Hp19q8wQ16
+ 5GMcRtK2E7X9wd5TM28Uhy+ZOt9Vz+kYk658y7iUrj2aKteAwyd6ztkZqudsO53PaXBb
+ GMvZ3m4X2ppjeTugo+D4fxy72gB13iLTmnBPSV/uQ/Fnx20J7392Zbq28lGUut+l8Gf4
+ DPxQ==
+X-Gm-Message-State: AOJu0YzjRWV5lMOVosE984Pc3VU5/CkUaOviuDAowho7/Ov2o+wNvqo2
+ swrI2FRPGGGdAFZNoT3E15PFgqfEDlDblGSiKrkLPRoqdDjQ8wy7
+X-Google-Smtp-Source: AGHT+IF+2hfs65fkoWiUs/HSCOIbHLEKhpzbzho4iZxl7g/p01uqljGejyAtgqq27Lzz6upYkCwZDQ==
+X-Received: by 2002:aa7:c9d0:0:b0:555:3b98:7540 with SMTP id
+ i16-20020aa7c9d0000000b005553b987540mr690951edt.33.1704394246053; 
+ Thu, 04 Jan 2024 10:50:46 -0800 (PST)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com.
+ [209.85.218.48]) by smtp.gmail.com with ESMTPSA id
+ j7-20020aa7c347000000b00552d45bd8e7sm12953edr.77.2024.01.04.10.50.45
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 Jan 2024 10:50:45 -0800 (PST)
+Received: by mail-ej1-f48.google.com with SMTP id
+ a640c23a62f3a-a26f5e937b5so95687966b.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Jan 2024 10:50:45 -0800 (PST)
+X-Received: by 2002:a17:906:897:b0:a28:b7e2:15b4 with SMTP id
+ n23-20020a170906089700b00a28b7e215b4mr427985eje.88.1704394245242; Thu, 04 Jan
+ 2024 10:50:45 -0800 (PST)
 MIME-Version: 1.0
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
- Swindon SN3 1RJ
-Content-Transfer-Encoding: 8bit
+References: <CAPM=9txBXQR8YsaU2fO1frcGBP6HKTF473Rqae_hwT_yY-dRrg@mail.gmail.com>
+In-Reply-To: <CAPM=9txBXQR8YsaU2fO1frcGBP6HKTF473Rqae_hwT_yY-dRrg@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Thu, 4 Jan 2024 10:50:28 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wg26tNyaOE5jAcEg1t_zK37mHXqJN9nzmYDA3dN_WO5kw@mail.gmail.com>
+Message-ID: <CAHk-=wg26tNyaOE5jAcEg1t_zK37mHXqJN9nzmYDA3dN_WO5kw@mail.gmail.com>
+Subject: Re: [git pull] drm fixes for 6.8
+To: Dave Airlie <airlied@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,160 +77,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Harrison <John.C.Harrison@Intel.com>
+On Wed, 3 Jan 2024 at 18:30, Dave Airlie <airlied@gmail.com> wrote:
+>
+> These were from over the holiday period, mainly i915, a couple of
+> qaic, bridge and an mgag200.
+>
+> I have a set of nouveau fixes that I'll send after this, that might be
+> too rich for you at this point.
+>
+> I expect there might also be some more regular fixes before 6.8, but
+> they should be minor.
 
-Use the new w/a KLV support to enable a MTL w/a. Note, this w/a is a
-super-set of Wa_16019325821, so requires turning that one as well as
-setting the new flag for Wa_14019159160 itself.
+I'm assuming you're just confused about the numbering, and meant 6.7
+here and in the subject line.
 
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-Reviewed-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
----
- drivers/gpu/drm/i915/gt/gen8_engine_cs.c      |  3 ++
- drivers/gpu/drm/i915/gt/intel_engine_types.h  |  1 +
- drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h |  7 ++++
- drivers/gpu/drm/i915/gt/uc/intel_guc.c        |  1 +
- drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    | 34 ++++++++++++++-----
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  1 +
- 6 files changed, 38 insertions(+), 9 deletions(-)
+This seems to be too small of a pull to be an early pull request for
+the 6.8 merge window.
 
-diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-index 9cccd60a5c41d..359b21fb02ab2 100644
---- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-+++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-@@ -744,6 +744,7 @@ static u32 *gen12_emit_preempt_busywait(struct i915_request *rq, u32 *cs)
- 
- /* Wa_14014475959:dg2 */
- /* Wa_16019325821 */
-+/* Wa_14019159160 */
- #define HOLD_SWITCHOUT_SEMAPHORE_PPHWSP_OFFSET	0x540
- static u32 hold_switchout_semaphore_offset(struct i915_request *rq)
- {
-@@ -753,6 +754,7 @@ static u32 hold_switchout_semaphore_offset(struct i915_request *rq)
- 
- /* Wa_14014475959:dg2 */
- /* Wa_16019325821 */
-+/* Wa_14019159160 */
- static u32 *hold_switchout_emit_wa_busywait(struct i915_request *rq, u32 *cs)
- {
- 	int i;
-@@ -793,6 +795,7 @@ gen12_emit_fini_breadcrumb_tail(struct i915_request *rq, u32 *cs)
- 
- 	/* Wa_14014475959:dg2 */
- 	/* Wa_16019325821 */
-+	/* Wa_14019159160 */
- 	if (intel_engine_uses_wa_hold_switchout(rq->engine))
- 		cs = hold_switchout_emit_wa_busywait(rq, cs);
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-index b519812ba120d..ba55c059063db 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-@@ -697,6 +697,7 @@ intel_engine_has_relative_mmio(const struct intel_engine_cs * const engine)
- 
- /* Wa_14014475959:dg2 */
- /* Wa_16019325821 */
-+/* Wa_14019159160 */
- static inline bool
- intel_engine_uses_wa_hold_switchout(struct intel_engine_cs *engine)
- {
-diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
-index 58012edd4eb0e..bebf28e3c4794 100644
---- a/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
-+++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
-@@ -101,4 +101,11 @@ enum {
- 	GUC_CONTEXT_POLICIES_KLV_NUM_IDS = 5,
- };
- 
-+/*
-+ * Workaround keys:
-+ */
-+enum {
-+	GUC_WORKAROUND_KLV_SERIALIZED_RA_MODE				= 0x9001,
-+};
-+
- #endif /* _ABI_GUC_KLVS_ABI_H */
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-index d5c856be31491..db3cb628f40dc 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-@@ -295,6 +295,7 @@ static u32 guc_ctl_wa_flags(struct intel_guc *guc)
- 		flags |= GUC_WA_HOLD_CCS_SWITCHOUT;
- 
- 	/* Wa_16019325821 */
-+	/* Wa_14019159160 */
- 	if (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 71)))
- 		flags |= GUC_WA_RCS_CCS_SWITCHOUT;
- 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-index 6af3fa8b92e34..68d9e277eca8b 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-@@ -815,6 +815,25 @@ guc_capture_prep_lists(struct intel_guc *guc)
- 	return PAGE_ALIGN(total_size);
- }
- 
-+/* Wa_14019159160 */
-+static u32 guc_waklv_ra_mode(struct intel_guc *guc, u32 offset, u32 remain)
-+{
-+	u32 size;
-+	u32 klv_entry[] = {
-+		/* 16:16 key/length */
-+		FIELD_PREP(GUC_KLV_0_KEY, GUC_WORKAROUND_KLV_SERIALIZED_RA_MODE) |
-+		FIELD_PREP(GUC_KLV_0_LEN, 0),
-+		/* 0 dwords data */
-+	};
-+
-+	size = sizeof(klv_entry);
-+	GEM_BUG_ON(remain < size);
-+
-+	iosys_map_memcpy_to(&guc->ads_map, offset, klv_entry, size);
-+
-+	return size;
-+}
-+
- static void guc_waklv_init(struct intel_guc *guc)
- {
- 	struct intel_gt *gt = guc_to_gt(guc);
-@@ -830,15 +849,12 @@ static void guc_waklv_init(struct intel_guc *guc)
- 	offset = guc_ads_waklv_offset(guc);
- 	remain = guc_ads_waklv_size(guc);
- 
--	/*
--	 * Add workarounds here:
--	 *
--	 * if (want_wa_<name>) {
--	 *	size = guc_waklv_<name>(guc, offset, remain);
--	 *	offset += size;
--	 *	remain -= size;
--	 * }
--	 */
-+	/* Wa_14019159160 */
-+	if (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 71))) {
-+		size = guc_waklv_ra_mode(guc, offset, remain);
-+		offset += size;
-+		remain -= size;
-+	}
- 
- 	size = guc_ads_waklv_size(guc) - remain;
- 	if (!size)
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index b09b97c9cd120..80da3573706fa 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -4385,6 +4385,7 @@ static void guc_default_vfuncs(struct intel_engine_cs *engine)
- 			engine->flags |= I915_ENGINE_USES_WA_HOLD_SWITCHOUT;
- 
- 	/* Wa_16019325821 */
-+	/* Wa_14019159160 */
- 	if ((engine->class == COMPUTE_CLASS || engine->class == RENDER_CLASS) &&
- 	    IS_GFX_GT_IP_RANGE(engine->gt, IP_VER(12, 70), IP_VER(12, 71)))
- 		engine->flags |= I915_ENGINE_USES_WA_HOLD_SWITCHOUT;
--- 
-2.41.0
-
+               Linus
