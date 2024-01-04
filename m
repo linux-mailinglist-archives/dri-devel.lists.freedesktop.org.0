@@ -1,61 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAB9B824373
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jan 2024 15:17:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B7E28243DD
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jan 2024 15:34:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D644510E477;
-	Thu,  4 Jan 2024 14:17:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D476C10E479;
+	Thu,  4 Jan 2024 14:34:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from JPN01-TYC-obe.outbound.protection.outlook.com
- (mail-tycjpn01on2100.outbound.protection.outlook.com [40.107.114.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DE5710E477
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jan 2024 14:17:45 +0000 (UTC)
+ (mail-tycjpn01on2105.outbound.protection.outlook.com [40.107.114.105])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FA2B10E479
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jan 2024 14:34:37 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YSB+3HTu9jdwo96EWZPRjvQIPne36PmbftCmFS0YAOixeLwReQy32HdKPoWR/dn9E4KzHFGAfvt4UFKULWsALyS3NnjLXiQ96eifAauC1bpTOH1MqDwyA8+mF+C4zTVTPq6zvv0cfmvehjoHhJKBcmJa3WCTVtsTD3GI7BHMAA8+/Nyi4Pat0pTYQHsEdk5hSsZwDo9VAaXe1ezWijap0oFtoOyMwLuM5zJ2M+B0h3x1FME/jWP3vvnoGVOTzBKA4CU9HrvJRgGD9XfgylAGbIaP+VWs2WjHZk3hRr0SjhgzIsj38tSXxXq2m+Niphv2M3JTs0lO0NlCmfM/Iw4pvg==
+ b=fdmxaor6RZLl11EcHx/eoDGIVJwk13a5WsBPj9y8sShh8zjoyNHUQFgcrXMKHaQBb4gjFW0BBYNzuUYubRO8P42iq8842eh5eGKCgNYYupuHx0wjv+8cqMo52v2bCtk7guvo48XD+QKC4gXP3FmU5MXcEihoXvUI2ZpnWqHQocPICkxE6HFIjKa5eIfSqt1Zfqxa49eiGr6ILyhvxZJX123gglIkT6TDFJ36ZGoAZf7vzzq3p/kVIQ6IabOkKj7aIwIBOTWnwlgTPrPZYNqkj/VFOLKzH5I01zI/zb00dku894cM5uySoVGAYv2nMXn1rYd/qHsNo/KuQMdjK324gQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AqFeUNVy9TvWWZ4j/GQsbh9gji/V5ss32n3CNVojFRU=;
- b=Sp+eD64wOfXbixzgNWdPXUo8qFHzjwLv3lPbJtOZI6vYgRPT8au4WFQQns8plpKI/1FRf4FhwTIrOlP5wdhP2Um0rmyYV8Gx/JYeOT5vipW1/geYYTUNHM946eGGF9tnIjg6Q0tVayUv+GllVBmvlTXxmiHv7d0xaSorMaNbsMXsmOBnMJiKiPHKCRd96LWaECFnHedVAQfjQk6bSVYQ6dK4/sRnBKNfRhk1O1jDU0P5dAl9tFLxyzolMGzi9iO41QjNQWJ/6TkpYg24QbdK4hkB6nUe98PeTML0ou+DmJZcKAYm1ZosilAmyOl3M9GFxGiqc8XzUy/6GTYgLUnJCw==
+ bh=WhA/+ekj8Odv31UAlY3qDWO3cnpGRQ52vV7FbFN6AsI=;
+ b=FW4j83GT8FnSy+M5zKibY162Emccvp8wdDokCioaLQ844G8GMb10ILqBtU3Brv3erxR1EUzpaFu04/tWrleRv7AWGAVspC02viOL/gpSFUVVeI1OOFaEL28UhicJBm/bYnSUg9R9rghUINuScLmBNCaqITXTm0thmlq0LHw8OeAWqP/90SjN8Orv7fn2bnWTYhRseZf3PDjQoiXcTzaPijQZ+sJEORs4Zp/RuZGSb8SrOlMt2w91dMr1pLmtNnSyUuhy2J16h7DVIvq9mDyFr10eeGNXgJElv8zrTIAAlGC0Pc6AlavCf1NIugLo+lWs4gIelrzeANRwHowDLb8L/A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
  header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AqFeUNVy9TvWWZ4j/GQsbh9gji/V5ss32n3CNVojFRU=;
- b=F/NL0XKKGE7KR/OcikGRD+NCA3JEZiF96smtke4vgStgEN6H/ZxM0oBTKau/nEFw9wsevZlpY2GrwuqfJdXxcw8hdO2wfaXmaktZkJ9cQ7JAp20KevmF25mNnVYzT+Z0yTfdbfBdlR3Xh1RX4VbWuVQucd79YXAIIJHMs7Q7hXg=
+ bh=WhA/+ekj8Odv31UAlY3qDWO3cnpGRQ52vV7FbFN6AsI=;
+ b=pKXNhAROExHVxKof3Aro/wr57HCFd4IBw1cN3G6LqfZiUkXNQY6FS5Vlz+m7NeqIJQCORqdgxlcIIy0r9NmTMeHYuoBkTdKzN5QlWmA+0RUEURzeYzF7XaflYcIBwiR6d9s/GvxGgmZSpaTBF6w6m92hZy8PmQEd/KfzLJ874eI=
 Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- (2603:1096:400:3c0::10) by TYWPR01MB10130.jpnprd01.prod.outlook.com
- (2603:1096:400:1e6::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.14; Thu, 4 Jan
- 2024 14:17:40 +0000
+ (2603:1096:400:3c0::10) by OSZPR01MB9550.jpnprd01.prod.outlook.com
+ (2603:1096:604:1d4::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.9; Thu, 4 Jan
+ 2024 14:34:33 +0000
 Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
  ([fe80::8d12:a02a:9fdc:9c78]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
  ([fe80::8d12:a02a:9fdc:9c78%5]) with mapi id 15.20.7181.009; Thu, 4 Jan 2024
- 14:17:40 +0000
+ 14:34:33 +0000
 From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Maxime Ripard <mripard@kernel.org>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>
+To: Maxime Ripard <mripard@kernel.org>
 Subject: RE: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
 Thread-Topic: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
-Thread-Index: AQHaIejqQbh+O2CetkGmd2PHSouIl7Cnc3CAgAFZmGCAAXC4AIAAEXwwgAAZsoCAAANogIAAEt4AgAADUYCAH1ohsA==
-Date: Thu, 4 Jan 2024 14:17:39 +0000
-Message-ID: <TYCPR01MB11269726F051D0F497597F28A86672@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+Thread-Index: AQHaIejqQbh+O2CetkGmd2PHSouIl7Cnc3CAgAFZmGCAAXC4AIAAKdWwgAAZZACAH25AgA==
+Date: Thu, 4 Jan 2024 14:34:33 +0000
+Message-ID: <TYCPR01MB112697575E0CF41CC26A8140086672@TYCPR01MB11269.jpnprd01.prod.outlook.com>
 References: <20231128105129.161121-1-biju.das.jz@bp.renesas.com>
  <20231128105129.161121-4-biju.das.jz@bp.renesas.com>
  <sechknyg33iucaku37vfhk7ie7xgcealfqbvaopm4rrnqbo5g5@s35peonkzzoz>
  <TYCPR01MB11269767836DEB995747B7ED3868CA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
  <zp2ews2by6fg5irmb7ms6blox6vruezdjlor3rutqtokbvlle2@tl775slyvhyf>
- <TYCPR01MB112699C55873FA75B8F4469C18693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <bw3qxved377k5pmh3dbnimiyxra7k6dgb2tmg23bvxnfglti4g@uqdxmgnqrkg2>
- <TYCPR01MB11269CC132B84CFAD11D307578693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <g4uqcavglw2md4ojiw7yxequy37ttozjazr3b4ypqzznlrsinv@zm6mvzaempwp>
- <TYCPR01MB11269BCE6CAEE3C5063C4D1728693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYCPR01MB11269BCE6CAEE3C5063C4D1728693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+ <TYCPR01MB1126964899D432355ACAF49D18693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+ <he23e5al3hinegebvq7qai4jdw3qjgbzmnx34xgxqnu3hw4jke@dts2vi5kcs4u>
+In-Reply-To: <he23e5al3hinegebvq7qai4jdw3qjgbzmnx34xgxqnu3hw4jke@dts2vi5kcs4u>
 Accept-Language: en-GB, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -63,58 +59,58 @@ X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=bp.renesas.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|TYWPR01MB10130:EE_
-x-ms-office365-filtering-correlation-id: 880b0111-0a82-4393-9f1d-08dc0d2fe8c7
+x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|OSZPR01MB9550:EE_
+x-ms-office365-filtering-correlation-id: 0d26eca5-fe4d-405a-0426-08dc0d3244f7
 x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: OmfQWkXeQJ/Eyhr+XqoKSHNl6OujsOj3ditdB/DDXWQnttS8/RHo2Sc8/dou7g9fqJTQ7El7Yzy1bgP4n02uRto076Taa74USsIccQzSr5rT7wVjYZhmoflV2D2cO+AuYYIKkeZyt0qjH7lK2gTsdOaY1DeWIfMB0KJ9TsBcAO0O3miH96XGJNW/FfOfvaBx0VcukUdryz94G5KPHJrKuoCkuVYC2oprFLSHjDcaEGArL8KtbzURxu3HPVBUxjRY/9yS8lvc5MQUDpEjKiN1dmR5ybMI712ZbNpjBDXP33BiVDMplHsJ3hB3XMJi+NcHah8vN17uY0NXAA0lF9iOnlUjDTB2H2OG6kAOyURtjdxQVI1JjIAG1noAIQ3nhlZ1evgQYMqmqD/LLFlEAITdEJv7SP1J8Rb6qdGC51u/vxthTxUDqiNRFImFHldP9Brmj0RAY1W7LpaYlRBUNkYiXEmFjy65z9aYR6r0nbXwhbfTre1sIOhT/pKTKqmdmlAdQ09S85LIUVgw6vaJdnVgkEmAC4/kV/LMGoLyhf+EiRvBC223pPXbDpC9aljCBRIOwM1Q5AAfOtWOc0H0WEzaIMLNO8xdHN+OJAEGKPw/fjpbXibeAtv/SQ76Vh7rDA6n
+x-microsoft-antispam-message-info: RAkjMsWteu9kL9VVhp5O/xLXWSa6qA2PEjaFmOkhG1773ALsbZWOegc7LyW8gjT0jmcq3Kfhk50UnWtzpuOZFtooERidaB9QIZPIaftXxw1oP0lMGZyM5cV68K3Idt4+yH6zBiesKM7wpHUvs56OLCVeicje3YlGMLEHvRmzRcL95zBKQaw+rBNHRym4KvqF/suxEflMA1MiSnQ0jZJcDIaD1HQ56NMMSOIroe9BkVvdxTLB5U3aNS+3rhjJLjTCnaaNKXKPhYrpUi/mJmnhkrK/9Tx5P5cZh6dkp/kGdK0qC3VwbQ0dnzf/+2WFPeiM1Z/2I9AsSQglk0BLpo2jgjEfvzsHAiON+zOYjiAU148cCWfBBToAMFIcbppM623826kxjFa3BZk0+UfAG9V0N3IhHDp9XlrC75fwGnY4FtwsdZex6cJcoTl2x7LlTCVBm7TWJgQbywlkTiZ0U+LU1qJg53xuuDEtnolldUo4xJZESqUvn/xA1gr+73UCx0pTbK++4tME2GaNmXAmZNmwiTbV4uxYAt7seEuvj/fB5epG5bLMp76KwKz7unjUH463Wmn8T2ai2/Y1uHAJscWq903E3i18lA1+jTvutL3omOA=
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:TYCPR01MB11269.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(136003)(396003)(346002)(376002)(366004)(39860400002)(230922051799003)(186009)(64100799003)(1800799012)(451199024)(53546011)(4326008)(55016003)(52536014)(110136005)(316002)(54906003)(8676002)(122000001)(6506007)(8936002)(7416002)(9686003)(5660300002)(2906002)(38100700002)(76116006)(66556008)(66946007)(66446008)(66476007)(7696005)(71200400001)(64756008)(86362001)(83380400001)(478600001)(33656002)(41300700001)(38070700009);
+ SFS:(13230031)(376002)(396003)(136003)(346002)(39860400002)(366004)(230922051799003)(186009)(64100799003)(1800799012)(451199024)(53546011)(71200400001)(478600001)(966005)(6506007)(9686003)(7696005)(83380400001)(7416002)(2906002)(41300700001)(66446008)(66476007)(66556008)(76116006)(54906003)(6916009)(316002)(64756008)(66946007)(52536014)(4326008)(8676002)(8936002)(5660300002)(38070700009)(38100700002)(122000001)(86362001)(33656002)(55016003);
  DIR:OUT; SFP:1102; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?QYUmvyQ+1+2rn3S3W6ZjknKUFO8bEnSMkKYR1ybQsbGlSVR06rTeT16kfmCo?=
- =?us-ascii?Q?I4fwKOVFoQepeP8UNqgilfcyHMVSGcKES76M0auCQ6+KeFjVykHtBnLHgLhq?=
- =?us-ascii?Q?81G3KUGkWk+5iIcJf8Kna1OclqoQevIu5o06LtQZOJv9mD8tsoixuHdKN6VL?=
- =?us-ascii?Q?BdO/sS4NUbrvscRSTV9L4cmQw1qJ20Wdl4FMcrsUQTwsKAqbJfBUg/XYjyPJ?=
- =?us-ascii?Q?HuuRByNZiDmVWSkEdta8Rku0bS6Jmpg77llER77uFVt05dv4hx1DB6BtV7+R?=
- =?us-ascii?Q?1xodQ5qm0n5uXr6cwxwSnlo6i4AvLjk5eMnbtDXw4w1NGid7IVCDvaUY1/Qw?=
- =?us-ascii?Q?U1+cSxXGXMlbYamPQuedXFbG43dhgu6N1PYtCf4/FfcgSs8eMUT132bd1wUw?=
- =?us-ascii?Q?7yCKqJ3fsQYdWYuOwngcJatltdf1GSFc1sagy1cK4aKfeTCJ0QTt+T2IyoTo?=
- =?us-ascii?Q?zR9e1tXg1/D60MwVoVbyTzQxqaUaZHT77N/xQWikuhykdhBzKt//5qIJZzuf?=
- =?us-ascii?Q?s600vXSOWGhnM58pSiNPoH56VdTldWhx06RlkGnrUQyvGlcl0aJ8AKFWfYcn?=
- =?us-ascii?Q?XNjqwa/Ov03H7ogqowp3bJq83OGEct834mXxYr15iF4Pq2CyjkeabmoTOFEf?=
- =?us-ascii?Q?AqxhG/T5vsVbmNgUuJyCANxJ8Vyre8AZFArUh6J2FE780vyBnZJ6soJrk9oy?=
- =?us-ascii?Q?CYa0D/q65W3S4fL47MbMFie4FokvFmGb+qXA9GUBVvZjfLfPAwiYRBOt7ZBn?=
- =?us-ascii?Q?FQCPseoppZrSeFGbgvXe+gOfS3Xjo6xy4zOsRZLSKI1PKOhnCGMs3lKOdgMA?=
- =?us-ascii?Q?I6stM8ER2msD+HYNcYTyUmRcKV9sGhjCHBAp3e/ZD6Om1DWUY6xxFzAwAB8u?=
- =?us-ascii?Q?e5ETMFe5qL2EB5b7c6iWUYPuNwI++G9AeW12/YtUN+HVDEFpDpq+8sTH//t7?=
- =?us-ascii?Q?lJNOgY7DyVcXmqj+uhRGS5cxdue+KYAB/c0P17+x8SwZW0tG5u0/jyMlMXwQ?=
- =?us-ascii?Q?d4QcS3fqn3OsJoGltKoIzdm+n9/IGNVOOT0ZtsAeYGmfrcF37uZ6/5F0LY4q?=
- =?us-ascii?Q?FqjRuZH4IlcHTaD1Zn2nXhIXwPl+wWvUs3iRxgRJulsNFLXd3lBMvoGr+Jl8?=
- =?us-ascii?Q?p+i71eQWsFGzsYHiLhixCE5QIPBdCPwpYLOfW4iMcNOxd28IqPudKtY5ldWv?=
- =?us-ascii?Q?6xBQwaH5aOxBCP5iGgKW8hfzeoqRR8i+6CNw5k1ODO9jqVQGFxP/wqPBiCpF?=
- =?us-ascii?Q?xGqfA7Acx1h8khlriAhVBNtyUUWkJh20AOCUouxl0EpFGIa+DBLlGJLTKuM6?=
- =?us-ascii?Q?yBlrJ+A1E12OnxSl55xiSjaGYw4CH37SUMuhLlx2oc3X60HGiU0lzhv6OkJb?=
- =?us-ascii?Q?fqas54zz5FpjJkmYXoHz8TVrm5Nomq+dbqgvxhD4lmAWkklk4uaptibB9O85?=
- =?us-ascii?Q?+wOSpTUOR7ldZefeIB5izPqTEP6y34E3QuzAk6fUJ14Jz2mJNkGf8tPRgvHG?=
- =?us-ascii?Q?NIn5gazQz1nbeMrfAHwgA3tEfx3bwUGy69tj7L+YbsSu8pQG1rffK0TgtJ34?=
- =?us-ascii?Q?JjOLvBOjazNQjwpxF/k=3D?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?OVb0HwubbEvIdEMmzscOz4iUs7v3ilYnM1oMswU+ixc5tuvHN7MZF20bQJZb?=
+ =?us-ascii?Q?NuGS7K1bpY5LIhb/+cYcDhE8FGN0xa4nr3uh+q7m4sQOEag+DQtXqoKe8T4T?=
+ =?us-ascii?Q?L32bXIoJJfB2tSTaluCeNVjMe+qeVpigfVhaN5Uy2n6u+yRX+HrhtN/TzzHA?=
+ =?us-ascii?Q?nnUaxUOPfiwiBziXEznwOdL5u1el2cybqNhsVluUKPSk6R6fx+gjTQHNOg0r?=
+ =?us-ascii?Q?CfOaNIjbduQUgF9rPtH63afVgqkb7U9OSW4R2cZkHuYmh6kV7ursI5rl4lBC?=
+ =?us-ascii?Q?NQamYX78vFVdRHJymWpf28x9262J3ccUyviC/4yrcXUJfbGY1nadil95gNG9?=
+ =?us-ascii?Q?0qX7jqr+dvQzeVbDmUvd5rDkZnCoBTW6NBtvLOBsgDzR0ywU8HbRpvhAaW4l?=
+ =?us-ascii?Q?Tq2s1wn8UXxq7mI7i03Z5yHrEhnd52pbp5AZ8zLgtU0o+typlTHX0R8fHkr0?=
+ =?us-ascii?Q?yKvP11lmsO7RGAbmiPyQKjEaDQk+Q5fXO+F1YSXCg0rG+xJMvr0eBcJINKud?=
+ =?us-ascii?Q?WcTfVjWytgIOhvAIi6nB4v1t7hti6px1UyAvlqab4pKBCK8MaYt7egpy8EwI?=
+ =?us-ascii?Q?hrVuRlkBmB1FZjSKRQE8GrbC9QvFLx8LrzPeGTA48p6ss9fTd3WHSLeqRJR6?=
+ =?us-ascii?Q?9QoNWFTWa6mcCGJN9bxGp4UpSANarKKQUTlAk569eZq/ZGj5XOe7dJbrQoHl?=
+ =?us-ascii?Q?Up9mrXIfIrgijc3t5EwhLtcsoIFyYyWkXNyirq+Zw4iJVvpUZzZ0kaGPvvU0?=
+ =?us-ascii?Q?xgmWrpHj9mQtN9B1jKcRDJpz2blzT9p9SoVV6IcaDiZtKtiX0UJFqXDgpsvF?=
+ =?us-ascii?Q?izBNgUNQiARh64gq+N8UOmI00q4je0B5qVMyV9wDpDeLgNlISEZbnA0Ak9l/?=
+ =?us-ascii?Q?BW+YJKI/Es37X/MkDJy5b5UozkoxAcz4oGKkhNz9+S3BmV9xUzHTqr23As85?=
+ =?us-ascii?Q?F5eolAeZ12yTWQLIlznyxcYnUEAC2gnnxQokyTwoLickm4VnAd8q3BbjNwaT?=
+ =?us-ascii?Q?YP1UIxY2T/o8cIrXAAgyhOandQ7ihk5EYUJZx13Rf4LaoW8zWWsrOcXLA8U1?=
+ =?us-ascii?Q?y3Iq6koHq58VGSsBM4UGm2AG+m6sz9aDwso0j4CYeXwjc3m0K4O5W51jy3qv?=
+ =?us-ascii?Q?1jS7yb7UO5Br/xJLSKYB2huOsiDd+W7va3oRqm9vouHzAnyfR8nepwLOyByY?=
+ =?us-ascii?Q?k90s22dVSkgbLXL79oJAMuAPCNMsItfpyHzPKQxgwrSKbffAKkJE4DCYpHHu?=
+ =?us-ascii?Q?Stxct2RIrlD/mMkdAAjtlS4CO9RtR/TyODex/nZTvQRVcbkcKh/FH50KNUbZ?=
+ =?us-ascii?Q?V4jBvRR7PJob034QV6/eiHCEbq8Zu+iljw3VWj9697ET+zu3h6MuYPbJnXzB?=
+ =?us-ascii?Q?q7mqXE1B8jfb2N9oEPeAE42n8iIIjGGsZGAIINu0OHUZDcqCqt6tA2K2lkpL?=
+ =?us-ascii?Q?Q+6ILy9lw8YmMtWLidrX7cI1rJrrYfaC8zGBuI47I5e8Mo5mhLNvQ0VcuN+i?=
+ =?us-ascii?Q?QJcubXe4sT7FyUL1rRmsRzH6cU/gatqCYeD5ELhFJZOLzvtfmr2d7wR79fPi?=
+ =?us-ascii?Q?uo4R0e+DMl6lKffP6C8=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: bp.renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 880b0111-0a82-4393-9f1d-08dc0d2fe8c7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Jan 2024 14:17:39.9390 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0d26eca5-fe4d-405a-0426-08dc0d3244f7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Jan 2024 14:34:33.5921 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: fd96gg5MqzlcjRM5nn0IOhjoGCN/6KfKffiWQO4YKCtWBuhqogIKIxMnEyjKBbeB8/pFMZBMgFcmUd1h//NeAsxHL8ZsNoWcSiAA8J5z6f4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB10130
+X-MS-Exchange-CrossTenant-userprincipalname: UuwILXQpGeIz+7mfci4Vu0B8bYv/FAtX0VkztK+FX3oJDa+aqMoegyIBDWWPlKzfuz4e3n06Sz6kRNp24RTLRoCmp48S4WbVpxoWcVG96aI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB9550
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,145 +132,69 @@ Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
  "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Maxime Ripard,
 
 > -----Original Message-----
-> From: Biju Das <biju.das.jz@bp.renesas.com>
-> Sent: Friday, December 15, 2023 2:56 PM
-> Subject: RE: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
+> From: Maxime Ripard <mripard@kernel.org>
+> Sent: Friday, December 15, 2023 2:24 PM
+> Subject: Re: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
 >=20
-
-> > -----Original Message-----
-> > From: Maxime Ripard <mripard@kernel.org>
-> > Sent: Friday, December 15, 2023 2:18 PM
-> > Subject: Re: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
+> On Fri, Dec 15, 2023 at 01:25:48PM +0000, Biju Das wrote:
+> > Hi Maxime Ripard,
 > >
-> > On Fri, Dec 15, 2023 at 01:52:28PM +0000, Biju Das wrote:
-> > > > > > > > > +static int rzg2l_du_crtc_enable_vblank(struct drm_crtc
-> > *crtc) {
-> > > > > > > > > +	struct rzg2l_du_crtc *rcrtc =3D to_rzg2l_crtc(crtc);
-> > > > > > > > > +
-> > > > > > > > > +	rcrtc->vblank_enable =3D true;
-> > > > > > > > > +
-> > > > > > > > > +	return 0;
-> > > > > > > > > +}
-> > > > > > > > > +
-> > > > > > > > > +static void rzg2l_du_crtc_disable_vblank(struct
-> > > > > > > > > +drm_crtc
-> > > > > > > > > +*crtc)
-> > > > {
-> > > > > > > > > +	struct rzg2l_du_crtc *rcrtc =3D to_rzg2l_crtc(crtc);
-> > > > > > > > > +
-> > > > > > > > > +	rcrtc->vblank_enable =3D false; }
-> > > > > > > >
-> > > > > > > > You should enable / disable your interrupts here
-> > > > > > >
-> > > > > > > We don't have dedicated vblank IRQ for enabling/disabling
-> > vblank.
-> > > > > > >
-> > > > > > > vblank is handled by vspd.
-> > > > > > >
-> > > > > > > vspd is directly rendering images to display,
-> > > > > > > rcar_du_crtc_finish_page_flip() and drm_crtc_handle_vblank()
-> > > > > > > called in vspd's pageflip context.
-> > > > > > >
-> > > > > > > See rzg2l_du_vsp_complete()in rzg2l_du_vsp.c
-> > > > > >
-> > > > > > Sorry, I couldn't really get how the interrupt flow / vblank
-> > > > > > reporting is going to work. Could you explain it a bit more?
-> > > > >
-> > > > > We just need to handle vertical blanking in the VSP frame end
-> > handler.
-> > > > > See the code below.
-> > > > >
-> > > > > static void rzg2l_du_vsp_complete(void *private, unsigned int
-> > > > > status,
-> > > > > u32 crc) {
-> > > > > 	struct rzg2l_du_crtc *crtc =3D private;
-> > > > >
-> > > > > 	if (crtc->vblank_enable)
-> > > > > 		drm_crtc_handle_vblank(&crtc->crtc);
-> > > > >
-> > > > > 	if (status & VSP1_DU_STATUS_COMPLETE)
-> > > > > 		rzg2l_du_crtc_finish_page_flip(crtc);
-> > > > >
-> > > > > 	drm_crtc_add_crc_entry(&crtc->crtc, false, 0, &crc); }
+> > > -----Original Message-----
+> > > From: Maxime Ripard <mripard@kernel.org>
+> > > Sent: Friday, December 15, 2023 10:24 AM
+> > > Subject: Re: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
+> > >
+> > > On Thu, Dec 14, 2023 at 03:24:17PM +0000, Biju Das wrote:
+> > > > Hi Maxime Ripard,
 > > > >
-> > > > Then we're back to the same question :)
-> > > >
-> > > > Why can't you mask the frame end interrupt?
+> > > > Thanks for the feedback.
 > > >
-> > > We are masking interrupts.
+> > > Thanks, that's super helpful. The architecture is thus similar to
+> > > vc4
 > > >
-> > > [   70.639139] #######rzg2l_du_crtc_disable_vblank#######
-> > > [   70.650243] #########rzg2l_du_vsp_disable ############
-> > > [   70.652003] ########## vsp1_wpf_stop###
+> > > Some general questions related to bugs we had at some point with vc4:
 > > >
-> > > Unmask is,
-> > >
-> > > [ 176.354520] #######rzg2l_du_crtc_enable_vblank#######
-> > > [  176.354922] #########rzg2l_du_vsp_atomic_flush ############ [
-> > > 176.355198] ########## wpf_configure_stream###
+> > >   * Where is the display list stored? In RAM or in a dedicated SRAM?
 > >
-> > Sorry, my question was why aren't you unmasking and masking them in
-> > the enable/disable_vblank hooks of the CRTC.
+> > [1] It is in DDR (RAM).
+> >
+> > >
+> > >   * Are the pointer to the current display list latched?
+> > >
+> > >   * Is the display list itself latched? If it's not, what happens whe=
+n
+> > >     the display list is changed while the frame is being generated?
+> >
+> > There is some protocol defined for SW side and HW side for updating
+> > display list See [1] 33.4.8.1 Operation flow of VSPD and DU.
+> >
+> > All the display list operations are manged here[2]
+> >
+> > [1]
+> > https://www.renesas.com/us/en/document/mah/rzg2l-group-rzg2lc-group-us
+> > ers-manual-hardware-0
+> >
+> > [2]
+> > https://elixir.bootlin.com/linux/v6.7-rc5/source/drivers/media/platfor
+> > m/renesas/vsp1/vsp1_dl.c#L863
 >=20
-> I have n't tried that. Will try and provide feedback.
->=20
-> Currently the IRQ source belongs to VSPD in media subsystem.
-> So I need to export an API though vsp1_drm and test it.
->=20
+> I'm sorry, but I'm not going to read a 3500+ to try to figure it out.
+> Could you answer the questions above?
 
-+ linux-media
+The answer for your question is,
 
-Laurent, are you ok with the below RZ/G2L specific patch[1] for enabling/di=
-sabling frame end interrupt in VSP driver?
-Note:
-I need to add a quirk for handling this only for RZ/G2L family as other SoC=
-s have Vblank specific interrupt available in DU.
-
-[1]
-
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media=
-/platform/renesas/vsp1/vsp1_drm.c
-index 9b087bd8df7d..39347c16bb27 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-@@ -936,6 +936,14 @@ void vsp1_du_unmap_sg(struct device *dev, struct sg_ta=
-ble *sgt)
- }
- EXPORT_SYMBOL_GPL(vsp1_du_unmap_sg);
-=20
-+void vsp1_du_mask_frame_end_interrupt(struct device *dev, bool mask)
-+{
-+       struct vsp1_device *vsp1 =3D dev_get_drvdata(dev);
-+
-+       vsp1_write(vsp1, VI6_WPF_IRQ_ENB(0), mask ? 0 : VI6_WPF_IRQ_ENB_DFE=
-E);
-+}
-+EXPORT_SYMBOL_GPL(vsp1_du_mask_frame_end_interrupt);
-+
- /* -----------------------------------------------------------------------=
-------
-  * Initialization
-  */
-diff --git a/include/media/vsp1.h b/include/media/vsp1.h
-index 48f4a5023d81..ccac48a6bdd2 100644
---- a/include/media/vsp1.h
-+++ b/include/media/vsp1.h
-@@ -117,4 +117,6 @@ void vsp1_du_atomic_flush(struct device *dev, unsigned =
-int pipe_index,
- int vsp1_du_map_sg(struct device *dev, struct sg_table *sgt);
- void vsp1_du_unmap_sg(struct device *dev, struct sg_table *sgt);
-=20
-+void vsp1_du_mask_frame_end_interrupt(struct device *dev, bool mask);
-+
- #endif /* __MEDIA_VSP1_H__ */
+If a previous display list has been queued to the hardware but not
+processed yet, the VSP can start processing it at any time. In that
+case we can't replace the queued list by the new one, as we could
+race with the hardware. We thus mark the update as pending, it will
+be queued up to the hardware by the frame end interrupt handler.
 
 Cheers,
 Biju
