@@ -2,140 +2,167 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2154823BFC
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jan 2024 06:59:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 814C4823BFD
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jan 2024 07:00:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A769710E396;
-	Thu,  4 Jan 2024 05:59:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C435710E39B;
+	Thu,  4 Jan 2024 06:00:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 557FD10E395;
- Thu,  4 Jan 2024 05:59:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704347963; x=1735883963;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=M49gRZic3Y5xk88VnxT4YqoU7YI8sxxP6v676Kc737k=;
- b=EgefAdMpvHCE0Wc0G4ja+P/eG9TCuADCSM4bz4nwV9ZaqsZCpM68DcoX
- MHr4Wh4HfP42JBbiq+FntEYkwkbqSxPqLKahdoPBQY6PeIuve7PdgnXAR
- VKZpl9KW6s4plyoHPlk0NRsKbEhctD9O8QBruFa8qTTijCt6LPlfK8FME
- El8CJLzPHyv6El/VMv6fweeywNV7CFnHS7Oj00KoqTHftredv1zwOABe2
- qMySQRBUnDKrhMx7XnK5/5dr5AuwFK8kHqKRZv6l+B7PX8FRRhdRc/eea
- RBqWy1nUpq8BAH+9L5emVGftunxGWLq54L3tN+BNt4ZO+dzHRXU1vpJU0 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="3933540"
-X-IronPort-AV: E=Sophos;i="6.04,329,1695711600"; 
-   d="scan'208";a="3933540"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2024 21:59:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="953481664"
-X-IronPort-AV: E=Sophos;i="6.04,329,1695711600"; d="scan'208";a="953481664"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by orsmga005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 03 Jan 2024 21:59:21 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 3 Jan 2024 21:59:20 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Wed, 3 Jan 2024 21:59:20 -0800
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.40) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD45410E39B
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jan 2024 06:00:16 +0000 (UTC)
+X-UUID: 83dacbc4aac611eea2298b7352fd921d-20240104
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
+ bh=ZUrhXM1+85O2dYtR3/07BDhIkXya/hBTxtSjl5r9uWE=; 
+ b=FQ5eFYAsaHGgPDOHX1xxE+/XQK3LDGsoi5K2upSRPo8Pgw47aqcER1Nph5c++uc2TRsGPtXuG4v5kG+Z43v0Vwplt+rIWkFLzGN+Adx0W1DZ71t34sNL7Lqwd/oaJe9zEVhktUqtsqLRncBChD2JTTfJVVAiiXUPGFhVgwQMjb4=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.35, REQID:80fa1c9b-6db2-461d-a940-4df714638fdd, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:5d391d7, CLOUDID:7e77f97e-4f93-4875-95e7-8c66ea833d57,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
+ DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 83dacbc4aac611eea2298b7352fd921d-20240104
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
+ mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1147716174; Thu, 04 Jan 2024 14:00:08 +0800
+Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
+ MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Wed, 3 Jan 2024 21:59:20 -0800
+ 15.2.1118.26; Thu, 4 Jan 2024 14:00:07 +0800
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP
+ Server id
+ 15.2.1118.26 via Frontend Transport; Thu, 4 Jan 2024 14:00:06 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jSHbK6aMbxEF6bjeEywx6z+HjQrZHg9e8S9NVFVbWPqL0Giltwe0cnw3SJ6mVMBohBBDaXiBa5uN5Oe9em72bseZ9tPyiottnBOEKwokvjo4QVuPxV0cNIOPaCI7kkkXCcYbhbjuzSAv+pRlVSZOe5xWMNrFXFBfcjMNt2W8n2TPlP+a0CRLjhQ9hyZlZRLtXDJ6MiOH2Q+XBM/ZJtH4QNh3q9G3Pls/h4aowt1cWg2YEmKOPSAsICgLjQ4bLQGlSaUqyeVWiuTZSqJDR+N5Eyoo1c3A0bfza1nNFPJWn3Ar4a+f0lOuPjNL8x18BkIC3quXUq3CAasMLc8NwUoRbQ==
+ b=nF3yDZxkdtQjrdLmI4TgIuAGjQPfVQuJvGaU2lfODJHP2x+5jmbuAUbOR+BE9xRXWesxnpXR9BI+yC+aDG71XjsR3TxebCjC377F6FRj+RcnV7lHltLwqYYcdGXdxpJsgqmQ+Kx5oxuvKLzu1M0r2LQbwuRDkqTeJzIdCK6dwi2WySHkLAoURhl7KFYSsIBDj4SiithAH2Vh6QeT671L+1HjvODNtsAkmNMf/I8cCA6NGUEOYvSDdemZ0P8unqD1Yv1nKezh7MfGu+o8F2lP7EoaW5WMFw7mFlFGlp8Y799iJH+B4BUGlGeXTEtHwrooMYT/2uSBGZ5yMde6h295wg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/ZrePR4sIyQusCHANBnAy1+JRJh4Mbm8mIp9hxAU094=;
- b=JnupZ8oxs9j5ne56ivfnDNK6cEnwEmel3Pxv5Tfu0aVR1TTwmGD2CH3dy8cQP2iDZH8WMOojiBLoNtF+PEncKU+7wGq0ViaMiglBFAJA7HfL5F4qbsbKJpUBlpmkQ3d4h776vK6R2CjPkcIZuZwICnGWXA7GHTAgWrqZE+G6f/yzurmnTFsyjcG2jkqg0rIKnHAqxLabjB0Y3otTDtix0c5JEU7AWr8TsZBuM6+UvDpc93FFplMxq86WEz2R0yRlzmS360qVhoRwGQkI5XDRI29dmIGt48yC9h0RvqXFXSS0GgO5v4n4Qzgfo92JO+oFKIoSHsCt7A62AKwzGMoBwQ==
+ bh=Pt8VLSh3hi+teOQg+P+IoqchDSiIjvIJHLhkvgiAxKw=;
+ b=J69PD3YSAZlO4nZV5u+1c//IpxQ/y85fkVRThoXhe0YUFGJaczk3O0eSFSnWGfiZVwDvrGIjtMGYXupSkBLpOMUdoTPSQ3JJ4oLQQAUlQbB1tB67Qc9keKWiaAYSRjW9HXRVAiHZh0Xr/+XCOVYJvGXySxT+coQGr5Rm8bBtnMdYOZjS0x9E4v5ioPgU9fAoXj3iEHqao4XdZgrKjNfMGlusbMw+oA7Ll/CSmztJ3FXNgJM2JgVcuSi+49+nTMdNxptuApnVbNzbBXD2P8+/lo3cOZQNXPAdthFY+uHs2/jA6nFHEl+eBOssQaEo8xLW0XXL6/AaDhqpxeqtWWfsYA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
- by CY5PR11MB6366.namprd11.prod.outlook.com (2603:10b6:930:3a::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.13; Thu, 4 Jan
- 2024 05:59:18 +0000
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::b870:a8ae:c4f1:c39b]) by CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::b870:a8ae:c4f1:c39b%4]) with mapi id 15.20.7135.023; Thu, 4 Jan 2024
- 05:59:18 +0000
-Date: Wed, 3 Jan 2024 23:59:16 -0600
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Subject: Re: [PATCH] nightly.conf: Add the xe repo to drm-tip
-Message-ID: <ktdr7l23leikip3hsmbxr2iirmz5zat7wck2ib6lbijl3uybtu@4iqn3adhfzyv>
-References: <20231222113640.14038-1-thomas.hellstrom@linux.intel.com>
- <ZYsb09nsERQFDCQl@intel.com>
- <9541c844440e8b0fc5686e19850a04c7a55745ba.camel@linux.intel.com>
-Content-Type: text/plain; charset="iso-8859-1"; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <9541c844440e8b0fc5686e19850a04c7a55745ba.camel@linux.intel.com>
-X-ClientProxiedBy: SJ0PR13CA0073.namprd13.prod.outlook.com
- (2603:10b6:a03:2c4::18) To CY5PR11MB6139.namprd11.prod.outlook.com
- (2603:10b6:930:29::17)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|CY5PR11MB6366:EE_
-X-MS-Office365-Filtering-Correlation-Id: 87623b3a-fd08-4c1f-a874-08dc0cea49d0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: gICulDm9RXYU+X29nnE3kcH+r1w7ig+L4vhWTumLdGUvRY+RfZZdvJHu3m1bhxYjjI1xbnzaQErdoAjZD021B5f9N7we7+Iyxdq+TgnvJ3HP5cZYFy0QsKyQT19823MUCN8DK6MBylQhRqlg2CnIZadqzMUkzkFIN02JnSb+fBE3ff64Irrw0KSpcsVtHxbdJgf+11gbIgH6m1/N+F3lwMpK89zrm9RIWvHyCNAjuslsGjFL85q5hK4txK2tkU0zv7+67Pok0ttGmiuqt8xOPC39xslaiu2hcGYNZHPD/8IpNVZQQBQSWGcowGCS8C+EMLGIgkbt/HDrZSyq0umu2oWyrvP3fSPsw0g5SOWSTtJXoZPd5K5Kp6Rb/d+5KySuVed42jko+t6JO8h6r2LURPsDUze62AoP3XOMI5urMJWM0IgLyF1OtDMF80pS2ppM3HfWgIdWd6r8WQGRKrRd+5iWkvv42SXu9M9L8f9cNhtF/HaYapJuZWFFPaK0lpLbDPgfKxdqOZIw0xwDJ8q/x6Dwe3aazD2Mkb92FXVArY4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(7916004)(346002)(136003)(396003)(366004)(39860400002)(376002)(230922051799003)(64100799003)(186009)(1800799012)(451199024)(6916009)(66556008)(66946007)(66476007)(38100700002)(82960400001)(83380400001)(41300700001)(86362001)(66574015)(2906002)(26005)(4001150100001)(33716001)(6512007)(6506007)(9686003)(5660300002)(966005)(478600001)(8936002)(8676002)(6486002)(4326008)(316002);
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Pt8VLSh3hi+teOQg+P+IoqchDSiIjvIJHLhkvgiAxKw=;
+ b=il/1X3Whm9hIMkNghSS3kAN5mAS8owQC9VyJlRBkjwxuM5FS+67p/320rCfBj3VqC2xUVxz7iVHeVTgFY93j1lNvlix+aggMbPnOzFTDibpIaYkN7x7HoMAFZ4OMC2dLPlvTjO7K3sLsAY3o3OP0tEmFEZz9MTNC92fV0ilEX7Y=
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
+ by OS8PR03MB9083.apcprd03.prod.outlook.com (2603:1096:604:2ac::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.14; Thu, 4 Jan
+ 2024 06:00:03 +0000
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::eb43:57cb:edfd:3762]) by TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::eb43:57cb:edfd:3762%7]) with mapi id 15.20.7159.013; Thu, 4 Jan 2024
+ 06:00:03 +0000
+From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
+To: =?utf-8?B?TWFjIFNoZW4gKOayiOS/iik=?= <Mac.Shen@mediatek.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ =?utf-8?B?Sml0YW8gU2hpICjnn7PorrDmtpsp?= <jitao.shi@mediatek.com>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>, "p.zabel@pengutronix.de"
+ <p.zabel@pengutronix.de>, "airlied@gmail.com" <airlied@gmail.com>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH] drm/mediatek/dp: Add the HDCP feature for DisplayPort
+Thread-Topic: [PATCH] drm/mediatek/dp: Add the HDCP feature for DisplayPort
+Thread-Index: AQHaHrPjdunoffcOCEGmErF8vNrJIrDJaRsA
+Date: Thu, 4 Jan 2024 06:00:03 +0000
+Message-ID: <c645c91387c1056307b2ee303474bb8dd32211bd.camel@mediatek.com>
+References: <20231124085346.26602-1-mac.shen@mediatek.com>
+In-Reply-To: <20231124085346.26602-1-mac.shen@mediatek.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|OS8PR03MB9083:EE_
+x-ms-office365-filtering-correlation-id: c5e5b8a9-935b-40df-1e0f-08dc0cea6522
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 379H2RUNLj/aSj2OJlHgOJssjXgP2k8Mbu+QpuZbrNMR/9ki+4xfk+5btjn/6BzJI5rxTJGAePMdYiuW8NMDN8HnOfVyqLjw34syuB8b7QjmKEiL3DaaCBUD8XlWnX/qiNdlxpNzF02R2As7gce0PsmR2zLWh5iL2r7nRick6JpH13rqNDZx5/huZljKqThOUbR0dKRkbniHiPXHOj/UAdpSwaWxItS+CAa8OrDfe0ODenNLyeiSL820Yabj/ghmoc2KmQjuMV1iZBVSZ7PGs2bi+arZpHrA86Pb+yqMWjGWgBenwKC5keU20cPcxBNB1gJ67EIj/Ws2GSuOeHijb7KNHjXop2PAVZoDT61GWlec6G3Zz/mrrbwgIUkrfGANK0jOvc69gEBihegUWLttsC+GVbXW0sWmrb70zWDlGCiX/CbWIvDxYgXEzjf7W6lVeyM91zLH1kBeYeAtN6sAAnM47V3xg1ZinPsHxpPjlOckpQDyDcp7223dcN0BroLfwaAChF5B6E2mjazVRJqNWC+UL+aFQz2jUk6SDZXLSnydPjCVYqaDPSCjS1mh5hIC/6Ue8X+jnJmM93oauXJqpnGigEOOMPC59Xq9W59R6bm5eE+b8IOxcnH8seMCBAyZbloniXcThuPBUUIPui1QyImki5vGDnjEh/If5mC2IzU=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYZPR03MB6624.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376002)(346002)(396003)(136003)(366004)(39860400002)(230922051799003)(64100799003)(451199024)(1800799012)(186009)(4326008)(85182001)(38070700009)(4001150100001)(86362001)(8936002)(8676002)(4744005)(7416002)(5660300002)(2906002)(478600001)(71200400001)(41300700001)(6486002)(6512007)(38100700002)(6506007)(122000001)(76116006)(91956017)(36756003)(64756008)(316002)(66446008)(66476007)(66946007)(66556008)(110136005)(107886003)(2616005)(54906003)(26005);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?kbCBoMepdt4EQ7f2DLjcEt4PdpVl1uLNt9eJm4QGde7hRUK2Co3x677hFB?=
- =?iso-8859-1?Q?g0bM4eZylNJ6yWViBAkHBkv4oWGGF5eV/vPoq36mr5F1czvHYeYLQtB2+/?=
- =?iso-8859-1?Q?YJoPADfONW7WggQdRt8u7pm5zGzGHvIWdOR11OCjLpjHfqwJMX2Zq3eI+l?=
- =?iso-8859-1?Q?XMqgKSFA4lJ4KrjcJCELJ/h0LcnH6nfUNI8+5opXHOHasebzkrD79ZW4q0?=
- =?iso-8859-1?Q?18Wmf1m8IKmzT8C3W3ebSsBjprmP8nniFGIO2NsUQG6jzW6H0MXWUCTOKu?=
- =?iso-8859-1?Q?o/hRAfH82SIdn/NLZ80QMVHHTlQEQtzj4deQrSxoIUqwJ9fZK584+sMWoo?=
- =?iso-8859-1?Q?NsnzDR1gqge9YKMFX32HAE/p+10iO8meXfoT1wBoe8/15gjbt46TDc29LY?=
- =?iso-8859-1?Q?9EeOwpDIvug3xUITIaPC4RCMM6IcoINFyfohnJV6Pzob8oJifD6MbsSPfs?=
- =?iso-8859-1?Q?Bdqb7aHMisYUOzBgDelGYTN1AfGn7GKUOLCPJH8FG92k1bQf9OI+bhkPzf?=
- =?iso-8859-1?Q?t4BR7KxjvG23ROHruc7y6GvN3feInNQmX5D3uemeeapIWhvisC4HyFcUAA?=
- =?iso-8859-1?Q?iJ9bQabeBcUEgUEZvkt6J3F1RCthIc/sTaZI/0Znt1u9/oPmP6EJXC+fqT?=
- =?iso-8859-1?Q?Rj7QeC0ycmEOGvLx3OEMPnsilhAoExeRl5fM8o71KeykqTs7KvTPLb6AZ7?=
- =?iso-8859-1?Q?PvdSErvMYxrouyZ3EvMcuCQb2wWHn97tLAc5yStDqBDRc6wVFH/xfDbnfs?=
- =?iso-8859-1?Q?GhT8XlF919trr9rlZded7c8kCu/ihyF7RgTfiXmd7d324USVgKbcAs8oCm?=
- =?iso-8859-1?Q?wlsEkJ+M7h5EGb52hQkVB6dprCcpyzXOU/M9PnEBp+kmCOevmI4l7cf+76?=
- =?iso-8859-1?Q?0Rgs9CF/8B9prrphSB5z5Hp9/dU2viXpMhfHONpanCfEJame8EDCc89yMS?=
- =?iso-8859-1?Q?3ku0TBEdv2plxCXTRqgWSBb3cuZ6O/sMuKF7IAUph4ziI4hoM0Nb8H5NhP?=
- =?iso-8859-1?Q?AFUvE/sLK1W9qvGfm76NNdZJSGTRwTfuqWMoo/iEp3xftpW9pirFoBJmf8?=
- =?iso-8859-1?Q?OqF+dufySqcgpP96w7VKt1nNLL8NhwvsKzpb02LwSCUAx6adjq7yvN0WOH?=
- =?iso-8859-1?Q?VGM4uekI9BRlFzEQHtzpDfE/wt+2gip8re6vaJNhH4sgzotTjUOVuYRWqr?=
- =?iso-8859-1?Q?rZX9ktVYfFslXBT7Z4/S2CJiWAvt7r0+r0vTXlKsS7h6C1sz1Y1wjlSLjF?=
- =?iso-8859-1?Q?14qQ4z+ilNKCIXJU9xOLLkRcNbYXf8e2DceVSYmyzSHS067HfZaogIRHC1?=
- =?iso-8859-1?Q?n5bCFcl3zNxOABzg2LfCrngEulwS9/IF4sgLVe5lC1TrJuaRBOrANBXqJe?=
- =?iso-8859-1?Q?yIZsiF8Sjq7VSkbdv8C6hh4TbQ9Ofb9bzeGYVH+mmLxol4+MtnyvnKE+2T?=
- =?iso-8859-1?Q?mYL/GvSVEhSzzQbRNGiRcKmLaSxntXS9UkOKGK0sKmFXK9zT3A3rnfQf5a?=
- =?iso-8859-1?Q?3T+wy9lR6T7cM+ZwV95Hr7v8zspuGXIfcj7UP+6dmumS27ndfM3FQrS3vT?=
- =?iso-8859-1?Q?ptT9Tsc4jPWv81YI5wC/TME6XnmOpDYLy9suyenI7mXji3Ta0kNxvBB8nW?=
- =?iso-8859-1?Q?7SDOMftMdWd595i7KaydCjWodmV+JqRg6nRrGQEAyTI4bHr0g0eFNhEA?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 87623b3a-fd08-4c1f-a874-08dc0cea49d0
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?d1J6ZkdVK2JWWnFWYnI1a2wxZ3NHbXI5ZXR1VTduczlobllHYVdKV3JTbXJV?=
+ =?utf-8?B?OUZDa0pGS1R0ZEErMnpqVmlEL0wvUmtLSHhneUpzUldsUVM0ZzMwakZTWGV6?=
+ =?utf-8?B?ak5wRUxJb3VVM3BpblNqUzJTeU94Z1lsMEg4SEw5a1h0aXFsWUY5Tmx5ekV0?=
+ =?utf-8?B?NFdrSGc1eGZqUy9QVXM1YzVYeW9EdjFvbmtRcWlSSEhTWUVuQTFncTJPelFs?=
+ =?utf-8?B?VGhUTng1dG4reU1OYWlHeVBkMm0yVDFXY1VqTTNtYjh6UitBT3BkdlFkWEZw?=
+ =?utf-8?B?T3Z1SDQvc3JCcjgzWEYvTXJIaG5ZNDlHRjdRWjBVVnFkSDVIalIvVUhEV21s?=
+ =?utf-8?B?VGY3YlFlOTl0dXFCU1NYNloyT2l5N3N6N2lTeE1jUzl5WnVSSmQvak44NTJL?=
+ =?utf-8?B?V0lwbTlDdEoyZDk1UzVHMnRCWnBXc01OVDQyaFcrcVgweEEwY09NZ0w5TEx5?=
+ =?utf-8?B?WXFNYWtCZUs3RG1QV0pDMFJmbkNCYjkxUWl2bENZOVVxUGx0NkNZZTllSHJG?=
+ =?utf-8?B?am9RbzhhSVl6NWhMZkVqcFltQXFrYnFuckdja202dUZYd0ZQbjQrOENxWGwy?=
+ =?utf-8?B?VmhVYkhQbnRkanYvZWhjcEZaVG4zM1J2Z0F3RzdXVWVkOWh2ZGYvRnJqMGRK?=
+ =?utf-8?B?RW1NU1hqVDhhN05MSlF5bzg4bWdiSEhTaXBDNXV0RzlmeXBSN01LaThCaXFC?=
+ =?utf-8?B?QUYrNHVoWXlVLzFhbUZES0NDQSt1c0RITzdNQjdRcE5xK3kvK3FPMmF6ZjhE?=
+ =?utf-8?B?Qm1zR3duYWVpbyttRVJxcXRlOXU0K1J6Z3FpUERkSVZGWWpCeStYUzdWdkxQ?=
+ =?utf-8?B?WDBCcVhIb0dVRzJUMjdLTFEwSnlxMEdnaTJqMVJTTFF0RFhrRmVkTENvSGVN?=
+ =?utf-8?B?MWF5ejUzNXRCeTRxdWcvZWVVL1B6M0NFT2tva2o4NlRlUVczUFJKMGh2RVYz?=
+ =?utf-8?B?WDBUN00wZHZqVUdpTFVET3p3TnNaTmZIYWtQME10VVhCTW9FZSttUlpRYXp1?=
+ =?utf-8?B?ZTUxS3REa0gzVUVFVlZ6dUdtTHNmZk5zVE9zRzBiTmxsZkZieDExa1BCOStl?=
+ =?utf-8?B?cEhxdkkvU1p1aFp5aTFNZkRKTmMyeXBDVUVPeEF5UUVWWWxqZjdNcnh5ZTNu?=
+ =?utf-8?B?bEQrZ2NtQTZTUkRTZXY5bGhGYnMxTVQ5ckV1Wm92bzBMSCsvb1M1YXd0T1dE?=
+ =?utf-8?B?N1RjMk93K09YYmVVMVVyY0p3S01GVEhGbmt1SEJhMXRBQTIyYVZiM3gzKzJh?=
+ =?utf-8?B?cENNNzYzWWwxOXRpRHh3UzhJbm1aaWF0UzdXWU1WejJJYlpHbFJua092QWts?=
+ =?utf-8?B?bDJHSXRrR0FnOXl4QnBRTk1aVWhBZTZxbnk4VG82UU1ja29XeTFYeldiakpL?=
+ =?utf-8?B?ZlVvR05BOEQrblAxc0ZWRml0YU5kZjhobU5MTit3T0NCS3RDM1ZFWHcxQVBs?=
+ =?utf-8?B?alNOYzBsdHFUcVZyUmJTUU9UTkt1YUJORWk0SVhCWUlXOHRsSTY4NUNoL2RI?=
+ =?utf-8?B?cno1UloxQ1luYXVpei9yZlhHYURVUzd5QzZoUnRRYkp6RE11RVozblZmUGFl?=
+ =?utf-8?B?TnhkSHdiOGxkbzZ1Qk13RmpuQytYRXcyQjBCWW5UVE1mLzdrRkJzV3FlNTRz?=
+ =?utf-8?B?N3k3czBiRWtQZlhFV0FjTVlrOUdGT054dnM1cEdQcWU2QkZwNkZvaWlxT3NV?=
+ =?utf-8?B?OUVWMzNpTWRmZ3VLR2FYUDB0cTQ0K1NZdHFhK3B2L1FITlJyWW9Cekh5NjBl?=
+ =?utf-8?B?WXlyL2hRS1piYmJLQ1pMTkIzL3d1RnJCYXYvNld4K1RzOWdWL21lTjRseU1s?=
+ =?utf-8?B?TWhUTjBGZXEwZ1dTd1VYbkdCOGJDT2o1d244eU9jVXZ6THlOWmhTQzdaOTF1?=
+ =?utf-8?B?UU9Zb2h5SHAweEIwSUZDb3oxZEFRRTY5Q1pqUU9UUnNtWHZyZWQ1cTB6QjIy?=
+ =?utf-8?B?Y2paZlpHUmZFL3gyYUdydkRNTHI5NUgvWFJDWjlYd1ZYaG5EdDQyWUdKSWlB?=
+ =?utf-8?B?eGRkWjB6ZSs5Q3dDeWJ5bmFRK1hzUDlYNWRIWHpmd3FHQ21ObUFqbC9aT0M5?=
+ =?utf-8?B?bXE2cVB1Vno1KzUrTXFnQzBTaTZmTTlJZ0dSQjhJVUtuaHVLNm1EME1LWkJX?=
+ =?utf-8?Q?W0uMlyDbNauAQO+CFnKmk2vBr?=
+Content-ID: <DE9289916DF3B840A01677B21A33F558@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jan 2024 05:59:18.1717 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: d8QSHXQJQrwG2HpXL0It5b7zjCugGYwsIWKLf6X6PNrCY9nKDB4tVKfxE9MS44bR+C7NR6qbiQKUnaQIrrsducfP5bnIedk+K9+CxiW1Y8g=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6366
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c5e5b8a9-935b-40df-1e0f-08dc0cea6522
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Jan 2024 06:00:03.7882 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: lGTRpUbFFO+Odhae3NQYlD6werrZstNjKiHcAoMFZxmNSj6eNVaWifgPqj1cExl0F8zaiRchJNNb1sx+mBGkpg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS8PR03MB9083
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--11.344600-8.000000
+X-TMASE-MatchedRID: 5+1rHnqhWUTPaPH51LTU5Ca1MaKuob8PC/ExpXrHizxcKZwALwMGs8uj
+ Rkt05a7cM2MQQW7DL3i1q48Rh4wr9SnPugGsN3p5W7gz/Gbgpl5u95mt47DzNruwJO8uVRhKo8W
+ MkQWv6iUVR7DQWX/WkQGLeSok4rrZC24oEZ6SpSkj80Za3RRg8GUMaEIvhw1iLkz46FWQ+ZPrXm
+ RpP3OitNlO+f0pO05KHgxrP73AZWE=
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--11.344600-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP: AF9CAF2EB33E05A5F6BF1CA201947181B5A6BF9AF9730EE082307FD4A9B19EAB2000:8
+Content-Type: multipart/alternative;
+ boundary="__=_Part_Boundary_002_1762431194.1685114560"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,124 +175,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, daniel.vetter@ffwll.ch,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-xe@lists.freedesktop.org
+Cc: "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ =?utf-8?B?U2h1aWppbmcgTGkgKOadjuawtOmdmSk=?= <Shuijing.Li@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 03, 2024 at 02:50:57PM +0100, Thomas Hellström wrote:
->On Tue, 2023-12-26 at 13:30 -0500, Rodrigo Vivi wrote:
->> On Fri, Dec 22, 2023 at 12:36:39PM +0100, Thomas Hellström wrote:
->> > Add the xe repo to drm-tip and the dim tools.
->> > For now use the sha1 of the first drm-xe-next pull request for drm-
->> > tip,
->> > since that branch tip is currently adapted for our CI testing.
->> >
->> > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
->> > Cc: Lucas De Marchi <lucas.demarchi@intel.com>
->> > Cc: Oded Gabbay <ogabbay@kernel.org>
->> > Cc: daniel.vetter@ffwll.ch
->> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->> > Cc: dim-tools@lists.freedesktop.org
->> > Cc: dri-devel@lists.freedesktop.org
->> > Cc: intel-gfx@lists.freedesktop.org
->> > Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->> > ---
->> >  nightly.conf | 7 +++++++
->> >  1 file changed, 7 insertions(+)
->> >
->> > diff --git a/nightly.conf b/nightly.conf
->> > index 24126b61b797..accd3ff2cc39 100644
->> > --- a/nightly.conf
->> > +++ b/nightly.conf
->> > @@ -24,6 +24,10 @@ git://anongit.freedesktop.org/drm-tip
->> >  https://anongit.freedesktop.org/git/drm/drm-tip
->> >  https://anongit.freedesktop.org/git/drm/drm-tip.git
->> >  "
->> > +drm_tip_repos[drm-xe]="
->> > +ssh://git@gitlab.freedesktop.org/drm/xe/kernel.git
->> > +https://gitlab.freedesktop.org/drm/xe/kernel.git
->> > +"
->> >  drm_tip_repos[drm-intel]="
->> >  ssh://git.freedesktop.org/git/drm/drm-intel
->> >  ssh://git.freedesktop.org/git/drm-intel
->> > @@ -65,14 +69,17 @@ drm_tip_config=(
->> >  	"drm			drm-fixes"
->> >  	"drm-misc		drm-misc-fixes"
->> >  	"drm-intel		drm-intel-fixes"
->> > +	"drm-xe			drm-xe-fixes"
->> >  
->> >  	"drm			drm-next"
->> >  	"drm-misc		drm-misc-next-fixes"
->> >  	"drm-intel		drm-intel-next-fixes"
->> > +	"drm-xe			drm-xe-next-fixes"
->> >  
->> >  	"drm-misc		drm-misc-next"
->> >  	"drm-intel		drm-intel-next"
->> >  	"drm-intel		drm-intel-gt-next"
->> > +	"drm-xe			drm-xe-next b6e1b7081768"
->>
->> yeap, up to this commit nothing else should change, but
->> then we will need an extra rebase of the rest on top of drm/drm-next.
->>
->> But then we need to decide where these following patches will live:
->> 880277f31cc69 drm/xe/guc: define LNL FW
->> 2cfc5ae1b8267 drm/xe/guc: define PVC FW
->> 52383b58eb8cf mei/hdcp: Also enable for XE
->> bea27d7369855 mei: gsc: add support for auxiliary device created by
->> Xe driver
->> fcb3410197f05 fault-inject: Include linux/types.h by default.
->> 8ebd9cd71f8ac drm/xe: Add PVC's PCI device IDs
->>
->>
->> Will it be the topic/core-for-CI?
->> or topic/xe-extras?
->> or what?
->
->This sounds to me like topic/core-for-CI? Or is there any drawback with
->that?
+--__=_Part_Boundary_002_1762431194.1685114560
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-I think some of them are not really a "for CI". It's more like the
-workflow we are adopting e.g. with guc/huc, not sending it to linux-firmware
-until we are confident on what version we will start officially
-supporting.
+PGh0bWw+PGJvZHk+PHA+DQo8cHJlPg0KSGksJiMzMjtNYWM6DQoNCk9uJiMzMjtGcmksJiMzMjsy
+MDIzLTExLTI0JiMzMjthdCYjMzI7MTY6NTMmIzMyOyswODAwLCYjMzI7bWFjLnNoZW4mIzMyO3dy
+b3RlOg0KJmd0OyYjMzI7QWRkJiMzMjt0ZWUmIzMyO2NsaWVudCYjMzI7YXBwbGljYXRpb24sJiMz
+MjtIRENQJiMzMjsxLngmIzMyO2FuZCYjMzI7Mi54JiMzMjthdXRoZW50aWNhdGlvbiYjMzI7Zm9y
+DQomZ3Q7JiMzMjtEaXNwbGF5UG9ydA0KJmd0OyYjMzI7dG8mIzMyO3N1cHBvcnQmIzMyO3RoZSYj
+MzI7SERDUCYjMzI7ZmVhdHVyZS4NCiZndDsmIzMyOw0KJmd0OyYjMzI7U2lnbmVkLW9mZi1ieTom
+IzMyO21hYy5zaGVuJiMzMjsmbHQ7bWFjLnNoZW5AbWVkaWF0ZWsuY29tJmd0Ow0KJmd0OyYjMzI7
+LS0tDQoNCltzbmlwXQ0KDQomZ3Q7JiMzMjsrDQomZ3Q7JiMzMjsmIzMyO3N0YXRpYyYjMzI7aW50
+JiMzMjttdGtfZHBfcHJvYmUoc3RydWN0JiMzMjtwbGF0Zm9ybV9kZXZpY2UmIzMyOypwZGV2KQ0K
+Jmd0OyYjMzI7JiMzMjt7DQomZ3Q7JiMzMjsmIzMyO3N0cnVjdCYjMzI7bXRrX2RwJiMzMjsqbXRr
+X2RwOw0KJmd0OyYjMzI7QEAmIzMyOy0yNjU3LDYmIzMyOysyNzc4LDE2JiMzMjtAQCYjMzI7c3Rh
+dGljJiMzMjtpbnQmIzMyO210a19kcF9wcm9iZShzdHJ1Y3QmIzMyO3BsYXRmb3JtX2RldmljZQ0K
+Jmd0OyYjMzI7KnBkZXYpDQomZ3Q7JiMzMjsmIzMyO2lmJiMzMjsocmV0KQ0KJmd0OyYjMzI7JiMz
+MjtyZXR1cm4mIzMyO3JldDsNCiZndDsmIzMyOyYjMzI7DQomZ3Q7JiMzMjsrSU5JVF9XT1JLKCZh
+bXA7bXRrX2RwLSZndDtoZGNwX3dvcmssJiMzMjttdGtfZHBfaGRjcF9oYW5kbGUpOw0KJmd0OyYj
+MzI7K210a19kcC0mZ3Q7aGRjcF93b3JrcXVldWUmIzMyOz0mIzMyO2NyZWF0ZV93b3JrcXVldWUo
+JnF1b3Q7bXRrX2RwX2hkY3Bfd29yayZxdW90Oyk7DQomZ3Q7JiMzMjsraWYmIzMyOyghbXRrX2Rw
+LSZndDtoZGNwX3dvcmtxdWV1ZSkmIzMyO3sNCiZndDsmIzMyOytkZXZfZXJyKG10a19kcC0mZ3Q7
+ZGV2LCYjMzI7JnF1b3Q7ZmFpbGVkJiMzMjt0byYjMzI7Y3JlYXRlJiMzMjtoZGNwJiMzMjt3b3Jr
+DQomZ3Q7JiMzMjtxdWV1ZSZxdW90Oyk7DQomZ3Q7JiMzMjsrcmV0dXJuJiMzMjstRU5PTUVNOw0K
+Jmd0OyYjMzI7K30NCiZndDsmIzMyOysNCiZndDsmIzMyOyttdGtfZHAtJmd0O2hkY3BfaW5mby5h
+dXgmIzMyOz0mIzMyOyZhbXA7bXRrX2RwLSZndDthdXg7DQomZ3Q7JiMzMjsrbXRrX2RwLSZndDto
+ZGNwX2luZm8ucmVncyYjMzI7PSYjMzI7bXRrX2RwLSZndDtyZWdzOw0KDQpJdCYjMzk7cyYjMzI7
+bm90JiMzMjtuZWNlc3NhcnkmIzMyO3RvJiMzMjtkdXBsaWNhdGUmIzMyO2F1eCYjMzI7YW5kJiMz
+MjtyZWdzLCYjMzI7c28mIzMyO2Ryb3AmIzMyO3RoaXMuDQoNClJlZ2FyZHMsDQpDSw0KDQomZ3Q7
+JiMzMjsrDQomZ3Q7JiMzMjsmIzMyO210a19kcC0mZ3Q7YnJpZGdlLmZ1bmNzJiMzMjs9JiMzMjsm
+YW1wO210a19kcF9icmlkZ2VfZnVuY3M7DQomZ3Q7JiMzMjsmIzMyO210a19kcC0mZ3Q7YnJpZGdl
+Lm9mX25vZGUmIzMyOz0mIzMyO2Rldi0mZ3Q7b2Zfbm9kZTsNCiZndDsmIzMyOyYjMzI7bXRrX2Rw
+LSZndDticmlkZ2UudHlwZSYjMzI7PSYjMzI7bXRrX2RwLSZndDtkYXRhLSZndDticmlkZ2VfdHlw
+ZTsNCiZndDsmIzMyOw0KDQo8L3ByZT4NCjwvcD48L2JvZHk+PC9odG1sPjwhLS10eXBlOnRleHQt
+LT48IS0tey0tPjxwcmU+KioqKioqKioqKioqKiBNRURJQVRFSyBDb25maWRlbnRpYWxpdHkgTm90
+aWNlICoqKioqKioqKioqKioqKioqKioqDQpUaGUgaW5mb3JtYXRpb24gY29udGFpbmVkIGluIHRo
+aXMgZS1tYWlsIG1lc3NhZ2UgKGluY2x1ZGluZyBhbnkgDQphdHRhY2htZW50cykgbWF5IGJlIGNv
+bmZpZGVudGlhbCwgcHJvcHJpZXRhcnksIHByaXZpbGVnZWQsIG9yIG90aGVyd2lzZQ0KZXhlbXB0
+IGZyb20gZGlzY2xvc3VyZSB1bmRlciBhcHBsaWNhYmxlIGxhd3MuIEl0IGlzIGludGVuZGVkIHRv
+IGJlIA0KY29udmV5ZWQgb25seSB0byB0aGUgZGVzaWduYXRlZCByZWNpcGllbnQocykuIEFueSB1
+c2UsIGRpc3NlbWluYXRpb24sIA0KZGlzdHJpYnV0aW9uLCBwcmludGluZywgcmV0YWluaW5nIG9y
+IGNvcHlpbmcgb2YgdGhpcyBlLW1haWwgKGluY2x1ZGluZyBpdHMgDQphdHRhY2htZW50cykgYnkg
+dW5pbnRlbmRlZCByZWNpcGllbnQocykgaXMgc3RyaWN0bHkgcHJvaGliaXRlZCBhbmQgbWF5IA0K
+YmUgdW5sYXdmdWwuIElmIHlvdSBhcmUgbm90IGFuIGludGVuZGVkIHJlY2lwaWVudCBvZiB0aGlz
+IGUtbWFpbCwgb3IgYmVsaWV2ZSANCnRoYXQgeW91IGhhdmUgcmVjZWl2ZWQgdGhpcyBlLW1haWwg
+aW4gZXJyb3IsIHBsZWFzZSBub3RpZnkgdGhlIHNlbmRlciANCmltbWVkaWF0ZWx5IChieSByZXBs
+eWluZyB0byB0aGlzIGUtbWFpbCksIGRlbGV0ZSBhbnkgYW5kIGFsbCBjb3BpZXMgb2YgDQp0aGlz
+IGUtbWFpbCAoaW5jbHVkaW5nIGFueSBhdHRhY2htZW50cykgZnJvbSB5b3VyIHN5c3RlbSwgYW5k
+IGRvIG5vdA0KZGlzY2xvc2UgdGhlIGNvbnRlbnQgb2YgdGhpcyBlLW1haWwgdG8gYW55IG90aGVy
+IHBlcnNvbi4gVGhhbmsgeW91IQ0KPC9wcmU+PCEtLX0tLT4=
 
-This one can't go to topic/core-for-CI neither:
-	fcb3410197f05 fault-inject: Include linux/types.h by default.
+--__=_Part_Boundary_002_1762431194.1685114560
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-what it would do would be that we would not see the build error anymore,
-but everyone else would (and it's not a CI-only configuration).
-Unless it's merged to another branch, we shouldn't merge it.
+SGksIE1hYzoNCg0KT24gRnJpLCAyMDIzLTExLTI0IGF0IDE2OjUzICswODAwLCBtYWMuc2hlbiB3
+cm90ZToNCj4gQWRkIHRlZSBjbGllbnQgYXBwbGljYXRpb24sIEhEQ1AgMS54IGFuZCAyLnggYXV0
+aGVudGljYXRpb24gZm9yDQo+IERpc3BsYXlQb3J0DQo+IHRvIHN1cHBvcnQgdGhlIEhEQ1AgZmVh
+dHVyZS4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IG1hYy5zaGVuIDxtYWMuc2hlbkBtZWRpYXRlay5j
+b20+DQo+IC0tLQ0KDQpbc25pcF0NCg0KPiArDQo+ICBzdGF0aWMgaW50IG10a19kcF9wcm9iZShz
+dHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0KPiAgew0KPiAgCXN0cnVjdCBtdGtfZHAgKm10
+a19kcDsNCj4gQEAgLTI2NTcsNiArMjc3OCwxNiBAQCBzdGF0aWMgaW50IG10a19kcF9wcm9iZShz
+dHJ1Y3QgcGxhdGZvcm1fZGV2aWNlDQo+ICpwZGV2KQ0KPiAgCWlmIChyZXQpDQo+ICAJCXJldHVy
+biByZXQ7DQo+ICANCj4gKwlJTklUX1dPUksoJm10a19kcC0+aGRjcF93b3JrLCBtdGtfZHBfaGRj
+cF9oYW5kbGUpOw0KPiArCW10a19kcC0+aGRjcF93b3JrcXVldWUgPSBjcmVhdGVfd29ya3F1ZXVl
+KCJtdGtfZHBfaGRjcF93b3JrIik7DQo+ICsJaWYgKCFtdGtfZHAtPmhkY3Bfd29ya3F1ZXVlKSB7
+DQo+ICsJCWRldl9lcnIobXRrX2RwLT5kZXYsICJmYWlsZWQgdG8gY3JlYXRlIGhkY3Agd29yaw0K
+PiBxdWV1ZSIpOw0KPiArCQlyZXR1cm4gLUVOT01FTTsNCj4gKwl9DQo+ICsNCj4gKwltdGtfZHAt
+PmhkY3BfaW5mby5hdXggPSAmbXRrX2RwLT5hdXg7DQo+ICsJbXRrX2RwLT5oZGNwX2luZm8ucmVn
+cyA9IG10a19kcC0+cmVnczsNCg0KSXQncyBub3QgbmVjZXNzYXJ5IHRvIGR1cGxpY2F0ZSBhdXgg
+YW5kIHJlZ3MsIHNvIGRyb3AgdGhpcy4NCg0KUmVnYXJkcywNCkNLDQoNCj4gKw0KPiAgCW10a19k
+cC0+YnJpZGdlLmZ1bmNzID0gJm10a19kcF9icmlkZ2VfZnVuY3M7DQo+ICAJbXRrX2RwLT5icmlk
+Z2Uub2Zfbm9kZSA9IGRldi0+b2Zfbm9kZTsNCj4gIAltdGtfZHAtPmJyaWRnZS50eXBlID0gbXRr
+X2RwLT5kYXRhLT5icmlkZ2VfdHlwZTsNCj4gDQo=
 
-"52383b58eb8cf mei/hdcp: Also enable for XE" could be material for
-topic/core-for-CI and  "8ebd9cd71f8ac drm/xe: Add PVC's PCI device IDs"
-could either be on that branch or another xe-specific one.
+--__=_Part_Boundary_002_1762431194.1685114560--
 
->
->>
->> Anyway, for the inclusion like this, after our CI is ready:
->
->Could we merge this patch already at this point, considering it will,
->at least for now, only update drm-tip with our fixes?
-
-ack
-
-Lucas De Marchi
-
->
->Thanks,
->
->/Thomas
->
->
->>
->> Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
->>
->> >  
->> >  	"drm-intel		topic/core-for-CI"
->> >  	"drm-misc		topic/i915-ttm"
->> > --
->> > 2.42.0
->> >
->
