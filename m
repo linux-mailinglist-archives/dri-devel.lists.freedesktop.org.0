@@ -2,59 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 971E7823BBB
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jan 2024 06:18:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E3D9823BD9
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jan 2024 06:44:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29B7E10E38B;
-	Thu,  4 Jan 2024 05:18:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E11EA10E390;
+	Thu,  4 Jan 2024 05:44:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com
- [IPv6:2607:f8b0:4864:20::1130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4776510E38B
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jan 2024 05:18:29 +0000 (UTC)
-Received: by mail-yw1-x1130.google.com with SMTP id
- 00721157ae682-5ef7c6f4cfcso8763487b3.1
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Jan 2024 21:18:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1704345508; x=1704950308;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=jDxFbYixhs6f1tAqnhwF6CXml/tJlYbDmEA428x1Kyw=;
- b=EqRKGvdMhBlGbmf/2DWtcofo/K3xmrmqB+08x0OW8j/u7QSuowbKEwL5ndiuzbmSUD
- QPuWI8jpvP53GdueRs4+uXqsooz0Pi+Zhyibr6xUxIJCEf8yCGAvvGK38dYRJ/HDJ/6W
- tmc6q7fQX+DZqOoizZ21f2TOXprlNnhno/GSM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704345508; x=1704950308;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=jDxFbYixhs6f1tAqnhwF6CXml/tJlYbDmEA428x1Kyw=;
- b=rngjPQIxgZYdmwv+WgN/vrr882aDg7671ba6hWpuiUVRzuDIYLr1gM/WnebDuUN2eN
- bf2jsENb6DtnCN084elY4qUc2A2juRWUvVOhmojoZcslhcba78cpMiSriwqerHS+7unK
- /+Hb/cTLZjE+O5Ypmo/gi6F4FpomfbdtVDrk0XBKEQBa0O54x1K/diZSuVLmqiMK1d1o
- SYd4MB/VnAtBC7RXvWOTf/YYcVfgUBlKdhDXJGgeNCXeAmRrus98xgEXKqWL3M0bh0no
- bnbCOsKRMcjtmHlaM+XAJMzqwI+zAg2V09I50V7WBfK3covZ8gYqygHYv+Zqfj08CBK5
- tORw==
-X-Gm-Message-State: AOJu0YzRGZPwzUV/o2KF5/b4pa1NicWk7Uajte81RzUgBYyl6yCf69CF
- jiKVjL7X20AoeFx1luqfwfDBdUHTxxGhkwupwuaOPHJwha1K
-X-Google-Smtp-Source: AGHT+IFfPrKd5UvUBwLgNuQi2a3WeIo8NksR83Oc9+RtmyQIjk6I/eGg0w+05h8CifxSZf3x50auweXBOYX/clLqHMQ=
-X-Received: by 2002:a25:740a:0:b0:db5:4ec5:6f2f with SMTP id
- p10-20020a25740a000000b00db54ec56f2fmr7340ybc.20.1704345508267; Wed, 03 Jan
- 2024 21:18:28 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FA8F10E390
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jan 2024 05:44:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1704347084; x=1735883084;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=WCQl4HHwjWumQMxOLxbnfx18djvT1HdWFGR04jg8I2I=;
+ b=VXOD+NOLchaL5bSifV/G/xUFmB3iXiCxpGCQhkrw/gdhz3Fp5t5Bx4fL
+ 1tzeJ3UzKBhGei8CXhNRrRVFAaQmpDbTszZioum6611DIItn7BsnZseP8
+ qtfk71K0yBR4aeSd1XjTJx/xy2G4Lg6c5UVHx+bR1R6Tssb71jf3sr3l+
+ 9m9OpcPMlQq7sRF+304lwOisOjvCGrT6pVjiJw3h8gODBYDcl5Jd0Opyl
+ /Re9yGS91wRHcfJdLmnl/3Yz9/9EQ9MFV0WPplai4XCmSOpn4aJUXPGt1
+ utInK7n8wlfxCsVl1ykXGE23RWSUdpsIWqP3H8y9uGpBw8rnWQf+uuLJr w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="396854551"
+X-IronPort-AV: E=Sophos;i="6.04,329,1695711600"; d="scan'208";a="396854551"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jan 2024 21:44:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="850665483"
+X-IronPort-AV: E=Sophos;i="6.04,329,1695711600"; d="scan'208";a="850665483"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+ by fmsmga004.fm.intel.com with ESMTP; 03 Jan 2024 21:44:41 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1rLGX1-000MwK-05;
+ Thu, 04 Jan 2024 05:44:39 +0000
+Date: Thu, 4 Jan 2024 13:44:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: Re: [PATCH v2 34/39] drm: bridge: dw_hdmi: switch to ->edid_read
+ callback
+Message-ID: <202401041305.NcTmAmOJ-lkp@intel.com>
+References: <a8f71940221fb085b8767f8123f496c9b36b22cc.1704276309.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-References: <20231215060159.555229-1-ghanshyam1898@gmail.com>
- <e9b028b3-20e6-4e74-a305-c4f18efc70e1@infradead.org>
-In-Reply-To: <e9b028b3-20e6-4e74-a305-c4f18efc70e1@infradead.org>
-From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Thu, 4 Jan 2024 00:18:17 -0500
-Message-ID: <CABQX2QO0mPD3KYZYVk+cEr1z9o_cjRM9nct7piZhD4oJEm2hZg@mail.gmail.com>
-Subject: Re: [PATCH V2] drivers: gpu: drm: vmwgfx: fixed typos
-To: Randy Dunlap <rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a8f71940221fb085b8767f8123f496c9b36b22cc.1704276309.git.jani.nikula@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,53 +64,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ghanshyam Agrawal <ghanshyam1898@gmail.com>, linux-kernel@vger.kernel.org,
- mripard@kernel.org, linux-graphics-maintainer@vmware.com,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de, zackr@vmware.com
+Cc: Jani Nikula <jani.nikula@intel.com>, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 15, 2023 at 1:21=E2=80=AFAM Randy Dunlap <rdunlap@infradead.org=
-> wrote:
->
-> Hi--
->
-> On 12/14/23 22:01, Ghanshyam Agrawal wrote:
-> > Fixed multiple typos in vmwgfx_execbuf.c
-> >
-> > Signed-off-by: Ghanshyam Agrawal <ghanshyam1898@gmail.com>
-> > ---
-> > V2:
-> > Fixed some more typos suggested by codespell
-> > and the community.
-> >
-> > V1:
-> > Fixed multiple typos
-> >
-> >  drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/=
-vmwgfx/vmwgfx_execbuf.c
-> > index 36987ef3fc30..76aa72e8be73 100644
-> > --- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-> > +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-> > @@ -127,7 +127,7 @@ struct vmw_ctx_validation_info {
-> >   * @func: Call-back to handle the command.
-> >   * @user_allow: Whether allowed from the execbuf ioctl.
-> >   * @gb_disable: Whether disabled if guest-backed objects are available=
-.
-> > - * @gb_enable: Whether enabled iff guest-backed objects are available.
-> > + * @gb_enable: Whether enabled if guest-backed objects are available.
->
-> "iff" normally means "if and only if" and its use in the kernel sources i=
-s
-> usually not a mistake. However, this one sounds dodgy to me (before your =
-change),
-> so it's OK IMO. Also, the line above it uses "if" for a similar comment.
->
-> Maybe someone else knows better.
+Hi Jani,
 
-Right, this one was "iff". I submitted a version of this without the
-iff change to drm-misc-next.
-z
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.7-rc8 next-20240103]
+[cannot apply to drm-intel/for-linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-bridge-add-edid_read-hook-and-drm_bridge_edid_read/20240103-181513
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/a8f71940221fb085b8767f8123f496c9b36b22cc.1704276309.git.jani.nikula%40intel.com
+patch subject: [PATCH v2 34/39] drm: bridge: dw_hdmi: switch to ->edid_read callback
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20240104/202401041305.NcTmAmOJ-lkp@intel.com/config)
+compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 7e186d366d6c7def0543acc255931f617e76dff0)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240104/202401041305.NcTmAmOJ-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401041305.NcTmAmOJ-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/bridge/synopsys/dw-hdmi.c:2473:3: warning: variable 'edid' is uninitialized when used here [-Wuninitialized]
+    2473 |                 edid->width_cm, edid->height_cm);
+         |                 ^~~~
+   include/linux/dev_printk.h:155:39: note: expanded from macro 'dev_dbg'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                              ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:274:19: note: expanded from macro 'dynamic_dev_dbg'
+     274 |                            dev, fmt, ##__VA_ARGS__)
+         |                                        ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:59: note: expanded from macro '_dynamic_func_call'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |                                                                  ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:248:65: note: expanded from macro '_dynamic_func_call_cls'
+     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |                                                                        ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:224:15: note: expanded from macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c:2461:25: note: initialize the variable 'edid' to silence this warning
+    2461 |         const struct edid *edid;
+         |                                ^
+         |                                 = NULL
+   1 warning generated.
+
+
+vim +/edid +2473 drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+
+9aaf880ed4ee3c drivers/staging/imx-drm/imx-hdmi.c        Fabio Estevam    2013-11-29  2456  
+fcb55de55cf341 drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Jani Nikula      2024-01-03  2457  static const struct drm_edid *dw_hdmi_edid_read(struct dw_hdmi *hdmi,
+ec971aaa6775cf drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Laurent Pinchart 2020-05-26  2458  						struct drm_connector *connector)
+9aaf880ed4ee3c drivers/staging/imx-drm/imx-hdmi.c        Fabio Estevam    2013-11-29  2459  {
+fcb55de55cf341 drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Jani Nikula      2024-01-03  2460  	const struct drm_edid *drm_edid;
+fcb55de55cf341 drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Jani Nikula      2024-01-03  2461  	const struct edid *edid;
+9aaf880ed4ee3c drivers/staging/imx-drm/imx-hdmi.c        Fabio Estevam    2013-11-29  2462  
+9aaf880ed4ee3c drivers/staging/imx-drm/imx-hdmi.c        Fabio Estevam    2013-11-29  2463  	if (!hdmi->ddc)
+ec971aaa6775cf drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Laurent Pinchart 2020-05-26  2464  		return NULL;
+9aaf880ed4ee3c drivers/staging/imx-drm/imx-hdmi.c        Fabio Estevam    2013-11-29  2465  
+fcb55de55cf341 drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Jani Nikula      2024-01-03  2466  	drm_edid = drm_edid_read_ddc(connector, hdmi->ddc);
+fcb55de55cf341 drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Jani Nikula      2024-01-03  2467  	if (!drm_edid) {
+ec971aaa6775cf drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Laurent Pinchart 2020-05-26  2468  		dev_dbg(hdmi->dev, "failed to get edid\n");
+ec971aaa6775cf drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Laurent Pinchart 2020-05-26  2469  		return NULL;
+ec971aaa6775cf drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Laurent Pinchart 2020-05-26  2470  	}
+ec971aaa6775cf drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Laurent Pinchart 2020-05-26  2471  
+9aaf880ed4ee3c drivers/staging/imx-drm/imx-hdmi.c        Fabio Estevam    2013-11-29  2472  	dev_dbg(hdmi->dev, "got edid: width[%d] x height[%d]\n",
+9aaf880ed4ee3c drivers/staging/imx-drm/imx-hdmi.c        Fabio Estevam    2013-11-29 @2473  		edid->width_cm, edid->height_cm);
+9aaf880ed4ee3c drivers/staging/imx-drm/imx-hdmi.c        Fabio Estevam    2013-11-29  2474  
+fcb55de55cf341 drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Jani Nikula      2024-01-03  2475  	/*
+fcb55de55cf341 drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Jani Nikula      2024-01-03  2476  	 * FIXME: This should use connector->display_info.is_hdmi and
+fcb55de55cf341 drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Jani Nikula      2024-01-03  2477  	 * connector->display_info.has_audio from a path that has read the EDID
+fcb55de55cf341 drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Jani Nikula      2024-01-03  2478  	 * and called drm_edid_connector_update().
+fcb55de55cf341 drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Jani Nikula      2024-01-03  2479  	 */
+fcb55de55cf341 drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Jani Nikula      2024-01-03  2480  	edid = drm_edid_raw(drm_edid);
+fcb55de55cf341 drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Jani Nikula      2024-01-03  2481  
+05b1342f5014b7 drivers/gpu/drm/bridge/dw_hdmi.c          Russell King     2015-07-21  2482  	hdmi->sink_is_hdmi = drm_detect_hdmi_monitor(edid);
+f709ec07e38a71 drivers/gpu/drm/bridge/dw_hdmi.c          Russell King     2015-07-21  2483  	hdmi->sink_has_audio = drm_detect_monitor_audio(edid);
+ec971aaa6775cf drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Laurent Pinchart 2020-05-26  2484  
+fcb55de55cf341 drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Jani Nikula      2024-01-03  2485  	return drm_edid;
+ec971aaa6775cf drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Laurent Pinchart 2020-05-26  2486  }
+ec971aaa6775cf drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Laurent Pinchart 2020-05-26  2487  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
