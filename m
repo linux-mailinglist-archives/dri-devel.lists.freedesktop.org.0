@@ -2,52 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0B7B82373C
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jan 2024 22:42:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A5FB8239BE
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jan 2024 01:42:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5C8A10E08E;
-	Wed,  3 Jan 2024 21:42:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B26D710E0B1;
+	Thu,  4 Jan 2024 00:42:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 921A310E08E;
- Wed,  3 Jan 2024 21:42:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1704318173;
- bh=UDWldnzmwuhR1wrr9eaxOZpeEBaoD3KrQiTn/z2ISa4=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=29AFP2b/4UB+1NRfxfgPk72jJaisg6OgdksozMENQ/jMI0bDAMIzAXJsUoonQwfyE
- fRv0szC8+NM2/aFfbs3P8S3DU4Sv+yd77Kcvg8F7PweQbgbXx5Rzeru9eDxsRBN9hf
- PoTrCUtDKBv/F7TitlqrsJACtuZ7ZBWxcLCV6qkIGQUzxWX9tIZu/vvpyrgguI4CYo
- 6uzDsZHFKEEvw5e5ZTM0F7Q9CWNYmZYO7VHIHkNdLoMH5/aLtrF/12ehie1q4oVWyd
- yJggqMRLo0O4FnYCdrdU0zJvPvMVTqWWX06RR6AzrK+ncJvo6pIa1nV8+LH8y8HSxU
- wTGj/D09kWCNw==
-Received: from [100.109.49.129] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id A4B0E37813CB;
- Wed,  3 Jan 2024 21:42:51 +0000 (UTC)
-Message-ID: <de0381a6-2ad6-46a6-8d05-897799746456@collabora.com>
-Date: Thu, 4 Jan 2024 00:42:48 +0300
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A59A410E0B1;
+ Thu,  4 Jan 2024 00:42:03 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id
+ a640c23a62f3a-a28bf46ea11so82973666b.1; 
+ Wed, 03 Jan 2024 16:42:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1704328922; x=1704933722; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Uvc23dpXpHqY1dPGQelfcNuv5lz83JAZe/DEXvpEDEA=;
+ b=DYQcPIfszy4WPQVR+22lmp+ES5i3NxrsIaz3/+JaCkXzmQCpQU21dM3Z+mPGlJaJQh
+ 2ISd3C7dWM3quUdEaOD4l/GDX7ZxdDzmzE7vIIXaXnO5Gs/45mHRT2YrtKKJOUV5QjFk
+ XOBjlqdoZDmNPVbrHYf8FdQbCC7iLlaWrfMHTBXdGWKXSdSonuYYE5vgsHLH0oTJTRbx
+ Pqm8A4h+Ys5LIqns5Qsd8pdNmXK2ZIO+vpDJ8H207W+B6svIb14CVZ7fHXKAnWiCjFLr
+ z2T+ZNsMGGJN9I6jy98pMi5LgoIqh+/xaRV1sJBzXr+ljJm9gjRE6Uvldis8g63NcL4w
+ 2EOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1704328922; x=1704933722;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Uvc23dpXpHqY1dPGQelfcNuv5lz83JAZe/DEXvpEDEA=;
+ b=UrshM5vHTvmLfC9vqoYjxWme7STTYnEaNipOuQ3nQT+pixmFtdR0bIMHz+0TgQh8Jf
+ +HkBEo/dFXJN/a7ZRl0oxKpt9bgdKwelSSs7kSFvjErKKrxK93BCJi/0WIra6KaNamGb
+ ouDwzc2PrcE96Fc9hDDJkxf+Ug6B7U7AZF0FCFxLlGHsZKRoljIMXzHfTbay4AESzQIT
+ RWXcBLAIkH4U7X1mc4j+IpuimzAmcjVCWWoSY2HGE8fx6NR50E3wmDxkkv9ZxdYf0Lfj
+ 5SPGAVLKH6lNPs/4tiCKpqKDt5q9C9ohxG5DxUsB393GhZ1egyR0V3LiTu1rIMXS+/1m
+ NvJQ==
+X-Gm-Message-State: AOJu0Yy+Js/as/h5nmgNM+C1AhyKwgEDIN8OwYHqus+yI7wf6Lm0SJ9s
+ TrrxSvEipY7dFJbGUmSBi1KGhMwm7H7WsHETgys=
+X-Google-Smtp-Source: AGHT+IFvICkj21iJ/z9l3iQ0XLjxtVI/HKqcIzua/MxUvlJc0w1EtMthq89sml2MufmrHCuneqQXLEZLIly4yBwppYw=
+X-Received: by 2002:a17:906:6bca:b0:a23:1b07:5c1b with SMTP id
+ t10-20020a1709066bca00b00a231b075c1bmr1802836ejs.10.1704328921723; Wed, 03
+ Jan 2024 16:42:01 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] drm/virtio: Implement RESOURCE_GET_LAYOUT ioctl
-Content-Language: en-US
-To: Julia Zhang <julia.zhang@amd.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, David Airlie <airlied@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org
-References: <20231221100016.4022353-1-julia.zhang@amd.com>
- <20231221100016.4022353-2-julia.zhang@amd.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20231221100016.4022353-2-julia.zhang@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20231222043308.3090089-9-airlied@gmail.com>
+ <f8594217-59b7-431c-9fdc-15e2ef6197ab@moroto.mountain>
+In-Reply-To: <f8594217-59b7-431c-9fdc-15e2ef6197ab@moroto.mountain>
+From: Dave Airlie <airlied@gmail.com>
+Date: Thu, 4 Jan 2024 10:41:50 +1000
+Message-ID: <CAPM=9txv+ULnX-f-dG=Ki2iZH5L7Sge-Jcd-asyPiBpVH962=g@mail.gmail.com>
+Subject: Re: [PATCH 08/11] nouveau/gsp: don't free ctrl messages on errors
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,180 +67,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Daniel Stone <daniels@collabora.com>, Erik Faye-Lund <kusmabite@gmail.com>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>,
- Chen Jiqian <Jiqian.Chen@amd.com>, Huang Rui <ray.huang@amd.com>,
- Honglei Huang <honglei1.huang@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: nouveau@lists.freedesktop.org, oe-kbuild-all@lists.linux.dev,
+ oe-kbuild@lists.linux.dev, dri-devel@lists.freedesktop.org, lkp@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/21/23 13:00, Julia Zhang wrote:
-> From: Daniel Stone <daniels@collabora.com>
-> 
-> Add a new ioctl to allow the guest VM to discover how the guest
-> actually allocated the underlying buffer, which allows buffers to
-> be used for GL<->Vulkan interop and through standard window systems.
-> It's also a step towards properly supporting modifiers in the guest.
-> 
-> Signed-off-by: Daniel Stone <daniels@collabora.com>
-> Co-developed-by: Julia Zhang <julia.zhang@amd.com> # support query
-> stride before it's created
-> Signed-off-by: Julia Zhang <julia.zhang@amd.com>
-> ---
->  drivers/gpu/drm/virtio/virtgpu_drv.c   |  1 +
->  drivers/gpu/drm/virtio/virtgpu_drv.h   | 22 ++++++++-
->  drivers/gpu/drm/virtio/virtgpu_ioctl.c | 66 ++++++++++++++++++++++++++
->  drivers/gpu/drm/virtio/virtgpu_kms.c   |  8 +++-
->  drivers/gpu/drm/virtio/virtgpu_vq.c    | 63 ++++++++++++++++++++++++
->  include/uapi/drm/virtgpu_drm.h         | 21 ++++++++
->  include/uapi/linux/virtio_gpu.h        | 30 ++++++++++++
->  7 files changed, 208 insertions(+), 3 deletions(-)
-...
-> +static int virtio_gpu_resource_query_layout_ioctl(struct drm_device *dev,
-> +						  void *data,
-> +						  struct drm_file *file)
-> +{
-> +	struct drm_virtgpu_resource_query_layout *args = data;
-> +	struct virtio_gpu_device *vgdev = dev->dev_private;
-> +	struct drm_gem_object *obj = NULL;
-> +	struct virtio_gpu_object *bo = NULL;
-> +	struct virtio_gpu_query_info bo_info = {0};
-> +	int ret = 0;
-> +	int i;
-> +
-> +	if (!vgdev->has_resource_query_layout) {
-> +		DRM_ERROR("failing: no RQL on host\n");
+On Thu, 4 Jan 2024 at 00:47, Dan Carpenter <dan.carpenter@linaro.org> wrote:
+>
+> Hi Dave,
+>
+> kernel test robot noticed the following build warnings:
+>
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Airlie/nouveau-gsp-drop-some-acpi-related-debug/20231222-180432
+> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+> patch link:    https://lore.kernel.org/r/20231222043308.3090089-9-airlied%40gmail.com
+> patch subject: [PATCH 08/11] nouveau/gsp: don't free ctrl messages on errors
+> config: powerpc-randconfig-r071-20231226 (https://download.01.org/0day-ci/archive/20231227/202312271917.55xuDMdc-lkp@intel.com/config)
+> compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project d3ef86708241a3bee902615c190dead1638c4e09)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202312271917.55xuDMdc-lkp@intel.com/
 
-Please remove this message
+This is a false positive, I think the code is operating like I'd
+expect, we maybe could restructure it to avoid this warning?
 
-> +		return -EINVAL;
+The idea is you send an rpc msg, if there's a reply you get a reply,
+if no reply you get NULL and if an error you get an error.
 
-return -ENOSYS
+So in the case you get an error or NULL you just want to return 0 for
+the NULL as it's successful, and error otherwise.
 
-> +	}
-> +
-> +	if (args->handle > 0) {
-> +		obj = drm_gem_object_lookup(file, args->handle);
-> +		if (obj == NULL) {
-> +			DRM_ERROR("invalid handle 0x%x\n", args->handle);
-> +			return -ENOENT;
-> +		}
-> +		bo = gem_to_virtio_gpu_obj(obj);
-> +	}
-> +
-> +	ret = virtio_gpu_cmd_get_resource_layout(vgdev, &bo_info, args->width,
-> +						 args->height, args->format,
-> +						 args->bind, bo ? bo->hw_res_handle : 0);
+Would using PTR_ERR_OR_ZERO make smatch happy? (even if it's not
+really what we want).
 
-What this special hw_res_handle=0 is doing? Why is it needed?
-
-> +	if (ret)
-> +		goto out;
-> +
-> +	ret = wait_event_timeout(vgdev->resp_wq,
-> +				 atomic_read(&bo_info.is_valid),
-> +				 5 * HZ);
-> +	if (!ret)
-> +		goto out;
-> +
-> +valid:
-> +	smp_rmb();
-> +	WARN_ON(atomic_read(&bo_info.is_valid));
-
-Please remove this WARN_ON and fix the kernelbot report
-
-> +	args->num_planes = bo_info.num_planes;
-> +	args->modifier = bo_info.modifier;
-> +	for (i = 0; i < args->num_planes; i++) {
-> +		args->planes[i].offset = bo_info.planes[i].offset;
-> +		args->planes[i].stride = bo_info.planes[i].stride;
-> +	}
-> +	for (; i < VIRTIO_GPU_MAX_RESOURCE_PLANES; i++) {
-> +		args->planes[i].offset = 0;
-> +		args->planes[i].stride = 0;
-> +	}
-> +	ret = 0;
-
-ret is already 0 here
-
-> +out:
-> +	if (obj)
-> +		drm_gem_object_put(obj);
-> +	return ret;
-> +}
-
-...
-> diff --git a/include/uapi/linux/virtio_gpu.h b/include/uapi/linux/virtio_gpu.h
-> index f556fde07b76..547575232376 100644
-> --- a/include/uapi/linux/virtio_gpu.h
-> +++ b/include/uapi/linux/virtio_gpu.h
-> @@ -65,6 +65,11 @@
->   */
->  #define VIRTIO_GPU_F_CONTEXT_INIT        4
->  
-> +/*
-> + * VIRTIO_GPU_CMD_RESOURCE_QUERY_LAYOUT
-> + */
-> +#define VIRTIO_GPU_F_RESOURCE_QUERY_LAYOUT 5
-> +
->  enum virtio_gpu_ctrl_type {
->  	VIRTIO_GPU_UNDEFINED = 0,
->  
-> @@ -95,6 +100,7 @@ enum virtio_gpu_ctrl_type {
->  	VIRTIO_GPU_CMD_SUBMIT_3D,
->  	VIRTIO_GPU_CMD_RESOURCE_MAP_BLOB,
->  	VIRTIO_GPU_CMD_RESOURCE_UNMAP_BLOB,
-> +	VIRTIO_GPU_CMD_RESOURCE_QUERY_LAYOUT,
->  
->  	/* cursor commands */
->  	VIRTIO_GPU_CMD_UPDATE_CURSOR = 0x0300,
-> @@ -108,6 +114,7 @@ enum virtio_gpu_ctrl_type {
->  	VIRTIO_GPU_RESP_OK_EDID,
->  	VIRTIO_GPU_RESP_OK_RESOURCE_UUID,
->  	VIRTIO_GPU_RESP_OK_MAP_INFO,
-> +	VIRTIO_GPU_RESP_OK_RESOURCE_LAYOUT,
->  
->  	/* error responses */
->  	VIRTIO_GPU_RESP_ERR_UNSPEC = 0x1200,
-> @@ -453,4 +460,27 @@ struct virtio_gpu_resource_unmap_blob {
->  	__le32 padding;
->  };
->  
-> +/* VIRTIO_GPU_CMD_RESOURCE_QUERY_LAYOUT */
-> +struct virtio_gpu_resource_query_layout {
-> +	struct virtio_gpu_ctrl_hdr hdr;
-> +	__le32 resource_id;
-> +	__le32 width;
-> +	__le32 height;
-> +	__le32 format;
-> +	__le32 bind;
-
-64b pad missing
-
-> +};
-> +
-> +
-> +/* VIRTIO_GPU_RESP_OK_RESOURCE_LAYOUT */
-> +#define VIRTIO_GPU_RES_MAX_PLANES 4
-> +struct virtio_gpu_resp_resource_layout {
-> +	struct virtio_gpu_ctrl_hdr hdr;
-> +	__le64 modifier;
-> +	__le32 num_planes;
-> +	struct virtio_gpu_resource_plane {
-> +		__le64 offset;
-> +		__le32 stride;
-> +	} planes[VIRTIO_GPU_RES_MAX_PLANES];
-> +};
-
-Virto-spec changes should have a corresponding doc update in [1].
-
-[1]
-https://github.com/oasis-tcs/virtio-spec/blob/master/device-types/gpu/description.tex
-
--- 
-Best regards,
-Dmitry
-
+Dave.
+>
+> New smatch warnings:
+> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:659 r535_gsp_rpc_rm_ctrl_push() warn: passing zero to 'PTR_ERR'
+> drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c:1063 r535_dp_aux_xfer() warn: passing a valid pointer to 'PTR_ERR'
+>
+> Old smatch warnings:
+> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1887 nvkm_gsp_radix3_sg() error: uninitialized symbol 'addr'.
+>
+> vim +/PTR_ERR +659 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
+>
+> af265ee961627a Dave Airlie 2023-12-22  649  static int
+> af265ee961627a Dave Airlie 2023-12-22  650  r535_gsp_rpc_rm_ctrl_push(struct nvkm_gsp_object *object, void **argv, u32 repc)
+> 4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  651  {
+> af265ee961627a Dave Airlie 2023-12-22  652      rpc_gsp_rm_control_v03_00 *rpc = container_of((*argv), typeof(*rpc), params);
+> 4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  653      struct nvkm_gsp *gsp = object->client->gsp;
+> af265ee961627a Dave Airlie 2023-12-22  654      int ret = 0;
+> 4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  655
+> 4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  656      rpc = nvkm_gsp_rpc_push(gsp, rpc, true, repc);
+> af265ee961627a Dave Airlie 2023-12-22  657      if (IS_ERR_OR_NULL(rpc)) {
+> af265ee961627a Dave Airlie 2023-12-22  658              *argv = NULL;
+> af265ee961627a Dave Airlie 2023-12-22 @659              return PTR_ERR(rpc);
+>
+> If nvkm_gsp_rpc_push() returns NULL (probably a failure) then this
+> returns PTR_ERR(NULL) which is zero/success.
+>
+> af265ee961627a Dave Airlie 2023-12-22  660      }
+> 4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  661
+> 4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  662      if (rpc->status) {
+> af265ee961627a Dave Airlie 2023-12-22  663              ret = r535_rpc_status_to_errno(rpc->status);
+> 555bb9c29a45be Dave Airlie 2023-12-22  664              if (ret != -EAGAIN)
+> 4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  665                      nvkm_error(&gsp->subdev, "cli:0x%08x obj:0x%08x ctrl cmd:0x%08x failed: 0x%08x\n",
+> 4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  666                                 object->client->object.handle, object->handle, rpc->cmd, rpc->status);
+> 4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  667      }
+> 4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  668
+> af265ee961627a Dave Airlie 2023-12-22  669      if (repc)
+> af265ee961627a Dave Airlie 2023-12-22  670              *argv = rpc->params;
+> af265ee961627a Dave Airlie 2023-12-22  671      else
+> 4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  672              nvkm_gsp_rpc_done(gsp, rpc);
+> 4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  673
+> 4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  674      return ret;
+> 4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  675  }
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
