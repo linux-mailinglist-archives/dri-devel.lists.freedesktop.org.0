@@ -2,65 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEC2C8242E4
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jan 2024 14:46:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EDDC824318
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jan 2024 14:51:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12F7810E475;
-	Thu,  4 Jan 2024 13:46:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CD2C10E43F;
+	Thu,  4 Jan 2024 13:51:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2045310E475
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jan 2024 13:46:26 +0000 (UTC)
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 696DE10E400
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jan 2024 13:51:27 +0000 (UTC)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
  by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id
- 404BSaUG003309; Thu, 4 Jan 2024 14:46:07 +0100
+ 404AXOvq022627; Thu, 4 Jan 2024 14:51:11 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding:content-type; s=
- selector1; bh=WM2MSIbMrg2Y/M9af1KUg6XNhb7hhWvF94YsQ4eGQyU=; b=hL
- 5E8tANu4IgaGHeazd+euuUGCsiy6gscO8L4LSrbp6FWoFJKYzovTM0Y5YxQiSgi1
- BNUr2DoawCY38BgcAQS9KldCf+vtfNLYTioj35bBTaK/rfkAn9ig14/bk6p1qpC9
- Q+yYPDpGAuYpYNTps118XuAXIS7q8CxxBCIrKTQiNeZf3t57NCRVCTXWCwOJyWCA
- jjjK4xVBHgV1twHXzsd6XBlovsizKBXvOYWT1KLcJ8PcHMVZFbcVCflVygyY8zpk
- fGasDCbnYV/F9BIlhki/697J5IWorVFu+cPycIVJXgvdCWIjZBVR1Vyzo8i+rOti
- uqOFq0ktzRgN8cXtfaWw==
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ selector1; bh=au43nqK7nHZ8BJAhVEW3trO9826zxXlgdNutC4+DT1Y=; b=vP
+ krYsx+7jfA0/FQ9Acpp/VHNZUmXIRAhIVuHq3tDml8QxhOrG8l9OIBMYLgB2PJdE
+ 4fzmztnfFVG17nwDJD0vmW7tm+LiegstY1zbKLffvs/v3b1gI952+7KM7fk2+JIa
+ MMp/PbftaUayc1uYuVwFxWlXGbTV9xvUFyluEmzLy5l13FOG2o6UAlqi9ynqneOv
+ J0UbYJtSrLp6GHBuQHCPcYsHq21/TGiGIVEfzIuav9t/cS/pnw83ngikvj2J/smZ
+ 6yJA2NkH5UKLQuAMcRzR0DFAvQ4Wp0U2h5kTKfpQEoOBatPAP2T6xY32fmEo945+
+ vQvZDBNcgAuLCO829vDQ==
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3vabe21evr-1
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3vdjtu2nrr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 04 Jan 2024 14:46:07 +0100 (CET)
+ Thu, 04 Jan 2024 14:51:11 +0100 (CET)
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id BB7B810002A;
- Thu,  4 Jan 2024 14:46:06 +0100 (CET)
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 1E4DB10002A;
+ Thu,  4 Jan 2024 14:51:10 +0100 (CET)
 Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id B2BE722D19C;
- Thu,  4 Jan 2024 14:46:06 +0100 (CET)
-Received: from localhost (10.252.5.254) by SHFDAG1NODE2.st.com (10.75.129.70)
- with Microsoft SMTP Server (version=TLS1_2,
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 0D61322FA44;
+ Thu,  4 Jan 2024 14:51:10 +0100 (CET)
+Received: from [10.252.5.254] (10.252.5.254) by SHFDAG1NODE2.st.com
+ (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Thu, 4 Jan
- 2024 14:46:05 +0100
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-To: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>,
- Yannick Fertre <yannick.fertre@foss.st.com>,
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Philippe Cornu
- <philippe.cornu@foss.st.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v3 4/4] arm: dts: st: fix DSI peripheral clock on stm32mp15
- boards
-Date: Thu, 4 Jan 2024 14:44:34 +0100
-Message-ID: <20240104134434.744497-5-raphael.gallais-pou@foss.st.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240104134434.744497-1-raphael.gallais-pou@foss.st.com>
-References: <20240104134434.744497-1-raphael.gallais-pou@foss.st.com>
+ 2024 14:51:08 +0100
+Message-ID: <29b3092f-4d4d-4b6d-9667-aa04eddd2956@foss.st.com>
+Date: Thu, 4 Jan 2024 14:51:08 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/4] drm/stm: dsi: expose DSI PHY internal clock
+To: Simon Horman <horms@kernel.org>
+References: <20231204101113.276368-1-raphael.gallais-pou@foss.st.com>
+ <20231204101113.276368-4-raphael.gallais-pou@foss.st.com>
+ <20231208165855.GA8459@kernel.org>
+Content-Language: en-US
+From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+In-Reply-To: <20231208165855.GA8459@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-Originating-IP: [10.252.5.254]
 X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE2.st.com
  (10.75.129.70)
@@ -79,90 +72,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Yannick Fertre <yannick.fertre@foss.st.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Maxime Ripard <mripard@kernel.org>, linux-stm32@st-md-mailman.stormreply.com,
+ Rob Herring <robh+dt@kernel.org>, Philippe Cornu <philippe.cornu@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, netdev@vger.kernel.org,
+ Richard Cochran <richardcochran@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In RCC driver, 'DSI_K' is a kernel clock while 'DSI' has pclk4 as parent
-clock, which means that it is an APB peripheral clock. Swap the clocks
-in the DSI peripheral clock reference.
 
-Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
----
- arch/arm/boot/dts/st/stm32mp157.dtsi          | 2 +-
- arch/arm/boot/dts/st/stm32mp157a-dk1-scmi.dts | 2 +-
- arch/arm/boot/dts/st/stm32mp157c-dk2-scmi.dts | 2 +-
- arch/arm/boot/dts/st/stm32mp157c-ed1-scmi.dts | 2 +-
- arch/arm/boot/dts/st/stm32mp157c-ev1-scmi.dts | 2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+On 12/8/23 17:58, Simon Horman wrote:
+> On Mon, Dec 04, 2023 at 11:11:12AM +0100, Raphael Gallais-Pou wrote:
+>
+> ...
+>
+>> @@ -514,18 +675,40 @@ static int dw_mipi_dsi_stm_probe(struct platform_device *pdev)
+>>  		dsi->lane_max_kbps *= 2;
+>>  	}
+>>  
+>> -	dw_mipi_dsi_stm_plat_data.base = dsi->base;
+>> -	dw_mipi_dsi_stm_plat_data.priv_data = dsi;
+>> +	dsi->pdata = *pdata;
+>> +	dsi->pdata.base = dsi->base;
+>> +	dsi->pdata.priv_data = dsi;
+>> +
+>> +	dsi->pdata.max_data_lanes = 2;
+>> +	dsi->pdata.phy_ops = &dw_mipi_dsi_stm_phy_ops;
+>>  
+>>  	platform_set_drvdata(pdev, dsi);
+>>  
+>> -	dsi->dsi = dw_mipi_dsi_probe(pdev, &dw_mipi_dsi_stm_plat_data);
+>> +	dsi->dsi = dw_mipi_dsi_probe(pdev, &dsi->pdata);
+>>  	if (IS_ERR(dsi->dsi)) {
+>>  		ret = PTR_ERR(dsi->dsi);
+>>  		dev_err_probe(dev, ret, "Failed to initialize mipi dsi host\n");
+>>  		goto err_dsi_probe;
+>>  	}
+>>  
+>> +	/*
+>> +	 * We need to wait for the generic bridge to probe before enabling and
+>> +	 * register the internal pixel clock.
+>> +	 */
+>> +	ret = clk_prepare_enable(dsi->pclk);
+>> +	if (ret) {
+>> +		DRM_ERROR("%s: Failed to enable peripheral clk\n", __func__);
+>> +		goto err_dsi_probe;
+>> +	}
+>> +
+>> +	ret = dw_mipi_dsi_clk_register(dsi, dev);
+>> +	if (ret) {
+>> +		DRM_ERROR("Failed to register DSI pixel clock: %d\n", ret);
+> Hi Raphael,
 
-diff --git a/arch/arm/boot/dts/st/stm32mp157.dtsi b/arch/arm/boot/dts/st/stm32mp157.dtsi
-index 6197d878894d..97cd24227cef 100644
---- a/arch/arm/boot/dts/st/stm32mp157.dtsi
-+++ b/arch/arm/boot/dts/st/stm32mp157.dtsi
-@@ -20,7 +20,7 @@ gpu: gpu@59000000 {
- 		dsi: dsi@5a000000 {
- 			compatible = "st,stm32-dsi";
- 			reg = <0x5a000000 0x800>;
--			clocks = <&rcc DSI_K>, <&clk_hse>, <&rcc DSI_PX>;
-+			clocks = <&rcc DSI>, <&clk_hse>, <&rcc DSI_PX>;
- 			clock-names = "pclk", "ref", "px_clk";
- 			phy-dsi-supply = <&reg18>;
- 			resets = <&rcc DSI_R>;
-diff --git a/arch/arm/boot/dts/st/stm32mp157a-dk1-scmi.dts b/arch/arm/boot/dts/st/stm32mp157a-dk1-scmi.dts
-index afcd6285890c..8634699cc65e 100644
---- a/arch/arm/boot/dts/st/stm32mp157a-dk1-scmi.dts
-+++ b/arch/arm/boot/dts/st/stm32mp157a-dk1-scmi.dts
-@@ -30,7 +30,7 @@ &cpu1 {
- };
- 
- &dsi {
--	clocks = <&rcc DSI_K>, <&scmi_clk CK_SCMI_HSE>, <&rcc DSI_PX>;
-+	clocks = <&rcc DSI>, <&scmi_clk CK_SCMI_HSE>, <&rcc DSI_PX>;
- };
- 
- &gpioz {
-diff --git a/arch/arm/boot/dts/st/stm32mp157c-dk2-scmi.dts b/arch/arm/boot/dts/st/stm32mp157c-dk2-scmi.dts
-index 39358d902000..3a897fa7e167 100644
---- a/arch/arm/boot/dts/st/stm32mp157c-dk2-scmi.dts
-+++ b/arch/arm/boot/dts/st/stm32mp157c-dk2-scmi.dts
-@@ -36,7 +36,7 @@ &cryp1 {
- 
- &dsi {
- 	phy-dsi-supply = <&scmi_reg18>;
--	clocks = <&rcc DSI_K>, <&scmi_clk CK_SCMI_HSE>, <&rcc DSI_PX>;
-+	clocks = <&rcc DSI>, <&scmi_clk CK_SCMI_HSE>, <&rcc DSI_PX>;
- };
- 
- &gpioz {
-diff --git a/arch/arm/boot/dts/st/stm32mp157c-ed1-scmi.dts b/arch/arm/boot/dts/st/stm32mp157c-ed1-scmi.dts
-index 07ea765a4553..29d6465b1fe6 100644
---- a/arch/arm/boot/dts/st/stm32mp157c-ed1-scmi.dts
-+++ b/arch/arm/boot/dts/st/stm32mp157c-ed1-scmi.dts
-@@ -35,7 +35,7 @@ &cryp1 {
- };
- 
- &dsi {
--	clocks = <&rcc DSI_K>, <&scmi_clk CK_SCMI_HSE>, <&rcc DSI_PX>;
-+	clocks = <&rcc DSI>, <&scmi_clk CK_SCMI_HSE>, <&rcc DSI_PX>;
- };
- 
- &gpioz {
-diff --git a/arch/arm/boot/dts/st/stm32mp157c-ev1-scmi.dts b/arch/arm/boot/dts/st/stm32mp157c-ev1-scmi.dts
-index 813086ec2489..5acb78f0a084 100644
---- a/arch/arm/boot/dts/st/stm32mp157c-ev1-scmi.dts
-+++ b/arch/arm/boot/dts/st/stm32mp157c-ev1-scmi.dts
-@@ -37,7 +37,7 @@ &cryp1 {
- 
- &dsi {
- 	phy-dsi-supply = <&scmi_reg18>;
--	clocks = <&rcc DSI_K>, <&scmi_clk CK_SCMI_HSE>, <&rcc DSI_PX>;
-+	clocks = <&rcc DSI>, <&scmi_clk CK_SCMI_HSE>, <&rcc DSI_PX>;
- };
- 
- &gpioz {
--- 
-2.25.1
+Hi Simon,
 
+You are right,  dsi->clk needs to be disabled in case the clock register fails
+before exiting the probe.
+
+I've sent a v3, which normally fixes it.
+
+
+Regards,
+
+Raphaël
+
+>
+> Does clk_disable_unprepare(dsi->pclk) need to be added to this unwind
+> chain?
+>
+> Flagged by Smatch.
+>
+>> +		goto err_dsi_probe;
+>> +	}
+>> +
+>> +	clk_disable_unprepare(dsi->pclk);
+>> +
+>>  	return 0;
+>>  
+>>  err_dsi_probe:
+> ...
