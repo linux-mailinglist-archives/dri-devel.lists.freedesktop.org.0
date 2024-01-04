@@ -2,59 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33CD8823CA3
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jan 2024 08:24:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F02D9823CA7
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jan 2024 08:24:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 385A110E3AD;
-	Thu,  4 Jan 2024 07:24:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDE1B10E3B9;
+	Thu,  4 Jan 2024 07:24:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3363510E3AD
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jan 2024 07:24:15 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id
- 4fb4d7f45d1cf-556cd81163fso258872a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Jan 2024 23:24:15 -0800 (PST)
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD33710E3B9
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jan 2024 07:24:21 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id
+ 4fb4d7f45d1cf-55569b59f81so242148a12.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Jan 2024 23:24:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1704353053; x=1704957853;
+ d=amarulasolutions.com; s=google; t=1704353060; x=1704957860;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=PUgVC7JEO7GhUBsHaMMn2sIj/0Ni7LYX/30T12HJpq8=;
- b=ec9ZtOJnqiVhMjiXw5MOSRqAIVYRhm5SX5wi1H6HV+wuNu13cS1EiwO/KGIJzxNnf/
- wNKQqVKN/oFShOzwcmDUnoBNBF3losKolGeQ+GTpjaaOaOqIghgXoUrLuN3j39+8n+0a
- tJX5z3qHhuQbrF4Ztg321/6lwJcNQ5mBmDfeM=
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=WW0o6HHPG/mM4iGv+v8jU++HNDacNhnTQtmfUNegT7U=;
+ b=eZsaPvkR/xdD7bzbCUiZX2vIDplDo2WVq5k4Q15QNX6IaUn22Qvy++aMQ0zSewnM7A
+ NLm2klN5aIo6l7L8m70Dg3npD/oSP0PJXT1himHY8ZiKBj4ytozEfHm+buYl6GWVCV0Q
+ zbiOdx758hj3zbWPXj1pahKapHFmETBSt3Trw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704353053; x=1704957853;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=PUgVC7JEO7GhUBsHaMMn2sIj/0Ni7LYX/30T12HJpq8=;
- b=XLpZJWI2REHMQ179QMyf+lOv0txdi25T7c+3BNdqPFxaiFpzSZoXimlQ4o64LUm+sO
- BDtuIbsdiSKB35TbmuZthCJ53eMjLhW5TWR8DZLxffCKrXp16pM94tK2p/bSBDVB7IR1
- 3HnfcD6Sv8T/66ubzXr7v3426+t7oTCwB6FEnMFe+mSkHuuFnXoyfNfpSyAkKeeEwazr
- KSwC19Js8BjmQt3MCZwFaRzT9Imsbiw2YUBQMULjQfHILOB9gyAnFkZ9TFtBqOYy5Lx9
- IfmBgVv9JgY0Faty5Gg3jTdp+k3I4fX5b4TfgP4hDka1hY7cQLmLPnhGNlpaZomJ9psD
- /5YA==
-X-Gm-Message-State: AOJu0YyjdU1ZvtUZsNyWRJHrjEsbBji56L5Gk5d0A3cNhSWMmyfDOzuF
- GKUXW5ipZ+HX6Ze9OecHnuRpwTEoXYJezg==
-X-Google-Smtp-Source: AGHT+IGmDyP/2rCvEVge4MJPNpo2+Gj+UXFPX8MUKMMpso0SylDp5k3+gnunyyZSiIr2eHvZUnp0ZQ==
-X-Received: by 2002:a50:8e49:0:b0:553:ad79:b7d7 with SMTP id
- 9-20020a508e49000000b00553ad79b7d7mr54053edx.93.1704353052879; 
- Wed, 03 Jan 2024 23:24:12 -0800 (PST)
+ d=1e100.net; s=20230601; t=1704353060; x=1704957860;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=WW0o6HHPG/mM4iGv+v8jU++HNDacNhnTQtmfUNegT7U=;
+ b=xNmV3CPZeGAaTkgaM5RQalYryAV8O7NtSilBlA5c07F5FxXS1X8nItSLKOpNK6k8ik
+ rO93RwEQEss51vUWlixVjbpcbCMNJz9UZ62Ox6bssqAjmKGxumugjtV5OGcK28iqj6ih
+ 40PFXKyTNT7erRrg0tFjCBmN+P3LJ5IgEPjCqyJi9lRwKjv+4Wxm3v+jywifdqzn/ycI
+ awCTxVIq5voAOWVB6/HaH5XtfZhhK9EBBQYouhq8Ug68nZ6ugnbEyqtGg8eDFOURfH+N
+ 6sz40/jedsuBfvc4Bcm16/By/lyRxDGKJx4cCmv3qKxbiDCxUhMK4w+gCgqlOZUelO/b
+ yqtQ==
+X-Gm-Message-State: AOJu0Yxen7lcm4sVuicgszQt1hnqRoo0JDzLdypdTQfp0KYnexYTG2dF
+ MwRLm7KJJxcRdRAy6Dy/AKsGM0awUMpBcg==
+X-Google-Smtp-Source: AGHT+IHvPIuIgJDDjbDtuf22xYU9uk+ojoUO5bL5pNWzXog8ZZJcQKnDJWkQWIRkgRGZKp+vHmjunA==
+X-Received: by 2002:a50:c082:0:b0:557:eb1:bb3c with SMTP id
+ k2-20020a50c082000000b005570eb1bb3cmr3997edf.53.1704353060246; 
+ Wed, 03 Jan 2024 23:24:20 -0800 (PST)
 Received: from dario-ThinkPad-T14s-Gen-2i..
  (net-93-150-255-34.cust.vodafonedsl.it. [93.150.255.34])
  by smtp.gmail.com with ESMTPSA id
- d3-20020a056402000300b00553772c2968sm18530735edu.82.2024.01.03.23.24.11
+ d3-20020a056402000300b00553772c2968sm18530735edu.82.2024.01.03.23.24.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Jan 2024 23:24:12 -0800 (PST)
+ Wed, 03 Jan 2024 23:24:19 -0800 (PST)
 From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v3 0/8] Add display support for stm32f769-disco board
-Date: Thu,  4 Jan 2024 08:23:36 +0100
-Message-ID: <20240104072407.41290-1-dario.binacchi@amarulasolutions.com>
+Subject: [PATCH v3 5/8] dt-bindings: nt35510: add compatible for FRIDA
+ FRD400B25025-A-CTK
+Date: Thu,  4 Jan 2024 08:23:41 +0100
+Message-ID: <20240104072407.41290-6-dario.binacchi@amarulasolutions.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240104072407.41290-1-dario.binacchi@amarulasolutions.com>
+References: <20240104072407.41290-1-dario.binacchi@amarulasolutions.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,69 +73,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Dario Binacchi <dario.binacchi@amarulasolutions.com>,
- Sam Ravnborg <sam@ravnborg.org>, linux-stm32@st-md-mailman.stormreply.com,
- Lee Jones <lee@kernel.org>, Sean Nyekjaer <sean@geanix.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Patrice Chotard <patrice.chotard@foss.st.com>, devicetree@vger.kernel.org,
+Cc: dri-devel@lists.freedesktop.org, Neil Armstrong <neil.armstrong@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>,
- Enric Balletbo i Serra <eballetbo@gmail.com>,
- Andre Przywara <andre.przywara@arm.com>, Maxime Ripard <mripard@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- =?UTF-8?q?Leonard=20G=C3=B6hrs?= <l.goehrs@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, devicetree@vger.kernel.org,
+ linux-amarula@amarulasolutions.com,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- linux-amarula@amarulasolutions.com
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Dario Binacchi <dario.binacchi@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The series adds display support for the stm32f769-disco board. It has been
-tested on hardware revisions MB1225-B03 and MB1166-A09. This required
-modifications to the nt35510 driver. As I do not have the Hydis HVA40WV1
-display, it would be better if someone tested the driver in that
-configuration.
+The patch adds the FRIDA FRD400B25025-A-CTK panel, which belongs to the
+Novatek NT35510-based panel family.
+
+Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+
+---
 
 Changes in v3:
 - Use "enum" to have less code changed
 
 Changes in v2:
-- Add Acked-by tag of Conor Dooley
 - Add a dash in front of each "items:"
-- Change the status of panel_backlight node to "disabled"
-- Delete backlight property from panel0 node.
-- Re-write the patch [7/8] "drm/panel: nt35510: refactor panel initialization"
-  in the same style as the original driver in order to maintain the same
-  structure.
-- Re-write the patch [8/8] "drm/panel: nt35510: support FRIDA FRD400B25025-A-CTK"
-  in the same style as the original driver.
 
-Dario Binacchi (8):
-  dt-bindings: mfd: stm32f7: Add binding definition for DSI
-  ARM: dts: stm32: add DSI support on stm32f769
-  ARM: dts: stm32: rename mmc_vcard to vcc-3v3 on stm32f769-disco
-  ARM: dts: stm32: add display support on stm32f769-disco
-  dt-bindings: nt35510: add compatible for FRIDA FRD400B25025-A-CTK
-  ARM: dts: add stm32f769-disco-mb1225-revb03-mb1166-reva09
-  drm/panel: nt35510: move hardwired parameters to configuration
-  drm/panel: nt35510: support FRIDA FRD400B25025-A-CTK
+ .../devicetree/bindings/display/panel/novatek,nt35510.yaml    | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
- .../display/panel/novatek,nt35510.yaml        |   4 +-
- arch/arm/boot/dts/st/Makefile                 |   1 +
- ...f769-disco-mb1225-revb03-mb1166-reva09.dts |  18 +
- arch/arm/boot/dts/st/stm32f769-disco.dts      |  78 +++-
- arch/arm/boot/dts/st/stm32f769.dtsi           |  21 +
- drivers/gpu/drm/panel/panel-novatek-nt35510.c | 422 +++++++++++++++---
- include/dt-bindings/mfd/stm32f7-rcc.h         |   1 +
- 7 files changed, 484 insertions(+), 61 deletions(-)
- create mode 100644 arch/arm/boot/dts/st/stm32f769-disco-mb1225-revb03-mb1166-reva09.dts
- create mode 100644 arch/arm/boot/dts/st/stm32f769.dtsi
-
+diff --git a/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml b/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
+index bc92928c805b..43afb316e0e9 100644
+--- a/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
++++ b/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
+@@ -15,7 +15,9 @@ allOf:
+ properties:
+   compatible:
+     items:
+-      - const: hydis,hva40wv1
++      - enum:
++          - hydis,hva40wv1
++          - frida,frd400b25025
+       - const: novatek,nt35510
+     description: This indicates the panel manufacturer of the panel
+       that is in turn using the NT35510 panel driver. The compatible
 -- 
 2.43.0
 
