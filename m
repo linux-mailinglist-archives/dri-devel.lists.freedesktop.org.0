@@ -2,46 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 860EC8252A8
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 12:22:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B56F98252A9
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 12:22:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10BB110E5BA;
-	Fri,  5 Jan 2024 11:22:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9BA410E5BE;
+	Fri,  5 Jan 2024 11:22:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1747010E5BA
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 11:22:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CAF910E5BA
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 11:22:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704453743; x=1735989743;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=fl2bJumrumpQVA5e6SrN8Uor3IDh4LptfaN7yMgu8Ds=;
- b=aeMEKUoVaju9qSW8vvgIl4F10/X1zJbGGOeuWy6C7d9zd0WUmA785X7I
- /Ng/vu5rQ4IoTiHFgtcJp8/pBIrCPoO/aY9mPR2kAQ0GI8lKI5QdX+5Cp
- FBdw5Z87VidpiNyz/tk4e7nUoS+TJiOHina7IHhZ+ZIGll1nN10BSW+WD
- +izjmnJpZRE5ffu3i/mDcLmyPUSDaH5iTKKfHEv54yncBU/FAxaC2YSMW
- Bsw34sVMGXkD0XRJTeToqVd8JS7lletrAvHL/6aHe1I/foeWrBHTtUXtm
- MXxyVcl+57sppXt3wraM6JtcYv6XFhFiLwBMyPT6DndAFAR52WUlbHWgM Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="4255385"
+ t=1704453744; x=1735989744;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=wyBFu+dmAW22JJ8uQbdxRjeXIfkm4FSB8jQTEptxWBI=;
+ b=BSZ+jzVcIr0bK4ixBJ7WxFeA5L/Gf1XZRxzADRpilqiCP2J1k2I/m7oE
+ fke1SXPpOAfnkDVPjf+MnM3xjhGYPVDy4GY4Woi1J9SPiJQNYCRMpDvxh
+ r+w5c0b7jHMxUC5Jjvs8Z/F8wqRledZOjhxPe5RcLj+rr+iRYb9V0MKKT
+ 0rIkETP7Dis+OjXUJthNDFfQoZIcBqXlBkBEfaPFjOfHAqY/tHZArDUpF
+ ah+dLoIjPtfuJ4TPwy5wByj2FI0ToOUIfi3D2QU10SMVOvAXBzrA+z7vL
+ Q+rdkh/1vmSHDoW47t1a94WWThpj3FELGDGDpcLIyGnrQIW01efpJ7xt0 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="4255388"
 X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; 
-   d="scan'208";a="4255385"
+   d="scan'208";a="4255388"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2024 03:22:22 -0800
+ 05 Jan 2024 03:22:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="756918688"
-X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; d="scan'208";a="756918688"
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="756918705"
+X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; d="scan'208";a="756918705"
 Received: from jlawryno.igk.intel.com ([10.91.220.59])
  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2024 03:22:20 -0800
+ 05 Jan 2024 03:22:22 -0800
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 00/10] accel/ivpu fixes for 6.8
-Date: Fri,  5 Jan 2024 12:22:08 +0100
-Message-ID: <20240105112218.351265-1-jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH 01/10] accel/ivpu: Dump MMU events in case of VPU boot timeout
+Date: Fri,  5 Jan 2024 12:22:09 +0100
+Message-ID: <20240105112218.351265-2-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240105112218.351265-1-jacek.lawrynowicz@linux.intel.com>
+References: <20240105112218.351265-1-jacek.lawrynowicz@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -57,41 +59,71 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: quic_jhugo@quicinc.com,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>, "Wachowski,
+ Karol" <karol.wachowski@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Various driver fixes:
- - Fixes for infinite loops, missing locks and DMA-API debug warnings
- - Deprecate DRM_IVPU_PARAM_CONTEXT_PRIORITY
- - Improve diagnostic messages
+From: "Wachowski, Karol" <karol.wachowski@intel.com>
 
-Jacek Lawrynowicz (5):
-  accel/ivpu: Fix potential infinite loops in IRQ handlers
-  accel/ivpu: Fix for missing lock around drm_gem_shmem_vmap()
-  accel/ivpu: Free buffer sgt on unbind
-  accel/ivpu: Disable buffer sharing among VPU contexts
-  accel/ivpu: Improve buffer object debug logs
+Add ivpu_mmu_evtq_dump() function that dumps existing MMU events from
+MMU event queue. Call this function if VPU boot failed.
 
-Wachowski, Karol (5):
-  accel/ivpu: Dump MMU events in case of VPU boot timeout
-  accel/ivpu: Call diagnose failure in ivpu_mmu_cmdq_sync()
-  accel/ivpu: Add debug prints for MMU map/unmap operations
-  accel/ivpu: Add diagnostic messages when VPU fails to boot or suspend
-  accel/ivpu: Remove deprecated DRM_IVPU_PARAM_CONTEXT_PRIORITY
+Previously MMU events were only checked in interrupt handler, but if VPU
+failed to boot due to MMU faults, those faults were missed because of
+interrupts not yet being enabled. This will allow checking potential
+fault reason of VPU not booting.
 
- drivers/accel/ivpu/ivpu_drv.c         |  17 +---
- drivers/accel/ivpu/ivpu_drv.h         |   2 +-
- drivers/accel/ivpu/ivpu_gem.c         | 133 +++++++++-----------------
- drivers/accel/ivpu/ivpu_gem.h         |   1 -
- drivers/accel/ivpu/ivpu_ipc.c         |   6 ++
- drivers/accel/ivpu/ivpu_job.c         |   3 +
- drivers/accel/ivpu/ivpu_mmu.c         |  29 ++++--
- drivers/accel/ivpu/ivpu_mmu.h         |   1 +
- drivers/accel/ivpu/ivpu_mmu_context.c |   9 ++
- drivers/accel/ivpu/ivpu_pm.c          |   4 +-
- include/uapi/drm/ivpu_accel.h         |  21 +++-
- 11 files changed, 114 insertions(+), 112 deletions(-)
+Signed-off-by: Wachowski, Karol <karol.wachowski@intel.com>
+Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+---
+ drivers/accel/ivpu/ivpu_drv.c | 1 +
+ drivers/accel/ivpu/ivpu_mmu.c | 8 ++++++++
+ drivers/accel/ivpu/ivpu_mmu.h | 1 +
+ 3 files changed, 10 insertions(+)
 
---
+diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
+index 64927682161b..0c3180411b0e 100644
+--- a/drivers/accel/ivpu/ivpu_drv.c
++++ b/drivers/accel/ivpu/ivpu_drv.c
+@@ -369,6 +369,7 @@ int ivpu_boot(struct ivpu_device *vdev)
+ 	ret = ivpu_wait_for_ready(vdev);
+ 	if (ret) {
+ 		ivpu_err(vdev, "Failed to boot the firmware: %d\n", ret);
++		ivpu_mmu_evtq_dump(vdev);
+ 		return ret;
+ 	}
+ 
+diff --git a/drivers/accel/ivpu/ivpu_mmu.c b/drivers/accel/ivpu/ivpu_mmu.c
+index 2228c44b115f..92ef651098d8 100644
+--- a/drivers/accel/ivpu/ivpu_mmu.c
++++ b/drivers/accel/ivpu/ivpu_mmu.c
+@@ -905,6 +905,14 @@ void ivpu_mmu_irq_evtq_handler(struct ivpu_device *vdev)
+ 		ivpu_pm_schedule_recovery(vdev);
+ }
+ 
++void ivpu_mmu_evtq_dump(struct ivpu_device *vdev)
++{
++	u32 *event;
++
++	while ((event = ivpu_mmu_get_event(vdev)) != NULL)
++		ivpu_mmu_dump_event(vdev, event);
++}
++
+ void ivpu_mmu_irq_gerr_handler(struct ivpu_device *vdev)
+ {
+ 	u32 gerror_val, gerrorn_val, active;
+diff --git a/drivers/accel/ivpu/ivpu_mmu.h b/drivers/accel/ivpu/ivpu_mmu.h
+index cb551126806b..6fa35c240710 100644
+--- a/drivers/accel/ivpu/ivpu_mmu.h
++++ b/drivers/accel/ivpu/ivpu_mmu.h
+@@ -46,5 +46,6 @@ int ivpu_mmu_invalidate_tlb(struct ivpu_device *vdev, u16 ssid);
+ 
+ void ivpu_mmu_irq_evtq_handler(struct ivpu_device *vdev);
+ void ivpu_mmu_irq_gerr_handler(struct ivpu_device *vdev);
++void ivpu_mmu_evtq_dump(struct ivpu_device *vdev);
+ 
+ #endif /* __IVPU_MMU_H__ */
+-- 
 2.43.0
+
