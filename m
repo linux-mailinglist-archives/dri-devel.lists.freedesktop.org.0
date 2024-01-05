@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EBF6825AF1
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 20:09:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAE83825AF3
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 20:10:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D937110E698;
-	Fri,  5 Jan 2024 19:08:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3857B10E699;
+	Fri,  5 Jan 2024 19:09:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com
- [IPv6:2607:f8b0:4864:20::112d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2608E10E698
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 19:08:57 +0000 (UTC)
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-5e784ce9bb8so7189547b3.0
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Jan 2024 11:08:57 -0800 (PST)
+Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com
+ [IPv6:2607:f8b0:4864:20::112c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CC5110E699
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 19:09:57 +0000 (UTC)
+Received: by mail-yw1-x112c.google.com with SMTP id
+ 00721157ae682-5f68af028afso3445087b3.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Jan 2024 11:09:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1704481736; x=1705086536; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1704481796; x=1705086596; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=NC2bJp2abkUAY3rCEbXohtWXjxySOLDcFj8N67lxtGk=;
- b=dblmZwQ5pvP42OrIpcnm0+OFfYv5N14ksxAjb2VK1JAfKCkIIoEwk6WhPJ4+mrGUWo
- fuqaezkTMUPA/uLDeVChnrv60aeF+wtOno57BuAmYszqEPeXFPro0beV0b0pbyTsle60
- 6tP07Xv8UBEWYvya/kMQzTarUEMDHG9FIsUiiDzJTMUDim5lrbEJUV1fEI3Kpm9dJ9k7
- y+AP/EPuGExpRpEUw1FMI7HfaR0HS8FdbS+spb5tjXTRnJOi8iPsVqJDTBAIKAJ5lWYk
- kBMA+JebfDyDvH55giYOqgdT5MLlISqQN0mSzYNoQTaLeMyStVoogEWRLY7WG4kTl5sU
- ieEQ==
+ bh=MrAeK3fI5+fkw/MfPT0L/lkhR0LlF0AAtGrWaqYVcY8=;
+ b=JxLzoMNO1nMk9pZ+GvBLxziWNKvKkMlfH+1biHgnh6wURV9wnVHjLmDg8BnpG4FYxU
+ dZ9VDtAfmr9O0GejN0lCTKstJ+9eAYxCXf4qzC7oILrCOCqI97MtmvUfms1Uvizf+kKn
+ ILhX+lztv8ZuGfyMt54Ah0FvdR7wVJ3tErKzbyWTm7VK4eKM+xrhMIP/D5uvfsdI8CTo
+ 8viyn1ciZzVxvwe8q8L2oxXSFXmYeE/CpxH7v+sJbf2ex3+Eolp75tFyykFn/AT+gp1G
+ UW38cRFNjptFUUdfu+rSukjHPf6tAj65tdOCZwc4w/oaIGvFLcRbHJutYGjUTDJN/FOJ
+ B0zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704481736; x=1705086536;
+ d=1e100.net; s=20230601; t=1704481796; x=1705086596;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=NC2bJp2abkUAY3rCEbXohtWXjxySOLDcFj8N67lxtGk=;
- b=PKzYHYLArdR85k8/CPwWW9SMK26+Kp6TNIIiiFYMaB7u+OKaYQyA6LO8uVs3bmk3R1
- rHyZJ3NTxTS3Z+CExxWdxZqV6kJHvBW6tSf3gWYMob2EfBMPaVLsQ1uU01TTkm9iU/oI
- eURZ3AawFT2r8/ejrri3hBxQqRPVmPxbmDNvQDCQsWBDwVouRtiDhInnL6TSstO6Spol
- iPMXlFJTqPOKrnIlwux2lNDU/JnO/nae0d85bhYlubDDtj1qmmqGfUZQ3QmG1onAjg6i
- 2GY1OgcgdMjMIO8fKfPXWHsS6GQD2PDjTheKEUOpVldeAWJ2AgcimXOrBa8hM9T02wiR
- igGg==
-X-Gm-Message-State: AOJu0YzjFan2AQsadC0wTMdSWc8XNogWCnJSRZMKbAo3IcSlxSpLuEa6
- lhGd/HWtFxBDv1ZyPaIl8xKZJSlvT2RpxHntJeCA/RNZ2/Bxgw==
-X-Google-Smtp-Source: AGHT+IEK0/3LJwUV4kqP2Gt6f/UKalZkGldGSpBhIQzQfzQExxk3vB697yusXLa/RW7IA6p/kyNMnVIY1v5ZBsrbO1k=
-X-Received: by 2002:a0d:c785:0:b0:5f5:cdbb:534f with SMTP id
- j127-20020a0dc785000000b005f5cdbb534fmr1479204ywd.24.1704481736301; Fri, 05
- Jan 2024 11:08:56 -0800 (PST)
+ bh=MrAeK3fI5+fkw/MfPT0L/lkhR0LlF0AAtGrWaqYVcY8=;
+ b=aEj+k3K4GkSiULonRGrcONfljyjxOCrUr+Zb0q4TD1Oq+p1jLCZecpqcm63m04AOLO
+ QwHtCZS2/BCof7h7SJ+XPlwaJNBmHo5V7PmMiBhZJkzT9xpAkqQJ/rPR18Z6CjiV+O7B
+ n8Ng8eZdr+IWvvW9I0TK1aER1t9FzfvhixgyxqksTFD07+ZXUHoaoFm8h9Wgl+RiV1dH
+ khNaFfatklX3YKsHCzT4HDP+ap2idtLmGMVhYqsqsfnN7N4RIvmoDCmu+45EnxMlx2Q8
+ h6cGZlN7uKgobSpRZlcEXWbNdSa5hWLfgdFzy6UCf9mbrfq4HNuYlSu7bXQSzLgVFQWY
+ XlVA==
+X-Gm-Message-State: AOJu0YwRSTfisJzii3srx5FOM2oar9t/YElKqMEtTMy29ULksrYvOTa9
+ SRQoWR/0UfXEqXs2fKbHf8JJ87wGKeDnNQYQLEoJprJO/OLphw==
+X-Google-Smtp-Source: AGHT+IEOxPfPUR7AAT8oWCL2I4+vSTsXN91XU9CFGSMnOrEEBSllv/Qs7i4m/mjmgo1ty9KHe7vUeDd7Bmv2OIYctTQ=
+X-Received: by 2002:a0d:c404:0:b0:5d7:1940:8df8 with SMTP id
+ g4-20020a0dc404000000b005d719408df8mr2539262ywd.95.1704481796596; Fri, 05 Jan
+ 2024 11:09:56 -0800 (PST)
 MIME-Version: 1.0
 References: <20240104084206.721824-1-dario.binacchi@amarulasolutions.com>
- <20240104084206.721824-8-dario.binacchi@amarulasolutions.com>
-In-Reply-To: <20240104084206.721824-8-dario.binacchi@amarulasolutions.com>
+ <20240104084206.721824-9-dario.binacchi@amarulasolutions.com>
+In-Reply-To: <20240104084206.721824-9-dario.binacchi@amarulasolutions.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 5 Jan 2024 20:08:44 +0100
-Message-ID: <CACRpkdZ9uYj6geL+_NijdCP3mem-Lr+9RB1Nm4_hL3U480merA@mail.gmail.com>
-Subject: Re: [PATCH v4 7/8] drm/panel: nt35510: move hardwired parameters to
- configuration
+Date: Fri, 5 Jan 2024 20:09:45 +0100
+Message-ID: <CACRpkda+=Zq+v-505O3pHazKzukSifBnNx_CPKbKd2JH-KYpYg@mail.gmail.com>
+Subject: Re: [PATCH v4 8/8] drm/panel: nt35510: support FRIDA
+ FRD400B25025-A-CTK
 To: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -82,28 +82,23 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Thu, Jan 4, 2024 at 9:42=E2=80=AFAM Dario Binacchi
 <dario.binacchi@amarulasolutions.com> wrote:
 
-> This patch, preparatory for future developments, move the hardwired
-> parameters to configuration data to allow the addition of new
-> NT35510-based panels.
+> The initialization commands are taken from the STMicroelectronics driver
+> found at [1].
+> To ensure backward compatibility, flags have been added to enable gamma
+> correction setting and display control. In other cases, registers have
+> been set to their default values according to the specifications found
+> in the datasheet.
 >
+> [1] https://github.com/STMicroelectronics/STM32CubeF7/blob/master/Drivers=
+/BSP/Components/nt35510/
 > Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+>
+> ---
+>
+> (no changes since v2)
 
-I tested this patch on the NT35510-based Skomer and it makes the
-whole display mirrored around the Y-axis (text from right to left instead
-of the other way around, penguins appear mirrored upper right
-etc).
-
-+       /* Enable TE, EoTP and RGB pixel format */
-+       .dopctr =3D { NT35510_DOPCTR_0_DSITE | NT35510_DOPCTR_0_EOTP |
-+                   NT35510_DOPCTR_0_N565, NT35510_DOPCTR_1_CTB },
-+       .madctl =3D NT35510_ROTATE_180_SETTING,
-
-Changing this to NT35510_ROTATE_0_SETTING makes it work
-fine again.
-
-With that change:
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Tested-by: Linus Walleij <linus.walleij@linaro.org>
+(also tested to not regress my hardware)
 
 Yours,
 Linus Walleij
