@@ -1,124 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFC3B825009
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 09:32:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E84E8250A0
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 10:15:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D595010E588;
-	Fri,  5 Jan 2024 08:32:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB4BB10E58F;
+	Fri,  5 Jan 2024 09:14:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de
- [IPv6:2a07:de40:b251:101:10:150:64:2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D407B10E571;
- Fri,  5 Jan 2024 08:32:15 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 648D71F8AA;
- Fri,  5 Jan 2024 08:32:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1704443534; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=t/UWAYp7dCHtFY6rZhdRY77DYmAJPQVMYxlgbc2Nfl4=;
- b=1qAB9JfvxQ+28julBrurjLjovBRk/LWEirY3yDqWHYUDl9GAch4Spt5xDcsQNXkIFLTXEs
- dTXTFcgmJWypXqm3J6pTRVhWMVi/PrVg2zucQgdKupbVXaThYDCGAarOXMj7V+eIfdPyID
- R2dEY1mOfaj5cBnWe6P4xbEMPgzti8U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1704443534;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=t/UWAYp7dCHtFY6rZhdRY77DYmAJPQVMYxlgbc2Nfl4=;
- b=Jhi/NnStLvrzhzSQWwUabsWzmkILPJI+4lqnhIxTODI0Fp6Gy6qZoWHhIhmf8/c6J3vBo1
- GqAIpvObewy42JAA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1704443534; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=t/UWAYp7dCHtFY6rZhdRY77DYmAJPQVMYxlgbc2Nfl4=;
- b=1qAB9JfvxQ+28julBrurjLjovBRk/LWEirY3yDqWHYUDl9GAch4Spt5xDcsQNXkIFLTXEs
- dTXTFcgmJWypXqm3J6pTRVhWMVi/PrVg2zucQgdKupbVXaThYDCGAarOXMj7V+eIfdPyID
- R2dEY1mOfaj5cBnWe6P4xbEMPgzti8U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1704443534;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=t/UWAYp7dCHtFY6rZhdRY77DYmAJPQVMYxlgbc2Nfl4=;
- b=Jhi/NnStLvrzhzSQWwUabsWzmkILPJI+4lqnhIxTODI0Fp6Gy6qZoWHhIhmf8/c6J3vBo1
- GqAIpvObewy42JAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 49886137E8;
- Fri,  5 Jan 2024 08:32:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
- by imap1.dmz-prg2.suse.org with ESMTPSA id xdLAEI6+l2WAPgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 05 Jan 2024 08:32:14 +0000
-Message-ID: <2d74c31f-7a54-449d-9ddd-9a902be86ee1@suse.de>
-Date: Fri, 5 Jan 2024 09:32:13 +0100
+X-Greylist: delayed 592 seconds by postgrey-1.36 at gabe;
+ Fri, 05 Jan 2024 09:14:57 UTC
+Received: from mail-m118114.qiye.163.com (mail-m118114.qiye.163.com
+ [115.236.118.114])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25BCE10E58F
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 09:14:56 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256;
+ b=J49zP1kcxyDLDuYjM1j/Nm85RnUYMNpETkXTFJtmfMkDN7noi608Tk7coSGxV/XODolyLuQGAfQwK5z9r8GBmQTRolRWVBxr3xENAIZ/q631aqmpzcv2t/h44mHU7k8zm6iScrfG66xhRB6ZXc+4CrxCcpc58vsJz6ASrURiAxE=;
+ c=relaxed/relaxed; s=default; d=rock-chips.com; v=1;
+ bh=7Rpg1YBO3YN3stA5+Iw9eTT2absDZpy7ygnLlv2cEYU=;
+ h=date:mime-version:subject:message-id:from;
+Received: from [172.16.12.141] (unknown [58.22.7.114])
+ by mail-m12779.qiye.163.com (Hmail) with ESMTPA id 799D37802A7;
+ Fri,  5 Jan 2024 17:04:56 +0800 (CST)
+Message-ID: <acb52035-4f0c-430d-a2d2-26ab37805d7b@rock-chips.com>
+Date: Fri, 5 Jan 2024 17:04:55 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND] drm/edid: prefer forward declarations over includes in
- drm_edid.h
-To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
-References: <20240104211028.1129606-1-jani.nikula@intel.com>
+Subject: Re: [PATCH] drm/rockchip: vop2: Drop unused if_dclk_rate variable
+To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+References: <20240104143951.85219-1-cristian.ciocaltea@collabora.com>
+ <20240104143951.85219-2-cristian.ciocaltea@collabora.com>
+ <5867171.29KlJPOoH8@diego>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20240104211028.1129606-1-jani.nikula@intel.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------7R2ztmZeA4zr0JbmXkTjy0hD"
-X-Spam-Level: 
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spamd-Result: default: False [-4.57 / 50.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
- XM_UA_NO_VERSION(0.01)[]; TO_DN_SOME(0.00)[];
- HAS_ATTACHMENT(0.00)[]; MIME_BASE64_TEXT_BOGUS(1.00)[];
- RCVD_COUNT_THREE(0.00)[3]; NEURAL_HAM_SHORT(-0.20)[-1.000];
- MIME_BASE64_TEXT(0.10)[]; SIGNED_PGP(-2.00)[];
- FROM_EQ_ENVFROM(0.00)[]; MIME_TRACE(0.00)[0:+,1:+,2:+,3:~];
- MID_RHS_MATCH_FROM(0.00)[]; BAYES_HAM(-2.28)[96.63%];
- ARC_NA(0.00)[];
- URIBL_BLOCKED(0.00)[suse.de:email,intel.com:email];
- FROM_HAS_DN(0.00)[]; RCPT_COUNT_THREE(0.00)[3];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,suse.de:email];
- FUZZY_BLOCKED(0.00)[rspamd.com]; RCVD_TLS_ALL(0.00)[]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spam-Score: -4.57
+From: Andy Yan <andy.yan@rock-chips.com>
+In-Reply-To: <5867171.29KlJPOoH8@diego>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQhlPTFZDH0lJTh0fQkJPTkJVEwETFh
+ oSFyQUDg9ZV1kYEgtZQVlOQ1VJSVVMVUpKT1lXWRYaDxIVHRRZQVlPS0hVSk1PSU5IVUpLS1VKQk
+ tLWQY+
+X-HM-Tid: 0a8cd8de4dd6b24fkuuu799d37802a7
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Kxg6Pww*MDwZST8KPjc*F09R
+ UTAaCRxVSlVKTEtPT09OT0JMSEhMVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
+ WUFZTkNVSUlVTFVKSk9ZV1kIAVlBT09IQzcG
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,82 +63,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org
+Cc: linux-rockchip@lists.infradead.org, kernel@collabora.com,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------7R2ztmZeA4zr0JbmXkTjy0hD
-Content-Type: multipart/mixed; boundary="------------eY6rfvQtE3TwNVwop400TkPg";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org
-Message-ID: <2d74c31f-7a54-449d-9ddd-9a902be86ee1@suse.de>
-Subject: Re: [RESEND] drm/edid: prefer forward declarations over includes in
- drm_edid.h
-References: <20240104211028.1129606-1-jani.nikula@intel.com>
-In-Reply-To: <20240104211028.1129606-1-jani.nikula@intel.com>
+Hi:
 
---------------eY6rfvQtE3TwNVwop400TkPg
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On 1/4/24 23:58, Heiko Stübner wrote:
+> Hi Christian, Andy,
+> 
+> Am Donnerstag, 4. Januar 2024, 15:39:50 CET schrieb Cristian Ciocaltea:
+>> Commit 5a028e8f062f ("drm/rockchip: vop2: Add support for rk3588")
+>> introduced a variable which ended up being unused.  Remove it.
+>>
+>> rockchip_drm_vop2.c:1688:23: warning: variable ‘if_dclk_rate’ set but not used [-Wunused-but-set-variable]
+>>
+>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+> 
+> in general, please don't send non-series patches as replies to other patches.
+> It confuses tooling like b4 way too often, as this patch is not designated
+> as a 2/2 (similar to the first one not being 1/2).
+> 
+>> ---
+>>   drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 2 --
+>>   1 file changed, 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+>> index 44508c2dd614..923985d4161b 100644
+>> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+>> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+>> @@ -1685,7 +1685,6 @@ static unsigned long rk3588_calc_cru_cfg(struct vop2_video_port *vp, int id,
+>>   	unsigned long dclk_core_rate = v_pixclk >> 2;
+>>   	unsigned long dclk_rate = v_pixclk;
+>>   	unsigned long dclk_out_rate;
+>> -	unsigned long if_dclk_rate;
+>>   	unsigned long if_pixclk_rate;
+>>   	int K = 1;
+>>   
+>> @@ -1700,7 +1699,6 @@ static unsigned long rk3588_calc_cru_cfg(struct vop2_video_port *vp, int id,
+>>   		}
+>>   
+>>   		if_pixclk_rate = (dclk_core_rate << 1) / K;
+>> -		if_dclk_rate = dclk_core_rate / K;
+>>   		/*
+>>   		 * *if_pixclk_div = dclk_rate / if_pixclk_rate;
+>>   		 * *if_dclk_div = dclk_rate / if_dclk_rate;
+>>   		 */
+> 		*if_pixclk_div = 2;
+> 		*if_dclk_div = 4;
+> 
+> with the code continuing with those static constants but the comment
+> showing a forumula, I do hope Andy can provide a bit of insight into
+> what is happening here.
+> 
+> I.e. I'd really like to understand if that really is just a remnant or
+> something different is needed.
 
-DQoNCkFtIDA0LjAxLjI0IHVtIDIyOjEwIHNjaHJpZWIgSmFuaSBOaWt1bGE6DQo+IFRoZXJl
-J3Mgbm8gbmVlZCB0byBpbmNsdWRlIGVpdGhlciBsaW51eC9oZG1pLmggb3IgZHJtL2RybV9t
-b2RlLmguIFRoZXkNCj4gY2FuIGJlIHJlbW92ZWQgYnkgdXNpbmcgZm9yd2FyZCBkZWNsYXJh
-dGlvbnMuDQo+IA0KPiBXaGlsZSBhdCBpdCwgZ3JvdXAgdGhlIGZvcndhcmQgZGVjbGFyYXRp
-b25zIHRvZ2V0aGVyLCBhbmQgcmVtb3ZlIHRoZQ0KPiB1bm5lY2Vzc2FyeSBvbmVzLg0KPiAN
-Cj4gU2lnbmVkLW9mZi1ieTogSmFuaSBOaWt1bGEgPGphbmkubmlrdWxhQGludGVsLmNvbT4N
-Cg0KUmV2aWV3ZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRl
-Pg0KDQo+IC0tLQ0KPiAgIGluY2x1ZGUvZHJtL2RybV9lZGlkLmggfCAxMiArKysrKy0tLS0t
-LS0NCj4gICAxIGZpbGUgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygt
-KQ0KPiANCj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9lZGlkLmggYi9pbmNsdWRl
-L2RybS9kcm1fZWRpZC5oDQo+IGluZGV4IDU0Y2M2ZjA0YTcwOC4uODZjMTgxMmE4MDM0IDEw
-MDY0NA0KPiAtLS0gYS9pbmNsdWRlL2RybS9kcm1fZWRpZC5oDQo+ICsrKyBiL2luY2x1ZGUv
-ZHJtL2RybV9lZGlkLmgNCj4gQEAgLTI0LDExICsyNCwxNCBAQA0KPiAgICNkZWZpbmUgX19E
-Uk1fRURJRF9IX18NCj4gICANCj4gICAjaW5jbHVkZSA8bGludXgvdHlwZXMuaD4NCj4gLSNp
-bmNsdWRlIDxsaW51eC9oZG1pLmg+DQo+IC0jaW5jbHVkZSA8ZHJtL2RybV9tb2RlLmg+DQo+
-ICAgDQo+ICtlbnVtIGhkbWlfcXVhbnRpemF0aW9uX3JhbmdlOw0KPiArc3RydWN0IGRybV9j
-b25uZWN0b3I7DQo+ICAgc3RydWN0IGRybV9kZXZpY2U7DQo+ICtzdHJ1Y3QgZHJtX2Rpc3Bs
-YXlfbW9kZTsNCj4gICBzdHJ1Y3QgZHJtX2VkaWQ7DQo+ICtzdHJ1Y3QgaGRtaV9hdmlfaW5m
-b2ZyYW1lOw0KPiArc3RydWN0IGhkbWlfdmVuZG9yX2luZm9mcmFtZTsNCj4gICBzdHJ1Y3Qg
-aTJjX2FkYXB0ZXI7DQo+ICAgDQo+ICAgI2RlZmluZSBFRElEX0xFTkdUSCAxMjgNCj4gQEAg
-LTMxOSwxMSArMzIyLDYgQEAgc3RydWN0IGNlYV9zYWQgew0KPiAgIAl1OCBieXRlMjsgLyog
-bWVhbmluZyBkZXBlbmRzIG9uIGZvcm1hdCAqLw0KPiAgIH07DQo+ICAgDQo+IC1zdHJ1Y3Qg
-ZHJtX2VuY29kZXI7DQo+IC1zdHJ1Y3QgZHJtX2Nvbm5lY3RvcjsNCj4gLXN0cnVjdCBkcm1f
-Y29ubmVjdG9yX3N0YXRlOw0KPiAtc3RydWN0IGRybV9kaXNwbGF5X21vZGU7DQo+IC0NCj4g
-ICBpbnQgZHJtX2VkaWRfdG9fc2FkKGNvbnN0IHN0cnVjdCBlZGlkICplZGlkLCBzdHJ1Y3Qg
-Y2VhX3NhZCAqKnNhZHMpOw0KPiAgIGludCBkcm1fZWRpZF90b19zcGVha2VyX2FsbG9jYXRp
-b24oY29uc3Qgc3RydWN0IGVkaWQgKmVkaWQsIHU4ICoqc2FkYik7DQo+ICAgaW50IGRybV9h
-dl9zeW5jX2RlbGF5KHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IsDQoNCi0tIA0K
-VGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29m
-dHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2
-MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5k
-cmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJn
-KQ0K
+This is not a remnant, in my V1, I calculate all the div by formula, but Sascha prefer
+more for a constants value[0], so I keep this formula as comments to indicate how these value come from.
 
---------------eY6rfvQtE3TwNVwop400TkPg--
-
---------------7R2ztmZeA4zr0JbmXkTjy0hD
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmWXvo0FAwAAAAAACgkQlh/E3EQov+D+
-Hw//ShoUzgRZ98L++eN9US/P000Uf9UZS1sx07LyuDjFzCBEnOI93dMHrnv6EindSoOXcdSZ4U/w
-Un130ELBh2X7ofIABFismPl58AtqMZ4+Pu8fxLTycQonzc2xz2cFqAwZicCc3t6PTKRsV4DU9jzH
-cyv0eo9zbVOIeFbuc/QhuPo8qAw0QmWfL1JCWZYUoaYFq3Cl/plEucktAcPr4bt1MmfVXjNzBOA0
-T2Zs7b3eckUucC47ljGvfzFg2EH6+wFc5ou4IWdiZieI0Tuth13bEPrCfzc43/eVrhHCrEsWNA5b
-vkFxop1RtSfoGogUzUqFgH70F3ML7Io7mbgGNT/kAQec4otqlDkgsy4mWf4b3E8wH29HwKCmAWPb
-haWDOXs2Oi83nZviwWlHC1Kz/AGq0vAGDhmkfhaUS6IgR1JaCX2VZDHoWCi0erzdqLYf9yCbl8qf
-DPr+R3zWcQhojyiGeH3DdwKijqANt1O70GMmfEm5iB2dBDjUiuMapDBLUu6WOGrc7Hupjypmtz4K
-aHkTvi+Jx7XmsL/bhuGeSiUZFysonNtRP0hBqoQNXdJLYpXdjKmlb55gOHSM/gs0d57e5U0jLMjU
-IFFVmTJzJe7Vi5z+HTDaeFzkr6FksIDKkGB/veJQxPBt+pfR3DbFTAeNAlSfo9owA6uMBj5xAsTm
-rmY=
-=2lFU
------END PGP SIGNATURE-----
-
---------------7R2ztmZeA4zr0JbmXkTjy0hD--
+[0]https://patchwork.kernel.org/project/linux-rockchip/patch/20231114112855.1771372-1-andyshrk@163.com/
+> 
+> 
+> Heiko
+> 
+> 
