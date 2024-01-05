@@ -1,61 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FB2C82534B
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 13:22:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACCE582534C
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 13:22:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EA4510E5E4;
-	Fri,  5 Jan 2024 12:22:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF83A10E5E5;
+	Fri,  5 Jan 2024 12:22:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6764610E5E5
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 12:22:12 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- 5b1f17b1804b1-40d858c56cbso17140785e9.2
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Jan 2024 04:22:12 -0800 (PST)
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5490010E5E5
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 12:22:28 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id
+ ffacd0b85a97d-336746c7b6dso1093870f8f.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Jan 2024 04:22:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1704457331; x=1705062131; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1704457347; x=1705062147; darn=lists.freedesktop.org;
  h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :from:to:cc:subject:date:message-id:reply-to;
- bh=vA6FwkyEuG2uyMNDinLLFMYwum2IR4tEfb81R7t0wM4=;
- b=oRJr9YhP8u4svaLGFn3usOKfS7r45CkBbgK3sh6l5XfZQe5Wa81ggvmSM5kOiQwgE4
- ACF4oxnyij2QEQ5LUH244dT9Ptn5Nw/wqg5c/BnWphabQcqsKnfYbU47/0+n+VyUL/Ex
- oLjfK+vEIAPJhVY258qjPBFH7zyKvdg7miWrC11jXPj4/HZQWasJ5CtfUHy/7H2I7fB/
- yrBrcx+zAWWn6klSlObI9BU6uL48oHVVX8jIib8VNN0VrhVr/Ga/8Tr35dM78Y5l/mVJ
- d8GGrNs23V6pFIh1Wq+JgSVeH24KB5grnMWHBAoBY/xoBaHAsqjlV939Lpxer7kxobqP
- T83g==
+ bh=sGBscisyTSw/b2M1zSYK36n9y5Z4TnelnT//si07xms=;
+ b=LcuU8TBkXaSE1XqYIR5xaN9qU3j/Tlz9WDVZjxN2ZilKoRGs+yljV6lxvEDzEdjDoF
+ psWj3OubxdjnEsb0ootr4m5G1QYGHQrF50b91xg1AUfHksNkHRrD+LI4wQ3FfRRGx+W3
+ uPkj4iccqDWvP6tPkdbm7oYcE2BbtCQvGyafx4EeElsWyoWM7HEXNZSyjAguhCnMo1+D
+ 2bpmgo6X1L+TpiQA3wo7sKcUgRqJGvy8gwvHRgHtqNVrRm/mn7iLHAo9VhO7ESh++Usp
+ GhgazO85W7RbpJvBQRgzpH0lA0YNLfaUvVdBMbbypY7a6MibrsFUkZkb2DnnYT41qMFx
+ a8oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704457331; x=1705062131;
+ d=1e100.net; s=20230601; t=1704457347; x=1705062147;
  h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vA6FwkyEuG2uyMNDinLLFMYwum2IR4tEfb81R7t0wM4=;
- b=epQ02ZVTmuA28FQG9X81uvaAwKJwb6zQ2YXKFXhR4HPUrLbe4FKk1Jh5nYvKvPzqp8
- idTBNYgjDpwtg8YFsTS9yIJUjyEOIEIry4WlfIrC3svrwQ1zcU5TOZ9wQNuO1abcmAfG
- PSk3wkrL6zhMVVldKuzU5Rlq92zEanxfogQ7GBHX2ULNMGOEZm8bcCYREG8Y7ct/6vIN
- OwrrG1tjttKNdrmRcQCIG0mmav7NKwZppCl58f0i2Pfci/j1fCt6+bQluvJa6cDiYn6s
- WzRxqcubrmY9/oh1b7+1J5rAXBWm/6uWdHh0dYanLMv+mpnXhvVjJTpogCE4cpk+/cTZ
- BzcA==
-X-Gm-Message-State: AOJu0YwXuCo6Uv6Bu70aaFdBSB7VQl4l5kPSBPsK7wYO7lGs6JSaPRBz
- NOoI0kXhSnQqHLVK8x++FftGACL/axLt8g==
-X-Google-Smtp-Source: AGHT+IFRXBzoLefK8dQ3hNUFl9K35qP7i7gGSeIAN5Wa2ndnPhdB3qSmOQ33y0BUTJtgLV6xta7yiA==
-X-Received: by 2002:a05:600c:a3af:b0:40d:3dbc:aee2 with SMTP id
- hn47-20020a05600ca3af00b0040d3dbcaee2mr1235885wmb.69.1704457330746; 
- Fri, 05 Jan 2024 04:22:10 -0800 (PST)
+ bh=sGBscisyTSw/b2M1zSYK36n9y5Z4TnelnT//si07xms=;
+ b=b4EyaeiwNunSvgcQ9ckKHkwsYq1QzqHknh1HPgrDurkDKixBFQBoTjFeMpCB8y4/CS
+ Yg0+msZQftD2kuysZ2HefjfEZoC1+wA2Ugunti7459YH4ApvcdMxg/vYyXRfi6CRKblK
+ pZ3cfQtlEmuRzp5f9bC4adnIPEGrrHdMirU/+Ca8dExeZo35/MLTCezyYtoPOyNv1AG/
+ L2Qj8n1Qp34bO33weiNfAuMvz4ZEtQfivg5IRgS4SrzXMiUsSnQPQ9ye5jiCDuchXiFq
+ E2AqSYtd/BysEMMlVQZCV/k9L4L0/vk9VgLSLUAibl6fHI/SVJo0+jxLfqy895jm4eVf
+ 95Cw==
+X-Gm-Message-State: AOJu0YzBBLWjbcN3jW7NCoijmu0xccl9rVBbEpMOSMu8a6H+aPmZVPWB
+ RsJGPAhCJi01drMHD0pk81jH1cCm3SXJgA==
+X-Google-Smtp-Source: AGHT+IGT9fzaBi710ATXJxb0FerLWIsQ3l4gQxWJgA6mtydUZQ2+rmZLq4bt4feS2DdowkKD2D79Tg==
+X-Received: by 2002:adf:ec05:0:b0:337:46ce:6239 with SMTP id
+ x5-20020adfec05000000b0033746ce6239mr1113868wrn.60.1704457346718; 
+ Fri, 05 Jan 2024 04:22:26 -0800 (PST)
 Received: from localhost ([102.140.209.237]) by smtp.gmail.com with ESMTPSA id
- t3-20020a05600c450300b0040e3960f46asm1295472wmo.14.2024.01.05.04.22.10
+ d3-20020adffd83000000b003367e35abd4sm1296723wrr.71.2024.01.05.04.22.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jan 2024 04:22:10 -0800 (PST)
-Date: Fri, 5 Jan 2024 15:22:07 +0300
+ Fri, 05 Jan 2024 04:22:26 -0800 (PST)
+Date: Fri, 5 Jan 2024 15:22:23 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: matthew.brost@intel.com
-Subject: [bug report] drm/xe: Introduce a new DRM driver for Intel GPUs
-Message-ID: <820ab774-5df3-4b27-bf02-3589bb6b4ce5@moroto.mountain>
+To: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+Subject: [PATCH] drm/xe/device: clean up on error in probe()
+Message-ID: <c8984fe2-dc1a-4ba8-97c9-5c83f53a0d09@moroto.mountain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,59 +69,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Matt Roper <matthew.d.roper@intel.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ kernel-janitors@vger.kernel.org, Lucas De Marchi <lucas.demarchi@intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-xe@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Matthew Brost,
+This error path should clean up before returning.
 
-The patch dd08ebf6c352: "drm/xe: Introduce a new DRM driver for Intel
-GPUs" from Mar 30, 2023 (linux-next), leads to the following Smatch
-static checker warning:
+Smatch detected this bug:
+  drivers/gpu/drm/xe/xe_device.c:487 xe_device_probe() warn: missing unwind goto?
 
-	drivers/gpu/drm/xe/xe_bo.c:2246 xe_bo_dumb_create()
-	warn: potential integer overflow from user '((args->width * cpp)) + (((64)) - 1)'
+Fixes: 4cb12b71923b ("drm/xe/xe2: Determine bios enablement for flat ccs on igfx")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+Speeking of static analysis, someone should probably run Sparse on this
+driver.  There are some missing annotations.
 
-drivers/gpu/drm/xe/xe_bo.c
-    2234 int xe_bo_dumb_create(struct drm_file *file_priv,
-    2235                       struct drm_device *dev,
-    2236                       struct drm_mode_create_dumb *args)
-    2237 {
-    2238         struct xe_device *xe = to_xe_device(dev);
-    2239         struct xe_bo *bo;
-    2240         uint32_t handle;
-    2241         int cpp = DIV_ROUND_UP(args->bpp, 8);
-    2242         int err;
-    2243         u32 page_size = max_t(u32, PAGE_SIZE,
-    2244                 xe->info.vram_flags & XE_VRAM_FLAGS_NEED64K ? SZ_64K : SZ_4K);
-    2245 
---> 2246         args->pitch = ALIGN(args->width * cpp, 64);
+drivers/gpu/drm/xe/xe_mmio.h:65:72: warning: incorrect type in argument 1 (different address spaces)
+drivers/gpu/drm/xe/xe_mmio.h:65:72:    expected void const volatile [noderef] __iomem *addr
+drivers/gpu/drm/xe/xe_mmio.h:65:72:    got void *
 
-drm_mode_create_dumb() guarantees that "args->width * cpp" can't
-overflow but if we pick "args->width * cpp" set to U32_MAX - 63 or above
-then the ALIGN() can overflow to zero.
+ drivers/gpu/drm/xe/xe_device.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I should have picked INT_MAX as the limit in drm_mode_create_dumb()...
+diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
+index d9ae77fe7382..b8d8da546670 100644
+--- a/drivers/gpu/drm/xe/xe_device.c
++++ b/drivers/gpu/drm/xe/xe_device.c
+@@ -484,7 +484,7 @@ int xe_device_probe(struct xe_device *xe)
+ 
+ 	err = xe_device_set_has_flat_ccs(xe);
+ 	if (err)
+-		return err;
++		goto err_irq_shutdown;
+ 
+ 	err = xe_mmio_probe_vram(xe);
+ 	if (err)
+-- 
+2.42.0
 
-    2247         args->size = ALIGN(mul_u32_u32(args->pitch, args->height),
-    2248                            page_size);
-    2249 
-    2250         bo = xe_bo_create_user(xe, NULL, NULL, args->size,
-    2251                                DRM_XE_GEM_CPU_CACHING_WC,
-    2252                                ttm_bo_type_device,
-    2253                                XE_BO_CREATE_VRAM_IF_DGFX(xe_device_get_root_tile(xe)) |
-    2254                                XE_BO_CREATE_USER_BIT | XE_BO_SCANOUT_BIT |
-    2255                                XE_BO_NEEDS_CPU_ACCESS);
-    2256         if (IS_ERR(bo))
-    2257                 return PTR_ERR(bo);
-    2258 
-    2259         err = drm_gem_handle_create(file_priv, &bo->ttm.base, &handle);
-    2260         /* drop reference from allocate - handle holds it now */
-    2261         drm_gem_object_put(&bo->ttm.base);
-    2262         if (!err)
-    2263                 args->handle = handle;
-    2264         return err;
-    2265 }
-
-regards,
-dan carpenter
