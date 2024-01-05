@@ -1,34 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B12378258CA
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 18:02:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43D858258D1
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 18:03:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 030B710E635;
-	Fri,  5 Jan 2024 17:02:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C9F610E64D;
+	Fri,  5 Jan 2024 17:03:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B95210E635
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 17:02:37 +0000 (UTC)
-Received: from i53875a56.versanet.de ([83.135.90.86] helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1rLnaa-0006Ds-1M; Fri, 05 Jan 2024 18:02:32 +0100
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Alex Bee <knaerzche@gmail.com>
-Subject: Re: (subset) [PATCH v4 00/29] Add HDMI support for RK3128
-Date: Fri, 05 Jan 2024 18:02:31 +0100
-Message-ID: <2568547.3Lj2Plt8kZ@diego>
-In-Reply-To: <3e7aa9f2-6e37-44c3-9361-5fa7c4ef203d@gmail.com>
-References: <20231222174220.55249-1-knaerzche@gmail.com>
- <170435598418.3166964.9367277671989164237.b4-ty@sntech.de>
- <3e7aa9f2-6e37-44c3-9361-5fa7c4ef203d@gmail.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3131510E653
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 17:03:51 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 405FeCPd019681; Fri, 5 Jan 2024 17:03:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=iQCgCGRFyADXkJvXyahmD6/0efUf1Z4jOst+cGmz1Gg=; b=iC
+ f6gtLFXY4SpmLazaSqTvNrylXvOMLBScK0nNT9wFvvWw5t8gi8V8DWGi3KusiB6e
+ y5evSX3N5PeB3XHIFQmU+5tLHLo77kXZHV091ZFZ532qYmumiZK+vsL5u17j0LUG
+ nB6Ul9rZeZ0sKIVWq2QlEql/UWTytgyt/lf0pyL3Kf3WbSNa0NFhTAqQ2n/klqhr
+ u8pgTYhb21IaBjRw1z6Y/6wa0uB9xXiWfjgZwQw/dxX7GxrUWABLdHyZ+623ca77
+ 2flcUGjlePHnJyszx5n12cUvCCJrgf1Lc818xDTvrCqsbFa3TyewQ+ekQ0gtVpsO
+ uK+Am+97ejElY7foxXgw==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ve9a3sp08-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 05 Jan 2024 17:03:14 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 405H3DI2025576
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 5 Jan 2024 17:03:13 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 5 Jan
+ 2024 09:03:13 -0800
+Message-ID: <4814bd7d-fc5f-1252-ffd8-b60197b4d3b6@quicinc.com>
+Date: Fri, 5 Jan 2024 10:03:12 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 09/10] accel/ivpu: Improve buffer object debug logs
+Content-Language: en-US
+To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>
+References: <20240105112218.351265-1-jacek.lawrynowicz@linux.intel.com>
+ <20240105112218.351265-10-jacek.lawrynowicz@linux.intel.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20240105112218.351265-10-jacek.lawrynowicz@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 4Qw5FaLpnxe5nigFCkVhmCMeyNlDgAiR
+X-Proofpoint-ORIG-GUID: 4Qw5FaLpnxe5nigFCkVhmCMeyNlDgAiR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ phishscore=0 adultscore=0 spamscore=0 bulkscore=0 impostorscore=0
+ lowpriorityscore=0 clxscore=1015 malwarescore=0 mlxlogscore=927 mlxscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2401050141
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,78 +84,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org,
- Rob Herring <robh+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Freitag, 5. Januar 2024, 17:47:21 CET schrieb Alex Bee:
-> Hi Heiko,
+On 1/5/2024 4:22 AM, Jacek Lawrynowicz wrote:
+> Make debug logs more readable and consistent:
+>    - don't print handle as it is not always available for all buffers
+>    - use hashed ivpu_bo ptr as main buffer identifier
+>    - remove unused fields from ivpu_bo_print_info()
 > 
+> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+> ---
+>   drivers/accel/ivpu/ivpu_gem.c | 72 +++++++++++------------------------
+>   drivers/accel/ivpu/ivpu_gem.h |  1 -
+>   2 files changed, 23 insertions(+), 50 deletions(-)
 > 
-> Am 04.01.24 um 09:14 schrieb Heiko Stuebner:
-> > On Fri, 22 Dec 2023 18:41:51 +0100, Alex Bee wrote:
-> >> This is version 4 of my series that aims to add support for the display
-> >> controller (VOP) and the HDMI controller block of RK3128 (which is very
-> >> similar to the one found in RK3036). The original intention of this series
-> >> was to add support for this slightly different integration but is by now,
-> >> driven by maintainer's feedback, exploded to be a rework of inno-hdmi
-> >> driver in large parts. It is, however, a change for the better.
-> >>
-> >> [...]
-> > Applied, thanks!
-> >
-> > [23/29] drm/rockchip: inno_hdmi: Add variant support
-> >          commit: 5f2e93e6719701a91307090f8f7696fd6b3bffdf
-> > [24/29] drm/rockchip: inno_hdmi: Add RK3128 support
-> >          commit: aa54f334c291effe321aa4b9ac0e67a895fd7b58
-> > [25/29] drm/rockchip: inno_hdmi: Add basic mode validation
-> >          commit: 701029621d4141d0c9f8b81a88a37b95ec84ce65
-> > [26/29] drm/rockchip: inno_hdmi: Drop custom fill_modes hook
-> >          commit: 50a3c772bd927dd409c484832ddd9f6bf00b7389
-> >
-> >
-> > For reference, Rob has applied the rk3128 compatible in
-> > https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git/commit/?id=21960bda59852ca961fcd27fba9f92750caccd06
-> thanks for keeping track on this.
-> 
-> Is there any reason the DT paches aren't merged yet? From what I can see
-> they should be fine to be merged in your v6.8-armsoc/dts32 branch which is
-> 6.7-rc1 based. There was only a txt-binding at this point and it's very
-> likely that both the rockchip,inno-hdmi.yaml-conversion and the rk3128
-> additon will both land in 6.8 (they are both in linux-next). Linus' 6.8
-> merge-window will open earliest next week.
+> diff --git a/drivers/accel/ivpu/ivpu_gem.c b/drivers/accel/ivpu/ivpu_gem.c
+> index 8cb4d337552e..dd327d7eda0d 100644
+> --- a/drivers/accel/ivpu/ivpu_gem.c
+> +++ b/drivers/accel/ivpu/ivpu_gem.c
+> @@ -24,14 +24,11 @@ static const struct drm_gem_object_funcs ivpu_gem_funcs;
+>   
+>   static inline void ivpu_dbg_bo(struct ivpu_device *vdev, struct ivpu_bo *bo, const char *action)
+>   {
+> -	if (bo->ctx)
+> -		ivpu_dbg(vdev, BO, "%6s: size %zu has_pages %d dma_mapped %d handle %u ctx %d vpu_addr 0x%llx mmu_mapped %d\n",
+> -			 action, ivpu_bo_size(bo), (bool)bo->base.pages, (bool)bo->base.sgt,
+> -			 bo->handle, bo->ctx->id, bo->vpu_addr, bo->mmu_mapped);
+> -	else
+> -		ivpu_dbg(vdev, BO, "%6s: size %zu has_pages %d dma_mapped %d handle %u (not added to context)\n",
+> -			 action, ivpu_bo_size(bo), (bool)bo->base.pages, (bool)bo->base.sgt,
+> -			 bo->handle);
+> +	ivpu_dbg(vdev, BO,
+> +		 "%6s: bo %8p vpu_addr %9llx size %8zu ctx %d has_pages %d dma_mapped %d mmu_mapped %d wc %d imported %d\n",
+> +		 action, bo, bo->vpu_addr, ivpu_bo_size(bo), bo->ctx ? bo->ctx->id : 0,
+> +		 (bool)bo->base.pages, (bool)bo->base.sgt, bo->mmu_mapped, bo->base.map_wc,
+> +		 (bool)bo->base.base.import_attach);
+>   }
+>   
+>   /*
+> @@ -49,12 +46,7 @@ int __must_check ivpu_bo_pin(struct ivpu_bo *bo)
+>   	mutex_lock(&bo->lock);
+>   
+>   	ivpu_dbg_bo(vdev, bo, "pin");
+> -
+> -	if (!bo->ctx) {
+> -		ivpu_err(vdev, "vpu_addr not allocated for BO %d\n", bo->handle);
+> -		ret = -EINVAL;
+> -		goto unlock;
+> -	}
+> +	drm_WARN_ON(&vdev->drm, !bo->ctx);
+>   
+>   	if (!bo->mmu_mapped) {
+>   		struct sg_table *sgt = drm_gem_shmem_get_pages_sgt(&bo->base);
+> @@ -108,9 +100,7 @@ static void ivpu_bo_unbind_locked(struct ivpu_bo *bo)
+>   {
+>   	struct ivpu_device *vdev = ivpu_bo_to_vdev(bo);
+>   
+> -	lockdep_assert_held(&bo->lock);
+> -
+> -	ivpu_dbg_bo(vdev, bo, "unbind");
+> +	lockdep_assert(lockdep_is_held(&bo->lock) || !kref_read(&bo->base.base.refcount));
+>   
+>   	if (bo->mmu_mapped) {
+>   		drm_WARN_ON(&vdev->drm, !bo->ctx);
+> @@ -122,7 +112,6 @@ static void ivpu_bo_unbind_locked(struct ivpu_bo *bo)
+>   
+>   	if (bo->ctx) {
+>   		ivpu_mmu_context_remove_node(bo->ctx, &bo->mm_node);
+> -		bo->vpu_addr = 0;
+>   		bo->ctx = NULL;
+>   	}
+>   
+> @@ -139,13 +128,6 @@ static void ivpu_bo_unbind_locked(struct ivpu_bo *bo)
+>   	dma_resv_unlock(bo->base.base.resv);
+>   }
+>   
+> -static void ivpu_bo_unbind(struct ivpu_bo *bo)
+> -{
+> -	mutex_lock(&bo->lock);
+> -	ivpu_bo_unbind_locked(bo);
+> -	mutex_unlock(&bo->lock);
+> -}
 
-Exactly ... and the arm subarchitectures (Rockchip, etc) feed into the
-more generic soc-tree[0]  and from there in a set of pull requests.
+This does not seem to be related to $SUBJECT
 
-Normally everything needs to go to the soc tree before -rc7 .
-With the whole xmas stuff, I sent some stragglers in a second pull
-request on monday, but that was already before Rob applied the
-binding on tuesday.
+> -
+>   void ivpu_bo_remove_all_bos_from_context(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx)
+>   {
+>   	struct ivpu_bo *bo;
+> @@ -156,8 +138,10 @@ void ivpu_bo_remove_all_bos_from_context(struct ivpu_device *vdev, struct ivpu_m
+>   	mutex_lock(&vdev->bo_list_lock);
+>   	list_for_each_entry(bo, &vdev->bo_list, bo_list_node) {
+>   		mutex_lock(&bo->lock);
+> -		if (bo->ctx == ctx)
+> +		if (bo->ctx == ctx) {
+> +			ivpu_dbg_bo(vdev, bo, "unbind");
+>   			ivpu_bo_unbind_locked(bo);
+> +		}
+>   		mutex_unlock(&bo->lock);
+>   	}
+>   	mutex_unlock(&vdev->bo_list_lock);
+> @@ -209,9 +193,6 @@ ivpu_bo_create(struct ivpu_device *vdev, u64 size, u32 flags)
+>   	list_add_tail(&bo->bo_list_node, &vdev->bo_list);
+>   	mutex_unlock(&vdev->bo_list_lock);
+>   
+> -	ivpu_dbg(vdev, BO, "create: vpu_addr 0x%llx size %zu flags 0x%x\n",
+> -		 bo->vpu_addr, bo->base.base.size, flags);
+> -
+>   	return bo;
+>   }
+>   
+> @@ -243,15 +224,15 @@ static void ivpu_bo_free(struct drm_gem_object *obj)
+>   	struct ivpu_device *vdev = to_ivpu_device(obj->dev);
+>   	struct ivpu_bo *bo = to_ivpu_bo(obj);
+>   
+> +	ivpu_dbg_bo(vdev, bo, "free");
+> +
+>   	mutex_lock(&vdev->bo_list_lock);
+>   	list_del(&bo->bo_list_node);
+>   	mutex_unlock(&vdev->bo_list_lock);
+>   
+>   	drm_WARN_ON(&vdev->drm, !dma_resv_test_signaled(obj->resv, DMA_RESV_USAGE_READ));
+>   
+> -	ivpu_dbg_bo(vdev, bo, "free");
+> -
+> -	ivpu_bo_unbind(bo);
+> +	ivpu_bo_unbind_locked(bo);
 
-So 6.8 devicetree stuff is essentially done and the dts patches
-from this series will go in to 6.9 .
-
-
-Hope that explains things a bit :-)
-Heiko
-
-[0] https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git/
-
-> I'm really not pressuring here and I'm fine if they land in 6.9 - it's just
-> for my understanding for further submissions.
-> 
-> Alex
-> 
-> >
-> > Best regards,
-> 
-
-
-
+This does not seem to be related to $SUBJECT
 
