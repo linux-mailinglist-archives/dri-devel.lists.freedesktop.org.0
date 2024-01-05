@@ -2,61 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F6CF825796
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 17:04:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25D818257CB
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 17:11:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CAC110E645;
-	Fri,  5 Jan 2024 16:04:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81DE210E610;
+	Fri,  5 Jan 2024 16:11:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com
- [IPv6:2001:4860:4864:20::34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A617A10E634;
- Fri,  5 Jan 2024 16:04:27 +0000 (UTC)
-Received: by mail-oa1-x34.google.com with SMTP id
- 586e51a60fabf-20400d5b54eso928683fac.1; 
- Fri, 05 Jan 2024 08:04:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1704470667; x=1705075467; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=whv4GannslDB5rLdYo9kigOWmeo7QZDRfIfNrJXqKEw=;
- b=fpzkmB6uCP3FqUw8dsOFTj46wIu+teFmGCtbMxWIp8yg0DKUoRGyQrke+CulbvEUXf
- jLeD+G3BUUY8MHbSL3ejEz7t0AUmwXZUVBn/ExifwmiyaxVBNFTC57u6B+C3X7wWPq7h
- OLXNVN/ABd8vbQV1oKZnpzazX1CcTgVZ28hQFK3YQPwkev9fLP8hrOdrg60hFlgSPH6g
- b/fWXKOk2OJz4JT06fzLmw3NjQQ3uKVsdbS62d6y4GALoCBjsBvB3EP8Yyl7Y9p1HJd+
- SI8ryy3ZB7oSN+UnnKOfI1mLdQEDT2niM+SFfIe/EBQPpfENXUf2E4LEMdFB6mqnsZ1L
- xpPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704470667; x=1705075467;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=whv4GannslDB5rLdYo9kigOWmeo7QZDRfIfNrJXqKEw=;
- b=mjKyIbHRikwIK+Hi+Q6gICnjKACD9zlScQk8EJSP/1GTrBdnxirrBmf9dyEvdr6zkD
- yA8pLyzDE/FFN/wfstd/5Na6YeiSsS5FBEdQgLVw1uwjVo3HhAXHcdJcCf3Kp3OtqPwz
- iWd4PNAkhGmzx/nP/CuZk/Y7WNs85mC0eZ93UI8FPpwu+u/SE2mfIA64yFSX5rIZ0miG
- WdfE3aOvJT+cdAshIO8wvyItXKCKUYfv23EQhg+zr7R863ASVjcjxXm1sFY2uPCkU/Az
- oj4dwuW0Y/HnpvjRM6y/gEUdyOfVQRCLPlIihboUaomxKZLVDQjSvZrFQJM+n/z5hV0a
- vPRA==
-X-Gm-Message-State: AOJu0YyG4m/0wvibm4BChV/Eyb9F+YZ/FKoqkgeCqIc3OK1Kn9VL+oTR
- 5ipcwNF8H0xIdG6m2dzbHn7aC4tRPGQx12CIQxk=
-X-Google-Smtp-Source: AGHT+IEyWFcej5XGL9+gHh+h2IKOiy8VOKFo3RMc9yjKxFm8wxHp0Hv+8oSB86SBuzomapKqFUADrLdZsYPC/g2EVRs=
-X-Received: by 2002:a05:6870:a118:b0:205:c4d3:ef8d with SMTP id
- m24-20020a056870a11800b00205c4d3ef8dmr2376611oae.104.1704470666931; Fri, 05
- Jan 2024 08:04:26 -0800 (PST)
+Received: from mecka.net (unknown [IPv6:2a01:4f8:1c1c:934f::1])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4D41D10E610
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 16:11:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mecka.net; s=2016.11;
+ t=1704471069; bh=scRaWWoI9TurorlydzlbrmexlJ5AF4ZUMgBpMJ6yCQ8=;
+ h=Date:From:To:Subject:References:In-Reply-To:From;
+ b=rjg0gFzndNziXNNA+a0FA5OO8jv9mYpGi8AEo/Dcv9PBAl46InjVt3ZqXfv3ZufAj
+ OznAyeCsh0+RRIlV0VHSNQLhtBk9d4OuNePZeyBsUf7UXLwKWDqASCxGoTIzJfhgDq
+ p/pznipJe/LUAYkOqnc+F9gns4AdpwXQWdPGXZfLzoAAuPCQjfdC5W70v0RtXsiDap
+ vaOb1eE+uEEswJkI/Yy3OFRRA3UDXkj5ueis5S2oFRoSIK9bR/9mzWTOyU7gdP30ZO
+ 8O3qH7tfn4XwOUWaEOIaP865Lj+rQCrqRHmMGNLckrCbTyY7RFr7gkoxwE6kX6hR1V
+ uyXkJyfECEnSw==
+Received: from mecka.net (unknown [185.147.11.134])
+ by mecka.net (Postfix) with ESMTPSA id 4ADCF37C331;
+ Fri,  5 Jan 2024 17:11:09 +0100 (CET)
+Date: Fri, 5 Jan 2024 17:11:03 +0100
+From: Manuel Traut <manut@mecka.net>
+To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+ Mark Yao <markyao0591@gmail.com>, Diederik de Haas <didi.debian@cknow.org>,
+ Segfault <awarnecke002@hotmail.com>,
+ Arnaud Ferraris <aferraris@debian.org>,
+ Danct12 <danct12@riseup.net>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v3 4/4] arm64: dts: rockchip: Add devicetree for Pine64
+ PineTab2
+Message-ID: <ZZgqF5hLO8UThPep@mecka.net>
+References: <20240102-pinetab2-v3-0-cb1aa69f8c30@mecka.net>
+ <20240102-pinetab2-v3-4-cb1aa69f8c30@mecka.net>
+ <vj3elmkt6czisvwqouv2hhvut2va5jw6bbj5kjyxawvrnrdfwm@tlpo3dp3qcyb>
 MIME-Version: 1.0
-References: <20240104201632.1100753-1-jani.nikula@intel.com>
- <20240104201632.1100753-3-jani.nikula@intel.com>
-In-Reply-To: <20240104201632.1100753-3-jani.nikula@intel.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 5 Jan 2024 11:04:15 -0500
-Message-ID: <CADnq5_OBNc8TOErS+sXMB2OuaqT0PdOU7O0+MHGU2pEKF10GTA@mail.gmail.com>
-Subject: Re: [PATCH 3/3] ASoC: hdmi-codec: drop drm/drm_edid.h include
-To: Jani Nikula <jani.nikula@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <vj3elmkt6czisvwqouv2hhvut2va5jw6bbj5kjyxawvrnrdfwm@tlpo3dp3qcyb>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,152 +66,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Neil Armstrong <neil.armstrong@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, Takashi Iwai <tiwai@suse.com>,
- linux-sound@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Maxime Ripard <mripard@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 4, 2024 at 3:17=E2=80=AFPM Jani Nikula <jani.nikula@intel.com> =
-wrote:
->
-> hdmi-codec.h does not appear to directly need drm/drm_edid.h for
-> anything. Remove it.
->
-> There are some files that get drm/drm_edid.h by proxy; include it where
-> needed.
->
-> v2-v4: Fix build (kernel test robot <lkp@intel.com>)
->
-> Cc: Rob Clark <robdclark@gmail.com>
-> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: Sean Paul <sean@poorly.run>
-> Cc: Marijn Suijten <marijn.suijten@somainline.org>
-> Cc: linux-arm-msm@vger.kernel.org
-> Cc: freedreno@lists.freedesktop.org
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Robert Foss <rfoss@kernel.org>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Jaroslav Kysela <perex@perex.cz>
-> Cc: Takashi Iwai <tiwai@suse.com>
-> Cc: linux-sound@vger.kernel.org
-> Acked-by: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+On Wed, Jan 03, 2024 at 10:42:54AM +0100, Ondřej Jirman wrote:
+> Hello Manuel,
+> 
+> a few more things I noticed:
+> 
+> On Tue, Jan 02, 2024 at 05:15:47PM +0100, Manuel Traut wrote:
+> > From: Alexander Warnecke <awarnecke002@hotmail.com>
+> > 
+> > +	leds {
+> > +		compatible = "gpio-leds";
+> > +
+> > +		pinctrl-names = "default";
+> > +		pinctrl-0 = <&flash_led_en_h>;
+> > +
+> > +		led-0 {
+> > +			gpios = <&gpio4 RK_PA5 GPIO_ACTIVE_HIGH>;
+> > +			color = <LED_COLOR_ID_WHITE>;
+> > +			function = LED_FUNCTION_FLASH;
+> > +		};
+> 
+> This LED is supplied by VCC5V_MIDU, so maybe this should be a regulator-led
+> supplied by gpio (FLASH_LED_EN_H) controlled regulator-fixed named f_led which
+> is in turn supplied by VCC5V_MIDU.
+> 
+> https://megous.com/dl/tmp/9bf0d85d78946b5e.png
 
-Series is:
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
+regulator-leds are controlled by turning on or off the regulator. However
+VCC5V_MIDU is also used by other devices (USB, HDMI, ..) so I guess this is
+not what we want. I would keep it as is.
 
-> ---
->  drivers/gpu/drm/bridge/lontium-lt9611.c    | 1 +
->  drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 1 +
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c  | 1 +
->  drivers/gpu/drm/msm/dp/dp_display.c        | 1 +
->  drivers/gpu/drm/tegra/hdmi.c               | 1 +
->  drivers/gpu/drm/vc4/vc4_hdmi.c             | 1 +
->  include/sound/hdmi-codec.h                 | 1 -
->  7 files changed, 6 insertions(+), 1 deletion(-)
+> > +	};
+> > +
+> > [...]
+> >
+> > +
+> > +	speaker_amp: speaker-amplifier {
+> > +		compatible = "simple-audio-amplifier";
+> > +		pinctrl-names = "default";
+> > +		pinctrl-0 = <&spk_ctl>;
+> > +		enable-gpios = <&gpio4 RK_PC2 GPIO_ACTIVE_HIGH>;
+> > +		sound-name-prefix = "Speaker Amplifier";
+> > +		VCC-supply = <&vcc_bat>;
+> > +	};
+> > +
+> > +	vcc_3v3: vcc-3v3 {
+> > +		compatible = "regulator-fixed";
+> > +		regulator-name = "vcc_3v3";
+> > +		regulator-always-on;
+> > +		regulator-boot-on;
+> > +		regulator-min-microvolt = <3300000>;
+> > +		regulator-max-microvolt = <3300000>;
+> > +		vin-supply = <&vcc3v3_sys>;
+> > +	};
+> > +
+> > +	vcc3v3_minipcie: vcc3v3-minipcie {
+> > +		compatible = "regulator-fixed";
+> > +		enable-active-high;
+> > +		gpio = <&gpio4 RK_PC3 GPIO_ACTIVE_HIGH>;
+> > +		pinctrl-names = "default";
+> > +		pinctrl-0 = <&pcie_pwren_h>;
+> > +		regulator-name = "vcc3v3_minipcie";
+> > +		regulator-min-microvolt = <3300000>;
+> > +		regulator-max-microvolt = <3300000>;
+> > +		vin-supply = <&vcc_sys>;
+> 
+> This regulator is supplied by vcc_bat: https://megous.com/dl/tmp/4ec71a4a2aea9498.png
+
+correct, I will update this in v4.
+
+> > +	};
+> > +
+> > +	vcc3v3_sd: vcc3v3-sd {
+> > +		compatible = "regulator-fixed";
+> > +		gpio = <&gpio0 RK_PA5 GPIO_ACTIVE_HIGH>;
+> > +		pinctrl-names = "default";
+> > +		pinctrl-0 = <&sdmmc_pwren_l>;
+> > +		regulator-name = "vcc3v3_sd";
+> > +		regulator-min-microvolt = <3300000>;
+> > +		regulator-max-microvolt = <3300000>;
+> > +		vin-supply = <&vcc3v3_sys>;
+> > +	};
+> > +
+> > +	vcc5v0_usb_host0: vcc5v0-usb-host0 {
+> > +		compatible = "regulator-fixed";
+> > +		enable-active-high;
+> > +		gpio = <&gpio4 RK_PC4 GPIO_ACTIVE_HIGH>;
+> > +		pinctrl-names = "default";
+> > +		pinctrl-0 = <&usb_host_pwren1_h>;
+> > +		regulator-name = "vcc5v0_usb_host0";
+> > +		regulator-min-microvolt = <5000000>;
+> > +		regulator-max-microvolt = <5000000>;
+> > +		vin-supply = <&vcc5v_midu>;
+> > +	};
+> > +
+> > +	vcc5v0_usb_host2: vcc5v0-usb-host2 {
+> > +		compatible = "regulator-fixed";
+> > +		enable-active-high;
+> > +		gpio = <&gpio4 RK_PC5 GPIO_ACTIVE_HIGH>;
+> > +		pinctrl-names = "default";
+> > +		pinctrl-0 = <&usb_host_pwren2_h>;
+> > +		regulator-name = "vcc5v0_usb_host2";
+> > +		regulator-min-microvolt = <5000000>;
+> > +		regulator-max-microvolt = <5000000>;
+> > +		vin-supply = <&vcc5v_midu>;
+> > +	};
+> > +
+> > +	vcc_bat: vcc-bat {
+> > +		compatible = "regulator-fixed";
+> > +		regulator-name = "vcc_bat";
+> > +		regulator-always-on;
+> > +		regulator-boot-on;
+> > +	};
+> > +
+> > +	vcc_sys: vcc-sys {
+> > +		compatible = "regulator-fixed";
+> > +		regulator-name = "vcc_sys";
+> > +		regulator-always-on;
+> > +		regulator-boot-on;
+> > +		vin-supply = <&vcc_bat>;
+> > +	};
+> > +
+> > +	vdd1v2_dvp: vdd1v2-dvp {
+> > +		compatible = "regulator-fixed";
+> > +		regulator-name = "vdd1v2_dvp";
+> > +		regulator-min-microvolt = <1200000>;
+> > +		regulator-max-microvolt = <1200000>;
+> > +		vin-supply = <&vcc_3v3>;
+> > +		/*enable-supply = <&vcc2v8_dvp>;*/
+> > +	};
+> 
+> There's no vdd1v2_dvp in the schematic on the camera sensor connector, or elsewhere:
 >
-> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/br=
-idge/lontium-lt9611.c
-> index 9663601ce098..b9205d14d943 100644
-> --- a/drivers/gpu/drm/bridge/lontium-lt9611.c
-> +++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
-> @@ -18,6 +18,7 @@
->
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_bridge.h>
-> +#include <drm/drm_edid.h>
->  #include <drm/drm_mipi_dsi.h>
->  #include <drm/drm_of.h>
->  #include <drm/drm_print.h>
-> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm=
-/bridge/lontium-lt9611uxc.c
-> index e971b75e90ad..f3f130c1ef0a 100644
-> --- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-> +++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-> @@ -21,6 +21,7 @@
->
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_bridge.h>
-> +#include <drm/drm_edid.h>
->  #include <drm/drm_mipi_dsi.h>
->  #include <drm/drm_print.h>
->  #include <drm/drm_probe_helper.h>
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/=
-bridge/synopsys/dw-hdmi.c
-> index 52d91a0df85e..fa63a21bdd1c 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -31,6 +31,7 @@
->  #include <drm/drm_atomic.h>
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_bridge.h>
-> +#include <drm/drm_edid.h>
->  #include <drm/drm_of.h>
->  #include <drm/drm_print.h>
->  #include <drm/drm_probe_helper.h>
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp=
-/dp_display.c
-> index d37d599aec27..c8e1bbebdffe 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -11,6 +11,7 @@
->  #include <linux/of_irq.h>
->  #include <linux/delay.h>
->  #include <drm/display/drm_dp_aux_bus.h>
-> +#include <drm/drm_edid.h>
->
->  #include "msm_drv.h"
->  #include "msm_kms.h"
-> diff --git a/drivers/gpu/drm/tegra/hdmi.c b/drivers/gpu/drm/tegra/hdmi.c
-> index 417fb884240a..09987e372e3e 100644
-> --- a/drivers/gpu/drm/tegra/hdmi.c
-> +++ b/drivers/gpu/drm/tegra/hdmi.c
-> @@ -24,6 +24,7 @@
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_crtc.h>
->  #include <drm/drm_debugfs.h>
-> +#include <drm/drm_edid.h>
->  #include <drm/drm_eld.h>
->  #include <drm/drm_file.h>
->  #include <drm/drm_fourcc.h>
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdm=
-i.c
-> index f05e2c95a60d..34f807ed1c31 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -35,6 +35,7 @@
->  #include <drm/display/drm_scdc_helper.h>
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_drv.h>
-> +#include <drm/drm_edid.h>
->  #include <drm/drm_probe_helper.h>
->  #include <drm/drm_simple_kms_helper.h>
->  #include <linux/clk.h>
-> diff --git a/include/sound/hdmi-codec.h b/include/sound/hdmi-codec.h
-> index 9b162ac1e08e..5e1a9eafd10f 100644
-> --- a/include/sound/hdmi-codec.h
-> +++ b/include/sound/hdmi-codec.h
-> @@ -12,7 +12,6 @@
->
->  #include <linux/of_graph.h>
->  #include <linux/hdmi.h>
-> -#include <drm/drm_edid.h>
->  #include <sound/asoundef.h>
->  #include <sound/soc.h>
->  #include <uapi/sound/asound.h>
-> --
-> 2.39.2
->
+>   https://megous.com/dl/tmp/fd95f003d8f3fbfb.png
+
+It is on page 5 in the power diagram on the right top.
+
+> So I guess, you can drop this, entirely. Maybe it's VDD1V5_DVP but I don't think
+> it needs to be described in DT, since it's pretty local to this camera sensor,
+> and nothing else uses it.
+> 
+>   https://megous.com/dl/tmp/7fc384e196c5428f.png
+
+dvdd-supply is a required property of the ov5648 camera, so I would tend to keep
+this. But us vcc_sys for vin-supply instead of vcc_3v3.
+
+Regards
+Manuel
