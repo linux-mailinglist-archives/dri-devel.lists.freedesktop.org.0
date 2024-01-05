@@ -1,56 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0548082523E
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 11:39:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FC5D825243
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 11:41:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A33510E5AA;
-	Fri,  5 Jan 2024 10:39:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9689310E044;
+	Fri,  5 Jan 2024 10:41:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AC1F10E5AA;
- Fri,  5 Jan 2024 10:39:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704451176; x=1735987176;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=zuVaMetkOUHbMOEscEOXu6xsKFLodA5fpJtyTmGtHKw=;
- b=FeIiR1CCFZ9P/VLutrqiKwQmmvoMuJiQlV37TDeV9zOBEIPxOKUBq+63
- BsVHPIVFzMe3WFlQYbpMAZ3riZvX1MG+cvhtjig2SFMkBC98sd3Yg0xfk
- +RvvDiarE2EKgqMULOkoD9BZVHTDxPCs5m6bDDJo/kka3JFGBmOLb6+va
- G9mxAlFTufcAPWt2jpU0Zo/3wjAZ1ZxnLIeztk5Svcs5UykDkt3m5NTLa
- tJOtkfP0uc0m8rJn5zGT8rMGWzkuKYUv1OMTqTGXUsjty/WhySxBg5udA
- OfMzSD6uX9MTuYXHUKKEJIs5lqBYa95oCopMIXly7fhKXrlJjNTXFn+0f w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="461785419"
-X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; d="scan'208";a="461785419"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2024 02:39:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="1027728033"
-X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; d="scan'208";a="1027728033"
-Received: from cmacnam1-mobl3.ger.corp.intel.com (HELO [10.213.193.225])
- ([10.213.193.225])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2024 02:39:35 -0800
-Message-ID: <73f0a8e9-3fd6-45a9-a084-b5308900ca8f@linux.intel.com>
-Date: Fri, 5 Jan 2024 10:39:31 +0000
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1ECBC10E044
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 10:41:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1704451270;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Eo+Uvb6jarFiFIpH6KsY6T0G0WiuLhhCjZaknzkTf7c=;
+ b=E54TB2dpS9jgAIrVyXooLOEFk75BtmsshsQ8b8s3zaPUhSMS+bxob5nTtv2VlO+ye0Ngyi
+ rPMmXqbnA/4MRq99XXK5WU/X5IuGyK4HuhG+WchumNT/aPLPMlYu2qx+YylagYSh2aZ6AW
+ QyZlNIpSCiA+5Y1dyPtJtGgizgMh+4Y=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-190-Hcb66IJXOGKV324pHDuvwA-1; Fri, 05 Jan 2024 05:41:09 -0500
+X-MC-Unique: Hcb66IJXOGKV324pHDuvwA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-40e34df6fdcso9382625e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Jan 2024 02:41:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1704451267; x=1705056067;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Eo+Uvb6jarFiFIpH6KsY6T0G0WiuLhhCjZaknzkTf7c=;
+ b=gmpi8Ls8Qb87wKB5ykNBerQbWv0s4lKlOjNWRv12qMim8bvs2XWDQDRiFPSySHrPWh
+ XUcW+w8vvooCRURyB5exblhHCWeyuMuz0418w3IGgAhYzf+ZfuMp/eU9dKqcluw8jHvC
+ f3ydkgtzRmEI9HFlwSmj6lp3w4htXBshEDpL8Yahdg1fAYeseaVHe5ZsinjXI9tCXFgL
+ 2hhAGAXeifTvuiqGsmKgwLrHYm7De0Lt5DHNYQmMXTXjqIq1QBG7gTFuC4qmkSOYOz7a
+ WpCPxRzY8X06OsCJU4HMZZWZXAPAXM8DB2NNSnzmPW9bvp0dGM8dEiNrfCwiyQ4mXuvl
+ TUOA==
+X-Gm-Message-State: AOJu0YzkLcdK1IkvRMw29l/nrETueH15fnmcxoBa/CfvDVWWgvtYpQLp
+ QHDTYcaIDApz40aJ8O9YanIZv6cotN6hieJ8vz0sY1+OKbbriAAWpvv8C4bEO6ON+7HknwefNXc
+ 4kcOY49D6D+Ujj8F7w+WV+nfNqwzaTvw4f314NLBjbv9V
+X-Received: by 2002:a05:600c:5123:b0:40d:60ac:626d with SMTP id
+ o35-20020a05600c512300b0040d60ac626dmr1016380wms.62.1704451267151; 
+ Fri, 05 Jan 2024 02:41:07 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IG/G/D4tfuzPhENH8WJrNGf8h7QZC3DBZcNNxBHfYGX10eHs/CXvNazsnK1631qXaNVOJIvHQ==
+X-Received: by 2002:a05:600c:5123:b0:40d:60ac:626d with SMTP id
+ o35-20020a05600c512300b0040d60ac626dmr1016371wms.62.1704451266836; 
+ Fri, 05 Jan 2024 02:41:06 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ l42-20020a05600c1d2a00b004030e8ff964sm1170042wms.34.2024.01.05.02.41.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Jan 2024 02:41:06 -0800 (PST)
+Message-ID: <d169ab1a-d0ee-46f4-8bd8-2f42040a2572@redhat.com>
+Date: Fri, 5 Jan 2024 11:41:05 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] drm/i915/gt: Support fixed CCS mode
-Content-Language: en-US
-To: Andi Shyti <andi.shyti@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-References: <20240104143558.193694-1-andi.shyti@linux.intel.com>
- <20240104143558.193694-2-andi.shyti@linux.intel.com>
- <98e56d3e-ebf0-42b9-928b-0dcc4303658c@linux.intel.com>
- <ZZchsRQ5Kc-x9dlk@ashyti-mobl2.lan>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <ZZchsRQ5Kc-x9dlk@ashyti-mobl2.lan>
+Subject: Re: [PATCH] drm/mgag200: Fix caching setup for remapped video memory
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
+ daniel@ffwll.ch
+References: <20240105082714.21881-1-tzimmermann@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20240105082714.21881-1-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,139 +86,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-On 04/01/2024 21:23, Andi Shyti wrote:
-> Hi Tvrtko,
+On 05/01/2024 09:25, Thomas Zimmermann wrote:
+> I/O video memory for the framebuffer supports write-combine caching
+> mode. Simplify the driver's code that sets up the caching mode.
 > 
-> [1]
+>   * Map video memory with ioremap_wc(), which automatically sets up
+> the PAT entry with write-combine caching.
 > 
->>> +	/*
->>> +	 * Loop over all available slices and assign each a user engine.
->>> +	 *
->>> +	 * With 1 engine (ccs0):
->>> +	 *   slice 0, 1, 2, 3: ccs0
->>> +	 *
->>> +	 * With 2 engines (ccs0, ccs1):
->>> +	 *   slice 0, 2: ccs0
->>> +	 *   slice 1, 3: ccs1
->>> +	 *
->>> +	 * With 4 engines (ccs0, ccs1, ccs2, ccs3):
->>> +	 *   slice 0: ccs0
->>> +	 *   slice 1: ccs1
->>> +	 *   slice 2: ccs2
->>> +	 *   slice 3: ccs3
->>> +	 *
->>> +	 * Since the number of slices and the number of engines is
->>> +	 * known, and we ensure that there is an exact multiple of
->>> +	 * engines for slices, the double loop becomes a loop over each
->>> +	 * slice.
->>> +	 */
->>> +	for (i = num_slices / num_engines; i < num_slices; i++) {
->>> +		struct intel_engine_cs *engine;
->>> +		intel_engine_mask_t tmp;
->>> +
->>> +		for_each_engine_masked(engine, gt, ALL_CCS(gt), tmp) {
->>> +			/* If a slice is fused off, leave disabled */
->>> +			while (!(CCS_MASK(gt) & BIT(slice)))
->>> +				slice++;
->>> +
->>> +			mode &= ~XEHP_CCS_MODE_CSLICE(slice, XEHP_CCS_MODE_CSLICE_MASK);
->>> +			mode |= XEHP_CCS_MODE_CSLICE(slice, engine->instance);
->>> +
->>> +			/* assign the next slice */
->>> +			slice++;
->>> +		}
->>> +	}
->>> +
->>> +	intel_uncore_write(gt->uncore, XEHP_CCS_MODE, mode);
->>> +}
->>> +
->>> +void intel_gt_apply_ccs_mode(struct intel_gt *gt)
->>> +{
->>> +	mutex_lock(&gt->ccs.mutex);
->>> +	__intel_gt_apply_ccs_mode(gt);
->>> +	mutex_unlock(&gt->ccs.mutex);
->>> +}
->>> +
->>> +void intel_gt_init_ccs_mode(struct intel_gt *gt)
->>> +{
->>> +	mutex_init(&gt->ccs.mutex);
->>> +	gt->ccs.mode = 1;
->>
->> What is '1'? And this question carries over to the sysfs interface in the
->> following patch - who will use it and where it is documented how to use it?
+>   * Remove the now obsolete call to devm_arch_io_reserve_memtype_wc().
+> It is only required to mmap the video memory to user space, which the
+> driver doesn't do.
 > 
-> The value '1' is explained in the comment above[1] and in the
-
-Do you mean this is mode '1':
-
-  * With 1 engine (ccs0):
-  *   slice 0, 1, 2, 3: ccs0
-
-?
-
-But I don't see where it says what do different modes mean on different 
-SKU configurations.
-
-It also does not say what should the num_slices sysfs file be used for.
-
-Does "mode N" mean "assign each command streamer N compute slices"? Or 
-"assign each compute slice N command streamers"?
-
-I wonder if we should add something user friendly into 
-Documentation/ABI/*/sysfs-... Joonas your thoughts?
-
-> comment below[2]. Maybe we should give it an enum meaning? But
-> that would be something like CCS_MODE_1/2/4, I thinks
-> ccs.mode = 1/2/4 is more understandable.
+>   * According to the PAT documentation, arch_phys_wc_add() is best
+> called after remapping I/O memory, so move it after ioremap.
 > 
->> Also, should this setting somehow be gated by an applicable platform? Or if
->> not on setting then when acting on it in __intel_gt_apply_ccs_mode?
->>
->> Creation of sysfs files as well should be gated by platform too in the
->> following patch?
-> 
-> The idea of this series is to disable the CCS load balancing
-> (which automatically chooses between mode 1/2/4) and used the
-> a fixed scheme chosen by the user.
-> 
-> (I'm preparing v3 as Chris was so kind to recommend some changes
-> offline)
 
-Okay lets wait for v2 and I will then see if I will this that will make 
-it clearer to casual observers.
+Thanks a lot for taking some time to look at the latency issue.
+This looks good to me.
 
-Regards,
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 
-Tvrtko
+-- 
 
+Jocelyn
 
-> Thanks,
-> Andi
-> 
-> [2]
-> 
->>> +	/*
->>> +	 * Track fixed mapping between CCS engines and compute slices.
->>> +	 *
->>> +	 * In order to w/a HW that has the inability to dynamically load
->>> +	 * balance between CCS engines and EU in the compute slices, we have to
->>> +	 * reconfigure a static mapping on the fly. We track the current CCS
->>> +	 * configuration (set by thr user through a sysfs interface) and compare
->>> +	 * it against the current CCS_MODE (which maps CCS engines to compute
->>> +	 * slices). If there is only a single engine selected, we can map it to
->>> +	 * all available compute slices for maximal single task performance
->>> +	 * (fast/narrow). If there are more then one engine selected, we have to
->>> +	 * reduce the number of slices allocated to each engine (wide/slow),
->>> +	 * fairly distributing the EU between the equivalent engines.
->>> +	 */
->>> +	struct {
->>> +		struct mutex mutex;
->>> +		u32 mode;
->>> +	} ccs;
