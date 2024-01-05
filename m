@@ -2,60 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 463BE825127
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 10:49:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9700582514C
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 10:55:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63AF410E5B4;
-	Fri,  5 Jan 2024 09:49:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5F8810E5AE;
+	Fri,  5 Jan 2024 09:55:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAB3910E5AD
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 09:49:07 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id CF1C2B81C0C
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 09:49:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 320DCC433C9
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 09:49:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1704448145;
- bh=IAFIvPklsteNicgGNuAfqL0nX2fS3naBnkqp7wVRGE8=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=BP0aEIrI7zI0qXG2mbXorzOQ2kg9djF8sUk2nR78uhfz+L60/W4T5x16Rd8ms29Zq
- gD+9JAymsD6uXQR1Jj+jG3BhcIfHJDJE2T2/Z3OxaPucPjxvFNPkcY+1p0QXrDBREE
- QFS1VxyCQa8tds3S3evaAu38KxCdepQUAE8tyAV+KzW8otLBityKbIm/2w5E4UM0oZ
- ta1xArP06TH1JqhpFI7Qt2Wt6VG+6BXk8r07/U3fgXROA2FyShJfEtFMZ7Yw22keJu
- RGjDi4ZMl+lpwL90LQS5CMZQpzTMDlc81/V0erzZnCQW5f5wVQZqdm5kk89b5oAxZk
- UkKcI9JXMfbXw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 1F724C53BD3; Fri,  5 Jan 2024 09:49:05 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F21B310E5A7;
+ Fri,  5 Jan 2024 09:55:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1704448550; x=1735984550;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=0fyJjtE39MtRw0n6dAI1gox+tD6l+yO4YrmdEtcCbLM=;
+ b=HZFuHYxaRQzMzhZT7Dqq9onBIUtLaH3+DC99s0vana4blPXguLfQURIF
+ lxIa6FneZsvl7SNhvgPvSD4fqgPGCKW3AjKamByXpavgnKEnru7w4cdVa
+ 5xTSjdNQ0Dck8EYb5VP7XQPBcrgm7fOX/vHp6VJmQaB70a2A8dLm/boNf
+ X+u/TAGSGVbQQJDu2kEer8J+Yl1AwPpTYCtstWxHKyJBtHk7Sgfkx/1E2
+ 1EtnVb7f3hxiPC9BK8f6u8/agbeFtmCCq58ojsPuQNqgEiUKO0BqeGRoG
+ X18KhB34UATITgxD+VIP4vO5gC8L4zPrREk0vF+948z1i8hxBo5nvbNHC w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="10844364"
+X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; d="scan'208";a="10844364"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jan 2024 01:55:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; d="scan'208";a="22795935"
+Received: from ideak-desk.fi.intel.com ([10.237.72.78])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jan 2024 01:55:48 -0800
+From: Imre Deak <imre.deak@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 198551] amdgpu error on shutdown or gpu intense game
-Date: Fri, 05 Jan 2024 09:49:04 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: kenaanna33@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-198551-2300-idC09ymRJK@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-198551-2300@https.bugzilla.kernel.org/>
-References: <bug-198551-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Subject: [PATCH] drm/amd/display: Fix assignment of integer to fixed point
+ pbn_div
+Date: Fri,  5 Jan 2024 11:55:59 +0200
+Message-Id: <20240105095559.1136737-1-imre.deak@intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,29 +55,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Dave Airlie <airlied@redhat.com>, amd-gfx@lists.freedesktop.org,
+ Wayne Lin <wayne.lin@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D198551
+Fix the merge conflict resolution in
 
-Kenna Anna (kenaanna33@gmail.com) changed:
+commit 13feae00ee99e0fc8b6f1748fc4c70281a7d6939
+Merge: eb284f4b37817 3c064aea46d07
+Author: Dave Airlie <airlied@redhat.com>
+Date:   Fri Jan 5 13:19:40 2024 +1000
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |kenaanna33@gmail.com
+    Merge remote-tracking branch 'drm/drm-next' into drm-tip
 
---- Comment #5 from Kenna Anna (kenaanna33@gmail.com) ---
-Encountering occasional shutdown errors, particularly during GPU-intensive
-tasks like playing CS:GO on my Radeon R5 M255. This results in system freez=
-es,
-prompting a hard reset. Exploring potential solutions, such as updating GPU
-drivers or addressing potential overheating issues, could prove beneficial.=
- For
-more insights into experiences like these, you can check out
-(https://ricepurity-test.org/)
+    # Conflicts:
+    #       drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+    #       drivers/gpu/drm/i915/display/intel_dmc.c
 
---=20
-You may reply to this email to add a comment.
+@@@ -6916,7 -7007,8 +7009,7 @@@ static int dm_encoder_helper_atomic_che
+        if (IS_ERR(mst_state))
+                return PTR_ERR(mst_state);
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+ -      if (!mst_state->pbn_div.full)
+ -              mst_state->pbn_div.full = dfixed_const(dm_mst_get_pbn_divider(aconnector->mst_root->dc_link));
+ +      mst_state->pbn_div = dm_mst_get_pbn_divider(aconnector->mst_root->dc_link);
+
+resulting from the following two changes:
+
+commit 191dc43935d1ece82bc6c9653463b3b1cd8198fb
+Author: Imre Deak <imre.deak@intel.com>
+Date:   Thu Nov 16 15:18:31 2023 +0200
+
+    drm/dp_mst: Store the MST PBN divider value in fixed point format
+
+commit 9cdef4f720376ef0fb0febce1ed2377c19e531f9
+Author: Wayne Lin <wayne.lin@amd.com>
+Date:   Mon Dec 4 10:09:33 2023 +0800
+
+    drm/amd/display: pbn_div need be updated for hotplug event
+
+Cc: Wayne Lin <wayne.lin@amd.com>
+Cc: amd-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: Dave Airlie <airlied@redhat.com>
+Signed-off-by: Imre Deak <imre.deak@intel.com>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 5d82bac1a51ab..f9714dd6fe8ed 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -7009,7 +7009,7 @@ static int dm_encoder_helper_atomic_check(struct drm_encoder *encoder,
+ 	if (IS_ERR(mst_state))
+ 		return PTR_ERR(mst_state);
+ 
+-	mst_state->pbn_div = dm_mst_get_pbn_divider(aconnector->mst_root->dc_link);
++	mst_state->pbn_div.full = dfixed_const(dm_mst_get_pbn_divider(aconnector->mst_root->dc_link));
+ 
+ 	if (!state->duplicated) {
+ 		int max_bpc = conn_state->max_requested_bpc;
+-- 
+2.39.2
+
