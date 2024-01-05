@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CAE6825A77
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 19:47:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D4E9825A75
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 19:47:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A96E110E685;
-	Fri,  5 Jan 2024 18:47:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A434F10E67E;
+	Fri,  5 Jan 2024 18:47:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [IPv6:2a00:1098:ed:100::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A415D10E67E
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 18:47:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39BDF10E67E
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 18:47:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1704480428;
- bh=tpJP8aUfkvakUPIRIDPJWRInC6tt5GQtcS8InGkdO1c=;
+ s=mail; t=1704480430;
+ bh=QuYX1ZbeqzzlgphkIZfy751IRqx3iZbH6NUvd1ayS2E=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HYfbKWsOORxwVSeGsBruwzoIrfH9HktyzFNW0jMXbWXqEQkTjCbpZsndScMrWW09M
- T7gQhPY8U51XeIxeWj+GRsVQSCh8ogIg4SQuEERDKXAOLNs78Yi1454KAIox07MShF
- rlk4BYMQ+lOapPf7Dvp9+56o8g6rLI63w9CFh/5MYVtXkGk/uvIKW9R7ErUKWzWer0
- 4+GaUiAy34d4w5iPNh4HQX1u6JiWMFNgAP5y5ixbzfo1gaKdQNoxf3w8qCHPkWD+Q6
- u/bK8sl5peQRSfn1ZzL4Lr1OADocg2OFUcLkCZR9t1INpZ9aZoXbUhSCCiHiQt/hM8
- nyqubNWPN4X0A==
+ b=2u20bBo2hSpc1THMfYB6JNEoJgDpKys+lBggfjoSpFj7t7nm01B0QgElOM1/8apZk
+ heSFvZSGfDyeK4oBTragO5Jjg+1pj8WfjyW8MoP37fsgqcday1bN7HTIiNY4yMWiGU
+ ZmyV2Nse5W+lS1k8OnULetaokn82kfZ5YFD+TOPSmeglq/8xrE3F/PKfT5kOSQ7c/R
+ Lp9LXu9NfDcabVPGgHe2KFeTjP2Xhp90zai1qmWDVmRzsSY5VSLj4QWduFvGDSviGB
+ kgj6RFK7hUo+V22r6Mo/tJ0FaVHmWQjXa5AYICEd+hCH+vl1ksPleUzeqf7Bg33VrR
+ 3mrt5q4QwCrFg==
 Received: from workpc.. (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: dmitry.osipenko)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 37097378203D;
- Fri,  5 Jan 2024 18:47:07 +0000 (UTC)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id C4A6F3782046;
+ Fri,  5 Jan 2024 18:47:08 +0000 (UTC)
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>,
@@ -41,10 +41,9 @@ To: David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Qiang Yu <yuq825@gmail.com>, Steven Price <steven.price@arm.com>,
  Boris Brezillon <boris.brezillon@collabora.com>,
  Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>
-Subject: [PATCH v19 15/30] drm/shmem-helper: Avoid lockdep warning when pages
- are released
-Date: Fri,  5 Jan 2024 21:46:09 +0300
-Message-ID: <20240105184624.508603-16-dmitry.osipenko@collabora.com>
+Subject: [PATCH v19 16/30] drm/lima: Explicitly get and put drm-shmem pages
+Date: Fri,  5 Jan 2024 21:46:10 +0300
+Message-ID: <20240105184624.508603-17-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240105184624.508603-1-dmitry.osipenko@collabora.com>
 References: <20240105184624.508603-1-dmitry.osipenko@collabora.com>
@@ -67,46 +66,69 @@ Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-All drivers will be moved to get/put pages explicitly and then the last
-put_pages() will be invoked during gem_free() time by some drivers.
-We can't touch reservation lock when GEM is freed because that will cause
-a spurious warning from lockdep when shrinker support will be added.
-Lockdep doesn't know that fs_reclaim isn't functioning for a freed object,
-and thus, can't deadlock. Release pages directly without taking reservation
-lock if GEM is freed and its refcount is zero.
+To simplify the drm-shmem refcnt handling, we're moving away from
+the implicit get_pages() that is used by get_pages_sgt(). From now on
+drivers will have to pin pages while they use sgt. Lima driver doesn't
+have shrinker, hence pages are pinned and sgt is valid as long as pages'
+use-count > 0.
 
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- drivers/gpu/drm/drm_gem_shmem_helper.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ drivers/gpu/drm/lima/lima_gem.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index f5ed64f78648..c7357110ca76 100644
---- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-+++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -242,6 +242,22 @@ void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem)
- 	if (refcount_dec_not_one(&shmem->pages_use_count))
- 		return;
+diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_gem.c
+index 2a97aa85416b..9c3e34a7fbed 100644
+--- a/drivers/gpu/drm/lima/lima_gem.c
++++ b/drivers/gpu/drm/lima/lima_gem.c
+@@ -115,6 +115,7 @@ int lima_gem_create_handle(struct drm_device *dev, struct drm_file *file,
+ 		return PTR_ERR(shmem);
  
-+	/*
-+	 * Destroying the object is a special case because acquiring
-+	 * the obj lock can cause a locking order inversion between
-+	 * reservation_ww_class_mutex and fs_reclaim.
-+	 *
-+	 * This deadlock is not actually possible, because no one should
-+	 * be already holding the lock when GEM is released.  Unfortunately
-+	 * lockdep is not aware of this detail.  So when the refcount drops
-+	 * to zero, we pretend it is already locked.
-+	 */
-+	if (!kref_read(&shmem->base.refcount)) {
-+		if (refcount_dec_and_test(&shmem->pages_use_count))
-+			drm_gem_shmem_free_pages(shmem);
-+		return;
-+	}
+ 	obj = &shmem->base;
++	bo = to_lima_bo(obj);
+ 
+ 	/* Mali Utgard GPU can only support 32bit address space */
+ 	mask = mapping_gfp_mask(obj->filp->f_mapping);
+@@ -123,13 +124,17 @@ int lima_gem_create_handle(struct drm_device *dev, struct drm_file *file,
+ 	mapping_set_gfp_mask(obj->filp->f_mapping, mask);
+ 
+ 	if (is_heap) {
+-		bo = to_lima_bo(obj);
+ 		err = lima_heap_alloc(bo, NULL);
+ 		if (err)
+ 			goto out;
+ 	} else {
+-		struct sg_table *sgt = drm_gem_shmem_get_pages_sgt(shmem);
++		struct sg_table *sgt;
+ 
++		err = drm_gem_shmem_get_pages(shmem);
++		if (err)
++			goto out;
 +
- 	dma_resv_lock(shmem->base.resv, NULL);
- 	drm_gem_shmem_put_pages_locked(shmem);
- 	dma_resv_unlock(shmem->base.resv);
++		sgt = drm_gem_shmem_get_pages_sgt(shmem);
+ 		if (IS_ERR(sgt)) {
+ 			err = PTR_ERR(sgt);
+ 			goto out;
+@@ -139,6 +144,9 @@ int lima_gem_create_handle(struct drm_device *dev, struct drm_file *file,
+ 	err = drm_gem_handle_create(file, obj, handle);
+ 
+ out:
++	if (err && refcount_read(&bo->base.pages_use_count))
++		drm_gem_shmem_put_pages(shmem);
++
+ 	/* drop reference from allocate - handle holds it now */
+ 	drm_gem_object_put(obj);
+ 
+@@ -152,6 +160,9 @@ static void lima_gem_free_object(struct drm_gem_object *obj)
+ 	if (!list_empty(&bo->va))
+ 		dev_err(obj->dev->dev, "lima gem free bo still has va\n");
+ 
++	if (refcount_read(&bo->base.pages_use_count))
++		drm_gem_shmem_put_pages(&bo->base);
++
+ 	drm_gem_shmem_free(&bo->base);
+ }
+ 
 -- 
 2.43.0
 
