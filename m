@@ -1,46 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 215D582588F
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 17:46:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C821825896
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 17:47:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B90810E63A;
-	Fri,  5 Jan 2024 16:46:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A48C10E643;
+	Fri,  5 Jan 2024 16:47:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mecka.net (unknown [IPv6:2a01:4f8:1c1c:934f::1])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7A15910E63A
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 16:46:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mecka.net; s=2016.11;
- t=1704473206; bh=dHnrrrn6vo3WQZOIjrjrAbt6U0ZZNfLqqP84NXJM+E0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=l2Xg7rXV0Z61wO3d803JrtBJ3v49QkhSEPGZxFHws7PbldB7B/h3vsctcA1fImG54
- 9dR9aNu1baqmk/xRTAqluLBLsu0k5FrRL8svHlvvEKOV4KIv7t3AlvnfSpxl+lB7pg
- R1exJRstdITouVpfids2D5FVbdEmro4YL4+Z/IHSA+1/K59zTj6BIlFHK/nspq+nUP
- MuYpzyCJEtiQrgaszQOssz88oikViG0TVsPVyajqOQnAZOwS59dMIbZy8WoVQe93kz
- PPmXv+x1e0/32zBNGDrPFMGHsMaXc+/9Yfl9d619SlzrIZPPL8OJt53VXtjGACbmSI
- z7khgi0JbGTPg==
-Received: from mecka.net (unknown [185.147.11.134])
- by mecka.net (Postfix) with ESMTPSA id 16F2037C392;
- Fri,  5 Jan 2024 17:46:46 +0100 (CET)
-Date: Fri, 5 Jan 2024 17:46:40 +0100
-From: Manuel Traut <manut@mecka.net>
-To: Jonas Karlman <jonas@kwiboo.se>
-Subject: Re: [PATCH v3 4/4] arm64: dts: rockchip: Add devicetree for Pine64
- PineTab2
-Message-ID: <ZZgycP5YKBam2p6W@mecka.net>
-References: <20240102-pinetab2-v3-0-cb1aa69f8c30@mecka.net>
- <20240102-pinetab2-v3-4-cb1aa69f8c30@mecka.net>
- <775vjfucu2g2s6zzeutj7f7tapx3q2geccpxvv4ppcms4hxbq7@cbrdmlu2ryzp>
- <903e9d0c-a00c-4214-9f0e-dd676b13b428@kwiboo.se>
- <ZZVjzwgANJMdHnuo@mecka.net>
- <6efe305c-4ab4-43c1-ab6d-64bdf1d81a2f@kwiboo.se>
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
+ [IPv6:2a00:1450:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3534E10E643
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 16:47:25 +0000 (UTC)
+Received: by mail-ed1-x534.google.com with SMTP id
+ 4fb4d7f45d1cf-55692ad81e3so1938302a12.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Jan 2024 08:47:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1704473243; x=1705078043; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=8GhoWygouKwNF/i+Ar+uHKGYE9ZPPakZhcuyJ3HA+yM=;
+ b=joPnG3B82cXT11IgmN9PWlhh6vcrYHkzyOBTdv+Oti+NyITCaa0JxsxO6NK0Q6azal
+ sTGt39P5Uds8RsJaKBhw9UD7hsFyAeGtOndlzzuvImX/gxL3H95gk/qvqWzcF9+wwtMA
+ 1DN8Yts0ex+Yo01otfoJs6U2is8eKCDfZqOx3ls8EZZX3vIyEVOs0LRJAsoPBP0YmST9
+ u7alXIClYD4zcGcBzR2bPZCzSEgDg1YQD7eod/23t2mQjaR/uRNT9vOXKiWSI0yVc73e
+ 0HXhSDoD1LJ0suN6gQNxjTTDh8uDT17Gmpl9+/+orAKoG3A0hCzQqCfwGRlSWM7hlY2X
+ +yjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1704473243; x=1705078043;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=8GhoWygouKwNF/i+Ar+uHKGYE9ZPPakZhcuyJ3HA+yM=;
+ b=OT+QH0jQ8K9NJ+/IyRlcuDYr3bJF1EYKJtwYWotdgvxEAbpAEwW46hR4kAHTw5hA/j
+ UPN0I9ABeSlP/8PbbidcDVjVp9MjIeGOpmt3BfkOefm/jDLgxQv9zqOTk7ZDWHO7C0Kx
+ 35gx2fFy/KQRjVxG7MklNvE1UjNRwXX32gteNnsny6sV/bQOMT0xjDvqQkgkJy/4p9I9
+ kIA7y79Hsqqm2ndk3vAi1E1NRQSpO20yK3QbUQHTXMvRSWlYyYQ0xrBRdkLwf5K3u9Nk
+ atSlagSVTsjP/FVpogWMtVN249T/IP1yWnGQ++YSfwMx1ZknJ+yZsI+z2dOaqPy9+QFB
+ PQYQ==
+X-Gm-Message-State: AOJu0YxZPxZCsWoNqfvArmFzbCnLU9wpWBYrnCWqiFXONs26AvqmmKr3
+ vev4BpMlny9mNe0kkcPULA==
+X-Google-Smtp-Source: AGHT+IEmqVeHlv3hQC7rMHa0U1jc6f1uX/xyuXiZ6rLuFGn1h9XpROfBTFyH9I651Ze1bS12LJUPyw==
+X-Received: by 2002:a17:906:2853:b0:a27:a258:f340 with SMTP id
+ s19-20020a170906285300b00a27a258f340mr1240311ejc.65.1704473243418; 
+ Fri, 05 Jan 2024 08:47:23 -0800 (PST)
+Received: from ?IPV6:2a02:810b:f40:4300:890b:36c3:934f:6f56?
+ ([2a02:810b:f40:4300:890b:36c3:934f:6f56])
+ by smtp.gmail.com with ESMTPSA id
+ r11-20020a1709062ccb00b00a26aa845084sm1064504ejr.17.2024.01.05.08.47.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Jan 2024 08:47:23 -0800 (PST)
+Message-ID: <3e7aa9f2-6e37-44c3-9361-5fa7c4ef203d@gmail.com>
+Date: Fri, 5 Jan 2024 17:47:21 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <6efe305c-4ab4-43c1-ab6d-64bdf1d81a2f@kwiboo.se>
+User-Agent: Mozilla Thunderbird
+Subject: Re: (subset) [PATCH v4 00/29] Add HDMI support for RK3128
+Content-Language: en-US, de-DE
+To: Heiko Stuebner <heiko@sntech.de>
+References: <20231222174220.55249-1-knaerzche@gmail.com>
+ <170435598418.3166964.9367277671989164237.b4-ty@sntech.de>
+From: Alex Bee <knaerzche@gmail.com>
+In-Reply-To: <170435598418.3166964.9367277671989164237.b4-ty@sntech.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,99 +77,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Diederik de Haas <didi.debian@cknow.org>, Danct12 <danct12@riseup.net>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, linux-rockchip@lists.infradead.org,
- Jessica Zhang <quic_jesszhan@quicinc.com>, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Mark Yao <markyao0591@gmail.com>, linux-arm-kernel@lists.infradead.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Segfault <awarnecke002@hotmail.com>, Sandy Huang <hjc@rock-chips.com>,
- =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>,
- Arnaud Ferraris <aferraris@debian.org>
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org,
+ Rob Herring <robh+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jonas,
+Hi Heiko,
 
-On Wed, Jan 03, 2024 at 03:19:25PM +0100, Jonas Karlman wrote:
-> Hi Manuel,
-> 
-> On 2024-01-03 14:40, Manuel Traut wrote:
-> > Hi Jonas and Ondřej,
-> > 
-> >>>> +&sfc {
-> >>>> +	pinctrl-names = "default";
-> >>>> +	pinctrl-0 = <&fspi_dual_io_pins>;
-> >>>> +	status = "okay";
-> >>>> +	#address-cells = <1>;
-> >>>> +	#size-cells = <0>;
-> >>>> +
-> >>>> +	flash@0 {
-> >>>> +		compatible = "jedec,spi-nor";
-> >>>> +		reg = <0>;
-> >>>> +		spi-max-frequency = <24000000>;
-> >>>
-> >>> That's a bit on the low side. The flash chip should work for all commands up to
-> >>> 80MHz https://megous.com/dl/tmp/b428ad9b85ac4633.png and SGM3157YC6 switch
-> >>> for the FSPI-CLK should have high enough bandwidth, too.
-> >>
-> >> I agree that this is a little bit on the low side, it was a safe rate
-> >> that I used for U-Boot. U-Boot required an exact rate of the supported
-> >> sfc clk rates: 24, 50, 75, 100, 125 or 150 MHz.
-> >>
-> >> Please also note that the SPI NOR flash chip used in PineTab2 is not a
-> >> GigaDevice GD25LQ128E, it should be a SiliconKaiser SK25LP128, same as
-> >> found in the Pine64 PinePhone Pro.
-> > 
-> > The schematics for v2.0 reference a GD25LQ128EWIGR. I never checked the jedec
-> > id. How did you retrieve this information, or is it maybe a difference in v0.1
-> > and 2.0?
-> 
-> This was when working on mainline U-Boot for the PineTab2 (and other
-> rk356x devices). See [1] for a pending U-Boot patch that is waiting on a
-> proper mainline linux devicetree for the PT2.
-> 
-> The JEDEC ID is reported as 0x257018 on my v2.0 production unit, and
-> does not match the JEDEC ID for GD25LQ128E (0xc86018) referenced in
-> the schematics.
-> 
-> I found that the JEDEC ID 0x257018 was referenced in prior patches
-> related to the SK25LP128 SPI NOR flash chip used in Pine64 PinePhone Pro.
-> 
-> I have only ever tested the 24 MHz rate, but I am expecting that e.g.
-> 100 MHz also should work. Will not be able to test on my PT2 until at
-> earliest next week.
-> 
-> [1] https://github.com/Kwiboo/u-boot-rockchip/commit/66562d6eaf2c11a9f97fcdba379d3ceda8aa70ef
 
-Thanks for the information.
+Am 04.01.24 um 09:14 schrieb Heiko Stuebner:
+> On Fri, 22 Dec 2023 18:41:51 +0100, Alex Bee wrote:
+>> This is version 4 of my series that aims to add support for the display
+>> controller (VOP) and the HDMI controller block of RK3128 (which is very
+>> similar to the one found in RK3036). The original intention of this series
+>> was to add support for this slightly different integration but is by now,
+>> driven by maintainer's feedback, exploded to be a rework of inno-hdmi
+>> driver in large parts. It is, however, a change for the better.
+>>
+>> [...]
+> Applied, thanks!
+>
+> [23/29] drm/rockchip: inno_hdmi: Add variant support
+>          commit: 5f2e93e6719701a91307090f8f7696fd6b3bffdf
+> [24/29] drm/rockchip: inno_hdmi: Add RK3128 support
+>          commit: aa54f334c291effe321aa4b9ac0e67a895fd7b58
+> [25/29] drm/rockchip: inno_hdmi: Add basic mode validation
+>          commit: 701029621d4141d0c9f8b81a88a37b95ec84ce65
+> [26/29] drm/rockchip: inno_hdmi: Drop custom fill_modes hook
+>          commit: 50a3c772bd927dd409c484832ddd9f6bf00b7389
+>
+>
+> For reference, Rob has applied the rk3128 compatible in
+> https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git/commit/?id=21960bda59852ca961fcd27fba9f92750caccd06
+thanks for keeping track on this.
 
-My v2.0 device also reports JEDEC ID 0x257018. I increased the clock-rate
-to 100 MHz and it is at least still detected.
+Is there any reason the DT paches aren't merged yet? From what I can see
+they should be fine to be merged in your v6.8-armsoc/dts32 branch which is
+6.7-rc1 based. There was only a txt-binding at this point and it's very
+likely that both the rockchip,inno-hdmi.yaml-conversion and the rk3128
+additon will both land in 6.8 (they are both in linux-next). Linus' 6.8
+merge-window will open earliest next week.
+I'm really not pressuring here and I'm fine if they land in 6.9 - it's just
+for my understanding for further submissions.
 
-I will find out how to test more, currently hexdump /dev/mtd0 just reports
-0xff on the hole flash, I expected to see u-boot there..
+Alex
 
-Regards
-Manuel
-
-> >>>> +		spi-rx-bus-width = <2>;
-> >>>
-> >>> GD25LQ128E supports quad I/O. Maybe try 4 if it will work.
-> >>
-> >> The schematic only shows fspi D0 and D1 connected, and use the D2 line
-> >> for eMMC_RSTn, so spi-rx-bus-width = <2> should be correct.
-> > 
-> > ack
-> > 
-> > Since it is only needed for bootloader updates and environment its maybe better
-> > to stay on the safe side?
-> > 
-> > But I can test faster frequency if you want me to do..
-> > 
-> > Regards
-> > Manuel
-> 
+>
+> Best regards,
