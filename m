@@ -1,51 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9F4D8258C3
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 18:01:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B12378258CA
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 18:02:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1592510E652;
-	Fri,  5 Jan 2024 17:01:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 030B710E635;
+	Fri,  5 Jan 2024 17:02:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 785DE10E652
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 17:01:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704474114; x=1736010114;
- h=from:to:subject:in-reply-to:references:date:message-id:
- mime-version; bh=Lf96KfrIZDfGH4piwj6gVCnkNaNDww/MpVnGXVYAXCg=;
- b=El/Bhrz/Y7m4VNmSPG202O23lJfIwB6x5NHBl35G//Bx68qvzZljOcAf
- yFU4iN0Adp6CVXS74MoSZxFSjIJaq3smObF4Ua7UmbzfpGs9DGZWNVAAY
- 5lxRxdJddt8IwnKCN5kfmefVNnnabrNCjwMjUQjr4LtggyejYVFkpr2sc
- 8x1R9oqTYfxGtgtUtMP1iqHTsl27X+7d3+bfvSRL7zPY0+P4faBaKmcDi
- IEIkHw9pffLXoNXQe2LO4sSHaqs3sjyBGf8oaWsL7TRV30mQgy/FCKpRh
- mwRvOoxX7NOl9agLTyW07B4uomjM/cKHgaigrINwo5dx8W4Ji6RJjDuxm w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="16156000"
-X-IronPort-AV: E=Sophos;i="6.04,334,1695711600"; d="scan'208";a="16156000"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2024 09:01:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,334,1695711600"; d="scan'208";a="29165049"
-Received: from amaslenx-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.36.106])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2024 09:01:51 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/probe-helper: convert
- drm_connector_helper_get_modes_from_ddc() to struct drm_edid
-In-Reply-To: <54a3c4bc-b013-4096-ab59-b163c4984618@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20231114105815.4188901-1-jani.nikula@intel.com>
- <54a3c4bc-b013-4096-ab59-b163c4984618@suse.de>
-Date: Fri, 05 Jan 2024 19:01:48 +0200
-Message-ID: <87edevyarn.fsf@intel.com>
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B95210E635
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 17:02:37 +0000 (UTC)
+Received: from i53875a56.versanet.de ([83.135.90.86] helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1rLnaa-0006Ds-1M; Fri, 05 Jan 2024 18:02:32 +0100
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Alex Bee <knaerzche@gmail.com>
+Subject: Re: (subset) [PATCH v4 00/29] Add HDMI support for RK3128
+Date: Fri, 05 Jan 2024 18:02:31 +0100
+Message-ID: <2568547.3Lj2Plt8kZ@diego>
+In-Reply-To: <3e7aa9f2-6e37-44c3-9361-5fa7c4ef203d@gmail.com>
+References: <20231222174220.55249-1-knaerzche@gmail.com>
+ <170435598418.3166964.9367277671989164237.b4-ty@sntech.de>
+ <3e7aa9f2-6e37-44c3-9361-5fa7c4ef203d@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,22 +41,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org,
+ Rob Herring <robh+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 14 Nov 2023, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> If I'm not mistaken, the correct pattern is to read the EDID block in 
-> the detect callback and only parse it for modes in get_modes. If so, you 
-> might also inline this helper into its only caller in mgag200. I'll 
-> later split it up into detect and get_modes.
+Am Freitag, 5. Januar 2024, 17:47:21 CET schrieb Alex Bee:
+> Hi Heiko,
+> 
+> 
+> Am 04.01.24 um 09:14 schrieb Heiko Stuebner:
+> > On Fri, 22 Dec 2023 18:41:51 +0100, Alex Bee wrote:
+> >> This is version 4 of my series that aims to add support for the display
+> >> controller (VOP) and the HDMI controller block of RK3128 (which is very
+> >> similar to the one found in RK3036). The original intention of this series
+> >> was to add support for this slightly different integration but is by now,
+> >> driven by maintainer's feedback, exploded to be a rework of inno-hdmi
+> >> driver in large parts. It is, however, a change for the better.
+> >>
+> >> [...]
+> > Applied, thanks!
+> >
+> > [23/29] drm/rockchip: inno_hdmi: Add variant support
+> >          commit: 5f2e93e6719701a91307090f8f7696fd6b3bffdf
+> > [24/29] drm/rockchip: inno_hdmi: Add RK3128 support
+> >          commit: aa54f334c291effe321aa4b9ac0e67a895fd7b58
+> > [25/29] drm/rockchip: inno_hdmi: Add basic mode validation
+> >          commit: 701029621d4141d0c9f8b81a88a37b95ec84ce65
+> > [26/29] drm/rockchip: inno_hdmi: Drop custom fill_modes hook
+> >          commit: 50a3c772bd927dd409c484832ddd9f6bf00b7389
+> >
+> >
+> > For reference, Rob has applied the rk3128 compatible in
+> > https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git/commit/?id=21960bda59852ca961fcd27fba9f92750caccd06
+> thanks for keeping track on this.
+> 
+> Is there any reason the DT paches aren't merged yet? From what I can see
+> they should be fine to be merged in your v6.8-armsoc/dts32 branch which is
+> 6.7-rc1 based. There was only a txt-binding at this point and it's very
+> likely that both the rockchip,inno-hdmi.yaml-conversion and the rk3128
+> additon will both land in 6.8 (they are both in linux-next). Linus' 6.8
+> merge-window will open earliest next week.
 
-Never merged this, so I sent your suggested alternative instead [1].
+Exactly ... and the arm subarchitectures (Rockchip, etc) feed into the
+more generic soc-tree[0]  and from there in a set of pull requests.
 
-BR,
-Jani.
+Normally everything needs to go to the soc tree before -rc7 .
+With the whole xmas stuff, I sent some stragglers in a second pull
+request on monday, but that was already before Rob applied the
+binding on tuesday.
 
-[1] https://patchwork.freedesktop.org/series/128269/
+So 6.8 devicetree stuff is essentially done and the dts patches
+from this series will go in to 6.9 .
 
 
--- 
-Jani Nikula, Intel
+Hope that explains things a bit :-)
+Heiko
+
+[0] https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git/
+
+> I'm really not pressuring here and I'm fine if they land in 6.9 - it's just
+> for my understanding for further submissions.
+> 
+> Alex
+> 
+> >
+> > Best regards,
+> 
+
+
+
+
