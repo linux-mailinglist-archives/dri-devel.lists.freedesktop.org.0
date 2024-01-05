@@ -2,75 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8DD682553C
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 15:29:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 323A7825C14
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 22:19:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 860D410E628;
-	Fri,  5 Jan 2024 14:29:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1163210E6AA;
+	Fri,  5 Jan 2024 21:19:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4391710E618
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 14:29:26 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id
- 4fb4d7f45d1cf-55642663ac4so1874019a12.1
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Jan 2024 06:29:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fairphone.com; s=fair; t=1704464964; x=1705069764; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=LcIsCf9lD/knWhOV4w5QILuSqh1F/UU7FLo8OWJM7Io=;
- b=aMozO7B8Il3UXZYbUnD2FrYQVjX7dqYydYmetB88++aQ5BGFuzwZaADlKsgd+7rshm
- 2EER0dMyJLaWOrP2J80lpUdR4czoIyK2S4z+874t9LxCxXkAeDJDGpuaiexvwusm7WeG
- Omof0A2M6McsXmcxvWE4Z1twNKxrPBpX15J7OOYgMxISrVPbXXnPQLMyaosScs/jOZhs
- 1aFPEVA8SmzUC0FW088x40vNH2cCpkqFPK1PKLPj/hhmjWqpoue8w7pVlvqq0mgjAbLr
- p8P7geTjJy9cYGvOrz4ddpDa+YRcJCbIUOWVjV4XgqfwTfsBmMRi4ipGurfMEboUhGsv
- BLoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704464964; x=1705069764;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=LcIsCf9lD/knWhOV4w5QILuSqh1F/UU7FLo8OWJM7Io=;
- b=iFMUJGff44p8doH5UktUBXa5e5opHa4nj2OxEAn3SwioiCWkrIkFyZKqzqfm1jpEZQ
- 92msEx60m+7BGQ1RlQBbxXaB9kxOtF6UVaO+QTbaUo85HdAQ2gXgPj++/IiE8lSmKgtE
- TKmpCe2oEiMvxb9goa6SUwneDvq5dp5Jv3J5B+YbS6hdoO2Uj1T0bXMZiJwVWn+cSI4+
- xvpQkEAuCs1l8uqPOaRWnq6jSkPd8Wvd1hHzozdWX+l0YlVbrmDAkdS8HJj/+jjpqdSq
- 2Q+dpwmRUD0OWpvLx3QVb6pobCB/nobb1F4OUbhK8yUg16uKdeif2QFnxyXPvwKwoSVB
- rLKA==
-X-Gm-Message-State: AOJu0Yw26cHnEaD2nkEGHfSd+bT1A6KYZqE+TMIuWOXRnisHAbppctsU
- NPfTtSvu8eQHuaKWe2F9573ILkyX6Mk68w==
-X-Google-Smtp-Source: AGHT+IFG3RJXE6tYpwVAbEAn7QPS50WJ+2cJRim2jdSJpfqmulybpFQu+xxg4rk4FJSzZPs+mAwQag==
-X-Received: by 2002:a17:906:6d3:b0:a28:be7f:3ef4 with SMTP id
- v19-20020a17090606d300b00a28be7f3ef4mr1170053ejb.24.1704464964761; 
- Fri, 05 Jan 2024 06:29:24 -0800 (PST)
-Received: from otso.luca.vpn.lucaweiss.eu
- (144-178-202-138.static.ef-service.nl. [144.178.202.138])
- by smtp.gmail.com with ESMTPSA id
- u7-20020a1709067d0700b00a26b057df46sm927006ejo.126.2024.01.05.06.29.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jan 2024 06:29:23 -0800 (PST)
-From: Luca Weiss <luca.weiss@fairphone.com>
-Date: Fri, 05 Jan 2024 15:29:14 +0100
-Subject: [PATCH 3/3] arm64: dts: qcom: sm7225-fairphone-fp4: Enable display
- and GPU
+X-Greylist: delayed 333 seconds by postgrey-1.36 at gabe;
+ Fri, 05 Jan 2024 21:19:04 UTC
+Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97DF010E6AA;
+ Fri,  5 Jan 2024 21:19:04 +0000 (UTC)
+Received: from [192.168.1.114] (unknown [185.145.125.130])
+ by mail.ispras.ru (Postfix) with ESMTPSA id A64A440F1DF8;
+ Fri,  5 Jan 2024 21:13:28 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru A64A440F1DF8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
+ s=default; t=1704489208;
+ bh=FlEa4522VZdZ1YxHNtrr3RlZjAu47jub/SKcUbhgne0=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=elURLvWM2R+W2sXvbnDz4yjHrY16N8IpFq79W7EMGRzvJoEc8dMrCRctSn9sjd0+U
+ /woxhCucAlP8rtdCMojyX0PLD0O7WYXL1/+YZoyTSc244W6+kLdA4+9UngmQis0J9r
+ 3gDjd+wITq/RuM4RGxvSF+N+t0Nj6UZ/ClSeD2HE=
+Subject: Re: [PATCH] tvnv17.c: Adding a NULL pointer check.
+To: Andrey Shumilin <shum.sdl@nppct.ru>, Karol Herbst <kherbst@redhat.com>
+References: <20231116065159.37876-1-shum.sdl@nppct.ru>
+From: Alexey Khoroshilov <khoroshilov@ispras.ru>
+Message-ID: <5609ce98-9bbb-29f4-0c4c-a4d3654152f7@ispras.ru>
+Date: Fri, 5 Jan 2024 21:33:07 +0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20231116065159.37876-1-shum.sdl@nppct.ru>
+Content-Type: text/plain; charset=utf-8
+Content-Language: ru-RU
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240105-fp4-panel-v1-3-1afbabc55276@fairphone.com>
-References: <20240105-fp4-panel-v1-0-1afbabc55276@fairphone.com>
-In-Reply-To: <20240105-fp4-panel-v1-0-1afbabc55276@fairphone.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>
-X-Mailer: b4 0.12.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,127 +50,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Luca Weiss <luca.weiss@fairphone.com>, ~postmarketos/upstreaming@lists.sr.ht,
- phone-devel@vger.kernel.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Jani Nikula <jani.nikula@intel.com>, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Danilo Krummrich <dakr@redhat.com>, dri-devel@lists.freedesktop.org,
+ "lvc-project@linuxtesting.org" <lvc-project@linuxtesting.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the description for the display panel found on this phone and remove
-the simple-framebuffer that was in place until now. Unfortunately the
-LCDB module on PM6150L isn't yet supported upstream so we need to use a
-dummy regulator-fixed in the meantime.
+> Subject: tvnv17.c: Adding a NULL pointer check.
 
-And with this done we can also enable the GPU.
+As
 
-Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
----
- arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts | 62 +++++++++++++++++++----
- 1 file changed, 53 insertions(+), 9 deletions(-)
+$ git log --oneline drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
+874ee2d67fc9 drm/nouveau: Remove unnecessary include statements for
+drm_crtc_helper.h
+80ed86d4b6d7 drm/connector: Rename drm_mode_create_tv_properties
+1fd4a5a36f9f drm/connector: Rename legacy TV property
+09838c4efe9a drm/nouveau/kms: Search for encoders' connectors properly
+2574c809d7c0 drm/nouveau/kms/nv04-nv4x: Use match_string() helper to
+simplify the code
+...
 
-diff --git a/arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts b/arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts
-index ade619805519..8eb376f2db46 100644
---- a/arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts
-+++ b/arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts
-@@ -45,15 +45,6 @@ chosen {
- 		ranges;
- 
- 		stdout-path = "serial0:115200n8";
--
--		framebuffer0: framebuffer@a000000 {
--			compatible = "simple-framebuffer";
--			reg = <0 0xa0000000 0 (2340 * 1080 * 4)>;
--			width = <1080>;
--			height = <2340>;
--			stride = <(1080 * 4)>;
--			format = "a8r8g8b8";
--		};
- 	};
- 
- 	gpio-keys {
-@@ -68,6 +59,14 @@ key-volume-up {
- 		};
- 	};
- 
-+	/* Dummy regulator until PM6150L has LCDB VSP/VSN support */
-+	lcdb_dummy: regulator-lcdb-dummy {
-+		compatible = "regulator-fixed";
-+		regulator-name = "lcdb_dummy";
-+		regulator-min-microvolt = <5500000>;
-+		regulator-max-microvolt = <5500000>;
-+	};
-+
- 	reserved-memory {
- 		/*
- 		 * The rmtfs memory region in downstream is 'dynamically allocated'
-@@ -365,6 +364,10 @@ &cdsp {
- 	status = "okay";
- };
- 
-+&gmu {
-+	status = "okay";
-+};
-+
- &gpi_dma0 {
- 	status = "okay";
- };
-@@ -373,6 +376,10 @@ &gpi_dma1 {
- 	status = "okay";
- };
- 
-+&gpu {
-+	status = "okay";
-+};
-+
- &i2c0 {
- 	clock-frequency = <400000>;
- 	status = "okay";
-@@ -404,6 +411,43 @@ &ipa {
- 	status = "okay";
- };
- 
-+&mdss {
-+	status = "okay";
-+};
-+
-+&mdss_dsi0 {
-+	vdda-supply = <&vreg_l22a>;
-+	status = "okay";
-+
-+	panel@0 {
-+		compatible = "fairphone,fp4-hx83112a-djn", "himax,hx83112a";
-+		reg = <0>;
-+
-+		backlight = <&pm6150l_wled>;
-+		reset-gpios = <&pm6150l_gpios 9 GPIO_ACTIVE_LOW>;
-+
-+		vdd1-supply = <&vreg_l1e>;
-+		vsn-supply = <&lcdb_dummy>;
-+		vsp-supply = <&lcdb_dummy>;
-+
-+		port {
-+			panel_in: endpoint {
-+				remote-endpoint = <&mdss_dsi0_out>;
-+			};
-+		};
-+	};
-+};
-+
-+&mdss_dsi0_out {
-+	data-lanes = <0 1 2 3>;
-+	remote-endpoint = <&panel_in>;
-+};
-+
-+&mdss_dsi0_phy {
-+	vdds-supply = <&vreg_l18a>;
-+	status = "okay";
-+};
-+
- &mpss {
- 	firmware-name = "qcom/sm7225/fairphone4/modem.mdt";
- 	status = "okay";
+shows, a better prefix should be
+drm/nouveau:
+and there should not be a dot at the end.
 
--- 
-2.43.0
+e.g.
+drm/nouveau: Avoid NPE in nv17_tv_get_XX_modes()
+
+On 16.11.2023 09:51, Andrey Shumilin wrote:
+> It is possible to dereference a null pointer if drm_mode_duplicate() returns NULL.
+
+I would suggest to add a little bit more details:
+
+drm_mode_duplicate() may return NULL in case of error, e.g. if memory
+allocation fails. It leads to NULL pointer dereference in
+nv17_tv_get_ld_modes() and nv17_tv_get_hd_modes(), since they do not
+check if drm_mode_duplicate() succeeds.
+
+Otherwise, looks good.
+
+Reviewed-by: Alexey Khoroshilov <khoroshilov@ispras.ru>
+
+
+> 
+> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> 
+> Signed-off-by: Andrey Shumilin <shum.sdl@nppct.ru>
+> ---
+>  drivers/gpu/drm/nouveau/dispnv04/tvnv17.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c b/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
+> index 670c9739e5e1..1f0c5f4a5fd2 100644
+> --- a/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
+> +++ b/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
+> @@ -209,7 +209,8 @@ static int nv17_tv_get_ld_modes(struct drm_encoder *encoder,
+>  		struct drm_display_mode *mode;
+>  
+>  		mode = drm_mode_duplicate(encoder->dev, tv_mode);
+> -
+> +		if (mode == NULL)
+> +			continue;
+>  		mode->clock = tv_norm->tv_enc_mode.vrefresh *
+>  			mode->htotal / 1000 *
+>  			mode->vtotal / 1000;
+> @@ -258,6 +259,8 @@ static int nv17_tv_get_hd_modes(struct drm_encoder *encoder,
+>  		if (modes[i].hdisplay == output_mode->hdisplay &&
+>  		    modes[i].vdisplay == output_mode->vdisplay) {
+>  			mode = drm_mode_duplicate(encoder->dev, output_mode);
+> +			if (mode == NULL)
+> +				continue;
+>  			mode->type |= DRM_MODE_TYPE_PREFERRED;
+>  
+>  		} else {
+> 
 
