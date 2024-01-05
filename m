@@ -1,54 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74757825960
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 18:49:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EC17825968
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 18:50:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEB8E10E64E;
-	Fri,  5 Jan 2024 17:49:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3693D10E657;
+	Fri,  5 Jan 2024 17:50:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CCE110E65A
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 17:49:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1704476956;
- bh=oiTjNDE8zdxt2cMZq7xxs8JwiZDB7s9mhohrKDnY/2E=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=vEBLtejKVsVkA/nSjHRUQnhjBOK6LO380L89stD1j4116VhjpGVphkIylt+u24RH5
- su3sUhTwunOUMgAvc3PuMdxBgz47Z+Tx2RUIyCf/jBMiOLReJffKvaYL4Dqa0eVrq0
- NfPodRzxZeUwMTlfId+M2rY6Sey7PidHirQaAtdXqQiQWYRvWDBI0kZW96OZ6iAr6W
- XLzf1Krv7tefrzgj56aSnHBBv4dPouS5M+QcVvkBIAgeOyOsbHfTB5ifnj0h429a8n
- 2VQYwKnzc88v9ZEEhquHMlCzAzDzFUDDWHpGHudTEn9c/L2IS3Ok2g8h8r8FFW0/7m
- pFZl80/dkBpcQ==
-Received: from [100.115.223.179] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: cristicc)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 29C10378003D;
- Fri,  5 Jan 2024 17:49:15 +0000 (UTC)
-Message-ID: <30114fa6-d83d-4563-9f3b-2975ddfd2752@collabora.com>
-Date: Fri, 5 Jan 2024 19:49:14 +0200
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B16F310E657
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 17:50:40 +0000 (UTC)
+Received: from i53875a56.versanet.de ([83.135.90.86] helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1rLoL6-0006fs-Ab; Fri, 05 Jan 2024 18:50:36 +0100
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Alex Bee <knaerzche@gmail.com>
+Subject: Re: (subset) [PATCH v4 00/29] Add HDMI support for RK3128
+Date: Fri, 05 Jan 2024 18:50:35 +0100
+Message-ID: <7002847.tM3a2QDmDi@diego>
+In-Reply-To: <31af9449-67df-4a1d-942c-60405f653409@gmail.com>
+References: <20231222174220.55249-1-knaerzche@gmail.com>
+ <2568547.3Lj2Plt8kZ@diego>
+ <31af9449-67df-4a1d-942c-60405f653409@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/rockchip: vop2: Drop unused if_dclk_rate variable
-Content-Language: en-US
-To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Sandy Huang <hjc@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Andy Yan <andy.yan@rock-chips.com>
-References: <20240104143951.85219-1-cristian.ciocaltea@collabora.com>
- <5867171.29KlJPOoH8@diego>
- <acb52035-4f0c-430d-a2d2-26ab37805d7b@rock-chips.com>
- <13141620.VsHLxoZxqI@diego>
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-In-Reply-To: <13141620.VsHLxoZxqI@diego>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,57 +41,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rockchip@lists.infradead.org, kernel@collabora.com,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org,
+ Rob Herring <robh+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/5/24 11:57, Heiko Stübner wrote:
-> Hi,
-> 
-> Am Freitag, 5. Januar 2024, 10:04:55 CET schrieb Andy Yan:
->> On 1/4/24 23:58, Heiko Stübner wrote:
->>> Am Donnerstag, 4. Januar 2024, 15:39:50 CET schrieb Cristian Ciocaltea:
->>>> Commit 5a028e8f062f ("drm/rockchip: vop2: Add support for rk3588")
->>>> introduced a variable which ended up being unused.  Remove it.
->>>>
->>>> rockchip_drm_vop2.c:1688:23: warning: variable ‘if_dclk_rate’ set but not used [-Wunused-but-set-variable]
->>>>
->>>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Am Freitag, 5. Januar 2024, 18:33:34 CET schrieb Alex Bee:
+>=20
+> Am 05.01.24 um 18:02 schrieb Heiko St=FCbner:
+> > Am Freitag, 5. Januar 2024, 17:47:21 CET schrieb Alex Bee:
+> >> Hi Heiko,
+> >>
+> >>
+> >> Am 04.01.24 um 09:14 schrieb Heiko Stuebner:
+> >>> On Fri, 22 Dec 2023 18:41:51 +0100, Alex Bee wrote:
+> >>>> This is version 4 of my series that aims to add support for the disp=
+lay
+> >>>> controller (VOP) and the HDMI controller block of RK3128 (which is v=
+ery
+> >>>> similar to the one found in RK3036). The original intention of this =
+series
+> >>>> was to add support for this slightly different integration but is by=
+ now,
+> >>>> driven by maintainer's feedback, exploded to be a rework of inno-hdmi
+> >>>> driver in large parts. It is, however, a change for the better.
+> >>>>
+> >>>> [...]
+> >>> Applied, thanks!
+> >>>
+> >>> [23/29] drm/rockchip: inno_hdmi: Add variant support
+> >>>           commit: 5f2e93e6719701a91307090f8f7696fd6b3bffdf
+> >>> [24/29] drm/rockchip: inno_hdmi: Add RK3128 support
+> >>>           commit: aa54f334c291effe321aa4b9ac0e67a895fd7b58
+> >>> [25/29] drm/rockchip: inno_hdmi: Add basic mode validation
+> >>>           commit: 701029621d4141d0c9f8b81a88a37b95ec84ce65
+> >>> [26/29] drm/rockchip: inno_hdmi: Drop custom fill_modes hook
+> >>>           commit: 50a3c772bd927dd409c484832ddd9f6bf00b7389
+> >>>
+> >>>
+> >>> For reference, Rob has applied the rk3128 compatible in
+> >>> https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git/commit=
+/?id=3D21960bda59852ca961fcd27fba9f92750caccd06
+> >> thanks for keeping track on this.
+> >>
+> >> Is there any reason the DT paches aren't merged yet? From what I can s=
+ee
+> >> they should be fine to be merged in your v6.8-armsoc/dts32 branch whic=
+h is
+> >> 6.7-rc1 based. There was only a txt-binding at this point and it's very
+> >> likely that both the rockchip,inno-hdmi.yaml-conversion and the rk3128
+> >> additon will both land in 6.8 (they are both in linux-next). Linus' 6.8
+> >> merge-window will open earliest next week.
+> > Exactly ... and the arm subarchitectures (Rockchip, etc) feed into the
+> > more generic soc-tree[0]  and from there in a set of pull requests.
+> >
+> > Normally everything needs to go to the soc tree before -rc7 .
+> > With the whole xmas stuff, I sent some stragglers in a second pull
+> > request on monday, but that was already before Rob applied the
+> > binding on tuesday.
+> >
+> > So 6.8 devicetree stuff is essentially done and the dts patches
+> > from this series will go in to 6.9 .
+> >
+> >
+> > Hope that explains things a bit :-)
+> I assumed (for some reason) that sub-architecture maintainers are allowed
+> to send PRs to the respective upper tree until the merge window opens and
+> "all the rest" is done within this  ~2 weeks.
+> Thanks for explaining.
 
-[...]
+No worries :-) .
 
->>> with the code continuing with those static constants but the comment
->>> showing a forumula, I do hope Andy can provide a bit of insight into
->>> what is happening here.
->>>
->>> I.e. I'd really like to understand if that really is just a remnant or
->>> something different is needed.
->>
->> This is not a remnant, in my V1, I calculate all the div by formula, but Sascha prefer
->> more for a constants value[0], so I keep this formula as comments to indicate how these value come from.
->>
->> [0]https://patchwork.kernel.org/project/linux-rockchip/patch/20231114112855.1771372-1-andyshrk@163.com/
-> 
-> thanks for referencing the source of the change.
-> Leaving the formula in there was the right choice I think
-> 
-> That still leaves the issue with the "unused" warning.
-> 
-> @Christan: in the hdmi block itself can you move the 
-> 	if_dclk_rate = dclk_core_rate / K;
-> to the comment block please? And possibly reference the use
-> of the static values in the comment message.
-> 
-> The if_dclk_rate var declaration at the top of the function can of course
-> go away.
-> 
-> That way we still keep documenting how these values came to be:
+The general rule of thumb is that everything should be done and ready
+before the merge-window opens. Linus often writes very positively about
+people sending him pull-requests even before the merge window opens ;-)
+[meaning their tree is settled early and all test-robots have run]
 
-Requested changes submitted via v2:
+And there are different rules in every tree.
 
-https://lore.kernel.org/lkml/20240105174007.98054-1-cristian.ciocaltea@collabora.com/
+=46or the soc tree the general rule of thumb of =3D< -rc7 - earlier with la=
+rger
+changesets. On the other side drm-misc stays open all the time, but makes
+a cut at -rc6. So everything targetted at v6.8 needs to be in before
+v6.7-rc6.
 
-Thanks,
-Cristian
+
+Heiko
+
+
