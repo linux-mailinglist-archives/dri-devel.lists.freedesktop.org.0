@@ -2,33 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EC17825968
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 18:50:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CABE482598C
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 18:59:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3693D10E657;
-	Fri,  5 Jan 2024 17:50:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A20410E64B;
+	Fri,  5 Jan 2024 17:59:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B16F310E657
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 17:50:40 +0000 (UTC)
-Received: from i53875a56.versanet.de ([83.135.90.86] helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1rLoL6-0006fs-Ab; Fri, 05 Jan 2024 18:50:36 +0100
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Alex Bee <knaerzche@gmail.com>
-Subject: Re: (subset) [PATCH v4 00/29] Add HDMI support for RK3128
-Date: Fri, 05 Jan 2024 18:50:35 +0100
-Message-ID: <7002847.tM3a2QDmDi@diego>
-In-Reply-To: <31af9449-67df-4a1d-942c-60405f653409@gmail.com>
-References: <20231222174220.55249-1-knaerzche@gmail.com>
- <2568547.3Lj2Plt8kZ@diego>
- <31af9449-67df-4a1d-942c-60405f653409@gmail.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C904010E62E
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 17:59:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=HoqnA9RVU9Lx1LWI0qrBhmbV+eD8glO0bXHJDXiDoFQ=; b=NNiP8MNMEZKJnoJYLlaRoPL4su
+ 28RCxAMgHbi2mJoBkobcqmlezMBW8BlQoQX/8FAF/3O6MyJ87oKIY3i3Nt0jg4/g+lf0uesDqYMsR
+ oKyt6MSsHZpGD9yiSHItewttzz/E3gaE1uT3ruSv4XeP39CkFHeuY7NAkjbaZ65cYWSnLjNZjxslD
+ zY02DUU/bgFJvkfdeqPCOKH6jRtmyH0y0I3yIm3def0am01CMzGn3ZpMo3qQUoc+pjqkZYTlDAvcE
+ mCz0mJ5+aBur2MnAzsHr03pcsn6QmJ+QXsBAvjf22hAhqiLLcQkcEKbEn19XZ9VtkyBEr1bHF4EFn
+ 4yDZR8uA==;
+Received: from [179.234.233.159] (helo=morissey..)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1rLoTc-003HES-QI; Fri, 05 Jan 2024 18:59:25 +0100
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: Maxime Ripard <mripard@kernel.org>, Dom Cobley <dom@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH] drm/vc4: don't check if plane->state->fb == state->fb
+Date: Fri,  5 Jan 2024 14:58:36 -0300
+Message-ID: <20240105175908.242000-1-mcanal@igalia.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,95 +54,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org,
- Rob Herring <robh+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-kernel@lists.infradead.org
+Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>, kernel-dev@igalia.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Freitag, 5. Januar 2024, 18:33:34 CET schrieb Alex Bee:
->=20
-> Am 05.01.24 um 18:02 schrieb Heiko St=FCbner:
-> > Am Freitag, 5. Januar 2024, 17:47:21 CET schrieb Alex Bee:
-> >> Hi Heiko,
-> >>
-> >>
-> >> Am 04.01.24 um 09:14 schrieb Heiko Stuebner:
-> >>> On Fri, 22 Dec 2023 18:41:51 +0100, Alex Bee wrote:
-> >>>> This is version 4 of my series that aims to add support for the disp=
-lay
-> >>>> controller (VOP) and the HDMI controller block of RK3128 (which is v=
-ery
-> >>>> similar to the one found in RK3036). The original intention of this =
-series
-> >>>> was to add support for this slightly different integration but is by=
- now,
-> >>>> driven by maintainer's feedback, exploded to be a rework of inno-hdmi
-> >>>> driver in large parts. It is, however, a change for the better.
-> >>>>
-> >>>> [...]
-> >>> Applied, thanks!
-> >>>
-> >>> [23/29] drm/rockchip: inno_hdmi: Add variant support
-> >>>           commit: 5f2e93e6719701a91307090f8f7696fd6b3bffdf
-> >>> [24/29] drm/rockchip: inno_hdmi: Add RK3128 support
-> >>>           commit: aa54f334c291effe321aa4b9ac0e67a895fd7b58
-> >>> [25/29] drm/rockchip: inno_hdmi: Add basic mode validation
-> >>>           commit: 701029621d4141d0c9f8b81a88a37b95ec84ce65
-> >>> [26/29] drm/rockchip: inno_hdmi: Drop custom fill_modes hook
-> >>>           commit: 50a3c772bd927dd409c484832ddd9f6bf00b7389
-> >>>
-> >>>
-> >>> For reference, Rob has applied the rk3128 compatible in
-> >>> https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git/commit=
-/?id=3D21960bda59852ca961fcd27fba9f92750caccd06
-> >> thanks for keeping track on this.
-> >>
-> >> Is there any reason the DT paches aren't merged yet? From what I can s=
-ee
-> >> they should be fine to be merged in your v6.8-armsoc/dts32 branch whic=
-h is
-> >> 6.7-rc1 based. There was only a txt-binding at this point and it's very
-> >> likely that both the rockchip,inno-hdmi.yaml-conversion and the rk3128
-> >> additon will both land in 6.8 (they are both in linux-next). Linus' 6.8
-> >> merge-window will open earliest next week.
-> > Exactly ... and the arm subarchitectures (Rockchip, etc) feed into the
-> > more generic soc-tree[0]  and from there in a set of pull requests.
-> >
-> > Normally everything needs to go to the soc tree before -rc7 .
-> > With the whole xmas stuff, I sent some stragglers in a second pull
-> > request on monday, but that was already before Rob applied the
-> > binding on tuesday.
-> >
-> > So 6.8 devicetree stuff is essentially done and the dts patches
-> > from this series will go in to 6.9 .
-> >
-> >
-> > Hope that explains things a bit :-)
-> I assumed (for some reason) that sub-architecture maintainers are allowed
-> to send PRs to the respective upper tree until the merge window opens and
-> "all the rest" is done within this  ~2 weeks.
-> Thanks for explaining.
+Currently, when using non-blocking commits, we can see the following
+kernel warning:
 
-No worries :-) .
+[  110.908514] ------------[ cut here ]------------
+[  110.908529] refcount_t: underflow; use-after-free.
+[  110.908620] WARNING: CPU: 0 PID: 1866 at lib/refcount.c:87 refcount_dec_not_one+0xb8/0xc0
+[  110.908664] Modules linked in: rfcomm snd_seq_dummy snd_hrtimer snd_seq snd_seq_device cmac algif_hash aes_arm64 aes_generic algif_skcipher af_alg bnep hid_logitech_hidpp vc4 brcmfmac hci_uart btbcm brcmutil bluetooth snd_soc_hdmi_codec cfg80211 cec drm_display_helper drm_dma_helper drm_kms_helper snd_soc_core snd_compress snd_pcm_dmaengine fb_sys_fops sysimgblt syscopyarea sysfillrect raspberrypi_hwmon ecdh_generic ecc rfkill libaes i2c_bcm2835 binfmt_misc joydev snd_bcm2835(C) bcm2835_codec(C) bcm2835_isp(C) v4l2_mem2mem videobuf2_dma_contig snd_pcm bcm2835_v4l2(C) raspberrypi_gpiomem bcm2835_mmal_vchiq(C) videobuf2_v4l2 snd_timer videobuf2_vmalloc videobuf2_memops videobuf2_common snd videodev vc_sm_cma(C) mc hid_logitech_dj uio_pdrv_genirq uio i2c_dev drm fuse dm_mod drm_panel_orientation_quirks backlight ip_tables x_tables ipv6
+[  110.909086] CPU: 0 PID: 1866 Comm: kodi.bin Tainted: G         C         6.1.66-v8+ #32
+[  110.909104] Hardware name: Raspberry Pi 3 Model B Rev 1.2 (DT)
+[  110.909114] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[  110.909132] pc : refcount_dec_not_one+0xb8/0xc0
+[  110.909152] lr : refcount_dec_not_one+0xb4/0xc0
+[  110.909170] sp : ffffffc00913b9c0
+[  110.909177] x29: ffffffc00913b9c0 x28: 000000556969bbb0 x27: 000000556990df60
+[  110.909205] x26: 0000000000000002 x25: 0000000000000004 x24: ffffff8004448480
+[  110.909230] x23: ffffff800570b500 x22: ffffff802e03a7bc x21: ffffffecfca68c78
+[  110.909257] x20: ffffff8002b42000 x19: ffffff802e03a600 x18: 0000000000000000
+[  110.909283] x17: 0000000000000011 x16: ffffffffffffffff x15: 0000000000000004
+[  110.909308] x14: 0000000000000fff x13: ffffffed577e47e0 x12: 0000000000000003
+[  110.909333] x11: 0000000000000000 x10: 0000000000000027 x9 : c912d0d083728c00
+[  110.909359] x8 : c912d0d083728c00 x7 : 65646e75203a745f x6 : 746e756f63666572
+[  110.909384] x5 : ffffffed579f62ee x4 : ffffffed579eb01e x3 : 0000000000000000
+[  110.909409] x2 : 0000000000000000 x1 : ffffffc00913b750 x0 : 0000000000000001
+[  110.909434] Call trace:
+[  110.909441]  refcount_dec_not_one+0xb8/0xc0
+[  110.909461]  vc4_bo_dec_usecnt+0x4c/0x1b0 [vc4]
+[  110.909903]  vc4_cleanup_fb+0x44/0x50 [vc4]
+[  110.910315]  drm_atomic_helper_cleanup_planes+0x88/0xa4 [drm_kms_helper]
+[  110.910669]  vc4_atomic_commit_tail+0x390/0x9dc [vc4]
+[  110.911079]  commit_tail+0xb0/0x164 [drm_kms_helper]
+[  110.911397]  drm_atomic_helper_commit+0x1d0/0x1f0 [drm_kms_helper]
+[  110.911716]  drm_atomic_commit+0xb0/0xdc [drm]
+[  110.912569]  drm_mode_atomic_ioctl+0x348/0x4b8 [drm]
+[  110.913330]  drm_ioctl_kernel+0xec/0x15c [drm]
+[  110.914091]  drm_ioctl+0x24c/0x3b0 [drm]
+[  110.914850]  __arm64_sys_ioctl+0x9c/0xd4
+[  110.914873]  invoke_syscall+0x4c/0x114
+[  110.914897]  el0_svc_common+0xd0/0x118
+[  110.914917]  do_el0_svc+0x38/0xd0
+[  110.914936]  el0_svc+0x30/0x8c
+[  110.914958]  el0t_64_sync_handler+0x84/0xf0
+[  110.914979]  el0t_64_sync+0x18c/0x190
+[  110.914996] ---[ end trace 0000000000000000 ]---
 
-The general rule of thumb is that everything should be done and ready
-before the merge-window opens. Linus often writes very positively about
-people sending him pull-requests even before the merge window opens ;-)
-[meaning their tree is settled early and all test-robots have run]
+This happens because, although `prepare_fb` and `cleanup_fb` are
+perfectly balanced, we cannot guarantee consistency in the check
+plane->state->fb == state->fb. This means that sometimes we can increase
+the refcount in `prepare_fb` and don't decrease it in `cleanup_fb`. The
+opposite can also be true.
 
-And there are different rules in every tree.
+In fact, the struct drm_plane .state shouldn't be accessed directly
+but instead, the `drm_atomic_get_new_plane_state()` helper function should
+be used. So, we could stick to this check, but using
+`drm_atomic_get_new_plane_state()`. But actually, this check is not really
+needed. We can increase and decrease the refcount symmetrically without
+problems.
 
-=46or the soc tree the general rule of thumb of =3D< -rc7 - earlier with la=
-rger
-changesets. On the other side drm-misc stays open all the time, but makes
-a cut at -rc6. So everything targetted at v6.8 needs to be in before
-v6.7-rc6.
+This is going to make the code more simple and consistent.
 
+Signed-off-by: Maíra Canal <mcanal@igalia.com>
+---
+ drivers/gpu/drm/vc4/vc4_plane.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-Heiko
+diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
+index b8184374332c..07caf2a47c6c 100644
+--- a/drivers/gpu/drm/vc4/vc4_plane.c
++++ b/drivers/gpu/drm/vc4/vc4_plane.c
+@@ -1508,9 +1508,6 @@ static int vc4_prepare_fb(struct drm_plane *plane,
+ 	if (ret)
+ 		return ret;
 
+-	if (plane->state->fb == state->fb)
+-		return 0;
+-
+ 	return vc4_bo_inc_usecnt(bo);
+ }
+
+@@ -1519,7 +1516,7 @@ static void vc4_cleanup_fb(struct drm_plane *plane,
+ {
+ 	struct vc4_bo *bo;
+
+-	if (plane->state->fb == state->fb || !state->fb)
++	if (!state->fb)
+ 		return;
+
+ 	bo = to_vc4_bo(&drm_fb_dma_get_gem_obj(state->fb, 0)->base);
+--
+2.43.0
 
