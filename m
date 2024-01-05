@@ -2,44 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FAA08256AD
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 16:33:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8292E8256E0
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 16:42:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B14EC10E622;
-	Fri,  5 Jan 2024 15:33:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC11810E057;
+	Fri,  5 Jan 2024 15:42:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E336B10E622
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 15:33:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:Content-Transfer-Encoding:Content-Type:MIME-Version
- :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=E+LMJEa3mPlgXD2P3iPiQZx+1y/qNHXCMQpmVI3QvV4=; b=jAtLV7LP4/FNkqmNFNlN2M3tS0
- +9Z1+oOyxtzwFjnYURp4C4o89ROjyqizhriW7m9o9nmt29M1wyCPuhCsWXz5Jtc3bKFSJCTrT5x8Y
- YI3qbKTJk7/s6Xnxy8mJBmoiLNSZQFST4Tn5eFuMBeNcFctAKmr/uFyM1J3ZNzqACTZNEy9XN0pyf
- J8sDsQjIea9Sut4pT9OP8kPse1+tdYEn7o31YWfhtLmC5M6lvaDCU9zrSfv4ntJ/dV7HTN7kZyrOa
- OqCY9SISHqgZIATiZrEzxSsXyTejbM7ejz+sLyhdlojzKBqPOqMyHR1avZAr62l56JU05LfnhGJN9
- uunPId3g==;
-Received: from [102.213.205.115] (helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1rLmCI-003Ecs-WC; Fri, 05 Jan 2024 16:33:23 +0100
-Date: Fri, 5 Jan 2024 14:32:37 -0100
-From: Melissa Wen <mwen@igalia.com>
-To: =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>
-Subject: Re: [PATCH] drm/v3d: Show the memory-management stats on debugfs
-Message-ID: <raexpawp3v2tpyw7gwnxb6ijmohaw62odyspjigbulddny57ga@7mjwwheh5zca>
-References: <20240105145851.193492-1-mcanal@igalia.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C85EB10E057
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 15:42:47 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 405CQFTo016259; Fri, 5 Jan 2024 15:41:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=8U69yoEW15wUFaeoM1e7dccoLdtJraE1AdFSVG58J90=; b=Fl
+ MVOpQU3LGhO+f/tY/CZokYOTk8QgYuO/E5jTMrSFY5F8kgveg+p1OqrZJ6LPbzfP
+ Z7vUpGz+Ti4hiQSEzXk5QRvQm2OqSkuBWnqiTx2wRp8AHkoL6Z6kUYM+HHRrY1l6
+ JVXm5rejRE87ZgTe4FXZY8Krf1eg2oQbfq+B6DaG+/DmPhyBadutEf9jazT/flI8
+ znCE5FhXK9v/aXVI2QtpALKnqCC+pWCA+HdHierl7z+btGeszQHsYQmsuOO//yrM
+ IFbp8rv5JTmRz2zx4hzP86v9QoTEN17Sy6D9PS6IJf12C5DV3hoJUqOLsSozAeE4
+ wvXF+OOcX5gdSECkrKtw==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ve9901c8f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 05 Jan 2024 15:41:32 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 405FfVjI004334
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 5 Jan 2024 15:41:31 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 5 Jan
+ 2024 07:41:31 -0800
+Message-ID: <1acf57ce-585f-0d42-72d4-7a74f8dc7903@quicinc.com>
+Date: Fri, 5 Jan 2024 08:41:30 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240105145851.193492-1-mcanal@igalia.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 04/10] accel/ivpu: Add diagnostic messages when VPU fails
+ to boot or suspend
+Content-Language: en-US
+To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>
+References: <20240105112218.351265-1-jacek.lawrynowicz@linux.intel.com>
+ <20240105112218.351265-5-jacek.lawrynowicz@linux.intel.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20240105112218.351265-5-jacek.lawrynowicz@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: ab99eeSFVhKWgiRAdxtbvEdSVBzT0Gw1
+X-Proofpoint-ORIG-GUID: ab99eeSFVhKWgiRAdxtbvEdSVBzT0Gw1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 mlxscore=0
+ lowpriorityscore=0 mlxlogscore=557 impostorscore=0 spamscore=0
+ priorityscore=1501 phishscore=0 bulkscore=0 suspectscore=0 malwarescore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2401050129
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,57 +85,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-dev@igalia.com, Thomas Zimmermann <tzimmermann@suse.de>,
- Maxime Ripard <mripard@kernel.org>, Iago Toral <itoral@igalia.com>,
- dri-devel@lists.freedesktop.org
+Cc: "Wachowski, Karol" <karol.wachowski@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/05, Maíra Canal wrote:
-> Dump the contents of the DRM MM allocator of the V3D driver. This will
-> help us to debug the VA ranges allocated.
+On 1/5/2024 4:22 AM, Jacek Lawrynowicz wrote:
+> From: "Wachowski, Karol" <karol.wachowski@intel.com>
 > 
-> Signed-off-by: Maíra Canal <mcanal@igalia.com>
-> ---
->  drivers/gpu/drm/v3d/v3d_debugfs.c | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
+> Make boot/suspend failure debugging easier by dumping FW logs and error
+> registers.
 > 
-> diff --git a/drivers/gpu/drm/v3d/v3d_debugfs.c b/drivers/gpu/drm/v3d/v3d_debugfs.c
-> index f843a50d5dce..cdfe1d3bf5ee 100644
-> --- a/drivers/gpu/drm/v3d/v3d_debugfs.c
-> +++ b/drivers/gpu/drm/v3d/v3d_debugfs.c
-> @@ -260,11 +260,26 @@ static int v3d_measure_clock(struct seq_file *m, void *unused)
->  	return 0;
->  }
-> 
-> +static int v3d_debugfs_mm(struct seq_file *m, void *unused)
-> +{
-> +	struct drm_printer p = drm_seq_file_printer(m);
-> +	struct drm_debugfs_entry *entry = m->private;
-> +	struct drm_device *dev = entry->dev;
-> +	struct v3d_dev *v3d = to_v3d_dev(dev);
-> +
-> +	spin_lock(&v3d->mm_lock);
-> +	drm_mm_print(&v3d->mm, &p);
-> +	spin_unlock(&v3d->mm_lock);
-> +
-> +	return 0;
-> +}
+> Signed-off-by: Wachowski, Karol <karol.wachowski@intel.com>
+> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 
-LGTM.
-
-Reviewed-by: Melissa Wen <mwen@igalia.com>
-
-> +
->  static const struct drm_debugfs_info v3d_debugfs_list[] = {
->  	{"v3d_ident", v3d_v3d_debugfs_ident, 0},
->  	{"v3d_regs", v3d_v3d_debugfs_regs, 0},
->  	{"measure_clock", v3d_measure_clock, 0},
->  	{"bo_stats", v3d_debugfs_bo_stats, 0},
-> +	{"v3d_mm", v3d_debugfs_mm, 0},
->  };
-> 
->  void
-> --
-> 2.43.0
-> 
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
