@@ -2,60 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2923A8254B3
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 14:53:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12CEF825537
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 15:29:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5892D10E5FC;
-	Fri,  5 Jan 2024 13:53:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E5C910E035;
+	Fri,  5 Jan 2024 14:29:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com
- [IPv6:2607:f8b0:4864:20::b34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FFBF10E5FC
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 13:53:43 +0000 (UTC)
-Received: by mail-yb1-xb34.google.com with SMTP id
- 3f1490d57ef6-dae7cc31151so1341874276.3
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Jan 2024 05:53:43 -0800 (PST)
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4886110E035
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 14:29:22 +0000 (UTC)
+Received: by mail-ed1-x531.google.com with SMTP id
+ 4fb4d7f45d1cf-5574797e741so51073a12.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Jan 2024 06:29:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1704462822; x=1705067622;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=mFOCDfiRNVhSwkgtjGZQjnuXOXWIEEACwgomsYksHic=;
- b=S6S5xQgMUoS9ztF2a6VVUPqR65Yj+RfFlIbOG/XswfjtR/BIXc4r3DRxAWk7CSCETD
- TQRAfpEBT6CQdOqJam3wutY+8iIYT4zHaxRRvKsbji8lgBFfnrlk+qb9ifAnVso1Iv3O
- IufnuPQUZuoh5uxh3+tx3FRlPAhbSWQnb6qoo=
+ d=fairphone.com; s=fair; t=1704464960; x=1705069760; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=u39RBCFFtI0yX9VLekdwvDVmxDIhVLYsBRs0wCaV+pU=;
+ b=GLYov6UT6DxAxRXJO9uK5FTxYCwvn91WkSfd3g9dT4lPsxrJRnAwgcEM9nK/zT1CIC
+ eGcNrIwy8TUbOnEc2ZnpkMaEf2VkggCusCxNDhlKDzbenuvmf5Tv4jgBRqeIhmmVhL4d
+ RlONTLc8I73Qn8xwKdPznf+5gQ+RY67Bt9eLnXV8PlcfDUOQcKDUaBsRQ5GuEl3dBerz
+ aHI4m+xevpY/8NO7GlTQGCxvf9z05QkD30vGFyq/BKdMDPBYesUlykKRiQGjCIwD1e41
+ harXBaCO+1OSl06Yh/MawpUqkfeU1Ppa36/3WPXVncdrUCzoWH5gHdUQXivIoRzR+zWX
+ zOcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704462822; x=1705067622;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=mFOCDfiRNVhSwkgtjGZQjnuXOXWIEEACwgomsYksHic=;
- b=Yna3A8LN+tOheSz8c6z6bKvJxSwvlJZKNJO1Gy+fxceMTlmTn2VwC7YnJ8rP3sQfk8
- UxWfbthYi8Cse9lE3kaF1sHSL+asvrL3Oy9+1+n10oCfublfqwVW9PIrf9NvQLToypbn
- AOPcwE6h2xJj7odRuHIxLX/evI0EvOphad62GIsnc7mBJkK6HldTDqB5dc8W85DIagtk
- k6M8ue7hq2ThhlyVMBhd9JF3uDOg0NNuTlR08mWUaGMwuZ5UL0ZDkYv5GAVjCVfjS2/B
- vvDX98wjlTBWkBz3BnFro+9cluF7WCKgajZYSAgmuXaCDIztnLJeyxM/ScXhxIMzMNu/
- WwWA==
-X-Gm-Message-State: AOJu0YyPRX05ofkoD9HQGJcNLR6MSqFbwKmgN65FK8vvepoE1SLrpQRN
- 2GbrpQlnwDy8wfzN9ffoo7PXnB8YH1g+IcmwXxu/0GfPxr1+rIb358Aq/U8=
-X-Google-Smtp-Source: AGHT+IFwllAGuSzxfiNvJYq5HVd8LA4btV4STKM9+hWWoy2AfS19e9FrTfrglCtGtoFOE4WJjIZPhnxKC2RbUI9hZPg=
-X-Received: by 2002:a5b:b43:0:b0:d9b:3ed:41a5 with SMTP id
- b3-20020a5b0b43000000b00d9b03ed41a5mr1899489ybr.21.1704462822423; 
- Fri, 05 Jan 2024 05:53:42 -0800 (PST)
+ d=1e100.net; s=20230601; t=1704464960; x=1705069760;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=u39RBCFFtI0yX9VLekdwvDVmxDIhVLYsBRs0wCaV+pU=;
+ b=GTyefyKi45vlxBn70UbzVrFt9eZ/60ZCEbWgWoYZ7e4DYbWFTJOBtNnEWE3Qn7XQE2
+ kZXc3NQ/+uF6Cpw8/MUzw9SWv47MnvykjNmDvYEtG11EOTQTT1rIAI+xbc9TU0lIiSIE
+ TLszZ1npDFqUOH5TVzO+o2LbL5BbHkX/LQidcxENQZzNxQPlkt+t6PS//5ts+5kU9AWE
+ wM0lPdPN6aTd4595uztw1Ms5LxAk8oqVeBpSeCV2X0FVLgIVESraWsUklrGU43d88MLU
+ hvKunmYIkWIJpeT91eSEhReUKpiU0TZIwjq7WFSIsC5uKkgFTBHJehQL9k1V8fDfgaAN
+ R9JA==
+X-Gm-Message-State: AOJu0YwxVw9gRR9iYJGpIWzxlkoH7osj3YadUZfqlJi7abPngS5poFEf
+ XXLw7kQvJ2Ui6GT8vHz04scJADYQymHRBA==
+X-Google-Smtp-Source: AGHT+IFC8mQP7zYTa3qScnA9e4FhaBfqsr8V6I6BOY6f96K6u4BAyNvPTsxb81TwxVoCl0xiM/3dSw==
+X-Received: by 2002:a17:906:d92a:b0:a28:b12e:324d with SMTP id
+ rn10-20020a170906d92a00b00a28b12e324dmr1131944ejb.10.1704464960408; 
+ Fri, 05 Jan 2024 06:29:20 -0800 (PST)
+Received: from otso.luca.vpn.lucaweiss.eu
+ (144-178-202-138.static.ef-service.nl. [144.178.202.138])
+ by smtp.gmail.com with ESMTPSA id
+ u7-20020a1709067d0700b00a26b057df46sm927006ejo.126.2024.01.05.06.29.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Jan 2024 06:29:19 -0800 (PST)
+From: Luca Weiss <luca.weiss@fairphone.com>
+Subject: [PATCH 0/3] Add display support for Fairphone 4
+Date: Fri, 05 Jan 2024 15:29:11 +0100
+Message-Id: <20240105-fp4-panel-v1-0-1afbabc55276@fairphone.com>
 MIME-Version: 1.0
-References: <2b5648aa-f83d-d8f7-b0fd-39c859f32f33@linux.intel.com>
- <20240105135105.1921947-1-zack.rusin@broadcom.com>
-In-Reply-To: <20240105135105.1921947-1-zack.rusin@broadcom.com>
-From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Fri, 5 Jan 2024 08:53:31 -0500
-Message-ID: <CABQX2QOK8yKqREbnuRy0bZwYBssS3Cmec+wV3Lq0MNZGFgsA1Q@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/ttm: Make sure the mapped tt pages are decrypted
- when needed
-To: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADcSmGUC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDQwNT3bQCE92CxLzUHF1Tg8SkRAtTY7NEg0QloPqCotS0zAqwWdGxtbU
+ ABQmog1sAAAA=
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+X-Mailer: b4 0.12.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,43 +83,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Huang Rui <ray.huang@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- stable@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Luca Weiss <luca.weiss@fairphone.com>, ~postmarketos/upstreaming@lists.sr.ht,
+ phone-devel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 5, 2024 at 8:51=E2=80=AFAM Zack Rusin <zack.rusin@broadcom.com>=
- wrote:
->
-> Some drivers require the mapped tt pages to be decrypted. In an ideal
-> world this would have been handled by the dma layer, but the TTM page
-> fault handling would have to be rewritten to able to do that.
->
-> A side-effect of the TTM page fault handling is using a dma allocation
-> per order (via ttm_pool_alloc_page) which makes it impossible to just
-> trivially use dma_mmap_attrs. As a result ttm has to be very careful
-> about trying to make its pgprot for the mapped tt pages match what
-> the dma layer thinks it is. At the ttm layer it's possible to
-> deduce the requirement to have tt pages decrypted by checking
-> whether coherent dma allocations have been requested and the system
-> is running with confidential computing technologies.
->
-> This approach isn't ideal but keeping TTM matching DMAs expectations
-> for the page properties is in general fragile, unfortunately proper
-> fix would require a rewrite of TTM's page fault handling.
->
-> Fixes vmwgfx with SEV enabled.
->
-> v2: Explicitly include cc_platform.h
-> v3: Use CC_ATTR_GUEST_MEM_ENCRYPT instead of CC_ATTR_MEM_ENCRYPT to
-> limit the scope to guests and log when memory decryption is enabled.
+Introduce the bindings and panel driver for the DJN LCD panel using
+HX83112A driver IC.
 
-Sorry, this also got a bit lost during the s/VMware/Broadcom/
-transition. It seems to be pretty safe in general now. I wasn't able
-to find a really clean way of adding a warn_once when pte's don't
-match as suggested by Thomas, but I did add a quick log to at least
-point out in the logs that we've enabled memory decryption in tt.
+Then we can add the panel to the device dts and also enable the GPU.
 
-z
+Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+---
+Luca Weiss (3):
+      dt-bindings: display: panel: Add Himax HX83112A
+      drm/panel: Add driver for DJN HX83112A LCD panel
+      arm64: dts: qcom: sm7225-fairphone-fp4: Enable display and GPU
+
+ .../bindings/display/panel/himax,hx83112a.yaml     |  75 +++++
+ arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts  |  62 +++-
+ drivers/gpu/drm/panel/Kconfig                      |   9 +
+ drivers/gpu/drm/panel/Makefile                     |   1 +
+ drivers/gpu/drm/panel/panel-himax-hx83112a.c       | 372 +++++++++++++++++++++
+ 5 files changed, 510 insertions(+), 9 deletions(-)
+---
+base-commit: e9ad8e6186dbc420e26d2ffbb05cdce33fbf041d
+change-id: 20240105-fp4-panel-50aba8536a0a
+
+Best regards,
+-- 
+Luca Weiss <luca.weiss@fairphone.com>
+
