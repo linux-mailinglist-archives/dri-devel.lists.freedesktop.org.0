@@ -2,36 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD4FE825BAE
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 21:37:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D414D825BF3
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 21:47:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 210A610E695;
-	Fri,  5 Jan 2024 20:37:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51A7710E676;
+	Fri,  5 Jan 2024 20:47:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4FDA10E695
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 20:37:55 +0000 (UTC)
-Received: from i53875a56.versanet.de ([83.135.90.86] helo=phil.lan)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1rLqwi-0007ui-8H; Fri, 05 Jan 2024 21:37:36 +0100
-From: Heiko Stuebner <heiko@sntech.de>
-To: Sandy Huang <hjc@rock-chips.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, Maxime Ripard <mripard@kernel.org>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- David Airlie <airlied@gmail.com>, Andy Yan <andy.yan@rock-chips.com>
-Subject: Re: [PATCH v2] drm/rockchip: vop2: Drop unused if_dclk_rate variable
-Date: Fri,  5 Jan 2024 21:37:34 +0100
-Message-Id: <170448704129.3462688.7176944458440903061.b4-ty@sntech.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240105174007.98054-1-cristian.ciocaltea@collabora.com>
-References: <20240105174007.98054-1-cristian.ciocaltea@collabora.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E396910E676
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 20:47:33 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 445DDCE1147;
+ Fri,  5 Jan 2024 20:47:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 80860C433C8;
+ Fri,  5 Jan 2024 20:47:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1704487650;
+ bh=xxRdBa4wSIPvUpG9DdRO0UWptRYS9fBz/+hAX42MCyE=;
+ h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+ b=ITVW1Y55zddKhSG84Z+lGP0B5TFShdE0YIh4JBi3pMo14s5+UyN4qiGp7xcK2o5IT
+ up4XqqOTPOjRUblm5S+P+joKxGu1rPSq6t9XcvGVM25pyHYoo0dN+C1fUvr29bk294
+ uySERpKNwjwP7zGqpH/VcqSEtCJOh4uGZ4qG4IyTsX9MGi62EbnlYku4CIufKYSMQb
+ +WOmBJsUtoP4E3LcGMFiJGtGqavCJRL5SiLKKLd4jrMwHko1zodFgIlQVBIggBkHIE
+ loRQ/LPdZqCTp3dEoRB/dG2Jc2u+wnu8il8otKonj5WOESKSuvsqkhA2uX2IR6kNd2
+ GOedIaUn3iiRg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
+ 6DA02DCB6D8; Fri,  5 Jan 2024 20:47:30 +0000 (UTC)
+Subject: Re: [git pull] drm fixes (part2) for 6.7 final
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9txH-Rag6weAFHx_VgozGmLd4RinHCOzpGbyVsLT7qpcfA@mail.gmail.com>
+References: <CAPM=9txH-Rag6weAFHx_VgozGmLd4RinHCOzpGbyVsLT7qpcfA@mail.gmail.com>
+X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
+ <dri-devel.lists.freedesktop.org>
+X-PR-Tracked-Message-Id: <CAPM=9txH-Rag6weAFHx_VgozGmLd4RinHCOzpGbyVsLT7qpcfA@mail.gmail.com>
+X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
+ tags/drm-fixes-2024-01-05
+X-PR-Tracked-Commit-Id: eb284f4b37817d2038fdfe1a9d51769730ab7b5f
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 2b5bd1498da5537e3d130b3862bccdd9aedd6c84
+Message-Id: <170448765044.28812.6115533026297300477.pr-tracker-bot@kernel.org>
+Date: Fri, 05 Jan 2024 20:47:30 +0000
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,28 +60,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org, kernel@collabora.com,
- linux-arm-kernel@lists.infradead.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 5 Jan 2024 19:40:06 +0200, Cristian Ciocaltea wrote:
-> Commit 5a028e8f062f ("drm/rockchip: vop2: Add support for rk3588")
-> introduced a variable which ended up being unused:
-> 
-> rockchip_drm_vop2.c:1688:23: warning: variable ‘if_dclk_rate’ set but not used [-Wunused-but-set-variable]
-> 
-> This has been initially used as part of a formula to compute the clock
-> dividers, but eventually it has been replaced by static values.
-> 
-> [...]
+The pull request you sent on Fri, 5 Jan 2024 13:31:53 +1000:
 
-Applied, thanks!
+> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2024-01-05
 
-[1/1] drm/rockchip: vop2: Drop unused if_dclk_rate variable
-      commit: 196da3f3f76a46905f7daab29c56974f1aba9a7a
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/2b5bd1498da5537e3d130b3862bccdd9aedd6c84
 
-Best regards,
+Thank you!
+
 -- 
-Heiko Stuebner <heiko@sntech.de>
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
