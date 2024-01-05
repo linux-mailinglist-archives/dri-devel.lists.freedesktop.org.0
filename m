@@ -1,49 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C7D6824E23
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 06:31:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55201824E3B
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 06:46:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1642310E16A;
-	Fri,  5 Jan 2024 05:31:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B429110E0E8;
+	Fri,  5 Jan 2024 05:46:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:3::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 466B310E0D8;
- Fri,  5 Jan 2024 05:31:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=WfYHZN02CLJH0ySpqHd7ao/46+BdoIRfnnU+Dxnoo5Q=; b=YhDTI9kIyHogx9w4rkPWVO6J8o
- 992BEELaSHCa/YTd9ygz5ZVn2I3thTxG04j0ixaWLIDKEerNOSZzB1g+CT1Yh/yMtWVL1PgSryyGs
- UZkWtg6rJ6+lkPx86Y3YmdHVtNsVf+ww5Bu7Rou+TTjOOPO6PC02WCTuFXRzDUDUBsrZhhS8RM47u
- TKVA0ipEDn2H6i7ld1iLFiZpV/4d1OEyidHR9QG/rHE6Dn+lDtJ+BkSiHWp+eK8F9Opv1l9t3SUpj
- Tv+iJnrYbZk7Wee2dui2Jb8h4sjNs7nrF4QwaNab4g2DUSktKK3Hu3V5zf/68kCljAEc3tqb30U5j
- JRlHvf0w==;
-Received: from [50.53.46.231] (helo=[192.168.254.15])
- by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1rLcno-00FzF5-15; Fri, 05 Jan 2024 05:31:28 +0000
-Message-ID: <f19a971d-5d58-4166-ba03-db915eb49fc6@infradead.org>
-Date: Thu, 4 Jan 2024 21:31:26 -0800
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD8A010E0E8
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 05:46:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1704433591; x=1735969591;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=KVlQN+k+4yRFeF2dgIS0I2ZJD4MKgn9ZOQSqD0WwYQo=;
+ b=jekaFofy8BhFjOrE8PkabfCS+h71qQvX1pncppPQh+HR3IcQP/yXSLAx
+ gw2NOPC9RQ1ydDEXFk8xRTr8Rd+RNf9+H60IIwbZMuhYwN2pYVqcy3LL3
+ oRrLDNRdB0e5KMBh2p9Muti1GG0uThxtW/ADz1hBz1HHaTNIx3bpl0FSH
+ UrnI7mKX6h+fuA0BaI9Yj6rvzlDLh8iTljlKFYURAuWf0eEx5VhadX12l
+ WCQeOGZJORJFmzU/pnCuVoBY8kAHBPCiOPBrqxdY6Ca+sO0fHgmmmsyU6
+ Bi3KCdrsB2jh5J/KBz6sLDDnO4LEIP8NuafdvXh+CdkItMoZA7KmlYCa/ A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="4544197"
+X-IronPort-AV: E=Sophos;i="6.04,332,1695711600"; 
+   d="scan'208";a="4544197"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jan 2024 21:46:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="871152519"
+X-IronPort-AV: E=Sophos;i="6.04,332,1695711600"; d="scan'208";a="871152519"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+ by FMSMGA003.fm.intel.com with ESMTP; 04 Jan 2024 21:46:27 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1rLd2G-0000pe-2m;
+ Fri, 05 Jan 2024 05:46:24 +0000
+Date: Fri, 5 Jan 2024 13:45:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de, airlied@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ daniel@ffwll.ch, javierm@redhat.com, bluescreen_avenger@verizon.net,
+ noralf@tronnes.org
+Subject: Re: [PATCH v7 4/9] drm/panic: Add drm_panic_is_format_supported()
+Message-ID: <202401051328.IW9dwjX4-lkp@intel.com>
+References: <20240104160301.185915-5-jfalempe@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH -next] drm/nouveau: uapi: fix kerneldoc warnings
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-To: Vegard Nossum <vegard.nossum@oracle.com>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@redhat.com>
-References: <20231225065145.3060754-1-vegard.nossum@oracle.com>
- <009fcdc4-b10a-4ab9-b368-7cea75bb74e2@infradead.org>
- <0f04dd81-1b0f-4408-b4de-63a01895b0a5@oracle.com>
- <df7d110b-a50c-4293-b5d4-45913fa6909e@infradead.org>
- <70b16de0-b213-464f-a318-d9b96b76b967@infradead.org>
-In-Reply-To: <70b16de0-b213-464f-a318-d9b96b76b967@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240104160301.185915-5-jfalempe@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,73 +64,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, Jonathan Corbet <corbet@lwn.net>,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
+Cc: gpiccoli@igalia.com, Jocelyn Falempe <jfalempe@redhat.com>,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Jocelyn,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 50a3c772bd927dd409c484832ddd9f6bf00b7389]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jocelyn-Falempe/drm-format-helper-Add-drm_fb_blit_from_r1-and-drm_fb_fill/20240105-001038
+base:   50a3c772bd927dd409c484832ddd9f6bf00b7389
+patch link:    https://lore.kernel.org/r/20240104160301.185915-5-jfalempe%40redhat.com
+patch subject: [PATCH v7 4/9] drm/panic: Add drm_panic_is_format_supported()
+config: hexagon-randconfig-r071-20240105 (https://download.01.org/0day-ci/archive/20240105/202401051328.IW9dwjX4-lkp@intel.com/config)
+compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 7e186d366d6c7def0543acc255931f617e76dff0)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240105/202401051328.IW9dwjX4-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401051328.IW9dwjX4-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/gpu/drm/drm_drv.c:38:
+   In file included from include/drm/drm_accel.h:11:
+   In file included from include/drm/drm_file.h:39:
+   In file included from include/drm/drm_prime.h:37:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/gpu/drm/drm_drv.c:38:
+   In file included from include/drm/drm_accel.h:11:
+   In file included from include/drm/drm_file.h:39:
+   In file included from include/drm/drm_prime.h:37:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/gpu/drm/drm_drv.c:38:
+   In file included from include/drm/drm_accel.h:11:
+   In file included from include/drm/drm_file.h:39:
+   In file included from include/drm/drm_prime.h:37:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   In file included from drivers/gpu/drm/drm_drv.c:46:
+>> include/drm/drm_panic.h:97:6: warning: no previous prototype for function 'drm_panic_is_format_supported' [-Wmissing-prototypes]
+      97 | bool drm_panic_is_format_supported(u32 format) {return false; }
+         |      ^
+   include/drm/drm_panic.h:97:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      97 | bool drm_panic_is_format_supported(u32 format) {return false; }
+         | ^
+         | static 
+   7 warnings generated.
 
 
-On 1/2/24 19:10, Randy Dunlap wrote:
-> Hi Vegard,
-> 
-> On 12/25/23 09:08, Randy Dunlap wrote:
->>
->>
->> On 12/25/23 00:30, Vegard Nossum wrote:
->>>
->>> On 25/12/2023 08:40, Randy Dunlap wrote:
->>>> I do see one thing that I don't like in the generated html output.
->>>> It's not a problem with this patch.
->>>> The #defines for DRM_NOUVEAU_VM_BIND_OP_MAP etc. have a ';' at the
->>>> end of each line:
->>>>
->>>> struct drm_nouveau_vm_bind_op {
->>>>      __u32 op;
->>>> #define DRM_NOUVEAU_VM_BIND_OP_MAP 0x0;
->>>> #define DRM_NOUVEAU_VM_BIND_OP_UNMAP 0x1;
->>>>      __u32 flags;
->>>> #define DRM_NOUVEAU_VM_BIND_SPARSE (1 << 8);
->>>>      __u32 handle;
->>>>      __u32 pad;
->>>>      __u64 addr;
->>>>      __u64 bo_offset;
->>>>      __u64 range;
->>>> };
->>>
->>> Do we actually ever want preprocessor directives to appear inside
->>> definitions in the output? If not, I think this should work:
->>
->> Not necessarily.
->>
->>> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
->>> index 3cdc7dba37e3..61425fc9645e 100755
->>> --- a/scripts/kernel-doc
->>> +++ b/scripts/kernel-doc
->>> @@ -1259,6 +1259,8 @@ sub dump_struct($$) {
->>>                 $clause =~ s/\s+$//;
->>>                 $clause =~ s/\s+/ /;
->>>                 next if (!$clause);
->>> +               # skip preprocessor directives
->>> +               next if $clause =~ m/^#/;
->>>                 $level-- if ($clause =~ m/(\})/ && $level > 1);
->>>                 if (!($clause =~ m/^\s*#/)) {
->>>                         $declaration .= "\t" x $level;
->>>
->>>
->>
->> but that didn't work for me.
->> I don't have time to look into it any more today.  :)
-> 
-> I retested this patch. I must have really messed up my testing
-> in the first round. This now LGTM. Thanks.
-> 
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> Tested-by: Randy Dunlap <rdunlap@infradead.org>
+vim +/drm_panic_is_format_supported +97 include/drm/drm_panic.h
 
-Vegard, do you plan to submit this as a kernel-doc patch?
-
-Thanks.
+    96	
+  > 97	bool drm_panic_is_format_supported(u32 format) {return false; }
+    98	
 
 -- 
-#Randy
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
