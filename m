@@ -2,42 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 323A7825C14
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 22:19:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B23A82563E
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 15:59:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1163210E6AA;
-	Fri,  5 Jan 2024 21:19:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49F7A10E04E;
+	Fri,  5 Jan 2024 14:59:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 333 seconds by postgrey-1.36 at gabe;
- Fri, 05 Jan 2024 21:19:04 UTC
-Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97DF010E6AA;
- Fri,  5 Jan 2024 21:19:04 +0000 (UTC)
-Received: from [192.168.1.114] (unknown [185.145.125.130])
- by mail.ispras.ru (Postfix) with ESMTPSA id A64A440F1DF8;
- Fri,  5 Jan 2024 21:13:28 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru A64A440F1DF8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
- s=default; t=1704489208;
- bh=FlEa4522VZdZ1YxHNtrr3RlZjAu47jub/SKcUbhgne0=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=elURLvWM2R+W2sXvbnDz4yjHrY16N8IpFq79W7EMGRzvJoEc8dMrCRctSn9sjd0+U
- /woxhCucAlP8rtdCMojyX0PLD0O7WYXL1/+YZoyTSc244W6+kLdA4+9UngmQis0J9r
- 3gDjd+wITq/RuM4RGxvSF+N+t0Nj6UZ/ClSeD2HE=
-Subject: Re: [PATCH] tvnv17.c: Adding a NULL pointer check.
-To: Andrey Shumilin <shum.sdl@nppct.ru>, Karol Herbst <kherbst@redhat.com>
-References: <20231116065159.37876-1-shum.sdl@nppct.ru>
-From: Alexey Khoroshilov <khoroshilov@ispras.ru>
-Message-ID: <5609ce98-9bbb-29f4-0c4c-a4d3654152f7@ispras.ru>
-Date: Fri, 5 Jan 2024 21:33:07 +0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A54BE10E04E
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 14:59:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=Q4DxjswBk0Om0r4v6qDvbU2iMPeeoYiyhwcskfXrNnE=; b=Bg6EItiZKEmpvR7yRMueYIDeHj
+ qWCSS2r/9d7Sw1y3VmhyJiM+ByZGUFkl9ZQQPupN9YAmhw+0ehlKJ/jsuoaY2QDyp9h4B9yfVi6BC
+ 16C1aEg1wgwAy0JE95gWf+hvtEY+KG/YJrfULJcR95UZVAa2SaiTA6IF2TMuydbWyGWN7x9RXjgIn
+ KKjhTPuwAjbzGpj+n7QGXdTobARdpVyuFguhuumVSZj5KmyV7CRZ4z/cVlBNm3EAp1cTZRXqL+bTr
+ LN2WHvW7+t6mahgccY70GOfrUixu2PtPo1eXN5197NwBfq4BnCz/Z1THnqx7YV86SLIPl4qJZCYkm
+ WrQ7qnwQ==;
+Received: from [179.234.233.159] (helo=morissey..)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1rLlf6-003E8n-VF; Fri, 05 Jan 2024 15:59:05 +0100
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH] drm/v3d: Show the memory-management stats on debugfs
+Date: Fri,  5 Jan 2024 11:57:42 -0300
+Message-ID: <20240105145851.193492-1-mcanal@igalia.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-In-Reply-To: <20231116065159.37876-1-shum.sdl@nppct.ru>
-Content-Type: text/plain; charset=utf-8
-Content-Language: ru-RU
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,81 +53,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Jani Nikula <jani.nikula@intel.com>, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Danilo Krummrich <dakr@redhat.com>, dri-devel@lists.freedesktop.org,
- "lvc-project@linuxtesting.org" <lvc-project@linuxtesting.org>
+Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>, kernel-dev@igalia.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Subject: tvnv17.c: Adding a NULL pointer check.
+Dump the contents of the DRM MM allocator of the V3D driver. This will
+help us to debug the VA ranges allocated.
 
-As
+Signed-off-by: Maíra Canal <mcanal@igalia.com>
+---
+ drivers/gpu/drm/v3d/v3d_debugfs.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-$ git log --oneline drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
-874ee2d67fc9 drm/nouveau: Remove unnecessary include statements for
-drm_crtc_helper.h
-80ed86d4b6d7 drm/connector: Rename drm_mode_create_tv_properties
-1fd4a5a36f9f drm/connector: Rename legacy TV property
-09838c4efe9a drm/nouveau/kms: Search for encoders' connectors properly
-2574c809d7c0 drm/nouveau/kms/nv04-nv4x: Use match_string() helper to
-simplify the code
-...
+diff --git a/drivers/gpu/drm/v3d/v3d_debugfs.c b/drivers/gpu/drm/v3d/v3d_debugfs.c
+index f843a50d5dce..cdfe1d3bf5ee 100644
+--- a/drivers/gpu/drm/v3d/v3d_debugfs.c
++++ b/drivers/gpu/drm/v3d/v3d_debugfs.c
+@@ -260,11 +260,26 @@ static int v3d_measure_clock(struct seq_file *m, void *unused)
+ 	return 0;
+ }
 
-shows, a better prefix should be
-drm/nouveau:
-and there should not be a dot at the end.
++static int v3d_debugfs_mm(struct seq_file *m, void *unused)
++{
++	struct drm_printer p = drm_seq_file_printer(m);
++	struct drm_debugfs_entry *entry = m->private;
++	struct drm_device *dev = entry->dev;
++	struct v3d_dev *v3d = to_v3d_dev(dev);
++
++	spin_lock(&v3d->mm_lock);
++	drm_mm_print(&v3d->mm, &p);
++	spin_unlock(&v3d->mm_lock);
++
++	return 0;
++}
++
+ static const struct drm_debugfs_info v3d_debugfs_list[] = {
+ 	{"v3d_ident", v3d_v3d_debugfs_ident, 0},
+ 	{"v3d_regs", v3d_v3d_debugfs_regs, 0},
+ 	{"measure_clock", v3d_measure_clock, 0},
+ 	{"bo_stats", v3d_debugfs_bo_stats, 0},
++	{"v3d_mm", v3d_debugfs_mm, 0},
+ };
 
-e.g.
-drm/nouveau: Avoid NPE in nv17_tv_get_XX_modes()
-
-On 16.11.2023 09:51, Andrey Shumilin wrote:
-> It is possible to dereference a null pointer if drm_mode_duplicate() returns NULL.
-
-I would suggest to add a little bit more details:
-
-drm_mode_duplicate() may return NULL in case of error, e.g. if memory
-allocation fails. It leads to NULL pointer dereference in
-nv17_tv_get_ld_modes() and nv17_tv_get_hd_modes(), since they do not
-check if drm_mode_duplicate() succeeds.
-
-Otherwise, looks good.
-
-Reviewed-by: Alexey Khoroshilov <khoroshilov@ispras.ru>
-
-
-> 
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
-> 
-> Signed-off-by: Andrey Shumilin <shum.sdl@nppct.ru>
-> ---
->  drivers/gpu/drm/nouveau/dispnv04/tvnv17.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c b/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
-> index 670c9739e5e1..1f0c5f4a5fd2 100644
-> --- a/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
-> +++ b/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
-> @@ -209,7 +209,8 @@ static int nv17_tv_get_ld_modes(struct drm_encoder *encoder,
->  		struct drm_display_mode *mode;
->  
->  		mode = drm_mode_duplicate(encoder->dev, tv_mode);
-> -
-> +		if (mode == NULL)
-> +			continue;
->  		mode->clock = tv_norm->tv_enc_mode.vrefresh *
->  			mode->htotal / 1000 *
->  			mode->vtotal / 1000;
-> @@ -258,6 +259,8 @@ static int nv17_tv_get_hd_modes(struct drm_encoder *encoder,
->  		if (modes[i].hdisplay == output_mode->hdisplay &&
->  		    modes[i].vdisplay == output_mode->vdisplay) {
->  			mode = drm_mode_duplicate(encoder->dev, output_mode);
-> +			if (mode == NULL)
-> +				continue;
->  			mode->type |= DRM_MODE_TYPE_PREFERRED;
->  
->  		} else {
-> 
+ void
+--
+2.43.0
 
