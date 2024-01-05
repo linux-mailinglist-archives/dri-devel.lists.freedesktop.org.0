@@ -2,76 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43D858258D1
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 18:03:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E7658258FA
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 18:23:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C9F610E64D;
-	Fri,  5 Jan 2024 17:03:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A1B710E647;
+	Fri,  5 Jan 2024 17:23:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3131510E653
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 17:03:51 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 405FeCPd019681; Fri, 5 Jan 2024 17:03:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=iQCgCGRFyADXkJvXyahmD6/0efUf1Z4jOst+cGmz1Gg=; b=iC
- f6gtLFXY4SpmLazaSqTvNrylXvOMLBScK0nNT9wFvvWw5t8gi8V8DWGi3KusiB6e
- y5evSX3N5PeB3XHIFQmU+5tLHLo77kXZHV091ZFZ532qYmumiZK+vsL5u17j0LUG
- nB6Ul9rZeZ0sKIVWq2QlEql/UWTytgyt/lf0pyL3Kf3WbSNa0NFhTAqQ2n/klqhr
- u8pgTYhb21IaBjRw1z6Y/6wa0uB9xXiWfjgZwQw/dxX7GxrUWABLdHyZ+623ca77
- 2flcUGjlePHnJyszx5n12cUvCCJrgf1Lc818xDTvrCqsbFa3TyewQ+ekQ0gtVpsO
- uK+Am+97ejElY7foxXgw==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ve9a3sp08-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Jan 2024 17:03:14 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 405H3DI2025576
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 5 Jan 2024 17:03:13 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 5 Jan
- 2024 09:03:13 -0800
-Message-ID: <4814bd7d-fc5f-1252-ffd8-b60197b4d3b6@quicinc.com>
-Date: Fri, 5 Jan 2024 10:03:12 -0700
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9505310E647
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 17:23:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1704475394;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=dtJeN7TACSQgao0vuoZrL+Z3Hkf2IquMRY0Uvyl8X9k=;
+ b=caTZA6qTr3O1DuWzviERwm4X4OvvsL7+z6NBHg21WeEGNy+CrZNPa+SKi71scB40K3SEyK
+ qiP0m9ZFOfyx8EKrfv9n2Y3nK9SBzPLYLxMpVts70ZMCHxZ1OnFtiaySF0nSLvHXKMgmXF
+ YXnWzq+bBvnmVpMPhzuULivgltmazx0=
+Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com
+ [209.85.161.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-445-9zjastxuPmO1_dW011ZKpQ-1; Fri, 05 Jan 2024 12:23:12 -0500
+X-MC-Unique: 9zjastxuPmO1_dW011ZKpQ-1
+Received: by mail-oo1-f71.google.com with SMTP id
+ 006d021491bc7-59430ae1ff1so430810eaf.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Jan 2024 09:23:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1704475391; x=1705080191;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=dtJeN7TACSQgao0vuoZrL+Z3Hkf2IquMRY0Uvyl8X9k=;
+ b=fh7g3vkDyxZCviBpKza4wVFiyJs3j7TPFi5RRwyQ5VsAjVU6psN4MZ0OdP1GtmQuvc
+ 8CbegBYsBdieHMmPust1GMbfWEjG4fVbcj7RohL38IrHlLnkSt54WtmsGBKuetK5Ssvc
+ bHvMTJ2GsJTzZOX7W9mD3EkjzHCTmaB5zxxYmFPZap2M9MW+rsKQc/3qH3WxVbZbc+fO
+ aBHDybTqga9m1geQJFIff+v1pPdndI9OXeeUOhyxCTzXpqfldIp9QRF4FqpCV2OCKJwW
+ 9lDK38pUSCJZ8h16Yizo/xR+MFQ7LDPHCK0u9j5j0Kf/dEyoFOI8wLDDUd8l4rQPfJzP
+ Opmg==
+X-Gm-Message-State: AOJu0Yw/oogrMq4ZGrhR6efupN51Za9L3yQ/0X9YFQV4ktExFvAekkUl
+ RV5EwGP8DccZ/8GDBzpZ4HV5yLYI846rBvHIK9n+SHyPP9R/PvhmQe5ozh7TB2hYWT7pRaiK6yk
+ dnkSGu20rxi9HZHM/radfgB+x/J6Zr3jQiDpl
+X-Received: by 2002:a05:6358:998a:b0:175:31db:191f with SMTP id
+ j10-20020a056358998a00b0017531db191fmr5533024rwb.3.1704475391329; 
+ Fri, 05 Jan 2024 09:23:11 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE4W7UoEYVL25ZiTJPqQ+3iKgSUjpmhQaKfboSvX00EKet2J7PxO9VXhFiFvETA35RWG0dxOw==
+X-Received: by 2002:a05:6358:998a:b0:175:31db:191f with SMTP id
+ j10-20020a056358998a00b0017531db191fmr5533001rwb.3.1704475390938; 
+ Fri, 05 Jan 2024 09:23:10 -0800 (PST)
+Received: from pstanner-thinkpadt14sgen1.remote.csb
+ ([2001:9e8:32d1:a900:227b:d2ff:fe26:2a7a])
+ by smtp.gmail.com with ESMTPSA id
+ t22-20020ac865d6000000b004282c862fccsm884750qto.57.2024.01.05.09.23.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Jan 2024 09:23:10 -0800 (PST)
+From: Philipp Stanner <pstanner@redhat.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.de>,
+ David Gow <davidgow@google.com>,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 0/2] platform_device: add new devres function
+Date: Fri,  5 Jan 2024 18:22:17 +0100
+Message-ID: <20240105172218.42457-2-pstanner@redhat.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH 09/10] accel/ivpu: Improve buffer object debug logs
-Content-Language: en-US
-To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- <dri-devel@lists.freedesktop.org>
-References: <20240105112218.351265-1-jacek.lawrynowicz@linux.intel.com>
- <20240105112218.351265-10-jacek.lawrynowicz@linux.intel.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20240105112218.351265-10-jacek.lawrynowicz@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 4Qw5FaLpnxe5nigFCkVhmCMeyNlDgAiR
-X-Proofpoint-ORIG-GUID: 4Qw5FaLpnxe5nigFCkVhmCMeyNlDgAiR
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- phishscore=0 adultscore=0 spamscore=0 bulkscore=0 impostorscore=0
- lowpriorityscore=0 clxscore=1015 malwarescore=0 mlxlogscore=927 mlxscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2401050141
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,133 +94,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Philipp Stanner <pstanner@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/5/2024 4:22 AM, Jacek Lawrynowicz wrote:
-> Make debug logs more readable and consistent:
->    - don't print handle as it is not always available for all buffers
->    - use hashed ivpu_bo ptr as main buffer identifier
->    - remove unused fields from ivpu_bo_print_info()
-> 
-> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-> ---
->   drivers/accel/ivpu/ivpu_gem.c | 72 +++++++++++------------------------
->   drivers/accel/ivpu/ivpu_gem.h |  1 -
->   2 files changed, 23 insertions(+), 50 deletions(-)
-> 
-> diff --git a/drivers/accel/ivpu/ivpu_gem.c b/drivers/accel/ivpu/ivpu_gem.c
-> index 8cb4d337552e..dd327d7eda0d 100644
-> --- a/drivers/accel/ivpu/ivpu_gem.c
-> +++ b/drivers/accel/ivpu/ivpu_gem.c
-> @@ -24,14 +24,11 @@ static const struct drm_gem_object_funcs ivpu_gem_funcs;
->   
->   static inline void ivpu_dbg_bo(struct ivpu_device *vdev, struct ivpu_bo *bo, const char *action)
->   {
-> -	if (bo->ctx)
-> -		ivpu_dbg(vdev, BO, "%6s: size %zu has_pages %d dma_mapped %d handle %u ctx %d vpu_addr 0x%llx mmu_mapped %d\n",
-> -			 action, ivpu_bo_size(bo), (bool)bo->base.pages, (bool)bo->base.sgt,
-> -			 bo->handle, bo->ctx->id, bo->vpu_addr, bo->mmu_mapped);
-> -	else
-> -		ivpu_dbg(vdev, BO, "%6s: size %zu has_pages %d dma_mapped %d handle %u (not added to context)\n",
-> -			 action, ivpu_bo_size(bo), (bool)bo->base.pages, (bool)bo->base.sgt,
-> -			 bo->handle);
-> +	ivpu_dbg(vdev, BO,
-> +		 "%6s: bo %8p vpu_addr %9llx size %8zu ctx %d has_pages %d dma_mapped %d mmu_mapped %d wc %d imported %d\n",
-> +		 action, bo, bo->vpu_addr, ivpu_bo_size(bo), bo->ctx ? bo->ctx->id : 0,
-> +		 (bool)bo->base.pages, (bool)bo->base.sgt, bo->mmu_mapped, bo->base.map_wc,
-> +		 (bool)bo->base.base.import_attach);
->   }
->   
->   /*
-> @@ -49,12 +46,7 @@ int __must_check ivpu_bo_pin(struct ivpu_bo *bo)
->   	mutex_lock(&bo->lock);
->   
->   	ivpu_dbg_bo(vdev, bo, "pin");
-> -
-> -	if (!bo->ctx) {
-> -		ivpu_err(vdev, "vpu_addr not allocated for BO %d\n", bo->handle);
-> -		ret = -EINVAL;
-> -		goto unlock;
-> -	}
-> +	drm_WARN_ON(&vdev->drm, !bo->ctx);
->   
->   	if (!bo->mmu_mapped) {
->   		struct sg_table *sgt = drm_gem_shmem_get_pages_sgt(&bo->base);
-> @@ -108,9 +100,7 @@ static void ivpu_bo_unbind_locked(struct ivpu_bo *bo)
->   {
->   	struct ivpu_device *vdev = ivpu_bo_to_vdev(bo);
->   
-> -	lockdep_assert_held(&bo->lock);
-> -
-> -	ivpu_dbg_bo(vdev, bo, "unbind");
-> +	lockdep_assert(lockdep_is_held(&bo->lock) || !kref_read(&bo->base.base.refcount));
->   
->   	if (bo->mmu_mapped) {
->   		drm_WARN_ON(&vdev->drm, !bo->ctx);
-> @@ -122,7 +112,6 @@ static void ivpu_bo_unbind_locked(struct ivpu_bo *bo)
->   
->   	if (bo->ctx) {
->   		ivpu_mmu_context_remove_node(bo->ctx, &bo->mm_node);
-> -		bo->vpu_addr = 0;
->   		bo->ctx = NULL;
->   	}
->   
-> @@ -139,13 +128,6 @@ static void ivpu_bo_unbind_locked(struct ivpu_bo *bo)
->   	dma_resv_unlock(bo->base.base.resv);
->   }
->   
-> -static void ivpu_bo_unbind(struct ivpu_bo *bo)
-> -{
-> -	mutex_lock(&bo->lock);
-> -	ivpu_bo_unbind_locked(bo);
-> -	mutex_unlock(&bo->lock);
-> -}
+Patch #1 adds a new devres function that I found could be useful for the
+driver dcss in drm. Patch #2 makes that driver use the new function.
 
-This does not seem to be related to $SUBJECT
+I compiled this successfully but unfortunately don't have the hardware
+to test it for dcss.
+So you might want to have a closer look.
 
-> -
->   void ivpu_bo_remove_all_bos_from_context(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx)
->   {
->   	struct ivpu_bo *bo;
-> @@ -156,8 +138,10 @@ void ivpu_bo_remove_all_bos_from_context(struct ivpu_device *vdev, struct ivpu_m
->   	mutex_lock(&vdev->bo_list_lock);
->   	list_for_each_entry(bo, &vdev->bo_list, bo_list_node) {
->   		mutex_lock(&bo->lock);
-> -		if (bo->ctx == ctx)
-> +		if (bo->ctx == ctx) {
-> +			ivpu_dbg_bo(vdev, bo, "unbind");
->   			ivpu_bo_unbind_locked(bo);
-> +		}
->   		mutex_unlock(&bo->lock);
->   	}
->   	mutex_unlock(&vdev->bo_list_lock);
-> @@ -209,9 +193,6 @@ ivpu_bo_create(struct ivpu_device *vdev, u64 size, u32 flags)
->   	list_add_tail(&bo->bo_list_node, &vdev->bo_list);
->   	mutex_unlock(&vdev->bo_list_lock);
->   
-> -	ivpu_dbg(vdev, BO, "create: vpu_addr 0x%llx size %zu flags 0x%x\n",
-> -		 bo->vpu_addr, bo->base.base.size, flags);
-> -
->   	return bo;
->   }
->   
-> @@ -243,15 +224,15 @@ static void ivpu_bo_free(struct drm_gem_object *obj)
->   	struct ivpu_device *vdev = to_ivpu_device(obj->dev);
->   	struct ivpu_bo *bo = to_ivpu_bo(obj);
->   
-> +	ivpu_dbg_bo(vdev, bo, "free");
-> +
->   	mutex_lock(&vdev->bo_list_lock);
->   	list_del(&bo->bo_list_node);
->   	mutex_unlock(&vdev->bo_list_lock);
->   
->   	drm_WARN_ON(&vdev->drm, !dma_resv_test_signaled(obj->resv, DMA_RESV_USAGE_READ));
->   
-> -	ivpu_dbg_bo(vdev, bo, "free");
-> -
-> -	ivpu_bo_unbind(bo);
-> +	ivpu_bo_unbind_locked(bo);
+Greetings,
+P.
 
-This does not seem to be related to $SUBJECT
+Philipp Stanner (2):
+  platform_device: add devres function region-reqs
+  drm/dcss: request memory region
+
+ drivers/base/platform.c             | 37 +++++++++++++++++++++++++++++
+ drivers/gpu/drm/imx/dcss/dcss-dev.c |  8 +++----
+ include/linux/platform_device.h     |  2 ++
+ 3 files changed, 43 insertions(+), 4 deletions(-)
+
+-- 
+2.43.0
 
