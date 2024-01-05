@@ -1,78 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8292E8256E0
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 16:42:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F6CF825796
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 17:04:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC11810E057;
-	Fri,  5 Jan 2024 15:42:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CAC110E645;
+	Fri,  5 Jan 2024 16:04:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C85EB10E057
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 15:42:47 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 405CQFTo016259; Fri, 5 Jan 2024 15:41:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=8U69yoEW15wUFaeoM1e7dccoLdtJraE1AdFSVG58J90=; b=Fl
- MVOpQU3LGhO+f/tY/CZokYOTk8QgYuO/E5jTMrSFY5F8kgveg+p1OqrZJ6LPbzfP
- Z7vUpGz+Ti4hiQSEzXk5QRvQm2OqSkuBWnqiTx2wRp8AHkoL6Z6kUYM+HHRrY1l6
- JVXm5rejRE87ZgTe4FXZY8Krf1eg2oQbfq+B6DaG+/DmPhyBadutEf9jazT/flI8
- znCE5FhXK9v/aXVI2QtpALKnqCC+pWCA+HdHierl7z+btGeszQHsYQmsuOO//yrM
- IFbp8rv5JTmRz2zx4hzP86v9QoTEN17Sy6D9PS6IJf12C5DV3hoJUqOLsSozAeE4
- wvXF+OOcX5gdSECkrKtw==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ve9901c8f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Jan 2024 15:41:32 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 405FfVjI004334
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 5 Jan 2024 15:41:31 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 5 Jan
- 2024 07:41:31 -0800
-Message-ID: <1acf57ce-585f-0d42-72d4-7a74f8dc7903@quicinc.com>
-Date: Fri, 5 Jan 2024 08:41:30 -0700
+Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com
+ [IPv6:2001:4860:4864:20::34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A617A10E634;
+ Fri,  5 Jan 2024 16:04:27 +0000 (UTC)
+Received: by mail-oa1-x34.google.com with SMTP id
+ 586e51a60fabf-20400d5b54eso928683fac.1; 
+ Fri, 05 Jan 2024 08:04:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1704470667; x=1705075467; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=whv4GannslDB5rLdYo9kigOWmeo7QZDRfIfNrJXqKEw=;
+ b=fpzkmB6uCP3FqUw8dsOFTj46wIu+teFmGCtbMxWIp8yg0DKUoRGyQrke+CulbvEUXf
+ jLeD+G3BUUY8MHbSL3ejEz7t0AUmwXZUVBn/ExifwmiyaxVBNFTC57u6B+C3X7wWPq7h
+ OLXNVN/ABd8vbQV1oKZnpzazX1CcTgVZ28hQFK3YQPwkev9fLP8hrOdrg60hFlgSPH6g
+ b/fWXKOk2OJz4JT06fzLmw3NjQQ3uKVsdbS62d6y4GALoCBjsBvB3EP8Yyl7Y9p1HJd+
+ SI8ryy3ZB7oSN+UnnKOfI1mLdQEDT2niM+SFfIe/EBQPpfENXUf2E4LEMdFB6mqnsZ1L
+ xpPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1704470667; x=1705075467;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=whv4GannslDB5rLdYo9kigOWmeo7QZDRfIfNrJXqKEw=;
+ b=mjKyIbHRikwIK+Hi+Q6gICnjKACD9zlScQk8EJSP/1GTrBdnxirrBmf9dyEvdr6zkD
+ yA8pLyzDE/FFN/wfstd/5Na6YeiSsS5FBEdQgLVw1uwjVo3HhAXHcdJcCf3Kp3OtqPwz
+ iWd4PNAkhGmzx/nP/CuZk/Y7WNs85mC0eZ93UI8FPpwu+u/SE2mfIA64yFSX5rIZ0miG
+ WdfE3aOvJT+cdAshIO8wvyItXKCKUYfv23EQhg+zr7R863ASVjcjxXm1sFY2uPCkU/Az
+ oj4dwuW0Y/HnpvjRM6y/gEUdyOfVQRCLPlIihboUaomxKZLVDQjSvZrFQJM+n/z5hV0a
+ vPRA==
+X-Gm-Message-State: AOJu0YyG4m/0wvibm4BChV/Eyb9F+YZ/FKoqkgeCqIc3OK1Kn9VL+oTR
+ 5ipcwNF8H0xIdG6m2dzbHn7aC4tRPGQx12CIQxk=
+X-Google-Smtp-Source: AGHT+IEyWFcej5XGL9+gHh+h2IKOiy8VOKFo3RMc9yjKxFm8wxHp0Hv+8oSB86SBuzomapKqFUADrLdZsYPC/g2EVRs=
+X-Received: by 2002:a05:6870:a118:b0:205:c4d3:ef8d with SMTP id
+ m24-20020a056870a11800b00205c4d3ef8dmr2376611oae.104.1704470666931; Fri, 05
+ Jan 2024 08:04:26 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH 04/10] accel/ivpu: Add diagnostic messages when VPU fails
- to boot or suspend
-Content-Language: en-US
-To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- <dri-devel@lists.freedesktop.org>
-References: <20240105112218.351265-1-jacek.lawrynowicz@linux.intel.com>
- <20240105112218.351265-5-jacek.lawrynowicz@linux.intel.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20240105112218.351265-5-jacek.lawrynowicz@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: ab99eeSFVhKWgiRAdxtbvEdSVBzT0Gw1
-X-Proofpoint-ORIG-GUID: ab99eeSFVhKWgiRAdxtbvEdSVBzT0Gw1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxscore=0
- lowpriorityscore=0 mlxlogscore=557 impostorscore=0 spamscore=0
- priorityscore=1501 phishscore=0 bulkscore=0 suspectscore=0 malwarescore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2401050129
+References: <20240104201632.1100753-1-jani.nikula@intel.com>
+ <20240104201632.1100753-3-jani.nikula@intel.com>
+In-Reply-To: <20240104201632.1100753-3-jani.nikula@intel.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 5 Jan 2024 11:04:15 -0500
+Message-ID: <CADnq5_OBNc8TOErS+sXMB2OuaqT0PdOU7O0+MHGU2pEKF10GTA@mail.gmail.com>
+Subject: Re: [PATCH 3/3] ASoC: hdmi-codec: drop drm/drm_edid.h include
+To: Jani Nikula <jani.nikula@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,17 +69,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Wachowski, Karol" <karol.wachowski@intel.com>
+Cc: Sean Paul <sean@poorly.run>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, Takashi Iwai <tiwai@suse.com>,
+ linux-sound@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Maxime Ripard <mripard@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/5/2024 4:22 AM, Jacek Lawrynowicz wrote:
-> From: "Wachowski, Karol" <karol.wachowski@intel.com>
-> 
-> Make boot/suspend failure debugging easier by dumping FW logs and error
-> registers.
-> 
-> Signed-off-by: Wachowski, Karol <karol.wachowski@intel.com>
-> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+On Thu, Jan 4, 2024 at 3:17=E2=80=AFPM Jani Nikula <jani.nikula@intel.com> =
+wrote:
+>
+> hdmi-codec.h does not appear to directly need drm/drm_edid.h for
+> anything. Remove it.
+>
+> There are some files that get drm/drm_edid.h by proxy; include it where
+> needed.
+>
+> v2-v4: Fix build (kernel test robot <lkp@intel.com>)
+>
+> Cc: Rob Clark <robdclark@gmail.com>
+> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Cc: Sean Paul <sean@poorly.run>
+> Cc: Marijn Suijten <marijn.suijten@somainline.org>
+> Cc: linux-arm-msm@vger.kernel.org
+> Cc: freedreno@lists.freedesktop.org
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Robert Foss <rfoss@kernel.org>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Jaroslav Kysela <perex@perex.cz>
+> Cc: Takashi Iwai <tiwai@suse.com>
+> Cc: linux-sound@vger.kernel.org
+> Acked-by: Maxime Ripard <mripard@kernel.org>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Series is:
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
+
+> ---
+>  drivers/gpu/drm/bridge/lontium-lt9611.c    | 1 +
+>  drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 1 +
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c  | 1 +
+>  drivers/gpu/drm/msm/dp/dp_display.c        | 1 +
+>  drivers/gpu/drm/tegra/hdmi.c               | 1 +
+>  drivers/gpu/drm/vc4/vc4_hdmi.c             | 1 +
+>  include/sound/hdmi-codec.h                 | 1 -
+>  7 files changed, 6 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/br=
+idge/lontium-lt9611.c
+> index 9663601ce098..b9205d14d943 100644
+> --- a/drivers/gpu/drm/bridge/lontium-lt9611.c
+> +++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
+> @@ -18,6 +18,7 @@
+>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_bridge.h>
+> +#include <drm/drm_edid.h>
+>  #include <drm/drm_mipi_dsi.h>
+>  #include <drm/drm_of.h>
+>  #include <drm/drm_print.h>
+> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm=
+/bridge/lontium-lt9611uxc.c
+> index e971b75e90ad..f3f130c1ef0a 100644
+> --- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+> +++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+> @@ -21,6 +21,7 @@
+>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_bridge.h>
+> +#include <drm/drm_edid.h>
+>  #include <drm/drm_mipi_dsi.h>
+>  #include <drm/drm_print.h>
+>  #include <drm/drm_probe_helper.h>
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/=
+bridge/synopsys/dw-hdmi.c
+> index 52d91a0df85e..fa63a21bdd1c 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> @@ -31,6 +31,7 @@
+>  #include <drm/drm_atomic.h>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_bridge.h>
+> +#include <drm/drm_edid.h>
+>  #include <drm/drm_of.h>
+>  #include <drm/drm_print.h>
+>  #include <drm/drm_probe_helper.h>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp=
+/dp_display.c
+> index d37d599aec27..c8e1bbebdffe 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -11,6 +11,7 @@
+>  #include <linux/of_irq.h>
+>  #include <linux/delay.h>
+>  #include <drm/display/drm_dp_aux_bus.h>
+> +#include <drm/drm_edid.h>
+>
+>  #include "msm_drv.h"
+>  #include "msm_kms.h"
+> diff --git a/drivers/gpu/drm/tegra/hdmi.c b/drivers/gpu/drm/tegra/hdmi.c
+> index 417fb884240a..09987e372e3e 100644
+> --- a/drivers/gpu/drm/tegra/hdmi.c
+> +++ b/drivers/gpu/drm/tegra/hdmi.c
+> @@ -24,6 +24,7 @@
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_crtc.h>
+>  #include <drm/drm_debugfs.h>
+> +#include <drm/drm_edid.h>
+>  #include <drm/drm_eld.h>
+>  #include <drm/drm_file.h>
+>  #include <drm/drm_fourcc.h>
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdm=
+i.c
+> index f05e2c95a60d..34f807ed1c31 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> @@ -35,6 +35,7 @@
+>  #include <drm/display/drm_scdc_helper.h>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_drv.h>
+> +#include <drm/drm_edid.h>
+>  #include <drm/drm_probe_helper.h>
+>  #include <drm/drm_simple_kms_helper.h>
+>  #include <linux/clk.h>
+> diff --git a/include/sound/hdmi-codec.h b/include/sound/hdmi-codec.h
+> index 9b162ac1e08e..5e1a9eafd10f 100644
+> --- a/include/sound/hdmi-codec.h
+> +++ b/include/sound/hdmi-codec.h
+> @@ -12,7 +12,6 @@
+>
+>  #include <linux/of_graph.h>
+>  #include <linux/hdmi.h>
+> -#include <drm/drm_edid.h>
+>  #include <sound/asoundef.h>
+>  #include <sound/soc.h>
+>  #include <uapi/sound/asound.h>
+> --
+> 2.39.2
+>
