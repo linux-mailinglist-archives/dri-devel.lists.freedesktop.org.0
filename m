@@ -1,46 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C759825100
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 10:42:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18F47825105
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 10:43:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07DAC10E591;
-	Fri,  5 Jan 2024 09:42:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 783D210E596;
+	Fri,  5 Jan 2024 09:43:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4199410E591
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 09:42:03 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFE2210E596
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 09:43:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704447723; x=1735983723;
- h=from:to:cc:subject:date:message-id;
- bh=hfs+RsszOiy+Zn2bJH81rSeaYMQb4GgLRyTWh5I+W1Y=;
- b=DGwU+xAnZkgP99B8okCEJwsK8al0YZDGNoeWRfHD9FO3kj7QBltLt24T
- EhhxCfrb7m5dzkAjYU4JpEkzDi0mfwZFNCmdJMgaRp7FbR6pNYQ9cLxfI
- mgzK3AH/vJULiRuXzaEBRUI7bbzE4+5Rn6vWSlSsTyo+wMfiMGQxMLV4Q
- +RSHLOWuW770ImxlKMMRJqrlqIdtPkYlU63zwLw5cT9FLcfE/FDQsXmvf
- MG0RYuC1RW6JaoNsfdarIiSGyjpB2toBk85CmK4V81Hz+890uvt/553bd
- R36HxN5ofLs3U1qBzjQb+mfaytszwyVkieQw7q7usQtG78bNPePgvlAuJ Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="4285877"
-X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; 
-   d="scan'208";a="4285877"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2024 01:42:02 -0800
+ t=1704447790; x=1735983790;
+ h=from:to:cc:subject:date:message-id:in-reply-to: references;
+ bh=yLRKvEWofDO1K6stvr9i2IomNOvR/08Zs5+c4O/ibFk=;
+ b=ZoIf+xOCUja/+xF6xyOHlmjoliHWOoFCtn9VtwXxc1nrttUKQz7wnTKt
+ ePIytw3QiiMdUiiu6YH3SeX4krUlFxmjnwEyLwJXMZbCYgwFJcgR+eRdX
+ FlMVlwqictEQ8be4FDr/FQE9+XGB5BwSTMPk+Nygqcx6Vk+6E1FOoqRcK
+ aHcqxXPRM9bmjK/ef7HhTRYYpvnS3m5kVxKJp6jZneecv1mUHl59JEwE7
+ TP9cPzq0E0y6tYSoHkU6X2wP0VSD7jHcDDGbcv6aakpHGNxZl8TqGAPvC
+ C47RzxDfIPf6dOxgV84xnwlXaljEd/QEc3pp39FHhXJQqnSYQ8LvWTI95 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="401260559"
+X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; d="scan'208";a="401260559"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jan 2024 01:43:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; d="scan'208";a="15196531"
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="814920081"
+X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; d="scan'208";a="814920081"
 Received: from yzhao56-desk.sh.intel.com ([10.239.159.62])
- by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2024 01:41:57 -0800
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jan 2024 01:43:03 -0800
 From: Yan Zhao <yan.y.zhao@intel.com>
 To: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH 0/4] KVM: Honor guest memory types for virtio GPU devices
-Date: Fri,  5 Jan 2024 17:12:37 +0800
-Message-Id: <20240105091237.24577-1-yan.y.zhao@intel.com>
+Subject: [PATCH 1/4] KVM: Introduce a new memslot flag KVM_MEM_NON_COHERENT_DMA
+Date: Fri,  5 Jan 2024 17:13:46 +0800
+Message-Id: <20240105091346.24637-1-yan.y.zhao@intel.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20240105091237.24577-1-yan.y.zhao@intel.com>
+References: <20240105091237.24577-1-yan.y.zhao@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,130 +65,92 @@ Cc: wanpengli@tencent.com, gurchetansingh@chromium.org, kraxel@redhat.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series allow user space to notify KVM of noncoherent DMA status so as
-to let KVM honor guest memory types in specified memory slot ranges.
+Introduce a new flag KVM_MEM_NON_COHERENT_DMA to provide user space a
+channel to notify KVM that guest memory specified by the memslot may be
+accessed by noncoherent DMA devices.
 
-Motivation
-===
-A virtio GPU device may want to configure GPU hardware to work in
-noncoherent mode, i.e. some of its DMAs do not snoop CPU caches.
-This is generally for performance consideration.
-In certain platform, GFX performance can improve 20+% with DMAs going to
-noncoherent path.
+KVM can start honoring guest memory type for this range of guest memory in
+platforms that do not always honoring guest PAT, e.g. in Intel's platform.
 
-This noncoherent DMA mode works in below sequence:
-1. Host backend driver programs hardware not to snoop memory of target
-   DMA buffer.
-2. Host backend driver indicates guest frontend driver to program guest PAT
-   to WC for target DMA buffer.
-3. Guest frontend driver writes to the DMA buffer without clflush stuffs.
-4. Hardware does noncoherent DMA to the target buffer.
+Previously, the only way to let KVM be aware of noncoherent DMA devices
+is through KVM device for VFIO pass-through devices, in which case, KVM is
+notified that all guest memory may be accessed by noncoherent DMA devices.
 
-In this noncoherent DMA mode, both guest and hardware regard a DMA buffer
-as not cached. So, if KVM forces the effective memory type of this DMA
-buffer to be WB, hardware DMA may read incorrect data and cause misc
-failures.
+To avoid complication, flag KVM_MEM_NON_COHERENT_DMA is not allowed to be
+dynamically modified for a memslot.
 
-Therefore we introduced a new memslot flag KVM_MEM_NON_COHERENT_DMA to
-allow user space convey noncoherent DMA status in memslot granularity.
-Platforms that do not always honor guest memory type can choose to honor
-it in ranges of memslots with KVM_MEM_NON_COHERENT_DMA set.
+A KVM_CAP_USER_CONFIGURE_NONCOHERENT_DMA is added to let user space know if
+this new memslot flag is supported in KVM.
 
-Security
-===
-The biggest concern for KVM to honor guest's memory type is page aliasing
-issue.
-In Intel's platform,
-- For host MMIO, KVM VMX always programs EPT memory type to UC (which will
-  overwrite all guest PAT types except WC), which is of no change after
-  this series.
+Cc: Kevin Tian <kevin.tian@intel.com>
+Cc: Zhenyu Wang <zhenyuw@linux.intel.com>
+Tested-by: Yongwei Ma <yongwei.ma@intel.com>
+Signed-off-by: Yan Zhao <yan.y.zhao@intel.com>
+---
+ include/uapi/linux/kvm.h | 2 ++
+ virt/kvm/kvm_main.c      | 8 ++++++--
+ 2 files changed, 8 insertions(+), 2 deletions(-)
 
-- For host non-MMIO pages,
-  * virtio guest frontend and host backend driver should be synced to use
-    the same memory type to map a buffer. Otherwise, there will be
-    potential problem for incorrect memory data. But this will only impact
-    the buggy guest alone.
-  * for live migration, user space can skip reading/writing memory
-    corresponding to the memslot with flag KVM_MEM_NON_COHERENT_DMA or
-    do some special handling during memory read/write.
-
-Implementation
-===
-Unlike previous RFC series [1] that uses a new KVM VIRTIO device to convey
-noncoherent DMA status, this version chooses to introduce a new memslot
-flag, similar to what's done in series from google at [2].
-The difference is that [2] increases noncoherent DMA count to ask KVM VMX
-to honor guest memory type for all guest memory as a whole, while this
-series will only ask KVM to honor guest memory type in the specified
-memslots.
-
-The reason of not introducing a KVM cap or a memslot flag to allow users to
-toggle noncoherent DMA state as a whole is mainly for the page aliasing
-issue as mentioned above.
-If guest memory type is only honored in limited memslots, user space can
-do special handling before/after accessing to guest memory belonging to the
-limited memslots.
-
-For virtio GPUs, it usually will create memslots that are mapped into guest
-device BARs.
-- guest device driver will sync with host side to use the same memory type
-  to access that memslots.
-- no other guest components will have access to the memory in the memslots
-  since it's mapped as device BARs.
-So, by adding flag KVM_MEM_NON_COHERENT_DMA to memslots specific to virtio
-GPUs and asking KVM to only honor guest memory in those memslots, page
-aliasing issue can be avoided easily.
-
-This series doesn't limit which memslots are legible to set flag
-KVM_MEM_NON_COHERENT_DMA, so if the user sets this flag to memslots for
-guest system RAM, page aliasing issue may be met during live migration
-or other use cases when host wants to access guest memory with different
-memory types due to lacking of coordination between non-enlightened guest
-components and host. Just as when noncoherent DMA devices are assigned
-through VFIO.
-But as it will not impact other VMs, we choose to trust the user and let
-the user to do mitigations when it has to set this flag to memslots for
-guest system RAM.
-
-Note:
-We also noticed that there's a series [3] trying to fix a similar problem
-in ARM for VFIO device passthrough.
-The difference is that [3] is trying to fix the problem that guest memory
-types for pass-through device MMIOs are not honored in ARM (which is not a
-problem for x86 VMX), while this series is for the problem that guest
-memory types are not honored in non-host-MMIO ranges for virtio GPUs in x86
-VMX.
-
-Changelog:
-RFC --> v1:
-- Switch to use memslot flag way to convey non-coherent DMA info
-  (Sean, Kevin)
-- Do not honor guest MTRRs in memslot of flag KVM_MEM_NON_COHERENT_DMA
-  (Sean)
-
-[1]: https://lore.kernel.org/all/20231214103520.7198-1-yan.y.zhao@intel.com/
-[2]: https://patchwork.kernel.org/project/dri-devel/cover/20200213213036.207625-1-olvaffe@gmail.com/
-[3]: https://lore.kernel.org/all/20231221154002.32622-1-ankita@nvidia.com/
-
-
-Yan Zhao (4):
-  KVM: Introduce a new memslot flag KVM_MEM_NON_COHERENT_DMA
-  KVM: x86: Add a new param "slot" to op get_mt_mask in kvm_x86_ops
-  KVM: VMX: Honor guest PATs for memslots of flag
-    KVM_MEM_NON_COHERENT_DMA
-  KVM: selftests: Set KVM_MEM_NON_COHERENT_DMA as a supported memslot
-    flag
-
- arch/x86/include/asm/kvm_host.h                      | 3 ++-
- arch/x86/kvm/mmu/spte.c                              | 3 ++-
- arch/x86/kvm/vmx/vmx.c                               | 6 +++++-
- include/uapi/linux/kvm.h                             | 2 ++
- tools/testing/selftests/kvm/set_memory_region_test.c | 3 +++
- virt/kvm/kvm_main.c                                  | 8 ++++++--
- 6 files changed, 20 insertions(+), 5 deletions(-)
-
-
-base-commit: 8ed26ab8d59111c2f7b86d200d1eb97d2a458fd1
+diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+index b1f92a0edc35..4cb615e46488 100644
+--- a/include/uapi/linux/kvm.h
++++ b/include/uapi/linux/kvm.h
+@@ -46,6 +46,7 @@ struct kvm_userspace_memory_region2 {
+ #define KVM_MEM_LOG_DIRTY_PAGES	(1UL << 0)
+ #define KVM_MEM_READONLY	(1UL << 1)
+ #define KVM_MEM_GUEST_MEMFD	(1UL << 2)
++#define KVM_MEM_NON_COHERENT_DMA (1UL << 3)
+ 
+ /* for KVM_IRQ_LINE */
+ struct kvm_irq_level {
+@@ -1155,6 +1156,7 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_MEMORY_ATTRIBUTES 233
+ #define KVM_CAP_GUEST_MEMFD 234
+ #define KVM_CAP_VM_TYPES 235
++#define KVM_CAP_USER_CONFIGURE_NONCOHERENT_DMA 236
+ 
+ #ifdef KVM_CAP_IRQ_ROUTING
+ 
+diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+index acd67fb40183..6d44dcf7322d 100644
+--- a/virt/kvm/kvm_main.c
++++ b/virt/kvm/kvm_main.c
+@@ -1607,7 +1607,7 @@ static void kvm_replace_memslot(struct kvm *kvm,
+  * only allows these.
+  */
+ #define KVM_SET_USER_MEMORY_REGION_V1_FLAGS \
+-	(KVM_MEM_LOG_DIRTY_PAGES | KVM_MEM_READONLY)
++	(KVM_MEM_LOG_DIRTY_PAGES | KVM_MEM_READONLY | KVM_MEM_NON_COHERENT_DMA)
+ 
+ static int check_memory_region_flags(struct kvm *kvm,
+ 				     const struct kvm_userspace_memory_region2 *mem)
+@@ -1625,6 +1625,8 @@ static int check_memory_region_flags(struct kvm *kvm,
+ 	valid_flags |= KVM_MEM_READONLY;
+ #endif
+ 
++	valid_flags |= KVM_MEM_NON_COHERENT_DMA;
++
+ 	if (mem->flags & ~valid_flags)
+ 		return -EINVAL;
+ 
+@@ -2095,7 +2097,8 @@ int __kvm_set_memory_region(struct kvm *kvm,
+ 			return -EINVAL;
+ 		if ((mem->userspace_addr != old->userspace_addr) ||
+ 		    (npages != old->npages) ||
+-		    ((mem->flags ^ old->flags) & KVM_MEM_READONLY))
++		    ((mem->flags ^ old->flags) &
++		     (KVM_MEM_READONLY | KVM_MEM_NON_COHERENT_DMA)))
+ 			return -EINVAL;
+ 
+ 		if (base_gfn != old->base_gfn)
+@@ -4822,6 +4825,7 @@ static int kvm_vm_ioctl_check_extension_generic(struct kvm *kvm, long arg)
+ 	case KVM_CAP_USER_MEMORY2:
+ 	case KVM_CAP_DESTROY_MEMORY_REGION_WORKS:
+ 	case KVM_CAP_JOIN_MEMORY_REGIONS_WORKS:
++	case KVM_CAP_USER_CONFIGURE_NONCOHERENT_DMA:
+ 	case KVM_CAP_INTERNAL_ERROR_DATA:
+ #ifdef CONFIG_HAVE_KVM_MSI
+ 	case KVM_CAP_SIGNAL_MSI:
 -- 
 2.17.1
 
