@@ -2,46 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CABE482598C
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 18:59:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78871825CF9
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Jan 2024 00:02:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A20410E64B;
-	Fri,  5 Jan 2024 17:59:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07A2E10E6B2;
+	Fri,  5 Jan 2024 23:02:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C904010E62E
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 17:59:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=HoqnA9RVU9Lx1LWI0qrBhmbV+eD8glO0bXHJDXiDoFQ=; b=NNiP8MNMEZKJnoJYLlaRoPL4su
- 28RCxAMgHbi2mJoBkobcqmlezMBW8BlQoQX/8FAF/3O6MyJ87oKIY3i3Nt0jg4/g+lf0uesDqYMsR
- oKyt6MSsHZpGD9yiSHItewttzz/E3gaE1uT3ruSv4XeP39CkFHeuY7NAkjbaZ65cYWSnLjNZjxslD
- zY02DUU/bgFJvkfdeqPCOKH6jRtmyH0y0I3yIm3def0am01CMzGn3ZpMo3qQUoc+pjqkZYTlDAvcE
- mCz0mJ5+aBur2MnAzsHr03pcsn6QmJ+QXsBAvjf22hAhqiLLcQkcEKbEn19XZ9VtkyBEr1bHF4EFn
- 4yDZR8uA==;
-Received: from [179.234.233.159] (helo=morissey..)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1rLoTc-003HES-QI; Fri, 05 Jan 2024 18:59:25 +0100
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-To: Maxime Ripard <mripard@kernel.org>, Dom Cobley <dom@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH] drm/vc4: don't check if plane->state->fb == state->fb
-Date: Fri,  5 Jan 2024 14:58:36 -0300
-Message-ID: <20240105175908.242000-1-mcanal@igalia.com>
-X-Mailer: git-send-email 2.43.0
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com
+ [IPv6:2607:f8b0:4864:20::112d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8A0410E62E
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 18:02:13 +0000 (UTC)
+Received: by mail-yw1-x112d.google.com with SMTP id
+ 00721157ae682-5f2d4aaa2fdso19270327b3.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Jan 2024 10:02:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1704477733; x=1705082533; darn=lists.freedesktop.org;
+ h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=o3K4ahJuaPL16GwJvTdmoV6hUJvJMmXeF8vcCYKDzV0=;
+ b=XWw8hb5n/c7aTPFx2R/iZu97GJVGIFLkAFHBmBFtl9e4YbutwXzxrMtcms/lWjFVeR
+ 2PcvRw70OqoW6vM0VkNGykn4MMahHtTWgbazngQMAmzIbht+noNpSBJZJHse6USwP/IL
+ +h7Xt6I0nzkEBGPe+Oq/kNMJ98yQJOoec8t3GyWAuV/fuEbL1/APi+baezjDXnlnylzP
+ 4UB1sc2DF8QFjNUVhILhVz2csoqbt6vSvbrcMlBTgcZ7uYS7nAj0i719K9om4JPJcCqM
+ 0SsdiJ+L8mYHaim/pCKh3r52NpJK9Z8294c/5xKODUa8qXdI03XAgFp0N13EfguoKXzg
+ yksw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1704477733; x=1705082533;
+ h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=o3K4ahJuaPL16GwJvTdmoV6hUJvJMmXeF8vcCYKDzV0=;
+ b=d9jo72r6eI0luKEj9vzwSj624Ldeo3KuMS4NalDcsPJnUYYNPtGdKvQX70wFzIUB3o
+ Rq4noBAKeB/TKduQzgY56rB3XKq+BgxvAtDU/EdbFEY6amC9+cWn58MmTmNnCgQCv5uV
+ X/9G5ZOFAiL1IFflSbsL+pRU6/caDt6izKQobdvwdQ0EPNMkYYcZUqv0nCwsktZJN7wS
+ wKrNFnF6KVVcRxeCKYud9uSjeru2acPY369wS/5bAziTEa0UCxf/18yJiFPsv4DjCeMa
+ ewiXyFo+RFLz4LKw4xxfVorQZKCWreqww812v8tGikC7LOPwRQJT7NEzov9Ud3Hh8B5u
+ 0mJw==
+X-Gm-Message-State: AOJu0Yz8/+TGnSTskaUOSwP6DQCyPeEXM1RkLo9Oj20NU34qqebDAIdr
+ bTo11T48+AlABMD/v0pG/p/ugy50hra29WahTOMRKFACEIg=
+X-Google-Smtp-Source: AGHT+IG9pSRzz++b0DIzLtW3iVc7f+8841IYAThTybn5Q5bcy2n6BB1aQm72+Ohm43aO9jj7kRbQb+lBft2yg9Rntio=
+X-Received: by 2002:a81:9a97:0:b0:5f6:589c:8c53 with SMTP id
+ r145-20020a819a97000000b005f6589c8c53mr630768ywg.37.1704477732721; Fri, 05
+ Jan 2024 10:02:12 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Jackson McNeill <jacksonmcneill01@gmail.com>
+Date: Fri, 5 Jan 2024 12:02:02 -0600
+Message-ID: <CAKBhmCgP-VZw6TF0kAdDvYKCt8vxWKT6M9gEMJuyNwjUVQutTA@mail.gmail.com>
+Subject: Expose min_vfreq and max_vfreq in DRM without using DebugFS.
+To: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+X-Mailman-Approved-At: Fri, 05 Jan 2024 23:02:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,98 +64,192 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>, kernel-dev@igalia.com,
- dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, when using non-blocking commits, we can see the following
-kernel warning:
+Hello,
 
-[  110.908514] ------------[ cut here ]------------
-[  110.908529] refcount_t: underflow; use-after-free.
-[  110.908620] WARNING: CPU: 0 PID: 1866 at lib/refcount.c:87 refcount_dec_not_one+0xb8/0xc0
-[  110.908664] Modules linked in: rfcomm snd_seq_dummy snd_hrtimer snd_seq snd_seq_device cmac algif_hash aes_arm64 aes_generic algif_skcipher af_alg bnep hid_logitech_hidpp vc4 brcmfmac hci_uart btbcm brcmutil bluetooth snd_soc_hdmi_codec cfg80211 cec drm_display_helper drm_dma_helper drm_kms_helper snd_soc_core snd_compress snd_pcm_dmaengine fb_sys_fops sysimgblt syscopyarea sysfillrect raspberrypi_hwmon ecdh_generic ecc rfkill libaes i2c_bcm2835 binfmt_misc joydev snd_bcm2835(C) bcm2835_codec(C) bcm2835_isp(C) v4l2_mem2mem videobuf2_dma_contig snd_pcm bcm2835_v4l2(C) raspberrypi_gpiomem bcm2835_mmal_vchiq(C) videobuf2_v4l2 snd_timer videobuf2_vmalloc videobuf2_memops videobuf2_common snd videodev vc_sm_cma(C) mc hid_logitech_dj uio_pdrv_genirq uio i2c_dev drm fuse dm_mod drm_panel_orientation_quirks backlight ip_tables x_tables ipv6
-[  110.909086] CPU: 0 PID: 1866 Comm: kodi.bin Tainted: G         C         6.1.66-v8+ #32
-[  110.909104] Hardware name: Raspberry Pi 3 Model B Rev 1.2 (DT)
-[  110.909114] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[  110.909132] pc : refcount_dec_not_one+0xb8/0xc0
-[  110.909152] lr : refcount_dec_not_one+0xb4/0xc0
-[  110.909170] sp : ffffffc00913b9c0
-[  110.909177] x29: ffffffc00913b9c0 x28: 000000556969bbb0 x27: 000000556990df60
-[  110.909205] x26: 0000000000000002 x25: 0000000000000004 x24: ffffff8004448480
-[  110.909230] x23: ffffff800570b500 x22: ffffff802e03a7bc x21: ffffffecfca68c78
-[  110.909257] x20: ffffff8002b42000 x19: ffffff802e03a600 x18: 0000000000000000
-[  110.909283] x17: 0000000000000011 x16: ffffffffffffffff x15: 0000000000000004
-[  110.909308] x14: 0000000000000fff x13: ffffffed577e47e0 x12: 0000000000000003
-[  110.909333] x11: 0000000000000000 x10: 0000000000000027 x9 : c912d0d083728c00
-[  110.909359] x8 : c912d0d083728c00 x7 : 65646e75203a745f x6 : 746e756f63666572
-[  110.909384] x5 : ffffffed579f62ee x4 : ffffffed579eb01e x3 : 0000000000000000
-[  110.909409] x2 : 0000000000000000 x1 : ffffffc00913b750 x0 : 0000000000000001
-[  110.909434] Call trace:
-[  110.909441]  refcount_dec_not_one+0xb8/0xc0
-[  110.909461]  vc4_bo_dec_usecnt+0x4c/0x1b0 [vc4]
-[  110.909903]  vc4_cleanup_fb+0x44/0x50 [vc4]
-[  110.910315]  drm_atomic_helper_cleanup_planes+0x88/0xa4 [drm_kms_helper]
-[  110.910669]  vc4_atomic_commit_tail+0x390/0x9dc [vc4]
-[  110.911079]  commit_tail+0xb0/0x164 [drm_kms_helper]
-[  110.911397]  drm_atomic_helper_commit+0x1d0/0x1f0 [drm_kms_helper]
-[  110.911716]  drm_atomic_commit+0xb0/0xdc [drm]
-[  110.912569]  drm_mode_atomic_ioctl+0x348/0x4b8 [drm]
-[  110.913330]  drm_ioctl_kernel+0xec/0x15c [drm]
-[  110.914091]  drm_ioctl+0x24c/0x3b0 [drm]
-[  110.914850]  __arm64_sys_ioctl+0x9c/0xd4
-[  110.914873]  invoke_syscall+0x4c/0x114
-[  110.914897]  el0_svc_common+0xd0/0x118
-[  110.914917]  do_el0_svc+0x38/0xd0
-[  110.914936]  el0_svc+0x30/0x8c
-[  110.914958]  el0t_64_sync_handler+0x84/0xf0
-[  110.914979]  el0t_64_sync+0x18c/0x190
-[  110.914996] ---[ end trace 0000000000000000 ]---
+I'm currently trying to patch the DRM system to expose min_vfreq and max_vfreq.
+This is useful information for game engines. I am trying to expose it
+to SDL3: https://github.com/libsdl-org/SDL/issues/8772
 
-This happens because, although `prepare_fb` and `cleanup_fb` are
-perfectly balanced, we cannot guarantee consistency in the check
-plane->state->fb == state->fb. This means that sometimes we can increase
-the refcount in `prepare_fb` and don't decrease it in `cleanup_fb`. The
-opposite can also be true.
+I am aware of the DebugFS implementation however this requires debugFS and root.
+From my naive position, it seems like the properties system is the
+appropriate place(?), however I'm not sure where to go from here.
 
-In fact, the struct drm_plane .state shouldn't be accessed directly
-but instead, the `drm_atomic_get_new_plane_state()` helper function should
-be used. So, we could stick to this check, but using
-`drm_atomic_get_new_plane_state()`. But actually, this check is not really
-needed. We can increase and decrease the refcount symmetrically without
-problems.
+This would be my first kernel patch. I'm not exactly sure how to test
+it either, especially since it would need to be a bare-metal test.
 
-This is going to make the code more simple and consistent.
+Current patch:
 
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
----
- drivers/gpu/drm/vc4/vc4_plane.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_trace.h
+b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_trace.h
+index 133af994a..0fce6fb60 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_trace.h
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_trace.h
+@@ -177,6 +177,8 @@ TRACE_EVENT(amdgpu_dm_crtc_atomic_check,
+                  __field(bool, no_vblank)
+                  __field(bool, async_flip)
+                  __field(bool, vrr_enabled)
++                 __field(u32, vrr_min_vfreq)
++                 __field(u32, vrr_max_vfreq)
+                  __field(bool, self_refresh_active)
+                  __field(u32, plane_mask)
+                  __field(u32, connector_mask)
+@@ -199,6 +201,8 @@ TRACE_EVENT(amdgpu_dm_crtc_atomic_check,
+                __entry->no_vblank = state->no_vblank;
+                __entry->async_flip = state->async_flip;
+                __entry->vrr_enabled = state->vrr_enabled;
++               __entry->vrr_min_vfreq = state->vrr_min_vfreq;
++               __entry->vrr_max_vfreq = state->vrr_max_vfreq;
+                __entry->self_refresh_active = state->self_refresh_active;
+                __entry->plane_mask = state->plane_mask;
+                __entry->connector_mask = state->connector_mask;
+@@ -207,7 +211,7 @@ TRACE_EVENT(amdgpu_dm_crtc_atomic_check,
 
-diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
-index b8184374332c..07caf2a47c6c 100644
---- a/drivers/gpu/drm/vc4/vc4_plane.c
-+++ b/drivers/gpu/drm/vc4/vc4_plane.c
-@@ -1508,9 +1508,6 @@ static int vc4_prepare_fb(struct drm_plane *plane,
- 	if (ret)
- 		return ret;
+         TP_printk("crtc_id=%u crtc_state=%p state=%p commit=%p changed("
+               "planes=%d mode=%d active=%d conn=%d zpos=%d color_mgmt=%d) "
+-              "state(enable=%d active=%d async_flip=%d vrr_enabled=%d "
++              "state(enable=%d active=%d async_flip=%d vrr_enabled=%d
+vrr_min_vfreq=%d vrr_max_vfreq=%d "
+               "self_refresh_active=%d no_vblank=%d) mask(plane=%x conn=%x "
+               "enc=%x)",
+               __entry->crtc_id, __entry->crtc_state, __entry->state,
+@@ -215,7 +219,7 @@ TRACE_EVENT(amdgpu_dm_crtc_atomic_check,
+               __entry->mode_changed, __entry->active_changed,
+               __entry->connectors_changed, __entry->zpos_changed,
+               __entry->color_mgmt_changed, __entry->enable, __entry->active,
+-              __entry->async_flip, __entry->vrr_enabled,
++              __entry->async_flip, __entry->vrr_enabled,
+__entry->vrr_min_vfreq, __entry->vrr_max_vfreq,
+               __entry->self_refresh_active, __entry->no_vblank,
+               __entry->plane_mask, __entry->connector_mask,
+               __entry->encoder_mask)
+diff --git a/drivers/gpu/drm/drm_atomic_uapi.c
+b/drivers/gpu/drm/drm_atomic_uapi.c
+index 98d3b10c0..28ebd8d02 100644
+--- a/drivers/gpu/drm/drm_atomic_uapi.c
++++ b/drivers/gpu/drm/drm_atomic_uapi.c
+@@ -423,6 +423,10 @@ static int drm_atomic_crtc_set_property(struct
+drm_crtc *crtc,
+         return ret;
+     } else if (property == config->prop_vrr_enabled) {
+         state->vrr_enabled = val;
++    } else if (property == config->prop_vrr_min_vfreq) {
++        state->vrr_min_vfreq = val;
++    } else if (property == config->prop_vrr_max_vfreq) {
++        state->vrr_max_vfreq = val;
+     } else if (property == config->degamma_lut_property) {
+         ret = drm_atomic_replace_property_blob_from_id(dev,
+                     &state->degamma_lut,
+@@ -486,6 +490,10 @@ drm_atomic_crtc_get_property(struct drm_crtc *crtc,
+         *val = (state->mode_blob) ? state->mode_blob->base.id : 0;
+     else if (property == config->prop_vrr_enabled)
+         *val = state->vrr_enabled;
++    else if (property == config->prop_vrr_min_vfreq)
++        *val = state->vrr_min_vfreq;
++    else if (property == config->prop_vrr_max_vfreq)
++        *val = state->vrr_max_vfreq;
+     else if (property == config->degamma_lut_property)
+         *val = (state->degamma_lut) ? state->degamma_lut->base.id : 0;
+     else if (property == config->ctm_property)
+diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
+index cb90e70d8..4b5751ccf 100644
+--- a/drivers/gpu/drm/drm_crtc.c
++++ b/drivers/gpu/drm/drm_crtc.c
+@@ -316,6 +316,10 @@ static int __drm_crtc_init_with_planes(struct
+drm_device *dev, struct drm_crtc *
+                        config->prop_out_fence_ptr, 0);
+         drm_object_attach_property(&crtc->base,
+                        config->prop_vrr_enabled, 0);
++        drm_object_attach_property(&crtc->base,
++                       config->prop_vrr_min_vfreq, 0);
++        drm_object_attach_property(&crtc->base,
++                       config->prop_vrr_max_vfreq, 0);
+     }
 
--	if (plane->state->fb == state->fb)
--		return 0;
--
- 	return vc4_bo_inc_usecnt(bo);
- }
+     return 0;
+diff --git a/drivers/gpu/drm/drm_mode_config.c
+b/drivers/gpu/drm/drm_mode_config.c
+index 8525ef851..9659177e5 100644
+--- a/drivers/gpu/drm/drm_mode_config.c
++++ b/drivers/gpu/drm/drm_mode_config.c
+@@ -330,6 +330,18 @@ static int
+drm_mode_create_standard_properties(struct drm_device *dev)
+         return -ENOMEM;
+     dev->mode_config.prop_vrr_enabled = prop;
 
-@@ -1519,7 +1516,7 @@ static void vc4_cleanup_fb(struct drm_plane *plane,
- {
- 	struct vc4_bo *bo;
++    prop = drm_property_create_bool(dev, 0,
++            "VRR_MIN_VFREQ");
++    if (!prop)
++        return -ENOMEM;
++    dev->mode_config.prop_vrr_min_vfreq = prop;
++
++    prop = drm_property_create_bool(dev, 0,
++            "VRR_MAX_VFREQ");
++    if (!prop)
++        return -ENOMEM;
++    dev->mode_config.prop_vrr_max_vfreq = prop;
++
+     prop = drm_property_create(dev,
+             DRM_MODE_PROP_BLOB,
+             "DEGAMMA_LUT", 0);
+diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
+index 8b48a1974..290ff4e04 100644
+--- a/include/drm/drm_crtc.h
++++ b/include/drm/drm_crtc.h
+@@ -298,6 +298,20 @@ struct drm_crtc_state {
+      * hardware capabiltiy - lacking support is not treated as failure.
+      */
+     bool vrr_enabled;
++
++    /**
++     * @vrr_min_vfreq:
++     *
++     * STUB COMMENT
++     */
++    u32 min_vrfreq;
++
++    /**
++     * @vrr_max_vfreq:
++     *
++     * STUB COMMENT
++     */
++    u32 max_vrfreq;
 
--	if (plane->state->fb == state->fb || !state->fb)
-+	if (!state->fb)
- 		return;
+     /**
+      * @self_refresh_active:
+diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+index 973119a91..09bf7d622 100644
+--- a/include/drm/drm_mode_config.h
++++ b/include/drm/drm_mode_config.h
+@@ -685,6 +685,16 @@ struct drm_mode_config {
+      */
+     struct drm_property *prop_vrr_enabled;
 
- 	bo = to_vc4_bo(&drm_fb_dma_get_gem_obj(state->fb, 0)->base);
---
-2.43.0
++    /**
++     * @prop_vrr_min_vfreq: STUB COMMENT
++     */
++    struct drm_property *prop_vrr_min_vfreq;
++
++    /**
++     * @prop_vrr_max_vfreq: STUB COMMENT
++     */
++    struct drm_property *prop_vrr_max_vfreq;
++
+     /**
+      * @dvi_i_subconnector_property: Optional DVI-I property to
+      * differentiate between analog or digital mode.
+diff --git a/include/drm/drm_mode_object.h b/include/drm/drm_mode_object.h
+index 912f1e415..5e75b5193 100644
+--- a/include/drm/drm_mode_object.h
++++ b/include/drm/drm_mode_object.h
+@@ -60,7 +60,7 @@ struct drm_mode_object {
+     void (*free_cb)(struct kref *kref);
+ };
 
+-#define DRM_OBJECT_MAX_PROPERTY 24
++#define DRM_OBJECT_MAX_PROPERTY 26
+ /**
+  * struct drm_object_properties - property tracking for &drm_mode_object
+  */
