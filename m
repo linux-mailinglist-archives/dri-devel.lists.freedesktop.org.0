@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BC9B825A64
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 19:46:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81887825A66
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 19:46:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48EA510E65F;
-	Fri,  5 Jan 2024 18:46:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FA2710E66A;
+	Fri,  5 Jan 2024 18:46:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40CF610E65A
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 18:46:47 +0000 (UTC)
+ [IPv6:2a00:1098:ed:100::25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7F4910E65F
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 18:46:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1704480406;
- bh=OG70x+yKpFBifTPcolgUaIEqHd7d1WD6+RZ9Tl5wOes=;
+ s=mail; t=1704480407;
+ bh=nR4jYVhSWCLMrjIGrNICVL5mLIA6VSkplrmpOfwke3k=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=YB23RsRKxR+1RkjmVm35UNkXQU6pfoJndLpD35nBY7f5vAM4IMZIp654E4gONbOg1
- /gXaTpfUeYZrNoU3JcsRQEKRyPzTrljW5AjjV2pblA9YyMoSkkLJlHR+OoqIRxfSCx
- MW2Mg/koFz1V8K/spUHGu3IAoEhOvnTASWeK6dfNlFJlxvt/2g3FSfur1MPldvPLgX
- GMdwjgU4uk0n34InwkEUHXYFXvhJZB5agoOe6wqIIrAi9zUSibA4nFHmLnlrbU2FUh
- h0tr58nwCh8Wco8tyKqUZncCWgfvataTMjNCSDg6OkU1V/laeNEiRCths6OkIM4xFA
- YEbhBt+xb4XHg==
+ b=E7SWBKFyyVHM9/BgPb2tO1ghBhNH/e/IaRwE45mMwxLbawQWEePrIhRbKeUMUYg0Z
+ lv2d5w7aWLCfOZpkuq5H8BTm926H4+sMuNOJ57GVVXhU76VJ3VS0+rSWE6P2Q7M+vL
+ 9KVtAkUU2/5WjF7C3yb8GjGa7ofWnHJ1kh8QFQ5iYUuOinYATpUMrdKvEybZgHE12f
+ pr8JbUYAjwIEJDINNHx6Y3SeK12ZRCZndHykfZRHpdivONEeFy0osDfXjaPkwxaaH1
+ OE82Fe+qXZTvdpSvHW9brpx83hyQkz2/QzO2V3nP3VQttBcaTkqsLBYu4lLXHdoUzd
+ Hn0GZXQdalP2Q==
 Received: from workpc.. (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: dmitry.osipenko)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id A626C3782039;
- Fri,  5 Jan 2024 18:46:44 +0000 (UTC)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 469C2378203B;
+ Fri,  5 Jan 2024 18:46:46 +0000 (UTC)
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>,
@@ -41,10 +41,10 @@ To: David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Qiang Yu <yuq825@gmail.com>, Steven Price <steven.price@arm.com>,
  Boris Brezillon <boris.brezillon@collabora.com>,
  Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>
-Subject: [PATCH v19 01/30] drm/gem: Change locked/unlocked postfix of
- drm_gem_v/unmap() function names
-Date: Fri,  5 Jan 2024 21:45:55 +0300
-Message-ID: <20240105184624.508603-2-dmitry.osipenko@collabora.com>
+Subject: [PATCH v19 02/30] drm/gem: Add _locked postfix to functions that have
+ unlocked counterpart
+Date: Fri,  5 Jan 2024 21:45:56 +0300
+Message-ID: <20240105184624.508603-3-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240105184624.508603-1-dmitry.osipenko@collabora.com>
 References: <20240105184624.508603-1-dmitry.osipenko@collabora.com>
@@ -67,276 +67,55 @@ Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make drm/gem API function names consistent by having locked function
-use the _locked postfix in the name, while the unlocked variants don't
-use the _unlocked postfix. Rename drm_gem_v/unmap() function names to
-make them consistent with the rest of the API functions.
+Add _locked postfix to drm_gem functions that have unlocked counterpart
+functions to make GEM functions naming more consistent and intuitive in
+regards to the locking requirements.
 
 Acked-by: Maxime Ripard <mripard@kernel.org>
 Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 Suggested-by: Boris Brezillon <boris.brezillon@collabora.com>
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- drivers/gpu/drm/drm_client.c                 |  6 +++---
- drivers/gpu/drm/drm_gem.c                    | 20 ++++++++++----------
- drivers/gpu/drm/drm_gem_framebuffer_helper.c |  6 +++---
- drivers/gpu/drm/drm_internal.h               |  4 ++--
- drivers/gpu/drm/drm_prime.c                  |  4 ++--
- drivers/gpu/drm/lima/lima_sched.c            |  4 ++--
- drivers/gpu/drm/panfrost/panfrost_dump.c     |  4 ++--
- drivers/gpu/drm/panfrost/panfrost_perfcnt.c  |  6 +++---
- include/drm/drm_gem.h                        |  4 ++--
- 9 files changed, 29 insertions(+), 29 deletions(-)
+ drivers/gpu/drm/drm_gem.c | 6 +++---
+ include/drm/drm_gem.h     | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
-index 9403b3f576f7..7ee9baf46eaa 100644
---- a/drivers/gpu/drm/drm_client.c
-+++ b/drivers/gpu/drm/drm_client.c
-@@ -255,7 +255,7 @@ void drm_client_dev_restore(struct drm_device *dev)
- static void drm_client_buffer_delete(struct drm_client_buffer *buffer)
- {
- 	if (buffer->gem) {
--		drm_gem_vunmap_unlocked(buffer->gem, &buffer->map);
-+		drm_gem_vunmap(buffer->gem, &buffer->map);
- 		drm_gem_object_put(buffer->gem);
- 	}
- 
-@@ -339,7 +339,7 @@ drm_client_buffer_vmap(struct drm_client_buffer *buffer,
- 	 * fd_install step out of the driver backend hooks, to make that
- 	 * final step optional for internal users.
- 	 */
--	ret = drm_gem_vmap_unlocked(buffer->gem, map);
-+	ret = drm_gem_vmap(buffer->gem, map);
- 	if (ret)
- 		return ret;
- 
-@@ -361,7 +361,7 @@ void drm_client_buffer_vunmap(struct drm_client_buffer *buffer)
- {
- 	struct iosys_map *map = &buffer->map;
- 
--	drm_gem_vunmap_unlocked(buffer->gem, map);
-+	drm_gem_vunmap(buffer->gem, map);
- }
- EXPORT_SYMBOL(drm_client_buffer_vunmap);
- 
 diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 44a948b80ee1..95327b003692 100644
+index 95327b003692..4523cd40fb2f 100644
 --- a/drivers/gpu/drm/drm_gem.c
 +++ b/drivers/gpu/drm/drm_gem.c
-@@ -1175,7 +1175,7 @@ void drm_gem_unpin(struct drm_gem_object *obj)
- 		obj->funcs->unpin(obj);
- }
+@@ -1490,10 +1490,10 @@ drm_gem_lru_scan(struct drm_gem_lru *lru,
+ EXPORT_SYMBOL(drm_gem_lru_scan);
  
--int drm_gem_vmap(struct drm_gem_object *obj, struct iosys_map *map)
-+int drm_gem_vmap_locked(struct drm_gem_object *obj, struct iosys_map *map)
- {
- 	int ret;
- 
-@@ -1192,9 +1192,9 @@ int drm_gem_vmap(struct drm_gem_object *obj, struct iosys_map *map)
- 
- 	return 0;
- }
--EXPORT_SYMBOL(drm_gem_vmap);
-+EXPORT_SYMBOL(drm_gem_vmap_locked);
- 
--void drm_gem_vunmap(struct drm_gem_object *obj, struct iosys_map *map)
-+void drm_gem_vunmap_locked(struct drm_gem_object *obj, struct iosys_map *map)
+ /**
+- * drm_gem_evict - helper to evict backing pages for a GEM object
++ * drm_gem_evict_locked - helper to evict backing pages for a GEM object
+  * @obj: obj in question
+  */
+-int drm_gem_evict(struct drm_gem_object *obj)
++int drm_gem_evict_locked(struct drm_gem_object *obj)
  {
  	dma_resv_assert_held(obj->resv);
  
-@@ -1207,27 +1207,27 @@ void drm_gem_vunmap(struct drm_gem_object *obj, struct iosys_map *map)
- 	/* Always set the mapping to NULL. Callers may rely on this. */
- 	iosys_map_clear(map);
- }
--EXPORT_SYMBOL(drm_gem_vunmap);
-+EXPORT_SYMBOL(drm_gem_vunmap_locked);
+@@ -1505,4 +1505,4 @@ int drm_gem_evict(struct drm_gem_object *obj)
  
--int drm_gem_vmap_unlocked(struct drm_gem_object *obj, struct iosys_map *map)
-+int drm_gem_vmap(struct drm_gem_object *obj, struct iosys_map *map)
- {
- 	int ret;
- 
- 	dma_resv_lock(obj->resv, NULL);
--	ret = drm_gem_vmap(obj, map);
-+	ret = drm_gem_vmap_locked(obj, map);
- 	dma_resv_unlock(obj->resv);
- 
- 	return ret;
- }
--EXPORT_SYMBOL(drm_gem_vmap_unlocked);
-+EXPORT_SYMBOL(drm_gem_vmap);
- 
--void drm_gem_vunmap_unlocked(struct drm_gem_object *obj, struct iosys_map *map)
-+void drm_gem_vunmap(struct drm_gem_object *obj, struct iosys_map *map)
- {
- 	dma_resv_lock(obj->resv, NULL);
--	drm_gem_vunmap(obj, map);
-+	drm_gem_vunmap_locked(obj, map);
- 	dma_resv_unlock(obj->resv);
- }
--EXPORT_SYMBOL(drm_gem_vunmap_unlocked);
-+EXPORT_SYMBOL(drm_gem_vunmap);
- 
- /**
-  * drm_gem_lock_reservations - Sets up the ww context and acquires
-diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-index 3bdb6ba37ff4..3808f47310bf 100644
---- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-+++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-@@ -362,7 +362,7 @@ int drm_gem_fb_vmap(struct drm_framebuffer *fb, struct iosys_map *map,
- 			ret = -EINVAL;
- 			goto err_drm_gem_vunmap;
- 		}
--		ret = drm_gem_vmap_unlocked(obj, &map[i]);
-+		ret = drm_gem_vmap(obj, &map[i]);
- 		if (ret)
- 			goto err_drm_gem_vunmap;
- 	}
-@@ -384,7 +384,7 @@ int drm_gem_fb_vmap(struct drm_framebuffer *fb, struct iosys_map *map,
- 		obj = drm_gem_fb_get_obj(fb, i);
- 		if (!obj)
- 			continue;
--		drm_gem_vunmap_unlocked(obj, &map[i]);
-+		drm_gem_vunmap(obj, &map[i]);
- 	}
- 	return ret;
- }
-@@ -411,7 +411,7 @@ void drm_gem_fb_vunmap(struct drm_framebuffer *fb, struct iosys_map *map)
- 			continue;
- 		if (iosys_map_is_null(&map[i]))
- 			continue;
--		drm_gem_vunmap_unlocked(obj, &map[i]);
-+		drm_gem_vunmap(obj, &map[i]);
- 	}
- }
- EXPORT_SYMBOL(drm_gem_fb_vunmap);
-diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
-index 8e4faf0a28e6..227f58e5b232 100644
---- a/drivers/gpu/drm/drm_internal.h
-+++ b/drivers/gpu/drm/drm_internal.h
-@@ -172,8 +172,8 @@ void drm_gem_print_info(struct drm_printer *p, unsigned int indent,
- 
- int drm_gem_pin(struct drm_gem_object *obj);
- void drm_gem_unpin(struct drm_gem_object *obj);
--int drm_gem_vmap(struct drm_gem_object *obj, struct iosys_map *map);
--void drm_gem_vunmap(struct drm_gem_object *obj, struct iosys_map *map);
-+int drm_gem_vmap_locked(struct drm_gem_object *obj, struct iosys_map *map);
-+void drm_gem_vunmap_locked(struct drm_gem_object *obj, struct iosys_map *map);
- 
- /* drm_debugfs.c drm_debugfs_crc.c */
- #if defined(CONFIG_DEBUG_FS)
-diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-index 834a5e28abbe..4a5935a400ec 100644
---- a/drivers/gpu/drm/drm_prime.c
-+++ b/drivers/gpu/drm/drm_prime.c
-@@ -684,7 +684,7 @@ int drm_gem_dmabuf_vmap(struct dma_buf *dma_buf, struct iosys_map *map)
- {
- 	struct drm_gem_object *obj = dma_buf->priv;
- 
--	return drm_gem_vmap(obj, map);
-+	return drm_gem_vmap_locked(obj, map);
- }
- EXPORT_SYMBOL(drm_gem_dmabuf_vmap);
- 
-@@ -700,7 +700,7 @@ void drm_gem_dmabuf_vunmap(struct dma_buf *dma_buf, struct iosys_map *map)
- {
- 	struct drm_gem_object *obj = dma_buf->priv;
- 
--	drm_gem_vunmap(obj, map);
-+	drm_gem_vunmap_locked(obj, map);
- }
- EXPORT_SYMBOL(drm_gem_dmabuf_vunmap);
- 
-diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
-index c3bf8cda8498..3813f30480ba 100644
---- a/drivers/gpu/drm/lima/lima_sched.c
-+++ b/drivers/gpu/drm/lima/lima_sched.c
-@@ -371,7 +371,7 @@ static void lima_sched_build_error_task_list(struct lima_sched_task *task)
- 		} else {
- 			buffer_chunk->size = lima_bo_size(bo);
- 
--			ret = drm_gem_vmap_unlocked(&bo->base.base, &map);
-+			ret = drm_gem_vmap(&bo->base.base, &map);
- 			if (ret) {
- 				kvfree(et);
- 				goto out;
-@@ -379,7 +379,7 @@ static void lima_sched_build_error_task_list(struct lima_sched_task *task)
- 
- 			memcpy(buffer_chunk + 1, map.vaddr, buffer_chunk->size);
- 
--			drm_gem_vunmap_unlocked(&bo->base.base, &map);
-+			drm_gem_vunmap(&bo->base.base, &map);
- 		}
- 
- 		buffer_chunk = (void *)(buffer_chunk + 1) + buffer_chunk->size;
-diff --git a/drivers/gpu/drm/panfrost/panfrost_dump.c b/drivers/gpu/drm/panfrost/panfrost_dump.c
-index 47751302f1bc..4042afe2fbf4 100644
---- a/drivers/gpu/drm/panfrost/panfrost_dump.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_dump.c
-@@ -209,7 +209,7 @@ void panfrost_core_dump(struct panfrost_job *job)
- 			goto dump_header;
- 		}
- 
--		ret = drm_gem_vmap_unlocked(&bo->base.base, &map);
-+		ret = drm_gem_vmap(&bo->base.base, &map);
- 		if (ret) {
- 			dev_err(pfdev->dev, "Panfrost Dump: couldn't map Buffer Object\n");
- 			iter.hdr->bomap.valid = 0;
-@@ -228,7 +228,7 @@ void panfrost_core_dump(struct panfrost_job *job)
- 		vaddr = map.vaddr;
- 		memcpy(iter.data, vaddr, bo->base.base.size);
- 
--		drm_gem_vunmap_unlocked(&bo->base.base, &map);
-+		drm_gem_vunmap(&bo->base.base, &map);
- 
- 		iter.hdr->bomap.valid = 1;
- 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_perfcnt.c b/drivers/gpu/drm/panfrost/panfrost_perfcnt.c
-index ba9b6e2b2636..52befead08c6 100644
---- a/drivers/gpu/drm/panfrost/panfrost_perfcnt.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_perfcnt.c
-@@ -106,7 +106,7 @@ static int panfrost_perfcnt_enable_locked(struct panfrost_device *pfdev,
- 		goto err_close_bo;
- 	}
- 
--	ret = drm_gem_vmap_unlocked(&bo->base, &map);
-+	ret = drm_gem_vmap(&bo->base, &map);
- 	if (ret)
- 		goto err_put_mapping;
- 	perfcnt->buf = map.vaddr;
-@@ -165,7 +165,7 @@ static int panfrost_perfcnt_enable_locked(struct panfrost_device *pfdev,
  	return 0;
- 
- err_vunmap:
--	drm_gem_vunmap_unlocked(&bo->base, &map);
-+	drm_gem_vunmap(&bo->base, &map);
- err_put_mapping:
- 	panfrost_gem_mapping_put(perfcnt->mapping);
- err_close_bo:
-@@ -195,7 +195,7 @@ static int panfrost_perfcnt_disable_locked(struct panfrost_device *pfdev,
- 		  GPU_PERFCNT_CFG_MODE(GPU_PERFCNT_CFG_MODE_OFF));
- 
- 	perfcnt->user = NULL;
--	drm_gem_vunmap_unlocked(&perfcnt->mapping->obj->base.base, &map);
-+	drm_gem_vunmap(&perfcnt->mapping->obj->base.base, &map);
- 	perfcnt->buf = NULL;
- 	panfrost_gem_close(&perfcnt->mapping->obj->base.base, file_priv);
- 	panfrost_mmu_as_put(pfdev, perfcnt->mapping->mmu);
+ }
+-EXPORT_SYMBOL(drm_gem_evict);
++EXPORT_SYMBOL(drm_gem_evict_locked);
 diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index 369505447acd..decb19ffb2c8 100644
+index decb19ffb2c8..f835fdee6a5e 100644
 --- a/include/drm/drm_gem.h
 +++ b/include/drm/drm_gem.h
-@@ -527,8 +527,8 @@ struct page **drm_gem_get_pages(struct drm_gem_object *obj);
- void drm_gem_put_pages(struct drm_gem_object *obj, struct page **pages,
- 		bool dirty, bool accessed);
+@@ -551,7 +551,7 @@ unsigned long drm_gem_lru_scan(struct drm_gem_lru *lru,
+ 			       unsigned long *remaining,
+ 			       bool (*shrink)(struct drm_gem_object *obj));
  
--int drm_gem_vmap_unlocked(struct drm_gem_object *obj, struct iosys_map *map);
--void drm_gem_vunmap_unlocked(struct drm_gem_object *obj, struct iosys_map *map);
-+int drm_gem_vmap(struct drm_gem_object *obj, struct iosys_map *map);
-+void drm_gem_vunmap(struct drm_gem_object *obj, struct iosys_map *map);
+-int drm_gem_evict(struct drm_gem_object *obj);
++int drm_gem_evict_locked(struct drm_gem_object *obj);
  
- int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handles,
- 			   int count, struct drm_gem_object ***objs_out);
+ #ifdef CONFIG_LOCKDEP
+ /**
 -- 
 2.43.0
 
