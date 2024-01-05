@@ -1,39 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD270825151
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 10:57:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25E26825159
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 10:59:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8CB110E5A9;
-	Fri,  5 Jan 2024 09:57:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB13710E5B1;
+	Fri,  5 Jan 2024 09:59:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6B1510E5A9
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 09:57:44 +0000 (UTC)
-Received: from i53875a56.versanet.de ([83.135.90.86] helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1rLgx5-0002Kf-AW; Fri, 05 Jan 2024 10:57:19 +0100
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Sandy Huang <hjc@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Andy Yan <andy.yan@rock-chips.com>
-Subject: Re: [PATCH] drm/rockchip: vop2: Drop unused if_dclk_rate variable
-Date: Fri, 05 Jan 2024 10:57:18 +0100
-Message-ID: <13141620.VsHLxoZxqI@diego>
-In-Reply-To: <acb52035-4f0c-430d-a2d2-26ab37805d7b@rock-chips.com>
-References: <20240104143951.85219-1-cristian.ciocaltea@collabora.com>
- <5867171.29KlJPOoH8@diego>
- <acb52035-4f0c-430d-a2d2-26ab37805d7b@rock-chips.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C68E10E5AA;
+ Fri,  5 Jan 2024 09:59:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1704448771; x=1735984771;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=HjlX34w1V2FslTv+Mta2kyK6064Code/Qs0orxc14mA=;
+ b=lma+e8DE1kMyb3Ns26Q5kdeVMej9Bpgm7HV0u3ovEd+xnvBEFajE7YWb
+ tChtep7f6ohSe8ABLEDD0i5iGJk6AsY11zMcgUeBYHJWSp/UR9rS1dNzO
+ mKN7fO/g6wKHMPeLspkVkDaOdjXQEN6tDmW4Nmaup4v8AOeW0AQsuD6Fi
+ Xrjhi1UMDhlBCSdxAyJjOEPkXrJ83TwlNwC2Q5ZQjOs/dpZG4iJThizZy
+ OuddzZYrSkEdNGoog0iWm11nXBDi1W0cfOw4DgH6/wBs5wm64EJ+f0462
+ gVSduTr1+mrBK/XJiR/azBqN3FroQw7HgdH6OwAbEOWRZWpYLp9pa1p9X w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="4845605"
+X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; 
+   d="scan'208";a="4845605"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jan 2024 01:59:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="871200923"
+X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; d="scan'208";a="871200923"
+Received: from ftrahe-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.252.36.116])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jan 2024 01:59:28 -0800
+Date: Fri, 5 Jan 2024 10:59:23 +0100
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH 1/3] drm/nouveau: include drm/drm_edid.h only where needed
+Message-ID: <ZZfS-7VhgdcFV7bm@ashyti-mobl2.lan>
+References: <20240104201632.1100753-1-jani.nikula@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240104201632.1100753-1-jani.nikula@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,100 +59,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rockchip@lists.infradead.org, kernel@collabora.com,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Danilo Krummrich <dakr@redhat.com>, Karol Herbst <kherbst@redhat.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Jani,
 
-Am Freitag, 5. Januar 2024, 10:04:55 CET schrieb Andy Yan:
-> On 1/4/24 23:58, Heiko St=C3=BCbner wrote:
-> > Am Donnerstag, 4. Januar 2024, 15:39:50 CET schrieb Cristian Ciocaltea:
-> >> Commit 5a028e8f062f ("drm/rockchip: vop2: Add support for rk3588")
-> >> introduced a variable which ended up being unused.  Remove it.
-> >>
-> >> rockchip_drm_vop2.c:1688:23: warning: variable =E2=80=98if_dclk_rate=
-=E2=80=99 set but not used [-Wunused-but-set-variable]
-> >>
-> >> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-> >=20
-> > in general, please don't send non-series patches as replies to other pa=
-tches.
-> > It confuses tooling like b4 way too often, as this patch is not designa=
-ted
-> > as a 2/2 (similar to the first one not being 1/2).
-> >=20
-> >> ---
-> >>   drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 2 --
-> >>   1 file changed, 2 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gp=
-u/drm/rockchip/rockchip_drm_vop2.c
-> >> index 44508c2dd614..923985d4161b 100644
-> >> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> >> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> >> @@ -1685,7 +1685,6 @@ static unsigned long rk3588_calc_cru_cfg(struct =
-vop2_video_port *vp, int id,
-> >>   	unsigned long dclk_core_rate =3D v_pixclk >> 2;
-> >>   	unsigned long dclk_rate =3D v_pixclk;
-> >>   	unsigned long dclk_out_rate;
-> >> -	unsigned long if_dclk_rate;
-> >>   	unsigned long if_pixclk_rate;
-> >>   	int K =3D 1;
-> >>  =20
-> >> @@ -1700,7 +1699,6 @@ static unsigned long rk3588_calc_cru_cfg(struct =
-vop2_video_port *vp, int id,
-> >>   		}
-> >>  =20
-> >>   		if_pixclk_rate =3D (dclk_core_rate << 1) / K;
-> >> -		if_dclk_rate =3D dclk_core_rate / K;
-> >>   		/*
-> >>   		 * *if_pixclk_div =3D dclk_rate / if_pixclk_rate;
-> >>   		 * *if_dclk_div =3D dclk_rate / if_dclk_rate;
-> >>   		 */
-> > 		*if_pixclk_div =3D 2;
-> > 		*if_dclk_div =3D 4;
-> >=20
-> > with the code continuing with those static constants but the comment
-> > showing a forumula, I do hope Andy can provide a bit of insight into
-> > what is happening here.
-> >=20
-> > I.e. I'd really like to understand if that really is just a remnant or
-> > something different is needed.
->=20
-> This is not a remnant, in my V1, I calculate all the div by formula, but =
-Sascha prefer
-> more for a constants value[0], so I keep this formula as comments to indi=
-cate how these value come from.
->=20
-> [0]https://patchwork.kernel.org/project/linux-rockchip/patch/202311141128=
-55.1771372-1-andyshrk@163.com/
+On Thu, Jan 04, 2024 at 10:16:30PM +0200, Jani Nikula wrote:
+> Including drm_edid.h from nouveau_connector.h causes the rebuild of 15
+> files when drm_edid.h is modified, while there are only a few files that
+> actually need to include drm_edid.h.
+> 
+> Cc: Karol Herbst <kherbst@redhat.com>
+> Cc: Lyude Paul <lyude@redhat.com>
+> Cc: Danilo Krummrich <dakr@redhat.com>
+> Cc: nouveau@lists.freedesktop.org
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-thanks for referencing the source of the change.
-Leaving the formula in there was the right choice I think
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 
-That still leaves the issue with the "unused" warning.
-
-@Christan: in the hdmi block itself can you move the=20
-	if_dclk_rate =3D dclk_core_rate / K;
-to the comment block please? And possibly reference the use
-of the static values in the comment message.
-
-The if_dclk_rate var declaration at the top of the function can of course
-go away.
-
-That way we still keep documenting how these values came to be:
-
-  		/*
-		 * if_dclk_rate =3D dclk_core_rate / K;
-  		 * *if_pixclk_div =3D dclk_rate / if_pixclk_rate;
-  		 * *if_dclk_div =3D dclk_rate / if_dclk_rate;
-  		 */
-
-Thanks
-Heiko
-
-
-
+Andi
