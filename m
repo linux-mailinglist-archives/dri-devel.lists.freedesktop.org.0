@@ -1,53 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D414D825BF3
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 21:47:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 069CD825C08
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 22:03:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51A7710E676;
-	Fri,  5 Jan 2024 20:47:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB28010E69A;
+	Fri,  5 Jan 2024 21:03:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E396910E676
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 20:47:33 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 445DDCE1147;
- Fri,  5 Jan 2024 20:47:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 80860C433C8;
- Fri,  5 Jan 2024 20:47:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1704487650;
- bh=xxRdBa4wSIPvUpG9DdRO0UWptRYS9fBz/+hAX42MCyE=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=ITVW1Y55zddKhSG84Z+lGP0B5TFShdE0YIh4JBi3pMo14s5+UyN4qiGp7xcK2o5IT
- up4XqqOTPOjRUblm5S+P+joKxGu1rPSq6t9XcvGVM25pyHYoo0dN+C1fUvr29bk294
- uySERpKNwjwP7zGqpH/VcqSEtCJOh4uGZ4qG4IyTsX9MGi62EbnlYku4CIufKYSMQb
- +WOmBJsUtoP4E3LcGMFiJGtGqavCJRL5SiLKKLd4jrMwHko1zodFgIlQVBIggBkHIE
- loRQ/LPdZqCTp3dEoRB/dG2Jc2u+wnu8il8otKonj5WOESKSuvsqkhA2uX2IR6kNd2
- GOedIaUn3iiRg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- 6DA02DCB6D8; Fri,  5 Jan 2024 20:47:30 +0000 (UTC)
-Subject: Re: [git pull] drm fixes (part2) for 6.7 final
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9txH-Rag6weAFHx_VgozGmLd4RinHCOzpGbyVsLT7qpcfA@mail.gmail.com>
-References: <CAPM=9txH-Rag6weAFHx_VgozGmLd4RinHCOzpGbyVsLT7qpcfA@mail.gmail.com>
-X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
- <dri-devel.lists.freedesktop.org>
-X-PR-Tracked-Message-Id: <CAPM=9txH-Rag6weAFHx_VgozGmLd4RinHCOzpGbyVsLT7qpcfA@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-fixes-2024-01-05
-X-PR-Tracked-Commit-Id: eb284f4b37817d2038fdfe1a9d51769730ab7b5f
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 2b5bd1498da5537e3d130b3862bccdd9aedd6c84
-Message-Id: <170448765044.28812.6115533026297300477.pr-tracker-bot@kernel.org>
-Date: Fri, 05 Jan 2024 20:47:30 +0000
-To: Dave Airlie <airlied@gmail.com>
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
+ [IPv6:2607:f8b0:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EC9710E687;
+ Fri,  5 Jan 2024 21:03:24 +0000 (UTC)
+Received: by mail-oi1-x230.google.com with SMTP id
+ 5614622812f47-3bbebe6191bso13439b6e.3; 
+ Fri, 05 Jan 2024 13:03:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1704488604; x=1705093404; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=B64IeG1RCY/MEBs65dfrWUNSaGZFXKMZqNYUtFGWk8g=;
+ b=M3aTyeyE6kFa7Fa1w3/CYsCcHsy1kuz3TEv5a9ZiNSaAiAwoQqvYn3iQq4E3hbtUdI
+ d4EgWTePXJGXdXxYtqfRoGYssYrcRdEdlUQgTkPAqRMHC4chRWIYF+mkVrbPDl/8iWJn
+ ecx2FmZtf7OqMtu0mxv5Q5akrCrCI9SLt2M7WiwhJVo+hVlLp4aAIHAibsKzTwo1mKb9
+ V/lmXcVD5G7HNXotUfv1YljDGHEeWBMsqJh2Hi5dcRY8gY79sXARv7uxYIUNGuzxeJp+
+ hy9pfrEXZbc3Tv314XnWtjOgqwn9UVG1xrjQ7LwcT+t2fdA0Msm/CPPvWpMeejy77blx
+ WoKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1704488604; x=1705093404;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=B64IeG1RCY/MEBs65dfrWUNSaGZFXKMZqNYUtFGWk8g=;
+ b=p5dQr0p0xw36VRFEv38Izuo/79xel/havfJOwKD9IalLSrRymPZfewGK/6o7aV86nV
+ i1SQuOk9SZYo2/mn80IwSOioK1Eb3/bqD5tiQ9KNkbIV2uKqvUjiFJlhO7yZNsFwLLur
+ WOozsMbUqr6dnPyB3pH6ZoxathS/Sj9E3BdqLzHcNdSEHfPcwBHjl+oVPjm/0uc2Zgfa
+ j74yGcsZP/9+2RzLY22Nw5yo41GB1C2lyquh/dOdQMuAvDkXk4s3uLY9+dDD2l8xIreI
+ TITrpELrXOF1IAF3WSNJChZwORBrzesXqeSLme7KKH+SwFLqEHO/i6HQZlSpR2plNaeO
+ +MUw==
+X-Gm-Message-State: AOJu0Ywrs7OmepMsOSQV+NZ6fge7Ral7lKr4Uzw1s6BcB8uL0jjoWlqJ
+ qGBk9e1B3wE0YUbApz4A42xWi8XlyD9lOA34Rks=
+X-Google-Smtp-Source: AGHT+IGrjLxJTloAK3EcO17e8m2TLEzCtw7SlR1mbTJf+utz7/X0cGrKUQC4i/NX13yZ4yXIV4C7loHZz6Qi9llF3K0=
+X-Received: by 2002:a05:6870:b616:b0:205:dda8:6f2b with SMTP id
+ cm22-20020a056870b61600b00205dda86f2bmr1317806oab.77.1704488603739; Fri, 05
+ Jan 2024 13:03:23 -0800 (PST)
+MIME-Version: 1.0
+References: <20231207180225.439482-1-alexander.deucher@amd.com>
+ <CADnq5_PdmDWyJsDvtvCbNguExt2aydXy_rZOPHii5imMtt_Z+A@mail.gmail.com>
+In-Reply-To: <CADnq5_PdmDWyJsDvtvCbNguExt2aydXy_rZOPHii5imMtt_Z+A@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 5 Jan 2024 16:03:12 -0500
+Message-ID: <CADnq5_O4FERKSD9D3uxPQx1RB4NJ+krQEC-WfZBZzFNceAUZEw@mail.gmail.com>
+Subject: Re: [PATCH 0/2] fdinfo shared stats
+To: Alex Deucher <alexander.deucher@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,22 +69,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Fri, 5 Jan 2024 13:31:53 +1000:
+Ping on this series again?
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2024-01-05
+Alex
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/2b5bd1498da5537e3d130b3862bccdd9aedd6c84
-
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+On Wed, Dec 13, 2023 at 4:13=E2=80=AFPM Alex Deucher <alexdeucher@gmail.com=
+> wrote:
+>
+> On Thu, Dec 7, 2023 at 1:03=E2=80=AFPM Alex Deucher <alexander.deucher@am=
+d.com> wrote:
+> >
+> > We had a request to add shared buffer stats to fdinfo for amdgpu and
+> > while implementing that, Christian mentioned that just looking at
+> > the GEM handle count doesn't take into account buffers shared with othe=
+r
+> > subsystems like V4L or RDMA.  Those subsystems don't use GEM, so it
+> > doesn't really matter from a GPU top perspective, but it's more
+> > correct if you actually want to see shared buffers.
+>
+> Any thoughts on this?  Seem reasonable?
+>
+> Alex
+>
+> >
+> > Alex Deucher (2):
+> >   drm: update drm_show_memory_stats() for dma-bufs
+> >   drm/amdgpu: add shared fdinfo stats
+> >
+> >  drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c |  4 ++++
+> >  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 11 +++++++++++
+> >  drivers/gpu/drm/amd/amdgpu/amdgpu_object.h |  6 ++++++
+> >  drivers/gpu/drm/drm_file.c                 |  2 +-
+> >  4 files changed, 22 insertions(+), 1 deletion(-)
+> >
+> > --
+> > 2.42.0
+> >
