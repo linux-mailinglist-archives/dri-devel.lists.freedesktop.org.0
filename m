@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B56F98252A9
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 12:22:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AAFE8252AA
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 12:22:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9BA410E5BE;
-	Fri,  5 Jan 2024 11:22:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D77B10E5BF;
+	Fri,  5 Jan 2024 11:22:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CAF910E5BA
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 11:22:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 482B910E5BE
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 11:22:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704453744; x=1735989744;
+ t=1704453746; x=1735989746;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=wyBFu+dmAW22JJ8uQbdxRjeXIfkm4FSB8jQTEptxWBI=;
- b=BSZ+jzVcIr0bK4ixBJ7WxFeA5L/Gf1XZRxzADRpilqiCP2J1k2I/m7oE
- fke1SXPpOAfnkDVPjf+MnM3xjhGYPVDy4GY4Woi1J9SPiJQNYCRMpDvxh
- r+w5c0b7jHMxUC5Jjvs8Z/F8wqRledZOjhxPe5RcLj+rr+iRYb9V0MKKT
- 0rIkETP7Dis+OjXUJthNDFfQoZIcBqXlBkBEfaPFjOfHAqY/tHZArDUpF
- ah+dLoIjPtfuJ4TPwy5wByj2FI0ToOUIfi3D2QU10SMVOvAXBzrA+z7vL
- Q+rdkh/1vmSHDoW47t1a94WWThpj3FELGDGDpcLIyGnrQIW01efpJ7xt0 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="4255388"
+ bh=UWNLdrcrKTEq+t2GiyY0xLZPjEC7J0rSpLBMMGOEOO0=;
+ b=Gz1r9LXFzwdhozULcGvBHp9NuTDbv8EYRuidI7itM9bcfA1BbZMc6G9+
+ bJoT11azQ11d3Y6c4u/cLIRTiG+y7ZZNPOKlhjVehAamFw2K7NcGV29q0
+ a0IuBVXlk5yC3juxoctEvBTjAgFSqo4fUJTeGlo9bybw5Q8JmzK5ShS5g
+ KLSYDF/7WR4Ke3d5nuPF2ngRlTuGQ+ILn/eZAPeyYh5VmKu3jV/4Sw+iH
+ Cvti9lXt85XJ0kIFQpQ32QbfkowuKjzCsFAXR73jtGTTSNAbw3D7oj140
+ 1U8L/UTsjFP8Sn16WHn8T0M1UHVcJSnwg8fPV8TOXtqkFd/RfQ1u74Mxe g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="4255392"
 X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; 
-   d="scan'208";a="4255388"
+   d="scan'208";a="4255392"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2024 03:22:24 -0800
+ 05 Jan 2024 03:22:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="756918705"
-X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; d="scan'208";a="756918705"
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="756918712"
+X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; d="scan'208";a="756918712"
 Received: from jlawryno.igk.intel.com ([10.91.220.59])
  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2024 03:22:22 -0800
+ 05 Jan 2024 03:22:24 -0800
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 01/10] accel/ivpu: Dump MMU events in case of VPU boot timeout
-Date: Fri,  5 Jan 2024 12:22:09 +0100
-Message-ID: <20240105112218.351265-2-jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH 02/10] accel/ivpu: Call diagnose failure in
+ ivpu_mmu_cmdq_sync()
+Date: Fri,  5 Jan 2024 12:22:10 +0100
+Message-ID: <20240105112218.351265-3-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240105112218.351265-1-jacek.lawrynowicz@linux.intel.com>
 References: <20240105112218.351265-1-jacek.lawrynowicz@linux.intel.com>
@@ -66,64 +67,36 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: "Wachowski, Karol" <karol.wachowski@intel.com>
 
-Add ivpu_mmu_evtq_dump() function that dumps existing MMU events from
-MMU event queue. Call this function if VPU boot failed.
-
-Previously MMU events were only checked in interrupt handler, but if VPU
-failed to boot due to MMU faults, those faults were missed because of
-interrupts not yet being enabled. This will allow checking potential
-fault reason of VPU not booting.
+Check for possible failure reasons in the buttress.
+Some errors (like external abort) should have corresponding buttress errors
+registers set indicating the real reason of failure.
 
 Signed-off-by: Wachowski, Karol <karol.wachowski@intel.com>
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_drv.c | 1 +
- drivers/accel/ivpu/ivpu_mmu.c | 8 ++++++++
- drivers/accel/ivpu/ivpu_mmu.h | 1 +
- 3 files changed, 10 insertions(+)
+ drivers/accel/ivpu/ivpu_mmu.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
-index 64927682161b..0c3180411b0e 100644
---- a/drivers/accel/ivpu/ivpu_drv.c
-+++ b/drivers/accel/ivpu/ivpu_drv.c
-@@ -369,6 +369,7 @@ int ivpu_boot(struct ivpu_device *vdev)
- 	ret = ivpu_wait_for_ready(vdev);
- 	if (ret) {
- 		ivpu_err(vdev, "Failed to boot the firmware: %d\n", ret);
-+		ivpu_mmu_evtq_dump(vdev);
- 		return ret;
- 	}
- 
 diff --git a/drivers/accel/ivpu/ivpu_mmu.c b/drivers/accel/ivpu/ivpu_mmu.c
-index 2228c44b115f..92ef651098d8 100644
+index 92ef651098d8..1f813625aab3 100644
 --- a/drivers/accel/ivpu/ivpu_mmu.c
 +++ b/drivers/accel/ivpu/ivpu_mmu.c
-@@ -905,6 +905,14 @@ void ivpu_mmu_irq_evtq_handler(struct ivpu_device *vdev)
- 		ivpu_pm_schedule_recovery(vdev);
- }
+@@ -7,6 +7,7 @@
+ #include <linux/highmem.h>
  
-+void ivpu_mmu_evtq_dump(struct ivpu_device *vdev)
-+{
-+	u32 *event;
-+
-+	while ((event = ivpu_mmu_get_event(vdev)) != NULL)
-+		ivpu_mmu_dump_event(vdev, event);
-+}
-+
- void ivpu_mmu_irq_gerr_handler(struct ivpu_device *vdev)
- {
- 	u32 gerror_val, gerrorn_val, active;
-diff --git a/drivers/accel/ivpu/ivpu_mmu.h b/drivers/accel/ivpu/ivpu_mmu.h
-index cb551126806b..6fa35c240710 100644
---- a/drivers/accel/ivpu/ivpu_mmu.h
-+++ b/drivers/accel/ivpu/ivpu_mmu.h
-@@ -46,5 +46,6 @@ int ivpu_mmu_invalidate_tlb(struct ivpu_device *vdev, u16 ssid);
+ #include "ivpu_drv.h"
++#include "ivpu_hw.h"
+ #include "ivpu_hw_reg_io.h"
+ #include "ivpu_mmu.h"
+ #include "ivpu_mmu_context.h"
+@@ -518,6 +519,7 @@ static int ivpu_mmu_cmdq_sync(struct ivpu_device *vdev)
  
- void ivpu_mmu_irq_evtq_handler(struct ivpu_device *vdev);
- void ivpu_mmu_irq_gerr_handler(struct ivpu_device *vdev);
-+void ivpu_mmu_evtq_dump(struct ivpu_device *vdev);
+ 		ivpu_err(vdev, "Timed out waiting for MMU consumer: %d, error: %s\n", ret,
+ 			 ivpu_mmu_cmdq_err_to_str(err));
++		ivpu_hw_diagnose_failure(vdev);
+ 	}
  
- #endif /* __IVPU_MMU_H__ */
+ 	return ret;
 -- 
 2.43.0
 
