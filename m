@@ -1,46 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B23A82563E
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 15:59:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B782825665
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 16:12:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49F7A10E04E;
-	Fri,  5 Jan 2024 14:59:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBEEF10E077;
+	Fri,  5 Jan 2024 15:12:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A54BE10E04E
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 14:59:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=Q4DxjswBk0Om0r4v6qDvbU2iMPeeoYiyhwcskfXrNnE=; b=Bg6EItiZKEmpvR7yRMueYIDeHj
- qWCSS2r/9d7Sw1y3VmhyJiM+ByZGUFkl9ZQQPupN9YAmhw+0ehlKJ/jsuoaY2QDyp9h4B9yfVi6BC
- 16C1aEg1wgwAy0JE95gWf+hvtEY+KG/YJrfULJcR95UZVAa2SaiTA6IF2TMuydbWyGWN7x9RXjgIn
- KKjhTPuwAjbzGpj+n7QGXdTobARdpVyuFguhuumVSZj5KmyV7CRZ4z/cVlBNm3EAp1cTZRXqL+bTr
- LN2WHvW7+t6mahgccY70GOfrUixu2PtPo1eXN5197NwBfq4BnCz/Z1THnqx7YV86SLIPl4qJZCYkm
- WrQ7qnwQ==;
-Received: from [179.234.233.159] (helo=morissey..)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1rLlf6-003E8n-VF; Fri, 05 Jan 2024 15:59:05 +0100
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH] drm/v3d: Show the memory-management stats on debugfs
-Date: Fri,  5 Jan 2024 11:57:42 -0300
-Message-ID: <20240105145851.193492-1-mcanal@igalia.com>
-X-Mailer: git-send-email 2.43.0
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BE8A10E077
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 15:12:02 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 405D1CSQ024362; Fri, 5 Jan 2024 15:11:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=8xrqVjoAID6xMujBZ+JnR9HN+QYumVE6giXLLeKoR2E=; b=L2
+ Ut06jqH1Ccm+qVqvdqkX9RudwT+WitxHOqkNAcuYtL4WzOlUbJjBi81i2t6qGBlx
+ Kl8WQ5l+yYcFrbgfPHei0gf/F1kZ3f2PIBVdzUGP5TQY5o6PtItbd7tLUz6+9up2
+ c2jVw88vXBOCQAMN6+2NGEAnODcCsVjBMChy1cikkakVs0VvnwpSH5nl7dHuoAso
+ JbS0CU1/jtxxK1cuEMzu4SUBiz5m1MbYerT3NGudlCW5Q7xmHMsnwqmRpwQvITV3
+ yUBcj6CKWd8J5fC4s4qUPxVb8oustO5181JTJatXn5sZna7VePh8YFoU8LMzWgg4
+ RWDGKnF+do4rcpTEBPnw==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ve98v9afn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 05 Jan 2024 15:11:33 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 405FBWsC002741
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 5 Jan 2024 15:11:32 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 5 Jan
+ 2024 07:11:31 -0800
+Message-ID: <bdcf6d9a-d4b8-dfa0-ccf9-fef1a1bb18c9@quicinc.com>
+Date: Fri, 5 Jan 2024 08:11:31 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 01/10] accel/ivpu: Dump MMU events in case of VPU boot
+ timeout
+Content-Language: en-US
+To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>
+References: <20240105112218.351265-1-jacek.lawrynowicz@linux.intel.com>
+ <20240105112218.351265-2-jacek.lawrynowicz@linux.intel.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20240105112218.351265-2-jacek.lawrynowicz@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: ufrI5dmrOO4GeY3bvKhNQEzWIMsWK_Hh
+X-Proofpoint-ORIG-GUID: ufrI5dmrOO4GeY3bvKhNQEzWIMsWK_Hh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 mlxlogscore=378
+ bulkscore=0 priorityscore=1501 adultscore=0 phishscore=0 impostorscore=0
+ mlxscore=0 suspectscore=0 lowpriorityscore=0 malwarescore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2311290000
+ definitions=main-2401050127
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,50 +85,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>, kernel-dev@igalia.com,
- dri-devel@lists.freedesktop.org
+Cc: "Wachowski, Karol" <karol.wachowski@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dump the contents of the DRM MM allocator of the V3D driver. This will
-help us to debug the VA ranges allocated.
+On 1/5/2024 4:22 AM, Jacek Lawrynowicz wrote:
+> From: "Wachowski, Karol" <karol.wachowski@intel.com>
+> 
+> Add ivpu_mmu_evtq_dump() function that dumps existing MMU events from
+> MMU event queue. Call this function if VPU boot failed.
+> 
+> Previously MMU events were only checked in interrupt handler, but if VPU
+> failed to boot due to MMU faults, those faults were missed because of
+> interrupts not yet being enabled. This will allow checking potential
+> fault reason of VPU not booting.
+> 
+> Signed-off-by: Wachowski, Karol <karol.wachowski@intel.com>
+> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
----
- drivers/gpu/drm/v3d/v3d_debugfs.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
-
-diff --git a/drivers/gpu/drm/v3d/v3d_debugfs.c b/drivers/gpu/drm/v3d/v3d_debugfs.c
-index f843a50d5dce..cdfe1d3bf5ee 100644
---- a/drivers/gpu/drm/v3d/v3d_debugfs.c
-+++ b/drivers/gpu/drm/v3d/v3d_debugfs.c
-@@ -260,11 +260,26 @@ static int v3d_measure_clock(struct seq_file *m, void *unused)
- 	return 0;
- }
-
-+static int v3d_debugfs_mm(struct seq_file *m, void *unused)
-+{
-+	struct drm_printer p = drm_seq_file_printer(m);
-+	struct drm_debugfs_entry *entry = m->private;
-+	struct drm_device *dev = entry->dev;
-+	struct v3d_dev *v3d = to_v3d_dev(dev);
-+
-+	spin_lock(&v3d->mm_lock);
-+	drm_mm_print(&v3d->mm, &p);
-+	spin_unlock(&v3d->mm_lock);
-+
-+	return 0;
-+}
-+
- static const struct drm_debugfs_info v3d_debugfs_list[] = {
- 	{"v3d_ident", v3d_v3d_debugfs_ident, 0},
- 	{"v3d_regs", v3d_v3d_debugfs_regs, 0},
- 	{"measure_clock", v3d_measure_clock, 0},
- 	{"bo_stats", v3d_debugfs_bo_stats, 0},
-+	{"v3d_mm", v3d_debugfs_mm, 0},
- };
-
- void
---
-2.43.0
-
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
