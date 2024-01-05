@@ -2,87 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B768825B12
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 20:22:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6D19825B3F
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 20:56:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5631E10E64A;
-	Fri,  5 Jan 2024 19:22:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEAE210E66C;
+	Fri,  5 Jan 2024 19:55:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.15.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E10210E64A
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 19:22:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1704482482; x=1705087282; i=markus.elfring@web.de;
- bh=HUSZWsUiGQOC/YkUR9iqXdqwdp4kixzaBeZcE5ri/Gw=;
- h=X-UI-Sender-Class:Date:Subject:From:To:Cc:References:
- In-Reply-To;
- b=sFrkJbmSup7D/LvjP3hYO2WjT4up6gCpjH2vXExnVY0ydzcCiTYkCAFKMVVWXi8j
- MrXtEbRtJd2hyzBqOwnWRDm2K00YIJQU1k02yHufR1EuuieO0MGBYUdln95ceBN6d
- V9PMtwfAOzuXP8BmFcdhoH4jjIyxG44hfqsVyVsq1fctqgKPpmAaHtsqK9lgL7HHv
- pAAiNwRH4wSoLAB2NxCCHdecOxrhjp0mpQA2ymo+JdSmS27AoUn2JULH8YPhGK6fk
- 56iT0+OoXY3dqRSjAmOfAgmT3otYFV0TWrUJ1QBYNnjS678seErytdGsNWT509NEF
- 7QJkmKbfmBdOcV3Pjg==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MW9vi-1rg8aG29tK-00Y4pr; Fri, 05
- Jan 2024 20:21:22 +0100
-Message-ID: <34068514-27e5-4faf-9b82-2a25bdce9321@web.de>
-Date: Fri, 5 Jan 2024 20:21:19 +0100
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2069.outbound.protection.outlook.com [40.107.93.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7DB010E660
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 19:55:57 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KML+nAE0b5H0arN/AohHGlJtzEVXXqTZJlIhB7iKODAeTCw/UsW1/bikGCNMvEICyN66DlY/kAkvJEIZQeD6bhJyAJ8Nw6WMUcT6u9fFDZ1wMuqitagFzLywaCvbTWiYFTDbQxnqbvmHvG16cuFBD8+KQuNJYx9/AV+EUdVGEZGQd1ik/43ZjaaZKKM4ohhf9VbCgoMt+JWEIWKrUBHuO9mc5hUi8ldwgQRwez1wfV6t8U4PY4l+ulzknJWmTjrvAFec2ME4ztIET8siqGuxxGJbVkwl/sG1mgSkURwvsA9MXbP64yApbdFv4emwMGUTnC4He8OZ+z5jJGYu/lzdqg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=u+ZXbDEinxacHQ4b+lHj/skW0hxodGzjIOunZEExzoE=;
+ b=Dx19Wj4IjE9qOXWBvTa6tjkyGEDZQpEfZU+ZWyNmSqmcZTLxEKSzEREBSCtaXpckS3GSqpulVWpMM+fp/ut6He5s7i/tzUJOqCjn+noUCoWluiGDZgrClCrjB11hVKdtgBU59V5Gom6s2eIe4l8sYBbbo4bSfOwmIX0fIFWyvOgD34Zu7ZUPrf6jSxzq4Wj15TaQgqqw+xPgI0p5rdf5mgwOFJWw7GV6a/pMtmb9Wa9xxd/+mnfi0fyPhtzdUIwv24M5Bt34sqbZZ2Xmye7N9r56u2mDPltcN+4d0ixCNo3mQa8df/Wy6L/v3vibMdl6Uj8qHBgirlLU0Oo1lNnlZw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=u+ZXbDEinxacHQ4b+lHj/skW0hxodGzjIOunZEExzoE=;
+ b=exZRLVvwDl/pkOCia4z2pQ0fp9qE2gJEcghxVRGwXtVb/+d2wogHuyIVmMQUkO01USm00QEVPvvMeX5d5i3sP99F+5K3mO+lxenYzeWfOwQBTD7e7MBtsaFEMhDmbRd8z9RtuMGQcZ4zpD/xoqlOIgOnYPGvuU03GyWYkMWExPr6JZyEzCrm8EBlTQ/r0ZDS75Vv6GISInW5LJf8Y5xqPpxczH3lULQRydUWkA+e1sDbHjdX1bC9xvvUMhq2Hf5zs3YuzGFk1kXSJfPpw9wfKHAFBXiUGcR2v352qZi6PPKO6Tc73gF+BK2m0EbR7MS4FWyIa3xTwuuRXFynBCfFvw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by DS7PR12MB6240.namprd12.prod.outlook.com (2603:10b6:8:94::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.17; Fri, 5 Jan
+ 2024 19:55:53 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::60d4:c1e3:e1aa:8f93]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::60d4:c1e3:e1aa:8f93%4]) with mapi id 15.20.7159.015; Fri, 5 Jan 2024
+ 19:55:53 +0000
+Date: Fri, 5 Jan 2024 15:55:51 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Yan Zhao <yan.y.zhao@intel.com>
+Subject: Re: [PATCH 0/4] KVM: Honor guest memory types for virtio GPU devices
+Message-ID: <20240105195551.GE50406@nvidia.com>
+References: <20240105091237.24577-1-yan.y.zhao@intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240105091237.24577-1-yan.y.zhao@intel.com>
+X-ClientProxiedBy: BL1PR13CA0113.namprd13.prod.outlook.com
+ (2603:10b6:208:2b9::28) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/5] drm/amd: Adjustments for three function
- implementations
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-To: kernel-janitors@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alan Liu <HaoPing.Liu@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Alex Hung <alex.hung@amd.com>,
- Alexey Kodanev <aleksei.kodanev@bell-sw.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Bhanuprakash Modem <bhanuprakash.modem@intel.com>,
- Candice Li <candice.li@amd.com>, Charlene Liu <charlene.liu@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- David Tadokoro <davidbtadokoro@usp.br>, Eryk Brol <eryk.brol@amd.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Hamza Mahfooz <hamza.mahfooz@amd.com>,
- Harry Wentland <harry.wentland@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>, hersen wu <hersenxs.wu@amd.com>,
- Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, Jun Lei <jun.lei@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Mikita Lipski <mikita.lipski@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Stanley Yang <Stanley.Yang@amd.com>, Tao Zhou <tao.zhou1@amd.com>,
- Tom Rix <trix@redhat.com>, Victor Zhao <Victor.Zhao@amd.com>,
- Wayne Lin <Wayne.Lin@amd.com>, Wenjing Liu <wenjing.liu@amd.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>, YiPeng Chai <YiPeng.Chai@amd.com>,
- Zhan Liu <zhan.liu@amd.com>
-References: <40c60719-4bfe-b1a4-ead7-724b84637f55@web.de>
- <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
- <2258ce64-2a14-6778-8319-b342b06a1f33@web.de>
-In-Reply-To: <2258ce64-2a14-6778-8319-b342b06a1f33@web.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:7BEoYkau02QTSNEGbr+lcjHZLdsk00FLyCbaxSUukTKrCYX15Hr
- J/M0C0rCpFuqzOWWas0eRRHRRo6pz2a0sVdU5glBU5fHOxUsaAQiiJ8oycLsVI+KmBX+V3V
- 3IgW3hUvw972A1pyu8KyvOfdI0J9j552K4rahvu9wJEQAr2Q7ivnaZsdXraHkLemcN6y7/C
- PC3hJ3gE78VaioUesvBKg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:6EmgwCH2oOE=;tO9aap8qByf+p7NbHIm8z1VCpLP
- VEInKE3iDL9hkz52w+6uel79EqVXEPE6JARy3lDjJQWO1SZxsEV/Hp3Ti5NBcnCuI3aYYmf9Z
- Y+cysq3iYMXzwAA5w8KlkhDtkQ4X12yfZvwL+AVCcBC+AQFKwUHUoHFIfDFQ5OAURoTxTS9+d
- jxgi+oFqgOXIBUq7flQEc+9Zt4tq+BNJrU4qzcy5q6SgS8jhSHWqbP6GnRXSY6Waa+tXvtK19
- X3ToL58H5kJdLNQW0aJCofLoHQJh2RSsE6jKaONyGpSQ3OtovztcpDG2f4Zng/hHo80knDRm7
- jkaqsXMLHcqKpssa9Yv4EHa6wKaSebq3Y8WVNFe09iR9soLXDnSXOwMP0pezWUTJEjBGntSSq
- 2Eh0PgRQS9ZuBKbjRPH1fKuYKw3LH2jp5EC036m3nCHw0YRX0FYeDjuv38JhsNB6Cf5v+KIV0
- tmBJw5SNQdfVOVdlDNlLOpsP7fElP6563rXAAsYo3AC+KO3nB8D5ziAz3rV05f7VokncFr0V5
- 1q7YzlzXUc7CNX2trDyjjUr5uvjibK6d8OycPmGbVRiKettQ2JSMDYcT9ETgIsAKCUWp5IeTt
- 9la+Ema3KZHHyrwqi0LPdP8cePtgDTD/jUWbaL0Wyl8xXM8N9iVm0uXofwURX5IU8PMNw5Mjk
- oqbk8j6mXM5ivnYepjPoVE3ibnjhPniiLWmJeo/EdY2+0kCqiNq1yilZSR/Wb9gnWrm8+5uVH
- f8k5L57VL1aQP5JJ/1ptrIKFPaQmCZcPH2VN8K9pf7BOq06Zb4zLhDuHbbSk4V73q1HAX7+2B
- aFZR8oSvWcJK+QJm6P+7uqjrmF4DYIAGGeXBayljRSBcW3OSI6umck/8z5dUjf1sbfnzFtbXh
- x/Dk4BdxeAFgZbGrh8uEsL+yg/zk9FqDxK5CRa6uawOWDZzmWfEVf3HQ5IHFxZ5CASP915Vx7
- hdhrRQ==
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|DS7PR12MB6240:EE_
+X-MS-Office365-Filtering-Correlation-Id: d53bf452-9a85-402f-35f6-08dc0e2852f0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Q2o7zy+Az8LBD4TedxHV7Nq+QzpIiToeU0UQI789t9tvTIz8zMgyfb+Sa+AUCXvhYG66V7P13U/twM1jLJNoMh+rar3VnnlBQGMOSSaCqEwz6MVYvHAYvckmczdeaM8DmXeNDwKLZ9cE7UfPmqKusApjYrxoFufA9+aQl6gIuR25nmnf/8nC+wXFiRKLSKTvuwlhstwPbxcNP9Bf9FTdxKaKCC8mC2K2Wwb5XyGysEO/ySsMPD7nIONHMSzTRZEPBugbB3vdXvevrE1GhiTGzAUodS+JOItqh4EJM6t6iw9k0bEbI3CBa7/C+yFbafv2/8M3+rfyPfYjyEGws9kMcnvRklaJYlUYllmEDVE3Z9C3iBVsSSZlZo2LIwAc7zjIEBQNQtJzSIahZ5ECegIKgobFwt0ureu0leHFxPiN9KdBUTvb5dAvaqOyyvEBOg0vHh2NbqFokABA4bnKGxlLM7X1ZK3TdqwGOl0GzquPbROxKVwpiHWB9Ktf34YNdKvoG8hOb6xpMCfXeIX4qqlXgh1/tiehBbVTrJaCJarPBW8qx8nnTk7JDvBItNCHUqOq
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376002)(396003)(346002)(136003)(366004)(39860400002)(230922051799003)(64100799003)(186009)(451199024)(1800799012)(66556008)(66476007)(66946007)(38100700002)(6916009)(6506007)(86362001)(6512007)(107886003)(1076003)(26005)(2616005)(5660300002)(7416002)(478600001)(36756003)(2906002)(33656002)(6486002)(83380400001)(316002)(8936002)(8676002)(4326008)(41300700001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?U4Dl9fv/fpldBexb1HfQQXXj5a4XwftUQYeP9GUGbMZz2ZxgAEY00Le/h1eE?=
+ =?us-ascii?Q?3wHtnCITPnpaXMKUPZ7Fo1PGtrkiv4uu7Mv0SfLhr+GrsPrZ//j1WDGuK+dp?=
+ =?us-ascii?Q?rbgrOenYS2K4SWCW0aw0CWuhMqJQr3i5msC64a10IHtVv94u4Z3gKjgfCYly?=
+ =?us-ascii?Q?V7IQL+IuJG0iNRweMhmaAGTpJaE0i29QkyQjLbPpsOQg554E86A/Gf/kFbM0?=
+ =?us-ascii?Q?cJUyb4RV5HGZEqkb7SE34WQhPEApMHnHsn1jZ22VOcqi627YFpaWyLRtF/7Q?=
+ =?us-ascii?Q?Vg6t4kbCDkD3122jnABW1/YAFiti075vNKBkLy/5LKkM3NUA/3706Zx54Xqu?=
+ =?us-ascii?Q?3NyDrnDoIHhACE3Zfa+fqDb2M4NKAzRU6X+YvQOZTaYc2cP/6Q3OpCaJNOoS?=
+ =?us-ascii?Q?/8hltgxKWTkoXmn6wRSUeXkZ66pfq/RPGzvZw1L28lOfiI4x8ULZBVQ41x0V?=
+ =?us-ascii?Q?v4QyX2+USFBtDGDg0NR9q+nrZLoO4u2mCz0yDNMBDAKE3iTLP42+mKUBN0sP?=
+ =?us-ascii?Q?CrapybSTkbrD9aHs2CBjhdW312sct7+c5U5DK1jWh/y6RU0bcKLywWOCuj7o?=
+ =?us-ascii?Q?XPKqRlV7awiZ2PM6cL5/cY9fdpKd+C3Xb2LyDOt7l1Iv1nq2ybUjeGp6dO+F?=
+ =?us-ascii?Q?N1MPxFiLYlzk7KBcfrjRaTnbXdFb/qEzQfDIx+40HomeuzsMpKVZRo5MDJqD?=
+ =?us-ascii?Q?V9Atx8jod0UDRlldqI8TTtxn8QBponUBE7vevrlNrcROoEe1s1sziuDwoCTJ?=
+ =?us-ascii?Q?Z+vw5YYKgE/5rK00n3p+GBJDCxCf2gkJUmTxz8UKQJ48S7uGKRBsrC2twX8+?=
+ =?us-ascii?Q?lD+y1Q/UB4l0DJXdp30celSAaHDbl8Ofz2J6jlDr1ahQXbth1Pm2FpFIy6xS?=
+ =?us-ascii?Q?LfWTysAlTjh9nRfR/d8SK1vxXkmEEVhNyiwkRSnm9ipBV83RkUIhr5CaYNp9?=
+ =?us-ascii?Q?NArB7VrYgBhd/ekJf0Bz4pYx0CLYPwWYDcDH5/zY0XBfuuTNJXg1En8b7upG?=
+ =?us-ascii?Q?SP906ws6Ogmwr/EkLZaCyz8p0pEYM6EVI/SjiY49gFDPu0a/HiK2p2i2vodj?=
+ =?us-ascii?Q?SBqh+akFgcAanOYW4RTgu4jurhVN+9X0FM8/P4s89qUpbpPl66pLWLQye6KB?=
+ =?us-ascii?Q?Yk41Rg6iA9emK+bPNQfo6/OUxWLmx5pbITQCnHH37WUF8X48eTHGKV+PviJa?=
+ =?us-ascii?Q?mC7wgzVXYVVbjMMqwDjp3eAvB+NftRG6GG9Q6agX7PYQsY8ErOr9x2F8ln5y?=
+ =?us-ascii?Q?d0eC3zCds2gW3fOaPOXGVyVKgW7/9z5vVRXDkENs7+ZL5zF1p3cfEZPr4Cch?=
+ =?us-ascii?Q?mw02GEOTjMeeJYRTfxLuYQpOaOoj4aAZNpJ+5rn+PsvaAc2ZDbUp95ygzffZ?=
+ =?us-ascii?Q?BJcIU0UBvp7isKBvvufThRUy77uqntIaAsxWLb9npsFpXJWW4GWlrvo0XeFA?=
+ =?us-ascii?Q?WxiDPRlCcyhWVqiXEori/AoydVwOEm4NfVMvNR7cuqJ4SNA4SnpGbdiTDF4O?=
+ =?us-ascii?Q?Y75vCBDOMPweoYdm2Xh8m+T+L1uL4H/0khL4xzZ+xRMUoerBJla+bCC1jL6X?=
+ =?us-ascii?Q?fKkGMxNxPtZTmurW/5Y=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d53bf452-9a85-402f-35f6-08dc0e2852f0
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jan 2024 19:55:53.4043 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mG3Ywe2XwtfNoG5mGRY3ZPwX9NvLkUB+5Jc3qF2m3OgrEy1phvYuklxQqkO2kvn2
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6240
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,36 +113,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>, cocci@inria.fr
+Cc: wanpengli@tencent.com, kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kraxel@redhat.com, maz@kernel.org,
+ joro@8bytes.org, zzyiwei@google.com, yuzenghui@huawei.com,
+ kevin.tian@intel.com, suzuki.poulose@arm.com, alex.williamson@redhat.com,
+ yongwei.ma@intel.com, zhiyuan.lv@intel.com, gurchetansingh@chromium.org,
+ jmattson@google.com, zhenyu.z.wang@intel.com, seanjc@google.com,
+ ankita@nvidia.com, oliver.upton@linux.dev, james.morse@arm.com,
+ pbonzini@redhat.com, vkuznets@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Date: Tue, 11 Apr 2023 14:36:36 +0200
->
-> Some update suggestions were taken into account
-> from static source code analysis.
->
-> Markus Elfring (5)
->   amdgpu: Move a variable assignment behind a null pointer check in amdg=
-pu_ras_interrupt_dispatch()
->   display: Move three variable assignments behind condition checks in tr=
-igger_hotplug()
->   display: Delete three unnecessary variable initialisations in trigger_=
-hotplug()
->   display: Delete a redundant statement in trigger_hotplug()
->   display: Move an expression into a return statement in dcn201_link_enc=
-oder_create()
->
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c       |  3 ++-
->  .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 19 ++++++++++---------
->  .../amd/display/dc/dcn201/dcn201_resource.c   |  4 +---
->  3 files changed, 13 insertions(+), 13 deletions(-)
+On Fri, Jan 05, 2024 at 05:12:37PM +0800, Yan Zhao wrote:
+> This series allow user space to notify KVM of noncoherent DMA status so as
+> to let KVM honor guest memory types in specified memory slot ranges.
+> 
+> Motivation
+> ===
+> A virtio GPU device may want to configure GPU hardware to work in
+> noncoherent mode, i.e. some of its DMAs do not snoop CPU caches.
 
-Is this patch series still in review queues?
+Does this mean some DMA reads do not snoop the caches or does it
+include DMA writes not synchronizing the caches too?
 
-See also:
-https://lore.kernel.org/cocci/2258ce64-2a14-6778-8319-b342b06a1f33@web.de/
-https://sympa.inria.fr/sympa/arc/cocci/2023-04/msg00034.html
+> This is generally for performance consideration.
+> In certain platform, GFX performance can improve 20+% with DMAs going to
+> noncoherent path.
+> 
+> This noncoherent DMA mode works in below sequence:
+> 1. Host backend driver programs hardware not to snoop memory of target
+>    DMA buffer.
+> 2. Host backend driver indicates guest frontend driver to program guest PAT
+>    to WC for target DMA buffer.
+> 3. Guest frontend driver writes to the DMA buffer without clflush stuffs.
+> 4. Hardware does noncoherent DMA to the target buffer.
+> 
+> In this noncoherent DMA mode, both guest and hardware regard a DMA buffer
+> as not cached. So, if KVM forces the effective memory type of this DMA
+> buffer to be WB, hardware DMA may read incorrect data and cause misc
+> failures.
 
-Regards,
-Markus
+I don't know all the details, but a big concern would be that the
+caches remain fully coherent with the underlying memory at any point
+where kvm decides to revoke the page from the VM.
+
+If you allow an incoherence of cache != physical then it opens a
+security attack where the observed content of memory can change when
+it should not.
+
+ARM64 has issues like this and due to that ARM has to have explict,
+expensive, cache flushing at certain points.
+
+Jason
