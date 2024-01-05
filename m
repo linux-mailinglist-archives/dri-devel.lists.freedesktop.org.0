@@ -1,61 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DB67825482
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 14:33:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB965825C15
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 22:19:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 094C210E5F6;
-	Fri,  5 Jan 2024 13:33:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C4D710E6AD;
+	Fri,  5 Jan 2024 21:19:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5709E10E5FE
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 13:33:42 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id
- 2adb3069b0e04-50e5a9bcec9so1994041e87.3
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Jan 2024 05:33:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1704461620; x=1705066420; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=kDa+bWPe+L04ie3zk0iYVMfic3JToEuuY681zN4ite4=;
- b=T5j7fZTtDKjWPuY2lHL5iC6qWdKcRWbxOPKs5a2u2enADfdGqHloqYI8H0B88PpoGw
- boW4fVBrnFsT1wknN6FSCzc1+Q+JzDVKH2NOdnS/VJl+Jhk2HiqfSdJ6H9fGwAqp0xPL
- wBE4OZ5kkZdUwh9oo0hALd+UzNFZl4+ZZvU3EEpniGM2T0p9PzSYd+dKgq0nFNouBlsj
- MidUaCP9FHa9tQpLeqS+mKPchzndn8aLJKVbi0rUqPWvf98Vq0tYInw3VmTNUCHZaucX
- gddLnG0cwtybJwviWp8dogD029caMxCHV/PtG9+HFdrGFz7nbD0NLYJwv7YF3h6F14wW
- f3rA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704461620; x=1705066420;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kDa+bWPe+L04ie3zk0iYVMfic3JToEuuY681zN4ite4=;
- b=CbEsV6Cou5qAWWdQK62xngKgLq6OrY5x3mGq/po8za5Mm8A7KJCUUv1dmYI16zwyI/
- 7r+O8d6v7huMAY36bOkQ2Je4u4jBYuqyemDCIBP2ebuhcw5GMZYWY9+gW/xkmlgpgtMz
- 2Yr3gdP9J6g+7FmyEwHaNbBm446uyC+DPXPxRmiLoVsoDJDU+zMkw7RR9lUXsCeiu2FC
- tNEoMyl5iBxhOMTSqG5kxz7iEsUKk17grnwiKbFJEaaouxOZqUpp1+a46jIoid6nlyW/
- 2MUSJhNLvE5gca/r4r3u+PWwbGVYRVHVaD0Sk1lHYQ/FBGX32TI7EIlDwTIMG7lWknjT
- OYKA==
-X-Gm-Message-State: AOJu0Yy8XTwE6T1nkiUX1dG6ohSkdC3ZM5WS0pq05VlS9VA1a0h6p61b
- TA4ugQKL1RDPeqgWVD6pvXVnOgJdZfdlZw==
-X-Google-Smtp-Source: AGHT+IFDQ3SG6UVtfNOkwiaxL0QSV7wBjlFD1egz8ghv9s8qQkWEB3MWi8R2qERtMrvIa/Q2X1JElg==
-X-Received: by 2002:ac2:4c33:0:b0:50e:3158:c53a with SMTP id
- u19-20020ac24c33000000b0050e3158c53amr1083112lfq.124.1704461620475; 
- Fri, 05 Jan 2024 05:33:40 -0800 (PST)
-Received: from localhost ([102.140.209.237]) by smtp.gmail.com with ESMTPSA id
- t20-20020a170906609400b00a28badcf367sm897949ejj.54.2024.01.05.05.33.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jan 2024 05:33:40 -0800 (PST)
-Date: Fri, 5 Jan 2024 16:33:37 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: peytolee@amd.com
-Subject: [bug report] drm/amdgpu/vpe: enable vpe dpm
-Message-ID: <efbcd813-8f22-44ad-a6e1-6bee6d3bb18c@moroto.mountain>
+Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA4C510E6AB;
+ Fri,  5 Jan 2024 21:19:04 +0000 (UTC)
+Received: from [192.168.1.114] (unknown [185.145.125.130])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 3F35140737A3;
+ Fri,  5 Jan 2024 21:13:28 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 3F35140737A3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
+ s=default; t=1704489208;
+ bh=pGz5BeUn1J1tLUOnuc57+4ifZTNHWxB2x2fBLp9vnFE=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=qjy0+Z+eEeWLGd73OAA7npgyIBsdSzQogG9Ujge6ZiMDH75iVPWiQ2OuDGRhXrnCi
+ zdZZCg9KakFJ9uwPfUPyHpNQPjA/N9mcNujSbe4DwUH8ghvo3nxjIQbrQg4Qa3sQWH
+ q5DTuLrHYKxpF7qUt7ZRD7FxSFJH64WiVlyHdOTs=
+Subject: Re: [PATCH] therm.c: Adding an array index check before accessing an
+ element.
+To: Andrey Shumilin <shum.sdl@nppct.ru>, Karol Herbst <kherbst@redhat.com>
+References: <20231116063028.35871-1-shum.sdl@nppct.ru>
+From: Alexey Khoroshilov <khoroshilov@ispras.ru>
+Message-ID: <5be85b32-7339-d306-897e-142332807c9b@ispras.ru>
+Date: Fri, 5 Jan 2024 20:50:34 +0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+In-Reply-To: <20231116063028.35871-1-shum.sdl@nppct.ru>
+Content-Type: text/plain; charset=utf-8
+Content-Language: ru-RU
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,33 +49,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Cc: "lvc-project@linuxtesting.org" <lvc-project@linuxtesting.org>,
+ nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Peyton Lee,
+> Subject: therm.c: Adding an array index check before accessing an element.
 
-The patch 5f82a0c90cca: "drm/amdgpu/vpe: enable vpe dpm" from Dec 12,
-2023 (linux-next), leads to the following Smatch static checker
-warning:
+As
 
-drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c:62 vpe_u1_8_from_fraction() warn: unsigned 'numerator' is never less than zero.
-drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c:63 vpe_u1_8_from_fraction() warn: unsigned 'denominator' is never less than zero.
+$ git log --oneline drivers/gpu/drm/nouveau/nvkm/subdev/bios/therm.c
+a215721fb64e drm/nouveau/bios/therm: pointers are 32-bit
+46484438ab7d drm/nouveau/bios: convert to new-style nvkm_subdev
+7f5f518fd70b drm/nouveau/bios: remove object accessor functions
+60b29d207179 drm/nouveau/bios: switch to subdev printk macros
+9ace404b1098 drm/nouveau/device: include core/device.h automatically for
+subdevs/engines
+d390b48027f8 drm/nouveau/bios: namespace + nvidia gpu names (no binary
+change)
+c39f472e9f14 drm/nouveau: remove symlinks, move core/ to nvkm/ (no code
+changes)
 
-drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c
-    60 static uint16_t vpe_u1_8_from_fraction(uint16_t numerator, uint16_t denominator)
-    61 {
---> 62         bool arg1_negative = numerator < 0;
-    63         bool arg2_negative = denominator < 0;
+shows, a better prefix should be
+drm/nouveau/bios: or drm/nouveau/bios/therm:
+and there should not be a dot at the end.
 
-uint16_t can't be negative.
+e.g.
+drm/nouveau/bios: avoid invalid memory memory access in
+nvbios_therm_fan_parse()
 
-    64 
-    65         uint16_t arg1_value = (uint16_t)(arg1_negative ? -numerator : numerator);
-    66         uint16_t arg2_value = (uint16_t)(arg2_negative ? -denominator : denominator);
-    67 
-    68         uint16_t remainder;
-    69 
 
-regards,
-dan carpenter
+On 16.11.2023 09:30, Andrey Shumilin wrote:
+> It is possible to access an element at index -1 if at the first iteration of the loop the result of switch is equal to 0x25
+> 
+
+
+If nvbios_rd08(bios, entry + 0) returns 0x25 before 0x24, buffer
+underrun happens as far as &fan->trip[fan->nr_fan_trip - 1] points to
+invalid memory.
+
+> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> 
+> Signed-off-by: Andrey Shumilin <shum.sdl@nppct.ru>
+> ---
+>  drivers/gpu/drm/nouveau/nvkm/subdev/bios/therm.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/therm.c b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/therm.c
+> index 5babc5a7c7d5..78387053f214 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/therm.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/therm.c
+> @@ -180,6 +180,8 @@ nvbios_therm_fan_parse(struct nvkm_bios *bios, struct nvbios_therm_fan *fan)
+>  			cur_trip->fan_duty = duty_lut[(value & 0xf000) >> 12];
+>  			break;
+>  		case 0x25:
+> +			if (fan->nr_fan_trip == 0)
+> +				fan->nr_fan_trip++;
+
+I would suggest to return -EINVAL if the assumption on valid nr_fan_trip
+is failed.
+
+
+>  			cur_trip = &fan->trip[fan->nr_fan_trip - 1];
+>  			cur_trip->fan_duty = value;
+>  			break;
+> 
+
+--
+Alexey
