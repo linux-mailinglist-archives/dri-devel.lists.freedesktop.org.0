@@ -1,47 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D11E38252AD
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 12:22:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B6428252AE
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jan 2024 12:22:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A696810E5CF;
-	Fri,  5 Jan 2024 11:22:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 049B910E5D1;
+	Fri,  5 Jan 2024 11:22:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC67210E5C2
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 11:22:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7343D10E5CF
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jan 2024 11:22:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704453750; x=1735989750;
+ t=1704453751; x=1735989751;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Ep7Vfcbx+8xOBR7KueL3asISilZpqfrVpA8Ehoolsjw=;
- b=Xvx0IE2WKcLKPSedOwNJ69TLR2xKjqKlkf7rtM1BcNmDrsTNni56j2bI
- hQtF93i3aYons7moBMuE9GCJDqgXngY/8o3TZIFeXodlHM9v0x3httFmX
- sNuhM5psq/Y1DmT4xthCeatzYwcLDIAzYbnZPCxuLLuaBAlEuI8T2kvjH
- eM87BqBKmi6yruYl9FczzYqHFPYh8FBgt6pM4Iq5rIBlX2my/+k9bikv7
- 6kyJJBj0fVLsvcUOnLV5z92QuMqpimEqLEDRRoCtf4JnKTMSx6nq608PE
- 38Au/YRtrfecYMa1Maz7M1gaUKhNwjFnjlX/BEJRVuLGukUh6rgvOXUmN Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="4255413"
+ bh=TRY0IVKnvZ/OZ4oKaKKhWNaeqJZX3a2HStN2ZiXWfd0=;
+ b=WuNNKCH+wfRTD1Yyq+2dquXLP+qbUsCLlhpNgOiixoJNv3qV3XIYbYJz
+ CV/0xk0/GnVEN32PWw7HT7sMfuvPe2DcgpkuAAJP1mGeLoVvFV5rJfdTg
+ qBCmcwHWqHdx4QHtiFYc2ussRHn7m04UzAWpckPJSezNdj9eU0rhBWHki
+ pMtf2ZTN/zYnZNWsLFMMYkZGZEVZ1vQamAwo3yBtbo40H1GS+j2joUWN4
+ SoE9aLuQ0SQSMeOujjgQlroCaZwI4ZGDxNjo/kZfZlm68RBp/Tbw+Narr
+ OvOekTJOLYbTEUGR5s09soqIRUv6kexVzsKni36/f1cZRWRHgzI6PPoli A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="4255425"
 X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; 
-   d="scan'208";a="4255413"
+   d="scan'208";a="4255425"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2024 03:22:29 -0800
+ 05 Jan 2024 03:22:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="756918725"
-X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; d="scan'208";a="756918725"
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="756918726"
+X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; d="scan'208";a="756918726"
 Received: from jlawryno.igk.intel.com ([10.91.220.59])
  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2024 03:22:27 -0800
+ 05 Jan 2024 03:22:29 -0800
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 04/10] accel/ivpu: Add diagnostic messages when VPU fails to
- boot or suspend
-Date: Fri,  5 Jan 2024 12:22:12 +0100
-Message-ID: <20240105112218.351265-5-jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH 05/10] accel/ivpu: Fix potential infinite loops in IRQ handlers
+Date: Fri,  5 Jan 2024 12:22:13 +0100
+Message-ID: <20240105112218.351265-6-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240105112218.351265-1-jacek.lawrynowicz@linux.intel.com>
 References: <20240105112218.351265-1-jacek.lawrynowicz@linux.intel.com>
@@ -60,76 +59,91 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: quic_jhugo@quicinc.com,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>, "Wachowski,
- Karol" <karol.wachowski@intel.com>
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Wachowski, Karol" <karol.wachowski@intel.com>
+Limit number of iterations in ivpu_mmu_irq_evtq_handler() and
+ivpu_ipc_irq_handler().
 
-Make boot/suspend failure debugging easier by dumping FW logs and error
-registers.
-
-Signed-off-by: Wachowski, Karol <karol.wachowski@intel.com>
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_drv.c | 5 +++--
- drivers/accel/ivpu/ivpu_pm.c  | 4 +++-
- 2 files changed, 6 insertions(+), 3 deletions(-)
+ drivers/accel/ivpu/ivpu_ipc.c |  6 ++++++
+ drivers/accel/ivpu/ivpu_mmu.c | 21 +++++++++++++--------
+ 2 files changed, 19 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
-index 0c3180411b0e..ec66c2c39877 100644
---- a/drivers/accel/ivpu/ivpu_drv.c
-+++ b/drivers/accel/ivpu/ivpu_drv.c
-@@ -17,6 +17,7 @@
- #include "ivpu_debugfs.h"
- #include "ivpu_drv.h"
- #include "ivpu_fw.h"
-+#include "ivpu_fw_log.h"
- #include "ivpu_gem.h"
- #include "ivpu_hw.h"
- #include "ivpu_ipc.h"
-@@ -340,8 +341,6 @@ static int ivpu_wait_for_ready(struct ivpu_device *vdev)
+diff --git a/drivers/accel/ivpu/ivpu_ipc.c b/drivers/accel/ivpu/ivpu_ipc.c
+index e86621f16f85..f69780248803 100644
+--- a/drivers/accel/ivpu/ivpu_ipc.c
++++ b/drivers/accel/ivpu/ivpu_ipc.c
+@@ -389,12 +389,18 @@ void ivpu_ipc_irq_handler(struct ivpu_device *vdev, bool *wake_thread)
+ 	unsigned long flags;
+ 	bool dispatched;
+ 	u32 vpu_addr;
++	int msg_count = 0;
  
- 	if (!ret)
- 		ivpu_dbg(vdev, PM, "VPU ready message received successfully\n");
--	else
--		ivpu_hw_diagnose_failure(vdev);
+ 	/*
+ 	 * Driver needs to purge all messages from IPC FIFO to clear IPC interrupt.
+ 	 * Without purge IPC FIFO to 0 next IPC interrupts won't be generated.
+ 	 */
+ 	while (ivpu_hw_reg_ipc_rx_count_get(vdev)) {
++		if (++msg_count > IPC_MAX_RX_MSG) {
++			ivpu_pm_schedule_recovery(vdev);
++			return;
++		}
++
+ 		vpu_addr = ivpu_hw_reg_ipc_rx_addr_get(vdev);
+ 		if (vpu_addr == REG_IO_ERROR) {
+ 			ivpu_err_ratelimited(vdev, "Failed to read IPC rx addr register\n");
+diff --git a/drivers/accel/ivpu/ivpu_mmu.c b/drivers/accel/ivpu/ivpu_mmu.c
+index 1f813625aab3..c82929b0ae9d 100644
+--- a/drivers/accel/ivpu/ivpu_mmu.c
++++ b/drivers/accel/ivpu/ivpu_mmu.c
+@@ -236,6 +236,8 @@
+ #define IVPU_MMU_CERROR_ABT          0x2
+ #define IVPU_MMU_CERROR_ATC_INV_SYNC 0x3
  
- 	return ret;
++#define IVPU_MMU_MAX_EVENT_COUNT     100
++
+ static const char *ivpu_mmu_event_to_str(u32 cmd)
+ {
+ 	switch (cmd) {
+@@ -887,7 +889,7 @@ static u32 *ivpu_mmu_get_event(struct ivpu_device *vdev)
+ 
+ void ivpu_mmu_irq_evtq_handler(struct ivpu_device *vdev)
+ {
+-	bool schedule_recovery = false;
++	int event_count = 0;
+ 	u32 *event;
+ 	u32 ssid;
+ 
+@@ -895,16 +897,19 @@ void ivpu_mmu_irq_evtq_handler(struct ivpu_device *vdev)
+ 
+ 	while ((event = ivpu_mmu_get_event(vdev)) != NULL) {
+ 		ivpu_mmu_dump_event(vdev, event);
++		if (++event_count > IVPU_MMU_MAX_EVENT_COUNT) {
++			ivpu_pm_schedule_recovery(vdev);
++			return;
++		}
+ 
+ 		ssid = FIELD_GET(IVPU_MMU_EVT_SSID_MASK, event[0]);
+-		if (ssid == IVPU_GLOBAL_CONTEXT_MMU_SSID)
+-			schedule_recovery = true;
+-		else
+-			ivpu_mmu_user_context_mark_invalid(vdev, ssid);
+-	}
++		if (ssid == IVPU_GLOBAL_CONTEXT_MMU_SSID) {
++			ivpu_pm_schedule_recovery(vdev);
++			return;
++		}
+ 
+-	if (schedule_recovery)
+-		ivpu_pm_schedule_recovery(vdev);
++		ivpu_mmu_user_context_mark_invalid(vdev, ssid);
++	}
  }
-@@ -369,7 +368,9 @@ int ivpu_boot(struct ivpu_device *vdev)
- 	ret = ivpu_wait_for_ready(vdev);
- 	if (ret) {
- 		ivpu_err(vdev, "Failed to boot the firmware: %d\n", ret);
-+		ivpu_hw_diagnose_failure(vdev);
- 		ivpu_mmu_evtq_dump(vdev);
-+		ivpu_fw_log_dump(vdev);
- 		return ret;
- 	}
  
-diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
-index 0af8864cb3b5..8407f1d8c99c 100644
---- a/drivers/accel/ivpu/ivpu_pm.c
-+++ b/drivers/accel/ivpu/ivpu_pm.c
-@@ -13,6 +13,7 @@
- #include "ivpu_drv.h"
- #include "ivpu_hw.h"
- #include "ivpu_fw.h"
-+#include "ivpu_fw_log.h"
- #include "ivpu_ipc.h"
- #include "ivpu_job.h"
- #include "ivpu_jsm_msg.h"
-@@ -247,7 +248,8 @@ int ivpu_pm_runtime_suspend_cb(struct device *dev)
- 		ivpu_err(vdev, "Failed to set suspend VPU: %d\n", ret);
- 
- 	if (!hw_is_idle) {
--		ivpu_warn(vdev, "VPU failed to enter idle, force suspended.\n");
-+		ivpu_err(vdev, "VPU failed to enter idle, force suspended.\n");
-+		ivpu_fw_log_dump(vdev);
- 		ivpu_pm_prepare_cold_boot(vdev);
- 	} else {
- 		ivpu_pm_prepare_warm_boot(vdev);
+ void ivpu_mmu_evtq_dump(struct ivpu_device *vdev)
 -- 
 2.43.0
 
