@@ -1,62 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E542826035
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Jan 2024 16:35:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31C388260BC
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Jan 2024 17:56:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD3B010E041;
-	Sat,  6 Jan 2024 15:35:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55F3B10E0D0;
+	Sat,  6 Jan 2024 16:56:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06E3010E041
- for <dri-devel@lists.freedesktop.org>; Sat,  6 Jan 2024 15:35:22 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id A98AEB81E93
- for <dri-devel@lists.freedesktop.org>; Sat,  6 Jan 2024 15:35:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C6E5FC433C7
- for <dri-devel@lists.freedesktop.org>; Sat,  6 Jan 2024 15:35:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1704555319;
- bh=P9ODGWUywVuFOeEBPirVVAOo5jTMBI8MBuAL7bd4h/c=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=btmQIYWxxl2s0tccc6Ym/o0hV7DzoSpqKlBMZA1HswIPWZS0Rr1po9spErRM9sZOk
- T1Go/KruPSDHAELlyC9Sg0gPL3qSmXzK+nzHtzw37GfIxTGU2MZYz0HCCRJncohzVc
- J9mO3UkiPOmNVSGl5hlZeYdIthI46A7yzj7LUMx8cVhL7Pk3G3hwAqsbe3VJwzqIne
- U0L4zo8Q0uabCibEMcrFGq1YBYOVQZsPwMRgFMQGnMuJP39sTIUY/6xG+4cvZkgKC2
- 39/SwRuJWDn2EXHhUfTTgTOHDyH3OHkj7sdD6j6ghHw1IVWjzZF4+X/YbeuhMrqY0J
- PWZ75msYr9avQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id ABB6AC53BD2; Sat,  6 Jan 2024 15:35:19 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 218347] Crash. amdgpu : drm:amdgpu_cs_ioctl : Failed to
- initialize parser -125
-Date: Sat, 06 Jan 2024 15:35:19 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: aros@gmx.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: ANSWERED
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-218347-2300-1mnyX2SfJ5@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-218347-2300@https.bugzilla.kernel.org/>
-References: <bug-218347-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from smtp.smtpout.orange.fr (smtp-29.smtpout.orange.fr
+ [80.12.242.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41DA910E0D0
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 Jan 2024 16:56:20 +0000 (UTC)
+Received: from pop-os.home ([92.140.202.140]) by smtp.orange.fr with ESMTPA
+ id M9xzrDJlNBraWM9xzrWFWc; Sat, 06 Jan 2024 17:56:18 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+ s=t20230301; t=1704560178;
+ bh=yxMqrM3/fvbfO88ABtYbx7NWceijjlxlXEA90xmaYA0=;
+ h=From:To:Cc:Subject:Date;
+ b=rlNlhTFEC9f4inef+lf/dqwjC6inG5OTzyCnwH1SkqPlcup4CakBb1p4u6RLHfltu
+ AXWkGzxX5hDzkzaH7RicUdgreY4FqBgAcnR9MC4+qYhv7KuJ7rqv4IGv30y2p22m2F
+ Y3qGzVVktnp9pMm4/AQE2d9YdVYjGyOiK4m8MuIJYfJdD+zBp4z8OgYnKoHGna7jgr
+ w5sHOxSFfui4C4dxQnYlDbZEiKMjkNGjrhuqKC6CA7mcTJu/0kAxuZVGT6UxQLCjco
+ /51aWVLTTaxYrNUkHqWPGyxd26DdK7IqiLE6tnatBnawdV1skFgIpC4oJOQsNy8sTz
+ /ZvnJmhhYMWlA==
+X-ME-Helo: pop-os.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sat, 06 Jan 2024 17:56:18 +0100
+X-ME-IP: 92.140.202.140
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Yannick Fertre <yannick.fertre@foss.st.com>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Eric Anholt <eric@anholt.net>, Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [PATCH] drm/stm: Fix an error handling path in
+ stm_drm_platform_probe()
+Date: Sat,  6 Jan 2024 17:54:32 +0100
+Message-Id: <20fff7f853f20a48a96db8ff186124470ec4d976.1704560028.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,25 +59,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Yannick Fertre <yannick.fertre@st.com>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D218347
+If drm_dev_register() fails, a call to drv_load() must be undone, as
+already done in the remove function.
 
-Artem S. Tashkinov (aros@gmx.com) changed:
+Fixes: b759012c5fa7 ("drm/stm: Add STM32 LTDC driver")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+This was already sent a few years ago in [1] but it got no response.
+Since, there has been some activity on this driver, so I send it again.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |ANSWERED
+Note that it is untested.
 
---- Comment #2 from Artem S. Tashkinov (aros@gmx.com) ---
-Please report here instead:
+[1]: https://lore.kernel.org/all/20200501125511.132029-1-christophe.jaillet@wanadoo.fr/
+---
+ drivers/gpu/drm/stm/drv.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-https://gitlab.freedesktop.org/drm/amd/-/issues
+diff --git a/drivers/gpu/drm/stm/drv.c b/drivers/gpu/drm/stm/drv.c
+index e8523abef27a..4d2db079ad4f 100644
+--- a/drivers/gpu/drm/stm/drv.c
++++ b/drivers/gpu/drm/stm/drv.c
+@@ -203,12 +203,14 @@ static int stm_drm_platform_probe(struct platform_device *pdev)
+ 
+ 	ret = drm_dev_register(ddev, 0);
+ 	if (ret)
+-		goto err_put;
++		goto err_unload;
+ 
+ 	drm_fbdev_dma_setup(ddev, 16);
+ 
+ 	return 0;
+ 
++err_unload:
++	drv_unload(ddev);
+ err_put:
+ 	drm_dev_put(ddev);
+ 
+-- 
+2.34.1
 
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
