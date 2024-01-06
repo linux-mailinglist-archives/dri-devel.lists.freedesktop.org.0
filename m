@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8E12825E0A
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Jan 2024 04:23:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8860D825E0C
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Jan 2024 04:23:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE9BE10E099;
-	Sat,  6 Jan 2024 03:23:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BFBF10E6CC;
+	Sat,  6 Jan 2024 03:23:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bombadil.infradead.org (bombadil.infradead.org
  [IPv6:2607:7c80:54:3::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED95D10E099
- for <dri-devel@lists.freedesktop.org>; Sat,  6 Jan 2024 03:23:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0733410E6B1
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 Jan 2024 03:23:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
  MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
  Content-ID:Content-Description:In-Reply-To:References;
- bh=ZnpNf4N7Jvohz0Y08QWu6pDVJuLwf1TN9JQTct6IR+8=; b=WTqQUqF2+CqA8gN2jZcWSp6ILJ
- eOrya0LfGWdme9a0jlm0M5KEl8c6p0KS6qRUWeuDUhGX2Qjh+8t77rKECPifddpXiNFVE2hn25TOM
- N6wCI04m0ULoYicD/WytJa/rdb5JPLO9B46xtBuycfNTFmq95M/Hmx0wjXMZ3joJHRFf6UTghrXWC
- zVUnCY+sXyyVY/Fz88b4mdqLamK91qXgM//BOY3Lttk0QbOeadojqBq1ylmcslf4OVw9rV4z6s/zG
- r/FbKBNwoKuxZF2tcUNx3NjAlJBwgtMTEDuAwIz2dcLUd/pZd0/w456n/l8iAmENiNmlVcZMrzPdH
- WslE5CSA==;
+ bh=bgG0Wa9hAl+aGvy6zpeK/dJ5La0sq7ZbVHPbQUtvoaA=; b=GIb+F8lU4GA+6/SY3vIZ3kyXok
+ qjVoqZg77d/qxf3+vkTzBfbG4I7vAg5VyVcBoQO6MBTyzFdmagDELBiLEqLw9ZwslUVm4L8TZDPCW
+ 7k30MWtDXHqRNYXkvNlwy1ONhI0blPukIZiHQggs4uEi+CKcYF9qGA4NXPeWwyWQnLCWY+5cynJc2
+ VcgS1p6WGn8Nok0t0DC1E+GT2Xi+IKPa9qwBQ/MoZOGdd5IZeAArPkESV5PySywbh4N2iK5I2GbPo
+ ygn3ngeL2+uf7jBufT/D1xh2PDxUbtS7xM3SOqb7USNCRZig7SUxt0dhchWmZInJrlEkjiR2VYjxe
+ fUR7t3fw==;
 Received: from [50.53.46.231] (helo=bombadil.infradead.org)
  by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1rLxHA-000fG6-2V; Sat, 06 Jan 2024 03:23:08 +0000
+ id 1rLxHO-000fGm-1A; Sat, 06 Jan 2024 03:23:22 +0000
 From: Randy Dunlap <rdunlap@infradead.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/vram-helper: fix kernel-doc warnings
-Date: Fri,  5 Jan 2024 19:23:08 -0800
-Message-ID: <20240106032308.27899-1-rdunlap@infradead.org>
+Subject: [PATCH] drm/display/dp_mst: remove Excess struct member kernel-doc
+Date: Fri,  5 Jan 2024 19:23:21 -0800
+Message-ID: <20240106032321.28596-1-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -52,10 +52,10 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Quieten an "Excess struct member" kernel-doc warning by removing
+the extraneous line.
 
-drm_gem_vram_helper.h:129: warning: missing initial short description on line:
- * DRM_GEM_VRAM_PLANE_HELPER_FUNCS -
-drm_gem_vram_helper.h:185: warning: Excess struct member 'funcs' description in 'drm_vram_mm'
+drm_dp_mst_helper.h:156: warning: Excess struct member 'vcpi' description in 'drm_dp_mst_port'
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 Cc: David Airlie <airlied@gmail.com>
@@ -67,26 +67,17 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>
 ---
 base-commit: 610a9b8f49fbcf1100716370d3b5f6f884a2835a
 
- include/drm/drm_gem_vram_helper.h |    3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ include/drm/display/drm_dp_mst_helper.h |    1 -
+ 1 file changed, 1 deletion(-)
 
-diff -- a/include/drm/drm_gem_vram_helper.h b/include/drm/drm_gem_vram_helper.h
---- a/include/drm/drm_gem_vram_helper.h
-+++ b/include/drm/drm_gem_vram_helper.h
-@@ -126,7 +126,7 @@ drm_gem_vram_plane_helper_cleanup_fb(str
- 				     struct drm_plane_state *old_state);
- 
- /**
-- * DRM_GEM_VRAM_PLANE_HELPER_FUNCS -
-+ * define DRM_GEM_VRAM_PLANE_HELPER_FUNCS - \
-  *	Initializes struct drm_plane_helper_funcs for VRAM handling
-  *
-  * Drivers may use GEM BOs as VRAM helpers for the framebuffer memory. This
-@@ -170,7 +170,6 @@ void drm_gem_vram_simple_display_pipe_cl
-  * @vram_base:	Base address of the managed video memory
-  * @vram_size:	Size of the managed video memory in bytes
-  * @bdev:	The TTM BO device.
-- * @funcs:	TTM BO functions
-  *
-  * The fields &struct drm_vram_mm.vram_base and
-  * &struct drm_vram_mm.vrm_size are managed by VRAM MM, but are
+diff -- a/include/drm/display/drm_dp_mst_helper.h b/include/drm/display/drm_dp_mst_helper.h
+--- a/include/drm/display/drm_dp_mst_helper.h
++++ b/include/drm/display/drm_dp_mst_helper.h
+@@ -83,7 +83,6 @@ struct drm_dp_mst_branch;
+  * @passthrough_aux: parent aux to which DSC pass-through requests should be
+  * sent, only set if DSC pass-through is possible.
+  * @parent: branch device parent of this port
+- * @vcpi: Virtual Channel Payload info for this port.
+  * @connector: DRM connector this port is connected to. Protected by
+  * &drm_dp_mst_topology_mgr.base.lock.
+  * @mgr: topology manager this port lives under.
