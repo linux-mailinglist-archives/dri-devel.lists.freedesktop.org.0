@@ -2,64 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D998825F7F
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Jan 2024 13:42:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F8CF825F84
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Jan 2024 13:45:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95CA910E096;
-	Sat,  6 Jan 2024 12:42:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAB8B10E0E5;
+	Sat,  6 Jan 2024 12:45:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CCC410E096
- for <dri-devel@lists.freedesktop.org>; Sat,  6 Jan 2024 12:42:16 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id
- 5b1f17b1804b1-40d41555f9dso4881075e9.2
- for <dri-devel@lists.freedesktop.org>; Sat, 06 Jan 2024 04:42:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1704544935; x=1705149735; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=/0Suv6vzFBcJ+SsSx39OTc6z6wFXvzjX7d7HBkY6jok=;
- b=ZnBvJzCu2BtAdcky+sZlKXAR48UZUdkANtRxsSkAmSkotmbCYQsClQaXA3EYGaE/iM
- V3pMgtX/MkBVQ5WzrNf9RY8exgU6n9kOEQyQRAXfthUJil3BqRQOawIMa05EciWBt6Bx
- u7C8rhIS5QJZul18CrELkyhnmJxYdNI6ZF5XwEVHp8KWjDfsNygwXGYiSBvONa84OFjj
- ZvEm8+2OUSu1wsEe8/MgMn1/p0PsT3iAdScRsFgUvqmhH9Rg7lZEoCDdnqR4XO/Nznsv
- +/QQUtWzoZzCuVRh8kXGsdRbnTNdgbM3cmtarWZ/6FwzwGvfi4qpS4pHfEOkDK1OuJVp
- cHpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704544935; x=1705149735;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=/0Suv6vzFBcJ+SsSx39OTc6z6wFXvzjX7d7HBkY6jok=;
- b=pBR9AFZDcBSXuZunY4wmHq5BPMjEuznNE5bDetG4wq+03ru8wav0DSkTyDNkDG+yWn
- xyCeEB2kXEvNX7JHza/9n/lUDebvCTc74oHeCsu5xcxPU8gUhF+tpLP1Dbxhcz5pcH1u
- no5nqUomIA1t2+wFV68xOhbvZYHq/PeDpCVd1GMMW3PoY5DCtiUblE02DtHURHilfFZU
- dVpZtytrnjbB4Xq3JgRsKLsw9r9OJ1ISiRwi7ByF5+7Fdiygu6JBxCTQu+YVIKGOO8R+
- A+/6daQ4Nr0bYWpa8GOKcRzjF0flUMizXutGV2IfRQUmcU0NxtKG8RkiZOZgiET7EPI4
- V6Yg==
-X-Gm-Message-State: AOJu0YxcZZXoO8HZVBRXyFfqRFby04XWrrt+h03p2vjHC08J1cbJkbdJ
- SJppHBXKY8Byq+agVkx7OXs=
-X-Google-Smtp-Source: AGHT+IFrkzRgV/gv7FAO9JRFh/XcDmwNGvDyTskg1q4LQSQ28sa30tIiulxogkC1T/j5A4oCCi0rqQ==
-X-Received: by 2002:a7b:ce90:0:b0:40d:7fbe:e966 with SMTP id
- q16-20020a7bce90000000b0040d7fbee966mr518086wmj.40.1704544934665; 
- Sat, 06 Jan 2024 04:42:14 -0800 (PST)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
- [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
- h17-20020a05600c351100b0040d5f466deesm4568664wmq.38.2024.01.06.04.42.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 06 Jan 2024 04:42:14 -0800 (PST)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Oded Gabbay <ogabbay@kernel.org>, Ofir Bitton <obitton@habana.ai>,
- Benjamin Dotan <bdotan@habana.ai>, dri-devel@lists.freedesktop.org
-Subject: [PATCH][next] accel/habanalabs: remove redundant assignment to
- pointer 'input'
-Date: Sat,  6 Jan 2024 12:42:13 +0000
-Message-Id: <20240106124213.51392-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.39.2
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B40AA10E0E5
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 Jan 2024 12:45:05 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1rM62x-0002jz-SX; Sat, 06 Jan 2024 13:45:03 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1rM62u-000oJI-JD; Sat, 06 Jan 2024 13:45:00 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+ (envelope-from <ukl@pengutronix.de>) id 1rM62u-0040D8-1Y;
+ Sat, 06 Jan 2024 13:45:00 +0100
+Date: Sat, 6 Jan 2024 13:45:00 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Adam Ford <aford173@gmail.com>
+Subject: Re: [PATCH V5 1/2] dt-bindings: display: imx: add binding for
+ i.MX8MP HDMI PVI
+Message-ID: <6sgtepzkc74n6pxbbhzxnngba6sxt3kmzlnmalzj2m6xoumbk7@pjjxdlyd2hxh>
+References: <20240106015623.193503-1-aford173@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="obswwz3a5ig4f6nw"
+Content-Disposition: inline
+In-Reply-To: <20240106015623.193503-1-aford173@gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,46 +55,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, dri-devel@lists.freedesktop.org,
+ Conor Dooley <conor.dooley@microchip.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Fabio Estevam <festevam@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Liu Ying <victor.liu@nxp.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Maxime Ripard <mripard@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ Shawn Guo <shawnguo@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Colin Ian King <colin.i.king@intel.com>
 
-The pointer input is assigned a value that is not read, it is
-being re-assigned again later with the same value. Resolve this
-by moving the declaration to input into the if block.
+--obswwz3a5ig4f6nw
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Cleans up clang scan build warning:
-warning: Value stored to 'input' during its initialization is never
-read [deadcode.DeadStores]
+Hello Adam,
 
-Signed-off-by: Colin Ian King <colin.i.king@intel.com>
----
- drivers/accel/habanalabs/goya/goya_coresight.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+On Fri, Jan 05, 2024 at 07:56:21PM -0600, Adam Ford wrote:
+> From: Lucas Stach <l.stach@pengutronix.de>
+>=20
+> Add binding for the i.MX8MP HDMI parallel video interface block.
+>=20
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 
-diff --git a/drivers/accel/habanalabs/goya/goya_coresight.c b/drivers/accel/habanalabs/goya/goya_coresight.c
-index 41cae5fd843b..3827ea4c02f7 100644
---- a/drivers/accel/habanalabs/goya/goya_coresight.c
-+++ b/drivers/accel/habanalabs/goya/goya_coresight.c
-@@ -576,7 +576,6 @@ static int goya_config_spmu(struct hl_device *hdev,
- 		struct hl_debug_params *params)
- {
- 	u64 base_reg;
--	struct hl_debug_params_spmu *input = params->input;
- 	u64 *output;
- 	u32 output_arr_len;
- 	u32 events_num;
-@@ -592,7 +591,7 @@ static int goya_config_spmu(struct hl_device *hdev,
- 	base_reg = debug_spmu_regs[params->reg_idx] - CFG_BASE;
- 
- 	if (params->enable) {
--		input = params->input;
-+		struct hl_debug_params_spmu *input = params->input;
- 
- 		if (!input)
- 			return -EINVAL;
--- 
-2.43.0
+Without looking at the patch's content: This lacks a Signed-off line by
+you.
 
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--obswwz3a5ig4f6nw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmWZS0sACgkQj4D7WH0S
+/k5kEAf+Lpw58sawnK1oJ8ogItqt06RWvgtzj8d+2/FmvQhJKFmCCjCNTM5ULZC3
+GYHgY8kcLNemfGdQnLFgxXVquBFK0PNg18WzqWJLobJ6eDf7hF9aNsNZvmvpJWR1
+u6GJTAfaFYjyAoNRGkAi9U8xtT3LOGXcItqzq7epj/BbX34rwpMeGVi531fB8QSw
+UkSstTOowG2sbJP5usDSEdmhe6ZmSUwVTSqfgyVyeZ9Le+9Dzck6LoUKqEi0OusI
+j+Iaoi152n5EbQLFWoXHLppYNeFAlrCcJetgx5lyY+g2z2bjMyY1tV5JjUxAmA7b
+CVq+fAJWs3xU5VfPweUIBXY3n/xvPw==
+=Hn2F
+-----END PGP SIGNATURE-----
+
+--obswwz3a5ig4f6nw--
