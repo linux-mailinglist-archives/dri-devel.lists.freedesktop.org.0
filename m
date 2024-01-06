@@ -2,61 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF62E825F50
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Jan 2024 12:07:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D998825F7F
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Jan 2024 13:42:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2457D10E05B;
-	Sat,  6 Jan 2024 11:07:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95CA910E096;
+	Sat,  6 Jan 2024 12:42:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com
- [IPv6:2607:f8b0:4864:20::b31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3FB410E05B
- for <dri-devel@lists.freedesktop.org>; Sat,  6 Jan 2024 11:07:12 +0000 (UTC)
-Received: by mail-yb1-xb31.google.com with SMTP id
- 3f1490d57ef6-dbd715ed145so172605276.1
- for <dri-devel@lists.freedesktop.org>; Sat, 06 Jan 2024 03:07:12 -0800 (PST)
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CCC410E096
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 Jan 2024 12:42:16 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id
+ 5b1f17b1804b1-40d41555f9dso4881075e9.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 06 Jan 2024 04:42:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1704539231; x=1705144031;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=R8xsCw2olSbVegp5OaUais3sktHtUAk2PIqMv7T4kYk=;
- b=cFM8FB+9diJ/U2C1n9orj16Sbhboba7yJ+N6u6i9LrSwRFqB+5d2uz7SZzYyD/sonC
- F+bvfz1vOxwl0CTX2XZmrdfqFxbXA3gNJEk7S5NNt+IaVs9sSEBEqChlWIGckBDz6768
- CZAhxSqgNBcn1yxyxkKT0GzSmSVoYQzoxL92E=
+ d=gmail.com; s=20230601; t=1704544935; x=1705149735; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=/0Suv6vzFBcJ+SsSx39OTc6z6wFXvzjX7d7HBkY6jok=;
+ b=ZnBvJzCu2BtAdcky+sZlKXAR48UZUdkANtRxsSkAmSkotmbCYQsClQaXA3EYGaE/iM
+ V3pMgtX/MkBVQ5WzrNf9RY8exgU6n9kOEQyQRAXfthUJil3BqRQOawIMa05EciWBt6Bx
+ u7C8rhIS5QJZul18CrELkyhnmJxYdNI6ZF5XwEVHp8KWjDfsNygwXGYiSBvONa84OFjj
+ ZvEm8+2OUSu1wsEe8/MgMn1/p0PsT3iAdScRsFgUvqmhH9Rg7lZEoCDdnqR4XO/Nznsv
+ +/QQUtWzoZzCuVRh8kXGsdRbnTNdgbM3cmtarWZ/6FwzwGvfi4qpS4pHfEOkDK1OuJVp
+ cHpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704539231; x=1705144031;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=R8xsCw2olSbVegp5OaUais3sktHtUAk2PIqMv7T4kYk=;
- b=vHMJv3t9ByUXxoKHTCGnya6XcEutMWcwnEcH5s1A5FuBoCqBVNoONC6Uxn8fg69QlW
- tNPbYSFrzmXkOQXAEZ4m4jqRTZDm2CngPFFi6qRtzS3BP+dNtWX1B+7Mco3rj/6cA9Yg
- jeIDKHk8bTvwADFZf8V4C6fiygV/LYCcUpUX/6QxYX06X0VIZBnZZd49Q3tZAdXcIslW
- lBgIT4wocQtrgO67VB/aYdCzHNA8ISNyKlMVoom+JiHhUIAgWFOvbZ/d4ewfSgzarCqw
- Ij4m8R6fyCkXtSfoGEND5r5sx/Mt2pyb41E/1M6f99Zp7Un7MLsckKfl3uiRpQDq60Ac
- eCYw==
-X-Gm-Message-State: AOJu0Yxwhvyi0/6dV2egj5ETVKKgKTHXAKDYBKfsL8xbW4Msd+CUwyk8
- yzUrU616ivcDD1uLc5JhozYX//FCrbmNVe0xgUFpt2Xvhp9A0A==
-X-Google-Smtp-Source: AGHT+IGi0GE3tCB884LTGzWxfRKn1Ioki/1f2HTD7URSrt/lafAnz5cGneg6VG6mOJODrgKHSI2Lnf0ucxcmmTh9SK8=
-X-Received: by 2002:a5b:38b:0:b0:dbe:3152:56b2 with SMTP id
- k11-20020a5b038b000000b00dbe315256b2mr213397ybp.86.1704539231630; Sat, 06 Jan
- 2024 03:07:11 -0800 (PST)
+ d=1e100.net; s=20230601; t=1704544935; x=1705149735;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=/0Suv6vzFBcJ+SsSx39OTc6z6wFXvzjX7d7HBkY6jok=;
+ b=pBR9AFZDcBSXuZunY4wmHq5BPMjEuznNE5bDetG4wq+03ru8wav0DSkTyDNkDG+yWn
+ xyCeEB2kXEvNX7JHza/9n/lUDebvCTc74oHeCsu5xcxPU8gUhF+tpLP1Dbxhcz5pcH1u
+ no5nqUomIA1t2+wFV68xOhbvZYHq/PeDpCVd1GMMW3PoY5DCtiUblE02DtHURHilfFZU
+ dVpZtytrnjbB4Xq3JgRsKLsw9r9OJ1ISiRwi7ByF5+7Fdiygu6JBxCTQu+YVIKGOO8R+
+ A+/6daQ4Nr0bYWpa8GOKcRzjF0flUMizXutGV2IfRQUmcU0NxtKG8RkiZOZgiET7EPI4
+ V6Yg==
+X-Gm-Message-State: AOJu0YxcZZXoO8HZVBRXyFfqRFby04XWrrt+h03p2vjHC08J1cbJkbdJ
+ SJppHBXKY8Byq+agVkx7OXs=
+X-Google-Smtp-Source: AGHT+IFrkzRgV/gv7FAO9JRFh/XcDmwNGvDyTskg1q4LQSQ28sa30tIiulxogkC1T/j5A4oCCi0rqQ==
+X-Received: by 2002:a7b:ce90:0:b0:40d:7fbe:e966 with SMTP id
+ q16-20020a7bce90000000b0040d7fbee966mr518086wmj.40.1704544934665; 
+ Sat, 06 Jan 2024 04:42:14 -0800 (PST)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
+ [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
+ h17-20020a05600c351100b0040d5f466deesm4568664wmq.38.2024.01.06.04.42.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 06 Jan 2024 04:42:14 -0800 (PST)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Oded Gabbay <ogabbay@kernel.org>, Ofir Bitton <obitton@habana.ai>,
+ Benjamin Dotan <bdotan@habana.ai>, dri-devel@lists.freedesktop.org
+Subject: [PATCH][next] accel/habanalabs: remove redundant assignment to
+ pointer 'input'
+Date: Sat,  6 Jan 2024 12:42:13 +0000
+Message-Id: <20240106124213.51392-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20240104084206.721824-1-dario.binacchi@amarulasolutions.com>
- <20240104084206.721824-9-dario.binacchi@amarulasolutions.com>
- <CACRpkda+=Zq+v-505O3pHazKzukSifBnNx_CPKbKd2JH-KYpYg@mail.gmail.com>
-In-Reply-To: <CACRpkda+=Zq+v-505O3pHazKzukSifBnNx_CPKbKd2JH-KYpYg@mail.gmail.com>
-From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-Date: Sat, 6 Jan 2024 12:07:00 +0100
-Message-ID: <CABGWkvoNuJNmxhrOE6csE2mGwF50ou-jx-kpmH-oQ2zBgzLrSg@mail.gmail.com>
-Subject: Re: [PATCH v4 8/8] drm/panel: nt35510: support FRIDA
- FRD400B25025-A-CTK
-To: Linus Walleij <linus.walleij@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,143 +72,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
- linux-amarula@amarulasolutions.com, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org, Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 5, 2024 at 8:09=E2=80=AFPM Linus Walleij <linus.walleij@linaro.=
-org> wrote:
->
-> On Thu, Jan 4, 2024 at 9:42=E2=80=AFAM Dario Binacchi
-> <dario.binacchi@amarulasolutions.com> wrote:
->
-> > The initialization commands are taken from the STMicroelectronics drive=
-r
-> > found at [1].
-> > To ensure backward compatibility, flags have been added to enable gamma
-> > correction setting and display control. In other cases, registers have
-> > been set to their default values according to the specifications found
-> > in the datasheet.
-> >
-> > [1] https://github.com/STMicroelectronics/STM32CubeF7/blob/master/Drive=
-rs/BSP/Components/nt35510/
-> > Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-> >
-> > ---
-> >
-> > (no changes since v2)
->
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> (also tested to not regress my hardware)
+From: Colin Ian King <colin.i.king@intel.com>
 
-After submitting v4, I tested the driver under different conditions,
-i. e. without enabling display support in
-U-Boot (I also implemented a version for U-Boot, which I will send
-only after this series is merged into
-the Linux kernel). In that condition I encountered an issue with the reset =
-pin.
+The pointer input is assigned a value that is not read, it is
+being re-assigned again later with the same value. Resolve this
+by moving the declaration to input into the if block.
 
-The minimal fix, would be this:
+Cleans up clang scan build warning:
+warning: Value stored to 'input' during its initialization is never
+read [deadcode.DeadStores]
 
-diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35510.c
-b/drivers/gpu/drm/panel/panel-novatek-nt35510.c
-index c85dd0d0829d..89ba99763468 100644
---- a/drivers/gpu/drm/panel/panel-novatek-nt35510.c
-+++ b/drivers/gpu/drm/panel/panel-novatek-nt35510.c
-@@ -1133,7 +1133,7 @@ static int nt35510_probe(struct mipi_dsi_device *dsi)
-        if (ret)
-                return ret;
+Signed-off-by: Colin Ian King <colin.i.king@intel.com>
+---
+ drivers/accel/habanalabs/goya/goya_coresight.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
--       nt->reset_gpio =3D devm_gpiod_get_optional(dev, "reset", GPIOD_ASIS=
-);
-+       nt->reset_gpio =3D devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_=
-HIGH);
-        if (IS_ERR(nt->reset_gpio)) {
-                dev_err(dev, "error getting RESET GPIO\n");
-                return PTR_ERR(nt->reset_gpio);
+diff --git a/drivers/accel/habanalabs/goya/goya_coresight.c b/drivers/accel/habanalabs/goya/goya_coresight.c
+index 41cae5fd843b..3827ea4c02f7 100644
+--- a/drivers/accel/habanalabs/goya/goya_coresight.c
++++ b/drivers/accel/habanalabs/goya/goya_coresight.c
+@@ -576,7 +576,6 @@ static int goya_config_spmu(struct hl_device *hdev,
+ 		struct hl_debug_params *params)
+ {
+ 	u64 base_reg;
+-	struct hl_debug_params_spmu *input = params->input;
+ 	u64 *output;
+ 	u32 output_arr_len;
+ 	u32 events_num;
+@@ -592,7 +591,7 @@ static int goya_config_spmu(struct hl_device *hdev,
+ 	base_reg = debug_spmu_regs[params->reg_idx] - CFG_BASE;
+ 
+ 	if (params->enable) {
+-		input = params->input;
++		struct hl_debug_params_spmu *input = params->input;
+ 
+ 		if (!input)
+ 			return -EINVAL;
+-- 
+2.43.0
 
-With the doubt that this might cause a regression in your use case.
-
-I then tried modifying the device tree instead of the nt35510 driver.
-In the end, I arrived
-at this patch that leaves me with some doubts, especially regarding
-the strict option.
-
-diff --git a/arch/arm/boot/dts/st/stm32f769-disco-mb1225-revb03-mb1166-reva=
-09.dts
-b/arch/arm/boot/dts/st/stm32f769-disco-mb1225-revb03-m>
-index 014cac192375..32ed420a6cbf 100644
---- a/arch/arm/boot/dts/st/stm32f769-disco-mb1225-revb03-mb1166-reva09.dts
-+++ b/arch/arm/boot/dts/st/stm32f769-disco-mb1225-revb03-mb1166-reva09.dts
-@@ -13,6 +13,17 @@ &panel0 {
-        compatible =3D "frida,frd400b25025", "novatek,nt35510";
-        vddi-supply =3D <&vcc_3v3>;
-        vdd-supply =3D <&vcc_3v3>;
-+       pinctrl-0 =3D <&panel_reset>;
-+       pinctrl-names =3D "default";
-        /delete-property/backlight;
-        /delete-property/power-supply;
- };
-+
-+&pinctrl {
-+       panel_reset: panel-reset {
-+               pins1 {
-+                       pinmux =3D <STM32_PINMUX('J', 15, GPIO)>;
-+                       output-high;
-+               };
-+       };
-+};
-
-diff --git a/drivers/pinctrl/stm32/pinctrl-stm32.c
-b/drivers/pinctrl/stm32/pinctrl-stm32.c
-index 346a31f31bba..6f055f7f96a2 100644
---- a/drivers/pinctrl/stm32/pinctrl-stm32.c
-+++ b/drivers/pinctrl/stm32/pinctrl-stm32.c
-@@ -895,7 +895,6 @@ static const struct pinmux_ops stm32_pmx_ops =3D {
-        .set_mux                =3D stm32_pmx_set_mux,
-        .gpio_set_direction     =3D stm32_pmx_gpio_set_direction,
-        .request                =3D stm32_pmx_request,
--       .strict                 =3D true,
- };
-
-Another option to fix my use case without introducing regressions
-could be to add a
-new property to the device tree that suggests whether to call
-devm_gpiod_get_optional()
-with the GPIOD_ASIS or GPIOD_OUT_HIGH parameter.
-
-What is your opinion?
-
-Thanks and regards,
-Dario Binacchi
-
->
-> Yours,
-> Linus Walleij
-
-
-
---=20
-
-Dario Binacchi
-
-Senior Embedded Linux Developer
-
-dario.binacchi@amarulasolutions.com
-
-__________________________________
-
-
-Amarula Solutions SRL
-
-Via Le Canevare 30, 31100 Treviso, Veneto, IT
-
-T. +39 042 243 5310
-info@amarulasolutions.com
-
-www.amarulasolutions.com
