@@ -1,57 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D590825DFE
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Jan 2024 03:55:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8E12825E0A
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Jan 2024 04:23:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82D5110E088;
-	Sat,  6 Jan 2024 02:55:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE9BE10E099;
+	Sat,  6 Jan 2024 03:23:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E90B610E088
- for <dri-devel@lists.freedesktop.org>; Sat,  6 Jan 2024 02:55:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704509716; x=1736045716;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=yUmZnDJRZn5RASncUMPR1NFagiYl3Oo7miAodR6tHP4=;
- b=CQ1GQim2jfMp6ZPxjyvtdTy2Dg4E9ucmX0ZHQTUqSrN1oVVujP8V2bt0
- 8c9YTLHDQZadptnZLF1r+xMKEcfU05aaAsc5jLsKnG3bxuz6u9DBSdH+f
- AA6DW5oczij7LsxQY2Z8nJA8O1w7brgzGivl9bCGO1YYf/pyY8yDThpV1
- bCAJQlKt7pPaRuc27Sgx5PkbVAn2wMX19WiaNH9MxF461USSCk822RjyH
- AmQoqX30rHKEHF809KwMfPNZgfTpbhjCkteza0CU+bbQ94VGu3xRqB1m+
- Nt5NojQXPCnlKeV9KSNXBAT+rzwJiqX87QHbOWWIAqGXJsgl0GGHtZpwV Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="382598291"
-X-IronPort-AV: E=Sophos;i="6.04,335,1695711600"; d="scan'208";a="382598291"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2024 18:55:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="815117020"
-X-IronPort-AV: E=Sophos;i="6.04,335,1695711600"; d="scan'208";a="815117020"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
- by orsmga001.jf.intel.com with ESMTP; 05 Jan 2024 18:55:05 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1rLwpz-0001xE-1W;
- Sat, 06 Jan 2024 02:55:03 +0000
-Date: Sat, 6 Jan 2024 10:54:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, airlied@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- daniel@ffwll.ch, javierm@redhat.com, bluescreen_avenger@verizon.net,
- noralf@tronnes.org
-Subject: Re: [PATCH v7 5/9] drm/fb_dma: Add generic get_scanout_buffer() for
- drm_panic
-Message-ID: <202401061003.lNwFS0D6-lkp@intel.com>
-References: <20240104160301.185915-6-jfalempe@redhat.com>
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:3::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED95D10E099
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 Jan 2024 03:23:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=ZnpNf4N7Jvohz0Y08QWu6pDVJuLwf1TN9JQTct6IR+8=; b=WTqQUqF2+CqA8gN2jZcWSp6ILJ
+ eOrya0LfGWdme9a0jlm0M5KEl8c6p0KS6qRUWeuDUhGX2Qjh+8t77rKECPifddpXiNFVE2hn25TOM
+ N6wCI04m0ULoYicD/WytJa/rdb5JPLO9B46xtBuycfNTFmq95M/Hmx0wjXMZ3joJHRFf6UTghrXWC
+ zVUnCY+sXyyVY/Fz88b4mdqLamK91qXgM//BOY3Lttk0QbOeadojqBq1ylmcslf4OVw9rV4z6s/zG
+ r/FbKBNwoKuxZF2tcUNx3NjAlJBwgtMTEDuAwIz2dcLUd/pZd0/w456n/l8iAmENiNmlVcZMrzPdH
+ WslE5CSA==;
+Received: from [50.53.46.231] (helo=bombadil.infradead.org)
+ by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1rLxHA-000fG6-2V; Sat, 06 Jan 2024 03:23:08 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/vram-helper: fix kernel-doc warnings
+Date: Fri,  5 Jan 2024 19:23:08 -0800
+Message-ID: <20240106032308.27899-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240104160301.185915-6-jfalempe@redhat.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,35 +46,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: gpiccoli@igalia.com, Jocelyn Falempe <jfalempe@redhat.com>,
- oe-kbuild-all@lists.linux.dev
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Randy Dunlap <rdunlap@infradead.org>, Maxime Ripard <mripard@kernel.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jocelyn,
 
-kernel test robot noticed the following build errors:
+drm_gem_vram_helper.h:129: warning: missing initial short description on line:
+ * DRM_GEM_VRAM_PLANE_HELPER_FUNCS -
+drm_gem_vram_helper.h:185: warning: Excess struct member 'funcs' description in 'drm_vram_mm'
 
-[auto build test ERROR on 50a3c772bd927dd409c484832ddd9f6bf00b7389]
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+---
+base-commit: 610a9b8f49fbcf1100716370d3b5f6f884a2835a
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jocelyn-Falempe/drm-format-helper-Add-drm_fb_blit_from_r1-and-drm_fb_fill/20240105-001038
-base:   50a3c772bd927dd409c484832ddd9f6bf00b7389
-patch link:    https://lore.kernel.org/r/20240104160301.185915-6-jfalempe%40redhat.com
-patch subject: [PATCH v7 5/9] drm/fb_dma: Add generic get_scanout_buffer() for drm_panic
-config: mips-gcw0_defconfig (https://download.01.org/0day-ci/archive/20240106/202401061003.lNwFS0D6-lkp@intel.com/config)
-compiler: mipsel-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240106/202401061003.lNwFS0D6-lkp@intel.com/reproduce)
+ include/drm/drm_gem_vram_helper.h |    3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401061003.lNwFS0D6-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   mipsel-linux-ld: drivers/gpu/drm/drm_fb_dma_helper.o: in function `drm_panic_is_format_supported':
->> drm_fb_dma_helper.c:(.text+0x2c8): multiple definition of `drm_panic_is_format_supported'; drivers/gpu/drm/drm_drv.o:drm_drv.c:(.text+0x1104): first defined here
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff -- a/include/drm/drm_gem_vram_helper.h b/include/drm/drm_gem_vram_helper.h
+--- a/include/drm/drm_gem_vram_helper.h
++++ b/include/drm/drm_gem_vram_helper.h
+@@ -126,7 +126,7 @@ drm_gem_vram_plane_helper_cleanup_fb(str
+ 				     struct drm_plane_state *old_state);
+ 
+ /**
+- * DRM_GEM_VRAM_PLANE_HELPER_FUNCS -
++ * define DRM_GEM_VRAM_PLANE_HELPER_FUNCS - \
+  *	Initializes struct drm_plane_helper_funcs for VRAM handling
+  *
+  * Drivers may use GEM BOs as VRAM helpers for the framebuffer memory. This
+@@ -170,7 +170,6 @@ void drm_gem_vram_simple_display_pipe_cl
+  * @vram_base:	Base address of the managed video memory
+  * @vram_size:	Size of the managed video memory in bytes
+  * @bdev:	The TTM BO device.
+- * @funcs:	TTM BO functions
+  *
+  * The fields &struct drm_vram_mm.vram_base and
+  * &struct drm_vram_mm.vrm_size are managed by VRAM MM, but are
