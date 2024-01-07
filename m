@@ -2,64 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B5798263D6
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Jan 2024 11:54:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 154B58263DC
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Jan 2024 12:08:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 070DC10E09D;
-	Sun,  7 Jan 2024 10:54:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19DA110E08F;
+	Sun,  7 Jan 2024 11:08:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6988010E09D
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Jan 2024 10:54:36 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id
- a640c23a62f3a-a28e31563ebso87041066b.2
- for <dri-devel@lists.freedesktop.org>; Sun, 07 Jan 2024 02:54:36 -0800 (PST)
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4D6B10E08F
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Jan 2024 11:08:22 +0000 (UTC)
+Received: by mail-ed1-x531.google.com with SMTP id
+ 4fb4d7f45d1cf-557535489d0so1006691a12.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 07 Jan 2024 03:08:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1704624875; x=1705229675; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1704625701; x=1705230501; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=l7CZZNNieMh3zplDWROiJ70WyHBFxWl8IfRy1FQG0ao=;
- b=HVrlh5t4QBcWVthSg5+hJflp9jEFtd3vPE5bcdzNfy29zQ3Ekqrg2rVm2g+Rwno1Z1
- FVBbgfGm1UWKZxW2kx1Prxandbaa42Xefg4eSkN1vPOOdU+oPqo8/fcpuorZf9b9kTHK
- sJdSoJ8BMaxC2EAjj+XGDpyFT/VRuso/WxPTwNvF94XTouRxE3D6ySitsxAyZNpuLAoW
- o4UVgvMt0PTHIzol/jzhEQnJzHWSoUslIkeGsmqRpNRSihkV8g8his9jqJ4k6lzqUVeN
- 0wXatA0YqRhBhzOxXorqzQLB1bbpJ8KmFh17VKYMnDh5vQid3x2Qfkl6K25JLRr1XUQF
- 1ihw==
+ bh=st1+8bhIrSIgmjya+Y1Yx6Q0DetFGsUb9xjG84ScjLI=;
+ b=zI5xaOknVWV2iHVqBnMh8NYHye46UVizHN/SDKrYGvb7BavvPAJ9u8LLl2DYs80j72
+ xO4DYsZJ0z/YpKAwInXEpW2ZQoTy1NqVM2aSnkvja8inRTt5j73/k5nLS5Oy7MjGIpPu
+ /gPnUjsfR2x23hZjH6/lCPrx+bd6W52sbVpfsOtdtQYkmEtcsYWOIaRvHUDXBre4qeOK
+ VmjJJu9q0RDoaGVCN/ZZE39qGCKVMpaqL+l18EASZLTvLocnq871RKU3y7EPDgBoqPJD
+ onerroei6TooZPFWivIgO12vegJbBjfrFsJiR9Qp8ZudHOKPzC9IN6XGGP10tFBvK/Vx
+ RPgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704624875; x=1705229675;
+ d=1e100.net; s=20230601; t=1704625701; x=1705230501;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=l7CZZNNieMh3zplDWROiJ70WyHBFxWl8IfRy1FQG0ao=;
- b=GWx3YhkBFsRrrJabcthdeAWk/ZDU0LwW3WCxu0YiePZ84LckjpDKC8ouvpeimc1DTp
- xsqhgO9hpwYfIeO2ZOOkj1ujrqXX1Jjzc4e/034uJ+KyLhuPmnzCjs20SR84snIa3m2k
- abA4lUE+PVkWZHPcuQgJPzE9LUsxbuobxiWIRhTE0P0lznekgt0OPZD8kmJd30AfDtL2
- Ra0QX5RBYj4GmhHfDKNK+JCJDKBbOXRrwJHzSmrzAjG7ajBDWb1s+3AapxA2FocKu2gH
- Y3M5lowl024eV2VMN5DVPzEf8MdBI6t16hMVOLW1WISFzLHwWk+w3xn8hjT0BpCPbZ80
- Z2Mw==
-X-Gm-Message-State: AOJu0YxZpcKUGtZxk5EDBOYH0Va2m8uztmzCAunvYat6kWMgqd3szuTO
- As3zRdE1pUuJkKbo/BNCMIptW+sMJaPD4w==
-X-Google-Smtp-Source: AGHT+IHNzo+xTt8pv9jqgT0hsD1MgncJeZVZpVcNYu/kPyBtWvGRGb9iZx6nY6I/yvqvg/9m6vpSWA==
-X-Received: by 2002:a17:906:ee8e:b0:a23:37b8:6ac8 with SMTP id
- wt14-20020a170906ee8e00b00a2337b86ac8mr1018131ejb.43.1704624874779; 
- Sun, 07 Jan 2024 02:54:34 -0800 (PST)
+ bh=st1+8bhIrSIgmjya+Y1Yx6Q0DetFGsUb9xjG84ScjLI=;
+ b=PRrL5/DsaIAv/i4Zny3M9Zk/T0+c2rLNgCOoRJV0puR3Mrgd9sgl3XsK+fZlgSJwml
+ dW9lZQAwtzOMMiiOiVHrymfBdG8sQAAJqlKLhkNuvwpaVIF8tDXtue3/vICy+rQn6Jr0
+ W3PslmqLnswr70g3MD292nB2NOxsnaYHUMkbUANxmWGVsI4dpN40zwb2D2j2tWvKxVnY
+ 9kUY4hY0Mvbn9uAGRPU0eb6yvMEX3721sFQjbllxdfJ7ic4h+6lxdC3fCNpTcuX+iDMq
+ BAX4lCHH4iZmUalXIx+WzNPfzXnEoqrmTOZ/tiiQcqBvXUBucZW9p/OiERKptdwWryMo
+ 5CVg==
+X-Gm-Message-State: AOJu0YynyaLcKVXl12gJOwtaNdoi7dP2boEUK/lkvjQl5iG2/Y5FJcsO
+ 3KASu1s6Sn2FwLx7UrpiSPTbqBcA75OKKA==
+X-Google-Smtp-Source: AGHT+IEdZgz61Nfqx4oHm1CeCLo6aMj+uMfhDW02HyruB6m8lCsdbNdz/l1+Ofra5LFRV6h3br21SA==
+X-Received: by 2002:a50:a459:0:b0:553:73c4:87db with SMTP id
+ v25-20020a50a459000000b0055373c487dbmr944634edb.15.1704625700636; 
+ Sun, 07 Jan 2024 03:08:20 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.223.112])
  by smtp.gmail.com with ESMTPSA id
- t23-20020a17090605d700b00a1f7f851607sm2863210ejt.197.2024.01.07.02.54.33
+ m14-20020a50ef0e000000b00554930be765sm3137154eds.97.2024.01.07.03.08.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 07 Jan 2024 02:54:34 -0800 (PST)
-Message-ID: <00c3c536-a17e-4465-92a0-300780dac39a@linaro.org>
-Date: Sun, 7 Jan 2024 11:54:33 +0100
+ Sun, 07 Jan 2024 03:08:20 -0800 (PST)
+Message-ID: <e30051ae-ddb0-447e-9874-ebbc8f37898b@linaro.org>
+Date: Sun, 7 Jan 2024 12:08:17 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 1/2] dt-bindings: phy: add binding for the i.MX8MP HDMI
- PHY
+Subject: Re: [PATCH 1/3] dt-bindings: display: panel: Add Himax HX83112A
 Content-Language: en-US
-To: Adam Ford <aford173@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20240106221907.325127-1-aford173@gmail.com>
+To: Luca Weiss <luca.weiss@fairphone.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+References: <20240105-fp4-panel-v1-0-1afbabc55276@fairphone.com>
+ <20240105-fp4-panel-v1-1-1afbabc55276@fairphone.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -105,7 +114,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240106221907.325127-1-aford173@gmail.com>
+In-Reply-To: <20240105-fp4-panel-v1-1-1afbabc55276@fairphone.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -120,48 +129,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kishon Vijay Abraham I <kishon@kernel.org>, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- linux-kernel@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-phy@lists.infradead.org, Shawn Guo <shawnguo@kernel.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/01/2024 23:19, Adam Ford wrote:
-> From: Lucas Stach <l.stach@pengutronix.de>
+On 05/01/2024 15:29, Luca Weiss wrote:
+> Himax HX83112A is a display driver IC used to drive LCD DSI panels.
+> Describe it.
 > 
-> Add a DT binding for the HDMI PHY found on the i.MX8MP SoC.
+> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+> ---
+>  .../bindings/display/panel/himax,hx83112a.yaml     | 75 ++++++++++++++++++++++
+>  1 file changed, 75 insertions(+)
 > 
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-
-
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  "#clock-cells":
-> +    const: 0
-> +
-> +  clocks:
-> +    minItems: 2
-
-If there is going to be new version/resend:
-
-drop, maxItems is enough
-
-Anyway:
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-
-> +    maxItems: 2
-> +
-
 
 Best regards,
 Krzysztof
