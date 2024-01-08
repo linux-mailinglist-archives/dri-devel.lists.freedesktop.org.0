@@ -1,120 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2D0A826DDA
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 13:28:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B94F1826E62
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 13:39:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D72F810E261;
-	Mon,  8 Jan 2024 12:28:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2AF310E227;
+	Mon,  8 Jan 2024 12:39:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 485A110E261
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 12:28:34 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jRFh0XNnQ/5JT5D8iVgyYaGBsq2TEzN6WW0e3QEzmZZgNOqbe9n5EGs9fPceElLXdML6e5Q2P0aIhyN+Kbb5ie0ERzhUlqfOwkVRh2DKDRHUHoJUvuQM2W0jfgDeqTxr+ZKk0VfKCt/fRxa2YsFQ+Es9+JorcEwQNZ+6++w2xDPoyo96tXjAgSiVB2w3BjluNorB4ixay6Q3M9eXKugWx4h5bdZPmE6HZbYMGS2KzXK2mLZkSlRUgOW9lW+p6sj9+utJGEUkavrNQkH8h8x14mq+eUYjIJDxJyAN3LKn8AVgRy8RLb9kWaW10/HVWQKYCXk9gUp1IYzXkrrCuhKmdw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9mEzF6AgMfHgcEtu61LXxKvp0TDmz1BR5GKI6pd1r3o=;
- b=doBwwnjByjLnFgmynQYfTksmt7C2jKxSOP60pbIYSyNBvKX+RsaQHmvJ5VOR12Ujj1WumpYe9JOpQYFaU+u5w8mbtN2/4JXG+Qb0SARiOlBRiDIES2LJ0JwKws6rAhKdMT8u0eOwLvBgUCs/8xjIUmRADWfYB25a56J0Zgms4HY0DJnKT+/6WR+fD52e8ZoLvxSWlrjgTmZs1u/liS6Sp9b6IU+BzhlGXGWWIHS84+lzfWRmXMZDplOs+Y9w/88UsP2140nyJOuj/wLL6IzIhkCLmzkI00DLAnsibTYo0H1kqNWlKe8rJSohdPJBuAx0Jmx6GSOnMReG0UNLGh3RnA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9mEzF6AgMfHgcEtu61LXxKvp0TDmz1BR5GKI6pd1r3o=;
- b=HOevLdKAUIfabpPHFP1jhLaAjQrDEugY94AgtRjxLAjRNmFKjuG9iFgJrulSPadc1jPVtRkzyFZYCFsw8rdpiXGbQosD5kFRkwwUMrhhuRaiE6Ucvh+tIry3HMk/FLRkKWNqfXR5z4nBnzosxT9UqdPwJOjQ5DcLGn6pMunI8/E=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SA3PR12MB9089.namprd12.prod.outlook.com (2603:10b6:806:39f::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.23; Mon, 8 Jan
- 2024 12:28:29 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::e1fb:4123:48b1:653]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::e1fb:4123:48b1:653%4]) with mapi id 15.20.7159.020; Mon, 8 Jan 2024
- 12:28:29 +0000
-Message-ID: <d169b5d2-5ec9-466e-a813-d326d4863026@amd.com>
-Date: Mon, 8 Jan 2024 13:28:21 +0100
-User-Agent: Mozilla Thunderbird
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34DB410E227
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 12:39:50 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id
+ ffacd0b85a97d-33678b10a6eso111859f8f.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Jan 2024 04:39:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1704717588; x=1705322388; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=+KbKWdY6tX7JYXqTO40SnLsFWTNoCK2o+Xfus7NtTz0=;
+ b=WckV52vI4f4KxiPg3uQmN0mmLwuudcrxjoM0G2qd+s6AfkK3RBuw8YZVo3+r4JN5SV
+ WSsiA0b3vnx/0ZE6ZrDVrBDa4jUBH4FgQHu34B0lxFYlBUw0csW3yNEpIHB+1GhxOg3R
+ wiwsZTyWj8+1CDD4gh8Pm2U5CTjQ2Rt1Nu8ps=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1704717588; x=1705322388;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=+KbKWdY6tX7JYXqTO40SnLsFWTNoCK2o+Xfus7NtTz0=;
+ b=O3+tcMVgoQE6jMXJbfDVmt6D4cSyym2XOLFwbM+kap8d8u6focWA+yHilFMa9r+sfM
+ R/mLqBV2yaO6sTUOUOHCuld6j6oTfHe0C/lUeCzy8QaD7J0hY1lLtCzD2l93cOatVXez
+ vMPc0wlqoJ2ruhheZ+RaQ3yP++bqe32ls2GaHNG9XWIL7HZgimtjWMJTML+IgJQY5RbX
+ k8/pN5LIyXBaUaLctVkEjqzLtsTBMCLj/zKuAdiIN/fJOzuJkSaqWC18RScEuZMLNT49
+ UKfUFBTc72HWE+hIsjgvXDXrwj9pgw15fLh3WhtCSgwpAYMM/xBPwo0YBBWN6+QIhCa4
+ R0vA==
+X-Gm-Message-State: AOJu0Yx+CI/MsU3jbUuLNJ3cKAOKeOCsicAfpKZIrOKb0SEV9lJ0SQSE
+ 89U97Q5vqL9CqTAudVQDdigtgZHRGvAdCg==
+X-Google-Smtp-Source: AGHT+IEtdsujLQAfMWY6f9gvYBA/7jBgVOleN/XweQQFmj3GT8Jwm8Z1cde2qqWLdjwrV6/eZRCzcw==
+X-Received: by 2002:a5d:618c:0:b0:336:fad1:ffd3 with SMTP id
+ j12-20020a5d618c000000b00336fad1ffd3mr4348628wru.4.1704717588308; 
+ Mon, 08 Jan 2024 04:39:48 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ y5-20020a5d4ac5000000b00336670abdcasm7730581wrs.40.2024.01.08.04.39.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Jan 2024 04:39:47 -0800 (PST)
+Date: Mon, 8 Jan 2024 13:39:45 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Paul Cercueil <paul@crapouillou.net>
 Subject: Re: [PATCH v3 3/4] usb: gadget: functionfs: Add DMABUF import
  interface
-Content-Language: en-US
-To: Paul Cercueil <paul@crapouillou.net>,
+Message-ID: <ZZvtEXL8DLPPdtPs@phenom.ffwll.local>
+Mail-Followup-To: Paul Cercueil <paul@crapouillou.net>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Corbet <corbet@lwn.net>
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ linaro-mm-sig@lists.linaro.org,
+ Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+ Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
 References: <20240108120056.22165-1-paul@crapouillou.net>
  <20240108120056.22165-4-paul@crapouillou.net>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20240108120056.22165-4-paul@crapouillou.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0385.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:f7::10) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA3PR12MB9089:EE_
-X-MS-Office365-Filtering-Correlation-Id: a105457f-8af9-4ebb-4bef-08dc104551be
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zj8LZEv8HgFu8nWuPL/gbQJDw/4nndVBJ1v7masoWqLikxD6jL8lJz28bgrfJqMKjZve+/AFHd2Gkioiu/AxnGEGXUy/f+7jEy2A7Q2oNaOBucl44bTUR7uaHEdTyElQRy1VwmB85wdLJyOzfVVcOyED3a52oNkfJuAccm54J2CQhTnmxKRElWOiYTXbuQjzOoCO1kBkouYnfIOBiGfCU7abbfLDSBS6doHEXO8O2pbJRm8EKj4cjpnadmke0CD1UdFlZRTFvgY1gsJZnu6jDHnSrdsFIUsbxaRlagjiHIFSKY3GoOBFhRSH/GzswbTE2b3Q+JztPS1YGuZ/yk32xlyK2YHkpS8cYxMVyzNvdSlFb9/uWAEgdqjiJmZe2mpdOGxVe1/uu75T302dkLUJ5/xFXJP7qtsjTtaVzE4IHftvHh4Ccok+ydUZL8J07KpiwqWTIR4OdX2R9wev427ZZPd1pPQzZIMVEleLIM1Rd796Qr+mAmBNkYJ98gL5ViUN9hrno5QKvpnnDUq27sFa8yvqNm0sjNd9gYciRt/dLUTMzueHSCiJD34mS8zDDjg2UtMBL+Fr/PuXpP4upzcuxSQInkEXLykBDFAv1viYiN2ayupJPwuuxc6IrNx6ZvFmufRhySIsuTWw6J/jR6hlQg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(39860400002)(396003)(366004)(376002)(346002)(136003)(230922051799003)(451199024)(186009)(64100799003)(1800799012)(5660300002)(2906002)(7416002)(30864003)(41300700001)(36756003)(86362001)(31696002)(38100700002)(4326008)(66556008)(2616005)(6486002)(66476007)(6666004)(54906003)(110136005)(316002)(478600001)(66946007)(8676002)(8936002)(31686004)(6512007)(6506007)(83380400001)(26005)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cG9qM2tFajFQVkhreTJJOWdVVHVqWWVLbHpSeFBJa1d3bHZPNFI4WFJnOXZ1?=
- =?utf-8?B?bXlLbUdVUU9PUHUvRXlZL2kveXFOZHA0R01Yc3c2SUx0TFM2b01DY2hJL1BI?=
- =?utf-8?B?d1FIZ2grdmhjaXdwYkVRS0ljZWJ1RVhHRmlhVTdDdkNiYWlOdVoremR0MVVa?=
- =?utf-8?B?RUx5bTcwNiswL1pGS2xlQzlRZFhyTWdQRU5sT1VaOXVQdUNyMmRtN2lRRmRz?=
- =?utf-8?B?VGppdjI3MDk1N2EvVUFybFYwYmVkY0V1S0dMa1YwcllwVlVlS3hxVWpzbWFh?=
- =?utf-8?B?TFdmclRXVGlWQjE0c3pnUy92SzFObFl0cEQvSlRJR2YwM1NFNExvUnNCS0k3?=
- =?utf-8?B?TVhJT1lWeGR3YWwrN1VpeVM5SjU4TTdPUFpiQVBQT0V5TnlqdlBadTA4dmNJ?=
- =?utf-8?B?bk1YTTU2d0h4cmx2QitCWVcvM05zS1ZjdFF4SU1VMUs2VlB4VHh6ZWZMTkk3?=
- =?utf-8?B?MjJGZ1p2TDBKNWVDNm11NlZ1RkNyRStEVGhmbGFwY2hzemVzdTBhZmJ3VUVr?=
- =?utf-8?B?WjBUV2M5cTJQQklUYWxjdTN5WXBoR1dYZzBLZTcxS2dlUVQySUhmbkUzTlVm?=
- =?utf-8?B?V2FCSFpOcXRpVlR1Qlp5NW9LWmFHS3hKUmRFbllvdFJGWG9VbEd5aHZiektr?=
- =?utf-8?B?N2pvczlnNHN2cU1UWHpEQUpOanI2NUtJdHVpMmtMSzJrZWRRQ1V6OFJXWjUv?=
- =?utf-8?B?bEtZQkQ4SFNKYkJxTG9YVCs4d1d6SGc4VnNtUGhoWHFrUWEzR0ZaRjhSd2sz?=
- =?utf-8?B?TmhjYVpYWWJ3RElWbExxdUo4ZDFqU3kzR2NrSkVuSjBPQXcvMWZGdmNRRWNM?=
- =?utf-8?B?WDA1MjhrcU0rbGdCR1VvQ2hYRk9RRG44YStORVF4RWRENmpLSHRNeitIRTBr?=
- =?utf-8?B?Y3k2OFAxS3Fia0h4WmU0bDJzOVoxN0ZmaXdWOWVwQUxzTDR6ajZHZ1NWT1Mx?=
- =?utf-8?B?V1VqK2xOWXFzZzZjU0hsNjhvalROWlMyUFdkemdWNHlzbEF2NG1NR3A1TTRq?=
- =?utf-8?B?MzVHZ2VpSU9lVmc1bTZIZEVmQ05BZ2F3ZWd4cmsvSE1wTEhmbzQ1TEF0UHFx?=
- =?utf-8?B?R0NycWFGclgrdVNmNzdXWUtHY1kwbEhHVURCemxmZEhOLzMxcGxqb2N5WVZp?=
- =?utf-8?B?WmRPNW0vNzFZNmR1ak1VM3UrLzMyb0RxR2ZtSTdpc3lwSUg5OXBZanU3Mmx2?=
- =?utf-8?B?MkhLYmZQbVZOWU84TmVha3FOUkR6TUlLd1I1MEtPNnRPMmUxbUlDSTBBcEww?=
- =?utf-8?B?d2trTkYzTU1tUnJrSmhUczdaQzNTR1FydytzM1RMa011OVVhcDV3NUJ1Tlhz?=
- =?utf-8?B?d0NoVTE3MUx2QjlzemNWMHFwMnR6c1U1Z0J1TS9SenYxZWZYZWR5eHlXSmky?=
- =?utf-8?B?bkNNQXdOMUZyNkI1UDc1M1k5MzJkb0FUNFFYZjNCcVRWWDl4dFJiaDBjTU9P?=
- =?utf-8?B?NTBhZEFnRTBaWkVPT09zbFBLTlFhVFZwR01XaDRKTGhtNzR0cXVwc1l5eXNQ?=
- =?utf-8?B?ZzhCS3cyWmVhYnc3LzhhVVpiUDkyRGpIVEpWOW5sRnovL3dYMjFMWkFyU3M3?=
- =?utf-8?B?WVlta3M0TVhVemFpNUNPUUlzSC9oY095dzRvZk53SVJJVzgxQ0s1TCt2clh2?=
- =?utf-8?B?dnc0ZUtTQTQ4VU5uWkZpOVhHck5lcWkzbHBQOXM3ZlJGUDFWenR4ZkFhSjl6?=
- =?utf-8?B?MWl1S3g1dURtNE12aGtpdy8rTU5GNDBBc3RWbkZzNmw3VkZmTno1MmxZYjZq?=
- =?utf-8?B?MWh6YW1FNFZ4WksyWTJINjJtWmZ0b0x3Wkd5WmdkRVVmV3FveFp4WmlzdFlv?=
- =?utf-8?B?dHVLdDlDdy9scFI5R0ptckNwdTE5N2xUdjE1c0dSMU12WVRTN3BDVWh5VUZK?=
- =?utf-8?B?Q3NzZ3dYb0RGVklYalJyT2Nzb1dVR2pUUklUdDdwUkpIK0dJUDRKbmVQT0RL?=
- =?utf-8?B?SWhwUE1lN3djRm5xQ1JOMkNkS2F0WENTUUNxV01kTlh5S0RrSTlOMXpGVzhC?=
- =?utf-8?B?NHNYWWZsRWlLRDZWYmNWaEQ2N0FJOXRoK2JNbVZjMUZOaW1YdHNLMGtMTFQw?=
- =?utf-8?B?bXZHWUdIdUY2by96ckViRmNyZ0tGdkdZYXh2aUp5dWRxZWZORnVEUUhSSXlW?=
- =?utf-8?Q?J/PvewxFF1ffZySIf59NdXLl4?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a105457f-8af9-4ebb-4bef-08dc104551be
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2024 12:28:29.1357 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HGIZog0stsHQxXyU8Mko2EdKHByHM5NC81DwUPdh6/5BXUS2vF5Pp3q7wIL9XAhZ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB9089
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240108120056.22165-4-paul@crapouillou.net>
+X-Operating-System: Linux phenom 6.5.0-4-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,87 +85,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Hennerich <Michael.Hennerich@analog.com>, linux-doc@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+Cc: linux-usb@vger.kernel.org, Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
  linaro-mm-sig@lists.linaro.org,
- =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>,
- Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
+ Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+ Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Cameron <jic23@kernel.org>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 08.01.24 um 13:00 schrieb Paul Cercueil:
+On Mon, Jan 08, 2024 at 01:00:55PM +0100, Paul Cercueil wrote:
 > This patch introduces three new ioctls. They all should be called on a
 > data endpoint (ie. not ep0). They are:
->
+> 
 > - FUNCTIONFS_DMABUF_ATTACH, which takes the file descriptor of a DMABUF
->    object to attach to the endpoint.
->
+>   object to attach to the endpoint.
+> 
 > - FUNCTIONFS_DMABUF_DETACH, which takes the file descriptor of the
->    DMABUF to detach from the endpoint. Note that closing the endpoint's
->    file descriptor will automatically detach all attached DMABUFs.
->
+>   DMABUF to detach from the endpoint. Note that closing the endpoint's
+>   file descriptor will automatically detach all attached DMABUFs.
+> 
 > - FUNCTIONFS_DMABUF_TRANSFER, which requests a data transfer from / to
->    the given DMABUF. Its argument is a structure that packs the DMABUF's
->    file descriptor, the size in bytes to transfer (which should generally
->    be set to the size of the DMABUF), and a 'flags' field which is unused
->    for now.
->    Before this ioctl can be used, the related DMABUF must be attached
->    with FUNCTIONFS_DMABUF_ATTACH.
->
+>   the given DMABUF. Its argument is a structure that packs the DMABUF's
+>   file descriptor, the size in bytes to transfer (which should generally
+>   be set to the size of the DMABUF), and a 'flags' field which is unused
+>   for now.
+>   Before this ioctl can be used, the related DMABUF must be attached
+>   with FUNCTIONFS_DMABUF_ATTACH.
+> 
 > These three ioctls enable the FunctionFS code to transfer data between
 > the USB stack and a DMABUF object, which can be provided by a driver
 > from a completely different subsystem, in a zero-copy fashion.
->
+> 
 > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
->
+> 
 > ---
 > v2:
 > - Make ffs_dma_resv_lock() static
 > - Add MODULE_IMPORT_NS(DMA_BUF);
 > - The attach/detach functions are now performed without locking the
->    eps_lock spinlock. The transfer function starts with the spinlock
->    unlocked, then locks it before allocating and queueing the USB
->    transfer.
->
+>   eps_lock spinlock. The transfer function starts with the spinlock
+>   unlocked, then locks it before allocating and queueing the USB
+>   transfer.
+> 
 > v3:
 > - Inline to_ffs_dma_fence() which was called only once.
 > - Simplify ffs_dma_resv_lock()
 > - Add comment explaining why we unref twice in ffs_dmabuf_detach()
 > - Document uapi struct usb_ffs_dmabuf_transfer_req and IOCTLs
 > ---
->   drivers/usb/gadget/function/f_fs.c  | 417 ++++++++++++++++++++++++++++
->   include/uapi/linux/usb/functionfs.h |  41 +++
->   2 files changed, 458 insertions(+)
->
+>  drivers/usb/gadget/function/f_fs.c  | 417 ++++++++++++++++++++++++++++
+>  include/uapi/linux/usb/functionfs.h |  41 +++
+>  2 files changed, 458 insertions(+)
+> 
 > diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
 > index ed2a6d5fcef7..9df1f5abb0d4 100644
 > --- a/drivers/usb/gadget/function/f_fs.c
 > +++ b/drivers/usb/gadget/function/f_fs.c
 > @@ -15,6 +15,9 @@
->   /* #define VERBOSE_DEBUG */
->   
->   #include <linux/blkdev.h>
+>  /* #define VERBOSE_DEBUG */
+>  
+>  #include <linux/blkdev.h>
 > +#include <linux/dma-buf.h>
 > +#include <linux/dma-fence.h>
 > +#include <linux/dma-resv.h>
->   #include <linux/pagemap.h>
->   #include <linux/export.h>
->   #include <linux/fs_parser.h>
+>  #include <linux/pagemap.h>
+>  #include <linux/export.h>
+>  #include <linux/fs_parser.h>
 > @@ -43,6 +46,8 @@
->   
->   #define FUNCTIONFS_MAGIC	0xa647361 /* Chosen by a honest dice roll ;) */
->   
+>  
+>  #define FUNCTIONFS_MAGIC	0xa647361 /* Chosen by a honest dice roll ;) */
+>  
 > +MODULE_IMPORT_NS(DMA_BUF);
 > +
->   /* Reference counter handling */
->   static void ffs_data_get(struct ffs_data *ffs);
->   static void ffs_data_put(struct ffs_data *ffs);
+>  /* Reference counter handling */
+>  static void ffs_data_get(struct ffs_data *ffs);
+>  static void ffs_data_put(struct ffs_data *ffs);
 > @@ -124,6 +129,21 @@ struct ffs_ep {
->   	u8				num;
->   };
->   
+>  	u8				num;
+>  };
+>  
 > +struct ffs_dmabuf_priv {
 > +	struct list_head entry;
 > +	struct kref ref;
@@ -223,22 +184,22 @@ Am 08.01.24 um 13:00 schrieb Paul Cercueil:
 > +	enum dma_data_direction dir;
 > +};
 > +
->   struct ffs_epfile {
->   	/* Protects ep->ep and ep->req. */
->   	struct mutex			mutex;
+>  struct ffs_epfile {
+>  	/* Protects ep->ep and ep->req. */
+>  	struct mutex			mutex;
 > @@ -197,6 +217,8 @@ struct ffs_epfile {
->   	unsigned char			isoc;	/* P: ffs->eps_lock */
->   
->   	unsigned char			_pad;
+>  	unsigned char			isoc;	/* P: ffs->eps_lock */
+>  
+>  	unsigned char			_pad;
 > +
 > +	struct list_head		dmabufs;
->   };
->   
->   struct ffs_buffer {
+>  };
+>  
+>  struct ffs_buffer {
 > @@ -1271,10 +1293,44 @@ static ssize_t ffs_epfile_read_iter(struct kiocb *kiocb, struct iov_iter *to)
->   	return res;
->   }
->   
+>  	return res;
+>  }
+>  
 > +static void ffs_dmabuf_release(struct kref *ref)
 > +{
 > +	struct ffs_dmabuf_priv *priv = container_of(ref, struct ffs_dmabuf_priv, ref);
@@ -250,6 +211,9 @@ Am 08.01.24 um 13:00 schrieb Paul Cercueil:
 > +	dma_buf_put(dmabuf);
 > +
 > +	list_del(&priv->entry);
+
+I didn't find any locking for this list here.
+
 > +	kfree(priv);
 > +}
 > +
@@ -267,23 +231,23 @@ Am 08.01.24 um 13:00 schrieb Paul Cercueil:
 > +	kref_put(&priv->ref, ffs_dmabuf_release);
 > +}
 > +
->   static int
->   ffs_epfile_release(struct inode *inode, struct file *file)
->   {
->   	struct ffs_epfile *epfile = inode->i_private;
+>  static int
+>  ffs_epfile_release(struct inode *inode, struct file *file)
+>  {
+>  	struct ffs_epfile *epfile = inode->i_private;
 > +	struct ffs_dmabuf_priv *priv, *tmp;
 > +
 > +	/* Close all attached DMABUFs */
 > +	list_for_each_entry_safe(priv, tmp, &epfile->dmabufs, entry) {
 > +		ffs_dmabuf_put(priv->attach);
 > +	}
->   
->   	__ffs_epfile_read_buffer_free(epfile);
->   	ffs_data_closed(epfile->ffs);
+>  
+>  	__ffs_epfile_read_buffer_free(epfile);
+>  	ffs_data_closed(epfile->ffs);
 > @@ -1282,6 +1338,328 @@ ffs_epfile_release(struct inode *inode, struct file *file)
->   	return 0;
->   }
->   
+>  	return 0;
+>  }
+>  
 > +static void ffs_dmabuf_signal_done(struct ffs_dma_fence *dma_fence, int ret)
 > +{
 > +	struct ffs_dmabuf_priv *priv = dma_fence->priv;
@@ -296,6 +260,18 @@ Am 08.01.24 um 13:00 schrieb Paul Cercueil:
 > +	dma_buf_unmap_attachment(priv->attach, dma_fence->sgt, dma_fence->dir);
 > +	dma_fence_put(fence);
 > +	ffs_dmabuf_put(priv->attach);
+
+So this can in theory take the dma_resv lock, and if the usb completion
+isn't an unlimited worker this could hold up completion of future
+dma_fence, resulting in a deadlock.
+
+Needs to be checked how usb works, and if stalling indefinitely in the
+io_complete callback can hold up the usb stack you need to:
+
+- drop a dma_fence_begin/end_signalling annotations in here
+- pull out the unref stuff into a separate preallocated worker (or at
+  least the final unrefs for ffs_dma_buf).
+
 > +}
 > +
 > +static void ffs_epfile_dmabuf_io_complete(struct usb_ep *ep,
@@ -342,6 +318,12 @@ Am 08.01.24 um 13:00 schrieb Paul Cercueil:
 > +			return -EBUSY;
 > +
 > +		ret = dma_resv_lock_slow_interruptible(dmabuf->resv, NULL);
+
+This is overkill, without a reservation context you will never get
+-EDEADLK and so never have to do slowpath locking. So just dead code.
+
+If you want to check, build with CONFIG_DEBUG_WW_MUTEX_SLOWPATH=y
+
 > +	}
 > +
 > +	return ret;
@@ -359,12 +341,6 @@ Am 08.01.24 um 13:00 schrieb Paul Cercueil:
 > +		return ERR_PTR(ret);
 > +
 > +	list_for_each_entry(elm, &dmabuf->attachments, node) {
-
-Mhm, this is messing with internals of DMA-buf and probably a no-go.
-
-We might be able to have this as dma_buf function with proper 
-documentation if you really need it, but see below.
-
 > +		if (elm->dev == dev) {
 > +			attach = elm;
 > +			break;
@@ -373,6 +349,14 @@ documentation if you really need it, but see below.
 > +
 > +	if (attach)
 > +		ffs_dmabuf_get(elm);
+
+This needs a kref_get_unless_zero or you can race with the final free.
+
+I'm not super keen that usb-gadget is noodling around in the attachment
+list like this, your own lookup structure (you have the dma-buf list
+already anyway to keep track of all attachments) would be much nicer. But
+the get_unless_zero I think is mandatory here for this weak reference.
+
 > +
 > +	dma_resv_unlock(dmabuf->resv);
 > +
@@ -413,6 +397,10 @@ documentation if you really need it, but see below.
 > +	spin_lock_init(&priv->lock);
 > +	kref_init(&priv->ref);
 > +	priv->context = dma_fence_context_alloc(1);
+
+Just to check: usb gagdet gurantees that all requests on an ep are
+ordered?
+
 > +
 > +	list_add(&priv->entry, &epfile->dmabufs);
 > +
@@ -452,16 +440,17 @@ documentation if you really need it, but see below.
 > +	 * ffs_dmabuf_attach().
 > +	 */
 > +	ffs_dmabuf_put(attach);
+
+This looks strange, what's stopping userspace from calling detach multiple
+times while a transfer is pending (so that the destruction is delayed)?
+That smells like a refcount underflow.
+
+You probably need to tie the refcounts you acquire in ffs_dmabuf_attach to
+epfile->dmabufs 1:1 to make sure there's no way userspace can pull you
+over the table. This is also the reason why I looked for the locking of
+that list, and didn't find it.
+
 > +	ffs_dmabuf_put(attach);
-
-What is preventing this function from being called multiple times 
-concurrently?
-
-If I'm not completely mistaken that can break trivially.
-
-Regards,
-Christian.
-
 > +
 > +out_dmabuf_put:
 > +	dma_buf_put(dmabuf);
@@ -559,6 +548,10 @@ Christian.
 > +
 > +	dma_fence_init(&fence->base, &ffs_dmabuf_fence_ops,
 > +		       &priv->lock, priv->context, 0);
+
+You need a real seqno here or things break with fence merging. Or
+alternatively unordered dma_fence (which are implemented by allocating a
+new context for each fence, maybe we should change that eventually ...).
 > +
 > +	spin_lock_irq(&epfile->ffs->eps_lock);
 > +
@@ -621,13 +614,13 @@ Christian.
 > +	return ret;
 > +}
 > +
->   static long ffs_epfile_ioctl(struct file *file, unsigned code,
->   			     unsigned long value)
->   {
+>  static long ffs_epfile_ioctl(struct file *file, unsigned code,
+>  			     unsigned long value)
+>  {
 > @@ -1292,6 +1670,44 @@ static long ffs_epfile_ioctl(struct file *file, unsigned code,
->   	if (WARN_ON(epfile->ffs->state != FFS_ACTIVE))
->   		return -ENODEV;
->   
+>  	if (WARN_ON(epfile->ffs->state != FFS_ACTIVE))
+>  		return -ENODEV;
+>  
 > +	switch (code) {
 > +	case FUNCTIONFS_DMABUF_ATTACH:
 > +	{
@@ -666,25 +659,25 @@ Christian.
 > +		break;
 > +	}
 > +
->   	/* Wait for endpoint to be enabled */
->   	ep = ffs_epfile_wait_ep(file);
->   	if (IS_ERR(ep))
+>  	/* Wait for endpoint to be enabled */
+>  	ep = ffs_epfile_wait_ep(file);
+>  	if (IS_ERR(ep))
 > @@ -1869,6 +2285,7 @@ static int ffs_epfiles_create(struct ffs_data *ffs)
->   	for (i = 1; i <= count; ++i, ++epfile) {
->   		epfile->ffs = ffs;
->   		mutex_init(&epfile->mutex);
+>  	for (i = 1; i <= count; ++i, ++epfile) {
+>  		epfile->ffs = ffs;
+>  		mutex_init(&epfile->mutex);
 > +		INIT_LIST_HEAD(&epfile->dmabufs);
->   		if (ffs->user_flags & FUNCTIONFS_VIRTUAL_ADDR)
->   			sprintf(epfile->name, "ep%02x", ffs->eps_addrmap[i]);
->   		else
+>  		if (ffs->user_flags & FUNCTIONFS_VIRTUAL_ADDR)
+>  			sprintf(epfile->name, "ep%02x", ffs->eps_addrmap[i]);
+>  		else
 > diff --git a/include/uapi/linux/usb/functionfs.h b/include/uapi/linux/usb/functionfs.h
 > index 078098e73fd3..9f88de9c3d66 100644
 > --- a/include/uapi/linux/usb/functionfs.h
 > +++ b/include/uapi/linux/usb/functionfs.h
 > @@ -86,6 +86,22 @@ struct usb_ext_prop_desc {
->   	__le16	wPropertyNameLength;
->   } __attribute__((packed));
->   
+>  	__le16	wPropertyNameLength;
+>  } __attribute__((packed));
+>  
 > +/* Flags for usb_ffs_dmabuf_transfer_req->flags (none for now) */
 > +#define USB_FFS_DMABUF_TRANSFER_MASK	0x0
 > +
@@ -701,13 +694,13 @@ Christian.
 > +	__u64 length;
 > +} __attribute__((packed));
 > +
->   #ifndef __KERNEL__
->   
->   /*
+>  #ifndef __KERNEL__
+>  
+>  /*
 > @@ -290,6 +306,31 @@ struct usb_functionfs_event {
->   #define	FUNCTIONFS_ENDPOINT_DESC	_IOR('g', 130, \
->   					     struct usb_endpoint_descriptor)
->   
+>  #define	FUNCTIONFS_ENDPOINT_DESC	_IOR('g', 130, \
+>  					     struct usb_endpoint_descriptor)
+>  
 > +/*
 > + * Attach the DMABUF object, identified by its file descriptor, to the
 > + * data endpoint. Returns zero on success, and a negative errno value
@@ -715,7 +708,7 @@ Christian.
 > + */
 > +#define FUNCTIONFS_DMABUF_ATTACH	_IOW('g', 131, int)
 > +
->   
+>  
 > +/*
 > + * Detach the given DMABUF object, identified by its file descriptor,
 > + * from the data endpoint. Returns zero on success, and a negative
@@ -734,6 +727,19 @@ Christian.
 > + */
 > +#define FUNCTIONFS_DMABUF_TRANSFER	_IOW('g', 133, \
 > +					     struct usb_ffs_dmabuf_transfer_req)
->   
->   #endif /* _UAPI__LINUX_FUNCTIONFS_H__ */
+>  
+>  #endif /* _UAPI__LINUX_FUNCTIONFS_H__ */
 
+Only things I've found are (I think at least) bugs in the usb gadget
+logic, not directly in how dma-buf/fence is used. The only thing I've
+noticed is the lack of actual dma_fence seqno (which I think Christian
+already pointed out in an already review, looking at archives at least).
+With that addressed:
+
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+Cheers, Sima
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
