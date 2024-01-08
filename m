@@ -2,81 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E2E88278C8
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 20:54:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 436808278F5
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 21:12:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8669710E2D0;
-	Mon,  8 Jan 2024 19:54:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D55410E02A;
+	Mon,  8 Jan 2024 20:12:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12A8010E2A6
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 19:54:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1704743685;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=egUOllz/D5/X2Q9TY06OwWychq3jq9oXQBXPrNUeGTY=;
- b=fMRBIgCcvtapMiofFwHwASI4aEkd5fxgks/kzFazwPTGa4gdSxd9xSW0xKZK8SwG5UPo9L
- lKMW7VESB731BemhJMYlMC5QI8qy18/K7yF3Ns8/eb9LtBwlpEFoWB0Q8J0LEewBzZxTqv
- n4DznjdmE+NbeQQzKkiPFSvOLwhi1k4=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-343-dsnJbTmBNTyPgQ4tWvl-1Q-1; Mon, 08 Jan 2024 14:54:44 -0500
-X-MC-Unique: dsnJbTmBNTyPgQ4tWvl-1Q-1
-Received: by mail-qt1-f198.google.com with SMTP id
- d75a77b69052e-4298d9ffa96so26509411cf.3
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Jan 2024 11:54:43 -0800 (PST)
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
+ [IPv6:2607:f8b0:4864:20::b29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2BBD10E02A
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 20:12:49 +0000 (UTC)
+Received: by mail-yb1-xb29.google.com with SMTP id
+ 3f1490d57ef6-dbed430ef5eso1255713276.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Jan 2024 12:12:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google; t=1704744769; x=1705349569;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=jO+k5lvbngjS92ouyx3R3uEoQtzTI+waqD9Cqv6JLzo=;
+ b=jeACAZnh/uPjuG2aq5QUdLtVcXEpbESDWOKw9aI25GmcnGgO3Ncr4UCbk/s0Pnp+Xf
+ AqPavWvrYiy84CEafV5G1u7AhfaIxgIZAq4BdnPtQ20hGQ7MPtIhHpOTuLoLfhuCkVYf
+ Xzx38lPrsQ0oI6O2+WGegeLt/ar+t9rPpNC20=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704743683; x=1705348483;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=egUOllz/D5/X2Q9TY06OwWychq3jq9oXQBXPrNUeGTY=;
- b=qZwOrpv4lRklcaH1cB9YbEfvHpPD+p9DvYUnyDZ8elmF6fgQ79Zkp1DiuTFUXIy/63
- zmnN4mX309RPig4Z5pm3rDLNdVFCkqB6arckmq0KmvwFiUwQGVl9i8y1KQDqe91Xuny5
- D0o6XNDMTm7rysZlAHjz5wZg/N8+3lpCbK3DdXrD4lJFv71TRYAft/7p+PkPEwbTcXeg
- XwmOwC0pHzLDm4D0OCI0X/VY1g4CQ0juePWcUkISOBdhnqliuoWBaZn8pYh7/dR63EK+
- Hh4NI04A7OzNtM7+hvlr9Y/UNTGjVoknp6V21Nkiq+1bEtU/Rhwj0IeWe2BUHeKoVUvT
- sNXw==
-X-Gm-Message-State: AOJu0Yy78c6q99onrDa76stl0ie8AlcP/6cGUcCzvxPEn55z/BAgHjwR
- jC5Zs3r06fbV8bM4p83ofE6QmuetCo+ULNQRBGz/wZ9eg+ET4Is8wkH1NszHHma4FgiH75vJA7E
- zLGH7PovLp4HrI1patRnvJiGPoP3ohsqHMI9x
-X-Received: by 2002:ac8:7c4b:0:b0:429:9e35:6929 with SMTP id
- o11-20020ac87c4b000000b004299e356929mr856810qtv.35.1704743683519; 
- Mon, 08 Jan 2024 11:54:43 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGmkOG8tja7+RozunNkYOsGAklltKR+uZ8OKlPuC9MwHNqtPszjPZTjr+uJxm3CebAM4BfFkQ==
-X-Received: by 2002:ac8:7c4b:0:b0:429:9e35:6929 with SMTP id
- o11-20020ac87c4b000000b004299e356929mr856797qtv.35.1704743683171; 
- Mon, 08 Jan 2024 11:54:43 -0800 (PST)
-Received: from ?IPV6:2a02:810d:4b3f:ee94:abf:b8ff:feee:998b?
- ([2a02:810d:4b3f:ee94:abf:b8ff:feee:998b])
- by smtp.gmail.com with ESMTPSA id
- bq23-20020a05622a1c1700b00427b3271ab4sm173956qtb.41.2024.01.08.11.54.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Jan 2024 11:54:42 -0800 (PST)
-Message-ID: <724fdfaf-0e38-408b-a2d6-e3f39f28743d@redhat.com>
-Date: Mon, 8 Jan 2024 20:54:40 +0100
+ d=1e100.net; s=20230601; t=1704744769; x=1705349569;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=jO+k5lvbngjS92ouyx3R3uEoQtzTI+waqD9Cqv6JLzo=;
+ b=rDu+kU/zmXrRdn5o7nretdBGBfU9ovxJL1xCX/KY1LznD47FgXZp6b9X5afEw8UCe6
+ UlvPMFuc+1YGDY7TI7qxFiFRNDsoa/9vf766ubIs9UFKfrOrkvgibtNGn0c3+OcMH7nJ
+ yeG6pNz0k/5Yi3VrrBILGrgUUpsJn0UOT2xApNRjXD76o56QYdnjwzK/9g3/CvvtS4MA
+ xX+uJJfbpecmAEpD2LcHrLayPTH4DphP4WEF1IhoBy5GsoiF8aqIxieFiI6SdLY8GPCQ
+ kKsU57as44T9Oo5NUIbBgc+SVmUZUDD0ZSSTRnQs62dJ58PC/+1fttl3S5UE3Hxrhavp
+ L26w==
+X-Gm-Message-State: AOJu0YxtKvP2yc7x/poGfIhYbFm1P6I8f0Jypbiey94rqGpPHlgyR/9p
+ WMw485NZrR/bM+f2Zdyq3ZV5JLOKHJ9dk5+uDxif0dzgn3T8Mw==
+X-Google-Smtp-Source: AGHT+IFUUedhilU//0xZ1+dgQGu1fYRJoi2KV/ctlDlSR1L6Xlf0TFmrxtXePndYD4C7J5WXLQ80bM9Ha0k8nMgP2ZU=
+X-Received: by 2002:a25:8441:0:b0:db7:dad0:76ad with SMTP id
+ r1-20020a258441000000b00db7dad076admr1590636ybm.73.1704744768971; Mon, 08 Jan
+ 2024 12:12:48 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH -next] drm/nouveau: uapi: fix kerneldoc warnings
-To: Vegard Nossum <vegard.nossum@oracle.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, "daniel@ffwll.ch"
- <daniel@ffwll.ch>
-References: <20231225065145.3060754-1-vegard.nossum@oracle.com>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <20231225065145.3060754-1-vegard.nossum@oracle.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240104084206.721824-1-dario.binacchi@amarulasolutions.com>
+ <20240104084206.721824-9-dario.binacchi@amarulasolutions.com>
+ <CACRpkda+=Zq+v-505O3pHazKzukSifBnNx_CPKbKd2JH-KYpYg@mail.gmail.com>
+ <CABGWkvoNuJNmxhrOE6csE2mGwF50ou-jx-kpmH-oQ2zBgzLrSg@mail.gmail.com>
+ <CACRpkdZJF-WE8oTi3RXpX_+W+D6bV_o2Nt1ikRbErR6pBc2OJg@mail.gmail.com>
+In-Reply-To: <CACRpkdZJF-WE8oTi3RXpX_+W+D6bV_o2Nt1ikRbErR6pBc2OJg@mail.gmail.com>
+From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+Date: Mon, 8 Jan 2024 21:12:37 +0100
+Message-ID: <CABGWkvoHuzTPNhh54VihNJ4PtSTF9sRLiup6PRNqG5uoHfJc_A@mail.gmail.com>
+Subject: Re: [PATCH v4 8/8] drm/panel: nt35510: support FRIDA
+ FRD400B25025-A-CTK
+To: Linus Walleij <linus.walleij@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,147 +71,181 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- nouveau@lists.freedesktop.org, Randy Dunlap <rdunlap@infradead.org>,
- linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-amarula@amarulasolutions.com, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, Jessica Zhang <quic_jesszhan@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/25/23 07:51, Vegard Nossum wrote:
-> As of commit b77fdd6a48e6 ("scripts/kernel-doc: restore warning for
-> Excess struct/union"), we see the following warnings when running 'make
-> htmldocs':
-> 
->    ./include/uapi/drm/nouveau_drm.h:292: warning: Excess struct member 'DRM_NOUVEAU_VM_BIND_OP_MAP' description in 'drm_nouveau_vm_bind_op'
->    ./include/uapi/drm/nouveau_drm.h:292: warning: Excess struct member 'DRM_NOUVEAU_VM_BIND_OP_UNMAP' description in 'drm_nouveau_vm_bind_op'
->    ./include/uapi/drm/nouveau_drm.h:292: warning: Excess struct member 'DRM_NOUVEAU_VM_BIND_SPARSE' description in 'drm_nouveau_vm_bind_op'
->    ./include/uapi/drm/nouveau_drm.h:336: warning: Excess struct member 'DRM_NOUVEAU_VM_BIND_RUN_ASYNC' description in 'drm_nouveau_vm_bind'
-> 
-> The problem is that these values are #define constants, but had kerneldoc
-> comments attached to them as if they were actual struct members.
-> 
-> There are a number of ways we could fix this, but I chose to draw
-> inspiration from include/uapi/drm/i915_drm.h, which pulls them into the
-> corresponding kerneldoc comment for the struct member that they are
-> intended to be used with.
-> 
-> To keep the diff readable, there are a number of things I _didn't_ do in
-> this patch, but which we should also consider:
-> 
-> - This is pretty good documentation, but it ends up in gpu/driver-uapi,
->    which is part of subsystem-apis/ when it really ought to display under
->    userspace-api/ (the "Linux kernel user-space API guide" book of the
->    documentation).
+On Sun, Jan 7, 2024 at 9:02=E2=80=AFPM Linus Walleij <linus.walleij@linaro.=
+org> wrote:
+>
+> On Sat, Jan 6, 2024 at 12:07=E2=80=AFPM Dario Binacchi
+> <dario.binacchi@amarulasolutions.com> wrote:
+>
+> > After submitting v4, I tested the driver under different conditions,
+> > i. e. without enabling display support in
+> > U-Boot (I also implemented a version for U-Boot, which I will send
+> > only after this series is merged into
+> > the Linux kernel). In that condition I encountered an issue with the re=
+set pin.
+> >
+> > The minimal fix, would be this:
+> >
+> > diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35510.c
+> > b/drivers/gpu/drm/panel/panel-novatek-nt35510.c
+> > index c85dd0d0829d..89ba99763468 100644
+> > --- a/drivers/gpu/drm/panel/panel-novatek-nt35510.c
+> > +++ b/drivers/gpu/drm/panel/panel-novatek-nt35510.c
+> > @@ -1133,7 +1133,7 @@ static int nt35510_probe(struct mipi_dsi_device *=
+dsi)
+> >         if (ret)
+> >                 return ret;
+> >
+> > -       nt->reset_gpio =3D devm_gpiod_get_optional(dev, "reset", GPIOD_=
+ASIS);
+> > +       nt->reset_gpio =3D devm_gpiod_get_optional(dev, "reset", GPIOD_=
+OUT_HIGH);
+>
+>
+> This is fine, because we later on toggle reset in nt35510_power_on(),
+> this just asserts the reset signal already in probe.
+>
+> I don't see why this would make a difference though?
+>
+> Is it to make the reset delete artifacts from the screen?
+>
+> Just explain it in the commit message.
+>
+> It is a bit confusing when I look at your DTS patch:
+>
+> https://lore.kernel.org/linux-arm-kernel/20240104084206.721824-7-dario.bi=
+nacchi@amarulasolutions.com/
+>
+> this doesn't even contain a reset GPIO, so nothing will happen
+> at all?
++++ b/arch/arm/boot/dts/st/stm32f769-disco-mb1225-revb03-mb1166-reva09.dts
+@@ -0,0 +1,18 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (c) 2023 Dario Binacchi <dario.binacchi@amarulasolutions.com>
++ */
++
++#include "stm32f769-disco.dts"
++
 
-I agree, it indeed looks like this would make sense, same goes for
-gpu/drm-uapi.rst.
+The GPIO is contained in the stm32f769-disco.dts:
 
-@Jani, Sima: Was this intentional? Or can we change it?
+panel0: panel-dsi@0 {
+        compatible =3D "orisetech,otm8009a";
+        reg =3D <0>; /* dsi virtual channel (0..3) */
+        reset-gpios =3D <&gpioj 15 GPIO_ACTIVE_LOW>;
+        power-supply =3D <&vcc_3v3>;
+        backlight =3D <&panel_backlight>;
+       status =3D "okay";
+...
+};
 
-> 
-> - More generally, we might want a warning if include/uapi/ files are
->    kerneldoc'd outside userspace-api/.
-> 
-> - I'd consider it cleaner if the #defines appeared between the kerneldoc
->    for the member and the member itself (which is something other DRM-
->    related UAPI docs do).
-> 
-> - The %IDENTIFIER kerneldoc syntax is intended for "constants", and is
->    more appropriate in this context than ``IDENTIFIER`` or &IDENTIFIER.
->    The DRM docs aren't very consistent on this.
-> 
-> Cc: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+>
+> > I then tried modifying the device tree instead of the nt35510 driver.
+> > In the end, I arrived
+> > at this patch that leaves me with some doubts, especially regarding
+> > the strict option.
+> >
+> > diff --git a/arch/arm/boot/dts/st/stm32f769-disco-mb1225-revb03-mb1166-=
+reva09.dts
+> > b/arch/arm/boot/dts/st/stm32f769-disco-mb1225-revb03-m>
+> > index 014cac192375..32ed420a6cbf 100644
+> > --- a/arch/arm/boot/dts/st/stm32f769-disco-mb1225-revb03-mb1166-reva09.=
+dts
+> > +++ b/arch/arm/boot/dts/st/stm32f769-disco-mb1225-revb03-mb1166-reva09.=
+dts
+> > @@ -13,6 +13,17 @@ &panel0 {
+> >         compatible =3D "frida,frd400b25025", "novatek,nt35510";
+> >         vddi-supply =3D <&vcc_3v3>;
+> >         vdd-supply =3D <&vcc_3v3>;
+> > +       pinctrl-0 =3D <&panel_reset>;
+> > +       pinctrl-names =3D "default";
+> >         /delete-property/backlight;
+> >         /delete-property/power-supply;
+> >  };
+> > +
+> > +&pinctrl {
+> > +       panel_reset: panel-reset {
+> > +               pins1 {
+> > +                       pinmux =3D <STM32_PINMUX('J', 15, GPIO)>;
+> > +                       output-high;
+>
+> But this achieves the *opposite* of what you do in the
+> other patch. This sets the reset line de-asserted since it is
+> active low.
+>
+> Did you add the reset line to your device tree and forgot to
+> set it as GPIO_ACTIVE_LOW perhaps?
 
-Applied to drm-misc-next, thanks!
+panel0: panel-dsi@0 {
+        compatible =3D "orisetech,otm8009a";
+        reg =3D <0>; /* dsi virtual channel (0..3) */
+        reset-gpios =3D <&gpioj 15 GPIO_ACTIVE_LOW>;
 
-> ---
->   include/uapi/drm/nouveau_drm.h | 56 ++++++++++++++++------------------
->   1 file changed, 27 insertions(+), 29 deletions(-)
-> 
-> diff --git a/include/uapi/drm/nouveau_drm.h b/include/uapi/drm/nouveau_drm.h
-> index 0bade1592f34..c95ef8a4d94a 100644
-> --- a/include/uapi/drm/nouveau_drm.h
-> +++ b/include/uapi/drm/nouveau_drm.h
-> @@ -238,34 +238,32 @@ struct drm_nouveau_vm_init {
->   struct drm_nouveau_vm_bind_op {
->   	/**
->   	 * @op: the operation type
-> +	 *
-> +	 * Supported values:
-> +	 *
-> +	 * %DRM_NOUVEAU_VM_BIND_OP_MAP - Map a GEM object to the GPU's VA
-> +	 * space. Optionally, the &DRM_NOUVEAU_VM_BIND_SPARSE flag can be
-> +	 * passed to instruct the kernel to create sparse mappings for the
-> +	 * given range.
-> +	 *
-> +	 * %DRM_NOUVEAU_VM_BIND_OP_UNMAP - Unmap an existing mapping in the
-> +	 * GPU's VA space. If the region the mapping is located in is a
-> +	 * sparse region, new sparse mappings are created where the unmapped
-> +	 * (memory backed) mapping was mapped previously. To remove a sparse
-> +	 * region the &DRM_NOUVEAU_VM_BIND_SPARSE must be set.
->   	 */
->   	__u32 op;
-> -/**
-> - * @DRM_NOUVEAU_VM_BIND_OP_MAP:
-> - *
-> - * Map a GEM object to the GPU's VA space. Optionally, the
-> - * &DRM_NOUVEAU_VM_BIND_SPARSE flag can be passed to instruct the kernel to
-> - * create sparse mappings for the given range.
-> - */
->   #define DRM_NOUVEAU_VM_BIND_OP_MAP 0x0
-> -/**
-> - * @DRM_NOUVEAU_VM_BIND_OP_UNMAP:
-> - *
-> - * Unmap an existing mapping in the GPU's VA space. If the region the mapping
-> - * is located in is a sparse region, new sparse mappings are created where the
-> - * unmapped (memory backed) mapping was mapped previously. To remove a sparse
-> - * region the &DRM_NOUVEAU_VM_BIND_SPARSE must be set.
-> - */
->   #define DRM_NOUVEAU_VM_BIND_OP_UNMAP 0x1
->   	/**
->   	 * @flags: the flags for a &drm_nouveau_vm_bind_op
-> +	 *
-> +	 * Supported values:
-> +	 *
-> +	 * %DRM_NOUVEAU_VM_BIND_SPARSE - Indicates that an allocated VA
-> +	 * space region should be sparse.
->   	 */
->   	__u32 flags;
-> -/**
-> - * @DRM_NOUVEAU_VM_BIND_SPARSE:
-> - *
-> - * Indicates that an allocated VA space region should be sparse.
-> - */
->   #define DRM_NOUVEAU_VM_BIND_SPARSE (1 << 8)
->   	/**
->   	 * @handle: the handle of the DRM GEM object to map
-> @@ -301,17 +299,17 @@ struct drm_nouveau_vm_bind {
->   	__u32 op_count;
->   	/**
->   	 * @flags: the flags for a &drm_nouveau_vm_bind ioctl
-> +	 *
-> +	 * Supported values:
-> +	 *
-> +	 * %DRM_NOUVEAU_VM_BIND_RUN_ASYNC - Indicates that the given VM_BIND
-> +	 * operation should be executed asynchronously by the kernel.
-> +	 *
-> +	 * If this flag is not supplied the kernel executes the associated
-> +	 * operations synchronously and doesn't accept any &drm_nouveau_sync
-> +	 * objects.
->   	 */
->   	__u32 flags;
-> -/**
-> - * @DRM_NOUVEAU_VM_BIND_RUN_ASYNC:
-> - *
-> - * Indicates that the given VM_BIND operation should be executed asynchronously
-> - * by the kernel.
-> - *
-> - * If this flag is not supplied the kernel executes the associated operations
-> - * synchronously and doesn't accept any &drm_nouveau_sync objects.
-> - */
->   #define DRM_NOUVEAU_VM_BIND_RUN_ASYNC 0x1
->   	/**
->   	 * @wait_count: the number of wait &drm_nouveau_syncs
+>
+> > --- a/drivers/pinctrl/stm32/pinctrl-stm32.c
+> > +++ b/drivers/pinctrl/stm32/pinctrl-stm32.c
+> > @@ -895,7 +895,6 @@ static const struct pinmux_ops stm32_pmx_ops =3D {
+> >         .set_mux                =3D stm32_pmx_set_mux,
+> >         .gpio_set_direction     =3D stm32_pmx_gpio_set_direction,
+> >         .request                =3D stm32_pmx_request,
+> > -       .strict                 =3D true,
+>
+> To be honest this is what I use a lot of the time, with non-strict
+> pin control you can set up default GPIO values using the pin control
+> device tree, and it's really simple and easy to read like that since e.g.
+> in this case you set it from the panel device node which is what
+> is also consuming the GPIO, so very logical. So I
+> would certainly remove this .strict setting, but maybe Alexandre
+> et al have a strong opinion about it.
 
+I will send a separate RFC PATCH.
+
+Thanks and regards,
+Dario Binacchi
+
+>
+> > Another option to fix my use case without introducing regressions
+> > could be to add a
+> > new property to the device tree that suggests whether to call
+> > devm_gpiod_get_optional()
+> > with the GPIOD_ASIS or GPIOD_OUT_HIGH parameter.
+> >
+> > What is your opinion?
+>
+> It's fine either way, but just use GPIOD_OUT_HIGH and I can test
+> it on my system as well, I think it's fine.
+>
+> Yours,
+> Linus Walleij
+
+
+
+--=20
+
+Dario Binacchi
+
+Senior Embedded Linux Developer
+
+dario.binacchi@amarulasolutions.com
+
+__________________________________
+
+
+Amarula Solutions SRL
+
+Via Le Canevare 30, 31100 Treviso, Veneto, IT
+
+T. +39 042 243 5310
+info@amarulasolutions.com
+
+www.amarulasolutions.com
