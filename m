@@ -1,45 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA793826BA5
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 11:37:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60D54826BC5
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 11:46:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4762C10E20F;
-	Mon,  8 Jan 2024 10:37:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EF9910E203;
+	Mon,  8 Jan 2024 10:45:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67E3010E1F5;
- Mon,  8 Jan 2024 10:37:25 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAD1810E203;
+ Mon,  8 Jan 2024 10:45:57 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 1F96ACE1000;
- Mon,  8 Jan 2024 10:37:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A8ABC433C7;
- Mon,  8 Jan 2024 10:37:21 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id 104ECB80D23;
+ Mon,  8 Jan 2024 10:45:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12AFDC433C8;
+ Mon,  8 Jan 2024 10:45:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1704710242;
- bh=I2cJ5pKDt48/1lLJBuJjqvcrXBZNtAWlklGQZCuHpjs=;
+ s=k20201202; t=1704710755;
+ bh=/8w4vROXmW0/3v/ZTMz/G2a/IUmTbhMJq4VGl/To7Ag=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hg6FlY7lKiLYrFwaqeNhLYHZxk7eszjRg2Fq0ct68Fv/psOZH3K+FPsv8oVYRmDX7
- A/fJiSYGMA9CO548Snl9fDWzi7xKz9YWA9dmzASPfH//TygDBGJPTbmyrfQlCHFff0
- 6ChfaZZyomBzr0eBfBjjN0XyPJ/jxci7MMLYofT164sE4lwNzHw+p1ghcW9tQzVb9o
- 8aCzlKV83NcGnyYc49XB7J/OQ8xG4R+d7DzqhQ6ZROYkWSvKO3GtDPFce/CLAn9As1
- pLzi6fgM+M81YsrxDJr/WKUwEF2NteH9lZD6o8u7lc/JgP8ei1NC5/h0iEkK3D0qJe
- d7xR16cKqV73w==
-Date: Mon, 8 Jan 2024 11:37:19 +0100
+ b=lUcKlsH/SdHBtzI4vy0A2Qqm35XwzGuihd4efUl5q23f+fmPWhTqPUxAsFT9sFh2L
+ qY9e6sgVaivOOC6OP5miQTTk7CjX3y+/Rc3CM7M5Ot5kaY468yaK5bl2qIYA1KkRlv
+ U2ZrRCBzKjNg3uCHRhg9XfP54Q7NnBMgEWEHu1TOsTevWQ/uRZdmF57jUr0dMxtRid
+ jdsWFOHAetoZXEM035kJhLQdv7L1UzaUTMEAGsJ3MiRYkrirWLpY7PXuCQQxEPpxHi
+ lYau/fwzX/vG+VkN+wImDsU3lJ3JBQBF610qbJ4QCThDc+3I9gOIbHoTMNMrO3/vZA
+ P8MOEjhgdiqJQ==
+Date: Mon, 8 Jan 2024 11:45:52 +0100
 From: Maxime Ripard <mripard@kernel.org>
 To: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>
-Subject: Re: [PATCH v4 2/6] drm/tests: managed: Rename the suite name to
- match other DRM tests
-Message-ID: <ful4yeyeeqrfzdsgq6azz5rhlgood2cnjkodlrdozsglbhtymt@3r6wukug6gtr>
+Subject: Re: [PATCH v4 3/6] drm/tests: managed: Remove the waitqueue usage
+Message-ID: <bu62aukq2iw36k52tvrimatph3hn6ec3a4c5gaf4orkak6igoz@do6v344l7g43>
 References: <20240105101324.26811-1-michal.winiarski@intel.com>
- <20240105101324.26811-3-michal.winiarski@intel.com>
+ <20240105101324.26811-4-michal.winiarski@intel.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="wllsfru5xpnuqssj"
+ protocol="application/pgp-signature"; boundary="iu3intlqu5kvvetm"
 Content-Disposition: inline
-In-Reply-To: <20240105101324.26811-3-michal.winiarski@intel.com>
+In-Reply-To: <20240105101324.26811-4-michal.winiarski@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,47 +60,38 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---wllsfru5xpnuqssj
+--iu3intlqu5kvvetm
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 05, 2024 at 11:13:20AM +0100, Micha=C5=82 Winiarski wrote:
-> DRM tests use "_" rather than "-" as word separator. Rename the test
-> suite to match other tests.
+On Fri, Jan 05, 2024 at 11:13:21AM +0100, Micha=C5=82 Winiarski wrote:
+> DRM managed release (drm_managed_release) is called as part of devres
+> release (devres_release_all), which is not async.
+> The release action should have already been executed once
+> drm_kunit_helper_free_device exits, meaning that there's no need to use
+> a waitqueue - we can just inspect the "action_done" state directly.
 >=20
 > Signed-off-by: Micha=C5=82 Winiarski <michal.winiarski@intel.com>
-> ---
->  drivers/gpu/drm/tests/drm_managed_test.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/tests/drm_managed_test.c b/drivers/gpu/drm/t=
-ests/drm_managed_test.c
-> index 1652dca11d30c..659af5abb8014 100644
-> --- a/drivers/gpu/drm/tests/drm_managed_test.c
-> +++ b/drivers/gpu/drm/tests/drm_managed_test.c
-> @@ -61,7 +61,7 @@ static struct kunit_case drm_managed_tests[] =3D {
->  };
-> =20
->  static struct kunit_suite drm_managed_test_suite =3D {
-> -	.name =3D "drm-test-managed",
-> +	.name =3D "drm_test_managed",
->  	.test_cases =3D drm_managed_tests
->  };
 
-I guess if we were to truly follow the trend, it would be drm_managed?
+I disagree, nothing guarantees in the API that it will be executed right
+away. Since it might be asynchronous (if something else holds a
+reference for example), we need the workqueue.
+
+Fortunately, it turns out that it's actually done right away, which also
+means we'll never hit the timeout and thus never stall the test run.
 
 Maxime
 
---wllsfru5xpnuqssj
+--iu3intlqu5kvvetm
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZZvQXwAKCRDj7w1vZxhR
-xZojAP9it/UDliDk2mE/BdkWkwweIMSTuPNInr+lArfeFsu9eQEA4bwgWSdKPPNS
-P77GouENMe1JX2xdTSQ/TlMuvGeNfg4=
-=ulYa
+iHQEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZZvSXwAKCRDj7w1vZxhR
+xUy9AP9z4a9PtD1LHH9YlF2EJRnFrx0g0iY1U0rxHWhnZXFVPgD4iX4Hm1zoLjXz
+0BccGN772xsxXdWGatm/UjMXqVaxBQ==
+=mn+1
 -----END PGP SIGNATURE-----
 
---wllsfru5xpnuqssj--
+--iu3intlqu5kvvetm--
