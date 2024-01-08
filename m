@@ -1,61 +1,109 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7956982700B
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 14:41:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B056C827091
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 15:03:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C125410E10A;
-	Mon,  8 Jan 2024 13:41:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02E1310E0B9;
+	Mon,  8 Jan 2024 14:02:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26A1D10E10A
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 13:41:07 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id
- 4fb4d7f45d1cf-5572a9b3420so4787477a12.1
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Jan 2024 05:41:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1704721265; x=1705326065; darn=lists.freedesktop.org;
- h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=3r6g5z9Mx4IxtW42MMxxjM9D6NLe62syXKXuO2xxI40=;
- b=JajNsmnyTlRJHabEbehW2frfkwGcdun6DeKtERWYvsnempQnVCwA6Zb0MwBxZMEXix
- TFgWiN2uiCwr1SIXiN/mDrtkjSTib6rrCvAgeMy0HagFR4QXTXGONlXixuKhZbWH+Wn3
- B6Vf2zv+JrNAdfCeYTID/d220QwkFUE/C5IwS4nSasGehcuufyX7QQ8shdfHp9Qp8Ng0
- hee9blRG5aoULzFvuPdaSlDgOe3+dl13pTiXqOD0D13cw3mL4azofMS/CTWxSqlMzqxL
- vvagNuHAveujWR6LMu/JSXrZvdfnZUjCOOK/a7Y41dKZiDc9kf7YCSDnJVyklHzA+UKj
- SzlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704721265; x=1705326065;
- h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=3r6g5z9Mx4IxtW42MMxxjM9D6NLe62syXKXuO2xxI40=;
- b=qVXY8LBnX3eBv73DkkZy/1tW9esFOC+/xtryXpcXpoYpYIjG8yIYAnTi8+7Kwu5S4K
- kb34Zqb1/I8u4CUmHpnkRTkYl5uTe8MBG/I32q3KJOvtGXGh3jKzQ1ADSw/q0V5K2tkn
- bw8ryQBzKMlwgLpolcjgAaiPAKnVRtdr3roan5o8pgnuOAf7zkdsx+aCFGLZqUZihyBO
- R3dIh58ftTiBcMR0975zZttI+2SkCKap/JiEhGzDhL1YUsXRCLLqk8fr6EIRGxK8tcUb
- PBivt81fSpsfjh19DijMXxp+eXvu4YPRr+GIjLkm05SUx//abyveGGRisrCA4M2SuvnX
- UPrg==
-X-Gm-Message-State: AOJu0Yz3diN0radKL4AY07WFK9suKNa/IaCjYqYO/EZWj/R22IQ1OVJO
- WTRP2Pj6yWdfBLvNtXE3REs=
-X-Google-Smtp-Source: AGHT+IHsSgTUHLYbaiUv5IWw6W2ekoAhScEgfGZkpNW1wQrT2vNPo2yxBdPLVFG/wdZpaBKadwDpqw==
-X-Received: by 2002:a17:906:2c53:b0:a27:fdc1:59c6 with SMTP id
- f19-20020a1709062c5300b00a27fdc159c6mr5492095ejh.26.1704721265272; 
- Mon, 08 Jan 2024 05:41:05 -0800 (PST)
-Received: from felia.fritz.box ([2a02:810d:7e40:14b0:a060:7056:782e:5e26])
- by smtp.gmail.com with ESMTPSA id
- b1-20020a170906490100b00a26b36311ecsm4017896ejq.146.2024.01.08.05.41.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Jan 2024 05:41:04 -0800 (PST)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, linux-serial@vger.kernel.org
-Subject: [PATCH] vt: remove superfluous CONFIG_HW_CONSOLE
-Date: Mon,  8 Jan 2024 14:41:02 +0100
-Message-Id: <20240108134102.601-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on20608.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe5a::608])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B70BE10E0B9
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 14:02:57 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HnO9tuj59zffV7oaVyXez4Xv0eQDC89PP979Md9QTDEnCC1hPcOfLZ0dbeLhg6mOsaavJ0yIg8NunKLeU9PrcwBvUANYbjn/GxNisslEiMfWA9UIjAYIEVJoijMqb/6S27OQAH6KCXV3ofXHILqXI7TVTA60m4D5zN5okDEDChujLyXDfyr2xHbJwivEBLc/2jyezPs4GNtEl2JHG8ppi7z3NX/U7zyMPEOSH8SwVj33TqP2Kp60xqCCpJIlc3FDQ2hD9YlKIc+0BvPSPLmqanzq3UJg7GzugdZEUVU0Jnn4M06fhEtvUKKqWfVB9iaDJ0b6Leg/I2whdnWfDbGZGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=O3H/scIysDbHkCk+GFipvvZr68uuJqZfyJMhhpu6AHo=;
+ b=Az8YMW1erLhFdkJZrsupjL5k7AWQcDdoXDl5rUbH8dMDD2FWOvdfIP8TdoAjuoBIfStFRCQTbSqpTCVbaLOW2HebagHDBkMPeskaDUiesEGTrlQk9ys8xFx/W/xCedeUZFvOGEDAYPvNsXa6IKy1263a7O+wefiEMYcnw0b0POeZQBDU23K4qNVENa42uYHVul9JUF/wJZpmIlm7CksjmJp3Wx/RRwSaokrL6CrwyPODSKeQLY8cXDiaEyQ+78OJ4uZMWlYHjMfHoJxf5tLnTUJpePFxk75lIq5UXadyXsSxXG66bqdWKCIPO6RO1dkSLwLzSECXDJBewS4cSf+bdw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=O3H/scIysDbHkCk+GFipvvZr68uuJqZfyJMhhpu6AHo=;
+ b=q+UC/JV//GyQO82iHnS6t6n1RrCxsB7JK6Q+wZdrpG7MhWIOUIW4bq5j86d4pUPt6O1+Fqg7XS/tiXfzZP9xlyIxpuFG0NrkGyd8uApSn+PrYPWExC6xCmZGWAr1Vgh6XLgc27gJAKC75kxEuCVrNwsp3W5sUwueJOjWmv66LxeLjDkSQX6of9Nwl3GruSgygNX2LS+pHNqgJ1RrkIe2ZkP0padvzf9PClLR3OvHplI1+pHVnokNtTDQoOZ9Dr7OovV05ZjfCEd6RpfHLoAu4FRmhYjEpqG1X4z3O51GqqbANy0Pz3xTZ3LH3qiLwRmuZ7aI31pjLLQHCBGkcH/ysA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by CH3PR12MB8850.namprd12.prod.outlook.com (2603:10b6:610:167::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.23; Mon, 8 Jan
+ 2024 14:02:52 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::60d4:c1e3:e1aa:8f93]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::60d4:c1e3:e1aa:8f93%4]) with mapi id 15.20.7159.020; Mon, 8 Jan 2024
+ 14:02:51 +0000
+Date: Mon, 8 Jan 2024 10:02:50 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Yan Zhao <yan.y.zhao@intel.com>
+Subject: Re: [PATCH 0/4] KVM: Honor guest memory types for virtio GPU devices
+Message-ID: <20240108140250.GJ50406@nvidia.com>
+References: <20240105091237.24577-1-yan.y.zhao@intel.com>
+ <20240105195551.GE50406@nvidia.com>
+ <ZZuQEQAVX28v7p9Z@yzhao56-desk.sh.intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZZuQEQAVX28v7p9Z@yzhao56-desk.sh.intel.com>
+X-ClientProxiedBy: MN2PR05CA0021.namprd05.prod.outlook.com
+ (2603:10b6:208:c0::34) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|CH3PR12MB8850:EE_
+X-MS-Office365-Filtering-Correlation-Id: d5470f08-9acf-4ffa-ff62-08dc105280ff
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: kT/puTJLBLM29Q0S9eLOLKwZlVKbblJHmAN8EGWkxkt/5hbMxi3f5PUsKECpfLz60/HEUAMH8rDoeDnzJrf9c2DkPtnKMBgRsn893Oaccgs6rXiDpFWRyU73fEdfKS0bv1cmjg0HH5CKQRUS0nrSd779jG580QE7yKklpuFfCa8FWlqp+7/VtveaLtik0vggvvVcbgpGWBKTbEMEJgoFnL7QQUbAHNAgZrnv2nUXbYdCmHQ71XfI5HzXqr48wCgcXAWrJFUbUAV24l8lo9iDN4rOGVK7w8X+3Ns2WrMBLmcpRcUk+GNicU+P/Y2OKH+e01DHQ/mYRzqalm0taSuG/qWsaH3Zgriy0VCEJRi3d/ofsWAio/xGME5vTmJG5YOBKbQTaWWDQ56OIFc4s3ye/QxL7zL4jUM8Z9rPgkLC2RyT1D6XH1WmBmfSmsvxdAqscGFmmEEeo1zO7k+xmisduGHYfJTv9xPCDHTVlIWJNlzEy9UKGpMIogV7EDbB8LB3w/rfxHrikl2mYTi114vi1zCWW80KSLij88jWgw718SZeLLk+vwib7EmnMUFqWO+y
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366004)(376002)(346002)(396003)(39860400002)(136003)(230922051799003)(1800799012)(451199024)(186009)(64100799003)(41300700001)(33656002)(1076003)(6506007)(83380400001)(6916009)(66556008)(66476007)(66946007)(6486002)(2906002)(316002)(38100700002)(478600001)(2616005)(6512007)(26005)(86362001)(36756003)(7416002)(5660300002)(4326008)(8676002)(8936002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?yZdrbHtVdZTlo9p770wHbM5ynm45cNtKRGfI0+EOPpRh0UcxpyHUmDEHPfOI?=
+ =?us-ascii?Q?asDD+k0OMLcXAxP6im4qngoFeedOg4wQWQZB41NGTMIHZohlDrCPxyoaZ8od?=
+ =?us-ascii?Q?PmhPVMe0pWUXjK9Q/tlox2AKQ6MKlo6/z6R0wKP+wRvGPaeTvqNJcD6S0JyM?=
+ =?us-ascii?Q?hmUkG/mUE7XJHPaDzucPCeOwvUNRM14k3teaEEdrKqs6ZUfr2pE+HHJv2yAe?=
+ =?us-ascii?Q?xX65RhDeYY9uPfEupcr6lQ3tamHwPY/wbk32pQMU3JTcSiuFbV44JhhS73CP?=
+ =?us-ascii?Q?MLmSmuEMZef5rN7Fxe0Nh2i3ciiimy58aIsUj8jMegGlVh++y9iE6qDk9af3?=
+ =?us-ascii?Q?pGtDFzoKE2a7IcCZ83fjPaQRlFJehUyEcXRdsmXceoOdMk+VaHnmhzFHc3ep?=
+ =?us-ascii?Q?c0BJ8WzEJ1jyYCKTRw0S0tpjfoO5bajhoHSFXY+MuH17twn0kRDaBaE42Nwz?=
+ =?us-ascii?Q?AOk6LSyYeVr2atr2jSt+v7cNMjN/fHJSXLanQigR2LvR3P5mc27JAfjTLyAa?=
+ =?us-ascii?Q?QcO6JeomoSfL5lNp/Pri7NYRfqv6qab9nMOig0LBWJqM76w+17qRo97WfLr0?=
+ =?us-ascii?Q?AzU4s1PmdX36dcAKdB+mDTkybNDe4c5sH3ULfC5LAFeRC5iVSLEKms1xAUl8?=
+ =?us-ascii?Q?BbJEdviNvWR59AZiusv7mqVDAww2ZeBGe9irTjvAHnMdx62TIEO30PH+lTHu?=
+ =?us-ascii?Q?4vgjNB0+TrtJjZK+VTYcGJEtRq23ipuh4rVK53AUKF/CsUj2694AGH0QrxWe?=
+ =?us-ascii?Q?CZh10xGyLoqWz2kLjrIsl22Nb8xZdPSHyxbUabGVNaQdyGpbKJSIU+CwcrkD?=
+ =?us-ascii?Q?SLG4DtnBaHiOb/rUIuLSSOyv+lXxP2x2h8dlISUhTc+Tk/gXsLnT8uBnmK6R?=
+ =?us-ascii?Q?XQME5QD+u0POWGNFJwvnJV0jmdudjDQ1ReLfDNkDVcGT3bZyXyecP8pw3Oxu?=
+ =?us-ascii?Q?DBq8Ka34Deh8zyeu2cOmw1OWSoONnaFlQUB12VW+Xpe3Hgx65T0OwSaAi4iu?=
+ =?us-ascii?Q?XTCn3K39s3pXiRbpkziLdh/F+NOD8MshcjYtFkjzfH9brf9Dl3BmPA3/tQNq?=
+ =?us-ascii?Q?6xzzSgHHXej1lBZjvyhHpgmatOUzVqy5IWT5oISdZrVudqL5UAbWQxj7AgOt?=
+ =?us-ascii?Q?iac7+2NVGP4UAgG0TA8uPk4W/9Ts/ewl9ZvdDqpyI+kvIzW1BbvontVu4SIx?=
+ =?us-ascii?Q?x3GI7a+g0x5xE49DEwYLoUmE27LBaGdfXPpD+4BBmrWCGH4mA8FmO6EqIx6B?=
+ =?us-ascii?Q?J8PDaKTLDsUzCCVHpZixWMKoh6Q79GOT+BxeyrvqUB7BWdC19WfNp5jjokHp?=
+ =?us-ascii?Q?S67gXXk1f8Z4Bhvt+QXXzck/qoF9reyh3YNPpEyUIFbcdUcT3cBfOpkrk71X?=
+ =?us-ascii?Q?se8ehsENuRWckR2UfI242zGhUMYvJ36iFjRPigcUrmNfRh2mN5Q50R07S+pp?=
+ =?us-ascii?Q?8CLqTf4NXa9KJ7Nx9jmUXZ0qSrRARD+ZOtLEv8bPZKZ9V8zM/4c23HbjjAjD?=
+ =?us-ascii?Q?EoEDspwK3zUuQhI2VFIoDRWeqkLvZPH1wW23Z3DP4WR4lqREk01XQdsILc+9?=
+ =?us-ascii?Q?sWX5PdmphtpmPZA1gAk=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d5470f08-9acf-4ffa-ff62-08dc105280ff
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2024 14:02:51.8568 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: quCpi6jGKLPyaxu7749lyKefDo7m3ng9s4njVWLD8Rk8FPdYYzCd/ccP8jG3Wbma
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8850
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,154 +116,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-m68k@lists.linux-m68k.org, Geert Uytterhoeven <geert@linux-m68k.org>,
- linux-input@vger.kernel.org, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>
+Cc: wanpengli@tencent.com, kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kraxel@redhat.com, maz@kernel.org,
+ joro@8bytes.org, zzyiwei@google.com, yuzenghui@huawei.com, olvaffe@gmail.com,
+ kevin.tian@intel.com, suzuki.poulose@arm.com, alex.williamson@redhat.com,
+ yongwei.ma@intel.com, zhiyuan.lv@intel.com, gurchetansingh@chromium.org,
+ jmattson@google.com, zhenyu.z.wang@intel.com, seanjc@google.com,
+ ankita@nvidia.com, oliver.upton@linux.dev, james.morse@arm.com,
+ pbonzini@redhat.com, vkuznets@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The config HW_CONSOLE is always identical to the config VT and is not
-visible in the kernel's build menuconfig. So, CONFIG_HW_CONSOLE is
-redundant.
+On Mon, Jan 08, 2024 at 02:02:57PM +0800, Yan Zhao wrote:
+> On Fri, Jan 05, 2024 at 03:55:51PM -0400, Jason Gunthorpe wrote:
+> > On Fri, Jan 05, 2024 at 05:12:37PM +0800, Yan Zhao wrote:
+> > > This series allow user space to notify KVM of noncoherent DMA status so as
+> > > to let KVM honor guest memory types in specified memory slot ranges.
+> > > 
+> > > Motivation
+> > > ===
+> > > A virtio GPU device may want to configure GPU hardware to work in
+> > > noncoherent mode, i.e. some of its DMAs do not snoop CPU caches.
+> > 
+> > Does this mean some DMA reads do not snoop the caches or does it
+> > include DMA writes not synchronizing the caches too?
+> Both DMA reads and writes are not snooped.
 
-Replace all references to CONFIG_HW_CONSOLE with CONFIG_VT and remove
-CONFIG_HW_CONSOLE.
+Oh that sounds really dangerous.
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
-I think this patch is best picked up by Greg rather than splitting it
-in smaller pieces for m68k, amiga keyboard, fbdev etc.
+> > > This is generally for performance consideration.
+> > > In certain platform, GFX performance can improve 20+% with DMAs going to
+> > > noncoherent path.
+> > > 
+> > > This noncoherent DMA mode works in below sequence:
+> > > 1. Host backend driver programs hardware not to snoop memory of target
+> > >    DMA buffer.
+> > > 2. Host backend driver indicates guest frontend driver to program guest PAT
+> > >    to WC for target DMA buffer.
+> > > 3. Guest frontend driver writes to the DMA buffer without clflush stuffs.
+> > > 4. Hardware does noncoherent DMA to the target buffer.
+> > > 
+> > > In this noncoherent DMA mode, both guest and hardware regard a DMA buffer
+> > > as not cached. So, if KVM forces the effective memory type of this DMA
+> > > buffer to be WB, hardware DMA may read incorrect data and cause misc
+> > > failures.
+> > 
+> > I don't know all the details, but a big concern would be that the
+> > caches remain fully coherent with the underlying memory at any point
+> > where kvm decides to revoke the page from the VM.
+> Ah, you mean, for page migration, the content of the page may not be copied
+> correctly, right?
 
-Greg, if that is fine, could you pick this for the next merge window?
+Not just migration. Any point where KVM revokes the page from the
+VM. Ie just tearing down the VM still has to make the cache coherent
+with physical or there may be problems.
+ 
+> Currently in x86, we have 2 ways to let KVM honor guest memory types:
+> 1. through KVM memslot flag introduced in this series, for virtio GPUs, in
+>    memslot granularity.
+> 2. through increasing noncoherent dma count, as what's done in VFIO, for
+>    Intel GPU passthrough, for all guest memory.
 
-I was also considering to rename config VT_HW_CONSOLE_BINDING to
-VT_CONSOLE_BINDING, as the dependency is on VT, not HW_CONSOLE, but
-at the moment, that seemed more churn than value of clarification.
+And where does all this fixup the coherency problem?
 
- arch/m68k/amiga/config.c        | 2 +-
- drivers/input/keyboard/amikbd.c | 6 +++---
- drivers/tty/Kconfig             | 7 +------
- drivers/tty/vt/Makefile         | 4 ++--
- drivers/video/fbdev/tgafb.c     | 2 +-
- include/linux/console.h         | 2 +-
- lib/Kconfig.kgdb                | 2 +-
- 7 files changed, 10 insertions(+), 15 deletions(-)
+> This page migration issue should not be the case for virtio GPU, as both host
+> and guest are synced to use the same memory type and actually the pages
+> are not anonymous pages.
 
-diff --git a/arch/m68k/amiga/config.c b/arch/m68k/amiga/config.c
-index 7791673e547b..99718f3dc686 100644
---- a/arch/m68k/amiga/config.c
-+++ b/arch/m68k/amiga/config.c
-@@ -846,6 +846,6 @@ static void amiga_get_hardware_list(struct seq_file *m)
-  * The Amiga keyboard driver needs key_maps, but we cannot export it in
-  * drivers/char/defkeymap.c, as it is autogenerated
-  */
--#ifdef CONFIG_HW_CONSOLE
-+#ifdef CONFIG_VT
- EXPORT_SYMBOL_GPL(key_maps);
- #endif
-diff --git a/drivers/input/keyboard/amikbd.c b/drivers/input/keyboard/amikbd.c
-index e305c44cd0aa..ecfae0b0b6aa 100644
---- a/drivers/input/keyboard/amikbd.c
-+++ b/drivers/input/keyboard/amikbd.c
-@@ -26,7 +26,7 @@ MODULE_AUTHOR("Vojtech Pavlik <vojtech@ucw.cz>");
- MODULE_DESCRIPTION("Amiga keyboard driver");
- MODULE_LICENSE("GPL");
- 
--#ifdef CONFIG_HW_CONSOLE
-+#ifdef CONFIG_VT
- static unsigned char amikbd_keycode[0x78] __initdata = {
- 	[0]	 = KEY_GRAVE,
- 	[1]	 = KEY_1,
-@@ -148,9 +148,9 @@ static void __init amikbd_init_console_keymaps(void)
- 		memcpy(key_maps[i], temp_map, sizeof(temp_map));
- 	}
- }
--#else /* !CONFIG_HW_CONSOLE */
-+#else /* !CONFIG_VT */
- static inline void amikbd_init_console_keymaps(void) {}
--#endif /* !CONFIG_HW_CONSOLE */
-+#endif /* !CONFIG_VT */
- 
- static const char *amikbd_messages[8] = {
- 	[0] = KERN_ALERT "amikbd: Ctrl-Amiga-Amiga reset warning!!\n",
-diff --git a/drivers/tty/Kconfig b/drivers/tty/Kconfig
-index 5646dc6242cd..a45d423ad10f 100644
---- a/drivers/tty/Kconfig
-+++ b/drivers/tty/Kconfig
-@@ -75,14 +75,9 @@ config VT_CONSOLE_SLEEP
- 	def_bool y
- 	depends on VT_CONSOLE && PM_SLEEP
- 
--config HW_CONSOLE
--	bool
--	depends on VT
--	default y
--
- config VT_HW_CONSOLE_BINDING
- 	bool "Support for binding and unbinding console drivers"
--	depends on HW_CONSOLE
-+	depends on VT
- 	help
- 	  The virtual terminal is the device that interacts with the physical
- 	  terminal through console drivers. On these systems, at least one
-diff --git a/drivers/tty/vt/Makefile b/drivers/tty/vt/Makefile
-index b3dfe9d5717e..2c8ce8b592ed 100644
---- a/drivers/tty/vt/Makefile
-+++ b/drivers/tty/vt/Makefile
-@@ -5,9 +5,9 @@
- FONTMAPFILE = cp437.uni
- 
- obj-$(CONFIG_VT)			+= vt_ioctl.o vc_screen.o \
--					   selection.o keyboard.o
-+					   selection.o keyboard.o \
-+					   vt.o defkeymap.o
- obj-$(CONFIG_CONSOLE_TRANSLATIONS)	+= consolemap.o consolemap_deftbl.o
--obj-$(CONFIG_HW_CONSOLE)		+= vt.o defkeymap.o
- 
- # Files generated that shall be removed upon make clean
- clean-files := consolemap_deftbl.c defkeymap.c
-diff --git a/drivers/video/fbdev/tgafb.c b/drivers/video/fbdev/tgafb.c
-index ca43774f3156..dccfc38cfbd5 100644
---- a/drivers/video/fbdev/tgafb.c
-+++ b/drivers/video/fbdev/tgafb.c
-@@ -380,7 +380,7 @@ tgafb_set_par(struct fb_info *info)
- 		BT463_LOAD_ADDR(par, 0x0000);
- 		TGA_WRITE_REG(par, BT463_PALETTE << 2, TGA_RAMDAC_SETUP_REG);
- 
--#ifdef CONFIG_HW_CONSOLE
-+#ifdef CONFIG_VT
- 		for (i = 0; i < 16; i++) {
- 			int j = color_table[i];
- 
-diff --git a/include/linux/console.h b/include/linux/console.h
-index 779d388af8a0..c129e4173dec 100644
---- a/include/linux/console.h
-+++ b/include/linux/console.h
-@@ -112,7 +112,7 @@ int con_is_bound(const struct consw *csw);
- int do_unregister_con_driver(const struct consw *csw);
- int do_take_over_console(const struct consw *sw, int first, int last, int deflt);
- void give_up_console(const struct consw *sw);
--#ifdef CONFIG_HW_CONSOLE
-+#ifdef CONFIG_VT
- int con_debug_enter(struct vc_data *vc);
- int con_debug_leave(void);
- #else
-diff --git a/lib/Kconfig.kgdb b/lib/Kconfig.kgdb
-index 3b9a44008433..b5c0e6576749 100644
---- a/lib/Kconfig.kgdb
-+++ b/lib/Kconfig.kgdb
-@@ -43,7 +43,7 @@ config KGDB_SERIAL_CONSOLE
- 	tristate "KGDB: use kgdb over the serial console"
- 	select CONSOLE_POLL
- 	select MAGIC_SYSRQ
--	depends on TTY && HW_CONSOLE
-+	depends on TTY && VT
- 	default y
- 	help
- 	  Share a serial console with kgdb. Sysrq-g must be used
--- 
-2.17.1
+The guest isn't required to do this so it can force the cache to
+become incoherent.
 
+> > If you allow an incoherence of cache != physical then it opens a
+> > security attack where the observed content of memory can change when
+> > it should not.
+> 
+> In this case, will this security attack impact other guests?
+
+It impacts the hypervisor potentially. It depends..
+
+Jason
