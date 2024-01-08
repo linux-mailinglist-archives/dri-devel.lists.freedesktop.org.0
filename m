@@ -1,40 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26048826D4B
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 13:01:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 461C3826DA0
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 13:18:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FC3910E208;
-	Mon,  8 Jan 2024 12:01:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9B2810E09A;
+	Mon,  8 Jan 2024 12:18:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A93E110E208
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 12:01:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1704715266;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zL3Tp6j0FI2WH0LNy5N+K5/yV+yjLiDhRH8Apc3kyR0=;
- b=cgWfNFnBlx8XcxRkz6PLY+lsRV8zjLvwNCEb+L6VVnv8ksJAaPibrjKhNtF2TaQWErgXH7
- Y9cBoaxDQIPQTzwMdqXvjv+LRDIlmk+keUTPfMvZiGpAlwBPhtwUQ3ucK2+vQTwRu7HRpY
- TyoFiLpGf5rG8lSa0r3vZX5fMmkmdB0=
-From: Paul Cercueil <paul@crapouillou.net>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v3 4/4] Documentation: usb: Document FunctionFS DMABUF API
-Date: Mon,  8 Jan 2024 13:00:56 +0100
-Message-ID: <20240108120056.22165-5-paul@crapouillou.net>
-In-Reply-To: <20240108120056.22165-1-paul@crapouillou.net>
-References: <20240108120056.22165-1-paul@crapouillou.net>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam: Yes
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C949910E1DF
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 12:18:01 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id
+ a640c23a62f3a-a28f66dc7ffso478102266b.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Jan 2024 04:18:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1704716280; x=1705321080; darn=lists.freedesktop.org;
+ h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ataiuoEiZAKbJMfDTmDPqOcB+hhvmSxMEb08xxsTGtE=;
+ b=TSL7WiDYOWXwz6aiSBEYg0S/eIeZnboPQJiKVZUJRhLZ0MAGJUx7UfkFltH/KANhWp
+ fekIyJ+kSYtL4sTbFm4nwf28QOWkzwm6uqBjumrzWgOAKqpwIdrWOpN6QDrKm3hGTji8
+ sog1A3X3TkS/pCMOAr5CbkfC5n0LMH0S9mY9v72XsdPrWFDnmPubC5AOrHVwMpTh6wIJ
+ NXuNkCdTZsSUwOL6VIFVEf8A+F9ALstgaC4sOJqVtuQxVpBJJYGB3RH2fV56ALk0+m4t
+ 9uCRxa/sULMY5apRATGd0dLcyTKLlJtjiUWsz3u2j4jF7wCFXJXVrVsr9p/uawTPPIVr
+ k4Rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1704716280; x=1705321080;
+ h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ataiuoEiZAKbJMfDTmDPqOcB+hhvmSxMEb08xxsTGtE=;
+ b=UwiDUhJDHHI8gbrbd8T7nqB1an921Ba0MTL71HG/h+Wd0wYN8lJNFHyB2ZQHxfMxIL
+ oDbzs6oKRBnxP6424pFBCD7K8fBiHo/s6NGPMFDTcpAdJX8bmRVUh8RkVxwchRr+BS3U
+ 0bIUGYYVLVFEESU+b0Oni5aE4tNO9fD8vkuLcE1EMv0mwMZF2fJ4ctwzeIZQsfTSLaqV
+ 9xk2Ui2WowYnjmHJqeEo4uDwDyQlnP07JImE21jnPnLg4vwSZIJvzraElBCV+wRme3bj
+ 7ri2DAzpq7WQ+Y3l7n0PU4RwR8pVifXdv0d7jICK8bx4cN0sSpBNvUxwyUP9n4kZgqL7
+ 0wow==
+X-Gm-Message-State: AOJu0Ywa1Tw9W+qkV6FmcEyjlIaFz4V9u8JT5ueqKg773HReKnqyE5pf
+ M5MRk/3+M5/UmAsehMrsj1c=
+X-Google-Smtp-Source: AGHT+IGk837jJFvS+TcY7fBXJR80jcXc31znrg/A2V9l7q0ncwOgKoPeJG795sFAlbjTJcin9QtHhQ==
+X-Received: by 2002:a17:906:7743:b0:a29:d642:46ba with SMTP id
+ o3-20020a170906774300b00a29d64246bamr3042338ejn.29.1704716279986; 
+ Mon, 08 Jan 2024 04:17:59 -0800 (PST)
+Received: from felia.fritz.box ([2a02:810d:7e40:14b0:a060:7056:782e:5e26])
+ by smtp.gmail.com with ESMTPSA id
+ r17-20020a170906551100b00a2356a7eafasm3641365ejp.199.2024.01.08.04.17.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Jan 2024 04:17:59 -0800 (PST)
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm: Clean-up superfluously selecting VT_HW_CONSOLE_BINDING
+Date: Mon,  8 Jan 2024 13:17:57 +0100
+Message-Id: <20240108121757.14069-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,80 +70,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Cercueil <paul@crapouillou.net>,
- Michael Hennerich <Michael.Hennerich@analog.com>, linux-doc@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
- linaro-mm-sig@lists.linaro.org,
- =?UTF-8?q?Nuno=20S=C3=A1?= <noname.nuno@gmail.com>,
- Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
+Cc: Lukas Bulwahn <lukas.bulwahn@gmail.com>, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add documentation for the three ioctls used to attach or detach
-externally-created DMABUFs, and to request transfers from/to previously
-attached DMABUFs.
+As config FRAMEBUFFER_CONSOLE already selects VT_HW_CONSOLE_BINDING, there
+is no need for any drm driver to repeat that rule for selecting.
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+Remove those duplications of selecting VT_HW_CONSOLE_BINDING.
 
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 ---
-v3: New patch
----
- Documentation/usb/functionfs.rst | 36 ++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+ drivers/gpu/drm/ingenic/Kconfig | 1 -
+ drivers/gpu/drm/mcde/Kconfig    | 1 -
+ drivers/gpu/drm/pl111/Kconfig   | 1 -
+ drivers/gpu/drm/tve200/Kconfig  | 1 -
+ 4 files changed, 4 deletions(-)
 
-diff --git a/Documentation/usb/functionfs.rst b/Documentation/usb/functionfs.rst
-index a3054bea38f3..d05a775bc45b 100644
---- a/Documentation/usb/functionfs.rst
-+++ b/Documentation/usb/functionfs.rst
-@@ -2,6 +2,9 @@
- How FunctionFS works
- ====================
+diff --git a/drivers/gpu/drm/ingenic/Kconfig b/drivers/gpu/drm/ingenic/Kconfig
+index b440e0cdc057..3db117c5edd9 100644
+--- a/drivers/gpu/drm/ingenic/Kconfig
++++ b/drivers/gpu/drm/ingenic/Kconfig
+@@ -11,7 +11,6 @@ config DRM_INGENIC
+ 	select DRM_GEM_DMA_HELPER
+ 	select REGMAP
+ 	select REGMAP_MMIO
+-	select VT_HW_CONSOLE_BINDING if FRAMEBUFFER_CONSOLE
+ 	help
+ 	  Choose this option for DRM support for the Ingenic SoCs.
  
-+Overview
-+========
-+
- From kernel point of view it is just a composite function with some
- unique behaviour.  It may be added to an USB configuration only after
- the user space driver has registered by writing descriptors and
-@@ -66,3 +69,36 @@ have been written to their ep0's.
- 
- Conversely, the gadget is unregistered after the first USB function
- closes its endpoints.
-+
-+DMABUF interface
-+================
-+
-+FunctionFS additionally supports a DMABUF based interface, where the
-+userspace can attach DMABUF objects (externally created) to an endpoint,
-+and subsequently use them for data transfers.
-+
-+A userspace application can then use this interface to share DMABUF
-+objects between several interfaces, allowing it to transfer data in a
-+zero-copy fashion, for instance between IIO and the USB stack.
-+
-+As part of this interface, three new IOCTLs have been added. These three
-+IOCTLs have to be performed on a data endpoint (ie. not ep0). They are:
-+
-+  ``FUNCTIONFS_DMABUF_ATTACH(int)``
-+    Attach the DMABUF object, identified by its file descriptor, to the
-+    data endpoint. Returns zero on success, and a negative errno value
-+    on error.
-+
-+  ``FUNCTIONFS_DMABUF_DETACH(int)``
-+    Detach the given DMABUF object, identified by its file descriptor,
-+    from the data endpoint. Returns zero on success, and a negative
-+    errno value on error. Note that closing the endpoint's file
-+    descriptor will automatically detach all attached DMABUFs.
-+
-+  ``FUNCTIONFS_DMABUF_TRANSFER(struct usb_ffs_dmabuf_transfer_req *)``
-+    Enqueue the previously attached DMABUF to the transfer queue.
-+    The argument is a structure that packs the DMABUF's file descriptor,
-+    the size in bytes to transfer (which should generally correspond to
-+    the size of the DMABUF), and a 'flags' field which is unused
-+    for now. Returns zero on success, and a negative errno value on
-+    error.
+diff --git a/drivers/gpu/drm/mcde/Kconfig b/drivers/gpu/drm/mcde/Kconfig
+index 4f3d68e11bc1..907460b69d4f 100644
+--- a/drivers/gpu/drm/mcde/Kconfig
++++ b/drivers/gpu/drm/mcde/Kconfig
+@@ -11,7 +11,6 @@ config DRM_MCDE
+ 	select DRM_PANEL_BRIDGE
+ 	select DRM_KMS_HELPER
+ 	select DRM_GEM_DMA_HELPER
+-	select VT_HW_CONSOLE_BINDING if FRAMEBUFFER_CONSOLE
+ 	help
+ 	  Choose this option for DRM support for the ST-Ericsson MCDE
+ 	  Multi-Channel Display Engine.
+diff --git a/drivers/gpu/drm/pl111/Kconfig b/drivers/gpu/drm/pl111/Kconfig
+index ad24cdf1d992..20fe1d2c0aaf 100644
+--- a/drivers/gpu/drm/pl111/Kconfig
++++ b/drivers/gpu/drm/pl111/Kconfig
+@@ -9,7 +9,6 @@ config DRM_PL111
+ 	select DRM_GEM_DMA_HELPER
+ 	select DRM_BRIDGE
+ 	select DRM_PANEL_BRIDGE
+-	select VT_HW_CONSOLE_BINDING if FRAMEBUFFER_CONSOLE
+ 	help
+ 	  Choose this option for DRM support for the PL111 CLCD controller.
+ 	  If M is selected the module will be called pl111_drm.
+diff --git a/drivers/gpu/drm/tve200/Kconfig b/drivers/gpu/drm/tve200/Kconfig
+index 11e865be81c6..5121fed571a5 100644
+--- a/drivers/gpu/drm/tve200/Kconfig
++++ b/drivers/gpu/drm/tve200/Kconfig
+@@ -9,7 +9,6 @@ config DRM_TVE200
+ 	select DRM_PANEL_BRIDGE
+ 	select DRM_KMS_HELPER
+ 	select DRM_GEM_DMA_HELPER
+-	select VT_HW_CONSOLE_BINDING if FRAMEBUFFER_CONSOLE
+ 	help
+ 	  Choose this option for DRM support for the Faraday TV Encoder
+ 	  TVE200 Controller.
 -- 
-2.43.0
+2.17.1
 
