@@ -1,64 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 436808278F5
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 21:12:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB5EB8278FA
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 21:16:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D55410E02A;
-	Mon,  8 Jan 2024 20:12:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C229F10E05D;
+	Mon,  8 Jan 2024 20:16:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
- [IPv6:2607:f8b0:4864:20::b29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2BBD10E02A
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 20:12:49 +0000 (UTC)
-Received: by mail-yb1-xb29.google.com with SMTP id
- 3f1490d57ef6-dbed430ef5eso1255713276.1
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Jan 2024 12:12:49 -0800 (PST)
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C13A910E05D
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 20:16:23 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id
+ 4fb4d7f45d1cf-554fe147ddeso2561883a12.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Jan 2024 12:16:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1704744769; x=1705349569;
+ d=amarulasolutions.com; s=google; t=1704744982; x=1705349782;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=jO+k5lvbngjS92ouyx3R3uEoQtzTI+waqD9Cqv6JLzo=;
- b=jeACAZnh/uPjuG2aq5QUdLtVcXEpbESDWOKw9aI25GmcnGgO3Ncr4UCbk/s0Pnp+Xf
- AqPavWvrYiy84CEafV5G1u7AhfaIxgIZAq4BdnPtQ20hGQ7MPtIhHpOTuLoLfhuCkVYf
- Xzx38lPrsQ0oI6O2+WGegeLt/ar+t9rPpNC20=
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=470HE3R0eHCn9Vp1B3I9DAfMXHgYPXc2oiMu7MIw+p8=;
+ b=Pcl7qj4T1YIMtnkCwfyja883r7oJc9nSiTrfVCcpqYAy2ZXqXvg2sUw0LGwTiNL49V
+ PEZhXliDP5xn36cnpbwmqgWh7F81eQDfazwHOh3AMFDqrj7pXSrg4+Q+7fTB+mQtVEfL
+ 47EF1YTTShjc1yy5hvBZHKGDJ7H7ZSpQ8byiU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704744769; x=1705349569;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=jO+k5lvbngjS92ouyx3R3uEoQtzTI+waqD9Cqv6JLzo=;
- b=rDu+kU/zmXrRdn5o7nretdBGBfU9ovxJL1xCX/KY1LznD47FgXZp6b9X5afEw8UCe6
- UlvPMFuc+1YGDY7TI7qxFiFRNDsoa/9vf766ubIs9UFKfrOrkvgibtNGn0c3+OcMH7nJ
- yeG6pNz0k/5Yi3VrrBILGrgUUpsJn0UOT2xApNRjXD76o56QYdnjwzK/9g3/CvvtS4MA
- xX+uJJfbpecmAEpD2LcHrLayPTH4DphP4WEF1IhoBy5GsoiF8aqIxieFiI6SdLY8GPCQ
- kKsU57as44T9Oo5NUIbBgc+SVmUZUDD0ZSSTRnQs62dJ58PC/+1fttl3S5UE3Hxrhavp
- L26w==
-X-Gm-Message-State: AOJu0YxtKvP2yc7x/poGfIhYbFm1P6I8f0Jypbiey94rqGpPHlgyR/9p
- WMw485NZrR/bM+f2Zdyq3ZV5JLOKHJ9dk5+uDxif0dzgn3T8Mw==
-X-Google-Smtp-Source: AGHT+IFUUedhilU//0xZ1+dgQGu1fYRJoi2KV/ctlDlSR1L6Xlf0TFmrxtXePndYD4C7J5WXLQ80bM9Ha0k8nMgP2ZU=
-X-Received: by 2002:a25:8441:0:b0:db7:dad0:76ad with SMTP id
- r1-20020a258441000000b00db7dad076admr1590636ybm.73.1704744768971; Mon, 08 Jan
- 2024 12:12:48 -0800 (PST)
-MIME-Version: 1.0
-References: <20240104084206.721824-1-dario.binacchi@amarulasolutions.com>
- <20240104084206.721824-9-dario.binacchi@amarulasolutions.com>
- <CACRpkda+=Zq+v-505O3pHazKzukSifBnNx_CPKbKd2JH-KYpYg@mail.gmail.com>
- <CABGWkvoNuJNmxhrOE6csE2mGwF50ou-jx-kpmH-oQ2zBgzLrSg@mail.gmail.com>
- <CACRpkdZJF-WE8oTi3RXpX_+W+D6bV_o2Nt1ikRbErR6pBc2OJg@mail.gmail.com>
-In-Reply-To: <CACRpkdZJF-WE8oTi3RXpX_+W+D6bV_o2Nt1ikRbErR6pBc2OJg@mail.gmail.com>
+ d=1e100.net; s=20230601; t=1704744982; x=1705349782;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=470HE3R0eHCn9Vp1B3I9DAfMXHgYPXc2oiMu7MIw+p8=;
+ b=h8J2bsNqAAmoWz6+iCrzi32GOD3wkt4QUzxEtq1ZQ+9M4mqNYE1a7s4BBzezp1dEF1
+ 8U0dMayQKMYYrA/b9K/2xk3+5CWJyqIrVZtM+ZIq/etTcCvPpN+2UUASJ/VmIFWFninJ
+ hDdhWCc4guYTFFPG/PXojkvO3rGgYTaJjdLGTTrQY2o81VhIpGCcTvgSNxoGAAU5CO5T
+ GrfZlUHM/RJYsQVRhFUU/O9Bd1vO7t1LvXCvb2/A/9d3emYjwcnR0dNIRNS5u8s33if7
+ IiknctS6amoDnpdGYVm4Fctz6K86Tt2Qk2Lw8zLjnJxRkcJGdSvO3mVHxjE23NEkMsVu
+ CoVQ==
+X-Gm-Message-State: AOJu0YxeQjJwNz9Q34vyWOYjT32rII2l3SMZJnZ6JczDPSX5WDkVigBC
+ gp93948vPNtSid75jGEubZItys7bapWhtg==
+X-Google-Smtp-Source: AGHT+IF2ZasPZ/p6zpGvkUuRiRHfFlzGs6nWLvVv8dVV9W/VrEMy2+3FKeFaVhCTnVVhkhLLqSbRDQ==
+X-Received: by 2002:a50:8acb:0:b0:557:8ab7:40 with SMTP id
+ k11-20020a508acb000000b005578ab70040mr1035120edk.168.1704744981995; 
+ Mon, 08 Jan 2024 12:16:21 -0800 (PST)
+Received: from dario-ThinkPad-T14s-Gen-2i.homenet.telecomitalia.it
+ (host-87-2-38-81.retail.telecomitalia.it. [87.2.38.81])
+ by smtp.gmail.com with ESMTPSA id
+ by26-20020a0564021b1a00b00555fd008741sm173699edb.95.2024.01.08.12.16.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Jan 2024 12:16:21 -0800 (PST)
 From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-Date: Mon, 8 Jan 2024 21:12:37 +0100
-Message-ID: <CABGWkvoHuzTPNhh54VihNJ4PtSTF9sRLiup6PRNqG5uoHfJc_A@mail.gmail.com>
-Subject: Re: [PATCH v4 8/8] drm/panel: nt35510: support FRIDA
- FRD400B25025-A-CTK
-To: Linus Walleij <linus.walleij@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v5 0/8] Add display support for stm32f769-disco board
+Date: Mon,  8 Jan 2024 21:15:45 +0100
+Message-ID: <20240108201618.2798649-1-dario.binacchi@amarulasolutions.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,181 +69,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
- linux-amarula@amarulasolutions.com, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org, Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-stm32@st-md-mailman.stormreply.com,
+ Lee Jones <lee@kernel.org>, Sean Nyekjaer <sean@geanix.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, devicetree@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Andre Przywara <andre.przywara@arm.com>, Maxime Ripard <mripard@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ =?UTF-8?q?Leonard=20G=C3=B6hrs?= <l.goehrs@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ linux-amarula@amarulasolutions.com, Peter Rosin <peda@axentia.se>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jan 7, 2024 at 9:02=E2=80=AFPM Linus Walleij <linus.walleij@linaro.=
-org> wrote:
->
-> On Sat, Jan 6, 2024 at 12:07=E2=80=AFPM Dario Binacchi
-> <dario.binacchi@amarulasolutions.com> wrote:
->
-> > After submitting v4, I tested the driver under different conditions,
-> > i. e. without enabling display support in
-> > U-Boot (I also implemented a version for U-Boot, which I will send
-> > only after this series is merged into
-> > the Linux kernel). In that condition I encountered an issue with the re=
-set pin.
-> >
-> > The minimal fix, would be this:
-> >
-> > diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35510.c
-> > b/drivers/gpu/drm/panel/panel-novatek-nt35510.c
-> > index c85dd0d0829d..89ba99763468 100644
-> > --- a/drivers/gpu/drm/panel/panel-novatek-nt35510.c
-> > +++ b/drivers/gpu/drm/panel/panel-novatek-nt35510.c
-> > @@ -1133,7 +1133,7 @@ static int nt35510_probe(struct mipi_dsi_device *=
-dsi)
-> >         if (ret)
-> >                 return ret;
-> >
-> > -       nt->reset_gpio =3D devm_gpiod_get_optional(dev, "reset", GPIOD_=
-ASIS);
-> > +       nt->reset_gpio =3D devm_gpiod_get_optional(dev, "reset", GPIOD_=
-OUT_HIGH);
->
->
-> This is fine, because we later on toggle reset in nt35510_power_on(),
-> this just asserts the reset signal already in probe.
->
-> I don't see why this would make a difference though?
->
-> Is it to make the reset delete artifacts from the screen?
->
-> Just explain it in the commit message.
->
-> It is a bit confusing when I look at your DTS patch:
->
-> https://lore.kernel.org/linux-arm-kernel/20240104084206.721824-7-dario.bi=
-nacchi@amarulasolutions.com/
->
-> this doesn't even contain a reset GPIO, so nothing will happen
-> at all?
-+++ b/arch/arm/boot/dts/st/stm32f769-disco-mb1225-revb03-mb1166-reva09.dts
-@@ -0,0 +1,18 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2023 Dario Binacchi <dario.binacchi@amarulasolutions.com>
-+ */
-+
-+#include "stm32f769-disco.dts"
-+
+The series adds display support for the stm32f769-disco board. It has been
+tested on hardware revisions MB1225-B03 and MB1166-A09. This required
+modifications to the nt35510 driver. As I do not have the Hydis HVA40WV1
+display, it would be better if someone tested the driver in that
+configuration.
 
-The GPIO is contained in the stm32f769-disco.dts:
+Changes in v5:
+- Add Acked-by tag of Krzysztof Kozlowski
+- Add Reviewed-by tag of Linus Walleij
+- Replace NT35510_ROTATE_180_SETTING with NT35510_ROTATE_0_SETTING
+- Add Reviewed-by tag of Linus Walleij
+- Tested-by tag of Linus Walleij
+- Replace GPIOD_ASIS with GPIOD_OUT_HIGH in the call to devm_gpiod_get_optional().
 
-panel0: panel-dsi@0 {
-        compatible =3D "orisetech,otm8009a";
-        reg =3D <0>; /* dsi virtual channel (0..3) */
-        reset-gpios =3D <&gpioj 15 GPIO_ACTIVE_LOW>;
-        power-supply =3D <&vcc_3v3>;
-        backlight =3D <&panel_backlight>;
-       status =3D "okay";
-...
-};
+Changes in v4:
+- Put the "enum" list in alphabetical order
 
->
-> > I then tried modifying the device tree instead of the nt35510 driver.
-> > In the end, I arrived
-> > at this patch that leaves me with some doubts, especially regarding
-> > the strict option.
-> >
-> > diff --git a/arch/arm/boot/dts/st/stm32f769-disco-mb1225-revb03-mb1166-=
-reva09.dts
-> > b/arch/arm/boot/dts/st/stm32f769-disco-mb1225-revb03-m>
-> > index 014cac192375..32ed420a6cbf 100644
-> > --- a/arch/arm/boot/dts/st/stm32f769-disco-mb1225-revb03-mb1166-reva09.=
-dts
-> > +++ b/arch/arm/boot/dts/st/stm32f769-disco-mb1225-revb03-mb1166-reva09.=
-dts
-> > @@ -13,6 +13,17 @@ &panel0 {
-> >         compatible =3D "frida,frd400b25025", "novatek,nt35510";
-> >         vddi-supply =3D <&vcc_3v3>;
-> >         vdd-supply =3D <&vcc_3v3>;
-> > +       pinctrl-0 =3D <&panel_reset>;
-> > +       pinctrl-names =3D "default";
-> >         /delete-property/backlight;
-> >         /delete-property/power-supply;
-> >  };
-> > +
-> > +&pinctrl {
-> > +       panel_reset: panel-reset {
-> > +               pins1 {
-> > +                       pinmux =3D <STM32_PINMUX('J', 15, GPIO)>;
-> > +                       output-high;
->
-> But this achieves the *opposite* of what you do in the
-> other patch. This sets the reset line de-asserted since it is
-> active low.
->
-> Did you add the reset line to your device tree and forgot to
-> set it as GPIO_ACTIVE_LOW perhaps?
+Changes in v3:
+- Use "enum" to have less code changed
 
-panel0: panel-dsi@0 {
-        compatible =3D "orisetech,otm8009a";
-        reg =3D <0>; /* dsi virtual channel (0..3) */
-        reset-gpios =3D <&gpioj 15 GPIO_ACTIVE_LOW>;
+Changes in v2:
+- Add Acked-by tag of Conor Dooley
+- Add a dash in front of each "items:"
+- Change the status of panel_backlight node to "disabled"
+- Delete backlight property from panel0 node.
+- Re-write the patch [7/8] "drm/panel: nt35510: refactor panel initialization"
+  in the same style as the original driver in order to maintain the same
+  structure.
+- Re-write the patch [8/8] "drm/panel: nt35510: support FRIDA FRD400B25025-A-CTK"
+  in the same style as the original driver.
 
->
-> > --- a/drivers/pinctrl/stm32/pinctrl-stm32.c
-> > +++ b/drivers/pinctrl/stm32/pinctrl-stm32.c
-> > @@ -895,7 +895,6 @@ static const struct pinmux_ops stm32_pmx_ops =3D {
-> >         .set_mux                =3D stm32_pmx_set_mux,
-> >         .gpio_set_direction     =3D stm32_pmx_gpio_set_direction,
-> >         .request                =3D stm32_pmx_request,
-> > -       .strict                 =3D true,
->
-> To be honest this is what I use a lot of the time, with non-strict
-> pin control you can set up default GPIO values using the pin control
-> device tree, and it's really simple and easy to read like that since e.g.
-> in this case you set it from the panel device node which is what
-> is also consuming the GPIO, so very logical. So I
-> would certainly remove this .strict setting, but maybe Alexandre
-> et al have a strong opinion about it.
+Dario Binacchi (8):
+  dt-bindings: mfd: stm32f7: Add binding definition for DSI
+  ARM: dts: stm32: add DSI support on stm32f769
+  ARM: dts: stm32: rename mmc_vcard to vcc-3v3 on stm32f769-disco
+  ARM: dts: stm32: add display support on stm32f769-disco
+  dt-bindings: nt35510: add compatible for FRIDA FRD400B25025-A-CTK
+  ARM: dts: add stm32f769-disco-mb1225-revb03-mb1166-reva09
+  drm/panel: nt35510: move hardwired parameters to configuration
+  drm/panel: nt35510: support FRIDA FRD400B25025-A-CTK
 
-I will send a separate RFC PATCH.
+ .../display/panel/novatek,nt35510.yaml        |   4 +-
+ arch/arm/boot/dts/st/Makefile                 |   1 +
+ ...f769-disco-mb1225-revb03-mb1166-reva09.dts |  18 +
+ arch/arm/boot/dts/st/stm32f769-disco.dts      |  78 +++-
+ arch/arm/boot/dts/st/stm32f769.dtsi           |  21 +
+ drivers/gpu/drm/panel/panel-novatek-nt35510.c | 424 +++++++++++++++---
+ include/dt-bindings/mfd/stm32f7-rcc.h         |   1 +
+ 7 files changed, 485 insertions(+), 62 deletions(-)
+ create mode 100644 arch/arm/boot/dts/st/stm32f769-disco-mb1225-revb03-mb1166-reva09.dts
+ create mode 100644 arch/arm/boot/dts/st/stm32f769.dtsi
 
-Thanks and regards,
-Dario Binacchi
+-- 
+2.43.0
 
->
-> > Another option to fix my use case without introducing regressions
-> > could be to add a
-> > new property to the device tree that suggests whether to call
-> > devm_gpiod_get_optional()
-> > with the GPIOD_ASIS or GPIOD_OUT_HIGH parameter.
-> >
-> > What is your opinion?
->
-> It's fine either way, but just use GPIOD_OUT_HIGH and I can test
-> it on my system as well, I think it's fine.
->
-> Yours,
-> Linus Walleij
-
-
-
---=20
-
-Dario Binacchi
-
-Senior Embedded Linux Developer
-
-dario.binacchi@amarulasolutions.com
-
-__________________________________
-
-
-Amarula Solutions SRL
-
-Via Le Canevare 30, 31100 Treviso, Veneto, IT
-
-T. +39 042 243 5310
-info@amarulasolutions.com
-
-www.amarulasolutions.com
