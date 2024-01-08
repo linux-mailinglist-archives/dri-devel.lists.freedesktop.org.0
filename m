@@ -1,50 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22A93826BAC
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 11:40:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0024826B98
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 11:31:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09C2E10E218;
-	Mon,  8 Jan 2024 10:39:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06BB210E1EE;
+	Mon,  8 Jan 2024 10:31:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 575 seconds by postgrey-1.36 at gabe;
- Mon, 08 Jan 2024 10:39:53 UTC
-Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com
- [216.40.44.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CB4810E218
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 10:39:53 +0000 (UTC)
-Received: from omf01.hostedemail.com (a10.router.float.18 [10.200.18.1])
- by unirelay06.hostedemail.com (Postfix) with ESMTP id D7EBAA1119;
- Mon,  8 Jan 2024 10:30:15 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by
- omf01.hostedemail.com (Postfix) with ESMTPA id EFB036000C; 
- Mon,  8 Jan 2024 10:30:11 +0000 (UTC)
-Message-ID: <15fdb3f8cb4c0e580678920fd8b9c1a86ecfcd8d.camel@perches.com>
-Subject: Re: [PATCH v7 3/9] drm/plane: Add
- drm_for_each_primary_visible_plane macro
-From: Joe Perches <joe@perches.com>
-To: Jocelyn Falempe <jfalempe@redhat.com>, Andy Whitcroft
- <apw@canonical.com>,  Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas
- Bulwahn <lukas.bulwahn@gmail.com>
-Date: Mon, 08 Jan 2024 02:30:11 -0800
-In-Reply-To: <bc0f66cf-877a-4a58-b4ae-daeee3088398@redhat.com>
-References: <20240104160301.185915-1-jfalempe@redhat.com>
- <20240104160301.185915-4-jfalempe@redhat.com>
- <bc0f66cf-877a-4a58-b4ae-daeee3088398@redhat.com>
-Content-Type: text/plain; charset="ISO-8859-1"
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1111C10E1EE
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 10:31:54 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 138C5CE0FF1
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 10:31:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 509C6C433C7
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 10:31:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1704709909;
+ bh=5RoZHUsl9+sahxvse4xd82xZFi61mlMM/Rf/SLv7QXE=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=b4see+dvWqcJMdU0pd5I+DhIyd81/UQRPi2Na+R0Gtg+n0aOgJwExfN4EP5GEd0xp
+ cyS+UGORLvGPIi0r/+ICgcNL33rN4CNMJzqrgDFMtI1CQb78OvKiKpv9YkBZtjgX8a
+ pQa9pPZJc5bSkQ+kV6mwqMQ7YwxPtFb5BM1ENHV2qmjFuxzavARtRQEs4TAhZiotgX
+ 02eHqPI2WDelUdU9fWDMRf4BJV6q38N9kWkAKMoNW6vMzA28/nW1RMzfNNjvqyKkCX
+ V5xpWVfqR3y8Qi623JeIrxJcZPLHlmHssc9LbueCeiIIoCDL7lrpAaurWex9tt6IHb
+ UWf4iQKcVNRWQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 3A399C53BCD; Mon,  8 Jan 2024 10:31:49 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 203201] [mgag200] Unable to do mmap call on mgadrmfb device -
+ Returns -EINVAL
+Date: Mon, 08 Jan 2024 10:31:48 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: devzero@web.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-203201-2300-RPLp8jTl25@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-203201-2300@https.bugzilla.kernel.org/>
+References: <bug-203201-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: EFB036000C
-X-Spam-Status: No, score=1.40
-X-Rspamd-Server: rspamout02
-X-Stat-Signature: 54o1c551gfa9kzoanzy9osan4as3pusi
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1/oyzSdTV1H4jd3pXaQIhyCk+9Y13h1AB8=
-X-HE-Tag: 1704709811-843503
-X-HE-Meta: U2FsdGVkX18cG6AAMJBzOgp2TM4dFWLV05l1AvYCZKAJLd3oNkSZhxTVJZ4lck+34xkgwcmo1VHgan4OMBnDvLe9fUAilWxpSIbV5htPZiUeVQGc1T2m2iCN0EI+7dryyHcX7kRHyoebHL6HfXKb0QR8OCcxUzbWV2XL2kcA9Qht8lWlOKwf92Hp/CoVykzL+mb3iYXPKPrXvw1BO9aORJowzfBDmtAzPTinAC+XSzYsd666nJ9iKOLyXrv2EZvABkzreq9j9PrBF/6akF4O1YyCBkd90Dr12UtRXgurBt8qYyhz3z+9MZWy/nfn7R/+
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,34 +69,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: bluescreen_avenger@verizon.net, javierm@redhat.com, mripard@kernel.org,
- gpiccoli@igalia.com, noralf@tronnes.org, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, airlied@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2024-01-08 at 11:24 +0100, Jocelyn Falempe wrote:
-> Hi checkpatch maintainers,
->=20
-> This patch gives me the following checkpatch error:
->=20
-> ERROR: Macros with complex values should be enclosed in parentheses
-> #30: FILE: include/drm/drm_plane.h:959:
-> +#define drm_for_each_primary_visible_plane(plane, dev) \
-> +	list_for_each_entry((plane), &(dev)->mode_config.plane_list, head) \
-> +		for_each_if((plane)->type =3D=3D DRM_PLANE_TYPE_PRIMARY && \
-> +			    (plane)->state && \
-> +			    (plane)->state->fb && \
-> +			    (plane)->state->visible)
->=20
-> total: 1 errors, 0 warnings, 21 lines checked
->=20
-> I think this requirement cannot work when you use list_for_each kind of=
-=20
-> macros.
-> Do you have any suggestion ?
->=20
+https://bugzilla.kernel.org/show_bug.cgi?id=3D203201
 
-checkpatch is a brainless regex script.
-Ignore it when it's stupid.
+Roland Kletzing (devzero@web.de) changed:
 
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |devzero@web.de
+
+--- Comment #1 from Roland Kletzing (devzero@web.de) ---
+apparently the patch has never got merged, apparently it seems Dave Airlie =
+did
+not find it useful enough
+
+https://yhbt.net/lore/all/CAPM=3D9tzMT3hdOpdwPhRr07SW-3iu6OhnKY6NOO3e_21Vyf=
+6ozg@mail.gmail.com/
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
