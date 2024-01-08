@@ -1,107 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2751826A7D
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 10:16:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE307826A85
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 10:20:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 130B710E193;
-	Mon,  8 Jan 2024 09:16:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6B3910E1D1;
+	Mon,  8 Jan 2024 09:20:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC74210E193
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 09:16:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1704705396; x=1705310196; i=deller@gmx.de;
- bh=nR8LWbVL4Ovc4j7fwlVmQLTbbIaHJL75PogZk9k9tz8=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
- In-Reply-To;
- b=FijPyoTHy+EgEFLIwByedii6stk8M9SDsSLQQRyLHhPDDtyKcb7CENStd/HsUcxO
- F4dsreIiDVCKTrhBwBN0D/hLbuVuNug25+BRVO9IBHOZsEQZQ08jlifgIemk1P4uS
- VTdV8DQt0phy05l5ebB3ys3hEj1Us2hYzfiebpa5XO5SGME/o3zeMysVlbyZ55OAR
- zIMwzwNhTLT7WUpzGRZCADgXAKhVUld5CPtq6ILW3Ficlkis7zBlG3043j3wcODhg
- 3cADCWssek0Uwi3W0cJHeX00prSf7SjIpVXdSwW+RN2TIVhvaYBUGHYgIR/bFfaVr
- YXDYKLQqEUbS+J/uhQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.55] ([94.134.148.84]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N7zFZ-1r8crf35Wt-0151KL; Mon, 08
- Jan 2024 10:16:36 +0100
-Message-ID: <167cf934-1115-47ca-8137-a8ea4ba2baec@gmx.de>
-Date: Mon, 8 Jan 2024 10:16:36 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D176A10E1CA
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 09:19:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1704705598; x=1736241598;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=0GCPuY/Wp+lTIL30Wj2Uuo+to46Y+MRchxWxMArtASQ=;
+ b=BmzRHIWcqkYnvwrQMZtTr6mXvgzRRXeb4g5EKGzFI0/iNPUXY2in/P+8
+ DzrrcCJL9UxqOXgMhK55DktstAcyv/u+iFm3JxQNY6VzX5T0jPaejlRFj
+ SqAr1F5zCP+Ejur0sSB7IVvcuNljTzPiWkP7A8Tp0Md+L23UxbyqsFbEg
+ dPIgRInscVlGKUicc6sRJPwl7ioE+QLXWXaauL9oqjxdttmAVS9gi5nUZ
+ +rvj9Ci6TlbTi97FD0K9IhhjVOSWj+QycmaZ6i4KgPbu0ALUFe4GdhvHX
+ DZdXXHqp2BF9Dt2OJvgEoNv+fnSIIZv0Lr9C1yw+Fhdl397QqW7ZWg9Zt w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="396714901"
+X-IronPort-AV: E=Sophos;i="6.04,340,1695711600"; d="scan'208";a="396714901"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jan 2024 01:19:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="847156068"
+X-IronPort-AV: E=Sophos;i="6.04,340,1695711600"; d="scan'208";a="847156068"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+ by fmsmga008.fm.intel.com with ESMTP; 08 Jan 2024 01:19:56 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1rMlnV-0004Zm-2q;
+ Mon, 08 Jan 2024 09:19:53 +0000
+Date: Mon, 8 Jan 2024 17:19:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Subject: [drm-misc:drm-misc-next 6/21]
+ drivers/gpu/drm/rockchip/inno_hdmi.c:499:15: error: call to undeclared
+ function 'drm_atomic_get_new_connector_state'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202401081720.UtgAZgba-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fbdev/sis: Remove dependency on screen_info
-Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com
-References: <20240103121352.4893-1-tzimmermann@suse.de>
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <20240103121352.4893-1-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ZyebWvq2FE2eh6dpSGmaaazdNz6wH3HMqeWN2tiyD4Q615bkgdi
- bkrTf3J2dtp699IgDBZEvdnIitYBCrZwKWRIM0ewSCsTh3+VzYW1LyZX291/qbSU4YZpgll
- jlZwtasxtJUzii4+DhCZHexSYQfPm0YRC0cYMAit4tj/eVwdYTITXVVES121Zh8/GSJe8EM
- IjFSk4cEhGmKVNZXs8upQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:XrTYvApXHWY=;GXscgwbtlsEF5Z2xBEZrRhe2Bsk
- 97m2D+jq/0r0QyYYEy4NuUbeF4N89wqklXEPQd+oz8jGHiRM1bEGsHRRAmR6PciRwWznxTmyy
- H1ZK7DV1tnDasrkPmVPuBg6zP2wp0aD/mdeGdYNzWpppEg+vsfgN6+ekMUeMFvJQZioLKx0/E
- sEp4tosX0Mtm85sMmqS0tlmgkxGpscNLkWrJPQvgNvDqrHT0Ep3rKtP5VkVo3G1VZ6DhcuFne
- 34zGxlXRbDUbQAmcmtmROJmSKFdSvP2k+sTg5HJf1IO78nuzbrZOlku4iwrQ1ycK/DedfjMfo
- KvgHSvQ+g4cPKKX24kCCROONyEhC+0Yt5IQrSxeQ9o86NtltpD+H9fJzQERWzpCaQhJvqUXfl
- BOiqs/vtzpbyPwgl0enklz7bETbPT3sIu+CvV7Q1mrcCU5XtU5+ooY9reZVs3MoHqMgW1GuOY
- djOaqk51wn5ebl4oHUcuC9kgwXhKNst6dgauVaHqP5RzE3+HgllTYNUgy07RcJFSpAWHSJM8F
- /N+P0h1ooLPcbZyMlSPSqzClF7Y882RO1swOI2+79p9uHFR0pX0vXBvDq3TIR6nadNty0YoaC
- Hx4eCtaz5HQfyuzgFchqJ8RlWVVhaNP8kSZWvsHlZWmd+mvQUqNQe2c+ZMMiNkKUewHWtmRD5
- TAEG5gGt0sRUHUASAmNMz6nrczxsM3RIKNgFi4SYMemoH9tBAmaz3k3y3DkXVnmgGZIWmyXwq
- UCfvoyFnlFLibduY1oEgCYVEAbaO2KaM3k8LC9bF1jFihbD07RZ0WBb5u1MRj49keylPx5UJr
- o5TJbifwU+/fXB3yDFvRlxotUw9xr66NzsdLGxi89gYnv3HwRaoadsDsoL7I6fioAd6Oy6coo
- 5yzoy7IY8u/tQY2bBUJachY7qeLRvXM36KzGZjEkGF+S8PA4Z7jjdD/XfFz91eue1g/iC2XCy
- URJkT4U51iDw613P7hTrCVBFb+g=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,25 +59,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, Alex Bee <knaerzche@gmail.com>,
+ dri-devel@lists.freedesktop.org, oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/3/24 13:13, Thomas Zimmermann wrote:
-> When built-in, the sis driver tries to detect the current display mode
-> from the global screen_info state. That state is only for architecture
-> and firmware code. Drivers should not use it directly as it's not
-> guaranteed to contain valid information.
->
-> Remove the mode-detection code from sis. Drivers that want to detect a
-> pre-set mode on probe should read the hardware registers directly.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->   drivers/video/fbdev/sis/sis_main.c | 37 ------------------------------
->   1 file changed, 37 deletions(-)
+tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+head:   26a4591b31916e1c53a7c64fa3ba3fc7cc5d549f
+commit: d3e040f450ec8e46ff42fa495a433b976ab47686 [6/21] drm/rockchip: inno_hdmi: Get rid of mode_set
+config: s390-randconfig-001-20240106 (https://download.01.org/0day-ci/archive/20240108/202401081720.UtgAZgba-lkp@intel.com/config)
+compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 7e186d366d6c7def0543acc255931f617e76dff0)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240108/202401081720.UtgAZgba-lkp@intel.com/reproduce)
 
-applied to fbdev git tree.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401081720.UtgAZgba-lkp@intel.com/
 
-Thanks!
-Helge
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/gpu/drm/rockchip/inno_hdmi.c:8:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from drivers/gpu/drm/rockchip/inno_hdmi.c:8:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from drivers/gpu/drm/rockchip/inno_hdmi.c:8:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> drivers/gpu/drm/rockchip/inno_hdmi.c:499:15: error: call to undeclared function 'drm_atomic_get_new_connector_state'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     499 |         conn_state = drm_atomic_get_new_connector_state(state, &hdmi->connector);
+         |                      ^
+   drivers/gpu/drm/rockchip/inno_hdmi.c:499:15: note: did you mean 'drm_atomic_helper_connector_reset'?
+   include/drm/drm_atomic_state_helper.h:73:6: note: 'drm_atomic_helper_connector_reset' declared here
+      73 | void drm_atomic_helper_connector_reset(struct drm_connector *connector);
+         |      ^
+>> drivers/gpu/drm/rockchip/inno_hdmi.c:499:13: error: incompatible integer to pointer conversion assigning to 'struct drm_connector_state *' from 'int' [-Wint-conversion]
+     499 |         conn_state = drm_atomic_get_new_connector_state(state, &hdmi->connector);
+         |                    ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/rockchip/inno_hdmi.c:503:15: error: call to undeclared function 'drm_atomic_get_new_crtc_state'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     503 |         crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
+         |                      ^
+>> drivers/gpu/drm/rockchip/inno_hdmi.c:503:13: error: incompatible integer to pointer conversion assigning to 'struct drm_crtc_state *' from 'int' [-Wint-conversion]
+     503 |         crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
+         |                    ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   12 warnings and 4 errors generated.
+
+
+vim +/drm_atomic_get_new_connector_state +499 drivers/gpu/drm/rockchip/inno_hdmi.c
+
+   491	
+   492	static void inno_hdmi_encoder_enable(struct drm_encoder *encoder,
+   493					     struct drm_atomic_state *state)
+   494	{
+   495		struct inno_hdmi *hdmi = encoder_to_inno_hdmi(encoder);
+   496		struct drm_connector_state *conn_state;
+   497		struct drm_crtc_state *crtc_state;
+   498	
+ > 499		conn_state = drm_atomic_get_new_connector_state(state, &hdmi->connector);
+   500		if (WARN_ON(!conn_state))
+   501			return;
+   502	
+ > 503		crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
+   504		if (WARN_ON(!crtc_state))
+   505			return;
+   506	
+   507		inno_hdmi_setup(hdmi, &crtc_state->adjusted_mode);
+   508		inno_hdmi_set_pwr_mode(hdmi, NORMAL);
+   509	}
+   510	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
