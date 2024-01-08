@@ -1,48 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03A30827618
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 18:15:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17EFC82762D
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 18:19:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27FC910E24D;
-	Mon,  8 Jan 2024 17:15:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DCA610E283;
+	Mon,  8 Jan 2024 17:19:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94D2310E24D
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 17:15:35 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id CE48DB8121D;
- Mon,  8 Jan 2024 17:15:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F14FDC433C9;
- Mon,  8 Jan 2024 17:15:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1704734133;
- bh=xPMgJ2aFREL2j1LwnOpPiVGiyM4ZUehkCaCWx0OubRs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=taaEqgJSS2VqNtognZZIE0e3GBSPrdc969WAXrzTWZ6kb+8SvyyA06W1eFxhxnK1+
- Wxj6Ay+fC4HEBmNbIMPL5BXpGF2RuF4e2mT7sYyeqzQ8PUqxNPXk50hVpLlp3z2a/M
- U5UPOwqt8c6Ndfa/23D+IsnwDzMo4Vn3pNk9t2cWXaqSllEabiv0bsOWfcMgJoXPKz
- l06YYjxhs11AoD25vXBfMuXhjfx2rm+7U6IreyQSDHktRlwOLVsHXiaVHy+Nw5NbpO
- lrZZT27Lw3CsA9v59Lx/mvEZxOPZCTom5L1s74WFwUuPLa67Zxn9HqoCj6EMa6Tjd/
- UfQ+HfKsbHzNA==
-Date: Mon, 8 Jan 2024 17:15:27 +0000
-From: Lee Jones <lee@kernel.org>
-To: Stephen Rothwell <sfr@rothwell.id.au>
-Subject: Re: (subset) linux-next: build failure after merge of the pwm tree
-Message-ID: <20240108171527.GB7948@google.com>
-References: <20231221165805.0c4771c1@canb.auug.org.au>
- <170316329164.542553.8341559295114557258.b4-ty@kernel.org>
- <20231221125801.GG10102@google.com>
- <ZYSFUZf8NcK5vvLv@orome.fritz.box> <ZZaCQahr3t8CUumD@archie.me>
- <ZZaplFvjLADNz-2m@gofer.mess.org> <20240105090449.5cf240ec@oak>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AC0C10E27F
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 17:19:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1704734339;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4n0GXMevIXNEHu349Rlctj8rXBEsAzbKnDlggCcCpro=;
+ b=TPiFBAFSzfnEEXpZ3pd05NwdwS7oiNBu4mFLvTzYrtsw4ogSZcpPSqBKethWDBlJUq6prp
+ +NcWxhFHR1DGMYHYJqm+j2Vp5O8gIwPZRNAjvM/Hii2e++IzQqXyiksIlZGLmDCpbxDIvv
+ +9+TnC9YKj+ibLvooc2Bz4FvDAl51XI=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-586-PQiVCMjlNW6zZTNgDA4L4A-1; Mon, 08 Jan 2024 12:18:57 -0500
+X-MC-Unique: PQiVCMjlNW6zZTNgDA4L4A-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-78319f5d6edso253896385a.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Jan 2024 09:18:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1704734337; x=1705339137;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=4n0GXMevIXNEHu349Rlctj8rXBEsAzbKnDlggCcCpro=;
+ b=xOWNWSFgDLhzIiNeCesBx1DIXxmo2tJ4JpyEuxjU71U1D/E24xXNimttRLteQ8+XRX
+ E/f9We6xgVVs8HoquJFEFfyNF7NPjyE4aVAS2523cwCJ1WIgM9FNELxIzd54kRxLVqLZ
+ pocrJDQdUHLwPkgmviQfNOHqL1Rq1WNO0kTGhkXWqA0yPeh0/cjccH3s3boUlMcMppyd
+ f2+hoG9rnaprRLdAnNf1w8saWjTjlwtbCsPQHzPu+fZlKnRYw9fCZNaUUnvW1O6N/dzm
+ VElt7ksZADghxgJVdl7pf8RFmtwHJ9/wJi5MDpY08ZB0E30+FKVKquh1dFuGZ/QmHVnN
+ uCVQ==
+X-Gm-Message-State: AOJu0Yw2O5y0yomvl9WxhjsaFbAwXMFBNk5zpugIrmpBL86JLENzU35k
+ qM1SRDQkPbgseIohQ03Rvc4MfQ6UfAgZyWnU8VqwsuFRmwaUsYqj1e1SOjkW1CZGlt6eqklqKPd
+ YIHox0d5IHJkL/PjYI/K0WBrHpbbqcEXnQtMa
+X-Received: by 2002:a05:620a:470a:b0:783:2607:13f5 with SMTP id
+ bs10-20020a05620a470a00b00783260713f5mr1285287qkb.20.1704734337497; 
+ Mon, 08 Jan 2024 09:18:57 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEbsXsbxoXlECp8+ORoJitLSD8fGeGAumNZ2yTKrmI2VxodrvKisab55OD1FQr1IN7iJllKVQ==
+X-Received: by 2002:a05:620a:470a:b0:783:2607:13f5 with SMTP id
+ bs10-20020a05620a470a00b00783260713f5mr1285278qkb.20.1704734337276; 
+ Mon, 08 Jan 2024 09:18:57 -0800 (PST)
+Received: from ?IPV6:2a02:810d:4b3f:ee94:abf:b8ff:feee:998b?
+ ([2a02:810d:4b3f:ee94:abf:b8ff:feee:998b])
+ by smtp.gmail.com with ESMTPSA id
+ y11-20020a05620a25cb00b007830ce180basm43109qko.120.2024.01.08.09.18.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Jan 2024 09:18:56 -0800 (PST)
+Message-ID: <9413ee17-70d6-4c27-ad8c-2cd4e0f7bb0b@redhat.com>
+Date: Mon, 8 Jan 2024 18:18:53 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240105090449.5cf240ec@oak>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH linux-next] drm/nouveau/disp: switch to use kmemdup()
+ helper
+To: yang.guang5@zte.com.cn
+References: <202312142003220684160@zte.com.cn>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <202312142003220684160@zte.com.cn>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,100 +88,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, Sean Young <sean@mess.org>,
- Jingoo Han <jingoohan1@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Bagas Sanjaya <bagasdotme@gmail.com>, Flavio Suligoi <f.suligoi@asem.it>,
- Linus Torvalds <torvalds@linux-foundation.org>
+Cc: jiang.xuexin@zte.com.cn, kherbst@redhat.com, cgel.zte@gmail.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ chen.haonan2@zte.com.cn, bskeggs@redhat.com, nouveau@lists.freedesktop.org,
+ keescook@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 05 Jan 2024, Stephen Rothwell wrote:
+Hi Yang,
 
-> Hi all,
+On 12/14/23 13:03, yang.guang5@zte.com.cn wrote:
+> From: Yang Guang <yang.guang5@zte.com.cn>
 > 
-> On Thu, 4 Jan 2024 12:50:28 +0000 Sean Young <sean@mess.org> wrote:
-> >
-> > On Thu, Jan 04, 2024 at 05:02:41PM +0700, Bagas Sanjaya wrote:
-> > > [also add Jingoo (additional backlight maintainer) and Linus]
-> > > 
-> > > On Thu, Dec 21, 2023 at 07:34:57PM +0100, Thierry Reding wrote:  
-> > > > On Thu, Dec 21, 2023 at 12:58:01PM +0000, Lee Jones wrote:  
-> > > > > On Thu, 21 Dec 2023, Lee Jones wrote:
-> > > > >   
-> > > > > > On Thu, 21 Dec 2023 16:58:05 +1100, Stephen Rothwell wrote:  
-> > > > > > > After merging the backlight tree, today's linux-next build (x86_64
-> > > > > > > allmodconfig) failed like this:
-> > > > > > > 
-> > > > > > > drivers/video/backlight/mp3309c.c: In function 'mp3309c_bl_update_status':
-> > > > > > > drivers/video/backlight/mp3309c.c:134:23: error: implicit declaration of function 'pwm_apply_state'; did you mean 'pwm_apply_args'? [-Werror=implicit-function-declaration]
-> > > > > > >   134 |                 ret = pwm_apply_state(chip->pwmd, &pwmstate);
-> > > > > > >       |                       ^~~~~~~~~~~~~~~
-> > > > > > >       |                       pwm_apply_args
-> > > > > > > 
-> > > > > > > [...]  
-> > > > > > 
-> > > > > > Applied, thanks!
-> > > > > > 
-> > > > > > [1/1] linux-next: build failure after merge of the pwm tree
-> > > > > >       commit: f7baa9ccef93ba1c36a8ecf58c2f4e86fb3181b9  
-> > > > > 
-> > > > > Actually it's:
-> > > > > 
-> > > > >   f7baa9ccef93b ("backlight: mp3309c: Rename  pwm_apply_state() to pwm_apply_might_sleep()")
-> > > > > 
-> > > > > But don't bank on the commit ID staying the same.  
-> > > > 
-> > > > This is likely going to break the build on your branch because
-> > > > pwm_apply_might_sleep() is only available in the PWM tree right now. In
-> > > > any case, I've now pushed a commit that adds pwm_apply_state() back as a
-> > > > compatibility stub, so it should be okay for you to drop this if you
-> > > > run into problems. It's always possible that somebody else wants to add
-> > > > a new caller of pwm_apply_state() and in retrospect we should've
-> > > > probably done this from the start, at least as a transitional measure
-> > > > for one or two cycles.
-> > > >   
-> > > 
-> > > Hi Lee and Thierry,
-> > > 
-> > > I know that we're still on New Year vibes, so some things are not up to full
-> > > steam for now; but since we're close to v6.7 release and v6.8 merge window,
-> > > hence allow me to ask:
-> > > 
-> > > Stephen Rothwell is still complaining about backlight tree build failure
-> > > due to f7baa9ccef93b, yet it has not been fixed so far. Has the culprit
-> > > been dropped/reverted as he requested? The worst case is the culprit slips
-> > > through and become part of backlight PR and Linus will likely not happy
-> > > with the build regression (maybe he had to fix by himself).  
-> > 
-> > This should be fixed by 9a216587a03df, and on current linux-next I can't 
-> > reproduce the problem any more (x86_64 allmodconfig).
+> Use kmemdup() helper instead of open-coding to
+> simplify the code.
 > 
-> Of course linux-next is fine, because I have fixed it up in there.
+> Signed-off-by: Chen Haonan <chen.haonan2@zte.com.cn>
+
+Please add your "Signed-off-by" tag to this patch. If the above is intended to indicate
+that Chan was involved in creating this patch (e.g. as co-author, reporter, etc.) please
+use the corresponding tag instead. See also [1].
+
+Once this is fixed, I'll apply the patch.
+
+- Danilo
+
+[1] https://www.kernel.org/doc/html/v4.17/process/submitting-patches.html#sign-your-work-the-developer-s-certificate-of-origin
+
+> ---
+>   drivers/gpu/drm/nouveau/nvif/outp.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
 > 
-> Here is the problem:  the backlight tree
-> (git://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight.git#for-backlight-next)
-> is broken when built in its own because of the above patch (which is
-> commit f7baa9ccef93).  In linux-next, I have been merging the previous
-> working version of the backlight tree (with head commit 7d84a63a39b7).
-> The patch (commit f7baa9ccef93) can only be applied to the merge of the
-> backlight tree and the pwm tree
-> (git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next)
-> which is merged much later in the linux-next process.  If the backlight
-> tree was merged by Linus before the pwm tree, it would break his build
-> (and he would not be happy).  But the patch on the head of the
-> backlight tree was made unnecessary by commit 9a216587a03d in the pwm
-> tree.  So, please either revert commit f7baa9ccef93 in the backlight
-> tree (or simply to a "git reset --hard HEAD^" there).  The patch of
-> commit f7baa9ccef93 can be applied some time later (after Linus has
-> merged both trees.
+> diff --git a/drivers/gpu/drm/nouveau/nvif/outp.c b/drivers/gpu/drm/nouveau/nvif/outp.c
+> index 5d3190c05250..6daeb7f0b09b 100644
+> --- a/drivers/gpu/drm/nouveau/nvif/outp.c
+> +++ b/drivers/gpu/drm/nouveau/nvif/outp.c
+> @@ -452,13 +452,12 @@ nvif_outp_edid_get(struct nvif_outp *outp, u8 **pedid)
+>   	if (ret)
+>   		goto done;
+> 
+> -	*pedid = kmalloc(args->size, GFP_KERNEL);
+> +	*pedid = kmemdup(args->data, args->size, GFP_KERNEL);
+>   	if (!*pedid) {
+>   		ret = -ENOMEM;
+>   		goto done;
+>   	}
+> 
+> -	memcpy(*pedid, args->data, args->size);
+>   	ret = args->size;
+>   done:
+>   	kfree(args);
 
-Works for me.
-
-It is done!
-
--- 
-Lee Jones [李琼斯]
