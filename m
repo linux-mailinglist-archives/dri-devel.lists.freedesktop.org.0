@@ -2,66 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36D18827792
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 19:33:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B394682781F
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 20:08:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32C9C10E2B2;
-	Mon,  8 Jan 2024 18:33:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FCC610E2BA;
+	Mon,  8 Jan 2024 19:08:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0495510E2A2
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 18:33:36 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 408IXEMq010030;
- Mon, 8 Jan 2024 12:33:14 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1704738794;
- bh=PWj0D2WMvRJ11gnfwf0SZ44vgMNZaHz/OZM54jmoFVs=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=lbQcTlLhFLWFWfmynTQ/fLKR5FgIXclptYPQDZ4h6j0pXsN23aLT3bKn3EpSGT1Eh
- Jy9RaM4+e4Iu3nU9Ph6+pRhRmjuvcL72wjNo7fHO6mq3m09p5cboGlbYWH3QUd5XrV
- /mOGPr4d+1qObwgPtZ3iRdVNRkimiTeKpXE7KTww=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 408IXEak124040
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 8 Jan 2024 12:33:14 -0600
-Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 8
- Jan 2024 12:33:14 -0600
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Mon, 8 Jan 2024 12:33:14 -0600
-Received: from lelvsmtp5.itg.ti.com ([10.249.40.136])
- by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 408IX3hK051691;
- Mon, 8 Jan 2024 12:33:13 -0600
-From: Andrew Davis <afd@ti.com>
-To: Frank Binns <frank.binns@imgtec.com>, Donald Robson
- <donald.robson@imgtec.com>, Matt Coster <matt.coster@imgtec.com>, "H .
- Nikolaus Schaller" <hns@goldelico.com>, Adam Ford <aford173@gmail.com>,
- Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- =?UTF-8?q?Beno=C3=AEt=20Cousson?= <bcousson@baylibre.com>, Tony Lindgren
- <tony@atomide.com>, Nishanth Menon <nm@ti.com>, Vignesh Raghavendra
- <vigneshr@ti.com>, Tero Kristo <kristo@kernel.org>, Paul Cercueil
- <paul@crapouillou.net>
-Subject: [PATCH RFC v2 11/11] MIPS: DTS: jz4780: Add device tree entry for SGX
- GPU
-Date: Mon, 8 Jan 2024 12:33:02 -0600
-Message-ID: <20240108183302.255055-12-afd@ti.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240108183302.255055-1-afd@ti.com>
-References: <20240108183302.255055-1-afd@ti.com>
+Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com
+ [IPv6:2607:f8b0:4864:20::b32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79B1A10E2BA
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 19:08:03 +0000 (UTC)
+Received: by mail-yb1-xb32.google.com with SMTP id
+ 3f1490d57ef6-dbdd013c68bso1258942276.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Jan 2024 11:08:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1704740882; x=1705345682; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=SM3aC6olapTfRcKgxOoQ7CTMu8MLMwnZq6KcPmvWqC0=;
+ b=pn1twkdyd030BTdlsbYXqwdiP6maZ9uKmQarxbtjXpMLPjHiSA/5jaD78AWJ1UDA3r
+ Ms1wh6noa0YyF1iWCOQTdmgKtLQ6E/0iprIeCUSfCz0LMONAV/kc9tm02whJVixVFavh
+ w9zj3KawbZhtSywZxSYhstdN6ZlJocuLB78cNPdVJ9EbFQXhNbijPDoWmEoquCjapjp/
+ l+sR758+MJzylJWUPKGZnhvpI/bntDrzr04HyDAsAgSTQPz9nWw/tNXtuYOnl4FhwAhK
+ B9Wf3cxus45nj9WoXh7c9fHkMc6rSiwb4gzLiD6G6zo0qY+4NtG/9cFQKdd2EWHGZ6ZQ
+ 3dVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1704740882; x=1705345682;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=SM3aC6olapTfRcKgxOoQ7CTMu8MLMwnZq6KcPmvWqC0=;
+ b=RhBWnlgDhJya9P2qptntZkZMYkbqjO0kGD7PZQfZp4lco7xJhEaUIVxyJJLRnEGYVV
+ TP6yrkRAJQO0TAZwQetpSfMJ3eIU/TUV55TeoJWAWs1JHgRzP0mY+2i9CsUeTvoHn4ct
+ gAxuBjIbh4XQX99N+/H8Ms/CE/4gYP/nVjqZotL/N8HbVyG9VUriqmQUlyQNfMIBIOv7
+ N86/9zbmcl5SKV1XWfq82GBuhQmpnDY5iCa9B+0sPqtbiFK5l+C7cNb1p53HwMrua3av
+ xAl1258BwU4+Sdixf2kXOVWP4edbH7S7fgFJ1zuETZ6+D+irB+WTjhQ4Km30btb0ioep
+ nJPA==
+X-Gm-Message-State: AOJu0Yy04aPcgUEVq2/VaaeSxXfOWETR1Uo2gGlAk3D37VdDWjQf2Zk9
+ Uve9YI8C5Kh87aIiF1WdC9P61KqvLKcPohiTwRzFjUkAbXxu9A==
+X-Google-Smtp-Source: AGHT+IFUDrKtN6+cLggfKBa01OY/UJnyibyg/gt78qguBxgUpnHsr3JF10cBom9sAGfl7XW03Vr81pUVakoZkhwEwFk=
+X-Received: by 2002:a25:ce10:0:b0:dbd:d4ea:7b7 with SMTP id
+ x16-20020a25ce10000000b00dbdd4ea07b7mr1916063ybe.60.1704740882574; Mon, 08
+ Jan 2024 11:08:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20240106-fd-migrate-mdp5-v3-0-3d2750378063@linaro.org>
+ <20240106-fd-migrate-mdp5-v3-3-3d2750378063@linaro.org>
+ <c8d6769b-eb28-337c-fa55-4dae86611da5@quicinc.com>
+ <CAA8EJpoF3uKobGzjHbLMKYvcQbdqYzur7Mn1cNDPyc+wiiZ+SQ@mail.gmail.com>
+ <9807bb4a-98d9-8f4b-b24d-0134f42f6cd3@quicinc.com>
+In-Reply-To: <9807bb4a-98d9-8f4b-b24d-0134f42f6cd3@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Mon, 8 Jan 2024 21:07:51 +0200
+Message-ID: <CAA8EJpqmkzOaewrW8tqSV5wz+0zovZx-kpMdVWp_nW_g1KrRzA@mail.gmail.com>
+Subject: Re: [PATCH v3 3/4] drm/msm: add a kernel param to select between MDP5
+ and DPU drivers
+To: Carl Vanderlip <quic_carlv@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,42 +71,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- Andrew Davis <afd@ti.com>, linux-omap@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Cc: freedreno@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Marijn Suijten <marijn.suijten@somainline.org>,
+ Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add SGX GPU device entry to base jz4780 dtsi file.
+On Mon, 8 Jan 2024 at 19:57, Carl Vanderlip <quic_carlv@quicinc.com> wrote:
+>
+>
+>
+> On 1/5/2024 4:38 PM, Dmitry Baryshkov wrote:
+> > On Sat, 6 Jan 2024 at 02:04, Carl Vanderlip <quic_carlv@quicinc.com> wrote:
+> >>
+> >>
+> >> On 1/5/2024 3:34 PM, Dmitry Baryshkov wrote:
+> >>> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> >>> index 50b65ffc24b1..ef57586fbeca 100644
+> >>> --- a/drivers/gpu/drm/msm/msm_drv.c
+> >>> +++ b/drivers/gpu/drm/msm/msm_drv.c
+> >>> @@ -969,6 +969,37 @@ static int add_components_mdp(struct device *master_dev,
+> >>>        return 0;
+> >>>    }
+> >>>
+> >>> +#if !IS_REACHABLE(CONFIG_DRM_MSM_MDP5) || !IS_REACHABLE(CONFIG_DRM_MSM_DPU)
+> >>> +bool msm_disp_drv_should_bind(struct device *dev, bool mdp5_driver)
+> >>> +{
+> >>> +     /* If just a single driver is enabled, use it no matter what */
+> >>> +     return true;
+> >>> +}
+> >>
+> >> This will cause both MDP/DPU probes to return -ENODEV, rather than
+> >> select the enabled one.
+> >
+> > No. The code (e.g. for DPU) is:
+> >
+> >         if (!msm_disp_drv_should_bind(&pdev->dev, true))
+> >                  return -ENODEV;
+> >
+> > So the driver returns -ENODEV if msm_disp_drv_should_bind() returns
+> > false. Which is logical from the function name point of view.
+> >
+>
+> but msm_disp_drv_should_bind() is returning true in the #if !REACHABLE()
+> case?
+>
+> at minimum the comment is incorrect since returning true causes the
+> driver to NOT be used.
 
-Signed-off-by: Andrew Davis <afd@ti.com>
----
- arch/mips/boot/dts/ingenic/jz4780.dtsi | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+No. Returning _false_ causes the driver to not be used.
 
-diff --git a/arch/mips/boot/dts/ingenic/jz4780.dtsi b/arch/mips/boot/dts/ingenic/jz4780.dtsi
-index 18affff85ce38..5ea6833f5e872 100644
---- a/arch/mips/boot/dts/ingenic/jz4780.dtsi
-+++ b/arch/mips/boot/dts/ingenic/jz4780.dtsi
-@@ -460,6 +460,17 @@ hdmi: hdmi@10180000 {
- 		status = "disabled";
- 	};
- 
-+	gpu: gpu@13040000 {
-+		compatible = "ingenic,jz4780-gpu", "img,powervr-sgx540";
-+		reg = <0x13040000 0x4000>;
-+
-+		clocks = <&cgu JZ4780_CLK_GPU>;
-+		clock-names = "core";
-+
-+		interrupt-parent = <&intc>;
-+		interrupts = <63>;
-+	};
-+
- 	lcdc0: lcdc0@13050000 {
- 		compatible = "ingenic,jz4780-lcd";
- 		reg = <0x13050000 0x1800>;
 -- 
-2.39.2
-
+With best wishes
+Dmitry
