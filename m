@@ -2,61 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0024826B98
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 11:31:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA793826BA5
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 11:37:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06BB210E1EE;
-	Mon,  8 Jan 2024 10:31:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4762C10E20F;
+	Mon,  8 Jan 2024 10:37:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1111C10E1EE
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 10:31:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67E3010E1F5;
+ Mon,  8 Jan 2024 10:37:25 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 138C5CE0FF1
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 10:31:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 509C6C433C7
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 10:31:49 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 1F96ACE1000;
+ Mon,  8 Jan 2024 10:37:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A8ABC433C7;
+ Mon,  8 Jan 2024 10:37:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1704709909;
- bh=5RoZHUsl9+sahxvse4xd82xZFi61mlMM/Rf/SLv7QXE=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=b4see+dvWqcJMdU0pd5I+DhIyd81/UQRPi2Na+R0Gtg+n0aOgJwExfN4EP5GEd0xp
- cyS+UGORLvGPIi0r/+ICgcNL33rN4CNMJzqrgDFMtI1CQb78OvKiKpv9YkBZtjgX8a
- pQa9pPZJc5bSkQ+kV6mwqMQ7YwxPtFb5BM1ENHV2qmjFuxzavARtRQEs4TAhZiotgX
- 02eHqPI2WDelUdU9fWDMRf4BJV6q38N9kWkAKMoNW6vMzA28/nW1RMzfNNjvqyKkCX
- V5xpWVfqR3y8Qi623JeIrxJcZPLHlmHssc9LbueCeiIIoCDL7lrpAaurWex9tt6IHb
- UWf4iQKcVNRWQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 3A399C53BCD; Mon,  8 Jan 2024 10:31:49 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 203201] [mgag200] Unable to do mmap call on mgadrmfb device -
- Returns -EINVAL
-Date: Mon, 08 Jan 2024 10:31:48 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: devzero@web.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-203201-2300-RPLp8jTl25@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-203201-2300@https.bugzilla.kernel.org/>
-References: <bug-203201-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+ s=k20201202; t=1704710242;
+ bh=I2cJ5pKDt48/1lLJBuJjqvcrXBZNtAWlklGQZCuHpjs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=hg6FlY7lKiLYrFwaqeNhLYHZxk7eszjRg2Fq0ct68Fv/psOZH3K+FPsv8oVYRmDX7
+ A/fJiSYGMA9CO548Snl9fDWzi7xKz9YWA9dmzASPfH//TygDBGJPTbmyrfQlCHFff0
+ 6ChfaZZyomBzr0eBfBjjN0XyPJ/jxci7MMLYofT164sE4lwNzHw+p1ghcW9tQzVb9o
+ 8aCzlKV83NcGnyYc49XB7J/OQ8xG4R+d7DzqhQ6ZROYkWSvKO3GtDPFce/CLAn9As1
+ pLzi6fgM+M81YsrxDJr/WKUwEF2NteH9lZD6o8u7lc/JgP8ei1NC5/h0iEkK3D0qJe
+ d7xR16cKqV73w==
+Date: Mon, 8 Jan 2024 11:37:19 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>
+Subject: Re: [PATCH v4 2/6] drm/tests: managed: Rename the suite name to
+ match other DRM tests
+Message-ID: <ful4yeyeeqrfzdsgq6azz5rhlgood2cnjkodlrdozsglbhtymt@3r6wukug6gtr>
+References: <20240105101324.26811-1-michal.winiarski@intel.com>
+ <20240105101324.26811-3-michal.winiarski@intel.com>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="wllsfru5xpnuqssj"
+Content-Disposition: inline
+In-Reply-To: <20240105101324.26811-3-michal.winiarski@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,27 +52,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-xe@lists.freedesktop.org, Michal Wajdeczko <michal.wajdeczko@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D203201
 
-Roland Kletzing (devzero@web.de) changed:
+--wllsfru5xpnuqssj
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |devzero@web.de
+On Fri, Jan 05, 2024 at 11:13:20AM +0100, Micha=C5=82 Winiarski wrote:
+> DRM tests use "_" rather than "-" as word separator. Rename the test
+> suite to match other tests.
+>=20
+> Signed-off-by: Micha=C5=82 Winiarski <michal.winiarski@intel.com>
+> ---
+>  drivers/gpu/drm/tests/drm_managed_test.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/tests/drm_managed_test.c b/drivers/gpu/drm/t=
+ests/drm_managed_test.c
+> index 1652dca11d30c..659af5abb8014 100644
+> --- a/drivers/gpu/drm/tests/drm_managed_test.c
+> +++ b/drivers/gpu/drm/tests/drm_managed_test.c
+> @@ -61,7 +61,7 @@ static struct kunit_case drm_managed_tests[] =3D {
+>  };
+> =20
+>  static struct kunit_suite drm_managed_test_suite =3D {
+> -	.name =3D "drm-test-managed",
+> +	.name =3D "drm_test_managed",
+>  	.test_cases =3D drm_managed_tests
+>  };
 
---- Comment #1 from Roland Kletzing (devzero@web.de) ---
-apparently the patch has never got merged, apparently it seems Dave Airlie =
-did
-not find it useful enough
+I guess if we were to truly follow the trend, it would be drm_managed?
 
-https://yhbt.net/lore/all/CAPM=3D9tzMT3hdOpdwPhRr07SW-3iu6OhnKY6NOO3e_21Vyf=
-6ozg@mail.gmail.com/
+Maxime
 
---=20
-You may reply to this email to add a comment.
+--wllsfru5xpnuqssj
+Content-Type: application/pgp-signature; name="signature.asc"
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZZvQXwAKCRDj7w1vZxhR
+xZojAP9it/UDliDk2mE/BdkWkwweIMSTuPNInr+lArfeFsu9eQEA4bwgWSdKPPNS
+P77GouENMe1JX2xdTSQ/TlMuvGeNfg4=
+=ulYa
+-----END PGP SIGNATURE-----
+
+--wllsfru5xpnuqssj--
