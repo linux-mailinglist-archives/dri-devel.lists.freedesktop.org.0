@@ -1,58 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C370E827951
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 21:47:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 447F4827976
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 21:51:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4246F10E2CA;
-	Mon,  8 Jan 2024 20:46:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED13D10E2DF;
+	Mon,  8 Jan 2024 20:51:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE71410E2A6;
- Mon,  8 Jan 2024 20:46:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704746816; x=1736282816;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=ysxA/zp0hOOuWwajvTnchvlZ9+DORxFTUedJeEkkADQ=;
- b=GakclAICnePG/kjYNx4B5B26VOMGtCgoCEgz+URSygqRUWd8Pu/8ltIM
- Ipc/Qb1mrDh30dTngHXVW3/tfCc3Frb3nV7VGzuuwd0j64oQaVJS/oa3L
- zIp+tvJhRPqPClnvXM1rvma6l6xCnI/A14GBaY2HIAlFAjZZkJVi8yJgS
- kRNBOBvzj4DWBHhmS+2dAg4/lfeVKgwCfnaqn7oQeyXJg0m030tinYJVr
- 8qJu90xzNLBOE9nRFIKyPi5Tm6nL25ZsDuLqNdsZfXajxS5+YEoBP+coE
- NprUp0/cYc0Kgqi+dUnHJXdewvRm+lgVGE8C8fxy2YZ0LpwJ3FfXlIP8a w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="5085375"
-X-IronPort-AV: E=Sophos;i="6.04,180,1695711600"; 
-   d="scan'208";a="5085375"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jan 2024 12:46:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="781543260"
-X-IronPort-AV: E=Sophos;i="6.04,180,1695711600"; d="scan'208";a="781543260"
-Received: from irvmail002.ir.intel.com ([10.43.11.120])
- by orsmga002.jf.intel.com with ESMTP; 08 Jan 2024 12:46:50 -0800
-Received: from [10.249.149.159] (mwajdecz-MOBL.ger.corp.intel.com
- [10.249.149.159])
- by irvmail002.ir.intel.com (Postfix) with ESMTP id 6E90728165;
- Mon,  8 Jan 2024 20:46:49 +0000 (GMT)
-Message-ID: <84a5c289-e2f6-4e30-a093-5a1c5b335057@intel.com>
-Date: Mon, 8 Jan 2024 21:46:47 +0100
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71B9810E2DF
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 20:51:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1704747106;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2UkyxvZQ5pYouZXCc0oPIjClMUAkVOY8Na3esy8fS2w=;
+ b=M9tq+EHWRTtVbOLFvOUPQ+MvE91zmlO+/v7PgA7sjzI5C0VEarELnwfTkIk5jYMj8PnoD9
+ nPlQ+BPKlLVqZl+7J0dBhCnmLhKW0QBBaat4E2avi2hDBGImM0OcnUy6Vqly78HLdC2vE1
+ HGjbUcSIMULKBfmV8gXhIBdL00jCfwQ=
+Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
+ [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-391-eBK6vSCeO12nrgVAW4T8Vg-1; Mon, 08 Jan 2024 15:51:38 -0500
+X-MC-Unique: eBK6vSCeO12nrgVAW4T8Vg-1
+Received: by mail-yb1-f198.google.com with SMTP id
+ 3f1490d57ef6-dbe053d5d91so2473407276.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Jan 2024 12:51:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1704747097; x=1705351897;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=2UkyxvZQ5pYouZXCc0oPIjClMUAkVOY8Na3esy8fS2w=;
+ b=Jk35p7jSCIbBJ8mioZXSa9QFRPiEdWG6L7mY5RIbyovIDKE4sn/MKepLNLUdvnYgku
+ em1c3RYHD8rAbrqnIB+j+BMgjW3QOKIjQL4tC/KpP2CUtoeeohqsGkVCp4iSStP7WaEU
+ dC6FJSX4vMjreUbbFM3PxUN00D429XIb+GZEE1Ql/rF143dkYVEc4hHzeFB3oGRec6zQ
+ fQdahDXaodPKEfjx/vEXcl/0HwM09gYnpSlEXsBfSIDQ7ITnXE32mf2jDifUYgFzX9yT
+ g8p/0Ji6KKXYSdPW73nYc48w7kzHHPqLSy54aKZjU3ht9bLk2NQ6gaclz3ILrR8QZ3ae
+ u5AQ==
+X-Gm-Message-State: AOJu0Yx/IisQXPAAT+yo47OUHfjwqOtz//LTIvBlX4lRvArCemN9hMwM
+ hkB9kY1FL2vBK5cWHc6XOcw7ExYX523yrVyQJ7R0E0czdPs2a+xcyicVUVtwrsBU47jSIMkFmW9
+ iI/HzhUX6XqUrb+zouss5ErbGjN24g1LAN0OM77FXiZVysZjakYv8
+X-Received: by 2002:a25:7391:0:b0:db7:dacf:ed65 with SMTP id
+ o139-20020a257391000000b00db7dacfed65mr1729933ybc.70.1704747097758; 
+ Mon, 08 Jan 2024 12:51:37 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEE32OTXBZZ4AqcenfCZ/npf5vs1T3rzedd0Tz3UXzGyBKTZfzreJp+V6uBk9p0wYuShiMc+Z+KKDA0CtYQxSY=
+X-Received: by 2002:a25:7391:0:b0:db7:dacf:ed65 with SMTP id
+ o139-20020a257391000000b00db7dacfed65mr1729902ybc.70.1704747097086; Mon, 08
+ Jan 2024 12:51:37 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/xe: clean up type of GUC_HXG_MSG_0_ORIGIN
-Content-Language: en-US
-To: Lucas De Marchi <lucas.demarchi@intel.com>,
- Dan Carpenter <dan.carpenter@linaro.org>
-References: <ec22d742-632b-426a-ac86-62641a38c907@moroto.mountain>
- <e5g3qkwvc3sjfpxcdvn43fiwbxthpblqgg2getxpbkd6g4lp5k@pgfm75tsg7wz>
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-In-Reply-To: <e5g3qkwvc3sjfpxcdvn43fiwbxthpblqgg2getxpbkd6g4lp5k@pgfm75tsg7wz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240108122823.2090312-1-sashal@kernel.org>
+ <20240108122823.2090312-5-sashal@kernel.org>
+In-Reply-To: <20240108122823.2090312-5-sashal@kernel.org>
+From: David Airlie <airlied@redhat.com>
+Date: Tue, 9 Jan 2024 06:51:25 +1000
+Message-ID: <CAMwc25rAm1ndSiofWMMmQ1BeB0XxBvsHpcvaDKXUwEZp72iwEA@mail.gmail.com>
+Subject: Re: [PATCH AUTOSEL 6.1 5/5] nouveau: fix disp disabling with GSP
+To: Sasha Levin <sashal@kernel.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,78 +78,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-xe@lists.freedesktop.org
+Cc: kherbst@redhat.com, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, dakr@redhat.com, bskeggs@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+NAK for backporting this to anything, it is just a fix for 6.7
 
 
-On 08.01.2024 15:07, Lucas De Marchi wrote:
-> On Mon, Jan 08, 2024 at 12:05:57PM +0300, Dan Carpenter wrote:
->> The GUC_HXG_MSG_0_ORIGIN definition should be unsigned.  Currently it is
->> defined as INT_MIN.  This doesn't cause a problem currently but it's
->> still worth cleaning up.
->>
->> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> 
-> it seems there are a few more places to change to follow what was done
-> in commit 962bd34bb457 ("drm/i915/uc: Fix undefined behavior due to
-> shift overflowing the constant").
-> 
-> +Michal
-> 
-> Could we eventually share these abi includes with i915 so we don't
-> keep fixing the same thing in 2 places?
+On Mon, Jan 8, 2024 at 10:28=E2=80=AFPM Sasha Levin <sashal@kernel.org> wro=
+te:
+>
+> From: Dave Airlie <airlied@gmail.com>
+>
+> [ Upstream commit 7854ea0e408d7f2e8faaada1773f3ddf9cb538f5 ]
+>
+> This func ptr here is normally static allocation, but gsp r535
+> uses a dynamic pointer, so we need to handle that better.
+>
+> This fixes a crash with GSP when you use config=3Ddisp=3D0 to avoid
+> disp problems.
+>
+> Signed-off-by: Dave Airlie <airlied@redhat.com>
+> Link: https://patchwork.freedesktop.org/patch/msgid/20231222043308.309008=
+9-4-airlied@gmail.com
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+>  drivers/gpu/drm/nouveau/nvkm/engine/disp/base.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/base.c b/drivers/gp=
+u/drm/nouveau/nvkm/engine/disp/base.c
+> index 65c99d948b686..ae47eabd5d0bd 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/base.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/base.c
+> @@ -359,7 +359,7 @@ nvkm_disp_oneinit(struct nvkm_engine *engine)
+>         if (ret)
+>                 return ret;
+>
+> -       if (disp->func->oneinit) {
+> +       if (disp->func && disp->func->oneinit) {
+>                 ret =3D disp->func->oneinit(disp);
+>                 if (ret)
+>                         return ret;
+> @@ -461,8 +461,10 @@ nvkm_disp_new_(const struct nvkm_disp_func *func, st=
+ruct nvkm_device *device,
+>         spin_lock_init(&disp->client.lock);
+>
+>         ret =3D nvkm_engine_ctor(&nvkm_disp, device, type, inst, true, &d=
+isp->engine);
+> -       if (ret)
+> +       if (ret) {
+> +               disp->func =3D NULL;
+>                 return ret;
+> +       }
+>
+>         if (func->super) {
+>                 disp->super.wq =3D create_singlethread_workqueue("nvkm-di=
+sp");
+> --
+> 2.43.0
+>
 
-it should be possible and I guess we should plan for that while
-discussing all this new xe driver...
-
-anyway, what about creating new intel/ folder under drm/ ?
-
- - drm/intel/include/abi
-        guc_actions_abi.h
-        guc_klvs_abi.h
-        ...
-
-the only question would be what prefix should be used for macros:
-just GUC_ or INTEL_GUC_ or XE_GUC_ ?
-
-then we can also think of creating library with common helpers for GuC
-(for encoding/decoding HXG messages, preparing ADS, reading logs, etc)
-
-btw, we can also consider sharing register definitions:
-
- - drm/intel/include/regs
-        xe_engine_regs.h
-        xe_gt_regs.h
-        xe_regs_defs.h
-
-Michal
-
-> 
-> Lucas De Marchi
-> 
->> ---
->> drivers/gpu/drm/xe/abi/guc_messages_abi.h | 2 +-
->> 1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/xe/abi/guc_messages_abi.h
->> b/drivers/gpu/drm/xe/abi/guc_messages_abi.h
->> index 3d199016cf88..c04606872e48 100644
->> --- a/drivers/gpu/drm/xe/abi/guc_messages_abi.h
->> +++ b/drivers/gpu/drm/xe/abi/guc_messages_abi.h
->> @@ -40,7 +40,7 @@
->>  */
->>
->> #define GUC_HXG_MSG_MIN_LEN            1u
->> -#define GUC_HXG_MSG_0_ORIGIN            (0x1 << 31)
->> +#define GUC_HXG_MSG_0_ORIGIN            (0x1U << 31)
->> #define   GUC_HXG_ORIGIN_HOST            0u
->> #define   GUC_HXG_ORIGIN_GUC            1u
->> #define GUC_HXG_MSG_0_TYPE            (0x7 << 28)
->> -- 
->> 2.42.0
->>
