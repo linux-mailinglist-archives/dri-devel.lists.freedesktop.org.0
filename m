@@ -1,117 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11C8E82768F
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 18:51:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1264C8276AA
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 18:57:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04AF110E0A1;
-	Mon,  8 Jan 2024 17:51:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40D6310E290;
+	Mon,  8 Jan 2024 17:57:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2078.outbound.protection.outlook.com [40.107.94.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEEBF10E0A1;
- Mon,  8 Jan 2024 17:51:33 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oQR4Q+MDqZc+3G57d5XPfhADaTlSZ06defko1sK4rmi7xeYaaqDyIDPmeQa8Cd+tUVRhTemQJsK8aPkSIS/j2vMp77/TcN3sLScomiYZXE+unEdth8xlS+C8Tq24jTWthL0BWutuxyseJksVogMRbLTY2nlxEkyNnqifNa9cwAw/G63joz1g8eKcTtAB2rQgJdJ3ePWhLYv42ICiCJa+5VS5/PQUgI0HGESEcAkUSjBZFxD6Z/o65mcO1cOLKKYjX6rFrrLypyAKUbpz7ipqh/HEG1/GU4dIFoWh5BpCU10wuElhjqES4WtVHQxD6wBdivbhaWXnXnGSnwwK0fzFBA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=672wEsQ2eA8lgGR+kJXpVrDxHO7FM61KO0KBOnIjsCA=;
- b=FwOZgKw3YcbBk8qATo/ULN++DMY7Ayu5PAC/ywvzBr0Bag85aC4v3MuBehbLgayfn4IwxZ4eNnAOUx0Cld9Ymi6fPWpbHfQ4vmSJhju7tmlc3BKZzLusBky+YrgyW8m/yWJKMvG4p645hyX4Hz5DUEWXAsocZBJ+TCC/bWbhFx3cvXh9Ws5Uti9qwy3quPx86CWEF4/SqcXeQZWWSEyn9yh8QQfAvEbevWAPPpR2lphZRShQz0BP9bhXp2N8JRJ8Na8VNz21Q76y2hvOGvJo2bx+RMbSiSq7CHu1zGuHubJ1IcTFcEmOEWdGun+nPEPyPfCC1NqwXfKDcXX0/mOBNw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=672wEsQ2eA8lgGR+kJXpVrDxHO7FM61KO0KBOnIjsCA=;
- b=uECOjSX9tJnZid8aWIXCijYvFsfjebQO4TMj/tSRGU3l+HbTE/x1nXRaRTRH1aEjoeRIoaENnyqfzxB4VGnpcHQ3eC2/dSOIzjnb2B63TrbhgfpS/R+0P7kKhczK8kwiJ0DeHCVRZKfTuvy0z2B2Bu7GBgGVmVOtZucWJ4t2w9s=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
- by DM8PR12MB5461.namprd12.prod.outlook.com (2603:10b6:8:3a::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.23; Mon, 8 Jan
- 2024 17:51:31 +0000
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::7bfc:e32b:f362:60f3]) by BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::7bfc:e32b:f362:60f3%5]) with mapi id 15.20.7159.020; Mon, 8 Jan 2024
- 17:51:31 +0000
-Message-ID: <a415dea8-095c-4a65-bc55-0f10176daeb4@amd.com>
-Date: Mon, 8 Jan 2024 12:51:29 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/amdkfd: fixes for HMM mem allocation
-Content-Language: en-US
-To: Dafna Hirschfeld <dhirschfeld@habana.ai>, dri-devel@lists.freedesktop.org
-References: <20240107130700.1165029-1-dhirschfeld@habana.ai>
-From: Felix Kuehling <felix.kuehling@amd.com>
-Organization: AMD Inc.
-In-Reply-To: <20240107130700.1165029-1-dhirschfeld@habana.ai>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YQBPR0101CA0269.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:68::19) To BN9PR12MB5115.namprd12.prod.outlook.com
- (2603:10b6:408:118::14)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A99D10E132;
+ Mon,  8 Jan 2024 17:57:39 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 408Dxck7012024; Mon, 8 Jan 2024 17:57:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=l3rs5QalRzBq6bDr+l+YAPawJwhfuREesXmJgkFlGjA=; b=bR
+ xLwTOmM/xmF8jZ5BBWGIbGzkNQZq4R1PrymnowlbJWsZkDusCetT4ZAA83X+yFdz
+ jalkR9HRkX/2AKO6XjEGOX3YLuZ2jdRg3iPg6cy3cT1eoZtMXi8RE0DqylKVFnko
+ xG5megy5F3kZ4mF8CZs9dHlmBLR3bUqMv4n9ANat0bHtJ007V1OanPzgFWbhLTsZ
+ WFMquMTTdj6iYYTbFKJAq7izUHmSJbqW3bFhV3mqkxV4KGn+GLK3rXET8FgjZHWi
+ COJnsxNjD55/eyU5bMfmGQ9wiA+BPrCsKpqOWzhFyiw5luVy8ai55FBxVaf9cXi6
+ FzqYDnq+XdP5kNUHyw/Q==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vgfwjrw5h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 08 Jan 2024 17:57:34 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
+ [10.47.209.197])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 408HvXnm012203
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 8 Jan 2024 17:57:33 GMT
+Received: from [10.110.73.235] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 8 Jan
+ 2024 09:57:32 -0800
+Message-ID: <9807bb4a-98d9-8f4b-b24d-0134f42f6cd3@quicinc.com>
+Date: Mon, 8 Jan 2024 09:57:31 -0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|DM8PR12MB5461:EE_
-X-MS-Office365-Filtering-Correlation-Id: 419621f5-4640-4d63-163b-08dc1072729b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: iverg+RbIpvQqCnbYytinku2RSOO/14aJXLVpfL0osIGs+CgTHe0+GcScYyE/ejwhm6cxcxNO3m/dJUAt6/PtINhUNM+++lFyfKgUB8svkHgSzpMME5H+eq614zbIkq0HSSze93upkALjjSZSCeMuUzlVC4kx9QpJVa9qN62MADRZO73zsqXOEGiWdA+aKviurB/5jbPK1KD4yJKSmO60rlGjgSRCcaILZApH0SmQFedPeToGIhTT+qSGQ8xDDHksqiG+FZpiF8O8DBwnJYdkVvKuYWq2ysDkebicRjcYj7dfH8q37FSuGgGnJteQYGuxExi5/8YWHjBxF4WX4hh3pz/3UQd6+VNwgRkLkVhmGg3T/nbm1OMgqJn5KCG/0Pw6Uju4WDU1IR7FmR4lLJM6bKCwowli7BfNXDlJ00e7fnbkQ2bv0ce2xFliCDINbTyqu/mmxGSTpzoIyt8nFYuXaBvxFuBTww6HoYqKUq4FD1hYK3B2MimttRii1dUWleUsIdaYBgwWmwDWPQK4lmXLpXC9HweQB61F/jQJg9mYOUbh2aG2fiwaeWafYaYUXWifdUdbX5FhRNYb1VFhYGMbpgKj7oy6fi2epiDCy6DFUr5hLTTXp2SrgSe/FvEG9vZqOk0b7/cN3ornk0pifP9ag==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(346002)(376002)(396003)(136003)(366004)(39860400002)(230922051799003)(186009)(451199024)(64100799003)(1800799012)(66946007)(66556008)(66476007)(316002)(8936002)(8676002)(26005)(478600001)(2616005)(83380400001)(31696002)(2906002)(5660300002)(41300700001)(38100700002)(31686004)(36916002)(4326008)(86362001)(6512007)(6506007)(6486002)(53546011)(36756003)(44832011)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cXhJQzVRZzF6bnlhSmk4c3VjNjNiMEhCKzFmd2YzRnpQRWZvakdIUkhXcGcv?=
- =?utf-8?B?TUFyYjJHU1ZOUXpNbzFmZ3pmR1g1YmtRdXBWcG9STWVMMWpoNEQ5SVBLSTg5?=
- =?utf-8?B?QU8yNzZMcmxvTm9TbHNtMmRiVlVJUFlBSDFTK1p1TjlVTXRTZlFmRjJuY1hG?=
- =?utf-8?B?TFFNZHR0TDBsZ00zYVJmRVBwWUhsN3ZFeVhGblloMzZDZ2pQVGR6YWlvK09F?=
- =?utf-8?B?M2hleHI1TjM0VVppVGR3ejNiQTZkWUJpZFJEVStQZ1o0T3NRSnI1UTBsUWRF?=
- =?utf-8?B?eEs1bEE2bm5YUGhJbVNYZGZyRmVDSE8xajNFQzlTakZxbW5GL0x5eUt0THd1?=
- =?utf-8?B?Z2RzYVFHZHJ3dE9oZ1NrTnczTE5EYnlNR1E4UDRSenY0V2greDh6eUdzOHZS?=
- =?utf-8?B?YmFsUkRodTYvaklUMkN0UEJYZFZBbElaT054NUVRSUNQY1pmb3BEQzh1clI3?=
- =?utf-8?B?cnRycmRyVG82MlhLUGpVeUxEMlgxY1lRUWxpVTlnK2JycUpUYkJ5RGV3Qk1u?=
- =?utf-8?B?Vkx2b0szRWM1VFpOcXk3MEFrSjhmM3QySU94QlplQzNLOFVhaWFJU2N3SGla?=
- =?utf-8?B?Y3ZhMExZaTJVRGFIR0c0S0p2M0EzQzZDOEJBd0FhZUNPTlVqWDhyb2ZUSkZu?=
- =?utf-8?B?ZU1sK2J5TTB2b0N6U0FRTldZNWhqMlFFTnI4bEpmU3lYWmg3U0RYRXAvMGdP?=
- =?utf-8?B?UUFTcmt0dldOd3FHU2dFVllWM1NjbkhydmgxUnZKb2kyZkhKMUFSLzhkdUx2?=
- =?utf-8?B?R0wwN1UxNWo4VFdrWExoeEtiNWVUazFqaStwMXJ0QWg2OGtKSnM3VU9vLzFQ?=
- =?utf-8?B?UVdhbjlOZ3EzMWpvRE5qMGx3cWtkTjZydjJxZmpPem8zdXhEbkxXQnhZWm9p?=
- =?utf-8?B?N0ZBUE91b0w0UGNZcDRVeWNvc1NsZUlqcC9WQTFnK1ErZHZEZ1FVV1MrZlVy?=
- =?utf-8?B?NHFaYzFCa2NKQXByLzM2YUUwSjlGVTRDb0pERVlJWnNUY1Z2WkpaRUJWR0d5?=
- =?utf-8?B?cXhYUW0vdDFCQWNKWEQwVmpJMDdVcWI3aGp2dzRUZXd4UmJlM1hlR3IwMkpZ?=
- =?utf-8?B?bUduU3ZrbWZiODFCeGQxcHBvNzEyaFRvT2RlN3kvQ0Y3NzhNN3d3VmhSa25i?=
- =?utf-8?B?MkxzY0pyVVpxOEFDSG9qeHpDY3JMZXlKWGE5T0VJMEgyQmtlK3NFbWdjTjNa?=
- =?utf-8?B?RUxGWE8zRHdWS29oZDdaQTJISjZBWGxBYmdsTmdGVUlWOWxJQzQ0MTNpaGZx?=
- =?utf-8?B?NHp0ZCtLcWw5MDlNL2NQWHRaZFVjLzdpOFpYeXkrV3cxZXd2WStENGZrZGZo?=
- =?utf-8?B?NzJ3R3JCaUhoQ0ZQRmF2VGpPOTllL3d3dXBJbjNLQlR0ZGx3L2xtYVA4Znds?=
- =?utf-8?B?QUNjQ3JJWVdnY2JlZ2VEYjB5anpIY09NVmwxRXFWVzdVODNWWnFtWjRjaEV6?=
- =?utf-8?B?SXUrcDJuNGQ3aGFNcGFvOHVzejhZdDZjRXppQUlGZXZEYm81amhVYU5WOG5D?=
- =?utf-8?B?NWJOQzRyMnVGRW93Smpxcm1WNFhCOEx0ZnBVaUpGejFSbllFczQzQlNRYktO?=
- =?utf-8?B?R3Nrdis3MU9EaFFJSi9pdzlEMTlhVGdBSnJWQnVMcjAzK3d5RkJCRkZVa2s1?=
- =?utf-8?B?a3MvQUR1ai81SkdqaU5TWVZFcjh2MzFVSmZUV01lVmRvencxYzBYbnU3R0RT?=
- =?utf-8?B?VFh6QndjYm9ZWm5YYzRkK2xvdzgxYnR3WnJlOGdPdVRkeWNPOHdqVitSeFBl?=
- =?utf-8?B?QzlMQzhHaGR5VFhVY0dSVVpOSTJLWFIwZDhkV1hFWHJkbkZFZXZpRmkyNy8x?=
- =?utf-8?B?em9NbUxObUg0eFRtQzJXazdxQXo2NEZYRnk4MDFibG9JSW8ycS9aQnhNUUlU?=
- =?utf-8?B?QU90aEMwUmJ2MkpDckRna0o5RHpLQVhydkFsYWdLRUZwcmRUdU4yeXRxRjI0?=
- =?utf-8?B?cTV3V1p1cVEzcXZBMmNESGhibG1Db0M4MEtwZGZzRFhqdDBFUUo5aVB0UkhY?=
- =?utf-8?B?aXpQV2FvTzRUVmxxQ3BPRmpjbFNHbi9Rb2NjUjZ2c2x5QmV0cndsREVkczJG?=
- =?utf-8?B?WFpzWmxrVVdnYkVHbmFIOThuTnVqakQwWXJPR3hrODNVdmN6YXZmTzBzMjFY?=
- =?utf-8?Q?DzPquOSdo7Co8CcAvRMH938Sk?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 419621f5-4640-4d63-163b-08dc1072729b
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2024 17:51:31.6559 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /Elk4bjW5O7/xgV/fiPutsI5mrmiKWWL8DYkBZ/ZUro8QsImdHNdhF9zVSW+khjs1c1ZndEcYnhW/os3ihIdzw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR12MB5461
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/4] drm/msm: add a kernel param to select between MDP5
+ and DPU drivers
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20240106-fd-migrate-mdp5-v3-0-3d2750378063@linaro.org>
+ <20240106-fd-migrate-mdp5-v3-3-3d2750378063@linaro.org>
+ <c8d6769b-eb28-337c-fa55-4dae86611da5@quicinc.com>
+ <CAA8EJpoF3uKobGzjHbLMKYvcQbdqYzur7Mn1cNDPyc+wiiZ+SQ@mail.gmail.com>
+From: Carl Vanderlip <quic_carlv@quicinc.com>
+In-Reply-To: <CAA8EJpoF3uKobGzjHbLMKYvcQbdqYzur7Mn1cNDPyc+wiiZ+SQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: XFQhFCDc3KnBi07E_fNpugNNuv6RtugH
+X-Proofpoint-GUID: XFQhFCDc3KnBi07E_fNpugNNuv6RtugH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 clxscore=1015
+ impostorscore=0 lowpriorityscore=0 phishscore=0 mlxlogscore=820
+ suspectscore=0 priorityscore=1501 mlxscore=0 malwarescore=0 adultscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2401080152
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,54 +85,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ogabbay@kernel.org, Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org,
- obitton@habana.ai, alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: freedreno@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Marijn Suijten <marijn.suijten@somainline.org>,
+ Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 2024-01-07 08:07, Dafna Hirschfeld wrote:
-> Fix err return value and reset pgmap->type after checking it.
->
-> Fixes: c83dee9b6394 ("drm/amdkfd: add SPM support for SVM")
-> Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
-> Signed-off-by: Dafna Hirschfeld <dhirschfeld@habana.ai>
-> ---
-> v2: remove unrelated DOC fix and add 'Fixes' tag.
 
-Thank you. I'm going to apply this patch to amd-staging-drm-next.
+On 1/5/2024 4:38 PM, Dmitry Baryshkov wrote:
+> On Sat, 6 Jan 2024 at 02:04, Carl Vanderlip <quic_carlv@quicinc.com> wrote:
+>>
+>>
+>> On 1/5/2024 3:34 PM, Dmitry Baryshkov wrote:
+>>> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+>>> index 50b65ffc24b1..ef57586fbeca 100644
+>>> --- a/drivers/gpu/drm/msm/msm_drv.c
+>>> +++ b/drivers/gpu/drm/msm/msm_drv.c
+>>> @@ -969,6 +969,37 @@ static int add_components_mdp(struct device *master_dev,
+>>>        return 0;
+>>>    }
+>>>
+>>> +#if !IS_REACHABLE(CONFIG_DRM_MSM_MDP5) || !IS_REACHABLE(CONFIG_DRM_MSM_DPU)
+>>> +bool msm_disp_drv_should_bind(struct device *dev, bool mdp5_driver)
+>>> +{
+>>> +     /* If just a single driver is enabled, use it no matter what */
+>>> +     return true;
+>>> +}
+>>
+>> This will cause both MDP/DPU probes to return -ENODEV, rather than
+>> select the enabled one.
+> 
+> No. The code (e.g. for DPU) is:
+> 
+>         if (!msm_disp_drv_should_bind(&pdev->dev, true))
+>                  return -ENODEV;
+> 
+> So the driver returns -ENODEV if msm_disp_drv_should_bind() returns
+> false. Which is logical from the function name point of view.
+> 
 
-Regards,
-   Felix
+but msm_disp_drv_should_bind() is returning true in the #if !REACHABLE() 
+case?
 
+at minimum the comment is incorrect since returning true causes the
+driver to NOT be used.
 
->
->   drivers/gpu/drm/amd/amdkfd/kfd_migrate.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-> index 6c25dab051d5..b8680e0753ca 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-> @@ -1021,7 +1021,7 @@ int kgd2kfd_init_zone_device(struct amdgpu_device *adev)
->   	} else {
->   		res = devm_request_free_mem_region(adev->dev, &iomem_resource, size);
->   		if (IS_ERR(res))
-> -			return -ENOMEM;
-> +			return PTR_ERR(res);
->   		pgmap->range.start = res->start;
->   		pgmap->range.end = res->end;
->   		pgmap->type = MEMORY_DEVICE_PRIVATE;
-> @@ -1037,10 +1037,10 @@ int kgd2kfd_init_zone_device(struct amdgpu_device *adev)
->   	r = devm_memremap_pages(adev->dev, pgmap);
->   	if (IS_ERR(r)) {
->   		pr_err("failed to register HMM device memory\n");
-> -		/* Disable SVM support capability */
-> -		pgmap->type = 0;
->   		if (pgmap->type == MEMORY_DEVICE_PRIVATE)
->   			devm_release_mem_region(adev->dev, res->start, resource_size(res));
-> +		/* Disable SVM support capability */
-> +		pgmap->type = 0;
->   		return PTR_ERR(r);
->   	}
->   
+-Carl V.
