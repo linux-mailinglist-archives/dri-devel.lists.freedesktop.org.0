@@ -1,134 +1,107 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32E8D826A21
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 10:06:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2751826A7D
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 10:16:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D64210E1EB;
-	Mon,  8 Jan 2024 09:06:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 130B710E193;
+	Mon,  8 Jan 2024 09:16:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de
- [IPv6:2a07:de40:b251:101:10:150:64:2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C18D010E1CA
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 09:06:09 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 01DC91F796;
- Mon,  8 Jan 2024 09:06:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1704704768; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=VlAe8PnOTCr9GN9obesJ/QqRwGR2ZZOLv0r08zlKmb4=;
- b=bfQ5M08uh+YSjg3N04RWF0nrVSE2x/ddNsH1lsP5TCa1bnDSkI9l1AiU3V78rNnJIRVy3q
- dhYEJwtm2LsjjHo7FzplN1MTnNyHRVDTcWpBAc15aUroxkGkvXzC7A0LoY9K1aFrNo2/eN
- FIGDrzM6ukD1s/WrGSH+6TsW+ON5NeI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1704704768;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=VlAe8PnOTCr9GN9obesJ/QqRwGR2ZZOLv0r08zlKmb4=;
- b=GTOS3R0vgRkO44Q7OJZ302lO2pnk57YhzCi/zgxyn58DdtpKqNIDWCRDsr01JmSlGXv62m
- XYMSphVswlRzVWCQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1704704768; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=VlAe8PnOTCr9GN9obesJ/QqRwGR2ZZOLv0r08zlKmb4=;
- b=bfQ5M08uh+YSjg3N04RWF0nrVSE2x/ddNsH1lsP5TCa1bnDSkI9l1AiU3V78rNnJIRVy3q
- dhYEJwtm2LsjjHo7FzplN1MTnNyHRVDTcWpBAc15aUroxkGkvXzC7A0LoY9K1aFrNo2/eN
- FIGDrzM6ukD1s/WrGSH+6TsW+ON5NeI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1704704768;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=VlAe8PnOTCr9GN9obesJ/QqRwGR2ZZOLv0r08zlKmb4=;
- b=GTOS3R0vgRkO44Q7OJZ302lO2pnk57YhzCi/zgxyn58DdtpKqNIDWCRDsr01JmSlGXv62m
- XYMSphVswlRzVWCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D6F7313496;
- Mon,  8 Jan 2024 09:06:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 6vZpM/+6m2VYCgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 08 Jan 2024 09:06:07 +0000
-Message-ID: <fa6bbc93-9d88-436b-9264-6b9b803dc13d@suse.de>
-Date: Mon, 8 Jan 2024 10:06:07 +0100
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC74210E193
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 09:16:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1704705396; x=1705310196; i=deller@gmx.de;
+ bh=nR8LWbVL4Ovc4j7fwlVmQLTbbIaHJL75PogZk9k9tz8=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+ In-Reply-To;
+ b=FijPyoTHy+EgEFLIwByedii6stk8M9SDsSLQQRyLHhPDDtyKcb7CENStd/HsUcxO
+ F4dsreIiDVCKTrhBwBN0D/hLbuVuNug25+BRVO9IBHOZsEQZQ08jlifgIemk1P4uS
+ VTdV8DQt0phy05l5ebB3ys3hEj1Us2hYzfiebpa5XO5SGME/o3zeMysVlbyZ55OAR
+ zIMwzwNhTLT7WUpzGRZCADgXAKhVUld5CPtq6ILW3Ficlkis7zBlG3043j3wcODhg
+ 3cADCWssek0Uwi3W0cJHeX00prSf7SjIpVXdSwW+RN2TIVhvaYBUGHYgIR/bFfaVr
+ YXDYKLQqEUbS+J/uhQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.55] ([94.134.148.84]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N7zFZ-1r8crf35Wt-0151KL; Mon, 08
+ Jan 2024 10:16:36 +0100
+Message-ID: <167cf934-1115-47ca-8137-a8ea4ba2baec@gmx.de>
+Date: Mon, 8 Jan 2024 10:16:36 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/mgag200: Fix caching setup for remapped video memory
+Subject: Re: [PATCH] fbdev/sis: Remove dependency on screen_info
 Content-Language: en-US
-To: Jocelyn Falempe <jfalempe@redhat.com>, airlied@redhat.com, daniel@ffwll.ch
-References: <20240105082714.21881-1-tzimmermann@suse.de>
- <d169ab1a-d0ee-46f4-8bd8-2f42040a2572@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <d169ab1a-d0ee-46f4-8bd8-2f42040a2572@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------AxSDHNwz2txh9WXGLBVP9p9X"
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 01DC91F796
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=bfQ5M08u;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=GTOS3R0v
-X-Spam-Score: -8.07
-X-Spam-Level: 
+To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com
+References: <20240103121352.4893-1-tzimmermann@suse.de>
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ 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
+In-Reply-To: <20240103121352.4893-1-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:ZyebWvq2FE2eh6dpSGmaaazdNz6wH3HMqeWN2tiyD4Q615bkgdi
+ bkrTf3J2dtp699IgDBZEvdnIitYBCrZwKWRIM0ewSCsTh3+VzYW1LyZX291/qbSU4YZpgll
+ jlZwtasxtJUzii4+DhCZHexSYQfPm0YRC0cYMAit4tj/eVwdYTITXVVES121Zh8/GSJe8EM
+ IjFSk4cEhGmKVNZXs8upQ==
 X-Spam-Flag: NO
-X-Spamd-Result: default: False [-8.07 / 50.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
- XM_UA_NO_VERSION(0.01)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- TO_DN_SOME(0.00)[]; HAS_ATTACHMENT(0.00)[];
- RCVD_COUNT_THREE(0.00)[3]; DKIM_TRACE(0.00)[suse.de:+];
- MIME_BASE64_TEXT(0.10)[]; MX_GOOD(-0.01)[];
- SIGNED_PGP(-2.00)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
- FROM_EQ_ENVFROM(0.00)[]; MIME_TRACE(0.00)[0:+,1:+,2:+,3:~];
- MID_RHS_MATCH_FROM(0.00)[]; BAYES_HAM(-1.07)[87.87%];
- ARC_NA(0.00)[];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RCVD_DKIM_ARC_DNSWL_HI(-1.00)[]; FROM_HAS_DN(0.00)[];
- RCPT_COUNT_THREE(0.00)[4]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
- DWL_DNSWL_MED(-2.00)[suse.de:dkim];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- RCVD_IN_DNSWL_HI(-0.50)[2a07:de40:b281:104:10:150:64:97:from];
- RCVD_TLS_ALL(0.00)[]
+UI-OutboundReport: notjunk:1;M01:P0:XrTYvApXHWY=;GXscgwbtlsEF5Z2xBEZrRhe2Bsk
+ 97m2D+jq/0r0QyYYEy4NuUbeF4N89wqklXEPQd+oz8jGHiRM1bEGsHRRAmR6PciRwWznxTmyy
+ H1ZK7DV1tnDasrkPmVPuBg6zP2wp0aD/mdeGdYNzWpppEg+vsfgN6+ekMUeMFvJQZioLKx0/E
+ sEp4tosX0Mtm85sMmqS0tlmgkxGpscNLkWrJPQvgNvDqrHT0Ep3rKtP5VkVo3G1VZ6DhcuFne
+ 34zGxlXRbDUbQAmcmtmROJmSKFdSvP2k+sTg5HJf1IO78nuzbrZOlku4iwrQ1ycK/DedfjMfo
+ KvgHSvQ+g4cPKKX24kCCROONyEhC+0Yt5IQrSxeQ9o86NtltpD+H9fJzQERWzpCaQhJvqUXfl
+ BOiqs/vtzpbyPwgl0enklz7bETbPT3sIu+CvV7Q1mrcCU5XtU5+ooY9reZVs3MoHqMgW1GuOY
+ djOaqk51wn5ebl4oHUcuC9kgwXhKNst6dgauVaHqP5RzE3+HgllTYNUgy07RcJFSpAWHSJM8F
+ /N+P0h1ooLPcbZyMlSPSqzClF7Y882RO1swOI2+79p9uHFR0pX0vXBvDq3TIR6nadNty0YoaC
+ Hx4eCtaz5HQfyuzgFchqJ8RlWVVhaNP8kSZWvsHlZWmd+mvQUqNQe2c+ZMMiNkKUewHWtmRD5
+ TAEG5gGt0sRUHUASAmNMz6nrczxsM3RIKNgFi4SYMemoH9tBAmaz3k3y3DkXVnmgGZIWmyXwq
+ UCfvoyFnlFLibduY1oEgCYVEAbaO2KaM3k8LC9bF1jFihbD07RZ0WBb5u1MRj49keylPx5UJr
+ o5TJbifwU+/fXB3yDFvRlxotUw9xr66NzsdLGxi89gYnv3HwRaoadsDsoL7I6fioAd6Oy6coo
+ 5yzoy7IY8u/tQY2bBUJachY7qeLRvXM36KzGZjEkGF+S8PA4Z7jjdD/XfFz91eue1g/iC2XCy
+ URJkT4U51iDw613P7hTrCVBFb+g=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,72 +114,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------AxSDHNwz2txh9WXGLBVP9p9X
-Content-Type: multipart/mixed; boundary="------------SKwrE3jhv6XwQovEstbJgt4e";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Jocelyn Falempe <jfalempe@redhat.com>, airlied@redhat.com, daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org
-Message-ID: <fa6bbc93-9d88-436b-9264-6b9b803dc13d@suse.de>
-Subject: Re: [PATCH] drm/mgag200: Fix caching setup for remapped video memory
-References: <20240105082714.21881-1-tzimmermann@suse.de>
- <d169ab1a-d0ee-46f4-8bd8-2f42040a2572@redhat.com>
-In-Reply-To: <d169ab1a-d0ee-46f4-8bd8-2f42040a2572@redhat.com>
+On 1/3/24 13:13, Thomas Zimmermann wrote:
+> When built-in, the sis driver tries to detect the current display mode
+> from the global screen_info state. That state is only for architecture
+> and firmware code. Drivers should not use it directly as it's not
+> guaranteed to contain valid information.
+>
+> Remove the mode-detection code from sis. Drivers that want to detect a
+> pre-set mode on probe should read the hardware registers directly.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>   drivers/video/fbdev/sis/sis_main.c | 37 ------------------------------
+>   1 file changed, 37 deletions(-)
 
---------------SKwrE3jhv6XwQovEstbJgt4e
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+applied to fbdev git tree.
 
-SGkNCg0KQW0gMDUuMDEuMjQgdW0gMTE6NDEgc2NocmllYiBKb2NlbHluIEZhbGVtcGU6DQo+
-IEhpLA0KPiANCj4gT24gMDUvMDEvMjAyNCAwOToyNSwgVGhvbWFzIFppbW1lcm1hbm4gd3Jv
-dGU6DQo+PiBJL08gdmlkZW8gbWVtb3J5IGZvciB0aGUgZnJhbWVidWZmZXIgc3VwcG9ydHMg
-d3JpdGUtY29tYmluZSBjYWNoaW5nDQo+PiBtb2RlLiBTaW1wbGlmeSB0aGUgZHJpdmVyJ3Mg
-Y29kZSB0aGF0IHNldHMgdXAgdGhlIGNhY2hpbmcgbW9kZS4NCj4+DQo+PiDCoCAqIE1hcCB2
-aWRlbyBtZW1vcnkgd2l0aCBpb3JlbWFwX3djKCksIHdoaWNoIGF1dG9tYXRpY2FsbHkgc2V0
-cyB1cA0KPj4gdGhlIFBBVCBlbnRyeSB3aXRoIHdyaXRlLWNvbWJpbmUgY2FjaGluZy4NCj4+
-DQo+PiDCoCAqIFJlbW92ZSB0aGUgbm93IG9ic29sZXRlIGNhbGwgdG8gZGV2bV9hcmNoX2lv
-X3Jlc2VydmVfbWVtdHlwZV93YygpLg0KPj4gSXQgaXMgb25seSByZXF1aXJlZCB0byBtbWFw
-IHRoZSB2aWRlbyBtZW1vcnkgdG8gdXNlciBzcGFjZSwgd2hpY2ggdGhlDQo+PiBkcml2ZXIg
-ZG9lc24ndCBkby4NCj4+DQo+PiDCoCAqIEFjY29yZGluZyB0byB0aGUgUEFUIGRvY3VtZW50
-YXRpb24sIGFyY2hfcGh5c193Y19hZGQoKSBpcyBiZXN0DQo+PiBjYWxsZWQgYWZ0ZXIgcmVt
-YXBwaW5nIEkvTyBtZW1vcnksIHNvIG1vdmUgaXQgYWZ0ZXIgaW9yZW1hcC4NCj4+DQo+IA0K
-PiBUaGFua3MgYSBsb3QgZm9yIHRha2luZyBzb21lIHRpbWUgdG8gbG9vayBhdCB0aGUgbGF0
-ZW5jeSBpc3N1ZS4NCj4gVGhpcyBsb29rcyBnb29kIHRvIG1lLg0KPiANCj4gUmV2aWV3ZWQt
-Ynk6IEpvY2VseW4gRmFsZW1wZSA8amZhbGVtcGVAcmVkaGF0LmNvbT4NCj4gDQoNClRoYW5r
-cyBhIGxvdCBmb3IgdGhlIHJldmlldy4gSSdsbCBzZW5kIG91dCBhIHNpbWlsYXIgcGF0Y2gg
-Zm9yIGFzdCwgDQp3aGljaCBoYXMgdGhlIHNhbWUgaXNzdWVzLg0KDQpCZXN0IHJlZ2FyZHMN
-ClRob21hcw0KDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBE
-ZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtl
-bnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYs
-IEFuZHJldyBNeWVycywgQW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAz
-NjgwOSAoQUcgTnVlcm5iZXJnKQ0K
-
---------------SKwrE3jhv6XwQovEstbJgt4e--
-
---------------AxSDHNwz2txh9WXGLBVP9p9X
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmWbuv8FAwAAAAAACgkQlh/E3EQov+Cv
-ABAAomjSiBllHMymu8NigHrrG29VePRvZrr7jJZXoJyXY3238HfJVsyHSjxquEZAAxf1jxgOksf8
-HSfc37hAlkB/Oic7zeqkzFpuC5wcHRxfNcSSCNTOKx5A2O5hpSJ7IM6C6Kdk/0J2E9p4d17obhft
-Y/QWq9r4qrbajgIvBbh4Hm3poWlSPpff7WonWvK7WMIC2jC0B21udSkaAiixY05bdhSgDLw08N2N
-DE3CgMKAloLU//D3AFDTLmgYLPYtWluy+JWLwQhat88H/hPyAkmfEFbiTG11DNFvi11jt/nqtlKA
-1srHLwQe/VfnK3W8FtWMBXbex2j9yYhzFR49OhJwSlHboJKohhQYCg0bxX/WBxPGSxBIRt4lk0Xx
-tU32DYU0UhmeAKtVpXs/fmkkBVoh3aGqK90qG9zEIpWUBQX+pWFCDBwJZ4V7Q2t+HEs3UuOGKV9R
-ZSa4Q32CZmA7chHnInPOR7Ist/0MfFPteNSm1yOUPo7suJg1tBtvlgRBtQevix76UTwX7OOKgFVU
-13X6dd80Pe9Z1t8G4gPlAy0Nk1eWNuZCZQ9phCX2ivy7GMBwwCURSTj0LWL2TDqCsiDoxetvEUio
-BfeYr/Y+irge9mOQQrQoSoZGgAbo8pwLPLuoQAIaE1imC0DitGvbEfEs07OXf04nSvpGHK1n3ygx
-yKA=
-=mlVN
------END PGP SIGNATURE-----
-
---------------AxSDHNwz2txh9WXGLBVP9p9X--
+Thanks!
+Helge
