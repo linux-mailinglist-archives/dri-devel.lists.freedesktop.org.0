@@ -1,65 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C07F08265DE
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Jan 2024 21:02:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8226A8266D7
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 01:15:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 532D510E008;
-	Sun,  7 Jan 2024 20:02:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8C2610E02F;
+	Mon,  8 Jan 2024 00:15:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
- [IPv6:2607:f8b0:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AFA710E008
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Jan 2024 20:02:01 +0000 (UTC)
-Received: by mail-oi1-x229.google.com with SMTP id
- 5614622812f47-3bbc755167fso1382082b6e.0
- for <dri-devel@lists.freedesktop.org>; Sun, 07 Jan 2024 12:02:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1704657721; x=1705262521; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=BsQYY7qqo+FrBHe/RokTU8lf3E6e+C6A/j4bBRjxl58=;
- b=nyNYj7m6DN3QgSkp8T/OwnlCyNIOMw3wALab0dGC9C7PYeU8Z52AYsH+pzqGNmS8Tv
- WOYpZz6X3V3jhxvuXJYtrwG0KiehbSHcVdZZ/znGC5UitEVj4Hg/CkWtBabXrm2LR9EV
- CtupOomKq+o2GBm7JJ9QVYjSFSbkCU8pxJXtu4jNzxAU1yUqhsN9lqL10SLIBqiYup6J
- sADv3TF6KNP/1DJw1zQiIvPtirFkc5KGA7HxPyy+rhf0J3ezB39O5mpnHKgkGddmjOXq
- oE58XtCHKdUWFJAXYhnueCsg+jLhtd0sRMoksSJNXjOZoMvOwXXq71bcAwRIklBTrOYS
- NmxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704657721; x=1705262521;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=BsQYY7qqo+FrBHe/RokTU8lf3E6e+C6A/j4bBRjxl58=;
- b=aeBmDmvRnRis0CJYCV/djUOCHB0kXUOxzZuCVrNK6eRBCR1DdRSxVD5kGLu37eta2X
- YMXJ4xGFUJYSwBixU8pXUgCXsVnTFPLxl5IishsbdiKNHGJKGeKdEBbsQ14kEy30xdvs
- OHe25KvzhGB8hg9S1dLid3qNmTildZuhdFhQnkVg9IpxEb6kiHxXwcHWyHZrCmlh4Bd3
- byJJc+Avad1syVwzP0wA9xaiHUUxGJpOyolm5+eBLbhORRfgze+waU8mTzPUkkburVUb
- ydKraww28uusTDJZNPm3NfKarewYXvk9lsjGTxGC5/4DLwXeq3ZXIvAElbuNfsqbhPIq
- QVOQ==
-X-Gm-Message-State: AOJu0Yw37PbasrcRrv8o28nQeFO5GN8+ChORiGmiz9q74ndPiZaryw0l
- 7i5MnkpAYFpvnxQvU1m5U+eyuV5di6bWAbIbPHuTSj0eigjMIg==
-X-Google-Smtp-Source: AGHT+IGywVTBJjpXydC+fLvcp4XUEIt9/GT2WV7oS29NQUNx0cTWCHookn5mwrDpBsjcRympVKZCp3IcNmPj0BDGxa4=
-X-Received: by 2002:a54:4088:0:b0:3bc:2a4f:7722 with SMTP id
- i8-20020a544088000000b003bc2a4f7722mr3057800oii.90.1704657720778; Sun, 07 Jan
- 2024 12:02:00 -0800 (PST)
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8328710E02F
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 00:14:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1704672894;
+ bh=037L4Bx9N+1mGd2j8MWjXO0307K1Ky4m2b0KGWg3Ki4=;
+ h=Date:From:To:Cc:Subject:From;
+ b=OmsTBqF3bIjUT99Rllsfo2snosICcCsQ6sj3p+4AS6+xGUpGG/ohO7cdEGBazQH4j
+ FVKehnO4OEMo16FBlVhbk0wPr1f+q2A7m8n9OpvMjogj3TlxsdHLJKEaUxUdmAJVy2
+ PfgBUNuCfK75gF0gHCvURQ6NHAyn5nEJR9UmZli4xketp9bqujkP1NCfTE41MrxtkT
+ UEt7BOh7Mko8Sp7XXFpZXFj9JsQOq9E3UPHcMfXeoTp3h/4JVGq+C2betAPic7uFf0
+ w/HwVbC7qYNOmgZy3cZpOtpCN+Y/X3kVJxOd9WxuY0KM7aZ2S6asWbx/4JVOSTxMX7
+ HE8tSVNuKMaOg==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4T7ZM10SZmz4wdB;
+ Mon,  8 Jan 2024 11:14:53 +1100 (AEDT)
+Date: Mon, 8 Jan 2024 11:14:51 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@redhat.com>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: manual merge of the drm tree with Linus' tree
+Message-ID: <20240108111451.67c34a93@canb.auug.org.au>
 MIME-Version: 1.0
-References: <20240104084206.721824-1-dario.binacchi@amarulasolutions.com>
- <20240104084206.721824-9-dario.binacchi@amarulasolutions.com>
- <CACRpkda+=Zq+v-505O3pHazKzukSifBnNx_CPKbKd2JH-KYpYg@mail.gmail.com>
- <CABGWkvoNuJNmxhrOE6csE2mGwF50ou-jx-kpmH-oQ2zBgzLrSg@mail.gmail.com>
-In-Reply-To: <CABGWkvoNuJNmxhrOE6csE2mGwF50ou-jx-kpmH-oQ2zBgzLrSg@mail.gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Sun, 7 Jan 2024 21:01:49 +0100
-Message-ID: <CACRpkdZJF-WE8oTi3RXpX_+W+D6bV_o2Nt1ikRbErR6pBc2OJg@mail.gmail.com>
-Subject: Re: [PATCH v4 8/8] drm/panel: nt35510: support FRIDA
- FRD400B25025-A-CTK
-To: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; boundary="Sig_/d75n8xzFTcdrovT1=A9bA_h";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,122 +48,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
- linux-amarula@amarulasolutions.com, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org, Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Wayne Lin <wayne.lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Wade Wang <wade.wang@hp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jan 6, 2024 at 12:07=E2=80=AFPM Dario Binacchi
-<dario.binacchi@amarulasolutions.com> wrote:
+--Sig_/d75n8xzFTcdrovT1=A9bA_h
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-> After submitting v4, I tested the driver under different conditions,
-> i. e. without enabling display support in
-> U-Boot (I also implemented a version for U-Boot, which I will send
-> only after this series is merged into
-> the Linux kernel). In that condition I encountered an issue with the rese=
-t pin.
->
-> The minimal fix, would be this:
->
-> diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35510.c
-> b/drivers/gpu/drm/panel/panel-novatek-nt35510.c
-> index c85dd0d0829d..89ba99763468 100644
-> --- a/drivers/gpu/drm/panel/panel-novatek-nt35510.c
-> +++ b/drivers/gpu/drm/panel/panel-novatek-nt35510.c
-> @@ -1133,7 +1133,7 @@ static int nt35510_probe(struct mipi_dsi_device *ds=
-i)
->         if (ret)
->                 return ret;
->
-> -       nt->reset_gpio =3D devm_gpiod_get_optional(dev, "reset", GPIOD_AS=
-IS);
-> +       nt->reset_gpio =3D devm_gpiod_get_optional(dev, "reset", GPIOD_OU=
-T_HIGH);
+Hi all,
 
+Today's linux-next merge of the drm tree got a conflict in:
 
-This is fine, because we later on toggle reset in nt35510_power_on(),
-this just asserts the reset signal already in probe.
+  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 
-I don't see why this would make a difference though?
+between commit:
 
-Is it to make the reset delete artifacts from the screen?
+  9cdef4f72037 ("drm/amd/display: pbn_div need be updated for hotplug event=
+")
 
-Just explain it in the commit message.
+from Linus' tree and commit:
 
-It is a bit confusing when I look at your DTS patch:
+  191dc43935d1 ("drm/dp_mst: Store the MST PBN divider value in fixed point=
+ format")
 
-https://lore.kernel.org/linux-arm-kernel/20240104084206.721824-7-dario.bina=
-cchi@amarulasolutions.com/
+from the drm tree.
 
-this doesn't even contain a reset GPIO, so nothing will happen
-at all?
+I fixed it up (I think, see below) and can carry the fix as
+necessary. This is now fixed as far as linux-next is concerned, but any
+non trivial conflicts should be mentioned to your upstream maintainer
+when your tree is submitted for merging.  You may also want to consider
+cooperating with the maintainer of the conflicting tree to minimise any
+particularly complex conflicts.
 
-> I then tried modifying the device tree instead of the nt35510 driver.
-> In the end, I arrived
-> at this patch that leaves me with some doubts, especially regarding
-> the strict option.
->
-> diff --git a/arch/arm/boot/dts/st/stm32f769-disco-mb1225-revb03-mb1166-re=
-va09.dts
-> b/arch/arm/boot/dts/st/stm32f769-disco-mb1225-revb03-m>
-> index 014cac192375..32ed420a6cbf 100644
-> --- a/arch/arm/boot/dts/st/stm32f769-disco-mb1225-revb03-mb1166-reva09.dt=
-s
-> +++ b/arch/arm/boot/dts/st/stm32f769-disco-mb1225-revb03-mb1166-reva09.dt=
-s
-> @@ -13,6 +13,17 @@ &panel0 {
->         compatible =3D "frida,frd400b25025", "novatek,nt35510";
->         vddi-supply =3D <&vcc_3v3>;
->         vdd-supply =3D <&vcc_3v3>;
-> +       pinctrl-0 =3D <&panel_reset>;
-> +       pinctrl-names =3D "default";
->         /delete-property/backlight;
->         /delete-property/power-supply;
->  };
-> +
-> +&pinctrl {
-> +       panel_reset: panel-reset {
-> +               pins1 {
-> +                       pinmux =3D <STM32_PINMUX('J', 15, GPIO)>;
-> +                       output-high;
+--=20
+Cheers,
+Stephen Rothwell
 
-But this achieves the *opposite* of what you do in the
-other patch. This sets the reset line de-asserted since it is
-active low.
+diff --cc drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 73dd4bc870dc,54861136dafd..000000000000
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@@ -6916,7 -7007,8 +7009,7 @@@ static int dm_encoder_helper_atomic_che
+  	if (IS_ERR(mst_state))
+  		return PTR_ERR(mst_state);
+ =20
+- 	mst_state->pbn_div =3D dm_mst_get_pbn_divider(aconnector->mst_root->dc_l=
+ink);
+ -	if (!mst_state->pbn_div.full)
+ -		mst_state->pbn_div.full =3D dfixed_const(dm_mst_get_pbn_divider(aconnec=
+tor->mst_root->dc_link));
+++	mst_state->pbn_div.full =3D dfixed_const(dm_mst_get_pbn_divider(aconnect=
+or->mst_root->dc_link));
+ =20
+  	if (!state->duplicated) {
+  		int max_bpc =3D conn_state->max_requested_bpc;
 
-Did you add the reset line to your device tree and forgot to
-set it as GPIO_ACTIVE_LOW perhaps?
+--Sig_/d75n8xzFTcdrovT1=A9bA_h
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-> --- a/drivers/pinctrl/stm32/pinctrl-stm32.c
-> +++ b/drivers/pinctrl/stm32/pinctrl-stm32.c
-> @@ -895,7 +895,6 @@ static const struct pinmux_ops stm32_pmx_ops =3D {
->         .set_mux                =3D stm32_pmx_set_mux,
->         .gpio_set_direction     =3D stm32_pmx_gpio_set_direction,
->         .request                =3D stm32_pmx_request,
-> -       .strict                 =3D true,
+-----BEGIN PGP SIGNATURE-----
 
-To be honest this is what I use a lot of the time, with non-strict
-pin control you can set up default GPIO values using the pin control
-device tree, and it's really simple and easy to read like that since e.g.
-in this case you set it from the panel device node which is what
-is also consuming the GPIO, so very logical. So I
-would certainly remove this .strict setting, but maybe Alexandre
-et al have a strong opinion about it.
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmWbPnsACgkQAVBC80lX
+0GyFVgf8DNuxxfYi5lerGxqQLb82OBymXJLZcvRwzmabkrIqRBrtIkkxVg+mz09z
+s2+FF+0V87HFR3iO0E71WZr2oHZ/1nhQQNT6H5BKp7AcVj3n/xHcSkUlzvp8MfCs
+mthwSP+dobQJMgr9Co9dwHnA+gCXh8vAMXZ+A/5pH3kj6J5AGJmDRmZXrn6SVLK8
+dLRFykwOrE3DkaDtN11pRdVOhrl7+YvPc1+y/nzRQok+aWwwmxmNG1wCEX6Bp22p
+zxP/tft4zJaJw+CAD/hQQk//GDcEuMKAuixCMp376V1agqYHPmnOBhQgFJ0K+Cpc
+5u/A/WEXlwokNx0Nrfa9mX1bxR+rfg==
+=F69V
+-----END PGP SIGNATURE-----
 
-> Another option to fix my use case without introducing regressions
-> could be to add a
-> new property to the device tree that suggests whether to call
-> devm_gpiod_get_optional()
-> with the GPIOD_ASIS or GPIOD_OUT_HIGH parameter.
->
-> What is your opinion?
-
-It's fine either way, but just use GPIOD_OUT_HIGH and I can test
-it on my system as well, I think it's fine.
-
-Yours,
-Linus Walleij
+--Sig_/d75n8xzFTcdrovT1=A9bA_h--
