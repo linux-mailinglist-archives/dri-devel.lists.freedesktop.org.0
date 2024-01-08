@@ -1,78 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1264C8276AA
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 18:57:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B886B8276E2
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 19:04:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40D6310E290;
-	Mon,  8 Jan 2024 17:57:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C58A310E2AD;
+	Mon,  8 Jan 2024 18:04:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A99D10E132;
- Mon,  8 Jan 2024 17:57:39 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 408Dxck7012024; Mon, 8 Jan 2024 17:57:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=l3rs5QalRzBq6bDr+l+YAPawJwhfuREesXmJgkFlGjA=; b=bR
- xLwTOmM/xmF8jZ5BBWGIbGzkNQZq4R1PrymnowlbJWsZkDusCetT4ZAA83X+yFdz
- jalkR9HRkX/2AKO6XjEGOX3YLuZ2jdRg3iPg6cy3cT1eoZtMXi8RE0DqylKVFnko
- xG5megy5F3kZ4mF8CZs9dHlmBLR3bUqMv4n9ANat0bHtJ007V1OanPzgFWbhLTsZ
- WFMquMTTdj6iYYTbFKJAq7izUHmSJbqW3bFhV3mqkxV4KGn+GLK3rXET8FgjZHWi
- COJnsxNjD55/eyU5bMfmGQ9wiA+BPrCsKpqOWzhFyiw5luVy8ai55FBxVaf9cXi6
- FzqYDnq+XdP5kNUHyw/Q==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vgfwjrw5h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 08 Jan 2024 17:57:34 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
- [10.47.209.197])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 408HvXnm012203
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 8 Jan 2024 17:57:33 GMT
-Received: from [10.110.73.235] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 8 Jan
- 2024 09:57:32 -0800
-Message-ID: <9807bb4a-98d9-8f4b-b24d-0134f42f6cd3@quicinc.com>
-Date: Mon, 8 Jan 2024 09:57:31 -0800
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3893510E2A5
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 18:04:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1704737078;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IAnYP1H5LzGuNWIcYJpBhogfe2D1SDeWJ9NEft7q0Oo=;
+ b=E2sxQnS9jR7LWwXBfc2hv35NrFMldQRao/LBZ/rq4OBW0qxqyZYH0Xca0drfDQKuy2GWyx
+ 6OdYjfhauP1vM9xFtHDGkx6/knFZ0l0/7w7DHVhJ7c4tJ1SqVnS9PGqFfbK0uhy+pDyAY2
+ L7XNpdIz1jBjj8Yzqzd4UE18YA3sYYk=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-590-BvRLQT6kO6OmPVkLruQN0w-1; Mon, 08 Jan 2024 13:04:35 -0500
+X-MC-Unique: BvRLQT6kO6OmPVkLruQN0w-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-78318c94142so112786585a.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Jan 2024 10:04:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1704737074; x=1705341874;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=IAnYP1H5LzGuNWIcYJpBhogfe2D1SDeWJ9NEft7q0Oo=;
+ b=gMuCa0/FwQdaPLq8iYOP33VQCFH47jh4DTsZyd1m2PnDoUM8LtcNdpf63m2YO0XKI9
+ JJLnsAMqtVGvmF21XOxoEdMb/EJb4XSbmZf//wj5XM7t8Uvzw7HfrDOXdWQyiDx3M8tb
+ KGNpltRXYp/c0dYCPvxoq9SKqGQrIVMWo6zr2mKjzAEkAVwGFb6w3GupsnKLcIKg/uVo
+ yJmR70LkMVa2ak3LH8v2KqrCPIX+3bg0kV5qXlQTj9EZK0ShvaJg/NvA8+/IkKc8p7h8
+ sFPmwX4ZQ/XuuQmRmpS8uFpaWpaKeT7slsVlLCoJNeXo4o3jpMNze1l732OqzSQwLhxu
+ GoVQ==
+X-Gm-Message-State: AOJu0Yx1cSy9+ukmupYQSy8VCAmq6oXF3/amlqi7PXHs8p9AJ5AIFnFG
+ DhdjnjctVO2FGr7jQrpDXsGddD590pO76HnQSERQmgaNyrtS/hMD2diU7AEqqqLj7V/FfG4llBE
+ ieRbsFFqgpyTtpCF/UwwwXDKRVxRfXQsMgeQc
+X-Received: by 2002:a05:620a:3788:b0:781:eb20:d230 with SMTP id
+ pi8-20020a05620a378800b00781eb20d230mr2596821qkn.45.1704737074740; 
+ Mon, 08 Jan 2024 10:04:34 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHe5P5jzlUukysDtp2eDu5oCiQ76sfdGCeZVFi+NgyWwJPXZChIHHNghe8BZwRPbo3NDsflGQ==
+X-Received: by 2002:a05:620a:3788:b0:781:eb20:d230 with SMTP id
+ pi8-20020a05620a378800b00781eb20d230mr2596810qkn.45.1704737074488; 
+ Mon, 08 Jan 2024 10:04:34 -0800 (PST)
+Received: from ?IPV6:2a02:810d:4b3f:ee94:abf:b8ff:feee:998b?
+ ([2a02:810d:4b3f:ee94:abf:b8ff:feee:998b])
+ by smtp.gmail.com with ESMTPSA id
+ a10-20020a05620a066a00b007815c55cdf9sm75313qkh.105.2024.01.08.10.04.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Jan 2024 10:04:34 -0800 (PST)
+Message-ID: <95f6815c-1ff5-4c89-b8c6-0445834a0083@redhat.com>
+Date: Mon, 8 Jan 2024 19:04:31 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/4] drm/msm: add a kernel param to select between MDP5
- and DPU drivers
+Subject: Re: [PATCH 1/3] drm/nouveau: include drm/drm_edid.h only where needed
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org
+References: <20240104201632.1100753-1-jani.nikula@intel.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <20240104201632.1100753-1-jani.nikula@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20240106-fd-migrate-mdp5-v3-0-3d2750378063@linaro.org>
- <20240106-fd-migrate-mdp5-v3-3-3d2750378063@linaro.org>
- <c8d6769b-eb28-337c-fa55-4dae86611da5@quicinc.com>
- <CAA8EJpoF3uKobGzjHbLMKYvcQbdqYzur7Mn1cNDPyc+wiiZ+SQ@mail.gmail.com>
-From: Carl Vanderlip <quic_carlv@quicinc.com>
-In-Reply-To: <CAA8EJpoF3uKobGzjHbLMKYvcQbdqYzur7Mn1cNDPyc+wiiZ+SQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: XFQhFCDc3KnBi07E_fNpugNNuv6RtugH
-X-Proofpoint-GUID: XFQhFCDc3KnBi07E_fNpugNNuv6RtugH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 clxscore=1015
- impostorscore=0 lowpriorityscore=0 phishscore=0 mlxlogscore=820
- suspectscore=0 priorityscore=1501 mlxscore=0 malwarescore=0 adultscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2401080152
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,51 +88,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, Marijn Suijten <marijn.suijten@somainline.org>,
- Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>
+Cc: nouveau@lists.freedesktop.org, Karol Herbst <kherbst@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 1/5/2024 4:38 PM, Dmitry Baryshkov wrote:
-> On Sat, 6 Jan 2024 at 02:04, Carl Vanderlip <quic_carlv@quicinc.com> wrote:
->>
->>
->> On 1/5/2024 3:34 PM, Dmitry Baryshkov wrote:
->>> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
->>> index 50b65ffc24b1..ef57586fbeca 100644
->>> --- a/drivers/gpu/drm/msm/msm_drv.c
->>> +++ b/drivers/gpu/drm/msm/msm_drv.c
->>> @@ -969,6 +969,37 @@ static int add_components_mdp(struct device *master_dev,
->>>        return 0;
->>>    }
->>>
->>> +#if !IS_REACHABLE(CONFIG_DRM_MSM_MDP5) || !IS_REACHABLE(CONFIG_DRM_MSM_DPU)
->>> +bool msm_disp_drv_should_bind(struct device *dev, bool mdp5_driver)
->>> +{
->>> +     /* If just a single driver is enabled, use it no matter what */
->>> +     return true;
->>> +}
->>
->> This will cause both MDP/DPU probes to return -ENODEV, rather than
->> select the enabled one.
+On 1/4/24 21:16, Jani Nikula wrote:
+> Including drm_edid.h from nouveau_connector.h causes the rebuild of 15
+> files when drm_edid.h is modified, while there are only a few files that
+> actually need to include drm_edid.h.
 > 
-> No. The code (e.g. for DPU) is:
-> 
->         if (!msm_disp_drv_should_bind(&pdev->dev, true))
->                  return -ENODEV;
-> 
-> So the driver returns -ENODEV if msm_disp_drv_should_bind() returns
-> false. Which is logical from the function name point of view.
-> 
+> Cc: Karol Herbst <kherbst@redhat.com>
+> Cc: Lyude Paul <lyude@redhat.com>
+> Cc: Danilo Krummrich <dakr@redhat.com>
+> Cc: nouveau@lists.freedesktop.org
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-but msm_disp_drv_should_bind() is returning true in the #if !REACHABLE() 
-case?
+Reviewed-by: Danilo Krummrich <dakr@redhat.com>
 
-at minimum the comment is incorrect since returning true causes the
-driver to NOT be used.
+> ---
+>   drivers/gpu/drm/nouveau/dispnv50/head.c     | 1 +
+>   drivers/gpu/drm/nouveau/nouveau_connector.h | 2 +-
+>   2 files changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/dispnv50/head.c b/drivers/gpu/drm/nouveau/dispnv50/head.c
+> index 5f490fbf1877..83355dbc15ee 100644
+> --- a/drivers/gpu/drm/nouveau/dispnv50/head.c
+> +++ b/drivers/gpu/drm/nouveau/dispnv50/head.c
+> @@ -32,6 +32,7 @@
+>   
+>   #include <drm/drm_atomic.h>
+>   #include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_edid.h>
+>   #include <drm/drm_vblank.h>
+>   #include "nouveau_connector.h"
+>   
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.h b/drivers/gpu/drm/nouveau/nouveau_connector.h
+> index a2df4918340c..0608cabed058 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_connector.h
+> +++ b/drivers/gpu/drm/nouveau/nouveau_connector.h
+> @@ -35,7 +35,6 @@
+>   
+>   #include <drm/display/drm_dp_helper.h>
+>   #include <drm/drm_crtc.h>
+> -#include <drm/drm_edid.h>
+>   #include <drm/drm_encoder.h>
+>   #include <drm/drm_util.h>
+>   
+> @@ -44,6 +43,7 @@
+>   
+>   struct nvkm_i2c_port;
+>   struct dcb_output;
+> +struct edid;
+>   
+>   #ifdef CONFIG_DRM_NOUVEAU_BACKLIGHT
+>   struct nouveau_backlight {
 
--Carl V.
