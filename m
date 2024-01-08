@@ -1,52 +1,87 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE307826A85
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 10:20:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4791826A8F
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 10:21:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6B3910E1D1;
-	Mon,  8 Jan 2024 09:20:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A44B10E1DC;
+	Mon,  8 Jan 2024 09:20:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D176A10E1CA
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 09:19:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704705598; x=1736241598;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=0GCPuY/Wp+lTIL30Wj2Uuo+to46Y+MRchxWxMArtASQ=;
- b=BmzRHIWcqkYnvwrQMZtTr6mXvgzRRXeb4g5EKGzFI0/iNPUXY2in/P+8
- DzrrcCJL9UxqOXgMhK55DktstAcyv/u+iFm3JxQNY6VzX5T0jPaejlRFj
- SqAr1F5zCP+Ejur0sSB7IVvcuNljTzPiWkP7A8Tp0Md+L23UxbyqsFbEg
- dPIgRInscVlGKUicc6sRJPwl7ioE+QLXWXaauL9oqjxdttmAVS9gi5nUZ
- +rvj9Ci6TlbTi97FD0K9IhhjVOSWj+QycmaZ6i4KgPbu0ALUFe4GdhvHX
- DZdXXHqp2BF9Dt2OJvgEoNv+fnSIIZv0Lr9C1yw+Fhdl397QqW7ZWg9Zt w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="396714901"
-X-IronPort-AV: E=Sophos;i="6.04,340,1695711600"; d="scan'208";a="396714901"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jan 2024 01:19:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="847156068"
-X-IronPort-AV: E=Sophos;i="6.04,340,1695711600"; d="scan'208";a="847156068"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
- by fmsmga008.fm.intel.com with ESMTP; 08 Jan 2024 01:19:56 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1rMlnV-0004Zm-2q;
- Mon, 08 Jan 2024 09:19:53 +0000
-Date: Mon, 8 Jan 2024 17:19:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-Subject: [drm-misc:drm-misc-next 6/21]
- drivers/gpu/drm/rockchip/inno_hdmi.c:499:15: error: call to undeclared
- function 'drm_atomic_get_new_connector_state'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202401081720.UtgAZgba-lkp@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBDA010E1EF
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 09:20:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1704705653;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=48TtFxmkBLq08biP3z1ck/nyrB9vsB9Au4Xw4KzideY=;
+ b=fHp8+r1nZ63qrJyL80R6750k+Wh5SXeiAmOhwuwMQwSIaQWT94G+dnzTvtmwvC9lfNECyP
+ fHyVTw6I0USbSiV9/1yfcfVw+qtDek7poujRcREPQraLtuNnUbTaMVbXF1wizh99pUDhvG
+ jG/BleN3AXiUdnNimTUy9RND3YgCeoY=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-29-gZd4eA7RNCmfVSzhRW5LDg-1; Mon, 08 Jan 2024 04:20:52 -0500
+X-MC-Unique: gZd4eA7RNCmfVSzhRW5LDg-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ d75a77b69052e-429841b3070so3795081cf.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Jan 2024 01:20:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1704705652; x=1705310452;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=48TtFxmkBLq08biP3z1ck/nyrB9vsB9Au4Xw4KzideY=;
+ b=buKtKWjwFD9uuBBU4zuXPZ6wTAgCGdbXZxEp8YDm9GFMqNnzq/9vBgYU98AhXi98GV
+ VG7fFB4PwF9Vy1mGseGzb6Pz8ZztMqJlRvjEEsZ8+EPf2+fFs8HqOCR5EWsQ2NCAtzZG
+ YpLEJK86/HcMVZRuu8+9ANpwe1l7oxtkOjK+OZe4PMpuKKiKN3PSGgWD/tzWNVVA8Y82
+ pwePQbSLKUvNqrI56iD73ema72ydIUthXDj8G3guD5jEJsdniwdnjTgEjyZZVRM/Riv/
+ 9I3GMlSslg+uw+mYUJptn06wUEoVELJqbV2B7Hvm9Tv5pWDCJGHLEO1UxByRsPMBIhXk
+ 9RKg==
+X-Gm-Message-State: AOJu0YwnfB5OrUcTpvvuxcQ9i6bIuJxgsb2ymKAEH8iZThBOyeFONWI7
+ 0DcJ04zIVfNDcu8tfUiVINhvklhVaFWFDdcuz146WllNsNukbu6E8q7djWmdgA+KVhoDLo4TXdd
+ Yu+Ri6aIge58IEiKUpsr3hEZ/eaE4kXHQn0uY
+X-Received: by 2002:a05:6214:2305:b0:681:7ea:7ac2 with SMTP id
+ gc5-20020a056214230500b0068107ea7ac2mr1913612qvb.1.1704705652248; 
+ Mon, 08 Jan 2024 01:20:52 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFSYTkeF6XSZKtSHbVgPwqgjaTeSq0UBVxgUw+1xaqYnJhub7w67LhH5GVVx/wDOpiGTWPBmA==
+X-Received: by 2002:a05:6214:2305:b0:681:7ea:7ac2 with SMTP id
+ gc5-20020a056214230500b0068107ea7ac2mr1913588qvb.1.1704705651960; 
+ Mon, 08 Jan 2024 01:20:51 -0800 (PST)
+Received: from pstanner-thinkpadt14sgen1.muc.redhat.com
+ (nat-pool-muc-t.redhat.com. [149.14.88.26])
+ by smtp.gmail.com with ESMTPSA id
+ dm4-20020ad44e24000000b00680613267d5sm2732554qvb.115.2024.01.08.01.20.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Jan 2024 01:20:51 -0800 (PST)
+From: Philipp Stanner <pstanner@redhat.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.de>,
+ David Gow <davidgow@google.com>,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: [PATCH v2 0/2] platform_device: add new devres function
+Date: Mon,  8 Jan 2024 10:20:41 +0100
+Message-ID: <20240108092042.16949-2-pstanner@redhat.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,127 +94,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: llvm@lists.linux.dev, Alex Bee <knaerzche@gmail.com>,
- dri-devel@lists.freedesktop.org, oe-kbuild-all@lists.linux.dev
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Philipp Stanner <pstanner@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-head:   26a4591b31916e1c53a7c64fa3ba3fc7cc5d549f
-commit: d3e040f450ec8e46ff42fa495a433b976ab47686 [6/21] drm/rockchip: inno_hdmi: Get rid of mode_set
-config: s390-randconfig-001-20240106 (https://download.01.org/0day-ci/archive/20240108/202401081720.UtgAZgba-lkp@intel.com/config)
-compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 7e186d366d6c7def0543acc255931f617e76dff0)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240108/202401081720.UtgAZgba-lkp@intel.com/reproduce)
+Changes in v2:
+- Fix wrong function name in docstring (Uwe)
+- Change devres function name so it becomes obvious that it's requesting
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401081720.UtgAZgba-lkp@intel.com/
+Patch #1 adds a new devres function that I found could be useful for the
+driver dcss in drm. Patch #2 makes that driver use the new function.
 
-All errors (new ones prefixed by >>):
+I compiled this successfully but unfortunately don't have the hardware
+to test it for dcss.
+So you might want to have a closer look.
 
-   In file included from drivers/gpu/drm/rockchip/inno_hdmi.c:8:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from drivers/gpu/drm/rockchip/inno_hdmi.c:8:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from drivers/gpu/drm/rockchip/inno_hdmi.c:8:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> drivers/gpu/drm/rockchip/inno_hdmi.c:499:15: error: call to undeclared function 'drm_atomic_get_new_connector_state'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     499 |         conn_state = drm_atomic_get_new_connector_state(state, &hdmi->connector);
-         |                      ^
-   drivers/gpu/drm/rockchip/inno_hdmi.c:499:15: note: did you mean 'drm_atomic_helper_connector_reset'?
-   include/drm/drm_atomic_state_helper.h:73:6: note: 'drm_atomic_helper_connector_reset' declared here
-      73 | void drm_atomic_helper_connector_reset(struct drm_connector *connector);
-         |      ^
->> drivers/gpu/drm/rockchip/inno_hdmi.c:499:13: error: incompatible integer to pointer conversion assigning to 'struct drm_connector_state *' from 'int' [-Wint-conversion]
-     499 |         conn_state = drm_atomic_get_new_connector_state(state, &hdmi->connector);
-         |                    ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/rockchip/inno_hdmi.c:503:15: error: call to undeclared function 'drm_atomic_get_new_crtc_state'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     503 |         crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
-         |                      ^
->> drivers/gpu/drm/rockchip/inno_hdmi.c:503:13: error: incompatible integer to pointer conversion assigning to 'struct drm_crtc_state *' from 'int' [-Wint-conversion]
-     503 |         crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
-         |                    ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   12 warnings and 4 errors generated.
+Greetings,
+P.
 
+Philipp Stanner (2):
+  platform_device: add devres function region-reqs
+  drm/dcss: request memory region
 
-vim +/drm_atomic_get_new_connector_state +499 drivers/gpu/drm/rockchip/inno_hdmi.c
-
-   491	
-   492	static void inno_hdmi_encoder_enable(struct drm_encoder *encoder,
-   493					     struct drm_atomic_state *state)
-   494	{
-   495		struct inno_hdmi *hdmi = encoder_to_inno_hdmi(encoder);
-   496		struct drm_connector_state *conn_state;
-   497		struct drm_crtc_state *crtc_state;
-   498	
- > 499		conn_state = drm_atomic_get_new_connector_state(state, &hdmi->connector);
-   500		if (WARN_ON(!conn_state))
-   501			return;
-   502	
- > 503		crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
-   504		if (WARN_ON(!crtc_state))
-   505			return;
-   506	
-   507		inno_hdmi_setup(hdmi, &crtc_state->adjusted_mode);
-   508		inno_hdmi_set_pwr_mode(hdmi, NORMAL);
-   509	}
-   510	
+ drivers/base/platform.c             | 38 +++++++++++++++++++++++++++++
+ drivers/gpu/drm/imx/dcss/dcss-dev.c |  9 ++++---
+ include/linux/platform_device.h     |  3 +++
+ 3 files changed, 46 insertions(+), 4 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
