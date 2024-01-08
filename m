@@ -1,45 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68263826B70
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 11:15:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD558826B7D
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 11:19:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3E9110E215;
-	Mon,  8 Jan 2024 10:15:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B43B310E225;
+	Mon,  8 Jan 2024 10:19:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5CAB10E1CE
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 10:15:34 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C02D810E1F5
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 10:19:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 7FE13B80D1B;
- Mon,  8 Jan 2024 10:15:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EB47C433C7;
- Mon,  8 Jan 2024 10:15:32 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id C901560EDC
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 10:19:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 78121C433C9
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 10:19:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1704708932;
- bh=Kf/qCr4Qci8o35dgE+0WQtM/PNggO9XZmnL3OFyD1p4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=h7OS9Q6vfGOss9TTQ24Jm6unqxb6WgKnOVxwjxO0z2C6gOAuuahgC7asS+zh5KDPs
- ZYJXs9J1SHAawdLcyUGmByrnTy/yuCUTxRVC9k29jGF98a1UA/s2g1YJythdBgDo5i
- ezF920k4/H4fxAJtmlGMIo7xCB3mYOz9T298h4NKCYdN7Be25DmPSwHI0ccjxiz5YI
- +cAtKLbRsYBqB2OeRh/crdACtO/cOBikxUCmhhfTKmqp6THM0PHuhkGd6mg8AFycGq
- Giwi/GhkL0z/6kJTawsWmk33vcFh4/hhx+t6j6mK/8I28LMffcgAru1wU3YbRy+fr+
- 4YghGB4Y0PLrw==
-Date: Mon, 8 Jan 2024 11:15:29 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Arthur Grillo <arthurgrillo@riseup.net>
-Subject: Re: [PATCH 7/7] drm/vkms: Create KUnit tests for YUV conversions
-Message-ID: <5z66ivuhfrzrnuzt6lwjfm5fuozxlgqsco3qb5rfzyf6mil5ms@2svqtlcncyjj>
-References: <20240105-vkms-yuv-v1-0-34c4cd3455e0@riseup.net>
- <20240105-vkms-yuv-v1-7-34c4cd3455e0@riseup.net>
+ s=k20201202; t=1704709181;
+ bh=5Lg9JbIakHaAA4WlVxvlFzKp2TNiE++JCk6IYbnCHyg=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=CRPkILdDCtebjK9JIgw5tdrvO/OkPXNXkY0lwgCr4VR+n9530Qk07YI5d1pH02C72
+ wCQN6meZCOoriSkCv6A9QV62wh3jKgijJaNyM0rfJ/HOuFpD9b7jiDIwy5RiWfhgvV
+ m3ZosQ+t1/+7cWX9R38FOr2ctZOxDdxL3F0+9THPMwPRsdWuRpNti6yFhk31Osgrsu
+ 7f5T2j8Nam5wdIm7RtjAUNIzxopzNEDUkgE0D0TBMN8mDA27Aex+xREqVz1fVqrJsU
+ 7w+p5f1zwUblKKj5mOUqJ4ZBgNGGwfZzV02B3eqcV5NHmSsQb00yz7QiFt5oXf6HWU
+ NOn8wGqGxEQkA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 62BF4C53BD3; Mon,  8 Jan 2024 10:19:41 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111271] Black stripe on screen with MGAG200 (PowerEdge R320)
+ and modesetting
+Date: Mon, 08 Jan 2024 10:19:41 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: devzero@web.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-111271-2300-nzWzVruf7y@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-111271-2300@https.bugzilla.kernel.org/>
+References: <bug-111271-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="6dpvlnf5scujd26i"
-Content-Disposition: inline
-In-Reply-To: <20240105-vkms-yuv-v1-7-34c4cd3455e0@riseup.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,53 +69,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Melissa Wen <melissa.srw@gmail.com>,
- =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D111271
 
---6dpvlnf5scujd26i
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Roland Kletzing (devzero@web.de) changed:
 
-Hi Arthur,
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |devzero@web.de
 
-On Fri, Jan 05, 2024 at 01:35:08PM -0300, Arthur Grillo wrote:
-> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-> index b654b6661a20..11df990a0fa9 100644
-> --- a/drivers/gpu/drm/vkms/vkms_formats.c
-> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-> @@ -440,3 +440,7 @@ void *get_pixel_write_function(u32 format)
->  		return NULL;
->  	}
->  }
-> +
-> +#ifdef CONFIG_DRM_VKMS_KUNIT_TESTS
-> +#include "tests/vkms_format_test.c"
-> +#endif
+--- Comment #8 from Roland Kletzing (devzero@web.de) ---
+there has been major rework in mgag200 since your report, could you perhaps
+retry  with recent 6.1 or 6.6 kernel how that behaves?
 
-I assume this is due to testing a static function?
+also mind that there is a patch on the way to get merged soon which fixes an
+issue cause by the driver rework
+https://bugzilla.kernel.org/show_bug.cgi?id=3D217790
 
-If so, the preferred way nowadays is to use EXPORT_SYMBOL_IF_KUNIT or
-EXPORT_SYMBOL_FOR_TESTS_ONLY if it's DRM/KMS only.
+--=20
+You may reply to this email to add a comment.
 
-Maxime
-
---6dpvlnf5scujd26i
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZZvLQQAKCRDj7w1vZxhR
-xbrTAP40M9aPjegihpQi0Im0Y+t3vvZIDGnzyfpW1jnSv6xx1wD+Ky1UTLcjzx9S
-p6LaI6fOs9AqPeduZ4J+cWOl3mJ2PgI=
-=ZL3g
------END PGP SIGNATURE-----
-
---6dpvlnf5scujd26i--
+You are receiving this mail because:
+You are watching the assignee of the bug.=
