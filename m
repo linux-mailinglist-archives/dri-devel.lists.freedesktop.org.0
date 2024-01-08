@@ -2,62 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E0638278BC
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 20:50:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E2E88278C8
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 20:54:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9EA910E2C3;
-	Mon,  8 Jan 2024 19:50:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8669710E2D0;
+	Mon,  8 Jan 2024 19:54:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
- [IPv6:2607:f8b0:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A255910E2C3;
- Mon,  8 Jan 2024 19:50:23 +0000 (UTC)
-Received: by mail-pg1-x52d.google.com with SMTP id
- 41be03b00d2f7-5cdbc4334edso669447a12.3; 
- Mon, 08 Jan 2024 11:50:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1704743422; x=1705348222; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=2R0zlBz2DXccrkgQnIyzHmDUvfxpJFjGNN3AHHEOyFM=;
- b=RrU7NJnxoTd52adz0stpROQc4ncEAY5MlGz6/Jgy3wjBBskVNCl6dJjNPeN3YMA9Z3
- tiAVqRhwKPUQjUwA/ODDgCoH6KV2cW0ymC372N5Oc6nykyalG4iC2YPa3YfQZLkR1CDW
- D71lI0nXTV5G+vrgz72ZjQklkA1d/bANWCGS7YcF5gHVIzhnJ0lCG7o+0fBpyjPv5zk3
- m2wf+ES9zrQ7n2TqFGpeIdsJiYtm8YzUQdQLjl++umHPj5TARD2/qbDj2EpAYbUdhcap
- EyWFP0EISJkl32Fq5vPdvuuDzCzN7PLMj5Era20AKIS0TDKQWlr+At/vIgwVcfJJo6t0
- bVWg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12A8010E2A6
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 19:54:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1704743685;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=egUOllz/D5/X2Q9TY06OwWychq3jq9oXQBXPrNUeGTY=;
+ b=fMRBIgCcvtapMiofFwHwASI4aEkd5fxgks/kzFazwPTGa4gdSxd9xSW0xKZK8SwG5UPo9L
+ lKMW7VESB731BemhJMYlMC5QI8qy18/K7yF3Ns8/eb9LtBwlpEFoWB0Q8J0LEewBzZxTqv
+ n4DznjdmE+NbeQQzKkiPFSvOLwhi1k4=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-343-dsnJbTmBNTyPgQ4tWvl-1Q-1; Mon, 08 Jan 2024 14:54:44 -0500
+X-MC-Unique: dsnJbTmBNTyPgQ4tWvl-1Q-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ d75a77b69052e-4298d9ffa96so26509411cf.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Jan 2024 11:54:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704743422; x=1705348222;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1704743683; x=1705348483;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=2R0zlBz2DXccrkgQnIyzHmDUvfxpJFjGNN3AHHEOyFM=;
- b=ftXXTaPFin/ahX+a4GklFpuw/xwOvomcbyDOhMwB2eCqvwvbViFZJcmBBwQk+jPOYX
- 8Jz/l0QD4XRyTiReFQqqqHfWsrToijRTuehGKyAXP0mIjbhfIPvbscjlr9g9E8lx4aIh
- 7oYrxne6s1BctkaM7/OrZ+YVqU7ZxBSJC1sXBfp/v73/jd+dmDYCH7dCw+xka0MFcHsW
- GW6Dv1HZFrd1VgSgjqMNeyGgRJ40HVUkxqnCN76cR+Q8AOyuXy2IwYNRnO61b5z6eNQ+
- 4dVT8UvFqp7Auerd/IJ4FApcLtIX4f3KYZGT8fAxexziwzQAV0OD6kVvj4Ozr6NfbEwJ
- /KeQ==
-X-Gm-Message-State: AOJu0YwEb3OMpeKJS76XW8YKjlYi2O+qXEeftdBPOrfSd/sx4Oq8k7Yk
- Q+ab1byNTM1NS0z8IzhOOJ8XpkwXn3M=
-X-Google-Smtp-Source: AGHT+IFf7bb+iQyGZCfeOZ4yETzKVzgPT8q475MfZ+Nn78kr9SK7zahR4amHIomcUp8eIV9KVHXxbw==
-X-Received: by 2002:a17:90a:9742:b0:28d:7b8c:1038 with SMTP id
- i2-20020a17090a974200b0028d7b8c1038mr863770pjw.43.1704743422053; 
- Mon, 08 Jan 2024 11:50:22 -0800 (PST)
-Received: from localhost ([2a00:79e1:2e00:1301:e1c5:6354:b45d:8ffc])
+ bh=egUOllz/D5/X2Q9TY06OwWychq3jq9oXQBXPrNUeGTY=;
+ b=qZwOrpv4lRklcaH1cB9YbEfvHpPD+p9DvYUnyDZ8elmF6fgQ79Zkp1DiuTFUXIy/63
+ zmnN4mX309RPig4Z5pm3rDLNdVFCkqB6arckmq0KmvwFiUwQGVl9i8y1KQDqe91Xuny5
+ D0o6XNDMTm7rysZlAHjz5wZg/N8+3lpCbK3DdXrD4lJFv71TRYAft/7p+PkPEwbTcXeg
+ XwmOwC0pHzLDm4D0OCI0X/VY1g4CQ0juePWcUkISOBdhnqliuoWBaZn8pYh7/dR63EK+
+ Hh4NI04A7OzNtM7+hvlr9Y/UNTGjVoknp6V21Nkiq+1bEtU/Rhwj0IeWe2BUHeKoVUvT
+ sNXw==
+X-Gm-Message-State: AOJu0Yy78c6q99onrDa76stl0ie8AlcP/6cGUcCzvxPEn55z/BAgHjwR
+ jC5Zs3r06fbV8bM4p83ofE6QmuetCo+ULNQRBGz/wZ9eg+ET4Is8wkH1NszHHma4FgiH75vJA7E
+ zLGH7PovLp4HrI1patRnvJiGPoP3ohsqHMI9x
+X-Received: by 2002:ac8:7c4b:0:b0:429:9e35:6929 with SMTP id
+ o11-20020ac87c4b000000b004299e356929mr856810qtv.35.1704743683519; 
+ Mon, 08 Jan 2024 11:54:43 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGmkOG8tja7+RozunNkYOsGAklltKR+uZ8OKlPuC9MwHNqtPszjPZTjr+uJxm3CebAM4BfFkQ==
+X-Received: by 2002:ac8:7c4b:0:b0:429:9e35:6929 with SMTP id
+ o11-20020ac87c4b000000b004299e356929mr856797qtv.35.1704743683171; 
+ Mon, 08 Jan 2024 11:54:43 -0800 (PST)
+Received: from ?IPV6:2a02:810d:4b3f:ee94:abf:b8ff:feee:998b?
+ ([2a02:810d:4b3f:ee94:abf:b8ff:feee:998b])
  by smtp.gmail.com with ESMTPSA id
- fr18-20020a17090ae2d200b0028ae0184bfasm6753441pjb.49.2024.01.08.11.50.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Jan 2024 11:50:21 -0800 (PST)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/ci: Add msm tests
-Date: Mon,  8 Jan 2024 11:50:15 -0800
-Message-ID: <20240108195016.156583-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.43.0
+ bq23-20020a05622a1c1700b00427b3271ab4sm173956qtb.41.2024.01.08.11.54.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Jan 2024 11:54:42 -0800 (PST)
+Message-ID: <724fdfaf-0e38-408b-a2d6-e3f39f28743d@redhat.com>
+Date: Mon, 8 Jan 2024 20:54:40 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH -next] drm/nouveau: uapi: fix kerneldoc warnings
+To: Vegard Nossum <vegard.nossum@oracle.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, "daniel@ffwll.ch"
+ <daniel@ffwll.ch>
+References: <20231225065145.3060754-1-vegard.nossum@oracle.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <20231225065145.3060754-1-vegard.nossum@oracle.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,80 +89,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
- open list <linux-kernel@vger.kernel.org>, Maxime Ripard <mripard@kernel.org>,
- Helen Koike <helen.koike@collabora.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, freedreno@lists.freedesktop.org
+Cc: Karol Herbst <kherbst@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ nouveau@lists.freedesktop.org, Randy Dunlap <rdunlap@infradead.org>,
+ linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+On 12/25/23 07:51, Vegard Nossum wrote:
+> As of commit b77fdd6a48e6 ("scripts/kernel-doc: restore warning for
+> Excess struct/union"), we see the following warnings when running 'make
+> htmldocs':
+> 
+>    ./include/uapi/drm/nouveau_drm.h:292: warning: Excess struct member 'DRM_NOUVEAU_VM_BIND_OP_MAP' description in 'drm_nouveau_vm_bind_op'
+>    ./include/uapi/drm/nouveau_drm.h:292: warning: Excess struct member 'DRM_NOUVEAU_VM_BIND_OP_UNMAP' description in 'drm_nouveau_vm_bind_op'
+>    ./include/uapi/drm/nouveau_drm.h:292: warning: Excess struct member 'DRM_NOUVEAU_VM_BIND_SPARSE' description in 'drm_nouveau_vm_bind_op'
+>    ./include/uapi/drm/nouveau_drm.h:336: warning: Excess struct member 'DRM_NOUVEAU_VM_BIND_RUN_ASYNC' description in 'drm_nouveau_vm_bind'
+> 
+> The problem is that these values are #define constants, but had kerneldoc
+> comments attached to them as if they were actual struct members.
+> 
+> There are a number of ways we could fix this, but I chose to draw
+> inspiration from include/uapi/drm/i915_drm.h, which pulls them into the
+> corresponding kerneldoc comment for the struct member that they are
+> intended to be used with.
+> 
+> To keep the diff readable, there are a number of things I _didn't_ do in
+> this patch, but which we should also consider:
+> 
+> - This is pretty good documentation, but it ends up in gpu/driver-uapi,
+>    which is part of subsystem-apis/ when it really ought to display under
+>    userspace-api/ (the "Linux kernel user-space API guide" book of the
+>    documentation).
 
-The msm tests should skip on non-msm hw, so I think it should be safe to
-enable everywhere.
+I agree, it indeed looks like this would make sense, same goes for
+gpu/drm-uapi.rst.
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/ci/testlist.txt | 49 +++++++++++++++++++++++++++++++++
- 1 file changed, 49 insertions(+)
+@Jani, Sima: Was this intentional? Or can we change it?
 
-diff --git a/drivers/gpu/drm/ci/testlist.txt b/drivers/gpu/drm/ci/testlist.txt
-index f82cd90372f4..eaeb751bb0ad 100644
---- a/drivers/gpu/drm/ci/testlist.txt
-+++ b/drivers/gpu/drm/ci/testlist.txt
-@@ -2910,3 +2910,52 @@ kms_writeback@writeback-invalid-parameters
- kms_writeback@writeback-fb-id
- kms_writeback@writeback-check-output
- prime_mmap_kms@buffer-sharing
-+msm_shrink@copy-gpu-sanitycheck-8
-+msm_shrink@copy-gpu-sanitycheck-32
-+msm_shrink@copy-gpu-8
-+msm_shrink@copy-gpu-32
-+msm_shrink@copy-gpu-madvise-8
-+msm_shrink@copy-gpu-madvise-32
-+msm_shrink@copy-gpu-oom-8
-+msm_shrink@copy-gpu-oom-32
-+msm_shrink@copy-mmap-sanitycheck-8
-+msm_shrink@copy-mmap-sanitycheck-32
-+msm_shrink@copy-mmap-8
-+msm_shrink@copy-mmap-32
-+msm_shrink@copy-mmap-madvise-8
-+msm_shrink@copy-mmap-madvise-32
-+msm_shrink@copy-mmap-oom-8
-+msm_shrink@copy-mmap-oom-32
-+msm_shrink@copy-mmap-dmabuf-sanitycheck-8
-+msm_shrink@copy-mmap-dmabuf-sanitycheck-32
-+msm_shrink@copy-mmap-dmabuf-8
-+msm_shrink@copy-mmap-dmabuf-32
-+msm_shrink@copy-mmap-dmabuf-madvise-8
-+msm_shrink@copy-mmap-dmabuf-madvise-32
-+msm_shrink@copy-mmap-dmabuf-oom-8
-+msm_shrink@copy-mmap-dmabuf-oom-32
-+msm_mapping@ring
-+msm_mapping@sqefw
-+msm_mapping@shadow
-+msm_submitoverhead@submitbench-10-bos
-+msm_submitoverhead@submitbench-10-bos-no-implicit-sync
-+msm_submitoverhead@submitbench-100-bos
-+msm_submitoverhead@submitbench-100-bos-no-implicit-sync
-+msm_submitoverhead@submitbench-250-bos
-+msm_submitoverhead@submitbench-250-bos-no-implicit-sync
-+msm_submitoverhead@submitbench-500-bos
-+msm_submitoverhead@submitbench-500-bos-no-implicit-sync
-+msm_submitoverhead@submitbench-1000-bos
-+msm_submitoverhead@submitbench-1000-bos-no-implicit-sync
-+msm_recovery@hangcheck
-+msm_recovery@gpu-fault
-+msm_recovery@gpu-fault-parallel
-+msm_recovery@iova-fault
-+msm_submit@empty-submit
-+msm_submit@invalid-queue-submit
-+msm_submit@invalid-flags-submit
-+msm_submit@invalid-in-fence-submit
-+msm_submit@invalid-duplicate-bo-submit
-+msm_submit@invalid-cmd-idx-submit
-+msm_submit@invalid-cmd-type-submit
-+msm_submit@valid-submit
--- 
-2.43.0
+> 
+> - More generally, we might want a warning if include/uapi/ files are
+>    kerneldoc'd outside userspace-api/.
+> 
+> - I'd consider it cleaner if the #defines appeared between the kerneldoc
+>    for the member and the member itself (which is something other DRM-
+>    related UAPI docs do).
+> 
+> - The %IDENTIFIER kerneldoc syntax is intended for "constants", and is
+>    more appropriate in this context than ``IDENTIFIER`` or &IDENTIFIER.
+>    The DRM docs aren't very consistent on this.
+> 
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+
+Applied to drm-misc-next, thanks!
+
+> ---
+>   include/uapi/drm/nouveau_drm.h | 56 ++++++++++++++++------------------
+>   1 file changed, 27 insertions(+), 29 deletions(-)
+> 
+> diff --git a/include/uapi/drm/nouveau_drm.h b/include/uapi/drm/nouveau_drm.h
+> index 0bade1592f34..c95ef8a4d94a 100644
+> --- a/include/uapi/drm/nouveau_drm.h
+> +++ b/include/uapi/drm/nouveau_drm.h
+> @@ -238,34 +238,32 @@ struct drm_nouveau_vm_init {
+>   struct drm_nouveau_vm_bind_op {
+>   	/**
+>   	 * @op: the operation type
+> +	 *
+> +	 * Supported values:
+> +	 *
+> +	 * %DRM_NOUVEAU_VM_BIND_OP_MAP - Map a GEM object to the GPU's VA
+> +	 * space. Optionally, the &DRM_NOUVEAU_VM_BIND_SPARSE flag can be
+> +	 * passed to instruct the kernel to create sparse mappings for the
+> +	 * given range.
+> +	 *
+> +	 * %DRM_NOUVEAU_VM_BIND_OP_UNMAP - Unmap an existing mapping in the
+> +	 * GPU's VA space. If the region the mapping is located in is a
+> +	 * sparse region, new sparse mappings are created where the unmapped
+> +	 * (memory backed) mapping was mapped previously. To remove a sparse
+> +	 * region the &DRM_NOUVEAU_VM_BIND_SPARSE must be set.
+>   	 */
+>   	__u32 op;
+> -/**
+> - * @DRM_NOUVEAU_VM_BIND_OP_MAP:
+> - *
+> - * Map a GEM object to the GPU's VA space. Optionally, the
+> - * &DRM_NOUVEAU_VM_BIND_SPARSE flag can be passed to instruct the kernel to
+> - * create sparse mappings for the given range.
+> - */
+>   #define DRM_NOUVEAU_VM_BIND_OP_MAP 0x0
+> -/**
+> - * @DRM_NOUVEAU_VM_BIND_OP_UNMAP:
+> - *
+> - * Unmap an existing mapping in the GPU's VA space. If the region the mapping
+> - * is located in is a sparse region, new sparse mappings are created where the
+> - * unmapped (memory backed) mapping was mapped previously. To remove a sparse
+> - * region the &DRM_NOUVEAU_VM_BIND_SPARSE must be set.
+> - */
+>   #define DRM_NOUVEAU_VM_BIND_OP_UNMAP 0x1
+>   	/**
+>   	 * @flags: the flags for a &drm_nouveau_vm_bind_op
+> +	 *
+> +	 * Supported values:
+> +	 *
+> +	 * %DRM_NOUVEAU_VM_BIND_SPARSE - Indicates that an allocated VA
+> +	 * space region should be sparse.
+>   	 */
+>   	__u32 flags;
+> -/**
+> - * @DRM_NOUVEAU_VM_BIND_SPARSE:
+> - *
+> - * Indicates that an allocated VA space region should be sparse.
+> - */
+>   #define DRM_NOUVEAU_VM_BIND_SPARSE (1 << 8)
+>   	/**
+>   	 * @handle: the handle of the DRM GEM object to map
+> @@ -301,17 +299,17 @@ struct drm_nouveau_vm_bind {
+>   	__u32 op_count;
+>   	/**
+>   	 * @flags: the flags for a &drm_nouveau_vm_bind ioctl
+> +	 *
+> +	 * Supported values:
+> +	 *
+> +	 * %DRM_NOUVEAU_VM_BIND_RUN_ASYNC - Indicates that the given VM_BIND
+> +	 * operation should be executed asynchronously by the kernel.
+> +	 *
+> +	 * If this flag is not supplied the kernel executes the associated
+> +	 * operations synchronously and doesn't accept any &drm_nouveau_sync
+> +	 * objects.
+>   	 */
+>   	__u32 flags;
+> -/**
+> - * @DRM_NOUVEAU_VM_BIND_RUN_ASYNC:
+> - *
+> - * Indicates that the given VM_BIND operation should be executed asynchronously
+> - * by the kernel.
+> - *
+> - * If this flag is not supplied the kernel executes the associated operations
+> - * synchronously and doesn't accept any &drm_nouveau_sync objects.
+> - */
+>   #define DRM_NOUVEAU_VM_BIND_RUN_ASYNC 0x1
+>   	/**
+>   	 * @wait_count: the number of wait &drm_nouveau_syncs
 
