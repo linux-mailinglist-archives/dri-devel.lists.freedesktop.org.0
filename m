@@ -1,48 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC852826AD6
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 10:37:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27836826B0E
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 10:46:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09B7C10E1CA;
-	Mon,  8 Jan 2024 09:37:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7185510E1E2;
+	Mon,  8 Jan 2024 09:46:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9054310E1CA
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 09:37:36 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1rMm4F-0005bn-HC; Mon, 08 Jan 2024 10:37:11 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1rMm4D-001DLw-PW; Mon, 08 Jan 2024 10:37:09 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
- (envelope-from <ukl@pengutronix.de>) id 1rMm4D-004kGd-2D;
- Mon, 08 Jan 2024 10:37:09 +0100
-Date: Mon, 8 Jan 2024 10:37:09 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Philipp Stanner <pstanner@redhat.com>
-Subject: Re: [PATCH v2 1/2] platform_device: add devres function region-reqs
-Message-ID: <hywkbwwwkddbd5vye366bhz64dlpet4chv3kzwfu5dx6rvvix6@2jnk3xx6vfiy>
-References: <20240108092042.16949-2-pstanner@redhat.com>
- <20240108092042.16949-3-pstanner@redhat.com>
+X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
+ Mon, 08 Jan 2024 09:46:19 UTC
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A49BB10E1E2;
+ Mon,  8 Jan 2024 09:46:19 +0000 (UTC)
+X-UUID: 0194aff85b42445fb4cd05c6b8915c12-20240108
+X-CID-O-RULE: Release_Ham
+X-CID-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.35, REQID:895988ca-c91d-48e2-b272-9200b13a11ca, IP:20,
+ URL:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+ ON:release,TS:5
+X-CID-INFO: VERSION:1.1.35, REQID:895988ca-c91d-48e2-b272-9200b13a11ca, IP:20,
+ UR
+ L:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:5
+X-CID-META: VersionHash:5d391d7, CLOUDID:b93fed2e-1ab8-4133-9780-81938111c800,
+ B
+ ulkID:240108174111PW07QMQM,BulkQuantity:0,Recheck:0,SF:17|19|44|66|38|24|1
+ 02,TC:nil,Content:0,EDM:-3,IP:-2,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,CO
+ L:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_FSI
+X-UUID: 0194aff85b42445fb4cd05c6b8915c12-20240108
+X-User: lizhenneng@kylinos.cn
+Received: from localhost.localdomain [(116.128.244.171)] by mailgw
+ (envelope-from <lizhenneng@kylinos.cn>) (Generic MTA)
+ with ESMTP id 286747945; Mon, 08 Jan 2024 17:41:08 +0800
+From: Zhenneng Li <lizhenneng@kylinos.cn>
+To: Marek Olsak <marek.olsak@amd.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx <amd-gfx@lists.freedesktop.org>
+Subject: [PATCH libdrm 1/2] amdgpu: fix parameter of amdgpu_cs_ctx_create2
+Date: Mon,  8 Jan 2024 17:40:51 +0800
+Message-Id: <20240108094052.171721-1-lizhenneng@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="u2x5uc4opgrguykv"
-Content-Disposition: inline
-In-Reply-To: <20240108092042.16949-3-pstanner@redhat.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,69 +60,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Fabio Estevam <festevam@gmail.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, Mark Brown <broonie@kernel.org>,
- NXP Linux Team <linux-imx@nxp.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, David Gow <davidgow@google.com>,
- Shawn Guo <shawnguo@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org
+Cc: Zhenneng Li <lizhenneng@kylinos.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+In order to pass the correct priority parameter to the kernel,
+we must change priority type from uint32_t to int32_t.
 
---u2x5uc4opgrguykv
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Zhenneng Li <lizhenneng@kylinos.cn>
+---
+ amdgpu/amdgpu.h    | 2 +-
+ amdgpu/amdgpu_cs.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Hello Philipp,
+diff --git a/amdgpu/amdgpu.h b/amdgpu/amdgpu.h
+index 9bdbf366..f46753f3 100644
+--- a/amdgpu/amdgpu.h
++++ b/amdgpu/amdgpu.h
+@@ -896,7 +896,7 @@ int amdgpu_bo_list_update(amdgpu_bo_list_handle handle,
+  *
+ */
+ int amdgpu_cs_ctx_create2(amdgpu_device_handle dev,
+-			 uint32_t priority,
++			 int32_t priority,
+ 			 amdgpu_context_handle *context);
+ /**
+  * Create GPU execution Context
+diff --git a/amdgpu/amdgpu_cs.c b/amdgpu/amdgpu_cs.c
+index 49fc16c3..eb72c638 100644
+--- a/amdgpu/amdgpu_cs.c
++++ b/amdgpu/amdgpu_cs.c
+@@ -49,7 +49,7 @@ static int amdgpu_cs_reset_sem(amdgpu_semaphore_handle sem);
+  * \return  0 on success otherwise POSIX Error code
+ */
+ drm_public int amdgpu_cs_ctx_create2(amdgpu_device_handle dev,
+-				     uint32_t priority,
++				     int32_t priority,
+ 				     amdgpu_context_handle *context)
+ {
+ 	struct amdgpu_context *gpu_context;
+-- 
+2.34.1
 
-the Subject is incomprehensible (to me). Maybe make it:
-
-	platform_device: Add devm function to simplify mem and io requests
-
-?
-
-On Mon, Jan 08, 2024 at 10:20:42AM +0100, Philipp Stanner wrote:
-> Some drivers want to use (request) a region exclusively but nevertheless
-> create several mappings within that region.
->=20
-> Currently, there is no managed devres function to request a region
-> without mapping it.
->=20
-> Add the function devm_platform_get_resource().
-                             ^
-Still the old function name -'
-
-Other than that I indifferent if this is a good idea. There are so many
-helpers around these functions ...
-
-Best regards
-Uwe
-
-
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---u2x5uc4opgrguykv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmWbwkQACgkQj4D7WH0S
-/k6A1QgAjuIEMw9O4acMUhaTNybVbHuVhhGFNsFpYYLQ/0HVR5Gsiu2H3fVD/Zsc
-W3iZjaXPDTicquu+VA8gGkvfz0/ezaFIM9Iip8x3UZ3+DsaiNtgkMSnr0hdM/7jp
-xoeV44watgWfq+1SaJm+qxHX+2xKWhLbKl0BFzis70MbTiogF4H3MbwoVwf0hrV6
-IAcbQOsIhLPQ9Cd0q6MeOZriNdloXPGU4N6lPAmW+4M3cl3uLzFxE78nkCBCCvm/
-bVZoBAjQnqbmyJbc1GDDBebbmPZKEkLu1TufZrqJq0w8aRHpzQARJz5xpHKP2Lsj
-uK/HSn+FHzyaLf3lCsonTJJailReHA==
-=AVm/
------END PGP SIGNATURE-----
-
---u2x5uc4opgrguykv--
