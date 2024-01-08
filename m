@@ -1,84 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41A3582785F
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 20:19:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E0638278BC
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jan 2024 20:50:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F64310E2AB;
-	Mon,  8 Jan 2024 19:19:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9EA910E2C3;
+	Mon,  8 Jan 2024 19:50:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF92810E2AB
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jan 2024 19:19:29 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id
- 2adb3069b0e04-50eafc5b39eso367994e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Jan 2024 11:19:29 -0800 (PST)
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
+ [IPv6:2607:f8b0:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A255910E2C3;
+ Mon,  8 Jan 2024 19:50:23 +0000 (UTC)
+Received: by mail-pg1-x52d.google.com with SMTP id
+ 41be03b00d2f7-5cdbc4334edso669447a12.3; 
+ Mon, 08 Jan 2024 11:50:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1704741568; x=1705346368; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=EJ2fxcKwoH+j3zf8yKo3Vu+cgAPiKaowc7Mo1YkN7dA=;
- b=dpp1a5JThl4lTsdBLjAC4cWgqz2qOuA9YXl8wLDabh3sBEwbZw1x8cdT7SNgUt07tN
- r/z25gpxwiMwtrELTIryyGxZYA+1Hj5Ow8SA3Uwvdjia3cwbiZ0EMgGnR/DksGaSJ94S
- 2ItpVX0S6cx4QlWd072Qay3eLPuNtnkM1G1+A=
+ d=gmail.com; s=20230601; t=1704743422; x=1705348222; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=2R0zlBz2DXccrkgQnIyzHmDUvfxpJFjGNN3AHHEOyFM=;
+ b=RrU7NJnxoTd52adz0stpROQc4ncEAY5MlGz6/Jgy3wjBBskVNCl6dJjNPeN3YMA9Z3
+ tiAVqRhwKPUQjUwA/ODDgCoH6KV2cW0ymC372N5Oc6nykyalG4iC2YPa3YfQZLkR1CDW
+ D71lI0nXTV5G+vrgz72ZjQklkA1d/bANWCGS7YcF5gHVIzhnJ0lCG7o+0fBpyjPv5zk3
+ m2wf+ES9zrQ7n2TqFGpeIdsJiYtm8YzUQdQLjl++umHPj5TARD2/qbDj2EpAYbUdhcap
+ EyWFP0EISJkl32Fq5vPdvuuDzCzN7PLMj5Era20AKIS0TDKQWlr+At/vIgwVcfJJo6t0
+ bVWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704741568; x=1705346368;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1704743422; x=1705348222;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=EJ2fxcKwoH+j3zf8yKo3Vu+cgAPiKaowc7Mo1YkN7dA=;
- b=qWQt2tDEBoSi6TvANdxwSncQSGxehtTC8j0TketHPbUolKWs7c2DrWY4+XGLqQDTGl
- tnmV+bkbxO3DSThJFJwFJTiW2xaoLqYWvVUwHs0hw+1FMhFtQ8H51Nv9zzWhEDYdee/j
- bMDZxCu4w22s+nwbhph5MQEZxx/CtvIu1FcGmbC4qRrn9yaFIVV1TdcaormsN8U/1CUe
- mITPB2K4ZahJcV4E1vlQcqopqO0kpF/8/IQu73Xmt1VJGJlb+bXoS0HEdy+bjR6IS6v2
- L7L/Fzo3jdm0Kg9s1x5hWcoU3jJZfSQCYGnaL09iJ6zrsYJLc3XLm9954wZ9I/9JKZ7M
- FLsg==
-X-Gm-Message-State: AOJu0Yx98zawGtjFB78de3B1e7xRFe0uchGMBCs+tYVomW56HLPw8nbS
- 6RDo4RIkJ+0ZgciqAgepiufYQoQjNUjEUYaj7np08BUeBps=
-X-Google-Smtp-Source: AGHT+IE/x3yLDZZ6n/5O2iCOUHnc0Ya5TLPSdiVuLb4m5g8sI5sQyD6iWnZm6A7Hd4Q/GNClgkhmrQ==
-X-Received: by 2002:a05:6512:3ba1:b0:50e:b2ba:15d with SMTP id
- g33-20020a0565123ba100b0050eb2ba015dmr4109768lfv.1.1704741567605; 
- Mon, 08 Jan 2024 11:19:27 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ bh=2R0zlBz2DXccrkgQnIyzHmDUvfxpJFjGNN3AHHEOyFM=;
+ b=ftXXTaPFin/ahX+a4GklFpuw/xwOvomcbyDOhMwB2eCqvwvbViFZJcmBBwQk+jPOYX
+ 8Jz/l0QD4XRyTiReFQqqqHfWsrToijRTuehGKyAXP0mIjbhfIPvbscjlr9g9E8lx4aIh
+ 7oYrxne6s1BctkaM7/OrZ+YVqU7ZxBSJC1sXBfp/v73/jd+dmDYCH7dCw+xka0MFcHsW
+ GW6Dv1HZFrd1VgSgjqMNeyGgRJ40HVUkxqnCN76cR+Q8AOyuXy2IwYNRnO61b5z6eNQ+
+ 4dVT8UvFqp7Auerd/IJ4FApcLtIX4f3KYZGT8fAxexziwzQAV0OD6kVvj4Ozr6NfbEwJ
+ /KeQ==
+X-Gm-Message-State: AOJu0YwEb3OMpeKJS76XW8YKjlYi2O+qXEeftdBPOrfSd/sx4Oq8k7Yk
+ Q+ab1byNTM1NS0z8IzhOOJ8XpkwXn3M=
+X-Google-Smtp-Source: AGHT+IFf7bb+iQyGZCfeOZ4yETzKVzgPT8q475MfZ+Nn78kr9SK7zahR4amHIomcUp8eIV9KVHXxbw==
+X-Received: by 2002:a17:90a:9742:b0:28d:7b8c:1038 with SMTP id
+ i2-20020a17090a974200b0028d7b8c1038mr863770pjw.43.1704743422053; 
+ Mon, 08 Jan 2024 11:50:22 -0800 (PST)
+Received: from localhost ([2a00:79e1:2e00:1301:e1c5:6354:b45d:8ffc])
  by smtp.gmail.com with ESMTPSA id
- p7-20020a05600c468700b0040d30af488asm12097912wmo.40.2024.01.08.11.19.26
+ fr18-20020a17090ae2d200b0028ae0184bfasm6753441pjb.49.2024.01.08.11.50.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Jan 2024 11:19:27 -0800 (PST)
-Date: Mon, 8 Jan 2024 20:19:25 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v3 3/4] usb: gadget: functionfs: Add DMABUF import
- interface
-Message-ID: <ZZxKvR9gjH8D5qxj@phenom.ffwll.local>
-Mail-Followup-To: Paul Cercueil <paul@crapouillou.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
- linaro-mm-sig@lists.linaro.org,
- Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
- Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
-References: <20240108120056.22165-1-paul@crapouillou.net>
- <20240108120056.22165-4-paul@crapouillou.net>
- <ZZvtEXL8DLPPdtPs@phenom.ffwll.local>
- <a44aca93adc60ce56a64c50797a029631900172e.camel@crapouillou.net>
- <ZZwU827NMHbx7bsO@phenom.ffwll.local>
- <2c0d4ef1b657c56ea2290fe16d757ce563a3e71b.camel@crapouillou.net>
+ Mon, 08 Jan 2024 11:50:21 -0800 (PST)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/ci: Add msm tests
+Date: Mon,  8 Jan 2024 11:50:15 -0800
+Message-ID: <20240108195016.156583-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <2c0d4ef1b657c56ea2290fe16d757ce563a3e71b.camel@crapouillou.net>
-X-Operating-System: Linux phenom 6.5.0-4-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,96 +70,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-usb@vger.kernel.org,
- Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org,
- Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Cameron <jic23@kernel.org>,
- linux-media@vger.kernel.org
+Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
+ open list <linux-kernel@vger.kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Helen Koike <helen.koike@collabora.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 08, 2024 at 05:27:33PM +0100, Paul Cercueil wrote:
-> Le lundi 08 janvier 2024 à 16:29 +0100, Daniel Vetter a écrit :
-> > On Mon, Jan 08, 2024 at 03:21:21PM +0100, Paul Cercueil wrote:
-> > > Hi Daniel (Sima?),
-> > > 
-> > > Le lundi 08 janvier 2024 à 13:39 +0100, Daniel Vetter a écrit :
-> > > > On Mon, Jan 08, 2024 at 01:00:55PM +0100, Paul Cercueil wrote:
-> > > > > +static void ffs_dmabuf_signal_done(struct ffs_dma_fence
-> > > > > *dma_fence, int ret)
-> > > > > +{
-> > > > > +	struct ffs_dmabuf_priv *priv = dma_fence->priv;
-> > > > > +	struct dma_fence *fence = &dma_fence->base;
-> > > > > +
-> > > > > +	dma_fence_get(fence);
-> > > > > +	fence->error = ret;
-> > > > > +	dma_fence_signal(fence);
-> > > > > +
-> > > > > +	dma_buf_unmap_attachment(priv->attach, dma_fence->sgt,
-> > > > > dma_fence->dir);
-> > > > > +	dma_fence_put(fence);
-> > > > > +	ffs_dmabuf_put(priv->attach);
-> > > > 
-> > > > So this can in theory take the dma_resv lock, and if the usb
-> > > > completion
-> > > > isn't an unlimited worker this could hold up completion of future
-> > > > dma_fence, resulting in a deadlock.
-> > > > 
-> > > > Needs to be checked how usb works, and if stalling indefinitely
-> > > > in
-> > > > the
-> > > > io_complete callback can hold up the usb stack you need to:
-> > > > 
-> > > > - drop a dma_fence_begin/end_signalling annotations in here
-> > > > - pull out the unref stuff into a separate preallocated worker
-> > > > (or at
-> > > >   least the final unrefs for ffs_dma_buf).
-> > > 
-> > > Only ffs_dmabuf_put() can attempt to take the dma_resv and would
-> > > have
-> > > to be in a worker, right? Everything else would be inside the
-> > > dma_fence_begin/end_signalling() annotations?
-> > 
-> > Yup. Also I noticed that unlike the iio patches you don't have the
-> > dma_buf_unmap here in the completion path (or I'm blind?), which
-> > helps a
-> > lot with avoiding trouble.
-> 
-> They both call dma_buf_unmap_attachment() in the "signal done"
-> callback, the only difference I see is that it is called after the
-> dma_fence_put() in the iio patches, while it's called before
-> dma_fence_put() here.
+From: Rob Clark <robdclark@chromium.org>
 
-I was indeed blind ...
+The msm tests should skip on non-msm hw, so I think it should be safe to
+enable everywhere.
 
-So the trouble is this wont work because:
-- dma_buf_unmap_attachment() requires dma_resv_lock. This is a somewhat
-  recent-ish change from 47e982d5195d ("dma-buf: Move
-  dma_buf_map_attachment() to dynamic locking specification"), so maybe
-  old kernel or you don't have full lockdep enabled to get the right
-  splat.
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/ci/testlist.txt | 49 +++++++++++++++++++++++++++++++++
+ 1 file changed, 49 insertions(+)
 
-- dma_fence critical section forbids dma_resv_lock
-
-Which means you need to move this out, but then there's the potential
-cache management issue. Which current gpu drivers just kinda ignore
-because it doesn't matter for current use-case, they all cache the mapping
-for about as long as the attachment exists. You might want to do the same,
-unless that somehow breaks a use-case you have, I have no idea about that.
-If something breaks with unmap_attachment moved out of the fence handling
-then I guess it's high time to add separate cache-management only to
-dma_buf (and that's probably going to be quite some wiring up, not sure
-even how easy that would be to do nor what exactly the interface should
-look like).
-
-Cheers, Sima
+diff --git a/drivers/gpu/drm/ci/testlist.txt b/drivers/gpu/drm/ci/testlist.txt
+index f82cd90372f4..eaeb751bb0ad 100644
+--- a/drivers/gpu/drm/ci/testlist.txt
++++ b/drivers/gpu/drm/ci/testlist.txt
+@@ -2910,3 +2910,52 @@ kms_writeback@writeback-invalid-parameters
+ kms_writeback@writeback-fb-id
+ kms_writeback@writeback-check-output
+ prime_mmap_kms@buffer-sharing
++msm_shrink@copy-gpu-sanitycheck-8
++msm_shrink@copy-gpu-sanitycheck-32
++msm_shrink@copy-gpu-8
++msm_shrink@copy-gpu-32
++msm_shrink@copy-gpu-madvise-8
++msm_shrink@copy-gpu-madvise-32
++msm_shrink@copy-gpu-oom-8
++msm_shrink@copy-gpu-oom-32
++msm_shrink@copy-mmap-sanitycheck-8
++msm_shrink@copy-mmap-sanitycheck-32
++msm_shrink@copy-mmap-8
++msm_shrink@copy-mmap-32
++msm_shrink@copy-mmap-madvise-8
++msm_shrink@copy-mmap-madvise-32
++msm_shrink@copy-mmap-oom-8
++msm_shrink@copy-mmap-oom-32
++msm_shrink@copy-mmap-dmabuf-sanitycheck-8
++msm_shrink@copy-mmap-dmabuf-sanitycheck-32
++msm_shrink@copy-mmap-dmabuf-8
++msm_shrink@copy-mmap-dmabuf-32
++msm_shrink@copy-mmap-dmabuf-madvise-8
++msm_shrink@copy-mmap-dmabuf-madvise-32
++msm_shrink@copy-mmap-dmabuf-oom-8
++msm_shrink@copy-mmap-dmabuf-oom-32
++msm_mapping@ring
++msm_mapping@sqefw
++msm_mapping@shadow
++msm_submitoverhead@submitbench-10-bos
++msm_submitoverhead@submitbench-10-bos-no-implicit-sync
++msm_submitoverhead@submitbench-100-bos
++msm_submitoverhead@submitbench-100-bos-no-implicit-sync
++msm_submitoverhead@submitbench-250-bos
++msm_submitoverhead@submitbench-250-bos-no-implicit-sync
++msm_submitoverhead@submitbench-500-bos
++msm_submitoverhead@submitbench-500-bos-no-implicit-sync
++msm_submitoverhead@submitbench-1000-bos
++msm_submitoverhead@submitbench-1000-bos-no-implicit-sync
++msm_recovery@hangcheck
++msm_recovery@gpu-fault
++msm_recovery@gpu-fault-parallel
++msm_recovery@iova-fault
++msm_submit@empty-submit
++msm_submit@invalid-queue-submit
++msm_submit@invalid-flags-submit
++msm_submit@invalid-in-fence-submit
++msm_submit@invalid-duplicate-bo-submit
++msm_submit@invalid-cmd-idx-submit
++msm_submit@invalid-cmd-type-submit
++msm_submit@valid-submit
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.43.0
+
