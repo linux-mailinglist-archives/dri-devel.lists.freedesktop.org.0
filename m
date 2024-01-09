@@ -1,67 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28645828653
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 13:54:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFC9A828673
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 13:59:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE4A010E41C;
-	Tue,  9 Jan 2024 12:54:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2290A10E3FE;
+	Tue,  9 Jan 2024 12:59:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC7D310E41A
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 12:54:52 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id
- 4fb4d7f45d1cf-5578cb9645bso782345a12.0
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 04:54:52 -0800 (PST)
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B8D410E3FE
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 12:59:17 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id
+ a640c23a62f3a-a28a8ca437dso49953366b.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 04:59:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1704804891; x=1705409691; darn=lists.freedesktop.org; 
+ d=ffwll.ch; s=google; t=1704805155; x=1705409955; darn=lists.freedesktop.org; 
  h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=LtCWc1v1e89cQaPA42ppoXJERfwE0AHdys0NEkw4tQg=;
- b=SQ/Pyg5+Yc0uOlyHaQw4E1KRiDSe3vEqnCZhuZtzW3IP5OEq9yKvqo+67zz+OPpKuM
- erdD39hj1XZ8hjiQ8GQySrvMIgNplqnlJoBj4s5YUyQZNZ0eQD5ZMO7NR+cERbLGMX5y
- Hv70EnozGwP8m9NolfynVZX0ZSojz7iDP6ul0=
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=ajGb4247KZo9KXfE9A+LGftI6qScHSAY4EbVlCZxC6s=;
+ b=D4g0nfReACLKtybNfMmxCvXrjTs2w9wkkoE8rsEZ/S0uEAScKRZxgoUJMkhT+rIDey
+ jkcBEChQhd9CDgBnXEzgbyvw7tiUD3tj391M3IEHPsTIybwJk4zM3nug3vbzU8vi9Wk3
+ ceSSmYZ7YjAAjCcwTJm2XMG9v3HP75rQhgnP8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704804891; x=1705409691;
+ d=1e100.net; s=20230601; t=1704805155; x=1705409955;
  h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LtCWc1v1e89cQaPA42ppoXJERfwE0AHdys0NEkw4tQg=;
- b=QqTY75M5zTdpyQU916e0VgCcIeMMCmjHUCtK8XafJYNcaNR3MDX5hPsUYQxZVAVdLZ
- /1yVw198W60+eNWhh4mpiAG4GmrDRsb54od66Qug7UHuiDs/BONOHp4Lz3/69YvYvVJk
- qoEez75tkEKFsn0D4Tv6eT3L47B6yFokXEfyOlJXryoS4HXYVlK9dyPnXYVlgALUJ99y
- X3FzII3bpKEb0KN70jtUGVqynKmJE8dDK0eXd8IOuxJnIGOAjyiyA/wnxw7s48Wvh8cb
- bxKalbw1iKSdnZk+8bfQJ4sZCDk/fKE2n+TZetzGoPAspsmuXYY69JlVVyGJqBHsRG0j
- qqog==
-X-Gm-Message-State: AOJu0YxdR7PsN2Kt8uJTLXkqkB8XOtlzKCFfU2CPPEd/KkyLIzQc3ZjE
- ekb7sdBbFQKCQn8rRwR/U9Ug8jkTqon5eg==
-X-Google-Smtp-Source: AGHT+IHbw+30qESC0Ipp5OfwzvLoYvZsCsyx6MnTRBabIwHoJi4j91J/pkRcUpOnxAJ57yXW2bwftw==
-X-Received: by 2002:a50:cdc4:0:b0:557:3a92:bf4 with SMTP id
- h4-20020a50cdc4000000b005573a920bf4mr7405240edj.0.1704804891166; 
- Tue, 09 Jan 2024 04:54:51 -0800 (PST)
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ajGb4247KZo9KXfE9A+LGftI6qScHSAY4EbVlCZxC6s=;
+ b=F7+fKSiSi+GSkP2T9kND8nnT5of2LtrPMcXlnhONQ4as6IXMpMaGTSQb9CRb7y03Pg
+ rt2eNfqHAlpSLkCOFErR1yQBnZ2KORVrTlSvq4m2uAtzo7Ea3GG7iHR54uGvo8PFbNuS
+ QlCLpzVbDoceZQQi+W0kOcPLKd0/aaMRtq7sXGQi8NcxfCDd9KccZJcK8xoFZZ9lIqLD
+ eVm+xA4A2Bda/plBoG71qgnyutb0OJ3V35NZOZH8wHL8wQU3M8w2gkZGtnOwtdZ+Mkbv
+ zkfIBQEKatCAn3swSZb809rBp4XsCLB5YL8L4XOBEihJJbr7wh4SZzEoPwXKbl6gl4RJ
+ SDCw==
+X-Gm-Message-State: AOJu0Yw+2U69loHu39O8Ori4h9xyQRZf0RvPANFIiNsaKde7NOKW60Qn
+ WzeAbM1w6L+Iw01TD7M3wVEChp1a2jQX/Q==
+X-Google-Smtp-Source: AGHT+IEiNvJtidM6AfcfTl6aPABFX/Lddd3jmaxaqV9/ccBNBWaa06ww2Vw6qpTZsv2fGb9xghRo+Q==
+X-Received: by 2002:a17:906:6c86:b0:a2b:1e1a:ac4c with SMTP id
+ s6-20020a1709066c8600b00a2b1e1aac4cmr1481053ejr.6.1704805155545; 
+ Tue, 09 Jan 2024 04:59:15 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- f21-20020a056402195500b00558267aca09sm188551edz.57.2024.01.09.04.54.50
+ la8-20020a170906ad8800b00a2af8872e9bsm1042408ejb.14.2024.01.09.04.59.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jan 2024 04:54:50 -0800 (PST)
-Date: Tue, 9 Jan 2024 13:54:49 +0100
+ Tue, 09 Jan 2024 04:59:14 -0800 (PST)
+Date: Tue, 9 Jan 2024 13:59:12 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [PATCH 2/2] drm/amdgpu: add shared fdinfo stats
-Message-ID: <ZZ1CGUyMjoN9PkOI@phenom.ffwll.local>
-References: <20231207180225.439482-1-alexander.deucher@amd.com>
- <20231207180225.439482-3-alexander.deucher@amd.com>
- <5b231151-45fe-4d65-a9c2-63973267bdba@gmail.com>
- <d2f7c614-228d-490c-9317-8eab0d87ee28@linux.intel.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v2] drm/vram-helper: fix kernel-doc warnings
+Message-ID: <ZZ1DIDjGlHP-tmAi@phenom.ffwll.local>
+Mail-Followup-To: Randy Dunlap <rdunlap@infradead.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-kernel@vger.kernel.org, David Airlie <airlied@gmail.com>,
+ dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, linux-doc@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>
+References: <20240106032957.1195-1-rdunlap@infradead.org>
+ <944ca2e6-23d9-44a2-a58c-4380e9ee575f@suse.de>
+ <dd917333-9ae8-4e76-991d-39b6229ba8ce@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <d2f7c614-228d-490c-9317-8eab0d87ee28@linux.intel.com>
+In-Reply-To: <dd917333-9ae8-4e76-991d-39b6229ba8ce@infradead.org>
 X-Operating-System: Linux phenom 6.5.0-4-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,161 +82,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-doc@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 09, 2024 at 09:30:15AM +0000, Tvrtko Ursulin wrote:
+On Mon, Jan 08, 2024 at 01:10:12PM -0800, Randy Dunlap wrote:
+> Hi Thomas,
 > 
-> On 09/01/2024 07:56, Christian König wrote:
-> > Am 07.12.23 um 19:02 schrieb Alex Deucher:
-> > > Add shared stats.  Useful for seeing shared memory.
-> > > 
-> > > v2: take dma-buf into account as well
-> > > 
-> > > Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-> > > Cc: Rob Clark <robdclark@gmail.com>
-> > > ---
-> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c |  4 ++++
-> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 11 +++++++++++
-> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_object.h |  6 ++++++
-> > >   3 files changed, 21 insertions(+)
-> > > 
-> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
-> > > b/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
-> > > index 5706b282a0c7..c7df7fa3459f 100644
-> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
-> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
-> > > @@ -97,6 +97,10 @@ void amdgpu_show_fdinfo(struct drm_printer *p,
-> > > struct drm_file *file)
-> > >              stats.requested_visible_vram/1024UL);
-> > >       drm_printf(p, "amd-requested-gtt:\t%llu KiB\n",
-> > >              stats.requested_gtt/1024UL);
-> > > +    drm_printf(p, "drm-shared-vram:\t%llu KiB\n",
-> > > stats.vram_shared/1024UL);
-> > > +    drm_printf(p, "drm-shared-gtt:\t%llu KiB\n",
-> > > stats.gtt_shared/1024UL);
-> > > +    drm_printf(p, "drm-shared-cpu:\t%llu KiB\n",
-> > > stats.cpu_shared/1024UL);
-> > > +
-> > >       for (hw_ip = 0; hw_ip < AMDGPU_HW_IP_NUM; ++hw_ip) {
-> > >           if (!usage[hw_ip])
-> > >               continue;
-> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> > > b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> > > index d79b4ca1ecfc..1b37d95475b8 100644
-> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> > > @@ -1287,25 +1287,36 @@ void amdgpu_bo_get_memory(struct amdgpu_bo *bo,
-> > >                 struct amdgpu_mem_stats *stats)
-> > >   {
-> > >       uint64_t size = amdgpu_bo_size(bo);
-> > > +    struct drm_gem_object *obj;
-> > >       unsigned int domain;
-> > > +    bool shared;
-> > >       /* Abort if the BO doesn't currently have a backing store */
-> > >       if (!bo->tbo.resource)
-> > >           return;
-> > > +    obj = &bo->tbo.base;
-> > > +    shared = (obj->handle_count > 1) || obj->dma_buf;
+> On 1/8/24 00:57, Thomas Zimmermann wrote:
+> > Hi,
 > > 
-> > I still think that looking at handle_count is the completely wrong
-> > approach, we should really only look at obj->dma_buf.
+> > thanks for the fix.
+> > 
+> > Am 06.01.24 um 04:29 schrieb Randy Dunlap:
+> >> Remove the @funcs entry from struct drm_vram_mm to quieten the kernel-doc
+> >> warning.
+> >>
+> >> Use the "define" kernel-doc keyword and an '\' line continuation
+> >> to fix another kernel-doc warning.
+> >>
+> >> drm_gem_vram_helper.h:129: warning: missing initial short description on line:
+> >>   * DRM_GEM_VRAM_PLANE_HELPER_FUNCS -
+> >> drm_gem_vram_helper.h:185: warning: Excess struct member 'funcs' description in 'drm_vram_mm'
+> >>
+> >> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> >> Cc: David Airlie <airlied@gmail.com>
+> >> Cc: Daniel Vetter <daniel@ffwll.ch>
+> >> Cc: dri-devel@lists.freedesktop.org
+> >> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> >> Cc: Maxime Ripard <mripard@kernel.org>
+> >> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> >> ---
+> >> v2: Add commit description
+> >>
+> >> base-commit: 610a9b8f49fbcf1100716370d3b5f6f884a2835a
+> >>
+> >>   include/drm/drm_gem_vram_helper.h |    3 +--
+> >>   1 file changed, 1 insertion(+), 2 deletions(-)
+> >>
+> >> diff -- a/include/drm/drm_gem_vram_helper.h b/include/drm/drm_gem_vram_helper.h
+> >> --- a/include/drm/drm_gem_vram_helper.h
+> >> +++ b/include/drm/drm_gem_vram_helper.h
+> >> @@ -126,7 +126,7 @@ drm_gem_vram_plane_helper_cleanup_fb(str
+> >>                        struct drm_plane_state *old_state);
+> >>     /**
+> >> - * DRM_GEM_VRAM_PLANE_HELPER_FUNCS -
+> >> + * define DRM_GEM_VRAM_PLANE_HELPER_FUNCS - \
+> > 
+> > Did something change wrt. doc syntax? I think this used to work without warnings. About this 'define': we don't use is in another docs. Can we leave it out here or is this the new syntax?
+> > 
 > 
-> Yeah it is all a bit tricky with the handle table walk. I don't think it is
-> even possible to claim it is shared with obj->dma_buf could be the same
-> process creating say via udmabuf and importing into drm. It is a wild
-> scenario yes, but it could be private memory in that case. Not sure where it
-> would leave us if we said this is just a limitation of a BO based tracking.
-> 
-> Would adding a new category "imported" help?
-> 
-> Hmm or we simply change drm-usage-stats.rst:
-> 
-> """
-> - drm-shared-<region>: <uint> [KiB|MiB]
-> 
-> The total size of buffers that are shared with another file (ie. have more
-> than than a single handle).
-> """
-> 
-> Changing ie into eg coule be get our of jail free card to allow the
-> "(obj->handle_count > 1) || obj->dma_buf;" condition?
-> 
-> Because of the shared with another _file_ wording would cover my wild
-> udmabuf self-import case. Unless there are more such creative private import
-> options.
+> There are no doc syntax changes that I know of. This is not
+> new syntax. It has been around since 2014:
+>   cbb4d3e6510b ("scripts/kernel-doc: handle object-like macros")
 
-Yeah I think clarifying that we can only track sharing with other fd and
-have no idea whether this means sharing with another process or not is
-probably simplest. Maybe not exactly what users want, but still the
-roughly best-case approximation we can deliver somewhat cheaply.
+I had no idea this exists, thanks a lot for this TIL :-)
 
-Also maybe time for a drm_gem_buffer_object_is_shared() helper so we don't
-copypaste this all over and then end up in divergent conditions? I'm
-guessing that there's going to be a bunch of drivers which needs this
-little helper to add drm-shared-* stats to their fdinfo ...
+I guess the issue here is that this exists, yay, but it's not documented
+with the other here:
+
+https://dri.freedesktop.org/docs/drm/doc-guide/kernel-doc.html#structure-union-and-enumeration-documentation
+
+I guess a patch to kernel-doc.rst would be great. Adding some kernel-doc
+folks.
 
 Cheers, Sima
-> 
-> Regards,
-> 
-> Tvrtko
-> 
-> > 
-> > Regards,
-> > Christian.
-> > 
-> > > +
-> > >       domain = amdgpu_mem_type_to_domain(bo->tbo.resource->mem_type);
-> > >       switch (domain) {
-> > >       case AMDGPU_GEM_DOMAIN_VRAM:
-> > >           stats->vram += size;
-> > >           if (amdgpu_bo_in_cpu_visible_vram(bo))
-> > >               stats->visible_vram += size;
-> > > +        if (shared)
-> > > +            stats->vram_shared += size;
-> > >           break;
-> > >       case AMDGPU_GEM_DOMAIN_GTT:
-> > >           stats->gtt += size;
-> > > +        if (shared)
-> > > +            stats->gtt_shared += size;
-> > >           break;
-> > >       case AMDGPU_GEM_DOMAIN_CPU:
-> > >       default:
-> > >           stats->cpu += size;
-> > > +        if (shared)
-> > > +            stats->cpu_shared += size;
-> > >           break;
-> > >       }
-> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
-> > > b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
-> > > index d28e21baef16..0503af75dc26 100644
-> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
-> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
-> > > @@ -138,12 +138,18 @@ struct amdgpu_bo_vm {
-> > >   struct amdgpu_mem_stats {
-> > >       /* current VRAM usage, includes visible VRAM */
-> > >       uint64_t vram;
-> > > +    /* current shared VRAM usage, includes visible VRAM */
-> > > +    uint64_t vram_shared;
-> > >       /* current visible VRAM usage */
-> > >       uint64_t visible_vram;
-> > >       /* current GTT usage */
-> > >       uint64_t gtt;
-> > > +    /* current shared GTT usage */
-> > > +    uint64_t gtt_shared;
-> > >       /* current system memory usage */
-> > >       uint64_t cpu;
-> > > +    /* current shared system memory usage */
-> > > +    uint64_t cpu_shared;
-> > >       /* sum of evicted buffers, includes visible VRAM */
-> > >       uint64_t evicted_vram;
-> > >       /* sum of evicted buffers due to CPU access */
-> > 
-
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
