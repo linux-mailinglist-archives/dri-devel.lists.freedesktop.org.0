@@ -2,70 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AA0C828A7C
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 17:53:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 320EF828AA1
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 18:01:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C17FA10E48E;
-	Tue,  9 Jan 2024 16:53:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABDD110E49C;
+	Tue,  9 Jan 2024 17:01:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61FFF10E48E
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 16:53:24 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 409Gr5Xm016878;
- Tue, 9 Jan 2024 10:53:05 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1704819185;
- bh=iHiTjx8NHZJnPof+njozBL2G+dd0BsVHIjNWCy6rIek=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=Yy3bMx4/Yzf97w86aOfBS4akux9QB2Kuo5MatkVOI+0K9M8kchw4Oqto7TtkbrtMr
- 2tL48v1DNa2NdNWNJhQccC9k8qy3/pfg9p32n89F6nuLNtgezOFNwohAzj0oVfL94Z
- NuMDjG5qfsIWUm0HKnL/gbstXMeEoeb6OaUgdHkA=
-Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 409Gr57x031093
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 9 Jan 2024 10:53:05 -0600
-Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 9
- Jan 2024 10:53:05 -0600
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 9 Jan 2024 10:53:05 -0600
-Received: from [10.249.40.136] ([10.249.40.136])
- by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 409Gr3gb015005;
- Tue, 9 Jan 2024 10:53:03 -0600
-Message-ID: <c3664f43-431a-421f-8d2a-a3d2cc6f8777@ti.com>
-Date: Tue, 9 Jan 2024 10:53:03 -0600
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E33010E49A
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 17:01:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1704819680;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iPJD5Y/JUAijIAEh4AaeHvftl8qt3fo8LRS92q+SjAo=;
+ b=GtWEN1jcKnu29b0RM5510anE6d7HldcBo3QviwoepFLUNif4yKaSa/HcyW7t7YYA8SVLwu
+ sBow0fGObM05zis0li7+RODdQoRQNEILXUuRxbTZ2jGEbZdq30Y7FKdy7iB59KYs1Jbw87
+ d+TFup8zDNOXswZTCEMPOOdiYEJ3Lw4=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-392-fsYPyDaLPIqdZOBZXnqj2Q-1; Tue, 09 Jan 2024 12:01:16 -0500
+X-MC-Unique: fsYPyDaLPIqdZOBZXnqj2Q-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ 6a1803df08f44-6805f615543so66069556d6.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 09:01:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1704819676; x=1705424476;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=iPJD5Y/JUAijIAEh4AaeHvftl8qt3fo8LRS92q+SjAo=;
+ b=MhgIA1RXfcKeIQ5slh1+/VVgE5lUznn4HKBLe19vNiEkzmszrz1Bm7WBwey3E/zd87
+ ySYiCB9bb/Bs4rY5UD5m0XQQZwPAb6R3eWoZ7THnfXK/et7VNqoZeuQRaqdwgQ04Cxc/
+ 2moTV8W2sBN1SarF8IfSAiBzGS6pwU9ZgXeL9wWYgdD6dNkck/+gUkCj/5YN/yAKy7lB
+ KUerxOSIVUdZuo/d1s0DpZsMPfHYP+6plDc4eJtbwy1eL9Qvp5TY2Q22jsZ3JFqJ8KTf
+ 0G+fwBLlvsWsNlGU3szKkQQlkNQb8vJcB2XgHH61/TBoLs1pbk2eWKY6KpzzI49UoWKF
+ 82LQ==
+X-Gm-Message-State: AOJu0Ywg74i5WyoXlUywWjZPLfCJZ+lDsTEw4UzEh5JaXb/Ia4/18Nee
+ yyhQ4BHDUlsvPEt2iKKxPjH6bBEHxLb1Fz1UT66B9mwWd4S8A5RWFlZwzBKmTHVeRy9JlwaXQLR
+ 4JAq9gHYaxKIQ5LXau5cCFch8MOgyJsBRKoWO
+X-Received: by 2002:ad4:5d61:0:b0:67f:7109:786e with SMTP id
+ fn1-20020ad45d61000000b0067f7109786emr8107860qvb.123.1704819676337; 
+ Tue, 09 Jan 2024 09:01:16 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHnUqM22+GhVZwe7FhzzDIvyc0qfTBRQqUSGBfzFwlIRvdJVaCiNeoegRcDWdEXvKLK5p4oRA==
+X-Received: by 2002:ad4:5d61:0:b0:67f:7109:786e with SMTP id
+ fn1-20020ad45d61000000b0067f7109786emr8107837qvb.123.1704819675939; 
+ Tue, 09 Jan 2024 09:01:15 -0800 (PST)
+Received: from ?IPV6:2a02:810d:4b3f:ee94:abf:b8ff:feee:998b?
+ ([2a02:810d:4b3f:ee94:abf:b8ff:feee:998b])
+ by smtp.gmail.com with ESMTPSA id
+ bo4-20020a05621414a400b00680ce23bc29sm1032598qvb.71.2024.01.09.09.01.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Jan 2024 09:01:15 -0800 (PST)
+Message-ID: <6f343c87-fbb4-4779-aced-2e0df7b18e63@redhat.com>
+Date: Tue, 9 Jan 2024 18:01:13 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v2 02/11] dt-bindings: gpu: Add PowerVR Series5 SGX
- GPUs
+Subject: Re: [PATCH 1/3] drm/nouveau: include drm/drm_edid.h only where needed
+To: Jani Nikula <jani.nikula@intel.com>
+References: <20240104201632.1100753-1-jani.nikula@intel.com>
+ <95f6815c-1ff5-4c89-b8c6-0445834a0083@redhat.com> <87ttnmx1wn.fsf@intel.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <87ttnmx1wn.fsf@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Frank Binns
- <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
- "H . Nikolaus Schaller" <hns@goldelico.com>,
- Adam Ford <aford173@gmail.com>, Ivaylo
- Dimitrov <ivo.g.dimitrov.75@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>, Tony Lindgren
- <tony@atomide.com>, Nishanth Menon <nm@ti.com>, Vignesh Raghavendra
- <vigneshr@ti.com>, Tero Kristo <kristo@kernel.org>, Paul Cercueil
- <paul@crapouillou.net>
-References: <20240108183302.255055-1-afd@ti.com>
- <20240108183302.255055-3-afd@ti.com>
- <e68b3b0c-7a03-4771-b6e8-c1a263e31425@linaro.org>
-From: Andrew Davis <afd@ti.com>
-In-Reply-To: <e68b3b0c-7a03-4771-b6e8-c1a263e31425@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,161 +88,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- linux-omap@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
+Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Karol Herbst <kherbst@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/9/24 5:32 AM, Krzysztof Kozlowski wrote:
-> On 08/01/2024 19:32, Andrew Davis wrote:
->> The Imagination PowerVR Series5 "SGX" GPU is part of several SoCs from
->> multiple vendors. Describe how the SGX GPU is integrated in these SoC,
->> including register space and interrupts. Clocks, reset, and power domain
->> information is SoC specific.
+On 1/9/24 10:59, Jani Nikula wrote:
+> On Mon, 08 Jan 2024, Danilo Krummrich <dakr@redhat.com> wrote:
+>> On 1/4/24 21:16, Jani Nikula wrote:
+>>> Including drm_edid.h from nouveau_connector.h causes the rebuild of 15
+>>> files when drm_edid.h is modified, while there are only a few files that
+>>> actually need to include drm_edid.h.
+>>>
+>>> Cc: Karol Herbst <kherbst@redhat.com>
+>>> Cc: Lyude Paul <lyude@redhat.com>
+>>> Cc: Danilo Krummrich <dakr@redhat.com>
+>>> Cc: nouveau@lists.freedesktop.org
+>>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 >>
->> Signed-off-by: Andrew Davis <afd@ti.com>
->> ---
->>   .../bindings/gpu/img,powervr-sgx.yaml         | 124 ++++++++++++++++++
->>   MAINTAINERS                                   |   1 +
->>   2 files changed, 125 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/gpu/img,powervr-sgx.yaml
+>> Reviewed-by: Danilo Krummrich <dakr@redhat.com>
+> 
+> Are you going to pick this up via the nouveau tree, or shall I apply it
+> to drm-misc-next?
+
+We don't maintain a separate tree, hence feel free to apply it to drm-misc-next.
+
+- Danilo
+
+> 
+> BR,
+> Jani.
+> 
 >>
->> diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-sgx.yaml b/Documentation/devicetree/bindings/gpu/img,powervr-sgx.yaml
->> new file mode 100644
->> index 0000000000000..bb821e1184de9
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/gpu/img,powervr-sgx.yaml
->> @@ -0,0 +1,124 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +# Copyright (c) 2023 Imagination Technologies Ltd.
-> 
-> Your email has @TI domain, are you sure you attribute your copyrights to
-> Imagination?
-> 
-
-The file started as a copy/paste from a IMG copyrighted file, even
-though it is now almost completely re-written I've left their (c)
-for good measure. I'll add an additional TI (c).
-
-> ...
-> 
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  interrupts:
->> +    maxItems: 1
->> +
->> +  clocks: true
-> 
-> Missing min/maxItems
-> 
-
-These are set in the allOf/if/then blocks below, seems
-if I don't set them to at least something here then I get
-a warning:
-
-    'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
-
-even if I define them in the allOf block below. I don't
-know what the min/max should be until I check the compatible
-in the allOf block.
-
->> +
->> +  clock-names:
->> +    minItems: 1
->> +    items:
->> +      - const: core
->> +      - const: mem
->> +      - const: sys
->> +
->> +  power-domains:
->> +    maxItems: 1
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - interrupts
->> +
->> +additionalProperties: false
-> 
-> This goes after allOf: block.
+>>> ---
+>>>    drivers/gpu/drm/nouveau/dispnv50/head.c     | 1 +
+>>>    drivers/gpu/drm/nouveau/nouveau_connector.h | 2 +-
+>>>    2 files changed, 2 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/nouveau/dispnv50/head.c b/drivers/gpu/drm/nouveau/dispnv50/head.c
+>>> index 5f490fbf1877..83355dbc15ee 100644
+>>> --- a/drivers/gpu/drm/nouveau/dispnv50/head.c
+>>> +++ b/drivers/gpu/drm/nouveau/dispnv50/head.c
+>>> @@ -32,6 +32,7 @@
+>>>    
+>>>    #include <drm/drm_atomic.h>
+>>>    #include <drm/drm_atomic_helper.h>
+>>> +#include <drm/drm_edid.h>
+>>>    #include <drm/drm_vblank.h>
+>>>    #include "nouveau_connector.h"
+>>>    
+>>> diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.h b/drivers/gpu/drm/nouveau/nouveau_connector.h
+>>> index a2df4918340c..0608cabed058 100644
+>>> --- a/drivers/gpu/drm/nouveau/nouveau_connector.h
+>>> +++ b/drivers/gpu/drm/nouveau/nouveau_connector.h
+>>> @@ -35,7 +35,6 @@
+>>>    
+>>>    #include <drm/display/drm_dp_helper.h>
+>>>    #include <drm/drm_crtc.h>
+>>> -#include <drm/drm_edid.h>
+>>>    #include <drm/drm_encoder.h>
+>>>    #include <drm/drm_util.h>
+>>>    
+>>> @@ -44,6 +43,7 @@
+>>>    
+>>>    struct nvkm_i2c_port;
+>>>    struct dcb_output;
+>>> +struct edid;
+>>>    
+>>>    #ifdef CONFIG_DRM_NOUVEAU_BACKLIGHT
+>>>    struct nouveau_backlight {
+>>
 > 
 
-ACK
-
->> +
->> +allOf:
->> +  - if:
->> +      properties:
->> +        compatible:
->> +          contains:
->> +            const: ti,am6548-gpu
->> +    then:
->> +      required:
->> +        - power-domains
->> +    else:
->> +      properties:
->> +        power-domains: false
->> +  - if:
->> +      properties:
->> +        compatible:
->> +          contains:
->> +            enum:
->> +              - allwinner,sun6i-a31-gpu
->> +              - ingenic,jz4780-gpu
->> +    then:
->> +      allOf:
->> +        - if:
-> 
-> I don't understand why do you need to embed allOf inside another allOf.
-> The upper (outer) if:then: looks entirely useless.
-> 
-
-It is so that both compatibles falls through to having
-clock being required.
-
-Logic in YAML always seems messy to me, here it is in pseudo C:
-
-if (compatible == allwinner,sun6i-a31-gpu ||
-     compatible == ingenic,jz4780-gpu) {
-	if (compatible == allwinner,sun6i-a31-gpu)
-		clocks: ...
-	if (compatible == ingenic,jz4780-gpu)
-		clocks: ...
-	required:
-		- clocks
-		- clock-names
-} else { /* disallow for all others */
-	properties:
-		clocks: false
-		clock-names: false
-}
-
-Now if I had an "else if" that didn't force the indention to keep
-growing I would have used that. (does one exist?) I also cannot
-simply add the clock properties only for the two compats need
-them for the reasons above and so must add them unconditionally
-before then explicitly disable them in a catch-all else path.
-
-Andrew
-
->> +            properties:
->> +              compatible:
->> +                contains:
->> +                  const: allwinner,sun6i-a31-gpu
->> +          then:
->> +            properties:
->> +              clocks:
->> +                minItems: 2
->> +                maxItems: 2
->> +              clock-names:
->> +                minItems: 2
->> +                maxItems: 2
-> 
-> 
-> Best regards,
-> Krzysztof
-> 
