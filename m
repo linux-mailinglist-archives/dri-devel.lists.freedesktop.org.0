@@ -1,58 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 912CF828A5B
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 17:47:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B7A8828A78
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 17:52:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04BB210E48D;
-	Tue,  9 Jan 2024 16:47:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21DBA10E489;
+	Tue,  9 Jan 2024 16:52:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (unknown [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B086810E488;
- Tue,  9 Jan 2024 16:47:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704818873; x=1736354873;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=gaEKgeWzK9tycqPLAAm+RoBb74b0rOVzaME1Qb2Pfjw=;
- b=nsdEbqTmkqLgbqwZOgquJLhCptusZbadyajR8O6746EBQ5XMiwrCPsIW
- b10RaksGJYc5FVEKbb/Q7EwSdDoyUpEaw39RFqMDYNoYwXFYM6M5kwnZG
- oNleM90RdW+/7FK+QBDvPNXJPCZRSXdIfsTpVVCA9TPnvSvM4l1uDaI8T
- Cq1rdHVrc1t33oCoZcM3oOFT4ynGOo66ayWWebxKLlIA1fy4MM3Q8ddB6
- rS7S1SIyr+U+eldieuuqOk+U5Mr5YKB7pWHv/jalCt4Nve+I/vDgGbLVI
- y2FEnCKykXupeP/c16sJkCXw5S2kCQ5VW9qpAx/EMALVG33GemXCO8rBk Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="388696404"
-X-IronPort-AV: E=Sophos;i="6.04,183,1695711600"; d="scan'208";a="388696404"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2024 08:47:44 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="852253484"
-X-IronPort-AV: E=Sophos;i="6.04,183,1695711600"; d="scan'208";a="852253484"
-Received: from irvmail002.ir.intel.com ([10.43.11.120])
- by fmsmga004.fm.intel.com with ESMTP; 09 Jan 2024 08:47:41 -0800
-Received: from [10.249.150.124] (mwajdecz-MOBL.ger.corp.intel.com
- [10.249.150.124])
- by irvmail002.ir.intel.com (Postfix) with ESMTP id C8648C8375;
- Tue,  9 Jan 2024 16:47:36 +0000 (GMT)
-Message-ID: <b48eb9f7-3986-4021-baef-35443c0294d4@intel.com>
-Date: Tue, 9 Jan 2024 17:47:36 +0100
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C03910E489
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 16:52:34 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id
+ a640c23a62f3a-a293f2280c7so362556966b.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 08:52:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1704819150; x=1705423950;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ZHbFSGdNqTkp4QL+EEPj5Pdc3ELkei7bVgDOsu4SrZc=;
+ b=XeU6A/rQyYcCKlSo+zf9df0bq3Oev6TT7OvpjRAqifo/urgKNl6rhJNtdsDDJpZJ7b
+ K5Qa3R2bdJT7Jh5nNx41vmgtqYG8+wuvy13J77CQiXuaI5pOroZr/4FT7yYyjoxAODne
+ HFAUVxNyRDi0bAOpcK96/9yc/l3zg6oomGY2c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1704819150; x=1705423950;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ZHbFSGdNqTkp4QL+EEPj5Pdc3ELkei7bVgDOsu4SrZc=;
+ b=YrS49AyE/hji1xfITX9aIwlA+5o3XQLxSE+mheuBghLHc401q42bXNGAy0C6qYADaV
+ PB5b4ZURh4swli8U9JaF1Bb1bUXW4cY9i6RSnhOb4OWfkvFIRZ6kAl5cGI6UvsPnbaZU
+ o8SdwNxUElSVZ/4RnTpvnvoaT+xZ4vnuG+iZswbEH+7vEqyLZxhtfzumXVbM3pb2U4L1
+ MBKvheYAQc0C9HvBXjJ9kQxuXpOnoV0aj+wlIq0oIXs8DFjnCjB4E6NngxKSfecCGmIB
+ X+LLe/QDTbQrn2mYEtNbnx+ZqzkIJ034OtV1bC/M9YBnhJp7PQyqJiygwMQldK9xRs+g
+ E/TA==
+X-Gm-Message-State: AOJu0YzMPvb4xgC9dBhc+1iQF5o0+wm+VfA0Xh5o3PcK4+Ep4TDB54AV
+ 7fykdNd6/5fjld3Jnu1zJnAkWnO/p4yX8t27b2JxIjyHKZeF7DM=
+X-Google-Smtp-Source: AGHT+IGgEzQKylzb6L2lGUvfn6BVvGZyvPhgmdZrNiafG2S7wFP4rYrsjluDPugOR4xfNhTepR6cUg==
+X-Received: by 2002:a17:907:318c:b0:a27:76cf:103a with SMTP id
+ xe12-20020a170907318c00b00a2776cf103amr473632ejb.136.1704819149962; 
+ Tue, 09 Jan 2024 08:52:29 -0800 (PST)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com.
+ [209.85.128.45]) by smtp.gmail.com with ESMTPSA id
+ la3-20020a170906ad8300b00a26aa8f3372sm1225508ejb.27.2024.01.09.08.52.28
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Jan 2024 08:52:29 -0800 (PST)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-40e43e55b87so68585e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 08:52:28 -0800 (PST)
+X-Received: by 2002:a05:600c:3b2a:b0:40e:35d0:1fef with SMTP id
+ m42-20020a05600c3b2a00b0040e35d01fefmr15464wms.1.1704819148582; Tue, 09 Jan
+ 2024 08:52:28 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/xe: clean up type of GUC_HXG_MSG_0_ORIGIN
-Content-Language: en-US
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-References: <ec22d742-632b-426a-ac86-62641a38c907@moroto.mountain>
- <e5g3qkwvc3sjfpxcdvn43fiwbxthpblqgg2getxpbkd6g4lp5k@pgfm75tsg7wz>
- <84a5c289-e2f6-4e30-a093-5a1c5b335057@intel.com>
- <7vb3ql7z5dac3kwo7nhibh5al7wemt45ibzuyk4bpyzpltzjml@go7rtyq4m6hq>
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-In-Reply-To: <7vb3ql7z5dac3kwo7nhibh5al7wemt45ibzuyk4bpyzpltzjml@go7rtyq4m6hq>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240109120528.1292601-1-treapking@chromium.org>
+In-Reply-To: <20240109120528.1292601-1-treapking@chromium.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 9 Jan 2024 08:52:12 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=WjjH3BCDf-OnX=zdk201uMu+YJvKVBhVmMa4GqNinacw@mail.gmail.com>
+Message-ID: <CAD=FV=WjjH3BCDf-OnX=zdk201uMu+YJvKVBhVmMa4GqNinacw@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/bridge: parade-ps8640: Ensure bridge is suspended
+ in .post_disable()
+To: Pin-yen Lin <treapking@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,126 +80,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-xe@lists.freedesktop.org, Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Sean Paul <seanpaul@chromium.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
+On Tue, Jan 9, 2024 at 4:05=E2=80=AFAM Pin-yen Lin <treapking@chromium.org>=
+ wrote:
+>
+> The ps8640 bridge seems to expect everything to be power cycled at the
+> disable process, but sometimes ps8640_aux_transfer() holds the runtime
+> PM reference and prevents the bridge from suspend.
+>
+> Prevent that by introducing a mutex lock between ps8640_aux_transfer()
+> and .post_disable() to make sure the bridge is really powered off.
+>
+> Fixes: 826cff3f7ebb ("drm/bridge: parade-ps8640: Enable runtime power man=
+agement")
+> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+> ---
+>
+> Changes in v2:
+> - Use mutex instead of the completion and autosuspend hack
+>
+>  drivers/gpu/drm/bridge/parade-ps8640.c | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
 
-On 08.01.2024 22:24, Lucas De Marchi wrote:
-> On Mon, Jan 08, 2024 at 09:46:47PM +0100, Michal Wajdeczko wrote:
->>
->>
->> On 08.01.2024 15:07, Lucas De Marchi wrote:
->>> On Mon, Jan 08, 2024 at 12:05:57PM +0300, Dan Carpenter wrote:
->>>> The GUC_HXG_MSG_0_ORIGIN definition should be unsigned.  Currently
->>>> it is
->>>> defined as INT_MIN.  This doesn't cause a problem currently but it's
->>>> still worth cleaning up.
->>>>
->>>> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
->>>
->>> it seems there are a few more places to change to follow what was done
->>> in commit 962bd34bb457 ("drm/i915/uc: Fix undefined behavior due to
->>> shift overflowing the constant").
->>>
->>> +Michal
->>>
->>> Could we eventually share these abi includes with i915 so we don't
->>> keep fixing the same thing in 2 places?
->>
->> it should be possible and I guess we should plan for that while
->> discussing all this new xe driver...
->>
->> anyway, what about creating new intel/ folder under drm/ ?
-> 
-> include/drm/intel/?
+This looks OK to me now.
 
-maybe, but then we will be limited to pure definitions/inlines, while I
-hope we could separate more GuC firmware specific, but still driver
-agnostic, code and place it under drivers/gpu/drm/intel/
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-drivers/gpu/drm/intel/
-   include/
-      abi/
-         guc_actions_abi.h
-         guc_errors_abi.h
-         guc_klvs_abi.h
-   guc/
-      guc_hxg_helpers.c
-      guc_log_helpers.c
+I'll let it stew on the mailing list for ~1 week and then land it in
+drm-misc-fixes unless there are additional comments.
 
-note that AMD has its definitions in drm/amd/include/ not under include/
-
-> 
->>
->> - drm/intel/include/abi
->>        guc_actions_abi.h
->>        guc_klvs_abi.h
->>        ...
->>
->> the only question would be what prefix should be used for macros:
->> just GUC_ or INTEL_GUC_ or XE_GUC_ ?
-> 
-> if using a intel/ dir, probably better with INTEL_ prefix
-> 
->>
->> then we can also think of creating library with common helpers for GuC
->> (for encoding/decoding HXG messages, preparing ADS, reading logs, etc)
-> 
-> with the other differences we have, I don't see much benefit,
-> particularly as it won't change for i915 wrt supported platforms.
-
-we are still using unified firmware versions across different platforms,
-so any newer firmware version drops could still be beneficial for the
-i915 and those legacy platforms
-
-> 
->>
->> btw, we can also consider sharing register definitions:
->>
->> - drm/intel/include/regs
->>        xe_engine_regs.h
->>        xe_gt_regs.h
->>        xe_regs_defs.h
-> 
-> same as above, I don't think it's worth it as xe will keep adding to it
-> and it doesn't care for all the previous platforms. For those files we
-> may eventually autogen them like done by mesa.
-
-autogen sounds promising, so lets wait and once this will happen we can
-abandon xe/regs
-
-> 
-> Lucas De Marchi
-> 
->>
->> Michal
->>
->>>
->>> Lucas De Marchi
->>>
->>>> ---
->>>> drivers/gpu/drm/xe/abi/guc_messages_abi.h | 2 +-
->>>> 1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/xe/abi/guc_messages_abi.h
->>>> b/drivers/gpu/drm/xe/abi/guc_messages_abi.h
->>>> index 3d199016cf88..c04606872e48 100644
->>>> --- a/drivers/gpu/drm/xe/abi/guc_messages_abi.h
->>>> +++ b/drivers/gpu/drm/xe/abi/guc_messages_abi.h
->>>> @@ -40,7 +40,7 @@
->>>>  */
->>>>
->>>> #define GUC_HXG_MSG_MIN_LEN            1u
->>>> -#define GUC_HXG_MSG_0_ORIGIN            (0x1 << 31)
->>>> +#define GUC_HXG_MSG_0_ORIGIN            (0x1U << 31)
->>>> #define   GUC_HXG_ORIGIN_HOST            0u
->>>> #define   GUC_HXG_ORIGIN_GUC            1u
->>>> #define GUC_HXG_MSG_0_TYPE            (0x7 << 28)
->>>> -- 
->>>> 2.42.0
->>>>
+-Doug
