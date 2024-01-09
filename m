@@ -2,127 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7875582851F
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 12:32:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87D9782857F
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 12:51:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E243F10E3FB;
-	Tue,  9 Jan 2024 11:32:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AC5E10E3EC;
+	Tue,  9 Jan 2024 11:51:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C01A910E3FB
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 11:32:19 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id
- 2adb3069b0e04-50e7c6e3c63so2854659e87.3
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 03:32:19 -0800 (PST)
+Received: from mail-il1-x134.google.com (mail-il1-x134.google.com
+ [IPv6:2607:f8b0:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 421E910E3EC
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 11:51:37 +0000 (UTC)
+Received: by mail-il1-x134.google.com with SMTP id
+ e9e14a558f8ab-3606dda206aso16774005ab.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 03:51:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1704799938; x=1705404738; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=uZH9xu4+KP5NZ2SVNdhbpi1SJ+MZUxb3PM+kZHRuKf4=;
- b=mNgMolSAOHDaoiOVs6GrLROKRVQOTsG/tlbkEt4Rs8jWAulrNeErjfgqsw3vRKJbwc
- dvTw+3bmRdPzCyR02ycH/kpIQE78/qii+BBrTnkheO1ZyYYI9FoT58rFn7kXOWO/0RuJ
- TjaUjJDw2/MESkHI2wX5fe9kToAnUaL11BihPcizGKCxXiBLyNe7bt+x7vdFGpvuXTnP
- f4FvwNjpkNH2rNO9613MrlDmZl9I5/n9KVSTL2lga6sUqhXqiPq/TfWXQ45a+BN5AkmN
- Da0Z8urNEjCOUOE6/R3eWdHF2tu3oQivjgXRDX/87Etk8npxWpdCNClq+6fLh6KIFoWz
- PHOQ==
+ d=chromium.org; s=google; t=1704801096; x=1705405896;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=QlbBXaJ6QChQt8nzvFhN1UrWQRmEjHRHlNEfK3vCyiA=;
+ b=WVoEH7FS8sof5osO5uwxoH3mCOTF9jKmF4VS9yxu1ANX5X0UmEBHYTj0/1abvD8cIe
+ e12hJlpKXIStq5U+/BXb9bfxrNXGx6STXcWu/aoiCsIDaAq0FIBYOy2pjp8vNOIzV1pq
+ SXhb9KDyAUrA3bPM2ibqKjbqPkv8qhWQYPRoQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704799938; x=1705404738;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uZH9xu4+KP5NZ2SVNdhbpi1SJ+MZUxb3PM+kZHRuKf4=;
- b=LZ1rjVeQ7Qm+QkdVN3R55XH/AeLwdxtpS3FpyHqUGJVx6i6v8TNiKDw5zp0dOqrTWH
- n+agA6BTSX/s76eewnub4Rdg1+roP3YWGyUBWsXQTbE4557TXd74NveNBTBNMS2g/YZh
- sjZQFCqkXgIof2SDSXdAEZKNnx1hzRShT+2qH8NngvSW9uoZZRi4yr1t5na4neZXjtsn
- IWrlmzM8Ge8eLjHzS3+iRlK2D+cSEIYa6+ruXKdrruFnQJ7xl8Rhq10izERqZxuiHicV
- kUJGExFLSQBX3wqMWWOyd6lL9OeA5wcgnYTMWbYXW+2SmGlHOVexf1mT4dJUQaNP7kGC
- OjGg==
-X-Gm-Message-State: AOJu0YygsTibosgasm9/s8C+A2CkcaTp6X8albdiHddxH3bfP3eEJ5Jp
- hcz5VoHcWf1m+R5pnDRAWw5DjHXdTBZsOA==
-X-Google-Smtp-Source: AGHT+IE5ktJgQ7ykYbTxCEBKZnkPgIkgOquOJ5E/DUU4U/ysFCRTldTTfhXMTlfNxEAVjhbEKRDTMA==
-X-Received: by 2002:a05:6512:32bb:b0:50e:9353:5344 with SMTP id
- q27-20020a05651232bb00b0050e93535344mr1124855lfe.79.1704799937901; 
- Tue, 09 Jan 2024 03:32:17 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.223.112])
- by smtp.gmail.com with ESMTPSA id
- v12-20020a1709061dcc00b00a2af672cdd8sm935315ejh.161.2024.01.09.03.32.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Jan 2024 03:32:17 -0800 (PST)
-Message-ID: <e68b3b0c-7a03-4771-b6e8-c1a263e31425@linaro.org>
-Date: Tue, 9 Jan 2024 12:32:15 +0100
+ d=1e100.net; s=20230601; t=1704801096; x=1705405896;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=QlbBXaJ6QChQt8nzvFhN1UrWQRmEjHRHlNEfK3vCyiA=;
+ b=Bj51p+VFBuX3ab0KmZz8EgtIDvg+NPCiXka8smiP2KtvyfUzGa7eAtvVnPu6w1DEXg
+ NGg6w91+pVNbubGj7A6KfRUDuPmsyfHiZtXaNzAFtmKwlZoV28V33UT+RgJkh8Mxo4Vg
+ WwgcvfJWIOSnuH7xY5abyLX6P1XMDcWkP/RRExkwzslDYBd+Z7KaskeTqPD0LXhkCEto
+ FYRMfrBSaugozq8dx8YmunGAwgliaHOT9wuwVvrXNagVF4syZZ1DcS5KstQTXr+/tC3c
+ NWvi7fYo5eqRDwJyGA770xC5wkRrRRgC60m8BBCiNR6/XrKWJjZKs7w9Ohjez88e3grx
+ TdmA==
+X-Gm-Message-State: AOJu0Yz57C0/mlL5F8x//O9st6rk1huJ/1syxzjFMk/cj7gnH6X+ssSb
+ oV+0XRmQbjwLMEe6ius+EouhBM6ljBgiQrrxQKAifMWZJ16N3OhjoYRm6KA=
+X-Google-Smtp-Source: AGHT+IHRwiVkHQh7SIX/3ly4K5QyIfRTw+mMqjEYhSXlsigfyCwTnTznpzS7qg1nRmeOf6u2xNSfwd3Ho+G/zv51xUQ=
+X-Received: by 2002:a92:c243:0:b0:35f:eb24:6bbe with SMTP id
+ k3-20020a92c243000000b0035feb246bbemr7884021ilo.41.1704801096603; Tue, 09 Jan
+ 2024 03:51:36 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v2 02/11] dt-bindings: gpu: Add PowerVR Series5 SGX
- GPUs
-Content-Language: en-US
-To: Andrew Davis <afd@ti.com>, Frank Binns <frank.binns@imgtec.com>,
- Donald Robson <donald.robson@imgtec.com>,
- Matt Coster <matt.coster@imgtec.com>,
- "H . Nikolaus Schaller" <hns@goldelico.com>, Adam Ford <aford173@gmail.com>,
- Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, =?UTF-8?Q?Beno=C3=AEt_Cousson?=
- <bcousson@baylibre.com>, Tony Lindgren <tony@atomide.com>,
- Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Tero Kristo <kristo@kernel.org>, Paul Cercueil <paul@crapouillou.net>
-References: <20240108183302.255055-1-afd@ti.com>
- <20240108183302.255055-3-afd@ti.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240108183302.255055-3-afd@ti.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20231227104324.2457378-1-treapking@chromium.org>
+ <CAD=FV=XjpSbqJ=qb0BiuUCAww6=OLHuxxSot6o_u_vKYBYQ57w@mail.gmail.com>
+In-Reply-To: <CAD=FV=XjpSbqJ=qb0BiuUCAww6=OLHuxxSot6o_u_vKYBYQ57w@mail.gmail.com>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Tue, 9 Jan 2024 19:51:25 +0800
+Message-ID: <CAEXTbpdrjSGczw12CB7=GGKRywpROWvS73SdgYEq5o4kQTSk9w@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: parade-ps8640: Ensure bridge is suspended in
+ .post_disable()
+To: Doug Anderson <dianders@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,112 +68,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- linux-omap@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Sean Paul <seanpaul@chromium.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/01/2024 19:32, Andrew Davis wrote:
-> The Imagination PowerVR Series5 "SGX" GPU is part of several SoCs from
-> multiple vendors. Describe how the SGX GPU is integrated in these SoC,
-> including register space and interrupts. Clocks, reset, and power domain
-> information is SoC specific.
-> 
-> Signed-off-by: Andrew Davis <afd@ti.com>
-> ---
->  .../bindings/gpu/img,powervr-sgx.yaml         | 124 ++++++++++++++++++
->  MAINTAINERS                                   |   1 +
->  2 files changed, 125 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/gpu/img,powervr-sgx.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-sgx.yaml b/Documentation/devicetree/bindings/gpu/img,powervr-sgx.yaml
-> new file mode 100644
-> index 0000000000000..bb821e1184de9
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/gpu/img,powervr-sgx.yaml
-> @@ -0,0 +1,124 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (c) 2023 Imagination Technologies Ltd.
+Hi Doug,
 
-Your email has @TI domain, are you sure you attribute your copyrights to
-Imagination?
+On Tue, Jan 9, 2024 at 6:46=E2=80=AFAM Doug Anderson <dianders@chromium.org=
+> wrote:
+>
+> Hi,
+>
+> On Wed, Dec 27, 2023 at 2:43=E2=80=AFAM Pin-yen Lin <treapking@chromium.o=
+rg> wrote:
+> >
+> > Disable the autosuspend of runtime PM and use completion to make sure
+> > ps8640_suspend() is called in ps8640_atomic_post_disable().
+> >
+> > The ps8640 bridge seems to expect everything to be power cycled at the
+> > disable process, but sometimes ps8640_aux_transfer() holds the runtime
+> > PM reference and prevents the bridge from suspend.
+> >
+> > Instead of force powering off the bridge and taking the risk of breakin=
+g
+> > the AUX communication, disable the autosuspend and wait for
+> > ps8640_suspend() being called here, and re-enable the autosuspend
+> > afterwards.  With this approach, the bridge should be suspended after
+> > the current ps8640_aux_transfer() completes.
+> >
+> > Fixes: 826cff3f7ebb ("drm/bridge: parade-ps8640: Enable runtime power m=
+anagement")
+> > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+> > ---
+> >
+> >  drivers/gpu/drm/bridge/parade-ps8640.c | 33 +++++++++++++++++++++++++-
+> >  1 file changed, 32 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/b=
+ridge/parade-ps8640.c
+> > index 8161b1a1a4b1..f8ea486a76fd 100644
+> > --- a/drivers/gpu/drm/bridge/parade-ps8640.c
+> > +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
+> > @@ -107,6 +107,7 @@ struct ps8640 {
+> >         struct device_link *link;
+> >         bool pre_enabled;
+> >         bool need_post_hpd_delay;
+> > +       struct completion suspend_completion;
+> >  };
+> >
+> >  static const struct regmap_config ps8640_regmap_config[] =3D {
+> > @@ -417,6 +418,8 @@ static int __maybe_unused ps8640_suspend(struct dev=
+ice *dev)
+> >         if (ret < 0)
+> >                 dev_err(dev, "cannot disable regulators %d\n", ret);
+> >
+> > +       complete_all(&ps_bridge->suspend_completion);
+> > +
+> >         return ret;
+> >  }
+> >
+> > @@ -465,11 +468,37 @@ static void ps8640_atomic_post_disable(struct drm=
+_bridge *bridge,
+> >                                        struct drm_bridge_state *old_bri=
+dge_state)
+> >  {
+> >         struct ps8640 *ps_bridge =3D bridge_to_ps8640(bridge);
+> > +       struct device *dev =3D &ps_bridge->page[PAGE0_DP_CNTL]->dev;
+> >
+> >         ps_bridge->pre_enabled =3D false;
+> >
+> >         ps8640_bridge_vdo_control(ps_bridge, DISABLE);
+> > -       pm_runtime_put_sync_suspend(&ps_bridge->page[PAGE0_DP_CNTL]->de=
+v);
+> > +
+> > +       /*
+> > +        * The ps8640 bridge seems to expect everything to be power cyc=
+led at
+> > +        * the disable process, but sometimes ps8640_aux_transfer() hol=
+ds the
+> > +        * runtime PM reference and prevents the bridge from suspend.
+> > +        * Instead of force powering off the bridge and taking the risk=
+ of
+> > +        * breaking the AUX communication, disable the autosuspend and =
+wait for
+> > +        * ps8640_suspend() being called here, and re-enable the autosu=
+spend
+> > +        * afterwards.  With this approach, the bridge should be suspen=
+ded after
+> > +        * the current ps8640_aux_transfer() completes.
+> > +        */
+> > +       reinit_completion(&ps_bridge->suspend_completion);
+> > +       pm_runtime_dont_use_autosuspend(dev);
+> > +       pm_runtime_put_sync_suspend(dev);
+> > +
+> > +       /*
+> > +        * Mostly the suspend completes under 10 ms, but sometimes it c=
+ould
+> > +        * take 708 ms to complete.  Set the timeout to 2000 ms here to=
+ be
+> > +        * extra safe.
+> > +        */
+> > +       if (!wait_for_completion_timeout(&ps_bridge->suspend_completion=
+,
+> > +                                        msecs_to_jiffies(2000))) {
+> > +               dev_warn(dev, "Failed to wait for the suspend completio=
+n\n");
+> > +       }
+> > +
+> > +       pm_runtime_use_autosuspend(dev);
+>
+> Thanks for tracking this down! I agree with your analysis and it seems
+> like we've got to do something about it.
+>
+> I spent a little time trying to think about a cleaner way. What do you
+> think about adding a "aux_transfer" mutex? You'd grab this mutex for
+> the entire duration of ps8640_aux_transfer() and
+> ps8640_atomic_post_disable(). That way you don't need the weird
+> completion / timeout and don't need to hackily turn off/on
+> autosuspend. You shouldn't need the mutex in
+> ps8640_wait_hpd_asserted() because that will never be called at the
+> same time as ps8640_atomic_post_disable().
+>
+> -Doug
 
-...
+Hi Doug,
 
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks: true
+Thanks for the suggestion! I tried that approach and it fixes the issue as =
+well.
 
-Missing min/maxItems
+I'll send out another patch with that approach.
 
-> +
-> +  clock-names:
-> +    minItems: 1
-> +    items:
-> +      - const: core
-> +      - const: mem
-> +      - const: sys
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +
-> +additionalProperties: false
-
-This goes after allOf: block.
-
-> +
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: ti,am6548-gpu
-> +    then:
-> +      required:
-> +        - power-domains
-> +    else:
-> +      properties:
-> +        power-domains: false
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - allwinner,sun6i-a31-gpu
-> +              - ingenic,jz4780-gpu
-> +    then:
-> +      allOf:
-> +        - if:
-
-I don't understand why do you need to embed allOf inside another allOf.
-The upper (outer) if:then: looks entirely useless.
-
-> +            properties:
-> +              compatible:
-> +                contains:
-> +                  const: allwinner,sun6i-a31-gpu
-> +          then:
-> +            properties:
-> +              clocks:
-> +                minItems: 2
-> +                maxItems: 2
-> +              clock-names:
-> +                minItems: 2
-> +                maxItems: 2
-
-
-Best regards,
-Krzysztof
-
+Regards,
+Pin-yen
