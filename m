@@ -2,25 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 526518280B2
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 09:24:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 519C28280B5
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 09:24:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F2BB10E6EB;
-	Tue,  9 Jan 2024 08:24:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74BF010E6E5;
+	Tue,  9 Jan 2024 08:24:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
  [153.127.30.23])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8F35610E6E8
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 08:24:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 578FC10E6E8
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 08:24:41 +0000 (UTC)
 Received: from SIOS1075.ysato.name (ZM005235.ppp.dion.ne.jp [222.8.5.235])
- by sakura.ysato.name (Postfix) with ESMTPSA id 5503E1C0C6F;
- Tue,  9 Jan 2024 17:24:37 +0900 (JST)
+ by sakura.ysato.name (Postfix) with ESMTPSA id 205841C0DCB;
+ Tue,  9 Jan 2024 17:24:39 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: linux-sh@vger.kernel.org
-Subject: [DO NOT MERGE v6 31/37] sh: Add IO DATA LANDISK dts
-Date: Tue,  9 Jan 2024 17:23:28 +0900
-Message-Id: <4bd1d7b2eec4123285236e930b7a94b19f270288.1704788539.git.ysato@users.sourceforge.jp>
+Subject: [DO NOT MERGE v6 32/37] sh: Add IO DATA USL-5P dts
+Date: Tue,  9 Jan 2024 17:23:29 +0900
+Message-Id: <ce4606a10bec765868924c9ab2ac50e9dc5709f7.1704788539.git.ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1704788539.git.ysato@users.sourceforge.jp>
 References: <cover.1704788539.git.ysato@users.sourceforge.jp>
@@ -77,23 +77,23 @@ Cc: =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-IO DATA DEVICE Inc. LANDISK HDL-U devicetree.
+IO DATA DEVICE Inc. USL-5P devicetree.
 
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 ---
- arch/sh/boot/dts/landisk.dts | 75 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 75 insertions(+)
- create mode 100644 arch/sh/boot/dts/landisk.dts
+ arch/sh/boot/dts/usl-5p.dts | 83 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 83 insertions(+)
+ create mode 100644 arch/sh/boot/dts/usl-5p.dts
 
-diff --git a/arch/sh/boot/dts/landisk.dts b/arch/sh/boot/dts/landisk.dts
+diff --git a/arch/sh/boot/dts/usl-5p.dts b/arch/sh/boot/dts/usl-5p.dts
 new file mode 100644
-index 000000000000..a0e3c176fba8
+index 000000000000..1830bee6f884
 --- /dev/null
-+++ b/arch/sh/boot/dts/landisk.dts
-@@ -0,0 +1,75 @@
++++ b/arch/sh/boot/dts/usl-5p.dts
+@@ -0,0 +1,83 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * Device Tree Source for the IO DATA DEVICE LANDISK
++ * Device Tree Source for the IO DATA DEVICE USL-5P
 + */
 +
 +/dts-v1/;
@@ -101,8 +101,8 @@ index 000000000000..a0e3c176fba8
 +#include "sh7751r.dtsi"
 +
 +/ {
-+	model = "IO DATA Device LANDISK";
-+	compatible = "iodata,landisk", "renesas,sh7751r";
++	model = "IO-DATA Device USL-5P";
++	compatible = "iodata,usl-5p", "renesas,sh7751r";
 +
 +	aliases {
 +		serial0 = &scif1;
@@ -130,6 +130,14 @@ index 000000000000..a0e3c176fba8
 +				     <10 5>,	/* CF */
 +				     <11 6>,	/* Power Switch */
 +				     <12 7>;	/* Button */
++	};
++
++	compact-flash@b4000040 {
++		compatible = "iodata,usl-5p-ata", "ata-generic";
++		reg = <0xb4000040 0x0e>, <0xb400002c 2>;
++		reg-shift = <1>;
++		interrupt-parent = <&julianintc>;
++		interrupts = <10>;
 +	};
 +};
 +
