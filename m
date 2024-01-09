@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87E9C828F7B
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 23:13:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25709828F7C
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 23:13:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A31610E51E;
-	Tue,  9 Jan 2024 22:13:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0121010E51C;
+	Tue,  9 Jan 2024 22:13:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9253E10E48F
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 18:11:18 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id
- 2adb3069b0e04-50eabd1c701so3949826e87.3
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 10:11:18 -0800 (PST)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6510A10E4B2
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 18:11:23 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ 5b1f17b1804b1-40e5451c13aso1609055e9.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 10:11:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=yngvason.is; s=google; t=1704823876; x=1705428676; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=/P8n3FbWL68F6TxA0R2WkA/gfn2dX46Rf9mM5caQ3iY=;
- b=dVtup584BLfQj2OKFRtAVOiOBbOJqtunsTLshqLoz9yFkX2a//5a4jUf91P8PzG6h3
- Ry3fZXuiBwOFBwNRcQEOI9tpgw+MFuuoPeZwBdyMcRl6nuzO8tdJTARfOy/TYuhFpqmV
- L1lkCapC0ebmmptVIXbilIg7lmb90hE4JfXbk=
+ d=yngvason.is; s=google; t=1704823881; x=1705428681; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=j5TmlSqr2R0DSFOwP1jgxjjJC7p4LGOYCLeSujiTr2s=;
+ b=e74nrd51cCIO9GVEp77gLGNXeb7AUfpM8NNht3o7mahJr0hQO7tstPZYaTpAb+b5MT
+ wWK6eYFRN1KfGkgjp10bKKm6BH6KK83JMlgYXzO8rgzsBWLEpubUAtf+uOUMIIXUb1Et
+ 5/OzCvI6vXXBNd4ULz8UcqgOB6sNpmQLm67OY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704823876; x=1705428676;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=/P8n3FbWL68F6TxA0R2WkA/gfn2dX46Rf9mM5caQ3iY=;
- b=nZFwhp+MoR9J+ymjlqbdcQsdhwKNsMPvD+bsk6heX1vK80iHALX79Mtae+HHkXbMT4
- Yrbc3uS6lTehB7+Ih0jM2NTrH1LctLje7Q+XgNDJRIMIqqWs5frOLz1OvV33xi290CqM
- oThD2phltJuYiDgwj8hsYtcuVPgmc3QgEcKWhcGTpSdb06ok9zcKI082GW0K+AYiILII
- 1xZHj2lgCgWFCJ6gJ6jqZKPplrcFVTj5Xv1KRGWdz/6luPt7fJjGntYs3QWjfVismand
- cAUe3Dd6PTJFPrtI116Y6qvyhWDJ2Ad8Ybcu7fo3aPpQHzswhubrTLk5duXFSo+c+zzC
- JLng==
-X-Gm-Message-State: AOJu0YzjOa0SjW3hIiRqsW9LW1oafmLt0LxufQbt8wHQWcO8FQjOJhE1
- qsDF8vxM3YO82W4sXkjDPc3nU74r+eJ9Sg==
-X-Google-Smtp-Source: AGHT+IHhF9LaN3kubE12wa/Q1/CdohNcShPSp8gh5kvPO8qnqS9yArqftswDYKp4dF2WmIezKVMLgw==
-X-Received: by 2002:a05:6512:3d0c:b0:50e:a6f8:aacf with SMTP id
- d12-20020a0565123d0c00b0050ea6f8aacfmr3282849lfv.14.1704823876174; 
- Tue, 09 Jan 2024 10:11:16 -0800 (PST)
+ d=1e100.net; s=20230601; t=1704823881; x=1705428681;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=j5TmlSqr2R0DSFOwP1jgxjjJC7p4LGOYCLeSujiTr2s=;
+ b=TJmxj0Gka1SGZf/y6J1u98DXp0biBOdALYxQoeSJ5BGa7wXAWoWRqRptM9176174Tw
+ tUt1qv8AGm3fprgA2MPtKrQQMtxkHv3NbNDUE/stRulZHv/+XFD+FBG0c/AMXSJqxStg
+ +Ia7DPzs+Gxl+PfhAEuTwA49vLLw/DnpNQcxnFmgs3dLm1AcGiTtk7QyDp5V0PYeAgGz
+ uisCRqDEEED7gEbduDHGCsHWhsBPCHogu4dhJZkClVwIzrZyTKnjOCQrJ+RunCrGMx6q
+ VXcae2pp/4LZCdpA4NFSgPJfPJwoo5kZ+WB1HOPKNkbtttRIclGwSDBMgUJdfH4qqqiE
+ KBog==
+X-Gm-Message-State: AOJu0Ywl4VOdvVw2EsneEelv1kl2A4t+xveT7I08/NMySYVW1fMa8e9N
+ KQm2hltecD9xa4XsAGVswYaaTF7zQvX9BQ==
+X-Google-Smtp-Source: AGHT+IE8mUwmBNyBZAX/TyOCIvUTmkvOp0uvsitYL/5KGkF2V5MZ5MAl58F6Q1VC6O24Tg7pMyScTA==
+X-Received: by 2002:a05:600c:468b:b0:40d:8909:b3a3 with SMTP id
+ p11-20020a05600c468b00b0040d8909b3a3mr2205592wmo.20.1704823881662; 
+ Tue, 09 Jan 2024 10:11:21 -0800 (PST)
 Received: from andri-workstation.turninn.appdynamic.com
  ([2a01:8280:aa07:ad:7285:c2ff:fef0:4baf])
  by smtp.gmail.com with ESMTPSA id
- n25-20020a05600c3b9900b0040e527602c8sm2104579wms.9.2024.01.09.10.11.13
+ n25-20020a05600c3b9900b0040e527602c8sm2104579wms.9.2024.01.09.10.11.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jan 2024 10:11:15 -0800 (PST)
+ Tue, 09 Jan 2024 10:11:21 -0800 (PST)
 From: Andri Yngvason <andri@yngvason.is>
 To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
  Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
@@ -62,10 +63,13 @@ To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: [PATCH 0/7] New DRM properties for output color format
-Date: Tue,  9 Jan 2024 18:10:57 +0000
-Message-ID: <20240109181104.1670304-1-andri@yngvason.is>
+Subject: [PATCH 1/7] drm/amd/display: Remove unnecessary
+ SIGNAL_TYPE_HDMI_TYPE_A check
+Date: Tue,  9 Jan 2024 18:10:58 +0000
+Message-ID: <20240109181104.1670304-2-andri@yngvason.is>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240109181104.1670304-1-andri@yngvason.is>
+References: <20240109181104.1670304-1-andri@yngvason.is>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Tue, 09 Jan 2024 22:13:19 +0000
@@ -87,55 +91,42 @@ Cc: amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a subset of patches, originally submitted by Werner Sembach
-titled: New uAPI drm properties for color management [1]
+From: Werner Sembach <wse@tuxedocomputers.com>
 
-I've rebased against the current master branch, made modifications where
-needed, and tested with both HDMI and DP on both Intel and AMD hardware,
-using modified sway [2] and wlroots [3].
+Remove unnecessary SIGNAL_TYPE_HDMI_TYPE_A check that was performed in the
+drm_mode_is_420_only() case, but not in the drm_mode_is_420_also() &&
+force_yuv420_output case.
 
-The original patch set added the following properties:
- - active bpc
- - active color format
- - active color range
- - preferred color format
-and consolidated "Broadcast RGB" into a single property.
+Without further knowledge if YCbCr 4:2:0 is supported outside of HDMI,
+there is no reason to use RGB when the display
+reports drm_mode_is_420_only() even on a non HDMI connection.
 
-I've elected to only include active and preferred color format in this
-patch set as I've very little interest in the other properties and,
-hopefully, this will be easier for others to review.
+This patch also moves both checks in the same if-case. This  eliminates an
+extra else-if-case.
 
-[1]: https://lore.kernel.org/dri-devel/20210630151018.330354-1-wse@tuxedocomputers.com/
-[2]: https://github.com/swaywm/sway/pull/7903
-[3]: https://gitlab.freedesktop.org/wlroots/wlroots/-/merge_requests/4509
+Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+Signed-off-by: Andri Yngvason <andri@yngvason.is>
+Tested-by: Andri Yngvason <andri@yngvason.is>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-Werner Sembach (7):
-  drm/amd/display: Remove unnecessary SIGNAL_TYPE_HDMI_TYPE_A check
-  drm/uAPI: Add "active color format" drm property as feedback for
-    userspace
-  drm/amd/display: Add handling for new "active color format" property
-  drm/i915/display: Add handling for new "active color format" property
-  drm/uAPI: Add "preferred color format" drm property as setting for
-    userspace
-  drm/amd/display: Add handling for new "preferred color format"
-    property
-  drm/i915/display: Add handling for new "preferred color format"
-    property
-
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  75 ++++++++++--
- .../display/amdgpu_dm/amdgpu_dm_mst_types.c   |   8 ++
- drivers/gpu/drm/drm_atomic_helper.c           |   4 +
- drivers/gpu/drm/drm_atomic_uapi.c             |   4 +
- drivers/gpu/drm/drm_connector.c               | 111 ++++++++++++++++++
- drivers/gpu/drm/i915/display/intel_display.c  |  33 ++++++
- drivers/gpu/drm/i915/display/intel_dp.c       |  23 ++--
- drivers/gpu/drm/i915/display/intel_dp_mst.c   |  10 ++
- drivers/gpu/drm/i915/display/intel_hdmi.c     |  16 ++-
- include/drm/drm_connector.h                   |  27 +++++
- 10 files changed, 289 insertions(+), 22 deletions(-)
-
-
-base-commit: 1f874787ed9a2d78ed59cb21d0d90ac0178eceb0
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index c8c00c2a5224a..10e041a3b2545 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -5524,10 +5524,7 @@ static void fill_stream_properties_from_drm_display_mode(
+ 	timing_out->v_border_bottom = 0;
+ 	/* TODO: un-hardcode */
+ 	if (drm_mode_is_420_only(info, mode_in)
+-			&& stream->signal == SIGNAL_TYPE_HDMI_TYPE_A)
+-		timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR420;
+-	else if (drm_mode_is_420_also(info, mode_in)
+-			&& aconnector->force_yuv420_output)
++			|| (drm_mode_is_420_also(info, mode_in) && aconnector->force_yuv420_output))
+ 		timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR420;
+ 	else if ((connector->display_info.color_formats & DRM_COLOR_FORMAT_YCBCR444)
+ 			&& stream->signal == SIGNAL_TYPE_HDMI_TYPE_A)
 -- 
 2.43.0
 
