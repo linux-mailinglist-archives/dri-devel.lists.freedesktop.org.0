@@ -1,98 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD46E828F77
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 23:13:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27003828C79
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 19:22:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 655EB10E4FA;
-	Tue,  9 Jan 2024 22:13:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7FA310E4C0;
+	Tue,  9 Jan 2024 18:22:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR01-HE1-obe.outbound.protection.outlook.com
- (mail-he1eur01olkn080c.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe1e::80c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11D2F10E49B
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 18:18:50 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BtA5dqtZgq7ajr2T0iz1CIbpa22h3WDSyRAAIaIiuPTZey8zj54UlXJb3gH6EfRFd570PVce0OzdA95OKiWIKmb0DKyz37b6TLCGcaq4oddWxXq4ETZPqJ8TQgfhmLoxbBKUm0aa7Q58ikZrFoK6uJa/X05ejWAUtCYT2f0uyXnYtOUJGcHDdtg7Y0Wo/wxydpSJ6Ks5v7GWod84xtoKayOFi6bJfHU8hfN2QQe/C1BRN4XgvdbpM8cfEZHdPoAuruPpemyWWW3Fguuq3EuWGkJtSnjauT7EKYRyGQyfYpBxPiJRHKlsQWTxleqbd/wtyDIGsArap1Tc93Ijulc60Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4+MqYObgcC5vVmPv40zmt82h/Dwi/fy4DAfvZnnOOTY=;
- b=E2Qk/+XB8D/Z6gdKfZXs0bxZ1wF33tPBV3ERiA0uuSlvNJ3CaUmMVE5g2m1D0LmLMKR0AIubm+SP9t695dbIa+JOhAOoq0gXik5Yhdpf4i/tAQtU2Wb0L2gqfnNhiWrtL5CUtTridpq1n5TtkBizBmGbiVZiFfOZY/1JYcYnU4dqv6zUYL7uUJ7sbDkLORhLRqiS6Qn+Ag+T2D095zmjyfUm4iHWN9BVg2O5y/ThnJgyJrtHtcl+tH0Og/TcLugT+UcqpwcJEm5A8XLftwRGkTxohsn0Qn1qx+Dzf/yZyYV03uuOK5rs2DowESLKmhSjwL85EA09AZ3FEVgfrMlJmQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-Received: from VI1P195MB2460.EURP195.PROD.OUTLOOK.COM (2603:10a6:800:1c6::11)
- by DU0P195MB1427.EURP195.PROD.OUTLOOK.COM (2603:10a6:10:343::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.23; Tue, 9 Jan
- 2024 18:18:47 +0000
-Received: from VI1P195MB2460.EURP195.PROD.OUTLOOK.COM
- ([fe80::64ea:5df0:b540:60eb]) by VI1P195MB2460.EURP195.PROD.OUTLOOK.COM
- ([fe80::64ea:5df0:b540:60eb%6]) with mapi id 15.20.7159.020; Tue, 9 Jan 2024
- 18:18:47 +0000
-Date: Tue, 09 Jan 2024 19:18:45 +0100
-From: f380cedric <ce-ce-mel@hotmail.fr>
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
+ [IPv6:2607:f8b0:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CE4A10E4C0;
+ Tue,  9 Jan 2024 18:22:22 +0000 (UTC)
+Received: by mail-pl1-x632.google.com with SMTP id
+ d9443c01a7336-1d3f2985425so15398665ad.3; 
+ Tue, 09 Jan 2024 10:22:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1704824541; x=1705429341; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=k4A842bIbNaLxIo03lzXt0/VhyZzfulbNd4Jc/GgvJg=;
+ b=OB5sHQtLqM8i59XnerunOH83SlKcJkEd7dctDQrMyuMAVcQ+0ovoKtGjnSUoN41KHc
+ tpiRLZSgYRFhd91vq5DQZWQGqVNYb6wdKbRI/OUafwh3XigJVLnnN7p0+HPSvN6u/9yS
+ CW4m6P+e5MwyDoQFEX/F/EkKTS1TCP4DfkFQItQIzYpa9oCeyAYKCdRQ2dMvBLzMqrO6
+ d+vI7ytFynZLa/oWXa68XuN5YCEbjcuu3NsNwaf1ryf0st1PdLkibdDMaU3KNihvME8/
+ /iST5Cd8RFMUNCnmn5dqHTQNg1IqHD+EwIYP51lrh7e8UOfrxOLDAbrmGne1Sv+WNeIq
+ GVCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1704824541; x=1705429341;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=k4A842bIbNaLxIo03lzXt0/VhyZzfulbNd4Jc/GgvJg=;
+ b=eiugq47vfH/NOoiKB1YiJCfGkObbvx23My4yHNZavyVeuKxjhkfy6V5eXYdOiWuIb/
+ lHboT8F9XxO0mRlUMBcWU0Q25oEJcMhqdCEn1bnFP8D81UDAhzvbCu9E9HoEYv0ZFro8
+ gOeq/FkJcY81D+nhVgGat0kl7pxvYhnk3QIvqkCDL64K7mBT4xRsiMCzXaEDC0+0cT2n
+ E6lmzDSP56V1w9J1jd7Z5BWvOWS4OL+pSZkQBX5jQ7GdiFyXd5YPCDmOpCy6+xZ0qBQb
+ Zx4gfVyeUv3qUYDmMIOkJvtiVHXYUw7QYl69pJDw6jv80jxmBYunr6BbaQCoGITgXp6l
+ O3ow==
+X-Gm-Message-State: AOJu0YxoEobrLtPFA9V8akeTTP8nc5cQDjgQYPyno/SBThLA9xPzfb+a
+ Fg0YVN8c73HCTtFvNCWFOs7yDxGvL04=
+X-Google-Smtp-Source: AGHT+IHnNJgT4Frcmf+mu0NObp6XPVh7FkAVBM9nfEuBx/+VqBzGvs5E5OOVp4iBa8sQu9sssKuqoA==
+X-Received: by 2002:a17:903:32c3:b0:1d4:1a55:6e70 with SMTP id
+ i3-20020a17090332c300b001d41a556e70mr3390318plr.113.1704824540985; 
+ Tue, 09 Jan 2024 10:22:20 -0800 (PST)
+Received: from localhost ([2a00:79e1:2e00:1301:e1c5:6354:b45d:8ffc])
+ by smtp.gmail.com with ESMTPSA id
+ jf15-20020a170903268f00b001d3e6f58e5esm2104217plb.6.2024.01.09.10.22.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Jan 2024 10:22:20 -0800 (PST)
+From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: Lenovo b40-30 i915.invert_brightness 
-Message-ID: <VI1P195MB24600B1096F3B65D68CD99C4DE6A2@VI1P195MB2460.EURP195.PROD.OUTLOOK.COM>
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-TMN: [gUCUt3L+kmX0YnMN4leD+dTXifK7ANZ7oDpjFC7MgQTFL1TxMLdxonX0FceR/WE8N+dDiIGBtsI=]
-X-ClientProxiedBy: AM9P250CA0007.EURP250.PROD.OUTLOOK.COM
- (2603:10a6:20b:21c::12) To VI1P195MB2460.EURP195.PROD.OUTLOOK.COM
- (2603:10a6:800:1c6::11)
-X-Microsoft-Original-Message-ID: <5EF77974-3552-47FF-B86A-464314CF8F80@hotmail.fr>
+Subject: [PATCH] Revert "drm/msm/gpu: Push gpu lock down past runpm"
+Date: Tue,  9 Jan 2024 10:22:17 -0800
+Message-ID: <20240109182218.193804-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VI1P195MB2460:EE_|DU0P195MB1427:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7e49cdf1-4b56-4f91-a525-08dc113f6bb8
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zViwafR+9trYRhl8TAV3jjWEbuybSyacaljHEU7dBOOKTLEJKYvRQXfqAnmHUJ4wuAOjLfKuLuF9em3sieRDjd9Tgk/n12g46RNSXZInQuxj2vPUBwcf+XmdOI6MJVcD+TG7e1Ry7wDrzaSL2fomm6LY21nh0gxD97BVAH+GmEqFu0eGA3NjKi6cADYIfEn9gVzgbpy2P9re3CNGH1lHMh9W+z+Ie6bKiTC2+pvFjvYXv7gPTabdevLiuS8Uwi/3SMVrlON/GzGdENbmxmVesXVsAJqoJePnvnOu0GFYE3OiLdYjsC3obPpoVNfIBi81pz32O1FJTSPo1XSEcZt0YG9gSHgqUBYk7GFqfmWP/uk3YW+517fR7/MeYIM7KU2mKLGrLKfX8i9Pw05w/VzMHuHtOVzEMU631gXQRLN61ZLWNZRN7Fka3ebXv4BWSGcq/9qFSOGtdQjDMGLaqN+pqz+muYl/U+1fYwIarxCYdk/lsO05sIYK6QcFJjsOkXo/DbqzH42UDCIUZIIfp5YInG6wZvrQj8ZKrCWHidXu/1JpdOEHY3Ya4wHovwjiRwWl
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZUc2VnBkV0JpZ2FJZlBYc28wMVlCSzJrNk5DSmd3dEtXamtFUFpLRHQzTE90?=
- =?utf-8?B?K1dUbThIbjByc0toR0J5OXBYK3VuU21adGFpTGswczBBeUpGbTNYZGVGbHor?=
- =?utf-8?B?YUVkT0JwZTZwZmdaTVNxQWI5R3ZrSzBRMjlkNlJpcDQ4SUNxdGQ1TWlwSGpT?=
- =?utf-8?B?dDlycGtDbmU3a0JMZTU3Z25ZUURucDdteGNUR29iQVdkcjJwTTJhTFlNeVl2?=
- =?utf-8?B?QXc1Tlh2bUNUbEtPN2prbk9kUW5STUhuUURhN0VsbUhSVU1KcllHRkhpVTBs?=
- =?utf-8?B?RmJzOGM0YW5qaUFhang3Vm1objY5ektNRDR4VDFoZ09MSXMyVGo4WWhXaUVY?=
- =?utf-8?B?U3ZMZEVaQThlTmp2U1I4eHR6ZE8wcmZaZDMzcXJVTmMrSTlFSDlGNVhQeUg0?=
- =?utf-8?B?bXUxUWZNaGtKaUlPM2R5U2w5MExMQ3BLOHBzS2dwSHBnaGVwYUhRejlRYTNn?=
- =?utf-8?B?eDVDQ2ZwYjJVb2dUdTNXQnZLS1FVSVcvL0JEdDR3TlQ2bmFiL0EvMjJMSndE?=
- =?utf-8?B?aGt5aHNmUE1QMEVHS05ZelJPR2pZV1Nmd0xFakdlR2dmeXgzMGx0OE1yZjdo?=
- =?utf-8?B?RlNEK25ZaUM3VmV2MEowYjVkaFVob3pjUkdieHI2NXBIN0lTNlQxQmFtdXBi?=
- =?utf-8?B?dlVmTmJRQThvb1RhWkVmZVVJd0Y3bVBreWpOd1ZEN0RGMXFuaVdYNkxsTkFU?=
- =?utf-8?B?RXZkc2lMMExHRjZoWjg4Rjd2TTNUUW9lZTNNVEowcG56bnlHTGd4dERadkgv?=
- =?utf-8?B?aXprcC94a2Z6aE1XcmhWUER6czQvd0ozR2FyT2pPaHFzVlg1VC9IZlljL3Vs?=
- =?utf-8?B?d3AyQ1k4dFgyYXFNQmxBeW9mbWpuQzc3Y2pnQnpsK1BudUdwUjNIalpLVkxj?=
- =?utf-8?B?S1hOaG4yelN0NTVTMmIySzJ2bU1GNFZrcUhaUDdweXBCdmo4TFZZdTM4WWNw?=
- =?utf-8?B?am5xQjNoMUNmandhU2IvcW1mODEwUjROamFHN2NxZHhBYWxaS3JNWVRycWdM?=
- =?utf-8?B?S1grNTIrd3A5d2RmeWllVjlOb09wdFo1MWtKVExEaGI5eU4zcDBLazU4NEhM?=
- =?utf-8?B?YjdYcmVtTEluM05vQkIwZkRUSmc1VnNPU0JORnMrdFp5WHZqa0lCTUJsblZr?=
- =?utf-8?B?SUVuVkV4WXhRRTNmcU9zd3BYTWJObWtWUGFHb1krZjM5UWRkbXVLUEZncVJo?=
- =?utf-8?B?L3dRaTRuS3VyWWJOM1NGUjlzenVxN0FnR3dKcGx6by94WGNndUk4eG1iNER0?=
- =?utf-8?B?U2tUL2txdXN0Qnowam9YQmMvQjFXZkpqSmdwUzNselV1cjJoaWxwUmhwWElB?=
- =?utf-8?B?Z2pOOVcrVXVHbFYxdE1DVFVGaXJYMXNoS1dmQTZrRVpENUhNMllDYm9YYjVU?=
- =?utf-8?B?NWF0WjZJQkdIQ3ZHa1ZmcGJiUndXcDZZZmtUaHRHWEVLYjZyUlJaS01qWENV?=
- =?utf-8?B?aEZVTnpDWDJvcDA2NHF2VktKRzhBRFJVUnBBWTVkRGYvMHo5WGo0NGRaUmNG?=
- =?utf-8?B?QXIwcUs3VjI1bU5jb0tHSkMzM2RXSk1peUsrb2dNTGprVWhYOFVJUVJNdzln?=
- =?utf-8?B?TDZaMmhscmNWVEVySXVHK255ckFkUkxsdkpENUJNNlplMXdpMlpUSUp3a2p6?=
- =?utf-8?B?VzRheVpibVEzdk9LUFNPaHAwQlIrMXNXRFdXOXYyWWdFUDBzYVBqUUkxZk9Y?=
- =?utf-8?B?dlZ4S1cyY1lKNUlHb2V2bStBd1FqaGVTN25EV3MwZktacyt6NEU3OGcvWGNC?=
- =?utf-8?Q?i4ea7Qrl/cTfiz00X4=3D?=
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-49ed2.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7e49cdf1-4b56-4f91-a525-08dc113f6bb8
-X-MS-Exchange-CrossTenant-AuthSource: VI1P195MB2460.EURP195.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jan 2024 18:18:47.2612 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0P195MB1427
-X-Mailman-Approved-At: Tue, 09 Jan 2024 22:13:19 +0000
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,16 +70,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dear maintainers,
+From: Rob Clark <robdclark@chromium.org>
 
-I have a Lenovo b40-30 that I have been running with nomodeset for a while.
-The issue was that it needed invert_brightness. Here are the requested IDs:=
- 0f31, 17aa, 3986 :).
+This reverts commit abe2023b4cea192ab266b351fd38dc9dbd846df0.
 
-N.B.: I am not subscribed, please Cc me when replying.=20
+Changing the locking order means that scheduler/msm_job_run() can race
+with the recovery kthread worker, with the result that the GPU gets an
+extra runpm get when we are trying to power it off.  Leaving the GPU in
+an unrecovered state.
 
-Best regards,
-C=C3=A9dric=20
+I'll need to come up with a different scheme for appeasing lockdep.
+
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/msm_gpu.c        | 11 +++++------
+ drivers/gpu/drm/msm/msm_ringbuffer.c |  7 +++++--
+ 2 files changed, 10 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+index 095390774f22..655002b21b0d 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.c
++++ b/drivers/gpu/drm/msm/msm_gpu.c
+@@ -751,12 +751,14 @@ void msm_gpu_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+ 	struct msm_ringbuffer *ring = submit->ring;
+ 	unsigned long flags;
+ 
+-	pm_runtime_get_sync(&gpu->pdev->dev);
++	WARN_ON(!mutex_is_locked(&gpu->lock));
+ 
+-	mutex_lock(&gpu->lock);
++	pm_runtime_get_sync(&gpu->pdev->dev);
+ 
+ 	msm_gpu_hw_init(gpu);
+ 
++	submit->seqno = submit->hw_fence->seqno;
++
+ 	update_sw_cntrs(gpu);
+ 
+ 	/*
+@@ -781,11 +783,8 @@ void msm_gpu_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+ 	gpu->funcs->submit(gpu, submit);
+ 	gpu->cur_ctx_seqno = submit->queue->ctx->seqno;
+ 
+-	hangcheck_timer_reset(gpu);
+-
+-	mutex_unlock(&gpu->lock);
+-
+ 	pm_runtime_put(&gpu->pdev->dev);
++	hangcheck_timer_reset(gpu);
+ }
+ 
+ /*
+diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.c b/drivers/gpu/drm/msm/msm_ringbuffer.c
+index e0ed27739449..548f5266a7d3 100644
+--- a/drivers/gpu/drm/msm/msm_ringbuffer.c
++++ b/drivers/gpu/drm/msm/msm_ringbuffer.c
+@@ -21,8 +21,6 @@ static struct dma_fence *msm_job_run(struct drm_sched_job *job)
+ 
+ 	msm_fence_init(submit->hw_fence, fctx);
+ 
+-	submit->seqno = submit->hw_fence->seqno;
+-
+ 	mutex_lock(&priv->lru.lock);
+ 
+ 	for (i = 0; i < submit->nr_bos; i++) {
+@@ -35,8 +33,13 @@ static struct dma_fence *msm_job_run(struct drm_sched_job *job)
+ 
+ 	mutex_unlock(&priv->lru.lock);
+ 
++	/* TODO move submit path over to using a per-ring lock.. */
++	mutex_lock(&gpu->lock);
++
+ 	msm_gpu_submit(gpu, submit);
+ 
++	mutex_unlock(&gpu->lock);
++
+ 	return dma_fence_get(submit->hw_fence);
+ }
+ 
+-- 
+2.43.0
+
