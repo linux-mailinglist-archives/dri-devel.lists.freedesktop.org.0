@@ -1,71 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ADD98281A6
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 09:34:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6598828220
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 09:41:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4124610E3B1;
-	Tue,  9 Jan 2024 08:34:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9781110E3A5;
+	Tue,  9 Jan 2024 08:41:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A45B810E398;
- Tue,  9 Jan 2024 08:34:21 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id
- 5b1f17b1804b1-40e4f7119eeso3099775e9.1; 
- Tue, 09 Jan 2024 00:34:21 -0800 (PST)
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com
+ [IPv6:2607:f8b0:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 451B310E3A5
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 08:41:01 +0000 (UTC)
+Received: by mail-pg1-x52b.google.com with SMTP id
+ 41be03b00d2f7-5cdfbd4e8caso2002698a12.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 00:41:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1704789260; x=1705394060; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=3YGwl375Lp2NNLBp7zhtQjo0BnEm9qfsqG+R+PAs65Y=;
- b=RvWcYOjpYcIn4p4hOrFzldi0IP/cqKBl8ArhATl2SXagWP19GJ3bD88XvUVrOUTHN0
- 686rEpAeyjuxD34S9+eXU6hxwxHmi5GofwK7mDOQ6iXt/hit7BlpyTtR7OIN20Avowv3
- n+EKx/qLShecgc3XOOTg+lKbaqzxFGys6ERBtQ81KqDXu1rSK/r8Wol/fWhfLIzi4eIb
- R/vfO2cf9axkH40cDT4AN1FsfjA6AzJ/EqJvfZPhr1O3fEjpMabBs4mT2RHAoL0M26g1
- JBa3m1tKItMfAGXELy+9xznJhKO9ZG18ygmTx4/HStgH86yxgW7gfJf1CBQ/kY4eWzEy
- pKwg==
+ d=broadcom.com; s=google; t=1704789661; x=1705394461;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=9wYpp3OYvmWsAtzJnbqql3qjVLEUjHL49vz1VsGi0Ho=;
+ b=CcURnpkulb7+06JxQbDzZ2BxdX6bTOPQ55nJBERrN0bcfrYStAm8I+C01Ks5ElG9GX
+ atthgvFZPnLE2uAXXeiS6VTYniXaFL4pTLlW7E7T8GdxPjxukj+lZ/McVaIujNUmMh36
+ jOmZU/nMvmQ7JHIlqZfjoT8ZS2dXmgGv9p73w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704789260; x=1705394060;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3YGwl375Lp2NNLBp7zhtQjo0BnEm9qfsqG+R+PAs65Y=;
- b=nj4UNSLcIMbMcWc/5PL4Elo6oF29qOWZA5cxzOOSuAHumntHcqm9ywI6ydYr/pNw0c
- z2yleUp6uYaZr9LGBZa+xl0ebT22wFDstd+8Vk4r2lZfV69ha8uubEAuRlnMcwMSVgjH
- 4yLmjgfMqyJQR3FR+Ciw6RFS2ahMNMlp2Ls46cEgtGvenNoXxhhw6+7Gz+Qnx1gPkNhx
- QczzjJzP9/TA9JCHa5aB9ZbEZDHkBNBaRzR/H0UGteK8MUXw8IJOfsRhroi2f/Dd7kTT
- usgLy5f83lmoky30BcQWeRIlNCUD7ISreootAWgc1YN3khtuyZoXWz7HdxsbRlC9WAmL
- 74NQ==
-X-Gm-Message-State: AOJu0YyxSsu71NcjxWzUUWmV036F/SsgkpQFREsnSdjzYpjeTsDntyL8
- dgR4NeVhU6vmDSzRhnJJFXaMx2D7ld4=
-X-Google-Smtp-Source: AGHT+IH9uU5FYn/hx5pejffF/o/AB6v9PgXWJhqOoc4vJ1uvrzcd7P6Lfh9aQNlgULSSSxGJLIPHtQ==
-X-Received: by 2002:a05:600c:4587:b0:40e:50ac:d24e with SMTP id
- r7-20020a05600c458700b0040e50acd24emr213842wmo.13.1704789259806; 
- Tue, 09 Jan 2024 00:34:19 -0800 (PST)
-Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
+ d=1e100.net; s=20230601; t=1704789661; x=1705394461;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9wYpp3OYvmWsAtzJnbqql3qjVLEUjHL49vz1VsGi0Ho=;
+ b=IPKrMEXoGHJQ9PMZnV/JIgqxNj2zZg8J0HV7r7un8mT4/2NamTf+VDBEhbdVBfNx9C
+ TlfvxexLuny+FqISuTRbg70IS6C5GlOgpXJBGfA4eBSNfi5VoFiL2si0MAS2slE3bc9v
+ 1fmeesb0ay+yuBaA4dOnjRODgtz+FF+aEWsXpAd9UOnmGJ7708/fY3yemCJ121gmoZKb
+ GiAvLaUy5sUKb+GDE90aZEk6N0l+Vv2XJHvOxjd//+CLdZNAih7oX4a0Orm7NCdPDdxP
+ fWRkQ6aN+BT8lUTSEmQyF40T6Faw3OAlYodUUCSJw1OQjhDQ0ZLvd0AmAsNytYJ96Sy6
+ ULtg==
+X-Gm-Message-State: AOJu0Yx4H5WKl+0BDNnKirLy4j7Id+uLCnkXWPHwYhtKxpUzrs5CIWLM
+ cNlKtmJUuig/lVA35UCKPYwWVcu/aXBY
+X-Google-Smtp-Source: AGHT+IGDNGili/eLI8MrSuIhgm8F/yz/d9X4r6v9ZFf88z3SxEXpihXxyC9q87KVaZRg+wy02GCoCA==
+X-Received: by 2002:a05:6a20:1446:b0:199:c5b5:8f18 with SMTP id
+ a6-20020a056a20144600b00199c5b58f18mr2129019pzi.14.1704789660801; 
+ Tue, 09 Jan 2024 00:41:00 -0800 (PST)
+Received: from amakhalov-build-vm.eng.vmware.com ([128.177.82.146])
  by smtp.gmail.com with ESMTPSA id
- hn25-20020a05600ca39900b0040d91fa270fsm2559527wmb.36.2024.01.09.00.34.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Jan 2024 00:34:19 -0800 (PST)
-Message-ID: <6eff58f4-7956-47cf-9a66-92456d5577d3@gmail.com>
-Date: Tue, 9 Jan 2024 09:34:17 +0100
+ sf15-20020a17090b51cf00b0028d435cc2cbsm4772293pjb.15.2024.01.09.00.40.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Jan 2024 00:41:00 -0800 (PST)
+From: Alexey Makhalov <alexey.makhalov@broadcom.com>
+X-Google-Original-From: Alexey Makhalov <amakhalov@vmware.com>
+To: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev, bp@alien8.de,
+ hpa@zytor.com, dave.hansen@linux.intel.com, mingo@redhat.com,
+ tglx@linutronix.de
+Subject: [PATCH v6 0/7] VMware hypercalls enhancements
+Date: Tue,  9 Jan 2024 00:40:45 -0800
+Message-Id: <20240109084052.58661-1-amakhalov@vmware.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Rework TTMs busy handling
-Content-Language: en-US
-To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- zack.rusin@broadcom.com, lyude@redhat.com, kherbst@redhat.com,
- jani.nikula@linux.intel.com, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20240109074729.3646-1-christian.koenig@amd.com>
- <70484d976d3af4286652a6b26ed8783a9362f403.camel@linux.intel.com>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <70484d976d3af4286652a6b26ed8783a9362f403.camel@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,58 +71,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dmitry.torokhov@gmail.com, tzimmermann@suse.de, pv-drivers@vmware.com,
+ netdev@vger.kernel.org, richardcochran@gmail.com, x86@kernel.org,
+ dri-devel@lists.freedesktop.org, horms@kernel.org, akaher@vmware.com,
+ timothym@vmware.com, linux-graphics-maintainer@vmware.com, mripard@kernel.org,
+ jsipek@vmware.com, linux-input@vger.kernel.org, namit@vmware.com,
+ kirill.shutemov@linux.intel.com, zackr@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 09.01.24 um 09:14 schrieb Thomas Hellström:
-> Hi, Christian
->
-> On Tue, 2024-01-09 at 08:47 +0100, Christian König wrote:
->> Hi guys,
->>
->> I'm trying to make this functionality a bit more useful for years now
->> since we multiple reports that behavior of drivers can be suboptimal
->> when multiple placements be given.
->>
->> So basically instead of hacking around the TTM behavior in the driver
->> once more I've gone ahead and changed the idle/busy placement list
->> into idle/busy placement flags. This not only saves a bunch of code,
->> but also allows setting some placements as fallback which are used if
->> allocating from the preferred ones didn't worked.
->>
->> Zack pointed out that some removed VMWGFX code was brought back
->> because
->> of rebasing, fixed in this version.
->>
->> Intel CI seems to be happy with those patches, so any more comments?
-> Looks like Xe changes are missing? (xe is now in drm-tip).
->
-> I also have some doubts about the naming "idle" vs "busy", since an
-> elaborate eviction mechanism would probably at some point want to check
-> for gpu idle vs gpu busy, and this might create some confusion moving
-> forward for people confusing busy as in memory overcommit with busy as
-> in gpu activity.
->
-> I can't immediately think of something better, though.
+VMware hypercalls invocations were all spread out across the kernel
+implementing same ABI as in-place asm-inline. With encrypted memory
+and confidential computing it became harder to maintain every changes
+in these hypercall implementations.
 
-Yeah, I was wondering about that as well. Especially since I wanted to 
-add some more flags in the future when for example a bandwidth quota how 
-much memory can be moved in/out is exceeded.
+Intention of this patchset is to introduce arch independent VMware
+hypercall API layer other subsystems such as device drivers can call
+to, while hiding architecture specific implementation behind.
 
-Something like phase1, phase2, phase3 etc..., but that's also not very 
-descriptive either.
+Second patch introduces the vmware_hypercall low and high bandwidth
+families of functions, with little enhancements there.
+Sixth patch adds tdx hypercall support
 
-Going to take a look at XE as well, thanks for the notice.
+arm64 implementation of vmware_hypercalls is in drivers/gpu/drm/
+vmwgfx/vmwgfx_msg_arm64.h and going to be moved to arch/arm64 with
+a separate patchset with the introduction of VMware Linux guest
+support for arm64.
 
-Regards,
-Christian.
+No functional changes in drivers/input/mouse/vmmouse.c and
+drivers/ptp/ptp_vmw.c
 
->
-> /Thomas
->
->
->> Regards,
->> Christian.
->>
->>
+v5->v6 change:
+- Added ack by Kirill A. Shutemov in patch 7. 
+
+v4->v5 changes:
+  [patch 2]:
+- Fixed the problem reported by Simon Horman where build fails after
+  patch 2 application. Do not undefine VMWARE_HYPERCALL for now, and
+  update vmwgfx, vmmouse and ptp_vmw code for new VMWARE_HYPERCALL macro.
+- Introduce new patch 6 to undefine VMWARE_HYPERCALL, which is safe to do
+  after patches 3 to 5.
+- [patch 7 (former patch 6)]: Add missing r15 (CPL) initialization.
+
+v3->v4 changes: (no functional changes in patches 1-5)
+  [patch 2]:
+- Added the comment with VMware hypercall ABI description.
+  [patch 6]:
+- vmware_tdx_hypercall_args remove in6/out6 arguments as excessive.
+- vmware_tdx_hypercall return ULONG_MAX on error to mimic bad hypercall
+  command error from the hypervisor.
+- Replaced pr_warn by pr_warn_once as pointed by Kirill Shutemov.
+- Fixed the warning reported by Intel's kernel test robot.
+- Added the comment describing VMware TDX hypercall ABI.
+
+v2->v3 changes: (no functional changes in patches 1-5)
+- Improved commit message in patches 1, 2 and 5 as was suggested by
+  Borislav Petkov.
+- To address Dave Hansen's concern, patch 6 was reorganized to avoid
+  exporting bare __tdx_hypercall and to make exported vmware_tdx_hypercall
+  VMWare guest specific.
+
+v1->v2 changes (no functional changes):
+- Improved commit message in patches 2 and 5.
+- Added Reviewed-by for all patches.
+- Added Ack from Dmitry Torokhov in patch 4. No fixes regarding reported
+  by Simon Horman gcc error in this patch.
+
+Alexey Makhalov (7):
+  x86/vmware: Move common macros to vmware.h
+  x86/vmware: Introduce VMware hypercall API
+  ptp/vmware: Use VMware hypercall API
+  input/vmmouse: Use VMware hypercall API
+  drm/vmwgfx: Use VMware hypercall API
+  x86/vmware: Undefine VMWARE_HYPERCALL
+  x86/vmware: Add TDX hypercall support
+
+ arch/x86/include/asm/vmware.h             | 364 ++++++++++++++++++++--
+ arch/x86/kernel/cpu/vmware.c              | 117 +++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg.c       | 173 ++++------
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg_arm64.h | 197 ++++++++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg_x86.h   | 185 -----------
+ drivers/input/mouse/vmmouse.c             |  76 ++---
+ drivers/ptp/ptp_vmw.c                     |  12 +-
+ 7 files changed, 599 insertions(+), 525 deletions(-)
+
+-- 
+2.39.0
 
