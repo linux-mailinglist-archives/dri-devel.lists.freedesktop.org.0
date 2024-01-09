@@ -1,66 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 046CA828CC1
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 19:41:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3364828CEA
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 19:55:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 985B110E499;
-	Tue,  9 Jan 2024 18:41:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DC8710E4B1;
+	Tue,  9 Jan 2024 18:55:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE4F210E499
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 18:41:53 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id
- 2adb3069b0e04-50e741123acso3474027e87.0
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 10:41:53 -0800 (PST)
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C60710E4DD
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 18:55:41 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id
+ ffacd0b85a97d-33748c4f33dso3197708f8f.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 10:55:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1704825712; x=1705430512; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1704826539; x=1705431339; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=b3kY/sI+OewHLdAt8Sws7SovwxQjp4vZRhkHLuCSn/w=;
- b=nWN9LZ5xIea9OzmCVwdTinLaMrX6k4sC5Wjc4mY5tnEjPTYcW8IQDX8j79dzHmb64Z
- n6bSNKKut5Ipd+qr9WCImA38T2BM4dtEfautNwqGmm2aDPZRiMBl8i5i1rqhLDQaxENR
- psFVHjNVls1cr4oQaE+u8zkvsP9FISA4ws4ek0JeFpH+iUh/0CZ8I7ezpp1e9rDAmtnO
- 2DCiOBCw9rkQNvSw68gHS+Gk+Av9eEn+6F0kbFgFW+4DBPMQ77hItbTrWfs/rmyBJQUF
- a8Wjqe5mYjkXADrARUoTexfhMWUok8l6uWmJD9D9+Ohbi0qs4c1+1wd8DzzFlh+gE+Sa
- MHZA==
+ bh=NWh6hyAdEMpLC3XljE3TgcSD5MsEWlwu8VQ7rLtDsgA=;
+ b=XT2rMpZmkIVeE/10tIcviy4nHZDgjBhXY+u50TcPSxmWQSN6vd9CjpENRzBcx6GhRp
+ 3oWKaAn07I8PJgLQvErfKpwEK24NVYmMO34PUZ2H9zoc7yxHhAyOW2OU1tVV9gVKB4IQ
+ oz4PR2K0xApYhipjd2i6STY9Pj4Lvs3h/A7M4YAjUfwUPjmoLSK1Jp0DNVf6ImH1j+l2
+ nTlAdsrOKkH2bhJXnB0Pznibki1AjrvN/LTv1K8jxoFxIUF8PwsY0lVg47phNmCO/fcd
+ 7go10kV0vYUbD+L/+NwZ4Gc1qYuXd9s/yw82AieLv5Ycs/UbPNfCpFuWDAdpd5N3zCuk
+ w5vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704825712; x=1705430512;
+ d=1e100.net; s=20230601; t=1704826539; x=1705431339;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=b3kY/sI+OewHLdAt8Sws7SovwxQjp4vZRhkHLuCSn/w=;
- b=BFiOpgafRTHhp6HgZGiRYwhPvJ38xNIu0+uF2zG9wbbLAlgyWEhrDJEuCsJmn/medO
- 4fARhrfkTssiUuBd46IFq553WnFYqWk5HzYLHHhcBAQhCEFUvoPbcqpWQb3AH1/8mXgL
- Bq41/zyLA7/fcxDnGrjhGzjzfdE0/vhPlavUX4CY7gXXKZJfcjG6aPYc+wt1EuaTAF1l
- a+4SIXSWCQ+/wjamPXFiLcWOHNAkxEwU7bpjFBlprY1TE7GWYzY1m4ALoezNBHzsXNIa
- 7qcs1yAbSdW3JnPa3B/6gk38SOmSvh6OMdhI3pjlZLXSBH+/Z0tx+lvvYs01mY74cYo1
- 3QRw==
-X-Gm-Message-State: AOJu0Yw4s6OKd7puCXJykndrmdpBlHJgCEJnse/gcFKQ219f2WpdAkEW
- DCF9F6gRE8NJ1PuI6Y8NqS/KHb7oC3/k0A==
-X-Google-Smtp-Source: AGHT+IEIf5y9iCXRqGeQfwB4wQA61OuNMht8Vp0eJHsbfT3YBU5W1VDHv2z3upGwadxw7MEo4SYUBA==
-X-Received: by 2002:a19:8c0a:0:b0:50e:7c08:4350 with SMTP id
- o10-20020a198c0a000000b0050e7c084350mr2353230lfd.42.1704825711996; 
- Tue, 09 Jan 2024 10:41:51 -0800 (PST)
+ bh=NWh6hyAdEMpLC3XljE3TgcSD5MsEWlwu8VQ7rLtDsgA=;
+ b=rBuqDpTMgLbGI88XVEui6fRaLjXeilxncvvtabATilBrYJcJ2uNGuce7IW9XZ3pG3l
+ FehxtM+nmmmHqhipnG9chGoXAQ/o5mf2XtrI0Rrx+OIUAuzrGJE7P+NPvgSzaIBW2Pvq
+ CMdiuR9FPw3K/7siFih/UKFODWMvXWpyg96SfefYiGhNrL45EhDXSrFoGr7J5DKfjHcm
+ nSmdyzKikjl8fF9hMN6drsTzqAjPTY1G9D+nx1FrklHUu032H2vDvfYrKIoqrcp+QZgf
+ jzrewRBwkYEknP7YdIU8r1GdLCIUuVxt8h1NMhuEYdNYChoA07tpTouxwKwrYzcflhyf
+ 9SHw==
+X-Gm-Message-State: AOJu0YwVpKh1qDRLMlBhBsbYSAlHtOXKtTyjMZYKYyg/wUPae9I8+e3I
+ hEfUJLtFm4K1TZGruZFprPC9pXvt1EMHhg==
+X-Google-Smtp-Source: AGHT+IHySsR0qtpechXO4HO8+MsX4gGwyVA6uh8K4hyu/jDrx6Y3Qmop4nCleEaNSJ03IeVJJ2yjNQ==
+X-Received: by 2002:adf:f2ca:0:b0:336:615e:7599 with SMTP id
+ d10-20020adff2ca000000b00336615e7599mr796973wrp.32.1704826539571; 
+ Tue, 09 Jan 2024 10:55:39 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.223.112])
  by smtp.gmail.com with ESMTPSA id
- h22-20020a170906719600b00a2b9a6f1e9dsm242124ejk.10.2024.01.09.10.41.47
+ c2-20020adfe742000000b003366a9cb0d1sm3066475wrn.92.2024.01.09.10.55.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Jan 2024 10:41:51 -0800 (PST)
-Message-ID: <3666744f-0d34-477e-83bf-737ed7a4c230@linaro.org>
-Date: Tue, 9 Jan 2024 19:41:47 +0100
+ Tue, 09 Jan 2024 10:55:38 -0800 (PST)
+Message-ID: <291ca046-c034-48a8-93d8-c4cb1cdfaf20@linaro.org>
+Date: Tue, 9 Jan 2024 19:55:36 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [DO NOT MERGE v6 04/37] dt-bindings: interrupt-controller: Add
- header for Renesas SH3/4 INTC.
+Subject: Re: [PATCH RFC v2 01/11] dt-bindings: gpu: Rename img,powervr to
+ img,powervr-rogue
 Content-Language: en-US
-To: Yoshinori Sato <ysato@users.sourceforge.jp>, linux-sh@vger.kernel.org
-References: <cover.1704788539.git.ysato@users.sourceforge.jp>
- <b9cea5b530a6d68ea921174fbbda60afb8dd4432.1704788539.git.ysato@users.sourceforge.jp>
+To: Andrew Davis <afd@ti.com>, Frank Binns <frank.binns@imgtec.com>,
+ Donald Robson <donald.robson@imgtec.com>,
+ Matt Coster <matt.coster@imgtec.com>,
+ "H . Nikolaus Schaller" <hns@goldelico.com>, Adam Ford <aford173@gmail.com>,
+ Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, =?UTF-8?Q?Beno=C3=AEt_Cousson?=
+ <bcousson@baylibre.com>, Tony Lindgren <tony@atomide.com>,
+ Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Tero Kristo <kristo@kernel.org>, Paul Cercueil <paul@crapouillou.net>
+References: <20240108183302.255055-1-afd@ti.com>
+ <20240108183302.255055-2-afd@ti.com>
+ <c99b898f-61d2-46a3-b639-b4de828dcab1@linaro.org>
+ <4cdd5c4a-f940-4635-837b-872ab776f5c4@ti.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -106,7 +122,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <b9cea5b530a6d68ea921174fbbda60afb8dd4432.1704788539.git.ysato@users.sourceforge.jp>
+In-Reply-To: <4cdd5c4a-f940-4635-837b-872ab776f5c4@ti.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -121,56 +137,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
- linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Bin Meng <bmeng@tinylab.org>,
- Michael Turquette <mturquette@baylibre.com>, linux-pci@vger.kernel.org,
- Jacky Huang <ychuang3@nuvoton.com>, Palmer Dabbelt <palmer@rivosinc.com>,
- linux-kernel@vger.kernel.org, Max Filippov <jcmvbkbc@gmail.com>,
- Lee Jones <lee@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Hyeonggon Yoo <42.hyeyoo@gmail.com>, Jiri Slaby <jirislaby@kernel.org>,
- linux-clk@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Baoquan He <bhe@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Helge Deller <deller@gmx.de>, Daniel Lezcano <daniel.lezcano@linaro.org>,
- Magnus Damm <magnus.damm@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-serial@vger.kernel.org,
- David Rientjes <rientjes@google.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Maxime Ripard <mripard@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
- Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- Chris Morgan <macromorgan@hotmail.com>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@linutronix.de>,
- Vlastimil Babka <vbabka@suse.cz>, Yang Xiwen <forbidden405@foxmail.com>,
- Sergey Shtylyov <s.shtylyov@omp.ru>, linux-ide@vger.kernel.org,
- Stephen Boyd <sboyd@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Biju Das <biju.das.jz@bp.renesas.com>,
- Sebastian Reichel <sre@kernel.org>, Azeem Shaikh <azeemshaikh38@gmail.com>,
- linux-renesas-soc@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>,
- Andrew Morton <akpm@linux-foundation.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ linux-omap@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/01/2024 09:23, Yoshinori Sato wrote:
-> Renesas SH7751 Interrupt controller priority register define.
+On 09/01/2024 17:14, Andrew Davis wrote:
+> On 1/9/24 5:28 AM, Krzysztof Kozlowski wrote:
+>> On 08/01/2024 19:32, Andrew Davis wrote:
+>>> Signed-off-by: Andrew Davis <afd@ti.com>
+>>> ---
+>>>   .../bindings/gpu/{img,powervr.yaml => img,powervr-rogue.yaml} | 4 ++--
+>>>   MAINTAINERS                                                   | 2 +-
+>>>   2 files changed, 3 insertions(+), 3 deletions(-)
+>>
+>> If you are renaming it, why not renaming to match compatible as we
+>> usually expect?
+>>
 > 
+> There are (or will be) multiple compatible strings described in this
+> file, naming the file after just one would not fully convey the content
+> of the file. This generic style naming seems common already for bindings
+> with multiple compatibles.
 
-Still not a binding.
-
-Some parts of my comments are implemented, others are just ignored
-(dropping the file, fixing full stop in commit msg). This is confusing.
-I don't know. Shall I just NAK it to make it clear?
-
-NAK
+I saw only one compatible used as fallback. Where are more?
 
 Best regards,
 Krzysztof
