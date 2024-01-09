@@ -2,50 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB890828F97
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 23:17:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEF71828FF9
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 23:32:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5259D10E533;
-	Tue,  9 Jan 2024 22:16:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F27B10E531;
+	Tue,  9 Jan 2024 22:32:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78FFB10E530;
- Tue,  9 Jan 2024 22:16:55 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id DD333615A4;
- Tue,  9 Jan 2024 22:16:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7695CC4163A;
- Tue,  9 Jan 2024 22:16:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1704838614;
- bh=WEn5lTrzAXiM29oFJTOtG7WGsQHyaE8VVcpnTQ825es=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=Zq8ocN8Gt1fqJMhJwOXYGLVh0X0nGl41KS8W4md+yRdfItGW8fNnP0aRYm/3H6lAl
- RS27Py+YNnR5kRSt+po4oAHAEWb8VCZ4plTxJ9tHH89qCRyg2dtoAWNC5e5An5dSZU
- +JzvfWbNjxCnZsb1JPhcCIyg8HTq07RwbIKmHE5PbUgHpl62LhEW99qTUmRwlC4XUj
- tFxwc5+m00o10eK3MDOXqDhJvrk7QWYLW9omp+MinaN9zQ5+dIOI1juTAcz3K/C2/p
- 3/ZPyl9rbEDTjpogg6clozkMlc/fZuaj5iit9sPEM6FYdXPBAs73lpQUDVYHldIsnX
- 4xjPgJS1qq3mQ==
-From: Nathan Chancellor <nathan@kernel.org>
-Date: Tue, 09 Jan 2024 15:16:31 -0700
-Subject: [PATCH 3/3] treewide: Update LLVM Bugzilla links
+Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com
+ [IPv6:2607:f8b0:4864:20::72c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2927A10E531
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 22:32:31 +0000 (UTC)
+Received: by mail-qk1-x72c.google.com with SMTP id
+ af79cd13be357-7831806c51bso282155785a.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 14:32:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20230601.gappssmtp.com; s=20230601; t=1704839550; x=1705444350;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=ynsR4nnFEaZADpxDZxOiLIugSOI6RO8hBMHt22YNR9I=;
+ b=celG7Btyc44T7hplGSCaQyHNuGCtEgipm73fSr5ULBkjVb8tAWFmsrq5uAjZoedcqv
+ gFwgmL6Jps1SaZWKM6k2DIRtwuSneaNuTrXlMZGUwQu7SUkGQZ+2pCadLoNOaZhN/Tuj
+ 4hkjIhHTUWklYGdD6zbtA5+t0Fb3ZyO4LHOtsCXkyIgDZevu9n1+VWEn3ADMGizp5Fsv
+ k5xh7/aE3UN2aTSzAbE/B1NCvGVO5IWJQGHIkQsqhR/JD5dnxup+5irGEFqxUKR/bZlJ
+ ZZH6D1D3XNOtFvHrkfpsX9Kgrp+xXo8OruO0N/ogS50EK2ZIaQcicMkSQAP3sYalFOU+
+ PuAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1704839550; x=1705444350;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ynsR4nnFEaZADpxDZxOiLIugSOI6RO8hBMHt22YNR9I=;
+ b=uD0Rz7Aj6hjiMj4TmyrFRtCIiJFxfNnEnnvGq3eltQKseDYKU3T1qj+5DcRKilzk0L
+ YYrtlg+5DIgAWt2xI+2okxjbn7XfBgMiJu9eNHJXgRS+r72jhd9vdO58AOg/B08H5j7M
+ zyTIS+WuTWI8tnRAhEz0PeSQQLKbOn/glScXn2xDykkXA7zwaSCfC77G0ISoztX4wlfu
+ 74aq4bsbk8N2nq/QPUjdi8nW8GKemFcY/hlOBxrooH2+/Pz5eG2li7xnrM8KuQpH+anL
+ OpxRF7+qfcrGgG0L+qGpERnlv6UIHGRMLvNu0xJUMsPcTMKy6p668yf4x2IznyRYn7dN
+ oh+A==
+X-Gm-Message-State: AOJu0YyvPVL6v9/ffpvzIH8sc6E7PGxF2gLCQGnh2QRLJSR4OEkLrlAY
+ Zly7yrVqhanrn0K54SdndalHzTHaFKy94Yct9JJZltY1MMq3CA==
+X-Google-Smtp-Source: AGHT+IEni1Ntup6ec+s61FZRN+0Cq4rkHJLzEGZRkocUASUKr2AOtWgASwxL8J0ZDkXeq6OC/kMNJ7/4oMga4t3FLWw=
+X-Received: by 2002:a05:6214:48f:b0:680:857:1bd9 with SMTP id
+ pt15-20020a056214048f00b0068008571bd9mr218069qvb.82.1704839550148; Tue, 09
+ Jan 2024 14:32:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240109-update-llvm-links-v1-3-eb09b59db071@kernel.org>
-References: <20240109-update-llvm-links-v1-0-eb09b59db071@kernel.org>
-In-Reply-To: <20240109-update-llvm-links-v1-0-eb09b59db071@kernel.org>
-To: akpm@linux-foundation.org
-X-Mailer: b4 0.13-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=11357; i=nathan@kernel.org;
- h=from:subject:message-id; bh=WEn5lTrzAXiM29oFJTOtG7WGsQHyaE8VVcpnTQ825es=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDKlzj16w1Pj8I8RGNGpqStpeL/2Ss7Fckxj+MQn8ummhc
- f/e3puMHaUsDGJcDLJiiizVj1WPGxrOOct449QkmDmsTCBDGLg4BWAipzgZ/mcpXDN6n369Z2Vr
- 7IPwnTz2R5dYJN5v++9iM3XOfBYtOU5GhuM55jNe+5/7H/HicGe1b2CLnMlqaZtVrzg+6Dfn1Hg
- YcwMA
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
+References: <20240109181104.1670304-1-andri@yngvason.is>
+ <20240109181104.1670304-3-andri@yngvason.is>
+In-Reply-To: <20240109181104.1670304-3-andri@yngvason.is>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Tue, 9 Jan 2024 22:32:18 +0000
+Message-ID: <CAPj87rNan8B5urDFkmD_Vti4to6p3NmvXYsTFQTNg-Ue2ieDug@mail.gmail.com>
+Subject: Re: [PATCH 2/7] drm/uAPI: Add "active color format" drm property as
+ feedback for userspace
+To: Andri Yngvason <andri@yngvason.is>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,271 +69,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-efi@vger.kernel.org, kvm@vger.kernel.org, llvm@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, kasan-dev@googlegroups.com,
- linux-kselftest@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-arch@vger.kernel.org, linux-s390@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
- linux-pm@vger.kernel.org, bridge@lists.linux.dev,
- Nathan Chancellor <nathan@kernel.org>, linux-arm-kernel@lists.infradead.org,
- netdev@vger.kernel.org, patches@lists.linux.dev,
- linux-security-module@vger.kernel.org, linux-crypto@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Werner Sembach <wse@tuxedocomputers.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, intel-gfx@lists.freedesktop.org,
+ Leo Li <sunpeng.li@amd.com>, dri-devel@lists.freedesktop.org, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-LLVM moved their issue tracker from their own Bugzilla instance to
-GitHub issues. While all of the links are still valid, they may not
-necessarily show the most up to date information around the issues, as
-all updates will occur on GitHub, not Bugzilla.
+Hi,
 
-Another complication is that the Bugzilla issue number is not always the
-same as the GitHub issue number. Thankfully, LLVM maintains this mapping
-through two shortlinks:
+On Tue, 9 Jan 2024 at 18:12, Andri Yngvason <andri@yngvason.is> wrote:
+> + * active color format:
+> + *     This read-only property tells userspace the color format actually used
+> + *     by the hardware display engine "on the cable" on a connector. The chosen
+> + *     value depends on hardware capabilities, both display engine and
+> + *     connected monitor. Drivers shall use
+> + *     drm_connector_attach_active_color_format_property() to install this
+> + *     property. Possible values are "not applicable", "rgb", "ycbcr444",
+> + *     "ycbcr422", and "ycbcr420".
 
-  https://llvm.org/bz<num> -> https://bugs.llvm.org/show_bug.cgi?id=<num>
-  https://llvm.org/pr<num> -> https://github.com/llvm/llvm-project/issues/<mapped_num>
+How does userspace determine what's happened without polling? Will it
+only change after an `ALLOW_MODESET` commit, and be guaranteed to be
+updated after the commit has completed and the event being sent?
+Should it send a HOTPLUG event? Other?
 
-Switch all "https://bugs.llvm.org/show_bug.cgi?id=<num>" links to the
-"https://llvm.org/pr<num>" shortlink so that the links show the most up
-to date information. Each migrated issue links back to the Bugzilla
-entry, so there should be no loss of fidelity of information here.
-
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
----
- arch/powerpc/Makefile                           | 4 ++--
- arch/powerpc/kvm/book3s_hv_nested.c             | 2 +-
- arch/s390/include/asm/ftrace.h                  | 2 +-
- arch/x86/power/Makefile                         | 2 +-
- crypto/blake2b_generic.c                        | 2 +-
- drivers/firmware/efi/libstub/Makefile           | 2 +-
- drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c        | 2 +-
- drivers/media/test-drivers/vicodec/codec-fwht.c | 2 +-
- drivers/regulator/Kconfig                       | 2 +-
- include/asm-generic/vmlinux.lds.h               | 2 +-
- lib/Kconfig.kasan                               | 2 +-
- lib/raid6/Makefile                              | 2 +-
- lib/stackinit_kunit.c                           | 2 +-
- mm/slab_common.c                                | 2 +-
- net/bridge/br_multicast.c                       | 2 +-
- security/Kconfig                                | 2 +-
- 16 files changed, 17 insertions(+), 17 deletions(-)
-
-diff --git a/arch/powerpc/Makefile b/arch/powerpc/Makefile
-index f19dbaa1d541..cd6aaa45f355 100644
---- a/arch/powerpc/Makefile
-+++ b/arch/powerpc/Makefile
-@@ -133,11 +133,11 @@ CFLAGS-$(CONFIG_PPC64)	+= $(call cc-option,-mno-pointers-to-nested-functions)
- CFLAGS-$(CONFIG_PPC64)	+= $(call cc-option,-mlong-double-128)
- 
- # Clang unconditionally reserves r2 on ppc32 and does not support the flag
--# https://bugs.llvm.org/show_bug.cgi?id=39555
-+# https://llvm.org/pr39555
- CFLAGS-$(CONFIG_PPC32)	:= $(call cc-option, -ffixed-r2)
- 
- # Clang doesn't support -mmultiple / -mno-multiple
--# https://bugs.llvm.org/show_bug.cgi?id=39556
-+# https://llvm.org/pr39556
- CFLAGS-$(CONFIG_PPC32)	+= $(call cc-option, $(MULTIPLEWORD))
- 
- CFLAGS-$(CONFIG_PPC32)	+= $(call cc-option,-mno-readonly-in-sdata)
-diff --git a/arch/powerpc/kvm/book3s_hv_nested.c b/arch/powerpc/kvm/book3s_hv_nested.c
-index 3b658b8696bc..3f5970f74c6b 100644
---- a/arch/powerpc/kvm/book3s_hv_nested.c
-+++ b/arch/powerpc/kvm/book3s_hv_nested.c
-@@ -55,7 +55,7 @@ void kvmhv_save_hv_regs(struct kvm_vcpu *vcpu, struct hv_guest_state *hr)
- 	hr->dawrx1 = vcpu->arch.dawrx1;
- }
- 
--/* Use noinline_for_stack due to https://bugs.llvm.org/show_bug.cgi?id=49610 */
-+/* Use noinline_for_stack due to https://llvm.org/pr49610 */
- static noinline_for_stack void byteswap_pt_regs(struct pt_regs *regs)
- {
- 	unsigned long *addr = (unsigned long *) regs;
-diff --git a/arch/s390/include/asm/ftrace.h b/arch/s390/include/asm/ftrace.h
-index 5a82b08f03cd..621f23d5ae30 100644
---- a/arch/s390/include/asm/ftrace.h
-+++ b/arch/s390/include/asm/ftrace.h
-@@ -9,7 +9,7 @@
- #ifndef __ASSEMBLY__
- 
- #ifdef CONFIG_CC_IS_CLANG
--/* https://bugs.llvm.org/show_bug.cgi?id=41424 */
-+/* https://llvm.org/pr41424 */
- #define ftrace_return_address(n) 0UL
- #else
- #define ftrace_return_address(n) __builtin_return_address(n)
-diff --git a/arch/x86/power/Makefile b/arch/x86/power/Makefile
-index 379777572bc9..e0cd7afd5302 100644
---- a/arch/x86/power/Makefile
-+++ b/arch/x86/power/Makefile
-@@ -5,7 +5,7 @@
- CFLAGS_cpu.o	:= -fno-stack-protector
- 
- # Clang may incorrectly inline functions with stack protector enabled into
--# __restore_processor_state(): https://bugs.llvm.org/show_bug.cgi?id=47479
-+# __restore_processor_state(): https://llvm.org/pr47479
- CFLAGS_REMOVE_cpu.o := $(CC_FLAGS_LTO)
- 
- obj-$(CONFIG_PM_SLEEP)		+= cpu.o
-diff --git a/crypto/blake2b_generic.c b/crypto/blake2b_generic.c
-index 6704c0355889..32e380b714b6 100644
---- a/crypto/blake2b_generic.c
-+++ b/crypto/blake2b_generic.c
-@@ -102,7 +102,7 @@ static void blake2b_compress_one_generic(struct blake2b_state *S,
- 	ROUND(10);
- 	ROUND(11);
- #ifdef CONFIG_CC_IS_CLANG
--#pragma nounroll /* https://bugs.llvm.org/show_bug.cgi?id=45803 */
-+#pragma nounroll /* https://llvm.org/pr45803 */
- #endif
- 	for (i = 0; i < 8; ++i)
- 		S->h[i] = S->h[i] ^ v[i] ^ v[i + 8];
-diff --git a/drivers/firmware/efi/libstub/Makefile b/drivers/firmware/efi/libstub/Makefile
-index 06964a3c130f..a223bd10564b 100644
---- a/drivers/firmware/efi/libstub/Makefile
-+++ b/drivers/firmware/efi/libstub/Makefile
-@@ -105,7 +105,7 @@ lib-y				:= $(patsubst %.o,%.stub.o,$(lib-y))
- # Even when -mbranch-protection=none is set, Clang will generate a
- # .note.gnu.property for code-less object files (like lib/ctype.c),
- # so work around this by explicitly removing the unwanted section.
--# https://bugs.llvm.org/show_bug.cgi?id=46480
-+# https://llvm.org/pr46480
- STUBCOPY_FLAGS-y		+= --remove-section=.note.gnu.property
- 
- STUBCOPY_RELOC-$(CONFIG_X86_32)	:= R_386_32
-diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c b/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
-index 0f24af6f2810..265fa028b121 100644
---- a/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
-+++ b/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
-@@ -610,7 +610,7 @@ static uint32_t sdma_v4_4_2_rb_cntl(struct amdgpu_ring *ring, uint32_t rb_cntl)
- 	/* Set ring buffer size in dwords */
- 	uint32_t rb_bufsz = order_base_2(ring->ring_size / 4);
- 
--	barrier(); /* work around https://bugs.llvm.org/show_bug.cgi?id=42576 */
-+	barrier(); /* work around https://llvm.org/pr42576 */
- 	rb_cntl = REG_SET_FIELD(rb_cntl, SDMA_GFX_RB_CNTL, RB_SIZE, rb_bufsz);
- #ifdef __BIG_ENDIAN
- 	rb_cntl = REG_SET_FIELD(rb_cntl, SDMA_GFX_RB_CNTL, RB_SWAP_ENABLE, 1);
-diff --git a/drivers/media/test-drivers/vicodec/codec-fwht.c b/drivers/media/test-drivers/vicodec/codec-fwht.c
-index 1ce682e1b85c..fd75457d03b2 100644
---- a/drivers/media/test-drivers/vicodec/codec-fwht.c
-+++ b/drivers/media/test-drivers/vicodec/codec-fwht.c
-@@ -49,7 +49,7 @@ static const uint8_t zigzag[64] = {
- 
- /*
-  * noinline_for_stack to work around
-- * https://bugs.llvm.org/show_bug.cgi?id=38809
-+ * https://llvm.org/pr38809
-  */
- static int noinline_for_stack
- rlc(const s16 *in, __be16 *output, int blocktype)
-diff --git a/drivers/regulator/Kconfig b/drivers/regulator/Kconfig
-index f3ec24691378..f537e78478ef 100644
---- a/drivers/regulator/Kconfig
-+++ b/drivers/regulator/Kconfig
-@@ -278,7 +278,7 @@ config REGULATOR_CROS_EC
- config REGULATOR_DA903X
- 	tristate "Dialog Semiconductor DA9030/DA9034 regulators"
- 	depends on PMIC_DA903X
--	depends on !CC_IS_CLANG # https://bugs.llvm.org/show_bug.cgi?id=38789
-+	depends on !CC_IS_CLANG # https://llvm.org/pr38789
- 	help
- 	  Say y here to support the BUCKs and LDOs regulators found on
- 	  Dialog Semiconductor DA9030/DA9034 PMIC.
-diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
-index bae0fe4d499b..c425a1e2edee 100644
---- a/include/asm-generic/vmlinux.lds.h
-+++ b/include/asm-generic/vmlinux.lds.h
-@@ -977,7 +977,7 @@
-  * -fsanitize=thread produce unwanted sections (.eh_frame
-  * and .init_array.*), but CONFIG_CONSTRUCTORS wants to
-  * keep any .init_array.* sections.
-- * https://bugs.llvm.org/show_bug.cgi?id=46478
-+ * https://llvm.org/pr46478
-  */
- #ifdef CONFIG_UNWIND_TABLES
- #define DISCARD_EH_FRAME
-diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
-index fdca89c05745..de3e9e4803af 100644
---- a/lib/Kconfig.kasan
-+++ b/lib/Kconfig.kasan
-@@ -163,7 +163,7 @@ config KASAN_STACK
- 	  out-of-bounds bugs in stack variables.
- 
- 	  With Clang, stack instrumentation has a problem that causes excessive
--	  stack usage, see https://bugs.llvm.org/show_bug.cgi?id=38809. Thus,
-+	  stack usage, see https://llvm.org/pr38809. Thus,
- 	  with Clang, this option is deemed unsafe.
- 
- 	  This option is always disabled when compile-testing with Clang to
-diff --git a/lib/raid6/Makefile b/lib/raid6/Makefile
-index 1c5420ff254e..385a94aa0b99 100644
---- a/lib/raid6/Makefile
-+++ b/lib/raid6/Makefile
-@@ -21,7 +21,7 @@ altivec_flags += -isystem $(shell $(CC) -print-file-name=include)
- ifdef CONFIG_CC_IS_CLANG
- # clang ppc port does not yet support -maltivec when -msoft-float is
- # enabled. A future release of clang will resolve this
--# https://bugs.llvm.org/show_bug.cgi?id=31177
-+# https://llvm.org/pr31177
- CFLAGS_REMOVE_altivec1.o  += -msoft-float
- CFLAGS_REMOVE_altivec2.o  += -msoft-float
- CFLAGS_REMOVE_altivec4.o  += -msoft-float
-diff --git a/lib/stackinit_kunit.c b/lib/stackinit_kunit.c
-index 05947a2feb93..7a10e1d17258 100644
---- a/lib/stackinit_kunit.c
-+++ b/lib/stackinit_kunit.c
-@@ -404,7 +404,7 @@ static noinline int leaf_switch_2_none(unsigned long sp, bool fill,
-  * These are expected to fail for most configurations because neither
-  * GCC nor Clang have a way to perform initialization of variables in
-  * non-code areas (i.e. in a switch statement before the first "case").
-- * https://bugs.llvm.org/show_bug.cgi?id=44916
-+ * https://llvm.org/pr44916
-  */
- DEFINE_TEST_DRIVER(switch_1_none, uint64_t, SCALAR, ALWAYS_FAIL);
- DEFINE_TEST_DRIVER(switch_2_none, uint64_t, SCALAR, ALWAYS_FAIL);
-diff --git a/mm/slab_common.c b/mm/slab_common.c
-index 8d431193c273..105ba974854c 100644
---- a/mm/slab_common.c
-+++ b/mm/slab_common.c
-@@ -656,7 +656,7 @@ static struct kmem_cache *__init create_kmalloc_cache(const char *name,
- 
- struct kmem_cache *
- kmalloc_caches[NR_KMALLOC_TYPES][KMALLOC_SHIFT_HIGH + 1] __ro_after_init =
--{ /* initialization for https://bugs.llvm.org/show_bug.cgi?id=42570 */ };
-+{ /* initialization for https://llvm.org/pr42570 */ };
- EXPORT_SYMBOL(kmalloc_caches);
- 
- #ifdef CONFIG_RANDOM_KMALLOC_CACHES
-diff --git a/net/bridge/br_multicast.c b/net/bridge/br_multicast.c
-index d7d021af1029..523f72ac9633 100644
---- a/net/bridge/br_multicast.c
-+++ b/net/bridge/br_multicast.c
-@@ -5043,7 +5043,7 @@ void br_multicast_uninit_stats(struct net_bridge *br)
- 	free_percpu(br->mcast_stats);
- }
- 
--/* noinline for https://bugs.llvm.org/show_bug.cgi?id=45802#c9 */
-+/* noinline for https://llvm.org/pr45802#c9 */
- static noinline_for_stack void mcast_stats_add_dir(u64 *dst, u64 *src)
- {
- 	dst[BR_MCAST_DIR_RX] += src[BR_MCAST_DIR_RX];
-diff --git a/security/Kconfig b/security/Kconfig
-index 52c9af08ad35..606a87c29a01 100644
---- a/security/Kconfig
-+++ b/security/Kconfig
-@@ -142,7 +142,7 @@ config HARDENED_USERCOPY
- config FORTIFY_SOURCE
- 	bool "Harden common str/mem functions against buffer overflows"
- 	depends on ARCH_HAS_FORTIFY_SOURCE
--	# https://bugs.llvm.org/show_bug.cgi?id=41459
-+	# https://llvm.org/pr41459
- 	depends on !CC_IS_CLANG || CLANG_VERSION >= 120001
- 	# https://github.com/llvm/llvm-project/issues/53645
- 	depends on !CC_IS_CLANG || !X86_32
-
--- 
-2.43.0
-
+Cheers,
+Daniel
