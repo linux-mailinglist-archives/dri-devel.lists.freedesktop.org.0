@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E60738283BE
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 11:13:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE2478283BF
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 11:14:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11C8710E3EF;
-	Tue,  9 Jan 2024 10:13:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5061710E3F5;
+	Tue,  9 Jan 2024 10:14:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F41AA10E3EF
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 10:13:22 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1605210E3F5
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 10:14:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704795203; x=1736331203;
+ t=1704795254; x=1736331254;
  h=from:to:subject:date:message-id:in-reply-to:references:
  mime-version:content-transfer-encoding;
- bh=04Zjgail/x0d/lsD0XV6IPGc9rQCXox/4X63KdOaJ/E=;
- b=THloSsf/4uCdilI0peovlU8seUIw5hX6Wv4o7AX8N4quTj2pp09UtRWK
- MUxuH/oWupQ8d1S9mkwo5HBzYHEVOwAOYr1QM1Z+Ra8fp9IyRul8F2qBv
- QdwkUxNIw0PcIg7owfWxU8pb6ufVgqWY18c4X0dJP6HIDxZ8OyqLn5NXd
- WrNhTatxC4SqoHgzxF24tkEDlAMPVhZI/KdEMGv517AouhBkpKsv9WFQc
- mx9EhNmX5YQhMFp65iE86aD1nT/MzRqYsyPAEcordL8Phi16+6OZqF9uP
- hxmwfb/IVhZf9z4bnSHNuMb/PKKyez2AVAXUlyuEdlGARxZ8GV3pqKMX3 g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="5235578"
-X-IronPort-AV: E=Sophos;i="6.04,182,1695711600"; 
-   d="scan'208";a="5235578"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2024 02:13:23 -0800
+ bh=8P6aflufPCMhIyTaLu6arMeOCboF+eOfwbCMSZAQZnc=;
+ b=mmKm5LNlyAGU2njcHJFqy4WWwB3nb09+2g098EuvMkkCic2W2ctZnlwT
+ cd8iQhVamVjF9IzB4tXcTRUazCN2Nm8BKMkcZCIA0iMz1n6IhpyriRZyL
+ fGoUhdbISml8m8f+bn7YufAYwyW4VU3Xy+1vGs0/0WqSPCJ2qqyyfCU68
+ 2BaS+LJiaG8qKBt85ebhzhrwHeHlRRlWkcHfyVUjIrW7V8hQUEUpSpPEY
+ zB8d9a5HN/EBQ232AB00bcxI7HbeUQ+t9Z9qW52zeyqFFyt5yuF8uSIvC
+ mMu1O26kt2h+kpAUj6W3jpQaZF4xXPSK2B85JwhA6o+cLCzxdAXmxkDQI w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="464550324"
+X-IronPort-AV: E=Sophos;i="6.04,182,1695711600"; d="scan'208";a="464550324"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2024 02:14:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,182,1695711600"; d="scan'208";a="30130799"
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="905105402"
+X-IronPort-AV: E=Sophos;i="6.04,182,1695711600"; d="scan'208";a="905105402"
 Received: from aakinrin-mobl2.amr.corp.intel.com (HELO localhost)
  ([10.252.36.188])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2024 02:13:20 -0800
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2024 02:14:10 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
  Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v2] drm: bridge: dw_hdmi: switch to ->edid_read callback
-Date: Tue,  9 Jan 2024 12:13:13 +0200
-Message-Id: <20240109101313.2427048-1-jani.nikula@intel.com>
+Subject: [PATCH v2] drm/bridge: nxp-ptn3460: switch to ->edid_read callback
+Date: Tue,  9 Jan 2024 12:14:06 +0200
+Message-Id: <20240109101406.2427353-1-jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <a8f71940221fb085b8767f8123f496c9b36b22cc.1704276309.git.jani.nikula@intel.com>
-References: <a8f71940221fb085b8767f8123f496c9b36b22cc.1704276309.git.jani.nikula@intel.com>
+In-Reply-To: <87fb7fd52d087dd9a15b7194f3915b6b1c4146d6.1704276309.git.jani.nikula@intel.com>
+References: <87fb7fd52d087dd9a15b7194f3915b6b1c4146d6.1704276309.git.jani.nikula@intel.com>
 MIME-Version: 1.0
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Content-Transfer-Encoding: 8bit
@@ -68,110 +68,76 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Prefer using the struct drm_edid based callback and functions.
 
-v2: Fix -Wuninitialized (kernel test robot)
+v2: Fix -Wsometimes-uninitialized (kernel test robot)
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 43 ++++++++++++++---------
- 1 file changed, 26 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/bridge/nxp-ptn3460.c | 22 ++++++++++++----------
+ 1 file changed, 12 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 52d91a0df85e..8eea3f59f585 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -2454,27 +2454,35 @@ static enum drm_connector_status dw_hdmi_detect(struct dw_hdmi *hdmi)
- 	return result;
+diff --git a/drivers/gpu/drm/bridge/nxp-ptn3460.c b/drivers/gpu/drm/bridge/nxp-ptn3460.c
+index 7c0076e49953..ed93fd4c3265 100644
+--- a/drivers/gpu/drm/bridge/nxp-ptn3460.c
++++ b/drivers/gpu/drm/bridge/nxp-ptn3460.c
+@@ -154,10 +154,11 @@ static void ptn3460_disable(struct drm_bridge *bridge)
  }
  
--static struct edid *dw_hdmi_get_edid(struct dw_hdmi *hdmi,
+ 
+-static struct edid *ptn3460_get_edid(struct drm_bridge *bridge,
 -				     struct drm_connector *connector)
-+static const struct drm_edid *dw_hdmi_edid_read(struct dw_hdmi *hdmi,
++static const struct drm_edid *ptn3460_edid_read(struct drm_bridge *bridge,
 +						struct drm_connector *connector)
  {
--	struct edid *edid;
-+	const struct drm_edid *drm_edid;
-+	const struct edid *edid;
- 
- 	if (!hdmi->ddc)
- 		return NULL;
- 
--	edid = drm_get_edid(connector, hdmi->ddc);
--	if (!edid) {
-+	drm_edid = drm_edid_read_ddc(connector, hdmi->ddc);
-+	if (!drm_edid) {
- 		dev_dbg(hdmi->dev, "failed to get edid\n");
- 		return NULL;
+ 	struct ptn3460_bridge *ptn_bridge = bridge_to_ptn3460(bridge);
++	const struct drm_edid *drm_edid = NULL;
+ 	bool power_off;
+ 	u8 *edid;
+ 	int ret;
+@@ -175,27 +176,28 @@ static struct edid *ptn3460_get_edid(struct drm_bridge *bridge,
+ 				 EDID_LENGTH);
+ 	if (ret) {
+ 		kfree(edid);
+-		edid = NULL;
+ 		goto out;
  	}
  
-+	/*
-+	 * FIXME: This should use connector->display_info.is_hdmi and
-+	 * connector->display_info.has_audio from a path that has read the EDID
-+	 * and called drm_edid_connector_update().
-+	 */
-+	edid = drm_edid_raw(drm_edid);
++	drm_edid = drm_edid_alloc(edid, EDID_LENGTH);
 +
- 	dev_dbg(hdmi->dev, "got edid: width[%d] x height[%d]\n",
- 		edid->width_cm, edid->height_cm);
+ out:
+ 	if (power_off)
+ 		ptn3460_disable(&ptn_bridge->bridge);
  
- 	hdmi->sink_is_hdmi = drm_detect_hdmi_monitor(edid);
- 	hdmi->sink_has_audio = drm_detect_monitor_audio(edid);
- 
--	return edid;
+-	return (struct edid *)edid;
 +	return drm_edid;
  }
  
- /* -----------------------------------------------------------------------------
-@@ -2493,17 +2501,18 @@ static int dw_hdmi_connector_get_modes(struct drm_connector *connector)
+ static int ptn3460_connector_get_modes(struct drm_connector *connector)
  {
- 	struct dw_hdmi *hdmi = container_of(connector, struct dw_hdmi,
- 					     connector);
+ 	struct ptn3460_bridge *ptn_bridge = connector_to_ptn3460(connector);
 -	struct edid *edid;
 +	const struct drm_edid *drm_edid;
- 	int ret;
+ 	int num_modes;
  
--	edid = dw_hdmi_get_edid(hdmi, connector);
--	if (!edid)
-+	drm_edid = dw_hdmi_edid_read(hdmi, connector);
-+	if (!drm_edid)
- 		return 0;
- 
+-	edid = ptn3460_get_edid(&ptn_bridge->bridge, connector);
 -	drm_connector_update_edid_property(connector, edid);
--	cec_notifier_set_phys_addr_from_edid(hdmi->cec_notifier, edid);
--	ret = drm_add_edid_modes(connector, edid);
+-	num_modes = drm_add_edid_modes(connector, edid);
 -	kfree(edid);
++	drm_edid = ptn3460_edid_read(&ptn_bridge->bridge, connector);
 +	drm_edid_connector_update(connector, drm_edid);
-+	cec_notifier_set_phys_addr(hdmi->cec_notifier,
-+				   connector->display_info.source_physical_address);
-+	ret = drm_edid_connector_add_modes(connector);
++	num_modes = drm_edid_connector_add_modes(connector);
 +	drm_edid_free(drm_edid);
  
- 	return ret;
+ 	return num_modes;
  }
-@@ -2980,12 +2989,12 @@ static enum drm_connector_status dw_hdmi_bridge_detect(struct drm_bridge *bridge
- 	return dw_hdmi_detect(hdmi);
- }
- 
--static struct edid *dw_hdmi_bridge_get_edid(struct drm_bridge *bridge,
--					    struct drm_connector *connector)
-+static const struct drm_edid *dw_hdmi_bridge_edid_read(struct drm_bridge *bridge,
-+						       struct drm_connector *connector)
- {
- 	struct dw_hdmi *hdmi = bridge->driver_private;
- 
--	return dw_hdmi_get_edid(hdmi, connector);
-+	return dw_hdmi_edid_read(hdmi, connector);
- }
- 
- static const struct drm_bridge_funcs dw_hdmi_bridge_funcs = {
-@@ -3002,7 +3011,7 @@ static const struct drm_bridge_funcs dw_hdmi_bridge_funcs = {
- 	.mode_set = dw_hdmi_bridge_mode_set,
- 	.mode_valid = dw_hdmi_bridge_mode_valid,
- 	.detect = dw_hdmi_bridge_detect,
--	.get_edid = dw_hdmi_bridge_get_edid,
-+	.edid_read = dw_hdmi_bridge_edid_read,
+@@ -254,7 +256,7 @@ static const struct drm_bridge_funcs ptn3460_bridge_funcs = {
+ 	.pre_enable = ptn3460_pre_enable,
+ 	.disable = ptn3460_disable,
+ 	.attach = ptn3460_bridge_attach,
+-	.get_edid = ptn3460_get_edid,
++	.edid_read = ptn3460_edid_read,
  };
  
- /* -----------------------------------------------------------------------------
+ static int ptn3460_probe(struct i2c_client *client)
 -- 
 2.39.2
 
