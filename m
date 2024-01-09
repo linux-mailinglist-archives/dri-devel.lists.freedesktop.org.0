@@ -1,46 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A16B828BAC
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 19:01:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66D46828BCD
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 19:03:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5311A10E4C7;
-	Tue,  9 Jan 2024 18:00:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FD2810E4AB;
+	Tue,  9 Jan 2024 18:03:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5158D10E4C7
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 18:00:57 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8F0F10E4AB
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 18:03:38 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 75BDBB81B8E;
- Tue,  9 Jan 2024 18:00:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 628B3C433F1;
- Tue,  9 Jan 2024 18:00:43 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 700AECE190F;
+ Tue,  9 Jan 2024 18:03:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C049C433F1;
+ Tue,  9 Jan 2024 18:03:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1704823254;
- bh=ymvzUtrJXnlHdMLNcKVm+KFBPspEJjs12uHChhr3maI=;
+ s=k20201202; t=1704823415;
+ bh=0R31HLE3+ZbvwQuChH2OoUhobpCqWxAZJoF/InobdBY=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=sJiZ0TArj6/22B0pPKyLwA0bzPVF3T2u3klppNGGEGHUO8M3BDFkwqrb2kwrfM5qM
- n8OPX5yutZE5G/UhksJ5cC45vCz64GkCX/M6AWwQxrax01A3STbsKYAKu1F1mPcGJ+
- bR3uj/Vh3XkYPmHDi1H1UJ2dMSusvalAqMh97599hj9F185gIgppESZUFItPAS50Fg
- S09uA67w7fdcUfEWOniP5ND3dOejivKCVhjuFBECC0uzb1Msa3bIwRy7OT17b8Aum+
- t6KsfYBwQKTV5BzlJ5PD1DukrbUrHZc/iioiSTLRbCMeo5N0GMwf/BNU6MCUWdiCNp
- Qkw3rr9mZt88Q==
-Date: Tue, 9 Jan 2024 18:00:41 +0000
+ b=mXDY8SkGODZzDpOT/lBscYFSFUXcFq6OdQZmxHjeu5J6ndCS7O2be18/WyT+Pybdh
+ frZeSearhDu/qxK7xrn+iAz/LLJCiSM8uuCq+hZbkHVMtk/8jMEmae+eaU670gfjiF
+ pGwVGqXCsulrjhsafzsfmdxNBRUObccLt6Ds+6ZX8LLEHxbjUDFES3fKQHlD6pIpAR
+ wRRJgq/MCtaEzQmW6fUHSmj0YTh+R2FJAWFWVRegmteeZqsAiMmr0K6ek1NSZ2Rrkv
+ 8LzfIr3wPE/EO80FCF9Pcv4ss3c+uipQN1wNPUnn6xKWhhotH5i9aickhLPipGxpDi
+ vfH1JE+2JBDhA==
+Date: Tue, 9 Jan 2024 18:03:22 +0000
 From: Conor Dooley <conor@kernel.org>
 To: Yoshinori Sato <ysato@users.sourceforge.jp>
-Subject: Re: [DO NOT MERGE v6 24/37] dt-binding: sh: cpus: Add SH CPUs
- json-schema
-Message-ID: <20240109-hankie-glacier-a55818f28b91@spud>
+Subject: Re: [DO NOT MERGE v6 25/37] dt-bindings: vendor-prefixes: Add iodata
+Message-ID: <20240109-frying-robin-e0f3e83966eb@spud>
 References: <cover.1704788539.git.ysato@users.sourceforge.jp>
- <2e8be1e493f315c486b3113adf5d2164c3cd29e2.1704788539.git.ysato@users.sourceforge.jp>
+ <17c6381a733d34e8460fd2979f8b53804e808e04.1704788539.git.ysato@users.sourceforge.jp>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="xPLBpXcvOkLaXIuy"
+ protocol="application/pgp-signature"; boundary="o5q2SluoJveOoLQv"
 Content-Disposition: inline
-In-Reply-To: <2e8be1e493f315c486b3113adf5d2164c3cd29e2.1704788539.git.ysato@users.sourceforge.jp>
+In-Reply-To: <17c6381a733d34e8460fd2979f8b53804e808e04.1704788539.git.ysato@users.sourceforge.jp>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,140 +92,57 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---xPLBpXcvOkLaXIuy
+--o5q2SluoJveOoLQv
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Yo,
-
-On Tue, Jan 09, 2024 at 05:23:21PM +0900, Yoshinori Sato wrote:
-> Renesas SH series and compatible ISA CPUs.
+On Tue, Jan 09, 2024 at 05:23:22PM +0900, Yoshinori Sato wrote:
+> Add IO DATA DEVICE INC.
+> https://www.iodata.com/
 >=20
 > Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-> ---
->  .../devicetree/bindings/sh/cpus.yaml          | 74 +++++++++++++++++++
->  1 file changed, 74 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/sh/cpus.yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/sh/cpus.yaml b/Documentati=
-on/devicetree/bindings/sh/cpus.yaml
-> new file mode 100644
-> index 000000000000..c04f897d2c2a
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sh/cpus.yaml
-> @@ -0,0 +1,74 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sh/cpus.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas SuperH CPUs
-> +
-> +maintainers:
-> +  - Yoshinori Sato <ysato@users.sourceforge.jp>
-> +
-> +description: |+
-> +  The device tree allows to describe the layout of CPUs in a system thro=
-ugh
-> +  the "cpus" node, which in turn contains a number of subnodes (ie "cpu")
-> +  defining properties for every cpu.
-> +
-> +  Bindings for CPU nodes follow the Devicetree Specification, available =
-=66rom:
-> +
-> +  https://www.devicetree.org/specifications/
 
-You likely copied this description from the arm binding (or from
-dt-schema), but I don't think this is anything other than a statement of
-the obvious. If there is a description here it should (IMO) talk about
-the superh cpus.
+I think you are missing an r-b tag here from Geert:
+https://lore.kernel.org/all/CAMuHMdUvNT1tDTOq4ppqn69cocAeveaXrsoL2VQ2efBQ+h=
+v2aA@mail.gmail.com/
 
-> +
-> +properties:
-> +  compatible:
-> +    anyOf:
-> +      - items:
-> +          - enum:
-> +              - renesas,sh2a
-> +              - renesas,sh3
-> +              - renesas,sh4
-> +              - renesas,sh4a
-> +              - jcore,j2
-> +          - const: renesas,sh2
-> +      - const: renesas,sh2
-> +
-> +  clock-frequency:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: CPU core clock frequency.
-
-What is the point of this? You have a clocks property, can't you obtain
-the clock frequency by looking up the provider of that clock?
-
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names: true
-
-Why do you need clock-names if you only have one clock?
-
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  device_type: true
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - device_type
-> +
-> +additionalProperties: true
-
-This should be unevaluatedProperties: false
-
-Properties like the icache-size are documented in cpu.yaml and
-you can add an reference to that to permit them. The riscv cpus binding
-does this if you need to see how that works.
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
 Cheers,
 Conor.
 
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/sh7750-cpg.h>
-> +    cpus {
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +
-> +        cpu: cpu@0 {
-> +            compatible =3D "renesas,sh4", "renesas,sh2";
-> +            device_type =3D "cpu";
-> +            reg =3D <0>;
-> +            clocks =3D <&cpg SH7750_CPG_ICK>;
-> +            clock-names =3D "ick";
-> +            icache-size =3D <16384>;
-> +            icache-line-size =3D <32>;
-> +            dcache-size =3D <32768>;
-> +            dcache-line-size =3D <32>;
-> +        };
-> +    };
-> +...
+> ---
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Doc=
+umentation/devicetree/bindings/vendor-prefixes.yaml
+> index 309b94c328c8..94ed63d9f7de 100644
+> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> @@ -671,6 +671,8 @@ patternProperties:
+>      description: Inventec
+>    "^inversepath,.*":
+>      description: Inverse Path
+> +  "^iodata,.*":
+> +    description: IO DATA DEVICE Inc.
+>    "^iom,.*":
+>      description: Iomega Corporation
+>    "^irondevice,.*":
 > --=20
 > 2.39.2
 >=20
 
---xPLBpXcvOkLaXIuy
+--o5q2SluoJveOoLQv
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZZ2JyAAKCRB4tDGHoIJi
-0hT2AP9R2UBDSiiyTAVtH1K3WE+zVT0M8gt7NsMcQVJTKbB22wD/TgGz2+9lyG+T
-38cOZyNYa1mVFqzsmAghyWQdNloznwo=
-=N8JY
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZZ2KaQAKCRB4tDGHoIJi
+0mETAQCgS0diIQwRpFymnYZiV1TuFr5jugc1/qE1mlVfoy18EwEA6EVpCvyk1xES
+OQiPDuXqI2XKO8fupXPq+im8bF/hvwU=
+=bocD
 -----END PGP SIGNATURE-----
 
---xPLBpXcvOkLaXIuy--
+--o5q2SluoJveOoLQv--
