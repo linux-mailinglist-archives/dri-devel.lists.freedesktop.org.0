@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CD20828E31
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 20:52:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D68A828E39
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 20:53:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E254E10E49B;
-	Tue,  9 Jan 2024 19:52:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A25010E4CB;
+	Tue,  9 Jan 2024 19:53:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6DC710E49B
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 19:52:52 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id
- 5b1f17b1804b1-40d5336986cso43972175e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 11:52:52 -0800 (PST)
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8978710E4CB
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 19:53:52 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id
+ ffacd0b85a97d-33765009941so2773762f8f.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 11:53:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1704829971; x=1705434771; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1704830031; x=1705434831; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=BI/48/E7Md2QE++iHyjNqxZ4Ipvc83BNLpeu7Fm4++A=;
- b=ZxptUzWmkMJ/B57JdktMWHbqtQ0uj0rOu+Sys13YS9E0DTCdmpxAGrd8BY9lmNpcPF
- W9g1sCqT2+r/lO/wgVNkemqd48rXCWvmeoc88MvCHQWh6bN5vXkf6ImJ6MYQmA/tgJKJ
- TU4FlYMpbez2dqW5vrYwMTBshoTPHZhbByLlLjTwv0PEFlYF27O50ZWy1fgUU2u+xVmD
- L8L0Zdxeo9/AC6ZPu9VIG8Oztyge5G+vL5g+j0VIIn0DqDOlV6vYbnXKdZpzWiPfTZKa
- 3LxvNZKtzvAceGxtYATRMp2y9U8ruRNdMpz/2UXDwJwawggU8r9N+6lLFayGkOE12shc
- pCbA==
+ bh=+vcM+EIKLS0Q1eJNlRxuAFOV/R1iZcC4d+uzgO0fQJA=;
+ b=x72/bGpZSLWJhXHyu5vqqiZXQGg0EcHuTBYRFZAtvU3mYv8K0umdj0705V0xEK+1xd
+ qfWa86ylEE5jmvkS3DSo9TI8EQrrf6IfIU6K1mwUWmGi984ymeb8EC7Q9m5yktiEXFjo
+ JF/wWq4gHRDmMgef2zasD+Z/Ncnkb/AIWaFMzA3Y3Ha4V5ScOy+TEcE0Owgn9lES0c+d
+ e7IoVl4LCWqqjTM2KnZWUVHdQdqCSTeg3Z3cvROI4mU5ROL4xtqcBknAqKlm+Z0EsOP4
+ A68u8XYZwUCbiE6C55ue7rmjBZJxtITA6pMu2eB3Iu2TslmbEPgRNLH2j4MSTPLLwSKF
+ DK9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704829971; x=1705434771;
+ d=1e100.net; s=20230601; t=1704830031; x=1705434831;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=BI/48/E7Md2QE++iHyjNqxZ4Ipvc83BNLpeu7Fm4++A=;
- b=MuFvDTUYaN7GFbT0q03cUmrhxySJoNeD5aW9NyEad2p5+tvDRYVE4ztcmFBv/5JGgZ
- aQEqyZexGX5nPn8NmEasXTyzZQgWh+63VA1+pedGQlcshyrQPzJxJnNpJgwRNIjGeGXh
- MPmbq5uABy0em45sZl2wplaf1iH1fccvbbtYBYqzm03qlzUGRHUg5FqJfTRvBFT8qLls
- YUxvTZA/+e63f5/jI1BJaXD20Ku0S9X/gDcEhe7aLV6pNYG0OHoxl56vKjA+ErNQ7IQn
- N8AP1ucsioU2hhSvIkbmnXdoQ7JY3L+OmuD78zuU4Z5CCsvFekanzx4mfQEwTE8Gwc8/
- o9Aw==
-X-Gm-Message-State: AOJu0YyKI748ph5NMfhLtu3Q4gLrrWgxvtSdGIoUpkK6QV19ueA9dXu/
- /oXnMKaVhb7a3jYMMouWQmhEnNEVGf26/Q==
-X-Google-Smtp-Source: AGHT+IE6HSL59hPqBUMbNpE6skT8szvU3eRO5hKrvBl3DRfpljPdLWzn6Ca47i5HcCIyTcytaHSX3w==
-X-Received: by 2002:a05:600c:4504:b0:40d:9255:4aca with SMTP id
- t4-20020a05600c450400b0040d92554acamr2804029wmo.119.1704829971274; 
- Tue, 09 Jan 2024 11:52:51 -0800 (PST)
+ bh=+vcM+EIKLS0Q1eJNlRxuAFOV/R1iZcC4d+uzgO0fQJA=;
+ b=ipVoRtN3puUc842rllXh3yzomZWIyqAHfXNc4HUxpQTGm0h9RwQN6/lbEEKtu+O2Qd
+ Dl/0mcLKIqmxBMXAd0F8jt2bhUNFPcRX9qu6boqRcQGWaDH59g73RoLdSm1xJElWgDtM
+ NmqzOT+d0J3Mr1TVq4L9uC9+UnERQA3hNELw7LzyAUl0t0RLmPZx67T5oXnDYbc86bTy
+ Kuod7qqfxXaS4rPEabxGfIIoFWs0bG5bqVTHXQx+W3lzzwi+mBmaf/kNdr3MnRo1m8kk
+ C1atbTTWwVJ0m94tgrhXYLYDKQloUwcyyV6PN0SnniXTAfM8RLt1xu8MjGPAxYgQLozx
+ /VCg==
+X-Gm-Message-State: AOJu0YwLnzhtzITPsjjQmZ9abPLeOv2SGTtuucIM6liKbc294+p+p2ho
+ RDaIsrxufVmU89ceBMMQfOLrP8OfADEhZw==
+X-Google-Smtp-Source: AGHT+IEXp9EHl+r52nyZmUYQ2UqnJZ61Ouw6bS+YYSJgi5AM3RP3Y/ohztJJgJzhA0/8e+7u/oL88w==
+X-Received: by 2002:adf:f343:0:b0:337:49d6:d487 with SMTP id
+ e3-20020adff343000000b0033749d6d487mr986977wrp.29.1704830031021; 
+ Tue, 09 Jan 2024 11:53:51 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.223.112])
  by smtp.gmail.com with ESMTPSA id
- w1-20020a5d6801000000b00336be33649csm3193258wru.9.2024.01.09.11.52.49
+ w1-20020a5d6801000000b00336be33649csm3193258wru.9.2024.01.09.11.53.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Jan 2024 11:52:50 -0800 (PST)
-Message-ID: <2815d43d-d016-4656-9ad9-33d4af04f479@linaro.org>
-Date: Tue, 9 Jan 2024 20:52:48 +0100
+ Tue, 09 Jan 2024 11:53:50 -0800 (PST)
+Message-ID: <e2fce141-4966-4e70-9a5c-865a2737174c@linaro.org>
+Date: Tue, 9 Jan 2024 20:53:48 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/11] dt-bindings: gpu: Rename img,powervr to
- img,powervr-rogue
+Subject: Re: [PATCH 02/11] dt-bindings: gpu: Add PowerVR Series5 SGX GPUs
 Content-Language: en-US
 To: Andrew Davis <afd@ti.com>, Frank Binns <frank.binns@imgtec.com>,
  Matt Coster <matt.coster@imgtec.com>,
@@ -73,7 +72,7 @@ To: Andrew Davis <afd@ti.com>, Frank Binns <frank.binns@imgtec.com>,
  Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
  Tero Kristo <kristo@kernel.org>, Paul Cercueil <paul@crapouillou.net>
 References: <20240109171950.31010-1-afd@ti.com>
- <20240109171950.31010-2-afd@ti.com>
+ <20240109171950.31010-3-afd@ti.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -119,7 +118,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240109171950.31010-2-afd@ti.com>
+In-Reply-To: <20240109171950.31010-3-afd@ti.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -142,17 +141,26 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 09/01/2024 18:19, Andrew Davis wrote:
-> This binding will be used for GPUs starting from Series6 (Rogue)
-> and later. A different binding document will describe Series5.
-> With that the name "img,powervr" is too generic, rename to
-> "img,powervr-rogue" to avoid confusion.
+> The Imagination PowerVR Series5 "SGX" GPU is part of several SoCs from
+> multiple vendors. Describe how the SGX GPU is integrated in these SoC,
+> including register space and interrupts. Clocks, reset, and power domain
+> information is SoC specific.
 > 
-> Suggested-by: Maxime Ripard <mripard@kernel.org>
 > Signed-off-by: Andrew Davis <afd@ti.com>
 > Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> Reviewed-by: Frank Binns <frank.binns@imgtec.com>
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+> +  clock-names:
+> +    minItems: 1
+> +    items:
+> +      - const: core
+> +      - const: mem
+> +      - const: sys
+
+There are no devices currently using third clock, but I assume it is
+expected or possible.
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
