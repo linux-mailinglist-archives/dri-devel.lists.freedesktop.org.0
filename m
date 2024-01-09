@@ -1,67 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7A9E828229
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 09:41:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B468F828266
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 09:47:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1F6910E3D6;
-	Tue,  9 Jan 2024 08:41:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BD7C10E3AF;
+	Tue,  9 Jan 2024 08:47:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
- [IPv6:2607:f8b0:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B72D010E6EA
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 08:41:18 +0000 (UTC)
-Received: by mail-pf1-x430.google.com with SMTP id
- d2e1a72fcca58-6daa89a6452so1468531b3a.2
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 00:41:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1704789678; x=1705394478;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=HeZ7Yc/QAQMqHdvRNSeL3MLzDzQAumC8yqHea160CSY=;
- b=hIKZ/Psa8DTBvNZrJTfnh/BpD36GN04+Fsy/A1I/EapHuZGHBo87GXaMN1/ab8kBv+
- +rASJXmM3b0Z1ouUmT7g86DGigk0AVYo7z4M5gVBUR5xSKJdGd03LXXRG+QcD2M1LfJf
- fDfdqExI+mRJonawr/oFBpwYHebVpLhQ3ECSA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704789678; x=1705394478;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=HeZ7Yc/QAQMqHdvRNSeL3MLzDzQAumC8yqHea160CSY=;
- b=OoqS6PgK+F01Z0UOiwffIK7t/urVpyUkfAQMKAo5jQiFAyFpf5TTctDrmPD4oXaXiR
- RM0TaRmc7zGtt4NTDo9Cx6KwUiQOVN9zSAWbRb4HTHVDkr4Vait4ubvry84uECKqsjz4
- A2QhtfW5O1D06I4YV2r9WKku9dZE4q0uNDkm2KNTqlUa6Qv4+5VUKreqdQREKf8hvctX
- yBYGdGpmEkWd4jwQJLxfRfppy8F91gTLN2o4YvDon0R2FxS4kFfKFtD62FEVxp7mNKf5
- kfpFeSHTpqq9Qrq8PipZlqwYn1ST6b3sZwyaHNvyFF6m+DQhvmwz9ZPwS4s7/Ara41JE
- 5HcQ==
-X-Gm-Message-State: AOJu0YzDWedmFUJLKL8Zz9Bi8IWMKeXVjfHtwWQbtauAPdXlnuz6mf5T
- +yewdRO0g0FpfJjVJIDeEBObN1V7QI6i
-X-Google-Smtp-Source: AGHT+IFxx53kVarjHq5z7rzVIUwCkyk+NGFUSVTP7cmO2YtnOt1zBEsFEwgvVWBZJ0j2JxOYS0P1zg==
-X-Received: by 2002:a05:6a21:8187:b0:199:bb69:a6ed with SMTP id
- pd7-20020a056a21818700b00199bb69a6edmr1524423pzb.114.1704789678164; 
- Tue, 09 Jan 2024 00:41:18 -0800 (PST)
-Received: from amakhalov-build-vm.eng.vmware.com ([128.177.82.146])
- by smtp.gmail.com with ESMTPSA id
- sf15-20020a17090b51cf00b0028d435cc2cbsm4772293pjb.15.2024.01.09.00.41.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jan 2024 00:41:17 -0800 (PST)
-From: Alexey Makhalov <alexey.makhalov@broadcom.com>
-X-Google-Original-From: Alexey Makhalov <amakhalov@vmware.com>
-To: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev, bp@alien8.de,
- hpa@zytor.com, dave.hansen@linux.intel.com, mingo@redhat.com,
- tglx@linutronix.de
-Subject: [PATCH v6 7/7] x86/vmware: Add TDX hypercall support
-Date: Tue,  9 Jan 2024 00:40:52 -0800
-Message-Id: <20240109084052.58661-8-amakhalov@vmware.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20240109084052.58661-1-amakhalov@vmware.com>
-References: <20240109084052.58661-1-amakhalov@vmware.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3E5F10E310;
+ Tue,  9 Jan 2024 08:47:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1704790022; x=1736326022;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=9y2C60KzGbz+mAi2nbmXunLacn6B86C5OdVSTPAPihE=;
+ b=J5CBuMZEv9SAdDjLRuQSPY0S0cKF6ax/pIi+fz8QMRGHeV7/kTzj/aNQ
+ hQs7b8wPJaicR58l4EQqlyKPMYB09A8t8iTdEPFSLyjEzgYlwCzG+qpwW
+ SWr3roaNa5UKiQsNdSuBGdHxuOo+JgqwDD9OLt+rWqHZ9spmFrcgPqKNx
+ ZDpxtiCLRJlF9vy3zIu7od93iEhAZtzTxIw+tMgKqZoXXrYiRdwlPBPTo
+ 5NYkJktEfC6C1psn90S1f8RRvQ7a5Gd0XWLPs6jex6My3hQEvvsRWg5zE
+ Nn+g5HFitJNPM5p6lgKHQsI7jGYmyE0jr+rbciA0oiWHKxoTSGAvkmFdh Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="4909032"
+X-IronPort-AV: E=Sophos;i="6.04,182,1695711600"; 
+   d="scan'208";a="4909032"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2024 00:47:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="1113014742"
+X-IronPort-AV: E=Sophos;i="6.04,182,1695711600"; d="scan'208";a="1113014742"
+Received: from larnott-mobl1.ger.corp.intel.com (HELO [10.213.222.67])
+ ([10.213.222.67])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2024 00:46:59 -0800
+Message-ID: <7c6fe714-d412-4e5d-8fa9-da84d614201b@linux.intel.com>
+Date: Tue, 9 Jan 2024 08:46:57 +0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] drm/i915/gt: Support fixed CCS mode
+Content-Language: en-US
+To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>
+References: <20240104143558.193694-1-andi.shyti@linux.intel.com>
+ <20240104143558.193694-2-andi.shyti@linux.intel.com>
+ <98e56d3e-ebf0-42b9-928b-0dcc4303658c@linux.intel.com>
+ <ZZchsRQ5Kc-x9dlk@ashyti-mobl2.lan>
+ <73f0a8e9-3fd6-45a9-a084-b5308900ca8f@linux.intel.com>
+ <170472678023.31232.8020112065054338164@jlahtine-mobl.ger.corp.intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <170472678023.31232.8020112065054338164@jlahtine-mobl.ger.corp.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,212 +68,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dmitry.torokhov@gmail.com, tzimmermann@suse.de, pv-drivers@vmware.com,
- netdev@vger.kernel.org, richardcochran@gmail.com, x86@kernel.org,
- dri-devel@lists.freedesktop.org, horms@kernel.org, akaher@vmware.com,
- timothym@vmware.com, linux-graphics-maintainer@vmware.com, mripard@kernel.org,
- jsipek@vmware.com, linux-input@vger.kernel.org, namit@vmware.com,
- kirill.shutemov@linux.intel.com, zackr@vmware.com
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VMware hypercalls use I/O port, VMCALL or VMMCALL instructions.
-Add __tdx_hypercall path to support TDX guests.
 
-No change in high bandwidth hypercalls, as only low bandwidth
-ones are supported for TDX guests.
+On 08/01/2024 15:13, Joonas Lahtinen wrote:
+> Quoting Tvrtko Ursulin (2024-01-05 12:39:31)
+>>
+>> On 04/01/2024 21:23, Andi Shyti wrote:
+> 
+> <SNIP>
+> 
+>>>>> +void intel_gt_apply_ccs_mode(struct intel_gt *gt)
+>>>>> +{
+>>>>> +   mutex_lock(&gt->ccs.mutex);
+>>>>> +   __intel_gt_apply_ccs_mode(gt);
+>>>>> +   mutex_unlock(&gt->ccs.mutex);
+>>>>> +}
+>>>>> +
+>>>>> +void intel_gt_init_ccs_mode(struct intel_gt *gt)
+>>>>> +{
+>>>>> +   mutex_init(&gt->ccs.mutex);
+>>>>> +   gt->ccs.mode = 1;
+>>>>
+>>>> What is '1'? And this question carries over to the sysfs interface in the
+>>>> following patch - who will use it and where it is documented how to use it?
+>>>
+>>> The value '1' is explained in the comment above[1] and in the
+>>
+>> Do you mean this is mode '1':
+>>
+>>    * With 1 engine (ccs0):
+>>    *   slice 0, 1, 2, 3: ccs0
+>>
+>> ?
+>>
+>> But I don't see where it says what do different modes mean on different
+>> SKU configurations.
+>>
+>> It also does not say what should the num_slices sysfs file be used for.
+>>
+>> Does "mode N" mean "assign each command streamer N compute slices"? Or
+>> "assign each compute slice N command streamers"?
+>>
+>> I wonder if we should add something user friendly into
+>> Documentation/ABI/*/sysfs-... Joonas your thoughts?
+> 
+> We definitely should always properly document all sysfs additions, just
+> seems like we less frequently remember to do so. So yeah, this should be
+> documented just like other uAPI.
+> 
+> I also like the idea of not exposing the the file at all if the value
+> can't be modified.
+> 
+> The ccs_mode is just supposed to allow user to select how many CCS
+> engines they want to expose, and always make an even split of slices
+> between them, nothing more nothing less.
 
-Co-developed-by: Tim Merrifield <timothym@vmware.com>
-Signed-off-by: Tim Merrifield <timothym@vmware.com>
-Signed-off-by: Alexey Makhalov <amakhalov@vmware.com>
-Reviewed-by: Nadav Amit <namit@vmware.com>
-Acked-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
----
- arch/x86/include/asm/vmware.h | 79 +++++++++++++++++++++++++++++++++++
- arch/x86/kernel/cpu/vmware.c  | 25 +++++++++++
- 2 files changed, 104 insertions(+)
+Hmm I can't see that the series changes anywhere what command streamers 
+will get reported as available.
 
-diff --git a/arch/x86/include/asm/vmware.h b/arch/x86/include/asm/vmware.h
-index 84a31f579a30..3bd593c6591d 100644
---- a/arch/x86/include/asm/vmware.h
-+++ b/arch/x86/include/asm/vmware.h
-@@ -18,6 +18,12 @@
-  * arg2 - Hypercall command
-  * arg3 bits [15:0] - Port number, LB and direction flags
-  *
-+ * - Low bandwidth TDX hypercalls (x86_64 only) are similar to LB
-+ * hypercalls. They also have up to 6 input and 6 output on registers
-+ * arguments, with different argument to register mapping:
-+ * %r12 (arg0), %rbx (arg1), %r13 (arg2), %rdx (arg3),
-+ * %rsi (arg4), %rdi (arg5).
-+ *
-  * - High bandwidth (HB) hypercalls are I/O port based only. They have
-  * up to 7 input and 7 output arguments passed and returned using
-  * registers: %eax (arg0), %ebx (arg1), %ecx (arg2), %edx (arg3),
-@@ -54,12 +60,61 @@
- #define VMWARE_CMD_GETHZ		45
- #define VMWARE_CMD_GETVCPU_INFO		68
- #define VMWARE_CMD_STEALCLOCK		91
-+/*
-+ * Hypercall command mask:
-+ *   bits [6:0] command, range [0, 127]
-+ *   bits [19:16] sub-command, range [0, 15]
-+ */
-+#define VMWARE_CMD_MASK			0xf007fU
- 
- #define CPUID_VMWARE_FEATURES_ECX_VMMCALL	BIT(0)
- #define CPUID_VMWARE_FEATURES_ECX_VMCALL	BIT(1)
- 
- extern u8 vmware_hypercall_mode;
- 
-+#define VMWARE_TDX_VENDOR_LEAF 0x1af7e4909ULL
-+#define VMWARE_TDX_HCALL_FUNC  1
-+
-+extern unsigned long vmware_tdx_hypercall(unsigned long cmd,
-+					  struct tdx_module_args *args);
-+
-+/*
-+ * TDCALL[TDG.VP.VMCALL] uses %rax (arg0) and %rcx (arg2). Therefore,
-+ * we remap those registers to %r12 and %r13, respectively.
-+ */
-+static inline
-+unsigned long vmware_tdx_hypercall_args(unsigned long cmd, unsigned long in1,
-+					unsigned long in3, unsigned long in4,
-+					unsigned long in5,
-+					uint32_t *out1, uint32_t *out2,
-+					uint32_t *out3, uint32_t *out4,
-+					uint32_t *out5)
-+{
-+	unsigned long ret;
-+
-+	struct tdx_module_args args = {
-+		.rbx = in1,
-+		.rdx = in3,
-+		.rsi = in4,
-+		.rdi = in5,
-+	};
-+
-+	ret = vmware_tdx_hypercall(cmd, &args);
-+
-+	if (out1)
-+		*out1 = args.rbx;
-+	if (out2)
-+		*out2 = args.r13;
-+	if (out3)
-+		*out3 = args.rdx;
-+	if (out4)
-+		*out4 = args.rsi;
-+	if (out5)
-+		*out5 = args.rdi;
-+
-+	return ret;
-+}
-+
- /*
-  * The low bandwidth call. The low word of %edx is presumed to have OUT bit
-  * set. The high word of %edx may contain input data from the caller.
-@@ -87,6 +142,10 @@ unsigned long vmware_hypercall1(unsigned long cmd, unsigned long in1)
- {
- 	unsigned long out0;
- 
-+	if (cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-+		return vmware_tdx_hypercall_args(cmd, in1, 0, 0, 0,
-+						 NULL, NULL, NULL, NULL, NULL);
-+
- 	asm_inline volatile (VMWARE_HYPERCALL
- 		: "=a" (out0)
- 		: [port] "i" (VMWARE_HYPERVISOR_PORT),
-@@ -105,6 +164,10 @@ unsigned long vmware_hypercall3(unsigned long cmd, unsigned long in1,
- {
- 	unsigned long out0;
- 
-+	if (cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-+		return vmware_tdx_hypercall_args(cmd, in1, 0, 0, 0,
-+						 out1, out2, NULL, NULL, NULL);
-+
- 	asm_inline volatile (VMWARE_HYPERCALL
- 		: "=a" (out0), "=b" (*out1), "=c" (*out2)
- 		: [port] "i" (VMWARE_HYPERVISOR_PORT),
-@@ -124,6 +187,10 @@ unsigned long vmware_hypercall4(unsigned long cmd, unsigned long in1,
- {
- 	unsigned long out0;
- 
-+	if (cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-+		return vmware_tdx_hypercall_args(cmd, in1, 0, 0, 0,
-+						 out1, out2, out3, NULL, NULL);
-+
- 	asm_inline volatile (VMWARE_HYPERCALL
- 		: "=a" (out0), "=b" (*out1), "=c" (*out2), "=d" (*out3)
- 		: [port] "i" (VMWARE_HYPERVISOR_PORT),
-@@ -143,6 +210,10 @@ unsigned long vmware_hypercall5(unsigned long cmd, unsigned long in1,
- {
- 	unsigned long out0;
- 
-+	if (cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-+		return vmware_tdx_hypercall_args(cmd, in1, in3, in4, in5,
-+						 NULL, out2, NULL, NULL, NULL);
-+
- 	asm_inline volatile (VMWARE_HYPERCALL
- 		: "=a" (out0), "=c" (*out2)
- 		: [port] "i" (VMWARE_HYPERVISOR_PORT),
-@@ -165,6 +236,10 @@ unsigned long vmware_hypercall6(unsigned long cmd, unsigned long in1,
- {
- 	unsigned long out0;
- 
-+	if (cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-+		return vmware_tdx_hypercall_args(cmd, in1, in3, 0, 0,
-+						 NULL, out2, out3, out4, out5);
-+
- 	asm_inline volatile (VMWARE_HYPERCALL
- 		: "=a" (out0), "=c" (*out2), "=d" (*out3), "=S" (*out4),
- 		  "=D" (*out5)
-@@ -186,6 +261,10 @@ unsigned long vmware_hypercall7(unsigned long cmd, unsigned long in1,
- {
- 	unsigned long out0;
- 
-+	if (cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-+		return vmware_tdx_hypercall_args(cmd, in1, in3, in4, in5,
-+						 out1, out2, out3, NULL, NULL);
-+
- 	asm_inline volatile (VMWARE_HYPERCALL
- 		: "=a" (out0), "=b" (*out1), "=c" (*out2), "=d" (*out3)
- 		: [port] "i" (VMWARE_HYPERVISOR_PORT),
-diff --git a/arch/x86/kernel/cpu/vmware.c b/arch/x86/kernel/cpu/vmware.c
-index 3aa1adaed18f..84caa67d4820 100644
---- a/arch/x86/kernel/cpu/vmware.c
-+++ b/arch/x86/kernel/cpu/vmware.c
-@@ -428,6 +428,31 @@ static bool __init vmware_legacy_x2apic_available(void)
- 		(eax & BIT(VCPU_LEGACY_X2APIC));
- }
- 
-+#ifdef CONFIG_INTEL_TDX_GUEST
-+unsigned long vmware_tdx_hypercall(unsigned long cmd,
-+				   struct tdx_module_args *args)
-+{
-+	if (!hypervisor_is_type(X86_HYPER_VMWARE))
-+		return ULONG_MAX;
-+
-+	if (cmd & ~VMWARE_CMD_MASK) {
-+		pr_warn_once("Out of range command %lx\n", cmd);
-+		return ULONG_MAX;
-+	}
-+
-+	args->r10 = VMWARE_TDX_VENDOR_LEAF;
-+	args->r11 = VMWARE_TDX_HCALL_FUNC;
-+	args->r12 = VMWARE_HYPERVISOR_MAGIC;
-+	args->r13 = cmd;
-+	args->r15 = 0; /* CPL */
-+
-+	__tdx_hypercall(args);
-+
-+	return args->r12;
-+}
-+EXPORT_SYMBOL_GPL(vmware_tdx_hypercall);
-+#endif
-+
- #ifdef CONFIG_AMD_MEM_ENCRYPT
- static void vmware_sev_es_hcall_prepare(struct ghcb *ghcb,
- 					struct pt_regs *regs)
--- 
-2.39.0
+Regards,
+
+Tvrtko
+
 
