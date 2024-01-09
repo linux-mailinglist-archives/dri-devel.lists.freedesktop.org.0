@@ -1,62 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 169FF8286E3
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 14:14:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D4AE8286F9
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 14:22:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2608610E417;
-	Tue,  9 Jan 2024 13:14:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C687E10E441;
+	Tue,  9 Jan 2024 13:22:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
- [IPv6:2a00:1450:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54E7410E417
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 13:14:11 +0000 (UTC)
-Received: by mail-lj1-x22c.google.com with SMTP id
- 38308e7fff4ca-2cd4900e085so6538111fa.0
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 05:14:11 -0800 (PST)
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FFDA10E441
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 13:22:08 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id
+ a640c23a62f3a-a28cfca3c45so74957566b.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 05:22:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1704806049; x=1705410849; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=iBl04nEzlk7MUiFppfCCz6fsBkWnKtVtYPOjbQcAw1Q=;
- b=daHnU855ykGH09K1gDjTChTVs5aLP1Eu45uQOK6wOJjtlvYc1sPlu5WCnJy5FIc51E
- GDjJclVgKBq/I434NpcBAtDTA4zefVgqJ/vUAaZqD/Xa5TC7Innw3gqcDFA4A+8T6Ybp
- FCdWNseTcBRNMwrlstk0TSl6NmD/RzaCiVA0I=
+ d=ffwll.ch; s=google; t=1704806526; x=1705411326; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=X8nyMGssowFI2DlaMmQ3Tpss+UtDdR+faxTS8hNAvao=;
+ b=bYCNvRQhBzZ5HshXmK1MFUh9zjdR3n32CimOUjHpH8IUHkICI+eLRWm7L1+TT0s93U
+ ox/iTFSAEsKFgjqBkzDamEG/XM8jNAhuoGRbp74BQ2Ii/qLEW8V2ldnEBbs/UQYVN6QA
+ wHkBcT12ufJKzJU+wwfsIEx0Tx+Obas2tZKMA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704806049; x=1705410849;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=iBl04nEzlk7MUiFppfCCz6fsBkWnKtVtYPOjbQcAw1Q=;
- b=bZm9rBi0XpFED4gA82SUH/9MYyzfcMdQ2A5De9GhGT9ZjERRQjKdOCCdtxGEtY21gR
- wbERFxaOzzLYQjKxWfWqzcJlqXn3YWcKNZiaEthWyYM/Ts5RX0etwwtQUkxIljgFiPdK
- NA6VHXOVnuuTHFfgjWHbYgia7LEqrn8Jf8EHBtuUHMIPP15mcanUihI6q3Ki5sL+VZKR
- rUnYY64hR8ShESVHUfLaLvLNXXqIaTaYZSCzQ94v4EoAQRf6owHRI5v86YEEf+RzC/9u
- nnoa5zr/9ZPYOxSl7mToW8gwKf0E93k7LJ9s3/rDNksnDDaOQW0KOzMa1QIJ3bpdGUWX
- lihg==
-X-Gm-Message-State: AOJu0YxuHgJMzs+Opa0wKucvGeCiIwkVG361g+cfRFtf6DxXuAUSwJ8o
- K1MHs9QIXrCZjS3FKoz6P7FbcH0cosjBUQ==
-X-Google-Smtp-Source: AGHT+IEdGoCt0tOoGrLMD811XBBismui6B1HlrFAHbierItONFims6NpxuVTpupjH9cNtb0fV6HgDQ==
-X-Received: by 2002:a2e:3213:0:b0:2cd:f45:f150 with SMTP id
- y19-20020a2e3213000000b002cd0f45f150mr4810312ljy.1.1704806049342; 
- Tue, 09 Jan 2024 05:14:09 -0800 (PST)
+ d=1e100.net; s=20230601; t=1704806526; x=1705411326;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=X8nyMGssowFI2DlaMmQ3Tpss+UtDdR+faxTS8hNAvao=;
+ b=MJjmOWTgSyKB60Vd3S/YW36aIqrnaKglBBauz7G6+X9fXzABQkEJ+0Vd/f856rIju3
+ 23QoXuIoNaQ//VJZDqaW6vrO9kS2Wz4cgccAmXS/Vzp1yoK9NVHYp2t6Nq883HrHgs6Y
+ nHtoK3keWbUgl0X1vdgML6W4l9+v2wv/EExOxYL8eGooz+Vl3XrT6EF8JkHGrD1CVZpZ
+ f1TJetbapySsuqOdCQfLigZJGnCdVPdNNZoxeWyz19ku/zx0rCMJ1fKtm8dK7G70cjPe
+ 8l/tYIFu80S4PSBbp/aTIgEm5obBTqqwlwgwfc+hvOmTOdcI3Cbm7NAryUmzE35i3a/l
+ pPbQ==
+X-Gm-Message-State: AOJu0YxYf7FnDoJAQkO3TNf/Tj/JPYXUnfFVF6PZwcRCU3nbvK5G/TAp
+ KfThrmIaPAKhhaej1+ax7u16RhTJcTjvVA==
+X-Google-Smtp-Source: AGHT+IFi7RfzXVRLPVWIVsSbvJo+89aCiOIdxE8Is6w6/5ECdWmo4tLla9mz3sECM1F7viqHnFP/0w==
+X-Received: by 2002:a17:907:9282:b0:a26:a4e8:5454 with SMTP id
+ bw2-20020a170907928200b00a26a4e85454mr4655999ejc.0.1704806526503; 
+ Tue, 09 Jan 2024 05:22:06 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- f21-20020a056402195500b00558267aca09sm205696edz.57.2024.01.09.05.14.08
+ s23-20020a170906455700b00a27a32e6502sm1026398ejq.117.2024.01.09.05.22.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jan 2024 05:14:08 -0800 (PST)
-Date: Tue, 9 Jan 2024 14:14:06 +0100
+ Tue, 09 Jan 2024 05:22:05 -0800 (PST)
+Date: Tue, 9 Jan 2024 14:22:02 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Subject: Re: [PATCH] drm/shmem-helper: Fix comment describing dma-buf mappings
-Message-ID: <ZZ1Gnvitssne-e5r@phenom.ffwll.local>
-References: <20240109104305.604549-1-jacek.lawrynowicz@linux.intel.com>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH] drm/imagination: Defer probe if requested firmware is
+ not available
+Message-ID: <ZZ1IellMvvyFlQaF@phenom.ffwll.local>
+Mail-Followup-To: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Erico Nunes <nunes.erico@gmail.com>,
+ =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
+ David Airlie <airlied@gmail.com>,
+ Donald Robson <donald.robson@imgtec.com>,
+ Frank Binns <frank.binns@imgtec.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Matt Coster <matt.coster@imgtec.com>,
+ Sarah Walker <sarah.walker@imgtec.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org
+References: <20240109120604.603700-1-javierm@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240109104305.604549-1-jacek.lawrynowicz@linux.intel.com>
+In-Reply-To: <20240109120604.603700-1-javierm@redhat.com>
 X-Operating-System: Linux phenom 6.5.0-4-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,58 +84,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, mripard@kernel.org, dri-devel@lists.freedesktop.org
+Cc: Sarah Walker <sarah.walker@imgtec.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Matt Coster <matt.coster@imgtec.com>, Donald Robson <donald.robson@imgtec.com>,
+ =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
+ Erico Nunes <nunes.erico@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 09, 2024 at 11:43:05AM +0100, Jacek Lawrynowicz wrote:
-> `shmem->map_wc was` set to `false` but the comment suggested WC was
-> enabled for imported buffers.
+On Tue, Jan 09, 2024 at 01:05:59PM +0100, Javier Martinez Canillas wrote:
+> The device is initialized in the driver's probe callback and as part of
+> that initialization, the required firmware is loaded. But this fails if
+> the driver is built-in and the firmware isn't present in the initramfs:
 > 
-> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-> ---
->  drivers/gpu/drm/drm_gem_shmem_helper.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> $ dmesg | grep powervr
+> [    2.969757] powervr fd00000.gpu: Direct firmware load for powervr/rogue_33.15.11.3_v1.fw failed with error -2
+> [    2.979727] powervr fd00000.gpu: [drm] *ERROR* failed to load firmware powervr/rogue_33.15.11.3_v1.fw (err=-2)
+> [    2.989885] powervr: probe of fd00000.gpu failed with error -2
 > 
-> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> index e435f986cd13..1532f1766170 100644
-> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -75,7 +75,7 @@ __drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private)
->  
->  	if (private) {
->  		drm_gem_private_object_init(dev, obj, size);
-> -		shmem->map_wc = false; /* dma-buf mappings use always writecombine */
-> +		shmem->map_wc = false; /* dma-buf mappings are never write-combined */
+> $ ls -lh /lib/firmware/powervr/rogue_33.15.11.3_v1.fw.xz
+> -rw-r--r-- 1 root root 51K Dec 12 19:00 /lib/firmware/powervr/rogue_33.15.11.3_v1.fw.xz
+> 
+> To prevent the probe to fail for this case, let's defer the probe if the
+> firmware isn't available. That way, the driver core can retry it and get
+> the probe to eventually succeed once the root filesystem has been mounted.
+> 
+> If the firmware is also not present in the root filesystem, then the probe
+> will never succeed and the reason listed in the debugfs devices_deferred:
+> 
+> $ cat /sys/kernel/debug/devices_deferred
+> fd00000.gpu     powervr: failed to load firmware powervr/rogue_33.15.11.3_v1.fw (err=-517)
+> 
+> Fixes: f99f5f3ea7ef ("drm/imagination: Add GPU ID parsing and firmware loading")
+> Suggested-by: Maxime Ripard <mripard@kernel.org>
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 
-I think neither is correct, because for a dma_buf import it is up to the
-importer to set up everything, including whether mappings should be
-write-combined or not. And setting this to false ensures that helpers
-don't muck around with the caching setting.
+Uh that doesn't work.
 
-Also there's private buffer objects for other reasons, but the overlap
-between drivers that have those and which use shmem helpers is zero.
+Probe is for "I'm missing a struct device" and _only_ that. You can't
+assume that probe deferral will defer enough until the initrd shows up.
 
-So I think overall a better comment would be:
+You need to fix this by fixing the initrd to include the required
+firmwares. This is what MODULE_FIRMWARE is for, and if your initrd fails
+to observe that it's just broken.
 
-		/* This disables all shmem helper caching code and leaves
-		 * all decision entirely to the buffer provider */
+Yes I know as long as you have enough stuff built as module so that there
+will be _any_ kind of device probe after the root fs is mounted, this
+works, because that triggers a re-probe of everything. But that's the most
+kind of fragile fix there is.
 
-Maybe in a very old version where shmem helpers didn't correctly use the
-dma_buf functions there was some justification for the original comment,
-but that's been long ago fixed in a series of patches to make sure
-dma_buf_vmap/mmap are used consistently and directly.
-
-Care to respin with a wording of your choice for the comment? If you're
-bored you could also try to dig through history a bit and collect some of
-the commits that made this comment largely obsolete, since I don't think
-any of the map_wc == true paths are even reachable anymore for private
-objects ...
+If you want to change that then I think that needs an official blessing
+from Greg KH/device core folks.
 
 Cheers, Sima
->  	} else {
->  		ret = drm_gem_object_init(dev, obj, size);
+
+> ---
+> 
+>  drivers/gpu/drm/imagination/pvr_device.c | 12 ++++++++++--
+>  1 file changed, 10 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/imagination/pvr_device.c b/drivers/gpu/drm/imagination/pvr_device.c
+> index 1704c0268589..6eda25366431 100644
+> --- a/drivers/gpu/drm/imagination/pvr_device.c
+> +++ b/drivers/gpu/drm/imagination/pvr_device.c
+> @@ -295,8 +295,16 @@ pvr_request_firmware(struct pvr_device *pvr_dev)
+>  	 */
+>  	err = request_firmware(&fw, filename, pvr_dev->base.dev);
+>  	if (err) {
+> -		drm_err(drm_dev, "failed to load firmware %s (err=%d)\n",
+> -			filename, err);
+> +		/*
+> +		 * Defer probe if the firmware is not available yet (e.g: the driver
+> +		 * is built-in and the firmware not present in the initramfs image).
+> +		 */
+> +		if (err == -ENOENT)
+> +			err = -EPROBE_DEFER;
+> +
+> +		dev_err_probe(drm_dev->dev, err, "failed to load firmware %s (err=%d)\n",
+> +			      filename, err);
+> +
+>  		goto err_free_filename;
 >  	}
+>  
 > -- 
 > 2.43.0
 > 
