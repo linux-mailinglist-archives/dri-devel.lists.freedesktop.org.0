@@ -1,26 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F15482809F
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 09:24:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BEC68280A2
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 09:24:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E30710E6DE;
-	Tue,  9 Jan 2024 08:24:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6947A10E6DD;
+	Tue,  9 Jan 2024 08:24:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
  [153.127.30.23])
- by gabe.freedesktop.org (Postfix) with ESMTP id BFA3010E6DE
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 08:24:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8FF3810E6DD
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 08:24:21 +0000 (UTC)
 Received: from SIOS1075.ysato.name (ZM005235.ppp.dion.ne.jp [222.8.5.235])
- by sakura.ysato.name (Postfix) with ESMTPSA id 858361C0917;
- Tue,  9 Jan 2024 17:24:17 +0900 (JST)
+ by sakura.ysato.name (Postfix) with ESMTPSA id 5106D1C0941;
+ Tue,  9 Jan 2024 17:24:19 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: linux-sh@vger.kernel.org
-Subject: [DO NOT MERGE v6 20/37] serial: sh-sci: fix SH4 OF support.
-Date: Tue,  9 Jan 2024 17:23:17 +0900
-Message-Id: <ab586c0d8f44351759503f2a8998a783c8caaf9d.1704788539.git.ysato@users.sourceforge.jp>
+Subject: [DO NOT MERGE v6 21/37] dt-bindings: serial: renesas,
+ scif: Add scif-sh7751.
+Date: Tue,  9 Jan 2024 17:23:18 +0900
+Message-Id: <dbaaf58b50b681cf03bc5ad3eef0a546fe863bca.1704788539.git.ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1704788539.git.ysato@users.sourceforge.jp>
 References: <cover.1704788539.git.ysato@users.sourceforge.jp>
@@ -77,54 +78,25 @@ Cc: =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-- fix earlycon name.
-- fix earlyprintk hung (NULL pointer reference).
-- fix SERIAL_SH_SCI_EARLYCON enablement
+Add Renesas SH7751 SCIF.
 
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/tty/serial/Kconfig  | 2 +-
- drivers/tty/serial/sh-sci.c | 6 +++---
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ Documentation/devicetree/bindings/serial/renesas,scif.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/tty/serial/Kconfig b/drivers/tty/serial/Kconfig
-index 732c893c8d16..56d635371fd3 100644
---- a/drivers/tty/serial/Kconfig
-+++ b/drivers/tty/serial/Kconfig
-@@ -658,7 +658,7 @@ config SERIAL_SH_SCI_EARLYCON
- 	depends on SERIAL_SH_SCI=y
- 	select SERIAL_CORE_CONSOLE
- 	select SERIAL_EARLYCON
--	default ARCH_RENESAS
-+	default ARCH_RENESAS || SUPERH
+diff --git a/Documentation/devicetree/bindings/serial/renesas,scif.yaml b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
+index 4610a5bd580c..590f88e2ced9 100644
+--- a/Documentation/devicetree/bindings/serial/renesas,scif.yaml
++++ b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
+@@ -18,6 +18,7 @@ properties:
+       - items:
+           - enum:
+               - renesas,scif-r7s72100     # RZ/A1H
++              - renesas,scif-sh7751       # SH7751
+           - const: renesas,scif           # generic SCIF compatible UART
  
- config SERIAL_SH_SCI_DMA
- 	bool "DMA support" if EXPERT
-diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
-index 84ab434c94ba..0a33581be08b 100644
---- a/drivers/tty/serial/sh-sci.c
-+++ b/drivers/tty/serial/sh-sci.c
-@@ -2720,7 +2720,7 @@ static int sci_remap_port(struct uart_port *port)
- 	if (port->membase)
- 		return 0;
- 
--	if (port->dev->of_node || (port->flags & UPF_IOREMAP)) {
-+	if ((port->dev && port->dev->of_node) || (port->flags & UPF_IOREMAP)) {
- 		port->membase = ioremap(port->mapbase, sport->reg_size);
- 		if (unlikely(!port->membase)) {
- 			dev_err(port->dev, "can't remap port#%d\n", port->line);
-@@ -3555,8 +3555,8 @@ static int __init hscif_early_console_setup(struct earlycon_device *device,
- 
- OF_EARLYCON_DECLARE(sci, "renesas,sci", sci_early_console_setup);
- OF_EARLYCON_DECLARE(scif, "renesas,scif", scif_early_console_setup);
--OF_EARLYCON_DECLARE(scif, "renesas,scif-r7s9210", rzscifa_early_console_setup);
--OF_EARLYCON_DECLARE(scif, "renesas,scif-r9a07g044", rzscifa_early_console_setup);
-+OF_EARLYCON_DECLARE(rzscifa, "renesas,scif-r7s9210", rzscifa_early_console_setup);
-+OF_EARLYCON_DECLARE(rzscifa, "renesas,scif-r9a07g044", rzscifa_early_console_setup);
- OF_EARLYCON_DECLARE(scifa, "renesas,scifa", scifa_early_console_setup);
- OF_EARLYCON_DECLARE(scifb, "renesas,scifb", scifb_early_console_setup);
- OF_EARLYCON_DECLARE(hscif, "renesas,hscif", hscif_early_console_setup);
+       - items:
 -- 
 2.39.2
 
