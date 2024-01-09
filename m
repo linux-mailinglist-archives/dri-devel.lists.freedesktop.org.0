@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B436828E2B
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 20:52:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CD20828E31
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 20:52:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E26610E009;
-	Tue,  9 Jan 2024 19:52:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E254E10E49B;
+	Tue,  9 Jan 2024 19:52:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
  [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B55910E009
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 19:52:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6DC710E49B
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 19:52:52 +0000 (UTC)
 Received: by mail-wm1-x32e.google.com with SMTP id
- 5b1f17b1804b1-40e4f71288bso10939555e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 11:52:33 -0800 (PST)
+ 5b1f17b1804b1-40d5336986cso43972175e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 11:52:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1704829951; x=1705434751; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1704829971; x=1705434771; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=H8e7BIQ+0Uh9OOAYCo0/STP+HvJzJz6KC9y4zPITais=;
- b=vE+SERoVqeln4qPeVEmeXJOkMr90XNil67FFbP01WFz8sZ7aNFJ2s37WFvado26Xhs
- ga3aaZ46nw1B1SkV2We03wmE3jwyXp7Tv2Ksw+iJfOdMtPmDs48JvOSRfjvvPFxcQr8t
- J7sNPg3onxhTSbzJ0cDWnG7jwBQQNrj5oO5r2xbwlXz5NElBSxmawM1N6hC62rfRkE7j
- f67MQF+tZIPRegeXfm1ntx03mIEDJ9FXRrv5D21b+RlbqJVSvPt+9m24q2NaO2WdgLNy
- XyByGPUO9Yrp6swkjygNOf8F90AZQcW/BkG1uVVgDAm5jl5HpYOepYNy2jHKyHO2yDHL
- lyhg==
+ bh=BI/48/E7Md2QE++iHyjNqxZ4Ipvc83BNLpeu7Fm4++A=;
+ b=ZxptUzWmkMJ/B57JdktMWHbqtQ0uj0rOu+Sys13YS9E0DTCdmpxAGrd8BY9lmNpcPF
+ W9g1sCqT2+r/lO/wgVNkemqd48rXCWvmeoc88MvCHQWh6bN5vXkf6ImJ6MYQmA/tgJKJ
+ TU4FlYMpbez2dqW5vrYwMTBshoTPHZhbByLlLjTwv0PEFlYF27O50ZWy1fgUU2u+xVmD
+ L8L0Zdxeo9/AC6ZPu9VIG8Oztyge5G+vL5g+j0VIIn0DqDOlV6vYbnXKdZpzWiPfTZKa
+ 3LxvNZKtzvAceGxtYATRMp2y9U8ruRNdMpz/2UXDwJwawggU8r9N+6lLFayGkOE12shc
+ pCbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704829951; x=1705434751;
+ d=1e100.net; s=20230601; t=1704829971; x=1705434771;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=H8e7BIQ+0Uh9OOAYCo0/STP+HvJzJz6KC9y4zPITais=;
- b=e7muQC7CmIO23PKsu634Y8GtAi+WH8bZu0N+D1xmheWvdp4w44AZGuRKpfHUbPtnVE
- fbjHfyqe7rU39wGxwY83uDDkr3uQhr4OmCXhGBv+JB1VzW9v0EknKuL9P5yvrjI6ia3q
- CpG7w+qeSYS+O4kPAjgxYPWAGI+sNNihNo1/7Uahs0UaWwEG3KTm5L35NAljAlUZMbzc
- IMbZWn+nQMhpkCOSNVBpikaYoUmu9ke2HJn9wbaOVWa2H+DPED5QChy8xXdPgV7YqQ8E
- nUioirBwjUCj7wKVU7MCEikgB8WYzmDsi/BRBN8xCPYoDjeegTIN88CSBmf8NFrbRGiG
- 3gTA==
-X-Gm-Message-State: AOJu0YzWmdlmA5mVGEzOY4UoPaPiJVqMdbvRoSBX6FVNcE/LhGXIVzJp
- XMobymF16QU/zhV9R/7GXZZ7eAuIwS3RXA==
-X-Google-Smtp-Source: AGHT+IHmaMSsPHOeRys+SN1gCkDvhPPnnU4xw5om3zeZ1uZJmbZ6bUKv8I/7qxajZHyxo4zm+o/bmQ==
-X-Received: by 2002:a05:600c:511e:b0:40e:5320:2582 with SMTP id
- o30-20020a05600c511e00b0040e53202582mr212877wms.107.1704829951588; 
- Tue, 09 Jan 2024 11:52:31 -0800 (PST)
+ bh=BI/48/E7Md2QE++iHyjNqxZ4Ipvc83BNLpeu7Fm4++A=;
+ b=MuFvDTUYaN7GFbT0q03cUmrhxySJoNeD5aW9NyEad2p5+tvDRYVE4ztcmFBv/5JGgZ
+ aQEqyZexGX5nPn8NmEasXTyzZQgWh+63VA1+pedGQlcshyrQPzJxJnNpJgwRNIjGeGXh
+ MPmbq5uABy0em45sZl2wplaf1iH1fccvbbtYBYqzm03qlzUGRHUg5FqJfTRvBFT8qLls
+ YUxvTZA/+e63f5/jI1BJaXD20Ku0S9X/gDcEhe7aLV6pNYG0OHoxl56vKjA+ErNQ7IQn
+ N8AP1ucsioU2hhSvIkbmnXdoQ7JY3L+OmuD78zuU4Z5CCsvFekanzx4mfQEwTE8Gwc8/
+ o9Aw==
+X-Gm-Message-State: AOJu0YyKI748ph5NMfhLtu3Q4gLrrWgxvtSdGIoUpkK6QV19ueA9dXu/
+ /oXnMKaVhb7a3jYMMouWQmhEnNEVGf26/Q==
+X-Google-Smtp-Source: AGHT+IE6HSL59hPqBUMbNpE6skT8szvU3eRO5hKrvBl3DRfpljPdLWzn6Ca47i5HcCIyTcytaHSX3w==
+X-Received: by 2002:a05:600c:4504:b0:40d:9255:4aca with SMTP id
+ t4-20020a05600c450400b0040d92554acamr2804029wmo.119.1704829971274; 
+ Tue, 09 Jan 2024 11:52:51 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.223.112])
  by smtp.gmail.com with ESMTPSA id
- w1-20020a5d6801000000b00336be33649csm3193258wru.9.2024.01.09.11.52.29
+ w1-20020a5d6801000000b00336be33649csm3193258wru.9.2024.01.09.11.52.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Jan 2024 11:52:30 -0800 (PST)
-Message-ID: <f1710a31-6729-4a97-afcb-518cb99b9346@linaro.org>
-Date: Tue, 9 Jan 2024 20:52:28 +0100
+ Tue, 09 Jan 2024 11:52:50 -0800 (PST)
+Message-ID: <2815d43d-d016-4656-9ad9-33d4af04f479@linaro.org>
+Date: Tue, 9 Jan 2024 20:52:48 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 01/11] dt-bindings: gpu: Rename img,powervr to
@@ -74,10 +74,6 @@ To: Andrew Davis <afd@ti.com>, Frank Binns <frank.binns@imgtec.com>,
  Tero Kristo <kristo@kernel.org>, Paul Cercueil <paul@crapouillou.net>
 References: <20240109171950.31010-1-afd@ti.com>
  <20240109171950.31010-2-afd@ti.com>
- <11e3afae-76a7-4ebb-82ac-3dca040710dc@linaro.org>
- <d0c242ef-bb8f-49d9-bbb0-7922db2c322a@ti.com>
- <d584255f-87ee-48a7-869d-e2a0b40a52b4@linaro.org>
- <61b0c6c7-e5ad-4cbf-a020-230d96d43d3e@ti.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -123,7 +119,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <61b0c6c7-e5ad-4cbf-a020-230d96d43d3e@ti.com>
+In-Reply-To: <20240109171950.31010-2-afd@ti.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -145,49 +141,18 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/01/2024 20:33, Andrew Davis wrote:
-> On 1/9/24 1:17 PM, Krzysztof Kozlowski wrote:
->> On 09/01/2024 20:04, Andrew Davis wrote:
->>> On 1/9/24 12:59 PM, Krzysztof Kozlowski wrote:
->>>> On 09/01/2024 18:19, Andrew Davis wrote:
->>>>> This binding will be used for GPUs starting from Series6 (Rogue)
->>>>> and later. A different binding document will describe Series5.
->>>>> With that the name "img,powervr" is too generic, rename to
->>>>> "img,powervr-rogue" to avoid confusion.
->>>>>
->>>>> Suggested-by: Maxime Ripard <mripard@kernel.org>
->>>>> Signed-off-by: Andrew Davis <afd@ti.com>
->>>>> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
->>>>> Reviewed-by: Frank Binns <frank.binns@imgtec.com>
->>>>> ---
->>>>
->>>> Why do you send new version while we still talk about previous?
->>>>
->>>> Please implement feedback from v1 (and this is v2, so next is v3) or
->>>> keep discussing.
->>>>
->>>
->>> I agreed with everything you said in the last round (RFC v2) and
->>> made all requested changes. Did I miss something in this version?
->>
->> The recommendation is that naming of the file matches generic compatible
->> and your file has only one generic compatible. Therefore I don't
->> understand why you claimed there are multiple compatibles.
->>
+On 09/01/2024 18:19, Andrew Davis wrote:
+> This binding will be used for GPUs starting from Series6 (Rogue)
+> and later. A different binding document will describe Series5.
+> With that the name "img,powervr" is too generic, rename to
+> "img,powervr-rogue" to avoid confusion.
 > 
-> I said "There are (or will be) multiple compatible strings", the rest
+> Suggested-by: Maxime Ripard <mripard@kernel.org>
+> Signed-off-by: Andrew Davis <afd@ti.com>
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> Reviewed-by: Frank Binns <frank.binns@imgtec.com>
 
-OK.
-
-> are on the way. So I didn't want to make this file less generic when
-> other bindings are almost ready.
-> 
-> Frank, can you help here, I'm assuming you have "img,img-bxs" and
-> "img,img-8xe" bindings staged for upstreaming somewhere; you'll be
-> putting those in this same file, right?
-> 
-
-That's fine then.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
