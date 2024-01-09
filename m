@@ -1,60 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B468F828266
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 09:47:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD0B882826D
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 09:47:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BD7C10E3AF;
-	Tue,  9 Jan 2024 08:47:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E216B10E3B2;
+	Tue,  9 Jan 2024 08:47:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3E5F10E310;
- Tue,  9 Jan 2024 08:47:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704790022; x=1736326022;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=9y2C60KzGbz+mAi2nbmXunLacn6B86C5OdVSTPAPihE=;
- b=J5CBuMZEv9SAdDjLRuQSPY0S0cKF6ax/pIi+fz8QMRGHeV7/kTzj/aNQ
- hQs7b8wPJaicR58l4EQqlyKPMYB09A8t8iTdEPFSLyjEzgYlwCzG+qpwW
- SWr3roaNa5UKiQsNdSuBGdHxuOo+JgqwDD9OLt+rWqHZ9spmFrcgPqKNx
- ZDpxtiCLRJlF9vy3zIu7od93iEhAZtzTxIw+tMgKqZoXXrYiRdwlPBPTo
- 5NYkJktEfC6C1psn90S1f8RRvQ7a5Gd0XWLPs6jex6My3hQEvvsRWg5zE
- Nn+g5HFitJNPM5p6lgKHQsI7jGYmyE0jr+rbciA0oiWHKxoTSGAvkmFdh Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="4909032"
-X-IronPort-AV: E=Sophos;i="6.04,182,1695711600"; 
-   d="scan'208";a="4909032"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2024 00:47:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="1113014742"
-X-IronPort-AV: E=Sophos;i="6.04,182,1695711600"; d="scan'208";a="1113014742"
-Received: from larnott-mobl1.ger.corp.intel.com (HELO [10.213.222.67])
- ([10.213.222.67])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2024 00:46:59 -0800
-Message-ID: <7c6fe714-d412-4e5d-8fa9-da84d614201b@linux.intel.com>
-Date: Tue, 9 Jan 2024 08:46:57 +0000
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F92410E3B2
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 08:47:28 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id 8AC75B819F9;
+ Tue,  9 Jan 2024 08:47:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97294C433C7;
+ Tue,  9 Jan 2024 08:47:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1704790045;
+ bh=232TwjJF1Ui9G01uyqDCIoqp2EAkeZW9NrKM8Q/mDxw=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=BrqdkFJ8xBDM4yyc7Ibmg5zTYv+Nc3fu0HyRIE95AhwN7WYBJktMV+DDImb/KqAFk
+ zEHn1rmxXgInltwcjglTsbPRV3v/ONuvRPp4UgRp8uBsSqwU1a3+9AUZ6A0WEF+HSI
+ n1IpogbCc3d09kc0a04secaTxunmIWbKVOqZD4GT3vbUCjw9nNDW5YMKZ+mkExaLM3
+ 2b/mKoVSr3nJZxwW8uIsJw6uCekrfNi44tNBcVnZtI30hZKa1rCw38JFsDlPf197WB
+ HQGr/i+ZwFl5f5pm8F8FyrCiJNTBFIun6vLCG7xRED08ng2+lCaPwT3i0WY916mWwH
+ aYK/n9teq0D4A==
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] drm/i915/gt: Support fixed CCS mode
-Content-Language: en-US
-To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>
-References: <20240104143558.193694-1-andi.shyti@linux.intel.com>
- <20240104143558.193694-2-andi.shyti@linux.intel.com>
- <98e56d3e-ebf0-42b9-928b-0dcc4303658c@linux.intel.com>
- <ZZchsRQ5Kc-x9dlk@ashyti-mobl2.lan>
- <73f0a8e9-3fd6-45a9-a084-b5308900ca8f@linux.intel.com>
- <170472678023.31232.8020112065054338164@jlahtine-mobl.ger.corp.intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <170472678023.31232.8020112065054338164@jlahtine-mobl.ger.corp.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Date: Tue, 09 Jan 2024 09:47:20 +0100
+From: Michael Walle <mwalle@kernel.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Robert Foss <rfoss@kernel.org>
+Subject: Re: [PATCH] drm: bridge: samsung-dsim: Don't use FORCE_STOP_STATE
+In-Reply-To: <CAAQKjZMccDwa63_PNJCP0rNOaHjTwcOz8AbKa=JXLQi-b0QVVw@mail.gmail.com>
+References: <20231113164344.1612602-1-mwalle@kernel.org>
+ <631fe35a2a3b00781231e4f3f5094fae@kernel.org>
+ <1ef3dad2-5f55-40e5-bba7-3c71d71c12e4@kontron.de>
+ <CAAQKjZMccDwa63_PNJCP0rNOaHjTwcOz8AbKa=JXLQi-b0QVVw@mail.gmail.com>
+Message-ID: <2400535875c353ff7208be2d86d4556f@kernel.org>
+X-Sender: mwalle@kernel.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,71 +57,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Tim Harvey <tharvey@gateworks.com>, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <daeinki@gmail.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-On 08/01/2024 15:13, Joonas Lahtinen wrote:
-> Quoting Tvrtko Ursulin (2024-01-05 12:39:31)
->>
->> On 04/01/2024 21:23, Andi Shyti wrote:
+>> Inki, are you picking this up? Or if not, who will?
 > 
-> <SNIP>
+> I can pick it up but it would be better to go to the drm-misc tree. If
+> nobody cares about it then I will pick it up. :)
 > 
->>>>> +void intel_gt_apply_ccs_mode(struct intel_gt *gt)
->>>>> +{
->>>>> +   mutex_lock(&gt->ccs.mutex);
->>>>> +   __intel_gt_apply_ccs_mode(gt);
->>>>> +   mutex_unlock(&gt->ccs.mutex);
->>>>> +}
->>>>> +
->>>>> +void intel_gt_init_ccs_mode(struct intel_gt *gt)
->>>>> +{
->>>>> +   mutex_init(&gt->ccs.mutex);
->>>>> +   gt->ccs.mode = 1;
->>>>
->>>> What is '1'? And this question carries over to the sysfs interface in the
->>>> following patch - who will use it and where it is documented how to use it?
->>>
->>> The value '1' is explained in the comment above[1] and in the
->>
->> Do you mean this is mode '1':
->>
->>    * With 1 engine (ccs0):
->>    *   slice 0, 1, 2, 3: ccs0
->>
->> ?
->>
->> But I don't see where it says what do different modes mean on different
->> SKU configurations.
->>
->> It also does not say what should the num_slices sysfs file be used for.
->>
->> Does "mode N" mean "assign each command streamer N compute slices"? Or
->> "assign each compute slice N command streamers"?
->>
->> I wonder if we should add something user friendly into
->> Documentation/ABI/*/sysfs-... Joonas your thoughts?
-> 
-> We definitely should always properly document all sysfs additions, just
-> seems like we less frequently remember to do so. So yeah, this should be
-> documented just like other uAPI.
-> 
-> I also like the idea of not exposing the the file at all if the value
-> can't be modified.
-> 
-> The ccs_mode is just supposed to allow user to select how many CCS
-> engines they want to expose, and always make an even split of slices
-> between them, nothing more nothing less.
+> acked-by : Inki Dae <inki.dae@samsung.com>
 
-Hmm I can't see that the series changes anywhere what command streamers 
-will get reported as available.
+Who is going to pick this up? Who has access to the drm-misc tree?
 
-Regards,
-
-Tvrtko
-
-
+-michael
