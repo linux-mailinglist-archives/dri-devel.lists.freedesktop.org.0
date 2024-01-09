@@ -1,46 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A189F828814
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 15:29:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53797828847
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 15:37:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 482E510E44E;
-	Tue,  9 Jan 2024 14:29:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D91F10E2CF;
+	Tue,  9 Jan 2024 14:37:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7747C10E44E
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 14:29:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=NFSWDXD02RjQKBkZqUWX9czDBFao7KA9Pz5wxnCWJbI=; b=FeFhzLaSHjoz63kSVHSFbWejdK
- kScUl93YrdmxJ7odAN/PbJ6UyDO/JAdC9A/Vya3H7Fu5RAFsBabKqyV62Ehjh6KNindXELDQLSC+o
- yyXjrE+cUON2EXcwg79/UX4tp1CGzTipd3lncR83VzRf2GNTDMD15MClyicM7tufH2LQzw6RbKJfG
- FyFB5I9sd7GFcnCM002Yck2PttshSDJb8HHBXBrewKJbYDX2ejqM4T0wyB6nHrrCOoPtJO1DIHd7H
- VUGtqdaZ+rXY83AwPsf6Q8/q2BU1aL7ohuIEwW2E9o4IrEjEBBis4QbxvP+7SaLSp8ThVbnUDEM4C
- YsR40vKA==;
-Received: from [179.234.233.159] (helo=morissey..)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1rND6L-004bXL-GU; Tue, 09 Jan 2024 15:29:10 +0100
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH] drm/v3d: Free the job and assign it to NULL if initialization
- fails
-Date: Tue,  9 Jan 2024 11:28:24 -0300
-Message-ID: <20240109142857.1122704-1-mcanal@igalia.com>
-X-Mailer: git-send-email 2.43.0
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B40410E2CF
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 14:37:03 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id 3E322B81B67;
+ Tue,  9 Jan 2024 14:37:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 806ADC433C7;
+ Tue,  9 Jan 2024 14:37:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1704811021;
+ bh=Q9+aVUqVDr+Q791RDmzkgndLwzfe16JaEUEnnyw/38M=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Z40cdBGKjRdZl/tWmkplbOIb1taPpCpKZpgf7BeUzvcCJh99ebnqg7S/kVRWO//9w
+ 0p/I1K3q/GUSp0CUnDwjHBAYVej8F/LCMgbeeKpxMRjN0N0PkuBUT8GRMT6i4d6AjW
+ 5szgaKuf0ZUMSD0gqclPeHUx3Ox5ZJlwBdNubQ8oM3TxvsJwbuwC8xRJT8pUEZO1PH
+ VVhW/35Dg0XQoES6NI7iyzP38G8cvA3RP4HRRjN7v9TJLNq41nEYj2735ORcemT9zh
+ WFRvHfym5rWi0ph+GkPgxIllzLSst4goHM7CD1+8HHJXMYrrd5CG351W27QIvA0QrC
+ J1HLC611vYHaw==
+From: Oded Gabbay <ogabbay@kernel.org>
+To: dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] accel/habanalabs: remove call to deprecated function
+Date: Tue,  9 Jan 2024 16:36:55 +0200
+Message-Id: <20240109143656.768980-1-ogabbay@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,177 +49,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>, kernel-dev@igalia.com,
- dri-devel@lists.freedesktop.org
+Cc: Dani Liberman <dliberman@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, if `v3d_job_init()` fails (e.g. in the IGT test "bad-in-sync",
-where we submit an invalid in-sync to the IOCTL), then we end up with
-the following NULL pointer dereference:
+From: Dani Liberman <dliberman@habana.ai>
 
-[   34.146279] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000078
-[   34.146301] Mem abort info:
-[   34.146306]   ESR = 0x0000000096000005
-[   34.146315]   EC = 0x25: DABT (current EL), IL = 32 bits
-[   34.146322]   SET = 0, FnV = 0
-[   34.146328]   EA = 0, S1PTW = 0
-[   34.146334]   FSC = 0x05: level 1 translation fault
-[   34.146340] Data abort info:
-[   34.146345]   ISV = 0, ISS = 0x00000005, ISS2 = 0x00000000
-[   34.146351]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
-[   34.146357]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
-[   34.146366] user pgtable: 4k pages, 39-bit VAs, pgdp=00000001232e6000
-[   34.146375] [0000000000000078] pgd=0000000000000000, p4d=0000000000000000, pud=0000000000000000
-[   34.146399] Internal error: Oops: 0000000096000005 [#1] PREEMPT SMP
-[   34.146406] Modules linked in: rfcomm snd_seq_dummy snd_hrtimer snd_seq snd_seq_device algif_hash aes_neon_bs aes_neon_blk algif_skcipher af_alg bnep hid_logitech_hidpp brcmfmac_wcc brcmfmac brcmutil hci_uart vc4 btbcm cfg80211 bluetooth bcm2835_v4l2(C) snd_soc_hdmi_codec binfmt_misc cec drm_display_helper hid_logitech_dj bcm2835_mmal_vchiq(C) drm_dma_helper drm_kms_helper videobuf2_v4l2 raspberrypi_hwmon ecdh_generic videobuf2_vmalloc videobuf2_memops ecc videobuf2_common rfkill videodev libaes snd_soc_core dwc2 i2c_brcmstb snd_pcm_dmaengine snd_bcm2835(C) i2c_bcm2835 pwm_bcm2835 snd_pcm mc v3d snd_timer snd gpu_sched drm_shmem_helper nvmem_rmem uio_pdrv_genirq uio i2c_dev drm fuse dm_mod drm_panel_orientation_quirks backlight configfs ip_tables x_tables ipv6
-[   34.146556] CPU: 1 PID: 1890 Comm: v3d_submit_csd Tainted: G         C         6.7.0-rc3-g49ddab089611 #68
-[   34.146563] Hardware name: Raspberry Pi 4 Model B Rev 1.5 (DT)
-[   34.146569] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[   34.146575] pc : drm_sched_job_cleanup+0x3c/0x190 [gpu_sched]
-[   34.146611] lr : v3d_submit_csd_ioctl+0x1b4/0x460 [v3d]
-[   34.146653] sp : ffffffc083cbbb80
-[   34.146658] x29: ffffffc083cbbb90 x28: ffffff81035afc00 x27: ffffffe77a641168
-[   34.146668] x26: ffffff81056a8000 x25: 0000000000000058 x24: 0000000000000000
-[   34.146677] x23: ffffff81065e2000 x22: ffffff81035afe00 x21: ffffffc083cbbcf0
-[   34.146686] x20: ffffff81035afe00 x19: 00000000ffffffea x18: 0000000000000000
-[   34.146694] x17: 0000000000000000 x16: ffffffe7989e34b0 x15: 0000000000000000
-[   34.146703] x14: 0000000004000004 x13: ffffff81035afe80 x12: ffffffc083cb8000
-[   34.146711] x11: cc57e05dfbe5ef00 x10: cc57e05dfbe5ef00 x9 : ffffffe77a64131c
-[   34.146719] x8 : 0000000000000000 x7 : 0000000000000000 x6 : 000000000000003f
-[   34.146727] x5 : 0000000000000040 x4 : ffffff81fefb03f0 x3 : ffffffc083cbba40
-[   34.146736] x2 : ffffff81056a8000 x1 : ffffffe7989e35e8 x0 : 0000000000000000
-[   34.146745] Call trace:
-[   34.146748]  drm_sched_job_cleanup+0x3c/0x190 [gpu_sched]
-[   34.146768]  v3d_submit_csd_ioctl+0x1b4/0x460 [v3d]
-[   34.146791]  drm_ioctl_kernel+0xe0/0x120 [drm]
-[   34.147029]  drm_ioctl+0x264/0x408 [drm]
-[   34.147135]  __arm64_sys_ioctl+0x9c/0xe0
-[   34.147152]  invoke_syscall+0x4c/0x118
-[   34.147162]  el0_svc_common+0xb8/0xf0
-[   34.147168]  do_el0_svc+0x28/0x40
-[   34.147174]  el0_svc+0x38/0x88
-[   34.147184]  el0t_64_sync_handler+0x84/0x100
-[   34.147191]  el0t_64_sync+0x190/0x198
-[   34.147201] Code: aa0003f4 f90007e8 f9401008 aa0803e0 (b8478c09)
-[   34.147210] ---[ end trace 0000000000000000 ]---
+In newer kernel versions, irq_set_affinity_hint() is deprecated.
+Instead, use the newer version which is irq_set_affinity_and_hint().
 
-This happens because we are calling `drm_sched_job_cleanup()` twice:
-once at `v3d_job_init()` and again when we call `v3d_job_cleanup()`.
-
-To mitigate this issue, we can return to the same approach that we used
-to use before 464c61e76de8: deallocate the job after `v3d_job_init()`
-fails and assign it to NULL. Then, when we call `v3d_job_cleanup()`, job
-is NULL and the function returns.
-
-Fixes: 464c61e76de8 ("drm/v3d: Decouple job allocation from job initiation")
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
+Signed-off-by: Dani Liberman <dliberman@habana.ai>
+Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
+Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/gpu/drm/v3d/v3d_submit.c | 35 +++++++++++++++++++++++++-------
- 1 file changed, 28 insertions(+), 7 deletions(-)
+ drivers/accel/habanalabs/common/device.c | 2 +-
+ drivers/accel/habanalabs/gaudi2/gaudi2.c | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/v3d/v3d_submit.c b/drivers/gpu/drm/v3d/v3d_submit.c
-index fcff41dd2315..88f63d526b22 100644
---- a/drivers/gpu/drm/v3d/v3d_submit.c
-+++ b/drivers/gpu/drm/v3d/v3d_submit.c
-@@ -147,6 +147,13 @@ v3d_job_allocate(void **container, size_t size)
- 	return 0;
+diff --git a/drivers/accel/habanalabs/common/device.c b/drivers/accel/habanalabs/common/device.c
+index bc66ad227aa5..493b4a4294a3 100644
+--- a/drivers/accel/habanalabs/common/device.c
++++ b/drivers/accel/habanalabs/common/device.c
+@@ -2839,6 +2839,6 @@ void hl_set_irq_affinity(struct hl_device *hdev, int irq)
+ 		return;
+ 	}
+ 
+-	if (irq_set_affinity_hint(irq, &hdev->irq_affinity_mask))
++	if (irq_set_affinity_and_hint(irq, &hdev->irq_affinity_mask))
+ 		dev_err(hdev->dev, "Failed setting irq %d affinity\n", irq);
  }
-
-+static void
-+v3d_job_deallocate(void **container)
-+{
-+	kfree(*container);
-+	*container = NULL;
-+}
-+
- static int
- v3d_job_init(struct v3d_dev *v3d, struct drm_file *file_priv,
- 	     struct v3d_job *job, void (*free)(struct kref *ref),
-@@ -273,8 +280,10 @@ v3d_setup_csd_jobs_and_bos(struct drm_file *file_priv,
-
- 	ret = v3d_job_init(v3d, file_priv, &(*job)->base,
- 			   v3d_job_free, args->in_sync, se, V3D_CSD);
--	if (ret)
-+	if (ret) {
-+		v3d_job_deallocate((void *)job);
- 		return ret;
-+	}
-
- 	ret = v3d_job_allocate((void *)clean_job, sizeof(**clean_job));
- 	if (ret)
-@@ -282,8 +291,10 @@ v3d_setup_csd_jobs_and_bos(struct drm_file *file_priv,
-
- 	ret = v3d_job_init(v3d, file_priv, *clean_job,
- 			   v3d_job_free, 0, NULL, V3D_CACHE_CLEAN);
--	if (ret)
-+	if (ret) {
-+		v3d_job_deallocate((void *)clean_job);
- 		return ret;
-+	}
-
- 	(*job)->args = *args;
-
-@@ -860,8 +871,10 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
-
- 	ret = v3d_job_init(v3d, file_priv, &render->base,
- 			   v3d_render_job_free, args->in_sync_rcl, &se, V3D_RENDER);
--	if (ret)
-+	if (ret) {
-+		v3d_job_deallocate((void *)&render);
- 		goto fail;
-+	}
-
- 	render->start = args->rcl_start;
- 	render->end = args->rcl_end;
-@@ -874,8 +887,10 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
-
- 		ret = v3d_job_init(v3d, file_priv, &bin->base,
- 				   v3d_job_free, args->in_sync_bcl, &se, V3D_BIN);
--		if (ret)
-+		if (ret) {
-+			v3d_job_deallocate((void *)&bin);
- 			goto fail;
-+		}
-
- 		bin->start = args->bcl_start;
- 		bin->end = args->bcl_end;
-@@ -892,8 +907,10 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
-
- 		ret = v3d_job_init(v3d, file_priv, clean_job,
- 				   v3d_job_free, 0, NULL, V3D_CACHE_CLEAN);
--		if (ret)
-+		if (ret) {
-+			v3d_job_deallocate((void *)&clean_job);
- 			goto fail;
-+		}
-
- 		last_job = clean_job;
- 	} else {
-@@ -1015,8 +1032,10 @@ v3d_submit_tfu_ioctl(struct drm_device *dev, void *data,
-
- 	ret = v3d_job_init(v3d, file_priv, &job->base,
- 			   v3d_job_free, args->in_sync, &se, V3D_TFU);
--	if (ret)
-+	if (ret) {
-+		v3d_job_deallocate((void *)&job);
- 		goto fail;
-+	}
-
- 	job->base.bo = kcalloc(ARRAY_SIZE(args->bo_handles),
- 			       sizeof(*job->base.bo), GFP_KERNEL);
-@@ -1233,8 +1252,10 @@ v3d_submit_cpu_ioctl(struct drm_device *dev, void *data,
-
- 	ret = v3d_job_init(v3d, file_priv, &cpu_job->base,
- 			   v3d_job_free, 0, &se, V3D_CPU);
--	if (ret)
-+	if (ret) {
-+		v3d_job_deallocate((void *)&cpu_job);
- 		goto fail;
-+	}
-
- 	clean_job = cpu_job->indirect_csd.clean_job;
- 	csd_job = cpu_job->indirect_csd.job;
---
-2.43.0
+diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+index 5863c9049134..05e2170c815e 100644
+--- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
++++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+@@ -4395,7 +4395,7 @@ static int gaudi2_enable_msix(struct hl_device *hdev)
+ 			i < GAUDI2_IRQ_NUM_USER_FIRST + user_irq_init_cnt ; i++, j++) {
+ 
+ 		irq = pci_irq_vector(hdev->pdev, i);
+-		irq_set_affinity_hint(irq, NULL);
++		irq_set_affinity_and_hint(irq, NULL);
+ 		free_irq(irq, &hdev->user_interrupt[j]);
+ 	}
+ 	irq = pci_irq_vector(hdev->pdev, GAUDI2_IRQ_NUM_UNEXPECTED_ERROR);
+@@ -4476,7 +4476,7 @@ static void gaudi2_disable_msix(struct hl_device *hdev)
+ 			k < hdev->asic_prop.user_interrupt_count ; i++, j++, k++) {
+ 
+ 		irq = pci_irq_vector(hdev->pdev, i);
+-		irq_set_affinity_hint(irq, NULL);
++		irq_set_affinity_and_hint(irq, NULL);
+ 		free_irq(irq, &hdev->user_interrupt[j]);
+ 	}
+ 
+-- 
+2.34.1
 
