@@ -1,48 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AADD828F0B
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 22:41:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82616828F88
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 23:16:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E3AA10E4F5;
-	Tue,  9 Jan 2024 21:41:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87EC810E52B;
+	Tue,  9 Jan 2024 22:16:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7154010E4FA
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 21:41:31 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1rNJpY-000832-VC; Tue, 09 Jan 2024 22:40:16 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1rNJpO-001Z2m-Fk; Tue, 09 Jan 2024 22:40:06 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
- (envelope-from <ukl@pengutronix.de>) id 1rNJpO-0066FS-12;
- Tue, 09 Jan 2024 22:40:06 +0100
-Date: Tue, 9 Jan 2024 22:40:05 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Yoshinori Sato <ysato@users.sourceforge.jp>
-Subject: Re: [DO NOT MERGE v6 26/37] dt-bindings: vendor-prefixes:  Add smi
-Message-ID: <c2f7yketm64rqryiq5ldl6gosdot5qv36sf4lqbe3erb2azoh2@k6dml2j4amp5>
-References: <cover.1704788539.git.ysato@users.sourceforge.jp>
- <c8aaf67e3fcdb7e60632c53a784691aabfc7733e.1704788539.git.ysato@users.sourceforge.jp>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D11A610E51F;
+ Tue,  9 Jan 2024 22:16:51 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 902D461578;
+ Tue,  9 Jan 2024 22:16:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA61FC433F1;
+ Tue,  9 Jan 2024 22:16:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1704838610;
+ bh=EHvco0VkqOSJGuxdue1TEtXAL00jI8VZrVZxCAuX2+E=;
+ h=From:Subject:Date:To:Cc:From;
+ b=qB46A5SpFD/NpmrZNfvwVgTddKr4FozL/Nm6NTWqjJuavIDeYbyWj8WbTz/AJAYAd
+ rCq1xH2+lrNbAzymhVqtxXCmJQYKKBtigLbuskx+y07oOM7Fuhn5KtE5lAQldU86ff
+ zsHlTOsJZDWVdq5RMMJKOsWvG0Sf8ZHgtVjZur4CTnnCh2KmHRiE+g9IYh0N3JSxTK
+ HD8CBIbqmmGPG+MOnwgxTifgp44rGjZZFXk0l6vXeduRl6TLk9LScel7oWlPR5uz1g
+ UsvtcwNt/LBd82QaDZxv1VzpZC3HDPVzq86WEch1mZNDSm/ODiPUOVtCeJtXC34hlE
+ 7d2vmCHDFTLIQ==
+From: Nathan Chancellor <nathan@kernel.org>
+Subject: [PATCH 0/3] Update LLVM Phabricator and Bugzilla links
+Date: Tue, 09 Jan 2024 15:16:28 -0700
+Message-Id: <20240109-update-llvm-links-v1-0-eb09b59db071@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="k3wplihoehcx5dum"
-Content-Disposition: inline
-In-Reply-To: <c8aaf67e3fcdb7e60632c53a784691aabfc7733e.1704788539.git.ysato@users.sourceforge.jp>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALzFnWUC/x3MQQqAIBBA0avErBtQi8CuEi0kpxoyCy0JwrsnL
+ d/i/xciBaYIffVCoMSRD18g6wqm1fiFkG0xKKFaIYXG+7TmInQu7ejYbxGtaGZtu1aTJCjdGWj
+ m538OY84fszs+Z2MAAAA=
+To: akpm@linux-foundation.org
+X-Mailer: b4 0.13-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2460; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=EHvco0VkqOSJGuxdue1TEtXAL00jI8VZrVZxCAuX2+E=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDKlzj17YHOFbeqmmzSTv+Yl3Dvc2pO2+wn2gftPWtOlmz
+ ZFzErc87ShlYRDjYpAVU2Spfqx63NBwzlnGG6cmwcxhZQIZwsDFKQATcYlj+J+VsOtwv+FtLr6v
+ L2ptJLoTJ1xwvPM+afI7W55fz9vnRocyMsxLsi56rXP33S6VMzNvVJ4tXR/xeu4ma9Zvvc8ruWO
+ PdPIDAA==
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,74 +59,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
- linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
- Bin Meng <bmeng@tinylab.org>, Michael Turquette <mturquette@baylibre.com>,
- linux-pci@vger.kernel.org, Jacky Huang <ychuang3@nuvoton.com>,
- Palmer Dabbelt <palmer@rivosinc.com>, linux-kernel@vger.kernel.org,
- Max Filippov <jcmvbkbc@gmail.com>, Lee Jones <lee@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Hyeonggon Yoo <42.hyeyoo@gmail.com>, Jiri Slaby <jirislaby@kernel.org>,
- linux-clk@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Baoquan He <bhe@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Helge Deller <deller@gmx.de>, Daniel Lezcano <daniel.lezcano@linaro.org>,
- Magnus Damm <magnus.damm@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-serial@vger.kernel.org,
- David Rientjes <rientjes@google.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Maxime Ripard <mripard@kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>, Rob Herring <robh+dt@kernel.org>,
- dri-devel@lists.freedesktop.org, Chris Morgan <macromorgan@hotmail.com>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@linutronix.de>,
- Vlastimil Babka <vbabka@suse.cz>, Yang Xiwen <forbidden405@foxmail.com>,
- Sergey Shtylyov <s.shtylyov@omp.ru>, linux-ide@vger.kernel.org,
- Stephen Boyd <sboyd@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Biju Das <biju.das.jz@bp.renesas.com>,
- Sebastian Reichel <sre@kernel.org>, Azeem Shaikh <azeemshaikh38@gmail.com>,
- linux-renesas-soc@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>,
- Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-efi@vger.kernel.org, kvm@vger.kernel.org, llvm@lists.linux.dev,
+ ast@kernel.org, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, kasan-dev@googlegroups.com,
+ linux-kselftest@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-arch@vger.kernel.org, linux-s390@vger.kernel.org, mykolal@fb.com,
+ daniel@iogearbox.net, andrii@kernel.org, amd-gfx@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linux-pm@vger.kernel.org, bridge@lists.linux.dev,
+ Nathan Chancellor <nathan@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ netdev@vger.kernel.org, patches@lists.linux.dev,
+ linux-security-module@vger.kernel.org, linux-crypto@vger.kernel.org,
+ bpf@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This series updates all instances of LLVM Phabricator and Bugzilla links
+to point to GitHub commits directly and LLVM's Bugzilla to GitHub issue
+shortlinks respectively.
 
---k3wplihoehcx5dum
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I split up the Phabricator patch into BPF selftests and the rest of the
+kernel in case the BPF folks want to take it separately from the rest of
+the series, there are obviously no dependency issues in that case. The
+Bugzilla change was mechanical enough and should have no conflicts.
 
-Hello,
+I am aiming this at Andrew and CC'ing other lists, in case maintainers
+want to chime in, but I think this is pretty uncontroversial (famous
+last words...).
 
-not a complete review, I just note that there is a duplicate space in
-the Subject. You might want to fix for the next patch round.
+---
+Nathan Chancellor (3):
+      selftests/bpf: Update LLVM Phabricator links
+      arch and include: Update LLVM Phabricator links
+      treewide: Update LLVM Bugzilla links
 
-Best regards
-Uwe
+ arch/arm64/Kconfig                                 |  4 +--
+ arch/powerpc/Makefile                              |  4 +--
+ arch/powerpc/kvm/book3s_hv_nested.c                |  2 +-
+ arch/riscv/Kconfig                                 |  2 +-
+ arch/riscv/include/asm/ftrace.h                    |  2 +-
+ arch/s390/include/asm/ftrace.h                     |  2 +-
+ arch/x86/power/Makefile                            |  2 +-
+ crypto/blake2b_generic.c                           |  2 +-
+ drivers/firmware/efi/libstub/Makefile              |  2 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c           |  2 +-
+ drivers/media/test-drivers/vicodec/codec-fwht.c    |  2 +-
+ drivers/regulator/Kconfig                          |  2 +-
+ include/asm-generic/vmlinux.lds.h                  |  2 +-
+ include/linux/compiler-clang.h                     |  2 +-
+ lib/Kconfig.kasan                                  |  2 +-
+ lib/raid6/Makefile                                 |  2 +-
+ lib/stackinit_kunit.c                              |  2 +-
+ mm/slab_common.c                                   |  2 +-
+ net/bridge/br_multicast.c                          |  2 +-
+ security/Kconfig                                   |  2 +-
+ tools/testing/selftests/bpf/README.rst             | 32 +++++++++++-----------
+ tools/testing/selftests/bpf/prog_tests/xdpwall.c   |  2 +-
+ .../selftests/bpf/progs/test_core_reloc_type_id.c  |  2 +-
+ 23 files changed, 40 insertions(+), 40 deletions(-)
+---
+base-commit: 0dd3ee31125508cd67f7e7172247f05b7fd1753a
+change-id: 20240109-update-llvm-links-d03f9d649e1e
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+Best regards,
+-- 
+Nathan Chancellor <nathan@kernel.org>
 
---k3wplihoehcx5dum
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmWdvTUACgkQj4D7WH0S
-/k42/Qf+OiUMdWX7ofxy3BcrM4WDosGYD3v051cAkDrM1UU7vn14H4nDlTp0AkUx
-pzhs+r4x5ivYAv9c4UHIXeQOUWIaPLpY2tXJ1SPG5v9qUMxDVvFk28mGM1iidoM4
-hunvGv2nwhdTCDVUSm04aY5nebXW1S7mB4FfTr8A6pNVkYKhuHh92Pk7kS9cvA4f
-2N3ldtz2sW+Qm6s8+Hp2+VGkyD1jnwKgBscsap9G9g54+5TtukrFmNayfApLXoOQ
-+kiDrlWzjgencsnRqEVCL8tOjVRiw3f+e9LhRK9df/ebNVLs4CHsxS6Ao1pM0LF9
-+e1Wi0ZIExYHQKEGMuiBgD83DdWU5w==
-=MXKF
------END PGP SIGNATURE-----
-
---k3wplihoehcx5dum--
