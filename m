@@ -2,61 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF64182890C
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 16:32:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DB698289AB
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 17:06:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10C7210E467;
-	Tue,  9 Jan 2024 15:32:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FA7F10E473;
+	Tue,  9 Jan 2024 16:06:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com
- [IPv6:2001:4860:4864:20::36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1897810E467
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 15:32:36 +0000 (UTC)
-Received: by mail-oa1-x36.google.com with SMTP id
- 586e51a60fabf-20418dd34e3so506448fac.0
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 07:32:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1704814356; x=1705419156; darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=F8I3Nv9FKTpOHBsjhQ9rf60s9dsEhGuM1snjGAzQnEc=;
- b=MGdiI8eukhhlD2pFqDamD6Vq05Y52ftYOSYAf82aaeVplMHucdunhn4XlZrqYGdMLA
- 1YczwzJCPLFHyGqzHAiqNNrKbYFD0kgn6IUdb74MXNW84XWTWZ6gNk04W4kfI9ot5EFy
- KwYs/TxV3STeHJNzhfO6jNDiZ8Gb00DiXipNQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704814356; x=1705419156;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=F8I3Nv9FKTpOHBsjhQ9rf60s9dsEhGuM1snjGAzQnEc=;
- b=Ry9yJ3ZDJnJU5U7NeFUi/kYp6mte3k6xjxWX9lrZUU0iMdOwCYl8fasYKyQcjhXxC2
- fOOAPp1aAN1FFI8tyUaR9+v2/JV2PgFXo1wHLMTB/LAvC+K65KUBLd2saicf5Z8rxBTt
- U1JROk0Yy0qcgaIO1aY0hPX9pmn1dyJQAAeCnjk+LoEjrA/BbFGHEjGZcBBDF2fK9jfI
- Kp2tDiWpC/+K15o9RY1MqsW8zhSnZmXB7qvIvfsHxwRTDxuzGcXTs2eS+zcLN+vGPcfo
- 0HUeQjcJF+2nOWs9Yn51HZQitOAJzH9ZU/u5uZLK9gaRGB3OttMGKS5OueWP/4HUVR9E
- MxLA==
-X-Gm-Message-State: AOJu0Ywz+jHQS6LoU+VOi9ps6OIdGDZ+WFVBpktUqcbntz0Izog1cZCQ
- ZOpkUK/tJfFHmzrPxiHy6sh9WE99rSSjyP+9Zn+lEWppqa7siQ==
-X-Google-Smtp-Source: AGHT+IFVZSYOh7KqGAWxb6Y3RR7SLa2W95DrHp1wqSB8p0lrUrWpQNHMCRuUiqdJQJSUT9sxUErFsFH3vkt7h7gnbCc=
-X-Received: by 2002:a05:6870:f152:b0:1fb:23ec:3318 with SMTP id
- l18-20020a056870f15200b001fb23ec3318mr10480037oac.0.1704814356195; Tue, 09
- Jan 2024 07:32:36 -0800 (PST)
+Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C64E310E482
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 16:06:44 +0000 (UTC)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
+ [209.85.208.46]) (Authenticated sender: zamundaaa)
+ by letterbox.kde.org (Postfix) with ESMTPSA id B885233F0DC
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 16:06:42 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
+ t=1704816402; bh=ru1F+gvXQPdLCGtyOWXmFNvrh3kslmu4/qMSucCsEK0=;
+ h=From:Date:Subject:To:Cc:From;
+ b=Ncb4JLtM4u/Szhi53FVMYygCdkF2ITnMwBKnPwKCU6ZnkRM/E1+N/Vuq8upXGCSIV
+ BjfDz0tz1Eeu+r8i4e5+ffgsjCvFsHu745TRRDsk3k4TNybuYBCsioReXJHo2YNY8/
+ BWuBqeWTjycNu4Iaf2WxxVXN6P7OkQrw1gP+hJYYLM85mMYgxXppnbtR0KfCOoiTLC
+ cPMN6s0XjxY0Kt+Fa0vnkxFeViIH7F5vqPEHhfpVu0cSyw7t6ex0CyKPpH6KhglLhh
+ BcwsXP8UQ7OcXhiWUHJ50vXJCbIpZ/OKUKn/+ExxUbWapVqrfRTFkB0160VoL4Cwe6
+ 244BuCyA90sLA==
+Received: by mail-ed1-f46.google.com with SMTP id
+ 4fb4d7f45d1cf-55590da560dso3741224a12.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 08:06:42 -0800 (PST)
+X-Gm-Message-State: AOJu0YwDLmbLkvtjsCU97qlrXT4vlGuqy6LCxN9rC24r5Ua+50+NZRtK
+ mzEAq9RqPvbz2ML+mwrpsfbIRAXfQKAWzoFo0Tw=
+X-Google-Smtp-Source: AGHT+IH2HXYZoc2m6630S7Vvof1B8is+dzbELOZwqKi61KVDh5DkQ+Tf+EgT+7tN2MqbHWWXQG0aoEdPA5kkZs8FqhQ=
+X-Received: by 2002:a17:906:7007:b0:a28:4bf8:a16f with SMTP id
+ n7-20020a170906700700b00a284bf8a16fmr565486ejj.136.1704816402282; Tue, 09 Jan
+ 2024 08:06:42 -0800 (PST)
 MIME-Version: 1.0
-References: <20240106032957.1195-1-rdunlap@infradead.org>
- <944ca2e6-23d9-44a2-a58c-4380e9ee575f@suse.de>
- <dd917333-9ae8-4e76-991d-39b6229ba8ce@infradead.org>
- <ZZ1DIDjGlHP-tmAi@phenom.ffwll.local>
- <CAKMK7uFbjQ1apr3-XrnWTH=TwRqW_9TDZ-21QAwJtiNB5FZ8dA@mail.gmail.com>
- <10b6ec8a-8b58-43a0-a3f8-c6d354b71ee4@infradead.org>
- <CAKMK7uHwcXq+gSBx1RdJ84OVS0BheyDJp-c7byhR7EfJ0s+qQA@mail.gmail.com>
- <f6feb944-b0dc-4802-a20a-c3ef39f4b0d5@infradead.org>
-In-Reply-To: <f6feb944-b0dc-4802-a20a-c3ef39f4b0d5@infradead.org>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 9 Jan 2024 16:32:25 +0100
-Message-ID: <CAKMK7uFkcaP6j0MuHuGWrumJJE4G_n62tQSf5NCSWcCMYMjHtw@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/vram-helper: fix kernel-doc warnings
-To: Randy Dunlap <rdunlap@infradead.org>
+From: Xaver Hugl <xaver.hugl@kde.org>
+Date: Tue, 9 Jan 2024 17:06:31 +0100
+X-Gmail-Original-Message-ID: <CAFZQkGxgdeXb82kEsVuC72kGos385YX=GD4QNKfAsM9TyTqoAw@mail.gmail.com>
+Message-ID: <CAFZQkGxgdeXb82kEsVuC72kGos385YX=GD4QNKfAsM9TyTqoAw@mail.gmail.com>
+Subject: Re: BUG / design challenge: vmwgfx + PRIME handle free == clobbering
+ errno
+To: zack.rusin@broadcom.com
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,120 +55,16 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: linux-graphics-maintainer@vmware.com, stefan.hoffmeister@econos.de,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 9 Jan 2024 at 16:29, Randy Dunlap <rdunlap@infradead.org> wrote:
->
->
->
-> On 1/9/24 07:25, Daniel Vetter wrote:
-> > On Tue, 9 Jan 2024 at 16:23, Randy Dunlap <rdunlap@infradead.org> wrote:
-> >>
-> >>
-> >>
-> >> On 1/9/24 05:42, Daniel Vetter wrote:
-> >>> On Tue, 9 Jan 2024 at 13:59, Daniel Vetter <daniel@ffwll.ch> wrote:
-> >>>>
-> >>>> On Mon, Jan 08, 2024 at 01:10:12PM -0800, Randy Dunlap wrote:
-> >>>>> Hi Thomas,
-> >>>>>
-> >>>>> On 1/8/24 00:57, Thomas Zimmermann wrote:
-> >>>>>> Hi,
-> >>>>>>
-> >>>>>> thanks for the fix.
-> >>>>>>
-> >>>>>> Am 06.01.24 um 04:29 schrieb Randy Dunlap:
-> >>>>>>> Remove the @funcs entry from struct drm_vram_mm to quieten the kernel-doc
-> >>>>>>> warning.
-> >>>>>>>
-> >>>>>>> Use the "define" kernel-doc keyword and an '\' line continuation
-> >>>>>>> to fix another kernel-doc warning.
-> >>>>>>>
-> >>>>>>> drm_gem_vram_helper.h:129: warning: missing initial short description on line:
-> >>>>>>>   * DRM_GEM_VRAM_PLANE_HELPER_FUNCS -
-> >>>>>>> drm_gem_vram_helper.h:185: warning: Excess struct member 'funcs' description in 'drm_vram_mm'
-> >>>>>>>
-> >>>>>>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> >>>>>>> Cc: David Airlie <airlied@gmail.com>
-> >>>>>>> Cc: Daniel Vetter <daniel@ffwll.ch>
-> >>>>>>> Cc: dri-devel@lists.freedesktop.org
-> >>>>>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> >>>>>>> Cc: Maxime Ripard <mripard@kernel.org>
-> >>>>>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> >>>>>>> ---
-> >>>>>>> v2: Add commit description
-> >>>>>>>
-> >>>>>>> base-commit: 610a9b8f49fbcf1100716370d3b5f6f884a2835a
-> >>>>>>>
-> >>>>>>>   include/drm/drm_gem_vram_helper.h |    3 +--
-> >>>>>>>   1 file changed, 1 insertion(+), 2 deletions(-)
-> >>>>>>>
-> >>>>>>> diff -- a/include/drm/drm_gem_vram_helper.h b/include/drm/drm_gem_vram_helper.h
-> >>>>>>> --- a/include/drm/drm_gem_vram_helper.h
-> >>>>>>> +++ b/include/drm/drm_gem_vram_helper.h
-> >>>>>>> @@ -126,7 +126,7 @@ drm_gem_vram_plane_helper_cleanup_fb(str
-> >>>>>>>                        struct drm_plane_state *old_state);
-> >>>>>>>     /**
-> >>>>>>> - * DRM_GEM_VRAM_PLANE_HELPER_FUNCS -
-> >>>>>>> + * define DRM_GEM_VRAM_PLANE_HELPER_FUNCS - \
-> >>>>>>
-> >>>>>> Did something change wrt. doc syntax? I think this used to work without warnings. About this 'define': we don't use is in another docs. Can we leave it out here or is this the new syntax?
-> >>>>>>
-> >>>>>
-> >>>>> There are no doc syntax changes that I know of. This is not
-> >>>>> new syntax. It has been around since 2014:
-> >>>>>   cbb4d3e6510b ("scripts/kernel-doc: handle object-like macros")
-> >>>>
-> >>>> I had no idea this exists, thanks a lot for this TIL :-)
-> >>>>
-> >>>> I guess the issue here is that this exists, yay, but it's not documented
-> >>>> with the other here:
-> >>>>
-> >>>> https://dri.freedesktop.org/docs/drm/doc-guide/kernel-doc.html#structure-union-and-enumeration-documentation
-> >>>>
-> >>>> I guess a patch to kernel-doc.rst would be great. Adding some kernel-doc
-> >>>> folks.
-> >>>
-> >>> Ok I went ahead and typed that patch (just we don't waste effort),
-> >>> just waiting for the sphinx build to finish to make sure it looks nice
-> >>> before I send out the patch.
-> >>> -Sima
-> >>
-> >> I sent one a few days ago:
-> >>
-> >> https://lore.kernel.org/lkml/20240107012400.32587-1-rdunlap@infradead.org/
-> >
-> > Could you please also add documentation for function-like macros,
-> > since that's also missing? With that acked-by: me.
-> >
-> > Cheers!
->
-> This is already present:
->
-> Function documentation
-> ----------------------
->
-> The general format of a function and function-like macro kernel-doc comment is::
->
->   /**
->    * function_name() - Brief description of function.
->    * @arg1: Describe the first argument.
->    * @arg2: Describe the second argument.
->    *        One can provide multiple line descriptions
->    *        for arguments.
->
->
-> but the way that you did it makes sense also.
+Hi,
 
-Ah missed that it includes wording for function-like macros. On your
-patch as-is:
+KWin does use DRM_CLIENT_CAP_CURSOR_PLANE_HOTSPOT. Tying the check to
+DRM_CLIENT_CAP_ATOMIC instead would IMO make more sense though (even if it's
+still weird) and would work with older versions of KWin and other compositors.
 
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Greetings,
+Xaver Hugl
