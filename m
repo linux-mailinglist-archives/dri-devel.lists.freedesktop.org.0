@@ -2,57 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23D8A828618
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 13:34:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36EE7828628
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 13:43:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A880B10E428;
-	Tue,  9 Jan 2024 12:34:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B75A10E0D7;
+	Tue,  9 Jan 2024 12:43:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAB1510E428
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 12:34:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704803678; x=1736339678;
- h=message-id:date:mime-version:subject:to:references:from:
- in-reply-to:content-transfer-encoding;
- bh=0+i9jNaZkLVNkMhEy1xoIRC1vMa04epFDEIpHpKX834=;
- b=dt/0d7kOENasR0IPGhNpLKMitI5U6Zn6qHD+bLaMk0qg960etGNcMfYs
- VjzIPA1m6wTOOnM/x0V8+DZbiuMaKG1DjJhV8/yQhnLDPBXh7BfVs3cQn
- AP/3xV6VGL6YG1EQceOp+thTfcZEYsokFqj9F6QYyi4VpMc7KLg9zWa4g
- SbZkg381FvFo2I/X4hf6Px0ZEPMDpBWr5GBtHEURIHQ9qaCJfHNMYqspp
- CbNAXEoKAJt+o8uxWYPEX5r51H93WBvCpfG1BZ+CAcXKyPQDoxpDrXHVq
- eQy3hQpHxviz65Kab4VFKMN74QEBZzvG9z7lpWUJHTfSnMEqUcs01G2jN A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="11669982"
-X-IronPort-AV: E=Sophos;i="6.04,182,1695711600"; d="scan'208";a="11669982"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2024 04:34:37 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="955003874"
-X-IronPort-AV: E=Sophos;i="6.04,182,1695711600"; d="scan'208";a="955003874"
-Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.217.160.86])
- ([10.217.160.86])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2024 04:34:36 -0800
-Message-ID: <3f972271-cf39-49f7-8f2c-568a78cd57c6@linux.intel.com>
-Date: Tue, 9 Jan 2024 13:34:34 +0100
+Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com
+ [IPv6:2607:f8b0:4864:20::1134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4ECA610E0D7
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 12:43:05 +0000 (UTC)
+Received: by mail-yw1-x1134.google.com with SMTP id
+ 00721157ae682-5ed10316e22so24123247b3.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 04:43:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1704804184; x=1705408984; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=YRdzfj7JEW1eBQjWfVgccO0cPj0nGjhcrGXH3osu83E=;
+ b=i8gYYOKOWrJnpWpUmomULieeA48poxgQNdLVkNfj/JaQdOHSXgMi85NuX676sH3tuk
+ dTrH/hUnfLqL5zIQX15F1TbSF5/oK5rryThituQAgCK+xyL/CTuqU/uqyi+gp+gmXLE8
+ 8hOhlrM4n5a80dZKj16P7vF+XfULkxgz/APfYDQapqoXwEfrzTd9K1NoSLJq4idCBGqQ
+ YukO4R65QD4e5HnnfRo/Gn8v3GNoBk3dW7BQ1kAQ+ufriT2+a+ZushEiwWILa7smKGf9
+ XTeHukkAKRIeKgYjEIbeSlfrL2HX7fE2gbuerq6L4VkvYqoZZYMkn+nzw961iM8Yl6ZK
+ 56Tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1704804184; x=1705408984;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=YRdzfj7JEW1eBQjWfVgccO0cPj0nGjhcrGXH3osu83E=;
+ b=TOKzGSsg7H3j2huKIgfp67fStbkrNIvPQf9HZrSt14SAlzfoABRn+5i6F/YHCvDQXK
+ EBtNFGPEyfimmbv+d7wpzPdoXpcvfW78+h+Kaj3mokfqrKSpOQeRO7c5XwxwsahAE38o
+ R+ApFE0/higcjmN5JsQRhleuAJ/g1aRW1PlGm1hoSADqeGbh3/dmPSXYbCL9tbW7BfgM
+ ZP7LpUJ6DIAArq+cmusgRxfiwD3Zzp9o5uZNJcs2ur6NZR97SvTeg4V1KHdqew2x8AZq
+ yb4Gtr5dEEV8jN3T9O2hgY8h5f6y3Mya8nNRc2pj7EjHHwomojtU4DVakP8jBEDNwrFY
+ PnsA==
+X-Gm-Message-State: AOJu0YwuesKUKBftPuHTtcjUQnP8q+r9VanQTeAtBJMUGWG7hvrgLaXs
+ ngpY0Gqgc1UcTOz5vrpbGdJVEvNUT2zW+0cHpCqhBLhL12PASw==
+X-Google-Smtp-Source: AGHT+IGP2TpOD/2aQljjLpEh7rgxkZ1rPK7JLdhb+SJI4gzWB4npHJxZY6IBNmQ0p0RFR21+Q3sEEaYhEw7pDx3EeW0=
+X-Received: by 2002:a0d:cb85:0:b0:5f1:7189:b9d with SMTP id
+ n127-20020a0dcb85000000b005f171890b9dmr2932736ywd.82.1704804184379; Tue, 09
+ Jan 2024 04:43:04 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 05/10] accel/ivpu: Fix potential infinite loops in IRQ
- handlers
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>, dri-devel@lists.freedesktop.org
-References: <20240105112218.351265-1-jacek.lawrynowicz@linux.intel.com>
- <20240105112218.351265-6-jacek.lawrynowicz@linux.intel.com>
- <663dc292-0aa0-367c-e2f3-ade7ffba3b94@quicinc.com>
-Content-Language: en-US
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <663dc292-0aa0-367c-e2f3-ade7ffba3b94@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <cover.1704788539.git.ysato@users.sourceforge.jp>
+ <160ee086771703c951c5522d997662aeac122a28.1704788539.git.ysato@users.sourceforge.jp>
+In-Reply-To: <160ee086771703c951c5522d997662aeac122a28.1704788539.git.ysato@users.sourceforge.jp>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 9 Jan 2024 13:42:53 +0100
+Message-ID: <CACRpkdZMkyJdkFt_x-6iubLZ-KzewvmT0zi4HAas0Xy9DpPn3g@mail.gmail.com>
+Subject: Re: [DO NOT MERGE v6 12/37] dt-bindings: pci: pci-sh7751: Add SH7751
+ PCI
+To: Yoshinori Sato <ysato@users.sourceforge.jp>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,23 +70,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+ linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
+ Bin Meng <bmeng@tinylab.org>, Michael Turquette <mturquette@baylibre.com>,
+ linux-pci@vger.kernel.org, Jacky Huang <ychuang3@nuvoton.com>,
+ Palmer Dabbelt <palmer@rivosinc.com>, linux-kernel@vger.kernel.org,
+ Max Filippov <jcmvbkbc@gmail.com>, Lee Jones <lee@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Hyeonggon Yoo <42.hyeyoo@gmail.com>, Jiri Slaby <jirislaby@kernel.org>,
+ linux-clk@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Baoquan He <bhe@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Helge Deller <deller@gmx.de>, Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-serial@vger.kernel.org,
+ David Rientjes <rientjes@google.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Maxime Ripard <mripard@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ Chris Morgan <macromorgan@hotmail.com>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Vlastimil Babka <vbabka@suse.cz>, Yang Xiwen <forbidden405@foxmail.com>,
+ Sergey Shtylyov <s.shtylyov@omp.ru>, linux-ide@vger.kernel.org,
+ Stephen Boyd <sboyd@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Biju Das <biju.das.jz@bp.renesas.com>,
+ Sebastian Reichel <sre@kernel.org>, Azeem Shaikh <azeemshaikh38@gmail.com>,
+ linux-renesas-soc@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>,
+ Andrew Morton <akpm@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05.01.2024 17:35, Jeffrey Hugo wrote:
-> On 1/5/2024 4:22 AM, Jacek Lawrynowicz wrote:
->> Limit number of iterations in ivpu_mmu_irq_evtq_handler() and
->> ivpu_ipc_irq_handler().
-> 
-> "potential infinite loops" sounds like something that has not been observed.  Has a problem actually occurred?
-> 
-> Are you concerned that the FW is broken and spamming Linux with events?
-> 
-> Why a limit of 100 events?  Seems arbitrary.
-> 
-> I suspect threaded irqs might be useful here, but it is hard to tell.
+Hi Yoshinori,
 
-No, these problems were not observed yet.
-I think that the small size of the IPC/MMU queues and relatively fast host CPU prevent the host from being overloaded.
-Maybe let's drop this patch until there is a real issue then :)
+thanks for your patch!
 
+On Tue, Jan 9, 2024 at 9:24=E2=80=AFAM Yoshinori Sato
+<ysato@users.sourceforge.jp> wrote:
+
+> Renesas SH7751 PCI Controller json-schema.
+>
+> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+(...)
+> +  renesas,bus-arbit-round-robin:
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description: |
+> +      Set DMA bus arbitration to round robin.
+> +
+> +  pci-command-reg-fast-back-to-back:
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description: |
+> +      Set for PCI command register Fast Back-to-Back enable bit.
+> +
+> +  pci-command-reg-serr:
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description: |
+> +      Set for PCI command register SERR# enable.
+> +
+> +  pci-command-reg-wait-cycle-control:
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description: |
+> +      Set for PCI command register Wait cycle control bit.
+> +
+> +  pci-command-reg-parity-error-response:
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description: |
+> +      Set for PCI Command register Parity error response bit.
+> +
+> +  pci-command-reg-vga-snoop:
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description: |
+> +      Set for PCI Command register VGA palette snoop bit.
+> +
+> +  pci-command-reg-write-invalidate:
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description: |
+> +      Set for PCI Command register Memory write and invaldate enable bit=
+.
+> +
+> +  pci-command-reg-special-cycle:
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description: |
+> +      Set for PCI Command register Special cycle bit.
+> +
+> +  pci-command-reg-bus-master:
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description: |
+> +      Set for PCI Command register Bus master bit.
+> +
+> +  pci-command-reg-memory-space:
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description: |
+> +      Set for PCI Command register Memory space bit.
+> +
+> +  pci-command-reg-io-space:
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description: |
+> +      Set for PCI Command register I/O space bit.
+
+Do you really need to configure all these things? It seems they are
+just set to default values anyway?
+
+Can't you just look at the compatible "renesas,sh7751-pci" and
+set it to the values you know are needed for that compatible?
+
+> +  pci-bar:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-matrix
+> +    description: Overwrite to  PCI CONFIG Base Address Registers value.
+> +    items:
+> +      items:
+> +        - description: BAR register number
+> +        - description: BAR register value
+> +    minItems: 1
+> +    maxItems: 6
+
+Same with this, isn't this always the same (hardcoded) values
+for "renesas,sh7751-pci" if used?
+
+> +            interrupt-map =3D <0x0000 0 0 1 &julianintc 5>,
+> +                            <0x0000 0 0 2 &julianintc 6>,
+> +                            <0x0000 0 0 3 &julianintc 7>,
+> +                            <0x0000 0 0 4 &julianintc 8>,
+> +                            <0x0800 0 0 1 &julianintc 6>,
+> +                            <0x0800 0 0 2 &julianintc 7>,
+> +                            <0x0800 0 0 3 &julianintc 8>,
+> +                            <0x0800 0 0 4 &julianintc 5>,
+> +                            <0x1000 0 0 1 &julianintc 7>,
+> +                            <0x1000 0 0 2 &julianintc 8>,
+> +                            <0x1000 0 0 3 &julianintc 5>,
+> +                            <0x1000 0 0 4 &julianintc 6>;
+
+This interrupt-map looks very strange, usually the last cell is the polarit=
+y
+flag and here it is omitted? I would expect something like:
+
+<0x0000 0 0 1 &julianintc 5 IRQ_TYPE_LEVEL_LOW>, (...)
+
+The interrupt-map schema in dtschema isn't really looking at this
+so it is easy to get it wrong.
+
+Yours,
+Linus Walleij
