@@ -2,76 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D4AE8286F9
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 14:22:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDBAA828704
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 14:26:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C687E10E441;
-	Tue,  9 Jan 2024 13:22:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEB8A10E44A;
+	Tue,  9 Jan 2024 13:25:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FFDA10E441
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 13:22:08 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id
- a640c23a62f3a-a28cfca3c45so74957566b.1
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 05:22:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1704806526; x=1705411326; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=X8nyMGssowFI2DlaMmQ3Tpss+UtDdR+faxTS8hNAvao=;
- b=bYCNvRQhBzZ5HshXmK1MFUh9zjdR3n32CimOUjHpH8IUHkICI+eLRWm7L1+TT0s93U
- ox/iTFSAEsKFgjqBkzDamEG/XM8jNAhuoGRbp74BQ2Ii/qLEW8V2ldnEBbs/UQYVN6QA
- wHkBcT12ufJKzJU+wwfsIEx0Tx+Obas2tZKMA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704806526; x=1705411326;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=X8nyMGssowFI2DlaMmQ3Tpss+UtDdR+faxTS8hNAvao=;
- b=MJjmOWTgSyKB60Vd3S/YW36aIqrnaKglBBauz7G6+X9fXzABQkEJ+0Vd/f856rIju3
- 23QoXuIoNaQ//VJZDqaW6vrO9kS2Wz4cgccAmXS/Vzp1yoK9NVHYp2t6Nq883HrHgs6Y
- nHtoK3keWbUgl0X1vdgML6W4l9+v2wv/EExOxYL8eGooz+Vl3XrT6EF8JkHGrD1CVZpZ
- f1TJetbapySsuqOdCQfLigZJGnCdVPdNNZoxeWyz19ku/zx0rCMJ1fKtm8dK7G70cjPe
- 8l/tYIFu80S4PSBbp/aTIgEm5obBTqqwlwgwfc+hvOmTOdcI3Cbm7NAryUmzE35i3a/l
- pPbQ==
-X-Gm-Message-State: AOJu0YxYf7FnDoJAQkO3TNf/Tj/JPYXUnfFVF6PZwcRCU3nbvK5G/TAp
- KfThrmIaPAKhhaej1+ax7u16RhTJcTjvVA==
-X-Google-Smtp-Source: AGHT+IFi7RfzXVRLPVWIVsSbvJo+89aCiOIdxE8Is6w6/5ECdWmo4tLla9mz3sECM1F7viqHnFP/0w==
-X-Received: by 2002:a17:907:9282:b0:a26:a4e8:5454 with SMTP id
- bw2-20020a170907928200b00a26a4e85454mr4655999ejc.0.1704806526503; 
- Tue, 09 Jan 2024 05:22:06 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- s23-20020a170906455700b00a27a32e6502sm1026398ejq.117.2024.01.09.05.22.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jan 2024 05:22:05 -0800 (PST)
-Date: Tue, 9 Jan 2024 14:22:02 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH] drm/imagination: Defer probe if requested firmware is
- not available
-Message-ID: <ZZ1IellMvvyFlQaF@phenom.ffwll.local>
-Mail-Followup-To: Javier Martinez Canillas <javierm@redhat.com>,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- Erico Nunes <nunes.erico@gmail.com>,
- =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
- David Airlie <airlied@gmail.com>,
- Donald Robson <donald.robson@imgtec.com>,
- Frank Binns <frank.binns@imgtec.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Matt Coster <matt.coster@imgtec.com>,
- Sarah Walker <sarah.walker@imgtec.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
-References: <20240109120604.603700-1-javierm@redhat.com>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79B2710E44A;
+ Tue,  9 Jan 2024 13:25:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1704806758; x=1736342758;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=b1u0FyBJ5c8QV8oUchGa7PsveV8dsFui0EsFfmfCtCQ=;
+ b=IqOnn2+3xDJEW1OFOt3oTSf576WqJ69SCGsIXtK8+dzbLfHtnjERBwE4
+ jG1hk8BHIUmPx6EY1T7ydpG3WlWxHH6VoYq3qpaGxhI6r+MG/RC1XhZAH
+ kK+fxLejNfbZlQfnX27nLWpLc22orREOoWwNjVcSmq09XDlP72Y0bwnPL
+ af3LwJNtm/OX/E6V3orrs2F4WHB3N4D4+3Z7j3w5Yu40R88f0Pn27xR7P
+ vL1XNz+ttllg4Wub0sFCGSKhInTTRR7xODVbympMOEg7hq6bJS2alVmYi
+ B7kTejq2K4a6psjMB3rbmFtNSV7rnXwf0jWmU94S7L1PdVumzFglAOB0P A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="401983142"
+X-IronPort-AV: E=Sophos;i="6.04,182,1695711600"; d="scan'208";a="401983142"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2024 05:25:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,183,1695711600"; d="scan'208";a="16275231"
+Received: from larnott-mobl1.ger.corp.intel.com (HELO [10.213.222.67])
+ ([10.213.222.67])
+ by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2024 05:25:57 -0800
+Message-ID: <1373ca5e-a04a-470f-9b0e-0a7b9e8aa7a7@linux.intel.com>
+Date: Tue, 9 Jan 2024 13:25:55 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240109120604.603700-1-javierm@redhat.com>
-X-Operating-System: Linux phenom 6.5.0-4-amd64 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] drm/amdgpu: add shared fdinfo stats
+Content-Language: en-US
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20231207180225.439482-1-alexander.deucher@amd.com>
+ <20231207180225.439482-3-alexander.deucher@amd.com>
+ <5b231151-45fe-4d65-a9c2-63973267bdba@gmail.com>
+ <d2f7c614-228d-490c-9317-8eab0d87ee28@linux.intel.com>
+ <ZZ1CGUyMjoN9PkOI@phenom.ffwll.local>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <ZZ1CGUyMjoN9PkOI@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,94 +64,177 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sarah Walker <sarah.walker@imgtec.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- Matt Coster <matt.coster@imgtec.com>, Donald Robson <donald.robson@imgtec.com>,
- =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
- Erico Nunes <nunes.erico@gmail.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 09, 2024 at 01:05:59PM +0100, Javier Martinez Canillas wrote:
-> The device is initialized in the driver's probe callback and as part of
-> that initialization, the required firmware is loaded. But this fails if
-> the driver is built-in and the firmware isn't present in the initramfs:
-> 
-> $ dmesg | grep powervr
-> [    2.969757] powervr fd00000.gpu: Direct firmware load for powervr/rogue_33.15.11.3_v1.fw failed with error -2
-> [    2.979727] powervr fd00000.gpu: [drm] *ERROR* failed to load firmware powervr/rogue_33.15.11.3_v1.fw (err=-2)
-> [    2.989885] powervr: probe of fd00000.gpu failed with error -2
-> 
-> $ ls -lh /lib/firmware/powervr/rogue_33.15.11.3_v1.fw.xz
-> -rw-r--r-- 1 root root 51K Dec 12 19:00 /lib/firmware/powervr/rogue_33.15.11.3_v1.fw.xz
-> 
-> To prevent the probe to fail for this case, let's defer the probe if the
-> firmware isn't available. That way, the driver core can retry it and get
-> the probe to eventually succeed once the root filesystem has been mounted.
-> 
-> If the firmware is also not present in the root filesystem, then the probe
-> will never succeed and the reason listed in the debugfs devices_deferred:
-> 
-> $ cat /sys/kernel/debug/devices_deferred
-> fd00000.gpu     powervr: failed to load firmware powervr/rogue_33.15.11.3_v1.fw (err=-517)
-> 
-> Fixes: f99f5f3ea7ef ("drm/imagination: Add GPU ID parsing and firmware loading")
-> Suggested-by: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 
-Uh that doesn't work.
-
-Probe is for "I'm missing a struct device" and _only_ that. You can't
-assume that probe deferral will defer enough until the initrd shows up.
-
-You need to fix this by fixing the initrd to include the required
-firmwares. This is what MODULE_FIRMWARE is for, and if your initrd fails
-to observe that it's just broken.
-
-Yes I know as long as you have enough stuff built as module so that there
-will be _any_ kind of device probe after the root fs is mounted, this
-works, because that triggers a re-probe of everything. But that's the most
-kind of fragile fix there is.
-
-If you want to change that then I think that needs an official blessing
-from Greg KH/device core folks.
-
-Cheers, Sima
-
-> ---
+On 09/01/2024 12:54, Daniel Vetter wrote:
+> On Tue, Jan 09, 2024 at 09:30:15AM +0000, Tvrtko Ursulin wrote:
+>>
+>> On 09/01/2024 07:56, Christian König wrote:
+>>> Am 07.12.23 um 19:02 schrieb Alex Deucher:
+>>>> Add shared stats.  Useful for seeing shared memory.
+>>>>
+>>>> v2: take dma-buf into account as well
+>>>>
+>>>> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+>>>> Cc: Rob Clark <robdclark@gmail.com>
+>>>> ---
+>>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c |  4 ++++
+>>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 11 +++++++++++
+>>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_object.h |  6 ++++++
+>>>>    3 files changed, 21 insertions(+)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
+>>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
+>>>> index 5706b282a0c7..c7df7fa3459f 100644
+>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
+>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
+>>>> @@ -97,6 +97,10 @@ void amdgpu_show_fdinfo(struct drm_printer *p,
+>>>> struct drm_file *file)
+>>>>               stats.requested_visible_vram/1024UL);
+>>>>        drm_printf(p, "amd-requested-gtt:\t%llu KiB\n",
+>>>>               stats.requested_gtt/1024UL);
+>>>> +    drm_printf(p, "drm-shared-vram:\t%llu KiB\n",
+>>>> stats.vram_shared/1024UL);
+>>>> +    drm_printf(p, "drm-shared-gtt:\t%llu KiB\n",
+>>>> stats.gtt_shared/1024UL);
+>>>> +    drm_printf(p, "drm-shared-cpu:\t%llu KiB\n",
+>>>> stats.cpu_shared/1024UL);
+>>>> +
+>>>>        for (hw_ip = 0; hw_ip < AMDGPU_HW_IP_NUM; ++hw_ip) {
+>>>>            if (!usage[hw_ip])
+>>>>                continue;
+>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+>>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+>>>> index d79b4ca1ecfc..1b37d95475b8 100644
+>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+>>>> @@ -1287,25 +1287,36 @@ void amdgpu_bo_get_memory(struct amdgpu_bo *bo,
+>>>>                  struct amdgpu_mem_stats *stats)
+>>>>    {
+>>>>        uint64_t size = amdgpu_bo_size(bo);
+>>>> +    struct drm_gem_object *obj;
+>>>>        unsigned int domain;
+>>>> +    bool shared;
+>>>>        /* Abort if the BO doesn't currently have a backing store */
+>>>>        if (!bo->tbo.resource)
+>>>>            return;
+>>>> +    obj = &bo->tbo.base;
+>>>> +    shared = (obj->handle_count > 1) || obj->dma_buf;
+>>>
+>>> I still think that looking at handle_count is the completely wrong
+>>> approach, we should really only look at obj->dma_buf.
+>>
+>> Yeah it is all a bit tricky with the handle table walk. I don't think it is
+>> even possible to claim it is shared with obj->dma_buf could be the same
+>> process creating say via udmabuf and importing into drm. It is a wild
+>> scenario yes, but it could be private memory in that case. Not sure where it
+>> would leave us if we said this is just a limitation of a BO based tracking.
+>>
+>> Would adding a new category "imported" help?
+>>
+>> Hmm or we simply change drm-usage-stats.rst:
+>>
+>> """
+>> - drm-shared-<region>: <uint> [KiB|MiB]
+>>
+>> The total size of buffers that are shared with another file (ie. have more
+>> than than a single handle).
+>> """
+>>
+>> Changing ie into eg coule be get our of jail free card to allow the
+>> "(obj->handle_count > 1) || obj->dma_buf;" condition?
+>>
+>> Because of the shared with another _file_ wording would cover my wild
+>> udmabuf self-import case. Unless there are more such creative private import
+>> options.
 > 
->  drivers/gpu/drm/imagination/pvr_device.c | 12 ++++++++++--
->  1 file changed, 10 insertions(+), 2 deletions(-)
+> Yeah I think clarifying that we can only track sharing with other fd and
+> have no idea whether this means sharing with another process or not is
+> probably simplest. Maybe not exactly what users want, but still the
+> roughly best-case approximation we can deliver somewhat cheaply.
 > 
-> diff --git a/drivers/gpu/drm/imagination/pvr_device.c b/drivers/gpu/drm/imagination/pvr_device.c
-> index 1704c0268589..6eda25366431 100644
-> --- a/drivers/gpu/drm/imagination/pvr_device.c
-> +++ b/drivers/gpu/drm/imagination/pvr_device.c
-> @@ -295,8 +295,16 @@ pvr_request_firmware(struct pvr_device *pvr_dev)
->  	 */
->  	err = request_firmware(&fw, filename, pvr_dev->base.dev);
->  	if (err) {
-> -		drm_err(drm_dev, "failed to load firmware %s (err=%d)\n",
-> -			filename, err);
-> +		/*
-> +		 * Defer probe if the firmware is not available yet (e.g: the driver
-> +		 * is built-in and the firmware not present in the initramfs image).
-> +		 */
-> +		if (err == -ENOENT)
-> +			err = -EPROBE_DEFER;
-> +
-> +		dev_err_probe(drm_dev->dev, err, "failed to load firmware %s (err=%d)\n",
-> +			      filename, err);
-> +
->  		goto err_free_filename;
->  	}
->  
-> -- 
-> 2.43.0
-> 
+> Also maybe time for a drm_gem_buffer_object_is_shared() helper so we don't
+> copypaste this all over and then end up in divergent conditions? I'm
+> guessing that there's going to be a bunch of drivers which needs this
+> little helper to add drm-shared-* stats to their fdinfo ...
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Yeah I agree that works and i915 would need to use the helper too.
+
+I would only suggest to name it so the meaning of shared is obviously 
+only about the fdinfo memory stats and no one gets a more meaningful 
+idea about its semantics.
+
+We have drm_show_memory_stats and drm_print_memory_stats exported so 
+perhaps something like drm_object_is_shared_for_memory_stats, 
+drm_object_is_memory_stats_shared, drm_memory_stats_object_is_shared?
+
+And s/ie/eg/ in the above quoted drm-usage-stats.rst.
+
+Regards,
+
+Tvrtko
+
+> 
+> Cheers, Sima
+>>
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>>
+>>> Regards,
+>>> Christian.
+>>>
+>>>> +
+>>>>        domain = amdgpu_mem_type_to_domain(bo->tbo.resource->mem_type);
+>>>>        switch (domain) {
+>>>>        case AMDGPU_GEM_DOMAIN_VRAM:
+>>>>            stats->vram += size;
+>>>>            if (amdgpu_bo_in_cpu_visible_vram(bo))
+>>>>                stats->visible_vram += size;
+>>>> +        if (shared)
+>>>> +            stats->vram_shared += size;
+>>>>            break;
+>>>>        case AMDGPU_GEM_DOMAIN_GTT:
+>>>>            stats->gtt += size;
+>>>> +        if (shared)
+>>>> +            stats->gtt_shared += size;
+>>>>            break;
+>>>>        case AMDGPU_GEM_DOMAIN_CPU:
+>>>>        default:
+>>>>            stats->cpu += size;
+>>>> +        if (shared)
+>>>> +            stats->cpu_shared += size;
+>>>>            break;
+>>>>        }
+>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+>>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+>>>> index d28e21baef16..0503af75dc26 100644
+>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+>>>> @@ -138,12 +138,18 @@ struct amdgpu_bo_vm {
+>>>>    struct amdgpu_mem_stats {
+>>>>        /* current VRAM usage, includes visible VRAM */
+>>>>        uint64_t vram;
+>>>> +    /* current shared VRAM usage, includes visible VRAM */
+>>>> +    uint64_t vram_shared;
+>>>>        /* current visible VRAM usage */
+>>>>        uint64_t visible_vram;
+>>>>        /* current GTT usage */
+>>>>        uint64_t gtt;
+>>>> +    /* current shared GTT usage */
+>>>> +    uint64_t gtt_shared;
+>>>>        /* current system memory usage */
+>>>>        uint64_t cpu;
+>>>> +    /* current shared system memory usage */
+>>>> +    uint64_t cpu_shared;
+>>>>        /* sum of evicted buffers, includes visible VRAM */
+>>>>        uint64_t evicted_vram;
+>>>>        /* sum of evicted buffers due to CPU access */
+>>>
+> 
