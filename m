@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39855828049
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 09:17:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6274E828050
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 09:17:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 552DF10E2F9;
-	Tue,  9 Jan 2024 08:17:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9126810E35B;
+	Tue,  9 Jan 2024 08:17:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6444110E2F9
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 08:17:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB14710E35B
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 08:17:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1704788246;
+ s=mimecast20190719; t=1704788268;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Q6w3leRHCC6CcQan4ottdZ6Fh+PPK3Yj5tZd7cVIuis=;
- b=h47Boc43vY2/lcbIHFR5BC3nhAMZu33gNLq5T0DhE/iG8Vgo3Z8iAB5HXZNG7R6JdxqbQe
- 0w78rB2odYptw5b+k7bLU7sHMjj8ygjpfwv/rfuha6M+zxdAQWjL2Jd7L00GNVFMW7rUV7
- LVM14rnDa9670j+0lM1qcZiHXlVTPb0=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=TYwl3Gm82X1y9bF7T3uXUgWLjuN0mLmE2BxJvtmQvlI=;
+ b=PHsTBItx/vsI7EZt3iLxxgdi9jGR1AN6CbPDSgNlxpqyU+taNg0TTs3nSCPqLeIRdmPSlD
+ vQR8Fuf+uOwCNn+yBHDoNohSHwDKDSEtF4d9OcLPSkw0CVhWKSkGK2TJzngVR+UioVnjaD
+ 6kUNOys/VvR48Jg6/ZaKBIxDgA3exTI=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-287-OCGloHSWMr6trs5CfpLCxw-1; Tue, 09 Jan 2024 03:17:25 -0500
-X-MC-Unique: OCGloHSWMr6trs5CfpLCxw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-336937b3cf5so1741239f8f.3
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 00:17:24 -0800 (PST)
+ us-mta-79-fSsDyFJZMI6YYuTf25OTYw-1; Tue, 09 Jan 2024 03:17:41 -0500
+X-MC-Unique: fSsDyFJZMI6YYuTf25OTYw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-40e4f70af99so2518145e9.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 00:17:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704788244; x=1705393044;
+ d=1e100.net; s=20230601; t=1704788260; x=1705393060;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Q6w3leRHCC6CcQan4ottdZ6Fh+PPK3Yj5tZd7cVIuis=;
- b=cj6AQRn/yD2ssaXrfLduP+Mp/PHQURSsVYXltyOl23wuuqoN49UzZh06O0kjsIIhEh
- gbDHn68AY3YljYqpdkG8kunJa0WEkdWPDDvyZBVRLACabbAwuiPiu+fghMbEL0GX0fwM
- SFFVA3UGoHEzPVV7HwICUWhLxazmmWb+tB+fkr2yTwahZVYFIzV3erNCo8h9aaUxwwW7
- +8T/cSjYaeH6SEYQiC8KENbkev6hncXpy2udOszDCqWaVkXWqN+VY3Pc6KFdfypiCy/c
- 7JatGaKz8m0dLOHA4AvXIS8XujsewqP7eJblR9kvF6+xNSmY+F93Sq9/7fqv+UZenBQp
- HRvA==
-X-Gm-Message-State: AOJu0Yxdk0UdRG130H5IbXJoMXzht7kqWBKmvoYIBscOULEVZ/PtUR+n
- IoYizwzmazg5mJxzFq4nLqMtgakaTSd48RN3XLo3gr3bfODOkUwjYcKJEspSvZV/9lAziqfGe8s
- 3BA8czNBCNFdALJYS9T8XwzueQjnWxEaIAdPY
-X-Received: by 2002:a5d:4745:0:b0:337:5c95:61ce with SMTP id
- o5-20020a5d4745000000b003375c9561cemr198823wrs.97.1704788244097; 
- Tue, 09 Jan 2024 00:17:24 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHStCnTO215moFCK9p8lkCQa0U7PamVTx0JKv0Duum5S0J8VtFtCBGfw0DR51jsrXawbtvNiw==
-X-Received: by 2002:a5d:4745:0:b0:337:5c95:61ce with SMTP id
- o5-20020a5d4745000000b003375c9561cemr198808wrs.97.1704788243872; 
- Tue, 09 Jan 2024 00:17:23 -0800 (PST)
+ bh=TYwl3Gm82X1y9bF7T3uXUgWLjuN0mLmE2BxJvtmQvlI=;
+ b=Kk/YW9qepBCO21HeYYUODYArIq/hQWOqz0J63sQaYyoxLY/q1+vMJCjP/pdlcbtFae
+ kP/MzEBrfe4juVVDRzrGMob7vPbQ5jb+MGQyFtXFkfa5whI0aXCduCuDqrDlR5Dd47Pk
+ 51kj5WNPA/w+24fb+yE0VdlVHGKdwpeIeKdpJlp+EAYzTmyuucjqm2zfVjftls7Dz1IO
+ aDWOahiLojKTZ049RViSyTIihb8qwqQZTsAQKwl9Km3W1uqLGF4XWzLKa5d1vO6xodOr
+ 5cdW+DCJG6UJp6BmCukFFWKqSjjaJrqiVN2XyFBvBBiOOmJhFlF7ebEAHbmOrHmXykpq
+ piWw==
+X-Gm-Message-State: AOJu0Yzll0WVjyrEX6/cA5+tMm9YsMhe/ZlpRfwNk+JJi39f/RoSSAFv
+ s1bVcYwJiYAwhA7DdEfxYp/MbZtqnVQvTCoqIcNzM9uiAv/G22iKOylKthz47CvKjnqiIAiGTHy
+ 2cFHgaTYxcgTs0ia9j9nBZ52gpm0YOBzuTjTw
+X-Received: by 2002:a7b:ce98:0:b0:40e:4865:a05c with SMTP id
+ q24-20020a7bce98000000b0040e4865a05cmr1201504wmj.144.1704788260439; 
+ Tue, 09 Jan 2024 00:17:40 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGPyXPX8MBPtFN3J4ZHXjeFvlB+/zHNqrDKNgiHYMYHJjKkOj3iwt/RwjRv1ZDD5pH9Bl+h2g==
+X-Received: by 2002:a7b:ce98:0:b0:40e:4865:a05c with SMTP id
+ q24-20020a7bce98000000b0040e4865a05cmr1201483wmj.144.1704788260131; 
+ Tue, 09 Jan 2024 00:17:40 -0800 (PST)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- m2-20020adfa3c2000000b00336c9ad1173sm1726260wrb.26.2024.01.09.00.17.23
+ m1-20020a05600c4f4100b0040d5b849f38sm13979473wmq.0.2024.01.09.00.17.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jan 2024 00:17:23 -0800 (PST)
+ Tue, 09 Jan 2024 00:17:39 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Andrew Davis <afd@ti.com>, Frank Binns <frank.binns@imgtec.com>, Donald
  Robson <donald.robson@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
@@ -71,13 +71,13 @@ To: Andrew Davis <afd@ti.com>, Frank Binns <frank.binns@imgtec.com>, Donald
  Cousson <bcousson@baylibre.com>, Tony Lindgren <tony@atomide.com>,
  Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>, Tero
  Kristo <kristo@kernel.org>, Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH RFC v2 04/11] ARM: dts: omap4: Add device tree entry for
+Subject: Re: [PATCH RFC v2 05/11] ARM: dts: omap5: Add device tree entry for
  SGX GPU
-In-Reply-To: <20240108183302.255055-5-afd@ti.com>
+In-Reply-To: <20240108183302.255055-6-afd@ti.com>
 References: <20240108183302.255055-1-afd@ti.com>
- <20240108183302.255055-5-afd@ti.com>
-Date: Tue, 09 Jan 2024 09:17:23 +0100
-Message-ID: <87r0iqrkdo.fsf@minerva.mail-host-address-is-not-set>
+ <20240108183302.255055-6-afd@ti.com>
+Date: Tue, 09 Jan 2024 09:17:39 +0100
+Message-ID: <87o7durkd8.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -103,7 +103,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Andrew Davis <afd@ti.com> writes:
 
-> Add SGX GPU device entry to base OMAP4 dtsi file.
+> Add SGX GPU device entry to base OMAP5 dtsi file.
 >
 > Signed-off-by: Andrew Davis <afd@ti.com>
 > ---
