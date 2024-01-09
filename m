@@ -2,120 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14455827F16
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 08:16:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66D0B827F8F
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 08:40:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 535C610E366;
-	Tue,  9 Jan 2024 07:16:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0529010E364;
+	Tue,  9 Jan 2024 07:40:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 658A0899D4;
- Tue,  9 Jan 2024 07:16:03 +0000 (UTC)
+X-Greylist: delayed 918 seconds by postgrey-1.36 at gabe;
+ Tue, 09 Jan 2024 07:40:45 UTC
+Received: from CHN02-BJS-obe.outbound.protection.partner.outlook.cn
+ (mail-bjschn02on2040.outbound.protection.partner.outlook.cn [139.219.17.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E537E10E35B
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 07:40:45 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FJC4Cl5niSEn4XyewwUkoMdpHNzvG0UNpdQSvXr/dAB7/O5/kitiUx+kLBO2l8Lep58GNlpe4GIdnCxUthg9q3r1Cvk1cqIQF+ah0Kw+TeQ9HlGgigawP4mu+AVx2UmDoRG4pKnZQtDK8nq7slQnitq3YGyzblD1sMGeO+etmbrPZv80uP6Zkdbk2FtEqWyb+NZSTU0B5UN8jJXsfbO2HvIfh4CC3WoeJ1UbF1Tcds72E1cIzrgnqpaOOVgrIRd3aFsx8hjwkMMu7TPK0TeywPv3WbrfF/mUQsYyvcSFQRZSeKbNPyvsjypkGatuDMYdFbohBChXJZDuwsT2jnD4OQ==
+ b=XySMMhkEb2SjcTg4jSHIQVRFn8biV/NBAKZYUmuq/tcQF81pDgCBuOtCSHho03caFU/FGl7ZFNRfzhYnwWHW1n2+FOYv3Z9jujnxTgQqf85sZ/H/yQNlfIvy9/TzaS3lGO4YsN9jmyCck2Ferc81EHqYoQ+8EbLZyLqmL0NR/mqTg1wmHNO0cXg/Nyn3MHYJT+SZ/axEiZ1wHHK9r5sfxAsFsaSQv24XUIYKsQ2vKfctUuYLlz9EhBSC5V3sRw9jOnxRzNqo3uGKJ+yBBH+C4dIdqaks/l9YbqaHVcd81SiGs2heSHWrfsCWy2ZfuR56cW8DKAA0428jqGMB0hOEsw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4B4HXS0Any3dtnzSlYxkwGkWT+7JgBN/1wCFpPIqik4=;
- b=k+IaIm0O+zb3cjA3D8k0e+GRGjpqCEf8OnXDG5ioys2LgP74X4N5CehWUNEQ7TivMgUPJNYTsfltExpuFZgEZY1b4hxsuAkSWshff9R+MqVWHxkj4d8nfWlsTH1AUcEqojxOigkhjOxu1r0cmUAmUB3egOHSOQ9Nh/qyABsbjTYFoAlj6EIyU/uxkd648WlJopisqz6/sbVi8FMqjkOLFyNVQkjPu2NhvlUgTyOpSqReP5vJsBQJl6XMaE0TYIqZQ5UU3WzarU9Ph6p3G+Otam+sw1+xvHAGAk1J69yUPLzGmtWhi94dakiW1Cxx1l3yzAtWYp6suOUGdZ+9VCSDhw==
+ bh=MTzShixjE7oUtM7mcd+b6ERhd0vS0ITc1Wt5L7srMuE=;
+ b=ZqtW95cPxUQDASdkOpYdlq2/nukIXXAmDazFtGiMBZoUD7gBtNcX5IljzGuE8fY6FhQ4W4RW1yUu229EiCFBqzU5ek8+e+SDIqBvHr38M08WqPf9SIwQqgUvPNW5Bc1uOpxD0uaO43apb+0ZxypLyHfK+nqq9AMbGyX8ixDBjNmJWX46Ov2jzzvz5ud4hUU3QVY0Rq1KGrnA47YWwBZAr2MLINtUwVYbdj208NmCD4ieKMAbf/P7gtbgKKs6eUQf1a2j1r7/bzzoE4vtCRdOZ1QW95pke5TvnkaqmZZKxxNlFOqf9vltUVjSoppRZ9Ncg2i5ZGKGUeELZM0DTQvC/A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4B4HXS0Any3dtnzSlYxkwGkWT+7JgBN/1wCFpPIqik4=;
- b=WIHbz1V4Kueoa7Oike5Bd8U763OgvPq9jUBKOdzN+ULxmxPVe2owY9QNmtmpF2ePTZznQ+LT4tb8WgVyvrOmK9Zs+Ee8/m2fFmQ+SxStw1CgJecgtn8mJIMystOX297AzggCF1Um4j+7lZvIGUuuREV1+nDR1RhL6NZI+mUQj4k=
+ smtp.mailfrom=starfivetech.com; dmarc=pass action=none
+ header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SJ0PR12MB5676.namprd12.prod.outlook.com (2603:10b6:a03:42e::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.23; Tue, 9 Jan
- 2024 07:15:59 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::e1fb:4123:48b1:653]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::e1fb:4123:48b1:653%4]) with mapi id 15.20.7159.020; Tue, 9 Jan 2024
- 07:15:59 +0000
-Content-Type: multipart/alternative;
- boundary="------------BMstbln6oo6DnkPiJQzsOB1m"
-Message-ID: <32ffe817-498b-48ba-bc33-3fc0fa3fb8dd@amd.com>
-Date: Tue, 9 Jan 2024 08:15:53 +0100
-User-Agent: Mozilla Thunderbird
-Subject: =?UTF-8?B?UmU6IOWbnuWkjTogUmU6IFtQQVRDSCBsaWJkcm0gMS8yXSBhbWRncHU6?=
- =?UTF-8?Q?_fix_parameter_of_amdgpu=5Fcs=5Fctx=5Fcreate2?=
-Content-Language: en-US
-To: =?UTF-8?B?5p2O55yf6IO9?= <lizhenneng@kylinos.cn>,
- Marek Olsak <marek.olsak@amd.com>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx <amd-gfx@lists.freedesktop.org>
-References: <xrg6qu5muv-xriqmgzqig@nsmail7.0.0--kylin--1>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <xrg6qu5muv-xriqmgzqig@nsmail7.0.0--kylin--1>
-X-ClientProxiedBy: FR4P281CA0076.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:cd::20) To SJ0PR12MB5673.namprd12.prod.outlook.com
- (2603:10b6:a03:42b::13)
+ header.d=none;dmarc=none action=none header.from=starfivetech.com;
+Received: from NT0PR01MB1070.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c510:3::6) by NT0PR01MB1231.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c510:e::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7135.32; Tue, 9 Jan
+ 2024 07:25:24 +0000
+Received: from NT0PR01MB1070.CHNPR01.prod.partner.outlook.cn
+ ([fe80::85fc:7fb9:8b00:dd88]) by
+ NT0PR01MB1070.CHNPR01.prod.partner.outlook.cn ([fe80::85fc:7fb9:8b00:dd88%3])
+ with mapi id 15.20.7135.019; Tue, 9 Jan 2024 07:25:24 +0000
+From: Shengyang Chen <shengyang.chen@starfivetech.com>
+To: devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 0/2] Add StarFive JH7110 SoC DSI support
+Date: Tue,  9 Jan 2024 15:25:14 +0800
+Message-Id: <20240109072516.24328-1-shengyang.chen@starfivetech.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-ClientProxiedBy: NT0PR01CA0008.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c510::13) To NT0PR01MB1070.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c510:3::6)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ0PR12MB5676:EE_
-X-MS-Office365-Filtering-Correlation-Id: 07612bf7-21a5-41bb-bb43-08dc10e2d42f
+X-MS-TrafficTypeDiagnostic: NT0PR01MB1070:EE_|NT0PR01MB1231:EE_
+X-MS-Office365-Filtering-Correlation-Id: db48c1bf-e533-438b-ca23-08dc10e42546
 X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PtGCCvowDrjMq0PjzE+6oOeo3Z9IaaXzLqmc5S0feKirSnfMX3ls7LZXTv5dnmLFyY3mr5sDtVRDQyg+Lom0Fh3kgj1WusJxa1UVOPlppti8P4kf7eGArEaWqewStakj4IZos1/FhKP6dTsTR0UvvWB1WUdE1rhcmaPPHIZaq99HuZy4X1/yQ3S2FI7UdNoaZQ2VZd36mNeUyh+23iZCR/yR5Nizi4IXfg9Janr+D2EacLL4ae+0xuIAFzZou5+mx4YZckqS61qxfysxkQuXk9JMRT3WmQ3Hh9Fc3nee1QctvM2UF4FI7pyQLfY/2E2uVPjVZDdHN1zJ9mUPezjwmN+dUbeuW9lsQMUzNj68uQzg6bVnVppoN2u6EA0EF0hVDoDiVMZ2RK1VWHYJSqyNMnypt9Fqg+3yXU5OEf90L+abAofQaVFm1v0atVpEN0l6Db8O133NfShYkTP+zWWcXwKdSRuRGkSy7uTkunHnJotKmsxraLtM0JipP03h5pByal2WxdiDm9KJ/s7IdlmlY17L8xsVbXTNlniY/3eQ+fZ8YCiIBGCbxI3DhXGT60Meta1w39XKtGPNUuhXKza0QgZPp4maoQTQ5qbevdu5CJeuBr0Rv/MmGL26WO+mNv2RgWLl6XFXyOPDi2Zlnv3v4w==
+X-Microsoft-Antispam-Message-Info: Jz2tFfE3xGi17J0rgz+y+hYj130rrPknRkWqJfTn0RV7KD6h1qHFO4xRDWUj2ImEjG+JmrYNHf97I1ZJWlkLnvtQBMocyhWw3oznSxQlYsDdd+R/xuIPgcFeoI2Qvm2/2otI17EURREtg04x27fzopyzX3395bD0Sb9X0IeLsxcLycJzT0H1Aevo9fL0kruMo6r1NskmEhxvKYdBbILHMva//98AHsPuu754YcNIDym8SpKbmLvutIPgyBGY7c4lLY91HmjWohK79eQOUY5lBAbyl/3zyzDTknslL+oP99sD51V86VP7n1G9FgU/MAepuG/GZIDhQZvExupHzLc+A40qHZcJFEfINNiXW8UqW4Uf1rCNjv2B+CSysp381bmo4Bg3S1ZVd3jr/scBGGMt2hq7gammj1UU1gEzUHlUyvtAZxAAidZuSuPAmc6GVHvV5JkoCS4QwsESxyvGIS7uNRU+CQLa9ePEKcq+p8hsApnwzWe5Z+IZ4It/CH9kZ1JlfoHX2rcSW7h8ZNEcWNOn8oVsdfB7XX2+TY2Io7GlWSHsBxEEhEmNY+kiVg3eY1Gd
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(39860400002)(346002)(376002)(366004)(396003)(136003)(230922051799003)(451199024)(1800799012)(64100799003)(186009)(83380400001)(26005)(66574015)(5660300002)(6512007)(38100700002)(33964004)(2616005)(31686004)(6506007)(6486002)(31696002)(6666004)(478600001)(66946007)(110136005)(66476007)(66556008)(316002)(8936002)(36756003)(224303003)(41300700001)(86362001)(2906002)(43740500002)(45980500001);
+ IPV:NLI; SFV:NSPM; H:NT0PR01MB1070.CHNPR01.prod.partner.outlook.cn; PTR:;
+ CAT:NONE;
+ SFS:(13230031)(396003)(136003)(366004)(39830400003)(346002)(230922051799003)(186009)(451199024)(1800799012)(64100799003)(86362001)(66946007)(40160700002)(36756003)(40180700001)(38100700002)(83380400001)(1076003)(38350700005)(508600001)(52116002)(966005)(6666004)(7416002)(8676002)(8936002)(2906002)(66556008)(4326008)(44832011)(5660300002)(66476007)(26005)(41300700001)(2616005)(41320700001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YnhzUTBPVTFMQ3RzL0phSTNDeThnNVphZ0p3TnZOZXFVUkQwRU5oUnZ3VjJC?=
- =?utf-8?B?WkNzc3JEUDJ2U0xqOU5TSVN3dk0zemVUN0orQzArd0gwNTNOYlJKT2QwdFdn?=
- =?utf-8?B?NjZZU2VBVmlvcXJPd1FrSGtzK0cwdEduYmUxUThrVFU4UVJjeHB5eitnRTZP?=
- =?utf-8?B?dnp2dWZRbHlSYkNERVE4V0ZQeHRGZ1dKNm56K3k3ZHpYNmJNZWhlRUhTWlJU?=
- =?utf-8?B?eU1OdjRJUkEvNmxTUUhRZEtMSzN5cW51Z0VWTXZzYlg5c2dvMU1ySDhPV1kz?=
- =?utf-8?B?ODQ1MHJCbUN6NUtvYWU5N3FlTzhKUmQ3UVpURTVxajhqbmNDRi9ralhDTlNj?=
- =?utf-8?B?cEQ3WUdienFhL2c2R0JRQzl4cUdYckdHYXZQWnBtb1A1MHUxNVJONzJKNmNx?=
- =?utf-8?B?MUFSdVVDeUVoY0lBbHIyUUY0NytjenY4VG13UHA1b01EZ2hGaCtibldWa2hs?=
- =?utf-8?B?eTNFV0R0VXFvc1BkTWd0OWxvQTJGZHpSbDVwUDNZWkxLUjZSdUVjUUZKUUQ1?=
- =?utf-8?B?OGhxNkhBQUZOcGNnUWZFdUd6cVBuL3lJQXlMR0hMZ0xrTy9ab1FQSTFOK1NU?=
- =?utf-8?B?RUQwS2lDd2pjbm8yYi85UUpydTBRVTlkOHloa0lLbXZxdE5UUVorQmRHYS85?=
- =?utf-8?B?TUpENHhZZ1Frd0VoWmlueWRHVnBPMXg2YVd3WXZkT3VmUTNvRnVPTTdXakpK?=
- =?utf-8?B?OWNmM3BrUUk4Ykx4cEdza1NaRVo3NFBWRlFaQkt2T3l2Wld1YVlHbDNiMmdo?=
- =?utf-8?B?aFZqT0FSTmJDSytiSnNDdDJEaktsQnY1eXphSTlJVC94SVBYTE9qNC9yY3NM?=
- =?utf-8?B?bThqTUxXL0NnVklWcVNPMnVYeDNOQWhKcHZxRVpET1UyMGM3QjFsRHgzQUFa?=
- =?utf-8?B?V3NRK3ZjNm91c3UrWHlYdFVKazJKZVJlRmxpdEVkdEFKYUFuTDJEYm9MaVpr?=
- =?utf-8?B?LzgxamNNUlowUVI2TjlJOGxIY3IvNzZCNjdyaWhzUS9IczRPb0EvMzFuUzc2?=
- =?utf-8?B?VCs2RkY3SVpPc3NpdUV4WlA3SzdjZTZ4MmRvMm9CdFBtU1JuTlg5RVh1Z1VK?=
- =?utf-8?B?T0Y3ZXZHSUJwSFJ3a3RscFJpUHZqeXk5Wm5NcHhrSWYwZEw0b1ZBYi9JT0t2?=
- =?utf-8?B?RjFtREFRaTBpYzl4MkZvOXJDMGVQcUkxL1BOUmlTU1NiZ2xHTDNWeE16b2VG?=
- =?utf-8?B?aHRtbGxDNHMvQTR1QlJFMExqV2d6MXJlbUF5K2tFd3JONDVLN3JONVgzMkhq?=
- =?utf-8?B?blVFaHRMYkdXVHpscXYxS0lQeHdRWDJCNXBDaTNKcHhsdy9yQ3k4Mi9oMy9C?=
- =?utf-8?B?YWtzc2dYdVpsLzYycnB4TlhhRmlDU2cwbVNJM1NGcTZSbVpXNDNuRVorWDJG?=
- =?utf-8?B?OThhNVhyTTVFSjdldmpNSTFFakcxeGF6V3Q5TWJTSEFBUkxvZkZOdXRjejZr?=
- =?utf-8?B?OFR0TzlLYmI5Q0t0VGZWVHg0MGlDTmNuUlpEN3VFVGU2VHFWS1ZRTGd3OVBU?=
- =?utf-8?B?OFFUT2QvZTdtQ0luTVVRRmw5YVJqUEtlUy9LL0lyQU9PNWNhTHlvbFNrOXB3?=
- =?utf-8?B?UEowUnY1RnRUdzZDSHVLWjR3TGQ1clFsM1hpNlJudnU1VWtxZmpwL0pTekda?=
- =?utf-8?B?QUV4MDNyVlZkQU04aHYxWmhuM2NuSHE4dERjR24reUhpMzErbm5WSFNpai9x?=
- =?utf-8?B?M0VCNks3Y2U2QmcxNyttMXYyZUQzbUVQalJlREpST0tOSlZKcTFLdk8zS2lR?=
- =?utf-8?B?QjFLTnVrRjNkb0dWdlI3Z24yTkNVd2VONmR1VTFwWTA5aGxDeUhHUDB0RjVl?=
- =?utf-8?B?T2dMQ3VGZjRYcU5DY1BYaEM5MWtXMXpaeXE4YXN0YnJ3RXhQK243NFNaNEtT?=
- =?utf-8?B?dEJhZHQveTVGclEyc2dlM1NQdkw3TGg5SjVFMkNiZzZhUlNLTERsTmdlWTZ5?=
- =?utf-8?B?cXV4Qmo1N1I5VDcrT1FybmljTWRoc3VKay9obHMwdktTbkxDNG05bThQM1Q4?=
- =?utf-8?B?TThibFFaOENOcmRYRTFXejlUcmVTSW1PTDh3TUo1YVZhcm02UUFqeDJ6SU5X?=
- =?utf-8?B?bUVyMnZmeHhWOEdtTVR3bjZUYWVJQ2hjK3lDQzI1UlMyRE0xa3BFNnZWUHIx?=
- =?utf-8?Q?62vUp1p8JnfWsnEDnQgwQCFgQ?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 07612bf7-21a5-41bb-bb43-08dc10e2d42f
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR12MB5673.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?pC2pKiZhwMH4+9Km0YqLBmE+jryGpPzid4rYkem3pTzHsb0dgPNSuPYL5/mu?=
+ =?us-ascii?Q?Sh+xL2XjK3mSvAm5M55x+rvNRnlfMjcrAC+tus9Hhed+yvvnGEdiYPlVVKYq?=
+ =?us-ascii?Q?Hkpfl2LTqJp4nsCSZTT7tL7zRtz4evOP4H3Ss6zpiNVh11tqx2kpizBqd8Z0?=
+ =?us-ascii?Q?NgSotgMMu/mMmvY66DhhE1o1YgwJglo0+J73nzOCbaw7iOcm8LKXAhDePfqk?=
+ =?us-ascii?Q?iSJAm24ddYRmhAkQuUO9lH+mmM2WOtneSqRcLiUsQtHbSOBOcj/bAmQx3U2T?=
+ =?us-ascii?Q?oz1pEiTu6r0UJXMTT9f60+EYGK6Yk/GeKGzrYxP3Pa6ldfLbs9xXMlUzYa6K?=
+ =?us-ascii?Q?XcO7yjMREApr1/AaVVG1/3qvw/IKI/cVKEjEV9klmsY0/O7+Zi3GGqaXeD5P?=
+ =?us-ascii?Q?CuUGUy3GIZfS6B/GcK62cPOWK3WyMi5JPftnbSLB2zX/PIOKjhLbpNLUnL4V?=
+ =?us-ascii?Q?B70nrZ2s8WWpwltohL//nVyvGresXxuv3T8uVmLn+4IeZmpS6LrLddZCGsQC?=
+ =?us-ascii?Q?8AwxZXBeiL9lYgAhoJVL0YYi9h4smwYYmQmuS/hNY0JfSkae6m8bCLfyQNqg?=
+ =?us-ascii?Q?I4zyixiwIdrI2OfDXGe2p9VtL8GQhU4a2kvNRaOTW4UJTlTLtkm2oJjKH4KS?=
+ =?us-ascii?Q?ShgfThhxLpE8CHGGjN38TKtx8kXYEoAhlCYrvZPtMQDQsBDaxGolSXn9Yg2j?=
+ =?us-ascii?Q?vuEEnrkfbQSNUDSXxoG83+MOrVkzSe3XWrjW6lcCxk4AlPtaFy7G+Y0MMoyw?=
+ =?us-ascii?Q?AupTw1JQFBRnWBvDSiARES78Hpo4+gdNE77bF8xVviOwNX8BOVPlDV8x0l4x?=
+ =?us-ascii?Q?CLNAXxTJ7b3RXU8GHYV8zbH560w2cDsNJ0z8CH3LsYttBpxqbZxdAc4+h6pO?=
+ =?us-ascii?Q?87k6eIRpiTLUTm2zK4Y4O0B3VF8gQ+ABcvCBW4tM3xadZ1TRyj/AvYNR1AHl?=
+ =?us-ascii?Q?C4O9N1m7ZYvkugCzIwjyYt106KzpRIencjnqtzmshMTNfme58s/OOjwhYrnM?=
+ =?us-ascii?Q?x6vg/iMvdI+9DOcOhwT8L4L8+V/w42rT9xwO7QFnzj4mN+RZpz8moOpmHJs+?=
+ =?us-ascii?Q?rFyUikO07AXSt9VAUPGq5NhdliLt5bs4po38OZhORBfWlp5XgKVy8D5eiq/c?=
+ =?us-ascii?Q?ArpRcksTsWhA2oCNL2UXwyNEUTJZRPHvKFWr2r95ai4Bin0D7K37o1YfqE7D?=
+ =?us-ascii?Q?rlOYNZgsZ2p8vEDIp9V/I6SdHp32sVJX1pyMU26hWGW4Jf2cksxCKeeXsHxt?=
+ =?us-ascii?Q?e/DAwKCSGV0BMwGwyVkXjFCOP8K0k8mDZd4trCCF4R8udq8YNuHjdWrLvj9o?=
+ =?us-ascii?Q?h9/rFkSsXYTxNIUMEYUIwp9z6aLAcVOnEW3mrEOO/AHjRa1gjDZtsiavCA3X?=
+ =?us-ascii?Q?MCdQTNPrw+kEIlDfxQCLwqCLMKUcVwndY/pEDyBrChmgc/KXG8eJCI0VZks2?=
+ =?us-ascii?Q?m7+9bqtUqIq2AgXxWRn8uEerOgDllobG3TZhkiI9c/SesSa3W8RC9r7gwmgU?=
+ =?us-ascii?Q?QEmBzv9ntT1JNyzyDlMVzOQIek+h/w/vD0m+OEvlVe/c7CQDwAAkovchF/I3?=
+ =?us-ascii?Q?luxpN0zvpZNNPdc0MtV6RsEWeP/JaC256mPsPiBcaLG1R7/xLcWKGm3JCODO?=
+ =?us-ascii?Q?jCegKxam0gUC2cHO6puqX08=3D?=
+X-OriginatorOrg: starfivetech.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: db48c1bf-e533-438b-ca23-08dc10e42546
+X-MS-Exchange-CrossTenant-AuthSource: NT0PR01MB1070.CHNPR01.prod.partner.outlook.cn
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jan 2024 07:15:59.4435 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jan 2024 07:25:24.5306 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fHfBTkDeztdUvndFegla5tRWR1qptvyNB+m+2jD9ftEL/YMOq1TJUzHJaSuQ2164
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5676
+X-MS-Exchange-CrossTenant-UserPrincipalName: TJq775dZnJx2jggY7iEIAWjIjuG/tSj9/h/B/tBH7L4I3I9P9TLCJzN6HzhHYSUS4y+PYQsX4LvRsV8XAyqNaoqoZDANI9MITRZVbm6rMa4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: NT0PR01MB1231
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,237 +110,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: andrzej.hajda@intel.com, tomi.valkeinen@ideasonboard.com,
+ Laurent.pinchart@ideasonboard.com, krzysztof.kozlowski+dt@linaro.org,
+ r-ravikumar@ti.com, rfoss@kernel.org, jernej.skrabec@gmail.com,
+ u.kleine-koenig@pengutronix.de, shengyang.chen@starfivetech.com,
+ conor+dt@kernel.org, jonas@kwiboo.se, mripard@kernel.org, robh+dt@kernel.org,
+ aford173@gmail.com, neil.armstrong@linaro.org, keith.zhao@starfivetech.com,
+ bbrezillon@kernel.org, rdunlap@infradead.org, linux-kernel@vger.kernel.org,
+ jack.zhu@starfivetech.com, tzimmermann@suse.de,
+ changhuang.liang@starfivetech.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------BMstbln6oo6DnkPiJQzsOB1m
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+This series is the series that attempts to support
+the CDNS DSI driver used to converts DPI to DSI.
+CDNS DSI is embedded in StarFive JH7110 SoC.
+The series has been tested on the VisionFive 2 board.
 
-Am 09.01.24 um 02:50 schrieb 李真能:
->
-> When the priority value is passed to the kernel, the kernel compares 
-> it with the following values:
->
-> #define AMDGPU_CTX_PRIORITY_VERY_LOW    -1023
-> #define AMDGPU_CTX_PRIORITY_LOW         -512
-> #define AMDGPU_CTX_PRIORITY_NORMAL      0
-> #define AMDGPU_CTX_PRIORITY_HIGH        512
-> #define AMDGPU_CTX_PRIORITY_VERY_HIGH   1023
->
-> If priority is uint32_t, we can't set LOW and VERY_LOW value to kernel 
-> context priority,
->
 
-Well that's nonsense.
+changes since v1:
+- Rebased on tag v6.7.
 
-How the kernel handles the values and how userspace handles them are two 
-separate things. You just need to make sure that it's always 32 bits.
+patch 1:
+- Changed the 'starfive,cdns-dsi' to 'starfve,jh7110-dsi'.
+- Changed the compatible enum alphabetical order.
+- Restrict other variants.
+- Drop 'dsi_' prefix.
 
-In other words if you have signed or unsigned data type in userspace is 
-irrelevant for the kernel.
+patch 2:
+- Optimize the calculation process.
+- Drop useless definition.
 
-> You can refer to the kernel function amdgpu_ctx_priority_permit, if 
-> priority is greater
->
-> than 0, and this process has not  CAP_SYS_NICE capibility or 
-> DRM_MASTER permission,
->
-> this process will be exited.
->
+v1: https://patchwork.kernel.org/project/dri-devel/cover/20231127113436.57361-1-shengyang.chen@starfivetech.com/
 
-Correct, that's intentional.
+Keith Zhao (2):
+  dt-bindings: display: bridge: cdns: Add properties to support StarFive
+    JH7110 SoC
+  gpu: drm: bridge: cadence: Add a driver and platform ops for StarFive
+    JH7110 SoC
 
-Regards,
-Christian.
+ .../bindings/display/bridge/cdns,dsi.yaml     |  44 +++-
+ MAINTAINERS                                   |   8 +
+ drivers/gpu/drm/bridge/cadence/Kconfig        |   7 +
+ drivers/gpu/drm/bridge/cadence/Makefile       |   1 +
+ .../gpu/drm/bridge/cadence/cdns-dsi-core.c    |  29 ++-
+ .../gpu/drm/bridge/cadence/cdns-dsi-core.h    |  21 ++
+ .../gpu/drm/bridge/cadence/cdns-dsi-jh7110.c  | 193 ++++++++++++++++++
+ .../gpu/drm/bridge/cadence/cdns-dsi-jh7110.h  |  16 ++
+ 8 files changed, 316 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-dsi-jh7110.c
+ create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-dsi-jh7110.h
 
->
->
->
->
->
-> ----
->
->
->
->
-> *主　题：*Re: [PATCH libdrm 1/2] amdgpu: fix parameter of 
-> amdgpu_cs_ctx_create2
-> *日　期：*2024-01-09 00:28
-> *发件人：*Christian König
-> *收件人：*李真能;Marek Olsak;Pierre-Eric Pelloux-Prayer;dri-devel;amd-gfx;
->
-> Am 08.01.24 um 10:40 schrieb Zhenneng Li:
-> > In order to pass the correct priority parameter to the kernel,
-> > we must change priority type from uint32_t to int32_t.
->
-> Hui what? Why should it matter if the parameter is signed or not?
->
-> That doesn't seem to make sense.
->
-> Regards,
-> Christian.
->
-> >
-> > Signed-off-by: Zhenneng Li
-> > ---
-> > amdgpu/amdgpu.h | 2 +-
-> > amdgpu/amdgpu_cs.c | 2 +-
-> > 2 files changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/amdgpu/amdgpu.h b/amdgpu/amdgpu.h
-> > index 9bdbf366..f46753f3 100644
-> > --- a/amdgpu/amdgpu.h
-> > +++ b/amdgpu/amdgpu.h
-> > @@ -896,7 +896,7 @@ int amdgpu_bo_list_update(amdgpu_bo_list_handle 
-> handle,
-> > *
-> > */
-> > int amdgpu_cs_ctx_create2(amdgpu_device_handle dev,
-> > - uint32_t priority,
-> > + int32_t priority,
-> > amdgpu_context_handle *context);
-> > /**
-> > * Create GPU execution Context
-> > diff --git a/amdgpu/amdgpu_cs.c b/amdgpu/amdgpu_cs.c
-> > index 49fc16c3..eb72c638 100644
-> > --- a/amdgpu/amdgpu_cs.c
-> > +++ b/amdgpu/amdgpu_cs.c
-> > @@ -49,7 +49,7 @@ static int 
-> amdgpu_cs_reset_sem(amdgpu_semaphore_handle sem);
-> > * \return 0 on success otherwise POSIX Error code
-> > */
-> > drm_public int amdgpu_cs_ctx_create2(amdgpu_device_handle dev,
-> > - uint32_t priority,
-> > + int32_t priority,
-> > amdgpu_context_handle *context)
-> > {
-> > struct amdgpu_context *gpu_context;
->
+-- 
+2.17.1
 
---------------BMstbln6oo6DnkPiJQzsOB1m
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<!DOCTYPE html><html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    Am 09.01.24 um 02:50 schrieb 李真能:<br>
-    <blockquote type="cite" cite="mid:xrg6qu5muv-xriqmgzqig@nsmail7.0.0--kylin--1">
-      
-      <p>When the priority value is passed to the kernel, the kernel
-        compares it with the following values:</p>
-      <p>#define AMDGPU_CTX_PRIORITY_VERY_LOW&nbsp;&nbsp;&nbsp; -1023<br>
-        #define AMDGPU_CTX_PRIORITY_LOW&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -512<br>
-        #define AMDGPU_CTX_PRIORITY_NORMAL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0<br>
-        #define AMDGPU_CTX_PRIORITY_HIGH&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 512<br>
-        #define AMDGPU_CTX_PRIORITY_VERY_HIGH&nbsp;&nbsp; 1023</p>
-      <p>If priority is uint32_t, we can't set LOW and VERY_LOW value to
-        kernel context priority,</p>
-    </blockquote>
-    <br>
-    Well that's nonsense.<br>
-    <br>
-    How the kernel handles the values and how userspace handles them are
-    two separate things. You just need to make sure that it's always 32
-    bits.<br>
-    <br>
-    In other words if you have signed or unsigned data type in userspace
-    is irrelevant for the kernel.<br>
-    <br>
-    <blockquote type="cite" cite="mid:xrg6qu5muv-xriqmgzqig@nsmail7.0.0--kylin--1">
-      <p>You can refer to the kernel function
-        amdgpu_ctx_priority_permit, if priority is greater</p>
-      <p>than 0, and this process has not&nbsp; CAP_SYS_NICE capibility or
-        DRM_MASTER permission,</p>
-      <p>this process will be exited.<br>
-      </p>
-    </blockquote>
-    <br>
-    Correct, that's intentional.<br>
-    <br>
-    Regards,<br>
-    Christian.<br>
-    <br>
-    <blockquote type="cite" cite="mid:xrg6qu5muv-xriqmgzqig@nsmail7.0.0--kylin--1">
-      <p><br>
-        <br>
-        <br>
-        <br>
-        <br>
-        ----</p>
-      <p>&nbsp;</p>
-      <div id="re" style="margin-left: 0.5em; padding-left: 0.5em; border-left: 1px solid green;"><br>
-        <br>
-        <br>
-        <div style="background-color: #f5f7fa;"><strong>主　题：</strong><span id="subject">Re: [PATCH libdrm 1/2] amdgpu: fix parameter of
-            amdgpu_cs_ctx_create2</span> <br>
-          <strong>日　期：</strong><span id="date">2024-01-09 00:28</span> <br>
-          <strong>发件人：</strong><span id="from">Christian König</span> <br>
-          <strong>收件人：</strong><span id="to" style="word-break: break-all;">李真能;Marek Olsak;Pierre-Eric
-            Pelloux-Prayer;dri-devel;amd-gfx;</span></div>
-        <br>
-        <div id="content">
-          <div class="viewer_part" style="position: relative;">
-            <div>Am 08.01.24 um 10:40 schrieb Zhenneng Li:<br>
-              &gt; In order to pass the correct priority parameter to
-              the kernel,<br>
-              &gt; we must change priority type from uint32_t to
-              int32_t.<br>
-              <br>
-              Hui what? Why should it matter if the parameter is signed
-              or not?<br>
-              <br>
-              That doesn't seem to make sense.<br>
-              <br>
-              Regards,<br>
-              Christian.<br>
-              <br>
-              &gt;<br>
-              &gt; Signed-off-by: Zhenneng Li <br>
-              &gt; ---<br>
-              &gt; amdgpu/amdgpu.h | 2 +-<br>
-              &gt; amdgpu/amdgpu_cs.c | 2 +-<br>
-              &gt; 2 files changed, 2 insertions(+), 2 deletions(-)<br>
-              &gt;<br>
-              &gt; diff --git a/amdgpu/amdgpu.h b/amdgpu/amdgpu.h<br>
-              &gt; index 9bdbf366..f46753f3 100644<br>
-              &gt; --- a/amdgpu/amdgpu.h<br>
-              &gt; +++ b/amdgpu/amdgpu.h<br>
-              &gt; @@ -896,7 +896,7 @@ int
-              amdgpu_bo_list_update(amdgpu_bo_list_handle handle,<br>
-              &gt; *<br>
-              &gt; */<br>
-              &gt; int amdgpu_cs_ctx_create2(amdgpu_device_handle dev,<br>
-              &gt; - uint32_t priority,<br>
-              &gt; + int32_t priority,<br>
-              &gt; amdgpu_context_handle *context);<br>
-              &gt; /**<br>
-              &gt; * Create GPU execution Context<br>
-              &gt; diff --git a/amdgpu/amdgpu_cs.c b/amdgpu/amdgpu_cs.c<br>
-              &gt; index 49fc16c3..eb72c638 100644<br>
-              &gt; --- a/amdgpu/amdgpu_cs.c<br>
-              &gt; +++ b/amdgpu/amdgpu_cs.c<br>
-              &gt; @@ -49,7 +49,7 @@ static int
-              amdgpu_cs_reset_sem(amdgpu_semaphore_handle sem);<br>
-              &gt; * \return 0 on success otherwise POSIX Error code<br>
-              &gt; */<br>
-              &gt; drm_public int
-              amdgpu_cs_ctx_create2(amdgpu_device_handle dev,<br>
-              &gt; - uint32_t priority,<br>
-              &gt; + int32_t priority,<br>
-              &gt; amdgpu_context_handle *context)<br>
-              &gt; {<br>
-              &gt; struct amdgpu_context *gpu_context;<br>
-              <br>
-            </div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------BMstbln6oo6DnkPiJQzsOB1m--
