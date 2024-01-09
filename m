@@ -1,77 +1,97 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C378F828F7A
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 23:13:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD46E828F77
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 23:13:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64C6B10E511;
-	Tue,  9 Jan 2024 22:13:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 655EB10E4FA;
+	Tue,  9 Jan 2024 22:13:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5341310E4E1
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 18:11:55 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- 5b1f17b1804b1-40e4582ed74so25202325e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 10:11:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=yngvason.is; s=google; t=1704823914; x=1705428714; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1K35iyXrIjP9JEaVNwNgowQ2gmFwtnlNnPCP001WTzs=;
- b=T9ErnVxmP3A7CbGfOx5/rcrNiR+1zok+b70FkTq3omeJifjvUx0Rs4zrHR33DY2WG8
- 0P0DNB84PsNW206wNkrHelewbYD7rrI5dfAFydVOHUaLtezZAioGd6uCOfFcXnvjNFEn
- cUXVy82V+yRWCeSjYcbIuk7SXGEq4yFUZbLdY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704823914; x=1705428714;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=1K35iyXrIjP9JEaVNwNgowQ2gmFwtnlNnPCP001WTzs=;
- b=MS/YV/Ln+rYS0l7BuZypf9xVqlIuNfyCX5q9Dszq4DFkXnjj1R7CzANCypYWm8mCHH
- fsdeVyA6aRRHU6pDuAQoVrLF0KeAbpzUClqjk4db6Dxi1Mcd/sC0h2FRfcuC+hXHtymG
- rsXTDCvTw+RjqoDI/R6/RDDSs/qWvAjuoD+2HKqbMYD64AeaIaRIgWONfpbNNVxSA3Fc
- vb6AH67UqkV6V92zGLB1XtMkNjVYiodTBwcU3BRpl9UjgNGY+hS7yNu5M9xFafDYoxaW
- ASDifgqHjDmIKSXxFWL5mVU+2HHbF2DtoplHwCML9wIzGyTgFAFUubLpenNERupXos7+
- UZNQ==
-X-Gm-Message-State: AOJu0YwOMLXSVg4ESsRW00Ay1exhyjf0kcaiyUYMbjuXXCZDpM173iwk
- 9tz5AcuEM6bMBw5zA3eXLUlCWRsk9ZNKBw==
-X-Google-Smtp-Source: AGHT+IHCvkhLBDjMnPPg6VS4Uza9HPKoHPU28wAqqAGezxMnCAYYxMWKNpbjFIpaRNQwjFu2XbHG4A==
-X-Received: by 2002:a05:600c:5251:b0:40c:24b1:8d07 with SMTP id
- fc17-20020a05600c525100b0040c24b18d07mr1582485wmb.192.1704823913857; 
- Tue, 09 Jan 2024 10:11:53 -0800 (PST)
-Received: from andri-workstation.turninn.appdynamic.com
- ([2a01:8280:aa07:ad:7285:c2ff:fef0:4baf])
- by smtp.gmail.com with ESMTPSA id
- n25-20020a05600c3b9900b0040e527602c8sm2104579wms.9.2024.01.09.10.11.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jan 2024 10:11:53 -0800 (PST)
-From: Andri Yngvason <andri@yngvason.is>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: [PATCH 7/7] drm/i915/display: Add handling for new "preferred color
- format" property
-Date: Tue,  9 Jan 2024 18:11:04 +0000
-Message-ID: <20240109181104.1670304-8-andri@yngvason.is>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240109181104.1670304-1-andri@yngvason.is>
-References: <20240109181104.1670304-1-andri@yngvason.is>
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com
+ (mail-he1eur01olkn080c.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe1e::80c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11D2F10E49B
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 18:18:50 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BtA5dqtZgq7ajr2T0iz1CIbpa22h3WDSyRAAIaIiuPTZey8zj54UlXJb3gH6EfRFd570PVce0OzdA95OKiWIKmb0DKyz37b6TLCGcaq4oddWxXq4ETZPqJ8TQgfhmLoxbBKUm0aa7Q58ikZrFoK6uJa/X05ejWAUtCYT2f0uyXnYtOUJGcHDdtg7Y0Wo/wxydpSJ6Ks5v7GWod84xtoKayOFi6bJfHU8hfN2QQe/C1BRN4XgvdbpM8cfEZHdPoAuruPpemyWWW3Fguuq3EuWGkJtSnjauT7EKYRyGQyfYpBxPiJRHKlsQWTxleqbd/wtyDIGsArap1Tc93Ijulc60Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4+MqYObgcC5vVmPv40zmt82h/Dwi/fy4DAfvZnnOOTY=;
+ b=E2Qk/+XB8D/Z6gdKfZXs0bxZ1wF33tPBV3ERiA0uuSlvNJ3CaUmMVE5g2m1D0LmLMKR0AIubm+SP9t695dbIa+JOhAOoq0gXik5Yhdpf4i/tAQtU2Wb0L2gqfnNhiWrtL5CUtTridpq1n5TtkBizBmGbiVZiFfOZY/1JYcYnU4dqv6zUYL7uUJ7sbDkLORhLRqiS6Qn+Ag+T2D095zmjyfUm4iHWN9BVg2O5y/ThnJgyJrtHtcl+tH0Og/TcLugT+UcqpwcJEm5A8XLftwRGkTxohsn0Qn1qx+Dzf/yZyYV03uuOK5rs2DowESLKmhSjwL85EA09AZ3FEVgfrMlJmQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from VI1P195MB2460.EURP195.PROD.OUTLOOK.COM (2603:10a6:800:1c6::11)
+ by DU0P195MB1427.EURP195.PROD.OUTLOOK.COM (2603:10a6:10:343::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.23; Tue, 9 Jan
+ 2024 18:18:47 +0000
+Received: from VI1P195MB2460.EURP195.PROD.OUTLOOK.COM
+ ([fe80::64ea:5df0:b540:60eb]) by VI1P195MB2460.EURP195.PROD.OUTLOOK.COM
+ ([fe80::64ea:5df0:b540:60eb%6]) with mapi id 15.20.7159.020; Tue, 9 Jan 2024
+ 18:18:47 +0000
+Date: Tue, 09 Jan 2024 19:18:45 +0100
+From: f380cedric <ce-ce-mel@hotmail.fr>
+To: dri-devel@lists.freedesktop.org
+Subject: Lenovo b40-30 i915.invert_brightness 
+Message-ID: <VI1P195MB24600B1096F3B65D68CD99C4DE6A2@VI1P195MB2460.EURP195.PROD.OUTLOOK.COM>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-TMN: [gUCUt3L+kmX0YnMN4leD+dTXifK7ANZ7oDpjFC7MgQTFL1TxMLdxonX0FceR/WE8N+dDiIGBtsI=]
+X-ClientProxiedBy: AM9P250CA0007.EURP250.PROD.OUTLOOK.COM
+ (2603:10a6:20b:21c::12) To VI1P195MB2460.EURP195.PROD.OUTLOOK.COM
+ (2603:10a6:800:1c6::11)
+X-Microsoft-Original-Message-ID: <5EF77974-3552-47FF-B86A-464314CF8F80@hotmail.fr>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VI1P195MB2460:EE_|DU0P195MB1427:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7e49cdf1-4b56-4f91-a525-08dc113f6bb8
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: zViwafR+9trYRhl8TAV3jjWEbuybSyacaljHEU7dBOOKTLEJKYvRQXfqAnmHUJ4wuAOjLfKuLuF9em3sieRDjd9Tgk/n12g46RNSXZInQuxj2vPUBwcf+XmdOI6MJVcD+TG7e1Ry7wDrzaSL2fomm6LY21nh0gxD97BVAH+GmEqFu0eGA3NjKi6cADYIfEn9gVzgbpy2P9re3CNGH1lHMh9W+z+Ie6bKiTC2+pvFjvYXv7gPTabdevLiuS8Uwi/3SMVrlON/GzGdENbmxmVesXVsAJqoJePnvnOu0GFYE3OiLdYjsC3obPpoVNfIBi81pz32O1FJTSPo1XSEcZt0YG9gSHgqUBYk7GFqfmWP/uk3YW+517fR7/MeYIM7KU2mKLGrLKfX8i9Pw05w/VzMHuHtOVzEMU631gXQRLN61ZLWNZRN7Fka3ebXv4BWSGcq/9qFSOGtdQjDMGLaqN+pqz+muYl/U+1fYwIarxCYdk/lsO05sIYK6QcFJjsOkXo/DbqzH42UDCIUZIIfp5YInG6wZvrQj8ZKrCWHidXu/1JpdOEHY3Ya4wHovwjiRwWl
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZUc2VnBkV0JpZ2FJZlBYc28wMVlCSzJrNk5DSmd3dEtXamtFUFpLRHQzTE90?=
+ =?utf-8?B?K1dUbThIbjByc0toR0J5OXBYK3VuU21adGFpTGswczBBeUpGbTNYZGVGbHor?=
+ =?utf-8?B?YUVkT0JwZTZwZmdaTVNxQWI5R3ZrSzBRMjlkNlJpcDQ4SUNxdGQ1TWlwSGpT?=
+ =?utf-8?B?dDlycGtDbmU3a0JMZTU3Z25ZUURucDdteGNUR29iQVdkcjJwTTJhTFlNeVl2?=
+ =?utf-8?B?QXc1Tlh2bUNUbEtPN2prbk9kUW5STUhuUURhN0VsbUhSVU1KcllHRkhpVTBs?=
+ =?utf-8?B?RmJzOGM0YW5qaUFhang3Vm1objY5ektNRDR4VDFoZ09MSXMyVGo4WWhXaUVY?=
+ =?utf-8?B?U3ZMZEVaQThlTmp2U1I4eHR6ZE8wcmZaZDMzcXJVTmMrSTlFSDlGNVhQeUg0?=
+ =?utf-8?B?bXUxUWZNaGtKaUlPM2R5U2w5MExMQ3BLOHBzS2dwSHBnaGVwYUhRejlRYTNn?=
+ =?utf-8?B?eDVDQ2ZwYjJVb2dUdTNXQnZLS1FVSVcvL0JEdDR3TlQ2bmFiL0EvMjJMSndE?=
+ =?utf-8?B?aGt5aHNmUE1QMEVHS05ZelJPR2pZV1Nmd0xFakdlR2dmeXgzMGx0OE1yZjdo?=
+ =?utf-8?B?RlNEK25ZaUM3VmV2MEowYjVkaFVob3pjUkdieHI2NXBIN0lTNlQxQmFtdXBi?=
+ =?utf-8?B?dlVmTmJRQThvb1RhWkVmZVVJd0Y3bVBreWpOd1ZEN0RGMXFuaVdYNkxsTkFU?=
+ =?utf-8?B?RXZkc2lMMExHRjZoWjg4Rjd2TTNUUW9lZTNNVEowcG56bnlHTGd4dERadkgv?=
+ =?utf-8?B?aXprcC94a2Z6aE1XcmhWUER6czQvd0ozR2FyT2pPaHFzVlg1VC9IZlljL3Vs?=
+ =?utf-8?B?d3AyQ1k4dFgyYXFNQmxBeW9mbWpuQzc3Y2pnQnpsK1BudUdwUjNIalpLVkxj?=
+ =?utf-8?B?S1hOaG4yelN0NTVTMmIySzJ2bU1GNFZrcUhaUDdweXBCdmo4TFZZdTM4WWNw?=
+ =?utf-8?B?am5xQjNoMUNmandhU2IvcW1mODEwUjROamFHN2NxZHhBYWxaS3JNWVRycWdM?=
+ =?utf-8?B?S1grNTIrd3A5d2RmeWllVjlOb09wdFo1MWtKVExEaGI5eU4zcDBLazU4NEhM?=
+ =?utf-8?B?YjdYcmVtTEluM05vQkIwZkRUSmc1VnNPU0JORnMrdFp5WHZqa0lCTUJsblZr?=
+ =?utf-8?B?SUVuVkV4WXhRRTNmcU9zd3BYTWJObWtWUGFHb1krZjM5UWRkbXVLUEZncVJo?=
+ =?utf-8?B?L3dRaTRuS3VyWWJOM1NGUjlzenVxN0FnR3dKcGx6by94WGNndUk4eG1iNER0?=
+ =?utf-8?B?U2tUL2txdXN0Qnowam9YQmMvQjFXZkpqSmdwUzNselV1cjJoaWxwUmhwWElB?=
+ =?utf-8?B?Z2pOOVcrVXVHbFYxdE1DVFVGaXJYMXNoS1dmQTZrRVpENUhNMllDYm9YYjVU?=
+ =?utf-8?B?NWF0WjZJQkdIQ3ZHa1ZmcGJiUndXcDZZZmtUaHRHWEVLYjZyUlJaS01qWENV?=
+ =?utf-8?B?aEZVTnpDWDJvcDA2NHF2VktKRzhBRFJVUnBBWTVkRGYvMHo5WGo0NGRaUmNG?=
+ =?utf-8?B?QXIwcUs3VjI1bU5jb0tHSkMzM2RXSk1peUsrb2dNTGprVWhYOFVJUVJNdzln?=
+ =?utf-8?B?TDZaMmhscmNWVEVySXVHK255ckFkUkxsdkpENUJNNlplMXdpMlpUSUp3a2p6?=
+ =?utf-8?B?VzRheVpibVEzdk9LUFNPaHAwQlIrMXNXRFdXOXYyWWdFUDBzYVBqUUkxZk9Y?=
+ =?utf-8?B?dlZ4S1cyY1lKNUlHb2V2bStBd1FqaGVTN25EV3MwZktacyt6NEU3OGcvWGNC?=
+ =?utf-8?Q?i4ea7Qrl/cTfiz00X4=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-49ed2.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7e49cdf1-4b56-4f91-a525-08dc113f6bb8
+X-MS-Exchange-CrossTenant-AuthSource: VI1P195MB2460.EURP195.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jan 2024 18:18:47.2612 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0P195MB1427
 X-Mailman-Approved-At: Tue, 09 Jan 2024 22:13:19 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,129 +105,16 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Werner Sembach <wse@tuxedocomputers.com>,
- Andri Yngvason <andri@yngvason.is>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Werner Sembach <wse@tuxedocomputers.com>
+Dear maintainers,
 
-This commit implements the "preferred color format" drm property for the
-Intel GPU driver.
+I have a Lenovo b40-30 that I have been running with nomodeset for a while.
+The issue was that it needed invert_brightness. Here are the requested IDs:=
+ 0f31, 17aa, 3986 :).
 
-Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-Co-developed-by: Andri Yngvason <andri@yngvason.is>
-Signed-off-by: Andri Yngvason <andri@yngvason.is>
-Tested-by: Andri Yngvason <andri@yngvason.is>
----
- drivers/gpu/drm/i915/display/intel_dp.c     | 16 ++++++++++------
- drivers/gpu/drm/i915/display/intel_dp_mst.c |  5 +++++
- drivers/gpu/drm/i915/display/intel_hdmi.c   | 12 +++++++++---
- 3 files changed, 24 insertions(+), 9 deletions(-)
+N.B.: I am not subscribed, please Cc me when replying.=20
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index c40fe8a847614..f241798660d0b 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -2698,21 +2698,23 @@ intel_dp_compute_output_format(struct intel_encoder *encoder,
- 	struct intel_connector *connector = intel_dp->attached_connector;
- 	const struct drm_display_info *info = &connector->base.display_info;
- 	const struct drm_display_mode *adjusted_mode = &crtc_state->hw.adjusted_mode;
--	bool ycbcr_420_only;
-+	bool ycbcr_420_output;
- 	int ret;
- 
--	ycbcr_420_only = drm_mode_is_420_only(info, adjusted_mode);
-+	ycbcr_420_output = drm_mode_is_420_only(info, adjusted_mode) ||
-+			   (conn_state->preferred_color_format == DRM_COLOR_FORMAT_YCBCR420 &&
-+			    drm_mode_is_420_also(&connector->base.display_info, adjusted_mode));
- 
--	if (ycbcr_420_only && !connector->base.ycbcr_420_allowed) {
-+	crtc_state->sink_format = ycbcr_420_output ? INTEL_OUTPUT_FORMAT_YCBCR420 :
-+						     INTEL_OUTPUT_FORMAT_RGB;
-+
-+	if (ycbcr_420_output && !connector->base.ycbcr_420_allowed) {
- 		drm_dbg_kms(&i915->drm,
- 			    "YCbCr 4:2:0 mode but YCbCr 4:2:0 output not possible. Falling back to RGB.\n");
- 		crtc_state->sink_format = INTEL_OUTPUT_FORMAT_RGB;
--	} else {
--		crtc_state->sink_format = intel_dp_sink_format(connector, adjusted_mode);
- 	}
- 
- 	crtc_state->output_format = intel_dp_output_format(connector, crtc_state->sink_format);
--
- 	ret = intel_dp_compute_link_config(encoder, crtc_state, conn_state,
- 					   respect_downstream_limits);
- 	if (ret) {
-@@ -5912,9 +5914,11 @@ intel_dp_add_properties(struct intel_dp *intel_dp, struct drm_connector *connect
- 	intel_attach_broadcast_rgb_property(connector);
- 	if (HAS_GMCH(dev_priv)) {
- 		drm_connector_attach_max_bpc_property(connector, 6, 10);
-+		drm_connector_attach_preferred_color_format_property(connector);
- 		drm_connector_attach_active_color_format_property(connector);
- 	} else if (DISPLAY_VER(dev_priv) >= 5) {
- 		drm_connector_attach_max_bpc_property(connector, 6, 12);
-+		drm_connector_attach_preferred_color_format_property(connector);
- 		drm_connector_attach_active_color_format_property(connector);
- 	}
- 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-index e7574ca0604e6..4a850eb9b8d4d 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-@@ -1210,6 +1210,11 @@ static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
- 		drm_dbg_kms(&dev_priv->drm, "[%s:%d] HDCP MST init failed, skipping.\n",
- 			    connector->name, connector->base.id);
- 
-+	connector->preferred_color_format_property =
-+		intel_dp->attached_connector->base.preferred_color_format_property;
-+	if (connector->preferred_color_format_property)
-+		drm_connector_attach_preferred_color_format_property(connector);
-+
- 	connector->active_color_format_property =
- 		intel_dp->attached_connector->base.active_color_format_property;
- 	if (connector->active_color_format_property)
-diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
-index ce0221f90de92..3030589d245d7 100644
---- a/drivers/gpu/drm/i915/display/intel_hdmi.c
-+++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
-@@ -2214,19 +2214,24 @@ static int intel_hdmi_compute_output_format(struct intel_encoder *encoder,
- 	const struct drm_display_mode *adjusted_mode = &crtc_state->hw.adjusted_mode;
- 	const struct drm_display_info *info = &connector->base.display_info;
- 	struct drm_i915_private *i915 = to_i915(connector->base.dev);
--	bool ycbcr_420_only = drm_mode_is_420_only(info, adjusted_mode);
-+	bool ycbcr_420_output;
- 	int ret;
- 
-+	ycbcr_420_output = drm_mode_is_420_only(info, adjusted_mode) ||
-+			   (conn_state->preferred_color_format == DRM_COLOR_FORMAT_YCBCR420 &&
-+			    drm_mode_is_420_also(&connector->base.display_info, adjusted_mode));
-+
- 	crtc_state->sink_format =
--		intel_hdmi_sink_format(crtc_state, connector, ycbcr_420_only);
-+		intel_hdmi_sink_format(crtc_state, connector, ycbcr_420_output);
- 
--	if (ycbcr_420_only && crtc_state->sink_format != INTEL_OUTPUT_FORMAT_YCBCR420) {
-+	if (ycbcr_420_output && crtc_state->sink_format != INTEL_OUTPUT_FORMAT_YCBCR420) {
- 		drm_dbg_kms(&i915->drm,
- 			    "YCbCr 4:2:0 mode but YCbCr 4:2:0 output not possible. Falling back to RGB.\n");
- 		crtc_state->sink_format = INTEL_OUTPUT_FORMAT_RGB;
- 	}
- 
- 	crtc_state->output_format = intel_hdmi_output_format(crtc_state);
-+
- 	ret = intel_hdmi_compute_clock(encoder, crtc_state, respect_downstream_limits);
- 	if (ret) {
- 		if (crtc_state->sink_format == INTEL_OUTPUT_FORMAT_YCBCR420 ||
-@@ -2613,6 +2618,7 @@ intel_hdmi_add_properties(struct intel_hdmi *intel_hdmi, struct drm_connector *c
- 
- 	if (!HAS_GMCH(dev_priv)) {
- 		drm_connector_attach_max_bpc_property(connector, 8, 12);
-+		drm_connector_attach_preferred_color_format_property(connector);
- 		drm_connector_attach_active_color_format_property(connector);
- 	}
- }
--- 
-2.43.0
-
+Best regards,
+C=C3=A9dric=20
