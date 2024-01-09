@@ -2,25 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C0058280B0
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 09:24:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 867A68280AC
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 09:24:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52DFF10E6E3;
-	Tue,  9 Jan 2024 08:24:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33CD310E6E4;
+	Tue,  9 Jan 2024 08:24:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
  [153.127.30.23])
- by gabe.freedesktop.org (Postfix) with ESMTP id A978B10E6E2
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 08:24:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6D69B10E6E4
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 08:24:32 +0000 (UTC)
 Received: from SIOS1075.ysato.name (ZM005235.ppp.dion.ne.jp [222.8.5.235])
- by sakura.ysato.name (Postfix) with ESMTPSA id 6C8E91C0A9C;
- Tue,  9 Jan 2024 17:24:28 +0900 (JST)
+ by sakura.ysato.name (Postfix) with ESMTPSA id 3713E1C09D4;
+ Tue,  9 Jan 2024 17:24:30 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: linux-sh@vger.kernel.org
-Subject: [DO NOT MERGE v6 26/37] dt-bindings: vendor-prefixes:  Add smi
-Date: Tue,  9 Jan 2024 17:23:23 +0900
-Message-Id: <c8aaf67e3fcdb7e60632c53a784691aabfc7733e.1704788539.git.ysato@users.sourceforge.jp>
+Subject: [DO NOT MERGE v6 27/37] dt-bindings: ata: ata-generic: Add new targets
+Date: Tue,  9 Jan 2024 17:23:24 +0900
+Message-Id: <06fdb2cf7927681acf3099b826390ef75ba321af.1704788539.git.ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1704788539.git.ysato@users.sourceforge.jp>
 References: <cover.1704788539.git.ysato@users.sourceforge.jp>
@@ -77,27 +77,30 @@ Cc: =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add Silicon Mortion Technology Corporation
-https://www.siliconmotion.com/
+Added new ata-generic target.
+- iodata,usl-5p-ata
+- renesas,rts7751r2d-ata
+
+Each boards have simple IDE Interface. Use ATA generic driver.
 
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 ---
- Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ Documentation/devicetree/bindings/ata/ata-generic.yaml | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index 94ed63d9f7de..a338bdd743ab 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -1283,6 +1283,8 @@ patternProperties:
-     description: Skyworks Solutions, Inc.
-   "^smartlabs,.*":
-     description: SmartLabs LLC
-+  "^smi,.*":
-+    description: Silicon Motion Technology Corporation
-   "^smsc,.*":
-     description: Standard Microsystems Corporation
-   "^snps,.*":
+diff --git a/Documentation/devicetree/bindings/ata/ata-generic.yaml b/Documentation/devicetree/bindings/ata/ata-generic.yaml
+index 0697927f3d7e..1025b3b351d0 100644
+--- a/Documentation/devicetree/bindings/ata/ata-generic.yaml
++++ b/Documentation/devicetree/bindings/ata/ata-generic.yaml
+@@ -18,6 +18,8 @@ properties:
+       - enum:
+           - arm,vexpress-cf
+           - fsl,mpc8349emitx-pata
++          - iodata,usl-5p-ata
++          - renesas,rts7751r2d-ata
+       - const: ata-generic
+ 
+   reg:
 -- 
 2.39.2
 
