@@ -1,30 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 670038280B9
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 09:24:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ADD98281A6
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 09:34:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 461F710E6EF;
-	Tue,  9 Jan 2024 08:24:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4124610E3B1;
+	Tue,  9 Jan 2024 08:34:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
- [153.127.30.23])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4B74C10E6F3
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 08:24:51 +0000 (UTC)
-Received: from SIOS1075.ysato.name (ZM005235.ppp.dion.ne.jp [222.8.5.235])
- by sakura.ysato.name (Postfix) with ESMTPSA id 10BB11C0939;
- Tue,  9 Jan 2024 17:24:49 +0900 (JST)
-From: Yoshinori Sato <ysato@users.sourceforge.jp>
-To: linux-sh@vger.kernel.org
-Subject: [DO NOT MERGE v6 37/37] sh: j2_defconfig: update
-Date: Tue,  9 Jan 2024 17:23:34 +0900
-Message-Id: <71cffa7cbb24c4d95f05fe937609bff0737e6283.1704788539.git.ysato@users.sourceforge.jp>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <cover.1704788539.git.ysato@users.sourceforge.jp>
-References: <cover.1704788539.git.ysato@users.sourceforge.jp>
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A45B810E398;
+ Tue,  9 Jan 2024 08:34:21 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id
+ 5b1f17b1804b1-40e4f7119eeso3099775e9.1; 
+ Tue, 09 Jan 2024 00:34:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1704789260; x=1705394060; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=3YGwl375Lp2NNLBp7zhtQjo0BnEm9qfsqG+R+PAs65Y=;
+ b=RvWcYOjpYcIn4p4hOrFzldi0IP/cqKBl8ArhATl2SXagWP19GJ3bD88XvUVrOUTHN0
+ 686rEpAeyjuxD34S9+eXU6hxwxHmi5GofwK7mDOQ6iXt/hit7BlpyTtR7OIN20Avowv3
+ n+EKx/qLShecgc3XOOTg+lKbaqzxFGys6ERBtQ81KqDXu1rSK/r8Wol/fWhfLIzi4eIb
+ R/vfO2cf9axkH40cDT4AN1FsfjA6AzJ/EqJvfZPhr1O3fEjpMabBs4mT2RHAoL0M26g1
+ JBa3m1tKItMfAGXELy+9xznJhKO9ZG18ygmTx4/HStgH86yxgW7gfJf1CBQ/kY4eWzEy
+ pKwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1704789260; x=1705394060;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=3YGwl375Lp2NNLBp7zhtQjo0BnEm9qfsqG+R+PAs65Y=;
+ b=nj4UNSLcIMbMcWc/5PL4Elo6oF29qOWZA5cxzOOSuAHumntHcqm9ywI6ydYr/pNw0c
+ z2yleUp6uYaZr9LGBZa+xl0ebT22wFDstd+8Vk4r2lZfV69ha8uubEAuRlnMcwMSVgjH
+ 4yLmjgfMqyJQR3FR+Ciw6RFS2ahMNMlp2Ls46cEgtGvenNoXxhhw6+7Gz+Qnx1gPkNhx
+ QczzjJzP9/TA9JCHa5aB9ZbEZDHkBNBaRzR/H0UGteK8MUXw8IJOfsRhroi2f/Dd7kTT
+ usgLy5f83lmoky30BcQWeRIlNCUD7ISreootAWgc1YN3khtuyZoXWz7HdxsbRlC9WAmL
+ 74NQ==
+X-Gm-Message-State: AOJu0YyxSsu71NcjxWzUUWmV036F/SsgkpQFREsnSdjzYpjeTsDntyL8
+ dgR4NeVhU6vmDSzRhnJJFXaMx2D7ld4=
+X-Google-Smtp-Source: AGHT+IH9uU5FYn/hx5pejffF/o/AB6v9PgXWJhqOoc4vJ1uvrzcd7P6Lfh9aQNlgULSSSxGJLIPHtQ==
+X-Received: by 2002:a05:600c:4587:b0:40e:50ac:d24e with SMTP id
+ r7-20020a05600c458700b0040e50acd24emr213842wmo.13.1704789259806; 
+ Tue, 09 Jan 2024 00:34:19 -0800 (PST)
+Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
+ by smtp.gmail.com with ESMTPSA id
+ hn25-20020a05600ca39900b0040d91fa270fsm2559527wmb.36.2024.01.09.00.34.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Jan 2024 00:34:19 -0800 (PST)
+Message-ID: <6eff58f4-7956-47cf-9a66-92456d5577d3@gmail.com>
+Date: Tue, 9 Jan 2024 09:34:17 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: Rework TTMs busy handling
+Content-Language: en-US
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ zack.rusin@broadcom.com, lyude@redhat.com, kherbst@redhat.com,
+ jani.nikula@linux.intel.com, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20240109074729.3646-1-christian.koenig@amd.com>
+ <70484d976d3af4286652a6b26ed8783a9362f403.camel@linux.intel.com>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <70484d976d3af4286652a6b26ed8783a9362f403.camel@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -38,100 +79,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
- linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Bin Meng <bmeng@tinylab.org>,
- Michael Turquette <mturquette@baylibre.com>, linux-pci@vger.kernel.org,
- Jacky Huang <ychuang3@nuvoton.com>, Palmer Dabbelt <palmer@rivosinc.com>,
- linux-kernel@vger.kernel.org, Max Filippov <jcmvbkbc@gmail.com>,
- Lee Jones <lee@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Hyeonggon Yoo <42.hyeyoo@gmail.com>, Jiri Slaby <jirislaby@kernel.org>,
- linux-clk@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Jonathan Corbet <corbet@lwn.net>,
- Helge Deller <deller@gmx.de>, Daniel Lezcano <daniel.lezcano@linaro.org>,
- Magnus Damm <magnus.damm@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-serial@vger.kernel.org,
- David Rientjes <rientjes@google.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>,
- =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Maxime Ripard <mripard@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
- Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- Chris Morgan <macromorgan@hotmail.com>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@linutronix.de>,
- Vlastimil Babka <vbabka@suse.cz>, Yang Xiwen <forbidden405@foxmail.com>,
- Sergey Shtylyov <s.shtylyov@omp.ru>, Baoquan He <bhe@redhat.com>,
- linux-ide@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Biju Das <biju.das.jz@bp.renesas.com>,
- Sebastian Reichel <sre@kernel.org>, Azeem Shaikh <azeemshaikh38@gmail.com>,
- linux-renesas-soc@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>,
- Andrew Morton <akpm@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I've changed some symbols related to DeviceTree,
-so let's take care of those changes.
+Am 09.01.24 um 09:14 schrieb Thomas Hellström:
+> Hi, Christian
+>
+> On Tue, 2024-01-09 at 08:47 +0100, Christian König wrote:
+>> Hi guys,
+>>
+>> I'm trying to make this functionality a bit more useful for years now
+>> since we multiple reports that behavior of drivers can be suboptimal
+>> when multiple placements be given.
+>>
+>> So basically instead of hacking around the TTM behavior in the driver
+>> once more I've gone ahead and changed the idle/busy placement list
+>> into idle/busy placement flags. This not only saves a bunch of code,
+>> but also allows setting some placements as fallback which are used if
+>> allocating from the preferred ones didn't worked.
+>>
+>> Zack pointed out that some removed VMWGFX code was brought back
+>> because
+>> of rebasing, fixed in this version.
+>>
+>> Intel CI seems to be happy with those patches, so any more comments?
+> Looks like Xe changes are missing? (xe is now in drm-tip).
+>
+> I also have some doubts about the naming "idle" vs "busy", since an
+> elaborate eviction mechanism would probably at some point want to check
+> for gpu idle vs gpu busy, and this might create some confusion moving
+> forward for people confusing busy as in memory overcommit with busy as
+> in gpu activity.
+>
+> I can't immediately think of something better, though.
 
-Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
----
- arch/sh/configs/j2_defconfig | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+Yeah, I was wondering about that as well. Especially since I wanted to 
+add some more flags in the future when for example a bandwidth quota how 
+much memory can be moved in/out is exceeded.
 
-diff --git a/arch/sh/configs/j2_defconfig b/arch/sh/configs/j2_defconfig
-index 2eb81ebe3888..cdc8ed244618 100644
---- a/arch/sh/configs/j2_defconfig
-+++ b/arch/sh/configs/j2_defconfig
-@@ -1,18 +1,15 @@
--CONFIG_SMP=y
- CONFIG_SYSVIPC=y
- CONFIG_POSIX_MQUEUE=y
- CONFIG_NO_HZ=y
- CONFIG_HIGH_RES_TIMERS=y
- CONFIG_CPU_SUBTYPE_J2=y
- CONFIG_MEMORY_START=0x10000000
--CONFIG_MEMORY_SIZE=0x04000000
- CONFIG_CPU_BIG_ENDIAN=y
--CONFIG_SH_DEVICE_TREE=y
--CONFIG_SH_JCORE_SOC=y
-+CONFIG_SH_OF_BOARD=y
- CONFIG_HZ_100=y
-+CONFIG_SMP=y
- CONFIG_CMDLINE_OVERWRITE=y
- CONFIG_CMDLINE="console=ttyUL0 earlycon"
--CONFIG_BINFMT_ELF_FDPIC=y
- CONFIG_BINFMT_FLAT=y
- CONFIG_NET=y
- CONFIG_PACKET=y
-@@ -21,7 +18,6 @@ CONFIG_INET=y
- CONFIG_DEVTMPFS=y
- CONFIG_DEVTMPFS_MOUNT=y
- CONFIG_NETDEVICES=y
--CONFIG_SERIAL_EARLYCON=y
- CONFIG_SERIAL_UARTLITE=y
- CONFIG_SERIAL_UARTLITE_CONSOLE=y
- CONFIG_I2C=y
-@@ -30,8 +26,6 @@ CONFIG_SPI_JCORE=y
- CONFIG_WATCHDOG=y
- CONFIG_MMC=y
- CONFIG_MMC_SPI=y
--CONFIG_CLKSRC_JCORE_PIT=y
--CONFIG_JCORE_AIC=y
- CONFIG_EXT4_FS=y
- CONFIG_VFAT_FS=y
- CONFIG_FAT_DEFAULT_IOCHARSET="ascii"
-@@ -40,3 +34,4 @@ CONFIG_NLS_DEFAULT="utf8"
- CONFIG_NLS_CODEPAGE_437=y
- CONFIG_NLS_ASCII=y
- CONFIG_NLS_UTF8=y
-+CONFIG_INIT_STACK_NONE=y
--- 
-2.39.2
+Something like phase1, phase2, phase3 etc..., but that's also not very 
+descriptive either.
+
+Going to take a look at XE as well, thanks for the notice.
+
+Regards,
+Christian.
+
+>
+> /Thomas
+>
+>
+>> Regards,
+>> Christian.
+>>
+>>
 
