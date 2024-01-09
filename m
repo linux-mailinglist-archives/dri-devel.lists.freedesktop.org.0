@@ -2,62 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F09982876B
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 14:51:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BA8D82879A
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 15:02:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07D6410E41E;
-	Tue,  9 Jan 2024 13:51:45 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70B2710E41E
- for <DRI-Devel@lists.freedesktop.org>; Tue,  9 Jan 2024 13:51:43 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id
- a640c23a62f3a-a28cfca3c45so75837566b.1
- for <DRI-Devel@lists.freedesktop.org>; Tue, 09 Jan 2024 05:51:43 -0800 (PST)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54E6F10E31B;
+	Tue,  9 Jan 2024 14:02:26 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B67910E31B
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 14:02:25 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id
+ a640c23a62f3a-a28cfca3c45so76158766b.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 06:02:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1704808302; x=1705413102; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=BBkhuDjKaGRCom0CDKBnDtqKZspqJNW52TxlkO3fe0E=;
- b=i2YtsrSPkls5XN0By0R8ZbBIFxUhVKGFhna6AjcscrBviSUbIzC786D717iLihaGv4
- nD0+hpF7XevPASSx81dCVh4I+wZMFDocqBN/IAhDHDoX96JrgzulT5VQK9RYSnF6RIUc
- MbaRASLbuVj1RAN5VHWhLeEinkTjEUHxLX9Kg=
+ d=ffwll.ch; s=google; t=1704808943; x=1705413743; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=wV9bGbQzcy98B1lun6Bie281dTIH2X4e1zAwg2HwrZA=;
+ b=SCquK2/UOs5+UMwY3zbIviAf9mcnEQ66NkFwdVUNQBUaeVHGz8BodHqgfPJbEbe1Xh
+ z+LjmM4AMKpjd+Xk93PXW0yr7K8AhvkA1eBCF9a9fq8aKk96tihOzgKsCzXIPo2bioJt
+ IFoqkg64MG8GUfSi7N8ZbHYZSQEXe9EV/RvYU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704808302; x=1705413102;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=BBkhuDjKaGRCom0CDKBnDtqKZspqJNW52TxlkO3fe0E=;
- b=HSTtYSK0pOOUmjqw3LMhTvaK/Py+A8Ydo9TiBwTFX3ufg1pt9zwU3KR01aMMjKM5TH
- fN5x8u9d30OeqfbIjKZplv/bnnq68hIVJ09Hw66fN615tuF/ZtE7/OfUrFDziNeKHphg
- pI0162YRJQ1LPNl5NCqBqEZqezfyVslOA8PewybA2fKiDjnEPTUUdupuwLYWSeYJ+VvR
- qPSEfdO8u1m0XiBrvmJ3KGwUE8VbSWeYwVt4OAjaMVdBnFINTSVlvZ2eifmP34eJOerN
- 4AyVmlxQRbJEEtF39y3GDWDnDQdTkTznTgmOYLoPihEtY2Z9GGgObsnuc2tMTgEgIsQt
- dnaw==
-X-Gm-Message-State: AOJu0YyqqFUtTEGrO2u3gVDoV6xKrk0JF0imaHY2wRvqrRItlwt5HFjI
- lhSxl0b3h3HPPfIRR3nPFiRe8uQPOxBLSy519LalM6dmMm4=
-X-Google-Smtp-Source: AGHT+IGmgBRGNxfj7in++EYNJJWrmtpSfgiYQ0Z164gasldVemojaeF0ykyuOjp5B4z+vdw0ke7KTw==
-X-Received: by 2002:a17:907:a43:b0:a27:7701:f16 with SMTP id
- be3-20020a1709070a4300b00a2777010f16mr5495846ejc.7.1704808301787; 
- Tue, 09 Jan 2024 05:51:41 -0800 (PST)
+ d=1e100.net; s=20230601; t=1704808943; x=1705413743;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=wV9bGbQzcy98B1lun6Bie281dTIH2X4e1zAwg2HwrZA=;
+ b=RoC0IKj/8Oz3IdVNBOYspv4D9yHfF2pjBpAMEhNV6o17nSjP3do3wRzxQ9ijZe9gy+
+ MwFi+hMadXULqDFahd5t5GK2yQFv9Y9rRTaEV6+LhqhO+V8xqYXSb9GKXAEmihYvczRK
+ VnQkHAMexkRM57/gFCgSYCZZ13MJ0kVXd/tDXgFmHOBn5NKguaIKAwMtSKVMwA0gPmH8
+ JJixbnYUW3QJ0julUNNQ5GdxV9ApJsSzYi/itHx6bNidTY498kBUOhZdW5DTHDD2HQ3a
+ +cRc1REFjwI2V+p7clmAtu7k/Pq2ttEuKdEYNeykB5pTyHe6se0YCtfTM883zYVror7Y
+ CS4g==
+X-Gm-Message-State: AOJu0YyEu3cUmXoMW8MHyJbDEbPrNrXxl61SFrEhoJY8yoQTxbUrs7em
+ JINjlfQupwb6iZIWd5ZpYc6YJLGGd+E5lw==
+X-Google-Smtp-Source: AGHT+IGzXl9ZxQrKbZGeSLespIdBAH1IWl7cNLDW+XFoZzBONVJMhiWSJzoO9BZ/dAH+4MQcN+J7Bw==
+X-Received: by 2002:a17:907:a0cf:b0:a28:34e5:b86e with SMTP id
+ hw15-20020a170907a0cf00b00a2834e5b86emr5118851ejc.2.1704808943441; 
+ Tue, 09 Jan 2024 06:02:23 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- n10-20020a170906724a00b00a2af287c6b8sm1077218ejk.16.2024.01.09.05.51.40
+ m14-20020a170906580e00b00a28aa4871c7sm1059533ejq.205.2024.01.09.06.02.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jan 2024 05:51:41 -0800 (PST)
-Date: Tue, 9 Jan 2024 14:51:39 +0100
+ Tue, 09 Jan 2024 06:02:23 -0800 (PST)
+Date: Tue, 9 Jan 2024 15:02:21 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: John.C.Harrison@intel.com
-Subject: Re: [PATCH] drm/i915/guc: Avoid circular locking issue on busyness
- flush
-Message-ID: <ZZ1Pa1z_oKZheOBe@phenom.ffwll.local>
-References: <20231219195957.212600-1-John.C.Harrison@Intel.com>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH] drm/imagination: Defer probe if requested firmware is
+ not available
+Message-ID: <ZZ1R7WopPeaW3y44@phenom.ffwll.local>
+Mail-Followup-To: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Erico Nunes <nunes.erico@gmail.com>,
+ =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
+ David Airlie <airlied@gmail.com>,
+ Donald Robson <donald.robson@imgtec.com>,
+ Frank Binns <frank.binns@imgtec.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Matt Coster <matt.coster@imgtec.com>,
+ Sarah Walker <sarah.walker@imgtec.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org
+References: <20240109120604.603700-1-javierm@redhat.com>
+ <ZZ1IellMvvyFlQaF@phenom.ffwll.local>
+ <8734v6r51h.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231219195957.212600-1-John.C.Harrison@Intel.com>
+In-Reply-To: <8734v6r51h.fsf@minerva.mail-host-address-is-not-set>
 X-Operating-System: Linux phenom 6.5.0-4-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,155 +86,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zhanjun Dong <zhanjun.dong@intel.com>, Intel-GFX@lists.freedesktop.org,
- Andi Shyti <andi.shyti@linux.intel.com>, DRI-Devel@lists.freedesktop.org
+Cc: Sarah Walker <sarah.walker@imgtec.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Matt Coster <matt.coster@imgtec.com>, Donald Robson <donald.robson@imgtec.com>,
+ =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
+ Erico Nunes <nunes.erico@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 19, 2023 at 11:59:57AM -0800, John.C.Harrison@Intel.com wrote:
-> From: John Harrison <John.C.Harrison@Intel.com>
+On Tue, Jan 09, 2024 at 02:48:42PM +0100, Javier Martinez Canillas wrote:
+> Daniel Vetter <daniel@ffwll.ch> writes:
 > 
-> Avoid the following lockdep complaint:
-> <4> [298.856498] ======================================================
-> <4> [298.856500] WARNING: possible circular locking dependency detected
-> <4> [298.856503] 6.7.0-rc5-CI_DRM_14017-g58ac4ffc75b6+ #1 Tainted: G
->     N
-> <4> [298.856505] ------------------------------------------------------
-> <4> [298.856507] kworker/4:1H/190 is trying to acquire lock:
-> <4> [298.856509] ffff8881103e9978 (&gt->reset.backoff_srcu){++++}-{0:0}, at:
-> _intel_gt_reset_lock+0x35/0x380 [i915]
-> <4> [298.856661]
-> but task is already holding lock:
-> <4> [298.856663] ffffc900013f7e58
-> ((work_completion)(&(&guc->timestamp.work)->work)){+.+.}-{0:0}, at:
-> process_scheduled_works+0x264/0x530
-> <4> [298.856671]
-> which lock already depends on the new lock.
+> Hello Sima,
 > 
-> The complaint is not actually valid. The busyness worker thread does
-> indeed hold the worker lock and then attempt to acquire the reset lock
-> (which may have happened in reverse order elsewhere). However, it does
-> so with a trylock that exits if the reset lock is not available
-> (specifically to prevent this and other similar deadlocks).
-> Unfortunately, lockdep does not understand the trylock semantics (the
-> lock is an i915 specific custom implementation for resets).
+> Thanks for your feedback.
 > 
-> Not doing a synchronous flush of the worker thread when a reset is in
-> progress resolves the lockdep splat by never even attempting to grab
-> the lock in this particular scenario.
+> > On Tue, Jan 09, 2024 at 01:05:59PM +0100, Javier Martinez Canillas wrote:
+> >> The device is initialized in the driver's probe callback and as part of
+> >> that initialization, the required firmware is loaded. But this fails if
+> >> the driver is built-in and the firmware isn't present in the initramfs:
+> >> 
+> >> $ dmesg | grep powervr
+> >> [    2.969757] powervr fd00000.gpu: Direct firmware load for powervr/rogue_33.15.11.3_v1.fw failed with error -2
+> >> [    2.979727] powervr fd00000.gpu: [drm] *ERROR* failed to load firmware powervr/rogue_33.15.11.3_v1.fw (err=-2)
+> >> [    2.989885] powervr: probe of fd00000.gpu failed with error -2
+> >> 
+> >> $ ls -lh /lib/firmware/powervr/rogue_33.15.11.3_v1.fw.xz
+> >> -rw-r--r-- 1 root root 51K Dec 12 19:00 /lib/firmware/powervr/rogue_33.15.11.3_v1.fw.xz
+> >> 
+> >> To prevent the probe to fail for this case, let's defer the probe if the
+> >> firmware isn't available. That way, the driver core can retry it and get
+> >> the probe to eventually succeed once the root filesystem has been mounted.
+> >> 
+> >> If the firmware is also not present in the root filesystem, then the probe
+> >> will never succeed and the reason listed in the debugfs devices_deferred:
+> >> 
+> >> $ cat /sys/kernel/debug/devices_deferred
+> >> fd00000.gpu     powervr: failed to load firmware powervr/rogue_33.15.11.3_v1.fw (err=-517)
+> >> 
+> >> Fixes: f99f5f3ea7ef ("drm/imagination: Add GPU ID parsing and firmware loading")
+> >> Suggested-by: Maxime Ripard <mripard@kernel.org>
+> >> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> >
+> > Uh that doesn't work.
+> >
+> > Probe is for "I'm missing a struct device" and _only_ that. You can't
+> > assume that probe deferral will defer enough until the initrd shows up.
+> >
 > 
-> There are situatons where a synchronous cancel is required, however.
-> So, always do the synchronous cancel if not in reset. And add an extra
-> synchronous cancel to the end of the reset flow to account for when a
-> reset is occurring at driver shutdown and the cancel is no longer
-> synchronous but could lead to unallocated memory accesses if the
-> worker is not stopped.
+> Fair.
 > 
-> Signed-off-by: Zhanjun Dong <zhanjun.dong@intel.com>
-> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-> Cc: Andi Shyti <andi.shyti@linux.intel.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
+> > You need to fix this by fixing the initrd to include the required
+> > firmwares. This is what MODULE_FIRMWARE is for, and if your initrd fails
+> > to observe that it's just broken.
+> >
+> 
+> Tha's already the case, when is built as a module the initrd (dracut in
+> this particular case) does figure out that the firmware needs to be added
+> but that doesn't work when the DRM driver is built-in. Because dracut is
+> not able to figure out and doesn't even have a powervr.ko info to look at
+> whatever is set by the MODULE_FIRMWARE macro.
+
+Yeah built-in drivers that require firmware don't really work. I'm not
+sure it changed, but a while ago you had to actually include these in the
+kernel image itself (initrd was again too late), and that gives you
+something you can't even ship because it links blobs with gplv2 kernel.
+
+Maybe that changed and the initramfs is set up early enough now that it's
+sufficient to have it there ...
+
+Either way I think this needs module/kernel-image build changes so that
+the list of firmware images needed for the kernel itself is dumped
+somewhere, so that dracut can consume it and tdrt. My take at least.
+
+> > Yes I know as long as you have enough stuff built as module so that there
+> > will be _any_ kind of device probe after the root fs is mounted, this
+> > works, because that triggers a re-probe of everything. But that's the most
+> > kind of fragile fix there is.
+> >
+> 
+> Is fragile that's true but on the other hand it does solve the issue in
+> pratice. The whole device probal mechanism is just a best effort anyways.
+> 
+> > If you want to change that then I think that needs an official blessing
+> > from Greg KH/device core folks.
+> >
+> 
+> I liked this approach due its simplicity but an alternative (and more
+> complex) solution could be to delay the firmware request and not do it at
+> probe time.
+> 
+> For example, the following (only barely tested) patch solves the issue for
+> me as well but it's a bigger change to this driver and wasn't sure if will
+> be acceptable:
+
+I think this is still barking up the wrong tree. I think there's two
+proper fixes:
+
+- make the "EPROBE_DEFER delays until rootfs no matter what" official and
+  documented policy. That's much better than drivers hand-rolling
+  EPROBE_DEFER each in their own driver code.
+
+- fix kernel build and dracut so it can pick up the firmware images the
+  kernel itself needs. Because having a driver built-in but it still fails
+  to load until the rootfs is there is some very confusing failure mode.
+  Due to that failure mode I think this is the right fix, otherwise
+  built-in drivers become confusing.
+
+  Alternatively I guess you could disallow drm/img as a built-in driver
+  ... And also any other driver that requires fw to function.
+
+I don't think a "mostly works due to undocumented driver-specific hack" is
+a good fix, since this is entirely a generic issue.
+
+I think it's different if the fw is only needed for optional features,
+e.g. for i915 some of the display firmware is only needed for self refresh
+and low power modes. And a runtime_pm_get until the firmware has shown up
+to prevent mayhem is imo a clean design for that, since the hardware is
+fully working aside from using a bit too much power.
+
+> From c3fb715047a44691412196d8408f2bd495bcd1ed Mon Sep 17 00:00:00 2001
+> From: Javier Martinez Canillas <javierm@redhat.com>
+> Date: Tue, 9 Jan 2024 14:47:05 +0100
+> Subject: [RFC PATCH] drm/imagination: Move PowerVR GPU init to the drivers's open
+>  callback
+> MIME-Version: 1.0
+> Content-Type: text/plain; charset=UTF-8
+> Content-Transfer-Encoding: 8bit
+> 
+> Currently the device is initialized in the driver's probe callback. But as
+> part of this initialization, the required firmware is loaded and this will
+> fail when the driver is built-in, unless FW is included in the initramfs:
+> 
+> $ dmesg | grep powervr
+> [    2.969757] powervr fd00000.gpu: Direct firmware load for powervr/rogue_33.15.11.3_v1.fw failed with error -2
+> [    2.979727] powervr fd00000.gpu: [drm] *ERROR* failed to load firmware powervr/rogue_33.15.11.3_v1.fw (err=-2)
+> [    2.989885] powervr: probe of fd00000.gpu failed with error -2
+> 
+> $ ls -lh /lib/firmware/powervr/rogue_33.15.11.3_v1.fw.xz
+> -rw-r--r-- 1 root root 51K Dec 12 19:00 /lib/firmware/powervr/rogue_33.15.11.3_v1.fw.xz
+> 
+> To prevent this, let's delay the PowerVR GPU-specific initialization until
+> the render device is opened by user-space. By then, the root filesystem
+> will be mounted already and the driver able to find the required firmware.
+> 
+> Besides the mentioned problem, it seems more correct to only load firmware
+> and request the IRQ if the device is opened rather than do these on probe.
+> 
+> Fixes: f99f5f3ea7ef ("drm/imagination: Add GPU ID parsing and firmware loading")
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 > ---
->  .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 48 ++++++++++++++++++-
->  drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  2 +-
->  2 files changed, 48 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index a259f1118c5ab..0228a77d456ed 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -1362,7 +1362,45 @@ static void guc_enable_busyness_worker(struct intel_guc *guc)
->  
->  static void guc_cancel_busyness_worker(struct intel_guc *guc)
+
+[snip]
+
+> diff --git a/drivers/gpu/drm/imagination/pvr_drv.c b/drivers/gpu/drm/imagination/pvr_drv.c
+> index 5c3b2d58d766..f8fb45136326 100644
+> --- a/drivers/gpu/drm/imagination/pvr_drv.c
+> +++ b/drivers/gpu/drm/imagination/pvr_drv.c
+> @@ -1309,10 +1309,18 @@ pvr_drm_driver_open(struct drm_device *drm_dev, struct drm_file *file)
 >  {
-> -	cancel_delayed_work_sync(&guc->timestamp.work);
-> +	/*
-> +	 * There are many different call stacks that can get here. Some of them
-> +	 * hold the reset mutex. The busyness worker also attempts to acquire the
-> +	 * reset mutex. Synchronously flushing a worker thread requires acquiring
-> +	 * the worker mutex. Lockdep sees this as a conflict. It thinks that the
-> +	 * flush can deadlock because it holds the worker mutex while waiting for
-> +	 * the reset mutex, but another thread is holding the reset mutex and might
-> +	 * attempt to use other worker functions.
-> +	 *
-> +	 * In practice, this scenario does not exist because the busyness worker
-> +	 * does not block waiting for the reset mutex. It does a try-lock on it and
-> +	 * immediately exits if the lock is already held. Unfortunately, the mutex
-> +	 * in question (I915_RESET_BACKOFF) is an i915 implementation which has lockdep
-> +	 * annotation but not to the extent of explaining the 'might lock' is also a
-> +	 * 'does not need to lock'. So one option would be to add more complex lockdep
-> +	 * annotations to ignore the issue (if at all possible). A simpler option is to
-> +	 * just not flush synchronously when a rest in progress. Given that the worker
-> +	 * will just early exit and re-schedule itself anyway, there is no advantage
-> +	 * to running it immediately.
-> +	 *
-> +	 * If a reset is not in progress, then the synchronous flush may be required.
-> +	 * As noted many call stacks lead here, some during suspend and driver unload
-> +	 * which do require a synchronous flush to make sure the worker is stopped
-> +	 * before memory is freed.
-> +	 *
-> +	 * Trying to pass a 'need_sync' or 'in_reset' flag all the way down through
-> +	 * every possible call stack is unfeasible. It would be too intrusive to many
-> +	 * areas that really don't care about the GuC backend. However, there is the
-> +	 * 'reset_in_progress' flag available, so just use that.
-> +	 *
-> +	 * And note that in the case of a reset occurring during driver unload
-> +	 * (wedge_on_fini), skipping the cancel in _prepare (when the reset flag is set
-> +	 * is fine because there is another cancel in _finish (when the reset flag is
-> +	 * not).
-> +	 */
-> +	if (guc_to_gt(guc)->uc.reset_in_progress)
-> +		cancel_delayed_work(&guc->timestamp.work);
-> +	else
-> +		cancel_delayed_work_sync(&guc->timestamp.work);
-
-I think it's all fairly horrible (but that's not news), but this comment
-here I think explains in adequate detail what's all going on, what all
-matters, why it's all safe and why it's rather hard to fix in a clean
-fashion. So realistically about as good as it will ever get.
-
-More importantly, it doesn't gloss over any of the details which do matter
-(of which there is a lot, as the length of this comment shows).
-
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
->  }
->  
->  static void __reset_guc_busyness_stats(struct intel_guc *guc)
-> @@ -1948,8 +1986,16 @@ void intel_guc_submission_cancel_requests(struct intel_guc *guc)
->  
->  void intel_guc_submission_reset_finish(struct intel_guc *guc)
->  {
-> +	/*
-> +	 * Ensure the busyness worker gets cancelled even on a fatal wedge.
-> +	 * Note that reset_prepare is not allowed to because it confuses lockdep.
-> +	 */
-> +	if (guc_submission_initialized(guc))
-> +		guc_cancel_busyness_worker(guc);
+>  	struct pvr_device *pvr_dev = to_pvr_device(drm_dev);
+>  	struct pvr_file *pvr_file;
+> +	int err;
 > +
->  	/* Reset called during driver load or during wedge? */
->  	if (unlikely(!guc_submission_initialized(guc) ||
-> +		     !intel_guc_is_fw_running(guc) ||
->  		     intel_gt_is_wedged(guc_to_gt(guc)))) {
->  		return;
->  	}
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> index 3872d309ed31f..5a49305fb13be 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> @@ -640,7 +640,7 @@ void intel_uc_reset_finish(struct intel_uc *uc)
->  	uc->reset_in_progress = false;
->  
->  	/* Firmware expected to be running when this function is called */
-> -	if (intel_guc_is_fw_running(guc) && intel_uc_uses_guc_submission(uc))
-> +	if (intel_uc_uses_guc_submission(uc))
->  		intel_guc_submission_reset_finish(guc);
->  }
->  
-> -- 
-> 2.41.0
-> 
+> +	/* Perform GPU-specific initialization steps. */
+> +	err = pvr_device_gpu_init(pvr_dev);
 
+Ok this is full blas "init hw on first open" drm 1 design. I think what
+would be ok somewhat is delaying the drm_dev_register, but this here gives
+me nightmares ...
+
+Please no :-)
+
+Cheers, Sima
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
