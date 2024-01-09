@@ -2,25 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EFFF8280A7
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 09:24:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C0058280B0
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 09:24:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D03A210E6E2;
-	Tue,  9 Jan 2024 08:24:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52DFF10E6E3;
+	Tue,  9 Jan 2024 08:24:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
  [153.127.30.23])
- by gabe.freedesktop.org (Postfix) with ESMTP id DDC1D10E6E2
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 08:24:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id A978B10E6E2
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 08:24:30 +0000 (UTC)
 Received: from SIOS1075.ysato.name (ZM005235.ppp.dion.ne.jp [222.8.5.235])
- by sakura.ysato.name (Postfix) with ESMTPSA id 979201C0A2A;
- Tue,  9 Jan 2024 17:24:26 +0900 (JST)
+ by sakura.ysato.name (Postfix) with ESMTPSA id 6C8E91C0A9C;
+ Tue,  9 Jan 2024 17:24:28 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: linux-sh@vger.kernel.org
-Subject: [DO NOT MERGE v6 25/37] dt-bindings: vendor-prefixes: Add iodata
-Date: Tue,  9 Jan 2024 17:23:22 +0900
-Message-Id: <17c6381a733d34e8460fd2979f8b53804e808e04.1704788539.git.ysato@users.sourceforge.jp>
+Subject: [DO NOT MERGE v6 26/37] dt-bindings: vendor-prefixes:  Add smi
+Date: Tue,  9 Jan 2024 17:23:23 +0900
+Message-Id: <c8aaf67e3fcdb7e60632c53a784691aabfc7733e.1704788539.git.ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1704788539.git.ysato@users.sourceforge.jp>
 References: <cover.1704788539.git.ysato@users.sourceforge.jp>
@@ -77,8 +77,8 @@ Cc: =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add IO DATA DEVICE INC.
-https://www.iodata.com/
+Add Silicon Mortion Technology Corporation
+https://www.siliconmotion.com/
 
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 ---
@@ -86,18 +86,18 @@ Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
  1 file changed, 2 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index 309b94c328c8..94ed63d9f7de 100644
+index 94ed63d9f7de..a338bdd743ab 100644
 --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
 +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -671,6 +671,8 @@ patternProperties:
-     description: Inventec
-   "^inversepath,.*":
-     description: Inverse Path
-+  "^iodata,.*":
-+    description: IO DATA DEVICE Inc.
-   "^iom,.*":
-     description: Iomega Corporation
-   "^irondevice,.*":
+@@ -1283,6 +1283,8 @@ patternProperties:
+     description: Skyworks Solutions, Inc.
+   "^smartlabs,.*":
+     description: SmartLabs LLC
++  "^smi,.*":
++    description: Silicon Motion Technology Corporation
+   "^smsc,.*":
+     description: Standard Microsystems Corporation
+   "^snps,.*":
 -- 
 2.39.2
 
