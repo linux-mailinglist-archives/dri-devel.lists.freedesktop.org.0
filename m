@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3B3D828AFE
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 18:20:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62260828AEF
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jan 2024 18:20:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C7F210E4C3;
-	Tue,  9 Jan 2024 17:20:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7621210E4B4;
+	Tue,  9 Jan 2024 17:20:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54AE910E4C1
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 17:20:39 +0000 (UTC)
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F00710E4AF
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 17:20:18 +0000 (UTC)
 Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 409HK0Uq107633;
- Tue, 9 Jan 2024 11:20:00 -0600
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 409HK1S0072326;
+ Tue, 9 Jan 2024 11:20:01 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1704820800;
- bh=yVjuHQUM9faqobL4vMHbNxJbRKQ2si6luHTTyyhfnHs=;
+ s=ti-com-17Q1; t=1704820801;
+ bh=VawEpna3v0lS7GPRRlnu64Wvw1h5R0QsWm64N4grDiw=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=euekyNZvWo26vBoQWeSE8LvaoqDTscGKaliXXedPv9BM9eHG6IyQnwnX2UVbEeJgg
- Njp7RLbhjkeS7kzaq5UqDpkAQXqQPbBm/gAWgaHHJuoVSzOPYHu9OUM/g1RhtqLUzh
- a4TjabfJsYM7NjvAcmhw3B8ljH1f6BbITybAaK8g=
-Received: from DLEE101.ent.ti.com (dlee101.ent.ti.com [157.170.170.31])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 409HK0X5123473
+ b=xmiYQpsARtN81uqOzExACSARNxYnhZvs4K0pyNiKgxK2BJzbiJfcdiB3+ZV8vxNJs
+ tQN/JZcPK1Jf0hcRMO7dYO8iJTHC4g47Dojqj2Q/fJTpPEcC25YGuy+PeugZcaQXGb
+ J6vM3E+qLYpUyLRXoZNJrkHHCulmNNhtXak5EflM=
+Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 409HK1pE123483
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 9 Jan 2024 11:20:00 -0600
-Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE101.ent.ti.com
- (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+ Tue, 9 Jan 2024 11:20:01 -0600
+Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 9
- Jan 2024 11:19:59 -0600
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
+ Jan 2024 11:20:00 -0600
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
  Frontend Transport; Tue, 9 Jan 2024 11:20:00 -0600
 Received: from lelvsmtp5.itg.ti.com ([10.249.40.136])
- by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 409HJouE089645;
- Tue, 9 Jan 2024 11:19:59 -0600
+ by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 409HJouF089645;
+ Tue, 9 Jan 2024 11:20:00 -0600
 From: Andrew Davis <afd@ti.com>
 To: Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
  "H . Nikolaus Schaller" <hns@goldelico.com>, Adam
@@ -51,10 +51,9 @@ To: Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
  <bcousson@baylibre.com>, Tony Lindgren <tony@atomide.com>, Nishanth Menon
  <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>, Tero Kristo
  <kristo@kernel.org>, Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH 09/11] arm64: dts: ti: k3-am654-main: Add device tree entry
- for SGX GPU
-Date: Tue, 9 Jan 2024 11:19:48 -0600
-Message-ID: <20240109171950.31010-10-afd@ti.com>
+Subject: [PATCH 10/11] ARM: dts: sun6i: Add device tree entry for SGX GPU
+Date: Tue, 9 Jan 2024 11:19:49 -0600
+Message-ID: <20240109171950.31010-11-afd@ti.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240109171950.31010-1-afd@ti.com>
 References: <20240109171950.31010-1-afd@ti.com>
@@ -81,32 +80,34 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add SGX GPU device entry to base AM654 dtsi file.
+Add SGX GPU device entry to base sun6i-a31 dtsi file.
 
 Signed-off-by: Andrew Davis <afd@ti.com>
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 ---
- arch/arm64/boot/dts/ti/k3-am65-main.dtsi | 7 +++++++
- 1 file changed, 7 insertions(+)
+ arch/arm/boot/dts/allwinner/sun6i-a31.dtsi | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/ti/k3-am65-main.dtsi b/arch/arm64/boot/dts/ti/k3-am65-main.dtsi
-index fcea544656360..64b52c8dafc6c 100644
---- a/arch/arm64/boot/dts/ti/k3-am65-main.dtsi
-+++ b/arch/arm64/boot/dts/ti/k3-am65-main.dtsi
-@@ -1050,6 +1050,13 @@ dss_ports: ports {
+diff --git a/arch/arm/boot/dts/allwinner/sun6i-a31.dtsi b/arch/arm/boot/dts/allwinner/sun6i-a31.dtsi
+index 5cce4918f84c9..e6998783b89aa 100644
+--- a/arch/arm/boot/dts/allwinner/sun6i-a31.dtsi
++++ b/arch/arm/boot/dts/allwinner/sun6i-a31.dtsi
+@@ -962,6 +962,15 @@ mdio: mdio {
+ 			};
  		};
- 	};
  
-+	gpu: gpu@7000000 {
-+		compatible = "ti,am6548-gpu", "img,powervr-sgx544";
-+		reg = <0x0 0x7000000 0x0 0x10000>;
-+		interrupts = <GIC_SPI 162 IRQ_TYPE_LEVEL_HIGH>;
-+		power-domains = <&k3_pds 65 TI_SCI_PD_EXCLUSIVE>;
-+	};
++		gpu: gpu@1c40000 {
++			compatible = "allwinner,sun6i-a31-gpu", "img,powervr-sgx544";
++			reg = <0x01c40000 0x10000>;
++			interrupts = <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_GPU_CORE>, <&ccu CLK_GPU_MEMORY>;
++			clock-names = "core", "mem";
++			status = "disabled";
++		};
 +
- 	ehrpwm0: pwm@3000000 {
- 		compatible = "ti,am654-ehrpwm", "ti,am3352-ehrpwm";
- 		#pwm-cells = <3>;
+ 		crypto: crypto-engine@1c15000 {
+ 			compatible = "allwinner,sun6i-a31-crypto",
+ 				     "allwinner,sun4i-a10-crypto";
 -- 
 2.39.2
 
