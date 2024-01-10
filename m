@@ -1,60 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D05B8290C4
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 00:22:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B718829129
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 01:15:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F28E10E526;
-	Tue,  9 Jan 2024 23:22:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6801510E536;
+	Wed, 10 Jan 2024 00:15:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com
- [IPv6:2607:f8b0:4864:20::1131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F86610E526
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jan 2024 23:22:14 +0000 (UTC)
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-5e7f0bf46a2so32061397b3.1
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 15:22:14 -0800 (PST)
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0A4810E536
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 00:15:09 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id
+ a640c23a62f3a-a28f66dc7ffso808529366b.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 16:15:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=yngvason.is; s=google; t=1704842534; x=1705447334; darn=lists.freedesktop.org;
+ d=chromium.org; s=google; t=1704845706; x=1705450506;
+ darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ebXuRtZ+jV+LA1Jw2fSqPglODs+5bJfr1352MU2Bcvc=;
- b=buezkh/sz/8UH/j9wzjq8v0q2nK84OMpbU13PfWDxchWFp79gdjJ8wrcWFUkSCpptR
- 0GmyN8gMxX0H8cnmf8Nzrzx+Xtr8Q0WP86C+VybnL4u2S2LHDoFbfrMteGxMnFbtHvu+
- JdxgtyZ1pHq7hevYQYba2p3yqQ5H3BLCDGmhY=
+ bh=5kAqGhucPMVtfo1InPdfTFWkdNUtgMKoqN9J3JzON2c=;
+ b=LY8gv6Txw6ru6gdsYJjiYhCwe9iIE7k/FIzqmrx5iNmkpSgA1e+cvZO+glQyM+63Tw
+ qAxeRQwDrDxFJ1vZJc5gpN/BgMNXZV4iXo4jukZus5+bNBA7GMkVDf1+FRJOmIRcqXUQ
+ D1HRhGv0IcXAU/ApV4veuzRObyvJX1TA2/p54=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704842534; x=1705447334;
+ d=1e100.net; s=20230601; t=1704845706; x=1705450506;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ebXuRtZ+jV+LA1Jw2fSqPglODs+5bJfr1352MU2Bcvc=;
- b=b/5PQlQd7NqVQL79VdXrTMFUSd7NvHeg3h6E5bPVzGmb8FN5ziAi7Cbav9cywSYA7D
- xxchgV0zitZRLzgeKVUfDK5KJ4xyCaRWEO2DLsN1GQo3TeRcosENwetMzswfqm4udF9p
- asCW9eofIBU7c3beZmNy6cUcKcw6UufPweGjs5qska4kgmGjy+/SbTwwKEbst5aNDsP2
- k3Zl0qYjaBR486vJdXD6pQUMJKAs1k6M3ITHA9NMCPZRQ2A+w+QxKSYmf355N05Ua8HI
- yNXjqeiqirch+FpQTbBnZhABcPUl8cw45PjffqlfcfMwnCa+tz1TahJj3VV9BnkchVnM
- ud3w==
-X-Gm-Message-State: AOJu0Yw2JwYx4euS+UzWUeo5Ri6WfWfycc6IoL3qKLJmgj+OIPpOQWJL
- hNQb3CHVxdApC8ELsFzUP5itR73MXvtZSTCNl3RqE1DVEwj34Q==
-X-Google-Smtp-Source: AGHT+IE8JDGH9ecjWUCMBMUouMOhuyEPG+0LSA+8kz0oPtVDBlLstNCfdQ5skELRjOnAGKeDWrBS6QE4QfdwIuqGTVo=
-X-Received: by 2002:a81:4857:0:b0:5ee:1ca0:b7ef with SMTP id
- v84-20020a814857000000b005ee1ca0b7efmr258078ywa.42.1704842533828; Tue, 09 Jan
- 2024 15:22:13 -0800 (PST)
+ bh=5kAqGhucPMVtfo1InPdfTFWkdNUtgMKoqN9J3JzON2c=;
+ b=b8vMcaG9C9oJoTD+VeCr2RUg7sbtatVO4C9gXWU6ePhGRedgtPXkZoORsvyyOpm37K
+ +NoBAduh6ngCQh8CQinkwpkJ+k/EDLw6oIjWCTYSqez/jJFHcQKPrTbhO8uONdjahksj
+ RraOJkpe/63OqzEiKWlyi9Vlw5mE7UHpUurgr0iwl6TvDD+HrU/RXnUAxqS40qB5OJb8
+ mMhZw9w1LIzJgdwf7w6IDo0nr/xkwdysTKrDiXrPtEsbH/zQ8BZg9v5uq8PAlW9KZmlF
+ 9Udsb0G/8cJ9kgWOf/FRcqlQJtHcvyJnsljovlekIdyPX55/K6F0IXDiut3QiJ523p4A
+ j14w==
+X-Gm-Message-State: AOJu0Yy0FusN0xgM8i0giNd2JQV3C4DuF8nF3ZmLWtrZkeoX7sZ7VauB
+ jxTqOLkxp4aRn2kJ7oARaLKtxiwRDPQhlZTDeTZnETa2SN/TOng=
+X-Google-Smtp-Source: AGHT+IGz+yGD0+sOjpBsMACjjrflk5/wwYmJKlo/8Sf3Shu1Wguwb2XUaejd7PvQJWFj67Tz2NmnOg==
+X-Received: by 2002:a17:906:1919:b0:a2a:c113:2677 with SMTP id
+ a25-20020a170906191900b00a2ac1132677mr281999eje.61.1704845705572; 
+ Tue, 09 Jan 2024 16:15:05 -0800 (PST)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com.
+ [209.85.128.42]) by smtp.gmail.com with ESMTPSA id
+ l18-20020a1709062a9200b00a2afe82f651sm1554391eje.12.2024.01.09.16.15.04
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Jan 2024 16:15:04 -0800 (PST)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-40e4afe9ea7so9975e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 16:15:04 -0800 (PST)
+X-Received: by 2002:a05:600c:43c5:b0:40d:5fee:130 with SMTP id
+ f5-20020a05600c43c500b0040d5fee0130mr62920wmn.5.1704845704513; Tue, 09 Jan
+ 2024 16:15:04 -0800 (PST)
 MIME-Version: 1.0
-References: <20240109181104.1670304-1-andri@yngvason.is>
- <20240109181104.1670304-3-andri@yngvason.is>
- <CAPj87rNan8B5urDFkmD_Vti4to6p3NmvXYsTFQTNg-Ue2ieDug@mail.gmail.com>
- <CAFNQBQwiqqSRqzXAnC035UWCGF3=GGFR5SpDd=biPTOEA+cWbQ@mail.gmail.com>
-In-Reply-To: <CAFNQBQwiqqSRqzXAnC035UWCGF3=GGFR5SpDd=biPTOEA+cWbQ@mail.gmail.com>
-From: Andri Yngvason <andri@yngvason.is>
-Date: Tue, 9 Jan 2024 23:21:38 +0000
-Message-ID: <CAFNQBQxM3dxdWRRY28jyXi4PZbgh7V+L7L6W1HQn40PwUGPNaA@mail.gmail.com>
-Subject: Re: [PATCH 2/7] drm/uAPI: Add "active color format" drm property as
- feedback for userspace
-To: Daniel Stone <daniel@fooishbar.org>
+References: <cover.1704835845.git.u.kleine-koenig@pengutronix.de>
+ <53d8c545aa8f79a920358be9e72e382b3981bdc4.1704835845.git.u.kleine-koenig@pengutronix.de>
+In-Reply-To: <53d8c545aa8f79a920358be9e72e382b3981bdc4.1704835845.git.u.kleine-koenig@pengutronix.de>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 9 Jan 2024 16:14:49 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=UyoSc7fpvaO08Bhj54UG5b1OGteXV95tCVkpDzrvzwsw@mail.gmail.com>
+Message-ID: <CAD=FV=UyoSc7fpvaO08Bhj54UG5b1OGteXV95tCVkpDzrvzwsw@mail.gmail.com>
+Subject: Re: [PATCH 2/5] pwm: Drop useless member .of_pwm_n_cells of struct
+ pwm_chip
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,57 +81,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Werner Sembach <wse@tuxedocomputers.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, intel-gfx@lists.freedesktop.org,
- Leo Li <sunpeng.li@amd.com>, dri-devel@lists.freedesktop.org, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Alexander Shiyan <shc_work@mail.ru>,
+ Jonas Karlman <jonas@kwiboo.se>, Benson Leung <bleung@chromium.org>,
+ dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-pwm@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, chrome-platform@lists.linux.dev,
+ Guenter Roeck <groeck@chromium.org>, kernel@pengutronix.de,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+Hi,
 
-Please excuse my misconfigured email client. HTML was accidentally
-enabled in my previous messages, so I'll re-send it for the benefit of
-mailing lists.
-
-=C3=BEri., 9. jan. 2024 kl. 22:32 skrifa=C3=B0i Daniel Stone <daniel@fooish=
-bar.org>:
+On Tue, Jan 9, 2024 at 1:35=E2=80=AFPM Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@pengutronix.de> wrote:
 >
-> On Tue, 9 Jan 2024 at 18:12, Andri Yngvason <andri@yngvason.is> wrote:
-> > + * active color format:
-> > + *     This read-only property tells userspace the color format actual=
-ly used
-> > + *     by the hardware display engine "on the cable" on a connector. T=
-he chosen
-> > + *     value depends on hardware capabilities, both display engine and
-> > + *     connected monitor. Drivers shall use
-> > + *     drm_connector_attach_active_color_format_property() to install =
-this
-> > + *     property. Possible values are "not applicable", "rgb", "ycbcr44=
-4",
-> > + *     "ycbcr422", and "ycbcr420".
+> Apart from the two of_xlate implementations this member is write-only.
+> In the of_xlate functions of_pwm_xlate_with_flags() and
+> of_pwm_single_xlate() it's more sensible to check for args->args_count
+> because this is what is actually used in the device tree.
 >
-> How does userspace determine what's happened without polling? Will it
-> only change after an `ALLOW_MODESET` commit, and be guaranteed to be
-> updated after the commit has completed and the event being sent?
-> Should it send a HOTPLUG event? Other?
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+> ---
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c |  1 -
+>  drivers/pwm/core.c                    | 22 +++-------------------
+>  drivers/pwm/pwm-clps711x.c            |  1 -
+>  drivers/pwm/pwm-cros-ec.c             |  1 -
+>  drivers/pwm/pwm-pxa.c                 |  4 +---
+>  include/linux/pwm.h                   |  2 --
+>  6 files changed, 4 insertions(+), 27 deletions(-)
 
-Userspace does not determine what's happened without polling. The
-purpose of this property is not for programmatic verification that the
-preferred property was applied. It is my understanding that it's
-mostly intended for debugging purposes. It should only change as a
-consequence of modesetting, although I didn't actually look into what
-happens if you set the "preferred color format" outside of a modeset.
+I haven't done massive thinking about this, but it seems reasonable to
+me. I remember being confused about why we needed some of these extra
+checks ages ago when I looked at this code, so getting rid of them
+makes sense to me.
 
-The way I've implemented things in sway, calling the
-"preferred_signal_format" command triggers a modeset with the
-"preferred color format" set and calling "get_outputs", immediately
-queries the "actual color format" and displays it.
+I've been involved with both the ti-sn65dsi86.c and the pwm-cros-ec.c
+code and both looks fine to me.
 
-Regards,
-Andri
+I'm an official reviewer for ti-sn65dsi86.c and I'm fairly happy with
+this tag for it:
+
+Acked-by: Douglas Anderson <dianders@chromium.org>
+
+...and I think it would be fine to go through the PWM tree. If one of
+the senior drm-misc maintainers disagrees with me, however, then you
+should listen to them rather than me.
+
+-Doug
