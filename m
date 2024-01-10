@@ -2,47 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59EC482A11A
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 20:38:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1A3D82A1A8
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 21:03:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDBF210E680;
-	Wed, 10 Jan 2024 19:38:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B966810E648;
+	Wed, 10 Jan 2024 20:03:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB21210E679
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 19:38:46 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi
- [89.27.53.110])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 08D433DFA;
- Wed, 10 Jan 2024 20:37:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1704915460;
- bh=zHQis5xP8OgIGCs3kY8BouPwXp7i9V/rpOTbYi87Dt4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=iwonAFm5HQi0o+Au9y/q+DfG+zSyytUBy6pmUaq3Sl78QhwsRPPKKldiddGuntkZe
- RMO4DfamtJuMOiH3PcUfp6fQmR+13IAYxHl/isR8NsnV8+Hi9s9bfiHP2BGhTPO/Z/
- WjdtwmUpQ+rf1psExbd//T/q5p+aEZbWzULLZjPc=
-Date: Wed, 10 Jan 2024 21:38:52 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
-Message-ID: <20240110193852.GF23633@pendragon.ideasonboard.com>
-References: <20231128105129.161121-4-biju.das.jz@bp.renesas.com>
- <sechknyg33iucaku37vfhk7ie7xgcealfqbvaopm4rrnqbo5g5@s35peonkzzoz>
- <TYCPR01MB11269767836DEB995747B7ED3868CA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <zp2ews2by6fg5irmb7ms6blox6vruezdjlor3rutqtokbvlle2@tl775slyvhyf>
- <TYCPR01MB112699C55873FA75B8F4469C18693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <bw3qxved377k5pmh3dbnimiyxra7k6dgb2tmg23bvxnfglti4g@uqdxmgnqrkg2>
- <TYCPR01MB11269CC132B84CFAD11D307578693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <g4uqcavglw2md4ojiw7yxequy37ttozjazr3b4ypqzznlrsinv@zm6mvzaempwp>
- <TYCPR01MB11269BCE6CAEE3C5063C4D1728693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <TYCPR01MB11269726F051D0F497597F28A86672@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com
+ [IPv6:2607:f8b0:4864:20::72c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED30D10E648
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 20:03:09 +0000 (UTC)
+Received: by mail-qk1-x72c.google.com with SMTP id
+ af79cd13be357-783195e57c7so300013085a.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 12:03:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1704916988; x=1705521788;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ON7TKuIHiVnpsIb56T4kckDmxFrZxuNEyg3jMYqFBog=;
+ b=DV9qEN/y+dRdIUHefFsIXf1DsA/E1LJAYFhalB114Y8f9wGzvPbdIztw3gb2Rh5bbv
+ GCbdarXOfBBd2drr483rua5zmFkOOgy+/MiiJnJb7aWhTvmdAK4xqjAvC8RfnMP2kOl3
+ m7jvNXZ+RzjAuFSWZsKIIt+F/VtGVuCFUE5IU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1704916988; x=1705521788;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ON7TKuIHiVnpsIb56T4kckDmxFrZxuNEyg3jMYqFBog=;
+ b=crPnx0dIlLQrZp54emJRxWn2e5jYY8bSqTchBG5n2tedvgXcOoXPtJe4z/DVeOynLP
+ A4Pgx0+r2b/4yI3sdBM1rlBVIX66Wiyysq0VuuHRqgQrIsK66aFuFztIoZvWvxpK9RhU
+ fsYe0eJkOSZXD24viNOF6N5X2w+ZsiQNwEskFlbzFoY4Z5JaqV0vcPdKz7MN21SkHv7u
+ KZA03kAZotQ7HykjzP1uuUbngsvuwSzMX1S2mD/QReHKzOetjA2zvdsfdeszPe8mwcLY
+ 37/QZqt+dn9t7bNx3nc72QMJSW3QD+lpng//GFV/p8SrzAxW9ihCLjDHGQx3UQUQLryo
+ W15Q==
+X-Gm-Message-State: AOJu0YwJ03e36uW6zsBxBd8hxdjULF9dxkBpX4jQ17PmxLFGaof0EQCg
+ jqHdoRL1MggjhAcA9rCGcTQY8DpevfTuCn2AWFgotvFyRJAYGD8NbFeeStfzikD2Fp6iYu92T5w
+ UvzQLrlDLaI+PiyZvWepn9VAfjPj6tNkQzsOP6N9fmr+WHLlaPgSow/22mgVi2cNU3+xPPHNQ+X
+ am4q8j/zjY8tLmbMWHo7Xk
+X-Google-Smtp-Source: AGHT+IFFIXjYqaWGyx31yI9Yk6y9Ny+MruPuyXDQi58sWTW0Do9uYf0CnaxRWqS5BNVb6fhEzKF+UQ==
+X-Received: by 2002:a05:6214:c85:b0:680:f8d8:2c26 with SMTP id
+ r5-20020a0562140c8500b00680f8d82c26mr13832qvr.19.1704916988434; 
+ Wed, 10 Jan 2024 12:03:08 -0800 (PST)
+Received: from vertex.vmware.com (pool-173-49-113-140.phlapa.fios.verizon.net.
+ [173.49.113.140]) by smtp.gmail.com with ESMTPSA id
+ dh1-20020ad458c1000000b0067f6af684e5sm1939154qvb.73.2024.01.10.12.03.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Jan 2024 12:03:08 -0800 (PST)
+From: Zack Rusin <zack.rusin@broadcom.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/vmwgfx: Fix possible null pointer derefence with invalid
+ contexts
+Date: Wed, 10 Jan 2024 15:03:05 -0500
+Message-Id: <20240110200305.94086-1-zack.rusin@broadcom.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <TYCPR01MB11269726F051D0F497597F28A86672@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,143 +71,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- "biju.das.au" <biju.das.au@gmail.com>, Magnus Damm <magnus.damm@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Maxime Ripard <mripard@kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc: Niels De Graef <ndegraef@redhat.com>, stable@vger.kernel.org,
+ Ian Forbes <ian.forbes@broadcom.com>,
+ Maaz Mombasawala <maaz.mombasawala@broadcom.com>,
+ Martin Krastev <martin.krastev@broadcom.com>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Biju,
+vmw_context_cotable can return either an error or a null pointer and its
+usage sometimes went unchecked. Subsequent code would then try to access
+either a null pointer or an error value.
 
-On Thu, Jan 04, 2024 at 02:17:39PM +0000, Biju Das wrote:
-> On Friday, December 15, 2023 2:56 PM, Biju Das wrote:
-> > On Friday, December 15, 2023 2:18 PM, Maxime Ripard wrote:
-> > > On Fri, Dec 15, 2023 at 01:52:28PM +0000, Biju Das wrote:
-> > > > > > > > > > +static int rzg2l_du_crtc_enable_vblank(struct drm_crtc *crtc) {
-> > > > > > > > > > +	struct rzg2l_du_crtc *rcrtc = to_rzg2l_crtc(crtc);
-> > > > > > > > > > +
-> > > > > > > > > > +	rcrtc->vblank_enable = true;
-> > > > > > > > > > +
-> > > > > > > > > > +	return 0;
-> > > > > > > > > > +}
-> > > > > > > > > > +
-> > > > > > > > > > +static void rzg2l_du_crtc_disable_vblank(struct drm_crtc *crtc)
-> > > > > > > > > > +{
-> > > > > > > > > > +	struct rzg2l_du_crtc *rcrtc = to_rzg2l_crtc(crtc);
-> > > > > > > > > > +
-> > > > > > > > > > +	rcrtc->vblank_enable = false; }
-> > > > > > > > >
-> > > > > > > > > You should enable / disable your interrupts here
-> > > > > > > >
-> > > > > > > > We don't have dedicated vblank IRQ for enabling/disabling vblank.
-> > > > > > > >
-> > > > > > > > vblank is handled by vspd.
-> > > > > > > >
-> > > > > > > > vspd is directly rendering images to display,
-> > > > > > > > rcar_du_crtc_finish_page_flip() and drm_crtc_handle_vblank()
-> > > > > > > > called in vspd's pageflip context.
-> > > > > > > >
-> > > > > > > > See rzg2l_du_vsp_complete()in rzg2l_du_vsp.c
-> > > > > > >
-> > > > > > > Sorry, I couldn't really get how the interrupt flow / vblank
-> > > > > > > reporting is going to work. Could you explain it a bit more?
-> > > > > >
-> > > > > > We just need to handle vertical blanking in the VSP frame end handler.
-> > > > > > See the code below.
-> > > > > >
-> > > > > > static void rzg2l_du_vsp_complete(void *private, unsigned int status,
-> > > > > > u32 crc) {
-> > > > > > 	struct rzg2l_du_crtc *crtc = private;
-> > > > > >
-> > > > > > 	if (crtc->vblank_enable)
-> > > > > > 		drm_crtc_handle_vblank(&crtc->crtc);
-> > > > > >
-> > > > > > 	if (status & VSP1_DU_STATUS_COMPLETE)
-> > > > > > 		rzg2l_du_crtc_finish_page_flip(crtc);
-> > > > > >
-> > > > > > 	drm_crtc_add_crc_entry(&crtc->crtc, false, 0, &crc); }
-> > > > >
-> > > > > Then we're back to the same question :)
-> > > > >
-> > > > > Why can't you mask the frame end interrupt?
-> > > >
-> > > > We are masking interrupts.
-> > > >
-> > > > [   70.639139] #######rzg2l_du_crtc_disable_vblank#######
-> > > > [   70.650243] #########rzg2l_du_vsp_disable ############
-> > > > [   70.652003] ########## vsp1_wpf_stop###
-> > > >
-> > > > Unmask is,
-> > > >
-> > > > [ 176.354520] #######rzg2l_du_crtc_enable_vblank#######
-> > > > [ 176.354922] #########rzg2l_du_vsp_atomic_flush ############
-> > > > [ 176.355198] ########## wpf_configure_stream###
-> > >
-> > > Sorry, my question was why aren't you unmasking and masking them in
-> > > the enable/disable_vblank hooks of the CRTC.
-> > 
-> > I have n't tried that. Will try and provide feedback.
-> > 
-> > Currently the IRQ source belongs to VSPD in media subsystem.
-> > So I need to export an API though vsp1_drm and test it.
-> 
-> + linux-media
-> 
-> Laurent, are you ok with the below RZ/G2L specific patch[1] for
-> enabling/disabling frame end interrupt in VSP driver?
-> Note:
-> I need to add a quirk for handling this only for RZ/G2L family as
-> other SoCs have Vblank specific interrupt available in DU.
+The invalid dereferences were only possible with malformed userspace
+apps which never properly initialized the rendering contexts.
 
-The DU driver on Gen3 handles vblank exactly as in your patch. What's
-the problem with that ?
+Check the results of vmw_context_cotable to fix the invalid derefs.
 
-> [1]
-> 
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> index 9b087bd8df7d..39347c16bb27 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> @@ -936,6 +936,14 @@ void vsp1_du_unmap_sg(struct device *dev, struct sg_table *sgt)
->  }
->  EXPORT_SYMBOL_GPL(vsp1_du_unmap_sg);
->  
-> +void vsp1_du_mask_frame_end_interrupt(struct device *dev, bool mask)
-> +{
-> +       struct vsp1_device *vsp1 = dev_get_drvdata(dev);
-> +
-> +       vsp1_write(vsp1, VI6_WPF_IRQ_ENB(0), mask ? 0 : VI6_WPF_IRQ_ENB_DFEE);
+Thanks:
+ziming zhang(@ezrak1e) from Ant Group Light-Year Security Lab
+who was the first person to discover it.
+Niels De Graef who reported it and helped to track down the poc.
 
-That will break everything. As soon as you turn of vblank reporting, the
-VSP will stop processing frames and the display will freeze.
+Fixes: 9c079b8ce8bf ("drm/vmwgfx: Adapt execbuf to the new validation api")
+Cc: <stable@vger.kernel.org> # v4.20+
+Reported-by: Niels De Graef  <ndegraef@redhat.com>
+Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
+Cc: Martin Krastev <martin.krastev@broadcom.com>
+Cc: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
+Cc: Ian Forbes <ian.forbes@broadcom.com>
+Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: dri-devel@lists.freedesktop.org
+---
+ drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-> +}
-> +EXPORT_SYMBOL_GPL(vsp1_du_mask_frame_end_interrupt);
-> +
->  /* -----------------------------------------------------------------------------
->   * Initialization
->   */
-> diff --git a/include/media/vsp1.h b/include/media/vsp1.h
-> index 48f4a5023d81..ccac48a6bdd2 100644
-> --- a/include/media/vsp1.h
-> +++ b/include/media/vsp1.h
-> @@ -117,4 +117,6 @@ void vsp1_du_atomic_flush(struct device *dev, unsigned int pipe_index,
->  int vsp1_du_map_sg(struct device *dev, struct sg_table *sgt);
->  void vsp1_du_unmap_sg(struct device *dev, struct sg_table *sgt);
->  
-> +void vsp1_du_mask_frame_end_interrupt(struct device *dev, bool mask);
-> +
->  #endif /* __MEDIA_VSP1_H__ */
-
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+index 272141b6164c..4f09959d27ba 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+@@ -447,7 +447,7 @@ static int vmw_resource_context_res_add(struct vmw_private *dev_priv,
+ 	    vmw_res_type(ctx) == vmw_res_dx_context) {
+ 		for (i = 0; i < cotable_max; ++i) {
+ 			res = vmw_context_cotable(ctx, i);
+-			if (IS_ERR(res))
++			if (IS_ERR_OR_NULL(res))
+ 				continue;
+ 
+ 			ret = vmw_execbuf_res_val_add(sw_context, res,
+@@ -1266,6 +1266,8 @@ static int vmw_cmd_dx_define_query(struct vmw_private *dev_priv,
+ 		return -EINVAL;
+ 
+ 	cotable_res = vmw_context_cotable(ctx_node->ctx, SVGA_COTABLE_DXQUERY);
++	if (IS_ERR_OR_NULL(cotable_res))
++		return cotable_res ? PTR_ERR(cotable_res) : -EINVAL;
+ 	ret = vmw_cotable_notify(cotable_res, cmd->body.queryId);
+ 
+ 	return ret;
+@@ -2484,6 +2486,8 @@ static int vmw_cmd_dx_view_define(struct vmw_private *dev_priv,
+ 		return ret;
+ 
+ 	res = vmw_context_cotable(ctx_node->ctx, vmw_view_cotables[view_type]);
++	if (IS_ERR_OR_NULL(res))
++		return res ? PTR_ERR(res) : -EINVAL;
+ 	ret = vmw_cotable_notify(res, cmd->defined_id);
+ 	if (unlikely(ret != 0))
+ 		return ret;
+@@ -2569,8 +2573,8 @@ static int vmw_cmd_dx_so_define(struct vmw_private *dev_priv,
+ 
+ 	so_type = vmw_so_cmd_to_type(header->id);
+ 	res = vmw_context_cotable(ctx_node->ctx, vmw_so_cotables[so_type]);
+-	if (IS_ERR(res))
+-		return PTR_ERR(res);
++	if (IS_ERR_OR_NULL(res))
++		return res ? PTR_ERR(res) : -EINVAL;
+ 	cmd = container_of(header, typeof(*cmd), header);
+ 	ret = vmw_cotable_notify(res, cmd->defined_id);
+ 
+@@ -2689,6 +2693,8 @@ static int vmw_cmd_dx_define_shader(struct vmw_private *dev_priv,
+ 		return -EINVAL;
+ 
+ 	res = vmw_context_cotable(ctx_node->ctx, SVGA_COTABLE_DXSHADER);
++	if (IS_ERR_OR_NULL(res))
++		return res ? PTR_ERR(res) : -EINVAL;
+ 	ret = vmw_cotable_notify(res, cmd->body.shaderId);
+ 	if (ret)
+ 		return ret;
+@@ -3010,6 +3016,8 @@ static int vmw_cmd_dx_define_streamoutput(struct vmw_private *dev_priv,
+ 	}
+ 
+ 	res = vmw_context_cotable(ctx_node->ctx, SVGA_COTABLE_STREAMOUTPUT);
++	if (IS_ERR_OR_NULL(res))
++		return res ? PTR_ERR(res) : -EINVAL;
+ 	ret = vmw_cotable_notify(res, cmd->body.soid);
+ 	if (ret)
+ 		return ret;
 -- 
-Regards,
+2.40.1
 
-Laurent Pinchart
