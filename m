@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80B7882989E
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 12:18:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 015648298A8
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 12:18:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C570D10E5AF;
-	Wed, 10 Jan 2024 11:18:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71E4210E5CA;
+	Wed, 10 Jan 2024 11:18:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
- [IPv6:2a00:1450:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4CE110E5AF
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 11:18:03 +0000 (UTC)
-Received: by mail-lj1-x22d.google.com with SMTP id
- 38308e7fff4ca-2cd46e7ae8fso42743191fa.1
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 03:18:03 -0800 (PST)
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
+ [IPv6:2a00:1450:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D590310E5CE
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 11:18:51 +0000 (UTC)
+Received: by mail-lj1-x22c.google.com with SMTP id
+ 38308e7fff4ca-2cd0f4797aaso43568251fa.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 03:18:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1704885482; x=1705490282; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1704885530; x=1705490330; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=NcNCnaauzUsUbaXyAc5ChLkL0thXS3/4//R1zfX9xcQ=;
- b=ZgAsVtX6u1l8MzwpvIpHBnkqy/4UQga/6+MbLYankhWq6JqMNrE2iseKf6Pqmthyp+
- fxstEk0DGJqTai2fo54IbSdAopkYtVpcRsnfiqzXWThtk6/jrc0jTfo1z9n6c6+4Iw90
- cY6M51I2VQ/Ds4nkUQqsHjlPjC7FEdfoWBs/9Z3xPec8D9JJPa6VlNs1QVqa1AwT7d3J
- U7ojVuX4sax0PMOg7CD+nNTeYn9H3xE6YB1VvAOp6nuXtFJF13ajamQVQPF755zwf7W/
- CI48egsr/vL9W9O1Q00Iv5Q0SUuuRBVXKsgJRdqssMJlXxA762QPgk3QbfY/xpMbIq3h
- /yYA==
+ bh=bcO4gBJx3e4McdaiZldwo9dIP2JA04PiyxdJMpCdUtw=;
+ b=IUKf1Ycg1Ca2Xg0W7VAS7vBY37f+N9aNRoZlNqFDG3ffjD8S2YC/g2MNldqGM72yN7
+ uu+3vix2OR+g/zQ58Y9JwBptIOI+ZNIJ46dwLDqbgxlLY1PVMzuSqykVgGgYYKK5zxtU
+ xjYNsgD3crd9OIjGsz6IMcpOueLpd7J3KeBQk012g8WaMCOgXHHdlA5LNqc2+SeMfRit
+ uR56/l9YgS7yucEAj9gI7iP63HJdInXP/ASqCwhNKhVVUPlFMDcLBtgZyabOtkUiivZO
+ OZR4fK9DQxSM6QtXt9nr/y/rWa0876v4k65f5xeFcP+P/a9cFwBYkzB8jQAZz8cEDRBK
+ 2sag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704885482; x=1705490282;
+ d=1e100.net; s=20230601; t=1704885530; x=1705490330;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NcNCnaauzUsUbaXyAc5ChLkL0thXS3/4//R1zfX9xcQ=;
- b=oOoNQnkI+eFlWNNaZ/yaUe1DUcsvo+4sog3RXTgnQ2ejHDAe8mdE1jwUoVBuoB9IGp
- ZKMUZ+b0BkX/bYobX8SciYNaFRjorfAuz5SCZxnG7UTEz2/o7viAQr068ox3TmuFPsl+
- hI5SZmzoY9fVs3LGyPXSLflvvciA+mmS4oRCGuuCdVy9mHeOzS7Rdy0jugYgItsjQAnZ
- YuY9HX+bFBYk9G4gEmYGQJSVcnWHoBqslgEXn1ot7Crbndz695QxviGXyaETWr0U5ed1
- q3DVp8NnQTfQhVcEqQJDT0oHUyvsQMWWqt1c9Xxev8qAS8bMXjwztfU83OyffUbdW99Y
- CAiA==
-X-Gm-Message-State: AOJu0YwF2p0gcB3uMtKxj6iGDh7s100RS96ZThqZbKetLdP2ulLmr5Ye
- 42MISNSkeKPGDmExnjCP07CD6Z50+NdXGN+opj9dFQjTdRqhDw==
-X-Google-Smtp-Source: AGHT+IEpNDoakfFKO71dz7YDEEON9o6gE2TjcVKZAPyhCEdRacTDIhFfpwOdps3PdWwT1A3jqUaB7g==
-X-Received: by 2002:a2e:a0cf:0:b0:2cd:8ef:5c5a with SMTP id
- f15-20020a2ea0cf000000b002cd08ef5c5amr227117ljm.40.1704885482174; 
- Wed, 10 Jan 2024 03:18:02 -0800 (PST)
+ bh=bcO4gBJx3e4McdaiZldwo9dIP2JA04PiyxdJMpCdUtw=;
+ b=DvUL2LQxDl69oD8eF5xAEbXfxmXmmIa+3fxssFkpww3JfjAiohjDFV3YxN+/g8H5rX
+ dCXyUKOOWdCO9DOtZ4bheS3JTumOMrcqpdPkCGc6ZsxMOkYI67slxz+y1VN1CbvGsRr8
+ C5SILHzc0hKDDwLZU9s2yc8C8kr6/rWWWswJHc9gfV7/S5r+9vZkjmgQZG52KTIrxWLT
+ AyjU/zzm5w0LJbF9L20YAiuqif/iR2xsnA15eGTQM2qdOlwuh6ZGEhYN9AHdNflzI6zL
+ XvWsYX6SQvfaFCwKLswd6NqMoZkWlRct4yhq2colbB07B/maYHhHaGeK3EPd8Bnnr4B5
+ jNYQ==
+X-Gm-Message-State: AOJu0Yx982cI8RYRADgicElavXgkXRKXiZjYL55Mto8u4XsJoGAdPruQ
+ gobimHh8Gop59PBsL05IrOfPUmpsltAScA==
+X-Google-Smtp-Source: AGHT+IF0Y6kRaVPDQ0DXIz+A4fR/pm37V9HFdU0rCQ+T1M4iMdg6sPbZ7rGbhSzx6E9jb26UYIMHqQ==
+X-Received: by 2002:a2e:be0c:0:b0:2cd:2838:78a with SMTP id
+ z12-20020a2ebe0c000000b002cd2838078amr563012ljq.88.1704885530069; 
+ Wed, 10 Jan 2024 03:18:50 -0800 (PST)
 Received: from [172.30.205.119] (UNUSED.212-182-62-129.lubman.net.pl.
  [212.182.62.129]) by smtp.gmail.com with ESMTPSA id
- 7-20020a2e1547000000b002cd187bb0f1sm766479ljv.49.2024.01.10.03.18.00
+ 7-20020a2e1547000000b002cd187bb0f1sm766479ljv.49.2024.01.10.03.18.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Jan 2024 03:18:01 -0800 (PST)
-Message-ID: <e22be6e6-4018-45ef-8be3-ac87bc3c3463@linaro.org>
-Date: Wed, 10 Jan 2024 12:17:59 +0100
+ Wed, 10 Jan 2024 03:18:49 -0800 (PST)
+Message-ID: <5a851f9c-a228-4720-9e21-21dcad5c8a0a@linaro.org>
+Date: Wed, 10 Jan 2024 12:18:47 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 10/15] drm/msm/dp: remove PHY handling from dp_catalog.c
+Subject: Re: [PATCH v2 11/15] drm/msm/dp: handle PHY directly in dp_ctrl
 Content-Language: en-US
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
@@ -63,9 +63,9 @@ To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Kuogee Hsieh <quic_khsieh@quicinc.com>, Stephen Boyd <swboyd@chromium.org>
 References: <20231231-dp-power-parser-cleanup-v2-0-fc3e902a6f5b@linaro.org>
- <20231231-dp-power-parser-cleanup-v2-10-fc3e902a6f5b@linaro.org>
+ <20231231-dp-power-parser-cleanup-v2-11-fc3e902a6f5b@linaro.org>
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20231231-dp-power-parser-cleanup-v2-10-fc3e902a6f5b@linaro.org>
+In-Reply-To: <20231231-dp-power-parser-cleanup-v2-11-fc3e902a6f5b@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -88,13 +88,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 12/31/23 01:43, Dmitry Baryshkov wrote:
-> Inline dp_catalog_aux_update_cfg() and call phy_calibrate() from dp_aux
-> functions directly.
+> There is little point in going trough dp_parser->io indirection each
+> time the driver needs to access the PHY. Store the pointer directly in
+> dp_ctrl_private.
 > 
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
-
-That's some hard-to-digest spaghetti..
 
 Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
