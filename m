@@ -1,43 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 532C6829F7C
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 18:44:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65B8E829F7D
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 18:44:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 567CE10E62F;
-	Wed, 10 Jan 2024 17:44:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0663D10E63B;
+	Wed, 10 Jan 2024 17:44:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5518D10E62F
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 17:44:13 +0000 (UTC)
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D0F010E63B
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 17:44:18 +0000 (UTC)
 Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx0.riseup.net (Postfix) with ESMTPS id 4T9FXr6ZsYz9xGd;
- Wed, 10 Jan 2024 17:44:12 +0000 (UTC)
+ by mx1.riseup.net (Postfix) with ESMTPS id 4T9FXx4pKCzDqvY;
+ Wed, 10 Jan 2024 17:44:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1704908653; bh=rTk1KRQfBuElUNFtlTDf/yfk4wDvRlY+/DuxvH5lO0w=;
- h=From:Subject:Date:To:Cc:From;
- b=n67RvaI6rVM9YKagI6ysawPXr7ASFVSJNtwi3EefNPPr03T8kF6eKC9sQjJYiSEUS
- yo2lmE2RmaF6qdfvTLezra6dnk3k+FasU+LI4fBPHn6i7wk5WtqrJXMcnRDAffNulv
- 85XQrWXNspfLQpsYrsxFBB3YqpEQ+hQegNdChUAw=
-X-Riseup-User-ID: DDE24846D5B7353908825AAF958A18C2BC5A8C6BC92B957431BEE6699EADD5FD
+ t=1704908658; bh=WdyUZpQ25ffr+e9Ip8AN9PwjZX6iYQ51PPZDbMaGoSE=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+ b=aY3mymdUnD70bcemsOhrC8lFkW/nGBvkvcndtE9HF7OKcnQoI5PCvjunLUvoTZhbc
+ LI0YzcSXY2vLJUV/bRcuT3QT+GJ0zKVCYY0dV/csl3g0WleS5fCdPsMhx0LvuLm1yO
+ +0tKM4AwN6p8/YjPtahVL8UBfI2Tck1W+Liys8R4=
+X-Riseup-User-ID: 0D70A87394D1285A93F651C4C5C4AE2B2D92604F45BE120D98FAD3D39BD6742F
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4T9FXm2tSvzJmtT;
- Wed, 10 Jan 2024 17:44:08 +0000 (UTC)
+ by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4T9FXs1gnmzJmtT;
+ Wed, 10 Jan 2024 17:44:12 +0000 (UTC)
 From: Arthur Grillo <arthurgrillo@riseup.net>
-Subject: [PATCH v2 0/7] Add YUV formats to VKMS
-Date: Wed, 10 Jan 2024 14:44:00 -0300
-Message-Id: <20240110-vkms-yuv-v2-0-952fcaa5a193@riseup.net>
+Date: Wed, 10 Jan 2024 14:44:01 -0300
+Subject: [PATCH v2 1/7] drm/vkms: Use drm_frame directly
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAGHXnmUC/0XMSw6CMBSF4a2QO7amT0RH7sMwMO2t3BgLaaGRk
- O7dwsThf3LybZAwEia4NRtEzJRoDDXkqQE7PMMLGbnaILlUQsqW5fcnsXXJrPWXzly9ks53UO9
- TRE/fg3r0tQdK8xjXQ85iX3dEc8HNH8mCcaa01dYpbQzye6SEy3QOOENfSvkBSVX/D6EAAAA=
+Message-Id: <20240110-vkms-yuv-v2-1-952fcaa5a193@riseup.net>
+References: <20240110-vkms-yuv-v2-0-952fcaa5a193@riseup.net>
+In-Reply-To: <20240110-vkms-yuv-v2-0-952fcaa5a193@riseup.net>
 To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
  Haneen Mohammed <hamohammed.sa@gmail.com>, 
  Harry Wentland <harry.wentland@amd.com>, Jonathan Corbet <corbet@lwn.net>, 
@@ -64,96 +63,103 @@ Cc: Arthur Grillo <arthurgrillo@riseup.net>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patchset aims to add support for additional buffer YUV formats.
-More specifically, it adds support to:
-
-Semi-planar formats:
-
-- NV12
-- NV16
-- NV24
-- NV21
-- NV61
-- NV42
-
-Planar formats:
-
-- YUV440
-- YUV422
-- YUV444
-- YVU440
-- YVU422
-- YVU444
-
-These formats have more than one plane, and most have chroma
-subsampling. These properties don't have support on VKMS, so I had to
-work on this before.
-
-To ensure that the conversions from YUV to RGB are working, I wrote a
-KUnit test. As the work from Harry on creating KUnit tests on VKMS[1] is
-not yet merged, I took the setup part (Kconfig entry and .kunitfile)
-from it.
-
-Furthermore, I couldn't find any sources with the conversion matrices,
-so I had to work out the values myself based on the ITU papers[2][3][4].
-So, I'm not 100% sure if the values are accurate. I'd appreciate some
-input if anyone has more knowledge in this area.
-
-Also, I used two IGT tests to check if the formats were having a correct
-conversion (all with the --extended flag):
-
-- kms_plane@pixel_format
-- kms_plane@pixel_format_source_clamping.
-
-The nonsubsampled formats don't have support on IGT, so I sent a patch
-fixing this[5].
-
-Currently, this patchset does not add those formats to the writeback, as
-it would require a rewrite of how the conversions are done (similar to
-what was done on a previous patch[6]). So, I would like to review this
-patchset before I start the work on this other part.
-
-[1]: https://lore.kernel.org/all/20231108163647.106853-5-harry.wentland@amd.com/
-[2]: https://www.itu.int/rec/R-REC-BT.601-7-201103-I/en
-[3]: https://www.itu.int/rec/R-REC-BT.709-6-201506-I/en
-[4]: https://www.itu.int/rec/R-REC-BT.2020-2-201510-I/en
-[5]: https://lists.freedesktop.org/archives/igt-dev/2024-January/066937.html
-[6]: https://lore.kernel.org/dri-devel/20230414135151.75975-2-mcanal@igalia.com/
+Remove intermidiary variables and access the variables directly from
+drm_frame. These changes should be noop.
 
 Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
 ---
-Changes in v2:
-- Use EXPORT_SYMBOL_IF_KUNIT instead of including the .c test
-  file (Maxime)
-- Link to v1: https://lore.kernel.org/r/20240105-vkms-yuv-v1-0-34c4cd3455e0@riseup.net
+ drivers/gpu/drm/vkms/vkms_drv.h       |  3 ---
+ drivers/gpu/drm/vkms/vkms_formats.c   | 12 +++++++-----
+ drivers/gpu/drm/vkms/vkms_plane.c     |  3 ---
+ drivers/gpu/drm/vkms/vkms_writeback.c |  5 -----
+ 4 files changed, 7 insertions(+), 16 deletions(-)
 
----
-Arthur Grillo (7):
-      drm/vkms: Use drm_frame directly
-      drm/vkms: Add support for multy-planar framebuffers
-      drm/vkms: Add range and encoding properties to pixel_read function
-      drm/vkms: Add chroma subsampling
-      drm/vkms: Add YUV support
-      drm/vkms: Drop YUV formats TODO
-      drm/vkms: Create KUnit tests for YUV conversions
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+index 8f5710debb1e..b4b357447292 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.h
++++ b/drivers/gpu/drm/vkms/vkms_drv.h
+@@ -31,9 +31,6 @@ struct vkms_frame_info {
+ 	struct drm_rect rotated;
+ 	struct iosys_map map[DRM_FORMAT_MAX_PLANES];
+ 	unsigned int rotation;
+-	unsigned int offset;
+-	unsigned int pitch;
+-	unsigned int cpp;
+ };
+ 
+ struct pixel_argb_u16 {
+diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
+index 36046b12f296..172830a3936a 100644
+--- a/drivers/gpu/drm/vkms/vkms_formats.c
++++ b/drivers/gpu/drm/vkms/vkms_formats.c
+@@ -11,8 +11,10 @@
+ 
+ static size_t pixel_offset(const struct vkms_frame_info *frame_info, int x, int y)
+ {
+-	return frame_info->offset + (y * frame_info->pitch)
+-				  + (x * frame_info->cpp);
++	struct drm_framebuffer *fb = frame_info->fb;
++
++	return fb->offsets[0] + (y * fb->pitches[0])
++			      + (x * fb->format->cpp[0]);
+ }
+ 
+ /*
+@@ -131,12 +133,12 @@ void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state
+ 	u8 *src_pixels = get_packed_src_addr(frame_info, y);
+ 	int limit = min_t(size_t, drm_rect_width(&frame_info->dst), stage_buffer->n_pixels);
+ 
+-	for (size_t x = 0; x < limit; x++, src_pixels += frame_info->cpp) {
++	for (size_t x = 0; x < limit; x++, src_pixels += frame_info->fb->format->cpp[0]) {
+ 		int x_pos = get_x_position(frame_info, limit, x);
+ 
+ 		if (drm_rotation_90_or_270(frame_info->rotation))
+ 			src_pixels = get_packed_src_addr(frame_info, x + frame_info->rotated.y1)
+-				+ frame_info->cpp * y;
++				+ frame_info->fb->format->cpp[0] * y;
+ 
+ 		plane->pixel_read(src_pixels, &out_pixels[x_pos]);
+ 	}
+@@ -223,7 +225,7 @@ void vkms_writeback_row(struct vkms_writeback_job *wb,
+ 	struct pixel_argb_u16 *in_pixels = src_buffer->pixels;
+ 	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst), src_buffer->n_pixels);
+ 
+-	for (size_t x = 0; x < x_limit; x++, dst_pixels += frame_info->cpp)
++	for (size_t x = 0; x < x_limit; x++, dst_pixels += frame_info->fb->format->cpp[0])
+ 		wb->pixel_write(dst_pixels, &in_pixels[x]);
+ }
+ 
+diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+index e5c625ab8e3e..8f2c6ea419a3 100644
+--- a/drivers/gpu/drm/vkms/vkms_plane.c
++++ b/drivers/gpu/drm/vkms/vkms_plane.c
+@@ -125,9 +125,6 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
+ 	drm_rect_rotate(&frame_info->rotated, drm_rect_width(&frame_info->rotated),
+ 			drm_rect_height(&frame_info->rotated), frame_info->rotation);
+ 
+-	frame_info->offset = fb->offsets[0];
+-	frame_info->pitch = fb->pitches[0];
+-	frame_info->cpp = fb->format->cpp[0];
+ 	vkms_plane_state->pixel_read = get_pixel_conversion_function(fmt);
+ }
+ 
+diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
+index bc724cbd5e3a..c8582df1f739 100644
+--- a/drivers/gpu/drm/vkms/vkms_writeback.c
++++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+@@ -149,11 +149,6 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
+ 	crtc_state->active_writeback = active_wb;
+ 	crtc_state->wb_pending = true;
+ 	spin_unlock_irq(&output->composer_lock);
+-
+-	wb_frame_info->offset = fb->offsets[0];
+-	wb_frame_info->pitch = fb->pitches[0];
+-	wb_frame_info->cpp = fb->format->cpp[0];
+-
+ 	drm_writeback_queue_job(wb_conn, connector_state);
+ 	active_wb->pixel_write = get_pixel_write_function(wb_format);
+ 	drm_rect_init(&wb_frame_info->src, 0, 0, crtc_width, crtc_height);
 
- Documentation/gpu/vkms.rst                    |   3 +-
- drivers/gpu/drm/vkms/Kconfig                  |  15 ++
- drivers/gpu/drm/vkms/Makefile                 |   1 +
- drivers/gpu/drm/vkms/tests/.kunitconfig       |   4 +
- drivers/gpu/drm/vkms/tests/Makefile           |   3 +
- drivers/gpu/drm/vkms/tests/vkms_format_test.c | 156 ++++++++++++++++
- drivers/gpu/drm/vkms/vkms_drv.h               |   6 +-
- drivers/gpu/drm/vkms/vkms_formats.c           | 247 ++++++++++++++++++++++----
- drivers/gpu/drm/vkms/vkms_formats.h           |   9 +
- drivers/gpu/drm/vkms/vkms_plane.c             |  26 ++-
- drivers/gpu/drm/vkms/vkms_writeback.c         |   5 -
- 11 files changed, 426 insertions(+), 49 deletions(-)
----
-base-commit: eeb8e8d9f124f279e80ae679f4ba6e822ce4f95f
-change-id: 20231226-vkms-yuv-6f7859f32df8
-
-Best regards,
 -- 
-Arthur Grillo <arthurgrillo@riseup.net>
+2.43.0
 
