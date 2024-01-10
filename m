@@ -1,49 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79EBD8293D3
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 07:49:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D8698293ED
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 08:00:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC81310E578;
-	Wed, 10 Jan 2024 06:49:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 468EA10E0CA;
+	Wed, 10 Jan 2024 06:59:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA3D610E578
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 06:49:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
- In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=8LT9BL57BeWZdSHKUkKlawzK9MVVsWh5Fq4fsnl/h8Q=; b=PcvnvzoeFE2gNKC1e7k5Ehc87e
- 1orSTQvPSgulrtXe/AgvpU76rBMR6DlOuhEix2oqpYAMpNSFzwHPuq5Jt6SEmqCMERIiqmCa8Shvu
- kqs0QR4wkrmO/P3PnnePNXNOhXk4mYLwdCBxIP8bLgXW+Q3POerHI/l5u0+xWzVGi9SKZnEHALp1G
- dLZMNkE0iECcK7Fbj8ABZorRJTzdFCcpnVTDddSEWcdJM9tH8gu1ORnRWEYWsrwyCidlAGk0c37s0
- //ksXjwYDZOHDdU73i6UbcQec+V/FW49Ro3HDH9IdijK1zzSBxJeLWgmyBpi5BOvQge/CRGxW2K0J
- V2/p6MWw==;
-Received: from 193.48.60.213.dynamic.reverse-mundo-r.com ([213.60.48.193]
- helo=[192.168.0.101]) by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1rNSOV-004rhA-IT; Wed, 10 Jan 2024 07:48:55 +0100
-Message-ID: <b067ade09929bb3fa6a2fea88f83196b11354553.camel@igalia.com>
-Subject: Re: [PATCH] drm/v3d: Free the job and assign it to NULL if
- initialization fails
-From: Iago Toral <itoral@igalia.com>
-To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Melissa Wen
- <mwen@igalia.com>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Date: Wed, 10 Jan 2024 07:48:55 +0100
-In-Reply-To: <20240109142857.1122704-1-mcanal@igalia.com>
-References: <20240109142857.1122704-1-mcanal@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0-1 
-MIME-Version: 1.0
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 59BD010E0CA
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 06:59:49 +0000 (UTC)
+Received: by linux.microsoft.com (Postfix, from userid 1134)
+ id AC69520B3CC1; Tue,  9 Jan 2024 22:59:48 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com AC69520B3CC1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+ s=default; t=1704869988;
+ bh=aSDaeYjlcAuqkweWKfVXRpWKYvk+kuU//1dO5BnaLzk=;
+ h=From:To:Cc:Subject:Date:From;
+ b=YVjRxXjvhNyTqxUjLF3AlKBYJ+mrcJV4F5+PzBcIMI5BXOV+SsLDuLLdMJ8LVuEHS
+ 5b4ohngqyrafjKkPVfBfZQzfcHTpIKAMPmkpgYkJpXDYVGMKjkVDDsXQkMdWBnVqhr
+ 62br6ix0Z1b4Kpu5tUSXBJKn1rYiGdyy7uxcrkYA=
+From: Shradha Gupta <shradhagupta@linux.microsoft.com>
+To: linux-kernel@vger.kernel.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.dev>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Saurabh Singh Sengar <ssengar@linux.microsoft.com>
+Subject: [PATCH v2] drm: Check output polling initialized before disabling
+Date: Tue,  9 Jan 2024 22:59:47 -0800
+Message-Id: <1704869987-7546-1-git-send-email-shradhagupta@linux.microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,250 +45,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org
+Cc: Shradha Gupta <shradhagupta@linux.microsoft.com>,
+ Shradha Gupta <shradhagupta@microsoft.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I think this is fine, but I was wondering if it would be simpler and
-easier to just remove the sched cleanup from v3d_job_init and instead
-always rely on callers to eventually call v3d_job_cleanup for fail
-paths, where we are already calling v3d_job_cleanup.
+In drm_kms_helper_poll_disable() check if output polling
+support is initialized before disabling polling.
+For drivers like hyperv-drm, that do not initialize connector
+polling, if suspend is called without this check, it leads to
+suspend failure with following stack
+[  770.719392] Freezing remaining freezable tasks ... (elapsed 0.001 seconds) done.
+[  770.720592] printk: Suspending console(s) (use no_console_suspend to debug)
+[  770.948823] ------------[ cut here ]------------
+[  770.948824] WARNING: CPU: 1 PID: 17197 at kernel/workqueue.c:3162 __flush_work.isra.0+0x212/0x230
+[  770.948831] Modules linked in: rfkill nft_counter xt_conntrack xt_owner udf nft_compat crc_itu_t nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 ip_set nf_tables nfnetlink vfat fat mlx5_ib ib_uverbs ib_core mlx5_core intel_rapl_msr intel_rapl_common kvm_amd ccp mlxfw kvm psample hyperv_drm tls drm_shmem_helper drm_kms_helper irqbypass pcspkr syscopyarea sysfillrect sysimgblt hv_balloon hv_utils joydev drm fuse xfs libcrc32c pci_hyperv pci_hyperv_intf sr_mod sd_mod cdrom t10_pi sg hv_storvsc scsi_transport_fc hv_netvsc serio_raw hyperv_keyboard hid_hyperv crct10dif_pclmul crc32_pclmul crc32c_intel hv_vmbus ghash_clmulni_intel dm_mirror dm_region_hash dm_log dm_mod
+[  770.948863] CPU: 1 PID: 17197 Comm: systemd-sleep Not tainted 5.14.0-362.2.1.el9_3.x86_64 #1
+[  770.948865] Hardware name: Microsoft Corporation Virtual Machine/Virtual Machine, BIOS Hyper-V UEFI Release v4.1 05/09/2022
+[  770.948866] RIP: 0010:__flush_work.isra.0+0x212/0x230
+[  770.948869] Code: 8b 4d 00 4c 8b 45 08 89 ca 48 c1 e9 04 83 e2 08 83 e1 0f 83 ca 02 89 c8 48 0f ba 6d 00 03 e9 25 ff ff ff 0f 0b e9 4e ff ff ff <0f> 0b 45 31 ed e9 44 ff ff ff e8 8f 89 b2 00 66 66 2e 0f 1f 84 00
+[  770.948870] RSP: 0018:ffffaf4ac213fb10 EFLAGS: 00010246
+[  770.948871] RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffffffff8c992857
+[  770.948872] RDX: 0000000000000001 RSI: 0000000000000001 RDI: ffff9aad82b00330
+[  770.948873] RBP: ffff9aad82b00330 R08: 0000000000000000 R09: ffff9aad87ee3d10
+[  770.948874] R10: 0000000000000200 R11: 0000000000000000 R12: ffff9aad82b00330
+[  770.948874] R13: 0000000000000001 R14: 0000000000000000 R15: 0000000000000001
+[  770.948875] FS:  00007ff1b2f6bb40(0000) GS:ffff9aaf37d00000(0000) knlGS:0000000000000000
+[  770.948878] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  770.948878] CR2: 0000555f345cb666 CR3: 00000001462dc005 CR4: 0000000000370ee0
+[  770.948879] Call Trace:
+[  770.948880]  <TASK>
+[  770.948881]  ? show_trace_log_lvl+0x1c4/0x2df
+[  770.948884]  ? show_trace_log_lvl+0x1c4/0x2df
+[  770.948886]  ? __cancel_work_timer+0x103/0x190
+[  770.948887]  ? __flush_work.isra.0+0x212/0x230
+[  770.948889]  ? __warn+0x81/0x110
+[  770.948891]  ? __flush_work.isra.0+0x212/0x230
+[  770.948892]  ? report_bug+0x10a/0x140
+[  770.948895]  ? handle_bug+0x3c/0x70
+[  770.948898]  ? exc_invalid_op+0x14/0x70
+[  770.948899]  ? asm_exc_invalid_op+0x16/0x20
+[  770.948903]  ? __flush_work.isra.0+0x212/0x230
+[  770.948905]  __cancel_work_timer+0x103/0x190
+[  770.948907]  ? _raw_spin_unlock_irqrestore+0xa/0x30
+[  770.948910]  drm_kms_helper_poll_disable+0x1e/0x40 [drm_kms_helper]
+[  770.948923]  drm_mode_config_helper_suspend+0x1c/0x80 [drm_kms_helper]
+[  770.948933]  ? __pfx_vmbus_suspend+0x10/0x10 [hv_vmbus]
+[  770.948942]  hyperv_vmbus_suspend+0x17/0x40 [hyperv_drm]
+[  770.948944]  ? __pfx_vmbus_suspend+0x10/0x10 [hv_vmbus]
+[  770.948951]  dpm_run_callback+0x4c/0x140
+[  770.948954]  __device_suspend_noirq+0x74/0x220
+[  770.948956]  dpm_noirq_suspend_devices+0x148/0x2a0
+[  770.948958]  dpm_suspend_end+0x54/0xe0
+[  770.948960]  create_image+0x14/0x290
+[  770.948963]  hibernation_snapshot+0xd6/0x200
+[  770.948964]  hibernate.cold+0x8b/0x1fb
+[  770.948967]  state_store+0xcd/0xd0
+[  770.948969]  kernfs_fop_write_iter+0x124/0x1b0
+[  770.948973]  new_sync_write+0xff/0x190
+[  770.948976]  vfs_write+0x1ef/0x280
+[  770.948978]  ksys_write+0x5f/0xe0
+[  770.948979]  do_syscall_64+0x5c/0x90
+[  770.948981]  ? syscall_exit_work+0x103/0x130
+[  770.948983]  ? syscall_exit_to_user_mode+0x12/0x30
+[  770.948985]  ? do_syscall_64+0x69/0x90
+[  770.948986]  ? do_syscall_64+0x69/0x90
+[  770.948987]  ? do_user_addr_fault+0x1d6/0x6a0
+[  770.948989]  ? do_syscall_64+0x69/0x90
+[  770.948990]  ? exc_page_fault+0x62/0x150
+[  770.948992]  entry_SYSCALL_64_after_hwframe+0x72/0xdc
+[  770.948995] RIP: 0033:0x7ff1b293eba7
+[  770.949010] Code: 0b 00 f7 d8 64 89 02 48 c7 c0 ff ff ff ff eb b7 0f 1f 00 f3 0f 1e fa 64 8b 04 25 18 00 00 00 85 c0 75 10 b8 01 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 51 c3 48 83 ec 28 48 89 54 24 18 48 89 74 24
+[  770.949011] RSP: 002b:00007ffde3912128 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+[  770.949012] RAX: ffffffffffffffda RBX: 0000000000000005 RCX: 00007ff1b293eba7
+[  770.949013] RDX: 0000000000000005 RSI: 00007ffde3912210 RDI: 0000000000000004
+[  770.949014] RBP: 00007ffde3912210 R08: 000055d7dd4c9510 R09: 00007ff1b29b14e0
+[  770.949014] R10: 00007ff1b29b13e0 R11: 0000000000000246 R12: 0000000000000005
+[  770.949015] R13: 000055d7dd4c53e0 R14: 0000000000000005 R15: 00007ff1b29f69e0
+[  770.949016]  </TASK>
+[  770.949017] ---[ end trace e6fa0618bfa2f31d ]---
 
-Iago
+Built-on: Rhel9, Ubuntu22
+Signed-off-by: Shradha Gupta <shradhagupta@linux.microsoft.com>
+---
+Changes in v2
+ * Moved the poll_enabled check in drm_kms_helper_poll_disable()
+ * Reworded the patch description based on new changes
+---
+---
+ drivers/gpu/drm/drm_probe_helper.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-El mar, 09-01-2024 a las 11:28 -0300, Ma=C3=ADra Canal escribi=C3=B3:
-> Currently, if `v3d_job_init()` fails (e.g. in the IGT test "bad-in-
-> sync",
-> where we submit an invalid in-sync to the IOCTL), then we end up with
-> the following NULL pointer dereference:
->=20
-> [=C2=A0=C2=A0 34.146279] Unable to handle kernel NULL pointer dereference=
- at
-> virtual address 0000000000000078
-> [=C2=A0=C2=A0 34.146301] Mem abort info:
-> [=C2=A0=C2=A0 34.146306]=C2=A0=C2=A0 ESR =3D 0x0000000096000005
-> [=C2=A0=C2=A0 34.146315]=C2=A0=C2=A0 EC =3D 0x25: DABT (current EL), IL =
-=3D 32 bits
-> [=C2=A0=C2=A0 34.146322]=C2=A0=C2=A0 SET =3D 0, FnV =3D 0
-> [=C2=A0=C2=A0 34.146328]=C2=A0=C2=A0 EA =3D 0, S1PTW =3D 0
-> [=C2=A0=C2=A0 34.146334]=C2=A0=C2=A0 FSC =3D 0x05: level 1 translation fa=
-ult
-> [=C2=A0=C2=A0 34.146340] Data abort info:
-> [=C2=A0=C2=A0 34.146345]=C2=A0=C2=A0 ISV =3D 0, ISS =3D 0x00000005, ISS2 =
-=3D 0x00000000
-> [=C2=A0=C2=A0 34.146351]=C2=A0=C2=A0 CM =3D 0, WnR =3D 0, TnD =3D 0, TagA=
-ccess =3D 0
-> [=C2=A0=C2=A0 34.146357]=C2=A0=C2=A0 GCS =3D 0, Overlay =3D 0, DirtyBit =
-=3D 0, Xs =3D 0
-> [=C2=A0=C2=A0 34.146366] user pgtable: 4k pages, 39-bit VAs,
-> pgdp=3D00000001232e6000
-> [=C2=A0=C2=A0 34.146375] [0000000000000078] pgd=3D0000000000000000,
-> p4d=3D0000000000000000, pud=3D0000000000000000
-> [=C2=A0=C2=A0 34.146399] Internal error: Oops: 0000000096000005 [#1] PREE=
-MPT
-> SMP
-> [=C2=A0=C2=A0 34.146406] Modules linked in: rfcomm snd_seq_dummy snd_hrti=
-mer
-> snd_seq snd_seq_device algif_hash aes_neon_bs aes_neon_blk
-> algif_skcipher af_alg bnep hid_logitech_hidpp brcmfmac_wcc brcmfmac
-> brcmutil hci_uart vc4 btbcm cfg80211 bluetooth bcm2835_v4l2(C)
-> snd_soc_hdmi_codec binfmt_misc cec drm_display_helper hid_logitech_dj
-> bcm2835_mmal_vchiq(C) drm_dma_helper drm_kms_helper videobuf2_v4l2
-> raspberrypi_hwmon ecdh_generic videobuf2_vmalloc videobuf2_memops ecc
-> videobuf2_common rfkill videodev libaes snd_soc_core dwc2 i2c_brcmstb
-> snd_pcm_dmaengine snd_bcm2835(C) i2c_bcm2835 pwm_bcm2835 snd_pcm mc
-> v3d snd_timer snd gpu_sched drm_shmem_helper nvmem_rmem
-> uio_pdrv_genirq uio i2c_dev drm fuse dm_mod
-> drm_panel_orientation_quirks backlight configfs ip_tables x_tables
-> ipv6
-> [=C2=A0=C2=A0 34.146556] CPU: 1 PID: 1890 Comm: v3d_submit_csd Tainted:
-> G=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 C=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 6.7.0-rc3-g49ddab089611 #68
-> [=C2=A0=C2=A0 34.146563] Hardware name: Raspberry Pi 4 Model B Rev 1.5 (D=
-T)
-> [=C2=A0=C2=A0 34.146569] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT =
--SSBS
-> BTYPE=3D--)
-> [=C2=A0=C2=A0 34.146575] pc : drm_sched_job_cleanup+0x3c/0x190 [gpu_sched=
-]
-> [=C2=A0=C2=A0 34.146611] lr : v3d_submit_csd_ioctl+0x1b4/0x460 [v3d]
-> [=C2=A0=C2=A0 34.146653] sp : ffffffc083cbbb80
-> [=C2=A0=C2=A0 34.146658] x29: ffffffc083cbbb90 x28: ffffff81035afc00 x27:
-> ffffffe77a641168
-> [=C2=A0=C2=A0 34.146668] x26: ffffff81056a8000 x25: 0000000000000058 x24:
-> 0000000000000000
-> [=C2=A0=C2=A0 34.146677] x23: ffffff81065e2000 x22: ffffff81035afe00 x21:
-> ffffffc083cbbcf0
-> [=C2=A0=C2=A0 34.146686] x20: ffffff81035afe00 x19: 00000000ffffffea x18:
-> 0000000000000000
-> [=C2=A0=C2=A0 34.146694] x17: 0000000000000000 x16: ffffffe7989e34b0 x15:
-> 0000000000000000
-> [=C2=A0=C2=A0 34.146703] x14: 0000000004000004 x13: ffffff81035afe80 x12:
-> ffffffc083cb8000
-> [=C2=A0=C2=A0 34.146711] x11: cc57e05dfbe5ef00 x10: cc57e05dfbe5ef00 x9 :
-> ffffffe77a64131c
-> [=C2=A0=C2=A0 34.146719] x8 : 0000000000000000 x7 : 0000000000000000 x6 :
-> 000000000000003f
-> [=C2=A0=C2=A0 34.146727] x5 : 0000000000000040 x4 : ffffff81fefb03f0 x3 :
-> ffffffc083cbba40
-> [=C2=A0=C2=A0 34.146736] x2 : ffffff81056a8000 x1 : ffffffe7989e35e8 x0 :
-> 0000000000000000
-> [=C2=A0=C2=A0 34.146745] Call trace:
-> [=C2=A0=C2=A0 34.146748]=C2=A0 drm_sched_job_cleanup+0x3c/0x190 [gpu_sche=
-d]
-> [=C2=A0=C2=A0 34.146768]=C2=A0 v3d_submit_csd_ioctl+0x1b4/0x460 [v3d]
-> [=C2=A0=C2=A0 34.146791]=C2=A0 drm_ioctl_kernel+0xe0/0x120 [drm]
-> [=C2=A0=C2=A0 34.147029]=C2=A0 drm_ioctl+0x264/0x408 [drm]
-> [=C2=A0=C2=A0 34.147135]=C2=A0 __arm64_sys_ioctl+0x9c/0xe0
-> [=C2=A0=C2=A0 34.147152]=C2=A0 invoke_syscall+0x4c/0x118
-> [=C2=A0=C2=A0 34.147162]=C2=A0 el0_svc_common+0xb8/0xf0
-> [=C2=A0=C2=A0 34.147168]=C2=A0 do_el0_svc+0x28/0x40
-> [=C2=A0=C2=A0 34.147174]=C2=A0 el0_svc+0x38/0x88
-> [=C2=A0=C2=A0 34.147184]=C2=A0 el0t_64_sync_handler+0x84/0x100
-> [=C2=A0=C2=A0 34.147191]=C2=A0 el0t_64_sync+0x190/0x198
-> [=C2=A0=C2=A0 34.147201] Code: aa0003f4 f90007e8 f9401008 aa0803e0 (b8478=
-c09)
-> [=C2=A0=C2=A0 34.147210] ---[ end trace 0000000000000000 ]---
->=20
-> This happens because we are calling `drm_sched_job_cleanup()` twice:
-> once at `v3d_job_init()` and again when we call `v3d_job_cleanup()`.
->=20
-> To mitigate this issue, we can return to the same approach that we
-> used
-> to use before 464c61e76de8: deallocate the job after `v3d_job_init()`
-> fails and assign it to NULL. Then, when we call `v3d_job_cleanup()`,
-> job
-> is NULL and the function returns.
->=20
-> Fixes: 464c61e76de8 ("drm/v3d: Decouple job allocation from job
-> initiation")
-> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
-> ---
-> =C2=A0drivers/gpu/drm/v3d/v3d_submit.c | 35 +++++++++++++++++++++++++----=
--
-> --
-> =C2=A01 file changed, 28 insertions(+), 7 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/v3d/v3d_submit.c
-> b/drivers/gpu/drm/v3d/v3d_submit.c
-> index fcff41dd2315..88f63d526b22 100644
-> --- a/drivers/gpu/drm/v3d/v3d_submit.c
-> +++ b/drivers/gpu/drm/v3d/v3d_submit.c
-> @@ -147,6 +147,13 @@ v3d_job_allocate(void **container, size_t size)
-> =C2=A0	return 0;
-> =C2=A0}
->=20
-> +static void
-> +v3d_job_deallocate(void **container)
-> +{
-> +	kfree(*container);
-> +	*container =3D NULL;
-> +}
-> +
-> =C2=A0static int
-> =C2=A0v3d_job_init(struct v3d_dev *v3d, struct drm_file *file_priv,
-> =C2=A0	=C2=A0=C2=A0=C2=A0=C2=A0 struct v3d_job *job, void (*free)(struct =
-kref *ref),
-> @@ -273,8 +280,10 @@ v3d_setup_csd_jobs_and_bos(struct drm_file
-> *file_priv,
->=20
-> =C2=A0	ret =3D v3d_job_init(v3d, file_priv, &(*job)->base,
-> =C2=A0			=C2=A0=C2=A0 v3d_job_free, args->in_sync, se,
-> V3D_CSD);
-> -	if (ret)
-> +	if (ret) {
-> +		v3d_job_deallocate((void *)job);
-> =C2=A0		return ret;
-> +	}
->=20
-> =C2=A0	ret =3D v3d_job_allocate((void *)clean_job,
-> sizeof(**clean_job));
-> =C2=A0	if (ret)
-> @@ -282,8 +291,10 @@ v3d_setup_csd_jobs_and_bos(struct drm_file
-> *file_priv,
->=20
-> =C2=A0	ret =3D v3d_job_init(v3d, file_priv, *clean_job,
-> =C2=A0			=C2=A0=C2=A0 v3d_job_free, 0, NULL, V3D_CACHE_CLEAN);
-> -	if (ret)
-> +	if (ret) {
-> +		v3d_job_deallocate((void *)clean_job);
-> =C2=A0		return ret;
-> +	}
->=20
-> =C2=A0	(*job)->args =3D *args;
->=20
-> @@ -860,8 +871,10 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void
-> *data,
->=20
-> =C2=A0	ret =3D v3d_job_init(v3d, file_priv, &render->base,
-> =C2=A0			=C2=A0=C2=A0 v3d_render_job_free, args->in_sync_rcl,
-> &se, V3D_RENDER);
-> -	if (ret)
-> +	if (ret) {
-> +		v3d_job_deallocate((void *)&render);
-> =C2=A0		goto fail;
-> +	}
->=20
-> =C2=A0	render->start =3D args->rcl_start;
-> =C2=A0	render->end =3D args->rcl_end;
-> @@ -874,8 +887,10 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void
-> *data,
->=20
-> =C2=A0		ret =3D v3d_job_init(v3d, file_priv, &bin->base,
-> =C2=A0				=C2=A0=C2=A0 v3d_job_free, args->in_sync_bcl,
-> &se, V3D_BIN);
-> -		if (ret)
-> +		if (ret) {
-> +			v3d_job_deallocate((void *)&bin);
-> =C2=A0			goto fail;
-> +		}
->=20
-> =C2=A0		bin->start =3D args->bcl_start;
-> =C2=A0		bin->end =3D args->bcl_end;
-> @@ -892,8 +907,10 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void
-> *data,
->=20
-> =C2=A0		ret =3D v3d_job_init(v3d, file_priv, clean_job,
-> =C2=A0				=C2=A0=C2=A0 v3d_job_free, 0, NULL,
-> V3D_CACHE_CLEAN);
-> -		if (ret)
-> +		if (ret) {
-> +			v3d_job_deallocate((void *)&clean_job);
-> =C2=A0			goto fail;
-> +		}
->=20
-> =C2=A0		last_job =3D clean_job;
-> =C2=A0	} else {
-> @@ -1015,8 +1032,10 @@ v3d_submit_tfu_ioctl(struct drm_device *dev,
-> void *data,
->=20
-> =C2=A0	ret =3D v3d_job_init(v3d, file_priv, &job->base,
-> =C2=A0			=C2=A0=C2=A0 v3d_job_free, args->in_sync, &se,
-> V3D_TFU);
-> -	if (ret)
-> +	if (ret) {
-> +		v3d_job_deallocate((void *)&job);
-> =C2=A0		goto fail;
-> +	}
->=20
-> =C2=A0	job->base.bo =3D kcalloc(ARRAY_SIZE(args->bo_handles),
-> =C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sizeof(*job->base.bo), GFP_=
-KERNEL);
-> @@ -1233,8 +1252,10 @@ v3d_submit_cpu_ioctl(struct drm_device *dev,
-> void *data,
->=20
-> =C2=A0	ret =3D v3d_job_init(v3d, file_priv, &cpu_job->base,
-> =C2=A0			=C2=A0=C2=A0 v3d_job_free, 0, &se, V3D_CPU);
-> -	if (ret)
-> +	if (ret) {
-> +		v3d_job_deallocate((void *)&cpu_job);
-> =C2=A0		goto fail;
-> +	}
->=20
-> =C2=A0	clean_job =3D cpu_job->indirect_csd.clean_job;
-> =C2=A0	csd_job =3D cpu_job->indirect_csd.job;
-> --
-> 2.43.0
->=20
->=20
+diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+index 3f479483d7d8..b9f07d5f999f 100644
+--- a/drivers/gpu/drm/drm_probe_helper.c
++++ b/drivers/gpu/drm/drm_probe_helper.c
+@@ -877,6 +877,9 @@ EXPORT_SYMBOL(drm_kms_helper_is_poll_worker);
+  */
+ void drm_kms_helper_poll_disable(struct drm_device *dev)
+ {
++	if (!dev->mode_config.poll_enabled)
++		return;
++
+ 	if (dev->mode_config.poll_running)
+ 		drm_kms_helper_disable_hpd(dev);
+ 
+-- 
+2.34.1
 
