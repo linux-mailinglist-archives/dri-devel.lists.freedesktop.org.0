@@ -2,37 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D8698293ED
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 08:00:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBBA1829412
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 08:13:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 468EA10E0CA;
-	Wed, 10 Jan 2024 06:59:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE85610E04A;
+	Wed, 10 Jan 2024 07:13:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 59BD010E0CA
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 06:59:49 +0000 (UTC)
-Received: by linux.microsoft.com (Postfix, from userid 1134)
- id AC69520B3CC1; Tue,  9 Jan 2024 22:59:48 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com AC69520B3CC1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1704869988;
- bh=aSDaeYjlcAuqkweWKfVXRpWKYvk+kuU//1dO5BnaLzk=;
- h=From:To:Cc:Subject:Date:From;
- b=YVjRxXjvhNyTqxUjLF3AlKBYJ+mrcJV4F5+PzBcIMI5BXOV+SsLDuLLdMJ8LVuEHS
- 5b4ohngqyrafjKkPVfBfZQzfcHTpIKAMPmkpgYkJpXDYVGMKjkVDDsXQkMdWBnVqhr
- 62br6ix0Z1b4Kpu5tUSXBJKn1rYiGdyy7uxcrkYA=
-From: Shradha Gupta <shradhagupta@linux.microsoft.com>
-To: linux-kernel@vger.kernel.org,
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9091E10E04A
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 07:13:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1704870835; x=1736406835;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=+WIJNLdpuC68P5no2TbSORQjjEUKMmpVsVpXHpPsjEw=;
+ b=PNvI3NT9kkviv2VfcwBp7ZfxUyee+To+oDQkygNqNFshDsDf0J955TWr
+ bqjIzom9siOhqo6AP/+/c5zF/UbyeqMVw+L4UmJL3mHYGmh+RBBzepAQu
+ zVFqwIZSdXQegeA3SZyov1cIxTnwbRgmVLSRTGFtONnrMBIEseJQPDeoR
+ NyoLz1XNUgbmAZquHTsAX4V9/zFSmCEqG6AWj2PIRWIwALrtt4W6mpb6X
+ Y4aWgZpio/aTKE5CFCoJKF44QS1YlcknCLlFBl7bZFpl2olcELK9Xj+vu
+ OWzk6qqVuA2EgNKjQRf2g3TG0NOaH0VcN9NTUSwMvyEbj7N32ybG9OzIn A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="5791582"
+X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; 
+   d="scan'208";a="5791582"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2024 23:13:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="758272379"
+X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; d="scan'208";a="758272379"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+ by orsmga006.jf.intel.com with ESMTP; 09 Jan 2024 23:13:46 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1rNSlx-0006iu-1a;
+ Wed, 10 Jan 2024 07:13:44 +0000
+Date: Wed, 10 Jan 2024 15:06:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Philipp Stanner <pstanner@redhat.com>,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.dev>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Saurabh Singh Sengar <ssengar@linux.microsoft.com>
-Subject: [PATCH v2] drm: Check output polling initialized before disabling
-Date: Tue,  9 Jan 2024 22:59:47 -0800
-Message-Id: <1704869987-7546-1-git-send-email-shradhagupta@linux.microsoft.com>
-X-Mailer: git-send-email 1.8.3.1
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>
+Subject: Re: [PATCH v2 2/2] drm/imx/dcss: have all init functions use devres
+Message-ID: <202401101401.bi7U74fr-lkp@intel.com>
+References: <20240109102032.16165-3-pstanner@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240109102032.16165-3-pstanner@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,111 +69,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Shradha Gupta <shradhagupta@linux.microsoft.com>,
- Shradha Gupta <shradhagupta@microsoft.com>
+Cc: Philipp Stanner <pstanner@redhat.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
+ oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In drm_kms_helper_poll_disable() check if output polling
-support is initialized before disabling polling.
-For drivers like hyperv-drm, that do not initialize connector
-polling, if suspend is called without this check, it leads to
-suspend failure with following stack
-[  770.719392] Freezing remaining freezable tasks ... (elapsed 0.001 seconds) done.
-[  770.720592] printk: Suspending console(s) (use no_console_suspend to debug)
-[  770.948823] ------------[ cut here ]------------
-[  770.948824] WARNING: CPU: 1 PID: 17197 at kernel/workqueue.c:3162 __flush_work.isra.0+0x212/0x230
-[  770.948831] Modules linked in: rfkill nft_counter xt_conntrack xt_owner udf nft_compat crc_itu_t nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 ip_set nf_tables nfnetlink vfat fat mlx5_ib ib_uverbs ib_core mlx5_core intel_rapl_msr intel_rapl_common kvm_amd ccp mlxfw kvm psample hyperv_drm tls drm_shmem_helper drm_kms_helper irqbypass pcspkr syscopyarea sysfillrect sysimgblt hv_balloon hv_utils joydev drm fuse xfs libcrc32c pci_hyperv pci_hyperv_intf sr_mod sd_mod cdrom t10_pi sg hv_storvsc scsi_transport_fc hv_netvsc serio_raw hyperv_keyboard hid_hyperv crct10dif_pclmul crc32_pclmul crc32c_intel hv_vmbus ghash_clmulni_intel dm_mirror dm_region_hash dm_log dm_mod
-[  770.948863] CPU: 1 PID: 17197 Comm: systemd-sleep Not tainted 5.14.0-362.2.1.el9_3.x86_64 #1
-[  770.948865] Hardware name: Microsoft Corporation Virtual Machine/Virtual Machine, BIOS Hyper-V UEFI Release v4.1 05/09/2022
-[  770.948866] RIP: 0010:__flush_work.isra.0+0x212/0x230
-[  770.948869] Code: 8b 4d 00 4c 8b 45 08 89 ca 48 c1 e9 04 83 e2 08 83 e1 0f 83 ca 02 89 c8 48 0f ba 6d 00 03 e9 25 ff ff ff 0f 0b e9 4e ff ff ff <0f> 0b 45 31 ed e9 44 ff ff ff e8 8f 89 b2 00 66 66 2e 0f 1f 84 00
-[  770.948870] RSP: 0018:ffffaf4ac213fb10 EFLAGS: 00010246
-[  770.948871] RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffffffff8c992857
-[  770.948872] RDX: 0000000000000001 RSI: 0000000000000001 RDI: ffff9aad82b00330
-[  770.948873] RBP: ffff9aad82b00330 R08: 0000000000000000 R09: ffff9aad87ee3d10
-[  770.948874] R10: 0000000000000200 R11: 0000000000000000 R12: ffff9aad82b00330
-[  770.948874] R13: 0000000000000001 R14: 0000000000000000 R15: 0000000000000001
-[  770.948875] FS:  00007ff1b2f6bb40(0000) GS:ffff9aaf37d00000(0000) knlGS:0000000000000000
-[  770.948878] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  770.948878] CR2: 0000555f345cb666 CR3: 00000001462dc005 CR4: 0000000000370ee0
-[  770.948879] Call Trace:
-[  770.948880]  <TASK>
-[  770.948881]  ? show_trace_log_lvl+0x1c4/0x2df
-[  770.948884]  ? show_trace_log_lvl+0x1c4/0x2df
-[  770.948886]  ? __cancel_work_timer+0x103/0x190
-[  770.948887]  ? __flush_work.isra.0+0x212/0x230
-[  770.948889]  ? __warn+0x81/0x110
-[  770.948891]  ? __flush_work.isra.0+0x212/0x230
-[  770.948892]  ? report_bug+0x10a/0x140
-[  770.948895]  ? handle_bug+0x3c/0x70
-[  770.948898]  ? exc_invalid_op+0x14/0x70
-[  770.948899]  ? asm_exc_invalid_op+0x16/0x20
-[  770.948903]  ? __flush_work.isra.0+0x212/0x230
-[  770.948905]  __cancel_work_timer+0x103/0x190
-[  770.948907]  ? _raw_spin_unlock_irqrestore+0xa/0x30
-[  770.948910]  drm_kms_helper_poll_disable+0x1e/0x40 [drm_kms_helper]
-[  770.948923]  drm_mode_config_helper_suspend+0x1c/0x80 [drm_kms_helper]
-[  770.948933]  ? __pfx_vmbus_suspend+0x10/0x10 [hv_vmbus]
-[  770.948942]  hyperv_vmbus_suspend+0x17/0x40 [hyperv_drm]
-[  770.948944]  ? __pfx_vmbus_suspend+0x10/0x10 [hv_vmbus]
-[  770.948951]  dpm_run_callback+0x4c/0x140
-[  770.948954]  __device_suspend_noirq+0x74/0x220
-[  770.948956]  dpm_noirq_suspend_devices+0x148/0x2a0
-[  770.948958]  dpm_suspend_end+0x54/0xe0
-[  770.948960]  create_image+0x14/0x290
-[  770.948963]  hibernation_snapshot+0xd6/0x200
-[  770.948964]  hibernate.cold+0x8b/0x1fb
-[  770.948967]  state_store+0xcd/0xd0
-[  770.948969]  kernfs_fop_write_iter+0x124/0x1b0
-[  770.948973]  new_sync_write+0xff/0x190
-[  770.948976]  vfs_write+0x1ef/0x280
-[  770.948978]  ksys_write+0x5f/0xe0
-[  770.948979]  do_syscall_64+0x5c/0x90
-[  770.948981]  ? syscall_exit_work+0x103/0x130
-[  770.948983]  ? syscall_exit_to_user_mode+0x12/0x30
-[  770.948985]  ? do_syscall_64+0x69/0x90
-[  770.948986]  ? do_syscall_64+0x69/0x90
-[  770.948987]  ? do_user_addr_fault+0x1d6/0x6a0
-[  770.948989]  ? do_syscall_64+0x69/0x90
-[  770.948990]  ? exc_page_fault+0x62/0x150
-[  770.948992]  entry_SYSCALL_64_after_hwframe+0x72/0xdc
-[  770.948995] RIP: 0033:0x7ff1b293eba7
-[  770.949010] Code: 0b 00 f7 d8 64 89 02 48 c7 c0 ff ff ff ff eb b7 0f 1f 00 f3 0f 1e fa 64 8b 04 25 18 00 00 00 85 c0 75 10 b8 01 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 51 c3 48 83 ec 28 48 89 54 24 18 48 89 74 24
-[  770.949011] RSP: 002b:00007ffde3912128 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-[  770.949012] RAX: ffffffffffffffda RBX: 0000000000000005 RCX: 00007ff1b293eba7
-[  770.949013] RDX: 0000000000000005 RSI: 00007ffde3912210 RDI: 0000000000000004
-[  770.949014] RBP: 00007ffde3912210 R08: 000055d7dd4c9510 R09: 00007ff1b29b14e0
-[  770.949014] R10: 00007ff1b29b13e0 R11: 0000000000000246 R12: 0000000000000005
-[  770.949015] R13: 000055d7dd4c53e0 R14: 0000000000000005 R15: 00007ff1b29f69e0
-[  770.949016]  </TASK>
-[  770.949017] ---[ end trace e6fa0618bfa2f31d ]---
+Hi Philipp,
 
-Built-on: Rhel9, Ubuntu22
-Signed-off-by: Shradha Gupta <shradhagupta@linux.microsoft.com>
----
-Changes in v2
- * Moved the poll_enabled check in drm_kms_helper_poll_disable()
- * Reworded the patch description based on new changes
----
----
- drivers/gpu/drm/drm_probe_helper.c | 3 +++
- 1 file changed, 3 insertions(+)
+kernel test robot noticed the following build errors:
 
-diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-index 3f479483d7d8..b9f07d5f999f 100644
---- a/drivers/gpu/drm/drm_probe_helper.c
-+++ b/drivers/gpu/drm/drm_probe_helper.c
-@@ -877,6 +877,9 @@ EXPORT_SYMBOL(drm_kms_helper_is_poll_worker);
-  */
- void drm_kms_helper_poll_disable(struct drm_device *dev)
- {
-+	if (!dev->mode_config.poll_enabled)
-+		return;
-+
- 	if (dev->mode_config.poll_running)
- 		drm_kms_helper_disable_hpd(dev);
- 
+[auto build test ERROR on v6.7]
+[also build test ERROR on linus/master]
+[cannot apply to drm-misc/drm-misc-next next-20240109]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Philipp-Stanner/drm-dcss-request-memory-region/20240109-182239
+base:   v6.7
+patch link:    https://lore.kernel.org/r/20240109102032.16165-3-pstanner%40redhat.com
+patch subject: [PATCH v2 2/2] drm/imx/dcss: have all init functions use devres
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240110/202401101401.bi7U74fr-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240110/202401101401.bi7U74fr-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401101401.bi7U74fr-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+   In file included from include/linux/device.h:17,
+                    from include/linux/platform_device.h:13,
+                    from drivers/gpu/drm/imx/dcss/dcss-dev.c:9:
+   drivers/gpu/drm/imx/dcss/dcss-dev.c: In function 'dcss_dev_create':
+   drivers/gpu/drm/imx/dcss/dcss-dev.c:186:42: error: incompatible type for argument 1 of '__devm_request_region'
+     186 |         if (!devm_request_mem_region(pdev->dev, res->start, res_len, "dcss")) {
+         |                                      ~~~~^~~~~
+         |                                          |
+         |                                          struct device
+   include/linux/ioport.h:306:31: note: in definition of macro 'devm_request_mem_region'
+     306 |         __devm_request_region(dev, &iomem_resource, (start), (n), (name))
+         |                               ^~~
+   include/linux/ioport.h:308:63: note: expected 'struct device *' but argument is of type 'struct device'
+     308 | extern struct resource * __devm_request_region(struct device *dev,
+         |                                                ~~~~~~~~~~~~~~~^~~
+>> drivers/gpu/drm/imx/dcss/dcss-dev.c:202:24: warning: returning 'int' from a function with return type 'struct dcss_dev *' makes pointer from integer without a cast [-Wint-conversion]
+     202 |                 return ret;
+         |                        ^~~
+--
+   drivers/gpu/drm/imx/dcss/dcss-scaler.c: In function 'dcss_scaler_ch_init_all':
+>> drivers/gpu/drm/imx/dcss/dcss-scaler.c:305:45: error: 'dev' undeclared (first use in this function); did you mean 'cdev'?
+     305 |                 ch->base_reg = devm_ioremap(dev, ch->base_ofs, SZ_4K);
+         |                                             ^~~
+         |                                             cdev
+   drivers/gpu/drm/imx/dcss/dcss-scaler.c:305:45: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/gpu/drm/imx/dcss/dcss-scaler.c: In function 'dcss_scaler_init':
+>> drivers/gpu/drm/imx/dcss/dcss-scaler.c:331:37: error: passing argument 1 of 'dcss_scaler_ch_init_all' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     331 |         if (dcss_scaler_ch_init_all(dev, scaler, scaler_base))
+         |                                     ^~~
+         |                                     |
+         |                                     struct device *
+   drivers/gpu/drm/imx/dcss/dcss-scaler.c:294:56: note: expected 'struct dcss_scaler *' but argument is of type 'struct device *'
+     294 | static int dcss_scaler_ch_init_all(struct dcss_scaler *scl,
+         |                                    ~~~~~~~~~~~~~~~~~~~~^~~
+>> drivers/gpu/drm/imx/dcss/dcss-scaler.c:331:42: warning: passing argument 2 of 'dcss_scaler_ch_init_all' makes integer from pointer without a cast [-Wint-conversion]
+     331 |         if (dcss_scaler_ch_init_all(dev, scaler, scaler_base))
+         |                                          ^~~~~~
+         |                                          |
+         |                                          struct dcss_scaler *
+   drivers/gpu/drm/imx/dcss/dcss-scaler.c:295:50: note: expected 'long unsigned int' but argument is of type 'struct dcss_scaler *'
+     295 |                                    unsigned long scaler_base)
+         |                                    ~~~~~~~~~~~~~~^~~~~~~~~~~
+>> drivers/gpu/drm/imx/dcss/dcss-scaler.c:331:13: error: too many arguments to function 'dcss_scaler_ch_init_all'
+     331 |         if (dcss_scaler_ch_init_all(dev, scaler, scaler_base))
+         |             ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/imx/dcss/dcss-scaler.c:294:12: note: declared here
+     294 | static int dcss_scaler_ch_init_all(struct dcss_scaler *scl,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +305 drivers/gpu/drm/imx/dcss/dcss-scaler.c
+
+   293	
+   294	static int dcss_scaler_ch_init_all(struct dcss_scaler *scl,
+   295					   unsigned long scaler_base)
+   296	{
+   297		struct dcss_scaler_ch *ch;
+   298		int i;
+   299	
+   300		for (i = 0; i < 3; i++) {
+   301			ch = &scl->ch[i];
+   302	
+   303			ch->base_ofs = scaler_base + i * 0x400;
+   304	
+ > 305			ch->base_reg = devm_ioremap(dev, ch->base_ofs, SZ_4K);
+   306			if (!ch->base_reg) {
+   307				dev_err(scl->dev, "scaler: unable to remap ch base\n");
+   308				return -ENOMEM;
+   309			}
+   310	
+   311			ch->scl = scl;
+   312		}
+   313	
+   314		return 0;
+   315	}
+   316	
+   317	int dcss_scaler_init(struct dcss_dev *dcss, unsigned long scaler_base)
+   318	{
+   319		struct dcss_scaler *scaler;
+   320		struct device *dev = dcss->dev;
+   321	
+   322		scaler = devm_kzalloc(dev, sizeof(*scaler), GFP_KERNEL);
+   323		if (!scaler)
+   324			return -ENOMEM;
+   325	
+   326		dcss->scaler = scaler;
+   327		scaler->dev = dcss->dev;
+   328		scaler->ctxld = dcss->ctxld;
+   329		scaler->ctx_id = CTX_SB_HP;
+   330	
+ > 331		if (dcss_scaler_ch_init_all(dev, scaler, scaler_base))
+   332			return -ENOMEM;
+   333	
+   334		return 0;
+   335	}
+   336	
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
