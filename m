@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D501829887
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 12:16:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80B7882989E
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 12:18:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDE8610E5B8;
-	Wed, 10 Jan 2024 11:16:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C570D10E5AF;
+	Wed, 10 Jan 2024 11:18:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
  [IPv6:2a00:1450:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC0F310E571
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 11:16:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4CE110E5AF
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 11:18:03 +0000 (UTC)
 Received: by mail-lj1-x22d.google.com with SMTP id
- 38308e7fff4ca-2cc7d2c1ff0so45648041fa.3
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 03:16:33 -0800 (PST)
+ 38308e7fff4ca-2cd46e7ae8fso42743191fa.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 03:18:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1704885392; x=1705490192; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1704885482; x=1705490282; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=xvNu0hS2gtTrfUSQddmhew5sv0RLzAxZIW7xh6bWghI=;
- b=LxeabVw5qBn+0SvE/rSX304JT3sXePolIZYL6OPOHuMh9OfcZxJfg4kluDCJr6IpKT
- k5ZSoHHVoWb52sa0ybaPpG4YzpjX5XehZgVCqbAO5kgf3ahwnn/xvMoM0VXsoILeuWXb
- x4nd5w+BwMt6nMNraHVywKG2JfS7lKTwz6XtHoioxmKRLYmK/sGYDyE2t7ZdjyikSF4G
- /Tsi4Nj2ETuMcSipZsNMBX66hKTidB9NMklYrENAqpdnCziNp3E751txRz4XfSQNELFN
- TVVssItDd5w4EgPnWw5cSC+ECGCwmgcsQ6U/5QJ95K+6Q7jGL9kAcmC6UEwOedObXAkl
- JMAg==
+ bh=NcNCnaauzUsUbaXyAc5ChLkL0thXS3/4//R1zfX9xcQ=;
+ b=ZgAsVtX6u1l8MzwpvIpHBnkqy/4UQga/6+MbLYankhWq6JqMNrE2iseKf6Pqmthyp+
+ fxstEk0DGJqTai2fo54IbSdAopkYtVpcRsnfiqzXWThtk6/jrc0jTfo1z9n6c6+4Iw90
+ cY6M51I2VQ/Ds4nkUQqsHjlPjC7FEdfoWBs/9Z3xPec8D9JJPa6VlNs1QVqa1AwT7d3J
+ U7ojVuX4sax0PMOg7CD+nNTeYn9H3xE6YB1VvAOp6nuXtFJF13ajamQVQPF755zwf7W/
+ CI48egsr/vL9W9O1Q00Iv5Q0SUuuRBVXKsgJRdqssMJlXxA762QPgk3QbfY/xpMbIq3h
+ /yYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704885392; x=1705490192;
+ d=1e100.net; s=20230601; t=1704885482; x=1705490282;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xvNu0hS2gtTrfUSQddmhew5sv0RLzAxZIW7xh6bWghI=;
- b=uFKwR79B+fMqilz1YGRpqAgclOB9tqhoJ71sD+4ztqA4cKguz0xe9LHesrG4aP/Bo2
- jwnXqc6BWK2rPaEHqlJ8PSYZ5vPXmT8sQYQZDRIE6o8ImKAviogHxmatLSSP/bakW/zk
- 3HvsdZW8gUQDP3YNTSGWTfXD62SytotGdQa3YNj47HJDmwtu9McuVKYAHce5Cp2LuEVX
- z051KM68FvJ27VXBSnXTue6a8pkZ69KnjqnHyjDyyOJQMkaT4WlpcwV7J0VDrhc2svWD
- IDDpaC4U18pdJXpOpM4PcNUpLMWUE/jowoaG8wjGitdEtZeS957KLIX/ToyJImJZy7xk
- ZPpA==
-X-Gm-Message-State: AOJu0YwUmrRF0frY1aUadPPBzoP51zXVKqrO4igYDvWSYBrJGj1e3HNz
- V2oeTxZjpmX4z7epi3XyvTRiOzkVyMgYXw==
-X-Google-Smtp-Source: AGHT+IGhgUfZ43c/+WfGHdbLhaKwjKuq51//bDK18QsXvhYG7HJGBLp8/XCMO+4qjzFpQ/vjsFQQ4w==
-X-Received: by 2002:a2e:9dd9:0:b0:2ca:30f5:7e02 with SMTP id
- x25-20020a2e9dd9000000b002ca30f57e02mr495554ljj.78.1704885392183; 
- Wed, 10 Jan 2024 03:16:32 -0800 (PST)
+ bh=NcNCnaauzUsUbaXyAc5ChLkL0thXS3/4//R1zfX9xcQ=;
+ b=oOoNQnkI+eFlWNNaZ/yaUe1DUcsvo+4sog3RXTgnQ2ejHDAe8mdE1jwUoVBuoB9IGp
+ ZKMUZ+b0BkX/bYobX8SciYNaFRjorfAuz5SCZxnG7UTEz2/o7viAQr068ox3TmuFPsl+
+ hI5SZmzoY9fVs3LGyPXSLflvvciA+mmS4oRCGuuCdVy9mHeOzS7Rdy0jugYgItsjQAnZ
+ YuY9HX+bFBYk9G4gEmYGQJSVcnWHoBqslgEXn1ot7Crbndz695QxviGXyaETWr0U5ed1
+ q3DVp8NnQTfQhVcEqQJDT0oHUyvsQMWWqt1c9Xxev8qAS8bMXjwztfU83OyffUbdW99Y
+ CAiA==
+X-Gm-Message-State: AOJu0YwF2p0gcB3uMtKxj6iGDh7s100RS96ZThqZbKetLdP2ulLmr5Ye
+ 42MISNSkeKPGDmExnjCP07CD6Z50+NdXGN+opj9dFQjTdRqhDw==
+X-Google-Smtp-Source: AGHT+IEpNDoakfFKO71dz7YDEEON9o6gE2TjcVKZAPyhCEdRacTDIhFfpwOdps3PdWwT1A3jqUaB7g==
+X-Received: by 2002:a2e:a0cf:0:b0:2cd:8ef:5c5a with SMTP id
+ f15-20020a2ea0cf000000b002cd08ef5c5amr227117ljm.40.1704885482174; 
+ Wed, 10 Jan 2024 03:18:02 -0800 (PST)
 Received: from [172.30.205.119] (UNUSED.212-182-62-129.lubman.net.pl.
  [212.182.62.129]) by smtp.gmail.com with ESMTPSA id
- 7-20020a2e1547000000b002cd187bb0f1sm766479ljv.49.2024.01.10.03.16.30
+ 7-20020a2e1547000000b002cd187bb0f1sm766479ljv.49.2024.01.10.03.18.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Jan 2024 03:16:31 -0800 (PST)
-Message-ID: <7904dd33-6b6e-45af-b1bd-9d14301dba33@linaro.org>
-Date: Wed, 10 Jan 2024 12:16:28 +0100
+ Wed, 10 Jan 2024 03:18:01 -0800 (PST)
+Message-ID: <e22be6e6-4018-45ef-8be3-ac87bc3c3463@linaro.org>
+Date: Wed, 10 Jan 2024 12:17:59 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 09/15] drm/msm/dp: move phy_configure_opts to dp_ctrl
+Subject: Re: [PATCH v2 10/15] drm/msm/dp: remove PHY handling from dp_catalog.c
 Content-Language: en-US
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
@@ -63,9 +63,9 @@ To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Kuogee Hsieh <quic_khsieh@quicinc.com>, Stephen Boyd <swboyd@chromium.org>
 References: <20231231-dp-power-parser-cleanup-v2-0-fc3e902a6f5b@linaro.org>
- <20231231-dp-power-parser-cleanup-v2-9-fc3e902a6f5b@linaro.org>
+ <20231231-dp-power-parser-cleanup-v2-10-fc3e902a6f5b@linaro.org>
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20231231-dp-power-parser-cleanup-v2-9-fc3e902a6f5b@linaro.org>
+In-Reply-To: <20231231-dp-power-parser-cleanup-v2-10-fc3e902a6f5b@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -88,12 +88,14 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 12/31/23 01:43, Dmitry Baryshkov wrote:
-> There is little point in sharing phy configuration structure between
-> several modules. Move it to dp_ctrl, which becomes the only submodule
-> re-configuring the PHY.
+> Inline dp_catalog_aux_update_cfg() and call phy_calibrate() from dp_aux
+> functions directly.
 > 
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
+
+That's some hard-to-digest spaghetti..
+
 Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
 Konrad
