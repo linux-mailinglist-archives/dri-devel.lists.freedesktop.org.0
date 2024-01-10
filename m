@@ -2,71 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8722F82980D
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 11:53:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22367829811
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 11:54:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAC9610E5A7;
-	Wed, 10 Jan 2024 10:53:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6533E10E5CC;
+	Wed, 10 Jan 2024 10:54:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
- [IPv6:2a00:1450:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F0B810E5A7
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 10:53:55 +0000 (UTC)
-Received: by mail-ed1-x531.google.com with SMTP id
- 4fb4d7f45d1cf-55369c59708so714039a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 02:53:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1704884034; x=1705488834; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+jsBc7LWVuMBLq7HdFHhyl/91ZwUP9kfBcW9YgQ6VTM=;
- b=NDd9Qr/gob7Sy1BpbRAcomQ5H+2SONubEhX9U14nMpBa5WKYIM/Yubfy90DXnpKYVG
- jYOsR4Nnsg/CKmpaDLzWNg7vkHMxJGFB3/ZZ8c5fwn33Fpj6SOLHFHn+azGKbgkOS2pI
- ISBVPf866K8qgxe3WukJKuJSnwYxeYZARxlP8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704884034; x=1705488834;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+jsBc7LWVuMBLq7HdFHhyl/91ZwUP9kfBcW9YgQ6VTM=;
- b=xCsyIQyeqpKePSAXLo0/efx22pUeeAMq0zw1TLe+UoGKfR2ijDZw5GKDOAz64OpkDR
- GPoUEMRF/PTUlBghuxHVWeLBYPDfuzF8aRxiGzlOTGEoS4nKmRjzzfX07Xj8NfOWDlwk
- oSf47HazP+NoRBnjTKSDWodIiDx8vVXt2lE5ifj3iENU/HL+Oact+Jr+b2FqLS2TYNDT
- 54mVqFod3tIvPQ4KpzkfYxcuUMeXVWaOFbLth398szAD6UioMlAjGK+Rkc25qoxe3FXm
- J4sZ0P+jrRuVgy/WeGF1s8Lpkf0UDtApG4jYyqe2Ab6Yj+ZLyFJq0jrBjjYi1qasNw9J
- ppZQ==
-X-Gm-Message-State: AOJu0YwRmxKlc85URQQg+jpk8wexgg/9Ga6rqzemANW/9daSmV84T+SM
- BiVu1ceEUj5HjIsiIiTZnbHk6020CiO9Kw==
-X-Google-Smtp-Source: AGHT+IGvbi2Udbq52hidwZ7NZ+N/tAQbdmEryuosmducZx2A28CbT0myTY49ZSjosCtwUWGsQIQsmw==
-X-Received: by 2002:a17:906:a091:b0:a2a:6916:60de with SMTP id
- q17-20020a170906a09100b00a2a691660demr1118102ejy.4.1704884033834; 
- Wed, 10 Jan 2024 02:53:53 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- f26-20020a17090624da00b00a28a8ca1c55sm1968803ejb.212.2024.01.10.02.53.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Jan 2024 02:53:53 -0800 (PST)
-Date: Wed, 10 Jan 2024 11:53:51 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Shradha Gupta <shradhagupta@linux.microsoft.com>
-Subject: Re: [PATCH v2] drm: Check output polling initialized before disabling
-Message-ID: <ZZ53P1v0nms-Y8gk@phenom.ffwll.local>
-Mail-Followup-To: Shradha Gupta <shradhagupta@linux.microsoft.com>,
- linux-kernel@vger.kernel.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.dev>,
- David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
- Saurabh Singh Sengar <ssengar@linux.microsoft.com>,
- Shradha Gupta <shradhagupta@microsoft.com>
-References: <1704869987-7546-1-git-send-email-shradhagupta@linux.microsoft.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E949B10E5CC
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 10:54:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1704884067; x=1736420067;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=7WyF+Rt63DImpYwtXu4b3Ib/mVAsMsSsUO5hVbOVgiA=;
+ b=nOuqhFQgMnmH9p48wKi6ARVgzQ4gclgK99BwchIj53/9DQZKSanfL1Z3
+ hNqPzc2W/GD6pOQFpjfv+uybSLhuj9QpcEGOzl3vaeymWLgr1r4Weyva/
+ T13bNJHTipzuPnaXzRDzjAHVUPWQHlCLgIh66t2ZdY8uIYw5ID8FL6V2X
+ +NEYKJ5QV6L83G6b17AiurzPYj1vU8/mpX3/KAeqL1YCK8+qdyKQAIFqM
+ RbRGbyRA4WSQ8HV62YDWkw/fuf/yOZ+Tlzlu85q/Lmg6qo5lWDZYnOVkW
+ dY2h5wqTnaX57VuJAeNSczv9Z4zgY+9+Pd0UQebwlzFKZ4VHSXq4xck/e g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="398172466"
+X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; d="scan'208";a="398172466"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jan 2024 02:54:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="955326804"
+X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; d="scan'208";a="955326804"
+Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.245.80.160])
+ ([10.245.80.160])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jan 2024 02:54:26 -0800
+Message-ID: <a4a9fa2c-72ca-452a-9361-f88a364caca1@linux.intel.com>
+Date: Wed, 10 Jan 2024 11:54:26 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1704869987-7546-1-git-send-email-shradhagupta@linux.microsoft.com>
-X-Operating-System: Linux phenom 6.5.0-4-amd64 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 08/10] accel/ivpu: Disable buffer sharing among VPU
+ contexts
+Content-Language: en-US
+To: Carl Vanderlip <quic_carlv@quicinc.com>, dri-devel@lists.freedesktop.org
+References: <20240105112218.351265-1-jacek.lawrynowicz@linux.intel.com>
+ <20240105112218.351265-9-jacek.lawrynowicz@linux.intel.com>
+ <343d487b-cb44-ddb7-f775-d5fd0ab1286d@quicinc.com>
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <343d487b-cb44-ddb7-f775-d5fd0ab1286d@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,132 +65,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.dev>, dri-devel@lists.freedesktop.org,
- Shradha Gupta <shradhagupta@microsoft.com>,
- Saurabh Singh Sengar <ssengar@linux.microsoft.com>
+Cc: quic_jhugo@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 09, 2024 at 10:59:47PM -0800, Shradha Gupta wrote:
-> In drm_kms_helper_poll_disable() check if output polling
-> support is initialized before disabling polling.
-> For drivers like hyperv-drm, that do not initialize connector
-> polling, if suspend is called without this check, it leads to
-> suspend failure with following stack
-> [  770.719392] Freezing remaining freezable tasks ... (elapsed 0.001 seconds) done.
-> [  770.720592] printk: Suspending console(s) (use no_console_suspend to debug)
-> [  770.948823] ------------[ cut here ]------------
-> [  770.948824] WARNING: CPU: 1 PID: 17197 at kernel/workqueue.c:3162 __flush_work.isra.0+0x212/0x230
-> [  770.948831] Modules linked in: rfkill nft_counter xt_conntrack xt_owner udf nft_compat crc_itu_t nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 ip_set nf_tables nfnetlink vfat fat mlx5_ib ib_uverbs ib_core mlx5_core intel_rapl_msr intel_rapl_common kvm_amd ccp mlxfw kvm psample hyperv_drm tls drm_shmem_helper drm_kms_helper irqbypass pcspkr syscopyarea sysfillrect sysimgblt hv_balloon hv_utils joydev drm fuse xfs libcrc32c pci_hyperv pci_hyperv_intf sr_mod sd_mod cdrom t10_pi sg hv_storvsc scsi_transport_fc hv_netvsc serio_raw hyperv_keyboard hid_hyperv crct10dif_pclmul crc32_pclmul crc32c_intel hv_vmbus ghash_clmulni_intel dm_mirror dm_region_hash dm_log dm_mod
-> [  770.948863] CPU: 1 PID: 17197 Comm: systemd-sleep Not tainted 5.14.0-362.2.1.el9_3.x86_64 #1
-> [  770.948865] Hardware name: Microsoft Corporation Virtual Machine/Virtual Machine, BIOS Hyper-V UEFI Release v4.1 05/09/2022
-> [  770.948866] RIP: 0010:__flush_work.isra.0+0x212/0x230
-> [  770.948869] Code: 8b 4d 00 4c 8b 45 08 89 ca 48 c1 e9 04 83 e2 08 83 e1 0f 83 ca 02 89 c8 48 0f ba 6d 00 03 e9 25 ff ff ff 0f 0b e9 4e ff ff ff <0f> 0b 45 31 ed e9 44 ff ff ff e8 8f 89 b2 00 66 66 2e 0f 1f 84 00
-> [  770.948870] RSP: 0018:ffffaf4ac213fb10 EFLAGS: 00010246
-> [  770.948871] RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffffffff8c992857
-> [  770.948872] RDX: 0000000000000001 RSI: 0000000000000001 RDI: ffff9aad82b00330
-> [  770.948873] RBP: ffff9aad82b00330 R08: 0000000000000000 R09: ffff9aad87ee3d10
-> [  770.948874] R10: 0000000000000200 R11: 0000000000000000 R12: ffff9aad82b00330
-> [  770.948874] R13: 0000000000000001 R14: 0000000000000000 R15: 0000000000000001
-> [  770.948875] FS:  00007ff1b2f6bb40(0000) GS:ffff9aaf37d00000(0000) knlGS:0000000000000000
-> [  770.948878] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [  770.948878] CR2: 0000555f345cb666 CR3: 00000001462dc005 CR4: 0000000000370ee0
-> [  770.948879] Call Trace:
-> [  770.948880]  <TASK>
-> [  770.948881]  ? show_trace_log_lvl+0x1c4/0x2df
-> [  770.948884]  ? show_trace_log_lvl+0x1c4/0x2df
-> [  770.948886]  ? __cancel_work_timer+0x103/0x190
-> [  770.948887]  ? __flush_work.isra.0+0x212/0x230
-> [  770.948889]  ? __warn+0x81/0x110
-> [  770.948891]  ? __flush_work.isra.0+0x212/0x230
-> [  770.948892]  ? report_bug+0x10a/0x140
-> [  770.948895]  ? handle_bug+0x3c/0x70
-> [  770.948898]  ? exc_invalid_op+0x14/0x70
-> [  770.948899]  ? asm_exc_invalid_op+0x16/0x20
-> [  770.948903]  ? __flush_work.isra.0+0x212/0x230
-> [  770.948905]  __cancel_work_timer+0x103/0x190
-> [  770.948907]  ? _raw_spin_unlock_irqrestore+0xa/0x30
-> [  770.948910]  drm_kms_helper_poll_disable+0x1e/0x40 [drm_kms_helper]
-> [  770.948923]  drm_mode_config_helper_suspend+0x1c/0x80 [drm_kms_helper]
-
-So since this only happens for drivers using
-drm_mode_config_helper_suspend, I think we should put the check in there.
-And then we also need to (somehow, not sure how?) make sure that for that
-case, we do not enable polling on resume either.
-
-Because for drivers using poll helpers directly it would be a driver bug
-to call _disable without having called _enable first. And so I think we
-should at least put a drm_WARN around the if() check your adding, since
-that if check papers over some more fundamental issue.
-
-Cheers, Sima
-
-> [  770.948933]  ? __pfx_vmbus_suspend+0x10/0x10 [hv_vmbus]
-> [  770.948942]  hyperv_vmbus_suspend+0x17/0x40 [hyperv_drm]
-> [  770.948944]  ? __pfx_vmbus_suspend+0x10/0x10 [hv_vmbus]
-> [  770.948951]  dpm_run_callback+0x4c/0x140
-> [  770.948954]  __device_suspend_noirq+0x74/0x220
-> [  770.948956]  dpm_noirq_suspend_devices+0x148/0x2a0
-> [  770.948958]  dpm_suspend_end+0x54/0xe0
-> [  770.948960]  create_image+0x14/0x290
-> [  770.948963]  hibernation_snapshot+0xd6/0x200
-> [  770.948964]  hibernate.cold+0x8b/0x1fb
-> [  770.948967]  state_store+0xcd/0xd0
-> [  770.948969]  kernfs_fop_write_iter+0x124/0x1b0
-> [  770.948973]  new_sync_write+0xff/0x190
-> [  770.948976]  vfs_write+0x1ef/0x280
-> [  770.948978]  ksys_write+0x5f/0xe0
-> [  770.948979]  do_syscall_64+0x5c/0x90
-> [  770.948981]  ? syscall_exit_work+0x103/0x130
-> [  770.948983]  ? syscall_exit_to_user_mode+0x12/0x30
-> [  770.948985]  ? do_syscall_64+0x69/0x90
-> [  770.948986]  ? do_syscall_64+0x69/0x90
-> [  770.948987]  ? do_user_addr_fault+0x1d6/0x6a0
-> [  770.948989]  ? do_syscall_64+0x69/0x90
-> [  770.948990]  ? exc_page_fault+0x62/0x150
-> [  770.948992]  entry_SYSCALL_64_after_hwframe+0x72/0xdc
-> [  770.948995] RIP: 0033:0x7ff1b293eba7
-> [  770.949010] Code: 0b 00 f7 d8 64 89 02 48 c7 c0 ff ff ff ff eb b7 0f 1f 00 f3 0f 1e fa 64 8b 04 25 18 00 00 00 85 c0 75 10 b8 01 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 51 c3 48 83 ec 28 48 89 54 24 18 48 89 74 24
-> [  770.949011] RSP: 002b:00007ffde3912128 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-> [  770.949012] RAX: ffffffffffffffda RBX: 0000000000000005 RCX: 00007ff1b293eba7
-> [  770.949013] RDX: 0000000000000005 RSI: 00007ffde3912210 RDI: 0000000000000004
-> [  770.949014] RBP: 00007ffde3912210 R08: 000055d7dd4c9510 R09: 00007ff1b29b14e0
-> [  770.949014] R10: 00007ff1b29b13e0 R11: 0000000000000246 R12: 0000000000000005
-> [  770.949015] R13: 000055d7dd4c53e0 R14: 0000000000000005 R15: 00007ff1b29f69e0
-> [  770.949016]  </TASK>
-> [  770.949017] ---[ end trace e6fa0618bfa2f31d ]---
+On 05.01.2024 23:34, Carl Vanderlip wrote:
 > 
-> Built-on: Rhel9, Ubuntu22
-> Signed-off-by: Shradha Gupta <shradhagupta@linux.microsoft.com>
-> ---
-> Changes in v2
->  * Moved the poll_enabled check in drm_kms_helper_poll_disable()
->  * Reworded the patch description based on new changes
-> ---
-> ---
->  drivers/gpu/drm/drm_probe_helper.c | 3 +++
->  1 file changed, 3 insertions(+)
+> On 1/5/2024 3:22 AM, Jacek Lawrynowicz wrote:
+>> Imported buffer from another VPU context will now have just reference
+>> increased and there will be a single sgt fixing above problem but
+>> buffers still can't be shared among VPU contexts because each context
+>> have its own MMU mapping and ivpu_bo supports only single MMU mapping.
 > 
-> diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-> index 3f479483d7d8..b9f07d5f999f 100644
-> --- a/drivers/gpu/drm/drm_probe_helper.c
-> +++ b/drivers/gpu/drm/drm_probe_helper.c
-> @@ -877,6 +877,9 @@ EXPORT_SYMBOL(drm_kms_helper_is_poll_worker);
->   */
->  void drm_kms_helper_poll_disable(struct drm_device *dev)
->  {
-> +	if (!dev->mode_config.poll_enabled)
-> +		return;
-> +
->  	if (dev->mode_config.poll_running)
->  		drm_kms_helper_disable_hpd(dev);
->  
-> -- 
-> 2.34.1
+> This paragraph/sentence needs rewrite. Here's my take...
 > 
+> "
+> Buffers imported from another VPU context will now just increase reference count, leaving only a single sgt, fixing the problem above.
+> Buffers still can't be shared among VPU contexts because each has its own MMU mapping and ivpu_bo only supports single MMU mappings.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Perfect, thanks!
