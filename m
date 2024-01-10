@@ -2,80 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E940829B2C
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 14:27:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B00E829B82
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 14:39:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E044B10E5D2;
-	Wed, 10 Jan 2024 13:27:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCA9D10E309;
+	Wed, 10 Jan 2024 13:39:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com
- [IPv6:2607:f8b0:4864:20::f30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7DC010E5CF
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 13:26:59 +0000 (UTC)
-Received: by mail-qv1-xf30.google.com with SMTP id
- 6a1803df08f44-67f5c0be04cso28436256d6.0
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 05:26:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20230601.gappssmtp.com; s=20230601; t=1704893219; x=1705498019;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=wuoo03iviwWHkadCNQ9VBPxTicDGZj9k5/ZvAak2Qbc=;
- b=T9FRykmg8L+l14EsdwJ1dozIvW8JrmpTXYd34Uj88i+542Fsf1qq55P4LCwBTnfO8g
- tkqPghm5GIieDyadYduPcKJS6tLSPjl9EkC/f5OUHpgOdiP2Xb5OIB8CvK92lvuef5Lk
- srulcna2OB2P8TvaEg40Pmwz4uoARhtv8w4PxDZrUu89ozsF+Im/8A1kMt1xLdHq4SG3
- Rt9yxPz7oJdZmWj3a6VE+C9Nk27hlX86HWtOtkEHGwBtIbHkXQZnhBmzr6oGHg7XZ3np
- GTwbJpb5gL+id59BldvMZl4g9Ra0HHnwjKFPgcvST9JejAJMs6x1ApnTDkz50d61OlDA
- Dv5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704893219; x=1705498019;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=wuoo03iviwWHkadCNQ9VBPxTicDGZj9k5/ZvAak2Qbc=;
- b=GdrHiQH+fjXuB0gVmEOVvZxqeoQZCxspDeuiAFxA7jicm8QcgrfsvPH5oyTyTioE0M
- W4lBTIJMKWfoyBPFoz2sCRyJ45pUR9pjMfIBWtomjRqs6OQS13O5F16H5QSt+Pul4hsL
- bDZyApq9kL4xDWMY3hqqJqNvfaI14JIwiXFRsWfNqkpHDa+SY+2IUHNOSpV7a7HwzFa+
- qpBBTl55YPy3HDbjcb+fdAOETK5Bf9Du656G1k31qeKMdebubEPmdexF6oxAPlW6KS6R
- dEqQnGZMbEFDx0pOdq0aZo4u/LvcqlFFmcXlZMYnvG55Lm0sOvsC6hP75ackfWxWSt74
- R4aA==
-X-Gm-Message-State: AOJu0Yyqcb0jMqMdPo7oz8rnLWvpwMsmap0RS+IHCKe1VN3WQcMfUg89
- XeR1JzNMZRgo2QPhkJa6Zog/LOqUvfeA7d7JJ0bPwjCYLNKEXw==
-X-Google-Smtp-Source: AGHT+IGdIXuMwkWII7EUXBHcbytK3jAqcLwzlJCM9W48o+05Ly6ZHA8R+Kz3tpJUp7CvP/x73Q5f0ChjbDvYlVh7+7A=
-X-Received: by 2002:a05:6214:1630:b0:680:f8b7:44fe with SMTP id
- e16-20020a056214163000b00680f8b744femr985896qvw.13.1704893218734; Wed, 10 Jan
- 2024 05:26:58 -0800 (PST)
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com
+ [157.90.84.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF5E010E5E7;
+ Wed, 10 Jan 2024 13:39:38 +0000 (UTC)
+Received: from [192.168.42.20] (p5de453e7.dip0.t-ipconnect.de [93.228.83.231])
+ (Authenticated sender: wse@tuxedocomputers.com)
+ by mail.tuxedocomputers.com (Postfix) with ESMTPSA id B9B3D2FC0057;
+ Wed, 10 Jan 2024 14:39:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+ s=default; t=1704893977;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NBr8Ca6T6pj462sAdOhvmla4yehDm43kFrOCFOhWR1Y=;
+ b=gVo2F6g+ftVSYC2ja0jm3fxua0sVpmkTiKLfrSHyAOrY+XXctIu7qXUbkFlFlWXjqK/Fc1
+ uYJro0xKbuZckVlyENB1J8JodhKUWjW/2AtMfinRHk3eeTLCMWYQjowChFgzx4Fn/cXsD7
+ TYwdrGPxRaL43cqyTrME63S25KScnyE=
+Authentication-Results: mail.tuxedocomputers.com;
+ auth=pass smtp.auth=wse@tuxedocomputers.com
+ smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <adb11c46-aa5e-4389-8757-5bbc627eff69@tuxedocomputers.com>
+Date: Wed, 10 Jan 2024 14:39:36 +0100
 MIME-Version: 1.0
-References: <20240109181104.1670304-1-andri@yngvason.is>
- <20240109181104.1670304-3-andri@yngvason.is>
- <CAPj87rNan8B5urDFkmD_Vti4to6p3NmvXYsTFQTNg-Ue2ieDug@mail.gmail.com>
- <CAFNQBQwiqqSRqzXAnC035UWCGF3=GGFR5SpDd=biPTOEA+cWbQ@mail.gmail.com>
- <ZZ509L_kmVC4IUBW@phenom.ffwll.local>
-In-Reply-To: <ZZ509L_kmVC4IUBW@phenom.ffwll.local>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Wed, 10 Jan 2024 13:26:46 +0000
-Message-ID: <CAPj87rOiS8F=oDW3iE=bgFyfeJnYhy8kPF2v-uYOq3xgYtVPAg@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 2/7] drm/uAPI: Add "active color format" drm property as
  feedback for userspace
-To: Andri Yngvason <andri@yngvason.is>, Harry Wentland <harry.wentland@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, 
+Content-Language: en-US
+To: Andri Yngvason <andri@yngvason.is>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jani Nikula <jani.nikula@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- intel-gfx@lists.freedesktop.org, Simon Ser <contact@emersion.fr>, 
- Werner Sembach <wse@tuxedocomputers.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+References: <20240109181104.1670304-1-andri@yngvason.is>
+ <20240109181104.1670304-3-andri@yngvason.is>
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <20240109181104.1670304-3-andri@yngvason.is>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,75 +68,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Wed, 10 Jan 2024 at 10:44, Daniel Vetter <daniel@ffwll.ch> wrote:
-> On Tue, Jan 09, 2024 at 11:12:11PM +0000, Andri Yngvason wrote:
-> > =C5=A3ri., 9. jan. 2024 kl. 22:32 skrifa=C4=91i Daniel Stone <daniel@fo=
-oishbar.org>:
-> > > How does userspace determine what's happened without polling? Will it
-> > > only change after an `ALLOW_MODESET` commit, and be guaranteed to be
-> > > updated after the commit has completed and the event being sent?
-> > > Should it send a HOTPLUG event? Other?
-> > >
-> >
-> > Userspace does not determine what's happened without polling. The purpo=
-se
-> > of this property is not for programmatic verification that the preferre=
-d
-> > property was applied. It is my understanding that it's mostly intended =
-for
-> > debugging purposes. It should only change as a consequence of modesetti=
-ng,
-> > although I didn't actually look into what happens if you set the "prefe=
-rred
-> > color format" outside of a modeset.
+Am 09.01.24 um 19:10 schrieb Andri Yngvason:
+> From: Werner Sembach <wse@tuxedocomputers.com>
 >
-> This feels a bit irky to me, since we don't have any synchronization and
-> it kinda breaks how userspace gets to know about stuff.
+> Add a new general drm property "active color format" which can be used by
+> graphic drivers to report the used color format back to userspace.
 >
-> For context the current immutable properties are all stuff that's derived
-> from the sink (like edid, or things like that). Userspace is guaranteed t=
-o
-> get a hotplug event (minus driver bugs as usual) if any of these change,
-> and we've added infrastructure so that the hotplug event even contains th=
-e
-> specific property so that userspace can avoid re-read (which can cause
-> some costly re-probing) them all.
+> There was no way to check which color format got actually used on a given
+> monitor. To surely predict this, one must know the exact capabilities of
+> the monitor, the GPU, and the connection used and what the default
+> behaviour of the used driver is (e.g. amdgpu prefers YCbCr 4:4:4 while i915
+> prefers RGB). This property helps eliminating the guessing on this point.
+>
+> In the future, automatic color calibration for screens might also depend on
+> this information being available.
+>
+> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+> Signed-off-by: Andri Yngvason <andri@yngvason.is>
+> Tested-by: Andri Yngvason <andri@yngvason.is>
 
-Right.
+One suggestion from back then was, instead picking out singular properties like 
+"active color format", to just expose whatever the last HDMI or DP metadata 
+block(s)/frame(s) that was sent over the display wire was to userspace and 
+accompanying it with a parsing script.
 
-> [...]
->
-> This thing here works entirely differently, and I think we need somewhat
-> new semantics for this:
->
-> - I agree it should be read-only for userspace, so immutable sounds right=
-.
->
-> - But I also agree with Daniel Stone that this should be tied more
->   directly to the modeset state.
->
-> So I think the better approach would be to put the output type into
-> drm_connector_state, require that drivers compute it in their
-> ->atomic_check code (which in the future would allow us to report it out
-> for TEST_ONLY commits too), and so guarantee that the value is updated
-> right after the kms ioctl returns (and not somewhen later for non-blockin=
-g
-> commits).
+Question: Does the driver really actually know what the GPU is ultimatively 
+sending out the wire, or is that decided by a final firmware blob we have no 
+info about?
 
-That's exactly the point. Whether userspace gets an explicit
-notification or it has to 'know' when to read isn't much of an issue -
-just as long as it's well defined. I think the suggestion of 'do it in
-atomic_check and then it's guaranteed to be readable when the commit
-completes' is a good one.
+Greetings
 
-I do still have some reservations - for instance, why do we have the
-fallback to auto when userspace has explicitly requested a certain
-type? - but they may have been covered previously.
+Werner
 
-Cheers,
-Daniel
+> ---
+>   drivers/gpu/drm/drm_connector.c | 63 +++++++++++++++++++++++++++++++++
+>   include/drm/drm_connector.h     | 10 ++++++
+>   2 files changed, 73 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> index c3725086f4132..30d62e505d188 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -1061,6 +1061,14 @@ static const struct drm_prop_enum_list drm_dp_subconnector_enum_list[] = {
+>   	{ DRM_MODE_SUBCONNECTOR_Native,	     "Native"    }, /* DP */
+>   };
+>   
+> +static const struct drm_prop_enum_list drm_active_color_format_enum_list[] = {
+> +	{ 0, "not applicable" },
+> +	{ DRM_COLOR_FORMAT_RGB444, "rgb" },
+> +	{ DRM_COLOR_FORMAT_YCBCR444, "ycbcr444" },
+> +	{ DRM_COLOR_FORMAT_YCBCR422, "ycbcr422" },
+> +	{ DRM_COLOR_FORMAT_YCBCR420, "ycbcr420" },
+> +};
+> +
+>   DRM_ENUM_NAME_FN(drm_get_dp_subconnector_name,
+>   		 drm_dp_subconnector_enum_list)
+>   
+> @@ -1390,6 +1398,15 @@ static const u32 dp_colorspaces =
+>    *	drm_connector_attach_max_bpc_property() to create and attach the
+>    *	property to the connector during initialization.
+>    *
+> + * active color format:
+> + *	This read-only property tells userspace the color format actually used
+> + *	by the hardware display engine "on the cable" on a connector. The chosen
+> + *	value depends on hardware capabilities, both display engine and
+> + *	connected monitor. Drivers shall use
+> + *	drm_connector_attach_active_color_format_property() to install this
+> + *	property. Possible values are "not applicable", "rgb", "ycbcr444",
+> + *	"ycbcr422", and "ycbcr420".
+> + *
+>    * Connectors also have one standardized atomic property:
+>    *
+>    * CRTC_ID:
+> @@ -2451,6 +2468,52 @@ int drm_connector_attach_max_bpc_property(struct drm_connector *connector,
+>   }
+>   EXPORT_SYMBOL(drm_connector_attach_max_bpc_property);
+>   
+> +/**
+> + * drm_connector_attach_active_color_format_property - attach "active color format" property
+> + * @connector: connector to attach active color format property on.
+> + *
+> + * This is used to check the applied color format on a connector.
+> + *
+> + * Returns:
+> + * Zero on success, negative errno on failure.
+> + */
+> +int drm_connector_attach_active_color_format_property(struct drm_connector *connector)
+> +{
+> +	struct drm_device *dev = connector->dev;
+> +	struct drm_property *prop;
+> +
+> +	if (!connector->active_color_format_property) {
+> +		prop = drm_property_create_enum(dev, DRM_MODE_PROP_IMMUTABLE, "active color format",
+> +						drm_active_color_format_enum_list,
+> +						ARRAY_SIZE(drm_active_color_format_enum_list));
+> +		if (!prop)
+> +			return -ENOMEM;
+> +
+> +		connector->active_color_format_property = prop;
+> +	}
+> +
+> +	drm_object_attach_property(&connector->base, prop, 0);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_connector_attach_active_color_format_property);
+> +
+> +/**
+> + * drm_connector_set_active_color_format_property - sets the active color format property for a
+> + * connector
+> + * @connector: drm connector
+> + * @active_color_format: color format for the connector currently active "on the cable"
+> + *
+> + * Should be used by atomic drivers to update the active color format over a connector.
+> + */
+> +void drm_connector_set_active_color_format_property(struct drm_connector *connector,
+> +						    u32 active_color_format)
+> +{
+> +	drm_object_property_set_value(&connector->base, connector->active_color_format_property,
+> +				      active_color_format);
+> +}
+> +EXPORT_SYMBOL(drm_connector_set_active_color_format_property);
+> +
+>   /**
+>    * drm_connector_attach_hdr_output_metadata_property - attach "HDR_OUTPUT_METADA" property
+>    * @connector: connector to attach the property on.
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index fe88d7fc6b8f4..9ae73cfdceeb1 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -1699,6 +1699,12 @@ struct drm_connector {
+>   	 */
+>   	struct drm_property *privacy_screen_hw_state_property;
+>   
+> +	/**
+> +	 * @active_color_format_property: Default connector property for the
+> +	 * active color format to be driven out of the connector.
+> +	 */
+> +	struct drm_property *active_color_format_property;
+> +
+>   #define DRM_CONNECTOR_POLL_HPD (1 << 0)
+>   #define DRM_CONNECTOR_POLL_CONNECT (1 << 1)
+>   #define DRM_CONNECTOR_POLL_DISCONNECT (1 << 2)
+> @@ -2053,6 +2059,10 @@ void drm_connector_attach_privacy_screen_provider(
+>   	struct drm_connector *connector, struct drm_privacy_screen *priv);
+>   void drm_connector_update_privacy_screen(const struct drm_connector_state *connector_state);
+>   
+> +int drm_connector_attach_active_color_format_property(struct drm_connector *connector);
+> +void drm_connector_set_active_color_format_property(struct drm_connector *connector,
+> +						    u32 active_color_format);
+> +
+>   /**
+>    * struct drm_tile_group - Tile group metadata
+>    * @refcount: reference count
