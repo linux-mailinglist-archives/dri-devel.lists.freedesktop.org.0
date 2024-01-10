@@ -1,96 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66134829E8D
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 17:25:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55DF9829EEE
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 18:15:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB89610E77E;
-	Wed, 10 Jan 2024 16:25:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9AB910E63F;
+	Wed, 10 Jan 2024 17:15:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A3AC10E77E
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 16:25:31 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id
- 5b1f17b1804b1-40e5521dab6so10457565e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 08:25:31 -0800 (PST)
+Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com
+ [IPv6:2607:f8b0:4864:20::1134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 322E210E63F
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 17:15:42 +0000 (UTC)
+Received: by mail-yw1-x1134.google.com with SMTP id
+ 00721157ae682-5ebca94cf74so41380067b3.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 09:15:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1704903929; x=1705508729; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :references:cc:to:from:content-language:subject:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=15bYShZuIS4+CSxAUIJl+wAlVTxXL5pj1PzzN1HPXTY=;
- b=iteOvhIgjhVnPuJlSq0ckDohhGmr5Mfn83mcGG8W8eqoM1AXhSgcEzznCzdpXLhVyI
- RMVbHYCxp6DCB47VofhNBpgzVsbQtMDU9xPP3m4F9L4L12JNpVEyOkTrcVqOkn9/dTEW
- geaC0gr3JQb92TsHSfcA1/tuEbqyytl+ko7PFqL78JeI7+v659BF2+MDl2Z9DKKbYkpV
- 39NGMv4km+47WpsXIxhVDzltzTPkLEIliZGbfgeJcxdmrNdwobdk1TlmR4TWJTlFWuzF
- o/JWmSL9D3AMlEOqEwn5Yr40xNvow1TLyrBX5xSvRDhIGwWNJB2GbC95ixwbFYzSvfPb
- bs0A==
+ d=yngvason.is; s=google; t=1704906941; x=1705511741; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=soA68yzNvfZQWAZpekpt7a4WMrI7QKSPg81VAUrEcdk=;
+ b=epcjSLNMygtydxsoYM5ygdz/D7auQ8DPstTgboU8hCUDIGUsp3QieXKCgzFz6uZ05+
+ xdjilTi2jmXIEOz81asQ9k+oQXP4oXkWVP52Ci6StfRWJjpfDUcieEDGcTyFJkn6JER/
+ XqvktYypLHfcZsWCBTC4SnW8N8AsPqUsd6Y+I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704903929; x=1705508729;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :references:cc:to:from:content-language:subject:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=15bYShZuIS4+CSxAUIJl+wAlVTxXL5pj1PzzN1HPXTY=;
- b=ERcojkVlrJTfxKz7dzlSyR+2mPAcOWPo23G7mHTBy3bAEVPU+Wup0Ucr3wy+3CujzQ
- EHK1VSgo517e41RiUf46WRM3hba6Ha2tYLW4+iR8CbpH3oOWo3GOLHfwUPBexM07IEVi
- vG/CivZB2EoMZ+VSi8bbXkTuJ5Qkckk7nTVXaAohmeSFLlErdXtBYN8IhJrlJFBxRhKI
- iuCwvze77HCRL/8OvCILEj861EfAVy/QjLUcB7E6YRlCwmGm/Pfb6vIBCrYGC79aaYIg
- cCaXHRbu1nQI3ZSxkMxC6oF1974D9qln305RBCvXjzqpoBnwlhtisrp4yMG6Rw9IrJHt
- MKnQ==
-X-Gm-Message-State: AOJu0YyIXwaSM8+8rwue3ylyvY07cvdigm7aLMqLwQwtnq7JOii+TWcM
- 5+Ksc2/r7kYKBaDwOz9M/ZKKvnpqpuwYcQ==
-X-Google-Smtp-Source: AGHT+IE9PekVK0Th6y6bMR8dNTYSBDVpdQ3lSyTVffa/xd/PVDY0KvfpkbBq+lP11myDdjPGXoiZqw==
-X-Received: by 2002:a05:600c:3eca:b0:40d:763d:c7fe with SMTP id
- ek10-20020a05600c3eca00b0040d763dc7femr742455wmb.121.1704903929423; 
- Wed, 10 Jan 2024 08:25:29 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:5dee:51de:9349:2adf?
- ([2a01:e0a:982:cbb0:5dee:51de:9349:2adf])
- by smtp.gmail.com with ESMTPSA id
- f15-20020a05600c154f00b0040e3b12052bsm2752200wmg.5.2024.01.10.08.25.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Jan 2024 08:25:29 -0800 (PST)
-Message-ID: <39a224f2-b245-4766-88f6-3af856ae7acb@linaro.org>
-Date: Wed, 10 Jan 2024 17:25:27 +0100
+ d=1e100.net; s=20230601; t=1704906941; x=1705511741;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=soA68yzNvfZQWAZpekpt7a4WMrI7QKSPg81VAUrEcdk=;
+ b=LCfuxCjfcPL7No8JC84AN+arzl8BxMnj0fXHkkQvzBa3pklEMWC0RYI2Bv8XemK3Gu
+ wENpa3W7jgAkbu3S11HWTIsNGf9fzvgGtHluYiekKw8SSgIpIyQVcqOCrkp7OyIqX88i
+ oiKqUG5SkggshcRaBX1efXBHoRnzWADi/Bkl7hqbZ/57nOCdvqtfBjnSEeuXM/5eCuu3
+ gMUU5qn+d5I1nFF+Hnf4ibv/+z1YwCY7fR0PUU+sKKkJcNFFuIe3uJlVqJXXo/SFZ5e+
+ tRmFtrCUQ7AFI1fHbxPsR0aQnRRrorgOMMht5Fsh1NGCFvdCj6uvvlLnSWtQy6BeoWd+
+ r7Aw==
+X-Gm-Message-State: AOJu0YzFhF7PuS0z4rHV8uhKCdrWmb31YHiN+x9wPLti4lkPNPygzKnv
+ L4gntFcETfcp8IWJHxgeSoWeqNXIqYvkDWJnIwbQKWe7rJNfTg==
+X-Google-Smtp-Source: AGHT+IHiky3usvBUSr+P0G2IWOFzW7FhkFV4p161NhBmHRzD0jPC+3YufPeJf4yAtPY54W3fFgqqqnXHnsEneuJfO8U=
+X-Received: by 2002:a0d:e28e:0:b0:5d7:1940:7d7a with SMTP id
+ l136-20020a0de28e000000b005d719407d7amr1188461ywe.81.1704906941193; Wed, 10
+ Jan 2024 09:15:41 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] drm/etnaviv: Expose a few more chipspecs to userspace
-Content-Language: en-US, fr
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-References: <20240110153704.1364073-1-tomeu@tomeuvizoso.net>
- <170490387684.1887297.10058632363349793019.b4-ty@linaro.org>
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro Developer Services
-In-Reply-To: <170490387684.1887297.10058632363349793019.b4-ty@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240109181104.1670304-1-andri@yngvason.is>
+ <20240109181104.1670304-4-andri@yngvason.is>
+ <ZZ57Nl3CnRMPcfbj@phenom.ffwll.local>
+ <CAFNQBQzo17cK4M-S=Mje8Lxub9Y74xFGj7iEq57vKJr47oiz5Q@mail.gmail.com>
+ <CAKMK7uGhMCwbztGdEmG4gFgpyhw6j-JFow-AaprFxcX710=qXA@mail.gmail.com>
+ <67808818-ee34-4d04-ad90-cd5c6eb9bb26@tuxedocomputers.com>
+In-Reply-To: <67808818-ee34-4d04-ad90-cd5c6eb9bb26@tuxedocomputers.com>
+From: Andri Yngvason <andri@yngvason.is>
+Date: Wed, 10 Jan 2024 17:15:05 +0000
+Message-ID: <CAFNQBQyg+yXSJRtZtyHXMfyBOYrQpU0R0XFUJLcof9rakrBYQA@mail.gmail.com>
+Subject: Re: [PATCH 3/7] drm/amd/display: Add handling for new "active color
+ format" property
+To: Werner Sembach <wse@tuxedocomputers.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,54 +71,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian Gmeiner <cgmeiner@igalia.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, etnaviv@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, intel-gfx@lists.freedesktop.org,
+ Leo Li <sunpeng.li@amd.com>, dri-devel@lists.freedesktop.org, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/01/2024 17:24, Neil Armstrong wrote:
+Hi Werner,
+
+mi=C3=B0., 10. jan. 2024 kl. 13:14 skrifa=C3=B0i Werner Sembach <wse@tuxedo=
+computers.com>:
+>
 > Hi,
-> 
-> On Wed, 10 Jan 2024 16:37:00 +0100, Tomeu Vizoso wrote:
->> These ones will be needed to make use fo the NN and TP units in the NPUs
->> based on Vivante IP.
->>
->>
-> 
-> Thanks, Applied to https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git (v6.9/arm64-dt)
-> 
-> [1/2] drm/etnaviv: Expose a few more chipspecs to userspace
->        (no commit info)
-> [2/2] arm64: dts: amlogic: meson-g12-common: Set the rates of the clocks for the NPU
->        https://git.kernel.org/amlogic/c/507b3e756ffcb174d383dd05df5084aed9bb6d14
+>
+> Am 10.01.24 um 14:09 schrieb Daniel Vetter:
+> > On Wed, 10 Jan 2024 at 13:53, Andri Yngvason <andri@yngvason.is> wrote:
+> >> mi=C3=B0., 10. jan. 2024 kl. 11:10 skrifa=C3=B0i Daniel Vetter <daniel=
+@ffwll.ch>:
+> >>> On Tue, Jan 09, 2024 at 06:11:00PM +0000, Andri Yngvason wrote:
+> >>>> +     /* Extract information from crtc to communicate it to userspac=
+e as connector properties */
+> >>>> +     for_each_new_connector_in_state(state, connector, new_con_stat=
+e, i) {
+> >>>> +             struct drm_crtc *crtc =3D new_con_state->crtc;
+> >>>> +             struct dc_stream_state *stream;
+> >>>> +
+> >>>> +             if (crtc) {
+> >>>> +                     new_crtc_state =3D drm_atomic_get_new_crtc_sta=
+te(state, crtc);
+> >>>> +                     dm_new_crtc_state =3D to_dm_crtc_state(new_crt=
+c_state);
+> >>>> +                     stream =3D dm_new_crtc_state->stream;
+> >>>> +
+> >>>> +                     if (stream) {
+> >>>> +                             drm_connector_set_active_color_format_=
+property(connector,
+> >>>> +                                     convert_dc_pixel_encoding_into=
+_drm_color_format(
+> >>>> +                                             dm_new_crtc_state->str=
+eam->timing.pixel_encoding));
+> >>>> +                     }
+> >>>> +             } else {
+> >>>> +                     drm_connector_set_active_color_format_property=
+(connector, 0);
+> >>> Just realized an even bigger reason why your current design doesn't w=
+ork:
+> >>> You don't have locking here.
+> >>>
+> >>> And you cannot grab the required lock, which is
+> >>> drm_dev->mode_config.mutex, because that would result in deadlocks. S=
+o
+> >>> this really needs to use the atomic state based design I've described=
+.
+> >>>
+> >> Maybe we should just drop "actual color format" and instead fail the
+> >> modeset if the "preferred color format" property cannot be satisfied?
+> >> It seems like the simplest thing to do here, though it is perhaps less
+> >> convenient for userspace. In that case, the "preferred color format"
+> >> property should just be called "color format".
+> > Yeah that's more in line with how other atomic properties work. This
+> > way userspace can figure out what works with a TEST_ONLY commit too.
+> > And for this to work you probably want to have an "automatic" setting
+> > too.
+> > -Sima
+>
+> The problem with TEST_ONLY probing is that color format settings are
+> interdependent: https://gitlab.freedesktop.org/drm/amd/-/issues/476#note_=
+966634
+>
+> So changing any other setting may require every color format to be TEST_O=
+NLY
+> probed again.
+>
 
-To be clear, I only applied patch 2.
+If we put a bit map containing the possible color formats into
+drm_mode_mode_info (I'm thinking that it could go into flags), we'd be
+able to eliminate a bunch of combinations early on. Do you think that
+would make things more bearable?
 
-Neil
+I'm thinking, something like this:
+diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+index 128d09138ceb3..59980803cb89e 100644
+--- a/include/uapi/drm/drm_mode.h
++++ b/include/uapi/drm/drm_mode.h
+@@ -124,6 +124,13 @@ extern "C" {
+ #define  DRM_MODE_FLAG_PIC_AR_256_135 \
+                        (DRM_MODE_PICTURE_ASPECT_256_135<<19)
 
-> 
-> These changes has been applied on the intermediate git tree [1].
-> 
-> The v6.9/arm64-dt branch will then be sent via a formal Pull Request to the Linux SoC maintainers
-> for inclusion in their intermediate git branches in order to be sent to Linus during
-> the next merge window, or sooner if it's a set of fixes.
-> 
-> In the cases of fixes, those will be merged in the current release candidate
-> kernel and as soon they appear on the Linux master branch they will be
-> backported to the previous Stable and Long-Stable kernels [2].
-> 
-> The intermediate git branches are merged daily in the linux-next tree [3],
-> people are encouraged testing these pre-release kernels and report issues on the
-> relevant mailing-lists.
-> 
-> If problems are discovered on those changes, please submit a signed-off-by revert
-> patch followed by a corrective changeset.
-> 
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git
-> [2] https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
-> [3] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-> 
++/* Possible color formats (4 bits) */
++#define DRM_MODE_FLAG_COLOR_FORMAT_MASK (0x0f << 22)
++#define DRM_MODE_FLAG_COLOR_FORMAT_RGB (1 << 22)
++#define DRM_MODE_FLAG_COLOR_FORMAT_YCBCR444 (1 << 23)
++#define DRM_MODE_FLAG_COLOR_FORMAT_YCBCR422 (1 << 24)
++#define DRM_MODE_FLAG_COLOR_FORMAT_YCBCR420 (1 << 25)
++
+ #define  DRM_MODE_FLAG_ALL     (DRM_MODE_FLAG_PHSYNC |         \
+                                 DRM_MODE_FLAG_NHSYNC |         \
+                                 DRM_MODE_FLAG_PVSYNC |         \
+@@ -136,7 +143,8 @@ extern "C" {
+                                 DRM_MODE_FLAG_HSKEW |          \
+                                 DRM_MODE_FLAG_DBLCLK |         \
+                                 DRM_MODE_FLAG_CLKDIV2 |        \
+-                                DRM_MODE_FLAG_3D_MASK)
++                                DRM_MODE_FLAG_3D_MASK |        \
++                                DRM_MODE_FLAG_COLOR_FORMAT_MASK)
 
+ /* DPMS flags */
+ /* bit compatible with the xorg definitions. */
