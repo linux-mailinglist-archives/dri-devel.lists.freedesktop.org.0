@@ -2,59 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81F2C82912E
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 01:19:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E568E82913B
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 01:24:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89B4310E528;
-	Wed, 10 Jan 2024 00:19:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5C3910E53E;
+	Wed, 10 Jan 2024 00:24:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com
- [IPv6:2607:f8b0:4864:20::112e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEDA010E528
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 00:19:37 +0000 (UTC)
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-5fa4b03f3f5so56487b3.1
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 16:19:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1704845977; x=1705450777;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=OMlCuNyf+qjkfT4WZEPou/e0mpHeaA0nsYn/EYlNGhg=;
- b=b67BfDMQOyYFcfssdYHyYu9hvcGMN98zOhzH0yAscuv6E+iH0bTRfYs7PEowpGMyBF
- kR1z4MyEZzFCa/wk9qgcYIs3yhbHSLq09R416LRt8zrX8+nvUk/ORD5PGjLibvTQ1YPR
- O+6HT3P1P9hwy3trHYAOCLzjMWE7tCIMqp6gU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704845977; x=1705450777;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=OMlCuNyf+qjkfT4WZEPou/e0mpHeaA0nsYn/EYlNGhg=;
- b=Z1YKHPlT2KTQLNUrxH0znSYr9gkYayySzUz7uPj09c2PCn2rP3i5qrxM/QFLQlntpy
- PhI/fu18R/FmMtG0FCWvhy9Cykzc2M1w+TfoPtSoZUGfEznW+t23AN0dek2zrFCaAnTq
- 4oxt89z7yJdeMtAVGtxwGxAjSOO04bGcLAvHgBhlFR6IjmkCvORGi2gVkuCrXAsYPx3J
- zcJHOxmz8cCuHlhMddbwkKNDrDnPFdVFW67aomGznf7+cFk4tHSs85vGrq8cNI5eBG8T
- k4J08O4kmVcMNggzkD64OZSICXo/KlcovUsi+JF2/MxUaXj555kMBHWZCXHxlKg652Vv
- dzmw==
-X-Gm-Message-State: AOJu0YwDTl1fCSc06XSYeuUQWfbmG/lFj2SlOY5pXCTRb4hvzI40JGTK
- 2uVVKe50SmJDhVjVs/g54PhfrXQfSwTg4j673WTFah5tIzU7v/sC4ZlkwCQElw==
-X-Google-Smtp-Source: AGHT+IFU7PImuB1VsJuBTpg6q8REnpcGzqH7s2k0EZpss3fUAFHSdaZnqH6xxxn8keM7FooYpwPi+SC+7D+4YU6Z2OY=
-X-Received: by 2002:a25:4fc4:0:b0:db7:dacf:2f21 with SMTP id
- d187-20020a254fc4000000b00db7dacf2f21mr126410ybb.104.1704845976931; Tue, 09
- Jan 2024 16:19:36 -0800 (PST)
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:3::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2C6510E53E
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 00:24:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=bF0k0tFraimuHpTxlpeFxettK+6lOSjFaik485rQmnU=; b=JHqplrN0VLcDSd2g3cK40qKbMv
+ bLTSFEiVSde18qwFh1nAeDYleqtxs8pdl9m2FAUGQlIrlh8Pd4YxbtxAjAuRob8Ch6MJ7NGCjotZE
+ oJybtbIYRtRpKPoaXNqbf7DrOJNTMzJ4RNuQsIs5l9wPT2OQAau3OSRrCgySeHXMHsYbBd5W8jdIO
+ sLRH93vL3eW3qMyegjvFmWrQcZNZUYXTZChBC1YR4H2dpHtpnOb/l3/8/kmN7w/6o+QNDKJ18jbvt
+ kP0+FUDwwIvtCbTYsDAgjpLXyZdey9EtVrnl8LIrChtKcmlkKEAgUIfOqMnaqJUFnwxUx4yj1/N5T
+ LJlQwORA==;
+Received: from [50.53.46.231] (helo=bombadil.infradead.org)
+ by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1rNMNr-009wAB-1h; Wed, 10 Jan 2024 00:23:51 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/imagination: fix ARRAY_SIZE build error
+Date: Tue,  9 Jan 2024 16:23:50 -0800
+Message-ID: <20240110002350.1096-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20240108211655.13187-1-ian.forbes@broadcom.com>
-In-Reply-To: <20240108211655.13187-1-ian.forbes@broadcom.com>
-From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Tue, 9 Jan 2024 19:19:26 -0500
-Message-ID: <CABQX2QPtzt9mkrwcdJTZWBNUe192wuEp9ec+uNhVLjhxLxizkQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/vmwgfx: Add SVGA_3D_CMD_DEFINE_GB_SURFACE_V4 to
- command array.
-To: Ian Forbes <ian.forbes@broadcom.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,44 +46,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: bcm-kernel-feedback-list@broadcom.com, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Randy Dunlap <rdunlap@infradead.org>,
+ Maxime Ripard <mripard@kernel.org>, Matt Coster <matt.coster@imgtec.com>,
+ Donald Robson <donald.robson@imgtec.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 8, 2024 at 4:57=E2=80=AFPM Ian Forbes <ian.forbes@broadcom.com>=
- wrote:
->
-> Without this definition device errors will display the command name
-> as (null) when debug logging is enabled.
->
-> Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
-> ---
->  drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vm=
-wgfx/vmwgfx_execbuf.c
-> index 36987ef3fc30..472c4821528f 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-> @@ -3603,6 +3603,8 @@ static const struct vmw_cmd_entry vmw_cmd_entries[S=
-VGA_3D_CMD_MAX] =3D {
->                     &vmw_cmd_dx_bind_streamoutput, true, false, true),
->         VMW_CMD_DEF(SVGA_3D_CMD_DX_DEFINE_RASTERIZER_STATE_V2,
->                     &vmw_cmd_dx_so_define, true, false, true),
-> +       VMW_CMD_DEF(SVGA_3D_CMD_DEFINE_GB_SURFACE_V4,
-> +                   &vmw_cmd_invalid, false, false, true),
->  };
->
->  bool vmw_cmd_describe(const void *buf, u32 *size, char const **cmd)
-> --
-> 2.34.1
->
+Fix a build error when using GCC 13.2.0 from kernel.org crosstools
+by changing ARRAY_SIZE() to the macro PVR_MIPS_PT_PAGE_COUNT:
 
-Looks good, but in the future you want to both find the change that
-initially added SVGA_3D_CMD_DEFINE_GB_SURFACE_V4 and do "dim fixes" to
-get the proper "Fixes:..." line to add to the commit description and
-either use ./scripts/get_maintainer.pl or at least make sure the
-maintainers are included in the patch by hand.
+drivers/gpu/drm/imagination/pvr_vm_mips.c: In function 'pvr_vm_mips_fini':
+../include/linux/array_size.h:11:25: warning: overflow in conversion from 'long unsigned int' to 'int' changes value from '18446744073709551615' to '-1' [-Woverflow]
+   11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+      |                         ^
+drivers/gpu/drm/imagination/pvr_vm_mips.c:105:24: note: in expansion of macro 'ARRAY_SIZE'
+  105 |         for (page_nr = ARRAY_SIZE(mips_data->pt_pages) - 1; page_nr >= 0; page_nr--) {
+      |                        ^~~~~~~~~~
 
-z
+Fixes: 927f3e0253c1 ("drm/imagination: Implement MIPS firmware processor and MMU support")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Donald Robson <donald.robson@imgtec.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Frank Binns <frank.binns@imgtec.com>
+Cc: Matt Coster <matt.coster@imgtec.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+---
+ drivers/gpu/drm/imagination/pvr_vm_mips.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff -- a/drivers/gpu/drm/imagination/pvr_vm_mips.c b/drivers/gpu/drm/imagination/pvr_vm_mips.c
+--- a/drivers/gpu/drm/imagination/pvr_vm_mips.c
++++ b/drivers/gpu/drm/imagination/pvr_vm_mips.c
+@@ -46,7 +46,7 @@ pvr_vm_mips_init(struct pvr_device *pvr_
+ 	if (!mips_data)
+ 		return -ENOMEM;
+ 
+-	for (page_nr = 0; page_nr < ARRAY_SIZE(mips_data->pt_pages); page_nr++) {
++	for (page_nr = 0; page_nr < PVR_MIPS_PT_PAGE_COUNT; page_nr++) {
+ 		mips_data->pt_pages[page_nr] = alloc_page(GFP_KERNEL | __GFP_ZERO);
+ 		if (!mips_data->pt_pages[page_nr]) {
+ 			err = -ENOMEM;
+@@ -102,7 +102,7 @@ pvr_vm_mips_fini(struct pvr_device *pvr_
+ 	int page_nr;
+ 
+ 	vunmap(mips_data->pt);
+-	for (page_nr = ARRAY_SIZE(mips_data->pt_pages) - 1; page_nr >= 0; page_nr--) {
++	for (page_nr = PVR_MIPS_PT_PAGE_COUNT - 1; page_nr >= 0; page_nr--) {
+ 		dma_unmap_page(from_pvr_device(pvr_dev)->dev,
+ 			       mips_data->pt_dma_addr[page_nr], PAGE_SIZE, DMA_TO_DEVICE);
+ 
