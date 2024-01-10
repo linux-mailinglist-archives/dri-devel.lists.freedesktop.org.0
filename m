@@ -2,52 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B06E829B05
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 14:14:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD36A829B0C
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 14:16:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1120F10E79E;
-	Wed, 10 Jan 2024 13:14:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 269D710E044;
+	Wed, 10 Jan 2024 13:16:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 307 seconds by postgrey-1.36 at gabe;
- Wed, 10 Jan 2024 13:14:22 UTC
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com
- [157.90.84.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85C2F10E7FF;
- Wed, 10 Jan 2024 13:14:22 +0000 (UTC)
-Received: from [192.168.42.20] (p5de453e7.dip0.t-ipconnect.de [93.228.83.231])
- (Authenticated sender: wse@tuxedocomputers.com)
- by mail.tuxedocomputers.com (Postfix) with ESMTPSA id C562B2FC005B;
- Wed, 10 Jan 2024 14:14:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
- s=default; t=1704892461;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=D3XXWzf6RfsompBPEpJXXqoA3QY72hJE9BCknBlltgU=;
- b=tFOiG5JGP63gUPxytuSaXh/9yy7SdS7kKoiE7F9gkO9wjO53+5d/H/jqPdNpMuqTjvGHft
- 5DQe+5DPNJez8uLzSscCUnvJ3yoCroj6fr/rGUf0B+1bO27Wyr7h0rL9JcST9M0Q94BjTG
- ZJXjiUdQlmZjvUbgXnM+Tij+l93L6nA=
-Authentication-Results: mail.tuxedocomputers.com;
- auth=pass smtp.auth=wse@tuxedocomputers.com
- smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <67808818-ee34-4d04-ad90-cd5c6eb9bb26@tuxedocomputers.com>
-Date: Wed, 10 Jan 2024 14:14:20 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB38310E044
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 13:16:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1704892583; x=1736428583;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=bi00YTP/YDnin5cwFEWEK52xuDg4Q8dVyRBr2Z8awG8=;
+ b=D8MSFPkQE4uA7qm5YDBqS2k8DeQQOPm2QoSj8uJkaibP4H4jwHqxjmj+
+ AoPpUDU2FnOyqy7xoNYIoXK7Op5eZZYEDZ6lMu/qNAM7r7skXQ6iEfwdd
+ c3t9wD8xy8aMrrz5rDqFWt0Am4QQlway83yeDF4BSo4rFy3VupC2MhGFa
+ FpGDaLGcvx1CA5gUHwmCJ4kciEP90UNaUIWaKV9VRbYLWdSMbA/kj3oAn
+ 8zf0r2Oba9GWh1/hzhp39BA4oqs4bkYS+RXOXVVDClypFEhy6TM973zEG
+ K4vHUE9NauYTG902OjbnxaCRPVPSsndWr62er5J2dTFl3YCW+76oBUXak w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10948"; a="402291616"
+X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; d="scan'208";a="402291616"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jan 2024 05:16:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10948"; a="782178131"
+X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; d="scan'208";a="782178131"
+Received: from vsovraso-mobl.ccr.corp.intel.com (HELO
+ jhogande-mobl1.intel.com) ([10.251.211.202])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jan 2024 05:16:21 -0800
+From: =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 11/13] drm/panelreplay: dpcd register definition for
+ panelreplay SU
+Date: Wed, 10 Jan 2024 15:15:45 +0200
+Message-Id: <20240110131545.2471813-1-jouni.hogander@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/7] drm/amd/display: Add handling for new "active color
- format" property
-Content-Language: en-US
-To: Daniel Vetter <daniel@ffwll.ch>, Andri Yngvason <andri@yngvason.is>
-References: <20240109181104.1670304-1-andri@yngvason.is>
- <20240109181104.1670304-4-andri@yngvason.is>
- <ZZ57Nl3CnRMPcfbj@phenom.ffwll.local>
- <CAFNQBQzo17cK4M-S=Mje8Lxub9Y74xFGj7iEq57vKJr47oiz5Q@mail.gmail.com>
- <CAKMK7uGhMCwbztGdEmG4gFgpyhw6j-JFow-AaprFxcX710=qXA@mail.gmail.com>
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <CAKMK7uGhMCwbztGdEmG4gFgpyhw6j-JFow-AaprFxcX710=qXA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,65 +59,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, Leo Li <sunpeng.li@amd.com>,
- dri-devel@lists.freedesktop.org, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Add definitions for panel replay selective update
 
-Am 10.01.24 um 14:09 schrieb Daniel Vetter:
-> On Wed, 10 Jan 2024 at 13:53, Andri Yngvason <andri@yngvason.is> wrote:
->> mið., 10. jan. 2024 kl. 11:10 skrifaði Daniel Vetter <daniel@ffwll.ch>:
->>> On Tue, Jan 09, 2024 at 06:11:00PM +0000, Andri Yngvason wrote:
->>>> +     /* Extract information from crtc to communicate it to userspace as connector properties */
->>>> +     for_each_new_connector_in_state(state, connector, new_con_state, i) {
->>>> +             struct drm_crtc *crtc = new_con_state->crtc;
->>>> +             struct dc_stream_state *stream;
->>>> +
->>>> +             if (crtc) {
->>>> +                     new_crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
->>>> +                     dm_new_crtc_state = to_dm_crtc_state(new_crtc_state);
->>>> +                     stream = dm_new_crtc_state->stream;
->>>> +
->>>> +                     if (stream) {
->>>> +                             drm_connector_set_active_color_format_property(connector,
->>>> +                                     convert_dc_pixel_encoding_into_drm_color_format(
->>>> +                                             dm_new_crtc_state->stream->timing.pixel_encoding));
->>>> +                     }
->>>> +             } else {
->>>> +                     drm_connector_set_active_color_format_property(connector, 0);
->>> Just realized an even bigger reason why your current design doesn't work:
->>> You don't have locking here.
->>>
->>> And you cannot grab the required lock, which is
->>> drm_dev->mode_config.mutex, because that would result in deadlocks. So
->>> this really needs to use the atomic state based design I've described.
->>>
->> Maybe we should just drop "actual color format" and instead fail the
->> modeset if the "preferred color format" property cannot be satisfied?
->> It seems like the simplest thing to do here, though it is perhaps less
->> convenient for userspace. In that case, the "preferred color format"
->> property should just be called "color format".
-> Yeah that's more in line with how other atomic properties work. This
-> way userspace can figure out what works with a TEST_ONLY commit too.
-> And for this to work you probably want to have an "automatic" setting
-> too.
-> -Sima
+v2: Remove unnecessary Cc from commit message
 
-The problem with TEST_ONLY probing is that color format settings are 
-interdependent: https://gitlab.freedesktop.org/drm/amd/-/issues/476#note_966634
+Signed-off-by: Jouni Högander <jouni.hogander@intel.com>
+---
+ include/drm/display/drm_dp.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-So changing any other setting may require every color format to be TEST_ONLY 
-probed again.
-
-Greetings
-
-Werner
+diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
+index 281afff6ee4e..4ebf79948c7f 100644
+--- a/include/drm/display/drm_dp.h
++++ b/include/drm/display/drm_dp.h
+@@ -548,6 +548,12 @@
+ # define DP_PANEL_REPLAY_SUPPORT            (1 << 0)
+ # define DP_PANEL_REPLAY_SU_SUPPORT         (1 << 1)
+ 
++#define DP_PANEL_PANEL_REPLAY_CAPABILITY		0xb1
++# define DP_PANEL_PANEL_REPLAY_SU_GRANULARITY_REQUIRED	(1 << 5)
++
++#define DP_PANEL_PANEL_REPLAY_X_GRANULARITY		0xb2
++#define DP_PANEL_PANEL_REPLAY_Y_GRANULARITY		0xb4
++
+ /* Link Configuration */
+ #define	DP_LINK_BW_SET		            0x100
+ # define DP_LINK_RATE_TABLE		    0x00    /* eDP 1.4 */
+-- 
+2.34.1
 
