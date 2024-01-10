@@ -2,51 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BD50829641
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 10:24:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F58382964D
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 10:27:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1EAC10E57A;
-	Wed, 10 Jan 2024 09:24:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1ED010E191;
+	Wed, 10 Jan 2024 09:27:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF5D810E57A;
- Wed, 10 Jan 2024 09:24:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704878651; x=1736414651;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=VF4GGDezjMD7BNAmxD35y69aoAxh53pgorC7gnT0ZLQ=;
- b=mvPUQsBbc4/tB5lbsPuFkx/+fY0pmGbinBS86cLPhUYC4MgmrhUud5Pq
- d6ajvmDUWhI0+sz2lJA9tnrd9UGkIQbdshZmjy5MDaZY7+HV1DVqyauqx
- AWinBiFkFxtvekp17s6ApxVHmmC3c1ozJLQeLAEsKzuzgbWCS+PqbrPOL
- UoStKmDMAxg0TZAJhK+YQll5lYRcNT8zogUiO8/FozzoFfr6A1BTVRtPp
- 5Oy/upDaHjSkP/mthByEegGDHe/6dsrtabLlu5zR88q53xogqrIqE0S0Q
- qHZjktGJlXyUHUNRjf5BPEIOI+A+q4qg2UQoLiUvEPR16El0Z4uWPV7xl w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="5545835"
-X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; 
-   d="scan'208";a="5545835"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jan 2024 01:24:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; d="scan'208";a="16576374"
-Received: from fpallare-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.252.36.240])
- by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jan 2024 01:24:04 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH 3/3] ASoC: hdmi-codec: drop drm/drm_edid.h include
-In-Reply-To: <20240104201632.1100753-3-jani.nikula@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240104201632.1100753-1-jani.nikula@intel.com>
- <20240104201632.1100753-3-jani.nikula@intel.com>
-Date: Wed, 10 Jan 2024 11:24:01 +0200
-Message-ID: <87cyu9wngu.fsf@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6775110E17B;
+ Wed, 10 Jan 2024 09:27:18 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id B00BF615BA;
+ Wed, 10 Jan 2024 09:27:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09FA2C433F1;
+ Wed, 10 Jan 2024 09:27:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1704878837;
+ bh=nzNAaOqvaUL57D/V9epEYzVxZ7pYbWWXoeDDRRHs+/k=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=juD6hpZRALBSBgsoKCWJmV0pVswWCkfgSB5gygZYm22wB6tFLF/GCnNhGjsnwkKdp
+ pNVg/8oaNf172cQ4jZnmULRpAwB7yY7SpHQdeDgLRyfukjUp4YImdJiVITXeSb5RBj
+ lv6R8hPinxo9nMfphpcDsx9UccrLhocX9H1bpJzIuJFkMlz6oFuIwq1yEtfkZR0kMa
+ ksEy5xxZwq+mQg2B81zeC1VjRfTbPR0EMe2jyTC+HK4+ajT4zdWXPfZlkeH1+8y5Os
+ lgYbczWKk3EemUbeDmQxeMvWKGlmxqP7evxQ16nsZ3xVSDEfzuzwu0sIVAtE6d5fTf
+ T8fnq7PmuqINw==
+Date: Wed, 10 Jan 2024 10:27:14 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Andri Yngvason <andri@yngvason.is>
+Subject: Re: [PATCH 5/7] drm/uAPI: Add "preferred color format" drm property
+ as setting for userspace
+Message-ID: <qdwv7sagqs5nmmsy5lko5hypldanfodafyzamrs3loj3n7jzlr@n5bacxkknkj4>
+References: <20240109181104.1670304-1-andri@yngvason.is>
+ <20240109181104.1670304-6-andri@yngvason.is>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="f6j2j4rphibvcs2b"
+Content-Disposition: inline
+In-Reply-To: <20240109181104.1670304-6-andri@yngvason.is>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,147 +53,231 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <mripard@kernel.org>, freedreno@lists.freedesktop.org,
- Robert Foss <rfoss@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- linux-arm-msm@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
- linux-sound@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, Takashi Iwai <tiwai@suse.com>,
- Sean Paul <sean@poorly.run>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, intel-gfx@lists.freedesktop.org,
+ Leo Li <sunpeng.li@amd.com>, dri-devel@lists.freedesktop.org, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Werner Sembach <wse@tuxedocomputers.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 04 Jan 2024, Jani Nikula <jani.nikula@intel.com> wrote:
-> hdmi-codec.h does not appear to directly need drm/drm_edid.h for
-> anything. Remove it.
 
-Jaroslav, Takashi, ack for merging this via the drm trees, please?
+--f6j2j4rphibvcs2b
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-BR,
-Jani.
+Hi,
 
+On Tue, Jan 09, 2024 at 06:11:02PM +0000, Andri Yngvason wrote:
+> From: Werner Sembach <wse@tuxedocomputers.com>
+>=20
+> Add a new general drm property "preferred color format" which can be used
+> by userspace to tell the graphic drivers to which color format to use.
+>=20
+> Possible options are:
+>     - auto (default/current behaviour)
+>     - rgb
+>     - ycbcr444
+>     - ycbcr422 (not supported by both amdgpu and i915)
+>     - ycbcr420
+>=20
+> In theory the auto option should choose the best available option for the
+> current setup, but because of bad internal conversion some monitors look
+> better with rgb and some with ycbcr444.
 
->
-> There are some files that get drm/drm_edid.h by proxy; include it where
-> needed.
->
-> v2-v4: Fix build (kernel test robot <lkp@intel.com>)
->
-> Cc: Rob Clark <robdclark@gmail.com>
-> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: Sean Paul <sean@poorly.run>
-> Cc: Marijn Suijten <marijn.suijten@somainline.org>
-> Cc: linux-arm-msm@vger.kernel.org
-> Cc: freedreno@lists.freedesktop.org
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Robert Foss <rfoss@kernel.org>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Jaroslav Kysela <perex@perex.cz>
-> Cc: Takashi Iwai <tiwai@suse.com>
-> Cc: linux-sound@vger.kernel.org
-> Acked-by: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+I looked at the patch and I couldn't find what is supposed to happen if
+you set it to something else than auto, and the driver can't match that.
+Are we supposed to fallback to the "auto" behaviour, or are we suppose
+to reject the mode entirely?
+
+The combination with the active output format property suggests the
+former, but we should document it explicitly.
+
+> Also, because of bad shielded connectors and/or cables, it might be
+> preferable to use the less bandwidth heavy ycbcr422 and ycbcr420 formats
+> for a signal that is less deceptible to interference.
+>=20
+> In the future, automatic color calibration for screens might also depend =
+on
+> this option being available.
+>=20
+> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+> Signed-off-by: Andri Yngvason <andri@yngvason.is>
+> Tested-by: Andri Yngvason <andri@yngvason.is>
 > ---
->  drivers/gpu/drm/bridge/lontium-lt9611.c    | 1 +
->  drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 1 +
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c  | 1 +
->  drivers/gpu/drm/msm/dp/dp_display.c        | 1 +
->  drivers/gpu/drm/tegra/hdmi.c               | 1 +
->  drivers/gpu/drm/vc4/vc4_hdmi.c             | 1 +
->  include/sound/hdmi-codec.h                 | 1 -
->  7 files changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
-> index 9663601ce098..b9205d14d943 100644
-> --- a/drivers/gpu/drm/bridge/lontium-lt9611.c
-> +++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
-> @@ -18,6 +18,7 @@
->  
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_bridge.h>
-> +#include <drm/drm_edid.h>
->  #include <drm/drm_mipi_dsi.h>
->  #include <drm/drm_of.h>
->  #include <drm/drm_print.h>
-> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-> index e971b75e90ad..f3f130c1ef0a 100644
-> --- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-> +++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-> @@ -21,6 +21,7 @@
->  
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_bridge.h>
-> +#include <drm/drm_edid.h>
->  #include <drm/drm_mipi_dsi.h>
->  #include <drm/drm_print.h>
->  #include <drm/drm_probe_helper.h>
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index 52d91a0df85e..fa63a21bdd1c 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -31,6 +31,7 @@
->  #include <drm/drm_atomic.h>
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_bridge.h>
-> +#include <drm/drm_edid.h>
->  #include <drm/drm_of.h>
->  #include <drm/drm_print.h>
->  #include <drm/drm_probe_helper.h>
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index d37d599aec27..c8e1bbebdffe 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -11,6 +11,7 @@
->  #include <linux/of_irq.h>
->  #include <linux/delay.h>
->  #include <drm/display/drm_dp_aux_bus.h>
-> +#include <drm/drm_edid.h>
->  
->  #include "msm_drv.h"
->  #include "msm_kms.h"
-> diff --git a/drivers/gpu/drm/tegra/hdmi.c b/drivers/gpu/drm/tegra/hdmi.c
-> index 417fb884240a..09987e372e3e 100644
-> --- a/drivers/gpu/drm/tegra/hdmi.c
-> +++ b/drivers/gpu/drm/tegra/hdmi.c
-> @@ -24,6 +24,7 @@
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_crtc.h>
->  #include <drm/drm_debugfs.h>
-> +#include <drm/drm_edid.h>
->  #include <drm/drm_eld.h>
->  #include <drm/drm_file.h>
->  #include <drm/drm_fourcc.h>
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> index f05e2c95a60d..34f807ed1c31 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -35,6 +35,7 @@
->  #include <drm/display/drm_scdc_helper.h>
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_drv.h>
-> +#include <drm/drm_edid.h>
->  #include <drm/drm_probe_helper.h>
->  #include <drm/drm_simple_kms_helper.h>
->  #include <linux/clk.h>
-> diff --git a/include/sound/hdmi-codec.h b/include/sound/hdmi-codec.h
-> index 9b162ac1e08e..5e1a9eafd10f 100644
-> --- a/include/sound/hdmi-codec.h
-> +++ b/include/sound/hdmi-codec.h
-> @@ -12,7 +12,6 @@
->  
->  #include <linux/of_graph.h>
->  #include <linux/hdmi.h>
-> -#include <drm/drm_edid.h>
->  #include <sound/asoundef.h>
->  #include <sound/soc.h>
->  #include <uapi/sound/asound.h>
+>  drivers/gpu/drm/drm_atomic_helper.c |  4 +++
+>  drivers/gpu/drm/drm_atomic_uapi.c   |  4 +++
+>  drivers/gpu/drm/drm_connector.c     | 50 ++++++++++++++++++++++++++++-
+>  include/drm/drm_connector.h         | 17 ++++++++++
+>  4 files changed, 74 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_at=
+omic_helper.c
+> index 68ffcc0b00dca..745a43d9c5da3 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -707,6 +707,10 @@ drm_atomic_helper_check_modeset(struct drm_device *d=
+ev,
+>  			if (old_connector_state->max_requested_bpc !=3D
+>  			    new_connector_state->max_requested_bpc)
+>  				new_crtc_state->connectors_changed =3D true;
+> +
+> +			if (old_connector_state->preferred_color_format !=3D
+> +			    new_connector_state->preferred_color_format)
+> +				new_crtc_state->connectors_changed =3D true;
+>  		}
+> =20
+>  		if (funcs->atomic_check)
+> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atom=
+ic_uapi.c
+> index 98d3b10c08ae1..eba5dea1249e5 100644
+> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> @@ -798,6 +798,8 @@ static int drm_atomic_connector_set_property(struct d=
+rm_connector *connector,
+>  		state->max_requested_bpc =3D val;
+>  	} else if (property =3D=3D connector->privacy_screen_sw_state_property)=
+ {
+>  		state->privacy_screen_sw_state =3D val;
+> +	} else if (property =3D=3D connector->preferred_color_format_property) {
+> +		state->preferred_color_format =3D val;
+>  	} else if (connector->funcs->atomic_set_property) {
+>  		return connector->funcs->atomic_set_property(connector,
+>  				state, property, val);
+> @@ -881,6 +883,8 @@ drm_atomic_connector_get_property(struct drm_connecto=
+r *connector,
+>  		*val =3D state->max_requested_bpc;
+>  	} else if (property =3D=3D connector->privacy_screen_sw_state_property)=
+ {
+>  		*val =3D state->privacy_screen_sw_state;
+> +	} else if (property =3D=3D connector->preferred_color_format_property) {
+> +		*val =3D state->preferred_color_format;
+>  	} else if (connector->funcs->atomic_get_property) {
+>  		return connector->funcs->atomic_get_property(connector,
+>  				state, property, val);
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connec=
+tor.c
+> index 30d62e505d188..4de48a38792cf 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -1061,6 +1061,14 @@ static const struct drm_prop_enum_list drm_dp_subc=
+onnector_enum_list[] =3D {
+>  	{ DRM_MODE_SUBCONNECTOR_Native,	     "Native"    }, /* DP */
+>  };
+> =20
+> +static const struct drm_prop_enum_list drm_preferred_color_format_enum_l=
+ist[] =3D {
+> +	{ 0, "auto" },
+> +	{ DRM_COLOR_FORMAT_RGB444, "rgb" },
+> +	{ DRM_COLOR_FORMAT_YCBCR444, "ycbcr444" },
+> +	{ DRM_COLOR_FORMAT_YCBCR422, "ycbcr422" },
+> +	{ DRM_COLOR_FORMAT_YCBCR420, "ycbcr420" },
+> +};
+> +
+>  static const struct drm_prop_enum_list drm_active_color_format_enum_list=
+[] =3D {
+>  	{ 0, "not applicable" },
+>  	{ DRM_COLOR_FORMAT_RGB444, "rgb" },
+> @@ -1398,11 +1406,20 @@ static const u32 dp_colorspaces =3D
+>   *	drm_connector_attach_max_bpc_property() to create and attach the
+>   *	property to the connector during initialization.
+>   *
+> + * preferred color format:
+> + *	This property is used by userspace to change the used color format. W=
+hen
+> + *	used the driver will use the selected format if valid for the hardwar=
+e,
+> + *	sink, and current resolution and refresh rate combination. Drivers to
+> + *	use the function drm_connector_attach_preferred_color_format_property=
+()
+> + *	to create and attach the property to the connector during
+> + *	initialization. Possible values are "auto", "rgb", "ycbcr444",
+> + *	"ycbcr422", and "ycbcr420".
+> + *
+>   * active color format:
+>   *	This read-only property tells userspace the color format actually used
+>   *	by the hardware display engine "on the cable" on a connector. The cho=
+sen
+>   *	value depends on hardware capabilities, both display engine and
+> - *	connected monitor. Drivers shall use
+> + *	connected monitor, and the "preferred color format". Drivers shall use
+>   *	drm_connector_attach_active_color_format_property() to install this
+>   *	property. Possible values are "not applicable", "rgb", "ycbcr444",
+>   *	"ycbcr422", and "ycbcr420".
+> @@ -2468,6 +2485,37 @@ int drm_connector_attach_max_bpc_property(struct d=
+rm_connector *connector,
+>  }
+>  EXPORT_SYMBOL(drm_connector_attach_max_bpc_property);
+> =20
+> +/**
+> + * drm_connector_attach_preferred_color_format_property - attach "prefer=
+red color format" property
+> + * @connector: connector to attach preferred color format property on.
+> + *
+> + * This is used to add support for selecting a color format on a connect=
+or.
+> + *
+> + * Returns:
+> + * Zero on success, negative errno on failure.
+> + */
+> +int drm_connector_attach_preferred_color_format_property(struct drm_conn=
+ector *connector)
+> +{
+> +	struct drm_device *dev =3D connector->dev;
+> +	struct drm_property *prop;
+> +
+> +	if (!connector->preferred_color_format_property) {
+> +		prop =3D drm_property_create_enum(dev, 0, "preferred color format",
+> +						drm_preferred_color_format_enum_list,
+> +						ARRAY_SIZE(drm_preferred_color_format_enum_list));
+> +		if (!prop)
+> +			return -ENOMEM;
+> +
+> +		connector->preferred_color_format_property =3D prop;
+> +	}
+> +
+> +	drm_object_attach_property(&connector->base, prop, 0);
+> +	connector->state->preferred_color_format =3D 0;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_connector_attach_preferred_color_format_property);
+> +
+>  /**
+>   * drm_connector_attach_active_color_format_property - attach "active co=
+lor format" property
+>   * @connector: connector to attach active color format property on.
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index 9ae73cfdceeb1..d7bc54c8b42cb 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -1026,6 +1026,16 @@ struct drm_connector_state {
+>  	 */
+>  	enum drm_privacy_screen_status privacy_screen_sw_state;
+> =20
+> +	/**
+> +	 * preferred_color_format: Property set by userspace to tell the GPU
 
--- 
-Jani Nikula, Intel
+That's not the proper doc format, you're missing a @
+
+Maxime
+
+--f6j2j4rphibvcs2b
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZZ5i8QAKCRDj7w1vZxhR
+xUKrAQC6+1rVAO7umPgfBq9P7nimTGhAG69n4i9MYMS1adFqoAD/T5SQ1Tsm9Ybw
+vTELQXqv0M32Kqp1PKhW+w+WiQTzAQw=
+=CrvP
+-----END PGP SIGNATURE-----
+
+--f6j2j4rphibvcs2b--
