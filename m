@@ -2,121 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFCB28297B7
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 11:40:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0755F8297C8
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 11:43:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E120410E137;
-	Wed, 10 Jan 2024 10:39:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2354310E591;
+	Wed, 10 Jan 2024 10:43:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C2E010E137
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 10:39:58 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id
- ffacd0b85a97d-336c5b5c163so2409626f8f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 02:39:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1704883196; x=1705487996; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=p/CFezntBDwJgvbMFFPYTvlY4ZLvj7+eyQcOr19vwEo=;
- b=AjLIYQmWhj7uAElJCYyYSVwpLML88mUZlMqy7hKnnO3g8VuYLEt93N8YSJ/K/Kj4il
- aE3fM2fKyNJoAeECsrMUdKc6DK51QKOHO9ACti9QX8hdSFimmuYdP+FH4qu+NlgI4fD+
- +y/CUZtIxVbKqJ3zkSC6fnpmDq+ILjFseQI7Tph6bc4tWWYnRMeXM6sW/dciiqV6s2Um
- I4SJ/sTGEzSefPU3fR5xSiw+4y4scy6fHJNGLfVPVAfikf1D1ytYqd8yAtSJZmVbC1+E
- iPhTPWf9FLUnFJDSJOwPg1cZQ+cy1miWuqPU5ftdB1Ur6pjm4mUcElHWJriBpnvHaGj4
- seiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704883196; x=1705487996;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=p/CFezntBDwJgvbMFFPYTvlY4ZLvj7+eyQcOr19vwEo=;
- b=ME9wD/CEOiefamlxuvgmzUvfCKMy0m0zBxJL3NPqCHJWjwnjku0VbffjcL6/mPs0Si
- WEZ0Wl/9IICFxWRUE2vD9j06d2VqRpU2MbCytKZ2zirGW6J//TPXwwr8LjJ3WUfNqvq9
- ZKS7F2e0ZHWV1VMDnxhAzywFyQeMIsC5jPmdwzwS+8s1z2t+wtLkOy0vvbKBws+9sBHe
- tf+h6Y+h+r7a/xAHq/yTA6Y1vM48XLpfFvjjziViaKRn02Nr/lz2iY1IHD9GfyZOlsNE
- OD1PkPML0BSC/DtVmYUAEIwmuuzUjJAU31MW7BuCFYbpPAhYRkMMVMAVLSPW60QGypGQ
- C3cg==
-X-Gm-Message-State: AOJu0YwmlgM6ElP63H0SvsCBrOM6ts1bICCMYuCwfzY7/tHAFgLtndme
- ZO+ap015t/u0fF8AaYerxtITnc306xiATQ==
-X-Google-Smtp-Source: AGHT+IH0Wzhg7u2tUzT4i2vx4fKztU5ylnTcAD7npyuXoDvijwmVpNciQ74UR/q3fQKCC4R1dNNpSg==
-X-Received: by 2002:adf:f989:0:b0:336:7db7:aaae with SMTP id
- f9-20020adff989000000b003367db7aaaemr1044442wrr.8.1704883195934; 
- Wed, 10 Jan 2024 02:39:55 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.223.112])
- by smtp.gmail.com with ESMTPSA id
- c2-20020adfe742000000b003366a9cb0d1sm4549056wrn.92.2024.01.10.02.39.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Jan 2024 02:39:55 -0800 (PST)
-Message-ID: <7110b0a8-5b0c-4817-9432-26528bbbb5a9@linaro.org>
-Date: Wed, 10 Jan 2024 11:39:53 +0100
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E96A510E591
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 10:43:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=tEqgJ5B/pdSf18+0J5DoJwXn+gPtxZq1Yub5AnKMJ64=; b=XSxHx77MRcENie+dbHGMSg5elc
+ OW5nXPW89wrJgZI6Gxrl0zGKJYQVlJerauL12lgCNNaoE3gKGMEkwEYgJ9n5z5FcM+vtj+fWa/DWD
+ WgdHn2yfI82a21x6pMoNuho5xU4RFhA/zxiyiUPuBJslHiUpZEfT+oOjqfFfi1E3U82uMU0ziEj2k
+ zD3utKiomucM8NDY8rZLOPN4D0PmCXMTlTF5WmF/PNJGbkndDyeIJ0MKw9bnIbqsBDddEx/ThNHtb
+ mYI12TVCJGrhkRnYzGYVbcgRhgx1gAKIAYLnLUUGL2GDMGD3Kwe8qgJhLMrDr5k43MvuxVNQCEKn3
+ ZuJvJWiA==;
+Received: from [179.234.233.159] (helo=[192.168.1.212])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1rNW2y-004uvF-7X; Wed, 10 Jan 2024 11:42:56 +0100
+Message-ID: <7480f796-9a24-44fa-bb40-7902e4b579e4@igalia.com>
+Date: Wed, 10 Jan 2024 07:42:51 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] dt-bindings: display: convert Atmel's HLCDC to DT
- schema
+Subject: Re: [PATCH] drm/v3d: Free the job and assign it to NULL if
+ initialization fails
 Content-Language: en-US
-To: Dharma Balasubiramani <dharma.b@microchip.com>, sam@ravnborg.org,
- bbrezillon@kernel.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
- claudiu.beznea@tuxon.dev, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, lee@kernel.org, thierry.reding@gmail.com,
- u.kleine-koenig@pengutronix.de, linux-pwm@vger.kernel.org
-References: <20240110102535.246177-1-dharma.b@microchip.com>
- <20240110102535.246177-2-dharma.b@microchip.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240110102535.246177-2-dharma.b@microchip.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Iago Toral <itoral@igalia.com>, Melissa Wen <mwen@igalia.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+References: <20240109142857.1122704-1-mcanal@igalia.com>
+ <b067ade09929bb3fa6a2fea88f83196b11354553.camel@igalia.com>
+From: Maira Canal <mcanal@igalia.com>
+Autocrypt: addr=mcanal@igalia.com; keydata=
+ xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
+ H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
+ hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
+ GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
+ rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
+ s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
+ GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
+ pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
+In-Reply-To: <b067ade09929bb3fa6a2fea88f83196b11354553.camel@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,206 +67,301 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/01/2024 11:25, Dharma Balasubiramani wrote:
-> Convert the existing DT binding to DT schema of the Atmel's HLCDC display
-> controller.
+Hi Iago,
+
+On 1/10/24 03:48, Iago Toral wrote:
+> I think this is fine, but I was wondering if it would be simpler and
+> easier to just remove the sched cleanup from v3d_job_init and instead
+> always rely on callers to eventually call v3d_job_cleanup for fail
+> paths, where we are already calling v3d_job_cleanup.
+
+If we just remove `drm_sched_job_cleanup()` from `v3d_job_init()` we
+trigger a use-after-free warning by the job refcount:
+
+[   34.367222] ------------[ cut here ]------------
+[   34.367235] refcount_t: underflow; use-after-free.
+[   34.367274] WARNING: CPU: 0 PID: 1922 at lib/refcount.c:28 
+refcount_warn_saturate+0x108/0x148
+[   34.367298] Modules linked in: rfcomm snd_seq_dummy snd_hrtimer 
+snd_seq snd_seq_device algif_hash aes_neon_bs aes_neon_blk 
+algif_skcipher af_alg bnep hid_logitech_hidpp brcmfmac_wcc brcmfmac 
+hci_uart btbcm bluetooth vc4 brcmutil cfg80211 bcm2835_v4l2(C) 
+bcm2835_mmal_vchiq(C) binfmt_misc snd_soc_hdmi_codec videobuf2_v4l2 cec 
+ecdh_generic drm_display_helper videobuf2_vmalloc ecc videobuf2_memops 
+drm_dma_helper videobuf2_common drm_kms_helper dwc2 raspberrypi_hwmon 
+videodev snd_soc_core i2c_brcmstb rfkill libaes hid_logitech_dj mc v3d 
+snd_bcm2835(C) i2c_bcm2835 pwm_bcm2835 snd_pcm_dmaengine snd_pcm 
+gpu_sched snd_timer drm_shmem_helper snd nvmem_rmem uio_pdrv_genirq uio 
+i2c_dev drm dm_mod fuse drm_panel_orientation_quirks backlight configfs 
+ip_tables x_tables ipv6
+[   34.367434] CPU: 0 PID: 1922 Comm: v3d_submit_cl Tainted: G         C 
+         6.7.0-rc3-g632ca3c92f38-dirty #74
+[   34.367441] Hardware name: Raspberry Pi 4 Model B Rev 1.5 (DT)
+[   34.367444] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS 
+BTYPE=--)
+[   34.367450] pc : refcount_warn_saturate+0x108/0x148
+[   34.367456] lr : refcount_warn_saturate+0x108/0x148
+[   34.367462] sp : ffffffc08341bb90
+[   34.367465] x29: ffffffc08341bb90 x28: ffffff8102962400 x27: 
+ffffffee5592de88
+[   34.367473] x26: ffffff8116503e00 x25: ffffff81213e8800 x24: 
+0000000000000048
+[   34.367481] x23: ffffff8101088000 x22: ffffffc08341bcf0 x21: 
+00000000ffffffea
+[   34.367489] x20: ffffff8102962400 x19: ffffff8102962600 x18: 
+ffffffee5beb3468
+[   34.367497] x17: 0000000000000001 x16: ffffffffffffffff x15: 
+0000000000000004
+[   34.367504] x14: ffffffee5c163738 x13: 0000000000000fff x12: 
+0000000000000003
+[   34.367512] x11: 0000000000000000 x10: 0000000000000027 x9 : 
+ada342fc9d5acc00
+[   34.367519] x8 : ada342fc9d5acc00 x7 : 65646e75203a745f x6 : 
+746e756f63666572
+[   34.367526] x5 : ffffffee5c3129da x4 : ffffffee5c2fc59e x3 : 
+0000000000000000
+[   34.367533] x2 : 0000000000000000 x1 : ffffffc08341b930 x0 : 
+0000000000000026
+[   34.367541] Call trace:
+[   34.367544]  refcount_warn_saturate+0x108/0x148
+[   34.367550]  v3d_submit_cl_ioctl+0x4cc/0x5e8 [v3d]
+[   34.367588]  drm_ioctl_kernel+0xe0/0x120 [drm]
+[   34.367767]  drm_ioctl+0x264/0x408 [drm]
+[   34.367866]  __arm64_sys_ioctl+0x9c/0xe0
+[   34.367877]  invoke_syscall+0x4c/0x118
+[   34.367887]  el0_svc_common+0xb8/0xf0
+[   34.367892]  do_el0_svc+0x28/0x40
+[   34.367898]  el0_svc+0x38/0x88
+[   34.367906]  el0t_64_sync_handler+0x84/0x100
+[   34.367913]  el0t_64_sync+0x190/0x198
+[   34.367917] ---[ end trace 0000000000000000 ]---
+
+Best Regards,
+- Maíra
+
 > 
-> Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
-> ---
->  .../display/atmel/atmel,hlcdc-dc.yaml         | 133 ++++++++++++++++++
->  .../bindings/display/atmel/hlcdc-dc.txt       |  75 ----------
->  2 files changed, 133 insertions(+), 75 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/display/atmel/atmel,hlcdc-dc.yaml
->  delete mode 100644 Documentation/devicetree/bindings/display/atmel/hlcdc-dc.txt
+> Iago
 > 
-> diff --git a/Documentation/devicetree/bindings/display/atmel/atmel,hlcdc-dc.yaml b/Documentation/devicetree/bindings/display/atmel/atmel,hlcdc-dc.yaml
-> new file mode 100644
-> index 000000000000..49ef28646c48
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/atmel/atmel,hlcdc-dc.yaml
-> @@ -0,0 +1,133 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +# Copyright (C) 2024 Microchip Technology, Inc. and its subsidiaries
-
-What about original copyrights from TXT file? Although conversion is
-quite independent, I could imagine some lawyer would call it a
-derivative work of original TXT.
-
-If you decide to add explicit copyrights (which anyway I do not
-understand why), then please make it signed off by some of your lawyers
-to be sure that you really claim that, in respect of other people
-copyrights.
-
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/atmel/atmel,hlcdc-dc.yaml#
-
-Filename like compatible.
-
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Atmel's HLCDC (High LCD Controller) DRM driver
-
-Driver as Linux driver? Not suitable for bindings, so please drop.
-
-> +
-> +maintainers:
-> +  - Nicolas Ferre <nicolas.ferre@microchip.com>
-> +  - Alexandre Belloni <alexandre.belloni@bootlin.com>
-> +  - Claudiu Beznea <claudiu.beznea@tuxon.dev>
-> +
-> +description: |
-> +  Device-Tree bindings for Atmel's HLCDC DRM driver. The Atmel HLCDC Display
-
-Drop entire first sentence and instead describe hardware.
-
-> +  Controller is a subdevice of the HLCDC MFD device.
-> +  # See ../../mfd/atmel,hlcdc.yaml for more details.
-
-Full paths please.
-
-> +
-> +properties:
-> +  compatible:
-> +    const: atmel,hlcdc-display-controller
-> +
-> +  pinctrl-names:
-> +    const: default
-> +
-> +  pinctrl-0: true
-
-Why do you need these two? Are they really required?
-
-> +
-> +  '#address-cells':
-> +    const: 1
-> +
-> +  '#size-cells':
-> +    const: 0
-> +
-> +  port@0:
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +    unevaluatedProperties: false
-> +    description:
-> +      Output endpoint of the controller, connecting the LCD panel signals.
-> +
-> +    properties:
-> +      '#address-cells':
-> +        const: 1
-> +
-> +      '#size-cells':
-> +        const: 0
-> +
-> +      reg:
-> +        maxItems: 1
-> +
-> +      endpoint:
-> +        $ref: /schemas/graph.yaml#/$defs/endpoint-base
-
-Hm, why do you reference endpoint-base? This looks oddly different than
-all other bindings for such devices, so please explain why.
-
-> +        unevaluatedProperties: false
-> +        description:
-> +          Endpoint connecting the LCD panel signals.
-> +
-> +        properties:
-> +          bus-width:
-> +            description: |
-> +              Any endpoint grandchild node may specify a desired video interface according to
-> +              ../../media/video-interfaces.yaml, specifically "bus-width" whose recognized
-
-Drop redundant information. Don't you miss some $ref?
-
-
-> +              values are <12>, <16>, <18> and <24>, and override any output mode selection
-> +              heuristic, forcing "rgb444","rgb565", "rgb666" and "rgb888" respectively.
-> +            enum: [ 12, 16, 18, 24 ]
-> +
-> +additionalProperties: false
-
-This goes after required:
-
-> +
-> +required:
-> +  - '#address-cells'
-> +  - '#size-cells'
-> +  - compatible
-> +  - pinctrl-names
-> +  - pinctrl-0
-> +  - port@0
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/at91.h>
-> +    #include <dt-bindings/dma/at91.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    //Example 1
-
-Drop
-
-> +    hlcdc: hlcdc@f0030000 {
-
-Node names should be generic. See also an explanation and list of
-examples (not exhaustive) in DT specification:
-https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-
-
-> +      compatible = "atmel,sama5d3-hlcdc";
-> +      reg = <0xf0030000 0x2000>;
-> +      interrupts = <36 IRQ_TYPE_LEVEL_HIGH 0>;
-> +      clocks = <&lcdc_clk>, <&lcdck>, <&clk32k>;
-> +      clock-names = "periph_clk","sys_clk", "slow_clk";
-
-This part does not look related... If this is part of other device,
-usually it is enough to have just one complete example.
-
-Also, fix coding style - space after ,
-
-> +
-> +      hlcdc-display-controller {
-> +        compatible = "atmel,hlcdc-display-controller";
-> +        pinctrl-names = "default";
-> +        pinctrl-0 = <&pinctrl_lcd_base &pinctrl_lcd_rgb888>;
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        port@0 {
-> +          #address-cells = <1>;
-> +          #size-cells = <0>;
-> +          reg = <0>;
-> +
-> +          hlcdc_panel_output: endpoint@0 {
-> +            reg = <0>;
-> +            remote-endpoint = <&panel_input>;
-> +          };
-> +        };
-> +      };
-> +
-> +      hlcdc_pwm: hlcdc-pwm {
-> +        compatible = "atmel,hlcdc-pwm";
-
-How is this related?
-
-> +        pinctrl-names = "default";
-> +        pinctrl-0 = <&pinctrl_lcd_pwm>;
-> +        #pwm-cells = <3>;
-> +      };
-> +    };
-> +  - |
-> +    //Example 2 With a video interface override to force rgb565
-> +    hlcdc-display-controller {
-> +      pinctrl-names = "default";
-> +      pinctrl-0 = <&pinctrl_lcd_base &pinctrl_lcd_rgb565>;
-
-And how is this? Where is the compatible? Maybe just drop second
-example, what are the differences?
-
-Are you sure your Microchip folks reviewed it before?
-
-Best regards,
-Krzysztof
-
+> El mar, 09-01-2024 a las 11:28 -0300, Maíra Canal escribió:
+>> Currently, if `v3d_job_init()` fails (e.g. in the IGT test "bad-in-
+>> sync",
+>> where we submit an invalid in-sync to the IOCTL), then we end up with
+>> the following NULL pointer dereference:
+>>
+>> [   34.146279] Unable to handle kernel NULL pointer dereference at
+>> virtual address 0000000000000078
+>> [   34.146301] Mem abort info:
+>> [   34.146306]   ESR = 0x0000000096000005
+>> [   34.146315]   EC = 0x25: DABT (current EL), IL = 32 bits
+>> [   34.146322]   SET = 0, FnV = 0
+>> [   34.146328]   EA = 0, S1PTW = 0
+>> [   34.146334]   FSC = 0x05: level 1 translation fault
+>> [   34.146340] Data abort info:
+>> [   34.146345]   ISV = 0, ISS = 0x00000005, ISS2 = 0x00000000
+>> [   34.146351]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
+>> [   34.146357]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
+>> [   34.146366] user pgtable: 4k pages, 39-bit VAs,
+>> pgdp=00000001232e6000
+>> [   34.146375] [0000000000000078] pgd=0000000000000000,
+>> p4d=0000000000000000, pud=0000000000000000
+>> [   34.146399] Internal error: Oops: 0000000096000005 [#1] PREEMPT
+>> SMP
+>> [   34.146406] Modules linked in: rfcomm snd_seq_dummy snd_hrtimer
+>> snd_seq snd_seq_device algif_hash aes_neon_bs aes_neon_blk
+>> algif_skcipher af_alg bnep hid_logitech_hidpp brcmfmac_wcc brcmfmac
+>> brcmutil hci_uart vc4 btbcm cfg80211 bluetooth bcm2835_v4l2(C)
+>> snd_soc_hdmi_codec binfmt_misc cec drm_display_helper hid_logitech_dj
+>> bcm2835_mmal_vchiq(C) drm_dma_helper drm_kms_helper videobuf2_v4l2
+>> raspberrypi_hwmon ecdh_generic videobuf2_vmalloc videobuf2_memops ecc
+>> videobuf2_common rfkill videodev libaes snd_soc_core dwc2 i2c_brcmstb
+>> snd_pcm_dmaengine snd_bcm2835(C) i2c_bcm2835 pwm_bcm2835 snd_pcm mc
+>> v3d snd_timer snd gpu_sched drm_shmem_helper nvmem_rmem
+>> uio_pdrv_genirq uio i2c_dev drm fuse dm_mod
+>> drm_panel_orientation_quirks backlight configfs ip_tables x_tables
+>> ipv6
+>> [   34.146556] CPU: 1 PID: 1890 Comm: v3d_submit_csd Tainted:
+>> G         C         6.7.0-rc3-g49ddab089611 #68
+>> [   34.146563] Hardware name: Raspberry Pi 4 Model B Rev 1.5 (DT)
+>> [   34.146569] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS
+>> BTYPE=--)
+>> [   34.146575] pc : drm_sched_job_cleanup+0x3c/0x190 [gpu_sched]
+>> [   34.146611] lr : v3d_submit_csd_ioctl+0x1b4/0x460 [v3d]
+>> [   34.146653] sp : ffffffc083cbbb80
+>> [   34.146658] x29: ffffffc083cbbb90 x28: ffffff81035afc00 x27:
+>> ffffffe77a641168
+>> [   34.146668] x26: ffffff81056a8000 x25: 0000000000000058 x24:
+>> 0000000000000000
+>> [   34.146677] x23: ffffff81065e2000 x22: ffffff81035afe00 x21:
+>> ffffffc083cbbcf0
+>> [   34.146686] x20: ffffff81035afe00 x19: 00000000ffffffea x18:
+>> 0000000000000000
+>> [   34.146694] x17: 0000000000000000 x16: ffffffe7989e34b0 x15:
+>> 0000000000000000
+>> [   34.146703] x14: 0000000004000004 x13: ffffff81035afe80 x12:
+>> ffffffc083cb8000
+>> [   34.146711] x11: cc57e05dfbe5ef00 x10: cc57e05dfbe5ef00 x9 :
+>> ffffffe77a64131c
+>> [   34.146719] x8 : 0000000000000000 x7 : 0000000000000000 x6 :
+>> 000000000000003f
+>> [   34.146727] x5 : 0000000000000040 x4 : ffffff81fefb03f0 x3 :
+>> ffffffc083cbba40
+>> [   34.146736] x2 : ffffff81056a8000 x1 : ffffffe7989e35e8 x0 :
+>> 0000000000000000
+>> [   34.146745] Call trace:
+>> [   34.146748]  drm_sched_job_cleanup+0x3c/0x190 [gpu_sched]
+>> [   34.146768]  v3d_submit_csd_ioctl+0x1b4/0x460 [v3d]
+>> [   34.146791]  drm_ioctl_kernel+0xe0/0x120 [drm]
+>> [   34.147029]  drm_ioctl+0x264/0x408 [drm]
+>> [   34.147135]  __arm64_sys_ioctl+0x9c/0xe0
+>> [   34.147152]  invoke_syscall+0x4c/0x118
+>> [   34.147162]  el0_svc_common+0xb8/0xf0
+>> [   34.147168]  do_el0_svc+0x28/0x40
+>> [   34.147174]  el0_svc+0x38/0x88
+>> [   34.147184]  el0t_64_sync_handler+0x84/0x100
+>> [   34.147191]  el0t_64_sync+0x190/0x198
+>> [   34.147201] Code: aa0003f4 f90007e8 f9401008 aa0803e0 (b8478c09)
+>> [   34.147210] ---[ end trace 0000000000000000 ]---
+>>
+>> This happens because we are calling `drm_sched_job_cleanup()` twice:
+>> once at `v3d_job_init()` and again when we call `v3d_job_cleanup()`.
+>>
+>> To mitigate this issue, we can return to the same approach that we
+>> used
+>> to use before 464c61e76de8: deallocate the job after `v3d_job_init()`
+>> fails and assign it to NULL. Then, when we call `v3d_job_cleanup()`,
+>> job
+>> is NULL and the function returns.
+>>
+>> Fixes: 464c61e76de8 ("drm/v3d: Decouple job allocation from job
+>> initiation")
+>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+>> ---
+>>   drivers/gpu/drm/v3d/v3d_submit.c | 35 +++++++++++++++++++++++++-----
+>> --
+>>   1 file changed, 28 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/v3d/v3d_submit.c
+>> b/drivers/gpu/drm/v3d/v3d_submit.c
+>> index fcff41dd2315..88f63d526b22 100644
+>> --- a/drivers/gpu/drm/v3d/v3d_submit.c
+>> +++ b/drivers/gpu/drm/v3d/v3d_submit.c
+>> @@ -147,6 +147,13 @@ v3d_job_allocate(void **container, size_t size)
+>>   	return 0;
+>>   }
+>>
+>> +static void
+>> +v3d_job_deallocate(void **container)
+>> +{
+>> +	kfree(*container);
+>> +	*container = NULL;
+>> +}
+>> +
+>>   static int
+>>   v3d_job_init(struct v3d_dev *v3d, struct drm_file *file_priv,
+>>   	     struct v3d_job *job, void (*free)(struct kref *ref),
+>> @@ -273,8 +280,10 @@ v3d_setup_csd_jobs_and_bos(struct drm_file
+>> *file_priv,
+>>
+>>   	ret = v3d_job_init(v3d, file_priv, &(*job)->base,
+>>   			   v3d_job_free, args->in_sync, se,
+>> V3D_CSD);
+>> -	if (ret)
+>> +	if (ret) {
+>> +		v3d_job_deallocate((void *)job);
+>>   		return ret;
+>> +	}
+>>
+>>   	ret = v3d_job_allocate((void *)clean_job,
+>> sizeof(**clean_job));
+>>   	if (ret)
+>> @@ -282,8 +291,10 @@ v3d_setup_csd_jobs_and_bos(struct drm_file
+>> *file_priv,
+>>
+>>   	ret = v3d_job_init(v3d, file_priv, *clean_job,
+>>   			   v3d_job_free, 0, NULL, V3D_CACHE_CLEAN);
+>> -	if (ret)
+>> +	if (ret) {
+>> +		v3d_job_deallocate((void *)clean_job);
+>>   		return ret;
+>> +	}
+>>
+>>   	(*job)->args = *args;
+>>
+>> @@ -860,8 +871,10 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void
+>> *data,
+>>
+>>   	ret = v3d_job_init(v3d, file_priv, &render->base,
+>>   			   v3d_render_job_free, args->in_sync_rcl,
+>> &se, V3D_RENDER);
+>> -	if (ret)
+>> +	if (ret) {
+>> +		v3d_job_deallocate((void *)&render);
+>>   		goto fail;
+>> +	}
+>>
+>>   	render->start = args->rcl_start;
+>>   	render->end = args->rcl_end;
+>> @@ -874,8 +887,10 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void
+>> *data,
+>>
+>>   		ret = v3d_job_init(v3d, file_priv, &bin->base,
+>>   				   v3d_job_free, args->in_sync_bcl,
+>> &se, V3D_BIN);
+>> -		if (ret)
+>> +		if (ret) {
+>> +			v3d_job_deallocate((void *)&bin);
+>>   			goto fail;
+>> +		}
+>>
+>>   		bin->start = args->bcl_start;
+>>   		bin->end = args->bcl_end;
+>> @@ -892,8 +907,10 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void
+>> *data,
+>>
+>>   		ret = v3d_job_init(v3d, file_priv, clean_job,
+>>   				   v3d_job_free, 0, NULL,
+>> V3D_CACHE_CLEAN);
+>> -		if (ret)
+>> +		if (ret) {
+>> +			v3d_job_deallocate((void *)&clean_job);
+>>   			goto fail;
+>> +		}
+>>
+>>   		last_job = clean_job;
+>>   	} else {
+>> @@ -1015,8 +1032,10 @@ v3d_submit_tfu_ioctl(struct drm_device *dev,
+>> void *data,
+>>
+>>   	ret = v3d_job_init(v3d, file_priv, &job->base,
+>>   			   v3d_job_free, args->in_sync, &se,
+>> V3D_TFU);
+>> -	if (ret)
+>> +	if (ret) {
+>> +		v3d_job_deallocate((void *)&job);
+>>   		goto fail;
+>> +	}
+>>
+>>   	job->base.bo = kcalloc(ARRAY_SIZE(args->bo_handles),
+>>   			       sizeof(*job->base.bo), GFP_KERNEL);
+>> @@ -1233,8 +1252,10 @@ v3d_submit_cpu_ioctl(struct drm_device *dev,
+>> void *data,
+>>
+>>   	ret = v3d_job_init(v3d, file_priv, &cpu_job->base,
+>>   			   v3d_job_free, 0, &se, V3D_CPU);
+>> -	if (ret)
+>> +	if (ret) {
+>> +		v3d_job_deallocate((void *)&cpu_job);
+>>   		goto fail;
+>> +	}
+>>
+>>   	clean_job = cpu_job->indirect_csd.clean_job;
+>>   	csd_job = cpu_job->indirect_csd.job;
+>> --
+>> 2.43.0
+>>
+>>
+> 
