@@ -2,71 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B718829129
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 01:15:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81F2C82912E
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 01:19:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6801510E536;
-	Wed, 10 Jan 2024 00:15:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89B4310E528;
+	Wed, 10 Jan 2024 00:19:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0A4810E536
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 00:15:09 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id
- a640c23a62f3a-a28f66dc7ffso808529366b.0
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 16:15:09 -0800 (PST)
+Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com
+ [IPv6:2607:f8b0:4864:20::112e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEDA010E528
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 00:19:37 +0000 (UTC)
+Received: by mail-yw1-x112e.google.com with SMTP id
+ 00721157ae682-5fa4b03f3f5so56487b3.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 16:19:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1704845706; x=1705450506;
+ d=broadcom.com; s=google; t=1704845977; x=1705450777;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=5kAqGhucPMVtfo1InPdfTFWkdNUtgMKoqN9J3JzON2c=;
- b=LY8gv6Txw6ru6gdsYJjiYhCwe9iIE7k/FIzqmrx5iNmkpSgA1e+cvZO+glQyM+63Tw
- qAxeRQwDrDxFJ1vZJc5gpN/BgMNXZV4iXo4jukZus5+bNBA7GMkVDf1+FRJOmIRcqXUQ
- D1HRhGv0IcXAU/ApV4veuzRObyvJX1TA2/p54=
+ bh=OMlCuNyf+qjkfT4WZEPou/e0mpHeaA0nsYn/EYlNGhg=;
+ b=b67BfDMQOyYFcfssdYHyYu9hvcGMN98zOhzH0yAscuv6E+iH0bTRfYs7PEowpGMyBF
+ kR1z4MyEZzFCa/wk9qgcYIs3yhbHSLq09R416LRt8zrX8+nvUk/ORD5PGjLibvTQ1YPR
+ O+6HT3P1P9hwy3trHYAOCLzjMWE7tCIMqp6gU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704845706; x=1705450506;
+ d=1e100.net; s=20230601; t=1704845977; x=1705450777;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=5kAqGhucPMVtfo1InPdfTFWkdNUtgMKoqN9J3JzON2c=;
- b=b8vMcaG9C9oJoTD+VeCr2RUg7sbtatVO4C9gXWU6ePhGRedgtPXkZoORsvyyOpm37K
- +NoBAduh6ngCQh8CQinkwpkJ+k/EDLw6oIjWCTYSqez/jJFHcQKPrTbhO8uONdjahksj
- RraOJkpe/63OqzEiKWlyi9Vlw5mE7UHpUurgr0iwl6TvDD+HrU/RXnUAxqS40qB5OJb8
- mMhZw9w1LIzJgdwf7w6IDo0nr/xkwdysTKrDiXrPtEsbH/zQ8BZg9v5uq8PAlW9KZmlF
- 9Udsb0G/8cJ9kgWOf/FRcqlQJtHcvyJnsljovlekIdyPX55/K6F0IXDiut3QiJ523p4A
- j14w==
-X-Gm-Message-State: AOJu0Yy0FusN0xgM8i0giNd2JQV3C4DuF8nF3ZmLWtrZkeoX7sZ7VauB
- jxTqOLkxp4aRn2kJ7oARaLKtxiwRDPQhlZTDeTZnETa2SN/TOng=
-X-Google-Smtp-Source: AGHT+IGz+yGD0+sOjpBsMACjjrflk5/wwYmJKlo/8Sf3Shu1Wguwb2XUaejd7PvQJWFj67Tz2NmnOg==
-X-Received: by 2002:a17:906:1919:b0:a2a:c113:2677 with SMTP id
- a25-20020a170906191900b00a2ac1132677mr281999eje.61.1704845705572; 
- Tue, 09 Jan 2024 16:15:05 -0800 (PST)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com.
- [209.85.128.42]) by smtp.gmail.com with ESMTPSA id
- l18-20020a1709062a9200b00a2afe82f651sm1554391eje.12.2024.01.09.16.15.04
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Jan 2024 16:15:04 -0800 (PST)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-40e4afe9ea7so9975e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jan 2024 16:15:04 -0800 (PST)
-X-Received: by 2002:a05:600c:43c5:b0:40d:5fee:130 with SMTP id
- f5-20020a05600c43c500b0040d5fee0130mr62920wmn.5.1704845704513; Tue, 09 Jan
- 2024 16:15:04 -0800 (PST)
+ bh=OMlCuNyf+qjkfT4WZEPou/e0mpHeaA0nsYn/EYlNGhg=;
+ b=Z1YKHPlT2KTQLNUrxH0znSYr9gkYayySzUz7uPj09c2PCn2rP3i5qrxM/QFLQlntpy
+ PhI/fu18R/FmMtG0FCWvhy9Cykzc2M1w+TfoPtSoZUGfEznW+t23AN0dek2zrFCaAnTq
+ 4oxt89z7yJdeMtAVGtxwGxAjSOO04bGcLAvHgBhlFR6IjmkCvORGi2gVkuCrXAsYPx3J
+ zcJHOxmz8cCuHlhMddbwkKNDrDnPFdVFW67aomGznf7+cFk4tHSs85vGrq8cNI5eBG8T
+ k4J08O4kmVcMNggzkD64OZSICXo/KlcovUsi+JF2/MxUaXj555kMBHWZCXHxlKg652Vv
+ dzmw==
+X-Gm-Message-State: AOJu0YwDTl1fCSc06XSYeuUQWfbmG/lFj2SlOY5pXCTRb4hvzI40JGTK
+ 2uVVKe50SmJDhVjVs/g54PhfrXQfSwTg4j673WTFah5tIzU7v/sC4ZlkwCQElw==
+X-Google-Smtp-Source: AGHT+IFU7PImuB1VsJuBTpg6q8REnpcGzqH7s2k0EZpss3fUAFHSdaZnqH6xxxn8keM7FooYpwPi+SC+7D+4YU6Z2OY=
+X-Received: by 2002:a25:4fc4:0:b0:db7:dacf:2f21 with SMTP id
+ d187-20020a254fc4000000b00db7dacf2f21mr126410ybb.104.1704845976931; Tue, 09
+ Jan 2024 16:19:36 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1704835845.git.u.kleine-koenig@pengutronix.de>
- <53d8c545aa8f79a920358be9e72e382b3981bdc4.1704835845.git.u.kleine-koenig@pengutronix.de>
-In-Reply-To: <53d8c545aa8f79a920358be9e72e382b3981bdc4.1704835845.git.u.kleine-koenig@pengutronix.de>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 9 Jan 2024 16:14:49 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=UyoSc7fpvaO08Bhj54UG5b1OGteXV95tCVkpDzrvzwsw@mail.gmail.com>
-Message-ID: <CAD=FV=UyoSc7fpvaO08Bhj54UG5b1OGteXV95tCVkpDzrvzwsw@mail.gmail.com>
-Subject: Re: [PATCH 2/5] pwm: Drop useless member .of_pwm_n_cells of struct
- pwm_chip
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+References: <20240108211655.13187-1-ian.forbes@broadcom.com>
+In-Reply-To: <20240108211655.13187-1-ian.forbes@broadcom.com>
+From: Zack Rusin <zack.rusin@broadcom.com>
+Date: Tue, 9 Jan 2024 19:19:26 -0500
+Message-ID: <CABQX2QPtzt9mkrwcdJTZWBNUe192wuEp9ec+uNhVLjhxLxizkQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/vmwgfx: Add SVGA_3D_CMD_DEFINE_GB_SURFACE_V4 to
+ command array.
+To: Ian Forbes <ian.forbes@broadcom.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,54 +67,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Alexander Shiyan <shc_work@mail.ru>,
- Jonas Karlman <jonas@kwiboo.se>, Benson Leung <bleung@chromium.org>,
- dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-pwm@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, chrome-platform@lists.linux.dev,
- Guenter Roeck <groeck@chromium.org>, kernel@pengutronix.de,
- linux-arm-kernel@lists.infradead.org
+Cc: bcm-kernel-feedback-list@broadcom.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Tue, Jan 9, 2024 at 1:35=E2=80=AFPM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@pengutronix.de> wrote:
+On Mon, Jan 8, 2024 at 4:57=E2=80=AFPM Ian Forbes <ian.forbes@broadcom.com>=
+ wrote:
 >
-> Apart from the two of_xlate implementations this member is write-only.
-> In the of_xlate functions of_pwm_xlate_with_flags() and
-> of_pwm_single_xlate() it's more sensible to check for args->args_count
-> because this is what is actually used in the device tree.
+> Without this definition device errors will display the command name
+> as (null) when debug logging is enabled.
 >
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+> Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
 > ---
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c |  1 -
->  drivers/pwm/core.c                    | 22 +++-------------------
->  drivers/pwm/pwm-clps711x.c            |  1 -
->  drivers/pwm/pwm-cros-ec.c             |  1 -
->  drivers/pwm/pwm-pxa.c                 |  4 +---
->  include/linux/pwm.h                   |  2 --
->  6 files changed, 4 insertions(+), 27 deletions(-)
+>  drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vm=
+wgfx/vmwgfx_execbuf.c
+> index 36987ef3fc30..472c4821528f 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+> @@ -3603,6 +3603,8 @@ static const struct vmw_cmd_entry vmw_cmd_entries[S=
+VGA_3D_CMD_MAX] =3D {
+>                     &vmw_cmd_dx_bind_streamoutput, true, false, true),
+>         VMW_CMD_DEF(SVGA_3D_CMD_DX_DEFINE_RASTERIZER_STATE_V2,
+>                     &vmw_cmd_dx_so_define, true, false, true),
+> +       VMW_CMD_DEF(SVGA_3D_CMD_DEFINE_GB_SURFACE_V4,
+> +                   &vmw_cmd_invalid, false, false, true),
+>  };
+>
+>  bool vmw_cmd_describe(const void *buf, u32 *size, char const **cmd)
+> --
+> 2.34.1
+>
 
-I haven't done massive thinking about this, but it seems reasonable to
-me. I remember being confused about why we needed some of these extra
-checks ages ago when I looked at this code, so getting rid of them
-makes sense to me.
+Looks good, but in the future you want to both find the change that
+initially added SVGA_3D_CMD_DEFINE_GB_SURFACE_V4 and do "dim fixes" to
+get the proper "Fixes:..." line to add to the commit description and
+either use ./scripts/get_maintainer.pl or at least make sure the
+maintainers are included in the patch by hand.
 
-I've been involved with both the ti-sn65dsi86.c and the pwm-cros-ec.c
-code and both looks fine to me.
-
-I'm an official reviewer for ti-sn65dsi86.c and I'm fairly happy with
-this tag for it:
-
-Acked-by: Douglas Anderson <dianders@chromium.org>
-
-...and I think it would be fine to go through the PWM tree. If one of
-the senior drm-misc maintainers disagrees with me, however, then you
-should listen to them rather than me.
-
--Doug
+z
