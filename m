@@ -2,114 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E180F829C8B
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 15:28:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21A85829CA8
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 15:33:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DA9610E5C9;
-	Wed, 10 Jan 2024 14:28:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9436510E04D;
+	Wed, 10 Jan 2024 14:33:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
- [IPv6:2607:f8b0:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 875A110E5C9
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 14:28:51 +0000 (UTC)
-Received: by mail-ot1-x332.google.com with SMTP id
- 46e09a7af769-6dddba43d70so1460901a34.1
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 06:28:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1704896930; x=1705501730; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :sender:from:to:cc:subject:date:message-id:reply-to;
- bh=zIaoX1yjQhXHbsmhohdAZwhtmgurjO4w2Fx+LKGYccs=;
- b=Xmmdd1I458HYSomDENTMT7WbY9YMFnDU3efXucK5bR6k/xyWAJn9cUxymM2mz648Rg
- TOP1S8wXb3X7COh7ZZBeZM0s8KcBUPHeXsnOuUxXMBmODb/l4gXB1SbeyC+1oO8u/LnM
- VX3ifFx9iRFK1NlLQJt8LADHL3q3TQd4cbuL4TrwurOp4yFZKMAvUERGpyINXNDTKa1p
- bczphAmC/tbpVwd/s85vVW2bl0g9LVshgJLjPSHNOsqh/wy4hVZ7WnWyRGNtfKbAV8d3
- ueltY6AxPZSmEkldgNrDNAKT+jgwV1NAXnT/4nkWiWmwciEUWfkRn0FPMQE+b6i9c8i5
- g6qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704896930; x=1705501730;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :sender:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=zIaoX1yjQhXHbsmhohdAZwhtmgurjO4w2Fx+LKGYccs=;
- b=acH6yf2HCbUogy+tOsmcxiWg2lA6BFIn1U5/P3DefdkOjfdxzQM6bb7JhcpUZQG6iP
- jJ+Oqv94rLvDf0FfvT90fJhVqjQOvljCg47zq+yYzOLyDbQjHAToZOqSVriGEtkXhBtf
- jaZHwKoiAgytuMJGmoDvihx0LMXNLWkFOXrPMFIpbTZKODMHGwUeRJmOw1pwNj+5Oudg
- 9eB/C9nB67PcgIQeOhGxdtGWEKGcAEbEaGPBwlnn2PgUxo+DAB/W0DP4RMe0aCoQf3ZL
- 0U8qiwgxz2Ha/3a7Hh5ryzgeW8/fFZH7jqsmoGUpQKDWY4fYBpoVvXCfx1nXwb5O2kgL
- 6EOA==
-X-Gm-Message-State: AOJu0YypuWhZEwRBawrTav9GJWvymLNPAzgtqT67wQ4MjrY+o3Z+tX0b
- 6zp+ybohvv11qkpZIzFwiUg=
-X-Google-Smtp-Source: AGHT+IG7sLERgE1XfKcrO3RXf8zO3OfNiwPA15eOOZxyAfLlJXqm615gjKSh1CGFCVXN4fmaNYQHXQ==
-X-Received: by 2002:a05:6871:4319:b0:203:ceec:933c with SMTP id
- lu25-20020a056871431900b00203ceec933cmr845505oab.69.1704896930388; 
- Wed, 10 Jan 2024 06:28:50 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
- ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- x190-20020a6363c7000000b005cd945c0399sm3608310pgb.80.2024.01.10.06.28.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Jan 2024 06:28:49 -0800 (PST)
-Message-ID: <a854bbd3-2862-4ea4-b14d-aab2d89ac2df@roeck-us.net>
-Date: Wed, 10 Jan 2024 06:28:45 -0800
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5634C10E04D
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 14:33:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1704897195; x=1736433195;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=NpG06HC604bnDwEBrGWio7nBhpa8tUqNtasVIP1QdO0=;
+ b=i23EjIvw6fapGY+aEPZT/B1v4VG3bC1wMxFzXpHU1YywCNjBhQ7ODMZq
+ 95t34nO9IbFCUB37ne8+/jrULRi1xKZn0EYCwHubX4mKAFDihBf5NeZyE
+ dX08dcXOpPqxHnlh8ixDO11dQNVa2yONN2MBSLilcYvKgDts4ttFrNl9J
+ bsCbJ3EpJCWVJMTdOEhQaU3wP0fKbuyru4fA2zky4nUMbLReLLi5xsG10
+ CwzMdvrL7PXj2Hv3N2KgzTpQ217k2f7ftkla38EUO8H5qYd9hGVLv2w3V
+ zTA/+IMSnly0gbZvtV96y13V+sI7M8Q1dDNljZuC5k2bWb63IjgPKU7XY w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10948"; a="20027498"
+X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; d="scan'208";a="20027498"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jan 2024 06:33:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10948"; a="955391798"
+X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; d="scan'208";a="955391798"
+Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.245.80.160])
+ ([10.245.80.160])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jan 2024 06:33:12 -0800
+Message-ID: <67b0ba4b-bfd1-4cef-8215-2658ad8a8acb@linux.intel.com>
+Date: Wed, 10 Jan 2024 15:33:10 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [DO NOT MERGE v6 26/37] dt-bindings: vendor-prefixes: Add smi
+Subject: Re: [PATCH 10/10] accel/ivpu: Remove deprecated
+ DRM_IVPU_PARAM_CONTEXT_PRIORITY
 Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>, Conor Dooley <conor@kernel.org>
-References: <cover.1704788539.git.ysato@users.sourceforge.jp>
- <c8aaf67e3fcdb7e60632c53a784691aabfc7733e.1704788539.git.ysato@users.sourceforge.jp>
- <20240109-fructose-bundle-05d01033277b@spud>
- <CAMuHMdU1z64QHJOVd3jUsOfyuDApB1+khkUV8PvjoKbwsi327g@mail.gmail.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
- RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
- nyFiKxUehbNF3r9qlJgPqONwX5vJy4/GvDHdddSCxV41P/ejsZ8PykxyJs98UWhF54tGRWFl
- 7i1xvaDB9lN5WTLRKSO7wICuLiSz5WZHXMkyF4d+/O5ll7yz/o/JxK5vO/sduYDIlFTvBZDh
- gzaEtNf5tQjsjG4io8E0Yq0ViobLkS2RTNZT8ICq/Jmvl0SpbHRvYwa2DhNsK0YjHFQBB0FX
- IdhdUEzNefcNcYvqigJpdICoP2e4yJSyflHFO4dr0OrdnGLe1Zi/8Xo/2+M1dSSEt196rXaC
- kwu2KgIgmkRBb3cp2vIBBIIowU8W3qC1+w+RdMUrZxKGWJ3juwcgveJlzMpMZNyM1jobSXZ0
- VHGMNJ3MwXlrEFPXaYJgibcg6brM6wGfX/LBvc/haWw4yO24lT5eitm4UBdIy9pKkKmHHh7s
- jfZJkB5fWKVdoCv/omy6UyH6ykLOPFugl+hVL2Prf8xrXuZe1CMS7ID9Lc8FaL1ROIN/W8Vk
- BIsJMaWOhks//7d92Uf3EArDlDShwR2+D+AMon8NULuLBHiEUQARAQABzTJHdWVudGVyIFJv
- ZWNrIChMaW51eCBhY2NvdW50KSA8bGludXhAcm9lY2stdXMubmV0PsLBgQQTAQIAKwIbAwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4ACGQEFAlVcphcFCRmg06EACgkQyx8mb86fmYFg0RAA
- nzXJzuPkLJaOmSIzPAqqnutACchT/meCOgMEpS5oLf6xn5ySZkl23OxuhpMZTVX+49c9pvBx
- hpvl5bCWFu5qC1jC2eWRYU+aZZE4sxMaAGeWenQJsiG9lP8wkfCJP3ockNu0ZXXAXwIbY1O1
- c+l11zQkZw89zNgWgKobKzrDMBFOYtAh0pAInZ9TSn7oA4Ctejouo5wUugmk8MrDtUVXmEA9
- 7f9fgKYSwl/H7dfKKsS1bDOpyJlqhEAH94BHJdK/b1tzwJCFAXFhMlmlbYEk8kWjcxQgDWMu
- GAthQzSuAyhqyZwFcOlMCNbAcTSQawSo3B9yM9mHJne5RrAbVz4TWLnEaX8gA5xK3uCNCeyI
- sqYuzA4OzcMwnnTASvzsGZoYHTFP3DQwf2nzxD6yBGCfwNGIYfS0i8YN8XcBgEcDFMWpOQhT
- Pu3HeztMnF3HXrc0t7e5rDW9zCh3k2PA6D2NV4fews9KDFhLlTfCVzf0PS1dRVVWM+4jVl6l
- HRIAgWp+2/f8dx5vPc4Ycp4IsZN0l1h9uT7qm1KTwz+sSl1zOqKD/BpfGNZfLRRxrXthvvY8
- BltcuZ4+PGFTcRkMytUbMDFMF9Cjd2W9dXD35PEtvj8wnEyzIos8bbgtLrGTv/SYhmPpahJA
- l8hPhYvmAvpOmusUUyB30StsHIU2LLccUPPOwU0ETofVZwEQALlLbQeBDTDbwQYrj0gbx3bq
- 7kpKABxN2MqeuqGr02DpS9883d/t7ontxasXoEz2GTioevvRmllJlPQERVxM8gQoNg22twF7
- pB/zsrIjxkE9heE4wYfN1AyzT+AxgYN6f8hVQ7Nrc9XgZZe+8IkuW/Nf64KzNJXnSH4u6nJM
- J2+Dt274YoFcXR1nG76Q259mKwzbCukKbd6piL+VsT/qBrLhZe9Ivbjq5WMdkQKnP7gYKCAi
- pNVJC4enWfivZsYupMd9qn7Uv/oCZDYoBTdMSBUblaLMwlcjnPpOYK5rfHvC4opxl+P/Vzyz
- 6WC2TLkPtKvYvXmdsI6rnEI4Uucg0Au/Ulg7aqqKhzGPIbVaL+U0Wk82nz6hz+WP2ggTrY1w
- ZlPlRt8WM9w6WfLf2j+PuGklj37m+KvaOEfLsF1v464dSpy1tQVHhhp8LFTxh/6RWkRIR2uF
- I4v3Xu/k5D0LhaZHpQ4C+xKsQxpTGuYh2tnRaRL14YMW1dlI3HfeB2gj7Yc8XdHh9vkpPyuT
- nY/ZsFbnvBtiw7GchKKri2gDhRb2QNNDyBnQn5mRFw7CyuFclAksOdV/sdpQnYlYcRQWOUGY
- HhQ5eqTRZjm9z+qQe/T0HQpmiPTqQcIaG/edgKVTUjITfA7AJMKLQHgp04Vylb+G6jocnQQX
- JqvvP09whbqrABEBAAHCwWUEGAECAA8CGwwFAlVcpi8FCRmg08MACgkQyx8mb86fmYHNRQ/+
- J0OZsBYP4leJvQF8lx9zif+v4ZY/6C9tTcUv/KNAE5leyrD4IKbnV4PnbrVhjq861it/zRQW
- cFpWQszZyWRwNPWUUz7ejmm9lAwPbr8xWT4qMSA43VKQ7ZCeTQJ4TC8kjqtcbw41SjkjrcTG
- wF52zFO4bOWyovVAPncvV9eGA/vtnd3xEZXQiSt91kBSqK28yjxAqK/c3G6i7IX2rg6pzgqh
- hiH3/1qM2M/LSuqAv0Rwrt/k+pZXE+B4Ud42hwmMr0TfhNxG+X7YKvjKC+SjPjqp0CaztQ0H
- nsDLSLElVROxCd9m8CAUuHplgmR3seYCOrT4jriMFBtKNPtj2EE4DNV4s7k0Zy+6iRQ8G8ng
- QjsSqYJx8iAR8JRB7Gm2rQOMv8lSRdjva++GT0VLXtHULdlzg8VjDnFZ3lfz5PWEOeIMk7Rj
- trjv82EZtrhLuLjHRCaG50OOm0hwPSk1J64R8O3HjSLdertmw7eyAYOo4RuWJguYMg5DRnBk
- WkRwrSuCn7UG+qVWZeKEsFKFOkynOs3pVbcbq1pxbhk3TRWCGRU5JolI4ohy/7JV1TVbjiDI
- HP/aVnm6NC8of26P40Pg8EdAhajZnHHjA7FrJXsy3cyIGqvg9os4rNkUWmrCfLLsZDHD8FnU
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <CAMuHMdU1z64QHJOVd3jUsOfyuDApB1+khkUV8PvjoKbwsi327g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>, dri-devel@lists.freedesktop.org
+References: <20240105112218.351265-1-jacek.lawrynowicz@linux.intel.com>
+ <20240105112218.351265-11-jacek.lawrynowicz@linux.intel.com>
+ <d95363cc-4dbd-7f72-7acb-c1f94caa0a7e@quicinc.com>
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <d95363cc-4dbd-7f72-7acb-c1f94caa0a7e@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -123,85 +65,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
- linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
- Bin Meng <bmeng@tinylab.org>, Michael Turquette <mturquette@baylibre.com>,
- linux-pci@vger.kernel.org, Jacky Huang <ychuang3@nuvoton.com>,
- Palmer Dabbelt <palmer@rivosinc.com>, linux-kernel@vger.kernel.org,
- Max Filippov <jcmvbkbc@gmail.com>, Lee Jones <lee@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Hyeonggon Yoo <42.hyeyoo@gmail.com>, Jiri Slaby <jirislaby@kernel.org>,
- linux-clk@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Jonathan Corbet <corbet@lwn.net>,
- Helge Deller <deller@gmx.de>, Daniel Lezcano <daniel.lezcano@linaro.org>,
- Magnus Damm <magnus.damm@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-serial@vger.kernel.org,
- David Rientjes <rientjes@google.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Maxime Ripard <mripard@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
- Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- Chris Morgan <macromorgan@hotmail.com>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@linutronix.de>,
- Vlastimil Babka <vbabka@suse.cz>, Yang Xiwen <forbidden405@foxmail.com>,
- Sergey Shtylyov <s.shtylyov@omp.ru>, Baoquan He <bhe@redhat.com>,
- linux-ide@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Biju Das <biju.das.jz@bp.renesas.com>,
- Sebastian Reichel <sre@kernel.org>, Azeem Shaikh <azeemshaikh38@gmail.com>,
- linux-renesas-soc@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>,
- Andrew Morton <akpm@linux-foundation.org>
+Cc: "Wachowski, Karol" <karol.wachowski@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/10/24 03:23, Geert Uytterhoeven wrote:
-> Hi Conor,
-> 
-> On Tue, Jan 9, 2024 at 7:06 PM Conor Dooley <conor@kernel.org> wrote:
->> On Tue, Jan 09, 2024 at 05:23:23PM +0900, Yoshinori Sato wrote:
->>> Add Silicon Mortion Technology Corporation
-> 
-> Motion
-> 
->>> https://www.siliconmotion.com/
->>>
->>> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
->>> ---
->>>   Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
->>>   1 file changed, 2 insertions(+)
->>>
->>> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
->>> index 94ed63d9f7de..a338bdd743ab 100644
->>> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
->>> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
->>> @@ -1283,6 +1283,8 @@ patternProperties:
->>>       description: Skyworks Solutions, Inc.
->>>     "^smartlabs,.*":
->>>       description: SmartLabs LLC
->>> +  "^smi,.*":
->>> +    description: Silicon Motion Technology Corporation
+On 05.01.2024 18:29, Jeffrey Hugo wrote:
+> On 1/5/2024 4:22 AM, Jacek Lawrynowicz wrote:
+>> From: "Wachowski, Karol" <karol.wachowski@intel.com>
 >>
->> How come "smi" is used for a company with this name?
->> Why is it not something like SMTC? There's probably some history here
->> that I am unaware of.
+>> DRM_IVPU_PARAM_CONTEXT_PRIORITY has been deprecated because it
+>> has been replaced with DRM_IVPU_JOB_PRIORITY levels set with
+>> submit IOCTL and was unused anyway.
+>>
+>> Signed-off-by: Wachowski, Karol <karol.wachowski@intel.com>
+>> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+>> ---
+>>   drivers/accel/ivpu/ivpu_drv.c | 11 -----------
+>>   drivers/accel/ivpu/ivpu_drv.h |  1 -
+>>   drivers/accel/ivpu/ivpu_job.c |  3 +++
+>>   include/uapi/drm/ivpu_accel.h | 21 ++++++++++++++++++++-
+>>   4 files changed, 23 insertions(+), 13 deletions(-)
+>>
+>> diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
+>> index ec66c2c39877..546c0899bb9e 100644
+>> --- a/drivers/accel/ivpu/ivpu_drv.c
+>> +++ b/drivers/accel/ivpu/ivpu_drv.c
+>> @@ -177,9 +177,6 @@ static int ivpu_get_param_ioctl(struct drm_device *dev, void *data, struct drm_f
+>>       case DRM_IVPU_PARAM_CONTEXT_BASE_ADDRESS:
+>>           args->value = vdev->hw->ranges.user.start;
+>>           break;
+>> -    case DRM_IVPU_PARAM_CONTEXT_PRIORITY:
+>> -        args->value = file_priv->priority;
+>> -        break;
+>>       case DRM_IVPU_PARAM_CONTEXT_ID:
+>>           args->value = file_priv->ctx.id;
+>>           break;
+>> @@ -219,17 +216,10 @@ static int ivpu_get_param_ioctl(struct drm_device *dev, void *data, struct drm_f
+>>     static int ivpu_set_param_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
+>>   {
+>> -    struct ivpu_file_priv *file_priv = file->driver_priv;
+>>       struct drm_ivpu_param *args = data;
+>>       int ret = 0;
+>>         switch (args->param) {
+>> -    case DRM_IVPU_PARAM_CONTEXT_PRIORITY:
+>> -        if (args->value <= DRM_IVPU_CONTEXT_PRIORITY_REALTIME)
+>> -            file_priv->priority = args->value;
+>> -        else
+>> -            ret = -EINVAL;
+>> -        break;
+>>       default:
+>>           ret = -EINVAL;
+>>       }
+>> @@ -258,7 +248,6 @@ static int ivpu_open(struct drm_device *dev, struct drm_file *file)
+>>       }
+>>         file_priv->vdev = vdev;
+>> -    file_priv->priority = DRM_IVPU_CONTEXT_PRIORITY_NORMAL;
+>>       kref_init(&file_priv->ref);
+>>       mutex_init(&file_priv->lock);
+>>   diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
+>> index 9b6e336626e3..7a6bc1918780 100644
+>> --- a/drivers/accel/ivpu/ivpu_drv.h
+>> +++ b/drivers/accel/ivpu/ivpu_drv.h
+>> @@ -146,7 +146,6 @@ struct ivpu_file_priv {
+>>       struct mutex lock; /* Protects cmdq */
+>>       struct ivpu_cmdq *cmdq[IVPU_NUM_ENGINES];
+>>       struct ivpu_mmu_context ctx;
+>> -    u32 priority;
+>>       bool has_mmu_faults;
+>>   };
+>>   diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
+>> index 7206cf9cdb4a..82e40bb4803c 100644
+>> --- a/drivers/accel/ivpu/ivpu_job.c
+>> +++ b/drivers/accel/ivpu/ivpu_job.c
+>> @@ -488,6 +488,9 @@ int ivpu_submit_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
+>>       if (params->engine > DRM_IVPU_ENGINE_COPY)
+>>           return -EINVAL;
+>>   +    if (params->priority > DRM_IVPU_JOB_PRIORITY_REALTIME)
+>> +        return -EINVAL;
+>> +
+>>       if (params->buffer_count == 0 || params->buffer_count > JOB_MAX_BUFFER_COUNT)
+>>           return -EINVAL;
+>>   diff --git a/include/uapi/drm/ivpu_accel.h b/include/uapi/drm/ivpu_accel.h
+>> index de1944e42c65..cc9a0504ee2f 100644
+>> --- a/include/uapi/drm/ivpu_accel.h
+>> +++ b/include/uapi/drm/ivpu_accel.h
+>> @@ -13,7 +13,7 @@ extern "C" {
+>>   #endif
+>>     #define DRM_IVPU_DRIVER_MAJOR 1
+>> -#define DRM_IVPU_DRIVER_MINOR 0
+>> +#define DRM_IVPU_DRIVER_MINOR 1
 > 
-> See Documentation/devicetree/bindings/display/sm501fb.txt
-> The stock ticker is "SIMO", though.
-> https://www.nasdaq.com/market-activity/stocks/simo
+> I remember when this driver was going through initial review before acceptance, Oded mentioned that the DRM driver version mechanism was deprecated and to not use it.  Based on that, it seems like you should not be incrementing the minor number.
+
+I wanted to use minor version in tests to verify the UAPI but this is not very important. I can leave this as is.
+
+>>     #define DRM_IVPU_GET_PARAM          0x00
+>>   #define DRM_IVPU_SET_PARAM          0x01
+>> @@ -64,11 +64,18 @@ extern "C" {
+>>     #define DRM_IVPU_PLATFORM_TYPE_SILICON        0
+>>   +/* Deprecated - to be removed */
+>>   #define DRM_IVPU_CONTEXT_PRIORITY_IDLE        0
+>>   #define DRM_IVPU_CONTEXT_PRIORITY_NORMAL    1
+>>   #define DRM_IVPU_CONTEXT_PRIORITY_FOCUS        2
+>>   #define DRM_IVPU_CONTEXT_PRIORITY_REALTIME  3
 > 
+> $SUBJECT suggests these are being removed, not just deprecated.  Also, shouldn't DRM_IVPU_PARAM_CONTEXT_PRIORITY which is a few lines above this be deprecated/removed/something?
 
- From https://en.wikipedia.org/wiki/Silicon_Motion:
+OK, I'll correct the subject and add "deprecated" comment to DRM_IVPU_PARAM_CONTEXT_PRIORITY.
 
-"Controllers are marketed under the “SMI” brand,
-  enterprise-grade SSDs under the "Shannon Systems" brand.
-"
+>>   +#define DRM_IVPU_JOB_PRIORITY_DEFAULT  0
+>> +#define DRM_IVPU_JOB_PRIORITY_IDLE     1
+>> +#define DRM_IVPU_JOB_PRIORITY_NORMAL   2
+>> +#define DRM_IVPU_JOB_PRIORITY_FOCUS    3
+>> +#define DRM_IVPU_JOB_PRIORITY_REALTIME 4
+>> +
+>>   /**
+>>    * DRM_IVPU_CAP_METRIC_STREAMER
+>>    *
+>> @@ -286,6 +293,18 @@ struct drm_ivpu_submit {
+>>        * to be executed. The offset has to be 8-byte aligned.
+>>        */
+>>       __u32 commands_offset;
+>> +
+>> +    /**
+>> +     * @priority:
+>> +     *
+>> +     * Priority to be set for related job command queue, can be one of the following:
+>> +     * %DRM_IVPU_JOB_PRIORITY_DEFAULT
+>> +     * %DRM_IVPU_JOB_PRIORITY_IDLE
+>> +     * %DRM_IVPU_JOB_PRIORITY_NORMAL
+>> +     * %DRM_IVPU_JOB_PRIORITY_FOCUS
+>> +     * %DRM_IVPU_JOB_PRIORITY_REALTIME
+>> +     */
+>> +    __u32 priority;
+> 
+> I think this breaks the uapi (which makes me think you are using the driver minor version above to detect).  This struct is passed to DRM_IOW which uses the struct size to calculate the ioctl number.  By changing the size of this struct, you change the ioctl number, and make it so that old userspace (with the old number) cannot work with newer kernels.
+> 
+> I beleive last time I brought up a uapi breakage, I was told that your userspace han't been offically released yet.  Is that still the case?
+> 
+> Seems odd though, because you are incrementing the driver minor number above which makes me think you need to communicate this change to userspace, which seems to suggest you might have old userspace out in the wild...
 
-Guenter
+The user-space part of the driver was already released but it have never used DRM_IVPU_PARAM_CONTEXT_PRIORITY.
+I've tested the new kmd with old umd and ioctls work fine. drm_ioctl() handles the difference in user vs driver arg size.
+I think it is perfectly safe to extend the ioctl arg. The ioctl number is passed directly to DRM_IOW(), I can't see where it would be calculated based on arg size.
 
+Regards,
+Jacek
