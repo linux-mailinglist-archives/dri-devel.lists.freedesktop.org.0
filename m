@@ -2,46 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA783829FF9
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 18:58:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F81482A001
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 19:01:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26F2110E638;
-	Wed, 10 Jan 2024 17:58:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA8CD10E622;
+	Wed, 10 Jan 2024 18:01:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB16310E638
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 17:58:42 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi
- [89.27.53.110])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 472213DFA;
- Wed, 10 Jan 2024 18:57:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1704909456;
- bh=YJXZv3YnGdJAej8RTPXbGSyJCIis53K/z7gZD6q9f4o=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=q2rys//xoWEVPld3cARNvPo6x/vrleva45fgworEYq3P0jVfe+oftQnsV/3Qtd+P8
- wLOYO6okDuXbT6yW3RtPJNY/sSvrYwQzmJ3I4wLIOnXw8fI0r2EBLOXD2ot5iCndNb
- TB1BFz/cT2FP3vJx5gM5hZ4UMc+Vmc+wXgBRIfB0=
-Date: Wed, 10 Jan 2024 19:58:48 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
-Message-ID: <20240110175848.GD23633@pendragon.ideasonboard.com>
-References: <20231128105129.161121-1-biju.das.jz@bp.renesas.com>
- <20231128105129.161121-4-biju.das.jz@bp.renesas.com>
- <sechknyg33iucaku37vfhk7ie7xgcealfqbvaopm4rrnqbo5g5@s35peonkzzoz>
- <TYCPR01MB11269767836DEB995747B7ED3868CA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <zp2ews2by6fg5irmb7ms6blox6vruezdjlor3rutqtokbvlle2@tl775slyvhyf>
- <TYCPR01MB1126964899D432355ACAF49D18693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <he23e5al3hinegebvq7qai4jdw3qjgbzmnx34xgxqnu3hw4jke@dts2vi5kcs4u>
- <TYCPR01MB112697575E0CF41CC26A8140086672@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <w5yc4ahv7tlr2bb4otzy7cnvke6q63w4msaxhdvpmeia3s5xi5@yhzvc3rxrowj>
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E341210E622
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 18:01:14 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id
+ 5b1f17b1804b1-40e5508ecb9so16350055e9.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 10:01:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1704909673; x=1705514473; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=JKl+uvl5ebHrMAACO3BPzytuK014zDcivJlJrIxKaX8=;
+ b=dTfvTY0oy68IMnNwygHZtSYc5M+JP/Rj5NkV+1yRTM/xaDRnHLKRNcOUF2uShfoLqw
+ pX54f9kc7WunC3nh2hGsRYn7dCw+oIu3q3Z1d3wvXL7SUA7NygCQxV8GODLa7/LQXN6J
+ j7wfOdZCts8MbhMelAtgJxD5ZZB/aJGv6jDcnEOmLrndUU7QSq7TnegnlRD9DGbHt55d
+ M8Ph2Vbeehg834lot7Xtf9ei9Y67YPE3Nou+nmhEh80wwE0/pfW3dD797BBGUiKTdbsj
+ ToiM5cq5z7VHAZQwOKQ9AGwYSdiqYhCmi9cUVJi5IVQwTvWqfabmA8u/qmtvmYgAupGB
+ JfpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1704909673; x=1705514473;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=JKl+uvl5ebHrMAACO3BPzytuK014zDcivJlJrIxKaX8=;
+ b=Vg1bNs7X8FX0JlqzIEnq2bzMz+iQb3siy+C/4NF1sKfE4HSSA4Dl2JVHxLIwCprVsY
+ kyE+P2GaRQCBpR7/7vSGMEBYWaqgSyLanAQlYy7t2fm4edifeHYF5VdR9xIVLAMW4EyK
+ GxpzsTXBcLlLqgEBFxYahCJneS7MTC+pa3LxD8aUiVAJk7bG6xOrMYI+Ja/NC2VsQHL6
+ H3rmpFFhHL+o4lbqX9ImEuCYbZuc4WntvY+Uw8idL5d8PcW8ard8+cF6flevXE/zWtNe
+ RZLj5XkcFAg4bNbB+r/iwG1WVww5gRouZbDFoykx/+fDDr93ey3OPRpy/Khmh0DnmoNI
+ MqPg==
+X-Gm-Message-State: AOJu0YwvpDg8uIvP3MrP+c9+oZmCK+LW0/B0bzEIxsQgy6iOxqjDVmM2
+ wCSBP39FJPKy9NU+ZmflDMc+7PLb2mUJAA==
+X-Google-Smtp-Source: AGHT+IFqpewdPmcUQNc9uP85eIFeyX1h8g4AUvMAcoUwItuN6Q4S6g6gTcWymsEs03vjBrPIHMy+pw==
+X-Received: by 2002:a05:600c:a019:b0:40e:3fa2:213 with SMTP id
+ jg25-20020a05600ca01900b0040e3fa20213mr859553wmb.147.1704909673185; 
+ Wed, 10 Jan 2024 10:01:13 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.223.112])
+ by smtp.gmail.com with ESMTPSA id
+ v21-20020a05600c445500b0040e3bdff98asm2913526wmn.23.2024.01.10.10.01.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 Jan 2024 10:01:10 -0800 (PST)
+Message-ID: <683b7838-9c19-4a51-8ec4-90ac8a8a94ce@linaro.org>
+Date: Wed, 10 Jan 2024 19:01:07 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <w5yc4ahv7tlr2bb4otzy7cnvke6q63w4msaxhdvpmeia3s5xi5@yhzvc3rxrowj>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] dt-bindings: mfd: atmel,hlcdc: Convert to DT schema
+ format
+Content-Language: en-US
+To: Dharma Balasubiramani <dharma.b@microchip.com>, sam@ravnborg.org,
+ bbrezillon@kernel.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
+ claudiu.beznea@tuxon.dev, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, lee@kernel.org, thierry.reding@gmail.com,
+ u.kleine-koenig@pengutronix.de, linux-pwm@vger.kernel.org
+References: <20240110102535.246177-1-dharma.b@microchip.com>
+ <20240110102535.246177-3-dharma.b@microchip.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240110102535.246177-3-dharma.b@microchip.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,121 +129,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "biju.das.au" <biju.das.au@gmail.com>, Magnus Damm <magnus.damm@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Biju Das <biju.das.jz@bp.renesas.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
-
-On Wed, Jan 10, 2024 at 05:14:41PM +0100, Maxime Ripard wrote:
-> On Thu, Jan 04, 2024 at 02:34:33PM +0000, Biju Das wrote:
-> > On Friday, December 15, 2023 2:24 PM, Maxime Ripard wrote:
-> > > On Fri, Dec 15, 2023 at 01:25:48PM +0000, Biju Das wrote:
-> > > > On Friday, December 15, 2023 10:24 AM, Maxime Ripard wrote:
-> > > > > On Thu, Dec 14, 2023 at 03:24:17PM +0000, Biju Das wrote:
-> > > > > > Hi Maxime Ripard,
-> > > > > >
-> > > > > > Thanks for the feedback.
-> > > > >
-> > > > > Thanks, that's super helpful. The architecture is thus similar to
-> > > > > vc4
-> > > > >
-> > > > > Some general questions related to bugs we had at some point with vc4:
-> > > > >
-> > > > >   * Where is the display list stored? In RAM or in a dedicated SRAM?
-> > > >
-> > > > [1] It is in DDR (RAM).
-> > > >
-> > > > >
-> > > > >   * Are the pointer to the current display list latched?
-> > > > >
-> > > > >   * Is the display list itself latched? If it's not, what happens when
-> > > > >     the display list is changed while the frame is being generated?
-> > > >
-> > > > There is some protocol defined for SW side and HW side for updating
-> > > > display list See [1] 33.4.8.1 Operation flow of VSPD and DU.
-> > > >
-> > > > All the display list operations are manged here[2]
-> > > >
-> > > > [1] https://www.renesas.com/us/en/document/mah/rzg2l-group-rzg2lc-group-users-manual-hardware-0
-> > > >
-> > > > [2] https://elixir.bootlin.com/linux/v6.7-rc5/source/drivers/media/platform/renesas/vsp1/vsp1_dl.c#L863
-> > > 
-> > > I'm sorry, but I'm not going to read a 3500+ to try to figure it out.
-> > > Could you answer the questions above?
-> > 
-> > The answer for your question is,
-> > 
-> > If a previous display list has been queued to the hardware but not
-> > processed yet, the VSP can start processing it at any time. In that
-> > case we can't replace the queued list by the new one, as we could
-> > race with the hardware. We thus mark the update as pending, it will
-> > be queued up to the hardware by the frame end interrupt handler.
+On 10/01/2024 11:25, Dharma Balasubiramani wrote:
+> Convert the atmel,hlcdc binding to DT schema format.
 > 
-> Ok, so you need to make sure that the list entries are allocated and
-> tied to the state. That way, you'll know for sure it'll get destroyed
-> only once the state isn't used anymore, so after the vblank.
+> Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
+> ---
+>  .../devicetree/bindings/mfd/atmel,hlcdc.yaml  | 106 ++++++++++++++++++
+>  .../devicetree/bindings/mfd/atmel-hlcdc.txt   |  56 ---------
+>  2 files changed, 106 insertions(+), 56 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/mfd/atmel,hlcdc.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/mfd/atmel-hlcdc.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/mfd/atmel,hlcdc.yaml b/Documentation/devicetree/bindings/mfd/atmel,hlcdc.yaml
+> new file mode 100644
+> index 000000000000..555d6faa9104
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/atmel,hlcdc.yaml
 
-Because the VSP started as a memory-to-memory processing IP without
-being tied to the display, it got supported by a V4L2 (and MC) driver.
-Later on, the R-Car Gen2 added a direct connection between the output of
-*some* VSP instances and one input of the DU (display engine), using the
-VSP as an extra "plane" from a KMS point of view. Using the VSP was
-optional, as the DU had "normal" planes. R-Car Gen3 dropped support for
-direct memory access in the DU, making usage of the VSP mandatory.
+This looks not tested, so limited review follows:
 
-As using the VSP is mandatory for display operation on R-Car Gen3, we
-ruled out forcing userspace to deal with a KMS *and* a V4L2 device
-manually to get anything out on the screen. We also ruled out
-redeveloping VSP support inside the DU driver, as that would have
-duplicated (complex) code. Instead, the DU driver communicates with the
-VSP driver within the kernel, completely transparently for userspace.
-This in-kernel API is defined in include/media/vsp1.h, and consists of
-the following operations that have been modelled on the KMS atomic API:
+> @@ -0,0 +1,106 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +# Copyright (C) 2024 Microchip Technology, Inc. and its subsidiaries
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/atmel,hlcdc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Atmel's HLCDC (High LCD Controller) MFD driver
 
-- One-time setup at driver initialization time:
+Drop "MFD driver" and rather describe/name the hardware. MFD is Linux
+term, so I really doubt that's how this was called.
 
-int vsp1_du_init(struct device *dev);
+> +
+> +maintainers:
+> +  - Nicolas Ferre <nicolas.ferre@microchip.com>
+> +  - Alexandre Belloni <alexandre.belloni@bootlin.com>
+> +  - Claudiu Beznea <claudiu.beznea@tuxon.dev>
+> +
+> +description: |
+> +  Device-Tree bindings for Atmel's HLCDC (High LCD Controller) MFD driver.
 
-- Configuration at CRTC enable/disable time:
+Drop
 
-int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
-                      const struct vsp1_du_lif_config *cfg);
+> +  The HLCDC IP exposes two subdevices:
+> +  # a PWM chip: see ../pwm/atmel,hlcdc-pwm.yaml
+> +  # a Display Controller: see ../display/atmel/atmel,hlcdc-dc.yaml
 
-This includes configuration of the output width/height.
+Rephrase to describe hardware. Drop redundant paths.
 
-(LIF stands for "LCD InterFace" if I recall correctly, it's the block in
-the VSP that connects to the DU.)
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - atmel,at91sam9n12-hlcdc
+> +      - atmel,at91sam9x5-hlcdc
+> +      - atmel,sama5d2-hlcdc
+> +      - atmel,sama5d3-hlcdc
+> +      - atmel,sama5d4-hlcdc
+> +      - microchip,sam9x60-hlcdc
+> +      - microchip,sam9x75-xlcdc
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 3
+> +
+> +  clock-names:
+> +    anyOf:
+> +      - items:
+> +          - enum:
+> +              - sys_clk
+> +              - lvds_pll_clk
 
-- Atomic updates
+Old binding was not mentioning this and you did not describe differences
+against pure conversion. You have entire commit msg for this...
 
-void vsp1_du_atomic_begin(struct device *dev, unsigned int pipe_index);
-int vsp1_du_atomic_update(struct device *dev, unsigned int pipe_index,
-                          unsigned int rpf,
-                          const struct vsp1_du_atomic_config *cfg);
-void vsp1_du_atomic_flush(struct device *dev, unsigned int pipe_index,
-                          const struct vsp1_du_atomic_pipe_config *cfg);
+> +      - contains:
+> +          const: periph_clk
+> +      - contains:
+> +          const: slow_clk
+> +        maxItems: 3
 
-These operations configure planes (the VSP has a blending engine with 2
-to 5 inputs depending on the exact SoC) and writeback (the VSP being
-historically just a memory-to-memory engine, it supports writing the
-output to memory in addition to forwarding it to the DU).
+Why it has to be so complicated? I doubt that same devices have
+different inputs.
+
+> +
+> +  hlcdc-display-controller:
+
+Does anything depend on the name? If not, then just display-controller
+
+> +    $ref: /schemas/display/atmel/atmel,hlcdc-dc.yaml
+> +
+> +  hlcdc-pwm:
+
+Same comment.
+
+> +    $ref: /schemas/pwm/atmel,hlcdc-pwm.yaml
+
+There is no such file.
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - interrupts
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/at91.h>
+> +    #include <dt-bindings/dma/at91.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    hlcdc: hlcdc@f0030000 {
+
+Node names should be generic. See also an explanation and list of
+examples (not exhaustive) in DT specification:
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
 
 
-The display lists are fully handled inside the VSP driver, the DU
-doesn't need to manage them. You can ignore the implementation details
-of the VSP itself.
+> +      compatible = "atmel,sama5d3-hlcdc";
+> +      reg = <0xf0030000 0x2000>;
+> +      clocks = <&lcdc_clk>, <&lcdck>, <&clk32k>;
+> +      clock-names = "periph_clk","sys_clk", "slow_clk";
 
--- 
-Regards,
+Missing space after ,
 
-Laurent Pinchart
+> +      interrupts = <36 IRQ_TYPE_LEVEL_HIGH 0>;
+> +
+> +      hlcdc-display-controller {
+> +        compatible = "atmel,hlcdc-display-controller";
+> +        pinctrl-names = "default";
+> +        pinctrl-0 = <&pinctrl_lcd_base &pinctrl_lcd_rgb888>;
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        port@0 {
+> +          #address-cells = <1>;
+> +          #size-cells = <0>;
+> +          reg = <0>;
+> +
+> +          hlcdc_panel_output: endpoint@0 {
+> +            reg = <0>;
+> +            remote-endpoint = <&panel_input>;
+> +          };
+> +        };
+> +      };
+> +
+
+
+Best regards,
+Krzysztof
+
