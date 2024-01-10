@@ -1,52 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8713C829F64
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 18:40:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17BF2829F6D
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 18:41:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3DE410E7AF;
-	Wed, 10 Jan 2024 17:40:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 387A810E61A;
+	Wed, 10 Jan 2024 17:41:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94C6710E7AF;
- Wed, 10 Jan 2024 17:39:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704908399; x=1736444399;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=zexNkvCQ67jdQ0GXL/1f8xiolt1zuQS0CjjtfnvtP4c=;
- b=RzamyRCyUlo9TbvmtSGBKOscuQ4YwjrNmt5pvx73L4G/WdVRe9TOaeh0
- zir/5jNOgs5If7Q2vBW1CS/RJSnvwl4OtOTJTYqAOsPVJqcpGeTVpDrpi
- y6pJmqSl5/kNNgVptHQSDPaWY4v+mdBknuDN2v7aA3c0sS4JY5S0ICgMn
- 6qXHTzpBTeSuRgCD8UKDxQKlpSuDi4PwnJ6aOvyDM/4tg4flzAnnTP1mQ
- AXA5t/koIqCfTD7U/UV9pLaigeIXLMU1gm4497QY3Px+gft4JICztZhPR
- iDlOEKtUxnTGBsfMt5ug0UboQqHj84rtQI0ZVrhENN7APbJjubnhxSIxW g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="389029404"
-X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; d="scan'208";a="389029404"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jan 2024 09:39:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="955438116"
-X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; d="scan'208";a="955438116"
-Received: from fpallare-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.252.36.240])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jan 2024 09:39:57 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 6/6] drm: Add CONFIG_DRM_WERROR
-Date: Wed, 10 Jan 2024 19:39:16 +0200
-Message-Id: <0daf415493377f0a06970dba9247ebbbdfb79220.1704908087.git.jani.nikula@intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <cover.1704908087.git.jani.nikula@intel.com>
-References: <cover.1704908087.git.jani.nikula@intel.com>
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 813A310E610
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 17:41:35 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id
+ 2adb3069b0e04-50e6ee8e911so4755865e87.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 09:41:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1704908494; x=1705513294; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=HgI3b5nVyvdJT18kOSX4sUXOm57u0vvWVXG95l7nSRE=;
+ b=yhbVUnegLeDpGtquwoaoCQVXyKYaTM1KR1eooyJoOEpRkGjENbkSWDtlXVmdAv0JHk
+ IKKdGkt2c5PdnacyJCjavEmeveDzz76S91IhKk88GxewLl4rFZ0r1Dk/8usACfrORZvs
+ ghydr4P7mJ43scJH06nyaDAuvZQ3+p6gRM0ZLovhHPrnKlxyIyWFP/6NDvGBBboEDy5r
+ fodxhYbIpKiUQQoAwWVw8g97NIY+BuZ9NRcfG25Pr6hS/XtLeZm9VHbEtiEJeayBajXQ
+ fvEx7OtcSyTp9Ntqff2n85jII7JBW7GR9IF+fFf69uDEK0tPqNIUY4lw/TaMpiXgXUpf
+ egXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1704908494; x=1705513294;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=HgI3b5nVyvdJT18kOSX4sUXOm57u0vvWVXG95l7nSRE=;
+ b=Gc/TRfI6e6bAPHLG/AMecvpRzmS3xkuWO1ZunrlsdBZseFCY3a1/ZZpdF/wPHosmYw
+ rJC07h7r0bLTBcK0mPH98fKb5xuElWW8U8D9e6ZLZ8adMR8p317xfMCLFKQw4gRnX78g
+ kPOgW1zwCebR09GZYyRgDAsYpFoGgIlzNJqT9H6RLE7SF+iCFBsjV0SzPRsrHnjRnfN6
+ GyFob7nB+NoRVQdEXze/UVZhaDjRStoJweYjWvnh2lSf98uw3JYHamnbbzjE4ncQPcL1
+ Y6KZe/uOO6wVD1DJLbRPO2NXLEDbBTJYoFgnGk8mO2h8oecHo233NCb8Z9ontUN0IwEM
+ bO2w==
+X-Gm-Message-State: AOJu0Yzxa4kb1KxK/oCNr8A7O6KFlNFuOro4PPwtVvb84cP5krOsW9ZQ
+ E67Ofb6WQvEXn+6+TuzG/AoHhxAdZJupAA==
+X-Google-Smtp-Source: AGHT+IEC4uszuGwST+4r1WGXDV8hmFYqZKMqSEx0gyGO+XtHZameYMXu1gqzf4ujDAdIpt9LiMjx0Q==
+X-Received: by 2002:a05:6512:3c83:b0:50e:1daa:6705 with SMTP id
+ h3-20020a0565123c8300b0050e1daa6705mr673715lfv.6.1704908493622; 
+ Wed, 10 Jan 2024 09:41:33 -0800 (PST)
+Received: from [172.30.205.123] (UNUSED.212-182-62-129.lubman.net.pl.
+ [212.182.62.129]) by smtp.gmail.com with ESMTPSA id
+ a27-20020a195f5b000000b0050e8cd014d7sm741726lfj.16.2024.01.10.09.41.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 Jan 2024 09:41:33 -0800 (PST)
+Message-ID: <59ad396a-59c3-4cf6-aae4-5a8d00f1a6a9@linaro.org>
+Date: Wed, 10 Jan 2024 18:41:32 +0100
 MIME-Version: 1.0
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/4] arm64: dts: qcom: sm6350: Remove "disabled" state
+ of GMU
+Content-Language: en-US
+To: Luca Weiss <luca.weiss@fairphone.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Andy Gross <agross@kernel.org>
+References: <20240110-fp4-panel-v2-0-8ad11174f65b@fairphone.com>
+ <20240110-fp4-panel-v2-3-8ad11174f65b@fairphone.com>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20240110-fp4-panel-v2-3-8ad11174f65b@fairphone.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,61 +86,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add kconfig to enable -Werror subsystem wide. This is useful for
-development and CI to keep the subsystem warning free, while avoiding
-issues outside of the subsystem that kernel wide CONFIG_WERROR=y might
-hit.
 
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
----
- drivers/gpu/drm/Kconfig  | 18 ++++++++++++++++++
- drivers/gpu/drm/Makefile |  3 +++
- 2 files changed, 21 insertions(+)
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 6ec33d36f3a4..36a00cba2540 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -414,3 +414,21 @@ config DRM_LIB_RANDOM
- config DRM_PRIVACY_SCREEN
- 	bool
- 	default n
-+
-+config DRM_WERROR
-+	bool "Compile the drm subsystem with warnings as errors"
-+	# As this may inadvertently break the build, only allow the user
-+	# to shoot oneself in the foot iff they aim really hard
-+	depends on EXPERT
-+	# We use the dependency on !COMPILE_TEST to not be enabled in
-+	# allmodconfig or allyesconfig configurations
-+	depends on !COMPILE_TEST
-+	default n
-+	help
-+	  A kernel build should not cause any compiler warnings, and this
-+	  enables the '-Werror' flag to enforce that rule in the drm subsystem.
-+
-+	  The drm subsystem enables more warnings than the kernel default, so
-+	  this config option is disabled by default.
-+
-+	  If in doubt, say N.
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index 8b6be830f7c3..b7fd3e58b7af 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -32,6 +32,9 @@ subdir-ccflags-y += -Wno-sign-compare
- endif
- # --- end copy-paste
- 
-+# Enable -Werror in CI and development
-+subdir-ccflags-$(CONFIG_DRM_WERROR) += -Werror
-+
- drm-y := \
- 	drm_aperture.o \
- 	drm_atomic.o \
--- 
-2.39.2
+On 1/10/24 16:14, Luca Weiss wrote:
+> The GMU won't probe without GPU being enabled, so we can remove the
+> disabled status so we don't have to explicitly enable the GMU in all the
+> devices that enable GPU.
+> 
+> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+> ---
 
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+
+Konrad
