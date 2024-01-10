@@ -1,76 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6462D829D3C
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 16:14:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D75BD829D4C
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 16:15:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F158F10E619;
-	Wed, 10 Jan 2024 15:14:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3B3E10E63C;
+	Wed, 10 Jan 2024 15:15:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97F8410E614
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 15:14:22 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id
- a640c23a62f3a-a29a4f610b1so449954366b.3
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 07:14:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fairphone.com; s=fair; t=1704899660; x=1705504460; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=HyZi4i2h3MjcAe8ui93Zy0Le6mb9DZJuyAuhhBalDgU=;
- b=UB2zoBrRbsC5NEoaQJGUTSw1iyxcME4PVeX1C/hT4okV8oK6R7A29FfJrL9/YPBITd
- 4spprI9hGb/XFi8X1GQG/jPxcHbuz9HuRhzt5uOE28gXk4opiMu8SHLssJ46gebe6VQy
- Rzrx3fvARy6fnz7BbFL0LvJ101g+filhdoboVdtGpgSOVIYpvUHiOkErNz21xBCXUy9n
- Rz5F6MLTqr1LAJD2eUese+ubzRlUn5k1LOwNWyR1kMBWuARozWXgyj6YXOqYiDo72bvr
- uRmbsWQJmR0AV52Ydmji2AIDAQEWSOb7E9mqaXrCVxMyEUFL3o4oww4vBPGJ7HCvZ4z4
- sRcg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EFEA10E614
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 15:15:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1704899742;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5JGJI1VcJxIq9FSZAk+YXHh5hWwjkFg4rzjnZUUwDRs=;
+ b=JxnLaiNSs1ru3MaFGv6+x1S83hQd6iHze6uRayksUtmd2K6nG50Shp95nrZUOV+vBqJMax
+ lfWADB+Jr+yUNiABwb5VX8bXiWjaCtCZZ5G47q4/zCVDWAImed8LTUgvgr0UV/Il7Lkgy/
+ NgoRUsmVwDlQ8N0v9sW5kzySUU1TFcU=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-97-RbvO54wsPIetPlngoYVQeg-1; Wed, 10 Jan 2024 10:15:41 -0500
+X-MC-Unique: RbvO54wsPIetPlngoYVQeg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-40d3c533083so33674055e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 07:15:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704899660; x=1705504460;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=HyZi4i2h3MjcAe8ui93Zy0Le6mb9DZJuyAuhhBalDgU=;
- b=caSOeI3FIBwdQ5An+IFIycHFGJObCtVntFC0BE1hM9Pgv21RHfuSnDFhZGusdt6xyX
- 4J7KdmYlq7r26y7shcrr2hq/9kZroAnmgcATCoWCUbD0uYv7qGA1mfAp5TDUTc4ldMmq
- bkYCllqPv2vZbcZQ5eJC1sToEELL3bB+tQPlEXblnPZCqoDXXHede5MG3g7JJhmtrsrY
- nYXcKh3JU66V7/O7f638VisHDO3hwoQ/JeG0IOwOId3Fmwjc3v2ux4noHb7ogaEwx65O
- dZplhPQxh2X8c7RU9hNhUQGp87zu6fAPdiVP+ChwMbsdnXbXIZIYkcyUu/9iHDvdeQsV
- f1Xg==
-X-Gm-Message-State: AOJu0Yyk80B+heDUVRzQnH8jiGDaAm9rlPa5pJhRPI23ifsIEw5nhB8d
- wRgtPaC7XvOb+5c3Sr0WQgMEiRW+IVy9sXrnVWXO+NdK1kvZng==
-X-Google-Smtp-Source: AGHT+IEYJKfcjt/Uh/leQB0jE1RBU9OXgRCgowWKHDrfkGCNM/8gBFRQG+CXa8s/tv8EwQ60+U7qKg==
-X-Received: by 2002:a17:907:b9cc:b0:a28:e870:97b1 with SMTP id
- xa12-20020a170907b9cc00b00a28e87097b1mr701936ejc.131.1704899660405; 
- Wed, 10 Jan 2024 07:14:20 -0800 (PST)
-Received: from otso.luca.vpn.lucaweiss.eu
- (144-178-202-138.static.ef-service.nl. [144.178.202.138])
+ d=1e100.net; s=20230601; t=1704899740; x=1705504540;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=5JGJI1VcJxIq9FSZAk+YXHh5hWwjkFg4rzjnZUUwDRs=;
+ b=Sjw8m8fCJXp/Km4VfWpmai4cmuq7XAkc1JieTE9EmxNyOMAWU40W2IZmVPuUH8fnQJ
+ Dxc3K8veXPQATZetneLOI0eViWZ8HafioPVpGPYvhwLbOF7/eQcwH8zCPxRK5GwSGuME
+ 3qmaWly99tjAKKSkHihFAugSdZtlTz7slrsORniBPukV3v0l5+KyttSKz6cDlUF8ZuNS
+ vfMwKut2fjkGTonuV6DRbtpj2jps9v6hDKz4ZZBDOsjV/11tmZIyofMdYxBzQHMKzFtt
+ 9sD6cX64vKR5BXcauePGB3v8UKMzyPkhpcmCepMmZTqJ2SFaPtMYjiwp4IcifhAGPc68
+ xhyg==
+X-Gm-Message-State: AOJu0Yxv27g2u5x5bUpbjW5+xw7YBzrePMk/ALHkSwUX6rkCpaU5Z07f
+ KJ9q1OuxV4uYWRA3VMdY2sHdpo0sXj1vGI55ZJJlB46h+7DWaFmDomzrKscIW4tq0XCOzuEzwcC
+ CPhhrOZ2dYBaB1In1PpxjzoEcUyc7xGlb3I9l
+X-Received: by 2002:a05:600c:1f83:b0:40e:370b:4298 with SMTP id
+ je3-20020a05600c1f8300b0040e370b4298mr604824wmb.121.1704899740216; 
+ Wed, 10 Jan 2024 07:15:40 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHV1mAnohcPqa6WbaN10hLF2MjTnkWjenEX7L+NbOpBinPvlTLE2blAeeYMSnT60VguWzpeOQ==
+X-Received: by 2002:a05:600c:1f83:b0:40e:370b:4298 with SMTP id
+ je3-20020a05600c1f8300b0040e370b4298mr604816wmb.121.1704899739941; 
+ Wed, 10 Jan 2024 07:15:39 -0800 (PST)
+Received: from ?IPV6:2a02:810d:4b3f:ee94:abf:b8ff:feee:998b?
+ ([2a02:810d:4b3f:ee94:abf:b8ff:feee:998b])
  by smtp.gmail.com with ESMTPSA id
- jx22-20020a170906ca5600b00a27a25afaf2sm2174517ejb.98.2024.01.10.07.14.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Jan 2024 07:14:20 -0800 (PST)
-From: Luca Weiss <luca.weiss@fairphone.com>
-Date: Wed, 10 Jan 2024 16:14:11 +0100
-Subject: [PATCH v2 4/4] arm64: dts: qcom: sm7225-fairphone-fp4: Enable
- display and GPU
+ fa24-20020a05600c519800b0040e490cb666sm2441340wmb.12.2024.01.10.07.15.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 Jan 2024 07:15:39 -0800 (PST)
+Message-ID: <c8bbb32d-5fc5-4682-a92c-e5e102fa0866@redhat.com>
+Date: Wed, 10 Jan 2024 16:15:38 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH linux-next v2] drm/nouveau/disp: switch to use kmemdup()
+ helper
+To: yang.guang5@zte.com.cn
+References: <202401091424115185126@zte.com.cn>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <202401091424115185126@zte.com.cn>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240110-fp4-panel-v2-4-8ad11174f65b@fairphone.com>
-References: <20240110-fp4-panel-v2-0-8ad11174f65b@fairphone.com>
-In-Reply-To: <20240110-fp4-panel-v2-0-8ad11174f65b@fairphone.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, Andy Gross <agross@kernel.org>
-X-Mailer: b4 0.12.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,118 +88,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+Cc: keescook@chromium.org, kherbst@redhat.com, cgel.zte@gmail.com,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Luca Weiss <luca.weiss@fairphone.com>, ~postmarketos/upstreaming@lists.sr.ht,
- phone-devel@vger.kernel.org
+ chen.haonan2@zte.com.cn, bskeggs@redhat.com, jiang.xuexin@zte.com.cn,
+ nouveau@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the description for the display panel found on this phone.
-Unfortunately the LCDB module on PM6150L isn't yet supported upstream so
-we need to use a dummy regulator-fixed in the meantime.
+On 1/9/24 07:24, yang.guang5@zte.com.cn wrote:
+> From: Chen Haonan <chen.haonan2@zte.com.cn>
+> 
+> Use kmemdup() helper instead of open-coding to
+> simplify the code.
+> 
+> Signed-off-by: Chen Haonan <chen.haonan2@zte.com.cn>
+> Reviewed-by: Yang Guang <yang.guang5@zte.com.cn>
 
-And with this done we can also enable the GPU and set the zap shader
-firmware path.
+Applied to drm-misc-next, thanks!
 
-Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
----
- arch/arm64/boot/dts/qcom/sm6350.dtsi              |  2 +-
- arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts | 53 +++++++++++++++++++++++
- 2 files changed, 54 insertions(+), 1 deletion(-)
-
-diff --git a/arch/arm64/boot/dts/qcom/sm6350.dtsi b/arch/arm64/boot/dts/qcom/sm6350.dtsi
-index 29008e155d62..b9f4b6be7da9 100644
---- a/arch/arm64/boot/dts/qcom/sm6350.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm6350.dtsi
-@@ -1338,7 +1338,7 @@ gpu: gpu@3d00000 {
- 
- 			status = "disabled";
- 
--			zap-shader {
-+			gpu_zap_shader: zap-shader {
- 				memory-region = <&pil_gpu_mem>;
- 			};
- 
-diff --git a/arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts b/arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts
-index ade619805519..9a7d0448fb68 100644
---- a/arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts
-+++ b/arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts
-@@ -68,6 +68,14 @@ key-volume-up {
- 		};
- 	};
- 
-+	/* Dummy regulator until PM6150L has LCDB VSP/VSN support */
-+	lcdb_dummy: regulator-lcdb-dummy {
-+		compatible = "regulator-fixed";
-+		regulator-name = "lcdb_dummy";
-+		regulator-min-microvolt = <5500000>;
-+		regulator-max-microvolt = <5500000>;
-+	};
-+
- 	reserved-memory {
- 		/*
- 		 * The rmtfs memory region in downstream is 'dynamically allocated'
-@@ -373,6 +381,14 @@ &gpi_dma1 {
- 	status = "okay";
- };
- 
-+&gpu {
-+	status = "okay";
-+};
-+
-+&gpu_zap_shader {
-+	firmware-name = "qcom/sm7225/fairphone4/a615_zap.mbn";
-+};
-+
- &i2c0 {
- 	clock-frequency = <400000>;
- 	status = "okay";
-@@ -404,6 +420,43 @@ &ipa {
- 	status = "okay";
- };
- 
-+&mdss {
-+	status = "okay";
-+};
-+
-+&mdss_dsi0 {
-+	vdda-supply = <&vreg_l22a>;
-+	status = "okay";
-+
-+	panel@0 {
-+		compatible = "fairphone,fp4-hx83112a-djn", "himax,hx83112a";
-+		reg = <0>;
-+
-+		backlight = <&pm6150l_wled>;
-+		reset-gpios = <&pm6150l_gpios 9 GPIO_ACTIVE_LOW>;
-+
-+		vdd1-supply = <&vreg_l1e>;
-+		vsn-supply = <&lcdb_dummy>;
-+		vsp-supply = <&lcdb_dummy>;
-+
-+		port {
-+			panel_in: endpoint {
-+				remote-endpoint = <&mdss_dsi0_out>;
-+			};
-+		};
-+	};
-+};
-+
-+&mdss_dsi0_out {
-+	data-lanes = <0 1 2 3>;
-+	remote-endpoint = <&panel_in>;
-+};
-+
-+&mdss_dsi0_phy {
-+	vdds-supply = <&vreg_l18a>;
-+	status = "okay";
-+};
-+
- &mpss {
- 	firmware-name = "qcom/sm7225/fairphone4/modem.mdt";
- 	status = "okay";
-
--- 
-2.43.0
+> ---
+>   drivers/gpu/drm/nouveau/nvif/outp.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/nvif/outp.c b/drivers/gpu/drm/nouveau/nvif/outp.c
+> index 5d3190c05250..6daeb7f0b09b 100644
+> --- a/drivers/gpu/drm/nouveau/nvif/outp.c
+> +++ b/drivers/gpu/drm/nouveau/nvif/outp.c
+> @@ -452,13 +452,12 @@ nvif_outp_edid_get(struct nvif_outp *outp, u8 **pedid)
+>   	if (ret)
+>   		goto done;
+> 
+> -	*pedid = kmalloc(args->size, GFP_KERNEL);
+> +	*pedid = kmemdup(args->data, args->size, GFP_KERNEL);
+>   	if (!*pedid) {
+>   		ret = -ENOMEM;
+>   		goto done;
+>   	}
+> 
+> -	memcpy(*pedid, args->data, args->size);
+>   	ret = args->size;
+>   done:
+>   	kfree(args);
 
