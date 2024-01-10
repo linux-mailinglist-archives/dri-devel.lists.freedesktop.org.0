@@ -1,53 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B87B829239
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 02:43:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 289D882924F
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 03:06:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3983B10E55E;
-	Wed, 10 Jan 2024 01:43:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 858FC10E0F7;
+	Wed, 10 Jan 2024 02:06:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50EEA10E55E
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 01:43:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704851006; x=1736387006;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=+S4XeMOOJvvyOjc3lGPn+71egzVpNFplON5Pq+gaz7k=;
- b=GO7/3ZQh5/mqBXGfvG6FX8mT8d71Qk0ZQhrJu/pFEiGODZoKn+v4YxwV
- /M0mv785Kjsu5cWW5z+Ck3ObJIWluS8vjIHi0fvoCNcRaMXe+N0BsCHsD
- bbh7bqV77qNAq940cWdYWKDE15rKmQW4NdpJPKkSMYCyAYQhFSfaWtv/P
- reyW0wHocvliby5J2FhUi+ziofpYM1FvUwYpuorKcNEq+H04zBJPdJSTR
- /c8ppWg6qgD8WN9m1vtOeII7eJSppOfPvh81NxNTu4T9OF/aMhU2Vn99Z
- 8puOfGH+SI9xKW3Nj/8PRwNCsH6QJedf3AaCDvOGh9HaTGF5ZUzfElcoF g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="5462754"
-X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; 
-   d="scan'208";a="5462754"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2024 17:43:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="1113271163"
-X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; d="scan'208";a="1113271163"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
- by fmsmga005.fm.intel.com with ESMTP; 09 Jan 2024 17:43:23 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1rNNcn-0006TK-1U;
- Wed, 10 Jan 2024 01:43:21 +0000
-Date: Wed, 10 Jan 2024 09:42:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-Subject: [drm-misc:drm-misc-next 6/21]
- drivers/gpu/drm/rockchip/inno_hdmi.c:499:22: error: implicit declaration of
- function 'drm_atomic_get_new_connector_state'; did you mean
- 'drm_atomic_helper_connector_reset'?
-Message-ID: <202401100949.ZVRr0pIa-lkp@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0953A10E0F7
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 02:06:17 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id C086960F19;
+ Wed, 10 Jan 2024 02:06:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18AEAC433F1;
+ Wed, 10 Jan 2024 02:06:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1704852375;
+ bh=K20e8jhxQctdn0EQe0a64CVvGFTYjmTc3LS7asQogyo=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=hEUsXdPExgJ/6tyvorNMmv2xbbnN/ksrlzf9XWoz4XzMSpDxk/Su9jRai8A6JmPqT
+ CROg9vyX/uPgMa6hC3+dIv1+9VwRJuYOHwCZqh4PPAT20xe0N58/U93+wqZ4eMep+N
+ C9Y9/Yl2ILJOSVXmlxmhAbkx+aAbO4RSpzEDkemhkakgnE8rlLiL7DE1D79+kIKw62
+ c5+A6TL8g0sDmmmyWP6zXo51r4mcIw9+uHa66sJvr6wGG+GkGqe1ewkKXIi+ONI0Fz
+ xX64W1DE45sKKqohJS8CPYy6lPEmA17vOTByyqBIbrhq4wLzLuEHnHNC1j3EhDfzcF
+ aA908fHMhDbXQ==
+Message-ID: <c2f88d7b-cded-42ab-bc5c-3d9a723daa1f@kernel.org>
+Date: Wed, 10 Jan 2024 11:06:06 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [DO NOT MERGE v6 27/37] dt-bindings: ata: ata-generic: Add new
+ targets
+Content-Language: en-US
+To: Yoshinori Sato <ysato@users.sourceforge.jp>, linux-sh@vger.kernel.org
+References: <cover.1704788539.git.ysato@users.sourceforge.jp>
+ <06fdb2cf7927681acf3099b826390ef75ba321af.1704788539.git.ysato@users.sourceforge.jp>
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <06fdb2cf7927681acf3099b826390ef75ba321af.1704788539.git.ysato@users.sourceforge.jp>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,66 +55,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Bee <knaerzche@gmail.com>, dri-devel@lists.freedesktop.org,
- oe-kbuild-all@lists.linux.dev
+Cc: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+ linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Bin Meng <bmeng@tinylab.org>,
+ Michael Turquette <mturquette@baylibre.com>, linux-pci@vger.kernel.org,
+ Jacky Huang <ychuang3@nuvoton.com>, Palmer Dabbelt <palmer@rivosinc.com>,
+ linux-kernel@vger.kernel.org, Max Filippov <jcmvbkbc@gmail.com>,
+ Lee Jones <lee@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Hyeonggon Yoo <42.hyeyoo@gmail.com>, Jiri Slaby <jirislaby@kernel.org>,
+ linux-clk@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Baoquan He <bhe@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Helge Deller <deller@gmx.de>, Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-serial@vger.kernel.org,
+ David Rientjes <rientjes@google.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Maxime Ripard <mripard@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ Chris Morgan <macromorgan@hotmail.com>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Vlastimil Babka <vbabka@suse.cz>, Yang Xiwen <forbidden405@foxmail.com>,
+ Sergey Shtylyov <s.shtylyov@omp.ru>, linux-ide@vger.kernel.org,
+ Stephen Boyd <sboyd@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Biju Das <biju.das.jz@bp.renesas.com>,
+ Sebastian Reichel <sre@kernel.org>, Azeem Shaikh <azeemshaikh38@gmail.com>,
+ linux-renesas-soc@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>,
+ Andrew Morton <akpm@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-head:   632ca3c92f3840d91ba7ddda0271f84813036a11
-commit: d3e040f450ec8e46ff42fa495a433b976ab47686 [6/21] drm/rockchip: inno_hdmi: Get rid of mode_set
-config: s390-randconfig-001-20240109 (https://download.01.org/0day-ci/archive/20240110/202401100949.ZVRr0pIa-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240110/202401100949.ZVRr0pIa-lkp@intel.com/reproduce)
+On 1/9/24 17:23, Yoshinori Sato wrote:
+> Added new ata-generic target.
+> - iodata,usl-5p-ata
+> - renesas,rts7751r2d-ata
+> 
+> Each boards have simple IDE Interface. Use ATA generic driver.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401100949.ZVRr0pIa-lkp@intel.com/
+This looks OK to me, so feel free to add:
 
-All error/warnings (new ones prefixed by >>):
+Acked-by: Damien Le Moal <dlemoal@kernel.org>
 
-   drivers/gpu/drm/rockchip/inno_hdmi.c: In function 'inno_hdmi_encoder_enable':
->> drivers/gpu/drm/rockchip/inno_hdmi.c:499:22: error: implicit declaration of function 'drm_atomic_get_new_connector_state'; did you mean 'drm_atomic_helper_connector_reset'? [-Werror=implicit-function-declaration]
-     499 |         conn_state = drm_atomic_get_new_connector_state(state, &hdmi->connector);
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                      drm_atomic_helper_connector_reset
->> drivers/gpu/drm/rockchip/inno_hdmi.c:499:20: warning: assignment to 'struct drm_connector_state *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     499 |         conn_state = drm_atomic_get_new_connector_state(state, &hdmi->connector);
-         |                    ^
->> drivers/gpu/drm/rockchip/inno_hdmi.c:503:22: error: implicit declaration of function 'drm_atomic_get_new_crtc_state'; did you mean 'drm_atomic_helper_swap_state'? [-Werror=implicit-function-declaration]
-     503 |         crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                      drm_atomic_helper_swap_state
->> drivers/gpu/drm/rockchip/inno_hdmi.c:503:20: warning: assignment to 'struct drm_crtc_state *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     503 |         crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
-         |                    ^
-   cc1: some warnings being treated as errors
-
-
-vim +499 drivers/gpu/drm/rockchip/inno_hdmi.c
-
-   491	
-   492	static void inno_hdmi_encoder_enable(struct drm_encoder *encoder,
-   493					     struct drm_atomic_state *state)
-   494	{
-   495		struct inno_hdmi *hdmi = encoder_to_inno_hdmi(encoder);
-   496		struct drm_connector_state *conn_state;
-   497		struct drm_crtc_state *crtc_state;
-   498	
- > 499		conn_state = drm_atomic_get_new_connector_state(state, &hdmi->connector);
-   500		if (WARN_ON(!conn_state))
-   501			return;
-   502	
- > 503		crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
-   504		if (WARN_ON(!crtc_state))
-   505			return;
-   506	
-   507		inno_hdmi_setup(hdmi, &crtc_state->adjusted_mode);
-   508		inno_hdmi_set_pwr_mode(hdmi, NORMAL);
-   509	}
-   510	
+Note: The "DO NOT MERGE" patch prefix almost got me to immediately delete this
+37 patches in my inbox... If you wish to get this work merged after review,
+please use the regular "PATCH" prefix. No worries, the series will not be merged
+until is is reviewed :)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Damien Le Moal
+Western Digital Research
+
