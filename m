@@ -2,122 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40B49829729
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 11:19:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8AFF829736
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 11:20:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E25310E5BB;
-	Wed, 10 Jan 2024 10:19:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDDF010E747;
+	Wed, 10 Jan 2024 10:20:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2060a.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe5b::60a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11E7210E592;
- Wed, 10 Jan 2024 10:19:48 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Hi5G4FybTxxZ3Y4YPJE95xgfYmYqU4b0C/O9Y/KshX/ZpwI+n8pQHTFvGs+d24u3U/yhiMmRl5izzuDQhscmGXFBTCIQPF1+ENNdGpQh1pz8zV8TWErqp0wnZUxKfFkSGhxPyJMjBr34UggpFVWQPd6ceZkR7o49xMXeLh6BoYmgtGvOqmPaAVPm+RSKaPg3mMpiH+SQ1uDoDleQu4Fkc96Zi6I3396a81c9lKcwMbSJQYXD5XRGmVmt8Jzhoso39tLmBNIShkXybUDMQNn8EIueCDbBOhbj0eEXw9KqMMJov6CkLjvLF/56KIOCKQ89oUatK312heBwNVT11GlqEw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KSe33ReXy2QZfZWV/vxe3fJmKOevSrdGX86ju4zIdd4=;
- b=GBsPnDp4EOKLNpVpxBaxHBR8RIT/TDwvL2znC0kKMZxJOZbd7a0s6CREJAb0TXIMD6oYMF/ag6b78QuTMOhAQugAyItie82+w9TSqZL1YEpIVg2HoZ1lAy21lQNKcJx1uO8VIZMj0plMwaiv8XvwvAsPigaa2izNnGQnE8Jsh/XvUSlssIQwOSn17IUeso1d2WdS3r7FH5CCfyuNiLCmBZUxmcQWCOiwuyhs0s4TegZwFmxonGQwTKM2FuP+ggaCbd6Vt3ROhDCoqBp6lwyH/KdwNg3bZ6ygF5SF+/fss4M9Zom21cI31WPkPrfJxhSk/lGBq4nl1R6jC/pLep41hQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KSe33ReXy2QZfZWV/vxe3fJmKOevSrdGX86ju4zIdd4=;
- b=2b4krAvhdzlV9ouHN9MX4e4B3l8rQ6M/kEzY5B+rD+0PJEhqNsXD5V2jnhXd9Q76gKKvQ6L/DvGIXKMuAuFq3xs42AbecCPfglNgpn6AdZfQoMVFsdT3KvZ3aEPpt16Tq92Sieh7JJbrfhkOel3WXf+jWQvQZjcGjwEraGgnAHo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by IA1PR12MB8263.namprd12.prod.outlook.com (2603:10b6:208:3f8::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.23; Wed, 10 Jan
- 2024 10:19:45 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::e1fb:4123:48b1:653]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::e1fb:4123:48b1:653%4]) with mapi id 15.20.7159.020; Wed, 10 Jan 2024
- 10:19:45 +0000
-Message-ID: <8ce0d90d-c751-4250-8656-fcab27aec6c2@amd.com>
-Date: Wed, 10 Jan 2024 11:19:37 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] drm/virtio: Implement device_attach
-Content-Language: en-US
-To: Julia Zhang <julia.zhang@amd.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, David Airlie <airlied@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org
-References: <20240110095627.227454-1-julia.zhang@amd.com>
- <20240110095627.227454-2-julia.zhang@amd.com>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20240110095627.227454-2-julia.zhang@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0009.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:15::14) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
+ [64.147.123.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BF6810E747
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 10:20:42 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.west.internal (Postfix) with ESMTP id 0F1522B005B2;
+ Wed, 10 Jan 2024 05:20:33 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+ by compute5.internal (MEProxy); Wed, 10 Jan 2024 05:20:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+ :cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to; s=fm2; t=1704882033;
+ x=1704889233; bh=syE5UlqFQxkc/rlq6eSMNsD1Ft+dm/4kEwr9kygNnZw=; b=
+ JP39xJs9nz7sao0Mw71uaZ/eiQXIoVplqugjUGZYhQ7guX3+bZhIuPn+FTIF0P/U
+ kFKA5/KKnrvphnR9VVDqO7b9pSS6wICSG3UluT021gLpH5lthNGCLq13PQ9KJjEJ
+ 1ljadw2mqVer0c9AYE4e0vRLjHJbc6Ff1HjG1hJRNVl2d58ls4RnrwTbd1lVfNCT
+ /p4Lj2EC6KAxjG6XjKrUccDBnfGAbkRQ9JltT0U4qRnMynNH4R98FTVJAThZmA9u
+ jQBMWbwGpK+oalRypy9TC8j8qfMWGON+J6gzAN0ArgN5Lu7H51+TiItFXrD89wmd
+ vZG/l4E5n8fT1+kO8ueizQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1704882033; x=
+ 1704889233; bh=syE5UlqFQxkc/rlq6eSMNsD1Ft+dm/4kEwr9kygNnZw=; b=U
+ mPKqJXZVgmHnjEzCuKASxczr7emU7nTNeH25WN9+C8eCNew7DVr1bRr/+srzmGUM
+ OLnTHQSNkb+EpmX50WeEu35xdXIziu96hJDuEpPD56diPrxIQi32vTaocnV2ckb1
+ HD7aUd5o6s31cHFZPeyloB1t3fGS7jNWGPLq0zyRBeBaK7y25NpZqIyzw5gFDKsU
+ pgPvYLFgWLau455DHxp57ybe58+CnFFt/AMqw12H893i5lWeRlqp9SNjB20pdoew
+ +mPjKLaT3vdzJvpuSAYIlv2XgkShbWLlHqONIAN9nqEm1n8JAXEzEYFZ9iKC3jQK
+ mYsm11bq3sdDv2qml7QSw==
+X-ME-Sender: <xms:b2-eZV_KMr_PAO_kk0ge4HNc0mbJzBFnJKYHP3Wn5ArwwAHJiUgo6g>
+ <xme:b2-eZZug-0NmwZ3_tB5EneosW6omYAdslyOjXGHW_SxmM98uPtte7R3mOTMO5r8vb
+ U5elh8Vhr3nkMsPDkU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdeiuddgudegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
+ rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+ htthgvrhhnpeegfeejhedvledvffeijeeijeeivddvhfeliedvleevheejleetgedukedt
+ gfejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ grrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:b2-eZTD8snTlVFeWedik1H69gSlAKgK5Cfa5oODX4P9VlRv3yNVtaA>
+ <xmx:b2-eZZfs69_EmPDsleKZW4CQjR8pVKQx5Y8bLR1JfUiKHCBXHCWmmA>
+ <xmx:b2-eZaMqe5fTef3bZBI_1IiTCXh5CeSfqu9FYtz6ovkxTl1P8-0xSA>
+ <xmx:cW-eZYGsc9qNXZdY9id5LaSUAgT20Cc4RFtJpxiSbqeKVbO3FhZS773eVF0>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 64819B6008D; Wed, 10 Jan 2024 05:20:31 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-1364-ga51d5fd3b7-fm-20231219.001-ga51d5fd3
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|IA1PR12MB8263:EE_
-X-MS-Office365-Filtering-Correlation-Id: 769097ee-2eb6-4e11-559a-08dc11c5aaf8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Pfy0H+112ihqgJrzcx7isRvnbs6+fyW2nhYpTkdzqv08zeUFNMDs3ItnRjmhBgAM/DRkzMtBvnrKR8m5WVwo6E8bqwRn0KmH6df0XOownGKTdtE1gdhZEk7BN8N7bLJ+LKyOeuy8o0O3XbUnx4h7Ts/MZUot9JMkIdbr4q9OZjTVfgeesDZaF0jLHyMQu1PpB5J4znMR+45TcSHOBs6gidqVvXV71+sbgpJt8l4sJg6wk3xluqHe8PQHbq/PtwSvzuVzT1ptQ8bOumsBFtnhgxRNeQQGhwbvgkky100CtH56N5NK6bfTnqNKoh7SFHZfNcVjmJ6MttftGLcTPGUIHKfUkrq2cslo4dc+qONdspveND9ZtvGb75dU9Yeze0DICu3VhLBw0F1qWLG0c0SDBZMRr9kXOweJ1xcp8IQzW6KxdcA1P6YjtR0cyTiQ87kcfvjdNE/fGBq/w0273LdN9VlPgz9u0RKGWb2tfbYZgAynoVQIny+O4iIxL0AqnhXqDp9S+3+6CWYPcZ3NPJbLJ+m6eXaia7MStpG+fsCcgt4q3G4xmTzeYF6qFZ7SOH1uIbZEnmcKEruRNI1arp/Tz9XBHUrKmBis7gXl3annXSYV5I4sNU/yUerHOGFJsDf6debwDosyWApM0KrrWnmRLQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(366004)(346002)(396003)(136003)(376002)(39860400002)(230922051799003)(64100799003)(1800799012)(186009)(451199024)(41300700001)(86362001)(8676002)(6486002)(31686004)(8936002)(31696002)(6506007)(5660300002)(7416002)(2906002)(6666004)(2616005)(26005)(66476007)(66556008)(36756003)(110136005)(66946007)(6512007)(478600001)(54906003)(83380400001)(316002)(38100700002)(4326008)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aXcrQ2FuRVVJMTJNRmFzVDdDQWU4WU5Obk9wRkJadkRXWGdocmRONGRyNGJD?=
- =?utf-8?B?RWVhUEFHeFFVVkRLd3BVSkpGc05uZnBhci9vUHM2Y3NETWNtUVpWUVErbG81?=
- =?utf-8?B?Y0piTzlCSVZBTUJTYmQ3OUFlZUkxaUFPOEh3ZUo0eWc4dTFobWM3LzhLSDdR?=
- =?utf-8?B?MHUwWHVveWtPTG5xeXFsRyt6RDd1YkpiWVRaTnI3cHNvTWdaa1lzVDNoZTFq?=
- =?utf-8?B?MGhwbmdwRVNlcHBXQ25sZmdNd056czREOW9pM1RtaThhMURraUNtT3F3b01x?=
- =?utf-8?B?Sm1nZjllM0YwRXd2RTJDRXBoclhSTFRUZ1RGMnRYZHlReWRDVndJaVlYL0o5?=
- =?utf-8?B?SnlEQU9pSlBpeDZ3Wi81UVpacjNXayt6cGNqRTNybDEzRlJ3ODRYRnpBUUhN?=
- =?utf-8?B?dEN1dkw0M3NlajRBRkt6dlVVUnZ4ejhmL0tzNXk4cktNMjdBYS96amVtRlcx?=
- =?utf-8?B?VGVWZUxydGlxRkcvUmdzeGdad0gvZmZlVWhJekFhQlBmeXVXNWl0NlRLYi82?=
- =?utf-8?B?TFAyQ0ZmVTMrVHQzckQzbFR2MTE0Wi9adFMyZzlmbndBbHQ2YlpMYU1YNjg4?=
- =?utf-8?B?WGcwNUVrVjJud096R1h4bWdpaXhoRmpEeEp1VjN5QU4wSFlFU040THNsbzhp?=
- =?utf-8?B?NTEvbDlFUzl4czVBaDRZQVRVNjJpSGxNR3ppcGVpOC9lbnZCRk91Z0VmbkF2?=
- =?utf-8?B?czA1NVB2OG5YQjI1WHRUMGFRMm9FanpJWGM0ZlN6YWwvMnZMdGwwY2ZYOGpq?=
- =?utf-8?B?VW1iWEhJTzBjVUtpVTRjOTQ2a2NnNDc3MlFGUVY5TEM0eVZ5eXZxOWJtWVJh?=
- =?utf-8?B?UUZFU2FqdXdQQzFSYUZMcG5kamIxc2FrZ0JkT2JNVFdkYmRMT3o5cDJnRjhV?=
- =?utf-8?B?bTRtY3RQMWk2M3ZtRm4rRGpsZHRKSEswckkyU1UycGFsbXJJN3dzOUl3dXk1?=
- =?utf-8?B?V1Nvb2dVZ1pwdUpLZ0I5eUdBbDFLc2pQeFhUYVo1N1QydzhIVUgzUFN2UmRn?=
- =?utf-8?B?MTI5MksrTHNWSkg4OXZYanIwQzdzYjlLa0h5bGQwODB3OUxpekVFZFMyRVhM?=
- =?utf-8?B?SklURjV4Z3FhNjlMZ0ZRVml1Ty9pZDBJV1NQV0pRQmdxaElLaFQzL3hiL3Mv?=
- =?utf-8?B?Y3hUa3RGWTVpMXpRdEx0Uk5nbGdpTldGcENnbFc3Y05QQkxROVBkaVlCR0lO?=
- =?utf-8?B?UTJtMWxESW93aFFFa3I2UzdVUU1keWN5MnBYMi92YmtUYURmc0dGOG9XcHB3?=
- =?utf-8?B?bUNnb3F5V0dqSXZIU3BUNFJsZEdkUWpzdUtOdjNGUTBzTXRkZVI5d1FiNVFt?=
- =?utf-8?B?L1JyWldFdUJoZ045ZVc2MmpSVUN1NkNXRCs5NEFDbmc5bnVXZGNiQ3ZGc1VM?=
- =?utf-8?B?RUtkQWk1RjJUWE9EYjZ0Ui85YWZNc3doSy8zMzFZdmRXa2tCTkJMU2UxSVdn?=
- =?utf-8?B?K2VKMkZ2ZHBFZVF3OWE1dWZMY0tRK25nYnpTckdFNldjNmE5SFAxWmc3UVNw?=
- =?utf-8?B?d25VWFdoajk3RktCSFoxSVZEUzFQcCt4RlN6bHdTeGFiY2FyL0l0d2tzS2U2?=
- =?utf-8?B?TzlxU2ltSmwwdUNDVDNKRjhISHZLNm45Nmo5cDVtR2Q5cEFnbmN0YjkwbUJt?=
- =?utf-8?B?QjZOc0dESTdsWUF6TmNwSnZMcTE1eE5GbDIreGdUakk5OGJkUTJIVXQ0Q2pV?=
- =?utf-8?B?dk8xQlE0YjdCTElIcnhlRzZRTUhDNnBSc1ZXSjZLTE5DZ1c5R2F6U000aVdC?=
- =?utf-8?B?eGtNaDZOLyszeFhXdWhwQ09aM2lVWFFGaUprbW9KTER2ZnlyeWZNa3F1OE5i?=
- =?utf-8?B?SElXZDV0ZzE0aHpDY242b05xUDNHdFlNajdLQjl1a21KM1pFTEgyRFhFc3BY?=
- =?utf-8?B?anhUMUQ0Nm9kYk1JNko3c3d3a0lVZVdaekRoMXlpYXE0Y29hNmxmM1k4UU1t?=
- =?utf-8?B?M21Id3FpY0VlNXNOTWlkQWxmaTBRQUZOVmxJa3pUV1pQV1pPZ25xcXowbTZq?=
- =?utf-8?B?NFN4RGJzdHlVemNSSUxMb2xqaHFrTWttWXVoNHNBVjYrQWd6QUdabVVLUk1N?=
- =?utf-8?B?ZDlFVElaZ05mVldOdStZMzcwMEgrWkNkSU1xRnA4WlJwbU4wOEFuaTU0QzlH?=
- =?utf-8?Q?2qe7TfjRAZwErJhjq7aa74ZjU?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 769097ee-2eb6-4e11-559a-08dc11c5aaf8
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jan 2024 10:19:45.5885 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: L/beyhPHjmUj0RRVGCtxaMrq6lEGlJ9Cb1HDUhg5rkqbSQUteIAoVKqeKju1xU26
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8263
+Message-Id: <fdf707b9-f39d-4f5a-a8bf-1bcb8cc6594f@app.fastmail.com>
+In-Reply-To: <CAMuHMdV8uFKntiMfwwmnFpd4Dcx8vJDwS6r1iBLtkh40N71dbw@mail.gmail.com>
+References: <20231108125843.3806765-1-arnd@kernel.org>
+ <20231108125843.3806765-9-arnd@kernel.org>
+ <CAMuHMdV8uFKntiMfwwmnFpd4Dcx8vJDwS6r1iBLtkh40N71dbw@mail.gmail.com>
+Date: Wed, 10 Jan 2024 11:20:10 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Geert Uytterhoeven" <geert@linux-m68k.org>,
+ "Arnd Bergmann" <arnd@kernel.org>
+Subject: Re: [PATCH 08/22] [v2] arch: consolidate arch_irq_work_raise
+ prototypes
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,71 +88,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Erik Faye-Lund <kusmabite@gmail.com>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>,
- Chen Jiqian <Jiqian.Chen@amd.com>, Huang Rui <ray.huang@amd.com>,
- Honglei Huang <honglei1.huang@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, Juri Lelli <juri.lelli@redhat.com>,
+ linux-fbdev@vger.kernel.org, x86@kernel.org, loongarch@lists.linux.dev,
+ linux-sh@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, Netdev <netdev@vger.kernel.org>,
+ guoren <guoren@kernel.org>,
+ Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
+ Helge Deller <deller@gmx.de>, sparclinux@vger.kernel.org,
+ linux-riscv@lists.infradead.org, Vincenzo Frascino <vincenzo.frascino@arm.com>,
+ Will Deacon <will@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Nicolas Schier <nicolas@fjasle.eu>, linux-s390@vger.kernel.org,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Michael Ellerman <mpe@ellerman.id.au>, Masahiro Yamada <masahiroy@kernel.org>,
+ Huacai Chen <chenhuacai@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Greg Ungerer <gerg@linux-m68k.org>,
+ "linux-bcachefs@vger.kernel.org" <linux-bcachefs@vger.kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Vineet Gupta <vgupta@kernel.org>,
+ "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, Matt Turner <mattst88@gmail.com>,
+ linux-snps-arc@lists.infradead.org, linux-trace-kernel@vger.kernel.org,
+ Palmer Dabbelt <palmer@rivosinc.com>, Kees Cook <keescook@chromium.org>,
+ linux-kbuild@vger.kernel.org, Heiko Carstens <hca@linux.ibm.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ linuxppc-dev@lists.ozlabs.org, Nicholas Piggin <npiggin@gmail.com>,
+ Nathan Chancellor <nathan@kernel.org>, linux-m68k@lists.linux-m68k.org,
+ "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Andy Lutomirski <luto@kernel.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
+ Michal Simek <monstr@monstr.eu>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
+ Timur Tabi <timur@kernel.org>, Geoff Levand <geoff@infradead.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Kent Overstreet <kent.overstreet@linux.dev>,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+ Dinh Nguyen <dinguyen@kernel.org>, linux-usb@vger.kernel.org,
+ Palmer Dabbelt <palmer@dabbelt.com>, Masami Hiramatsu <mhiramat@kernel.org>,
+ linux-alpha@vger.kernel.org, linux-mtd@lists.infradead.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Woodhouse <dwmw2@infradead.org>,
+ "David S . Miller" <davem@davemloft.net>,
+ Alexander Viro <viro@zeniv.linux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 10.01.24 um 10:56 schrieb Julia Zhang:
-> drm_gem_map_attach() requires drm_gem_object_funcs.get_sg_table to be
-> implemented, or else return ENOSYS. Virtio has no get_sg_table
-> implemented for vram object. To fix this, add a new device_attach to
-> call drm_gem_map_attach() for shmem object and return 0 for vram object
-> instead of calling drm_gem_map_attach for both of these two kinds of
-> object.
-
-Well as far as I can see this is nonsense from the DMA-buf side of things.
-
-SG tables are always needed as long as you don't re-import the same 
-object into your driver and then you shouldn't end up in this function 
-in the first place.
-
-So that drm_gem_map_attach() requires get_sg_table to be implemented is 
-intentional and should never be overridden like this.
-
-Regards,
-Christian.
-
+On Wed, Jan 10, 2024, at 10:03, Geert Uytterhoeven wrote:
+> On Wed, Nov 8, 2023 at 2:01=E2=80=AFPM Arnd Bergmann <arnd@kernel.org>=
+ wrote:
+>> From: Arnd Bergmann <arnd@arndb.de>
+>>
+>> The prototype was hidden in an #ifdef on x86, which causes a warning:
+>>
+>> kernel/irq_work.c:72:13: error: no previous prototype for 'arch_irq_w=
+ork_raise' [-Werror=3Dmissing-prototypes]
 >
-> Signed-off-by: Julia Zhang <julia.zhang@amd.com>
-> ---
->   drivers/gpu/drm/virtio/virtgpu_prime.c | 14 +++++++++++++-
->   1 file changed, 13 insertions(+), 1 deletion(-)
+> This issue is now present upstream.
 >
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_prime.c b/drivers/gpu/drm/virtio/virtgpu_prime.c
-> index 44425f20d91a..f0b0ff6f3813 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_prime.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_prime.c
-> @@ -71,6 +71,18 @@ static void virtgpu_gem_unmap_dma_buf(struct dma_buf_attachment *attach,
->   	drm_gem_unmap_dma_buf(attach, sgt, dir);
->   }
->   
-> +static int virtgpu_gem_device_attach(struct dma_buf *dma_buf,
-> +				     struct dma_buf_attachment *attach)
-> +{
-> +	struct drm_gem_object *obj = attach->dmabuf->priv;
-> +	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
-> +
-> +	if (virtio_gpu_is_vram(bo))
-> +		return 0;
-> +
-> +	return drm_gem_map_attach(dma_buf, attach);
-> +}
-> +
->   static const struct virtio_dma_buf_ops virtgpu_dmabuf_ops =  {
->   	.ops = {
->   		.cache_sgt_mapping = true,
-> @@ -83,7 +95,7 @@ static const struct virtio_dma_buf_ops virtgpu_dmabuf_ops =  {
->   		.vmap = drm_gem_dmabuf_vmap,
->   		.vunmap = drm_gem_dmabuf_vunmap,
->   	},
-> -	.device_attach = drm_gem_map_attach,
-> +	.device_attach = virtgpu_gem_device_attach,
->   	.get_uuid = virtgpu_virtio_get_uuid,
->   };
->   
+>> Some architectures have a working prototype, while others don't.
+>> Fix this by providing it in only one place that is always visible.
+>>
+>> Acked-by: Catalin Marinas <catalin.marinas@arm.com>
+>> Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
+>> Acked-by: Guo Ren <guoren@kernel.org>
+>> Reviewed-by: Alexander Gordeev <agordeev@linux.ibm.com>
+>> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+>
+> Tested-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
+I've sent out the asm-generic pull request now,
+that contains the fix. Thanks for the reminder.
+
+      Arnd
