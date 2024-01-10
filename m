@@ -1,45 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CDAF829202
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 02:18:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B87B829239
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 02:43:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C830D10E546;
-	Wed, 10 Jan 2024 01:18:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3983B10E55E;
+	Wed, 10 Jan 2024 01:43:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-44.mimecast.com
- (us-smtp-delivery-44.mimecast.com [205.139.111.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E447610E546
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 01:18:33 +0000 (UTC)
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-510-whklFtzLPHiLzAUd4BFuFg-1; Tue, 09 Jan 2024 20:18:30 -0500
-X-MC-Unique: whklFtzLPHiLzAUd4BFuFg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8F59282DFE0;
- Wed, 10 Jan 2024 01:18:29 +0000 (UTC)
-Received: from dreadlord.redhat.com (unknown [10.64.136.90])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8964C2166B35;
- Wed, 10 Jan 2024 01:18:28 +0000 (UTC)
-From: Dave Airlie <airlied@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] nouveau/gsp: handle engines in runl without nonstall
- interrupts.
-Date: Wed, 10 Jan 2024 11:18:26 +1000
-Message-ID: <20240110011826.3996289-1-airlied@gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50EEA10E55E
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 01:43:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1704851006; x=1736387006;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=+S4XeMOOJvvyOjc3lGPn+71egzVpNFplON5Pq+gaz7k=;
+ b=GO7/3ZQh5/mqBXGfvG6FX8mT8d71Qk0ZQhrJu/pFEiGODZoKn+v4YxwV
+ /M0mv785Kjsu5cWW5z+Ck3ObJIWluS8vjIHi0fvoCNcRaMXe+N0BsCHsD
+ bbh7bqV77qNAq940cWdYWKDE15rKmQW4NdpJPKkSMYCyAYQhFSfaWtv/P
+ reyW0wHocvliby5J2FhUi+ziofpYM1FvUwYpuorKcNEq+H04zBJPdJSTR
+ /c8ppWg6qgD8WN9m1vtOeII7eJSppOfPvh81NxNTu4T9OF/aMhU2Vn99Z
+ 8puOfGH+SI9xKW3Nj/8PRwNCsH6QJedf3AaCDvOGh9HaTGF5ZUzfElcoF g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="5462754"
+X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; 
+   d="scan'208";a="5462754"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2024 17:43:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="1113271163"
+X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; d="scan'208";a="1113271163"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+ by fmsmga005.fm.intel.com with ESMTP; 09 Jan 2024 17:43:23 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1rNNcn-0006TK-1U;
+ Wed, 10 Jan 2024 01:43:21 +0000
+Date: Wed, 10 Jan 2024 09:42:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Subject: [drm-misc:drm-misc-next 6/21]
+ drivers/gpu/drm/rockchip/inno_hdmi.c:499:22: error: implicit declaration of
+ function 'drm_atomic_get_new_connector_state'; did you mean
+ 'drm_atomic_helper_connector_reset'?
+Message-ID: <202401100949.ZVRr0pIa-lkp@intel.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.6
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: gmail.com
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=WINDOWS-1252; x-default=true
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,79 +60,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org
+Cc: Alex Bee <knaerzche@gmail.com>, dri-devel@lists.freedesktop.org,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Airlie <airlied@redhat.com>
+tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+head:   632ca3c92f3840d91ba7ddda0271f84813036a11
+commit: d3e040f450ec8e46ff42fa495a433b976ab47686 [6/21] drm/rockchip: inno_hdmi: Get rid of mode_set
+config: s390-randconfig-001-20240109 (https://download.01.org/0day-ci/archive/20240110/202401100949.ZVRr0pIa-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240110/202401100949.ZVRr0pIa-lkp@intel.com/reproduce)
 
-It appears on TU106 GPUs (2070), that some of the nvdec engines
-are in the runlist but have no valid nonstall interrupt, nouveau
-didn't handle that too well.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401100949.ZVRr0pIa-lkp@intel.com/
 
-This should let nouveau/gsp work on those.
+All error/warnings (new ones prefixed by >>):
 
-Cc: stable@vger.kernel.org # v6.7+
----
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga100.c | 4 ++++
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c  | 2 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/base.c   | 8 ++------
- 3 files changed, 7 insertions(+), 7 deletions(-)
+   drivers/gpu/drm/rockchip/inno_hdmi.c: In function 'inno_hdmi_encoder_enable':
+>> drivers/gpu/drm/rockchip/inno_hdmi.c:499:22: error: implicit declaration of function 'drm_atomic_get_new_connector_state'; did you mean 'drm_atomic_helper_connector_reset'? [-Werror=implicit-function-declaration]
+     499 |         conn_state = drm_atomic_get_new_connector_state(state, &hdmi->connector);
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                      drm_atomic_helper_connector_reset
+>> drivers/gpu/drm/rockchip/inno_hdmi.c:499:20: warning: assignment to 'struct drm_connector_state *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     499 |         conn_state = drm_atomic_get_new_connector_state(state, &hdmi->connector);
+         |                    ^
+>> drivers/gpu/drm/rockchip/inno_hdmi.c:503:22: error: implicit declaration of function 'drm_atomic_get_new_crtc_state'; did you mean 'drm_atomic_helper_swap_state'? [-Werror=implicit-function-declaration]
+     503 |         crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                      drm_atomic_helper_swap_state
+>> drivers/gpu/drm/rockchip/inno_hdmi.c:503:20: warning: assignment to 'struct drm_crtc_state *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     503 |         crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
+         |                    ^
+   cc1: some warnings being treated as errors
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga100.c b/drivers/gpu=
-/drm/nouveau/nvkm/engine/fifo/ga100.c
-index c8ce7ff18713..e74493a4569e 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga100.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga100.c
-@@ -550,6 +550,10 @@ ga100_fifo_nonstall_ctor(struct nvkm_fifo *fifo)
- =09=09struct nvkm_engn *engn =3D list_first_entry(&runl->engns, typeof(*en=
-gn), head);
-=20
- =09=09runl->nonstall.vector =3D engn->func->nonstall(engn);
-+
-+=09=09/* if no nonstall vector just keep going */
-+=09=09if (runl->nonstall.vector =3D=3D -1)
-+=09=09=09continue;
- =09=09if (runl->nonstall.vector < 0) {
- =09=09=09RUNL_ERROR(runl, "nonstall %d", runl->nonstall.vector);
- =09=09=09return runl->nonstall.vector;
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c b/drivers/gpu/=
-drm/nouveau/nvkm/engine/fifo/r535.c
-index b903785056b5..3454c7d29502 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c
-@@ -351,7 +351,7 @@ r535_engn_nonstall(struct nvkm_engn *engn)
- =09int ret;
-=20
- =09ret =3D nvkm_gsp_intr_nonstall(subdev->device->gsp, subdev->type, subde=
-v->inst);
--=09WARN_ON(ret < 0);
-+=09WARN_ON(ret =3D=3D -ENOENT);
- =09return ret;
- }
-=20
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/base.c b/drivers/gpu/d=
-rm/nouveau/nvkm/subdev/gsp/base.c
-index 04bceaa28a19..da1bebb896f7 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/base.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/base.c
-@@ -25,12 +25,8 @@ int
- nvkm_gsp_intr_nonstall(struct nvkm_gsp *gsp, enum nvkm_subdev_type type, i=
-nt inst)
- {
- =09for (int i =3D 0; i < gsp->intr_nr; i++) {
--=09=09if (gsp->intr[i].type =3D=3D type && gsp->intr[i].inst =3D=3D inst) =
-{
--=09=09=09if (gsp->intr[i].nonstall !=3D ~0)
--=09=09=09=09return gsp->intr[i].nonstall;
--
--=09=09=09return -EINVAL;
--=09=09}
-+=09=09if (gsp->intr[i].type =3D=3D type && gsp->intr[i].inst =3D=3D inst)
-+=09=09=09return gsp->intr[i].nonstall;
- =09}
-=20
- =09return -ENOENT;
---=20
-2.43.0
 
+vim +499 drivers/gpu/drm/rockchip/inno_hdmi.c
+
+   491	
+   492	static void inno_hdmi_encoder_enable(struct drm_encoder *encoder,
+   493					     struct drm_atomic_state *state)
+   494	{
+   495		struct inno_hdmi *hdmi = encoder_to_inno_hdmi(encoder);
+   496		struct drm_connector_state *conn_state;
+   497		struct drm_crtc_state *crtc_state;
+   498	
+ > 499		conn_state = drm_atomic_get_new_connector_state(state, &hdmi->connector);
+   500		if (WARN_ON(!conn_state))
+   501			return;
+   502	
+ > 503		crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
+   504		if (WARN_ON(!crtc_state))
+   505			return;
+   506	
+   507		inno_hdmi_setup(hdmi, &crtc_state->adjusted_mode);
+   508		inno_hdmi_set_pwr_mode(hdmi, NORMAL);
+   509	}
+   510	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
