@@ -1,67 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D90B9829EC9
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 17:53:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC35C829796
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 11:28:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF3BC10E636;
-	Wed, 10 Jan 2024 16:53:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1424F10E5B1;
+	Wed, 10 Jan 2024 10:28:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
- [68.232.154.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CDF910E5C3
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 10:33:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1704882822; x=1736418822;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=5WUd7zZW6vaz2VFpcySRfwde2JHnsfcvgGymaZA0H0s=;
- b=xrhS7yj/U6pZQNlmOzi1ZuvFa32dv54Z5bk3rDVy9VqZqwiqpx8Ox39t
- YIgpYBPHMClRNlQ7imwzRxSdmJO87l+86q+HR802EMn7MCI7jU1vI+iux
- J35MPDa5Z5oRUpZHO9u6UCHE22yqY0KpUKs2TZufpaPz4x/F+cs+PZ/xq
- z2tvLcFpO8CJV5LZMtGQbHsRHi7RqGGsYx56cTRVguAlgZTfw0ujz+i+g
- hZU9EIwdIqRiZE70YbAEIza+NRiYfOUuAH/Wl42bL5c62pzSCfeFB0ZuB
- ZcfH8jMrVJ8EB/hYXOuj6YNO+iDBK2QrTRe7+btu1BYpzeourJQi8wPWi A==;
-X-CSE-ConnectionGUID: 5D2eo3saR72tqfGaKhDyVQ==
-X-CSE-MsgGUID: P1+T+hWdTWqrrzrBB18h6g==
-X-ThreatScanner-Verdict: Negative
-X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; d="scan'208";a="14511322"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa4.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 10 Jan 2024 03:26:35 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 10 Jan 2024 03:26:25 -0700
-Received: from che-lt-i70843lx.microchip.com (10.10.85.11) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Wed, 10 Jan 2024 03:26:17 -0700
-From: Dharma Balasubiramani <dharma.b@microchip.com>
-To: <sam@ravnborg.org>, <bbrezillon@kernel.org>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
- <conor+dt@kernel.org>, <nicolas.ferre@microchip.com>,
- <alexandre.belloni@bootlin.com>, <claudiu.beznea@tuxon.dev>,
- <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <lee@kernel.org>, <thierry.reding@gmail.com>,
- <u.kleine-koenig@pengutronix.de>, <linux-pwm@vger.kernel.org>
-Subject: [PATCH 3/3] dt-bindings: atmel,
- hlcdc: convert pwm bindings to json-schema
-Date: Wed, 10 Jan 2024 15:55:35 +0530
-Message-ID: <20240110102535.246177-4-dharma.b@microchip.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240110102535.246177-1-dharma.b@microchip.com>
-References: <20240110102535.246177-1-dharma.b@microchip.com>
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D19FA10E5B1
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 10:28:55 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id
+ 4fb4d7f45d1cf-55760f84177so686655a12.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 02:28:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1704882534; x=1705487334; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=kzMRVLCK4MkU8q0YmaEVcjGiGn4HILsH8nsfUlY3Z6k=;
+ b=lRrWlQJ1/0dzu+qByHoykaVUdTwE1DXGUHAdPT8EAudr7YgIfV0Oc+XUvd0KT9IH/E
+ 2a7S2qhKxQdwQ1L+F8iJjueHLi9+ltcbxTxc5weKFgZCv6Xbgcw4hfWzQWZMCMGTFR/d
+ XbozxiXTlSJPET3jgMlw6JHGH05xo9H3YliSI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1704882534; x=1705487334;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=kzMRVLCK4MkU8q0YmaEVcjGiGn4HILsH8nsfUlY3Z6k=;
+ b=jrMXHsh8z/HtKhq6pMstm/LfawRbRVdis4evlVLIm3pkEcUKtJWXS0iYrWMahwgagP
+ rY8rgXgyZjXZDhtazQXCuLi1md1gsw/ZN6GTW7JyIkdHs+uFY8LpyyZXem5z6QCVtTVo
+ 2WeY0FZYR8PnTfOm2CADcv/eSElK1zJTdrK66QfkF4ycdoR25wSiBL/qB37XRha5JXlr
+ znf7zKpoipqaC+J/5F0J8tvR4osanMhr0ZCxAPtdyO9XenUYWpZI+exELRtMy8p8tKcm
+ C7m3Fj4Mfe/Sn6bjxjLmnIe81KKcWSllyNWbW0cQWk+1UnS/6rpobpHm1/Y3ke9G6poa
+ pB3w==
+X-Gm-Message-State: AOJu0YxfAz1zaVdj6RPt2f/MR+/Hp/FD05SR752kErIpb1bBz5Gzgyiu
+ BJb9UvFrZniWX6HG4l0v0LNbCTU+JqkRr7ijlrjBaMoxqqc=
+X-Google-Smtp-Source: AGHT+IECuz12gyJXRsY7xbNrSNHE8rjHQSetupddyehP9n471pjH5f5uHEPWvAX6ek/Nbdw7Pqi3Zw==
+X-Received: by 2002:a50:874e:0:b0:557:4e8a:f2e7 with SMTP id
+ 14-20020a50874e000000b005574e8af2e7mr1041516edv.0.1704882534264; 
+ Wed, 10 Jan 2024 02:28:54 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ r13-20020aa7da0d000000b00557c51910e4sm1854707eds.85.2024.01.10.02.28.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Jan 2024 02:28:53 -0800 (PST)
+Date: Wed, 10 Jan 2024 11:28:51 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Subject: Re: [PATCH] drm/shmem-helper: Fix comment describing dma-buf mappings
+Message-ID: <ZZ5xY8gD0pQWwFXQ@phenom.ffwll.local>
+References: <20240109104305.604549-1-jacek.lawrynowicz@linux.intel.com>
+ <ZZ1Gnvitssne-e5r@phenom.ffwll.local>
+ <547ccabe-f88d-4246-a6e1-cce327a2f058@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Mailman-Approved-At: Wed, 10 Jan 2024 16:53:43 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <547ccabe-f88d-4246-a6e1-cce327a2f058@linux.intel.com>
+X-Operating-System: Linux phenom 6.5.0-4-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,124 +72,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dharma Balasubiramani <dharma.b@microchip.com>
+Cc: mripard@kernel.org, dri-devel@lists.freedesktop.org, tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert device tree bindings for Atmel's HLCDC PWM controller to YAML
-format.
+On Wed, Jan 10, 2024 at 10:54:42AM +0100, Jacek Lawrynowicz wrote:
+> On 09.01.2024 14:14, Daniel Vetter wrote:
+> > On Tue, Jan 09, 2024 at 11:43:05AM +0100, Jacek Lawrynowicz wrote:
+> >> `shmem->map_wc was` set to `false` but the comment suggested WC was
+> >> enabled for imported buffers.
+> >>
+> >> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+> >> ---
+> >>  drivers/gpu/drm/drm_gem_shmem_helper.c | 2 +-
+> >>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> >> index e435f986cd13..1532f1766170 100644
+> >> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> >> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> >> @@ -75,7 +75,7 @@ __drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private)
+> >>  
+> >>  	if (private) {
+> >>  		drm_gem_private_object_init(dev, obj, size);
+> >> -		shmem->map_wc = false; /* dma-buf mappings use always writecombine */
+> >> +		shmem->map_wc = false; /* dma-buf mappings are never write-combined */
+> > 
+> > I think neither is correct, because for a dma_buf import it is up to the
+> > importer to set up everything, including whether mappings should be
+> > write-combined or not. And setting this to false ensures that helpers
+> > don't muck around with the caching setting.
+> > 
+> > Also there's private buffer objects for other reasons, but the overlap
+> > between drivers that have those and which use shmem helpers is zero.
+> > 
+> > So I think overall a better comment would be:
+> > 
+> > 		/* This disables all shmem helper caching code and leaves
+> > 		 * all decision entirely to the buffer provider */
+> > 
+> > Maybe in a very old version where shmem helpers didn't correctly use the
+> > dma_buf functions there was some justification for the original comment,
+> > but that's been long ago fixed in a series of patches to make sure
+> > dma_buf_vmap/mmap are used consistently and directly.
+> > 
+> > Care to respin with a wording of your choice for the comment? If you're
+> > bored you could also try to dig through history a bit and collect some of
+> > the commits that made this comment largely obsolete, since I don't think
+> > any of the map_wc == true paths are even reachable anymore for private
+> > objects ...
+> 
+> I think that it would be better to add drm_WARN() here - similar to WARNs for import_attach.
+> Only v3d sets map_wc in gem_create_object() and it is easy to fix.
+> Would these warnings make sense?
 
-Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
----
- .../bindings/pwm/atmel,hlcdc-pwm.yaml         | 62 +++++++++++++++++++
- .../bindings/pwm/atmel-hlcdc-pwm.txt          | 29 ---------
- 2 files changed, 62 insertions(+), 29 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/pwm/atmel,hlcdc-pwm.yaml
- delete mode 100644 Documentation/devicetree/bindings/pwm/atmel-hlcdc-pwm.txt
+I think v4c has the same pattern from a quick check ...
 
-diff --git a/Documentation/devicetree/bindings/pwm/atmel,hlcdc-pwm.yaml b/Documentation/devicetree/bindings/pwm/atmel,hlcdc-pwm.yaml
-new file mode 100644
-index 000000000000..99eaad55ccb3
---- /dev/null
-+++ b/Documentation/devicetree/bindings/pwm/atmel,hlcdc-pwm.yaml
-@@ -0,0 +1,62 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+# Copyright (C) 2024 Microchip Technology, Inc. and its subsidiaries
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/pwm/atmel,hlcdc-pwm.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Atmel's HLCDC (High-end LCD Controller) PWM driver
-+
-+maintainers:
-+  - Nicolas Ferre <nicolas.ferre@microchip.com>
-+  - Alexandre Belloni <alexandre.belloni@bootlin.com>
-+  - Claudiu Beznea <claudiu.beznea@tuxon.dev>
-+
-+description: |
-+  Device-Tree bindings for Atmel's HLCDC PWM driver. The Atmel HLCDC PWM is a
-+  subdevice of the HLCDC MFD device.
-+  # See ../mfd/atmel,hlcdc.yaml for more details.
-+
-+properties:
-+  compatible:
-+    const: atmel,hlcdc-pwm
-+
-+  pinctrl-names:
-+    const: default
-+
-+  pinctrl-0: true
-+
-+  "#pwm-cells":
-+    const: 3
-+    description: |
-+      This PWM chip uses the default 3 cells bindings defined in pwm.yaml in
-+      this directory.
-+
-+required:
-+  - compatible
-+  - pinctrl-names
-+  - pinctrl-0
-+  - "#pwm-cells"
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/at91.h>
-+    #include <dt-bindings/pwm/pwm.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+    hlcdc: hlcdc@f0030000 {
-+      compatible = "atmel,sama5d3-hlcdc";
-+      reg = <0xf0030000 0x2000>;
-+      clocks = <&lcdc_clk>, <&lcdck>, <&clk32k>;
-+      clock-names = "periph_clk","sys_clk", "slow_clk";
-+      interrupts = <36 IRQ_TYPE_LEVEL_HIGH 0>;
-+
-+      hlcdc_pwm: hlcdc-pwm {
-+        compatible = "atmel,hlcdc-pwm";
-+        pinctrl-names = "default";
-+        pinctrl-0 = <&pinctrl_lcd_pwm>;
-+        #pwm-cells = <3>;
-+      };
-+    };
-diff --git a/Documentation/devicetree/bindings/pwm/atmel-hlcdc-pwm.txt b/Documentation/devicetree/bindings/pwm/atmel-hlcdc-pwm.txt
-deleted file mode 100644
-index afa501bf7f94..000000000000
---- a/Documentation/devicetree/bindings/pwm/atmel-hlcdc-pwm.txt
-+++ /dev/null
-@@ -1,29 +0,0 @@
--Device-Tree bindings for Atmel's HLCDC (High-end LCD Controller) PWM driver
--
--The Atmel HLCDC PWM is subdevice of the HLCDC MFD device.
--See ../mfd/atmel-hlcdc.txt for more details.
--
--Required properties:
-- - compatible: value should be one of the following:
--   "atmel,hlcdc-pwm"
-- - pinctr-names: the pin control state names. Should contain "default".
-- - pinctrl-0: should contain the pinctrl states described by pinctrl
--   default.
-- - #pwm-cells: should be set to 3. This PWM chip use the default 3 cells
--   bindings defined in pwm.yaml in this directory.
--
--Example:
--
--	hlcdc: hlcdc@f0030000 {
--		compatible = "atmel,sama5d3-hlcdc";
--		reg = <0xf0030000 0x2000>;
--		clocks = <&lcdc_clk>, <&lcdck>, <&clk32k>;
--		clock-names = "periph_clk","sys_clk", "slow_clk";
--
--		hlcdc_pwm: hlcdc-pwm {
--			compatible = "atmel,hlcdc-pwm";
--			pinctrl-names = "default";
--			pinctrl-0 = <&pinctrl_lcd_pwm>;
--			#pwm-cells = <3>;
--		};
--	};
+But yes if you're willing to do the full audit, then this sounds like the
+cleanest approach. To document the results of your audit please explain
+for each driver why it's already save in the patch that adds the belwo
+warning (or that you've fixed it in a preceeding patch), that makes
+checking things in review easier.
+
+> __drm_gem_shmem_create():
+> drm_WARN(dev, shmem->map_wc, "Object caching is controlled by the underlying dma-buf\n");
+> 
+> __drm_gem_dma_create():
+> drm_WARN(dev, dma_obj->map_noncoherent, "Object caching is controlled by the underlying dma-buf\n");
+
+Yeah this sounds good.
+
+Cheers, Sima
 -- 
-2.25.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
