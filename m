@@ -1,71 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AA41829900
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 12:27:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F2E182990A
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jan 2024 12:29:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C652610E5C7;
-	Wed, 10 Jan 2024 11:27:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CFDF10E769;
+	Wed, 10 Jan 2024 11:29:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE02410E75A
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 11:27:13 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id
- 2adb3069b0e04-50e4e3323a6so4668316e87.0
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 03:27:13 -0800 (PST)
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39BB610E769
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 11:29:50 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id
+ 2adb3069b0e04-50e7d6565b5so4496040e87.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 03:29:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1704886032; x=1705490832; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1704886188; x=1705490988; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=z8fqLJGB4BORM/e+032bZk6rSSH31yu0kVoWo4ILNqA=;
- b=ZVvjmBFuodxUe4Gl74JFbo0FOwY2IyqYMBzTJn1xExdrBJW3kxPgSDoIh3TH6yzD5E
- MxS5XQVfWGc1jtyAE//qLmj/HdoR7w6CslhrNrDUlDDnTuoXCNL+ktELEpfOLPoz5fbr
- W8iO5uXDPeUtKDxCbo0BaRJ7n1dIzRq/v+vIOV19cmz/COixb2wlkw03jdZpPEecyefs
- /TUU7srgIDTK1ols2X2yHvOW7iHA1wmvG87lr275KARofwkPFIumDz1tjRBBWuJAyek1
- 4pa/aPXeum8U19P+gjSuKAxc4W5MoiY0m5PqQ1iBmLzrD4O7Rhe7kDW7Uef8VtR0XmSL
- GWhg==
+ bh=HAkF12kWNFoMruhw1tXFopfrZD7wBVUFQgsn7muBhX8=;
+ b=gdq7c78pfStDWImu6C+e2Ub+7/8sneaNQXbWVm6x95BKCOz4jv7M6V969ObLZK4wRi
+ 7HmIRJ8f3wElN1Ky2RK+RjL5Sw1OtK0+l/6t5kfNv70NRSnAoOJYeZUthMsTnMfVoTfY
+ FKmXpw5gfJLqCpt6xvwSFmzVJTMFiNa91uE4eBXnMBMjw+WJNMz7gKyqmpIcDmcNXKOI
+ ZIrYxhYNey5x7M49KCGBWmgHm40nYY5vcjGiO9sv6/B8H0kDxm8Y0NzTYh3MEL1MxwvT
+ 3LLBxWONzgRjYIgHzUqiNCpJprCY9/lvkLwAPXwZe02SSUya+P+vXOeLecvpp6aj6dAJ
+ h1zQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704886032; x=1705490832;
+ d=1e100.net; s=20230601; t=1704886188; x=1705490988;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=z8fqLJGB4BORM/e+032bZk6rSSH31yu0kVoWo4ILNqA=;
- b=gVZDgnW+H/7VJesOmHbZB4YWZNU/9hsyeDbk43rZfclhfyyjGEijznp2iXdzYIZM9N
- uK1rH5iWEIpR80jO7926onA1rKExU90g0Z3Ezq/zPGEPq9/PA46ws70wsYPS8687fYlo
- ZEzFdo7oBA6xhSuSH7oUosRt1ZFJg+VH5jg8VuUyZLzPLIR50vkJ9asfoqnW01/PrP4u
- 9iRfIP6U7spdGgl91FzndHqIllwkH1qDYxpmIy10zYsO5tGi7NVYz4eaPobMCmd32LYy
- /WHu1xbhImUD9J7vJxKNhOpesePaHOKy+5ZZi6QuUwY1PuG036zlBq/8TvoxLyOlqOxe
- u49g==
-X-Gm-Message-State: AOJu0YwmBjaUApeGG2sXbXpbWvT8GB/rqEq5H2/aJ+XSPNoBM7KN8ry2
- eQpXJElTUbKRi6er7xezt0JlqEVmCIUD3Q==
-X-Google-Smtp-Source: AGHT+IFMzQJGktOuWmBl23WHZe2kgD5663wQfDGQ9NlnRH8dRYMaZKwgzVMCv8dUK8l/Na8BqMxgrg==
-X-Received: by 2002:a19:6453:0:b0:50e:a436:aafc with SMTP id
- b19-20020a196453000000b0050ea436aafcmr333897lfj.9.1704886031779; 
- Wed, 10 Jan 2024 03:27:11 -0800 (PST)
+ bh=HAkF12kWNFoMruhw1tXFopfrZD7wBVUFQgsn7muBhX8=;
+ b=grQV2DTbKIPrNVistnvBbnXmA3RaYM2bNAhCo7EPP7shkXmk4g6wqQDKyNdJ9lXAvq
+ yCH4KvaJ206utAEJXe3g/SYvGKdwGJ4eE9+b+E6ORsHv88hubFZQ2aQkxnHOaqRBfd/5
+ /ZCN5BUXdfHJ21ywYM/jtfeTKFnn+vDehYj1A0Q65Ox9D+tEss2/I7ZAxjpRDET6H7GT
+ nAHruW9dO2/84RC27U9ILHIVID0xBTp/9HC46ujw1/HPpLXs+78ebDa93ezszuH14q0m
+ qDl5zW9oJr9MHmrgj5R5H4gERdKuAfNHx/St4b/pWR0xxnZX3FpofH8MwOWG80C+ljGV
+ 1Mew==
+X-Gm-Message-State: AOJu0YyifKeKqdfopZIHI9sfNPa7MRKNAyX4HSP7bJEXGFQ4INpcF4wu
+ oOG8g5TIjzVkn/XuolNIhUMx/aTmeSqUsg==
+X-Google-Smtp-Source: AGHT+IEeyrVbvmxHPlptn1HDzewfBjNsVi4jhGnvJVBqvIurtb0y+etCYo4xX4fGB6JzAXSi8Ds8mA==
+X-Received: by 2002:ac2:490e:0:b0:50e:5448:3316 with SMTP id
+ n14-20020ac2490e000000b0050e54483316mr280029lfi.137.1704886188452; 
+ Wed, 10 Jan 2024 03:29:48 -0800 (PST)
 Received: from [172.30.205.119] (UNUSED.212-182-62-129.lubman.net.pl.
  [212.182.62.129]) by smtp.gmail.com with ESMTPSA id
- x8-20020a056512046800b0050eb7941041sm632908lfd.297.2024.01.10.03.27.09
+ f15-20020a19380f000000b0050ea902d191sm640405lfa.153.2024.01.10.03.29.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Jan 2024 03:27:11 -0800 (PST)
-Message-ID: <0c77e014-9f08-44ac-9495-eb2a8afaac80@linaro.org>
-Date: Wed, 10 Jan 2024 12:27:09 +0100
+ Wed, 10 Jan 2024 03:29:48 -0800 (PST)
+Message-ID: <9ba86081-1484-4d1d-9555-317d10e1617f@linaro.org>
+Date: Wed, 10 Jan 2024 12:29:46 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 15/15] drm/msm/dp: drop dp_parser
+Subject: Re: [PATCH 3/3] arm64: dts: qcom: sm7225-fairphone-fp4: Enable
+ display and GPU
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Stephen Boyd <swboyd@chromium.org>
-References: <20231231-dp-power-parser-cleanup-v2-0-fc3e902a6f5b@linaro.org>
- <20231231-dp-power-parser-cleanup-v2-15-fc3e902a6f5b@linaro.org>
+To: Maxime Ripard <mripard@kernel.org>, Luca Weiss <luca.weiss@fairphone.com>
+References: <20240105-fp4-panel-v1-0-1afbabc55276@fairphone.com>
+ <20240105-fp4-panel-v1-3-1afbabc55276@fairphone.com>
+ <3fdc6e74-d817-4341-bf64-9096608990d6@linaro.org>
+ <CYAZ37LBKG4E.2096GKVUXN8Y2@fairphone.com>
+ <2zkiop7xg7w4vkpjpol25qna5wwbq4ja5o6iwuqh25m34k6mgd@aemrbzqgx2oe>
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20231231-dp-power-parser-cleanup-v2-15-fc3e902a6f5b@linaro.org>
+In-Reply-To: <2zkiop7xg7w4vkpjpol25qna5wwbq4ja5o6iwuqh25m34k6mgd@aemrbzqgx2oe>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -80,21 +80,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, linux-arm-msm@vger.kernel.org,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, phone-devel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 12/31/23 01:44, Dmitry Baryshkov wrote:
-> Finally drop separate "parsing" submodule. There is no need in it
-> anymore. All submodules handle DT properties directly rather than
-> passing them via the separate structure pointer.
+On 1/10/24 12:23, Maxime Ripard wrote:
+> On Wed, Jan 10, 2024 at 12:00:23PM +0100, Luca Weiss wrote:
+>> On Wed Jan 10, 2024 at 11:58 AM CET, Konrad Dybcio wrote:
+>>>
+>>>
+>>> On 1/5/24 15:29, Luca Weiss wrote:
+>>>> Add the description for the display panel found on this phone and remove
+>>>> the simple-framebuffer that was in place until now
+>>>
+>>> Why? They should be able to coexist with a smooth-ish handoff
+>>
+>> Does that work upstream? I'm aware that downstream can do this but
+>> thought this was still missing upstream.
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
+> It depends what you call smooth-ish I guess, but KMS handles the
+> handover just fine. You're likely to get a flicker during the transition
+> though.
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Yes, the panel driver will assert the reset pin to get the hw
+into a predictable state, so there will likely be a split
+second of black or black+garbage.
 
 Konrad
