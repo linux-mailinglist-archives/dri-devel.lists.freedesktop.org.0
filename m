@@ -2,39 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9529582AAA7
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 10:19:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A107182AAAE
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 10:20:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE6FC10E879;
-	Thu, 11 Jan 2024 09:19:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8328710E8A1;
+	Thu, 11 Jan 2024 09:20:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.126.com (m16.mail.126.com [220.197.31.9])
- by gabe.freedesktop.org (Postfix) with ESMTP id E33B510E879;
- Thu, 11 Jan 2024 09:19:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
- s=s110527; h=From:Subject:Date:Message-Id; bh=ANh4pAwZpkDzMmcYP4
- 1qmTYtR0ncmnJwKttV5HAQYLE=; b=nzL0TTFUMyTRzUuQucsBhgV2CmdunPa9rW
- Hi7Kb/CzeKtmW/mVy39jAZtAAPUiPAzXUG1RJXDQMoyATnzftpHGHQgXHK2FYGn7
- YUAELHBvWWDov10bLseuh0yV/zayM5aNacQdGyctjOxauWmPoNjz7ejzuBHjVwjq
- zMWdvrpnY=
-Received: from localhost.localdomain (unknown [182.148.14.173])
- by gzga-smtp-mta-g0-3 (Coremail) with SMTP id _____wD3v+6gsp9lfGWlAA--.23421S2;
- Thu, 11 Jan 2024 17:19:28 +0800 (CST)
-From: XueBing Chen <chenxb_99091@126.com>
-To: daniel@ffwll.ch, Xinhui.Pan@amd.com, alexander.deucher@amd.com,
- airlied@gmail.com, christian.koenig@amd.com
-Subject: [PATCH] drm/radeon: Clean up errors in atombios.h
-Date: Thu, 11 Jan 2024 09:19:27 +0000
-Message-Id: <20240111091927.13653-1-chenxb_99091@126.com>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: _____wD3v+6gsp9lfGWlAA--.23421S2
-X-Coremail-Antispam: 1Uf129KBjvAXoWfJr48trWrAF18Kw1xGry8Xwb_yoW8Wr4fXo
- W7GF9xJr47Gw15Jr4Utry8ta45KrsIqw1UGr13Gryj9rWDGr1DJr1DA3WUJr1fKF17Zw1D
- Zry2q34DXry8A3W5n29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
- AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvj4RRJPiDUUUU
-X-Originating-IP: [182.148.14.173]
-X-CM-SenderInfo: hfkh05lebzmiizr6ij2wof0z/1tbiGAFixWVLZWkxpgAAsL
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8771D10E8A1
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 09:20:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1704964809;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=i85I9qJAb3wZcaqLgsPWI4OP+dyAoL/KQON9HMLs0z4=;
+ b=CEFOLMD0/goCi5Tjo0eqNPg8Uu7pcSd9SHh04IYigVZlgj0pUBa3ReUKoX8N8VVrsn7E/v
+ 6fcStl2ns9HITdn1n+GT8YYcBjbJttwSbp1MPRJMMtcSpU3X3+wWdcjCa/rOAE3WB3jFSN
+ zFwA+ACqCA23Fc9JlMV2qJEaYD79KaA=
+Message-ID: <bbd6e9d6f239efee8886e08f3c3493fc968e53ce.camel@crapouillou.net>
+Subject: Re: [PATCH v5 0/8] iio: new DMABUF based API, v5
+From: Paul Cercueil <paul@crapouillou.net>
+To: Andrew Davis <afd@ti.com>, Jonathan Cameron <jic23@kernel.org>, 
+ Lars-Peter Clausen
+ <lars@metafoo.de>, Sumit Semwal <sumit.semwal@linaro.org>, Christian
+ =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Vinod Koul <vkoul@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>
+Date: Thu, 11 Jan 2024 10:20:06 +0100
+In-Reply-To: <6ec8c7c4-588a-48b5-b0c5-56ca5216a757@ti.com>
+References: <20231219175009.65482-1-paul@crapouillou.net>
+ <6ec8c7c4-588a-48b5-b0c5-56ca5216a757@ti.com>
+Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
+ keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
+ YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,368 +53,255 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: XueBing Chen <chenxb_99091@126.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Michael Hennerich <Michael.Hennerich@analog.com>, linux-doc@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>, dmaengine@vger.kernel.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the following errors reported by checkpatch:
+Hi Andrew,
 
-ERROR: open brace '{' following struct go on the same line
-ERROR: space required after that close brace '}'
+Le lundi 08 janvier 2024 =C3=A0 15:12 -0600, Andrew Davis a =C3=A9crit=C2=
+=A0:
+> On 12/19/23 11:50 AM, Paul Cercueil wrote:
+> > [V4 was: "iio: Add buffer write() support"][1]
+> >=20
+> > Hi Jonathan,
+> >=20
+> > This is a respin of the V3 of my patchset that introduced a new
+> > interface based on DMABUF objects [2].
+> >=20
+> > The V4 was a split of the patchset, to attempt to upstream buffer
+> > write() support first. But since there is no current user upstream,
+> > it
+> > was not merged. This V5 is about doing the opposite, and contains
+> > the
+> > new DMABUF interface, without adding the buffer write() support. It
+> > can
+> > already be used with the upstream adi-axi-adc driver.
+> >=20
+> > In user-space, Libiio uses it to transfer back and forth blocks of
+> > samples between the hardware and the applications, without having
+> > to
+> > copy the data.
+> >=20
+> > On a ZCU102 with a FMComms3 daughter board, running Libiio from the
+> > pcercuei/dev-new-dmabuf-api branch [3], compiled with
+> > WITH_LOCAL_DMABUF_API=3DOFF (so that it uses fileio):
+> > =C2=A0=C2=A0 sudo utils/iio_rwdev -b 4096 -B cf-ad9361-lpc
+> > =C2=A0=C2=A0 Throughput: 116 MiB/s
+> >=20
+> > Same hardware, with the DMABUF API (WITH_LOCAL_DMABUF_API=3DON):
+> > =C2=A0=C2=A0 sudo utils/iio_rwdev -b 4096 -B cf-ad9361-lpc
+> > =C2=A0=C2=A0 Throughput: 475 MiB/s
+> >=20
+> > This benchmark only measures the speed at which the data can be
+> > fetched
+> > to iio_rwdev's internal buffers, and does not actually try to read
+> > the
+> > data (e.g. to pipe it to stdout). It shows that fetching the data
+> > is
+> > more than 4x faster using the new interface.
+> >=20
+> > When actually reading the data, the performance difference isn't
+> > that
+> > impressive (maybe because in case of DMABUF the data is not in
+> > cache):
+> >=20
+> > WITH_LOCAL_DMABUF_API=3DOFF (so that it uses fileio):
+> > =C2=A0=C2=A0 sudo utils/iio_rwdev -b 4096 cf-ad9361-lpc | dd of=3D/dev/=
+zero
+> > status=3Dprogress
+> > =C2=A0=C2=A0 2446422528 bytes (2.4 GB, 2.3 GiB) copied, 22 s, 111 MB/s
+> >=20
+> > WITH_LOCAL_DMABUF_API=3DON:
+> > =C2=A0=C2=A0 sudo utils/iio_rwdev -b 4096 cf-ad9361-lpc | dd of=3D/dev/=
+zero
+> > status=3Dprogress
+> > =C2=A0=C2=A0 2334388736 bytes (2.3 GB, 2.2 GiB) copied, 21 s, 114 MB/s
+> >=20
+> > One interesting thing to note is that fileio is (currently)
+> > actually
+> > faster than the DMABUF interface if you increase a lot the buffer
+> > size.
+> > My explanation is that the cache invalidation routine takes more
+> > and
+> > more time the bigger the DMABUF gets. This is because the DMABUF is
+> > backed by small-size pages, so a (e.g.) 64 MiB DMABUF is backed by
+> > up
+> > to 16 thousands pages, that have to be invalidated one by one. This
+> > can
+> > be addressed by using huge pages, but the udmabuf driver does not
+> > (yet)
+> > support creating DMABUFs backed by huge pages.
+> >=20
+>=20
+> Have you tried DMABUFs created using the DMABUF System heap exporter?
+> (drivers/dma-buf/heaps/system_heap.c) It should be able to handle
+> larger allocation better here, and if you don't have any active
+> mmaps or vmaps then it can skip CPU-side coherency maintenance
+> (useful for device to device transfers).
 
-Signed-off-by: XueBing Chen <chenxb_99091@126.com>
----
- drivers/gpu/drm/radeon/atombios.h | 135 ++++++++++++------------------
- 1 file changed, 54 insertions(+), 81 deletions(-)
+I didn't know about it!
 
-diff --git a/drivers/gpu/drm/radeon/atombios.h b/drivers/gpu/drm/radeon/atombios.h
-index 2db40789235c..141dc17ba632 100644
---- a/drivers/gpu/drm/radeon/atombios.h
-+++ b/drivers/gpu/drm/radeon/atombios.h
-@@ -197,19 +197,17 @@
-   Every table pointed  _ATOM_MASTER_DATA_TABLE has this common header. 
-   And the pointer actually points to this header. */
- 
--typedef struct _ATOM_COMMON_TABLE_HEADER
--{
-+typedef struct _ATOM_COMMON_TABLE_HEADER {
-   USHORT usStructureSize;
-   UCHAR  ucTableFormatRevision;   /*Change it when the Parser is not backward compatible */
-   UCHAR  ucTableContentRevision;  /*Change it only when the table needs to change but the firmware */
-                                   /*Image can't be updated, while Driver needs to carry the new table! */
--}ATOM_COMMON_TABLE_HEADER;
-+} ATOM_COMMON_TABLE_HEADER;
- 
- /****************************************************************************/	
- // Structure stores the ROM header.
- /****************************************************************************/	
--typedef struct _ATOM_ROM_HEADER
--{
-+typedef struct _ATOM_ROM_HEADER {
-   ATOM_COMMON_TABLE_HEADER		sHeader;
-   UCHAR	 uaFirmWareSignature[4];    /*Signature to distinguish between Atombios and non-atombios, 
-                                       atombios should init it as "ATOM", don't change the position */
-@@ -228,7 +226,7 @@ typedef struct _ATOM_ROM_HEADER
-   USHORT usMasterDataTableOffset;   /*Offset for SW to get all data table offsets, Don't change the position */
-   UCHAR  ucExtendedFunctionCode;
-   UCHAR  ucReserved;
--}ATOM_ROM_HEADER;
-+} ATOM_ROM_HEADER;
- 
- /*==============================Command Table Portion==================================== */
- 
-@@ -342,17 +340,15 @@ typedef struct _ATOM_MASTER_LIST_OF_COMMAND_TABLES{
- #define LCD1OutputControl                        HW_Misc_Operation
- #define TV1OutputControl                         Gfx_Harvesting
- 
--typedef struct _ATOM_MASTER_COMMAND_TABLE
--{
-+typedef struct _ATOM_MASTER_COMMAND_TABLE {
-   ATOM_COMMON_TABLE_HEADER           sHeader;
-   ATOM_MASTER_LIST_OF_COMMAND_TABLES ListOfCommandTables;
--}ATOM_MASTER_COMMAND_TABLE;
-+} ATOM_MASTER_COMMAND_TABLE;
- 
- /****************************************************************************/	
- // Structures used in every command table
- /****************************************************************************/	
--typedef struct _ATOM_TABLE_ATTRIBUTE
--{
-+typedef struct _ATOM_TABLE_ATTRIBUTE {
- #if ATOM_BIG_ENDIAN
-   USHORT  UpdatedByUtility:1;         //[15]=Table updated by utility flag
-   USHORT  PS_SizeInBytes:7;           //[14:8]=Size of parameter space in Bytes (multiple of a dword), 
-@@ -362,24 +358,22 @@ typedef struct _ATOM_TABLE_ATTRIBUTE
-   USHORT  PS_SizeInBytes:7;           //[14:8]=Size of parameter space in Bytes (multiple of a dword), 
-   USHORT  UpdatedByUtility:1;         //[15]=Table updated by utility flag
- #endif
--}ATOM_TABLE_ATTRIBUTE;
-+} ATOM_TABLE_ATTRIBUTE;
- 
--typedef union _ATOM_TABLE_ATTRIBUTE_ACCESS
--{
-+typedef union _ATOM_TABLE_ATTRIBUTE_ACCESS {
-   ATOM_TABLE_ATTRIBUTE sbfAccess;
-   USHORT               susAccess;
--}ATOM_TABLE_ATTRIBUTE_ACCESS;
-+} ATOM_TABLE_ATTRIBUTE_ACCESS;
- 
- /****************************************************************************/	
- // Common header for all command tables.
- // Every table pointed by _ATOM_MASTER_COMMAND_TABLE has this common header. 
- // And the pointer actually points to this header.
- /****************************************************************************/	
--typedef struct _ATOM_COMMON_ROM_COMMAND_TABLE_HEADER
--{
-+typedef struct _ATOM_COMMON_ROM_COMMAND_TABLE_HEADER {
-   ATOM_COMMON_TABLE_HEADER CommonHeader;
-   ATOM_TABLE_ATTRIBUTE     TableAttribute;	
--}ATOM_COMMON_ROM_COMMAND_TABLE_HEADER;
-+} ATOM_COMMON_ROM_COMMAND_TABLE_HEADER;
- 
- /****************************************************************************/	
- // Structures used by ComputeMemoryEnginePLLTable
-@@ -391,8 +385,7 @@ typedef struct _ATOM_COMMON_ROM_COMMAND_TABLE_HEADER
- /****************************************************************************/	
- // Structures used by AdjustMemoryControllerTable
- /****************************************************************************/	
--typedef struct _ATOM_ADJUST_MEMORY_CLOCK_FREQ
--{
-+typedef struct _ATOM_ADJUST_MEMORY_CLOCK_FREQ {
- #if ATOM_BIG_ENDIAN
-   ULONG ulPointerReturnFlag:1;      // BYTE_3[7]=1 - Return the pointer to the right Data Block; BYTE_3[7]=0 - Program the right Data Block 
-   ULONG ulMemoryModuleNumber:7;     // BYTE_3[6:0]
-@@ -402,25 +395,23 @@ typedef struct _ATOM_ADJUST_MEMORY_CLOCK_FREQ
-   ULONG ulMemoryModuleNumber:7;     // BYTE_3[6:0]
-   ULONG ulPointerReturnFlag:1;      // BYTE_3[7]=1 - Return the pointer to the right Data Block; BYTE_3[7]=0 - Program the right Data Block 
- #endif
--}ATOM_ADJUST_MEMORY_CLOCK_FREQ;
-+} ATOM_ADJUST_MEMORY_CLOCK_FREQ;
- #define POINTER_RETURN_FLAG             0x80
- 
--typedef struct _COMPUTE_MEMORY_ENGINE_PLL_PARAMETERS
--{
-+typedef struct _COMPUTE_MEMORY_ENGINE_PLL_PARAMETERS {
-   ULONG   ulClock;        //When returen, it's the re-calculated clock based on given Fb_div Post_Div and ref_div
-   UCHAR   ucAction;       //0:reserved //1:Memory //2:Engine  
-   UCHAR   ucReserved;     //may expand to return larger Fbdiv later
-   UCHAR   ucFbDiv;        //return value
-   UCHAR   ucPostDiv;      //return value
--}COMPUTE_MEMORY_ENGINE_PLL_PARAMETERS;
-+} COMPUTE_MEMORY_ENGINE_PLL_PARAMETERS;
- 
--typedef struct _COMPUTE_MEMORY_ENGINE_PLL_PARAMETERS_V2
--{
-+typedef struct _COMPUTE_MEMORY_ENGINE_PLL_PARAMETERS_V2 {
-   ULONG   ulClock;        //When return, [23:0] return real clock 
-   UCHAR   ucAction;       //0:reserved;COMPUTE_MEMORY_PLL_PARAM:Memory;COMPUTE_ENGINE_PLL_PARAM:Engine. it return ref_div to be written to register
-   USHORT  usFbDiv;		    //return Feedback value to be written to register
-   UCHAR   ucPostDiv;      //return post div to be written to register
--}COMPUTE_MEMORY_ENGINE_PLL_PARAMETERS_V2;
-+} COMPUTE_MEMORY_ENGINE_PLL_PARAMETERS_V2;
- #define COMPUTE_MEMORY_ENGINE_PLL_PARAMETERS_PS_ALLOCATION   COMPUTE_MEMORY_ENGINE_PLL_PARAMETERS
- 
- 
-@@ -438,8 +429,7 @@ typedef struct _COMPUTE_MEMORY_ENGINE_PLL_PARAMETERS_V2
- #define b3FIRST_TIME_CHANGE_CLOCK									0x08       //Applicable to both memory and engine clock change,when set, it means this is 1st time to change clock after ASIC bootup
- #define b3SKIP_SW_PROGRAM_PLL											0x10			 //Applicable to both memory and engine clock change, when set, it means the table will not program SPLL/MPLL
- 
--typedef struct _ATOM_COMPUTE_CLOCK_FREQ
--{
-+typedef struct _ATOM_COMPUTE_CLOCK_FREQ {
- #if ATOM_BIG_ENDIAN
-   ULONG ulComputeClockFlag:8;                 // =1: COMPUTE_MEMORY_PLL_PARAM, =2: COMPUTE_ENGINE_PLL_PARAM
-   ULONG ulClockFreq:24;                       // in unit of 10kHz
-@@ -447,16 +437,14 @@ typedef struct _ATOM_COMPUTE_CLOCK_FREQ
-   ULONG ulClockFreq:24;                       // in unit of 10kHz
-   ULONG ulComputeClockFlag:8;                 // =1: COMPUTE_MEMORY_PLL_PARAM, =2: COMPUTE_ENGINE_PLL_PARAM
- #endif
--}ATOM_COMPUTE_CLOCK_FREQ;
-+} ATOM_COMPUTE_CLOCK_FREQ;
- 
--typedef struct _ATOM_S_MPLL_FB_DIVIDER
--{
-+typedef struct _ATOM_S_MPLL_FB_DIVIDER {
-   USHORT usFbDivFrac;  
-   USHORT usFbDiv;  
--}ATOM_S_MPLL_FB_DIVIDER;
-+} ATOM_S_MPLL_FB_DIVIDER;
- 
--typedef struct _COMPUTE_MEMORY_ENGINE_PLL_PARAMETERS_V3
--{
-+typedef struct _COMPUTE_MEMORY_ENGINE_PLL_PARAMETERS_V3 {
-   union
-   {
-     ATOM_COMPUTE_CLOCK_FREQ  ulClock;         //Input Parameter
-@@ -467,7 +455,7 @@ typedef struct _COMPUTE_MEMORY_ENGINE_PLL_PARAMETERS_V3
-   UCHAR   ucPostDiv;                          //Output Parameter      
-   UCHAR   ucCntlFlag;                         //Output Parameter      
-   UCHAR   ucReserved;
--}COMPUTE_MEMORY_ENGINE_PLL_PARAMETERS_V3;
-+} COMPUTE_MEMORY_ENGINE_PLL_PARAMETERS_V3;
- 
- // ucCntlFlag
- #define ATOM_PLL_CNTL_FLAG_PLL_POST_DIV_EN          1
-@@ -477,8 +465,7 @@ typedef struct _COMPUTE_MEMORY_ENGINE_PLL_PARAMETERS_V3
- 
- 
- // V4 are only used for APU which PLL outside GPU
--typedef struct _COMPUTE_MEMORY_ENGINE_PLL_PARAMETERS_V4
--{
-+typedef struct _COMPUTE_MEMORY_ENGINE_PLL_PARAMETERS_V4 {
- #if ATOM_BIG_ENDIAN
-   ULONG  ucPostDiv:8;        //return parameter: post divider which is used to program to register directly
-   ULONG  ulClock:24;         //Input= target clock, output = actual clock 
-@@ -486,10 +473,9 @@ typedef struct _COMPUTE_MEMORY_ENGINE_PLL_PARAMETERS_V4
-   ULONG  ulClock:24;         //Input= target clock, output = actual clock 
-   ULONG  ucPostDiv:8;        //return parameter: post divider which is used to program to register directly
- #endif
--}COMPUTE_MEMORY_ENGINE_PLL_PARAMETERS_V4;
-+} COMPUTE_MEMORY_ENGINE_PLL_PARAMETERS_V4;
- 
--typedef struct _COMPUTE_MEMORY_ENGINE_PLL_PARAMETERS_V5
--{
-+typedef struct _COMPUTE_MEMORY_ENGINE_PLL_PARAMETERS_V5 {
-   union
-   {
-     ATOM_COMPUTE_CLOCK_FREQ  ulClock;         //Input Parameter
-@@ -504,29 +490,27 @@ typedef struct _COMPUTE_MEMORY_ENGINE_PLL_PARAMETERS_V5
-     UCHAR   ucInputFlag;                      //Input Flags. ucInputFlag[0] - Strobe(1)/Performance(0) mode
-   };
-   UCHAR   ucReserved;                       
--}COMPUTE_MEMORY_ENGINE_PLL_PARAMETERS_V5;
-+} COMPUTE_MEMORY_ENGINE_PLL_PARAMETERS_V5;
- 
- 
--typedef struct _COMPUTE_GPU_CLOCK_INPUT_PARAMETERS_V1_6
--{
-+typedef struct _COMPUTE_GPU_CLOCK_INPUT_PARAMETERS_V1_6 {
-   ATOM_COMPUTE_CLOCK_FREQ  ulClock;         //Input Parameter
-   ULONG   ulReserved[2];
--}COMPUTE_GPU_CLOCK_INPUT_PARAMETERS_V1_6;
-+} COMPUTE_GPU_CLOCK_INPUT_PARAMETERS_V1_6;
- 
- //ATOM_COMPUTE_CLOCK_FREQ.ulComputeClockFlag
- #define COMPUTE_GPUCLK_INPUT_FLAG_CLK_TYPE_MASK            0x0f
- #define COMPUTE_GPUCLK_INPUT_FLAG_DEFAULT_GPUCLK           0x00
- #define COMPUTE_GPUCLK_INPUT_FLAG_SCLK                     0x01
- 
--typedef struct _COMPUTE_GPU_CLOCK_OUTPUT_PARAMETERS_V1_6
--{
-+typedef struct _COMPUTE_GPU_CLOCK_OUTPUT_PARAMETERS_V1_6 {
-   COMPUTE_MEMORY_ENGINE_PLL_PARAMETERS_V4  ulClock;         //Output Parameter: ucPostDiv=DFS divider
-   ATOM_S_MPLL_FB_DIVIDER   ulFbDiv;         //Output Parameter: PLL FB divider
-   UCHAR   ucPllRefDiv;                      //Output Parameter: PLL ref divider      
-   UCHAR   ucPllPostDiv;                     //Output Parameter: PLL post divider      
-   UCHAR   ucPllCntlFlag;                    //Output Flags: control flag
-   UCHAR   ucReserved;                       
--}COMPUTE_GPU_CLOCK_OUTPUT_PARAMETERS_V1_6;
-+} COMPUTE_GPU_CLOCK_OUTPUT_PARAMETERS_V1_6;
- 
- //ucPllCntlFlag
- #define SPLL_CNTL_FLAG_VCO_MODE_MASK            0x03 
-@@ -536,8 +520,7 @@ typedef struct _COMPUTE_GPU_CLOCK_OUTPUT_PARAMETERS_V1_6
- #define ATOM_PLL_INPUT_FLAG_PLL_STROBE_MODE_EN  1   // 1-StrobeMode, 0-PerformanceMode
- 
- // use for ComputeMemoryClockParamTable
--typedef struct _COMPUTE_MEMORY_CLOCK_PARAM_PARAMETERS_V2_1
--{
-+typedef struct _COMPUTE_MEMORY_CLOCK_PARAM_PARAMETERS_V2_1 {
-   union
-   {
-     ULONG  ulClock;         
-@@ -550,7 +533,7 @@ typedef struct _COMPUTE_MEMORY_CLOCK_PARAM_PARAMETERS_V2_1
-     UCHAR   ucPllCntlFlag;                    //Output: 
-   };
-   UCHAR   ucBWCntl;                       
--}COMPUTE_MEMORY_CLOCK_PARAM_PARAMETERS_V2_1;
-+} COMPUTE_MEMORY_CLOCK_PARAM_PARAMETERS_V2_1;
- 
- // definition of ucInputFlag
- #define MPLL_INPUT_FLAG_STROBE_MODE_EN          0x01
-@@ -563,81 +546,71 @@ typedef struct _COMPUTE_MEMORY_CLOCK_PARAM_PARAMETERS_V2_1
- //MPLL_CNTL_FLAG_BYPASS_AD_PLL has a wrong name, should be BYPASS_DQ_PLL
- #define MPLL_CNTL_FLAG_BYPASS_AD_PLL            0x04
- 
--typedef struct _DYNAMICE_MEMORY_SETTINGS_PARAMETER
--{
-+typedef struct _DYNAMICE_MEMORY_SETTINGS_PARAMETER {
-   ATOM_COMPUTE_CLOCK_FREQ ulClock;
-   ULONG ulReserved[2];
--}DYNAMICE_MEMORY_SETTINGS_PARAMETER;
-+} DYNAMICE_MEMORY_SETTINGS_PARAMETER;
- 
--typedef struct _DYNAMICE_ENGINE_SETTINGS_PARAMETER
--{
-+typedef struct _DYNAMICE_ENGINE_SETTINGS_PARAMETER {
-   ATOM_COMPUTE_CLOCK_FREQ ulClock;
-   ULONG ulMemoryClock;
-   ULONG ulReserved;
--}DYNAMICE_ENGINE_SETTINGS_PARAMETER;
-+} DYNAMICE_ENGINE_SETTINGS_PARAMETER;
- 
- /****************************************************************************/	
- // Structures used by SetEngineClockTable
- /****************************************************************************/	
--typedef struct _SET_ENGINE_CLOCK_PARAMETERS
--{
-+typedef struct _SET_ENGINE_CLOCK_PARAMETERS {
-   ULONG ulTargetEngineClock;          //In 10Khz unit
--}SET_ENGINE_CLOCK_PARAMETERS;
-+} SET_ENGINE_CLOCK_PARAMETERS;
- 
--typedef struct _SET_ENGINE_CLOCK_PS_ALLOCATION
--{
-+typedef struct _SET_ENGINE_CLOCK_PS_ALLOCATION {
-   ULONG ulTargetEngineClock;          //In 10Khz unit
-   COMPUTE_MEMORY_ENGINE_PLL_PARAMETERS_PS_ALLOCATION sReserved;
--}SET_ENGINE_CLOCK_PS_ALLOCATION;
-+} SET_ENGINE_CLOCK_PS_ALLOCATION;
- 
- /****************************************************************************/	
- // Structures used by SetMemoryClockTable
- /****************************************************************************/	
--typedef struct _SET_MEMORY_CLOCK_PARAMETERS
--{
-+typedef struct _SET_MEMORY_CLOCK_PARAMETERS {
-   ULONG ulTargetMemoryClock;          //In 10Khz unit
--}SET_MEMORY_CLOCK_PARAMETERS;
-+} SET_MEMORY_CLOCK_PARAMETERS;
- 
--typedef struct _SET_MEMORY_CLOCK_PS_ALLOCATION
--{
-+typedef struct _SET_MEMORY_CLOCK_PS_ALLOCATION {
-   ULONG ulTargetMemoryClock;          //In 10Khz unit
-   COMPUTE_MEMORY_ENGINE_PLL_PARAMETERS_PS_ALLOCATION sReserved;
--}SET_MEMORY_CLOCK_PS_ALLOCATION;
-+} SET_MEMORY_CLOCK_PS_ALLOCATION;
- 
- /****************************************************************************/	
- // Structures used by ASIC_Init.ctb
- /****************************************************************************/	
--typedef struct _ASIC_INIT_PARAMETERS
--{
-+typedef struct _ASIC_INIT_PARAMETERS {
-   ULONG ulDefaultEngineClock;         //In 10Khz unit
-   ULONG ulDefaultMemoryClock;         //In 10Khz unit
--}ASIC_INIT_PARAMETERS;
-+} ASIC_INIT_PARAMETERS;
- 
--typedef struct _ASIC_INIT_PS_ALLOCATION
--{
-+typedef struct _ASIC_INIT_PS_ALLOCATION {
-   ASIC_INIT_PARAMETERS sASICInitClocks;
-   SET_ENGINE_CLOCK_PS_ALLOCATION sReserved; //Caller doesn't need to init this structure
--}ASIC_INIT_PS_ALLOCATION;
-+} ASIC_INIT_PS_ALLOCATION;
- 
- /****************************************************************************/	
- // Structure used by DynamicClockGatingTable.ctb
- /****************************************************************************/	
--typedef struct _DYNAMIC_CLOCK_GATING_PARAMETERS 
--{
-+typedef struct _DYNAMIC_CLOCK_GATING_PARAMETERS {
-   UCHAR ucEnable;                     // ATOM_ENABLE or ATOM_DISABLE
-   UCHAR ucPadding[3];
--}DYNAMIC_CLOCK_GATING_PARAMETERS;
-+} DYNAMIC_CLOCK_GATING_PARAMETERS;
- #define  DYNAMIC_CLOCK_GATING_PS_ALLOCATION  DYNAMIC_CLOCK_GATING_PARAMETERS
- 
- /****************************************************************************/	
- // Structure used by EnableDispPowerGatingTable.ctb
- /****************************************************************************/	
--typedef struct _ENABLE_DISP_POWER_GATING_PARAMETERS_V2_1 
--{
-+typedef struct _ENABLE_DISP_POWER_GATING_PARAMETERS_V2_1 {
-   UCHAR ucDispPipeId;                 // ATOM_CRTC1, ATOM_CRTC2, ...
-   UCHAR ucEnable;                     // ATOM_ENABLE or ATOM_DISABLE
-   UCHAR ucPadding[2];
--}ENABLE_DISP_POWER_GATING_PARAMETERS_V2_1;
-+} ENABLE_DISP_POWER_GATING_PARAMETERS_V2_1;
- 
- /****************************************************************************/	
- // Structure used by EnableASIC_StaticPwrMgtTable.ctb
--- 
-2.17.1
+But udmabuf also allows you to skip CPU-side coherency maintenance,
+since DMABUFs have two ioctls to start/finish CPU access anyway.
+
+> Allocating DMABUFs out of user pages has a bunch of other issues you
+> might run into also. I'd argue udmabuf is now completely superseded
+> by DMABUF system heaps. Try it out :)
+
+I'm curious, what other issues?
+
+The good thing about udmabuf is that the memory is backed by pages, so
+we can use MSG_ZEROCOPY on sockets to transfer the mmapped data over
+the network (having a DMABUF interface to the network stack would be
+better, but I'm not opening that can of worms).
+
+> Andrew
+
+Cheers,
+-Paul
+
+> > Anyway, the real benefits happen when the DMABUFs are either shared
+> > between IIO devices, or between the IIO subsystem and another
+> > filesystem. In that case, the DMABUFs are simply passed around
+> > drivers,
+> > without the data being copied at any moment.
+> >=20
+> > We use that feature to transfer samples from our transceivers to
+> > USB,
+> > using a DMABUF interface to FunctionFS [4].
+> >=20
+> > This drastically increases the throughput, to about 274 MiB/s over
+> > a
+> > USB3 link, vs. 127 MiB/s using IIO's fileio interface + write() to
+> > the
+> > FunctionFS endpoints, for a lower CPU usage (0.85 vs. 0.65 load
+> > avg.).
+> >=20
+> > Based on linux-next/next-20231219.
+> >=20
+> > Cheers,
+> > -Paul
+> >=20
+> > [1]
+> > https://lore.kernel.org/all/20230807112113.47157-1-paul@crapouillou.net=
+/
+> > [2]
+> > https://lore.kernel.org/all/20230403154800.215924-1-paul@crapouillou.ne=
+t/
+> > [3]
+> > https://github.com/analogdevicesinc/libiio/tree/pcercuei/dev-new-dmabuf=
+-api
+> > [4]
+> > https://lore.kernel.org/all/20230322092118.9213-1-paul@crapouillou.net/
+> >=20
+> > ---
+> > Changelog:
+> > - [3/8]: Replace V3's dmaengine_prep_slave_dma_array() with a new
+> > =C2=A0=C2=A0 dmaengine_prep_slave_dma_vec(), which uses a new 'dma_vec'
+> > struct.
+> > =C2=A0=C2=A0 Note that at some point we will need to support cyclic tra=
+nsfers
+> > =C2=A0=C2=A0 using dmaengine_prep_slave_dma_vec(). Maybe with a new "fl=
+ags"
+> > =C2=A0=C2=A0 parameter to the function?
+> >=20
+> > - [4/8]: Implement .device_prep_slave_dma_vec() instead of V3's
+> > =C2=A0=C2=A0 .device_prep_slave_dma_array().
+> >=20
+> > =C2=A0=C2=A0 @Vinod: this patch will cause a small conflict with my oth=
+er
+> > =C2=A0=C2=A0 patchset adding scatter-gather support to the axi-dmac dri=
+ver.
+> > =C2=A0=C2=A0 This patch adds a call to axi_dmac_alloc_desc(num_sgs), bu=
+t the
+> > =C2=A0=C2=A0 prototype of this function changed in my other patchset - =
+it
+> > would
+> > =C2=A0=C2=A0 have to be passed the "chan" variable. I don't know how yo=
+u
+> > prefer it
+> > =C2=A0=C2=A0 to be resolved. Worst case scenario (and if @Jonathan is o=
+kay
+> > with
+> > =C2=A0=C2=A0 that) this one patch can be re-sent later, but it would ma=
+ke
+> > this
+> > =C2=A0=C2=A0 patchset less "atomic".
+> >=20
+> > - [5/8]:
+> > =C2=A0=C2=A0 - Use dev_err() instead of pr_err()
+> > =C2=A0=C2=A0 - Inline to_iio_dma_fence()
+> > =C2=A0=C2=A0 - Add comment to explain why we unref twice when detaching
+> > dmabuf
+> > =C2=A0=C2=A0 - Remove TODO comment. It is actually safe to free the fil=
+e's
+> > =C2=A0=C2=A0=C2=A0=C2=A0 private data even when transfers are still pen=
+ding because it
+> > =C2=A0=C2=A0=C2=A0=C2=A0 won't be accessed.
+> > =C2=A0=C2=A0 - Fix documentation of new fields in struct
+> > iio_buffer_access_funcs
+> > =C2=A0=C2=A0 - iio_dma_resv_lock() does not need to be exported, make i=
+t
+> > static
+> >=20
+> > - [7/8]:
+> > =C2=A0=C2=A0 - Use the new dmaengine_prep_slave_dma_vec().
+> > =C2=A0=C2=A0 - Restrict to input buffers, since output buffers are not =
+yet
+> > =C2=A0=C2=A0=C2=A0=C2=A0 supported by IIO buffers.
+> >=20
+> > - [8/8]:
+> > =C2=A0=C2=A0 Use description lists for the documentation of the three n=
+ew
+> > IOCTLs
+> > =C2=A0=C2=A0 instead of abusing subsections.
+> >=20
+> > ---
+> > Alexandru Ardelean (1):
+> > =C2=A0=C2=A0 iio: buffer-dma: split iio_dma_buffer_fileio_free() functi=
+on
+> >=20
+> > Paul Cercueil (7):
+> > =C2=A0=C2=A0 iio: buffer-dma: Get rid of outgoing queue
+> > =C2=A0=C2=A0 dmaengine: Add API function dmaengine_prep_slave_dma_vec()
+> > =C2=A0=C2=A0 dmaengine: dma-axi-dmac: Implement device_prep_slave_dma_v=
+ec
+> > =C2=A0=C2=A0 iio: core: Add new DMABUF interface infrastructure
+> > =C2=A0=C2=A0 iio: buffer-dma: Enable support for DMABUFs
+> > =C2=A0=C2=A0 iio: buffer-dmaengine: Support new DMABUF based userspace =
+API
+> > =C2=A0=C2=A0 Documentation: iio: Document high-speed DMABUF based API
+> >=20
+> > =C2=A0 Documentation/iio/dmabuf_api.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 54 +++
+> > =C2=A0 Documentation/iio/index.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
+=C2=A0=C2=A0 2 +
+> > =C2=A0 drivers/dma/dma-axi-dmac.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0 40 ++
+> > =C2=A0 drivers/iio/buffer/industrialio-buffer-dma.c=C2=A0 | 242 +++++++=
++---
+> > =C2=A0 .../buffer/industrialio-buffer-dmaengine.c=C2=A0=C2=A0=C2=A0 |=
+=C2=A0 52 ++-
+> > =C2=A0 drivers/iio/industrialio-buffer.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 402
+> > ++++++++++++++++++
+> > =C2=A0 include/linux/dmaengine.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 |=C2=A0 25 ++
+> > =C2=A0 include/linux/iio/buffer-dma.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 33 +-
+> > =C2=A0 include/linux/iio/buffer_impl.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 26 ++
+> > =C2=A0 include/uapi/linux/iio/buffer.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 22 +
+> > =C2=A0 10 files changed, 836 insertions(+), 62 deletions(-)
+> > =C2=A0 create mode 100644 Documentation/iio/dmabuf_api.rst
+> >=20
 
