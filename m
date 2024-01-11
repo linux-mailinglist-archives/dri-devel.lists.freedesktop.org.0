@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19DE882A994
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 09:51:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA52582A9A1
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 09:52:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9F3010E857;
-	Thu, 11 Jan 2024 08:50:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 331A410E7C8;
+	Thu, 11 Jan 2024 08:51:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m15.mail.163.com [45.254.50.219])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1D67710E1CB;
- Thu, 11 Jan 2024 08:27:00 +0000 (UTC)
+Received: from m16.mail.163.com (m15.mail.163.com [45.254.50.220])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 684A010E7FE;
+ Thu, 11 Jan 2024 08:28:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id; bh=C41GvdsfCnJ5btfTlf
- 7ADFG8GCPBwf9UbjaedLoXgJ4=; b=EZHVndKzTLc0xLguuz56/JzUQpjoov5KMS
- K/oPLO8pet+bdyH3aOcrJorjs4neL5wC727T+R+F33Fl5tGwUzbM9dOOHuHWTvet
- c94D5tBU5k/3OMiWUYGEYuhKll7vTQINIJw6zdb9QwqF0jntr0czo7CJKAqet+fJ
- XV+x2fetc=
+ s=s110527; h=From:Subject:Date:Message-Id; bh=2uSs31ukJxhgyhtx6q
+ nqpA4J3ZjguzlrdPXS+K8YQ9U=; b=TlJiP1Von4h/wT+OnnmoWgc/c2Rdmi2Twf
+ PElX1EvXVD9+iONV8/jINPYq/QXhMfcvpBKJjngVWx5GM1aZDcAXR3TQU3YQ6TT1
+ fir6xSkOencFfWjg9cbo9tuh/W6L+x2H0p85BEGBpusrYR++FdqTvQgi/L/7Idm7
+ jzHmzEcmc=
 Received: from localhost.localdomain (unknown [182.148.14.173])
- by gzga-smtp-mta-g0-5 (Coremail) with SMTP id _____wCX__VDpp9lalCVAA--.15415S2;
- Thu, 11 Jan 2024 16:26:43 +0800 (CST)
+ by gzga-smtp-mta-g0-3 (Coremail) with SMTP id _____wD3XwaRpp9lI7mVAA--.18703S2;
+ Thu, 11 Jan 2024 16:28:01 +0800 (CST)
 From: GuoHua Chen <chenguohua_716@163.com>
 To: daniel@ffwll.ch, Xinhui.Pan@amd.com, alexander.deucher@amd.com,
  airlied@gmail.com, christian.koenig@amd.com
-Subject: [PATCH] drm/radeon: Clean up errors in uvd_v1_0.c
-Date: Thu, 11 Jan 2024 08:26:41 +0000
-Message-Id: <20240111082641.11892-1-chenguohua_716@163.com>
+Subject: [PATCH] drm/radeon: Clean up errors in radeon_audio.h
+Date: Thu, 11 Jan 2024 08:27:59 +0000
+Message-Id: <20240111082759.11978-1-chenguohua_716@163.com>
 X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: _____wCX__VDpp9lalCVAA--.15415S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWrKw1xtFWUWFyUGF4rKryUJrb_yoW3ZFc_KF
- 4UZ3y5GwsrZ3Z7ZF12kFs8AF92yw45uFs3uw1Yqas3tryYqw4rWry7ury3Xw4rGFn3JF95
- Cw4vgFyfZFsxZjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUUZXo7UUUUU==
+X-CM-TRANSID: _____wD3XwaRpp9lI7mVAA--.18703S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWrtF1kXF13tr13Wr4rXF47Arb_yoW8JF4Upa
+ 17u3s0yrZxK347WryxAFZ8Ar43K3W8Ja18uFWDuw15ursxtry8XFyaqr1rAF1rJr1Sk39r
+ trn7K347Za40yr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UFdgAUUUUU=
 X-Originating-IP: [182.148.14.173]
-X-CM-SenderInfo: xfkh0w5xrk3tbbxrlqqrwthudrp/xtbBEhxi1mVOBk+X-AACsx
+X-CM-SenderInfo: xfkh0w5xrk3tbbxrlqqrwthudrp/xtbBEhxi1mVOBk+X-AAEs3
 X-Mailman-Approved-At: Thu, 11 Jan 2024 08:50:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,26 +55,37 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fix the following errors reported by checkpatch:
 
-ERROR: "(foo*)" should be "(foo *)"
+ERROR: open brace '{' following struct go on the same line
 
 Signed-off-by: GuoHua Chen <chenguohua_716@163.com>
 ---
- drivers/gpu/drm/radeon/uvd_v1_0.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/radeon/radeon_audio.h | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/uvd_v1_0.c b/drivers/gpu/drm/radeon/uvd_v1_0.c
-index 58557c2263a7..5684639d20a6 100644
---- a/drivers/gpu/drm/radeon/uvd_v1_0.c
-+++ b/drivers/gpu/drm/radeon/uvd_v1_0.c
-@@ -142,7 +142,7 @@ int uvd_v1_0_resume(struct radeon_device *rdev)
- 	addr = (rdev->uvd.gpu_addr >> 32) & 0xFF;
- 	WREG32(UVD_LMI_EXT40_ADDR, addr | (0x9 << 16) | (0x1 << 31));
+diff --git a/drivers/gpu/drm/radeon/radeon_audio.h b/drivers/gpu/drm/radeon/radeon_audio.h
+index dacaaa007051..a073dadd0638 100644
+--- a/drivers/gpu/drm/radeon/radeon_audio.h
++++ b/drivers/gpu/drm/radeon/radeon_audio.h
+@@ -34,8 +34,7 @@ struct cea_sad;
+ #define WREG32_ENDPOINT(block, reg, v)	\
+ 	radeon_audio_endpoint_wreg(rdev, (block), (reg), (v))
  
--	WREG32(UVD_FW_START, *((uint32_t*)rdev->uvd.cpu_addr));
-+	WREG32(UVD_FW_START, *((uint32_t *)rdev->uvd.cpu_addr));
+-struct radeon_audio_basic_funcs
+-{
++struct radeon_audio_basic_funcs {
+ 	u32  (*endpoint_rreg)(struct radeon_device *rdev, u32 offset, u32 reg);
+ 	void (*endpoint_wreg)(struct radeon_device *rdev,
+ 		u32 offset, u32 reg, u32 v);
+@@ -43,8 +42,7 @@ struct radeon_audio_basic_funcs
+ 		struct r600_audio_pin *pin, u8 enable_mask);
+ };
  
- 	return 0;
- }
+-struct radeon_audio_funcs
+-{
++struct radeon_audio_funcs {
+ 	void (*select_pin)(struct drm_encoder *encoder);
+ 	struct r600_audio_pin* (*get_pin)(struct radeon_device *rdev);
+ 	void (*write_latency_fields)(struct drm_encoder *encoder,
 -- 
 2.17.1
 
