@@ -2,61 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D2FB82ABB4
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 11:15:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F246382ABB5
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 11:15:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8452210E8DA;
-	Thu, 11 Jan 2024 10:15:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FF3110E8DC;
+	Thu, 11 Jan 2024 10:15:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D829310E8DA
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 10:15:10 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id
- 5b1f17b1804b1-40e60e13581so2980865e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 02:15:10 -0800 (PST)
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 992E310E8DC
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 10:15:14 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id
+ 5b1f17b1804b1-40e490c2115so23830765e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 02:15:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1704968109; x=1705572909;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1704968113; x=1705572913;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=+V4JzjzBqaHzJLZncYnEckgIPzqOvsDKGfGUY3ZauSA=;
- b=camEBpFRsoOxm8N52zakH14na3BHYAzl9sr91w3zUvK3NyS28+p5JptYIahdxBpKDO
- QoCVzJHMTAjQlSsPJnb+xlnON1utNDpVPRS3s7Ij0EcMfLXnZP672vWS7TQ7ltErI3j2
- Mrn2HA5Su91EG8dd6LbbyfKN6JuC8ykYZwI+Ua/rVfXRv0WR5JVGKWc1f1g0GrN93x+6
- fFuSdRk8883FAZjRNRbuVUS7cKRUD7g9FgyAeCiyGjJoSHIjTnVRZWnWwe7knuRfBZNK
- q6F/iCqyhNYMz2l9lix4eSbB1/LBw7hmdavK9mELDTm44LVdxGhbPO7eOsnQu6yljvxf
- jGBg==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8/hW0eMP0R26bZoJ7D3kVMQU+mn9+CNKwNbl/G0tADY=;
+ b=TJOZqo+rnXKghx4uzJEkab+pxM3ZGATvDjcoX+DdnjQttrbolbSEwpb/jhfGrOgPEP
+ NneEOIz89J9z9OTVYgdZKAHvRQ6GTSpF1faedBUPkkg6QPbgCxennaJ7eZ9lXT3qBgip
+ f73rxPlg1KtPCBbnYaOfpDfhuZkMef8nVNL6SVzOdjtUhCkZTPYwvDSYFYBICEPfMlbS
+ YRkaKXJcyxPhCrhtoIx5F3zJhmglLL90zwn5wXrCvbGt1UHLa+1DCEoGxSjMRw5xL3aK
+ h8x+EUjYoF7y1kAXL+uJx4d7fR4DSnJXhyQZeHniLdcY+15BD4u++foo8AXHeBJc59WK
+ gT8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704968109; x=1705572909;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=+V4JzjzBqaHzJLZncYnEckgIPzqOvsDKGfGUY3ZauSA=;
- b=q+Dd5K/LEcVODood1zx87Esi6zcsZQo2Row+qLvK6EDPW57elvpIwh1KGP6wzhu0Z0
- XIjfFMzqy6+omjqmGwe7epfk92T8xvrBBuNZKhX1xvgy/4ogJjuQaoOCXHVnMq6ZKgye
- ogiXO2gqt1+MDPafkc3ztSYQhRhCMUDLM2tHCtlRsxpSmc6Rf/MNTdwcogZm6j/FM8YZ
- HXhDyt536Syb2tg7ufowKYeTLJNOKKcbvxuMw0k26K8zWJIWLGwlJ4oPzHyz3rwvrzhy
- cAmjBRW+3ueGbaRdWUUmh2JxUk4t6/opg9GEdasbS1pDG8w4J3zrho0XR2Bq7aAa9VPh
- g6jg==
-X-Gm-Message-State: AOJu0YynHXwIrWyWUt7AQH5FOvc6CxCZ0v57mBZFxSKEmNSkVHAhmOnW
- oIA1BKKNrmfwSMBo4zA2bNsfRLHIzTyk8A==
-X-Google-Smtp-Source: AGHT+IEm+n9REC3cDZLVtCMBBH7ollyf38bVEHwiAvqjBMBz1qwTcxZsn0pt65qrruZ1CkOufUMg3Q==
-X-Received: by 2002:a05:600c:3b1d:b0:40e:6206:a518 with SMTP id
- m29-20020a05600c3b1d00b0040e6206a518mr68778wms.184.1704968109127; 
- Thu, 11 Jan 2024 02:15:09 -0800 (PST)
+ d=1e100.net; s=20230601; t=1704968113; x=1705572913;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8/hW0eMP0R26bZoJ7D3kVMQU+mn9+CNKwNbl/G0tADY=;
+ b=riGfefVDSc+o9xFRv5yzFiArAYt0kaRc51iZi9VCwP6gzsGR5vhV+EseoFL48tfPTI
+ jeS0JjI41HB4zHnpL1xES2oce5Ujo8RlogXhWk0/j77aBmVIG5W4ww9fSnCUzdpGQR4A
+ Hz/hW1FFtI1tbsbMFBEmKuOxInnibx94W9pJSads9decbhFfJYlABr2zTTiBZjbDVtNx
+ qGc7Fp5MAgiZ8lK0y0PLx2XZOgRQ4TnriNKgUpfFU4EsA2B/t0iMEofhJJ2YxmjQpn4O
+ W7BA7KchDZh0yzJlvp5cDgoTTGEeyKYynfhuuSditZwQfz/rvT+UoW5IHaGabJu2EUDE
+ BfbA==
+X-Gm-Message-State: AOJu0Yy3poBFnE6uADDS1NurMrwWV/XyWXPndqoyrluEE7ixgLrqeISf
+ jAStDBjcFeBKD3yOUNjOthwqXVe9ja7DTQ==
+X-Google-Smtp-Source: AGHT+IFyvfnJPRwTsXpGb2dr4GW0LFIBK0jrx5pf/pI5bprzOQBwjVWroWaZz6UXvbjD6JidFSNScQ==
+X-Received: by 2002:a05:600c:3ba0:b0:40e:5b66:f4d9 with SMTP id
+ n32-20020a05600c3ba000b0040e5b66f4d9mr300477wms.79.1704968112988; 
+ Thu, 11 Jan 2024 02:15:12 -0800 (PST)
 Received: from localhost.localdomain ([2a01:e0a:55f:21e0:9e19:4376:dea6:dbfa])
  by smtp.gmail.com with ESMTPSA id
- j7-20020a05600c190700b0040e52cac976sm5157758wmq.29.2024.01.11.02.15.08
+ j7-20020a05600c190700b0040e52cac976sm5157758wmq.29.2024.01.11.02.15.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Jan 2024 02:15:08 -0800 (PST)
+ Thu, 11 Jan 2024 02:15:12 -0800 (PST)
 From: Julien Stephan <jstephan@baylibre.com>
 To: 
-Subject: [PATCH v5 0/2] phy: mtk-mipi-csi: add driver for CSI phy
-Date: Thu, 11 Jan 2024 11:14:49 +0100
-Message-ID: <20240111101504.468169-1-jstephan@baylibre.com>
+Subject: [PATCH v5 1/2] dt-bindings: phy: add mediatek MIPI CD-PHY module v0.5
+Date: Thu, 11 Jan 2024 11:14:50 +0100
+Message-ID: <20240111101504.468169-2-jstephan@baylibre.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240111101504.468169-1-jstephan@baylibre.com>
+References: <20240111101504.468169-1-jstephan@baylibre.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,126 +75,136 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Kishon Vijay Abraham I <kishon@kernel.org>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- devicetree@vger.kernel.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ Conor Dooley <conor+dt@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Vinod Koul <vkoul@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>,
+ linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
  Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
  Andy Hsieh <andy.hsieh@mediatek.com>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Florian Sylvestre <fsylvestre@baylibre.com>,
  Julien Stephan <jstephan@baylibre.com>, linux-arm-kernel@lists.infradead.org,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adding a new driver for the MIPI CSI CD-PHY module v 0.5 embedded in
-some Mediatek soc, such as the MT8365
+From: Florian Sylvestre <fsylvestre@baylibre.com>
 
-This driver was adapted from https://patchwork.kernel.org/project/linux-mediatek/cover/20200708104023.3225-1-louis.kuo@mediatek.com/
+This adds the bindings, for the MIPI CD-PHY module v0.5 embedded in
+some Mediatek soc, such as the mt8365
 
-v1 can be found here: https://lore.kernel.org/all/20230403071929.360911-1-jstephan@baylibre.com/
-
-v2 can be found here: https://lore.kernel.org/all/20230515090551.1251389-1-jstephan@baylibre.com/
-
-v3 can be found here: https://lore.kernel.org/all/20230524083033.486490-1-jstephan@baylibre.com/
-
-v4 can be found here: https://lore.kernel.org/linux-phy/20230620121928.1231745-1-jstephan@baylibre.com/
-
-Changelog
-Changes in v5:
-- rebase on latest master scheduled for 6.8-rc1
-- sort alphabetically CONFIG_PHY_MTK_MIPI_CSI_0_5 in Kconfig and Makefile
-- put lines under 100 chars on one line
-
-Changes in v4:
-include/dt-bindings/phy/phy.h:
-	- remove commit adding PHY_TYPE_CDPHY definition
-
-Binding file:
-	- use the standard phy-type property instead of a custom one so
-	  rename mediatek,phy-type -> phy-type
-	- phy-type property is made optional: when present, describes the
-	  phy type and the operating mode
-	- phy-cell is modified to accept a phy argument representing the
-	  phy operating mode if phy-type is not specified
-	- adding new property num-lanes
-
-Driver:
-	- add a custom xlate function to handle phy cells
-	- update probe function to retrieve the new value phy-type
-	  instead of the mediatek,phy-type
-	- remove useless struct define `struct mtk_mipi_dphy;`
-	- rename some functin/variable from `xx_dphy_xx` to `xx_cdphy_xx`
-	- update probe function to read num-lanes property
-
-Changes in v3:
-Binding file:
-	- rename compatible string
-	  mediatek,phy-mipi-csi-0-5 -> mediatek,mt8365-csi-rx
-	- rename binding file to be as compatible string
-	- change property mediatek,is_cdphy -> mediatek,phy-type using an
-	  enum value instead of boolean for scalability
-	- remove status property from example nodes
-	- rename example node name 'mipi_rx_csi0: mipi_rx_csi0@11c10000' ->
-	  'csi0_rx: phy@11c10000'
-	- put reg address in lower case
-
-include/dt-bindings/phy/phy.h:
-	- add PHY_TYPE_CDPHY definition
-
-Driver:
-	- rename compatible string
-	- rename property mediatek,is_cdphy -> mediatek,phy-type
-	- rename CSIx* macro to CSIX* (x -> X)
-	- fix style issue on the driver data structure
-	- update MODULE_DESCRIPTION as suggested by Angelo
-	  and update the kconfig module description to match it
-	- add dphy /cdphy eq tuning function to factor the code
-	  and increase readability
-	- fix typo __PHY_MTK__MIPI_CSI__C_0_5_RX_REG_H_ -->
-	  __PHY_MTK_MIPI_CSI_V_0_5_RX_REG_H_
-	- reword commit message to update my contributions
-	- added missing copyright
-	- added module name in Kconfig
-
-Changes in v2:
-	- fix all comments on bindings
-	- move the binding chunk from driver to binding commit
-	- fix dt_binding_check error (reported by DT_CHECKER_FLAGS)
-	- use a more generic compatible string
-	- add a new dt properties to simplify the driver
-	  "mediatek,is_cdphy"
-	- rename the driver and the corresponding file to include
-	  version
-	- drop of_match_ptr()
-	- use devm_platform_ioremap_resource
-	- use phy-mtk-io.h api instead of regmap
-	- rework the driver to use dt nodes to declare PHY instead of an
-	  array in the driver
-	- remove useless define for unused registers
-	- remove support for CSI0A/B because it cannot be tested, and it
-	  simplifies the driver for a first review
-	- edit commit message and bindings to be more descriptive about the
-	  hardware
-
-Florian Sylvestre (1):
-  dt-bindings: phy: add mediatek MIPI CD-PHY module v0.5
-
-Phi-bang Nguyen (1):
-  phy: mtk-mipi-csi: add driver for CSI phy
-
- .../bindings/phy/mediatek,mt8365-csi-rx.yaml  |  79 +++++
- MAINTAINERS                                   |   7 +
- drivers/phy/mediatek/Kconfig                  |  12 +
- drivers/phy/mediatek/Makefile                 |   2 +
- .../mediatek/phy-mtk-mipi-csi-0-5-rx-reg.h    |  62 ++++
- drivers/phy/mediatek/phy-mtk-mipi-csi-0-5.c   | 294 ++++++++++++++++++
- 6 files changed, 456 insertions(+)
+Signed-off-by: Florian Sylvestre <fsylvestre@baylibre.com>
+Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
+---
+ .../bindings/phy/mediatek,mt8365-csi-rx.yaml  | 79 +++++++++++++++++++
+ MAINTAINERS                                   |  6 ++
+ 2 files changed, 85 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/phy/mediatek,mt8365-csi-rx.yaml
- create mode 100644 drivers/phy/mediatek/phy-mtk-mipi-csi-0-5-rx-reg.h
- create mode 100644 drivers/phy/mediatek/phy-mtk-mipi-csi-0-5.c
 
+diff --git a/Documentation/devicetree/bindings/phy/mediatek,mt8365-csi-rx.yaml b/Documentation/devicetree/bindings/phy/mediatek,mt8365-csi-rx.yaml
+new file mode 100644
+index 000000000000..2127a5732f73
+--- /dev/null
++++ b/Documentation/devicetree/bindings/phy/mediatek,mt8365-csi-rx.yaml
+@@ -0,0 +1,79 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++# Copyright (c) 2023 MediaTek, BayLibre
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/phy/mediatek,mt8365-csi-rx.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Mediatek Sensor Interface MIPI CSI CD-PHY
++
++maintainers:
++  - Julien Stephan <jstephan@baylibre.com>
++  - Andy Hsieh <andy.hsieh@mediatek.com>
++
++description:
++  The SENINF CD-PHY is a set of CD-PHY connected to the SENINF CSI-2
++  receivers. The number of PHYs depends on the SoC model.
++  Depending on the SoC model, each PHYs can be either CD-PHY or D-PHY only
++  capable.
++
++properties:
++  compatible:
++    enum:
++      - mediatek,mt8365-csi-rx
++
++  reg:
++    maxItems: 1
++
++  num-lanes:
++    enum: [2, 3, 4]
++
++  '#phy-cells':
++    enum: [0, 1]
++    description: |
++      If the PHY doesn't support mode selection then #phy-cells must be 0 and
++      PHY mode is described using phy-type property.
++      If the PHY supports mode selection, then #phy-cells must be 1 and mode
++      is set in the PHY cells. Supported modes are:
++        - PHY_TYPE_DPHY
++        - PHY_TYPE_CPHY
++      See include/dt-bindings/phy/phy.h for constants.
++
++  phy-type:
++    description:
++      If the PHY doesn't support mode selection then this set the operating mode.
++      See include/dt-bindings/phy/phy.h for constants.
++    const: 10
++    $ref: /schemas/types.yaml#/definitions/uint32
++
++required:
++  - compatible
++  - reg
++  - num-lanes
++  - '#phy-cells'
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/phy/phy.h>
++    soc {
++      #address-cells = <2>;
++      #size-cells = <2>;
++
++      csi0_rx: phy@11c10000 {
++        compatible = "mediatek,mt8365-csi-rx";
++        reg = <0 0x11c10000 0 0x2000>;
++        num-lanes = <2>;
++        #phy-cells = <1>;
++      };
++
++      csi1_rx: phy@11c12000 {
++        compatible = "mediatek,mt8365-csi-rx";
++        reg = <0 0x11c12000 0 0x2000>;
++        phy-type = <PHY_TYPE_DPHY>;
++        num-lanes = <2>;
++        #phy-cells = <0>;
++      };
++    };
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index cc92b10a4cad..37dfa99b0eb0 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -13569,6 +13569,12 @@ F:	Documentation/devicetree/bindings/media/mediatek-vpu.txt
+ F:	drivers/media/platform/mediatek/vcodec/
+ F:	drivers/media/platform/mediatek/vpu/
+ 
++MEDIATEK MIPI-CSI CDPHY DRIVER
++M:	Julien Stephan <jstephan@baylibre.com>
++M:	Andy Hsieh <andy.hsieh@mediatek.com>
++S:	Supported
++F:	Documentation/devicetree/bindings/phy/mediatek,mt8365-csi-rx.yaml
++
+ MEDIATEK MMC/SD/SDIO DRIVER
+ M:	Chaotian Jing <chaotian.jing@mediatek.com>
+ S:	Maintained
 -- 
 2.43.0
 
