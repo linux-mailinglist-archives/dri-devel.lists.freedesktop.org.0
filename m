@@ -1,33 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B10F482A61C
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 03:37:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1056982A6D5
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 05:11:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C68110E07A;
-	Thu, 11 Jan 2024 02:37:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC7BB10E6AE;
+	Thu, 11 Jan 2024 04:11:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 399 seconds by postgrey-1.36 at gabe;
- Thu, 11 Jan 2024 02:37:29 UTC
-Received: from lechuck.jsg.id.au (jsg.id.au [193.114.144.202])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1511910E028
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 02:37:28 +0000 (UTC)
-Received: from largo.jsg.id.au (largo.jsg.id.au [192.168.1.43])
- by lechuck.jsg.id.au (OpenSMTPD) with ESMTPS id 70c952de
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Thu, 11 Jan 2024 13:30:46 +1100 (AEDT)
-Received: from largo.jsg.id.au (localhost [127.0.0.1])
- by largo.jsg.id.au (OpenSMTPD) with ESMTP id a568cbf1;
- Thu, 11 Jan 2024 13:30:45 +1100 (AEDT)
-From: Jonathan Gray <jsg@jsg.id.au>
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:3::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7179410E6AE
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 04:11:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=b4pQ8hJoVvzvXHxUFM9uPj+P7m+YblKumbV4h+B9NcU=; b=PFDKEvoTOU181sWOpwAIf5OQUB
+ ZQ0uvHyPcQwHyzHkDJ/m7iKzNfZ2g5v3opb0x+PgfHdcHYeiud4irhPlCD5aXj9KUPDaItC0Hs5ON
+ Y6kYhMHlBBO0btZZQctB+iKRcKpAT5S7lPMpGEqNki6RLxl7VziCAhlL+pIkp31GrdnEiZS5GqnSe
+ 8sM8ShMh9oSC1L/1wUhk2jP/tfAZmkhJBVgC7XKAPqW+5ASZyTvdyLX6HSZVJlXGy+f3Dg+nAIuga
+ bPZ0oDK6J4OHyi9hNIUksffc3Ypzmpwwkm9fKkWL4lenLOY4aRncqsDONyjwKt9ICSHJao/Mdnb6E
+ DEz4MQyQ==;
+Received: from [50.53.46.231] (helo=bombadil.infradead.org)
+ by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1rNmPr-00FjzT-1i; Thu, 11 Jan 2024 04:11:39 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm: use ATOMIC64_INIT() for atomic64_t
-Date: Thu, 11 Jan 2024 13:30:45 +1100
-Message-Id: <20240111023045.50013-1-jsg@jsg.id.au>
-X-Mailer: git-send-email 2.40.0
+Subject: [PATCH] dma-buf/dma-fence: fix spelling
+Date: Wed, 10 Jan 2024 20:11:36 -0800
+Message-ID: <20240111041138.30278-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -41,31 +47,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, tzimmermann@suse.de, mripard@kernel.org
+Cc: Gustavo Padovan <gustavo@padovan.org>, Randy Dunlap <rdunlap@infradead.org>,
+ patches@lists.linux.dev, Sumit Semwal <sumit.semwal@linaro.org>,
+ linaro-mm-sig@lists.linaro.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-use ATOMIC64_INIT() not ATOMIC_INIT() for atomic64_t
+Fix spelling mistakes as reported by codespell.
 
-Fixes: 3f09a0cd4ea3 ("drm: Add common fdinfo helper")
-Signed-off-by: Jonathan Gray <jsg@jsg.id.au>
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Gustavo Padovan <gustavo@padovan.org>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: Christian König <christian.koenig@amd.com>
+Cc: linaro-mm-sig@lists.linaro.org
 ---
- drivers/gpu/drm/drm_file.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/dma-buf/dma-fence.c |    8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-index 446458aca8e9..d3b10dd91584 100644
---- a/drivers/gpu/drm/drm_file.c
-+++ b/drivers/gpu/drm/drm_file.c
-@@ -149,7 +149,7 @@ bool drm_dev_needs_global_mutex(struct drm_device *dev)
-  */
- struct drm_file *drm_file_alloc(struct drm_minor *minor)
- {
--	static atomic64_t ident = ATOMIC_INIT(0);
-+	static atomic64_t ident = ATOMIC64_INIT(0);
- 	struct drm_device *dev = minor->dev;
- 	struct drm_file *file;
- 	int ret;
--- 
-2.43.0
-
+diff -- a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+--- a/drivers/dma-buf/dma-fence.c
++++ b/drivers/dma-buf/dma-fence.c
+@@ -102,7 +102,7 @@ static atomic64_t dma_fence_context_coun
+  *
+  * * Drivers are allowed to call dma_fence_wait() from their &mmu_notifier
+  *   respectively &mmu_interval_notifier callbacks. This means any code required
+- *   for fence completeion cannot allocate memory with GFP_NOFS or GFP_NOIO.
++ *   for fence completion cannot allocate memory with GFP_NOFS or GFP_NOIO.
+  *   Only GFP_ATOMIC is permissible, which might fail.
+  *
+  * Note that only GPU drivers have a reasonable excuse for both requiring
+@@ -522,7 +522,7 @@ dma_fence_wait_timeout(struct dma_fence
+ EXPORT_SYMBOL(dma_fence_wait_timeout);
+ 
+ /**
+- * dma_fence_release - default relese function for fences
++ * dma_fence_release - default release function for fences
+  * @kref: &dma_fence.recfount
+  *
+  * This is the default release functions for &dma_fence. Drivers shouldn't call
+@@ -974,8 +974,8 @@ void dma_fence_set_deadline(struct dma_f
+ EXPORT_SYMBOL(dma_fence_set_deadline);
+ 
+ /**
+- * dma_fence_describe - Dump fence describtion into seq_file
+- * @fence: the 6fence to describe
++ * dma_fence_describe - Dump fence description into seq_file
++ * @fence: the fence to describe
+  * @seq: the seq_file to put the textual description into
+  *
+  * Dump a textual description of the fence and it's state into the seq_file.
