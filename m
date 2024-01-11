@@ -1,70 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D1E482A8A6
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 09:02:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB30282A98B
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 09:51:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A49410E6BC;
-	Thu, 11 Jan 2024 08:02:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 146D310E849;
+	Thu, 11 Jan 2024 08:50:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CD8610E6BC
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 08:02:45 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id
- 2adb3069b0e04-50e80d40a41so6421439e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 00:02:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1704960164; x=1705564964; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=vKxxuD3H1/DIN5QRJJMMz94OQAGexuvEeKEGvpZ2FHs=;
- b=O1Z6a0qWDXCZpXFrSIhoNByzdJaie/Qdf9tZ8ak5Kmk+PaZyvJFsWAYrQS7ckrc11F
- OrY5m7llhe4sA2Nn13QK1UA7uIJXDGmwj6GuAXC4rnzKCppPVvg+zl+yNQALvg8PzKHg
- rn9oZe1jMuomMl26Y4Ox6kg6b/uL8CzKUwFvZccNpNIC6V9BU4giacQET1yrllYg04DL
- d8hhDAHYwyHhAUrgZX3YiVzv1LGZmmPGMcIiaIF9KwCszntz3RLns745fueCImnIVBXv
- 40oFUO7heujBofJM4izk+6e86hlcuYn6/RMZ5ChmfLvOCAikKg79+mdcxlmSlm2tVjbs
- 4j8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704960164; x=1705564964;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vKxxuD3H1/DIN5QRJJMMz94OQAGexuvEeKEGvpZ2FHs=;
- b=wztflvNtSNLg7I5VcQEg/DY9UEWczFhO7/bS1dCMz43aA8P/otTb0vdy9voxbJFg+A
- f6MwWWorgzN+I0F2nTfwqei9zecRtj5y61zSSPrXNRfbgX8P//CXqEYAahyp4DFHtt1m
- ppc+n9dlQpaHdBw8/H8Ui15kfuSyeBKgAaU6WkdHtsO7431oBUPoS5fNd82rGGexabC1
- Z2Kq60T8d5dQKBTHFGhAOH2R/Y/ayTFi2UaQUIeUsmOUIxluYbe+lvO0wA7nRDuAjt2p
- 6HcgPvygYZ3P4cU+97u/NLvSIweZQgIApM33MQ8eV6X0rER7Ckg/yv4d6R8/RF3kbPt0
- ADkg==
-X-Gm-Message-State: AOJu0Yz6YIcv1LNsn2sM8mDAKE/idjaxDnuuyD0zSiYNXLeoBhvRJGjg
- Zp/3tdaVK6yaq61m7YkLLgA=
-X-Google-Smtp-Source: AGHT+IE+cflWxnqrTu8nKruzZQZ+XhqCz9LY20j6/G+0yYyso0tQ1rLPm6HgDdtJYv8dUH0qT0Be4Q==
-X-Received: by 2002:ac2:5221:0:b0:50e:2551:c8ce with SMTP id
- i1-20020ac25221000000b0050e2551c8cemr378337lfl.119.1704960163317; 
- Thu, 11 Jan 2024 00:02:43 -0800 (PST)
-Received: from localhost (81-226-149-122-no518.tbcn.telia.com.
- [81.226.149.122]) by smtp.gmail.com with ESMTPSA id
- k5-20020a05651239c500b0050e7bb8c7d9sm104793lfu.239.2024.01.11.00.02.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Jan 2024 00:02:42 -0800 (PST)
-Date: Thu, 11 Jan 2024 09:02:41 +0100
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-To: GuoHua Chen <chenguohua_716@163.com>
-Subject: Re: [PATCH] drm: Clean up errors in cdv_intel_dp.h
-Message-ID: <fhuiv5zj4t746eqn23puj7uog2uqdx7erzlsiwgrj76y7qjgx4@3rlihcbwacdf>
-Mail-Followup-To: GuoHua Chen <chenguohua_716@163.com>, airlied@gmail.com, 
- daniel@ffwll.ch, tzimmermann@suse.de, mripard@kernel.org, 
- maarten.lankhorst@linux.intel.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20240111065648.9170-1-chenguohua_716@163.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240111065648.9170-1-chenguohua_716@163.com>
+Received: from m16.mail.163.com (m15.mail.163.com [45.254.50.219])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A067A10E18A;
+ Thu, 11 Jan 2024 08:07:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id; bh=EdwkIfTSeV+DEasRQ1
+ DrTVemJN0cc/VUOnUfemJESuA=; b=LoRzmpVsm/tfsGH7czRoYTCM1z2lLGz/WW
+ S1urIPDX1dY2reDQ1/8uhTu5YurDU0AQk12EWZBb50RnxK4oUMPolIhHJSOLvEtQ
+ nHZG+9p8ecR3aWwzwBOyzBSmF1lYX0poxPk0oYwNDcnCTirQLpx+iaLFUMoHDydO
+ PF6kx9pxs=
+Received: from localhost.localdomain (unknown [182.148.14.173])
+ by gzga-smtp-mta-g0-4 (Coremail) with SMTP id _____wD3X+DKoZ9l4YOTAA--.19175S2;
+ Thu, 11 Jan 2024 16:07:39 +0800 (CST)
+From: GuoHua Chen <chenguohua_716@163.com>
+To: daniel@ffwll.ch, Xinhui.Pan@amd.com, airlied@gmail.com,
+ christian.koenig@amd.com, alexander.deucher@amd.com
+Subject: [PATCH] drm/radeon/rv770: Clean up errors in rv770_dpm.c
+Date: Thu, 11 Jan 2024 08:07:35 +0000
+Message-Id: <20240111080735.11217-1-chenguohua_716@163.com>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: _____wD3X+DKoZ9l4YOTAA--.19175S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7tFWrKF4fKr1DurWDGrWfZrb_yoW8Jw1Upw
+ 4S93s8ursxAr1Y9a129a18KryfW3WkJFy2qr4xG3WjkayUJryUAFZI9r43JF93KF929Fy7
+ tFyIgry7ua10yr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UzUDAUUUUU=
+X-Originating-IP: [182.148.14.173]
+X-CM-SenderInfo: xfkh0w5xrk3tbbxrlqqrwthudrp/xtbBEAdi1mVOBk8scQABsd
+X-Mailman-Approved-At: Thu, 11 Jan 2024 08:50:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,51 +48,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, mripard@kernel.org,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, GuoHua Chen <chenguohua_716@163.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 11, 2024 at 06:56:48AM +0000, GuoHua Chen wrote:
+Fix the following errors reported by checkpatch:
 
-Hi,
+ERROR: space prohibited before that close parenthesis ')'
 
-Please use the correct prefix: drm/gma500
+Signed-off-by: GuoHua Chen <chenguohua_716@163.com>
+---
+ drivers/gpu/drm/radeon/rv770_dpm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Also, the change is made in cdv_intel_dp.c and not cdv_intel_dp.h. This
-seems to be wrong in most of the patches you sent.
+diff --git a/drivers/gpu/drm/radeon/rv770_dpm.c b/drivers/gpu/drm/radeon/rv770_dpm.c
+index ef2f1a048cfe..e3e1f6833f12 100644
+--- a/drivers/gpu/drm/radeon/rv770_dpm.c
++++ b/drivers/gpu/drm/radeon/rv770_dpm.c
+@@ -1010,7 +1010,7 @@ int rv770_populate_initial_mvdd_value(struct radeon_device *rdev,
+ 	struct rv7xx_power_info *pi = rv770_get_pi(rdev);
+ 
+ 	if ((pi->s0_vid_lower_smio_cntl & pi->mvdd_mask_low) ==
+-	     (pi->mvdd_low_smio[MVDD_LOW_INDEX] & pi->mvdd_mask_low) ) {
++	     (pi->mvdd_low_smio[MVDD_LOW_INDEX] & pi->mvdd_mask_low)) {
+ 		voltage->index = MVDD_LOW_INDEX;
+ 		voltage->value = cpu_to_be16(MVDD_LOW_VALUE);
+ 	} else {
+@@ -1260,7 +1260,7 @@ static int rv770_construct_vddc_table(struct radeon_device *rdev)
+ 		pi->vddc_mask_low = gpio_mask;
+ 		if (i > 0) {
+ 			if ((pi->vddc_table[i].low_smio !=
+-			     pi->vddc_table[i - 1].low_smio ) ||
++			     pi->vddc_table[i - 1].low_smio) ||
+ 			     (pi->vddc_table[i].high_smio !=
+ 			      pi->vddc_table[i - 1].high_smio))
+ 				vddc_index++;
+-- 
+2.17.1
 
-Please send these fixes as a series. That makes them easier to process.
-
-> Fix the following errors reported by checkpatch:
-> 
-> ERROR: else should follow close brace '}'
-> 
-> Signed-off-by: GuoHua Chen <chenguohua_716@163.com>
-> ---
->  drivers/gpu/drm/gma500/cdv_intel_dp.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/gma500/cdv_intel_dp.c b/drivers/gpu/drm/gma500/cdv_intel_dp.c
-> index 27cfeb6b470f..135a1226df1a 100644
-> --- a/drivers/gpu/drm/gma500/cdv_intel_dp.c
-> +++ b/drivers/gpu/drm/gma500/cdv_intel_dp.c
-> @@ -735,7 +735,7 @@ cdv_intel_dp_aux_native_read(struct gma_encoder *encoder,
->  		if ((ack & DP_AUX_NATIVE_REPLY_MASK) == DP_AUX_NATIVE_REPLY_ACK) {
->  			memcpy(recv, reply + 1, ret - 1);
->  			return ret - 1;
-> -		} else 
-> +		} else
-
-This doesn't apply. Not sure what happened here. You're removing a
-trailing space but the error in your description says you need to fix
-the style of an if-else statement.
-
--Patrik
-
->  			if ((ack & DP_AUX_NATIVE_REPLY_MASK) == DP_AUX_NATIVE_REPLY_DEFER)
->  				udelay(100);
->  			else
-> -- 
-> 2.17.1
-> 
