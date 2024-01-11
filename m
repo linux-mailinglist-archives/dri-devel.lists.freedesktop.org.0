@@ -2,71 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AF6A82B3BA
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 18:14:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EA7782B3DB
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 18:18:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E8DF10E91F;
-	Thu, 11 Jan 2024 17:14:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C4B110E94F;
+	Thu, 11 Jan 2024 17:18:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2144C10E91F;
- Thu, 11 Jan 2024 17:14:31 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 40BExWNr013063; Thu, 11 Jan 2024 17:14:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- from:to:cc:subject:date:message-id:mime-version:content-type; s=
- qcppdkim1; bh=6bMyPUPE14ZybsNMO3LzBjdI9wYqf9xHh7+eqo87zh4=; b=Qy
- hCROXAiOmFs9zDawFuEWnagFrvfRbOlWk5La93QCW2tuiLNwx32vTXkbvjdhg1RZ
- xciEFpbtZY6bdhXNfXcLnPxdOQr/mggpn4Gg+D3hhA6V6F2pJGhoO0fwmnPYoFaQ
- HzOkTkFhHFvlKbyshi9j8NdGY1BzQTqbs+xRg3CQMMStHFSFjm65rc11g9BTbxvF
- ZRWf/EqIKMIqZBArN+DHcLXbgntrBxM6OV8WIDsm2bO1kWTkuvYOk4KnlIWgIB9T
- 711eIrwHHbxmYItTuuIrP148S7sRp2VeLO/XVWqd2gtOy24kLF9MywKfB6V1P2Iv
- Fbe0X4v6aLxHI01nwWLA==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vjjjj0b90-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Jan 2024 17:14:25 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40BHEOIw012875
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Jan 2024 17:14:24 GMT
-Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Thu, 11 Jan 2024 09:14:23 -0800
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
- <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
- <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
- <agross@kernel.org>, <dmitry.baryshkov@linaro.org>, <andersson@kernel.org>
-Subject: [PATCH v1] drm/msm/dp: remove mdss_dp_test_bit_depth_to_bpc()
-Date: Thu, 11 Jan 2024 09:14:15 -0800
-Message-ID: <1704993255-12753-1-git-send-email-quic_khsieh@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com
+ [IPv6:2607:f8b0:4864:20::112e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6A1810E959
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 17:18:23 +0000 (UTC)
+Received: by mail-yw1-x112e.google.com with SMTP id
+ 00721157ae682-5e54d40cca2so45496297b3.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 09:18:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=yngvason.is; s=google; t=1704993502; x=1705598302; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=reRg+juZFTzYLAuymnc77j283thAAyu9GtKD+8yi8oo=;
+ b=LJwx82+PpQe12y2AkOAOnvM51TnhrkQql+XQIcSnVyR565gyuKNi3ATJMrcsBres59
+ w+auoa90jx47KoVRXU6GBO6XiaL630fYIfdkiBic99G4xdSW5ArbYE0+o7lhJlbBQWLB
+ Spztc1T0BPj43CLXAJMthJAZOPYLzqqzG1x+I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1704993502; x=1705598302;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=reRg+juZFTzYLAuymnc77j283thAAyu9GtKD+8yi8oo=;
+ b=fSbempUWMli1hvsIXirzsup8kq+/zm22kcwradCeqj5jteENzFUUiY/j8gu9JVOKey
+ NCu5ZSzXu2yzsF97J4lqyrq+t2WDS2i7QeQzav6pufShE0VEwb7Ixj/yIw42J4xSPrbS
+ Q7+LagiklhJdR0XkZ2RDa3aVzxiDIWbGBhsW0D3aZHE6DoFeK1l7Q9YLQq6L0sFMUtHI
+ SFBhqlT5LxRQdEanW3l3SpwZN7bDfY+emI0uIyGjuBYeFBoezBogL05OP9i1fgbuQ/lz
+ vlDx3wdT1m9UNA/9a2X7wnOCkFOpV9a7YsBpxhIcWdsJwlJXCpgDETkJOU0rj+gPVEBi
+ FEzA==
+X-Gm-Message-State: AOJu0YwTPtiIjELprTP8par0XeCSDLIx3HAy9bIuKhYVayDJTyckXqqV
+ wDZ1UTBNuQ/G3dm3sWpv9bS2Q3itpaFDa2dDp6swXJUqdZT+Qg==
+X-Google-Smtp-Source: AGHT+IE39wedx9qoJqNO6MjAU4E5XVco4roigw4JCooGGaUKrzldoRbPFpkW15iiHXNNuutcoyizp+NdmoWt5CbB2Gc=
+X-Received: by 2002:a81:84d1:0:b0:5e9:94dc:b77f with SMTP id
+ u200-20020a8184d1000000b005e994dcb77fmr123269ywf.9.1704993502233; Thu, 11 Jan
+ 2024 09:18:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: ZpaN76iMHrE9ikFhkyKykw1A9ybkz516
-X-Proofpoint-GUID: ZpaN76iMHrE9ikFhkyKykw1A9ybkz516
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0
- phishscore=0 mlxscore=0 spamscore=0 impostorscore=0 mlxlogscore=999
- lowpriorityscore=0 priorityscore=1501 clxscore=1015 bulkscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2401110135
+References: <20240109181104.1670304-1-andri@yngvason.is>
+ <20240109181104.1670304-3-andri@yngvason.is>
+ <CAPj87rNan8B5urDFkmD_Vti4to6p3NmvXYsTFQTNg-Ue2ieDug@mail.gmail.com>
+ <CAFNQBQwiqqSRqzXAnC035UWCGF3=GGFR5SpDd=biPTOEA+cWbQ@mail.gmail.com>
+ <ZZ509L_kmVC4IUBW@phenom.ffwll.local>
+ <CAPj87rOiS8F=oDW3iE=bgFyfeJnYhy8kPF2v-uYOq3xgYtVPAg@mail.gmail.com>
+In-Reply-To: <CAPj87rOiS8F=oDW3iE=bgFyfeJnYhy8kPF2v-uYOq3xgYtVPAg@mail.gmail.com>
+From: Andri Yngvason <andri@yngvason.is>
+Date: Thu, 11 Jan 2024 17:17:46 +0000
+Message-ID: <CAFNQBQwjeJaX6B4oewpgASMUd5_nxZYMxUfdOG294CTVGBTd1w@mail.gmail.com>
+Subject: Re: [PATCH 2/7] drm/uAPI: Add "active color format" drm property as
+ feedback for userspace
+To: Daniel Stone <daniel@fooishbar.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,69 +71,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, Leo Li <sunpeng.li@amd.com>,
+ dri-devel@lists.freedesktop.org, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Werner Sembach <wse@tuxedocomputers.com>, amd-gfx@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-mdss_dp_test_bit_depth_to_bpc() can be replace by
-mdss_dp_test_bit_depth_to_bpp() / 3. Hence remove it.
+mi=C3=B0., 10. jan. 2024 kl. 13:26 skrifa=C3=B0i Daniel Stone <daniel@foois=
+hbar.org>:
+> >
+> > This thing here works entirely differently, and I think we need somewha=
+t
+> > new semantics for this:
+> >
+> > - I agree it should be read-only for userspace, so immutable sounds rig=
+ht.
+> >
+> > - But I also agree with Daniel Stone that this should be tied more
+> >   directly to the modeset state.
+> >
+> > So I think the better approach would be to put the output type into
+> > drm_connector_state, require that drivers compute it in their
+> > ->atomic_check code (which in the future would allow us to report it ou=
+t
+> > for TEST_ONLY commits too), and so guarantee that the value is updated
+> > right after the kms ioctl returns (and not somewhen later for non-block=
+ing
+> > commits).
+>
+> That's exactly the point. Whether userspace gets an explicit
+> notification or it has to 'know' when to read isn't much of an issue -
+> just as long as it's well defined. I think the suggestion of 'do it in
+> atomic_check and then it's guaranteed to be readable when the commit
+> completes' is a good one.
+>
+> I do still have some reservations - for instance, why do we have the
+> fallback to auto when userspace has explicitly requested a certain
+> type? - but they may have been covered previously.
+>
 
-Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
----
- drivers/gpu/drm/msm/dp/dp_debug.c |  2 +-
- drivers/gpu/drm/msm/dp/dp_link.h  | 23 -----------------------
- 2 files changed, 1 insertion(+), 24 deletions(-)
+We discussed this further on IRC and this is summary of that discussion:
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_debug.c b/drivers/gpu/drm/msm/dp/dp_debug.c
-index 3bba901..534079e 100644
---- a/drivers/gpu/drm/msm/dp/dp_debug.c
-+++ b/drivers/gpu/drm/msm/dp/dp_debug.c
-@@ -105,7 +105,7 @@ static int dp_test_data_show(struct seq_file *m, void *data)
- 		seq_printf(m, "vdisplay: %d\n",
- 				debug->link->test_video.test_v_height);
- 		seq_printf(m, "bpc: %u\n",
--				dp_link_bit_depth_to_bpc(bpc));
-+				dp_link_bit_depth_to_bpp(bpc) / 3);
- 	} else {
- 		seq_puts(m, "0");
- 	}
-diff --git a/drivers/gpu/drm/msm/dp/dp_link.h b/drivers/gpu/drm/msm/dp/dp_link.h
-index 9dd4dd9..83da170 100644
---- a/drivers/gpu/drm/msm/dp/dp_link.h
-+++ b/drivers/gpu/drm/msm/dp/dp_link.h
-@@ -112,29 +112,6 @@ static inline u32 dp_link_bit_depth_to_bpp(u32 tbd)
- 	}
- }
- 
--/**
-- * dp_test_bit_depth_to_bpc() - convert test bit depth to bpc
-- * @tbd: test bit depth
-- *
-- * Returns the bits per comp (bpc) to be used corresponding to the
-- * bit depth value. This function assumes that bit depth has
-- * already been validated.
-- */
--static inline u32 dp_link_bit_depth_to_bpc(u32 tbd)
--{
--	switch (tbd) {
--	case DP_TEST_BIT_DEPTH_6:
--		return 6;
--	case DP_TEST_BIT_DEPTH_8:
--		return 8;
--	case DP_TEST_BIT_DEPTH_10:
--		return 10;
--	case DP_TEST_BIT_DEPTH_UNKNOWN:
--	default:
--		return 0;
--	}
--}
--
- void dp_link_reset_phy_params_vx_px(struct dp_link *dp_link);
- u32 dp_link_get_test_bits_depth(struct dp_link *dp_link, u32 bpp);
- int dp_link_process_request(struct dp_link *dp_link);
--- 
-2.7.4
+Sima proposed a new type of property that can be used to git feedback to
+userspace after atomic ioctl. The user supplies a list of output properties
+that they want to query and the kernel fills it in before returning from th=
+e
+ioctl. This would help to get some information about why things failed
+during TEST_ONLY.
 
+Emersion raised the point that you might not know how much memory is needed
+beforehand for the returned properties, to which sima replied: blob
+property. There was some discussion about how that makes it possible to lea=
+k
+kernel memory, especially if userspace does not know about a new property
+blob. Emersion pointed out that userspace should only request properties
+that it understands and pq agreed.
+
+Emersion asked how the user should inform the kernel that it's done with th=
+e
+blob, to which sima replied: DRM_IOCTL_MODE_DESTROYPROPBLOB. Sima also
+mentioned using some sort of weak reference garbage collection scheme for
+properties and there was some further discussion, but I'm not sure there wa=
+s
+any conclusion.
+
+I asked if it made sense to add color format capabilities to the mode info
+struct, but the conclusion was that it wouldn't really be useful because we
+need TEST_ONLY anyway to see if the color format setting is compatible with
+other settings.
+
+I asked again if we should drop the "active color format" property as it
+seems to be more trouble than it's worth for now. pq mentioned that there
+are 2 separate use cases (in his words):
+- People playing with setting UI would like to know what "auto" would resul=
+t
+  in, but that's just nice to have
+- The other use case is the flicker-free boot into known configuration He
+  went on to point out that the main problem with "auto" is that any modese=
+t
+  could make the driver decide differently. This means that we cannot fully
+  rely on the previously set property.
+
+However, leaving out "active color property" did not put us in a worse
+situation than before, so the conclusion was that we should leave it out fo=
+r
+now. For GUI selectors, the current TEST_ONLY should be good enough, and al=
+l
+the fancy stuff discussed previously isn't needed for now.
+
+To summarise the summary: this means that we will drop the "active
+color format" property and rename the "preferred color format"
+property to "force color format" or just "color format" and failing to
+satisfy that constraint will fail the modeset rather than falling back
+to the "auto" behaviour.
+
+Cheers,
+Andri
