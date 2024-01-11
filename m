@@ -1,61 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84CB782B419
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 18:30:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CCF282B41A
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 18:30:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF1F810E986;
-	Thu, 11 Jan 2024 17:30:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07A0410E966;
+	Thu, 11 Jan 2024 17:30:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D4DC10E986
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 17:30:49 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 40BHUcSQ028698;
- Thu, 11 Jan 2024 11:30:38 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1704994238;
- bh=gTnuOd1liaA1cTS1/8MS3fyRnvkMY17fCbVAXhovc88=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=Tg1xTk0QFs8noasBA22wbNZz/4Y/MK7EAA6xds3KXm5uotl5HlN1GT4QuRfyrVHPA
- s1zECmx0JJExo6m4pkws+inNXl/venFXd/LGX6bGNTJs7ZjPcIcDSpbK4Z31/q1ekB
- YfMIilOrk10tsYFFM2oUYq+xgWyZ9YoMntuVthXE=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 40BHUct5008947
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 11 Jan 2024 11:30:38 -0600
-Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 11
- Jan 2024 11:30:38 -0600
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 11 Jan 2024 11:30:38 -0600
-Received: from [10.249.40.136] ([10.249.40.136])
- by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 40BHUbYO096156;
- Thu, 11 Jan 2024 11:30:37 -0600
-Message-ID: <d67aba3f-d95a-4dfc-8fdb-234843047432@ti.com>
-Date: Thu, 11 Jan 2024 11:30:37 -0600
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99C8A10E966
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 17:30:56 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id 29329B81F63
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 17:30:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C99C4C43394
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 17:30:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1704994254;
+ bh=G8Hk7fzuSVpaY32on8LFTQQ+urVylcaKRoYjiVjO26o=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=i0ifobbijzYzh4kjn3yXy2Snd2GK4jxjdHR6qzgI0AsQK27YKsoTbRauoigPMKk4d
+ aWGlg3UT5ZzJtsmyo6h2Wf5vGIeZdCZcsNvJNL/eyYK6jzygKVbkKSImRPr06in9TA
+ UhwHoPyd2tXDzmzOLkzL6+hhMeqHBhoWZXwMDDv+q/Z3Tz0h2rIDet3yg85wpHwTdd
+ FVuqoCyFlOFbpVBw6YcKrzOzMWkUhrnmu1YR/fZWwhFl8rCWhssPBTQ9xk9BM53KdC
+ g+f9RykqO4PhrR1AAytMpHdnezNaBtD1fvsA2vtOpffjNqCCOGM0liGdzC2BUrtlHI
+ wuLz3Dz8cOB1w==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id BA4ABC53BC6; Thu, 11 Jan 2024 17:30:54 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 218368] amdgpu crashes on loading on both kernel-6.6.9 and
+ kernel-6.1.69 at cold boot
+Date: Thu, 11 Jan 2024 17:30:54 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: nvaert1986@hotmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-218368-2300-CKn46Kv5TL@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-218368-2300@https.bugzilla.kernel.org/>
+References: <bug-218368-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/8] iio: new DMABUF based API, v5
-To: Paul Cercueil <paul@crapouillou.net>, Jonathan Cameron <jic23@kernel.org>, 
- Lars-Peter Clausen <lars@metafoo.de>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, Vinod Koul
- <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-References: <20231219175009.65482-1-paul@crapouillou.net>
- <6ec8c7c4-588a-48b5-b0c5-56ca5216a757@ti.com>
- <bbd6e9d6f239efee8886e08f3c3493fc968e53ce.camel@crapouillou.net>
-Content-Language: en-US
-From: Andrew Davis <afd@ti.com>
-In-Reply-To: <bbd6e9d6f239efee8886e08f3c3493fc968e53ce.camel@crapouillou.net>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,265 +69,282 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Hennerich <Michael.Hennerich@analog.com>, linux-doc@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>, dmaengine@vger.kernel.org,
- linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/11/24 3:20 AM, Paul Cercueil wrote:
-> Hi Andrew,
-> 
-> Le lundi 08 janvier 2024 à 15:12 -0600, Andrew Davis a écrit :
->> On 12/19/23 11:50 AM, Paul Cercueil wrote:
->>> [V4 was: "iio: Add buffer write() support"][1]
->>>
->>> Hi Jonathan,
->>>
->>> This is a respin of the V3 of my patchset that introduced a new
->>> interface based on DMABUF objects [2].
->>>
->>> The V4 was a split of the patchset, to attempt to upstream buffer
->>> write() support first. But since there is no current user upstream,
->>> it
->>> was not merged. This V5 is about doing the opposite, and contains
->>> the
->>> new DMABUF interface, without adding the buffer write() support. It
->>> can
->>> already be used with the upstream adi-axi-adc driver.
->>>
->>> In user-space, Libiio uses it to transfer back and forth blocks of
->>> samples between the hardware and the applications, without having
->>> to
->>> copy the data.
->>>
->>> On a ZCU102 with a FMComms3 daughter board, running Libiio from the
->>> pcercuei/dev-new-dmabuf-api branch [3], compiled with
->>> WITH_LOCAL_DMABUF_API=OFF (so that it uses fileio):
->>>     sudo utils/iio_rwdev -b 4096 -B cf-ad9361-lpc
->>>     Throughput: 116 MiB/s
->>>
->>> Same hardware, with the DMABUF API (WITH_LOCAL_DMABUF_API=ON):
->>>     sudo utils/iio_rwdev -b 4096 -B cf-ad9361-lpc
->>>     Throughput: 475 MiB/s
->>>
->>> This benchmark only measures the speed at which the data can be
->>> fetched
->>> to iio_rwdev's internal buffers, and does not actually try to read
->>> the
->>> data (e.g. to pipe it to stdout). It shows that fetching the data
->>> is
->>> more than 4x faster using the new interface.
->>>
->>> When actually reading the data, the performance difference isn't
->>> that
->>> impressive (maybe because in case of DMABUF the data is not in
->>> cache):
->>>
->>> WITH_LOCAL_DMABUF_API=OFF (so that it uses fileio):
->>>     sudo utils/iio_rwdev -b 4096 cf-ad9361-lpc | dd of=/dev/zero
->>> status=progress
->>>     2446422528 bytes (2.4 GB, 2.3 GiB) copied, 22 s, 111 MB/s
->>>
->>> WITH_LOCAL_DMABUF_API=ON:
->>>     sudo utils/iio_rwdev -b 4096 cf-ad9361-lpc | dd of=/dev/zero
->>> status=progress
->>>     2334388736 bytes (2.3 GB, 2.2 GiB) copied, 21 s, 114 MB/s
->>>
->>> One interesting thing to note is that fileio is (currently)
->>> actually
->>> faster than the DMABUF interface if you increase a lot the buffer
->>> size.
->>> My explanation is that the cache invalidation routine takes more
->>> and
->>> more time the bigger the DMABUF gets. This is because the DMABUF is
->>> backed by small-size pages, so a (e.g.) 64 MiB DMABUF is backed by
->>> up
->>> to 16 thousands pages, that have to be invalidated one by one. This
->>> can
->>> be addressed by using huge pages, but the udmabuf driver does not
->>> (yet)
->>> support creating DMABUFs backed by huge pages.
->>>
->>
->> Have you tried DMABUFs created using the DMABUF System heap exporter?
->> (drivers/dma-buf/heaps/system_heap.c) It should be able to handle
->> larger allocation better here, and if you don't have any active
->> mmaps or vmaps then it can skip CPU-side coherency maintenance
->> (useful for device to device transfers).
-> 
-> I didn't know about it!
-> 
-> But udmabuf also allows you to skip CPU-side coherency maintenance,
-> since DMABUFs have two ioctls to start/finish CPU access anyway.
-> 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D218368
 
-The only way it lets you skip that is if your application just doesn't
-call those begin/end ioctls, which is wrong. That may work on a system
-where CPU caches can be snooped by all devices that could attach to
-a buffer(x86), but that might not work on others(ARM). So calling
-those begin/end ioctls is required[0]. If maintenance is not actually
-needed then the kernel will turn those calls into NOPs for you, but only
-the kernel can know when that is correct (based on the running system
-and the devices attached to that buffer), not userspace.
+--- Comment #1 from nvaert1986 (nvaert1986@hotmail.com) ---
+an 11 18:20:27 pc02 kernel: [drm] failed to load ucode UNKNOWN UCODE(0xE)=20
+Jan 11 18:20:27 pc02 kernel: [drm] psp gfx command LOAD_IP_FW(0x6) failed a=
+nd
+response status is (0x0)
+Jan 11 18:20:27 pc02 kernel: [drm:0xffffffffc06c23d5] *ERROR* Fail to stop =
+psp
+ring
+Jan 11 18:20:27 pc02 kernel: [drm:0xffffffffc06bde91] *ERROR* PSP firmware
+loading failed
+Jan 11 18:20:27 pc02 kernel: [drm:0xffffffffc06246b5] *ERROR* hw_init of IP
+block <psp> failed -22
+Jan 11 18:20:27 pc02 kernel: amdgpu 0000:03:00.0: amdgpu: amdgpu_device_ip_=
+init
+failed
+Jan 11 18:20:27 pc02 kernel: amdgpu 0000:03:00.0: amdgpu: Fatal error during
+GPU init
+Jan 11 18:20:27 pc02 kernel: amdgpu 0000:03:00.0: amdgpu: amdgpu: finishing
+device.
+Jan 11 18:20:27 pc02 kernel: ------------[ cut here ]------------
+Jan 11 18:20:27 pc02 kernel: WARNING: CPU: 24 PID: 468 at 0xffffffffc06b26f1
+Jan 11 18:20:27 pc02 kernel: Modules linked iJan 11 18:20:27 pc02 kernel:=20
+0xffffffffc0623824
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f6b8754
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f7f82ce
+Jan 11 18:20:27 pc02 kernel:  ? 0xffffffff8f7f8760
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f7f84ce
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f7f858a
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f7f87e3
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f7f6390
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f7f75d7
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f7f9414
+Jan 11 18:20:27 pc02 kernel:  ? 0xffffffffc0d8a000
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f000723
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f20ee3b
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f210fd1
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f21112c
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f211351
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8fcab7c4
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8fe000c7
+Jan 11 18:20:27 pc02 kernel: RIP: 0033:0x00007ff1f7b4eca9
+Jan 11 18:20:27 pc02 kernel: Code: 08 89 e8 5b 5d c3 66 2e 0f 1f 84 00 00 0=
+0 00
+00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 =
+0f
+05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 2f e1 0c 00 f7 d8 64 89 01 48
+Jan 11 18:20:27 pc02 kernel: RSP: 002b:00007ffd84d4f018 EFLAGS: 00000246
+ORIG_RAX: 0000000000000139
+Jan 11 18:20:27 pc02 kernel: RAX: ffffffffffffffda RBX: 00005641b982ad80 RC=
+X:
+00007ff1f7b4eca9
+Jan 11 18:20:27 pc02 kernel: RDX: 0000000000000000 RSI: 00007ff1f7c3b2df RD=
+I:
+0000000000000017
+Jan 11 18:20:27 pc02 kernel: RBP: 0000000000000000 R08: 0000000000000000 R0=
+9:
+0000000000000000
+Jan 11 18:20:27 pc02 kernel: R10: 0000000000000050 R11: 0000000000000246 R1=
+2:
+00007ff1f7c3b2df
+Jan 11 18:20:27 pc02 kernel: R13: 0000000000020000 R14: 00005641b9844ba0 R1=
+5:
+0000000000000000
+Jan 11 18:20:27 pc02 kernel:  </TASK>
+Jan 11 18:20:27 pc02 kernel: ---[ end trace 0000000000000000 ]---
+Jan 11 18:20:27 pc02 kernel: ------------[ cut here ]------------
+n: amdgpu(+) drm_ttm_helper snd_hda_codec_hdmi ttm amdxcp drm_exec gpu_sched
+i2c_algo_bit kvm_amd drm_buddy snd_hda_intel mt7921e drm_suballoc_helper
+snd_intel_dspcfg mt7921_common drm_display_helper mt792x_lib snd_hda_codec =
+cec
+mt76_connac_lib igc snd_hda_core mt>
+Jan 11 18:20:27 pc02 kernel: CPU: 24 PID: 468 Comm: (udev-worker) Tainted: =
+G=20=20=20
+       O       6.6.9-gentoo #2
+Jan 11 18:20:27 pc02 kernel: Hardware name: ASUS System Product Name/ROG ST=
+RIX
+X670E-A GAMING WIFI, BIOS 1807 12/14/2023
+Jan 11 18:20:27 pc02 kernel: RIP: 0010:0xffffffffc06b26f1
+Jan 11 18:20:27 pc02 kernel: Code: c0 74 33 48 8b 4e 10 48 83 39 00 74 29 8=
+9 d1
+48 8d 04 88 8b 08 85 c9 74 11 f0 ff 08 74 07 31 c0 e9 14 eb 60 cf e9 9f fd =
+ff
+ff <0f> 0b b8 ea ff ff ff e9 03 eb 60 cf b8 ea ff ff ff e9 f9 ea 60 cf
+Jan 11 18:20:27 pc02 kernel: RSP: 0018:ffffb7a6028bfb38 EFLAGS: 00010246
+Jan 11 18:20:27 pc02 kernel: RAX: ffff9db705a29f80 RBX: ffff9db717218580 RC=
+X:
+0000000000000000
+Jan 11 18:20:27 pc02 kernel: RDX: 0000000000000000 RSI: ffff9db7172278f0 RD=
+I:
+ffff9db717200000
+Jan 11 18:20:27 pc02 kernel: RBP: ffff9db7172100e8 R08: 0000000000000000 R0=
+9:
+ffff9dc63d897b40
+Jan 11 18:20:27 pc02 kernel: R10: 0000000000000003 R11: ffffffff9050ef28 R1=
+2:
+ffff9db7172104c8
+Jan 11 18:20:27 pc02 kernel: R13: ffff9db717200010 R14: ffff9db717200000 R1=
+5:
+00000000ffffff01
+Jan 11 18:20:27 pc02 kernel: FS:  00007ff1f6fa5340(0000)
+GS:ffff9dc63dc00000(0000) knlGS:0000000000000000
+Jan 11 18:20:27 pc02 kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050=
+033
+Jan 11 18:20:27 pc02 kernel: CR2: 00007f657532049c CR3: 00000001141f6000 CR=
+4:
+0000000000f50ee0
+Jan 11 18:20:27 pc02 kernel: PKRU: 55555554
+Jan 11 18:20:27 pc02 kernel: Call Trace:
+Jan 11 18:20:27 pc02 kernel:  <TASK>
+Jan 11 18:20:27 pc02 kernel:  ? 0xffffffff8f18ee7f
+Jan 11 18:20:27 pc02 kernel:  ? 0xffffffffc06b26f1
+Jan 11 18:20:27 pc02 kernel:  ? 0xffffffff8fc8705e
+Jan 11 18:20:27 pc02 kernel:  ? 0xffffffff8fcaba9a
+Jan 11 18:20:27 pc02 kernel:  ? 0xffffffff8fcabb77
+Jan 11 18:20:27 pc02 kernel:  ? 0xffffffff8fe0120a
+Jan 11 18:20:27 pc02 kernel:  ? 0xffffffffc06b26f1
+Jan 11 18:20:27 pc02 kernel:  ? 0xffffffff8fcc1205
+Jan 11 18:20:27 pc02 kernel:  0xffffffffc063a3d7
+Jan 11 18:20:27 pc02 kernel:  0xffffffffc06267f1
+Jan 11 18:20:27 pc02 kernel:  ? 0xffffffff8f1b88a9
+Jan 11 18:20:27 pc02 kernel:  0xffffffffc062c1a1
+Jan 11 18:20:27 pc02 kernel:  0xffffffffc0623824
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f6b8754
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f7f82ce
+Jan 11 18:20:27 pc02 kernel:  ? 0xffffffff8f7f8760
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f7f84ce
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f7f858a
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f7f87e3
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f7f6390
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f7f75d7
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f7f9414
+Jan 11 18:20:27 pc02 kernel:  ? 0xffffffffc0d8a000
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f000723
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f20ee3b
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f210fd1
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f21112c
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f210fd1
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f21112c
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f211351
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8fcab7c4
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8fe000c7
+Jan 11 18:20:27 pc02 kernel: RIP: 0033:0x00007ff1f7b4eca9
+Jan 11 18:20:27 pc02 kernel: Code: 08 89 e8 5b 5d c3 66 2e 0f 1f 84 00 00 0=
+0 00
+00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 =
+0f
+05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 2f e1 0c 00 f7 d8 64 89 01 48
+Jan 11 18:20:27 pc02 kernel: RSP: 002b:00007ffd84d4f018 EFLAGS: 00000246
+ORIG_RAX: 0000000000000139
+Jan 11 18:20:27 pc02 kernel: RAX: ffffffffffffffda RBX: 00005641b982ad80 RC=
+X:
+00007ff1f7b4eca9
+Jan 11 18:20:27 pc02 kernel: RDX: 0000000000000000 RSI: 00007ff1f7c3b2df RD=
+I:
+0000000000000017
+Jan 11 18:20:27 pc02 kernel: RBP: 0000000000000000 R08: 0000000000000000 R0=
+9:
+0000000000000000
+Jan 11 18:20:27 pc02 kernel: R10: 0000000000000050 R11: 0000000000000246 R1=
+2:
+00007ff1f7c3b2df
+Jan 11 18:20:27 pc02 kernel: R13: 0000000000020000 R14: 00005641b9844ba0 R1=
+5:
+0000000000000000
+Jan 11 18:20:27 pc02 kernel:  </TASK>
+Jan 11 18:20:27 pc02 kernel: ---[ end trace 0000000000000000 ]---
+Jan 11 18:20:27 pc02 kernel: ------------[ cut here ]------------
+Jan 11 18:20:27 pc02 kernel: WARNING: CPU: 24 PID: 468 at 0xffffffffc06b26f1
+Jan 11 18:20:27 pc02 kernel: Modules linked in: amdgpu(+) drm_ttm_helper
+snd_hda_codec_hdmi ttm amdxcp drm_exec gpu_sched i2c_algo_bit kvm_amd drm_b=
+uddy
+snd_hda_intel mt7921e drm_suballoc_helper snd_intel_dspcfg mt7921_common
+drm_display_helper mt792x_lib snd_hda_codec cec mt76_connac_lib igc
+snd_hda_core mt>
+Jan 11 18:20:27 pc02 kernel: CPU: 24 PID: 468 Comm: (udev-worker) Tainted: =
+G=20=20=20
+    W  O       6.6.9-gentoo #2
+Jan 11 18:20:27 pc02 kernel: Hardware name: ASUS System Product Name/ROG ST=
+RIX
+X670E-A GAMING WIFI, BIOS 1807 12/14/2023
+Jan 11 18:20:27 pc02 kernel: RIP: 0010:0xffffffffc06b26f1
+Jan 11 18:20:27 pc02 kernel: Code: c0 74 33 48 8b 4e 10 48 83 39 00 74 29 8=
+9 d1
+48 8d 04 88 8b 08 85 c9 74 11 f0 ff 08 74 07 31 c0 e9 14 eb 60 cf e9 9f fd =
+ff
+ff <0f> 0b b8 ea ff ff ff e9 03 eb 60 cf b8 ea ff ff ff e9 f9 ea 60 cf
+Jan 11 18:20:27 pc02 kernel: RSP: 0018:ffffb7a6028bfb38 EFLAGS: 00010246
+Jan 11 18:20:27 pc02 kernel: RAX: ffff9db705a29f88 RBX: ffff9db717218ce8 RC=
+X:
+0000000000000000
+Jan 11 18:20:27 pc02 kernel: RDX: 0000000000000002 RSI: ffff9db7172278f0 RD=
+I:
+ffff9db717200000
+Jan 11 18:20:27 pc02 kernel: RBP: ffff9db7172100f0 R08: 0000000000000000 R0=
+9:
+ffff9dc63d897b40
+Jan 11 18:20:27 pc02 kernel: R10: 0000000000000003 R11: ffffffff9050ef28 R1=
+2:
+ffff9db7172104c8
+Jan 11 18:20:27 pc02 kernel: R13: ffff9db717200010 R14: ffff9db717200000 R1=
+5:
+00000000ffffff01
+Jan 11 18:20:27 pc02 kernel: FS:  00007ff1f6fa5340(0000)
+GS:ffff9dc63dc00000(0000) knlGS:0000000000000000
+Jan 11 18:20:27 pc02 kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050=
+033
+Jan 11 18:20:27 pc02 kernel: CR2: 00007f657532049c CR3: 00000001141f6000 CR=
+4:
+0000000000f50ee0
+Jan 11 18:20:27 pc02 kernel: PKRU: 55555554
+Jan 11 18:20:27 pc02 kernel: Call Trace:
+Jan 11 18:20:27 pc02 kernel:  <TASK>
+Jan 11 18:20:27 pc02 kernel:  ? 0xffffffff8f18ee7f
+Jan 11 18:20:27 pc02 kernel:  ? 0xffffffffc06b26f1
+Jan 11 18:20:27 pc02 kernel:  ? 0xffffffff8fc8705e
+Jan 11 18:20:27 pc02 kernel:  ? 0xffffffff8fcaba9a
+Jan 11 18:20:27 pc02 kernel:  ? 0xffffffff8fcabb77
+Jan 11 18:20:27 pc02 kernel:  ? 0xffffffff8fe0120a
+Jan 11 18:20:27 pc02 kernel:  ? 0xffffffffc06b26f1
+Jan 11 18:20:27 pc02 kernel:  ? 0xffffffff8fcc1205
+Jan 11 18:20:27 pc02 kernel:  0xffffffffc063a3d7
+Jan 11 18:20:27 pc02 kernel:  0xffffffffc06267f1
+Jan 11 18:20:27 pc02 kernel:  ? 0xffffffff8f1b88a9
+Jan 11 18:20:27 pc02 kernel:  0xffffffffc062c1a1
+Jan 11 18:20:27 pc02 kernel:  0xffffffffc0623824
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f6b8754
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f7f82ce
+Jan 11 18:20:27 pc02 kernel:  ? 0xffffffff8f7f8760
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f7f84ce
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f7f858a
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f7f87e3
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f7f6390
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f7f75d7
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f7f9414
+Jan 11 18:20:27 pc02 kernel:  ? 0xffffffffc0d8a000
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f000723
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f20ee3b
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f210fd1
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f21112c
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8f211351
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8fcab7c4
+Jan 11 18:20:27 pc02 kernel:  0xffffffff8fe000c7
+Jan 11 18:20:27 pc02 kernel: RIP: 0033:0x00007ff1f7b4eca9
+Jan 11 18:20:27 pc02 kernel: Code: 08 89 e8 5b 5d c3 66 2e 0f 1f 84 00 00 0=
+0 00
+00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 =
+0f
+05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 2f e1 0c 00 f7 d8 64 89 01 48
+Jan 11 18:20:27 pc02 kernel: RSP: 002b:00007ffd84d4f018 EFLAGS: 00000246
+ORIG_RAX: 0000000000000139
+Jan 11 18:20:27 pc02 kernel: RAX: ffffffffffffffda RBX: 00005641b982ad80 RC=
+X:
+00007ff1f7b4eca9
+Jan 11 18:20:27 pc02 kernel: RDX: 0000000000000000 RSI: 00007ff1f7c3b2df RD=
+I:
+0000000000000017
+Jan 11 18:20:27 pc02 kernel: RBP: 0000000000000000 R08: 0000000000000000 R0=
+9:
+0000000000000000
+Jan 11 18:20:27 pc02 kernel: R10: 0000000000000050 R11: 0000000000000246 R1=
+2:
+00007ff1f7c3b2df
+Jan 11 18:20:27 pc02 kernel: R13: 0000000000020000 R14: 00005641b9844ba0 R1=
+5:
+0000000000000000
+Jan 11 18:20:27 pc02 kernel:  </TASK>
+Jan 11 18:20:27 pc02 kernel: ---[ end trace 0000000000000000 ]---
+Jan 11 18:20:27 pc02 kernel: ------------[ cut here ]------------
 
->> Allocating DMABUFs out of user pages has a bunch of other issues you
->> might run into also. I'd argue udmabuf is now completely superseded
->> by DMABUF system heaps. Try it out :)
-> 
-> I'm curious, what other issues?
-> 
+--=20
+You may reply to this email to add a comment.
 
-For starters the {begin,end}_cpu_access() callbacks don't actually
-sync the pages for any of the devices attached to the DMABUF, it
-only makes a fake mapping for the misc device(CPU) then syncs with
-that. That probably works for the QEMU case it was designed for where
-the device is always a VM instance running on the same CPU, but for
-any real devices the sync never happens towards them.
-
-I have some patches fixing the above I'll post this cycle, but it
-wont help with folks doing reads/wrties on the original shmem/memfd
-outside of the begin/end ioctls. So there is a fundamental issue
-with the buffer's backing memory's ownership/lifecycle that makes
-udmabuf broken by design.
-
-The DMABUF System Heap owns the backing memory and manages that
-memory's lifecycle as all correct DMABUF exporters must.
-
-> The good thing about udmabuf is that the memory is backed by pages, so
-> we can use MSG_ZEROCOPY on sockets to transfer the mmapped data over
-> the network (having a DMABUF interface to the network stack would be
-> better, but I'm not opening that can of worms).
-> 
-
-Yes, having a DMABUF importer interface for the network stack would be
-the best long-term solution here, and one will probably end up being
-needed for zero-copy buffer passing directly between HW and network
-which seems to be a growing area of interest. And would help solve
-some cases where MSG_ZEROCOPY fails (such as devices without
-scatter-gather) by making sure the backing buffer meets the needs
-of all attached devices, etc.. But I do agree let's leave those
-worm-cans for someone else to open :)
-
-I wonder what would happen if you tried a MSG_ZEROCOPY on a buffer
-that was an mmap'd address from a DMABUF.. probably nothing good
-but might be worth looking into.
-
-Andrew
-
-[0] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/dma-buf/dma-buf.c#n1323
-
->> Andrew
-> 
-> Cheers,
-> -Paul
-> 
->>> Anyway, the real benefits happen when the DMABUFs are either shared
->>> between IIO devices, or between the IIO subsystem and another
->>> filesystem. In that case, the DMABUFs are simply passed around
->>> drivers,
->>> without the data being copied at any moment.
->>>
->>> We use that feature to transfer samples from our transceivers to
->>> USB,
->>> using a DMABUF interface to FunctionFS [4].
->>>
->>> This drastically increases the throughput, to about 274 MiB/s over
->>> a
->>> USB3 link, vs. 127 MiB/s using IIO's fileio interface + write() to
->>> the
->>> FunctionFS endpoints, for a lower CPU usage (0.85 vs. 0.65 load
->>> avg.).
->>>
->>> Based on linux-next/next-20231219.
->>>
->>> Cheers,
->>> -Paul
->>>
->>> [1]
->>> https://lore.kernel.org/all/20230807112113.47157-1-paul@crapouillou.net/
->>> [2]
->>> https://lore.kernel.org/all/20230403154800.215924-1-paul@crapouillou.net/
->>> [3]
->>> https://github.com/analogdevicesinc/libiio/tree/pcercuei/dev-new-dmabuf-api
->>> [4]
->>> https://lore.kernel.org/all/20230322092118.9213-1-paul@crapouillou.net/
->>>
->>> ---
->>> Changelog:
->>> - [3/8]: Replace V3's dmaengine_prep_slave_dma_array() with a new
->>>     dmaengine_prep_slave_dma_vec(), which uses a new 'dma_vec'
->>> struct.
->>>     Note that at some point we will need to support cyclic transfers
->>>     using dmaengine_prep_slave_dma_vec(). Maybe with a new "flags"
->>>     parameter to the function?
->>>
->>> - [4/8]: Implement .device_prep_slave_dma_vec() instead of V3's
->>>     .device_prep_slave_dma_array().
->>>
->>>     @Vinod: this patch will cause a small conflict with my other
->>>     patchset adding scatter-gather support to the axi-dmac driver.
->>>     This patch adds a call to axi_dmac_alloc_desc(num_sgs), but the
->>>     prototype of this function changed in my other patchset - it
->>> would
->>>     have to be passed the "chan" variable. I don't know how you
->>> prefer it
->>>     to be resolved. Worst case scenario (and if @Jonathan is okay
->>> with
->>>     that) this one patch can be re-sent later, but it would make
->>> this
->>>     patchset less "atomic".
->>>
->>> - [5/8]:
->>>     - Use dev_err() instead of pr_err()
->>>     - Inline to_iio_dma_fence()
->>>     - Add comment to explain why we unref twice when detaching
->>> dmabuf
->>>     - Remove TODO comment. It is actually safe to free the file's
->>>       private data even when transfers are still pending because it
->>>       won't be accessed.
->>>     - Fix documentation of new fields in struct
->>> iio_buffer_access_funcs
->>>     - iio_dma_resv_lock() does not need to be exported, make it
->>> static
->>>
->>> - [7/8]:
->>>     - Use the new dmaengine_prep_slave_dma_vec().
->>>     - Restrict to input buffers, since output buffers are not yet
->>>       supported by IIO buffers.
->>>
->>> - [8/8]:
->>>     Use description lists for the documentation of the three new
->>> IOCTLs
->>>     instead of abusing subsections.
->>>
->>> ---
->>> Alexandru Ardelean (1):
->>>     iio: buffer-dma: split iio_dma_buffer_fileio_free() function
->>>
->>> Paul Cercueil (7):
->>>     iio: buffer-dma: Get rid of outgoing queue
->>>     dmaengine: Add API function dmaengine_prep_slave_dma_vec()
->>>     dmaengine: dma-axi-dmac: Implement device_prep_slave_dma_vec
->>>     iio: core: Add new DMABUF interface infrastructure
->>>     iio: buffer-dma: Enable support for DMABUFs
->>>     iio: buffer-dmaengine: Support new DMABUF based userspace API
->>>     Documentation: iio: Document high-speed DMABUF based API
->>>
->>>    Documentation/iio/dmabuf_api.rst              |  54 +++
->>>    Documentation/iio/index.rst                   |   2 +
->>>    drivers/dma/dma-axi-dmac.c                    |  40 ++
->>>    drivers/iio/buffer/industrialio-buffer-dma.c  | 242 ++++++++---
->>>    .../buffer/industrialio-buffer-dmaengine.c    |  52 ++-
->>>    drivers/iio/industrialio-buffer.c             | 402
->>> ++++++++++++++++++
->>>    include/linux/dmaengine.h                     |  25 ++
->>>    include/linux/iio/buffer-dma.h                |  33 +-
->>>    include/linux/iio/buffer_impl.h               |  26 ++
->>>    include/uapi/linux/iio/buffer.h               |  22 +
->>>    10 files changed, 836 insertions(+), 62 deletions(-)
->>>    create mode 100644 Documentation/iio/dmabuf_api.rst
->>>
-> 
+You are receiving this mail because:
+You are watching the assignee of the bug.=
