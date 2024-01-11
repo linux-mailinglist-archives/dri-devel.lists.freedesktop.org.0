@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B3D382A999
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 09:51:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19DE882A994
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 09:51:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6A3510E859;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9F3010E857;
 	Thu, 11 Jan 2024 08:50:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m15.mail.163.com [45.254.50.220])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9EDD010E18A;
- Thu, 11 Jan 2024 08:24:07 +0000 (UTC)
+Received: from m16.mail.163.com (m15.mail.163.com [45.254.50.219])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1D67710E1CB;
+ Thu, 11 Jan 2024 08:27:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id; bh=6CAROB1lD1HLjhO4c1
- 5hoRYXMOhnvVtgCZbVS+d/YhU=; b=lUOzuGBxHNPn6+7nV+zNlU8NYwUEJKXFm1
- K7pwUJ4Gf1fJPPncmxA2rFzDk8hifpRegxJE7VMOM5Sw2lE8c/nndw3UVuByDDcs
- wZT2a6RyISLg8wMYkflXbK5P1tgLU5C9H2bBfWtf7vym+zlOcBMp9ze7fjQq7Y8u
- tZTxzCUlY=
+ s=s110527; h=From:Subject:Date:Message-Id; bh=C41GvdsfCnJ5btfTlf
+ 7ADFG8GCPBwf9UbjaedLoXgJ4=; b=EZHVndKzTLc0xLguuz56/JzUQpjoov5KMS
+ K/oPLO8pet+bdyH3aOcrJorjs4neL5wC727T+R+F33Fl5tGwUzbM9dOOHuHWTvet
+ c94D5tBU5k/3OMiWUYGEYuhKll7vTQINIJw6zdb9QwqF0jntr0czo7CJKAqet+fJ
+ XV+x2fetc=
 Received: from localhost.localdomain (unknown [182.148.14.173])
- by gzga-smtp-mta-g0-4 (Coremail) with SMTP id _____wDnT_OXpZ9l8XqUAA--.19048S2;
- Thu, 11 Jan 2024 16:23:51 +0800 (CST)
+ by gzga-smtp-mta-g0-5 (Coremail) with SMTP id _____wCX__VDpp9lalCVAA--.15415S2;
+ Thu, 11 Jan 2024 16:26:43 +0800 (CST)
 From: GuoHua Chen <chenguohua_716@163.com>
 To: daniel@ffwll.ch, Xinhui.Pan@amd.com, alexander.deucher@amd.com,
  airlied@gmail.com, christian.koenig@amd.com
-Subject: [PATCH] drm/radeon: Clean up errors in radeon_display.c
-Date: Thu, 11 Jan 2024 08:23:49 +0000
-Message-Id: <20240111082349.11806-1-chenguohua_716@163.com>
+Subject: [PATCH] drm/radeon: Clean up errors in uvd_v1_0.c
+Date: Thu, 11 Jan 2024 08:26:41 +0000
+Message-Id: <20240111082641.11892-1-chenguohua_716@163.com>
 X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: _____wDnT_OXpZ9l8XqUAA--.19048S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7uFWxtr18JFyrAr47Xr15twb_yoW8tF1DpF
- sxuw1vgw13tF4agryUJF4xuw1rua1kWaySkr17G39ruws0yrWxXFZIyFZFkw1rZry8GrW5
- tryxCw17WF40yrDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UFdgAUUUUU=
+X-CM-TRANSID: _____wCX__VDpp9lalCVAA--.15415S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrKw1xtFWUWFyUGF4rKryUJrb_yoW3ZFc_KF
+ 4UZ3y5GwsrZ3Z7ZF12kFs8AF92yw45uFs3uw1Yqas3tryYqw4rWry7ury3Xw4rGFn3JF95
+ Cw4vgFyfZFsxZjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUUZXo7UUUUU==
 X-Originating-IP: [182.148.14.173]
-X-CM-SenderInfo: xfkh0w5xrk3tbbxrlqqrwthudrp/1tbiqBxi1mVOBlCRhgAAsq
+X-CM-SenderInfo: xfkh0w5xrk3tbbxrlqqrwthudrp/xtbBEhxi1mVOBk+X-AACsx
 X-Mailman-Approved-At: Thu, 11 Jan 2024 08:50:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,59 +55,26 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fix the following errors reported by checkpatch:
 
-ERROR: that open brace { should be on the previous line
-ERROR: space prohibited before that ',' (ctx:WxW)
+ERROR: "(foo*)" should be "(foo *)"
 
 Signed-off-by: GuoHua Chen <chenguohua_716@163.com>
 ---
- drivers/gpu/drm/radeon/radeon_display.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/radeon/uvd_v1_0.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_display.c b/drivers/gpu/drm/radeon/radeon_display.c
-index a44f78bdd4e5..94dc4f92587f 100644
---- a/drivers/gpu/drm/radeon/radeon_display.c
-+++ b/drivers/gpu/drm/radeon/radeon_display.c
-@@ -1365,8 +1365,8 @@ static const struct drm_prop_enum_list radeon_tmds_pll_enum_list[] = {
- 	{ 1, "bios" },
- };
+diff --git a/drivers/gpu/drm/radeon/uvd_v1_0.c b/drivers/gpu/drm/radeon/uvd_v1_0.c
+index 58557c2263a7..5684639d20a6 100644
+--- a/drivers/gpu/drm/radeon/uvd_v1_0.c
++++ b/drivers/gpu/drm/radeon/uvd_v1_0.c
+@@ -142,7 +142,7 @@ int uvd_v1_0_resume(struct radeon_device *rdev)
+ 	addr = (rdev->uvd.gpu_addr >> 32) & 0xFF;
+ 	WREG32(UVD_LMI_EXT40_ADDR, addr | (0x9 << 16) | (0x1 << 31));
  
--static const struct drm_prop_enum_list radeon_tv_std_enum_list[] =
--{	{ TV_STD_NTSC, "ntsc" },
-+static const struct drm_prop_enum_list radeon_tv_std_enum_list[] = {
-+	{ TV_STD_NTSC, "ntsc" },
- 	{ TV_STD_PAL, "pal" },
- 	{ TV_STD_PAL_M, "pal-m" },
- 	{ TV_STD_PAL_60, "pal-60" },
-@@ -1376,25 +1376,25 @@ static const struct drm_prop_enum_list radeon_tv_std_enum_list[] =
- 	{ TV_STD_SECAM, "secam" },
- };
+-	WREG32(UVD_FW_START, *((uint32_t*)rdev->uvd.cpu_addr));
++	WREG32(UVD_FW_START, *((uint32_t *)rdev->uvd.cpu_addr));
  
--static const struct drm_prop_enum_list radeon_underscan_enum_list[] ={
-+static const struct drm_prop_enum_list radeon_underscan_enum_list[] = {
- 	{ UNDERSCAN_OFF, "off" },
- 	{ UNDERSCAN_ON, "on" },
- 	{ UNDERSCAN_AUTO, "auto" },
- };
- 
--static const struct drm_prop_enum_list radeon_audio_enum_list[] ={
-+static const struct drm_prop_enum_list radeon_audio_enum_list[] = {
- 	{ RADEON_AUDIO_DISABLE, "off" },
- 	{ RADEON_AUDIO_ENABLE, "on" },
- 	{ RADEON_AUDIO_AUTO, "auto" },
- };
- 
- /* XXX support different dither options? spatial, temporal, both, etc. */
--static const struct drm_prop_enum_list radeon_dither_enum_list[] ={
-+static const struct drm_prop_enum_list radeon_dither_enum_list[] = {
- 	{ RADEON_FMT_DITHER_DISABLE, "off" },
- 	{ RADEON_FMT_DITHER_ENABLE, "on" },
- };
- 
--static const struct drm_prop_enum_list radeon_output_csc_enum_list[] ={
-+static const struct drm_prop_enum_list radeon_output_csc_enum_list[] = {
- 	{ RADEON_OUTPUT_CSC_BYPASS, "bypass" },
- 	{ RADEON_OUTPUT_CSC_TVRGB, "tvrgb" },
- 	{ RADEON_OUTPUT_CSC_YCBCR601, "ycbcr601" },
+ 	return 0;
+ }
 -- 
 2.17.1
 
