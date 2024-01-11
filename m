@@ -1,44 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BCE582B738
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 23:46:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7219982B7E1
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 00:14:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFDC310E0F9;
-	Thu, 11 Jan 2024 22:46:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 836AD10E6D7;
+	Thu, 11 Jan 2024 23:14:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6942910E0F9;
- Thu, 11 Jan 2024 22:46:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=0rn15vikwOjPu92WIZ1pOLLnXWU6x//npevyjHw8yaU=; b=EomzbTzJzQx9U5EbbMaV2qfdKn
- m+8Aks0QGEeOKbhHlYUfGI0ESzbPCwu4+T1iJwpAMaa+P+8S7WdUdv0uh9VymFzvAlHqWZdS+1v42
- VYO+5aZ+YLqzQ9VrPT3bL2J2+Jh26pmRT3GsCtQ+FuTAp5ogzJOhfRTDdZd5nGFmbyHf4Nic43+/j
- wDbX0twq5Rj7iSd2OySjSEWRPCXpPbuXe/3Q1RVKFIc6G732IcUWMPMXjEy7Po9B7TOpSfuH09+Si
- ksPBNd2g30LsyFYsilKTNDIkvoFAxmh97MurNp5o/ueUNwULbN3H1vFGwAFhHlhdxkhCRy3J2stsU
- Y5bchWlg==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1rO3o9-00FAPE-3J; Thu, 11 Jan 2024 22:45:53 +0000
-Date: Thu, 11 Jan 2024 22:45:53 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH 2/2] xfs: disable large folio support in xfile_create
-Message-ID: <ZaBvoWCCChU5wHDp@casper.infradead.org>
-References: <20240110092109.1950011-1-hch@lst.de>
- <20240110092109.1950011-3-hch@lst.de>
- <20240110175515.GA722950@frogsfrogsfrogs>
- <20240110200451.GB722950@frogsfrogsfrogs>
- <20240111140053.51948fb3ed10e06d8e389d2e@linux-foundation.org>
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
+ [IPv6:2607:f8b0:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C89C310E336;
+ Thu, 11 Jan 2024 23:14:38 +0000 (UTC)
+Received: by mail-oi1-x231.google.com with SMTP id
+ 5614622812f47-3bbbd4d2b4aso4987213b6e.0; 
+ Thu, 11 Jan 2024 15:14:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1705014878; x=1705619678; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=wrVoNjP495STQIQ3FVMsai806YpFMUIXx4z0Rg6visI=;
+ b=MHsDjb6bGHbp+/GgRRDpSvhGMFjgT3nAmDJ/Qultie1dTS3Ioe3EjOS0ICOIF61swB
+ azNGeROlU4HnHwN9jeKuPVJxp+lFHezJT4Hyf42wNoNsG6f8X5R1iJ/n3rw/OpmYedK5
+ pMWcqj5R1pLGO3ML1E5TZOBKp/dEzi974JWEaKnUjnwBxYeTlwvoeq5JyfLWT74tQUXx
+ h/z/NQnSXeZIVebGZbR+n7HzaxTdGh3bDD0iEVPIshYajPF77zZ14KeC3rblDtQdPTUS
+ xtCLSL3YG7RzhX8XMq/USABhsQdaMz96auLlypqOHuiwHXZWbrTRLq7ZvOnafftV0HMi
+ bx/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1705014878; x=1705619678;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wrVoNjP495STQIQ3FVMsai806YpFMUIXx4z0Rg6visI=;
+ b=o34mAEKmruedgAMFU8Ern0A1ZRAvrcGyZEmWJDI4Oh68/8Sg8cQp+GjK+YhScn2rQk
+ K0VHYCWG6M/UecEK6htBJJa12cDwsL/r44rgj32x/xxIfl1Y8RcPukOxFGFI5Df7I4R+
+ JDn+6yvw/v2FELwX4tqjUO33wVb05QOnFZP11adEAKnxuSz01ynoJGvm/l3AFF+jCAFs
+ 8kefPwsYN6O5l0pdJvSky4e+BswWuh5Y7nxbPpNoAmI0shCETM6Hj4CTCJKbvDotC1zv
+ /msjLh1uyIUhb1pvXky5r572LLJLpnhSPRLN/OB2kLncSKOjSuRCroTeFOqQuDgNJGee
+ RiFA==
+X-Gm-Message-State: AOJu0YzUmTK1BZxL9uKAf8Dbt3rYtIGT4S4ETuIVUQYM/e7lDxPuydZE
+ Si9nFnyaTLhLSuTrVlr+UmlTTkvzH70xYQ==
+X-Google-Smtp-Source: AGHT+IGDpKcp2NUQHYqgIYov31tIUZuCdOiqNmsa1HKjxrxNTrNHs1Lbzf8wtArROVtJKBgCf+AvNA==
+X-Received: by 2002:a05:6808:1308:b0:3bd:5791:67f3 with SMTP id
+ y8-20020a056808130800b003bd579167f3mr101557oiv.30.1705014877887; 
+ Thu, 11 Jan 2024 15:14:37 -0800 (PST)
+Received: from localhost ([2607:fea8:52a3:d200::a40a])
+ by smtp.gmail.com with ESMTPSA id
+ s4-20020ad45004000000b0067f07683decsm627592qvo.99.2024.01.11.15.14.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 Jan 2024 15:14:37 -0800 (PST)
+Date: Thu, 11 Jan 2024 18:14:34 -0500
+From: Richard Acayan <mailingradian@gmail.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH] drm/msm/mdss: specify cfg bandwidth for SDM670
+Message-ID: <ZaB2WjoHBNPnv0CN@radian>
+References: <20231215013222.827975-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240111140053.51948fb3ed10e06d8e389d2e@linux-foundation.org>
+In-Reply-To: <20231215013222.827975-1-dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,44 +72,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Darrick J. Wong" <djwong@kernel.org>, dri-devel@lists.freedesktop.org,
- David Howells <dhowells@redhat.com>, linux-mm@kvack.org,
- Huang Rui <ray.huang@amd.com>, Christoph Hellwig <hch@lst.de>, x86@kernel.org,
- Hugh Dickins <hughd@google.com>, Dave Hansen <dave.hansen@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, intel-gfx@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- linux-sgx@vger.kernel.org, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Jarkko Sakkinen <jarkko@kernel.org>, keyrings@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
- Chandan Babu R <chandan.babu@oracle.com>
+Cc: freedreno@lists.freedesktop.org, Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 11, 2024 at 02:00:53PM -0800, Andrew Morton wrote:
-> On Wed, 10 Jan 2024 12:04:51 -0800 "Darrick J. Wong" <djwong@kernel.org> wrote:
-> 
-> > > > Fixing this will require a bit of an API change, and prefeably sorting out
-> > > > the hwpoison story for pages vs folio and where it is placed in the shmem
-> > > > API.  For now use this one liner to disable large folios.
-> > > > 
-> > > > Reported-by: Darrick J. Wong <djwong@kernel.org>
-> > > > Signed-off-by: Christoph Hellwig <hch@lst.de>
-> > > 
-> > > Can someone who knows more about shmem.c than I do please review
-> > > https://lore.kernel.org/linux-xfs/20240103084126.513354-4-hch@lst.de/
-> > > so that I can feel slightly more confident as hch and I sort through the
-> > > xfile.c issues?
-> > > 
-> > > For this patch,
-> > > Reviewed-by: Darrick J. Wong <djwong@kernel.org>
-> > 
-> > ...except that I'm still getting 2M THPs even with this enabled, so I
-> > guess either we get to fix it now, or create our own private tmpfs mount
-> > so that we can pass in huge=never, similar to what i915 does. :(
-> 
-> What is "this"?  Are you saying that $Subject doesn't work, or that the
-> above-linked please-review patch doesn't work?
+On Fri, Dec 15, 2023 at 03:32:22AM +0200, Dmitry Baryshkov wrote:
+> Lower the requested CFG bus bandwidth for the SDM670 platform. The
+> default value is 153600 kBps, which is twice as big as required by the
+> platform according to the vendor kernel.
+>
+> Fixes: a55c8ff252d3 ("drm/msm/mdss: Handle the reg bus ICC path")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  drivers/gpu/drm/msm/msm_mdss.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
+> index 455b2e3a0cdd..35423d10aafa 100644
+> --- a/drivers/gpu/drm/msm/msm_mdss.c
+> +++ b/drivers/gpu/drm/msm/msm_mdss.c
+> @@ -562,6 +562,7 @@ static const struct msm_mdss_data sdm670_data = {
+>  	.ubwc_enc_version = UBWC_2_0,
+>  	.ubwc_dec_version = UBWC_2_0,
+>  	.highest_bank_bit = 1,
+> +	.reg_bus_bw = 76800,
 
-shmem pays no attention to the mapping_large_folio_support() flag,
-so the proposed fix doesn't work.  It ought to, but it has its own way
-of doing it that predates mapping_large_folio_support existing.
+This seems to be the bandwidth applied to the "cpu-cfg" path, but it is
+not in the device tree yet and is not allowed by schema (for no
+particular reason). In sdm670.dtsi, it would be defined as:
+
+	<&gladiator_noc MASTER_AMPSS_M0 0 &config_noc SLAVE_DISPLAY_CFG 0>
+
+Furthermore, I have not yet emailed the patches that I use to test the
+display on SDM670, namely, the panel driver and device tree changes for
+the Pixel 3a. Nevertheless, this does not break anything, even with the
+interconnect path and everything needed to test.
+
+Tested-by: Richard Acayan <mailingradian@gmail.com>
+
+>  };
+>  
+>  static const struct msm_mdss_data sdm845_data = {
+> -- 
+> 2.39.2
+>
