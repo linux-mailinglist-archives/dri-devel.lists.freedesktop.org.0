@@ -1,65 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1325182A83B
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 08:21:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E5C282A99A
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 09:52:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DCDF10E19D;
-	Thu, 11 Jan 2024 07:21:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08D3710E85A;
+	Thu, 11 Jan 2024 08:50:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
- [IPv6:2607:f8b0:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 572DD10E19D
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 07:21:37 +0000 (UTC)
-Received: by mail-oi1-x231.google.com with SMTP id
- 5614622812f47-3bbd1fab171so3629736b6e.1
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jan 2024 23:21:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1704957696; x=1705562496; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=yy2lzqaTFfa02W+7q6UCYddcpHLmZArhRiq65UjnToc=;
- b=B7tN0bvqzYdA62jb+HDDS1I3QTzluo27QF4peK5dgBOtI9yX269U5RvS0lWHRjJhh7
- C7eYR/I7BYW0HhR6HdHTy23H1B12tNHT4wsiQcd+fMp3jmKQ6FdtixjoQib6qk09jspk
- fVgrcDnWXfFSMpp2zuyUIi8mR5/JkFCDthv+J2Y95XSFke7scvVWxSFtNb7z4xcsOzXR
- rN2Qu+RvhVhkvtbNXi5Z6VrJ9QsyRO5K208E0Uq6x2Ndm6CLxRxO8F8WJ8P7WiOMINu6
- r4YWhl6y9GlKjl3L+vJwUTJMv3Zyeq/7R8MqgmZEKN937+ohuHtCnY9qImspTs7GzQbn
- /uYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704957696; x=1705562496;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yy2lzqaTFfa02W+7q6UCYddcpHLmZArhRiq65UjnToc=;
- b=xO1WQ2htnSvyWaTzJ3V+hlaRlrWSefG1MiREON0v6Ap+YlIf8FZnY/Ocs+T2NTHIZ2
- d9RgWvvrBfxVx5HUfMpSx9EL7v0fqt2pW80jkgQPSOPkDk4/JooopikMQV54GCJjNr0k
- eRjkwRhOYF8ddDBOOseG5bbFiB0pMVucz1+zAZxeBA3u1df4T0N4lItXpLnoP+eE14z+
- SE8LZR47V1wJUoR4buvYYnzHYf34hjYKeCwIF3mlulGOrLtEG2c0htYxVQ4L6uGfNbvP
- fXZtKCIpmp4+qNqOZVCXWDmo0baiJ7w+xywShOc4GXe91xrTixGwUHpvYOIpfLxsVuQV
- EIOQ==
-X-Gm-Message-State: AOJu0YxykcKaZW4zWJqAJtG9QxLueKxngPldaG6hm+snpzAk1hzIPCmZ
- t1/B5s4yD20CrSbEHHlpa7U=
-X-Google-Smtp-Source: AGHT+IEd95KMby+FaKu8/bxssdUJwSuxQqijxRBzUkA6Qa5Imunn62jJCrDzhGREmY0J6EUzJfPCKg==
-X-Received: by 2002:a05:6808:1411:b0:3bb:c599:e3ed with SMTP id
- w17-20020a056808141100b003bbc599e3edmr867056oiv.17.1704957696423; 
- Wed, 10 Jan 2024 23:21:36 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:70e2:a0a5:5166:fbbf])
- by smtp.gmail.com with ESMTPSA id
- u2-20020a056a00098200b006d99056c4edsm464983pfg.187.2024.01.10.23.21.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Jan 2024 23:21:36 -0800 (PST)
-Date: Wed, 10 Jan 2024 23:21:33 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: Re: [PATCH] vt: remove superfluous CONFIG_HW_CONSOLE
-Message-ID: <ZZ-W_WAmGuOU-Bbg@google.com>
-References: <20240108134102.601-1-lukas.bulwahn@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240108134102.601-1-lukas.bulwahn@gmail.com>
+Received: from m16.mail.163.com (m15.mail.163.com [45.254.50.220])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 63DB310E7D7
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 07:23:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id; bh=9lukI8SBkQG9zpqO5L
+ 6Qao513Fv/h55G2lHZZ61xhh4=; b=W7p/7LNdekAnk7oAL+0y7h9tYwHFc5veLz
+ IPl9BujWYYmwVYidH1Yi7+D6/ttxfIDhW1XBFqZzxDTtzErlIn9vgrgq3oLKihbr
+ ez/Ae14VHFG1MM6t0VXcJkeeuj8VaT2xk47o+XBl2ejE8bTc4DGXrs4sB/mAEPLM
+ Oj4BBg6Lg=
+Received: from localhost.localdomain (unknown [182.148.14.173])
+ by gzga-smtp-mta-g0-5 (Coremail) with SMTP id _____wDHT6hXl59lBIyRAA--.19755S2;
+ Thu, 11 Jan 2024 15:23:03 +0800 (CST)
+From: GuoHua Chen <chenguohua_716@163.com>
+To: alexander.deucher@amd.com, Xinhui.Pan@amd.com, daniel@ffwll.ch,
+ christian.koenig@amd.com, airlied@gmail.com
+Subject: [PATCH] drm/radeon: Clean up errors in si_dpm.c
+Date: Thu, 11 Jan 2024 07:23:01 +0000
+Message-Id: <20240111072301.10229-1-chenguohua_716@163.com>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: _____wDHT6hXl59lBIyRAA--.19755S2
+X-Coremail-Antispam: 1Uf129KBjvAXoWfGF45WrWUJw18CF4DZFy3XFb_yoW8Xr4xKo
+ WfJFy8Ja1rur1xZ34xXrnxJF4ava9Yy3Z5uwnrJws5u3W2qFWYkFy7Xws5A3W7W345Xw1a
+ y3W7Kay3XrWrAay3n29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+ AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxU1T5lUUUUU
+X-Originating-IP: [182.148.14.173]
+X-CM-SenderInfo: xfkh0w5xrk3tbbxrlqqrwthudrp/1tbiqBxi1mVOBk8XmgAAsv
+X-Mailman-Approved-At: Thu, 11 Jan 2024 08:50:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,41 +48,448 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-m68k@lists.linux-m68k.org,
- Geert Uytterhoeven <geert@linux-m68k.org>, linux-serial@vger.kernel.org,
- linux-input@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- Jiri Slaby <jirislaby@kernel.org>
+Cc: GuoHua Chen <chenguohua_716@163.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 08, 2024 at 02:41:02PM +0100, Lukas Bulwahn wrote:
-> The config HW_CONSOLE is always identical to the config VT and is not
-> visible in the kernel's build menuconfig. So, CONFIG_HW_CONSOLE is
-> redundant.
-> 
-> Replace all references to CONFIG_HW_CONSOLE with CONFIG_VT and remove
-> CONFIG_HW_CONSOLE.
-> 
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> ---
-> I think this patch is best picked up by Greg rather than splitting it
-> in smaller pieces for m68k, amiga keyboard, fbdev etc.
-> 
-> Greg, if that is fine, could you pick this for the next merge window?
-> 
-> I was also considering to rename config VT_HW_CONSOLE_BINDING to
-> VT_CONSOLE_BINDING, as the dependency is on VT, not HW_CONSOLE, but
-> at the moment, that seemed more churn than value of clarification.
-> 
->  arch/m68k/amiga/config.c        | 2 +-
->  drivers/input/keyboard/amikbd.c | 6 +++---
+Fix the following errors reported by checkpatch:
 
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+ERROR: that open brace { should be on the previous line
 
-Thanks.
+Signed-off-by: GuoHua Chen <chenguohua_716@163.com>
+---
+ drivers/gpu/drm/radeon/si_dpm.c | 132 +++++++++++---------------------
+ 1 file changed, 44 insertions(+), 88 deletions(-)
 
+diff --git a/drivers/gpu/drm/radeon/si_dpm.c b/drivers/gpu/drm/radeon/si_dpm.c
+index fbf968e3f6d7..9deb91970d4d 100644
+--- a/drivers/gpu/drm/radeon/si_dpm.c
++++ b/drivers/gpu/drm/radeon/si_dpm.c
+@@ -46,8 +46,7 @@
+ 
+ #define SCLK_MIN_DEEPSLEEP_FREQ     1350
+ 
+-static const struct si_cac_config_reg cac_weights_tahiti[] =
+-{
++static const struct si_cac_config_reg cac_weights_tahiti[] = {
+ 	{ 0x0, 0x0000ffff, 0, 0xc, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x0, 0xffff0000, 16, 0x0, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x1, 0x0000ffff, 0, 0x101, SISLANDS_CACCONFIG_CGIND },
+@@ -111,8 +110,7 @@ static const struct si_cac_config_reg cac_weights_tahiti[] =
+ 	{ 0xFFFFFFFF }
+ };
+ 
+-static const struct si_cac_config_reg lcac_tahiti[] =
+-{
++static const struct si_cac_config_reg lcac_tahiti[] = {
+ 	{ 0x143, 0x0001fffe, 1, 0x3, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x143, 0x00000001, 0, 0x1, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x146, 0x0001fffe, 1, 0x3, SISLANDS_CACCONFIG_CGIND },
+@@ -203,13 +201,11 @@ static const struct si_cac_config_reg lcac_tahiti[] =
+ 
+ };
+ 
+-static const struct si_cac_config_reg cac_override_tahiti[] =
+-{
++static const struct si_cac_config_reg cac_override_tahiti[] = {
+ 	{ 0xFFFFFFFF }
+ };
+ 
+-static const struct si_powertune_data powertune_data_tahiti =
+-{
++static const struct si_powertune_data powertune_data_tahiti = {
+ 	((1 << 16) | 27027),
+ 	6,
+ 	0,
+@@ -239,8 +235,7 @@ static const struct si_powertune_data powertune_data_tahiti =
+ 	true
+ };
+ 
+-static const struct si_dte_data dte_data_tahiti =
+-{
++static const struct si_dte_data dte_data_tahiti = {
+ 	{ 1159409, 0, 0, 0, 0 },
+ 	{ 777, 0, 0, 0, 0 },
+ 	2,
+@@ -257,8 +252,7 @@ static const struct si_dte_data dte_data_tahiti =
+ 	false
+ };
+ 
+-static const struct si_dte_data dte_data_tahiti_pro =
+-{
++static const struct si_dte_data dte_data_tahiti_pro = {
+ 	{ 0x1E8480, 0x3D0900, 0x989680, 0x2625A00, 0x0 },
+ 	{ 0x0, 0x0, 0x0, 0x0, 0x0 },
+ 	5,
+@@ -275,8 +269,7 @@ static const struct si_dte_data dte_data_tahiti_pro =
+ 	true
+ };
+ 
+-static const struct si_dte_data dte_data_new_zealand =
+-{
++static const struct si_dte_data dte_data_new_zealand = {
+ 	{ 0x1E8480, 0x3D0900, 0x989680, 0x2625A00, 0 },
+ 	{ 0x29B, 0x3E9, 0x537, 0x7D2, 0 },
+ 	0x5,
+@@ -293,8 +286,7 @@ static const struct si_dte_data dte_data_new_zealand =
+ 	true
+ };
+ 
+-static const struct si_dte_data dte_data_aruba_pro =
+-{
++static const struct si_dte_data dte_data_aruba_pro = {
+ 	{ 0x1E8480, 0x3D0900, 0x989680, 0x2625A00, 0x0 },
+ 	{ 0x0, 0x0, 0x0, 0x0, 0x0 },
+ 	5,
+@@ -311,8 +303,7 @@ static const struct si_dte_data dte_data_aruba_pro =
+ 	true
+ };
+ 
+-static const struct si_dte_data dte_data_malta =
+-{
++static const struct si_dte_data dte_data_malta = {
+ 	{ 0x1E8480, 0x3D0900, 0x989680, 0x2625A00, 0x0 },
+ 	{ 0x0, 0x0, 0x0, 0x0, 0x0 },
+ 	5,
+@@ -329,8 +320,7 @@ static const struct si_dte_data dte_data_malta =
+ 	true
+ };
+ 
+-static struct si_cac_config_reg cac_weights_pitcairn[] =
+-{
++static struct si_cac_config_reg cac_weights_pitcairn[] = {
+ 	{ 0x0, 0x0000ffff, 0, 0x8a, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x0, 0xffff0000, 16, 0x0, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x1, 0x0000ffff, 0, 0x0, SISLANDS_CACCONFIG_CGIND },
+@@ -394,8 +384,7 @@ static struct si_cac_config_reg cac_weights_pitcairn[] =
+ 	{ 0xFFFFFFFF }
+ };
+ 
+-static const struct si_cac_config_reg lcac_pitcairn[] =
+-{
++static const struct si_cac_config_reg lcac_pitcairn[] = {
+ 	{ 0x98, 0x0001fffe, 1, 0x2, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x98, 0x00000001, 0, 0x1, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x104, 0x0001fffe, 1, 0x2, SISLANDS_CACCONFIG_CGIND },
+@@ -485,13 +474,11 @@ static const struct si_cac_config_reg lcac_pitcairn[] =
+ 	{ 0xFFFFFFFF }
+ };
+ 
+-static const struct si_cac_config_reg cac_override_pitcairn[] =
+-{
++static const struct si_cac_config_reg cac_override_pitcairn[] = {
+ 	{ 0xFFFFFFFF }
+ };
+ 
+-static const struct si_powertune_data powertune_data_pitcairn =
+-{
++static const struct si_powertune_data powertune_data_pitcairn = {
+ 	((1 << 16) | 27027),
+ 	5,
+ 	0,
+@@ -521,8 +508,7 @@ static const struct si_powertune_data powertune_data_pitcairn =
+ 	true
+ };
+ 
+-static const struct si_dte_data dte_data_pitcairn =
+-{
++static const struct si_dte_data dte_data_pitcairn = {
+ 	{ 0, 0, 0, 0, 0 },
+ 	{ 0, 0, 0, 0, 0 },
+ 	0,
+@@ -539,8 +525,7 @@ static const struct si_dte_data dte_data_pitcairn =
+ 	false
+ };
+ 
+-static const struct si_dte_data dte_data_curacao_xt =
+-{
++static const struct si_dte_data dte_data_curacao_xt = {
+ 	{ 0x1E8480, 0x3D0900, 0x989680, 0x2625A00, 0x0 },
+ 	{ 0x0, 0x0, 0x0, 0x0, 0x0 },
+ 	5,
+@@ -557,8 +542,7 @@ static const struct si_dte_data dte_data_curacao_xt =
+ 	true
+ };
+ 
+-static const struct si_dte_data dte_data_curacao_pro =
+-{
++static const struct si_dte_data dte_data_curacao_pro = {
+ 	{ 0x1E8480, 0x3D0900, 0x989680, 0x2625A00, 0x0 },
+ 	{ 0x0, 0x0, 0x0, 0x0, 0x0 },
+ 	5,
+@@ -575,8 +559,7 @@ static const struct si_dte_data dte_data_curacao_pro =
+ 	true
+ };
+ 
+-static const struct si_dte_data dte_data_neptune_xt =
+-{
++static const struct si_dte_data dte_data_neptune_xt = {
+ 	{ 0x1E8480, 0x3D0900, 0x989680, 0x2625A00, 0x0 },
+ 	{ 0x0, 0x0, 0x0, 0x0, 0x0 },
+ 	5,
+@@ -593,8 +576,7 @@ static const struct si_dte_data dte_data_neptune_xt =
+ 	true
+ };
+ 
+-static const struct si_cac_config_reg cac_weights_chelsea_pro[] =
+-{
++static const struct si_cac_config_reg cac_weights_chelsea_pro[] = {
+ 	{ 0x0, 0x0000ffff, 0, 0x82, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x0, 0xffff0000, 16, 0x4F, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x1, 0x0000ffff, 0, 0x153, SISLANDS_CACCONFIG_CGIND },
+@@ -658,8 +640,7 @@ static const struct si_cac_config_reg cac_weights_chelsea_pro[] =
+ 	{ 0xFFFFFFFF }
+ };
+ 
+-static const struct si_cac_config_reg cac_weights_chelsea_xt[] =
+-{
++static const struct si_cac_config_reg cac_weights_chelsea_xt[] = {
+ 	{ 0x0, 0x0000ffff, 0, 0x82, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x0, 0xffff0000, 16, 0x4F, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x1, 0x0000ffff, 0, 0x153, SISLANDS_CACCONFIG_CGIND },
+@@ -723,8 +704,7 @@ static const struct si_cac_config_reg cac_weights_chelsea_xt[] =
+ 	{ 0xFFFFFFFF }
+ };
+ 
+-static const struct si_cac_config_reg cac_weights_heathrow[] =
+-{
++static const struct si_cac_config_reg cac_weights_heathrow[] = {
+ 	{ 0x0, 0x0000ffff, 0, 0x82, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x0, 0xffff0000, 16, 0x4F, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x1, 0x0000ffff, 0, 0x153, SISLANDS_CACCONFIG_CGIND },
+@@ -788,8 +768,7 @@ static const struct si_cac_config_reg cac_weights_heathrow[] =
+ 	{ 0xFFFFFFFF }
+ };
+ 
+-static const struct si_cac_config_reg cac_weights_cape_verde_pro[] =
+-{
++static const struct si_cac_config_reg cac_weights_cape_verde_pro[] = {
+ 	{ 0x0, 0x0000ffff, 0, 0x82, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x0, 0xffff0000, 16, 0x4F, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x1, 0x0000ffff, 0, 0x153, SISLANDS_CACCONFIG_CGIND },
+@@ -853,8 +832,7 @@ static const struct si_cac_config_reg cac_weights_cape_verde_pro[] =
+ 	{ 0xFFFFFFFF }
+ };
+ 
+-static const struct si_cac_config_reg cac_weights_cape_verde[] =
+-{
++static const struct si_cac_config_reg cac_weights_cape_verde[] = {
+ 	{ 0x0, 0x0000ffff, 0, 0x82, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x0, 0xffff0000, 16, 0x4F, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x1, 0x0000ffff, 0, 0x153, SISLANDS_CACCONFIG_CGIND },
+@@ -918,8 +896,7 @@ static const struct si_cac_config_reg cac_weights_cape_verde[] =
+ 	{ 0xFFFFFFFF }
+ };
+ 
+-static const struct si_cac_config_reg lcac_cape_verde[] =
+-{
++static const struct si_cac_config_reg lcac_cape_verde[] = {
+ 	{ 0x98, 0x0001fffe, 1, 0x2, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x98, 0x00000001, 0, 0x1, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x104, 0x0001fffe, 1, 0x2, SISLANDS_CACCONFIG_CGIND },
+@@ -977,13 +954,11 @@ static const struct si_cac_config_reg lcac_cape_verde[] =
+ 	{ 0xFFFFFFFF }
+ };
+ 
+-static const struct si_cac_config_reg cac_override_cape_verde[] =
+-{
++static const struct si_cac_config_reg cac_override_cape_verde[] = {
+ 	{ 0xFFFFFFFF }
+ };
+ 
+-static const struct si_powertune_data powertune_data_cape_verde =
+-{
++static const struct si_powertune_data powertune_data_cape_verde = {
+ 	((1 << 16) | 0x6993),
+ 	5,
+ 	0,
+@@ -1013,8 +988,7 @@ static const struct si_powertune_data powertune_data_cape_verde =
+ 	true
+ };
+ 
+-static const struct si_dte_data dte_data_cape_verde =
+-{
++static const struct si_dte_data dte_data_cape_verde = {
+ 	{ 0, 0, 0, 0, 0 },
+ 	{ 0, 0, 0, 0, 0 },
+ 	0,
+@@ -1031,8 +1005,7 @@ static const struct si_dte_data dte_data_cape_verde =
+ 	false
+ };
+ 
+-static const struct si_dte_data dte_data_venus_xtx =
+-{
++static const struct si_dte_data dte_data_venus_xtx = {
+ 	{ 0x1E8480, 0x3D0900, 0x989680, 0x2625A00, 0x0 },
+ 	{ 0x71C, 0xAAB, 0xE39, 0x11C7, 0x0 },
+ 	5,
+@@ -1049,8 +1022,7 @@ static const struct si_dte_data dte_data_venus_xtx =
+ 	true
+ };
+ 
+-static const struct si_dte_data dte_data_venus_xt =
+-{
++static const struct si_dte_data dte_data_venus_xt = {
+ 	{ 0x1E8480, 0x3D0900, 0x989680, 0x2625A00, 0x0 },
+ 	{ 0xBDA, 0x11C7, 0x17B4, 0x1DA1, 0x0 },
+ 	5,
+@@ -1067,8 +1039,7 @@ static const struct si_dte_data dte_data_venus_xt =
+ 	true
+ };
+ 
+-static const struct si_dte_data dte_data_venus_pro =
+-{
++static const struct si_dte_data dte_data_venus_pro = {
+ 	{  0x1E8480, 0x3D0900, 0x989680, 0x2625A00, 0x0 },
+ 	{ 0x11C7, 0x1AAB, 0x238E, 0x2C72, 0x0 },
+ 	5,
+@@ -1085,8 +1056,7 @@ static const struct si_dte_data dte_data_venus_pro =
+ 	true
+ };
+ 
+-static struct si_cac_config_reg cac_weights_oland[] =
+-{
++static struct si_cac_config_reg cac_weights_oland[] = {
+ 	{ 0x0, 0x0000ffff, 0, 0x82, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x0, 0xffff0000, 16, 0x4F, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x1, 0x0000ffff, 0, 0x153, SISLANDS_CACCONFIG_CGIND },
+@@ -1150,8 +1120,7 @@ static struct si_cac_config_reg cac_weights_oland[] =
+ 	{ 0xFFFFFFFF }
+ };
+ 
+-static const struct si_cac_config_reg cac_weights_mars_pro[] =
+-{
++static const struct si_cac_config_reg cac_weights_mars_pro[] = {
+ 	{ 0x0, 0x0000ffff, 0, 0x43, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x0, 0xffff0000, 16, 0x29, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x1, 0x0000ffff, 0, 0xAF, SISLANDS_CACCONFIG_CGIND },
+@@ -1215,8 +1184,7 @@ static const struct si_cac_config_reg cac_weights_mars_pro[] =
+ 	{ 0xFFFFFFFF }
+ };
+ 
+-static const struct si_cac_config_reg cac_weights_mars_xt[] =
+-{
++static const struct si_cac_config_reg cac_weights_mars_xt[] = {
+ 	{ 0x0, 0x0000ffff, 0, 0x43, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x0, 0xffff0000, 16, 0x29, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x1, 0x0000ffff, 0, 0xAF, SISLANDS_CACCONFIG_CGIND },
+@@ -1280,8 +1248,7 @@ static const struct si_cac_config_reg cac_weights_mars_xt[] =
+ 	{ 0xFFFFFFFF }
+ };
+ 
+-static const struct si_cac_config_reg cac_weights_oland_pro[] =
+-{
++static const struct si_cac_config_reg cac_weights_oland_pro[] = {
+ 	{ 0x0, 0x0000ffff, 0, 0x43, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x0, 0xffff0000, 16, 0x29, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x1, 0x0000ffff, 0, 0xAF, SISLANDS_CACCONFIG_CGIND },
+@@ -1345,8 +1312,7 @@ static const struct si_cac_config_reg cac_weights_oland_pro[] =
+ 	{ 0xFFFFFFFF }
+ };
+ 
+-static const struct si_cac_config_reg cac_weights_oland_xt[] =
+-{
++static const struct si_cac_config_reg cac_weights_oland_xt[] = {
+ 	{ 0x0, 0x0000ffff, 0, 0x43, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x0, 0xffff0000, 16, 0x29, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x1, 0x0000ffff, 0, 0xAF, SISLANDS_CACCONFIG_CGIND },
+@@ -1410,8 +1376,7 @@ static const struct si_cac_config_reg cac_weights_oland_xt[] =
+ 	{ 0xFFFFFFFF }
+ };
+ 
+-static const struct si_cac_config_reg lcac_oland[] =
+-{
++static const struct si_cac_config_reg lcac_oland[] = {
+ 	{ 0x98, 0x0001fffe, 1, 0x2, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x98, 0x00000001, 0, 0x1, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x104, 0x0001fffe, 1, 0x2, SISLANDS_CACCONFIG_CGIND },
+@@ -1457,8 +1422,7 @@ static const struct si_cac_config_reg lcac_oland[] =
+ 	{ 0xFFFFFFFF }
+ };
+ 
+-static const struct si_cac_config_reg lcac_mars_pro[] =
+-{
++static const struct si_cac_config_reg lcac_mars_pro[] = {
+ 	{ 0x98, 0x0001fffe, 1, 0x2, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x98, 0x00000001, 0, 0x1, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x104, 0x0001fffe, 1, 0x2, SISLANDS_CACCONFIG_CGIND },
+@@ -1504,13 +1468,11 @@ static const struct si_cac_config_reg lcac_mars_pro[] =
+ 	{ 0xFFFFFFFF }
+ };
+ 
+-static const struct si_cac_config_reg cac_override_oland[] =
+-{
++static const struct si_cac_config_reg cac_override_oland[] = {
+ 	{ 0xFFFFFFFF }
+ };
+ 
+-static const struct si_powertune_data powertune_data_oland =
+-{
++static const struct si_powertune_data powertune_data_oland = {
+ 	((1 << 16) | 0x6993),
+ 	5,
+ 	0,
+@@ -1540,8 +1502,7 @@ static const struct si_powertune_data powertune_data_oland =
+ 	true
+ };
+ 
+-static const struct si_powertune_data powertune_data_mars_pro =
+-{
++static const struct si_powertune_data powertune_data_mars_pro = {
+ 	((1 << 16) | 0x6993),
+ 	5,
+ 	0,
+@@ -1571,8 +1532,7 @@ static const struct si_powertune_data powertune_data_mars_pro =
+ 	true
+ };
+ 
+-static const struct si_dte_data dte_data_oland =
+-{
++static const struct si_dte_data dte_data_oland = {
+ 	{ 0, 0, 0, 0, 0 },
+ 	{ 0, 0, 0, 0, 0 },
+ 	0,
+@@ -1589,8 +1549,7 @@ static const struct si_dte_data dte_data_oland =
+ 	false
+ };
+ 
+-static const struct si_dte_data dte_data_mars_pro =
+-{
++static const struct si_dte_data dte_data_mars_pro = {
+ 	{ 0x1E8480, 0x3D0900, 0x989680, 0x2625A00, 0x0 },
+ 	{ 0x0, 0x0, 0x0, 0x0, 0x0 },
+ 	5,
+@@ -1607,8 +1566,7 @@ static const struct si_dte_data dte_data_mars_pro =
+ 	true
+ };
+ 
+-static const struct si_dte_data dte_data_sun_xt =
+-{
++static const struct si_dte_data dte_data_sun_xt = {
+ 	{ 0x1E8480, 0x3D0900, 0x989680, 0x2625A00, 0x0 },
+ 	{ 0x0, 0x0, 0x0, 0x0, 0x0 },
+ 	5,
+@@ -1626,8 +1584,7 @@ static const struct si_dte_data dte_data_sun_xt =
+ };
+ 
+ 
+-static const struct si_cac_config_reg cac_weights_hainan[] =
+-{
++static const struct si_cac_config_reg cac_weights_hainan[] = {
+ 	{ 0x0, 0x0000ffff, 0, 0x2d9, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x0, 0xffff0000, 16, 0x22b, SISLANDS_CACCONFIG_CGIND },
+ 	{ 0x1, 0x0000ffff, 0, 0x21c, SISLANDS_CACCONFIG_CGIND },
+@@ -1691,8 +1648,7 @@ static const struct si_cac_config_reg cac_weights_hainan[] =
+ 	{ 0xFFFFFFFF }
+ };
+ 
+-static const struct si_powertune_data powertune_data_hainan =
+-{
++static const struct si_powertune_data powertune_data_hainan = {
+ 	((1 << 16) | 0x6993),
+ 	5,
+ 	0,
 -- 
-Dmitry
+2.17.1
+
