@@ -1,70 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD6FF82ABA5
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 11:11:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11B2E82ABAD
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 11:14:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C94AB10E866;
-	Thu, 11 Jan 2024 10:11:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 496CF10E8CF;
+	Thu, 11 Jan 2024 10:14:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5613110E818
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 10:11:43 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06AC110E8CF
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 10:14:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1704967902;
+ s=mimecast20190719; t=1704968089;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=q1U051qfVVvOpDYruWIoTalq2OARTCsiq7Vq2e152Zs=;
- b=IQ1HmPS1EOsHEDoSfW1FzHnZTYxa8NMyFde42NtubMwocc67a52LT/x8V06hwI9BfzwQuL
- ZaCan9xFJc1ZXM387AZhYO1fsUV4w5dGrP+Ndhy6qsJYhK3qfGrpnAbnYg0HHkdFLmnz1D
- AAB9AXpCruTMOjTeq5qdGoCIxb1nF5Q=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=N/UoCwqwLqGcoRY403M5K9c8YGwWXRlfn//t7u6wv2s=;
+ b=ih/22RlHKAwSoQtTlyM/1JWA8kftXd6Rv3RQt3qVCXd0XEg+1YS0iAtWR2nh6DIU0Ua7b8
+ /06bF0wZ6JeqVX4KjGTW/3ty+Xl4cOzkC4pHJjtYCmRCW7c92CZyFg8Cx7vtUBQO365n0w
+ kWf4lvajIjeTl3yNrZfB9oVXXlvRlUg=
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
+ [209.85.167.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-97-E_9kunAdNOahJVvibS9WeQ-1; Thu, 11 Jan 2024 05:11:39 -0500
-X-MC-Unique: E_9kunAdNOahJVvibS9WeQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-40e541ddf57so16126105e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 02:11:39 -0800 (PST)
+ us-mta-90-aurJfu9nP8iiYR9hG8LFvw-1; Thu, 11 Jan 2024 05:14:47 -0500
+X-MC-Unique: aurJfu9nP8iiYR9hG8LFvw-1
+Received: by mail-oi1-f200.google.com with SMTP id
+ 5614622812f47-3bbbfe871afso1302714b6e.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 02:14:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704967898; x=1705572698;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=q1U051qfVVvOpDYruWIoTalq2OARTCsiq7Vq2e152Zs=;
- b=Oce9ctGaBGxR2c7HeLCoRHYpQn3nKTS5S2NYqykMXt/ILh8FKsbHz8Q9M6ec3d/MsR
- FNAYbGSl0v7qjvgXorNvM/298b/Leh1dLwVTFvf2sl2gEf1UbIDyVOe7FpGhF+GA62PY
- JykF3nckuB1gpxosbC9BNoRuajJdsZ6RPDK2v5DACoMCgTKoWamyRmIyU89/9kv5iI7T
- FQyN0FiKGGXMsgXQxRw+pn5LYnIfoCXLI2dDp51qz5KQf5vlJHsBnrxl6TMJyzv2LRjo
- ToqkD7UFAwefI60c5pfM4LlvHZBIWpC4yh4PzrSgp6CFv8w4+0o/pmfpuwqt8pgnYXuQ
- Fvtw==
-X-Gm-Message-State: AOJu0Yyz2VQ5GotAvJQdxMsAPT1ziskjUa08bDU6qTA56Lei3iEBBklG
- umbUP1UPoI7TjIm92oJlvwqyfrtG6wk2zUsIzDhIyNIDVnIX/obFEjMol3dtinO1lM92O5SZUaI
- lqZFNUCYPHJaT6q5O4YdgBqIultUBQxoYHZTO
-X-Received: by 2002:a05:600c:1384:b0:40e:4990:89a9 with SMTP id
- u4-20020a05600c138400b0040e499089a9mr283554wmf.125.1704967898658; 
- Thu, 11 Jan 2024 02:11:38 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGQOrl0/x7BMHK1cASBEoKt7rxJsF5rZd6e6W5v1lrVZmLftXObkqlbWQkUWk95pBTtKZquOQ==
-X-Received: by 2002:a05:600c:1384:b0:40e:4990:89a9 with SMTP id
- u4-20020a05600c138400b0040e499089a9mr283535wmf.125.1704967898342; 
- Thu, 11 Jan 2024 02:11:38 -0800 (PST)
-Received: from localhost ([2a01:e0a:b25:f902::ff])
+ d=1e100.net; s=20230601; t=1704968087; x=1705572887;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=N/UoCwqwLqGcoRY403M5K9c8YGwWXRlfn//t7u6wv2s=;
+ b=GrgUEVVCAb56y+48A5cJUPkhTJiJBP2JSTyPwIp4qXSyNhr260VU69rookc/KJ31vF
+ DGSoX8avOYCTcQxK8RSxBnaYc0SBpm13wqgyhLkPf0orBiXwuel3blb+1w4BZCSk0PCl
+ 22DZcsvKB/o2L78+esuYYmYxbpTz6q8oXWlWyZj4cWqH+tzQ7y4V4W3iH1fhxkcKSWnC
+ Xwp1nl/A+IZo6v9kJYQ4bIYA7Tpb9ljVb/TMHo6bNHXdj7p9S5P/fc4z8WV9wc2zzQtG
+ eulc35EYhR/SN9CVR4cMndINV0ptOqxXLPuSDY4NdQY1KZFTwT2AKe3nN1vCf75Di7B5
+ MOmg==
+X-Gm-Message-State: AOJu0Ywmc1irK9GK6DmngYDvx/O0mlD9ni/BcubrQL5Dm9/wlh0D2mzG
+ CT/B/lS2s2mjfGCYnVBDXSHycytYtS10bSNNlMz5sJXpByGj/EML9rpveVglXNpo0IZvl+On/iB
+ Xv1kxthZf0mM6s/ZLR1ekM2upczW0ZC62XsNF
+X-Received: by 2002:a54:4415:0:b0:3bd:44ea:a6a9 with SMTP id
+ k21-20020a544415000000b003bd44eaa6a9mr1768454oiw.4.1704968087200; 
+ Thu, 11 Jan 2024 02:14:47 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IG4P/rjoGuSsC484KSAD6OYk0J+cSTTYILIQID5AnGfJR82sS+9GPYmICi9JFFqXoGebsRpDg==
+X-Received: by 2002:a54:4415:0:b0:3bd:44ea:a6a9 with SMTP id
+ k21-20020a544415000000b003bd44eaa6a9mr1768436oiw.4.1704968086951; 
+ Thu, 11 Jan 2024 02:14:46 -0800 (PST)
+Received: from pstanner-thinkpadt14sgen1.muc.redhat.com
+ (nat-pool-muc-t.redhat.com. [149.14.88.26])
  by smtp.gmail.com with ESMTPSA id
- je6-20020a05600c1f8600b0040d8d11bf63sm1311154wmb.41.2024.01.11.02.11.38
+ eo7-20020a05622a544700b0042993549c3asm313237qtb.32.2024.01.11.02.14.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Jan 2024 02:11:38 -0800 (PST)
-Date: Thu, 11 Jan 2024 11:11:37 +0100
-From: Maxime Ripard <mripard@redhat.com>
-To: Dave Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-next-fixes
-Message-ID: <warlsyhbwarbezejzokxvrpnmvoaajonj6khjobvnfrhttrsks@fqoeqrjrct6l>
+ Thu, 11 Jan 2024 02:14:46 -0800 (PST)
+From: Philipp Stanner <pstanner@redhat.com>
+To: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>
+Subject: [PATCH v3 0/2] drm/imx/dcss: implement region request and devres
+Date: Thu, 11 Jan 2024 11:13:45 +0100
+Message-ID: <20240111101346.15193-2-pstanner@redhat.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="u7ubydzr4xswh6nr"
-Content-Disposition: inline
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,69 +89,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: linux-arm-kernel@lists.infradead.org, Philipp Stanner <pstanner@redhat.com>,
+ NXP Linux Team <linux-imx@nxp.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+OK, I messed up the ARM64 build. That's what you get for living on x86
+for years and decades. Mea culpa. Should work now.
 
---u7ubydzr4xswh6nr
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+--
 
-Hi,
+Changes in v3:
+- Fix build errors (missing variable, forgotten remove to call of deleted
+  function)
 
-Here's this week drm-misc-next-fixes PR.
+Changes in v2:
+- Add the region-request to this patch-series. That was previously a
+  separate patch.
 
-Maxime
+dcss currently does not request its memory resource. This series adds
+that request with devres. As we're at it, it also ports all the ioremaps
+and associated allocations to devres.
 
-drm-misc-next-fixes-2024-01-11:
-A fix for the v3d register readout, and two compilation fixes for
-rockchip.
-The following changes since commit eee706839333ec0643f1b4898a37588025bf4cb5:
+I can build this, but I don't have the hardware available to test it. So
+you might want to have a closer look.
 
-  drm/imagination: pvr_device.h: fix all kernel-doc warnings (2024-01-02 11=
-:50:05 +0100)
+P.
 
-are available in the Git repository at:
+Philipp Stanner (2):
+  drm/imx/dcss: request memory region
+  drm/imx/dcss: have all init functions use devres
 
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-fixes-2024-=
-01-11
+ drivers/gpu/drm/imx/dcss/dcss-blkctl.c | 14 +++-----------
+ drivers/gpu/drm/imx/dcss/dcss-ctxld.c  | 15 ++++-----------
+ drivers/gpu/drm/imx/dcss/dcss-dev.c    | 19 +++++++++----------
+ drivers/gpu/drm/imx/dcss/dcss-dev.h    |  1 -
+ drivers/gpu/drm/imx/dcss/dcss-dpr.c    | 25 ++++++-------------------
+ drivers/gpu/drm/imx/dcss/dcss-drv.c    | 12 +++---------
+ drivers/gpu/drm/imx/dcss/dcss-dtg.c    | 23 ++++-------------------
+ drivers/gpu/drm/imx/dcss/dcss-scaler.c | 24 +++++-------------------
+ drivers/gpu/drm/imx/dcss/dcss-ss.c     | 11 +++--------
+ 9 files changed, 37 insertions(+), 107 deletions(-)
 
-for you to fetch changes up to 89fe46019a62bc1d0cb49c9615cb3520096c4bc1:
-
-  drm/v3d: Fix support for register debugging on the RPi 4 (2024-01-09 14:2=
-1:47 -0300)
-
-----------------------------------------------------------------
-A fix for the v3d register readout, and two compilation fixes for
-rockchip.
-
-----------------------------------------------------------------
-Cristian Ciocaltea (2):
-      drm/rockchip: vop2: Drop superfluous include
-      drm/rockchip: vop2: Drop unused if_dclk_rate variable
-
-Ma=EDra Canal (1):
-      drm/v3d: Fix support for register debugging on the RPi 4
-
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c |  4 +---
- drivers/gpu/drm/v3d/v3d_debugfs.c            | 20 ++++++++++----------
- 2 files changed, 11 insertions(+), 13 deletions(-)
-
---u7ubydzr4xswh6nr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZZ++2QAKCRDj7w1vZxhR
-xZVkAP41KaQ7V6SVZJqPsQS+XTrTVPwAN+M6oZV4+QTqki2+XAD/WWjvF4iyIqPy
-c8ztIkCYVnDypPqV/fCqt/iTxVYYMw4=
-=5wmL
------END PGP SIGNATURE-----
-
---u7ubydzr4xswh6nr--
+-- 
+2.43.0
 
