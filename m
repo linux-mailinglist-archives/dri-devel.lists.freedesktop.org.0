@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5085F82AB03
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 10:32:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B14682AB0B
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 10:33:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FD9C10E870;
-	Thu, 11 Jan 2024 09:32:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 429A010E887;
+	Thu, 11 Jan 2024 09:33:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.126.com (m16.mail.126.com [220.197.31.8])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8183710E870;
- Thu, 11 Jan 2024 09:32:25 +0000 (UTC)
+Received: from m16.mail.126.com (m16.mail.126.com [220.197.31.9])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4360110E887;
+ Thu, 11 Jan 2024 09:33:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
- s=s110527; h=From:Subject:Date:Message-Id; bh=riPFQzIM0RxLBVk/VT
- 8AduR0Cn36/f+IWZyvzIbiXBM=; b=YOzVROprbofOruBBAQaoWV1CXrTLiWpGfC
- ekFpVev7x7ei5ifCRRQ5X+OUab1d4FEg0IkJgCeC6i/tcNorjHHdZxP3uIncr6ME
- Nxg9xtpdkV0MI2g4l0PMCbtorJzWfu56S3hImvldfFtApPmA64ACu9Gyi0m75deA
- rv0LAn25U=
+ s=s110527; h=From:Subject:Date:Message-Id; bh=lUESUWScUg7zl++lrC
+ xFQNFSOv+99NUxm69O0wryTxk=; b=g74hUQK4mOq55L1qSMMqNf4GOEMnMEeidR
+ Md2PSxSC+OXM+5OQ4PfvQ3OoYSfJ6ood5WBdm1VSmVub7jh1RjtbO8S+ptowtHqs
+ PEDi2ZFOtvzkY4GXR3OysQgy4AG8Fs4mNsPd6FKSVbcwfDR0bw0bNM3YZfSephur
+ RcRHoLsXY=
 Received: from localhost.localdomain (unknown [182.148.14.173])
- by gzga-smtp-mta-g1-2 (Coremail) with SMTP id _____wD3f6ubtZ9lAbY2AA--.24753S2;
- Thu, 11 Jan 2024 17:32:11 +0800 (CST)
+ by gzga-smtp-mta-g1-3 (Coremail) with SMTP id _____wDnb7nOtZ9lnr82AA--.6085S2; 
+ Thu, 11 Jan 2024 17:33:02 +0800 (CST)
 From: XueBing Chen <chenxb_99091@126.com>
 To: daniel@ffwll.ch, Xinhui.Pan@amd.com, alexander.deucher@amd.com,
  airlied@gmail.com, christian.koenig@amd.com
-Subject: [PATCH] drm/radeon/dpm: Clean up errors in evergreen_smc.h
-Date: Thu, 11 Jan 2024 09:32:10 +0000
-Message-Id: <20240111093210.14000-1-chenxb_99091@126.com>
+Subject: [PATCH] drm/radeon: Clean up errors in ci_dpm.h
+Date: Thu, 11 Jan 2024 09:33:01 +0000
+Message-Id: <20240111093301.14086-1-chenxb_99091@126.com>
 X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: _____wD3f6ubtZ9lAbY2AA--.24753S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7ZryxCFW5CF17Xr48uF4DJwb_yoW8Gr1kpF
- WqgryaqrWUtFnrXry8GF43ZrZ3ta9xXF18GF47Zw1Y9F45JrWxCF4DCFWrA3y8Xw47K342
- yF18tr48uF4ak3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRia9hUUUUU=
+X-CM-TRANSID: _____wDnb7nOtZ9lnr82AA--.6085S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrtF1kKrWDGw1kWFy3try5Arb_yoWDXrb_Cr
+ yxXryDXrWj9r1rt3WDur1xX392vw4UWF4Fkw18KryfJF9rZr18Za9xAryDX3WUuan3JFs8
+ JwsYqa43GFZ7KjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7xRRt8nDUUUUU==
 X-Originating-IP: [182.148.14.173]
-X-CM-SenderInfo: hfkh05lebzmiizr6ij2wof0z/1tbiOgBixWVEuYCDxQAAsD
+X-CM-SenderInfo: hfkh05lebzmiizr6ij2wof0z/1tbiOhJixWVEuYCGRAAAsV
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,41 +58,33 @@ ERROR: open brace '{' following struct go on the same line
 
 Signed-off-by: XueBing Chen <chenxb_99091@126.com>
 ---
- drivers/gpu/drm/radeon/evergreen_smc.h | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/radeon/ci_dpm.h | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/evergreen_smc.h b/drivers/gpu/drm/radeon/evergreen_smc.h
-index 3a03ba37d043..b34d54b567b7 100644
---- a/drivers/gpu/drm/radeon/evergreen_smc.h
-+++ b/drivers/gpu/drm/radeon/evergreen_smc.h
-@@ -29,8 +29,7 @@
- 
- #define SMC_EVERGREEN_MC_REGISTER_ARRAY_SIZE 16
- 
--struct SMC_Evergreen_MCRegisterAddress
--{
-+struct SMC_Evergreen_MCRegisterAddress {
-     uint16_t s0;
-     uint16_t s1;
- };
-@@ -38,15 +37,13 @@ struct SMC_Evergreen_MCRegisterAddress
- typedef struct SMC_Evergreen_MCRegisterAddress SMC_Evergreen_MCRegisterAddress;
- 
- 
--struct SMC_Evergreen_MCRegisterSet
--{
-+struct SMC_Evergreen_MCRegisterSet {
-     uint32_t value[SMC_EVERGREEN_MC_REGISTER_ARRAY_SIZE];
+diff --git a/drivers/gpu/drm/radeon/ci_dpm.h b/drivers/gpu/drm/radeon/ci_dpm.h
+index ac12db5f2cf7..74b95c200222 100644
+--- a/drivers/gpu/drm/radeon/ci_dpm.h
++++ b/drivers/gpu/drm/radeon/ci_dpm.h
+@@ -87,8 +87,7 @@ struct ci_mc_reg_table {
+ 	SMU7_Discrete_MCRegisterAddress mc_reg_address[SMU7_DISCRETE_MC_REGISTER_ARRAY_SIZE];
  };
  
- typedef struct SMC_Evergreen_MCRegisterSet SMC_Evergreen_MCRegisterSet;
- 
--struct SMC_Evergreen_MCRegisters
+-struct ci_ulv_parm
 -{
-+struct SMC_Evergreen_MCRegisters {
-     uint8_t                             last;
-     uint8_t                             reserved[3];
-     SMC_Evergreen_MCRegisterAddress     address[SMC_EVERGREEN_MC_REGISTER_ARRAY_SIZE];
++struct ci_ulv_parm {
+ 	bool supported;
+ 	u32 cg_ulv_parameter;
+ 	u32 volt_change_delay;
+@@ -113,8 +112,7 @@ struct ci_dpm_level_enable_mask {
+ 	u32 pcie_dpm_enable_mask;
+ };
+ 
+-struct ci_vbios_boot_state
+-{
++struct ci_vbios_boot_state {
+ 	u16 mvdd_bootup_value;
+ 	u16 vddc_bootup_value;
+ 	u16 vddci_bootup_value;
 -- 
 2.17.1
 
