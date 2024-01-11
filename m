@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B25382B53E
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 20:35:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1255782B509
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 20:05:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CC0510E994;
-	Thu, 11 Jan 2024 19:35:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 496BD10E985;
+	Thu, 11 Jan 2024 19:05:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1D9C10E97F
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 18:24:26 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id
- a640c23a62f3a-a2814fa68eeso475384666b.1
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 10:24:26 -0800 (PST)
+Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com
+ [IPv6:2607:f8b0:4864:20::112c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69E9910E985
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 19:05:18 +0000 (UTC)
+Received: by mail-yw1-x112c.google.com with SMTP id
+ 00721157ae682-5f15a1052b3so52456287b3.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 11:05:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1704997465; x=1705602265; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=P6WSgPM1ELTZG16IIuPU1xuBSMmC0sC2Dw37vhK7RNg=;
- b=hLyKmo2sqHJbWyjYVOSbNJR9Fi1LEola4U2ksdGDRFtGpTnp9da7OhzuZXyt7zK5jC
- 3dyPptkz0GuyxIpeQTp3+FSx4HXTsJ+MeJmv7Ffqv/FDMH9Yn5am2ar+gMegBt5w4WZK
- 9nb3/2IApqtfwr4uUGhf2lYjVVP3Gs/2bzNY+KkE8LuPEGgsoo14jYKEGrpU2HaRzrWQ
- RDFD2MrDEaLNF+gY7IqVo5mdD6xN9N9DNRKHeHr5wFFORwwjXoNDUi0szkVGGUMqKnvT
- kftBDi/IvuIjcR/rULZAT48H8aRSVsJyb/EaLr5I6nWXUm2GM1+tit6+/dfQGh8K8ASI
- f2SA==
+ d=linaro.org; s=google; t=1704999917; x=1705604717; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=70TTwy7LzJ9GVDP1sBtk+/a7RwgjO7meqYg7DVI2Mn4=;
+ b=oGgsPnIMpYtBfmK3MxVI7REwVgOizI9mVCN67T3qvrQ48PjasywreZJJ8RkdgsrCYD
+ OsOHu06zCYxGMdjZL17KCfM90otLqvxLbpBwOcOcsqPrgg6ejv86sWiLsYPEJQoRZOXL
+ nV5uBvwPYoc83Yl2GLHGAM//vwxWgFKxR+GbnGsftGf8SgG9RjRoqeL3QYeQ2lFn+3KT
+ DFp1fLADaeruapXvuMJgoJkeWsaWfKqqbVROhzF3aSR4Abt39o6xG2j3aMn58LFrde4h
+ r+EPVQJtu/D8Adw04REJWFyWO/89Fg9hGn3kW4b/7xacOZvb3js4FSekTKZX0bDwLkfi
+ pGNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704997465; x=1705602265;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=P6WSgPM1ELTZG16IIuPU1xuBSMmC0sC2Dw37vhK7RNg=;
- b=nsEkF1sAiogDTJYptLEHy9YiSkjzptPApooPxVSuw/RBo2W7pcgJ+M80YwQ5OhL3bi
- Vo56Fsl+q7/bOAYzJlPXklhKV+onEvMAP80pzGkCsV2lx2bCp076XkQzMi2/AIlm0HkG
- YGJeaOxhLtMEFtHQx7wh08WYID1QJkgP6soFWhun5VtiHkobOr0femjyiXHRDaT65Kdi
- hQf/o1/moXHgUhU3/JOO16eWuOHODdQWrsqw0aS6RpWEWZQjGUuqAF8DsxMIuvciz1nj
- KgU4XbDk5dyFhuvU5J2Goo3vvjr2/FMg16iw8BReVS9bzzvataE1its0LK2dV38HdEkf
- gmOQ==
-X-Gm-Message-State: AOJu0YxfVDK5AzdbXgQdijQKQsFJOP+eMtZdLgSD0mMswSLxAGpVpvQO
- 1gmGyM9X/Z0jqM91ii5ztAvb26KFg5i9B4iIhEA=
-X-Google-Smtp-Source: AGHT+IF2RXQOM7NqFNJOPpr6UTDsiR7sO21WDZULenaIIe5ErrhxPpJrjHN2yQksxonnUXBTzJDWC+assDE0ZdUmZz0=
-X-Received: by 2002:a17:906:2458:b0:a2b:c7df:87e2 with SMTP id
- a24-20020a170906245800b00a2bc7df87e2mr45113ejb.61.1704997465011; Thu, 11 Jan
- 2024 10:24:25 -0800 (PST)
+ d=1e100.net; s=20230601; t=1704999917; x=1705604717;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=70TTwy7LzJ9GVDP1sBtk+/a7RwgjO7meqYg7DVI2Mn4=;
+ b=O2prJ2lDN5+iNwY5RCeLo5M//ogF2OYFcIviUh+E8db+V8bnBmIBuLAIrw/bi/jfoq
+ ZxeicI+rjCRmchsMGRLXHjtcevkq54Ne0Qrl+MiE5ShSXpyKAfcGjyDmWNJat4KaH5r8
+ fpzsifWvnf9hLEByirkio4gLvagXzxfkD6pJG81pI9XWVLzbe5oYByQi1+Wq8ISOIwEi
+ 2KhaUAbHIrpOlMQJm+p7l4XUwTy9oSNdHX4IJ8k9Iag0oPpqlo+JPZDYFOiT8nKGKARd
+ RAwoENlJymf+jmiaXR6gxDJOEmHgkdVVoptn+8+JrTIgy0hNXP32y+JtXzT2t5yCPYJY
+ 9bxg==
+X-Gm-Message-State: AOJu0YwwuQaZFyFwQZBtHfzU+L5vsve9p+tgopZba0J/OSkwh+lTolCQ
+ Ycvg+yYNwx/OtaPNwcHFkq1TRPjoxKHAdnpLVoU0SfIWba4Q6g==
+X-Google-Smtp-Source: AGHT+IFMkYvl2Wa5/NCqZqn4cbISrWXSUz1HnKOQORQuB44S6pFNOTZlV/+yw0l5PId0r0Bl0UycfcQ6y7eCvxaNdSU=
+X-Received: by 2002:a0d:d5c3:0:b0:5f6:7816:f330 with SMTP id
+ x186-20020a0dd5c3000000b005f67816f330mr264155ywd.94.1704999917362; Thu, 11
+ Jan 2024 11:05:17 -0800 (PST)
 MIME-Version: 1.0
-References: <20240111165615.27587-1-xaver.hugl@gmail.com>
- <ID9ZgIO-0g8gNMKtaQFJTKRl5uh6UBgKViGwKB8634Pa4d6c8a-EQD4aaTiIbIqkqFiVChj4SLN2Ufs5PEF3F084HHLGn8gK-2-onYXES4g=@emersion.fr>
- <CAFZQkGx0jp2KmCaKOwRqORfAUMwwPkdSPfh_dMegXMu0ax2cyA@mail.gmail.com>
- <984ea5d0-83fe-4739-ab71-e408a5e92d50@igalia.com>
-In-Reply-To: <984ea5d0-83fe-4739-ab71-e408a5e92d50@igalia.com>
-From: Xaver Hugl <xaver.hugl@gmail.com>
-Date: Thu, 11 Jan 2024 19:24:13 +0100
-Message-ID: <CAFZQkGyLjx5NHDSGdLU041kvrDx0SCaV7RfE1xjTe91ZvTb3uw@mail.gmail.com>
-Subject: Re: [PATCH] drm: allow IN_FENCE_FD and FB_DAMAGE_CLIPS to be changed
- with async commits
-To: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-Content-Type: multipart/alternative; boundary="0000000000003eb854060eafa83d"
-X-Mailman-Approved-At: Thu, 11 Jan 2024 19:35:12 +0000
+References: <20240110-fp4-panel-v2-0-8ad11174f65b@fairphone.com>
+ <20240110-fp4-panel-v2-2-8ad11174f65b@fairphone.com>
+ <CACRpkdaWTfPDCin_L6pefHsokjNyO8Mo6hWPdzPLLi1EUkKUuA@mail.gmail.com>
+ <CYBZEZ4IM6IL.VR04W7933VI@fairphone.com>
+In-Reply-To: <CYBZEZ4IM6IL.VR04W7933VI@fairphone.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 11 Jan 2024 20:05:04 +0100
+Message-ID: <CACRpkdZQbVXfBa70nhDOqfWPbsh-6DgX-uvZOxr19pzMmF2giQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] drm/panel: Add driver for DJN HX83112A LCD panel
+To: Luca Weiss <luca.weiss@fairphone.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,119 +71,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ Bjorn Andersson <andersson@kernel.org>, Andy Gross <agross@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, phone-devel@vger.kernel.org,
+ ~postmarketos/upstreaming@lists.sr.ht
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000003eb854060eafa83d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Thu, Jan 11, 2024 at 4:28=E2=80=AFPM Luca Weiss <luca.weiss@fairphone.co=
+m> wrote:
 
-Great, thank you!
+> In some internal documentation it says "LCD Driver IC" "HX83112A" and I
+> don't see any reference to Truly 5P65 anywhere.
 
-Am Do., 11. Jan. 2024 um 19:05 Uhr schrieb Andr=C3=A9 Almeida <
-andrealmeid@igalia.com>:
+In the Android directory I pointed to I see this file:
+HX83112_Android_Driver/Truly_5p65_module_fw/UpdateFW.bat
 
-> Em 11/01/2024 14:59, Xaver Hugl escreveu:
-> > Am Do., 11. Jan. 2024 um 18:13 Uhr schrieb Simon Ser
-> > <contact@emersion.fr <mailto:contact@emersion.fr>>:
-> >
-> >     Are we sure that all drivers handle these two props properly with
-> async
-> >     page-flips? This is a new codepath not taken by the legacy uAPI.
-> >
-> > I've only tested on amdgpu so far. Afacs the other drivers that would
-> need
-> > testing / that support atomic and async pageflips are
-> > - i915
-> > - noueveau (though atomic is disabled by default, so maybe it doesn't
-> > matter?)
-> > - vc4
-> > - atmel-hlcdc
-> >
-> > The first two I can test, the latter I don't have the hardware for. I
-> > don't know if I can
-> > extensively test fb_damage_clips either / how I'd even know if it's
-> > being applied
-> > correctly, but in the worst case I'd expect the driver to not do the
-> > optimizations the
-> > property allows.
-> >
-> > As an alternative to this, would it be okay to expose a driver hook for
-> > optional
-> > driver-specific checks that drm_atomic_set_property can delegate to, an=
-d
-> > only
-> > allow this with the properties and hardware that's been tested? Then mo=
-re
-> > properties (like cursor position changes on amdgpu) could be easily
-> > added later
-> > on too.
->
-> I'm working on some mechanism to allow overlay planes on amdgpu, and I
-> think I can add your needs to it. I'll share in the mailing list when I
-> have something more concrete.
->
+(Notice the 5p65 fw dir is *inside* the HX82112 dir)
 
---0000000000003eb854060eafa83d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+And in that file:
+adb push TRULY_5P65_1080_2160_HX83112A_D01C01.bin
+/system/etc/firmware/Himax_firmware.bin
 
-<div dir=3D"ltr">Great, thank you!<br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Am Do., 11. Jan. 2024 um 19:05=C2=A0U=
-hr schrieb Andr=C3=A9 Almeida &lt;<a href=3D"mailto:andrealmeid@igalia.com"=
->andrealmeid@igalia.com</a>&gt;:<br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">Em 11/01/2024 14:59, Xaver Hugl escreveu:<br>
-&gt; Am Do., 11. Jan. 2024 um 18:13=C2=A0Uhr schrieb Simon Ser <br>
-&gt; &lt;<a href=3D"mailto:contact@emersion.fr" target=3D"_blank">contact@e=
-mersion.fr</a> &lt;mailto:<a href=3D"mailto:contact@emersion.fr" target=3D"=
-_blank">contact@emersion.fr</a>&gt;&gt;:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Are we sure that all drivers handle these two props=
- properly with async<br>
-&gt;=C2=A0 =C2=A0 =C2=A0page-flips? This is a new codepath not taken by the=
- legacy uAPI.<br>
-&gt; <br>
-&gt; I&#39;ve only tested on amdgpu so far. Afacs the other drivers that wo=
-uld need<br>
-&gt; testing / that support atomic and async pageflips are<br>
-&gt; - i915<br>
-&gt; - noueveau (though atomic is disabled by default, so maybe it doesn&#3=
-9;t <br>
-&gt; matter?)<br>
-&gt; - vc4<br>
-&gt; - atmel-hlcdc<br>
-&gt; <br>
-&gt; The first two I can test, the latter I don&#39;t have the hardware for=
-. I <br>
-&gt; don&#39;t know if I can<br>
-&gt; extensively test fb_damage_clips either / how I&#39;d even know if it&=
-#39;s <br>
-&gt; being applied<br>
-&gt; correctly, but in the worst case I&#39;d expect the driver to not do t=
-he <br>
-&gt; optimizations the<br>
-&gt; property allows.<br>
-&gt; <br>
-&gt; As an alternative to this, would it be okay to expose a driver hook fo=
-r <br>
-&gt; optional<br>
-&gt; driver-specific checks that drm_atomic_set_property can delegate to, a=
-nd <br>
-&gt; only<br>
-&gt; allow this with the properties and hardware that&#39;s been tested? Th=
-en more<br>
-&gt; properties (like cursor position changes on amdgpu) could be easily <b=
-r>
-&gt; added later<br>
-&gt; on too.<br>
-<br>
-I&#39;m working on some mechanism to allow overlay planes on amdgpu, and I =
-<br>
-think I can add your needs to it. I&#39;ll share in the mailing list when I=
- <br>
-have something more concrete.<br>
-</blockquote></div>
+Clearly indicating that they are pushing a Truly 5P65 firmware into
+the Himax display firmware directory.
 
---0000000000003eb854060eafa83d--
+To be fair, that is the driver for the touchscreen part of HX83112A,
+but ... Truly is a well known manufacturer of display controllers?
+
+But... given that you have a @fairphone.com mal address and
+a working relationship with them, can't you just ask?
+
+> On their website they have this sentence:
+
+All OEMs want to look like everything is their own product. It is
+business as usual.
+
+Further on the same note since I guess you have a datasheet)
+please bring in #defines for the commands (the first byte in the
+write sequences, for examples:
+
++       mipi_dsi_dcs_write_seq(dsi, 0xbd, 0x02);
++       mipi_dsi_dcs_write_seq(dsi, 0xd8,
++                              0xaa, 0xff, 0xff, 0xff, 0xff, 0xff, 0xaa, 0x=
+ff,
++                              0xff, 0xff, 0xff, 0xff);
++       mipi_dsi_dcs_write_seq(dsi, 0xbd, 0x03);
+
+Clearly 0xbd is HX83112_CMD_SETREGBANK?
+(This is easily spotted from the similar structure in the
+existing panel-himax-hx8394.c.) So please add #defines
+for all commands you know, especially if you have a datasheet
+because we reviewers don't have them and "it's just magic
+bytes" isn't very compelling. It adds a lot to understanding.
+
+I strongly suspect other Himax displays such as HX8394 to
+be using a Truly controller as well, hence the similarities.
+
+In a datasheet for their TFT800480-84-V1-E display controller
+Truly kept the init sequence name of void LCD_INIT_HX8290(void)
+for example.
+
+Yours,
+Linus Walleij
