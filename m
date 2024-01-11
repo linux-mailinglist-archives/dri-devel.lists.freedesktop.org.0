@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78AF182A9F0
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 09:59:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AA3982AA00
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 10:00:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92BA610E815;
-	Thu, 11 Jan 2024 08:59:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2EEE10E812;
+	Thu, 11 Jan 2024 09:00:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
- by gabe.freedesktop.org (Postfix) with ESMTP id 81E5F10E812;
- Thu, 11 Jan 2024 08:59:31 +0000 (UTC)
+Received: from m16.mail.163.com (m15.mail.163.com [45.254.50.220])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C7EC010E868;
+ Thu, 11 Jan 2024 09:00:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id; bh=FrZ434+W1oaHLGGNXB
- CK30hsAMgi7pQWiJQDfPcRLLQ=; b=e8NdRELpIGPIble44DcuxfAGwNruZ1dSVP
- SuUjnptJN01jOJlYTIld5f3fXLtfRTcAa9wqa4k6HkLQD6H8eMCt7nmj1qQZTT+O
- N4SgJ5WID4XpGo5rOsKjsXsj8dSN09RioBHFMIV2cwCwIkNketr4ZOr6EkX91rQ0
- J0GIwsqls=
+ s=s110527; h=From:Subject:Date:Message-Id; bh=MTVN4F7Q/6GUVtGLXv
+ BAx+h+E7050Jgk+qf/1nmhWoc=; b=HEXYSBHlW7q3TnpXkd6y501I7anlK3t/Gq
+ x10HtVbgM1A60WuvNQCjdvsyGLih1+xW8UdlwX4n2nhtskQxNY4bFOooOXrjCexi
+ +w4uiphLrwxsHriJlCjq+Oy4mP9QFEyNVORXdruD35OxNFUjqgbU1Itc50FbUdDC
+ GT9r9BiHE=
 Received: from localhost.localdomain (unknown [182.148.14.173])
- by gzga-smtp-mta-g0-3 (Coremail) with SMTP id _____wDXX5TprZ9l1JmXAA--.14692S2;
- Thu, 11 Jan 2024 16:59:21 +0800 (CST)
+ by gzga-smtp-mta-g0-3 (Coremail) with SMTP id _____wDXP+0jrp9lYaaXAA--.18866S2;
+ Thu, 11 Jan 2024 17:00:19 +0800 (CST)
 From: GuoHua Chen <chenguohua_716@163.com>
 To: daniel@ffwll.ch, Xinhui.Pan@amd.com, alexander.deucher@amd.com,
  airlied@gmail.com, christian.koenig@amd.com
-Subject: [PATCH] drm/radeon: Clean up errors in rv515.c
-Date: Thu, 11 Jan 2024 08:59:19 +0000
-Message-Id: <20240111085919.13149-1-chenguohua_716@163.com>
+Subject: [PATCH] drm/radeon: Clean up errors in r600_dpm.c
+Date: Thu, 11 Jan 2024 09:00:17 +0000
+Message-Id: <20240111090017.13235-1-chenguohua_716@163.com>
 X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: _____wDXX5TprZ9l1JmXAA--.14692S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWrKFWDZrWxuFy5Kry8JFWfuFg_yoW3XwbE9a
- 1Yqrn3Gay0y3sY9F15AF4q9r92ya1F9Fs5Ga1IqFyktFy7Xw4ruasrGry5Xw48WF4xJFnx
- Aw4kXF13AwsFgjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+X-CM-TRANSID: _____wDXP+0jrp9lYaaXAA--.18866S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrKFWDZrWxuFy5Kry8JFWfuFg_yoWDGrb_C3
+ WxW3y7JrW3Kr9YgFyIkan5X3s2vr1j93Z3Ww1Fva4fJr12qFs5W3yDJryxXr1UGFW3Wrn5
+ JrWUJF1SkrsxWjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
  9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUUZXo7UUUUU==
 X-Originating-IP: [182.148.14.173]
-X-CM-SenderInfo: xfkh0w5xrk3tbbxrlqqrwthudrp/xtbBEhxi1mVOBlCTEgAAsG
+X-CM-SenderInfo: xfkh0w5xrk3tbbxrlqqrwthudrp/xtbBEh5i1mVOBlCZjwAAsT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,23 +58,33 @@ ERROR: that open brace { should be on the previous line
 
 Signed-off-by: GuoHua Chen <chenguohua_716@163.com>
 ---
- drivers/gpu/drm/radeon/rv515.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/radeon/r600_dpm.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/rv515.c b/drivers/gpu/drm/radeon/rv515.c
-index 76260fdfbaa7..79709d26d983 100644
---- a/drivers/gpu/drm/radeon/rv515.c
-+++ b/drivers/gpu/drm/radeon/rv515.c
-@@ -42,8 +42,7 @@
- static void rv515_gpu_init(struct radeon_device *rdev);
- int rv515_mc_wait_for_idle(struct radeon_device *rdev);
+diff --git a/drivers/gpu/drm/radeon/r600_dpm.c b/drivers/gpu/drm/radeon/r600_dpm.c
+index 9d2bcb9551e6..64980a61d38a 100644
+--- a/drivers/gpu/drm/radeon/r600_dpm.c
++++ b/drivers/gpu/drm/radeon/r600_dpm.c
+@@ -28,8 +28,7 @@
+ #include "r600_dpm.h"
+ #include "atom.h"
  
--static const u32 crtc_offsets[2] =
+-const u32 r600_utc[R600_PM_NUMBER_OF_TC] =
 -{
-+static const u32 crtc_offsets[2] = {
- 	0,
- 	AVIVO_D2CRTC_H_TOTAL - AVIVO_D1CRTC_H_TOTAL
++const u32 r600_utc[R600_PM_NUMBER_OF_TC] = {
+ 	R600_UTC_DFLT_00,
+ 	R600_UTC_DFLT_01,
+ 	R600_UTC_DFLT_02,
+@@ -47,8 +46,7 @@ const u32 r600_utc[R600_PM_NUMBER_OF_TC] =
+ 	R600_UTC_DFLT_14,
  };
+ 
+-const u32 r600_dtc[R600_PM_NUMBER_OF_TC] =
+-{
++const u32 r600_dtc[R600_PM_NUMBER_OF_TC] = {
+ 	R600_DTC_DFLT_00,
+ 	R600_DTC_DFLT_01,
+ 	R600_DTC_DFLT_02,
 -- 
 2.17.1
 
