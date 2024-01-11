@@ -2,69 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD5E182B48B
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 19:11:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A57CF82B53C
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 20:35:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF9BB10E94A;
-	Thu, 11 Jan 2024 18:11:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45D9E10E940;
+	Thu, 11 Jan 2024 19:35:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
- [IPv6:2607:f8b0:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C462D10E94A
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 18:11:37 +0000 (UTC)
-Received: by mail-oi1-x22e.google.com with SMTP id
- 5614622812f47-3bd562d17dcso414678b6e.3
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 10:11:37 -0800 (PST)
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7CC210E03F
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 16:57:10 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id
+ 5b1f17b1804b1-40e5f746ac4so10142225e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 08:57:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20230601.gappssmtp.com; s=20230601; t=1704996697; x=1705601497;
- darn=lists.freedesktop.org; 
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :from:to:cc:subject:date:message-id:reply-to;
- bh=GNwfPpOc+w6+qUvr4c6LiIOhhkOq06R1P3AdfBXYN2Y=;
- b=29V/pAgihHmtRCM66lpFHt4BDyb4m6Xagb64WJ78eQFnQRvxjvm965B0EYt2hRXHak
- 4HbVhCjoJyRZCcpDGfVmiTKCPGAxrGY42L8qCym26OPBVfhknha/I+oQD0xnAi2BufmJ
- FdZielPEHjx/ukEJUXcrCHCb8XG2H6mqMPfo12im5mjPUvoc28KJB3oHuwJN/GBe+qfo
- Kue+Up3JTWCNcYGmrNGpd1YPz5qjhBdgrpvFPVSB7Mz2NQU1AWOgpMTo8gt9YcZVTkrX
- /ft3kgIpJkLLUcAtekZUILvJX1EVExzNsxSt/iYjDCfwR30gZyzcohwZNbOgL4mEiO/d
- qOaw==
+ d=gmail.com; s=20230601; t=1704992229; x=1705597029; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=slvuo9xUKDbs7pSIb1UU2ii5OzIe8P876xmBYHBwTwE=;
+ b=RmGwU3FwHlyTC6y4MVLoF5eut3jRY7V0vdsdjBs/pmuEcITZhllB+5mx93MeAl960J
+ r8Z3YeiD6BSa1pfXxJoBDJrgX2+idKVSDifsvjzYVCkLiWS7jYfO9Qzzsp1lnxaBRf/K
+ ei0T8YmhhQhCLN/+a91M9Sxdx+V2FCfcXlPyNp902IXfXWN8YJ27HL0aB4Gygzr/e7a+
+ iHg5rr637yy7XesN59Jado0dnv9iHP5zio+93fihYzn/JfKigEOYFivuMp/9tMm4KT5c
+ fHIyc5DP22Aa+sbDnCm4os/1B3RMXNMZnDNd8as9+Rc+lJeP7ETw8TCdv+5hJAUAGCw5
+ LN0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704996697; x=1705601497;
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GNwfPpOc+w6+qUvr4c6LiIOhhkOq06R1P3AdfBXYN2Y=;
- b=LFOaaJWwbjPDTu8NBhf4TA4j58tp0Wmum5k8mAsv4vcZmW6J32EuIwJ8+OC7j0RYQJ
- S3OVjzwncWR46OlWBOliXcSHi1fxVN4TYhNLMjDCvSu9KzX73uW1TUX9G+yixE1ivB35
- gyeVXimrFm9iARcXiH2EA7RsRCejgWVG4t4UqMB2hGJeFTqaTgvUfEMaYxfxeILWfHOz
- 2p/bQuVa8XzJOEN6ZZoIFFLrCC9m1EPXVon25Ek4zRkTZXYPGveJ1ExRA3BEnn/a61H5
- 8DfEcoG0QGyEfvS1yOb/Hm0skpGNzCrU5H8RxvONX+cprDHdJPcnXrZ9RkHc8VkHrloM
- HghA==
-X-Gm-Message-State: AOJu0YyIPHqKy2dktLpRaoqdOPX7/H2Sv6DXhOP6lbsenhjlVCHq+TN6
- uXw8viWp+HwejsIGh9HiwV1sEl2LbZP42zxn0Pzfw+w/k/rhlw==
-X-Google-Smtp-Source: AGHT+IEOQA3VGINqdDq3XtCaDe7x77fu7+Iwu6ym4ijoXArXnWe9XYkfG56HHC5HEq3XFTuTf4bmEuP1OyFcAzpA/9w=
-X-Received: by 2002:a05:6808:3989:b0:3bd:5006:e313 with SMTP id
- gq9-20020a056808398900b003bd5006e313mr78961oib.105.1704996696986; Thu, 11 Jan
- 2024 10:11:36 -0800 (PST)
+ d=1e100.net; s=20230601; t=1704992229; x=1705597029;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=slvuo9xUKDbs7pSIb1UU2ii5OzIe8P876xmBYHBwTwE=;
+ b=nmPydNkMQJ2kKG5izRfx1L5ltJMbJ3Gg7Y/XmYsg9YRDj4ZE5s5DpYSK11JKGidFFV
+ tg/YjyX78zCO7ccm4r9HbRrfvu0b+JyjSGgfYbUdaFItPxWTx8mXhFfsLzus1pLRI3od
+ v7fd+hydyzpc47O+ab1iER1LZGXDYos1fT2fC4jaMEhcZn05RgMEYb+vNS0joxZ32jhd
+ K1ZGzIwEDo+UJVQO25PqenUtM8fWLSF+kg3quje6Ov9VCqDSdRMwGAxS37f90Libcc7c
+ hG/B3oQVag4rp9iTw79YKxFxV/5phhaMKeMLq3uEAaYoz90s8ODEbJ9m3dtTAf54UFuU
+ U7oQ==
+X-Gm-Message-State: AOJu0YzAt7zhHV9h7xCs5SdOfmF70jzrikt9XXcrHYUDuU8o0yOn3MLc
+ hXRcxWWvvxLFncV3QAXnqIMix5viRQH+nQ==
+X-Google-Smtp-Source: AGHT+IEjf3EoGbB8Lrkfk1lPmFVzJVTFS966cBM2QmQqUcP07RnYn+UH/BKUt8kQwUvYq/TDjz1nSw==
+X-Received: by 2002:a05:600c:600e:b0:40d:859e:595a with SMTP id
+ az14-20020a05600c600e00b0040d859e595amr86129wmb.0.1704992228883; 
+ Thu, 11 Jan 2024 08:57:08 -0800 (PST)
+Received: from Xavers-PC.fritz.box ([2a04:7d84:aac0:62f0:7df6:3016:6783:621d])
+ by smtp.gmail.com with ESMTPSA id
+ n38-20020a05600c502600b0040e6245579csm1463706wmr.11.2024.01.11.08.57.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 Jan 2024 08:57:08 -0800 (PST)
+From: Xaver Hugl <xaver.hugl@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm: allow IN_FENCE_FD and FB_DAMAGE_CLIPS to be changed with
+ async commits
+Date: Thu, 11 Jan 2024 17:56:15 +0100
+Message-ID: <20240111165615.27587-1-xaver.hugl@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20231220121110.1441160-1-vignesh.raman@collabora.com>
- <CAPj87rOMPioOK0r74vcnVkXusm6Nah6KNUWyxYgpVLdkMNtW2g@mail.gmail.com>
- <ad7cbd59-5264-96e8-5e9b-aafde8028e41@collabora.com>
-In-Reply-To: <ad7cbd59-5264-96e8-5e9b-aafde8028e41@collabora.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Thu, 11 Jan 2024 18:11:25 +0000
-Message-ID: <CAPj87rPRRfJmxTev50YqxBizyvzCUhCiymoV_bdqsZ-zvcREfA@mail.gmail.com>
-Subject: Re: [PATCH v1 0/8] drm/ci: Add support for GPU and display testing
-To: Helen Koike <helen.koike@collabora.com>, Dave Airlie <airlied@gmail.com>, 
- Sima Vetter <daniel@ffwll.ch>, Daniel Stone <daniels@collabora.com>,
- Emma Anholt <emma@anholt.net>, 
- linux-rockchip <linux-rockchip@lists.infradead.org>,
- guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- David Heidelberg <david.heidelberg@collabora.com>,
- Rob Clark <robdclark@gmail.com>, 
- linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Thu, 11 Jan 2024 19:35:12 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,40 +72,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: andrealmeid@igalia.com, Xaver Hugl <xaver.hugl@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Vignesh,
+Like with FB_ID, the driver never has to do bandwidth validation to use
+these properties, so there's no reason not to allow them.
 
-On Wed, 10 Jan 2024 at 10:47, Vignesh Raman <vignesh.raman@collabora.com> wrote:
-> On 09/01/24 19:08, Daniel Stone wrote:
-> > A better sequencing would be something like:
-> >    1. add ANX7625 config
-> >    2. refactor _existing_ MTK display jobs to use YAML includes, change
-> > the existing job name, and rename the existing xfail set, remove
-> > IGT_FORCE_DRIVER from the script since it's now set by the job
-> >    3. add MTK Panfrost+PVR GPU jobs with new xfails, add xfail entry to
-> > MAINTAINERS
-> >    4+5: same as 2+3 but for Amlogic
-> >    6+7: same as 2+3 but for Rockchip
-> >
-> > Then the separate rename/update xfail commits just disappear, as does
-> > the removal of IGT_FORCE_DRIVER, because it's just done incrementally
-> > as part of the commits which change the related functionality. It's
-> > extremely important that every change can work standalone, instead of
-> > introducing intermediate breakage which is only fixed in later commits
-> > in the series.
->
-> Thank you for reviewing the patches. I agree, will follow this sequence
-> and send a v2 version.
+Signed-off-by: Xaver Hugl <xaver.hugl@gmail.com>
+---
+ drivers/gpu/drm/drm_atomic_uapi.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Alongside Rob's patch to add msm-specific tests to the runlist, we'd
-need to add the Panfrost-specific tests. Whilst we're here, we might
-as well add the vc4/v3d/etnaviv/lima tests so they can use it in
-future.
+diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+index aee4a65d4959..06d476f5a746 100644
+--- a/drivers/gpu/drm/drm_atomic_uapi.c
++++ b/drivers/gpu/drm/drm_atomic_uapi.c
+@@ -1108,7 +1108,9 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
+ 			break;
+ 		}
+ 
+-		if (async_flip && prop != config->prop_fb_id) {
++		if (async_flip && prop != config->prop_fb_id &&
++			prop != config->prop_in_fence_fd &&
++			prop != config->prop_fb_damage_clips) {
+ 			ret = drm_atomic_plane_get_property(plane, plane_state,
+ 							    prop, &old_val);
+ 			ret = drm_atomic_check_prop_changes(ret, old_val, prop_value, prop);
+-- 
+2.43.0
 
-Panfrost should also skip kms_.* tests - since it's not a KMS driver,
-it can't run the KMS tests, so there's no point in trying.
-
-Cheers,
-Daniel
