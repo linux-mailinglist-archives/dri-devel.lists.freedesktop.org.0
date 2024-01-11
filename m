@@ -2,40 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72EC882A982
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 09:51:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D1E482A8A6
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 09:02:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84C3910E843;
-	Thu, 11 Jan 2024 08:50:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A49410E6BC;
+	Thu, 11 Jan 2024 08:02:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m15.mail.163.com [45.254.50.220])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4229510E7F3;
- Thu, 11 Jan 2024 07:59:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id; bh=CtQllylb5rBy8xA4pm
- EMdjJuK4Xkx/RYOeVF0Un8bi0=; b=m2qMZ9WYQ8y6fIYNLa6VLyMFQzYCv7a1JA
- M5R28m+zOSwNChTRuDX4zFhOxLguxNytXtYDsquX5j2tDfCznoRYucaNjbiqudDj
- cR1zPgGMCxUGUz2lybSoBWfeEWrFBAKEkIEPIcCqxohEIOPWNCMwlGJnyyL8LCT3
- 0GuXKLiIs=
-Received: from localhost.localdomain (unknown [182.148.14.173])
- by gzga-smtp-mta-g0-1 (Coremail) with SMTP id _____wDH9wPAn59lXj0QAA--.3875S2; 
- Thu, 11 Jan 2024 15:58:56 +0800 (CST)
-From: GuoHua Chen <chenguohua_716@163.com>
-To: daniel@ffwll.ch, Xinhui.Pan@amd.com, airlied@gmail.com,
- christian.koenig@amd.com, alexander.deucher@amd.com
-Subject: [PATCH] drm/radeon: Clean up errors in smu7_discrete.h
-Date: Thu, 11 Jan 2024 07:58:54 +0000
-Message-Id: <20240111075854.11116-1-chenguohua_716@163.com>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: _____wDH9wPAn59lXj0QAA--.3875S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxKw4fur17XrWfKr17Zr13urg_yoW7CryUpF
- WUKw4IgFZ5Ar13W345AwsYvr4agry5tr1UGr9ruw4Fqw42yrW2kF12ka1UCrWaqws3C393
- JFsxtF12grWxAFDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UwFxUUUUUU=
-X-Originating-IP: [182.148.14.173]
-X-CM-SenderInfo: xfkh0w5xrk3tbbxrlqqrwthudrp/xtbBEBRi1mVOBk7vVQABso
-X-Mailman-Approved-At: Thu, 11 Jan 2024 08:50:44 +0000
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CD8610E6BC
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 08:02:45 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id
+ 2adb3069b0e04-50e80d40a41so6421439e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 00:02:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1704960164; x=1705564964; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=vKxxuD3H1/DIN5QRJJMMz94OQAGexuvEeKEGvpZ2FHs=;
+ b=O1Z6a0qWDXCZpXFrSIhoNByzdJaie/Qdf9tZ8ak5Kmk+PaZyvJFsWAYrQS7ckrc11F
+ OrY5m7llhe4sA2Nn13QK1UA7uIJXDGmwj6GuAXC4rnzKCppPVvg+zl+yNQALvg8PzKHg
+ rn9oZe1jMuomMl26Y4Ox6kg6b/uL8CzKUwFvZccNpNIC6V9BU4giacQET1yrllYg04DL
+ d8hhDAHYwyHhAUrgZX3YiVzv1LGZmmPGMcIiaIF9KwCszntz3RLns745fueCImnIVBXv
+ 40oFUO7heujBofJM4izk+6e86hlcuYn6/RMZ5ChmfLvOCAikKg79+mdcxlmSlm2tVjbs
+ 4j8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1704960164; x=1705564964;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=vKxxuD3H1/DIN5QRJJMMz94OQAGexuvEeKEGvpZ2FHs=;
+ b=wztflvNtSNLg7I5VcQEg/DY9UEWczFhO7/bS1dCMz43aA8P/otTb0vdy9voxbJFg+A
+ f6MwWWorgzN+I0F2nTfwqei9zecRtj5y61zSSPrXNRfbgX8P//CXqEYAahyp4DFHtt1m
+ ppc+n9dlQpaHdBw8/H8Ui15kfuSyeBKgAaU6WkdHtsO7431oBUPoS5fNd82rGGexabC1
+ Z2Kq60T8d5dQKBTHFGhAOH2R/Y/ayTFi2UaQUIeUsmOUIxluYbe+lvO0wA7nRDuAjt2p
+ 6HcgPvygYZ3P4cU+97u/NLvSIweZQgIApM33MQ8eV6X0rER7Ckg/yv4d6R8/RF3kbPt0
+ ADkg==
+X-Gm-Message-State: AOJu0Yz6YIcv1LNsn2sM8mDAKE/idjaxDnuuyD0zSiYNXLeoBhvRJGjg
+ Zp/3tdaVK6yaq61m7YkLLgA=
+X-Google-Smtp-Source: AGHT+IE+cflWxnqrTu8nKruzZQZ+XhqCz9LY20j6/G+0yYyso0tQ1rLPm6HgDdtJYv8dUH0qT0Be4Q==
+X-Received: by 2002:ac2:5221:0:b0:50e:2551:c8ce with SMTP id
+ i1-20020ac25221000000b0050e2551c8cemr378337lfl.119.1704960163317; 
+ Thu, 11 Jan 2024 00:02:43 -0800 (PST)
+Received: from localhost (81-226-149-122-no518.tbcn.telia.com.
+ [81.226.149.122]) by smtp.gmail.com with ESMTPSA id
+ k5-20020a05651239c500b0050e7bb8c7d9sm104793lfu.239.2024.01.11.00.02.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 Jan 2024 00:02:42 -0800 (PST)
+Date: Thu, 11 Jan 2024 09:02:41 +0100
+From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+To: GuoHua Chen <chenguohua_716@163.com>
+Subject: Re: [PATCH] drm: Clean up errors in cdv_intel_dp.h
+Message-ID: <fhuiv5zj4t746eqn23puj7uog2uqdx7erzlsiwgrj76y7qjgx4@3rlihcbwacdf>
+Mail-Followup-To: GuoHua Chen <chenguohua_716@163.com>, airlied@gmail.com, 
+ daniel@ffwll.ch, tzimmermann@suse.de, mripard@kernel.org, 
+ maarten.lankhorst@linux.intel.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20240111065648.9170-1-chenguohua_716@163.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240111065648.9170-1-chenguohua_716@163.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,189 +77,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, GuoHua Chen <chenguohua_716@163.com>
+Cc: linux-kernel@vger.kernel.org, mripard@kernel.org,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the following errors reported by checkpatch:
+On Thu, Jan 11, 2024 at 06:56:48AM +0000, GuoHua Chen wrote:
 
-ERROR: open brace '{' following struct go on the same line
+Hi,
 
-Signed-off-by: GuoHua Chen <chenguohua_716@163.com>
----
- drivers/gpu/drm/radeon/smu7_discrete.h | 51 +++++++++-----------------
- 1 file changed, 17 insertions(+), 34 deletions(-)
+Please use the correct prefix: drm/gma500
 
-diff --git a/drivers/gpu/drm/radeon/smu7_discrete.h b/drivers/gpu/drm/radeon/smu7_discrete.h
-index 0b0b404ff091..1f63cbbd6515 100644
---- a/drivers/gpu/drm/radeon/smu7_discrete.h
-+++ b/drivers/gpu/drm/radeon/smu7_discrete.h
-@@ -35,8 +35,7 @@
- #define SMU7_NUM_GPU_TES 1
- #define SMU7_NUM_NON_TES 2
- 
--struct SMU7_SoftRegisters
--{
-+struct SMU7_SoftRegisters {
-     uint32_t        RefClockFrequency;
-     uint32_t        PmTimerP;
-     uint32_t        FeatureEnables;
-@@ -89,8 +88,7 @@ struct SMU7_SoftRegisters
- 
- typedef struct SMU7_SoftRegisters SMU7_SoftRegisters;
- 
--struct SMU7_Discrete_VoltageLevel
--{
-+struct SMU7_Discrete_VoltageLevel {
-     uint16_t    Voltage;
-     uint16_t    StdVoltageHiSidd;
-     uint16_t    StdVoltageLoSidd;
-@@ -100,8 +98,7 @@ struct SMU7_Discrete_VoltageLevel
- 
- typedef struct SMU7_Discrete_VoltageLevel SMU7_Discrete_VoltageLevel;
- 
--struct SMU7_Discrete_GraphicsLevel
--{
-+struct SMU7_Discrete_GraphicsLevel {
-     uint32_t    Flags;
-     uint32_t    MinVddc;
-     uint32_t    MinVddcPhases;
-@@ -131,8 +128,7 @@ struct SMU7_Discrete_GraphicsLevel
- 
- typedef struct SMU7_Discrete_GraphicsLevel SMU7_Discrete_GraphicsLevel;
- 
--struct SMU7_Discrete_ACPILevel
--{
-+struct SMU7_Discrete_ACPILevel {
-     uint32_t    Flags;
-     uint32_t    MinVddc;
-     uint32_t    MinVddcPhases;
-@@ -153,8 +149,7 @@ struct SMU7_Discrete_ACPILevel
- 
- typedef struct SMU7_Discrete_ACPILevel SMU7_Discrete_ACPILevel;
- 
--struct SMU7_Discrete_Ulv
--{
-+struct SMU7_Discrete_Ulv {
-     uint32_t    CcPwrDynRm;
-     uint32_t    CcPwrDynRm1;
-     uint16_t    VddcOffset;
-@@ -165,8 +160,7 @@ struct SMU7_Discrete_Ulv
- 
- typedef struct SMU7_Discrete_Ulv SMU7_Discrete_Ulv;
- 
--struct SMU7_Discrete_MemoryLevel
--{
-+struct SMU7_Discrete_MemoryLevel {
-     uint32_t    MinVddc;
-     uint32_t    MinVddcPhases;
-     uint32_t    MinVddci;
-@@ -206,8 +200,7 @@ struct SMU7_Discrete_MemoryLevel
- 
- typedef struct SMU7_Discrete_MemoryLevel SMU7_Discrete_MemoryLevel;
- 
--struct SMU7_Discrete_LinkLevel
--{
-+struct SMU7_Discrete_LinkLevel {
-     uint8_t     PcieGenSpeed;
-     uint8_t     PcieLaneCount;
-     uint8_t     EnabledForActivity;
-@@ -220,8 +213,7 @@ struct SMU7_Discrete_LinkLevel
- typedef struct SMU7_Discrete_LinkLevel SMU7_Discrete_LinkLevel;
- 
- 
--struct SMU7_Discrete_MCArbDramTimingTableEntry
--{
-+struct SMU7_Discrete_MCArbDramTimingTableEntry {
-     uint32_t McArbDramTiming;
-     uint32_t McArbDramTiming2;
-     uint8_t  McArbBurstTime;
-@@ -230,15 +222,13 @@ struct SMU7_Discrete_MCArbDramTimingTableEntry
- 
- typedef struct SMU7_Discrete_MCArbDramTimingTableEntry SMU7_Discrete_MCArbDramTimingTableEntry;
- 
--struct SMU7_Discrete_MCArbDramTimingTable
--{
-+struct SMU7_Discrete_MCArbDramTimingTable {
-     SMU7_Discrete_MCArbDramTimingTableEntry entries[SMU__NUM_SCLK_DPM_STATE][SMU__NUM_MCLK_DPM_LEVELS];
- };
- 
- typedef struct SMU7_Discrete_MCArbDramTimingTable SMU7_Discrete_MCArbDramTimingTable;
- 
--struct SMU7_Discrete_UvdLevel
--{
-+struct SMU7_Discrete_UvdLevel {
-     uint32_t VclkFrequency;
-     uint32_t DclkFrequency;
-     uint16_t MinVddc;
-@@ -250,8 +240,7 @@ struct SMU7_Discrete_UvdLevel
- 
- typedef struct SMU7_Discrete_UvdLevel SMU7_Discrete_UvdLevel;
- 
--struct SMU7_Discrete_ExtClkLevel
--{
-+struct SMU7_Discrete_ExtClkLevel {
-     uint32_t Frequency;
-     uint16_t MinVoltage;
-     uint8_t  MinPhases;
-@@ -260,8 +249,7 @@ struct SMU7_Discrete_ExtClkLevel
- 
- typedef struct SMU7_Discrete_ExtClkLevel SMU7_Discrete_ExtClkLevel;
- 
--struct SMU7_Discrete_StateInfo
--{
-+struct SMU7_Discrete_StateInfo {
-     uint32_t SclkFrequency;
-     uint32_t MclkFrequency;
-     uint32_t VclkFrequency;
-@@ -285,8 +273,7 @@ struct SMU7_Discrete_StateInfo
- typedef struct SMU7_Discrete_StateInfo SMU7_Discrete_StateInfo;
- 
- 
--struct SMU7_Discrete_DpmTable
--{
-+struct SMU7_Discrete_DpmTable {
-     SMU7_PIDController                  GraphicsPIDController;
-     SMU7_PIDController                  MemoryPIDController;
-     SMU7_PIDController                  LinkPIDController;
-@@ -406,23 +393,20 @@ typedef struct SMU7_Discrete_DpmTable SMU7_Discrete_DpmTable;
- #define SMU7_DISCRETE_MC_REGISTER_ARRAY_SIZE 16
- #define SMU7_DISCRETE_MC_REGISTER_ARRAY_SET_COUNT SMU7_MAX_LEVELS_MEMORY
- 
--struct SMU7_Discrete_MCRegisterAddress
--{
-+struct SMU7_Discrete_MCRegisterAddress {
-     uint16_t s0;
-     uint16_t s1;
- };
- 
- typedef struct SMU7_Discrete_MCRegisterAddress SMU7_Discrete_MCRegisterAddress;
- 
--struct SMU7_Discrete_MCRegisterSet
--{
-+struct SMU7_Discrete_MCRegisterSet {
-     uint32_t value[SMU7_DISCRETE_MC_REGISTER_ARRAY_SIZE];
- };
- 
- typedef struct SMU7_Discrete_MCRegisterSet SMU7_Discrete_MCRegisterSet;
- 
--struct SMU7_Discrete_MCRegisters
--{
-+struct SMU7_Discrete_MCRegisters {
-     uint8_t                             last;
-     uint8_t                             reserved[3];
-     SMU7_Discrete_MCRegisterAddress     address[SMU7_DISCRETE_MC_REGISTER_ARRAY_SIZE];
-@@ -431,8 +415,7 @@ struct SMU7_Discrete_MCRegisters
- 
- typedef struct SMU7_Discrete_MCRegisters SMU7_Discrete_MCRegisters;
- 
--struct SMU7_Discrete_FanTable
--{
-+struct SMU7_Discrete_FanTable {
- 	uint16_t FdoMode;
- 	int16_t  TempMin;
- 	int16_t  TempMed;
--- 
-2.17.1
+Also, the change is made in cdv_intel_dp.c and not cdv_intel_dp.h. This
+seems to be wrong in most of the patches you sent.
 
+Please send these fixes as a series. That makes them easier to process.
+
+> Fix the following errors reported by checkpatch:
+> 
+> ERROR: else should follow close brace '}'
+> 
+> Signed-off-by: GuoHua Chen <chenguohua_716@163.com>
+> ---
+>  drivers/gpu/drm/gma500/cdv_intel_dp.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/gma500/cdv_intel_dp.c b/drivers/gpu/drm/gma500/cdv_intel_dp.c
+> index 27cfeb6b470f..135a1226df1a 100644
+> --- a/drivers/gpu/drm/gma500/cdv_intel_dp.c
+> +++ b/drivers/gpu/drm/gma500/cdv_intel_dp.c
+> @@ -735,7 +735,7 @@ cdv_intel_dp_aux_native_read(struct gma_encoder *encoder,
+>  		if ((ack & DP_AUX_NATIVE_REPLY_MASK) == DP_AUX_NATIVE_REPLY_ACK) {
+>  			memcpy(recv, reply + 1, ret - 1);
+>  			return ret - 1;
+> -		} else 
+> +		} else
+
+This doesn't apply. Not sure what happened here. You're removing a
+trailing space but the error in your description says you need to fix
+the style of an if-else statement.
+
+-Patrik
+
+>  			if ((ack & DP_AUX_NATIVE_REPLY_MASK) == DP_AUX_NATIVE_REPLY_DEFER)
+>  				udelay(100);
+>  			else
+> -- 
+> 2.17.1
+> 
