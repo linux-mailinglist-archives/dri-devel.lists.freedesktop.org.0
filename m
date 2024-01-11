@@ -1,60 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4196682A93B
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 09:41:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C23582A979
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 09:51:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86A3A10E18A;
-	Thu, 11 Jan 2024 08:41:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8DB810E83D;
+	Thu, 11 Jan 2024 08:50:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com
- [IPv6:2607:f8b0:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C6CF10E18A
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 08:41:48 +0000 (UTC)
-Received: by mail-il1-x12f.google.com with SMTP id
- e9e14a558f8ab-36086444066so16737055ab.0
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 00:41:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1704962507; x=1705567307;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=550c1yrOQXN+Snhrh37Aq0GIF7q37Rcv4r6FEQ4eDRQ=;
- b=UaShzq/YSFZTUHAq0th8UmM5FH6SOElGs14EB1GQlr8ypb9vNq1IcrHOrdLgpCeoNY
- fveZ1GyGlE+saL36uOEBFiySytlDQWJ/9nazfORgn/i8f3zI7k4MYuduBcrCR7W2cATU
- Z0skXuP434QApW6kFPo7dQx/qi5c3qyGhA03I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1704962507; x=1705567307;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=550c1yrOQXN+Snhrh37Aq0GIF7q37Rcv4r6FEQ4eDRQ=;
- b=Hl1vPsoRNTom5v+aC0ljzsqU2MynMRuubvvPbBtM8stB13yRFXfniL3NR6uU9uW0Wn
- r6azWhu6bRGHZ5RUc3KXdD0z0DT+qMuvIMu1Z5z5rKvwtcIGz1+utKgVSc+DpvzWeYNj
- hA8Oxt16KQkSxMofOaKLa0/cK6UoLWe/afq6bqhfH+9dNp+qJt5FiRGmj9ob5vDVQ5fS
- j15Gr2+0STZfv6enb0cVdkEtp/MMNgJwIFnUw4bB1h08IuHpJLLm8TmzkDOKq/8bIYjX
- Dw2/z3VfOVYp9w0miScG24qLgalqDE3tsvRHoeSa3PCFnC6vP94/ornyWnmZQtcIHoh/
- xROw==
-X-Gm-Message-State: AOJu0YyEM9d1bflUrgKYjgDzgQvg9eIkUOQ+Hl4lBcph3eiTkwUXf5Y0
- kMRv/g38elkPXj1kxfRmIctqEB+TATmu3lfSnSYmRhGSBCw4
-X-Google-Smtp-Source: AGHT+IGoQDk4Xq5HD8MNABwxXliiZ1oGRGwXzZh+kmQ1BlUspFy1LeHGjfH3tAoFUsSps6DNVMKizyc70ZZ28P9N6E8=
-X-Received: by 2002:a05:6e02:1bce:b0:360:6262:e31c with SMTP id
- x14-20020a056e021bce00b003606262e31cmr1174882ilv.14.1704962507445; Thu, 11
- Jan 2024 00:41:47 -0800 (PST)
-MIME-Version: 1.0
-References: <20240110200305.94086-1-zack.rusin@broadcom.com>
-In-Reply-To: <20240110200305.94086-1-zack.rusin@broadcom.com>
-From: Martin Krastev <martin.krastev@broadcom.com>
-Date: Thu, 11 Jan 2024 10:41:36 +0200
-Message-ID: <CAKLwHdXBdeftC4CxGdOqZ8yE=s5yUPemX8i0my-hjfqbNvkn=A@mail.gmail.com>
-Subject: Re: [PATCH] drm/vmwgfx: Fix possible null pointer derefence with
- invalid contexts
-To: Zack Rusin <zack.rusin@broadcom.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E8D1410E1A0;
+ Thu, 11 Jan 2024 08:44:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id; bh=4+7q/cJQbdUcZSZTlK
+ ekvnUhkesNVgHuK7d6AEfDCjc=; b=kZayJxopMkdN6Qt8rH2r17nSmtjnYpLfRw
+ JxXAv+IDWaOU6/6BXBDubESRja+oCuKjewSDZrfY+gd3Q1/VMdHUe0BTBg260CrZ
+ 42xWinMJixPuCeJG+teLqoID0onyjpmc5wgozXwUEOPnGd9rLIwsXv2uHvgGFYsK
+ ERmjvUMYc=
+Received: from localhost.localdomain (unknown [182.148.14.173])
+ by gzga-smtp-mta-g0-0 (Coremail) with SMTP id _____wD33_Qvqp9lvS6VAA--.55985S2;
+ Thu, 11 Jan 2024 16:43:27 +0800 (CST)
+From: GuoHua Chen <chenguohua_716@163.com>
+To: daniel@ffwll.ch, Xinhui.Pan@amd.com, alexander.deucher@amd.com,
+ airlied@gmail.com, christian.koenig@amd.com
+Subject: [PATCH] drm/radeon/ci_dpm: Clean up errors in ci_dpm.c
+Date: Thu, 11 Jan 2024 08:43:25 +0000
+Message-Id: <20240111084325.12499-1-chenguohua_716@163.com>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: _____wD33_Qvqp9lvS6VAA--.55985S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW3Gw4furWkKr47Wry5ZFW5ZFb_yoW7AF18pr
+ 4UurWvkrZYvFyYga15X3sFyF4F9r92v3yxua17Kw1S9395C348JF1rt3y7tF9xA340vFn0
+ vF1qkryUXFZ2vFUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UFdgAUUUUU=
+X-Originating-IP: [182.148.14.173]
+X-CM-SenderInfo: xfkh0w5xrk3tbbxrlqqrwthudrp/1tbiqBNi1mVOBlEJBwAAs9
+X-Mailman-Approved-At: Thu, 11 Jan 2024 08:50:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,125 +48,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Niels De Graef <ndegraef@redhat.com>, stable@vger.kernel.org,
- Ian Forbes <ian.forbes@broadcom.com>,
- Maaz Mombasawala <maaz.mombasawala@broadcom.com>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- dri-devel@lists.freedesktop.org
+Cc: GuoHua Chen <chenguohua_716@163.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 10, 2024 at 10:03=E2=80=AFPM Zack Rusin <zack.rusin@broadcom.co=
-m> wrote:
->
-> vmw_context_cotable can return either an error or a null pointer and its
-> usage sometimes went unchecked. Subsequent code would then try to access
-> either a null pointer or an error value.
->
-> The invalid dereferences were only possible with malformed userspace
-> apps which never properly initialized the rendering contexts.
->
-> Check the results of vmw_context_cotable to fix the invalid derefs.
->
-> Thanks:
-> ziming zhang(@ezrak1e) from Ant Group Light-Year Security Lab
-> who was the first person to discover it.
-> Niels De Graef who reported it and helped to track down the poc.
->
-> Fixes: 9c079b8ce8bf ("drm/vmwgfx: Adapt execbuf to the new validation api=
-")
-> Cc: <stable@vger.kernel.org> # v4.20+
-> Reported-by: Niels De Graef  <ndegraef@redhat.com>
-> Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
-> Cc: Martin Krastev <martin.krastev@broadcom.com>
-> Cc: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
-> Cc: Ian Forbes <ian.forbes@broadcom.com>
-> Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadc=
-om.com>
-> Cc: dri-devel@lists.freedesktop.org
-> ---
->  drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c | 14 +++++++++++---
->  1 file changed, 11 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vm=
-wgfx/vmwgfx_execbuf.c
-> index 272141b6164c..4f09959d27ba 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-> @@ -447,7 +447,7 @@ static int vmw_resource_context_res_add(struct vmw_pr=
-ivate *dev_priv,
->             vmw_res_type(ctx) =3D=3D vmw_res_dx_context) {
->                 for (i =3D 0; i < cotable_max; ++i) {
->                         res =3D vmw_context_cotable(ctx, i);
-> -                       if (IS_ERR(res))
-> +                       if (IS_ERR_OR_NULL(res))
->                                 continue;
->
->                         ret =3D vmw_execbuf_res_val_add(sw_context, res,
-> @@ -1266,6 +1266,8 @@ static int vmw_cmd_dx_define_query(struct vmw_priva=
-te *dev_priv,
->                 return -EINVAL;
->
->         cotable_res =3D vmw_context_cotable(ctx_node->ctx, SVGA_COTABLE_D=
-XQUERY);
-> +       if (IS_ERR_OR_NULL(cotable_res))
-> +               return cotable_res ? PTR_ERR(cotable_res) : -EINVAL;
->         ret =3D vmw_cotable_notify(cotable_res, cmd->body.queryId);
->
->         return ret;
-> @@ -2484,6 +2486,8 @@ static int vmw_cmd_dx_view_define(struct vmw_privat=
-e *dev_priv,
->                 return ret;
->
->         res =3D vmw_context_cotable(ctx_node->ctx, vmw_view_cotables[view=
-_type]);
-> +       if (IS_ERR_OR_NULL(res))
-> +               return res ? PTR_ERR(res) : -EINVAL;
->         ret =3D vmw_cotable_notify(res, cmd->defined_id);
->         if (unlikely(ret !=3D 0))
->                 return ret;
-> @@ -2569,8 +2573,8 @@ static int vmw_cmd_dx_so_define(struct vmw_private =
-*dev_priv,
->
->         so_type =3D vmw_so_cmd_to_type(header->id);
->         res =3D vmw_context_cotable(ctx_node->ctx, vmw_so_cotables[so_typ=
-e]);
-> -       if (IS_ERR(res))
-> -               return PTR_ERR(res);
-> +       if (IS_ERR_OR_NULL(res))
-> +               return res ? PTR_ERR(res) : -EINVAL;
->         cmd =3D container_of(header, typeof(*cmd), header);
->         ret =3D vmw_cotable_notify(res, cmd->defined_id);
->
-> @@ -2689,6 +2693,8 @@ static int vmw_cmd_dx_define_shader(struct vmw_priv=
-ate *dev_priv,
->                 return -EINVAL;
->
->         res =3D vmw_context_cotable(ctx_node->ctx, SVGA_COTABLE_DXSHADER)=
-;
-> +       if (IS_ERR_OR_NULL(res))
-> +               return res ? PTR_ERR(res) : -EINVAL;
->         ret =3D vmw_cotable_notify(res, cmd->body.shaderId);
->         if (ret)
->                 return ret;
-> @@ -3010,6 +3016,8 @@ static int vmw_cmd_dx_define_streamoutput(struct vm=
-w_private *dev_priv,
->         }
->
->         res =3D vmw_context_cotable(ctx_node->ctx, SVGA_COTABLE_STREAMOUT=
-PUT);
-> +       if (IS_ERR_OR_NULL(res))
-> +               return res ? PTR_ERR(res) : -EINVAL;
->         ret =3D vmw_cotable_notify(res, cmd->body.soid);
->         if (ret)
->                 return ret;
-> --
-> 2.40.1
->
+Fix the following errors reported by checkpatch:
 
-LGTM
+ERROR: that open brace { should be on the previous line
+ERROR: need consistent spacing around '-' (ctx:WxV)
+ERROR: space required before the open parenthesis '('
+ERROR: "foo* bar" should be "foo *bar"
 
-Reviewed-by: Martin Krastev <martin.krastev@broadcom.com>
+Signed-off-by: GuoHua Chen <chenguohua_716@163.com>
+---
+ drivers/gpu/drm/radeon/ci_dpm.c | 31 +++++++++++++------------------
+ 1 file changed, 13 insertions(+), 18 deletions(-)
 
-Regards,
-Martin
+diff --git a/drivers/gpu/drm/radeon/ci_dpm.c b/drivers/gpu/drm/radeon/ci_dpm.c
+index b8f4dac68d85..abe9d65cc460 100644
+--- a/drivers/gpu/drm/radeon/ci_dpm.c
++++ b/drivers/gpu/drm/radeon/ci_dpm.c
+@@ -46,36 +46,31 @@
+ #define VOLTAGE_VID_OFFSET_SCALE1    625
+ #define VOLTAGE_VID_OFFSET_SCALE2    100
+ 
+-static const struct ci_pt_defaults defaults_hawaii_xt =
+-{
++static const struct ci_pt_defaults defaults_hawaii_xt = {
+ 	1, 0xF, 0xFD, 0x19, 5, 0x14, 0, 0xB0000,
+ 	{ 0x2E,  0x00,  0x00,  0x88,  0x00,  0x00,  0x72,  0x60,  0x51,  0xA7,  0x79,  0x6B,  0x90,  0xBD,  0x79  },
+ 	{ 0x217, 0x217, 0x217, 0x242, 0x242, 0x242, 0x269, 0x269, 0x269, 0x2A1, 0x2A1, 0x2A1, 0x2C9, 0x2C9, 0x2C9 }
+ };
+ 
+-static const struct ci_pt_defaults defaults_hawaii_pro =
+-{
++static const struct ci_pt_defaults defaults_hawaii_pro = {
+ 	1, 0xF, 0xFD, 0x19, 5, 0x14, 0, 0x65062,
+ 	{ 0x2E,  0x00,  0x00,  0x88,  0x00,  0x00,  0x72,  0x60,  0x51,  0xA7,  0x79,  0x6B,  0x90,  0xBD,  0x79  },
+ 	{ 0x217, 0x217, 0x217, 0x242, 0x242, 0x242, 0x269, 0x269, 0x269, 0x2A1, 0x2A1, 0x2A1, 0x2C9, 0x2C9, 0x2C9 }
+ };
+ 
+-static const struct ci_pt_defaults defaults_bonaire_xt =
+-{
++static const struct ci_pt_defaults defaults_bonaire_xt = {
+ 	1, 0xF, 0xFD, 0x19, 5, 45, 0, 0xB0000,
+ 	{ 0x79,  0x253, 0x25D, 0xAE,  0x72,  0x80,  0x83,  0x86,  0x6F,  0xC8,  0xC9,  0xC9,  0x2F,  0x4D,  0x61  },
+ 	{ 0x17C, 0x172, 0x180, 0x1BC, 0x1B3, 0x1BD, 0x206, 0x200, 0x203, 0x25D, 0x25A, 0x255, 0x2C3, 0x2C5, 0x2B4 }
+ };
+ 
+-static const struct ci_pt_defaults defaults_saturn_xt =
+-{
++static const struct ci_pt_defaults defaults_saturn_xt = {
+ 	1, 0xF, 0xFD, 0x19, 5, 55, 0, 0x70000,
+ 	{ 0x8C,  0x247, 0x249, 0xA6,  0x80,  0x81,  0x8B,  0x89,  0x86,  0xC9,  0xCA,  0xC9,  0x4D,  0x4D,  0x4D  },
+ 	{ 0x187, 0x187, 0x187, 0x1C7, 0x1C7, 0x1C7, 0x210, 0x210, 0x210, 0x266, 0x266, 0x266, 0x2C9, 0x2C9, 0x2C9 }
+ };
+ 
+-static const struct ci_pt_config_reg didt_config_ci[] =
+-{
++static const struct ci_pt_config_reg didt_config_ci[] = {
+ 	{ 0x10, 0x000000ff, 0, 0x0, CISLANDS_CONFIGREG_DIDT_IND },
+ 	{ 0x10, 0x0000ff00, 8, 0x0, CISLANDS_CONFIGREG_DIDT_IND },
+ 	{ 0x10, 0x00ff0000, 16, 0x0, CISLANDS_CONFIGREG_DIDT_IND },
+@@ -1216,7 +1211,7 @@ static void ci_thermal_initialize(struct radeon_device *rdev)
+ 
+ 	if (rdev->pm.fan_pulses_per_revolution) {
+ 		tmp = RREG32_SMC(CG_TACH_CTRL) & ~EDGE_PER_REV_MASK;
+-		tmp |= EDGE_PER_REV(rdev->pm.fan_pulses_per_revolution -1);
++		tmp |= EDGE_PER_REV(rdev->pm.fan_pulses_per_revolution - 1);
+ 		WREG32_SMC(CG_TACH_CTRL, tmp);
+ 	}
+ 
+@@ -3333,7 +3328,7 @@ static int ci_populate_all_memory_levels(struct radeon_device *rdev)
+ }
+ 
+ static void ci_reset_single_dpm_table(struct radeon_device *rdev,
+-				      struct ci_single_dpm_table* dpm_table,
++				      struct ci_single_dpm_table *dpm_table,
+ 				      u32 count)
+ {
+ 	u32 i;
+@@ -3343,7 +3338,7 @@ static void ci_reset_single_dpm_table(struct radeon_device *rdev,
+ 		dpm_table->dpm_levels[i].enabled = false;
+ }
+ 
+-static void ci_setup_pcie_table_entry(struct ci_single_dpm_table* dpm_table,
++static void ci_setup_pcie_table_entry(struct ci_single_dpm_table *dpm_table,
+ 				      u32 index, u32 pcie_gen, u32 pcie_lanes)
+ {
+ 	dpm_table->dpm_levels[index].value = pcie_gen;
+@@ -3503,7 +3498,7 @@ static int ci_find_boot_level(struct ci_single_dpm_table *table,
+ 	u32 i;
+ 	int ret = -EINVAL;
+ 
+-	for(i = 0; i < table->count; i++) {
++	for (i = 0; i < table->count; i++) {
+ 		if (value == table->dpm_levels[i].value) {
+ 			*boot_level = i;
+ 			ret = 0;
+@@ -4304,7 +4299,7 @@ static int ci_set_mc_special_registers(struct radeon_device *rdev,
+ 	for (i = 0, j = table->last; i < table->last; i++) {
+ 		if (j >= SMU7_DISCRETE_MC_REGISTER_ARRAY_SIZE)
+ 			return -EINVAL;
+-		switch(table->mc_reg_address[i].s1 << 2) {
++		switch (table->mc_reg_address[i].s1 << 2) {
+ 		case MC_SEQ_MISC1:
+ 			temp_reg = RREG32(MC_PMG_CMD_EMRS);
+ 			table->mc_reg_address[j].s1 = MC_PMG_CMD_EMRS >> 2;
+@@ -4369,7 +4364,7 @@ static bool ci_check_s0_mc_reg_index(u16 in_reg, u16 *out_reg)
+ {
+ 	bool result = true;
+ 
+-	switch(in_reg) {
++	switch (in_reg) {
+ 	case MC_SEQ_RAS_TIMING >> 2:
+ 		*out_reg = MC_SEQ_RAS_TIMING_LP >> 2;
+ 		break;
+@@ -4508,7 +4503,7 @@ static int ci_register_patching_mc_seq(struct radeon_device *rdev,
+ 		for (i = 0; i < table->last; i++) {
+ 			if (table->last >= SMU7_DISCRETE_MC_REGISTER_ARRAY_SIZE)
+ 				return -EINVAL;
+-			switch(table->mc_reg_address[i].s1 >> 2) {
++			switch (table->mc_reg_address[i].s1 >> 2) {
+ 			case MC_SEQ_MISC1:
+ 				for (k = 0; k < table->num_entries; k++) {
+ 					if ((table->mc_reg_table_entry[k].mclk_max == 125000) ||
+@@ -4683,7 +4678,7 @@ static void ci_convert_mc_reg_table_entry_to_smc(struct radeon_device *rdev,
+ 	struct ci_power_info *pi = ci_get_pi(rdev);
+ 	u32 i = 0;
+ 
+-	for(i = 0; i < pi->mc_reg_table.num_entries; i++) {
++	for (i = 0; i < pi->mc_reg_table.num_entries; i++) {
+ 		if (memory_clock <= pi->mc_reg_table.mc_reg_table_entry[i].mclk_max)
+ 			break;
+ 	}
+-- 
+2.17.1
+
