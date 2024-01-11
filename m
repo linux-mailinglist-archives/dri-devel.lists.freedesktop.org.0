@@ -2,51 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C451382AB6F
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 10:59:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C37A82AB7C
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 11:02:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22B1110E86E;
-	Thu, 11 Jan 2024 09:59:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47C6C10E0D1;
+	Thu, 11 Jan 2024 10:02:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD3AE10E86E
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 09:59:36 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A6DB10E0D1
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 10:02:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1704967177; x=1736503177;
+ t=1704967329; x=1736503329;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version;
- bh=wWtjtpvLpCpNq6v6WPPTrwuiaHZ9+Yn/ZZKrzAQXEDo=;
- b=XYDiGKcnNutdLGi4OZPb2N/dnzrmfFYD570fsPl3jzDXnlGPCWwHkt42
- 7ROI9med6L8rJL5hfYeMs/1N50k0KimkmfAXjXpagYKcXfWkLDceRmP6a
- sBamzBB+4sLCFxb7hVbgk8GlgotWYjXHCsqPBe6CaabpjExQy5eR2/XRs
- 862/qyqpq1PzrgBNX+FXxRJ6T4pyqMxko9pvQQuQkNj0NqaQE4UIK+2rB
- 4JLFL6KHCLeKiAFJuyajq9HoOHVDxlTT6/FsFR+GoIkZA8tMWyYEC0AmL
- Ju8FRrL2PjOBUZXaspzH07+rjSenr0hXcsFFut6PyNYcXbtKbmrc9LfeG Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="5530918"
-X-IronPort-AV: E=Sophos;i="6.04,185,1695711600"; 
-   d="scan'208";a="5530918"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jan 2024 01:59:28 -0800
+ bh=HnlymRMYb6iBEZkAa/8e5vTHfW9TBEzgwzS94R+//1Y=;
+ b=Z7H+5z8qpdxlgEE/lzF8ufggRZscn7Jh/l45/ko2RxT8jG1UcMTgBDE5
+ OcCNzrXo9EknS9yFHg7YNnDwJXHFoiCTcHXPqsAGI2RhSw01ob+2ue2eL
+ +QzUVZN5dloWK9cU/TZa3QcsblLi+Ge1Q8MHckNU64w+jOGo6vIJ4YNvd
+ XzspW0+Y+t+OdXvqOuq7KN2KzqdVWd0FAWrlDwebJpe+W70kYvf2I8bvq
+ J0SmQrpxMvLBQiLfoevrHYh3dXspJUDrn3/zP/bjLtZD5q1/f+yUV2ELN
+ L0XjRQP2zjFd1eTWfDGtHQ/ArQwdtZNzFrW1LbidlCU8liG3dPRWGIbxV w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="12157040"
+X-IronPort-AV: E=Sophos;i="6.04,185,1695711600"; d="scan'208";a="12157040"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jan 2024 02:02:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="782568762"
-X-IronPort-AV: E=Sophos;i="6.04,185,1695711600"; d="scan'208";a="782568762"
+X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="1029485678"
+X-IronPort-AV: E=Sophos;i="6.04,185,1695711600"; d="scan'208";a="1029485678"
 Received: from gaertgee-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.54.206])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jan 2024 01:59:24 -0800
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jan 2024 02:02:05 -0800
 From: Jani Nikula <jani.nikula@linux.intel.com>
-To: chenxuebing <chenxb_99091@126.com>, airlied@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, daniel@ffwll.ch,
- tzimmermann@suse.de
-Subject: Re: [PATCH] drm: Clean up errors in drm_dp_mst_topology.h
-In-Reply-To: <20240111064245.8789-1-chenxb_99091@126.com>
+To: chenxuebing <chenxb_99091@126.com>, daniel@ffwll.ch, airlied@gmail.com,
+ mripard@kernel.org, maarten.lankhorst@linux.intel.com, tzimmermann@suse.de
+Subject: Re: [PATCH] drm/edid: Clean up errors in drm_edid.h
+In-Reply-To: <20240111063921.8701-1-chenxb_99091@126.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240111064245.8789-1-chenxb_99091@126.com>
-Date: Thu, 11 Jan 2024 11:59:21 +0200
-Message-ID: <875y00ur5y.fsf@intel.com>
+References: <20240111063921.8701-1-chenxb_99091@126.com>
+Date: Thu, 11 Jan 2024 12:02:03 +0200
+Message-ID: <8734v4ur1g.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,51 +67,29 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Thu, 11 Jan 2024, chenxuebing <chenxb_99091@126.com> wrote:
 > Fix the following errors reported by checkpatch:
 >
-> ERROR: space prohibited before open square bracket '['
-
-Same here, checkpatch just isn't clever enough to realize it's within a
-macro.
-
-BR,
-Jani.
-
+> ERROR: do not use assignment in if condition
 >
 > Signed-off-by: chenxuebing <chenxb_99091@126.com>
+
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+
 > ---
->  drivers/gpu/drm/display/drm_dp_mst_topology.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/drm_edid.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> index bd6c24d4213c..a4a24ec11b80 100644
-> --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> @@ -100,7 +100,7 @@ static bool drm_dp_mst_port_downstream_of_branch(struct drm_dp_mst_port *port,
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index 69c68804023f..9bcaf76f10fc 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -3611,7 +3611,8 @@ static bool mode_in_range(const struct drm_display_mode *mode,
+>  	if (!mode_in_vsync_range(mode, edid, t))
+>  		return false;
 >  
->  #define DBG_PREFIX "[dp_mst]"
->  
-> -#define DP_STR(x) [DP_ ## x] = #x
-> +#define DP_STR(x)[DP_ ## x] = #x
->  
->  static const char *drm_dp_mst_req_type_str(u8 req_type)
->  {
-> @@ -131,7 +131,7 @@ static const char *drm_dp_mst_req_type_str(u8 req_type)
->  }
->  
->  #undef DP_STR
-> -#define DP_STR(x) [DP_NAK_ ## x] = #x
-> +#define DP_STR(x)[DP_NAK_ ## x] = #x
->  
->  static const char *drm_dp_mst_nak_reason_str(u8 nak_reason)
->  {
-> @@ -156,7 +156,7 @@ static const char *drm_dp_mst_nak_reason_str(u8 nak_reason)
->  }
->  
->  #undef DP_STR
-> -#define DP_STR(x) [DRM_DP_SIDEBAND_TX_ ## x] = #x
-> +#define DP_STR(x)[DRM_DP_SIDEBAND_TX_ ## x] = #x
->  
->  static const char *drm_dp_mst_sideband_tx_state_str(int state)
->  {
+> -	if ((max_clock = range_pixel_clock(edid, t)))
+> +	max_clock = range_pixel_clock(edid, t);
+> +	if (max_clock)
+>  		if (mode->clock > max_clock)
+>  			return false;
 
 -- 
 Jani Nikula, Intel
