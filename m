@@ -2,55 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDCD482B12D
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 15:59:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6BE582B12E
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jan 2024 15:59:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CF3E10E941;
-	Thu, 11 Jan 2024 14:59:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB18310E1D2;
+	Thu, 11 Jan 2024 14:59:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 219ED10E96C
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 14:59:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ggAhDQaqSSXS+RFUeCNyRkjVtZ1US5Ev8orbx1i1DT4=; b=J0sq/Om6DRGM2gHv6yDorXySW3
- SuHGW2TsL6y2nUqQ83nB4Pq8eAdYlDgOqZk5lK7A6JPM7KzcBwR6LaXPFAWDVIF3pzf1xsZ0NE2KU
- /84r0C6fbHx3rVajaPuy6Qo8L90IokDn/6AW35qaTmgn1HGJ+mJICgIgHoozw9Ycn/zapjinGVr+K
- dViXwtzPuUZGOFGph06r/RhXVfG2caiZboxhCTKtmsIN+SJEe5XGbxbrL3NZXrvN4GDuUW9SbxT2a
- MTUB2SGwZ1bVU2EpqdjYDYP69q5VYoaGNaKIutp9jmP16pLa23fWm9HmKh+NpkH499ObU1RhzSHok
- 6aYsHvcA==;
-Received: from [179.234.233.159] (helo=[192.168.1.212])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1rNwWW-005Qws-Lr; Thu, 11 Jan 2024 15:59:12 +0100
-Message-ID: <1fa320f7-d37e-4820-a93a-99623fb9d938@igalia.com>
-Date: Thu, 11 Jan 2024 11:59:08 -0300
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E388710E1D2
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jan 2024 14:59:31 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 1011D61AC4;
+ Thu, 11 Jan 2024 14:59:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F65AC43390;
+ Thu, 11 Jan 2024 14:59:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1704985170;
+ bh=obzljcLiJ4GpVaa5SSKo4cJxW9OvkYGDmnjlyQfIlZI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=nHYalyDOvAOPCXFghAM1koa8SyyhhJbx2NS7oaSccjGMgH7hd8K6PgCbgUYNNxNlV
+ RmGKdU8H/qelbOpHbdK6lY3z94gtQDkXFLwmXpIo6se2QKdb2/eJHuEYRWwCvqRZqz
+ d6c/2VhyfKTHc2AOeMEj2o2oEeAhfzNCGN+6T/O6RApd1aGtGh6rdqf/jl/505e4yX
+ 2vkmubzDVpwuYZ5TSUe6C8cnpmoESUorVaftbQJbcjgGD8ONaUd6KceQOl+dy+Jwil
+ R5sfhQjmbOfzkWmuihvw8I2rFw5SlSma30PRhfosHts/KPzeyEknOc/usqeCbKIhN0
+ 6Aj8MjPf72M2w==
+Date: Thu, 11 Jan 2024 08:59:28 -0600
+From: Rob Herring <robh@kernel.org>
+To: Conor Dooley <conor@kernel.org>
+Subject: Re: [DO NOT MERGE v6 26/37] dt-bindings: vendor-prefixes: Add smi
+Message-ID: <20240111145928.GA538344-robh@kernel.org>
+References: <cover.1704788539.git.ysato@users.sourceforge.jp>
+ <c8aaf67e3fcdb7e60632c53a784691aabfc7733e.1704788539.git.ysato@users.sourceforge.jp>
+ <20240109-fructose-bundle-05d01033277b@spud>
+ <CAMuHMdU1z64QHJOVd3jUsOfyuDApB1+khkUV8PvjoKbwsi327g@mail.gmail.com>
+ <20240110-sincere-tripod-9d34175fcbce@spud>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/v3d: Show the memory-management stats on debugfs
-Content-Language: en-US
-To: Melissa Wen <mwen@igalia.com>
-References: <20240105145851.193492-1-mcanal@igalia.com>
- <raexpawp3v2tpyw7gwnxb6ijmohaw62odyspjigbulddny57ga@7mjwwheh5zca>
-From: Maira Canal <mcanal@igalia.com>
-Autocrypt: addr=mcanal@igalia.com; keydata=
- xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
- H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
- hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
- GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
- rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
- s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
- GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
- pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
-In-Reply-To: <raexpawp3v2tpyw7gwnxb6ijmohaw62odyspjigbulddny57ga@7mjwwheh5zca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240110-sincere-tripod-9d34175fcbce@spud>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,64 +54,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-dev@igalia.com, Thomas Zimmermann <tzimmermann@suse.de>,
- Maxime Ripard <mripard@kernel.org>, Iago Toral <itoral@igalia.com>,
- dri-devel@lists.freedesktop.org
+Cc: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+ linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
+ Bin Meng <bmeng@tinylab.org>, Michael Turquette <mturquette@baylibre.com>,
+ linux-pci@vger.kernel.org, Jacky Huang <ychuang3@nuvoton.com>,
+ Palmer Dabbelt <palmer@rivosinc.com>, linux-kernel@vger.kernel.org,
+ Max Filippov <jcmvbkbc@gmail.com>, Lee Jones <lee@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Hyeonggon Yoo <42.hyeyoo@gmail.com>, Jiri Slaby <jirislaby@kernel.org>,
+ linux-clk@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Jonathan Corbet <corbet@lwn.net>,
+ Helge Deller <deller@gmx.de>, Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, linux-serial@vger.kernel.org,
+ David Rientjes <rientjes@google.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ Maxime Ripard <mripard@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Damien Le Moal <dlemoal@kernel.org>, dri-devel@lists.freedesktop.org,
+ Chris Morgan <macromorgan@hotmail.com>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Vlastimil Babka <vbabka@suse.cz>, Yang Xiwen <forbidden405@foxmail.com>,
+ Sergey Shtylyov <s.shtylyov@omp.ru>, Baoquan He <bhe@redhat.com>,
+ linux-ide@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Biju Das <biju.das.jz@bp.renesas.com>,
+ Sebastian Reichel <sre@kernel.org>, Azeem Shaikh <azeemshaikh38@gmail.com>,
+ linux-renesas-soc@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>,
+ Andrew Morton <akpm@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/5/24 12:32, Melissa Wen wrote:
-> On 01/05, Maíra Canal wrote:
->> Dump the contents of the DRM MM allocator of the V3D driver. This will
->> help us to debug the VA ranges allocated.
->>
->> Signed-off-by: Maíra Canal <mcanal@igalia.com>
->> ---
->>   drivers/gpu/drm/v3d/v3d_debugfs.c | 15 +++++++++++++++
->>   1 file changed, 15 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/v3d/v3d_debugfs.c b/drivers/gpu/drm/v3d/v3d_debugfs.c
->> index f843a50d5dce..cdfe1d3bf5ee 100644
->> --- a/drivers/gpu/drm/v3d/v3d_debugfs.c
->> +++ b/drivers/gpu/drm/v3d/v3d_debugfs.c
->> @@ -260,11 +260,26 @@ static int v3d_measure_clock(struct seq_file *m, void *unused)
->>   	return 0;
->>   }
->>
->> +static int v3d_debugfs_mm(struct seq_file *m, void *unused)
->> +{
->> +	struct drm_printer p = drm_seq_file_printer(m);
->> +	struct drm_debugfs_entry *entry = m->private;
->> +	struct drm_device *dev = entry->dev;
->> +	struct v3d_dev *v3d = to_v3d_dev(dev);
->> +
->> +	spin_lock(&v3d->mm_lock);
->> +	drm_mm_print(&v3d->mm, &p);
->> +	spin_unlock(&v3d->mm_lock);
->> +
->> +	return 0;
->> +}
+On Wed, Jan 10, 2024 at 04:11:44PM +0000, Conor Dooley wrote:
+> On Wed, Jan 10, 2024 at 12:23:37PM +0100, Geert Uytterhoeven wrote:
+> > Hi Conor,
+> > 
+> > On Tue, Jan 9, 2024 at 7:06 PM Conor Dooley <conor@kernel.org> wrote:
+> > > On Tue, Jan 09, 2024 at 05:23:23PM +0900, Yoshinori Sato wrote:
+> > > > Add Silicon Mortion Technology Corporation
+> > 
+> > Motion
+> > 
+> > > > https://www.siliconmotion.com/
+> > > >
+> > > > Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+> > > > ---
+> > > >  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+> > > >  1 file changed, 2 insertions(+)
+> > > >
+> > > > diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> > > > index 94ed63d9f7de..a338bdd743ab 100644
+> > > > --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> > > > +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> > > > @@ -1283,6 +1283,8 @@ patternProperties:
+> > > >      description: Skyworks Solutions, Inc.
+> > > >    "^smartlabs,.*":
+> > > >      description: SmartLabs LLC
+> > > > +  "^smi,.*":
+> > > > +    description: Silicon Motion Technology Corporation
+> > >
+> > > How come "smi" is used for a company with this name?
+> > > Why is it not something like SMTC? There's probably some history here
+> > > that I am unaware of.
+> > 
+> > See Documentation/devicetree/bindings/display/sm501fb.txt
+> > The stock ticker is "SIMO", though.
+> > https://www.nasdaq.com/market-activity/stocks/simo
 > 
-> LGTM.
-> 
-> Reviewed-by: Melissa Wen <mwen@igalia.com>
+> If there's an existing user, there's little reason to stand in the way I
+> think.
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-Pushed to drm-misc/drm-misc-next!
+Or reason not to apply, so I'm applying this.
 
-Best Regards,
-- Maíra
+BTW, 'RFC' is the standard way to say 'DO NOT MERGE'.
 
-> 
->> +
->>   static const struct drm_debugfs_info v3d_debugfs_list[] = {
->>   	{"v3d_ident", v3d_v3d_debugfs_ident, 0},
->>   	{"v3d_regs", v3d_v3d_debugfs_regs, 0},
->>   	{"measure_clock", v3d_measure_clock, 0},
->>   	{"bo_stats", v3d_debugfs_bo_stats, 0},
->> +	{"v3d_mm", v3d_debugfs_mm, 0},
->>   };
->>
->>   void
->> --
->> 2.43.0
->>
+Rob
