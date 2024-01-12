@@ -2,49 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FD3B82C3EF
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 17:50:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A52182C3F3
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 17:50:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9646310E125;
-	Fri, 12 Jan 2024 16:50:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3044610E128;
+	Fri, 12 Jan 2024 16:50:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0A8C10E0CB;
- Fri, 12 Jan 2024 16:50:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8374D10E10F;
+ Fri, 12 Jan 2024 16:50:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1705078211; x=1736614211;
+ t=1705078217; x=1736614217;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=nifqKiDfFO+liY3Ml1I1zDRExYkmjtBY13GnYwpbdM8=;
- b=jO0uaQgRooGK9zrXPA8b7frY8Z8G0zwhmCwBDhRWD2kU+wwd09/yNX1U
- po5egDX8+eC1tfjeidnGDv9yI2imBIzHuG24qPVimnB7TWL4QX1PtH0rq
- XHhY5am8VtcPjsrRKoRgy+1QUvXzSeubQsiub3QlYmDKI6f0CpjemJhNj
- OYVE1896Zd7aH0W33ApEf+8dtADplqZ8djo/V+llDYsqyO7kbnVND31dQ
- 7cFmR80fPO4strnMtYYuMcGied1hrt67IplBVcGl57wko2B9rpbaY66M+
- cetoTJCmiBBTBBOllxqzrPOLnuYKtYOmkWVvXyRiB/8IFzTo4vqKo3J5O A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10951"; a="12583269"
-X-IronPort-AV: E=Sophos;i="6.04,190,1695711600"; d="scan'208";a="12583269"
+ bh=6Oz/lIdi/PqeRNXBpQJDPBiqV0EdZoRAVZhtXLiJMrw=;
+ b=KGUEUHCe5ce2k6Td9zURsqbmzgkllS8ZLOGae8r8/ruD7l3L7bARnaze
+ xnmBeX93VJygZcFnd7Lmuv7VXtuBmcHLnTPUl8owmrGZoIX9RIBYOxIz2
+ Wt5kNc8rh2Rfu5GTPK/AOA/2+r/uw4lJoUwPeCNjKrfRG3HEsY6GA+21c
+ pjYA33BT/FQJXaSVVe+mHUedHWIKzL7dz1yqVfCWkusyvLlc49k2kYEpz
+ cDrCmHBMJziawoFpOD9cBFzem3HuSXt8+itEhFC9CmmIMJVqznDomvGLB
+ 8mu91xu0MhPsE8MWXlVYMiWEADlpuRg8xJ9gVoeYLWVSGsth7UfwmmqDM w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10951"; a="12583282"
+X-IronPort-AV: E=Sophos;i="6.04,190,1695711600"; d="scan'208";a="12583282"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jan 2024 08:50:11 -0800
+ 12 Jan 2024 08:50:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10951"; a="776044178"
-X-IronPort-AV: E=Sophos;i="6.04,190,1695711600"; d="scan'208";a="776044178"
+X-IronPort-AV: E=McAfee;i="6600,9927,10951"; a="776044186"
+X-IronPort-AV: E=Sophos;i="6.04,190,1695711600"; d="scan'208";a="776044186"
 Received: from tsenx-mobl.ger.corp.intel.com (HELO localhost) ([10.252.38.158])
  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jan 2024 08:50:08 -0800
+ 12 Jan 2024 08:50:13 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/6] drm/nouveau: convert to using is_hdmi and has_audio from
+Subject: [PATCH 2/6] drm/radeon: convert to using is_hdmi and has_audio from
  display info
-Date: Fri, 12 Jan 2024 18:49:53 +0200
-Message-Id: <924db0d9debec057fe15e820bc470a966a3401b0.1705078136.git.jani.nikula@intel.com>
+Date: Fri, 12 Jan 2024 18:49:54 +0200
+Message-Id: <2668b2904f5d781b2e354a932fe76e632448919b.1705078136.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1705078136.git.jani.nikula@intel.com>
 References: <cover.1705078136.git.jani.nikula@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -59,8 +60,11 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, Danilo Krummrich <dakr@redhat.com>,
- Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org
+Cc: jani.nikula@intel.com, Xinhui <Xinhui.Pan@amd.com>,
+	amd-gfx@lists.freedesktop.org,
+	Alex Deucher <alexander.deucher@amd.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Pan@freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -68,100 +72,215 @@ Prefer the parsed results for is_hdmi and has_audio in display info over
 calling drm_detect_hdmi_monitor() and drm_detect_monitor_audio(),
 respectively.
 
-Conveniently, this also removes the need to use edid_blob_ptr.
-
-Cc: Karol Herbst <kherbst@redhat.com>
-Cc: Lyude Paul <lyude@redhat.com>
-Cc: Danilo Krummrich <dakr@redhat.com>
-Cc: nouveau@lists.freedesktop.org
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Pan, Xinhui <Xinhui.Pan@amd.com>
+Cc: amd-gfx@lists.freedesktop.org
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/nouveau/dispnv50/disp.c     | 8 ++++----
- drivers/gpu/drm/nouveau/dispnv50/head.c     | 8 +-------
- drivers/gpu/drm/nouveau/nouveau_connector.c | 2 +-
- 3 files changed, 6 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/radeon/atombios_encoders.c | 10 +++++-----
+ drivers/gpu/drm/radeon/evergreen_hdmi.c    |  5 ++---
+ drivers/gpu/drm/radeon/radeon_audio.c      |  6 +++---
+ drivers/gpu/drm/radeon/radeon_connectors.c | 12 ++++++------
+ drivers/gpu/drm/radeon/radeon_display.c    |  2 +-
+ drivers/gpu/drm/radeon/radeon_encoders.c   |  4 ++--
+ 6 files changed, 19 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-index 8d37a694b772..908b1042669c 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-@@ -750,7 +750,7 @@ nv50_audio_enable(struct drm_encoder *encoder, struct nouveau_crtc *nv_crtc,
- 	struct nouveau_encoder *nv_encoder = nouveau_encoder(encoder);
- 	struct nvif_outp *outp = &nv_encoder->outp;
+diff --git a/drivers/gpu/drm/radeon/atombios_encoders.c b/drivers/gpu/drm/radeon/atombios_encoders.c
+index 6e537c5bd295..386fd5f0a762 100644
+--- a/drivers/gpu/drm/radeon/atombios_encoders.c
++++ b/drivers/gpu/drm/radeon/atombios_encoders.c
+@@ -701,7 +701,7 @@ atombios_get_encoder_mode(struct drm_encoder *encoder)
+ 			if (radeon_connector->use_digital &&
+ 			    (radeon_connector->audio == RADEON_AUDIO_ENABLE))
+ 				return ATOM_ENCODER_MODE_HDMI;
+-			else if (drm_detect_hdmi_monitor(radeon_connector_edid(connector)) &&
++			else if (connector->display_info.is_hdmi &&
+ 				 (radeon_connector->audio == RADEON_AUDIO_AUTO))
+ 				return ATOM_ENCODER_MODE_HDMI;
+ 			else if (radeon_connector->use_digital)
+@@ -720,7 +720,7 @@ atombios_get_encoder_mode(struct drm_encoder *encoder)
+ 		if (radeon_audio != 0) {
+ 			if (radeon_connector->audio == RADEON_AUDIO_ENABLE)
+ 				return ATOM_ENCODER_MODE_HDMI;
+-			else if (drm_detect_hdmi_monitor(radeon_connector_edid(connector)) &&
++			else if (connector->display_info.is_hdmi &&
+ 				 (radeon_connector->audio == RADEON_AUDIO_AUTO))
+ 				return ATOM_ENCODER_MODE_HDMI;
+ 			else
+@@ -737,14 +737,14 @@ atombios_get_encoder_mode(struct drm_encoder *encoder)
+ 		if ((dig_connector->dp_sink_type == CONNECTOR_OBJECT_ID_DISPLAYPORT) ||
+ 		    (dig_connector->dp_sink_type == CONNECTOR_OBJECT_ID_eDP)) {
+ 			if (radeon_audio != 0 &&
+-			    drm_detect_monitor_audio(radeon_connector_edid(connector)) &&
++			    connector->display_info.has_audio &&
+ 			    ASIC_IS_DCE4(rdev) && !ASIC_IS_DCE5(rdev))
+ 				return ATOM_ENCODER_MODE_DP_AUDIO;
+ 			return ATOM_ENCODER_MODE_DP;
+ 		} else if (radeon_audio != 0) {
+ 			if (radeon_connector->audio == RADEON_AUDIO_ENABLE)
+ 				return ATOM_ENCODER_MODE_HDMI;
+-			else if (drm_detect_hdmi_monitor(radeon_connector_edid(connector)) &&
++			else if (connector->display_info.is_hdmi &&
+ 				 (radeon_connector->audio == RADEON_AUDIO_AUTO))
+ 				return ATOM_ENCODER_MODE_HDMI;
+ 			else
+@@ -755,7 +755,7 @@ atombios_get_encoder_mode(struct drm_encoder *encoder)
+ 		break;
+ 	case DRM_MODE_CONNECTOR_eDP:
+ 		if (radeon_audio != 0 &&
+-		    drm_detect_monitor_audio(radeon_connector_edid(connector)) &&
++		    connector->display_info.has_audio &&
+ 		    ASIC_IS_DCE4(rdev) && !ASIC_IS_DCE5(rdev))
+ 			return ATOM_ENCODER_MODE_DP_AUDIO;
+ 		return ATOM_ENCODER_MODE_DP;
+diff --git a/drivers/gpu/drm/radeon/evergreen_hdmi.c b/drivers/gpu/drm/radeon/evergreen_hdmi.c
+index 681119c91d94..09dda114e218 100644
+--- a/drivers/gpu/drm/radeon/evergreen_hdmi.c
++++ b/drivers/gpu/drm/radeon/evergreen_hdmi.c
+@@ -412,7 +412,7 @@ void evergreen_hdmi_enable(struct drm_encoder *encoder, bool enable)
+ 	if (enable) {
+ 		struct drm_connector *connector = radeon_get_connector_for_encoder(encoder);
  
--	if (!nv50_audio_supported(encoder) || !drm_detect_monitor_audio(nv_connector->edid))
-+	if (!nv50_audio_supported(encoder) || !nv_connector->base.display_info.has_audio)
+-		if (connector && drm_detect_monitor_audio(radeon_connector_edid(connector))) {
++		if (connector && connector->display_info.has_audio) {
+ 			WREG32(HDMI_INFOFRAME_CONTROL0 + dig->afmt->offset,
+ 			       HDMI_AVI_INFO_SEND | /* enable AVI info frames */
+ 			       HDMI_AVI_INFO_CONT | /* required for audio info values to be updated */
+@@ -450,8 +450,7 @@ void evergreen_dp_enable(struct drm_encoder *encoder, bool enable)
+ 	if (!dig || !dig->afmt)
  		return;
  
- 	mutex_lock(&drm->audio.lock);
-@@ -1764,7 +1764,7 @@ nv50_sor_atomic_enable(struct drm_encoder *encoder, struct drm_atomic_state *sta
- 	if ((disp->disp->object.oclass == GT214_DISP ||
- 	     disp->disp->object.oclass >= GF110_DISP) &&
- 	    nv_encoder->dcb->type != DCB_OUTPUT_LVDS &&
--	    drm_detect_monitor_audio(nv_connector->edid))
-+	    nv_connector->base.display_info.has_audio)
- 		hda = true;
+-	if (enable && connector &&
+-	    drm_detect_monitor_audio(radeon_connector_edid(connector))) {
++	if (enable && connector && connector->display_info.has_audio) {
+ 		struct drm_connector *connector = radeon_get_connector_for_encoder(encoder);
+ 		struct radeon_connector *radeon_connector = to_radeon_connector(connector);
+ 		struct radeon_connector_atom_dig *dig_connector;
+diff --git a/drivers/gpu/drm/radeon/radeon_audio.c b/drivers/gpu/drm/radeon/radeon_audio.c
+index 91b58fbc2be7..e88c35d003c5 100644
+--- a/drivers/gpu/drm/radeon/radeon_audio.c
++++ b/drivers/gpu/drm/radeon/radeon_audio.c
+@@ -410,7 +410,7 @@ void radeon_audio_detect(struct drm_connector *connector,
+ 			radeon_encoder->audio = rdev->audio.hdmi_funcs;
+ 		}
  
- 	if (!nvif_outp_acquired(outp))
-@@ -1773,7 +1773,7 @@ nv50_sor_atomic_enable(struct drm_encoder *encoder, struct drm_atomic_state *sta
- 	switch (nv_encoder->dcb->type) {
- 	case DCB_OUTPUT_TMDS:
- 		if (disp->disp->object.oclass != NV50_DISP &&
--		    drm_detect_hdmi_monitor(nv_connector->edid))
-+		    !nv_connector->base.display_info.is_hdmi)
- 			nv50_hdmi_enable(encoder, nv_crtc, nv_connector, state, mode, hda);
+-		if (drm_detect_monitor_audio(radeon_connector_edid(connector))) {
++		if (connector->display_info.has_audio) {
+ 			if (!dig->pin)
+ 				dig->pin = radeon_audio_get_pin(encoder);
+ 			radeon_audio_enable(rdev, dig->pin, 0xf);
+@@ -647,7 +647,7 @@ static void radeon_audio_hdmi_mode_set(struct drm_encoder *encoder,
+ 	if (!connector)
+ 		return;
  
- 		if (nv_encoder->outp.or.link & 1) {
-@@ -1786,7 +1786,7 @@ nv50_sor_atomic_enable(struct drm_encoder *encoder, struct drm_atomic_state *sta
- 			 */
- 			if (mode->clock >= 165000 &&
- 			    nv_encoder->dcb->duallink_possible &&
--			    !drm_detect_hdmi_monitor(nv_connector->edid))
-+			    !nv_connector->base.display_info.is_hdmi)
- 				proto = NV507D_SOR_SET_CONTROL_PROTOCOL_DUAL_TMDS;
- 		} else {
- 			proto = NV507D_SOR_SET_CONTROL_PROTOCOL_SINGLE_TMDS_B;
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/head.c b/drivers/gpu/drm/nouveau/dispnv50/head.c
-index 83355dbc15ee..d7c74cc43ba5 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/head.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/head.c
-@@ -127,14 +127,8 @@ nv50_head_atomic_check_view(struct nv50_head_atom *armh,
- 	struct drm_display_mode *omode = &asyh->state.adjusted_mode;
- 	struct drm_display_mode *umode = &asyh->state.mode;
- 	int mode = asyc->scaler.mode;
--	struct edid *edid;
- 	int umode_vdisplay, omode_hdisplay, omode_vdisplay;
+-	if (drm_detect_monitor_audio(radeon_connector_edid(connector))) {
++	if (connector->display_info.has_audio) {
+ 		radeon_audio_set_mute(encoder, true);
  
--	if (connector->edid_blob_ptr)
--		edid = (struct edid *)connector->edid_blob_ptr->data;
--	else
--		edid = NULL;
--
- 	if (!asyc->scaler.full) {
- 		if (mode == DRM_MODE_SCALE_NONE)
- 			omode = umode;
-@@ -162,7 +156,7 @@ nv50_head_atomic_check_view(struct nv50_head_atom *armh,
- 	 */
- 	if ((asyc->scaler.underscan.mode == UNDERSCAN_ON ||
- 	    (asyc->scaler.underscan.mode == UNDERSCAN_AUTO &&
--	     drm_detect_hdmi_monitor(edid)))) {
-+	     connector->display_info.is_hdmi))) {
- 		u32 bX = asyc->scaler.underscan.hborder;
- 		u32 bY = asyc->scaler.underscan.vborder;
- 		u32 r = (asyh->view.oH << 19) / asyh->view.oW;
-diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
-index 856b3ef5edb8..938832a6af15 100644
---- a/drivers/gpu/drm/nouveau/nouveau_connector.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
-@@ -1034,7 +1034,7 @@ get_tmds_link_bandwidth(struct drm_connector *connector)
- 	unsigned duallink_scale =
- 		nouveau_duallink && nv_encoder->dcb->duallink_possible ? 2 : 1;
+ 		radeon_audio_write_speaker_allocation(encoder);
+@@ -687,7 +687,7 @@ static void radeon_audio_dp_mode_set(struct drm_encoder *encoder,
+ 	if (!connector)
+ 		return;
  
--	if (drm_detect_hdmi_monitor(nv_connector->edid)) {
-+	if (nv_connector->base.display_info.is_hdmi) {
- 		info = &nv_connector->base.display_info;
- 		duallink_scale = 1;
+-	if (drm_detect_monitor_audio(radeon_connector_edid(connector))) {
++	if (connector->display_info.has_audio) {
+ 		radeon_audio_write_speaker_allocation(encoder);
+ 		radeon_audio_write_sad_regs(encoder);
+ 		radeon_audio_write_latency_fields(encoder, mode);
+diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c b/drivers/gpu/drm/radeon/radeon_connectors.c
+index b84b58926106..81b5c3c8f658 100644
+--- a/drivers/gpu/drm/radeon/radeon_connectors.c
++++ b/drivers/gpu/drm/radeon/radeon_connectors.c
+@@ -109,7 +109,7 @@ int radeon_get_monitor_bpc(struct drm_connector *connector)
+ 	case DRM_MODE_CONNECTOR_DVII:
+ 	case DRM_MODE_CONNECTOR_HDMIB:
+ 		if (radeon_connector->use_digital) {
+-			if (drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
++			if (connector->display_info.is_hdmi) {
+ 				if (connector->display_info.bpc)
+ 					bpc = connector->display_info.bpc;
+ 			}
+@@ -117,7 +117,7 @@ int radeon_get_monitor_bpc(struct drm_connector *connector)
+ 		break;
+ 	case DRM_MODE_CONNECTOR_DVID:
+ 	case DRM_MODE_CONNECTOR_HDMIA:
+-		if (drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
++		if (connector->display_info.is_hdmi) {
+ 			if (connector->display_info.bpc)
+ 				bpc = connector->display_info.bpc;
+ 		}
+@@ -126,7 +126,7 @@ int radeon_get_monitor_bpc(struct drm_connector *connector)
+ 		dig_connector = radeon_connector->con_priv;
+ 		if ((dig_connector->dp_sink_type == CONNECTOR_OBJECT_ID_DISPLAYPORT) ||
+ 		    (dig_connector->dp_sink_type == CONNECTOR_OBJECT_ID_eDP) ||
+-		    drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
++		    connector->display_info.is_hdmi) {
+ 			if (connector->display_info.bpc)
+ 				bpc = connector->display_info.bpc;
+ 		}
+@@ -150,7 +150,7 @@ int radeon_get_monitor_bpc(struct drm_connector *connector)
+ 		break;
  	}
+ 
+-	if (drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
++	if (connector->display_info.is_hdmi) {
+ 		/* hdmi deep color only implemented on DCE4+ */
+ 		if ((bpc > 8) && !ASIC_IS_DCE4(rdev)) {
+ 			DRM_DEBUG("%s: HDMI deep color %d bpc unsupported. Using 8 bpc.\n",
+@@ -1478,7 +1478,7 @@ static enum drm_mode_status radeon_dvi_mode_valid(struct drm_connector *connecto
+ 		    (radeon_connector->connector_object_id == CONNECTOR_OBJECT_ID_DUAL_LINK_DVI_D) ||
+ 		    (radeon_connector->connector_object_id == CONNECTOR_OBJECT_ID_HDMI_TYPE_B))
+ 			return MODE_OK;
+-		else if (ASIC_IS_DCE6(rdev) && drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
++		else if (ASIC_IS_DCE6(rdev) && connector->display_info.is_hdmi) {
+ 			/* HDMI 1.3+ supports max clock of 340 Mhz */
+ 			if (mode->clock > 340000)
+ 				return MODE_CLOCK_HIGH;
+@@ -1774,7 +1774,7 @@ static enum drm_mode_status radeon_dp_mode_valid(struct drm_connector *connector
+ 		    (radeon_dig_connector->dp_sink_type == CONNECTOR_OBJECT_ID_eDP)) {
+ 			return radeon_dp_mode_valid_helper(connector, mode);
+ 		} else {
+-			if (ASIC_IS_DCE6(rdev) && drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
++			if (ASIC_IS_DCE6(rdev) && connector->display_info.is_hdmi) {
+ 				/* HDMI 1.3+ supports max clock of 340 Mhz */
+ 				if (mode->clock > 340000)
+ 					return MODE_CLOCK_HIGH;
+diff --git a/drivers/gpu/drm/radeon/radeon_display.c b/drivers/gpu/drm/radeon/radeon_display.c
+index efd18c8d84c8..8d3b907602b1 100644
+--- a/drivers/gpu/drm/radeon/radeon_display.c
++++ b/drivers/gpu/drm/radeon/radeon_display.c
+@@ -1728,7 +1728,7 @@ bool radeon_crtc_scaling_mode_fixup(struct drm_crtc *crtc,
+ 			    (!(mode->flags & DRM_MODE_FLAG_INTERLACE)) &&
+ 			    ((radeon_encoder->underscan_type == UNDERSCAN_ON) ||
+ 			     ((radeon_encoder->underscan_type == UNDERSCAN_AUTO) &&
+-			      drm_detect_hdmi_monitor(radeon_connector_edid(connector)) &&
++			      connector->display_info.is_hdmi &&
+ 			      is_hdtv_mode(mode)))) {
+ 				if (radeon_encoder->underscan_hborder != 0)
+ 					radeon_crtc->h_border = radeon_encoder->underscan_hborder;
+diff --git a/drivers/gpu/drm/radeon/radeon_encoders.c b/drivers/gpu/drm/radeon/radeon_encoders.c
+index 3de3dce9e89d..0f723292409e 100644
+--- a/drivers/gpu/drm/radeon/radeon_encoders.c
++++ b/drivers/gpu/drm/radeon/radeon_encoders.c
+@@ -386,7 +386,7 @@ bool radeon_dig_monitor_is_duallink(struct drm_encoder *encoder,
+ 	case DRM_MODE_CONNECTOR_HDMIB:
+ 		if (radeon_connector->use_digital) {
+ 			/* HDMI 1.3 supports up to 340 Mhz over single link */
+-			if (ASIC_IS_DCE6(rdev) && drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
++			if (ASIC_IS_DCE6(rdev) && connector->display_info.is_hdmi) {
+ 				if (pixel_clock > 340000)
+ 					return true;
+ 				else
+@@ -408,7 +408,7 @@ bool radeon_dig_monitor_is_duallink(struct drm_encoder *encoder,
+ 			return false;
+ 		else {
+ 			/* HDMI 1.3 supports up to 340 Mhz over single link */
+-			if (ASIC_IS_DCE6(rdev) && drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
++			if (ASIC_IS_DCE6(rdev) && connector->display_info.is_hdmi) {
+ 				if (pixel_clock > 340000)
+ 					return true;
+ 				else
 -- 
 2.39.2
 
