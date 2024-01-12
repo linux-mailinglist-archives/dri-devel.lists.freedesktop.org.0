@@ -2,72 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03AF382BDBA
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 10:52:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7950C82BE0C
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 11:04:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 068D110EAEC;
-	Fri, 12 Jan 2024 09:52:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C23BD10E031;
+	Fri, 12 Jan 2024 10:04:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
- [IPv6:2a00:1450:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B85810EAD2
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 09:52:01 +0000 (UTC)
-Received: by mail-ed1-x541.google.com with SMTP id
- 4fb4d7f45d1cf-558c781d311so569069a12.0
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 01:52:01 -0800 (PST)
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F09010E031
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 10:04:04 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id
+ 2adb3069b0e04-50eabd1c701so7654914e87.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 02:04:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fairphone.com; s=fair; t=1705053120; x=1705657920; darn=lists.freedesktop.org;
- h=in-reply-to:references:cc:to:from:subject:message-id:date
- :content-transfer-encoding:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=HlNYofu3r8i2ZCiashKW8Im9PXJC4O/VU7zX1cqDADg=;
- b=zJMt45zEKJE/zb5rvxPmkavE8NiT3J6uL4oJpgYrGF7jQfB6O99MnBhAH3pyFC/v7f
- NqmCX//1Ny1w84dyfqPn507T2VMRVDTad+V9nYJ6UEw7qvhfqfiucZ1k2QJ+GaQqfTUS
- /5xJu/GxSDkBv00c5zCRab1J6ESwjYxNa7TDLoonFidZIuuniBjg88e1gWzIBl0ADPG8
- dfcwGLlLHEntUotx+3Qc5OC4totyryeCZ49IlfyI5+teEXiIJx9ZJCSkgB5hICVKHKbD
- rU7rQ8fk8hquWzl9CWE/hxbM5tgsZMuRkTtmBfNkIt/Ziq3/0tv2ZWcdceLDuS/5Jp7y
- 3f6w==
+ d=gmail.com; s=20230601; t=1705053842; x=1705658642; darn=lists.freedesktop.org;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=49mGNK36uTAc2PcGxvuMH6FjMrZ7N2e/dp51dNcG2WI=;
+ b=BCQktPCFXN3W+gwZxDRpC74WAPYlZDJxwe5YPM+/FRaMi5SA/Av5Q6OJKv7HyqXH6C
+ HtNb0/4Id51KIFXfAzSNfcrwqDOnuX2mIf03lJZjwK2HUu9sHModizWx0VbI+w9mzxhp
+ pEyYqgC0PXD0PZ1S5AdBQOCLVHbNpZLuPyuWhy9jPy1bdEMRWm35B9CIl7VtX2MfoISZ
+ L5y/QtGvtgUlh8JzZhOzhGFvyTp32P3FFTaIIeQDBUa9WRZkGYaJhfMHSv68/ppOX4WZ
+ 48ul8qQjtuqrMTyD+9oJMbuqaGUtbhQ9yEvzGfnQztxUdPJAQrIpd96dKpUtLhhrZQQj
+ xTbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705053120; x=1705657920;
- h=in-reply-to:references:cc:to:from:subject:message-id:date
- :content-transfer-encoding:mime-version:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=HlNYofu3r8i2ZCiashKW8Im9PXJC4O/VU7zX1cqDADg=;
- b=mqT7W4U/i9C/munFIpi9lqTKytUrd172v5o0yKeEh4Nq4XjPVyzsZrr/VWfcxP0Mxk
- m/M+uvoXjwuuTovJkzgjzX/mE/x1xIpnD552XdQ4SLNx1JRxtZkfFQbZgd/kqRj+erYE
- XvfzBWREeEWuZwDTcoOzKeAGauIZmyND5aOsYeALTsKKyYCF/HTrxEndjRbrdi/yI00g
- dQEcZAgv5AqI3+NECiK98OmUsHPi+cEUy42O8UFWbxcBzeIKFo6sy/RQQcreRYVR6Bcs
- PuMjoZWuxa6L6eraym6Sr22Hiwc5CPW2NmRGoU32t0VFyfL1SBmXyCfeBf3sVSv9Fbbp
- VPnA==
-X-Gm-Message-State: AOJu0YyoBdNXPhTsi6MqQpx9CvmOOh5hgVQtWK3leLNiTEZGy5RM2HX3
- wIZEYiEoWfUFhumlZAbnwue0Ayr06SkMDA==
-X-Google-Smtp-Source: AGHT+IH6D9hm2y3kaGCs5RwJQn2m/6/TZIAhrZDDw5invkLKwXZ/IILZ+DDyExfQK5cF5FyfT3lihA==
-X-Received: by 2002:a05:6402:1d1c:b0:557:aa16:1e44 with SMTP id
- dg28-20020a0564021d1c00b00557aa161e44mr489041edb.79.1705053119939; 
- Fri, 12 Jan 2024 01:51:59 -0800 (PST)
-Received: from localhost (144-178-202-138.static.ef-service.nl.
- [144.178.202.138]) by smtp.gmail.com with ESMTPSA id
- eg7-20020a056402288700b0055515b40464sm1616621edb.81.2024.01.12.01.51.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Jan 2024 01:51:59 -0800 (PST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 12 Jan 2024 10:51:59 +0100
-Message-Id: <CYCMVXHYVDCI.HVH1TR8MWEUK@fairphone.com>
-Subject: Re: [PATCH v2 2/4] drm/panel: Add driver for DJN HX83112A LCD panel
-From: "Luca Weiss" <luca.weiss@fairphone.com>
-To: <neil.armstrong@linaro.org>, "Linus Walleij" <linus.walleij@linaro.org>
-X-Mailer: aerc 0.15.2
-References: <20240110-fp4-panel-v2-0-8ad11174f65b@fairphone.com>
- <20240110-fp4-panel-v2-2-8ad11174f65b@fairphone.com>
- <CACRpkdaWTfPDCin_L6pefHsokjNyO8Mo6hWPdzPLLi1EUkKUuA@mail.gmail.com>
- <CYBZEZ4IM6IL.VR04W7933VI@fairphone.com>
- <CACRpkdZQbVXfBa70nhDOqfWPbsh-6DgX-uvZOxr19pzMmF2giQ@mail.gmail.com>
- <CYCLSCKPPBOC.1B1MP3VOOC0Q8@fairphone.com>
- <cdc18e2a-b7eb-4b54-a513-481148fb3b0d@linaro.org>
-In-Reply-To: <cdc18e2a-b7eb-4b54-a513-481148fb3b0d@linaro.org>
+ d=1e100.net; s=20230601; t=1705053842; x=1705658642;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=49mGNK36uTAc2PcGxvuMH6FjMrZ7N2e/dp51dNcG2WI=;
+ b=C4ZexV0GvhP9ravxPCZY8+y6S/8IZ6MKkBZagsWj7zupX0CZ33h+JFEzG3XXx83ZpA
+ D9abPVTBjXtNNP/+xEPL9Njhun48rr0+dCL6g3Ai6wtlBMFujFCHLtc/ORBT3nMlprdg
+ aR/DpyO5ZZKrytSazS3jA6QyzqwnyidEBRtC0kU/je52msGLxFoRE8m5g18TKsu3/LLx
+ e2kwzYti6aKs4XT65DlQw0qs58QhIJe91DqDMK4UTNZCjw3HSni+yKPzh1EGk/4D66Cy
+ MQS56A11tjfBEBybkExZNpu6uXja9qyNpfYhyFlAH/IkwXlVYImZp9igeXr1YmeycyiT
+ NaKQ==
+X-Gm-Message-State: AOJu0YzIQk2a99ucZWG19w8EoCz1qlbSLe6UKebVrNuLYyIuUS4ph+z0
+ JhJmy2OM7/nQRIgwYcK66yE=
+X-Google-Smtp-Source: AGHT+IEJgqgQRPe4+wGucPThB/wEKQwuXAHrrbJUK/XGlr7TnjYBQAAXKDwmwnzWG8Ho0OJhEyyxYw==
+X-Received: by 2002:a05:6512:3188:b0:50e:6b48:5407 with SMTP id
+ i8-20020a056512318800b0050e6b485407mr667018lfe.82.1705053841920; 
+ Fri, 12 Jan 2024 02:04:01 -0800 (PST)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ y22-20020a056512335600b0050eea9541casm26727lfd.44.2024.01.12.02.04.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Jan 2024 02:04:01 -0800 (PST)
+Date: Fri, 12 Jan 2024 12:03:57 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Yong Wu <yong.wu@mediatek.com>
+Subject: Re: [PATCH v4 0/7] dma-buf: heaps: Add restricted heap
+Message-ID: <20240112120357.724e9326@eldfell>
+In-Reply-To: <20240112092014.23999-1-yong.wu@mediatek.com>
+References: <20240112092014.23999-1-yong.wu@mediatek.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="Sig_/lS=3R00MGWXjD0UrR5LXr4S";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,136 +71,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
- Bjorn Andersson <andersson@kernel.org>, Andy Gross <agross@kernel.org>,
- Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org, Konrad
- Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh+dt@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Jessica Zhang <quic_jesszhan@quicinc.com>, phone-devel@vger.kernel.org,
- ~postmarketos/upstreaming@lists.sr.ht
+Cc: Pavel Machek <pavel@ucw.cz>, dri-devel@lists.freedesktop.org,
+ John Stultz <jstultz@google.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Jeffrey Kardatzke <jkardatzke@google.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Vijayanand Jitta <quic_vjitta@quicinc.com>, jianjiao.zeng@mediatek.com,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>, linaro-mm-sig@lists.linaro.org,
+ Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Joakim Bech <joakim.bech@linaro.org>, tjmercier@google.com,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ youlin.pei@mediatek.com, kuohong.wang@mediatek.com,
+ linux-kernel@vger.kernel.org, christian.koenig@amd.com,
+ Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri Jan 12, 2024 at 10:14 AM CET, Neil Armstrong wrote:
-> On 12/01/2024 10:00, Luca Weiss wrote:
-> > On Thu Jan 11, 2024 at 8:05 PM CET, Linus Walleij wrote:
-> >> On Thu, Jan 11, 2024 at 4:28=E2=80=AFPM Luca Weiss <luca.weiss@fairpho=
-ne.com> wrote:
-> >>
-> >>> In some internal documentation it says "LCD Driver IC" "HX83112A" and=
- I
-> >>> don't see any reference to Truly 5P65 anywhere.
-> >>
-> >> In the Android directory I pointed to I see this file:
-> >> HX83112_Android_Driver/Truly_5p65_module_fw/UpdateFW.bat
-> >>
-> >> (Notice the 5p65 fw dir is *inside* the HX82112 dir)
-> >>
-> >> And in that file:
-> >> adb push TRULY_5P65_1080_2160_HX83112A_D01C01.bin
-> >> /system/etc/firmware/Himax_firmware.bin
-> >>
-> >> Clearly indicating that they are pushing a Truly 5P65 firmware into
-> >> the Himax display firmware directory.
-> >>
-> >> To be fair, that is the driver for the touchscreen part of HX83112A,
-> >> but ... Truly is a well known manufacturer of display controllers?
-> >>
-> >> But... given that you have a @fairphone.com mal address and
-> >> a working relationship with them, can't you just ask?
-> >>
-> >>> On their website they have this sentence:
-> >>
-> >> All OEMs want to look like everything is their own product. It is
-> >> business as usual.
-> >=20
-> > I can't tell you anything there that I don't know, sorry.
-> >=20
-> >>
-> >> Further on the same note since I guess you have a datasheet)
-> >> please bring in #defines for the commands (the first byte in the
-> >> write sequences, for examples:
-> >>
-> >> +       mipi_dsi_dcs_write_seq(dsi, 0xbd, 0x02);
-> >> +       mipi_dsi_dcs_write_seq(dsi, 0xd8,
-> >> +                              0xaa, 0xff, 0xff, 0xff, 0xff, 0xff, 0xa=
-a, 0xff,
-> >> +                              0xff, 0xff, 0xff, 0xff);
-> >> +       mipi_dsi_dcs_write_seq(dsi, 0xbd, 0x03);
-> >>
-> >> Clearly 0xbd is HX83112_CMD_SETREGBANK?
-> >> (This is easily spotted from the similar structure in the
-> >> existing panel-himax-hx8394.c.) So please add #defines
-> >> for all commands you know, especially if you have a datasheet
-> >> because we reviewers don't have them and "it's just magic
-> >> bytes" isn't very compelling. It adds a lot to understanding.
-> >=20
-> > Right, the register names seem to match more or less the ones from that
-> > driver, plus some new ones and some differently named ones. Will send a
-> > v3 with that.
-> >=20
-> >>
-> >> I strongly suspect other Himax displays such as HX8394 to
-> >> be using a Truly controller as well, hence the similarities.
-> >>
-> >> In a datasheet for their TFT800480-84-V1-E display controller
-> >> Truly kept the init sequence name of void LCD_INIT_HX8290(void)
-> >> for example.
-> >=20
-> > In that datasheet (assuming I'm looking at the same one?) it says
-> > "Driver IC" "HX8290-A[...]" so there the display driver is manufactured
-> > by Himax and not Truly to my understanding. Truly is assembling togethe=
-r
-> > Driver + all the other parts that go into an LCD.
-> >=20
-> > For the panel used on Fairphone 4 that part is done by the company DJN.
->
-> Looking at the discussion, this seems to confirm the Display+Touch IC is =
-HX83112A,
-> and Truly is the panel manufacturer and all assembled by DJN, so IMHO the=
- initial driver is right.
->
-> Perhaps the compatible should be djn,hx83112a-truly-5p65 to reflect that =
-?
+--Sig_/lS=3R00MGWXjD0UrR5LXr4S
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Since there's zero indication Truly is involved in this panel in my
-documentation - much less the number 5P65 - I'm not going to add that.
+On Fri, 12 Jan 2024 17:20:07 +0800
+Yong Wu <yong.wu@mediatek.com> wrote:
 
-One other number I'm certain of is from DJN's side the model number of
-this panel is 9A-3R063-1102B, which I assume is the specific combination
-of components + frame and everything for Fairphone 4 device.
+> The purpose of this patchset is for MediaTek secure video playback, and
+> also to enable other potential uses of this in the future. The 'restricted
+> dma-heap' will be used to allocate dma_buf objects that reference memory
+> in the secure world that is inaccessible/unmappable by the non-secure
+> (i.e. kernel/userspace) world.  That memory will be used by the secure/
+> trusted world to store secure information (i.e. decrypted media content).
+> The dma_bufs allocated from the kernel will be passed to V4L2 for video
+> decoding (as input and output). They will also be used by the drm
+> system for rendering of the content.
+>=20
+> This patchset adds two MediaTek restricted heaps and they will be used in
+> v4l2[1] and drm[2].
+> 1) restricted_mtk_cm: secure chunk memory for MediaTek SVP (Secure Video
+>    Path). The buffer is reserved for the secure world after bootup and it
+>    is used for vcodec's ES/working buffer;
+> 2) restricted_mtk_cma: secure CMA memory for MediaTek SVP. This buffer is
+>    dynamically reserved for the secure world and will be got when we start
+>    playing secure videos. Once the security video playing is complete, the
+>    CMA will be released. This heap is used for the vcodec's frame buffer.=
+=20
+>=20
+> [1] https://lore.kernel.org/linux-mediatek/20231206081538.17056-1-yunfei.=
+dong@mediatek.com/
+> [2] https://lore.kernel.org/all/20231223182932.27683-1-jason-jh.lin@media=
+tek.com/
+>=20
+> Change note:
+> v4: 1) Rename the heap name from "secure" to "restricted". suggested from
+>      Simon/Pekka. There are still several "secure" string in MTK file
+>      since we use ARM platform in which we call this "secure world"/
+>      "secure command".
 
-That one you can also find in this document (Ctrl-F for DJN)
-https://www.fairphone.com/wp-content/uploads/2022/09/FP4_Information-for-re=
-pairers-and-recyclers.pdf
-.. or on this picture:
-https://guide-images.cdn.ifixit.com/igi/HgTquQPABg1mAMHD.huge
+Hi,
 
-So something like djn,9a-3r063-1102b would also be somewhat valid I
-guess?
+I am really happy about this name change, thank you.
 
-So in short this panel is the model 9A-3R063-1102B from DJN, which uses
-a Himax HX83112A driver IC.
+It is unfortunate that ARM specifications use the word "secure", but so
+be it. When referring to specs, it's good to use the spec wording.
 
-And there's also AU Optronics listed as =E7=8E=BB=E7=92=83=E5=8E=82=E5=AE=
-=B6 ("glass manufacturer"?)
-fwiw, though the display also uses Corning Gorilla Glass 5 so not sure
-who's supplying what.
+In everything that is not a direct reference to some spec though it
+would be nice to use the "restricted" terminology if possible. I
+presume there are other vendors who use words other than what ARM uses
+for similar concepts. A common vocabulary would be nice.
 
-Regards
-Luca
 
->
-> Neil
->
-> >=20
-> > Regards
-> > Luca
-> >=20
-> >>
-> >> Yours,
-> >> Linus Walleij
-> >=20
+Thanks,
+pq
 
+> v3: https://lore.kernel.org/linux-mediatek/20231212024607.3681-1-yong.wu@=
+mediatek.com/
+>     1) Separate the secure heap to a common file(secure_heap.c) and mtk
+>      special file (secure_heap_mtk.c),  and put all the tee related code
+>      into our special file.
+>     2) About dt-binding, Add "mediatek," prefix since this is Mediatek TEE
+>      firmware definition.
+>     3) Remove the normal CMA heap which is a draft for qcom.
+>     Rebase on v6.7-rc1.
+>=20
+> v2: https://lore.kernel.org/linux-mediatek/20231111111559.8218-1-yong.wu@=
+mediatek.com/
+>     1) Move John's patches into the vcodec patchset since they use the new
+>        dma heap interface directly.
+>        https://lore.kernel.org/linux-mediatek/20231106120423.23364-1-yunf=
+ei.dong@mediatek.com/
+>     2) Reword the dt-binding description.
+>     3) Rename the heap name from mtk_svp to secure_mtk_cm.
+>        This means the current vcodec/DRM upstream code doesn't match this.
+>     4) Add a normal CMA heap. currently it should be a draft version.
+>     5) Regarding the UUID, I still use hard code, but put it in a private
+>     data which allow the others could set their own UUID. What's more, UU=
+ID
+>     is necessary for the session with TEE. If we don't have it, we can't
+>     communicate with the TEE, including the get_uuid interface, which tri=
+es
+>     to make uuid more generic, not working. If there is other way to make
+>     UUID more general, please free to tell me.
+>    =20
+> v1: https://lore.kernel.org/linux-mediatek/20230911023038.30649-1-yong.wu=
+@mediatek.com/
+>     Base on v6.6-rc1.
+>=20
+> Yong Wu (7):
+>   dt-bindings: reserved-memory: Add mediatek,dynamic-restricted-region
+>   dma-buf: heaps: Initialize a restricted heap
+>   dma-buf: heaps: restricted_heap: Add private heap ops
+>   dma-buf: heaps: restricted_heap: Add dma_ops
+>   dma-buf: heaps: restricted_heap: Add MediaTek restricted heap and
+>     heap_init
+>   dma-buf: heaps: restricted_heap_mtk: Add TEE memory service call
+>   dma_buf: heaps: restricted_heap_mtk: Add a new CMA heap
+>=20
+>  .../mediatek,dynamic-restricted-region.yaml   |  43 +++
+>  drivers/dma-buf/heaps/Kconfig                 |  16 +
+>  drivers/dma-buf/heaps/Makefile                |   4 +-
+>  drivers/dma-buf/heaps/restricted_heap.c       | 237 +++++++++++++
+>  drivers/dma-buf/heaps/restricted_heap.h       |  43 +++
+>  drivers/dma-buf/heaps/restricted_heap_mtk.c   | 322 ++++++++++++++++++
+>  6 files changed, 664 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/devicetree/bindings/reserved-memory/med=
+iatek,dynamic-restricted-region.yaml
+>  create mode 100644 drivers/dma-buf/heaps/restricted_heap.c
+>  create mode 100644 drivers/dma-buf/heaps/restricted_heap.h
+>  create mode 100644 drivers/dma-buf/heaps/restricted_heap_mtk.c
+>=20
+
+
+--Sig_/lS=3R00MGWXjD0UrR5LXr4S
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmWhDo0ACgkQI1/ltBGq
+qqdgnhAAiXIHptPG8WhqVlmOGF8J+Dj7PxjrLasFg2BG/gbUDAM2FICO1VBkblIw
+bW1+LqpcdVG+FBs/hGrQOvEblaiIKjMXf5jyNnqPun4xGzi4VggC3sU7erHyIaAb
+bLqfGVzrG782jns8Ibj9AeX1fck6aooUm8yD6w5JvGJRKRNIXKIeGPZrRkiotfnn
+0NcTZ4BVoTufB5dzYgJABuiTmk1OyT4QkCVmVVE0mVn4tTc8Yd+s4m3rXqr/r3YE
+A0geZB/426wfXy6oxNmf0ftQzsyEIcVP/WZJZKtbh6rnXQ2RcMkK38wTTG0Bmyuf
+F1FW2L0GEyile6Vm6DyRJf97UQSzWCMraDUJKEd9+AbyjbreEnSUSL5WnPpWTbND
+lmsCrC1rVM+/hTOD7or/0mF6kp2WgfSaaH+BhrkvDb8MGjj/84yEs4v0jAwBM5y4
+knMaP00XF33xsX4OWEWbjniT+ZCdl9lhrGju9A+0+ZDTH+2LKAuzF5Rq9GgzWUzD
+NqoAZ3aLTUS6KdLfjG6Dzz+eLtjrmOcOcP0gdxKbObO5DXo3yL/r3WZyGDoBDDNr
+Ko38kjrDz+kuAsfKRzu1tDbPLnJLnVyt9rBl4NiD5Gl3BrJv0WvFRtuyzYrlNKHU
+M5t91RcbiaPApyXCZT0eXqefR5B27nW2e20Kqcf3kEPh+dsLVzc=
+=Y8bP
+-----END PGP SIGNATURE-----
+
+--Sig_/lS=3R00MGWXjD0UrR5LXr4S--
