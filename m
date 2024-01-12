@@ -1,63 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8022A82C485
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 18:14:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8982D82C4CD
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 18:34:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7254710EB76;
-	Fri, 12 Jan 2024 17:14:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 421D410E146;
+	Fri, 12 Jan 2024 17:34:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00A8810EB76;
- Fri, 12 Jan 2024 17:14:37 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id
- 4fb4d7f45d1cf-557bfc7f7b4so9527656a12.0; 
- Fri, 12 Jan 2024 09:14:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1705079676; x=1705684476; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=gkRip5P/CSH4Zjga6g7Ad+NhClHoMzovsmKSyhbUtXI=;
- b=JRbPKLTXnz4913GsWQdd+a410co7bTly8SLJANrSe87ubnaXV9hm1BPSStraU23yZe
- +/2LtJ7cUFrWUEWjtlt43CfwJtC0/hkmuQ0HVeTHXl3OQhzpM61p4UaC4hQxY55uerG9
- rSCpvyyJTRjLPGrNcueymU8/ysoM6qDG3o9CaNeuXbb2mhjsZMC64ZQTsAySTF80kzLc
- uk+A/OgB2ksZsMnR3j5RqJm8o2/PJeAB6IFhieK2bmO/BzdFEGQdZZuwVVnVD38EJZvu
- vZ1toosZso431if9HCSS1RQByBW43DChkbbKrlyJrUogtrVl1NFfxi52aWHpmSEcH02F
- x+iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705079676; x=1705684476;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=gkRip5P/CSH4Zjga6g7Ad+NhClHoMzovsmKSyhbUtXI=;
- b=w/Ivd5kYRNN0jvXjjLAwx3qqGXv0G6E6b9VXCbixbTHtf3BYY4V2Ryhxwvd2FNEetW
- XRQctGXfcukjnwsX3MC5XYIkPj0nctXXJGDBf4KK9slul536r4fr9S7LT19fTb3YxotO
- 3RtV1kWxjlRrlnpm3DA3w35cA+X7tRVgS7KPMolJnxNjPvffRaL7DZ1sctG8IV4a0kAz
- mse0WB/rjmQ5bDKEI+C0+1O88iFVhHlgKRiPxrGriVZ7sxe4deZIAVUnnhzWcEN0AJgl
- OMJCrq8sPkOC7/2noWR6P/L1Xd7KwWCJHkKTpSKcfzc1FW+7lHIjkMAkZ8B0o2qsPUNq
- xSdw==
-X-Gm-Message-State: AOJu0YyPNkzFKBTSaPmuPRak0p95O0VUlInPACPqanUwfqcaRea+yRca
- ZWwqisuu0+GOjdT79Ls/SR8v6XjKL4G67rPJEHM=
-X-Google-Smtp-Source: AGHT+IF9IMPBk8V3jyU215rKqdmijeXsvs7Ngpeca5FQb7pvIGZgTeR2+krrbELKgsorLRv1yVbITGICkSbSxw/uz2Q=
-X-Received: by 2002:a50:9fab:0:b0:558:b5d0:e77a with SMTP id
- c40-20020a509fab000000b00558b5d0e77amr1925498edf.36.1705079676202; Fri, 12
- Jan 2024 09:14:36 -0800 (PST)
-MIME-Version: 1.0
-References: <20240108195016.156583-1-robdclark@gmail.com>
- <27e64458-7cb1-99a4-f67e-60d911f28f44@collabora.com>
- <CAF6AEGvBFdXe9rHjbwWv9eLUMv2YEP7cfMoXcWgZ30Wn4LzOjw@mail.gmail.com>
-In-Reply-To: <CAF6AEGvBFdXe9rHjbwWv9eLUMv2YEP7cfMoXcWgZ30Wn4LzOjw@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 12 Jan 2024 09:14:24 -0800
-Message-ID: <CAF6AEGuXi1wTbE0j6FmSnqw_EVUYSdnk5WeFL6abD=zeNutPpg@mail.gmail.com>
-Subject: Re: [PATCH] drm/ci: Add msm tests
-To: Vignesh Raman <vignesh.raman@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de
+ [85.215.255.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D15FC10E146
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 17:34:53 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1705080852; cv=none;
+ d=strato.com; s=strato-dkim-0002;
+ b=W3GWy0FmIaj8bnyQOLBzXX83ySwtjGcplbG/RlF6oXx9qygnBd9EMgXtiadN4VCuYL
+ Vzb9K/1Q4zEh0B7XcKv8F2Sx4FijwnMPXysHfKJDCuQG0VCoTY5bqyISD5X10Sklu//B
+ 6VkzB1eAyWBDr/bYsxdCjCk7edGU3pgaP2hEzvpyZbAxOha7gyG3pLDtiV5WNhRfEYbL
+ TDD/pLVM6nJvYv+XcCrZwcaohlv+M2+F2XzRIFeiekgqkBmiLXVXMh3jQ6/CCRVmglED
+ VgmepBQlqLq+ZF6ebJlWo7K1uGUcBpy8sQQyJjroV+U5685/yWLccmDVI8r77ioDgMW0
+ JoMw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1705080852;
+ s=strato-dkim-0002; d=strato.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=x1r68xA9wRZ4ANIBi9hA9+/f2i2/5reMcctFU/rKIWM=;
+ b=VDcJUmHB6n+dNWMqrBgIeSm07uZuiZ3Lo4YHM+4lHTEf/fShWCuTsnhOvGLLQPDnuX
+ DVAPLYAUhm05iR1fke6fvyGt2yjAOY9M0JpWsM0G7ZDb7NOVtKdS5okSvg27EKDAjxe4
+ EZA65KUjsuxqrlxq3A4GvhvmCzWHoRqtwrIEFgzCZ+5/k2+oHOIrVt8PoLSJaD5ZuoIt
+ SkIGnPo+f/Kh0VfwAACyGqpv0UWlsRVd0cuYtQVx3MTV8cVZA1NPKmpaCAhndTK188ip
+ jcc0l/OXnhCOTjIjugpKHKxL3l3jO3UA4Ps7c/ux8panbv6FBehkIg3hmwU9B0kTY7rX
+ EJQQ==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo02
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1705080852;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=x1r68xA9wRZ4ANIBi9hA9+/f2i2/5reMcctFU/rKIWM=;
+ b=jL32j5FwaeApRttmOhW1Gu7gSfqOtYGFDHV/dfmiVwk6lv/rGq6WkiuBz82beG8UnO
+ swrsv0PhvQYaN21JZmxO2+xU2OKEIDHGCNxj9juFGzg+Ldkd0mhSBo97APtDJ6U+LRqu
+ 7blY6TeqlvdGLoENvx22BbsH/dahwDdBTiZ9BLCKDH+ergN8Y0RIkiA25I65IuRw4QpB
+ qzlOiNthWw+WTgSS1LzxBVQAwVwPewl9NQf1D7CfvSzknu8aEGQJDyWjtSAjV3d/ogkE
+ eT3drVtVQwHCoz/BHuQVEe8SLaX+rax4SpDu49ZC3/DEwQeCoUx/w0zBh8zzKKg1e7bO
+ eWKg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1705080852;
+ s=strato-dkim-0003; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=x1r68xA9wRZ4ANIBi9hA9+/f2i2/5reMcctFU/rKIWM=;
+ b=pHXvjyM6SXoq2JN88aS5Df7FeZdKXhVFedn7SwZ4nyqUqIMi1EYmq65gduamPGp39D
+ E3e2r+2FnzciMSGM/LCQ==
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj5Apz9PSN6LgsXcGZjDY="
+Received: from smtpclient.apple by smtp.strato.de (RZmta 49.10.2 DYNA|AUTH)
+ with ESMTPSA id dbe64400CHY9PpN
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
+ with 256 ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Fri, 12 Jan 2024 18:34:09 +0100 (CET)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.300.61.1.2\))
+Subject: Re: [PATCH RFC v2 04/11] ARM: dts: omap4: Add device tree entry for
+ SGX GPU
+From: H. Nikolaus Schaller <hns@goldelico.com>
+In-Reply-To: <20240108183302.255055-5-afd@ti.com>
+Date: Fri, 12 Jan 2024 18:33:58 +0100
 Content-Transfer-Encoding: quoted-printable
+Message-Id: <122DC5ED-2AA7-46A0-845F-083922458385@goldelico.com>
+References: <20240108183302.255055-1-afd@ti.com>
+ <20240108183302.255055-5-afd@ti.com>
+To: Andrew Davis <afd@ti.com>
+X-Mailer: Apple Mail (2.3774.300.61.1.2)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,126 +87,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-msm@vger.kernel.org,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Helen Koike <helen.koike@collabora.com>, Maxime Ripard <mripard@kernel.org>
+Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Tony Lindgren <tony@atomide.com>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Donald Robson <donald.robson@imgtec.com>, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ =?utf-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
+ Maxime Ripard <mripard@kernel.org>, Matt Coster <matt.coster@imgtec.com>,
+ Rob Herring <robh+dt@kernel.org>, linux-omap@vger.kernel.org,
+ Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ Tero Kristo <kristo@kernel.org>, linux-kernel@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 12, 2024 at 7:57=E2=80=AFAM Rob Clark <robdclark@gmail.com> wro=
-te:
->
-> On Fri, Jan 12, 2024 at 3:42=E2=80=AFAM Vignesh Raman
-> <vignesh.raman@collabora.com> wrote:
-> >
-> > Hi Rob,
-> >
-> >
-> > On 09/01/24 01:20, Rob Clark wrote:
-> > > From: Rob Clark <robdclark@chromium.org>
-> > >
-> > > The msm tests should skip on non-msm hw, so I think it should be safe=
- to
-> > > enable everywhere.
-> > >
-> > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > ---
-> > >   drivers/gpu/drm/ci/testlist.txt | 49 ++++++++++++++++++++++++++++++=
-+++
-> > >   1 file changed, 49 insertions(+)
-> > >
-> > > diff --git a/drivers/gpu/drm/ci/testlist.txt b/drivers/gpu/drm/ci/tes=
-tlist.txt
-> > > index f82cd90372f4..eaeb751bb0ad 100644
-> > > --- a/drivers/gpu/drm/ci/testlist.txt
-> > > +++ b/drivers/gpu/drm/ci/testlist.txt
-> > > @@ -2910,3 +2910,52 @@ kms_writeback@writeback-invalid-parameters
-> > >   kms_writeback@writeback-fb-id
-> > >   kms_writeback@writeback-check-output
-> > >   prime_mmap_kms@buffer-sharing
-> > > +msm_shrink@copy-gpu-sanitycheck-8
-> > > +msm_shrink@copy-gpu-sanitycheck-32
-> > > +msm_shrink@copy-gpu-8
-> > > +msm_shrink@copy-gpu-32
-> > > +msm_shrink@copy-gpu-madvise-8
-> > > +msm_shrink@copy-gpu-madvise-32
-> > > +msm_shrink@copy-gpu-oom-8
-> > > +msm_shrink@copy-gpu-oom-32
-> > > +msm_shrink@copy-mmap-sanitycheck-8
-> > > +msm_shrink@copy-mmap-sanitycheck-32
-> > > +msm_shrink@copy-mmap-8
-> > > +msm_shrink@copy-mmap-32
-> > > +msm_shrink@copy-mmap-madvise-8
-> > > +msm_shrink@copy-mmap-madvise-32
-> > > +msm_shrink@copy-mmap-oom-8
-> > > +msm_shrink@copy-mmap-oom-32
-> > > +msm_shrink@copy-mmap-dmabuf-sanitycheck-8
-> > > +msm_shrink@copy-mmap-dmabuf-sanitycheck-32
-> > > +msm_shrink@copy-mmap-dmabuf-8
-> > > +msm_shrink@copy-mmap-dmabuf-32
-> > > +msm_shrink@copy-mmap-dmabuf-madvise-8
-> > > +msm_shrink@copy-mmap-dmabuf-madvise-32
-> > > +msm_shrink@copy-mmap-dmabuf-oom-8
-> > > +msm_shrink@copy-mmap-dmabuf-oom-32
-> > > +msm_mapping@ring
-> > > +msm_mapping@sqefw
-> > > +msm_mapping@shadow
-> > > +msm_submitoverhead@submitbench-10-bos
-> > > +msm_submitoverhead@submitbench-10-bos-no-implicit-sync
-> > > +msm_submitoverhead@submitbench-100-bos
-> > > +msm_submitoverhead@submitbench-100-bos-no-implicit-sync
-> > > +msm_submitoverhead@submitbench-250-bos
-> > > +msm_submitoverhead@submitbench-250-bos-no-implicit-sync
-> > > +msm_submitoverhead@submitbench-500-bos
-> > > +msm_submitoverhead@submitbench-500-bos-no-implicit-sync
-> > > +msm_submitoverhead@submitbench-1000-bos
-> > > +msm_submitoverhead@submitbench-1000-bos-no-implicit-sync
-> > > +msm_recovery@hangcheck
-> > > +msm_recovery@gpu-fault
-> > > +msm_recovery@gpu-fault-parallel
-> > > +msm_recovery@iova-fault
-> > > +msm_submit@empty-submit
-> > > +msm_submit@invalid-queue-submit
-> > > +msm_submit@invalid-flags-submit
-> > > +msm_submit@invalid-in-fence-submit
-> > > +msm_submit@invalid-duplicate-bo-submit
-> > > +msm_submit@invalid-cmd-idx-submit
-> > > +msm_submit@invalid-cmd-type-submit
-> > > +msm_submit@valid-submit
-> >
-> > I tested this patch with latest drm-misc/drm-misc-next and there was
-> > some failures seen for the newly added msm tests. I have updated the
-> > xfails with below commit,
-> >
-> > https://gitlab.freedesktop.org/vigneshraman/linux/-/commit/d012893597a6=
-61d6ebbb755bf2607dfb055524a1
-> >
-> > I will notify the maintainers about the flaky tests, update the url in
-> > the flakes.txt, and submit a separate patch for this change.
+Hi,
+I just comment on this example, but it applies almost the same for all =
+other .dtsi changes.
 
-Oh, you should probably move msm_mapping@* to skips on sdm845.  I had
-a closer look at those, and they are failing due to a bootloader/fw
-issue.  We work around this in mesa CI with these two patches:
+> Am 08.01.2024 um 19:32 schrieb Andrew Davis <afd@ti.com>:
+>=20
+> Add SGX GPU device entry to base OMAP4 dtsi file.
+>=20
+> Signed-off-by: Andrew Davis <afd@ti.com>
+> ---
+> arch/arm/boot/dts/ti/omap/omap4.dtsi | 9 +++++----
+> 1 file changed, 5 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/arch/arm/boot/dts/ti/omap/omap4.dtsi =
+b/arch/arm/boot/dts/ti/omap/omap4.dtsi
+> index 2bbff9032be3e..559b2bfe4ca7c 100644
+> --- a/arch/arm/boot/dts/ti/omap/omap4.dtsi
+> +++ b/arch/arm/boot/dts/ti/omap/omap4.dtsi
+> @@ -501,10 +501,11 @@ sgx_module: target-module@56000000 {
+> #size-cells =3D <1>;
+> ranges =3D <0 0x56000000 0x2000000>;
+>=20
+> - /*
+> - * Closed source PowerVR driver, no child device
+> - * binding or driver in mainline
+> - */
+> + gpu@0 {
 
-https://gitlab.freedesktop.org/gfx-ci/linux/-/commit/4b49f902ec6f2bb382cbbf=
-489870573f4b43371e
-https://gitlab.freedesktop.org/gfx-ci/linux/-/commit/38cdf4c5559771e2474ae0=
-fecef8469f65147bc1
+I wonder why we don't add a "gpu:" label here.
 
-But given that sdm845 is similar to sc7180 as far as kernel gpu
-driver, it is probably just better to skip these on sdm845 (with a
-comment referring to the hack patches we use in mesa CI)
+Almost all other subsystem nodes have one (e.g. emif:, aes:, dss:, dsi:, =
+hdmi:, etc.),
+obviously for convenience when using a .dtsi file.
 
-BR,
--R
+It would allow a board-specific DTS to easily add status =3D "disabled" =
+to avoid driver
+probing or disabling the GPU (e.g. if there is no display).
 
->
-> Thanks, it looks like you also have a relatively recent igt (there
-> were some msm_submit fails until I fixed the test)..
->
-> BR,
-> -R
->
-> > Regards,
-> > Vignesh
+> + compatible =3D "ti,omap4430-gpu", "img,powervr-sgx540";
+
+It still appears to me that the "img,powervr-sgx540" (or similar) entry =
+is redundant
+information.
+
+I have experimentally updated our openpvrsgx driver and we do not have =
+any use for
+this information (at least in the kernel driver):
+
+=
+https://github.com/goldelico/letux-kernel/commit/f2f7cb3b858ef255f52f2b82a=
+8bb34c047337afe
+
+It shows how easy it is to derive the sgx version and revision number if =
+we ever
+need it inside the driver.
+
+So if you want to keep a reference to powervr, it would suffice to have
+
+> + compatible =3D "ti,omap4430-gpu", "img,powervr-sgx";
+
+Otherwise your device tree entries compile fine and seem to work (at =
+least in
+a cursory test on PandaBoard ES).
+
+> + reg =3D <0x0 0x2000000>; /* 32MB */
+> + interrupts =3D <GIC_SPI 21 IRQ_TYPE_LEVEL_HIGH>;
+> + };
+> };
+
+BR and thanks,
+Nikolaus=
