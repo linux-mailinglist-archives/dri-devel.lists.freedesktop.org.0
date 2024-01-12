@@ -1,104 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AD0482BE94
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 11:26:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5712782BEBC
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 11:50:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2961C10EAD1;
-	Fri, 12 Jan 2024 10:26:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE47B10E0FE;
+	Fri, 12 Jan 2024 10:50:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B78910EAD1
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 10:26:48 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id
- ffacd0b85a97d-336755f1688so5248912f8f.0
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 02:26:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1705055206; x=1705660006; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :references:cc:to:content-language:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=C0Lc99ilQ42af+xslRM658d3mAj5DW98oVamnjTJWVg=;
- b=pARCbTic0MHlB1V+Z9bw97S5aYzDQVaYg0G6KL0VUi10TK5fnIWhbw5ZdxJL/5/Dzx
- gqhmv0G5Uh1cIwcFQgn8cb1Ipnya9JGp9qRfzFfF+Iy/P0BfgYfQn2EdoqJxv+iBjHev
- Wjaah+FXVlRuBNc3rIo6qAZ0C7LEXjQGT5WlUQVri5aiMcIYKu0PmcceAy5R47hB2D7K
- fYIqXGX7+fW3pWSg6XIgmH6FW+jrvwBnJZGcozhCgZckxRms8c8KNFUgDlhzmiOCXcYm
- p6EdzkvIErM4C0tiXkEXlOEbd7eWhNxVCq1ZbgkgT0UTTbuUVbRGdcTvC+XBuG+iE3wr
- HikQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705055206; x=1705660006;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :references:cc:to:content-language:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=C0Lc99ilQ42af+xslRM658d3mAj5DW98oVamnjTJWVg=;
- b=oE7900+q6Fsr8gAPfoNzzGR1+PefOYzoNmG4bpcz1ad8tz2Mxa9JKbTaq9gI524aOB
- AQPbLEqk21Jp2PUAJ62LGUzl7P+CsAWcnFiPWy97zQckgmH1K/qQrNO3/WhKaNfvJL+8
- jWszFcdMEMAVYrdSOlLpiVxBIVH2KAjjeIBzHV+LZZHcfD8MbCqfuWrxx+yTaz4mt3Sn
- xeM5cdg6No0c7XNz3m/TDlwyetZghzx6jkGP2D7MIQzp7gaoev3JqJtz5YpSZ2sdGz7H
- JgpPU9IFrjx8K9n58g3RcezpeMBoJQWNn2bw31IUAUcVZDRc3NbC7OCSO8D25Ny9ueHY
- F/xA==
-X-Gm-Message-State: AOJu0Yyyc4kbDB+FeSpREvSNOdKo5sRVa6qF5xKgedr0xMozDtDoB4dg
- gDcCdJGJ6mm4Lbr6xRahTAQEcf+kIRBGig==
-X-Google-Smtp-Source: AGHT+IEJ0X+IfLsBVCPTmjzGkvUhKKx4wLj7tOWDMjhPq6GtB3+I1Fs/2fvJMVmiCPfL0g/HihfoHw==
-X-Received: by 2002:a05:6000:184f:b0:336:5e6c:a1f8 with SMTP id
- c15-20020a056000184f00b003365e6ca1f8mr684134wri.92.1705055206508; 
- Fri, 12 Jan 2024 02:26:46 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:59d5:231:f1ee:77f?
- ([2a01:e0a:982:cbb0:59d5:231:f1ee:77f])
- by smtp.gmail.com with ESMTPSA id
- h18-20020adf9cd2000000b00336a1f6ce7csm3456348wre.19.2024.01.12.02.26.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Jan 2024 02:26:46 -0800 (PST)
-Message-ID: <f99d363c-d4a6-44b3-8057-3925f8dac1d5@linaro.org>
-Date: Fri, 12 Jan 2024 11:26:44 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C00210E0FE;
+ Fri, 12 Jan 2024 10:50:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1705056604; x=1736592604;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=vvWtGzOPgV+zoM7ORGA+Z5lSf/tg9Mu+gfWDoQfv6mg=;
+ b=UsxuGN+hdX+/sqcDJbQL7cDJHRCYk+lmDThTs1kNIktGllQGdRiiIWnW
+ OIa1EFCpbGa3wzBvkM3Sp2xMlfEyN/AFggQjyaY6oRKHEoXqLTwad066d
+ +hku/ZWRrhysE5eNE9UVORdPfb0MsTOc9K7WJTrR8cGmp4G3NmPjlLM3Y
+ 3xZVUInalaE9qibyLThqV0ltcOWD7BMWRrfPHlvLye7zvjYKNVOQ/wDbm
+ Yb11PUq2Sw0FBcqpCZRISJHufYMfIbV44AI51UxTa6Zxwsx6IeslwTC1C
+ o8aV1v6mYdY0BZUFSAef5/9iGg8ZKjR1yNM945T+8NrLRVSdRlPIzSfVb A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="6511649"
+X-IronPort-AV: E=Sophos;i="6.04,189,1695711600"; 
+   d="scan'208";a="6511649"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jan 2024 02:50:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="775977660"
+X-IronPort-AV: E=Sophos;i="6.04,189,1695711600"; d="scan'208";a="775977660"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+ by orsmga007.jf.intel.com with ESMTP; 12 Jan 2024 02:50:02 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1rOF6t-0009LC-2o;
+ Fri, 12 Jan 2024 10:49:59 +0000
+Date: Fri, 12 Jan 2024 18:49:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 4/6] drm/imx: prefer snprintf over sprintf
+Message-ID: <202401121801.3j6GnsGm-lkp@intel.com>
+References: <14c0108a54007a8360d84162a1d63cba9613b945.1704908087.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH v2 2/4] drm/panel: Add driver for DJN HX83112A LCD panel
-Content-Language: en-US, fr
-To: Linus Walleij <linus.walleij@linaro.org>,
- Luca Weiss <luca.weiss@fairphone.com>
-References: <20240110-fp4-panel-v2-0-8ad11174f65b@fairphone.com>
- <20240110-fp4-panel-v2-2-8ad11174f65b@fairphone.com>
- <CACRpkdaWTfPDCin_L6pefHsokjNyO8Mo6hWPdzPLLi1EUkKUuA@mail.gmail.com>
- <CYBZEZ4IM6IL.VR04W7933VI@fairphone.com>
- <CACRpkdZQbVXfBa70nhDOqfWPbsh-6DgX-uvZOxr19pzMmF2giQ@mail.gmail.com>
- <CYCLSCKPPBOC.1B1MP3VOOC0Q8@fairphone.com>
- <cdc18e2a-b7eb-4b54-a513-481148fb3b0d@linaro.org>
- <CYCMVXHYVDCI.HVH1TR8MWEUK@fairphone.com>
- <CACRpkdacS9ojXUuogygkz6xxCf3mMq6GG_75sze8ukUu=rxVyw@mail.gmail.com>
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro Developer Services
-In-Reply-To: <CACRpkdacS9ojXUuogygkz6xxCf3mMq6GG_75sze8ukUu=rxVyw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <14c0108a54007a8360d84162a1d63cba9613b945.1704908087.git.jani.nikula@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,43 +60,170 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Bjorn Andersson <andersson@kernel.org>,
- Andy Gross <agross@kernel.org>, Maxime Ripard <mripard@kernel.org>,
- linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, Jessica Zhang <quic_jesszhan@quicinc.com>,
- phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
+Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/01/2024 11:23, Linus Walleij wrote:
-> On Fri, Jan 12, 2024 at 10:52 AM Luca Weiss <luca.weiss@fairphone.com> wrote:
-> 
->> Since there's zero indication Truly is involved in this panel in my
->> documentation - much less the number 5P65 - I'm not going to add that.
+Hi Jani,
 
-Ack
+kernel test robot noticed the following build warnings:
 
-> 
-> OK then, I fold, thanks for looking into it.
-> Keep the Himax hx83112a file name and symbols.
-> 
->> So in short this panel is the model 9A-3R063-1102B from DJN, which uses
->> a Himax HX83112A driver IC.
-> 
-> So compatible = "djn,9a-3r063-1102b" since the setup sequences for
-> hx83112a are clearly for this one display?
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.7 next-20240112]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Yep let's settle on that!
+url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-nouveau-acr-ga102-remove-unused-but-set-variable/20240111-014206
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/14c0108a54007a8360d84162a1d63cba9613b945.1704908087.git.jani.nikula%40intel.com
+patch subject: [PATCH 4/6] drm/imx: prefer snprintf over sprintf
+config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20240112/202401121801.3j6GnsGm-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240112/202401121801.3j6GnsGm-lkp@intel.com/reproduce)
 
-Thanks,
-Neil
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401121801.3j6GnsGm-lkp@intel.com/
 
-> 
-> Yours,
-> Linus Walleij
+All warnings (new ones prefixed by >>):
 
+   drivers/gpu/drm/imx/ipuv3/imx-ldb.c: In function 'imx_ldb_probe':
+>> drivers/gpu/drm/imx/ipuv3/imx-ldb.c:658:57: warning: '_sel' directive output may be truncated writing 4 bytes into a region of size between 3 and 13 [-Wformat-truncation=]
+     658 |                 snprintf(clkname, sizeof(clkname), "di%d_sel", i);
+         |                                                         ^~~~
+   drivers/gpu/drm/imx/ipuv3/imx-ldb.c:658:17: note: 'snprintf' output between 8 and 18 bytes into a destination of size 16
+     658 |                 snprintf(clkname, sizeof(clkname), "di%d_sel", i);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/_sel +658 drivers/gpu/drm/imx/ipuv3/imx-ldb.c
+
+   617	
+   618	static int imx_ldb_probe(struct platform_device *pdev)
+   619	{
+   620		struct device *dev = &pdev->dev;
+   621		struct device_node *np = dev->of_node;
+   622		struct device_node *child;
+   623		struct imx_ldb *imx_ldb;
+   624		int dual;
+   625		int ret;
+   626		int i;
+   627	
+   628		imx_ldb = devm_kzalloc(dev, sizeof(*imx_ldb), GFP_KERNEL);
+   629		if (!imx_ldb)
+   630			return -ENOMEM;
+   631	
+   632		imx_ldb->regmap = syscon_regmap_lookup_by_phandle(np, "gpr");
+   633		if (IS_ERR(imx_ldb->regmap)) {
+   634			dev_err(dev, "failed to get parent regmap\n");
+   635			return PTR_ERR(imx_ldb->regmap);
+   636		}
+   637	
+   638		/* disable LDB by resetting the control register to POR default */
+   639		regmap_write(imx_ldb->regmap, IOMUXC_GPR2, 0);
+   640	
+   641		imx_ldb->dev = dev;
+   642		imx_ldb->lvds_mux = device_get_match_data(dev);
+   643	
+   644		dual = of_property_read_bool(np, "fsl,dual-channel");
+   645		if (dual)
+   646			imx_ldb->ldb_ctrl |= LDB_SPLIT_MODE_EN;
+   647	
+   648		/*
+   649		 * There are three different possible clock mux configurations:
+   650		 * i.MX53:  ipu1_di0_sel, ipu1_di1_sel
+   651		 * i.MX6q:  ipu1_di0_sel, ipu1_di1_sel, ipu2_di0_sel, ipu2_di1_sel
+   652		 * i.MX6dl: ipu1_di0_sel, ipu1_di1_sel, lcdif_sel
+   653		 * Map them all to di0_sel...di3_sel.
+   654		 */
+   655		for (i = 0; i < 4; i++) {
+   656			char clkname[16];
+   657	
+ > 658			snprintf(clkname, sizeof(clkname), "di%d_sel", i);
+   659			imx_ldb->clk_sel[i] = devm_clk_get(imx_ldb->dev, clkname);
+   660			if (IS_ERR(imx_ldb->clk_sel[i])) {
+   661				ret = PTR_ERR(imx_ldb->clk_sel[i]);
+   662				imx_ldb->clk_sel[i] = NULL;
+   663				break;
+   664			}
+   665	
+   666			imx_ldb->clk_parent[i] = clk_get_parent(imx_ldb->clk_sel[i]);
+   667		}
+   668		if (i == 0)
+   669			return ret;
+   670	
+   671		for_each_child_of_node(np, child) {
+   672			struct imx_ldb_channel *channel;
+   673			int bus_format;
+   674	
+   675			ret = of_property_read_u32(child, "reg", &i);
+   676			if (ret || i < 0 || i > 1) {
+   677				ret = -EINVAL;
+   678				goto free_child;
+   679			}
+   680	
+   681			if (!of_device_is_available(child))
+   682				continue;
+   683	
+   684			if (dual && i > 0) {
+   685				dev_warn(dev, "dual-channel mode, ignoring second output\n");
+   686				continue;
+   687			}
+   688	
+   689			channel = &imx_ldb->channel[i];
+   690			channel->ldb = imx_ldb;
+   691			channel->chno = i;
+   692	
+   693			/*
+   694			 * The output port is port@4 with an external 4-port mux or
+   695			 * port@2 with the internal 2-port mux.
+   696			 */
+   697			ret = drm_of_find_panel_or_bridge(child,
+   698							  imx_ldb->lvds_mux ? 4 : 2, 0,
+   699							  &channel->panel, &channel->bridge);
+   700			if (ret && ret != -ENODEV)
+   701				goto free_child;
+   702	
+   703			/* panel ddc only if there is no bridge */
+   704			if (!channel->bridge) {
+   705				ret = imx_ldb_panel_ddc(dev, channel, child);
+   706				if (ret)
+   707					goto free_child;
+   708			}
+   709	
+   710			bus_format = of_get_bus_format(dev, child);
+   711			if (bus_format == -EINVAL) {
+   712				/*
+   713				 * If no bus format was specified in the device tree,
+   714				 * we can still get it from the connected panel later.
+   715				 */
+   716				if (channel->panel && channel->panel->funcs &&
+   717				    channel->panel->funcs->get_modes)
+   718					bus_format = 0;
+   719			}
+   720			if (bus_format < 0) {
+   721				dev_err(dev, "could not determine data mapping: %d\n",
+   722					bus_format);
+   723				ret = bus_format;
+   724				goto free_child;
+   725			}
+   726			channel->bus_format = bus_format;
+   727			channel->child = child;
+   728		}
+   729	
+   730		platform_set_drvdata(pdev, imx_ldb);
+   731	
+   732		return component_add(&pdev->dev, &imx_ldb_ops);
+   733	
+   734	free_child:
+   735		of_node_put(child);
+   736		return ret;
+   737	}
+   738	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
