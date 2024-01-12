@@ -2,63 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7950C82BE0C
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 11:04:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 770C582BE7E
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 11:22:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C23BD10E031;
-	Fri, 12 Jan 2024 10:04:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AFC310E054;
+	Fri, 12 Jan 2024 10:22:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F09010E031
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 10:04:04 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id
- 2adb3069b0e04-50eabd1c701so7654914e87.3
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 02:04:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1705053842; x=1705658642; darn=lists.freedesktop.org;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=49mGNK36uTAc2PcGxvuMH6FjMrZ7N2e/dp51dNcG2WI=;
- b=BCQktPCFXN3W+gwZxDRpC74WAPYlZDJxwe5YPM+/FRaMi5SA/Av5Q6OJKv7HyqXH6C
- HtNb0/4Id51KIFXfAzSNfcrwqDOnuX2mIf03lJZjwK2HUu9sHModizWx0VbI+w9mzxhp
- pEyYqgC0PXD0PZ1S5AdBQOCLVHbNpZLuPyuWhy9jPy1bdEMRWm35B9CIl7VtX2MfoISZ
- L5y/QtGvtgUlh8JzZhOzhGFvyTp32P3FFTaIIeQDBUa9WRZkGYaJhfMHSv68/ppOX4WZ
- 48ul8qQjtuqrMTyD+9oJMbuqaGUtbhQ9yEvzGfnQztxUdPJAQrIpd96dKpUtLhhrZQQj
- xTbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705053842; x=1705658642;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=49mGNK36uTAc2PcGxvuMH6FjMrZ7N2e/dp51dNcG2WI=;
- b=C4ZexV0GvhP9ravxPCZY8+y6S/8IZ6MKkBZagsWj7zupX0CZ33h+JFEzG3XXx83ZpA
- D9abPVTBjXtNNP/+xEPL9Njhun48rr0+dCL6g3Ai6wtlBMFujFCHLtc/ORBT3nMlprdg
- aR/DpyO5ZZKrytSazS3jA6QyzqwnyidEBRtC0kU/je52msGLxFoRE8m5g18TKsu3/LLx
- e2kwzYti6aKs4XT65DlQw0qs58QhIJe91DqDMK4UTNZCjw3HSni+yKPzh1EGk/4D66Cy
- MQS56A11tjfBEBybkExZNpu6uXja9qyNpfYhyFlAH/IkwXlVYImZp9igeXr1YmeycyiT
- NaKQ==
-X-Gm-Message-State: AOJu0YzIQk2a99ucZWG19w8EoCz1qlbSLe6UKebVrNuLYyIuUS4ph+z0
- JhJmy2OM7/nQRIgwYcK66yE=
-X-Google-Smtp-Source: AGHT+IEJgqgQRPe4+wGucPThB/wEKQwuXAHrrbJUK/XGlr7TnjYBQAAXKDwmwnzWG8Ho0OJhEyyxYw==
-X-Received: by 2002:a05:6512:3188:b0:50e:6b48:5407 with SMTP id
- i8-20020a056512318800b0050e6b485407mr667018lfe.82.1705053841920; 
- Fri, 12 Jan 2024 02:04:01 -0800 (PST)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- y22-20020a056512335600b0050eea9541casm26727lfd.44.2024.01.12.02.04.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Jan 2024 02:04:01 -0800 (PST)
-Date: Fri, 12 Jan 2024 12:03:57 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Yong Wu <yong.wu@mediatek.com>
-Subject: Re: [PATCH v4 0/7] dma-buf: heaps: Add restricted heap
-Message-ID: <20240112120357.724e9326@eldfell>
-In-Reply-To: <20240112092014.23999-1-yong.wu@mediatek.com>
-References: <20240112092014.23999-1-yong.wu@mediatek.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by gabe.freedesktop.org (Postfix) with ESMTP id EEAF810E054
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 10:22:37 +0000 (UTC)
+Received: by linux.microsoft.com (Postfix, from userid 1134)
+ id 7434020B3CD5; Fri, 12 Jan 2024 02:22:37 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7434020B3CD5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+ s=default; t=1705054957;
+ bh=T3B5+PthjQIw2LxpelxUCUZWnHz2lUrA4eOBRCI6B0s=;
+ h=Date:From:To:Subject:References:In-Reply-To:From;
+ b=S0DBiAfOM6uk5obokhBue1Ly47Qe+69aXxCUqQMFZRUtxBUnJ75T9eBlxBBu+mug5
+ v1VrJHbhveGUooZNFNuHw77/vnayKLg0mQ9jEsG7fNxyJA9JM3p2d9axcCVRPnhGA9
+ qBdB/gNuMSL1t2KNYnR7j6/xruu1CzAVLfYIJNAU=
+Date: Fri, 12 Jan 2024 02:22:37 -0800
+From: Shradha Gupta <shradhagupta@linux.microsoft.com>
+To: linux-kernel@vger.kernel.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.dev>,
+ David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+ Saurabh Singh Sengar <ssengar@linux.microsoft.com>,
+ Shradha Gupta <shradhagupta@microsoft.com>
+Subject: Re: [PATCH v2] drm: Check output polling initialized before disabling
+Message-ID: <20240112102237.GA4332@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <1704869987-7546-1-git-send-email-shradhagupta@linux.microsoft.com>
+ <ZZ53P1v0nms-Y8gk@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/lS=3R00MGWXjD0UrR5LXr4S";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZZ53P1v0nms-Y8gk@phenom.ffwll.local>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,158 +52,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pavel Machek <pavel@ucw.cz>, dri-devel@lists.freedesktop.org,
- John Stultz <jstultz@google.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Jeffrey Kardatzke <jkardatzke@google.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Vijayanand Jitta <quic_vjitta@quicinc.com>, jianjiao.zeng@mediatek.com,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, linaro-mm-sig@lists.linaro.org,
- Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Joakim Bech <joakim.bech@linaro.org>, tjmercier@google.com,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- youlin.pei@mediatek.com, kuohong.wang@mediatek.com,
- linux-kernel@vger.kernel.org, christian.koenig@amd.com,
- Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/lS=3R00MGWXjD0UrR5LXr4S
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, 12 Jan 2024 17:20:07 +0800
-Yong Wu <yong.wu@mediatek.com> wrote:
-
-> The purpose of this patchset is for MediaTek secure video playback, and
-> also to enable other potential uses of this in the future. The 'restricted
-> dma-heap' will be used to allocate dma_buf objects that reference memory
-> in the secure world that is inaccessible/unmappable by the non-secure
-> (i.e. kernel/userspace) world.  That memory will be used by the secure/
-> trusted world to store secure information (i.e. decrypted media content).
-> The dma_bufs allocated from the kernel will be passed to V4L2 for video
-> decoding (as input and output). They will also be used by the drm
-> system for rendering of the content.
->=20
-> This patchset adds two MediaTek restricted heaps and they will be used in
-> v4l2[1] and drm[2].
-> 1) restricted_mtk_cm: secure chunk memory for MediaTek SVP (Secure Video
->    Path). The buffer is reserved for the secure world after bootup and it
->    is used for vcodec's ES/working buffer;
-> 2) restricted_mtk_cma: secure CMA memory for MediaTek SVP. This buffer is
->    dynamically reserved for the secure world and will be got when we start
->    playing secure videos. Once the security video playing is complete, the
->    CMA will be released. This heap is used for the vcodec's frame buffer.=
-=20
->=20
-> [1] https://lore.kernel.org/linux-mediatek/20231206081538.17056-1-yunfei.=
-dong@mediatek.com/
-> [2] https://lore.kernel.org/all/20231223182932.27683-1-jason-jh.lin@media=
-tek.com/
->=20
-> Change note:
-> v4: 1) Rename the heap name from "secure" to "restricted". suggested from
->      Simon/Pekka. There are still several "secure" string in MTK file
->      since we use ARM platform in which we call this "secure world"/
->      "secure command".
-
-Hi,
-
-I am really happy about this name change, thank you.
-
-It is unfortunate that ARM specifications use the word "secure", but so
-be it. When referring to specs, it's good to use the spec wording.
-
-In everything that is not a direct reference to some spec though it
-would be nice to use the "restricted" terminology if possible. I
-presume there are other vendors who use words other than what ARM uses
-for similar concepts. A common vocabulary would be nice.
-
+On Wed, Jan 10, 2024 at 11:53:51AM +0100, Daniel Vetter wrote:
+> On Tue, Jan 09, 2024 at 10:59:47PM -0800, Shradha Gupta wrote:
+> > In drm_kms_helper_poll_disable() check if output polling
+> > support is initialized before disabling polling.
+> > For drivers like hyperv-drm, that do not initialize connector
+> > polling, if suspend is called without this check, it leads to
+> > suspend failure with following stack
+> > [  770.719392] Freezing remaining freezable tasks ... (elapsed 0.001 seconds) done.
+> > [  770.720592] printk: Suspending console(s) (use no_console_suspend to debug)
+> > [  770.948823] ------------[ cut here ]------------
+> > [  770.948824] WARNING: CPU: 1 PID: 17197 at kernel/workqueue.c:3162 __flush_work.isra.0+0x212/0x230
+> > [  770.948831] Modules linked in: rfkill nft_counter xt_conntrack xt_owner udf nft_compat crc_itu_t nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 ip_set nf_tables nfnetlink vfat fat mlx5_ib ib_uverbs ib_core mlx5_core intel_rapl_msr intel_rapl_common kvm_amd ccp mlxfw kvm psample hyperv_drm tls drm_shmem_helper drm_kms_helper irqbypass pcspkr syscopyarea sysfillrect sysimgblt hv_balloon hv_utils joydev drm fuse xfs libcrc32c pci_hyperv pci_hyperv_intf sr_mod sd_mod cdrom t10_pi sg hv_storvsc scsi_transport_fc hv_netvsc serio_raw hyperv_keyboard hid_hyperv crct10dif_pclmul crc32_pclmul crc32c_intel hv_vmbus ghash_clmulni_intel dm_mirror dm_region_hash dm_log dm_mod
+> > [  770.948863] CPU: 1 PID: 17197 Comm: systemd-sleep Not tainted 5.14.0-362.2.1.el9_3.x86_64 #1
+> > [  770.948865] Hardware name: Microsoft Corporation Virtual Machine/Virtual Machine, BIOS Hyper-V UEFI Release v4.1 05/09/2022
+> > [  770.948866] RIP: 0010:__flush_work.isra.0+0x212/0x230
+> > [  770.948869] Code: 8b 4d 00 4c 8b 45 08 89 ca 48 c1 e9 04 83 e2 08 83 e1 0f 83 ca 02 89 c8 48 0f ba 6d 00 03 e9 25 ff ff ff 0f 0b e9 4e ff ff ff <0f> 0b 45 31 ed e9 44 ff ff ff e8 8f 89 b2 00 66 66 2e 0f 1f 84 00
+> > [  770.948870] RSP: 0018:ffffaf4ac213fb10 EFLAGS: 00010246
+> > [  770.948871] RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffffffff8c992857
+> > [  770.948872] RDX: 0000000000000001 RSI: 0000000000000001 RDI: ffff9aad82b00330
+> > [  770.948873] RBP: ffff9aad82b00330 R08: 0000000000000000 R09: ffff9aad87ee3d10
+> > [  770.948874] R10: 0000000000000200 R11: 0000000000000000 R12: ffff9aad82b00330
+> > [  770.948874] R13: 0000000000000001 R14: 0000000000000000 R15: 0000000000000001
+> > [  770.948875] FS:  00007ff1b2f6bb40(0000) GS:ffff9aaf37d00000(0000) knlGS:0000000000000000
+> > [  770.948878] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > [  770.948878] CR2: 0000555f345cb666 CR3: 00000001462dc005 CR4: 0000000000370ee0
+> > [  770.948879] Call Trace:
+> > [  770.948880]  <TASK>
+> > [  770.948881]  ? show_trace_log_lvl+0x1c4/0x2df
+> > [  770.948884]  ? show_trace_log_lvl+0x1c4/0x2df
+> > [  770.948886]  ? __cancel_work_timer+0x103/0x190
+> > [  770.948887]  ? __flush_work.isra.0+0x212/0x230
+> > [  770.948889]  ? __warn+0x81/0x110
+> > [  770.948891]  ? __flush_work.isra.0+0x212/0x230
+> > [  770.948892]  ? report_bug+0x10a/0x140
+> > [  770.948895]  ? handle_bug+0x3c/0x70
+> > [  770.948898]  ? exc_invalid_op+0x14/0x70
+> > [  770.948899]  ? asm_exc_invalid_op+0x16/0x20
+> > [  770.948903]  ? __flush_work.isra.0+0x212/0x230
+> > [  770.948905]  __cancel_work_timer+0x103/0x190
+> > [  770.948907]  ? _raw_spin_unlock_irqrestore+0xa/0x30
+> > [  770.948910]  drm_kms_helper_poll_disable+0x1e/0x40 [drm_kms_helper]
+> > [  770.948923]  drm_mode_config_helper_suspend+0x1c/0x80 [drm_kms_helper]
+> 
+> So since this only happens for drivers using
+> drm_mode_config_helper_suspend, I think we should put the check in there.
+> And then we also need to (somehow, not sure how?) make sure that for that
+> case, we do not enable polling on resume either.
+> 
+> Because for drivers using poll helpers directly it would be a driver bug
+> to call _disable without having called _enable first. And so I think we
+> should at least put a drm_WARN around the if() check your adding, since
+> that if check papers over some more fundamental issue.
+> 
+> Cheers, Sima
+Thanks Daniel, that helps.I will keep the original check in the suspend call
+and correct the resume flow to not invoke enable helper call too.
+Also, would keep these current checks in enable and disable functions with the
+WARN_ON's for catching these issues in future.
 
 Thanks,
-pq
-
-> v3: https://lore.kernel.org/linux-mediatek/20231212024607.3681-1-yong.wu@=
-mediatek.com/
->     1) Separate the secure heap to a common file(secure_heap.c) and mtk
->      special file (secure_heap_mtk.c),  and put all the tee related code
->      into our special file.
->     2) About dt-binding, Add "mediatek," prefix since this is Mediatek TEE
->      firmware definition.
->     3) Remove the normal CMA heap which is a draft for qcom.
->     Rebase on v6.7-rc1.
->=20
-> v2: https://lore.kernel.org/linux-mediatek/20231111111559.8218-1-yong.wu@=
-mediatek.com/
->     1) Move John's patches into the vcodec patchset since they use the new
->        dma heap interface directly.
->        https://lore.kernel.org/linux-mediatek/20231106120423.23364-1-yunf=
-ei.dong@mediatek.com/
->     2) Reword the dt-binding description.
->     3) Rename the heap name from mtk_svp to secure_mtk_cm.
->        This means the current vcodec/DRM upstream code doesn't match this.
->     4) Add a normal CMA heap. currently it should be a draft version.
->     5) Regarding the UUID, I still use hard code, but put it in a private
->     data which allow the others could set their own UUID. What's more, UU=
-ID
->     is necessary for the session with TEE. If we don't have it, we can't
->     communicate with the TEE, including the get_uuid interface, which tri=
-es
->     to make uuid more generic, not working. If there is other way to make
->     UUID more general, please free to tell me.
->    =20
-> v1: https://lore.kernel.org/linux-mediatek/20230911023038.30649-1-yong.wu=
-@mediatek.com/
->     Base on v6.6-rc1.
->=20
-> Yong Wu (7):
->   dt-bindings: reserved-memory: Add mediatek,dynamic-restricted-region
->   dma-buf: heaps: Initialize a restricted heap
->   dma-buf: heaps: restricted_heap: Add private heap ops
->   dma-buf: heaps: restricted_heap: Add dma_ops
->   dma-buf: heaps: restricted_heap: Add MediaTek restricted heap and
->     heap_init
->   dma-buf: heaps: restricted_heap_mtk: Add TEE memory service call
->   dma_buf: heaps: restricted_heap_mtk: Add a new CMA heap
->=20
->  .../mediatek,dynamic-restricted-region.yaml   |  43 +++
->  drivers/dma-buf/heaps/Kconfig                 |  16 +
->  drivers/dma-buf/heaps/Makefile                |   4 +-
->  drivers/dma-buf/heaps/restricted_heap.c       | 237 +++++++++++++
->  drivers/dma-buf/heaps/restricted_heap.h       |  43 +++
->  drivers/dma-buf/heaps/restricted_heap_mtk.c   | 322 ++++++++++++++++++
->  6 files changed, 664 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/devicetree/bindings/reserved-memory/med=
-iatek,dynamic-restricted-region.yaml
->  create mode 100644 drivers/dma-buf/heaps/restricted_heap.c
->  create mode 100644 drivers/dma-buf/heaps/restricted_heap.h
->  create mode 100644 drivers/dma-buf/heaps/restricted_heap_mtk.c
->=20
-
-
---Sig_/lS=3R00MGWXjD0UrR5LXr4S
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmWhDo0ACgkQI1/ltBGq
-qqdgnhAAiXIHptPG8WhqVlmOGF8J+Dj7PxjrLasFg2BG/gbUDAM2FICO1VBkblIw
-bW1+LqpcdVG+FBs/hGrQOvEblaiIKjMXf5jyNnqPun4xGzi4VggC3sU7erHyIaAb
-bLqfGVzrG782jns8Ibj9AeX1fck6aooUm8yD6w5JvGJRKRNIXKIeGPZrRkiotfnn
-0NcTZ4BVoTufB5dzYgJABuiTmk1OyT4QkCVmVVE0mVn4tTc8Yd+s4m3rXqr/r3YE
-A0geZB/426wfXy6oxNmf0ftQzsyEIcVP/WZJZKtbh6rnXQ2RcMkK38wTTG0Bmyuf
-F1FW2L0GEyile6Vm6DyRJf97UQSzWCMraDUJKEd9+AbyjbreEnSUSL5WnPpWTbND
-lmsCrC1rVM+/hTOD7or/0mF6kp2WgfSaaH+BhrkvDb8MGjj/84yEs4v0jAwBM5y4
-knMaP00XF33xsX4OWEWbjniT+ZCdl9lhrGju9A+0+ZDTH+2LKAuzF5Rq9GgzWUzD
-NqoAZ3aLTUS6KdLfjG6Dzz+eLtjrmOcOcP0gdxKbObO5DXo3yL/r3WZyGDoBDDNr
-Ko38kjrDz+kuAsfKRzu1tDbPLnJLnVyt9rBl4NiD5Gl3BrJv0WvFRtuyzYrlNKHU
-M5t91RcbiaPApyXCZT0eXqefR5B27nW2e20Kqcf3kEPh+dsLVzc=
-=Y8bP
------END PGP SIGNATURE-----
-
---Sig_/lS=3R00MGWXjD0UrR5LXr4S--
+Shradha
+> 
+> > [  770.948933]  ? __pfx_vmbus_suspend+0x10/0x10 [hv_vmbus]
+> > [  770.948942]  hyperv_vmbus_suspend+0x17/0x40 [hyperv_drm]
+> > [  770.948944]  ? __pfx_vmbus_suspend+0x10/0x10 [hv_vmbus]
+> > [  770.948951]  dpm_run_callback+0x4c/0x140
+> > [  770.948954]  __device_suspend_noirq+0x74/0x220
+> > [  770.948956]  dpm_noirq_suspend_devices+0x148/0x2a0
+> > [  770.948958]  dpm_suspend_end+0x54/0xe0
+> > [  770.948960]  create_image+0x14/0x290
+> > [  770.948963]  hibernation_snapshot+0xd6/0x200
+> > [  770.948964]  hibernate.cold+0x8b/0x1fb
+> > [  770.948967]  state_store+0xcd/0xd0
+> > [  770.948969]  kernfs_fop_write_iter+0x124/0x1b0
+> > [  770.948973]  new_sync_write+0xff/0x190
+> > [  770.948976]  vfs_write+0x1ef/0x280
+> > [  770.948978]  ksys_write+0x5f/0xe0
+> > [  770.948979]  do_syscall_64+0x5c/0x90
+> > [  770.948981]  ? syscall_exit_work+0x103/0x130
+> > [  770.948983]  ? syscall_exit_to_user_mode+0x12/0x30
+> > [  770.948985]  ? do_syscall_64+0x69/0x90
+> > [  770.948986]  ? do_syscall_64+0x69/0x90
+> > [  770.948987]  ? do_user_addr_fault+0x1d6/0x6a0
+> > [  770.948989]  ? do_syscall_64+0x69/0x90
+> > [  770.948990]  ? exc_page_fault+0x62/0x150
+> > [  770.948992]  entry_SYSCALL_64_after_hwframe+0x72/0xdc
+> > [  770.948995] RIP: 0033:0x7ff1b293eba7
+> > [  770.949010] Code: 0b 00 f7 d8 64 89 02 48 c7 c0 ff ff ff ff eb b7 0f 1f 00 f3 0f 1e fa 64 8b 04 25 18 00 00 00 85 c0 75 10 b8 01 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 51 c3 48 83 ec 28 48 89 54 24 18 48 89 74 24
+> > [  770.949011] RSP: 002b:00007ffde3912128 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+> > [  770.949012] RAX: ffffffffffffffda RBX: 0000000000000005 RCX: 00007ff1b293eba7
+> > [  770.949013] RDX: 0000000000000005 RSI: 00007ffde3912210 RDI: 0000000000000004
+> > [  770.949014] RBP: 00007ffde3912210 R08: 000055d7dd4c9510 R09: 00007ff1b29b14e0
+> > [  770.949014] R10: 00007ff1b29b13e0 R11: 0000000000000246 R12: 0000000000000005
+> > [  770.949015] R13: 000055d7dd4c53e0 R14: 0000000000000005 R15: 00007ff1b29f69e0
+> > [  770.949016]  </TASK>
+> > [  770.949017] ---[ end trace e6fa0618bfa2f31d ]---
+> > 
+> > Built-on: Rhel9, Ubuntu22
+> > Signed-off-by: Shradha Gupta <shradhagupta@linux.microsoft.com>
+> > ---
+> > Changes in v2
+> >  * Moved the poll_enabled check in drm_kms_helper_poll_disable()
+> >  * Reworded the patch description based on new changes
+> > ---
+> > ---
+> >  drivers/gpu/drm/drm_probe_helper.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+> > index 3f479483d7d8..b9f07d5f999f 100644
+> > --- a/drivers/gpu/drm/drm_probe_helper.c
+> > +++ b/drivers/gpu/drm/drm_probe_helper.c
+> > @@ -877,6 +877,9 @@ EXPORT_SYMBOL(drm_kms_helper_is_poll_worker);
+> >   */
+> >  void drm_kms_helper_poll_disable(struct drm_device *dev)
+> >  {
+> > +	if (!dev->mode_config.poll_enabled)
+> > +		return;
+> > +
+> >  	if (dev->mode_config.poll_running)
+> >  		drm_kms_helper_disable_hpd(dev);
+> >  
+> > -- 
+> > 2.34.1
+> > 
+> 
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
