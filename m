@@ -1,62 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0952782C251
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 15:57:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7778E82C30B
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 16:48:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AEA410E052;
-	Fri, 12 Jan 2024 14:57:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D985410EB3F;
+	Fri, 12 Jan 2024 15:48:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com
- [IPv6:2001:4860:4864:20::36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AAE910E004;
- Fri, 12 Jan 2024 14:57:36 +0000 (UTC)
-Received: by mail-oa1-x36.google.com with SMTP id
- 586e51a60fabf-20451ecbb80so3268289fac.2; 
- Fri, 12 Jan 2024 06:57:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1705071455; x=1705676255; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=J6MnHkt2VpMVg0RRcKjlt4ioS8fsU4mRnxPnlPqwX30=;
- b=SCwvnwrEAACRKjG3HTZi05XZh1Mz/TmJspnKP5eLLTbWZwWgk0Am21u8Hx0rP8WeX5
- gK4Nf4FLJi+wrC+FmbmGEOP4JxzKBYyUv/R4e6xqSfztC11YntOlVvzTwuwJ50apkpdM
- KNDqqzWp/YuuNS+Sgywxracr2QEhHSmojrNrEApFUo+GCksuwiPnYfToJJZfEBVRQB6x
- W7vmlfKcK+4KYQQMW9W5C2UeDOZugLYjxH6z0qOFqo4hL1idNfFx50QAlxrxQ/jBN/V7
- CHCjkGoGRCQe6perQvKtvX/RYbsGlUa9bjkAg9T3LgpPA+2U3ZV9wy4MEriO/ZMXD9gl
- nF6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705071455; x=1705676255;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=J6MnHkt2VpMVg0RRcKjlt4ioS8fsU4mRnxPnlPqwX30=;
- b=fsUMkkMWyK8owklpj6ok394R3M42v2GVRSAp61tg/xtYkgwrKMprXuYUsrDem16n3R
- noySpTR2O3npE1AQJnK61q1hHnJrAWr/qxJ4QNO/DBr+2c5kl0Ir5FLN+AlmA0GTKlVV
- 37w5fmBFh3Y3AupobwPpFLp+1lANWM5zJKVpYN4Lg0yCmDDTAU30GcAHTTS8gxVqDPRz
- Loqo1sHsUvJcI6xT7g6yr1eExGNX30VT6Np0uvXI77E+c1F4cCMkZQ3REgDvsI76MyIK
- CckoICx8PMzDpijvadhaXA/cZKD5w1pqRA72nN6BV5icrniiehSl11K2kS1j12Y3OPZc
- pQZw==
-X-Gm-Message-State: AOJu0YxRBAkVbpf8RUsVT7JirecnZg7ny1R3kO2UKuZumlk0BLRnuOQb
- 7H5DRh1IPovqDklHTHm2R1MMCG2q2YUxsocAXRw=
-X-Google-Smtp-Source: AGHT+IEALwDD34qY/RqGn4hysu6/p03sgxBJifwumI10KtPXGPHMbVEg4mGSthNFTNntWhQHYX1j1PpBMAHVrG3zolI=
-X-Received: by 2002:a05:6870:d0c1:b0:205:f212:aa0a with SMTP id
- k1-20020a056870d0c100b00205f212aa0amr1676126oaa.19.1705071455567; Fri, 12 Jan
- 2024 06:57:35 -0800 (PST)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C62CA10EB3F
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 15:48:47 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id E4B8B616B9;
+ Fri, 12 Jan 2024 15:48:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F028DC433F1;
+ Fri, 12 Jan 2024 15:48:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1705074526;
+ bh=LjNh32+q3C0+BqK8BlI5tSSM8lb3tGzw35+W/e7lDGA=;
+ h=Date:From:To:Subject:From;
+ b=UwfzX2mEQlMs7lKRKyPel2evCsbDKSF3FUJWhz2ja/dq05Zf8E2LeyAKqtghulLpq
+ ZdITG9xio8wsxb3aEbE66gvbl7xwWfvDC8zdLdBfbo6nDoRr5K/2FYDwTMSP+1aTXO
+ yUapVQDcRnDBzXNxRRXJVIhKYuatcVQScCr1aNn99StcNxluNspXVxAkY7wkvGptIm
+ oD7706f5h6O5euzgYr+ywxiZRoCebK5twcPV36/yj6KaSt08ogPP1B41RPoh9XIAT/
+ zB0rf6PqQbiPbnenPeiqIGWpAWP/2mdtPBD3Fp/wfdd8IEze9+H8kGf9NSFQSPu3qL
+ GoUDR079kJFZw==
+Date: Fri, 12 Jan 2024 16:48:41 +0100
+From: Helge Deller <deller@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Dave Airlie <airlied@redhat.com>, linux-kernel@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: [GIT PULL] fbdev fixes and updates for v6.8-rc1
+Message-ID: <ZaFfWY-bB_b9dGrO@carbonx1>
 MIME-Version: 1.0
-References: <cover.1704908087.git.jani.nikula@intel.com>
- <fea7a52924f98b1ac24f4a7e6ba21d7754422430.1704908087.git.jani.nikula@intel.com>
-In-Reply-To: <fea7a52924f98b1ac24f4a7e6ba21d7754422430.1704908087.git.jani.nikula@intel.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 12 Jan 2024 09:57:23 -0500
-Message-ID: <CADnq5_MZuVDx2VeErcOXSqkgRrnFsrn1=N8Y-K47Woar-aeAyw@mail.gmail.com>
-Subject: Re: [PATCH 3/6] drm/amdgpu: prefer snprintf over sprintf
-To: Jani Nikula <jani.nikula@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,54 +50,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pan@freedesktop.org, intel-gfx@lists.freedesktop.org,
- Xinhui <Xinhui.Pan@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 10, 2024 at 12:39=E2=80=AFPM Jani Nikula <jani.nikula@intel.com=
-> wrote:
->
-> This will trade the W=3D1 warning -Wformat-overflow to
-> -Wformat-truncation. This lets us enable -Wformat-overflow subsystem
-> wide.
->
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Cc: Pan, Xinhui <Xinhui.Pan@amd.com>
-> Cc: amd-gfx@lists.freedesktop.org
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+Hi Linus,
 
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
+please pull the fbdev changes for kernel 6.8-rc1.
 
-Feel free to take this via whichever tree makes sense.
+Three fbdev drivers (~8500 lines of code) will be dropped:
+The Carillo Ranch fbdev driver is for an Intel product which was never shipped,
+and for the intelfb and the amba-clcd drivers the drm drivers can be used
+instead. 
 
-Alex
+The other code changes are minor:
+Some fb_deferred_io flushing fixes, imxfb margin fixes and stifb cleanups.
 
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c b/drivers/gpu/drm/am=
-d/amdgpu/amdgpu_gfx.c
-> index b9674c57c436..82b4b2019fca 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
-> @@ -329,7 +329,8 @@ int amdgpu_gfx_kiq_init_ring(struct amdgpu_device *ad=
-ev,
->
->         ring->eop_gpu_addr =3D kiq->eop_gpu_addr;
->         ring->no_scheduler =3D true;
-> -       sprintf(ring->name, "kiq_%d.%d.%d.%d", xcc_id, ring->me, ring->pi=
-pe, ring->queue);
-> +       snprintf(ring->name, sizeof(ring->name), "kiq_%d.%d.%d.%d",
-> +                xcc_id, ring->me, ring->pipe, ring->queue);
->         r =3D amdgpu_ring_init(adev, ring, 1024, irq, AMDGPU_CP_KIQ_IRQ_D=
-RIVER0,
->                              AMDGPU_RING_PRIO_DEFAULT, NULL);
->         if (r)
-> --
-> 2.39.2
->
+Please note that there is a merge conflict with the drm tree for those files:
+- drivers/video/fbdev/amba-clcd.c
+- drivers/video/fbdev/vermilion/vermilion.c
+They were modified in the drm tree, but deleted in the fbdev tree.
+In case you don't want to deal with this upcoming merge conflict I offer
+to resend a rebased pull request after you pulled drm.
+
+Thanks!
+Helge
+
+----------------------------------------------------------------
+The following changes since commit de927f6c0b07d9e698416c5b287c521b07694cac:
+
+  Merge tag 's390-6.8-1' of git://git.kernel.org/pub/scm/linux/kernel/git/s390/linux (2024-01-10 18:18:20 -0800)
+
+are available in the Git repository at:
+
+  http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git tags/fbdev-for-6.8-rc1
+
+for you to fetch changes up to 689237ab37c59b9909bc9371d7fece3081683fba:
+
+  fbdev/intelfb: Remove driver (2024-01-12 12:38:37 +0100)
+
+----------------------------------------------------------------
+fbdev fixes and cleanups for 6.8-rc1:
+
+- Remove intelfb fbdev driver (Thomas Zimmermann)
+- Remove amba-clcd fbdev driver (Linus Walleij)
+- Remove vmlfb Carillo Ranch fbdev driver (Matthew Wilcox)
+- fb_deferred_io flushing fixes (Nam Cao)
+- imxfb code fixes and cleanups (Dario Binacchi)
+- stifb primary screen detection cleanups (Thomas Zimmermann)
+
+----------------------------------------------------------------
+Colin Ian King (1):
+      video/logo: use %u format specifier for unsigned int values
+
+Dario Binacchi (11):
+      fbdev: imxfb: fix left margin setting
+      fbdev: imxfb: move PCR bitfields near their offset
+      fbdev: imxfb: use BIT, FIELD_{GET,PREP} and GENMASK macros
+      fbdev: imxfb: replace some magic numbers with constants
+      fbdev: imxfb: add missing SPDX tag
+      fbdev: imxfb: drop ftrace-like logging
+      fbdev: imxfb: add missing spaces after ','
+      fbdev: imxfb: Fix style warnings relating to printk()
+      fbdev: imxfb: use __func__ for function name
+      fbdev: imxfb: add '*/' on a separate line in block comment
+      fbdev: mmp: Fix typo and wording in code comment
+
+Linus Walleij (1):
+      fbdev: amba-clcd: Delete the old CLCD driver
+
+Matthew Wilcox (Oracle) (1):
+      fbdev: Remove support for Carillo Ranch driver
+
+Nam Cao (2):
+      fbdev: flush deferred work in fb_deferred_io_fsync()
+      fbdev: flush deferred IO before closing
+
+Randy Dunlap (1):
+      fbdev: hgafb: fix kernel-doc comments
+
+Stanislav Kinsburskii (1):
+      fbdev: fsl-diu-fb: Fix sparse warning due to virt_to_phys() prototype change
+
+Thomas Zimmermann (10):
+      video/sticore: Store ROM device in STI struct
+      fbdev/stifb: Allocate fb_info instance with framebuffer_alloc()
+      arch/parisc: Detect primary video device from device instance
+      video/sticore: Remove info field from STI struct
+      fbdev/sis: Remove dependency on screen_info
+      drm/hyperv: Remove firmware framebuffers with aperture helper
+      fbdev/hyperv_fb: Remove firmware framebuffers with aperture helpers
+      firmware/sysfb: Clear screen_info state after consuming it
+      fbdev/hyperv_fb: Do not clear global screen_info
+      fbdev/intelfb: Remove driver
+
+ Documentation/fb/index.rst                         |    1 -
+ Documentation/fb/intelfb.rst                       |  155 --
+ Documentation/userspace-api/ioctl/ioctl-number.rst |    1 -
+ MAINTAINERS                                        |   12 -
+ arch/parisc/video/fbdev.c                          |    2 +-
+ drivers/Makefile                                   |    3 +-
+ drivers/firmware/sysfb.c                           |   14 +-
+ drivers/gpu/drm/hyperv/hyperv_drm_drv.c            |    8 +-
+ drivers/video/backlight/Kconfig                    |    7 -
+ drivers/video/backlight/Makefile                   |    1 -
+ drivers/video/backlight/cr_bllcd.c                 |  264 ---
+ drivers/video/fbdev/Kconfig                        |   72 -
+ drivers/video/fbdev/Makefile                       |    2 -
+ drivers/video/fbdev/amba-clcd.c                    |  984 ---------
+ drivers/video/fbdev/core/fb_defio.c                |    8 +-
+ drivers/video/fbdev/fsl-diu-fb.c                   |    2 +-
+ drivers/video/fbdev/hgafb.c                        |   13 +-
+ drivers/video/fbdev/hyperv_fb.c                    |   20 +-
+ drivers/video/fbdev/imxfb.c                        |  179 +-
+ drivers/video/fbdev/intelfb/Makefile               |    8 -
+ drivers/video/fbdev/intelfb/intelfb.h              |  382 ----
+ drivers/video/fbdev/intelfb/intelfb_i2c.c          |  209 --
+ drivers/video/fbdev/intelfb/intelfbdrv.c           | 1680 ----------------
+ drivers/video/fbdev/intelfb/intelfbhw.c            | 2115 --------------------
+ drivers/video/fbdev/intelfb/intelfbhw.h            |  609 ------
+ drivers/video/fbdev/mmp/hw/mmp_spi.c               |    2 +-
+ drivers/video/fbdev/sis/sis_main.c                 |   37 -
+ drivers/video/fbdev/stifb.c                        |  109 +-
+ drivers/video/fbdev/vermilion/Makefile             |    6 -
+ drivers/video/fbdev/vermilion/cr_pll.c             |  195 --
+ drivers/video/fbdev/vermilion/vermilion.c          | 1173 -----------
+ drivers/video/fbdev/vermilion/vermilion.h          |  245 ---
+ drivers/video/logo/pnmtologo.c                     |    6 +-
+ drivers/video/sticore.c                            |    5 +
+ include/linux/amba/clcd-regs.h                     |   87 -
+ include/linux/amba/clcd.h                          |  290 ---
+ include/video/sticore.h                            |    6 +-
+ 37 files changed, 208 insertions(+), 8704 deletions(-)
+ delete mode 100644 Documentation/fb/intelfb.rst
+ delete mode 100644 drivers/video/backlight/cr_bllcd.c
+ delete mode 100644 drivers/video/fbdev/amba-clcd.c
+ delete mode 100644 drivers/video/fbdev/intelfb/Makefile
+ delete mode 100644 drivers/video/fbdev/intelfb/intelfb.h
+ delete mode 100644 drivers/video/fbdev/intelfb/intelfb_i2c.c
+ delete mode 100644 drivers/video/fbdev/intelfb/intelfbdrv.c
+ delete mode 100644 drivers/video/fbdev/intelfb/intelfbhw.c
+ delete mode 100644 drivers/video/fbdev/intelfb/intelfbhw.h
+ delete mode 100644 drivers/video/fbdev/vermilion/Makefile
+ delete mode 100644 drivers/video/fbdev/vermilion/cr_pll.c
+ delete mode 100644 drivers/video/fbdev/vermilion/vermilion.c
+ delete mode 100644 drivers/video/fbdev/vermilion/vermilion.h
+ delete mode 100644 include/linux/amba/clcd-regs.h
+ delete mode 100644 include/linux/amba/clcd.h
