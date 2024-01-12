@@ -1,78 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7798B82BD01
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 10:25:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C37E82BD21
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 10:28:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5ADDD10EACC;
-	Fri, 12 Jan 2024 09:25:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88FE710EAAD;
+	Fri, 12 Jan 2024 09:28:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 628C610EAEE
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 09:25:24 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- 5b1f17b1804b1-40e490c2115so30000345e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 01:25:24 -0800 (PST)
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C24FA10EAAD
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 09:28:01 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id
+ ffacd0b85a97d-3366e78d872so6516399f8f.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 01:28:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1705051523; x=1705656323; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ d=linaro.org; s=google; t=1705051680; x=1705656480; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Q3bfVv8WtMnQ2fP3XkB2eOBLDf/LsCJjP8wfwX/T4wM=;
- b=OtZA3XjlwLm2GRVrp9AiaZx89sJxosUjiBdW+Sr2GLWqGRpkFsKjH2bodwXV2+pBUo
- 3SBMGF3HR2jwtj09UKtGkm013qMN5JDO8PBtZe67Fjp+IBx6VOXPLPtOHSskr1I9mr1v
- IRa1xwxkMLRgyE/gmzu+Qb/OHMhCQ4jI+QdGvO4hmZuMD2LP9b1oLnNFTh+n1cQtar7N
- atv6tyiw1XAQTtd3+Bf4eP0QhOZyvBW8Q1heItUztKxoMOet/AYAw3LxsPShFmHNKpJY
- dRO1oZGpGPnfIQb57DAqBKyQVVVu8n/6pcG4j5xaQm3O6+7aLJu4ydtvI6niVMNkD2vJ
- ghvw==
+ bh=2NCYVeywthYmIsrxQeF1XaxxekG4gcaUob9s27+cb08=;
+ b=wz3dUbBEGVwZsa7LasyPFvymDcFRXjS21h5260IS86g+okVTBQH+thUORLaEdHOhD4
+ Pn2K3auk+hCLOhvMP72N/gOVkyPs3ISyom7jZpmGvT3dRtNru8eyX+NctaORUO3Dkml5
+ TZUFFgYHDOrZfTbDVoFvIeKcdyYBNfxi4N2jdRiJL9W0pZRfl30MIsYcpR+FAWYCpGYa
+ 94e0omdwkn3YwraYVTZavSUt3uFx4JfrXHk14P3hEklEbXutv2VaDsGFfJxq/6fe0GGl
+ 37swyF02H4RYdqSEfCsqxabJUsX03BzrEuJqcU0ztVVZLik7bxMDF8wDHkDhzs1bfL48
+ 12pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705051523; x=1705656323;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1705051680; x=1705656480;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Q3bfVv8WtMnQ2fP3XkB2eOBLDf/LsCJjP8wfwX/T4wM=;
- b=GdaQIIsQNyHGxvn1FR/wmWRGehfe9mSlIAA76Sb56JcUro2Dd4lytByhI3zKLw6dJZ
- 67ORBVohw64BafaZ5E9mAZSA8s64+6Ss2fIbj7G9fwb/F5UQjkYSgDrRutTS0AkAkrpZ
- oiaPTYY469EajN9e3904AqHI0G9bnB+5YJESzz79yIF3k8723HbJD0IVbBzxYG8nTdln
- Fk7zRmsUCIefzI/R28c4y2wfW3SPEax1xHEpZ3wNayjoeHvX4dOx63HmaQg0zb9ERhVk
- wfsjzJdnuLV5+m8eMyKWZzOtX8iuJVGrYWJ9k2N9ibV2X1hM+iYGjZ6kNegmoN22x/3a
- Mh+A==
-X-Gm-Message-State: AOJu0YwD3PonotT3EqCBQT9Mk1FvatLQmcw5ViQX2z5i8YPPYQtej+Kc
- oL4zYPAB0Q5DE2VHDs6Qz21mJg5xyE+lXA==
-X-Google-Smtp-Source: AGHT+IEMwKZ9XV3E5enGXhcHiQsIucq3Zsj1wJo8Uj7nGouthpJzDE5uay5WsPpo048DpY1o1KYFwg==
-X-Received: by 2002:a05:600c:6a19:b0:40d:8881:4d1e with SMTP id
- jj25-20020a05600c6a1900b0040d88814d1emr550199wmb.66.1705051522693; 
- Fri, 12 Jan 2024 01:25:22 -0800 (PST)
+ bh=2NCYVeywthYmIsrxQeF1XaxxekG4gcaUob9s27+cb08=;
+ b=tmkq0kG22fdqoJ3tBnnSmF7isDQYPYIbTIbnIRkL8wzrOjhtU0DJLRblnQ+vP6yUvt
+ DE1GfCRer3QYV6+fITT/ncjrsRISbLrCJhVURyWmT5baOZAbniF1Vu3JbmrRJS/6VSL2
+ 2mDqLwxSnP2LU7QSD70NUAXo1PxTXwiWHr+uRU2djexa9+RQ3kc2hr3evQv8Ecry9IVZ
+ bgiHM+0JHte9/lT3zwgf/xGj+F8l5xw3L2+Ze7GSYqbIzk1EXtFV5rTkYFzXJXzmiCkT
+ CkhX1xkdVyFHSKSJDytdZBVs1oVcw8aHS/l0ztyarI1WzWXL7/dUPwaPWOJnNGrxvZTZ
+ FYyw==
+X-Gm-Message-State: AOJu0YwFsoD5EwNj83Q3sTAM+jUH7YQd2KXRfHHanyaaBI+UAbag7HXR
+ xe8h7+CmPCyN1CpYbwsumLoAsCVxx300pQ==
+X-Google-Smtp-Source: AGHT+IHmpnLNrMCfXBpSsxK1XN7TMi6MDCBV+eQHrgduX2+GjPUmROUVUbbgIHe2mBIZvBmditAB5A==
+X-Received: by 2002:a5d:5543:0:b0:337:70cb:3eb3 with SMTP id
+ g3-20020a5d5543000000b0033770cb3eb3mr255195wrw.89.1705051680110; 
+ Fri, 12 Jan 2024 01:28:00 -0800 (PST)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
  by smtp.gmail.com with ESMTPSA id
- l6-20020a7bc346000000b0040d81ca11casm4901880wmj.28.2024.01.12.01.25.21
+ d11-20020adfa34b000000b00336e15fbc85sm3324822wrb.82.2024.01.12.01.27.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Jan 2024 01:25:22 -0800 (PST)
-From: neil.armstrong@linaro.org
-To: Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Sandy Huang <hjc@rock-chips.com>, Mark Yao <markyao0591@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>,
- Segfault <awarnecke002@hotmail.com>,
- Arnaud Ferraris <aferraris@debian.org>, Danct12 <danct12@riseup.net>,
- Ondrej Jirman <megi@xff.cz>, Manuel Traut <manut@mecka.net>
-Subject: Re: (subset) [PATCH v3 0/4] arm64: rockchip: Pine64 PineTab2 support
-Date: Fri, 12 Jan 2024 10:25:18 +0100
-Message-Id: <170505150474.933870.7165654280857450168.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240102-pinetab2-v3-0-cb1aa69f8c30@mecka.net>
-References: <20240102-pinetab2-v3-0-cb1aa69f8c30@mecka.net>
+ Fri, 12 Jan 2024 01:27:59 -0800 (PST)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Artur Weber <aweber.kernel@gmail.com>
+In-Reply-To: <20240105-tab3-display-fixes-v2-0-904d1207bf6f@gmail.com>
+References: <20240105-tab3-display-fixes-v2-0-904d1207bf6f@gmail.com>
+Subject: Re: (subset) [PATCH v2 0/2] Fix panel polarity mixup in S6D7AA0
+ panel driver and Galaxy Tab 3 8.0 DTSI
+Message-Id: <170505167913.950726.6420816428690062433.b4-ty@linaro.org>
+Date: Fri, 12 Jan 2024 10:27:59 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,37 +82,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Neil Armstrong <neil.armstrong@linaro.org>
-
 Hi,
 
-On Tue, 02 Jan 2024 17:15:43 +0100, Manuel Traut wrote:
-> This adds support for the BOE TH101MB31IG002 LCD Panel used in PineTab2 [1] and
-> PineTab-V [2] as well as the devictrees for the PineTab2 v0.1 and v2.0.
+On Fri, 05 Jan 2024 07:53:00 +0100, Artur Weber wrote:
+> Two small one-line patches to address a mixup in the Samsung S6D7AA0
+> panel driver and the Samsung Galaxy Tab 3 8.0 board it was initially
+> added for.
 > 
-> The BOE LCD Panel patch was retrieved from [3]. The function-name prefix has
-> been adapted and the LCD init section was simplified.
 > 
-> The PineTab2 devicetree patch was retrieved from [4]. Some renaming was needed
-> to pass the dtb-checks, the brightness-levels are specified as range and steps
-> instead of a list of values.
-> 
-> [...]
 
-Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
+Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-fixes)
 
-[1/4] dt-bindings: display: panel: Add BOE TH101MB31IG002-28A panel
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=baae3a0b10c499d4228514a701602f6fd2a8d6b4
-[2/4] drm/panel: Add driver for BOE TH101MB31IG002-28A panel
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=420186db1483da4e16cd5d5a472f511a35dbc1b7
+[2/2] drm/panel: samsung-s6d7aa0: drop DRM_BUS_FLAG_DE_HIGH for lsl080al02
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=62b143b5ec4a14e1ae0dede5aabaf1832e3b0073
 
 -- 
 Neil
+
