@@ -2,51 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C45F882BCAA
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 10:07:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C79882BE12
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 11:06:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9063110EAB2;
-	Fri, 12 Jan 2024 09:07:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06DCB10E1B1;
+	Fri, 12 Jan 2024 10:06:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26D8C10EAB2;
- Fri, 12 Jan 2024 09:07:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1705050462; x=1736586462;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=nKUQ3YVcdL48V6oYTbglzQHnBPG03i5cSW8m97SIAj0=;
- b=NYOY6btzVKIY0fD+d1kZb4N3ZZ+pjAus0xsJNsYORVeXzfOR6WxPoTVI
- r22OEoVVZIx4Wn4TBf0rmWU7nTTTP6oNLk9DJorO7p5Yln1KxW3QLO76x
- IRuY5laaGvJxzsNDI0bfggyILx/gfytacroqCxE5XiSdEbqeDuFIKga4A
- mKrDMxxbgeqZ0i5pSTUj6+hPSy/yh8INQXba79RGGmg3xEYDH8xgHVS5i
- KG4hNdK8hPcngAJJ7uOvCuJlnshelSL2BzCEFAwJzZPaxrSR+HP42zDJE
- gZccdn9W4uesp91AMt3Aip3wEyXzntp+emdMWI1yC17Ih8RFvLjTqqO5V g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="6491194"
-X-IronPort-AV: E=Sophos;i="6.04,189,1695711600"; 
-   d="scan'208";a="6491194"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jan 2024 01:07:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,189,1695711600"; d="scan'208";a="24944433"
-Received: from kklimes-mobl1.amr.corp.intel.com (HELO localhost)
- ([10.252.38.5])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jan 2024 01:07:37 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: kernel test robot <lkp@intel.com>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 3/6] drm/amdgpu: prefer snprintf over sprintf
-In-Reply-To: <202401121126.i9VGrvMb-lkp@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <fea7a52924f98b1ac24f4a7e6ba21d7754422430.1704908087.git.jani.nikula@intel.com>
- <202401121126.i9VGrvMb-lkp@intel.com>
-Date: Fri, 12 Jan 2024 11:07:33 +0200
-Message-ID: <878r4uudgq.fsf@intel.com>
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EA2210EAB5
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 09:12:18 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id
+ 2adb3069b0e04-50e67e37661so8314524e87.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 01:12:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1705050736; x=1705655536; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=U5fHJerOb90cwlcti5b/xGaL1H5BmgZVl2HamtZSIec=;
+ b=W1OdR9M3wFbe/lSPuIYILUE6pyGKgmzyT4RwH0YW4pKkQg+aOzVsl5+WN88Ij9L+Qm
+ 2MGqC96YrgIsCisgav+Rgfd/a0pJTLSSmEaSgRXVtzLNudpBnVmNZXyHuwK1OuG9JxzU
+ QvwSJZSE9J3zh4pY75A4GRiMg+WXSaIWcw92tLP3e3fZ0wWrLQOx8Zy0uLwFAplJaqO/
+ HhVcpEJgNn21yMH8qd4BHLBGY8G7FCdrpuuO7olTKiOktTdk4aJC1/454QoGZwMj/Y2E
+ yDbZFuSL9OU7nJTcdoKd/tpHJkljJMomi4BwQ1j5m7EzAHVh4noERSthIU5W6k9xTnoz
+ AptQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1705050736; x=1705655536;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=U5fHJerOb90cwlcti5b/xGaL1H5BmgZVl2HamtZSIec=;
+ b=Dau3uUSu5Ld5uo7zD+9mMHkjwIsJrkAjWywuNa2328DDXcdJ/6nRlaQhGCguAwWgxF
+ FB2mM0ny+7+b+LYXx7dHzJWleGhw9giy94AapRXS+neOlHADgdHMMwrdPBnLeiMBg0z8
+ cBPPx54z3Cl/e0tHMKQ1jPFJ6iro5IzhkNPFilKoh82jR6iJVwqOO+5PPauNJBotGhkg
+ eiuDqyp6OkaGCSDhH1OdSKPJahAvkG+a1tlPlUACQ07lzr4lCqErIi4RImN5XfT0cjMV
+ az0f5B88c2pGoyJzgkYjoMZQBfreLTAe4kLiliqbI8d8lid4gm06TKpMGvIWKPBx8itz
+ Ql0w==
+X-Gm-Message-State: AOJu0Yw82/BYDReiYG/BvuNXTpm7m7nC+0uF8Drrx9sfhDRbPOA9q0uF
+ ViSFiLhfdgLeUo6acg/LGS28panyWno=
+X-Google-Smtp-Source: AGHT+IFL0JRSFSJRX18rSJxRbV2v1EcJGdEZRkVxZoFCgjpLxRv/LvW1iG584qamhcwSHG3uRM/POg==
+X-Received: by 2002:a2e:2e1a:0:b0:2cd:5a05:7a85 with SMTP id
+ u26-20020a2e2e1a000000b002cd5a057a85mr587435lju.84.1705050736286; 
+ Fri, 12 Jan 2024 01:12:16 -0800 (PST)
+Received: from archlinux.htlwrn.ac.at (vpn.htlwrn.ac.at. [195.202.162.6])
+ by smtp.googlemail.com with ESMTPSA id
+ l26-20020adfb11a000000b0033762d4ad5asm3313322wra.81.2024.01.12.01.12.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Jan 2024 01:12:15 -0800 (PST)
+From: Alexander Richards <electrodeyt@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm: make compiler include linux headers when compiling drm
+ for managarm
+Date: Fri, 12 Jan 2024 10:11:55 +0100
+Message-ID: <20240112091158.101973-1-electrodeyt@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Fri, 12 Jan 2024 10:06:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,102 +72,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pan@freedesktop.org, intel-gfx@lists.freedesktop.org,
- Xinhui <Xinhui.Pan@amd.com>, amd-gfx@lists.freedesktop.org,
- oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>,
- Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Alexander Richards <electrodeyt@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 12 Jan 2024, kernel test robot <lkp@intel.com> wrote:
-> Hi Jani,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on drm-misc/drm-misc-next]
-> [also build test WARNING on drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.7 next-20240111]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-nouveau-acr-ga102-remove-unused-but-set-variable/20240111-014206
-> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-> patch link:    https://lore.kernel.org/r/fea7a52924f98b1ac24f4a7e6ba21d7754422430.1704908087.git.jani.nikula%40intel.com
-> patch subject: [PATCH 3/6] drm/amdgpu: prefer snprintf over sprintf
-> config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20240112/202401121126.i9VGrvMb-lkp@intel.com/config)
-> compiler: sparc64-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240112/202401121126.i9VGrvMb-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202401121126.i9VGrvMb-lkp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->    drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c: In function 'amdgpu_gfx_kiq_init_ring':
->>> drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:332:61: warning: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size between 0 and 8 [-Wformat-truncation=]
->      332 |         snprintf(ring->name, sizeof(ring->name), "kiq_%d.%d.%d.%d",
->          |                                                             ^~
->    drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:332:50: note: directive argument in the range [0, 2147483647]
->      332 |         snprintf(ring->name, sizeof(ring->name), "kiq_%d.%d.%d.%d",
->          |                                                  ^~~~~~~~~~~~~~~~~
->    drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:332:9: note: 'snprintf' output between 12 and 41 bytes into a destination of size 16
->      332 |         snprintf(ring->name, sizeof(ring->name), "kiq_%d.%d.%d.%d",
->          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->      333 |                  xcc_id, ring->me, ring->pipe, ring->queue);
->          |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Managarm mainly follows the Linux ABI, and so needs to be in the Linux
+path when including needed headers here.
 
-As the commit message says,
+Signed-off-by: Alexander Richards <electrodeyt@gmail.com>
+---
+ include/uapi/drm/drm.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This will trade the W=1 warning -Wformat-overflow to
--Wformat-truncation. This lets us enable -Wformat-overflow subsystem
-wide.
-
-
-BR,
-Jani.
-
->
->
-> vim +332 drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
->
->    306	
->    307	int amdgpu_gfx_kiq_init_ring(struct amdgpu_device *adev,
->    308				     struct amdgpu_ring *ring,
->    309				     struct amdgpu_irq_src *irq, int xcc_id)
->    310	{
->    311		struct amdgpu_kiq *kiq = &adev->gfx.kiq[xcc_id];
->    312		int r = 0;
->    313	
->    314		spin_lock_init(&kiq->ring_lock);
->    315	
->    316		ring->adev = NULL;
->    317		ring->ring_obj = NULL;
->    318		ring->use_doorbell = true;
->    319		ring->xcc_id = xcc_id;
->    320		ring->vm_hub = AMDGPU_GFXHUB(xcc_id);
->    321		ring->doorbell_index =
->    322			(adev->doorbell_index.kiq +
->    323			 xcc_id * adev->doorbell_index.xcc_doorbell_range)
->    324			<< 1;
->    325	
->    326		r = amdgpu_gfx_kiq_acquire(adev, ring, xcc_id);
->    327		if (r)
->    328			return r;
->    329	
->    330		ring->eop_gpu_addr = kiq->eop_gpu_addr;
->    331		ring->no_scheduler = true;
->  > 332		snprintf(ring->name, sizeof(ring->name), "kiq_%d.%d.%d.%d",
->    333			 xcc_id, ring->me, ring->pipe, ring->queue);
->    334		r = amdgpu_ring_init(adev, ring, 1024, irq, AMDGPU_CP_KIQ_IRQ_DRIVER0,
->    335				     AMDGPU_RING_PRIO_DEFAULT, NULL);
->    336		if (r)
->    337			dev_warn(adev->dev, "(%d) failed to init kiq ring\n", r);
->    338	
->    339		return r;
->    340	}
->    341	
-
+diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+index de723566c..875499d8f 100644
+--- a/include/uapi/drm/drm.h
++++ b/include/uapi/drm/drm.h
+@@ -41,7 +41,7 @@
+ #include <asm/ioctl.h>
+ typedef unsigned int drm_handle_t;
+ 
+-#elif defined(__linux__)
++#elif defined(__linux__) || defined(__managarm__)
+ 
+ #include <linux/types.h>
+ #include <asm/ioctl.h>
 -- 
-Jani Nikula, Intel
+2.43.0
+
