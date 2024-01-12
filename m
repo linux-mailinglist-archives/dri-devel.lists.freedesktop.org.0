@@ -2,69 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0454F82C142
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 15:01:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3246082C174
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 15:20:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DC6D10EB0F;
-	Fri, 12 Jan 2024 14:01:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADCB010E083;
+	Fri, 12 Jan 2024 14:20:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
- [IPv6:2607:f8b0:4864:20::1030])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A00A10EB0F
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 14:00:58 +0000 (UTC)
-Received: by mail-pj1-x1030.google.com with SMTP id
- 98e67ed59e1d1-28c467446f0so5259760a91.0
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 06:00:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1705068058; x=1705672858; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=XS8Rep9Va+/PRgkDzjJYb2S8kbvY9z/pUUqJQoFIFy4=;
- b=BM7mMTVOge5OQ6wOVHmaUboqfqqk020/SbiLSKkgC7a1Q+megG7uyYynYs0Giq5PZT
- XLVqRNPtoCPVGHUPmTl/t8mt/iJfsaZ1atn5wKULnRrYTYYDtxC0ouy3+gGqP7+edls+
- phwJ354mg3ePqTE0NqOWUoFQvUwfjfw6/uxMDAzC13UeHibnBZ+Dvefhbgb3MUp3NoZR
- eypBCn933cKrgPvL3x4SHd9+bVY6IM6Kfci00tkCtCR36sOh1vemIkTBW/7I7KYGGrTJ
- 08jMv1USuXM4wsOQIP/iHlQvQbEoseWPu4k90H3JgfnsfvLoiXU+XYh6nVJMt3jPANE3
- Qnsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705068058; x=1705672858;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=XS8Rep9Va+/PRgkDzjJYb2S8kbvY9z/pUUqJQoFIFy4=;
- b=iFJl0cp7VMJsrTtSPPkMqJzKKVclOvenrZDjrzvHHtQ7yyaWDqDEYMpgZIeOev4e6R
- 6f7/uTAT51gXjM88qHwdfIKGoh+o+z0akK+Cwc18+n+6+kYVJslVJmsvhM2JdmWrBPRZ
- ozDQ+gClayA84GVfIqwCHwrjzpV0kbNhPkqHcceoTnr1KxdW52q1cY8cL1V6PpB32fER
- 3i9KADwei0T4SdBrcqHGsj0vOpY4y5o8wVyKIyHdDBP9obDTRfTapC3ir7hPrdwwbXK7
- VV6XSpO6gTobOoIXs2y2NDm0/lCO84vrpYxKzrCUMptBWU4SnqJSWLLH6fv1yhfTT1Xo
- Yptw==
-X-Gm-Message-State: AOJu0YysFmE7YMPhzPmDsizgSGMC1pujZWhHs9iZsNcb7M77U6E2+51S
- lbosqcIai9r10rFH5O+w7FE=
-X-Google-Smtp-Source: AGHT+IHazKNfF5Sl/dHs/3CsbUVKYhtaDsFQhN7NUmoATtPYwXCEzL3gzslDnXKJTBDOtMuhXd5PuQ==
-X-Received: by 2002:a17:90a:d254:b0:28d:95c6:abb7 with SMTP id
- o20-20020a17090ad25400b0028d95c6abb7mr3392604pjw.14.1705068057893; 
- Fri, 12 Jan 2024 06:00:57 -0800 (PST)
-Received: from localhost.localdomain
- ([2409:8a6a:5422:1e81:f0d5:a137:e742:acec])
- by smtp.gmail.com with ESMTPSA id
- sj4-20020a17090b2d8400b0028d9b5d41edsm4065564pjb.38.2024.01.12.06.00.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Jan 2024 06:00:57 -0800 (PST)
-From: Jianhua Lu <lujianhua000@gmail.com>
-To: Jianhua Lu <lujianhua000@gmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/panel: nt36523: Set 120Hz fps for xiaomi,elish panels
-Date: Fri, 12 Jan 2024 22:00:47 +0800
-Message-ID: <20240112140047.18123-1-lujianhua000@gmail.com>
-X-Mailer: git-send-email 2.41.0
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAB5410E083
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 14:20:29 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1rOIOZ-0003Z8-3i; Fri, 12 Jan 2024 15:20:27 +0100
+Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1rOIOY-002AgK-C6; Fri, 12 Jan 2024 15:20:26 +0100
+Received: from pza by lupine with local (Exim 4.96)
+ (envelope-from <p.zabel@pengutronix.de>) id 1rOIOY-0008Qj-11;
+ Fri, 12 Jan 2024 15:20:26 +0100
+Message-ID: <3f20b80fa45f171d26b2b02dea9f9a9acff9c28a.camel@pengutronix.de>
+Subject: Re: [PATCH 4/6] drm/imx: prefer snprintf over sprintf
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
+Date: Fri, 12 Jan 2024 15:20:26 +0100
+In-Reply-To: <14c0108a54007a8360d84162a1d63cba9613b945.1704908087.git.jani.nikula@intel.com>
+References: <cover.1704908087.git.jani.nikula@intel.com>
+ <14c0108a54007a8360d84162a1d63cba9613b945.1704908087.git.jani.nikula@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,42 +55,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After commit e6c0de5f4450 ("drm/msm/dpu: try multirect based on mdp clock limits")
-merged, 120Hz is working on xiaomi,elish panels, so feature it.
+Hi Jani,
 
-Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
----
- drivers/gpu/drm/panel/panel-novatek-nt36523.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+On Mi, 2024-01-10 at 19:39 +0200, Jani Nikula wrote:
+> This will trade the W=3D1 warning -Wformat-overflow to
+> -Wformat-truncation. This lets us enable -Wformat-overflow subsystem
+> wide.
+>
+> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-diff --git a/drivers/gpu/drm/panel/panel-novatek-nt36523.c b/drivers/gpu/drm/panel/panel-novatek-nt36523.c
-index a189ce236328..d6fa76dbf948 100644
---- a/drivers/gpu/drm/panel/panel-novatek-nt36523.c
-+++ b/drivers/gpu/drm/panel/panel-novatek-nt36523.c
-@@ -933,8 +933,7 @@ static int j606f_boe_init_sequence(struct panel_info *pinfo)
- 
- static const struct drm_display_mode elish_boe_modes[] = {
- 	{
--		/* There is only one 120 Hz timing, but it doesn't work perfectly, 104 Hz preferred */
--		.clock = (1600 + 60 + 8 + 60) * (2560 + 26 + 4 + 168) * 104 / 1000,
-+		.clock = (1600 + 60 + 8 + 60) * (2560 + 26 + 4 + 168) * 120 / 1000,
- 		.hdisplay = 1600,
- 		.hsync_start = 1600 + 60,
- 		.hsync_end = 1600 + 60 + 8,
-@@ -948,8 +947,7 @@ static const struct drm_display_mode elish_boe_modes[] = {
- 
- static const struct drm_display_mode elish_csot_modes[] = {
- 	{
--		/* There is only one 120 Hz timing, but it doesn't work perfectly, 104 Hz preferred */
--		.clock = (1600 + 200 + 40 + 52) * (2560 + 26 + 4 + 168) * 104 / 1000,
-+		.clock = (1600 + 200 + 40 + 52) * (2560 + 26 + 4 + 168) * 120 / 1000,
- 		.hdisplay = 1600,
- 		.hsync_start = 1600 + 200,
- 		.hsync_end = 1600 + 200 + 40,
--- 
-2.41.0
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 
+regards
+Philipp
