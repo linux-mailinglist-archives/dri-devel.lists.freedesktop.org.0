@@ -2,67 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8CCA82BD4D
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 10:33:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5786182BD55
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 10:35:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37A8910EAC3;
-	Fri, 12 Jan 2024 09:33:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47C7C10EACF;
+	Fri, 12 Jan 2024 09:35:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 404B910EAC3
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 09:33:07 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id
- 5b1f17b1804b1-40d5336986cso79761745e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 01:33:07 -0800 (PST)
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 617A310EACF
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 09:35:28 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id
+ 5b1f17b1804b1-40e613b6afbso14900075e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 01:35:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1705051985; x=1705656785; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=QIRVsOrNS9u8UIkgZdycNtHP1B/M8TKEmYcprHzxnoU=;
- b=hFV6UXUJDLwEHrYWWEPUjMaECg4yCPB+QTYL45L3M0hQVDJ48VaZPajJzBwpK/K1Zq
- wcMoDC5iInVpVxGgzjGqYfpxRbConHbj0ODT95nGdiUXf5G1f/6PV3lnPLHkd3AZMJi6
- PJyKzCSEa4qBSz6x24G9HnZU9VpGLQwo+j6784QxvyfQ42DM4a5NqdEXlWZrcADH58n5
- QFc2mCHDDTXcRAcZMRKsSzPBgzZQBlHiNJQn6sJfLCQQQjyIwMIGJ0VqflF9GBjsFjUM
- /8KqbX4qmhwJgkiT58qugxD8F+TKtuvc2kWoT4IPfwyOt3y29m5v/tvlxobrIuGKd4qX
- HHEQ==
+ d=linaro.org; s=google; t=1705052127; x=1705656927; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :references:cc:to:content-language:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=xuKXhOStQyK9dpMS9adBtqgfDhayEXns7siZHVfVaYs=;
+ b=NL823Gfo08gShT6zn4yHA8VNlJMLrB+rWPLgW3nP8IN4QJpbZf/lRBH0bxg4LQ/OYy
+ Ka7Ubdzzkc2CIbLqQg1g98qbigXQX6+M+PyGtFDxcdPW4zVqT4olBpH8LCSdPwOJu+lW
+ DbEVkTCfg9MM7uKSURSKrHY8Vt5sTu9fNke7Hkvr4if+V6W59RsdONBegWvK5k2tqemB
+ 1vJpeWMR7hjSCGKNar5Ini4R5IqeiSiQwUYtaBGky7jAT8DZFHiDlOrnoTC38L2zXuup
+ YDT3MPpZZvPtK4mC3nxw4302C219x4xF3zyk4M6KEYkQCbUqQKDDmMyiiLN7Kgv5FED/
+ VeFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705051985; x=1705656785;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=QIRVsOrNS9u8UIkgZdycNtHP1B/M8TKEmYcprHzxnoU=;
- b=ZMiDI9pJXb4HAII4/hu75Lwp4yIIopapL6lOizYTV7us/Pg2lriZqG1P0CDgx5opQ8
- bMWbCjYbj2C8G9jWe/0DOWha2/a62JLDMvSw7ebZ2VBbxbMH0rVekflaDCqJKTZdYGMm
- EYM98Me1ACf8jzWRE990b0O8nRQFX5zSUzzilop2KgFvm5trb7sYzn0aIHeSq+s5DUbg
- sHfkKraVM5rf3WAShdvtXR9lEHXamDKKURJqho7dlO7BylSmO7r4tGGhPYd2cQ3AWFMh
- LmAyt4DkmfEI91MhAXibnWtmTxjipdDAQnrnd0PoOqh3I232BXlSivL7dHAY+NkSiCG6
- JbJA==
-X-Gm-Message-State: AOJu0YzHE3YiQ5HN1b0gFkTReceTZ0awVZzO8rSibbvVgRQZGvtbH/zW
- ixqEFrGtMH5uHcFCKhq4jYw5e+PH7Sop3Q==
-X-Google-Smtp-Source: AGHT+IEVgOqtLXgDaHDFy3y6Fh8P5cABV4kWuOysnkelqrrbtl4SbnJ7XwvgAhROpYf3af4AGuTxLA==
-X-Received: by 2002:a05:600c:4e41:b0:40e:52e9:5681 with SMTP id
- e1-20020a05600c4e4100b0040e52e95681mr567614wmq.10.1705051985621; 
- Fri, 12 Jan 2024 01:33:05 -0800 (PST)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+ d=1e100.net; s=20230601; t=1705052127; x=1705656927;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :references:cc:to:content-language:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=xuKXhOStQyK9dpMS9adBtqgfDhayEXns7siZHVfVaYs=;
+ b=l4Rw4B+xEgdLy/f5g6Nq8AdFHopSHKOw2Qoq9v7rBTqGJedbOhxrKZXFVeY12ZLJ82
+ 8fglC3M1GTTHIgY5gxN2uWdtQvV5eFcyizY0ffWY5ZCoV9gb6pgMQPfth1BhLYA4cB30
+ QpvyL3HfgV9QgnDC0o+dC91/8P1vu+0AtiFbYyOvtkJVNflw1yE8ej4lQ22snDATKT6C
+ Et7SnWktMkr5U2uVclq4f3Dyr/p9jLAoVK5H/mG7VDyBA/pCZNgpqSqiTjzWDYp3Bxko
+ Obnv9WGpG2Ed5MiD3/ZPfmdGZrGXEVP+wHId+J/tPzx8pLkFQf5cf0psDUtvfeLGZ36t
+ ZFFA==
+X-Gm-Message-State: AOJu0Yx2K178zWEAHjzNVjnVv4FwXriC7JO8E9YvA3ED+g3ZXLE0uR/c
+ OoUqba27FJ/HqXU0mlnznNKjzy72Y3wclg==
+X-Google-Smtp-Source: AGHT+IEIUsFljOBhgViMV2rZfaH+HuPIoVtMnRKkHQ6Ft6px8h1iNrwtieNSYeHUgEPD1rUxc/CMXQ==
+X-Received: by 2002:a05:600c:3515:b0:40e:465a:8b54 with SMTP id
+ h21-20020a05600c351500b0040e465a8b54mr575654wmq.4.1705052126776; 
+ Fri, 12 Jan 2024 01:35:26 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:59d5:231:f1ee:77f?
+ ([2a01:e0a:982:cbb0:59d5:231:f1ee:77f])
  by smtp.gmail.com with ESMTPSA id
- c17-20020a5d63d1000000b003365fcc1846sm3312055wrw.52.2024.01.12.01.33.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Jan 2024 01:33:05 -0800 (PST)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Ritesh Kumar <quic_riteshk@quicinc.com>
-In-Reply-To: <20240108095902.22725-1-quic_riteshk@quicinc.com>
-References: <20240108095902.22725-1-quic_riteshk@quicinc.com>
-Subject: Re: [v2 0/2] Add support for Novatek NT36672E LCD DSI panel
-Message-Id: <170505198451.981833.5364543733746481600.b4-ty@linaro.org>
-Date: Fri, 12 Jan 2024 10:33:04 +0100
+ p12-20020a05600c468c00b0040e56830a35sm5050051wmo.18.2024.01.12.01.35.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 12 Jan 2024 01:35:26 -0800 (PST)
+Message-ID: <789bffea-cc4a-4752-8113-31101df951bf@linaro.org>
+Date: Fri, 12 Jan 2024 10:35:25 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+From: neil.armstrong@linaro.org
+Subject: Re: [PATCH linux-next] drm/panel: samsung: Simplify with
+ dev_err_probe()
+Content-Language: en-US, fr
+To: chenguanxi11234@163.com
+References: <061ed94a003362bb7d7e9d3e4d38358c5b91c8a3.1704186827.git.chen.haonan2@zte.com.cn>
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro Developer Services
+In-Reply-To: <061ed94a003362bb7d7e9d3e4d38358c5b91c8a3.1704186827.git.chen.haonan2@zte.com.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,29 +103,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: conor+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- quic_vproddut@quicinc.com, sam@ravnborg.org, quic_abhinavk@quicinc.com,
- mripard@kernel.org, robh+dt@kernel.org, tzimmermann@suse.de,
- quic_rajeevny@quicinc.com, quic_jesszhan@quicinc.com, sumit.semwal@linaro.org
+Reply-To: neil.armstrong@linaro.org
+Cc: cgel.zte@gmail.com, linux-kernel@vger.kernel.org, mripard@kernel.org,
+ Chen Haonan <chen.haonan2@zte.com.cn>, yang.guang5@zte.com.cn,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
+ quic_jesszhan@quicinc.com, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Mon, 08 Jan 2024 15:29:00 +0530, Ritesh Kumar wrote:
-> Add support for the 1080x2408 Novatek NT36672E LCD DSI mode panel
-> found on the Qualcomm QCM6490 MTP board.
+On 03/01/2024 15:17, chenguanxi11234@163.com wrote:
+> From: Chen Haonan <chen.haonan2@zte.com.cn>
 > 
-> The driver will come with the uncompressed video mode support.
+> dev_err_probe() can check if the error code is -EPROBE_DEFER
+> and can return the error code, replacing dev_err() with it
+> simplifies the code.
 > 
+> Signed-off-by: Chen Haonan <chen.haonan2@zte.com.cn>
+> ---
+>   drivers/gpu/drm/panel/panel-samsung-s6d16d0.c | 6 ++----
+>   1 file changed, 2 insertions(+), 4 deletions(-)
+> diff --git a/drivers/gpu/drm/panel/panel-samsung-s6d16d0.c b/drivers/gpu/drm/panel/panel-samsung-s6d16d0.c
+> index 79f611963c61..f4103e762b53 100644
+> --- a/drivers/gpu/drm/panel/panel-samsung-s6d16d0.c
+> +++ b/drivers/gpu/drm/panel/panel-samsung-s6d16d0.c
+> @@ -194,10 +194,8 @@ static int s6d16d0_probe(struct mipi_dsi_device *dsi)
+>   	s6->reset_gpio = devm_gpiod_get_optional(dev, "reset",
+>   						GPIOD_OUT_HIGH);
+>   	if (IS_ERR(s6->reset_gpio)) {
+> -		ret = PTR_ERR(s6->reset_gpio);
+> -		if (ret != -EPROBE_DEFER)
+> -			dev_err(dev, "failed to request GPIO (%d)\n", ret);
+> -		return ret;
+> +		return dev_err_probe(dev, PTR_ERR(s6->reset_gpio),
+> +							 "failed to request GPIO\n");
+>   	}
+>   
+>   	drm_panel_init(&s6->panel, dev, &s6d16d0_drm_funcs,
 
-Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
+This patch fails to apply on current drm-misc-next, please refresh.
 
-[1/2] dt-bindings: display: panel: Add Novatek NT36672E LCD DSI
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=30cc664f0962ed1e62d9009a34bf04b48e1a5a4a
-[2/2] drm/panel: Add support for Novatek NT36672E panel driver
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=ea4f9975625af861c2795c557b8fab2b492ff749
-
--- 
 Neil
-
