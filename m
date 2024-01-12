@@ -1,62 +1,116 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB49082C695
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 22:20:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E720782C718
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 23:19:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C6C010E13F;
-	Fri, 12 Jan 2024 21:20:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E941910E120;
+	Fri, 12 Jan 2024 22:19:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
- [IPv6:2607:f8b0:4864:20::1030])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06F2310E0E7
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 21:20:22 +0000 (UTC)
-Received: by mail-pj1-x1030.google.com with SMTP id
- 98e67ed59e1d1-28be8ebcdc1so4936375a91.0
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 13:20:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1705094421; x=1705699221;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=GAIZ3sX3So8SPvanmlPNWrR/xdGl9tAK7ZQjhyH2jro=;
- b=KDGq7qmS7bM3iI5CBO4YeCIPXfCzOwFpU6D1d6tIOCb8i1uiSaxgpEQiE1syH4JxWO
- bPXbqg6cRME81Lkz+1kA6IZf2Spp/gCbS7Jj+JqbL2oMsNrdBRDoOEFNpnSXjJaWKMql
- M8/vGTxpFbsRwYCDiKyDiILFiZQItWlbgzFOw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705094421; x=1705699221;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=GAIZ3sX3So8SPvanmlPNWrR/xdGl9tAK7ZQjhyH2jro=;
- b=NvOyJOjP1iiUSX7RkJzSvxK/P7rvpFcjL5XcpVZSIqQDitOT3Kr46PIYJY2k+ZnNxW
- wKNRqtUlKTB/Udx04u1T0dFVR8mh4cu6sIuiLkGFikMaRzK9bvHxOp1R9uGPLonXiYWT
- LeKBGezqcd+rVhJjs/mouFcji37peNFozN0EG4IEUAn64R602xjhE0BLPe+pXRR/tqc6
- ac0rVJXH/g8N2o2jm4sL59trWeRwXU8dQAyiMpCiIIB1nWhlHll4eFZLlfNkBYCAvR4u
- zSpKCt11I4RNdz7YdHwLtgMQbcRO97T/rsQJt2UzK5OYVUjOWXKjt9H/sSLpmkfrsPx7
- Neiw==
-X-Gm-Message-State: AOJu0YwXqTrCrWvrlULn4Q9GNfwj8+RfpCfLmBGGQ+SsF40//FfLx4N6
- cvevYB15vH27YHIhILnAS/PTIDszRw1V6lNgkyCRTGP8FIppcYSzcRWjfM6XCYRnUzESbqbzI8s
- ECD6L6UJZYWFAxzX1azC4oWLPA1YC2WgUauQCv9vMp4skbt3ZW4YGiQ5aceL55FWNMnYbq5XaOG
- +TV/ys3oMHMmmnrbotlUArR6k=
-X-Google-Smtp-Source: AGHT+IE6gl0odGRdqjhQEhLuSWwYbLV4txjWvIeaqFx3NRy6+zGvee7KccDXtQ55kxSEGomJR4/1/A==
-X-Received: by 2002:a17:90a:af83:b0:28d:4c09:39af with SMTP id
- w3-20020a17090aaf8300b0028d4c0939afmr1733486pjq.70.1705094421313; 
- Fri, 12 Jan 2024 13:20:21 -0800 (PST)
-Received: from localhost ([173.205.42.30]) by smtp.gmail.com with ESMTPSA id
- r4-20020a1709028bc400b001d4e04b6411sm3601178plo.69.2024.01.12.13.20.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Jan 2024 13:20:21 -0800 (PST)
-From: Ian Forbes <ian.forbes@broadcom.com>
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC6E310E120
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 22:19:06 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JKoV2r9DnV1Q8rnpjIP346xLfgAxQ7JvTVGMNrmSzyrfJS3O2Ag+pxUjigaxbuCLnKrZRc0zjiiq9hDmYFXdG8PAgwdHnW7JOPbxeQGXSw8hJiafchdnnCUrjA5feLpHOgiMKMihfJCzVdQ+4lVA3+Vszi1Cf5LraVa7wmytwuRbQh/gW+WM6LXvX6NQbypfWx1ZvQ+SP1yq3zmmpmrSWQVL8sieQ+xEeCwHmPIHkVkRt2B5IglgbBndFgUUXJX0OnMzq46YiaIfJfTtnTCEiruU85Y9okiyU4su6ttSf3vmvO/rbzhRR4CLKRGKTjFYGpYavA25F0Ay9vOVrIY1oA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AoXbFMVZTxo+U44G6CAai2y0SRdTG7p5sEZWVlkHfzw=;
+ b=WumOnJ8FQuyoUOkQcwpyYVp9LIISNznUWvBVaXUdPFx08/a0GyK+zcq9OfL2ve6IGBXp98lZMlpdUM3zWCQXXL10xcPVCQFUu8kDGYYZiCEmIXyRP0epjBZmDVLXyj6mpabGKY3QgFlUDSA7AGUziY5/qB2KsUSNwTF6yN+JFr1h6C5gix0nub1cSBlkLZ4s8OMVd/KIIc/bLHeSV/BV/+jajxdUBvYmzmckF/J2YuKYBMbM61qMOFc0Jr2EcCQxwbRPzH0aMseZ5mhVK1jp8lE8NVChxZ1csIEZ8exvtVDLD87Vg+Qvy/jHJge12bdAHHYXPTTHsvHKIUsfqLbghg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AoXbFMVZTxo+U44G6CAai2y0SRdTG7p5sEZWVlkHfzw=;
+ b=m6Mgc9MhE80DELsVFWhY94jRagQulMGgjFp99nPBZAkTiw3x+fuwbH3ef5vhkOluqrp0IMxuSkPuiZ7TgcWihGLC03/M+aiBxumFjutpOERy6zLXS1EAeH3jj3tiTcT7s9U+19zv5VKC3f9Jzs93eajMx6KiAYZvvT+lAwfErCZcl+0PWAYC6ad2QUNVGOYSX+HIsnrTC5U30TPSXkoEdVKBs1QNHZl8gVClaIBeL74Z3EN0ZUTNWN/yJelnoqP7ye+x6+fQCviZliAU3U5ilyo1qe7AEKtpS4CQi5WHCudlV+WrfaALrShOVyWlZbjk/yKhOtmdAk2sp7EVRhdL2w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH0PR12MB5122.namprd12.prod.outlook.com (2603:10b6:610:bd::12)
+ by MW4PR12MB7014.namprd12.prod.outlook.com (2603:10b6:303:218::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.21; Fri, 12 Jan
+ 2024 22:19:03 +0000
+Received: from CH0PR12MB5122.namprd12.prod.outlook.com
+ ([fe80::7aa1:70ee:5030:b0df]) by CH0PR12MB5122.namprd12.prod.outlook.com
+ ([fe80::7aa1:70ee:5030:b0df%6]) with mapi id 15.20.7181.020; Fri, 12 Jan 2024
+ 22:19:03 +0000
+Message-ID: <1e3fc8e3-f1bb-44f4-a205-a56684459b3b@nvidia.com>
+Date: Fri, 12 Jan 2024 14:19:00 -0800
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/vmwgfx: Filter modes which exceed 3/4 of graphics memory.
-Date: Fri, 12 Jan 2024 14:38:03 -0600
-Message-Id: <20240112203803.6421-1-ian.forbes@broadcom.com>
-X-Mailer: git-send-email 2.34.1
+From: Erik Kurzinger <ekurzinger@nvidia.com>
+Subject: [PATCH] drm/syncobj: call drm_syncobj_fence_add_wait when,
+ WAIT_AVAILABLE flag is set
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR03CA0145.namprd03.prod.outlook.com
+ (2603:10b6:a03:33c::30) To CH0PR12MB5122.namprd12.prod.outlook.com
+ (2603:10b6:610:bd::12)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH0PR12MB5122:EE_|MW4PR12MB7014:EE_
+X-MS-Office365-Filtering-Correlation-Id: c8a49d76-f960-42e9-ebb3-08dc13bc7bd6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: +Eti9RpsTiCpveH530FFF6hZctaOn3BMETLFHx4jFeXwtsLGjVr6xGvtECInhocTgPEtHpdEKFkyPNEKYxqG+F0BuXwUR63AMeoULbAVMCjvuJphSGddPQy/kf2Av+bMi3+pc135QIoalez2DHRz79U2Ifew6XzTi2WUWJjSZgf/7iMnycd3YxlipTodQS1N26Xx+ot+CC7l1Xz7ZUpfxGo1Nh9GHAGy0HMVClkrWvqI9XJJ6D/L8B1ysuLL6JFGXUopaP0JLm/v+5vSlFTy45JsW+IRWHUs5BxL0YMHHInxScKyqpigcOoe1TK0LCLK+2aLGLBIBl7LrWL8duGBwdJ9vIzPHdJ2sIp2TnD05tsUsa2vXrOic4tilUNHFPMjXv9LvjMD74R6Oj5UQ+jNhnZlIhYbi442wI2pHAOPGotXuhquDr0oEcSuJllaDzzsCchdNIIwIgW1WkknfcQi3bfhPpvFIWNsxgiyxcJQhhzF42kt0arZtxwNxqxh8Ms4lPh+LZB+wIdjsKSiccNv9hqpXbks8pGEd2MbYo+Y9T1PJsSLVXcO9Vs6PUqQVcS/Xq4Gi3oeeONKDDQ0aEB1Cj25d5A1jEXw9F7qBI+ub/6OSy+iumCsuWrvX9fFae+rMxJ1F+WdsmWFfBvALQ7/e6c3mppS3Tql3BuvdqisYulajZNjke8CsSgqs61XqX1R
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH0PR12MB5122.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376002)(346002)(136003)(366004)(396003)(39860400002)(230922051799003)(1800799012)(451199024)(186009)(64100799003)(86362001)(83380400001)(41300700001)(6506007)(478600001)(966005)(31696002)(26005)(2616005)(6512007)(4326008)(38100700002)(6486002)(36756003)(66556008)(6916009)(66946007)(66476007)(8936002)(54906003)(316002)(8676002)(2906002)(5660300002)(31686004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q0FnTEl3ay9sY0V5Tlh1Qy9oVlRsQzJXTGJkZzBHdU5MeWxwazBXNitVSkx2?=
+ =?utf-8?B?cVQwcUV1ZEtUTmdhVFBDUUVOQnFFYTNvMVFVQWVJTVR6dHRSbElIeFlkYmJG?=
+ =?utf-8?B?WVJ6ZzRJeWcyM09RZC9YOU8zRHcxTE1IS2drbkhjQ05VWVY2VWxpTkY4R0Ja?=
+ =?utf-8?B?YzRQQ2puaElsWVBHMnhkQTZPY2VRV3lMSzQvc1g5Nms5cWFZa1ppdEZobGd1?=
+ =?utf-8?B?UDlEQ0psUm04TnhhTjg3MGxmUnRqYVZlMXBlSjhQbEdEcDhKNmwveHJQOFNV?=
+ =?utf-8?B?UGwzeC9WQSt4SWZIQ1hUb2ZjOFNjUGVWb3ViUDBxd2tGRUM3cFQyWE11Z1lZ?=
+ =?utf-8?B?R3hOS0dOd0RBdXhLRkJHR0E1cWdEbG1aRVpxRzdDQlR2L2gyZDFFNndLcVJx?=
+ =?utf-8?B?YTlZSHZPam1xWDVyUDBqNFJEczFVZlRjQVl2b1dhNmdBeW5NQVZoK3ltL29Q?=
+ =?utf-8?B?VU9sNEEzaVhhUmFiVkkzZVhxdmZaVUJ0RGY4ZjRPUFovWk9xejBpV3R3SkU2?=
+ =?utf-8?B?aHZJVTdQWTF2b2NUWENDREJhTUdFejJwcGdtYVdScDlHeDVFcmhTSGhncy9I?=
+ =?utf-8?B?MHlORGZOSmRwQjc3S243Tm04czkyL3ZCNmdxYnlyKzVPSEsrb205b2pBN2ZN?=
+ =?utf-8?B?bmY4ZkhuTG5SSVNjdmw1VWZNSHhnT1JBREhIVElFbFU5THdOVExYYnNoaGU4?=
+ =?utf-8?B?c3pvSUs2OHpNd2hvclVNMHU1UlhjTXJHWFZEU3Npb1J2TllpT3ZVai9FeDRu?=
+ =?utf-8?B?RlMvVGtzWEsrbVQ5UjFRdlBDalNtM1dHcGNjS0dYVUpsWHluZmkrM3RkVDlY?=
+ =?utf-8?B?eEUybDVJa0VaQnYrSHdvTDRDc09tNFdUT3ozMWV5b0RidDFkQlQ3cTBSbW9H?=
+ =?utf-8?B?UXV1M3NDL0xSS1NoZWRXbVlzNk95RExKc3RadTd5b28rR0FRUG54NXpGS2pk?=
+ =?utf-8?B?N2JLcmsxcUVEdTI5MkZFd1BsNXdBOUpEbkxyemFCYXRxUFYxSytpZjg5UXZm?=
+ =?utf-8?B?Z00vd1ozUVRLZU5tNDNIVlpzZnNwb3lEQkp2VVNVeEhSNjhuZmZsUEdFWkVl?=
+ =?utf-8?B?d1dYd2tFTjRrMFBzSnFtbTFrRGxaTEh4UGsxWlgwR2RMajU1U0NoaSt4NFBy?=
+ =?utf-8?B?WXkxUVNiSjZDR2xGd1kvNFliTVpBMjBBcGR0c1BKcy9zTFY0T0R5Y0xRRnR6?=
+ =?utf-8?B?WWdiamsweU05N0U5d1pBSm1LWXdZZThhQmxuQThKU3RIN0ZQYmVHd01nNHRq?=
+ =?utf-8?B?dlhLb0lPMy9BZjlwblZ6Q1RsUHlBRkYySjFHNnVnMnorWGNjUDdOVnZUZXJs?=
+ =?utf-8?B?RkJ3UzJpOHhmdjBCL1F4bm1jOEZiVnNxUVN5dWg3WEM3eU1qRW9nNW1DRDBl?=
+ =?utf-8?B?bUl0TnJoQ2hHUVRrWVE5WlZyR3VkUS9MbGVwUlcybFhNMEt2NXJaOFJYMHl1?=
+ =?utf-8?B?WDVuQlI5TmIwT1gyYXVrUDlGTFhUbmtmOHBSVS9QQmxyNnl0dHYrUTg2bEZL?=
+ =?utf-8?B?LzNrUnNMS2N1ZTFJQ25pdWl6NG1iTER6UGRUaU13eHVQQm5XWEFnakRDY2da?=
+ =?utf-8?B?UkZEMDlEVGdDdGo0RzZrQXdPTGE4M1g1V3FQZnlYeGNGUko1cW5IT0F5WXlt?=
+ =?utf-8?B?cEtoNFNQaDdZRVUzOHF0eG9JVGZmVXg0SDhqeHJMQTNCM0pzcHAzcGNEM28v?=
+ =?utf-8?B?dkJCR0ZzYVN3YklkWEpoZmZPUnNxMlN6VWVJVGFqejFZS2RLN3h1U2RBMFB4?=
+ =?utf-8?B?Q0YxeEVmMGtWZVkwZkZjQ0VEVmlSL1Q0eCtiUlprM2JrQ3A3MGFicEZwNHcw?=
+ =?utf-8?B?ZHI3SHprVEhTMExOZGhnMmYyU1FEVml0aXo1ZHZFRlZpUGpESDhqbE93bCtu?=
+ =?utf-8?B?KzZaSWdEL2k5YTB4MURSb25HZUdOdUZ2eGRBbVFLcWV4YWdhcnQzNThPeW9H?=
+ =?utf-8?B?Q1p3Qlk2Mkc5LzQ0dFJsK2JrcDNCR1FFUjJhV0lvNTRaTUlwcW1rTzRpc1B4?=
+ =?utf-8?B?YytmYTRVNVVmQ0d4ei9RZWJOazdSUUhsWUFmQkl4S3RuOGFHTjZMYUtHNHpU?=
+ =?utf-8?B?TjRSNzgrNi83TFpYZWxVcFVJMlIybWUvU3FxWXRUWlhPRUhJekdQcERmeW43?=
+ =?utf-8?Q?hDRCLIDdT5xtCicGF79Ivpu0v?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c8a49d76-f960-42e9-ebb3-08dc13bc7bd6
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR12MB5122.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2024 22:19:03.3874 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: a7h8iZbFcAn+MWOOdvU9YWUSp4inSyzfnEs7SYGMEpRjhU1vLMZndNsyjndXyWGUhyokxMKILFGiU5kjn3kqFw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7014
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,69 +123,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ian Forbes <ian.forbes@broadcom.com>, maaz.mombasawala@broadcom.com,
- bcm-kernel-feedback-list@broadcom.com, martin.krastev@broadcom.com
+Cc: Kyle Brenneman <kbrenneman@nvidia.com>, Austin Shafer <ashafer@nvidia.com>,
+ James Jones <jajones@nvidia.com>, david1.zhou@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SVGA requires surfaces to fit within graphics memory (max_mob_pages) which
-means that modes with a final buffer size that would exceed graphics memory
-must be pruned otherwise creation will fail.
+When waiting for a syncobj timeline point whose fence has not yet been
+submitted with the WAIT_FOR_SUBMIT flag, a callback is registered using
+drm_syncobj_fence_add_wait and the thread is put to sleep until the
+timeout expires. If the fence is submitted before then,
+drm_syncobj_add_point will wake up the sleeping thread immediately which
+will proceed to wait for the fence to be signaled.
 
-Additionally, device commands which use multiple graphics resources must
-have all their resources fit within graphics memory for the duration of the
-command. Thus we need a small carve out of 1/4 of graphics memory to ensure
-commands likes surface copies to the primary framebuffer for cursor
-composition or damage clips can fit within graphics memory.
+However, if the WAIT_AVAILABLE flag is used instead,
+drm_syncobj_fence_add_wait won't get called, meaning the waiting thread
+will always sleep for the full timeout duration, even if the fence gets
+submitted earlier. If it turns out that the fence *has* been submitted
+by the time it eventually wakes up, it will still indicate to userspace
+that the wait completed successfully (it won't return -ETIME), but it
+will have taken much longer than it should have.
 
-This fixes an issue where VMs with low graphics memory (< 64MiB) configured
-with high resolution mode boot to a black screen because surface creation
-fails.
+To fix this, we must call drm_syncobj_fence_add_wait if *either* the
+WAIT_FOR_SUBMIT flag or the WAIT_AVAILABLE flag is set. The only
+difference being that with WAIT_FOR_SUBMIT we will also wait for the
+fence to be signaled after it has been submitted while with
+WAIT_AVAILABLE we will return immediately.
 
-Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
+IGT test patch: https://lists.freedesktop.org/archives/igt-dev/2024-January/067282.html
+
+Fixes: 01d6c3578379 ("drm/syncobj: add support for timeline point wait v8")
+Signed-off-by: Erik Kurzinger <ekurzinger@nvidia.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 20 ++++++++++++--------
- 1 file changed, 12 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/drm_syncobj.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-index 28ff30e32fab..39d6d17fc488 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-@@ -2854,12 +2854,12 @@ enum drm_mode_status vmw_connector_mode_valid(struct drm_connector *connector,
- 	struct vmw_private *dev_priv = vmw_priv(dev);
- 	u32 max_width = dev_priv->texture_max_width;
- 	u32 max_height = dev_priv->texture_max_height;
--	u32 assumed_cpp = 4;
-+	u32 assumed_cpp = dev_priv->assume_16bpp ? 2 : 4;
-+	u32 pitch = mode->hdisplay * assumed_cpp;
-+	u64 total = mode->vdisplay * pitch;
-+	bool using_stdu = dev_priv->active_display_unit == vmw_du_screen_target;
+diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
+index a8e6b61a188c..a1443c673f30 100644
+--- a/drivers/gpu/drm/drm_syncobj.c
++++ b/drivers/gpu/drm/drm_syncobj.c
+@@ -1121,7 +1121,8 @@ static signed long drm_syncobj_array_wait_timeout(struct drm_syncobj **syncobjs,
+ 	 * fallthough and try a 0 timeout wait!
+ 	 */
  
--	if (dev_priv->assume_16bpp)
--		assumed_cpp = 2;
--
--	if (dev_priv->active_display_unit == vmw_du_screen_target) {
-+	if (using_stdu) {
- 		max_width  = min(dev_priv->stdu_max_width,  max_width);
- 		max_height = min(dev_priv->stdu_max_height, max_height);
+-	if (flags & DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT) {
++	if (flags & (DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT |
++		     DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE)) {
+ 		for (i = 0; i < count; ++i)
+ 			drm_syncobj_fence_add_wait(syncobjs[i], &entries[i]);
  	}
-@@ -2870,9 +2870,13 @@ enum drm_mode_status vmw_connector_mode_valid(struct drm_connector *connector,
- 	if (max_height < mode->vdisplay)
- 		return MODE_BAD_VVALUE;
- 
--	if (!vmw_kms_validate_mode_vram(dev_priv,
--			mode->hdisplay * assumed_cpp,
--			mode->vdisplay))
-+	if (using_stdu &&
-+		(total > (dev_priv->max_mob_pages * PAGE_SIZE * 3 / 4) ||
-+		total > dev_priv->max_mob_size)) {
-+		return MODE_MEM;
-+	}
-+
-+	if (!vmw_kms_validate_mode_vram(dev_priv, pitch, mode->vdisplay))
- 		return MODE_MEM;
- 
- 	return MODE_OK;
 -- 
-2.34.1
+2.43.0
+
 
