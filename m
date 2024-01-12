@@ -1,71 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF75E82C01F
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 13:52:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EA8D82C03C
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 13:59:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58BC810EBC3;
-	Fri, 12 Jan 2024 12:52:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA14410EB08;
+	Fri, 12 Jan 2024 12:59:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7676C10EB03;
- Fri, 12 Jan 2024 12:52:08 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id
- 4fb4d7f45d1cf-555f581aed9so7487762a12.3; 
- Fri, 12 Jan 2024 04:52:08 -0800 (PST)
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14B4410EB08
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 12:59:03 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id
+ a640c23a62f3a-a2bea904e72so78099866b.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 04:59:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1705063927; x=1705668727; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=9gqe6zt+K1SwL5LJS94hj5/KUX3LpPHn8y08oK/nAmQ=;
- b=ejpp6/TQ2dRTFUIlYSu3Nhvjyd6URh36M4DWvXwGTmmFw3CEMjrkLX9/4DnrJk+Ccz
- HSL7bZscC10D8KmPWnEokuq5XOmjVR/ggqbfOBtTK9h9NySw0HJ/1mFSUwEOXVsGIYtV
- jvsIb45GMa2RtylDVl1u49671czEf55jc5pbTu1pzLXeXVoofFsySXA0jram4kkof1qE
- w0yoDjuI6NbweXGBBrMeIr9slairv0ZylaqTZECzNA0Z0iSg+C5E8FhazMU4j3yRTCbz
- aqN3i4LNY51WmT01sFBok3mtimdaKESquOO7sz+OcN/P866c5CHooV3fxZfSA9Ky9WoM
- 6Eyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705063927; x=1705668727;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ d=ffwll.ch; s=google; t=1705064341; x=1705669141; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
  :subject:date:message-id:reply-to;
- bh=9gqe6zt+K1SwL5LJS94hj5/KUX3LpPHn8y08oK/nAmQ=;
- b=Ze6YVIHPQ7rRtLpDyg6tK5VP78SdGEdHiXmrzuxyOnEKfYIiBtt8SYuvNQKpd+qqlU
- mAeH740qh3gKTRqekiVESkmY134zeAHC4largJ3bKbkEkwRK6H7kl5fzUOWD70KdMVNE
- QNNogzWYSk/0nrpNdFbV5m4aOqVMrwaZaioCfdcUFUrQgr6U7+SCNVCXsLxDrLnDkSgz
- H+QbThZfDkoD2sSHGWkvDta0YlR6MekCEUfBfqZ+eDJKHpPG633gOAZj9qb7M1823cDn
- mFq8wiGP4SP19Jy+dT/wEKUqN0V2Lf8WdTTWe3mxBwZWycJ6/zgYdFlePM3z27sJqeEE
- XIvA==
-X-Gm-Message-State: AOJu0Yzy9RYi8t09EbsuthGez82EVudGxixliGfCZa6FDmRS4AAe7bYS
- R/79V/5WEMftSDb4WSac+xTWUa7csztRQfor
-X-Google-Smtp-Source: AGHT+IHVk055NGr7VOr6JLLMuYJwLHJQBa+mA0jKkUCa+2/s2SoSr9i41bE6ESRSyGiXXKKa0sQGrw==
-X-Received: by 2002:aa7:c485:0:b0:557:63f0:1eff with SMTP id
- m5-20020aa7c485000000b0055763f01effmr603584edq.9.1705063926964; 
- Fri, 12 Jan 2024 04:52:06 -0800 (PST)
-Received: from able.fritz.box ([2a00:e180:152a:5d00:a6e1:95b5:7596:5333])
+ bh=q/IzbCUttBySDW4UF+/3Rn+hm1gmEpaoc8lHsutNmx8=;
+ b=hC4H6XZs2L0X0bcBCQip0IVqqP6Yy92XJLdxddDgINP/5NXEC7jtq9hsM4/bJuV/r0
+ 2WxFiFg4UB7J5ucOUV/dfk6Q9SB2iKVEmCOIc3X2gd7o0BOkavTp/tipAI2XBtflldxz
+ r95s2WLBLPNgEy2usHhq38BZFhDKmlLz2P69k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1705064341; x=1705669141;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=q/IzbCUttBySDW4UF+/3Rn+hm1gmEpaoc8lHsutNmx8=;
+ b=gGG3lwyUjJaKLi/lBVy3dhBp5KHzPC2G+rNzkDGd2v1RbV30XtDX2r1DetEOonaLgl
+ TFrT3NBM18V+hv9bAr+m5ZE8vUqXP1HNZvISuyJGSG1fM65pptg50+SY0aX8izSf5rCF
+ iYqp+i6KoRu0HEwTMKyhOeegVkF0etcJz1EHIVFxEzEaDqrUAPYl6/GbH5hiYc1+12vs
+ KRjkW8r9YLOZyBCu4aS9nIfZTB0RMfV5hcvd0bbLPJtdlpzb9zm7qCZfzv/jCSbg/lX3
+ YOack+VsFb2VlUjN0WCMYXYSCyzJpZxYEe91g3cDpfTKNqz05TCkd55wQJ5VEOjb8V0h
+ /9eg==
+X-Gm-Message-State: AOJu0Yww1tWgkcjPQUNPNuOfGmJJ/S/h6hmrBas8sLfjY22kjI6DiVfj
+ ciIGO5C7FhMsQ8O9JdQYLZoPiRCrPF49Wg==
+X-Google-Smtp-Source: AGHT+IEfYaqUTOGYXCnanYoymnssMQ6JQhm90dq0lyVwhDnSY+yy0Tw5ugD8WF4joaSuBa55ngsAoA==
+X-Received: by 2002:a17:906:5859:b0:a28:6639:ba53 with SMTP id
+ h25-20020a170906585900b00a286639ba53mr1417632ejs.6.1705064341418; 
+ Fri, 12 Jan 2024 04:59:01 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- y10-20020aa7ccca000000b005572a1159b9sm1752427edt.22.2024.01.12.04.52.06
+ tg14-20020a1709078dce00b00a2cb117050fsm806326ejc.126.2024.01.12.04.59.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Jan 2024 04:52:06 -0800 (PST)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- thomas.hellstrom@linux.intel.com, nouveau@lists.freedesktop.org,
- jani.nikula@linux.intel.com, kherbst@redhat.com, lyude@redhat.com,
- zackr@vmware.com, michel.daenzer@mailbox.org
-Subject: [PATCH 5/5] drm/amdgpu: use GTT only as fallback for VRAM|GTT
-Date: Fri, 12 Jan 2024 13:51:58 +0100
-Message-Id: <20240112125158.2748-6-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240112125158.2748-1-christian.koenig@amd.com>
-References: <20240112125158.2748-1-christian.koenig@amd.com>
+ Fri, 12 Jan 2024 04:59:01 -0800 (PST)
+Date: Fri, 12 Jan 2024 13:58:59 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH] drm/doc: internals: remove section on PCI legacy support
+Message-ID: <ZaE3k1042oCQdft0@phenom.ffwll.local>
+Mail-Followup-To: Randy Dunlap <rdunlap@infradead.org>,
+ linux-kernel@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+ Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+References: <20240112051731.15722-1-rdunlap@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240112051731.15722-1-rdunlap@infradead.org>
+X-Operating-System: Linux phenom 6.5.0-4-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,36 +76,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Try to fill up VRAM as well by setting the busy flag on GTT allocations.
+On Thu, Jan 11, 2024 at 09:17:31PM -0800, Randy Dunlap wrote:
+> The functions that were described in this section of
+> drm-internals.rst were removed in NOV-2023, along with all of the
+> kernel-doc comments in the source file. This now causes a
+> docs build warning, so remove that section of the documentation also.
+> 
+> drivers/gpu/drm/drm_pci.c:1: warning: no structured comments found
+> 
+> Fixes: 2504c7ec728b ("drm: Remove source code for non-KMS drivers")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
 
-This fixes the issue that when VRAM was evacuated for suspend it's never
-filled up again unless the application is restarted.
+Applied to drm-misc-next, thanks!
+-Sima
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+> ---
+>  Documentation/gpu/drm-internals.rst |   12 ------------
+>  1 file changed, 12 deletions(-)
+> 
+> diff -- a/Documentation/gpu/drm-internals.rst b/Documentation/gpu/drm-internals.rst
+> --- a/Documentation/gpu/drm-internals.rst
+> +++ b/Documentation/gpu/drm-internals.rst
+> @@ -153,18 +153,6 @@ Managed Resources
+>  .. kernel-doc:: include/drm/drm_managed.h
+>     :internal:
+>  
+> -Bus-specific Device Registration and PCI Support
+> -------------------------------------------------
+> -
+> -A number of functions are provided to help with device registration. The
+> -functions deal with PCI and platform devices respectively and are only
+> -provided for historical reasons. These are all deprecated and shouldn't
+> -be used in new drivers. Besides that there's a few helpers for pci
+> -drivers.
+> -
+> -.. kernel-doc:: drivers/gpu/drm/drm_pci.c
+> -   :export:
+> -
+>  Open/Close, File Operations and IOCTLs
+>  ======================================
+>  
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-index 06fb3fc47eaa..2752f2a67a44 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-@@ -173,6 +173,12 @@ void amdgpu_bo_placement_from_domain(struct amdgpu_bo *abo, u32 domain)
- 			abo->flags & AMDGPU_GEM_CREATE_PREEMPTIBLE ?
- 			AMDGPU_PL_PREEMPT : TTM_PL_TT;
- 		places[c].flags = 0;
-+		/*
-+		 * When GTT is just an alternative to VRAM make sure that we
-+		 * only use it as fallback and still try to fill up VRAM first.
-+		 */
-+		if (domain & abo->preferred_domains & AMDGPU_GEM_DOMAIN_VRAM)
-+			places[c].flags |= TTM_PL_FLAG_FALLBACK;
- 		c++;
- 	}
- 
 -- 
-2.34.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
