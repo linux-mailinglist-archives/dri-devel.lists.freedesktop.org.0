@@ -1,73 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C7B382BCBE
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 10:14:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5348D82BCC5
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 10:17:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6192110EAA1;
-	Fri, 12 Jan 2024 09:14:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2988110E9D8;
+	Fri, 12 Jan 2024 09:17:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5E4D10EAA1
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 09:14:33 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id
- ffacd0b85a97d-33678156e27so5179607f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 01:14:33 -0800 (PST)
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
+ [IPv6:2a00:1450:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF40010E9D8
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 09:17:04 +0000 (UTC)
+Received: by mail-lj1-x229.google.com with SMTP id
+ 38308e7fff4ca-2cd0c17e42bso70508661fa.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 01:17:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1705050872; x=1705655672; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1705051023; x=1705655823; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :references:cc:to:content-language:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=S1vcfihMbPJOkqRcFLfQWKsQhpfYhll+IXXKznuEtxw=;
- b=SL2VOHe5RXhkG19NR2h6H6oBNwpLpEO2G0PaONgFwrTQRINi8dsBEwmF0vB/XaQENr
- PudjK3HfGmrFYujgiYp+eIDcnimXMgTTEmgtFIxKn3PxRgMbKLZ8wvXUM9+NIaDlu4Co
- rFYwR2rDgbyg6fOL4aq1hl/v38Q9ynraCzgdBzrg9DObsMd/e1UeNsBkzBkBxglhYlrK
- 5ZpuRVm255rWB9xep66lp8nsq6epADURGOaVCPZSpOEJ6epwhFU8z5WkwQXLc9Xt43Sf
- 7ZuAPJQ8F4+yd3yQrVWr1EPpo1h87NygvjWu3Vr++dgBev7O0Sy3V+700Hel3s+oo67w
- hkJQ==
+ :reply-to; bh=x+qGQk9kZKQizJyhm+l5tX1GkAmDGkc81FoKbINBLR4=;
+ b=ZU46jFBSZTd5AkcvcjMIluB47uA/+ZfN+Z4pJQsW8qnokDcSsKCB1ECvyjE/YF70z5
+ 3Ku6tYCeOMgTNhOV/tcG91htQSMuR0ekEWxmK68ew62MlGF4BhmCxo81QTQz9a9+b2bk
+ J2QAtbMGITg6cGcly+cTUE8QdSs9G1rHyG0m2kqL4pZzAg5sIvfbenImIDZlLlHp8M+U
+ MLeNOM7a09Xz97tsKvVdvVTORu5QOkGAx2H7YzwkNNrzh4cUQ091uiK8rog35g5ZZH1a
+ PqNcapxf59Oc898Y6ta9DCD3NcFoZTfOsCe/8l3FhrtgL5iMSTzW0iaM9ZqQ6A6XVSat
+ WFiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705050872; x=1705655672;
+ d=1e100.net; s=20230601; t=1705051023; x=1705655823;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :references:cc:to:content-language:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=S1vcfihMbPJOkqRcFLfQWKsQhpfYhll+IXXKznuEtxw=;
- b=R7yNvrG+CyaKYb0nsGZgDNqcGjEhXgE8C3ZitT8Lmduck3OpFhNqJN1nwPYnEQN0W9
- khLYwTQSVTyJiGSIQC1enJCqiq/eHIR0Uxvm5JTRHG9GE5qTEbR4na0WTFMmvHh18LFs
- YBVducXlt95yWzZRbHRDd8Q39XG1wfBAvlX6Z1ljottcjxpe1//RnpykaRWXw8V4K7mt
- wrFGwC9cmcvmid7Vi/TF98FrY3cjNhGWrcy12pv18c8F7ASEaXRQ12btzIjdb5jQ/83O
- 3GXBGvIdRORo5gJIWMik2NGP/LI9z6WUZqmLUBZTfp61vnRLAvap3yzznzGnuutdR42p
- 8hfQ==
-X-Gm-Message-State: AOJu0YxaQzI8zwjMKy//RXqh3NAzys+Jt4Ldzsh3o+GDdhlXgNTAhphq
- TocpRuwkSFyUV+tm4uZMuCIeIMcEQNLRpw==
-X-Google-Smtp-Source: AGHT+IF2lM8xorKoJqQrop3KBE3nNs+4mQdVKdaLe3zQQlFcjt449y+o2tAd/ER65AYtJU2SG1VAFQ==
-X-Received: by 2002:adf:eacc:0:b0:337:4bbe:97c3 with SMTP id
- o12-20020adfeacc000000b003374bbe97c3mr542587wrn.87.1705050872301; 
- Fri, 12 Jan 2024 01:14:32 -0800 (PST)
+ bh=x+qGQk9kZKQizJyhm+l5tX1GkAmDGkc81FoKbINBLR4=;
+ b=BaOwnMNy1A4/GOqDhWOrCnK+DMPj6IsP2gmRiFRGz8aPKXZK7sFKk4oWonXykW7t3q
+ zj49h110sWU9tfJi1rVddkORpkHKe1Mwa0dLrSCUjHHbYcFzu5Ddv0IIxGL++cWdrqaQ
+ vGvFjLsJY29X96bmkzakIIc1KwKsPEao2r5bYkdHJqmOzNQwp45eumQLSWzhX4aNjjl8
+ xbzZsAs6/b9CbyYDE7PsIC3KSzcMthwYz1iqsdgcTS1YQ9lO+pzHEK3IGHV8gJFpkH10
+ cwuk3E0ZJvmF83mepUMeCTbwtTEapZ8nK6kWLPzAA/cc3Cajf60LpUFqJClPaay+TL/j
+ jXRA==
+X-Gm-Message-State: AOJu0YzcT2mY5JKDgYmUzyz/nElwHH4C5R9EG3eC3qGQH5dNHVwY/dlg
+ UMFEuojzUC9lmbPzmqWp5fe6B06k59N9yA==
+X-Google-Smtp-Source: AGHT+IElvV++SXAMCTEt9C5Hq01ACShemBdkM7Sw7aSOE7iq05yuQJzudIXYQBqv/blfMbhTaPUJNg==
+X-Received: by 2002:a2e:9b45:0:b0:2cd:55f1:2518 with SMTP id
+ o5-20020a2e9b45000000b002cd55f12518mr494391ljj.88.1705051023102; 
+ Fri, 12 Jan 2024 01:17:03 -0800 (PST)
 Received: from ?IPV6:2a01:e0a:982:cbb0:59d5:231:f1ee:77f?
  ([2a01:e0a:982:cbb0:59d5:231:f1ee:77f])
  by smtp.gmail.com with ESMTPSA id
- dr18-20020a5d5f92000000b0033677a4e0d6sm3337106wrb.13.2024.01.12.01.14.31
+ q28-20020adfab1c000000b003372b8ab19asm3327103wrc.64.2024.01.12.01.17.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Jan 2024 01:14:31 -0800 (PST)
-Message-ID: <cdc18e2a-b7eb-4b54-a513-481148fb3b0d@linaro.org>
-Date: Fri, 12 Jan 2024 10:14:30 +0100
+ Fri, 12 Jan 2024 01:17:02 -0800 (PST)
+Message-ID: <ba2f82f2-a9b0-435d-9f49-1ef7963ae0a6@linaro.org>
+Date: Fri, 12 Jan 2024 10:17:01 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v2 2/4] drm/panel: Add driver for DJN HX83112A LCD panel
+Subject: Re: [PATCH v2 1/1] drm: panel: simple: convert LG LB070WV8 fixed mode
+ into display timings
 Content-Language: en-US, fr
-To: Luca Weiss <luca.weiss@fairphone.com>,
- Linus Walleij <linus.walleij@linaro.org>
-References: <20240110-fp4-panel-v2-0-8ad11174f65b@fairphone.com>
- <20240110-fp4-panel-v2-2-8ad11174f65b@fairphone.com>
- <CACRpkdaWTfPDCin_L6pefHsokjNyO8Mo6hWPdzPLLi1EUkKUuA@mail.gmail.com>
- <CYBZEZ4IM6IL.VR04W7933VI@fairphone.com>
- <CACRpkdZQbVXfBa70nhDOqfWPbsh-6DgX-uvZOxr19pzMmF2giQ@mail.gmail.com>
- <CYCLSCKPPBOC.1B1MP3VOOC0Q8@fairphone.com>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+References: <20240110082245.417736-1-alexander.stein@ew.tq-group.com>
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
  GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
@@ -93,9 +93,9 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro Developer Services
-In-Reply-To: <CYCLSCKPPBOC.1B1MP3VOOC0Q8@fairphone.com>
+In-Reply-To: <20240110082245.417736-1-alexander.stein@ew.tq-group.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,100 +109,59 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: neil.armstrong@linaro.org
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Bjorn Andersson <andersson@kernel.org>,
- Andy Gross <agross@kernel.org>, Maxime Ripard <mripard@kernel.org>,
- linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, Jessica Zhang <quic_jesszhan@quicinc.com>,
- phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/01/2024 10:00, Luca Weiss wrote:
-> On Thu Jan 11, 2024 at 8:05 PM CET, Linus Walleij wrote:
->> On Thu, Jan 11, 2024 at 4:28 PM Luca Weiss <luca.weiss@fairphone.com> wrote:
->>
->>> In some internal documentation it says "LCD Driver IC" "HX83112A" and I
->>> don't see any reference to Truly 5P65 anywhere.
->>
->> In the Android directory I pointed to I see this file:
->> HX83112_Android_Driver/Truly_5p65_module_fw/UpdateFW.bat
->>
->> (Notice the 5p65 fw dir is *inside* the HX82112 dir)
->>
->> And in that file:
->> adb push TRULY_5P65_1080_2160_HX83112A_D01C01.bin
->> /system/etc/firmware/Himax_firmware.bin
->>
->> Clearly indicating that they are pushing a Truly 5P65 firmware into
->> the Himax display firmware directory.
->>
->> To be fair, that is the driver for the touchscreen part of HX83112A,
->> but ... Truly is a well known manufacturer of display controllers?
->>
->> But... given that you have a @fairphone.com mal address and
->> a working relationship with them, can't you just ask?
->>
->>> On their website they have this sentence:
->>
->> All OEMs want to look like everything is their own product. It is
->> business as usual.
+On 10/01/2024 09:22, Alexander Stein wrote:
+> At least the pixelclock has a range which can vary. Convert fixed mode
+> into display timings so they can be overwritten in DT if necessary.
 > 
-> I can't tell you anything there that I don't know, sorry.
+> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> ---
+> Changes in v2:
+> * Rebase to next-20240110
 > 
->>
->> Further on the same note since I guess you have a datasheet)
->> please bring in #defines for the commands (the first byte in the
->> write sequences, for examples:
->>
->> +       mipi_dsi_dcs_write_seq(dsi, 0xbd, 0x02);
->> +       mipi_dsi_dcs_write_seq(dsi, 0xd8,
->> +                              0xaa, 0xff, 0xff, 0xff, 0xff, 0xff, 0xaa, 0xff,
->> +                              0xff, 0xff, 0xff, 0xff);
->> +       mipi_dsi_dcs_write_seq(dsi, 0xbd, 0x03);
->>
->> Clearly 0xbd is HX83112_CMD_SETREGBANK?
->> (This is easily spotted from the similar structure in the
->> existing panel-himax-hx8394.c.) So please add #defines
->> for all commands you know, especially if you have a datasheet
->> because we reviewers don't have them and "it's just magic
->> bytes" isn't very compelling. It adds a lot to understanding.
+>   drivers/gpu/drm/panel/panel-simple.c | 24 ++++++++++++------------
+>   1 file changed, 12 insertions(+), 12 deletions(-)
 > 
-> Right, the register names seem to match more or less the ones from that
-> driver, plus some new ones and some differently named ones. Will send a
-> v3 with that.
-> 
->>
->> I strongly suspect other Himax displays such as HX8394 to
->> be using a Truly controller as well, hence the similarities.
->>
->> In a datasheet for their TFT800480-84-V1-E display controller
->> Truly kept the init sequence name of void LCD_INIT_HX8290(void)
->> for example.
-> 
-> In that datasheet (assuming I'm looking at the same one?) it says
-> "Driver IC" "HX8290-A[...]" so there the display driver is manufactured
-> by Himax and not Truly to my understanding. Truly is assembling together
-> Driver + all the other parts that go into an LCD.
-> 
-> For the panel used on Fairphone 4 that part is done by the company DJN.
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index d3ba94f796a32..754e154f22bfc 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -2793,21 +2793,21 @@ static const struct panel_desc lemaker_bl035_rgb_002 = {
+>   	.bus_flags = DRM_BUS_FLAG_DE_LOW,
+>   };
+>   
+> -static const struct drm_display_mode lg_lb070wv8_mode = {
+> -	.clock = 33246,
+> -	.hdisplay = 800,
+> -	.hsync_start = 800 + 88,
+> -	.hsync_end = 800 + 88 + 80,
+> -	.htotal = 800 + 88 + 80 + 88,
+> -	.vdisplay = 480,
+> -	.vsync_start = 480 + 10,
+> -	.vsync_end = 480 + 10 + 25,
+> -	.vtotal = 480 + 10 + 25 + 10,
+> +static const struct display_timing lg_lb070wv8_timing = {
+> +	.pixelclock = { 31950000, 33260000, 34600000 },
+> +	.hactive = { 800, 800, 800 },
+> +	.hfront_porch = { 88, 88, 88 },
+> +	.hback_porch = { 88, 88, 88 },
+> +	.hsync_len = { 80, 80, 80 },
+> +	.vactive = { 480, 480, 480 },
+> +	.vfront_porch = { 10, 10, 10 },
+> +	.vback_porch = { 10, 10, 10 },
+> +	.vsync_len = { 25, 25, 25 },
+>   };
+>   
+>   static const struct panel_desc lg_lb070wv8 = {
+> -	.modes = &lg_lb070wv8_mode,
+> -	.num_modes = 1,
+> +	.timings = &lg_lb070wv8_timing,
+> +	.num_timings = 1,
+>   	.bpc = 8,
+>   	.size = {
+>   		.width = 151,
 
-Looking at the discussion, this seems to confirm the Display+Touch IC is HX83112A,
-and Truly is the panel manufacturer and all assembled by DJN, so IMHO the initial driver is right.
-
-Perhaps the compatible should be djn,hx83112a-truly-5p65 to reflect that ?
-
-Neil
-
-> 
-> Regards
-> Luca
-> 
->>
->> Yours,
->> Linus Walleij
-> 
-
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
