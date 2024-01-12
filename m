@@ -1,93 +1,120 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E40182C51C
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 18:57:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CDAC82C536
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 19:08:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB03810EB46;
-	Fri, 12 Jan 2024 17:57:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C815910EB8A;
+	Fri, 12 Jan 2024 18:07:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam04on20601.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2408::601])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55AC710E16E;
- Fri, 12 Jan 2024 17:57:14 +0000 (UTC)
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com
+ (mail-db3eur04on2059.outbound.protection.outlook.com [40.107.6.59])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 437A710EB6F
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 18:07:55 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dGy1YBVFzi4+J3yzobACTJs16IS/hCTdR0YkuUeQurcxBFZ+s9FzinBrplLhAfOyAP+bpIjlf/vxS+ZC/ycheQiKBBEWjN+Vfyd0T+IeWO6yupU6TbYeXJyobLNi+r3Nw/jC2OcMTVouPhFX/G5XhaBy+N7yNhyI0DGpJsH9WZBQV/8YZhXMJJrhT3Gzv4sdT7NBy/8BIlzWDCNThbpZInjhdVH9zAimpW65/go4iFpfJg1zn2wzyf+sQfn8v96FDiqtQFFpKjNAZyYLPoBHcN0/y7LHZcoJ3/jgF0ZqK8Ajj7RGJiJq/mF1QVPiqMUhz2MoOEWOlkjXiZrx8Zjl9A==
+ b=m056r+427aVT1kwdQR/96bOD6mde9dn6rW2UNdZvD0HkCHbkHTFjvy2mrl7+E4/rgN2mdx/Ey788uG9gmY57koD9L+gK8DN1qLvc8J0sSdf3Db59LQ68Bz4aE4zU8+6GaYLDd23EyGnJ7E2oXPOsuYvdffk2nqJUB7gdJPYciask+UxEP4QUZFZA57wgiVIRxmBxS/QAw4BUbCjrSFDwfd52svELbeDl/jCQ2FnPAutejMazArzky07Jq8F5cwOjiSaAXzlxGHAWA4vck5723wHC0ED/3Qo7qU9Y2VR6gdpkKC6bVZgwGld7MK/UXraMN2Cz9KfhoKwNYPdlxOg9Og==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4Bwx+GH/z0JcUlGfk397ZeayxocE174KqkdSkhpXHpM=;
- b=mvcNOmexVa0KyhE1GbNf9tXWcI77eGkB5ThsbHkerIIyfl0EOFWnjTdQ6ANycRxdcRlSeey3Lam5iZgdq2xR6BG0q6k3z9dB2RJ9dgsGtLN3Y7SlCV0xtm+dNdGxWE6mFXdxu5e8jMtExdAm1PolX6n5MOrkGD5RJncyvptwZzdl4Q9BhBSI95OkpX+m8aRt7ebg75cu1qpMWKzNvPXL2HJgYUqxvLiFzJ3DBGg7FKEiCNQKgnuj2puFd1hrTF75QzQ6BzQHG7ciKDyD0AHsRGX9TZEr3g5IVjtjnj+E+yyNHKL9RsPJMACIlTDk+BkFIr9xeFS6t7kX61+gOj6/SA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ bh=8MbqTnf16hJDRVDy4ZeUcvi0Kn7jwlOdRZtBNsoowE0=;
+ b=A0VxeBjQJLBKmNhbBL6+DzXVzgzif8+KCEKJrA+6d6JO394oRzgBERjtKfT+nhun3IvoIsxPMHD7zx282rJAv7QsKwSPQHrk1A/LEvSkBuM2D6Ba8dZgbDvPtnsKl45WAH5UcwjqvWbxGDQJKgoSOrW+uD5kpakosLNYYYJMbgNFnCJck7ixP/xw5iG1Dk6pS2ApM7fPyobhbK1KJqPp0Ce7aaBzIzLTxcZpRNryZCwMPaFVlVKTLOvxXXRSHqSbuFjTrQ1W0p/haYiUlZUMD4SlnmVSANGJ6Q8cRcACU0EhuWo9ByzcecYqBdALanlTW7mltojsu0wM/xuwg2O6vg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=theobroma-systems.com; dmarc=pass action=none
+ header.from=theobroma-systems.com; dkim=pass header.d=theobroma-systems.com;
+ arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=theobroma-systems.com; 
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4Bwx+GH/z0JcUlGfk397ZeayxocE174KqkdSkhpXHpM=;
- b=vzL/L4wGqf/S21v65+w+XbBBshrh0oubSUFR+hTHG2csDTSZ6ZnJ6ak0bSuj3NM93+y6Ee9q+BMgTi8MITlVoWay5QpE0eZzlB5Pf+S1lVyF7Kt4KI7GFDkZKOu1wrR9tEEKj60mnm8xitshSrdypAwswWXpiO1nlb3oaZ9TDss=
-Received: from BLAPR03CA0137.namprd03.prod.outlook.com (2603:10b6:208:32e::22)
- by MW3PR12MB4585.namprd12.prod.outlook.com (2603:10b6:303:54::12)
+ bh=8MbqTnf16hJDRVDy4ZeUcvi0Kn7jwlOdRZtBNsoowE0=;
+ b=bjPAeYVvGDyHWrF7zICcZ85+9a6vD/kANix6ukiNZIX+C8aN9M5JIfINC5JSPrVf5UOu+ctYhrKGkOT9asWR5DZwos0Zb03Yesi2/CqGePfomMaHxcDmWNgc4581MzMgk6B5TVaXVTtfUJ41rj2PN8vcFaxFolkx9ZA6PNUcj7/f5rrYADFlfUOJ1GsgFgHOzwr5VHm9nljvTcn8zNUt+Et6NskbSjtkfL427TOcS1/3mPxZ7YpD93Ny04nXvYvoa5WZ8kIO4ue86IAbWrc+Wi+uR+azEJA3dgvJN1rRAtQQlQ1B/8fr60NhULRDW0tp7MjLWJ3UPRSQwXx/Pz4w+Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=theobroma-systems.com;
+Received: from VE1PR04MB6382.eurprd04.prod.outlook.com (2603:10a6:803:122::31)
+ by DU0PR04MB9467.eurprd04.prod.outlook.com (2603:10a6:10:35b::19)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.18; Fri, 12 Jan
- 2024 17:57:11 +0000
-Received: from BL6PEPF0001AB50.namprd04.prod.outlook.com
- (2603:10b6:208:32e:cafe::9f) by BLAPR03CA0137.outlook.office365.com
- (2603:10b6:208:32e::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.19 via Frontend
- Transport; Fri, 12 Jan 2024 17:57:11 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BL6PEPF0001AB50.mail.protection.outlook.com (10.167.242.74) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7181.14 via Frontend Transport; Fri, 12 Jan 2024 17:57:10 +0000
-Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Fri, 12 Jan
- 2024 11:57:09 -0600
-From: Alex Deucher <alexander.deucher@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
-Subject: [pull] amdgpu, amdkfd drm-fixes-6.8
-Date: Fri, 12 Jan 2024 12:56:56 -0500
-Message-ID: <20240112175656.4799-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.42.0
-MIME-Version: 1.0
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.21; Fri, 12 Jan
+ 2024 18:07:51 +0000
+Received: from VE1PR04MB6382.eurprd04.prod.outlook.com
+ ([fe80::d4b1:cea8:7085:ec50]) by VE1PR04MB6382.eurprd04.prod.outlook.com
+ ([fe80::d4b1:cea8:7085:ec50%4]) with mapi id 15.20.7181.015; Fri, 12 Jan 2024
+ 18:07:51 +0000
+From: Farouk Bouabid <farouk.bouabid@theobroma-systems.com>
+To: victor.liu@nxp.com, andrzej.hajda@intel.com, neil.armstrong@linaro.org,
+ rfoss@kernel.org, jonas@kwiboo.se, jernej.skrabec@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+ linux-imx@nxp.com, khilman@baylibre.com, jbrunet@baylibre.com,
+ martin.blumenstingl@googlemail.com, hjc@rock-chips.com, heiko@sntech.de,
+ yannick.fertre@foss.st.com, raphael.gallais-pou@foss.st.com,
+ philippe.cornu@foss.st.com, mcoquelin.stm32@gmail.com,
+ alexandre.torgue@foss.st.com, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-amlogic@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com
+Subject: [PATCH] drm/bridge: synopsys: dw-mipi-dsi: fix deferred dsi host
+ probe breaks dsi device probe
+Date: Fri, 12 Jan 2024 19:07:37 +0100
+Message-Id: <20240112180737.551318-1-farouk.bouabid@theobroma-systems.com>
+X-Mailer: git-send-email 2.34.1
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
+X-ClientProxiedBy: VI1PR07CA0144.eurprd07.prod.outlook.com
+ (2603:10a6:802:16::31) To VE1PR04MB6382.eurprd04.prod.outlook.com
+ (2603:10a6:803:122::31)
+MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB50:EE_|MW3PR12MB4585:EE_
-X-MS-Office365-Filtering-Correlation-Id: c883a52b-8856-4785-b78e-08dc1397e6a1
+X-MS-TrafficTypeDiagnostic: VE1PR04MB6382:EE_|DU0PR04MB9467:EE_
+X-MS-Office365-Filtering-Correlation-Id: 15ae7662-3396-40bf-093f-08dc1399643f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: V8akAhFpOryYIQdDTLCQgqKdpy8qPL8IOkrsofAMgjvSBSGF9f8PW+3/Cddd93JcVodDtjSG8qY4/A2rP335Vu+sFqUbGiVIbi05GQKZ9guo50/3t0pCpc1UEAhoWm8kYducf6I77onKeMmOuzDNmKRWYchCKUkBRtwIRWiUEhtlDpQzHzOdGM9DmjV9A1v3H6j6Ai5PVGdOqN4/iLkFNkRwUFG0TChJ9pm7cazyrlebDYg4UqZVgZ9TnXxchETFx4WMkIXvSszUuluPGymE8gZuTyjX1autYQfNLFATnntV2la+AsNed8ZGok4y5YX99m//MU2MVAPKoJmNG6is/qa4geSleagN1lQT2ZYJnQ2hHgGYPuhjLr2p+y5A+iCowgWarWxBIHWVyrL+vc9G8QZWla1MNf40Ehhm76vjQwsW3XublgHkMfORRb5CS4JkKfUeUp3li/zqeo3GDX53ejp56LC3X6t1zopGfVHlLmxZyX8YJSeiDxgLxCjfCToeJafDE8iw/9hMpePHb2itsBU5ljlJusRVe7PP2UPOoh89nolAcO2DxT51MiO68WygGkvEFtA4UTr0EdLYM1FRUM1azxfSHU2VIGIZj4FP5Zi/zx+Vk+oM6V6HBVnwNYlcc9GVIQcgsBbsI+AMnAPqJfqlAAiyDsU6KuVzKTKUIiljny73pDS+UUFClN0OzheZupaQkfQ88E5Hah939IRr5+mm0BnrFBegpp0kjD1/5yswWyypsr119uD7UWxG+wsSyVofOzMWHhFWQv9b4Bh4d+vWiwLwme2go0QL835GgzEKAPfZQL+GIKg6jS72MYfX1c4a6OoHWCZ7arDHozEOlQ==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(4636009)(346002)(39860400002)(396003)(136003)(376002)(230273577357003)(230173577357003)(230922051799003)(186009)(64100799003)(82310400011)(451199024)(1800799012)(36840700001)(40470700004)(46966006)(16526019)(2616005)(1076003)(478600001)(26005)(966005)(6666004)(7696005)(336012)(47076005)(83380400001)(70206006)(2906002)(70586007)(110136005)(8676002)(316002)(36860700001)(4326008)(8936002)(356005)(86362001)(82740400003)(81166007)(5660300002)(36756003)(41300700001)(426003)(40460700003)(40480700001)(36900700001);
+X-Microsoft-Antispam-Message-Info: yk5HFFpmdrXTkoFGcLiwgk03ea82TAVijCtZL7xyCYN8qb5ESH8cgFV6rS2r6hE9Ie3uQ7mb+Ia1hs3b11EJCpsN6Md5nDwMfmzGvvDW1A6T5tEDYihCMpZbTRffrf4FOxbYPlvG6zQ2jjLS2EUZdIF7UGvPtzgf9+YlWyBVxur8476KH6vjkVqG+Te2yEiZTmXbAsokAR45TDPYK2yydkRkIx0dQEidimzTJzE+UNxUT9Ep083S0hT2I6RacxlEEfxGeLFjaXdSttL6hLQYWVlw8HipGFjH8Kuodaf+MyXdBraEqojvui4fcCgikDlzzfd5/yahN4yz+c85lOBNe89TlzeBC/VGhR3VYEQ5UWVUKjOdw8jJSp8CpUibVz1nXZeQIc9WGCG5ZelIYO9Do9tRSxZrblI/q1yWiC20LvkeqdgidphkZ8sh7+HJFxPWVnRM0QyjKQ6OgHaFeB9yKoGTdiQsNQ8DVi1Cew6TN5OGy8ssG+jRY+miN+T7XVYLtGZbllHPwXdl3FkUCFOua8UT+wkyYxga/DFrRITXy0TwxWd+ZeEEbapR3Nbg1RAKsgEsSh2/kt8trfPbu7+3Yy1QWcBYQPGNt8q3YgU534aqyNt/KLG0K+8X7x5bK4F2DaYT+w8YDXzQIZsC7G3taA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VE1PR04MB6382.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(39850400004)(136003)(346002)(366004)(396003)(376002)(230922051799003)(186009)(1800799012)(64100799003)(451199024)(5660300002)(30864003)(86362001)(8676002)(8936002)(4326008)(7416002)(2906002)(7406005)(1076003)(2616005)(38100700002)(26005)(83380400001)(107886003)(52116002)(6506007)(44832011)(6512007)(6666004)(478600001)(66946007)(36756003)(316002)(66556008)(66476007)(921011)(41300700001)(6486002)(38350700005);
  DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2024 17:57:10.9646 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c883a52b-8856-4785-b78e-08dc1397e6a1
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF0001AB50.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4585
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?W3UyzkIvmSIrjMIoXL/xXzNcA0gwyY9r7NAAQvY4PpDwKYW78Aw9la2zGe5d?=
+ =?us-ascii?Q?CpaVWlp5Pfi/IaNglzjcW3aiR2yT7O3R72GIFE5rSqwaXLzaoOEaogRenl9t?=
+ =?us-ascii?Q?5TYI9+ZnawR3puVAHNSgX2WFjyIP1Y9IKFxmr4w7C/JsDe5ocE/yQr+snYxH?=
+ =?us-ascii?Q?qIjN+BtxiHNn6NNrUReWKwCSNxobAa9T2CeiwD82yCOwz9mDBe8sJdwThMn8?=
+ =?us-ascii?Q?WTQ0BKtvH9gACfLebvXv1UA866J8TyN4O+5/O+roxFESGZABLUk4t2I0gJli?=
+ =?us-ascii?Q?y2/8DRpxJ/iXwZbsuX97Tk8wo1S9/8qmwA9scXqhg3/FKe42w4VCKh1KwNES?=
+ =?us-ascii?Q?qeGBRffOIoqaM6bdgxsAxtkZCMF4NQh30ngmgZDYKgsyhbvluXpGh7O9gfXu?=
+ =?us-ascii?Q?t8XWjS5SzN3IjOwmz0g21CMUeKQAAJANwqAnAiML+7eIHdOnVejqG2XR+sS+?=
+ =?us-ascii?Q?t3MtPwcGamwt7vt4SLR/1QKrOOd/9mu0K1tgFsy2bk/+amiz2V/aRr6uLIIM?=
+ =?us-ascii?Q?qy9fy6A/+6fc8jxzBS9pGrMYPgP+0O7g2rn5o3uguud8cfuhRFBNJCOo/wbl?=
+ =?us-ascii?Q?N4d/EEiwCGaxaFQWhHJSlRIPnYZD7KkhDhBFyjYfsYHIz1E13s4jfEwpbQWg?=
+ =?us-ascii?Q?AvicY98rf0vc33B8lSkJRaVumsWrs00bW/94lGx87ptq/SnQl2rvkeu5TwN9?=
+ =?us-ascii?Q?5AtYXdm+aWF+EaDRb9TBhT8qYp3r1F0QncJZeoJxlLop9ZUpHKXvT2w9EGwD?=
+ =?us-ascii?Q?GU822GN/k+IYRwtpdjoNkxOq4tnedD34P3MvCi81leQsRMUdlyxRlsHmb0TY?=
+ =?us-ascii?Q?Br7aKpFl7UVrO17W2Ai7P4TDB3O7aVvqKLX4nsnQ3j16qsRzEvD8qyZ/ixzM?=
+ =?us-ascii?Q?Kl9BPS6i+GEvE8rjyM/djFG3zSR9367QUEGFkH7b2QmGyEkxLVy4NxqcINfn?=
+ =?us-ascii?Q?fpXzvhwxrewh+EPtoKRh/KdOs6XDyFJZcYWMvxQanj5VaSmM9kxxofsvfJDG?=
+ =?us-ascii?Q?aZxiHM5gdlu0VDTsPhNflZi70jBj+/dw11JVxynCAx+qcuSJyxF/kZxqmY60?=
+ =?us-ascii?Q?bpHR83QCckZb1xQ25HjWVoOxPzTIiAGC5c6Vd/xiXQnXF7jbT4++vHYw9crr?=
+ =?us-ascii?Q?CouKivnTH+T80QvgEkBUq/791PQXsCL6lXJca1dEYwP1NYRj1AMai2NUTqGl?=
+ =?us-ascii?Q?RxQqMtZt/Gu/ab7XF2ubq/g1tTtjrTnOzK02lboW/rIn50fGf00gQssZyL0A?=
+ =?us-ascii?Q?V587FkJYDs7AxM21l9AL/+7FzhbojxSxIkThABg/o/ti0hnGy6yYiFxJ84Lv?=
+ =?us-ascii?Q?5elX+qv0SOZ3xkxhsiJdsg5jAXAQGS+hiOWf/5MOdzf1UuezMMkR2+FXjV85?=
+ =?us-ascii?Q?iJTu/0NcSxZTO9Xfdgf25WKNI1goka8dTXhJmN2GOmjWA4YHzF1RFu77pL3S?=
+ =?us-ascii?Q?WuWLi7WO5+AuzkdNYEjRyqe15aKbYYD9HTwUd5ua7ESeWId6JH8ejs2KbU5H?=
+ =?us-ascii?Q?B9AK0K/5OlG+NcJ0A0lEqNvoWuPX76YqI1bbE3eAQDmirNRw3oq/zCTm2A3y?=
+ =?us-ascii?Q?t7bsIPHOarUzYz49tTwf9rJgnSg0VJEOyauAKSKNRHFMmr4vZ/i0Khdlh6v5?=
+ =?us-ascii?Q?iUulBZDuKJAVWskeRC2ZXuM=3D?=
+X-OriginatorOrg: theobroma-systems.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 15ae7662-3396-40bf-093f-08dc1399643f
+X-MS-Exchange-CrossTenant-AuthSource: VE1PR04MB6382.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2024 18:07:51.4062 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1rRjF/cX6hDFIkhssql5kt3+B2HlctKwnEPsCgXj/9DPmgFc7eqEXLJMYj+Sa0quTlfvmCjbj/gYkyBnbctIDD4AwIoGr79lGgaN/ICRU6DKq7FcWkV1/1dGpJaqKnVf
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR04MB9467
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,205 +127,304 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: bouabid.farouk97@gmail.com, quentin.schulz@theobroma-systems.com,
+ Farouk Bouabid <farouk.bouabid@theobroma-systems.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Sima,
+dw-mipi-dsi based drivers such as dw-mipi-dsi-rockchip or dw_mipi_dsi-stm
+depend on dw_mipi_dsi_probe() to initialize the dw_mipi_dsi driver
+structure (dmd pointer). This structure is only initialized once
+dw_mipi_dsi_probe() returns, creating the link between the locally created
+structure and the actual dmd pointer.
 
-Fixes for 6.8.
+Probing the dsi host can be deferred in case of dependency to a dsi
+phy-supply (eg. "rockchip,px30-dsi-dphy"). Meanwhile dsi-device drivers
+like panels (eg. "ltk050h3146w") can already be registered on the bus.
+In that case, when attempting, to register the dsi host from
+dw_mipi_dsi_probe() using mipi_dsi_host_register(), the panel probe is
+called with a dsi-host pointer that is still locally allocated in
+dw_mipi_dsi_probe().
 
-The following changes since commit e54478fbdad20f2c58d0a4f99d01299ed8e7fe9c:
+While probing, the panel driver tries to attach to a dsi host
+(mipi_dsi_attach()) which calls in return for the specific dsi host
+attach hook. (e.g. dw_mipi_dsi_rockchip_host_attach()).
+dw_mipi_dsi_rockchip uses the component framework.
+In the attach hook, the host component is registered which calls in return
+for drm_bridge_attach() while trying to bind the component
+(dw_mipi_dsi_bind())
 
-  Merge tag 'amd-drm-next-6.8-2024-01-05' of https://gitlab.freedesktop.org/agd5f/linux into drm-next (2024-01-09 09:07:50 +1000)
+drm_bridge_attach() requires a valid drm bridge parameter. However, the
+drm bridge (&dmd->bridge) that will be passed, is not yet initialized since
+the dw_mipi_dsi_probe() has not yet returned. This call will fail with a
+fatal error (invalid bridge) causing the panel to not be probed again.
 
-are available in the Git repository at:
+To simplify the issue: drm_bridge_attach() depends on the result pointer
+of dw_mipi_dsi_probe().
+While, if the dsi probe is deferred, drm_bridge_attach() is called before
+dw_mipi_dsi_probe() returns.
 
-  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.8-2024-01-12
+drm_bridge_attach+0x14/0x1ac
+dw_mipi_dsi_bind+0x24/0x30
+dw_mipi_dsi_rockchip_bind+0x258/0x378
+component_bind_all+0x118/0x248
+rockchip_drm_bind+0xb0/0x1f8
+try_to_bring_up_aggregate_device+0x168/0x1d4
+__component_add+0xa4/0x170
+component_add+0x14/0x20
+dw_mipi_dsi_rockchip_host_attach+0x54/0x144
+dw_mipi_dsi_host_attach+0x9c/0xcc
+mipi_dsi_attach+0x28/0x3c
+ltk050h3146w_probe+0x10c/0x1a4
+mipi_dsi_drv_probe+0x20/0x2c
+really_probe+0x148/0x2ac
+__driver_probe_device+0x78/0x12c
+driver_probe_device+0xdc/0x160
+__device_attach_driver+0xb8/0x134
+bus_for_each_drv+0x80/0xdc
+__device_attach+0xa8/0x1b0
+device_initial_probe+0x14/0x20
+bus_probe_device+0xa8/0xac
+device_add+0x5cc/0x778
+mipi_dsi_device_register_full+0xd8/0x198
+mipi_dsi_host_register+0x98/0x18c
+__dw_mipi_dsi_probe+0x290/0x35c
+dw_mipi_dsi_probe+0x10/0x6c
+dw_mipi_dsi_rockchip_probe+0x208/0x3e4
+platform_probe+0x68/0xdc
+really_probe+0x148/0x2ac
+__driver_probe_device+0x78/0x12c
+driver_probe_device+0xdc/0x160
+__device_attach_driver+0xb8/0x134
+bus_for_each_drv+0x80/0xdc
+__device_attach+0xa8/0x1b0
+device_initial_probe+0x14/0x20
+bus_probe_device+0xa8/0xac
+deferred_probe_work_func+0x88/0xc0
+process_one_work+0x138/0x260
+worker_thread+0x32c/0x438
+kthread+0x118/0x11c
+ret_from_fork+0x10/0x20
+---[ end trace 0000000000000000 ]---
 
-for you to fetch changes up to 3b23fd46e2af68b47902caa3f88d60f73c5d85f7:
+Fix this by initializing directly the dmd pointer in dw_mipi_dsi_probe(),
+which requires also initializting the dmd->bridge attributes that are
+required in drm_bridge_attach() before calling mipi_dsi_host_register().
 
-  drm/amd/pm: Fix smuv13.0.6 current clock reporting (2024-01-11 23:33:37 -0500)
+Signed-off-by: Farouk Bouabid <farouk.bouabid@theobroma-systems.com>
+---
+ drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c   |  4 +-
+ drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 42 ++++++++++---------
+ drivers/gpu/drm/meson/meson_dw_mipi_dsi.c     |  8 ++--
+ .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   |  5 +--
+ drivers/gpu/drm/stm/dw_mipi_dsi-stm.c         |  5 +--
+ include/drm/bridge/dw_mipi_dsi.h              |  5 ++-
+ 6 files changed, 35 insertions(+), 34 deletions(-)
 
-----------------------------------------------------------------
-amd-drm-fixes-6.8-2024-01-12:
+diff --git a/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c b/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c
+index 3ff30ce80c5b..469976ad3b19 100644
+--- a/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c
++++ b/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c
+@@ -881,8 +881,8 @@ static int imx93_dsi_probe(struct platform_device *pdev)
+ 	dsi->pdata.priv_data = dsi;
+ 	platform_set_drvdata(pdev, dsi);
+ 
+-	dsi->dmd = dw_mipi_dsi_probe(pdev, &dsi->pdata);
+-	if (IS_ERR(dsi->dmd))
++	ret = dw_mipi_dsi_probe(pdev, &dsi->pdata, &dsi->dmd);
++	if (ret < 0)
+ 		return dev_err_probe(dev, PTR_ERR(dsi->dmd),
+ 				     "failed to probe dw_mipi_dsi\n");
+ 
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+index 824fb3c65742..306cba366ba8 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+@@ -1184,18 +1184,19 @@ static void dw_mipi_dsi_debugfs_remove(struct dw_mipi_dsi *dsi) { }
+ 
+ #endif /* CONFIG_DEBUG_FS */
+ 
+-static struct dw_mipi_dsi *
+-__dw_mipi_dsi_probe(struct platform_device *pdev,
+-		    const struct dw_mipi_dsi_plat_data *plat_data)
++int __dw_mipi_dsi_probe(struct platform_device *pdev,
++		    const struct dw_mipi_dsi_plat_data *plat_data, struct dw_mipi_dsi **dsi_p)
+ {
+ 	struct device *dev = &pdev->dev;
+ 	struct reset_control *apb_rst;
+ 	struct dw_mipi_dsi *dsi;
+ 	int ret;
+ 
+-	dsi = devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
+-	if (!dsi)
+-		return ERR_PTR(-ENOMEM);
++	*dsi_p = devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
++	if (!*dsi_p)
++		return -ENOMEM;
++
++	dsi = *dsi_p;
+ 
+ 	dsi->dev = dev;
+ 	dsi->plat_data = plat_data;
+@@ -1203,13 +1204,13 @@ __dw_mipi_dsi_probe(struct platform_device *pdev,
+ 	if (!plat_data->phy_ops->init || !plat_data->phy_ops->get_lane_mbps ||
+ 	    !plat_data->phy_ops->get_timing) {
+ 		DRM_ERROR("Phy not properly configured\n");
+-		return ERR_PTR(-ENODEV);
++		return -ENODEV;
+ 	}
+ 
+ 	if (!plat_data->base) {
+ 		dsi->base = devm_platform_ioremap_resource(pdev, 0);
+ 		if (IS_ERR(dsi->base))
+-			return ERR_PTR(-ENODEV);
++			return -ENODEV;
+ 
+ 	} else {
+ 		dsi->base = plat_data->base;
+@@ -1219,7 +1220,7 @@ __dw_mipi_dsi_probe(struct platform_device *pdev,
+ 	if (IS_ERR(dsi->pclk)) {
+ 		ret = PTR_ERR(dsi->pclk);
+ 		dev_err(dev, "Unable to get pclk: %d\n", ret);
+-		return ERR_PTR(ret);
++		return ret;
+ 	}
+ 
+ 	/*
+@@ -1233,14 +1234,14 @@ __dw_mipi_dsi_probe(struct platform_device *pdev,
+ 		if (ret != -EPROBE_DEFER)
+ 			dev_err(dev, "Unable to get reset control: %d\n", ret);
+ 
+-		return ERR_PTR(ret);
++		return ret;
+ 	}
+ 
+ 	if (apb_rst) {
+ 		ret = clk_prepare_enable(dsi->pclk);
+ 		if (ret) {
+ 			dev_err(dev, "%s: Failed to enable pclk\n", __func__);
+-			return ERR_PTR(ret);
++			return ret;
+ 		}
+ 
+ 		reset_control_assert(apb_rst);
+@@ -1255,19 +1256,20 @@ __dw_mipi_dsi_probe(struct platform_device *pdev,
+ 
+ 	dsi->dsi_host.ops = &dw_mipi_dsi_host_ops;
+ 	dsi->dsi_host.dev = dev;
++	dsi->bridge.driver_private = dsi;
++	dsi->bridge.funcs = &dw_mipi_dsi_bridge_funcs;
++	dsi->bridge.of_node = pdev->dev.of_node;
++
+ 	ret = mipi_dsi_host_register(&dsi->dsi_host);
+ 	if (ret) {
+ 		dev_err(dev, "Failed to register MIPI host: %d\n", ret);
+ 		pm_runtime_disable(dev);
+ 		dw_mipi_dsi_debugfs_remove(dsi);
+-		return ERR_PTR(ret);
++		return ret;
+ 	}
+ 
+-	dsi->bridge.driver_private = dsi;
+-	dsi->bridge.funcs = &dw_mipi_dsi_bridge_funcs;
+-	dsi->bridge.of_node = pdev->dev.of_node;
+ 
+-	return dsi;
++	return 0;
+ }
+ 
+ static void __dw_mipi_dsi_remove(struct dw_mipi_dsi *dsi)
+@@ -1301,11 +1303,11 @@ EXPORT_SYMBOL_GPL(dw_mipi_dsi_get_bridge);
+ /*
+  * Probe/remove API, used from platforms based on the DRM bridge API.
+  */
+-struct dw_mipi_dsi *
+-dw_mipi_dsi_probe(struct platform_device *pdev,
+-		  const struct dw_mipi_dsi_plat_data *plat_data)
++int dw_mipi_dsi_probe(struct platform_device *pdev,
++		  const struct dw_mipi_dsi_plat_data *plat_data,
++		  struct dw_mipi_dsi **dsi_p)
+ {
+-	return __dw_mipi_dsi_probe(pdev, plat_data);
++	return __dw_mipi_dsi_probe(pdev, plat_data, dsi_p);
+ }
+ EXPORT_SYMBOL_GPL(dw_mipi_dsi_probe);
+ 
+diff --git a/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c b/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
+index e5fe4e994f43..b103f3e31f2a 100644
+--- a/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
++++ b/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
+@@ -262,6 +262,7 @@ static int meson_dw_mipi_dsi_probe(struct platform_device *pdev)
+ {
+ 	struct meson_dw_mipi_dsi *mipi_dsi;
+ 	struct device *dev = &pdev->dev;
++	int ret;
+ 
+ 	mipi_dsi = devm_kzalloc(dev, sizeof(*mipi_dsi), GFP_KERNEL);
+ 	if (!mipi_dsi)
+@@ -315,10 +316,9 @@ static int meson_dw_mipi_dsi_probe(struct platform_device *pdev)
+ 	mipi_dsi->pdata.priv_data = mipi_dsi;
+ 	platform_set_drvdata(pdev, mipi_dsi);
+ 
+-	mipi_dsi->dmd = dw_mipi_dsi_probe(pdev, &mipi_dsi->pdata);
+-	if (IS_ERR(mipi_dsi->dmd))
+-		return dev_err_probe(dev, PTR_ERR(mipi_dsi->dmd),
+-				     "Failed to probe dw_mipi_dsi\n");
++	ret = dw_mipi_dsi_probe(pdev, &mipi_dsi->pdata, &mipi_dsi->dmd);
++	if (ret < 0)
++		return dev_err_probe(dev, ret, "Failed to probe dw_mipi_dsi\n");
+ 
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+index 6396f9324dab..4df32747476c 100644
+--- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
++++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+@@ -1457,9 +1457,8 @@ static int dw_mipi_dsi_rockchip_probe(struct platform_device *pdev)
+ 	if (IS_ERR(phy_provider))
+ 		return PTR_ERR(phy_provider);
+ 
+-	dsi->dmd = dw_mipi_dsi_probe(pdev, &dsi->pdata);
+-	if (IS_ERR(dsi->dmd)) {
+-		ret = PTR_ERR(dsi->dmd);
++	ret = dw_mipi_dsi_probe(pdev, &dsi->pdata, &dsi->dmd);
++	if (ret < 0) {
+ 		if (ret != -EPROBE_DEFER)
+ 			DRM_DEV_ERROR(dev,
+ 				      "Failed to probe dw_mipi_dsi: %d\n", ret);
+diff --git a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
+index d5f8c923d7bc..44dbbfc277d8 100644
+--- a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
++++ b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
+@@ -518,9 +518,8 @@ static int dw_mipi_dsi_stm_probe(struct platform_device *pdev)
+ 
+ 	platform_set_drvdata(pdev, dsi);
+ 
+-	dsi->dsi = dw_mipi_dsi_probe(pdev, &dw_mipi_dsi_stm_plat_data);
+-	if (IS_ERR(dsi->dsi)) {
+-		ret = PTR_ERR(dsi->dsi);
++	ret = dw_mipi_dsi_probe(pdev, &dw_mipi_dsi_stm_plat_data, &dsi->dsi);
++	if (ret < 0) {
+ 		dev_err_probe(dev, ret, "Failed to initialize mipi dsi host\n");
+ 		goto err_dsi_probe;
+ 	}
+diff --git a/include/drm/bridge/dw_mipi_dsi.h b/include/drm/bridge/dw_mipi_dsi.h
+index 65d5e68065e3..f073e819251e 100644
+--- a/include/drm/bridge/dw_mipi_dsi.h
++++ b/include/drm/bridge/dw_mipi_dsi.h
+@@ -76,9 +76,10 @@ struct dw_mipi_dsi_plat_data {
+ 	void *priv_data;
+ };
+ 
+-struct dw_mipi_dsi *dw_mipi_dsi_probe(struct platform_device *pdev,
++int dw_mipi_dsi_probe(struct platform_device *pdev,
+ 				      const struct dw_mipi_dsi_plat_data
+-				      *plat_data);
++				      *plat_data,
++					  struct dw_mipi_dsi **dsi_p);
+ void dw_mipi_dsi_remove(struct dw_mipi_dsi *dsi);
+ int dw_mipi_dsi_bind(struct dw_mipi_dsi *dsi, struct drm_encoder *encoder);
+ void dw_mipi_dsi_unbind(struct dw_mipi_dsi *dsi);
+-- 
+2.34.1
 
-amdgpu:
-- SubVP fixes
-- VRR fixes
-- USB4 fixes
-- DCN 3.5 fixes
-- GFX11 harvesting fix
-- RAS fixes
-- Misc small fixes
-- KFD dma-buf import fixes
-- Power reporting fixes
-- ATHUB 3.3 fix
-- SR-IOV fix
-- Add missing fw release for fiji
-- GFX 11.5 fix
-- Debugging module parameter fix
-- SMU 13.0.6 fixes
-
-amdkfd:
-- Fix lockdep warnings
-- Fix sparse __rcu warnings
-- Bump interface version so userspace knows that the kernel supports dma-bufs exported from KFD
-  Most of the fixes for this went into 6.7, but the last fix is in this PR
-- HMM fix
-- SVM fix
-
-----------------------------------------------------------------
-Alex Deucher (4):
-      drm/amdgpu: fix avg vs input power reporting on smu7
-      drm/amdgpu: fall back to INPUT power for AVG power via INFO IOCTL
-      drm/amdgpu/pm: clarify debugfs pm output
-      drm/amdgpu: drop exp hw support check for GC 9.4.3
-
-Aric Cyr (1):
-      drm/amd/display: 3.2.266
-
-Candice Li (2):
-      drm/amdgpu: Drop unnecessary sentences about CE and deferred error.
-      drm/amdgpu: Support poison error injection via ras_ctrl debugfs
-
-Charlene Liu (1):
-      drm/amd/display: Update z8 latency
-
-Dafna Hirschfeld (1):
-      drm/amdkfd: fixes for HMM mem allocation
-
-Daniel Miess (1):
-      Revert "drm/amd/display: Fix conversions between bytes and KB"
-
-Felix Kuehling (4):
-      drm/amdkfd: Fix lock dependency warning
-      drm/amdkfd: Fix sparse __rcu annotation warnings
-      drm/amdgpu: Auto-validate DMABuf imports in compute VMs
-      drm/amdkfd: Bump KFD ioctl version
-
-George Shen (1):
-      drm/amd/display: Disconnect phantom pipe OPP from OPTC being disabled
-
-Hawking Zhang (1):
-      drm/amdgpu: Packed socket_id to ras feature mask
-
-Ivan Lipski (1):
-      Revert "drm/amd/display: fix bandwidth validation failure on DCN 2.1"
-
-James Zhu (1):
-      drm/amdgpu: make a correction on comment
-
-Le Ma (3):
-      Revert "drm/amdgpu: add param to specify fw bo location for front-door loading"
-      drm/amdgpu: add debug flag to place fw bo on vram for frontdoor loading
-      drm/amdgpu: move debug options init prior to amdgpu device init
-
-Lijo Lazar (2):
-      drm/amd/pm: Add error log for smu v13.0.6 reset
-      drm/amd/pm: Fix smuv13.0.6 current clock reporting
-
-Likun Gao (1):
-      drm/amdgpu: correct the cu count for gfx v11
-
-Martin Leung (2):
-      drm/amd/display: revert "for FPO & SubVP/DRR config program vmin/max"
-      drm/amd/display: revert "Optimize VRR updates to only necessary ones"
-
-Martin Tsai (1):
-      drm/amd/display: To adjust dprefclk by down spread percentage
-
-Meenakshikumar Somasundaram (1):
-      drm/amd/display: Dpia hpd status not in sync after S4
-
-Melissa Wen (1):
-      drm/amd/display: cleanup inconsistent indenting in amdgpu_dm_color
-
-Peichen Huang (1):
-      drm/amd/display: Request usb4 bw for mst streams
-
-Philip Yang (1):
-      drm/amdkfd: Fix lock dependency warning with srcu
-
-Srinivasan Shanmugam (6):
-      drm/amd/powerplay: Fix kzalloc parameter 'ATOM_Tonga_PPM_Table' in 'get_platform_power_management_table()'
-      drm/amdgpu: Fix with right return code '-EIO' in 'amdgpu_gmc_vram_checking()'
-      drm/amdgpu: Fix unsigned comparison with less than zero in vpe_u1_8_from_fraction()
-      drm/amdgpu: Release 'adev->pm.fw' before return in 'amdgpu_device_need_post()'
-      drm/amd/display: Fix variable deferencing before NULL check in edp_setup_replay()
-      drm/amdkfd: Fix 'node' NULL check in 'svm_range_get_range_boundaries()'
-
-Victor Lu (1):
-      drm/amdgpu: Do not program VM_L2_CNTL under SRIOV
-
-Yifan Zhang (3):
-      drm/amdgpu: update headers for nbio v7.11
-      drm/amdgpu: update ATHUB_MISC_CNTL offset for athub v3.3
-      drm/amdgpu: update regGL2C_CTRL4 value in golden setting
-
- drivers/gpu/drm/amd/amdgpu/amdgpu.h                |  3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h         | 12 +++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c   | 43 +++++++------
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c             |  6 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c      |  2 -
- drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c        |  4 ++
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            | 15 ++---
- drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c            | 29 ++++++++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c            | 21 ++++---
- drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c            |  7 ++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c            |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c            | 26 ++++----
- drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c          |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             | 67 +++++++++++++++++---
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h             | 14 +++--
- drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c            | 10 +--
- drivers/gpu/drm/amd/amdgpu/athub_v3_0.c            |  8 +++
- drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c             |  5 +-
- drivers/gpu/drm/amd/amdgpu/gfxhub_v1_2.c           | 10 +--
- drivers/gpu/drm/amd/amdgpu/nbio_v7_4.c             |  3 +-
- drivers/gpu/drm/amd/amdgpu/nbio_v7_9.c             |  3 +-
- drivers/gpu/drm/amd/amdgpu/umc_v6_7.c              |  2 +-
- drivers/gpu/drm/amd/amdkfd/kfd_migrate.c           |  6 +-
- drivers/gpu/drm/amd/amdkfd/kfd_priv.h              |  2 +-
- drivers/gpu/drm/amd/amdkfd/kfd_process.c           |  7 ++-
- drivers/gpu/drm/amd/amdkfd/kfd_svm.c               | 52 ++++++++--------
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  2 +-
- .../drm/amd/display/amdgpu_dm/amdgpu_dm_color.c    |  2 +-
- .../amd/display/dc/clk_mgr/dcn314/dcn314_clk_mgr.c | 71 +++++++++++++++++++++-
- .../amd/display/dc/clk_mgr/dcn314/dcn314_clk_mgr.h | 11 ++++
- drivers/gpu/drm/amd/display/dc/core/dc.c           | 14 +++--
- drivers/gpu/drm/amd/display/dc/core/dc_resource.c  | 14 -----
- drivers/gpu/drm/amd/display/dc/dc.h                |  3 +-
- drivers/gpu/drm/amd/display/dc/dc_stream.h         |  2 +
- drivers/gpu/drm/amd/display/dc/dc_types.h          | 12 ++--
- drivers/gpu/drm/amd/display/dc/dce/dce_audio.c     |  2 +-
- .../gpu/drm/amd/display/dc/dce/dce_clock_source.c  |  9 ++-
- .../amd/display/dc/dcn32/dcn32_resource_helpers.c  | 14 +++++
- .../gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c   | 11 ++--
- .../gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.c   |  6 +-
- .../drm/amd/display/dc/dml2/display_mode_core.c    | 18 +++---
- .../drm/amd/display/dc/hwss/dce110/dce110_hwseq.c  |  2 +-
- .../drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c    |  2 +-
- .../drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c    | 45 ++------------
- drivers/gpu/drm/amd/display/dc/inc/hw/clk_mgr.h    |  1 +
- drivers/gpu/drm/amd/display/dc/inc/resource.h      |  3 -
- drivers/gpu/drm/amd/display/dc/link/link_dpms.c    | 42 ++++++++++---
- .../gpu/drm/amd/display/dc/link/link_validation.c  | 60 ++++++++++++++----
- .../amd/display/dc/link/protocols/link_dp_dpia.c   | 36 ++++++-----
- .../display/dc/link/protocols/link_dp_dpia_bw.c    | 59 +++++++++++++-----
- .../display/dc/link/protocols/link_dp_dpia_bw.h    |  9 +++
- .../dc/link/protocols/link_edp_panel_control.c     | 11 ++--
- .../gpu/drm/amd/display/dc/optc/dcn32/dcn32_optc.c | 19 ++++--
- .../gpu/drm/amd/display/dc/optc/dcn35/dcn35_optc.c | 12 ++--
- .../amd/display/dc/resource/dcn32/dcn32_resource.c |  2 +-
- .../amd/display/dc/resource/dcn32/dcn32_resource.h |  3 +
- .../display/dc/resource/dcn321/dcn321_resource.c   |  2 +-
- drivers/gpu/drm/amd/display/include/audio_types.h  |  2 +-
- .../amd/include/asic_reg/nbio/nbio_7_11_0_offset.h |  8 +--
- drivers/gpu/drm/amd/pm/amdgpu_pm.c                 | 28 ++++++---
- .../amd/pm/powerplay/hwmgr/process_pptables_v1_0.c |  2 +-
- .../gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c    | 17 +++++-
- .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c   | 15 +++--
- include/uapi/linux/kfd_ioctl.h                     |  3 +-
- 65 files changed, 634 insertions(+), 302 deletions(-)
