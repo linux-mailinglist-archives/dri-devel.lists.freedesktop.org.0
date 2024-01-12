@@ -1,46 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79F2782C132
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 14:56:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45D5B82C137
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 14:58:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E33CB10E113;
-	Fri, 12 Jan 2024 13:56:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F132210E11A;
+	Fri, 12 Jan 2024 13:58:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F0ED10E113
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 13:56:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2DE210E11A
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 13:58:06 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id E5F0BB822E5;
- Fri, 12 Jan 2024 13:56:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB984C433C7;
- Fri, 12 Jan 2024 13:56:19 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id 7935BB821C0;
+ Fri, 12 Jan 2024 13:58:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84400C433C7;
+ Fri, 12 Jan 2024 13:58:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705067780;
- bh=XwlWj+FhkeZ4Hd0BdDkCkRmx8VOp97TG6l6o6iCtJkU=;
+ s=k20201202; t=1705067884;
+ bh=QJD2h98QYNh2Lt+yR/zYkXBkXbv9AmHZ/JuiqaxdMyc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=UVoswFlLWRHkWdkg8l11qUwt9zT26X3irO+ghzVM0grjGX3lU0oBDgvnQTmiEhq0B
- HbvKYb4ckLdZ+l7Npw9+NUygyynKVx4bKfd2l44QJ2HvDpe8wdi0oEhT6zb9bRrer7
- m+sAjblA+PIZLxbyZ5wenD3hsKoUcxPgRv9tA4lFsHYqv+P1/39H16mabVYm88/efq
- g1N+rRUBaB+EQSanWX978ORJ0IlDOiTtx67Dk3sZaZGMTlpsSyAvc/RNJOAQwakBdW
- Mzq4V1I0psha/wx24FMezvo8KqgZVmkbiJXkix6NfJ8ETMNS4JUaTJIY+UELANVfi6
- /XN9l+L6arxpg==
-Date: Fri, 12 Jan 2024 14:56:17 +0100
+ b=eDHftBV75J5Ngo2CNBfS7nVJWwrnT8Dif/4PX4uHOUUcH8m5pNegMYsgGUPsww73c
+ SdSBcKvv0JQ+PuMjxZZElmSK/tbw0A1Skxc8l6m674kIe6/QXg9IeU89m3f0547L2N
+ xa/d3UaDt6eovzeRVffLe3ItOCsmThSTp6c4km/7eU5kgf+01AKaC2PGkPRStFJCui
+ A1Ro9CMeSbOVdVn/+X7Z0W8uJ5e/f76w1ZOeMf/+PYE38syNlJwfiUyLMzjjG6MZEN
+ TOlU195e6FHeBO3JUMgW8oTgPvopHNPzPUeMVG14JEs+ArRO2HRkRh8wvlat/IxQf9
+ sCh0PeH5XS2/A==
+Date: Fri, 12 Jan 2024 14:58:02 +0100
 From: Maxime Ripard <mripard@kernel.org>
 To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v7 5/9] drm/fb_dma: Add generic get_scanout_buffer() for
- drm_panic
-Message-ID: <l3podaaakwaai7xuxaa7cdb5c4s7m6jc6pitepk6uk7o3knn2b@jg5a2hnla77z>
+Subject: Re: [PATCH v7 6/9] drm/simpledrm: Add drm_panic support
+Message-ID: <koiw5xzpcmjgg3grprd6qlm2sidt4mylqiv6aycnqvayylpexb@5viaz5qishhj>
 References: <20240104160301.185915-1-jfalempe@redhat.com>
- <20240104160301.185915-6-jfalempe@redhat.com>
- <ZaFBofhe217zCmWN@phenom.ffwll.local>
+ <20240104160301.185915-7-jfalempe@redhat.com>
+ <ZaFCWUwxpxv5B0AM@phenom.ffwll.local>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="2ubkfypkz55rcxr7"
+ protocol="application/pgp-signature"; boundary="dx7jbw5j4zmrh2br"
 Content-Disposition: inline
-In-Reply-To: <ZaFBofhe217zCmWN@phenom.ffwll.local>
+In-Reply-To: <ZaFCWUwxpxv5B0AM@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,54 +59,66 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---2ubkfypkz55rcxr7
+--dx7jbw5j4zmrh2br
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 12, 2024 at 02:41:53PM +0100, Daniel Vetter wrote:
-> > +		fb =3D plane->state->fb;
-> > +		/* Only support linear modifier */
-> > +		if (fb->modifier !=3D DRM_FORMAT_MOD_LINEAR)
-> > +			continue;
-> > +
-> > +		/* Check if color format is supported */
-> > +		if (!drm_panic_is_format_supported(fb->format->format))
-> > +			continue;
-> > +
-> > +		dma_obj =3D drm_fb_dma_get_gem_obj(fb, 0);
-> > +
-> > +		/* Buffer should be accessible from the CPU */
-> > +		if (dma_obj->base.import_attach)
+On Fri, Jan 12, 2024 at 02:44:57PM +0100, Daniel Vetter wrote:
+> On Thu, Jan 04, 2024 at 05:00:50PM +0100, Jocelyn Falempe wrote:
+> > Add support for the drm_panic module, which displays a user-friendly
+> > message to the screen when a kernel panic occurs.
+> >=20
+> > Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+> > ---
+> >  drivers/gpu/drm/tiny/simpledrm.c | 15 +++++++++++++++
+> >  1 file changed, 15 insertions(+)
+> >=20
+> > diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/si=
+mpledrm.c
+> > index 7ce1c4617675..6dd2afee84d4 100644
+> > --- a/drivers/gpu/drm/tiny/simpledrm.c
+> > +++ b/drivers/gpu/drm/tiny/simpledrm.c
+> > @@ -25,6 +25,7 @@
+> >  #include <drm/drm_gem_shmem_helper.h>
+> >  #include <drm/drm_managed.h>
+> >  #include <drm/drm_modeset_helper_vtables.h>
+> > +#include <drm/drm_panic.h>
+> >  #include <drm/drm_probe_helper.h>
+> > =20
+> >  #define DRIVER_NAME	"simpledrm"
+> > @@ -985,6 +986,19 @@ static struct simpledrm_device *simpledrm_device_c=
+reate(struct drm_driver *drv,
+> >  	return sdev;
+> >  }
+> > =20
+> > +static int simpledrm_get_scanout_buffer(struct drm_device *dev,
+> > +					struct drm_scanout_buffer *sb)
+> > +{
+> > +	struct simpledrm_device *sdev =3D simpledrm_device_of_dev(dev);
 >=20
-> This might be a bit too restrictive, since some drivers import dma-buf
-> including a vmap. So just checking for ->vaddr might be better. But can be
-> changed later on.
+> So I guess simpledrm is the reason why the get_scanout_buffer hook is at
+> the device level and not at the plane level. Even from the few drivers you
+> have in your series it seems very much the exception, so I'm not sure
+> whether that's the best design.
 >=20
-> > +			continue;
-> > +
-> > +		/* Buffer should be already mapped to CPU */
->=20
-> I'd clarify this comment to state that vaddr is invariant over the
-> lifetime of the buffer and therefore needs no locking. Correct locking
-> that a) takes all the locks b) never ever stalls for one is absolutely
-> crucial for a panic handler that won't make the situation worse.
+> I guess we'll know when we see the plane iterator code with the right
+> locking, whether it's ok to have that in driver hooks or it's better to
+> pull it out into shared code.
 
-I think this comment was made to address buffers that are accessible to
-the CPU but don't have a CPU mapping (ie, created with
-DMA_ATTR_NO_KERNEL_MAPPING for example).
+Wouldn't the CRTC level be better than the planes?
 
 Maxime
 
---2ubkfypkz55rcxr7
+--dx7jbw5j4zmrh2br
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZaFFAAAKCRDj7w1vZxhR
-xSdmAQDWbpshnhMFgpGCNlKd+VGz210yJlrUD4u3I/BsOsnkPwD/Z/QqTRGfqxpg
-ZS2Ii/JcC1e+yjQWh+3IEJIPAWs1hwk=
-=Yqeg
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZaFFaQAKCRDj7w1vZxhR
+xdpfAP9BcoJ0mF7cF94TvaCjeIH6ml9OCImj8Ty/oDoaWqQBbwD6AsFl9/ups6V1
+kJ/jbm8S9TmEpmw5iG610Z1pUnXOAgQ=
+=2dIE
 -----END PGP SIGNATURE-----
 
---2ubkfypkz55rcxr7--
+--dx7jbw5j4zmrh2br--
