@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65F5C82C107
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 14:45:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60BE382C11F
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 14:51:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76D2C10EB25;
-	Fri, 12 Jan 2024 13:45:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5703510E121;
+	Fri, 12 Jan 2024 13:50:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CA7610EB25
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 13:45:01 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id
- 2adb3069b0e04-50e7b03fbbeso969401e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 05:45:01 -0800 (PST)
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B555710E121
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 13:50:57 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id
+ 4fb4d7f45d1cf-5578cb9645bso1830198a12.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 05:50:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1705067099; x=1705671899; darn=lists.freedesktop.org; 
+ d=ffwll.ch; s=google; t=1705067456; x=1705672256; darn=lists.freedesktop.org; 
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=fZCpSiMfxBnHGKfhSnFLPmZX8eZC/zWiE4Y48KIlXIw=;
- b=YMGBeKYgJahuwcInPdkSo1qlP6yJK8HlCTXXyUwb9ioRx/fjBM0C2oV2gXeFG7qlNE
- AD5LSeV89oTPUt2hTaG/v3hdlotawcpcnuxMza9cAFveTOlo4sB3IhDYqMMsNS8bSqzw
- tCN0URQubHkCW+lnF+McETHUyfvmtaH08UX+Y=
+ bh=LnDh2WDi6ih3JOIcDBUTKm3Mx7ygGIkH3IkpNvRnimU=;
+ b=S9KWKkAGbq5Gp/EOXbIpW9gALcPG3u59Brl6TgflgoChN/jjcN79Zq42YmKrIK/Xb7
+ 6QuKgTgzFjZGaN6iJdVLkfUA+6DoNm2WUgQpcx7wxfyJETIZqnooWpoe8HYGZ1ZKLuoG
+ YMsYpMVTZ2eJdurLGghqMTymKVFn4PernzeRs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705067099; x=1705671899;
+ d=1e100.net; s=20230601; t=1705067456; x=1705672256;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=fZCpSiMfxBnHGKfhSnFLPmZX8eZC/zWiE4Y48KIlXIw=;
- b=wp8WO+ONsOxsXJyeCBGJUuiuUSEEw935tDTRJp+OHcGAD9B6vktrKlnE99GMzX2ZlX
- KFkR+Nn5LtGHyiPfo2C/X3SC9ftocA3dY6uDtbOELJCj0mB00a3IFy1nTfHCCRU4npO+
- qEQJKaZ+DTMn47xDbsI/tbymKyafSPNNMhH5ipJ6wNmofyTok/Vgv+rS+i6OdmJ4ZEUS
- nUq/7xd9T2oJK54hH8ZTAroUDrOgIaJMEiHMqiDOx9HukR+Nyqm8ducOwZbjze1qU2tw
- Dn8mhy/n7bkZeV2EOni/w8tTqtJ3DIyoUmdZR472zJwgwQxCmo7k7L6LY0+OiFqqGBTW
- iZtA==
-X-Gm-Message-State: AOJu0Ywiun87vUO4GWCp8RdbgpozRiiCYvCf7yo7RpRdarooaDMJRMZY
- fqLOKMKR5ca+aSpL5zUe7xFMe4Gh5F7EfhHC4oXoYQVB3Zk=
-X-Google-Smtp-Source: AGHT+IF4AosghOXgauYXtDDnhfH2Ifgl2ns9lGkUMMpe6VsWItWkVi3hULqG7bT0VZZZvbTFB1dnYg==
-X-Received: by 2002:a19:6406:0:b0:50e:74f2:fada with SMTP id
- y6-20020a196406000000b0050e74f2fadamr1393249lfb.0.1705067099576; 
- Fri, 12 Jan 2024 05:44:59 -0800 (PST)
+ bh=LnDh2WDi6ih3JOIcDBUTKm3Mx7ygGIkH3IkpNvRnimU=;
+ b=noK4LtqM+CccR1H6YCpqFa0CAHvwTiO3ncXcGXMm+h40mQIzcCB1kf4poQwrwbpIXt
+ EwYkB/pQaAcuLbkzqZf1Lk/MLg5MJpa2pvELbc/TaOvOu+P2gGkGrLpBy0nH/Vmw6ESF
+ 6PFDv5xXKei4/ZepdzpZKhRPjauLQGK3m1bnkpf7GcGVWkUQqdhsomArgUhQQ1DXdl0h
+ KpuNnWSQNmezxyznx2IUe9NhWdPr+2ARbMsGZS8XwQapzU/2j7pQo7Wzf3F03efzg/J/
+ FJv2sT/CNM1nTR+A+Phb/FVoq1Y6t4pvl6R7U4IJf3bY3L3WqyW5y2vCnzLByWyf66en
+ mZyw==
+X-Gm-Message-State: AOJu0Yx+GfAkUBEWXtcPBovMUfoFN/1I5nyQNjrjCGtclFRmc3AlMBAX
+ wraaDcdnC3jcuzgtR9YzlZhrdaioi7Tb0Q==
+X-Google-Smtp-Source: AGHT+IGN1hipejYydbHRoOEWSB5xUqvEVheN5Jkwi3m/x++pfN63xEpNEot+2K3ylRlJGUtgGszItQ==
+X-Received: by 2002:a17:907:7ea8:b0:a2a:b777:b35c with SMTP id
+ qb40-20020a1709077ea800b00a2ab777b35cmr1144852ejc.7.1705067455979; 
+ Fri, 12 Jan 2024 05:50:55 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- i13-20020a170906090d00b00a2c11a438a8sm1812549ejd.25.2024.01.12.05.44.58
+ en4-20020a17090728c400b00a282c5a3143sm1831594ejc.88.2024.01.12.05.50.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Jan 2024 05:44:59 -0800 (PST)
-Date: Fri, 12 Jan 2024 14:44:57 +0100
+ Fri, 12 Jan 2024 05:50:55 -0800 (PST)
+Date: Fri, 12 Jan 2024 14:50:53 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Jocelyn Falempe <jfalempe@redhat.com>
-Subject: Re: [PATCH v7 6/9] drm/simpledrm: Add drm_panic support
-Message-ID: <ZaFCWUwxpxv5B0AM@phenom.ffwll.local>
+Subject: Re: [PATCH v7 2/9] drm/panic: Add a drm panic handler
+Message-ID: <ZaFDvaOgjM_nGOKz@phenom.ffwll.local>
 References: <20240104160301.185915-1-jfalempe@redhat.com>
- <20240104160301.185915-7-jfalempe@redhat.com>
+ <20240104160301.185915-3-jfalempe@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240104160301.185915-7-jfalempe@redhat.com>
+In-Reply-To: <20240104160301.185915-3-jfalempe@redhat.com>
 X-Operating-System: Linux phenom 6.5.0-4-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,70 +77,25 @@ Cc: bluescreen_avenger@verizon.net, tzimmermann@suse.de, javierm@redhat.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 04, 2024 at 05:00:50PM +0100, Jocelyn Falempe wrote:
-> Add support for the drm_panic module, which displays a user-friendly
-> message to the screen when a kernel panic occurs.
-> 
-> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
-> ---
->  drivers/gpu/drm/tiny/simpledrm.c | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
-> index 7ce1c4617675..6dd2afee84d4 100644
-> --- a/drivers/gpu/drm/tiny/simpledrm.c
-> +++ b/drivers/gpu/drm/tiny/simpledrm.c
-> @@ -25,6 +25,7 @@
->  #include <drm/drm_gem_shmem_helper.h>
->  #include <drm/drm_managed.h>
->  #include <drm/drm_modeset_helper_vtables.h>
-> +#include <drm/drm_panic.h>
->  #include <drm/drm_probe_helper.h>
->  
->  #define DRIVER_NAME	"simpledrm"
-> @@ -985,6 +986,19 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
->  	return sdev;
->  }
->  
-> +static int simpledrm_get_scanout_buffer(struct drm_device *dev,
-> +					struct drm_scanout_buffer *sb)
+On Thu, Jan 04, 2024 at 05:00:46PM +0100, Jocelyn Falempe wrote:
+> +/**
+> + * drm_panic_init() - Initialize drm-panic subsystem
+> + *
+> + * register the panic notifier
+> + */
+> +void drm_panic_init(void)
 > +{
-> +	struct simpledrm_device *sdev = simpledrm_device_of_dev(dev);
+> +	atomic_notifier_chain_register(&panic_notifier_list,
+> +				       &drm_panic_notifier);
 
-So I guess simpledrm is the reason why the get_scanout_buffer hook is at
-the device level and not at the plane level. Even from the few drivers you
-have in your series it seems very much the exception, so I'm not sure
-whether that's the best design.
+Ok I've found another one after checking core panic code. This is the
+wrong hook, we want to be a sttruct kmsg_dumper and use
+kmsg_dump_register. And again once for each drm_panic_device so that we
+can rely on core locking, as I've explained in the other reply.
 
-I guess we'll know when we see the plane iterator code with the right
-locking, whether it's ok to have that in driver hooks or it's better to
-pull it out into shared code.
+Also because it trashes buffers from userspace I think by default we want
+to only dump on panic, so KMS_DUMP_PANIC.
 -Sima
-
-> +
-> +	sb->width = sdev->mode.hdisplay;
-> +	sb->height = sdev->mode.vdisplay;
-> +	sb->pitch = sdev->pitch;
-> +	sb->format = sdev->format;
-> +	sb->map = sdev->screen_base;
-> +	return 0;
-> +}
-> +
->  /*
->   * DRM driver
->   */
-> @@ -1000,6 +1014,7 @@ static struct drm_driver simpledrm_driver = {
->  	.minor			= DRIVER_MINOR,
->  	.driver_features	= DRIVER_ATOMIC | DRIVER_GEM | DRIVER_MODESET,
->  	.fops			= &simpledrm_fops,
-> +	.get_scanout_buffer	= simpledrm_get_scanout_buffer,
->  };
->  
->  /*
-> -- 
-> 2.43.0
-> 
-
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
