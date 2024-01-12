@@ -1,64 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60BE382C11F
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 14:51:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79F2782C132
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jan 2024 14:56:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5703510E121;
-	Fri, 12 Jan 2024 13:50:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E33CB10E113;
+	Fri, 12 Jan 2024 13:56:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B555710E121
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 13:50:57 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id
- 4fb4d7f45d1cf-5578cb9645bso1830198a12.0
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 05:50:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1705067456; x=1705672256; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=LnDh2WDi6ih3JOIcDBUTKm3Mx7ygGIkH3IkpNvRnimU=;
- b=S9KWKkAGbq5Gp/EOXbIpW9gALcPG3u59Brl6TgflgoChN/jjcN79Zq42YmKrIK/Xb7
- 6QuKgTgzFjZGaN6iJdVLkfUA+6DoNm2WUgQpcx7wxfyJETIZqnooWpoe8HYGZ1ZKLuoG
- YMsYpMVTZ2eJdurLGghqMTymKVFn4PernzeRs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705067456; x=1705672256;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LnDh2WDi6ih3JOIcDBUTKm3Mx7ygGIkH3IkpNvRnimU=;
- b=noK4LtqM+CccR1H6YCpqFa0CAHvwTiO3ncXcGXMm+h40mQIzcCB1kf4poQwrwbpIXt
- EwYkB/pQaAcuLbkzqZf1Lk/MLg5MJpa2pvELbc/TaOvOu+P2gGkGrLpBy0nH/Vmw6ESF
- 6PFDv5xXKei4/ZepdzpZKhRPjauLQGK3m1bnkpf7GcGVWkUQqdhsomArgUhQQ1DXdl0h
- KpuNnWSQNmezxyznx2IUe9NhWdPr+2ARbMsGZS8XwQapzU/2j7pQo7Wzf3F03efzg/J/
- FJv2sT/CNM1nTR+A+Phb/FVoq1Y6t4pvl6R7U4IJf3bY3L3WqyW5y2vCnzLByWyf66en
- mZyw==
-X-Gm-Message-State: AOJu0Yx+GfAkUBEWXtcPBovMUfoFN/1I5nyQNjrjCGtclFRmc3AlMBAX
- wraaDcdnC3jcuzgtR9YzlZhrdaioi7Tb0Q==
-X-Google-Smtp-Source: AGHT+IGN1hipejYydbHRoOEWSB5xUqvEVheN5Jkwi3m/x++pfN63xEpNEot+2K3ylRlJGUtgGszItQ==
-X-Received: by 2002:a17:907:7ea8:b0:a2a:b777:b35c with SMTP id
- qb40-20020a1709077ea800b00a2ab777b35cmr1144852ejc.7.1705067455979; 
- Fri, 12 Jan 2024 05:50:55 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- en4-20020a17090728c400b00a282c5a3143sm1831594ejc.88.2024.01.12.05.50.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Jan 2024 05:50:55 -0800 (PST)
-Date: Fri, 12 Jan 2024 14:50:53 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Jocelyn Falempe <jfalempe@redhat.com>
-Subject: Re: [PATCH v7 2/9] drm/panic: Add a drm panic handler
-Message-ID: <ZaFDvaOgjM_nGOKz@phenom.ffwll.local>
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F0ED10E113
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jan 2024 13:56:23 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id E5F0BB822E5;
+ Fri, 12 Jan 2024 13:56:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB984C433C7;
+ Fri, 12 Jan 2024 13:56:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1705067780;
+ bh=XwlWj+FhkeZ4Hd0BdDkCkRmx8VOp97TG6l6o6iCtJkU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=UVoswFlLWRHkWdkg8l11qUwt9zT26X3irO+ghzVM0grjGX3lU0oBDgvnQTmiEhq0B
+ HbvKYb4ckLdZ+l7Npw9+NUygyynKVx4bKfd2l44QJ2HvDpe8wdi0oEhT6zb9bRrer7
+ m+sAjblA+PIZLxbyZ5wenD3hsKoUcxPgRv9tA4lFsHYqv+P1/39H16mabVYm88/efq
+ g1N+rRUBaB+EQSanWX978ORJ0IlDOiTtx67Dk3sZaZGMTlpsSyAvc/RNJOAQwakBdW
+ Mzq4V1I0psha/wx24FMezvo8KqgZVmkbiJXkix6NfJ8ETMNS4JUaTJIY+UELANVfi6
+ /XN9l+L6arxpg==
+Date: Fri, 12 Jan 2024 14:56:17 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v7 5/9] drm/fb_dma: Add generic get_scanout_buffer() for
+ drm_panic
+Message-ID: <l3podaaakwaai7xuxaa7cdb5c4s7m6jc6pitepk6uk7o3knn2b@jg5a2hnla77z>
 References: <20240104160301.185915-1-jfalempe@redhat.com>
- <20240104160301.185915-3-jfalempe@redhat.com>
+ <20240104160301.185915-6-jfalempe@redhat.com>
+ <ZaFBofhe217zCmWN@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="2ubkfypkz55rcxr7"
 Content-Disposition: inline
-In-Reply-To: <20240104160301.185915-3-jfalempe@redhat.com>
-X-Operating-System: Linux phenom 6.5.0-4-amd64 
+In-Reply-To: <ZaFBofhe217zCmWN@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,32 +53,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: bluescreen_avenger@verizon.net, tzimmermann@suse.de, javierm@redhat.com,
- mripard@kernel.org, gpiccoli@igalia.com, noralf@tronnes.org,
- dri-devel@lists.freedesktop.org, airlied@redhat.com
+Cc: Jocelyn Falempe <jfalempe@redhat.com>, bluescreen_avenger@verizon.net,
+ javierm@redhat.com, dri-devel@lists.freedesktop.org, gpiccoli@igalia.com,
+ noralf@tronnes.org, tzimmermann@suse.de, airlied@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 04, 2024 at 05:00:46PM +0100, Jocelyn Falempe wrote:
-> +/**
-> + * drm_panic_init() - Initialize drm-panic subsystem
-> + *
-> + * register the panic notifier
-> + */
-> +void drm_panic_init(void)
-> +{
-> +	atomic_notifier_chain_register(&panic_notifier_list,
-> +				       &drm_panic_notifier);
 
-Ok I've found another one after checking core panic code. This is the
-wrong hook, we want to be a sttruct kmsg_dumper and use
-kmsg_dump_register. And again once for each drm_panic_device so that we
-can rely on core locking, as I've explained in the other reply.
+--2ubkfypkz55rcxr7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Also because it trashes buffers from userspace I think by default we want
-to only dump on panic, so KMS_DUMP_PANIC.
--Sima
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+On Fri, Jan 12, 2024 at 02:41:53PM +0100, Daniel Vetter wrote:
+> > +		fb =3D plane->state->fb;
+> > +		/* Only support linear modifier */
+> > +		if (fb->modifier !=3D DRM_FORMAT_MOD_LINEAR)
+> > +			continue;
+> > +
+> > +		/* Check if color format is supported */
+> > +		if (!drm_panic_is_format_supported(fb->format->format))
+> > +			continue;
+> > +
+> > +		dma_obj =3D drm_fb_dma_get_gem_obj(fb, 0);
+> > +
+> > +		/* Buffer should be accessible from the CPU */
+> > +		if (dma_obj->base.import_attach)
+>=20
+> This might be a bit too restrictive, since some drivers import dma-buf
+> including a vmap. So just checking for ->vaddr might be better. But can be
+> changed later on.
+>=20
+> > +			continue;
+> > +
+> > +		/* Buffer should be already mapped to CPU */
+>=20
+> I'd clarify this comment to state that vaddr is invariant over the
+> lifetime of the buffer and therefore needs no locking. Correct locking
+> that a) takes all the locks b) never ever stalls for one is absolutely
+> crucial for a panic handler that won't make the situation worse.
+
+I think this comment was made to address buffers that are accessible to
+the CPU but don't have a CPU mapping (ie, created with
+DMA_ATTR_NO_KERNEL_MAPPING for example).
+
+Maxime
+
+--2ubkfypkz55rcxr7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZaFFAAAKCRDj7w1vZxhR
+xSdmAQDWbpshnhMFgpGCNlKd+VGz210yJlrUD4u3I/BsOsnkPwD/Z/QqTRGfqxpg
+ZS2Ii/JcC1e+yjQWh+3IEJIPAWs1hwk=
+=Yqeg
+-----END PGP SIGNATURE-----
+
+--2ubkfypkz55rcxr7--
