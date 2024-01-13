@@ -2,52 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D53E382CA68
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Jan 2024 08:16:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBC6F82CAE3
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Jan 2024 10:40:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29E7D10E150;
-	Sat, 13 Jan 2024 07:16:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C072F10E093;
+	Sat, 13 Jan 2024 09:39:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C94A10E119
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Jan 2024 07:16:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1705130202; x=1736666202;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=HkaJB5MACRgiA2p4lexf6azWCkfvx51m7Bj0EsrYLok=;
- b=V+ov0tutbxRxnqMQ36FYaHASRPA3bkaw9lpsYuDdyutLdGCAzofxvkGF
- YIm7GjlL3ly9maXzaoz1evD5fm4bEMnvN+tvIIb5o+X+aQeC5m+LdwLy4
- Wk0sbCfBsPZyn7gS9nM+CC0Qd04RBMhzaQjjxYgzZlKQoWenGp/qguIYj
- qedPRQksAB3euWowM1iCGjQg/+D8aDsohfCD5BpuwN8lOlLLb/FIRbFw+
- x4rqK9HOKndQ4jI290qHvFmFHB6UkDoVhd3MZV8//POsxkH1AcV7OQ87h
- UmoJ3xIGd5tkxUjVXkgkE5UH9kI0rWOtbUNfxRUQPuoOZcaunbX/T5dfT Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10951"; a="6078169"
-X-IronPort-AV: E=Sophos;i="6.04,191,1695711600"; 
-   d="scan'208";a="6078169"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jan 2024 23:16:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10951"; a="783269519"
-X-IronPort-AV: E=Sophos;i="6.04,191,1695711600"; d="scan'208";a="783269519"
-Received: from vkasired-desk2.fm.intel.com ([10.105.128.132])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jan 2024 23:16:41 -0800
-From: Vivek Kasireddy <vivek.kasireddy@intel.com>
-To: dri-devel@lists.freedesktop.org,
-	linux-mm@kvack.org
-Subject: [PATCH v11 8/8] selftests/udmabuf: Add tests to verify data after
- page migration
-Date: Fri, 12 Jan 2024 22:52:23 -0800
-Message-Id: <20240113065223.1532987-9-vivek.kasireddy@intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240113065223.1532987-1-vivek.kasireddy@intel.com>
-References: <20240113065223.1532987-1-vivek.kasireddy@intel.com>
+Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B19E10E093
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Jan 2024 09:39:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1705138795; x=1705397995;
+ bh=whCoIEz3FlstTriWBYgMiPXRgSeZqHfKS7CnvRFy1XQ=;
+ h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+ Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+ b=Fv+sufLRvRwH8jQXAxaZMsoAL1AXQm1CTwhHEZWd2OcX9CLKwumUzJtdyxQRFRvBe
+ mixKA519gvHsswYiKNav3sLlvSP8Re12dZR0q67PGd7UdfXi5fLgjU9Ipw/THFazg8
+ 8QhlUImsqtmg2qs4OrOuU0aPqWpYuTSSHUlKUfyxk0Zp/vnLAHe9MpNYyFUTLbsv6m
+ 95J4iX25wJ7FMdHrQAC3UMyhwCqqizGSXDKY34MSESpdK2fEgCPMZbHG9BdVoMw2gW
+ o1b4BIk8qV29AZgwf+oJcyb8SrYyFFfhoqagzng68DA5HJCshCP3xTaXRr7NBYBiYO
+ oCxhcoyuTrBVw==
+Date: Sat, 13 Jan 2024 09:39:45 +0000
+To: "xorg-announce@lists.x.org" <xorg-announce@lists.x.org>
+From: Simon Ser <contact@emersion.fr>
+Subject: [ANNOUNCE] libdrm 2.4.120
+Message-ID: <0OxO9dG8wSwszEqsviqH-C0Hr4DXyzMp05gJzArgZ2J8bWJf229f_g_7VxEJjlqeV3jHz26miYCFPXRUggVayc9_lEQ-HXOWMvjafPm-wTk=@emersion.fr>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,235 +44,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dongwon Kim <dongwon.kim@intel.com>, David Hildenbrand <david@redhat.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Hugh Dickins <hughd@google.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, Peter Xu <peterx@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Junxiao Chang <junxiao.chang@intel.com>, Shuah Khan <shuah@kernel.org>,
- Mike Kravetz <mike.kravetz@oracle.com>
+Cc: DRI Development <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since the memfd pages associated with a udmabuf may be migrated
-as part of udmabuf create, we need to verify the data coherency
-after successful migration. The new tests added in this patch try
-to do just that using 4k sized pages and also 2 MB sized huge
-pages for the memfd.
+Eric Engestrom (1):
+      radeon: fix missing stencil_tile_mode initialisation in the linear/fa=
+llback case
 
-Successful completion of the tests would mean that there is no
-disconnect between the memfd pages and the ones associated with
-a udmabuf. And, these tests can also be augmented in the future
-to test newer udmabuf features (such as handling memfd hole punch).
+Pierre-Eric Pelloux-Prayer (1):
+      amdgpu: fix use-after-free
 
-The idea for these tests comes from a patch by Mike Kravetz.
+Simon Ser (2):
+      Sync headers with drm-next
+      build: bump version to 2.4.120
 
-Cc: Shuah Khan <shuah@kernel.org>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Mike Kravetz <mike.kravetz@oracle.com>
-Cc: Hugh Dickins <hughd@google.com>
-Cc: Peter Xu <peterx@redhat.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Dongwon Kim <dongwon.kim@intel.com>
-Cc: Junxiao Chang <junxiao.chang@intel.com>
-Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
----
- .../selftests/drivers/dma-buf/udmabuf.c       | 151 +++++++++++++++++-
- 1 file changed, 147 insertions(+), 4 deletions(-)
+git tag: libdrm-2.4.120
 
-diff --git a/tools/testing/selftests/drivers/dma-buf/udmabuf.c b/tools/testing/selftests/drivers/dma-buf/udmabuf.c
-index c812080e304e..d76c813fe652 100644
---- a/tools/testing/selftests/drivers/dma-buf/udmabuf.c
-+++ b/tools/testing/selftests/drivers/dma-buf/udmabuf.c
-@@ -9,26 +9,132 @@
- #include <errno.h>
- #include <fcntl.h>
- #include <malloc.h>
-+#include <stdbool.h>
- 
- #include <sys/ioctl.h>
- #include <sys/syscall.h>
-+#include <sys/mman.h>
- #include <linux/memfd.h>
- #include <linux/udmabuf.h>
- 
- #define TEST_PREFIX	"drivers/dma-buf/udmabuf"
- #define NUM_PAGES       4
-+#define NUM_ENTRIES     4
-+#define MEMFD_SIZE      1024 /* in pages */
- 
--static int memfd_create(const char *name, unsigned int flags)
-+static unsigned int page_size;
-+
-+static int create_memfd_with_seals(off64_t size, bool hpage)
-+{
-+	int memfd, ret;
-+	unsigned int flags = MFD_ALLOW_SEALING;
-+
-+	if (hpage)
-+		flags |= MFD_HUGETLB;
-+
-+	memfd = memfd_create("udmabuf-test", flags);
-+	if (memfd < 0) {
-+		printf("%s: [skip,no-memfd]\n", TEST_PREFIX);
-+		exit(77);
-+	}
-+
-+	ret = fcntl(memfd, F_ADD_SEALS, F_SEAL_SHRINK);
-+	if (ret < 0) {
-+		printf("%s: [skip,fcntl-add-seals]\n", TEST_PREFIX);
-+		exit(77);
-+	}
-+
-+	ret = ftruncate(memfd, size);
-+	if (ret == -1) {
-+		printf("%s: [FAIL,memfd-truncate]\n", TEST_PREFIX);
-+		exit(1);
-+	}
-+
-+	return memfd;
-+}
-+
-+static int create_udmabuf_list(int devfd, int memfd, off64_t memfd_size)
-+{
-+	struct udmabuf_create_list *list;
-+	int ubuf_fd, i;
-+
-+	list = malloc(sizeof(struct udmabuf_create_list) +
-+		      sizeof(struct udmabuf_create_item) * NUM_ENTRIES);
-+	if (!list) {
-+		printf("%s: [FAIL, udmabuf-malloc]\n", TEST_PREFIX);
-+		exit(1);
-+	}
-+
-+	for (i = 0; i < NUM_ENTRIES; i++) {
-+		list->list[i].memfd  = memfd;
-+		list->list[i].offset = i * (memfd_size / NUM_ENTRIES);
-+		list->list[i].size   = getpagesize() * NUM_PAGES;
-+	}
-+
-+	list->count = NUM_ENTRIES;
-+	list->flags = UDMABUF_FLAGS_CLOEXEC;
-+	ubuf_fd = ioctl(devfd, UDMABUF_CREATE_LIST, list);
-+	free(list);
-+	if (ubuf_fd < 0) {
-+		printf("%s: [FAIL, udmabuf-create]\n", TEST_PREFIX);
-+		exit(1);
-+	}
-+
-+	return ubuf_fd;
-+}
-+
-+static void write_to_memfd(void *addr, off64_t size, char chr)
-+{
-+	int i;
-+
-+	for (i = 0; i < size / page_size; i++) {
-+		*((char *)addr + (i * page_size)) = chr;
-+	}
-+}
-+
-+static void *mmap_fd(int fd, off64_t size)
- {
--	return syscall(__NR_memfd_create, name, flags);
-+	void *addr;
-+
-+	addr = mmap(NULL, size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
-+	if (addr == MAP_FAILED) {
-+		printf("%s: ubuf_fd mmap fail\n", TEST_PREFIX);
-+		exit(1);
-+	}
-+
-+	return addr;
-+}
-+
-+static int compare_chunks(void *addr1, void *addr2, off64_t memfd_size)
-+{
-+	off64_t off;
-+	int i = 0, j, k = 0, ret = 0;
-+	char char1, char2;
-+
-+	while (i < NUM_ENTRIES) {
-+		off = i * (memfd_size / NUM_ENTRIES);
-+		for (j = 0; j < NUM_PAGES; j++, k++) {
-+			char1 = *((char *)addr1 + off + (j * getpagesize()));
-+			char2 = *((char *)addr2 + (k * getpagesize()));
-+			if (char1 != char2) {
-+				ret = -1;
-+				goto err;
-+			}
-+		}
-+		i++;
-+	}
-+err:
-+	munmap(addr1, memfd_size);
-+	munmap(addr2, NUM_ENTRIES * NUM_PAGES * getpagesize());
-+	return ret;
- }
- 
- int main(int argc, char *argv[])
- {
- 	struct udmabuf_create create;
- 	int devfd, memfd, buf, ret;
--	off_t size;
--	void *mem;
-+	off64_t size;
-+	void *addr1, *addr2;
- 
- 	devfd = open("/dev/udmabuf", O_RDWR);
- 	if (devfd < 0) {
-@@ -90,6 +196,9 @@ int main(int argc, char *argv[])
- 	}
- 
- 	/* should work */
-+	page_size = getpagesize();
-+	addr1 = mmap_fd(memfd, size);
-+	write_to_memfd(addr1, size, 'a');
- 	create.memfd  = memfd;
- 	create.offset = 0;
- 	create.size   = size;
-@@ -98,6 +207,40 @@ int main(int argc, char *argv[])
- 		printf("%s: [FAIL,test-4]\n", TEST_PREFIX);
- 		exit(1);
- 	}
-+	munmap(addr1, size);
-+	close(buf);
-+	close(memfd);
-+
-+	/* should work (migration of 4k size pages)*/
-+	size = MEMFD_SIZE * page_size;
-+	memfd = create_memfd_with_seals(size, false);
-+	addr1 = mmap_fd(memfd, size);
-+	write_to_memfd(addr1, size, 'a');
-+	buf = create_udmabuf_list(devfd, memfd, size);
-+	addr2 = mmap_fd(buf, NUM_PAGES * NUM_ENTRIES * getpagesize());
-+	write_to_memfd(addr1, size, 'b');
-+	ret = compare_chunks(addr1, addr2, size);
-+	if (ret < 0) {
-+		printf("%s: [FAIL,test-5]\n", TEST_PREFIX);
-+		exit(1);
-+	}
-+	close(buf);
-+	close(memfd);
-+
-+	/* should work (migration of 2MB size huge pages)*/
-+	page_size = getpagesize() * 512; /* 2 MB */
-+	size = MEMFD_SIZE * page_size;
-+	memfd = create_memfd_with_seals(size, true);
-+	addr1 = mmap_fd(memfd, size);
-+	write_to_memfd(addr1, size, 'a');
-+	buf = create_udmabuf_list(devfd, memfd, size);
-+	addr2 = mmap_fd(buf, NUM_PAGES * NUM_ENTRIES * getpagesize());
-+	write_to_memfd(addr1, size, 'b');
-+	ret = compare_chunks(addr1, addr2, size);
-+	if (ret < 0) {
-+		printf("%s: [FAIL,test-6]\n", TEST_PREFIX);
-+		exit(1);
-+	}
- 
- 	fprintf(stderr, "%s: ok\n", TEST_PREFIX);
- 	close(buf);
--- 
-2.39.2
-
+https://dri.freedesktop.org/libdrm/libdrm-2.4.120.tar.xz
+SHA256: 3bf55363f76c7250946441ab51d3a6cc0ae518055c0ff017324ab76cdefb327a  l=
+ibdrm-2.4.120.tar.xz
+SHA512: 6dc16e5134a669eeb59debb1dc2d15b857483ab7476dc2b94bd05a32d8953f046f5=
+656f6cf9e1a63e97e7156fb65ebb58b6a29fe45cb6326058baaf820626e70  libdrm-2.4.1=
+20.tar.xz
+PGP:  https://dri.freedesktop.org/libdrm/libdrm-2.4.120.tar.xz.sig
