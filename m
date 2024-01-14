@@ -2,63 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59E5682D060
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Jan 2024 11:55:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0310B82D0EB
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Jan 2024 15:34:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DFDA10E16B;
-	Sun, 14 Jan 2024 10:55:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AE7B10E183;
+	Sun, 14 Jan 2024 14:34:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
- [IPv6:2607:f8b0:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 549F710E16B
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Jan 2024 10:55:48 +0000 (UTC)
-Received: by mail-oi1-x235.google.com with SMTP id
- 5614622812f47-3bd7c15a745so3542b6e.2
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Jan 2024 02:55:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1705229747; x=1705834547; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=5su21lrElvoMrT51RPv9OkcSkDVz35FwFqaxlZOVWbQ=;
- b=eUr83/nsy2CGCNDt/HlxKQvWpgoXONBhIOYgHX4OulPMUCl9PDzM2+aN+B6TVcH44T
- ZCF+0YshmE34Fv7VSiODfzAx97GDKU2GSEZhR3rioUlp1fiEnZFSOPnIE9sa/Lvp2aCu
- QFtoArtUE/z5aThMKTVyIndsgaAYiBRgBcPotMgFlpiK8uxrJqx5juzul42Z2Nfd1utL
- v4yoAdSGOfxmA14Hf/nfAgbvA5fswwYFBgg3Rm32jTPxmoI+Su5uvh2q1ShUpihVHWGo
- jfiYzN9YEjT59DKLAcSZzj/ucOe8+0rmx5RQfBgtKmkTJO0j+30TV2rDJsraho7/qEUg
- rmgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705229747; x=1705834547;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=5su21lrElvoMrT51RPv9OkcSkDVz35FwFqaxlZOVWbQ=;
- b=MesJrtzQyDjLtIJgPgGemSwnONu8iCWv88uIx2qNVnMK6t8F7UBWCiJuMYZuF9rEr2
- DWIhpcVyHnCsP1+speUGKFFWjHhSrHlJkAtfwVafLh01/yJmAEUk7ji8DiNyw9BmG6/d
- ov3+BwagRK8ud6UohGhvClLv0SjHpVh/UeuKp4RD9X4GQqlgyoq7ukntzcD8RDvHhwJx
- I3nIL9fvqwuQEBHr406czT6Sr9elN0LPpufNz88Du14XftD5eKt9EOU3K+LuxGelFxDA
- kMwDQQmKU4QtPyrZDx6Nix1f1wkcthnEIcXMq9u2tqAaCWFkde1fG8ljgR3cBPiALXw0
- zDRg==
-X-Gm-Message-State: AOJu0YwjFhuHF2HQv5fcs8efyeCVjFz8Fh801Cr4TQZ0wHnoUVLpDpSy
- GQ76kPV99KwktKtCgB4kuL8=
-X-Google-Smtp-Source: AGHT+IFs9diLCTJ1nBrxwBQXGsP8bvdXH3LQIBAmfSAPjpj7ka1Atnu/olzG2jnoWxV9ed533jKCkA==
-X-Received: by 2002:a05:6808:2f0d:b0:3bd:5f35:58f6 with SMTP id
- gu13-20020a0568082f0d00b003bd5f3558f6mr6080166oib.37.1705229747410; 
- Sun, 14 Jan 2024 02:55:47 -0800 (PST)
-Received: from anfanite396-Predator-PH315-51.. ([202.43.120.125])
- by smtp.gmail.com with ESMTPSA id
- t3-20020a6564c3000000b005ce033f3b54sm5469576pgv.27.2024.01.14.02.55.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Jan 2024 02:55:46 -0800 (PST)
-From: Dipam Turkar <dipamt1729@gmail.com>
-To: mripard@kernel.org
-Subject: [PATCH v4 1/1] drm/tests: Add KUnit tests for
- drm_mode_create_dvi_i_properties()
-Date: Sun, 14 Jan 2024 16:23:38 +0530
-Message-Id: <20240114105337.480807-1-dipamt1729@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26C1E10E079;
+ Sun, 14 Jan 2024 14:34:13 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id DDD86CE021B;
+ Sun, 14 Jan 2024 14:34:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79AF5C433F1;
+ Sun, 14 Jan 2024 14:34:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1705242846;
+ bh=EszImnKYJnEnKFk1wt073gthk8M6xM7ENBGQn/T0edM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=YRArPb4RPBK5ot3z0ZMSvwVELOPnXJAKuuuJj9y66aWMPRrNCtvXuxwYfTIi7G5eD
+ C1FHSsamBbHNJeu3dMT/fYJXcbaTcofAAP6gYcV3adLquCsCXqxQs0kse1ALhluIIO
+ It0E4jdkX8FSI78tOaSAy8mv2M1JIXUv2sXPZVxRBuTxxQabC8jwuOnjv+fAgm/jxE
+ h9sqSe+9jF4gkFSBFm1a3sLN6iVmiX9WTU33xgknss7HFnQF1gXfY3ohSJIInIgTTL
+ 9hhF/Fl5RUTeIWp8ucrBo4SeNSfQnlWN6wAvvq4nJH5aj/9BZGtY4CVmfFqAQCR4cC
+ N4P5HOW9L59sA==
+Date: Sun, 14 Jan 2024 09:34:05 -0500
+From: Sasha Levin <sashal@kernel.org>
+To: David Airlie <airlied@redhat.com>
+Subject: Re: [PATCH AUTOSEL 6.1 5/5] nouveau: fix disp disabling with GSP
+Message-ID: <ZaPw3WAmT2OwHY98@sashalap>
+References: <20240108122823.2090312-1-sashal@kernel.org>
+ <20240108122823.2090312-5-sashal@kernel.org>
+ <CAMwc25rAm1ndSiofWMMmQ1BeB0XxBvsHpcvaDKXUwEZp72iwEA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <CAMwc25rAm1ndSiofWMMmQ1BeB0XxBvsHpcvaDKXUwEZp72iwEA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,98 +52,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dipam Turkar <dipamt1729@gmail.com>, tzimmermann@suse.de,
- javierm@redhat.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, mairacanal@riseup.net, christian.koenig@amd.com
+Cc: kherbst@redhat.com, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, dakr@redhat.com, bskeggs@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce unit tests for the drm_mode_create_dvi_i_properties() function to ensure
-the proper creation of DVI-I specific connector properties and success if called 
-multiple times.
+On Tue, Jan 09, 2024 at 06:51:25AM +1000, David Airlie wrote:
+>NAK for backporting this to anything, it is just a fix for 6.7
 
-Signed-off-by: Dipam Turkar <dipamt1729@gmail.com>
----
- drivers/gpu/drm/tests/drm_connector_test.c | 58 ++++++++++++++++++++++
- 1 file changed, 58 insertions(+)
+Dropped it from everywhere, thanks!
 
-diff --git a/drivers/gpu/drm/tests/drm_connector_test.c b/drivers/gpu/drm/tests/drm_connector_test.c
-index c66aa2dc8d9d..217c0988171e 100644
---- a/drivers/gpu/drm/tests/drm_connector_test.c
-+++ b/drivers/gpu/drm/tests/drm_connector_test.c
-@@ -4,6 +4,9 @@
-  */
- 
- #include <drm/drm_connector.h>
-+#include <drm/drm_device.h>
-+#include <drm/drm_drv.h>
-+#include <drm/drm_kunit_helpers.h>
- 
- #include <kunit/test.h>
- 
-@@ -70,7 +73,62 @@ static struct kunit_suite drm_get_tv_mode_from_name_test_suite = {
- 	.test_cases = drm_get_tv_mode_from_name_tests,
- };
- 
-+/*
-+ * Test that drm_mode_create_dvi_i_properties() succeeds and
-+ * DVI-I subconnector and select subconectors properties have
-+ * been created.
-+ */
-+static void drm_test_mode_create_dvi_i_properties(struct kunit *test)
-+{
-+	struct drm_device *drm;
-+	struct device *dev;
-+
-+	dev = drm_kunit_helper_alloc_device(test);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
-+
-+	drm = __drm_kunit_helper_alloc_drm_device(test, dev, sizeof(*drm), 0, DRIVER_MODESET);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, drm);
-+
-+	KUNIT_EXPECT_EQ(test, drm_mode_create_dvi_i_properties(drm), 0);
-+	KUNIT_EXPECT_NOT_ERR_OR_NULL(test, drm->mode_config.dvi_i_select_subconnector_property);
-+	KUNIT_EXPECT_NOT_ERR_OR_NULL(test, drm->mode_config.dvi_i_subconnector_property);
-+}
-+
-+/*
-+ * Test that drm_mode_create_dvi_i_properties() doesn't fail if called twice.
-+ */
-+static void drm_test_mode_create_dvi_i_properties_repeated(struct kunit *test)
-+{
-+	struct drm_device *drm;
-+	struct device *dev;
-+
-+	dev = drm_kunit_helper_alloc_device(test);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
-+
-+	drm = __drm_kunit_helper_alloc_drm_device(test, dev, sizeof(*drm), 0, DRIVER_MODESET);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, drm);
-+
-+	KUNIT_EXPECT_EQ(test, drm_mode_create_dvi_i_properties(drm), 0);
-+	KUNIT_EXPECT_NOT_ERR_OR_NULL(test, drm->mode_config.dvi_i_select_subconnector_property);
-+	KUNIT_EXPECT_NOT_ERR_OR_NULL(test, drm->mode_config.dvi_i_subconnector_property);
-+
-+	/* Expect the function to return 0 if called twice. */
-+	KUNIT_EXPECT_EQ(test, drm_mode_create_dvi_i_properties(drm), 0);
-+}
-+
-+static struct kunit_case drm_mode_create_dvi_i_properties_tests[] = {
-+	KUNIT_CASE(drm_test_mode_create_dvi_i_properties),
-+	KUNIT_CASE(drm_test_mode_create_dvi_i_properties_repeated),
-+	{ }
-+};
-+
-+static struct kunit_suite drm_mode_create_dvi_i_properties_test_suite = {
-+	.name = "drm_mode_create_dvi_i_properties",
-+	.test_cases = drm_mode_create_dvi_i_properties_tests,
-+};
-+
- kunit_test_suite(drm_get_tv_mode_from_name_test_suite);
-+kunit_test_suite(drm_mode_create_dvi_i_properties_test_suite);
- 
- MODULE_AUTHOR("Maxime Ripard <maxime@cerno.tech>");
- MODULE_LICENSE("GPL");
 -- 
-2.34.1
-
+Thanks,
+Sasha
