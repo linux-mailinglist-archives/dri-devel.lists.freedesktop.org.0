@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFC9282DBAF
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 15:47:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26DAE82DBAB
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 15:47:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5153910E301;
-	Mon, 15 Jan 2024 14:47:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 720DA10E2FD;
+	Mon, 15 Jan 2024 14:47:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1BBF10E301
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 14:47:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34CB810E2FD
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 14:47:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1705330052;
+ s=mimecast20190719; t=1705330050;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=k3vu21hkZlZsapFSJtp8nhKKQ/3OZTkpZfYIme9+49k=;
- b=Sg44nE4NTYepuXPKhVTedtOrtBUCtVtXmdBc5e4AV+7i3/BqsehhVuMcgxTwXEKGHBjAGm
- KLFm+pw4DzH/1SS/kjxDRxtQwzudgIyuoFg93ApUZ55dNCu1i1CADZW6rD+3Kvj3QodY8E
- kU1EhBxfBobZjLZxikXrkyh9g6l0WzM=
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
- [209.85.221.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=+s18P47JH053YQ7YJMWBY/f4LBPoNabsZFa7u4jw7Zc=;
+ b=atqgXg+9UWyF1CtFVTr/TTi4tlV8vxp/vghADDo2enwZJxVjtRvlD3iSgU5/6WFcxBbdms
+ HXeooRV1/Vy7YN9mxynhCYXOK0F3xXT27ZWvfmUGC3s16Z9Ddu3L8Dwa5kGZ1bu57Cr9fj
+ +ysuINMw9MhRf46KqdjxBRQ1XArhKvk=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-16-3ymTaK0cN3O2uAXnvT7VwA-1; Mon, 15 Jan 2024 09:47:26 -0500
-X-MC-Unique: 3ymTaK0cN3O2uAXnvT7VwA-1
-Received: by mail-vk1-f199.google.com with SMTP id
- 71dfb90a1353d-4b7bdc844fcso135151e0c.0
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 06:47:26 -0800 (PST)
+ us-mta-262-QNVgCTH3OH-VrnVASsitBA-1; Mon, 15 Jan 2024 09:47:29 -0500
+X-MC-Unique: QNVgCTH3OH-VrnVASsitBA-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-429d02a62f8so5664321cf.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 06:47:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705330046; x=1705934846;
+ d=1e100.net; s=20230601; t=1705330048; x=1705934848;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=k3vu21hkZlZsapFSJtp8nhKKQ/3OZTkpZfYIme9+49k=;
- b=obXOc+vgSklAC4qUBFuSiiKgU63i+HU1ew4iNoHe5hXVxdmXaUoBjJDGFs/3SJIpI5
- tAtXqbz3WmBvXvC/YxfJUQ+9IAXorqdtDQ0f/78qk4R2AhwzUR4PW8UHVxtcY2vj70p/
- w8flJJMOzr9u0y8IBUGX4LsTv/ZKR7+OVr4TO1RA/j6ebX3ubhuZCDHV0ceXbv1HkC+R
- 31m3Pf8hrBBpj8gd4Uozbx+N2tS6aOkyX+zSQPt4glzDm1fc9GX6pz3eiu+ncM3cYBPZ
- Eeone2FfzNGaofQR4yME4zzpXse912KvIvcV3TeUCER7hK53/Krj4VDFgE9v/BZHgZS6
- KBnw==
-X-Gm-Message-State: AOJu0Yx1M3ztq8TeZYS080hLTNixySAZ1+PNeeka00Gxlxdrv69oX1PC
- ZrdlVHkETyW5lXr1+4t5awCEOnEkl1kb1q1xYiVlSAAZGP67rkdmstgngidRkYPvcUGIWlOVisr
- oFZ7IK1kSo3c6XZHo4FoM6stkv8DULcIjfkkQ
-X-Received: by 2002:a05:6122:2886:b0:4b7:32ac:f4e5 with SMTP id
- fl6-20020a056122288600b004b732acf4e5mr4682331vkb.1.1705330046100; 
- Mon, 15 Jan 2024 06:47:26 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEl3g0muu7xD/Tj+Zr9TyY8gOWhOJboojbdmamx1smFfYvzduqw18AZ9+hpq2S3HXA+drCMKA==
-X-Received: by 2002:a05:6122:2886:b0:4b7:32ac:f4e5 with SMTP id
- fl6-20020a056122288600b004b732acf4e5mr4682321vkb.1.1705330045850; 
- Mon, 15 Jan 2024 06:47:25 -0800 (PST)
+ bh=+s18P47JH053YQ7YJMWBY/f4LBPoNabsZFa7u4jw7Zc=;
+ b=mp/E0KE49P07mpE9dJkz7VgU6DjDhLCB489WBUwXrIcRqmXfcKjsveue9Dv50NTIc6
+ EN3d76JymCIxIAeMCzji92Fw5ce3tSOZrkb+/JtPClqUbTrlNLv8S6jX+rsW+pJI0ls0
+ 1BwRQ0gXFH+FJL9ClnG7NRUtDfl4Bn/o6eHG+qtTo0diiwlhdPEtY9obNnvbSOtH7QwE
+ jM1h7ZyIREbpUYznESXFSDvV4/h4E9RmRm2iBBuIF5TgH/EE42XodOwVq43fOBRj6Iul
+ 52o2UQdtzCZ40lRFHy7M+pRuSgiF36xZYfYh9m4qKZlTh6erlUDZiRtWrN1yfM9vzYyD
+ jxhg==
+X-Gm-Message-State: AOJu0YyagCc1AuSgtpylp+PqTT+Dot4TEu8xjWcqcT0dRv64YwXcP8vj
+ u/uVPbEjr472YAIDMqv8dFJh88gS4kx0tzGc3GSb504+9/9Hs6qLiKtSNMwRSxvPUu6wzH5fLae
+ CzK3PyQZ+ATyiOit+WYZoRDAygYi9whFAwgVS
+X-Received: by 2002:a05:6214:20ca:b0:681:555c:8e64 with SMTP id
+ 10-20020a05621420ca00b00681555c8e64mr6594571qve.6.1705330048587; 
+ Mon, 15 Jan 2024 06:47:28 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHIFNFH3t9YBVxCpLVDR4bI9FQ3w+V6Y/t4RZxhNK4CjYtj3KjB51ezdoAU+KVMDwPukDm1tQ==
+X-Received: by 2002:a05:6214:20ca:b0:681:555c:8e64 with SMTP id
+ 10-20020a05621420ca00b00681555c8e64mr6594555qve.6.1705330048349; 
+ Mon, 15 Jan 2024 06:47:28 -0800 (PST)
 Received: from pstanner-thinkpadt14sgen1.muc.redhat.com
  (nat-pool-muc-t.redhat.com. [149.14.88.26])
  by smtp.gmail.com with ESMTPSA id
- ne13-20020a056214424d00b006815cf9a644sm1020720qvb.55.2024.01.15.06.47.23
+ ne13-20020a056214424d00b006815cf9a644sm1020720qvb.55.2024.01.15.06.47.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Jan 2024 06:47:25 -0800 (PST)
+ Mon, 15 Jan 2024 06:47:28 -0800 (PST)
 From: Philipp Stanner <pstanner@redhat.com>
 To: Jonathan Corbet <corbet@lwn.net>, Hans de Goede <hdegoede@redhat.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -67,9 +67,9 @@ To: Jonathan Corbet <corbet@lwn.net>, Hans de Goede <hdegoede@redhat.com>,
  Daniel Vetter <daniel@ffwll.ch>, Bjorn Helgaas <bhelgaas@google.com>,
  Philipp Stanner <pstanner@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
  dakr@redhat.com
-Subject: [PATCH 06/10] pci: move pinned status bit to pci_dev struct
-Date: Mon, 15 Jan 2024 15:46:17 +0100
-Message-ID: <20240115144655.32046-8-pstanner@redhat.com>
+Subject: [PATCH 07/10] pci: devres: give mwi its own callback
+Date: Mon, 15 Jan 2024 15:46:18 +0100
+Message-ID: <20240115144655.32046-9-pstanner@redhat.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240115144655.32046-2-pstanner@redhat.com>
 References: <20240115144655.32046-2-pstanner@redhat.com>
@@ -95,81 +95,81 @@ Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The bit describing whether the PCI device is currently pinned is stored
-in the PCI devres struct. To clean up and simplify the pci-devres API,
-it's better if this information is stored in the pci_dev struct, because
-it allows for checking that device's pinned-status directly through the
-device struct.
-This will later permit simplifying  pcim_enable_device().
+managing mwi with devres can easily be done with its own callback,
+without the necessity to store any state about it in a device-related
+struct.
 
-Move the 'pinned' boolean bit to struct pci_dev.
+Remove the mwi state from the devres-struct.
+Make the devres-mwi functions set a separate devres-callback.
 
 Signed-off-by: Philipp Stanner <pstanner@redhat.com>
 ---
- drivers/pci/devres.c | 14 ++++----------
+ drivers/pci/devres.c | 23 +++++++++++------------
  drivers/pci/pci.h    |  1 -
- include/linux/pci.h  |  1 +
- 3 files changed, 5 insertions(+), 11 deletions(-)
+ 2 files changed, 11 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/pci/devres.c b/drivers/pci/devres.c
-index bf957f0bc5ac..de8cf6f87dd7 100644
+index de8cf6f87dd7..911c2037d9fd 100644
 --- a/drivers/pci/devres.c
 +++ b/drivers/pci/devres.c
-@@ -411,7 +411,7 @@ static void pcim_release(struct device *gendev, void *res)
- 	if (this->restore_intx)
- 		pci_intx(dev, this->orig_intx);
- 
--	if (!this->pinned)
-+	if (!dev->pinned)
- 		pci_disable_device(dev);
+@@ -378,24 +378,26 @@ void __iomem *devm_pci_remap_cfg_resource(struct device *dev,
  }
+ EXPORT_SYMBOL(devm_pci_remap_cfg_resource);
  
-@@ -469,18 +469,12 @@ EXPORT_SYMBOL(pcim_enable_device);
-  * pcim_pin_device - Pin managed PCI device
-  * @pdev: PCI device to pin
++static void __pcim_clear_mwi(void *pdev_raw)
++{
++	struct pci_dev *pdev = pdev_raw;
++
++	pci_clear_mwi(pdev);
++}
++
+ /**
+  * pcim_set_mwi - a device-managed pci_set_mwi()
+- * @dev: the PCI device for which MWI is enabled
++ * @pdev: the PCI device for which MWI is enabled
   *
-- * Pin managed PCI device @pdev.  Pinned device won't be disabled on
-- * driver detach.  @pdev must have been enabled with
-- * pcim_enable_device().
-+ * Pin managed PCI device @pdev. Pinned device won't be disabled on driver
-+ * detach.  @pdev must have been enabled with pcim_enable_device().
+  * Managed pci_set_mwi().
+  *
+  * RETURNS: An appropriate -ERRNO error value on error, or zero for success.
   */
- void pcim_pin_device(struct pci_dev *pdev)
+-int pcim_set_mwi(struct pci_dev *dev)
++int pcim_set_mwi(struct pci_dev *pdev)
  {
 -	struct pci_devres *dr;
 -
--	dr = find_pci_dr(pdev);
--	WARN_ON(!dr || !pdev->enabled);
--	if (dr)
--		dr->pinned = 1;
-+	pdev->pinned = true;
+-	dr = find_pci_dr(dev);
+-	if (!dr)
+-		return -ENOMEM;
++	devm_add_action(&pdev->dev, __pcim_clear_mwi, pdev);
+ 
+-	dr->mwi = 1;
+-	return pci_set_mwi(dev);
++	return pci_set_mwi(pdev);
  }
- EXPORT_SYMBOL(pcim_pin_device);
+ EXPORT_SYMBOL(pcim_set_mwi);
+ 
+@@ -405,9 +407,6 @@ static void pcim_release(struct device *gendev, void *res)
+ 	struct pci_dev *dev = to_pci_dev(gendev);
+ 	struct pci_devres *this = res;
+ 
+-	if (this->mwi)
+-		pci_clear_mwi(dev);
+-
+ 	if (this->restore_intx)
+ 		pci_intx(dev, this->orig_intx);
  
 diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-index dbb76a3fb0e4..3d9908a69ebf 100644
+index 3d9908a69ebf..667bfdd61d5e 100644
 --- a/drivers/pci/pci.h
 +++ b/drivers/pci/pci.h
-@@ -809,7 +809,6 @@ static inline pci_power_t mid_pci_get_power_state(struct pci_dev *pdev)
-  * when a device is enabled using managed PCI device enable interface.
-  */
+@@ -811,7 +811,6 @@ static inline pci_power_t mid_pci_get_power_state(struct pci_dev *pdev)
  struct pci_devres {
--	unsigned int pinned:1;
  	unsigned int orig_intx:1;
  	unsigned int restore_intx:1;
- 	unsigned int mwi:1;
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index a356bdcc14cc..2f6f44991003 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -368,6 +368,7 @@ struct pci_dev {
- 					   functional, and D3 being off. */
- 	u8		pm_cap;		/* PM capability offset */
- 	unsigned int	enabled:1;	/* Whether this dev is enabled */
-+	unsigned int	pinned:1;	/* Whether this dev is pinned */
- 	unsigned int	imm_ready:1;	/* Supports Immediate Readiness */
- 	unsigned int	pme_support:5;	/* Bitmask of states from which PME#
- 					   can be generated */
+-	unsigned int mwi:1;
+ };
+ 
+ struct pci_devres *find_pci_dr(struct pci_dev *pdev);
 -- 
 2.43.0
 
