@@ -1,46 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBD0982D579
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 10:02:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7166C82D5D0
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 10:25:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DF6C10E21B;
-	Mon, 15 Jan 2024 09:02:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D615810E218;
+	Mon, 15 Jan 2024 09:25:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [IPv6:2a00:1098:ed:100::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F5BB10E21A;
- Mon, 15 Jan 2024 09:02:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1705309370;
- bh=sftk4d280l+HctfqAtKqHrcK/J3Px2D7IIXq4GsVvDg=;
- h=Date:To:Cc:From:Subject:From;
- b=K8KFxOQdS1ydMRB9VNADqLf5mNe9FEJN1/06TE4qFR9Lqyc7B+Qypi9qYceKL8+zG
- 4ovabva4VCYnSaU+11e1BnTcVk+HsdOuxb1KjiRhfQH1jaKTds3SoUiLbncEZLFbC1
- BB+d+LT0TnCytncAhroB2BuEJyLxr7FDThSROanO5Am2NBVRdBFeV11JtlDRrvf/L2
- gPvmhsNekyzZdD6YhAKXypLKszsH+ZV4wdnGa1aPgbAVXQl3g7rv6RFyQxqbDjdTGw
- TCwi/TvbdwQObmNmDh8RGAAYhbhl5uXJ6shrxVkHIoRSMS6YuByhA2oBW0GUatYo5L
- i8gUcn8SZ90vA==
-Received: from [100.66.96.193] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: vignesh)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 179043781F80;
- Mon, 15 Jan 2024 09:02:41 +0000 (UTC)
-Message-ID: <46287831-edfa-78e8-6055-d7a08831c445@collabora.com>
-Date: Mon, 15 Jan 2024 14:32:38 +0530
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9928610E20E
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 09:25:01 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id
+ ffacd0b85a97d-3366ddd1eddso7019859f8f.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 01:25:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1705310700; x=1705915500; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=tVtFgKZwIFS1vEBdEVjotaw6JZpTlhG6vAn3dQd7JeU=;
+ b=bcpRUWwZbNn5t65K/JOFZb86KeI5Y1fhvYnj6Sy0DcPYj3VQWi5u3+06LM5t0y3ifj
+ lopJTYPfN6IlhlIJJPFoEAsdNuhWz41SumXKbZK4U7vHOGKb44QDzTkhxevRV2Q8mGAQ
+ Ac/iuUvc42fuImmWD2Sx1iucsxcnAi2wyH28i9osfZ2BNVPeobMAd9VCELXtZDwZ8EG/
+ h7nSsGArdcy4YHP7nzLI7tAX+0znQKaj6Ar+8tgf15IjAhbqfw7Wl5OJ9Fhl3NRACg96
+ ntWnmc6hLrtkaeTHX+BKdl7Ft9wPwY3J/tC1Lm+/I/cY0D/1AnZ0q3Enq8utuNtdfQZR
+ 5d/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1705310700; x=1705915500;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=tVtFgKZwIFS1vEBdEVjotaw6JZpTlhG6vAn3dQd7JeU=;
+ b=eWx01/M5oePn9VgbCkS2eVsxtARetq10TuKr0p4fVO5/bJVeRrCbfI9a0Smg9RROVl
+ Xcvf1np/tw9C+hsF4nSIHaLIkciuKUVmCLsa5/tQPLjT3fntInDgYjNwiSbNqiL0B3w/
+ 1shTNt3KBMMcF6dchtOztkbyHi6pRzTxK5XkTogje+a9EhtnbcJD7KYQkXOwhjnjHk5r
+ 4wza+2/U/I6x+XNFRf+QtOToZvf022wBoqCP9aS8GZ77pjfxgtrfDu4W5FFKRrxsGfjL
+ Y3Uch085t65xb7F6FTqWorFk39H3lNkKFi7nH268Ql+gOxPCC8x6HF9BJn6dMG6X+IiF
+ fvrg==
+X-Gm-Message-State: AOJu0YxycDe0nnosyr+mc/GvkdX0h9DfiWwikKob2OUf79T4mlUcoszo
+ wkpBOATzax6xT5Ehy7kcYg==
+X-Google-Smtp-Source: AGHT+IFWA+Z+Q6sM5+EDxdV7QvTKq8nlsTgkfw59qSIaFAN6KRsmaa7Z2RYvssV+Zwrl5Nnwh2tI+g==
+X-Received: by 2002:a5d:50d0:0:b0:337:99fb:ce2e with SMTP id
+ f16-20020a5d50d0000000b0033799fbce2emr1306430wrt.209.1705310699743; 
+ Mon, 15 Jan 2024 01:24:59 -0800 (PST)
+Received: from U4.lan ([2a02:810b:f40:4300:702c:8d99:9a73:8e9d])
+ by smtp.gmail.com with ESMTPSA id
+ c18-20020a5d4cd2000000b0033740e109adsm11325864wrt.75.2024.01.15.01.24.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Jan 2024 01:24:59 -0800 (PST)
+From: Alex Bee <knaerzche@gmail.com>
+To: Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH] drm/rockchip: inno_hdmi: Explicitly include drm_atomic.h
+Date: Mon, 15 Jan 2024 10:24:35 +0100
+Message-ID: <20240115092434.41695-2-knaerzche@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Content-Language: en-US
-To: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-From: Vignesh Raman <vignesh.raman@collabora.com>
-Subject: Flaky tests for msm sdm845
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,59 +74,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sean@poorly.run, guilherme.gallo@collabora.com,
- sergi.blanch.torne@collabora.com, quic_abhinavk@quicinc.com,
- david.heidelberg@collabora.com, helen.koike@collabora.com,
- dmitry.baryshkov@linaro.org, marijn.suijten@somainline.org,
- linux-kernel@vger.kernel.org
+Cc: kernel test robot <lkp@intel.com>, Alex Bee <knaerzche@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maintainers,
+Commit d3e040f450ec ("drm/rockchip: inno_hdmi: Get rid of mode_set")
+started using drm_atomic_get_new_connector_state and
+drm_atomic_get_new_crtc_state which are defined in drm_atomic.h
+Building does currently only work if CONFIG_OF and CONFIG_DRM_PANEL_BRIDGE
+are enabled since this will include drm_atomic.h via drm_bridge.h (see
+drm_of.h).
 
-There are some flaky tests reported for sdm845 msm driver testing in 
-drm-ci with commit 
-https://patchwork.kernel.org/project/linux-arm-msm/patch/20240108195016.156583-1-robdclark@gmail.com/
+Explicitly include drm_atomic.h in inno_hdmi.c to fix this.
 
-=== msm:sdm845 ===
-# Board Name: msm:sdm845
-# Failure Rate: 50
-# IGT Version: 1.28-gd2af13d9f
-# Linux Version: 6.7.0-rc3
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202401100949.ZVRr0pIa-lkp@intel.com/
+Closes: https://lore.kernel.org/oe-kbuild-all/202401081720.UtgAZgba-lkp@intel.com/
+Fixes: d3e040f450ec ("drm/rockchip: inno_hdmi: Get rid of mode_set")
+Signed-off-by: Alex Bee <knaerzche@gmail.com>
+---
+ drivers/gpu/drm/rockchip/inno_hdmi.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Pipeline url:
-https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/53737049
-https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/53737050
-https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/53734294
-https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/53714642
-https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/53667209
-https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/53647868
-https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/53734121
-https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/53647999
+diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
+index 925320fef0a8..3bb8f1382612 100644
+--- a/drivers/gpu/drm/rockchip/inno_hdmi.c
++++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
+@@ -15,6 +15,7 @@
+ #include <linux/mutex.h>
+ #include <linux/platform_device.h>
+ 
++#include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_of.h>
+-- 
+2.43.0
 
-# Reported by deqp-runner
-kms_cursor_legacy@basic-flip-after-cursor-legacy
-kms_cursor_legacy@flip-vs-cursor-toggle
-kms_cursor_legacy@flip-vs-cursor-varying-size
-kms_cursor_legacy@short-flip-after-cursor-toggle
-kms_cursor_legacy@short-flip-before-cursor-atomic-transitions
-kms_cursor_legacy@short-flip-before-cursor-atomic-transitions-varying-size
-msm_shrink@copy-gpu-oom-32
-
-# The below test shows inconsistency across multiple runs, giving
-# results of Pass and Fail/Crash alternately.
-kms_cursor_legacy@basic-flip-before-cursor-varying-size
-kms_cursor_legacy@flip-vs-cursor-atomic-transitions
-kms_cursor_legacy@short-flip-after-cursor-atomic-transitions
-kms_cursor_legacy@short-flip-after-cursor-atomic-transitions-varying-size
-msm_shrink@copy-gpu-32
-
-I will add these tests in 
-drivers/gpu/drm/ci/xfails/msm-sdm845-flakes.txt 
-(https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/Documentation/gpu/automated_testing.rst#n70)
-
-Please could you have a look at these test results and let us know if 
-you need more information. Thank you.
-
-Regards,
-Vignesh
