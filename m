@@ -1,67 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7166C82D5D0
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 10:25:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5829182D603
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 10:30:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D615810E218;
-	Mon, 15 Jan 2024 09:25:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D13E810E143;
+	Mon, 15 Jan 2024 09:30:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9928610E20E
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 09:25:01 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id
- ffacd0b85a97d-3366ddd1eddso7019859f8f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 01:25:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1705310700; x=1705915500; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=tVtFgKZwIFS1vEBdEVjotaw6JZpTlhG6vAn3dQd7JeU=;
- b=bcpRUWwZbNn5t65K/JOFZb86KeI5Y1fhvYnj6Sy0DcPYj3VQWi5u3+06LM5t0y3ifj
- lopJTYPfN6IlhlIJJPFoEAsdNuhWz41SumXKbZK4U7vHOGKb44QDzTkhxevRV2Q8mGAQ
- Ac/iuUvc42fuImmWD2Sx1iucsxcnAi2wyH28i9osfZ2BNVPeobMAd9VCELXtZDwZ8EG/
- h7nSsGArdcy4YHP7nzLI7tAX+0znQKaj6Ar+8tgf15IjAhbqfw7Wl5OJ9Fhl3NRACg96
- ntWnmc6hLrtkaeTHX+BKdl7Ft9wPwY3J/tC1Lm+/I/cY0D/1AnZ0q3Enq8utuNtdfQZR
- 5d/Q==
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
+ [209.85.216.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F44010E240
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 09:30:15 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id
+ 98e67ed59e1d1-28d2be70358so4905124a91.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 01:30:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705310700; x=1705915500;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=tVtFgKZwIFS1vEBdEVjotaw6JZpTlhG6vAn3dQd7JeU=;
- b=eWx01/M5oePn9VgbCkS2eVsxtARetq10TuKr0p4fVO5/bJVeRrCbfI9a0Smg9RROVl
- Xcvf1np/tw9C+hsF4nSIHaLIkciuKUVmCLsa5/tQPLjT3fntInDgYjNwiSbNqiL0B3w/
- 1shTNt3KBMMcF6dchtOztkbyHi6pRzTxK5XkTogje+a9EhtnbcJD7KYQkXOwhjnjHk5r
- 4wza+2/U/I6x+XNFRf+QtOToZvf022wBoqCP9aS8GZ77pjfxgtrfDu4W5FFKRrxsGfjL
- Y3Uch085t65xb7F6FTqWorFk39H3lNkKFi7nH268Ql+gOxPCC8x6HF9BJn6dMG6X+IiF
- fvrg==
-X-Gm-Message-State: AOJu0YxycDe0nnosyr+mc/GvkdX0h9DfiWwikKob2OUf79T4mlUcoszo
- wkpBOATzax6xT5Ehy7kcYg==
-X-Google-Smtp-Source: AGHT+IFWA+Z+Q6sM5+EDxdV7QvTKq8nlsTgkfw59qSIaFAN6KRsmaa7Z2RYvssV+Zwrl5Nnwh2tI+g==
-X-Received: by 2002:a5d:50d0:0:b0:337:99fb:ce2e with SMTP id
- f16-20020a5d50d0000000b0033799fbce2emr1306430wrt.209.1705310699743; 
- Mon, 15 Jan 2024 01:24:59 -0800 (PST)
-Received: from U4.lan ([2a02:810b:f40:4300:702c:8d99:9a73:8e9d])
- by smtp.gmail.com with ESMTPSA id
- c18-20020a5d4cd2000000b0033740e109adsm11325864wrt.75.2024.01.15.01.24.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Jan 2024 01:24:59 -0800 (PST)
-From: Alex Bee <knaerzche@gmail.com>
-To: Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH] drm/rockchip: inno_hdmi: Explicitly include drm_atomic.h
-Date: Mon, 15 Jan 2024 10:24:35 +0100
-Message-ID: <20240115092434.41695-2-knaerzche@gmail.com>
-X-Mailer: git-send-email 2.43.0
+ d=1e100.net; s=20230601; t=1705311015; x=1705915815;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=oJZ9RgNzg7VLWUx8YQuwC3dXe057PkvGB0IXNBt0r28=;
+ b=CC+6Hen+PP017CtWkQbb4wewd9q3f/VZy8ceAIMI2dyQ+bGGX0KeTbdCqZrWB6z1mG
+ SXPA6inWH0Xx2zTmqfeNazYodEHFr+yWuk/vD9IhAi1ymrmXaypCdJ5nFUe6TllXXxvi
+ ev9WiOWfjdkogXBhuRSt8CGE65DGllgAZX9Ju685DER623dLcL+j1CSflKKNUBM9aHAR
+ UBd0NjcLrBYMwKrAM3luv0XpVboTjwoEqtdS6UlhnWs32aiu2r1Ws+uCxxDSLArCFsYC
+ ZpyFHBbCml44/Bh2TZLX5+Cg+Y7VsENT19bsK/tOAuoGrB+fza8BT5nMPm6IFsyfhZ8j
+ 9wBA==
+X-Gm-Message-State: AOJu0YxRNcCLKbv88ZnGlYFV3Q+uwmJ6u5OsTotjw93ZXGzfkDIpSI7D
+ /bm1b2XQZLnQkXoX90ZWRurk36vYJLh+7Q==
+X-Google-Smtp-Source: AGHT+IHMGyfqEuOnt15HRdL3McKcSg3I9adpP8vFKhP001mA55mYOabF53Zj+pwLf4WhePiFOSjq7Q==
+X-Received: by 2002:a17:90b:2d8f:b0:28d:c3ec:8006 with SMTP id
+ sj15-20020a17090b2d8f00b0028dc3ec8006mr2367853pjb.4.1705311014869; 
+ Mon, 15 Jan 2024 01:30:14 -0800 (PST)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com.
+ [209.85.214.182]) by smtp.gmail.com with ESMTPSA id
+ rr7-20020a17090b2b4700b0028d19ddb1afsm9255111pjb.33.2024.01.15.01.30.13
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Jan 2024 01:30:14 -0800 (PST)
+Received: by mail-pl1-f182.google.com with SMTP id
+ d9443c01a7336-1d3e84fded7so44738035ad.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 01:30:13 -0800 (PST)
+X-Received: by 2002:a81:8395:0:b0:5ca:607e:b16e with SMTP id
+ t143-20020a818395000000b005ca607eb16emr3313628ywf.0.1705310992678; Mon, 15
+ Jan 2024 01:29:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1704788539.git.ysato@users.sourceforge.jp>
+ <dbaaf58b50b681cf03bc5ad3eef0a546fe863bca.1704788539.git.ysato@users.sourceforge.jp>
+In-Reply-To: <dbaaf58b50b681cf03bc5ad3eef0a546fe863bca.1704788539.git.ysato@users.sourceforge.jp>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 15 Jan 2024 10:29:41 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXw=FC5EsYSHw6y2GzT9pNPNEB1iO3DRVmMLjzuPfx8nQ@mail.gmail.com>
+Message-ID: <CAMuHMdXw=FC5EsYSHw6y2GzT9pNPNEB1iO3DRVmMLjzuPfx8nQ@mail.gmail.com>
+Subject: Re: [DO NOT MERGE v6 21/37] dt-bindings: serial: renesas,
+ scif: Add scif-sh7751.
+To: Yoshinori Sato <ysato@users.sourceforge.jp>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,42 +71,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, Alex Bee <knaerzche@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+ linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
+ Bin Meng <bmeng@tinylab.org>, Michael Turquette <mturquette@baylibre.com>,
+ linux-pci@vger.kernel.org, Jacky Huang <ychuang3@nuvoton.com>,
+ Palmer Dabbelt <palmer@rivosinc.com>, linux-kernel@vger.kernel.org,
+ Max Filippov <jcmvbkbc@gmail.com>, Lee Jones <lee@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Hyeonggon Yoo <42.hyeyoo@gmail.com>, Jiri Slaby <jirislaby@kernel.org>,
+ linux-clk@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Baoquan He <bhe@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Helge Deller <deller@gmx.de>, Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-serial@vger.kernel.org,
+ David Rientjes <rientjes@google.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Maxime Ripard <mripard@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ Chris Morgan <macromorgan@hotmail.com>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Vlastimil Babka <vbabka@suse.cz>, Yang Xiwen <forbidden405@foxmail.com>,
+ Sergey Shtylyov <s.shtylyov@omp.ru>, linux-ide@vger.kernel.org,
+ Stephen Boyd <sboyd@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Biju Das <biju.das.jz@bp.renesas.com>,
+ Sebastian Reichel <sre@kernel.org>, Azeem Shaikh <azeemshaikh38@gmail.com>,
+ linux-renesas-soc@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>,
+ Andrew Morton <akpm@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit d3e040f450ec ("drm/rockchip: inno_hdmi: Get rid of mode_set")
-started using drm_atomic_get_new_connector_state and
-drm_atomic_get_new_crtc_state which are defined in drm_atomic.h
-Building does currently only work if CONFIG_OF and CONFIG_DRM_PANEL_BRIDGE
-are enabled since this will include drm_atomic.h via drm_bridge.h (see
-drm_of.h).
+On Tue, Jan 9, 2024 at 9:24=E2=80=AFAM Yoshinori Sato
+<ysato@users.sourceforge.jp> wrote:
+> Add Renesas SH7751 SCIF.
+>
+> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 
-Explicitly include drm_atomic.h in inno_hdmi.c to fix this.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202401100949.ZVRr0pIa-lkp@intel.com/
-Closes: https://lore.kernel.org/oe-kbuild-all/202401081720.UtgAZgba-lkp@intel.com/
-Fixes: d3e040f450ec ("drm/rockchip: inno_hdmi: Get rid of mode_set")
-Signed-off-by: Alex Bee <knaerzche@gmail.com>
----
- drivers/gpu/drm/rockchip/inno_hdmi.c | 1 +
- 1 file changed, 1 insertion(+)
+Gr{oetje,eeting}s,
 
-diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
-index 925320fef0a8..3bb8f1382612 100644
---- a/drivers/gpu/drm/rockchip/inno_hdmi.c
-+++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
-@@ -15,6 +15,7 @@
- #include <linux/mutex.h>
- #include <linux/platform_device.h>
- 
-+#include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_edid.h>
- #include <drm/drm_of.h>
--- 
-2.43.0
+                        Geert
 
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
