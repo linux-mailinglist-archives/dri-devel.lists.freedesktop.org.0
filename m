@@ -1,72 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EFFA82D550
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 09:50:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5086682D55C
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 09:56:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD47710E214;
-	Mon, 15 Jan 2024 08:50:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3E768928D;
+	Mon, 15 Jan 2024 08:56:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C55010E214
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 08:50:47 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id
- 5b1f17b1804b1-40e80046246so305435e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 00:50:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1705308646; x=1705913446; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6TYJFKCqRjvcAOZScXqGwljNrNcwX1RWIF5kTzj+ztc=;
- b=zZ2N46SSBtP4Xq79iXkK63H61fAqs3oNt4WhKTztAtPWrCzZEfO/KRhNeuEoMRBJbV
- qZXcDq0hR/Ypj7UTMy9AsVxmg9bmZkVAjbSz5BOv6gEZznDPq8n2WEfxS/cfi70dg87J
- ZZexwhYhBvbf6lVdKQDUwopDLme5S7TIHOJf6F1oQlkF3dRT4vj1LqGJybZGbQZxQBky
- XwtilqwH/XOcP48fIvjy4tItFW4EDWIGMOdM070p6Q9wDGjfBBM8XCtgedKK965Ur4RX
- UpAnyo+Zkgr2Ln+KG5LwePnv0A/dhJMcFS8i9NmP0OnI4+rgFrZS661oITYFwMp82ZqL
- CkQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705308646; x=1705913446;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6TYJFKCqRjvcAOZScXqGwljNrNcwX1RWIF5kTzj+ztc=;
- b=OSqySn60AYfV+WMR9+w6e56on/IbrI8TR0x524XGbcz2WvHYTM7/xy1dDOZMeGA/+P
- 3MwX7un/+PgfzVDYd7XAwE2YJxsnNfGckjYTqJ4NSb1SM9zlfE65Kag5ZPQw6OJlI4YK
- cvgNnIRHpbvb07SV69AhnFe7Ycz2COvClxTiSd6CRr7mNSXOS3T4TODkXBcMW9zCo93Y
- KyfVVPpHIdhzXX4UhpEF9+dJzhRac4MVuLdqnrD62JsRedJNpBrMQ2cRrs7TkYSQMenJ
- RxN3kl/YyZPyI5SXAKBuJqG8CDgWvOULenB40W0B/gxmZQB+Wf8GNr5APZ/Y8HtlGzTA
- x/5A==
-X-Gm-Message-State: AOJu0YwygtkFBYs3ozgMGJFeLYSLtAgDvSWtisZRFePU/iF5y85co/yO
- bFmZbwN2v0BtTRciFXLzQa18Ltvs5Bdweag66bPuH69uFAE=
-X-Google-Smtp-Source: AGHT+IE+yek29mqri2fMFu5ocqEYCMOXGL6XkoH7oGse6lZ1GjJ+72Vk1tyBF0FQJfUvGEfnIiMn8w==
-X-Received: by 2002:a05:600c:2484:b0:40e:4cae:a3f1 with SMTP id
- 4-20020a05600c248400b0040e4caea3f1mr2569303wms.77.1705308645938; 
- Mon, 15 Jan 2024 00:50:45 -0800 (PST)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
- by smtp.gmail.com with ESMTPSA id
- i10-20020a5d438a000000b00336344c3c3fsm11224128wrq.90.2024.01.15.00.50.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Jan 2024 00:50:45 -0800 (PST)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Sam Ravnborg <sam@ravnborg.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Jianhua Lu <lujianhua000@gmail.com>
-In-Reply-To: <20240112140047.18123-1-lujianhua000@gmail.com>
-References: <20240112140047.18123-1-lujianhua000@gmail.com>
-Subject: Re: [PATCH] drm/panel: nt36523: Set 120Hz fps for xiaomi,elish panels
-Message-Id: <170530864497.3765652.8786048172008911730.b4-ty@linaro.org>
-Date: Mon, 15 Jan 2024 09:50:44 +0100
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.4
+Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de
+ [85.215.255.83])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BABF08928D
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 08:55:58 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1705308912; cv=none;
+ d=strato.com; s=strato-dkim-0002;
+ b=qjzfTZXIn8ULyATbJ8kYws4bzV++on2FpfW1SqbtHT2ZnlgpuuvjMFc9zWdYkSUb1P
+ pflMhVIuUbCfLuoxbfOdW/zf8sM4TwYDjmW3ythMRZUO8lnVMlOM+QZSMHstRbG8VtiX
+ 5pwr2BiVJ8tdtG3poAmvrV+xsIuYkRT1GgmC8BDbXpdWsN0ctXi7pD4TNEpj/lq2pZtL
+ k5pdszBql0UT/kPieggXIZvTKJN+RftG6PAfZYMvuyDyo1qhrOsV6EbbV3/PajMnlMUp
+ 1YUs2dJHnFqWnbil9Jo1DCF5ZxyOlev+0ttwdR9LtJTWIkOeqAavF9AGa1aW9v9FJ8+r
+ UYYg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1705308912;
+ s=strato-dkim-0002; d=strato.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=yHFJRaGiqBFJv2kzsrvLiyk/a/j3+Epn1Hl4IwAPpOQ=;
+ b=FczWUnwFJvS7KFS7oNsI/m5tBh2F7SkhYobWhH96170UEzMMHAY7/a2uyfmRbvRKow
+ XxzFEyTyBSOpP3cF9pfgWkeza1nyq9zf9oi94YsTKyXshRdfn0d2e1F+xcLv8awnUM+t
+ 23KGqjcyo8asdDAHzV7uXyl/kvjTh+b7fZuuWlVKtZu1rjuGlDcrRzDinWOIgoWMA5Wj
+ BjA/4lR6aUUN4OyCAwPXkzDxTN3a2Q2m2k5Q1wNMeAa9JuH9RN0wdEAwdz/qZhjKuvPI
+ 3BU/3b5PpiRq+EPUwQ3qjVOGVG+kh3rXnC5BHkVFSwaAoihtAP+/XoV4p90kDDcSAdoh
+ GEiA==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo02
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1705308912;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=yHFJRaGiqBFJv2kzsrvLiyk/a/j3+Epn1Hl4IwAPpOQ=;
+ b=eSo9RdXWhAdoaMENfvhNPTzvKpEwOCUl0YycnoU2xzRMAOQMB9qGX0yeiCQFmhzBUq
+ wtqDF7H9q9nFpN3AhXoAtzXmn353mljOaUrGVy5EQHo30O7NtvmPjMuX37RJgZbC6sND
+ fRtz6wn5n3MdFHaakYwZD88U4bjAkBC5emYMKMDFoqqzbgcrbDVGevUornxZP935h3Cu
+ tv41U+52zsH5KQm3PgvBNVFAjwQ7rqiUTmOaI152R9JDBW8y9aOthnrXVhPSOrkEfVnn
+ LjPFWcJGYSWQ9UEoWZWcV1FktKs5lSlXM1XvdZO0b1hLY5YrsGsr5UvkO108hZlxyai4
+ 634A==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1705308912;
+ s=strato-dkim-0003; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=yHFJRaGiqBFJv2kzsrvLiyk/a/j3+Epn1Hl4IwAPpOQ=;
+ b=pFlSZHjwt8Te0l07++VZwoZT0mvrVr31djwxtUJKVo9l8cKGGgl9Ds9Oo6Q5eOqrsf
+ 5kYGQb7B3DxK7iUUj3Bw==
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj5Apz9PSN6LgsXcGZhzY="
+Received: from smtpclient.apple by smtp.strato.de (RZmta 49.10.2 DYNA|AUTH)
+ with ESMTPSA id dbe64400F8tBUDl
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
+ with 256 ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Mon, 15 Jan 2024 09:55:11 +0100 (CET)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.300.61.1.2\))
+Subject: Re: [PATCH RFC v2 04/11] ARM: dts: omap4: Add device tree entry for
+ SGX GPU
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <vpcgccul53oibwoqb3barj3rjxoyskoldjyfvjdzmytic3tonm@wq4aqsenk7rp>
+Date: Mon, 15 Jan 2024 09:55:00 +0100
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <7BC64F03-A4DF-411F-9B6F-6BCA436D9B50@goldelico.com>
+References: <20240108183302.255055-1-afd@ti.com>
+ <20240108183302.255055-5-afd@ti.com>
+ <122DC5ED-2AA7-46A0-845F-083922458385@goldelico.com>
+ <vpcgccul53oibwoqb3barj3rjxoyskoldjyfvjdzmytic3tonm@wq4aqsenk7rp>
+To: Maxime Ripard <mripard@kernel.org>
+X-Mailer: Apple Mail (2.3774.300.61.1.2)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,23 +89,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Tony Lindgren <tony@atomide.com>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Donald Robson <donald.robson@imgtec.com>, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ =?utf-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
+ Matt Coster <matt.coster@imgtec.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-omap@vger.kernel.org, Adam Ford <aford173@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, Tero Kristo <kristo@kernel.org>,
+ linux-kernel@vger.kernel.org, Andrew Davis <afd@ti.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Fri, 12 Jan 2024 22:00:47 +0800, Jianhua Lu wrote:
-> After commit e6c0de5f4450 ("drm/msm/dpu: try multirect based on mdp clock limits")
-> merged, 120Hz is working on xiaomi,elish panels, so feature it.
-> 
-> 
+> Am 15.01.2024 um 09:25 schrieb Maxime Ripard <mripard@kernel.org>:
+>=20
+> Hi,
+>=20
+> On Fri, Jan 12, 2024 at 06:33:58PM +0100, H. Nikolaus Schaller wrote:
+>>> Am 08.01.2024 um 19:32 schrieb Andrew Davis <afd@ti.com>:
+>>>=20
+>>> Add SGX GPU device entry to base OMAP4 dtsi file.
+>>>=20
+>>> Signed-off-by: Andrew Davis <afd@ti.com>
+>>> ---
+>>> arch/arm/boot/dts/ti/omap/omap4.dtsi | 9 +++++----
+>>> 1 file changed, 5 insertions(+), 4 deletions(-)
+>>>=20
+>>> diff --git a/arch/arm/boot/dts/ti/omap/omap4.dtsi =
+b/arch/arm/boot/dts/ti/omap/omap4.dtsi
+>>> index 2bbff9032be3e..559b2bfe4ca7c 100644
+>>> --- a/arch/arm/boot/dts/ti/omap/omap4.dtsi
+>>> +++ b/arch/arm/boot/dts/ti/omap/omap4.dtsi
+>>> @@ -501,10 +501,11 @@ sgx_module: target-module@56000000 {
+>>> #size-cells =3D <1>;
+>>> ranges =3D <0 0x56000000 0x2000000>;
+>>>=20
+>>> - /*
+>>> - * Closed source PowerVR driver, no child device
+>>> - * binding or driver in mainline
+>>> - */
+>>> + gpu@0 {
+>>=20
+>> I wonder why we don't add a "gpu:" label here.
+>>=20
+>> Almost all other subsystem nodes have one (e.g. emif:, aes:, dss:, =
+dsi:, hdmi:, etc.),
+>> obviously for convenience when using a .dtsi file.
+>>=20
+>> It would allow a board-specific DTS to easily add status =3D =
+"disabled" to avoid driver
+>> probing or disabling the GPU (e.g. if there is no display).
+>=20
+> There's no reason to disable it in the DT: the hardware block would
+> still be there and it's rendering to memory so it still could be =
+useful.
 
-Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
+Well, if you know that the board does not have a dm3730 but a dm3725 =
+without
+GPU it is better to disable the GPU completely instead of loading the =
+driver
+and make it detect by some internal bits that it has no GPU on the SoC.
 
-[1/1] drm/panel: nt36523: Set 120Hz fps for xiaomi,elish panels
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=de8ac5696ebc3a2d89c88b70aa3996ee112e76ef
+> If there's no display on the board and you really don't want the GPU
+> driver, then you can disable the driver or block the module loading, =
+but
+> it should be a distro / package / user decision, not a DT / kernel one
+> still.
 
--- 
-Neil
+The same holds for aes: dss: dsi: hdmi: etc. If they are not used by =
+some
+board file, they don't change a single bit of the DTB [1] which IMHO =
+would
+be of reasonable concern to question additional labels.
+
+BR and thanks,
+Nikolaus
+
+[1] =
+https://devicetree-specification.readthedocs.io/en/stable/source-language.=
+html
+"Labels are only used in the devicetree source format and are not =
+encoded into the
+DTB binary."
 
