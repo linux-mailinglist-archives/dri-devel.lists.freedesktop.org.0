@@ -2,71 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABFB682D9F9
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 14:21:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C706F82DA66
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 14:44:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C4B710E2A9;
-	Mon, 15 Jan 2024 13:21:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DE0A10E2C9;
+	Mon, 15 Jan 2024 13:44:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66BEE10E2A9
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 13:21:48 +0000 (UTC)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 40F8N7en008279; Mon, 15 Jan 2024 14:21:34 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding:content-type; s=
- selector1; bh=f+RuX/Eia9uR2MHJdZssTap6bVCpuc5frqUe4l82QhE=; b=5e
- yOIGQ7nGa6gp8/2bn9LEtZrefGSBPsKD3bgJqHFzW9+TgccxSgyAo6yCaV2Q9zX3
- EB0wCJbGm1A6dYt9pRhVwW1XU3cCfm0GNMI64MDh4vJ/asptXiow/anqao8LsXDC
- qdLHTBp/5IwSsETWXXW2bkLP7MsPZZT1U2ePjWL5N3F0EZ0P647J/fjENde6hx/0
- jyd/aamEVSWylb+zO7uyWwUuu0NIFah4kGNX2ydEliLS8SiF5lCwPmTMU7FffEc6
- MjkOSc2CYiw4cn6NfC6Dmvh+1E6SOYn86ueQOW+9EGPBoUezu8Gq5nWoUob85Kfh
- 4sWsk4tGoP3LIcmHPsyw==
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3vkmddrm9y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 Jan 2024 14:21:34 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 0DF7B10002A;
- Mon, 15 Jan 2024 14:21:34 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 03C1A2831A8;
- Mon, 15 Jan 2024 14:21:34 +0100 (CET)
-Received: from localhost (10.129.178.37) by SHFDAG1NODE2.st.com (10.75.129.70)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Mon, 15 Jan
- 2024 14:21:33 +0100
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-To: Yannick Fertre <yannick.fertre@foss.st.com>, Raphael Gallais-Pou
- <raphael.gallais-pou@foss.st.com>, Philippe Cornu
- <philippe.cornu@foss.st.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Philipp Zabel <p.zabel@pengutronix.de>
-Subject: [PATCH v3 6/6] arm64: dts: st: add display support on stm32mp257f-ev
-Date: Mon, 15 Jan 2024 14:20:09 +0100
-Message-ID: <20240115132009.101718-7-raphael.gallais-pou@foss.st.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240115132009.101718-1-raphael.gallais-pou@foss.st.com>
-References: <20240115132009.101718-1-raphael.gallais-pou@foss.st.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4D3410E2C8;
+ Mon, 15 Jan 2024 13:44:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1705326252; x=1736862252;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=3vesQA5HuKEGXzRYvAj+khf+j3tigs6jVMxffs4GfxI=;
+ b=GSEpsyR0W2PujsPZIUN3tI3t05/ZsqeZl45OQSkLrtQeszEbGrdc/lAp
+ +0rpoq/UQbKHezCF4CM8zejZ8xLUEBxD7NlZ6NDXlSZR4YTwfeC4wyDd3
+ 1tNNzuLBThsTuMU01FFvcw6N0Z9+7UOg0AeD2DjH0hSa3Hu+dWJT5Fv4w
+ SufDYNdF6gUzUBjwmpP31jR1viEzgR4f5+LrDGwfrzPEwZLkeHOS6lPs6
+ YC3VSFLPt0zYOWxoAqiNQd+vvVRGFwnHb49anxfq57zawxk/FTrR6Il3X
+ xnGetARnUJjTJyZP4uP0L4E5g8UJWuVs7vjGyuQ3IxuKtGHnwZAfr/GQY w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="6370167"
+X-IronPort-AV: E=Sophos;i="6.04,196,1695711600"; 
+   d="scan'208";a="6370167"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jan 2024 05:44:11 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="783812790"
+X-IronPort-AV: E=Sophos;i="6.04,196,1695711600"; d="scan'208";a="783812790"
+Received: from srigaut-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.55.155])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jan 2024 05:44:07 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm/nouveau: convert to using is_hdmi and has_audio from
+ display info
+Date: Mon, 15 Jan 2024 15:44:03 +0200
+Message-Id: <20240115134403.526197-1-jani.nikula@intel.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <924db0d9debec057fe15e820bc470a966a3401b0.1705078136.git.jani.nikula@intel.com>
+References: <924db0d9debec057fe15e820bc470a966a3401b0.1705078136.git.jani.nikula@intel.com>
 MIME-Version: 1.0
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.129.178.37]
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-05_08,2024-01-05_01,2023-05-22_02
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,128 +62,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Danilo Krummrich <dakr@redhat.com>, Ilia Mirkin <imirkin@alum.mit.edu>,
+ Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch enables the following IPs on stm32mp257f-ev :
-  * LTDC
-  * LVDS
-  * WSVGA LVDS panel (1024x600)
-  * Panel backlight
-  * Ilitek touchescreen
+Prefer the parsed results for is_hdmi and has_audio in display info over
+calling drm_detect_hdmi_monitor() and drm_detect_monitor_audio(),
+respectively.
 
-Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+Conveniently, this also removes the need to use edid_blob_ptr.
+
+v2: Reverse a backwards if condition (Ilia)
+
+Cc: Karol Herbst <kherbst@redhat.com>
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Danilo Krummrich <dakr@redhat.com>
+Cc: nouveau@lists.freedesktop.org
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- arch/arm64/boot/dts/st/stm32mp257f-ev1.dts | 79 ++++++++++++++++++++++
- 1 file changed, 79 insertions(+)
+ drivers/gpu/drm/nouveau/dispnv50/disp.c     | 8 ++++----
+ drivers/gpu/drm/nouveau/dispnv50/head.c     | 8 +-------
+ drivers/gpu/drm/nouveau/nouveau_connector.c | 2 +-
+ 3 files changed, 6 insertions(+), 12 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/st/stm32mp257f-ev1.dts b/arch/arm64/boot/dts/st/stm32mp257f-ev1.dts
-index 0ea8e69bfb3d..ca2da988d91c 100644
---- a/arch/arm64/boot/dts/st/stm32mp257f-ev1.dts
-+++ b/arch/arm64/boot/dts/st/stm32mp257f-ev1.dts
-@@ -29,6 +29,43 @@ memory@80000000 {
- 		reg = <0x0 0x80000000 0x1 0x0>;
- 	};
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+index 8d37a694b772..a34e3113fc6c 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+@@ -750,7 +750,7 @@ nv50_audio_enable(struct drm_encoder *encoder, struct nouveau_crtc *nv_crtc,
+ 	struct nouveau_encoder *nv_encoder = nouveau_encoder(encoder);
+ 	struct nvif_outp *outp = &nv_encoder->outp;
  
-+	panel_lvds: panel-lvds {
-+		compatible = "edt,etml0700z9ndha", "panel-lvds";
-+		enable-gpios = <&gpiog 15 GPIO_ACTIVE_HIGH>;
-+		backlight = <&panel_lvds_backlight>;
-+		status = "okay";
-+
-+		width-mm = <156>;
-+		height-mm = <92>;
-+		data-mapping = "vesa-24";
-+
-+		panel-timing {
-+			clock-frequency = <54000000>;
-+			hactive = <1024>;
-+			vactive = <600>;
-+			hfront-porch = <150>;
-+			hback-porch = <150>;
-+			hsync-len = <21>;
-+			vfront-porch = <24>;
-+			vback-porch = <24>;
-+			vsync-len = <21>;
-+		};
-+
-+		port {
-+			lvds_panel_in: endpoint {
-+				remote-endpoint = <&lvds_out0>;
-+			};
-+		};
-+	};
-+
-+	panel_lvds_backlight: panel-lvds-backlight {
-+		compatible = "gpio-backlight";
-+		gpios = <&gpioi 5 GPIO_ACTIVE_HIGH>;
-+		default-on;
-+		default-brightness-level = <0>;
-+		status = "okay";
-+	};
-+
- 	reserved-memory {
- 		#address-cells = <2>;
- 		#size-cells = <2>;
-@@ -63,6 +100,15 @@ &i2c2 {
- 	i2c-scl-falling-time-ns = <13>;
- 	clock-frequency = <400000>;
- 	status = "okay";
-+
-+	ili2511: ili2511@41 {
-+		compatible = "ilitek,ili251x";
-+		reg = <0x41>;
-+		interrupt-parent = <&gpioi>;
-+		interrupts = <13 IRQ_TYPE_EDGE_FALLING>;
-+		reset-gpios = <&gpiog 14 GPIO_ACTIVE_LOW>;
-+		status = "okay";
-+	};
- };
+-	if (!nv50_audio_supported(encoder) || !drm_detect_monitor_audio(nv_connector->edid))
++	if (!nv50_audio_supported(encoder) || !nv_connector->base.display_info.has_audio)
+ 		return;
  
- &i2c8 {
-@@ -75,6 +121,39 @@ &i2c8 {
- 	status = "disabled";
- };
+ 	mutex_lock(&drm->audio.lock);
+@@ -1764,7 +1764,7 @@ nv50_sor_atomic_enable(struct drm_encoder *encoder, struct drm_atomic_state *sta
+ 	if ((disp->disp->object.oclass == GT214_DISP ||
+ 	     disp->disp->object.oclass >= GF110_DISP) &&
+ 	    nv_encoder->dcb->type != DCB_OUTPUT_LVDS &&
+-	    drm_detect_monitor_audio(nv_connector->edid))
++	    nv_connector->base.display_info.has_audio)
+ 		hda = true;
  
-+&ltdc {
-+	status = "okay";
-+
-+	port {
-+		ltdc_ep0_out: endpoint {
-+			remote-endpoint = <&lvds_in>;
-+		};
-+	};
-+};
-+
-+&lvds {
-+	status = "okay";
-+
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@0 {
-+			reg = <0>;
-+			lvds_in: endpoint {
-+				remote-endpoint = <&ltdc_ep0_out>;
-+			};
-+		};
-+
-+		port@1 {
-+			reg = <1>;
-+			lvds_out0: endpoint {
-+				remote-endpoint = <&lvds_panel_in>;
-+			};
-+		};
-+	};
-+};
-+
- &sdmmc1 {
- 	pinctrl-names = "default", "opendrain", "sleep";
- 	pinctrl-0 = <&sdmmc1_b4_pins_a>;
+ 	if (!nvif_outp_acquired(outp))
+@@ -1773,7 +1773,7 @@ nv50_sor_atomic_enable(struct drm_encoder *encoder, struct drm_atomic_state *sta
+ 	switch (nv_encoder->dcb->type) {
+ 	case DCB_OUTPUT_TMDS:
+ 		if (disp->disp->object.oclass != NV50_DISP &&
+-		    drm_detect_hdmi_monitor(nv_connector->edid))
++		    nv_connector->base.display_info.is_hdmi)
+ 			nv50_hdmi_enable(encoder, nv_crtc, nv_connector, state, mode, hda);
+ 
+ 		if (nv_encoder->outp.or.link & 1) {
+@@ -1786,7 +1786,7 @@ nv50_sor_atomic_enable(struct drm_encoder *encoder, struct drm_atomic_state *sta
+ 			 */
+ 			if (mode->clock >= 165000 &&
+ 			    nv_encoder->dcb->duallink_possible &&
+-			    !drm_detect_hdmi_monitor(nv_connector->edid))
++			    !nv_connector->base.display_info.is_hdmi)
+ 				proto = NV507D_SOR_SET_CONTROL_PROTOCOL_DUAL_TMDS;
+ 		} else {
+ 			proto = NV507D_SOR_SET_CONTROL_PROTOCOL_SINGLE_TMDS_B;
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/head.c b/drivers/gpu/drm/nouveau/dispnv50/head.c
+index 83355dbc15ee..d7c74cc43ba5 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/head.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/head.c
+@@ -127,14 +127,8 @@ nv50_head_atomic_check_view(struct nv50_head_atom *armh,
+ 	struct drm_display_mode *omode = &asyh->state.adjusted_mode;
+ 	struct drm_display_mode *umode = &asyh->state.mode;
+ 	int mode = asyc->scaler.mode;
+-	struct edid *edid;
+ 	int umode_vdisplay, omode_hdisplay, omode_vdisplay;
+ 
+-	if (connector->edid_blob_ptr)
+-		edid = (struct edid *)connector->edid_blob_ptr->data;
+-	else
+-		edid = NULL;
+-
+ 	if (!asyc->scaler.full) {
+ 		if (mode == DRM_MODE_SCALE_NONE)
+ 			omode = umode;
+@@ -162,7 +156,7 @@ nv50_head_atomic_check_view(struct nv50_head_atom *armh,
+ 	 */
+ 	if ((asyc->scaler.underscan.mode == UNDERSCAN_ON ||
+ 	    (asyc->scaler.underscan.mode == UNDERSCAN_AUTO &&
+-	     drm_detect_hdmi_monitor(edid)))) {
++	     connector->display_info.is_hdmi))) {
+ 		u32 bX = asyc->scaler.underscan.hborder;
+ 		u32 bY = asyc->scaler.underscan.vborder;
+ 		u32 r = (asyh->view.oH << 19) / asyh->view.oW;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
+index 856b3ef5edb8..938832a6af15 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_connector.c
++++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
+@@ -1034,7 +1034,7 @@ get_tmds_link_bandwidth(struct drm_connector *connector)
+ 	unsigned duallink_scale =
+ 		nouveau_duallink && nv_encoder->dcb->duallink_possible ? 2 : 1;
+ 
+-	if (drm_detect_hdmi_monitor(nv_connector->edid)) {
++	if (nv_connector->base.display_info.is_hdmi) {
+ 		info = &nv_connector->base.display_info;
+ 		duallink_scale = 1;
+ 	}
 -- 
-2.25.1
+2.39.2
 
