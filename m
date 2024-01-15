@@ -2,121 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72BE582D71D
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 11:20:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 169F982D72D
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 11:22:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABFF310E273;
-	Mon, 15 Jan 2024 10:20:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C1F810E245;
+	Mon, 15 Jan 2024 10:22:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on20601.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2418::601])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D773E10E26D;
- Mon, 15 Jan 2024 10:20:31 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=agB1bXx4vN1nQCqmWaTLW3n0RB89+RD+8yKXU2qDxj42Ib2b4i7CEJ7wli6cGYn4MZrInaMdDvdPCEbSWbtWx8bTk/dMspOhCfG/IYXAI+Ojkw9JyW3+OFaZraiia51Wrbt7OUO0Nnu2OM5owRpNMqZQgw79Fvh+UOfhQFPcQb55JSmkbnattq+6N0Dy+dISB4qILYBVW3CjHAw+3BpOLBudlouV1adhf0kezmYsajusNf5p9FI3UOwQP4T4TfFKVBK6ZSmorcdw1JsldYF/cSpl/g3fdoZEtzXPx8nW3eE0GHlWSBTDPhf8hWFQ3LfMMbMgGAJTeiuAy7e3uYNI4Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=N5Kjd9zWweXnge3gHWZMWH1+7E96cbbRNBxNMUVRzIM=;
- b=PaxeY3kBVHnHB6NIMe7UX3yA2P+VfwvHCTdxdy3sA0MWRTfH1GC2LM+oWh03uYbmQgBNNPWv39ooYsFEAWQgVFfXsRpRQ8JIIEcQmAdE5urWwUesuUDYEdwx4XKroqZm7Qem89Dq6csEMLplrkCZUisXMDs1PRd4c6v8pxDEHqyLUOnBCdo4jVGP2WFY6Lccz7TbnY0ckbYaNNig5Ovnisuc2HJMdBlgz8mevZfh1nsZIlqdiz9WBT0Dh+ngrjWQDKXrH88BY1i3KpX9BNnq9hXfqAPZ7bm2QkVv8CXo7CBZRLDD/g47/TDhkKxhBYSc3Ue2oc16/eJyiaEnmuqnWQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=N5Kjd9zWweXnge3gHWZMWH1+7E96cbbRNBxNMUVRzIM=;
- b=IWm6I0faJDHf6EGEk/2VAzsLQt0e0nZ9EhDBSIGKTBbOMidaxBNtKJ4RUk9AtqC52IbG3fYx6Zk/ZxIYEi2xbvxaOPlZJ4Y2CU+mJolwtWwlGYKhHbqHJU5cJIeVyoMUC+ypIfx6q4lMmG39kXVK/Ja8riqMvIjSJTaWMHNI7U0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CY5PR12MB6297.namprd12.prod.outlook.com (2603:10b6:930:22::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.21; Mon, 15 Jan
- 2024 10:20:28 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::e1fb:4123:48b1:653]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::e1fb:4123:48b1:653%4]) with mapi id 15.20.7159.020; Mon, 15 Jan 2024
- 10:20:28 +0000
-Message-ID: <8acb0860-1c9d-4fb1-8ec5-ab2104dcb7b7@amd.com>
-Date: Mon, 15 Jan 2024 11:20:23 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: Failed to create a rescuer kthread for the amdgpu-reset-dev
- workqueue
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D998E10E242;
+ Mon, 15 Jan 2024 10:22:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1705314173;
+ bh=q6YNjqm/jNB7AnV/Pw+pwivqZBrmxLJ6FITWDnGrWzc=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=k++8wXbzLPfGzTc/Tw4srUseqbUmZrRtnhua2S4A0egF+IT/+mbCRggMm841lklWP
+ WbAfKF5tS5RozX/VMbQuQ6+dnuSJP8rp/rp0/JA3ddLv8REXpHe/qtztxl0Bnc3QLo
+ KhjCt9djXgs1bXsOTjIb7npYyAzNLpKIwkpZu9BwofzP7BqKks0zVJtle5w68TklNV
+ X4YxtMXNa4foba9gR+ghOL6K6skrneGb5erIa8jGR1i/QJW4c8fZpF6i5W0fNJRfWC
+ JVS10Tu9zZZSfiAWFylutW3v13xUZzam9GdooXAl9wzxgXGN6tDHrJm8n1xy00GWPS
+ vglzF9+dqHagA==
+Received: from [100.66.96.193] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 1A8083782052;
+ Mon, 15 Jan 2024 10:22:48 +0000 (UTC)
+Message-ID: <33024b12-2530-3a2e-5bcf-f5a466d9a767@collabora.com>
+Date: Mon, 15 Jan 2024 15:52:45 +0530
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] drm/ci: Add msm tests
 Content-Language: en-US
-To: Thomas Perrot <thomas.perrot@bootlin.com>, alexander.deucher@amd.com,
- Xinhui.Pan@amd.com, lijo.lazar@amd.com, kenneth.feng@amd.com,
- guchun.chen@amd.com, evan.quan@amd.com, srinivasan.shanmugam@amd.com
-References: <cf1a3a2b7599b7b6900ff45aa8b204169411687f.camel@bootlin.com>
- <95e791b0-4672-4a1a-940b-684d8c96e995@amd.com>
- <d3ffc899948961cd3327db1ad0e59970dcf87bca.camel@bootlin.com>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <d3ffc899948961cd3327db1ad0e59970dcf87bca.camel@bootlin.com>
+To: Rob Clark <robdclark@gmail.com>
+References: <20240108195016.156583-1-robdclark@gmail.com>
+ <27e64458-7cb1-99a4-f67e-60d911f28f44@collabora.com>
+ <CAF6AEGvBFdXe9rHjbwWv9eLUMv2YEP7cfMoXcWgZ30Wn4LzOjw@mail.gmail.com>
+ <CAF6AEGuXi1wTbE0j6FmSnqw_EVUYSdnk5WeFL6abD=zeNutPpg@mail.gmail.com>
+From: Vignesh Raman <vignesh.raman@collabora.com>
+In-Reply-To: <CAF6AEGuXi1wTbE0j6FmSnqw_EVUYSdnk5WeFL6abD=zeNutPpg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0205.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:ad::19) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY5PR12MB6297:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7640183e-6dd5-44f5-58d5-08dc15b398a2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: q4ojibCYeeoRfAaPFXOf/QaCSr3nkSft8IVtXTKPKGnwZXDNvBs6VrN9XrXZartXL/9qhGNgHYytWA1a0GlnI2UsqC3rAyL9nhmciO9zIIpuon1HPA+pW0o07jkghadC+F9jQlhPHDk+kLjJVcmw1Bqd/tTvaErNfbHOprFaNRrc1zbB5af+uf3H7cBysnKqZgZZKBEWZ5hkEN0dOL4SK6RuHk5KLrrbxllRRyXoNhSFSmMgS+l4HREezBoMUyOxT2HzfPnZ1W0fIouxY/3M9hUg7bKCdphHNZyh0QLUoKRjKW08YgdxNDtui7iuuwIkIdKdLBD06FNyUAKfZgSaNL9lk2/E9c3NcX3K42IYIZK0s+r7RBYKLX3/hyRDRIiwCQoRP9LPEtMrtTItEYE8FZEXrnfl1luFO3h9UIg+6GxYZjNKjlJM7Q51QZnDuwZgwL2Dc0Paoxo2de9INFSg5wGxvHjbBB1SEEQcV7wu5zI8ILFyz6DLVZn2AoFI4JSj4nAGPJeTKl1UcqudhRofE8Vlie1cgcudGmqzrfRzZtObtV4V/MkBAIXYpHRraTiTl36H4oM7OwkK2K1OW6vfQmChSQ6laZqXahNVMWHiG81P/nNnvUDUCGKCKA/fyUt5/BNUAZnSZ10K2xOgw0saBJ9jiNCWGfEUU5Y0wSxbzeTwOBp3CHe0N2uj0byUNgoe
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(39860400002)(136003)(376002)(366004)(396003)(346002)(230922051799003)(230173577357003)(230273577357003)(64100799003)(1800799012)(451199024)(186009)(2616005)(26005)(41300700001)(5660300002)(6486002)(31686004)(36756003)(31696002)(86362001)(316002)(6512007)(6506007)(2906002)(8676002)(66946007)(8936002)(4326008)(6636002)(66556008)(66476007)(38100700002)(6666004)(478600001)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WFlzdVVoZHFpNHY0ZnhTZzNqRElxWXRJR281b0twMnhZcVlUT01tVGxvUXor?=
- =?utf-8?B?b1NaeEluSFRCa2N3S0hyeVRSVWM5a3diNHVqMjNCZ3JnUVUrS2l1ZjJXL0Mx?=
- =?utf-8?B?Tk44Zk04aVhOZnViaWxuWmFJWmlPdE9aZWJyTVNGVVZlMVlxMi93VjdMM0Fq?=
- =?utf-8?B?REJZRWlYQ2l6OCs0T3BWWEk4cnB4ZXNBdXo5WWlld3pkM256TlNkSVBIelBs?=
- =?utf-8?B?dS8zRFMyT3pCZ2h5R09tNlZCUVdPeTAvalkzUFJXVnhzYklDZk82eWpyU0lO?=
- =?utf-8?B?SDRTV3gyYTFGVjNORXIwZGdZeG5CNkJzY2hGNGl1OFVEUHRIWnBnbTk1cEdl?=
- =?utf-8?B?ZjNveG5yNjN4S1ZyMjQ2TWdKMzUzRW45aGJQcGRJN29wNWJqSlpEMTBvaDFQ?=
- =?utf-8?B?TVZZcmtzeVAzUGhyOHF1SkVMOW1KeW1PQm43anIwZEtPWGxVT21pdnNMMUNt?=
- =?utf-8?B?QkU2M2l6d1hWc0ZTZjFDb05ncjJNcHE2ajZxdjlzcExrdGE4THRFWmR5dXR2?=
- =?utf-8?B?azlZQ3lTQ0U4dEEyNXRPQXFLeW5GWHFBdmFnbWFPcHBETzRBaElPaklUdUts?=
- =?utf-8?B?RnN2ZVN6M3J0djNaN2p0NXplY3h5ZHVDdERYTk1ncEJTSmxrUzdzMHExa0Zq?=
- =?utf-8?B?YkRsK0VnSGk3RVBJdlZMdlIweWNYL1JRSTIrTm52YWdxQjVIeXhBRC95MktO?=
- =?utf-8?B?Nk5Ga3ZtYVdHTDhXL0tLQUlwc3RxSkpodjdoVmkrbzc3c2RmWFBYWHBMVStj?=
- =?utf-8?B?ellJcmh6ekErd29IdUVuVURKMkdQeUQ3Q29LTXZvSHJNcC9sUG9kOXZmNkJz?=
- =?utf-8?B?aTFIeVZDWTdTTURmaHcwQ2pBZHFseTNubDJEUC8rT0U0QkRidWpUL21yTWpO?=
- =?utf-8?B?aEYyVUZhM3JScnpVbGY5ZVRBZzYydEEycXFONmpTOC9XcTVpdmlOR05SeUlT?=
- =?utf-8?B?TVpmeHFMbGVQckxaekZjOHJkQXVuVUROYXpmS2JCNW9WVE1FOTJUZUlpNmhC?=
- =?utf-8?B?WGFkd21Xd1pLZ3lzdUJYd0ZNNXdFTk1kSk9wd205ZlNCcE9KZ1hPZ1NHQ0pX?=
- =?utf-8?B?YWdrd1M4ZUdVTllmZE5ZTDNrTU9VZWxqTnU3RTNBemd2cnk2ZDA3dVhSWWxC?=
- =?utf-8?B?aEMvdUdSbHNyZlRFcXVndHVxQmx0OVRjcGo5ampscjV3Z3R3MjdvQ3VvTVJm?=
- =?utf-8?B?T2R5cHZWWGYxMTdxRnRCdjdObjVzcVVVUU82dGRkRlF1a1FSKzhHeW1RSWxa?=
- =?utf-8?B?QUhhamxvUTBkMW03aTdkN0NmRFF0R0xUSGVmbUVaUjFyRkE5bEc1aDJLSmpE?=
- =?utf-8?B?S3k2MVhwMTdTWFJFS1F6eUNuelJ3WHF0RUo1Q0FhMEIzRkNHb0V1Z1BCcGZr?=
- =?utf-8?B?ZVNEYndpVTVSazlaSlVxdzJsS2dkbE1YclVHRmtldWltRzNHcHpNeTRFVGhh?=
- =?utf-8?B?VEFYaEZqNWxsT0lmVlJSVlB5TzRRdlFrQjBNd1FFenhMUDdMazE4OFhsY2JC?=
- =?utf-8?B?S0N4WVVWb0g4MmxlNERRbVg5MkpmNU9OanlhR0xLQjBtS1E4dkd5WVg0UVEr?=
- =?utf-8?B?bzdvSGR5OEVNU0hBTDNSN3R3M3UzaThKb2d3NE5JRnJ5S0NsNHFPOGQwbkhr?=
- =?utf-8?B?UTcxbmNhWG9aZmsrM3FaKzQwQThuT3V2L2Q2S0cxZGpsV1BDUm44K25hdUh1?=
- =?utf-8?B?UWUwcGU5K3lmS2xJQ0UydkFoakNkR2QvMFFLMUR3VFJOQ0dBRkRNVE95OG5x?=
- =?utf-8?B?WXVMdit1T3RaMnRzWTBVWjNhMWdsSVpzRjJIUGNraFlPVHdmNVljRmpBZnV5?=
- =?utf-8?B?UHlJcG4wODRESTJZaG9PaHVDK1JJZUFSY3hJNm9uSWw2VDMvVGJCcVZtbzF0?=
- =?utf-8?B?M0FkbTJMZWRScmtKUmhpdjBHM1RWZW50d2t6RnRLWXY5Rmw5elRaV1RRWWFv?=
- =?utf-8?B?dnh3R0JPV2JXaXJPaXhHdWpiTG95QlcrUUlQNEVzQlFUQjdUaE5BWEZvTWw1?=
- =?utf-8?B?N0FlWDE5MGJlRFh3Mm80S0grZTREZ0dOZW1zNEsyd2ZlZDAyR0lXcGtKaXE2?=
- =?utf-8?B?UDNVaFNVL29YTk9ZQXloMlpuWVdMK0phY1VGeGZ6elpLa0lGQXFjNFFRbGhs?=
- =?utf-8?Q?tqy7GmqhsKgykKDlKwaBnFz25?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7640183e-6dd5-44f5-58d5-08dc15b398a2
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2024 10:20:28.6464 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gnMLUq5gkWFIiwaUl5S/XuBvP/0IlPuv6Vwt0Y69D0oorQlTUH+o6NUMRdp7kAoD
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6297
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,56 +57,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-msm@vger.kernel.org,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Helen Koike <helen.koike@collabora.com>, Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 15.01.24 um 11:17 schrieb Thomas Perrot:
-> Hello Christian,
->
-> On Fri, 2024-01-12 at 09:17 +0100, Christian König wrote:
->> Well the driver load is interrupted for some reason.
->>
->> Have you set any timeout for modprobe?
->>
-> We don't set a modprobe timeout.
+Hi Rob,
 
-Well you somehow abort probing the driver.
+On 12/01/24 22:44, Rob Clark wrote:
+> On Fri, Jan 12, 2024 at 7:57 AM Rob Clark <robdclark@gmail.com> wrote:
+>>
+>> On Fri, Jan 12, 2024 at 3:42 AM Vignesh Raman
+>> <vignesh.raman@collabora.com> wrote:
+>>>
+>>> Hi Rob,
+>>>
+>>>
+>>> On 09/01/24 01:20, Rob Clark wrote:
+>>>> From: Rob Clark <robdclark@chromium.org>
+>>>>
+>>>> The msm tests should skip on non-msm hw, so I think it should be safe to
+>>>> enable everywhere.
+>>>>
+>>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+>>>> ---
+>>>>    drivers/gpu/drm/ci/testlist.txt | 49 +++++++++++++++++++++++++++++++++
+>>>>    1 file changed, 49 insertions(+)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/ci/testlist.txt b/drivers/gpu/drm/ci/testlist.txt
+>>>> index f82cd90372f4..eaeb751bb0ad 100644
+>>>> --- a/drivers/gpu/drm/ci/testlist.txt
+>>>> +++ b/drivers/gpu/drm/ci/testlist.txt
+>>>> @@ -2910,3 +2910,52 @@ kms_writeback@writeback-invalid-parameters
+>>>>    kms_writeback@writeback-fb-id
+>>>>    kms_writeback@writeback-check-output
+>>>>    prime_mmap_kms@buffer-sharing
+>>>> +msm_shrink@copy-gpu-sanitycheck-8
+>>>> +msm_shrink@copy-gpu-sanitycheck-32
+>>>> +msm_shrink@copy-gpu-8
+>>>> +msm_shrink@copy-gpu-32
+>>>> +msm_shrink@copy-gpu-madvise-8
+>>>> +msm_shrink@copy-gpu-madvise-32
+>>>> +msm_shrink@copy-gpu-oom-8
+>>>> +msm_shrink@copy-gpu-oom-32
+>>>> +msm_shrink@copy-mmap-sanitycheck-8
+>>>> +msm_shrink@copy-mmap-sanitycheck-32
+>>>> +msm_shrink@copy-mmap-8
+>>>> +msm_shrink@copy-mmap-32
+>>>> +msm_shrink@copy-mmap-madvise-8
+>>>> +msm_shrink@copy-mmap-madvise-32
+>>>> +msm_shrink@copy-mmap-oom-8
+>>>> +msm_shrink@copy-mmap-oom-32
+>>>> +msm_shrink@copy-mmap-dmabuf-sanitycheck-8
+>>>> +msm_shrink@copy-mmap-dmabuf-sanitycheck-32
+>>>> +msm_shrink@copy-mmap-dmabuf-8
+>>>> +msm_shrink@copy-mmap-dmabuf-32
+>>>> +msm_shrink@copy-mmap-dmabuf-madvise-8
+>>>> +msm_shrink@copy-mmap-dmabuf-madvise-32
+>>>> +msm_shrink@copy-mmap-dmabuf-oom-8
+>>>> +msm_shrink@copy-mmap-dmabuf-oom-32
+>>>> +msm_mapping@ring
+>>>> +msm_mapping@sqefw
+>>>> +msm_mapping@shadow
+>>>> +msm_submitoverhead@submitbench-10-bos
+>>>> +msm_submitoverhead@submitbench-10-bos-no-implicit-sync
+>>>> +msm_submitoverhead@submitbench-100-bos
+>>>> +msm_submitoverhead@submitbench-100-bos-no-implicit-sync
+>>>> +msm_submitoverhead@submitbench-250-bos
+>>>> +msm_submitoverhead@submitbench-250-bos-no-implicit-sync
+>>>> +msm_submitoverhead@submitbench-500-bos
+>>>> +msm_submitoverhead@submitbench-500-bos-no-implicit-sync
+>>>> +msm_submitoverhead@submitbench-1000-bos
+>>>> +msm_submitoverhead@submitbench-1000-bos-no-implicit-sync
+>>>> +msm_recovery@hangcheck
+>>>> +msm_recovery@gpu-fault
+>>>> +msm_recovery@gpu-fault-parallel
+>>>> +msm_recovery@iova-fault
+>>>> +msm_submit@empty-submit
+>>>> +msm_submit@invalid-queue-submit
+>>>> +msm_submit@invalid-flags-submit
+>>>> +msm_submit@invalid-in-fence-submit
+>>>> +msm_submit@invalid-duplicate-bo-submit
+>>>> +msm_submit@invalid-cmd-idx-submit
+>>>> +msm_submit@invalid-cmd-type-submit
+>>>> +msm_submit@valid-submit
+>>>
+>>> I tested this patch with latest drm-misc/drm-misc-next and there was
+>>> some failures seen for the newly added msm tests. I have updated the
+>>> xfails with below commit,
+>>>
+>>> https://gitlab.freedesktop.org/vigneshraman/linux/-/commit/d012893597a661d6ebbb755bf2607dfb055524a1
+>>>
+>>> I will notify the maintainers about the flaky tests, update the url in
+>>> the flakes.txt, and submit a separate patch for this change.
+> 
+> Oh, you should probably move msm_mapping@* to skips on sdm845.  I had
+> a closer look at those, and they are failing due to a bootloader/fw
+> issue.  We work around this in mesa CI with these two patches:
+> 
+> https://gitlab.freedesktop.org/gfx-ci/linux/-/commit/4b49f902ec6f2bb382cbbf489870573f4b43371e
+> https://gitlab.freedesktop.org/gfx-ci/linux/-/commit/38cdf4c5559771e2474ae0fecef8469f65147bc1
+> 
+> But given that sdm845 is similar to sc7180 as far as kernel gpu
+> driver, it is probably just better to skip these on sdm845 (with a
+> comment referring to the hack patches we use in mesa CI)
 
-This seems to be an external event and not something the driver can 
-influence.
+I have sent a patch with these changes,
+
+https://lore.kernel.org/dri-devel/20240115101750.27077-1-vignesh.raman@collabora.com/T/#u
+
+Thanks.
 
 Regards,
-Christian.
-
->
-> Kind regards,
-> Thomas
->
->> Regards,
->> Christian.
->>
->> Am 12.01.24 um 09:11 schrieb Thomas Perrot:
->>> Hello,
->>>
->>> We are updating the kernel from the 6.1 to the 6.6 and we observe
->>> an
->>> amdgpu’s regression with Radeon RX580 8GB and SiFive Unmatched:
->>> “workqueue: Failed to create a rescuer kthread for wq 'amdgpu-
->>> reset-
->>> dev': -EINTR
->>> [drm:amdgpu_reset_create_reset_domain [amdgpu]] *ERROR* Failed to
->>> allocate wq for amdgpu_reset_domain!
->>> amdgpu 0000:07:00.0: amdgpu: Fatal error during GPU init
->>> amdgpu 0000:07:00.0: amdgpu: amdgpu: finishing device.
->>> amdgpu: probe of 0000:07:00.0 failed with error -12”
->>>
->>> We tried to figure it out without success for the moment, do you
->>> have
->>> some advice to identify the root cause and to fix it?
->>>
->>> Kind regards,
->>> Thomas Perrot
->>>
+Vignesh
 
