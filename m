@@ -2,53 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EF5F82D707
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 11:18:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0713782D714
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 11:19:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 199D010E251;
-	Mon, 15 Jan 2024 10:18:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77B9B10E26B;
+	Mon, 15 Jan 2024 10:19:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A4A910E231;
- Mon, 15 Jan 2024 10:17:57 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::225])
- by mslow1.mail.gandi.net (Postfix) with ESMTP id 058A3C2F7F;
- Mon, 15 Jan 2024 10:17:55 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 06C7C1C0011;
- Mon, 15 Jan 2024 10:17:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1705313871;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ZEf3znytnn/5u2nQ5HISUI8I48juAUPjkUbskiAR5Kw=;
- b=D+ToKPMERGdPs/q2d4zNP/9bvGUhVQK5CVJRXIH159Dbdok5XKx+SDxxvtWyXcnZl+cTOy
- dL3W86EvwKpiOkK0aAxkybSxSMq9qtu97OctBkFrmHvFe0gftp3svl8uew5BfLFwZukvH8
- jxD+NiNPB7+zisUpEPmBCMUPydiDjAPBJvIjo7lJ97qdOWGzdWXDlQXukLQIJFar083KFq
- edoOYr0ljwhZ+dCALcpn8nmIei6LeU8A/pdQnm9MZCdkJkRvwHFzrXFgrW3zFTcHIvAKzP
- n6NOzeTAt9wM9agfLe3th8vcIHBRBWJdza2d/Wuwr88nIU+WLv4IZO2in8cm0Q==
-Message-ID: <d3ffc899948961cd3327db1ad0e59970dcf87bca.camel@bootlin.com>
-Subject: Re: Failed to create a rescuer kthread for the amdgpu-reset-dev
- workqueue
-From: Thomas Perrot <thomas.perrot@bootlin.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
- alexander.deucher@amd.com, Xinhui.Pan@amd.com, lijo.lazar@amd.com, 
- kenneth.feng@amd.com, guchun.chen@amd.com, evan.quan@amd.com, 
- srinivasan.shanmugam@amd.com
-Date: Mon, 15 Jan 2024 11:17:49 +0100
-In-Reply-To: <95e791b0-4672-4a1a-940b-684d8c96e995@amd.com>
-References: <cf1a3a2b7599b7b6900ff45aa8b204169411687f.camel@bootlin.com>
- <95e791b0-4672-4a1a-940b-684d8c96e995@amd.com>
-Autocrypt: addr=thomas.perrot@bootlin.com; prefer-encrypt=mutual;
- keydata=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
-Content-Type: multipart/signed; micalg="pgp-sha256";
- protocol="application/pgp-signature"; boundary="=-cMV9dIg4T3JiQTgXtcRJ"
-User-Agent: Evolution 3.50.3 (3.50.3-1.fc39) 
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [IPv6:2a00:1098:ed:100::25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3F0810E269;
+ Mon, 15 Jan 2024 10:19:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1705313957;
+ bh=5M0CoigHI7gHurr6rjx+nK96Is9edBDpXARyeKnX9z4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=lcz7LTJmW55BgDO7x5bRtI0v7QyC6+FwKz5KDnuDq6U5j/IsS+RTbTcG/cWZybQZN
+ LD8QpA/7dTt4rwTJvpIyiHnb+EUu7oemSj4JkTn8GG+Znim0lm/yZ2BdA11NfxJfT4
+ 3guIQF5hAtXvoyNJna4bibJxLaY54hC+xYqEdZC+9ddLMGNJrRFMe1exotyMgCSOiI
+ aCCE29TNC/D39kGQD/aDGUYqFziXdH0pdD9wpoYELAzobGwLuM99aNfKBc8jbcJdhJ
+ v3s5dEuGuKVUZPjEXMPB0ExJHrdnaG9BJy0nPVYLyD5xVk1oqh4hbh9rW9TZLgtRFv
+ C4XkqvMjusHDw==
+Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 3705A37811D0;
+ Mon, 15 Jan 2024 10:19:11 +0000 (UTC)
+From: Vignesh Raman <vignesh.raman@collabora.com>
+To: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+Subject: [PATCH v1] drm/ci: Update xfails for newly added msm tests
+Date: Mon, 15 Jan 2024 15:47:50 +0530
+Message-Id: <20240115101750.27077-1-vignesh.raman@collabora.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-X-GND-Sasl: thomas.perrot@bootlin.com
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,79 +50,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+Cc: daniels@collabora.com, sean@poorly.run, guilherme.gallo@collabora.com,
+ sergi.blanch.torne@collabora.com, quic_abhinavk@quicinc.com,
+ david.heidelberg@collabora.com, helen.koike@collabora.com,
+ dmitry.baryshkov@linaro.org, marijn.suijten@somainline.org, airlied@gmail.com,
  linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+msm tests are added to testlist.txt, so update the xfails
+for jobs in msm stage.
 
---=-cMV9dIg4T3JiQTgXtcRJ
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+---
 
-Hello Christian,
+Depends on https://patchwork.kernel.org/project/linux-arm-msm/patch/20240108195016.156583-1-robdclark@gmail.com/ 
 
-On Fri, 2024-01-12 at 09:17 +0100, Christian K=C3=B6nig wrote:
-> Well the driver load is interrupted for some reason.
->=20
-> Have you set any timeout for modprobe?
->=20
+---
+ .../gpu/drm/ci/xfails/msm-apq8016-fails.txt   |  3 +-
+ .../gpu/drm/ci/xfails/msm-sdm845-fails.txt    |  5 +---
+ .../gpu/drm/ci/xfails/msm-sdm845-flakes.txt   | 28 +++++++++++++------
+ .../gpu/drm/ci/xfails/msm-sdm845-skips.txt    |  7 ++++-
+ 4 files changed, 27 insertions(+), 16 deletions(-)
 
-We don't set a modprobe timeout.
+diff --git a/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt b/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt
+index d39d254c935e..44a5c62dedad 100644
+--- a/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt
++++ b/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt
+@@ -6,8 +6,6 @@ kms_cursor_legacy@all-pipes-single-bo,Fail
+ kms_cursor_legacy@all-pipes-single-move,Fail
+ kms_cursor_legacy@all-pipes-torture-bo,Fail
+ kms_cursor_legacy@all-pipes-torture-move,Fail
+-kms_cursor_legacy@forked-bo,Fail
+-kms_cursor_legacy@forked-move,Fail
+ kms_cursor_legacy@pipe-A-forked-bo,Fail
+ kms_cursor_legacy@pipe-A-forked-move,Fail
+ kms_cursor_legacy@pipe-A-single-bo,Fail
+@@ -18,3 +16,4 @@ kms_force_connector_basic@force-edid,Fail
+ kms_hdmi_inject@inject-4k,Fail
+ kms_selftest@drm_format,Timeout
+ kms_selftest@drm_format_helper,Timeout
++msm_mapping@ring,Fail
+diff --git a/drivers/gpu/drm/ci/xfails/msm-sdm845-fails.txt b/drivers/gpu/drm/ci/xfails/msm-sdm845-fails.txt
+index c55baa2d18c1..e9043a00383e 100644
+--- a/drivers/gpu/drm/ci/xfails/msm-sdm845-fails.txt
++++ b/drivers/gpu/drm/ci/xfails/msm-sdm845-fails.txt
+@@ -15,7 +15,7 @@ kms_color@pipe-A-ctm-max,Fail
+ kms_color@pipe-A-ctm-negative,Fail
+ kms_color@pipe-A-ctm-red-to-blue,Fail
+ kms_color@pipe-A-legacy-gamma,Fail
+-kms_cursor_legacy@basic-flip-after-cursor-legacy,Fail
++kms_cursor_legacy@basic-flip-after-cursor-atomic,Fail
+ kms_cursor_legacy@basic-flip-after-cursor-varying-size,Fail
+ kms_cursor_legacy@basic-flip-before-cursor-atomic,Fail
+ kms_cursor_legacy@basic-flip-before-cursor-legacy,Fail
+@@ -29,9 +29,6 @@ kms_cursor_legacy@flip-vs-cursor-atomic,Fail
+ kms_cursor_legacy@flip-vs-cursor-crc-atomic,Fail
+ kms_cursor_legacy@flip-vs-cursor-crc-legacy,Fail
+ kms_cursor_legacy@flip-vs-cursor-legacy,Fail
+-kms_cursor_legacy@short-flip-after-cursor-atomic-transitions,Fail
+-kms_cursor_legacy@short-flip-after-cursor-atomic-transitions-varying-size,Fail
+-kms_cursor_legacy@short-flip-after-cursor-toggle,Fail
+ kms_flip@flip-vs-modeset-vs-hang,Fail
+ kms_flip@flip-vs-panning-vs-hang,Fail
+ kms_pipe_crc_basic@compare-crc-sanitycheck-nv12,Fail
+diff --git a/drivers/gpu/drm/ci/xfails/msm-sdm845-flakes.txt b/drivers/gpu/drm/ci/xfails/msm-sdm845-flakes.txt
+index 16d205c04cbb..8a492f01eaa4 100644
+--- a/drivers/gpu/drm/ci/xfails/msm-sdm845-flakes.txt
++++ b/drivers/gpu/drm/ci/xfails/msm-sdm845-flakes.txt
+@@ -1,12 +1,22 @@
+-kms_cursor_legacy@basic-flip-after-cursor-atomic
+-kms_cursor_legacy@basic-flip-before-cursor-varying-size
+-kms_cursor_legacy@cursorA-vs-flipA-toggle
+-kms_cursor_legacy@flip-vs-cursor-atomic-transitions
++# Board Name: msm:sdm845
++# Bug Report: https://lore.kernel.org/dri-devel/46287831-edfa-78e8-6055-d7a08831c445@collabora.com/T/#u
++# Failure Rate: 50
++# IGT Version: 1.28-gd2af13d9f
++# Linux Version: 6.7.0-rc3
++
++# Reported by deqp-runner
++kms_cursor_legacy@basic-flip-after-cursor-legacy
+ kms_cursor_legacy@flip-vs-cursor-toggle
+ kms_cursor_legacy@flip-vs-cursor-varying-size
++kms_cursor_legacy@short-flip-after-cursor-toggle
+ kms_cursor_legacy@short-flip-before-cursor-atomic-transitions
+-kms_cursor_legacy@short-flip-before-cursor-toggle
+-kms_flip@flip-vs-modeset-vs-hang
+-kms_flip@flip-vs-panning-vs-hang
+-kms_plane@pixel-format
+-kms_plane@pixel-format-source-clamping
++kms_cursor_legacy@short-flip-before-cursor-atomic-transitions-varying-size
++msm_shrink@copy-gpu-32
++msm_shrink@copy-gpu-oom-32
++
++# The below test shows inconsistency across multiple runs, giving
++# results of Pass and Fail alternately.
++kms_cursor_legacy@basic-flip-before-cursor-varying-size
++kms_cursor_legacy@flip-vs-cursor-atomic-transitions
++kms_cursor_legacy@short-flip-after-cursor-atomic-transitions
++kms_cursor_legacy@short-flip-after-cursor-atomic-transitions-varying-size
+diff --git a/drivers/gpu/drm/ci/xfails/msm-sdm845-skips.txt b/drivers/gpu/drm/ci/xfails/msm-sdm845-skips.txt
+index 42675f1c6d76..618e3a3a7277 100644
+--- a/drivers/gpu/drm/ci/xfails/msm-sdm845-skips.txt
++++ b/drivers/gpu/drm/ci/xfails/msm-sdm845-skips.txt
+@@ -1,2 +1,7 @@
+ # Hangs machine
+-kms_bw.*
+\ No newline at end of file
++kms_bw.*
++
++# Failing due to a bootloader/fw issue. The workaround in mesa CI involves these two patches
++# https://gitlab.freedesktop.org/gfx-ci/linux/-/commit/4b49f902ec6f2bb382cbbf489870573f4b43371e
++# https://gitlab.freedesktop.org/gfx-ci/linux/-/commit/38cdf4c5559771e2474ae0fecef8469f65147bc1
++msm_mapping@*
+-- 
+2.40.1
 
-Kind regards,
-Thomas
-
-> Regards,
-> Christian.
->=20
-> Am 12.01.24 um 09:11 schrieb Thomas Perrot:
-> > Hello,
-> >=20
-> > We are updating the kernel from the 6.1 to the 6.6 and we observe
-> > an
-> > amdgpu=E2=80=99s regression with Radeon RX580 8GB and SiFive Unmatched:
-> > =E2=80=9Cworkqueue: Failed to create a rescuer kthread for wq 'amdgpu-
-> > reset-
-> > dev': -EINTR
-> > [drm:amdgpu_reset_create_reset_domain [amdgpu]] *ERROR* Failed to
-> > allocate wq for amdgpu_reset_domain!
-> > amdgpu 0000:07:00.0: amdgpu: Fatal error during GPU init
-> > amdgpu 0000:07:00.0: amdgpu: amdgpu: finishing device.
-> > amdgpu: probe of 0000:07:00.0 failed with error -12=E2=80=9D
-> >=20
-> > We tried to figure it out without success for the moment, do you
-> > have
-> > some advice to identify the root cause and to fix it?
-> >=20
-> > Kind regards,
-> > Thomas Perrot
-> >=20
->=20
-
---=20
-Thomas Perrot, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
-
---=-cMV9dIg4T3JiQTgXtcRJ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCAAdFiEEh0B3xqajCiMDqBIhn8ALBXH+Cu0FAmWlBk0ACgkQn8ALBXH+
-Cu2j/Qv6A5oWfrKUk0H6c+EJltETug8YjAC0uUNMXeqZc3IunJYIEvifQbnwOU6P
-M8zc1K4C75r+6C8+x/fvc5Bb7mgFjr4nR2aDmNMMmsddH4o79Mm0djnce/m60L5+
-CsgEM/vxLaYv3w3/pAefbFSpkRA7JauCJYWPSnueSMxvuSeyVZB8agqqcrMbgh1i
-6NbuLsm3TGZToHCBN0HgSvh4fhYYeLDTO0kx510Dy3Ha6C2A/4LgPtlKg0Na4+2p
-gWVDlwN7iO3qGSA8SGy2rekwfZQ3qfZYeUmzu5ZxJeecH0f7Lu7H77zCJl6j0io4
-wGI6SkbhvR3BBDDRB/kV44MjYNiVsm08lZmzZQmFrD0k3SM20VJXkfaZb76q0Si4
-oEt3RZXqLPUSafMGPhtBQmmzgeAy2w+2jk/7iHw6uLcjM9qRxw8kXwwraRLqEke+
-8GZbG8kg9hoS40RRXuYk6YgCjD+8dDVj3Mh0wZkneyz3+/mPpw4YZg9KXNAEAxk9
-pC11KECt
-=z8NM
------END PGP SIGNATURE-----
-
---=-cMV9dIg4T3JiQTgXtcRJ--
