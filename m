@@ -1,75 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1C5F82D4FF
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 09:24:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1630F82D506
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 09:25:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12DB110E16A;
-	Mon, 15 Jan 2024 08:24:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5611A10E208;
+	Mon, 15 Jan 2024 08:25:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC72910E16A
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 08:24:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1705307052;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WdHL5Nw4L0E7LviK69bDEOS/TGajAce1+kECtONWdOQ=;
- b=UUMqzTNzA8YwpfeQNOTcFeDejrxF1OHzZTHWnzmfjEDWEqQrdsCpa/3xsHB3dWzD4mcle3
- SwQTtgqerLJsAPRy2iDsifopLt7UW6eV/9MpOl4LH2oC5CpvgDLIexoRG74kjNHYt7h1c0
- /eKecx7THtQHjGUqAtmSaHnxCwdlFEA=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-487-uu7UqcLbNk6HYI5ZVdxlIQ-1; Mon, 15 Jan 2024 03:24:10 -0500
-X-MC-Unique: uu7UqcLbNk6HYI5ZVdxlIQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-33689c90957so5338182f8f.2
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 00:24:10 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705307049; x=1705911849;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WdHL5Nw4L0E7LviK69bDEOS/TGajAce1+kECtONWdOQ=;
- b=vjfcpZiRjqeLact2cWOv6KDCtE6TelzZ4/P6JEgMd9tNcdkiWmeXOZJ7chLE1pZAxL
- n7kwDBcTnQSUs+btHDtiLCRtktM+OOmdBMXpQGNEUNsRotRWN3RcfDZRJUcOQ50mH8eW
- Ey2xEi3e8ff+VoaB3UZa0xkFUAtvvSwOZNA+dqxhyW+AGrPpvIyzGQLaHGqm5O1K5vge
- neiztiip1Yls+9iBqu+Rw1uzRNiBxwm0TmQPFPgKkUJYATRcylLUvIXZue6mi3gJ1/nG
- qGzrvC5Y46McEAyjoH7JR0f5F5juCgQKuc4zEllO8zedskI+bHDnrlOdTwqaIu0njH6L
- jKww==
-X-Gm-Message-State: AOJu0YwQhBCZ3bIwVnGBIybDoLDRbvAzks3BWNmAo3qkUgPOHDM13MMK
- aRv2K+eoSdjiI6uQLXBjgl+PK5qIenURdpKyCnM6p6kL4motLMUGZXZRfyMIw4ahBQHF2dmXMDp
- aRfvI86SwzUIRZnoj9ywMN3wy+PJp98AjqYsA
-X-Received: by 2002:a7b:ce89:0:b0:40e:616b:50f with SMTP id
- q9-20020a7bce89000000b0040e616b050fmr2463778wmj.141.1705307049670; 
- Mon, 15 Jan 2024 00:24:09 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGBEbtq4O+FopQ6pQyQO1trt0NUo5+q0+USaIZPNgscLYIqA4FgDvQ2PPDGSn+Q3oE/+3Jcxg==
-X-Received: by 2002:a7b:ce89:0:b0:40e:616b:50f with SMTP id
- q9-20020a7bce89000000b0040e616b050fmr2463771wmj.141.1705307049365; 
- Mon, 15 Jan 2024 00:24:09 -0800 (PST)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- g21-20020a05600c311500b0040d30af488asm18874042wmo.40.2024.01.15.00.24.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Jan 2024 00:24:09 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 3/4] backlight: hx8357: Make use of dev_err_probe()
-In-Reply-To: <20240114152759.1040563-4-andriy.shevchenko@linux.intel.com>
-References: <20240114152759.1040563-1-andriy.shevchenko@linux.intel.com>
- <20240114152759.1040563-4-andriy.shevchenko@linux.intel.com>
-Date: Mon, 15 Jan 2024 09:24:08 +0100
-Message-ID: <875xzvovh3.fsf@minerva.mail-host-address-is-not-set>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 974EE10E20E
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 08:25:39 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id BE522CE0A1A;
+ Mon, 15 Jan 2024 08:25:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BC49C433C7;
+ Mon, 15 Jan 2024 08:25:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1705307133;
+ bh=bkFxuxf0iCghKC8GrzWqXKXAFsRRBXSZ7feexi45UVk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=CoV0R374tK5kCtzfve7eyQAekaInOpN0kUMbDADJ0KXk63eiqZTQu9MWzErWMYAfj
+ BDp82RgAyoC0OgaHWM5EFeBKTwr8e+VuBEiW9BLrJAQoXyQcvdypB5Jg9rqF3Eto5u
+ u+EbR/pWzZwUzdc53sIOnvkoHlbqKwwykR0GFpAgmNhCKrLV97kkbrFH0THj6m9hNd
+ rlhyTBEwVAXw3ZeYbwAxM/EyfKlfjSXTiTQg5oBwZxiTqrTSdiuaD5tS8mwlRYdcK1
+ J5IYOw8SdFTdWr6BorUsL3PvlYJxuPS7BKs7hxmNaGe84+JruinkUhmnF8916wcMt5
+ vzHB0zIfM8/Ew==
+Date: Mon, 15 Jan 2024 09:25:30 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Subject: Re: Re: [PATCH RFC v2 04/11] ARM: dts: omap4: Add device tree entry
+ for SGX GPU
+Message-ID: <vpcgccul53oibwoqb3barj3rjxoyskoldjyfvjdzmytic3tonm@wq4aqsenk7rp>
+References: <20240108183302.255055-1-afd@ti.com>
+ <20240108183302.255055-5-afd@ti.com>
+ <122DC5ED-2AA7-46A0-845F-083922458385@goldelico.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="5bv4mdxrrdvnbudo"
+Content-Disposition: inline
+In-Reply-To: <122DC5ED-2AA7-46A0-845F-083922458385@goldelico.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,26 +53,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jingoo Han <jingoohan1@gmail.com>,
- Daniel Thompson <daniel.thompson@linaro.org>, Lee Jones <lee@kernel.org>,
- Helge Deller <deller@gmx.de>
+Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Tony Lindgren <tony@atomide.com>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Donald Robson <donald.robson@imgtec.com>, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ =?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>,
+ Matt Coster <matt.coster@imgtec.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-omap@vger.kernel.org, Adam Ford <aford173@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, Tero Kristo <kristo@kernel.org>,
+ linux-kernel@vger.kernel.org, Andrew Davis <afd@ti.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Andy Shevchenko <andriy.shevchenko@linux.intel.com> writes:
 
-> Simplify the error handling in probe function by switching from
-> dev_err() to dev_err_probe().
->
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
+--5bv4mdxrrdvnbudo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Hi,
 
--- 
-Best regards,
+On Fri, Jan 12, 2024 at 06:33:58PM +0100, H. Nikolaus Schaller wrote:
+> > Am 08.01.2024 um 19:32 schrieb Andrew Davis <afd@ti.com>:
+> >=20
+> > Add SGX GPU device entry to base OMAP4 dtsi file.
+> >=20
+> > Signed-off-by: Andrew Davis <afd@ti.com>
+> > ---
+> > arch/arm/boot/dts/ti/omap/omap4.dtsi | 9 +++++----
+> > 1 file changed, 5 insertions(+), 4 deletions(-)
+> >=20
+> > diff --git a/arch/arm/boot/dts/ti/omap/omap4.dtsi b/arch/arm/boot/dts/t=
+i/omap/omap4.dtsi
+> > index 2bbff9032be3e..559b2bfe4ca7c 100644
+> > --- a/arch/arm/boot/dts/ti/omap/omap4.dtsi
+> > +++ b/arch/arm/boot/dts/ti/omap/omap4.dtsi
+> > @@ -501,10 +501,11 @@ sgx_module: target-module@56000000 {
+> > #size-cells =3D <1>;
+> > ranges =3D <0 0x56000000 0x2000000>;
+> >=20
+> > - /*
+> > - * Closed source PowerVR driver, no child device
+> > - * binding or driver in mainline
+> > - */
+> > + gpu@0 {
+>=20
+> I wonder why we don't add a "gpu:" label here.
+>=20
+> Almost all other subsystem nodes have one (e.g. emif:, aes:, dss:, dsi:, =
+hdmi:, etc.),
+> obviously for convenience when using a .dtsi file.
+>=20
+> It would allow a board-specific DTS to easily add status =3D "disabled" t=
+o avoid driver
+> probing or disabling the GPU (e.g. if there is no display).
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+There's no reason to disable it in the DT: the hardware block would
+still be there and it's rendering to memory so it still could be useful.
 
+If there's no display on the board and you really don't want the GPU
+driver, then you can disable the driver or block the module loading, but
+it should be a distro / package / user decision, not a DT / kernel one
+still.
+
+Maxime
+
+--5bv4mdxrrdvnbudo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZaTr7AAKCRDj7w1vZxhR
+xSybAP96mNxOy9DrBryPZmmu4a4Y6AfuRKXr9+Uh2C3OhAPO3QEA1j3KoeAhpYrF
+0pDWtJkRFUHwyOTCz3HpiAeRG3RSqwM=
+=GRcK
+-----END PGP SIGNATURE-----
+
+--5bv4mdxrrdvnbudo--
