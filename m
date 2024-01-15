@@ -2,45 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1630F82D506
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 09:25:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 035BD82D50B
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 09:27:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5611A10E208;
-	Mon, 15 Jan 2024 08:25:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA8E510E038;
+	Mon, 15 Jan 2024 08:27:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 974EE10E20E
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 08:25:39 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id BE522CE0A1A;
- Mon, 15 Jan 2024 08:25:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BC49C433C7;
- Mon, 15 Jan 2024 08:25:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705307133;
- bh=bkFxuxf0iCghKC8GrzWqXKXAFsRRBXSZ7feexi45UVk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=CoV0R374tK5kCtzfve7eyQAekaInOpN0kUMbDADJ0KXk63eiqZTQu9MWzErWMYAfj
- BDp82RgAyoC0OgaHWM5EFeBKTwr8e+VuBEiW9BLrJAQoXyQcvdypB5Jg9rqF3Eto5u
- u+EbR/pWzZwUzdc53sIOnvkoHlbqKwwykR0GFpAgmNhCKrLV97kkbrFH0THj6m9hNd
- rlhyTBEwVAXw3ZeYbwAxM/EyfKlfjSXTiTQg5oBwZxiTqrTSdiuaD5tS8mwlRYdcK1
- J5IYOw8SdFTdWr6BorUsL3PvlYJxuPS7BKs7hxmNaGe84+JruinkUhmnF8916wcMt5
- vzHB0zIfM8/Ew==
-Date: Mon, 15 Jan 2024 09:25:30 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Subject: Re: Re: [PATCH RFC v2 04/11] ARM: dts: omap4: Add device tree entry
- for SGX GPU
-Message-ID: <vpcgccul53oibwoqb3barj3rjxoyskoldjyfvjdzmytic3tonm@wq4aqsenk7rp>
-References: <20240108183302.255055-1-afd@ti.com>
- <20240108183302.255055-5-afd@ti.com>
- <122DC5ED-2AA7-46A0-845F-083922458385@goldelico.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB61E10E038
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 08:27:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1705307248;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=pehUlh5mpGQ5TGIbBN/xVKuXzozmXoCM9xJyPY4GLE0=;
+ b=GYzKJjCB6Ub9oM6AtPeKHLpid/ui1SptJbxTTFAtSQ3M1VeiwdaNT57zqRK+c1Fsu87sgJ
+ ljsdxlwWWkTum+hmOyHsNyP9VunlMBEOIafr8IXaoyuTjUOBb++uUH8KxHth1xr7n3MnJy
+ ABBpGtF3jEJpwzRORyFYMDWxyOdzW/A=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-83-aeQK2TUMOiKFizwFpqXwCA-1; Mon, 15 Jan 2024 03:27:27 -0500
+X-MC-Unique: aeQK2TUMOiKFizwFpqXwCA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-40e6d2dbd63so14638895e9.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 00:27:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1705307246; x=1705912046;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=pehUlh5mpGQ5TGIbBN/xVKuXzozmXoCM9xJyPY4GLE0=;
+ b=ZKspUH+TBv7WSEigFEIrS2xqsCKp/hw9feZf0oD1Hs8iIGy40w3xkdqj8W1JimDU4s
+ 67ng0You7b0wO0kdNdhfOaGTJjJsney31ZrzQDc29POf4yv+ZF5feVFhj1Q01Bw3Q4Dn
+ 6yt3uFB6yiILCHeoGlhWUCAuRlZjbN9IzcGlRFtXT0bCz1stUjRxbXUvat+rAZkN9Ml7
+ qsxbertO8uQfNnUSQpkHn3Bj8XJvGJMvtUUjmR4wmtlgFLk6STjFFe2SAtwsD+W8sWB/
+ 0TS/mDUVDP2l8hSn2ZEVxVqw4N7WFrVe/L7ACSRhYCHXN7FILoubPtwNaAHT13O9yB3R
+ C6xQ==
+X-Gm-Message-State: AOJu0YxuZar00gLnbGJmyMQCMt2hHoXW3Gn+fSNt4tiLR90d9KpIK4Ds
+ VCxp8/NSJKU8bm1FGDtW6Jn9hFDo7EExbkNLdFjFcBUTqZKH6OsU5ZhhwFgguJVS+V6YqqoR00E
+ LGKIA3cg+Zy8aaYmWD6esvem4IfPsHuHYie07
+X-Received: by 2002:a7b:cb93:0:b0:40e:6792:ac08 with SMTP id
+ m19-20020a7bcb93000000b0040e6792ac08mr2081305wmi.14.1705307246015; 
+ Mon, 15 Jan 2024 00:27:26 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE2x/nlsctM6zk5v7GGg1IXQBdJ9MByR0vhFREzXeFeH6SHdHa07Hl7vvvScqLoCtW0k+RoYA==
+X-Received: by 2002:a7b:cb93:0:b0:40e:6792:ac08 with SMTP id
+ m19-20020a7bcb93000000b0040e6792ac08mr2081301wmi.14.1705307245688; 
+ Mon, 15 Jan 2024 00:27:25 -0800 (PST)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ g7-20020adfa487000000b00336e69fbc32sm11277592wrb.102.2024.01.15.00.27.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Jan 2024 00:27:25 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 4/4] backlight: hx8357: Utilise temporary variable
+ for struct device
+In-Reply-To: <20240114152759.1040563-5-andriy.shevchenko@linux.intel.com>
+References: <20240114152759.1040563-1-andriy.shevchenko@linux.intel.com>
+ <20240114152759.1040563-5-andriy.shevchenko@linux.intel.com>
+Date: Mon, 15 Jan 2024 09:27:24 +0100
+Message-ID: <8734uzovbn.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="5bv4mdxrrdvnbudo"
-Content-Disposition: inline
-In-Reply-To: <122DC5ED-2AA7-46A0-845F-083922458385@goldelico.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,86 +83,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Tony Lindgren <tony@atomide.com>, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Donald Robson <donald.robson@imgtec.com>, linux-sunxi@lists.linux.dev,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- =?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>,
- Matt Coster <matt.coster@imgtec.com>, Rob Herring <robh+dt@kernel.org>,
- linux-omap@vger.kernel.org, Adam Ford <aford173@gmail.com>,
- linux-arm-kernel@lists.infradead.org, Tero Kristo <kristo@kernel.org>,
- linux-kernel@vger.kernel.org, Andrew Davis <afd@ti.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Jingoo Han <jingoohan1@gmail.com>,
+ Daniel Thompson <daniel.thompson@linaro.org>, Lee Jones <lee@kernel.org>,
+ Helge Deller <deller@gmx.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Andy Shevchenko <andriy.shevchenko@linux.intel.com> writes:
 
---5bv4mdxrrdvnbudo
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> We have a temporary variable to keep pointer to struct device.
+> Utilise it inside the ->probe() implementation.
+>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
 
-Hi,
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-On Fri, Jan 12, 2024 at 06:33:58PM +0100, H. Nikolaus Schaller wrote:
-> > Am 08.01.2024 um 19:32 schrieb Andrew Davis <afd@ti.com>:
-> >=20
-> > Add SGX GPU device entry to base OMAP4 dtsi file.
-> >=20
-> > Signed-off-by: Andrew Davis <afd@ti.com>
-> > ---
-> > arch/arm/boot/dts/ti/omap/omap4.dtsi | 9 +++++----
-> > 1 file changed, 5 insertions(+), 4 deletions(-)
-> >=20
-> > diff --git a/arch/arm/boot/dts/ti/omap/omap4.dtsi b/arch/arm/boot/dts/t=
-i/omap/omap4.dtsi
-> > index 2bbff9032be3e..559b2bfe4ca7c 100644
-> > --- a/arch/arm/boot/dts/ti/omap/omap4.dtsi
-> > +++ b/arch/arm/boot/dts/ti/omap/omap4.dtsi
-> > @@ -501,10 +501,11 @@ sgx_module: target-module@56000000 {
-> > #size-cells =3D <1>;
-> > ranges =3D <0 0x56000000 0x2000000>;
-> >=20
-> > - /*
-> > - * Closed source PowerVR driver, no child device
-> > - * binding or driver in mainline
-> > - */
-> > + gpu@0 {
->=20
-> I wonder why we don't add a "gpu:" label here.
->=20
-> Almost all other subsystem nodes have one (e.g. emif:, aes:, dss:, dsi:, =
-hdmi:, etc.),
-> obviously for convenience when using a .dtsi file.
->=20
-> It would allow a board-specific DTS to easily add status =3D "disabled" t=
-o avoid driver
-> probing or disabling the GPU (e.g. if there is no display).
+-- 
+Best regards,
 
-There's no reason to disable it in the DT: the hardware block would
-still be there and it's rendering to memory so it still could be useful.
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
-If there's no display on the board and you really don't want the GPU
-driver, then you can disable the driver or block the module loading, but
-it should be a distro / package / user decision, not a DT / kernel one
-still.
-
-Maxime
-
---5bv4mdxrrdvnbudo
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZaTr7AAKCRDj7w1vZxhR
-xSybAP96mNxOy9DrBryPZmmu4a4Y6AfuRKXr9+Uh2C3OhAPO3QEA1j3KoeAhpYrF
-0pDWtJkRFUHwyOTCz3HpiAeRG3RSqwM=
-=GRcK
------END PGP SIGNATURE-----
-
---5bv4mdxrrdvnbudo--
