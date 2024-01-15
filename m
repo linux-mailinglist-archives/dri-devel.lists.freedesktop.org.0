@@ -1,110 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C78C782D918
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 13:52:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F24CE82D927
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 13:54:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 935B110E292;
-	Mon, 15 Jan 2024 12:52:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8840B10E2B1;
+	Mon, 15 Jan 2024 12:54:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
- [IPv6:2a00:1450:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C05CA10E292
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 12:52:31 +0000 (UTC)
-Received: by mail-wm1-x32a.google.com with SMTP id
- 5b1f17b1804b1-40e60e137aaso40376675e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 04:52:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1705323150; x=1705927950; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :references:cc:to:content-language:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=CIcQfpzLxtniFRrdqWB9c4Ne8h1A+td17JByQxotsiY=;
- b=tDt6pPuqGjdSNt2FQhSF1LDQYdYi4bxmTx50nSDyoShUN70oy3uCt0xslQXZ5VeHeG
- kR92Cl+KJez/IOgaRmdOmRYjRjC7qAvqHrCHuNEY4z+Oku3/kgKqwI90zXElBJUboQ2u
- vf7K3N5uQP8tlPkHZwaIVJ+l90Imsh3ucxwVLVpeSsE6WkP9XC4usNqavNwqPEpFKZ0x
- nQylNfM/MkW/q0QkHXZceT4jCIjJhvew+wQieeQi+7eCuZmginksia93BBUrjh6RJoCG
- EdEKoTooCKF+sVbgnmqReRn/W75JwR4SW2chuBMRpq7D8y3ILzmITw6RA0jZpyKxiSlB
- O47Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705323150; x=1705927950;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :references:cc:to:content-language:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=CIcQfpzLxtniFRrdqWB9c4Ne8h1A+td17JByQxotsiY=;
- b=mPycHeKCkRQ0TR7AbtWSmd9g5ZvPBrbmNBXB77WwqqheAux19KDyOPZa1vFkCDCoGo
- tMNXKJNk/dmb4LI2V+keXqCRyiUbFyWNat3USoUO40MhRyUshg4GJbUMTj5LSPACBzqm
- i0y3wFXjC2q3Fd4XmeAxvoDFwV9XKMVHB95dZUP7QnJ7+PGg1aY7h7xQQ+1BY/WH9j9J
- aTwDvjhNI53Y+ZMK5QYEtcuY+9fBPNkJnlJlm48h2XQ7FHKMk2t2/G2Hru/4DkuetgTJ
- K51MSfrh/HkRg27CBYBEuAXeaLRj3ki3tqO7WVGnG73tgVHiYXwLmA2MePyouAfqh/Oz
- hZgw==
-X-Gm-Message-State: AOJu0Yzr+R1fzwly0qhkoGTsAVUndRmapEGM/Qh4saiWZ1x/tnIg+qAa
- c222J39MDcwG7kFI4Oys3k634v6GHuUpgw==
-X-Google-Smtp-Source: AGHT+IFkde+i/p346tJ1Gllcj11n1VuQ9JNiLDXuEWxSEkgLGelLcwxWVqkv5z7rJaOrwnmXsl/1Vw==
-X-Received: by 2002:a05:600c:3c89:b0:40e:61a6:c639 with SMTP id
- bg9-20020a05600c3c8900b0040e61a6c639mr3110685wmb.94.1705323149947; 
- Mon, 15 Jan 2024 04:52:29 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:af6f:bcbb:3c88:33c2?
- ([2a01:e0a:982:cbb0:af6f:bcbb:3c88:33c2])
- by smtp.gmail.com with ESMTPSA id
- t21-20020a05600c451500b0040e3ac9f4c8sm19539332wmo.28.2024.01.15.04.52.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Jan 2024 04:52:29 -0800 (PST)
-Message-ID: <562a7ab4-2bd0-44e1-92b3-a16bb642ab11@linaro.org>
-Date: Mon, 15 Jan 2024 13:52:27 +0100
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1816110E2B1
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 12:54:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1705323269;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=wPS9PGNnktolpsMyZWmcqV0h8t00iOZeW++DpiBOf6M=;
+ b=TGJmJtp0rN5t00c7n03gNOyVRJq4sQk1NlzxuvE+wlv3F7ww+rqw4JAzaY3L/wysP9SV1z
+ Jhjhq34N8dQBkbqC4uubJK102+jYzUJsrS4FuslO3E5waxli50YKt9q/aMQ8R5Uts0Qs3c
+ D1T2M9eJKFH3dSsExfcnatwd3T18/d8=
+Message-ID: <c100b5f75b12de4a331dd36de3573483dbde915f.camel@crapouillou.net>
+Subject: Re: [PATCH v3 3/4] usb: gadget: functionfs: Add DMABUF import
+ interface
+From: Paul Cercueil <paul@crapouillou.net>
+To: Daniel Vetter <daniel@ffwll.ch>
+Date: Mon, 15 Jan 2024 13:54:27 +0100
+In-Reply-To: <ZZ1Dx1Jqbi61_Afb@phenom.ffwll.local>
+References: <20240108120056.22165-1-paul@crapouillou.net>
+ <20240108120056.22165-4-paul@crapouillou.net>
+ <ZZvtEXL8DLPPdtPs@phenom.ffwll.local>
+ <a44aca93adc60ce56a64c50797a029631900172e.camel@crapouillou.net>
+ <ZZwU827NMHbx7bsO@phenom.ffwll.local>
+ <2c0d4ef1b657c56ea2290fe16d757ce563a3e71b.camel@crapouillou.net>
+ <ZZxKvR9gjH8D5qxj@phenom.ffwll.local>
+ <31e56028b4d865c60b7c01b2a305b3dd8a21ff7a.camel@crapouillou.net>
+ <ZZ1Dx1Jqbi61_Afb@phenom.ffwll.local>
+Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
+ keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
+ YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH] drm/bridge: synopsys: dw-mipi-dsi: fix deferred dsi host
- probe breaks dsi device probe
-Content-Language: en-US, fr
-To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Farouk Bouabid <farouk.bouabid@theobroma-systems.com>, victor.liu@nxp.com,
- andrzej.hajda@intel.com, rfoss@kernel.org, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, linux-imx@nxp.com, khilman@baylibre.com,
- jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
- hjc@rock-chips.com, yannick.fertre@foss.st.com,
- raphael.gallais-pou@foss.st.com, philippe.cornu@foss.st.com,
- mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com
-References: <20240112180737.551318-1-farouk.bouabid@theobroma-systems.com>
- <9dd100de-6d33-4872-8619-1df6ee520c5a@linaro.org> <8542394.JRmrKFJ9eK@diego>
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro Developer Services
-In-Reply-To: <8542394.JRmrKFJ9eK@diego>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,332 +56,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: bouabid.farouk97@gmail.com, quentin.schulz@theobroma-systems.com
+Cc: linux-usb@vger.kernel.org, Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linaro-mm-sig@lists.linaro.org,
+ Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+ Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Cameron <jic23@kernel.org>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/01/2024 11:07, Heiko Stübner wrote:
-> Am Montag, 15. Januar 2024, 09:45:10 CET schrieb neil.armstrong@linaro.org:
->> Hi,
->>
->> On 12/01/2024 19:07, Farouk Bouabid wrote:
->>> dw-mipi-dsi based drivers such as dw-mipi-dsi-rockchip or dw_mipi_dsi-stm
->>> depend on dw_mipi_dsi_probe() to initialize the dw_mipi_dsi driver
->>> structure (dmd pointer). This structure is only initialized once
->>> dw_mipi_dsi_probe() returns, creating the link between the locally created
->>> structure and the actual dmd pointer.
->>>
->>> Probing the dsi host can be deferred in case of dependency to a dsi
->>> phy-supply (eg. "rockchip,px30-dsi-dphy"). Meanwhile dsi-device drivers
->>> like panels (eg. "ltk050h3146w") can already be registered on the bus.
->>> In that case, when attempting, to register the dsi host from
->>> dw_mipi_dsi_probe() using mipi_dsi_host_register(), the panel probe is
->>> called with a dsi-host pointer that is still locally allocated in
->>> dw_mipi_dsi_probe().
->>>
->>> While probing, the panel driver tries to attach to a dsi host
->>> (mipi_dsi_attach()) which calls in return for the specific dsi host
->>> attach hook. (e.g. dw_mipi_dsi_rockchip_host_attach()).
->>> dw_mipi_dsi_rockchip uses the component framework.
->>> In the attach hook, the host component is registered which calls in return
->>> for drm_bridge_attach() while trying to bind the component
->>> (dw_mipi_dsi_bind())
->>
->> In meson_dw_mipi_dsi I simply fixed this by getting rid of components...
-> 
-> If I remember correctly, the component element is there on Rockchip to
-> facilitate running dual-dsi displays (1 panel driven by 2 dsi controllers),
-> because it allows to wait for both controllers to have probed individually
-> before trying to drive the display.
-> 
-> Not sure if there is a better way to do that now.
+Hi Daniel / Sima,
 
-Device links should limit probe deferal to a minimum, at least it works fine
-on the systems I work on
+Le mardi 09 janvier 2024 =C3=A0 14:01 +0100, Daniel Vetter a =C3=A9crit=C2=
+=A0:
+> On Tue, Jan 09, 2024 at 12:06:58PM +0100, Paul Cercueil wrote:
+> > Hi Daniel / Sima,
+> >=20
+> > Le lundi 08 janvier 2024 =C3=A0 20:19 +0100, Daniel Vetter a =C3=A9crit=
+=C2=A0:
+> > > On Mon, Jan 08, 2024 at 05:27:33PM +0100, Paul Cercueil wrote:
+> > > > Le lundi 08 janvier 2024 =C3=A0 16:29 +0100, Daniel Vetter a =C3=A9=
+crit=C2=A0:
+> > > > > On Mon, Jan 08, 2024 at 03:21:21PM +0100, Paul Cercueil
+> > > > > wrote:
+> > > > > > Hi Daniel (Sima?),
+> > > > > >=20
+> > > > > > Le lundi 08 janvier 2024 =C3=A0 13:39 +0100, Daniel Vetter a
+> > > > > > =C3=A9crit=C2=A0:
+> > > > > > > On Mon, Jan 08, 2024 at 01:00:55PM +0100, Paul Cercueil
+> > > > > > > wrote:
+> > > > > > > > +static void ffs_dmabuf_signal_done(struct
+> > > > > > > > ffs_dma_fence
+> > > > > > > > *dma_fence, int ret)
+> > > > > > > > +{
+> > > > > > > > +	struct ffs_dmabuf_priv *priv =3D dma_fence-
+> > > > > > > > >priv;
+> > > > > > > > +	struct dma_fence *fence =3D &dma_fence->base;
+> > > > > > > > +
+> > > > > > > > +	dma_fence_get(fence);
+> > > > > > > > +	fence->error =3D ret;
+> > > > > > > > +	dma_fence_signal(fence);
+> > > > > > > > +
+> > > > > > > > +	dma_buf_unmap_attachment(priv->attach,
+> > > > > > > > dma_fence-
+> > > > > > > > > sgt,
+> > > > > > > > dma_fence->dir);
+> > > > > > > > +	dma_fence_put(fence);
+> > > > > > > > +	ffs_dmabuf_put(priv->attach);
+> > > > > > >=20
+> > > > > > > So this can in theory take the dma_resv lock, and if the
+> > > > > > > usb
+> > > > > > > completion
+> > > > > > > isn't an unlimited worker this could hold up completion
+> > > > > > > of
+> > > > > > > future
+> > > > > > > dma_fence, resulting in a deadlock.
+> > > > > > >=20
+> > > > > > > Needs to be checked how usb works, and if stalling
+> > > > > > > indefinitely
+> > > > > > > in
+> > > > > > > the
+> > > > > > > io_complete callback can hold up the usb stack you need
+> > > > > > > to:
+> > > > > > >=20
+> > > > > > > - drop a dma_fence_begin/end_signalling annotations in
+> > > > > > > here
+> > > > > > > - pull out the unref stuff into a separate preallocated
+> > > > > > > worker
+> > > > > > > (or at
+> > > > > > > =C2=A0 least the final unrefs for ffs_dma_buf).
+> > > > > >=20
+> > > > > > Only ffs_dmabuf_put() can attempt to take the dma_resv and
+> > > > > > would
+> > > > > > have
+> > > > > > to be in a worker, right? Everything else would be inside
+> > > > > > the
+> > > > > > dma_fence_begin/end_signalling() annotations?
+> > > > >=20
+> > > > > Yup. Also I noticed that unlike the iio patches you don't
+> > > > > have
+> > > > > the
+> > > > > dma_buf_unmap here in the completion path (or I'm blind?),
+> > > > > which
+> > > > > helps a
+> > > > > lot with avoiding trouble.
+> > > >=20
+> > > > They both call dma_buf_unmap_attachment() in the "signal done"
+> > > > callback, the only difference I see is that it is called after
+> > > > the
+> > > > dma_fence_put() in the iio patches, while it's called before
+> > > > dma_fence_put() here.
+> > >=20
+> > > I was indeed blind ...
+> > >=20
+> > > So the trouble is this wont work because:
+> > > - dma_buf_unmap_attachment() requires dma_resv_lock. This is a
+> > > somewhat
+> > > =C2=A0 recent-ish change from 47e982d5195d ("dma-buf: Move
+> > > =C2=A0 dma_buf_map_attachment() to dynamic locking specification"), s=
+o
+> > > maybe
+> > > =C2=A0 old kernel or you don't have full lockdep enabled to get the
+> > > right
+> > > =C2=A0 splat.
+> > >=20
+> > > - dma_fence critical section forbids dma_resv_lock
+> > >=20
+> > > Which means you need to move this out, but then there's the
+> > > potential
+> > > cache management issue. Which current gpu drivers just kinda
+> > > ignore
+> > > because it doesn't matter for current use-case, they all cache
+> > > the
+> > > mapping
+> > > for about as long as the attachment exists. You might want to do
+> > > the
+> > > same,
+> > > unless that somehow breaks a use-case you have, I have no idea
+> > > about
+> > > that.
+> > > If something breaks with unmap_attachment moved out of the fence
+> > > handling
+> > > then I guess it's high time to add separate cache-management only
+> > > to
+> > > dma_buf (and that's probably going to be quite some wiring up,
+> > > not
+> > > sure
+> > > even how easy that would be to do nor what exactly the interface
+> > > should
+> > > look like).
+> >=20
+> > Ok. Then I'll just cache the mapping for now, I think.
+>=20
+> Yeah I think that's simplest. I did ponder a bit and I don't think
+> it'd be
+> too much pain to add the cache-management functions for device
+> attachments/mappings. But it would be quite some typing ...
+> -Sima
 
-Neil
+It looks like I actually do have some hardware which requires the cache
+management. If I cache the mappings in both my IIO and USB code, it
+works fine on my ZedBoard, but it doesn't work on my ZCU102.
 
-> 
-> 
-> Heiko
-> 
-> 
->>> drm_bridge_attach() requires a valid drm bridge parameter. However, the
->>> drm bridge (&dmd->bridge) that will be passed, is not yet initialized since
->>> the dw_mipi_dsi_probe() has not yet returned. This call will fail with a
->>> fatal error (invalid bridge) causing the panel to not be probed again.
->>>
->>> To simplify the issue: drm_bridge_attach() depends on the result pointer
->>> of dw_mipi_dsi_probe().
->>> While, if the dsi probe is deferred, drm_bridge_attach() is called before
->>> dw_mipi_dsi_probe() returns.
->>>
->>> drm_bridge_attach+0x14/0x1ac
->>> dw_mipi_dsi_bind+0x24/0x30
->>> dw_mipi_dsi_rockchip_bind+0x258/0x378
->>> component_bind_all+0x118/0x248
->>> rockchip_drm_bind+0xb0/0x1f8
->>> try_to_bring_up_aggregate_device+0x168/0x1d4
->>> __component_add+0xa4/0x170
->>> component_add+0x14/0x20
->>> dw_mipi_dsi_rockchip_host_attach+0x54/0x144
->>> dw_mipi_dsi_host_attach+0x9c/0xcc
->>> mipi_dsi_attach+0x28/0x3c
->>> ltk050h3146w_probe+0x10c/0x1a4
->>> mipi_dsi_drv_probe+0x20/0x2c
->>> really_probe+0x148/0x2ac
->>> __driver_probe_device+0x78/0x12c
->>> driver_probe_device+0xdc/0x160
->>> __device_attach_driver+0xb8/0x134
->>> bus_for_each_drv+0x80/0xdc
->>> __device_attach+0xa8/0x1b0
->>> device_initial_probe+0x14/0x20
->>> bus_probe_device+0xa8/0xac
->>> device_add+0x5cc/0x778
->>> mipi_dsi_device_register_full+0xd8/0x198
->>> mipi_dsi_host_register+0x98/0x18c
->>> __dw_mipi_dsi_probe+0x290/0x35c
->>> dw_mipi_dsi_probe+0x10/0x6c
->>> dw_mipi_dsi_rockchip_probe+0x208/0x3e4
->>> platform_probe+0x68/0xdc
->>> really_probe+0x148/0x2ac
->>> __driver_probe_device+0x78/0x12c
->>> driver_probe_device+0xdc/0x160
->>> __device_attach_driver+0xb8/0x134
->>> bus_for_each_drv+0x80/0xdc
->>> __device_attach+0xa8/0x1b0
->>> device_initial_probe+0x14/0x20
->>> bus_probe_device+0xa8/0xac
->>> deferred_probe_work_func+0x88/0xc0
->>> process_one_work+0x138/0x260
->>> worker_thread+0x32c/0x438
->>> kthread+0x118/0x11c
->>> ret_from_fork+0x10/0x20
->>> ---[ end trace 0000000000000000 ]---
->>>
->>> Fix this by initializing directly the dmd pointer in dw_mipi_dsi_probe(),
->>> which requires also initializting the dmd->bridge attributes that are
->>> required in drm_bridge_attach() before calling mipi_dsi_host_register().
->>>
->>> Signed-off-by: Farouk Bouabid <farouk.bouabid@theobroma-systems.com>
->>> ---
->>>    drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c   |  4 +-
->>>    drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 42 ++++++++++---------
->>>    drivers/gpu/drm/meson/meson_dw_mipi_dsi.c     |  8 ++--
->>>    .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   |  5 +--
->>>    drivers/gpu/drm/stm/dw_mipi_dsi-stm.c         |  5 +--
->>>    include/drm/bridge/dw_mipi_dsi.h              |  5 ++-
->>>    6 files changed, 35 insertions(+), 34 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c b/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c
->>> index 3ff30ce80c5b..469976ad3b19 100644
->>> --- a/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c
->>> +++ b/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c
->>> @@ -881,8 +881,8 @@ static int imx93_dsi_probe(struct platform_device *pdev)
->>>    	dsi->pdata.priv_data = dsi;
->>>    	platform_set_drvdata(pdev, dsi);
->>>    
->>> -	dsi->dmd = dw_mipi_dsi_probe(pdev, &dsi->pdata);
->>> -	if (IS_ERR(dsi->dmd))
->>> +	ret = dw_mipi_dsi_probe(pdev, &dsi->pdata, &dsi->dmd);
->>> +	if (ret < 0)
->>>    		return dev_err_probe(dev, PTR_ERR(dsi->dmd),
->>>    				     "failed to probe dw_mipi_dsi\n");
->>>    
->>> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
->>> index 824fb3c65742..306cba366ba8 100644
->>> --- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
->>> +++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
->>> @@ -1184,18 +1184,19 @@ static void dw_mipi_dsi_debugfs_remove(struct dw_mipi_dsi *dsi) { }
->>>    
->>>    #endif /* CONFIG_DEBUG_FS */
->>>    
->>> -static struct dw_mipi_dsi *
->>> -__dw_mipi_dsi_probe(struct platform_device *pdev,
->>> -		    const struct dw_mipi_dsi_plat_data *plat_data)
->>> +int __dw_mipi_dsi_probe(struct platform_device *pdev,
->>> +		    const struct dw_mipi_dsi_plat_data *plat_data, struct dw_mipi_dsi **dsi_p)
->>>    {
->>>    	struct device *dev = &pdev->dev;
->>>    	struct reset_control *apb_rst;
->>>    	struct dw_mipi_dsi *dsi;
->>>    	int ret;
->>>    
->>> -	dsi = devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
->>> -	if (!dsi)
->>> -		return ERR_PTR(-ENOMEM);
->>> +	*dsi_p = devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
->>> +	if (!*dsi_p)
->>> +		return -ENOMEM;
->>> +
->>> +	dsi = *dsi_p;
->>>    
->>>    	dsi->dev = dev;
->>>    	dsi->plat_data = plat_data;
->>> @@ -1203,13 +1204,13 @@ __dw_mipi_dsi_probe(struct platform_device *pdev,
->>>    	if (!plat_data->phy_ops->init || !plat_data->phy_ops->get_lane_mbps ||
->>>    	    !plat_data->phy_ops->get_timing) {
->>>    		DRM_ERROR("Phy not properly configured\n");
->>> -		return ERR_PTR(-ENODEV);
->>> +		return -ENODEV;
->>>    	}
->>>    
->>>    	if (!plat_data->base) {
->>>    		dsi->base = devm_platform_ioremap_resource(pdev, 0);
->>>    		if (IS_ERR(dsi->base))
->>> -			return ERR_PTR(-ENODEV);
->>> +			return -ENODEV;
->>>    
->>>    	} else {
->>>    		dsi->base = plat_data->base;
->>> @@ -1219,7 +1220,7 @@ __dw_mipi_dsi_probe(struct platform_device *pdev,
->>>    	if (IS_ERR(dsi->pclk)) {
->>>    		ret = PTR_ERR(dsi->pclk);
->>>    		dev_err(dev, "Unable to get pclk: %d\n", ret);
->>> -		return ERR_PTR(ret);
->>> +		return ret;
->>>    	}
->>>    
->>>    	/*
->>> @@ -1233,14 +1234,14 @@ __dw_mipi_dsi_probe(struct platform_device *pdev,
->>>    		if (ret != -EPROBE_DEFER)
->>>    			dev_err(dev, "Unable to get reset control: %d\n", ret);
->>>    
->>> -		return ERR_PTR(ret);
->>> +		return ret;
->>>    	}
->>>    
->>>    	if (apb_rst) {
->>>    		ret = clk_prepare_enable(dsi->pclk);
->>>    		if (ret) {
->>>    			dev_err(dev, "%s: Failed to enable pclk\n", __func__);
->>> -			return ERR_PTR(ret);
->>> +			return ret;
->>>    		}
->>>    
->>>    		reset_control_assert(apb_rst);
->>> @@ -1255,19 +1256,20 @@ __dw_mipi_dsi_probe(struct platform_device *pdev,
->>>    
->>>    	dsi->dsi_host.ops = &dw_mipi_dsi_host_ops;
->>>    	dsi->dsi_host.dev = dev;
->>> +	dsi->bridge.driver_private = dsi;
->>> +	dsi->bridge.funcs = &dw_mipi_dsi_bridge_funcs;
->>> +	dsi->bridge.of_node = pdev->dev.of_node;
->>> +
->>>    	ret = mipi_dsi_host_register(&dsi->dsi_host);
->>>    	if (ret) {
->>>    		dev_err(dev, "Failed to register MIPI host: %d\n", ret);
->>>    		pm_runtime_disable(dev);
->>>    		dw_mipi_dsi_debugfs_remove(dsi);
->>> -		return ERR_PTR(ret);
->>> +		return ret;
->>>    	}
->>>    
->>> -	dsi->bridge.driver_private = dsi;
->>> -	dsi->bridge.funcs = &dw_mipi_dsi_bridge_funcs;
->>> -	dsi->bridge.of_node = pdev->dev.of_node;
->>>    
->>> -	return dsi;
->>> +	return 0;
->>>    }
->>>    
->>>    static void __dw_mipi_dsi_remove(struct dw_mipi_dsi *dsi)
->>> @@ -1301,11 +1303,11 @@ EXPORT_SYMBOL_GPL(dw_mipi_dsi_get_bridge);
->>>    /*
->>>     * Probe/remove API, used from platforms based on the DRM bridge API.
->>>     */
->>> -struct dw_mipi_dsi *
->>> -dw_mipi_dsi_probe(struct platform_device *pdev,
->>> -		  const struct dw_mipi_dsi_plat_data *plat_data)
->>> +int dw_mipi_dsi_probe(struct platform_device *pdev,
->>> +		  const struct dw_mipi_dsi_plat_data *plat_data,
->>> +		  struct dw_mipi_dsi **dsi_p)
->>>    {
->>> -	return __dw_mipi_dsi_probe(pdev, plat_data);
->>> +	return __dw_mipi_dsi_probe(pdev, plat_data, dsi_p);
->>>    }
->>>    EXPORT_SYMBOL_GPL(dw_mipi_dsi_probe);
->>>    
->>> diff --git a/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c b/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
->>> index e5fe4e994f43..b103f3e31f2a 100644
->>> --- a/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
->>> +++ b/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
->>> @@ -262,6 +262,7 @@ static int meson_dw_mipi_dsi_probe(struct platform_device *pdev)
->>>    {
->>>    	struct meson_dw_mipi_dsi *mipi_dsi;
->>>    	struct device *dev = &pdev->dev;
->>> +	int ret;
->>>    
->>>    	mipi_dsi = devm_kzalloc(dev, sizeof(*mipi_dsi), GFP_KERNEL);
->>>    	if (!mipi_dsi)
->>> @@ -315,10 +316,9 @@ static int meson_dw_mipi_dsi_probe(struct platform_device *pdev)
->>>    	mipi_dsi->pdata.priv_data = mipi_dsi;
->>>    	platform_set_drvdata(pdev, mipi_dsi);
->>>    
->>> -	mipi_dsi->dmd = dw_mipi_dsi_probe(pdev, &mipi_dsi->pdata);
->>> -	if (IS_ERR(mipi_dsi->dmd))
->>> -		return dev_err_probe(dev, PTR_ERR(mipi_dsi->dmd),
->>> -				     "Failed to probe dw_mipi_dsi\n");
->>> +	ret = dw_mipi_dsi_probe(pdev, &mipi_dsi->pdata, &mipi_dsi->dmd);
->>> +	if (ret < 0)
->>> +		return dev_err_probe(dev, ret, "Failed to probe dw_mipi_dsi\n");
->>>    
->>>    	return 0;
->>>    }
->>> diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
->>> index 6396f9324dab..4df32747476c 100644
->>> --- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
->>> +++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
->>> @@ -1457,9 +1457,8 @@ static int dw_mipi_dsi_rockchip_probe(struct platform_device *pdev)
->>>    	if (IS_ERR(phy_provider))
->>>    		return PTR_ERR(phy_provider);
->>>    
->>> -	dsi->dmd = dw_mipi_dsi_probe(pdev, &dsi->pdata);
->>> -	if (IS_ERR(dsi->dmd)) {
->>> -		ret = PTR_ERR(dsi->dmd);
->>> +	ret = dw_mipi_dsi_probe(pdev, &dsi->pdata, &dsi->dmd);
->>> +	if (ret < 0) {
->>>    		if (ret != -EPROBE_DEFER)
->>>    			DRM_DEV_ERROR(dev,
->>>    				      "Failed to probe dw_mipi_dsi: %d\n", ret);
->>> diff --git a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
->>> index d5f8c923d7bc..44dbbfc277d8 100644
->>> --- a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
->>> +++ b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
->>> @@ -518,9 +518,8 @@ static int dw_mipi_dsi_stm_probe(struct platform_device *pdev)
->>>    
->>>    	platform_set_drvdata(pdev, dsi);
->>>    
->>> -	dsi->dsi = dw_mipi_dsi_probe(pdev, &dw_mipi_dsi_stm_plat_data);
->>> -	if (IS_ERR(dsi->dsi)) {
->>> -		ret = PTR_ERR(dsi->dsi);
->>> +	ret = dw_mipi_dsi_probe(pdev, &dw_mipi_dsi_stm_plat_data, &dsi->dsi);
->>> +	if (ret < 0) {
->>>    		dev_err_probe(dev, ret, "Failed to initialize mipi dsi host\n");
->>>    		goto err_dsi_probe;
->>>    	}
->>> diff --git a/include/drm/bridge/dw_mipi_dsi.h b/include/drm/bridge/dw_mipi_dsi.h
->>> index 65d5e68065e3..f073e819251e 100644
->>> --- a/include/drm/bridge/dw_mipi_dsi.h
->>> +++ b/include/drm/bridge/dw_mipi_dsi.h
->>> @@ -76,9 +76,10 @@ struct dw_mipi_dsi_plat_data {
->>>    	void *priv_data;
->>>    };
->>>    
->>> -struct dw_mipi_dsi *dw_mipi_dsi_probe(struct platform_device *pdev,
->>> +int dw_mipi_dsi_probe(struct platform_device *pdev,
->>>    				      const struct dw_mipi_dsi_plat_data
->>> -				      *plat_data);
->>> +				      *plat_data,
->>> +					  struct dw_mipi_dsi **dsi_p);
->>>    void dw_mipi_dsi_remove(struct dw_mipi_dsi *dsi);
->>>    int dw_mipi_dsi_bind(struct dw_mipi_dsi *dsi, struct drm_encoder *encoder);
->>>    void dw_mipi_dsi_unbind(struct dw_mipi_dsi *dsi);
->>
->>
-> 
-> 
-> 
-> 
+(Or maybe it's something else? What I get from USB in that case is a
+stream of zeros, I'd expect it to be more like a stream of
+garbage/stale data).
 
+So, change of plans; I will now unmap the attachment in the cleanup
+worker after the fence is signalled, and add a warning comment before
+the end of the fence critical section about the need to do cache
+management before the signal.
+
+Does that work for you?
+
+Cheers,
+-Paul
