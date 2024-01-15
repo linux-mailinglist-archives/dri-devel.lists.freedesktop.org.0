@@ -1,83 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54E1182DBFC
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 16:01:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAB5A82DC0B
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 16:06:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7281210E2ED;
-	Mon, 15 Jan 2024 15:01:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DA6110E00B;
+	Mon, 15 Jan 2024 15:06:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 299E910E2ED
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 15:01:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59DEF10E00B
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 15:06:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1705330905;
+ s=mimecast20190719; t=1705331168;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kZzHnpfGGCeoj1X9NKSYhE70cUGpZAspvvuSojm3bTE=;
- b=fqcBKQwkZukShFPxUauykVEIznwbRVqMiSOzjZRC6wvPzoazmqH45bmQz7VbqXc1HXaGUq
- 5nYS6DV3n9aaUpI3a76jNzbLp+QLo12SI03JRinGUaveWlV9jPRAJ1U7r9YykvjznWeKtK
- x+J2+muSHfiLnbXCeQhyj8SXXOF9xgs=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=J6KAw5sRd/rBCtYAadIrUr1C0nBvKZvSQmMmvlANPe0=;
+ b=PRr1I5KI7TW9O0CT3CN+oUz6m+GIXDXgwVk0uyXA+KLIV1cRiDoXr+ctCETelxd1CSpPbO
+ UEjydgVCZLrlt+lyegyXJHigCqUi9U78WXWy5pEgHiUFHJYNyBen1ctTKDhrKlNBZGzv0A
+ Tdnj98xbBNwPvIBATwoweTIRsM3YXMA=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-557-YCsfwXdGMye_orf04dvKJw-1; Mon, 15 Jan 2024 10:01:43 -0500
-X-MC-Unique: YCsfwXdGMye_orf04dvKJw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-40e76dfff11so8347685e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 07:01:43 -0800 (PST)
+ us-mta-287-q7vKlC3CNgO-5Na72WXVOQ-1; Mon, 15 Jan 2024 10:06:07 -0500
+X-MC-Unique: q7vKlC3CNgO-5Na72WXVOQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-336b8da86eeso5951943f8f.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 07:06:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705330902; x=1705935702;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kZzHnpfGGCeoj1X9NKSYhE70cUGpZAspvvuSojm3bTE=;
- b=uh65JaYQiGWkrisQbPNnb2l+EaRdPr+IcYKDCcDG9sr/NblBE0x918HwXEAMEga/6r
- p7oddxZgnfJEF1BpZ44ANHND2V/x8fP+cdjBtgJkuhXSVPCvg0wuQLjIqyOtdfgSdDQc
- UsKjOPSzkdT0YydRV4FJpxZRwEyB1y0LBSF0v/Zk8zPBvvkJjkvrQf6NJO+cdCyo4vz+
- EBgaV/aR5NkhIIuJGo8jTdrOcOHoKITsa4UzU4M7exIg1RTRNtOk4cY26MO0bV2DZA7u
- 8GBXMezpqe/sH1hazblerL4YeuCkUvmnrNx++ux1JhRYRvxNdsVntmnwtlVVDYC1FVhv
- Nkmg==
-X-Gm-Message-State: AOJu0Ywx2PUquDwgi9wD0cIaJu+FaA1TduS1AkpeEXZnGjDYgnxJxIBg
- AITX685OlPVGEwB4nQYxt9ksivZjNwsTUKoWs8uDCDUi0yTTRG32mPKz2LdZXwtJqWWhH4Qiy1r
- FLoJwC1txb/2ZZet23BvBQmP44Tt3VAS5mH0Q
-X-Received: by 2002:a05:600c:4315:b0:40e:8020:6d5e with SMTP id
- p21-20020a05600c431500b0040e80206d5emr149749wme.70.1705330902625; 
- Mon, 15 Jan 2024 07:01:42 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IF/7fGXupNBht5E+PnvxRdM6nCxA+FJyyzrPZ+F54w/p9lzG8dlWP6meDOfojAuC2YDoHnCBA==
-X-Received: by 2002:a05:600c:4315:b0:40e:8020:6d5e with SMTP id
- p21-20020a05600c431500b0040e80206d5emr149739wme.70.1705330902214; 
- Mon, 15 Jan 2024 07:01:42 -0800 (PST)
+ d=1e100.net; s=20230601; t=1705331166; x=1705935966;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=J6KAw5sRd/rBCtYAadIrUr1C0nBvKZvSQmMmvlANPe0=;
+ b=Ft2yE1LApf8oHG37o/NKAc6A9aTno/T1lM8EvDnld8qy1x+fRHlMrWL8cR7Nsp+GxJ
+ JVREdXCAHeggLdG1nUhplvX/1d1VBUxUzl6Ic9FM+3MwWtwcqzEPJyY64E3rpRPq5E/Y
+ h6J17m3IQwazPqugk6RqOvn5WOVKvTBwF0prl2qCl4K0+dvwisgQPtTn0arP/P+TCqcY
+ /egFosQ8LBl+AEk79tV/ch3RWu5AEMpf9ZmbH4MENHlGbevbQdVcW3YMYSzPX8vXZOSQ
+ 5AQKMKoe+syA6rrPgtUw81QBi16Cw+qxpQFJI6iQcT6qNfxqEyhHGQlVQH5OQTA+hxth
+ M7lw==
+X-Gm-Message-State: AOJu0YyNlJkTvg2DWUuVckFra/PwGpmo+8ZbRnhyVV2OnXfExA2d8z6y
+ 4FC53xg7eMFV2Y8iU/Mllqt5QAS37dg5ciNr3VjBrJNhMCVoVixfVbTsUIOfi3bT/89c9XN96OI
+ YFsAGmh48W6JT7R06u7QrGDPE4LuYbE8smbXi
+X-Received: by 2002:a5d:4d47:0:b0:337:61aa:9682 with SMTP id
+ a7-20020a5d4d47000000b0033761aa9682mr2972942wru.110.1705331165989; 
+ Mon, 15 Jan 2024 07:06:05 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFUUbGFoHl37nmlBps1shDre7Yn9gKUXHYUdoSEBRHHdGC4aQD0Ng5BPuhKqCteY6MZ7Iq1Bg==
+X-Received: by 2002:a5d:4d47:0:b0:337:61aa:9682 with SMTP id
+ a7-20020a5d4d47000000b0033761aa9682mr2972874wru.110.1705331162657; 
+ Mon, 15 Jan 2024 07:06:02 -0800 (PST)
 Received: from toolbox ([2001:9e8:8996:a800:5fa3:a411:5e47:8fe5])
  by smtp.gmail.com with ESMTPSA id
- k9-20020a05600c1c8900b0040d772030c2sm16106519wms.44.2024.01.15.07.01.41
+ e19-20020a5d5953000000b0033609b71825sm12088386wri.35.2024.01.15.07.06.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Jan 2024 07:01:41 -0800 (PST)
-Date: Mon, 15 Jan 2024 16:01:40 +0100
+ Mon, 15 Jan 2024 07:06:02 -0800 (PST)
+Date: Mon, 15 Jan 2024 16:06:00 +0100
 From: Sebastian Wick <sebastian.wick@redhat.com>
-To: Andri Yngvason <andri@yngvason.is>
-Subject: Re: [PATCH 2/7] drm/uAPI: Add "active color format" drm property as
- feedback for userspace
-Message-ID: <20240115150140.GB160656@toolbox>
-References: <20240109181104.1670304-1-andri@yngvason.is>
- <20240109181104.1670304-3-andri@yngvason.is>
- <CAPj87rNan8B5urDFkmD_Vti4to6p3NmvXYsTFQTNg-Ue2ieDug@mail.gmail.com>
- <CAFNQBQwiqqSRqzXAnC035UWCGF3=GGFR5SpDd=biPTOEA+cWbQ@mail.gmail.com>
- <ZZ509L_kmVC4IUBW@phenom.ffwll.local>
- <CAPj87rOiS8F=oDW3iE=bgFyfeJnYhy8kPF2v-uYOq3xgYtVPAg@mail.gmail.com>
- <CAFNQBQwjeJaX6B4oewpgASMUd5_nxZYMxUfdOG294CTVGBTd1w@mail.gmail.com>
+To: Arthur Grillo <arthurgrillo@riseup.net>
+Subject: Re: [PATCH v2 0/7] Add YUV formats to VKMS
+Message-ID: <20240115150600.GC160656@toolbox>
+References: <20240110-vkms-yuv-v2-0-952fcaa5a193@riseup.net>
 MIME-Version: 1.0
-In-Reply-To: <CAFNQBQwjeJaX6B4oewpgASMUd5_nxZYMxUfdOG294CTVGBTd1w@mail.gmail.com>
+In-Reply-To: <20240110-vkms-yuv-v2-0-952fcaa5a193@riseup.net>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,101 +81,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, amd-gfx@lists.freedesktop.org,
- Werner Sembach <wse@tuxedocomputers.com>, Leo Li <sunpeng.li@amd.com>,
- intel-gfx@lists.freedesktop.org, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 11, 2024 at 05:17:46PM +0000, Andri Yngvason wrote:
-> mið., 10. jan. 2024 kl. 13:26 skrifaði Daniel Stone <daniel@fooishbar.org>:
-> > >
-> > > This thing here works entirely differently, and I think we need somewhat
-> > > new semantics for this:
-> > >
-> > > - I agree it should be read-only for userspace, so immutable sounds right.
-> > >
-> > > - But I also agree with Daniel Stone that this should be tied more
-> > >   directly to the modeset state.
-> > >
-> > > So I think the better approach would be to put the output type into
-> > > drm_connector_state, require that drivers compute it in their
-> > > ->atomic_check code (which in the future would allow us to report it out
-> > > for TEST_ONLY commits too), and so guarantee that the value is updated
-> > > right after the kms ioctl returns (and not somewhen later for non-blocking
-> > > commits).
-> >
-> > That's exactly the point. Whether userspace gets an explicit
-> > notification or it has to 'know' when to read isn't much of an issue -
-> > just as long as it's well defined. I think the suggestion of 'do it in
-> > atomic_check and then it's guaranteed to be readable when the commit
-> > completes' is a good one.
-> >
-> > I do still have some reservations - for instance, why do we have the
-> > fallback to auto when userspace has explicitly requested a certain
-> > type? - but they may have been covered previously.
-> >
+On Wed, Jan 10, 2024 at 02:44:00PM -0300, Arthur Grillo wrote:
+> This patchset aims to add support for additional buffer YUV formats.
+> More specifically, it adds support to:
 > 
-> We discussed this further on IRC and this is summary of that discussion:
+> Semi-planar formats:
 > 
-> Sima proposed a new type of property that can be used to git feedback to
-> userspace after atomic ioctl. The user supplies a list of output properties
-> that they want to query and the kernel fills it in before returning from the
-> ioctl. This would help to get some information about why things failed
-> during TEST_ONLY.
+> - NV12
+> - NV16
+> - NV24
+> - NV21
+> - NV61
+> - NV42
 > 
-> Emersion raised the point that you might not know how much memory is needed
-> beforehand for the returned properties, to which sima replied: blob
-> property. There was some discussion about how that makes it possible to leak
-> kernel memory, especially if userspace does not know about a new property
-> blob. Emersion pointed out that userspace should only request properties
-> that it understands and pq agreed.
+> Planar formats:
 > 
-> Emersion asked how the user should inform the kernel that it's done with the
-> blob, to which sima replied: DRM_IOCTL_MODE_DESTROYPROPBLOB. Sima also
-> mentioned using some sort of weak reference garbage collection scheme for
-> properties and there was some further discussion, but I'm not sure there was
-> any conclusion.
+> - YUV440
+> - YUV422
+> - YUV444
+> - YVU440
+> - YVU422
+> - YVU444
 > 
-> I asked if it made sense to add color format capabilities to the mode info
-> struct, but the conclusion was that it wouldn't really be useful because we
-> need TEST_ONLY anyway to see if the color format setting is compatible with
-> other settings.
+> These formats have more than one plane, and most have chroma
+> subsampling. These properties don't have support on VKMS, so I had to
+> work on this before.
 > 
-> I asked again if we should drop the "active color format" property as it
-> seems to be more trouble than it's worth for now. pq mentioned that there
-> are 2 separate use cases (in his words):
-> - People playing with setting UI would like to know what "auto" would result
->   in, but that's just nice to have
-> - The other use case is the flicker-free boot into known configuration He
->   went on to point out that the main problem with "auto" is that any modeset
->   could make the driver decide differently. This means that we cannot fully
->   rely on the previously set property.
+> To ensure that the conversions from YUV to RGB are working, I wrote a
+> KUnit test. As the work from Harry on creating KUnit tests on VKMS[1] is
+> not yet merged, I took the setup part (Kconfig entry and .kunitfile)
+> from it.
 > 
-> However, leaving out "active color property" did not put us in a worse
-> situation than before, so the conclusion was that we should leave it out for
-> now. For GUI selectors, the current TEST_ONLY should be good enough, and all
-> the fancy stuff discussed previously isn't needed for now.
-> 
-> To summarise the summary: this means that we will drop the "active
-> color format" property and rename the "preferred color format"
-> property to "force color format" or just "color format" and failing to
-> satisfy that constraint will fail the modeset rather than falling back
-> to the "auto" behaviour.
+> Furthermore, I couldn't find any sources with the conversion matrices,
+> so I had to work out the values myself based on the ITU papers[2][3][4].
+> So, I'm not 100% sure if the values are accurate. I'd appreciate some
+> input if anyone has more knowledge in this area.
 
-That's a good idea.
+H.273 CICP [1] has concise descriptions of the required values for most
+widely used formats and the colour python framework [2] also can be used
+to quickly get to the desired information most of the time.
 
-Anything else won't work with the new color pipeline API anyways because
-user space will be responsible for setting up the color pipeline API in
-a way so that the monitor will receive the correctly encoded data.
+[1]: https://www.itu.int/rec/T-REC-H.273
+[2]: https://www.colour-science.org/
 
-> Cheers,
-> Andri
+> Also, I used two IGT tests to check if the formats were having a correct
+> conversion (all with the --extended flag):
+> 
+> - kms_plane@pixel_format
+> - kms_plane@pixel_format_source_clamping.
+> 
+> The nonsubsampled formats don't have support on IGT, so I sent a patch
+> fixing this[5].
+> 
+> Currently, this patchset does not add those formats to the writeback, as
+> it would require a rewrite of how the conversions are done (similar to
+> what was done on a previous patch[6]). So, I would like to review this
+> patchset before I start the work on this other part.
+> 
+> [1]: https://lore.kernel.org/all/20231108163647.106853-5-harry.wentland@amd.com/
+> [2]: https://www.itu.int/rec/R-REC-BT.601-7-201103-I/en
+> [3]: https://www.itu.int/rec/R-REC-BT.709-6-201506-I/en
+> [4]: https://www.itu.int/rec/R-REC-BT.2020-2-201510-I/en
+> [5]: https://lists.freedesktop.org/archives/igt-dev/2024-January/066937.html
+> [6]: https://lore.kernel.org/dri-devel/20230414135151.75975-2-mcanal@igalia.com/
+> 
+> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+> ---
+> Changes in v2:
+> - Use EXPORT_SYMBOL_IF_KUNIT instead of including the .c test
+>   file (Maxime)
+> - Link to v1: https://lore.kernel.org/r/20240105-vkms-yuv-v1-0-34c4cd3455e0@riseup.net
+> 
+> ---
+> Arthur Grillo (7):
+>       drm/vkms: Use drm_frame directly
+>       drm/vkms: Add support for multy-planar framebuffers
+>       drm/vkms: Add range and encoding properties to pixel_read function
+>       drm/vkms: Add chroma subsampling
+>       drm/vkms: Add YUV support
+>       drm/vkms: Drop YUV formats TODO
+>       drm/vkms: Create KUnit tests for YUV conversions
+> 
+>  Documentation/gpu/vkms.rst                    |   3 +-
+>  drivers/gpu/drm/vkms/Kconfig                  |  15 ++
+>  drivers/gpu/drm/vkms/Makefile                 |   1 +
+>  drivers/gpu/drm/vkms/tests/.kunitconfig       |   4 +
+>  drivers/gpu/drm/vkms/tests/Makefile           |   3 +
+>  drivers/gpu/drm/vkms/tests/vkms_format_test.c | 156 ++++++++++++++++
+>  drivers/gpu/drm/vkms/vkms_drv.h               |   6 +-
+>  drivers/gpu/drm/vkms/vkms_formats.c           | 247 ++++++++++++++++++++++----
+>  drivers/gpu/drm/vkms/vkms_formats.h           |   9 +
+>  drivers/gpu/drm/vkms/vkms_plane.c             |  26 ++-
+>  drivers/gpu/drm/vkms/vkms_writeback.c         |   5 -
+>  11 files changed, 426 insertions(+), 49 deletions(-)
+> ---
+> base-commit: eeb8e8d9f124f279e80ae679f4ba6e822ce4f95f
+> change-id: 20231226-vkms-yuv-6f7859f32df8
+> 
+> Best regards,
+> -- 
+> Arthur Grillo <arthurgrillo@riseup.net>
 > 
 
