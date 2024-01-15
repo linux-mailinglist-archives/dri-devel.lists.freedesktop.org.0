@@ -2,59 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DB8682D771
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 11:34:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A89EF82D772
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 11:34:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C159510E260;
-	Mon, 15 Jan 2024 10:34:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA87110E26A;
+	Mon, 15 Jan 2024 10:34:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B45C10E260
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 10:34:22 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id
- 5b1f17b1804b1-40e5afc18f5so44400155e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 02:34:22 -0800 (PST)
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6755310E26A
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 10:34:24 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id
+ 5b1f17b1804b1-40e7a9c527dso5528445e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 02:34:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1705314861; x=1705919661;
+ d=amarulasolutions.com; s=google; t=1705314863; x=1705919663;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=3SJqDr5KvSGyh2V1znLlQnEJgiCqsoWDRe3D5i0IsMQ=;
- b=dYmSYwjcchDZ0h6ky1ntDXY5RrzX8FkkKn6gn8EdFwdDxL6P3IhQGslLCnzjYbl9xf
- Mda0li8vzxtXLJxVI5nFQOqm9fJ2r4qZx0G/WFNwJsVF9AnE4PsHtkos9D5wfNX9Gko0
- TgLvgM2aS2K321T1fa4iQSKAR3KWTVa6AMgtE=
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=3CX2gA6r/dtvGkH0YEYWwI6mzbAd5lMyIJziHnyg55Q=;
+ b=poRRZDlWp9NpCb59VBiAwYwfpx97xw4PUh84tXKJFnyKh/55MafH8dggjoFZ/3j9zL
+ bJZc3vLdVASus0pgjipclyttdx0i61wyxSKmrRuaENvS9k7mWrLu90CP4A7tP+OPg9Nu
+ YYHpGsrGSF3N9/andZ8O41dTO9BZ65oy9jEtk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705314861; x=1705919661;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=3SJqDr5KvSGyh2V1znLlQnEJgiCqsoWDRe3D5i0IsMQ=;
- b=s70wFh/cZAko/k6b7NhD+OicNw49/AyaBw9ydIkPML0Qm/BgpoKChLfJyyGHtVBQYW
- nMl58q1VaeIHHIOC5uWboI4f9bOUCEm34EaEkDP4GrZck5/2nfY1NTr69GZ4OxbEyfvv
- C8n7Pti5598CXOrviZIFJul/MIqd7stkwWYR8sWSzIfcVzbq8jTANV7y+YZWzdvqpoZJ
- fJW4K9SGLmohgSHEzE+eAwzHGGrGXMjwmEb8F+BnygxCZ5XZSH7gTnYYKRvdbTIirLJC
- rZ+l/8Ig5xrbrGXwfvDA+Ceb9yqNHgjUk+sKjWkY51KAnJ8YIGBUQAjg83FiCJ49C++f
- UDGw==
-X-Gm-Message-State: AOJu0Yw0aEIqiX/MgN18GHF83tlqvcRmS2rYXMcaIlSXrGo/5fQbLgmg
- cYUbsegf5MQPKT6o5+F4fI2kBTQcKtrybQ==
-X-Google-Smtp-Source: AGHT+IEPp+cjxMkNUhf7IxEn4EJ35Sc/ijO1hlsPRawgLTBX2AkEeCZqx6+bsD5VZgysYrbeBpq2iQ==
-X-Received: by 2002:a05:600c:1c91:b0:40e:4913:58b5 with SMTP id
- k17-20020a05600c1c9100b0040e491358b5mr2981492wms.174.1705314860956; 
- Mon, 15 Jan 2024 02:34:20 -0800 (PST)
+ d=1e100.net; s=20230601; t=1705314863; x=1705919663;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=3CX2gA6r/dtvGkH0YEYWwI6mzbAd5lMyIJziHnyg55Q=;
+ b=P6yLDY3rgqYowDkkOZEpVU9HbBkyTU+OObwEo2l77Moyeq5Wu8KX/ywEhEGq74FwhY
+ lovb+m0kKhMo3NDDyns0Xf0c5J7M4Q7xIWCMnMZqDknkLWJKh1VVUZViPqh/37I04YLR
+ RVBjTwleSXJeZ4PkBBaHOmRKD4vlWGtZGwKtHUyivhwAPx7T/96Kv4tPxH297WH52ai8
+ PBO/ZImacmMr1nSRVZ9w6GunQhHQCrNyv9BuLaF1HOPHTceWhM/+HHZpJCiE6+wRtEC8
+ QFw6UvEEK3xKDYVeDyK6Jd8q2g9Z2Oarh982/X+JsHQfsiJoix16w/TNekc77WZiP1kd
+ 0zDA==
+X-Gm-Message-State: AOJu0YyeboqO9wx56dYzaiWJisQQXKrJ+Jrq/BWLk8IJLMW3eXqG10jF
+ Ul4QlO1pVvXdxmA28xUH8EWyg213z0yWfA==
+X-Google-Smtp-Source: AGHT+IEQlJdBXE8WoCCb08JD+brH7hGQ3CV9nGVZlK4ctSPpgRk9xBcoj0BssmpcSXVxPbKM8xAuCw==
+X-Received: by 2002:a05:600c:4f48:b0:40d:81c1:186 with SMTP id
+ m8-20020a05600c4f4800b0040d81c10186mr1491546wmq.155.1705314862690; 
+ Mon, 15 Jan 2024 02:34:22 -0800 (PST)
 Received: from dario-ThinkPad-T14s-Gen-2i.amarulasolutions.com
  (mob-5-90-63-69.net.vodafone.it. [5.90.63.69])
  by smtp.gmail.com with ESMTPSA id
- l39-20020a05600c1d2700b0040e50d82af5sm15536120wms.32.2024.01.15.02.34.19
+ l39-20020a05600c1d2700b0040e50d82af5sm15536120wms.32.2024.01.15.02.34.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Jan 2024 02:34:20 -0800 (PST)
+ Mon, 15 Jan 2024 02:34:22 -0800 (PST)
 From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 To: linux-kernel@vger.kernel.org
-Subject: [RESEND PATCH v9 0/2] Add displays support for bsh-smm-s2/pro boards
-Date: Mon, 15 Jan 2024 11:33:46 +0100
-Message-ID: <20240115103416.978481-1-dario.binacchi@amarulasolutions.com>
+Subject: [RESEND PATCH v9 1/2] drm: bridge: samsung-dsim: enter display mode
+ in the enable() callback
+Date: Mon, 15 Jan 2024 11:33:47 +0100
+Message-ID: <20240115103416.978481-2-dario.binacchi@amarulasolutions.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240115103416.978481-1-dario.binacchi@amarulasolutions.com>
+References: <20240115103416.978481-1-dario.binacchi@amarulasolutions.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -83,63 +87,74 @@ Cc: Maxime Ripard <mripard@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The series adds drivers for the displays used by bsh-smm-s2/pro boards.
-The patches for the ili9805 and r63353 LCD panels, which have already
-been merged into the mainline, do not work without the patch [1/2] "drm:
-bridge: samsung-dsim: enter display mode in the enable() callback".
+The synaptics-r63353 (panel-bridge) can only be configured in command mode.
+So, samsung-dsim (bridge) must not be in display mode during the
+prepare()/unprepare() of the panel-bridge. Setting the
+"pre_enable_prev_first" flag to true allows the prepare() of the
+panel-bridge to be called between the pre_enabled() and enabled() of the
+bridge. So, the bridge can enter display mode only in the enabled().
+The unprepare() of the panel-bridge is instead called between the disable()
+and post_disable() of the bridge. So, the disable() must exit the display
+mode (i .e. enter command mode) to allow the panel-bridge to receive DSI
+commands.
 
-Changes in v9:
-- Updated commit message
-- Drop [3/3] arm64: dts: imx8mn-bsh-smm-s2/pro: add display setup
-  because applied.
+samsung_dsim_atomic_pre_enable   -> command mode
+r63353_panel_prepare             -> send DSI commands
+samsung_dsim_atomic_enable       -> enter display mode
 
-Changes in v8:
-- Move the 'status' property to the end of the list of nodes:
-  - pwm1
-  - lcdif
-  - mipi_dsi
-- Add a newline between properties and child node (mipi_dsi_out).
-- Sort the iomuxc node alphabetically
-- Rename pwm1grp to blgrp
+samsung_dsim_atomic_disable      -> exit display mode (command mode)
+r63353_panel_unprepare           -> send DSI commands
+samsung_dsim_atomic_post_disable
 
-Changes in v7:
-- Drop [3/4] dt-bindings: display: panel: Add synaptics r63353 panel controller
-  because applied.
+Co-developed-by: Michael Trimarchi <michael@amarulasolutions.com>
+Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
+Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+---
 
-Changes in v6:
-- Drop patches:
-  - [06/10] drm/panel: Add Synaptics R63353 panel driver
-  - [07/10] dt-bindings: display: panel: Add Ilitek ili9805 panel controller
-  - [08/10] drm/panel: Add Ilitek ILI9805 panel driver
-  - [09/10] drm/panel: ilitek-ili9805: add support for Tianma TM041XDHG01 panel
-  Because applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
-  Drop patches:
-  - [01/10] drm/bridge: Fix bridge disable logic
-  - [02/10] drm/bridge: Fix a use case in the bridge disable logic
-  Because they are wrong
+(no changes since v1)
 
-Changes in v3:
-- Replace "synaptics,r63353" compatible with "syna,r63353", as
-  required by vendor-prefixes.yaml.
-- Squash patch [09/11] dt-bindings: ili9805: add compatible string for Tianma TM041XDHG01
-  into [07/11] dt-bindings: display: panel: Add Ilitek ili9805 panel controller.
+ drivers/gpu/drm/bridge/samsung-dsim.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-Changes in v2:
-- Adjust the mipi_dsi node based on the latest patches merged into
-  the mainline in the dtsi files it includes.
-- Added to the series the following patches:
-  - 0001 drm/bridge: Fix bridge disable logic
-  - 0002 drm/bridge: Fix a use case in the bridge disable logic
-  - 0003 samsung-dsim: enter display mode in the enable() callback
-  - 0004 drm: bridge: samsung-dsim: complete the CLKLANE_STOP setting
-
-Dario Binacchi (2):
-  drm: bridge: samsung-dsim: enter display mode in the enable() callback
-  drm: bridge: samsung-dsim: complete the CLKLANE_STOP setting
-
- drivers/gpu/drm/bridge/samsung-dsim.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
-
+diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
+index be5914caa17d..15bf05b2bbe4 100644
+--- a/drivers/gpu/drm/bridge/samsung-dsim.c
++++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+@@ -1494,7 +1494,6 @@ static void samsung_dsim_atomic_pre_enable(struct drm_bridge *bridge,
+ 			return;
+ 
+ 		samsung_dsim_set_display_mode(dsi);
+-		samsung_dsim_set_display_enable(dsi, true);
+ 	}
+ }
+ 
+@@ -1507,6 +1506,7 @@ static void samsung_dsim_atomic_enable(struct drm_bridge *bridge,
+ 		samsung_dsim_set_display_mode(dsi);
+ 		samsung_dsim_set_display_enable(dsi, true);
+ 	} else {
++		samsung_dsim_set_display_enable(dsi, true);
+ 		samsung_dsim_set_stop_state(dsi, false);
+ 	}
+ 
+@@ -1524,6 +1524,8 @@ static void samsung_dsim_atomic_disable(struct drm_bridge *bridge,
+ 	if (!samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type))
+ 		samsung_dsim_set_stop_state(dsi, true);
+ 
++	samsung_dsim_set_display_enable(dsi, false);
++
+ 	dsi->state &= ~DSIM_STATE_VIDOUT_AVAILABLE;
+ }
+ 
+@@ -1532,7 +1534,8 @@ static void samsung_dsim_atomic_post_disable(struct drm_bridge *bridge,
+ {
+ 	struct samsung_dsim *dsi = bridge_to_dsi(bridge);
+ 
+-	samsung_dsim_set_display_enable(dsi, false);
++	if (!samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type))
++		samsung_dsim_set_stop_state(dsi, true);
+ 
+ 	dsi->state &= ~DSIM_STATE_ENABLED;
+ 	pm_runtime_put_sync(dsi->dev);
 -- 
 2.43.0
 
