@@ -2,45 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9B2182D6C3
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 11:08:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B43FB82D6C2
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 11:07:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06F8E10E239;
-	Mon, 15 Jan 2024 10:08:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26CA510E191;
+	Mon, 15 Jan 2024 10:07:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABFC210E239
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 10:07:59 +0000 (UTC)
-Received: from i5e860cd7.versanet.de ([94.134.12.215] helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1rPJsC-00005J-QB; Mon, 15 Jan 2024 11:07:16 +0100
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Farouk Bouabid <farouk.bouabid@theobroma-systems.com>, victor.liu@nxp.com, 
- andrzej.hajda@intel.com, rfoss@kernel.org, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, linux-imx@nxp.com, khilman@baylibre.com,
- jbrunet@baylibre.com, martin.blumenstingl@googlemail.com, hjc@rock-chips.com, 
- yannick.fertre@foss.st.com, raphael.gallais-pou@foss.st.com,
- philippe.cornu@foss.st.com, mcoquelin.stm32@gmail.com,
- alexandre.torgue@foss.st.com, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-amlogic@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, neil.armstrong@linaro.org
-Subject: Re: [PATCH] drm/bridge: synopsys: dw-mipi-dsi: fix deferred dsi host
- probe breaks dsi device probe
-Date: Mon, 15 Jan 2024 11:07:14 +0100
-Message-ID: <8542394.JRmrKFJ9eK@diego>
-In-Reply-To: <9dd100de-6d33-4872-8619-1df6ee520c5a@linaro.org>
-References: <20240112180737.551318-1-farouk.bouabid@theobroma-systems.com>
- <9dd100de-6d33-4872-8619-1df6ee520c5a@linaro.org>
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com
+ (mail-bn1nam02on2085.outbound.protection.outlook.com [40.107.212.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 340BB10E239
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 10:07:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=etUdDYQekrSULZP9yXxQ9+AdVYZ1f8SIFaRuPveYjWf5NnIvbEe06fcsC5uAQm+087+mopa57JEa9nBkGWgZTBSbihAF0CvvePNI+vPmOvcBj9TBKpyt+cVVoi6+4eFbx1RBpREnaUo+hmpKvCKk0MwZ55iL1NM79oxpIMy9wAkhZ95W8+TJ3kMeeT+tViAxgGl9jTUyhP44MvLgLC2I3iTTfr98QY+/+3hBVDQ1MSwqfqanX2IEqq0Qks2naF9V7A1nwsnQYbIUNZHHa9D55nZ4HBBvUwkqtYfinN83Ki2EIJY25IJYM4BW1GHX25xDuVHccP83LchJdkgc70qA7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tyWoOSC+/yPN/cxdCoCOeuoipEJ/NmP/UZKwLtBhhXI=;
+ b=mNWO1mmNxYAoV9BRYbje69xtu4gEaTw0BkKP8r/XFiF3A9EV3NxxMWkO+ugmfk/JPSO5ZLUq05Ub93CK8TWT7Lp11h5fsLnyIMfO1AI/+HXCsEGPNtdMDTEM+RRLgdjWM1AhbGZ07WvhRCR/qPdCPeN6FZpdtS/d9hFkPjhvnkBRzH6+HbJnb4fS6RbAhzD2WaHfxHuULOTUmsfcl8Z5LXbBXj1jhydfUn7qncoox1hPlXeGW06GSByuoFguyAhkrnYhlrZPDy/tRoJxX7sZCLfFCQ9AUJRz6+M+Cl0D8U6hNjXtHkw8L/zljbboZYCKt7KBLVucNMOkX6q7TaTu1Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tyWoOSC+/yPN/cxdCoCOeuoipEJ/NmP/UZKwLtBhhXI=;
+ b=lOaTvEhFsHxZLEUM+OMRbmn/ofFkJQl18IrnqvNb/ADeiqXWi17MO21zFFxUL8zNJ0DzpkGnRja8JFN/AoOSpsGqMyWyz5YpXUnUq3hfcv+vny4Zyv/iblozCdXCRR57HT2n7U/aCc5TPkr/P5s8GcraeQj9eWMtChjV55JkLUg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by LV3PR12MB9117.namprd12.prod.outlook.com (2603:10b6:408:195::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.18; Mon, 15 Jan
+ 2024 10:07:50 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::e1fb:4123:48b1:653]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::e1fb:4123:48b1:653%4]) with mapi id 15.20.7159.020; Mon, 15 Jan 2024
+ 10:07:50 +0000
+Message-ID: <a90f3781-b7c1-4c43-8541-3024968a01d8@amd.com>
+Date: Mon, 15 Jan 2024 11:07:43 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/ttm: fix ttm pool initialization for no-dma-device
+ drivers
+Content-Language: en-US
+To: Fedor Pchelkin <pchelkin@ispras.ru>,
+ Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
+References: <20240113213347.9562-1-pchelkin@ispras.ru>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20240113213347.9562-1-pchelkin@ispras.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0091.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9b::10) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|LV3PR12MB9117:EE_
+X-MS-Office365-Filtering-Correlation-Id: c1bf4c7e-305e-4261-85e5-08dc15b1d4aa
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 2581H2XL8lTlVmfLtltGv59QHCtJMSTmkFx1oXqnljKMCxJtxjdlHQzzuCo30Ik7zbX41dwmGj6lhdtIzJMV4A0dlrn8HAFSwfWTiB78vOXmCUYtD1x7I4MU5sS2bEihk2cAokF2+lUy9Xl9UJaC0S0OJ/GOPrqVIPinyfTZ0pv50tYbKnywlQ1zXOIernPP1Pfa2MRfJ+sdSBcyhbwMg86vDKVpU0SnxGtbVOdpnkMRaLn6KofX4XPMU2I1hztbEG4DG2Vo3U5wFEbsDuux78mlctVRXNLJEQkZ+1+y35RepGu4I8+cWmrNQVedWYXFTbDe3Z0YbZw0Mdw3hsKeoY0hf15b50gi8T3ivKlCZLSnSYq5oaDUb43E9KqpJdinyPRvumhdPgpOQYL4gC3lzGshio4Jttx4BNsD4H/vJyuX0VGXg91kKRLxAXtvDfYfv0KB4KauQXVt8KN28Dmg73IKgOl8xcq5QTaqXB+4GQo7MGQl4XxlTKCGATxCP+UT7i85teLI7B6n8yil/NK5JXAsJCfbFqTKauRnI9zDv6hLLLGnfe74vAFEsnAbq3ZCzu01lzrD6h43ahX6g1oNWlfHl4pnyGVBylhSlMEqCofePm4mmjFSmaz28T+sspGzRSyXMITV983ieR/iRw4Cww==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(136003)(346002)(376002)(396003)(39860400002)(366004)(230922051799003)(451199024)(186009)(64100799003)(1800799012)(36756003)(7416002)(5660300002)(2906002)(8676002)(31696002)(45080400002)(6506007)(6512007)(478600001)(6486002)(6666004)(41300700001)(2616005)(66574015)(26005)(86362001)(8936002)(83380400001)(4326008)(66556008)(66946007)(54906003)(66476007)(38100700002)(110136005)(31686004)(6636002)(316002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OGtGYU5LdVBJeHlydW9Zb2JKTUdsdUN5WCtwNkhnMVpYbmROMFFRRHJDeFhR?=
+ =?utf-8?B?SU8zUjM0dUtrT1hTaXEyNWNSMGRqakp3YkxNRWlPL2NUQlE5eFVrSWU4V0dk?=
+ =?utf-8?B?N2gwQ1RleTY1QTJtbWpMMG9icTJVNlRlYk9KNGZScmxQbFNoUUhEbG5oam5F?=
+ =?utf-8?B?aUdPSmxDTWRzSkNCclVYbEU5eEVLeDhUaGcyZHp5V0lUS2FaZmR4aXBqYko0?=
+ =?utf-8?B?dHIvYTNUWUdYcmVuV0Y2M1BxV3ViS2t6R0cydnpwdjFXWisvQXcrR3RYMDFS?=
+ =?utf-8?B?aExRWmVKb3JvUnd3Q1hjUEprMklKcTFTYnpXcmFJTUZSbW9KUU4vRW1BT2hB?=
+ =?utf-8?B?NlQ3TE16M3Q3TkRFODJkQTNPNEphMXlSd21WVkE0REk4ckhHbDl0VTZIeDYx?=
+ =?utf-8?B?cWkwcGxuczh3V3kzaEhWZWp5UlQySzdWMFpuem50bjI1eVh3QTUwMGg3QXd3?=
+ =?utf-8?B?YzJ2SVo1anZMNEkrM1l2cFZwYUQ3dTN3TnhCSjloNmNxd1JaTnZNUGEzWE55?=
+ =?utf-8?B?L2lVMWZDZUFDc21aL2hGNWRRTVBMeHJkbEZGUUxKdHNST0hkTlRGTFNGNnBk?=
+ =?utf-8?B?Tzl5NmRUN2F5V0hhNmVUSklQMEFDWHhkOXRTSVJYaVZ1d3MyNVV0dW5mQ0Fz?=
+ =?utf-8?B?eFF0N09rbzZMM3pVdmIxWFVkK3h3cFdOY25VbXpmZit5alVTZzRFZzRDeDJ0?=
+ =?utf-8?B?cnFEdE1UWC9ZMkFOQmVMRksrdDJia2hUWXBrMnEyZ3JuV1ZBcldoS0hOeWVW?=
+ =?utf-8?B?TkRnQzNlZDFEWTJRUDZFZkdGQkZaOXIweFpxS3ZESVJTczhBZzJ2Y2l3ZEZO?=
+ =?utf-8?B?QXd1b25obGhZT2NFRlBPaG13Zm9IL1lsemdleGViQ3UrWTNwaW1RbitpSXJY?=
+ =?utf-8?B?bG1kRXcxM0NkVjRIZmpHOGZHOFN1Y1ZwR29xV3h6K0NUd216THlrejJseHky?=
+ =?utf-8?B?eFl3RXpkQXFyWGU1dkNGdVJ3LzVoekxwTzgwMHdDVklXcTRDSFFzc3dOYkNB?=
+ =?utf-8?B?cGZvcUE5b3ZleFhSOFVkUVlETkd1citzUXBzUUlqeE1YQTFFaFhNTnlXdHJa?=
+ =?utf-8?B?VncvNjh5TEdsQWc4S05meTd5ZWRmd0hJejhIc1laY2oyZEZJdFA0SHdsU1dt?=
+ =?utf-8?B?NE1mazQrMmpqNzRwU2liM2E1aEsvbldvY3FjaDc0OFkvdXVuNi80Y0cxV1Yw?=
+ =?utf-8?B?TEdwMC80aW45V0RXS1kwanJJbXRkU05YRkgxaFBxcjdDdkRrLzdkbG5GUDFy?=
+ =?utf-8?B?Yzg1OE9MNXh4azl1dzU5aVBoWk0vMDlHVTBWNkZiM0gxZGRwQTd1aWI2QVFj?=
+ =?utf-8?B?YzVWblNQRHRZVFN1MjF5WTcySkVJTk16SFZrSjNERXBmNEpUMGxqd3NrZ2d1?=
+ =?utf-8?B?MmM3ajNJSjVRMldtbHJvY1RlTU9kQy9ZcjdGeWxOQlQ1SGcva1BydnU0RHds?=
+ =?utf-8?B?Q0Q5K0o1QWxXTmF5SXI2RGdIdzBBTDNIKzNHbGZKd3dCNEh4TzZ2TzBSdVA4?=
+ =?utf-8?B?RUt1cXN2RjM5aXhFazNMQjBjK2lLRDIzOUczbXFhN3NkS2ZCTi9yT0szdWRR?=
+ =?utf-8?B?V2dvQUxzWlhXUDVrcGM3WmQzN2tBSUR4RFp1V1lUSGlnUjdsNWNRb25uV21Y?=
+ =?utf-8?B?MjFYUzMwNGNlWGN6MllSdmk0dWR4dHJ4ZnFyMjZwTU10NExXM2RNOWl0ejRZ?=
+ =?utf-8?B?VExyZmdEWXcrQjBDVms3YmZjS3BsNWtwSm1STEJXYnUvNlJUM1paT0FoR1Iz?=
+ =?utf-8?B?Vnkrd0Jtb3N3cWlnMmNnTU5wdU5jWDNaTjNpQ2NUeDF0bVg5TXEzaGNHcXBV?=
+ =?utf-8?B?YkJGUTBnSjJ6dENiSFZ2WW1WMTc4RkZoL0s3ZzYzY0EyemRhamdMS3VjMDVD?=
+ =?utf-8?B?eFp4WGRYQnQzbkJybzdEZG9pdVRKS0Z0aWJVRUhiQ01PQVRIVkJydjJWYVVN?=
+ =?utf-8?B?K2ZYNXFwWS81RktjUUp5aFlWNkdkL3poQzJFYm1XTzhWZ2RVQ3JwTnBha1E1?=
+ =?utf-8?B?YWljd3dBdWVzbXJIQkl3Q0h4SnF3Q1pGU20wdVpMbWRpODkrRHdXMHIyQzEz?=
+ =?utf-8?B?M3BMVUJHRWlYTURwS0E1Z3VMMHZxaTQxRUFaREs0ZDFUWVFRT0tCZWVCb1Ir?=
+ =?utf-8?Q?7gleV0/NQytATP3nK/XCek8dV?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c1bf4c7e-305e-4261-85e5-08dc15b1d4aa
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2024 10:07:50.3633 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 95trVhstmDfw6xfAc0aNiNfQz2srBaL3Ls8/5N0d+ZEHr0fUj4jKQpis6+Kdk1aZ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9117
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,323 +125,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: bouabid.farouk97@gmail.com, quentin.schulz@theobroma-systems.com
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, Huang Rui <ray.huang@amd.com>,
+ dri-devel@lists.freedesktop.org, Alexey Khoroshilov <khoroshilov@ispras.ru>,
+ lvc-project@linuxtesting.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Montag, 15. Januar 2024, 09:45:10 CET schrieb neil.armstrong@linaro.org:
-> Hi,
-> 
-> On 12/01/2024 19:07, Farouk Bouabid wrote:
-> > dw-mipi-dsi based drivers such as dw-mipi-dsi-rockchip or dw_mipi_dsi-stm
-> > depend on dw_mipi_dsi_probe() to initialize the dw_mipi_dsi driver
-> > structure (dmd pointer). This structure is only initialized once
-> > dw_mipi_dsi_probe() returns, creating the link between the locally created
-> > structure and the actual dmd pointer.
-> > 
-> > Probing the dsi host can be deferred in case of dependency to a dsi
-> > phy-supply (eg. "rockchip,px30-dsi-dphy"). Meanwhile dsi-device drivers
-> > like panels (eg. "ltk050h3146w") can already be registered on the bus.
-> > In that case, when attempting, to register the dsi host from
-> > dw_mipi_dsi_probe() using mipi_dsi_host_register(), the panel probe is
-> > called with a dsi-host pointer that is still locally allocated in
-> > dw_mipi_dsi_probe().
-> > 
-> > While probing, the panel driver tries to attach to a dsi host
-> > (mipi_dsi_attach()) which calls in return for the specific dsi host
-> > attach hook. (e.g. dw_mipi_dsi_rockchip_host_attach()).
-> > dw_mipi_dsi_rockchip uses the component framework.
-> > In the attach hook, the host component is registered which calls in return
-> > for drm_bridge_attach() while trying to bind the component
-> > (dw_mipi_dsi_bind())
-> 
-> In meson_dw_mipi_dsi I simply fixed this by getting rid of components...
+Am 13.01.24 um 22:33 schrieb Fedor Pchelkin:
+> QXL driver doesn't use any device for DMA mappings or allocations so
+> dev_to_node() will panic inside ttm_device_init() on NUMA systems:
+>
+> general protection fault, probably for non-canonical address 0xdffffc000000007a: 0000 [#1] PREEMPT SMP KASAN NOPTI
+> KASAN: null-ptr-deref in range [0x00000000000003d0-0x00000000000003d7]
+> CPU: 1 PID: 1 Comm: swapper/0 Not tainted 6.7.0+ #9
+> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.2-3-gd478f380-rebuilt.opensuse.org 04/01/2014
+> RIP: 0010:ttm_device_init+0x10e/0x340
+> Call Trace:
+>   <TASK>
+>   qxl_ttm_init+0xaa/0x310
+>   qxl_device_init+0x1071/0x2000
+>   qxl_pci_probe+0x167/0x3f0
+>   local_pci_probe+0xe1/0x1b0
+>   pci_device_probe+0x29d/0x790
+>   really_probe+0x251/0x910
+>   __driver_probe_device+0x1ea/0x390
+>   driver_probe_device+0x4e/0x2e0
+>   __driver_attach+0x1e3/0x600
+>   bus_for_each_dev+0x12d/0x1c0
+>   bus_add_driver+0x25a/0x590
+>   driver_register+0x15c/0x4b0
+>   qxl_pci_driver_init+0x67/0x80
+>   do_one_initcall+0xf5/0x5d0
+>   kernel_init_freeable+0x637/0xb10
+>   kernel_init+0x1c/0x2e0
+>   ret_from_fork+0x48/0x80
+>   ret_from_fork_asm+0x1b/0x30
+>   </TASK>
+> Modules linked in:
+> ---[ end trace 0000000000000000 ]---
+> RIP: 0010:ttm_device_init+0x10e/0x340
+>
+> Fall back to NUMA_NO_NODE if there is no device for DMA.
+>
+> Found by Linux Verification Center (linuxtesting.org).
+>
+> Fixes: b0a7ce53d494 ("drm/ttm: Schedule delayed_delete worker closer")
+> Signed-off-by: Fedor Pchelkin <pchelkin@ispras.ru>
 
-If I remember correctly, the component element is there on Rockchip to
-facilitate running dual-dsi displays (1 panel driven by 2 dsi controllers),
-because it allows to wait for both controllers to have probed individually
-before trying to drive the display.
+Oh, thanks for that fix. Reviewed-by: Christian König 
+<christian.koenig@amd.com>
 
-Not sure if there is a better way to do that now.
+Going to push that into -fixes in a minute.
 
+Regards,
+Christian.
 
-Heiko
-
-
-> > drm_bridge_attach() requires a valid drm bridge parameter. However, the
-> > drm bridge (&dmd->bridge) that will be passed, is not yet initialized since
-> > the dw_mipi_dsi_probe() has not yet returned. This call will fail with a
-> > fatal error (invalid bridge) causing the panel to not be probed again.
-> > 
-> > To simplify the issue: drm_bridge_attach() depends on the result pointer
-> > of dw_mipi_dsi_probe().
-> > While, if the dsi probe is deferred, drm_bridge_attach() is called before
-> > dw_mipi_dsi_probe() returns.
-> > 
-> > drm_bridge_attach+0x14/0x1ac
-> > dw_mipi_dsi_bind+0x24/0x30
-> > dw_mipi_dsi_rockchip_bind+0x258/0x378
-> > component_bind_all+0x118/0x248
-> > rockchip_drm_bind+0xb0/0x1f8
-> > try_to_bring_up_aggregate_device+0x168/0x1d4
-> > __component_add+0xa4/0x170
-> > component_add+0x14/0x20
-> > dw_mipi_dsi_rockchip_host_attach+0x54/0x144
-> > dw_mipi_dsi_host_attach+0x9c/0xcc
-> > mipi_dsi_attach+0x28/0x3c
-> > ltk050h3146w_probe+0x10c/0x1a4
-> > mipi_dsi_drv_probe+0x20/0x2c
-> > really_probe+0x148/0x2ac
-> > __driver_probe_device+0x78/0x12c
-> > driver_probe_device+0xdc/0x160
-> > __device_attach_driver+0xb8/0x134
-> > bus_for_each_drv+0x80/0xdc
-> > __device_attach+0xa8/0x1b0
-> > device_initial_probe+0x14/0x20
-> > bus_probe_device+0xa8/0xac
-> > device_add+0x5cc/0x778
-> > mipi_dsi_device_register_full+0xd8/0x198
-> > mipi_dsi_host_register+0x98/0x18c
-> > __dw_mipi_dsi_probe+0x290/0x35c
-> > dw_mipi_dsi_probe+0x10/0x6c
-> > dw_mipi_dsi_rockchip_probe+0x208/0x3e4
-> > platform_probe+0x68/0xdc
-> > really_probe+0x148/0x2ac
-> > __driver_probe_device+0x78/0x12c
-> > driver_probe_device+0xdc/0x160
-> > __device_attach_driver+0xb8/0x134
-> > bus_for_each_drv+0x80/0xdc
-> > __device_attach+0xa8/0x1b0
-> > device_initial_probe+0x14/0x20
-> > bus_probe_device+0xa8/0xac
-> > deferred_probe_work_func+0x88/0xc0
-> > process_one_work+0x138/0x260
-> > worker_thread+0x32c/0x438
-> > kthread+0x118/0x11c
-> > ret_from_fork+0x10/0x20
-> > ---[ end trace 0000000000000000 ]---
-> > 
-> > Fix this by initializing directly the dmd pointer in dw_mipi_dsi_probe(),
-> > which requires also initializting the dmd->bridge attributes that are
-> > required in drm_bridge_attach() before calling mipi_dsi_host_register().
-> > 
-> > Signed-off-by: Farouk Bouabid <farouk.bouabid@theobroma-systems.com>
-> > ---
-> >   drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c   |  4 +-
-> >   drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 42 ++++++++++---------
-> >   drivers/gpu/drm/meson/meson_dw_mipi_dsi.c     |  8 ++--
-> >   .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   |  5 +--
-> >   drivers/gpu/drm/stm/dw_mipi_dsi-stm.c         |  5 +--
-> >   include/drm/bridge/dw_mipi_dsi.h              |  5 ++-
-> >   6 files changed, 35 insertions(+), 34 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c b/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c
-> > index 3ff30ce80c5b..469976ad3b19 100644
-> > --- a/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c
-> > +++ b/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c
-> > @@ -881,8 +881,8 @@ static int imx93_dsi_probe(struct platform_device *pdev)
-> >   	dsi->pdata.priv_data = dsi;
-> >   	platform_set_drvdata(pdev, dsi);
-> >   
-> > -	dsi->dmd = dw_mipi_dsi_probe(pdev, &dsi->pdata);
-> > -	if (IS_ERR(dsi->dmd))
-> > +	ret = dw_mipi_dsi_probe(pdev, &dsi->pdata, &dsi->dmd);
-> > +	if (ret < 0)
-> >   		return dev_err_probe(dev, PTR_ERR(dsi->dmd),
-> >   				     "failed to probe dw_mipi_dsi\n");
-> >   
-> > diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> > index 824fb3c65742..306cba366ba8 100644
-> > --- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> > +++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> > @@ -1184,18 +1184,19 @@ static void dw_mipi_dsi_debugfs_remove(struct dw_mipi_dsi *dsi) { }
-> >   
-> >   #endif /* CONFIG_DEBUG_FS */
-> >   
-> > -static struct dw_mipi_dsi *
-> > -__dw_mipi_dsi_probe(struct platform_device *pdev,
-> > -		    const struct dw_mipi_dsi_plat_data *plat_data)
-> > +int __dw_mipi_dsi_probe(struct platform_device *pdev,
-> > +		    const struct dw_mipi_dsi_plat_data *plat_data, struct dw_mipi_dsi **dsi_p)
-> >   {
-> >   	struct device *dev = &pdev->dev;
-> >   	struct reset_control *apb_rst;
-> >   	struct dw_mipi_dsi *dsi;
-> >   	int ret;
-> >   
-> > -	dsi = devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
-> > -	if (!dsi)
-> > -		return ERR_PTR(-ENOMEM);
-> > +	*dsi_p = devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
-> > +	if (!*dsi_p)
-> > +		return -ENOMEM;
-> > +
-> > +	dsi = *dsi_p;
-> >   
-> >   	dsi->dev = dev;
-> >   	dsi->plat_data = plat_data;
-> > @@ -1203,13 +1204,13 @@ __dw_mipi_dsi_probe(struct platform_device *pdev,
-> >   	if (!plat_data->phy_ops->init || !plat_data->phy_ops->get_lane_mbps ||
-> >   	    !plat_data->phy_ops->get_timing) {
-> >   		DRM_ERROR("Phy not properly configured\n");
-> > -		return ERR_PTR(-ENODEV);
-> > +		return -ENODEV;
-> >   	}
-> >   
-> >   	if (!plat_data->base) {
-> >   		dsi->base = devm_platform_ioremap_resource(pdev, 0);
-> >   		if (IS_ERR(dsi->base))
-> > -			return ERR_PTR(-ENODEV);
-> > +			return -ENODEV;
-> >   
-> >   	} else {
-> >   		dsi->base = plat_data->base;
-> > @@ -1219,7 +1220,7 @@ __dw_mipi_dsi_probe(struct platform_device *pdev,
-> >   	if (IS_ERR(dsi->pclk)) {
-> >   		ret = PTR_ERR(dsi->pclk);
-> >   		dev_err(dev, "Unable to get pclk: %d\n", ret);
-> > -		return ERR_PTR(ret);
-> > +		return ret;
-> >   	}
-> >   
-> >   	/*
-> > @@ -1233,14 +1234,14 @@ __dw_mipi_dsi_probe(struct platform_device *pdev,
-> >   		if (ret != -EPROBE_DEFER)
-> >   			dev_err(dev, "Unable to get reset control: %d\n", ret);
-> >   
-> > -		return ERR_PTR(ret);
-> > +		return ret;
-> >   	}
-> >   
-> >   	if (apb_rst) {
-> >   		ret = clk_prepare_enable(dsi->pclk);
-> >   		if (ret) {
-> >   			dev_err(dev, "%s: Failed to enable pclk\n", __func__);
-> > -			return ERR_PTR(ret);
-> > +			return ret;
-> >   		}
-> >   
-> >   		reset_control_assert(apb_rst);
-> > @@ -1255,19 +1256,20 @@ __dw_mipi_dsi_probe(struct platform_device *pdev,
-> >   
-> >   	dsi->dsi_host.ops = &dw_mipi_dsi_host_ops;
-> >   	dsi->dsi_host.dev = dev;
-> > +	dsi->bridge.driver_private = dsi;
-> > +	dsi->bridge.funcs = &dw_mipi_dsi_bridge_funcs;
-> > +	dsi->bridge.of_node = pdev->dev.of_node;
-> > +
-> >   	ret = mipi_dsi_host_register(&dsi->dsi_host);
-> >   	if (ret) {
-> >   		dev_err(dev, "Failed to register MIPI host: %d\n", ret);
-> >   		pm_runtime_disable(dev);
-> >   		dw_mipi_dsi_debugfs_remove(dsi);
-> > -		return ERR_PTR(ret);
-> > +		return ret;
-> >   	}
-> >   
-> > -	dsi->bridge.driver_private = dsi;
-> > -	dsi->bridge.funcs = &dw_mipi_dsi_bridge_funcs;
-> > -	dsi->bridge.of_node = pdev->dev.of_node;
-> >   
-> > -	return dsi;
-> > +	return 0;
-> >   }
-> >   
-> >   static void __dw_mipi_dsi_remove(struct dw_mipi_dsi *dsi)
-> > @@ -1301,11 +1303,11 @@ EXPORT_SYMBOL_GPL(dw_mipi_dsi_get_bridge);
-> >   /*
-> >    * Probe/remove API, used from platforms based on the DRM bridge API.
-> >    */
-> > -struct dw_mipi_dsi *
-> > -dw_mipi_dsi_probe(struct platform_device *pdev,
-> > -		  const struct dw_mipi_dsi_plat_data *plat_data)
-> > +int dw_mipi_dsi_probe(struct platform_device *pdev,
-> > +		  const struct dw_mipi_dsi_plat_data *plat_data,
-> > +		  struct dw_mipi_dsi **dsi_p)
-> >   {
-> > -	return __dw_mipi_dsi_probe(pdev, plat_data);
-> > +	return __dw_mipi_dsi_probe(pdev, plat_data, dsi_p);
-> >   }
-> >   EXPORT_SYMBOL_GPL(dw_mipi_dsi_probe);
-> >   
-> > diff --git a/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c b/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
-> > index e5fe4e994f43..b103f3e31f2a 100644
-> > --- a/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
-> > +++ b/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
-> > @@ -262,6 +262,7 @@ static int meson_dw_mipi_dsi_probe(struct platform_device *pdev)
-> >   {
-> >   	struct meson_dw_mipi_dsi *mipi_dsi;
-> >   	struct device *dev = &pdev->dev;
-> > +	int ret;
-> >   
-> >   	mipi_dsi = devm_kzalloc(dev, sizeof(*mipi_dsi), GFP_KERNEL);
-> >   	if (!mipi_dsi)
-> > @@ -315,10 +316,9 @@ static int meson_dw_mipi_dsi_probe(struct platform_device *pdev)
-> >   	mipi_dsi->pdata.priv_data = mipi_dsi;
-> >   	platform_set_drvdata(pdev, mipi_dsi);
-> >   
-> > -	mipi_dsi->dmd = dw_mipi_dsi_probe(pdev, &mipi_dsi->pdata);
-> > -	if (IS_ERR(mipi_dsi->dmd))
-> > -		return dev_err_probe(dev, PTR_ERR(mipi_dsi->dmd),
-> > -				     "Failed to probe dw_mipi_dsi\n");
-> > +	ret = dw_mipi_dsi_probe(pdev, &mipi_dsi->pdata, &mipi_dsi->dmd);
-> > +	if (ret < 0)
-> > +		return dev_err_probe(dev, ret, "Failed to probe dw_mipi_dsi\n");
-> >   
-> >   	return 0;
-> >   }
-> > diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-> > index 6396f9324dab..4df32747476c 100644
-> > --- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-> > +++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-> > @@ -1457,9 +1457,8 @@ static int dw_mipi_dsi_rockchip_probe(struct platform_device *pdev)
-> >   	if (IS_ERR(phy_provider))
-> >   		return PTR_ERR(phy_provider);
-> >   
-> > -	dsi->dmd = dw_mipi_dsi_probe(pdev, &dsi->pdata);
-> > -	if (IS_ERR(dsi->dmd)) {
-> > -		ret = PTR_ERR(dsi->dmd);
-> > +	ret = dw_mipi_dsi_probe(pdev, &dsi->pdata, &dsi->dmd);
-> > +	if (ret < 0) {
-> >   		if (ret != -EPROBE_DEFER)
-> >   			DRM_DEV_ERROR(dev,
-> >   				      "Failed to probe dw_mipi_dsi: %d\n", ret);
-> > diff --git a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
-> > index d5f8c923d7bc..44dbbfc277d8 100644
-> > --- a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
-> > +++ b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
-> > @@ -518,9 +518,8 @@ static int dw_mipi_dsi_stm_probe(struct platform_device *pdev)
-> >   
-> >   	platform_set_drvdata(pdev, dsi);
-> >   
-> > -	dsi->dsi = dw_mipi_dsi_probe(pdev, &dw_mipi_dsi_stm_plat_data);
-> > -	if (IS_ERR(dsi->dsi)) {
-> > -		ret = PTR_ERR(dsi->dsi);
-> > +	ret = dw_mipi_dsi_probe(pdev, &dw_mipi_dsi_stm_plat_data, &dsi->dsi);
-> > +	if (ret < 0) {
-> >   		dev_err_probe(dev, ret, "Failed to initialize mipi dsi host\n");
-> >   		goto err_dsi_probe;
-> >   	}
-> > diff --git a/include/drm/bridge/dw_mipi_dsi.h b/include/drm/bridge/dw_mipi_dsi.h
-> > index 65d5e68065e3..f073e819251e 100644
-> > --- a/include/drm/bridge/dw_mipi_dsi.h
-> > +++ b/include/drm/bridge/dw_mipi_dsi.h
-> > @@ -76,9 +76,10 @@ struct dw_mipi_dsi_plat_data {
-> >   	void *priv_data;
-> >   };
-> >   
-> > -struct dw_mipi_dsi *dw_mipi_dsi_probe(struct platform_device *pdev,
-> > +int dw_mipi_dsi_probe(struct platform_device *pdev,
-> >   				      const struct dw_mipi_dsi_plat_data
-> > -				      *plat_data);
-> > +				      *plat_data,
-> > +					  struct dw_mipi_dsi **dsi_p);
-> >   void dw_mipi_dsi_remove(struct dw_mipi_dsi *dsi);
-> >   int dw_mipi_dsi_bind(struct dw_mipi_dsi *dsi, struct drm_encoder *encoder);
-> >   void dw_mipi_dsi_unbind(struct dw_mipi_dsi *dsi);
-> 
-> 
-
-
-
+> ---
+>   drivers/gpu/drm/ttm/ttm_device.c | 9 +++++++--
+>   1 file changed, 7 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
+> index f5187b384ae9..4130945052ed 100644
+> --- a/drivers/gpu/drm/ttm/ttm_device.c
+> +++ b/drivers/gpu/drm/ttm/ttm_device.c
+> @@ -195,7 +195,7 @@ int ttm_device_init(struct ttm_device *bdev, const struct ttm_device_funcs *func
+>   		    bool use_dma_alloc, bool use_dma32)
+>   {
+>   	struct ttm_global *glob = &ttm_glob;
+> -	int ret;
+> +	int ret, nid;
+>   
+>   	if (WARN_ON(vma_manager == NULL))
+>   		return -EINVAL;
+> @@ -215,7 +215,12 @@ int ttm_device_init(struct ttm_device *bdev, const struct ttm_device_funcs *func
+>   
+>   	ttm_sys_man_init(bdev);
+>   
+> -	ttm_pool_init(&bdev->pool, dev, dev_to_node(dev), use_dma_alloc, use_dma32);
+> +	if (dev)
+> +		nid = dev_to_node(dev);
+> +	else
+> +		nid = NUMA_NO_NODE;
+> +
+> +	ttm_pool_init(&bdev->pool, dev, nid, use_dma_alloc, use_dma32);
+>   
+>   	bdev->vma_manager = vma_manager;
+>   	spin_lock_init(&bdev->lru_lock);
 
