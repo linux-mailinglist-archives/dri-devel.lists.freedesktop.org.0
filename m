@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2156C82DA6C
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 14:44:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16BAF82DA6D
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 14:44:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77A3C10E2DA;
-	Mon, 15 Jan 2024 13:44:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 622BB10E2D7;
+	Mon, 15 Jan 2024 13:44:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA5B710E2D7
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 13:44:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AD8710E2F2
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 13:44:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1705326285; x=1736862285;
+ t=1705326287; x=1736862287;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=atr3v3mOvfioNV4kdY3k71zkVtI4s2B34IAL8sWejNE=;
- b=YHZo/rav2PNDCmTdFfmTnRM+YoSAYYJgA5xx6E6dYJnfetaIgdyxZXGJ
- /w4kSodNThBT7at4XrdL++hHvJUzdQ1GUJUoscXlpY6yESwhx3r1HdIN/
- toTdljAa4f6hMlBbnc52Yd+RNKwxnNdvaJxTOGFBihZpD1yGAgjSHEzed
- GGjV3e6QKuujI0muO3O0HoiYacVgwqnJ74nI+0Lw7yc2H6f0yUwvBY1xy
- T406v7Vcj/PptZLh0ojQxvXwIP1QmVrrYKTJwkKwkXIahEsVndLVyV2U3
- kadcLWssQOws/9BEUyG0+jABsVzlrEeSKkwIeumB3G3zec5aHE+AcgvVU Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="403378759"
-X-IronPort-AV: E=Sophos;i="6.04,196,1695711600"; d="scan'208";a="403378759"
+ bh=4qqrXwOK38xKucOkzSNHSJ7tcwU9uuwxnJyUgrdTmYo=;
+ b=Q6Xs1n2A7C0mVnukfnMpQCYxDI4Sn9nR2uYxVUTmNZElURk4sEoHHN2A
+ uAjDrFyPFUnxT3U5yzJcDm3MKCUlcJSgmsmAmm16sNdYYcXEHdU/ldYIj
+ 1XSnOax5W7ucgdJg8NN/hot26z6MgS2RqKBsmE7FNCF21feqb1TDzr4Nf
+ LVSbBDGvaR7gWiywkN7H+T5q/Qid1WYwz7J+NIlrEVuDgfFnk+4Fr9Yvq
+ VgARVtzN62fo7H6OkJSAB7DX5ZNVBIRGNmRroLwpGQDytz1RJ3GKfckp6
+ mopUySFbdMfELfRWufj9rxRFEAUKGw3nC5g/NOf1+T7MW+qhkC1BWESMW g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="403378765"
+X-IronPort-AV: E=Sophos;i="6.04,196,1695711600"; d="scan'208";a="403378765"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jan 2024 05:44:45 -0800
+ 15 Jan 2024 05:44:47 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,196,1695711600"; d="scan'208";a="25472220"
+X-IronPort-AV: E=Sophos;i="6.04,196,1695711600"; d="scan'208";a="25472223"
 Received: from jlawryno.igk.intel.com ([10.91.220.59])
  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jan 2024 05:44:45 -0800
+ 15 Jan 2024 05:44:47 -0800
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 5/9] accel/ivpu: Fix for missing lock around
- drm_gem_shmem_vmap()
-Date: Mon, 15 Jan 2024 14:44:30 +0100
-Message-ID: <20240115134434.493839-6-jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH v2 6/9] accel/ivpu: Free buffer sgt on unbind
+Date: Mon, 15 Jan 2024 14:44:31 +0100
+Message-ID: <20240115134434.493839-7-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240115134434.493839-1-jacek.lawrynowicz@linux.intel.com>
 References: <20240115134434.493839-1-jacek.lawrynowicz@linux.intel.com>
@@ -62,41 +61,48 @@ Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_gem_shmem_vmap/vunmap requires dma resv lock to be held.
-This was missed during conversion to shmem helper.
+Call dma_unmap() on all buffers before the VPU is unbinded to avoid
+"device driver has pending DMA allocations while released from device"
+warning when DMA-API debug is enabled.
 
-Fixes: 8d88e4cdce4f ("accel/ivpu: Use GEM shmem helper for all buffers")
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 ---
- drivers/accel/ivpu/ivpu_gem.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/accel/ivpu/ivpu_gem.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/accel/ivpu/ivpu_gem.c b/drivers/accel/ivpu/ivpu_gem.c
-index 1dda4f38ea25..6890d33cf352 100644
+index 6890d33cf352..4de454bfbf91 100644
 --- a/drivers/accel/ivpu/ivpu_gem.c
 +++ b/drivers/accel/ivpu/ivpu_gem.c
-@@ -361,7 +361,9 @@ ivpu_bo_alloc_internal(struct ivpu_device *vdev, u64 vpu_addr, u64 size, u32 fla
- 	if (ret)
- 		goto err_put;
+@@ -112,8 +112,6 @@ static void ivpu_bo_unbind_locked(struct ivpu_bo *bo)
  
-+	dma_resv_lock(bo->base.base.resv, NULL);
- 	ret = drm_gem_shmem_vmap(&bo->base, &map);
-+	dma_resv_unlock(bo->base.base.resv);
- 	if (ret)
- 		goto err_put;
+ 	ivpu_dbg_bo(vdev, bo, "unbind");
  
-@@ -376,7 +378,10 @@ void ivpu_bo_free_internal(struct ivpu_bo *bo)
- {
- 	struct iosys_map map = IOSYS_MAP_INIT_VADDR(bo->base.vaddr);
- 
-+	dma_resv_lock(bo->base.base.resv, NULL);
- 	drm_gem_shmem_vunmap(&bo->base, &map);
-+	dma_resv_unlock(bo->base.base.resv);
+-	/* TODO: dma_unmap */
+-
+ 	if (bo->mmu_mapped) {
+ 		drm_WARN_ON(&vdev->drm, !bo->ctx);
+ 		drm_WARN_ON(&vdev->drm, !bo->vpu_addr);
+@@ -127,6 +125,18 @@ static void ivpu_bo_unbind_locked(struct ivpu_bo *bo)
+ 		bo->vpu_addr = 0;
+ 		bo->ctx = NULL;
+ 	}
 +
- 	drm_gem_object_put(&bo->base.base);
++	if (bo->base.base.import_attach)
++		return;
++
++	dma_resv_lock(bo->base.base.resv, NULL);
++	if (bo->base.sgt) {
++		dma_unmap_sgtable(vdev->drm.dev, bo->base.sgt, DMA_BIDIRECTIONAL, 0);
++		sg_free_table(bo->base.sgt);
++		kfree(bo->base.sgt);
++		bo->base.sgt = NULL;
++	}
++	dma_resv_unlock(bo->base.base.resv);
  }
  
+ static void ivpu_bo_unbind(struct ivpu_bo *bo)
 -- 
 2.43.0
 
