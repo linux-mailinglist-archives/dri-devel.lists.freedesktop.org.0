@@ -1,62 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BF7B82DAE4
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 15:04:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2951082DB23
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 15:18:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3BDB10E2C4;
-	Mon, 15 Jan 2024 14:04:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD0E010E2B8;
+	Mon, 15 Jan 2024 14:18:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com
- [209.85.210.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF9AA10E2C4
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 14:04:07 +0000 (UTC)
-Received: by mail-ot1-f53.google.com with SMTP id
- 46e09a7af769-6ddf1e88e51so3754474a34.0
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 06:04:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705327447; x=1705932247;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=I77TmnyBV7p1SE2Y2oqkytZuiHCFq9qru4QC+6Q3tDs=;
- b=L0b3KzlYsuVgDBsHK7TIPL3BbkvRZufDKlUcA6xTRddN/5/u7QKqjLexjrGli/t4hY
- 1Bn8rGFn1aCR2/A+7rLqpMnIEgvFgmPxv8Tut6hvkioYpKmn/1W08YLJZ0bzewIQtc51
- wkXw1u/w02k3RR9qnN+4l95nmDxNJsqNLGAqlQLh8ss7NLgHmyt7sEvdlzfn5CAeuqy9
- /Cq24Go5o2DR8w3QqjHmvzD1PrfrlKA88D8YKSmNJcfeKImpM9D9HyJ4BhuEyOlu+DSU
- ZytWyyLKWQSRFaMB9kPwGRrF8vFjPWzEEhNVq+CGo062TJi/WnyObu1uGbfbF5zCjhQ2
- Yv+Q==
-X-Gm-Message-State: AOJu0Yxy/x2xKe4J+4EGpPfdElElDq+fR+fe9km2xY+tLRjDkRI2b4rv
- vWWrrGIsE89Nc7rfBljWRTmmkmn83Jry5Q==
-X-Google-Smtp-Source: AGHT+IHe55qzJSopXpfnrmgb+IHcmuvesqvVHOXTDtsyWUsuE/aU1TWzXOvwAL2fbGgaQA41VjmAGg==
-X-Received: by 2002:a9d:7604:0:b0:6e0:2f9c:4c2f with SMTP id
- k4-20020a9d7604000000b006e02f9c4c2fmr5895529otl.5.1705327446586; 
- Mon, 15 Jan 2024 06:04:06 -0800 (PST)
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com.
- [209.85.161.51]) by smtp.gmail.com with ESMTPSA id
- u128-20020a4a5786000000b0059870bf6492sm1759104ooa.21.2024.01.15.06.04.06
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Jan 2024 06:04:06 -0800 (PST)
-Received: by mail-oo1-f51.google.com with SMTP id
- 006d021491bc7-5986cb7bb61so3724000eaf.2
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 06:04:06 -0800 (PST)
-X-Received: by 2002:a81:410d:0:b0:5f4:a5ab:4105 with SMTP id
- o13-20020a81410d000000b005f4a5ab4105mr2813928ywa.8.1705327425927; Mon, 15 Jan
- 2024 06:03:45 -0800 (PST)
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9327810E2B8
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 14:18:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1705328300;
+ bh=z6KcxdknYsSFxGXKIVsllpOIvVGKC47lgB87/ecGrAc=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=hbcZS9+GVdHRXrDn5zFilkKoGe/wz9Un8A6DldbXHgDSf3F5jW03spi4g+UeM9s1j
+ Q+pBh/TWMcpJlB3q6wEy7VXqKYTJtOalK3LGzcCNlgITfDJZ7EOs5OMEsoX/oPBgwU
+ 5ajYj4WJ+rCSaEhhi0E1bv5BSmWvuSeKligdsuos0NBRsbwP1XIYwjJXIZ9qIBl5EQ
+ rbV7C+AzMdUX42vFNHodFAw0LgvNvpBAqUEbWqYURNaDJHEk6SQxo3whjhBi07So4a
+ ogw5Hx/TLhHwxj8I+6vtcP3rYOxhxziF8NethYeciszzty/BWArM3cH2Nmz0CvbtOE
+ hUG42xxPXCKMw==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 683413781F80;
+ Mon, 15 Jan 2024 14:18:19 +0000 (UTC)
+Date: Mon, 15 Jan 2024 15:18:18 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Faith Ekstrand <faith.ekstrand@collabora.com>
+Subject: Re: [PATCH v3 00/14] drm: Add a driver for CSF-based Mali GPUs
+Message-ID: <20240115151818.521622ca@collabora.com>
+In-Reply-To: <fba8eaf97e61a716ca74c4add7092c52b1ff2fbe.camel@collabora.com>
+References: <20231204173313.2098733-1-boris.brezillon@collabora.com>
+ <08C0F75B-292B-444D-A509-1451B08D0059@gmail.com>
+ <20231211095206.13e3d7ba@collabora.com>
+ <fba8eaf97e61a716ca74c4add7092c52b1ff2fbe.camel@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <cover.1704788539.git.ysato@users.sourceforge.jp>
- <edd42bb5aa30ac3eb26a9e08b1dc6fc9041aa3b1.1704788539.git.ysato@users.sourceforge.jp>
-In-Reply-To: <edd42bb5aa30ac3eb26a9e08b1dc6fc9041aa3b1.1704788539.git.ysato@users.sourceforge.jp>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 15 Jan 2024 15:03:34 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU=CZVSc16FeVDc6YmTKw=xa71RUzOE3bappLwH2W8Z4w@mail.gmail.com>
-Message-ID: <CAMuHMdU=CZVSc16FeVDc6YmTKw=xa71RUzOE3bappLwH2W8Z4w@mail.gmail.com>
-Subject: Re: [DO NOT MERGE v6 01/37] sh: passing FDT address to kernel startup.
-To: Yoshinori Sato <ysato@users.sourceforge.jp>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,67 +56,174 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
- linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
- Bin Meng <bmeng@tinylab.org>, Michael Turquette <mturquette@baylibre.com>,
- linux-pci@vger.kernel.org, Jacky Huang <ychuang3@nuvoton.com>,
- Palmer Dabbelt <palmer@rivosinc.com>, linux-kernel@vger.kernel.org,
- Max Filippov <jcmvbkbc@gmail.com>, Lee Jones <lee@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Hyeonggon Yoo <42.hyeyoo@gmail.com>, Jiri Slaby <jirislaby@kernel.org>,
- linux-clk@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Baoquan He <bhe@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- David Airlie <airlied@gmail.com>, Helge Deller <deller@gmx.de>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Magnus Damm <magnus.damm@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-serial@vger.kernel.org,
- David Rientjes <rientjes@google.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Maxime Ripard <mripard@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
- Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- Chris Morgan <macromorgan@hotmail.com>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@linutronix.de>,
- Vlastimil Babka <vbabka@suse.cz>, Yang Xiwen <forbidden405@foxmail.com>,
- Sergey Shtylyov <s.shtylyov@omp.ru>, linux-ide@vger.kernel.org,
- Stephen Boyd <sboyd@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Biju Das <biju.das.jz@bp.renesas.com>,
- Sebastian Reichel <sre@kernel.org>, Azeem Shaikh <azeemshaikh38@gmail.com>,
- linux-renesas-soc@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>,
- Andrew Morton <akpm@linux-foundation.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Tatsuyuki Ishi <ishitatsuyuki@gmail.com>,
+ Nicolas Boichat <drinkcat@chromium.org>, Daniel Stone <daniels@collabora.com>,
+ Liviu Dudau <Liviu.Dudau@arm.com>, dri-devel@lists.freedesktop.org,
+ Steven Price <steven.price@arm.com>,
+ =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>, kernel@collabora.com,
+ Robin Murphy <robin.murphy@arm.com>,
+ "Marty E . Plummer" <hanetzer@startmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 9, 2024 at 9:23=E2=80=AFAM Yoshinori Sato
-<ysato@users.sourceforge.jp> wrote:
-> R4 is caller saved in SH ABI.
-> Save it so it doesn't get corrupted until it's needed for initialization.
->
-> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+Hi Faith,
 
-My
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-on v3 is still valid.
+Sorry for the late reply, I only got back to panthor very recently.
 
-Gr{oetje,eeting}s,
+On Mon, 11 Dec 2023 12:18:04 -0600
+Faith Ekstrand <faith.ekstrand@collabora.com> wrote:
 
-                        Geert
+> On Mon, 2023-12-11 at 09:52 +0100, Boris Brezillon wrote:
+> > Hi,
+> >=20
+> > On Sun, 10 Dec 2023 13:58:51 +0900
+> > Tatsuyuki Ishi <ishitatsuyuki@gmail.com> wrote:
+> >  =20
+> > > > On Dec 5, 2023, at 2:32, Boris Brezillon
+> > > > <boris.brezillon@collabora.com> wrote:
+> > > >=20
+> > > > Hello,
+> > > >=20
+> > > > This is the 3rd version of the kernel driver for Mali CSF-based
+> > > > GPUs.
+> > > >=20
+> > > > With all the DRM dependencies being merged (drm-sched single
+> > > > entity and
+> > > > drm_gpuvm), I thought now was a good time to post a new version.
+> > > > Note
+> > > > that the iommu series we depend on [1] has been merged recently.
+> > > > The
+> > > > only remaining dependency that hasn't been merged yet is this
+> > > > rather
+> > > > trival drm_gpuvm [2] patch.
+> > > >=20
+> > > > As for v2, I pushed a branch based on drm-misc-next and
+> > > > containing
+> > > > all the dependencies that are not yet available in drm-misc-next
+> > > > here[3], and another [4] containing extra patches to have things
+> > > > working on rk3588. The CSF firmware binary can be found here[5],
+> > > > and
+> > > > should be placed under
+> > > > /lib/firmware/arm/mali/arch10.8/mali_csffw.bin.
+> > > >=20
+> > > > The mesa MR adding v10 support on top of panthor is available
+> > > > here [6].
+> > > >=20
+> > > > Regarding the GPL2+MIT relicensing, Liviu did an audit and found
+> > > > two
+> > > > more people that I didn't spot initially: Cl=C3=A9ment P=C3=A9ron f=
+or the
+> > > > devfreq
+> > > > code, and Alexey Sheplyakov for some bits in panthor_gpu.c. Both
+> > > > are
+> > > > Cc-ed on the relevant patches. The rest of the code is either
+> > > > new, or
+> > > > covered by the Linaro, Arm and Collabora acks.
+> > > >=20
+> > > > And here is a non-exhaustive changelog, check each commit for a
+> > > > detailed
+> > > > changelog.
+> > > >=20
+> > > > v3;
+> > > > - Quite a few changes at the MMU/sched level to make the fix some
+> > > > =C2=A0race conditions and deadlocks
+> > > > - Addition of the a sync-only VM_BIND operation (to support
+> > > > =C2=A0vkQueueSparseBind with zero commands).=C2=A0  =20
+> > >=20
+> > > Hi Boris,
+> > >=20
+> > > Just wanted to point out that vkQueueBindSparse's semantics is
+> > > rather different
+> > > from vkQueueSubmit when it comes to synchronization.=C2=A0 In short,
+> > > vkQueueBindSparse does not operate on a particular timeline (aka
+> > > scheduling
+> > > queue / drm_sched_entity).=C2=A0 The property of following a timeline
+> > > order is known
+> > > as =E2=80=9Csubmission order=E2=80=9D [1] in Vulkan, and applies to v=
+kQueueSubmit
+> > > only and not
+> > > vkQueueBindSparse. =20
+> >=20
+> > Hm, okay. I really though the same ordering guarantees applied to
+> > sparse binding queues too, as the spec [1] says
+> >=20
+> > "
+> > Batches begin execution in the order they appear in pBindInfo, but
+> > may complete out of order.
+> > " =20
+>=20
+> Right. So this is something where the Vulkan spec isn't terribly clear
+> and I think I need to go file a spec bug.=C2=A0 I'm fairly sure that the
+> intent is that bind operations MAY complete out-of-order but are not
+> required to complete out-of-order.=C2=A0 In other words, I'm fairly sure
+> that implementations are allowed but not required to insert extra
+> dependencies that force some amount of ordering.=C2=A0 We take advantage =
+of
+> this in Mesa today to properly implement vkQueueWaitIdle() on sparse
+> binding queues.
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+Do I get it correctly that, for Mesa's generic
+vk_common_QueueWaitIdle() implementation to work correctly, we not only
+need to guarantee in-order submission, but also in-order completion on
+the queue. I mean, that's no problem for panvk/panthor, because that's
+how it's implemented anyway, but I didn't realize this constraint
+existed until you mentioned it.
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+> This is also a requirement of Windows WDDM2 as far as
+> I can tell so I'd be very surprised if we disallowed it in the spec.
+>=20
+> That said, that's all very unclear and IDK where you'd get that from
+> the spec.=C2=A0 I'm going to go file a spec bug so we can get this sorted
+> out.
+>=20
+> ~Faith
+>=20
+>=20
+> > which means things are submitted in order inside a vkQueueSparseBind
+> > context, so I was expecting the submission ordering guarantee to
+> > apply
+> > across vkQueueSparseBind() calls on the same queue too. Just want to
+> > mention that all kernel implementations I have seen so far assume
+> > VM_BIND submissions on a given queue are serialized (that's how
+> > drm_sched works, and Xe, Nouveau and Panthor are basing their VM_BIND
+> > implemenation on drm_sched).
+> >=20
+> > Maybe Faith, or anyone deeply involved in the Vulkan specification,
+> > can
+> > confirm that submission ordering guarantees are relaxed on sparse
+> > binding queues.
+> >  =20
+> > >=20
+> > > Hence, an implementation that takes full advantage of Vulkan
+> > > semantics would
+> > > essentially have an infinite amount of VM_BIND contexts. =20
+> >=20
+> > Uh, that's definitely not how I understood it initially...
+> >  =20
+> > > It would also not need
+> > > sync-only VM_BIND submissions, assuming that drmSyncobjTransfer
+> > > works. =20
+> >=20
+> > Sure, if each vkQueueSparseBind() has its own timeline, an internal
+> > timeline-syncobj with a bunch of drmSyncobjTransfer() calls would do
+> > the
+> > trick (might require several ioctls() to merge input syncobjs, but
+> > that's probably not the end of the world).
+
+Back to the kernel-side implementation. As Tatsuyuki pointed out, we
+can always replace the sync-only VM_BIND (no actual operation on the VM,
+just a bunch of wait/signal sync operations) with X calls to
+drmSyncobjTransfer() and a mesa-driver-specific timeline syncobj that's
+used to consolidate all the operations we have submitted so far. But
+given Nouveau supports this sync-only operation (at least that's my
+understanding of the nouveau_uvmm.c code and how VM_BIND is currently
+used in NVK), I guess there are good reasons to support that natively.
+Besides the potential optimization on the number of ioctl() calls, and
+the fact adding support for VM_BIND with zero VM ops is trivial enough
+that it's probably worth adding to simplify the UMD implementation, is
+there anything else I'm missing?
+
+Regards,
+
+Boris
