@@ -2,53 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8DA982D46C
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 08:06:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FB2582D4EC
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 09:20:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B2E710E203;
-	Mon, 15 Jan 2024 07:06:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA51C10E205;
+	Mon, 15 Jan 2024 08:20:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91A8910E0FD;
- Mon, 15 Jan 2024 07:06:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1705302369; x=1736838369;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=u3JPWnGBTFSEOVl318U9z12NSUhutBTG1/QIh7RZ2Bw=;
- b=jE47S4Gxl/g09Ixt5fV+LT5dqxOqhDHTMnW7uV2wdYbCL/VJGSr3lphB
- rd6nL55+NFBz215e1KPxwWDQrabtMFBA0F7xxNdPyomvM+olxtywJjauh
- tFz57PNMh8Wzdd8W9TCuQmqPZa1lnSMa8zLtttlNcxSylAzRD/9vfcYws
- FoKXVCNvSRnxQ3VKL2tnGr+xbFX2bGhItfDpysNa73pEnFYjitY8nVmd1
- sizArannpW/Dp/it1h3js8agbWA3/lG2b5fmrYT/nVQLYlB+1gSBnxVeZ
- f+E2Pa9Bezz25L9/gXtIkOP9BaouH0P7UC8Ci6i0ltdqiWHNDf2zsFgrY g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="13028561"
-X-IronPort-AV: E=Sophos;i="6.04,196,1695711600"; d="scan'208";a="13028561"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jan 2024 23:06:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,196,1695711600"; d="scan'208";a="25697907"
-Received: from nrseife-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.54.233])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jan 2024 23:06:06 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Ilia Mirkin <imirkin@alum.mit.edu>
-Subject: Re: [PATCH 1/6] drm/nouveau: convert to using is_hdmi and has_audio
- from display info
-In-Reply-To: <CAKb7Uvh17nJUO2a1pD25Rpq5tX4TMV0S4P++TKinOGUQnZsdRg@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1705078136.git.jani.nikula@intel.com>
- <924db0d9debec057fe15e820bc470a966a3401b0.1705078136.git.jani.nikula@intel.com>
- <CAKb7Uvh17nJUO2a1pD25Rpq5tX4TMV0S4P++TKinOGUQnZsdRg@mail.gmail.com>
-Date: Mon, 15 Jan 2024 09:06:01 +0200
-Message-ID: <87ply3rs86.fsf@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6D4810E205
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 08:20:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1705306850;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=LRrQ9hj3v8JeCLKcpLTeqR/vnXCdHRzqkMMDMAxwZhE=;
+ b=ahkiEaD3VNLcL7mLHZn+rMh9rvoZjqiANMY1XhJkY42DI8JX0tbsPYiEi8PDAeoul60Z69
+ nyQQMuub9yckCt0Fn+zwmDfEnNZI1myyYMwhrZ5JVQw3m9LeDQI4hybpnwSD3dpOrFqLOG
+ Y/jSdbhuD8clr86gQCIVLMWA2K1pBFA=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-686-ouGdPspCOICuEbfN7HhQJA-1; Mon, 15 Jan 2024 03:20:49 -0500
+X-MC-Unique: ouGdPspCOICuEbfN7HhQJA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-40e61491b81so16094325e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 00:20:49 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1705306848; x=1705911648;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=LRrQ9hj3v8JeCLKcpLTeqR/vnXCdHRzqkMMDMAxwZhE=;
+ b=TcQqItZqfo7Xoq3usDZOZPj+0KySBbtKpf7oKy+fK0vuV7uEEbTh7nGY4x/yKE9NUY
+ O8sC/7wfiT7WwWLoy9U4tQ2IGUzg1d4KlQZJr1K1h0cRjrkndgWQMfa0olsCe2Dect0S
+ /R8sq1ItlrA0V9iUJHpZQ0ptSP1AZ5eoZr5uc5YOz3N43glQY1lQf7+KmEDa7lyzAviz
+ dOIO61RcMQy2bHHQyn2v0F4FVDBMxkUAyHhyVo/D80Uubp+cDzf5//JzEAQj71Ku53sl
+ AOvX/gENQhiL2g/Odmd1h2fe9jX7yy4kpRo+bGL7CGUh96a3MRAnPpJmFn5G0HGnWpRB
+ O9ZQ==
+X-Gm-Message-State: AOJu0YzOazHm4SUzjifvOOWM1YDB985WygeFUoYc51jX8mFVE8YQcRUw
+ 0z5eF/EFnZMovhJ2uv6hlu1gMuaiyQaomNh+eAnuG8quQu9ufJZQel2vR0MxDYBxoApwMH6kCVz
+ 4A/wm0QXIa8tI4pzylkSSHTzWBPVQsBsEAIcKIM6wRsAV
+X-Received: by 2002:a05:600c:8515:b0:40e:66cd:1868 with SMTP id
+ gw21-20020a05600c851500b0040e66cd1868mr2066353wmb.88.1705306847866; 
+ Mon, 15 Jan 2024 00:20:47 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEPwI3UICWY2yo54y5yNxKfPuc3OoaC2AsJ2BmiXtKiDTgSkaxoQcQyHiv07sCt2HzzIkDD2A==
+X-Received: by 2002:a05:600c:8515:b0:40e:66cd:1868 with SMTP id
+ gw21-20020a05600c851500b0040e66cd1868mr2066345wmb.88.1705306847586; 
+ Mon, 15 Jan 2024 00:20:47 -0800 (PST)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ d13-20020a056000114d00b003379d5d2f1csm5969671wrx.28.2024.01.15.00.20.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Jan 2024 00:20:47 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/4] backlight: hx8357: Make use of device properties
+In-Reply-To: <20240114152759.1040563-2-andriy.shevchenko@linux.intel.com>
+References: <20240114152759.1040563-1-andriy.shevchenko@linux.intel.com>
+ <20240114152759.1040563-2-andriy.shevchenko@linux.intel.com>
+Date: Mon, 15 Jan 2024 09:20:46 +0100
+Message-ID: <87bk9novmp.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,140 +82,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Jingoo Han <jingoohan1@gmail.com>,
+ Daniel Thompson <daniel.thompson@linaro.org>, Lee Jones <lee@kernel.org>,
+ Helge Deller <deller@gmx.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 14 Jan 2024, Ilia Mirkin <imirkin@alum.mit.edu> wrote:
-> On Fri, Jan 12, 2024 at 11:50=E2=80=AFAM Jani Nikula <jani.nikula@intel.c=
-om> wrote:
->>
->> Prefer the parsed results for is_hdmi and has_audio in display info over
->> calling drm_detect_hdmi_monitor() and drm_detect_monitor_audio(),
->> respectively.
->>
->> Conveniently, this also removes the need to use edid_blob_ptr.
->>
->> Cc: Karol Herbst <kherbst@redhat.com>
->> Cc: Lyude Paul <lyude@redhat.com>
->> Cc: Danilo Krummrich <dakr@redhat.com>
->> Cc: nouveau@lists.freedesktop.org
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->> ---
->>  drivers/gpu/drm/nouveau/dispnv50/disp.c     | 8 ++++----
->>  drivers/gpu/drm/nouveau/dispnv50/head.c     | 8 +-------
->>  drivers/gpu/drm/nouveau/nouveau_connector.c | 2 +-
->>  3 files changed, 6 insertions(+), 12 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/n=
-ouveau/dispnv50/disp.c
->> index 8d37a694b772..908b1042669c 100644
->> --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
->> +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
->> @@ -750,7 +750,7 @@ nv50_audio_enable(struct drm_encoder *encoder, struc=
-t nouveau_crtc *nv_crtc,
->>         struct nouveau_encoder *nv_encoder =3D nouveau_encoder(encoder);
->>         struct nvif_outp *outp =3D &nv_encoder->outp;
->>
->> -       if (!nv50_audio_supported(encoder) || !drm_detect_monitor_audio(=
-nv_connector->edid))
->> +       if (!nv50_audio_supported(encoder) || !nv_connector->base.displa=
-y_info.has_audio)
->>                 return;
->>
->>         mutex_lock(&drm->audio.lock);
->> @@ -1764,7 +1764,7 @@ nv50_sor_atomic_enable(struct drm_encoder *encoder=
-, struct drm_atomic_state *sta
->>         if ((disp->disp->object.oclass =3D=3D GT214_DISP ||
->>              disp->disp->object.oclass >=3D GF110_DISP) &&
->>             nv_encoder->dcb->type !=3D DCB_OUTPUT_LVDS &&
->> -           drm_detect_monitor_audio(nv_connector->edid))
->> +           nv_connector->base.display_info.has_audio)
->>                 hda =3D true;
->>
->>         if (!nvif_outp_acquired(outp))
->> @@ -1773,7 +1773,7 @@ nv50_sor_atomic_enable(struct drm_encoder *encoder=
-, struct drm_atomic_state *sta
->>         switch (nv_encoder->dcb->type) {
->>         case DCB_OUTPUT_TMDS:
->>                 if (disp->disp->object.oclass !=3D NV50_DISP &&
->> -                   drm_detect_hdmi_monitor(nv_connector->edid))
->> +                   !nv_connector->base.display_info.is_hdmi)
+Andy Shevchenko <andriy.shevchenko@linux.intel.com> writes:
+
+Hello Andy,
+
+> Convert the module to be property provider agnostic and allow
+> it to be used on non-OF platforms.
 >
-> This is backwards, no?
-
-Good catch, thanks!
-
-BR,
-Jani.
-
+> Include mod_devicetable.h explicitly to replace the dropped of.h
+> which included mod_devicetable.h indirectly.
 >
->>                         nv50_hdmi_enable(encoder, nv_crtc, nv_connector,=
- state, mode, hda);
->>
->>                 if (nv_encoder->outp.or.link & 1) {
->> @@ -1786,7 +1786,7 @@ nv50_sor_atomic_enable(struct drm_encoder *encoder=
-, struct drm_atomic_state *sta
->>                          */
->>                         if (mode->clock >=3D 165000 &&
->>                             nv_encoder->dcb->duallink_possible &&
->> -                           !drm_detect_hdmi_monitor(nv_connector->edid))
->> +                           !nv_connector->base.display_info.is_hdmi)
->>                                 proto =3D NV507D_SOR_SET_CONTROL_PROTOCO=
-L_DUAL_TMDS;
->>                 } else {
->>                         proto =3D NV507D_SOR_SET_CONTROL_PROTOCOL_SINGLE=
-_TMDS_B;
->> diff --git a/drivers/gpu/drm/nouveau/dispnv50/head.c b/drivers/gpu/drm/n=
-ouveau/dispnv50/head.c
->> index 83355dbc15ee..d7c74cc43ba5 100644
->> --- a/drivers/gpu/drm/nouveau/dispnv50/head.c
->> +++ b/drivers/gpu/drm/nouveau/dispnv50/head.c
->> @@ -127,14 +127,8 @@ nv50_head_atomic_check_view(struct nv50_head_atom *=
-armh,
->>         struct drm_display_mode *omode =3D &asyh->state.adjusted_mode;
->>         struct drm_display_mode *umode =3D &asyh->state.mode;
->>         int mode =3D asyc->scaler.mode;
->> -       struct edid *edid;
->>         int umode_vdisplay, omode_hdisplay, omode_vdisplay;
->>
->> -       if (connector->edid_blob_ptr)
->> -               edid =3D (struct edid *)connector->edid_blob_ptr->data;
->> -       else
->> -               edid =3D NULL;
->> -
->>         if (!asyc->scaler.full) {
->>                 if (mode =3D=3D DRM_MODE_SCALE_NONE)
->>                         omode =3D umode;
->> @@ -162,7 +156,7 @@ nv50_head_atomic_check_view(struct nv50_head_atom *a=
-rmh,
->>          */
->>         if ((asyc->scaler.underscan.mode =3D=3D UNDERSCAN_ON ||
->>             (asyc->scaler.underscan.mode =3D=3D UNDERSCAN_AUTO &&
->> -            drm_detect_hdmi_monitor(edid)))) {
->> +            connector->display_info.is_hdmi))) {
->>                 u32 bX =3D asyc->scaler.underscan.hborder;
->>                 u32 bY =3D asyc->scaler.underscan.vborder;
->>                 u32 r =3D (asyh->view.oH << 19) / asyh->view.oW;
->> diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/d=
-rm/nouveau/nouveau_connector.c
->> index 856b3ef5edb8..938832a6af15 100644
->> --- a/drivers/gpu/drm/nouveau/nouveau_connector.c
->> +++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
->> @@ -1034,7 +1034,7 @@ get_tmds_link_bandwidth(struct drm_connector *conn=
-ector)
->>         unsigned duallink_scale =3D
->>                 nouveau_duallink && nv_encoder->dcb->duallink_possible ?=
- 2 : 1;
->>
->> -       if (drm_detect_hdmi_monitor(nv_connector->edid)) {
->> +       if (nv_connector->base.display_info.is_hdmi) {
->>                 info =3D &nv_connector->base.display_info;
->>                 duallink_scale =3D 1;
->>         }
->> --
->> 2.39.2
->>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  drivers/video/backlight/hx8357.c | 14 ++++++++------
+>  1 file changed, 8 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/video/backlight/hx8357.c b/drivers/video/backlight/hx8357.c
+> index bf18337ff0c2..c7fd10d55c5d 100644
+> --- a/drivers/video/backlight/hx8357.c
+> +++ b/drivers/video/backlight/hx8357.c
+> @@ -8,9 +8,9 @@
+>  #include <linux/delay.h>
+>  #include <linux/gpio/consumer.h>
+>  #include <linux/lcd.h>
+> +#include <linux/mod_devicetable.h>
+>  #include <linux/module.h>
+> -#include <linux/of.h>
+> -#include <linux/of_device.h>
+> +#include <linux/property.h>
+>  #include <linux/spi/spi.h>
+>  
+>  #define HX8357_NUM_IM_PINS	3
+> @@ -564,6 +564,8 @@ static struct lcd_ops hx8357_ops = {
+>  	.get_power	= hx8357_get_power,
+>  };
+>  
+> +typedef int (*hx8357_init)(struct lcd_device *);
+> +
 
---=20
-Jani Nikula, Intel
+This kind of typedef usage is frowned upon in the Linux coding style [0]
+(per my understanding at least) and indeed in my opinion it makes harder
+to grep.
+
+[0] https://www.kernel.org/doc/Documentation/process/coding-style.rst
+
+>  static const struct of_device_id hx8357_dt_ids[] = {
+>  	{
+>  		.compatible = "himax,hx8357",
+> @@ -582,7 +584,7 @@ static int hx8357_probe(struct spi_device *spi)
+>  	struct device *dev = &spi->dev;
+>  	struct lcd_device *lcdev;
+>  	struct hx8357_data *lcd;
+> -	const struct of_device_id *match;
+> +	hx8357_init init;
+>  	int i, ret;
+>  
+>  	lcd = devm_kzalloc(&spi->dev, sizeof(*lcd), GFP_KERNEL);
+> @@ -597,8 +599,8 @@ static int hx8357_probe(struct spi_device *spi)
+>  
+>  	lcd->spi = spi;
+>  
+> -	match = of_match_device(hx8357_dt_ids, &spi->dev);
+> -	if (!match || !match->data)
+> +	init = device_get_match_data(dev);
+> +	if (!init)
+>  		return -EINVAL;
+>  
+>  	lcd->reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
+> @@ -627,7 +629,7 @@ static int hx8357_probe(struct spi_device *spi)
+>  
+>  	hx8357_lcd_reset(lcdev);
+>  
+> -	ret = ((int (*)(struct lcd_device *))match->data)(lcdev);
+
+This is what I mean, before it was clear what was stored in match->data.
+But after you changes, what is returned by the device_get_match_data()
+function is opaque and you need to look at the typedef hx8357_init to
+figure that out.
+
+No strong opinion though and I see other drivers doing the same (but no
+other driver in drivers/video/backlight).
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
