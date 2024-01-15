@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCE4A82DAE1
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 15:02:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BF7B82DAE4
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 15:04:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA86D10E2A4;
-	Mon, 15 Jan 2024 14:02:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3BDB10E2C4;
+	Mon, 15 Jan 2024 14:04:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com
- [209.85.219.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D52010E2A4
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 14:02:40 +0000 (UTC)
-Received: by mail-qv1-f42.google.com with SMTP id
- 6a1803df08f44-68162965f6cso3821526d6.0
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 06:02:40 -0800 (PST)
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com
+ [209.85.210.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF9AA10E2C4
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 14:04:07 +0000 (UTC)
+Received: by mail-ot1-f53.google.com with SMTP id
+ 46e09a7af769-6ddf1e88e51so3754474a34.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 06:04:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705327359; x=1705932159;
+ d=1e100.net; s=20230601; t=1705327447; x=1705932247;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=SmpeOIqaC6PrGt9qvY+jgYWHyktprhcCdGj8iUM5P0I=;
- b=bXPgHfHFKxaFRj94+0kkltDMf1G5IItq7xosBx6m4ez0kXyEMuM7sQY6IuLbHSWUo0
- GMgWzfnGrmZCHefdD4r0jJ3wd3rrwJcYCO9tWBFSir8kEsbZ4uC1TkaoKiuUVQUQSgrD
- WrUtiwwnMLjzy2ZmP5kn79SjIrdHr2lJ2USsW7a6zpUnlznGPDzAggwloTbBya1GE9Tr
- Y/odyV2GoxuPjV7CSR+mb7N/O/o8vePZ5UKCgs3Cq33kAW7T1J82r12njXfvSl7RgDwF
- udnoI4iETfweDgfryTs6zCuefBk1VYHcRYj2QwasBC+sNYlzJLAGGPqpxYOrbfMgMY69
- 0iQA==
-X-Gm-Message-State: AOJu0YyE8wHU1LhtLjyEghhJ5u9rXinJQyIRzd+difdTD3UuoS32iTaK
- +rNasQvebArEovrgG4dhFKdEQTWKyw/lLQ==
-X-Google-Smtp-Source: AGHT+IGtn229fMYgP9+lrTOmfreL44N0FfuWMCGdrw8lZI0fwm3/Niec9Ccm18bvMKC8xkiC8o/2Wg==
-X-Received: by 2002:ad4:5e8e:0:b0:681:99c:99bb with SMTP id
- jl14-20020ad45e8e000000b00681099c99bbmr7330558qvb.60.1705327358788; 
- Mon, 15 Jan 2024 06:02:38 -0800 (PST)
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com.
- [209.85.222.180]) by smtp.gmail.com with ESMTPSA id
- lg7-20020a056214548700b00680cac39daasm3322479qvb.25.2024.01.15.06.02.38
+ bh=I77TmnyBV7p1SE2Y2oqkytZuiHCFq9qru4QC+6Q3tDs=;
+ b=L0b3KzlYsuVgDBsHK7TIPL3BbkvRZufDKlUcA6xTRddN/5/u7QKqjLexjrGli/t4hY
+ 1Bn8rGFn1aCR2/A+7rLqpMnIEgvFgmPxv8Tut6hvkioYpKmn/1W08YLJZ0bzewIQtc51
+ wkXw1u/w02k3RR9qnN+4l95nmDxNJsqNLGAqlQLh8ss7NLgHmyt7sEvdlzfn5CAeuqy9
+ /Cq24Go5o2DR8w3QqjHmvzD1PrfrlKA88D8YKSmNJcfeKImpM9D9HyJ4BhuEyOlu+DSU
+ ZytWyyLKWQSRFaMB9kPwGRrF8vFjPWzEEhNVq+CGo062TJi/WnyObu1uGbfbF5zCjhQ2
+ Yv+Q==
+X-Gm-Message-State: AOJu0Yxy/x2xKe4J+4EGpPfdElElDq+fR+fe9km2xY+tLRjDkRI2b4rv
+ vWWrrGIsE89Nc7rfBljWRTmmkmn83Jry5Q==
+X-Google-Smtp-Source: AGHT+IHe55qzJSopXpfnrmgb+IHcmuvesqvVHOXTDtsyWUsuE/aU1TWzXOvwAL2fbGgaQA41VjmAGg==
+X-Received: by 2002:a9d:7604:0:b0:6e0:2f9c:4c2f with SMTP id
+ k4-20020a9d7604000000b006e02f9c4c2fmr5895529otl.5.1705327446586; 
+ Mon, 15 Jan 2024 06:04:06 -0800 (PST)
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com.
+ [209.85.161.51]) by smtp.gmail.com with ESMTPSA id
+ u128-20020a4a5786000000b0059870bf6492sm1759104ooa.21.2024.01.15.06.04.06
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Jan 2024 06:02:38 -0800 (PST)
-Received: by mail-qk1-f180.google.com with SMTP id
- af79cd13be357-78104f6f692so669848485a.1
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 06:02:38 -0800 (PST)
-X-Received: by 2002:a05:690c:fc3:b0:5ed:b2a2:1279 with SMTP id
- dg3-20020a05690c0fc300b005edb2a21279mr3185157ywb.16.1705327338023; Mon, 15
- Jan 2024 06:02:18 -0800 (PST)
+ Mon, 15 Jan 2024 06:04:06 -0800 (PST)
+Received: by mail-oo1-f51.google.com with SMTP id
+ 006d021491bc7-5986cb7bb61so3724000eaf.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 06:04:06 -0800 (PST)
+X-Received: by 2002:a81:410d:0:b0:5f4:a5ab:4105 with SMTP id
+ o13-20020a81410d000000b005f4a5ab4105mr2813928ywa.8.1705327425927; Mon, 15 Jan
+ 2024 06:03:45 -0800 (PST)
 MIME-Version: 1.0
 References: <cover.1704788539.git.ysato@users.sourceforge.jp>
- <17c6381a733d34e8460fd2979f8b53804e808e04.1704788539.git.ysato@users.sourceforge.jp>
-In-Reply-To: <17c6381a733d34e8460fd2979f8b53804e808e04.1704788539.git.ysato@users.sourceforge.jp>
+ <edd42bb5aa30ac3eb26a9e08b1dc6fc9041aa3b1.1704788539.git.ysato@users.sourceforge.jp>
+In-Reply-To: <edd42bb5aa30ac3eb26a9e08b1dc6fc9041aa3b1.1704788539.git.ysato@users.sourceforge.jp>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 15 Jan 2024 15:02:06 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVSa0j_npPwcPqH0W2XG8je_A5osy4WjAe0nM_DpC7Ffw@mail.gmail.com>
-Message-ID: <CAMuHMdVSa0j_npPwcPqH0W2XG8je_A5osy4WjAe0nM_DpC7Ffw@mail.gmail.com>
-Subject: Re: [DO NOT MERGE v6 25/37] dt-bindings: vendor-prefixes: Add iodata
+Date: Mon, 15 Jan 2024 15:03:34 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdU=CZVSc16FeVDc6YmTKw=xa71RUzOE3bappLwH2W8Z4w@mail.gmail.com>
+Message-ID: <CAMuHMdU=CZVSc16FeVDc6YmTKw=xa71RUzOE3bappLwH2W8Z4w@mail.gmail.com>
+Subject: Re: [DO NOT MERGE v6 01/37] sh: passing FDT address to kernel startup.
 To: Yoshinori Sato <ysato@users.sourceforge.jp>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -110,10 +110,10 @@ Cc: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 9, 2024 at 9:24=E2=80=AFAM Yoshinori Sato
+On Tue, Jan 9, 2024 at 9:23=E2=80=AFAM Yoshinori Sato
 <ysato@users.sourceforge.jp> wrote:
-> Add IO DATA DEVICE INC.
-> https://www.iodata.com/
+> R4 is caller saved in SH ABI.
+> Save it so it doesn't get corrupted until it's needed for initialization.
 >
 > Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 
