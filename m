@@ -1,50 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C13D582DA6F
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 14:44:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0B4782DAC7
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 14:59:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3FD010E2E6;
-	Mon, 15 Jan 2024 13:44:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90A1110E29A;
+	Mon, 15 Jan 2024 13:59:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EC8E10E2E1
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 13:44:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1705326295; x=1736862295;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=mAzPyVcjhTN6zd05t12r1l6VJCBOZFE/egBqVZISE10=;
- b=XWNTRB88CDQsue7PNv+/LRIWD/JBslbECNeQGAxgGujNeglO5KvZ0sIZ
- YDkvTWPhlkqdlqH44nDOuqCoeALMkZ+f9TLD7IQ/kXo7Th4iQgAWRo5X9
- qcyhCAfaR9fz7NGVjFLV5TIB7xy+xLHGu3jLu8dQ2LQlrUhb1a2BKaDDx
- DOmJkHbZHbDZ79Bva1qaXJ+SqDraHZGPZ8YmTM3eY2dqoVWz6hczszZD1
- dGZepfWvz0RzBvHPEjnrmxHG9KUXiBiaSE57AU2eJ2AumW1M2BbB3LpDY
- yhkeVCUHLTAcULQfCdNzmhSurqNd3PI/vmW97sZwcZmDlgJ1kr1/hkXm2 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="403378781"
-X-IronPort-AV: E=Sophos;i="6.04,196,1695711600"; d="scan'208";a="403378781"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jan 2024 05:44:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,196,1695711600"; d="scan'208";a="25472239"
-Received: from jlawryno.igk.intel.com ([10.91.220.59])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jan 2024 05:44:51 -0800
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 9/9] accel/ivpu: Deprecate DRM_IVPU_PARAM_CONTEXT_PRIORITY
- param
-Date: Mon, 15 Jan 2024 14:44:34 +0100
-Message-ID: <20240115134434.493839-10-jacek.lawrynowicz@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240115134434.493839-1-jacek.lawrynowicz@linux.intel.com>
-References: <20240115134434.493839-1-jacek.lawrynowicz@linux.intel.com>
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com
+ [209.85.167.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 588C810E044
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 13:59:42 +0000 (UTC)
+Received: by mail-oi1-f169.google.com with SMTP id
+ 5614622812f47-3bd4e6a7cb0so2766934b6e.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 05:59:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1705327181; x=1705931981;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=nCoI6wmXQhas4p+QHjRACvDabiOp6RlTb///RFp+bYk=;
+ b=qn72hBzbAgMpI2XisNheOES/e7HZAabOxzszZu5FhYKSOOtUTN8hfLSzKEtn2O0PY1
+ 15yJvLdHP+HKX9tjnEoyNRblp8MpRL9wN2gptTAhSJLv+6K/RsZVJ6HCoZ0+Vhm/3fH2
+ pq0R4cSFQMRChYoGdV/4huquAKLX7lJglsF14R6him5AmGMFXbugAfe5pNCMuus6mMRl
+ VVVpt9xp95jQ2dmYYiBFjXze/VVWpaPqKLUg+DKzRiuMHeW4/w6yzktc6ek2iB8KhMwh
+ ja8JBvn1mth7sPsHIQ6oEp6ZBIONjwr09Sl6Cff8lv3FcgRt75CuoHdJuIQq/EgHMtXg
+ Y+Zg==
+X-Gm-Message-State: AOJu0YyjII5rwzkKilbx+JGf6s5l1KBanDea/q7M93O8s6MMZGghkVE3
+ NxBPOjvyfkc9H+B1Qisd1iFz3bpVd2UuTg==
+X-Google-Smtp-Source: AGHT+IGoaaPR+a/ZBc7bRQeZJ0O8DcV9ckcnrWFc9XhAto/Nq+qeazMvuv/9DBXe2dTVOGAcxNhtzA==
+X-Received: by 2002:a05:6808:2105:b0:3bb:bd1a:ed0d with SMTP id
+ r5-20020a056808210500b003bbbd1aed0dmr7066151oiw.41.1705327181275; 
+ Mon, 15 Jan 2024 05:59:41 -0800 (PST)
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com.
+ [209.85.167.172]) by smtp.gmail.com with ESMTPSA id
+ q33-20020a056808202100b003bd437f4e14sm1351645oiw.49.2024.01.15.05.59.40
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Jan 2024 05:59:40 -0800 (PST)
+Received: by mail-oi1-f172.google.com with SMTP id
+ 5614622812f47-3bd4e6a7cb0so2766926b6e.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 05:59:40 -0800 (PST)
+X-Received: by 2002:a25:ad8b:0:b0:dbe:e4d3:bbb7 with SMTP id
+ z11-20020a25ad8b000000b00dbee4d3bbb7mr2479427ybi.99.1705327159968; Mon, 15
+ Jan 2024 05:59:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1704788539.git.ysato@users.sourceforge.jp>
+ <183bc01316cab97a7ae96df525a5a450c477210d.1704788539.git.ysato@users.sourceforge.jp>
+In-Reply-To: <183bc01316cab97a7ae96df525a5a450c477210d.1704788539.git.ysato@users.sourceforge.jp>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 15 Jan 2024 14:59:08 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdW-Ak6P3nFH7cdomSYec9=WZf8mZaVwmG=qoYHz1thLMQ@mail.gmail.com>
+Message-ID: <CAMuHMdW-Ak6P3nFH7cdomSYec9=WZf8mZaVwmG=qoYHz1thLMQ@mail.gmail.com>
+Subject: Re: [DO NOT MERGE v6 09/37] dt-bindings: timer: renesas,
+ tmu: add renesas, tmu-sh7750
+To: Yoshinori Sato <ysato@users.sourceforge.jp>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,155 +71,184 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>, "Wachowski,
- Karol" <karol.wachowski@intel.com>
+Cc: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+ linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
+ Bin Meng <bmeng@tinylab.org>, Michael Turquette <mturquette@baylibre.com>,
+ linux-pci@vger.kernel.org, Jacky Huang <ychuang3@nuvoton.com>,
+ Palmer Dabbelt <palmer@rivosinc.com>, linux-kernel@vger.kernel.org,
+ Max Filippov <jcmvbkbc@gmail.com>, Lee Jones <lee@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Hyeonggon Yoo <42.hyeyoo@gmail.com>, Jiri Slaby <jirislaby@kernel.org>,
+ linux-clk@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Baoquan He <bhe@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ David Airlie <airlied@gmail.com>, Helge Deller <deller@gmx.de>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-serial@vger.kernel.org,
+ David Rientjes <rientjes@google.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Maxime Ripard <mripard@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ Chris Morgan <macromorgan@hotmail.com>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Vlastimil Babka <vbabka@suse.cz>, Yang Xiwen <forbidden405@foxmail.com>,
+ Sergey Shtylyov <s.shtylyov@omp.ru>, linux-ide@vger.kernel.org,
+ Stephen Boyd <sboyd@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Biju Das <biju.das.jz@bp.renesas.com>,
+ Sebastian Reichel <sre@kernel.org>, Azeem Shaikh <azeemshaikh38@gmail.com>,
+ linux-renesas-soc@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>,
+ Andrew Morton <akpm@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Wachowski, Karol" <karol.wachowski@intel.com>
+Hi Sato-san,
 
-DRM_IVPU_PARAM_CONTEXT_PRIORITY has been deprecated because it
-has been replaced with DRM_IVPU_JOB_PRIORITY levels set with
-submit IOCTL and was unused anyway.
+On Tue, Jan 9, 2024 at 9:23=E2=80=AFAM Yoshinori Sato
+<ysato@users.sourceforge.jp> wrote:
+> Add SH7750 TMU entry.
+>
+> I wanted to replace interrupts and interrupt-names in the if compatible i=
+s
+> "renesas,tmu-7750", but it seems that I can't rewrite it as expected.
+> This resulted in a redundant conditional statement.
+>
+> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 
-Signed-off-by: Wachowski, Karol <karol.wachowski@intel.com>
-Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
----
- drivers/accel/ivpu/ivpu_drv.c | 11 -----------
- drivers/accel/ivpu/ivpu_drv.h |  1 -
- drivers/accel/ivpu/ivpu_job.c |  3 +++
- include/uapi/drm/ivpu_accel.h | 25 ++++++++++++++++++++-----
- 4 files changed, 23 insertions(+), 17 deletions(-)
+Thanks for your patch!
 
-diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
-index ec66c2c39877..546c0899bb9e 100644
---- a/drivers/accel/ivpu/ivpu_drv.c
-+++ b/drivers/accel/ivpu/ivpu_drv.c
-@@ -177,9 +177,6 @@ static int ivpu_get_param_ioctl(struct drm_device *dev, void *data, struct drm_f
- 	case DRM_IVPU_PARAM_CONTEXT_BASE_ADDRESS:
- 		args->value = vdev->hw->ranges.user.start;
- 		break;
--	case DRM_IVPU_PARAM_CONTEXT_PRIORITY:
--		args->value = file_priv->priority;
--		break;
- 	case DRM_IVPU_PARAM_CONTEXT_ID:
- 		args->value = file_priv->ctx.id;
- 		break;
-@@ -219,17 +216,10 @@ static int ivpu_get_param_ioctl(struct drm_device *dev, void *data, struct drm_f
- 
- static int ivpu_set_param_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
- {
--	struct ivpu_file_priv *file_priv = file->driver_priv;
- 	struct drm_ivpu_param *args = data;
- 	int ret = 0;
- 
- 	switch (args->param) {
--	case DRM_IVPU_PARAM_CONTEXT_PRIORITY:
--		if (args->value <= DRM_IVPU_CONTEXT_PRIORITY_REALTIME)
--			file_priv->priority = args->value;
--		else
--			ret = -EINVAL;
--		break;
- 	default:
- 		ret = -EINVAL;
- 	}
-@@ -258,7 +248,6 @@ static int ivpu_open(struct drm_device *dev, struct drm_file *file)
- 	}
- 
- 	file_priv->vdev = vdev;
--	file_priv->priority = DRM_IVPU_CONTEXT_PRIORITY_NORMAL;
- 	kref_init(&file_priv->ref);
- 	mutex_init(&file_priv->lock);
- 
-diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
-index 9b6e336626e3..7a6bc1918780 100644
---- a/drivers/accel/ivpu/ivpu_drv.h
-+++ b/drivers/accel/ivpu/ivpu_drv.h
-@@ -146,7 +146,6 @@ struct ivpu_file_priv {
- 	struct mutex lock; /* Protects cmdq */
- 	struct ivpu_cmdq *cmdq[IVPU_NUM_ENGINES];
- 	struct ivpu_mmu_context ctx;
--	u32 priority;
- 	bool has_mmu_faults;
- };
- 
-diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
-index 7206cf9cdb4a..82e40bb4803c 100644
---- a/drivers/accel/ivpu/ivpu_job.c
-+++ b/drivers/accel/ivpu/ivpu_job.c
-@@ -488,6 +488,9 @@ int ivpu_submit_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
- 	if (params->engine > DRM_IVPU_ENGINE_COPY)
- 		return -EINVAL;
- 
-+	if (params->priority > DRM_IVPU_JOB_PRIORITY_REALTIME)
-+		return -EINVAL;
-+
- 	if (params->buffer_count == 0 || params->buffer_count > JOB_MAX_BUFFER_COUNT)
- 		return -EINVAL;
- 
-diff --git a/include/uapi/drm/ivpu_accel.h b/include/uapi/drm/ivpu_accel.h
-index de1944e42c65..63c49318a863 100644
---- a/include/uapi/drm/ivpu_accel.h
-+++ b/include/uapi/drm/ivpu_accel.h
-@@ -53,7 +53,7 @@ extern "C" {
- #define DRM_IVPU_PARAM_CORE_CLOCK_RATE	    3
- #define DRM_IVPU_PARAM_NUM_CONTEXTS	    4
- #define DRM_IVPU_PARAM_CONTEXT_BASE_ADDRESS 5
--#define DRM_IVPU_PARAM_CONTEXT_PRIORITY	    6
-+#define DRM_IVPU_PARAM_CONTEXT_PRIORITY	    6 /* Deprecated */
- #define DRM_IVPU_PARAM_CONTEXT_ID	    7
- #define DRM_IVPU_PARAM_FW_API_VERSION	    8
- #define DRM_IVPU_PARAM_ENGINE_HEARTBEAT	    9
-@@ -64,11 +64,18 @@ extern "C" {
- 
- #define DRM_IVPU_PLATFORM_TYPE_SILICON	    0
- 
-+/* Deprecated, use DRM_IVPU_JOB_PRIORITY */
- #define DRM_IVPU_CONTEXT_PRIORITY_IDLE	    0
- #define DRM_IVPU_CONTEXT_PRIORITY_NORMAL    1
- #define DRM_IVPU_CONTEXT_PRIORITY_FOCUS	    2
- #define DRM_IVPU_CONTEXT_PRIORITY_REALTIME  3
- 
-+#define DRM_IVPU_JOB_PRIORITY_DEFAULT  0
-+#define DRM_IVPU_JOB_PRIORITY_IDLE     1
-+#define DRM_IVPU_JOB_PRIORITY_NORMAL   2
-+#define DRM_IVPU_JOB_PRIORITY_FOCUS    3
-+#define DRM_IVPU_JOB_PRIORITY_REALTIME 4
-+
- /**
-  * DRM_IVPU_CAP_METRIC_STREAMER
-  *
-@@ -112,10 +119,6 @@ struct drm_ivpu_param {
- 	 * %DRM_IVPU_PARAM_CONTEXT_BASE_ADDRESS:
- 	 * Lowest VPU virtual address available in the current context (read-only)
- 	 *
--	 * %DRM_IVPU_PARAM_CONTEXT_PRIORITY:
--	 * Value of current context scheduling priority (read-write).
--	 * See DRM_IVPU_CONTEXT_PRIORITY_* for possible values.
--	 *
- 	 * %DRM_IVPU_PARAM_CONTEXT_ID:
- 	 * Current context ID, always greater than 0 (read-only)
- 	 *
-@@ -286,6 +289,18 @@ struct drm_ivpu_submit {
- 	 * to be executed. The offset has to be 8-byte aligned.
- 	 */
- 	__u32 commands_offset;
-+
-+	/**
-+	 * @priority:
-+	 *
-+	 * Priority to be set for related job command queue, can be one of the following:
-+	 * %DRM_IVPU_JOB_PRIORITY_DEFAULT
-+	 * %DRM_IVPU_JOB_PRIORITY_IDLE
-+	 * %DRM_IVPU_JOB_PRIORITY_NORMAL
-+	 * %DRM_IVPU_JOB_PRIORITY_FOCUS
-+	 * %DRM_IVPU_JOB_PRIORITY_REALTIME
-+	 */
-+	__u32 priority;
- };
- 
- /* drm_ivpu_bo_wait job status codes */
--- 
-2.43.0
+> --- a/Documentation/devicetree/bindings/timer/renesas,tmu.yaml
+> +++ b/Documentation/devicetree/bindings/timer/renesas,tmu.yaml
+> @@ -39,14 +39,15 @@ properties:
+>            - renesas,tmu-r8a779a0 # R-Car V3U
+>            - renesas,tmu-r8a779f0 # R-Car S4-8
+>            - renesas,tmu-r8a779g0 # R-Car V4H
+> +          - renesas,tmu-sh7750   # SH7750
 
+OK
+
+>        - const: renesas,tmu
+>
+>    reg:
+>      maxItems: 1
+>
+> -  interrupts:
+> -    minItems: 2
+> -    maxItems: 3
+> +  interrupts: true
+> +
+> +  interrupt-names: true
+
+I would drop this change (see below).
+
+>
+>    clocks:
+>      maxItems: 1
+> @@ -75,21 +76,55 @@ required:
+>    - clock-names
+>    - power-domains
+>
+> -if:
+> -  not:
+> -    properties:
+> -      compatible:
+> -        contains:
+> -          enum:
+> -            - renesas,tmu-r8a7740
+> -            - renesas,tmu-r8a7778
+> -            - renesas,tmu-r8a7779
+> -then:
+> -  required:
+> -    - resets
+> -
+>  additionalProperties: false
+>
+> +allOf:
+> +  - if:
+> +      not:
+> +        properties:
+> +          compatible:
+> +            contains:
+> +              enum:
+> +                - renesas,tmu-r8a7740
+> +                - renesas,tmu-r8a7778
+> +                - renesas,tmu-r8a7779
+> +                - renesas,tmu-sh7750
+
+Adding renesas,tmu-sh7750 to this list is OK.
+
+> +
+> +    then:
+> +      required:
+> +        - resets
+> +
+> +  - if:
+> +      not:
+> +        properties:
+> +          compatible:
+> +            contains:
+> +              enum:
+> +                - renesas,tmu-sh7750
+> +
+> +    then:
+> +      properties:
+> +        interrupts:
+> +          minItems: 2
+> +          maxItems: 3
+> +        interrupt-names:
+> +          items:
+> +            - const: tuni0
+> +            - const: tuni1
+> +            - const: tuni2
+> +
+> +    else:
+> +      properties:
+> +        interrupts:
+> +          minItems: 2
+> +          maxItems: 4
+> +        interrupt-names:
+> +          items:
+> +            - const: tuni0
+> +            - const: tuni1
+> +            - const: tuni2
+> +            - const: ticpi2
+> +
+>  examples:
+>    - |
+>      #include <dt-bindings/clock/r8a7779-clock.h>
+
+The new interrupt logic is not really correct: several TMU instances
+on other SoCs do support the fourth interrupt.  It just was not
+documented before, or supported by the driver.
+
+I have sent a patch to document the fourth interrupt[1].  Once that
+patch has been applied, adding support for sh7751 involves adding just
+two new lines.
+
+[1] "PATCH] dt-bindings: timer: renesas,tmu: Document input capture
+     interrupt"
+    https://lore.kernel.org/r/fb1e38c93e62221f94304edd980a2fb79c1f2995.1705=
+325608.git.geert+renesas@glider.be
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
