@@ -1,58 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 230C782D422
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 07:18:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8DA982D46C
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 08:06:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66B3E10E1FE;
-	Mon, 15 Jan 2024 06:18:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B2E710E203;
+	Mon, 15 Jan 2024 07:06:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9965210E1FE
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 06:18:15 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id
- 2adb3069b0e04-50e7b273352so9018822e87.1
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Jan 2024 22:18:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1705299494; x=1705904294; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Yu24RwbVV6OfhGrTeYHWgy4heI3tkvvA8kiJdl0p1xo=;
- b=bVDE2YP4bdpmMMZ48eiFFGlZqWadKtN3fd3Fs4AwI8w6wbVFmacSladDvYz0z1E0VZ
- 2xfNioi0MMBCtOh5eMNixJdcLykpgcV7zG8QaSBHOnV89pJvZoPSKbQcfsDNRBPr7Scn
- XjSNCATdGA4g34/IR210mQqL5iKUxob0cAeczZq7jrz5Tj8C0/AFhwogeAFUswuKMK9E
- ExjDiSIfC8IXxveQFSDRYEoHOH3HXyw542bvfJNEIBKjE8xqMrNIYMyFYYCuOaMadCIg
- UbTSlN+5HMdLlxYoDM08FaAq+LgNeDwE8CHzTHlWrwGDylKaInY86a0af547coTuNelH
- V3Rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705299494; x=1705904294;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Yu24RwbVV6OfhGrTeYHWgy4heI3tkvvA8kiJdl0p1xo=;
- b=HJ3cGuZ/YSy99EnHK8/2/HhSxbc4utBA2zpOs59HWbYc8xbuUbod2B2zoVeVsftX78
- DTmM5yjUBcSx/B3Efvq/xfKs/VKyc8IDMegKasXag/+C22bFnME2LfmFk2Uirq+eCXSd
- ZB+ftjrUKayP/XVr3sHV657XI4aXJi/GO7yugPNfZMbZ91E+ViO1UUaPS5QSHGlKCC1+
- 6UTRf78Cck4qG/iuH7WxX0bSBU0ccCJSvPl1ByC/8K/wocDxZh5Yo/M9t1REMBt52XDc
- H2UZt/m7uz9zgrw32zlpBo0WJG9MBcO9ZM9Ezf/Ra15MysKIwDD4wpoTCeS66o0ZQcgm
- 2SSg==
-X-Gm-Message-State: AOJu0YwvoQ7FhpbY9XARzXoFHP84UFLGfywxm1iJrcK3vzxGAjilvDO8
- diEXzO6PTHfs36PaVqisyUHpVNofUz9X4d41kztWFDkE0s8=
-X-Google-Smtp-Source: AGHT+IFjWhCI9Bx+HVfPmJecMRJxI9Q1x6wTHSCjSk5BMN4k06nYZsCUfMk95/OG6gPUVp1f2lnGfdVLjtfepb+6CWs=
-X-Received: by 2002:a05:6512:3d29:b0:50e:771a:9ff9 with SMTP id
- d41-20020a0565123d2900b0050e771a9ff9mr2738736lfv.78.1705299493488; Sun, 14
- Jan 2024 22:18:13 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91A8910E0FD;
+ Mon, 15 Jan 2024 07:06:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1705302369; x=1736838369;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=u3JPWnGBTFSEOVl318U9z12NSUhutBTG1/QIh7RZ2Bw=;
+ b=jE47S4Gxl/g09Ixt5fV+LT5dqxOqhDHTMnW7uV2wdYbCL/VJGSr3lphB
+ rd6nL55+NFBz215e1KPxwWDQrabtMFBA0F7xxNdPyomvM+olxtywJjauh
+ tFz57PNMh8Wzdd8W9TCuQmqPZa1lnSMa8zLtttlNcxSylAzRD/9vfcYws
+ FoKXVCNvSRnxQ3VKL2tnGr+xbFX2bGhItfDpysNa73pEnFYjitY8nVmd1
+ sizArannpW/Dp/it1h3js8agbWA3/lG2b5fmrYT/nVQLYlB+1gSBnxVeZ
+ f+E2Pa9Bezz25L9/gXtIkOP9BaouH0P7UC8Ci6i0ltdqiWHNDf2zsFgrY g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="13028561"
+X-IronPort-AV: E=Sophos;i="6.04,196,1695711600"; d="scan'208";a="13028561"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jan 2024 23:06:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,196,1695711600"; d="scan'208";a="25697907"
+Received: from nrseife-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.54.233])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jan 2024 23:06:06 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Ilia Mirkin <imirkin@alum.mit.edu>
+Subject: Re: [PATCH 1/6] drm/nouveau: convert to using is_hdmi and has_audio
+ from display info
+In-Reply-To: <CAKb7Uvh17nJUO2a1pD25Rpq5tX4TMV0S4P++TKinOGUQnZsdRg@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1705078136.git.jani.nikula@intel.com>
+ <924db0d9debec057fe15e820bc470a966a3401b0.1705078136.git.jani.nikula@intel.com>
+ <CAKb7Uvh17nJUO2a1pD25Rpq5tX4TMV0S4P++TKinOGUQnZsdRg@mail.gmail.com>
+Date: Mon, 15 Jan 2024 09:06:01 +0200
+Message-ID: <87ply3rs86.fsf@intel.com>
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Mon, 15 Jan 2024 16:18:01 +1000
-Message-ID: <CAPM=9tx+5WuM8CjN5ACN1e4Wrr+qNhMSWQe1_g-QDiPbEpPbbg@mail.gmail.com>
-Subject: [git pull] drm fixes for 6.8-rc1
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,119 +61,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+On Sun, 14 Jan 2024, Ilia Mirkin <imirkin@alum.mit.edu> wrote:
+> On Fri, Jan 12, 2024 at 11:50=E2=80=AFAM Jani Nikula <jani.nikula@intel.c=
+om> wrote:
+>>
+>> Prefer the parsed results for is_hdmi and has_audio in display info over
+>> calling drm_detect_hdmi_monitor() and drm_detect_monitor_audio(),
+>> respectively.
+>>
+>> Conveniently, this also removes the need to use edid_blob_ptr.
+>>
+>> Cc: Karol Herbst <kherbst@redhat.com>
+>> Cc: Lyude Paul <lyude@redhat.com>
+>> Cc: Danilo Krummrich <dakr@redhat.com>
+>> Cc: nouveau@lists.freedesktop.org
+>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>> ---
+>>  drivers/gpu/drm/nouveau/dispnv50/disp.c     | 8 ++++----
+>>  drivers/gpu/drm/nouveau/dispnv50/head.c     | 8 +-------
+>>  drivers/gpu/drm/nouveau/nouveau_connector.c | 2 +-
+>>  3 files changed, 6 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/n=
+ouveau/dispnv50/disp.c
+>> index 8d37a694b772..908b1042669c 100644
+>> --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
+>> +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+>> @@ -750,7 +750,7 @@ nv50_audio_enable(struct drm_encoder *encoder, struc=
+t nouveau_crtc *nv_crtc,
+>>         struct nouveau_encoder *nv_encoder =3D nouveau_encoder(encoder);
+>>         struct nvif_outp *outp =3D &nv_encoder->outp;
+>>
+>> -       if (!nv50_audio_supported(encoder) || !drm_detect_monitor_audio(=
+nv_connector->edid))
+>> +       if (!nv50_audio_supported(encoder) || !nv_connector->base.displa=
+y_info.has_audio)
+>>                 return;
+>>
+>>         mutex_lock(&drm->audio.lock);
+>> @@ -1764,7 +1764,7 @@ nv50_sor_atomic_enable(struct drm_encoder *encoder=
+, struct drm_atomic_state *sta
+>>         if ((disp->disp->object.oclass =3D=3D GT214_DISP ||
+>>              disp->disp->object.oclass >=3D GF110_DISP) &&
+>>             nv_encoder->dcb->type !=3D DCB_OUTPUT_LVDS &&
+>> -           drm_detect_monitor_audio(nv_connector->edid))
+>> +           nv_connector->base.display_info.has_audio)
+>>                 hda =3D true;
+>>
+>>         if (!nvif_outp_acquired(outp))
+>> @@ -1773,7 +1773,7 @@ nv50_sor_atomic_enable(struct drm_encoder *encoder=
+, struct drm_atomic_state *sta
+>>         switch (nv_encoder->dcb->type) {
+>>         case DCB_OUTPUT_TMDS:
+>>                 if (disp->disp->object.oclass !=3D NV50_DISP &&
+>> -                   drm_detect_hdmi_monitor(nv_connector->edid))
+>> +                   !nv_connector->base.display_info.is_hdmi)
+>
+> This is backwards, no?
 
-Hopefully you get your power back at some point, this is just a wrap
-up of fixes from the last few days. It has the proper fix to the
-i915/xe collision, we can clean up what you did later once rc1 lands.
+Good catch, thanks!
 
-Otherwise it's a few other i915, a v3d, rockchip and a nouveau fix to
-make GSP load on some original Turing GPUs.
+BR,
+Jani.
 
-I have some amdgpu fixes lined up, but they broke clang build here, so
-I'll wait to send those until AMD can fix it.
+>
+>>                         nv50_hdmi_enable(encoder, nv_crtc, nv_connector,=
+ state, mode, hda);
+>>
+>>                 if (nv_encoder->outp.or.link & 1) {
+>> @@ -1786,7 +1786,7 @@ nv50_sor_atomic_enable(struct drm_encoder *encoder=
+, struct drm_atomic_state *sta
+>>                          */
+>>                         if (mode->clock >=3D 165000 &&
+>>                             nv_encoder->dcb->duallink_possible &&
+>> -                           !drm_detect_hdmi_monitor(nv_connector->edid))
+>> +                           !nv_connector->base.display_info.is_hdmi)
+>>                                 proto =3D NV507D_SOR_SET_CONTROL_PROTOCO=
+L_DUAL_TMDS;
+>>                 } else {
+>>                         proto =3D NV507D_SOR_SET_CONTROL_PROTOCOL_SINGLE=
+_TMDS_B;
+>> diff --git a/drivers/gpu/drm/nouveau/dispnv50/head.c b/drivers/gpu/drm/n=
+ouveau/dispnv50/head.c
+>> index 83355dbc15ee..d7c74cc43ba5 100644
+>> --- a/drivers/gpu/drm/nouveau/dispnv50/head.c
+>> +++ b/drivers/gpu/drm/nouveau/dispnv50/head.c
+>> @@ -127,14 +127,8 @@ nv50_head_atomic_check_view(struct nv50_head_atom *=
+armh,
+>>         struct drm_display_mode *omode =3D &asyh->state.adjusted_mode;
+>>         struct drm_display_mode *umode =3D &asyh->state.mode;
+>>         int mode =3D asyc->scaler.mode;
+>> -       struct edid *edid;
+>>         int umode_vdisplay, omode_hdisplay, omode_vdisplay;
+>>
+>> -       if (connector->edid_blob_ptr)
+>> -               edid =3D (struct edid *)connector->edid_blob_ptr->data;
+>> -       else
+>> -               edid =3D NULL;
+>> -
+>>         if (!asyc->scaler.full) {
+>>                 if (mode =3D=3D DRM_MODE_SCALE_NONE)
+>>                         omode =3D umode;
+>> @@ -162,7 +156,7 @@ nv50_head_atomic_check_view(struct nv50_head_atom *a=
+rmh,
+>>          */
+>>         if ((asyc->scaler.underscan.mode =3D=3D UNDERSCAN_ON ||
+>>             (asyc->scaler.underscan.mode =3D=3D UNDERSCAN_AUTO &&
+>> -            drm_detect_hdmi_monitor(edid)))) {
+>> +            connector->display_info.is_hdmi))) {
+>>                 u32 bX =3D asyc->scaler.underscan.hborder;
+>>                 u32 bY =3D asyc->scaler.underscan.vborder;
+>>                 u32 r =3D (asyh->view.oH << 19) / asyh->view.oW;
+>> diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/d=
+rm/nouveau/nouveau_connector.c
+>> index 856b3ef5edb8..938832a6af15 100644
+>> --- a/drivers/gpu/drm/nouveau/nouveau_connector.c
+>> +++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
+>> @@ -1034,7 +1034,7 @@ get_tmds_link_bandwidth(struct drm_connector *conn=
+ector)
+>>         unsigned duallink_scale =3D
+>>                 nouveau_duallink && nv_encoder->dcb->duallink_possible ?=
+ 2 : 1;
+>>
+>> -       if (drm_detect_hdmi_monitor(nv_connector->edid)) {
+>> +       if (nv_connector->base.display_info.is_hdmi) {
+>>                 info =3D &nv_connector->base.display_info;
+>>                 duallink_scale =3D 1;
+>>         }
+>> --
+>> 2.39.2
+>>
 
-Dave.
-
-drm-next-2024-01-15-1:
-drm fixes for 6.8-rc1
-
-i915:
-- Fixes for kernel-doc warnings enforced in linux-next
-- Another build warning fix for string formatting of intel_wakeref_t
-- Display fixes for DP DSC BPC and C20 PLL state verification
-
-v3d:
-- register readout fix
-
-rockchip:
-- two build warning fixes
-
-nouveau:
-- fix GSP loading on Turing with different nvdec configuration
-The following changes since commit b76c01f1d950425924ee1c1377760de3c024ef78=
-:
-
-  Merge tag 'drm-intel-gt-next-2023-12-15' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-next (2024-01-10
-11:36:47 +1000)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/drm-next-2024-01-15-1
-
-for you to fetch changes up to 205e18c13545ab43cc4fe4930732b4feef551198:
-
-  nouveau/gsp: handle engines in runl without nonstall interrupts.
-(2024-01-15 16:04:48 +1000)
-
-----------------------------------------------------------------
-drm fixes for 6.8-rc1
-
-i915:
-- Fixes for kernel-doc warnings enforced in linux-next
-- Another build warning fix for string formatting of intel_wakeref_t
-- Display fixes for DP DSC BPC and C20 PLL state verification
-
-v3d:
-- register readout fix
-
-rockchip:
-- two build warning fixes
-
-nouveau:
-- fix GSP loading on Turing with different nvdec configuration
-
-----------------------------------------------------------------
-Ankit Nautiyal (1):
-      drm/i915/dp: Fix the max DSC bpc supported by source
-
-Cristian Ciocaltea (2):
-      drm/rockchip: vop2: Drop superfluous include
-      drm/rockchip: vop2: Drop unused if_dclk_rate variable
-
-Dave Airlie (3):
-      Merge tag 'drm-intel-next-fixes-2024-01-11' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-next
-      Merge tag 'drm-misc-next-fixes-2024-01-11' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-next
-      nouveau/gsp: handle engines in runl without nonstall interrupts.
-
-Imre Deak (1):
-      drm/i915/dp: Fix the PSR debugfs entries wrt. MST connectors
-
-Jani Nikula (1):
-      drm/i915: don't make assumptions about intel_wakeref_t type
-
-Ma=C3=ADra Canal (1):
-      drm/v3d: Fix support for register debugging on the RPi 4
-
-Mika Kahola (1):
-      drm/i915/display: Fix C20 pll selection for state verification
-
-Randy Dunlap (4):
-      drm/i915/gem: reconcile Excess struct member kernel-doc warnings
-      drm/i915/gt: reconcile Excess struct member kernel-doc warnings
-      drm/i915/guc: reconcile Excess struct member kernel-doc warnings
-      drm/i915/perf: reconcile Excess struct member kernel-doc warnings
-
- drivers/gpu/drm/i915/display/intel_cx0_phy.c       | 25 +++++---
- drivers/gpu/drm/i915/display/intel_display_power.c |  4 +-
- drivers/gpu/drm/i915/display/intel_dp.c            |  2 +-
- drivers/gpu/drm/i915/display/intel_psr.c           | 10 +--
- drivers/gpu/drm/i915/gem/i915_gem_context_types.h  |  4 +-
- drivers/gpu/drm/i915/gt/intel_gsc.h                |  7 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc.h             | 75 ++++++++++++------=
-----
- drivers/gpu/drm/i915/i915_perf_types.h             |  9 ++-
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga100.c   |  4 ++
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c    |  2 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/base.c     |  8 +--
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c       |  4 +-
- drivers/gpu/drm/v3d/v3d_debugfs.c                  | 20 +++---
- 13 files changed, 96 insertions(+), 78 deletions(-)
+--=20
+Jani Nikula, Intel
