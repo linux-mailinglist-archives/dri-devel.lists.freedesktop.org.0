@@ -2,63 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5829182D603
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 10:30:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F25D482D6B3
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 11:06:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D13E810E143;
-	Mon, 15 Jan 2024 09:30:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6ECD510E0D2;
+	Mon, 15 Jan 2024 10:06:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
- [209.85.216.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F44010E240
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 09:30:15 +0000 (UTC)
-Received: by mail-pj1-f45.google.com with SMTP id
- 98e67ed59e1d1-28d2be70358so4905124a91.0
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 01:30:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705311015; x=1705915815;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=oJZ9RgNzg7VLWUx8YQuwC3dXe057PkvGB0IXNBt0r28=;
- b=CC+6Hen+PP017CtWkQbb4wewd9q3f/VZy8ceAIMI2dyQ+bGGX0KeTbdCqZrWB6z1mG
- SXPA6inWH0Xx2zTmqfeNazYodEHFr+yWuk/vD9IhAi1ymrmXaypCdJ5nFUe6TllXXxvi
- ev9WiOWfjdkogXBhuRSt8CGE65DGllgAZX9Ju685DER623dLcL+j1CSflKKNUBM9aHAR
- UBd0NjcLrBYMwKrAM3luv0XpVboTjwoEqtdS6UlhnWs32aiu2r1Ws+uCxxDSLArCFsYC
- ZpyFHBbCml44/Bh2TZLX5+Cg+Y7VsENT19bsK/tOAuoGrB+fza8BT5nMPm6IFsyfhZ8j
- 9wBA==
-X-Gm-Message-State: AOJu0YxRNcCLKbv88ZnGlYFV3Q+uwmJ6u5OsTotjw93ZXGzfkDIpSI7D
- /bm1b2XQZLnQkXoX90ZWRurk36vYJLh+7Q==
-X-Google-Smtp-Source: AGHT+IHMGyfqEuOnt15HRdL3McKcSg3I9adpP8vFKhP001mA55mYOabF53Zj+pwLf4WhePiFOSjq7Q==
-X-Received: by 2002:a17:90b:2d8f:b0:28d:c3ec:8006 with SMTP id
- sj15-20020a17090b2d8f00b0028dc3ec8006mr2367853pjb.4.1705311014869; 
- Mon, 15 Jan 2024 01:30:14 -0800 (PST)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com.
- [209.85.214.182]) by smtp.gmail.com with ESMTPSA id
- rr7-20020a17090b2b4700b0028d19ddb1afsm9255111pjb.33.2024.01.15.01.30.13
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Jan 2024 01:30:14 -0800 (PST)
-Received: by mail-pl1-f182.google.com with SMTP id
- d9443c01a7336-1d3e84fded7so44738035ad.1
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 01:30:13 -0800 (PST)
-X-Received: by 2002:a81:8395:0:b0:5ca:607e:b16e with SMTP id
- t143-20020a818395000000b005ca607eb16emr3313628ywf.0.1705310992678; Mon, 15
- Jan 2024 01:29:52 -0800 (PST)
+X-Greylist: delayed 917 seconds by postgrey-1.36 at gabe;
+ Mon, 15 Jan 2024 10:06:16 UTC
+Received: from mail.andi.de1.cc (mail.andi.de1.cc
+ [IPv6:2a02:c205:3004:2154::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49FA210E0D2
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 10:06:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=kemnade.info; s=20220719; h=Content-Transfer-Encoding:Content-Type:
+ MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=Q+8/IEjFJ6FaUC9Is4EXtyjT3oDpArt5eWtCr0Ef22I=; b=JJNov7xMP1eeUqF57OqkVV0Nd8
+ CG4eDIjLaLjDGy6lnktp+/oCd1AapYBTwa0aVcSRDn6eMl+ozeWKaxL2EvkduGLpeSJ+D2PcfkoK3
+ 1q9HRivJr99rsTBVN3y6SG1Ght43y31YvvRoLrwFitMGQajaTin7lqJTrCb1iUSMKcU2+kClKYNH2
+ THPlLOupz6L9+vqzRqp12TOTK1wKnM5RFpXVYPdRR7NFMf5W9OW4fJZq4dJaBQQ2dR6NCmpWqpBjZ
+ X1h7cPV9HwWu6dqwaZyVjTXIBRGDE0h4rWcVj9Z/gf6yT3BX5UzIeFKABGYKjJYaUBUsf+V7oyKyA
+ w/rwAJJg==;
+Received: from p200301077700f3001a3da2fffebfd33a.dip0.t-ipconnect.de
+ ([2003:107:7700:f300:1a3d:a2ff:febf:d33a] helo=aktux)
+ by mail.andi.de1.cc with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <andreas@kemnade.info>)
+ id 1rPJc6-008P8Q-Iv; Mon, 15 Jan 2024 10:50:38 +0100
+Date: Mon, 15 Jan 2024 10:50:35 +0100
+From: Andreas Kemnade <andreas@kemnade.info>
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Subject: Re: [PATCH RFC v2 04/11] ARM: dts: omap4: Add device tree entry for
+ SGX GPU
+Message-ID: <20240115105035.06e6af86@aktux>
+In-Reply-To: <7BC64F03-A4DF-411F-9B6F-6BCA436D9B50@goldelico.com>
+References: <20240108183302.255055-1-afd@ti.com>
+ <20240108183302.255055-5-afd@ti.com>
+ <122DC5ED-2AA7-46A0-845F-083922458385@goldelico.com>
+ <vpcgccul53oibwoqb3barj3rjxoyskoldjyfvjdzmytic3tonm@wq4aqsenk7rp>
+ <7BC64F03-A4DF-411F-9B6F-6BCA436D9B50@goldelico.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <cover.1704788539.git.ysato@users.sourceforge.jp>
- <dbaaf58b50b681cf03bc5ad3eef0a546fe863bca.1704788539.git.ysato@users.sourceforge.jp>
-In-Reply-To: <dbaaf58b50b681cf03bc5ad3eef0a546fe863bca.1704788539.git.ysato@users.sourceforge.jp>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 15 Jan 2024 10:29:41 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXw=FC5EsYSHw6y2GzT9pNPNEB1iO3DRVmMLjzuPfx8nQ@mail.gmail.com>
-Message-ID: <CAMuHMdXw=FC5EsYSHw6y2GzT9pNPNEB1iO3DRVmMLjzuPfx8nQ@mail.gmail.com>
-Subject: Re: [DO NOT MERGE v6 21/37] dt-bindings: serial: renesas,
- scif: Add scif-sh7751.
-To: Yoshinori Sato <ysato@users.sourceforge.jp>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,63 +61,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
- linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
- Bin Meng <bmeng@tinylab.org>, Michael Turquette <mturquette@baylibre.com>,
- linux-pci@vger.kernel.org, Jacky Huang <ychuang3@nuvoton.com>,
- Palmer Dabbelt <palmer@rivosinc.com>, linux-kernel@vger.kernel.org,
- Max Filippov <jcmvbkbc@gmail.com>, Lee Jones <lee@kernel.org>,
+Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Tony Lindgren <tony@atomide.com>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Hyeonggon Yoo <42.hyeyoo@gmail.com>, Jiri Slaby <jirislaby@kernel.org>,
- linux-clk@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Baoquan He <bhe@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Helge Deller <deller@gmx.de>, Daniel Lezcano <daniel.lezcano@linaro.org>,
- Magnus Damm <magnus.damm@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-serial@vger.kernel.org,
- David Rientjes <rientjes@google.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
+ Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Donald Robson <donald.robson@imgtec.com>, linux-sunxi@lists.linux.dev,
  devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Maxime Ripard <mripard@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
- Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- Chris Morgan <macromorgan@hotmail.com>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@linutronix.de>,
- Vlastimil Babka <vbabka@suse.cz>, Yang Xiwen <forbidden405@foxmail.com>,
- Sergey Shtylyov <s.shtylyov@omp.ru>, linux-ide@vger.kernel.org,
- Stephen Boyd <sboyd@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Biju Das <biju.das.jz@bp.renesas.com>,
- Sebastian Reichel <sre@kernel.org>, Azeem Shaikh <azeemshaikh38@gmail.com>,
- linux-renesas-soc@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>,
- Andrew Morton <akpm@linux-foundation.org>
+ =?UTF-8?B?QmVub8OudA==?= Cousson <bcousson@baylibre.com>,
+ Maxime Ripard <mripard@kernel.org>, Matt Coster <matt.coster@imgtec.com>,
+ Rob Herring <robh+dt@kernel.org>, linux-omap@vger.kernel.org,
+ Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ Tero Kristo <kristo@kernel.org>, linux-kernel@vger.kernel.org,
+ Andrew Davis <afd@ti.com>, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 9, 2024 at 9:24=E2=80=AFAM Yoshinori Sato
-<ysato@users.sourceforge.jp> wrote:
-> Add Renesas SH7751 SCIF.
->
-> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+Hi, 
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Mon, 15 Jan 2024 09:55:00 +0100
+"H. Nikolaus Schaller" <hns@goldelico.com> wrote:
 
-Gr{oetje,eeting}s,
+> > There's no reason to disable it in the DT: the hardware block would
+> > still be there and it's rendering to memory so it still could be useful.  
+> 
+> Well, if you know that the board does not have a dm3730 but a dm3725 without
+> GPU it is better to disable the GPU completely instead of loading the driver
+> and make it detect by some internal bits that it has no GPU on the SoC.
+> 
+That is at least some valid reason.
 
-                        Geert
+> > If there's no display on the board and you really don't want the GPU
+> > driver, then you can disable the driver or block the module loading, but
+> > it should be a distro / package / user decision, not a DT / kernel one
+> > still.  
+> 
+> The same holds for aes: dss: dsi: hdmi: etc. If they are not used by some
+> board file, they don't change a single bit of the DTB [1] which IMHO would
+> be of reasonable concern to question additional labels.
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+There is some difference here, some hardware can just not be used without
+wired external pins, the gpu can be used even if no display is connected
+either to accelerate some remote access or you could use the gpu for something
+completely else...
+Maybe mining bitcoins if temperate gets too low to warm you pocket ;-)
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+But as these labels do not harm, I have no strong opinion against it.
+
+Regards,
+Andreas
