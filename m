@@ -2,54 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 101D482E1F1
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 21:45:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D777982E1F3
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 21:45:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E6CB10E3A6;
-	Mon, 15 Jan 2024 20:44:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CA2210E3BC;
+	Mon, 15 Jan 2024 20:44:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1266 seconds by postgrey-1.36 at gabe;
- Mon, 15 Jan 2024 20:44:37 UTC
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D60510E3A6
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 20:44:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB9CD10E3AB
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 20:44:40 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.whiteo.stw.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1rPTSI-0004wZ-EL; Mon, 15 Jan 2024 21:21:10 +0100
+ id 1rPTSJ-0004yf-BD; Mon, 15 Jan 2024 21:21:11 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1rPTSI-0005hV-0n; Mon, 15 Jan 2024 21:21:10 +0100
+ id 1rPTSI-0005hl-SJ; Mon, 15 Jan 2024 21:21:10 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
- (envelope-from <ukl@pengutronix.de>) id 1rPTSH-000N8p-31;
- Mon, 15 Jan 2024 21:21:09 +0100
+ (envelope-from <ukl@pengutronix.de>) id 1rPTSI-000N95-2Z;
+ Mon, 15 Jan 2024 21:21:10 +0100
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To: Mark Brown <broonie@kernel.org>,
  Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 25/33] staging: fbtft: Follow renaming of SPI "master" to
+Subject: [PATCH 29/33] video: fbdev: mmp: Follow renaming of SPI "master" to
  "controller"
-Date: Mon, 15 Jan 2024 21:13:11 +0100
-Message-ID: <2923cec8eb74faac402829c4a23924172fb45afd.1705348270.git.u.kleine-koenig@pengutronix.de>
+Date: Mon, 15 Jan 2024 21:13:15 +0100
+Message-ID: <29daa1fc94443cc392188135217675176b074f35.1705348270.git.u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1705348269.git.u.kleine-koenig@pengutronix.de>
 References: <cover.1705348269.git.u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1528;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2712;
  i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id;
- bh=lOy0ZmteWVnevRjqTgakjKZrayLKgyaWmhHjW/PK3Qc=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlpZHdnr1kpa5k34D1tGioHPl52Mnujy5CauC27
- wH+AvA+PKeJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZaWR3QAKCRCPgPtYfRL+
- TtG3B/wLStjmUoP56nH4s+nP5OOX/bzz3eKeekQFvQNDC2baOmKDIyyXNXGDwu/hhy7EduEnJyG
- Z8MUz7opl7TUi4HmFHmD8548sEBauUhC/U9w/96UPBlyeOU/4sA+p5HOizN3ug4UWOOVhqGJt2i
- ycYsBn5SiwITGQEwhNCt5tU5qjcojxtmjgsOEBI8xWq+jdQn2n2zwYkqoeAjzKuLtFyBVsUwmqI
- pIJ6m8BC6lVS5BWUlVfee/zbematoQqJZlM1WOG2AkADQsBdLAMVJwafzz93oEMNl2KMFjtKdAp
- DX8fUbcR6+HE4EeJrre1g2GsE7xeU13pxwhkyupDEeMIlLjg
+ bh=ijw9anAf6h8n1KBd3RjgyrXHDafUFZIr9UcDRpXmqmg=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlpZHhX60U4n4fkTpjpsvVORb2ta4gfxYPTJcHC
+ 4KyRjHfSSyJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZaWR4QAKCRCPgPtYfRL+
+ TsogCACMZ24MIfn6AqoSHWGRODHeNgatY1yoerlFkKEV9WEyRwHUA6ML1HIPzXlVJ2KaH+HbDG7
+ wwPVSJ3743aNR1nrJxk1EnvKNqi8fxgxBGqOUezS/DFI43xWhWC3ermwbKzflTu1lQBMQE8/CCW
+ +6jq7Ra9ehVyG1YjOrGqscaEOOUbIWFE/xNBOplsxSwHO/b2bwbC6ayrigFnkpQK/mUET0k8mWO
+ zBuIPQpAKPIAio9ENQqC3a4QJLctuXV58gGxYibaDWWnpAALzWt2RnHYPSB4KGQ1wlkbHwPrE6Z
+ GFae96/Gipv9gU4+qmTzzm14TxLv559OCnKmt/Rgq+DjBXTT
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
  fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
@@ -70,12 +68,9 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, kernel@pengutronix.de,
- Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-spi@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: linux-fbdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
+ dri-devel@lists.freedesktop.org, linux-spi@vger.kernel.org,
+ kernel@pengutronix.de, Dario Binacchi <dario.binacchi@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -88,31 +83,75 @@ this driver.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/staging/fbtft/fbtft-core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/video/fbdev/mmp/hw/mmp_spi.c | 26 +++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index 3626f429b002..68add4d598ae 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -794,7 +794,7 @@ int fbtft_register_framebuffer(struct fb_info *fb_info)
- 	if (par->txbuf.buf && par->txbuf.len >= 1024)
- 		sprintf(text1, ", %zu KiB buffer memory", par->txbuf.len >> 10);
- 	if (spi)
--		sprintf(text2, ", spi%d.%d at %d MHz", spi->master->bus_num,
-+		sprintf(text2, ", spi%d.%d at %d MHz", spi->controller->bus_num,
- 			spi_get_chipselect(spi, 0), spi->max_speed_hz / 1000000);
- 	dev_info(fb_info->dev,
- 		 "%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
-@@ -1215,7 +1215,7 @@ int fbtft_probe_common(struct fbtft_display *display,
+diff --git a/drivers/video/fbdev/mmp/hw/mmp_spi.c b/drivers/video/fbdev/mmp/hw/mmp_spi.c
+index 0f8f0312a7c4..cf23650d7f0b 100644
+--- a/drivers/video/fbdev/mmp/hw/mmp_spi.c
++++ b/drivers/video/fbdev/mmp/hw/mmp_spi.c
+@@ -32,7 +32,7 @@ static inline int lcd_spi_write(struct spi_device *spi, u32 data)
+ 	int timeout = 100000, isr, ret = 0;
+ 	u32 tmp;
+ 	void __iomem *reg_base = (void __iomem *)
+-		*(void **)spi_master_get_devdata(spi->master);
++		*(void **) spi_controller_get_devdata(spi->controller);
  
- 	/* 9-bit SPI setup */
- 	if (par->spi && display->buswidth == 9) {
--		if (par->spi->master->bits_per_word_mask & SPI_BPW_MASK(9)) {
-+		if (par->spi->controller->bits_per_word_mask & SPI_BPW_MASK(9)) {
- 			par->spi->bits_per_word = 9;
- 		} else {
- 			dev_warn(&par->spi->dev,
+ 	/* clear ISR */
+ 	writel_relaxed(~SPI_IRQ_MASK, reg_base + SPU_IRQ_ISR);
+@@ -81,7 +81,7 @@ static inline int lcd_spi_write(struct spi_device *spi, u32 data)
+ static int lcd_spi_setup(struct spi_device *spi)
+ {
+ 	void __iomem *reg_base = (void __iomem *)
+-		*(void **)spi_master_get_devdata(spi->master);
++		*(void **) spi_controller_get_devdata(spi->controller);
+ 	u32 tmp;
+ 
+ 	tmp = CFG_SCLKCNT(16) |
+@@ -136,32 +136,32 @@ static int lcd_spi_one_transfer(struct spi_device *spi, struct spi_message *m)
+ 
+ int lcd_spi_register(struct mmphw_ctrl *ctrl)
+ {
+-	struct spi_master *master;
++	struct spi_controller *ctlr;
+ 	void **p_regbase;
+ 	int err;
+ 
+-	master = spi_alloc_master(ctrl->dev, sizeof(void *));
+-	if (!master) {
++	ctlr = spi_alloc_master(ctrl->dev, sizeof(void *));
++	if (!ctlr) {
+ 		dev_err(ctrl->dev, "unable to allocate SPI master\n");
+ 		return -ENOMEM;
+ 	}
+-	p_regbase = spi_master_get_devdata(master);
++	p_regbase = spi_controller_get_devdata(ctlr);
+ 	*p_regbase = (void __force *)ctrl->reg_base;
+ 
+ 	/* set bus num to 5 to avoid conflict with other spi hosts */
+-	master->bus_num = 5;
+-	master->num_chipselect = 1;
+-	master->setup = lcd_spi_setup;
+-	master->transfer = lcd_spi_one_transfer;
++	ctlr->bus_num = 5;
++	ctlr->num_chipselect = 1;
++	ctlr->setup = lcd_spi_setup;
++	ctlr->transfer = lcd_spi_one_transfer;
+ 
+-	err = spi_register_master(master);
++	err = spi_register_controller(ctlr);
+ 	if (err < 0) {
+ 		dev_err(ctrl->dev, "unable to register SPI master\n");
+-		spi_master_put(master);
++		spi_controller_put(ctlr);
+ 		return err;
+ 	}
+ 
+-	dev_info(&master->dev, "registered\n");
++	dev_info(&ctlr->dev, "registered\n");
+ 
+ 	return 0;
+ }
 -- 
 2.43.0
 
