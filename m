@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16BAF82DA6D
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E412382DA6E
 	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 14:44:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 622BB10E2D7;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 717BA10E2DC;
 	Mon, 15 Jan 2024 13:44:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AD8710E2F2
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 13:44:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E688B10E2F7
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 13:44:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1705326287; x=1736862287;
+ t=1705326288; x=1736862288;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=4qqrXwOK38xKucOkzSNHSJ7tcwU9uuwxnJyUgrdTmYo=;
- b=Q6Xs1n2A7C0mVnukfnMpQCYxDI4Sn9nR2uYxVUTmNZElURk4sEoHHN2A
- uAjDrFyPFUnxT3U5yzJcDm3MKCUlcJSgmsmAmm16sNdYYcXEHdU/ldYIj
- 1XSnOax5W7ucgdJg8NN/hot26z6MgS2RqKBsmE7FNCF21feqb1TDzr4Nf
- LVSbBDGvaR7gWiywkN7H+T5q/Qid1WYwz7J+NIlrEVuDgfFnk+4Fr9Yvq
- VgARVtzN62fo7H6OkJSAB7DX5ZNVBIRGNmRroLwpGQDytz1RJ3GKfckp6
- mopUySFbdMfELfRWufj9rxRFEAUKGw3nC5g/NOf1+T7MW+qhkC1BWESMW g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="403378765"
-X-IronPort-AV: E=Sophos;i="6.04,196,1695711600"; d="scan'208";a="403378765"
+ bh=enbg1ENrsYoUy43bhV+UzZSZIMw+jig1+Q1kHU8hX4U=;
+ b=LTQMdt/RUFoOUgYaZs+bmF9l/zv0uj6pXyEyI//TktsSQt6PQPnd+EGC
+ tYLjOZCP4lrzDgvrtqLpXR22fR9euhKc234zCg2GZ+G1PxwgmNGNfdtXU
+ lX/HRnkOQkX9yzbOgaP3rBIrZp5EXb1HFQLAnTgg0tPBJOvD3zPy/WOXz
+ t0Egyvw9Up6l860u/t+dfj6S+SKKYuN+e/8Lyp8S++nuoFZ9YoJvvISNh
+ xl5Cgqm9FlyVx6vTig7lsp/ld7TitfC33TrXX0hH3zHnx69fL6Oe3duZJ
+ AIgKHquraZJEVk+pv0GZeckLIQL7+lvmO1isVIwxssnXnl37Uo7+e94t6 g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="403378769"
+X-IronPort-AV: E=Sophos;i="6.04,196,1695711600"; d="scan'208";a="403378769"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jan 2024 05:44:47 -0800
+ 15 Jan 2024 05:44:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,196,1695711600"; d="scan'208";a="25472223"
+X-IronPort-AV: E=Sophos;i="6.04,196,1695711600"; d="scan'208";a="25472228"
 Received: from jlawryno.igk.intel.com ([10.91.220.59])
  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jan 2024 05:44:47 -0800
+ 15 Jan 2024 05:44:48 -0800
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 6/9] accel/ivpu: Free buffer sgt on unbind
-Date: Mon, 15 Jan 2024 14:44:31 +0100
-Message-ID: <20240115134434.493839-7-jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH v2 7/9] accel/ivpu: Disable buffer sharing among VPU contexts
+Date: Mon, 15 Jan 2024 14:44:32 +0100
+Message-ID: <20240115134434.493839-8-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240115134434.493839-1-jacek.lawrynowicz@linux.intel.com>
 References: <20240115134434.493839-1-jacek.lawrynowicz@linux.intel.com>
@@ -61,48 +61,89 @@ Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Call dma_unmap() on all buffers before the VPU is unbinded to avoid
-"device driver has pending DMA allocations while released from device"
-warning when DMA-API debug is enabled.
+This was not supported properly. A buffer was imported to another VPU
+context as a separate buffer object with duplicated sgt.
+Both exported and imported buffers could be DMA mapped causing a double
+mapping on the same device.
+
+Buffers imported from another VPU context will now just increase
+reference count, leaving only a single sgt, fixing the problem above.
+Buffers still can't be shared among VPU contexts because each has its
+own MMU mapping and ivpu_bo only supports single MMU mappings.
+
+The solution would be to use a mapping list as in panfrost or etnaviv
+drivers and it will be implemented in future if required.
 
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 ---
- drivers/accel/ivpu/ivpu_gem.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ drivers/accel/ivpu/ivpu_gem.c | 44 +++++------------------------------
+ 1 file changed, 6 insertions(+), 38 deletions(-)
 
 diff --git a/drivers/accel/ivpu/ivpu_gem.c b/drivers/accel/ivpu/ivpu_gem.c
-index 6890d33cf352..4de454bfbf91 100644
+index 4de454bfbf91..95e731e13941 100644
 --- a/drivers/accel/ivpu/ivpu_gem.c
 +++ b/drivers/accel/ivpu/ivpu_gem.c
-@@ -112,8 +112,6 @@ static void ivpu_bo_unbind_locked(struct ivpu_bo *bo)
+@@ -222,6 +222,12 @@ static int ivpu_bo_open(struct drm_gem_object *obj, struct drm_file *file)
+ 	struct ivpu_bo *bo = to_ivpu_bo(obj);
+ 	struct ivpu_addr_range *range;
  
- 	ivpu_dbg_bo(vdev, bo, "unbind");
- 
--	/* TODO: dma_unmap */
--
- 	if (bo->mmu_mapped) {
- 		drm_WARN_ON(&vdev->drm, !bo->ctx);
- 		drm_WARN_ON(&vdev->drm, !bo->vpu_addr);
-@@ -127,6 +125,18 @@ static void ivpu_bo_unbind_locked(struct ivpu_bo *bo)
- 		bo->vpu_addr = 0;
- 		bo->ctx = NULL;
- 	}
-+
-+	if (bo->base.base.import_attach)
-+		return;
-+
-+	dma_resv_lock(bo->base.base.resv, NULL);
-+	if (bo->base.sgt) {
-+		dma_unmap_sgtable(vdev->drm.dev, bo->base.sgt, DMA_BIDIRECTIONAL, 0);
-+		sg_free_table(bo->base.sgt);
-+		kfree(bo->base.sgt);
-+		bo->base.sgt = NULL;
++	if (bo->ctx) {
++		ivpu_warn(vdev, "Can't add BO to ctx %u: already in ctx %u\n",
++			  file_priv->ctx.id, bo->ctx->id);
++		return -EALREADY;
 +	}
-+	dma_resv_unlock(bo->base.base.resv);
++
+ 	if (bo->flags & DRM_IVPU_BO_SHAVE_MEM)
+ 		range = &vdev->hw->ranges.shave;
+ 	else if (bo->flags & DRM_IVPU_BO_DMA_MEM)
+@@ -252,47 +258,9 @@ static void ivpu_bo_free(struct drm_gem_object *obj)
+ 	drm_gem_shmem_free(&bo->base);
  }
  
- static void ivpu_bo_unbind(struct ivpu_bo *bo)
+-static const struct dma_buf_ops ivpu_bo_dmabuf_ops =  {
+-	.cache_sgt_mapping = true,
+-	.attach = drm_gem_map_attach,
+-	.detach = drm_gem_map_detach,
+-	.map_dma_buf = drm_gem_map_dma_buf,
+-	.unmap_dma_buf = drm_gem_unmap_dma_buf,
+-	.release = drm_gem_dmabuf_release,
+-	.mmap = drm_gem_dmabuf_mmap,
+-	.vmap = drm_gem_dmabuf_vmap,
+-	.vunmap = drm_gem_dmabuf_vunmap,
+-};
+-
+-static struct dma_buf *ivpu_bo_export(struct drm_gem_object *obj, int flags)
+-{
+-	struct drm_device *dev = obj->dev;
+-	struct dma_buf_export_info exp_info = {
+-		.exp_name = KBUILD_MODNAME,
+-		.owner = dev->driver->fops->owner,
+-		.ops = &ivpu_bo_dmabuf_ops,
+-		.size = obj->size,
+-		.flags = flags,
+-		.priv = obj,
+-		.resv = obj->resv,
+-	};
+-	void *sgt;
+-
+-	/*
+-	 * Make sure that pages are allocated and dma-mapped before exporting the bo.
+-	 * DMA-mapping is required if the bo will be imported to the same device.
+-	 */
+-	sgt = drm_gem_shmem_get_pages_sgt(to_drm_gem_shmem_obj(obj));
+-	if (IS_ERR(sgt))
+-		return sgt;
+-
+-	return drm_gem_dmabuf_export(dev, &exp_info);
+-}
+-
+ static const struct drm_gem_object_funcs ivpu_gem_funcs = {
+ 	.free = ivpu_bo_free,
+ 	.open = ivpu_bo_open,
+-	.export = ivpu_bo_export,
+ 	.print_info = drm_gem_shmem_object_print_info,
+ 	.pin = drm_gem_shmem_object_pin,
+ 	.unpin = drm_gem_shmem_object_unpin,
 -- 
 2.43.0
 
