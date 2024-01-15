@@ -2,53 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C706F82DA66
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 14:44:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 793D982DA67
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 14:44:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DE0A10E2C9;
-	Mon, 15 Jan 2024 13:44:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B94C510E2D1;
+	Mon, 15 Jan 2024 13:44:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4D3410E2C8;
- Mon, 15 Jan 2024 13:44:11 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C4F210E2D0
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 13:44:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1705326252; x=1736862252;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=3vesQA5HuKEGXzRYvAj+khf+j3tigs6jVMxffs4GfxI=;
- b=GSEpsyR0W2PujsPZIUN3tI3t05/ZsqeZl45OQSkLrtQeszEbGrdc/lAp
- +0rpoq/UQbKHezCF4CM8zejZ8xLUEBxD7NlZ6NDXlSZR4YTwfeC4wyDd3
- 1tNNzuLBThsTuMU01FFvcw6N0Z9+7UOg0AeD2DjH0hSa3Hu+dWJT5Fv4w
- SufDYNdF6gUzUBjwmpP31jR1viEzgR4f5+LrDGwfrzPEwZLkeHOS6lPs6
- YC3VSFLPt0zYOWxoAqiNQd+vvVRGFwnHb49anxfq57zawxk/FTrR6Il3X
- xnGetARnUJjTJyZP4uP0L4E5g8UJWuVs7vjGyuQ3IxuKtGHnwZAfr/GQY w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="6370167"
-X-IronPort-AV: E=Sophos;i="6.04,196,1695711600"; 
-   d="scan'208";a="6370167"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jan 2024 05:44:11 -0800
+ t=1705326278; x=1736862278;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=XRhJ7Nyvd/HqBZaHUCuDCEiG1UnHszxQMMOZCvAECNU=;
+ b=cNoGsVXUA4lq9TTy8CLgL3p62t3pII60mjlEXRPe/7no6QrsqLYWkc7B
+ gziT5lfwovIcalUekydN5SWHOwgClAdiQSg8xUIUqjSAGfMmj1yxiK+Jw
+ 8orJ+SoR7dodH5DANeSy7Z41+qDVYfI3xSqxAMpU5Hz9w50I5GZyltkei
+ 9O31SMpuMh5z7bBHeP1AIEOcle3bLM5IQeiv4/RkixiAKCbmyEzCDgAj7
+ h0irRxYvOKpGk/b8c4aa0UxDeKzYMZ4nworaUzfu63VAFDo6xLTdOlLV8
+ Isoxm6pSMyFAuDeMZ/un5k2IpsqFBSbeBsZjr/nfqYUX8HzgdpN8fYvWj w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="403378717"
+X-IronPort-AV: E=Sophos;i="6.04,196,1695711600"; d="scan'208";a="403378717"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jan 2024 05:44:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="783812790"
-X-IronPort-AV: E=Sophos;i="6.04,196,1695711600"; d="scan'208";a="783812790"
-Received: from srigaut-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.55.155])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jan 2024 05:44:07 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Jani Nikula <jani.nikula@intel.com>,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] drm/nouveau: convert to using is_hdmi and has_audio from
- display info
-Date: Mon, 15 Jan 2024 15:44:03 +0200
-Message-Id: <20240115134403.526197-1-jani.nikula@intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <924db0d9debec057fe15e820bc470a966a3401b0.1705078136.git.jani.nikula@intel.com>
-References: <924db0d9debec057fe15e820bc470a966a3401b0.1705078136.git.jani.nikula@intel.com>
+X-IronPort-AV: E=Sophos;i="6.04,196,1695711600"; d="scan'208";a="25472201"
+Received: from jlawryno.igk.intel.com ([10.91.220.59])
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jan 2024 05:44:37 -0800
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 0/9] accel/ivpu fixes for 6.8
+Date: Mon, 15 Jan 2024 14:44:25 +0100
+Message-ID: <20240115134434.493839-1-jacek.lawrynowicz@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,111 +54,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Danilo Krummrich <dakr@redhat.com>, Ilia Mirkin <imirkin@alum.mit.edu>,
- Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Prefer the parsed results for is_hdmi and has_audio in display info over
-calling drm_detect_hdmi_monitor() and drm_detect_monitor_audio(),
-respectively.
+Various driver fixes:
+ - Fixes for infinite loops, missing locks and DMA-API debug warnings
+ - Deprecate DRM_IVPU_PARAM_CONTEXT_PRIORITY
+ - Improve diagnostic messages
 
-Conveniently, this also removes the need to use edid_blob_ptr.
+v2 includes changes from v1 review comments and drops IRQ infinite loop patch.
 
-v2: Reverse a backwards if condition (Ilia)
+Jacek Lawrynowicz (4):
+  accel/ivpu: Fix for missing lock around drm_gem_shmem_vmap()
+  accel/ivpu: Free buffer sgt on unbind
+  accel/ivpu: Disable buffer sharing among VPU contexts
+  accel/ivpu: Improve buffer object debug logs
 
-Cc: Karol Herbst <kherbst@redhat.com>
-Cc: Lyude Paul <lyude@redhat.com>
-Cc: Danilo Krummrich <dakr@redhat.com>
-Cc: nouveau@lists.freedesktop.org
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
----
- drivers/gpu/drm/nouveau/dispnv50/disp.c     | 8 ++++----
- drivers/gpu/drm/nouveau/dispnv50/head.c     | 8 +-------
- drivers/gpu/drm/nouveau/nouveau_connector.c | 2 +-
- 3 files changed, 6 insertions(+), 12 deletions(-)
+Wachowski, Karol (5):
+  accel/ivpu: Dump MMU events in case of VPU boot timeout
+  accel/ivpu: Call diagnose failure in ivpu_mmu_cmdq_sync()
+  accel/ivpu: Add debug prints for MMU map/unmap operations
+  accel/ivpu: Add diagnostic messages when VPU fails to boot or suspend
+  accel/ivpu: Deprecate DRM_IVPU_PARAM_CONTEXT_PRIORITY param
 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-index 8d37a694b772..a34e3113fc6c 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-@@ -750,7 +750,7 @@ nv50_audio_enable(struct drm_encoder *encoder, struct nouveau_crtc *nv_crtc,
- 	struct nouveau_encoder *nv_encoder = nouveau_encoder(encoder);
- 	struct nvif_outp *outp = &nv_encoder->outp;
- 
--	if (!nv50_audio_supported(encoder) || !drm_detect_monitor_audio(nv_connector->edid))
-+	if (!nv50_audio_supported(encoder) || !nv_connector->base.display_info.has_audio)
- 		return;
- 
- 	mutex_lock(&drm->audio.lock);
-@@ -1764,7 +1764,7 @@ nv50_sor_atomic_enable(struct drm_encoder *encoder, struct drm_atomic_state *sta
- 	if ((disp->disp->object.oclass == GT214_DISP ||
- 	     disp->disp->object.oclass >= GF110_DISP) &&
- 	    nv_encoder->dcb->type != DCB_OUTPUT_LVDS &&
--	    drm_detect_monitor_audio(nv_connector->edid))
-+	    nv_connector->base.display_info.has_audio)
- 		hda = true;
- 
- 	if (!nvif_outp_acquired(outp))
-@@ -1773,7 +1773,7 @@ nv50_sor_atomic_enable(struct drm_encoder *encoder, struct drm_atomic_state *sta
- 	switch (nv_encoder->dcb->type) {
- 	case DCB_OUTPUT_TMDS:
- 		if (disp->disp->object.oclass != NV50_DISP &&
--		    drm_detect_hdmi_monitor(nv_connector->edid))
-+		    nv_connector->base.display_info.is_hdmi)
- 			nv50_hdmi_enable(encoder, nv_crtc, nv_connector, state, mode, hda);
- 
- 		if (nv_encoder->outp.or.link & 1) {
-@@ -1786,7 +1786,7 @@ nv50_sor_atomic_enable(struct drm_encoder *encoder, struct drm_atomic_state *sta
- 			 */
- 			if (mode->clock >= 165000 &&
- 			    nv_encoder->dcb->duallink_possible &&
--			    !drm_detect_hdmi_monitor(nv_connector->edid))
-+			    !nv_connector->base.display_info.is_hdmi)
- 				proto = NV507D_SOR_SET_CONTROL_PROTOCOL_DUAL_TMDS;
- 		} else {
- 			proto = NV507D_SOR_SET_CONTROL_PROTOCOL_SINGLE_TMDS_B;
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/head.c b/drivers/gpu/drm/nouveau/dispnv50/head.c
-index 83355dbc15ee..d7c74cc43ba5 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/head.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/head.c
-@@ -127,14 +127,8 @@ nv50_head_atomic_check_view(struct nv50_head_atom *armh,
- 	struct drm_display_mode *omode = &asyh->state.adjusted_mode;
- 	struct drm_display_mode *umode = &asyh->state.mode;
- 	int mode = asyc->scaler.mode;
--	struct edid *edid;
- 	int umode_vdisplay, omode_hdisplay, omode_vdisplay;
- 
--	if (connector->edid_blob_ptr)
--		edid = (struct edid *)connector->edid_blob_ptr->data;
--	else
--		edid = NULL;
--
- 	if (!asyc->scaler.full) {
- 		if (mode == DRM_MODE_SCALE_NONE)
- 			omode = umode;
-@@ -162,7 +156,7 @@ nv50_head_atomic_check_view(struct nv50_head_atom *armh,
- 	 */
- 	if ((asyc->scaler.underscan.mode == UNDERSCAN_ON ||
- 	    (asyc->scaler.underscan.mode == UNDERSCAN_AUTO &&
--	     drm_detect_hdmi_monitor(edid)))) {
-+	     connector->display_info.is_hdmi))) {
- 		u32 bX = asyc->scaler.underscan.hborder;
- 		u32 bY = asyc->scaler.underscan.vborder;
- 		u32 r = (asyh->view.oH << 19) / asyh->view.oW;
-diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
-index 856b3ef5edb8..938832a6af15 100644
---- a/drivers/gpu/drm/nouveau/nouveau_connector.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
-@@ -1034,7 +1034,7 @@ get_tmds_link_bandwidth(struct drm_connector *connector)
- 	unsigned duallink_scale =
- 		nouveau_duallink && nv_encoder->dcb->duallink_possible ? 2 : 1;
- 
--	if (drm_detect_hdmi_monitor(nv_connector->edid)) {
-+	if (nv_connector->base.display_info.is_hdmi) {
- 		info = &nv_connector->base.display_info;
- 		duallink_scale = 1;
- 	}
--- 
-2.39.2
+ drivers/accel/ivpu/ivpu_drv.c         |  17 +---
+ drivers/accel/ivpu/ivpu_drv.h         |   2 +-
+ drivers/accel/ivpu/ivpu_gem.c         | 126 +++++++++-----------------
+ drivers/accel/ivpu/ivpu_gem.h         |   1 -
+ drivers/accel/ivpu/ivpu_job.c         |   3 +
+ drivers/accel/ivpu/ivpu_mmu.c         |  10 ++
+ drivers/accel/ivpu/ivpu_mmu.h         |   1 +
+ drivers/accel/ivpu/ivpu_mmu_context.c |   9 ++
+ drivers/accel/ivpu/ivpu_pm.c          |   4 +-
+ include/uapi/drm/ivpu_accel.h         |  25 ++++-
+ 10 files changed, 96 insertions(+), 102 deletions(-)
 
+--
+2.43.0
