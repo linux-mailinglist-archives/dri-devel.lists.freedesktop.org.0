@@ -1,74 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6C3182D92F
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 13:55:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64BC782D93B
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 13:56:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFFED10E2B2;
-	Mon, 15 Jan 2024 12:55:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5595110E29D;
+	Mon, 15 Jan 2024 12:56:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6018310E2B2
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 12:55:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1705323300;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=OdOY5TfnFDP96uyidwJURkq+KNPlInJLGTZ9BVgWgNg=;
- b=S1kxOL9phfPMqkKNPWiasezZiIYkTJuL1l6n4Dd92FU+gCDCVQrdAZnl7c2Vi4KxYxSOfW
- Bq/cY1eP+mc+kGVkIEMskzK4hQOJ5qBVsmJ46lD3UV2I4DKzXpEcb526D0kW7HNKzBzTfk
- QGjDy8A1j9zNeJzkrnZBM5UzjYhrixI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-492-222Z0Y_UPc2FFyqdoYhRsA-1; Mon, 15 Jan 2024 07:54:59 -0500
-X-MC-Unique: 222Z0Y_UPc2FFyqdoYhRsA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-40e53200380so47058175e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 04:54:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705323298; x=1705928098;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=OdOY5TfnFDP96uyidwJURkq+KNPlInJLGTZ9BVgWgNg=;
- b=KZSY6B3oJgS3JMEJPn8CNSDpE1at/7MSn7ZRGd724py3unn1NEkFaUjIo6gGto8IHU
- uUS9OIzzG2NTup/LWWsy3nVEWj39CL8Ak3BcuDTclyFGpDLKeMzMB4sWJ+kqIPmnQSEk
- 78ZMtqwyFTYFHETJsBU78N/krUHghy04MiaD63PdHjn4dPTiD79oICFSN5CYGZBdFlNP
- IRskJME0ipev91JJNWZKUlH3YjhWSaJDVMid7rDj4D7j5KeVgYcYDe9wsEAp8bMiS2TA
- wjQia21Yh+giE/x1TNKrb0Y8kbD3ouye95zppjUb3cuNqotPvJN2oSreWnlRhY8ykKp2
- 29kA==
-X-Gm-Message-State: AOJu0Yxhwu0pLIQaJ3L6ZVfw0ojunkP8emlaxJZ4TZMQqj7ofLi2PPni
- 7y21n4pwi+9zueBphCZATpsAtQAGjk56tiy7BIXRhk6Wt9a0Ff13PLjDZypXApLIMFsOgPVxllu
- comGmuRvXDK1ujrmPkND8wcZAWDZJ+YAWtP25
-X-Received: by 2002:a05:600c:211a:b0:40e:6ba4:e052 with SMTP id
- u26-20020a05600c211a00b0040e6ba4e052mr1896485wml.25.1705323298087; 
- Mon, 15 Jan 2024 04:54:58 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFzg0bntWWAcXtuHZuGROwZXvYdlmFhuKVULfmHMeQ1PrfepcSckBb2THm+UeIHVJ5SngMEHg==
-X-Received: by 2002:a05:600c:211a:b0:40e:6ba4:e052 with SMTP id
- u26-20020a05600c211a00b0040e6ba4e052mr1896482wml.25.1705323297800; 
- Mon, 15 Jan 2024 04:54:57 -0800 (PST)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- g6-20020a05600c4ec600b0040e6b0a1bc1sm9160488wmq.12.2024.01.15.04.54.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Jan 2024 04:54:57 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@gmail.com, corbet@lwn.net
-Subject: Re: [PATCH] Documentation/gpu: Reference articles on Linux graphics
- stack
-In-Reply-To: <20240115113908.25897-1-tzimmermann@suse.de>
-References: <20240115113908.25897-1-tzimmermann@suse.de>
-Date: Mon, 15 Jan 2024 13:54:56 +0100
-Message-ID: <87zfx6oixr.fsf@minerva.mail-host-address-is-not-set>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91FF410E29D
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 12:56:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1705323375;
+ bh=4rBvvrfTDG2xAJuqtMbqViWD4XZcImq20nlqD9zkpyg=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=f06//rJ0EZq1bvMDD9F29HDggL09SAgHh01uMV1zsA0zWTCMLIjnQRa8/l4NnjGu5
+ V+tbkhxdzJXI4ORU2oNjnvXjx9VWCep4+7ryP3TKNafSlahszHMaiOP+Z3dQES7AUW
+ 2hbxYdUwlrj1XMWdVgyEq3Y3DorN0N5oEwqFwIvXTTqGNGCnLzN6bav8Za6JepAfnn
+ pzYObgrCLXur7jXLsqG5syTboe1cpSsqmcBC+sFFk0nLMzSucc0oZAX2VTeZTwj8jf
+ C1vXDoAE1/kQpewmjjn/71TQ2Flb+71A2MExYZ9m1zHNBrXktvOjBZO1QYPPNSsqgj
+ qk70d/0Wrf9eA==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 5670A3780624;
+ Mon, 15 Jan 2024 12:56:14 +0000 (UTC)
+Date: Mon, 15 Jan 2024 13:56:12 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Liviu Dudau <Liviu.Dudau@arm.com>
+Subject: Re: [PATCH v3 08/14] drm/panthor: Add the FW logical block
+Message-ID: <20240115135612.4b440568@collabora.com>
+In-Reply-To: <ZYMET9YdCJAcdVD0@e110455-lin.cambridge.arm.com>
+References: <20231204173313.2098733-1-boris.brezillon@collabora.com>
+ <20231204173313.2098733-9-boris.brezillon@collabora.com>
+ <ZYMET9YdCJAcdVD0@e110455-lin.cambridge.arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,26 +55,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-doc@vger.kernel.org
+Cc: Nicolas Boichat <drinkcat@chromium.org>, kernel@collabora.com,
+ Daniel Stone <daniels@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, dri-devel@lists.freedesktop.org,
+ Steven Price <steven.price@arm.com>,
+ =?UTF-8?B?Q2w=?= =?UTF-8?B?w6ltZW50IFDDqXJvbg==?= <peron.clem@gmail.com>,
+ "Marty E . Plummer" <hanetzer@startmail.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+On Wed, 20 Dec 2023 15:12:15 +0000
+Liviu Dudau <Liviu.Dudau@arm.com> wrote:
 
-> Add two articles on LWN about the Linux graphics stack to DRM's
-> list of external references. The articles document the graphics
-> output as a whole, including the kernel side.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
+> > +static int panthor_fw_load_section_entry(struct panthor_device *ptdev,
+> > +					 const struct firmware *fw,
+> > +					 struct panthor_fw_binary_iter *iter,
+> > +					 u32 ehdr)
+> > +{
+> > +	struct panthor_fw_binary_section_entry_hdr hdr;
+> > +	struct panthor_fw_section *section;
+> > +	u32 section_size;
+> > +	u32 name_len;
+> > +	int ret;
+> > +
+> > +	ret = panthor_fw_binary_iter_read(ptdev, iter, &hdr, sizeof(hdr));
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	if (hdr.data.end < hdr.data.start) {
+> > +		drm_err(&ptdev->base, "Firmware corrupted, data.end < data.start (0x%x < 0x%x)\n",
+> > +			hdr.data.end, hdr.data.start);
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	if (hdr.va.end < hdr.va.start) {
+> > +		drm_err(&ptdev->base, "Firmware corrupted, hdr.va.end < hdr.va.start (0x%x < 0x%x)\n",
+> > +			hdr.va.end, hdr.va.start);
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	if (hdr.data.end > fw->size) {
+> > +		drm_err(&ptdev->base, "Firmware corrupted, file truncated? data_end=0x%x > fw size=0x%zx\n",
+> > +			hdr.data.end, fw->size);
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	if ((hdr.va.start & ~PAGE_MASK) != 0 ||
+> > +	    (hdr.va.end & ~PAGE_MASK) != 0) {
+> > +		drm_err(&ptdev->base, "Firmware corrupted, virtual addresses not page aligned: 0x%x-0x%x\n",
+> > +			hdr.va.start, hdr.va.end);
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	if (hdr.flags & ~CSF_FW_BINARY_IFACE_ENTRY_RD_SUPPORTED_FLAGS) {
+> > +		drm_err(&ptdev->base, "Firmware contains interface with unsupported flags (0x%x)\n",
+> > +			hdr.flags);
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	if (hdr.flags & CSF_FW_BINARY_IFACE_ENTRY_RD_PROT) {
+> > +		drm_warn(&ptdev->base,
+> > +			 "Firmware protected mode entry not be supported, ignoring");
+> > +		return 0;
+> > +	}
+> > +
+> > +	if (hdr.va.start == CSF_MCU_SHARED_REGION_START &&
+> > +	    !(hdr.flags & CSF_FW_BINARY_IFACE_ENTRY_RD_SHARED)) {
+> > +		drm_err(&ptdev->base,
+> > +			"Interface at 0x%llx must be shared", CSF_MCU_SHARED_REGION_START);
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	name_len = iter->size - iter->offset;
+> > +
+> > +	section = drmm_kzalloc(&ptdev->base, sizeof(*section), GFP_KERNEL);
+> > +	if (!section)
+> > +		return -ENOMEM;
+> > +
+> > +	list_add_tail(&section->node, &ptdev->fw->sections);
+> > +	section->flags = hdr.flags;
+> > +	section->data.size = hdr.data.end - hdr.data.start;
+> > +
+> > +	if (section->data.size > 0) {
+> > +		void *data = drmm_kmalloc(&ptdev->base, section->data.size, GFP_KERNEL);
+> > +
+> > +		if (!data)
+> > +			return -ENOMEM;
+> > +
+> > +		memcpy(data, fw->data + hdr.data.start, section->data.size);
+> > +		section->data.buf = data;
+> > +	}
+> > +
+> > +	if (name_len > 0) {
+> > +		char *name = drmm_kmalloc(&ptdev->base, name_len + 1, GFP_KERNEL);
+> > +
+> > +		if (!name)
+> > +			return -ENOMEM;
+> > +
+> > +		memcpy(name, iter->data + iter->offset, name_len);
+> > +		name[name_len] = '\0';
+> > +		section->name = name;
+> > +	}
+> > +
+> > +	section_size = hdr.va.end - hdr.va.start;
+> > +	if (section_size) {
+> > +		u32 cache_mode = hdr.flags & CSF_FW_BINARY_IFACE_ENTRY_RD_CACHE_MODE_MASK;
+> > +		struct panthor_gem_object *bo;
+> > +		u32 vm_map_flags = 0;
+> > +		struct sg_table *sgt;
+> > +		u64 va = hdr.va.start;
+> > +
+> > +		if (!(hdr.flags & CSF_FW_BINARY_IFACE_ENTRY_RD_WR))
+> > +			vm_map_flags |= DRM_PANTHOR_VM_BIND_OP_MAP_READONLY;
+> > +
+> > +		if (!(hdr.flags & CSF_FW_BINARY_IFACE_ENTRY_RD_EX))
+> > +			vm_map_flags |= DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC;
+> > +
+> > +		/* TODO: CSF_FW_BINARY_IFACE_ENTRY_RD_CACHE_MODE_*_COHERENT are mapped to
+> > +		 * non-cacheable for now. We might want to introduce a new
+> > +		 * IOMMU_xxx flag (or abuse IOMMU_MMIO, which maps to device
+> > +		 * memory and is currently not used by our driver) for
+> > +		 * AS_MEMATTR_AARCH64_SHARED memory, so we can take benefit
+> > +		 * of IO-coherent systems.
+> > +		 */
+> > +		if (cache_mode != CSF_FW_BINARY_IFACE_ENTRY_RD_CACHE_MODE_CACHED)
+> > +			vm_map_flags |= DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED;
+> > +
+> > +		section->mem = panthor_kernel_bo_create(ptdev, panthor_fw_vm(ptdev),
+> > +							section_size,
+> > +							DRM_PANTHOR_BO_NO_MMAP,
+> > +							vm_map_flags, va);
+> > +		if (IS_ERR(section->mem))
+> > +			return PTR_ERR(section->mem);
+> > +
+> > +		if (drm_WARN_ON(&ptdev->base, section->mem->va_node.start != hdr.va.start))
+> > +			return -EINVAL;
+> > +
+> > +		if (section->flags & CSF_FW_BINARY_IFACE_ENTRY_RD_SHARED) {
+> > +			ret = panthor_kernel_bo_vmap(section->mem);
+> > +			if (ret)
+> > +				return ret;
+> > +		}
+> > +
+> > +		panthor_fw_init_section_mem(ptdev, section);
+> > +
+> > +		bo = to_panthor_bo(section->mem->obj);
+> > +		sgt = drm_gem_shmem_get_pages_sgt(&bo->base);
+> > +		if (IS_ERR(sgt))
+> > +			return PTR_ERR(section->mem);  
+> 
+> I think here we should return PTR_ERR(sgt).
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Will fix.
 
--- 
-Best regards,
+> 
+> In general I agree with Chris that the list_add_tail() call should be delayed
+> until all of the above allocations and preparations have succeeded.
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+If you don't mind, I'd rather patch panthor_fw_unplug() so it can deal
+with partially initialized mem sections than adding an error path to
+panthor_fw_load_section_entry().
