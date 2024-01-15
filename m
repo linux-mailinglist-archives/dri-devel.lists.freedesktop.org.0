@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00B8782D9FF
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 14:21:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BBD182D9FB
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jan 2024 14:21:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 781DC10E2C2;
-	Mon, 15 Jan 2024 13:21:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 197A310E2B7;
+	Mon, 15 Jan 2024 13:21:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 331DD10E2C2
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 13:21:51 +0000 (UTC)
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D23B510E2B7
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 13:21:48 +0000 (UTC)
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
  by mx07-00178001.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 40FD3aHp019271; Mon, 15 Jan 2024 14:21:35 +0100
+ 40FCY0x1010889; Mon, 15 Jan 2024 14:21:34 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:content-type; s=
- selector1; bh=m89ZpT5hInkxJ6kBUhZi2kYPPH9r2dSvkVWL2FY78RU=; b=m3
- h6QyaJ2TTUmT+AlFe3RK3P7v0+OVDaGRXX1J0TCD9X5FTDNDTUuPBzdberpv3zCS
- w8IX5+g81WNJu1TeLx3k6SJo/28bE7RxCP0zVPMtMs34b63Q6T8mUwDcD+dhEpUx
- NDWSrGuZrV5gki1brza2QW9TnS/n2QMEv6coF2M4w2y4OQpRMugnLBfolQo526Ij
- pjn4NYKccrCe7IaWRCZbqtGmEZO1BlTDYpLYX7DiL4v2zifUEaJXBA+BlQbR6ezw
- ICkAcGEeBBjTDg5AHQzyuL8+Vr0k3f+/VF0v9Hi2G5c/jQJGPPtQOaUMmGjgRO0A
- 31mA/oh3HG0ZSrFcGi7Q==
+ selector1; bh=xZu5Y1KF2qfLRVwfS+3QyJGle5Zh1Cud7ijy5NKaUqM=; b=TL
+ dh6YWm3j3dbM+L32PyLKFEvAI2cVo5eafqYJK8khSgWCxB7qOqCQ6tMFYVPgRVO8
+ H6Z/1tljDR16UkNTH5q+XyQWy2xxFrq829k0d2JV1pZwiFpGgLNhhU93AyyfuL/U
+ o/mGvBtvkVTPawb0MeNi+ygVaF36cLNiiczNiEqJp1y8mi3AuYsCCNVPZBoSwoKd
+ HwXrvlsgbsI+AZA2hDh9WHGzHtFQSsgDwIrGPVE8ch8cY12okejQqtSef0FAHIwa
+ SNcStJHSbKYPuTwatpBXTJWzdIVEIPQUxX88M4eHw0hFHd0v7qMQ6Z4B6s6G4+I7
+ lTYZBr474n7sZJH5UulQ==
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3vkmfy8st4-1
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3vkmbh0n0k-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 Jan 2024 14:21:35 +0100 (CET)
+ Mon, 15 Jan 2024 14:21:34 +0100 (CET)
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 4EF3C10002A;
- Mon, 15 Jan 2024 14:21:35 +0100 (CET)
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 471AC100057;
+ Mon, 15 Jan 2024 14:21:34 +0100 (CET)
 Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 457732831A8;
- Mon, 15 Jan 2024 14:21:35 +0100 (CET)
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 3DC722831A8;
+ Mon, 15 Jan 2024 14:21:34 +0100 (CET)
 Received: from localhost (10.129.178.37) by SHFDAG1NODE2.st.com (10.75.129.70)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Mon, 15 Jan
@@ -52,9 +52,9 @@ To: Yannick Fertre <yannick.fertre@foss.st.com>, Raphael Gallais-Pou
  Conor Dooley <conor+dt@kernel.org>,
  Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue
  <alexandre.torgue@foss.st.com>, Philipp Zabel <p.zabel@pengutronix.de>
-Subject: [PATCH v3 4/6] arm64: dts: st: add ltdc support on stm32mp251
-Date: Mon, 15 Jan 2024 14:20:07 +0100
-Message-ID: <20240115132009.101718-5-raphael.gallais-pou@foss.st.com>
+Subject: [PATCH v3 5/6] arm64: dts: st: add lvds support on stm32mp255
+Date: Mon, 15 Jan 2024 14:20:08 +0100
+Message-ID: <20240115132009.101718-6-raphael.gallais-pou@foss.st.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240115132009.101718-1-raphael.gallais-pou@foss.st.com>
 References: <20240115132009.101718-1-raphael.gallais-pou@foss.st.com>
@@ -85,38 +85,60 @@ Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The LCD-TFT Display Controller (LTDC) handles display composition,
-scaling and rotation. It provides a parallel digital RGB flow to be used
-by display interfaces.
+This patch adds LVDS support on stm32mp255.  The LVDS is used on
+STM32MP2 as a display interface.  LVDS PLL clock is binded to the LTDC
+input clock.
 
 Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
 ---
- arch/arm64/boot/dts/st/stm32mp251.dtsi | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Changes in v3:
+	- Change the compatible to show SoC specificity
 
-diff --git a/arch/arm64/boot/dts/st/stm32mp251.dtsi b/arch/arm64/boot/dts/st/stm32mp251.dtsi
-index 5189d5a4f6a9..4446996c8f5d 100644
---- a/arch/arm64/boot/dts/st/stm32mp251.dtsi
-+++ b/arch/arm64/boot/dts/st/stm32mp251.dtsi
-@@ -218,6 +218,18 @@ i2c8: i2c@46040000 {
- 				status = "disabled";
- 			};
+Changes in v2:
+	- Move patch to stm32mp255.dtsi after internal discussions
+---
+ arch/arm64/boot/dts/st/stm32mp255.dtsi | 17 +++++++++++++++++
+ drivers/gpu/drm/stm/lvds.c             |  2 +-
+ 2 files changed, 18 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm64/boot/dts/st/stm32mp255.dtsi b/arch/arm64/boot/dts/st/stm32mp255.dtsi
+index e6fa596211f5..68f60da32126 100644
+--- a/arch/arm64/boot/dts/st/stm32mp255.dtsi
++++ b/arch/arm64/boot/dts/st/stm32mp255.dtsi
+@@ -7,3 +7,20 @@
  
-+			ltdc: display-controller@48010000 {
-+				compatible = "st,stm32-ltdc";
-+				reg = <0x48010000 0x400>;
-+				st,syscon = <&syscfg>;
-+				interrupts = <GIC_SPI 158 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 159 IRQ_TYPE_LEVEL_HIGH>;
-+				clocks = <&rcc CK_BUS_LTDC>, <&rcc CK_KER_LTDC>;
-+				clock-names = "bus", "lcd";
-+				resets = <&rcc LTDC_R>;
-+				status = "disabled";
-+			};
+ / {
+ };
 +
- 			sdmmc1: mmc@48220000 {
- 				compatible = "st,stm32mp25-sdmmc2", "arm,pl18x", "arm,primecell";
- 				arm,primecell-periphid = <0x00353180>;
++&ltdc {
++	clocks = <&rcc CK_BUS_LTDC>, <&rcc CK_KER_LTDC>, <&lvds 0>;
++	clock-names = "bus", "lcd", "lvds";
++};
++
++&rifsc {
++	lvds: lvds@48060000 {
++		#clock-cells = <0>;
++		compatible = "st,stm32mp25-lvds";
++		reg = <0x48060000 0x2000>;
++		clocks = <&rcc CK_BUS_LVDS>, <&rcc CK_KER_LVDSPHY>;
++		clock-names = "pclk", "ref";
++		resets = <&rcc LVDS_R>;
++		status = "disabled";
++	};
++};
+diff --git a/drivers/gpu/drm/stm/lvds.c b/drivers/gpu/drm/stm/lvds.c
+index beb8b7e437a0..5808db1a5cdf 100644
+--- a/drivers/gpu/drm/stm/lvds.c
++++ b/drivers/gpu/drm/stm/lvds.c
+@@ -1198,7 +1198,7 @@ static int lvds_remove(struct platform_device *pdev)
+ 
+ static const struct of_device_id lvds_dt_ids[] = {
+ 	{
+-		.compatible = "st,stm32-lvds",
++		.compatible = "st,stm32mp25-lvds",
+ 		.data = NULL
+ 	},
+ 	{ /* sentinel */ }
 -- 
 2.25.1
 
