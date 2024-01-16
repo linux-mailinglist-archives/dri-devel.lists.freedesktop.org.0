@@ -2,113 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7192482EF37
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jan 2024 13:55:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E63BA82EF4C
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jan 2024 14:00:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98F5F10E4C2;
-	Tue, 16 Jan 2024 12:54:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47A6710E05B;
+	Tue, 16 Jan 2024 12:59:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2070.outbound.protection.outlook.com [40.107.94.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 595E010E4C2
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jan 2024 12:54:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fMMJf+ETGovCZmsMUbj7I3PV2EG3HwzA6WPFWTiR+W4U1d000+N3lo/HbHRjseqAKEfSNpgQQdgZK3rDx57b5rZj9LVyRHro+YhoN/VXI8e0H6OOP4IUboeY7hdnf31ShTljqoYXoZnc/x8W7r0m7ZglXYJS/YqCqgSP3BJVPzj1T0Y4IoRjcam1EEhae29VEFDvdgEWEQtaklLTPc3u997Noy1qCiX1bV+gh5WRUN9upu9XU8Ovg3LFP1i78uVVSkD8Oe5/JFW2/jC9N3HNRdHRwggXapLw9iHYU3niFvseaArGAg/8hqw4N2+m9mTLK2RGjlXYsYKzZ8f4siPfWg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sE6FCYBsuhvzQ6aiW0wQrrNkOTprx1vO8DLg6rmxPeA=;
- b=JfDOfRKwArOiaD+oNFiJunaOICxyetsBd7nc2ntnuqd+VPyTXvgg2FRSdwQRxlsgDOkeh9xpl2Tg5hw/9xK3Z7S9EcfzYUh5HYd2eD48ifcHlYPjt9zoCOPYcq+/6FUxdg0YqXfa+v4043iYa71l/gmbr0Ms8q1ZOoUJNddqllI2ThCC7HT8IvVD3dcx5vvG9fAscUgS8aeAgtUCIqjOKQ3aOurkuZ57JzeKULOSVgqxuIhpUe1YHQERDw1H8Cqf8xEfMaCpXWNWItzWpXmY/ja0Vaqu8YEoeX/yFLzQIgrmXkaupc8g25WTGiFUsBm77W5WWwuiA7JDcJHz6cJBsg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sE6FCYBsuhvzQ6aiW0wQrrNkOTprx1vO8DLg6rmxPeA=;
- b=HKYk5we9gre4KAi/rhczu6HB37jjEvkRh8hFAq9Mdn6nL3hWjl+4QlkvjCLq99E/YZABnQaYz4+Yi/5VY89hDpcIQ74EVK7lBqDuvwMGgKj/8MP7ia3hd5YOVq5suZ3c1hYV6Xl8C9ZYCZOmfwJ0sgTN82KeDCA5KgmgJ9cQYypRUQnuF5V9s2aAqsHp1d/pWgK6r4WVny2ARXHkSjM9yC3XQITVfvepCFQhAOy0rlvJBj5LfFTn7hsqJ6JlNI0+OxmwzkpQm2EMi6d4x8XLmpoJlYWv5RLRA7kYq4viIBOt45fOYZLJHeF15PYZyFuUZAizFQbCFZOJckzRaqDmHw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by SN7PR12MB7153.namprd12.prod.outlook.com (2603:10b6:806:2a4::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.23; Tue, 16 Jan
- 2024 12:54:27 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::96dd:1160:6472:9873]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::96dd:1160:6472:9873%6]) with mapi id 15.20.7181.020; Tue, 16 Jan 2024
- 12:54:27 +0000
-Date: Tue, 16 Jan 2024 08:54:26 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: "Tian, Kevin" <kevin.tian@intel.com>
-Subject: Re: [PATCH 0/4] KVM: Honor guest memory types for virtio GPU devices
-Message-ID: <20240116125426.GA734935@nvidia.com>
-References: <20240105091237.24577-1-yan.y.zhao@intel.com>
- <20240105195551.GE50406@nvidia.com>
- <ZZuQEQAVX28v7p9Z@yzhao56-desk.sh.intel.com>
- <20240108140250.GJ50406@nvidia.com>
- <ZZyG9n0qZEr6dLlZ@yzhao56-desk.sh.intel.com>
- <20240109002220.GA439767@nvidia.com>
- <ZZyrS4RiHvktDZXb@yzhao56-desk.sh.intel.com>
- <20240115163050.GI734935@nvidia.com>
- <BN9PR11MB5276B5603D9D777F01D64EDA8C732@BN9PR11MB5276.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BN9PR11MB5276B5603D9D777F01D64EDA8C732@BN9PR11MB5276.namprd11.prod.outlook.com>
-X-ClientProxiedBy: BL0PR03CA0006.namprd03.prod.outlook.com
- (2603:10b6:208:2d::19) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
+Received: from out203-205-221-235.mail.qq.com (out203-205-221-235.mail.qq.com
+ [203.205.221.235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 991C610E05B
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jan 2024 12:59:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+ t=1705409988; bh=5oxncUkI6wfKy9fRGdvKdpVnx2LCd9lJ/F3dibwUr1s=;
+ h=From:To:Cc:Subject:Date;
+ b=llp/sIjHkC9Ea+bBEj2qaUF8Jyak+FC/Z9zyFfnLXRTmCDqe1Pbk2WNK1S9jET2oR
+ EEI9bcUezf2yiW/kkJnGBlvvRzm4RSlFmpnNSP9E24VgO7GgAInWJcixLcOxdT5SLq
+ N3CcHkSqTE4ZpdWgSFSnYjWa7RBWRwQB/OTfaAQE=
+Received: from cyy-pc.lan ([218.70.255.90])
+ by newxmesmtplogicsvrszb9-1.qq.com (NewEsmtp) with SMTP
+ id ED48E241; Tue, 16 Jan 2024 20:59:20 +0800
+X-QQ-mid: xmsmtpt1705409960tfe7f0q3w
+Message-ID: <tencent_40DF99E09A3681E339EE570C430878232106@qq.com>
+X-QQ-XMAILINFO: NTd5rXTd3igrH8PrXgnd8vqogNMgdHx4OoUEIy9Jq4TiBLKptFWJ6e1h4HB9H6
+ OUJ/GsbLYX3Q3LUIX6YhudSOyy+cZzp8bsk+JQI1Woe/kiAVyA+I+qYUoGBVIWCRV+pQ+js2eatZ
+ 7tfVh2bEg2aRdx1a/b0MByssX+RwevMs/TE1Wd5mFkWfN2UWB1CfopWhdj2IG8wrlNw+pxtuyqpm
+ lzTB0B+V/BGeHTNQMmXvqZKOkN7DezKmbM2Ukdy1d38J7EujW9sn1QcyR2ecPuI+Ym2ofEeUqhyD
+ Vij4rDyT3M2ScRrEghOnbfGs7s7DhFakQq+WQ7jkWUkhLoLJldPUiAEogMNTRIbzS8cHncVKv/O/
+ EMCjOuX14gOLRd6IeaAUDkOrXsgJ23KCNEpgVXejxDn/yY9fE4ZETCKxx34d/XOZhHRdY4q7azo/
+ R/ykqvPDdHnek12YoQOp6Klz6MgHJV/vX1oIKOfJLtrbdVQjp0DHXiLEuLrN4+61y9KVUU2ngaJs
+ ffHGTBFzDfwAN5YyiqWChmYXEwkvLzSEjjZAD5nMJ7pAn8Xw/jMmxaE4sl7MPiocZNCk+9xvXuqB
+ tkQVLtzDzq6nU0yRCTSxHOSXAX88qt/adnI77i2o8lLSXAGKeokWxiFdJhPca8OEWWjgWBowN3Cn
+ ILtId/rwnfUdLmBJQ7GV9apECgydv45kj4r9LXxOvzUMz18nyVL8f8Hq82QYYgw2cwTBV+fQgLgg
+ 8TeGPqOKeL0e7dTTU71HumE5fmRagPkB7eqHQ4dpYhe7M9BCA20ZyqVce+XK4BaPQMbFqIcRx2kO
+ PLBfeHtTZsUD3LEyuuL2G55Z65nFYDE90XsCHLlks65o8eYu+KYLeOvxrhMrEt6CYHt2SbCQUl2e
+ JiBLWnxlHT1Nx2JwGuICW/4McyY6i/f5fYCDv3I3wKTjIixjC1vREz49X/DhTGUqv6Wr3WoeONBc
+ TCxIidewmjYkYRP3sJ39Fi9aX/raHhVAURruot/piRpaClV5BgVsIwVyXHaYiaFcJ1DRDwzqrvxp
+ u+FiC/7CcPPN92JNqq
+X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
+From: Yangyu Chen <cyy@cyyself.name>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/1] drm/ttm: allocate dummy_read_page without DMA32 on fail
+Date: Tue, 16 Jan 2024 20:58:56 +0800
+X-OQ-MSGID: <20240116125856.148504-1-cyy@cyyself.name>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|SN7PR12MB7153:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3ef99777-6fbc-48df-4520-08dc169245f7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: tJHZNcVm20spUiRWq8jxik/2v4G/joDEyPHyGLRADWKYeWfnNc/1RhC2H4wI3DSTHuIGLG/jm8vt3GyA9IyY7zWRBXqBk+eFYxIQsG+EwshOc7iz53CSypHC7YVyBCRt7OlZr4ZaVU2AoaQYM6xsbaUFrhNc7iXe+6oZDTTr2CADK4xPiiWdcJpPl7WI5/qVqb9MIDisKEYHPXEBoKXifGlizkwwvWQEVDO0inGtQQ23C/aqw4GfUcFp5aN0alF1PXY4/QMyCALw3DbjxUeKiv+rn0fIs07fZ9kiLExlLKxhHejcMOM5zC71eb4GuN5GlBsK9c2BiV45811/rXf+fRKU+nhJxCK+H/7mDcwQS8mEjPmx1Tti5sEIQfZ4YTFLLGN6ecDH5EzglVR5+e9WNXXMQzHOeaEtVk+YvDfYlVRLR+0jgF3cHbheN96hl3oXLekFg17M5sFphqZ4iSlxS3DBpXegDbbnwrCEY1uKfndgdbpcyJs8ED21OoUYDNSqKOJZpXGFAOp2VTGRrFUwAx55zwEp+w3b0oUE7O6RET+gr1d1rQtPb5l/TqDF9nXuo65NAF6wq611ixch3+K6VpFhsDZ1vUpxZ7g/0aQVwRE=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376002)(39860400002)(396003)(346002)(366004)(136003)(230922051799003)(186009)(451199024)(64100799003)(1800799012)(41300700001)(38100700002)(83380400001)(36756003)(33656002)(86362001)(66946007)(316002)(54906003)(66476007)(66556008)(6916009)(8936002)(7416002)(2906002)(4326008)(8676002)(5660300002)(1076003)(2616005)(26005)(6486002)(478600001)(6512007)(6506007)(27376004);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?2T/llDK5cbu2v2aCrEFdwGImspbEDve0nKNaSUYRGLf96VEF6hCYdaewZu6d?=
- =?us-ascii?Q?tHIW5I6wuTCDH6CJGM6WhwSefBoj2QFK7usFQ7tvgcYtPXJK1gZrIomtczRI?=
- =?us-ascii?Q?vx41IOOnYSeeCA1+FmIKSpRp9aJDlZlN20TDGP+uQaPuAEfs1pgJBqD4iWAo?=
- =?us-ascii?Q?6pGvUK11hH+KSRJW9bNabc8ltZWfjge2suQeCOYH7GwGGy5i8lrBe2SZMo7o?=
- =?us-ascii?Q?xVfChFcs7LfQYPwciZZzkwqNMALpd/pACFryRbF6kHXmsAzXaIOCJ7SSnEsx?=
- =?us-ascii?Q?J3Il6MqpJeOYI7H7lizf0s2ne8U/Ph0qwG5tgozQow0qKy8hIahEZPPt0RsU?=
- =?us-ascii?Q?4edqcQIrh+rs++v54ptLhRvcgcfsX0YqAd6Ba6yXFgxVLk2bVbxNJUR7CvLK?=
- =?us-ascii?Q?hS0OQkiudrc6S4APRL05GuV2G0z+nw/9pQCs+a0zzz8ezL/7XquWL29mma5k?=
- =?us-ascii?Q?dd8ytyPO5q2g6QYIgK+Y//XfV9Dbi9b91rLhgZQkPSAqKbpoyGsgeVpVIwG3?=
- =?us-ascii?Q?ODpbb0hvRRjyjKeWNVWgj3deY+XMC6Yi2Hb+oQkRpwkfD5mH1GV9jb9R5ZLc?=
- =?us-ascii?Q?FfmEY3ZZmPU1c9hSCISHzY6CnpLAziBy/5MJIU1tF0WaP8bOGMiTZTiVdBT0?=
- =?us-ascii?Q?DUOQ5TaBR1S6qugVQjYguQcjxqXZ3bwbBk0d8IIfp8GMYfgdBIpP9H3mXjWH?=
- =?us-ascii?Q?JDPblWeKTXRAST2aNStnq8BQjU6Tcvvc8sD/0nou/KTO7oU7Ln+WMn/34M6f?=
- =?us-ascii?Q?8fhcvrqozDIXoL9tuyNlpjx6AJF4jXZ0FWjXhw4Si1aeYi4uK8RHjf+kGVlW?=
- =?us-ascii?Q?lPMA2EpTBF2+LiJqKX4kDKdWC7KtK6a7s3ZdB/taTcCwUfnZ4rkA+DxhXF/Q?=
- =?us-ascii?Q?kufC6fL79TQTcwIJAAKfKHTIERvPzaWMNmJxjsNzF8O1OWOe0NNiIhHa6y4p?=
- =?us-ascii?Q?d0SO78Cy5FGHsWoi13oiJUCGdyul9dci1Zg79uQfzK/55WRUwF/efAEb+Wwr?=
- =?us-ascii?Q?DvBKZmzOkG02uu/fHRsxUKbu/WVjFGRjwkjU+FOuf3Md/eDA3b4Kxogwm2CP?=
- =?us-ascii?Q?Tn2jZJZzocKvqcHDvej2bWiD1v9c9mnnRwnB6SJfjUc1PbSvkXLqRri+xi8n?=
- =?us-ascii?Q?l3pIP/GeA2cGaQr0vet14ZD0IdHeLGcQg2y1ERKWNElNojG5BZFFtPR0/oI0?=
- =?us-ascii?Q?uW9a++xiYp6ReLUodghGcUzcUkTNIhdr7VtHd9XeaCwWBw66b4vAwu7cjwYP?=
- =?us-ascii?Q?UtnEsKRf/NiQFjmw255kd15lJ6hUS1VJAsPbwhEb1V/rIzlrndhGvbHMN3uX?=
- =?us-ascii?Q?DuXucPw6ivRjZA9ByGg9RAEC+9KCxyTf09dFq++5bPdnHtA4XeUvF5c7USRX?=
- =?us-ascii?Q?S4BWeYplrSLLg07AokJqDL+s7gGmti41Rc1w2pV+olaz4o7iaYJZFfM2Rns8?=
- =?us-ascii?Q?EuyLLn0MgfjI5hnA+p6BQYMYkblUxLXXyP+8aNJKmxiz7qIYcTkOIZsJv3zF?=
- =?us-ascii?Q?eBxOy8rb+en6Prr7iBivbyNjWEX942sOQiFb9KRwn4hJxdJyh6+IZIKoB5kj?=
- =?us-ascii?Q?IS063ptCFOvUMc6icZQkH4zXaE6lcB4oRGWjGU41?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3ef99777-6fbc-48df-4520-08dc169245f7
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2024 12:54:27.5880 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OXPuni8jv8zzAXck6BBCSjSTMp2bmqH+0WaucUfzuZivNTb7c8/TkOlDGO3X4El3
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7153
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,73 +60,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "wanpengli@tencent.com" <wanpengli@tencent.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "kraxel@redhat.com" <kraxel@redhat.com>, "maz@kernel.org" <maz@kernel.org>,
- "joro@8bytes.org" <joro@8bytes.org>, "zzyiwei@google.com" <zzyiwei@google.com>,
- "yuzenghui@huawei.com" <yuzenghui@huawei.com>,
- "olvaffe@gmail.com" <olvaffe@gmail.com>, "Zhao, Yan Y" <yan.y.zhao@intel.com>,
- "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>, "Ma,
- Yongwei" <yongwei.ma@intel.com>, "Lv, Zhiyuan" <zhiyuan.lv@intel.com>,
- "gurchetansingh@chromium.org" <gurchetansingh@chromium.org>,
- "jmattson@google.com" <jmattson@google.com>, "Wang,
- Zhenyu Z" <zhenyu.z.wang@intel.com>, "seanjc@google.com" <seanjc@google.com>,
- "ankita@nvidia.com" <ankita@nvidia.com>,
- "oliver.upton@linux.dev" <oliver.upton@linux.dev>,
- "james.morse@arm.com" <james.morse@arm.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "vkuznets@redhat.com" <vkuznets@redhat.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>, Jiuyang Liu <liu@jiuyang.me>,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Yangyu Chen <cyy@cyyself.name>, Huang Rui <ray.huang@amd.com>,
+ Icenowy Zheng <uwu@icenowy.me>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Christian Koenig <christian.koenig@amd.com>,
+ Yichuan Gao <i@gycis.me>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 16, 2024 at 04:05:08AM +0000, Tian, Kevin wrote:
-> > From: Tian, Kevin
-> > Sent: Tuesday, January 16, 2024 8:46 AM
-> > 
-> > > From: Jason Gunthorpe <jgg@nvidia.com>
-> > > Sent: Tuesday, January 16, 2024 12:31 AM
-> > >
-> > > On Tue, Jan 09, 2024 at 10:11:23AM +0800, Yan Zhao wrote:
-> > >
-> > > > > Well, for instance, when you install pages into the KVM the hypervisor
-> > > > > will have taken kernel memory, then zero'd it with cachable writes,
-> > > > > however the VM can read it incoherently with DMA and access the
-> > > > > pre-zero'd data since the zero'd writes potentially hasn't left the
-> > > > > cache. That is an information leakage exploit.
-> > > >
-> > > > This makes sense.
-> > > > How about KVM doing cache flush before installing/revoking the
-> > > > page if guest memory type is honored?
-> > >
-> > > I think if you are going to allow the guest to bypass the cache in any
-> > > way then KVM should fully flush the cache before allowing the guest to
-> > > access memory and it should fully flush the cache after removing
-> > > memory from the guest.
-> > 
-> > For GPU passthrough can we rely on the fact that the entire guest memory
-> > is pinned so the only occurrence of removing memory is when killing the
-> > guest then the pages will be zero-ed by mm before next use? then we
-> > just need to flush the cache before the 1st guest run to avoid information
-> > leak.
-> 
-> Just checked your past comments. If there is no guarantee that the removed
-> pages will be zero-ed before next use then yes cache has to be flushed
-> after the page is removed from the guest. :/
+Some platforms may not have any memory below 4GB address space, but the
+kernel defines ZONE_DMA32 on their ISA. Thus these platforms will have
+an empty DMA32 zone, resulting ttm failing when alloc_page with GFP_DMA32
+flag. However, we can't directly allocate dummy_read_page without
+GFP_DMA32 as some reasons mentioned in the previous patch review [1].
 
-Next use may include things like swap to disk or live migrate the VM.
+Thus, a solution is to allocate dummy_read_page with GFP_DMA32 first,
+if it fails, then allocate it without GFP_DMA32. After this patch, the
+amdgpu works on such platforms.
 
-So it isn't quite so simple in the general case.
+Here is dmesg output on such RISC-V platforms with Radeon RX550 after this
+patch:
 
-> > > Noting that fully removing the memory now includes VFIO too, which is
-> > > going to be very hard to co-ordinate between KVM and VFIO.
-> 
-> Probably we could just handle cache flush in IOMMUFD or VFIO type1
-> map/unmap which is the gate of allowing/denying non-coherent DMAs
-> to specific pages.
+[    0.000000] Linux version 6.7.0-dirty (cyy@cyy-pc) (riscv64-linux-gnu-gcc (Debian 13.2.0-7) 13.2.0, GNU ld (GNU Binutils for Debian) 2.41.50.20231227) #12 SMP Tue Jan 16 18:55:13 CST 2024
+[    0.000000] Machine model: 
+[    0.000000] SBI specification v2.0 detected
+[    0.000000] SBI implementation ID=0x1 Version=0x10004
+[    0.000000] SBI TIME extension detected
+[    0.000000] SBI IPI extension detected
+[    0.000000] SBI RFENCE extension detected
+[    0.000000] efi: UEFI not found.
+[    0.000000] OF: reserved mem: 0x0000002000000000..0x000000200003ffff (256 KiB) nomap non-reusable mmode_resv1@20,0
+[    0.000000] OF: reserved mem: 0x0000002000040000..0x000000200005ffff (128 KiB) nomap non-reusable mmode_resv0@20,40000
+[    0.000000] Zone ranges:
+[    0.000000]   DMA32    empty
+[    0.000000]   Normal   [mem 0x0000002000000000-0x00000021ffffffff]
+...
+[   35.834951] [drm] amdgpu kernel modesetting enabled.
+[   35.840235] [drm] initializing kernel modesetting (POLARIS12 0x1002:0x699F 0x1043:0x0513 0xC7).
+[   35.848966] [drm] register mmio base: 0xA8100000
+[   35.853585] [drm] register mmio size: 262144
+[   35.857971] [drm] add ip block number 0 <vi_common>
+[   35.862858] [drm] add ip block number 1 <gmc_v8_0>
+[   35.867659] [drm] add ip block number 2 <tonga_ih>
+[   35.867662] [drm] add ip block number 3 <gfx_v8_0>
+[   35.867665] [drm] add ip block number 4 <sdma_v3_0>
+[   35.867667] [drm] add ip block number 5 <powerplay>
+[   35.867670] [drm] add ip block number 6 <dm>
+[   35.867672] [drm] add ip block number 7 <uvd_v6_0>
+[   35.867674] [drm] add ip block number 8 <vce_v3_0>
+[   36.075310] amdgpu 0000:05:00.0: amdgpu: Fetched VBIOS from ROM BAR
+[   36.081605] amdgpu: ATOM BIOS: 115-C994PI2-100
+[   36.087612] [drm] UVD is enabled in VM mode
+[   36.095773] [drm] UVD ENC is enabled in VM mode
+[   36.100470] [drm] VCE enabled in VM mode
+[   36.104401] amdgpu 0000:05:00.0: amdgpu: Trusted Memory Zone (TMZ) feature not supported
+[   36.112502] amdgpu 0000:05:00.0: amdgpu: PCIE atomic ops is not supported
+[   36.119314] [drm] GPU posting now...
+[   36.234098] [drm] vm size is 64 GB, 2 levels, block size is 10-bit, fragment size is 9-bit
+[   36.246817] amdgpu 0000:05:00.0: amdgpu: VRAM: 4096M 0x000000F400000000 - 0x000000F4FFFFFFFF (4096M used)
+[   36.256397] amdgpu 0000:05:00.0: amdgpu: GART: 256M 0x000000FF00000000 - 0x000000FF0FFFFFFF
+[   36.264758] [drm] Detected VRAM RAM=4096M, BAR=256M
+[   36.269642] [drm] RAM width 128bits GDDR5
+[   36.269691] warn_alloc: 8 callbacks suppressed
+[   36.269693] (udev-worker): page allocation failure: order:0, mode:0x104(GFP_DMA32|__GFP_ZERO), nodemask=(null),cpuset=/,mems_allowed=0
+[   36.290196] CPU: 2 PID: 145 Comm: (udev-worker) Not tainted 6.7.0-dirty #12
+[   36.302796] Hardware name: (DT)
+[   36.307670] Call Trace:
+[   36.310285] [<ffffffff80006056>] dump_backtrace+0x1c/0x24
+[   36.315685] [<ffffffff8096b860>] show_stack+0x2c/0x38
+[   36.320737] [<ffffffff80977f14>] dump_stack_lvl+0x3c/0x54
+[   36.326135] [<ffffffff80977f40>] dump_stack+0x14/0x1c
+[   36.331184] [<ffffffff8018e66c>] warn_alloc+0xee/0x16c
+[   36.336321] [<ffffffff8018f17a>] __alloc_pages+0xa90/0xb40
+[   36.350397] [<ffffffff017bd850>] ttm_global_init+0x12a/0x1d4 [ttm]
+[   36.356746] [<ffffffff017bd92c>] ttm_device_init+0x32/0x158 [ttm]
+[   36.362851] [<ffffffff0186d8bc>] amdgpu_ttm_init+0x7a/0x638 [amdgpu]
+[   36.377419] [<ffffffff01b758b8>] amdgpu_bo_init+0x76/0x82 [amdgpu]
+[   36.386468] [<ffffffff018ebb6e>] gmc_v8_0_sw_init+0x36c/0x652 [amdgpu]
+[   36.395840] [<ffffffff0185b8fa>] amdgpu_device_init+0x1648/0x20fa [amdgpu]
+[   36.408621] [<ffffffff0185dc1a>] amdgpu_driver_load_kms+0x1e/0x158 [amdgpu]
+[   36.418384] [<ffffffff018549d4>] amdgpu_pci_probe+0x124/0x46c [amdgpu]
+[   36.433203] [<ffffffff804ae3ae>] pci_device_probe+0x7a/0xf0
+[   36.438944] [<ffffffff8058cfb6>] really_probe+0x86/0x242
+[   36.444255] [<ffffffff8058d1ce>] __driver_probe_device+0x5c/0xda
+[   36.450264] [<ffffffff8058d278>] driver_probe_device+0x2c/0xb2
+[   36.456099] [<ffffffff8058d3f8>] __driver_attach+0x6c/0x11a
+[   36.461669] [<ffffffff8058b14c>] bus_for_each_dev+0x60/0xae
+[   36.467242] [<ffffffff8058ca08>] driver_attach+0x1a/0x22
+[   36.477928] [<ffffffff8058c368>] bus_add_driver+0xd0/0x1ba
+[   36.483581] [<ffffffff8058e046>] driver_register+0x3e/0xd8
+[   36.489064] [<ffffffff804ad04a>] __pci_register_driver+0x58/0x62
+[   36.495074] [<ffffffff015b7078>] amdgpu_init+0x78/0x1000 [amdgpu]
+[   36.506718] [<ffffffff8000212c>] do_one_initcall+0x58/0x19c
+[   36.512457] [<ffffffff80086d22>] do_init_module+0x4e/0x1b0
+[   36.517941] [<ffffffff80088456>] load_module+0x1374/0x1768
+[   36.523424] [<ffffffff80088a10>] init_module_from_file+0x76/0xaa
+[   36.529427] [<ffffffff80088c2c>] __riscv_sys_finit_module+0x1cc/0x2ba
+[   36.535865] [<ffffffff80978952>] do_trap_ecall_u+0xba/0x12e
+[   36.541437] [<ffffffff809819f4>] ret_from_exception+0x0/0x64
+[   36.547122] Mem-Info:
+[   36.549397] active_anon:37 inactive_anon:4457 isolated_anon:0
+                active_file:12636 inactive_file:24633 isolated_file:0
+                unevictable:0 dirty:484 writeback:0
+                slab_reclaimable:3427 slab_unreclaimable:3937
+                mapped:4793 shmem:332 pagetables:583
+                sec_pagetables:0 bounce:0
+                kernel_misc_reclaimable:0
+                free:1984989 free_pcp:0 free_cma:0
+[   36.575090] Node 0 hugepages_total=0 hugepages_free=0 hugepages_surp=0 hugepages_size=2048kB
+[   36.592995] 37615 total pagecache pages
+[   36.596831] 0 pages in swap cache
+[   36.600146] Free swap  = 0kB
+[   36.603028] Total swap = 0kB
+[   36.605904] 2097152 pages RAM
+[   36.608872] 0 pages HighMem/MovableOnly
+[   36.612709] 45269 pages reserved
+[   36.615942] [TTM DEVICE] Failed to allocate dummy_read_page with GFP_DMA32, some old graphics card only has 32bit DMA may not work properly.
+[   36.628671] [drm] amdgpu: 4096M of VRAM memory ready
+[   36.633650] [drm] amdgpu: 4007M of GTT memory ready.
+[   36.638675] [drm] GART: num cpu pages 65536, num gpu pages 65536
+[   36.645921] [drm] PCIE GART of 256M enabled (table at 0x000000F400000000).
+[   36.655183] [drm] Chained IB support enabled!
+[   36.663894] amdgpu: hwmgr_sw_init smu backed is polaris10_smu
+[   36.675300] [drm] Found UVD firmware Version: 1.130 Family ID: 16
+[   36.704412] [drm] Found VCE firmware Version: 53.26 Binary ID: 3
+[   37.055868] [drm] Display Core v3.2.259 initialized on DCE 11.2
+[   37.117397] [drm] UVD and UVD ENC initialized successfully.
+[   37.224048] [drm] VCE initialized successfully.
+[   37.229365] amdgpu 0000:05:00.0: amdgpu: SE 2, SH per SE 1, CU per SH 5, active_cu_number 8
+[   37.242633] amdgpu 0000:05:00.0: amdgpu: Using BACO for runtime pm
+[   37.249602] [drm] Initialized amdgpu 3.56.0 20150101 for 0000:05:00.0 on minor 0
+[   37.313567] Console: switching to colour frame buffer device 160x45
+[   37.336468] amdgpu 0000:05:00.0: [drm] fb0: amdgpudrmfb frame buffer device
 
-Maybe, and on live migrate dma stop..
 
-Jason
+[1]. https://lore.kernel.org/lkml/2b715134-9d63-4de1-94e5-37e180aeefd2@amd.com/
+
+Yangyu Chen (1):
+  drm/ttm: allocate dummy_read_page without DMA32 on fail
+
+ drivers/gpu/drm/ttm/ttm_device.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+-- 
+2.43.0
+
