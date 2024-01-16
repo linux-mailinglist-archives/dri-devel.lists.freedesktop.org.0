@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4993882F86B
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jan 2024 21:44:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC45782F87C
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jan 2024 21:46:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B160010E449;
-	Tue, 16 Jan 2024 20:44:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B36810E564;
+	Tue, 16 Jan 2024 20:46:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
- [209.85.218.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 464B310E449
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jan 2024 20:44:46 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id
- a640c23a62f3a-a2dd05e02ffso269675766b.3
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jan 2024 12:44:46 -0800 (PST)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CED8110E564
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jan 2024 20:46:23 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-50e80d40a41so13158521e87.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jan 2024 12:46:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1705437825; x=1706042625; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1705437922; x=1706042722; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=22jyeaAES+kz8Hg4ntOJsukTiv9OkKs46DcXVyNEJTs=;
- b=I5876Hd5joRp0IzcvX5FAqxWJ+k11T0hfJjSOUm5p8RCvllWd6xCA08Kmi2AlgrK2S
- Vsyv3JkZP6xazH22kvTOnVPmR76An8lvXbh63yLCF3I9XWDaB2MlKOP1CQMcm9yA9qny
- 1u3jx3GPY7Ttogvnop9b5X+1FlGSibEOSUyEhPCWtaE8i/3H6KHu9LzLEU2iOb/iPw4R
- MzSsCB917B3WA9lykXkvl+HSSEHZQqlM1K+QHNs2GapSxNGOHUeZErh2/iDFxxaTANOV
- IUE01NZvouoImYWUzspDnFF6OFIz35TqSwzXxKiivkSm+PTfkMITIfRfq8N4c9q/2Tio
- Zn2g==
+ bh=txkFZci/pgsXaxnR/38VBVYwmC/OcvuhAyTTbLIrlLk=;
+ b=Ld85no1LMOMXH53UnAdQNH4AKzCJt4HJ1YOXe8JdSuJ+lReNwUaFbyX6f1NuiNb+ax
+ v6hAPYnQxzZhvQTwQWHGJmrntPM2DoDUbVkMK2SMwTuWLgk8lEawJYI0YkGzBOcBUuAT
+ p88ODPVsuHYSpIr9rExXY2kIbAn9SneljJYmBEASiVdCOvsUZFXslZt+jsB0A3Zw2v2P
+ 91uGZA9Bbi255dK5oxjHU47oNUqFKUj2qdut88TYIEqU8PEkDfBorgWZaOScqRngCAWF
+ r0Md0Cib6a2z23p0y/WE5uw+p/d6AHFonJZEX9y1bNwMkLw4C9SvoloUV/Ae7gs8iLyC
+ kjIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705437825; x=1706042625;
+ d=1e100.net; s=20230601; t=1705437922; x=1706042722;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=22jyeaAES+kz8Hg4ntOJsukTiv9OkKs46DcXVyNEJTs=;
- b=MiZBDZH9XwOAqrJ+UmaPxVsDQJK+vIBN2M3T0KYu2jw6zTVRK0g14YxQS2NDhHQdAP
- uRp8u9FI6DFA0956CyHvNOGAD4ETvQdAus6ssVahbPBrQs/ImHm9cjCXieywUMxQZZxq
- U+6azFXLTY7Gyv1lsgwoqCyYVta4MhuNLOuo5GOfyX9Qe0Jd2O0I436CfEGHOXNyJ1kr
- Dd2fqm8LNG/VKox4a+St5aJvKD5aTvqi1+ovgvVkeWQJEIzMqSitlqhcKVkcK+9zhJU/
- GwpZ+UmVK01Qtcy2OrcU4XTMJftchjO/QxVYfGKW3dVCIHAddQjV9IiKdob0L1jZiA5c
- +38A==
-X-Gm-Message-State: AOJu0YzvdkWhNzfimXVutrJfoNXX4mVsjPXwAfSGAVLzzkteDxsSigQI
- aFeWypb2slvsSDoeJPKZOk9noigIZGVOeQ==
-X-Google-Smtp-Source: AGHT+IGtRFyxikoY0ukF5REg3tnlz3401jAWmQD327xf257XtFX+iLMVSmAceT0l1tsLj5bHQGX8bA==
-X-Received: by 2002:a17:906:fe46:b0:a27:7de8:9cd9 with SMTP id
- wz6-20020a170906fe4600b00a277de89cd9mr3368634ejb.23.1705437825488; 
- Tue, 16 Jan 2024 12:43:45 -0800 (PST)
+ bh=txkFZci/pgsXaxnR/38VBVYwmC/OcvuhAyTTbLIrlLk=;
+ b=oJv5qiLcL5NVIVXAyd8vjLeVePNazqRULhCT4dzheiBPILJUA2ZjrpMykIuyH3I8Yj
+ 8uHfIMqL6jObujXGJmXAovmoOi0nf/ifMRKHhV9Eqathba4ftXeY0zIkJnMb6JxcG2Ts
+ Dr913FGSM3yQTT2pKKrK7ztXHBnQw/zhYI26N3JpBZS2+8O0TnEE/Etn14/LygI36gtl
+ wxLb4NP8RwxH3AkJPcjygpAVQY9iJPeSlxb/dMwC3K2ampUjVwkV9Lkt3IYIxwTXI1M0
+ tCw+/HNcJBlY4Glx6/GRalc5iNZPaIsZ+Y6ROkvQ7Aeb+qT1v5jxLBztxEUW7aQjKfoY
+ iWHA==
+X-Gm-Message-State: AOJu0YxebsZyegFDw9Q5heEAkT/zdpMD/swvAIDfWN38DaEdmULgQr6S
+ 0Uhy3xlCbGrsOE8wC+GjcQoj/ySaSB8qtw==
+X-Google-Smtp-Source: AGHT+IGGcXxw/R0mm39DaU/LVmJ6coh0dFZ6uHogacHYaydxCmMOz/aPNXG/4aLNp003Lf0G81ZpGA==
+X-Received: by 2002:a05:6512:39d5:b0:50e:2f43:8b7f with SMTP id
+ k21-20020a05651239d500b0050e2f438b7fmr4218175lfu.13.1705437922134; 
+ Tue, 16 Jan 2024 12:45:22 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.215.66])
  by smtp.gmail.com with ESMTPSA id
- st6-20020a170907c08600b00a2ce3230351sm5448862ejc.37.2024.01.16.12.43.43
+ st6-20020a170907c08600b00a2ce3230351sm5448862ejc.37.2024.01.16.12.45.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Jan 2024 12:43:45 -0800 (PST)
-Message-ID: <0c9ea547-eaa5-4446-9d6c-e6fcc289ec4a@linaro.org>
-Date: Tue, 16 Jan 2024 21:43:41 +0100
+ Tue, 16 Jan 2024 12:45:21 -0800 (PST)
+Message-ID: <d90d035b-c63b-4bb2-a84b-9627fca10eee@linaro.org>
+Date: Tue, 16 Jan 2024 21:45:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] dt-bindings: mfd: atmel,hlcdc: Convert to DT
- schema format
+Subject: Re: [PATCH v2 1/3] dt-bindings: display: convert Atmel's HLCDC to DT
+ schema
 Content-Language: en-US
 To: Dharma Balasubiramani <dharma.b@microchip.com>,
  conor.dooley@microchip.com, sam@ravnborg.org, bbrezillon@kernel.org,
@@ -69,7 +69,7 @@ To: Dharma Balasubiramani <dharma.b@microchip.com>,
  linux-kernel@vger.kernel.org, lee@kernel.org, thierry.reding@gmail.com,
  u.kleine-koenig@pengutronix.de, linux-pwm@vger.kernel.org
 References: <20240116113800.82529-1-dharma.b@microchip.com>
- <20240116113800.82529-4-dharma.b@microchip.com>
+ <20240116113800.82529-2-dharma.b@microchip.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -115,7 +115,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240116113800.82529-4-dharma.b@microchip.com>
+In-Reply-To: <20240116113800.82529-2-dharma.b@microchip.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -134,106 +134,29 @@ Cc: linux4microchip@microchip.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/01/2024 12:38, Dharma Balasubiramani wrote:
-> Convert the atmel,hlcdc binding to DT schema format.
-> 
-> Adjust the clock-names property to clarify that the LCD controller expects
-> one of these clocks (either sys_clk or lvds_pll_clk to be present but not
-> both) along with the slow_clk and periph_clk. This alignment with the actual
-> hardware requirements will enable accurate device tree configuration for
-> systems using the HLCDC IP.
+On 16/01/2024 12:37, Dharma Balasubiramani wrote:
+> Convert the existing DT binding to DT schema of the Atmel's HLCDC display
+> controller.
 > 
 > Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
 > ---
 > changelog
 > v1 -> v2
 > - Remove the explicit copyrights.
-> - Modify title (not include words like binding/driver).
+> - Modify filename like compatible.
+> - Modify title (drop words like binding/driver).
 > - Modify description actually describing the hardware and not the driver.
-> - Add details of lvds_pll addition in commit message.
+> - Remove pinctrl properties which aren't required.
 > - Ref endpoint and not endpoint-base.
-> - Fix coding style.
-> 
-> Note: Renaming hlcdc-display-controller, hlcdc-pwm to generic names throws
-> errors from the existing DTS files.
-> ...
-> /home/dharma/Mainline/linux/arch/arm/boot/dts/microchip/at91sam9n12ek.dtb:
-> hlcdc@f8038000: 'hlcdc-display-controller' does not match any of the
-> regexes: 'pinctrl-[0-9]+'
+> - Drop redundant info about bus-width description and add ref to video-interfaces.
+> - Move 'additionalProperties' after 'Required'.
+> - Drop parent node and it's other sub-device node which are not related here.
+> - Add compatible to example 2 and add comments that bus-width is the diff between two examples.
 > ---
->  .../devicetree/bindings/mfd/atmel,hlcdc.yaml  | 105 ++++++++++++++++++
->  .../devicetree/bindings/mfd/atmel-hlcdc.txt   |  56 ----------
->  2 files changed, 105 insertions(+), 56 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/mfd/atmel,hlcdc.yaml
->  delete mode 100644 Documentation/devicetree/bindings/mfd/atmel-hlcdc.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/mfd/atmel,hlcdc.yaml b/Documentation/devicetree/bindings/mfd/atmel,hlcdc.yaml
-> new file mode 100644
-> index 000000000000..f624b60b76fb
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mfd/atmel,hlcdc.yaml
-> @@ -0,0 +1,105 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/mfd/atmel,hlcdc.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Atmel's HLCD Controller
-> +
-> +maintainers:
-> +  - Nicolas Ferre <nicolas.ferre@microchip.com>
-> +  - Alexandre Belloni <alexandre.belloni@bootlin.com>
-> +  - Claudiu Beznea <claudiu.beznea@tuxon.dev>
-> +
-> +description: |
-> +  The Atmel HLCDC (HLCD Controller) IP available on Atmel SoCs exposes two
-> +  subdevices
-> +    # a PWM chip:
-> +    # a Display Controller:
 
-This is a friendly reminder during the review process.
-
-It seems my or other reviewer's previous comments were not fully
-addressed. Maybe the feedback got lost between the quotes, maybe you
-just forgot to apply it. Please go back to the previous discussion and
-either implement all requested changes or keep discussing them.
-
-Thank you.
-
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - atmel,at91sam9n12-hlcdc
-> +      - atmel,at91sam9x5-hlcdc
-> +      - atmel,sama5d2-hlcdc
-> +      - atmel,sama5d3-hlcdc
-> +      - atmel,sama5d4-hlcdc
-> +      - microchip,sam9x60-hlcdc
-> +      - microchip,sam9x75-xlcdc
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 3
-> +
-> +  clock-names:
-> +    anyOf:
-> +      - items:
-> +          - enum:
-> +              - sys_clk
-> +              - lvds_pll_clk
-> +      - contains:
-> +          const: periph_clk
-> +      - contains:
-> +          const: slow_clk
-
-NAK. You just ignored entire review.
+Please respond to review comments and acknowledge you implement each of
+them. I don't think you did here everything I pointed out. The next
+patch for sure misses things.
 
 Best regards,
 Krzysztof
