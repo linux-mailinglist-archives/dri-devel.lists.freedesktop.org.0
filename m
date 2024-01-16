@@ -2,62 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A00382F059
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jan 2024 15:13:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCBED82F0B5
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jan 2024 15:41:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8181010E4BB;
-	Tue, 16 Jan 2024 14:13:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1719010E548;
+	Tue, 16 Jan 2024 14:41:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com
- [209.85.128.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3C9210E4BB
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jan 2024 14:13:20 +0000 (UTC)
-Received: by mail-yw1-f170.google.com with SMTP id
- 00721157ae682-5f254d1a6daso100843637b3.2
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jan 2024 06:13:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=yngvason.is; s=google; t=1705414340; x=1706019140; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9gCKsoJIp890TMevRWkiJ5yhUQIvz900NU/IXPPBb5k=;
- b=YK51VzxMkCLspaYYG0vg0ThRHcW9FozC5/1XxiRakTlYeddN1cbqaPw8sT/XWf1Kla
- b5ttDr328QJOmH9sulXFgJEk9MA+iDnM8pFOoK/ydpayif2gJGEp+LENuwRzPnMShuql
- oPmtyA/XGs8v594YaMxsF1qtic8Y5uBkOUFyQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705414340; x=1706019140;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=9gCKsoJIp890TMevRWkiJ5yhUQIvz900NU/IXPPBb5k=;
- b=nLUbNpcx64VflE19l+iZfBnPMzpvZ75PV7zBI5s5YM2qkA3pUWERnNMVhqbe0Tytqj
- q46SoDWF1045MKunNcrWvKtXaj6uS+yRKVu8zzWLj0a32QjF7RXqXw7DGEy3uB7XYD85
- RZxsJR1pxJrt62BV01SoYiAHIdt/yw85RyC6XO5rm3dU+mo4gDrgWD2vfEBdFIcgoQoD
- Gplew9Y2zAHd/RKK3b92uUQYl0izymFuq/2YDcRVfh4hmuyh2syWhpHZZHsXKTRnlpYP
- PwigSsNI8c6WoZZOPLQhLo1EfXSwfVCV27UQi+U5vM6s8XvSc2k9AbHR5BW/wvopxVqr
- g1pQ==
-X-Gm-Message-State: AOJu0YzLBrpmLpGp/hLbLV1TdqnfNMsApYNyjjpaPDMZAJN/PA8LEjKr
- CluayYFPwSjXDlDUkgG87EnpMXblD7PvCNM8ZcbRkdxUndrV2A==
-X-Google-Smtp-Source: AGHT+IE41A58zXOP4mN6YBTW2CozoInidfluxDAZAPGf3XWYIJx5iW5A7pw47X0/O2DADgCiiAJSZrcdEWBROikbKfY=
-X-Received: by 2002:a05:6902:511:b0:dbd:231:1d67 with SMTP id
- x17-20020a056902051100b00dbd02311d67mr3842729ybs.104.1705414339805; Tue, 16
- Jan 2024 06:12:19 -0800 (PST)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BB2710E548
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jan 2024 14:41:13 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 5BF2FCE19B0;
+ Tue, 16 Jan 2024 14:41:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82385C433F1;
+ Tue, 16 Jan 2024 14:40:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1705416062;
+ bh=pi9f5n7aCz4k4GcDtHhDD5lv5OgeZ4ucYdJWw/uz8rU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=eoW8PYM2MfAuIBhKaoTZlWZwOEH64nrarWgh8smz385NHA2AvWbxhu44TZid6guIO
+ ztdPcokve4KGk/P0r48xP9LXjdlp+nfRggeFVeFp1EKUfQh1HSmalAz393OHzBH8yx
+ HITZr7gQr/eVgLSaMXJ0zK/Hypf/9tgOSbSJiXzjxDaUW1d3OgO9S7G4+/H4mw666+
+ L5PksNx2fvrD/Q9/Cn2uOjt9fv52HRvN58krYPnsggJ/tW1Mam7cV3tInWEBTcjzIV
+ QhTlg/jUO4g8ofnL8rKCTYV2n5vBGWNCAEmw7Luoyo7bgDS5dKI4oEy8rewQcDvB/c
+ CCz+OFltnyGUA==
+Date: Tue, 16 Jan 2024 14:40:39 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH 00/33] spi: get rid of some legacy macros
+Message-ID: <3404c9af-6c11-45d7-9ba4-a120e21e407e@sirena.org.uk>
+References: <cover.1705348269.git.u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-References: <20240115160554.720247-1-andri@yngvason.is>
- <20240115160554.720247-3-andri@yngvason.is>
- <20240116114235.GA311990@toolbox>
- <CAFNQBQz3TNj_7BSmFw4CFMNuR4B+1d+y3f058s+rzTuzdYogqA@mail.gmail.com>
- <20240116132918.GB311990@toolbox>
-In-Reply-To: <20240116132918.GB311990@toolbox>
-From: Andri Yngvason <andri@yngvason.is>
-Date: Tue, 16 Jan 2024 14:11:43 +0000
-Message-ID: <CAFNQBQyfWmfu5T7bgZDZFGfyhsxQi7YXmY_wPc9Y+mm5iSspXQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] drm/uAPI: Add "force color format" drm property as
- setting for userspace
-To: Sebastian Wick <sebastian.wick@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="c8yli56mmI+gJGEV"
+Content-Disposition: inline
+In-Reply-To: <cover.1705348269.git.u.kleine-koenig@pengutronix.de>
+X-Cookie: Programmers do it bit by bit.
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,150 +51,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Werner Sembach <wse@tuxedocomputers.com>, Leo Li <sunpeng.li@amd.com>,
- David Airlie <airlied@gmail.com>, intel-gfx@lists.freedesktop.org, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- Daniel Vetter <daniel@ffwll.ch>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+ dri-devel@lists.freedesktop.org, Miquel Raynal <miquel.raynal@bootlin.com>,
+ Ronald Wahl <ronald.wahl@raritan.com>,
+ Stefan Schmidt <stefan@datenfreihafen.org>, libertas-dev@lists.infradead.org,
+ Javier Martinez Canillas <javierm@redhat.com>, Alex Elder <elder@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-spi@vger.kernel.org,
+ kernel@pengutronix.de, linux-media@vger.kernel.org, linux-wpan@vger.kernel.org,
+ Amit Kumar Mahapatra via Alsa-devel <alsa-devel@alsa-project.org>,
+ linux-doc@vger.kernel.org, Dmitry Antipov <dmantipov@yandex.ru>,
+ Max Filippov <jcmvbkbc@gmail.com>, Eric Dumazet <edumazet@google.com>,
+ James Clark <james.clark@arm.com>, Guenter Roeck <groeck@chromium.org>,
+ Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ chrome-platform@lists.linux.dev,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Viresh Kumar <vireshk@kernel.org>, Helge Deller <deller@gmx.de>,
+ Wu Hao <hao.wu@intel.com>, Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-arm-msm@vger.kernel.org, greybus-dev@lists.linaro.org,
+ Bjorn Helgaas <bhelgaas@google.com>, Michal Simek <michal.simek@amd.com>,
+ linux-arm-kernel@lists.infradead.org, Aaro Koskinen <aaro.koskinen@iki.fi>,
+ "David S. Miller" <davem@davemloft.net>, Jarkko Sakkinen <jarkko@kernel.org>,
+ linux-integrity@vger.kernel.org,
+ Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
+ Jonathan Cameron <jic23@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Herve Codina <herve.codina@bootlin.com>, linux-iio@vger.kernel.org,
+ Tom Rix <trix@redhat.com>, linux-fpga@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, linux-mtd@lists.infradead.org,
+ Sam Ravnborg <sam@ravnborg.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-staging@lists.linux.dev, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ linux-input@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>,
+ Arnd Bergmann <arnd@arndb.de>, Yang Yingliang <yangyingliang@huawei.com>,
+ Moritz Fischer <mdf@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Benson Leung <bleung@chromium.org>, Rayyan Ansari <rayyan@ansari.sh>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-mmc@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Martin Tuma <martin.tuma@digiteqautomotive.com>, Xu Yilun <yilun.xu@intel.com>,
+ Alexander Aring <alex.aring@gmail.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Peter Huewe <peterhuewe@gmx.de>, Sergey Kozlov <serjk@netup.ru>,
+ Richard Weinberger <richard@nod.at>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Jakub Kicinski <kuba@kernel.org>, Kalle Valo <kvalo@kernel.org>,
+ Johan Hovold <johan@kernel.org>, Rui Miguel Silva <rmfrfs@gmail.com>,
+ linux-mediatek@lists.infradead.org, Tzung-Bi Shih <tzungbi@kernel.org>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ netdev@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=C3=BEri., 16. jan. 2024 kl. 13:29 skrifa=C3=B0i Sebastian Wick
-<sebastian.wick@redhat.com>:
->
-> On Tue, Jan 16, 2024 at 01:13:13PM +0000, Andri Yngvason wrote:
-[...]
-> > =C5=9Fri., 16. jan. 2024 kl. 11:42 skrifa=C4=9Fi Sebastian Wick
-> > <sebastian.wick@redhat.com>:
-> > >
-> > > On Mon, Jan 15, 2024 at 04:05:52PM +0000, Andri Yngvason wrote:
-> > > > From: Werner Sembach <wse@tuxedocomputers.com>
-> > > >
-> > > > Add a new general drm property "force color format" which can be us=
-ed
-> > > > by userspace to tell the graphics driver which color format to use.
-> > >
-> > > I don't like the "force" in the name. This just selects the color
-> > > format, let's just call it "color format" then.
-> > >
-> >
-> > In previous revisions, this was "preferred color format" and "actual
-> > color format", of which the latter has been dropped. I recommend
-> > reading the discussion for previous revisions.
->
-> Please don't imply that I didn't read the thread I'm answering to.
->
-> > There are arguments for adding "actual color format" later and if it
-> > is added later, we'd end up with "color format" and "actual color
-> > format", which might be confusing, and it is why I chose to call it
-> > "force color format" because it clearly communicates intent and
-> > disambiguates it from "actual color format".
->
-> There is no such thing as "actual color format" in upstream though.
-> Basing your naming on discarded ideas is not useful. The thing that sets
-> the color space for example is called "Colorspace", not "force
-> colorspace".
->
 
-Sure, I'm happy with calling it whatever people want. Maybe we can
-have a vote on it?
+--c8yli56mmI+gJGEV
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > [...]
-> > > > @@ -1396,6 +1404,15 @@ static const u32 dp_colorspaces =3D
-> > > >   *   drm_connector_attach_max_bpc_property() to create and attach =
-the
-> > > >   *   property to the connector during initialization.
-> > > >   *
-> > > > + * force color format:
-> > > > + *   This property is used by userspace to change the used color f=
-ormat. When
-> > > > + *   used the driver will use the selected format if valid for the=
- hardware,
-> > >
-> > > All properties are always "used", they just can have different values=
-.
-> > > You probably want to talk about the auto mode here.
-> >
-> > Maybe we can say something like: If userspace does not set the
-> > property or if it is explicitly set to zero, the driver will select
-> > the appropriate color format based on other constraints.
->
-> The property can be in any state without involvement from user space.
-> Don't talk about setting it, talk about the state it is in:
->
->   When the color format is auto, the driver will select a format.
->
+On Mon, Jan 15, 2024 at 09:12:46PM +0100, Uwe Kleine-K=F6nig wrote:
 
-Ok.
+> In commit 8caab75fd2c2 ("spi: Generalize SPI "master" to "controller"")
+> some functions were renamed. Further some compat defines were introduced
+> to map the old names to the new ones.
 
-> > >
-> > > > + *   sink, and current resolution and refresh rate combination. Dr=
-ivers to
-> > >
-> > > If valid? So when a value is not actually supported user space can st=
-ill
-> > > set it? What happens then? How should user space figure out if the
-> > > driver and the sink support the format?
-> >
-> > The kernel does not expose this property unless it's implemented in the=
- driver.
->
-> If the driver simply doesn't support *one format*, the enum value for
-> that format should not be exposed, period. This isn't about the property
-> on its own.
+> Patch #18 and #19 touch the same driver, otherwise the patches #1 - #31
+> are pairwise independent and could be applied by their respective
+> maintainers. The alternative is to let all patches go via the spi tree.
+> Mark, what's your preference here?
 
-Right, understood. You mean that enum should only contain values that
-are supported by the driver.
+I don't have a strong preference here, I'm happy to take all the patches
+if the maintainers for the other subsystem are OK with that - ideally
+I'd apply things at -rc1 but the timeline is a bit tight there.  I think
+my plan here unless anyone objects (or I notice something myself) will
+be to queue things at -rc3, please shout if that doesn't seem
+reasonable.
 
->
-> > This was originally "preferred color format". Perhaps the
-> > documentation should better reflect that it is now a mandatory
-> > constraint which fails the modeset if not satisfied.
->
-> That would definitely help.
->
-> > >
-> > > For the Colorspace prop, the kernel just exposes all formats it suppo=
-rts
-> > > (independent of the sink) and then makes it the job of user space to
-> > > figure out if the sink supports it.
-> > >
-> > > The same could be done here. Property value is exposed if the driver
-> > > supports it in general, commits can fail if the driver can't support =
-it
-> > > for a specific commit because e.g. the resolution or refresh rate. Us=
-er
-> > > space must look at the EDID/DisplayID/mode to figure out the supporte=
-d
-> > > format for the sink.
-> >
-> > Yes, we can make it possible for userspace to discover which modes are
-> > supported by the monitor, but there are other constraints that need to
-> > be satisfied. This was discussed in the previous revision.
->
-> I mean, yes, that's what I said. User space would then only be
-> responsible for checking the sink capabilities and the atomic check
-> would take into account other (non-sink) constraints.
+--c8yli56mmI+gJGEV
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Since we need to probe using TEST_ONLY anyway, we'll end up with two
-mechanisms to do the same thing where one of them depends on the other
-for completeness.
+-----BEGIN PGP SIGNATURE-----
 
->
-> > In any case, these things can be added later and need not be a part of
-> > this change set.
->
-> No, this is the contract between the kernel and user space and has to be
-> figured out before we can merge new uAPI.
->
-> >
-> > [...]
-> >
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmWmlVwACgkQJNaLcl1U
+h9AImgf/YhrOsj57KBdfXCGkJi2n+rTwU/YN3Vvfy2fP+4gmJoFGfjk1o+luXQwi
+q3+RNetq9JicN07DE0eggUdY7EqvLtghmHnQWYraw+gEPT7PwkiFuKZgDEy79tmH
+pNpJuEKTeDipvLkXCVMzD0T+NrW2BXshkACyxLpBrh+ewGJpmmgJEH8LEo52dxrk
+uLfK3YjSYco5zXw8Dzak8Ea9Hb57dnySjT6aQf8GRXZMjNYAPqMC27Pzd5pWHnD1
+am4raQY/1ji5yjiVs38+2RB0EnWlFJyj0VvC9vL5PEhkz0XiW3OTTedLKcxKKoYv
+H+d+5ZwIRVx3bl+qcRRzH8EMyJW7pA==
+=Umm1
+-----END PGP SIGNATURE-----
 
-Thanks,
-Andri
+--c8yli56mmI+gJGEV--
