@@ -2,55 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC15482EAB5
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jan 2024 09:12:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C56F82EA3F
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jan 2024 08:44:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7263210E304;
-	Tue, 16 Jan 2024 08:12:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3630110E08D;
+	Tue, 16 Jan 2024 07:43:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 380 seconds by postgrey-1.36 at gabe;
- Tue, 16 Jan 2024 07:38:03 UTC
-Received: from out203-205-221-173.mail.qq.com (out203-205-221-173.mail.qq.com
- [203.205.221.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4387A10E088
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jan 2024 07:38:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
- t=1705390679; bh=ZTnSJxE23Nw64lBhpFMiDwgBba+3N2Q91LfEvH/xgy8=;
- h=From:To:Cc:Subject:Date;
- b=lPcec2QysUibvAeAR2mjWN9ypmPElIwI1/IVxC9Hgj2/c1ZuKMQaQ5EcjsfMxGgP8
- +MX14dmbXROov8RMpcNPF0asrUU6gu5uSd7kpj89mdhZ6cxHHfukW6mtS4zbdawWUy
- zOmlyRPy2habpXGDh1gjVNd5CWaZbLiijpK69XlY=
-Received: from cyy-pc.lan ([2001:da8:c800:d084:c65a:644a:13d7:e72c])
- by newxmesmtplogicsvrszc5-0.qq.com (NewEsmtp) with SMTP
- id 651A00DE; Tue, 16 Jan 2024 15:25:17 +0800
-X-QQ-mid: xmsmtpt1705389917t93fy8ema
-Message-ID: <tencent_0B319B215E8D487CC082C0DA5E8E46B86B08@qq.com>
-X-QQ-XMAILINFO: Mk33QmgWauDsVhZvDrj7M3dssC3UeSG28JJBftbgZZxw/z6e0XiKTnW6dUZ7ub
- q4us9jOKT7MYrIpaxAp7A0JRfI0iTENFWvZCGJp7KoV736goBQFeEBtW6xmkl3opdSb9131K+bwo
- skscGb5PaYHkklbTch8emcjsdSZ/CEna1Pc04OlqWBJ7tKAaROnot02p2pUly3jCvr3mZFPujXtD
- MFK0TbmKyMFY7A2CaWEQVq1zx7l/E7gw4suN8RUFCIzJMJ3f905PGXWosBx57wbSGwXjZh4v9r+Z
- 0LkV/9avVPphtGQLt12EZz5W3+KoJ/0T+PqOPtkT20PuxKpKZRnjClVjzKzAd6uz3Xw2UfLgQw2B
- ZTVHqKKNjdLA7a/IEHfyfO2hS7bl+ZS4h+T4JgGoDS4WB81HMRqOG6MrURCRbM4NFV7XEWgpE7bp
- P1CIsQPY9YDCgRaqRWUAtrEck1Oi8m61cLmMUAflo1cfWN/peusc0YbjTX/NIuz1BgU0VXh/B7Mo
- SOqG4hK4+PqPCMr9tNxCXvMPNMGjc3WVXZAR+BB5Rxyks+D+ZjvIwu8VNQP8LVPqNTXSfArz3fUY
- d+AuLzIkQ6d/v6E6y14DGQvHRKx7z5tP7UVRI7M3cB/LJew4jHOnJCUC6aQwK33kpW5t2IDKWD2e
- 1ChYPRufeFC8NsiBXCXXW/8upYqOAKptW6mLfdKtJ4BdDYG1n69j9Ous5d7PqdDEZ8l3u5NeuycS
- UWPmJKH0TmPfxTTuYtTLly2tKN7URRCHpJTllYxSdAFVwgcZgj+RR19qr2FQFw802669848wQan2
- /WavfQo3m+cd8g7q3aI0JHafClIwOoHx/iHpx6bddDst3HPrd+5fWdvwj3D6ehZG+nqDAHNHbhEm
- Z8QsRaxfcGI+i+/Yh4c4B9y5DVnA+mGrmtfCB5mdywA8FYD5v82QTJPi7T2ZnQEfNBk/EMye7dZ4
- 2v2E/t+guRkynBfXlF21eXMiOMfdjgd7mLxS0TqnTXOkq1OQvNcr1akSig9Pll
-X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
-From: Yangyu Chen <cyy@cyyself.name>
-To: dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/ttm: only use DMA32 if needed for dummy_read_page
-Date: Tue, 16 Jan 2024 15:24:06 +0800
-X-OQ-MSGID: <20240116072406.107206-1-cyy@cyyself.name>
-X-Mailer: git-send-email 2.43.0
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
+ [209.85.218.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4A7D10E08D
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jan 2024 07:43:52 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id
+ a640c23a62f3a-a29058bb2ceso1009531466b.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jan 2024 23:43:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1705390971; x=1705995771; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Co7zsJqeAeRE1qDOKNmW3TdEzTZPmfPOPRRWPGZTc5Q=;
+ b=H9g09P9PRYJc+jhbdjbA7Ds3wNx69+/AbCYNrv1u2YvkHLFqwgeaMYiWajA0JUjR7E
+ DjXhMh2oox5Jlft9w55wZNNWEPZOkOTSMzBfn3/YuVjNndISTKrt0QM4wUBmyu0r2aYx
+ 9Bv0vDaw/THhVHp1ndwWYhecVO7C0UHI2RVrbvyMYjyw6d+AsbntQWfQDzjcMTUypKoj
+ 4+/AO9wNSY3SdKqOj+66zPopOTSaF32ZxFPkXBEdFMSN3g5r1pnQEJ0wV3Q4QC6pziEu
+ TjVoqSCste2ZbMBTPvLjihjGA5G25FSZlhSg5nKjanBj39llXitNEs5pl24VICQxeBnI
+ GqdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1705390971; x=1705995771;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Co7zsJqeAeRE1qDOKNmW3TdEzTZPmfPOPRRWPGZTc5Q=;
+ b=QjCN23ansKF8icnUkBgiRWW3PIr9ybUOuFfTzbHKxxjcCvbVAtidrdxD6ow9F+43LS
+ /cat35DQE8zDf5H1NcGp6gvNXxdWOBCj0T6NUgQb1LAwFgiSSSwuEpy5MpCLYdhYyD8X
+ 6D30L0o57OucqHvKpbx9+1gz33vw0Xu/WOjgia7myvfe3vYs0TL6VfsuWnphhUlxXFcF
+ ZggzF9jHXG/h8hNPvDCI4ku1k3UuVBqgs9Kx+Amf1Ut/DfnOSrvZC+oe5RZkszfR7W+F
+ 79nwKjyHJ63dTslpinOgSrC/RnRv4SXW3KsswKyGkDGKTPymigxft1Yd4Im8U6OQbSHS
+ Jphw==
+X-Gm-Message-State: AOJu0YyCFFQrAYzAorseVbOAKvvTK/BQNAuuRzzUNmcDq3rJxbINdc2i
+ uiDUCuxLM3dPBnNuOXsk1d7gyBQPv4q4EAMh4zWBW23CYl0=
+X-Google-Smtp-Source: AGHT+IGKjsCq49FIAeeEatxbVWACKvbZ6Z6jG0Fgd5QvI9e+HE0M9qFmJBdbgLAkQSwvZbQYmepmcA==
+X-Received: by 2002:a17:907:5c9:b0:a28:810b:580 with SMTP id
+ wg9-20020a17090705c900b00a28810b0580mr2513089ejb.66.1705390971089; 
+ Mon, 15 Jan 2024 23:42:51 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.215.66])
+ by smtp.gmail.com with ESMTPSA id
+ x25-20020a1709064bd900b00a28f54aacf1sm6185810ejv.185.2024.01.15.23.42.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Jan 2024 23:42:50 -0800 (PST)
+Message-ID: <e42818b2-8826-48f8-b9bd-35cbf464a08f@linaro.org>
+Date: Tue, 16 Jan 2024 08:42:48 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/6] dt-bindings: display: add dt-bindings for STM32
+ LVDS device
+Content-Language: en-US
+To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Rob Herring <robh@kernel.org>
+References: <20240115132009.101718-1-raphael.gallais-pou@foss.st.com>
+ <20240115132009.101718-2-raphael.gallais-pou@foss.st.com>
+ <20240115154659.GA815331-robh@kernel.org>
+ <3479c5d7-a9c3-40cf-a415-b8324f160ec7@foss.st.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <3479c5d7-a9c3-40cf-a415-b8324f160ec7@foss.st.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 16 Jan 2024 08:12:15 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,56 +124,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel@ffwll.ch>, Jiuyang Liu <liu@jiuyang.me>,
- Maxime Ripard <mripard@kernel.org>, Yangyu Chen <cyy@cyyself.name>,
- Huang Rui <ray.huang@amd.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Christian Koenig <christian.koenig@amd.com>,
- Yichuan Gao <i@gycis.me>
+Cc: dri-devel@lists.freedesktop.org,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Conor Dooley <conor+dt@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Yannick Fertre <yannick.fertre@foss.st.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org,
+ Philippe Cornu <philippe.cornu@foss.st.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some platforms may not have any memory in ZONE_DMA32 and use IOMMU to allow
-32-bit-DMA-only device to work. Forcing GFP_DMA32 on dummy_read_page will
-fail in such platforms. Only use DMA32 when it must to get the bug
-resolved.
+On 15/01/2024 17:51, Raphael Gallais-Pou wrote:
+> 
+> On 1/15/24 16:46, Rob Herring wrote:
+>> On Mon, Jan 15, 2024 at 02:20:04PM +0100, Raphael Gallais-Pou wrote:
+>>> Add "st,stm32mp25-lvds" compatible.
+>>>
 
-Signed-off-by: Yangyu Chen <cyy@cyyself.name>
----
- drivers/gpu/drm/ttm/ttm_device.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+A nit, subject: drop second/last, redundant "dt-bindings for". The
+"dt-bindings" prefix is already stating that these are bindings.
+See also:
+https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
 
-diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
-index d48b39132b32..62f16fb72428 100644
---- a/drivers/gpu/drm/ttm/ttm_device.c
-+++ b/drivers/gpu/drm/ttm/ttm_device.c
-@@ -63,7 +63,7 @@ static void ttm_global_release(void)
- 	mutex_unlock(&ttm_global_mutex);
- }
- 
--static int ttm_global_init(void)
-+static int ttm_global_init(bool use_dma32)
- {
- 	struct ttm_global *glob = &ttm_glob;
- 	unsigned long num_pages, num_dma32;
-@@ -95,7 +95,8 @@ static int ttm_global_init(void)
- 	ttm_pool_mgr_init(num_pages);
- 	ttm_tt_mgr_init(num_pages, num_dma32);
- 
--	glob->dummy_read_page = alloc_page(__GFP_ZERO | GFP_DMA32);
-+	glob->dummy_read_page = use_dma32 ? alloc_page(__GFP_ZERO | GFP_DMA32) :
-+					    alloc_page(__GFP_ZERO);
- 
- 	if (unlikely(glob->dummy_read_page == NULL)) {
- 		ret = -ENOMEM;
-@@ -200,7 +201,7 @@ int ttm_device_init(struct ttm_device *bdev, const struct ttm_device_funcs *func
- 	if (WARN_ON(vma_manager == NULL))
- 		return -EINVAL;
- 
--	ret = ttm_global_init();
-+	ret = ttm_global_init(use_dma32);
- 	if (ret)
- 		return ret;
- 
--- 
-2.43.0
+>>> Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+>>> ---
+>>> Depends on: "dt-bindings: stm32: add clocks and reset binding for
+>>> 	    stm32mp25 platform" by Gabriel Fernandez
+>>>
+>>> Changes in v3:
+>>> 	- Clarify commit dependency
+>>> 	- Fix includes in the example
+>>> 	- Fix YAML
+>>> 	- Add "clock-cells" description
+>>> 	- s/regroups/is composed of/
+>>> 	- Changed compatible to show SoC specificity
+>>>
+>>> Changes in v2:
+>>> 	- Switch compatible and clock-cells related areas
+>>> 	- Remove faulty #include in the example.
+>>> 	- Add entry in MAINTAINERS
+>>> ---
+>>>  .../bindings/display/st,stm32-lvds.yaml       | 119 ++++++++++++++++++
+>> Filename matching compatible.
+> 
+> Hi Rob,
+> 
+> 
+> I was unsure about this.
+> 
+> The driver will eventually support several SoCs with different compatibles,
+> wouldn't this be more confusing ?
+
+No. "Eventually" might never happen.
+
+> I also wanted to keep the similarity with the "st,stm32-<ip>.yaml" name for the
+> DRM STM drivers. Would that be possible ?
+
+But why? The consistency we want is the filename matching compatible,
+not matching other filenames. If you have here multiple devices,
+document them *now*.
+
+> 
+> 
+> Regards,
+> 
+> Raphaël
+
+I hope you did not ignore rest of the comments... We expect some sort of
+"ack/ok/I'll fix/whatever" message and you wrote nothing further.
+
+Best regards,
+Krzysztof
 
