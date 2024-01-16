@@ -2,32 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC6CE82FA77
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jan 2024 22:34:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAF0C82FA3F
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jan 2024 22:28:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E8E110E5DA;
-	Tue, 16 Jan 2024 21:33:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16F3710E582;
+	Tue, 16 Jan 2024 21:27:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fgw21-7.mail.saunalahti.fi (fgw21-7.mail.saunalahti.fi
- [62.142.5.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7AA510E5DA
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jan 2024 21:33:30 +0000 (UTC)
+X-Greylist: delayed 732 seconds by postgrey-1.36 at gabe;
+ Tue, 16 Jan 2024 21:27:56 UTC
+Received: from fgw20-7.mail.saunalahti.fi (fgw20-7.mail.saunalahti.fi
+ [62.142.5.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 955AF10E582
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jan 2024 21:27:56 +0000 (UTC)
 Received: from localhost (88-113-24-108.elisa-laajakaista.fi [88.113.24.108])
- by fgw21.mail.saunalahti.fi (Halon) with ESMTP
- id a42b3ea7-b4b4-11ee-abf4-005056bdd08f;
- Tue, 16 Jan 2024 23:17:24 +0200 (EET)
+ by fgw20.mail.saunalahti.fi (Halon) with ESMTP
+ id 1bdb063f-b4b6-11ee-b3cf-005056bd6ce9;
+ Tue, 16 Jan 2024 23:27:54 +0200 (EET)
 From: andy.shevchenko@gmail.com
-Date: Tue, 16 Jan 2024 23:17:23 +0200
+Date: Tue, 16 Jan 2024 23:27:53 +0200
 To: Philipp Stanner <pstanner@redhat.com>
-Subject: Re: [PATCH 00/10] Make PCI's devres API more consistent
-Message-ID: <ZabyY3csP0y-p7lb@surfacebook.localdomain>
+Subject: Re: [PATCH 02/10] pci: deprecate iomap-table functions
+Message-ID: <Zab02RyfvP-IZTl4@surfacebook.localdomain>
 References: <20240115144655.32046-2-pstanner@redhat.com>
+ <20240115144655.32046-4-pstanner@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240115144655.32046-2-pstanner@redhat.com>
+In-Reply-To: <20240115144655.32046-4-pstanner@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,44 +52,218 @@ Cc: Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Mon, Jan 15, 2024 at 03:46:11PM +0100, Philipp Stanner kirjoitti:
-> ¡Hola!
-
-i? Vim user? :-)
-
-> PCI's devres API suffers several weaknesses:
+Mon, Jan 15, 2024 at 03:46:13PM +0100, Philipp Stanner kirjoitti:
+> The old plural devres functions tie PCI's devres implementation to the
+> iomap-table mechanism which unfortunately is not extensible.
 > 
-> 1. There are functions prefixed with pcim_. Those are always managed
->    counterparts to never-managed functions prefixed with pci_ – or so one
->    would like to think. There are some apparently unmanaged functions
->    (all region-request / release functions, and pci_intx()) which
->    suddenly become managed once the user has initialized the device with
->    pcim_enable_device() instead of pci_enable_device(). This "sometimes
->    yes, sometimes no" nature of those functions is confusing and
->    therefore bug-provoking. In fact, it has already caused a bug in DRM.
->    The last patch in this series fixes that bug.
-> 2. iomappings: Instead of giving each mapping its own callback, the
->    existing API uses a statically allocated struct tracking one mapping
->    per bar. This is not extensible. Especially, you can't create
->    _ranged_ managed mappings that way, which many drivers want.
-> 3. Managed request functions only exist as "plural versions" with a
->    bit-mask as a parameter. That's quite over-engineered considering
->    that each user only ever mapps one, maybe two bars.
+> As the purlal functions are almost never used with more than one bit set
+> in their bit-mask, deprecating them and encouraging users to use the new
+> singular functions instead is reasonable.
 > 
-> This series:
-> - add a set of new "singular" devres functions that use devres the way
->   its intended, with one callback per resource.
-> - deprecates the existing iomap-table mechanism.
-> - deprecates the hybrid nature of pci_ functions.
-> - preserves backwards compatibility so that drivers using the existing
->   API won't notice any changes.
-> - adds documentation, especially some warning users about the
->   complicated nature of PCI's devres.
+> Furthermore, to make the implementation more consistent and extensible,
+> the plural functions should use the singular functions.
+> 
+> Add new wrapper to request / release all BARs.
+> Make the plural functions call into the singular functions.
+> Mark the plural functions as deprecated.
+> Remove as much of the iomap-table-mechanism as possible.
+> Add comments describing the path towards a cleaned-up API.
 
-Instead of adding pcim_intx(), please provide proper one for
-pci_alloc_irq_vectors(). Ideally it would be nice to deprecate
-old IRQ management functions in PCI core and delete them in the
-future.
+...
+
+>  static void pcim_iomap_release(struct device *gendev, void *res)
+>  {
+> -	struct pci_dev *dev = to_pci_dev(gendev);
+> -	struct pcim_iomap_devres *this = res;
+> -	int i;
+> -
+> -	for (i = 0; i < PCIM_IOMAP_MAX; i++)
+> -		if (this->table[i])
+> -			pci_iounmap(dev, this->table[i]);
+> +	/*
+> +	 * Do nothing. This is legacy code.
+> +	 *
+> +	 * Cleanup of the mappings is now done directly through the callbacks
+> +	 * registered when creating them.
+> +	 */
+>  }
+
+How many users we have? Can't we simply kill it for good?
+
+...
+
+> + * This function is DEPRECATED. Do not use it in new code.
+
+We have __deprecated IIRC, can it be used?
+
+...
+
+> +	if (pcim_add_mapping_to_legacy_table(pdev, mapping, bar) != 0)
+
+Redundant ' != 0' part.
+
+> +		goto err_table;
+
+...
+
+> +static inline bool mask_contains_bar(int mask, int bar)
+> +{
+> +	return mask & (1 << bar);
+
+BIT() ?
+
+> +}
+
+But I believe this function is not needed (see below).
+
+...
+
+>  /**
+> - * pcim_iomap_regions - Request and iomap PCI BARs
+> + * pcim_iomap_regions - Request and iomap PCI BARs (DEPRECATED)
+>   * @pdev: PCI device to map IO resources for
+>   * @mask: Mask of BARs to request and iomap
+>   * @name: Name associated with the requests
+>   *
+> + * Returns 0 on success, negative error code on failure.
+
+Validate the kernel-doc.
+
+>   * Request and iomap regions specified by @mask.
+> + *
+> + * This function is DEPRECATED. Don't use it in new code.
+> + * Use pcim_iomap_region() instead.
+>   */
+
+...
+
+> +	for (bar = 0; bar < DEVICE_COUNT_RESOURCE; bar++) {
+> +		if (!mask_contains_bar(mask, bar))
+> +			continue;
+
+NIH for_each_set_bit().
+
+...
+
+> +		ret = pcim_add_mapping_to_legacy_table(pdev, mapping, bar);
+> +		if (ret != 0)
+
+		if (ret)
+
+> +			goto err;
+> +	}
+
+...
+
+> + err:
+
+Better to name it like
+
+err_unmap_and_remove:
+
+> +	while (--bar >= 0) {
+
+	while (bar--)
+
+is easier to read.
+
+> +		pcim_iounmap_region(pdev, bar);
+> +		pcim_remove_bar_from_legacy_table(pdev, bar);
+> +	}
+
+...
+
+> +/**
+> + * pcim_request_all_regions - Request all regions
+> + * @pdev: PCI device to map IO resources for
+> + * @name: name associated with the request
+> + *
+> + * Requested regions will automatically be released at driver detach. If desired,
+> + * release individual regions with pcim_release_region() or all of them at once
+> + * with pcim_release_all_regions().
+> + */
+
+Validate kernel-doc.
+
+...
+
+> +		ret = pcim_request_region(pdev, bar, name);
+> +		if (ret != 0)
+
+		if (ret)
+
+> +			goto err;
+
+
+...
+
+> +	short bar;
+
+Why signed?
+
+> +	int ret = -1;
+
+Oy vei!
+
+...
+
+> +	ret = pcim_request_all_regions(pdev, name);
+> +	if (ret != 0)
+
+Here and in plenty other places
+
+	if (ret)
+
+> +		return ret;
+
+> +	for (bar = 0; bar < PCI_STD_NUM_BARS; bar++) {
+> +		if (!mask_contains_bar(mask, bar))
+> +			continue;
+
+NIH for_each_set_bit()
+
+> +		if (!pcim_iomap(pdev, bar, 0))
+> +			goto err;
+> +	}
+
+...
+
+> +	if (!legacy_iomap_table)
+
+What's wrong with positive check?
+
+> +		ret = -ENOMEM;
+> +	else
+> +		ret = -EINVAL;
+
+Can be even one liner
+
+
+What's wrong with positive check?
+
+		ret = legacy_iomap_table ? -EINVAL : -ENOMEM;
+
+...
+
+> +	while (--bar >= 0)
+
+	while (bar--)
+
+> +		pcim_iounmap(pdev, legacy_iomap_table[bar]);
+
+...
+
+> +	for (bar = 0; bar < PCI_STD_NUM_BARS; bar++) {
+> +		if (!mask_contains_bar(mask, bar))
+>  			continue;
+
+NIH for_each_set_bit()
+
+> -		pcim_iounmap(pdev, iomap[i]);
+> -		pci_release_region(pdev, i);
+> +		pcim_iounmap_region(pdev, bar);
+> +		pcim_remove_bar_from_legacy_table(pdev, bar);
+>  	}
 
 -- 
 With Best Regards,
