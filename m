@@ -2,51 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A28E82F235
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jan 2024 17:14:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71D7482F2F2
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jan 2024 18:13:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C352810E58B;
-	Tue, 16 Jan 2024 16:14:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8F0F10E20A;
+	Tue, 16 Jan 2024 17:13:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66EC410E564;
- Tue, 16 Jan 2024 16:14:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1705421673; x=1736957673;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=Laa0CQd0yJ+fDuLvFZPVswEPeD7Y0wSXSidO7YjTej4=;
- b=I+eNSNtdotOSrSw+lq9ogqQ3s9ZEeImW1XTcZiDH9xnsj3w5jX6gDk96
- vh3CC3tK4BWAW4sG2D4xIPF/MogS9jogRXLf/08Ri5W+iGDjocqauMhAD
- TA4rfN/S5rkWUVIdCUKOfSBnQqR8266ytCUCmCgqkU9ehPSzxlXAL5fZv
- N+BY0ih5ISbrOPMQMNnJCvoY/Nl42EkfyGRKwkCM01ygZph0NnTxNqLsD
- dwcq7olFXX3PVXl3gSoJ974+Kw/DvbqibkNr0HEbliKbXQ0688dHg1PQ5
- lyQPuZuPfKmkXqsCer9IW64D/pE7kJxhQqybZyje7Ptv7eeI6ZxykXruh w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="466284407"
-X-IronPort-AV: E=Sophos;i="6.05,199,1701158400"; d="scan'208";a="466284407"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jan 2024 08:14:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="787497846"
-X-IronPort-AV: E=Sophos;i="6.05,199,1701158400"; d="scan'208";a="787497846"
-Received: from jfunnell-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.39.52])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jan 2024 08:14:21 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: "Sarha, Jyri" <jyri.sarha@intel.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "intel-gfx@lists.freedesktop.org"
- <intel-gfx@lists.freedesktop.org>
-Subject: Re: [3/3] ASoC: hdmi-codec: drop drm/drm_edid.h include
-In-Reply-To: <4eeb74d942acf24e468036e0732e5e32c6907f6f.camel@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240104201632.1100753-3-jani.nikula@intel.com>
- <4eeb74d942acf24e468036e0732e5e32c6907f6f.camel@intel.com>
-Date: Tue, 16 Jan 2024 18:14:18 +0200
-Message-ID: <87v87tqmqt.fsf@intel.com>
+X-Greylist: delayed 423 seconds by postgrey-1.36 at gabe;
+ Tue, 16 Jan 2024 17:13:22 UTC
+Received: from mail.tkos.co.il (hours.tkos.co.il [84.110.109.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D2FD10E20A
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jan 2024 17:13:22 +0000 (UTC)
+Received: from localhost (unknown [10.0.8.2])
+ by mail.tkos.co.il (Postfix) with ESMTP id 5DAF244023D;
+ Tue, 16 Jan 2024 19:06:06 +0200 (IST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tkos.co.il;
+ s=default; t=1705424766;
+ bh=XI/97lEXxQjnyFeWWFvmUnGKCIYeJT6Fts70j+TRXMg=;
+ h=From:To:Cc:Subject:Date:From;
+ b=MyvjPZ/kum+OZM/P+JmvPng7vYaZBQUXwvvO6ozaZNtJIe+XQZBhSMaZPE6oOm87o
+ /85LQryXh1cbrilhDTHuNjSO6hc3tal/5TV5it+dsKnghCVly0g3pgyeJdm+ic+Xzl
+ 2wGRRl+sqWmZbqJmQg20pMRad6IX8k7/xUhPzzsfJJVZ1A/cELkyY/mcgh6eDeT7sy
+ 1qMijMV9fH1GRralDU3hF3gmC7yFMf29B+KFNEAJemBJBKq1HKZ9zwdN5tdwwuxAEJ
+ iLIZeTHgmQ5ApUVcc2Ekeqo1e1cFH/C/NkVmyWQmfj34EP11gvPrP4rAGIdNCFzg1y
+ oUfuoRwFy6Wng==
+User-agent: mu4e 1.10.8; emacs 29.1
+From: Baruch Siach <baruch@tkos.co.il>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>, Carl Vanderlip
+ <quic_carlv@quicinc.com>, Pranjal Ramajor Asha Kanojiya
+ <quic_pkanojiy@quicinc.com>
+Subject: QAIC reset failure
+Date: Tue, 16 Jan 2024 18:58:30 +0200
+Message-ID: <87ttndw6m6.fsf@tarshish>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -61,37 +49,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "mripard@kernel.org" <mripard@kernel.org>,
- "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
- "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
- "rfoss@kernel.org" <rfoss@kernel.org>, "jonas@kwiboo.se" <jonas@kwiboo.se>,
- "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
- "tiwai@suse.com" <tiwai@suse.com>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- "quic_abhinavk@quicinc.com" <quic_abhinavk@quicinc.com>,
- "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>,
- "Hajda, Andrzej" <andrzej.hajda@intel.com>,
- "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
- "marijn.suijten@somainline.org" <marijn.suijten@somainline.org>,
- "perex@perex.cz" <perex@perex.cz>,
- "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>
+Cc: linux-arm-msm@vger.kernel.org, Orr Mazor <orrm@neureality.ai>,
+ Ramon Fried <ramon@neureality.ai>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 12 Jan 2024, "Sarha, Jyri" <jyri.sarha@intel.com> wrote:
-> Reviewed-by: <jyri.sarha@linux.intel.com>
->
-> Thanks,
-> The including of drm_edid.h in hdmi-codec.h is a relic from my pre
-> upstreaming version of hdmi-codec. I don't think it was ever needed
-> in any upsteam version.
+Hi qaic driver maintainers,
 
-Thanks for the reviews and acks, pushed to drm-misc-next, even if I
-didn't get an ack from Jaroslav or Takashi. Seems rather benign anyway.
+I am testing an A100 device on arm64 platform. Kernel version is current
+Linus master as of commit 052d534373b7. The driver is unable to reset
+the device properly.
 
-BR,
-Jani.
+[  137.706765] pci 0000:01:00.0: enabling device (0000 -> 0002)
+[  137.712528] pci 0000:02:00.0: enabling device (0000 -> 0002)
+[  137.718230] qaic 0000:03:00.0: enabling device (0000 -> 0002)
+[  137.725720] [drm] Initialized qaic 0.0.0 20190618 for 0000:03:00.0 on minor 0
+[  137.734326] mhi mhi0: Requested to power ON
+[  137.738520] mhi mhi0: Power on setup success
+[  137.855108] mhi mhi0: Wait for device to enter SBL or Mission mode
+[  137.861578] qaic_timesync mhi0_QAIC_TIMESYNC: 20: Failed to receive START channel command completion
+[  137.870733] qaic_timesync mhi0_QAIC_TIMESYNC: 21: Failed to reset channel, still resetting
+[  137.879063] qaic_timesync mhi0_QAIC_TIMESYNC: 20: Failed to reset channel, still resetting
+[  137.887334] qaic_timesync: probe of mhi0_QAIC_TIMESYNC failed with error -5
+[  137.894866] qaic_timesync mhi0_QAIC_TIMESYNC: 20: Failed to receive START channel command completion
+[  137.904006] qaic_timesync mhi0_QAIC_TIMESYNC: 21: Failed to reset channel, still resetting
+[  137.912263] qaic_timesync mhi0_QAIC_TIMESYNC: 20: Failed to reset channel, still resetting
+[  137.920517] qaic_timesync: probe of mhi0_QAIC_TIMESYNC failed with error -5
+[  140.807091] mhi mhi0: Device failed to enter MHI Ready
+[  143.695094] mhi mhi0: Device failed to enter MHI Ready
 
+This is with firmware from SDK version 1.12.2.0. I tried also version
+1.10.0.193 with similar results.
+
+Some more state information from MHI debugfs below.
+
+/sys/kernel/debug/mhi/mhi0/regdump:
+Host PM state: SYS ERROR Process Device state: RESET EE: DISABLE
+Device EE: PRIMARY BOOTLOADER state: SYS ERROR
+MHI_REGLEN: 0x100
+MHI_VER: 0x1000000
+MHI_CFG: 0x8000000
+MHI_CTRL: 0x0
+MHI_STATUS: 0xff04
+MHI_WAKE_DB: 0x1
+BHI_EXECENV: 0x0
+BHI_STATUS: 0xa93f0935
+BHI_ERRCODE: 0x0
+BHI_ERRDBG1: 0xc0300000
+BHI_ERRDBG2: 0xb
+BHI_ERRDBG3: 0xcabb0
+
+/sys/kernel/debug/mhi/mhi0/states:
+PM state: SYS ERROR Process Device: Inactive MHI state: RESET EE: DISABLE wake: true
+M0: 2 M2: 0 M3: 0 device wake: 0 pending packets: 0
+
+Any idea?
+
+Thanks,
+baruch
 
 -- 
-Jani Nikula, Intel
+                                                     ~. .~   Tk Open Systems
+=}------------------------------------------------ooO--U--Ooo------------{=
+   - baruch@tkos.co.il - tel: +972.52.368.4656, http://www.tkos.co.il -
