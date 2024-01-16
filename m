@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCB9482F45A
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jan 2024 19:35:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D170A82F486
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jan 2024 19:44:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AECCD10E56A;
-	Tue, 16 Jan 2024 18:35:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81AD210E03F;
+	Tue, 16 Jan 2024 18:44:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E27910E56A
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jan 2024 18:35:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFEBA10E03F
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jan 2024 18:44:41 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id D5B35CE1919;
- Tue, 16 Jan 2024 18:35:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4A09C433C7;
- Tue, 16 Jan 2024 18:35:17 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 18815CE1A5A;
+ Tue, 16 Jan 2024 18:44:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23771C433F1;
+ Tue, 16 Jan 2024 18:44:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705430118;
- bh=MnY2gVubEGri9ggkfjnpG/sTnNx4BdvXPjR2PSZ83GE=;
+ s=k20201202; t=1705430678;
+ bh=hQkulcNIkuAvuM+4UOBSRVqqf8pRQ1TkYnDyipqHu9Q=;
  h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=iKtlOPFqFaAmH1K/7wOYsOyKeMSUCGDMwgk42s0cLKwHQqKxXxyXfCYNB29supvRu
- lxMM/8gNABx8D8EG1w2Kw6Cn64lBlbWD4PBfKqihB3SXSNxOOazlhcv58mZDz1SrPc
- whI157N2nOgTtOzEIgp332p44e+vjwsXduG5IANcIivFsg79jF77pVzcvclKrhhbNN
- jUQDLi1u+uwWAFjw4ddjRpN2/7hIzFpFmrzbU0Yl5PNucgdthNjRiBUp1xQ5aa/daj
- jUU13N7bJwOO8S4VBFEHMTKci0a4DM4GNNmvw0tRFb6cU/AZyMPuW4JnSy/As8ofsP
- LV9qr1N44b3ZQ==
-Date: Tue, 16 Jan 2024 12:35:16 -0600
+ b=M4Z0AZN/db2RgMT7oCsZe7mx3q9it8JCiTGD84rVdIBh8RyqAfHjYeVKi0zVvADQw
+ hjyVJKrG2LyryU4fZjmzcDdKGx+sFlEMYCam0MrfEZTVG1Q277dhC+QDiYL1woLucz
+ /YpkUvebvEkTkc+y8isyvUe42CAfc4L9AqvDFRh9jNVQzA56BAJ2CU+ErVhOSp5GDQ
+ EVoUmUDVLQxgcRKzIhiBfCFT2HhI0+jq+MOFXF3Yj0YmIcWV8qYcC8u+vFfWIqJ/Ne
+ wB+s9FfDOvm3uXSXkIgunCgCVYb1VBSpOha2FqRzBSWGKOwWZBwkNHjKtTndCFB00z
+ auD9dqR0gWeNw==
+Date: Tue, 16 Jan 2024 12:44:36 -0600
 From: Bjorn Helgaas <helgaas@kernel.org>
 To: Philipp Stanner <pstanner@redhat.com>
-Subject: Re: [PATCH 07/10] pci: devres: give mwi its own callback
-Message-ID: <20240116183516.GA101535@bhelgaas>
+Subject: Re: [PATCH 01/10] pci: add new set of devres functions
+Message-ID: <20240116184436.GA101781@bhelgaas>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240115144655.32046-9-pstanner@redhat.com>
+In-Reply-To: <20240115144655.32046-3-pstanner@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,94 +58,96 @@ Cc: Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 15, 2024 at 03:46:18PM +0100, Philipp Stanner wrote:
-> managing mwi with devres can easily be done with its own callback,
-> without the necessity to store any state about it in a device-related
-> struct.
+On Mon, Jan 15, 2024 at 03:46:12PM +0100, Philipp Stanner wrote:
+> PCI's devres API is not extensible to ranged mappings and has
+> bug-provoking features. Improve that by providing better alternatives.
 
-s/managing/Managing/
+I guess "ranged mappings" means a mapping that doesn't cover an entire
+BAR?  Maybe there's a way to clarify?
 
-s/mwi/MWI/ since this is an initialism.  Also in subject (but would be
-even better if it could mention an actual function name).
+> When the original devres API for PCI was implemented, priority was given
+> to the creation of a set of "pural functions" such as
+> pcim_request_regions(). These functions have bit masks as parameters to
+> specify which BARs shall get mapped. Most users, however, only use those
+> to mapp 1-3 BARs.
+> A complete set of "singular functions" does not exist.
 
-> Remove the mwi state from the devres-struct.
-> Make the devres-mwi functions set a separate devres-callback.
+s/mapp/map/
 
-Wrap to fill 75 columns (or add blank lines if you intend multiple
-paragraphs).
+Rewrap to fill 75 columns or add blank lines between paragraphs.  Also
+below.
 
-s/devres-struct/struct pci_devres/ to make this greppable.
-
-s/the devres-mwi functions/pcim_set_mwi()/ similarly.
-
-> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
-> ---
->  drivers/pci/devres.c | 23 +++++++++++------------
->  drivers/pci/pci.h    |  1 -
->  2 files changed, 11 insertions(+), 13 deletions(-)
+> As functions mapping / requesting multiple BARs at once have (almost) no
+> mechanism in C to return the resources to the caller of the plural
+> function, the devres API utilizes the iomap-table administrated by the
+> function pcim_iomap_table().
 > 
-> diff --git a/drivers/pci/devres.c b/drivers/pci/devres.c
-> index de8cf6f87dd7..911c2037d9fd 100644
-> --- a/drivers/pci/devres.c
-> +++ b/drivers/pci/devres.c
-> @@ -378,24 +378,26 @@ void __iomem *devm_pci_remap_cfg_resource(struct device *dev,
->  }
->  EXPORT_SYMBOL(devm_pci_remap_cfg_resource);
->  
-> +static void __pcim_clear_mwi(void *pdev_raw)
-> +{
-> +	struct pci_dev *pdev = pdev_raw;
+> The entire PCI devres implementation was strongly tied to that table
+> which only allows for mapping whole, complete BARs, as the BAR's index
+> is used as table index. Consequently, it's not possible to, e.g., have a
+> pcim_iomap_range() function with that mechanism.
+> 
+> An additional problem is that pci-devres has been ipmlemented in a sort
+> of "hybrid-mode": Some unmanaged functions have managed counterparts
+> (e.g.: pci_iomap() <-> pcim_iomap()), making their managed nature
+> obvious to the programmer. However, the region-request functions in
+> pci.c, prefixed with pci_, behave either managed or unmanaged, depending
+> on whether pci_enable_device() or pcim_enable_device() has been called
+> in advance.
+
+s/ipmlemented/implemented/
+
+> This hybrid API is confusing and should be more cleanly separated by
+> providing always-managed functions prefixed with pcim_.
+> 
+> Thus, the existing devres API is not desirable because:
+> 	a) The vast majority of the users of the plural functions only
+> 	   ever sets a single bit in the bit mask, consequently making
+> 	   them singular functions anyways.
+> 	b) There is no mechanism to request / iomap only part of a BAR.
+> 	c) The iomap-table mechanism is over-engineered, complicated and
+> 	   can by definition not perform bounds checks, thus, provoking
+> 	   memory faults: pcim_iomap_table(pdev)[42]
+
+Not sure what "pcim_iomap_table(pdev)[42]" means.
+
+> 	d) region-request functions being sometimes managed and
+> 	   sometimes not is bug-provoking.
+
+Indent with spaces (not tabs) so it still looks good when "git log"
+adds spaces to indent.
+
+> + * Legacy struct storing addresses to whole mapped bars.
+
+s/bar/BAR/ (several places).
+
+> +	/* A region spaning an entire bar. */
+> +	PCIM_ADDR_DEVRES_TYPE_REGION,
 > +
-> +	pci_clear_mwi(pdev);
+> +	/* A region spaning an entire bar, and a mapping for that whole bar. */
+> +	PCIM_ADDR_DEVRES_TYPE_REGION_MAPPING,
+> +
+> +	/*
+> +	 * A mapping within a bar, either spaning the whole bar or just a range.
+> +	 * Without a requested region.
+
+s/spaning/spanning/ (several places).
+
+> +	if (start == 0 || len == 0) /* that's an unused BAR. */
+
+s/that/That/
+
+> +	/*
+> +	 * Ranged mappings don't get added to the legacy-table, since the table
+> +	 * only ever keeps track of whole BARs.
+> +	 */
+> +
+
+Spurious blank line.
+
+> +	devres_add(&pdev->dev, res);
+> +	return mapping;
 > +}
-> +
->  /**
->   * pcim_set_mwi - a device-managed pci_set_mwi()
-> - * @dev: the PCI device for which MWI is enabled
-> + * @pdev: the PCI device for which MWI is enabled
->   *
->   * Managed pci_set_mwi().
->   *
->   * RETURNS: An appropriate -ERRNO error value on error, or zero for success.
->   */
-> -int pcim_set_mwi(struct pci_dev *dev)
-> +int pcim_set_mwi(struct pci_dev *pdev)
->  {
-> -	struct pci_devres *dr;
-> -
-> -	dr = find_pci_dr(dev);
-> -	if (!dr)
-> -		return -ENOMEM;
-> +	devm_add_action(&pdev->dev, __pcim_clear_mwi, pdev);
->  
-> -	dr->mwi = 1;
-> -	return pci_set_mwi(dev);
-> +	return pci_set_mwi(pdev);
->  }
->  EXPORT_SYMBOL(pcim_set_mwi);
->  
-> @@ -405,9 +407,6 @@ static void pcim_release(struct device *gendev, void *res)
->  	struct pci_dev *dev = to_pci_dev(gendev);
->  	struct pci_devres *this = res;
->  
-> -	if (this->mwi)
-> -		pci_clear_mwi(dev);
-> -
->  	if (this->restore_intx)
->  		pci_intx(dev, this->orig_intx);
->  
-> diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-> index 3d9908a69ebf..667bfdd61d5e 100644
-> --- a/drivers/pci/pci.h
-> +++ b/drivers/pci/pci.h
-> @@ -811,7 +811,6 @@ static inline pci_power_t mid_pci_get_power_state(struct pci_dev *pdev)
->  struct pci_devres {
->  	unsigned int orig_intx:1;
->  	unsigned int restore_intx:1;
-> -	unsigned int mwi:1;
->  };
->  
->  struct pci_devres *find_pci_dr(struct pci_dev *pdev);
-> -- 
-> 2.43.0
-> 
+> +EXPORT_SYMBOL(pcim_iomap_range);
+
+Bjorn
