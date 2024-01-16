@@ -2,59 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24B4582E6C7
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jan 2024 02:26:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A232582E844
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jan 2024 04:33:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8144E10E3CB;
-	Tue, 16 Jan 2024 01:25:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 073B510E3EC;
+	Tue, 16 Jan 2024 03:33:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
- [209.85.218.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2E9510E379;
- Tue, 16 Jan 2024 01:25:53 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id
- a640c23a62f3a-a2d6ded84fcso174555566b.2; 
- Mon, 15 Jan 2024 17:25:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1705368292; x=1705973092; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=NW8IeT94sqxk9dJoctrT0QMHmgttzl2Wny6AX+IZ+rw=;
- b=dwmSs88vBlSjzJjuImJuOp3m4VDxzdRBhoHwU6RZUpTFUCt1/fu1DbBMSFc3Y++4cx
- bGyDjMUcOIzH6pYcLOmylydab9sfCEeYkq64w0QU/BAsJ9sFFmC/sJwRZFyEKV88I3t5
- NIk29e/21mxr8yRRVuLi1LThHzPW6Jk1dEb2qa4eO8iTa0Wb4LY5AMM8C6IQeP5l7YIt
- ptF+o+oXLHDkYQ/QFCLc45AW7pHzB/Pgp19fuonpFK2uiLqdJXSTOZhOVsKodOnTdDZf
- H/Oam6e0Gqe11uNU/jRYpRACEgCvYGIJKbuJVigz9pRpm2MSCnn+mJX/ta0cDvwaY7Sx
- bgfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705368292; x=1705973092;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=NW8IeT94sqxk9dJoctrT0QMHmgttzl2Wny6AX+IZ+rw=;
- b=l/lz8/a95fCEFsFwt5Op8MXzK4MlXZpjMYzgaY5x4Rb8NDGH3In5EQFQbLm8VYQM7K
- qogTl4Cv86fQoAFFqKThRMmaeVGeWA6fQ68xkdczyPWtn3Mppe3Wc0LOpx7pVBNPpYII
- MZemhxkN6gGHPx3U84GP+kKFRqA/lAc2MmRRVPDi4Cv0PpcR+etlmaOZ/j2w0IutD8Sw
- R6ZbZi+iqrLeE07GuQBTPgGfKv7GwTIoQxdFOGwHWQeRdwXMqO5AYsanzzwlwDDRa69O
- o6sAH+o3evwkpx9aznKyZsdvNJVITMB1T//gjEdI0itBJrBnrbgoHTWjcSTVnYUH9Nhk
- +Yug==
-X-Gm-Message-State: AOJu0YwhRolphL5JlUIhqoHyDwiJBDu/H3GqNRcEKUdgipMKCKixmw6h
- kVd1mT+EmsWC8q1wPhBxH/Gnvd4HlznB7rwZvJg=
-X-Google-Smtp-Source: AGHT+IE7foSY+Dx2N5bmgzzoWLNyF/v3T+JuHVyumUdu2biAyJgYRltBRPWbCD/dA9o3J15XrHunE5FfBHCNomI2V2Y=
-X-Received: by 2002:a17:906:c058:b0:a27:b278:b3e with SMTP id
- bm24-20020a170906c05800b00a27b2780b3emr2593812ejb.83.1705368292224; Mon, 15
- Jan 2024 17:24:52 -0800 (PST)
+X-Greylist: delayed 303 seconds by postgrey-1.36 at gabe;
+ Tue, 16 Jan 2024 03:32:58 UTC
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D07810E3D7;
+ Tue, 16 Jan 2024 03:32:57 +0000 (UTC)
+X-UUID: f7f6384198e4480d8bf0d0f360722248-20240116
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.35, REQID:e6f0e8f5-f947-4a3c-9cf4-09384cf2a17d, IP:20,
+ URL:0,TC:0,Content:0,EDM:25,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACT
+ ION:release,TS:30
+X-CID-INFO: VERSION:1.1.35, REQID:e6f0e8f5-f947-4a3c-9cf4-09384cf2a17d, IP:20,
+ UR
+ L:0,TC:0,Content:0,EDM:25,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+ N:release,TS:30
+X-CID-META: VersionHash:5d391d7, CLOUDID:297ae382-8d4f-477b-89d2-1e3bdbef96d1,
+ B
+ ulkID:240116112738XVUOT1J5,BulkQuantity:0,Recheck:0,SF:17|19|44|66|38|24|1
+ 02,TC:nil,Content:0,EDM:5,IP:-2,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL
+ :0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_FSI
+X-UUID: f7f6384198e4480d8bf0d0f360722248-20240116
+Received: from mail.kylinos.cn [(39.156.73.10)] by mailgw
+ (envelope-from <chentao@kylinos.cn>) (Generic MTA)
+ with ESMTP id 1459130115; Tue, 16 Jan 2024 11:27:37 +0800
+Received: from mail.kylinos.cn (localhost [127.0.0.1])
+ by mail.kylinos.cn (NSMail) with SMTP id 41A55E000EB9;
+ Tue, 16 Jan 2024 11:27:37 +0800 (CST)
+X-ns-mid: postfix-65A5F7A9-60232416
+Received: from kernel.. (unknown [172.20.15.234])
+ by mail.kylinos.cn (NSMail) with ESMTPA id A1E9CE000EB9;
+ Tue, 16 Jan 2024 11:27:33 +0800 (CST)
+From: Kunwu Chan <chentao@kylinos.cn>
+To: robdclark@gmail.com, quic_abhinavk@quicinc.com,
+ dmitry.baryshkov@linaro.org, sean@poorly.run,
+ marijn.suijten@somainline.org, airlied@gmail.com, daniel@ffwll.ch
+Subject: [PATCH] drm/msm/adreno: Add a null pointer check to the
+ zap_shader_load_mdt
+Date: Tue, 16 Jan 2024 11:27:32 +0800
+Message-Id: <20240116032732.65262-1-chentao@kylinos.cn>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20240112084750.3729837-1-alexious@zju.edu.cn>
-In-Reply-To: <20240112084750.3729837-1-alexious@zju.edu.cn>
-From: Qiang Yu <yuq825@gmail.com>
-Date: Tue, 16 Jan 2024 09:24:37 +0800
-Message-ID: <CAKGbVbswTUYJsZDLWao58MTyt7yAYMMXA5zjeYVBTRvd9X3n0g@mail.gmail.com>
-Subject: Re: [PATCH] drm/lima: fix a memleak in lima_heap_alloc
-To: Zhipeng Lu <alexious@zju.edu.cn>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,61 +65,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, lima@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- Vasily Khoruzhick <anarsoul@gmail.com>, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>
+Cc: Kunwu Chan <chentao@kylinos.cn>, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks for the fix. As the error handling gets longer and duplicated,
-could you rearrange them like the lima_gem_submit():
-err_out2:
-    dma_unmap_sgtable(dev, &sgt, DMA_BIDIRECTIONAL, 0);
-err_out1:
-    kfree(bo->base.sgt);
-    bo->base.sgt =3D NULL;
-err_out0:
-    sg_free_table(&sgt);
-    return ret.
+kasprintf() returns a pointer to dynamically allocated memory
+which can be NULL upon failure. Ensure the allocation was successful
+by checking the pointer validity.
 
-Regards,
-Qiang
+Signed-off-by: Kunwu Chan <chentao@kylinos.cn>
+---
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-On Fri, Jan 12, 2024 at 4:49=E2=80=AFPM Zhipeng Lu <alexious@zju.edu.cn> wr=
-ote:
->
-> When lima_vm_map_bo fails, the resources need to be deallocated, or
-> there will be memleaks.
->
-> Fixes: 6aebc51d7aef ("drm/lima: support heap buffer creation")
-> Signed-off-by: Zhipeng Lu <alexious@zju.edu.cn>
-> ---
->  drivers/gpu/drm/lima/lima_gem.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_=
-gem.c
-> index 4f9736e5f929..824ed22141c7 100644
-> --- a/drivers/gpu/drm/lima/lima_gem.c
-> +++ b/drivers/gpu/drm/lima/lima_gem.c
-> @@ -92,8 +92,13 @@ int lima_heap_alloc(struct lima_bo *bo, struct lima_vm=
- *vm)
->
->         if (vm) {
->                 ret =3D lima_vm_map_bo(vm, bo, old_size >> PAGE_SHIFT);
-> -               if (ret)
-> +               if (ret) {
-> +                       dma_unmap_sgtable(dev, &sgt, DMA_BIDIRECTIONAL, 0=
-);
-> +                       sg_free_table(&sgt);
-> +                       kfree(bo->base.sgt);
-> +                       bo->base.sgt =3D NULL;
->                         return ret;
-> +               }
->         }
->
->         bo->heap_size =3D new_size;
-> --
-> 2.34.1
->
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/ms=
+m/adreno/adreno_gpu.c
+index 074fb498706f..7e79ead4fe00 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+@@ -144,6 +144,10 @@ static int zap_shader_load_mdt(struct msm_gpu *gpu, =
+const char *fwname,
+ 		char *newname;
+=20
+ 		newname =3D kasprintf(GFP_KERNEL, "qcom/%s", fwname);
++		if (!newname) {
++			ret =3D -ENOMEM;
++			goto out;
++		}
+=20
+ 		ret =3D qcom_mdt_load(dev, fw, newname, pasid,
+ 				mem_region, mem_phys, mem_size, NULL);
+--=20
+2.39.2
+
