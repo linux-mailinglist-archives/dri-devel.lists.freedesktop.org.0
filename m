@@ -2,77 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AB1C82E9D9
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jan 2024 08:19:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC15482EAB5
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jan 2024 09:12:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07A2A10E099;
-	Tue, 16 Jan 2024 07:18:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7263210E304;
+	Tue, 16 Jan 2024 08:12:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5E3F10E099
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jan 2024 07:18:44 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 40G5Nsi3002596; Tue, 16 Jan 2024 07:18:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- from:to:cc:subject:date:message-id; s=qcppdkim1; bh=DX0iy88vX98i
- AdSdT71f27IKRMC90HatYQ5HwImfRkg=; b=cwLfs2F7F4ylLd6Pnze4qC8nGPlx
- 7bI7W+Q6L2XEz/hQu265xrvBVV4PH7fMZ6CbbPh7lFMw+4OfRAPD6qtfjEDImMnC
- sV4cVWaOs0mPpuLaltmSuAwYe0W0SmjkLYWNxkEYAvp1FE0CrLCvRzRXP3FclJgC
- gNU++0Gw0fRX1H50ouCR24rJjFJVPs3es/UWwGkaR7+BtPlo8szchZAENFqoNgKt
- 0heTo1rcJWlwQZjdN1l5KYhY/SZZDkARa29m2muJ8LRclDD3UOnYq+JuWM7cLApr
- da+Rln4HcgJpdi358Vi+gpRvdCiTB8jFjVrZZc8T0YwOMRG0PiXKahWB+A==
-Received: from apblrppmta02.qualcomm.com
- (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vnht90ck5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 16 Jan 2024 07:18:24 +0000 (GMT)
-Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
- by APBLRPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 40G7EQqQ019314; 
- Tue, 16 Jan 2024 07:18:20 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 3vkkkkm222-1;
- Tue, 16 Jan 2024 07:18:20 +0000
-Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com
- [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 40G7IKnO024252;
- Tue, 16 Jan 2024 07:18:20 GMT
-Received: from hu-maiyas-hyd.qualcomm.com (hu-riteshk-hyd.qualcomm.com
- [10.147.241.247])
- by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 40G7IKgI024251;
- Tue, 16 Jan 2024 07:18:20 +0000
-Received: by hu-maiyas-hyd.qualcomm.com (Postfix, from userid 2314801)
- id 776E0601955; Tue, 16 Jan 2024 12:48:19 +0530 (+0530)
-From: Ritesh Kumar <quic_riteshk@quicinc.com>
-To: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, sam@ravnborg.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- quic_abhinavk@quicinc.com, quic_rajeevny@quicinc.com,
- quic_vproddut@quicinc.com
-Subject: [PATCH] drm/panel: novatek-nt36672e: Include <linux/of.h>
-Date: Tue, 16 Jan 2024 12:48:03 +0530
-Message-Id: <20240116071803.5264-1-quic_riteshk@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 9LspsGzdeywBkRaxqILt1OLL_DDjq1qm
-X-Proofpoint-GUID: 9LspsGzdeywBkRaxqILt1OLL_DDjq1qm
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0
- suspectscore=0 spamscore=0 mlxlogscore=999 priorityscore=1501
- lowpriorityscore=0 bulkscore=0 mlxscore=0 phishscore=0 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2401160055
+X-Greylist: delayed 380 seconds by postgrey-1.36 at gabe;
+ Tue, 16 Jan 2024 07:38:03 UTC
+Received: from out203-205-221-173.mail.qq.com (out203-205-221-173.mail.qq.com
+ [203.205.221.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4387A10E088
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jan 2024 07:38:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+ t=1705390679; bh=ZTnSJxE23Nw64lBhpFMiDwgBba+3N2Q91LfEvH/xgy8=;
+ h=From:To:Cc:Subject:Date;
+ b=lPcec2QysUibvAeAR2mjWN9ypmPElIwI1/IVxC9Hgj2/c1ZuKMQaQ5EcjsfMxGgP8
+ +MX14dmbXROov8RMpcNPF0asrUU6gu5uSd7kpj89mdhZ6cxHHfukW6mtS4zbdawWUy
+ zOmlyRPy2habpXGDh1gjVNd5CWaZbLiijpK69XlY=
+Received: from cyy-pc.lan ([2001:da8:c800:d084:c65a:644a:13d7:e72c])
+ by newxmesmtplogicsvrszc5-0.qq.com (NewEsmtp) with SMTP
+ id 651A00DE; Tue, 16 Jan 2024 15:25:17 +0800
+X-QQ-mid: xmsmtpt1705389917t93fy8ema
+Message-ID: <tencent_0B319B215E8D487CC082C0DA5E8E46B86B08@qq.com>
+X-QQ-XMAILINFO: Mk33QmgWauDsVhZvDrj7M3dssC3UeSG28JJBftbgZZxw/z6e0XiKTnW6dUZ7ub
+ q4us9jOKT7MYrIpaxAp7A0JRfI0iTENFWvZCGJp7KoV736goBQFeEBtW6xmkl3opdSb9131K+bwo
+ skscGb5PaYHkklbTch8emcjsdSZ/CEna1Pc04OlqWBJ7tKAaROnot02p2pUly3jCvr3mZFPujXtD
+ MFK0TbmKyMFY7A2CaWEQVq1zx7l/E7gw4suN8RUFCIzJMJ3f905PGXWosBx57wbSGwXjZh4v9r+Z
+ 0LkV/9avVPphtGQLt12EZz5W3+KoJ/0T+PqOPtkT20PuxKpKZRnjClVjzKzAd6uz3Xw2UfLgQw2B
+ ZTVHqKKNjdLA7a/IEHfyfO2hS7bl+ZS4h+T4JgGoDS4WB81HMRqOG6MrURCRbM4NFV7XEWgpE7bp
+ P1CIsQPY9YDCgRaqRWUAtrEck1Oi8m61cLmMUAflo1cfWN/peusc0YbjTX/NIuz1BgU0VXh/B7Mo
+ SOqG4hK4+PqPCMr9tNxCXvMPNMGjc3WVXZAR+BB5Rxyks+D+ZjvIwu8VNQP8LVPqNTXSfArz3fUY
+ d+AuLzIkQ6d/v6E6y14DGQvHRKx7z5tP7UVRI7M3cB/LJew4jHOnJCUC6aQwK33kpW5t2IDKWD2e
+ 1ChYPRufeFC8NsiBXCXXW/8upYqOAKptW6mLfdKtJ4BdDYG1n69j9Ous5d7PqdDEZ8l3u5NeuycS
+ UWPmJKH0TmPfxTTuYtTLly2tKN7URRCHpJTllYxSdAFVwgcZgj+RR19qr2FQFw802669848wQan2
+ /WavfQo3m+cd8g7q3aI0JHafClIwOoHx/iHpx6bddDst3HPrd+5fWdvwj3D6ehZG+nqDAHNHbhEm
+ Z8QsRaxfcGI+i+/Yh4c4B9y5DVnA+mGrmtfCB5mdywA8FYD5v82QTJPi7T2ZnQEfNBk/EMye7dZ4
+ 2v2E/t+guRkynBfXlF21eXMiOMfdjgd7mLxS0TqnTXOkq1OQvNcr1akSig9Pll
+X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
+From: Yangyu Chen <cyy@cyyself.name>
+To: dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/ttm: only use DMA32 if needed for dummy_read_page
+Date: Tue, 16 Jan 2024 15:24:06 +0800
+X-OQ-MSGID: <20240116072406.107206-1-cyy@cyyself.name>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Tue, 16 Jan 2024 08:12:15 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,45 +63,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ritesh Kumar <quic_riteshk@quicinc.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel@ffwll.ch>, Jiuyang Liu <liu@jiuyang.me>,
+ Maxime Ripard <mripard@kernel.org>, Yangyu Chen <cyy@cyyself.name>,
+ Huang Rui <ray.huang@amd.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Christian Koenig <christian.koenig@amd.com>,
+ Yichuan Gao <i@gycis.me>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Include <linux/of.h> instead of <linux/of_device.h> to fix
-below compilation errors:
+Some platforms may not have any memory in ZONE_DMA32 and use IOMMU to allow
+32-bit-DMA-only device to work. Forcing GFP_DMA32 on dummy_read_page will
+fail in such platforms. Only use DMA32 when it must to get the bug
+resolved.
 
-drivers/gpu/drm/panel/panel-novatek-nt36672e.c:564:14: error: implicit declaration of function 'of_device_get_match_data'
-  ctx->desc = of_device_get_match_data(dev);
-              ^
-drivers/gpu/drm/panel/panel-novatek-nt36672e.c:622:34: error: array type has incomplete element type 'struct of_device_id'
- static const struct of_device_id nt36672e_of_match[] = {
-                                  ^
-
-Signed-off-by: Ritesh Kumar <quic_riteshk@quicinc.com>
-
+Signed-off-by: Yangyu Chen <cyy@cyyself.name>
 ---
-In the patch https://lore.kernel.org/all/20231129164316.2663565-1-robh@kernel.org/,
-include of <linux/of.h> from of_device.h was removed. This change was not present
-in my local build resulting in successful compilation while posting
-https://lore.kernel.org/all/20240108095902.22725-3-quic_riteshk@quicinc.com/.
----
- drivers/gpu/drm/panel/panel-novatek-nt36672e.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/ttm/ttm_device.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-novatek-nt36672e.c b/drivers/gpu/drm/panel/panel-novatek-nt36672e.c
-index d4e85c2fc899..cb7406d74466 100644
---- a/drivers/gpu/drm/panel/panel-novatek-nt36672e.c
-+++ b/drivers/gpu/drm/panel/panel-novatek-nt36672e.c
-@@ -4,7 +4,7 @@
- #include <linux/delay.h>
- #include <linux/gpio/consumer.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/regulator/consumer.h>
+diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
+index d48b39132b32..62f16fb72428 100644
+--- a/drivers/gpu/drm/ttm/ttm_device.c
++++ b/drivers/gpu/drm/ttm/ttm_device.c
+@@ -63,7 +63,7 @@ static void ttm_global_release(void)
+ 	mutex_unlock(&ttm_global_mutex);
+ }
  
- #include <drm/drm_mipi_dsi.h>
+-static int ttm_global_init(void)
++static int ttm_global_init(bool use_dma32)
+ {
+ 	struct ttm_global *glob = &ttm_glob;
+ 	unsigned long num_pages, num_dma32;
+@@ -95,7 +95,8 @@ static int ttm_global_init(void)
+ 	ttm_pool_mgr_init(num_pages);
+ 	ttm_tt_mgr_init(num_pages, num_dma32);
+ 
+-	glob->dummy_read_page = alloc_page(__GFP_ZERO | GFP_DMA32);
++	glob->dummy_read_page = use_dma32 ? alloc_page(__GFP_ZERO | GFP_DMA32) :
++					    alloc_page(__GFP_ZERO);
+ 
+ 	if (unlikely(glob->dummy_read_page == NULL)) {
+ 		ret = -ENOMEM;
+@@ -200,7 +201,7 @@ int ttm_device_init(struct ttm_device *bdev, const struct ttm_device_funcs *func
+ 	if (WARN_ON(vma_manager == NULL))
+ 		return -EINVAL;
+ 
+-	ret = ttm_global_init();
++	ret = ttm_global_init(use_dma32);
+ 	if (ret)
+ 		return ret;
+ 
 -- 
-2.17.1
+2.43.0
 
