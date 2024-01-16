@@ -2,60 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AD9182EEA1
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jan 2024 13:01:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2C4582ED89
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jan 2024 12:17:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F91210E484;
-	Tue, 16 Jan 2024 12:01:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0F8810E46B;
+	Tue, 16 Jan 2024 11:17:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 9724 seconds by postgrey-1.36 at gabe;
- Tue, 16 Jan 2024 12:01:37 UTC
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 404E410E4B1
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jan 2024 12:01:37 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 40G9J06o094644;
- Tue, 16 Jan 2024 03:19:00 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1705396740;
- bh=+f0VemhyFwFnGlJoV6Z/6zvcuO/sA8b/sNMJ7K0g+fw=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=rpvc4JTiBq5NkJv7NzywIZG3UI8vvJBWKFeeCCsCpST3uDWpwR6eF9hL8STki1M9k
- xPvjCnTdU5o9WQET7BQpH28k14UmiknVnIlgIgON2FY//jrSmriQLWR1+qmne05Sx3
- K4RNA15d6Nhid0TD9aM0/sskyYY+veKq3dsrsvQk=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 40G9J0Q7037956
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 16 Jan 2024 03:19:00 -0600
-Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 16
- Jan 2024 03:18:59 -0600
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 16 Jan 2024 03:18:59 -0600
-Received: from [172.24.227.193] (devarsht.dhcp.ti.com [172.24.227.193])
- by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 40G9IrAI020250;
- Tue, 16 Jan 2024 03:18:54 -0600
-Message-ID: <4c5cb4ed-96a3-7bd8-f660-2a3bb041ca09@ti.com>
-Date: Tue, 16 Jan 2024 14:48:53 +0530
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 301BB10E46B;
+ Tue, 16 Jan 2024 11:17:12 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-40e86bd23d7so906075e9.1; 
+ Tue, 16 Jan 2024 03:17:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1705403770; x=1706008570; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=bV4EzhRkZw5eNG7ZovPTr2GfxWsv5MIBKsQhvD/ibb8=;
+ b=icUcO6vpdL2+eqz0iqbGc6rBVAlR3YlwFpQAelRx9mLVBxfV5qxUfii27FWsOpECRn
+ Pxd9QB9wlmldt9EaIHCNXxjkCJ2LAVc7mA/bZxEArmIBk28jOQxsnnb7OyHZHGKqAVz/
+ u7KpXqpL5ppPBIORzogfKweVj64WtoWRqfO/4DKNzlz9U1hEteAvNcz3y3o/b29lcEJI
+ hKyBpLJZQEwzlese55INc8iqu4zdATsb1Gt9A0taCkGVL6uNiArRkexCwQSE6e40jkfQ
+ SCNezaxFtrw+0FjctNtr5yMWUEdvsmsx1m9tAb77zT4u7EkjOWsBlAqnJQJMK3SRFTFH
+ hqJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1705403770; x=1706008570;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=bV4EzhRkZw5eNG7ZovPTr2GfxWsv5MIBKsQhvD/ibb8=;
+ b=MXlk/xK9TMNSqMRhPts3F6XC/QKGAX4ovMeZUZtXhcYJyb8x4MYQM762H26l8Fv9Ig
+ wXV9vXct0TxmOidyaG3CJnFNJ8dpttw/li98Mzv0KlqhZ1y6LVsXVBa9vk/AlT3xe3xP
+ sqmFQdFS2cUGpkNS0v8eVDmLdZ3UZ5U+meJvLAtQIiDQv3vq0LMGMU2P3mL2kxQfPnoq
+ rNHb3ldpS2L0D+DdfloSG3aByOVHjSOVcXNeVQH8rW0yLyMKq3L1+YyKQ6ExfggSlAPI
+ 2rQavWVyyYfxytZkN8e2YtV0XoitDOKiBi+l7vwiEECtJiQ8r+xB2MYtopNTj0lxHWQ4
+ Y2DQ==
+X-Gm-Message-State: AOJu0Yxaqo5cHzjURcP/J4nSD6pGieH6Ggt1+U65egadjyiCqWkqUNfr
+ yEQI+UMdCIjnX3nJnI76pnc=
+X-Google-Smtp-Source: AGHT+IHM9MvVRGvEUj/8Da942kzvMhJ/jHKDIdyczZcz2JU+V7Py2yNESnBCAoWPKM+3iTd1BzZ+GA==
+X-Received: by 2002:a05:600c:3093:b0:40e:4303:df0 with SMTP id
+ g19-20020a05600c309300b0040e43030df0mr2089782wmn.258.1705403770493; 
+ Tue, 16 Jan 2024 03:16:10 -0800 (PST)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
+ [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
+ n18-20020a05600c501200b0040e77ce8768sm7102765wmr.16.2024.01.16.03.16.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Jan 2024 03:16:10 -0800 (PST)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@redhat.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org
+Subject: [PATCH][next] drm/nouveau/fifo/gk104: remove redundant variable ret
+Date: Tue, 16 Jan 2024 11:16:09 +0000
+Message-Id: <20240116111609.2258675-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [DO NOT MERGE PATCH 2/2] arm64: dts: ti: Add common1 register
- space for AM62x and AM65x SoCs
-Content-Language: en-US
-To: Conor Dooley <conor@kernel.org>
-References: <20240115125716.560363-1-devarsht@ti.com>
- <20240115125716.560363-3-devarsht@ti.com>
- <20240115-penpal-pluck-d156ccf21b2f@spud>
-From: Devarsh Thakkar <devarsht@ti.com>
-In-Reply-To: <20240115-penpal-pluck-d156ccf21b2f@spud>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,94 +74,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nm@ti.com, devicetree@vger.kernel.org, conor+dt@kernel.org, j-luthra@ti.com,
- tzimmermann@suse.de, krzysztof.kozlowski+dt@linaro.org, praneeth@ti.com,
- tomi.valkeinen@ideasonboard.com, jyri.sarha@iki.fi, mripard@kernel.org,
- linux-kernel@vger.kernel.org, robh+dt@kernel.org,
- dri-devel@lists.freedesktop.org, daniel@ffwll.ch, a-bhatia1@ti.com,
- airlied@gmail.com, kristo@kernel.org, vigneshr@ti.com
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Conor,
+The variable ret is being assigned a value but it isn't being
+read afterwards. The assignment is redundant and so ret can be
+removed.
 
-Thanks for the review.
+Cleans up clang scan build warning:
+warning: Although the value stored to 'ret' is used in the enclosing
+expression, the value is never actually read from 'ret'
+[deadcode.DeadStores]
 
-On 15/01/24 21:44, Conor Dooley wrote:
-> On Mon, Jan 15, 2024 at 06:27:16PM +0530, Devarsh Thakkar wrote:
->> This adds common1 register space for AM62x and AM65x SoC's which are using
->> TI's Keystone display hardware and supporting it as described in
->> Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml.
->>
->> This region is documented in respective Technical Reference Manuals [1].
->>
->> [1]:
->> AM62x TRM:
->> https://www.ti.com/lit/pdf/spruiv7 (Section 14.8.9.1 DSS Registers)
->>
->> AM65x TRM:
->> https://www.ti.com/lit/pdf/spruid7 (Section 12.6.5 DSS Registers)
->>
->> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
->> ---
-> 
-> "[DO NOT MERGE PATCH 2/2]" but no rationale here as to why this cannot
-> be merged? What's the problem with it?
-> 
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/gpu/drm/nouveau/nvif/fifo.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-No problem as such from my point of view, but this is the process I follow
-since maintainer trees for device-tree file and bindings are different. I
-generally mark a [DO NOT MERGE] tag for device-tree file patches until binding
-patch gets merged so that the device-tree patches don't get applied by mistake
-if binding patch has some pending comments.
+diff --git a/drivers/gpu/drm/nouveau/nvif/fifo.c b/drivers/gpu/drm/nouveau/nvif/fifo.c
+index a463289962b2..e96de14ce87e 100644
+--- a/drivers/gpu/drm/nouveau/nvif/fifo.c
++++ b/drivers/gpu/drm/nouveau/nvif/fifo.c
+@@ -73,9 +73,9 @@ u64
+ nvif_fifo_runlist(struct nvif_device *device, u64 engine)
+ {
+ 	u64 runm = 0;
+-	int ret, i;
++	int i;
+ 
+-	if ((ret = nvif_fifo_runlists(device)))
++	if (nvif_fifo_runlists(device))
+ 		return runm;
+ 
+ 	for (i = 0; i < device->runlists; i++) {
+-- 
+2.39.2
 
-Once binding patch gets merged, I re-send the device-tree file patches again
-to respective list.
-
-Regards
-Devarsh
-
-> Cheers,
-> Conor.
-> 
->>  arch/arm64/boot/dts/ti/k3-am62-main.dtsi | 5 +++--
->>  arch/arm64/boot/dts/ti/k3-am65-main.dtsi | 5 +++--
->>  2 files changed, 6 insertions(+), 4 deletions(-)
->>
->> diff --git a/arch/arm64/boot/dts/ti/k3-am62-main.dtsi b/arch/arm64/boot/dts/ti/k3-am62-main.dtsi
->> index 464b7565d085..298bf8d5de8c 100644
->> --- a/arch/arm64/boot/dts/ti/k3-am62-main.dtsi
->> +++ b/arch/arm64/boot/dts/ti/k3-am62-main.dtsi
->> @@ -779,9 +779,10 @@ dss: dss@30200000 {
->>  		      <0x00 0x30207000 0x00 0x1000>, /* ovr1 */
->>  		      <0x00 0x30208000 0x00 0x1000>, /* ovr2 */
->>  		      <0x00 0x3020a000 0x00 0x1000>, /* vp1: Used for OLDI */
->> -		      <0x00 0x3020b000 0x00 0x1000>; /* vp2: Used as DPI Out */
->> +		      <0x00 0x3020b000 0x00 0x1000>, /* vp2: Used as DPI Out */
->> +		      <0x00 0x30201000 0x00 0x1000>; /* common1 */
->>  		reg-names = "common", "vidl1", "vid",
->> -			    "ovr1", "ovr2", "vp1", "vp2";
->> +			    "ovr1", "ovr2", "vp1", "vp2", "common1";
->>  		power-domains = <&k3_pds 186 TI_SCI_PD_EXCLUSIVE>;
->>  		clocks = <&k3_clks 186 6>,
->>  			 <&dss_vp1_clk>,
->> diff --git a/arch/arm64/boot/dts/ti/k3-am65-main.dtsi b/arch/arm64/boot/dts/ti/k3-am65-main.dtsi
->> index fcea54465636..5b2d4365b911 100644
->> --- a/arch/arm64/boot/dts/ti/k3-am65-main.dtsi
->> +++ b/arch/arm64/boot/dts/ti/k3-am65-main.dtsi
->> @@ -1019,9 +1019,10 @@ dss: dss@4a00000 {
->>  		      <0x0 0x04a07000 0x0 0x1000>, /* ovr1 */
->>  		      <0x0 0x04a08000 0x0 0x1000>, /* ovr2 */
->>  		      <0x0 0x04a0a000 0x0 0x1000>, /* vp1 */
->> -		      <0x0 0x04a0b000 0x0 0x1000>; /* vp2 */
->> +		      <0x0 0x04a0b000 0x0 0x1000>, /* vp2 */
->> +		      <0x0 0x04a01000 0x0 0x1000>; /* common1 */
->>  		reg-names = "common", "vidl1", "vid",
->> -			"ovr1", "ovr2", "vp1", "vp2";
->> +			"ovr1", "ovr2", "vp1", "vp2", "common1";
->>  
->>  		ti,am65x-oldi-io-ctrl = <&dss_oldi_io_ctrl>;
->>  
->> -- 
->> 2.34.1
->>
