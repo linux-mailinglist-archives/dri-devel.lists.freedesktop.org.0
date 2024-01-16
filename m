@@ -2,49 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF76E82EFCC
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jan 2024 14:36:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 618D882EFDE
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jan 2024 14:42:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D723F10E48E;
-	Tue, 16 Jan 2024 13:35:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F243C10E576;
+	Tue, 16 Jan 2024 13:42:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BA1410E0E5;
- Tue, 16 Jan 2024 13:35:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=wKDZrSr5UEaNlLwHGrAasvRdAMXTo1e2KPdcbvBvbx8=; b=FEV9NTpyCttcNbLmRy8Eh0mFAr
- vz4pkgZeWzj8JtOdMoM3GW4FzbKXDWXGlJE81hUZRcuiDRhiKX7AuIbb7jwRo4xJCuO/3mgrVPTDM
- G5wpYioIVBcmg0BRpHDI2Hep/Dm1a/BEE4ukJ3Vwg8pd7iaT9C5YLqcrgrqGWVrEi/ghHaK12aehl
- WKPiwIodYTJ2sONx/5AbjfW/1mzlhNP9MSpEUmKPDRadcHk56LS75tufAbLMdrVu1U1DwdPxKQDR3
- pIXdzWqOL/V1bhyndQs4mfQmXsXUNvnLgbHCcH5/1ZftSzBS4ArBbvPwOd4zTcjqOvaNlthgpoqnk
- PikmFWTQ==;
-Received: from [177.45.63.147] (helo=[192.168.1.111])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1rPjbE-006yYK-5Y; Tue, 16 Jan 2024 14:35:28 +0100
-Message-ID: <47c6866a-34d6-48b1-a977-d21c48d991dc@igalia.com>
-Date: Tue, 16 Jan 2024 10:35:16 -0300
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6392E10E58F
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jan 2024 13:42:00 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 40GDfjEm027724;
+ Tue, 16 Jan 2024 07:41:45 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1705412505;
+ bh=VxBu6hTc7ywOegJWteYHT/TCvPqzN88cxPO+F6jKmMM=;
+ h=From:To:CC:Subject:Date;
+ b=Rd8Ppt885MWHWlQgDEy+mSAXBW7wBXHwsTI3QItR97AXcKl1ctZ8mG3ZmZfrU7M+4
+ enatlivoWXLL2xrV7dqRzdqyDgzq4Ie5JsrkU3hMSIJd44HtPyKj0BsyIlWmnhe912
+ nnSJwcsGlWtblf5XuKgQCJebpWZk4PNphWgBsvH8=
+Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 40GDfi3G026997
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 16 Jan 2024 07:41:45 -0600
+Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 16
+ Jan 2024 07:41:44 -0600
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Tue, 16 Jan 2024 07:41:44 -0600
+Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
+ by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 40GDfgKd063303;
+ Tue, 16 Jan 2024 07:41:43 -0600
+From: Devarsh Thakkar <devarsht@ti.com>
+To: <jyri.sarha@iki.fi>, <tomi.valkeinen@ideasonboard.com>,
+ <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <robh+dt@kernel.org>,
+ <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <nm@ti.com>, <vigneshr@ti.com>, <kristo@kernel.org>
+Subject: [RFC PATCH 0/3] Add display sharing support in tidss
+Date: Tue, 16 Jan 2024 19:11:39 +0530
+Message-ID: <20240116134142.2092483-1-devarsht@ti.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] drm/atomic: Allow drivers to write their own plane
- check for async
-Content-Language: en-US
-To: Pekka Paalanen <ppaalanen@gmail.com>
-References: <20240116045159.1015510-1-andrealmeid@igalia.com>
- <20240116114522.5b83d8b6@eldfell>
- <a6099681-1ae9-48ef-99bc-d3c919007413@igalia.com>
- <20240116151414.10b831e6@eldfell>
-From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <20240116151414.10b831e6@eldfell>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,78 +66,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel@ffwll.ch, =?UTF-8?B?J01hcmVrIE9sxaHDoWsn?= <maraeo@gmail.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Xaver Hugl <xaver.hugl@gmail.com>, dri-devel@lists.freedesktop.org,
- kernel-dev@igalia.com, alexander.deucher@amd.com,
- Joshua Ashton <joshua@froggi.es>, Daniel Stone <daniel@fooishbar.org>,
- Dave Airlie <airlied@gmail.com>, christian.koenig@amd.com
+Cc: praneeth@ti.com, j-luthra@ti.com, devarsht@ti.com, a-bhatia1@ti.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+ Joshua
+This adds display sharing support in tidss display driver along with an
+example overlay devicetree file using which can be used to enable display
+sharing on AM62x devices with device manager core i.e. R5F expected to run
+a custom firmware which supports corresponding display sharing
+configuration.
 
-Em 16/01/2024 10:14, Pekka Paalanen escreveu:
-> On Tue, 16 Jan 2024 08:50:59 -0300
-> André Almeida <andrealmeid@igalia.com> wrote:
-> 
->> Hi Pekka,
->>
->> Em 16/01/2024 06:45, Pekka Paalanen escreveu:
->>> On Tue, 16 Jan 2024 01:51:57 -0300
->>> André Almeida <andrealmeid@igalia.com> wrote:
->>>    
->>>> Hi,
->>>>
->>>> AMD hardware can do more on the async flip path than just the primary plane, so
->>>> to lift up the current restrictions, this patchset allows drivers to write their
->>>> own check for planes for async flips.
->>>
->>> Hi,
->>>
->>> what's the userspace story for this, how could userspace know it could do more?
->>> What kind of userspace would take advantage of this and in what situations?
->>>
->>> Or is this not meant for generic userspace?
->>
->> Sorry, I forgot to document this. So the idea is that userspace will
->> query what they can do here with DRM_MODE_ATOMIC_TEST_ONLY calls,
->> instead of having capabilities for each prop.
-> 
-> That's the theory, but do you have a practical example?
-> 
-> What other planes and props would one want change in some specific use
-> case?
-> 
-> Is it just "all or nothing", or would there be room to choose and pick
-> which props you change and which you don't based on what the driver
-> supports? If the latter, then relying on TEST_ONLY might be yet another
-> combinatorial explosion to iterate through.
-> 
+As resources can be partitioned at different levels a flexible scheme is
+followed while designing devicetree bindings and driver changes keeping in
+mind possible scenarios in which resources can be partitioned and various
+DSS hardware IP's supported across different devices.
 
-That's a good question, maybe Simon, Xaver or Joshua can share how they 
-were planning to use this on Gamescope or Kwin.
+A rebased version of this patch has been tested on AM62P SoC which also
+supports same DSS IP as AM62x and the patch with display sharing
+functionality is already available in vendor-specific kernel source tree
+[1] along with documentation which explains the design [2] and DM firmware
+support [3].
 
-> 
-> Thanks,
-> pq
-> 
->>>> I'm not sure if adding something new to drm_plane_funcs is the right way to do,
->>>> because if we want to expand the other object types (crtc, connector) we would
->>>> need to add their own drm_XXX_funcs, so feedbacks are welcome!
->>>>
->>>> 	André
->>>>
->>>> André Almeida (2):
->>>>     drm/atomic: Allow drivers to write their own plane check for async
->>>>       flips
->>>>     drm/amdgpu: Implement check_async_props for planes
->>>>
->>>>    .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 30 +++++++++
->>>>    drivers/gpu/drm/drm_atomic_uapi.c             | 62 ++++++++++++++-----
->>>>    include/drm/drm_atomic_uapi.h                 | 12 ++++
->>>>    include/drm/drm_plane.h                       |  5 ++
->>>>    4 files changed, 92 insertions(+), 17 deletions(-)
->>>>   
->>>    
-> 
+NOTE1: This is marked as RFC for upstream since AM62P is not yet supported
+in upstream tree and for AM62x SoC which is the target SoC for this patch,
+the dss sharing functionality is not validated on upstream tree due to
+missing OLDI support and display sharing DM firmware support, but we still
+wanted to get some feedback on this.
+
+NOTE2: This series depends on :
+https://lore.kernel.org/all/20240115125716.560363-1-devarsht@ti.com/
+
+[1] :
+https://git.ti.com/cgit/ti-linux-kernel/ti-linux-kernel/commit/?h=09.01.00.007&id=d805270609cfb6b2e67bd2fd5959d71f48393196 
+https://git.ti.com/cgit/ti-linux-kernel/ti-linux-kernel/commit/?h=09.01.00.007&id=93d751a94cbf9ad07c7f658e78aa510d919d7cd6
+https://git.ti.com/cgit/ti-linux-kernel/ti-linux-kernel/commit/?h=09.01.00.007&id=665c17837dc8bed27e8d63388f8f7f7a85c0cd94
+https://git.ti.com/cgit/ti-linux-kernel/ti-linux-kernel/commit/?h=ti-linux-6.1.y-cicd&id=f8d7f1a9617862af922c6bc10e0765ba4f4857d6
+ 
+[2] :
+https://software-dl.ti.com/processor-sdk-linux/esd/AM62PX/09_01_00_08/exports/docs/linux/Foundational_Components/Kernel/Kernel_Drivers/Display/DSS7.html#driver-features
+(Display Sharing mode feature description)
+https://software-dl.ti.com/processor-sdk-linux/esd/AM62PX/09_01_00_08/exports/docs/linux/How_to_Guides/Target/How_to_enable_display_sharing_between_remotecore_and_Linux.html
+(How To Guide)
+https://software-dl.ti.com/processor-sdk-linux/esd/AM62PX/09_01_00_08/exports/docs/system/Demo_User_Guides/Display_Cluster_User_Guide.html
+(Display Cluster user guide with demo details)
+
+[3] :
+https://git.ti.com/cgit/processor-firmware/ti-linux-firmware/tree/ti-dm/am62pxx/dss_display_share.wkup-r5f0_0.release.strip.out?h=ti-linux-firmware-next
+
+Devarsh Thakkar (3):
+  dt-bindings: display: ti,am65x-dss: Add support for display sharing
+    mode
+  drm/tidss: Add support for display sharing
+  arm64: dts: ti: k3-am62x: Add overlay to use DSS in display sharing
+    mode
+
+ .../bindings/display/ti/ti,am65x-dss.yaml     |  82 ++++++
+ arch/arm64/boot/dts/ti/Makefile               |   1 +
+ .../dts/ti/k3-am62x-sk-dss-shared-mode.dtso   |  23 ++
+ drivers/gpu/drm/tidss/tidss_crtc.c            | 120 ++++++++-
+ drivers/gpu/drm/tidss/tidss_dispc.c           | 254 ++++++++++++++++--
+ drivers/gpu/drm/tidss/tidss_dispc.h           |   2 +-
+ drivers/gpu/drm/tidss/tidss_drv.c             |  33 ++-
+ drivers/gpu/drm/tidss/tidss_drv.h             |   6 +
+ 8 files changed, 481 insertions(+), 40 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/ti/k3-am62x-sk-dss-shared-mode.dtso
+
+-- 
+2.34.1
+
