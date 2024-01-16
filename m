@@ -2,60 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D230582EAA5
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jan 2024 09:05:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4426382EAFC
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jan 2024 09:41:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6529E10E427;
-	Tue, 16 Jan 2024 08:04:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B95410E43A;
+	Tue, 16 Jan 2024 08:40:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0510210E427
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jan 2024 08:04:26 +0000 (UTC)
-X-UUID: da9eb078b44511eea2298b7352fd921d-20240116
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=fBOUrqsYzm5HnMJR4XCkFV0T3hSQoVjMdySKfTTbo+k=; 
- b=PPvGFbhg51arEkkvDf8eHceAfOETUPlkyIAfQk5+1NooZ1IfBnBvxbFL1rU6bTZkA53Kcobkqs21gjpZ0d851tWknNQQebrwh/MCYa+z+41mimdM5xfJSw7ZU95QFooXnNJEY+YmqOF6Mc/M2TJce2xoBpLPZm2wOgHG6oLnxl4=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.35, REQID:bc646f26-bee0-4e44-beef-7cfc7703678b, IP:0,
- U
- RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
- N:release,TS:-25
-X-CID-META: VersionHash:5d391d7, CLOUDID:6149e682-8d4f-477b-89d2-1e3bdbef96d1,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
- DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: da9eb078b44511eea2298b7352fd921d-20240116
-Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by
- mailgw02.mediatek.com (envelope-from <shawn.sung@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1710973573; Tue, 16 Jan 2024 16:04:20 +0800
-Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Tue, 16 Jan 2024 16:04:19 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Tue, 16 Jan 2024 16:04:19 +0800
-From: Hsiao Chien Sung <shawn.sung@mediatek.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Subject: [PATCH 1/1] drm/mediatek: Filter modes according to hardware
- capability
-Date: Tue, 16 Jan 2024 16:04:18 +0800
-Message-ID: <20240116080418.28991-2-shawn.sung@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20240116080418.28991-1-shawn.sung@mediatek.com>
-References: <20240116080418.28991-1-shawn.sung@mediatek.com>
+Received: from CHN02-BJS-obe.outbound.protection.partner.outlook.cn
+ (mail-bjschn02on2075.outbound.protection.partner.outlook.cn [139.219.17.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADDC310E43A
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jan 2024 08:40:44 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ii9s8taqkwBuyBByQielUD/3IG3Nh0lXwp3X6ibVvJ93gb0yTbEQr4IeefqsgAH9lgVlNmAvqMCPy2gWZ0ikLRTOHrgtt1B+pDXtvcr5e3ry/7FRW8hQEkvOYF/VjVItmfB0vt+oUif0KRenY+AACZqaykTj5EfYHJNh37LWL6nzbeF6K7InjaC3PjLE4jgnmOWkEQ6qHmfa2EijwWyU/Awm0lFTELs5HI72VfRbrhbvSjMJDEmhv19UJJ5QAaFfmyXxrdQ8z9M5f0ah5Li8etKom8zgurtfxX4V8dF5r9qRN31rKv/sr6DJ/GEI6PQ1jKxPsirzKlZwE3XmUFQAFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CzzIoYdEVijIlMryrZa3NqHLckd8yHGGUhbsgQTRNNw=;
+ b=KRCKrIITE+5iLuiNOQMpKwYNdqkP1Oz1pabcETQ379eZzijknDlJRfo1IuExpw/5Tcpbq5G7S0m6c4p0IF8vckMKVcRXwRUgLLZk1dcw6f/THeiZO95pT/JAPHuoE/193GUwaSarxylcYCuiXOjtBcrpFQHwsUROY6GvxhDj59bYj5SOcizZBp+CiJmZQDWU4FYtNBEWeBFQWOHn7km1Pn9TQuUoePoqZZHgsCqLukQWTKkL/l+6qnh2hqVtiCRhJ0FO1Dqg0SwcEa6SAnMT9S0Rlcf83Tt8evIQeFBOOipTvMscnX2IIWOpnGLJ9NNXi182Zj/Ng7CkmhXUocsQ/g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=starfivetech.com; dmarc=pass action=none
+ header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
+Received: from NT0PR01MB1070.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c510:3::6) by NT0PR01MB1054.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c510:2::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7135.21; Tue, 16 Jan
+ 2024 08:40:40 +0000
+Received: from NT0PR01MB1070.CHNPR01.prod.partner.outlook.cn
+ ([fe80::85fc:7fb9:8b00:dd88]) by
+ NT0PR01MB1070.CHNPR01.prod.partner.outlook.cn ([fe80::85fc:7fb9:8b00:dd88%3])
+ with mapi id 15.20.7135.019; Tue, 16 Jan 2024 08:40:40 +0000
+From: Shengyang Chen <shengyang.chen@starfivetech.com>
+To: Philipp Zabel <p.zabel@pengutronix.de>, "devicetree@vger.kernel.org"
+ <devicetree@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH v2 2/2] gpu: drm: bridge: cadence: Add a driver and
+ platform ops for StarFive JH7110 SoC
+Thread-Topic: [PATCH v2 2/2] gpu: drm: bridge: cadence: Add a driver and
+ platform ops for StarFive JH7110 SoC
+Thread-Index: AQHaQs0EeUWZ9T6rEU2p9f7OMNv8XbDRMPeAgAr23NA=
+Date: Tue, 16 Jan 2024 08:40:40 +0000
+Message-ID: <NT0PR01MB1070A1E2AFF61EEA289B9FBDEF73A@NT0PR01MB1070.CHNPR01.prod.partner.outlook.cn>
+References: <20240109072516.24328-1-shengyang.chen@starfivetech.com>
+ <20240109072516.24328-3-shengyang.chen@starfivetech.com>
+ <fc30ce4736d43e367108c3651fec6f3b9a4d7852.camel@pengutronix.de>
+In-Reply-To: <fc30ce4736d43e367108c3651fec6f3b9a4d7852.camel@pengutronix.de>
+Accept-Language: zh-CN, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=starfivetech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: NT0PR01MB1070:EE_|NT0PR01MB1054:EE_
+x-ms-office365-filtering-correlation-id: c58f903d-8181-418d-d202-08dc166ed1f1
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: t9+iy1WoQ+R7MSvXnYqrXxvMAtWLK4bImlGujS9kaEvU7sf/8z3ZOe59eonKBSJVWgOAK49BN8NhMIcwawUHzwOjR8ZOkOpOkF3NLVnCg+54eoiAOyC/jb+vBSV3uzFQM3hsuVk39KaRQIUN/8I/xptExRPYThBlYq53xpfCt+SAqeFIIJ+87Yd7LJ7jNbVlx8ovr8xAN8HeKuCWV6P3cL6p2k9xzslmmG43yDhT5hv4YXsKtjB8kflzPVT6TwE0v7mdFxdlFC066t2jE8QP2mFTYwUXUMq6fK/hbu99StCNhPBa+iDVnEslybBurPZgDhGsxoqXmyXDIUeoxH8OA7jasBPd5htyuz8weqd+Le4bKmzRYIiw0AR+sSr97HUPlq1jjeAUw3uPL1586CEe565/X3snm4f3DoL4Ao9U3+Moswoz/vQjtLUpMaonE6HWSOoenbFqhJUrxBq2KSvWq5YwzTL1cKSEJXIsGc6rE4MGX33YV0mNHs5bR8CRrArVriD09/ApAP6pUTmXgMZXCiJVdZFegQg4jVgsIcHMfPTCbakPvSw8sVfRqMFm0rFr0fHJefjIlvdKa1nZmXt6dw==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:NT0PR01MB1070.CHNPR01.prod.partner.outlook.cn; PTR:;
+ CAT:NONE;
+ SFS:(13230031)(396003)(346002)(39830400003)(136003)(366004)(230922051799003)(451199024)(1800799012)(64100799003)(186009)(40160700002)(38070700009)(38100700002)(122000001)(55016003)(7696005)(86362001)(76116006)(508600001)(83380400001)(71200400001)(41320700001)(4326008)(64756008)(8676002)(66946007)(66556008)(66446008)(40180700001)(26005)(8936002)(110136005)(54906003)(66476007)(44832011)(9686003)(53546011)(33656002)(41300700001)(5660300002)(2906002)(7416002)(100166002);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Y2t6MUZMQUt4UkJBeFpvWFdMNmZXelBRNWZuclJjaWVSMUVtVE15UHFWZVJM?=
+ =?utf-8?B?NUM2R0k3ZjM5ay9kaWpQNEc1RWFvZU0renhKSkx1TUpFd1VHa2I3V2tJaVQ1?=
+ =?utf-8?B?eUtUcy9MdmxQeFUzYmVCM3RqWGJhOW1WeEo3MHhjVFlRNkZIK0JQY1J0bXhM?=
+ =?utf-8?B?OWs1RkoxRzdSay9Ja245Tkw0OTZqV29EMVMwUkdSMUZvR0Z4OFBqOEc1SVhL?=
+ =?utf-8?B?ZXNtNS9WVjdtQjdUNklRakxuc2JzUEdqNng1S3RmM3U2Q0xoQUtJTHJmV3U5?=
+ =?utf-8?B?M2ZWUjlCeit1bzBOcWh3ZHltL1N2ZzJSZG5UcDZJTXBWbEV6RVNBSXMrZkVj?=
+ =?utf-8?B?NmUvRk44akI4bEcxNDdCTUtJUTArQjRTMHFURm5CYVhrbFlFbUZwZ2hqR0R6?=
+ =?utf-8?B?TUxlL24wL0daNG1HdFVEc2R3RkNZZjBaMXFYWFgzUW9NRlpWWEt3OGhUTTlt?=
+ =?utf-8?B?cFR5Q3pacEdOc2hhQW9JSFdSemtYVmxFUVdiejlUbjNWYWZtTFd4VkE0U241?=
+ =?utf-8?B?SmhsaGU2UVM1WWlaZEJoNE5kWWlkOFNualRXeVhDbE9sK2YydXVjMnFyekRt?=
+ =?utf-8?B?WDBScXBTMHVIdzdwTXlFMkt1VmwrNEFienJjYW02bzZlVjBsaTkyWmFyYXFJ?=
+ =?utf-8?B?N2w3TVErci96cVlUcW5ZUTYzb3JrY2RGY3kzQ0l3d2pBNHYxclNVbEdnK2lX?=
+ =?utf-8?B?aHE2SjluVm90eDFmNEptUElIRTlaRjN4SG5scm1GWWx1dzFIYXM0alJkUXBX?=
+ =?utf-8?B?R0h5aU44RmQxQUM0SEx1YS9UV1RvdVoySFBnNm5PZTVQbmdVcmNnSUhTbTdi?=
+ =?utf-8?B?TzdsV1A0alJ3TEtsMU04Z2FVb0ZXQmt0ZTlRaXJPallXejJKYldyTjN1V1VG?=
+ =?utf-8?B?OVAzanY0MWNBVE11bmxnZnFOYTR6TnlVVVZPeGJKbUI3RDlSSGUvQWpibWNF?=
+ =?utf-8?B?cXREeXpJa0ZOWjR0SktXc1dmL3hCTVlEcU0wdEJ0cWduUXBORHUyNk5ZalFL?=
+ =?utf-8?B?dHFneTczSEhZbzAvTmpKYkxMK1J6TWxsM3J5bEtWcCtqcmp2Y0w5ZTdaeCsw?=
+ =?utf-8?B?MU8ya1hDei94K3NXT2xJYzRzNFlLKzFVREZnK3lmbXIwMUtMUnQ0TGc1cERs?=
+ =?utf-8?B?V3BWbVdqbVlDbU9QTTFVdHZWSVRTZWtxSWdwN2lnUmk1eXZzT3IxbXMrMHNZ?=
+ =?utf-8?B?MGFuUVhhb3FVRmwzbFJaUzFKUStHcGtTSENZSnVZaTc2R0lOQVZhNWhFSGh4?=
+ =?utf-8?B?N2tUWVJ4R0s4R2E3QS9UTFZuNnlHWFpQUFNSb3ZTTHYvTGZpMENUckZrM2hC?=
+ =?utf-8?B?MkxISGE0Z1pRakd5RE5rWVdNOFhxN2ZaSXJYK1dBL1RDeFpqY2hYNXZSbnBr?=
+ =?utf-8?B?bG0ycW5VRlpPMVpMUjQxQm5sTS90UjlpMERCbmlUdzBWMzM3S3RsZVRvaE1O?=
+ =?utf-8?B?UGlScmFzaWpjNWorZEhreFBNcmVWSStueWhaZjg3cFkwckVqNXM4eDBlU0lI?=
+ =?utf-8?B?N3Ntdldad1pyY1BHc1k1WjZkemVMYjVab2ROV3ZhM09IKzBvSWt1VzhqWWtL?=
+ =?utf-8?B?WnRrUUpmc081LzlZVENhNExCaVU4dlZCYW83NFJMZExBUS9iK2U1emRwOVlj?=
+ =?utf-8?B?SWhZYmJLTzY2YjhYWThyWFBMc0hpdWVCeURDYWU0LzZVVTBtUVJGY3BGNFlq?=
+ =?utf-8?B?dEIwVFhGRE9BK1FQWWZvT3h1ODQycVR3eENzMUlGZGkxZGdydGozM1FlSWN1?=
+ =?utf-8?B?cXpyRjQxTTlaS3QwT0RUWEVNblNXeCs0cUdtYjhJdGRVekIvLzZpU3hzazdI?=
+ =?utf-8?B?MmlscVk2YVB3NFJnL0FOZ05Kamt3Q2w3REp1WnB5REp2ZzVDNmovU24xcUlQ?=
+ =?utf-8?B?amN3eXp0QWM2a09jM0VkYk9MRHplNkhvd3JCZUtWR3IyUGtKZXBKZVdWTHQ3?=
+ =?utf-8?B?ciswRFExUHZlV0V4ZXBTVDhuSDNOZzZTcndzS1Y4ejNVSTV0bFZib3pGcFcx?=
+ =?utf-8?B?dkZ0V0lGckxCUW4xWEVGQWlYUlk4dm5TQXkrRzQvVXlpNjJDUTNwdHJmWlNR?=
+ =?utf-8?B?UWNiak51QURMdVNzc3NGQm1CV1d1SnptZVFVMFRVcHFjZ0NlcUVwR1psOERt?=
+ =?utf-8?B?T2tocUw4aUlMbS81Zmxhc1UyWnNBZzhGdGh5aGlqUVVDZU5CdzlXeUJ3cmJP?=
+ =?utf-8?B?K0E9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+X-OriginatorOrg: starfivetech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: NT0PR01MB1070.CHNPR01.prod.partner.outlook.cn
+X-MS-Exchange-CrossTenant-Network-Message-Id: c58f903d-8181-418d-d202-08dc166ed1f1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jan 2024 08:40:40.3723 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: fW3eb/KBktLvcaF/Sd1/fBBQMfaIHw5Ce+Lo3wbahXMh6XmpdEtQEJ0jAZ+q/+Sw+qFebQ7imPsufPUHe3s1/aUJGdYwZDDJhz3xFkFf1EU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: NT0PR01MB1054
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,315 +127,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel@ffwll.ch>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Hsiao Chien Sung <shawn.sung@mediatek.corp-partner.google.com>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- David Airlie <airlied@gmail.com>, linux-arm-kernel@lists.infradead.org
+Cc: "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
+ "tomi.valkeinen@ideasonboard.com" <tomi.valkeinen@ideasonboard.com>,
+ "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "r-ravikumar@ti.com" <r-ravikumar@ti.com>,
+ "rfoss@kernel.org" <rfoss@kernel.org>,
+ "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
+ "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>, "jonas@kwiboo.se" <jonas@kwiboo.se>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "aford173@gmail.com" <aford173@gmail.com>,
+ "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
+ Keith Zhao <keith.zhao@starfivetech.com>,
+ "bbrezillon@kernel.org" <bbrezillon@kernel.org>,
+ "rdunlap@infradead.org" <rdunlap@infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Jack Zhu <jack.zhu@starfivetech.com>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ Changhuang Liang <changhuang.liang@starfivetech.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Hsiao Chien Sung <shawn.sung@mediatek.corp-partner.google.com>
-
-We found that there is a stability issue on MT8188 when connecting an
-external monitor in 2560x1440@144Hz mode. Checked with the designer,
-there is a function called hardware prefetch that is triggered by VSYNC
-and ended before VDE (during VBP). If duration of VBP is too short, the
-throughput requirement of hardware prefetch could increase up to 3x, and
-could lead to stability issues.
-
-The mode settings that VDOSYS support are mainly affected by clock
-rate and throughput. DRM driver should filter these settings according
-to the SoC's limitation to avoid unstable conditions.
-
-Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.corp-partner.google.com>
----
- drivers/gpu/drm/mediatek/mtk_disp_drv.h       |  3 +
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c       |  7 +++
- .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   | 15 +++++
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c       | 62 +++++++++++++++++++
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   |  2 +
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |  8 +++
- drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  1 +
- drivers/gpu/drm/mediatek/mtk_drm_drv.h        |  2 +
- drivers/gpu/drm/mediatek/mtk_mdp_rdma.c       |  7 +++
- 9 files changed, 107 insertions(+)
-
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-index eb738f14f09e3..92d5f5282d68c 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-@@ -78,6 +78,7 @@ void mtk_ovl_bgclr_in_off(struct device *dev);
- void mtk_ovl_bypass_shadow(struct device *dev);
- int mtk_ovl_clk_enable(struct device *dev);
- void mtk_ovl_clk_disable(struct device *dev);
-+unsigned long mtk_ovl_clk_rate(struct device *dev);
- void mtk_ovl_config(struct device *dev, unsigned int w,
- 		    unsigned int h, unsigned int vrefresh,
- 		    unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
-@@ -113,6 +114,7 @@ int mtk_ovl_adaptor_power_on(struct device *dev);
- void mtk_ovl_adaptor_power_off(struct device *dev);
- int mtk_ovl_adaptor_clk_enable(struct device *dev);
- void mtk_ovl_adaptor_clk_disable(struct device *dev);
-+unsigned long mtk_ovl_adaptor_clk_rate(struct device *dev);
- void mtk_ovl_adaptor_config(struct device *dev, unsigned int w,
- 			    unsigned int h, unsigned int vrefresh,
- 			    unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
-@@ -156,6 +158,7 @@ int mtk_mdp_rdma_power_on(struct device *dev);
- void mtk_mdp_rdma_power_off(struct device *dev);
- int mtk_mdp_rdma_clk_enable(struct device *dev);
- void mtk_mdp_rdma_clk_disable(struct device *dev);
-+unsigned long mtk_mdp_rdma_clk_rate(struct device *dev);
- void mtk_mdp_rdma_start(struct device *dev, struct cmdq_pkt *cmdq_pkt);
- void mtk_mdp_rdma_stop(struct device *dev, struct cmdq_pkt *cmdq_pkt);
- void mtk_mdp_rdma_config(struct device *dev, struct mtk_mdp_rdma_cfg *cfg,
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-index 5aaf4342cdbda..2214527e3b787 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-@@ -205,6 +205,13 @@ void mtk_ovl_clk_disable(struct device *dev)
- 	clk_disable_unprepare(ovl->clk);
- }
- 
-+unsigned long mtk_ovl_clk_rate(struct device *dev)
-+{
-+	struct mtk_disp_ovl *ovl = dev_get_drvdata(dev);
-+
-+	return clk_get_rate(ovl->clk);
-+}
-+
- void mtk_ovl_start(struct device *dev)
- {
- 	struct mtk_disp_ovl *ovl = dev_get_drvdata(dev);
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-index 35bbce35b7b58..002a983b0b0b8 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-@@ -102,6 +102,7 @@ static const struct mtk_ddp_comp_funcs rdma = {
- 	.power_off = mtk_mdp_rdma_power_off,
- 	.clk_enable = mtk_mdp_rdma_clk_enable,
- 	.clk_disable = mtk_mdp_rdma_clk_disable,
-+	.clk_rate = mtk_mdp_rdma_clk_rate,
- };
- 
- static const struct ovl_adaptor_comp_match comp_matches[OVL_ADAPTOR_ID_MAX] = {
-@@ -337,6 +338,20 @@ void mtk_ovl_adaptor_clk_disable(struct device *dev)
- 	}
- }
- 
-+unsigned long mtk_ovl_adaptor_clk_rate(struct device *dev)
-+{
-+	int i;
-+	struct mtk_disp_ovl_adaptor *ovl_adaptor = dev_get_drvdata(dev);
-+
-+	for (i = 0; i < OVL_ADAPTOR_ID_MAX; i++) {
-+		dev = ovl_adaptor->ovl_adaptor_comp[i];
-+		if (!dev || !comp_matches[i].funcs->clk_rate)
-+			continue;
-+		return comp_matches[i].funcs->clk_rate(dev);
-+	}
-+	return 0;
-+}
-+
- unsigned int mtk_ovl_adaptor_layer_nr(struct device *dev)
- {
- 	return MTK_OVL_ADAPTOR_LAYER_NUM;
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-index 715453fe7121b..06d7c81325548 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -14,6 +14,7 @@
- 
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
-+#include <drm/drm_edid.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_vblank.h>
- 
-@@ -33,6 +34,7 @@
-  * @mutex: handle to one of the ten disp_mutex streams
-  * @ddp_comp_nr: number of components in ddp_comp
-  * @ddp_comp: array of pointers the mtk_ddp_comp structures used by this crtc
-+ * @prefetch_rate: hardware prefetch data rate of the vdosys
-  *
-  * TODO: Needs update: this header is missing a bunch of member descriptions.
-  */
-@@ -67,6 +69,8 @@ struct mtk_drm_crtc {
- 	/* lock for display hardware access */
- 	struct mutex			hw_lock;
- 	bool				config_updating;
-+
-+	u32				prefetch_rate;
- };
- 
- struct mtk_crtc_state {
-@@ -211,6 +215,61 @@ static void mtk_drm_crtc_destroy_state(struct drm_crtc *crtc,
- 	kfree(to_mtk_crtc_state(state));
- }
- 
-+static enum drm_mode_status
-+mtk_drm_crtc_mode_valid(struct drm_crtc *crtc,
-+			const struct drm_display_mode *mode)
-+{
-+	struct mtk_drm_crtc *mtk_crtc = to_mtk_crtc(crtc);
-+	unsigned long rate = 0;
-+	int i;
-+
-+	for (i = 0; i < mtk_crtc->ddp_comp_nr; i++) {
-+		rate = mtk_ddp_comp_clk_rate(mtk_crtc->ddp_comp[i]);
-+		if (rate)
-+			break;
-+	}
-+
-+	/* Convert to KHz and round the number */
-+	rate = (rate + 500) / 1000;
-+	if (rate && mode->clock > rate) {
-+		pr_debug("crtc-%d: invalid clock: %d KHz (>%lu)\n",
-+			 drm_crtc_index(crtc), mode->clock, rate);
-+		return MODE_CLOCK_HIGH;
-+	}
-+
-+	/*
-+	 * Measure the bandwidth requirement of hardware prefetch (per frame)
-+	 * ticks = htotal * vbp
-+	 * data  = htotal * vtotal
-+	 * rate  = data / ticks
-+	 *       = (htotal * vtotal) / (htotal * vbp)
-+	 *       = vtotal / vbp
-+	 *
-+	 * Say 4K60 (CAE-861) is the maximum mode supported by the SoC
-+	 * rate = 2250 / 72 ~= 32 pixels per tick interval
-+	 *
-+	 * For 2560x1440@144 (htotal=2720, vtotal=1490, vbp=17):
-+	 * rate = 1490 / 17 ~= 88 (NG)
-+	 *
-+	 * For 2560x1440@120 (htotal=2720, vtotal=1525, vbp=77):
-+	 * rate = 1525 / 77 ~= 20 (OK)
-+	 *
-+	 * Bandwidth requirement of hardware prefetch increases significantly
-+	 * when the VBP decreases (almost 3x in this example).
-+	 */
-+	i = mode->vtotal - mode->vsync_end; /* vbp */
-+	rate = ((mode->vtotal * 10 / i) + 5) / 10;
-+
-+	if (mtk_crtc->prefetch_rate && rate > mtk_crtc->prefetch_rate) {
-+		pr_debug("crtc-%d: invalid rate: %lu (>%u): " DRM_MODE_FMT "\n",
-+			 drm_crtc_index(crtc), rate, mtk_crtc->prefetch_rate,
-+			 DRM_MODE_ARG(mode));
-+		return MODE_BAD;
-+	}
-+
-+	return MODE_OK;
-+}
-+
- static bool mtk_drm_crtc_mode_fixup(struct drm_crtc *crtc,
- 				    const struct drm_display_mode *mode,
- 				    struct drm_display_mode *adjusted_mode)
-@@ -816,6 +875,7 @@ static const struct drm_crtc_funcs mtk_crtc_funcs = {
- };
- 
- static const struct drm_crtc_helper_funcs mtk_crtc_helper_funcs = {
-+	.mode_valid	= mtk_drm_crtc_mode_valid,
- 	.mode_fixup	= mtk_drm_crtc_mode_fixup,
- 	.mode_set_nofb	= mtk_drm_crtc_mode_set_nofb,
- 	.atomic_begin	= mtk_drm_crtc_atomic_begin,
-@@ -1106,5 +1166,7 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
- 		mtk_crtc->ddp_comp_nr++;
- 	}
- 
-+	mtk_crtc->prefetch_rate = priv->data->prefetch_rate;
-+
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-index 9633e860cc3ce..96a2466451dce 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-@@ -348,6 +348,7 @@ static const struct mtk_ddp_comp_funcs ddp_od = {
- static const struct mtk_ddp_comp_funcs ddp_ovl = {
- 	.clk_enable = mtk_ovl_clk_enable,
- 	.clk_disable = mtk_ovl_clk_disable,
-+	.clk_rate = mtk_ovl_clk_rate,
- 	.config = mtk_ovl_config,
- 	.start = mtk_ovl_start,
- 	.stop = mtk_ovl_stop,
-@@ -400,6 +401,7 @@ static const struct mtk_ddp_comp_funcs ddp_ovl_adaptor = {
- 	.power_off = mtk_ovl_adaptor_power_off,
- 	.clk_enable = mtk_ovl_adaptor_clk_enable,
- 	.clk_disable = mtk_ovl_adaptor_clk_disable,
-+	.clk_rate = mtk_ovl_adaptor_clk_rate,
- 	.config = mtk_ovl_adaptor_config,
- 	.start = mtk_ovl_adaptor_start,
- 	.stop = mtk_ovl_adaptor_stop,
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-index f8c7e8d8ddc12..d180307f6f60f 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-@@ -51,6 +51,7 @@ struct mtk_ddp_comp_funcs {
- 	void (*power_off)(struct device *dev);
- 	int (*clk_enable)(struct device *dev);
- 	void (*clk_disable)(struct device *dev);
-+	unsigned long (*clk_rate)(struct device *dev);
- 	void (*config)(struct device *dev, unsigned int w,
- 		       unsigned int h, unsigned int vrefresh,
- 		       unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
-@@ -125,6 +126,13 @@ static inline void mtk_ddp_comp_clk_disable(struct mtk_ddp_comp *comp)
- 		comp->funcs->clk_disable(comp->dev);
- }
- 
-+static inline unsigned long mtk_ddp_comp_clk_rate(struct mtk_ddp_comp *comp)
-+{
-+	if (comp && comp->funcs && comp->funcs->clk_rate)
-+		return comp->funcs->clk_rate(comp->dev);
-+	return 0;
-+}
-+
- static inline void mtk_ddp_comp_config(struct mtk_ddp_comp *comp,
- 				       unsigned int w, unsigned int h,
- 				       unsigned int vrefresh, unsigned int bpc,
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index cc746de91834c..04d54a0c74572 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -317,6 +317,7 @@ static const struct mtk_mmsys_driver_data mt8195_vdosys1_driver_data = {
- 	.ext_len = ARRAY_SIZE(mt8195_mtk_ddp_ext),
- 	.mmsys_id = 1,
- 	.mmsys_dev_num = 2,
-+	.prefetch_rate = 32,
- };
- 
- static const struct of_device_id mtk_drm_of_ids[] = {
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.h b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-index 33fadb08dc1c7..5c6e4d5c563d9 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-@@ -46,6 +46,8 @@ struct mtk_mmsys_driver_data {
- 	bool shadow_register;
- 	unsigned int mmsys_id;
- 	unsigned int mmsys_dev_num;
-+
-+	unsigned int prefetch_rate;
- };
- 
- struct mtk_drm_private {
-diff --git a/drivers/gpu/drm/mediatek/mtk_mdp_rdma.c b/drivers/gpu/drm/mediatek/mtk_mdp_rdma.c
-index 8feeb6dce2177..d761cf522fad3 100644
---- a/drivers/gpu/drm/mediatek/mtk_mdp_rdma.c
-+++ b/drivers/gpu/drm/mediatek/mtk_mdp_rdma.c
-@@ -273,6 +273,13 @@ void mtk_mdp_rdma_clk_disable(struct device *dev)
- 	clk_disable_unprepare(rdma->clk);
- }
- 
-+unsigned long mtk_mdp_rdma_clk_rate(struct device *dev)
-+{
-+	struct mtk_mdp_rdma *rdma = dev_get_drvdata(dev);
-+
-+	return clk_get_rate(rdma->clk);
-+}
-+
- static int mtk_mdp_rdma_bind(struct device *dev, struct device *master,
- 			     void *data)
- {
--- 
-2.18.0
-
+SGksIFBoaWxpcHANCg0KVGhhbmtzIGZvciByZXZpZXcgYW5kIGNvbW1lbnQuDQoNCj4gLS0tLS1P
+cmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUGhpbGlwcCBaYWJlbCA8cC56YWJlbEBwZW5n
+dXRyb25peC5kZT4NCj4gU2VudDogMjAyNOW5tDHmnIg55pelIDE3OjA4DQo+IFRvOiBTaGVuZ3lh
+bmcgQ2hlbiA8c2hlbmd5YW5nLmNoZW5Ac3RhcmZpdmV0ZWNoLmNvbT47DQo+IGRldmljZXRyZWVA
+dmdlci5rZXJuZWwub3JnOyBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnDQo+IENjOiBh
+bmRyemVqLmhhamRhQGludGVsLmNvbTsgbmVpbC5hcm1zdHJvbmdAbGluYXJvLm9yZzsgcmZvc3NA
+a2VybmVsLm9yZzsNCj4gTGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tOyBqb25hc0Br
+d2lib28uc2U7DQo+IGplcm5lai5za3JhYmVjQGdtYWlsLmNvbTsgbWFhcnRlbi5sYW5raG9yc3RA
+bGludXguaW50ZWwuY29tOw0KPiBtcmlwYXJkQGtlcm5lbC5vcmc7IHR6aW1tZXJtYW5uQHN1c2Uu
+ZGU7IGFpcmxpZWRAZ21haWwuY29tOw0KPiBkYW5pZWxAZmZ3bGwuY2g7IHJvYmgrZHRAa2VybmVs
+Lm9yZzsga3J6eXN6dG9mLmtvemxvd3NraStkdEBsaW5hcm8ub3JnOw0KPiBjb25vcitkdEBrZXJu
+ZWwub3JnOyB0b21pLnZhbGtlaW5lbkBpZGVhc29uYm9hcmQuY29tOyByLXJhdmlrdW1hckB0aS5j
+b207DQo+IGFmb3JkMTczQGdtYWlsLmNvbTsgcmR1bmxhcEBpbmZyYWRlYWQub3JnOw0KPiB1Lmts
+ZWluZS1rb2VuaWdAcGVuZ3V0cm9uaXguZGU7IGJicmV6aWxsb25Aa2VybmVsLm9yZzsgQ2hhbmdo
+dWFuZyBMaWFuZw0KPiA8Y2hhbmdodWFuZy5saWFuZ0BzdGFyZml2ZXRlY2guY29tPjsgS2VpdGgg
+Wmhhbw0KPiA8a2VpdGguemhhb0BzdGFyZml2ZXRlY2guY29tPjsgSmFjayBaaHUgPGphY2suemh1
+QHN0YXJmaXZldGVjaC5jb20+Ow0KPiBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnDQo+IFN1
+YmplY3Q6IFJlOiBbUEFUQ0ggdjIgMi8yXSBncHU6IGRybTogYnJpZGdlOiBjYWRlbmNlOiBBZGQg
+YSBkcml2ZXIgYW5kDQo+IHBsYXRmb3JtIG9wcyBmb3IgU3RhckZpdmUgSkg3MTEwIFNvQw0KPiAN
+Cj4gT24gRGksIDIwMjQtMDEtMDkgYXQgMTU6MjUgKzA4MDAsIFNoZW5neWFuZyBDaGVuIHdyb3Rl
+Og0KPiA+ICtzdGF0aWMgaW50IGNkbnNfZHNpX2dldF9yZXNldChzdHJ1Y3QgZGV2aWNlICpkZXYs
+IHN0cnVjdCBjZG5zX2RzaQ0KPiA+ICsqZHNpKSB7DQo+ID4gKwlkc2ktPmRwaV9yc3QgPSBkZXZt
+X3Jlc2V0X2NvbnRyb2xfZ2V0KGRldiwgImRwaSIpOw0KPiA+ICsJaWYgKElTX0VSUihkc2ktPmRw
+aV9yc3QpKQ0KPiA+ICsJCXJldHVybiBQVFJfRVJSKGRzaS0+ZHBpX3JzdCk7DQo+IA0KPiBQbGVh
+c2UgdXNlIGRldm1fcmVzZXRfY29udHJvbF9nZXRfZXhjbHVzaXZlKCkgZGlyZWN0bHkuDQo+IA0K
+PiBBbHNvLCBjb25zaWRlciB1c2luZyBkZXZtX3Jlc2V0X2NvbnRyb2xfYnVsa19nZXRfZXhjbHVz
+aXZlKCkgaW5zdGVhZCwgdG8NCj4gY29udHJvbCAiZHBpIi8iYXBiIi8idHhlc2MiIHJlc2V0cyB0
+b2dldGhlciAtIGlmIHRoZSBoYXJkd2FyZSBjYW4gaGFuZGxlDQo+IGRlYXNzZXJ0aW5nIGluIHJl
+dmVyc2VkIG9yZGVyLg0KPiANCg0Kb2ssIHdpbGwgZm9sbG93IHVwIHRoaXMgaXNzdWUuDQoNCj4g
+PiArDQo+ID4gKwlkc2ktPmFwYl9yc3QgPSBkZXZtX3Jlc2V0X2NvbnRyb2xfZ2V0KGRldiwgImFw
+YiIpOw0KPiA+ICsJaWYgKElTX0VSUihkc2ktPmFwYl9yc3QpKQ0KPiA+ICsJCXJldHVybiBQVFJf
+RVJSKGRzaS0+YXBiX3JzdCk7DQo+ID4gKw0KPiA+ICsJZHNpLT50eGVzY19yc3QgPSBkZXZtX3Jl
+c2V0X2NvbnRyb2xfZ2V0KGRldiwgInR4ZXNjIik7DQo+ID4gKwlpZiAoSVNfRVJSKGRzaS0+dHhl
+c2NfcnN0KSkNCj4gPiArCQlyZXR1cm4gUFRSX0VSUihkc2ktPnR4ZXNjX3JzdCk7DQo+ID4gKw0K
+PiA+ICsJZHNpLT50eGJ5dGVoc19yc3QgPSBkZXZtX3Jlc2V0X2NvbnRyb2xfZ2V0KGRldiwgInR4
+Ynl0ZWhzIik7DQo+ID4gKwlpZiAoSVNfRVJSKGRzaS0+dHhieXRlaHNfcnN0KSkNCj4gPiArCQly
+ZXR1cm4gUFRSX0VSUihkc2ktPnR4Ynl0ZWhzX3JzdCk7DQo+ID4gKw0KPiA+ICsJcmV0dXJuIDA7
+DQo+ID4gK30NCj4gDQo+IHJlZ2FyZHMNCj4gUGhpbGlwcA0KDQoNCnRoYW5rcy4NCg0KQmVzdCBS
+ZWdhcmRzLA0KU2hlbmd5YW5nDQo=
