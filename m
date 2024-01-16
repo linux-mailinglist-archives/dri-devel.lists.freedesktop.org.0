@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F3FC82EE04
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jan 2024 12:43:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C44F82EE7B
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jan 2024 12:51:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA40510E482;
-	Tue, 16 Jan 2024 11:43:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B18EC10E4BA;
+	Tue, 16 Jan 2024 11:51:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E05BE10E4A0
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jan 2024 11:43:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1705405395;
- bh=Kn8EISzRHZjy8xP1XBx7o0mFsxZriHl3rVzKRE01vzo=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=s9ykoxOyKhxyiMZpC/Q8EMeZVZf41xqcaTOiSues1mrs/P2cKhaUrFicd8vH2fkOz
- mkPir1GALlh/NAFsPrGUxMW/b3KnyQGzboyIcaK07pGVnb2eb76obByg15AFyLrQrT
- 9Qz1xHdjO2oQuJe9LsKrP2Xf935QHlCicIM731DFAEPxEKuQtKWcORqCmCjdxr9LtU
- k6L/emLR/KlvB90CzD3Q9ie0Jbcdqabu5U5DYUEygTc6pp1NNQaJ+BQi7qW7UhcGzi
- SwiEuhUZ0OguSwHvfXdoRmBQj3BwBoFGE1YuzMZyflbw3mxzusBw+SaiGHSLwNn1YD
- euVLoyejhrkQg==
-Received: from [100.66.96.193] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: vignesh)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 411A63782067;
- Tue, 16 Jan 2024 11:43:10 +0000 (UTC)
-Message-ID: <490b1e71-d403-02f0-bfe3-04d9f3250d18@collabora.com>
-Date: Tue, 16 Jan 2024 17:13:07 +0530
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6348910E49D;
+ Tue, 16 Jan 2024 11:51:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=6RK8HhUL7/mSLlRQcfu0FfBwVC2fqWvwSpORs6uHkzQ=; b=s0aFfV17JvR2ozhnpfGP5R2701
+ MqtQfq04Kn9eNo5CmFEYE6JLRGcextvHOveZ9/7kcn1NfSIlcBcK8KtaQKUf1Q5VKcrLc8O3ZRDt2
+ kmiLcGSE1XDVlMIaKLwhIgehEicZSZ7MZPQtWhtlvmfTpewH8d2mTIETlqME6nx8kZugNzZGm7269
+ rQMOTShleb/Xk2d7KRvMW3dDdHSWmt+bRRa7fV1rMnLp1hUG4Ihd7fbPobVEcJfxwuH3Dhx3EhqNC
+ 3CP+0GBy4N8CliUiTmCabDjXGe1fhNvON1YjNlId8WBdMRQ9UqalvsBgEdwhd4yb68DDry1bpq8kj
+ ChwaY3VQ==;
+Received: from [177.45.63.147] (helo=[192.168.1.111])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1rPhyF-006woJ-M6; Tue, 16 Jan 2024 12:51:07 +0100
+Message-ID: <a6099681-1ae9-48ef-99bc-d3c919007413@igalia.com>
+Date: Tue, 16 Jan 2024 08:50:59 -0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v3] drm/ci: add tests on vkms
-To: Helen Koike <helen.koike@collabora.com>, dri-devel@lists.freedesktop.org
-References: <20240102094129.1767591-1-vignesh.raman@collabora.com>
- <c06f3ca9-e588-4012-b864-102ad3e7ea8d@collabora.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] drm/atomic: Allow drivers to write their own plane
+ check for async
+To: Pekka Paalanen <ppaalanen@gmail.com>
+References: <20240116045159.1015510-1-andrealmeid@igalia.com>
+ <20240116114522.5b83d8b6@eldfell>
 Content-Language: en-US
-From: Vignesh Raman <vignesh.raman@collabora.com>
-In-Reply-To: <c06f3ca9-e588-4012-b864-102ad3e7ea8d@collabora.com>
+From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+In-Reply-To: <20240116114522.5b83d8b6@eldfell>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -55,57 +55,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, daniels@collabora.com,
- rodrigosiqueiramelo@gmail.com, david.heidelberg@collabora.com,
- guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
- linux-kernel@vger.kernel.org, melissa.srw@gmail.com, mairacanal@riseup.net,
- airlied@gmail.com
+Cc: daniel@ffwll.ch, =?UTF-8?B?J01hcmVrIE9sxaHDoWsn?= <maraeo@gmail.com>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ Xaver Hugl <xaver.hugl@gmail.com>, dri-devel@lists.freedesktop.org,
+ kernel-dev@igalia.com, alexander.deucher@amd.com,
+ Daniel Stone <daniel@fooishbar.org>, Dave Airlie <airlied@gmail.com>,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Helen,
+Hi Pekka,
 
-On 15/01/24 20:54, Helen Koike wrote:
->> diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml 
->> b/drivers/gpu/drm/ci/gitlab-ci.yml
->> index 084e3ff8e3f4..4b636d39734c 100644
->> --- a/drivers/gpu/drm/ci/gitlab-ci.yml
->> +++ b/drivers/gpu/drm/ci/gitlab-ci.yml
->> @@ -108,6 +108,7 @@ stages:
->>     - rockchip
->>     - virtio-gpu
->>     - lint
->> +  - software-driver
+Em 16/01/2024 06:45, Pekka Paalanen escreveu:
+> On Tue, 16 Jan 2024 01:51:57 -0300
+> André Almeida <andrealmeid@igalia.com> wrote:
 > 
-> I had created this new stage with the intention to also move virtio-gpu 
-> to it, so we can patch all "non-real" hardware, what do you think?
-
-Yes we can move virtio-gpu job also to software-driver stage.
-
->> diff --git a/drivers/gpu/drm/ci/x86_64.config 
->> b/drivers/gpu/drm/ci/x86_64.config
->> index 1cbd49a5b23a..ab4dcca749cc 100644
->> --- a/drivers/gpu/drm/ci/x86_64.config
->> +++ b/drivers/gpu/drm/ci/x86_64.config
->> @@ -24,6 +24,7 @@ CONFIG_DRM=y
->>   CONFIG_DRM_PANEL_SIMPLE=y
->>   CONFIG_PWM_CROS_EC=y
->>   CONFIG_BACKLIGHT_PWM=y
->> +CONFIG_DRM_VKMS=y
+>> Hi,
+>>
+>> AMD hardware can do more on the async flip path than just the primary plane, so
+>> to lift up the current restrictions, this patchset allows drivers to write their
+>> own check for planes for async flips.
 > 
-> I was wondering if this wouldn't get in the way of other tests, but I 
-> guess IGT_FORCE_DRIVER can handle, we just need to make sure it is set 
-> and we are testing the correct one.
+> Hi,
+> 
+> what's the userspace story for this, how could userspace know it could do more?
+> What kind of userspace would take advantage of this and in what situations?
+> 
+> Or is this not meant for generic userspace?
 
-Yes, we need to skip the vkms tests for other drivers. I think we can go 
-with your modprobe approach. We need kmod in debian/x86_64_test-gl 
-container to get it working. I have created a MR in mesa for this.
+Sorry, I forgot to document this. So the idea is that userspace will 
+query what they can do here with DRM_MODE_ATOMIC_TEST_ONLY calls, 
+instead of having capabilities for each prop.
 
-https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/27088
-
-Once this is merged, will uprev mesa in drm-ci and send updated vkms patch.
-
-Thanks.
-
-Regards,
-Vignesh
+> 
+> 
+> Thanks,
+> pq
+> 
+>> I'm not sure if adding something new to drm_plane_funcs is the right way to do,
+>> because if we want to expand the other object types (crtc, connector) we would
+>> need to add their own drm_XXX_funcs, so feedbacks are welcome!
+>>
+>> 	André
+>>
+>> André Almeida (2):
+>>    drm/atomic: Allow drivers to write their own plane check for async
+>>      flips
+>>    drm/amdgpu: Implement check_async_props for planes
+>>
+>>   .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 30 +++++++++
+>>   drivers/gpu/drm/drm_atomic_uapi.c             | 62 ++++++++++++++-----
+>>   include/drm/drm_atomic_uapi.h                 | 12 ++++
+>>   include/drm/drm_plane.h                       |  5 ++
+>>   4 files changed, 92 insertions(+), 17 deletions(-)
+>>
+> 
