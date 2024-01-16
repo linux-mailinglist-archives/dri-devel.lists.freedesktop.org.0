@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5665682EF7A
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jan 2024 14:09:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F45682EF7D
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jan 2024 14:09:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E27310E54E;
-	Tue, 16 Jan 2024 13:08:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0293910E561;
+	Tue, 16 Jan 2024 13:09:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07F8310E51A;
- Tue, 16 Jan 2024 13:08:26 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEB6910E598;
+ Tue, 16 Jan 2024 13:08:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1705410506; x=1736946506;
+ t=1705410537; x=1736946537;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Cx9gqxaCc6t5J2znbB1TJcX+fG9jhzmvwmz+CgllRyo=;
- b=nQRItpakDE5pvAszRuc+telUeSpbSiGjDwbsSJcANW8Ju8eHKhc9FJ2B
- oUDpYEo29U02r1TNSBavL1/fKD5j918gkLmEX7sHCyyfhbr78n7XtiTet
- sjl7dxQ9K/SAV5AjwDTXCbZEbYcCeUe9HvpA4p4Li5bt6G/oJ1aM31YyL
- EGU+K5ktXqM2rns4wTaVKBMAgRx+BB+llG2GUajbNL6gENXUJ/gMTTKvi
- EjMGEQdif2OCGRF/W9WjbXhgUjCM0q9rU5puBd8AofbyajvpAYuZo/zcL
- d3WO0nBCyuqpGndvwwMMqIvv9tHB0hc3Px3zlBKrhISWihVjoI8o7KE8c w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10954"; a="399527497"
-X-IronPort-AV: E=Sophos;i="6.05,199,1701158400"; d="scan'208";a="399527497"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jan 2024 05:08:25 -0800
+ bh=Il6I5/c5CRzVwH3EioaJ7CiY7XP+/71GxCauqv15NOs=;
+ b=KXVvEShGUvZriQn4WZAepfZaSS88DM0BCGib918ApZHMKZtCiJGdTwGq
+ /efOynoeLw8yxnAcxZhizLYqyLnSPBVvrOiwi85YJpkgwFSvBl1H8X7R7
+ 2xEAZXR3lorGdgqvewNv6ivv2PVY9rlLc4NWuK4s0tpBLqyGUJHdHL73s
+ uPPDrBvMJg/Mhstj4N2HsgFXfoMHHa7wfqvQpDrYwpXrYVoNBDrHq2izG
+ O+AWk+YA1lYzZwDu9w+WnZfQ/nVzN/0/nbxtIUxn6xMPAT3HvhVCmp4EX
+ HfCfLRfqzAyS1iMVXArolFMMpEmVQ9VJBpfYOWVbp9d44t2w4AQkpH41X w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10954"; a="397016169"
+X-IronPort-AV: E=Sophos;i="6.05,199,1701158400"; d="scan'208";a="397016169"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jan 2024 05:08:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10954"; a="907367714"
-X-IronPort-AV: E=Sophos;i="6.05,199,1701158400"; d="scan'208";a="907367714"
+X-IronPort-AV: E=McAfee;i="6600,9927,10954"; a="760181613"
+X-IronPort-AV: E=Sophos;i="6.05,199,1701158400"; d="scan'208";a="760181613"
 Received: from jfunnell-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.39.52])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jan 2024 05:08:23 -0800
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jan 2024 05:08:28 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 09/10] drm/xe: switch from drm_debug_printer() to device
- specific drm_dbg_printer()
-Date: Tue, 16 Jan 2024 15:07:34 +0200
-Message-Id: <35929b030f7ba67cd32808d42e916aa9cfb5709d.1705410327.git.jani.nikula@intel.com>
+Subject: [PATCH 10/10] drm: remove drm_debug_printer in favor of
+ drm_dbg_printer
+Date: Tue, 16 Jan 2024 15:07:35 +0200
+Message-Id: <18b5b91e62d071675a651f6f91c58f05ad74134a.1705410327.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1705410327.git.jani.nikula@intel.com>
 References: <cover.1705410327.git.jani.nikula@intel.com>
@@ -65,63 +65,98 @@ Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Prefer the device specific debug printer.
+Convert the remaining drm_debug_printer users over to drm_dbg_printer,
+as it can handle the cases without struct drm_device pointer, and also
+provides drm debug category and prefix support. Remove drm_debug_printer
+altogether.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/xe/xe_gt.c          | 2 +-
- drivers/gpu/drm/xe/xe_gt_topology.c | 4 +++-
- drivers/gpu/drm/xe/xe_reg_sr.c      | 2 +-
- 3 files changed, 5 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/drm_modeset_lock.c |  2 +-
+ drivers/gpu/drm/drm_print.c        |  7 -------
+ drivers/gpu/drm/ttm/ttm_bo.c       |  2 +-
+ include/drm/drm_print.h            | 17 -----------------
+ 4 files changed, 2 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_gt.c b/drivers/gpu/drm/xe/xe_gt.c
-index 0f2258dc4a00..16481f9b3125 100644
---- a/drivers/gpu/drm/xe/xe_gt.c
-+++ b/drivers/gpu/drm/xe/xe_gt.c
-@@ -327,7 +327,7 @@ static void dump_pat_on_error(struct xe_gt *gt)
- 	char prefix[32];
+diff --git a/drivers/gpu/drm/drm_modeset_lock.c b/drivers/gpu/drm/drm_modeset_lock.c
+index 918065982db4..7694b85e75e3 100644
+--- a/drivers/gpu/drm/drm_modeset_lock.c
++++ b/drivers/gpu/drm/drm_modeset_lock.c
+@@ -91,7 +91,7 @@ static noinline depot_stack_handle_t __drm_stack_depot_save(void)
  
- 	snprintf(prefix, sizeof(prefix), "[GT%u Error]", gt->info.id);
--	p = drm_debug_printer(prefix);
-+	p = drm_dbg_printer(&gt_to_xe(gt)->drm, DRM_UT_DRIVER, prefix);
- 
- 	xe_pat_dump(gt, &p);
- }
-diff --git a/drivers/gpu/drm/xe/xe_gt_topology.c b/drivers/gpu/drm/xe/xe_gt_topology.c
-index a8d7f272c30a..5dc62fe1be49 100644
---- a/drivers/gpu/drm/xe/xe_gt_topology.c
-+++ b/drivers/gpu/drm/xe/xe_gt_topology.c
-@@ -84,7 +84,7 @@ void
- xe_gt_topology_init(struct xe_gt *gt)
+ static void __drm_stack_depot_print(depot_stack_handle_t stack_depot)
  {
- 	struct xe_device *xe = gt_to_xe(gt);
--	struct drm_printer p = drm_debug_printer("GT topology");
-+	struct drm_printer p;
- 	int num_geometry_regs, num_compute_regs;
+-	struct drm_printer p = drm_debug_printer("drm_modeset_lock");
++	struct drm_printer p = drm_dbg_printer(NULL, DRM_UT_KMS, "drm_modeset_lock");
+ 	unsigned long *entries;
+ 	unsigned int nr_entries;
+ 	char *buf;
+diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
+index 673b29c732ea..699b7dbffd7b 100644
+--- a/drivers/gpu/drm/drm_print.c
++++ b/drivers/gpu/drm/drm_print.c
+@@ -182,13 +182,6 @@ void __drm_printfn_info(struct drm_printer *p, struct va_format *vaf)
+ }
+ EXPORT_SYMBOL(__drm_printfn_info);
  
- 	get_num_dss_regs(xe, &num_geometry_regs, &num_compute_regs);
-@@ -107,6 +107,8 @@ xe_gt_topology_init(struct xe_gt *gt)
- 		      XE2_GT_COMPUTE_DSS_2);
- 	load_eu_mask(gt, gt->fuse_topo.eu_mask_per_dss);
+-void __drm_printfn_debug(struct drm_printer *p, struct va_format *vaf)
+-{
+-	/* pr_debug callsite decorations are unhelpful here */
+-	printk(KERN_DEBUG "%s %pV", p->prefix, vaf);
+-}
+-EXPORT_SYMBOL(__drm_printfn_debug);
+-
+ void __drm_printfn_dbg(struct drm_printer *p, struct va_format *vaf)
+ {
+ 	const struct drm_device *drm = p->arg;
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index edf10618fe2b..30e1fe864826 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -49,7 +49,7 @@
+ static void ttm_bo_mem_space_debug(struct ttm_buffer_object *bo,
+ 					struct ttm_placement *placement)
+ {
+-	struct drm_printer p = drm_debug_printer(TTM_PFX);
++	struct drm_printer p = drm_dbg_printer(NULL, DRM_UT_CORE, TTM_PFX);
+ 	struct ttm_resource_manager *man;
+ 	int i, mem_type;
  
-+	p = drm_dbg_printer(&gt_to_xe(gt)->drm, DRM_UT_DRIVER, "GT topology");
-+
- 	xe_gt_topology_dump(gt, &p);
+diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+index 27e23c06dad4..9cc473e5d353 100644
+--- a/include/drm/drm_print.h
++++ b/include/drm/drm_print.h
+@@ -184,7 +184,6 @@ void __drm_puts_coredump(struct drm_printer *p, const char *str);
+ void __drm_printfn_seq_file(struct drm_printer *p, struct va_format *vaf);
+ void __drm_puts_seq_file(struct drm_printer *p, const char *str);
+ void __drm_printfn_info(struct drm_printer *p, struct va_format *vaf);
+-void __drm_printfn_debug(struct drm_printer *p, struct va_format *vaf);
+ void __drm_printfn_dbg(struct drm_printer *p, struct va_format *vaf);
+ void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf);
+ 
+@@ -317,22 +316,6 @@ static inline struct drm_printer drm_info_printer(struct device *dev)
+ 	return p;
  }
  
-diff --git a/drivers/gpu/drm/xe/xe_reg_sr.c b/drivers/gpu/drm/xe/xe_reg_sr.c
-index 87adefb56024..440ac572f6e5 100644
---- a/drivers/gpu/drm/xe/xe_reg_sr.c
-+++ b/drivers/gpu/drm/xe/xe_reg_sr.c
-@@ -231,7 +231,7 @@ void xe_reg_sr_apply_whitelist(struct xe_hw_engine *hwe)
- 	if (err)
- 		goto err_force_wake;
- 
--	p = drm_debug_printer(KBUILD_MODNAME);
-+	p = drm_dbg_printer(&xe->drm, DRM_UT_DRIVER, NULL);
- 	xa_for_each(&sr->xa, reg, entry) {
- 		if (slot == RING_MAX_NONPRIV_SLOTS) {
- 			xe_gt_err(gt,
+-/**
+- * drm_debug_printer - construct a &drm_printer that outputs to pr_debug()
+- * @prefix: debug output prefix
+- *
+- * RETURNS:
+- * The &drm_printer object
+- */
+-static inline struct drm_printer drm_debug_printer(const char *prefix)
+-{
+-	struct drm_printer p = {
+-		.printfn = __drm_printfn_debug,
+-		.prefix = prefix
+-	};
+-	return p;
+-}
+-
+ /**
+  * drm_dbg_printer - construct a &drm_printer for drm device specific output
+  * @drm: the &struct drm_device pointer, or NULL
 -- 
 2.39.2
 
