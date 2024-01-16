@@ -2,43 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF43982F60F
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jan 2024 20:50:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6452B82F6F4
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jan 2024 21:12:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7CB610E5AC;
-	Tue, 16 Jan 2024 19:50:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99DBC10E199;
+	Tue, 16 Jan 2024 20:12:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE39D10E549
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jan 2024 19:50:21 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 80712B80FAC;
- Tue, 16 Jan 2024 19:49:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B14B4C43390;
- Tue, 16 Jan 2024 19:49:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705434586;
- bh=nDrC9wTsCV4ph2iLOi/kjmUrKVaAS25bEBAFssh/F98=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rt2FDwLkrEvke5xX3NG2XsTzU/1v1AFMfYT3gFwaDjFtMNSx6SOqH1XIkRtJBOoyh
- mwsMlpc8GweBANnXi89yX+fAIpoxT6EWsyWKMKpLs4FIKElC12KDINnLVfxEo3AMdY
- XEhkRRLSfe4V14sKLBqM7RP+DW8+GxDVF9O5iIf8FRYDiDm++l96OruiFu1UqmINk4
- cnmmpOfsCcqOr4VCcRnE9QcR8OwpiDKoGUdCPU0yRunpacKpAhO5bUH5bNgi3DTtO8
- 4n2bT1APCSEQmT7Q0G011OkJoWArrWMb0WDzQ0TdzNVYmfRNshybGniknqm8+EhrkF
- AQy2aI8+dwU2w==
-Date: Tue, 16 Jan 2024 13:49:43 -0600
-From: Rob Herring <robh@kernel.org>
-To: Dharma Balasubiramani <dharma.b@microchip.com>
-Subject: Re: [PATCH v2 1/3] dt-bindings: display: convert Atmel's HLCDC to DT
- schema
-Message-ID: <20240116194943.GA301272-robh@kernel.org>
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B09A910E199
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jan 2024 20:12:17 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::222])
+ by mslow1.mail.gandi.net (Postfix) with ESMTP id 24392C524C
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jan 2024 20:11:22 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 2233040004;
+ Tue, 16 Jan 2024 20:10:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1705435856;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=boLTDxiJRvuGbhONOmfvkdNsFpD/vXpoBMU87w5mD8k=;
+ b=WbvBWDaHd/y7DH+O+mClgauo0TFfzW4s+WOGBo3FcocXlI/MIYyhppWOD2/Z6hylV41+k9
+ GdwSS39jouA2y9ffGk+8N1/TzyZr53wdHTLznzIIWSQWmlGuPZwcP8BHW0TuIkrmnSGd5y
+ +sfyhiB7D65S7C8N0437c5c0D3+wavBZuQPPOmQLNX7hQfBJvKsRwBGg0lg9sAHuFvOEJ+
+ St5QGEKDC7/D9tK16XhPFi+F0QsWJY/1vqCQkvl0FaFR4Se7bneP64Bh53ZuMoRlwRByCC
+ +C/rbOd1tQ8R42DeSxsRApcjsCqf/AuCTGf1KEz1VaKynENntWKecBLyifB2sQ==
+Date: Tue, 16 Jan 2024 21:10:52 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Conor Dooley <conor@kernel.org>
+Subject: Re: [PATCH v2 2/3] dt-bindings: atmel, hlcdc: convert pwm bindings to
+ json-schema
+Message-ID: <20240116201052544a0791@mail.local>
 References: <20240116113800.82529-1-dharma.b@microchip.com>
- <20240116113800.82529-2-dharma.b@microchip.com>
+ <20240116113800.82529-3-dharma.b@microchip.com>
+ <20240116-rising-gap-df4124f191a0@spud>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240116113800.82529-2-dharma.b@microchip.com>
+In-Reply-To: <20240116-rising-gap-df4124f191a0@spud>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,162 +55,156 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux4microchip@microchip.com, linux-pwm@vger.kernel.org,
- alexandre.belloni@bootlin.com, dri-devel@lists.freedesktop.org,
- nicolas.ferre@microchip.com, conor.dooley@microchip.com,
- thierry.reding@gmail.com, krzysztof.kozlowski+dt@linaro.org,
- claudiu.beznea@tuxon.dev, airlied@gmail.com, sam@ravnborg.org, lee@kernel.org,
- u.kleine-koenig@pengutronix.de, devicetree@vger.kernel.org,
- conor+dt@kernel.org, tzimmermann@suse.de, mripard@kernel.org,
- linux-arm-kernel@lists.infradead.org, bbrezillon@kernel.org,
- linux-kernel@vger.kernel.org, daniel@ffwll.ch
+ dri-devel@lists.freedesktop.org, nicolas.ferre@microchip.com,
+ conor.dooley@microchip.com, thierry.reding@gmail.com,
+ krzysztof.kozlowski+dt@linaro.org, claudiu.beznea@tuxon.dev, airlied@gmail.com,
+ sam@ravnborg.org, lee@kernel.org,
+ Dharma Balasubiramani <dharma.b@microchip.com>, u.kleine-koenig@pengutronix.de,
+ devicetree@vger.kernel.org, conor+dt@kernel.org, tzimmermann@suse.de,
+ mripard@kernel.org, robh+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
+ bbrezillon@kernel.org, linux-kernel@vger.kernel.org, daniel@ffwll.ch
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 16, 2024 at 05:07:58PM +0530, Dharma Balasubiramani wrote:
-> Convert the existing DT binding to DT schema of the Atmel's HLCDC display
-> controller.
+On 16/01/2024 18:03:19+0000, Conor Dooley wrote:
+> On Tue, Jan 16, 2024 at 05:07:59PM +0530, Dharma Balasubiramani wrote:
+> > Convert device tree bindings for Atmel's HLCDC PWM controller to YAML
+> > format.
+> > 
+> > Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
+> > ---
+> > changelog
+> > v1 -> v2
+> > - Remove the explicit copyrights.
+> > - Modify title (not include words like binding/driver).
+> > - Modify description actually describing the hardware and not the driver.
+> > - Remove pinctrl properties which aren't required.
+> > - Drop parent node and it's other sub-device node which are not related here.
+> > ---
+> >  .../bindings/pwm/atmel,hlcdc-pwm.yaml         | 47 +++++++++++++++++++
+> >  .../bindings/pwm/atmel-hlcdc-pwm.txt          | 29 ------------
+> >  2 files changed, 47 insertions(+), 29 deletions(-)
+> >  create mode 100644 Documentation/devicetree/bindings/pwm/atmel,hlcdc-pwm.yaml
+> >  delete mode 100644 Documentation/devicetree/bindings/pwm/atmel-hlcdc-pwm.txt
+> > 
+> > diff --git a/Documentation/devicetree/bindings/pwm/atmel,hlcdc-pwm.yaml b/Documentation/devicetree/bindings/pwm/atmel,hlcdc-pwm.yaml
+> > new file mode 100644
+> > index 000000000000..751122309fa9
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/pwm/atmel,hlcdc-pwm.yaml
+> > @@ -0,0 +1,47 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > 
-> Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
-> ---
-> changelog
-> v1 -> v2
-> - Remove the explicit copyrights.
-> - Modify filename like compatible.
-> - Modify title (drop words like binding/driver).
-> - Modify description actually describing the hardware and not the driver.
-> - Remove pinctrl properties which aren't required.
-> - Ref endpoint and not endpoint-base.
-> - Drop redundant info about bus-width description and add ref to video-interfaces.
-> - Move 'additionalProperties' after 'Required'.
-> - Drop parent node and it's other sub-device node which are not related here.
-> - Add compatible to example 2 and add comments that bus-width is the diff between two examples.
-> ---
->  .../atmel/atmel,hlcdc-display-controller.yaml | 110 ++++++++++++++++++
->  .../bindings/display/atmel/hlcdc-dc.txt       |  75 ------------
->  2 files changed, 110 insertions(+), 75 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/display/atmel/atmel,hlcdc-display-controller.yaml
->  delete mode 100644 Documentation/devicetree/bindings/display/atmel/hlcdc-dc.txt
+> The original file has no license, but was originally written by a
+> free-electrons employee, so the relicensing here is fine.
 > 
-> diff --git a/Documentation/devicetree/bindings/display/atmel/atmel,hlcdc-display-controller.yaml b/Documentation/devicetree/bindings/display/atmel/atmel,hlcdc-display-controller.yaml
-> new file mode 100644
-> index 000000000000..f022c294cfbc
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/atmel/atmel,hlcdc-display-controller.yaml
-> @@ -0,0 +1,110 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/atmel/atmel,hlcdc-display-controller.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Atmel's High LCD Controller (HLCDC)
-> +
-> +maintainers:
-> +  - Nicolas Ferre <nicolas.ferre@microchip.com>
-> +  - Alexandre Belloni <alexandre.belloni@bootlin.com>
-> +  - Claudiu Beznea <claudiu.beznea@tuxon.dev>
-> +
-> +description: |
-> +  The LCD Controller (LCDC) consists of logic for transferring LCD image
-> +  data from an external display buffer to a TFT LCD panel. The LCDC has one
-> +  display input buffer per layer that fetches pixels through the single bus
-> +  host interface and a look-up table to allow palletized display
-> +  configurations.
-> +
-> +properties:
-> +  compatible:
-> +    const: atmel,hlcdc-display-controller
-> +
-> +  '#address-cells':
-> +    const: 1
-> +
-> +  '#size-cells':
-> +    const: 0
-> +
-> +  port@0:
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +    unevaluatedProperties: false
-> +    description:
-> +      Output endpoint of the controller, connecting the LCD panel signals.
-> +
-> +    properties:
-> +      '#address-cells':
-> +        const: 1
-> +
-> +      '#size-cells':
-> +        const: 0
-> +
-> +      reg:
-> +        maxItems: 1
-> +
-> +      endpoint:
-> +        $ref: /schemas/graph.yaml#/$defs/endpoint
-> +        unevaluatedProperties: false
-> +        description:
-> +          Endpoint connecting the LCD panel signals.
-> +
-> +        properties:
-> +          bus-width:
-> +            description: Endpoint bus width.
-> +            $ref: /schemas/media/video-interfaces.yaml#
-> +            enum: [ 12, 16, 18, 24 ]
-> +
-> +required:
-> +  - '#address-cells'
-> +  - '#size-cells'
-> +  - compatible
-> +  - port@0
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    //Example 1
-> +
-> +    display-controller {
-> +      compatible = "atmel,hlcdc-display-controller";
-> +      pinctrl-names = "default";
-> +      pinctrl-0 = <&pinctrl_lcd_base &pinctrl_lcd_rgb888>;
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      port@0 {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +        reg = <0>;
-> +
-> +        hlcdc_panel_output: endpoint@0 {
-> +          reg = <0>;
-> +          remote-endpoint = <&panel_input>;
-> +        };
-> +      };
-> +    };
-> +
-> +  - |
-> +    //Example 2 With a video interface override to force rgb565, bus-width=16
-> +
-> +    display-controller {
-> +      compatible = "atmel,hlcdc-display-controller";
-> +      pinctrl-names = "default";
-> +      pinctrl-0 = <&pinctrl_lcd_base &pinctrl_lcd_rgb565>;
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      port@0 {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +        reg = <0>;
-> +        hlcdc_panel_output2: endpoint@0 {
-> +          reg = <0>;
-> +          remote-endpoint = <&panel_input>;
-> +          bus-width = <16>;
-> +        };
-> +      };
-> +    };
 
-Just 1 extra property doesn't justify 2 examples.
+I confirm relicensing is fine, even assigning the copyright to
+Microchip (note that Bootlin is legally the same entity as
+free-electrons)
 
-In any case, drop the partial examples and just have 1 complete example 
-in the MFD binding schema.
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/pwm/atmel,hlcdc-pwm.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Atmel's HLCDC's PWM controller
+> > +
+> > +maintainers:
+> > +  - Nicolas Ferre <nicolas.ferre@microchip.com>
+> > +  - Alexandre Belloni <alexandre.belloni@bootlin.com>
+> > +  - Claudiu Beznea <claudiu.beznea@tuxon.dev>
+> > +
+> > +description: |
+> 
+> Again, the | is not needed here.
+> 
+> > +  The LCDC integrates a Pulse Width Modulation (PWM) Controller. This block
+> > +  generates the LCD contrast control signal (LCD_PWM) that controls the
+> > +  display's contrast by software. LCDC_PWM is an 8-bit PWM signal that can be
+> > +  converted to an analog voltage with a simple passive filter. LCD display
+> > +  panels have different backlight specifications in terms of minimum/maximum
+> > +  values for PWM frequency. If the LCDC PWM frequency range does not match the
+> > +  LCD display panel, it is possible to use the standalone PWM Controller to
+> > +  drive the backlight.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: atmel,hlcdc-pwm
+> > +
+> > +  "#pwm-cells":
+> > +    const: 3
+> > +    description: |
+> > +      This PWM chip uses the default 3 cells bindings defined in pwm.yaml in
+> > +      this directory.
+> 
+> I would delete this description tbh.
+> 
+> > +
+> > +required:
+> > +  - compatible
+> > +  - "#pwm-cells"
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    pwm: pwm {
+> > +      compatible = "atmel,hlcdc-pwm";
+> > +      pinctrl-names = "default";
+> > +      pinctrl-0 = <&pinctrl_lcd_pwm>;
+> > +      #pwm-cells = <3>;
+> > +    };
+> 
+> The label here is not used and can be dropped. Otherwise,
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> 
+> 
+> Cheers,
+> Conor.
+> 
+> > diff --git a/Documentation/devicetree/bindings/pwm/atmel-hlcdc-pwm.txt b/Documentation/devicetree/bindings/pwm/atmel-hlcdc-pwm.txt
+> > deleted file mode 100644
+> > index afa501bf7f94..000000000000
+> > --- a/Documentation/devicetree/bindings/pwm/atmel-hlcdc-pwm.txt
+> > +++ /dev/null
+> > @@ -1,29 +0,0 @@
+> > -Device-Tree bindings for Atmel's HLCDC (High-end LCD Controller) PWM driver
+> > -
+> > -The Atmel HLCDC PWM is subdevice of the HLCDC MFD device.
+> > -See ../mfd/atmel-hlcdc.txt for more details.
+> > -
+> > -Required properties:
+> > - - compatible: value should be one of the following:
+> > -   "atmel,hlcdc-pwm"
+> > - - pinctr-names: the pin control state names. Should contain "default".
+> > - - pinctrl-0: should contain the pinctrl states described by pinctrl
+> > -   default.
+> > - - #pwm-cells: should be set to 3. This PWM chip use the default 3 cells
+> > -   bindings defined in pwm.yaml in this directory.
+> > -
+> > -Example:
+> > -
+> > -	hlcdc: hlcdc@f0030000 {
+> > -		compatible = "atmel,sama5d3-hlcdc";
+> > -		reg = <0xf0030000 0x2000>;
+> > -		clocks = <&lcdc_clk>, <&lcdck>, <&clk32k>;
+> > -		clock-names = "periph_clk","sys_clk", "slow_clk";
+> > -
+> > -		hlcdc_pwm: hlcdc-pwm {
+> > -			compatible = "atmel,hlcdc-pwm";
+> > -			pinctrl-names = "default";
+> > -			pinctrl-0 = <&pinctrl_lcd_pwm>;
+> > -			#pwm-cells = <3>;
+> > -		};
+> > -	};
+> > -- 
+> > 2.25.1
+> > 
 
-Rob
+
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
