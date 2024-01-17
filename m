@@ -2,30 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A72683088A
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jan 2024 15:50:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E64D830892
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jan 2024 15:50:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DBC410E6A0;
-	Wed, 17 Jan 2024 14:50:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF2F210E013;
+	Wed, 17 Jan 2024 14:50:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 326 seconds by postgrey-1.36 at gabe;
- Wed, 17 Jan 2024 14:50:10 UTC
 Received: from exchange.fintech.ru (exchange.fintech.ru [195.54.195.159])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D52110E121;
- Wed, 17 Jan 2024 14:50:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E20410E013;
+ Wed, 17 Jan 2024 14:50:45 +0000 (UTC)
 Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
  (195.54.195.169) with Microsoft SMTP Server (TLS) id 14.3.498.0; Wed, 17 Jan
- 2024 17:44:39 +0300
+ 2024 17:45:18 +0300
 Received: from localhost (10.0.253.138) by Ex16-01.fintech.ru (10.0.10.18)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Wed, 17 Jan
- 2024 17:44:39 +0300
+ 2024 17:45:18 +0300
 From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
 To: Alex Deucher <alexander.deucher@amd.com>
-Subject: [PATCH] drm/radeon: remove dead code in ni_mc_load_microcode()
-Date: Wed, 17 Jan 2024 06:44:36 -0800
-Message-ID: <20240117144436.10930-1-n.zhandarovich@fintech.ru>
+Subject: [PATCH] drm/radeon/ni_dpm: remove redundant NULL check
+Date: Wed, 17 Jan 2024 06:45:14 -0800
+Message-ID: <20240117144514.11007-1-n.zhandarovich@fintech.ru>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -54,54 +52,31 @@ Cc: Nikita Zhandarovich <n.zhandarovich@fintech.ru>, "Pan,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Inside the if block with (running == 0), the checks for 'running'
-possibly being non-zero are redundant. Remove them altogether.
+'leakage_table' will always be successfully initialized as a pointer
+to '&rdev->pm.dpm.dyn_state.cac_leakage_table'.
 
-This change is similar to the one authored by Heinrich Schuchardt
-<xypron.glpk@gmx.de> in commit
-ddbbd3be9679 ("drm/radeon: remove dead code, si_mc_load_microcode (v2)")
+Remove unnecessary check if only to silence static checkers.
 
 Found by Linux Verification Center (linuxtesting.org) with static
 analysis tool Svace.
 
-Fixes: 0af62b016804 ("drm/radeon/kms: add ucode loader for NI")
+Fixes: 69e0b57a91ad ("drm/radeon/kms: add dpm support for cayman (v5)")
 Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
 ---
- drivers/gpu/drm/radeon/ni.c | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
+ drivers/gpu/drm/radeon/ni_dpm.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/ni.c b/drivers/gpu/drm/radeon/ni.c
-index 927e5f42e97d..8eac8c090433 100644
---- a/drivers/gpu/drm/radeon/ni.c
-+++ b/drivers/gpu/drm/radeon/ni.c
-@@ -624,7 +624,7 @@ static const u32 cayman_io_mc_regs[BTC_IO_MC_REGS_SIZE][2] = {
- int ni_mc_load_microcode(struct radeon_device *rdev)
- {
- 	const __be32 *fw_data;
--	u32 mem_type, running, blackout = 0;
-+	u32 mem_type, running;
- 	u32 *io_mc_regs;
- 	int i, ucode_size, regs_size;
+diff --git a/drivers/gpu/drm/radeon/ni_dpm.c b/drivers/gpu/drm/radeon/ni_dpm.c
+index 3e1c1a392fb7..e08559c44a5c 100644
+--- a/drivers/gpu/drm/radeon/ni_dpm.c
++++ b/drivers/gpu/drm/radeon/ni_dpm.c
+@@ -3103,9 +3103,6 @@ static int ni_init_simplified_leakage_table(struct radeon_device *rdev,
+ 	u32 smc_leakage, max_leakage = 0;
+ 	u32 scaling_factor;
  
-@@ -659,11 +659,6 @@ int ni_mc_load_microcode(struct radeon_device *rdev)
- 	running = RREG32(MC_SEQ_SUP_CNTL) & RUN_MASK;
- 
- 	if ((mem_type == MC_SEQ_MISC0_GDDR5_VALUE) && (running == 0)) {
--		if (running) {
--			blackout = RREG32(MC_SHARED_BLACKOUT_CNTL);
--			WREG32(MC_SHARED_BLACKOUT_CNTL, 1);
--		}
+-	if (!leakage_table)
+-		return -EINVAL;
 -
- 		/* reset the engine and set to writable */
- 		WREG32(MC_SEQ_SUP_CNTL, 0x00000008);
- 		WREG32(MC_SEQ_SUP_CNTL, 0x00000010);
-@@ -689,9 +684,6 @@ int ni_mc_load_microcode(struct radeon_device *rdev)
- 				break;
- 			udelay(1);
- 		}
--
--		if (running)
--			WREG32(MC_SHARED_BLACKOUT_CNTL, blackout);
- 	}
+ 	table_size = leakage_table->count;
  
- 	return 0;
+ 	if (eg_pi->vddc_voltage_table.count != table_size)
