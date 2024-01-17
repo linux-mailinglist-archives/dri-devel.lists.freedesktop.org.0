@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0283830C96
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jan 2024 19:18:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 770B4830CB2
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jan 2024 19:25:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3543510E797;
-	Wed, 17 Jan 2024 18:18:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14F6A10E7A1;
+	Wed, 17 Jan 2024 18:25:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
- [209.85.221.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E786E10E78F;
- Wed, 17 Jan 2024 18:18:54 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id
- ffacd0b85a97d-3379e942685so849663f8f.0; 
- Wed, 17 Jan 2024 10:18:54 -0800 (PST)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00B6210E7B7;
+ Wed, 17 Jan 2024 18:25:14 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id
+ ffacd0b85a97d-33761776af9so2022082f8f.0; 
+ Wed, 17 Jan 2024 10:25:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1705515471; x=1706120271; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1705515852; x=1706120652; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=mu6LdrycNNgQ08y3UW6a9CSmx2uDyBWPruWDy4r8EMA=;
- b=QRbNvFLWUw0Tsyh/LGzzsIK0bymACBZNOm+KXWSj7IFqxL7AHbL1qB/wMVo4OJW3Ky
- tIR7cor6f72NcUD/aFoLYBJZ9E0+6kkkNOdA5paZGfbfTf02Ac1sIuSpbofgvvvDZnCW
- aSVz8fZTuOOiogR9bk2sxaKfOpjnFBBAAsgoUutIIZcANiO3xxzCZNactwIL2rCQxw0s
- jqzUcsm7i0y0H2YI71AkFTwElembYyaegMYaycFfrp6VZJT1dLdR1eqgGFG1GGrAJIki
- EkyHqfhTp4dhLADnTGzidtx5nEhjaqp1t5Mfh+zZiB1NhW+IdLgfd2sCsQZh1MjC6mBc
- Rr8Q==
+ bh=8KNRogNawE98vzU6hLj1KXDSyquhagx1/Y27JreKsQM=;
+ b=AvWbXw9m9Jzo6QLF5ueKgHVpAY27u7qX26IuPRUiq3jttz8DaziH8oPg+wzWs8jxwH
+ jC5LEyLCN0qtW4XE1iglrMvBoNCZcdbszYJMnGMFgC5w6EYXF8DFi5QpiweEjRNN+vq5
+ hEZVglf/4x7fgk+lCGeo7v3tLMC3QfTiUMjnke3n9i6TyYsVgdm8khsHzoJzb2IFxUjr
+ SjB9CdCYUHwnmk81dIIpnpI/JAlisGH03RbfNyLIZwCNFbxs2jLBnOTuNca1Xgiu4jZi
+ Yr841LWNdZngJyM6Z+wjx+ChTrle43/Obk4WNQdD7O9oURuoJJiGNgl/2pShRx292+tG
+ iJRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705515471; x=1706120271;
+ d=1e100.net; s=20230601; t=1705515852; x=1706120652;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=mu6LdrycNNgQ08y3UW6a9CSmx2uDyBWPruWDy4r8EMA=;
- b=s8xkdbRjydrBCIX3V9+VgJect/nY2c5i7ZpnVsaOQ/Jo/l1dGHD6qJaZb2Uwg/eTuO
- kLKx1y9Z9G5kr67IjGsULy3G2Qlf4rSIcIbCOsH+CwGnM73hNUpR6EfymC9OGf7QmPn9
- v+nRayVVEvWKI8Ji2FmikqP53uWcsx5e4TXpE289lhNPbKKNbeBTDz5NIfKs8ma7BVBp
- nKQYAJz13kqIxQixrI/cGWmLIEB8ajlcb4Xz965ePqkmRHf1AWuqxfo0CMBgYrx+413j
- BN67++XUOm0VsSFZlJt0I27o2naC4qYWPmbiA3gX2L3BZs9zh+79zrjbmwjR945pREY7
- GhCA==
-X-Gm-Message-State: AOJu0YyoQNs0ZD87FoDXIfTHmkXsWhcjXwjCkcXh0CfpZd6bkS0ip9b/
- hgG1utr6aeIJEEnP51aVNrmFGW1RWjt5K9/dvbM=
-X-Google-Smtp-Source: AGHT+IEmrIoZhd1MvIESvU6Yko91IWdxVx2oC+8IxhhdJadrZ5NjRPWqIvMY3kKddOVb1AmvsJizybm09U2UO8cIEAM=
-X-Received: by 2002:adf:fec8:0:b0:337:c50c:27df with SMTP id
- q8-20020adffec8000000b00337c50c27dfmr1311116wrs.4.1705515470923; Wed, 17 Jan
- 2024 10:17:50 -0800 (PST)
+ bh=8KNRogNawE98vzU6hLj1KXDSyquhagx1/Y27JreKsQM=;
+ b=Y3Vqq0p0wFEeLoxe9YVQfKV+gI45PXgtxVKQ2Bs0dEnFdjy+2O3oHoE9oXc/xbkEZi
+ jC2VEbpJmhpSkOEVqUpCVPfUGxXBIv3NJbJ8UFJtPR88BtPHlDwKPvsVsd1MQZCDjmrv
+ klLDu3G6q19oK5tGgvBHycdtTCgdqzVzeUPGX/zhzORNyusBa6ASh3CHOXycNGTxfnct
+ 5pmDCbx79o4FZhmi9DtlqUx+GRFT8JX75Yjq8rfM4lEFlE79XeNG6atDS3WG8SKbWHE5
+ M7LD1ap7uawGUWlJYZjNnAEtURqNQBdAi+DPiQW6/g91KYou/+jK/5c7fCVkhFdasbVs
+ F4Yg==
+X-Gm-Message-State: AOJu0YyZKsXwdW2Ad46ShJNsTSgoerdSkgokN3aYQeT9G2q4Da1BIohY
+ jRP1e/jOWpOUE28bvnXeuGPP2PDqDDR9M9DUhz0=
+X-Google-Smtp-Source: AGHT+IHMrOchJ+5dcyqg95SjFNj5eWwJ0BRr8CfuLDBHpYipUaBdrJQEVAGODtTLanoMQLOnw2q9YwVW9qInm8lBML8=
+X-Received: by 2002:a5d:4111:0:b0:337:c4c8:92d with SMTP id
+ l17-20020a5d4111000000b00337c4c8092dmr1411467wrp.0.1705515852542; Wed, 17 Jan
+ 2024 10:24:12 -0800 (PST)
 MIME-Version: 1.0
 References: <20240117031212.1104034-1-nunes.erico@gmail.com>
- <20240117031212.1104034-3-nunes.erico@gmail.com>
-In-Reply-To: <20240117031212.1104034-3-nunes.erico@gmail.com>
+ <20240117031212.1104034-4-nunes.erico@gmail.com>
+In-Reply-To: <20240117031212.1104034-4-nunes.erico@gmail.com>
 From: Vasily Khoruzhick <anarsoul@gmail.com>
-Date: Wed, 17 Jan 2024 10:17:24 -0800
-Message-ID: <CA+E=qVe2NB+Bj07JmKVdxreVw0bCuv31xzXng=qPX17spBjDWQ@mail.gmail.com>
-Subject: Re: [PATCH v1 2/6] drm/lima: reset async_reset on pp hard reset
+Date: Wed, 17 Jan 2024 10:23:45 -0800
+Message-ID: <CA+E=qVfjKvW=R6NaF7eEKkHk91HLGnohQjM8h-3Kh=fv61WgJA@mail.gmail.com>
+Subject: Re: [PATCH v1 3/6] drm/lima: set bus_stop bit before hard reset
 To: Erico Nunes <nunes.erico@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -80,45 +80,54 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Tue, Jan 16, 2024 at 7:12=E2=80=AFPM Erico Nunes <nunes.erico@gmail.com>=
  wrote:
 >
-> Lima pp jobs use an async reset to avoid having to wait for the soft
-> reset right after a job. The soft reset is done at the end of a job and
-> a reset_complete flag is expected to be set at the next job.
-> However, in case the user runs into a job timeout from any application,
-> a hard reset is issued to the hardware. This hard reset clears the
-> reset_complete flag, which causes an error message to show up before the
-> next job.
-> This is probably harmless for the execution but can be very confusing to
-> debug, as it blames a reset timeout on the next application to submit a
-> job.
-> Reset the async_reset flag when doing the hard reset so that we don't
-> get that message.
->
+> This is required for reliable hard resets. Otherwise, doing a hard reset
+> while a task is still running (such as a task which is being stopped by
+> the drm_sched timeout handler) may result in random mmu write timeouts
+> or lockups which cause the entire gpu to hang.
+
+It looks like Mali driver is doing the same, so it totally makes sense.
+
 > Signed-off-by: Erico Nunes <nunes.erico@gmail.com>
 Reviewed-by: Vasily Khoruzhick <anarsoul@gmail.com>
 
 > ---
->  drivers/gpu/drm/lima/lima_pp.c | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  drivers/gpu/drm/lima/lima_pp.c | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
 >
 > diff --git a/drivers/gpu/drm/lima/lima_pp.c b/drivers/gpu/drm/lima/lima_p=
 p.c
-> index a5c95bed08c0..a8f8f63b8295 100644
+> index a8f8f63b8295..ac097dd75072 100644
 > --- a/drivers/gpu/drm/lima/lima_pp.c
 > +++ b/drivers/gpu/drm/lima/lima_pp.c
-> @@ -191,6 +191,13 @@ static int lima_pp_hard_reset(struct lima_ip *ip)
->         pp_write(LIMA_PP_PERF_CNT_0_LIMIT, 0);
->         pp_write(LIMA_PP_INT_CLEAR, LIMA_PP_IRQ_MASK_ALL);
->         pp_write(LIMA_PP_INT_MASK, LIMA_PP_IRQ_MASK_USED);
-> +
-> +       /*
-> +        * if there was an async soft reset queued,
-> +        * don't wait for it in the next job
-> +        */
-> +       ip->data.async_reset =3D false;
-> +
->         return 0;
+> @@ -168,6 +168,11 @@ static void lima_pp_write_frame(struct lima_ip *ip, =
+u32 *frame, u32 *wb)
+>         }
 >  }
 >
+> +static int lima_pp_bus_stop_poll(struct lima_ip *ip)
+> +{
+> +       return !!(pp_read(LIMA_PP_STATUS) & LIMA_PP_STATUS_BUS_STOPPED);
+> +}
+> +
+>  static int lima_pp_hard_reset_poll(struct lima_ip *ip)
+>  {
+>         pp_write(LIMA_PP_PERF_CNT_0_LIMIT, 0xC01A0000);
+> @@ -181,6 +186,14 @@ static int lima_pp_hard_reset(struct lima_ip *ip)
+>
+>         pp_write(LIMA_PP_PERF_CNT_0_LIMIT, 0xC0FFE000);
+>         pp_write(LIMA_PP_INT_MASK, 0);
+> +
+> +       pp_write(LIMA_PP_CTRL, LIMA_PP_CTRL_STOP_BUS);
+> +       ret =3D lima_poll_timeout(ip, lima_pp_bus_stop_poll, 10, 100);
+> +       if (ret) {
+> +               dev_err(dev->dev, "pp %s bus stop timeout\n", lima_ip_nam=
+e(ip));
+> +               return ret;
+> +       }
+> +
+>         pp_write(LIMA_PP_CTRL, LIMA_PP_CTRL_FORCE_RESET);
+>         ret =3D lima_poll_timeout(ip, lima_pp_hard_reset_poll, 10, 100);
+>         if (ret) {
 > --
 > 2.43.0
 >
