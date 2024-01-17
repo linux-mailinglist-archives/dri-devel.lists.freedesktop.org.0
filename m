@@ -2,58 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 770B4830CB2
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jan 2024 19:25:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D65D830CB4
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jan 2024 19:28:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14F6A10E7A1;
-	Wed, 17 Jan 2024 18:25:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8863910E7AD;
+	Wed, 17 Jan 2024 18:28:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00B6210E7B7;
- Wed, 17 Jan 2024 18:25:14 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id
- ffacd0b85a97d-33761776af9so2022082f8f.0; 
- Wed, 17 Jan 2024 10:25:14 -0800 (PST)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+ [209.85.221.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62CDB10E78B;
+ Wed, 17 Jan 2024 18:28:03 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id
+ ffacd0b85a97d-337bfdb6f84so341558f8f.0; 
+ Wed, 17 Jan 2024 10:28:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1705515852; x=1706120652; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1705516022; x=1706120822; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8KNRogNawE98vzU6hLj1KXDSyquhagx1/Y27JreKsQM=;
- b=AvWbXw9m9Jzo6QLF5ueKgHVpAY27u7qX26IuPRUiq3jttz8DaziH8oPg+wzWs8jxwH
- jC5LEyLCN0qtW4XE1iglrMvBoNCZcdbszYJMnGMFgC5w6EYXF8DFi5QpiweEjRNN+vq5
- hEZVglf/4x7fgk+lCGeo7v3tLMC3QfTiUMjnke3n9i6TyYsVgdm8khsHzoJzb2IFxUjr
- SjB9CdCYUHwnmk81dIIpnpI/JAlisGH03RbfNyLIZwCNFbxs2jLBnOTuNca1Xgiu4jZi
- Yr841LWNdZngJyM6Z+wjx+ChTrle43/Obk4WNQdD7O9oURuoJJiGNgl/2pShRx292+tG
- iJRw==
+ bh=7zQWgPbfKp6YM9aUfoUkYrRudM52sOmWJm/p3sD772Y=;
+ b=J9tQJ/zWhcHhqlvyR+L24k0O+89yo3cRYd2byIW6ySWmYKCYOTT5ACQryBviZPXefb
+ 930FBUPq0mnjX7cE5LZwKnUx7Lhkz4ntEVJMlqvU5Rl/L1DhaEs/OUoDx7XkGoC87BZ8
+ b3dDiLzf0meAmrtPQ+n+nTrOsP+a0iVtJsi8reQIhQZrsaR2J6JftDSMmsZQVgCSsXWn
+ +o87PrJr1qgx+K6PB+b+zJYneYFkxv+aNlMDLc1x0G7wUigM8YVeThcDQLhF+aAIy7rN
+ H8gl0cuX4EIVDv0smoZi5U5mJ7wTsxb16MYMJDLZj77gq1JefCa9vS8Q0g4GVz/uM6Bg
+ 36gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705515852; x=1706120652;
+ d=1e100.net; s=20230601; t=1705516022; x=1706120822;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=8KNRogNawE98vzU6hLj1KXDSyquhagx1/Y27JreKsQM=;
- b=Y3Vqq0p0wFEeLoxe9YVQfKV+gI45PXgtxVKQ2Bs0dEnFdjy+2O3oHoE9oXc/xbkEZi
- jC2VEbpJmhpSkOEVqUpCVPfUGxXBIv3NJbJ8UFJtPR88BtPHlDwKPvsVsd1MQZCDjmrv
- klLDu3G6q19oK5tGgvBHycdtTCgdqzVzeUPGX/zhzORNyusBa6ASh3CHOXycNGTxfnct
- 5pmDCbx79o4FZhmi9DtlqUx+GRFT8JX75Yjq8rfM4lEFlE79XeNG6atDS3WG8SKbWHE5
- M7LD1ap7uawGUWlJYZjNnAEtURqNQBdAi+DPiQW6/g91KYou/+jK/5c7fCVkhFdasbVs
- F4Yg==
-X-Gm-Message-State: AOJu0YyZKsXwdW2Ad46ShJNsTSgoerdSkgokN3aYQeT9G2q4Da1BIohY
- jRP1e/jOWpOUE28bvnXeuGPP2PDqDDR9M9DUhz0=
-X-Google-Smtp-Source: AGHT+IHMrOchJ+5dcyqg95SjFNj5eWwJ0BRr8CfuLDBHpYipUaBdrJQEVAGODtTLanoMQLOnw2q9YwVW9qInm8lBML8=
-X-Received: by 2002:a5d:4111:0:b0:337:c4c8:92d with SMTP id
- l17-20020a5d4111000000b00337c4c8092dmr1411467wrp.0.1705515852542; Wed, 17 Jan
- 2024 10:24:12 -0800 (PST)
+ bh=7zQWgPbfKp6YM9aUfoUkYrRudM52sOmWJm/p3sD772Y=;
+ b=pkUtw0ZsosfTFMHJIeW+UJ99ZQvs0jETndCBAyiiZLXHmSnvkoBsPJoNieJGSIyY/Z
+ SaBfCFuc4NxRszfq2dUZwZHBwNa+LN0Ud+qEtlQlubRgkBQgndtj4ap6mf/Vsxst6PF3
+ 2+yXYQ/ji0hOCRJ7GgcqVA/1MNOPNht0VDCb1/ODIgXALL4hmhqFekHyXgu/hMtFQhjs
+ HTvjmOBg1/V0YK9gnlueXPbRm5G5ETwZH2WWXpRonsxsicJNe3mkA1DmoQzsxG+JJN7+
+ d7q3mKccOgAyh4TZ91V02qdDI0u/qMfg5fHlybH2FO+DSltmto9aQ/Q94lTJi5WERjt2
+ uwPA==
+X-Gm-Message-State: AOJu0YxebrWpkyi+xUdhFOqZsHfzCTxVEwClgaSprxsBpjZRHx3WV24h
+ OKKX/fz/1S90iQlupZh1RYu9Fj9OSK4UFSigI2I=
+X-Google-Smtp-Source: AGHT+IFdnC0bev8FKCUUagV9fb50fuvyKdfakd6ZW2v7kea9CH61+ePpb4Manrk974u1JjOoEErUW2Z0nZYBQvx7hpE=
+X-Received: by 2002:adf:f48a:0:b0:337:c536:8516 with SMTP id
+ l10-20020adff48a000000b00337c5368516mr159173wro.6.1705516021817; Wed, 17 Jan
+ 2024 10:27:01 -0800 (PST)
 MIME-Version: 1.0
 References: <20240117031212.1104034-1-nunes.erico@gmail.com>
- <20240117031212.1104034-4-nunes.erico@gmail.com>
-In-Reply-To: <20240117031212.1104034-4-nunes.erico@gmail.com>
+ <20240117031212.1104034-5-nunes.erico@gmail.com>
+In-Reply-To: <20240117031212.1104034-5-nunes.erico@gmail.com>
 From: Vasily Khoruzhick <anarsoul@gmail.com>
-Date: Wed, 17 Jan 2024 10:23:45 -0800
-Message-ID: <CA+E=qVfjKvW=R6NaF7eEKkHk91HLGnohQjM8h-3Kh=fv61WgJA@mail.gmail.com>
-Subject: Re: [PATCH v1 3/6] drm/lima: set bus_stop bit before hard reset
+Date: Wed, 17 Jan 2024 10:26:35 -0800
+Message-ID: <CA+E=qVeWi_RwLUOZJTAa6_Tx3pPTbym5_JtWYJetBiFUXnDQgw@mail.gmail.com>
+Subject: Re: [PATCH v1 4/6] drm/lima: handle spurious timeouts due to high irq
+ latency
 To: Erico Nunes <nunes.erico@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -80,54 +81,101 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Tue, Jan 16, 2024 at 7:12=E2=80=AFPM Erico Nunes <nunes.erico@gmail.com>=
  wrote:
 >
-> This is required for reliable hard resets. Otherwise, doing a hard reset
-> while a task is still running (such as a task which is being stopped by
-> the drm_sched timeout handler) may result in random mmu write timeouts
-> or lockups which cause the entire gpu to hang.
-
-It looks like Mali driver is doing the same, so it totally makes sense.
-
+> There are several unexplained and unreproduced cases of rendering
+> timeouts with lima, for which one theory is high IRQ latency coming from
+> somewhere else in the system.
+> This kind of occurrence may cause applications to trigger unnecessary
+> resets of the GPU or even applications to hang if it hits an issue in
+> the recovery path.
+> Panfrost already does some special handling to account for such
+> "spurious timeouts", it makes sense to have this in lima too to reduce
+> the chance that it hit users.
+>
 > Signed-off-by: Erico Nunes <nunes.erico@gmail.com>
 Reviewed-by: Vasily Khoruzhick <anarsoul@gmail.com>
 
 > ---
->  drivers/gpu/drm/lima/lima_pp.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
+>  drivers/gpu/drm/lima/lima_sched.c | 32 ++++++++++++++++++++++++++-----
+>  drivers/gpu/drm/lima/lima_sched.h |  2 ++
+>  2 files changed, 29 insertions(+), 5 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/lima/lima_pp.c b/drivers/gpu/drm/lima/lima_p=
-p.c
-> index a8f8f63b8295..ac097dd75072 100644
-> --- a/drivers/gpu/drm/lima/lima_pp.c
-> +++ b/drivers/gpu/drm/lima/lima_pp.c
-> @@ -168,6 +168,11 @@ static void lima_pp_write_frame(struct lima_ip *ip, =
-u32 *frame, u32 *wb)
->         }
->  }
+> diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lim=
+a_sched.c
+> index 66317296d831..9449b81bcd5b 100644
+> --- a/drivers/gpu/drm/lima/lima_sched.c
+> +++ b/drivers/gpu/drm/lima/lima_sched.c
+> @@ -1,6 +1,7 @@
+>  // SPDX-License-Identifier: GPL-2.0 OR MIT
+>  /* Copyright 2017-2019 Qiang Yu <yuq825@gmail.com> */
 >
-> +static int lima_pp_bus_stop_poll(struct lima_ip *ip)
-> +{
-> +       return !!(pp_read(LIMA_PP_STATUS) & LIMA_PP_STATUS_BUS_STOPPED);
-> +}
+> +#include <linux/hardirq.h>
+>  #include <linux/iosys-map.h>
+>  #include <linux/kthread.h>
+>  #include <linux/slab.h>
+> @@ -223,10 +224,7 @@ static struct dma_fence *lima_sched_run_job(struct d=
+rm_sched_job *job)
+>
+>         task->fence =3D &fence->base;
+>
+> -       /* for caller usage of the fence, otherwise irq handler
+> -        * may consume the fence before caller use it
+> -        */
+> -       dma_fence_get(task->fence);
+> +       task->done_fence =3D dma_fence_get(task->fence);
+>
+>         pipe->current_task =3D task;
+>
+> @@ -401,9 +399,33 @@ static enum drm_gpu_sched_stat lima_sched_timedout_j=
+ob(struct drm_sched_job *job
+>         struct lima_sched_pipe *pipe =3D to_lima_pipe(job->sched);
+>         struct lima_sched_task *task =3D to_lima_task(job);
+>         struct lima_device *ldev =3D pipe->ldev;
+> +       struct lima_ip *ip =3D pipe->processor[0];
 > +
->  static int lima_pp_hard_reset_poll(struct lima_ip *ip)
->  {
->         pp_write(LIMA_PP_PERF_CNT_0_LIMIT, 0xC01A0000);
-> @@ -181,6 +186,14 @@ static int lima_pp_hard_reset(struct lima_ip *ip)
->
->         pp_write(LIMA_PP_PERF_CNT_0_LIMIT, 0xC0FFE000);
->         pp_write(LIMA_PP_INT_MASK, 0);
-> +
-> +       pp_write(LIMA_PP_CTRL, LIMA_PP_CTRL_STOP_BUS);
-> +       ret =3D lima_poll_timeout(ip, lima_pp_bus_stop_poll, 10, 100);
-> +       if (ret) {
-> +               dev_err(dev->dev, "pp %s bus stop timeout\n", lima_ip_nam=
-e(ip));
-> +               return ret;
+> +       /*
+> +        * If the GPU managed to complete this jobs fence, the timeout is
+> +        * spurious. Bail out.
+> +        */
+> +       if (dma_fence_is_signaled(task->done_fence)) {
+> +               DRM_WARN("%s spurious timeout\n", lima_ip_name(ip));
+> +               return DRM_GPU_SCHED_STAT_NOMINAL;
 > +       }
 > +
->         pp_write(LIMA_PP_CTRL, LIMA_PP_CTRL_FORCE_RESET);
->         ret =3D lima_poll_timeout(ip, lima_pp_hard_reset_poll, 10, 100);
->         if (ret) {
+> +       /*
+> +        * Lima IRQ handler may take a long time to process an interrupt
+> +        * if there is another IRQ handler hogging the processing.
+> +        * In order to catch such cases and not report spurious Lima job
+> +        * timeouts, synchronize the IRQ handler and re-check the fence
+> +        * status.
+> +        */
+> +       synchronize_irq(ip->irq);
+> +
+> +       if (dma_fence_is_signaled(task->done_fence)) {
+> +               DRM_WARN("%s unexpectedly high interrupt latency\n", lima=
+_ip_name(ip));
+> +               return DRM_GPU_SCHED_STAT_NOMINAL;
+> +       }
+>
+>         if (!pipe->error)
+> -               DRM_ERROR("lima job timeout\n");
+> +               DRM_ERROR("%s lima job timeout\n", lima_ip_name(ip));
+>
+>         drm_sched_stop(&pipe->base, &task->base);
+>
+> diff --git a/drivers/gpu/drm/lima/lima_sched.h b/drivers/gpu/drm/lima/lim=
+a_sched.h
+> index 6a11764d87b3..34050facb110 100644
+> --- a/drivers/gpu/drm/lima/lima_sched.h
+> +++ b/drivers/gpu/drm/lima/lima_sched.h
+> @@ -29,6 +29,8 @@ struct lima_sched_task {
+>         bool recoverable;
+>         struct lima_bo *heap;
+>
+> +       struct dma_fence *done_fence;
+> +
+>         /* pipe fence */
+>         struct dma_fence *fence;
+>  };
 > --
 > 2.43.0
 >
