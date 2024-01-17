@@ -2,32 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22AB183052E
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jan 2024 13:27:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3F0D830527
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jan 2024 13:27:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEF0610E636;
-	Wed, 17 Jan 2024 12:26:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24DE910E687;
+	Wed, 17 Jan 2024 12:27:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E263410E636
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jan 2024 12:26:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4067210E687
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jan 2024 12:27:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1705494412;
+ s=mail; t=1705494413;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=/sDVLzlV6tVM1+jlnCP4YrSpFonZ8VEXETbEWgRMsuA=;
- b=AnuJeXJrsxDBX4u2PXAQELZ/ATdNATOI3nnJtTFJP8NZyE+fPe7/7Wl72Pf0pufRWaFvP1
- sNzzWBdCHYltlr90nl6m+MVGb9eTfWZS+78j7Mt7MuOAR0Qk1audmOo2VqSZdf8a89jbTb
- IWdLbuxuhZnhf1RqMzfVvZA6GZH3DTg=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SqXbfp61fzBHWNEqVrElLd46cr7HG/1wYVIvKKSn5jY=;
+ b=223+VYq+sNKlcr9ev/upoyhfOA7QKfzwcy2ytRmzFcW9tiJNZhBFP7Icx2D/cE6HkGGC+S
+ FicGrecQKa3T7e642ZdQ1PZ4aswWX37cF6RM4V98cRtvafDFiZ3eQI1HL1PqyVRzDB+uG5
+ 6vxQNtWC63HTGIlz41RK8dew84Qpqa8=
 From: Paul Cercueil <paul@crapouillou.net>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [PATCH v4 0/4] usb: gadget: functionfs: DMABUF import interface
-Date: Wed, 17 Jan 2024 13:26:42 +0100
-Message-ID: <20240117122646.41616-1-paul@crapouillou.net>
+Subject: [PATCH v4 1/4] usb: gadget: Support already-mapped DMA SGs
+Date: Wed, 17 Jan 2024 13:26:43 +0100
+Message-ID: <20240117122646.41616-2-paul@crapouillou.net>
+In-Reply-To: <20240117122646.41616-1-paul@crapouillou.net>
+References: <20240117122646.41616-1-paul@crapouillou.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam: Yes
@@ -52,65 +55,62 @@ Cc: Paul Cercueil <paul@crapouillou.net>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Add a new 'sg_was_mapped' field to the struct usb_request. This field
+can be used to indicate that the scatterlist associated to the USB
+transfer has already been mapped into the DMA space, and it does not
+have to be done internally.
 
-This is the v4 of my patchset that adds a new DMABUF import interface to
-FunctionFS. It addresses the points that Daniel raised on the v3 - see
-changelog below.
+Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+---
+ drivers/usb/gadget/udc/core.c | 7 ++++++-
+ include/linux/usb/gadget.h    | 2 ++
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
-This interface is being used at Analog Devices, to transfer data from
-high-speed transceivers to USB in a zero-copy fashion, using also the
-DMABUF import interface to the IIO subsystem which is being upstreamed
-in parallel [1]. The two are used by the Libiio software [2].
-
-On a ZCU102 board with a FMComms3 daughter board, using the combination
-of these two new interfaces yields a drastic improvement of the
-throughput, from about 127 MiB/s using IIO's buffer read/write interface
-+ read/write to the FunctionFS endpoints, to about 274 MiB/s when
-passing around DMABUFs, for a lower CPU usage (0.85 load avg. before,
-vs. 0.65 after).
-
-Right now, *technically* there are no users of this interface, as
-Analog Devices wants to wait until both interfaces are accepted upstream
-to merge the DMABUF code in Libiio into the main branch, and Jonathan
-wants to wait and see if this patchset is accepted to greenlight the
-DMABUF interface in IIO as well. I think this isn't really a problem;
-once everybody is happy with its part of the cake, we can merge them all
-at once.
-
-This is obviously for 5.9, and based on next-20240117.
-
-Changelog:
-
-- [3/4]:
-  - Protect the dmabufs list with a mutex
-  - Use incremental sequence number for the dma_fences
-  - Unref attachments and DMABUFs in workers
-  - Remove dead code in ffs_dma_resv_lock()
-  - Fix non-block actually blocking
-  - Use dma_fence_begin/end_signalling()
-  - Add comment about cache-management and dma_buf_unmap_attachment()
-  - Make sure dma_buf_map_attachment() is called with the dma-resv locked
-
-Cheers,
--Paul
-
-[1] https://lore.kernel.org/linux-iio/219abc43b4fdd4a13b307ed2efaa0e6869e68e3f.camel@gmail.com/T/
-[2] https://github.com/analogdevicesinc/libiio/tree/pcercuei/dev-new-dmabuf-api
-
-Paul Cercueil (4):
-  usb: gadget: Support already-mapped DMA SGs
-  usb: gadget: functionfs: Factorize wait-for-endpoint code
-  usb: gadget: functionfs: Add DMABUF import interface
-  Documentation: usb: Document FunctionFS DMABUF API
-
- Documentation/usb/functionfs.rst    |  36 ++
- drivers/usb/gadget/function/f_fs.c  | 500 ++++++++++++++++++++++++++--
- drivers/usb/gadget/udc/core.c       |   7 +-
- include/linux/usb/gadget.h          |   2 +
- include/uapi/linux/usb/functionfs.h |  41 +++
- 5 files changed, 565 insertions(+), 21 deletions(-)
-
+diff --git a/drivers/usb/gadget/udc/core.c b/drivers/usb/gadget/udc/core.c
+index d59f94464b87..9d4150124fdb 100644
+--- a/drivers/usb/gadget/udc/core.c
++++ b/drivers/usb/gadget/udc/core.c
+@@ -903,6 +903,11 @@ int usb_gadget_map_request_by_dev(struct device *dev,
+ 	if (req->length == 0)
+ 		return 0;
+ 
++	if (req->sg_was_mapped) {
++		req->num_mapped_sgs = req->num_sgs;
++		return 0;
++	}
++
+ 	if (req->num_sgs) {
+ 		int     mapped;
+ 
+@@ -948,7 +953,7 @@ EXPORT_SYMBOL_GPL(usb_gadget_map_request);
+ void usb_gadget_unmap_request_by_dev(struct device *dev,
+ 		struct usb_request *req, int is_in)
+ {
+-	if (req->length == 0)
++	if (req->length == 0 || req->sg_was_mapped)
+ 		return;
+ 
+ 	if (req->num_mapped_sgs) {
+diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
+index a771ccc038ac..c529e4e06997 100644
+--- a/include/linux/usb/gadget.h
++++ b/include/linux/usb/gadget.h
+@@ -52,6 +52,7 @@ struct usb_ep;
+  * @short_not_ok: When reading data, makes short packets be
+  *     treated as errors (queue stops advancing till cleanup).
+  * @dma_mapped: Indicates if request has been mapped to DMA (internal)
++ * @sg_was_mapped: Set if the scatterlist has been mapped before the request
+  * @complete: Function called when request completes, so this request and
+  *	its buffer may be re-used.  The function will always be called with
+  *	interrupts disabled, and it must not sleep.
+@@ -111,6 +112,7 @@ struct usb_request {
+ 	unsigned		zero:1;
+ 	unsigned		short_not_ok:1;
+ 	unsigned		dma_mapped:1;
++	unsigned		sg_was_mapped:1;
+ 
+ 	void			(*complete)(struct usb_ep *ep,
+ 					struct usb_request *req);
 -- 
 2.43.0
 
