@@ -2,51 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9D1C830F05
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jan 2024 23:03:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27C2A830EFF
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jan 2024 23:03:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA32610E8BD;
-	Wed, 17 Jan 2024 22:01:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C55310E8BB;
+	Wed, 17 Jan 2024 22:01:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2761B10E898;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E9C410E899;
  Wed, 17 Jan 2024 22:01:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1705528907; x=1737064907;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=MY8pJHnVMgBM7aazDRdEB2C96Ve/RDJicoR6dcBJDcA=;
- b=KRc22RFWV23GNUr4uacRs3VGDGZt71Mw9jWJnTEHkgBogfsLPlaB4Bey
- +wIBBQKisRWV/YOSDhVBd3fh4jD9FpgXHUVlWNYxDh1EA8OlMveuxVPP1
- ScxcNUdYB+D6PKO/4uXUdN4rrS1NoSTnkhnQEaU0O7YKEHYwnrqUQjNTW
- tAg/pAW1rNAGbHVn9pls03UyL4hhwOX4MqwNlZ3et/QeCTTuK+G5kC12G
- vTdPlIo5LW9ZGzWQUdjeGMMPaptB7xEPw9XP1ZHIbQc/3n0WprbYuarPJ
- c5RvbugUkMP+evM1gx6oofEn56mE/yT1EUFe+O1FuPbS5QiS1wEOWLukS A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="7657635"
+ bh=r6IXPH8nFmUCtsYlHsaTJevYNgMKhxL2bz4Pqc5NHJM=;
+ b=R/bMJ3f7VPMjQ/aOnESWWNpdQsh+5dgENeLqFu3VCeFEvqkSO6HRv1T5
+ R6WaTqCJBgh7b1IiyKTXZ1lIf5GGA15y6G00J567qosIdXIKwB99t2Kkf
+ FSbC/SnWxCvJwfaW+MYGs3cVv+voP/8wLRGl7/M9kycJ/EsPjoR9SlioF
+ XifkW3rHs5WFY/D7GWu7Fg0Wcfp4SRXKhzwyN4ZfS4x8mBCwY3nkgdsr4
+ Lvy9qhMYxLPaAgMynh0YvKV/mzuokBB8CYOVHe9LMoHYEtD3LzXWiCQKi
+ v4zeiz/DJqXey8y4U2gr3SzqabJnlWMAznYqz7bGKNh2pXyWgHI5ztA81 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="7657636"
 X-IronPort-AV: E=Sophos;i="6.05,201,1701158400"; 
-   d="scan'208";a="7657635"
+   d="scan'208";a="7657636"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Jan 2024 14:01:46 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="734089282"
-X-IronPort-AV: E=Sophos;i="6.05,201,1701158400"; d="scan'208";a="734089282"
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="734089284"
+X-IronPort-AV: E=Sophos;i="6.05,201,1701158400"; d="scan'208";a="734089284"
 Received: from szeng-desk.jf.intel.com ([10.165.21.149])
  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Jan 2024 14:01:46 -0800
 From: Oak Zeng <oak.zeng@intel.com>
 To: dri-devel@lists.freedesktop.org,
 	intel-xe@lists.freedesktop.org
-Subject: [PATCH 22/23] drm/xe/svm: Add DRM_XE_SVM kernel config entry
-Date: Wed, 17 Jan 2024 17:12:22 -0500
-Message-Id: <20240117221223.18540-23-oak.zeng@intel.com>
+Subject: [PATCH 23/23] drm/xe/svm: Add svm memory hints interface
+Date: Wed, 17 Jan 2024 17:12:23 -0500
+Message-Id: <20240117221223.18540-24-oak.zeng@intel.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20240117221223.18540-1-oak.zeng@intel.com>
 References: <20240117221223.18540-1-oak.zeng@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,112 +65,83 @@ Cc: matthew.brost@intel.com, Thomas.Hellstrom@linux.intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DRM_XE_SVM kernel config entry is added so
-xe svm feature can be configured before kernel
-compilation.
-
 Signed-off-by: Oak Zeng <oak.zeng@intel.com>
-Co-developed-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@intel.com>
-Cc: Brian Welty <brian.welty@intel.com>
 ---
- drivers/gpu/drm/xe/Kconfig   | 22 ++++++++++++++++++++++
- drivers/gpu/drm/xe/Makefile  |  5 +++++
- drivers/gpu/drm/xe/xe_mmio.c |  5 +++++
- drivers/gpu/drm/xe/xe_vm.c   |  2 ++
- 4 files changed, 34 insertions(+)
+ include/uapi/drm/xe_drm.h | 40 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
 
-diff --git a/drivers/gpu/drm/xe/Kconfig b/drivers/gpu/drm/xe/Kconfig
-index 1b57ae38210d..6f498095a915 100644
---- a/drivers/gpu/drm/xe/Kconfig
-+++ b/drivers/gpu/drm/xe/Kconfig
-@@ -83,6 +83,28 @@ config DRM_XE_FORCE_PROBE
+diff --git a/include/uapi/drm/xe_drm.h b/include/uapi/drm/xe_drm.h
+index 50bbea0992d9..551ed8706097 100644
+--- a/include/uapi/drm/xe_drm.h
++++ b/include/uapi/drm/xe_drm.h
+@@ -80,6 +80,7 @@ extern "C" {
+  *  - &DRM_IOCTL_XE_EXEC_QUEUE_GET_PROPERTY
+  *  - &DRM_IOCTL_XE_EXEC
+  *  - &DRM_IOCTL_XE_WAIT_USER_FENCE
++ *  - &DRM_IOCTL_XE_SVM
+  */
  
- 	  Use "!*" to block the probe of the driver for all known devices.
+ /*
+@@ -100,6 +101,7 @@ extern "C" {
+ #define DRM_XE_EXEC_QUEUE_GET_PROPERTY	0x08
+ #define DRM_XE_EXEC			0x09
+ #define DRM_XE_WAIT_USER_FENCE		0x0a
++#define DRM_XE_SVM			0x0b
+ /* Must be kept compact -- no holes */
  
-+config DRM_XE_SVM
-+    bool "Enable Shared Virtual Memory support in xe"
-+    depends on DRM_XE
-+    depends on ARCH_ENABLE_MEMORY_HOTPLUG
-+    depends on ARCH_ENABLE_MEMORY_HOTREMOVE
-+    depends on MEMORY_HOTPLUG
-+    depends on MEMORY_HOTREMOVE
-+    depends on ARCH_HAS_PTE_DEVMAP
-+    depends on SPARSEMEM_VMEMMAP
-+    depends on ZONE_DEVICE
-+    depends on DEVICE_PRIVATE
-+    depends on MMU
-+    select HMM_MIRROR
-+    select MMU_NOTIFIER
-+    default y
-+    help
-+      Choose this option if you want Shared Virtual Memory (SVM)
-+      support in xe. With SVM, virtual address space is shared
-+	  between CPU and GPU. This means any virtual address such
-+	  as malloc or mmap returns, variables on stack, or global
-+	  memory pointers, can be used for GPU transparently.
+ #define DRM_IOCTL_XE_DEVICE_QUERY		DRM_IOWR(DRM_COMMAND_BASE + DRM_XE_DEVICE_QUERY, struct drm_xe_device_query)
+@@ -113,6 +115,7 @@ extern "C" {
+ #define DRM_IOCTL_XE_EXEC_QUEUE_GET_PROPERTY	DRM_IOWR(DRM_COMMAND_BASE + DRM_XE_EXEC_QUEUE_GET_PROPERTY, struct drm_xe_exec_queue_get_property)
+ #define DRM_IOCTL_XE_EXEC			DRM_IOW(DRM_COMMAND_BASE + DRM_XE_EXEC, struct drm_xe_exec)
+ #define DRM_IOCTL_XE_WAIT_USER_FENCE		DRM_IOWR(DRM_COMMAND_BASE + DRM_XE_WAIT_USER_FENCE, struct drm_xe_wait_user_fence)
++#define DRM_IOCTL_XE_SVM			DRM_IOWR(DRM_COMMAND_BASE + DRM_XE_SVM, struct drm_xe_svm_args)
+ 
+ /**
+  * DOC: Xe IOCTL Extensions
+@@ -1339,6 +1342,43 @@ struct drm_xe_wait_user_fence {
+ 	__u64 reserved[2];
+ };
+ 
++enum drm_xe_svm_attr_type {
++	DRM_XE_SVM_ATTR_PREFERRED_LOC,
++	DRM_XE_SVM_ATTR_MIGRATION_GRANULARITY,
++	DRM_XE_SVM_ATTR_ATOMIC,
++	DRM_XE_SVM_ATTR_CACHE,
++	DRM_XE_SVM_ATTR_PREFETCH_LOC,
++	DRM_XE_SVM_ATTR_ACCESS_PATTERN,
++};
 +
- menu "drm/Xe Debugging"
- depends on DRM_XE
- depends on EXPERT
-diff --git a/drivers/gpu/drm/xe/Makefile b/drivers/gpu/drm/xe/Makefile
-index e16b84f79ddf..ae503f7c1f94 100644
---- a/drivers/gpu/drm/xe/Makefile
-+++ b/drivers/gpu/drm/xe/Makefile
-@@ -283,6 +283,11 @@ xe-$(CONFIG_DRM_XE_DISPLAY) += \
- 	i915-display/skl_universal_plane.o \
- 	i915-display/skl_watermark.o
- 
-+xe-$(CONFIG_DRM_XE_SVM) += xe_svm.o \
-+						   xe_svm_devmem.o \
-+						   xe_svm_range.o \
-+						   xe_svm_migrate.o
++struct drm_xe_svm_attr {
++	__u32 type;
++	__u32 value;
++};
 +
- ifeq ($(CONFIG_ACPI),y)
- 	xe-$(CONFIG_DRM_XE_DISPLAY) += \
- 		i915-display/intel_acpi.o \
-diff --git a/drivers/gpu/drm/xe/xe_mmio.c b/drivers/gpu/drm/xe/xe_mmio.c
-index 3d34dcfa3b3a..99810794bd94 100644
---- a/drivers/gpu/drm/xe/xe_mmio.c
-+++ b/drivers/gpu/drm/xe/xe_mmio.c
-@@ -286,7 +286,9 @@ int xe_mmio_probe_vram(struct xe_device *xe)
- 		}
- 
- 		io_size -= min_t(u64, tile_size, io_size);
-+#if IS_ENABLED(CONFIG_DRM_XE_SVM)
- 		xe_svm_devm_add(tile, &tile->mem.vram);
-+#endif
- 	}
- 
- 	xe->mem.vram.actual_physical_size = total_size;
-@@ -361,8 +363,11 @@ static void mmio_fini(struct drm_device *drm, void *arg)
- 	pci_iounmap(to_pci_dev(xe->drm.dev), xe->mmio.regs);
- 	if (xe->mem.vram.mapping)
- 		iounmap(xe->mem.vram.mapping);
++enum drm_xe_svm_op {
++	DRM_XE_SVM_OP_SET_ATTR,
++	DRM_XE_SVM_OP_GET_ATTR,
++};
 +
-+#if IS_ENABLED(CONFIG_DRM_XE_SVM)
- 	for_each_tile(tile, xe, id) {
- 		xe_svm_devm_remove(xe, &tile->mem.vram);
-+#endif
- 	}
++/**
++ * struct drm_xe_svm_args - Input of &DRM_IOCTL_XE_SVM
++ *
++ * Set or get memory attributes to a virtual address range
++ */
++struct drm_xe_svm_args {
++	/** @start: start of the virtual address range */
++	__u64 start;
++	/** @size: size of the virtual address range */
++	__u64 size;
++	/** @op: operation, either set or get */
++	__u32 op;
++	/** @nattr: number of attributes */
++	__u32 nattr;
++	/** @attrs: An array of attributes */
++	struct drm_xe_svm_attr attrs[];
++};
++
+ #if defined(__cplusplus)
  }
- 
-diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-index 712fe49d8fb2..3bf19c92e01f 100644
---- a/drivers/gpu/drm/xe/xe_vm.c
-+++ b/drivers/gpu/drm/xe/xe_vm.c
-@@ -1377,7 +1377,9 @@ struct xe_vm *xe_vm_create(struct xe_device *xe, u32 flags)
- 		xe->usm.num_vm_in_non_fault_mode++;
- 	mutex_unlock(&xe->usm.lock);
- 
-+#if IS_ENABLED(CONFIG_DRM_XE_SVM)
- 	vm->svm = xe_create_svm(vm);
-+#endif
- 	trace_xe_vm_create(vm);
- 
- 	return vm;
+ #endif
 -- 
 2.26.3
 
