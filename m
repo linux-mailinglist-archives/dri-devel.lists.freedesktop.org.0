@@ -2,62 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CA93830C81
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jan 2024 19:13:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB3CD830C82
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jan 2024 19:13:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0EAF10E78A;
-	Wed, 17 Jan 2024 18:12:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0130B10E7AA;
+	Wed, 17 Jan 2024 18:13:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com
- [209.85.216.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40A8710E78A
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jan 2024 18:12:58 +0000 (UTC)
-Received: by mail-pj1-f74.google.com with SMTP id
- 98e67ed59e1d1-28b77ca8807so6907681a91.3
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jan 2024 10:12:58 -0800 (PST)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
+ [209.85.128.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1960010E790
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jan 2024 18:13:40 +0000 (UTC)
+Received: by mail-yw1-f169.google.com with SMTP id
+ 00721157ae682-5f3da7ba2bfso107201367b3.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jan 2024 10:13:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1705515118; x=1706119918;
- darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
- :date:message-id:reply-to;
- bh=78wGbyaR1N/RpeDHrml7Zj+rHmeYYvmV/w0ACPzkZ2Q=;
- b=vPAwkBUjUvwv70bZtdAmYpRGJ1KvIfN+T5fUYT7aXKDmkZ0Ra+j2voHn5WLPkzPwxp
- Li3eqjUEDFSnQnyS4THh6ciPJIQBJO0jqI35DexTwaDZ9SCVz+KqrpPyXc+MHrZki92W
- LOHEx21igGajbOWdIE1dASbuTV38qVkW5i8lU+44wuD4ZkKfBd+EyvhV7ptJw4T9KdLT
- pAtsnFZBl/25u1Olo+HGKqhY/+4PdU5FuT/cG/I9v2je3k7T1JJEHsXL2giCSEBBCVH9
- 2AFDY5jIFlsTrUAmYeUyX2aTIXXWkHVLkuK/TYwac9+KBzrOHXQowFlBX/qoIrU1TM3C
- i2rQ==
+ d=linaro.org; s=google; t=1705515159; x=1706119959; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=UZ9iGp7KbU9YOI2Xiw/kWOiOOP5HwW765+PQKI9u1WY=;
+ b=OWhNQ8r3sqX1CDMV2AC618+3z36ZTk/fXQtNTTFwTMJWp6RX6eo9NRHVfRV0akGMn+
+ Anl20wd9u7lG/qXgdGC9ln+GQGWA5JMSzWe0dHPdUWzJkUEEmdk9h/tsM07StsfkAnEw
+ 9hCNSs6nwftkFrHf3rzdXRJr+Znx1NFpcIIxoRXsmyIQ25XrukPCDe9r3EMDFr5Aa6ye
+ IYa12n4b0TW68/RaesCbrScoXQF+4jXhvooLombQ8gV04MttPe0c6tEFHbUt9GOIG//f
+ x46/z4js+Z0VFY3hltomN6v35bS5xbsq271fBePS7egmKbciNLmvul6MXaI6yfG58jOb
+ CRNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705515118; x=1706119918;
- h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=78wGbyaR1N/RpeDHrml7Zj+rHmeYYvmV/w0ACPzkZ2Q=;
- b=Fhcef3tE1uigX20dOTI4Qj9yCU1bfbR16rawWr+bx4npJU5/mHnUjU6HTCKCGUld6h
- 32Gix5P6BADGY9k9L8BqTAVwBtTylli0eRa8T20KvOmjYI//Lc4Ez5dldv8nKy1AbWB7
- 38K2y3qHIqW/3Aciz8PjT+uZtmttzCcG4zPn7Mgj6gJlnkXZ8oZP8OHw/ScYdaPwvl1a
- ZemmfCUpT01vbBOMr89zouuuxQahTRQzJ1Gw3NJc+t+Y5ZrZDjjotL+ByuLXTiAbjHYl
- b/GbccMcXeYw5w8GfNgKLtlCSXzb2C7VCD7kqUzTH8SGkD3ufCiY028RYOqhT9F5rPu1
- QJ7g==
-X-Gm-Message-State: AOJu0YyJ80FDHSRv718Wk9Ea/hyV8RDNg1eeyQPqN1KvZMH2ancK31f7
- KIVf5qORoiF/0e6zm8InfGUqnPqILQIf46gTwXgEVg==
-X-Google-Smtp-Source: AGHT+IEqlpk5VBwIaxFJ3ed3SctyHMNGEmAma0Nj0WOvArfTlAIrR/Z8ubBEgvCHIcFZ3dr6Jg5yS8q7Aksd9jY=
-X-Received: from tj-virt.c.googlers.com
- ([fda3:e722:ac3:cc00:7f:e700:c0a8:5683])
- (user=tjmercier job=sendgmr) by 2002:a17:90b:51c7:b0:28d:6729:c29a with SMTP
- id sf7-20020a17090b51c700b0028d6729c29amr615328pjb.2.1705515117716; Wed, 17
- Jan 2024 10:11:57 -0800 (PST)
-Date: Wed, 17 Jan 2024 18:11:40 +0000
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.43.0.381.gb435a96ce8-goog
-Message-ID: <20240117181141.286383-1-tjmercier@google.com>
-Subject: [PATCH] dma-buf: heaps: Don't track CMA dma-buf pages under RssFile
-From: "T.J. Mercier" <tjmercier@google.com>
-To: tjmercier@google.com, Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
- "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
- Sandeep Patil <sspatil@android.com>, Laura Abbott <labbott@redhat.com>
+ d=1e100.net; s=20230601; t=1705515159; x=1706119959;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=UZ9iGp7KbU9YOI2Xiw/kWOiOOP5HwW765+PQKI9u1WY=;
+ b=GWYdA3sR+q1gUhTs4RGuhCJgVLUps7pvaIKXur9BaqJb0zHw4dWzAZO2ht/mYNlPpG
+ iF2leO0nCXuZfy4pGAUAT36wFBHI0i/shCkZXc2cmjL6fcwPShojU7jAY/iffqMLfdwa
+ 1du4MUSsufSvtm6/yLydC387iwa+1l0CCroZEUTDAg/ZAJNfrUqzK2i61DcXwunDJ1a/
+ qWWEwFxPWjGtT9U5Oc/MKBPnXBs5dCcj3P4mHrk5wRqRv12kHcuylS6AZW8Hc+ccAtht
+ Pw3E2kn5ekUqcbNNbuBQm1PiT+qyDgKt2v+7wliQhF8Gg0rHAUbuFpfbY4t8MtEJwet0
+ 3LrQ==
+X-Gm-Message-State: AOJu0Yw75W5xNvsSaPVrBmr4tZbh3vyTMSNCoJfnpLrR41cDXtoy3b8V
+ pJvHp72kq/7uLwjb7scu7ONQnWUHdE+ZkOTH/6CkyGlIJSMDJQ==
+X-Google-Smtp-Source: AGHT+IFkh7uNNJqFCQZmQOQJTDWfRSauz7es7f6BhnoY9dO+BCxZs4hu5/U9+DmfwNxH1z70lQy1YBaP6HpodK4efr4=
+X-Received: by 2002:a81:99c3:0:b0:5ea:1eb8:c37 with SMTP id
+ q186-20020a8199c3000000b005ea1eb80c37mr6327524ywg.24.1705515159162; Wed, 17
+ Jan 2024 10:12:39 -0800 (PST)
+MIME-Version: 1.0
+References: <1705514068-22394-1-git-send-email-quic_khsieh@quicinc.com>
+In-Reply-To: <1705514068-22394-1-git-send-email-quic_khsieh@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 17 Jan 2024 20:12:28 +0200
+Message-ID: <CAA8EJpqO+SWYcCtH1hOVow18ZTbJ=qh0D68CEP1sGObdd3=ciA@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/msm/dp: correct configure Colorimetry Indicator
+ Field at MISC0
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,58 +67,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: android-mm@google.com, daniel@ffwll.ch, minchan@google.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, John Stultz <john.stultz@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>, linux-media@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
+ linux-kernel@vger.kernel.org, quic_abhinavk@quicinc.com, airlied@gmail.com,
+ andersson@kernel.org, dri-devel@lists.freedesktop.org, dianders@chromium.org,
+ vkoul@kernel.org, agross@kernel.org, daniel@ffwll.ch,
+ marijn.suijten@somainline.org, quic_jesszhan@quicinc.com, swboyd@chromium.org,
+ sean@poorly.run, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DMA buffers allocated from the CMA dma-buf heap get counted under
-RssFile for processes that map them and trigger page faults. In
-addition to the incorrect accounting reported to userspace, reclaim
-behavior was influenced by the MM_FILEPAGES counter until linux 6.8, but
-this memory is not reclaimable. [1] Change the CMA dma-buf heap to set
-VM_PFNMAP on the VMA so MM does not poke at the memory managed by this
-dma-buf heap, and use vmf_insert_pfn to correct the RSS accounting.
+On Wed, 17 Jan 2024 at 19:54, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+>
+> MSA MISC0 bit 1 to 7 contains Colorimetry Indicator Field. At
+> current implementation, at DP_TEST_DYNAMIC_RANGE_CEA case the
 
-The system dma-buf heap does not suffer from this issue since
-remap_pfn_range is used during the mmap of the buffer, which also sets
-VM_PFNMAP on the VMA.
+In the current implementation, in the ... case
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/mm/vmscan.c?id=fb46e22a9e3863e08aef8815df9f17d0f4b9aede
+> Colorimetry Indicator Field is mistakenly left shifted one extra
+> bit.
 
-Fixes: b61614ec318a ("dma-buf: heaps: Add CMA heap to dmabuf heaps")
-Signed-off-by: T.J. Mercier <tjmercier@google.com>
----
- drivers/dma-buf/heaps/cma_heap.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+This doesn't make sense. You say that the value is mistakenly shifted,
+but the shift is still in place in dp_catalog_ctrl_config_misc().
 
-diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-index ee899f8e6721..4a63567e93ba 100644
---- a/drivers/dma-buf/heaps/cma_heap.c
-+++ b/drivers/dma-buf/heaps/cma_heap.c
-@@ -168,10 +168,7 @@ static vm_fault_t cma_heap_vm_fault(struct vm_fault *vmf)
- 	if (vmf->pgoff > buffer->pagecount)
- 		return VM_FAULT_SIGBUS;
- 
--	vmf->page = buffer->pages[vmf->pgoff];
--	get_page(vmf->page);
--
--	return 0;
-+	return vmf_insert_pfn(vma, vmf->address, page_to_pfn(buffer->pages[vmf->pgoff]));
- }
- 
- static const struct vm_operations_struct dma_heap_vm_ops = {
-@@ -185,6 +182,8 @@ static int cma_heap_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
- 	if ((vma->vm_flags & (VM_SHARED | VM_MAYSHARE)) == 0)
- 		return -EINVAL;
- 
-+	vm_flags_set(vma, VM_IO | VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP);
-+
- 	vma->vm_ops = &dma_heap_vm_ops;
- 	vma->vm_private_data = buffer;
- 
+> This patch return correct value of colorimetry at
+> dp_link_get_colorimetry_config() to fix this problem.
+
+See Documentation/process/submitting-patches.rst#_describe_changes
+
+>
+> Changes in V2:
+> -- drop retrieving colorimetry from colorspace
+> -- drop dr = link->dp_link.test_video.test_dyn_range assignment
+>
+> Fixes: c943b4948b58 ("drm/msm/dp: add displayPort driver support")
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/dp/dp_link.c | 11 ++++++-----
+>  drivers/gpu/drm/msm/dp/dp_link.h |  3 +++
+>  2 files changed, 9 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_link.c b/drivers/gpu/drm/msm/dp/dp_link.c
+> index 98427d4..2e1bdaf 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_link.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_link.c
+> @@ -1082,7 +1082,7 @@ int dp_link_process_request(struct dp_link *dp_link)
+>
+>  int dp_link_get_colorimetry_config(struct dp_link *dp_link)
+>  {
+> -       u32 cc;
+> +       u32 cc = DP_MISC0_LEGACY_RGB;
+>         struct dp_link_private *link;
+>
+>         if (!dp_link) {
+> @@ -1096,10 +1096,11 @@ int dp_link_get_colorimetry_config(struct dp_link *dp_link)
+>          * Unless a video pattern CTS test is ongoing, use RGB_VESA
+>          * Only RGB_VESA and RGB_CEA supported for now
+>          */
+> -       if (dp_link_is_video_pattern_requested(link))
+> -               cc = link->dp_link.test_video.test_dyn_range;
+> -       else
+> -               cc = DP_TEST_DYNAMIC_RANGE_VESA;
+> +       if (dp_link_is_video_pattern_requested(link)) {
+> +               if (link->dp_link.test_video.test_dyn_range &
+> +                                       DP_TEST_DYNAMIC_RANGE_CEA)
+> +                       cc = DP_MISC0_CEA_RGB;
+> +       }
+>
+>         return cc;
+>  }
+> diff --git a/drivers/gpu/drm/msm/dp/dp_link.h b/drivers/gpu/drm/msm/dp/dp_link.h
+> index 9dd4dd9..fe8f716 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_link.h
+> +++ b/drivers/gpu/drm/msm/dp/dp_link.h
+> @@ -12,6 +12,9 @@
+>  #define DP_TEST_BIT_DEPTH_UNKNOWN 0xFFFFFFFF
+>  #define DP_LINK_CAP_ENHANCED_FRAMING (1 << 0)
+>
+> +#define DP_MISC0_LEGACY_RGB            0
+> +#define DP_MISC0_CEA_RGB               0x04
+
+These should go to dp_reg.h and should start with DP_MISC0_COLORIMETRY_CFG
+
+> +
+>  struct dp_link_info {
+>         unsigned char revision;
+>         unsigned int rate;
+> --
+> 2.7.4
+>
+
+
 -- 
-2.43.0.381.gb435a96ce8-goog
-
+With best wishes
+Dmitry
