@@ -2,46 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6DF8830EF4
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jan 2024 23:02:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34F2A830F01
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jan 2024 23:03:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DA2810E8A1;
-	Wed, 17 Jan 2024 22:01:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EB1210E8A4;
+	Wed, 17 Jan 2024 22:01:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3BDA10E88C;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA49F10E892;
  Wed, 17 Jan 2024 22:01:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1705528907; x=1737064907;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=a0CyKgI90QVtJzTmA2DuaoGo2T/vpJ7XqCsA6jXeFbo=;
- b=HJDg7ENA8T2Vwx/OJ5Hv6L8Y0Otw94Fj76Dl6A4SPWnHqBT3DhAtOJZ1
- x5s8suNhnOBPa/CRcetnZPwnPNatl9xl6Wz4n/lxBE0Jdl2IukoXVSOCn
- jFjGTL4KhvIk0/3QyI/IPwa1QT9yZxIZlQJruKjWK5oVqKsZ06oGdia40
- ODYk1862aqwqH5tiO+RliQXHW2gLcLHmcy+iaXG2qZet41+0/UYHcYM+j
- 3yJ0qCy4wMNQ3B6dqn4ahBAaYdUSa/XG4bIFxbEtZKh/ec7PUmnXP/JGJ
- yxM5dQDaEbVefOryd1+bV3ZgAsPEzA+DNL4HbsCHuLc15ZWF337qnk6Av Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="7657627"
+ bh=1rEGLaIa6Lp3+PyRExYWC9Us9ul7CVpa3VN8xsGdX1g=;
+ b=KQz6enn1ncxiUh79SiRvAyWUM22Ws14Iquum9ZpaTuu7ztK7sucQRRLk
+ Jc41Hv+qvQkfo2w9pAlhl6iW4eT6pqLoVjAJj7ZAMfd8y2IS2MkRJIDT2
+ YFEV2G9UKEp63Q+9U19MQcnMZ+S0B6ClZ7rpTf2iPuB4PFS6al2mT0wM/
+ JQo08ihmx4nQFiXfup5E834btsQQ00cM/HHVj7tGeDbor4ogExdsIHsI5
+ 9z/T/1fx5xEe0aLItTejmu3gdthu0bI0b43j4aeoob5pk3byMdpNhVhMZ
+ u31L4aMOR6k1dB/v+o/BoEvV70Bp+sB+ULNKL394GsDg5fgDKwG6j6Gzc w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="7657628"
 X-IronPort-AV: E=Sophos;i="6.05,201,1701158400"; 
-   d="scan'208";a="7657627"
+   d="scan'208";a="7657628"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Jan 2024 14:01:46 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="734089257"
-X-IronPort-AV: E=Sophos;i="6.05,201,1701158400"; d="scan'208";a="734089257"
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="734089261"
+X-IronPort-AV: E=Sophos;i="6.05,201,1701158400"; d="scan'208";a="734089261"
 Received: from szeng-desk.jf.intel.com ([10.165.21.149])
  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Jan 2024 14:01:45 -0800
 From: Oak Zeng <oak.zeng@intel.com>
 To: dri-devel@lists.freedesktop.org,
 	intel-xe@lists.freedesktop.org
-Subject: [PATCH 14/23] drm/xe/svm: trace svm range migration
-Date: Wed, 17 Jan 2024 17:12:14 -0500
-Message-Id: <20240117221223.18540-15-oak.zeng@intel.com>
+Subject: [PATCH 15/23] drm/xe/svm: Implement functions to register and
+ unregister mmu notifier
+Date: Wed, 17 Jan 2024 17:12:15 -0500
+Message-Id: <20240117221223.18540-16-oak.zeng@intel.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20240117221223.18540-1-oak.zeng@intel.com>
 References: <20240117221223.18540-1-oak.zeng@intel.com>
@@ -66,8 +67,11 @@ Cc: matthew.brost@intel.com, Thomas.Hellstrom@linux.intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add function to trace svm range migration, either
-from vram to sram, or sram to vram
+xe driver register mmu interval notifier to core mm to monitor vma
+change. We register mmu interval notifier for each svm range. mmu
+interval notifier should be unregistered in a worker (see next patch
+in this series), so also initialize kernel worker to unregister mmu
+interval notifier.
 
 Signed-off-by: Oak Zeng <oak.zeng@intel.com>
 Cc: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
@@ -75,70 +79,140 @@ Cc: Matthew Brost <matthew.brost@intel.com>
 Cc: Thomas Hellström <thomas.hellstrom@intel.com>
 Cc: Brian Welty <brian.welty@intel.com>
 ---
- drivers/gpu/drm/xe/xe_svm_migrate.c |  1 +
- drivers/gpu/drm/xe/xe_trace.h       | 30 +++++++++++++++++++++++++++++
- 2 files changed, 31 insertions(+)
+ drivers/gpu/drm/xe/xe_svm.h       | 14 ++++++
+ drivers/gpu/drm/xe/xe_svm_range.c | 73 +++++++++++++++++++++++++++++++
+ 2 files changed, 87 insertions(+)
 
-diff --git a/drivers/gpu/drm/xe/xe_svm_migrate.c b/drivers/gpu/drm/xe/xe_svm_migrate.c
-index 3be26da33aa3..b4df411e04f3 100644
---- a/drivers/gpu/drm/xe/xe_svm_migrate.c
-+++ b/drivers/gpu/drm/xe/xe_svm_migrate.c
-@@ -201,6 +201,7 @@ vm_fault_t xe_devm_migrate_to_ram(struct vm_fault *vmf)
- 	if (!migrate_vma.cpages)
- 		goto free_buf;
+diff --git a/drivers/gpu/drm/xe/xe_svm.h b/drivers/gpu/drm/xe/xe_svm.h
+index 6b93055934f8..90e665f2bfc6 100644
+--- a/drivers/gpu/drm/xe/xe_svm.h
++++ b/drivers/gpu/drm/xe/xe_svm.h
+@@ -52,16 +52,28 @@ struct xe_svm {
+  * struct xe_svm_range - Represents a shared virtual address range.
+  */
+ struct xe_svm_range {
++	/** @svm: pointer of the xe_svm that this range belongs to */
++	struct xe_svm *svm;
++
+ 	/** @notifier: The mmu interval notifer used to keep track of CPU
+ 	 * side address range change. Driver will get a callback with this
+ 	 * notifier if anything changed from CPU side, such as range is
+ 	 * unmapped from CPU
+ 	 */
+ 	struct mmu_interval_notifier notifier;
++	bool mmu_notifier_registered;
+ 	/** @start: start address of this range, inclusive */
+ 	u64 start;
+ 	/** @end: end address of this range, exclusive */
+ 	u64 end;
++	/** @vma: the corresponding vma of this svm range
++	 *  The relationship b/t vma and svm range is 1:N,
++	 *  which means one vma can be splitted into multiple
++	 *  @xe_svm_range while one @xe_svm_range can have
++	 *  only one vma. A N:N mapping means some complication
++	 *  in codes. Lets assume 1:N for now.
++	 */
++	struct vm_area_struct *vma;
+ 	/** @unregister_notifier_work: A worker used to unregister this notifier */
+ 	struct work_struct unregister_notifier_work;
+ 	/** @inode: used to link this range to svm's range_tree */
+@@ -77,6 +89,8 @@ struct xe_svm_range *xe_svm_range_from_addr(struct xe_svm *svm,
+ bool xe_svm_range_belongs_to_vma(struct mm_struct *mm,
+ 								struct xe_svm_range *range,
+ 								struct vm_area_struct *vma);
++void xe_svm_range_unregister_mmu_notifier(struct xe_svm_range *range);
++int xe_svm_range_register_mmu_notifier(struct xe_svm_range *range);
  
-+	trace_xe_svm_migrate_vram_to_sram(range);
- 	for (i = 0; i < npages; i++) {
- 		ret = migrate_page_vram_to_ram(vma, addr, migrate_vma.src[i],
- 							migrate_vma.dst + i);
-diff --git a/drivers/gpu/drm/xe/xe_trace.h b/drivers/gpu/drm/xe/xe_trace.h
-index 50380f5173ca..960eec38aee5 100644
---- a/drivers/gpu/drm/xe/xe_trace.h
-+++ b/drivers/gpu/drm/xe/xe_trace.h
-@@ -21,6 +21,7 @@
- #include "xe_guc_exec_queue_types.h"
- #include "xe_sched_job.h"
- #include "xe_vm.h"
-+#include "xe_svm.h"
+ int xe_svm_build_sg(struct hmm_range *range, struct sg_table *st);
+ int xe_svm_devm_add(struct xe_tile *tile, struct xe_mem_region *mem);
+diff --git a/drivers/gpu/drm/xe/xe_svm_range.c b/drivers/gpu/drm/xe/xe_svm_range.c
+index b32c32f60315..286d5f7d6ecd 100644
+--- a/drivers/gpu/drm/xe/xe_svm_range.c
++++ b/drivers/gpu/drm/xe/xe_svm_range.c
+@@ -4,6 +4,7 @@
+  */
  
- DECLARE_EVENT_CLASS(xe_gt_tlb_invalidation_fence,
- 		    TP_PROTO(struct xe_gt_tlb_invalidation_fence *fence),
-@@ -601,6 +602,35 @@ DEFINE_EVENT_PRINT(xe_guc_ctb, xe_guc_ctb_g2h,
+ #include <linux/interval_tree.h>
++#include <linux/mmu_notifier.h>
+ #include <linux/container_of.h>
+ #include <linux/mm_types.h>
+ #include <linux/mutex.h>
+@@ -57,3 +58,75 @@ bool xe_svm_range_belongs_to_vma(struct mm_struct *mm,
  
- );
- 
-+DECLARE_EVENT_CLASS(xe_svm_migrate,
-+		    TP_PROTO(struct xe_svm_range *range),
-+		    TP_ARGS(range),
+ 	return (vma1 == vma) && (vma2 == vma);
+ }
 +
-+		    TP_STRUCT__entry(
-+			     __field(u64, start)
-+			     __field(u64, end)
-+			     ),
++static const struct mmu_interval_notifier_ops xe_svm_mni_ops = {
++	.invalidate = NULL,
++};
 +
-+		    TP_fast_assign(
-+			   __entry->start = range->start;
-+			   __entry->end = range->end;
-+			   ),
++/**
++ * unregister a mmu interval notifier for a svm range
++ *
++ * @range: svm range
++ *
++ */
++void xe_svm_range_unregister_mmu_notifier(struct xe_svm_range *range)
++{
++	if (!range->mmu_notifier_registered)
++		return;
 +
-+		    TP_printk("Migrate svm range [0x%016llx,0x%016llx)",  __entry->start,
-+			      __entry->end)
-+);
++	mmu_interval_notifier_remove(&range->notifier);
++	range->mmu_notifier_registered = false;
++}
 +
-+DEFINE_EVENT(xe_svm_migrate, xe_svm_migrate_vram_to_sram,
-+		    TP_PROTO(struct xe_svm_range *range),
-+		    TP_ARGS(range)
-+);
++static void xe_svm_unregister_notifier_work(struct work_struct *work)
++{
++	struct xe_svm_range *range;
 +
++	range = container_of(work, struct xe_svm_range, unregister_notifier_work);
 +
-+DEFINE_EVENT(xe_svm_migrate, xe_svm_migrate_sram_to_vram,
-+		    TP_PROTO(struct xe_svm_range *range),
-+		    TP_ARGS(range)
-+);
++	xe_svm_range_unregister_mmu_notifier(range);
 +
- DECLARE_EVENT_CLASS(xe_buddy_block,
-                TP_PROTO(struct drm_buddy_block *block, u64 size, u64 pfn),
-                TP_ARGS(block, size, pfn),
++	/**
++	 * This is called from mmu notifier MUNMAP event. When munmap is called,
++	 * this range is not valid any more. Remove it.
++	 */
++	mutex_lock(&range->svm->mutex);
++	interval_tree_remove(&range->inode, &range->svm->range_tree);
++	mutex_unlock(&range->svm->mutex);
++	kfree(range);
++}
++
++/**
++ * register a mmu interval notifier to monitor vma change
++ *
++ * @range: svm range to monitor
++ *
++ * This has to be called inside a mmap_read_lock
++ */
++int xe_svm_range_register_mmu_notifier(struct xe_svm_range *range)
++{
++	struct vm_area_struct *vma = range->vma;
++	struct mm_struct *mm = range->svm->mm;
++	u64 start, length;
++	int ret = 0;
++
++	if (range->mmu_notifier_registered)
++		return 0;
++
++	start =  range->start;
++	length = range->end - start;
++	/** We are inside a mmap_read_lock, but it requires a mmap_write_lock
++	 *  to register mmu notifier.
++	 */
++	mmap_read_unlock(mm);
++	mmap_write_lock(mm);
++	ret = mmu_interval_notifier_insert_locked(&range->notifier, vma->vm_mm,
++						start, length, &xe_svm_mni_ops);
++	mmap_write_downgrade(mm);
++	if (ret)
++		return ret;
++
++	INIT_WORK(&range->unregister_notifier_work, xe_svm_unregister_notifier_work);
++	range->mmu_notifier_registered = true;
++	return ret;
++}
 -- 
 2.26.3
 
