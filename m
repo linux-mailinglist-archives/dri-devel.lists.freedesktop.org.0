@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10355830790
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jan 2024 15:06:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2385D8307A6
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jan 2024 15:12:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 694BC10E10B;
-	Wed, 17 Jan 2024 14:06:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B54E710E0BC;
+	Wed, 17 Jan 2024 14:11:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6535010E10B
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jan 2024 14:06:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3519B10E0BC
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jan 2024 14:11:45 +0000 (UTC)
 Received: from [192.168.88.20] (91-154-35-128.elisa-laajakaista.fi
  [91.154.35.128])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 02F157EC;
- Wed, 17 Jan 2024 15:05:25 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 12E947EC;
+ Wed, 17 Jan 2024 15:10:34 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1705500327;
- bh=TT/hhcFw2pwOouUg6Y3IJsTAXmAlaWLc/QRqI65dSNY=;
+ s=mail; t=1705500634;
+ bh=0uf2ibCoTFJYMiyyn+H7uKv1XqpQeQqtU55Ch/L0eWI=;
  h=Date:Subject:To:References:From:In-Reply-To:From;
- b=SolmpjdyNgU2Vou7cj8KlnhQzMWqQULxn6ngyBRKZsLyK2Nv2EYCJiOhectL7GbUR
- QXcFxIi9O5jArnRyWqaJGOuQYhR1XTYws+NhFtWKg1/bIGMLvr15X3soFxMo0J+1H7
- nFSXVEaI7GV/etAVzRvAdmGJrPGg14uzMpbDDdpc=
-Message-ID: <98a9f4f1-dd55-47c3-bb1b-07e201b299cd@ideasonboard.com>
-Date: Wed, 17 Jan 2024 16:06:31 +0200
+ b=uKBKkWcVSymKsbPfH+bZv/5qfcHRiKGKre8Sjsc7GcPpGOdHGqz0UA/PqNIRY56sV
+ ggkhMsqtCP8VY0Ky9VyV2y+eYyMeW+vMOMl1eCST6J+MMst24AVRVOuTEzPVGWwGUG
+ qklmLph0QK2v6/sfe7c7k6oVy+6xDNEI4RsL0cSE=
+Message-ID: <06d9d987-44ca-4088-ba16-3caeecf165eb@ideasonboard.com>
+Date: Wed, 17 Jan 2024 16:11:40 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] drm: xlnx: zynqmp_dpsub: Make drm bridge discoverable
+Subject: Re: [PATCH 2/4] drm: xlnx: zynqmp_dpsub: Fix timing for live mode
 Content-Language: en-US
 To: Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
  laurent.pinchart@ideasonboard.com, maarten.lankhorst@linux.intel.com,
@@ -36,7 +36,7 @@ To: Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
  michal.simek@amd.com, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 References: <20240112234222.913138-1-anatoliy.klymenko@amd.com>
- <20240112234222.913138-2-anatoliy.klymenko@amd.com>
+ <20240112234222.913138-3-anatoliy.klymenko@amd.com>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
@@ -81,7 +81,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240112234222.913138-2-anatoliy.klymenko@amd.com>
+In-Reply-To: <20240112234222.913138-3-anatoliy.klymenko@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -100,33 +100,29 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 13/01/2024 01:42, Anatoliy Klymenko wrote:
-> Assign device of node to bridge prior registering it. This will
-> make said bridge discoverable by separate crtc driver.
-
-I think a few words on why this is needed (and why it wasn't needed 
-before) would be nice.
-
-Other than that:
+> Expect external video timing in live video input mode, program
+> DPSUB accordingly.
+> 
+> Signed-off-by: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
+> ---
+>   drivers/gpu/drm/xlnx/zynqmp_disp.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> index 407bc07cec69..8a39b3accce5 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> @@ -1166,7 +1166,7 @@ void zynqmp_disp_enable(struct zynqmp_disp *disp)
+>   	/* Choose clock source based on the DT clock handle. */
+>   	zynqmp_disp_avbuf_set_clocks_sources(disp, disp->dpsub->vid_clk_from_ps,
+>   					     disp->dpsub->aud_clk_from_ps,
+> -					     true);
+> +					     disp->dpsub->vid_clk_from_ps);
+>   	zynqmp_disp_avbuf_enable_channels(disp);
+>   	zynqmp_disp_avbuf_enable_audio(disp);
+>   
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
   Tomi
-
-> Signed-off-by: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
-> ---
->   drivers/gpu/drm/xlnx/zynqmp_dp.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> index a0606fab0e22..d60b7431603f 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> @@ -1721,6 +1721,7 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub)
->   	bridge->ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID
->   		    | DRM_BRIDGE_OP_HPD;
->   	bridge->type = DRM_MODE_CONNECTOR_DisplayPort;
-> +	bridge->of_node = dp->dev->of_node;
->   	dpsub->bridge = bridge;
->   
->   	/*
 
