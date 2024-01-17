@@ -2,78 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7889830754
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jan 2024 14:49:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10355830790
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jan 2024 15:06:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 052B210E6D2;
-	Wed, 17 Jan 2024 13:49:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 694BC10E10B;
+	Wed, 17 Jan 2024 14:06:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47D0910E6FD
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jan 2024 13:49:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1705499364;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9tfLMF8D9oKQokbMf8xX4/RpiMIC9oK/PN7AWqeaVyY=;
- b=ZrUXHivVwtNU8uQ3lxoDS/kl7OWTqXBRIS3eMLRvYDzc5kqjZ1TD4Iixpihx1Q3yZNJxpa
- qLu3a6mjI73miFgsv4biqyLhUf/h7U/zDW8q9cO/ABojHN3bNedz+qgHAanUEGWLxBvzef
- 4LD0sz8cx9BHJBSFXasadZ5Kb3kwK6o=
-Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
- [209.85.219.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-651-hJ3vS5uNMqea2DEHgVzo4g-1; Wed, 17 Jan 2024 08:49:21 -0500
-X-MC-Unique: hJ3vS5uNMqea2DEHgVzo4g-1
-Received: by mail-yb1-f197.google.com with SMTP id
- 3f1490d57ef6-dc227f548a1so292958276.1
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jan 2024 05:49:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705499360; x=1706104160;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=9tfLMF8D9oKQokbMf8xX4/RpiMIC9oK/PN7AWqeaVyY=;
- b=kN5CMJKBZQXhTRQFidBvEt9a9nDYHwP9nkDJL0D5GSaMP2iDyWRMWqLt9QA74ezrgQ
- 7DBYsXfwR8w4Q/2aFfv+MGKgAspKgHSiQ0VHz3Sj8Gug9Evz2dCPgttLEL/QyF5CMo++
- M0sis/zTXNiBxluRdlxqSeKH/cIsVKinNWrr4TH1ZzyuICQ3AZMR1Se3sCATEhaRB4Oi
- w7eAWIHPpOaNBhbLc90Dzhn5meojARpKLse95BhhQKPErYPtRRm4q+VFIVkJscfS7hIP
- ld5eIJUkJAObKaxmDoXqa1JRDePwENthA+5K8cbg0WZTbLrR93HX4yRlmQn4kh0EAkzf
- /NLA==
-X-Gm-Message-State: AOJu0YwmZsATcVo0rlAQX08GpN7Z9iFWwTTUALJvFjNqU4gDC8+Kqyk4
- YaxnS2o5neC+Xmu7FFFKSmI0rNjYpQti1s7zk3dXoXCBMsTmHSykeqDrt4sYUDm+PdcU1ewSigZ
- trrJPOEu0o61uez4T0T4da6FbyraSuDhRvXK9
-X-Received: by 2002:a25:8148:0:b0:dbc:d44e:4ba5 with SMTP id
- j8-20020a258148000000b00dbcd44e4ba5mr8480321ybm.3.1705499360507; 
- Wed, 17 Jan 2024 05:49:20 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGkrBjM+COoqsF6GAkOv/uc9j2UsNiTaqG5gnxQZ8JGCa3W1u6QSyFkx6IypdKek1QXtq7gPA==
-X-Received: by 2002:a25:8148:0:b0:dbc:d44e:4ba5 with SMTP id
- j8-20020a258148000000b00dbcd44e4ba5mr8480312ybm.3.1705499360234; 
- Wed, 17 Jan 2024 05:49:20 -0800 (PST)
-Received: from pstanner-thinkpadt14sgen1.remote.csb
- (nat-pool-muc-t.redhat.com. [149.14.88.26])
- by smtp.gmail.com with ESMTPSA id
- f9-20020a0cf7c9000000b00680c49f8650sm5015703qvo.112.2024.01.17.05.49.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jan 2024 05:49:19 -0800 (PST)
-Message-ID: <33b7c1a458df27bfb36ea4f53ef1cc7abc2a4897.camel@redhat.com>
-Subject: Re: [PATCH 09/10] pci: devres: remove legacy pcim_release()
-From: Philipp Stanner <pstanner@redhat.com>
-To: andy.shevchenko@gmail.com
-Date: Wed, 17 Jan 2024 14:49:16 +0100
-In-Reply-To: <Zab3yr6J1S-2ujT9@surfacebook.localdomain>
-References: <20240115144655.32046-2-pstanner@redhat.com>
- <20240115144655.32046-11-pstanner@redhat.com>
- <Zab3yr6J1S-2ujT9@surfacebook.localdomain>
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6535010E10B
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jan 2024 14:06:42 +0000 (UTC)
+Received: from [192.168.88.20] (91-154-35-128.elisa-laajakaista.fi
+ [91.154.35.128])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 02F157EC;
+ Wed, 17 Jan 2024 15:05:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1705500327;
+ bh=TT/hhcFw2pwOouUg6Y3IJsTAXmAlaWLc/QRqI65dSNY=;
+ h=Date:Subject:To:References:From:In-Reply-To:From;
+ b=SolmpjdyNgU2Vou7cj8KlnhQzMWqQULxn6ngyBRKZsLyK2Nv2EYCJiOhectL7GbUR
+ QXcFxIi9O5jArnRyWqaJGOuQYhR1XTYws+NhFtWKg1/bIGMLvr15X3soFxMo0J+1H7
+ nFSXVEaI7GV/etAVzRvAdmGJrPGg14uzMpbDDdpc=
+Message-ID: <98a9f4f1-dd55-47c3-bb1b-07e201b299cd@ideasonboard.com>
+Date: Wed, 17 Jan 2024 16:06:31 +0200
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] drm: xlnx: zynqmp_dpsub: Make drm bridge discoverable
+Content-Language: en-US
+To: Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
+ laurent.pinchart@ideasonboard.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+ michal.simek@amd.com, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20240112234222.913138-1-anatoliy.klymenko@amd.com>
+ <20240112234222.913138-2-anatoliy.klymenko@amd.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
+ wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
+ Ru0lVvxsWyIwSfoYoLrazbT1wkWRs8YBkkXQFfL7Mn3ZMoGPcpfwYH9O7bV1NslbmyJzRCMO
+ eYV258gjCcwYlrkyIratlHCek4GrwV8Z9NQcjD5iLzrONjfafrWPwj6yn2RlL0mQEwt1lOvn
+ LnI7QRtB3zxA3yB+FLsT1hx0va6xCHpX3QO2gBsyHCyVafFMrg3c/7IIWkDLngJxFgz6DLiA
+ G4ld1QK/jsYqfP2GIMH1mFdjY+iagG4DqOsjip479HCWAptpNxSOCL6z3qxCU8MCz8iNOtZk
+ DYXQWVscM5qgYSn+fmMM2qN+eoWlnCGVURZZLDjg387S2E1jT/dNTOsM/IqQj+ZROUZuRcF7
+ 0RTtuU5q1HnbRNwy+23xeoSGuwmLQ2UsUk7Q5CnrjYfiPo3wHze8avK95JBoSd+WIRmV3uoO
+ rXCoYOIRlDhg9XJTrbnQ3Ot5zOa0Y9c4IpyAlut6mDtxtKXr4+8OzjSVFww7tIwadTK3wDQv
+ Bus4jxHjS6dz1g2ypT65qnHen6mUUH63lhzewqO9peAHJ0SLrQARAQABzTBUb21pIFZhbGtl
+ aW5lbiA8dG9taS52YWxrZWluZW5AaWRlYXNvbmJvYXJkLmNvbT7CwY4EEwEIADgWIQTEOAw+
+ ll79gQef86f6PaqMvJYe9QUCX/HruAIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRD6
+ PaqMvJYe9WmFD/99NGoD5lBJhlFDHMZvO+Op8vCwnIRZdTsyrtGl72rVh9xRfcSgYPZUvBuT
+ VDxE53mY9HaZyu1eGMccYRBaTLJSfCXl/g317CrMNdY0k40b9YeIX10feiRYEWoDIPQ3tMmA
+ 0nHDygzcnuPiPT68JYZ6tUOvAt7r6OX/litM+m2/E9mtp8xCoWOo/kYO4mOAIoMNvLB8vufi
+ uBB4e/AvAjtny4ScuNV5c5q8MkfNIiOyag9QCiQ/JfoAqzXRjVb4VZG72AKaElwipiKCWEcU
+ R4+Bu5Qbaxj7Cd36M/bI54OrbWWETJkVVSV1i0tghCd6HHyquTdFl7wYcz6cL1hn/6byVnD+
+ sR3BLvSBHYp8WSwv0TCuf6tLiNgHAO1hWiQ1pOoXyMEsxZlgPXT+wb4dbNVunckwqFjGxRbl
+ Rz7apFT/ZRwbazEzEzNyrBOfB55xdipG/2+SmFn0oMFqFOBEszXLQVslh64lI0CMJm2OYYe3
+ PxHqYaztyeXsx13Bfnq9+bUynAQ4uW1P5DJ3OIRZWKmbQd/Me3Fq6TU57LsvwRgE0Le9PFQs
+ dcP2071rMTpqTUteEgODJS4VDf4lXJfY91u32BJkiqM7/62Cqatcz5UWWHq5xeF03MIUTqdE
+ qHWk3RJEoWHWQRzQfcx6Fn2fDAUKhAddvoopfcjAHfpAWJ+ENc7BTQROprNHARAAx0aat8GU
+ hsusCLc4MIxOQwidecCTRc9Dz/7U2goUwhw2O5j9TPqLtp57VITmHILnvZf6q3QAho2QMQyE
+ DDvHubrdtEoqaaSKxKkFie1uhWNNvXPhwkKLYieyL9m2JdU+b88HaDnpzdyTTR4uH7wk0bBa
+ KbTSgIFDDe5lXInypewPO30TmYNkFSexnnM3n1PBCqiJXsJahE4ZQ+WnV5FbPUj8T2zXS2xk
+ 0LZ0+DwKmZ0ZDovvdEWRWrz3UzJ8DLHb7blPpGhmqj3ANXQXC7mb9qJ6J/VSl61GbxIO2Dwb
+ xPNkHk8fwnxlUBCOyBti/uD2uSTgKHNdabhVm2dgFNVuS1y3bBHbI/qjC3J7rWE0WiaHWEqy
+ UVPk8rsph4rqITsj2RiY70vEW0SKePrChvET7D8P1UPqmveBNNtSS7In+DdZ5kUqLV7rJnM9
+ /4cwy+uZUt8cuCZlcA5u8IsBCNJudxEqBG10GHg1B6h1RZIz9Q9XfiBdaqa5+CjyFs8ua01c
+ 9HmyfkuhXG2OLjfQuK+Ygd56mV3lq0aFdwbaX16DG22c6flkkBSjyWXYepFtHz9KsBS0DaZb
+ 4IkLmZwEXpZcIOQjQ71fqlpiXkXSIaQ6YMEs8WjBbpP81h7QxWIfWtp+VnwNGc6nq5IQDESH
+ mvQcsFS7d3eGVI6eyjCFdcAO8eMAEQEAAcLBXwQYAQIACQUCTqazRwIbDAAKCRD6PaqMvJYe
+ 9fA7EACS6exUedsBKmt4pT7nqXBcRsqm6YzT6DeCM8PWMTeaVGHiR4TnNFiT3otD5UpYQI7S
+ suYxoTdHrrrBzdlKe5rUWpzoZkVK6p0s9OIvGzLT0lrb0HC9iNDWT3JgpYDnk4Z2mFi6tTbq
+ xKMtpVFRA6FjviGDRsfkfoURZI51nf2RSAk/A8BEDDZ7lgJHskYoklSpwyrXhkp9FHGMaYII
+ m9EKuUTX9JPDG2FTthCBrdsgWYPdJQvM+zscq09vFMQ9Fykbx5N8z/oFEUy3ACyPqW2oyfvU
+ CH5WDpWBG0s5BALp1gBJPytIAd/pY/5ZdNoi0Cx3+Z7jaBFEyYJdWy1hGddpkgnMjyOfLI7B
+ CFrdecTZbR5upjNSDvQ7RG85SnpYJTIin+SAUazAeA2nS6gTZzumgtdw8XmVXZwdBfF+ICof
+ 92UkbYcYNbzWO/GHgsNT1WnM4sa9lwCSWH8Fw1o/3bX1VVPEsnESOfxkNdu+gAF5S6+I6n3a
+ ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
+ yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
+ 3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
+In-Reply-To: <20240112234222.913138-2-anatoliy.klymenko@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,54 +96,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
- Sam Ravnborg <sam@ravnborg.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- Hans de Goede <hdegoede@redhat.com>, dakr@redhat.com,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
- David Airlie <airlied@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2024-01-16 at 23:40 +0200, andy.shevchenko@gmail.com wrote:
-> Mon, Jan 15, 2024 at 03:46:20PM +0100, Philipp Stanner kirjoitti:
-> > Thanks to preceding cleanup steps, pcim_release() is now not needed
-> > anymore and can be replaced by pcim_disable_device(), which is the
-> > exact
-> > counterpart to pcim_enable_device().
-> > This permits removing further parts of the old devres API.
-> >=20
-> > Replace pcim_release() with pcim_disable_device().
-> > Remove the now surplus get_dr() function.
->=20
-> ...
->=20
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0devm_add_action(&pdev->dev, =
-pcim_disable_device, pdev);
->=20
-> No error check?
->=20
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return pci_enable_device(pde=
-v);
->=20
-> Maybe
->=20
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ret =3D pci_enable_device=
-(...);
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (ret)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0return ret;
->=20
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return devm_add_action_or=
-_reset(...)?
->=20
-> I could think of side effects of this, so perhaps the commit message
-> and/or
-> code needs a comment on why the above proposal can _not_ be used?
->=20
+On 13/01/2024 01:42, Anatoliy Klymenko wrote:
+> Assign device of node to bridge prior registering it. This will
+> make said bridge discoverable by separate crtc driver.
 
-That proposal can be used, so this was simply a bug.
+I think a few words on why this is needed (and why it wasn't needed 
+before) would be nice.
 
-P.
+Other than that:
+
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
+  Tomi
+
+> Signed-off-by: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
+> ---
+>   drivers/gpu/drm/xlnx/zynqmp_dp.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> index a0606fab0e22..d60b7431603f 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> @@ -1721,6 +1721,7 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub)
+>   	bridge->ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID
+>   		    | DRM_BRIDGE_OP_HPD;
+>   	bridge->type = DRM_MODE_CONNECTOR_DisplayPort;
+> +	bridge->of_node = dp->dev->of_node;
+>   	dpsub->bridge = bridge;
+>   
+>   	/*
 
