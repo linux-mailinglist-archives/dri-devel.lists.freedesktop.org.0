@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 618BD830F0A
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jan 2024 23:03:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A5CD830F02
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jan 2024 23:03:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A579210E8C4;
-	Wed, 17 Jan 2024 22:01:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 320E410E8C2;
+	Wed, 17 Jan 2024 22:01:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEF7E10E895;
- Wed, 17 Jan 2024 22:01:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12E5C10E008;
+ Wed, 17 Jan 2024 22:01:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1705528907; x=1737064907;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=TFuLDl5rjE5Z8M92BmQP1BBm1VJQTh1JMd04l6WaM4I=;
- b=ioTG3VurZBm+DSlHy9GO44V+9FetxZ6nlguHqN4pkLOLpg3QcERNPOZy
- EOuE7QZa8QwhHjbWVj6n1EkPv7DNLwVAf2+yXWhzqQXY8x77KSlOenHCx
- MC1QmUWF6zCVo3T7HZb80wZJTlh4xPqFTZfRAcpnNpJ/yWclYrRKyaBCu
- +nq3Jxl7kzQ1JpDlenz50oiydGhOd9vtoMZhcyf6VIa2QNjVCEIZKiP6R
- 0cMzXFjVZauF8DEiXiSLD353Xhabi5RNp7Q4BxXrUkKKIbjNlXXRb2HVq
- pHyQ7QTcWaN3JY/aXJShMdMiqK5Bfrmn99PA6zR8pLibMaTvGEbgGaXxA Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="7657632"
+ bh=a0vZtfrN9UpAC/iAia0pPxlZcWsaf9Idjir8E7djVZM=;
+ b=APzoAeWw86GTJjdNEcidaYi1m5KLB8pvszZVhhudAGTcf162grzINS0/
+ 3L16C9bC4gFajpGIkRXBw9SVH/OWaUBjKNzfBMKnw4QmMZApSsbO8jrnY
+ DiiyY7L3ELLh7K8z9EWCfKcvS9oJhGpSCPyVTXGZG8nkYLeFMhaROSdqi
+ lvgl0UqkFPYbiAamrbgdbJru8GbMmUMlit692ow9o2q0lufRO5vfbnQ8l
+ 5Hhk9uz5NbjY+4IeRWCuMP2ymc64b4gByObLQ1PaesASrS4weIdI5HmXm
+ eqTbs+QSF/zGpb7RgMwcwucsAGIS29OPf7vUM3KlOgZRh0Y/U4sRX9TOB Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="7657633"
 X-IronPort-AV: E=Sophos;i="6.05,201,1701158400"; 
-   d="scan'208";a="7657632"
+   d="scan'208";a="7657633"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Jan 2024 14:01:46 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="734089273"
-X-IronPort-AV: E=Sophos;i="6.05,201,1701158400"; d="scan'208";a="734089273"
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="734089275"
+X-IronPort-AV: E=Sophos;i="6.05,201,1701158400"; d="scan'208";a="734089275"
 Received: from szeng-desk.jf.intel.com ([10.165.21.149])
  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Jan 2024 14:01:45 -0800
 From: Oak Zeng <oak.zeng@intel.com>
 To: dri-devel@lists.freedesktop.org,
 	intel-xe@lists.freedesktop.org
-Subject: [PATCH 19/23] drm/xe/svm: migrate svm range to vram
-Date: Wed, 17 Jan 2024 17:12:19 -0500
-Message-Id: <20240117221223.18540-20-oak.zeng@intel.com>
+Subject: [PATCH 20/23] drm/xe/svm: Populate svm range
+Date: Wed, 17 Jan 2024 17:12:20 -0500
+Message-Id: <20240117221223.18540-21-oak.zeng@intel.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20240117221223.18540-1-oak.zeng@intel.com>
 References: <20240117221223.18540-1-oak.zeng@intel.com>
@@ -66,13 +66,12 @@ Cc: matthew.brost@intel.com, Thomas.Hellstrom@linux.intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since the source pages of the svm range can be physically none
-contiguous, and the destination vram pages can also be none
-contiguous, there is no easy way to migrate multiple pages per
-blitter command. We do page by page migration for now.
-
-Migration is best effort. Even if we fail to migrate some pages,
-we will try to migrate the rest pages.
+Add a helper function svm_populate_range to populate
+a svm range. This functions calls hmm_range_fault
+to read CPU page tables and populate all pfns of this
+virtual address range into an array, saved in hmm_range::
+hmm_pfns. This is prepare work to bind a svm range to
+GPU. The hmm_pfns array will be used for the GPU binding.
 
 Signed-off-by: Oak Zeng <oak.zeng@intel.com>
 Co-developed-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
@@ -81,169 +80,76 @@ Cc: Matthew Brost <matthew.brost@intel.com>
 Cc: Thomas Hellström <thomas.hellstrom@intel.com>
 Cc: Brian Welty <brian.welty@intel.com>
 ---
- drivers/gpu/drm/xe/xe_svm.c         |   7 ++
- drivers/gpu/drm/xe/xe_svm.h         |   3 +
- drivers/gpu/drm/xe/xe_svm_migrate.c | 114 ++++++++++++++++++++++++++++
- 3 files changed, 124 insertions(+)
+ drivers/gpu/drm/xe/xe_svm.c | 61 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 61 insertions(+)
 
 diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
-index 5772bfcf7da4..44d4f4216a93 100644
+index 44d4f4216a93..0c13690a19f5 100644
 --- a/drivers/gpu/drm/xe/xe_svm.c
 +++ b/drivers/gpu/drm/xe/xe_svm.c
-@@ -5,12 +5,19 @@
- 
- #include <linux/mutex.h>
- #include <linux/mm_types.h>
-+#include <linux/interval_tree.h>
-+#include <linux/container_of.h>
-+#include <linux/types.h>
-+#include <linux/migrate.h>
- #include "xe_svm.h"
- #include <linux/hmm.h>
- #include <linux/scatterlist.h>
- #include "xe_pt.h"
- #include "xe_assert.h"
- #include "xe_vm_types.h"
-+#include "xe_gt.h"
-+#include "xe_migrate.h"
-+#include "xe_trace.h"
- 
- DEFINE_HASHTABLE(xe_svm_table, XE_MAX_SVM_PROCESS);
- 
-diff --git a/drivers/gpu/drm/xe/xe_svm.h b/drivers/gpu/drm/xe/xe_svm.h
-index 5b3bd2c064f5..659bcb7927d6 100644
---- a/drivers/gpu/drm/xe/xe_svm.h
-+++ b/drivers/gpu/drm/xe/xe_svm.h
-@@ -80,6 +80,9 @@ struct xe_svm_range {
- };
- 
- vm_fault_t xe_devm_migrate_to_ram(struct vm_fault *vmf);
-+int svm_migrate_range_to_vram(struct xe_svm_range *range,
-+							struct vm_area_struct *vma,
-+							struct xe_tile *tile);
- void xe_destroy_svm(struct xe_svm *svm);
- struct xe_svm *xe_create_svm(struct xe_vm *vm);
- struct xe_svm *xe_lookup_svm_by_mm(struct mm_struct *mm);
-diff --git a/drivers/gpu/drm/xe/xe_svm_migrate.c b/drivers/gpu/drm/xe/xe_svm_migrate.c
-index b4df411e04f3..3724ad6c7aea 100644
---- a/drivers/gpu/drm/xe/xe_svm_migrate.c
-+++ b/drivers/gpu/drm/xe/xe_svm_migrate.c
-@@ -229,3 +229,117 @@ vm_fault_t xe_devm_migrate_to_ram(struct vm_fault *vmf)
- 	kvfree(buf);
+@@ -145,3 +145,64 @@ int xe_svm_build_sg(struct hmm_range *range,
+ 	sg_mark_end(sg);
  	return 0;
  }
 +
-+
-+/**
-+ * svm_migrate_range_to_vram() - migrate backing store of a va range to vram
-+ * Must be called with mmap_read_lock(mm) held.
-+ * @range: the va range to migrate. Range should only belong to one vma.
-+ * @vma: the vma that this range belongs to. @range can cover whole @vma
-+ * or a sub-range of @vma.
-+ * @tile: the destination tile which holds the new backing store of the range
++/** Populate physical pages of a virtual address range
++ * This function also read mmu notifier sequence # (
++ * mmu_interval_read_begin), for the purpose of later
++ * comparison (through mmu_interval_read_retry).
++ * This must be called with mmap read or write lock held.
 + *
-+ * Returns: negative errno on faiure, 0 on success
++ * This function alloates hmm_range->hmm_pfns, it is caller's
++ * responsibility to free it.
++ *
++ * @svm_range: The svm range to populate
++ * @hmm_range: pointer to hmm_range struct. hmm_rang->hmm_pfns
++ * will hold the populated pfns.
++ * @write: populate pages with write permission
++ *
++ * returns: 0 for succuss; negative error no on failure
 + */
-+int svm_migrate_range_to_vram(struct xe_svm_range *range,
-+							struct vm_area_struct *vma,
-+							struct xe_tile *tile)
++static int svm_populate_range(struct xe_svm_range *svm_range,
++			    struct hmm_range *hmm_range, bool write)
 +{
-+	struct mm_struct *mm = range->svm->mm;
-+	unsigned long start = range->start;
-+	unsigned long end = range->end;
-+	unsigned long npages = (end - start) >> PAGE_SHIFT;
-+	struct xe_mem_region *mr = &tile->mem.vram;
-+	struct migrate_vma migrate = {
-+		.vma		= vma,
-+		.start		= start,
-+		.end		= end,
-+		.pgmap_owner	= tile->xe->drm.dev,
-+		.flags          = MIGRATE_VMA_SELECT_SYSTEM,
-+	};
-+	struct device *dev = tile->xe->drm.dev;
-+	dma_addr_t *src_dma_addr;
-+	struct dma_fence *fence;
-+	struct page *src_page;
-+	LIST_HEAD(blocks);
-+	int ret = 0, i;
-+	u64 dst_dpa;
-+	void *buf;
++	unsigned long timeout =
++		jiffies + msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
++	unsigned long *pfns, flags = HMM_PFN_REQ_FAULT;
++	u64 npages;
++	int ret;
 +
-+	mmap_assert_locked(mm);
-+	xe_assert(tile->xe, xe_svm_range_belongs_to_vma(mm, range, vma));
++	mmap_assert_locked(svm_range->svm->mm);
 +
-+	buf = kvcalloc(npages, 2* sizeof(*migrate.src) + sizeof(*src_dma_addr),
-+					GFP_KERNEL);
-+	if(!buf)
++	npages = ((svm_range->end - 1) >> PAGE_SHIFT) -
++						(svm_range->start >> PAGE_SHIFT) + 1;
++	pfns = kvmalloc_array(npages, sizeof(*pfns), GFP_KERNEL);
++	if (unlikely(!pfns))
 +		return -ENOMEM;
-+	migrate.src = buf;
-+	migrate.dst = migrate.src + npages;
-+	src_dma_addr = (dma_addr_t *) (migrate.dst + npages);
-+	ret = xe_devm_alloc_pages(tile, npages, &blocks, migrate.dst);
-+	if (ret)
-+		goto kfree_buf;
 +
-+	ret = migrate_vma_setup(&migrate);
-+	if (ret) {
-+		drm_err(&tile->xe->drm, "vma setup returned %d for range [%lx - %lx]\n",
-+				ret, start, end);
-+		goto free_dst_pages;
++	if (write)
++		flags |= HMM_PFN_REQ_WRITE;
++
++	memset64((u64 *)pfns, (u64)flags, npages);
++	hmm_range->hmm_pfns = pfns;
++	hmm_range->notifier_seq = mmu_interval_read_begin(&svm_range->notifier);
++	hmm_range->notifier = &svm_range->notifier;
++	hmm_range->start = svm_range->start;
++	hmm_range->end = svm_range->end;
++	hmm_range->pfn_flags_mask = HMM_PFN_REQ_FAULT | HMM_PFN_REQ_WRITE;
++	hmm_range->dev_private_owner = svm_range->svm->vm->xe->drm.dev;
++
++	while (true) {
++		ret = hmm_range_fault(hmm_range);
++		if (time_after(jiffies, timeout))
++			goto free_pfns;
++
++		if (ret == -EBUSY)
++			continue;
++		break;
 +	}
 +
-+	trace_xe_svm_migrate_sram_to_vram(range);
-+	/**FIXME: partial migration of a range
-+	 * print a warning for now. If this message
-+	 * is printed, we need to fall back to page by page
-+	 * migration: only migrate pages with MIGRATE_PFN_MIGRATE
-+	 */
-+	if (migrate.cpages != npages)
-+		drm_warn(&tile->xe->drm, "Partial migration for range [%lx - %lx], range is %ld pages, migrate only %ld pages\n",
-+				start, end, npages, migrate.cpages);
-+
-+	/**Migrate page by page for now.
-+	 * Both source pages and destination pages can physically not contiguous,
-+	 * there is no good way to migrate multiple pages per blitter command.
-+	 */
-+	for (i = 0; i < npages; i++) {
-+		src_page = migrate_pfn_to_page(migrate.src[i]);
-+		if (unlikely(!src_page || !(migrate.src[i] & MIGRATE_PFN_MIGRATE)))
-+			goto free_dst_page;
-+
-+		xe_assert(tile->xe, !is_zone_device_page(src_page));
-+		src_dma_addr[i] = dma_map_page(dev, src_page, 0, PAGE_SIZE, DMA_TO_DEVICE);
-+		if (unlikely(dma_mapping_error(dev, src_dma_addr[i]))) {
-+			drm_warn(&tile->xe->drm, "dma map error for host pfn %lx\n", migrate.src[i]);
-+			goto free_dst_page;
-+		}
-+		dst_dpa = vram_pfn_to_dpa(mr, migrate.dst[i]);
-+		fence = xe_migrate_svm(tile->migrate, src_dma_addr[i], false,
-+				dst_dpa, true, PAGE_SIZE);
-+		if (IS_ERR(fence)) {
-+			drm_warn(&tile->xe->drm, "migrate host page (pfn: %lx) to vram failed\n",
-+					migrate.src[i]);
-+			/**Migration is best effort. Even we failed here, we continue*/
-+			goto free_dst_page;
-+		}
-+		/**FIXME: Use the first migration's out fence as the second migration's input fence,
-+		 * and so on. Only wait the out fence of last migration?
-+		 */
-+		dma_fence_wait(fence, false);
-+		dma_fence_put(fence);
-+free_dst_page:
-+		xe_devm_page_free(pfn_to_page(migrate.dst[i]));
-+	}
-+
-+	for (i = 0; i < npages; i++)
-+		if (!(dma_mapping_error(dev, src_dma_addr[i])))
-+			dma_unmap_page(dev, src_dma_addr[i], PAGE_SIZE, DMA_TO_DEVICE);
-+
-+	migrate_vma_pages(&migrate);
-+	migrate_vma_finalize(&migrate);
-+free_dst_pages:
++free_pfns:
 +	if (ret)
-+		xe_devm_free_blocks(&blocks);
-+kfree_buf:
-+	kfree(buf);
++		kvfree(pfns);
 +	return ret;
 +}
 -- 
