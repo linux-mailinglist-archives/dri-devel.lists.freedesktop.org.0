@@ -2,80 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E419830807
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jan 2024 15:28:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A72683088A
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jan 2024 15:50:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DD1A10E123;
-	Wed, 17 Jan 2024 14:28:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DBC410E6A0;
+	Wed, 17 Jan 2024 14:50:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 918C410E123
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jan 2024 14:28:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1705501693;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RZJuZTDDbp7KvcPNN7wxj2cV5vgZgHszOh5bYyjGr/Y=;
- b=KvgN6BmEqg2uYcwDd46VtZDgOY6Jm5Kour4Da0d/J5d7mTPq3iiPyf6KFQB4LKVpiYO0CE
- QmL/0fLD+rsUQAelL+9KenDhLVoB6NZKLfvIMRWDxx5ud+OGrLwhukCrVemK5tyltLBtN6
- VTGmno22xODBjoVrv/ALF5PBEfLTpJ8=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-41-dPyM8GSHPFqd7hF-CgHREg-1; Wed, 17 Jan 2024 09:28:11 -0500
-X-MC-Unique: dPyM8GSHPFqd7hF-CgHREg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-40e4c1dd8a3so71833525e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jan 2024 06:28:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705501690; x=1706106490;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RZJuZTDDbp7KvcPNN7wxj2cV5vgZgHszOh5bYyjGr/Y=;
- b=XUcKO5/cWGvE5U/xXy7TLHWe0TfALwXEmBpjm24Wd7oKybaLJTLkWGR4txiFoYa2bW
- IYgjXQ4x5iCsmNmcPk7LEAown1PDJZgdOaJ4YUPQKX+Gw++uRz6P8qwbk7Cr8dWnf4Mh
- POPGFfQJ7p5ofm3g6lZ/MsIbHblrMI5l22ZEuexv0sL/BbsVezhaFbAxLtHXnzy4EgkG
- 6e6JcLE6QWCrHyws1vKfeABRa1uQduNsDlAi8TsO5mivn96mBxTdkebO3z1pUbA0cKzY
- 8vBy2NSKD5pP5sM6OPj6wlS3K2Ngkmanpkg2xIcRf5zJUJpD9Pg3/uyOfTZg4biIi0oC
- 3C1Q==
-X-Gm-Message-State: AOJu0YzpdL2devg6OwnMBuTOToau9H5SRlSVtBL50EcmLqN6qqatXSPw
- DPGzdeZxSr78yUQxq0t/flqo66CDDEmwwZeGHS3SJqlMPfK4QC0At9pOAt1SI9IUAcuy/7mGArB
- YoMetguJmfAhurp37Ouewx+198FuUj07+oeuP
-X-Received: by 2002:a05:600c:1c05:b0:40e:52f4:81bb with SMTP id
- j5-20020a05600c1c0500b0040e52f481bbmr4987751wms.146.1705501690635; 
- Wed, 17 Jan 2024 06:28:10 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFTIyl+QZ8E2Zol4DptxxKO2GiOgi3RfcBqrSso1j1ZVbJl5uR8eVF/dlb2EGe9UPA6Tpg8nA==
-X-Received: by 2002:a05:600c:1c05:b0:40e:52f4:81bb with SMTP id
- j5-20020a05600c1c0500b0040e52f481bbmr4987741wms.146.1705501690264; 
- Wed, 17 Jan 2024 06:28:10 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- fk4-20020a05600c0cc400b0040e7efb1ff2sm8433722wmb.37.2024.01.17.06.28.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Jan 2024 06:28:09 -0800 (PST)
-Message-ID: <e4f14ab3-cb16-43fa-9201-16e132871225@redhat.com>
-Date: Wed, 17 Jan 2024 15:28:09 +0100
+X-Greylist: delayed 326 seconds by postgrey-1.36 at gabe;
+ Wed, 17 Jan 2024 14:50:10 UTC
+Received: from exchange.fintech.ru (exchange.fintech.ru [195.54.195.159])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D52110E121;
+ Wed, 17 Jan 2024 14:50:10 +0000 (UTC)
+Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
+ (195.54.195.169) with Microsoft SMTP Server (TLS) id 14.3.498.0; Wed, 17 Jan
+ 2024 17:44:39 +0300
+Received: from localhost (10.0.253.138) by Ex16-01.fintech.ru (10.0.10.18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Wed, 17 Jan
+ 2024 17:44:39 +0300
+From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+To: Alex Deucher <alexander.deucher@amd.com>
+Subject: [PATCH] drm/radeon: remove dead code in ni_mc_load_microcode()
+Date: Wed, 17 Jan 2024 06:44:36 -0800
+Message-ID: <20240117144436.10930-1-n.zhandarovich@fintech.ru>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 5/9] drm/fb_dma: Add generic get_scanout_buffer() for
- drm_panic
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20240104160301.185915-1-jfalempe@redhat.com>
- <20240104160301.185915-6-jfalempe@redhat.com>
- <ZaFBofhe217zCmWN@phenom.ffwll.local>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <ZaFBofhe217zCmWN@phenom.ffwll.local>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.0.253.138]
+X-ClientProxiedBy: Ex16-02.fintech.ru (10.0.10.19) To Ex16-01.fintech.ru
+ (10.0.10.18)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,194 +45,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: bluescreen_avenger@verizon.net, javierm@redhat.com, mripard@kernel.org,
- gpiccoli@igalia.com, noralf@tronnes.org, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, airlied@redhat.com
+Cc: Nikita Zhandarovich <n.zhandarovich@fintech.ru>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ lvc-project@linuxtesting.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Inside the if block with (running == 0), the checks for 'running'
+possibly being non-zero are redundant. Remove them altogether.
 
+This change is similar to the one authored by Heinrich Schuchardt
+<xypron.glpk@gmx.de> in commit
+ddbbd3be9679 ("drm/radeon: remove dead code, si_mc_load_microcode (v2)")
 
-On 12/01/2024 14:41, Daniel Vetter wrote:
-> On Thu, Jan 04, 2024 at 05:00:49PM +0100, Jocelyn Falempe wrote:
->> This was initialy done for imx6, but should work on most drivers
->> using drm_fb_dma_helper.
->>
->> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
->> ---
->>   drivers/gpu/drm/drm_fb_dma_helper.c | 55 +++++++++++++++++++++++++++++
->>   include/drm/drm_fb_dma_helper.h     |  4 +++
->>   2 files changed, 59 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/drm_fb_dma_helper.c b/drivers/gpu/drm/drm_fb_dma_helper.c
->> index 3b535ad1b07c..caed2935df4f 100644
->> --- a/drivers/gpu/drm/drm_fb_dma_helper.c
->> +++ b/drivers/gpu/drm/drm_fb_dma_helper.c
->> @@ -15,6 +15,7 @@
->>   #include <drm/drm_framebuffer.h>
->>   #include <drm/drm_gem_dma_helper.h>
->>   #include <drm/drm_gem_framebuffer_helper.h>
->> +#include <drm/drm_panic.h>
->>   #include <drm/drm_plane.h>
->>   #include <linux/dma-mapping.h>
->>   #include <linux/module.h>
->> @@ -148,3 +149,57 @@ void drm_fb_dma_sync_non_coherent(struct drm_device *drm,
->>   	}
->>   }
->>   EXPORT_SYMBOL_GPL(drm_fb_dma_sync_non_coherent);
->> +
->> +#if defined(CONFIG_DRM_PANIC)
->> +/**
->> + * @dev: DRM device
->> + * @drm_scanout_buffer: scanout buffer for the panic handler
->> + * Returns: 0 or negative error code
->> + *
->> + * Generic get_scanout_buffer() implementation, for drivers that uses the
->> + * drm_fb_dma_helper.
->> + */
->> +int drm_panic_gem_get_scanout_buffer(struct drm_device *dev,
->> +				     struct drm_scanout_buffer *sb)
->> +{
->> +	struct drm_plane *plane;
->> +	struct drm_gem_dma_object *dma_obj;
->> +	struct drm_framebuffer *fb;
->> +
->> +	drm_for_each_primary_visible_plane(plane, dev) {
-> 
-> Ok that's not enough locking by far. You can't just hope that nothing
-> disappears while you're in a panic handler. We've been there and ended up
-> reliably oopsing in the panic handler itself. So you _have_ to follow the
-> full set of locking rules for all drm structures, or things will just get
-> worse at the worst possible moment.
-> 
-> But also, you're not allowed to do anything else than trylock, because a
-> panic handler might run from nmi context, and so you cannot even acquire
-> irq-safe spinlocks reliably.
-> 
-> Which means:
-> 
-> - You need to be safe against concurrent drm_dev_unregister. Using the
->    atomic panic notifier directly for each device should take care of that
->    (but maybe that stuff is still not nmi safe, not sure).
-> 
-> - You _have_ to use all the locks. Luckily iterating over the plane list
->    doesn't need one, but you have to trylock the plane's modeset lock.
->    Which means your nice iterator macro is already toast, because that
->    already looks at state it's not allowed to look at without a lock. Or
->    well, the plane->state pointer is no-go already.
+Found by Linux Verification Center (linuxtesting.org) with static
+analysis tool Svace.
 
-mutex_trylock() shouldn't be called from interrupt context, and as the 
-panic may occurs in irq, I can't use that.
+Fixes: 0af62b016804 ("drm/radeon/kms: add ucode loader for NI")
+Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+---
+ drivers/gpu/drm/radeon/ni.c | 10 +---------
+ 1 file changed, 1 insertion(+), 9 deletions(-)
 
-But the panic context should guarantee that only one CPU is still running:
-https://elixir.bootlin.com/linux/latest/source/kernel/panic.c#L310
-
-So I think using mutex_is_locked() should be safe: 
-https://elixir.bootlin.com/linux/latest/source/include/linux/mutex.h#L128
-
-This will only check if the lock is not taken, but as it's not possible 
-for another task to run at the same time, I think that should be good 
-enough ?
-
-The drawback, is if we want to test without crashing the kernel, then we 
-need to take the locks with trylock(), (and it's safe this time), but 
-the code path would be slightly different.
-
--- 
-
-Jocelyn
-
-
-> 
-> Given the locking issues I'm not sure whether the
-> drm_for_each_primary_visible_plane iterator is going to work, you'd need
-> something like iter_init/next/end we have for walking the connector list.
-> Plus it would be very panic specific due to the trylock, so maybe
-> 
-> drm_for_each_visible_plane_in_panic_handler()
-> 
-> or something like that.
-> 
-> One thing I was wondering is whether we should lift this iteration over
-> all planes into the shared code, and move the ->get_scanout_buffer
-> function to the drm_plane_funcs structure instead?
-> 
->> +		fb = plane->state->fb;
->> +		/* Only support linear modifier */
->> +		if (fb->modifier != DRM_FORMAT_MOD_LINEAR)
->> +			continue;
->> +
->> +		/* Check if color format is supported */
->> +		if (!drm_panic_is_format_supported(fb->format->format))
->> +			continue;
->> +
->> +		dma_obj = drm_fb_dma_get_gem_obj(fb, 0);
->> +
->> +		/* Buffer should be accessible from the CPU */
->> +		if (dma_obj->base.import_attach)
-> 
-> This might be a bit too restrictive, since some drivers import dma-buf
-> including a vmap. So just checking for ->vaddr might be better. But can be
-> changed later on.
-> 
->> +			continue;
->> +
->> +		/* Buffer should be already mapped to CPU */
-> 
-> I'd clarify this comment to state that vaddr is invariant over the
-> lifetime of the buffer and therefore needs no locking. Correct locking
-> that a) takes all the locks b) never ever stalls for one is absolutely
-> crucial for a panic handler that won't make the situation worse.
-> 
->> +		if (!dma_obj->vaddr)
-> 
-> 
->> +			continue;
->> +
->> +		iosys_map_set_vaddr(&sb->map, dma_obj->vaddr);
->> +		sb->format = fb->format;
->> +		sb->height = fb->height;
->> +		sb->width = fb->width;
->> +		sb->pitch = fb->pitches[0];
->> +		return 0;
-> 
-> Otherwise this lgtm.
-> -Sima
-> 
->> +	}
->> +	return -ENODEV;
->> +}
->> +#else
->> +int drm_panic_gem_get_scanout_buffer(struct drm_device *dev,
->> +				     struct drm_scanout_buffer *sb)
->> +{
->> +	return 0;
->> +}
->> +#endif
->> +EXPORT_SYMBOL(drm_panic_gem_get_scanout_buffer);
->> diff --git a/include/drm/drm_fb_dma_helper.h b/include/drm/drm_fb_dma_helper.h
->> index d5e036c57801..2ae432865079 100644
->> --- a/include/drm/drm_fb_dma_helper.h
->> +++ b/include/drm/drm_fb_dma_helper.h
->> @@ -7,6 +7,7 @@
->>   struct drm_device;
->>   struct drm_framebuffer;
->>   struct drm_plane_state;
->> +struct drm_scanout_buffer;
->>   
->>   struct drm_gem_dma_object *drm_fb_dma_get_gem_obj(struct drm_framebuffer *fb,
->>   	unsigned int plane);
->> @@ -19,5 +20,8 @@ void drm_fb_dma_sync_non_coherent(struct drm_device *drm,
->>   				  struct drm_plane_state *old_state,
->>   				  struct drm_plane_state *state);
->>   
->> +int drm_panic_gem_get_scanout_buffer(struct drm_device *dev,
->> +				     struct drm_scanout_buffer *sb);
->> +
->>   #endif
->>   
->> -- 
->> 2.43.0
->>
-> 
-
+diff --git a/drivers/gpu/drm/radeon/ni.c b/drivers/gpu/drm/radeon/ni.c
+index 927e5f42e97d..8eac8c090433 100644
+--- a/drivers/gpu/drm/radeon/ni.c
++++ b/drivers/gpu/drm/radeon/ni.c
+@@ -624,7 +624,7 @@ static const u32 cayman_io_mc_regs[BTC_IO_MC_REGS_SIZE][2] = {
+ int ni_mc_load_microcode(struct radeon_device *rdev)
+ {
+ 	const __be32 *fw_data;
+-	u32 mem_type, running, blackout = 0;
++	u32 mem_type, running;
+ 	u32 *io_mc_regs;
+ 	int i, ucode_size, regs_size;
+ 
+@@ -659,11 +659,6 @@ int ni_mc_load_microcode(struct radeon_device *rdev)
+ 	running = RREG32(MC_SEQ_SUP_CNTL) & RUN_MASK;
+ 
+ 	if ((mem_type == MC_SEQ_MISC0_GDDR5_VALUE) && (running == 0)) {
+-		if (running) {
+-			blackout = RREG32(MC_SHARED_BLACKOUT_CNTL);
+-			WREG32(MC_SHARED_BLACKOUT_CNTL, 1);
+-		}
+-
+ 		/* reset the engine and set to writable */
+ 		WREG32(MC_SEQ_SUP_CNTL, 0x00000008);
+ 		WREG32(MC_SEQ_SUP_CNTL, 0x00000010);
+@@ -689,9 +684,6 @@ int ni_mc_load_microcode(struct radeon_device *rdev)
+ 				break;
+ 			udelay(1);
+ 		}
+-
+-		if (running)
+-			WREG32(MC_SHARED_BLACKOUT_CNTL, blackout);
+ 	}
+ 
+ 	return 0;
