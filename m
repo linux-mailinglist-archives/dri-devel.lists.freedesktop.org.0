@@ -2,65 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9900D83033B
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jan 2024 11:07:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88E2683035A
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jan 2024 11:16:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D278110E107;
-	Wed, 17 Jan 2024 10:06:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1666310E65A;
+	Wed, 17 Jan 2024 10:16:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
- [209.85.210.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1948910E686
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jan 2024 10:06:36 +0000 (UTC)
-Received: by mail-pf1-f173.google.com with SMTP id
- d2e1a72fcca58-6d98ce84e18so9491340b3a.3
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jan 2024 02:06:36 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705485995; x=1706090795;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ktKDg1Kr1k5upORAnFgj9TjW3VLUUCKOkhGf1ZiTWq0=;
- b=Xs2Ba0u5hpXr6IL0/NmUCAX53L3R21Cp5QjG8WHDEu/5SyAcSVGzWzZcgYA5ivecxd
- xlv7KunsY+pJiCXuVAr0jvfkmbak4Db5Or1PxolxpiO436W/P0OvOceFlfaL4YUbPWWb
- ChNlYaP/pv6duZz57M3H7kMremG80gMn0pYRVl5OFHn+Ue/GGJxbUl8NI7je67iewXJ3
- oBvFwhfnjsepd4NQVhnZN38y+QoFC3zjjWkQjq4COUhvnDbg9s5ofwZVsACZRIqj3bOY
- 1ygOZ7v0WBGTHURP48GHcaRRQwoH0GPmeFIlv6M8P3WO5yC4sYw6izK/zeol09JF8tdo
- 5I+A==
-X-Gm-Message-State: AOJu0YziLKwDjr5XguT9HNoZAtlcjoE4Dy1w0D3j+jtIvmD6voZe+Q2g
- ed2Jeldn1aywWnQGYbeDwrVd9KQ9lKw2CQ==
-X-Google-Smtp-Source: AGHT+IEFUwVtXOf7BPfDa3cW4S3M6wlV1FNaM7cWnvpWnYIcgw9qy8OIfetr9XzCepti2B3XUIjMmw==
-X-Received: by 2002:a05:6a20:c703:b0:19b:434a:df3 with SMTP id
- hi3-20020a056a20c70300b0019b434a0df3mr1930326pzb.18.1705485995401; 
- Wed, 17 Jan 2024 02:06:35 -0800 (PST)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com.
- [209.85.210.172]) by smtp.gmail.com with ESMTPSA id
- g7-20020a62f947000000b006d9bf71461asm1034442pfm.86.2024.01.17.02.06.34
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Jan 2024 02:06:35 -0800 (PST)
-Received: by mail-pf1-f172.google.com with SMTP id
- d2e1a72fcca58-6db05618c1fso7958570b3a.1
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jan 2024 02:06:34 -0800 (PST)
-X-Received: by 2002:a05:690c:fd5:b0:5ee:7299:e2cf with SMTP id
- dg21-20020a05690c0fd500b005ee7299e2cfmr5153857ywb.52.1705485974135; Wed, 17
- Jan 2024 02:06:14 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80CCB10E65A
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jan 2024 10:16:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1705486582; x=1737022582;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=x+koo6dAJ9hcyhU9Em/uUTNoV9nSRdJZ/CCvxgeGLrw=;
+ b=R7wBywrPL9atlvoE2uV1lsrSJR9krhwE8//LkeBdA73SYasv8rqNu00P
+ zqMWK6zmldBfrFjvUVYbolkJuc69vDnxo+M55C+FS2uwbVWpIMdlmrA0e
+ NOy0Bn/8WR4b6jx3VlH42Be9nPDo0A8uGOS9//+iDTFP4U2o0cwS0aVAD
+ STi1tquRQ2oXcgR3mi6gWCYx38Ug1ZkjjvHNnsmloeM6U94Tw1gm2aVk4
+ /EiAadpCP6TgAJ9Zv/I382czD86ZYglK/9x1LQEXLX6s+PK2H1fpnP5ec
+ mCedfvefJ8ieUE2Me8uS+g1YDRIlPQluzIlPvveWwNBRziFBfsS84lmhG g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="464412640"
+X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; d="scan'208";a="464412640"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jan 2024 02:16:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="787756854"
+X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; d="scan'208";a="787756854"
+Received: from msznigir-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.38.230])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jan 2024 02:16:17 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>, Jessica Zhang
+ <quic_jesszhan@quicinc.com>
+Subject: Re: [PATCH RFC 0/4] Support for Simulated Panels
+In-Reply-To: <x6wi5xnihnbpqsujjfjfw3ft6njncruta5l3xa44pds5oxmdkw@mmvv4bciy65s>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240116-jz-test-sim-panel-v1-0-f9511f46c9c7@quicinc.com>
+ <x6wi5xnihnbpqsujjfjfw3ft6njncruta5l3xa44pds5oxmdkw@mmvv4bciy65s>
+Date: Wed, 17 Jan 2024 12:16:14 +0200
+Message-ID: <87cyu0qn81.fsf@intel.com>
 MIME-Version: 1.0
-References: <cover.1704788539.git.ysato@users.sourceforge.jp>
- <bc794e2165244bd0cee81bc0106f1e2d1bef1613.1704788539.git.ysato@users.sourceforge.jp>
- <CACRpkdYLsf-uWdMCTpieji7u1-H3oTGojvC4xm7Erox97XJ6RQ@mail.gmail.com>
- <8734uwwavx.wl-ysato@users.sourceforge.jp>
-In-Reply-To: <8734uwwavx.wl-ysato@users.sourceforge.jp>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 17 Jan 2024 11:06:02 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX_2Tgm2LLM1TgFrkLdokD99gAeKHJWrKy9Y2A+wtf5RA@mail.gmail.com>
-Message-ID: <CAMuHMdX_2Tgm2LLM1TgFrkLdokD99gAeKHJWrKy9Y2A+wtf5RA@mail.gmail.com>
-Subject: Re: [DO NOT MERGE v6 17/37] dt-bindings: interrupt-controller:
- renesas,sh7751-intc: Add json-schema
-To: Yoshinori Sato <ysato@users.sourceforge.jp>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,109 +60,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
- linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
- Bin Meng <bmeng@tinylab.org>, linux-pci@vger.kernel.org,
- Jacky Huang <ychuang3@nuvoton.com>, Palmer Dabbelt <palmer@rivosinc.com>,
- linux-kernel@vger.kernel.org, Max Filippov <jcmvbkbc@gmail.com>,
- Lee Jones <lee@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Hyeonggon Yoo <42.hyeyoo@gmail.com>, Jiri Slaby <jirislaby@kernel.org>,
- linux-clk@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Baoquan He <bhe@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- David Airlie <airlied@gmail.com>, Helge Deller <deller@gmx.de>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Magnus Damm <magnus.damm@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-serial@vger.kernel.org,
- David Rientjes <rientjes@google.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Daniel Vetter <daniel@ffwll.ch>, Arnd Bergmann <arnd@arndb.de>,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Maxime Ripard <mripard@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
- Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- Chris Morgan <macromorgan@hotmail.com>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@linutronix.de>,
- Vlastimil Babka <vbabka@suse.cz>, Yang Xiwen <forbidden405@foxmail.com>,
- Sergey Shtylyov <s.shtylyov@omp.ru>, linux-ide@vger.kernel.org,
- Stephen Boyd <sboyd@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Biju Das <biju.das.jz@bp.renesas.com>,
- Sebastian Reichel <sre@kernel.org>, Azeem Shaikh <azeemshaikh38@gmail.com>,
- linux-renesas-soc@vger.kernel.org, Michael Turquette <mturquette@baylibre.com>,
- Damien Le Moal <dlemoal@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>,
- Andrew Morton <akpm@linux-foundation.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sato-san,
-
-On Wed, Jan 17, 2024 at 10:46=E2=80=AFAM Yoshinori Sato
-<ysato@users.sourceforge.jp> wrote:
-> On Tue, 09 Jan 2024 21:30:34 +0900,
-> Linus Walleij wrote:
-> > On Tue, Jan 9, 2024 at 9:24=E2=80=AFAM Yoshinori Sato
-> > <ysato@users.sourceforge.jp> wrote:
-> >
-> > > +  renesas,icr-irlm:
-> > > +    $ref: /schemas/types.yaml#/definitions/flag
-> > > +    description: If true four independent interrupt requests mode (I=
-CR.IRLM is 1).
-> > > +
-> > > +  renesas,ipr-map:
-> > > +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> > > +    description: |
-> > > +      IRQ to IPR mapping definition.
-> > > +      1st - INTEVT code
-> > > +      2nd - Register
-> > > +      3rd - bit index
-> >
-> > (...)
-> >
-> > > +            renesas,ipr-map =3D <0x240 IPRD IPR_B12>, /* IRL0 */
-> > > +                              <0x2a0 IPRD IPR_B8>,  /* IRL1 */
-> > > +                              <0x300 IPRD IPR_B4>,  /* IRL2 */
-> > > +                              <0x360 IPRD IPR_B0>,  /* IRL3 */
-> > (...)
-> >
-> > Is it really necessary to have all this in the device tree?
-> >
-> > You know from the compatible that this is "renesas,sh7751-intc"
-> > and I bet this table will be the same for any sh7751 right?
-> >
-> > Then just put it in a table in the driver instead and skip this from
-> > the device tree and bindings. If more interrupt controllers need
-> > to be supported by the driver, you can simply look up the table from
-> > the compatible string.
+On Wed, 17 Jan 2024, Maxime Ripard <mripard@kernel.org> wrote:
+> Hi,
 >
-> The SH interrupt controller has the same structure, only this part is dif=
-ferent for each SoC.
-> Currently, we are targeting only the 7751, but in the future we plan to h=
-andle all SoCs.
-> Is it better to differentiate SoC only by compatible?
+> On Tue, Jan 16, 2024 at 02:22:03PM -0800, Jessica Zhang wrote:
+>> This series introduces a simulated MIPI DSI panel.
+>> 
+>> Currently, the only way to validate DSI connectors is with a physical
+>> panel. Since obtaining physical panels for all possible DSI configurations
+>> is logistically infeasible, introduce a way for DSI drivers to simulate a
+>> panel.
+>> 
+>> This will be helpful in catching DSI misconfiguration bugs and catching
+>> performance issues for high FPS panels that might not be easily
+>> obtainable.
+>> 
+>> For now, the simulated panel driver only supports setting customized
+>> modes via the panel_simlation.mode modparam. Eventually, we would like
+>> to add more customizations (such as configuring DSC, dual DSI, etc.).
+>
+> I think that it's more complicated than it needs to be.
 
-Yes, it is better to differentiate SoC only by compatible value.
+Both too complicated and not complicated enough! :p
 
-When you describe all differences explicitly using properties, you
-might discover later that you missed something important, causing
-backwards compatibility issues with old DTBs.
-DT is a stable ABI, while you can always update a driver when needed.
+> Why do we need to support (and switch to) both the actual and
+> "simulated" panel?
+>
+> Wouldn't it be simpler if we had a vkms-like panel that we could either
+> configure from DT or from debugfs that would just be registered the
+> usual way and would be the only panel we register?
 
-Gr{oetje,eeting}s,
+I get the idea of trying to test DSI code without panels, and looking at
+the goals above, I think your vkms suggestion is going to fall short of
+those goals.
 
-                        Geert
+However, my gut feeling is that creating a simulated panel to catch DSI
+misconfiguration etc. is going to be insanely complicated, and this
+series doesn't even scratch the surface.
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+I guess my questions are, what's the scope here really, are those goals
+realistic, does more code already exist beyond this skeleton?
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+BR,
+Jani.
+
+
+
+-- 
+Jani Nikula, Intel
