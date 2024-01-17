@@ -2,61 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13457830CBB
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jan 2024 19:30:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE895830CB7
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jan 2024 19:29:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1137E10E7D4;
-	Wed, 17 Jan 2024 18:29:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED5D010E7BA;
+	Wed, 17 Jan 2024 18:29:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1755010E7BE;
- Wed, 17 Jan 2024 18:29:31 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-40e60d74b81so3185945e9.1; 
- Wed, 17 Jan 2024 10:29:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1705516109; x=1706120909; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2YTIWppZOBmL1H/qdXTnDsoCpEw1sXU7s7kj9GmEfng=;
- b=S5KmANRRAN1saIu+YDv1SaPcSrmqKusftZ4baUtGxhcKfv2E91aJMbEhxMSlSwg69w
- IMtq9kps3FUqpcbDJ6pd7PBQAdrUyxd39k71opCo8rBrflWZF1VeUQRapwutTMq0+wiF
- eVjlJ9rjonr4K4BInxW5BGp1y41z4nPnyaPVJcO6cf8pN1ThOvsHS9Z3QvE/aHqaUIvc
- 08R8mGJqJbB0BFT1S1V5sTeZbPCAx5k81zENMJQuMKFMNP1za0ZWhBwChwvG1QhIQAgC
- 1Y3bmU3kiq6pQVOMhj4/2lUaWKXpLs0s26RZLU4rqX1++4WAdGdtJ/e7j7I5/N/qNk3v
- /ROw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705516109; x=1706120909;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=2YTIWppZOBmL1H/qdXTnDsoCpEw1sXU7s7kj9GmEfng=;
- b=aZEIxjHK0h7ch0HZb2DvOyR4m+KWQFfQZwDb3FHgByzWzQ2SSY/HKVBmhNybIa68uW
- H/8xF8s42GUiwPdnzO1JKHQ5S3bk9IUGQG+mw41fMf0/Dj2rPznbHBd0+UUjBeU18Of5
- 3KY81N5OpG7ngEtTk3ptLEkSb0cLbFeVdQYhA98nl6huSpPeVzqUPxlBDZ/hEg3ulirp
- yaMDj+ohGcYdO0/X/U1D/R3h227PDURCe/e7AtggZ++DKTuzOAfGQu3UrLOawmss1dsk
- Y9JJdDqFFfpian46wFVfTa9tfgmxbiVPfWIgVfqLeQ+7QxdTLpE0a0i8C9Bu7nE3g2N4
- oamA==
-X-Gm-Message-State: AOJu0YwfdDXE/w9RJ4Ya2DazRUcyiNpl8oGUmM+ky+IByUYscpeM22wf
- 7nW22LNiDyN7akFvl+csY24k17ZMAybCuXQ1cLk=
-X-Google-Smtp-Source: AGHT+IEBNi5qG09aWKVIGebEpdYQKcvYy1/Zs4NTddYCXN5LBWTykzC2D8B21MvTXNKkVrx5cxbkWxUUYO/cZli+noE=
-X-Received: by 2002:a05:600c:3ca3:b0:40e:89e8:107a with SMTP id
- bg35-20020a05600c3ca300b0040e89e8107amr184597wmb.3.1705516109458; Wed, 17 Jan
- 2024 10:28:29 -0800 (PST)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0541810E78B;
+ Wed, 17 Jan 2024 18:29:19 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 40HHjFiV020918; Wed, 17 Jan 2024 18:29:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=zkRc/3bS0GJjom2pOE2NLNuRb8ghNJ8znGLS0L0OTVI=; b=Zq
+ aHSnPGPY6ZatimUXfNUy9bCt9JhAUj07iwGlffSF4IWsj2lJBvNypvycNGLPJDXj
+ g/HXvHWW9w23iZ7UAPu0fVmj9TzoEN5kwS3wfN4z+IVB2hpGSYn6voOa4FPvXNBe
+ iKfztsCS78BYOibU5lPYEyw3SbjkjdLkcu+Nj56fuGzFwT6FrIZgvQsVbhOlQGML
+ nvIaqAmYHz0/vvSB28+RAqdsS2emrobJJo4V9t5M02folaRMRGTzVxDaOlOm3nCy
+ TCXjSxUy8wO3Jq0hkpdEKp2nN16vBCzPnHg30y49lHEchwMaf5BlXNfzoAQL4bgr
+ bpR3VI5uRltW9skHkeOA==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vpkjrg42s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 17 Jan 2024 18:29:14 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40HITCxq014230
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 17 Jan 2024 18:29:12 GMT
+Received: from [10.110.28.75] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 17 Jan
+ 2024 10:29:11 -0800
+Message-ID: <33f9d97d-f0fb-96d7-eea9-c43c3a5a162e@quicinc.com>
+Date: Wed, 17 Jan 2024 10:29:01 -0800
 MIME-Version: 1.0
-References: <20240117031212.1104034-1-nunes.erico@gmail.com>
- <20240117031212.1104034-6-nunes.erico@gmail.com>
-In-Reply-To: <20240117031212.1104034-6-nunes.erico@gmail.com>
-From: Vasily Khoruzhick <anarsoul@gmail.com>
-Date: Wed, 17 Jan 2024 10:28:02 -0800
-Message-ID: <CA+E=qVe_5fDsW+_KobwP5+Xg0Tac3Eh3dtVsmM1VSEmiQeH_cQ@mail.gmail.com>
-Subject: Re: [PATCH v1 5/6] drm/lima: remove guilty drm_sched context handling
-To: Erico Nunes <nunes.erico@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2] drm/msm/dp: correct configure Colorimetry Indicator
+ Field at MISC0
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <1705514068-22394-1-git-send-email-quic_khsieh@quicinc.com>
+ <CAA8EJpqO+SWYcCtH1hOVow18ZTbJ=qh0D68CEP1sGObdd3=ciA@mail.gmail.com>
+Content-Language: en-US
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <CAA8EJpqO+SWYcCtH1hOVow18ZTbJ=qh0D68CEP1sGObdd3=ciA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: F45rYthc62rDZDqtmrz9pt7AuM6YpLCD
+X-Proofpoint-GUID: F45rYthc62rDZDqtmrz9pt7AuM6YpLCD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-17_11,2024-01-17_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 phishscore=0
+ lowpriorityscore=0 suspectscore=0 adultscore=0 impostorscore=0
+ mlxlogscore=999 clxscore=1015 malwarescore=0 priorityscore=1501
+ spamscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2401170133
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,111 +84,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel@ffwll.ch>, lima@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, christian.koenig@amd.com,
- Qiang Yu <yuq825@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>
+Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
+ linux-kernel@vger.kernel.org, quic_abhinavk@quicinc.com, airlied@gmail.com,
+ andersson@kernel.org, dri-devel@lists.freedesktop.org, dianders@chromium.org,
+ vkoul@kernel.org, agross@kernel.org, daniel@ffwll.ch,
+ marijn.suijten@somainline.org, quic_jesszhan@quicinc.com, swboyd@chromium.org,
+ sean@poorly.run, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 16, 2024 at 7:12=E2=80=AFPM Erico Nunes <nunes.erico@gmail.com>=
- wrote:
->
-> Marking the context as guilty currently only makes the application which
-> hits a single timeout problem to stop its rendering context entirely.
-> All jobs submitted later are dropped from the guilty context.
->
-> Lima runs on fairly underpowered hardware for modern standards and it is
-> not entirely unreasonable that a rendering job may time out occasionally
-> due to high system load or too demanding application stack. In this case
-> it would be generally preferred to report the error but try to keep the
-> application going.
->
-> Other similar embedded GPU drivers don't make use of the guilty context
-> flag. Now that there are reliability improvements to the lima timeout
-> recovery handling, drop the guilty contexts to let the application keep
-> running in this case.
->
-> Signed-off-by: Erico Nunes <nunes.erico@gmail.com>
-Reviewed-by: Vasily Khoruzhick <anarsoul@gmail.com>
 
-> ---
->  drivers/gpu/drm/lima/lima_ctx.c   | 2 +-
->  drivers/gpu/drm/lima/lima_ctx.h   | 1 -
->  drivers/gpu/drm/lima/lima_sched.c | 5 ++---
->  drivers/gpu/drm/lima/lima_sched.h | 3 +--
->  4 files changed, 4 insertions(+), 7 deletions(-)
+On 1/17/2024 10:12 AM, Dmitry Baryshkov wrote:
+> On Wed, 17 Jan 2024 at 19:54, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+>> MSA MISC0 bit 1 to 7 contains Colorimetry Indicator Field. At
+>> current implementation, at DP_TEST_DYNAMIC_RANGE_CEA case the
+> In the current implementation, in the ... case
 >
-> diff --git a/drivers/gpu/drm/lima/lima_ctx.c b/drivers/gpu/drm/lima/lima_=
-ctx.c
-> index 8389f2d7d021..0e668fc1e0f9 100644
-> --- a/drivers/gpu/drm/lima/lima_ctx.c
-> +++ b/drivers/gpu/drm/lima/lima_ctx.c
-> @@ -19,7 +19,7 @@ int lima_ctx_create(struct lima_device *dev, struct lim=
-a_ctx_mgr *mgr, u32 *id)
->         kref_init(&ctx->refcnt);
+>> Colorimetry Indicator Field is mistakenly left shifted one extra
+>> bit.
+> This doesn't make sense. You say that the value is mistakenly shifted,
+> but the shift is still in place in dp_catalog_ctrl_config_misc().
+
+The problem is at
+
+  link->dp_link.test_video.test_dyn_range =   (bp & 
+DP_TEST_DYNAMIC_RANGE_CEA);   <== this from reading dpcd directly where 
+==> DP_TEST_DYNAMIC_RANGE_CEA  is   (1 << 3)
+
+within dp_catalog_ctrl_config_misc(), cc will be left shift one more bit.
+so that cc is totally is left shifted 4 bits (bit 4).
+
+at misc0, it should be bit 3 set only for CEA_RGB.
+
 >
->         for (i =3D 0; i < lima_pipe_num; i++) {
-> -               err =3D lima_sched_context_init(dev->pipe + i, ctx->conte=
-xt + i, &ctx->guilty);
-> +               err =3D lima_sched_context_init(dev->pipe + i, ctx->conte=
-xt + i);
->                 if (err)
->                         goto err_out0;
->         }
-> diff --git a/drivers/gpu/drm/lima/lima_ctx.h b/drivers/gpu/drm/lima/lima_=
-ctx.h
-> index 74e2be09090f..5b1063ce968b 100644
-> --- a/drivers/gpu/drm/lima/lima_ctx.h
-> +++ b/drivers/gpu/drm/lima/lima_ctx.h
-> @@ -13,7 +13,6 @@ struct lima_ctx {
->         struct kref refcnt;
->         struct lima_device *dev;
->         struct lima_sched_context context[lima_pipe_num];
-> -       atomic_t guilty;
+>> This patch return correct value of colorimetry at
+>> dp_link_get_colorimetry_config() to fix this problem.
+> See Documentation/process/submitting-patches.rst#_describe_changes
 >
->         /* debug info */
->         char pname[TASK_COMM_LEN];
-> diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lim=
-a_sched.c
-> index 9449b81bcd5b..496c79713fe8 100644
-> --- a/drivers/gpu/drm/lima/lima_sched.c
-> +++ b/drivers/gpu/drm/lima/lima_sched.c
-> @@ -154,13 +154,12 @@ void lima_sched_task_fini(struct lima_sched_task *t=
-ask)
->  }
+>> Changes in V2:
+>> -- drop retrieving colorimetry from colorspace
+>> -- drop dr = link->dp_link.test_video.test_dyn_range assignment
+>>
+>> Fixes: c943b4948b58 ("drm/msm/dp: add displayPort driver support")
+>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/dp/dp_link.c | 11 ++++++-----
+>>   drivers/gpu/drm/msm/dp/dp_link.h |  3 +++
+>>   2 files changed, 9 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_link.c b/drivers/gpu/drm/msm/dp/dp_link.c
+>> index 98427d4..2e1bdaf 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_link.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_link.c
+>> @@ -1082,7 +1082,7 @@ int dp_link_process_request(struct dp_link *dp_link)
+>>
+>>   int dp_link_get_colorimetry_config(struct dp_link *dp_link)
+>>   {
+>> -       u32 cc;
+>> +       u32 cc = DP_MISC0_LEGACY_RGB;
+>>          struct dp_link_private *link;
+>>
+>>          if (!dp_link) {
+>> @@ -1096,10 +1096,11 @@ int dp_link_get_colorimetry_config(struct dp_link *dp_link)
+>>           * Unless a video pattern CTS test is ongoing, use RGB_VESA
+>>           * Only RGB_VESA and RGB_CEA supported for now
+>>           */
+>> -       if (dp_link_is_video_pattern_requested(link))
+>> -               cc = link->dp_link.test_video.test_dyn_range;
+>> -       else
+>> -               cc = DP_TEST_DYNAMIC_RANGE_VESA;
+>> +       if (dp_link_is_video_pattern_requested(link)) {
+>> +               if (link->dp_link.test_video.test_dyn_range &
+>> +                                       DP_TEST_DYNAMIC_RANGE_CEA)
+>> +                       cc = DP_MISC0_CEA_RGB;
+>> +       }
+>>
+>>          return cc;
+>>   }
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_link.h b/drivers/gpu/drm/msm/dp/dp_link.h
+>> index 9dd4dd9..fe8f716 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_link.h
+>> +++ b/drivers/gpu/drm/msm/dp/dp_link.h
+>> @@ -12,6 +12,9 @@
+>>   #define DP_TEST_BIT_DEPTH_UNKNOWN 0xFFFFFFFF
+>>   #define DP_LINK_CAP_ENHANCED_FRAMING (1 << 0)
+>>
+>> +#define DP_MISC0_LEGACY_RGB            0
+>> +#define DP_MISC0_CEA_RGB               0x04
+> These should go to dp_reg.h and should start with DP_MISC0_COLORIMETRY_CFG
 >
->  int lima_sched_context_init(struct lima_sched_pipe *pipe,
-> -                           struct lima_sched_context *context,
-> -                           atomic_t *guilty)
-> +                           struct lima_sched_context *context)
->  {
->         struct drm_gpu_scheduler *sched =3D &pipe->base;
->
->         return drm_sched_entity_init(&context->base, DRM_SCHED_PRIORITY_N=
-ORMAL,
-> -                                    &sched, 1, guilty);
-> +                                    &sched, 1, NULL);
->  }
->
->  void lima_sched_context_fini(struct lima_sched_pipe *pipe,
-> diff --git a/drivers/gpu/drm/lima/lima_sched.h b/drivers/gpu/drm/lima/lim=
-a_sched.h
-> index 34050facb110..677e908b53f8 100644
-> --- a/drivers/gpu/drm/lima/lima_sched.h
-> +++ b/drivers/gpu/drm/lima/lima_sched.h
-> @@ -93,8 +93,7 @@ int lima_sched_task_init(struct lima_sched_task *task,
->  void lima_sched_task_fini(struct lima_sched_task *task);
->
->  int lima_sched_context_init(struct lima_sched_pipe *pipe,
-> -                           struct lima_sched_context *context,
-> -                           atomic_t *guilty);
-> +                           struct lima_sched_context *context);
->  void lima_sched_context_fini(struct lima_sched_pipe *pipe,
->                              struct lima_sched_context *context);
->  struct dma_fence *lima_sched_context_queue_task(struct lima_sched_task *=
-task);
-> --
-> 2.43.0
+>> +
+>>   struct dp_link_info {
+>>          unsigned char revision;
+>>          unsigned int rate;
+>> --
+>> 2.7.4
+>>
 >
