@@ -2,55 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7899D830DA2
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jan 2024 21:03:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA83D830DC6
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jan 2024 21:11:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62A6810E802;
-	Wed, 17 Jan 2024 20:03:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24F5A10E81E;
+	Wed, 17 Jan 2024 20:10:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B175110E802
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jan 2024 20:03:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1705521776;
- bh=ipV+rKUR/CE2oxvQo7qJXW3DS21dt/GIWuErpGmS7EI=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=dfyS3Ud0/YPnPIWUJg0da8N+L2V1HI5iAvT+we12fNamdAqj9lQgbgSok9QXMCK5q
- 9BsnCZZGa9tjO8+oO9hns/QB7YnA7u7FH9NCsOK7KkhMr3nNBAnXCNtB57D9fULf6W
- gmFYQahjIgcBPDx7oiaoknQ9olUd0+IkZBEX0kg3XNqIZdrqyu0bBCeDE64Phiy7/1
- wcTaoV1IcWceb/Zd7DZ1epVkm+fQRERDWjLQH6ilvIcXEBJ/N69JqD4SzFgaiqqi+b
- 7LAGwMR9lFPr6itTFnQgkJFVLH093+CyTDl/K6wfpYV+as3icC/zNWG4/7dC3C77mI
- K8jSIrabuwq4w==
-Received: from nicolas-tpx395.localdomain (cola.collaboradmins.com
- [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: nicolas)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 176823781FC7;
- Wed, 17 Jan 2024 20:02:52 +0000 (UTC)
-Message-ID: <3b4c8bedd57cf229a36fd195c4c9fe85809abf92.camel@collabora.com>
-Subject: Re: [PATCH v3,04/21] v4l: add documentation for secure memory flag
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Yunfei Dong <yunfei.dong@mediatek.com>, Jeffrey Kardatzke
- <jkardatzke@google.com>, =?ISO-8859-1?Q?N=EDcolas?= "F . R . A . Prado"
- <nfraprado@collabora.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, Nathan Hebert
- <nhebert@chromium.org>
-Date: Wed, 17 Jan 2024 15:02:48 -0500
-In-Reply-To: <20231206081538.17056-5-yunfei.dong@mediatek.com>
-References: <20231206081538.17056-1-yunfei.dong@mediatek.com>
- <20231206081538.17056-5-yunfei.dong@mediatek.com>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mQGiBEUQN0MRBACQYceNSezSdMjx7sx6gwKkMghrrODgl3B0eXBTgNp6c431IfOOEsdvkoOh1kwoYcQgbg4MXw6beOltysX4e8fFWsiRkc2nvvRW9ir9kHDm49MkBLqaDjTqOkYKNMiurFW+gozpr/lUW15QqT6v68RYe0zRdtwGZqeLzX2LVuukGwCg4AISzswrrYHNV7vQLcbaUhPgIl0D+gILYT9TJgAEK4YHW+bFRcY+cgUFoLQqQayECMlctKoLOE69nIYOc/hDr9uih1wxrQ/yL0NJvQCohSPyoyLF9b2EuIGhQVp05XP7FzlTxhYvGO/DtO08ec85+bTfVBMV6eeY4MS3ZU+1z7ObD7Pf29YjyTehN2Dan6w1g2rBk5MoA/9nDocSlk4pbFpsYSFmVHsDiAOFje3+iY4ftVDKunKYWMhwRVBjAREOByBagmRau0cLEcElpf4hX5f978GoxSGIsiKoDAlXX+ICDOWC1/EXhEEmBR1gL0QJgiVviNyLfGJlZWnPjw6xhhmtHYWTDxBOP5peztyc2PqeKsLsLWzAr7RDTmljb2xhcyBEdWZyZXNuZSAoQi4gU2MuIEluZm9ybWF0aXF1ZSkgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPohgBBMRAgAgBQJFlCyOAhsDBgsJCAcDAgQVAggDBBYCAwECHgECF4AACgkQcVMCLawGqBwhLQCgzYlrLBj6KIAZ4gmsfjXD6ZtddT8AoIeGDicVq5WvMHNWign6ApQcZUihtElOaWNvbGFzIER1ZnJlc25lIChCLiBTYy4gSW5mb3JtYXRpcXVlKSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY28udWs+iGIEExECACIFAkuzca8CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sBqgcQX8An2By6LDEeMxi4B9hUbpvRnzaaeNqA
- J9Rox8rfqHZnSErw9bCHiBwvwJZ77QxTmljb2xhcyBEdWZyZXNuZSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY29tPohiBBMRAgAiBQJNzZzPAhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRBxUwItrAaoHLlxAKCYAGf4JL7DYDLs/188CPMGuwLypwCfWKc9DorA9f5pyYlD5pQo6SgSoiC0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPohiBBMRAgAiBQJVwNwgAhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRBxUwItrAaoHCZ4AJ0QwU6/G4c7h9CkMBT9ZxGLX4KSnQCgq0P7CX7hv/M7HeyfMFZe8t3vAEW0RE5pY29sYXMgRHVmcmVzbmUgKEIuIFNjLiBJbmZvcm1hdGlxdWUpIDxuaWNvbGFzZEBibHVlc3RyZWFrdGVjaC5jb20+iGAEExECACAFAkZjGzoCGwMGCwkIBwMCBBUCCAMEFgIDAQIeAQIXgAAKCRBxUwItrAaoHBl7AJ0d2lrzshMmJaik/EaDEakzEwqgxQCg0JVZMZm9gRfEou1FvinuZxwf/mu0R05pY29sYXMgRHVmcmVzbmUgKEIgU2MuIEluZm9ybWF0aXF1ZSkgPG5pY29sYXMuZHVmcmVzbmVAdXNoZXJicm9va2UuY2E+iGAEExECACAFAkUQN0MCGwMGCwkIBwMCBBUCCAMEFgIDAQIeAQIXgAAKCRBxUwItrAaoHPTnAJ0WGgJJVspoctAvEcI00mtp5WAFGgCgr+E7ItOqZEHAs+xabBgknYZIFPW5Ag0ERRA3UhAIAJ0rxl2HsVg/nSOAUt7U/T/W+RKzVAlD9orCB0pRVvyWNxSr8MHcHmWCxykLuB34ouM4GuDVRKfGnqLzJRBfjs7Ax9K2FI3Odund9xpviLCt1jFC0K
- XL04RebrFT7xjDfocDaSLFvgxMVs/Jr2/ckKPId1oKvgYgt/o+MzUabKyFB8wIvq4GMtj3LoBKLCie2nCaSt7uVUt6q2t5bNWrd3lO6/mWn7YMc5Hsn33H9pS0+9szw6m3dG08eMKNueDlt72QxiYl2rhjzkT4ltKEkFgYBdyrtIj1UO6eX+YXb4E1rCMJrdjBSgqDPK1sWHC7gliy+izr+XTHuFwlfy8gBpsAAwUIAJJNus64gri4HAL632eqVpza83EphX1IuHzLi1LlMnQ9Tm7XKag46NhmJbOByMG33LwBsBdLjjHQSVkYZFWUifq+NWSFC/kqlb72vW8rBAv64+i3QdfxK9FWbweiRsPpvuHjJQuecbPDJpubLaxKbu2aqLCN5LuHXvdQr6KiXwabT+OJ9AJAqHG7q4IEzg4RNUVn9AS6L8bxqMSocjqpWNBCY2efCVd/c6k4Acv6jXu+wDAZEbWXK+71uaUHExhigBYBpiHGrobe32YlTVE/XEIzKKywhm/Hkn5YKWzumLte6xiD9JhKabmD7uqIvLt2twUpz4BdPzj0dvGlSmvFcaaISQQYEQIACQUCRRA3UgIbDAAKCRBxUwItrAaoHJLyAKDeS3AFowM3f1Y3OFU6XRCTKK2ZhwCfT/7P9WDjkkmiq5AfeOiwVlpuHtM=
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
+ [209.85.208.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9FF110E81E
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jan 2024 20:10:56 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id
+ 4fb4d7f45d1cf-5571e662b93so9558228a12.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jan 2024 12:10:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1705522193; x=1706126993;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9EN9U2M6WcTO4kvqAssI2USJeGX9gxivbYmkNOhif20=;
+ b=JVrJhrQt21XXX8GnCylNRwZt1FxqgP/w4naL9H77eyiEz/Dq82c4vUUhoSpQXSpsEq
+ 3L8VmFOHlzz2N9HVgJK+LIj3lVGfyZreb0Ip7IMASodsenUQOMsWKy/l58LR3GA/3axg
+ nrEBxb4KtfWyQcIUQokjutfKHDWheJYTzeCoo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1705522193; x=1706126993;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=9EN9U2M6WcTO4kvqAssI2USJeGX9gxivbYmkNOhif20=;
+ b=skMg9ncknpfO13UiG0xUgjH8Y1BCQdJNsuI8zfLctu+53sbqjPGEcNgoAG1aL+f6mm
+ SAWiWB2w6AUafddGNeFq35ce799zTWp0LHEJmoWf5ni78XHjSAgow/4Pc1oujaT9M2Ip
+ 2//jXYb35hQd67bDNAdkTiYD6sdgjVSXA8KV1hjyvfG03sIgpMuxvp6eIdQbg3NMvcUg
+ 6SwI8eB3AWqe23waMlOYRFRap1zRjTMNbEoxlxrXwI9LpPGAVTj5N69rcXgO/8wO35iy
+ u3g7DtMqn1r9DGbFDxngCCbqw2CMXOMLG/yaVks5/0oE/B2zwk7DzjUSPJBHIBn4Ip3M
+ 2wYw==
+X-Gm-Message-State: AOJu0YyXvHWYyfMv/nckldnb5WWwFL5HddiMUjBJBE4990l60h6SIMh7
+ UeQlVgTOzH83J/cL4e0hhEbu5J4BDiwEmuYTUX2f6QrMrk9zCig=
+X-Google-Smtp-Source: AGHT+IFZ24Dgc4IIGY3k8otKVhxbqkmIy5amIJypGy5us33a8FgA5RPzKIt+cxtKmbt/8yOsbLwl/g==
+X-Received: by 2002:a05:6402:34c7:b0:559:6e73:798a with SMTP id
+ w7-20020a05640234c700b005596e73798amr2889382edc.24.1705522193159; 
+ Wed, 17 Jan 2024 12:09:53 -0800 (PST)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com.
+ [209.85.128.43]) by smtp.gmail.com with ESMTPSA id
+ h14-20020a056402094e00b00559cc2082dcsm1558075edz.19.2024.01.17.12.09.52
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 17 Jan 2024 12:09:52 -0800 (PST)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-40d5097150fso59355e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jan 2024 12:09:52 -0800 (PST)
+X-Received: by 2002:a05:600c:1c8d:b0:40e:5274:e2ba with SMTP id
+ k13-20020a05600c1c8d00b0040e5274e2bamr205912wms.4.1705522191757; Wed, 17 Jan
+ 2024 12:09:51 -0800 (PST)
+MIME-Version: 1.0
+References: <20240117103502.1.Ib726a0184913925efc7e99c4d4fc801982e1bc24@changeid>
+ <CAJMQK-j_gEfZqWppG3oVNWBopH9uVK-NrzXvoSr=ijF2pMycDA@mail.gmail.com>
+In-Reply-To: <CAJMQK-j_gEfZqWppG3oVNWBopH9uVK-NrzXvoSr=ijF2pMycDA@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 17 Jan 2024 12:09:37 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=UsnDMx+TV3JCAmboTdFRtpOQzQ1V0cw70PadCoXVNJ_w@mail.gmail.com>
+Message-ID: <CAD=FV=UsnDMx+TV3JCAmboTdFRtpOQzQ1V0cw70PadCoXVNJ_w@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: parade-ps8640: Make sure we drop the AUX
+ mutex in the error case
+To: Hsin-Yi Wang <hsinyi@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.3 (3.50.3-1.fc39) 
-MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,68 +81,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Steve Cho <stevecho@chromium.org>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Chen-Yu Tsai <wenst@chromium.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Matthias Brugger <matthias.bgg@gmail.com>, John Stultz <jstultz@google.com>,
- linux-arm-kernel@lists.infradead.org, Daniel Vetter <daniel@ffwll.ch>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
- linux-mediatek@lists.infradead.org, "T . J . Mercier" <tjmercier@google.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Yong Wu <yong.wu@mediatek.com>
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Pin-yen Lin <treapking@chromium.org>, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-Le mercredi 06 d=C3=A9cembre 2023 =C3=A0 16:15 +0800, Yunfei Dong a =C3=A9c=
-rit=C2=A0:
-> From: Jeffrey Kardatzke <jkardatzke@google.com>
->=20
-> Adds documentation for V4L2_MEMORY_FLAG_SECURE.
-
-As I noticed from DMA Heap discussions, shall this also be renamed SECURE -=
+On Wed, Jan 17, 2024 at 11:39=E2=80=AFAM Hsin-Yi Wang <hsinyi@chromium.org>=
+ wrote:
 >
-RESTRICTED ?
+> On Wed, Jan 17, 2024 at 10:35=E2=80=AFAM Douglas Anderson <dianders@chrom=
+ium.org> wrote:
+> >
+> > After commit 26db46bc9c67 ("drm/bridge: parade-ps8640: Ensure bridge
+> > is suspended in .post_disable()"), if we hit the error case in
+> > ps8640_aux_transfer() then we return without dropping the mutex. Fix
+> > this oversight.
+> >
+> > Fixes: 26db46bc9c67 ("drm/bridge: parade-ps8640: Ensure bridge is suspe=
+nded in .post_disable()")
+> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> > ---
+> > Sorry for missing this in my review! :( Given that this is really
+> > simple and I'd rather the buggy commit not be there for long, if I can
+> > get a quick Reviewed-by tag on this patch I'll land it without the
+> > typical stewing period.
+> >
+>
+> Reviewed-by: Hsin-Yi Wang <hsinyi@chromium.org>
 
-regards,
-Nicolas
+Thanks! I've pushed this to avoid the breakage. If any additional
+follow up comes up I'm happy to post additional patches.
 
->=20
-> Signed-off-by: Jeffrey Kardatzke <jkardatzke@google.com>
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> ---
->  Documentation/userspace-api/media/v4l/buffer.rst | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
->=20
-> diff --git a/Documentation/userspace-api/media/v4l/buffer.rst b/Documenta=
-tion/userspace-api/media/v4l/buffer.rst
-> index 52bbee81c080..a5a7d1c72d53 100644
-> --- a/Documentation/userspace-api/media/v4l/buffer.rst
-> +++ b/Documentation/userspace-api/media/v4l/buffer.rst
-> @@ -696,7 +696,7 @@ enum v4l2_memory
-> =20
->  .. _memory-flags:
-> =20
-> -Memory Consistency Flags
-> +Memory Flags
->  ------------------------
-> =20
->  .. raw:: latex
-> @@ -728,6 +728,12 @@ Memory Consistency Flags
->  	only if the buffer is used for :ref:`memory mapping <mmap>` I/O and the
->  	queue reports the :ref:`V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS
->  	<V4L2-BUF-CAP-SUPPORTS-MMAP-CACHE-HINTS>` capability.
-> +    * .. _`V4L2-MEMORY-FLAG-SECURE`:
-> +
-> +      - ``V4L2_MEMORY_FLAG_SECURE``
-> +      - 0x00000002
-> +      - DMA bufs passed into the queue will be validated to ensure they =
-were
-> +	allocated from a secure dma-heap.
-> =20
->  .. raw:: latex
-> =20
+a20f1b02bafc drm/bridge: parade-ps8640: Make sure we drop the AUX
+mutex in the error case
 
+
+-Doug
