@@ -2,59 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B56282FF39
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jan 2024 04:14:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC2C783005C
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jan 2024 08:10:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70A7910E613;
-	Wed, 17 Jan 2024 03:14:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 760A210E053;
+	Wed, 17 Jan 2024 07:10:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com
- [209.85.219.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91BAD10E613
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jan 2024 03:14:20 +0000 (UTC)
-Received: by mail-yb1-f177.google.com with SMTP id
- 3f1490d57ef6-dbed179f0faso8179347276.1
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jan 2024 19:14:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1705461199; x=1706065999;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=59p+fnH5rT0frfeom0IV/J7px6MXmab6xfrDrxBnvA4=;
- b=elQTUuIK+7CtacKCImUl7Ji2mdiTcr2mZutrhfl4pAFsGMaowf5WglPlZtjd07wMNt
- Ho/dBsIlSl9cGb6nRgH26tg3UJjw0A2LefnAe8o7D3/lPh4oAgEs6ZR2QgEA0k4qbfyS
- 57HJMhVB3UjZJZjo7E/EB2L2TxxARya6/8suU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705461199; x=1706065999;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=59p+fnH5rT0frfeom0IV/J7px6MXmab6xfrDrxBnvA4=;
- b=hhrB2w5h3HOFHwuoEvDWiUIqprrN9yzUVw1ttMrVyH044upOqA+whPOkfRJD0zY3Yp
- ReXmGeQDHGkq5tfi+QLex8QOnfHvuYcY77Y6ZlKp5zDcg4b2jnfqv9mbl4OyLb2+5Olq
- foGpuMM0K8qVV1T/+QvKZe/WG/D3V0BiK6vizcG5PCi6bYSaSopRt3A8W1TCaVJrBRNh
- CFw+CtQjg3FuM3aEK9caMVOnhzrLY5LKY2hrAhO3wTUqtGbKwFbmE4rnV8lLmDMJ0nba
- HOni9k/PGAX+ptoj8ZYxZ9GBQG1EuByRNuZPjShAC/8E7Ra0Hh+UAIZWGl76zfrsvsUT
- xX3w==
-X-Gm-Message-State: AOJu0Yw3sgGcN0fdwW2UOUKIbNZ16HFbG2+3SB4hWzXXqb52qdSWgAh7
- AFymLO+IhimNFXpGdr2bmqed5zMr8sQYNUuQhhU4Ah99dOjP
-X-Google-Smtp-Source: AGHT+IGRFGRbecsFxBH7oI2HKW/w7qzUsKpySNvwdsvVWjq4+0lDvbQqMdICxi2kISBDmJSGqnx5rsPyHeyrGWwg5CI=
-X-Received: by 2002:a25:ab88:0:b0:dc2:26e5:a76 with SMTP id
- v8-20020a25ab88000000b00dc226e50a76mr76206ybi.47.1705461199670; Tue, 16 Jan
- 2024 19:13:19 -0800 (PST)
+Received: from zg8tmja2lje4os4yms4ymjma.icoremail.net
+ (zg8tmja2lje4os4yms4ymjma.icoremail.net [206.189.21.223])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 18A1A10E053
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jan 2024 07:10:36 +0000 (UTC)
+Received: from alexious$zju.edu.cn ( [10.190.68.184] ) by
+ ajax-webmail-mail-app3 (Coremail) ; Wed, 17 Jan 2024 15:10:19 +0800
+ (GMT+08:00)
+X-Originating-IP: [10.190.68.184]
+Date: Wed, 17 Jan 2024 15:10:19 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: alexious@zju.edu.cn
+To: "Qiang Yu" <yuq825@gmail.com>
+Subject: Re: Re: [PATCH] drm/lima: fix a memleak in lima_heap_alloc
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2023.4-cmXT5 build
+ 20231205(37e20f0e) Copyright (c) 2002-2024 www.mailtech.cn
+ mispb-4df6dc2c-e274-4d1c-b502-72c5c3dfa9ce-zj.edu.cn
+In-Reply-To: <CAKGbVbswTUYJsZDLWao58MTyt7yAYMMXA5zjeYVBTRvd9X3n0g@mail.gmail.com>
+References: <20240112084750.3729837-1-alexious@zju.edu.cn>
+ <CAKGbVbswTUYJsZDLWao58MTyt7yAYMMXA5zjeYVBTRvd9X3n0g@mail.gmail.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-References: <20240112125158.2748-1-christian.koenig@amd.com>
- <1df3cfff-50af-4873-b228-57b6900b9ba8@gmail.com>
-In-Reply-To: <1df3cfff-50af-4873-b228-57b6900b9ba8@gmail.com>
-From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Tue, 16 Jan 2024 22:13:08 -0500
-Message-ID: <CABQX2QPdXjC_S9tUhPAuGo0P7=GMXvS0uMqDSr-jgpBQVm7gUg@mail.gmail.com>
-Subject: Re: Rework TTMs busy handling
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Message-ID: <397c98b.49eb.18d1641ad63.Coremail.alexious@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: cC_KCgA3XztcfadlY08uAA--.5780W
+X-CM-SenderInfo: qrsrjiarszq6lmxovvfxof0/1tbiAg0DAGWmzmEUIgAEsS
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VW7Jw
+ CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+ daVFxhVjvjDU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,26 +51,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: thomas.hellstrom@linux.intel.com, kherbst@redhat.com,
- michel.daenzer@mailbox.org, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- zackr@vmware.com
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, lima@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Vasily Khoruzhick <anarsoul@gmail.com>, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 16, 2024 at 4:57=E2=80=AFAM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
->
-> Am 12.01.24 um 13:51 schrieb Christian K=C3=B6nig:
-> > Hi guys,
->
-> just a gentle ping on this.
->
-> Zack any more comments for the VMWGFX parts?
-
-The new vmwgfx code looks great, thanks a lot for implementing it! In
-fact the entire series looks good to me. For the series:
-
-Reviewed-by: Zack Rusin <zack.rusin@broadcom.com>
-
-z
+PiBUaGFua3MgZm9yIHRoZSBmaXguIEFzIHRoZSBlcnJvciBoYW5kbGluZyBnZXRzIGxvbmdlciBh
+bmQgZHVwbGljYXRlZCwKPiBjb3VsZCB5b3UgcmVhcnJhbmdlIHRoZW0gbGlrZSB0aGUgbGltYV9n
+ZW1fc3VibWl0KCk6Cj4gZXJyX291dDI6Cj4gICAgIGRtYV91bm1hcF9zZ3RhYmxlKGRldiwgJnNn
+dCwgRE1BX0JJRElSRUNUSU9OQUwsIDApOwo+IGVycl9vdXQxOgo+ICAgICBrZnJlZShiby0+YmFz
+ZS5zZ3QpOwo+ICAgICBiby0+YmFzZS5zZ3QgPSBOVUxMOwo+IGVycl9vdXQwOgo+ICAgICBzZ19m
+cmVlX3RhYmxlKCZzZ3QpOwo+ICAgICByZXR1cm4gcmV0Lgo+IAo+IFJlZ2FyZHMsCj4gUWlhbmcK
+PiAKClN1cmUsIEknbGwgc2VuZCBhIHYyIHZlcnNpb24gb2YgdGhpcyBwYXRjaCBsYXRlciBmb2xs
+b3dpbmcgeW91ciBhZHZpc2UuCgpSZWdhcmRzLApaaGlwZW5nCgo+IE9uIEZyaSwgSmFuIDEyLCAy
+MDI0IGF0IDQ6NDnigK9QTSBaaGlwZW5nIEx1IDxhbGV4aW91c0B6anUuZWR1LmNuPiB3cm90ZToK
+PiA+Cj4gPiBXaGVuIGxpbWFfdm1fbWFwX2JvIGZhaWxzLCB0aGUgcmVzb3VyY2VzIG5lZWQgdG8g
+YmUgZGVhbGxvY2F0ZWQsIG9yCj4gPiB0aGVyZSB3aWxsIGJlIG1lbWxlYWtzLgo+ID4KPiA+IEZp
+eGVzOiA2YWViYzUxZDdhZWYgKCJkcm0vbGltYTogc3VwcG9ydCBoZWFwIGJ1ZmZlciBjcmVhdGlv
+biIpCj4gPiBTaWduZWQtb2ZmLWJ5OiBaaGlwZW5nIEx1IDxhbGV4aW91c0B6anUuZWR1LmNuPgo+
+ID4gLS0tCj4gPiAgZHJpdmVycy9ncHUvZHJtL2xpbWEvbGltYV9nZW0uYyB8IDcgKysrKysrLQo+
+ID4gIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKPiA+Cj4g
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2xpbWEvbGltYV9nZW0uYyBiL2RyaXZlcnMv
+Z3B1L2RybS9saW1hL2xpbWFfZ2VtLmMKPiA+IGluZGV4IDRmOTczNmU1ZjkyOS4uODI0ZWQyMjE0
+MWM3IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2xpbWEvbGltYV9nZW0uYwo+ID4g
+KysrIGIvZHJpdmVycy9ncHUvZHJtL2xpbWEvbGltYV9nZW0uYwo+ID4gQEAgLTkyLDggKzkyLDEz
+IEBAIGludCBsaW1hX2hlYXBfYWxsb2Moc3RydWN0IGxpbWFfYm8gKmJvLCBzdHJ1Y3QgbGltYV92
+bSAqdm0pCj4gPgo+ID4gICAgICAgICBpZiAodm0pIHsKPiA+ICAgICAgICAgICAgICAgICByZXQg
+PSBsaW1hX3ZtX21hcF9ibyh2bSwgYm8sIG9sZF9zaXplID4+IFBBR0VfU0hJRlQpOwo+ID4gLSAg
+ICAgICAgICAgICAgIGlmIChyZXQpCj4gPiArICAgICAgICAgICAgICAgaWYgKHJldCkgewo+ID4g
+KyAgICAgICAgICAgICAgICAgICAgICAgZG1hX3VubWFwX3NndGFibGUoZGV2LCAmc2d0LCBETUFf
+QklESVJFQ1RJT05BTCwgMCk7Cj4gPiArICAgICAgICAgICAgICAgICAgICAgICBzZ19mcmVlX3Rh
+YmxlKCZzZ3QpOwo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAga2ZyZWUoYm8tPmJhc2Uuc2d0
+KTsKPiA+ICsgICAgICAgICAgICAgICAgICAgICAgIGJvLT5iYXNlLnNndCA9IE5VTEw7Cj4gPiAg
+ICAgICAgICAgICAgICAgICAgICAgICByZXR1cm4gcmV0Owo+ID4gKyAgICAgICAgICAgICAgIH0K
+PiA+ICAgICAgICAgfQo+ID4KPiA+ICAgICAgICAgYm8tPmhlYXBfc2l6ZSA9IG5ld19zaXplOwo+
+ID4gLS0KPiA+IDIuMzQuMQo+ID4K
