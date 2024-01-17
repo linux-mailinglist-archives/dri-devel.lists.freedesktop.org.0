@@ -2,62 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 636ED82FF35
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jan 2024 04:14:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D85182FF32
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jan 2024 04:13:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EC8C10E61E;
-	Wed, 17 Jan 2024 03:13:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91D2E10E629;
+	Wed, 17 Jan 2024 03:13:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
- [209.85.208.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FDAC10E60A;
- Wed, 17 Jan 2024 03:13:21 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id
- 4fb4d7f45d1cf-559c6b833b0so912285a12.1; 
- Tue, 16 Jan 2024 19:13:21 -0800 (PST)
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
+ [209.85.208.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CDCD10E613;
+ Wed, 17 Jan 2024 03:13:22 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id
+ 4fb4d7f45d1cf-5571e662b93so8719950a12.2; 
+ Tue, 16 Jan 2024 19:13:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1705461140; x=1706065940; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1705461141; x=1706065941; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=przBstviTKeMKG8hsGaQhziOmoZ/mS6n5cQDIFTsogA=;
- b=aLZEpVX8+VmRuiNmSbi9CNtoDdEW0h9+T8rDUSkVh/YcNDdEcdhCEnV2LNKb0+Wic6
- /i6PMpF+U04jQk8ZYIMqSBMJUHWrP/2uiRtPVkz0S8QBXiQdhyueZR9CRttv6lfRuclG
- A6RdBgkHqCMOFAzyBie7F4lLRM7D/M58ZdlTFDC4UJFihPy7fmvmiMNykdAN+KUlHjUn
- uTuPc7d6N0vrRODRvPrQsvraOwiTSp+fqy9MiAT0M135CSnzrqvBuyl2UU4fJMWRQVdk
- jhyklziMijQhutXLD8bgBbh388trHOK5w1MALkIEPAFGEcyHDNX7BTZVAhDu9xVDLvEX
- k3vw==
+ bh=WgEOXnBwtjV0DRgAs0TONH+yAncBHjvW7O8dDZAmbmY=;
+ b=kUCtG8WEoxI17DlM1YzAZ/cN8FaKx5Gq1FI4sb/yT8oyo16EDs/jEHstjHVvbAyN3b
+ tbCiPztVkW8SeQKdqqyWL/oE85oLnvJmP5wWGWgoT+fuY6ksP+d08FjY24pmdKprZM9+
+ 4QrKPvk/r+0ce4dPIMFy39jxeFNiSPLbK3xBJitpPRy6zTmlQTu60g9tL0HDQZgEvkJd
+ Xm2GxgD7auFXfzdGtSsg7wKyr4IVPxJECt5KIYBfcokXtlHG3rAZgQDgzxpEuXcf0s25
+ 3sfgZRfGt0Gm+p+Qu0Suog46/lsrI4uEpEJOor8xfOvhfYvbr9kG925bQ83uSNJ7aXj+
+ 2T9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705461140; x=1706065940;
+ d=1e100.net; s=20230601; t=1705461141; x=1706065941;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=przBstviTKeMKG8hsGaQhziOmoZ/mS6n5cQDIFTsogA=;
- b=g3PonX7p5IAYnUDaCofS2um1sdbyg9BhCEYXRirbUdKgPGOTE7LWiwLjBbK1yQqOG6
- ilniCu7HpXm9YXbGbznIDptyGVmNIojkJBtmhwgeIMrA3NnwhVryVoDQUf++eE1TPBb7
- 63sQ/vPIGvfHZl0skKhodiZMzX26wSIkHQCu3c/3H0MsbZ+odb/dVX3F3dl6n2d1UehS
- bl7Mwve7lVU1yRW2EmDZRyP/OnGhRwnG2Xlx8MyVG3BB1StcwVrN9CE07Q8VLuCyMzFD
- UP1/0SsATeZxx/HrlxnWBgM7mXe+J7hP/V2kZbmSzHMRf/56+MOSWwdapL96ittZnaiB
- iUNg==
-X-Gm-Message-State: AOJu0YwJxkhcb87lmPa91pdjcTceCn/20++2AE4MhMQcqpsUNBiAk1Yn
- URvZg2A9RgAzHchEDwa6yDU=
-X-Google-Smtp-Source: AGHT+IH4g37ccsIH+5nDtEbHrV7ecTiL8sxw2zhnvaeOkN2UzCLivl5+Qf3In+6yBdstgOn6oOKFFQ==
-X-Received: by 2002:a50:9fc8:0:b0:559:ba97:7219 with SMTP id
- c66-20020a509fc8000000b00559ba977219mr1010135edf.48.1705461139900; 
- Tue, 16 Jan 2024 19:12:19 -0800 (PST)
+ bh=WgEOXnBwtjV0DRgAs0TONH+yAncBHjvW7O8dDZAmbmY=;
+ b=f/30HH8h+FcekcKdIldi6Zp6P5asZbK6A8h1v8lV7Ct3pGUcPl2kMfa3Ab1aC3YwYu
+ VTVpgvvyAXJ9KAjdjpb07J9gTyuMYeU8cpwGsgmrTgUTmMeXDRmC3AYmyHI95R5JVExd
+ AYnnhbk5Alv91uobbeb8CcxeWFu1VKlD7cAmBWvSZKSZ0EfcgI0NL0O/dHr2uAR6jTgA
+ ELKAz2CHggEJOXszuwBfP1FaBsq51jsKHnSAHrCqJpf3bLaN/4TXH5/JhqZg0K0qOtdE
+ TywpXrlA+2GI+6DX5lwb9jNcM2nzgznfywnCEHNq4mIRxy20M3kdGvzo/tGP3MMwhk3k
+ odPQ==
+X-Gm-Message-State: AOJu0Yxy/abAGtHnNLdbTlyjmC94KY5uUgmy64E3pReVWFiwWPxex6zu
+ k0SuhfDmskPuTm5Up0vaCMw=
+X-Google-Smtp-Source: AGHT+IFbr8FIXBAVFLQAm0BnJme9prl4lYGU0GNZbLVZDPfrnNKHuH2dSlYobzkRpW1IT5DgI99FTA==
+X-Received: by 2002:aa7:d389:0:b0:558:9126:5673 with SMTP id
+ x9-20020aa7d389000000b0055891265673mr4261820edq.39.1705461140983; 
+ Tue, 16 Jan 2024 19:12:20 -0800 (PST)
 Received: from mosaic.enunes.eu (ip-78-45-66-209.bb.vodafone.cz.
  [78.45.66.209]) by smtp.gmail.com with ESMTPSA id
- n13-20020a05640204cd00b0055971af7a23sm2258418edw.95.2024.01.16.19.12.18
+ n13-20020a05640204cd00b0055971af7a23sm2258418edw.95.2024.01.16.19.12.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jan 2024 19:12:19 -0800 (PST)
+ Tue, 16 Jan 2024 19:12:20 -0800 (PST)
 From: Erico Nunes <nunes.erico@gmail.com>
 To: Qiang Yu <yuq825@gmail.com>, dri-devel@lists.freedesktop.org,
  lima@lists.freedesktop.org
-Subject: [PATCH v1 1/6] drm/lima: fix devfreq refcount imbalance for job
- timeouts
-Date: Wed, 17 Jan 2024 04:12:07 +0100
-Message-ID: <20240117031212.1104034-2-nunes.erico@gmail.com>
+Subject: [PATCH v1 2/6] drm/lima: reset async_reset on pp hard reset
+Date: Wed, 17 Jan 2024 04:12:08 +0100
+Message-ID: <20240117031212.1104034-3-nunes.erico@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240117031212.1104034-1-nunes.erico@gmail.com>
 References: <20240117031212.1104034-1-nunes.erico@gmail.com>
@@ -83,48 +82,42 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In case a task manages to complete but it took just long enough to also
-trigger the timeout handler, the current code results in a refcount
-imbalance on lima_pm_idle.
-
-While this can be a rare occurrence, when it happens it may fill user
-logs with stack traces such as:
-
-[10136.669170] WARNING: CPU: 0 PID: 0 at drivers/gpu/drm/lima/lima_devfreq.c:205 lima_devfreq_record_idle+0xa0/0xb0
-...
-[10136.669459] pc : lima_devfreq_record_idle+0xa0/0xb0
-...
-[10136.669628] Call trace:
-[10136.669634]  lima_devfreq_record_idle+0xa0/0xb0
-[10136.669646]  lima_sched_pipe_task_done+0x5c/0xb0
-[10136.669656]  lima_gp_irq_handler+0xa8/0x120
-[10136.669666]  __handle_irq_event_percpu+0x48/0x160
-[10136.669679]  handle_irq_event+0x4c/0xc0
-
-The imbalance happens because lima_sched_pipe_task_done() already calls
-lima_pm_idle for this case if there was no error.
-Check the error flag in the timeout handler to ensure we can never run
-into this case.
+Lima pp jobs use an async reset to avoid having to wait for the soft
+reset right after a job. The soft reset is done at the end of a job and
+a reset_complete flag is expected to be set at the next job.
+However, in case the user runs into a job timeout from any application,
+a hard reset is issued to the hardware. This hard reset clears the
+reset_complete flag, which causes an error message to show up before the
+next job.
+This is probably harmless for the execution but can be very confusing to
+debug, as it blames a reset timeout on the next application to submit a
+job.
+Reset the async_reset flag when doing the hard reset so that we don't
+get that message.
 
 Signed-off-by: Erico Nunes <nunes.erico@gmail.com>
 ---
- drivers/gpu/drm/lima/lima_sched.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/lima/lima_pp.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
-index c3bf8cda8498..66317296d831 100644
---- a/drivers/gpu/drm/lima/lima_sched.c
-+++ b/drivers/gpu/drm/lima/lima_sched.c
-@@ -427,7 +427,8 @@ static enum drm_gpu_sched_stat lima_sched_timedout_job(struct drm_sched_job *job
- 	pipe->current_vm = NULL;
- 	pipe->current_task = NULL;
+diff --git a/drivers/gpu/drm/lima/lima_pp.c b/drivers/gpu/drm/lima/lima_pp.c
+index a5c95bed08c0..a8f8f63b8295 100644
+--- a/drivers/gpu/drm/lima/lima_pp.c
++++ b/drivers/gpu/drm/lima/lima_pp.c
+@@ -191,6 +191,13 @@ static int lima_pp_hard_reset(struct lima_ip *ip)
+ 	pp_write(LIMA_PP_PERF_CNT_0_LIMIT, 0);
+ 	pp_write(LIMA_PP_INT_CLEAR, LIMA_PP_IRQ_MASK_ALL);
+ 	pp_write(LIMA_PP_INT_MASK, LIMA_PP_IRQ_MASK_USED);
++
++	/*
++	 * if there was an async soft reset queued,
++	 * don't wait for it in the next job
++	 */
++	ip->data.async_reset = false;
++
+ 	return 0;
+ }
  
--	lima_pm_idle(ldev);
-+	if (pipe->error)
-+		lima_pm_idle(ldev);
- 
- 	drm_sched_resubmit_jobs(&pipe->base);
- 	drm_sched_start(&pipe->base, true);
 -- 
 2.43.0
 
