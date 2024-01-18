@@ -2,51 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2AD4831BE6
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jan 2024 15:58:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FD02831BF8
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jan 2024 16:07:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 066E410E7B7;
-	Thu, 18 Jan 2024 14:57:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 842E110E861;
+	Thu, 18 Jan 2024 15:07:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de
- [130.133.4.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBE0310E84B
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 14:57:44 +0000 (UTC)
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
- by outpost.zedat.fu-berlin.de (Exim 4.95) with esmtps (TLS1.3)
- tls TLS_AES_256_GCM_SHA384
- (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1rQTpj-000p61-ND; Thu, 18 Jan 2024 15:57:31 +0100
-Received: from p5dc556fd.dip0.t-ipconnect.de ([93.197.86.253]
- helo=[192.168.178.20]) by inpost2.zedat.fu-berlin.de (Exim 4.95)
- with esmtpsa (TLS1.3) tls TLS_AES_256_GCM_SHA384
- (envelope-from <glaubitz@physik.fu-berlin.de>)
- id 1rQTpj-003N7a-FJ; Thu, 18 Jan 2024 15:57:31 +0100
-Message-ID: <4e4dfece5f2f44c6fc826735ddef67ca3c3ac2dc.camel@physik.fu-berlin.de>
-Subject: Re: [PATCH] sh: ecovec24: Rename missed backlight field from fbdev
- to dev
-From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-To: Geert Uytterhoeven <geert+renesas@glider.be>, Yoshinori Sato
- <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, Thomas
- Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>, Daniel
- Thompson <daniel.thompson@linaro.org>
-Date: Thu, 18 Jan 2024 15:57:30 +0100
-In-Reply-To: <20230925111022.3626362-1-geert+renesas@glider.be>
-References: <20230925111022.3626362-1-geert+renesas@glider.be>
-Autocrypt: addr=glaubitz@physik.fu-berlin.de; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.3 
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F63F10E861
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 15:07:14 +0000 (UTC)
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 40I9TAE3019271; Thu, 18 Jan 2024 16:07:00 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ selector1; bh=vFS8aLbSD8UDCY9TOifRYsHJeeKAdBfSeHqJo15h+XE=; b=hj
+ k1SxoKdho21gk5m3VLBVzAdy/FjHWE056pqHiLzLfWpZCEIISMzeVSPZhyJlXSiK
+ T/iztAfeC+pDsEG+RaIJoWcktjKHTYxyAUA0EIhUtASSdY75fF9KpcHuIeyxptz5
+ yNAuIju3xlnz9AcuobI8TDbHzwsgxoS7H98pUzvnLYg+zEI5Lf4Y/veWxCxK2uyF
+ BX0C++Lc944BDb2KJlnE7hkQ3MVNb25g86Xp0z7hwlqvr/GL0PpwkGPp6J4CijY2
+ 5HRlyijy2SIXx04MfgCX56XRrNvT+tkVzqwOhvI92fdJrQU9ZuMKV5BF50/OhoFJ
+ jGlD2Vu+KM3saGZbQ+aw==
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3vkmfyssw3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 18 Jan 2024 16:07:00 +0100 (CET)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id E3CB110007D;
+ Thu, 18 Jan 2024 16:06:57 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id D222322FA3A;
+ Thu, 18 Jan 2024 16:06:57 +0100 (CET)
+Received: from [10.129.178.37] (10.129.178.37) by SHFDAG1NODE2.st.com
+ (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Thu, 18 Jan
+ 2024 16:06:57 +0100
+Message-ID: <23be859d-e757-4b59-b4ca-acf9b4dd1f9e@foss.st.com>
+Date: Thu, 18 Jan 2024 16:06:57 +0100
 MIME-Version: 1.0
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-Originating-IP: 93.197.86.253
-X-ZEDAT-Hint: PO
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/6] dt-bindings: display: add dt-bindings for STM32
+ LVDS device
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Rob Herring
+ <robh@kernel.org>
+References: <20240115132009.101718-1-raphael.gallais-pou@foss.st.com>
+ <20240115132009.101718-2-raphael.gallais-pou@foss.st.com>
+ <20240115154659.GA815331-robh@kernel.org>
+ <3479c5d7-a9c3-40cf-a415-b8324f160ec7@foss.st.com>
+ <e42818b2-8826-48f8-b9bd-35cbf464a08f@linaro.org>
+Content-Language: en-US
+From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+In-Reply-To: <e42818b2-8826-48f8-b9bd-35cbf464a08f@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.129.178.37]
+X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE2.st.com
+ (10.75.129.70)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-18_08,2024-01-17_01,2023-05-22_02
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,56 +76,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-sh@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Conor Dooley <conor+dt@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Yannick Fertre <yannick.fertre@foss.st.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org,
+ Philippe Cornu <philippe.cornu@foss.st.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2023-09-25 at 13:10 +0200, Geert Uytterhoeven wrote:
-> One instance of gpio_backlight_platform_data.fbdev was renamed, but the
-> second instance was forgotten, causing a build failure:
->=20
->     arch/sh/boards/mach-ecovec24/setup.c: In function =E2=80=98arch_setup=
-=E2=80=99:
->     arch/sh/boards/mach-ecovec24/setup.c:1223:37: error: =E2=80=98struct =
-gpio_backlight_platform_data=E2=80=99 has no member named =E2=80=98fbdev=E2=
-=80=99; did you mean =E2=80=98dev=E2=80=99?
->      1223 |                 gpio_backlight_data.fbdev =3D NULL;
-> 	  |                                     ^~~~~
-> 	  |                                     dev
->=20
-> Fix this by updating the second instance.
->=20
-> Fixes: ed369def91c1579a ("backlight/gpio_backlight: Rename field 'fbdev' =
-to 'dev'")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202309231601.Uu6qcRnU-lkp@i=
-ntel.com/
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  arch/sh/boards/mach-ecovec24/setup.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/arch/sh/boards/mach-ecovec24/setup.c b/arch/sh/boards/mach-e=
-covec24/setup.c
-> index 3be293335de54512..7a788d44cc73496c 100644
-> --- a/arch/sh/boards/mach-ecovec24/setup.c
-> +++ b/arch/sh/boards/mach-ecovec24/setup.c
-> @@ -1220,7 +1220,7 @@ static int __init arch_setup(void)
->  		lcdc_info.ch[0].num_modes		=3D ARRAY_SIZE(ecovec_dvi_modes);
-> =20
->  		/* No backlight */
-> -		gpio_backlight_data.fbdev =3D NULL;
-> +		gpio_backlight_data.dev =3D NULL;
-> =20
->  		gpio_set_value(GPIO_PTA2, 1);
->  		gpio_set_value(GPIO_PTU1, 1);
 
-Reviewed-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+On 1/16/24 08:42, Krzysztof Kozlowski wrote:
+> On 15/01/2024 17:51, Raphael Gallais-Pou wrote:
+>> On 1/15/24 16:46, Rob Herring wrote:
+>>> On Mon, Jan 15, 2024 at 02:20:04PM +0100, Raphael Gallais-Pou wrote:
+>>>> Add "st,stm32mp25-lvds" compatible.
+>>>>
+> A nit, subject: drop second/last, redundant "dt-bindings for". The
+> "dt-bindings" prefix is already stating that these are bindings.
+> See also:
+> https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
+>
+>>>> Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+>>>> ---
+>>>> Depends on: "dt-bindings: stm32: add clocks and reset binding for
+>>>> 	    stm32mp25 platform" by Gabriel Fernandez
+>>>>
+>>>> Changes in v3:
+>>>> 	- Clarify commit dependency
+>>>> 	- Fix includes in the example
+>>>> 	- Fix YAML
+>>>> 	- Add "clock-cells" description
+>>>> 	- s/regroups/is composed of/
+>>>> 	- Changed compatible to show SoC specificity
+>>>>
+>>>> Changes in v2:
+>>>> 	- Switch compatible and clock-cells related areas
+>>>> 	- Remove faulty #include in the example.
+>>>> 	- Add entry in MAINTAINERS
+>>>> ---
+>>>>  .../bindings/display/st,stm32-lvds.yaml       | 119 ++++++++++++++++++
+>>> Filename matching compatible.
+>> Hi Rob,
+>>
+>>
+>> I was unsure about this.
+>>
+>> The driver will eventually support several SoCs with different compatibles,
+>> wouldn't this be more confusing ?
+> No. "Eventually" might never happen.
+>
+>> I also wanted to keep the similarity with the "st,stm32-<ip>.yaml" name for the
+>> DRM STM drivers. Would that be possible ?
+> But why? The consistency we want is the filename matching compatible,
+> not matching other filenames. If you have here multiple devices,
+> document them *now*.
 
---=20
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer
-`. `'   Physicist
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+
+Hi Krzysztof,
+
+|There is no multiple devices, so I will stick to the "st,stm32mp25-lvds"
+pattern for now.|
+
+>
+>>
+>> Regards,
+>>
+>> Raphaël
+> I hope you did not ignore rest of the comments... We expect some sort of
+> "ack/ok/I'll fix/whatever" message and you wrote nothing further.
+
+Although I did not acknowledged what has been said previously, I always take
+into account every comment on my patches.  I understand that it can lead to some confusion.  So rest assured that I did not
+ignore Rob's and Dmitry's review.
+
+
+Regards,
+
+Raphaël
+
+>
+> Best regards,
+> Krzysztof
+>
