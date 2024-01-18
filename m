@@ -2,58 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44BB1831AF7
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jan 2024 14:59:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58D1B831B00
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jan 2024 15:00:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7CCF10E7CF;
-	Thu, 18 Jan 2024 13:59:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D58B10E80E;
+	Thu, 18 Jan 2024 14:00:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8592E10E7CF
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 13:59:10 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 40IDwaTH023624;
- Thu, 18 Jan 2024 07:58:36 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1705586316;
- bh=snlIxOjhPnpd8I0F6QTr9vWqcbTC7U09y0KvcNnsdjc=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=jJB+uX+VpxQ7B/JOLFwwXCzgB8NiA0L8tTNoh7+xx5v39oSfgXW2F/LjGvNjvtlHg
- CXZnMTZtXzco9I39VoBbOiRfdzjQ4d8bRs3KtRm32sjhfA+EyDLcJiEpq4FODE2S6T
- wedoKOJUGA2fCeDGNjMHYHFUcWWRyT2iV9aJQc58=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 40IDwaGP006099
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 18 Jan 2024 07:58:36 -0600
-Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 18
- Jan 2024 07:58:36 -0600
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 18 Jan 2024 07:58:35 -0600
-Received: from [172.24.227.193] (devarsht.dhcp.ti.com [172.24.227.193])
- by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 40IDwTOM036361;
- Thu, 18 Jan 2024 07:58:30 -0600
-Message-ID: <57805224-f4f9-7773-03e3-4bdff8936c9c@ti.com>
-Date: Thu, 18 Jan 2024 19:28:29 +0530
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
+ [209.85.208.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB7DB10E80E
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 14:00:06 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id
+ 4fb4d7f45d1cf-55760f84177so2636540a12.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 06:00:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1705586345; x=1706191145; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=qjibwC0Pm0aKsecVEm1CI9Jop+u2Qm2VSXFGfFyZIo8=;
+ b=aEggvj3LuAqBn3zXBF3OCuSVODcyXAOBSEuUspGCkWjjdiNwIFnrCRPtMXePOjC0Em
+ dZIJX1qTpz6fdzjYb8eWaKj5wshkNt/KXh7HRqZmwgFhUWE5/N8/1WV9dz/NeDl3VfdE
+ lZKJT4qjXVykJpJkuGrkn5BFaS+jQ/l0+5n+8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1705586345; x=1706191145;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=qjibwC0Pm0aKsecVEm1CI9Jop+u2Qm2VSXFGfFyZIo8=;
+ b=t1i2cSBcv3K64ZFGoLs69eT9Ol2Y8jhs2ZKyYaEiw8X370jEypP0sO8JT7ZwVnY3DF
+ oyc+2WbqRNvjSTHf/BquuSyEb2jCjs0uUzoYy1X8zkIcVlF5T7gsO21v/ItpL3ldUJyU
+ ll+Guv+3koF5LCOsOuIKnJ0fd/f6eKWXNzmhsKpcUE2ct/mfD0BbMzxETTOLyG23VeCz
+ /ZFTotZdHQMyrkx6LczQG1+dpXdBJn5ty3uHlm3HAjVHZgam1U8A3DvDVonUbwz7GOTa
+ 8VeSKgpzFSEl4EeVs6MPd3/8LOIpJodEZ/dmcJIE4QvgJGWft5BYzG4/7/AK1MhItapA
+ gYsQ==
+X-Gm-Message-State: AOJu0YxBmnu+k1Qm4ABCerhYdR+zNp6+pGQMqd9ety4+wVZr1ZpVWCZ2
+ Vg1WT0QaPK2fSgDZp67hjXC/Xua94snXxkCHPVvR2jexEsEMAMBc/6hR17Qu7dw=
+X-Google-Smtp-Source: AGHT+IFY8Kxs594jsuK2rUy7WAVPHDnGECZOoMzsVJ25pNzJ9447ocIjSe/xC5v5/5dl598y8kCJ6A==
+X-Received: by 2002:a17:906:c352:b0:a28:ab63:db33 with SMTP id
+ ci18-20020a170906c35200b00a28ab63db33mr1195735ejb.7.1705586345068; 
+ Thu, 18 Jan 2024 05:59:05 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ t3-20020a170906608300b00a2c8dfa5c25sm8554918ejj.123.2024.01.18.05.59.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 Jan 2024 05:59:04 -0800 (PST)
+Date: Thu, 18 Jan 2024 14:59:02 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Paul Cercueil <paul@crapouillou.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ linaro-mm-sig@lists.linaro.org,
+ Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+ Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 3/4] usb: gadget: functionfs: Add DMABUF import
+ interface
+Message-ID: <Zakupp1GCZMk5aDT@phenom.ffwll.local>
+Mail-Followup-To: Paul Cercueil <paul@crapouillou.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ linaro-mm-sig@lists.linaro.org,
+ Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+ Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
+References: <20240108120056.22165-4-paul@crapouillou.net>
+ <ZZvtEXL8DLPPdtPs@phenom.ffwll.local>
+ <a44aca93adc60ce56a64c50797a029631900172e.camel@crapouillou.net>
+ <ZZwU827NMHbx7bsO@phenom.ffwll.local>
+ <2c0d4ef1b657c56ea2290fe16d757ce563a3e71b.camel@crapouillou.net>
+ <ZZxKvR9gjH8D5qxj@phenom.ffwll.local>
+ <31e56028b4d865c60b7c01b2a305b3dd8a21ff7a.camel@crapouillou.net>
+ <ZZ1Dx1Jqbi61_Afb@phenom.ffwll.local>
+ <c100b5f75b12de4a331dd36de3573483dbde915f.camel@crapouillou.net>
+ <ZakuD-ns-5UJmrRi@phenom.ffwll.local>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [RFC PATCH 1/3] dt-bindings: display: ti,am65x-dss: Add support
- for display sharing mode
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>
-References: <20240116134142.2092483-1-devarsht@ti.com>
- <20240116134142.2092483-2-devarsht@ti.com>
- <20240117201342.GA3041972-robh@kernel.org>
-From: Devarsh Thakkar <devarsht@ti.com>
-In-Reply-To: <20240117201342.GA3041972-robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZakuD-ns-5UJmrRi@phenom.ffwll.local>
+X-Operating-System: Linux phenom 6.5.0-4-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,234 +105,181 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nm@ti.com, devicetree@vger.kernel.org, conor+dt@kernel.org, j-luthra@ti.com,
- tzimmermann@suse.de, krzysztof.kozlowski+dt@linaro.org, praneeth@ti.com,
- tomi.valkeinen@ideasonboard.com, jyri.sarha@iki.fi, mripard@kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, daniel@ffwll.ch,
- a-bhatia1@ti.com, airlied@gmail.com, kristo@kernel.org,
- linux-arm-kernel@lists.infradead.org, vigneshr@ti.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rob,
-
-Thanks for the quick review.
-
-On 18/01/24 01:43, Rob Herring wrote:
-> On Tue, Jan 16, 2024 at 07:11:40PM +0530, Devarsh Thakkar wrote:
->> Add support for using TI Keystone DSS hardware present in display
->> sharing mode.
->>
->> TI Keystone DSS hardware supports partitioning of resources between
->> multiple hosts as it provides separate register space and unique
->> interrupt line to each host.
->>
->> The DSS hardware can be used in shared mode in such a way that one or
->> more of video planes can be owned by Linux wherease other planes can be
->> owned by remote cores.
->>
->> One or more of the video ports can be dedicated exclusively to a
->> processing core, wherease some of the video ports can be shared between
->> two hosts too with only one of them having write access.
->>
->> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
->> ---
->>  .../bindings/display/ti/ti,am65x-dss.yaml     | 82 +++++++++++++++++++
->>  1 file changed, 82 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
->> index 55e3e490d0e6..d9bc69fbf1fb 100644
->> --- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
->> +++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
->> @@ -112,6 +112,86 @@ properties:
->>        Input memory (from main memory to dispc) bandwidth limit in
->>        bytes per second
->>  
->> +  ti,dss-shared-mode:
->> +    type: boolean
->> +    description:
->> +      TI DSS7 supports sharing of display between multiple hosts
->> +      as it provides separate register space for display configuration and
->> +      unique interrupt line to each host.
+On Thu, Jan 18, 2024 at 02:56:31PM +0100, Daniel Vetter wrote:
+> On Mon, Jan 15, 2024 at 01:54:27PM +0100, Paul Cercueil wrote:
+> > Hi Daniel / Sima,
+> > 
+> > Le mardi 09 janvier 2024 à 14:01 +0100, Daniel Vetter a écrit :
+> > > On Tue, Jan 09, 2024 at 12:06:58PM +0100, Paul Cercueil wrote:
+> > > > Hi Daniel / Sima,
+> > > > 
+> > > > Le lundi 08 janvier 2024 à 20:19 +0100, Daniel Vetter a écrit :
+> > > > > On Mon, Jan 08, 2024 at 05:27:33PM +0100, Paul Cercueil wrote:
+> > > > > > Le lundi 08 janvier 2024 à 16:29 +0100, Daniel Vetter a écrit :
+> > > > > > > On Mon, Jan 08, 2024 at 03:21:21PM +0100, Paul Cercueil
+> > > > > > > wrote:
+> > > > > > > > Hi Daniel (Sima?),
+> > > > > > > > 
+> > > > > > > > Le lundi 08 janvier 2024 à 13:39 +0100, Daniel Vetter a
+> > > > > > > > écrit :
+> > > > > > > > > On Mon, Jan 08, 2024 at 01:00:55PM +0100, Paul Cercueil
+> > > > > > > > > wrote:
+> > > > > > > > > > +static void ffs_dmabuf_signal_done(struct
+> > > > > > > > > > ffs_dma_fence
+> > > > > > > > > > *dma_fence, int ret)
+> > > > > > > > > > +{
+> > > > > > > > > > +	struct ffs_dmabuf_priv *priv = dma_fence-
+> > > > > > > > > > >priv;
+> > > > > > > > > > +	struct dma_fence *fence = &dma_fence->base;
+> > > > > > > > > > +
+> > > > > > > > > > +	dma_fence_get(fence);
+> > > > > > > > > > +	fence->error = ret;
+> > > > > > > > > > +	dma_fence_signal(fence);
+> > > > > > > > > > +
+> > > > > > > > > > +	dma_buf_unmap_attachment(priv->attach,
+> > > > > > > > > > dma_fence-
+> > > > > > > > > > > sgt,
+> > > > > > > > > > dma_fence->dir);
+> > > > > > > > > > +	dma_fence_put(fence);
+> > > > > > > > > > +	ffs_dmabuf_put(priv->attach);
+> > > > > > > > > 
+> > > > > > > > > So this can in theory take the dma_resv lock, and if the
+> > > > > > > > > usb
+> > > > > > > > > completion
+> > > > > > > > > isn't an unlimited worker this could hold up completion
+> > > > > > > > > of
+> > > > > > > > > future
+> > > > > > > > > dma_fence, resulting in a deadlock.
+> > > > > > > > > 
+> > > > > > > > > Needs to be checked how usb works, and if stalling
+> > > > > > > > > indefinitely
+> > > > > > > > > in
+> > > > > > > > > the
+> > > > > > > > > io_complete callback can hold up the usb stack you need
+> > > > > > > > > to:
+> > > > > > > > > 
+> > > > > > > > > - drop a dma_fence_begin/end_signalling annotations in
+> > > > > > > > > here
+> > > > > > > > > - pull out the unref stuff into a separate preallocated
+> > > > > > > > > worker
+> > > > > > > > > (or at
+> > > > > > > > >   least the final unrefs for ffs_dma_buf).
+> > > > > > > > 
+> > > > > > > > Only ffs_dmabuf_put() can attempt to take the dma_resv and
+> > > > > > > > would
+> > > > > > > > have
+> > > > > > > > to be in a worker, right? Everything else would be inside
+> > > > > > > > the
+> > > > > > > > dma_fence_begin/end_signalling() annotations?
+> > > > > > > 
+> > > > > > > Yup. Also I noticed that unlike the iio patches you don't
+> > > > > > > have
+> > > > > > > the
+> > > > > > > dma_buf_unmap here in the completion path (or I'm blind?),
+> > > > > > > which
+> > > > > > > helps a
+> > > > > > > lot with avoiding trouble.
+> > > > > > 
+> > > > > > They both call dma_buf_unmap_attachment() in the "signal done"
+> > > > > > callback, the only difference I see is that it is called after
+> > > > > > the
+> > > > > > dma_fence_put() in the iio patches, while it's called before
+> > > > > > dma_fence_put() here.
+> > > > > 
+> > > > > I was indeed blind ...
+> > > > > 
+> > > > > So the trouble is this wont work because:
+> > > > > - dma_buf_unmap_attachment() requires dma_resv_lock. This is a
+> > > > > somewhat
+> > > > >   recent-ish change from 47e982d5195d ("dma-buf: Move
+> > > > >   dma_buf_map_attachment() to dynamic locking specification"), so
+> > > > > maybe
+> > > > >   old kernel or you don't have full lockdep enabled to get the
+> > > > > right
+> > > > >   splat.
+> > > > > 
+> > > > > - dma_fence critical section forbids dma_resv_lock
+> > > > > 
+> > > > > Which means you need to move this out, but then there's the
+> > > > > potential
+> > > > > cache management issue. Which current gpu drivers just kinda
+> > > > > ignore
+> > > > > because it doesn't matter for current use-case, they all cache
+> > > > > the
+> > > > > mapping
+> > > > > for about as long as the attachment exists. You might want to do
+> > > > > the
+> > > > > same,
+> > > > > unless that somehow breaks a use-case you have, I have no idea
+> > > > > about
+> > > > > that.
+> > > > > If something breaks with unmap_attachment moved out of the fence
+> > > > > handling
+> > > > > then I guess it's high time to add separate cache-management only
+> > > > > to
+> > > > > dma_buf (and that's probably going to be quite some wiring up,
+> > > > > not
+> > > > > sure
+> > > > > even how easy that would be to do nor what exactly the interface
+> > > > > should
+> > > > > look like).
+> > > > 
+> > > > Ok. Then I'll just cache the mapping for now, I think.
+> > > 
+> > > Yeah I think that's simplest. I did ponder a bit and I don't think
+> > > it'd be
+> > > too much pain to add the cache-management functions for device
+> > > attachments/mappings. But it would be quite some typing ...
+> > > -Sima
+> > 
+> > It looks like I actually do have some hardware which requires the cache
+> > management. If I cache the mappings in both my IIO and USB code, it
+> > works fine on my ZedBoard, but it doesn't work on my ZCU102.
+> > 
+> > (Or maybe it's something else? What I get from USB in that case is a
+> > stream of zeros, I'd expect it to be more like a stream of
+> > garbage/stale data).
+> > 
+> > So, change of plans; I will now unmap the attachment in the cleanup
+> > worker after the fence is signalled, and add a warning comment before
+> > the end of the fence critical section about the need to do cache
+> > management before the signal.
+> > 
+> > Does that work for you?
 > 
-> If you care about line breaks, you need '|'. 
+> The trouble is, I'm not sure this works for you. If you rely on the
+> fences, and you have to do cache management in between dma operations,
+> then doing the unmap somewhen later will only mostly paper over the issue,
+> but not consistently.
 > 
-
-Noted.
-
->> +      One of the host is provided access to the global display
->> +      configuration labelled as "common" region of DSS allows that host
->> +      exclusive access to global registers of DSS while other host can
->> +      configure the display for it's usage using a separate register
->> +      space labelled as "common1".
->> +      The DSS resources can be partitioned in such a way that one or more
->> +      of the video planes are owned by Linux whereas other video planes
+> I think that's really bad because the bugs this will cause are very hard
+> to track down and with the current infrastructure impossible to fix.
 > 
-> Your h/w can only run Linux?
+> Imo cache the mappings, and then fix the cache management bug properly.
 > 
-> What if you want to use this same binding to define the configuration to 
-> the 'remote processor'? You can easily s/Linux/the OS/, but it all 
-> should be reworded to describe things in terms of the local processor.
+> If you want an interim solution that isn't blocked on the dma-buf cache
+> management api addition, the only thing that works is doing the operations
+> synchronously in the ioctl call. Then you don't need fences, and you can
+> guarantee that the unmap has finished before userspace proceeds.
 > 
+> With the dma_fences you can't guarantee that, it's just pure luck.
 
-It can run both Linux and RTOS or for that matter any other OS too. But yes I
-got your point, will reword accordingly.
+Maybe a follow up: Double check you really need the cache management
+between the dma operations from 2 different devices, and not for the cpu
+access that you then probably do to check the result.
 
->> +      can be owned by a remote core.
->> +      The video port controlling these planes acts as a shared video port
->> +      and it can be configured with write access either by Linux or the
->> +      remote core in which case Linux only has read-only access to that
->> +      video port.
-> 
-> What is the purpose of this property when all the other properties are 
-> required?
-> 
+Because if the issue is just cpu access, then protecting the cpu access
+needs to use the begin/end_cpu_access dma-functions (or the corresponding
+ioctl if you use mmap from userspace) anyway, and that should sort out any
+issues you have for cpu access.
 
-The ti,dss-shared-mode and below group of properties are optional. But
-if ti,dss-shared-mode is set then only driver should parse below set of
-properties.
-
->> +
->> +  ti,dss-shared-mode-planes:
->> +    description:
->> +      The video layer that is owned by processing core running Linux.
->> +      The display driver running from Linux has exclusive write access to
->> +      this video layer.
->> +    $ref: /schemas/types.yaml#/definitions/string
->> +    enum: [vidl, vid]
->> +
->> +  ti,dss-shared-mode-vp:
->> +    description:
->> +      The video port that is being used in context of processing core
->> +      running Linux with display susbsytem being used in shared mode.
->> +      This can be owned either by the processing core running Linux in
->> +      which case Linux has the write access and the responsibility to
->> +      configure this video port and the associated overlay manager or
->> +      it can be shared between core running Linux and a remote core
->> +      with remote core provided with write access to this video port and
->> +      associated overlay managers and remote core configures and drives
->> +      this video port also feeding data from one or more of the
->> +      video planes owned by Linux, with Linux only having read-only access
->> +      to this video port and associated overlay managers.
->> +
->> +    $ref: /schemas/types.yaml#/definitions/string
->> +    enum: [vp1, vp2]
->> +
->> +  ti,dss-shared-mode-common:
->> +    description:
->> +      The DSS register region owned by processing core running Linux.
->> +    $ref: /schemas/types.yaml#/definitions/string
->> +    enum: [common, common1]
->> +
->> +  ti,dss-shared-mode-vp-owned:
->> +    description:
->> +      This tells whether processing core running Linux has write access to
->> +      the video ports enlisted in ti,dss-shared-mode-vps.
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    enum: [0, 1]
-> 
-> This can be boolean. Do writes abort or just get ignored? The latter can 
-> be probed and doesn't need a property.
-> 
-
-Although we have kept all these properties as enums, but actually in driver we
-are treating them as array of enums and using device_property_read_u32_array.
-
-The reason being that for SoCs using am65x-dss bindings they can only have
-single entry either vp1 or vp2 or 0 or 1 as there are only two video ports. So
-for them the device tree overlay would look like :
-&dss0 {
-
-        ti,dss-shared-mode;
-
-        ti,dss-shared-mode-vp = "vp1";
-
-        ti,dss-shared-mode-vp-owned = <0>;
-
-        ti,dss-shared-mode-common = "common1";
-
-        ti,dss-shared-mode-planes = "vid";
-
-        ti,dss-shared-mode-plane-zorder = <0>;
-
-        interrupts = <GIC_SPI 85 IRQ_TYPE_LEVEL_>;
-}
-
-But we also plan to extend these bindings to SoCs using
-Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml where there are
-multiple video ports. So in that the driver and bindings should support below
-configuration :
-
-&dss0 {
-
-        ti,dss-shared-mode;
-
-        ti,dss-shared-mode-vp = "vp1 vp2";
-
-        ti,dss-shared-mode-vp-owned = <0 1>;
-
-        ti,dss-shared-mode-common = "common_s1";
-
-        ti,dss-shared-mode-planes = "vid1 vidl1";
-
-        ti,dss-shared-mode-plane-zorder = <0 1>;
-
-        interrupts = <GIC_SPI 85 IRQ_TYPE_LEVEL_>;
-}
-
-As I am using device_property_read_u32_array in driver I thought to keep this
-as uint32 in enum for am65x.yaml which works well with the driver.
-
->> +
->> +  ti,dss-shared-mode-plane-zorder:
->> +    description:
->> +      The zorder of the planes owned by Linux.
->> +      For the scenario where Linux is not having write access to associated
->> +      video port, this field is just for
->> +      informational purpose to enumerate the zorder configuration
->> +      being used by remote core.
->> +
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    enum: [0, 1]
-> 
-> I don't understand how 0 or 1 defines Z-order.
-> 
-
-As there are only two planes in total so z-order can be either 0 or 1 for the
-shared mode plane as there is only a single entry of plane.
-For e.g. if ti,dss-shared-mode-plane-zorder is 1 then it means the plane owned
-by Linux is programmed as topmost plane wherease the plane owned by remote
-core is programmed as the underneath one.
-
->> +
->> +dependencies:
->> +  ti,dss-shared-mode: [ 'ti,dss-shared-mode-planes', 'ti,dss-shared-mode-vp',
->> +                        'ti,dss-shared-mode-plane-zorder', 'ti,dss-shared-mode-vp-owned']
->> +  ti,dss-shared-mode-vp: ['ti,dss-shared-mode', 'ti,dss-shared-mode-planes',
->> +                          'ti,dss-shared-mode-plane-zorder', 'ti,dss-shared-mode-vp-owned']
->> +  ti,dss-shared-mode-planes: ['ti,dss-shared-mode', 'ti,dss-shared-mode-vp',
->> +                              'ti,dss-shared-mode-plane-zorder', 'ti,dss-shared-mode-vp-owned']
->> +  ti,dss-shared-mode-plane-zorder: ['ti,dss-shared-mode-planes', 'ti,dss-shared-mode-vp',
->> +                                    'ti,dss-shared-mode', 'ti,dss-shared-mode-vp-owned']
->> +  ti,dss-shared-mode-vp-owned: ['ti,dss-shared-mode-planes', 'ti,dss-shared-mode-vp',
->> +                                'ti,dss-shared-mode', 'ti,dss-shared-mode-plane-zorder']
->> +
->>  allOf:
->>    - if:
->>        properties:
->> @@ -123,6 +203,8 @@ allOf:
->>          ports:
->>            properties:
->>              port@0: false
->> +            ti,dss-shared-mode-vp:
->> +            enum: [vp2]
-> 
-> This should throw a warning. You just defined a property called 'enum'.
-> 
-
-Oops will fix this.
-
-Regards
-Devarsh
-
-> Rob
+Just to make sure we're not needlessly trying to fix something that isn't
+actually the problem.
+-Sima
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
