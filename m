@@ -2,57 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40EB7831FCF
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jan 2024 20:39:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67395832019
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jan 2024 21:04:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8019D10E8DE;
-	Thu, 18 Jan 2024 19:39:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D452610E155;
+	Thu, 18 Jan 2024 20:04:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF64C10E8DE
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 19:39:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1705606766;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5hnpgIpMD133U0M5vORJbw8bpFlrwvZKAm5gWQaoJIc=;
- b=oS9HKcFP8p2Z3w5kZ/35zNLI2sr/BKrl5VDnj93IFX8iBDshl68gM4AUPvLx5cqBdWrzA3
- PEhQr8qdLsR2RUwWAIPqDNIzsFK8uYU8qYNBo1rDz6hUVg6YXq2lZeHVfFGyHIG0N2gt+w
- AdkiHSkRg3eLQ7/3S8NeEZjjtR/nXF0=
-Message-ID: <cb64afbb0aae887520f471f09c83b29a08214bfd.camel@crapouillou.net>
-Subject: Re: [PATCH v3 3/4] usb: gadget: functionfs: Add DMABUF import
- interface
-From: Paul Cercueil <paul@crapouillou.net>
-To: Daniel Vetter <daniel@ffwll.ch>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Jonathan
- Corbet <corbet@lwn.net>, Michael Hennerich <Michael.Hennerich@analog.com>,
- linux-doc@vger.kernel.org,  linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org,  dri-devel@lists.freedesktop.org, Andrzej
- Pietrasiewicz <andrzej.p@collabora.com>,  linaro-mm-sig@lists.linaro.org,
- Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>, Jonathan Cameron
- <jic23@kernel.org>,  linux-media@vger.kernel.org
-Date: Thu, 18 Jan 2024 20:39:23 +0100
-In-Reply-To: <Zakupp1GCZMk5aDT@phenom.ffwll.local>
-References: <20240108120056.22165-4-paul@crapouillou.net>
- <ZZvtEXL8DLPPdtPs@phenom.ffwll.local>
- <a44aca93adc60ce56a64c50797a029631900172e.camel@crapouillou.net>
- <ZZwU827NMHbx7bsO@phenom.ffwll.local>
- <2c0d4ef1b657c56ea2290fe16d757ce563a3e71b.camel@crapouillou.net>
- <ZZxKvR9gjH8D5qxj@phenom.ffwll.local>
- <31e56028b4d865c60b7c01b2a305b3dd8a21ff7a.camel@crapouillou.net>
- <ZZ1Dx1Jqbi61_Afb@phenom.ffwll.local>
- <c100b5f75b12de4a331dd36de3573483dbde915f.camel@crapouillou.net>
- <ZakuD-ns-5UJmrRi@phenom.ffwll.local> <Zakupp1GCZMk5aDT@phenom.ffwll.local>
-Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
- keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
- YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from domac.alu.hr (domac.alu.unizg.hr [161.53.235.3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20FBE10E155
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 20:04:19 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by domac.alu.hr (Postfix) with ESMTP id 3F2786019E;
+ Thu, 18 Jan 2024 21:04:15 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
+ t=1705608255; bh=COhXMdF3+eMsGttATIi38DB05n6Iu0a1pqC7yzI2boU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=A1jayF8QuQG4CrL+drJbI+qkNLTjXQzU+eDifn/TwMc8PpwLP1JHsQKToJS2ck2ky
+ eA83g3Pi53SKYfFm++BwmO/8uqU8NlL/1F8XszCc5f2pYwzAZ5Z5ihFc/oi4PGiPHv
+ Y2Uyot9OXv9V+Wn13ZJkR065xsHsdU9s480DTRX/bYaWr5/8Z0fYdpr+k7laTDj0WT
+ nOunha61Rc09tQF2FN1f7E2ZJgci1E81fb/Q3OJ6UAEgezxNugFiS2s3IbrgllHbU8
+ bFAldZ37BRAPfaijo3euhQeFfXwQLEohsmwPmPkq+ItKWJJFM/kieZKt42fohtq1X+
+ 0VolhUwSNJMuQ==
+X-Virus-Scanned: Debian amavisd-new at domac.alu.hr
+Received: from domac.alu.hr ([127.0.0.1])
+ by localhost (domac.alu.hr [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id FFRGPimg4s5R; Thu, 18 Jan 2024 21:04:13 +0100 (CET)
+Received: from [192.168.178.20] (dh207-40-167.xnet.hr [88.207.40.167])
+ by domac.alu.hr (Postfix) with ESMTPSA id B694C6019B;
+ Thu, 18 Jan 2024 21:04:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
+ t=1705608253; bh=COhXMdF3+eMsGttATIi38DB05n6Iu0a1pqC7yzI2boU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=j/gOikvbTlQUFW2rcpxBxkrxfjuxfp2hRJDRFlLWlGKIz4rmHNo6UCKhSCWMe3176
+ qNbm723njL6MP34/hETkBQ0mIVHd+aYEJpPacF/MulHsb3SolvdMdDFmShcmZGd/xJ
+ 4O3SjhERBbckMzJSOLlV5QqXIkFbNCpi6dWaGSKuScEo+Y0abzoBesQudnbZzAdDA5
+ rvVyAq3mg6VvrXhY5QJCTq3eHzrwXdr8Av1RozguaBJ+8hARN31fk4LUJHkv4+nWee
+ XtiqTJF294exckpH5Sq5FEI/GnYzN2U/kBMNB1L5eqbuRfbcjcBXaHisRN9mW+FBe2
+ oRhs5YMbC/AyA==
+Message-ID: <1fe9b78c-7fb5-4d7b-a754-afd563950829@alu.unizg.hr>
+Date: Thu, 18 Jan 2024 21:04:05 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [BUG][BISECTED] Freeze at loading init ramdisk
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+References: <8a6aa228-f2da-4dcd-93c1-e34614cd6471@alu.unizg.hr>
+ <cc813525-5484-443e-a40a-cb98f2ed4e1f@alu.unizg.hr>
+ <gevqxytidg5efylozindaqntkbl4yeoyzqnh5m3ylitmipgum3@sgmv7qieo7rs>
+Content-Language: en-US
+From: Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>
+In-Reply-To: <gevqxytidg5efylozindaqntkbl4yeoyzqnh5m3ylitmipgum3@sgmv7qieo7rs>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,243 +66,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Sui Jingfeng <suijingfeng@loongson.cn>, linux-parisc@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Prathu Baronia <prathubaronia2011@gmail.com>, linux-fbdev@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
+ Ard Biesheuvel <ardb@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel / Sima,
 
-Le jeudi 18 janvier 2024 =C3=A0 14:59 +0100, Daniel Vetter a =C3=A9crit=C2=
-=A0:
-> On Thu, Jan 18, 2024 at 02:56:31PM +0100, Daniel Vetter wrote:
-> > On Mon, Jan 15, 2024 at 01:54:27PM +0100, Paul Cercueil wrote:
-> > > Hi Daniel / Sima,
-> > >=20
-> > > Le mardi 09 janvier 2024 =C3=A0 14:01 +0100, Daniel Vetter a =C3=A9cr=
-it=C2=A0:
-> > > > On Tue, Jan 09, 2024 at 12:06:58PM +0100, Paul Cercueil wrote:
-> > > > > Hi Daniel / Sima,
-> > > > >=20
-> > > > > Le lundi 08 janvier 2024 =C3=A0 20:19 +0100, Daniel Vetter a
-> > > > > =C3=A9crit=C2=A0:
-> > > > > > On Mon, Jan 08, 2024 at 05:27:33PM +0100, Paul Cercueil
-> > > > > > wrote:
-> > > > > > > Le lundi 08 janvier 2024 =C3=A0 16:29 +0100, Daniel Vetter a
-> > > > > > > =C3=A9crit=C2=A0:
-> > > > > > > > On Mon, Jan 08, 2024 at 03:21:21PM +0100, Paul Cercueil
-> > > > > > > > wrote:
-> > > > > > > > > Hi Daniel (Sima?),
-> > > > > > > > >=20
-> > > > > > > > > Le lundi 08 janvier 2024 =C3=A0 13:39 +0100, Daniel Vette=
-r
-> > > > > > > > > a
-> > > > > > > > > =C3=A9crit=C2=A0:
-> > > > > > > > > > On Mon, Jan 08, 2024 at 01:00:55PM +0100, Paul
-> > > > > > > > > > Cercueil
-> > > > > > > > > > wrote:
-> > > > > > > > > > > +static void ffs_dmabuf_signal_done(struct
-> > > > > > > > > > > ffs_dma_fence
-> > > > > > > > > > > *dma_fence, int ret)
-> > > > > > > > > > > +{
-> > > > > > > > > > > +	struct ffs_dmabuf_priv *priv =3D
-> > > > > > > > > > > dma_fence-
-> > > > > > > > > > > > priv;
-> > > > > > > > > > > +	struct dma_fence *fence =3D &dma_fence-
-> > > > > > > > > > > >base;
-> > > > > > > > > > > +
-> > > > > > > > > > > +	dma_fence_get(fence);
-> > > > > > > > > > > +	fence->error =3D ret;
-> > > > > > > > > > > +	dma_fence_signal(fence);
-> > > > > > > > > > > +
-> > > > > > > > > > > +	dma_buf_unmap_attachment(priv->attach,
-> > > > > > > > > > > dma_fence-
-> > > > > > > > > > > > sgt,
-> > > > > > > > > > > dma_fence->dir);
-> > > > > > > > > > > +	dma_fence_put(fence);
-> > > > > > > > > > > +	ffs_dmabuf_put(priv->attach);
-> > > > > > > > > >=20
-> > > > > > > > > > So this can in theory take the dma_resv lock, and
-> > > > > > > > > > if the
-> > > > > > > > > > usb
-> > > > > > > > > > completion
-> > > > > > > > > > isn't an unlimited worker this could hold up
-> > > > > > > > > > completion
-> > > > > > > > > > of
-> > > > > > > > > > future
-> > > > > > > > > > dma_fence, resulting in a deadlock.
-> > > > > > > > > >=20
-> > > > > > > > > > Needs to be checked how usb works, and if stalling
-> > > > > > > > > > indefinitely
-> > > > > > > > > > in
-> > > > > > > > > > the
-> > > > > > > > > > io_complete callback can hold up the usb stack you
-> > > > > > > > > > need
-> > > > > > > > > > to:
-> > > > > > > > > >=20
-> > > > > > > > > > - drop a dma_fence_begin/end_signalling annotations
-> > > > > > > > > > in
-> > > > > > > > > > here
-> > > > > > > > > > - pull out the unref stuff into a separate
-> > > > > > > > > > preallocated
-> > > > > > > > > > worker
-> > > > > > > > > > (or at
-> > > > > > > > > > =C2=A0 least the final unrefs for ffs_dma_buf).
-> > > > > > > > >=20
-> > > > > > > > > Only ffs_dmabuf_put() can attempt to take the
-> > > > > > > > > dma_resv and
-> > > > > > > > > would
-> > > > > > > > > have
-> > > > > > > > > to be in a worker, right? Everything else would be
-> > > > > > > > > inside
-> > > > > > > > > the
-> > > > > > > > > dma_fence_begin/end_signalling() annotations?
-> > > > > > > >=20
-> > > > > > > > Yup. Also I noticed that unlike the iio patches you
-> > > > > > > > don't
-> > > > > > > > have
-> > > > > > > > the
-> > > > > > > > dma_buf_unmap here in the completion path (or I'm
-> > > > > > > > blind?),
-> > > > > > > > which
-> > > > > > > > helps a
-> > > > > > > > lot with avoiding trouble.
-> > > > > > >=20
-> > > > > > > They both call dma_buf_unmap_attachment() in the "signal
-> > > > > > > done"
-> > > > > > > callback, the only difference I see is that it is called
-> > > > > > > after
-> > > > > > > the
-> > > > > > > dma_fence_put() in the iio patches, while it's called
-> > > > > > > before
-> > > > > > > dma_fence_put() here.
-> > > > > >=20
-> > > > > > I was indeed blind ...
-> > > > > >=20
-> > > > > > So the trouble is this wont work because:
-> > > > > > - dma_buf_unmap_attachment() requires dma_resv_lock. This
-> > > > > > is a
-> > > > > > somewhat
-> > > > > > =C2=A0 recent-ish change from 47e982d5195d ("dma-buf: Move
-> > > > > > =C2=A0 dma_buf_map_attachment() to dynamic locking
-> > > > > > specification"), so
-> > > > > > maybe
-> > > > > > =C2=A0 old kernel or you don't have full lockdep enabled to get
-> > > > > > the
-> > > > > > right
-> > > > > > =C2=A0 splat.
-> > > > > >=20
-> > > > > > - dma_fence critical section forbids dma_resv_lock
-> > > > > >=20
-> > > > > > Which means you need to move this out, but then there's the
-> > > > > > potential
-> > > > > > cache management issue. Which current gpu drivers just
-> > > > > > kinda
-> > > > > > ignore
-> > > > > > because it doesn't matter for current use-case, they all
-> > > > > > cache
-> > > > > > the
-> > > > > > mapping
-> > > > > > for about as long as the attachment exists. You might want
-> > > > > > to do
-> > > > > > the
-> > > > > > same,
-> > > > > > unless that somehow breaks a use-case you have, I have no
-> > > > > > idea
-> > > > > > about
-> > > > > > that.
-> > > > > > If something breaks with unmap_attachment moved out of the
-> > > > > > fence
-> > > > > > handling
-> > > > > > then I guess it's high time to add separate cache-
-> > > > > > management only
-> > > > > > to
-> > > > > > dma_buf (and that's probably going to be quite some wiring
-> > > > > > up,
-> > > > > > not
-> > > > > > sure
-> > > > > > even how easy that would be to do nor what exactly the
-> > > > > > interface
-> > > > > > should
-> > > > > > look like).
-> > > > >=20
-> > > > > Ok. Then I'll just cache the mapping for now, I think.
-> > > >=20
-> > > > Yeah I think that's simplest. I did ponder a bit and I don't
-> > > > think
-> > > > it'd be
-> > > > too much pain to add the cache-management functions for device
-> > > > attachments/mappings. But it would be quite some typing ...
-> > > > -Sima
-> > >=20
-> > > It looks like I actually do have some hardware which requires the
-> > > cache
-> > > management. If I cache the mappings in both my IIO and USB code,
-> > > it
-> > > works fine on my ZedBoard, but it doesn't work on my ZCU102.
-> > >=20
-> > > (Or maybe it's something else? What I get from USB in that case
-> > > is a
-> > > stream of zeros, I'd expect it to be more like a stream of
-> > > garbage/stale data).
-> > >=20
-> > > So, change of plans; I will now unmap the attachment in the
-> > > cleanup
-> > > worker after the fence is signalled, and add a warning comment
-> > > before
-> > > the end of the fence critical section about the need to do cache
-> > > management before the signal.
-> > >=20
-> > > Does that work for you?
-> >=20
-> > The trouble is, I'm not sure this works for you. If you rely on the
-> > fences, and you have to do cache management in between dma
-> > operations,
-> > then doing the unmap somewhen later will only mostly paper over the
-> > issue,
-> > but not consistently.
-> >=20
-> > I think that's really bad because the bugs this will cause are very
-> > hard
-> > to track down and with the current infrastructure impossible to
-> > fix.
-> >=20
-> > Imo cache the mappings, and then fix the cache management bug
-> > properly.
-> >=20
-> > If you want an interim solution that isn't blocked on the dma-buf
-> > cache
-> > management api addition, the only thing that works is doing the
-> > operations
-> > synchronously in the ioctl call. Then you don't need fences, and
-> > you can
-> > guarantee that the unmap has finished before userspace proceeds.
-> >=20
-> > With the dma_fences you can't guarantee that, it's just pure luck.
->=20
-> Maybe a follow up: Double check you really need the cache management
-> between the dma operations from 2 different devices, and not for the
-> cpu
-> access that you then probably do to check the result.
->=20
-> Because if the issue is just cpu access, then protecting the cpu
-> access
-> needs to use the begin/end_cpu_access dma-functions (or the
-> corresponding
-> ioctl if you use mmap from userspace) anyway, and that should sort
-> out any
-> issues you have for cpu access.
->=20
-> Just to make sure we're not needlessly trying to fix something that
-> isn't
-> actually the problem.
 
-I am not doing any CPU access - I'm just attaching the same DMABUF to
-IIO and USB and use the new IOCTLs to transfer data.
+On 1/18/24 08:45, Uwe Kleine-König wrote:
+> Hello Mirsad,
+> 
+> On Wed, Jan 17, 2024 at 07:47:49PM +0100, Mirsad Todorovac wrote:
+>> On 1/16/24 01:32, Mirsad Todorovac wrote:
+>>> On the Ubuntu 22.04 LTS Jammy platform, on a mainline vanilla torvalds tree kernel, the boot
+>>> freezes upon first two lines and before any systemd messages.
+>>>
+>>> (Please find the config attached.)
+>>>
+>>> Bisecting the bug led to this result:
+>>>
+>>> marvin@defiant:~/linux/kernel/linux_torvalds$ git bisect good
+>>> d97a78423c33f68ca6543de510a409167baed6f5 is the first bad commit
+>>> commit d97a78423c33f68ca6543de510a409167baed6f5
+>>> Merge: 61da593f4458 689237ab37c5
+>>> Author: Linus Torvalds <torvalds@linux-foundation.org>
+>>> Date:   Fri Jan 12 14:38:08 2024 -0800
+>>>
+>>> [...]
+>>>
+>>> Hope this helps.
+>>
+>> P.S.
+>>
+>> As I see that this is a larger merge commit, with 5K+ lines changed, I don't think I can
+>> bisect further to determine the culprit.
+> 
+> Actually it's not that hard. If a merge commit is the first bad commit
+> for a bisection, either the merge wasn't done correctly (less likely,
+> looking at d97a78423c33f68ca6543de510a409167baed6f5 I'd bet this isn't
+> the problem); or changes on different sides conflict or you did
+> something wrong during bisection.
+> 
+> To rule out the third option, you can just retest d97a78423c33,
+> 61da593f4458 and 689237ab37c5. If d97a78423c33 is the only bad one, you
+> did it right.
 
-Can I just roll my own cache management then, using
-dma_sync_sg_for_cpu/device? I did a quick-and-dirty check with it, and
-it seems to make things work with cached mappings.
+This was confirmed.
 
-> -Sima
+> Then to further debug the second option you can find out the offending
+> commit on each side with a bisection as follows, here for the RHS (i.e.
+> 689237ab37c5):
+> 
+> 	git bisect start 689237ab37c5 $(git merge-base 61da593f4458 689237ab37c5)
+> 
+> and then in each bisection step do:
+> 
+> 	git merge --no-commit 61da593f4458
+> 	test if the problem is present
+> 	git reset --hard
+> 	git bisect good/bad
+> 
+> In this case you get merge conflicts in drivers/video/fbdev/amba-clcd.c
+> and drivers/video/fbdev/vermilion/vermilion.c. In the assumption that
+> you don't have these enabled in your .config, you can just ignore these.
+> 
+> Side note: A problem during bisection can be that the .config changes
+> along the process. You should put your config into (say)
+> arch/x86/configs/lala_defconfig and do
+> 
+> 	make lala_defconfig
+> 
+> before building each step to prevent this.
 
-Cheers,
--Paul
+I must have done something wrong:
+
+marvin@defiant:~/linux/kernel/linux_torvalds$ git bisect log
+# bad: [689237ab37c59b9909bc9371d7fece3081683fba] fbdev/intelfb: Remove driver
+# good: [de927f6c0b07d9e698416c5b287c521b07694cac] Merge tag 's390-6.8-1' of git://git.kernel.org/pub/scm/linux/kernel/git/s390/linux
+git bisect start '689237ab37c5' 'de927f6c0b07d9e698416c5b287c521b07694cac'
+# good: [d9f25b59ed85ae45801cf45fe17eb269b0ef3038] fbdev: Remove support for Carillo Ranch driver
+git bisect good d9f25b59ed85ae45801cf45fe17eb269b0ef3038
+# good: [e2e0b838a1849f92612a8305c09aaf31bf824350] video/sticore: Remove info field from STI struct
+git bisect good e2e0b838a1849f92612a8305c09aaf31bf824350
+# good: [778e73d2411abc8f3a2d60dbf038acaec218792e] drm/hyperv: Remove firmware framebuffers with aperture helper
+git bisect good 778e73d2411abc8f3a2d60dbf038acaec218792e
+# good: [df67699c9cb0ceb70f6cc60630ca938c06773eda] firmware/sysfb: Clear screen_info state after consuming it
+git bisect good df67699c9cb0ceb70f6cc60630ca938c06773eda
+marvin@defiant:~/linux/kernel/linux_torvalds$
+
+with the error:
+
+marvin@defiant:~/linux/kernel/linux_torvalds$ git bisect good
+Bisecting: 0 revisions left to test after this (roughly 0 steps)
+drivers/video/fbdev/amba-clcd.c: needs merge
+drivers/video/fbdev/vermilion/vermilion.c: needs merge
+error: you need to resolve your current index first
+marvin@defiant:~/linux/kernel/linux_torvalds$
+
+Best regards,
+Mirsad
+
+> Best regards
+> Uwe
+> 
