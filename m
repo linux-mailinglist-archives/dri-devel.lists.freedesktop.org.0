@@ -2,137 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A58C831072
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jan 2024 01:21:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED1168310B0
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jan 2024 01:59:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8A8310E0F4;
-	Thu, 18 Jan 2024 00:21:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D68B510E008;
+	Thu, 18 Jan 2024 00:58:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEC1510E6ED;
- Thu, 18 Jan 2024 00:21:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1705537273; x=1737073273;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=KJifuxAn0r09aMAynrDd/KqgEVz3OO+OezjgpPl8lXU=;
- b=QtzgPYfD5jcrjKtWEKlbDcmy3H1S1xIuSZ3aVegMLvlx9wU8vk6IvaN9
- dwDlbM+paW+y3IFHm/B7vDrtqFStZoDzGdrnns4cPF2Qz/+XzZnbru4os
- AEvmqE2PB6VWWSqCsncfCmNZA9C3a3WIuzEn72cNXQS1fOj9QFJmMvMLY
- RI7BAaMkosHLmAsJEnKjbmTwCtLvS8+Rj51Kku4ikSwrXJN+GiUOc6/im
- cEr9vd+XnFIT+kBcCwxTCz1S4JvGN2LqKKhwahXLrrJxhr31SgtUIQAVq
- GHloiX1g2JakJpfWOihJhHz2dsFjThEFHvH+gtWfoaDYogoG2Em+999jB w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="7007099"
-X-IronPort-AV: E=Sophos;i="6.05,201,1701158400"; 
-   d="scan'208";a="7007099"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jan 2024 16:21:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,201,1701158400"; 
-   d="scan'208";a="247040"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by orviesa004.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 17 Jan 2024 16:21:12 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 17 Jan 2024 16:21:11 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Wed, 17 Jan 2024 16:21:11 -0800
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.41) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Wed, 17 Jan 2024 16:21:09 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eMD98k1Yed3EuWxkpty5ETejmAYOkGFbIYYuA3uZlYZrVqGR1hCZzql+PcEOQUvpvd1y4GMWyMcGnMEC8eEKhY1g4Opfc5KrxmQJFjtfBeC/L4dMHTByb34epD7N9ZsM3e5Rr4iNN+oTLvqUJ4C+12FvU5TaiA3a2hXKWR3fbHCBO5DluaPHAXHh0MygsynWhcgfv24cicx1VVhdNW7h8/qQrGVpl4eHK1z+hyLZZh8NaMBSqV+9RAlLyAY5hitTdO8qRBqtCPe7x0hZRgeaR0DT06FzhPmqNA5D0iG39eixzn+2IRDvHi5gK8Lcqhs1mq5MCMZqSouvBffbZzPeuA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vMW9bI2yXXY3Lw31uTqKWyvbgVr18oUjI//Gp7G4Jgg=;
- b=gmxVfF8Tud0j3EI2WpTGdVxMCIa0T9XxNLJBucJij2bXPQZIKXXoVJhfBWllcRUFX0B8eoeV/XlSLho7MTJrHqquRWyWF3oSyJL39t37+rkOcu2JmP7zCjNABv4gh13Bhf+TRxjPYJNTbnvf/f54Ry3HqQxeVz6cb44Gq4hwB55+OyVwThjl113b1iO8qpueX43tHNAnuipnnuWpGCN/LjKucxvIp5aiILuJNYn8WevTWuq48NZjX3f+QLAxNFbgQGxalp3n7QcJe8iqUrNQQ7an7B9AOOnjGoZegaDdAINN6OygfrwM6NmxUBM365/buI82AGwBkumuYf/eU/6x0w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS0PR11MB8182.namprd11.prod.outlook.com (2603:10b6:8:163::17)
- by DM4PR11MB6144.namprd11.prod.outlook.com (2603:10b6:8:af::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.30; Thu, 18 Jan
- 2024 00:21:08 +0000
-Received: from DS0PR11MB8182.namprd11.prod.outlook.com
- ([fe80::2157:7433:d32c:a8e3]) by DS0PR11MB8182.namprd11.prod.outlook.com
- ([fe80::2157:7433:d32c:a8e3%4]) with mapi id 15.20.7202.024; Thu, 18 Jan 2024
- 00:21:07 +0000
-Date: Wed, 17 Jan 2024 16:21:05 -0800
-From: Matt Roper <matthew.d.roper@intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: Re: [PATCH v2 5/5] drm/xe: Enable 32bits build
-Message-ID: <20240118002105.GT45138@mdroper-desk1.amr.corp.intel.com>
-References: <20240116174050.2435923-1-lucas.demarchi@intel.com>
- <20240116174050.2435923-6-lucas.demarchi@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20240116174050.2435923-6-lucas.demarchi@intel.com>
-X-ClientProxiedBy: SJ0PR03CA0339.namprd03.prod.outlook.com
- (2603:10b6:a03:39c::14) To DS0PR11MB8182.namprd11.prod.outlook.com
- (2603:10b6:8:163::17)
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com
+ [157.90.84.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D709610E05D
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 00:58:52 +0000 (UTC)
+Received: from [10.6.0.9] (host-88-217-226-44.customer.m-online.net
+ [88.217.226.44]) (Authenticated sender: wse@tuxedocomputers.com)
+ by mail.tuxedocomputers.com (Postfix) with ESMTPSA id B0A532FC0077;
+ Thu, 18 Jan 2024 01:58:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+ s=default; t=1705539518;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=51f/k66Vol71lHon++WYqlYJi4X/qpNHu9WjCfatBME=;
+ b=AynO/R20e1tlfNRfZi9AWmy1OUwolIcsbrX7XV8HHrb9eKXI5CVd4XHkEgj86wCMqGIYSd
+ hLs2nBZ9CQiwjzAgvzrySiifvRNIhJxj9g4+vn8fZpRLp38OOK1zRVPiSybpVKnD/i679K
+ O308ON0K/mQ/jJMImC1qo35dDIy4MvU=
+Authentication-Results: mail.tuxedocomputers.com;
+ auth=pass smtp.auth=wse@tuxedocomputers.com
+ smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <58471134-eddb-4bdf-acaa-499177507e5e@tuxedocomputers.com>
+Date: Thu, 18 Jan 2024 01:58:35 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB8182:EE_|DM4PR11MB6144:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0edc8bed-4ef1-4928-a432-08dc17bb5db3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: cmKvmHU5iuyYqEgMBvxUj4mvvvO5t3FTUU6DuNtI2FcgAhZdZNYssWRLdYbZRA5LviydTonQmMWE2xShBu6LC/9sXl55Lyb2HnpCp/y5KbUTDjaQJ52aIneqfQy+SU/iNW5JDtgln4n+U1YkQlCu8xsd1zBs0Kjsmc0U5xtn3A64AOGKs2r8vPc/C0LO1d3ZYwt2exQWfLMz4G+0bGpfzBxLbOu3bjVuBgOJF5tJre4vuxnBKXFZyyPlXPSZzpQ/kCbJGyXXuEbI33m8MFf9gbDu3QvUlNYwO3NqswzsrcwwR64LCGxmO+HsEqbt0WgVvRK8ekQCNlC5e94ld2lNeGXu7jtBBcIvBxRL2kSw/MeUzKat0PrVvmXn051wvY71L5F6rW6YhinPqZuGk64HOT86YWItYeQpJMtxSZIsnT+u17J8jKVtJDgT7osItxClthFL+93pMJkBw1zmvCnYHssXj+s6PI+9J+OAoaSlRH0HGP7kqz5A4OcUcvDi2+HDZs2c8dxU3UgE/w2D/imEOTHPnnd7UyUeEO/cYvUyOHeOjVMHDylyuZ4nKxucW+v5TU4tyIkG1mTOlzWwn/X2qXx2WnTZXHjFGWNSMciln55e856TbDYJ5cW1hniUrERx
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS0PR11MB8182.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376002)(346002)(366004)(39860400002)(136003)(396003)(230922051799003)(230273577357003)(230173577357003)(1800799012)(64100799003)(186009)(451199024)(6512007)(6506007)(26005)(1076003)(38100700002)(33656002)(86362001)(82960400001)(2906002)(6862004)(4326008)(6486002)(5660300002)(83380400001)(450100002)(66946007)(316002)(478600001)(6636002)(66476007)(41300700001)(66556008)(8936002)(8676002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vUn2Unc35XqWBv9FngQDqRQTPNyUZKNn8gmsXv7WzqQJuXL96jnsqjncrOPB?=
- =?us-ascii?Q?UiGdLSToL1WYCh/kb+eCNMy2obLMlq/mzpXEvmCiFr2TedHLw+VZTv80lASy?=
- =?us-ascii?Q?Gi2AMG+V57Fd99CX/Do5zxm0jr2+YwOdTFTokT3agO4jBkuAAJIvmao3sMno?=
- =?us-ascii?Q?y0UsbNCnlmrSKaz8lX/oYwWJuMRd7/bahhgDjVHMgR67D/ZCyQVly0hzAg69?=
- =?us-ascii?Q?wK1TvSAZgE3z0o/TpFI99zK4JZLQiVpnGwe2cdAZ/m6XvLJ6GMJknV0maEY/?=
- =?us-ascii?Q?wFrj0VY996+jnK7e3hV96lmW7E/jPN+CgTNE5GAviS8zbn8RiU8uEJBCJsuR?=
- =?us-ascii?Q?A5yO9RS1fy0+jE6o+aFM+48E+tRJ7R8e6CWdxCa3FvVcGWJz/KKDTqHN6FkK?=
- =?us-ascii?Q?r65RHoyb/uJDvKDXypuFzVW7ZnAUVPrTeP+RCoqEqjUfrbSGa7keqrjxAuFx?=
- =?us-ascii?Q?98BhbMR6PUr8rk5HsUXghF756eRFyfP9qztXGhpnDWadu5/V9QdK0IPZfLBO?=
- =?us-ascii?Q?nl5FFw90KHqPNnxtuBb4vk/eI0tWVEb7yJSG1gMt/RfjwFvztRtyvafAmMaK?=
- =?us-ascii?Q?hYEgOwQyiGHg1c0JWB1k4FddY4zm+9DSfHSgYvfetBVAk0a787K/NRwSFT6i?=
- =?us-ascii?Q?xTK6CT15hHbzTSNj4S2XouEDNuFPbVxdjhk33AO4iLnZXh5/mIxFvS+9MbAO?=
- =?us-ascii?Q?ZBZva1Oh23sIcZLSyMddxK1KEV8smSQZE8lD8EEPe+tKwyIA7wmwGn57Wn73?=
- =?us-ascii?Q?tvAotBkOL3qxyAVE6izUG1hN1xTJx4hFYa1B/BX0sKRelKInrPIwkrm+IHMV?=
- =?us-ascii?Q?fERqMVHfzvZBmETtnf7bFixhTWGnLAellWw9XVl32YPkNYNz/dkG2hcJBsHT?=
- =?us-ascii?Q?S8/igCTW7Yu2P+SJt2gQBJ08Gijf+5e6c2P58m+pDQC71FzA+a9NAxJTxsVI?=
- =?us-ascii?Q?cvDKrsEz10W3kK8t766mLAlAjopH3/DxzkEPetj0cIVclCj5WzI41iD7qK0p?=
- =?us-ascii?Q?J3FNxfZCNfvop9N+N6ki3PhPur5y7irY5B+jTHDdjBD6PwBfEzB9bfUU5qbf?=
- =?us-ascii?Q?H6JuJbYOJgfNXjWWjdE8YPZXSwOwdo6MP/sREL0nFrQWF1geoSfqbvYiLayk?=
- =?us-ascii?Q?6/Y5o5gMaqh1iPvkg4lVbHUCaH9VIZPeUmWKZSAleUNNuiYIm3elyjMAyqpH?=
- =?us-ascii?Q?xE32QVEFgjHZASzcZwXcWMCqHrf/0X0UlWPh20Pax/BCDykIG+DXDHMBHZIn?=
- =?us-ascii?Q?PWYetII4unOPvznhr6Am/MLJoD2/OLiz/JIbzFGcGusVDLMmPD/OKjvpK7x2?=
- =?us-ascii?Q?VEWeDGXy2VumtFd6GPBLmHow+2ipPob8LOrLKQ5EXk2LPZ5x4wogL1IJ9MIk?=
- =?us-ascii?Q?LfFKrj+GIDEyNh6Qmls4wlbkcRd17AMH25XND7LcNgnBhA87+dnXXJgpIsCN?=
- =?us-ascii?Q?Wm+7EecJA1l0UnWhdJa019jr2AsU/PaMcwaSKTWnvVKwoKsExmuiIIETCYtw?=
- =?us-ascii?Q?Rz/Ez+uTOk5aEdm6Hkum9cNzAdidrc2BYr4KaayON0//zGZhcMjrDTji0EHQ?=
- =?us-ascii?Q?G7vtLWiW7DTw7+5YkXZm9E5xjPWveBkWWcePNbdPwyClZIVaKAHP97vz5cjt?=
- =?us-ascii?Q?fw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0edc8bed-4ef1-4928-a432-08dc17bb5db3
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB8182.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2024 00:21:07.9132 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /A/wXb9nhKHWpiLY1oUuMswoXnQXu+TYgnojSFJbTN91ClJUF/NLRjOgyHludf4BhgX/jxrteJ1CrjiwYGU6epPVRbQOfKdrT9l2FTHEwGg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6144
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: Userspace API for per key backlight for non HID (no hidraw)
+ keyboards
+To: Armin Wolf <W_Armin@gmx.de>, Hans de Goede <hdegoede@redhat.com>,
+ Pavel Machek <pavel@ucw.cz>, Jani Nikula <jani.nikula@linux.intel.com>,
+ jikos@kernel.org, Jelle van der Waa <jelle@vdwaa.nl>,
+ Christoffer Sandberg <cs@tuxedocomputers.com>
+References: <20231011190017.1230898-1-wse@tuxedocomputers.com>
+ <ZSe1GYLplZo5fsAe@duo.ucw.cz>
+ <0440ed38-c53b-4aa1-8899-969e5193cfef@tuxedocomputers.com>
+ <ZSf9QneKO/8IzWhd@duo.ucw.cz>
+ <a244a00d-6be4-44bc-9d41-6f9df14de8ee@tuxedocomputers.com>
+ <ZSk16iTBmZ2fLHZ0@duo.ucw.cz>
+ <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
+ <ZSmg4tqXiYiX18K/@duo.ucw.cz>
+ <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
+ <87sf61bm8t.fsf@intel.com> <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
+ <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
+ <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com>
+ <f416fbca-589b-4f6a-aad6-323b66398273@tuxedocomputers.com>
+ <4222268b-ff44-4b7d-bf11-e350594bbe24@redhat.com>
+ <ac02143c-d417-49e5-9c6e-150cbda71ba7@tuxedocomputers.com>
+ <3040290f-9b26-4fd3-8e64-a03ec59921d6@redhat.com>
+ <6b32fb73-0544-4a68-95ba-e82406a4b188@gmx.de>
+Content-Language: en-US
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <6b32fb73-0544-4a68-95ba-e82406a4b188@gmx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,43 +74,285 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, linux-input@vger.kernel.org,
+ ojeda@kernel.org, linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 16, 2024 at 09:40:50AM -0800, Lucas De Marchi wrote:
-> Now that all the issues with 32bits are fixed, enable it again.
-> 
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+Hi Hans and Armin,
 
-I didn't test locally, but assuming you confirmed all the warnings are
-gone now,
+Am 17.01.24 um 20:03 schrieb Armin Wolf:
+> Am 17.01.24 um 17:50 schrieb Hans de Goede:
+>
+>> Hi All,
+>>
+>> On 11/27/23 11:59, Werner Sembach wrote:
+>>
+>> <snip>
+>>
+>>> I also stumbled across a new Problem:
+>>>
+>>> We have an upcoming device that has a per-key keyboard backlight, but does 
+>>> the control completely via a wmi/acpi interface. So no usable hidraw here 
+>>> for a potential userspace driver implementation ...
+>>>
+>>> So a quick summary for the ideas floating in this thread so far:
+>>>
+>>> 1. Expand leds interface allowing arbitrary modes with semi arbitrary 
+>>> optional attributes:
+>>>
+>>>      - Pro:
+>>>
+>>>          - Still offers all default attributes for use with UPower
+>>>
+>>>          - Fairly simple to implement from the preexisting codebase
+>>>
+>>>          - Could be implemented for all (to me) known internal keyboard 
+>>> backlights
+>>>
+>>>      - Con:
+>>>
+>>>          - Violates the simplicity paradigm of the leds interface (e.g. with 
+>>> this one leds entry controls possible multiple leds)
+>> So what you are suggesting here is having some way (a-z + other sysfs attr?)
+>> to use a single LED class device and then extend that to allow setting all
+>> keys ?
+>>
+>> This does not seem like a good idea to me and this will also cause issues
+>> when doing animations in software, since this API will likely be slow.
+>>
+>> And if the API is not slow, then it will likely involve some sort
+>> of binary sysfs file for setting multiple keys rather then 1
+>> file per key which would break the normal 1 file per setting sysfs
+>> paradigm.
+>>
+>>> 2. Implement per-key keyboards as auxdisplay
+>>>
+>>>      - Pro:
+>>>
+>>>          - Already has a concept for led positions
+>> With a "concept" you mean simple x,y positioning or is
+>> there something more advanced here that I'm aware of ?
+>>
+>>>          - Is conceptually closer to "multiple leds forming a singular entity"
+>>>
+>>>      - Con:
+>>>
+>>>          - No preexisting UPower support
+>>>
+>>>          - No concept for special hardware lightning modes
+>>>
+>>>          - No support for arbitrary led outlines yet (e.g. ISO style enter-key)
+>> Hmm, so there is very little documentation on this and what
+>> docs there is: Documentation/admin-guide/auxdisplay/cfag12864b.rst
+>> as well as the example program how to uses this suggests that
+>> this is using the old /dev/fb# interface which we are sorta
+>> trying to retire.
+>>
+>>
+>>> 3. Implement in input subsystem
+>>>
+>>>      - Pro:
+>>>
+>>>          - Preexisting concept for keys and key purpose
+>>>
+>>>      - Con:
+>>>
+>>>          - Not in scope for subsystem
+>>>
+>>>          - No other preexisting light infrastructure
+>> Dmitry actually recently nacked the addition of
+>> a LED_MIC_MUTE define to include/uapi/linux/input-event-codes.h
+>> which was intended to be able to allow the input LED support
+>> with standard HID mic-mute leds (spk-mute is already supported
+>> this way).
+>>
+>> Dmitry was very clear that no new LEDs must be added and
+>> that any new LED support should be done through the LED
+>> subsytem, so I do not think that something like this
+>> is going to fly.
+>>
+>>
+>>> 4. Implement a simple leds driver only supporting a small subset of the 
+>>> capabilities and make it disable-able for a userspace driver to take over
+>>>
+>>>      - Pro:
+>>>
+>>>          - Most simple to implement basic support
+>>>
+>>>          - In scope for led subsystem simplicity paradigm
+>>>
+>>>      - Con:
+>>>
+>>>          - Not all built in keyboard backlights can be implemented in a 
+>>> userspace only driver
+>> Right, so this is basically what we have been discussing in the other
+>> part of the thread with the:
+>>
+>> /sys/bus/hid/devices/0003:xxxx:xxxx.xxxx/disable_kbd_backlight_support
+>>
+>> proposal to unregister the kernel's LED class device and then
+>> allow userspace to do whatever it wants through /dev/hidraw
+>> without the kernel also trying to access the backlight
+>> functionality at the same time.
+>>
+>> AFAIK there already is a bunch of userspace support for
+>> per key addressable kbd RGB backlights using hidraw support,
+>> so this way we can use the momentum / code of these existing
+>> projects, at least for existing hidraw keyboards and adding
+>> support for:
+>>
+>> /sys/bus/hid/devices/0003:xxxx:xxxx.xxxx/disable_kbd_backlight_support
+>>
+>> to these existing projects should be simple.
+>>
+>> Yet this will not work for your mentioned "control completely
+>> via a wmi/acpi interface". Still I think we should go the same
+>> route for those adding a misc-char device or something like
+>> that to allow making WMI calls from userspace (like Windows
+>> can do). Maybe with an allow list per GUID to only allow
+>> specific calls, so that we can avoid possible dangerous calls.
+>>
+>> Armin Wolf recently became the WMI bus maintainer.
+>>
+>> Armin, we are discussing how to deal with (laptop) keyboards
+>> which have a separate RGB LED per key and how to control
+>> those LEDs.
+>>
+>> So far per key addressable keyboard backlighting has always
+>> been HID based, so any existing support is just userspace
+>> based using /dev/hidraw. In my experience the problem with
+>> supporting gaming peripherals is that there is interest in it,
+>> but not really enough interest to keep a sustained momentum
+>> behind projects, especially not when it comes to taking code
+>> from a fun weekend hack to upstreaming them into bigger
+>> projects like the kernel.
+>>
+>> So I would like to offer some sort of easy accessible
+>> API to userspace for accessing this, basically allowing
+>> userspace drivers for the LED part of the keyboard which
+>> in some cases will involve making WMI calls from userspace.
+>>
+>> So, Armin, what do you think about a way of allowing
+>> (filtered) WMI calls from userspace through say
+>> a misc-char device + ioctls or something like that?
+>>
+>> Werner atm I personally do think that option 4. from
+>> your list is the way to go. Mainly because designing
+>> a generic kernel API for all bells and whistles of gaming
+>> hw is very tricky and would require a large ongoing
+>> effort which I just don't see happening (based on
+>> past experience).
+>>
+>> Regards,
+>>
+>> Hans
+>>
+> Hi,
+>
+> i can understand your concerns, but i strongly advise against a generic WMI 
+> userspace API.
+> The reasons for this are:
+>
+> 1. We are still unable to parse (and use) the binary MOF buffers describing 
+> the WMI devices,
+> so all of that would require the driver parsing a raw byte buffer. In this 
+> case a separate
+> misc device managed by the driver would basically do the same.
+>
+> 2. Many WMI implementations are like RWEverything implemented inside the ACPI 
+> firmware, so
+> most devices will require the driver to do excessive filtering. Many 
+> implementations also do
+> no proper input validation either so the driver has to know all possible use 
+> cases since he
+> has to protect the buggy ACPI firmware from userspace attacks.
 
-Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
+Or the WMI has a straight forward arbitrary read/write function into EC ram 
+(e.g. all Uniwill/TongFang devices).
 
-> ---
->  drivers/gpu/drm/xe/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/xe/Kconfig b/drivers/gpu/drm/xe/Kconfig
-> index 1b57ae38210d..1b0ef91a5d2c 100644
-> --- a/drivers/gpu/drm/xe/Kconfig
-> +++ b/drivers/gpu/drm/xe/Kconfig
-> @@ -1,7 +1,7 @@
->  # SPDX-License-Identifier: GPL-2.0-only
->  config DRM_XE
->  	tristate "Intel Xe Graphics"
-> -	depends on DRM && PCI && MMU && (m || (y && KUNIT=y)) && 64BIT
-> +	depends on DRM && PCI && MMU && (m || (y && KUNIT=y))
->  	select INTERVAL_TREE
->  	# we need shmfs for the swappable backing store, and in particular
->  	# the shmem_readpage() which depends upon tmpfs
-> -- 
-> 2.40.1
-> 
+The filtering would need to be explicit whitelisting of wmi-calls+arguments. 
+Don't know if this would reduce complexity for the kernel.
 
--- 
-Matt Roper
-Graphics Software Engineer
-Linux GPU Platform Enablement
-Intel Corporation
+>
+> Regarding point number 2, i just had to contact Asus so that they remove a 
+> broken WMI interface
+> from my motherboard or else a simple application could crash the Windows 
+> kernel. This firmware
+> is (sadly) being designed as an internal API and thus unstable beyond all 
+> imagination.
+>
+> For HID devices, a userspace driver might be OK since they are somewhat 
+> isolated from the remaining
+> hardware, but WMI is basically a kernel bypass for ACPI firmware calls, so 
+> userspace could easily
+> attack the kernel is way.
+>
+> Personally, i would prefer extending the LED subsystem to support zone-like 
+> devices with many LEDs,
+> as this would prevent userspace from having to tinker with the hardware behind 
+> the kernels back.
+> Other highly device-specific features could be implemented with a 
+> driver-specific misc device.
+
+Something like my earlier suggestion "[...] adds a new entry zones_count. 
+multi_intensity has now colors count * zones_count entries. aka a RGB keyboard 
+with 126 leds would take 378 values for multi_intensity [...]"?
+
+Setting all with one file access to multi_intensity could make it somewhat 
+performant as Hans already mentioned, but also would violate the one file one 
+led paradigm.
+
+Or formulated differently: How should the sysfs folder look:
+
+leds/
+     rgb:kbd_backlight_a/
+         brightness
+         multi_intensity
+     rgb:kbd_backlight_b/
+         brightness
+         multi_intensity
+     ...
+
+or
+
+leds/
+     rgb:kbd_backlight/
+         brightness
+         multi_intensity_a
+         multi_intensity_b
+         ...
+
+or
+
+leds/
+     rgb:kbd_backlight/
+         brightness
+         zones_count
+         multi_intensity
+
+Personally I don't really like the idea of having the color set in 
+/sys/class/leds/*:rgb:kbd_backlight/multi_intensity and e.g. the breathing mode 
+in /sys/class/misc/<some_random_name>/<some_random_attribute>. Or at least there 
+should be a hint in /sys/class/leds/*:rgb:kbd_backlight/ for the userspace to 
+know where to look for associated additional attributes.
+
+>
+> Regarding the speed, it depends on the underlying WMI interface design if 
+> smooth animations are
+> even possible, since many WMI interfaces are quite slow. Can you share the 
+> Binary MOF buffers
+> describing the WMI interfaces in question?
+Taking a colleague in the loop who currently has the device at hand. 
+@Christoffer can you extract it? Is it one wmi call per key or is there a "set 
+all" wmi call (because performance)?
+>
+> Thanks,
+> Armin Wolf
+>
+Kind regards,
+
+Werner
+
