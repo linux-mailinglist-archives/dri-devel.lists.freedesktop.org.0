@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EB3D831393
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jan 2024 08:59:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B6768313A9
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jan 2024 08:59:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D02DA10E718;
-	Thu, 18 Jan 2024 07:59:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDE7C10E719;
+	Thu, 18 Jan 2024 07:59:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A8BB10E6F5
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 07:59:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1467D10E719
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 07:59:05 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 73A0E6179A;
+ by dfw.source.kernel.org (Postfix) with ESMTP id 60995617DE;
+ Thu, 18 Jan 2024 07:59:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DCD7C433C7;
  Thu, 18 Jan 2024 07:59:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1E77C43390;
- Thu, 18 Jan 2024 07:58:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705564741;
- bh=hJma+GlHKJaFxInAwETUzzRK9y+Y4oMfcVBpjzoXkYc=;
+ s=k20201202; t=1705564744;
+ bh=/NtUvjlmP2hVHln7V3vPbrBUjpMmcUDbRk8I6b5u3TM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=H7/EIMurlFVn42SiwT9vP7eS3CaFgXrcIQU9GLe+WnHKJX5RJXGt1GkwzKpO6mXBj
- fm0axCprlGcACcTLpy9gXrf0cb3YA9uyFdPZfbCnz2HRh7fBJktOb2a+sccrdfGNVs
- hZJIwON5/M+wQ0mbnNwO5cwbw+eNcgQ7PFdhEISpSp4cJhw2JLlvpiw5OrGxZQPl61
- X/1chWFCep0STki4iU2LrM0T2ovXzmd57o4twCxHqfuw0eW7nP9/SAVSuIgd5hxXXJ
- rFageAyBofq8g+yDYFCijMvH929jC6b4LBxlAhwup2v9UyzAvogGqHyyDYdHif2ROQ
- ewvadhTOlGpqw==
+ b=koG5/fALSjBMhxQD9cANZcieQZWPagCgxNq8DEE/hPg7Y1DiHrBgkuMmxThjdhsw9
+ swC1/fBT593+k3oz/EKujnaldRJLulwXkI8pstExwU0h6e+JYrI3msL5BxHCsPRVqI
+ 0zr2hslPBHXXQhR/ozdEXTyylbmdWwTSYxswYh8FrD3/GvJgkkLwUIwlSXLKytcSes
+ CcNmxKFP8M2ZieeGxshms7JQqsMkfeExzCuwpofVGaSUQJZEK8/GljqBfJFWnWqQZr
+ cqaoBjiPQwjitpOUbx6eC2rjC0c9KE9kxBtzoaT68RNuhlvuv575JwF5GuKBpaKEAk
+ qhGf6lIu8G37g==
 From: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
 To: gregkh@linuxfoundation.org
-Subject: [PATCH 28/45] tty: vt: remove CM_* constants
-Date: Thu, 18 Jan 2024 08:57:39 +0100
-Message-ID: <20240118075756.10541-29-jirislaby@kernel.org>
+Subject: [PATCH 29/45] tty: vt: make consw::con_switch() return a bool
+Date: Thu, 18 Jan 2024 08:57:40 +0100
+Message-ID: <20240118075756.10541-30-jirislaby@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240118075756.10541-1-jirislaby@kernel.org>
 References: <20240118075756.10541-1-jirislaby@kernel.org>
@@ -57,12 +57,9 @@ Cc: linux-fbdev@vger.kernel.org, linux-serial@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is no difference between CM_MOVE and CM_DRAW. Either of them
-enables the cursor. CM_ERASE then disables cursor.
-
-So get rid of all of them and use simple "bool enable".
-
-Note that this propagates down to the fbcon code.
+The non-zero (true) return value from consw::con_switch() means a redraw
+is needed. So make this return type a bool explicitly instead of int.
+The latter might imply that -Eerrors are expected. They are not.
 
 And document the hook.
 
@@ -74,390 +71,168 @@ Cc: linux-fbdev@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
 Cc: linux-parisc@vger.kernel.org
 ---
- drivers/tty/vt/vt.c                  |  4 ++--
- drivers/video/console/dummycon.c     |  2 +-
- drivers/video/console/mdacon.c       |  4 ++--
- drivers/video/console/newport_con.c  |  4 ++--
- drivers/video/console/sticon.c       |  6 +++---
- drivers/video/console/vgacon.c       |  6 +++---
- drivers/video/fbdev/core/bitblit.c   |  4 ++--
- drivers/video/fbdev/core/fbcon.c     | 19 +++++++++----------
- drivers/video/fbdev/core/fbcon.h     |  4 ++--
- drivers/video/fbdev/core/fbcon_ccw.c |  4 ++--
- drivers/video/fbdev/core/fbcon_cw.c  |  4 ++--
- drivers/video/fbdev/core/fbcon_ud.c  |  4 ++--
- drivers/video/fbdev/core/tileblit.c  |  4 ++--
- include/linux/console.h              |  8 ++------
- 14 files changed, 36 insertions(+), 41 deletions(-)
+ drivers/tty/vt/vt.c                 | 2 +-
+ drivers/video/console/dummycon.c    | 4 ++--
+ drivers/video/console/mdacon.c      | 4 ++--
+ drivers/video/console/newport_con.c | 4 ++--
+ drivers/video/console/sticon.c      | 4 ++--
+ drivers/video/console/vgacon.c      | 4 ++--
+ drivers/video/fbdev/core/fbcon.c    | 6 +++---
+ include/linux/console.h             | 4 +++-
+ 8 files changed, 17 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/tty/vt/vt.c b/drivers/tty/vt/vt.c
-index 73e48a53dc31..2df306922b4e 100644
+index 2df306922b4e..88d7b48871fb 100644
 --- a/drivers/tty/vt/vt.c
 +++ b/drivers/tty/vt/vt.c
-@@ -860,7 +860,7 @@ static void hide_cursor(struct vc_data *vc)
- 	if (vc_is_sel(vc))
- 		clear_selection();
+@@ -970,7 +970,7 @@ void redraw_screen(struct vc_data *vc, int is_switch)
+ 	}
  
--	vc->vc_sw->con_cursor(vc, CM_ERASE);
-+	vc->vc_sw->con_cursor(vc, false);
- 	hide_softcursor(vc);
- }
+ 	if (redraw) {
+-		int update;
++		bool update;
+ 		int old_was_color = vc->vc_can_do_color;
  
-@@ -873,7 +873,7 @@ static void set_cursor(struct vc_data *vc)
- 			clear_selection();
- 		add_softcursor(vc);
- 		if (CUR_SIZE(vc->vc_cursor_type) != CUR_NONE)
--			vc->vc_sw->con_cursor(vc, CM_DRAW);
-+			vc->vc_sw->con_cursor(vc, true);
- 	} else
- 		hide_cursor(vc);
- }
+ 		set_origin(vc);
 diff --git a/drivers/video/console/dummycon.c b/drivers/video/console/dummycon.c
-index 188d9f3e201c..1171e27edef7 100644
+index 1171e27edef7..c8d5aa0e3ed0 100644
 --- a/drivers/video/console/dummycon.c
 +++ b/drivers/video/console/dummycon.c
-@@ -113,7 +113,7 @@ static void dummycon_init(struct vc_data *vc, bool init)
- static void dummycon_deinit(struct vc_data *vc) { }
- static void dummycon_clear(struct vc_data *vc, unsigned int sy, unsigned int sx,
- 			   unsigned int width) { }
--static void dummycon_cursor(struct vc_data *vc, int mode) { }
-+static void dummycon_cursor(struct vc_data *vc, bool enable) { }
+@@ -122,9 +122,9 @@ static bool dummycon_scroll(struct vc_data *vc, unsigned int top,
+ 	return false;
+ }
  
- static bool dummycon_scroll(struct vc_data *vc, unsigned int top,
- 			    unsigned int bottom, enum con_scroll dir,
+-static int dummycon_switch(struct vc_data *vc)
++static bool dummycon_switch(struct vc_data *vc)
+ {
+-	return 0;
++	return false;
+ }
+ 
+ /*
 diff --git a/drivers/video/console/mdacon.c b/drivers/video/console/mdacon.c
-index b8822b615b2f..bc851a1d9f4d 100644
+index bc851a1d9f4d..4485ef923bb3 100644
 --- a/drivers/video/console/mdacon.c
 +++ b/drivers/video/console/mdacon.c
-@@ -470,9 +470,9 @@ static int mdacon_blank(struct vc_data *c, int blank, int mode_switch)
- 	}
+@@ -446,9 +446,9 @@ static void mdacon_clear(struct vc_data *c, unsigned int y, unsigned int x,
+ 	scr_memsetw(dest, eattr, width * 2);
  }
  
--static void mdacon_cursor(struct vc_data *c, int mode)
-+static void mdacon_cursor(struct vc_data *c, bool enable)
+-static int mdacon_switch(struct vc_data *c)
++static bool mdacon_switch(struct vc_data *c)
  {
--	if (mode == CM_ERASE) {
-+	if (!enable) {
- 		mda_set_cursor(mda_vram_len - 1);
- 		return;
- 	}
+-	return 1;	/* redrawing needed */
++	return true;	/* redrawing needed */
+ }
+ 
+ static int mdacon_blank(struct vc_data *c, int blank, int mode_switch)
 diff --git a/drivers/video/console/newport_con.c b/drivers/video/console/newport_con.c
-index f852717b88f0..e35406dea7c7 100644
+index e35406dea7c7..039d1c9937d2 100644
 --- a/drivers/video/console/newport_con.c
 +++ b/drivers/video/console/newport_con.c
-@@ -438,14 +438,14 @@ static void newport_putcs(struct vc_data *vc, const u16 *s,
- 	}
+@@ -459,7 +459,7 @@ static void newport_cursor(struct vc_data *vc, bool enable)
+ 	newport_vc2_set(npregs, VC2_IREG_CURSY, ycurs);
  }
  
--static void newport_cursor(struct vc_data *vc, int mode)
-+static void newport_cursor(struct vc_data *vc, bool enable)
+-static int newport_switch(struct vc_data *vc)
++static bool newport_switch(struct vc_data *vc)
  {
- 	unsigned short treg;
- 	int xcurs, ycurs;
+ 	static int logo_drawn = 0;
  
- 	treg = newport_vc2_get(npregs, VC2_IREG_CONTROL);
+@@ -473,7 +473,7 @@ static int newport_switch(struct vc_data *vc)
+ 		}
+ 	}
  
--	if (mode == CM_ERASE) {
-+	if (!enable) {
- 		newport_vc2_set(npregs, VC2_IREG_CONTROL,
- 				(treg & ~(VC2_CTRL_ECDISP)));
- 		return;
+-	return 1;
++	return true;
+ }
+ 
+ static int newport_blank(struct vc_data *c, int blank, int mode_switch)
 diff --git a/drivers/video/console/sticon.c b/drivers/video/console/sticon.c
-index 42480874db00..786e1b3a98ea 100644
+index 786e1b3a98ea..f3bb48a0e980 100644
 --- a/drivers/video/console/sticon.c
 +++ b/drivers/video/console/sticon.c
-@@ -86,7 +86,7 @@ static void sticon_putcs(struct vc_data *conp, const u16 *s, unsigned int count,
-     }
+@@ -293,9 +293,9 @@ static void sticon_clear(struct vc_data *conp, unsigned int sy, unsigned int sx,
+ 	      conp->vc_video_erase_char, font_data[conp->vc_num]);
  }
  
--static void sticon_cursor(struct vc_data *conp, int mode)
-+static void sticon_cursor(struct vc_data *conp, bool enable)
+-static int sticon_switch(struct vc_data *conp)
++static bool sticon_switch(struct vc_data *conp)
  {
-     unsigned short car1;
+-    return 1;	/* needs refreshing */
++    return true;	/* needs refreshing */
+ }
  
-@@ -95,7 +95,7 @@ static void sticon_cursor(struct vc_data *conp, int mode)
- 	return;
- 
-     car1 = conp->vc_screenbuf[conp->state.x + conp->state.y * conp->vc_cols];
--    if (mode == CM_ERASE) {
-+    if (!enable) {
- 	sti_putc(sticon_sti, car1, conp->state.y, conp->state.x,
- 		 font_data[conp->vc_num]);
- 	return;
-@@ -121,7 +121,7 @@ static bool sticon_scroll(struct vc_data *conp, unsigned int t,
-     if (vga_is_gfx)
-         return false;
- 
--    sticon_cursor(conp, CM_ERASE);
-+    sticon_cursor(conp, false);
- 
-     switch (dir) {
-     case SM_UP:
+ static int sticon_blank(struct vc_data *c, int blank, int mode_switch)
 diff --git a/drivers/video/console/vgacon.c b/drivers/video/console/vgacon.c
-index 3bf7f46a8998..c81723ad4dc1 100644
+index c81723ad4dc1..e303098aabab 100644
 --- a/drivers/video/console/vgacon.c
 +++ b/drivers/video/console/vgacon.c
-@@ -503,7 +503,7 @@ static void vgacon_set_cursor_size(int from, int to)
+@@ -614,7 +614,7 @@ static void vgacon_doresize(struct vc_data *c,
  	raw_spin_unlock_irqrestore(&vga_lock, flags);
  }
  
--static void vgacon_cursor(struct vc_data *c, int mode)
-+static void vgacon_cursor(struct vc_data *c, bool enable)
+-static int vgacon_switch(struct vc_data *c)
++static bool vgacon_switch(struct vc_data *c)
  {
- 	unsigned int c_height;
- 
-@@ -516,7 +516,7 @@ static void vgacon_cursor(struct vc_data *c, int mode)
- 
- 	write_vga(14, (c->vc_pos - vga_vram_base) / 2);
- 
--	if (mode == CM_ERASE) {
-+	if (!enable) {
- 	        if (vga_video_type >= VIDEO_TYPE_VGAC)
- 			vgacon_set_cursor_size(31, 30);
- 		else
-@@ -1030,7 +1030,7 @@ static int vgacon_adjust_height(struct vc_data *vc, unsigned fontheight)
- 			        /* void size to cause regs to be rewritten */
- 				cursor_size_lastfrom = 0;
- 				cursor_size_lastto = 0;
--				c->vc_sw->con_cursor(c, CM_DRAW);
-+				c->vc_sw->con_cursor(c, true);
- 			}
- 			c->vc_font.height = c->vc_cell_height = fontheight;
- 			vc_resize(c, 0, rows);	/* Adjust console size */
-diff --git a/drivers/video/fbdev/core/bitblit.c b/drivers/video/fbdev/core/bitblit.c
-index daff152f4c22..3ff1b2a8659e 100644
---- a/drivers/video/fbdev/core/bitblit.c
-+++ b/drivers/video/fbdev/core/bitblit.c
-@@ -233,7 +233,7 @@ static void bit_clear_margins(struct vc_data *vc, struct fb_info *info,
+ 	int x = c->vc_cols * VGA_FONTWIDTH;
+ 	int y = c->vc_rows * c->vc_cell_height;
+@@ -643,7 +643,7 @@ static int vgacon_switch(struct vc_data *c)
+ 			vgacon_doresize(c, c->vc_cols, c->vc_rows);
  	}
+ 
+-	return 0;		/* Redrawing not needed */
++	return false;		/* Redrawing not needed */
  }
  
--static void bit_cursor(struct vc_data *vc, struct fb_info *info, int mode,
-+static void bit_cursor(struct vc_data *vc, struct fb_info *info, bool enable,
- 		       int fg, int bg)
- {
- 	struct fb_cursor cursor;
-@@ -348,7 +348,7 @@ static void bit_cursor(struct vc_data *vc, struct fb_info *info, int mode,
- 			mask[i++] = msk;
- 	}
- 
--	ops->cursor_state.enable = (mode != CM_ERASE) && !use_sw;
-+	ops->cursor_state.enable = enable && !use_sw;
- 
- 	cursor.image.data = src;
- 	cursor.image.fg_color = ops->cursor_state.image.fg_color;
+ static void vga_set_palette(struct vc_data *vc, const unsigned char *table)
 diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index 7a7b2ac0d7a9..c1765a6ef490 100644
+index c1765a6ef490..d5d924225209 100644
 --- a/drivers/video/fbdev/core/fbcon.c
 +++ b/drivers/video/fbdev/core/fbcon.c
-@@ -351,7 +351,7 @@ static void fb_flashcursor(struct work_struct *work)
- 	struct fb_info *info;
- 	struct vc_data *vc = NULL;
- 	int c;
--	int mode;
-+	bool enable;
- 	int ret;
- 
- 	/* FIXME: we should sort out the unbind locking instead */
-@@ -375,9 +375,8 @@ static void fb_flashcursor(struct work_struct *work)
- 	}
- 
- 	c = scr_readw((u16 *) vc->vc_pos);
--	mode = (!ops->cursor_flash || ops->cursor_state.enable) ?
--		CM_ERASE : CM_DRAW;
--	ops->cursor(vc, info, mode, get_color(vc, info, c, 1),
-+	enable = ops->cursor_flash && !ops->cursor_state.enable;
-+	ops->cursor(vc, info, enable, get_color(vc, info, c, 1),
- 		    get_color(vc, info, c, 0));
- 	console_unlock();
- 
-@@ -1301,7 +1300,7 @@ static void fbcon_clear_margins(struct vc_data *vc, int bottom_only)
- 		ops->clear_margins(vc, info, margin_color, bottom_only);
+@@ -2056,7 +2056,7 @@ static int fbcon_resize(struct vc_data *vc, unsigned int width,
+ 	return 0;
  }
  
--static void fbcon_cursor(struct vc_data *vc, int mode)
-+static void fbcon_cursor(struct vc_data *vc, bool enable)
+-static int fbcon_switch(struct vc_data *vc)
++static bool fbcon_switch(struct vc_data *vc)
  {
- 	struct fb_info *info = fbcon_info_from_console(vc->vc_num);
- 	struct fbcon_ops *ops = info->fbcon_par;
-@@ -1317,12 +1316,12 @@ static void fbcon_cursor(struct vc_data *vc, int mode)
- 	else
- 		fbcon_add_cursor_work(info);
- 
--	ops->cursor_flash = (mode == CM_ERASE) ? 0 : 1;
-+	ops->cursor_flash = enable;
- 
- 	if (!ops->cursor)
- 		return;
- 
--	ops->cursor(vc, info, mode, get_color(vc, info, c, 1),
-+	ops->cursor(vc, info, enable, get_color(vc, info, c, 1),
- 		    get_color(vc, info, c, 0));
+ 	struct fb_info *info, *old_info = NULL;
+ 	struct fbcon_ops *ops;
+@@ -2178,9 +2178,9 @@ static int fbcon_switch(struct vc_data *vc)
+ 			      vc->vc_origin + vc->vc_size_row * vc->vc_top,
+ 			      vc->vc_size_row * (vc->vc_bottom -
+ 						 vc->vc_top) / 2);
+-		return 0;
++		return false;
+ 	}
+-	return 1;
++	return true;
  }
  
-@@ -1742,7 +1741,7 @@ static bool fbcon_scroll(struct vc_data *vc, unsigned int t, unsigned int b,
- 	if (fbcon_is_inactive(vc, info))
- 		return true;
- 
--	fbcon_cursor(vc, CM_ERASE);
-+	fbcon_cursor(vc, false);
- 
- 	/*
- 	 * ++Geert: Only use ywrap/ypan if the console is in text mode
-@@ -2221,7 +2220,7 @@ static int fbcon_blank(struct vc_data *vc, int blank, int mode_switch)
-  	if (!fbcon_is_inactive(vc, info)) {
- 		if (ops->blank_state != blank) {
- 			ops->blank_state = blank;
--			fbcon_cursor(vc, blank ? CM_ERASE : CM_DRAW);
-+			fbcon_cursor(vc, !blank);
- 			ops->cursor_flash = (!blank);
- 
- 			if (fb_blank(info, blank))
-@@ -2649,7 +2648,7 @@ void fbcon_suspended(struct fb_info *info)
- 	vc = vc_cons[ops->currcon].d;
- 
- 	/* Clear cursor, restore saved data */
--	fbcon_cursor(vc, CM_ERASE);
-+	fbcon_cursor(vc, false);
- }
- 
- void fbcon_resumed(struct fb_info *info)
-diff --git a/drivers/video/fbdev/core/fbcon.h b/drivers/video/fbdev/core/fbcon.h
-index 0eaf54a21151..df70ea5ec5b3 100644
---- a/drivers/video/fbdev/core/fbcon.h
-+++ b/drivers/video/fbdev/core/fbcon.h
-@@ -61,8 +61,8 @@ struct fbcon_ops {
- 		      int fg, int bg);
- 	void (*clear_margins)(struct vc_data *vc, struct fb_info *info,
- 			      int color, int bottom_only);
--	void (*cursor)(struct vc_data *vc, struct fb_info *info, int mode,
--		       int fg, int bg);
-+	void (*cursor)(struct vc_data *vc, struct fb_info *info,
-+		       bool enable, int fg, int bg);
- 	int  (*update_start)(struct fb_info *info);
- 	int  (*rotate_font)(struct fb_info *info, struct vc_data *vc);
- 	struct fb_var_screeninfo var;  /* copy of the current fb_var_screeninfo */
-diff --git a/drivers/video/fbdev/core/fbcon_ccw.c b/drivers/video/fbdev/core/fbcon_ccw.c
-index 889423d580bc..f9b794ff7d39 100644
---- a/drivers/video/fbdev/core/fbcon_ccw.c
-+++ b/drivers/video/fbdev/core/fbcon_ccw.c
-@@ -218,7 +218,7 @@ static void ccw_clear_margins(struct vc_data *vc, struct fb_info *info,
- 	}
- }
- 
--static void ccw_cursor(struct vc_data *vc, struct fb_info *info, int mode,
-+static void ccw_cursor(struct vc_data *vc, struct fb_info *info, bool enable,
- 		       int fg, int bg)
- {
- 	struct fb_cursor cursor;
-@@ -349,7 +349,7 @@ static void ccw_cursor(struct vc_data *vc, struct fb_info *info, int mode,
- 		kfree(tmp);
- 	}
- 
--	ops->cursor_state.enable = (mode != CM_ERASE) && !use_sw;
-+	ops->cursor_state.enable = enable && !use_sw;
- 
- 	cursor.image.data = src;
- 	cursor.image.fg_color = ops->cursor_state.image.fg_color;
-diff --git a/drivers/video/fbdev/core/fbcon_cw.c b/drivers/video/fbdev/core/fbcon_cw.c
-index a306ca5802e8..903f6fc174e1 100644
---- a/drivers/video/fbdev/core/fbcon_cw.c
-+++ b/drivers/video/fbdev/core/fbcon_cw.c
-@@ -201,7 +201,7 @@ static void cw_clear_margins(struct vc_data *vc, struct fb_info *info,
- 	}
- }
- 
--static void cw_cursor(struct vc_data *vc, struct fb_info *info, int mode,
-+static void cw_cursor(struct vc_data *vc, struct fb_info *info, bool enable,
- 		      int fg, int bg)
- {
- 	struct fb_cursor cursor;
-@@ -332,7 +332,7 @@ static void cw_cursor(struct vc_data *vc, struct fb_info *info, int mode,
- 		kfree(tmp);
- 	}
- 
--	ops->cursor_state.enable = (mode != CM_ERASE) && !use_sw;
-+	ops->cursor_state.enable = enable && !use_sw;
- 
- 	cursor.image.data = src;
- 	cursor.image.fg_color = ops->cursor_state.image.fg_color;
-diff --git a/drivers/video/fbdev/core/fbcon_ud.c b/drivers/video/fbdev/core/fbcon_ud.c
-index f6fc458b46c7..594331936fd3 100644
---- a/drivers/video/fbdev/core/fbcon_ud.c
-+++ b/drivers/video/fbdev/core/fbcon_ud.c
-@@ -248,7 +248,7 @@ static void ud_clear_margins(struct vc_data *vc, struct fb_info *info,
- 	}
- }
- 
--static void ud_cursor(struct vc_data *vc, struct fb_info *info, int mode,
-+static void ud_cursor(struct vc_data *vc, struct fb_info *info, bool enable,
- 		      int fg, int bg)
- {
- 	struct fb_cursor cursor;
-@@ -372,7 +372,7 @@ static void ud_cursor(struct vc_data *vc, struct fb_info *info, int mode,
- 			mask[i++] = ~msk;
- 	}
- 
--	ops->cursor_state.enable = (mode != CM_ERASE) && !use_sw;
-+	ops->cursor_state.enable = enable && !use_sw;
- 
- 	cursor.image.data = src;
- 	cursor.image.fg_color = ops->cursor_state.image.fg_color;
-diff --git a/drivers/video/fbdev/core/tileblit.c b/drivers/video/fbdev/core/tileblit.c
-index 2768eff247ba..eff7ec4da167 100644
---- a/drivers/video/fbdev/core/tileblit.c
-+++ b/drivers/video/fbdev/core/tileblit.c
-@@ -79,7 +79,7 @@ static void tile_clear_margins(struct vc_data *vc, struct fb_info *info,
- 	return;
- }
- 
--static void tile_cursor(struct vc_data *vc, struct fb_info *info, int mode,
-+static void tile_cursor(struct vc_data *vc, struct fb_info *info, bool enable,
- 			int fg, int bg)
- {
- 	struct fb_tilecursor cursor;
-@@ -87,7 +87,7 @@ static void tile_cursor(struct vc_data *vc, struct fb_info *info, int mode,
- 
- 	cursor.sx = vc->state.x;
- 	cursor.sy = vc->state.y;
--	cursor.mode = (mode == CM_ERASE || use_sw) ? 0 : 1;
-+	cursor.mode = enable && !use_sw;
- 	cursor.fg = fg;
- 	cursor.bg = bg;
- 
+ static void fbcon_generic_blank(struct vc_data *vc, struct fb_info *info,
 diff --git a/include/linux/console.h b/include/linux/console.h
-index 82d55764a66f..a6a46b5efd66 100644
+index a6a46b5efd66..f7c6b5fc3a36 100644
 --- a/include/linux/console.h
 +++ b/include/linux/console.h
-@@ -42,6 +42,7 @@ enum vc_intensity;
-  * @con_putc:   emit one character with attributes @ca to [@x, @y] on @vc.
-  *		(optional -- @con_putcs would be called instead)
-  * @con_putcs:  emit @count characters with attributes @s to [@x, @y] on @vc.
-+ * @con_cursor: enable/disable cursor depending on @enable
+@@ -46,6 +46,8 @@ enum vc_intensity;
   * @con_scroll: move lines from @top to @bottom in direction @dir by @lines.
   *		Return true if no generic handling should be done.
   *		Invoked by csi_M and printing to the console.
-@@ -61,7 +62,7 @@ struct consw {
- 	void	(*con_putcs)(struct vc_data *vc, const u16 *s,
- 			     unsigned int count, unsigned int ypos,
- 			     unsigned int xpos);
--	void	(*con_cursor)(struct vc_data *vc, int mode);
-+	void	(*con_cursor)(struct vc_data *vc, bool enable);
++ * @con_switch: notifier about the console switch; it is supposed to return
++ *		true if a redraw is needed.
+  * @con_set_palette: sets the palette of the console to @table (optional)
+  * @con_scrolldelta: the contents of the console should be scrolled by @lines.
+  *		     Invoked by user. (optional)
+@@ -66,7 +68,7 @@ struct consw {
  	bool	(*con_scroll)(struct vc_data *vc, unsigned int top,
  			unsigned int bottom, enum con_scroll dir,
  			unsigned int lines);
-@@ -128,11 +129,6 @@ static inline void con_debug_enter(struct vc_data *vc) { }
- static inline void con_debug_leave(void) { }
- #endif
- 
--/* cursor */
--#define CM_DRAW     (1)
--#define CM_ERASE    (2)
--#define CM_MOVE     (3)
--
- /*
-  * The interface for a console, or any other device that wants to capture
-  * console messages (printer driver?)
+-	int	(*con_switch)(struct vc_data *vc);
++	bool	(*con_switch)(struct vc_data *vc);
+ 	int	(*con_blank)(struct vc_data *vc, int blank, int mode_switch);
+ 	int	(*con_font_set)(struct vc_data *vc, struct console_font *font,
+ 			unsigned int vpitch, unsigned int flags);
 -- 
 2.43.0
 
