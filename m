@@ -2,74 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65A0A831E05
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jan 2024 17:59:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30D5A831E17
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jan 2024 18:02:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E60110E87B;
-	Thu, 18 Jan 2024 16:58:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C74AD10E8B5;
+	Thu, 18 Jan 2024 17:02:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com
- [209.85.219.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 885B510E87B
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 16:58:29 +0000 (UTC)
-Received: by mail-yb1-f169.google.com with SMTP id
- 3f1490d57ef6-dc25099b084so1072237276.0
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 08:58:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1705597049; x=1706201849;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=cmZn+BROv+sMREBkau20U4T/TQEgObsLAqinfuULAyg=;
- b=SZlWHouSZVj1kbhnRsgSYGBDDkgpfwg+9VTR0D7NOl6o0Otmg1wkQYN0EsNrkemD7N
- 6JJIwikClPQD2j56gpKwchn+U/iJZGmWm/za6tul/wW3EmkQk7S/R3Q9reUUaSpYJ+Fb
- +sp8dBOB+otlOD09oGpnM7kBVPibx2xOTmeG8Py/c2JE2M99ex+feIOxDB5aHRvOzewZ
- y3MPxOMA8mIkxYiF0tqkwLU2/jW4X3Os9Chs8VWq3WkbEF1VPplVaa5DKfjaG/cIRii9
- sWSAts03f8WCLzQcak0HWlDwwGlu9OjTuJ3W8zgi4BIcU3iiPrPLb80DEE5AEkhemZI5
- 166Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705597049; x=1706201849;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=cmZn+BROv+sMREBkau20U4T/TQEgObsLAqinfuULAyg=;
- b=jAitAopUDZIE/ddxIggipkvu25QSDtagPSLtxNh2Cey0UFIcYFRKfSTFK6+QlJgBOU
- MlXkLre++TlaBJgmb8kF2JDevLlnyst1zG6kJgNx1qNEEO1mDRCUVsglw9TguBJQZ+nL
- aKZDtCV7rIAKmOqJTj6MBQUf6JZ3NFlEveL7Zq5UB2bDg+8tzfvKVk2GU3w90mxCKizf
- v/96U+qIgxB7K1nEiApCqUxvjRqglVcqXQoVx9PuT0Uz93d7DArhurGkyymKoA+mRIgZ
- 2GuH0cIf4eII/yoZww9BX56CphNqqZjImy1ij2RXdaS73IwxB40cn3Zd71G5OCf2s7qm
- M1ow==
-X-Gm-Message-State: AOJu0Yy/FK+rLkJe3is6E0BmaRmwPrUS0D6prOrG4NZDWGuC3qB3G303
- DqYh7IUFn3MaJso0Rsp5orZ0ortnMHlbt/8NlGaoKwv00lsKBzw8mIO1clET/qPe+nx7KqXFh1H
- LS49tMn/8URx6dpjmbZXFFEBC+uCsgm5uqjwN
-X-Google-Smtp-Source: AGHT+IGdm+3tzpwneR3Std891dkepC+HcM/F/QU4NLlUSQFVDjEWUf46RxO8DdQGNQYUp4EkO2YYs2e+Vx5E/WIMRrc=
-X-Received: by 2002:a25:748c:0:b0:dbd:7743:77cb with SMTP id
- p134-20020a25748c000000b00dbd774377cbmr856586ybc.128.1705597048380; Thu, 18
- Jan 2024 08:57:28 -0800 (PST)
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [198.137.202.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1FCE10E8B5
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 17:02:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+ Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+ bh=86x9UQGzuif9Ycxlv973IYRAed3OPWJVVR3izs/Vp2w=; b=k4ZoqsgYCT+fgi+JxQJKgfsiKz
+ mUowEqGPILNl2NOKO5ufMZlcQVtm7iKuBKtYtHzOy4g4VB+LHz+GLA00AYgSLOS4HD5nfXsQCeewQ
+ KRCTDLQ9opxucEIU/6x4V14Ep5UZHsrMiaEwAoN5gCidQfNnbKtDxbMpcefgNnZtKLhxhdS/t8TO+
+ nc5wW2Ra7Bzo1DN57o+F61nFpfaVTUku0m4TudkQdFABtd4/RMSZPJqwXmSHq9fBsPJjGhu835yiM
+ t8pZkTecOivC//5F0fvEcqdHmKu05gPSrfnKvjRNNA1A1PVnx1Py/yqfAO6Nl2reWiq5ifBJQkUIk
+ StM1Vz2g==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+ by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1rQVkU-003Ktl-0w; Thu, 18 Jan 2024 17:00:14 +0000
+Message-ID: <842e9e01-32cf-4a2d-8c5e-334616192889@infradead.org>
+Date: Thu, 18 Jan 2024 09:00:13 -0800
 MIME-Version: 1.0
-References: <20240117181141.286383-1-tjmercier@google.com>
- <20a68f86-27f0-48f4-a066-7dcf0092858e@amd.com>
- <Zak6iW8lktml7f2H@phenom.ffwll.local>
-In-Reply-To: <Zak6iW8lktml7f2H@phenom.ffwll.local>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Thu, 18 Jan 2024 08:57:16 -0800
-Message-ID: <CABdmKX10zz6bk4VVDgsosJbA8_7WOxuCnkyYFiL1FPwtZ-C+WQ@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: heaps: Don't track CMA dma-buf pages under
- RssFile
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- "T.J. Mercier" <tjmercier@google.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, Sandeep Patil <sspatil@android.com>, 
- Laura Abbott <labbott@redhat.com>, android-mm@google.com, minchan@google.com, 
- John Stultz <john.stultz@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/imagination: fix ARRAY_SIZE build error
+Content-Language: en-US
+To: Matt Coster <Matt.Coster@imgtec.com>
+References: <20240110002350.1096-1-rdunlap@infradead.org>
+ <ca53a99f-4bd9-47cb-bf4f-869712ef950c@imgtec.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <ca53a99f-4bd9-47cb-bf4f-869712ef950c@imgtec.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,66 +51,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel@ffwll.ch
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Maxime Ripard <mripard@kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 18, 2024 at 6:49=E2=80=AFAM Daniel Vetter <daniel@ffwll.ch> wro=
-te:
->
-> On Thu, Jan 18, 2024 at 11:02:22AM +0100, Christian K=C3=B6nig wrote:
-> > Am 17.01.24 um 19:11 schrieb T.J. Mercier:
-> > > DMA buffers allocated from the CMA dma-buf heap get counted under
-> > > RssFile for processes that map them and trigger page faults. In
-> > > addition to the incorrect accounting reported to userspace, reclaim
-> > > behavior was influenced by the MM_FILEPAGES counter until linux 6.8, =
-but
-> > > this memory is not reclaimable. [1] Change the CMA dma-buf heap to se=
-t
-> > > VM_PFNMAP on the VMA so MM does not poke at the memory managed by thi=
-s
-> > > dma-buf heap, and use vmf_insert_pfn to correct the RSS accounting.
-> > >
-> > > The system dma-buf heap does not suffer from this issue since
-> > > remap_pfn_range is used during the mmap of the buffer, which also set=
-s
-> > > VM_PFNMAP on the VMA.
-> >
-> > Mhm, not an issue with this patch but Daniel wanted to add a check for
-> > VM_PFNMAP to dma_buf_mmap() which would have noted this earlier.
-> >
-> > I don't fully remember the discussion but for some reason that was neve=
-r
-> > committed. We should probably try that again.
->
-> Iirc the issue is that dma_mmap is not guaranteed to give you a VM_SPECIA=
-L
-> mapping, at least on absolutely all architectures. That's why I defacto
-> dropped that idea, but it would indeed be really great if we could
-> resurrect it.
+Hi Matt,
 
-I actually had it in my head that it was a BUG_ON check for VM_PFNMAP
-in dma_buf_mmap and it was merged, so I was surprised to discover that
-it wasn't set for these CMA buffers.
+On 1/18/24 01:38, Matt Coster wrote:
+> On 10/01/2024 00:23, Randy Dunlap wrote:
+>> Fix a build error when using GCC 13.2.0 from kernel.org crosstools
+>> by changing ARRAY_SIZE() to the macro PVR_MIPS_PT_PAGE_COUNT:
+> 
+> I assume you're referring to the x86_64 => aarch64 toolchain here?
 
-> Maybe for x86 only? Or x86+armv8, I'm honestly not sure anymore which
-> exact cases ended up with a VM_NORMAL mapping ... Would need a pile of
-> digging.
+Yes.
 
-Looking back at the patch, the CI email at the end of the thread lists
-a bunch of now-broken links to DMESG-WARN test failures I assume
-pointed at a large chunk of them.
+> 
+>> drivers/gpu/drm/imagination/pvr_vm_mips.c: In function 'pvr_vm_mips_fini':
+>> ../include/linux/array_size.h:11:25: warning: overflow in conversion from 'long unsigned int' to 'int' changes value from '18446744073709551615' to '-1' [-Woverflow]
+>>     11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+>>        |                         ^
+>> drivers/gpu/drm/imagination/pvr_vm_mips.c:105:24: note: in expansion of macro 'ARRAY_SIZE'
+>>    105 |         for (page_nr = ARRAY_SIZE(mips_data->pt_pages) - 1; page_nr >= 0; page_nr--) {
+>>        |                        ^~~~~~~~~~
+> 
+> I can't seem to reproduce this using the above toolchain (or any other),
+> even with -Woverflow explicitly specified.
+> 
+> The use of ARRAY_SIZE() in loop bounds is a pretty common construction –
+> even within the pvr driver. Do you see similar warnings anywhere else?
 
-https://lore.kernel.org/all/166919750173.15575.2864736980735346730@emeril.f=
-reedesktop.org/
+No, this is the only place that I have seen this issue.
 
-> >
-> > > [1]https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git=
-/commit/mm/vmscan.c?id=3Dfb46e22a9e3863e08aef8815df9f17d0f4b9aede
-> > >
-> > > Fixes: b61614ec318a ("dma-buf: heaps: Add CMA heap to dmabuf heaps")
-> > > Signed-off-by: T.J. Mercier<tjmercier@google.com>
-> >
-> > Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+Thanks.
 
-Thanks Christian.
+> -- 
+> Matt Coster
+> Imagination Technologies
+> 
+>> Fixes: 927f3e0253c1 ("drm/imagination: Implement MIPS firmware processor and MMU support")
+>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+>> Cc: Donald Robson <donald.robson@imgtec.com>
+>> Cc: Maxime Ripard <mripard@kernel.org>
+>> Cc: Frank Binns <frank.binns@imgtec.com>
+>> Cc: Matt Coster <matt.coster@imgtec.com>
+>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>> Cc: David Airlie <airlied@gmail.com>
+>> Cc: Daniel Vetter <daniel@ffwll.ch>
+>> Cc: dri-devel@lists.freedesktop.org
+>> ---
+>>   drivers/gpu/drm/imagination/pvr_vm_mips.c |    4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff -- a/drivers/gpu/drm/imagination/pvr_vm_mips.c b/drivers/gpu/drm/imagination/pvr_vm_mips.c
+>> --- a/drivers/gpu/drm/imagination/pvr_vm_mips.c
+>> +++ b/drivers/gpu/drm/imagination/pvr_vm_mips.c
+>> @@ -46,7 +46,7 @@ pvr_vm_mips_init(struct pvr_device *pvr_
+>>       if (!mips_data)
+>>           return -ENOMEM;
+>>   -    for (page_nr = 0; page_nr < ARRAY_SIZE(mips_data->pt_pages); page_nr++) {
+>> +    for (page_nr = 0; page_nr < PVR_MIPS_PT_PAGE_COUNT; page_nr++) {
+>>           mips_data->pt_pages[page_nr] = alloc_page(GFP_KERNEL | __GFP_ZERO);
+>>           if (!mips_data->pt_pages[page_nr]) {
+>>               err = -ENOMEM;
+>> @@ -102,7 +102,7 @@ pvr_vm_mips_fini(struct pvr_device *pvr_
+>>       int page_nr;
+>>         vunmap(mips_data->pt);
+>> -    for (page_nr = ARRAY_SIZE(mips_data->pt_pages) - 1; page_nr >= 0; page_nr--) {
+>> +    for (page_nr = PVR_MIPS_PT_PAGE_COUNT - 1; page_nr >= 0; page_nr--) {
+>>           dma_unmap_page(from_pvr_device(pvr_dev)->dev,
+>>                      mips_data->pt_dma_addr[page_nr], PAGE_SIZE, DMA_TO_DEVICE);
+>>   
+
+-- 
+#Randy
