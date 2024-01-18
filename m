@@ -2,66 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23B58831D12
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jan 2024 16:58:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92C6D831D8C
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jan 2024 17:30:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2544610E837;
-	Thu, 18 Jan 2024 15:58:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F81110E896;
+	Thu, 18 Jan 2024 16:29:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C174110E04C
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 15:58:17 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id
- ffacd0b85a97d-337bcf021a4so2047900f8f.0
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 07:58:17 -0800 (PST)
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com
+ [209.85.221.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 879A410E845
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 16:29:43 +0000 (UTC)
+Received: by mail-vk1-f178.google.com with SMTP id
+ 71dfb90a1353d-4b857733f9aso2563184e0c.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 08:29:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=suse.com; s=google; t=1705593436; x=1706198236; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=uGHMTmptTWhx7mtMR0z1lDg797+uffSYth72fUqvvpY=;
- b=XHJ0tQH3lQxWT+htv8vRxv++if0vyvEaHbLyk2n8iscQVPPst3QMj3Rn/oK3Otedc7
- mPRv9VhpZq8vd3/+Y4KUaze3mZUQpJmTUHZW37z8NDkEBqPsPbAHGu/fCouE/WTnHdIz
- SKILT/4HBOvr+Pjtksl1MuTDUoyID9icVZnUuUMAaeWoA/eDk1PdxS+/7yR+LS1GZ3Bs
- jZ45wJXwpQDhy/wXEbdR6mWSGXmwiKTmicOy20siLn8dov9MU4bS3di1jl0Dv3+6W+W9
- r6+e/3eGGOwhfjFf1cY8OX9MrphlCrYVDIkDq4QlJ8cpDQdMlfi0BURbPQ3b+qER8Ikp
- sykg==
+ d=gmail.com; s=20230601; t=1705595322; x=1706200122; darn=lists.freedesktop.org;
+ h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=24YGzNFfb2dZMXk9KQ35lM0bRbJvfqRp3l9qkSkFvxg=;
+ b=khxG5WVnCeB3AMo1UN2TSku9LmAjZJw7+IQYhLoRH3wFIAnaEOrLVgD643AZAcdROj
+ hFbuN47kAmRy6FCkiJW4fk4xTXv0cb2S70I6yGDu8IW5+cx8adyJQEXSPbo03eamALVZ
+ aGMHoyvS4czwWbvKl80DwV1IZI5XmlD2oAWOvTfCVm5ICPq1tZEn1ArJyJhwpsacmlYf
+ OlB+FtLs15j1RypUMaiOK4SyrNgEVPjlgH5lmv3GTdgLW/44ar8Yq1H+bUFXNxLHzZ1F
+ fQ3Xw9+uCc02K+aNh7Ja+PpF7p0UXt7MNE8SjhFX65xm4To+aLG2tG4A7CPERpMfc+Vw
+ qjWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705593436; x=1706198236;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uGHMTmptTWhx7mtMR0z1lDg797+uffSYth72fUqvvpY=;
- b=hJtv+vYW/L3JmojZ7b/e7tjK9OEe/mvDjiZAvPUj7rEnwoR/DyVDuFkbri0a/m9aXy
- 2Sti1rkJoumOHTtdbGTC+vesisxLN3uWQZXWpv//eJr4aMlwfnuu2l2pXBtGR7oU9KUG
- /GBpchbkbv4oJgHGrAaGNPDiSIwFr+6RPubr3WMi5u378MQmLg1roPRLQHTG+JW+6asB
- WGMW1kiiEhU0I/aGbCNfAFQiZ/EzyQX/hwJFEcPlY/1ALCxaEvh5bPhfpS7fCfMSwM0Y
- rsU0Dmbs3FRlBIqkhz1B7QUjqkuGtmkkAbPyfhRJwA65TcIjX++7U6XR524rvayE5GU1
- sE3Q==
-X-Gm-Message-State: AOJu0Yxsg83VcqoYCeC17lKftD0N8CxjwGKSanryj6pIBj917jjWqnxx
- Epa3y6/5HEKnKQQmf7UP90w3DG6hHYtAAs7V9k3syb9CmghsP3uxwnLCAhBIEFlVVWQ0GK2Jdkj
- Xu3U=
-X-Google-Smtp-Source: AGHT+IEcMItgOfr6kW8bJjym445sWFt3zYSCvrDxpjaY+9mfPw+txESZxlWmJyJurLc9bsUPdqTMoA==
-X-Received: by 2002:a05:6000:1885:b0:337:c5fb:c84f with SMTP id
- a5-20020a056000188500b00337c5fbc84fmr882828wri.33.1705593436027; 
- Thu, 18 Jan 2024 07:57:16 -0800 (PST)
-Received: from suse.de ([81.95.8.245]) by smtp.gmail.com with ESMTPSA id
- s7-20020adff807000000b00337d735c193sm565612wrp.49.2024.01.18.07.57.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Jan 2024 07:57:15 -0800 (PST)
-Date: Thu, 18 Jan 2024 16:57:14 +0100
-From: Stefan Dirsch <sndirsch@suse.com>
-To: dri-devel@lists.freedesktop.org
-Subject: Re: Mesa >= 23.3.x and python 2.6 ...
-Message-ID: <20240118155714.mgcn5infkaq5usl4@suse.de>
-References: <20240118123752.bl3qss3qbbxgvpdk@suse.de>
+ d=1e100.net; s=20230601; t=1705595322; x=1706200122;
+ h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=24YGzNFfb2dZMXk9KQ35lM0bRbJvfqRp3l9qkSkFvxg=;
+ b=TWZjlOUlVEyDaZp2HqrJe2+efNP/3NuF9vQYrGFrmkHsclirV6HXm1yMAhpT10nKqj
+ LwCwE+BRbR4X7NC524dGWntZEIqWpFdgnNXF0Aj9q+ts1MDAPoRkB/nBB2LW5DTc/GD7
+ 9XgUaxDf9jVyXeN8uUA97TOmPz3dKRCRWPTY/3n/LaLosZ2NCFZ+EDBh8iIJBhisZqRd
+ JKZwXe5ipqAzfqo6OK+TH4DVQNRm2Hlfrdp8wUnPGfp7pYj5f2lpRozIssGh3f2O4Y4y
+ sZgufFDtbC2sW/9Cw0twRu/HKL+nmuRJEJIbh/i/wVSVuyHO8HOBmHvPKAu8jHdSDBG8
+ eupQ==
+X-Gm-Message-State: AOJu0YxI0qrjDNpt/9k8rrmRfVPkrRyl8SsHrHJXPOq8dMqnHdIwYrZu
+ 1AUa8V5DqFLwoLOOocLHI4mETBupbEOe33+dxGsQwoxqT7gCi4eAQqhagnIe/itHDrJa7Os6//U
+ ZUwJHNZQPrQq70rXiRo/SZmdKGPh2rZpRAkc=
+X-Google-Smtp-Source: AGHT+IGZ3QqbTovWBAqtOHwCNma5fmWe2Bsm95cSgdGwAkoLOPf9G+j42pCaH3hH9M2Mi/rkSt1jAvPO0sBhy0Ojo5s=
+X-Received: by 2002:a05:6122:3c54:b0:4b6:d44e:2897 with SMTP id
+ fv20-20020a0561223c5400b004b6d44e2897mr772085vkb.33.1705595322385; Thu, 18
+ Jan 2024 08:28:42 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240118123752.bl3qss3qbbxgvpdk@suse.de>
+From: Matt Hoosier <matt.hoosier@gmail.com>
+Date: Thu, 18 Jan 2024 10:28:31 -0600
+Message-ID: <CAJgxT3_4BxxwvZ1gLPYxY+RwR6+0+sAO_yWMKfv=OMStsd4zcw@mail.gmail.com>
+Subject: Documentation showing requirements on correct userspace DRM master
+ behavior?
+To: dri-devel@lists.freedesktop.org
+Content-Type: multipart/alternative; boundary="000000000000524c7f060f3adbce"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,28 +65,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mesa-dev@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 18, 2024 at 01:37:52PM +0100, Stefan Dirsch wrote:
-> Hi
-> 
-> I noticed that with version 23.3.x Mesa no longer can be built with python
-> 2.6. It still worked with Mesa 23.2.1.
+--000000000000524c7f060f3adbce
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I've meant python 3.6 of course!
+I=E2=80=99m trying to find some sort of formal document showing the thou-sh=
+alts and
+though-shalt-nots of userspace DRM applications=E2=80=99 interaction with t=
+he KMS
+UAPI.
 
-CU,
-Stefan
+(For modern atomic commits, not the legacy modeset API.)
 
-Public Key available
-------------------------------------------------------
-Stefan Dirsch (Res. & Dev.)   SUSE Software Solutions Germany GmbH
-Tel: 0911-740 53 0            Frankenstraße 146
-FAX: 0911-740 53 479          D-90461 Nürnberg
-http://www.suse.de            Germany 
-----------------------------------------------------------------
-Geschäftsführer: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-(HRB 36809, AG Nürnberg)
-----------------------------------------------------------------
+I=E2=80=99m interested in stuff like what minimum set of properties are req=
+uired on
+CRTCs or planes when activating or deactivating a connector. There=E2=80=99=
+s very
+good documentation at
+https://www.kernel.org/doc/html/v4.14/gpu/drm-uapi.html showing the
+expectations on drivers who implement KMS. But I didn=E2=80=99t find the eq=
+uivalent
+stuff that would show how to write a guaranteed-portable KMS application.
+
+I find that it=E2=80=99s easy to write DRM masters that generally work on c=
+anonical
+drivers like the integrated Intel GPUs, but show odd behaviors with forked
+vendor DRM drivers. It would be really nice to be able to point to a spec
+and say either that userspace is doing things by the book (so the bug must
+be in the driver) or that userspace was unintentionally relying on
+undefined driver behavior.
+
+In practice, there are lots of working examples in libdrm or a reference
+compositor like Wayland. But those don=E2=80=99t typically have inline comm=
+ents to
+differentiate between required and elective behavior.
+
+Does anybody know whether something like that exists?
+
+-Matt
+
+--000000000000524c7f060f3adbce
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+I=E2=80=99m trying to find some sort of formal document showing the thou-sh=
+alts and though-shalt-nots of userspace DRM applications=E2=80=99 interacti=
+on with the KMS UAPI.<div dir=3D"auto"><br></div><div dir=3D"auto">(For mod=
+ern atomic commits, not the legacy modeset API.)</div><div dir=3D"auto"><br=
+></div><div dir=3D"auto">I=E2=80=99m interested in stuff like what minimum =
+set of properties are required on CRTCs or planes when activating or deacti=
+vating a connector. There=E2=80=99s very good documentation at=C2=A0<div di=
+r=3D"auto"><a href=3D"https://www.kernel.org/doc/html/v4.14/gpu/drm-uapi.ht=
+ml">https://www.kernel.org/doc/html/v4.14/gpu/drm-uapi.html</a> showing the=
+ expectations on drivers who implement KMS. But I didn=E2=80=99t find the e=
+quivalent stuff that would show how to write a guaranteed-portable KMS appl=
+ication.</div><div dir=3D"auto"><br></div><div dir=3D"auto">I find that it=
+=E2=80=99s easy to write DRM masters that generally work on canonical drive=
+rs like the integrated Intel GPUs, but show odd behaviors with forked vendo=
+r DRM drivers. It would be really nice to be able to point to a spec and sa=
+y either that userspace is doing things by the book (so the bug must be in =
+the driver) or that userspace was unintentionally relying on undefined driv=
+er behavior.</div><div dir=3D"auto"><br></div><div dir=3D"auto">In practice=
+, there are lots of working examples in libdrm or a reference compositor li=
+ke Wayland. But those don=E2=80=99t typically have inline comments to diffe=
+rentiate between required and elective behavior.=C2=A0</div><div dir=3D"aut=
+o"><br></div><div dir=3D"auto">Does anybody know whether something like tha=
+t exists?</div><div dir=3D"auto"><br></div><div dir=3D"auto">-Matt</div></d=
+iv>
+
+--000000000000524c7f060f3adbce--
