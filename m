@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E644C8313BD
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jan 2024 09:00:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45C9B8313BE
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jan 2024 09:00:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E35ED10E742;
-	Thu, 18 Jan 2024 07:59:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B3CA10E6F9;
+	Thu, 18 Jan 2024 07:59:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39D1E10E737
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 07:59:47 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD71310E737
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 07:59:49 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 5118CCE1ECC;
+ by ams.source.kernel.org (Postfix) with ESMTP id 76E7DB810E7;
+ Thu, 18 Jan 2024 07:59:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F517C433F1;
  Thu, 18 Jan 2024 07:59:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8260EC433C7;
- Thu, 18 Jan 2024 07:59:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705564754;
- bh=H6hFlY1FKBPnsfs08mbVDqLPJxxBmDB7umf0hERzFOM=;
+ s=k20201202; t=1705564757;
+ bh=cqURl25QFkwlFyKcGIxTktkkLSYtk64KcuI48GLYf8A=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=PbURXVIxrpXhbi7nr/4F5QemRMJEqFVM6N1wnr1uHu69ybzThUUTF03tAqXd4boXc
- JNlMC1DkV5FGrjRhDp3i2cslbC3OnW90bpr1vfZ2TZZsMXfO0uGg0vE4oocaCqg2Jn
- 47yHHjsRi3xjhVJKNYErMYNMB3OgQVJwoNrZIHPCqaUaaxUR73hyO/sA2wqEIxg8PO
- QQoZf4TMvMGyrEXfWW7fleB5kOYe46iiss3W2oNZk3V3T5xraRZvFL+GAEu+ZhYpfk
- r8HkpYc/+kMAQNXiD8Siqrq8CKu1nLjWUYpN7wG7yWq/aFKnLS+blbmINMoMnJN0z7
- QHy8Ge5WZuNcQ==
+ b=C+Nw7bllyMMp9LW+nGs6s5cMq8GxD1xEhsl+LyPb+D7NjAqEPnAooDk2st5GaPUng
+ EZY93HjviMzPAH1v6SYzao5utDo0FP1nuLHH0pt024gPrC3cjuFMJy92iJS97DU8n/
+ tNHy9V3+yS0xUm7+bsgPS+cgI9t28Kxg3k+sgFZkzAqTjy9a3fDViBz+Md1UcwBG+3
+ xY0JbJGWt6+yd5A/kd8I/TrGRbUz+Zj/m7nayBsjTBo24hCZOc7zTW0s6fw95br8t1
+ hFYwYfJH6eMtgkQ6Dx/IQF6judXryBJLzqhVHhXA3jrTOcHomG0/W8Augcq2Me9q+3
+ WC5kUnF7wEymA==
 From: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
 To: gregkh@linuxfoundation.org
-Subject: [PATCH 33/45] tty: vt: make types around consw::con_blank() bool
-Date: Thu, 18 Jan 2024 08:57:44 +0100
-Message-ID: <20240118075756.10541-34-jirislaby@kernel.org>
+Subject: [PATCH 34/45] tty: vt: make font of consw::con_font_set() const
+Date: Thu, 18 Jan 2024 08:57:45 +0100
+Message-ID: <20240118075756.10541-35-jirislaby@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240118075756.10541-1-jirislaby@kernel.org>
 References: <20240118075756.10541-1-jirislaby@kernel.org>
@@ -57,11 +57,8 @@ Cc: linux-fbdev@vger.kernel.org, linux-serial@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Both the mode_switch parameter and the return value (a redraw needed)
-are true/false. So switch them to bool, so that users won't return
--Eerrors or anything else.
-
-And document the hook.
+Provided the font parameter of consw::con_font_set() is not supposed to
+be changed, make it const.
 
 Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
 Cc: Helge Deller <deller@gmx.de>
@@ -71,197 +68,114 @@ Cc: linux-fbdev@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
 Cc: linux-parisc@vger.kernel.org
 ---
- drivers/video/console/dummycon.c    | 12 ++++++------
- drivers/video/console/mdacon.c      |  8 ++++----
- drivers/video/console/newport_con.c |  7 ++++---
- drivers/video/console/sticon.c      |  9 +++++----
- drivers/video/console/vgacon.c      |  4 ++--
- drivers/video/fbdev/core/fbcon.c    |  6 +++---
- include/linux/console.h             |  7 +++++--
- 7 files changed, 29 insertions(+), 24 deletions(-)
+ drivers/tty/vt/vt.c                 | 2 +-
+ drivers/video/console/newport_con.c | 5 +++--
+ drivers/video/console/sticon.c      | 4 ++--
+ drivers/video/console/vgacon.c      | 2 +-
+ drivers/video/fbdev/core/fbcon.c    | 2 +-
+ include/linux/console.h             | 5 +++--
+ 6 files changed, 11 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/video/console/dummycon.c b/drivers/video/console/dummycon.c
-index d86c1d798690..139049368fdc 100644
---- a/drivers/video/console/dummycon.c
-+++ b/drivers/video/console/dummycon.c
-@@ -79,21 +79,21 @@ static void dummycon_putcs(struct vc_data *vc, const u16 *s, unsigned int count,
- 	raw_notifier_call_chain(&dummycon_output_nh, 0, NULL);
+diff --git a/drivers/tty/vt/vt.c b/drivers/tty/vt/vt.c
+index 756291f37d47..196c849ca492 100644
+--- a/drivers/tty/vt/vt.c
++++ b/drivers/tty/vt/vt.c
+@@ -4639,7 +4639,7 @@ static int con_font_get(struct vc_data *vc, struct console_font_op *op)
+ 	return rc;
  }
  
--static int dummycon_blank(struct vc_data *vc, enum vesa_blank_mode blank,
--			  int mode_switch)
-+static bool dummycon_blank(struct vc_data *vc, enum vesa_blank_mode blank,
-+			   bool mode_switch)
+-static int con_font_set(struct vc_data *vc, struct console_font_op *op)
++static int con_font_set(struct vc_data *vc, const struct console_font_op *op)
  {
- 	/* Redraw, so that we get putc(s) for output done while blanked */
--	return 1;
-+	return true;
- }
- #else
- static void dummycon_putc(struct vc_data *vc, u16 c, unsigned int y,
- 			  unsigned int x) { }
- static void dummycon_putcs(struct vc_data *vc, const u16 *s, unsigned int count,
- 			   unsigned int ypos, unsigned int xpos) { }
--static int dummycon_blank(struct vc_data *vc, enum vesa_blank_mode blank,
--			  int mode_switch)
-+static bool dummycon_blank(struct vc_data *vc, enum vesa_blank_mode blank,
-+			   bool mode_switch)
- {
--	return 0;
-+	return false;
- }
- #endif
- 
-diff --git a/drivers/video/console/mdacon.c b/drivers/video/console/mdacon.c
-index 63e3ce678aab..c0e1f4554a44 100644
---- a/drivers/video/console/mdacon.c
-+++ b/drivers/video/console/mdacon.c
-@@ -451,8 +451,8 @@ static bool mdacon_switch(struct vc_data *c)
- 	return true;	/* redrawing needed */
- }
- 
--static int mdacon_blank(struct vc_data *c, enum vesa_blank_mode blank,
--			int mode_switch)
-+static bool mdacon_blank(struct vc_data *c, enum vesa_blank_mode blank,
-+			 bool mode_switch)
- {
- 	if (mda_type == TYPE_MDA) {
- 		if (blank) 
-@@ -460,14 +460,14 @@ static int mdacon_blank(struct vc_data *c, enum vesa_blank_mode blank,
- 				mda_convert_attr(c->vc_video_erase_char),
- 				c->vc_screenbuf_size);
- 		/* Tell console.c that it has to restore the screen itself */
--		return 1;
-+		return true;
- 	} else {
- 		if (blank)
- 			outb_p(0x00, mda_mode_port);	/* disable video */
- 		else
- 			outb_p(MDA_MODE_VIDEO_EN | MDA_MODE_BLINK_EN, 
- 				mda_mode_port);
--		return 0;
-+		return false;
- 	}
- }
- 
+ 	struct console_font font;
+ 	int rc = -EINVAL;
 diff --git a/drivers/video/console/newport_con.c b/drivers/video/console/newport_con.c
-index 38437a53b7f1..dbb31bf87bf1 100644
+index dbb31bf87bf1..4203bd5fd0a1 100644
 --- a/drivers/video/console/newport_con.c
 +++ b/drivers/video/console/newport_con.c
-@@ -476,8 +476,8 @@ static bool newport_switch(struct vc_data *vc)
+@@ -496,7 +496,8 @@ static bool newport_blank(struct vc_data *c, enum vesa_blank_mode blank,
  	return true;
  }
  
--static int newport_blank(struct vc_data *c, enum vesa_blank_mode blank,
--			 int mode_switch)
-+static bool newport_blank(struct vc_data *c, enum vesa_blank_mode blank,
-+			  bool mode_switch)
+-static int newport_set_font(int unit, struct console_font *op, unsigned int vpitch)
++static int newport_set_font(int unit, const struct console_font *op,
++			    unsigned int vpitch)
  {
- 	unsigned short treg;
- 
-@@ -492,7 +492,8 @@ static int newport_blank(struct vc_data *c, enum vesa_blank_mode blank,
- 		newport_vc2_set(npregs, VC2_IREG_CONTROL,
- 				(treg & ~(VC2_CTRL_EDISP)));
- 	}
--	return 1;
-+
-+	return true;
+ 	int w = op->width;
+ 	int h = op->height;
+@@ -568,7 +569,7 @@ static int newport_font_default(struct vc_data *vc, struct console_font *op, cha
+ 	return newport_set_def_font(vc->vc_num, op);
  }
  
- static int newport_set_font(int unit, struct console_font *op, unsigned int vpitch)
+-static int newport_font_set(struct vc_data *vc, struct console_font *font,
++static int newport_font_set(struct vc_data *vc, const struct console_font *font,
+ 			    unsigned int vpitch, unsigned int flags)
+ {
+ 	return newport_set_font(vc->vc_num, font, vpitch);
 diff --git a/drivers/video/console/sticon.c b/drivers/video/console/sticon.c
-index e9d5d1f92883..cbb9ef438214 100644
+index cbb9ef438214..710201fb8ce4 100644
 --- a/drivers/video/console/sticon.c
 +++ b/drivers/video/console/sticon.c
-@@ -298,19 +298,20 @@ static bool sticon_switch(struct vc_data *conp)
-     return true;	/* needs refreshing */
+@@ -153,7 +153,7 @@ static void sticon_set_def_font(int unit)
+ 	}
  }
  
--static int sticon_blank(struct vc_data *c, enum vesa_blank_mode blank,
--			int mode_switch)
-+static bool sticon_blank(struct vc_data *c, enum vesa_blank_mode blank,
-+			 bool mode_switch)
+-static int sticon_set_font(struct vc_data *vc, struct console_font *op,
++static int sticon_set_font(struct vc_data *vc, const struct console_font *op,
+ 			   unsigned int vpitch)
  {
-     if (blank == VESA_NO_BLANKING) {
- 	if (mode_switch)
- 	    vga_is_gfx = 0;
--	return 1;
-+	return true;
-     }
-     sti_clear(sticon_sti, 0, 0, c->vc_rows, c->vc_cols, BLANK,
- 	      font_data[c->vc_num]);
-     if (mode_switch)
- 	vga_is_gfx = 1;
--    return 1;
-+
-+    return true;
+ 	struct sti_struct *sti = sticon_sti;
+@@ -253,7 +253,7 @@ static int sticon_font_default(struct vc_data *vc, struct console_font *op, char
+ 	return 0;
  }
  
- static u8 sticon_build_attr(struct vc_data *conp, u8 color,
+-static int sticon_font_set(struct vc_data *vc, struct console_font *font,
++static int sticon_font_set(struct vc_data *vc, const struct console_font *font,
+ 			   unsigned int vpitch, unsigned int flags)
+ {
+ 	return sticon_set_font(vc, font, vpitch);
 diff --git a/drivers/video/console/vgacon.c b/drivers/video/console/vgacon.c
-index a4bd97ab502d..1ef318bac703 100644
+index 1ef318bac703..ea086b39c6f5 100644
 --- a/drivers/video/console/vgacon.c
 +++ b/drivers/video/console/vgacon.c
-@@ -797,8 +797,8 @@ static void vga_pal_blank(struct vgastate *state)
- 	}
+@@ -1039,7 +1039,7 @@ static int vgacon_adjust_height(struct vc_data *vc, unsigned fontheight)
+ 	return 0;
  }
  
--static int vgacon_blank(struct vc_data *c, enum vesa_blank_mode blank,
--			int mode_switch)
-+static bool vgacon_blank(struct vc_data *c, enum vesa_blank_mode blank,
-+			 bool mode_switch)
+-static int vgacon_font_set(struct vc_data *c, struct console_font *font,
++static int vgacon_font_set(struct vc_data *c, const struct console_font *font,
+ 			   unsigned int vpitch, unsigned int flags)
  {
- 	switch (blank) {
- 	case VESA_NO_BLANKING:		/* Unblank */
+ 	unsigned charcount = font->charcount;
 diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index 69be5f2106bc..eee2adf5c682 100644
+index eee2adf5c682..62474630c4d4 100644
 --- a/drivers/video/fbdev/core/fbcon.c
 +++ b/drivers/video/fbdev/core/fbcon.c
-@@ -2198,8 +2198,8 @@ static void fbcon_generic_blank(struct vc_data *vc, struct fb_info *info,
- 	}
- }
+@@ -2460,7 +2460,7 @@ static int fbcon_do_set_font(struct vc_data *vc, int w, int h, int charcount,
+  *  but lets not assume that, since charcount of 512 is small for unicode support.
+  */
  
--static int fbcon_blank(struct vc_data *vc, enum vesa_blank_mode blank,
--		       int mode_switch)
-+static bool fbcon_blank(struct vc_data *vc, enum vesa_blank_mode blank,
-+			bool mode_switch)
+-static int fbcon_set_font(struct vc_data *vc, struct console_font *font,
++static int fbcon_set_font(struct vc_data *vc, const struct console_font *font,
+ 			  unsigned int vpitch, unsigned int flags)
  {
  	struct fb_info *info = fbcon_info_from_console(vc->vc_num);
- 	struct fbcon_ops *ops = info->fbcon_par;
-@@ -2238,7 +2238,7 @@ static int fbcon_blank(struct vc_data *vc, enum vesa_blank_mode blank,
- 	else
- 		fbcon_add_cursor_work(info);
- 
--	return 0;
-+	return false;
- }
- 
- static void fbcon_debug_enter(struct vc_data *vc)
 diff --git a/include/linux/console.h b/include/linux/console.h
-index 5ea984b8c5e4..fbb32e702472 100644
+index fbb32e702472..a500caadbad0 100644
 --- a/include/linux/console.h
 +++ b/include/linux/console.h
-@@ -57,6 +57,9 @@ enum vc_intensity;
-  *		Invoked by csi_M and printing to the console.
-  * @con_switch: notifier about the console switch; it is supposed to return
-  *		true if a redraw is needed.
-+ * @con_blank:  blank/unblank the console. The target mode is passed in @blank.
-+ *		@mode_switch is set if changing from/to text/graphics. The hook
-+ *		is supposed to return true if a redraw is needed.
-  * @con_set_palette: sets the palette of the console to @table (optional)
-  * @con_scrolldelta: the contents of the console should be scrolled by @lines.
-  *		     Invoked by user. (optional)
-@@ -78,8 +81,8 @@ struct consw {
- 			unsigned int bottom, enum con_scroll dir,
- 			unsigned int lines);
+@@ -83,8 +83,9 @@ struct consw {
  	bool	(*con_switch)(struct vc_data *vc);
--	int	(*con_blank)(struct vc_data *vc, enum vesa_blank_mode blank,
--			     int mode_switch);
-+	bool	(*con_blank)(struct vc_data *vc, enum vesa_blank_mode blank,
-+			     bool mode_switch);
- 	int	(*con_font_set)(struct vc_data *vc, struct console_font *font,
- 			unsigned int vpitch, unsigned int flags);
+ 	bool	(*con_blank)(struct vc_data *vc, enum vesa_blank_mode blank,
+ 			     bool mode_switch);
+-	int	(*con_font_set)(struct vc_data *vc, struct console_font *font,
+-			unsigned int vpitch, unsigned int flags);
++	int	(*con_font_set)(struct vc_data *vc,
++				const struct console_font *font,
++				unsigned int vpitch, unsigned int flags);
  	int	(*con_font_get)(struct vc_data *vc, struct console_font *font,
+ 			unsigned int vpitch);
+ 	int	(*con_font_default)(struct vc_data *vc,
 -- 
 2.43.0
 
