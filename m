@@ -2,43 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30D5A831E17
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jan 2024 18:02:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6054A831E63
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jan 2024 18:25:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C74AD10E8B5;
-	Thu, 18 Jan 2024 17:02:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB1EC10E882;
+	Thu, 18 Jan 2024 17:24:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [198.137.202.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1FCE10E8B5
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 17:02:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=86x9UQGzuif9Ycxlv973IYRAed3OPWJVVR3izs/Vp2w=; b=k4ZoqsgYCT+fgi+JxQJKgfsiKz
- mUowEqGPILNl2NOKO5ufMZlcQVtm7iKuBKtYtHzOy4g4VB+LHz+GLA00AYgSLOS4HD5nfXsQCeewQ
- KRCTDLQ9opxucEIU/6x4V14Ep5UZHsrMiaEwAoN5gCidQfNnbKtDxbMpcefgNnZtKLhxhdS/t8TO+
- nc5wW2Ra7Bzo1DN57o+F61nFpfaVTUku0m4TudkQdFABtd4/RMSZPJqwXmSHq9fBsPJjGhu835yiM
- t8pZkTecOivC//5F0fvEcqdHmKu05gPSrfnKvjRNNA1A1PVnx1Py/yqfAO6Nl2reWiq5ifBJQkUIk
- StM1Vz2g==;
-Received: from [50.53.46.231] (helo=[192.168.254.15])
- by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1rQVkU-003Ktl-0w; Thu, 18 Jan 2024 17:00:14 +0000
-Message-ID: <842e9e01-32cf-4a2d-8c5e-334616192889@infradead.org>
-Date: Thu, 18 Jan 2024 09:00:13 -0800
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com
+ [209.85.219.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8767110E88B
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 17:24:40 +0000 (UTC)
+Received: by mail-yb1-f175.google.com with SMTP id
+ 3f1490d57ef6-dc21ad8266fso2951633276.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 09:24:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1705598620; x=1706203420; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=UGVxI9DWCyEsv/jp78Pl1awCTbyR92th5Be9fg9uBng=;
+ b=HOQsDisS34auV6Se9Y6qY5itmlY1iEjI062axD9D6kxhvquXbnzUdIZB0CE9orVfic
+ wVIMKZwVATi1sqeNZEURGUhpnDA3GV8SJH6nsZwMwTaTkABMaDLWy2HyOg3lLB+c1qCN
+ VP6fIuU4d0CYI2C+uSst7Gy14eqLSpaWCpKynLV2ZU1PGFqZB5+p9oBVm5QXr301DGOy
+ A77mfuiOeUthSsSXF/gFWR3EM+1kSS2PUQ0+IMVTO9gnTSRsCnJxySg72RmNIojjNYrD
+ 0R86pLjd1MTy/3k46pXS0opy/A97IAMES7wR5RuXOJFjTGzK3gD4T6jsi8xfT0VQHUyf
+ RVaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1705598620; x=1706203420;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=UGVxI9DWCyEsv/jp78Pl1awCTbyR92th5Be9fg9uBng=;
+ b=FvAgH9nSjQaULpTv7SOHidA0EepRdQW2kBUOK+KKZUkAWp3t5UkLWpB+FDweXglfnW
+ PHLWoJXv0p/kCdya/p3g/PEM+d0WBO71nBm+QVz9sDezUhcppNuqLKGTIgtpdYUA12J+
+ wsB/Z3ru81ynTq/aDaEzCc9U1Az2pI6UKhWV7K/3LxFQPYtj1pz4G02bIES3xiedYRnx
+ HdwGMnnzHExBFLEK91WID4anVAVzAoJPSXuN3qx2NqUl9IvctDLSKVH3wbozZnTumXHV
+ kZjkRPZLz9qPMgUD6EkdkE1wTz/LgEhFc9oHwhhKEJKKHyXt7sSdJzHBnPJ1TlpUntRQ
+ xRaQ==
+X-Gm-Message-State: AOJu0YxPxVcWB/i6aZjCpsFCVovVkR728cA6m3VtbagDxo1LiXJCiMyP
+ JwK0FfpAT2SzQe1b3OU+e7GdDu5aJ0NATkNRq+GU4ZR7zMNNBsRPGXge52MNn2q6Ae489OYLeoh
+ acZzyO99Kd5GQehnG01Rbmo8MNADPaCDPEu/BqQ==
+X-Google-Smtp-Source: AGHT+IFZPZOmSLr8sYUtidrkYXHY+9dCrNdQTcg7gKBq5xIpeY/291djYf1UNIJxnMWWNtfravK1x5+1u8Q9awT4Wj0=
+X-Received: by 2002:a25:1846:0:b0:dc2:209d:bc1 with SMTP id
+ 67-20020a251846000000b00dc2209d0bc1mr1041475yby.9.1705598619558; Thu, 18 Jan
+ 2024 09:23:39 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/imagination: fix ARRAY_SIZE build error
-Content-Language: en-US
-To: Matt Coster <Matt.Coster@imgtec.com>
-References: <20240110002350.1096-1-rdunlap@infradead.org>
- <ca53a99f-4bd9-47cb-bf4f-869712ef950c@imgtec.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <ca53a99f-4bd9-47cb-bf4f-869712ef950c@imgtec.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240116-jz-test-sim-panel-v1-0-f9511f46c9c7@quicinc.com>
+ <20240116-jz-test-sim-panel-v1-4-f9511f46c9c7@quicinc.com>
+In-Reply-To: <20240116-jz-test-sim-panel-v1-4-f9511f46c9c7@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 18 Jan 2024 19:23:27 +0200
+Message-ID: <CAA8EJpoa5hrN4x9sUSXPj1UpFa_BKorRj1Kf9d2SE3OZcpvrPw@mail.gmail.com>
+Subject: Re: [PATCH RFC 4/4] drm/msm/dsi: Add simulated panel support
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,82 +68,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Maxime Ripard <mripard@kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Daniel Vetter <daniel@ffwll.ch>,
+ Sam Ravnborg <sam@ravnborg.org>, quic_abhinavk@quicinc.com,
+ Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Matt,
+On Wed, 17 Jan 2024 at 00:22, Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
+>
+> Introduce the sim_panel_enabled module parameter.
+>
+> When set, this parameter will force DSI to select the simulated panel
+> instead of the physical panel.
+>
+> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/dsi/dsi.c         | 4 ++++
+>  drivers/gpu/drm/msm/dsi/dsi_host.c    | 9 ++++++++-
+>  drivers/gpu/drm/msm/dsi/dsi_manager.c | 8 +++++++-
+>  3 files changed, 19 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi.c b/drivers/gpu/drm/msm/dsi/dsi.c
+> index c6bd7bf15605c..daea84f5e3c0c 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi.c
+> @@ -5,6 +5,10 @@
+>
+>  #include "dsi.h"
+>
+> +bool sim_panel_enabled;
+> +MODULE_PARM_DESC(sim_panel_enabled, "Use simulated panel");
+> +module_param(sim_panel_enabled, bool, 0444);
+> +
+>  bool msm_dsi_is_cmd_mode(struct msm_dsi *msm_dsi)
+>  {
+>         unsigned long host_flags = msm_dsi_host_get_mode_flags(msm_dsi->host);
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> index deeecdfd6c4e4..fa0cab09fff71 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> @@ -35,6 +35,8 @@
+>
+>  #define DSI_RESET_TOGGLE_DELAY_MS 20
+>
+> +extern bool sim_panel_enabled;
+> +
+>  static int dsi_populate_dsc_params(struct msm_dsi_host *msm_host, struct drm_dsc_config *dsc);
+>
+>  static int dsi_get_version(const void __iomem *base, u32 *major, u32 *minor)
+> @@ -2009,7 +2011,12 @@ int msm_dsi_host_register(struct mipi_dsi_host *host)
+>         if (!msm_host->registered) {
+>                 host->dev = &msm_host->pdev->dev;
+>                 host->ops = &dsi_host_ops;
+> -               ret = mipi_dsi_host_register(host);
+> +
+> +               if (sim_panel_enabled)
+> +                       ret = mipi_dsi_host_register_sim_panel(host);
+> +               else
+> +                       ret = mipi_dsi_host_register(host);
+> +
+>                 if (ret)
+>                         return ret;
+>
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> index 896f369fdd535..e33e6be7309f2 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> @@ -30,6 +30,8 @@ struct msm_dsi_manager {
+>
+>  static struct msm_dsi_manager msm_dsim_glb;
+>
+> +extern bool sim_panel_enabled;
+> +
+>  #define IS_BONDED_DSI()                (msm_dsim_glb.is_bonded_dsi)
+>  #define IS_SYNC_NEEDED()       (msm_dsim_glb.is_sync_needed)
+>  #define IS_MASTER_DSI_LINK(id) (msm_dsim_glb.master_dsi_link_id == id)
+> @@ -507,7 +509,11 @@ int msm_dsi_manager_ext_bridge_init(u8 id)
+>         int ret;
+>
+>         int_bridge = msm_dsi->bridge;
+> -       ext_bridge = devm_drm_of_get_bridge(&msm_dsi->pdev->dev,
+> +
+> +       if (sim_panel_enabled)
+> +               ext_bridge = drm_get_sim_panel_bridge(&msm_dsi->pdev->dev);
+> +       else
+> +               ext_bridge = devm_drm_of_get_bridge(&msm_dsi->pdev->dev,
+>                                             msm_dsi->pdev->dev.of_node, 1, 0);
 
-On 1/18/24 01:38, Matt Coster wrote:
-> On 10/01/2024 00:23, Randy Dunlap wrote:
->> Fix a build error when using GCC 13.2.0 from kernel.org crosstools
->> by changing ARRAY_SIZE() to the macro PVR_MIPS_PT_PAGE_COUNT:
-> 
-> I assume you're referring to the x86_64 => aarch64 toolchain here?
+I think that this is definitely an imperfect way to go. We should not
+be modifying the DSI host drivers to be able to use the simulation
+panel.
+Could you please push this to drm_of_find_panel_or_bridge() ?
 
-Yes.
+>         if (IS_ERR(ext_bridge))
+>                 return PTR_ERR(ext_bridge);
+>
+> --
+> 2.43.0
+>
 
-> 
->> drivers/gpu/drm/imagination/pvr_vm_mips.c: In function 'pvr_vm_mips_fini':
->> ../include/linux/array_size.h:11:25: warning: overflow in conversion from 'long unsigned int' to 'int' changes value from '18446744073709551615' to '-1' [-Woverflow]
->>     11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
->>        |                         ^
->> drivers/gpu/drm/imagination/pvr_vm_mips.c:105:24: note: in expansion of macro 'ARRAY_SIZE'
->>    105 |         for (page_nr = ARRAY_SIZE(mips_data->pt_pages) - 1; page_nr >= 0; page_nr--) {
->>        |                        ^~~~~~~~~~
-> 
-> I can't seem to reproduce this using the above toolchain (or any other),
-> even with -Woverflow explicitly specified.
-> 
-> The use of ARRAY_SIZE() in loop bounds is a pretty common construction –
-> even within the pvr driver. Do you see similar warnings anywhere else?
-
-No, this is the only place that I have seen this issue.
-
-Thanks.
-
-> -- 
-> Matt Coster
-> Imagination Technologies
-> 
->> Fixes: 927f3e0253c1 ("drm/imagination: Implement MIPS firmware processor and MMU support")
->> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
->> Cc: Donald Robson <donald.robson@imgtec.com>
->> Cc: Maxime Ripard <mripard@kernel.org>
->> Cc: Frank Binns <frank.binns@imgtec.com>
->> Cc: Matt Coster <matt.coster@imgtec.com>
->> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: David Airlie <airlied@gmail.com>
->> Cc: Daniel Vetter <daniel@ffwll.ch>
->> Cc: dri-devel@lists.freedesktop.org
->> ---
->>   drivers/gpu/drm/imagination/pvr_vm_mips.c |    4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff -- a/drivers/gpu/drm/imagination/pvr_vm_mips.c b/drivers/gpu/drm/imagination/pvr_vm_mips.c
->> --- a/drivers/gpu/drm/imagination/pvr_vm_mips.c
->> +++ b/drivers/gpu/drm/imagination/pvr_vm_mips.c
->> @@ -46,7 +46,7 @@ pvr_vm_mips_init(struct pvr_device *pvr_
->>       if (!mips_data)
->>           return -ENOMEM;
->>   -    for (page_nr = 0; page_nr < ARRAY_SIZE(mips_data->pt_pages); page_nr++) {
->> +    for (page_nr = 0; page_nr < PVR_MIPS_PT_PAGE_COUNT; page_nr++) {
->>           mips_data->pt_pages[page_nr] = alloc_page(GFP_KERNEL | __GFP_ZERO);
->>           if (!mips_data->pt_pages[page_nr]) {
->>               err = -ENOMEM;
->> @@ -102,7 +102,7 @@ pvr_vm_mips_fini(struct pvr_device *pvr_
->>       int page_nr;
->>         vunmap(mips_data->pt);
->> -    for (page_nr = ARRAY_SIZE(mips_data->pt_pages) - 1; page_nr >= 0; page_nr--) {
->> +    for (page_nr = PVR_MIPS_PT_PAGE_COUNT - 1; page_nr >= 0; page_nr--) {
->>           dma_unmap_page(from_pvr_device(pvr_dev)->dev,
->>                      mips_data->pt_dma_addr[page_nr], PAGE_SIZE, DMA_TO_DEVICE);
->>   
 
 -- 
-#Randy
+With best wishes
+Dmitry
