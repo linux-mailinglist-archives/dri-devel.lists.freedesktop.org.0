@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49F49831398
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jan 2024 08:59:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91E6583138B
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jan 2024 08:58:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A67F310E6E8;
-	Thu, 18 Jan 2024 07:59:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C796B10E170;
+	Thu, 18 Jan 2024 07:58:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A9BC10E722
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 07:59:09 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C1C710E719
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 07:58:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 04007CE1EA4;
- Thu, 18 Jan 2024 07:58:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3ED95C433C7;
- Thu, 18 Jan 2024 07:58:34 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id C0DE3B8162A;
+ Thu, 18 Jan 2024 07:58:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAC3DC43394;
+ Thu, 18 Jan 2024 07:58:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705564716;
- bh=GJfteWjzTxl1GHc/MnJTrogtTSYg1Ifld3S8+ciqzdU=;
+ s=k20201202; t=1705564719;
+ bh=ruW08xm7jMrBAHGzRNp+myzItXRS+fMN96GkzDA9WZs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=uF6c4QLy8e2Q+pq51ouFyq1TAWfULUPNKgdDuPJnZiSkDAlbyPJtqCczsOtTQIcWq
- Xwk23Q0H/G1yH3+rwV8jMDK324IwSmeAkwDNcnLnBXup8smQfjYCczenoIBvyS5ug/
- opWyJB9SjEBWNgvb91KtU8zUErt6hrCDklP/3u6jUy/pGqwDuzAbr/NL1Z3kksxQ9h
- 0mCqIvBdCLJyyQKrhZ8BtvlsVnBh56B2qm8M5VcRcPuTL57t3WqbEnU5+e52foE23C
- ZjvXANOinKIjQWZjZcLx1dQpPuVkk1HCs7XpsauJSFdEchxLcjtZ20IkI3cng4UpSO
- zhnUetiiNW6bg==
+ b=Wq1Z+n03j2pUG1JBctlxmejhwSWs4TfkeSc/TZ57gZceKFO/oWaQJW8RsVDEZhNDi
+ re+232FEDgiFodZJyK7zAD8T66gFRApisATAVKpcQIdrLQimmORiXzI6FEcdLZEYqw
+ 90QwXXPhjnIIqGb8p3NTfCHL78YRqamMtWTtCRTUxvEgRsITjIZBT/HA6gfmdg4Lma
+ Ef6qm/lpOq/SPDbGrXhWieU0F/QbwU3JCvSv1oboFuw8yRrAU+m+RoYlLxHAY166Xw
+ fQ4XDwgwjbosf0ITi5fbxESvteJfm+NUzoaSY4So4FYrOun5MUq7lCuuDaUGztO3v0
+ otES0uAZJ5IZg==
 From: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
 To: gregkh@linuxfoundation.org
-Subject: [PATCH 18/45] tty: vt: make consw::con_debug_*() return void
-Date: Thu, 18 Jan 2024 08:57:29 +0100
-Message-ID: <20240118075756.10541-19-jirislaby@kernel.org>
+Subject: [PATCH 19/45] tty: vt: make init parameter of consw::con_init() a bool
+Date: Thu, 18 Jan 2024 08:57:30 +0100
+Message-ID: <20240118075756.10541-20-jirislaby@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240118075756.10541-1-jirislaby@kernel.org>
 References: <20240118075756.10541-1-jirislaby@kernel.org>
@@ -50,165 +50,176 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-fbdev@vger.kernel.org, linux-serial@vger.kernel.org,
- Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
- "Jiri Slaby \(SUSE\)" <jirislaby@kernel.org>
+ linux-parisc@vger.kernel.org, Helge Deller <deller@gmx.de>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Daniel Vetter <daniel@ffwll.ch>, "Jiri Slaby \(SUSE\)" <jirislaby@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The return value of con_debug_enter() and con_debug_leave() is ignored
-on many fronts. So just don't propagate errors (the current
-implementations return 0 anyway) and make the return type a void.
+The 'init' parameter of consw::con_init() is true for the first call of
+the hook on a particular console. So make the parameter a bool.
+
+And document the hook.
 
 Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
-Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: Helge Deller <deller@gmx.de>
+Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: linux-fbdev@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
+Cc: linux-parisc@vger.kernel.org
 ---
- drivers/tty/vt/vt.c              | 21 ++++-----------------
- drivers/video/fbdev/core/fbcon.c |  6 ++----
- include/linux/console.h          | 18 ++++++------------
- 3 files changed, 12 insertions(+), 33 deletions(-)
+ drivers/tty/vt/vt.c                 | 8 ++++----
+ drivers/video/console/dummycon.c    | 2 +-
+ drivers/video/console/mdacon.c      | 2 +-
+ drivers/video/console/newport_con.c | 2 +-
+ drivers/video/console/sticon.c      | 2 +-
+ drivers/video/console/vgacon.c      | 2 +-
+ drivers/video/fbdev/core/fbcon.c    | 2 +-
+ include/linux/console.h             | 4 +++-
+ 8 files changed, 13 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/tty/vt/vt.c b/drivers/tty/vt/vt.c
-index 7006889c920d..a953c3f262a5 100644
+index a953c3f262a5..eada45683594 100644
 --- a/drivers/tty/vt/vt.c
 +++ b/drivers/tty/vt/vt.c
-@@ -4026,15 +4026,9 @@ EXPORT_SYMBOL(con_is_visible);
-  * Called when the console is taken over by the kernel debugger, this
-  * function needs to save the current console state, then put the console
-  * into a state suitable for the kernel debugger.
-- *
-- * RETURNS:
-- * Zero on success, nonzero if a failure occurred when trying to prepare
-- * the console for the debugger.
-  */
--int con_debug_enter(struct vc_data *vc)
-+void con_debug_enter(struct vc_data *vc)
- {
--	int ret = 0;
--
- 	saved_fg_console = fg_console;
- 	saved_last_console = last_console;
- 	saved_want_console = want_console;
-@@ -4043,7 +4037,7 @@ int con_debug_enter(struct vc_data *vc)
- 	vc->vc_mode = KD_TEXT;
- 	console_blanked = 0;
- 	if (vc->vc_sw->con_debug_enter)
--		ret = vc->vc_sw->con_debug_enter(vc);
-+		vc->vc_sw->con_debug_enter(vc);
- #ifdef CONFIG_KGDB_KDB
- 	/* Set the initial LINES variable if it is not already set */
- 	if (vc->vc_rows < 999) {
-@@ -4073,7 +4067,6 @@ int con_debug_enter(struct vc_data *vc)
- 		}
- 	}
- #endif /* CONFIG_KGDB_KDB */
--	return ret;
+@@ -999,7 +999,7 @@ int vc_cons_allocated(unsigned int i)
+ 	return (i < MAX_NR_CONSOLES && vc_cons[i].d);
  }
- EXPORT_SYMBOL_GPL(con_debug_enter);
  
-@@ -4082,15 +4075,10 @@ EXPORT_SYMBOL_GPL(con_debug_enter);
-  *
-  * Restore the console state to what it was before the kernel debugger
-  * was invoked.
-- *
-- * RETURNS:
-- * Zero on success, nonzero if a failure occurred when trying to restore
-- * the console.
-  */
--int con_debug_leave(void)
-+void con_debug_leave(void)
+-static void visual_init(struct vc_data *vc, int num, int init)
++static void visual_init(struct vc_data *vc, int num, bool init)
  {
- 	struct vc_data *vc;
--	int ret = 0;
+ 	/* ++Geert: vc->vc_sw->con_init determines console size */
+ 	if (vc->vc_sw)
+@@ -1083,7 +1083,7 @@ int vc_allocate(unsigned int currcons)	/* return 0 on success */
+ 	vc->port.ops = &vc_port_ops;
+ 	INIT_WORK(&vc_cons[currcons].SAK_work, vc_SAK);
  
- 	fg_console = saved_fg_console;
- 	last_console = saved_last_console;
-@@ -4100,8 +4088,7 @@ int con_debug_leave(void)
+-	visual_init(vc, currcons, 1);
++	visual_init(vc, currcons, true);
  
- 	vc = vc_cons[fg_console].d;
- 	if (vc->vc_sw->con_debug_leave)
--		ret = vc->vc_sw->con_debug_leave(vc);
--	return ret;
-+		vc->vc_sw->con_debug_leave(vc);
+ 	if (!*vc->uni_pagedict_loc)
+ 		con_set_default_unimap(vc);
+@@ -3527,7 +3527,7 @@ static int __init con_init(void)
+ 		vc_cons[currcons].d = vc = kzalloc(sizeof(struct vc_data), GFP_NOWAIT);
+ 		INIT_WORK(&vc_cons[currcons].SAK_work, vc_SAK);
+ 		tty_port_init(&vc->port);
+-		visual_init(vc, currcons, 1);
++		visual_init(vc, currcons, true);
+ 		/* Assuming vc->vc_{cols,rows,screenbuf_size} are sane here. */
+ 		vc->vc_screenbuf = kzalloc(vc->vc_screenbuf_size, GFP_NOWAIT);
+ 		vc_init(vc, currcons || !vc->vc_sw->con_save_screen);
+@@ -3696,7 +3696,7 @@ static int do_bind_con_driver(const struct consw *csw, int first, int last,
+ 		old_was_color = vc->vc_can_do_color;
+ 		vc->vc_sw->con_deinit(vc);
+ 		vc->vc_origin = (unsigned long)vc->vc_screenbuf;
+-		visual_init(vc, i, 0);
++		visual_init(vc, i, false);
+ 		set_origin(vc);
+ 		update_attr(vc);
+ 
+diff --git a/drivers/video/console/dummycon.c b/drivers/video/console/dummycon.c
+index 14af5d9e13b0..f2cef9d9a4b5 100644
+--- a/drivers/video/console/dummycon.c
++++ b/drivers/video/console/dummycon.c
+@@ -98,7 +98,7 @@ static const char *dummycon_startup(void)
+     return "dummy device";
  }
- EXPORT_SYMBOL_GPL(con_debug_leave);
+ 
+-static void dummycon_init(struct vc_data *vc, int init)
++static void dummycon_init(struct vc_data *vc, bool init)
+ {
+     vc->vc_can_do_color = 1;
+     if (init) {
+diff --git a/drivers/video/console/mdacon.c b/drivers/video/console/mdacon.c
+index ef29b321967f..c5b255c96879 100644
+--- a/drivers/video/console/mdacon.c
++++ b/drivers/video/console/mdacon.c
+@@ -352,7 +352,7 @@ static const char *mdacon_startup(void)
+ 	return "MDA-2";
+ }
+ 
+-static void mdacon_init(struct vc_data *c, int init)
++static void mdacon_init(struct vc_data *c, bool init)
+ {
+ 	c->vc_complement_mask = 0x0800;	 /* reverse video */
+ 	c->vc_display_fg = &mda_display_fg;
+diff --git a/drivers/video/console/newport_con.c b/drivers/video/console/newport_con.c
+index e8e4f82cd4a1..12c64ef47087 100644
+--- a/drivers/video/console/newport_con.c
++++ b/drivers/video/console/newport_con.c
+@@ -324,7 +324,7 @@ static const char *newport_startup(void)
+ 	return NULL;
+ }
+ 
+-static void newport_init(struct vc_data *vc, int init)
++static void newport_init(struct vc_data *vc, bool init)
+ {
+ 	int cols, rows;
+ 
+diff --git a/drivers/video/console/sticon.c b/drivers/video/console/sticon.c
+index 992a4fa431aa..0bfeabc3f7c7 100644
+--- a/drivers/video/console/sticon.c
++++ b/drivers/video/console/sticon.c
+@@ -273,7 +273,7 @@ static int sticon_font_set(struct vc_data *vc, struct console_font *font,
+ 	return sticon_set_font(vc, font, vpitch);
+ }
+ 
+-static void sticon_init(struct vc_data *c, int init)
++static void sticon_init(struct vc_data *c, bool init)
+ {
+     struct sti_struct *sti = sticon_sti;
+     int vc_cols, vc_rows;
+diff --git a/drivers/video/console/vgacon.c b/drivers/video/console/vgacon.c
+index 0c76e2817b49..2c0a952ee51a 100644
+--- a/drivers/video/console/vgacon.c
++++ b/drivers/video/console/vgacon.c
+@@ -367,7 +367,7 @@ static const char *vgacon_startup(void)
+ 	return display_desc;
+ }
+ 
+-static void vgacon_init(struct vc_data *c, int init)
++static void vgacon_init(struct vc_data *c, bool init)
+ {
+ 	struct uni_pagedict *p;
  
 diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index dd2f4617485c..d3fb98084eda 100644
+index d3fb98084eda..939c5d893dfb 100644
 --- a/drivers/video/fbdev/core/fbcon.c
 +++ b/drivers/video/fbdev/core/fbcon.c
-@@ -2243,7 +2243,7 @@ static int fbcon_blank(struct vc_data *vc, int blank, int mode_switch)
- 	return 0;
+@@ -988,7 +988,7 @@ static const char *fbcon_startup(void)
+ 	return display_desc;
  }
  
--static int fbcon_debug_enter(struct vc_data *vc)
-+static void fbcon_debug_enter(struct vc_data *vc)
+-static void fbcon_init(struct vc_data *vc, int init)
++static void fbcon_init(struct vc_data *vc, bool init)
  {
- 	struct fb_info *info = fbcon_info_from_console(vc->vc_num);
- 	struct fbcon_ops *ops = info->fbcon_par;
-@@ -2253,10 +2253,9 @@ static int fbcon_debug_enter(struct vc_data *vc)
- 	if (info->fbops->fb_debug_enter)
- 		info->fbops->fb_debug_enter(info);
- 	fbcon_set_palette(vc, color_table);
--	return 0;
- }
- 
--static int fbcon_debug_leave(struct vc_data *vc)
-+static void fbcon_debug_leave(struct vc_data *vc)
- {
- 	struct fb_info *info = fbcon_info_from_console(vc->vc_num);
- 	struct fbcon_ops *ops = info->fbcon_par;
-@@ -2264,7 +2263,6 @@ static int fbcon_debug_leave(struct vc_data *vc)
- 	ops->graphics = ops->save_graphics;
- 	if (info->fbops->fb_debug_leave)
- 		info->fbops->fb_debug_leave(info);
--	return 0;
- }
- 
- static int fbcon_get_font(struct vc_data *vc, struct console_font *font, unsigned int vpitch)
+ 	struct fb_info *info;
+ 	struct fbcon_ops *ops;
 diff --git a/include/linux/console.h b/include/linux/console.h
-index 38b379d6c624..93a1db5bf3b5 100644
+index 93a1db5bf3b5..fc9450e0c78f 100644
 --- a/include/linux/console.h
 +++ b/include/linux/console.h
-@@ -88,11 +88,11 @@ struct consw {
- 	 * limited to, unblanking the console, loading an appropriate
- 	 * palette, and allowing debugger generated output.
- 	 */
--	int	(*con_debug_enter)(struct vc_data *vc);
-+	void	(*con_debug_enter)(struct vc_data *vc);
- 	/*
- 	 * Restore the console to its pre-debug state as closely as possible.
- 	 */
--	int	(*con_debug_leave)(struct vc_data *vc);
-+	void	(*con_debug_leave)(struct vc_data *vc);
- };
- 
- extern const struct consw *conswitchp;
-@@ -113,17 +113,11 @@ int do_unregister_con_driver(const struct consw *csw);
- int do_take_over_console(const struct consw *sw, int first, int last, int deflt);
- void give_up_console(const struct consw *sw);
- #ifdef CONFIG_HW_CONSOLE
--int con_debug_enter(struct vc_data *vc);
--int con_debug_leave(void);
-+void con_debug_enter(struct vc_data *vc);
-+void con_debug_leave(void);
- #else
--static inline int con_debug_enter(struct vc_data *vc)
--{
--	return 0;
--}
--static inline int con_debug_leave(void)
--{
--	return 0;
--}
-+static inline void con_debug_enter(struct vc_data *vc) { }
-+static inline void con_debug_leave(void) { }
- #endif
- 
- /* cursor */
+@@ -36,6 +36,8 @@ enum vc_intensity;
+ /**
+  * struct consw - callbacks for consoles
+  *
++ * @con_init:   initialize the console on @vc. @init is true for the very first
++ *		call on this @vc.
+  * @con_scroll: move lines from @top to @bottom in direction @dir by @lines.
+  *		Return true if no generic handling should be done.
+  *		Invoked by csi_M and printing to the console.
+@@ -46,7 +48,7 @@ enum vc_intensity;
+ struct consw {
+ 	struct module *owner;
+ 	const char *(*con_startup)(void);
+-	void	(*con_init)(struct vc_data *vc, int init);
++	void	(*con_init)(struct vc_data *vc, bool init);
+ 	void	(*con_deinit)(struct vc_data *vc);
+ 	void	(*con_clear)(struct vc_data *vc, int sy, int sx, int height,
+ 			int width);
 -- 
 2.43.0
 
