@@ -2,52 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B740E831633
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jan 2024 10:51:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2337083165C
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jan 2024 11:03:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FF2610E06E;
-	Thu, 18 Jan 2024 09:51:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24C4310E192;
+	Thu, 18 Jan 2024 10:03:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
- [209.85.166.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10A9B10E192
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 09:51:21 +0000 (UTC)
-Received: by mail-io1-f72.google.com with SMTP id
- ca18e2360f4ac-7bf5fe1ca9fso28218939f.0
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 01:51:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705571480; x=1706176280;
- h=to:from:subject:message-id:date:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=LkvdycqJohxztUpLt/7vlWL8dxLjsENTxEfMc11iE9Y=;
- b=hzm5eeER5hmrrwIfG0Q9D/U62Iu8DPkBv1kOgFCsH5Fo7W1FH/M2MSa/mV4NjX7+ed
- SkyuAhNAPuPauYXnrQZt901FhAbf6GkPW1CqG7QrgjlNqiHknf9hDr+0GbcVlvul4Oew
- v3hv51H9hrDkWJySzKt6UtXodg6DnY719n1xvkjWAGpmb/7cXQvPX3GqfyOyXZGZf0Ei
- 0pe1MEuq+FLDkpj8wENz7/j7aYsPAOQx9NpFKQdc6WeoS0TKeaF+/gNWdQK/omO4mnRA
- ZJWEi1MUudVCmKDGRbAWHbaYHjmHvB8RpE8B+6PDASeA9r/+FAl8/nuXErZtKumta4mO
- ZtTA==
-X-Gm-Message-State: AOJu0Yy5On1gAnNdi9jel3z1vUkJijnEt6yon416cN0VIlgyRPpA0kpQ
- PjaM7o8U2tc7pguYh8sOhpNk2TSfyzrJQ4vHqtHhigRFWbbMk1PbXl2AnCFfug5gKDXwGEwcm+n
- A74VW0SfFWM5LnavMQl5RJnSru/YOL7qeJhahKve+tovSMVyzV5Wof/Q=
-X-Google-Smtp-Source: AGHT+IHzouAb2icz5oPAlRYTj81wQ5G3y9Kmz84hi6hFEOvIHRkLembbLk74QIQgZb7D3ntsDph2fxm5vOwhR35W5TCy4GS5pb4j
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2057.outbound.protection.outlook.com [40.107.92.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13FF910E192
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 10:03:07 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jZZdc1eYMKajVCO5WoJrw3celj88FfcwV5gEdzu5ZVzyWrGddIj36VvDUESbAuA833PXspg0E6WnYZy7e6dOqSnoVC53vLTF8+EZUWEMOsrqwM/BXTCwdP3xRL0585ULHfX+14yTI+6XwdtGY72HEfd526/knQ31oz6URLA3GE598NcuAawFspi1SBnH7hq3+I7KIl7+NHlHajGqFPpKNN1R25ksigMQwqBJUnhlaCS7md7y10VT5iDWbpEX7mgSTGU+ZURy6JIsmv0lrhAiBu8e2N2plMmct/QEtOoekkMxsTuoN7SSdufUoB3xiGiWvw6myHyXWr9C+UsbM5DLqA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=G7fDWCJHpxQ6ByzLIYgSDsVdTYce/RN//sPN8A9hEyc=;
+ b=iAEeFeBwbHgBmTN7uVvoK5JIq7UaIQd1CwGoGiL2wo6blEKoYmvVUJRbKfHGVcCaG+4YPVIG7gU86j6T4ECRjsDR+pL6x2FNz+OVOV3GKmCeEMIv3m2T+WKX+m4MPzuH3NqoYhAlfken4fGxhI17dZDFKRAC0gB7Xue77eIc1VvcVwen98q+putnVMTTiC2MHjxSHY+bfNDy3SOfvWLYAGfidP3TXSDf8WwcpW3ZbqvvM46TVhYPauYWBTBL8VwFLgw8yCQqHet5h/9Y/7Fe/SAUqZlU4W0JuRFaHaaZcgIq/phr71sMoCtifucIQciB2D8RpjU4lwO4fF9oscmJGQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=G7fDWCJHpxQ6ByzLIYgSDsVdTYce/RN//sPN8A9hEyc=;
+ b=tZKYZ8NIaB5Ut/pL/vK9wf2E1XRU4bx6GjQkyx5EmNfWbD+ZUIKfokj4Rd+wko+nEm5cWmP7sA8ZAm1fyw2fQ76IoyU/71O+B28DJUTxT8tia5+CcNkBGuUAXQPfGLnkquIDxoCXAg4KANZFzztWNyujLCD22R/1g04NJpWoUWE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by BY5PR12MB4227.namprd12.prod.outlook.com (2603:10b6:a03:206::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.23; Thu, 18 Jan
+ 2024 10:02:29 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::e1fb:4123:48b1:653]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::e1fb:4123:48b1:653%4]) with mapi id 15.20.7202.024; Thu, 18 Jan 2024
+ 10:02:29 +0000
+Content-Type: multipart/alternative;
+ boundary="------------e9qSk2sYXbf5DiMrI9jyGXQS"
+Message-ID: <20a68f86-27f0-48f4-a066-7dcf0092858e@amd.com>
+Date: Thu, 18 Jan 2024 11:02:22 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dma-buf: heaps: Don't track CMA dma-buf pages under
+ RssFile
+Content-Language: en-US
+To: "T.J. Mercier" <tjmercier@google.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ Sandeep Patil <sspatil@android.com>, Laura Abbott <labbott@redhat.com>
+References: <20240117181141.286383-1-tjmercier@google.com>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20240117181141.286383-1-tjmercier@google.com>
+X-ClientProxiedBy: FR5P281CA0035.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f3::11) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:2108:b0:46e:aaa7:fdf5 with SMTP id
- n8-20020a056638210800b0046eaaa7fdf5mr38487jaj.0.1705571480364; Thu, 18 Jan
- 2024 01:51:20 -0800 (PST)
-Date: Thu, 18 Jan 2024 01:51:20 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000039f237060f354ef7@google.com>
-Subject: [syzbot] [dri?] BUG: scheduling while atomic in
- drm_atomic_helper_wait_for_flip_done
-From: syzbot <syzbot+06fa1063cca8163ea541@syzkaller.appspotmail.com>
-To: airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
- hamohammed.sa@gmail.com, linux-kernel@vger.kernel.org, 
- maarten.lankhorst@linux.intel.com, mairacanal@riseup.net, 
- melissa.srw@gmail.com, mripard@kernel.org, rodrigosiqueiramelo@gmail.com, 
- syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|BY5PR12MB4227:EE_
+X-MS-Office365-Filtering-Correlation-Id: f578dee8-0f4b-4adb-811f-08dc180c9488
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Sz6Ow55WpLFyY+SaNeQnJgESMviI6B0jaBnyBJqc53Yzj2C/CayBSeRrOCOA10wSw7hxkTPwUR+H1XIS6FCtT0D14U6sbgy1hXVHpdn5fg0+G21KRev47I3tVwdyTmfaPMiF3WgTB0zJ+XG40ZkolEYWG9kiR8ICxaJxLm9zCQrDHjGfQXhL5kVJmDdjQSuH1TIh1wLWd8mCK83iZTNki960YznK0euEM+riKRqyCvnuoZPiczhMSwX1g3l2nQ03msdo99epbQY2p8FSdDhIltHcs58JN/1eudiFLndcqdFl9irfZhsOjWbO34xF/MlWDOzG3obJk8fVTnbd8NFHRwvM8W9H+jpn+tKqSrB7AYr6Zzi8wdJgp/9TCDrWDbdedIaAQiMmBzDSy1qSx4c7v2f5XkIlSrJ0dzj9HNLkAR4ulUfbWL8BTyCPMXFh+Y8Qj1XyEvaMf/y5W2rWu7xVttl/IqPSGkxYCegnQWdjT68CXH7bOTLKx7w8c0nK17SjRy0+53ewIzcioqkYhKfpDKAGyPoy+FpdqsZ3DR9Ff6AV4p77EHWJ0Jvil/UHzHLZi3LYtIfE/BkzEkVlQtBksQDehcHKN/ZbVaz/hdIbbbzRtiH+xw36ndbFdWrz7Ue5N8rPVobkxl5cp3kvd9tljQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(346002)(396003)(366004)(39860400002)(376002)(136003)(230922051799003)(1800799012)(64100799003)(186009)(451199024)(38100700002)(166002)(86362001)(31696002)(6486002)(36756003)(316002)(66556008)(66946007)(66476007)(110136005)(54906003)(478600001)(966005)(6512007)(33964004)(6506007)(6666004)(2906002)(8936002)(5660300002)(7416002)(31686004)(4326008)(8676002)(41300700001)(83380400001)(26005)(2616005)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?blNEYVlHZ1JLWmx0K3F6dHpqcWtzeTNkU2kyYVhMNGhjNi9DNUtZMkpSWklq?=
+ =?utf-8?B?WnJmRkhoOThsQ1dROGJOc0NycldKMUZOUGdsdE5HcEVSejVjVTYzd3MwQ3dV?=
+ =?utf-8?B?bTd3Q2xKZkx2aWNRRGNXTDhFS3hvTUZoQXZXUGhlazl1VlBKRmI5YVY0T282?=
+ =?utf-8?B?MWlKd0k4cnA3ay85Qk9RRWR3VkxSR0JVZlFwLzZOSVdJT3lGKysrMkdvYXVQ?=
+ =?utf-8?B?YWlicEVCR0lDSE5TNzlRL0ZJeVFzeTRZdVh0TU42TUtNd3RMbm81dWlRem9w?=
+ =?utf-8?B?RE5udk9qQnVSb3l3SVNheW9QZmRRVk4zc0p6aXkzVGhoaEZZb1RCdHc5TUdU?=
+ =?utf-8?B?clcvVFVpMEptL01zck9KZ1hzdGpvSWdRUXBXR25BRGdxUGJramJ6VFQ0cml2?=
+ =?utf-8?B?a09sNVBrNUZkSytlU1drOTZYRmplRHVBalZtSEtlbGhiSlE2TklaaVlZV2h1?=
+ =?utf-8?B?YU9IeDNETVBWSGR0UzJtcFRTcnNlclJOcExSWkRvTTBRbGMwVURhMlhLU3JF?=
+ =?utf-8?B?OXZhMU4wTGt2KzNNK3RiOUd2ZHA0a2QreFJxQnZOOE1nSGpOUkRUTmJWZCs0?=
+ =?utf-8?B?UGJyVWxyRThRNndvTDlraWd2MEJ0NHozdVZVRGFKSExsZ0x1cVBPSDQvVmFZ?=
+ =?utf-8?B?czY5RHl1cXU5clpmMTN2NXZBcmtDd3EyeTZVMGcrRkQ5WmdLWlN0Vy9RMzU4?=
+ =?utf-8?B?S1ROTFEwZjUrcU94alFNMExIcnhZdmM3Zkd4d1RTR01QZE1vRXk0Y0xFNlJH?=
+ =?utf-8?B?c3hncFdEQ21PbkdqLzkxb2ZZVmVEUWMrT1BoUmN5dGNmS2g3UHBuNFB6L25P?=
+ =?utf-8?B?UStiRzB1bUlGbmgyMlYxdDR0TzBzUzQza1F2dklWUmNzcDRabFV2bjhjVk5z?=
+ =?utf-8?B?N3VFT1IrbnhJcXY1R0N0cENrbDhIbFU5bUdWejBtOXQ4OGF6aGE2VHVoWDZP?=
+ =?utf-8?B?OTZZandrTmhsK1N4L3RHNG5TRVBxdU8xTDNxS0ZrSFJ4cmFtM3JMYnRNczZT?=
+ =?utf-8?B?WFJHY3JJVVdWU0V0ZGovYjBNamRtODh6L0N5WnNvckx4ZkkvVGlpeFcxeUVH?=
+ =?utf-8?B?bU9pZktLb3JjVHFKV3dIeUxhaFUxbjIvdjBFSlc4MHJOM09sR0ZNVXVKR1Fy?=
+ =?utf-8?B?ZGZyK1RlRzY0K09USTFnWjFicFdGdXVnYVVka3NIVHlEbmhDQ3dleTBLMzBR?=
+ =?utf-8?B?elNta3ozYjQwUGhCSkphMi84UDZPWHphaDVUWEtFYmhHQ1NJRHRSaytkTUs0?=
+ =?utf-8?B?UHVocnpTMGw3Q1VFNjZGbkVaU0J0eVc0V1loalJPQUVOaHpQdHc5Njhra0Nn?=
+ =?utf-8?B?Wmhzd0E1aXR6T1kyTHBuZStVVUJVTjZja1d1UW50WFdFQk1UNWJPTDZ2MkNn?=
+ =?utf-8?B?UysramUva2l4dmRxUW12U3J1cU93N01qOHYycFV4N0Y2UHVER29hMDluR0ha?=
+ =?utf-8?B?NUJiK0pnV21TdmZhU2kzMGhSQVF4cHJ4TXMxTDE5TXB0U3FNb3kwYWh4K3dV?=
+ =?utf-8?B?TXhsS1lHV3o5QmQyd21hQXViY0ZWbXB6dWFUbTQ1QkFMRjlTejJ6RHlhOGpt?=
+ =?utf-8?B?d29CajQ4Q0ltSHNXQmxXOHAyeU1aSGVZNVhXaDd0OGNvMEx2UVhWelVmZUkr?=
+ =?utf-8?B?VHZPaUh3YmdiNy94c3lhb2FLR3IzRTBSMVlBeEo2QldKbkhqclVtWEEwR0Rx?=
+ =?utf-8?B?b3lPUlMwQVN1Umpvc3B1cU5wK0VYMFpuSklCbFhyaUkrazNzcHgyV2NiM1Aw?=
+ =?utf-8?B?NWE1cERqVDNKUUM5SFVuRHdRSE5ENy9sWmlTWU5Ddi9JQktqM1NkNDhCd1lZ?=
+ =?utf-8?B?UkU3QjVibGhBd1l3QXZRVW1PcWR2YjF6cFBmY2c5dWgrRmpTd0loN0tWVVI0?=
+ =?utf-8?B?U2JYOXc4Qk9VYllzbXdyYVQrNkhIS0t1RWh2Slp6SVZNdjlsbWR4ejFCTFl1?=
+ =?utf-8?B?ODFwdDkrWGxRUjBOUUxLSXNHZ3dTZENzUTJqNVlCaGd2TnpvOTdaWjRBbzJj?=
+ =?utf-8?B?ZkoxWTIzeDdpRWNGc3ErREd0WXVrNUhyK3QxSm05aE8rekRLRzFidXNSQUoy?=
+ =?utf-8?B?Q1RaYytlZEJRbFNhWWlZZVBPdHFqMW5BMFNiTE1TTnNIQXpFdnh1V1VjaVhw?=
+ =?utf-8?Q?NX42fAuWBB3LShWZq3SSi/v0x?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f578dee8-0f4b-4adb-811f-08dc180c9488
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2024 10:02:29.2832 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: iaQ9OZIEii1UFAgNfAu8DEyBo0FBTz/mO2D3tsPyP+YrbSJKhC1DSqEQhEDIuhEB
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4227
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,135 +128,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: android-mm@google.com, daniel@ffwll.ch, minchan@google.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, John Stultz <john.stultz@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+--------------e9qSk2sYXbf5DiMrI9jyGXQS
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-syzbot found the following issue on:
+Am 17.01.24 um 19:11 schrieb T.J. Mercier:
+> DMA buffers allocated from the CMA dma-buf heap get counted under
+> RssFile for processes that map them and trigger page faults. In
+> addition to the incorrect accounting reported to userspace, reclaim
+> behavior was influenced by the MM_FILEPAGES counter until linux 6.8, but
+> this memory is not reclaimable. [1] Change the CMA dma-buf heap to set
+> VM_PFNMAP on the VMA so MM does not poke at the memory managed by this
+> dma-buf heap, and use vmf_insert_pfn to correct the RSS accounting.
+>
+> The system dma-buf heap does not suffer from this issue since
+> remap_pfn_range is used during the mmap of the buffer, which also sets
+> VM_PFNMAP on the VMA.
 
-HEAD commit:    1b1934dbbdcf Merge tag 'docs-6.8-2' of git://git.lwn.net/l..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=1029adbde80000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=68ea41b98043e6e8
-dashboard link: https://syzkaller.appspot.com/bug?extid=06fa1063cca8163ea541
-compiler:       aarch64-linux-gnu-gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
-userspace arch: arm64
+Mhm, not an issue with this patch but Daniel wanted to add a check for 
+VM_PFNMAP to dma_buf_mmap() which would have noted this earlier.
 
-Unfortunately, I don't have any reproducer for this issue yet.
+I don't fully remember the discussion but for some reason that was never 
+committed. We should probably try that again.
 
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/384ffdcca292/non_bootable_disk-1b1934db.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/00b728a4f3de/vmlinux-1b1934db.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/5a3fe8452d59/Image-1b1934db.gz.xz
+> [1]https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/mm/vmscan.c?id=fb46e22a9e3863e08aef8815df9f17d0f4b9aede
+>
+> Fixes: b61614ec318a ("dma-buf: heaps: Add CMA heap to dmabuf heaps")
+> Signed-off-by: T.J. Mercier<tjmercier@google.com>
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+06fa1063cca8163ea541@syzkaller.appspotmail.com
+Acked-by: Christian König <christian.koenig@amd.com>
 
-BUG: scheduling while atomic: syz-executor.0/29225/0x00000002
-Modules linked in:
-CPU: 1 PID: 29225 Comm: syz-executor.0 Not tainted 6.7.0-syzkaller-10085-g1b1934dbbdcf #0
-Hardware name: linux,dummy-virt (DT)
-Call trace:
- dump_backtrace+0x94/0xec arch/arm64/kernel/stacktrace.c:291
- show_stack+0x18/0x24 arch/arm64/kernel/stacktrace.c:298
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0x48/0x60 lib/dump_stack.c:106
- dump_stack+0x18/0x24 lib/dump_stack.c:113
- __schedule_bug+0x50/0x68 kernel/sched/core.c:5943
- schedule_debug kernel/sched/core.c:5970 [inline]
- __schedule+0x7f4/0x8a8 kernel/sched/core.c:6620
- __schedule_loop kernel/sched/core.c:6802 [inline]
- schedule+0x34/0xc8 kernel/sched/core.c:6817
- schedule_timeout+0x8c/0x100 kernel/time/timer.c:2183
- do_wait_for_common kernel/sched/completion.c:95 [inline]
- __wait_for_common kernel/sched/completion.c:116 [inline]
- wait_for_common kernel/sched/completion.c:127 [inline]
- wait_for_completion_timeout+0x74/0x16c kernel/sched/completion.c:167
- drm_atomic_helper_wait_for_flip_done+0x6c/0xc4 drivers/gpu/drm/drm_atomic_helper.c:1719
- vkms_atomic_commit_tail+0x60/0xd0 drivers/gpu/drm/vkms/vkms_drv.c:81
- commit_tail+0xa4/0x18c drivers/gpu/drm/drm_atomic_helper.c:1832
- drm_atomic_helper_commit+0x164/0x178 drivers/gpu/drm/drm_atomic_helper.c:2072
- drm_atomic_commit+0xa8/0xe0 drivers/gpu/drm/drm_atomic.c:1514
- drm_client_modeset_commit_atomic+0x210/0x270 drivers/gpu/drm/drm_client_modeset.c:1051
- drm_client_modeset_commit_locked+0x5c/0x188 drivers/gpu/drm/drm_client_modeset.c:1154
- drm_client_modeset_commit+0x30/0x58 drivers/gpu/drm/drm_client_modeset.c:1180
- __drm_fb_helper_restore_fbdev_mode_unlocked drivers/gpu/drm/drm_fb_helper.c:251 [inline]
- __drm_fb_helper_restore_fbdev_mode_unlocked+0xa8/0xe8 drivers/gpu/drm/drm_fb_helper.c:230
- drm_fb_helper_set_par+0x30/0x4c drivers/gpu/drm/drm_fb_helper.c:1344
- fb_set_var+0x21c/0x488 drivers/video/fbdev/core/fbmem.c:312
- fbcon_switch+0x214/0x4d0 drivers/video/fbdev/core/fbcon.c:2110
- flush_scrollback drivers/tty/vt/vt.c:912 [inline]
- csi_J+0x254/0x260 drivers/tty/vt/vt.c:1527
- do_con_trol drivers/tty/vt/vt.c:2408 [inline]
- do_con_write+0x1a30/0x1e2c drivers/tty/vt/vt.c:2905
- con_write+0x18/0x68 drivers/tty/vt/vt.c:3251
- gsmld_write+0x64/0xd0 drivers/tty/n_gsm.c:3724
- iterate_tty_write drivers/tty/tty_io.c:1021 [inline]
- file_tty_write.constprop.0+0x134/0x28c drivers/tty/tty_io.c:1092
- tty_write+0x14/0x20 drivers/tty/tty_io.c:1113
- call_write_iter include/linux/fs.h:2085 [inline]
- new_sync_write fs/read_write.c:497 [inline]
- vfs_write+0x1dc/0x2f4 fs/read_write.c:590
- ksys_write+0x70/0x104 fs/read_write.c:643
- __do_sys_write fs/read_write.c:655 [inline]
- __se_sys_write fs/read_write.c:652 [inline]
- __arm64_sys_write+0x1c/0x28 fs/read_write.c:652
- __invoke_syscall arch/arm64/kernel/syscall.c:37 [inline]
- invoke_syscall+0x48/0x114 arch/arm64/kernel/syscall.c:51
- el0_svc_common.constprop.0+0x40/0xe0 arch/arm64/kernel/syscall.c:136
- do_el0_svc+0x1c/0x28 arch/arm64/kernel/syscall.c:155
- el0_svc+0x34/0xd8 arch/arm64/kernel/entry-common.c:678
- el0t_64_sync_handler+0x100/0x12c arch/arm64/kernel/entry-common.c:696
- el0t_64_sync+0x19c/0x1a0 arch/arm64/kernel/entry.S:595
-BUG: scheduling while atomic: syz-executor.0/29225/0x00000000
-Modules linked in:
-CPU: 0 PID: 29225 Comm: syz-executor.0 Tainted: G        W          6.7.0-syzkaller-10085-g1b1934dbbdcf #0
-Hardware name: linux,dummy-virt (DT)
-Call trace:
- dump_backtrace+0x94/0xec arch/arm64/kernel/stacktrace.c:291
- show_stack+0x18/0x24 arch/arm64/kernel/stacktrace.c:298
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0x48/0x60 lib/dump_stack.c:106
- dump_stack+0x18/0x24 lib/dump_stack.c:113
- __schedule_bug+0x50/0x68 kernel/sched/core.c:5943
- schedule_debug kernel/sched/core.c:5970 [inline]
- __schedule+0x7f4/0x8a8 kernel/sched/core.c:6620
- __schedule_loop kernel/sched/core.c:6802 [inline]
- schedule+0x34/0xc8 kernel/sched/core.c:6817
- futex_wait_queue+0x70/0x9c kernel/futex/waitwake.c:370
- __futex_wait+0xc8/0x15c kernel/futex/waitwake.c:669
- futex_wait+0x84/0x108 kernel/futex/waitwake.c:697
- do_futex+0xf8/0x1a0 kernel/futex/syscalls.c:102
- __do_sys_futex kernel/futex/syscalls.c:179 [inline]
- __se_sys_futex kernel/futex/syscalls.c:160 [inline]
- __arm64_sys_futex+0x7c/0x1a4 kernel/futex/syscalls.c:160
- __invoke_syscall arch/arm64/kernel/syscall.c:37 [inline]
- invoke_syscall+0x48/0x114 arch/arm64/kernel/syscall.c:51
- el0_svc_common.constprop.0+0x40/0xe0 arch/arm64/kernel/syscall.c:136
- do_el0_svc+0x1c/0x28 arch/arm64/kernel/syscall.c:155
- el0_svc+0x34/0xd8 arch/arm64/kernel/entry-common.c:678
- el0t_64_sync_handler+0x100/0x12c arch/arm64/kernel/entry-common.c:696
- el0t_64_sync+0x19c/0x1a0 arch/arm64/kernel/entry.S:595
+> ---
+>   drivers/dma-buf/heaps/cma_heap.c | 7 +++----
+>   1 file changed, 3 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
+> index ee899f8e6721..4a63567e93ba 100644
+> --- a/drivers/dma-buf/heaps/cma_heap.c
+> +++ b/drivers/dma-buf/heaps/cma_heap.c
+> @@ -168,10 +168,7 @@ static vm_fault_t cma_heap_vm_fault(struct vm_fault *vmf)
+>   	if (vmf->pgoff > buffer->pagecount)
+>   		return VM_FAULT_SIGBUS;
+>   
+> -	vmf->page = buffer->pages[vmf->pgoff];
+> -	get_page(vmf->page);
+> -
+> -	return 0;
+> +	return vmf_insert_pfn(vma, vmf->address, page_to_pfn(buffer->pages[vmf->pgoff]));
+>   }
+>   
+>   static const struct vm_operations_struct dma_heap_vm_ops = {
+> @@ -185,6 +182,8 @@ static int cma_heap_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
+>   	if ((vma->vm_flags & (VM_SHARED | VM_MAYSHARE)) == 0)
+>   		return -EINVAL;
+>   
+> +	vm_flags_set(vma, VM_IO | VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP);
+> +
+>   	vma->vm_ops = &dma_heap_vm_ops;
+>   	vma->vm_private_data = buffer;
+>   
 
+--------------e9qSk2sYXbf5DiMrI9jyGXQS
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    Am 17.01.24 um 19:11 schrieb T.J. Mercier:<br>
+    <blockquote type="cite" cite="mid:20240117181141.286383-1-tjmercier@google.com">
+      <pre class="moz-quote-pre" wrap="">DMA buffers allocated from the CMA dma-buf heap get counted under
+RssFile for processes that map them and trigger page faults. In
+addition to the incorrect accounting reported to userspace, reclaim
+behavior was influenced by the MM_FILEPAGES counter until linux 6.8, but
+this memory is not reclaimable. [1] Change the CMA dma-buf heap to set
+VM_PFNMAP on the VMA so MM does not poke at the memory managed by this
+dma-buf heap, and use vmf_insert_pfn to correct the RSS accounting.
+
+The system dma-buf heap does not suffer from this issue since
+remap_pfn_range is used during the mmap of the buffer, which also sets
+VM_PFNMAP on the VMA.</pre>
+    </blockquote>
+    <br>
+    Mhm, not an issue with this patch but Daniel wanted to add a check
+    for VM_PFNMAP to dma_buf_mmap() which would have noted this earlier.<br>
+    <br>
+    I don't fully remember the discussion but for some reason that was
+    never committed. We should probably try that again.<br>
+    <br>
+    <span style="white-space: pre-wrap">
+</span>
+    <blockquote type="cite" cite="mid:20240117181141.286383-1-tjmercier@google.com">
+      <pre class="moz-quote-pre" wrap="">[1] <a class="moz-txt-link-freetext" href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/mm/vmscan.c?id=fb46e22a9e3863e08aef8815df9f17d0f4b9aede">https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/mm/vmscan.c?id=fb46e22a9e3863e08aef8815df9f17d0f4b9aede</a>
+
+Fixes: b61614ec318a (&quot;dma-buf: heaps: Add CMA heap to dmabuf heaps&quot;)
+Signed-off-by: T.J. Mercier <a class="moz-txt-link-rfc2396E" href="mailto:tjmercier@google.com">&lt;tjmercier@google.com&gt;</a></pre>
+    </blockquote>
+    <br>
+    Acked-by: Christian König <a class="moz-txt-link-rfc2396E" href="mailto:christian.koenig@amd.com">&lt;christian.koenig@amd.com&gt;</a><br>
+    <br>
+    <blockquote type="cite" cite="mid:20240117181141.286383-1-tjmercier@google.com">
+      <pre class="moz-quote-pre" wrap="">
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ drivers/dma-buf/heaps/cma_heap.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
+index ee899f8e6721..4a63567e93ba 100644
+--- a/drivers/dma-buf/heaps/cma_heap.c
++++ b/drivers/dma-buf/heaps/cma_heap.c
+@@ -168,10 +168,7 @@ static vm_fault_t cma_heap_vm_fault(struct vm_fault *vmf)
+ 	if (vmf-&gt;pgoff &gt; buffer-&gt;pagecount)
+ 		return VM_FAULT_SIGBUS;
+ 
+-	vmf-&gt;page = buffer-&gt;pages[vmf-&gt;pgoff];
+-	get_page(vmf-&gt;page);
+-
+-	return 0;
++	return vmf_insert_pfn(vma, vmf-&gt;address, page_to_pfn(buffer-&gt;pages[vmf-&gt;pgoff]));
+ }
+ 
+ static const struct vm_operations_struct dma_heap_vm_ops = {
+@@ -185,6 +182,8 @@ static int cma_heap_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
+ 	if ((vma-&gt;vm_flags &amp; (VM_SHARED | VM_MAYSHARE)) == 0)
+ 		return -EINVAL;
+ 
++	vm_flags_set(vma, VM_IO | VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP);
++
+ 	vma-&gt;vm_ops = &amp;dma_heap_vm_ops;
+ 	vma-&gt;vm_private_data = buffer;
+ 
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+--------------e9qSk2sYXbf5DiMrI9jyGXQS--
