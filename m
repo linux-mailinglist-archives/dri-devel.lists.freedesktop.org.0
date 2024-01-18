@@ -2,64 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C28C83184A
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jan 2024 12:16:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24340831858
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jan 2024 12:20:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3823810E77C;
-	Thu, 18 Jan 2024 11:15:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDC2E10E777;
+	Thu, 18 Jan 2024 11:20:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0B9810E760;
- Thu, 18 Jan 2024 11:15:29 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-50eaabc36bcso15176533e87.2; 
- Thu, 18 Jan 2024 03:15:29 -0800 (PST)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+ [209.85.167.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9867610E777
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 11:20:04 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id
+ 2adb3069b0e04-50e67f70f34so12898239e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 03:20:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1705576468; x=1706181268; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9VE+k6l54CWKcwOP4zGe/Sl1ruOg42q4FivpaiWmeH4=;
- b=RAj+XcYx9zt66Sjn3TrtEI5h9NPz26G8EA3H2scxjitJnk92Snf8F7nEozSsaM8Ydk
- svYCzrBKtYNE3rBzV+sJNZ/hytk6mrwRdR51BM+xZkGH6InnYHzN/Ti/FtqlzEOvgk+V
- W4P1OytUr8ZExuf9t+97inkzxEhGTvTuIOUnM+FrOYw8wYj64bQUXosuBhNaKtS0zcpI
- yeEkV8+BWLa7rqvTYyibh5faRF9dbgZ5diDUXjuozsDvvwvDIwHcBpbDl3lTvfT+1lT6
- k7hkJpKoqN+w4ACbFjV91VxNGiY/bvoLDEarvNORNl0TtlmL8Oiw3Em/FE9Jp8xJjD2C
- ZErQ==
+ d=linaro.org; s=google; t=1705576743; x=1706181543; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=MDFd66KcIbKFIIX/WcgTl2/WLahORWiu0MGU1O5cSMo=;
+ b=OO5CnF7Ox2fpdIiDIbsAzTRcw/8ad1iUCy4NAlGMIrfcgtXyWdb0bP9EiGsrlx+dF8
+ Ni8Ap8j93zzZZBewOJsY8CbY5SkK3JJ79ZP2PRbyhJwnHGiek0NTHFSeOtBEOsDmCpgE
+ ogfTgDV8gYnAdjE/SZ1yaGLlzrVtwA60g9Pbg/vr5TsdBVTiZ8TEGNZelswdXEdJgQqQ
+ 3MDdAMq7xM4d50SJbDjc9n+SxRPpHVfu8yBrdPygScjYXNGJ6zv95JsGS0IwJqasSJ7F
+ 1vh0MG4pAulScU8aGvbwMBA4bktqdDXqs//LF5M0z14nn2ZrksuxLJPdiHIr3u2i9Xzp
+ jo0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705576468; x=1706181268;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=9VE+k6l54CWKcwOP4zGe/Sl1ruOg42q4FivpaiWmeH4=;
- b=B9Zdbu5A1Y5laTSV7r5Gn0ChXUtRs9tNBJfJZx5g2zaaUWOxfyCebl9skL/OjNLH90
- 783huGjjHCZlIgn6kxYfl7nTOQBsmqjNWQKPXWn7L4n7Kely7YSPZ7zLR2wVVh1fhWcY
- qFNqUiU3975huimjEPsZircPJmmt8dcH+aVw+LWnuDCOPJsopDWbCYUWaOm1nixzkeoe
- 0jrHyW0pKhhSwWHqbVTeqycF1iJ8Pjsx7/W6cEq2d3ckdOEi1Q2IS1Bt1InD3wTxneaN
- ZZPfwPKgRF2xuAxifnm6f6/ryNg+Ooed8tiLM3zt4du/mwKOQWedOYpGUHF/z/cJbHYd
- TPrw==
-X-Gm-Message-State: AOJu0YxjAqHWQeVhd0zI/bQfeuF2uiK9b82mnph5qBVNWDT3XsA9G+57
- 0426jMlwpvgWGmIuSBbVjJQ7zaSpHqjns3vRmU8wM503ZJAbA6VEF+aEXfQtL2q67aq82J4Ieuv
- pSnPCr/XxIxpsbXZeRgbmMn4lMrw=
-X-Google-Smtp-Source: AGHT+IGOekbppaoWwtk6ccGkeyMaF+QoO4HCmiuvByTKTlT9lg50wbR2VnXSzaFKEIzE7zcwlzczulK9pp0kkERFa9s=
-X-Received: by 2002:a05:6512:2813:b0:50e:d3dc:2645 with SMTP id
- cf19-20020a056512281300b0050ed3dc2645mr499069lfb.87.1705576467890; Thu, 18
- Jan 2024 03:14:27 -0800 (PST)
+ d=1e100.net; s=20230601; t=1705576743; x=1706181543;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=MDFd66KcIbKFIIX/WcgTl2/WLahORWiu0MGU1O5cSMo=;
+ b=pTgNFe+G3CrfmceMp6/6djNBYaKztjEzB1Enqt+38ox4i89Cp/0lvr7Odx6ctNv5jM
+ Q7NNgF7aIuasB6OxTYLmn3P5qFjTAQcqZvWiF+ybLI4VbyjKB/ANlQYmm79jf8aiPWIo
+ M9JJSLDkD86IBjJyhu6Ijh/PF50GGdMR6Ke796NkRkZwyh3fQDIzusBsdaV8e3U4wBv0
+ cZ45YMIhO66AKh4AUlPOvJLpFKFPn1xBn1hO3D63N9bMv3ozCMOVssmJYJytLdtttpMg
+ G0XH2B5HTSG4DQ/aR8rjtfRO39ybsmR8j7MqjLX9ePlW3/HNvCNcPl5LJVQ/RQ0gCQFz
+ OMxQ==
+X-Gm-Message-State: AOJu0YyKZRwj1P+Iv6axgmyjATdfQ10sw+U7Xu9hRLLds/Orm9giMlNJ
+ vYcauC9/0EOVnFfNt8l2V4ju016dfPeys1Ep0dGDWk6Rv7qUHHnMlUxQ53XNR4U=
+X-Google-Smtp-Source: AGHT+IHqoe2TVTZTVhMTb7zPOZYWEj/lioFMe60pwfbBpenxG7wEQKyuG3YE/bPiO2Lu8eFVuFv6CQ==
+X-Received: by 2002:a05:6512:4897:b0:50e:d5ad:9414 with SMTP id
+ eq23-20020a056512489700b0050ed5ad9414mr386800lfb.50.1705576742745; 
+ Thu, 18 Jan 2024 03:19:02 -0800 (PST)
+Received: from [172.30.204.173] (UNUSED.212-182-62-129.lubman.net.pl.
+ [212.182.62.129]) by smtp.gmail.com with ESMTPSA id
+ n22-20020a0565120ad600b0050ef97332cbsm601903lfu.32.2024.01.18.03.19.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 18 Jan 2024 03:19:02 -0800 (PST)
+Message-ID: <4c4d7469-c28b-412d-aa30-7123d3c98d1e@linaro.org>
+Date: Thu, 18 Jan 2024 12:19:00 +0100
 MIME-Version: 1.0
-References: <20240117031212.1104034-1-nunes.erico@gmail.com>
- <20240117031212.1104034-2-nunes.erico@gmail.com>
- <CAKGbVbsydzXyKuhN8VyW9zYwuOMWzvz192WKKReHVX1XCnuXGQ@mail.gmail.com>
-In-Reply-To: <CAKGbVbsydzXyKuhN8VyW9zYwuOMWzvz192WKKReHVX1XCnuXGQ@mail.gmail.com>
-From: Erico Nunes <nunes.erico@gmail.com>
-Date: Thu, 18 Jan 2024 12:14:15 +0100
-Message-ID: <CAK4VdL2PnWTZ+M2eQqF22+VuF-YGKb_WjG=168BcuBDqD8+9kA@mail.gmail.com>
-Subject: Re: [PATCH v1 1/6] drm/lima: fix devfreq refcount imbalance for job
- timeouts
-To: Qiang Yu <yuq825@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/msm/adreno: Update generated headers
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20240117203744.394260-1-robdclark@gmail.com>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20240117203744.394260-1-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,29 +75,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel@ffwll.ch>, lima@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- christian.koenig@amd.com, anarsoul@gmail.com,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Rob Clark <robdclark@chromium.org>, Connor Abbott <cwabbott0@gmail.com>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Douglas Anderson <dianders@chromium.org>, Sean Paul <sean@poorly.run>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, freedreno@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 18, 2024 at 2:36=E2=80=AFAM Qiang Yu <yuq825@gmail.com> wrote:
->
-> So this is caused by same job trigger both done and timeout handling?
-> I think a better way to solve this is to make sure only one handler
-> (done or timeout) process the job instead of just making lima_pm_idle()
-> unique.
 
-It's not very clear to me how to best ensure that, with the drm_sched
-software timeout and the irq happening potentially at the same time.
-I think patch 4 in this series describes and covers the most common
-case that this would be hit. So maybe now this patch could be dropped
-in favour of just that one.
-But since this was a bit hard to reproduce and I'm not sure the issue
-is entirely covered by that, I just decided to keep this small change
-as it prevented all the stack trace reproducers I was able to come up
-with.
 
-Erico
+On 1/17/24 21:37, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> This updates the GPU headers to latest from mesa, using gen_header.py
+> (which is used to generate headers at bulid time for mesa), rather than
+> headergen2 (which doesn't have proper support for A6XX vs A7XX register
+> variants).
+> 
+> Mostly just uninteresting churn, but there are a couple spots in a7xx
+> paths which update REG_A6XX_foo to REG_A7XX_foo for registers which are
+> a7xx specific.
+> 
+> Cc: Connor Abbott <cwabbott0@gmail.com>
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+
+Acked-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+
+Konrad
