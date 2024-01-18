@@ -2,64 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BBE6831AB2
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jan 2024 14:38:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE31D831ABA
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jan 2024 14:40:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D33C510E76D;
-	Thu, 18 Jan 2024 13:38:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C1C210E796;
+	Thu, 18 Jan 2024 13:40:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
- [209.85.208.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DBC510E76D
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 13:38:00 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id
- 4fb4d7f45d1cf-55369c59708so2604396a12.1
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 05:38:00 -0800 (PST)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
+ [209.85.208.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F64910E796
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 13:39:59 +0000 (UTC)
+Received: by mail-lj1-f180.google.com with SMTP id
+ 38308e7fff4ca-2cd7ebdd489so19496951fa.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 05:39:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1705585018; x=1706189818; darn=lists.freedesktop.org; 
+ d=ffwll.ch; s=google; t=1705585138; x=1706189938; darn=lists.freedesktop.org; 
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Aj8y73Bebsww2+2dhFtVM4rSmnDY8YtgyVB1QDwtZTY=;
- b=MNDgyfPLdoPDjbe/XnTkrAism3lZFjw9cVIzt415lbSbIZy+RPIWsIDdwqJakwEqtE
- l8PRbj21SgtB75flAm6OTy23psDhIpadp8bBkNoRezkjCJGXkBFk6w6nKrAEWN7rNWiw
- FF/16Z1QHOEArqc9iReHkR8zmIO0zxRMxHLHY=
+ bh=y9EGaRXv4FZXlNtAuV0jC5k2fIUgJZIk8iD5hM2cVZw=;
+ b=eTLh6WMDmgWLeYiOAKZyHP2mr9E5Cif0XwdC1E7Yp0PcJJRyfLe8NJKG0HsaLe31jW
+ fPg4ginca3XvfLz5UD7Llkb1p9Iqsrd/yANlzkRcZdHkl8wbDugxRqXHrreMcq4S0mH/
+ Befeyd9rWbXHNf6rtB7CZ1+7ZbTli/TJL50K8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705585018; x=1706189818;
+ d=1e100.net; s=20230601; t=1705585138; x=1706189938;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Aj8y73Bebsww2+2dhFtVM4rSmnDY8YtgyVB1QDwtZTY=;
- b=R1eygr7X9OTreGCrMFtwpH45FAlEb+xSiu4zHDD8QsbfJWRbL1hgX4t08pcOImZAnV
- ItzHoTMfRmWxo3WzJCwUzKKszMMQ8i4lEbwmJtuSsLBYuQawphx/AHcsr5RyL0FARLqa
- Dy0JhXMXwawwSWnLOQ9rrUobOj3ZqVYRZMby8Wt1gKdLFoEqTA7hHD8W9RNZPAyfJvsS
- 9mBIWgjYDBkskMalbDSZp+9xHNv+McLqkerkfefiesZVa8krJUxcwvqqVgRY/SDHQ3ir
- sfIApmMmi6dzvbrgkV09Vhq1RPV+3h/mi5gTKbeRty8zKQcBZ9Q27/j/Hg1kHQ8fvyn+
- 5YLA==
-X-Gm-Message-State: AOJu0YxLwJOam08fCPOUmF5zVAep7vZTLsF00nMaAYt/aNj/Nb4oxtzU
- FC/3rB/QbstcZPn5TNZVrbJkLX5SAYmUHgnnEa/trJAbrHPZ/JDi6TOZ4uSzmq4=
-X-Google-Smtp-Source: AGHT+IFKD4YFUgAL1z9c6omSsdO7z8A7YVFMnUQZGcku8kafVAbuRRqsm5G5kz6q2wFZjlDsyPIxpQ==
-X-Received: by 2002:a05:6402:717:b0:55a:41cb:6a9d with SMTP id
- w23-20020a056402071700b0055a41cb6a9dmr272379edx.4.1705585018382; 
- Thu, 18 Jan 2024 05:36:58 -0800 (PST)
+ bh=y9EGaRXv4FZXlNtAuV0jC5k2fIUgJZIk8iD5hM2cVZw=;
+ b=sngxkDzEx6I4av3feRHDwWskzGiaUPBeeB13AiUW+764nf9H7by1Cddineg1tsmc/x
+ xLelVTH+VQERTwC4Zm1Ateo7/xsaaJYaJdtFy029XQMkuBazc35PqK8RETo68ASbk6Mh
+ VP1VltSmJbxrfnJKgH/loEdDgTwkECstJ/+2STd3rsbGeGw276gbuxlBNg7WGY1IOxlX
+ iwBo/cE7Ar2FFS60k/anUGB0rKGRKfRHoM2Iduj21Hk1TbsdyGdROpjSZuHA9bS3PAca
+ ISThvYZWRqGOGFjg3uqbOz7IHhuChRE+Phq+iNvkOnOBP4+QozyVJC1k0Q/lH4MBLaim
+ R5og==
+X-Gm-Message-State: AOJu0YyMi14n92RPpVsgnmwo+9EEFc+kZSGB0YxEuuR4Zwnobbg7RfX2
+ I65pZw8SGlkdSHQYN6biNR3x5gM8VtpAZme1OsHcTmVMkyf8Rkv74G+EqOtggzo=
+X-Google-Smtp-Source: AGHT+IH1UDUTiQj8lDq2UQBkQ6m5ZW2aU5v6p60MxYbOb7mjZCtslRlrbVw0DTd8i1afsec+EHIhBQ==
+X-Received: by 2002:a2e:7a0a:0:b0:2cd:e03d:4a47 with SMTP id
+ v10-20020a2e7a0a000000b002cde03d4a47mr1023787ljc.0.1705585137440; 
+ Thu, 18 Jan 2024 05:38:57 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- d18-20020a056402401200b00559e65bb529sm1872521eda.28.2024.01.18.05.36.57
+ f21-20020a056402195500b00557a2e4b585sm9504736edz.66.2024.01.18.05.38.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Jan 2024 05:36:57 -0800 (PST)
-Date: Thu, 18 Jan 2024 14:36:55 +0100
+ Thu, 18 Jan 2024 05:38:56 -0800 (PST)
+Date: Thu, 18 Jan 2024 14:38:53 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Jocelyn Falempe <jfalempe@redhat.com>
-Subject: Re: [PATCH v7 2/9] drm/panic: Add a drm panic handler
-Message-ID: <Zakpd3Q-OM-PlVGz@phenom.ffwll.local>
+To: Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH v7 5/9] drm/fb_dma: Add generic get_scanout_buffer() for
+ drm_panic
+Message-ID: <Zakp7YbFeRlhhIwd@phenom.ffwll.local>
 References: <20240104160301.185915-1-jfalempe@redhat.com>
- <20240104160301.185915-3-jfalempe@redhat.com>
- <ZaE_TPjzOeoMBM4f@phenom.ffwll.local>
- <31d0f162-421e-4b42-8b3f-bc3e6c852eb0@redhat.com>
+ <20240104160301.185915-6-jfalempe@redhat.com>
+ <ZaFBofhe217zCmWN@phenom.ffwll.local>
+ <l3podaaakwaai7xuxaa7cdb5c4s7m6jc6pitepk6uk7o3knn2b@jg5a2hnla77z>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <31d0f162-421e-4b42-8b3f-bc3e6c852eb0@redhat.com>
+In-Reply-To: <l3podaaakwaai7xuxaa7cdb5c4s7m6jc6pitepk6uk7o3knn2b@jg5a2hnla77z>
 X-Operating-System: Linux phenom 6.5.0-4-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,46 +74,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: bluescreen_avenger@verizon.net, Daniel Vetter <daniel@ffwll.ch>,
- javierm@redhat.com, mripard@kernel.org, gpiccoli@igalia.com,
- noralf@tronnes.org, dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
- airlied@redhat.com
+Cc: Jocelyn Falempe <jfalempe@redhat.com>, bluescreen_avenger@verizon.net,
+ Daniel Vetter <daniel@ffwll.ch>, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, gpiccoli@igalia.com, noralf@tronnes.org,
+ tzimmermann@suse.de, airlied@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 16, 2024 at 11:54:42AM +0100, Jocelyn Falempe wrote:
-> On 12/01/2024 14:31, Daniel Vetter wrote:
-> > You need to tie these nice kerneldocs into the overall documentation tree,
-> > or they're not getting built. Please then also check that all the links
-> > and formatting works correctly.
+On Fri, Jan 12, 2024 at 02:56:17PM +0100, Maxime Ripard wrote:
+> On Fri, Jan 12, 2024 at 02:41:53PM +0100, Daniel Vetter wrote:
+> > > +		fb = plane->state->fb;
+> > > +		/* Only support linear modifier */
+> > > +		if (fb->modifier != DRM_FORMAT_MOD_LINEAR)
+> > > +			continue;
+> > > +
+> > > +		/* Check if color format is supported */
+> > > +		if (!drm_panic_is_format_supported(fb->format->format))
+> > > +			continue;
+> > > +
+> > > +		dma_obj = drm_fb_dma_get_gem_obj(fb, 0);
+> > > +
+> > > +		/* Buffer should be accessible from the CPU */
+> > > +		if (dma_obj->base.import_attach)
+> > 
+> > This might be a bit too restrictive, since some drivers import dma-buf
+> > including a vmap. So just checking for ->vaddr might be better. But can be
+> > changed later on.
+> > 
+> > > +			continue;
+> > > +
+> > > +		/* Buffer should be already mapped to CPU */
+> > 
+> > I'd clarify this comment to state that vaddr is invariant over the
+> > lifetime of the buffer and therefore needs no locking. Correct locking
+> > that a) takes all the locks b) never ever stalls for one is absolutely
+> > crucial for a panic handler that won't make the situation worse.
 > 
-> oh yes, I need to add it to the Documentation/drm/xx.rst.
-> I'm not sure where drm panic fits there.
-> If I move get_scanout_buffer() pointer to the drm_mode_config struct, adding
-> drm_panic docs to drm-kms.rst makes sense ?
+> I think this comment was made to address buffers that are accessible to
+> the CPU but don't have a CPU mapping (ie, created with
+> DMA_ATTR_NO_KERNEL_MAPPING for example).
 
-Yeah I think a section in the modeset docs (not the modeset helper docs,
-this is fairly core concept imo) makes the most sense.
+But then the NULL value of vaddr would also be invariant ...
 
-> > The locking here is busted. Which is why the atomic notifier chain is
-> > special and uses atomic semantics - I would just avoid this issue and
-> > directly register each drm_panic_device instead of trying to maintain a
-> > drm-local list and getting the locking rules wrong.
-> 
-> It's a bit complex to get the drm_device pointer in the callback.
-> I think I can add a "struct notifier_block" in the struct drm_mode_config,
-> and use the container_of macro, to retrieve it.
-> This also makes it easy to unregister.
-
-Yeah if you register each drm_device separately you also need to embedded
-the notifier chain into every single one. drm_mode_config sounds ok for
-that to me.
-
-I didn't realize that the kmsg_dumper api doesn't have some kind of void*
-argument but you need to embed the notifier in the right place, in case
-some of my other comments confused you.
+My emphasis is more that we need to be really careful with all the locking
+rules here in the panic handler and not just assume it's going to be safe.
+I've stitched some tricky design together, but need to still move it from
+the whiteboard to a patch.
 -Sima
-
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
