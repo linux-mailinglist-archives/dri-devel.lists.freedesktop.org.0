@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 187D8831397
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jan 2024 08:59:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84A70831381
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jan 2024 08:58:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DCE210E161;
-	Thu, 18 Jan 2024 07:58:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A37A010E142;
+	Thu, 18 Jan 2024 07:58:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B022410E161
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 07:58:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0641410E142
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 07:58:12 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 10A10617FF;
+ by dfw.source.kernel.org (Postfix) with ESMTP id 93AC8617F7;
+ Thu, 18 Jan 2024 07:58:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A187C433F1;
  Thu, 18 Jan 2024 07:58:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FF6FC43601;
- Thu, 18 Jan 2024 07:58:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705564684;
- bh=w11xF62sAxvtyjUlJ/rSiBQfEK5Y+txgHz5Oan2+3RE=;
+ s=k20201202; t=1705564687;
+ bh=VF67ScvZaWBLLIl5rAX1Kh4YdbBo6nKFZPHrtIWu1Y8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=tsuk5WsvE8kttQs9Uslhi1gQj3HZhcnrmcKYquIllH+pAmezRErO18x9wDQGx+Zey
- VXVdfuHSJ0W+qpLR82rx48WNdfy8bhxpHoZu65BAv46BfOlHLnI/z7Hc1AFiJscrxR
- IlhRfkEfcDwCs/KSNj5r16ELxBx4Jo8AW3hAC+xK3qrlqNsgOXkkpQrvTI6Kl5xBPj
- GaDCAgdcIcFa6YeSRnzM2qofT73byLfyw72mRxuWFXCQf4SFb+M0ZPj4u/GT6c66Mm
- 9eKrYHmY3vZF4iPL22evWRJs9u7wa9grHgP+74PhCyGNG4lrqNzfmq99Rh57UpXEPq
- bLypcGGZ+zmzg==
+ b=hzV9XM2oma7CXY2prJ5hO4Kbts/86byd0p9nMAE71rQBKPNnKmCaFUuJhksZ6tiWq
+ A4DeNHDswadUILCIUtRzvkMMFjSHKrClNwXM8YlKPhiey55Ge1Geu35zcySFp7xrIh
+ g3zCt4gtKuBSfXYLHfm1F3DNLjkpXXasYfrY1gwsZlY8A+rb5ZRiJ8hYADBevSK/GZ
+ wecsF4s50veThCCoCiLIMPItmjENtSJPPTaH2HzrGfrJLUeZlQxmNwskMoH/eQTHbz
+ LJ6oISId7gI8Gz4YxFtwAYrDidRreY6Ay3kys2ZXctW2eftCVbxdgvPa/XN6HosL4a
+ /5zquQEqoeZSA==
 From: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
 To: gregkh@linuxfoundation.org
-Subject: [PATCH 01/45] vgacon: inline vc_scrolldelta_helper() into
- vgacon_scrolldelta()
-Date: Thu, 18 Jan 2024 08:57:12 +0100
-Message-ID: <20240118075756.10541-2-jirislaby@kernel.org>
+Subject: [PATCH 02/45] fbcon: make display_desc a static array in
+ fbcon_startup()
+Date: Thu, 18 Jan 2024 08:57:13 +0100
+Message-ID: <20240118075756.10541-3-jirislaby@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240118075756.10541-1-jirislaby@kernel.org>
 References: <20240118075756.10541-1-jirislaby@kernel.org>
@@ -50,134 +50,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-serial@vger.kernel.org, "Jiri Slaby \(SUSE\)" <jirislaby@kernel.org>
+Cc: linux-fbdev@vger.kernel.org, linux-serial@vger.kernel.org,
+ Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+ "Jiri Slaby \(SUSE\)" <jirislaby@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since commit 74d58cd48a8f ("USB: sisusbvga: remove console support"),
-vgacon_scrolldelta() is the only user of vc_scrolldelta_helper().
-
-Inline the helper into vgacon_scrolldelta() and drop it.
+display_desc is a pointer to a RO string. Instead, switch display_desc
+to a static array as we are used to. It BTW saves unnecessary 8B on the
+stack.
 
 Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
+Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: Helge Deller <deller@gmx.de>
 Cc: linux-fbdev@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
 ---
- drivers/tty/vt/vt.c            | 40 ----------------------------------
- drivers/video/console/vgacon.c | 36 ++++++++++++++++++++++++++++--
- include/linux/vt_kern.h        |  3 ---
- 3 files changed, 34 insertions(+), 45 deletions(-)
+ drivers/video/fbdev/core/fbcon.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/tty/vt/vt.c b/drivers/tty/vt/vt.c
-index 156efda7c80d..3f3f7c216819 100644
---- a/drivers/tty/vt/vt.c
-+++ b/drivers/tty/vt/vt.c
-@@ -4748,43 +4748,3 @@ void vcs_scr_updated(struct vc_data *vc)
+diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+index 63af6ab034b5..a8c32cb4c878 100644
+--- a/drivers/video/fbdev/core/fbcon.c
++++ b/drivers/video/fbdev/core/fbcon.c
+@@ -921,7 +921,7 @@ static void display_to_var(struct fb_var_screeninfo *var,
+ 
+ static const char *fbcon_startup(void)
  {
- 	notify_update(vc);
- }
--
--void vc_scrolldelta_helper(struct vc_data *c, int lines,
--		unsigned int rolled_over, void *base, unsigned int size)
--{
--	unsigned long ubase = (unsigned long)base;
--	ptrdiff_t scr_end = (void *)c->vc_scr_end - base;
--	ptrdiff_t vorigin = (void *)c->vc_visible_origin - base;
--	ptrdiff_t origin = (void *)c->vc_origin - base;
--	int margin = c->vc_size_row * 4;
--	int from, wrap, from_off, avail;
--
--	/* Turn scrollback off */
--	if (!lines) {
--		c->vc_visible_origin = c->vc_origin;
--		return;
--	}
--
--	/* Do we have already enough to allow jumping from 0 to the end? */
--	if (rolled_over > scr_end + margin) {
--		from = scr_end;
--		wrap = rolled_over + c->vc_size_row;
--	} else {
--		from = 0;
--		wrap = size;
--	}
--
--	from_off = (vorigin - from + wrap) % wrap + lines * c->vc_size_row;
--	avail = (origin - from + wrap) % wrap;
--
--	/* Only a little piece would be left? Show all incl. the piece! */
--	if (avail < 2 * margin)
--		margin = 0;
--	if (from_off < margin)
--		from_off = 0;
--	if (from_off > avail - margin)
--		from_off = avail;
--
--	c->vc_visible_origin = ubase + (from + from_off) % wrap;
--}
--EXPORT_SYMBOL_GPL(vc_scrolldelta_helper);
-diff --git a/drivers/video/console/vgacon.c b/drivers/video/console/vgacon.c
-index 8ef1579fa57f..9176fff9ce6e 100644
---- a/drivers/video/console/vgacon.c
-+++ b/drivers/video/console/vgacon.c
-@@ -138,8 +138,40 @@ static inline void vga_set_mem_top(struct vc_data *c)
- 
- static void vgacon_scrolldelta(struct vc_data *c, int lines)
- {
--	vc_scrolldelta_helper(c, lines, vga_rolled_over, (void *)vga_vram_base,
--			vga_vram_size);
-+	unsigned long scr_end = c->vc_scr_end - vga_vram_base;
-+	unsigned long vorigin = c->vc_visible_origin - vga_vram_base;
-+	unsigned long origin = c->vc_origin - vga_vram_base;
-+	int margin = c->vc_size_row * 4;
-+	int from, wrap, from_off, avail;
-+
-+	/* Turn scrollback off */
-+	if (!lines) {
-+		c->vc_visible_origin = c->vc_origin;
-+		return;
-+	}
-+
-+	/* Do we have already enough to allow jumping from 0 to the end? */
-+	if (vga_rolled_over > scr_end + margin) {
-+		from = scr_end;
-+		wrap = vga_rolled_over + c->vc_size_row;
-+	} else {
-+		from = 0;
-+		wrap = vga_vram_size;
-+	}
-+
-+	from_off = (vorigin - from + wrap) % wrap + lines * c->vc_size_row;
-+	avail = (origin - from + wrap) % wrap;
-+
-+	/* Only a little piece would be left? Show all incl. the piece! */
-+	if (avail < 2 * margin)
-+		margin = 0;
-+	if (from_off < margin)
-+		from_off = 0;
-+	if (from_off > avail - margin)
-+		from_off = avail;
-+
-+	c->vc_visible_origin = vga_vram_base + (from + from_off) % wrap;
-+
- 	vga_set_mem_top(c);
- }
- 
-diff --git a/include/linux/vt_kern.h b/include/linux/vt_kern.h
-index c1f5aebef170..a789ea3ed2a0 100644
---- a/include/linux/vt_kern.h
-+++ b/include/linux/vt_kern.h
-@@ -168,7 +168,4 @@ void vt_set_led_state(unsigned int console, int leds);
- void vt_kbd_con_start(unsigned int console);
- void vt_kbd_con_stop(unsigned int console);
- 
--void vc_scrolldelta_helper(struct vc_data *c, int lines,
--		unsigned int rolled_over, void *_base, unsigned int size);
--
- #endif /* _VT_KERN_H */
+-	const char *display_desc = "frame buffer device";
++	static const char display_desc[] = "frame buffer device";
+ 	struct fbcon_display *p = &fb_display[fg_console];
+ 	struct vc_data *vc = vc_cons[fg_console].d;
+ 	const struct font_desc *font = NULL;
 -- 
 2.43.0
 
