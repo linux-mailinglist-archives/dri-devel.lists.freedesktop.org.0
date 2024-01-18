@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF6998315C5
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jan 2024 10:27:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D8078315C2
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jan 2024 10:27:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D3A810E74D;
-	Thu, 18 Jan 2024 09:27:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F3CB10E176;
+	Thu, 18 Jan 2024 09:26:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
  [68.232.153.233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFF4910E74D
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 09:27:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D76310E74D
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 09:26:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1705570024; x=1737106024;
+ t=1705570014; x=1737106014;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=dcKyS7d091j+ugqrLiDIroRDn17ZqkpKb5ELTNcoDf0=;
- b=fdDRU6QUgPO1a8AFqjIlXgt2FW7WBenIhV4GrxGfH4pFFuZPJzXsp9Kd
- 3SG/ElntuVWLQn1fK+cMMgDFSzL41osffrornBBUlumSarb4Seh2ZQbzA
- bTfyuqKiYM7IEQMl8vmT9LzyiLEnlnWEL/uNJlwHl4ZgNKKnZUcr4FNs2
- EDBXKKyycPAfpEnatvpYhUj9bChBzV2Gn+hbfJKhaRhjsFPlozu/D4B/j
- zbr1SGCDsC+NzbQ2Jv7eUNejWQkFhH7q+lcGW1uCs+NJX/1bhDotHUgfn
- j1G4WA51IE4z1SfW6kgL5ZbrIzvH7B+5sfpEYr34BAwpImiCF7lDsa6b6 w==;
-X-CSE-ConnectionGUID: KNMCAjpUT6KHlCBTUwUTnw==
-X-CSE-MsgGUID: LV80OOZJQEuQma1igEV3wQ==
-X-IronPort-AV: E=Sophos;i="6.05,201,1701154800"; d="scan'208";a="14940987"
+ bh=MCV4dqB4eVaGjG7L5iQ57P5luLp5+R3l+cbnAaRFZOs=;
+ b=yhfm4ViWj8zZEms/U/axAC/+4d0sWhyGHqn6ICMqwnHoaiPqVFA8QRVg
+ 3cXKk25YqF+3O3IMzQnCaJBgvifxs4fGN3+QBOTwruNafb5XHBOv1IzMd
+ 05L0J4bGnYHo0JKUGPfr2lZmV71qizoxIStqxBtZNP3/MfUIIIjB54Y8Y
+ 3oSlI6kgmMBvAjvGHzi2xGum8/PZOy3lnFaj60xtpknoB7EG9OdTT/yNQ
+ GKYe1f9jwMxZRwwNDBgVPYWDsHI/vCobYyna/FkGIHMBcdvqda4ll6YZA
+ YvPU1T66dkhJdcvYvxUL6RA3MqCp143tZGnEcFtxMose4rsqc5RI3pEex Q==;
+X-CSE-ConnectionGUID: /RVRxSQxQqyqw2wXGfeV8A==
+X-CSE-MsgGUID: 8AbJbon5RFKSA22ZDWONgQ==
+X-IronPort-AV: E=Sophos;i="6.05,201,1701154800"; d="scan'208";a="245651304"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 18 Jan 2024 02:27:03 -0700
+ by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 18 Jan 2024 02:26:53 -0700
 Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 18 Jan 2024 02:26:42 -0700
+ 15.1.2507.35; Thu, 18 Jan 2024 02:26:52 -0700
 Received: from che-lt-i70843lx.microchip.com (10.10.85.11) by
  chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Thu, 18 Jan 2024 02:26:33 -0700
+ 15.1.2507.35 via Frontend Transport; Thu, 18 Jan 2024 02:26:42 -0700
 From: Dharma Balasubiramani <dharma.b@microchip.com>
 To: <conor.dooley@microchip.com>, <sam@ravnborg.org>, <bbrezillon@kernel.org>, 
  <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
@@ -50,10 +50,10 @@ To: <conor.dooley@microchip.com>, <sam@ravnborg.org>, <bbrezillon@kernel.org>,
  <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
  <lee@kernel.org>, <thierry.reding@gmail.com>,
  <u.kleine-koenig@pengutronix.de>, <linux-pwm@vger.kernel.org>
-Subject: [PATCH v3 2/3] dt-bindings: atmel,
- hlcdc: convert pwm bindings to json-schema
-Date: Thu, 18 Jan 2024 14:56:11 +0530
-Message-ID: <20240118092612.117491-3-dharma.b@microchip.com>
+Subject: [PATCH v3 3/3] dt-bindings: mfd: atmel,
+ hlcdc: Convert to DT schema format
+Date: Thu, 18 Jan 2024 14:56:12 +0530
+Message-ID: <20240118092612.117491-4-dharma.b@microchip.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240118092612.117491-1-dharma.b@microchip.com>
 References: <20240118092612.117491-1-dharma.b@microchip.com>
@@ -77,43 +77,48 @@ Cc: linux4microchip@microchip.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert device tree bindings for Atmel's HLCDC PWM controller to YAML
-format.
+Convert the atmel,hlcdc binding to DT schema format.
+
+Adjust the clock-names property to clarify that the LCD controller expects
+one of these clocks (either sys_clk or lvds_pll_clk to be present but not
+both) along with the slow_clk and periph_clk. This alignment with the actual
+hardware requirements will enable accurate device tree configuration for
+systems using the HLCDC IP.
 
 Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 ---
 changelog
 v2 -> v3
-- Remove '|' in description, as there is no formatting to preserve.
-- Delete the description for pwm-cells.
-- Drop the label for pwm node as it not used.
+- Rename hlcdc-display-controller and hlcdc-pwm to generic names.
+- Modify the description by removing the unwanted comments and '|'.
+- Modify clock-names simpler.
 v1 -> v2
 - Remove the explicit copyrights.
 - Modify title (not include words like binding/driver).
 - Modify description actually describing the hardware and not the driver.
-- Remove pinctrl properties which aren't required.
-- Drop parent node and it's other sub-device node which are not related here.
----
- .../bindings/pwm/atmel,hlcdc-pwm.yaml         | 44 +++++++++++++++++++
- .../bindings/pwm/atmel-hlcdc-pwm.txt          | 29 ------------
- 2 files changed, 44 insertions(+), 29 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/pwm/atmel,hlcdc-pwm.yaml
- delete mode 100644 Documentation/devicetree/bindings/pwm/atmel-hlcdc-pwm.txt
+- Add details of lvds_pll addition in commit message.
+- Ref endpoint and not endpoint-base.
+- Fix coding style.
+...
+ .../devicetree/bindings/mfd/atmel,hlcdc.yaml  | 97 +++++++++++++++++++
+ .../devicetree/bindings/mfd/atmel-hlcdc.txt   | 56 -----------
+ 2 files changed, 97 insertions(+), 56 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/mfd/atmel,hlcdc.yaml
+ delete mode 100644 Documentation/devicetree/bindings/mfd/atmel-hlcdc.txt
 
-diff --git a/Documentation/devicetree/bindings/pwm/atmel,hlcdc-pwm.yaml b/Documentation/devicetree/bindings/pwm/atmel,hlcdc-pwm.yaml
+diff --git a/Documentation/devicetree/bindings/mfd/atmel,hlcdc.yaml b/Documentation/devicetree/bindings/mfd/atmel,hlcdc.yaml
 new file mode 100644
-index 000000000000..4f4cc21fe4f7
+index 000000000000..eccc998ac42c
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/pwm/atmel,hlcdc-pwm.yaml
-@@ -0,0 +1,44 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++++ b/Documentation/devicetree/bindings/mfd/atmel,hlcdc.yaml
+@@ -0,0 +1,97 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/pwm/atmel,hlcdc-pwm.yaml#
++$id: http://devicetree.org/schemas/mfd/atmel,hlcdc.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Atmel's HLCDC's PWM controller
++title: Atmel's HLCD Controller
 +
 +maintainers:
 +  - Nicolas Ferre <nicolas.ferre@microchip.com>
@@ -121,55 +126,115 @@ index 000000000000..4f4cc21fe4f7
 +  - Claudiu Beznea <claudiu.beznea@tuxon.dev>
 +
 +description:
-+  The LCDC integrates a Pulse Width Modulation (PWM) Controller. This block
-+  generates the LCD contrast control signal (LCD_PWM) that controls the
-+  display's contrast by software. LCDC_PWM is an 8-bit PWM signal that can be
-+  converted to an analog voltage with a simple passive filter. LCD display
-+  panels have different backlight specifications in terms of minimum/maximum
-+  values for PWM frequency. If the LCDC PWM frequency range does not match the
-+  LCD display panel, it is possible to use the standalone PWM Controller to
-+  drive the backlight.
++  The Atmel HLCDC (HLCD Controller) IP available on Atmel SoCs exposes two
++  subdevices, a PWM chip and a Display Controller.
 +
 +properties:
 +  compatible:
-+    const: atmel,hlcdc-pwm
++    enum:
++      - atmel,at91sam9n12-hlcdc
++      - atmel,at91sam9x5-hlcdc
++      - atmel,sama5d2-hlcdc
++      - atmel,sama5d3-hlcdc
++      - atmel,sama5d4-hlcdc
++      - microchip,sam9x60-hlcdc
++      - microchip,sam9x75-xlcdc
 +
-+  "#pwm-cells":
-+    const: 3
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    maxItems: 3
++
++  clock-names:
++    items:
++      - const: periph_clk
++      - enum: [sys_clk, lvds_pll_clk]
++      - const: slow_clk
++
++  display-controller:
++    $ref: /schemas/display/atmel/atmel,hlcdc-display-controller.yaml
++
++  pwm:
++    $ref: /schemas/pwm/atmel,hlcdc-pwm.yaml
 +
 +required:
 +  - compatible
-+  - "#pwm-cells"
++  - reg
++  - clocks
++  - clock-names
++  - interrupts
 +
 +additionalProperties: false
 +
 +examples:
 +  - |
-+    pwm {
-+      compatible = "atmel,hlcdc-pwm";
-+      pinctrl-names = "default";
-+      pinctrl-0 = <&pinctrl_lcd_pwm>;
-+      #pwm-cells = <3>;
++    #include <dt-bindings/clock/at91.h>
++    #include <dt-bindings/dma/at91.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++
++    lcd_controller: lcd-controller@f0030000 {
++      compatible = "atmel,sama5d3-hlcdc";
++      reg = <0xf0030000 0x2000>;
++      clocks = <&lcdc_clk>, <&lcdck>, <&clk32k>;
++      clock-names = "periph_clk", "sys_clk", "slow_clk";
++      interrupts = <36 IRQ_TYPE_LEVEL_HIGH 0>;
++
++      display-controller {
++        compatible = "atmel,hlcdc-display-controller";
++        pinctrl-names = "default";
++        pinctrl-0 = <&pinctrl_lcd_base &pinctrl_lcd_rgb888>;
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        port@0 {
++          #address-cells = <1>;
++          #size-cells = <0>;
++          reg = <0>;
++
++          hlcdc_panel_output: endpoint@0 {
++            reg = <0>;
++            remote-endpoint = <&panel_input>;
++          };
++        };
++      };
++
++      pwm {
++        compatible = "atmel,hlcdc-pwm";
++        pinctrl-names = "default";
++        pinctrl-0 = <&pinctrl_lcd_pwm>;
++        #pwm-cells = <3>;
++      };
 +    };
-diff --git a/Documentation/devicetree/bindings/pwm/atmel-hlcdc-pwm.txt b/Documentation/devicetree/bindings/pwm/atmel-hlcdc-pwm.txt
+diff --git a/Documentation/devicetree/bindings/mfd/atmel-hlcdc.txt b/Documentation/devicetree/bindings/mfd/atmel-hlcdc.txt
 deleted file mode 100644
-index afa501bf7f94..000000000000
---- a/Documentation/devicetree/bindings/pwm/atmel-hlcdc-pwm.txt
+index 7de696eefaed..000000000000
+--- a/Documentation/devicetree/bindings/mfd/atmel-hlcdc.txt
 +++ /dev/null
-@@ -1,29 +0,0 @@
--Device-Tree bindings for Atmel's HLCDC (High-end LCD Controller) PWM driver
--
--The Atmel HLCDC PWM is subdevice of the HLCDC MFD device.
--See ../mfd/atmel-hlcdc.txt for more details.
+@@ -1,56 +0,0 @@
+-Device-Tree bindings for Atmel's HLCDC (High LCD Controller) MFD driver
 -
 -Required properties:
 - - compatible: value should be one of the following:
--   "atmel,hlcdc-pwm"
-- - pinctr-names: the pin control state names. Should contain "default".
-- - pinctrl-0: should contain the pinctrl states described by pinctrl
--   default.
-- - #pwm-cells: should be set to 3. This PWM chip use the default 3 cells
--   bindings defined in pwm.yaml in this directory.
+-   "atmel,at91sam9n12-hlcdc"
+-   "atmel,at91sam9x5-hlcdc"
+-   "atmel,sama5d2-hlcdc"
+-   "atmel,sama5d3-hlcdc"
+-   "atmel,sama5d4-hlcdc"
+-   "microchip,sam9x60-hlcdc"
+-   "microchip,sam9x75-xlcdc"
+- - reg: base address and size of the HLCDC device registers.
+- - clock-names: the name of the 3 clocks requested by the HLCDC device.
+-   Should contain "periph_clk", "sys_clk" and "slow_clk".
+- - clocks: should contain the 3 clocks requested by the HLCDC device.
+- - interrupts: should contain the description of the HLCDC interrupt line
+-
+-The HLCDC IP exposes two subdevices:
+- - a PWM chip: see ../pwm/atmel-hlcdc-pwm.txt
+- - a Display Controller: see ../display/atmel/hlcdc-dc.txt
 -
 -Example:
 -
@@ -178,6 +243,26 @@ index afa501bf7f94..000000000000
 -		reg = <0xf0030000 0x2000>;
 -		clocks = <&lcdc_clk>, <&lcdck>, <&clk32k>;
 -		clock-names = "periph_clk","sys_clk", "slow_clk";
+-		interrupts = <36 IRQ_TYPE_LEVEL_HIGH 0>;
+-
+-		hlcdc-display-controller {
+-			compatible = "atmel,hlcdc-display-controller";
+-			pinctrl-names = "default";
+-			pinctrl-0 = <&pinctrl_lcd_base &pinctrl_lcd_rgb888>;
+-			#address-cells = <1>;
+-			#size-cells = <0>;
+-
+-			port@0 {
+-				#address-cells = <1>;
+-				#size-cells = <0>;
+-				reg = <0>;
+-
+-				hlcdc_panel_output: endpoint@0 {
+-					reg = <0>;
+-					remote-endpoint = <&panel_input>;
+-				};
+-			};
+-		};
 -
 -		hlcdc_pwm: hlcdc-pwm {
 -			compatible = "atmel,hlcdc-pwm";
