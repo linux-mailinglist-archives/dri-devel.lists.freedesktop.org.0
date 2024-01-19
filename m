@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BC9F8327B5
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 11:33:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B5A88327B0
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 11:31:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7889E10E185;
-	Fri, 19 Jan 2024 10:32:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54A9810E9AE;
+	Fri, 19 Jan 2024 10:31:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1086 seconds by postgrey-1.36 at gabe;
- Fri, 19 Jan 2024 10:32:27 UTC
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C95510E98F
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 10:32:27 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1rQlr4-0001AV-As; Fri, 19 Jan 2024 11:12:06 +0100
-Message-ID: <d0c9a9597df70cf3775cc21ef4f7c667a77980ae.camel@pengutronix.de>
-Subject: Re: [PATCH] drm/bridge: tc358767: Limit the Pixel PLL input range
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org
-Date: Fri, 19 Jan 2024 11:12:04 +0100
-In-Reply-To: <20240118220243.203655-1-marex@denx.de>
-References: <20240118220243.203655-1-marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+X-Greylist: delayed 532 seconds by postgrey-1.36 at gabe;
+ Fri, 19 Jan 2024 10:31:28 UTC
+Received: from prime.voidband.net (prime.voidband.net [199.247.17.104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D857910EA08
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 10:31:24 +0000 (UTC)
+Received: from localhost (unknown [94.142.239.106])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1)
+ server-digest SHA256) (No client certificate requested)
+ by prime.voidband.net (Postfix) with ESMTPSA id C5A6F635B043;
+ Fri, 19 Jan 2024 11:22:15 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
+ s=dkim-20170712; t=1705659735;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=LttVVa3g+FcMM7+wKG/iSOZzeZ5h749vPmGrbkCjpb8=;
+ b=Nu2l/pF0q6dusVkP/ar33zJYozomAOYl2Cw1WzBjw//WCvwH6X5QKUohAvvmGD+KKSrAtF
+ 2h4p2TuT4VT0glHtcO90hvQf1uhdjoewnmeL7ihlgv8SCtLowGZhomW7CwPma4xzm4+2I/
+ O1KdE0FhZnDSTlI+eo/nx6E+FUCzBtY=
+From: Oleksandr Natalenko <oleksandr@natalenko.name>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/display: fix typo
+Date: Fri, 19 Jan 2024 11:22:15 +0100
+Message-ID: <20240119102215.201474-1-oleksandr@natalenko.name>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,59 +49,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Donnerstag, dem 18.01.2024 um 23:02 +0100 schrieb Marek Vasut:
-> According to new configuration spreadsheet from Toshiba for TC9595,
-> the Pixel PLL input clock have to be in range 6..40 MHz. The sheet
-> calculates those PLL input clock as reference clock divided by both
-> pre-dividers. Add the extra limit.
->=20
-> Signed-off-by: Marek Vasut <marex@denx.de>
+While studying the code I've bumped into a small typo within the
+kernel-doc for two functions, apparently, due to copy-paste.
 
-Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
+This commit fixes "sizo" word to be "size".
 
-> ---
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Robert Foss <rfoss@kernel.org>
-> Cc: dri-devel@lists.freedesktop.org
-> ---
->  drivers/gpu/drm/bridge/tc358767.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/t=
-c358767.c
-> index 615cc8f950d7b..0c29a8f81cc9e 100644
-> --- a/drivers/gpu/drm/bridge/tc358767.c
-> +++ b/drivers/gpu/drm/bridge/tc358767.c
-> @@ -546,9 +546,14 @@ static int tc_pxl_pll_en(struct tc_data *tc, u32 ref=
-clk, u32 pixelclock)
->  			continue;
->  		for (i_post =3D 0; i_post < ARRAY_SIZE(ext_div); i_post++) {
->  			for (div =3D 1; div <=3D 16; div++) {
-> -				u32 clk;
-> +				u32 clk, iclk;
->  				u64 tmp;
-> =20
-> +				/* PCLK PLL input unit clock ... 6..40 MHz */
-> +				iclk =3D refclk / (div * ext_div[i_pre]);
-> +				if (iclk < 6000000 || iclk > 40000000)
-> +					continue;
-> +
->  				tmp =3D pixelclock * ext_div[i_pre] *
->  				      ext_div[i_post] * div;
->  				do_div(tmp, refclk);
+Signed-off-by: Oleksandr Natalenko <oleksandr@natalenko.name>
+---
+ drivers/gpu/drm/display/drm_dp_dual_mode_helper.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c b/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
+index bd61e20770a5b..14a2a8473682b 100644
+--- a/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
++++ b/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
+@@ -52,7 +52,7 @@
+  * @adapter: I2C adapter for the DDC bus
+  * @offset: register offset
+  * @buffer: buffer for return data
+- * @size: sizo of the buffer
++ * @size: size of the buffer
+  *
+  * Reads @size bytes from the DP dual mode adaptor registers
+  * starting at @offset.
+@@ -116,7 +116,7 @@ EXPORT_SYMBOL(drm_dp_dual_mode_read);
+  * @adapter: I2C adapter for the DDC bus
+  * @offset: register offset
+  * @buffer: buffer for write data
+- * @size: sizo of the buffer
++ * @size: size of the buffer
+  *
+  * Writes @size bytes to the DP dual mode adaptor registers
+  * starting at @offset.
+-- 
+2.43.0
 
