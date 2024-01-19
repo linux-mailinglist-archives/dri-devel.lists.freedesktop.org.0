@@ -2,60 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 750D18329A0
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 13:43:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5D1B832A17
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 14:11:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD9B010E182;
-	Fri, 19 Jan 2024 12:42:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A469C10EA2A;
+	Fri, 19 Jan 2024 13:11:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com
- [209.85.128.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F39F10E182
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 12:42:57 +0000 (UTC)
-Received: by mail-yw1-f174.google.com with SMTP id
- 00721157ae682-5ff84214fc7so7786187b3.0
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 04:42:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1705668114; x=1706272914; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=23vuA1+7BgcGfSlqZ4nH0qFr70mqNSgh0bqFZoyYKpg=;
- b=anAt07MoU7nZ/fTEOqyORcKFDVUpdOAOPDglHV8JsiYcgTXxUx7oW6zWo7CwJguJgq
- AJVfH0NjT6XU+Q5IlVuQnfJZi3Wyow1tevbHjp3qP0Lgwyel4oZFc7KKNj8LR1Xeu5hR
- wW/xTAAirlIwMvZqEVJD2PH0EtGNOkg24+51ERjKc3v2rpxKSK9BAyrE7WLNuRffiEIQ
- OPCHB4i1VkgtH2CB/u7KHgHuK3uqdBekXXm6Bc4tGA6ho5f8fkX6DOUHTRhjLGxbu69c
- aWZ44GacZeHRBHGgBt3xRBtJzsf1S3AqOW69e31zM8kQS464s8p0mvb1zCp74nXhj4IX
- BXjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705668114; x=1706272914;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=23vuA1+7BgcGfSlqZ4nH0qFr70mqNSgh0bqFZoyYKpg=;
- b=tA4RSRpsptmxFqQ2q9Opa7oJf3T7zcoTmyLZOvdWUB8N2EQbHl1YcMmWOwCuviP0Md
- 2C6aeQrGJryJY2/0Kt5Isz5SC1t57Y+o3lMsvGZtc/s+4+tas5Er+f/8zjoA8IhGKMFU
- hG3EIk1c4AWx0dJwwlKB0RAtm2CrVa9xowIj8IwY0eTHeywGedVB73VuAZNEC+AncFV/
- mEoX3TcuqjbLZ5hDzFOWQ4GJrjLXOwC1SKqQh3ibrG5NwKPin7CLchqgwWoaDyidmy8o
- Vbtj8TebWl4eIfmmr0y00Nl0o6dMUvj0eEioiwmpbePyxhs1QXJIJHhsDAT41Ps/SIXn
- RNlQ==
-X-Gm-Message-State: AOJu0YzvvtVr+cdax1Zx4kNqmLJMfRlQtcWHEbNlMm9ihqOI55BYuu4p
- EKsXV+Ehnv4PxVP8ZcVkntlTw44OoUAd1vsVHNr19PgkCfaHQ3788Sz1gK5824J9XKTNvonwvNY
- J044uTvKyQNO9L13Ze9UOFZWEwPEySUUi/iw+Lg==
-X-Google-Smtp-Source: AGHT+IGXaB/Qo5C8K/AVwVpt0k+i3/3nYM44JB7FzXsWZairbE64gJOEa8s/VJ7iEick4vjqREgSJWa6nU4h2xbXln0=
-X-Received: by 2002:a0d:df17:0:b0:5ff:7cca:a434 with SMTP id
- i23-20020a0ddf17000000b005ff7ccaa434mr2084545ywe.51.1705668113943; Fri, 19
- Jan 2024 04:41:53 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74AF210EA12
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 13:11:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1705669867; x=1737205867;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=J/z83Xg047XGvf3ennA+Sk+uHgqEASMgOJ1cSPBD8MU=;
+ b=H//34y5PgWC1Vla0/wUmWRlQtBE7+jNgXIgoda0QbONjMUK8PixK5MbQ
+ juWwMtjL4g+Fn177LQclu66PAyoWDSskd6LWy3ehUJAv3EO9bFgbdK5km
+ FdYmfpuv/RC026xYl7NfOfby/2Upk0VUJGLlTFjZiqtXb57p7xAykvgjF
+ o31XXVJLnuzV8XcNN6zThQT3cvTPYZrxx6KGFid2No4LZ1dkFdIt04eNE
+ DiXx25jMcRVWG1+HbcN0qJwdShSlK4eHTHeUcMpMrMgFq7KQgRyB+m0AI
+ Qn1X5uV7v/5wPZda3hLhmjqzIwTfU1aKajRW52f558mwZN/LBIgAMp0Tv Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="7443372"
+X-IronPort-AV: E=Sophos;i="6.05,204,1701158400"; 
+   d="scan'208";a="7443372"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jan 2024 05:11:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="785069304"
+X-IronPort-AV: E=Sophos;i="6.05,204,1701158400"; d="scan'208";a="785069304"
+Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
+ by orsmga002.jf.intel.com with ESMTP; 19 Jan 2024 05:11:01 -0800
+Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1rQoeA-00044W-37;
+ Fri, 19 Jan 2024 13:10:58 +0000
+Date: Fri, 19 Jan 2024 21:10:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Paul Cercueil <paul@crapouillou.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH v4 3/4] usb: gadget: functionfs: Add DMABUF import
+ interface
+Message-ID: <202401192043.6DTnLlKn-lkp@intel.com>
+References: <20240117122646.41616-4-paul@crapouillou.net>
 MIME-Version: 1.0
-References: <1705526010-597-1-git-send-email-quic_khsieh@quicinc.com>
-In-Reply-To: <1705526010-597-1-git-send-email-quic_khsieh@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 19 Jan 2024 14:41:43 +0200
-Message-ID: <CAA8EJpqm5KW_UOkvV1JhX+LEh_e8bo549NNQ1AgAXMZ=ZPVCOA@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/msm/dp: return correct Colorimetry for
- DP_TEST_DYNAMIC_RANGE_CEA case
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240117122646.41616-4-paul@crapouillou.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,42 +64,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
- linux-kernel@vger.kernel.org, quic_abhinavk@quicinc.com, airlied@gmail.com,
- andersson@kernel.org, dri-devel@lists.freedesktop.org, dianders@chromium.org,
- vkoul@kernel.org, agross@kernel.org, daniel@ffwll.ch,
- marijn.suijten@somainline.org, quic_jesszhan@quicinc.com, swboyd@chromium.org,
- sean@poorly.run, linux-arm-msm@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org,
+ Michael Hennerich <Michael.Hennerich@analog.com>, linux-doc@vger.kernel.org,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Paul Cercueil <paul@crapouillou.net>,
+ Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+ oe-kbuild-all@lists.linux.dev, Jonathan Cameron <jic23@kernel.org>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 17 Jan 2024 at 23:13, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
->
-> MSA MISC0 bit 1 to 7 contains Colorimetry Indicator Field.
-> dp_link_get_colorimetry_config() returns wrong colorimetry value
-> in the DP_TEST_DYNAMIC_RANGE_CEA case in the current implementation.
-> Hence fix this problem by having dp_link_get_colorimetry_config()
-> return defined CEA RGB colorimetry value in the case of
-> DP_TEST_DYNAMIC_RANGE_CEA.
->
-> Changes in V2:
-> -- drop retrieving colorimetry from colorspace
-> -- drop dr = link->dp_link.test_video.test_dyn_range assignment
->
-> Changes in V3:
-> -- move defined MISCr0a Colorimetry vale to dp_reg.h
-> -- rewording commit title
-> -- rewording commit text to more precise describe this patch
->
-> Fixes: c943b4948b58 ("drm/msm/dp: add displayPort driver support")
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/dp/dp_link.c | 12 +++++++-----
->  drivers/gpu/drm/msm/dp/dp_reg.h  |  3 +++
->  2 files changed, 10 insertions(+), 5 deletions(-)
+Hi Paul,
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on usb/usb-testing]
+[also build test ERROR on usb/usb-next usb/usb-linus lwn/docs-next linus/master v6.7 next-20240119]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Cercueil/usb-gadget-Support-already-mapped-DMA-SGs/20240117-203111
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20240117122646.41616-4-paul%40crapouillou.net
+patch subject: [PATCH v4 3/4] usb: gadget: functionfs: Add DMABUF import interface
+config: arm-randconfig-r112-20240119 (https://download.01.org/0day-ci/archive/20240119/202401192043.6DTnLlKn-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce: (https://download.01.org/0day-ci/archive/20240119/202401192043.6DTnLlKn-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401192043.6DTnLlKn-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> ld.lld: error: undefined symbol: dma_buf_get
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: dma_buf_detach
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
+   >>> referenced 2 more times
+--
+>> ld.lld: error: undefined symbol: dma_fence_init
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: dma_resv_add_fence
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: dma_fence_signal
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_dmabuf_io_complete) in archive vmlinux.a
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_dmabuf_signal_done) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: dma_fence_release
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(dma_fence_put) in archive vmlinux.a
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_dmabuf_unmap_work) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: dma_buf_put
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
+   >>> referenced 2 more times
+--
+>> ld.lld: error: undefined symbol: dma_buf_attach
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: dma_fence_context_alloc
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: dma_resv_test_signaled
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: dma_buf_map_attachment
+   >>> referenced by f_fs.c
+   >>>               drivers/usb/gadget/function/f_fs.o:(ffs_epfile_ioctl) in archive vmlinux.a
+..
 
 -- 
-With best wishes
-Dmitry
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
