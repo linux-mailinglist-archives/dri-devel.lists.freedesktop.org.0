@@ -2,39 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B5A88327B0
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 11:31:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE4828327C1
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 11:41:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54A9810E9AE;
-	Fri, 19 Jan 2024 10:31:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F12A410E100;
+	Fri, 19 Jan 2024 10:41:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 532 seconds by postgrey-1.36 at gabe;
- Fri, 19 Jan 2024 10:31:28 UTC
-Received: from prime.voidband.net (prime.voidband.net [199.247.17.104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D857910EA08
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 10:31:24 +0000 (UTC)
-Received: from localhost (unknown [94.142.239.106])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1)
- server-digest SHA256) (No client certificate requested)
- by prime.voidband.net (Postfix) with ESMTPSA id C5A6F635B043;
- Fri, 19 Jan 2024 11:22:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
- s=dkim-20170712; t=1705659735;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=LttVVa3g+FcMM7+wKG/iSOZzeZ5h749vPmGrbkCjpb8=;
- b=Nu2l/pF0q6dusVkP/ar33zJYozomAOYl2Cw1WzBjw//WCvwH6X5QKUohAvvmGD+KKSrAtF
- 2h4p2TuT4VT0glHtcO90hvQf1uhdjoewnmeL7ihlgv8SCtLowGZhomW7CwPma4xzm4+2I/
- O1KdE0FhZnDSTlI+eo/nx6E+FUCzBtY=
-From: Oleksandr Natalenko <oleksandr@natalenko.name>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/display: fix typo
-Date: Fri, 19 Jan 2024 11:22:15 +0100
-Message-ID: <20240119102215.201474-1-oleksandr@natalenko.name>
-X-Mailer: git-send-email 2.43.0
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E81910E100
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 10:41:50 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id 0DD7EB81741;
+ Fri, 19 Jan 2024 10:41:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8FD8C433C7;
+ Fri, 19 Jan 2024 10:41:16 +0000 (UTC)
+From: Huacai Chen <chenhuacai@loongson.cn>
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Huacai Chen <chenhuacai@kernel.org>, Jingfeng Sui <suijingfeng@loongson.cn>
+Subject: [PATCH] drm/loongson: Error out if no VRAM detected
+Date: Fri, 19 Jan 2024 18:40:49 +0800
+Message-Id: <20240119104049.335449-1-chenhuacai@loongson.cn>
+X-Mailer: git-send-email 2.39.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -49,44 +38,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, Huacai Chen <chenhuacai@loongson.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While studying the code I've bumped into a small typo within the
-kernel-doc for two functions, apparently, due to copy-paste.
+If there is no VRAM (it is true if there is a discreted card), we get
+such an error and Xorg fails to start:
 
-This commit fixes "sizo" word to be "size".
+[  136.401131] loongson 0000:00:06.1: [drm] *ERROR* Requesting(0MiB) failed
+[  137.444342] loongson 0000:00:06.1: [drm] *ERROR* Requesting(0MiB) failed
+[  138.871166] loongson 0000:00:06.1: [drm] *ERROR* Requesting(0MiB) failed
+[  140.444078] loongson 0000:00:06.1: [drm] *ERROR* Requesting(0MiB) failed
+[  142.403993] loongson 0000:00:06.1: [drm] *ERROR* Requesting(0MiB) failed
+[  143.970625] loongson 0000:00:06.1: [drm] *ERROR* Requesting(0MiB) failed
+[  145.862013] loongson 0000:00:06.1: [drm] *ERROR* Requesting(0MiB) failed
 
-Signed-off-by: Oleksandr Natalenko <oleksandr@natalenko.name>
+So in lsdc_get_dedicated_vram() we error out if no VRAM (or VRAM is less
+than 1MB which is also an unusable case) detected.
+
+Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
 ---
- drivers/gpu/drm/display/drm_dp_dual_mode_helper.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/loongson/lsdc_drv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c b/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
-index bd61e20770a5b..14a2a8473682b 100644
---- a/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
-+++ b/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
-@@ -52,7 +52,7 @@
-  * @adapter: I2C adapter for the DDC bus
-  * @offset: register offset
-  * @buffer: buffer for return data
-- * @size: sizo of the buffer
-+ * @size: size of the buffer
-  *
-  * Reads @size bytes from the DP dual mode adaptor registers
-  * starting at @offset.
-@@ -116,7 +116,7 @@ EXPORT_SYMBOL(drm_dp_dual_mode_read);
-  * @adapter: I2C adapter for the DDC bus
-  * @offset: register offset
-  * @buffer: buffer for write data
-- * @size: sizo of the buffer
-+ * @size: size of the buffer
-  *
-  * Writes @size bytes to the DP dual mode adaptor registers
-  * starting at @offset.
+diff --git a/drivers/gpu/drm/loongson/lsdc_drv.c b/drivers/gpu/drm/loongson/lsdc_drv.c
+index 89ccc0c43169..d8ff60b46abe 100644
+--- a/drivers/gpu/drm/loongson/lsdc_drv.c
++++ b/drivers/gpu/drm/loongson/lsdc_drv.c
+@@ -184,7 +184,7 @@ static int lsdc_get_dedicated_vram(struct lsdc_device *ldev,
+ 	drm_info(ddev, "Dedicated vram start: 0x%llx, size: %uMiB\n",
+ 		 (u64)base, (u32)(size >> 20));
+ 
+-	return 0;
++	return (size > SZ_1M) ? 0 : -ENODEV;
+ }
+ 
+ static struct lsdc_device *
 -- 
-2.43.0
+2.39.3
 
