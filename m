@@ -2,64 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A68E83261F
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 10:03:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E17E83258F
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 09:18:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 650F310E983;
-	Fri, 19 Jan 2024 09:03:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6396E10E1AA;
+	Fri, 19 Jan 2024 08:18:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
- [209.85.210.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8957810E959
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 03:34:11 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id
- d2e1a72fcca58-6d9ab48faeaso84913b3a.1
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 19:34:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1705635191; x=1706239991;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=wEILTqh/RXJMBB+YR36HUlkVGyOVde6YUHPbxwHA7iM=;
- b=mXkcQIlnPYmCh2Bffd8SwgPOsiKnZWBGA1FLHLX1p7VzIUOqCWm8Zae2TnYhSe+hAF
- DeyLtyZgzA7QUT+H07hS7S1nAqDunpI4kFe2clptNnC6YsG95Xb+7ktVd7CF5GBNsFKT
- 8STp/NQ5p3o82t4oKQho2D2XSlKNhyU2PZPlc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705635191; x=1706239991;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=wEILTqh/RXJMBB+YR36HUlkVGyOVde6YUHPbxwHA7iM=;
- b=vwAfTBk4EEiUSW921l3ZI27XRcLm4IGEn7QXD3jsTasKTDDHiWcmfKlAH90+ZOPl6S
- N85ou5/BjTI2IFbXVuHdV58ijm/c0wjC+KDCnGuGG7ix1w+R7HyCwsbhe21de1/jlFNf
- eC4j6uJu9qipRfh8ZUXN3JDcf1n9f9etINU5Hg095GP4Lu0DS0G1C19Y7vQH5GjlULSB
- lz6wbA5a/7qb5lEjVik2FE508yDz1+zJ0wz4d02uHUfxDe3Ji9bxLbgKbwAnwIi26bRo
- B1jXUii2AWlISablI/vS2dNBiR9Jdmb6WB5Zuhx3SGd1aWM4igzJ68faVB4WvGHewLMk
- W+8g==
-X-Gm-Message-State: AOJu0YzAxQq6cJHkCN906s0+t8SSWGJ90llMayP5BHM0rfCYFykAfJQv
- +JZTgkgmHaQe/REIYtfhcfgaVtOkc+lpzcVCLJUmeVPHBYoXyNJu3OFtURE8u/koxaCymjxq24G
- 6Trkp
-X-Google-Smtp-Source: AGHT+IEFxeuO/fG6ld/BUBm6Yi4OVDK+ZMfI8nq9gNKpyVBzwG2r6sD51jIADODKtdwQtKWpJQbJlQ==
-X-Received: by 2002:a05:6a00:db:b0:6db:936c:aabe with SMTP id
- e27-20020a056a0000db00b006db936caabemr1077205pfj.2.1705635190937; 
- Thu, 18 Jan 2024 19:33:10 -0800 (PST)
-Received: from localhost (60.252.199.104.bc.googleusercontent.com.
- [104.199.252.60]) by smtp.gmail.com with UTF8SMTPSA id
- q16-20020a056a00085000b006d9aa04574csm3990493pfk.52.2024.01.18.19.33.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Jan 2024 19:33:10 -0800 (PST)
-From: Tommy Chiang <ototot@chromium.org>
-To: Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [PATCH] dma-buf: Add syntax highlighting to code listings in the
- document
-Date: Fri, 19 Jan 2024 03:31:26 +0000
-Message-ID: <20240119033126.1802711-1-ototot@chromium.org>
-X-Mailer: git-send-email 2.43.0.429.g432eaa2c6b-goog
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de
+ [130.133.4.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D869C10E1AB
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 08:18:30 +0000 (UTC)
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+ by outpost.zedat.fu-berlin.de (Exim 4.95) with esmtps (TLS1.3)
+ tls TLS_AES_256_GCM_SHA384
+ (envelope-from <glaubitz@zedat.fu-berlin.de>)
+ id 1rQk4y-0012W7-R9; Fri, 19 Jan 2024 09:18:20 +0100
+Received: from p5dc556fd.dip0.t-ipconnect.de ([93.197.86.253]
+ helo=suse-laptop.fritz.box) by inpost2.zedat.fu-berlin.de (Exim 4.95)
+ with esmtpsa (TLS1.3) tls TLS_AES_256_GCM_SHA384
+ (envelope-from <glaubitz@physik.fu-berlin.de>)
+ id 1rQk4y-001jQj-J2; Fri, 19 Jan 2024 09:18:20 +0100
+Message-ID: <8aebb76605f567042f68f3cd8b8634b4501f8ca6.camel@physik.fu-berlin.de>
+Subject: Re: [PATCH] sh: ecovec24: Rename missed backlight field from fbdev
+ to dev
+From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+To: Geert Uytterhoeven <geert+renesas@glider.be>, Yoshinori Sato
+ <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, Thomas
+ Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>, Daniel
+ Thompson <daniel.thompson@linaro.org>
+Date: Fri, 19 Jan 2024 09:18:19 +0100
+In-Reply-To: <20230925111022.3626362-1-geert+renesas@glider.be>
+References: <20230925111022.3626362-1-geert+renesas@glider.be>
+Autocrypt: addr=glaubitz@physik.fu-berlin.de; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.3 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Fri, 19 Jan 2024 09:03:38 +0000
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 93.197.86.253
+X-ZEDAT-Hint: PO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,64 +59,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, Tommy Chiang <ototot@chromium.org>,
+Cc: kernel test robot <lkp@intel.com>, linux-fbdev@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org
+ linux-sh@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch tries to improve the display of the code listing
-on The Linux Kernel documentation website for dma-buf [1] .
+On Mon, 2023-09-25 at 13:10 +0200, Geert Uytterhoeven wrote:
+> One instance of gpio_backlight_platform_data.fbdev was renamed, but the
+> second instance was forgotten, causing a build failure:
+>=20
+>     arch/sh/boards/mach-ecovec24/setup.c: In function =E2=80=98arch_setup=
+=E2=80=99:
+>     arch/sh/boards/mach-ecovec24/setup.c:1223:37: error: =E2=80=98struct =
+gpio_backlight_platform_data=E2=80=99 has no member named =E2=80=98fbdev=E2=
+=80=99; did you mean =E2=80=98dev=E2=80=99?
+>      1223 |                 gpio_backlight_data.fbdev =3D NULL;
+> 	  |                                     ^~~~~
+> 	  |                                     dev
+>=20
+> Fix this by updating the second instance.
+>=20
+> Fixes: ed369def91c1579a ("backlight/gpio_backlight: Rename field 'fbdev' =
+to 'dev'")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202309231601.Uu6qcRnU-lkp@i=
+ntel.com/
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  arch/sh/boards/mach-ecovec24/setup.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/arch/sh/boards/mach-ecovec24/setup.c b/arch/sh/boards/mach-e=
+covec24/setup.c
+> index 3be293335de54512..7a788d44cc73496c 100644
+> --- a/arch/sh/boards/mach-ecovec24/setup.c
+> +++ b/arch/sh/boards/mach-ecovec24/setup.c
+> @@ -1220,7 +1220,7 @@ static int __init arch_setup(void)
+>  		lcdc_info.ch[0].num_modes		=3D ARRAY_SIZE(ecovec_dvi_modes);
+> =20
+>  		/* No backlight */
+> -		gpio_backlight_data.fbdev =3D NULL;
+> +		gpio_backlight_data.dev =3D NULL;
+> =20
+>  		gpio_set_value(GPIO_PTA2, 1);
+>  		gpio_set_value(GPIO_PTU1, 1);
 
-Originally, it appears that it was attempting to escape
-the '*' character, but looks like it's not necessary (now),
-so we are seeing something like '\*' on the webite.
+Applied to my sh-linux tree.
 
-This patch removes these unnecessary backslashes and adds syntax
-highlighting to improve the readability of the code listing.
+Thanks,
+Adrian
 
-[1] https://docs.kernel.org/driver-api/dma-buf.html
-
-Signed-off-by: Tommy Chiang <ototot@chromium.org>
----
- drivers/dma-buf/dma-buf.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 8fe5aa67b167..e083a0ab06d7 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -1282,10 +1282,12 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_move_notify, DMA_BUF);
-  *   vmap interface is introduced. Note that on very old 32-bit architectures
-  *   vmalloc space might be limited and result in vmap calls failing.
-  *
-- *   Interfaces::
-+ *   Interfaces:
-  *
-- *      void \*dma_buf_vmap(struct dma_buf \*dmabuf, struct iosys_map \*map)
-- *      void dma_buf_vunmap(struct dma_buf \*dmabuf, struct iosys_map \*map)
-+ *   .. code-block:: c
-+ *
-+ *     void *dma_buf_vmap(struct dma_buf *dmabuf, struct iosys_map *map)
-+ *     void dma_buf_vunmap(struct dma_buf *dmabuf, struct iosys_map *map)
-  *
-  *   The vmap call can fail if there is no vmap support in the exporter, or if
-  *   it runs out of vmalloc space. Note that the dma-buf layer keeps a reference
-@@ -1342,10 +1344,11 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_move_notify, DMA_BUF);
-  *   enough, since adding interfaces to intercept pagefaults and allow pte
-  *   shootdowns would increase the complexity quite a bit.
-  *
-- *   Interface::
-+ *   Interface:
-+ *
-+ *   .. code-block:: c
-  *
-- *      int dma_buf_mmap(struct dma_buf \*, struct vm_area_struct \*,
-- *		       unsigned long);
-+ *     int dma_buf_mmap(struct dma_buf *, struct vm_area_struct *, unsigned long);
-  *
-  *   If the importing subsystem simply provides a special-purpose mmap call to
-  *   set up a mapping in userspace, calling do_mmap with &dma_buf.file will
--- 
-2.43.0.381.gb435a96ce8-goog
-
+--=20
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer
+`. `'   Physicist
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
