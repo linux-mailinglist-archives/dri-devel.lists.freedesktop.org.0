@@ -2,53 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0016832F94
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 21:10:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E071B832FA1
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 21:12:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2353B10EA24;
-	Fri, 19 Jan 2024 20:10:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26E9B10EA59;
+	Fri, 19 Jan 2024 20:12:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C6AF10EA24;
- Fri, 19 Jan 2024 20:10:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1705695043; x=1737231043;
- h=mime-version:content-transfer-encoding:in-reply-to:
- references:subject:from:to:cc:date:message-id;
- bh=YVYWNCWwY9G1KvwQksqhw9zl83V/JO0wGRMmJLLI15I=;
- b=K/wREhsFpqkMALixqetDDS5SfLeAI8NXknz/lgw+pzooZ57aRT+mxLcN
- SB4AByBETV/sWIc5JfuSsqmuqdPQy75ywfTIPZrkLHTDzvpNsOpukR28n
- NAOAX3FzSrABwcF7fv6mmL8LGNCcE4BjcrBY1PeJda5SOY1zKg9KNOyC9
- C818eyFeiyNYBi3BfoyTpBPbE23OVUmWT/4fvf0Ry6+NIMqbvxsLJeb9g
- dBpKYwmaiE5UQPJJ4UPibPZG0/wJpSoy8GWCshklqQj88icUa+BRtoWjk
- Af+kkeuC3lwUi/DxM0vwx1tyCT2q1VcdCnvES5LKDnUP+gsp0Q9YOxW42 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="8226535"
-X-IronPort-AV: E=Sophos;i="6.05,206,1701158400"; 
-   d="scan'208";a="8226535"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jan 2024 12:10:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="788443963"
-X-IronPort-AV: E=Sophos;i="6.05,206,1701158400"; d="scan'208";a="788443963"
-Received: from jamiemi-mobl1.amr.corp.intel.com (HELO localhost)
- ([10.209.71.181])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jan 2024 12:10:39 -0800
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20240118123752.bl3qss3qbbxgvpdk@suse.de>
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34A9C10EA59
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 20:12:01 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-40e7e2e04f0so12159775e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 12:12:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=suse.com; s=google; t=1705695060; x=1706299860; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=2HJGSWxmybePtgKcI3MmToOkGnvcMa6AUJiXY/XIzXw=;
+ b=PP08txFHh7AtJvVBsQ6EuJdtc8l8CsimCuWPHjBhp+cPrETelx5Ck6wwM1Gg2EgGDG
+ tYxc4uBK1ONDziWZk6LOkZleU6/4DibgDZb+mGKWecY35hqEMX10PLEUDgfJkBHtxnl+
+ hSU1kZhAj+SU8a0K1+2XwFSqOfzIjbWhTRO44DOCOVtFusAiMinVqtKN1mq9oSKIoxkw
+ iCRBPPUAT7KDCZb26j+l0RmKS605u14Na6nvoLVzl/rYmfi1fib2/g5blcB4PXhx2GnX
+ lPUNjGJ9Cpek1t40KPe/0TwDVya4sZiI11uKiou0zgUhR3M0g4+vLfl+s1GTzPMO9Z/V
+ P4hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1705695060; x=1706299860;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=2HJGSWxmybePtgKcI3MmToOkGnvcMa6AUJiXY/XIzXw=;
+ b=hvyTGU1ILtx115o0LkoQQ7gvV3icJ28U5/IB3hXbvG2WifA5ao+dawuHAykrRPn6mX
+ Hr/DdrH5RcuXXuWXnbyEvLpVrhJcdCdjdC4rTfVG+MDvGV4MxkRse2ciY1C95bWekkoh
+ EUjsiy4/nVTfYqxHo3O1Ou1jAIJR7HdB0ufbz182cTxMMFQa1SjoepUIocWCWfjBEEfX
+ e8/644tCyObGyiz/jkW/jronQPWLs8e7WnQ3Y0MMIqB8hpwrYIoLndyJIc53P6EZ7ZW6
+ fsTWZrNucirxuiTWqLDyLakiptKtR9+BtKMB+lSQMI+wapEae3CT1Rd0oY9khduLENha
+ EZgg==
+X-Gm-Message-State: AOJu0Yx0Ir3c2JuD0adazFXynXXnuc7Mir8SWEFdZwcIm0wTboE7QE8i
+ r98wXUGNaFlZNBFvGOdTl67JRf8AsLZFg1KterQlBbDy90+vsDr2LSId43NbT2zjw6Juni9WpDX
+ vMjs=
+X-Google-Smtp-Source: AGHT+IHtPtz3HT8Mid0BlcHGRzgo/SYTSyr+dmWTQNWOYc16HZaDRYZa9l8ASIONsAgzQDzxLv5k/w==
+X-Received: by 2002:a05:600c:6026:b0:40e:81cf:57f5 with SMTP id
+ az38-20020a05600c602600b0040e81cf57f5mr177602wmb.24.1705695059695; 
+ Fri, 19 Jan 2024 12:10:59 -0800 (PST)
+Received: from suse.de ([81.95.8.245]) by smtp.gmail.com with ESMTPSA id
+ c11-20020a05600c0a4b00b0040d53588d94sm34052619wmq.46.2024.01.19.12.10.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 19 Jan 2024 12:10:59 -0800 (PST)
+Date: Fri, 19 Jan 2024 21:10:58 +0100
+From: Stefan Dirsch <sndirsch@suse.com>
+To: dri-devel@lists.freedesktop.org
+Subject: Re: Mesa >= 23.3.x no longer supporting python 3.6 ...
+Message-ID: <20240119201058.famnixxfraghgar7@suse.de>
 References: <20240118123752.bl3qss3qbbxgvpdk@suse.de>
-Subject: Re: Mesa >= 23.3.x and python 2.6 ...
-From: Jordan Justen <jordan.l.justen@intel.com>
-To: Stefan Dirsch <sndirsch@suse.com>, dri-devel@lists.freedesktop.org,
- Dylan Baker <dylan@pnwbakers.com>
-Date: Fri, 19 Jan 2024 12:10:37 -0800
-Message-ID: <170569503795.494457.15400783572444467039@jljusten-skl>
-User-Agent: alot/0.10
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240118123752.bl3qss3qbbxgvpdk@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,49 +78,86 @@ Cc: mesa-dev@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-01-18 04:37:52, Stefan Dirsch wrote:
+On Thu, Jan 18, 2024 at 01:37:52PM +0100, Stefan Dirsch wrote:
 > Hi
->=20
+> 
 > I noticed that with version 23.3.x Mesa no longer can be built with python
 > 2.6. It still worked with Mesa 23.2.1.
 
-As mentioned in other emails, this was typo where 3.6 was intended.
+Of course I've meant python 3.6. Sorry for the confusion!
 
->=20
 > It fails with
->=20
+> 
 > [   95s] Traceback (most recent call last):
-> [   95s]   File "../src/intel/genxml/gen_bits_header.py", line 23, in <mo=
-dule>
+> [   95s]   File "../src/intel/genxml/gen_bits_header.py", line 23, in <module>
 > [   95s]     import intel_genxml
-> [   95s]   File "/home/abuild/rpmbuild/BUILD/mesa-23.3.3/src/intel/genxml=
-/intel_
+> [   95s]   File "/home/abuild/rpmbuild/BUILD/mesa-23.3.3/src/intel/genxml/intel_
 > genxml.py", line 5
 > [   95s]     from __future__ import annotations
 > [   95s]     ^
 > [   95s] SyntaxError: future feature annotations is not defined
->=20
+> 
+> When removing __future__ line like this
+> 
+> --- mesa-23.3.3/src/intel/genxml/intel_genxml.py.orig   2024-01-12 10:26:26.314070540 +0100
+> +++ mesa-23.3.3/src/intel/genxml/intel_genxml.py        2024-01-12 10:26:38.682317490 +0100
+> @@ -2,7 +2,6 @@
+>  # Copyright © 2019, 2022 Intel Corporation
+>  # SPDX-License-Identifier: MIT
+>  
+> -from __future__ import annotations
+>  from collections import OrderedDict
+>  import copy
+>  import io
+> 
+> this results in the following failure.
+> 
+> [  113s] Traceback (most recent call last):
+> [  113s]   File "../src/intel/genxml/gen_bits_header.py", line 23, in <module>
+> [  113s]     import intel_genxml
+> [  113s]   File "/home/abuild/rpmbuild/BUILD/mesa-23.3.3/src/intel/genxml/intel_
+> genxml.py", line 51, in <module>
+> [  113s]     def add_struct_refs(items: typing.OrderedDict[str, bool], node: et.
+> Element) -> None:
+> [  113s] AttributeError: module 'typing' has no attribute 'OrderedDict'
+> 
+> I'm wondering if Mesa developers are interested in still supporting python
+> 3.6?
+> 
+> Unfortunately currently it's not an option for SUSE's enterprise product to
+> update to a newer python (would be probably 3.12) (due to many customers still
+> relying on python 3.6 and we lack the ressources of adding and maintaining a
+> (full!) second python development stack). :-(
+> 
+> If the answer to the question above is a no. :-( How hard would it be to
+> adjust the code to python 3.6? Any suggestions to how it could be done? Or is
+> there any other workaround available?
+> 
+> I had a quick look between 23.2.1 and 23.3.3 and I've seen that
+> 
+>   from __future__ import annotations
+> 
+> and
+> 
+>   typing.OrderedDict
+> 
+> have already been used in 23.2.1 (although it was in gen_sort_tags.py and
+> now has been moved to new intel_genxml.py). So not sure why this fails now
+> or was working before ...
+> 
+> Any help here would be appreciated. SUSE is definitely interested in shipping
+> the latest Mesa with our latest enterprise product.
 
-I guess this code first appeared in Dylan's:
+Thanks,
+Stefan
 
-4fd2e15855d ("intel/genxml: add type annotations to gen_sort_tags.py")
-
-and then became part of the standard tests a few commits later in:
-
-1f0a0a46d97 ("meson: run genxml sort tests")
-
-back in Oct 2022. So, I guess at that point 'ninja test' would have
-failed with Python 3.6.
-
-Then, I suppose I propagated this to being used on every build in:
-
-0495f952d48 ("intel/genxml: Add genxml_import.py script")
-
-in Sept 2023.
-
-Maybe Dylan knows how we might make this compatible with Python 3.6,
-assuming we want to. :)
-
-https://devguide.python.org/versions/
-
--Jordan
+Public Key available
+------------------------------------------------------
+Stefan Dirsch (Res. & Dev.)   SUSE Software Solutions Germany GmbH
+Tel: 0911-740 53 0            Frankenstraße 146
+FAX: 0911-740 53 479          D-90461 Nürnberg
+http://www.suse.de            Germany 
+----------------------------------------------------------------
+Geschäftsführer: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+(HRB 36809, AG Nürnberg)
+----------------------------------------------------------------
