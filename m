@@ -2,73 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 130148324AA
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 07:33:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 505EB8324B6
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 07:38:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6A1910E975;
-	Fri, 19 Jan 2024 06:32:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9DA910E95C;
+	Fri, 19 Jan 2024 06:38:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9772410E998
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 06:32:37 +0000 (UTC)
-X-UUID: 83ae82e2b69411ee9e680517dc993faa-20240119
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=4dSkfhxXn6PJbi+ffnAzIhz6r14jeWtUuUT2IRv8Qyk=; 
- b=jS8ZBYid7FS5es2FbtmG4oJdZPD70EaPox+EqXVcuYM3QWyYMpv1oHEubIjOBw3kTD1hO0aifXg+U0Owq9KW8NIsPWlJorqgP4pZ15ZCxP5PqaGlDrsN8xvT0W3KquuCHwzDf6jeBfNZMvahOiUC/n1YurNnMW/WT66Ux5vThYY=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.36, REQID:e9dc4a66-7521-4762-904b-de9e580ced06, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:6e16cf4, CLOUDID:78ca0583-8d4f-477b-89d2-1e3bdbef96d1,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
- SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 83ae82e2b69411ee9e680517dc993faa-20240119
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
- mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1013493475; Fri, 19 Jan 2024 14:32:27 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Fri, 19 Jan 2024 14:32:25 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Fri, 19 Jan 2024 14:32:25 +0800
-From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-To: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>
-Subject: [PATCH v3 3/3] dt-bindings: soc: mediatek: Change mediatek,
- gce-events to refernece
-Date: Fri, 19 Jan 2024 14:32:24 +0800
-Message-ID: <20240119063224.29671-4-jason-jh.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20240119063224.29671-1-jason-jh.lin@mediatek.com>
-References: <20240119063224.29671-1-jason-jh.lin@mediatek.com>
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com
+ [209.85.217.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7AED10E95C
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 06:38:04 +0000 (UTC)
+Received: by mail-vs1-f48.google.com with SMTP id
+ ada2fe7eead31-467010c1c72so337065137.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 22:38:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1705646224; x=1706251024; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=0CBsSf2GusSmS6xZY4BHueRPOq+WwIB7U2vjzFqOSNs=;
+ b=VyiU2tF4cvRM31+/Lq3yN2Pox6byOPuS2dvBSD94l6WrwR3AX2/jp0OL7oSPYTvvuZ
+ OFqBktipQvuG/MLSkkXBkr2J5aRBn3K/0wk3+VIA6h9CSg6d4Fst6NLygUQJfLtk77u0
+ Q+MSIemq8tqii6asKreM1JkYwuMDQ0ZYiam5rlkIbF5be9yjionHA/LB92I/+vHBxHgh
+ gppYXLfkTOVP1XQfqhbCCXJ3c+QE0Vzje2gub5we34rGJnT1dkCUsutyxn3dWMGn3QZ9
+ OFxljswRkjUkjbn223GipVdzGlPzJrqClB/qEVJyEq0jYvDhTKb3D2MuyBhDMdDNDN3P
+ w71A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1705646224; x=1706251024;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=0CBsSf2GusSmS6xZY4BHueRPOq+WwIB7U2vjzFqOSNs=;
+ b=QwvPhB9R0f1GrhxQSuccVXr47Ru1nUi4YjcfGk3b9cS9J36yBUIbwD5jSgeRcvToaF
+ sZHWGqLIp4UMFAjT8PLU7A/E+Yj/mgFEU9KfztbDVj63BuO7DBfGj1UXPq9XzJnaSPL3
+ bnHQIwmeXPDnLf0ULLMhilqovx6efn5j7vrb+IS6v4uew0mSKEofo975pA+AqwdIExQe
+ 247Rzzgmp+c5pEAcyxz4GLZ8xR9LttVra2Ux3G+kA0vxLXmj7jFI/D+2tqHALkFj/gRG
+ l9vyZb5RKulCHBok2FeKGx2cUK8dnKPtPETOZ6dpwTU5QepNU6+AxX0U7ySsrU6+qN11
+ NQiQ==
+X-Gm-Message-State: AOJu0YyMKplxTq88z7YNEeHy6p9Qbg+iugfgfIBVPjl8qfgduHOGbAug
+ mlSlZaTPAMRSRiw8GMh66x4Khkh51RR/FVts9vCorSuiGUCMr1zzL5G1Fmr9HeGz109OXPRgNr1
+ jkC7ttE0gVzMaLd81moNC1u5OLdo=
+X-Google-Smtp-Source: AGHT+IF4zGlvICPFJg/oOdD7gNtXsvsCZEs/0i4s+Gj8xTeawqHyuCbGypm7vc2ARAY5c5ZxVU64zXoBwK6qrFDPplk=
+X-Received: by 2002:a05:6102:3749:b0:469:824a:53f0 with SMTP id
+ u9-20020a056102374900b00469824a53f0mr312241vst.32.1705646222938; Thu, 18 Jan
+ 2024 22:37:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--5.235100-8.000000
-X-TMASE-MatchedRID: j0B6s1FsmQFveCKWtaLcaB+WEMjoO9WWFuNF4lJG6xtZps+y1VXzqQse
- d7xgehs09wfh7XcCXjTizDicmrk0K9a/jIZoZyKFjtK7dC6UBnl9LQinZ4QefPcjNeVeWlqY+gt
- Hj7OwNO2oWEe3+NERqawr18XZMKaoxDZ6sXkJle3x3B6y3foUp5pOIJQ53vqAVlxr1FJij9s=
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--5.235100-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: 6DF45B8F3966170C66AC1F178550098CEA372F1145029F48DA0A887C80C6B7DB2000:8
-X-MTK: N
+References: <20231113164344.1612602-1-mwalle@kernel.org>
+ <631fe35a2a3b00781231e4f3f5094fae@kernel.org>
+ <1ef3dad2-5f55-40e5-bba7-3c71d71c12e4@kontron.de>
+ <CAAQKjZMccDwa63_PNJCP0rNOaHjTwcOz8AbKa=JXLQi-b0QVVw@mail.gmail.com>
+ <2400535875c353ff7208be2d86d4556f@kernel.org>
+ <ZZ1BBO2nNSp3g-gT@phenom.ffwll.local>
+In-Reply-To: <ZZ1BBO2nNSp3g-gT@phenom.ffwll.local>
+From: Inki Dae <daeinki@gmail.com>
+Date: Fri, 19 Jan 2024 15:36:51 +0900
+Message-ID: <CAAQKjZNnJQDn_r1+WNmsxM-2O48O0+yWAUAqpjZRjMYMT3xGwg@mail.gmail.com>
+Subject: Re: [PATCH] drm: bridge: samsung-dsim: Don't use FORCE_STOP_STATE
+To: Michael Walle <mwalle@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ David Airlie <airlied@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Robert Foss <rfoss@kernel.org>, Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Tim Harvey <tharvey@gateworks.com>, 
+ Alexander Stein <alexander.stein@ew.tq-group.com>, linux-kernel@vger.kernel.org,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Inki Dae <daeinki@gmail.com>
+Content-Type: multipart/alternative; boundary="0000000000003b17a7060f46b52b"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,124 +83,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
- Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Jason-ch Chen <jason-ch.chen@mediatek.com>, Nancy
- Lin <nancy.lin@mediatek.com>, linux-mediatek@lists.infradead.org,
- Shawn Sung <shawn.sung@mediatek.com>, Johnson Wang <johnson.wang@mediatek.com>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: Daniel Vetter <daniel@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Change mediatek,gce-events property to reference mediatek,gce-props.yaml
-instead of defining itself.
+--0000000000003b17a7060f46b52b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
----
- .../bindings/soc/mediatek/mediatek,ccorr.yaml        | 12 ++++--------
- .../bindings/soc/mediatek/mediatek,mutex.yaml        | 11 +++--------
- .../bindings/soc/mediatek/mediatek,wdma.yaml         | 12 ++++--------
- 3 files changed, 11 insertions(+), 24 deletions(-)
+Really sorry for late. Will pick it up.
 
-diff --git a/Documentation/devicetree/bindings/soc/mediatek/mediatek,ccorr.yaml b/Documentation/devicetree/bindings/soc/mediatek/mediatek,ccorr.yaml
-index 4380b98b0dfe..305f2cd9f865 100644
---- a/Documentation/devicetree/bindings/soc/mediatek/mediatek,ccorr.yaml
-+++ b/Documentation/devicetree/bindings/soc/mediatek/mediatek,ccorr.yaml
-@@ -34,13 +34,6 @@ properties:
-       4 arguments defined in this property. Each GCE subsys id is mapping to
-       a client defined in the header include/dt-bindings/gce/<chip>-gce.h.
- 
--  mediatek,gce-events:
--    description:
--      The event id which is mapping to the specific hardware event signal
--      to gce. The event id is defined in the gce header
--      include/dt-bindings/gce/<chip>-gce.h of each chips.
--    $ref: /schemas/types.yaml#/definitions/uint32-array
--
-   clocks:
-     minItems: 1
- 
-@@ -51,7 +44,10 @@ required:
-   - mediatek,gce-events
-   - clocks
- 
--additionalProperties: false
-+allOf:
-+  - $ref: /schemas/mailbox/mediatek,gce-props.yaml#
-+
-+unevaluatedProperties: false
- 
- examples:
-   - |
-diff --git a/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yaml b/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yaml
-index ba2014a8725c..61cf16ce8b0b 100644
---- a/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yaml
-+++ b/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yaml
-@@ -53,13 +53,6 @@ properties:
-     items:
-       - description: MUTEX Clock
- 
--  mediatek,gce-events:
--    description:
--      The event id which is mapping to the specific hardware event signal
--      to gce. The event id is defined in the gce header
--      include/dt-bindings/gce/<chip>-gce.h of each chips.
--    $ref: /schemas/types.yaml#/definitions/uint32-array
--
-   mediatek,gce-client-reg:
-     $ref: /schemas/types.yaml#/definitions/phandle-array
-     items:
-@@ -73,6 +66,8 @@ properties:
-       a client defined in the header include/dt-bindings/gce/<chip>-gce.h.
- 
- allOf:
-+  - $ref: /schemas/mailbox/mediatek,gce-props.yaml#
-+
-   - if:
-       properties:
-         compatible:
-@@ -97,7 +92,7 @@ required:
-   - interrupts
-   - power-domains
- 
--additionalProperties: false
-+unevaluatedProperties: false
- 
- examples:
-   - |
-diff --git a/Documentation/devicetree/bindings/soc/mediatek/mediatek,wdma.yaml b/Documentation/devicetree/bindings/soc/mediatek/mediatek,wdma.yaml
-index 69afb329e5f4..d9dd4428c036 100644
---- a/Documentation/devicetree/bindings/soc/mediatek/mediatek,wdma.yaml
-+++ b/Documentation/devicetree/bindings/soc/mediatek/mediatek,wdma.yaml
-@@ -35,13 +35,6 @@ properties:
-       4 arguments defined in this property. Each GCE subsys id is mapping to
-       a client defined in the header include/dt-bindings/gce/<chip>-gce.h.
- 
--  mediatek,gce-events:
--    description:
--      The event id which is mapping to the specific hardware event signal
--      to gce. The event id is defined in the gce header
--      include/dt-bindings/gce/<chip>-gce.h of each chips.
--    $ref: /schemas/types.yaml#/definitions/uint32-array
--
-   power-domains:
-     maxItems: 1
- 
-@@ -60,7 +53,10 @@ required:
-   - clocks
-   - iommus
- 
--additionalProperties: false
-+allOf:
-+  - $ref: /schemas/mailbox/mediatek,gce-props.yaml#
-+
-+unevaluatedProperties: false
- 
- examples:
-   - |
--- 
-2.18.0
+Thanks,
+Inki Dae
 
+2024=EB=85=84 1=EC=9B=94 9=EC=9D=BC (=ED=99=94) =EC=98=A4=ED=9B=84 9:50, Da=
+niel Vetter <daniel@ffwll.ch>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+
+> On Tue, Jan 09, 2024 at 09:47:20AM +0100, Michael Walle wrote:
+> > Hi,
+> >
+> > > > Inki, are you picking this up? Or if not, who will?
+> > >
+> > > I can pick it up but it would be better to go to the drm-misc tree. I=
+f
+> > > nobody cares about it then I will pick it up. :)
+> > >
+> > > acked-by : Inki Dae <inki.dae@samsung.com>
+> >
+> > Who is going to pick this up? Who has access to the drm-misc tree?
+>
+> Inki has, so I'm assuming since he acked he'll also merge.
+> -Sima
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+>
+
+--0000000000003b17a7060f46b52b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Really sorry for late. Will pick it up.<div dir=3D"auto">=
+<br></div><div dir=3D"auto">Thanks,</div><div dir=3D"auto">Inki Dae</div></=
+div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">20=
+24=EB=85=84 1=EC=9B=94 9=EC=9D=BC (=ED=99=94) =EC=98=A4=ED=9B=84 9:50, Dani=
+el Vetter &lt;<a href=3D"mailto:daniel@ffwll.ch">daniel@ffwll.ch</a>&gt;=EB=
+=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:<br></div><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
+>On Tue, Jan 09, 2024 at 09:47:20AM +0100, Michael Walle wrote:<br>
+&gt; Hi,<br>
+&gt; <br>
+&gt; &gt; &gt; Inki, are you picking this up? Or if not, who will?<br>
+&gt; &gt; <br>
+&gt; &gt; I can pick it up but it would be better to go to the drm-misc tre=
+e. If<br>
+&gt; &gt; nobody cares about it then I will pick it up. :)<br>
+&gt; &gt; <br>
+&gt; &gt; acked-by : Inki Dae &lt;<a href=3D"mailto:inki.dae@samsung.com" t=
+arget=3D"_blank" rel=3D"noreferrer">inki.dae@samsung.com</a>&gt;<br>
+&gt; <br>
+&gt; Who is going to pick this up? Who has access to the drm-misc tree?<br>
+<br>
+Inki has, so I&#39;m assuming since he acked he&#39;ll also merge.<br>
+-Sima<br>
+-- <br>
+Daniel Vetter<br>
+Software Engineer, Intel Corporation<br>
+<a href=3D"http://blog.ffwll.ch" rel=3D"noreferrer noreferrer" target=3D"_b=
+lank">http://blog.ffwll.ch</a><br>
+</blockquote></div>
+
+--0000000000003b17a7060f46b52b--
