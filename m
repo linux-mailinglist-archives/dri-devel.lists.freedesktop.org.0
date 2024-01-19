@@ -2,40 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0096C83297F
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 13:30:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 750D18329A0
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 13:43:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E9FB10E9E9;
-	Fri, 19 Jan 2024 12:30:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD9B010E182;
+	Fri, 19 Jan 2024 12:42:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91BEC10EA0B
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 12:30:00 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi
- [89.27.53.110])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id B4A59512;
- Fri, 19 Jan 2024 13:28:40 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1705667320;
- bh=LNk3nH8fFJa5teGVSdqfmDXLmD5Kzly/lQCrOP+9xSA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=TgVqGdpd0PjcqnI+5ZdE4TirX1GZMiqRURSHbIrnOvmb3U4wz7ivFGH4QLQ2YkyEU
- 7E3qebfIF4ueQvoPe/kHQVatuRrQiKawtM1iaAojL04vEqV7QopT2rDh1ceYoFuH+S
- cPkyKziReuVVz0OaXT2w5JZk29VjmX/L02qkwcJ4=
-Date: Fri, 19 Jan 2024 14:29:54 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: "Klymenko, Anatoliy" <Anatoliy.Klymenko@amd.com>
-Subject: Re: [PATCH 3/4] drm: xlnx: zynqmp_dpsub: Don't generate vblank in
- live mode
-Message-ID: <20240119122954.GA13388@pendragon.ideasonboard.com>
-References: <mailman.1660.1705501214.2415.dri-devel@lists.freedesktop.org>
- <MW4PR12MB7165B7BEA23F4C4185A48EE9E6702@MW4PR12MB7165.namprd12.prod.outlook.com>
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com
+ [209.85.128.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F39F10E182
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 12:42:57 +0000 (UTC)
+Received: by mail-yw1-f174.google.com with SMTP id
+ 00721157ae682-5ff84214fc7so7786187b3.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 04:42:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1705668114; x=1706272914; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=23vuA1+7BgcGfSlqZ4nH0qFr70mqNSgh0bqFZoyYKpg=;
+ b=anAt07MoU7nZ/fTEOqyORcKFDVUpdOAOPDglHV8JsiYcgTXxUx7oW6zWo7CwJguJgq
+ AJVfH0NjT6XU+Q5IlVuQnfJZi3Wyow1tevbHjp3qP0Lgwyel4oZFc7KKNj8LR1Xeu5hR
+ wW/xTAAirlIwMvZqEVJD2PH0EtGNOkg24+51ERjKc3v2rpxKSK9BAyrE7WLNuRffiEIQ
+ OPCHB4i1VkgtH2CB/u7KHgHuK3uqdBekXXm6Bc4tGA6ho5f8fkX6DOUHTRhjLGxbu69c
+ aWZ44GacZeHRBHGgBt3xRBtJzsf1S3AqOW69e31zM8kQS464s8p0mvb1zCp74nXhj4IX
+ BXjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1705668114; x=1706272914;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=23vuA1+7BgcGfSlqZ4nH0qFr70mqNSgh0bqFZoyYKpg=;
+ b=tA4RSRpsptmxFqQ2q9Opa7oJf3T7zcoTmyLZOvdWUB8N2EQbHl1YcMmWOwCuviP0Md
+ 2C6aeQrGJryJY2/0Kt5Isz5SC1t57Y+o3lMsvGZtc/s+4+tas5Er+f/8zjoA8IhGKMFU
+ hG3EIk1c4AWx0dJwwlKB0RAtm2CrVa9xowIj8IwY0eTHeywGedVB73VuAZNEC+AncFV/
+ mEoX3TcuqjbLZ5hDzFOWQ4GJrjLXOwC1SKqQh3ibrG5NwKPin7CLchqgwWoaDyidmy8o
+ Vbtj8TebWl4eIfmmr0y00Nl0o6dMUvj0eEioiwmpbePyxhs1QXJIJHhsDAT41Ps/SIXn
+ RNlQ==
+X-Gm-Message-State: AOJu0YzvvtVr+cdax1Zx4kNqmLJMfRlQtcWHEbNlMm9ihqOI55BYuu4p
+ EKsXV+Ehnv4PxVP8ZcVkntlTw44OoUAd1vsVHNr19PgkCfaHQ3788Sz1gK5824J9XKTNvonwvNY
+ J044uTvKyQNO9L13Ze9UOFZWEwPEySUUi/iw+Lg==
+X-Google-Smtp-Source: AGHT+IGXaB/Qo5C8K/AVwVpt0k+i3/3nYM44JB7FzXsWZairbE64gJOEa8s/VJ7iEick4vjqREgSJWa6nU4h2xbXln0=
+X-Received: by 2002:a0d:df17:0:b0:5ff:7cca:a434 with SMTP id
+ i23-20020a0ddf17000000b005ff7ccaa434mr2084545ywe.51.1705668113943; Fri, 19
+ Jan 2024 04:41:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <MW4PR12MB7165B7BEA23F4C4185A48EE9E6702@MW4PR12MB7165.namprd12.prod.outlook.com>
+References: <1705526010-597-1-git-send-email-quic_khsieh@quicinc.com>
+In-Reply-To: <1705526010-597-1-git-send-email-quic_khsieh@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 19 Jan 2024 14:41:43 +0200
+Message-ID: <CAA8EJpqm5KW_UOkvV1JhX+LEh_e8bo549NNQ1AgAXMZ=ZPVCOA@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/msm/dp: return correct Colorimetry for
+ DP_TEST_DYNAMIC_RANGE_CEA case
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,89 +68,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "tzimmermann@suse.de" <tzimmermann@suse.de>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "aarten.lankhorst@linux.intel.com" <aarten.lankhorst@linux.intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>, "Simek, Michal" <michal.simek@amd.com>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
+ linux-kernel@vger.kernel.org, quic_abhinavk@quicinc.com, airlied@gmail.com,
+ andersson@kernel.org, dri-devel@lists.freedesktop.org, dianders@chromium.org,
+ vkoul@kernel.org, agross@kernel.org, daniel@ffwll.ch,
+ marijn.suijten@somainline.org, quic_jesszhan@quicinc.com, swboyd@chromium.org,
+ sean@poorly.run, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Anatoliy,
+On Wed, 17 Jan 2024 at 23:13, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+>
+> MSA MISC0 bit 1 to 7 contains Colorimetry Indicator Field.
+> dp_link_get_colorimetry_config() returns wrong colorimetry value
+> in the DP_TEST_DYNAMIC_RANGE_CEA case in the current implementation.
+> Hence fix this problem by having dp_link_get_colorimetry_config()
+> return defined CEA RGB colorimetry value in the case of
+> DP_TEST_DYNAMIC_RANGE_CEA.
+>
+> Changes in V2:
+> -- drop retrieving colorimetry from colorspace
+> -- drop dr = link->dp_link.test_video.test_dyn_range assignment
+>
+> Changes in V3:
+> -- move defined MISCr0a Colorimetry vale to dp_reg.h
+> -- rewording commit title
+> -- rewording commit text to more precise describe this patch
+>
+> Fixes: c943b4948b58 ("drm/msm/dp: add displayPort driver support")
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/dp/dp_link.c | 12 +++++++-----
+>  drivers/gpu/drm/msm/dp/dp_reg.h  |  3 +++
+>  2 files changed, 10 insertions(+), 5 deletions(-)
 
-On Fri, Jan 19, 2024 at 05:53:30AM +0000, Klymenko, Anatoliy wrote:
-> On Wed, 17 Jan 2024 16:20:10 +0200, Tomi Valkeinen wrote:
-> > On 13/01/2024 01:42, Anatoliy Klymenko wrote:
-> > > Filter out status register against interrupts' mask.
-> > > Some events are being reported via DP status register, even if
-> > > corresponding interrupts have been disabled. Avoid processing of such
-> > > events in interrupt handler context.
-> > 
-> > The subject talks about vblank and live mode, the the description doesn't. Can
-> > you elaborate in the desc a bit about when this is an issue and why it wasn't
-> > before?
-> 
-> Yes, I should make patch comment more consistent and elaborate. I will fix it in the next version. Thank you.
-> 
-> > 
-> > > Signed-off-by: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
-> > > ---
-> > >   drivers/gpu/drm/xlnx/zynqmp_dp.c | 11 +++++++++--
-> > >   1 file changed, 9 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> > > b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> > > index d60b7431603f..571c5dbc97e5 100644
-> > > --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> > > +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> > > @@ -1624,8 +1624,16 @@ static irqreturn_t zynqmp_dp_irq_handler(int irq, void *data)
-> > >       u32 status, mask;
-> > >
-> > >       status = zynqmp_dp_read(dp, ZYNQMP_DP_INT_STATUS);
-> > > +     zynqmp_dp_write(dp, ZYNQMP_DP_INT_STATUS, status);
-> > >       mask = zynqmp_dp_read(dp, ZYNQMP_DP_INT_MASK);
-> > > -     if (!(status & ~mask))
-> > > +
-> > > +     /*
-> > > +      * Status register may report some events, which corresponding interrupts
-> > > +      * have been disabled. Filter out those events against interrupts' mask.
-> > > +      */
-> > > +     status &= ~mask;
-> > > +
-> > > +     if (!status)
-> > >               return IRQ_NONE;
-> > >
-> > >       /* dbg for diagnostic, but not much that the driver can do */
-> > > @@ -1634,7 +1642,6 @@ static irqreturn_t zynqmp_dp_irq_handler(int irq, void *data)
-> > >       if (status & ZYNQMP_DP_INT_CHBUF_OVERFLW_MASK)
-> > >               dev_dbg_ratelimited(dp->dev, "overflow interrupt\n");
-> > >
-> > > -     zynqmp_dp_write(dp, ZYNQMP_DP_INT_STATUS, status);
-> > >
-> > >       if (status & ZYNQMP_DP_INT_VBLANK_START)
-> > >               zynqmp_dpsub_drm_handle_vblank(dp->dpsub);
-> > 
-> > Moving the zynqmp_dp_write() is not related to this fix, is it? I think it should be in
-> > a separate patch.
-> 
-> The sole purpose of zynqmp_dp_write() is to clear status register. The
-> sooner we do it the better (after reading status in the local variable
-> of course).
-
-No disagreement about that. Tomi's point is that it's a good change, but
-it should be done in a separate patch, by itself, not bundled with other
-changes. The usual rule in the kernel is "one change, one commit".
-
-> We can also reuse status variable for in-place filtering
-> against the interrupt mask, which makes this change dependent on
-> zynqmp_dp_write() reordering. I will add a comment explaining this. Is
-> it ok?
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 -- 
-Regards,
-
-Laurent Pinchart
+With best wishes
+Dmitry
