@@ -2,78 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 962EA833024
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 22:15:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2ECC833021
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 22:14:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A559B10EA75;
-	Fri, 19 Jan 2024 21:14:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3868E10EA79;
+	Fri, 19 Jan 2024 21:14:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E58410EA6F;
- Fri, 19 Jan 2024 21:14:35 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 40JKWD0f015662; Fri, 19 Jan 2024 21:14:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=fvgTxVkd+Z5XZe4ztJT64BSinsdPYrbSQr8zLxqqp/U=; b=JA
- ST1eFucviZwPVZp/O6NUhPw83871G1zfjenBaqOE9MThgNeadIih3yiwyFgn+hxK
- bBONCtVoDJdStLxc3RdGgAl3sT6n1YrdgYUmZQOoz9fJQf73FIRkIJY8rnudGD4I
- F7/RbzoZ5rjfCh0i3/1O173Fwa8BaFK94XRQ/7y8Yb6CVNH/BzcPm9dsRcFdMsg+
- 1y0kT6BZe7YiudFgHhNKiqfKe5Am3AUvd6PUeRt5DafwvwA5oSgVZK202W8bpqoa
- e5UMmEz9imP5wWPQbkLKbBLzT1fDDPvBpH3vgxOa3AKmGJSpRMYsJCnte//jL6mE
- ttLf59SiEk4t7iQKK8VQ==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vqh2k9yk8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 19 Jan 2024 21:14:21 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40JLEKlF002914
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 19 Jan 2024 21:14:20 GMT
-Received: from [10.110.79.9] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 19 Jan
- 2024 13:14:19 -0800
-Message-ID: <b5f571c6-dcf6-c416-ca86-fdbd0514676b@quicinc.com>
-Date: Fri, 19 Jan 2024 13:14:18 -0800
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8D0210EA79
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 21:14:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1705698885; x=1706303685; i=deller@gmx.de;
+ bh=s73c+PV9RBdRHuJzCkyzdkZLfx9DoZuk0cF3aGXh9PQ=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+ In-Reply-To;
+ b=hhqNldkZiPi7/qTppdHaj3I6sOcDgkYU33fcFSF/sueLemJJ5pM92QA7cJyYn4EA
+ DOZpttdZc6pPuayOFDPILB9KlDjKTAZmKlZP7pTibp83jX7gKd2pBGwaaGMlZwwo1
+ M6c1cViMx7gDJX7RbzclubPgejWEqDAdDYXrgpbnBtwauutkBIBrs16NDGkoFgYtq
+ 7FM3ilhbsF3myAX9oSSqgWgfFDwM6zRkc5ao9lkRCc0473RmVilUKw00PhPAmrGEw
+ /59YJE5zmDdb4lOaWIgmGSuKoKb7prsL2Bze6dS7G/meZc9MBfa8sPb7a7n0cx9DB
+ vEhVLewNFuhCCzofLA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.55] ([94.134.146.202]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M8ykW-1rVtkR1mgo-0063Ro; Fri, 19
+ Jan 2024 22:14:45 +0100
+Message-ID: <b6350dac-0be6-45f9-9309-d196ea455dea@gmx.de>
+Date: Fri, 19 Jan 2024 22:14:44 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 13/14] drm/msm/dp: move next_bridge handling to dp_display
+User-Agent: Mozilla Thunderbird
+Subject: Re: REGRESSION: no console on current -git
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>,
- Sankeerth Billakanti <quic_sbillaka@quicinc.com>
-References: <20231229225650.912751-1-dmitry.baryshkov@linaro.org>
- <20231229225650.912751-14-dmitry.baryshkov@linaro.org>
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-In-Reply-To: <20231229225650.912751-14-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: ebDywD6xpQtIxcUFQjz-zBZhVgy458IN
-X-Proofpoint-ORIG-GUID: ebDywD6xpQtIxcUFQjz-zBZhVgy458IN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-19_12,2024-01-19_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 adultscore=0
- clxscore=1011 impostorscore=0 phishscore=0 mlxlogscore=999 mlxscore=0
- suspectscore=0 bulkscore=0 malwarescore=0 priorityscore=1501
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2401190128
+To: Jens Axboe <axboe@kernel.dk>, LKML <linux-kernel@vger.kernel.org>,
+ "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Linus Torvalds <torvalds@linux-foundation.org>
+References: <05ea3233-20dd-4af7-86cc-de11ad2efe84@kernel.dk>
+ <0293b14b-6188-4229-9fb6-29fbbdb8dc83@gmx.de>
+ <9e09464a-d58c-4f17-9318-26f0813a3023@kernel.dk>
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ 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
+In-Reply-To: <9e09464a-d58c-4f17-9318-26f0813a3023@kernel.dk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:wI6PavTWyK/1hLNhp/ONCgpT/GrJrivjIT9bLA5ikrUXVcScRhC
+ LVHbXd53Tx+G5Q8evkoIzYQwKlWebi7dg6KrxVpIyXInVMNzRas0WfSDLTbBs/VUxhCLbFk
+ 0iozpUd8X76u6lTvoxh81WS2a6ZrYGS+QFttXwfZPFZb66aplDu52Ukf7VH61f/HkuwPJUA
+ xDbEX+u6iDeRVn0csM8sg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:pUHXn6D2Kwo=;EjUffMTjKPWQtDnl2tB1Yg4ggOl
+ A2c+ukjYdBcs0htKnG0hm4G+c+SCc1xfb+pMLnUIez7X1/8SoJ1HGLG3YY1f0CUV8IaquSiz5
+ chO7QxWE4aVG3j9MjeTz6hwjIMXmJqEDQ2T9Zw3l+SrLYdpQaEJdptt4ljUUUdsyvn50Cfvm8
+ tgvye6lOtajKYrgjbHpiGGu0OPywJQJJ9Dhe//d0dg4WIBvQeGTFJ1kLs1QTVizHHtfXUxKrV
+ 7S9edHthzsOcd3PeHGD0RQpvy6gB5ihtW1b7gvhDEQkHJskwPkpwFtBoZU4a9TH2c5LV8QnN4
+ 27geTlss1gGlA9cbbQ6HNJbxpg6EtQ4HiXjWHPbOaIcQWGKH7jxpfVJhKpKZQae7B3HMsjFOI
+ kHMm8nNJpeJt7SEl+ICSNytRNiqa5rvwcSGJwAsZx4TVatm+zhKYBxO1C+REWGmlaqEWY7Smp
+ XpcsBi6zo9hbjvPkxHOVNr6PHqTLpCm/FOuAkYlQ/sBqvOJsDzqa/zYtFfEbOP+cELDIdDh7z
+ UVSmRzslQ3xmNCtLnwY1+hKOykyg1BTxfmnmKZgKx3jPYA/sBOoxOahWf9Kw5n1IXeQTXfseX
+ ZqwUrdxUjsAyvIevU0wCsAhkWV50U8JUPpZA+3RT82HejKPMVy19Rvm6CNZfUVNGuesg8clqC
+ TOc5M3qaZZ6dhZBcRQ8wSYAGBwTg/sp71h10Gw1Rfhk6uEb4FPeYoPdfO15YisgZcXCXN3eoV
+ 54zpJs6aMFlaWFVvGHRnCTGI2D5hW0Eb0epwX2L8bUnFQhsHUrCblOGXRwR2FTpzU/RVnZozU
+ GUubuPxPbSDpkpiZT1BRy06bUbRgDX6hm6Kdfh7MNLB45zfm7N4B4CrEUjZ3F5onpx5ckp+H6
+ PUIQsM6YwDRCeffenmt3OGPMroBkuJHqS7WVe69jLd6hNFzaDJL689GiIKY6aiKXgn+lrA2o9
+ MUFwfSYHvVDD8Zdv58ZxaMybR0E=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,149 +120,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>
+Cc: avier Martinez Canillas <javierm@redhat.com>,
+ Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dmitry,
-
-I am testing this patch serial with msm-next branch.
-
-This patch cause system crash during booting up for me.
-
-Is this patch work for you?
-
-On 12/29/2023 2:56 PM, Dmitry Baryshkov wrote:
-> Remove two levels of indirection and fetch next bridge directly in
-> dp_display_probe_tail().
+On 1/19/24 22:01, Jens Axboe wrote:
+> On 1/19/24 1:55 PM, Helge Deller wrote:
+>> Adding Mirsad Todorovac (who reported a similar issue).
+>>
+>> On 1/19/24 19:39, Jens Axboe wrote:
+>>> My trusty R7525 test box is failing to show a console, or in fact anyt=
+hing,
+>>> on current -git. There's no output after:
+>>>
+>>> Loading Linux 6.7.0+ ...
+>>> Loading initial ramdisk ...
+>>>
+>>> and I don't get a console up. I went through the bisection pain and
+>>> found this was the culprit:
+>>>
+>>> commit df67699c9cb0ceb70f6cc60630ca938c06773eda
+>>> Author: Thomas Zimmermann <tzimmermann@suse.de>
+>>> Date:   Wed Jan 3 11:15:11 2024 +0100
+>>>
+>>>       firmware/sysfb: Clear screen_info state after consuming it
+>>>
+>>> Reverting this commit, and everything is fine. Looking at dmesg with a
+>>> buggy kernel, I get no frame or fb messages. On a good kernel, it look=
+s
+>>> ilke this:
+>>>
+>>> [    1.416486] efifb: probing for efifb
+>>> [    1.416602] efifb: framebuffer at 0xde000000, using 3072k, total 30=
+72k
+>>> [    1.416605] efifb: mode is 1024x768x32, linelength=3D4096, pages=3D=
+1
+>>> [    1.416607] efifb: scrolling: redraw
+>>> [    1.416608] efifb: Truecolor: size=3D8:8:8:8, shift=3D24:16:8:0
+>>> [    1.449746] fb0: EFI VGA frame buffer device
+>>>
+>>> Happy to test a fix, or barring that, can someone just revert this
+>>> commit please?
+>>
+>> I've temporarily added a revert patch into the fbdev for-next tree for =
+now,
+>> so people should not face the issue in the for-next series:
+>> https://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git/=
+commit/?h=3Dfor-next
+>> I'd like to wait for Thomas to return on monday to check the issue
+>> as there are some other upcoming patches in this area from him.
 >
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/dp/dp_display.c | 42 +++++++++--------------------
->   drivers/gpu/drm/msm/dp/dp_parser.c  | 14 ----------
->   drivers/gpu/drm/msm/dp/dp_parser.h  | 14 ----------
->   3 files changed, 13 insertions(+), 57 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 4de0857c31ce..923df47efcc9 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -1195,16 +1195,24 @@ static const struct msm_dp_desc *dp_display_get_desc(struct platform_device *pde
->   	return NULL;
->   }
->   
-> -static int dp_display_get_next_bridge(struct msm_dp *dp);
-> -
->   static int dp_display_probe_tail(struct device *dev)
->   {
->   	struct msm_dp *dp = dev_get_drvdata(dev);
->   	int ret;
->   
-> -	ret = dp_display_get_next_bridge(dp);
-> -	if (ret)
-> -		return ret;
-> +	/*
-> +	 * External bridges are mandatory for eDP interfaces: one has to
-> +	 * provide at least an eDP panel (which gets wrapped into panel-bridge).
-> +	 *
-> +	 * For DisplayPort interfaces external bridges are optional, so
-> +	 * silently ignore an error if one is not present (-ENODEV).
-> +	 */
-> +	dp->next_bridge = devm_drm_of_get_bridge(&dp->pdev->dev, dp->pdev->dev.of_node, 1, 0);
-> +	if (IS_ERR(dp->next_bridge)) {
-> +		ret = PTR_ERR(dp->next_bridge);
-> +		if (dp->is_edp || ret != -ENODEV)
-> +			return ret;
-> +	}
->   
->   	ret = component_add(dev, &dp_display_comp_ops);
->   	if (ret)
-> @@ -1397,30 +1405,6 @@ void dp_display_debugfs_init(struct msm_dp *dp_display, struct dentry *root, boo
->   	}
->   }
->   
-> -static int dp_display_get_next_bridge(struct msm_dp *dp)
-> -{
-> -	int rc;
-> -	struct dp_display_private *dp_priv;
-> -
-> -	dp_priv = container_of(dp, struct dp_display_private, dp_display);
-> -
-> -	/*
-> -	 * External bridges are mandatory for eDP interfaces: one has to
-> -	 * provide at least an eDP panel (which gets wrapped into panel-bridge).
-> -	 *
-> -	 * For DisplayPort interfaces external bridges are optional, so
-> -	 * silently ignore an error if one is not present (-ENODEV).
-> -	 */
-> -	rc = devm_dp_parser_find_next_bridge(&dp->pdev->dev, dp_priv->parser);
-> -	if (!dp->is_edp && rc == -ENODEV)
-> -		return 0;
-> -
-> -	if (!rc)
-> -		dp->next_bridge = dp_priv->parser->next_bridge;
-> -
-> -	return rc;
-> -}
-> -
->   int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
->   			struct drm_encoder *encoder)
->   {
-> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c b/drivers/gpu/drm/msm/dp/dp_parser.c
-> index aa135d5cedbd..f95ab3c5c72c 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_parser.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_parser.c
-> @@ -24,20 +24,6 @@ static int dp_parser_ctrl_res(struct dp_parser *parser)
->   	return 0;
->   }
->   
-> -int devm_dp_parser_find_next_bridge(struct device *dev, struct dp_parser *parser)
-> -{
-> -	struct platform_device *pdev = parser->pdev;
-> -	struct drm_bridge *bridge;
-> -
-> -	bridge = devm_drm_of_get_bridge(dev, pdev->dev.of_node, 1, 0);
-> -	if (IS_ERR(bridge))
-> -		return PTR_ERR(bridge);
-> -
-> -	parser->next_bridge = bridge;
-> -
-> -	return 0;
-> -}
-> -
->   static int dp_parser_parse(struct dp_parser *parser)
->   {
->   	int rc = 0;
-> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.h b/drivers/gpu/drm/msm/dp/dp_parser.h
-> index bc56e0e8c446..2b39b1c394ae 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_parser.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_parser.h
-> @@ -22,7 +22,6 @@
->   struct dp_parser {
->   	struct platform_device *pdev;
->   	struct phy *phy;
-> -	struct drm_bridge *next_bridge;
->   };
->   
->   /**
-> @@ -38,17 +37,4 @@ struct dp_parser {
->    */
->   struct dp_parser *dp_parser_get(struct platform_device *pdev);
->   
-> -/**
-> - * devm_dp_parser_find_next_bridge() - find an additional bridge to DP
-> - *
-> - * @dev: device to tie bridge lifetime to
-> - * @parser: dp_parser data from client
-> - *
-> - * This function is used to find any additional bridge attached to
-> - * the DP controller. The eDP interface requires a panel bridge.
-> - *
-> - * Return: 0 if able to get the bridge, otherwise negative errno for failure.
-> - */
-> -int devm_dp_parser_find_next_bridge(struct device *dev, struct dp_parser *parser);
-> -
->   #endif
+> Given the issue (and that I'm not the only one reporting it), can we
+> please just get that pushed so it'll make -rc1? It can always get
+> re-introduced in a fixed fashion. I don't run -next here, I rely on
+> mainline working for my testing.
+
+I agree, it would be good to get it fixed for -rc1.
+So, it's ok for me, but I won't be able to test the revert short time righ=
+t now.
+If you can assure that the revert fixes it, and builds in git-head,
+I can now prepare the pull request for Linus now (or he just reverts
+commit df67699c9cb0 manually).
+
+Helge
