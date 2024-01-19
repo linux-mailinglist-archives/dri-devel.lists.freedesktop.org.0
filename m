@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09D97832B15
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 15:14:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49663832B22
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 15:15:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC50010EA50;
-	Fri, 19 Jan 2024 14:14:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FC1710EA58;
+	Fri, 19 Jan 2024 14:14:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3D7F10EA4E
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 14:14:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA36F10EA4E
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 14:14:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1705673651;
+ s=mail; t=1705673652;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VqYgKFlSXeXJ+ek05cChLqHNIcn71hJPj0SKGxZRr1E=;
- b=nihKf29QM3PAzCv1lf02nN0Lm7J1hFfqxSiJIykkJWXBNUWAts3p9naI7FhbAo3qS1vUZ+
- AQnGMwjj3hS2I+vprXp5cMewxBvtbj1QizrYkrsEZ5nETFXsE//UAy/FMDfPFQvI/KRz1x
- ZpJEeAwef/CDAgBRqgMIUAVTEo2wVuY=
+ bh=9iIxPbs0dWlzjgcaYm0qZReABojDho1rbr0/l/s8ieo=;
+ b=VDmw/5dmFB8a7DjV5sQY6708zGHT8cN9da4xSjKPmDqd5JoGUoAWZFLA4iBJzYVtLoeMc0
+ 534O4/q85cvb0JyL4RkqR4fcFW36IeUqTLCBrV3EPttmKkeaTxQBZIvVT+hfm/hQr1U2rC
+ b1Gx/QWvHOF3f7bFVi1IGm2UPpG4KrU=
 From: Paul Cercueil <paul@crapouillou.net>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [PATCH v5 1/6] dma-buf: Add dma_buf_{begin,end}_access()
-Date: Fri, 19 Jan 2024 15:13:57 +0100
-Message-ID: <20240119141402.44262-2-paul@crapouillou.net>
+Subject: [PATCH v5 2/6] dma-buf: udmabuf: Implement .{begin,end}_access
+Date: Fri, 19 Jan 2024 15:13:58 +0100
+Message-ID: <20240119141402.44262-3-paul@crapouillou.net>
 In-Reply-To: <20240119141402.44262-1-paul@crapouillou.net>
 References: <20240119141402.44262-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -55,159 +55,64 @@ Cc: Paul Cercueil <paul@crapouillou.net>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These functions should be used by device drivers when they start and
-stop accessing the data of DMABUF. It allows DMABUF importers to cache
-the dma_buf_attachment while ensuring that the data they want to access
-is available for their device when the DMA transfers take place.
+Implement .begin_access() and .end_access() callbacks.
+
+For now these functions will simply sync/flush the CPU cache when
+needed.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 
 ---
 v5: New patch
 ---
- drivers/dma-buf/dma-buf.c | 66 +++++++++++++++++++++++++++++++++++++++
- include/linux/dma-buf.h   | 37 ++++++++++++++++++++++
- 2 files changed, 103 insertions(+)
+ drivers/dma-buf/udmabuf.c | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 8fe5aa67b167..a8bab6c18fcd 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -830,6 +830,8 @@ static struct sg_table * __map_dma_buf(struct dma_buf_attachment *attach,
-  *     - dma_buf_mmap()
-  *     - dma_buf_begin_cpu_access()
-  *     - dma_buf_end_cpu_access()
-+ *     - dma_buf_begin_access()
-+ *     - dma_buf_end_access()
-  *     - dma_buf_map_attachment_unlocked()
-  *     - dma_buf_unmap_attachment_unlocked()
-  *     - dma_buf_vmap_unlocked()
-@@ -1602,6 +1604,70 @@ void dma_buf_vunmap_unlocked(struct dma_buf *dmabuf, struct iosys_map *map)
+diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+index c40645999648..a87d89b58816 100644
+--- a/drivers/dma-buf/udmabuf.c
++++ b/drivers/dma-buf/udmabuf.c
+@@ -179,6 +179,31 @@ static int end_cpu_udmabuf(struct dma_buf *buf,
+ 	return 0;
  }
- EXPORT_SYMBOL_NS_GPL(dma_buf_vunmap_unlocked, DMA_BUF);
  
-+/**
-+ * @dma_buf_begin_access - Call before any hardware access from/to the DMABUF
-+ * @attach:	[in]	attachment used for hardware access
-+ * @sg_table:	[in]	scatterlist used for the DMA transfer
-+ * @direction:  [in]    direction of DMA transfer
-+ */
-+int dma_buf_begin_access(struct dma_buf_attachment *attach,
-+			 struct sg_table *sgt, enum dma_data_direction dir)
++static int begin_udmabuf(struct dma_buf_attachment *attach,
++			 struct sg_table *sgt,
++			 enum dma_data_direction dir)
 +{
-+	struct dma_buf *dmabuf;
-+	bool cookie;
-+	int ret;
++	struct dma_buf *buf = attach->dmabuf;
++	struct udmabuf *ubuf = buf->priv;
++	struct device *dev = ubuf->device->this_device;
 +
-+	if (WARN_ON(!attach))
-+		return -EINVAL;
-+
-+	dmabuf = attach->dmabuf;
-+
-+	if (!dmabuf->ops->begin_access)
-+		return 0;
-+
-+	cookie = dma_fence_begin_signalling();
-+	ret = dmabuf->ops->begin_access(attach, sgt, dir);
-+	dma_fence_end_signalling(cookie);
-+
-+	if (WARN_ON_ONCE(ret))
-+		return ret;
-+
++	dma_sync_sg_for_device(dev, sgt->sgl, sg_nents(sgt->sgl), dir);
 +	return 0;
 +}
-+EXPORT_SYMBOL_NS_GPL(dma_buf_begin_access, DMA_BUF);
 +
-+/**
-+ * @dma_buf_end_access - Call after any hardware access from/to the DMABUF
-+ * @attach:	[in]	attachment used for hardware access
-+ * @sg_table:	[in]	scatterlist used for the DMA transfer
-+ * @direction:  [in]    direction of DMA transfer
-+ */
-+int dma_buf_end_access(struct dma_buf_attachment *attach,
-+		       struct sg_table *sgt, enum dma_data_direction dir)
++static int end_udmabuf(struct dma_buf_attachment *attach,
++		       struct sg_table *sgt,
++		       enum dma_data_direction dir)
 +{
-+	struct dma_buf *dmabuf;
-+	bool cookie;
-+	int ret;
++	struct dma_buf *buf = attach->dmabuf;
++	struct udmabuf *ubuf = buf->priv;
++	struct device *dev = ubuf->device->this_device;
 +
-+	if (WARN_ON(!attach))
-+		return -EINVAL;
-+
-+	dmabuf = attach->dmabuf;
-+
-+	if (!dmabuf->ops->end_access)
-+		return 0;
-+
-+	cookie = dma_fence_begin_signalling();
-+	ret = dmabuf->ops->end_access(attach, sgt, dir);
-+	dma_fence_end_signalling(cookie);
-+
-+	if (WARN_ON_ONCE(ret))
-+		return ret;
-+
++	if (dir != DMA_TO_DEVICE)
++		dma_sync_sg_for_cpu(dev, sgt->sgl, sg_nents(sgt->sgl), dir);
 +	return 0;
 +}
-+EXPORT_SYMBOL_NS_GPL(dma_buf_end_access, DMA_BUF);
 +
- #ifdef CONFIG_DEBUG_FS
- static int dma_buf_debug_show(struct seq_file *s, void *unused)
- {
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index 8ff4add71f88..8ba612c7cc16 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -246,6 +246,38 @@ struct dma_buf_ops {
- 	 */
- 	int (*end_cpu_access)(struct dma_buf *, enum dma_data_direction);
+ static const struct dma_buf_ops udmabuf_ops = {
+ 	.cache_sgt_mapping = true,
+ 	.map_dma_buf	   = map_udmabuf,
+@@ -189,6 +214,8 @@ static const struct dma_buf_ops udmabuf_ops = {
+ 	.vunmap		   = vunmap_udmabuf,
+ 	.begin_cpu_access  = begin_cpu_udmabuf,
+ 	.end_cpu_access    = end_cpu_udmabuf,
++	.begin_access      = begin_udmabuf,
++	.end_access        = end_udmabuf,
+ };
  
-+	/**
-+	 * @begin_access:
-+	 *
-+	 * This is called from dma_buf_begin_access() when a device driver
-+	 * wants to access the data of the DMABUF. The exporter can use this
-+	 * to flush/sync the caches if needed.
-+	 *
-+	 * This callback is optional.
-+	 *
-+	 * Returns:
-+	 *
-+	 * 0 on success or a negative error code on failure.
-+	 */
-+	int (*begin_access)(struct dma_buf_attachment *, struct sg_table *,
-+			    enum dma_data_direction);
-+
-+	/**
-+	 * @end_access:
-+	 *
-+	 * This is called from dma_buf_end_access() when a device driver is
-+	 * done accessing the data of the DMABUF. The exporter can use this
-+	 * to flush/sync the caches if needed.
-+	 *
-+	 * This callback is optional.
-+	 *
-+	 * Returns:
-+	 *
-+	 * 0 on success or a negative error code on failure.
-+	 */
-+	int (*end_access)(struct dma_buf_attachment *, struct sg_table *,
-+			  enum dma_data_direction);
-+
- 	/**
- 	 * @mmap:
- 	 *
-@@ -606,6 +638,11 @@ void dma_buf_detach(struct dma_buf *dmabuf,
- int dma_buf_pin(struct dma_buf_attachment *attach);
- void dma_buf_unpin(struct dma_buf_attachment *attach);
- 
-+int dma_buf_begin_access(struct dma_buf_attachment *attach,
-+			 struct sg_table *sgt, enum dma_data_direction dir);
-+int dma_buf_end_access(struct dma_buf_attachment *attach,
-+		       struct sg_table *sgt, enum dma_data_direction dir);
-+
- struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info);
- 
- int dma_buf_fd(struct dma_buf *dmabuf, int flags);
+ #define SEALS_WANTED (F_SEAL_SHRINK)
 -- 
 2.43.0
 
