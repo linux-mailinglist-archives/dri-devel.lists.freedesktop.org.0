@@ -2,66 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92C0D832F62
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 20:34:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76C60832F6A
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 20:36:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D13DC10EA55;
-	Fri, 19 Jan 2024 19:33:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BEC010EA62;
+	Fri, 19 Jan 2024 19:35:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4042E10E1FD
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 19:33:56 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-40e7e2e04f0so11849645e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 11:33:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=suse.com; s=google; t=1705692775; x=1706297575; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=FwNauOvB6o9q6q3aBsg7Pq/WFusdyQcQo0tYXKHt6GQ=;
- b=Z2twtDIZxKVTL6TVVpxMd51JRo1IPSN1u/q4CZwBrBtwZunDJgxr8OmU6Ij27VOeJI
- E88Q3YFG7UG7YxFDij8oJUvm0Ja9pOYl3/GuKcTKJHfZkUDupm+fnynNsILXArEuIQMR
- Uls8TsdKGl7AXE8kAlALsphufhURXtJK0EyINHHnXFVAo6NQqAUMJOGAR+4wcNp/7eBO
- 429rMux9V1VbwyEylFaQwcLrLXRzCrNq4sND/OpwmiCeVUPdDb58+YjgSfqDFCdq1K4W
- r0ikjNPI1uczHPm1KMBEZTeOjQXOyYrq7NYAFV3oWiO7QgIfwr6Sl2mhCV7ZOi/rGU6J
- SIPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705692775; x=1706297575;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FwNauOvB6o9q6q3aBsg7Pq/WFusdyQcQo0tYXKHt6GQ=;
- b=E9MKAAzHtgH4NqhbechcKMHEn/wyRLaOAnCinn+RVYfFjXBdncwlW47qENSy99VZHk
- W2cQaZJqaQuTI6MR/nj3cEWEQsirY5jR1bypUVqf9Yf48T8WK3jUCBVV44JXUBhDOvJo
- sbmyRcSAsRU+0IYhGqq0z9SIijv/k6Pra48AVVVdGkPVHxWrNHaMDlrR6sl9Ogb6Pgpk
- V0/LDJwOYK0X1sQrsb+7QWBYGx8/H7ZqpHSlCKOTZiNqHkMF5E3hXACxsJeQEjGItfVj
- pjnBuh/mFdeDyTnAPOaHtxDet/l2ymS1j9S5jZdyknK/m5ZgqJG5mEzlDL+SaFzZVFeN
- HDhw==
-X-Gm-Message-State: AOJu0YxQssqD50QYjCjwJZEy2Zhp5hFtgqUk65LCqgNBIqwsUuI8/ZOB
- ElwuysXcKEC7GfkQL97XatdkQkBdaw1X8Fdi4doKMYXQ1tv1CR/HNaebaPWYEFw=
-X-Google-Smtp-Source: AGHT+IES4xFDyFEvaCgtPpSoHqtsHrVaMI/el0CSwVDqCQMTrqrO5Z5Rz4FwS6geBXm1gtfK5b+kiQ==
-X-Received: by 2002:a05:600c:1990:b0:40e:a351:7076 with SMTP id
- t16-20020a05600c199000b0040ea3517076mr13618wmq.105.1705692774754; 
- Fri, 19 Jan 2024 11:32:54 -0800 (PST)
-Received: from suse.de ([81.95.8.245]) by smtp.gmail.com with ESMTPSA id
- u13-20020a05600c19cd00b0040e451fd602sm33825451wmq.33.2024.01.19.11.32.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Jan 2024 11:32:54 -0800 (PST)
-Date: Fri, 19 Jan 2024 20:32:53 +0100
-From: Stefan Dirsch <sndirsch@suse.com>
-To: Matt Turner <mattst88@gmail.com>
-Subject: Re: Mesa >= 23.3.x and python 2.6 ...
-Message-ID: <20240119193253.ththa6dvqcz5gcth@suse.de>
-References: <20240118123752.bl3qss3qbbxgvpdk@suse.de>
- <CAEdQ38GM63O2Y=1UR9wX0PTTGyZuZiT1NZyaVwSfnFuG8eoqFw@mail.gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2411110EA5D;
+ Fri, 19 Jan 2024 19:35:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1705692951; x=1737228951;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=hEfwMF5g8zz2N0Y17lIN3FDeW78Qu57IzEn+eZJYJJs=;
+ b=NjJ7bPE/CqRUXcXHwv3jSwNThQfiZC+cG7pi9+Pk7SxqayL077YezUjn
+ wsP/bQ4CI++3GOC/vXPvR9u1XSd278GvPFICWezcvVSNjOC4fe5g0QzDi
+ 6wWFlme9fBfUSAXZbYLavZEkuhhv0OPjZ3RK0FobGBMBHWS1J7DA+N4WI
+ A3YcWYCyrDP2ZLpF3tQIX3eua44Fk4PxNlZpQU3gWrtT+cZKZ4a1za4nD
+ esb4j+CBp9M8OKtmN75/YF0tUh48K1FrnrOFZH707UVq7uxIRA4h9AmSp
+ DtosbXFyJRjBE1LLK+MoJOlZ4VzS/sZZauoHwgjPwhPFYOZVRuSWEI4VP w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="14344279"
+X-IronPort-AV: E=Sophos;i="6.05,206,1701158400"; d="scan'208";a="14344279"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jan 2024 11:35:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,206,1701158400"; 
+   d="scan'208";a="654211"
+Received: from vbelgaum-ubuntu.fm.intel.com ([10.1.27.27])
+ by fmviesa005.fm.intel.com with ESMTP; 19 Jan 2024 11:35:50 -0800
+From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm/i915/mtl: Wake GT before sending H2G message
+Date: Fri, 19 Jan 2024 11:35:13 -0800
+Message-Id: <20240119193513.221730-1-vinay.belgaumkar@intel.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEdQ38GM63O2Y=1UR9wX0PTTGyZuZiT1NZyaVwSfnFuG8eoqFw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,37 +55,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mesa-dev@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 19, 2024 at 12:35:58PM -0500, Matt Turner wrote:
-> On Thu, Jan 18, 2024 at 10:22 AM Stefan Dirsch <sndirsch@suse.com> wrote:
-> > I noticed that with version 23.3.x Mesa no longer can be built with python
-> > 2.6. It still worked with Mesa 23.2.1.
-> 
-> For anyone who got this far and was completely incredulous... this
-> (and the subject) is typo'd -- the problem is about Python 3.6, not
-> 2.6.
+Instead of waiting until the interrupt reaches GuC, we can grab a
+forcewake while triggering the H2G interrupt. GEN11_GUC_HOST_INTERRUPT
+is inside sgunit and is not affected by forcewakes. However, there
+could be some delays when platform is entering/exiting some higher
+level platform sleep states and a H2G is triggered. A forcewake
+ensures those sleep states have been fully exited and further
+processing occurs as expected. The hysteresis timers for C6 and
+higher sleep states will ensure there is no unwanted race between the
+wake and processing of the interrupts by GuC.
 
-I'm pretty sure you were the first and only one. :-( I've corrected it in the
-body by doing a reply to my own message, but how do I correct a typo in the
-subject ... I'll try to send the message again with also the correct
-subject. Then I'll be blamed for bringing up the same topic twice and spamming
-the list. Sigh.
+This will have an official WA soon so adding a FIXME in the comments.
 
-Thanks for having a look at the message nevertheless!
+v2: Make the new ranges watertight to address BAT failures and update
+commit message (Matt R).
 
-Thanks,
-Stefan
+Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
+Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+---
+ drivers/gpu/drm/i915/intel_uncore.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Public Key available
-------------------------------------------------------
-Stefan Dirsch (Res. & Dev.)   SUSE Software Solutions Germany GmbH
-Tel: 0911-740 53 0            Frankenstraße 146
-FAX: 0911-740 53 479          D-90461 Nürnberg
-http://www.suse.de            Germany 
-----------------------------------------------------------------
-Geschäftsführer: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-(HRB 36809, AG Nürnberg)
-----------------------------------------------------------------
+diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
+index dfefad5a5fec..76400e9c40f0 100644
+--- a/drivers/gpu/drm/i915/intel_uncore.c
++++ b/drivers/gpu/drm/i915/intel_uncore.c
+@@ -1800,7 +1800,10 @@ static const struct intel_forcewake_range __mtl_fw_ranges[] = {
+ 	GEN_FW_RANGE(0x24000, 0x2ffff, 0), /*
+ 		0x24000 - 0x2407f: always on
+ 		0x24080 - 0x2ffff: reserved */
+-	GEN_FW_RANGE(0x30000, 0x3ffff, FORCEWAKE_GT)
++	GEN_FW_RANGE(0x30000, 0x3ffff, FORCEWAKE_GT),
++	GEN_FW_RANGE(0x40000, 0x1901ef, 0),
++	GEN_FW_RANGE(0x1901f0, 0x1901f3, FORCEWAKE_GT)
++		/* FIXME: WA to wake GT while triggering H2G */
+ };
+ 
+ /*
+-- 
+2.38.1
+
