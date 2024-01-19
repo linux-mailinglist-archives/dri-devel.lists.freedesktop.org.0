@@ -2,79 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BD88832F45
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 20:09:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92C0D832F62
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 20:34:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5238810E0EC;
-	Fri, 19 Jan 2024 19:09:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D13DC10EA55;
+	Fri, 19 Jan 2024 19:33:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
- [205.220.165.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B57D10E0EC
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 19:09:04 +0000 (UTC)
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 40JGwLjl002726; Fri, 19 Jan 2024 19:08:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=corp-2023-11-20; bh=ZWLd4ama37Cyr6lzfrcDFFP9xjU4nJJ8S5Ng2lHItfs=;
- b=exLbPq0gNzGf+z1XrhrHSyOBv+DXeCnOmGi1nSnHsPMxHwOrBJAz5FPwCkWssS0THhhy
- rXsiBeL0d2a918qnot+bi5vq/h1EQuucaxjz1skEgtGt3Rjjqb3a0QYTzUsvNMCCahht
- EXCsWtdvSpZON1IYTv9v9cqg2rOB6KXyLJ1eH2XXwadKnjJjCTpstcSA3E/kFcjE48di
- 8d25VonlzNtYNlmyciWj8KPn04d9sNpBztKYyq1HfUO0YoEx5i2GxQsBoBcHelejRDHq
- nTsJBJCtplWAP1ySXZCzp1gb0iCfMMhXC6LttWugpvcjLu1AvqIopSbCbaXwUeg22bcO vA== 
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3vkk2ufd3s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 19 Jan 2024 19:08:48 +0000
-Received: from pps.filterd
- (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19)
- with ESMTP id 40JIiXHn020046; Fri, 19 Jan 2024 19:08:47 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 3vkgyfunru-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 19 Jan 2024 19:08:47 +0000
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 40JJ8lNR032671;
- Fri, 19 Jan 2024 19:08:47 GMT
-Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com
- [10.129.136.47])
- by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id
- 3vkgyfunr8-1; Fri, 19 Jan 2024 19:08:46 +0000
-From: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-To: Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/rockchip: vop2: add a missing unlock in
- vop2_crtc_atomic_enable()
-Date: Fri, 19 Jan 2024 11:08:40 -0800
-Message-ID: <20240119190841.1619443-1-harshit.m.mogalapalli@oracle.com>
-X-Mailer: git-send-email 2.42.0
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4042E10E1FD
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 19:33:56 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-40e7e2e04f0so11849645e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 11:33:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=suse.com; s=google; t=1705692775; x=1706297575; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=FwNauOvB6o9q6q3aBsg7Pq/WFusdyQcQo0tYXKHt6GQ=;
+ b=Z2twtDIZxKVTL6TVVpxMd51JRo1IPSN1u/q4CZwBrBtwZunDJgxr8OmU6Ij27VOeJI
+ E88Q3YFG7UG7YxFDij8oJUvm0Ja9pOYl3/GuKcTKJHfZkUDupm+fnynNsILXArEuIQMR
+ Uls8TsdKGl7AXE8kAlALsphufhURXtJK0EyINHHnXFVAo6NQqAUMJOGAR+4wcNp/7eBO
+ 429rMux9V1VbwyEylFaQwcLrLXRzCrNq4sND/OpwmiCeVUPdDb58+YjgSfqDFCdq1K4W
+ r0ikjNPI1uczHPm1KMBEZTeOjQXOyYrq7NYAFV3oWiO7QgIfwr6Sl2mhCV7ZOi/rGU6J
+ SIPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1705692775; x=1706297575;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FwNauOvB6o9q6q3aBsg7Pq/WFusdyQcQo0tYXKHt6GQ=;
+ b=E9MKAAzHtgH4NqhbechcKMHEn/wyRLaOAnCinn+RVYfFjXBdncwlW47qENSy99VZHk
+ W2cQaZJqaQuTI6MR/nj3cEWEQsirY5jR1bypUVqf9Yf48T8WK3jUCBVV44JXUBhDOvJo
+ sbmyRcSAsRU+0IYhGqq0z9SIijv/k6Pra48AVVVdGkPVHxWrNHaMDlrR6sl9Ogb6Pgpk
+ V0/LDJwOYK0X1sQrsb+7QWBYGx8/H7ZqpHSlCKOTZiNqHkMF5E3hXACxsJeQEjGItfVj
+ pjnBuh/mFdeDyTnAPOaHtxDet/l2ymS1j9S5jZdyknK/m5ZgqJG5mEzlDL+SaFzZVFeN
+ HDhw==
+X-Gm-Message-State: AOJu0YxQssqD50QYjCjwJZEy2Zhp5hFtgqUk65LCqgNBIqwsUuI8/ZOB
+ ElwuysXcKEC7GfkQL97XatdkQkBdaw1X8Fdi4doKMYXQ1tv1CR/HNaebaPWYEFw=
+X-Google-Smtp-Source: AGHT+IES4xFDyFEvaCgtPpSoHqtsHrVaMI/el0CSwVDqCQMTrqrO5Z5Rz4FwS6geBXm1gtfK5b+kiQ==
+X-Received: by 2002:a05:600c:1990:b0:40e:a351:7076 with SMTP id
+ t16-20020a05600c199000b0040ea3517076mr13618wmq.105.1705692774754; 
+ Fri, 19 Jan 2024 11:32:54 -0800 (PST)
+Received: from suse.de ([81.95.8.245]) by smtp.gmail.com with ESMTPSA id
+ u13-20020a05600c19cd00b0040e451fd602sm33825451wmq.33.2024.01.19.11.32.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 19 Jan 2024 11:32:54 -0800 (PST)
+Date: Fri, 19 Jan 2024 20:32:53 +0100
+From: Stefan Dirsch <sndirsch@suse.com>
+To: Matt Turner <mattst88@gmail.com>
+Subject: Re: Mesa >= 23.3.x and python 2.6 ...
+Message-ID: <20240119193253.ththa6dvqcz5gcth@suse.de>
+References: <20240118123752.bl3qss3qbbxgvpdk@suse.de>
+ <CAEdQ38GM63O2Y=1UR9wX0PTTGyZuZiT1NZyaVwSfnFuG8eoqFw@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-19_12,2024-01-19_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- suspectscore=0 bulkscore=0
- spamscore=0 mlxlogscore=999 phishscore=0 malwarescore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
- definitions=main-2401190113
-X-Proofpoint-ORIG-GUID: YhbWzf0BGgzwKT-zZSFVivNqHgWwTUMY
-X-Proofpoint-GUID: YhbWzf0BGgzwKT-zZSFVivNqHgWwTUMY
+In-Reply-To: <CAEdQ38GM63O2Y=1UR9wX0PTTGyZuZiT1NZyaVwSfnFuG8eoqFw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,38 +74,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: harshit.m.mogalapalli@oracle.com, kernel-janitors@vger.kernel.org,
- error27@gmail.com, dan.carpenter@linaro.org
+Cc: mesa-dev@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Unlock before returning on the error path.
+On Fri, Jan 19, 2024 at 12:35:58PM -0500, Matt Turner wrote:
+> On Thu, Jan 18, 2024 at 10:22 AM Stefan Dirsch <sndirsch@suse.com> wrote:
+> > I noticed that with version 23.3.x Mesa no longer can be built with python
+> > 2.6. It still worked with Mesa 23.2.1.
+> 
+> For anyone who got this far and was completely incredulous... this
+> (and the subject) is typo'd -- the problem is about Python 3.6, not
+> 2.6.
 
-Fixes: 5a028e8f062f ("drm/rockchip: vop2: Add support for rk3588")
-Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
----
-This is based on static analysis. Only compile tested.
-Note: Smatch found this.
----
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+I'm pretty sure you were the first and only one. :-( I've corrected it in the
+body by doing a reply to my own message, but how do I correct a typo in the
+subject ... I'll try to send the message again with also the correct
+subject. Then I'll be blamed for bringing up the same topic twice and spamming
+the list. Sigh.
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index 85b3b4871a1d..fdd768bbd487 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -1985,8 +1985,10 @@ static void vop2_crtc_atomic_enable(struct drm_crtc *crtc,
- 		clock = vop2_set_intf_mux(vp, rkencoder->crtc_endpoint_id, polflags);
- 	}
- 
--	if (!clock)
-+	if (!clock) {
-+		vop2_unlock(vop2);
- 		return;
-+	}
- 
- 	if (vcstate->output_mode == ROCKCHIP_OUT_MODE_AAAA &&
- 	    !(vp_data->feature & VOP2_VP_FEATURE_OUTPUT_10BIT))
--- 
-2.39.3
+Thanks for having a look at the message nevertheless!
 
+Thanks,
+Stefan
+
+Public Key available
+------------------------------------------------------
+Stefan Dirsch (Res. & Dev.)   SUSE Software Solutions Germany GmbH
+Tel: 0911-740 53 0            Frankenstraße 146
+FAX: 0911-740 53 479          D-90461 Nürnberg
+http://www.suse.de            Germany 
+----------------------------------------------------------------
+Geschäftsführer: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+(HRB 36809, AG Nürnberg)
+----------------------------------------------------------------
