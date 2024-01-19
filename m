@@ -2,49 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1A018325C3
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 09:31:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EE808325D5
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 09:38:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6528C10E980;
-	Fri, 19 Jan 2024 08:30:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AF0A10E96A;
+	Fri, 19 Jan 2024 08:38:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDA5D10E96F;
- Fri, 19 Jan 2024 08:30:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1705653053; x=1737189053;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=gFBrt25gUCsuVGpE3BMz42k3wt5kctlAPg8E8hQ5Xm8=;
- b=RHL9+HKv0Dci2EsrKBwdlPc7SwGqVMbGKi4YrLBii2pMK7xKYuL80LNj
- J8zZy1OwGEjKKdEEsyduRETVsxoBTM2ef5L73hPvPaRsPNAzmS7kivzhU
- R+oymW6B+N6fg1/xqgK46+iLlW3QGA0uZ0A9rXMk/K/gTdlE4plCEmF8x
- 5ipPEuJCepsxS09DVnsHA+jvcam7HcFK9eMLRqC7eYgLGSs8sHWF1ApuU
- jkRGuHRBbgwqgWSw/g6g2Zs/n1mSBbg83+B0U1f96h61164WlEM6Tb7Xb
- xjq/f60DceE0IB1/p7YjzlVaiEbVUgWTg5AFBRAAIgxNffA0+rIDNYDMt Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="404458596"
-X-IronPort-AV: E=Sophos;i="6.05,204,1701158400"; d="scan'208";a="404458596"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jan 2024 00:30:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,204,1701158400"; 
-   d="scan'208";a="521681"
-Received: from rbrownex-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.246.50.122])
- by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jan 2024 00:30:49 -0800
-Date: Fri, 19 Jan 2024 10:30:46 +0200
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-next-fixes
-Message-ID: <ZaozNnAGhu6Ec6cb@jlahtine-mobl.ger.corp.intel.com>
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com
+ [209.85.128.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7F1510E96A
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 08:38:54 +0000 (UTC)
+Received: by mail-yw1-f182.google.com with SMTP id
+ 00721157ae682-5fa4b03f3f5so5126137b3.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 00:38:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1705653474; x=1706258274; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NRvn5RZ1HsZd07VKkQW6gCaAtfJNR2DY0xUO7eobngo=;
+ b=aJMuTpWez46pG2zBAMc7X7JENjfPpBbQWiQvzl+dAAFf69B1XJRHBGh94kWieVZJDL
+ 7k6SyKMR+Eq2DoGcygWPn6R7o0uB6L5iGhrWFNftGsh6myPK0USO6gE7sBBigZ36O2SL
+ nrz4rB1T2oxvKscTQDSFm3EMWkkzHuc6QUBdchkHh4WWyacNZSe59K/NEWIfcpi8Ln/Q
+ sNdAEzs2Yq03ltIEf8nJlu8KXAu5lXgPDhFu10xLXz8a0axqh+k4lXOwezUYTB69Dc5n
+ hMqItjEaPHXnDE3U8KpUL+DvqwKO+9gKVI3eo73XhDr0RkKsRLqrAevlcAVS85EZaSWm
+ ByLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1705653474; x=1706258274;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NRvn5RZ1HsZd07VKkQW6gCaAtfJNR2DY0xUO7eobngo=;
+ b=DCfDXjBTxgSdXEEN/nTjiIi/X3pnRVZQzcfpzojJqy7R661FsVBwDMcHhBKMt1WcNJ
+ zgIBg4aYRLVNXDR5pzpwSM1bjaY1HEAs/8oeSNjM/l2+4e8+XqDqpIh/daWB7nrPSgPq
+ n7pG+UWVw+UgIYg9FguEU0hDBPX3e2Vk1ABXRvQ6CEYNdL5wWsMaFCZ7SrNpApi+0hQu
+ PQXtaUqkJDpD1Rx4EcC28kxv7O6FILHT6gCbQaWcZXFU8dHt2dN6a5YyNzjh+OSWe4Ik
+ YHsSLF0juZ8chX0qJ+3ipikN2HhzEENPXQ7+z1wkqQpZrUVjRomfXPXUTS2PFSphF1mh
+ fHuw==
+X-Gm-Message-State: AOJu0Yxubd4zmuKw7zucEwwVDZtTK1UimyCHcSnuGtBeEnp75pUWJKku
+ kAOiJp4PnpSLMnCo1fOZM59mYMn57iJJa5Scaa7eX70+9plKrI2YE8OKsp4t7SKL0BgZacbCi9k
+ 1PIe9dRqpwy61zbmWgon9nK5ZgxhYLQLfngowlA==
+X-Google-Smtp-Source: AGHT+IGnRTPdURLUcKdtp3ipXuTkQDClms+jlN2oiOzaPeSgMjQk19zwgmWNFm3a6edHmF4HgpK7tkJsvVx/Vhghxe8=
+X-Received: by 2002:a81:62c5:0:b0:5ff:617e:6edf with SMTP id
+ w188-20020a8162c5000000b005ff617e6edfmr2146542ywb.34.1705653473914; Fri, 19
+ Jan 2024 00:37:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+References: <20240116071803.5264-1-quic_riteshk@quicinc.com>
+In-Reply-To: <20240116071803.5264-1-quic_riteshk@quicinc.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Fri, 19 Jan 2024 09:37:43 +0100
+Message-ID: <CACRpkdaNU-qD0+4CROGJHRb0KDPqrTGe5QpM_r1ztR04EpTENA@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel: novatek-nt36672e: Include <linux/of.h>
+To: Ritesh Kumar <quic_riteshk@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,64 +69,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, Oded Gabbay <ogabbay@kernel.org>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: neil.armstrong@linaro.org, daniel@ffwll.ch,
+ krzysztof.kozlowski+dt@linaro.org, quic_vproddut@quicinc.com,
+ airlied@gmail.com, quic_abhinavk@quicinc.com, mripard@kernel.org,
+ linux-kernel@vger.kernel.org, robh+dt@kernel.org,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
+ quic_rajeevny@quicinc.com, quic_jesszhan@quicinc.com, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave & Sima,
+On Tue, Jan 16, 2024 at 8:19=E2=80=AFAM Ritesh Kumar <quic_riteshk@quicinc.=
+com> wrote:
 
-Here goes drm-intel-next-fixes for v6.8.
+> Include <linux/of.h> instead of <linux/of_device.h> to fix
+> below compilation errors:
+>
+> drivers/gpu/drm/panel/panel-novatek-nt36672e.c:564:14: error: implicit de=
+claration of function 'of_device_get_match_data'
+>   ctx->desc =3D of_device_get_match_data(dev);
+>               ^
+> drivers/gpu/drm/panel/panel-novatek-nt36672e.c:622:34: error: array type =
+has incomplete element type 'struct of_device_id'
+>  static const struct of_device_id nt36672e_of_match[] =3D {
+>                                   ^
+>
+> Signed-off-by: Ritesh Kumar <quic_riteshk@quicinc.com>
 
-Build warning fix for GCC11, fix for #10071 and DP test pattern fix, one
-OA fix for XeHP+.
+Patch applied to drm-misc-next on top of the commit that need fixing.
 
-Regards, Joonas
-
-***
-
-drm-intel-next-fixes-2024-01-19:
-
-- DSI sequence revert to fix GitLab #10071 and DP test-pattern fix
-- Drop -Wstringop-overflow (broken on GCC11)
-- OA fix on XeHP+
-
-The following changes since commit d505a16e00c35919fd9fe5735894645e0f70a415:
-
-  drm/i915/perf: reconcile Excess struct member kernel-doc warnings (2024-01-10 11:56:58 +0200)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-next-fixes-2024-01-19
-
-for you to fetch changes up to 84b5ece64477df4394d362d494a2496bf0878985:
-
-  drm/i915: Drop -Wstringop-overflow (2024-01-18 13:04:36 +0200)
-
-----------------------------------------------------------------
-- DSI sequence revert to fix GitLab #10071 and DP test-pattern fix
-- Drop -Wstringop-overflow (broken on GCC11)
-- OA fix on XeHP+
-
-----------------------------------------------------------------
-Khaled Almahallawy (1):
-      drm/i915/dp: Fix passing the correct DPCD_REV for drm_dp_set_phy_test_pattern
-
-Lucas De Marchi (1):
-      drm/i915: Drop -Wstringop-overflow
-
-Umesh Nerlige Ramappa (1):
-      drm/i915/perf: Update handling of MMIO triggered reports
-
-Ville Syrjälä (1):
-      Revert "drm/i915/dsi: Do display on sequence later on icl+"
-
- drivers/gpu/drm/i915/Makefile           |  1 -
- drivers/gpu/drm/i915/display/icl_dsi.c  |  3 +--
- drivers/gpu/drm/i915/display/intel_dp.c |  2 +-
- drivers/gpu/drm/i915/i915_perf.c        | 39 ++++++++++++++++++++++++++++-----
- 4 files changed, 36 insertions(+), 9 deletions(-)
+Yours,
+Linus Walleij
