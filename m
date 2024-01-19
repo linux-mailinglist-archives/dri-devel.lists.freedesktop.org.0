@@ -2,70 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BFA583261E
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 10:03:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A68E83261F
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 10:03:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE3DC10E962;
-	Fri, 19 Jan 2024 09:03:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 650F310E983;
+	Fri, 19 Jan 2024 09:03:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com
- [209.85.222.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B78C10E147
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 19:28:48 +0000 (UTC)
-Received: by mail-qk1-f177.google.com with SMTP id
- af79cd13be357-78333ad3a17so1548785a.3
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 11:28:48 -0800 (PST)
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+ [209.85.210.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8957810E959
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 03:34:11 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id
+ d2e1a72fcca58-6d9ab48faeaso84913b3a.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jan 2024 19:34:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dionne-riel-com.20230601.gappssmtp.com; s=20230601; t=1705606068;
- x=1706210868; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:to:from:date:from:to:cc:subject:date:message-id
- :reply-to; bh=cl86MxNlP9JU8mn4QxWW8Z1SEI1toh78ROznChJ2Mp8=;
- b=2L919SUdLyuwZwFcAwWNdbphbYwW5GA21v605nUCUFhQBClvry7i6TdpXZ9i7WLalM
- KFMwRgrQ5VwDehXCsQDQT+X4Dn7SkDmWFe+1htCuLi8jh/1bfbYhZzLMB5DJaEf7k3mO
- 7FxXsVuthj8h7tM4ZRGzDGwhnCY8u6CjpM4Zjf/96X8QA74TfBHhHxXh2sJ8d1EsgyFF
- ObVIo11bZfFazzdOy/hf9xS25rMnvNAoaMcIaEIjY3Kgy1wHkGtwPv3hbFSRZIr3sBc/
- 1HkCYVcz9I/vTngR3YZpsInJjdUoumDMIXEFWizCZPv/nx3X4SNpjQrIz4AkiEMRB1xA
- 7SmQ==
+ d=chromium.org; s=google; t=1705635191; x=1706239991;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=wEILTqh/RXJMBB+YR36HUlkVGyOVde6YUHPbxwHA7iM=;
+ b=mXkcQIlnPYmCh2Bffd8SwgPOsiKnZWBGA1FLHLX1p7VzIUOqCWm8Zae2TnYhSe+hAF
+ DeyLtyZgzA7QUT+H07hS7S1nAqDunpI4kFe2clptNnC6YsG95Xb+7ktVd7CF5GBNsFKT
+ 8STp/NQ5p3o82t4oKQho2D2XSlKNhyU2PZPlc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705606068; x=1706210868;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=cl86MxNlP9JU8mn4QxWW8Z1SEI1toh78ROznChJ2Mp8=;
- b=GskE3AIYbmiCXBuK/FsnP9QxMc0n9ctDS/2j6SGxi0li8FR8qxhUKbmflLggj7toAu
- s6dnSnfuMN2M1Sxys+G+U9Sz+RnHX4ZsdjNtbe5KmV+dpr751LC1IOPG2Pctvn7eF6uy
- /J+9ixV4nzbtacJgLq25tvqyOtSUfjNiT/X2zeZ90Cfy0gJZRkLjMxMsyGH42KCQDP2t
- ImMG/L7JrZ06UIkl2+gPcvsSZEC8RI2WFLmeTmzVRh9pe/aWnv1IJoqyvBvoJ0c5rPXc
- TPlyuJYQqhlmICDHFKS5LRdnaiXbUZKW8oFMufu9KFazfFaScgD+uK8ufrEPZind34x5
- b6rQ==
-X-Gm-Message-State: AOJu0YyKuqRJnmCjAvGacofQjyOAhQb9kbUovYqsQ6axfyacBiFQunav
- Rhm8/d4Ees9GDwlHgArSGDOrQgfl5uu4VlEE6ASwT1mQhsj2FynW8+H0l9mQdA==
-X-Google-Smtp-Source: AGHT+IHSOe1LtWuDt9eb1xAJjqjUVCk+Ml5NMxnoOGGVWM65IW19VJdnN3QsYNsy62zdIQZtdfVgAw==
-X-Received: by 2002:ae9:e105:0:b0:783:47e2:41ff with SMTP id
- g5-20020ae9e105000000b0078347e241ffmr144690qkm.43.1705606067572; 
- Thu, 18 Jan 2024 11:27:47 -0800 (PST)
-Received: from frankgrimes (135-23-195-66.cpe.pppoe.ca. [135.23.195.66])
- by smtp.gmail.com with ESMTPSA id
- h7-20020a05620a10a700b007836647671fsm2631952qkk.89.2024.01.18.11.27.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Jan 2024 11:27:47 -0800 (PST)
-Date: Thu, 18 Jan 2024 14:27:45 -0500
-From: Samuel Dionne-Riel <samuel@dionne-riel.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drm: panel-orientation-quirks: Add quirk for GPD Win
- Mini
-Message-ID: <20240118142745.1b52585a.samuel@dionne-riel.com>
-In-Reply-To: <20231222030149.3740815-2-samuel@dionne-riel.com>
-References: <20231222030149.3740815-2-samuel@dionne-riel.com>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-pc-linux-gnu)
+ d=1e100.net; s=20230601; t=1705635191; x=1706239991;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=wEILTqh/RXJMBB+YR36HUlkVGyOVde6YUHPbxwHA7iM=;
+ b=vwAfTBk4EEiUSW921l3ZI27XRcLm4IGEn7QXD3jsTasKTDDHiWcmfKlAH90+ZOPl6S
+ N85ou5/BjTI2IFbXVuHdV58ijm/c0wjC+KDCnGuGG7ix1w+R7HyCwsbhe21de1/jlFNf
+ eC4j6uJu9qipRfh8ZUXN3JDcf1n9f9etINU5Hg095GP4Lu0DS0G1C19Y7vQH5GjlULSB
+ lz6wbA5a/7qb5lEjVik2FE508yDz1+zJ0wz4d02uHUfxDe3Ji9bxLbgKbwAnwIi26bRo
+ B1jXUii2AWlISablI/vS2dNBiR9Jdmb6WB5Zuhx3SGd1aWM4igzJ68faVB4WvGHewLMk
+ W+8g==
+X-Gm-Message-State: AOJu0YzAxQq6cJHkCN906s0+t8SSWGJ90llMayP5BHM0rfCYFykAfJQv
+ +JZTgkgmHaQe/REIYtfhcfgaVtOkc+lpzcVCLJUmeVPHBYoXyNJu3OFtURE8u/koxaCymjxq24G
+ 6Trkp
+X-Google-Smtp-Source: AGHT+IEFxeuO/fG6ld/BUBm6Yi4OVDK+ZMfI8nq9gNKpyVBzwG2r6sD51jIADODKtdwQtKWpJQbJlQ==
+X-Received: by 2002:a05:6a00:db:b0:6db:936c:aabe with SMTP id
+ e27-20020a056a0000db00b006db936caabemr1077205pfj.2.1705635190937; 
+ Thu, 18 Jan 2024 19:33:10 -0800 (PST)
+Received: from localhost (60.252.199.104.bc.googleusercontent.com.
+ [104.199.252.60]) by smtp.gmail.com with UTF8SMTPSA id
+ q16-20020a056a00085000b006d9aa04574csm3990493pfk.52.2024.01.18.19.33.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 18 Jan 2024 19:33:10 -0800 (PST)
+From: Tommy Chiang <ototot@chromium.org>
+To: Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Subject: [PATCH] dma-buf: Add syntax highlighting to code listings in the
+ document
+Date: Fri, 19 Jan 2024 03:31:26 +0000
+Message-ID: <20240119033126.1802711-1-ototot@chromium.org>
+X-Mailer: git-send-email 2.43.0.429.g432eaa2c6b-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Fri, 19 Jan 2024 09:03:38 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,57 +72,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linaro-mm-sig@lists.linaro.org, Tommy Chiang <ototot@chromium.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 21 Dec 2023 22:01:50 -0500
-Samuel Dionne-Riel <samuel@dionne-riel.com> wrote:
+This patch tries to improve the display of the code listing
+on The Linux Kernel documentation website for dma-buf [1] .
 
-Hi,
+Originally, it appears that it was attempting to escape
+the '*' character, but looks like it's not necessary (now),
+so we are seeing something like '\*' on the webite.
 
-Can I request a small share of your attention to review, and apply this patch?
+This patch removes these unnecessary backslashes and adds syntax
+highlighting to improve the readability of the code listing.
 
-Thank you all,
+[1] https://docs.kernel.org/driver-api/dma-buf.html
 
-> Signed-off-by: Samuel Dionne-Riel <samuel@dionne-riel.com>
-> ---
-> 
-> Changes since v1:
-> 
->  - Add 1080p right-side up panel data
->  - Use the correct panel orientation
-> 
->  drivers/gpu/drm/drm_panel_orientation_quirks.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> index 3d92f66e550c3..aa93129c3397e 100644
-> --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> @@ -117,6 +117,12 @@ static const struct drm_dmi_panel_orientation_data lcd1080x1920_leftside_up = {
->  	.orientation = DRM_MODE_PANEL_ORIENTATION_LEFT_UP,
->  };
->  
-> +static const struct drm_dmi_panel_orientation_data lcd1080x1920_rightside_up = {
-> +	.width = 1080,
-> +	.height = 1920,
-> +	.orientation = DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
-> +};
-> +
->  static const struct drm_dmi_panel_orientation_data lcd1200x1920_rightside_up = {
->  	.width = 1200,
->  	.height = 1920,
-> @@ -279,6 +285,12 @@ static const struct dmi_system_id orientation_data[] = {
->  		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "G1618-03")
->  		},
->  		.driver_data = (void *)&lcd720x1280_rightside_up,
-> +	}, {	/* GPD Win Mini */
-> +		.matches = {
-> +		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "GPD"),
-> +		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "G1617-01")
-> +		},
-> +		.driver_data = (void *)&lcd1080x1920_rightside_up,
->  	}, {	/* I.T.Works TW891 */
->  		.matches = {
->  		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "To be filled by O.E.M."),
+Signed-off-by: Tommy Chiang <ototot@chromium.org>
+---
+ drivers/dma-buf/dma-buf.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 8fe5aa67b167..e083a0ab06d7 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -1282,10 +1282,12 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_move_notify, DMA_BUF);
+  *   vmap interface is introduced. Note that on very old 32-bit architectures
+  *   vmalloc space might be limited and result in vmap calls failing.
+  *
+- *   Interfaces::
++ *   Interfaces:
+  *
+- *      void \*dma_buf_vmap(struct dma_buf \*dmabuf, struct iosys_map \*map)
+- *      void dma_buf_vunmap(struct dma_buf \*dmabuf, struct iosys_map \*map)
++ *   .. code-block:: c
++ *
++ *     void *dma_buf_vmap(struct dma_buf *dmabuf, struct iosys_map *map)
++ *     void dma_buf_vunmap(struct dma_buf *dmabuf, struct iosys_map *map)
+  *
+  *   The vmap call can fail if there is no vmap support in the exporter, or if
+  *   it runs out of vmalloc space. Note that the dma-buf layer keeps a reference
+@@ -1342,10 +1344,11 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_move_notify, DMA_BUF);
+  *   enough, since adding interfaces to intercept pagefaults and allow pte
+  *   shootdowns would increase the complexity quite a bit.
+  *
+- *   Interface::
++ *   Interface:
++ *
++ *   .. code-block:: c
+  *
+- *      int dma_buf_mmap(struct dma_buf \*, struct vm_area_struct \*,
+- *		       unsigned long);
++ *     int dma_buf_mmap(struct dma_buf *, struct vm_area_struct *, unsigned long);
+  *
+  *   If the importing subsystem simply provides a special-purpose mmap call to
+  *   set up a mapping in userspace, calling do_mmap with &dma_buf.file will
+-- 
+2.43.0.381.gb435a96ce8-goog
 
