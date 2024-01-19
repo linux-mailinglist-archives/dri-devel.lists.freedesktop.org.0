@@ -2,137 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CF97832C2C
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 16:13:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D215832C31
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 16:19:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A126D10EA43;
-	Fri, 19 Jan 2024 15:13:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E67810E9F6;
+	Fri, 19 Jan 2024 15:19:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B7E710EA41;
- Fri, 19 Jan 2024 15:13:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1705677204; x=1737213204;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=ctFS1W7bOYg7SD5tACVJt4rG+SeKpxV0gWchQOIYEfs=;
- b=YEvFES49yCr+YG9jZIhN9ee6tyjzMB6jkFwUy44fRgbpR5lm6AhHo5I2
- UARKzj+IrSPdrJfXwqD+MAEXjhh3XaTJimj8B1wx3JAwYpvPLhIo1k/L9
- vqItCSPtXzrYd4AK1cdHkN/6GH7dsDiOycmSvqN+R50VzG7wnYDJiXexn
- mDS9f/lnQ7+1WcIdtztp1iNufTMCNdKusflGe09yR0UVLXjNAWTFbUlY5
- XICQdx+nyIaTgGF6IeUSTMFOWRQK0o2RUaoethKBkkxpeyCJOF+MRL/Kg
- mNX3iZZ9PiF69YkbiI3vQ0P8cysz4kIUYfsbmfAceeqLOTr5QVHGLhUJC Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="397932599"
-X-IronPort-AV: E=Sophos;i="6.05,204,1701158400"; d="scan'208";a="397932599"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jan 2024 07:13:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="904163835"
-X-IronPort-AV: E=Sophos;i="6.05,204,1701158400"; d="scan'208";a="904163835"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by fmsmga002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 19 Jan 2024 07:13:16 -0800
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 19 Jan 2024 07:13:16 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Fri, 19 Jan 2024 07:13:16 -0800
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.101)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Fri, 19 Jan 2024 07:13:16 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mtsuO0UvJdCSq80OwzBkR0URvwwzxoc/RudcfZY3ewZEDL4PrWmZ9V3S/4g8E1gHtMA+Il/Ks4T5XeffTxGMRHfEEM6Co8j/yGOxR27EWRNZBtLVz4y3aOPkchM+iYt3jLdui12X5cFLqH8xzGFfGy6zL4wHv43tK93Hn4hP/I2YuvfU2d/EOphQEgUn3fkWGCHwrfEkErhQswD1wfUPVO8vDqeGGnfk6noAyiE+g1ojArOk00vYt9YbvUzQqLb+3yexyB5TBA9UuCI918ZNZ5vyZ3l+fM8q3mfr3cnYIpyL5HCrAMWb9zE1yBJvxwBH7CpS/z2fejl2h+3vO4/g8A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZzggK2lcQqdjmMXCRBglJGpI/v8rWVF6gRJl3zQZpoM=;
- b=MIiAYDhIcKSDYIGRvipE6yJ+bjACM9xOqK4YiO2UlYsoo+BTqEDCU18hxYYCedIHklh6L7nmJqwCiB++5TCcbiWWKkAN/bJYvYxFpNxt8qJ3MxWeSmHt0NJeY718bdJ085aTXbIyDjsJwz3rHQV7rVF6MY5xuR08fug15knxFAzU+5m2OBlKyFYwa9pwykPI2L4ZMkrq9msHIOAeSUJ0jTSqew5pzS9U1iY/pcJs6pjFF7ODo+xF11IDiwlckT+4w2MmjpGJWB/u4fnQQOHh8jbl8q55Zg2myNrk2vPddQqmkpf5ybVb8EUL7Do2SGtXULVO+4f4cb4i3t2B72HWWA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
- by MN2PR11MB4711.namprd11.prod.outlook.com (2603:10b6:208:24e::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.24; Fri, 19 Jan
- 2024 15:13:10 +0000
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::9f32:ce50:1914:e954]) by CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::9f32:ce50:1914:e954%7]) with mapi id 15.20.7202.024; Fri, 19 Jan 2024
- 15:13:10 +0000
-Date: Fri, 19 Jan 2024 09:13:07 -0600
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Subject: Re: [PATCH] drm/exec, drm/gpuvm: Prefer u32 over uint32_t
-Message-ID: <vmyrgwkw7zi5f234cfhl6mzkphrpmsxvb7rpruv7xbc5wjkx4d@jkxky5kmd5c2>
-References: <20240119090557.6360-1-thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset="iso-8859-1"; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240119090557.6360-1-thomas.hellstrom@linux.intel.com>
-X-ClientProxiedBy: BYAPR05CA0083.namprd05.prod.outlook.com
- (2603:10b6:a03:e0::24) To CY5PR11MB6139.namprd11.prod.outlook.com
- (2603:10b6:930:29::17)
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com
+ [157.90.84.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F41D10E9F9
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 15:19:17 +0000 (UTC)
+Received: from [192.168.42.20] (p5de453e7.dip0.t-ipconnect.de [93.228.83.231])
+ (Authenticated sender: wse@tuxedocomputers.com)
+ by mail.tuxedocomputers.com (Postfix) with ESMTPSA id A72F12FC004D;
+ Fri, 19 Jan 2024 16:19:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+ s=default; t=1705677555;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=5L09JcjuuejH4utwfDs+Hnr2VAWqq7BmIwvFYqS51M4=;
+ b=Y+bWlmbo2V7tCe4GMleNzQydJoiZfOWGKfX3x0mG5+j848zbok1g6tcNZiPKsvUYeSVFCQ
+ 2r3mBXmlffapPHRGyO+RABWxeMzASoiyyS8gQKnx8RWiMP8keSJZ6GRgf5v8V0moh9pQlJ
+ IFTEP5hhdoYYBGMZeG44q/RBubLJlys=
+Authentication-Results: mail.tuxedocomputers.com;
+ auth=pass smtp.auth=wse@tuxedocomputers.com
+ smtp.mailfrom=wse@tuxedocomputers.com
+Content-Type: multipart/alternative;
+ boundary="------------hpuh8oKwt3KTFVe400DXhefH"
+Message-ID: <36ac75fb-1c76-43fa-9b09-c836d138cf7b@tuxedocomputers.com>
+Date: Fri, 19 Jan 2024 16:19:14 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|MN2PR11MB4711:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3c3a0c63-b793-423e-d06c-08dc19012609
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vn7hrTw0b+cKsOzBC9rr7Qm5/K4YzUEwTHP8oBx3n9Yl8Zq2ygnOho4pL4Jggo27kmGTae3DlaDEivHdTFwNOtdQc71QV2/bkvrvgOu1K9j+X5x5IM0sBIMNMIWeQodiQXqkb2yyjPpCGJzQKX9lAuTZw4DA9wCQxnUtdb9H8qYc2EUuLOA3VmHnj6Refax52/YZ2kPWkfe2ZN6EGTEm4PWFCT/nC8tzEBj/nzTGaik30c1lBtwI2BGBkjIMX/OsuO6ixlsFV9+4anRMfseE4pobn0mLDoN4KEFIryJFjazl624/pM9l7cVBM0ILd/MECO/CT3oUiNYPXSTlWbw6cxZ4pKcY4kSyTk0nFKAn5Z0gaBe2BK0Rt+gCEqPkuCvhPLpfGW5rUsubwurWpEqQGxd7lWEq0o8KwndOyPxOeodD551vfSRn1oq1UpaJ0BI4DLGe+urtsjSroDl4Na+ub5un8BSXr7jTI7sB3FOnwWxHWDwiJqEv23nsq6WPjlbtNKzBpOqouMKxi9s4ZP6k6GrWWZE2sXjj0o5lxWf+hppNxnM7zRNKetoJ/yUVuyh1ZSWFhu8Fyozwq5fAeLWBmh7IrsGREHwN0lKGETC4g744J+7x9aG1JQHue6D/OTON
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(7916004)(366004)(376002)(346002)(39860400002)(136003)(396003)(230922051799003)(64100799003)(186009)(1800799012)(451199024)(5660300002)(8936002)(4326008)(8676002)(26005)(66556008)(66476007)(66946007)(6666004)(6486002)(2906002)(6512007)(316002)(54906003)(6506007)(86362001)(6916009)(66574015)(478600001)(82960400001)(83380400001)(9686003)(41300700001)(33716001)(38100700002)(309714004);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?rMmkzJIRs/ZbNzlg73x4iy6XO32aeCgjhsNZ0RL32iDtkjd8Db6KLrU5pu?=
- =?iso-8859-1?Q?z5Wrh72IM4icyfJk2zG0CyoN61xSTivuhUvAVHUzOSAaVuE6/JJwvE97OA?=
- =?iso-8859-1?Q?1VNbSW6gGqtNjkcHBMRA2ouJCOsAoYekVcomAJk5sZ1xR4UriO3BYfm6oK?=
- =?iso-8859-1?Q?SQiHCrbhdREdVQSl34+Daom6BxXkYBxU30thfKrijcMAmNP9EoSND91vnr?=
- =?iso-8859-1?Q?lUP5K8cSk28ZQbYdZjUuBzXaNsFzi3ADOkNnk5NBcQUHW+NUZSNYwFi//i?=
- =?iso-8859-1?Q?RMffSov758nOOPPDpHbzepTmDtMNxvj19Y+nKE9sFMN51xP9pmmxA8JMJb?=
- =?iso-8859-1?Q?DrCd9uOPYDG6DiIho7u6V3iCrlfFq9r/lq/UqPiwZluG7jFVfrtrlLNsLn?=
- =?iso-8859-1?Q?+rDSUQOouKSb97RRds/F0gWWSP5P3IH8xZqSnDsEtVh+bR5vHpHyFuioW5?=
- =?iso-8859-1?Q?wUezHwc4I95Gjlbyq3+SvLt7+n3rxZXSduBWWleM6oiRRy3MGkA7oJLtd2?=
- =?iso-8859-1?Q?bJdC9fq51AkFF4hVIaAbsHfSAcVr/Ag9wQBFSUFdZgQ+d1MRGX/WEdf1Sr?=
- =?iso-8859-1?Q?NQn2ZGmLnseJZJjsh62wFpxyePvhkzvTlrLRNSlAWjdC76h4Gwl5lT8jN9?=
- =?iso-8859-1?Q?MCi470by3u5W/S8wiGAMEPv+Pe5ddG0KPAxLMRttqk+NyvYSUhaqu8LPXC?=
- =?iso-8859-1?Q?80/ZtiJLmRoQYOp9WUDRn7LCEgQCKB0tp4gjkSYUvCCeyyHJa37tYPBr9J?=
- =?iso-8859-1?Q?DYmxoNzFeWUuEguCHPfZYqLw3XRfRSX/OvyUE81QKqKn+qM+kuYEIM4pSN?=
- =?iso-8859-1?Q?s/gyyeovnOIPNBFYmb9I2MBbC84P3fyhXOqZL2w2fZvI11AZD3oFLH5jg4?=
- =?iso-8859-1?Q?Q8weZBDwI410OgAO8U+D/6DLleimWgkYWbft5zpeAnVO2kcUClAOC/LTsd?=
- =?iso-8859-1?Q?kH6x5p5EiTRDb8a7s79Cno227YsVzKRMibAu2pA/Nnj66VV3HPgcPuqFJ8?=
- =?iso-8859-1?Q?SK/TrMhBKu9RYjmAmCzH45y4TV8lcz2WaeqBwXdtuDCwo6tM/nVwMayyu9?=
- =?iso-8859-1?Q?JMflUlQGjbrplLRxVms+zfnPWIxVxyUSNXPO0BEehRmUTZYTw8535pbY6C?=
- =?iso-8859-1?Q?/Me3H4ljY8BQnwTxQqGOFGsSyVddq+eB3gQfYCJ36UYwNzLQGX0KOpa3Be?=
- =?iso-8859-1?Q?Sd3R0fermHmKd5FV88bcBl21sGI9huCCIDGl48LbdsgrEKGL7VbZu2Ary7?=
- =?iso-8859-1?Q?jMq2t+yj59mj11WXk+73yjC1OWkvsK4U46wjZDmaUMQt3AZvmwcFGlSxqL?=
- =?iso-8859-1?Q?6eHODzwUN3MYIbqhdd31lVvy1jsFDA0OPw1LyB1HOTPD5D1NSmESwLiluI?=
- =?iso-8859-1?Q?iqVzRMBoJgm6c1+hRfLdTk8lRrzLi/HbKHpyjKGt7Kl4OyTWu86rQI+2t6?=
- =?iso-8859-1?Q?AeKDhA64p6e0OItAgN6Se3BlLN4eST4msut9l4Cd9jqq2BBESiNWCANXbE?=
- =?iso-8859-1?Q?gYdUmRK8Xwiy1fyqDs4RCcy8x1GOSKrFHTb7fsAO/QIwjR1GIUQSYOVp60?=
- =?iso-8859-1?Q?z6rh5c1KGNFgb3vpiQ52bz5MG330AP5Vt6HdMHdqFesPEd7nOLQ1jojpkB?=
- =?iso-8859-1?Q?NpshuOJ9q5XXCWHKs6EcwIQDGHRsEH5ukCk6DAcnbcjZoGjdmXgT86qg?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3c3a0c63-b793-423e-d06c-08dc19012609
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2024 15:13:10.4791 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: okS1pNHBJnnY8wXm1mYaDAK0yAQg0wDMNF/PBRLUase1OpT+VfDBMFXcBp/j0MTuMK0opFQdeFJJ/8QAIkOKjuCYVH0tBDkMHTcyal+pWi8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4711
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: Implement per-key keyboard backlight as auxdisplay?
+To: Hans de Goede <hdegoede@redhat.com>, Pavel Machek <pavel@ucw.cz>
+References: <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
+ <ZSmg4tqXiYiX18K/@duo.ucw.cz>
+ <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
+ <87sf61bm8t.fsf@intel.com> <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
+ <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
+ <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com>
+ <f416fbca-589b-4f6a-aad6-323b66398273@tuxedocomputers.com>
+ <4222268b-ff44-4b7d-bf11-e350594bbe24@redhat.com>
+ <ac02143c-d417-49e5-9c6e-150cbda71ba7@tuxedocomputers.com>
+ <ZaljwLe7P+dXHEHb@duo.ucw.cz>
+ <6bbfdd62-e663-4a45-82f4-445069a8d690@redhat.com>
+Content-Language: en-US
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <6bbfdd62-e663-4a45-82f4-445069a8d690@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,121 +63,666 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Danilo Krummrich <dakr@redhat.com>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Lee Jones <lee@kernel.org>, jikos@kernel.org, linux-kernel@vger.kernel.org,
+ Jelle van der Waa <jelle@vdwaa.nl>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 19, 2024 at 10:05:57AM +0100, Thomas Hellstr�m wrote:
->The relatively recently introduced drm/exec utility was using uint32_t
->in its interface, which was then also carried over to drm/gpuvm.
+This is a multi-part message in MIME format.
+--------------hpuh8oKwt3KTFVe400DXhefH
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+Hi,
+
+Am 19.01.24 um 09:44 schrieb Hans de Goede:
+> Hi,
 >
->Prefer u32 in new code and update drm/exec and drm/gpuvm accordingly.
+> On 1/18/24 18:45, Pavel Machek wrote:
+>> Hi!
+>>
+>>> We have an upcoming device that has a per-key keyboard backlight, but does
+>>> the control completely via a wmi/acpi interface. So no usable hidraw here
+>>> for a potential userspace driver implementation ...
+>>>
+>>> So a quick summary for the ideas floating in this thread so far:
+>>>
+>>> 1. Expand leds interface allowing arbitrary modes with semi arbitrary
+>>> optional attributes:
+>>>      - Con:
+>>>
+>>>          - Violates the simplicity paradigm of the leds interface (e.g. with
+>>> this one leds entry controls possible multiple leds)
+>> Let's not do this.
+>>
+>>> 2. Implement per-key keyboards as auxdisplay
+>>>
+>>>      - Pro:
+>>>
+>>>          - Already has a concept for led positions
+>>>
+>>>          - Is conceptually closer to "multiple leds forming a singular entity"
+>>>
+>>>      - Con:
+>>>
+>>>          - No preexisting UPower support
+>>>
+>>>          - No concept for special hardware lightning modes
+>>>
+>>>          - No support for arbitrary led outlines yet (e.g. ISO style enter-key)
+>> Please do this one.
+> Ok, so based on the discussion so far and Pavel's feedback lets try to
+> design a custom userspace API for this. I do not believe that auxdisplay
+> is a good fit because:
 >
->Cc: Christian K�nig <christian.koenig@amd.com>
->Cc: Danilo Krummrich <dakr@redhat.com>
->Signed-off-by: Thomas Hellstr�m <thomas.hellstrom@linux.intel.com>
->---
-> drivers/gpu/drm/drm_exec.c | 2 +-
-> include/drm/drm_exec.h     | 4 ++--
-> include/drm/drm_gpuvm.h    | 2 +-
-> 3 files changed, 4 insertions(+), 4 deletions(-)
+> - auxdisplay is just a directory name, it does not seem to clearly
+>    define an API
+>
+> - instead the deprecated /dev/fb API is used which is deprecated
+>
+> - auxdisplays are very much displays (hence /dev/fb) they are typically
+>    small LCD displays with a straight widthxheight grid of square pixels
+>
+> - /dev/fb does gives us nothing for effects, zoned keyboard, etc.
 
+I was just checking this and wanted to write something similar. When I wrote the 
+pro/con list I was mistaken that aux displays use either one of 2 APIs (charlcd 
+or fb), but I was mistaken. The 8 devices implemented there are actually using 5 
+different apis, some of them 2 at a time.
 
-Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
+Just for reference the small list I wrote on the side just now:
 
-I was surprised we have quite a few places using the c99 types rather
-than kernel types.
-
-$ git grep -ce uint[0-9][0-9]_t drivers/gpu/drm/*.c
-drivers/gpu/drm/drm_atomic.c:1
-drivers/gpu/drm/drm_atomic_helper.c:7
-drivers/gpu/drm/drm_atomic_state_helper.c:1
-drivers/gpu/drm/drm_atomic_uapi.c:17
-drivers/gpu/drm/drm_color_mgmt.c:4
-drivers/gpu/drm/drm_connector.c:6
-drivers/gpu/drm/drm_crtc.c:3
-drivers/gpu/drm/drm_damage_helper.c:2
-drivers/gpu/drm/drm_debugfs_crc.c:1
-drivers/gpu/drm/drm_exec.c:1
-drivers/gpu/drm/drm_fb_helper.c:10
-drivers/gpu/drm/drm_format_helper.c:6
-drivers/gpu/drm/drm_fourcc.c:6
-drivers/gpu/drm/drm_framebuffer.c:5
-drivers/gpu/drm/drm_gem.c:1
-drivers/gpu/drm/drm_gem_dma_helper.c:1
-drivers/gpu/drm/drm_gem_shmem_helper.c:1
-drivers/gpu/drm/drm_gem_ttm_helper.c:1
-drivers/gpu/drm/drm_gem_vram_helper.c:5
-drivers/gpu/drm/drm_lease.c:6
-drivers/gpu/drm/drm_mipi_dbi.c:3
-drivers/gpu/drm/drm_mode_config.c:4
-drivers/gpu/drm/drm_mode_object.c:20
-drivers/gpu/drm/drm_modeset_helper.c:1
-drivers/gpu/drm/drm_modeset_lock.c:1
-drivers/gpu/drm/drm_of.c:3
-drivers/gpu/drm/drm_plane.c:35
-drivers/gpu/drm/drm_plane_helper.c:2
-drivers/gpu/drm/drm_prime.c:9
-drivers/gpu/drm/drm_probe_helper.c:3
-drivers/gpu/drm/drm_property.c:11
-drivers/gpu/drm/drm_simple_kms_helper.c:4
-drivers/gpu/drm/drm_syncobj.c:26
-
-but maybe not worth the churn for what is already there for a long time?
-
-Lucas De Marchi
+arm-charlcd.c - own implementation without userspace interaction (just a static 
+text is displayed)
+cfag12864b.c/cfag12864bfb.c - ks0108_isinited or register_framebuffer
+hd44780.c - charlcd_register
+ht16k33.c - linedisp_register or register_framebuffer
+img-ascii-lcd.c - linedisp_register
+ks0108.c - own implementetion using parport_register_dev_model
+lcd2s.c - charlcd_register
+panel.c - charlcd_register
 
 >
->diff --git a/drivers/gpu/drm/drm_exec.c b/drivers/gpu/drm/drm_exec.c
->index 5d2809de4517..20e59d88218d 100644
->--- a/drivers/gpu/drm/drm_exec.c
->+++ b/drivers/gpu/drm/drm_exec.c
->@@ -72,7 +72,7 @@ static void drm_exec_unlock_all(struct drm_exec *exec)
->  *
->  * Initialize the object and make sure that we can track locked objects.
->  */
->-void drm_exec_init(struct drm_exec *exec, uint32_t flags)
->+void drm_exec_init(struct drm_exec *exec, u32 flags)
+> So my proposal would be an ioctl interface (ioctl only no r/w)
+> using /dev/rgbkbd0 /dev/rgbkdb1, etc. registered as a misc chardev.
+>
+> For per key controllable rgb LEDs we need to discuss a coordinate
+> system. I propose using a fixed size of 16 rows of 64 keys,
+> so 64x16 in standard WxH notation.
+>
+> And then storing RGB in separate bytes, so userspace will then
+> always send a buffer of 192 bytes per line (64x3) x 14 rows
+> = 3072 bytes. With the kernel driver ignoring parts of
+> the buffer where there are no actual keys.
+The be sure the "14 rows" is a typo? And should be 16 rows?
+>
+> I would then like the map the standard 105 key layout onto this,
+> starting at x.y (column.row) coordinates of 16.6 (with 0.0 being
+> the top left). Leaving plenty of space on the left top and right
+> (and some on the bottom) for extra media key rows, macro keys, etc.
+>
+> The idea to have the standard layout at a fixed place is to allow
+> userspace to have a database of preset patterns which will work
+> everywhere.
+>
+> Note I say standard 105 key layout, but in reality for
+> defining the standardized part of the buffer we should
+> use the maximum amount of keys per row of all the standard layouts,
+> so for row 6 (the ESC row) and for extra keys on the right outside
+> the main block we use the standard layout as shown here:
+>
+> http://www.maxkeyboard.com/images/105_ISO_6_25_Key_Layout.jpg
+>
+> For the main area of the keyboard looking at:
+>
+> http://bopqehorizon.weebly.com/uploads/1/3/4/3/134337299/913246919_orig.png
+>
+> We want to max rows per key, so this means that per row we use
+> (from the above image) :
+>
+> row  7: 106/109 - JIS
+> row  8: 101/104 - ANSI
+> row  9: 102/105 - ISO
+> row 10: 104/107 - ABNT
+> row 11: 106/109 - JIS
+>
+> (with row 7 being the main area top row)
+>
+> This way we can address all the possible keys in the various
+> standard layouts in one standard wat and then the drivers can
+> just skip keys which are not there when preparing the buffer
+> to send to the hw / fw.
+
+Some remarks here:
+
+- Some keyboards might have two or more leds for big keys like (iso-)enter, 
+shift, capslock, num+, etc. that in theory are individually controllable by the 
+firmware. In windows drivers this is usually abstracted away, but could be 
+interesting for effects (e.g. if the top of iso-enter is separate from the 
+bottom of iso-enter like with one of our devices).
+
+- In combination with this: The driver might not be able to tell if the actual 
+physical keyboard is ISO or ANSI, so it might not be able the correctly assign 
+the leds around enter correctly as being an own key or being part of ANSI- or 
+ISO-enter.
+
+- Should the interface have different addresses for the different enter and num+ 
+styles (or even the different length shifts and spacebars)?
+
+One idea for this: Actually assign 1 value per line for tall keys per line, 3 
+(or maybe even 4, to have one spare) values per line for wide keys and 6 (or 8) 
+values for space. e.g.:
+
+- Right shift would have 3 values in row 10. The first value might be the left 
+side of shift or the additional ABNT/JIS key. The 2nd Key might be the left side 
+or middle of shift and the third key might be the right side of shift or the 
+only value for the whole key. The additional ABNT/JIS key still also has a 
+dedicated value which is used by drivers which can differentiate between 
+physical layouts.
+
+- Enter would have 3 values in row 8 and 3 values in row 9. With the same 
+disambiguation as the additional ABNT/JIS but this time for ansii-/ and iso-#
+
+- Num+ would have 2 values, one row 8 and one in row 9. The one in row 9 might 
+control the whole key or might just control the lower half. The one in row 8 
+might be another key or the upper half
+
+For the left half if the main block the leftmost value should be the "might be 
+the only relevant"-value while the right most value should be the "might be 
+another key"-value. For the right side of the main block this should be swapped. 
+Unused values should be adjacent to the "might be another key"-value, e.g.:
+
+                                   | Left shift value 1    | Left shift value 2           | Left shift value 3            | Left shift value 4     | 102nd key value
+ISO/ANSI aware                    | Left shift color      | Unused                       | Unused                        | Unused                 | 102nd key color
+ISO non aware 1 led under shift   | Left shift color      | Unused                       | Unused                        | 102nd key color        | Unused
+ANSI non aware 1 led under shift  | Left shift color      | Unused                       | Unused                        | Unused                 | Unused
+ISO non aware 2 leds under shift  | Left shift left color | Left shift right color       | Unused                        | 102nd key color        | Unused
+ANSI non aware 2 leds under shift | Left shift left color | Left shift right color       | Unused                        | Unused                 | Unused
+ISO non aware 3 leds under shift  | Left shift left color | Left shift middle color      | Left shift right color        | 102nd key color        | Unused
+ANSI non aware 3 leds under shift | Left shift left color | Left shift middle color      | Unused                        | Left shift right color | Unused
+ANSI non aware 4 leds under shift | Left shift left color | Left shift middle left color | Left shift middle right color | Left shift right color | Unused
+
+Like this with no information you can still reliable target the ANSI-shift 
+space, if you know it's an ISO keyboard from user space you can target shift and 
+102nd key, and if you have even more information you can have multi color shift 
+if the firmware supports it.
+
+>
+> One open question is if we should add padding after the main
+> area so that the printscreen / ins / del / leftarrow of the
+> "middle" block of
+>
+> http://www.maxkeyboard.com/images/105_ISO_6_25_Key_Layout.jpg
+>
+> all start at the same x (say 32) or we just pack these directly
+> after the main area.
+>
+> And the same question for the numlock block, do we align
+> this to an x of say 36, or pack it ?
+With all that padding around I think a little padding in the middle wouldn't 
+hurt. Would even suggest a min padding of 1 to have some reserved space in there.
+>
+>
+> As for the actual IOCTL API I think there should be
+> the following ioctls:
+>
+> 1. A get-info ioctl returning a struct with the following members:
+>
 > {
-> 	exec->flags = flags;
-> 	exec->objects = kmalloc(PAGE_SIZE, GFP_KERNEL);
->diff --git a/include/drm/drm_exec.h b/include/drm/drm_exec.h
->index b5bf0b6da791..187c3ec44606 100644
->--- a/include/drm/drm_exec.h
->+++ b/include/drm/drm_exec.h
->@@ -18,7 +18,7 @@ struct drm_exec {
-> 	/**
-> 	 * @flags: Flags to control locking behavior
-> 	 */
->-	uint32_t		flags;
->+	u32                     flags;
->
-> 	/**
-> 	 * @ticket: WW ticket used for acquiring locks
->@@ -135,7 +135,7 @@ static inline bool drm_exec_is_contended(struct drm_exec *exec)
-> 	return !!exec->contended;
+> char name[64]      /* Keyboard model name / identifier */
+> int row_begin[16]; /* The x address of the first available key per row. On a std 105key kbd this will be 16 for rows 6-11, 0 for other rows */
+> int row_end[16];   /* x+1 for the address of the last available key per row, end - begin gives number of keys in a row */
+
+I guess you meant x-1 for the address, aka row_end[16] points to the address 
+behind the last value so that you can iterate over the row with: i = row_begin; 
+i < row_end; ++i
+
+> int rgb_zones;     /* number of rgb zones for zoned keyboards. Note both
+>                        zones and per key addressing may be available if
+>                        effects are applied per zone. */
+> ?
 > }
 >
->-void drm_exec_init(struct drm_exec *exec, uint32_t flags);
->+void drm_exec_init(struct drm_exec *exec, u32 flags);
-> void drm_exec_fini(struct drm_exec *exec);
-> bool drm_exec_cleanup(struct drm_exec *exec);
-> int drm_exec_lock_obj(struct drm_exec *exec, struct drm_gem_object *obj);
->diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
->index 48311e6d664c..554046321d24 100644
->--- a/include/drm/drm_gpuvm.h
->+++ b/include/drm/drm_gpuvm.h
->@@ -514,7 +514,7 @@ struct drm_gpuvm_exec {
-> 	/**
-> 	 * @flags: the flags for the struct drm_exec
-> 	 */
->-	uint32_t flags;
->+	u32 flags;
+> 2. A set-leds ioctl which takes the earlier discussed 3092 bytes buffer
+> to set all the LEDs at once, only valid if at least one row has a non 0 lenght.
 >
-> 	/**
-> 	 * @vm: the &drm_gpuvm to lock its DMA reservations
->-- 
->2.43.0
+> 3. A set-zones ioctl which takes an array of bytes sized 3 * number-of-zones
+> containing RGB values for each zone
 >
+> 4. A enum_effects ioctl which takes a struct with the following members:
+>
+> {
+> long size; /* Size of passed in struct including the size member itself */
+> long effects_mask[]
+> }
+>
+> the idea being that there is an enum with effects, which gets extended
+> as we encounter more effects and the bitmask in effects_mask has a bit set
+> for each effects enum value which is supported. effects_mask is an array
+> so that we don't run out of bits. If older userspace only passes 1 long
+> (size == (2*sizeof(long)) when 2 are needed at some point in the future
+> then the kernel will simply only fill the first long.
+>
+> 5. A set_effect ioctl which takes a struct with the following members:
+>
+> {
+> long size; /* Size of passed in struct including the size member itself */
+> int effect_nr; /* enum value of the effect to enable, 0 for disable effect */
+> int zone;  /* zone to apply the effect to */
+Don't know if this is necessary, the keyboards I have seen so far apply firmware 
+effects globally.
+> int speed; /* cycle speed of the effect in milli-hz */
+
+I would split this into speed and speed_max and don't specify an actual unit. 
+The firmwares effects I have seen so far: If they have a speed value, it's some 
+low number interpreted as a proportional x/n * the max speed of this effect, 
+with n being some low number like 8 or 10.
+
+But i don't know if such clearly named properties are even sensefull, see below.
+
+> char color1[3]; /* effect dependend may be unused. */
+> char color2[3]; /* effect dependend may be unused. */
+> }
+
+We can not predetermine how many colors we might need in the future.
+
+Firmware effects can vary vastly in complexity, e.g. breathing can be a single 
+bit switch that just varies the brightness of whatever color setting is 
+currently applied. It could have an optional speed argument. It could have nth 
+additional color arguments to cycle through, it could have an optional randomize 
+bit that either randomizes the order of the defined colors or means that it is 
+picking completely random color ignoring the color settings if set.
+
+Like this we could have a very fast explosion of the effects enum e.g.: 
+breathing, breathing_2_colors, breathing_3_colors, ... breathing_n_colors, 
+breathing_speed_controlled, breathing_speed_controlled_2_colors, ... 
+breathing_speed_controlled_n_colors_random_bit, etc.
+
+Or we give up on generic names and just make something like: 
+tongfang_breathing_1, tongfang_scan_1, tongfang_breathing_2, clevo_breathing_1
+
+Each with an own struct defined in a big .h file.
+
+Otherwise I think the config struct needs to be dynamically created out of 
+information the driver gives to userspace.
+
+> Again the idea with the size member is that the struct can be extended with
+> new members if necessary and the kernel will supply a default value for
+> older userspaces which provide a smaller struct (note size being smaller
+> then sizeof(struct-v1) will invalid).
+>
+>
+> Note this is all just a rough sketch suggestions welcome!
+>
+> Regards,
+>
+> Hans
+>
+>
+>
+Regards,
+
+Werner
+
+--------------hpuh8oKwt3KTFVe400DXhefH
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>Hi,<br>
+    </p>
+    <div class="moz-cite-prefix">Am 19.01.24 um 09:44 schrieb Hans de
+      Goede:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:6bbfdd62-e663-4a45-82f4-445069a8d690@redhat.com">
+      <pre class="moz-quote-pre" wrap="">Hi,
+
+On 1/18/24 18:45, Pavel Machek wrote:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">Hi!
+
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">We have an upcoming device that has a per-key keyboard backlight, but does
+the control completely via a wmi/acpi interface. So no usable hidraw here
+for a potential userspace driver implementation ...
+
+So a quick summary for the ideas floating in this thread so far:
+
+1. Expand leds interface allowing arbitrary modes with semi arbitrary
+optional attributes:
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">    - Con:
+
+        - Violates the simplicity paradigm of the leds interface (e.g. with
+this one leds entry controls possible multiple leds)
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">
+Let's not do this.
+
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">2. Implement per-key keyboards as auxdisplay
+
+    - Pro:
+
+        - Already has a concept for led positions
+
+        - Is conceptually closer to "multiple leds forming a singular entity"
+
+    - Con:
+
+        - No preexisting UPower support
+
+        - No concept for special hardware lightning modes
+
+        - No support for arbitrary led outlines yet (e.g. ISO style enter-key)
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">
+Please do this one.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Ok, so based on the discussion so far and Pavel's feedback lets try to
+design a custom userspace API for this. I do not believe that auxdisplay
+is a good fit because:
+
+- auxdisplay is just a directory name, it does not seem to clearly
+  define an API
+
+- instead the deprecated /dev/fb API is used which is deprecated
+
+- auxdisplays are very much displays (hence /dev/fb) they are typically
+  small LCD displays with a straight widthxheight grid of square pixels
+
+- /dev/fb does gives us nothing for effects, zoned keyboard, etc.</pre>
+    </blockquote>
+    <p>I was just checking this and wanted to write something similar.
+      When I wrote the pro/con list I was mistaken that aux displays use
+      either one of 2 APIs (charlcd or fb), but I was mistaken. The 8
+      devices implemented there are actually using 5 different apis,
+      some of them 2 at a time.</p>
+    <p>Just for reference the small list I wrote on the side just now:</p>
+    <p>arm-charlcd.c - own implementation without userspace interaction
+      (just a static text is displayed)<br>
+      cfag12864b.c/cfag12864bfb.c - ks0108_isinited or
+      register_framebuffer<br>
+      hd44780.c - charlcd_register<br>
+      ht16k33.c - linedisp_register or register_framebuffer<br>
+      img-ascii-lcd.c - linedisp_register<br>
+      ks0108.c - own implementetion using parport_register_dev_model<br>
+      lcd2s.c - charlcd_register<br>
+      panel.c - charlcd_register<br>
+    </p>
+    <blockquote type="cite"
+      cite="mid:6bbfdd62-e663-4a45-82f4-445069a8d690@redhat.com">
+      <pre class="moz-quote-pre" wrap="">
+
+So my proposal would be an ioctl interface (ioctl only no r/w)
+using /dev/rgbkbd0 /dev/rgbkdb1, etc. registered as a misc chardev.
+
+For per key controllable rgb LEDs we need to discuss a coordinate
+system. I propose using a fixed size of 16 rows of 64 keys,
+so 64x16 in standard WxH notation.
+
+And then storing RGB in separate bytes, so userspace will then
+always send a buffer of 192 bytes per line (64x3) x 14 rows
+= 3072 bytes. With the kernel driver ignoring parts of
+the buffer where there are no actual keys.</pre>
+    </blockquote>
+    The be sure the "14 rows" is a typo? And should be 16 rows?<br>
+    <blockquote type="cite"
+      cite="mid:6bbfdd62-e663-4a45-82f4-445069a8d690@redhat.com">
+      <pre class="moz-quote-pre" wrap="">
+
+I would then like the map the standard 105 key layout onto this,
+starting at x.y (column.row) coordinates of 16.6 (with 0.0 being
+the top left). Leaving plenty of space on the left top and right
+(and some on the bottom) for extra media key rows, macro keys, etc.
+
+The idea to have the standard layout at a fixed place is to allow
+userspace to have a database of preset patterns which will work
+everywhere.
+
+Note I say standard 105 key layout, but in reality for
+defining the standardized part of the buffer we should
+use the maximum amount of keys per row of all the standard layouts,
+so for row 6 (the ESC row) and for extra keys on the right outside
+the main block we use the standard layout as shown here:
+
+<a class="moz-txt-link-freetext" href="http://www.maxkeyboard.com/images/105_ISO_6_25_Key_Layout.jpg">http://www.maxkeyboard.com/images/105_ISO_6_25_Key_Layout.jpg</a>
+
+For the main area of the keyboard looking at:
+
+<a class="moz-txt-link-freetext" href="http://bopqehorizon.weebly.com/uploads/1/3/4/3/134337299/913246919_orig.png">http://bopqehorizon.weebly.com/uploads/1/3/4/3/134337299/913246919_orig.png</a>
+
+We want to max rows per key, so this means that per row we use
+(from the above image) :
+
+row  7: 106/109 - JIS 
+row  8: 101/104 - ANSI
+row  9: 102/105 - ISO
+row 10: 104/107 - ABNT
+row 11: 106/109 - JIS
+
+(with row 7 being the main area top row)
+
+This way we can address all the possible keys in the various
+standard layouts in one standard wat and then the drivers can
+just skip keys which are not there when preparing the buffer
+to send to the hw / fw.</pre>
+    </blockquote>
+    <p>Some remarks here:</p>
+    <p>- Some keyboards might have two or more leds for big keys like
+      (iso-)enter, shift, capslock, num+, etc. that in theory are
+      individually controllable by the firmware. In windows drivers this
+      is usually abstracted away, but could be interesting for effects
+      (e.g. if the top of iso-enter is separate from the bottom of
+      iso-enter like with one of our devices).</p>
+    <p>- In combination with this: The driver might not be able to tell
+      if the actual physical keyboard is ISO or ANSI, so it might not be
+      able the correctly assign the leds around enter correctly as being
+      an own key or being part of ANSI- or ISO-enter.<br>
+    </p>
+    <p>- Should the interface have different addresses for the different
+      enter and num+ styles (or even the different length shifts and
+      spacebars)?</p>
+    <p>One idea for this: Actually assign 1 value per line for tall keys
+      per line, 3 (or maybe even 4, to have one spare) values per line
+      for wide keys and 6 (or 8) values for space. e.g.:</p>
+    <p>- Right shift would have 3 values in row 10. The first value
+      might be the left side of shift or the additional ABNT/JIS key.
+      The 2nd Key might be the left side or middle of shift and the
+      third key might be the right side of shift or the only value for
+      the whole key. The additional ABNT/JIS key still also has a
+      dedicated value which is used by drivers which can differentiate
+      between physical layouts.<br>
+    </p>
+    <p>- Enter would have 3 values in row 8 and 3 values in row 9. With
+      the same disambiguation as the additional ABNT/JIS but this time
+      for ansii-/ and iso-#<br>
+    </p>
+    <p>- Num+ would have 2 values, one row 8 and one in row 9. The one
+      in row 9 might control the whole key or might just control the
+      lower half. The one in row 8 might be another key or the upper
+      half</p>
+    <p>For the left half if the main block the leftmost value should be
+      the "might be the only relevant"-value while the right most value
+      should be the "might be another key"-value. For the right side of
+      the main block this should be swapped. Unused values should be
+      adjacent to the "might be another key"-value, e.g.:</p>
+    <pre>                                  | Left shift value 1    | Left shift value 2           | Left shift value 3            | Left shift value 4     | 102nd key value
+ISO/ANSI aware                    | Left shift color      | Unused                       | Unused                        | Unused                 | 102nd key color
+ISO non aware 1 led under shift   | Left shift color      | Unused                       | Unused                        | 102nd key color        | Unused
+ANSI non aware 1 led under shift  | Left shift color      | Unused                       | Unused                        | Unused                 | Unused
+ISO non aware 2 leds under shift  | Left shift left color | Left shift right color       | Unused                        | 102nd key color        | Unused
+ANSI non aware 2 leds under shift | Left shift left color | Left shift right color       | Unused                        | Unused                 | Unused
+ISO non aware 3 leds under shift  | Left shift left color | Left shift middle color      | Left shift right color        | 102nd key color        | Unused
+ANSI non aware 3 leds under shift | Left shift left color | Left shift middle color      | Unused                        | Left shift right color | Unused
+ANSI non aware 4 leds under shift | Left shift left color | Left shift middle left color | Left shift middle right color | Left shift right color | Unused
+</pre>
+    <p>Like this with no information you can still reliable target the
+      ANSI-shift space, if you know it's an ISO keyboard from user space
+      you can target shift and 102nd key, and if you have even more
+      information you can have multi color shift if the firmware
+      supports it.<br>
+    </p>
+    <blockquote type="cite"
+      cite="mid:6bbfdd62-e663-4a45-82f4-445069a8d690@redhat.com">
+      <pre class="moz-quote-pre" wrap="">
+
+One open question is if we should add padding after the main
+area so that the printscreen / ins / del / leftarrow of the
+"middle" block of 
+
+<a class="moz-txt-link-freetext" href="http://www.maxkeyboard.com/images/105_ISO_6_25_Key_Layout.jpg">http://www.maxkeyboard.com/images/105_ISO_6_25_Key_Layout.jpg</a>
+
+all start at the same x (say 32) or we just pack these directly
+after the main area.
+
+And the same question for the numlock block, do we align
+this to an x of say 36, or pack it ?</pre>
+    </blockquote>
+    With all that padding around I think a little padding in the middle
+    wouldn't hurt. Would even suggest a min padding of 1 to have some
+    reserved space in there.
+    <blockquote type="cite"
+      cite="mid:6bbfdd62-e663-4a45-82f4-445069a8d690@redhat.com">
+      <pre class="moz-quote-pre" wrap="">
+
+
+As for the actual IOCTL API I think there should be
+the following ioctls:
+
+1. A get-info ioctl returning a struct with the following members:
+
+{
+char name[64]      /* Keyboard model name / identifier */
+int row_begin[16]; /* The x address of the first available key per row. On a std 105key kbd this will be 16 for rows 6-11, 0 for other rows */
+int row_end[16];   /* x+1 for the address of the last available key per row, end - begin gives number of keys in a row */</pre>
+    </blockquote>
+    <p>I guess you meant x-1 for the address, aka row_end[16] points to
+      the address behind the last value so that you can iterate over the
+      row with: i = row_begin; i &lt; row_end; ++i<br>
+    </p>
+    <blockquote type="cite"
+      cite="mid:6bbfdd62-e663-4a45-82f4-445069a8d690@redhat.com">
+      <pre class="moz-quote-pre" wrap="">
+int rgb_zones;     /* number of rgb zones for zoned keyboards. Note both
+                      zones and per key addressing may be available if
+                      effects are applied per zone. */
+?
+}
+
+2. A set-leds ioctl which takes the earlier discussed 3092 bytes buffer
+to set all the LEDs at once, only valid if at least one row has a non 0 lenght.
+
+3. A set-zones ioctl which takes an array of bytes sized 3 * number-of-zones
+containing RGB values for each zone
+
+4. A enum_effects ioctl which takes a struct with the following members:
+
+{
+long size; /* Size of passed in struct including the size member itself */
+long effects_mask[]
+}
+
+the idea being that there is an enum with effects, which gets extended
+as we encounter more effects and the bitmask in effects_mask has a bit set
+for each effects enum value which is supported. effects_mask is an array
+so that we don't run out of bits. If older userspace only passes 1 long
+(size == (2*sizeof(long)) when 2 are needed at some point in the future 
+then the kernel will simply only fill the first long.
+
+5. A set_effect ioctl which takes a struct with the following members:
+
+{
+long size; /* Size of passed in struct including the size member itself */
+int effect_nr; /* enum value of the effect to enable, 0 for disable effect */
+int zone;  /* zone to apply the effect to */</pre>
+    </blockquote>
+    Don't know if this is necessary, the keyboards I have seen so far
+    apply firmware effects globally.<br>
+    <blockquote type="cite"
+      cite="mid:6bbfdd62-e663-4a45-82f4-445069a8d690@redhat.com">
+      <pre class="moz-quote-pre" wrap="">
+int speed; /* cycle speed of the effect in milli-hz */</pre>
+    </blockquote>
+    <p>I would split this into speed and speed_max and don't specify an
+      actual unit. The firmwares effects I have seen so far: If they
+      have a speed value, it's some low number interpreted as a
+      proportional x/n * the max speed of this effect, with n being some
+      low number like 8 or 10.</p>
+    <p>But i don't know if such clearly named properties are even
+      sensefull, see below.<br>
+    </p>
+    <blockquote type="cite"
+      cite="mid:6bbfdd62-e663-4a45-82f4-445069a8d690@redhat.com">
+      <pre class="moz-quote-pre" wrap="">
+char color1[3]; /* effect dependend may be unused. */
+char color2[3]; /* effect dependend may be unused. */
+}</pre>
+    </blockquote>
+    <p>We can not predetermine how many colors we might need in the
+      future.</p>
+    <p>Firmware effects can vary vastly in complexity, e.g. breathing
+      can be a single bit switch that just varies the brightness of
+      whatever color setting is currently applied. It could have an
+      optional speed argument. It could have nth additional color
+      arguments to cycle through, it could have an optional randomize
+      bit that either randomizes the order of the defined colors or
+      means that it is picking completely random color ignoring the
+      color settings if set.</p>
+    <p>Like this we could have a very fast explosion of the effects enum
+      e.g.: breathing, breathing_2_colors, breathing_3_colors, ...
+      breathing_n_colors, breathing_speed_controlled,
+      breathing_speed_controlled_2_colors, ...
+      breathing_speed_controlled_n_colors_random_bit, etc.</p>
+    <p>Or we give up on generic names and just make something like:
+      tongfang_breathing_1, tongfang_scan_1, tongfang_breathing_2,
+      clevo_breathing_1</p>
+    <p>Each with an own struct defined in a big .h file.</p>
+    <p>Otherwise I think the config struct needs to be dynamically
+      created out of information the driver gives to userspace.</p>
+    <blockquote type="cite"
+      cite="mid:6bbfdd62-e663-4a45-82f4-445069a8d690@redhat.com">
+      <pre class="moz-quote-pre" wrap="">
+Again the idea with the size member is that the struct can be extended with
+new members if necessary and the kernel will supply a default value for
+older userspaces which provide a smaller struct (note size being smaller
+then sizeof(struct-v1) will invalid).
+
+
+Note this is all just a rough sketch suggestions welcome!
+
+Regards,
+
+Hans
+
+
+
+</pre>
+    </blockquote>
+    <p>Regards,</p>
+    <p>Werner<br>
+    </p>
+  </body>
+</html>
+
+--------------hpuh8oKwt3KTFVe400DXhefH--
