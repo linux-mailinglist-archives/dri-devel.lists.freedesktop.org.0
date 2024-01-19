@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49663832B22
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 15:15:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 032D3832B23
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 15:15:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FC1710EA58;
-	Fri, 19 Jan 2024 14:14:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0551910EA60;
+	Fri, 19 Jan 2024 14:14:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA36F10EA4E
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 14:14:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A66910E9B7
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 14:14:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1705673652;
+ s=mail; t=1705673653;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9iIxPbs0dWlzjgcaYm0qZReABojDho1rbr0/l/s8ieo=;
- b=VDmw/5dmFB8a7DjV5sQY6708zGHT8cN9da4xSjKPmDqd5JoGUoAWZFLA4iBJzYVtLoeMc0
- 534O4/q85cvb0JyL4RkqR4fcFW36IeUqTLCBrV3EPttmKkeaTxQBZIvVT+hfm/hQr1U2rC
- b1Gx/QWvHOF3f7bFVi1IGm2UPpG4KrU=
+ bh=SqXbfp61fzBHWNEqVrElLd46cr7HG/1wYVIvKKSn5jY=;
+ b=NaAbiMYNA0AFJ1EOYLqs/WsQDOJFW4kjOTy5BHngcJ3g7fQNN1JRmaxyrKqwxaeT10DLx6
+ T/t9sAqiAQOdlMHR4xSm/2PaVYL5NNRDZmkExUzP1K+6bXsSsg+vJUIOe7o66dFXNKxz1T
+ BAnGgTqNlP4vbEWAzuO4NKw3WXxW5dY=
 From: Paul Cercueil <paul@crapouillou.net>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [PATCH v5 2/6] dma-buf: udmabuf: Implement .{begin,end}_access
-Date: Fri, 19 Jan 2024 15:13:58 +0100
-Message-ID: <20240119141402.44262-3-paul@crapouillou.net>
+Subject: [PATCH v5 3/6] usb: gadget: Support already-mapped DMA SGs
+Date: Fri, 19 Jan 2024 15:13:59 +0100
+Message-ID: <20240119141402.44262-4-paul@crapouillou.net>
 In-Reply-To: <20240119141402.44262-1-paul@crapouillou.net>
 References: <20240119141402.44262-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -55,64 +55,62 @@ Cc: Paul Cercueil <paul@crapouillou.net>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement .begin_access() and .end_access() callbacks.
-
-For now these functions will simply sync/flush the CPU cache when
-needed.
+Add a new 'sg_was_mapped' field to the struct usb_request. This field
+can be used to indicate that the scatterlist associated to the USB
+transfer has already been mapped into the DMA space, and it does not
+have to be done internally.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-
 ---
-v5: New patch
----
- drivers/dma-buf/udmabuf.c | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+ drivers/usb/gadget/udc/core.c | 7 ++++++-
+ include/linux/usb/gadget.h    | 2 ++
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-index c40645999648..a87d89b58816 100644
---- a/drivers/dma-buf/udmabuf.c
-+++ b/drivers/dma-buf/udmabuf.c
-@@ -179,6 +179,31 @@ static int end_cpu_udmabuf(struct dma_buf *buf,
- 	return 0;
- }
+diff --git a/drivers/usb/gadget/udc/core.c b/drivers/usb/gadget/udc/core.c
+index d59f94464b87..9d4150124fdb 100644
+--- a/drivers/usb/gadget/udc/core.c
++++ b/drivers/usb/gadget/udc/core.c
+@@ -903,6 +903,11 @@ int usb_gadget_map_request_by_dev(struct device *dev,
+ 	if (req->length == 0)
+ 		return 0;
  
-+static int begin_udmabuf(struct dma_buf_attachment *attach,
-+			 struct sg_table *sgt,
-+			 enum dma_data_direction dir)
-+{
-+	struct dma_buf *buf = attach->dmabuf;
-+	struct udmabuf *ubuf = buf->priv;
-+	struct device *dev = ubuf->device->this_device;
++	if (req->sg_was_mapped) {
++		req->num_mapped_sgs = req->num_sgs;
++		return 0;
++	}
 +
-+	dma_sync_sg_for_device(dev, sgt->sgl, sg_nents(sgt->sgl), dir);
-+	return 0;
-+}
-+
-+static int end_udmabuf(struct dma_buf_attachment *attach,
-+		       struct sg_table *sgt,
-+		       enum dma_data_direction dir)
-+{
-+	struct dma_buf *buf = attach->dmabuf;
-+	struct udmabuf *ubuf = buf->priv;
-+	struct device *dev = ubuf->device->this_device;
-+
-+	if (dir != DMA_TO_DEVICE)
-+		dma_sync_sg_for_cpu(dev, sgt->sgl, sg_nents(sgt->sgl), dir);
-+	return 0;
-+}
-+
- static const struct dma_buf_ops udmabuf_ops = {
- 	.cache_sgt_mapping = true,
- 	.map_dma_buf	   = map_udmabuf,
-@@ -189,6 +214,8 @@ static const struct dma_buf_ops udmabuf_ops = {
- 	.vunmap		   = vunmap_udmabuf,
- 	.begin_cpu_access  = begin_cpu_udmabuf,
- 	.end_cpu_access    = end_cpu_udmabuf,
-+	.begin_access      = begin_udmabuf,
-+	.end_access        = end_udmabuf,
- };
+ 	if (req->num_sgs) {
+ 		int     mapped;
  
- #define SEALS_WANTED (F_SEAL_SHRINK)
+@@ -948,7 +953,7 @@ EXPORT_SYMBOL_GPL(usb_gadget_map_request);
+ void usb_gadget_unmap_request_by_dev(struct device *dev,
+ 		struct usb_request *req, int is_in)
+ {
+-	if (req->length == 0)
++	if (req->length == 0 || req->sg_was_mapped)
+ 		return;
+ 
+ 	if (req->num_mapped_sgs) {
+diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
+index a771ccc038ac..c529e4e06997 100644
+--- a/include/linux/usb/gadget.h
++++ b/include/linux/usb/gadget.h
+@@ -52,6 +52,7 @@ struct usb_ep;
+  * @short_not_ok: When reading data, makes short packets be
+  *     treated as errors (queue stops advancing till cleanup).
+  * @dma_mapped: Indicates if request has been mapped to DMA (internal)
++ * @sg_was_mapped: Set if the scatterlist has been mapped before the request
+  * @complete: Function called when request completes, so this request and
+  *	its buffer may be re-used.  The function will always be called with
+  *	interrupts disabled, and it must not sleep.
+@@ -111,6 +112,7 @@ struct usb_request {
+ 	unsigned		zero:1;
+ 	unsigned		short_not_ok:1;
+ 	unsigned		dma_mapped:1;
++	unsigned		sg_was_mapped:1;
+ 
+ 	void			(*complete)(struct usb_ep *ep,
+ 					struct usb_request *req);
 -- 
 2.43.0
 
