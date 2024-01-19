@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2A95832D51
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 17:37:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDDCF832D57
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 17:38:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 235C310EA4E;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A54210EA51;
 	Fri, 19 Jan 2024 16:37:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.skole.hr (mx2.hosting.skole.hr [161.53.165.186])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F96C10EA3B
+Received: from mx.skole.hr (mx1.hosting.skole.hr [161.53.165.185])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9043310EA3D
  for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 16:37:18 +0000 (UTC)
-Received: from mx2.hosting.skole.hr (localhost.localdomain [127.0.0.1])
- by mx.skole.hr (mx.skole.hr) with ESMTP id 55949868B1;
- Fri, 19 Jan 2024 17:37:12 +0100 (CET)
+Received: from mx1.hosting.skole.hr (localhost.localdomain [127.0.0.1])
+ by mx.skole.hr (mx.skole.hr) with ESMTP id 06BE4855A5;
+ Fri, 19 Jan 2024 17:37:16 +0100 (CET)
 From: Duje =?utf-8?B?TWloYW5vdmnEhw==?= <duje.mihanovic@skole.hr>
-To: Linus Walleij <linus.walleij@linaro.org>
+To: Daniel Thompson <daniel.thompson@linaro.org>
 Subject: Re: [PATCH v2 2/2] backlight: Add Kinetic KTD2801 driver
-Date: Fri, 19 Jan 2024 17:36:37 +0100
-Message-ID: <13440257.uLZWGnKmhe@radijator>
-In-Reply-To: <CACRpkdaUvmmbGUyQ-L_u8c73=Oz+qE88GXd1=cUY7r+PPttJbw@mail.gmail.com>
+Date: Fri, 19 Jan 2024 17:36:40 +0100
+Message-ID: <2925385.e9J7NaK4W3@radijator>
+In-Reply-To: <20240119100709.GB100705@aspen.lan>
 References: <20240118-ktd2801-v2-0-425cf32e0769@skole.hr>
  <20240118-ktd2801-v2-2-425cf32e0769@skole.hr>
- <CACRpkdaUvmmbGUyQ-L_u8c73=Oz+qE88GXd1=cUY7r+PPttJbw@mail.gmail.com>
+ <20240119100709.GB100705@aspen.lan>
 MIME-Version: 1.0
 Autocrypt: addr=duje.mihanovic@skole.hr; keydata=
  mQINBGBhuA8BEACtpIbYNfUtQkpVqgHMPlcQR/vZhB7VUh5S32uSyerG28gUxFs2be//GOhSHv+
@@ -91,96 +91,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
  Pavel Machek <pavel@ucw.cz>, Jingoo Han <jingoohan1@gmail.com>,
  Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, ~postmarketos/upstreaming@lists.sr.ht,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Karel Balej <balejk@matfyz.cz>, linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Friday, January 19, 2024 10:02:33 AM CET Linus Walleij wrote:
-> Hi Duje,
->=20
-> thanks for your patch!
->=20
-> On Thu, Jan 18, 2024 at 6:33=E2=80=AFPM Duje Mihanovi=C4=87 <duje.mihanov=
-ic@skole.hr>=20
-wrote:
-> > Add driver for the Kinetic KTD2801 backlight driver.>
+On Friday, January 19, 2024 11:07:09 AM CET Daniel Thompson wrote:
+> On Thu, Jan 18, 2024 at 06:32:39PM +0100, Duje Mihanovi=C4=87 wrote:
+> > Add driver for the Kinetic KTD2801 backlight driver.
+> >=20
 > > Signed-off-by: Duje Mihanovi=C4=87 <duje.mihanovic@skole.hr>
+> >=20
+> > ---
+> > Shared ExpressWire handling code and preemption watchdogs haven't been
+> > implemented in this version as my questions regarding these two weren't
+> > answered.
+> > ---
 >=20
-> Add some commit message?
-
-Besides the usual short explanation of the hardware I'd also add a link to =
-the=20
-datasheet in the commit message if that's appropriate.
-
-> > +#include <linux/backlight.h>
-> > +#include <linux/delay.h>
-> > +#include <linux/gpio/consumer.h>
-> > +#include <linux/of.h>
+> The last mail I saw on this topic was of the "do you have any better
+> ideas?" variety. I (mis)read that as "unless you have any
+> better ideas" and didn't realize you were waiting for anything.
 >=20
-> I don't think you need <linux/of.h>, the compatible table works without
-> that (is in the device driver core).
+> I didn't have any better ideas!
 
-Can confirm it compiles without.
-
-> > +/* These values have been extracted from Samsung's driver. */
-> > +#define KTD2801_EXPRESSWIRE_DETECT_DELAY_US    150
-> > +#define KTD2801_EXPRESSWIRE_DETECT_US          270
-> > +#define KTD2801_LOW_BIT_HIGH_TIME_US           5
-> > +#define KTD2801_LOW_BIT_LOW_TIME_US            (4 *
-> > KTD2801_HIGH_BIT_LOW_TIME_US) +#define KTD2801_HIGH_BIT_LOW_TIME_US    =
-   =20
-> >   5
-> > +#define KTD2801_HIGH_BIT_HIGH_TIME_US          (4 *
-> > KTD2801_HIGH_BIT_LOW_TIME_US) +#define KTD2801_DATA_START_US           =
-   =20
-> >   5
-> > +#define KTD2801_END_OF_DATA_LOW_US             10
-> > +#define KTD2801_END_OF_DATA_HIGH_US            350
-> > +#define KTD2801_PWR_DOWN_DELAY_US              2600
-> > +
-> > +#define KTD2801_DEFAULT_BRIGHTNESS     100
-> > +#define KTD2801_MAX_BRIGHTNESS         255
-> > +
-> > +struct ktd2801_backlight {
-> > +       struct backlight_device *bd;
-> > +       struct gpio_desc *gpiod;
-> > +       bool was_on;
-> > +};
-> > +
-> > +static int ktd2801_update_status(struct backlight_device *bd)
-> > +{
-> > +       struct ktd2801_backlight *ktd2801 =3D bl_get_data(bd);
-> > +       u8 brightness =3D (u8) backlight_get_brightness(bd);
-> > +
-> > +       if (backlight_is_blank(bd)) {
-> > +               gpiod_set_value(ktd2801->gpiod, 0);
-> > +               udelay(KTD2801_PWR_DOWN_DELAY_US);
->=20
-> That's 2600 us, a pretty long delay in a hard loop or delay timer!
->=20
-> Can you use usleep_range() instead, at least for this one?
-
-Sounds like a good idea. Should I also make that GPIO pulldown _cansleep wh=
-ile=20
-at it?
-
-> > +       for (int i =3D 0; i < 8; i++) {
-> > +               u8 next_bit =3D (brightness & 0x80) >> 7;
->=20
-> I would just:
->=20
-> #include <linux/bits.h>
->=20
-> bool next_bit =3D !!(brightness & BIT(7));
-
-Will do.
+My apologies, I'll write the library as I proposed in that email.
 
 Regards,
 =2D-
