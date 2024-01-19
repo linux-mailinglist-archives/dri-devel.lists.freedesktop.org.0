@@ -2,72 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 504E0832EF7
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 19:34:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BD88832F45
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 20:09:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7300010E1D7;
-	Fri, 19 Jan 2024 18:34:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5238810E0EC;
+	Fri, 19 Jan 2024 19:09:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
- [209.85.216.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC9B610E1D7
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 18:34:38 +0000 (UTC)
-Received: by mail-pj1-f51.google.com with SMTP id
- 98e67ed59e1d1-29065efa06fso23200a91.1
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 10:34:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1705689217; x=1706294017; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=zkKnoesKahkqO2ThUINQtzJ7lHkLPPLje48Y8+4TcIw=;
- b=NHMsWmMXllQk04ayyrRsLDyj9PFs5jPc71EGr4HTKleMeycLDKEdbO+EurfOxsAwuh
- AhKMoojNv5TCzGjO+XhkxpeaFR9F00PSHG1O45Ohj/6YZEACTAu1GbajWgQy20hDuCSa
- U8PXsanYk7I25M9XYnELmAjRBvl7AUOJWwvsJ3LzJdu1Er9iG7jhbFd9X30GgkqKICVW
- yT9PZ6aKsoAOA52IaK+o7MD0QLAF95ScOFaCul4CO0DdfKGCchpUd/3IGP/RCmFypX1R
- MmdMS8W/UtXmLmjH5SjBFTJAcsxvlecas7RBBpvkHSPf8cJKHy+sQOABBOJ4rIWmMQs5
- URUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705689217; x=1706294017;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zkKnoesKahkqO2ThUINQtzJ7lHkLPPLje48Y8+4TcIw=;
- b=TAvlm2eQZO+0m3akxBmrf/zEqp//znLXxRRvuFn0zvFT9hUO5KbgLYVl6X8INTHJVc
- 6EpauvXkZXhyX2KYDB87UsrH/vvfvQklddZfJwmhugUBPasT42WwtDP0NuJBgWOMLxJw
- edIeU3Jq9oPyhqEuWdTTUuDWx1hHjquyswCk3sEPyVyHMeuJrTTG44dJEwpb6G0kfQxf
- pTGWD5HYHgGAVfUNnc4yq+epFwwrNU5DK8UR5Z9n0FYFEGhibnb1MP7Kmjf8Z7UQnEs+
- 65DKih34Lu+GI0tck6glVsAa7W4cnw0P/PKzW2ltfp+M9J3UOWNFkfZOvIgOL4aEIPvt
- aXJA==
-X-Gm-Message-State: AOJu0YwOgWyQCZg6ijphCTQkjbME5YCwQquOCyzV8lkcIhn3dkMTt6LM
- kRp/b/ZOwzYPTh7+WGtvG89LBF+zxx0dpQyhaTDhSd58BWzyX3A7
-X-Google-Smtp-Source: AGHT+IE3J3mk+o/jaEbN4lFdflrsPSNaC31PQjCmi5eiwC0XemD3b7u1le1I/qswQjFVSQuib1m0zA==
-X-Received: by 2002:a17:90a:c7cb:b0:290:1426:86fc with SMTP id
- gf11-20020a17090ac7cb00b00290142686fcmr182985pjb.89.1705689217443; 
- Fri, 19 Jan 2024 10:33:37 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:97b4:2663:16e0:cf81])
- by smtp.gmail.com with ESMTPSA id
- sy14-20020a17090b2d0e00b0029005525d76sm4412592pjb.16.2024.01.19.10.33.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Jan 2024 10:33:37 -0800 (PST)
-Date: Fri, 19 Jan 2024 10:33:34 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: Implement per-key keyboard backlight as auxdisplay?
-Message-ID: <ZarAfg2_5ocfKAWo@google.com>
-References: <87sf61bm8t.fsf@intel.com> <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
- <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
- <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com>
- <f416fbca-589b-4f6a-aad6-323b66398273@tuxedocomputers.com>
- <4222268b-ff44-4b7d-bf11-e350594bbe24@redhat.com>
- <ac02143c-d417-49e5-9c6e-150cbda71ba7@tuxedocomputers.com>
- <ZaljwLe7P+dXHEHb@duo.ucw.cz>
- <6bbfdd62-e663-4a45-82f4-445069a8d690@redhat.com>
- <87bk9hppee.fsf@intel.com>
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
+ [205.220.165.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B57D10E0EC
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 19:09:04 +0000 (UTC)
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 40JGwLjl002726; Fri, 19 Jan 2024 19:08:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2023-11-20; bh=ZWLd4ama37Cyr6lzfrcDFFP9xjU4nJJ8S5Ng2lHItfs=;
+ b=exLbPq0gNzGf+z1XrhrHSyOBv+DXeCnOmGi1nSnHsPMxHwOrBJAz5FPwCkWssS0THhhy
+ rXsiBeL0d2a918qnot+bi5vq/h1EQuucaxjz1skEgtGt3Rjjqb3a0QYTzUsvNMCCahht
+ EXCsWtdvSpZON1IYTv9v9cqg2rOB6KXyLJ1eH2XXwadKnjJjCTpstcSA3E/kFcjE48di
+ 8d25VonlzNtYNlmyciWj8KPn04d9sNpBztKYyq1HfUO0YoEx5i2GxQsBoBcHelejRDHq
+ nTsJBJCtplWAP1ySXZCzp1gb0iCfMMhXC6LttWugpvcjLu1AvqIopSbCbaXwUeg22bcO vA== 
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3vkk2ufd3s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 19 Jan 2024 19:08:48 +0000
+Received: from pps.filterd
+ (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19)
+ with ESMTP id 40JIiXHn020046; Fri, 19 Jan 2024 19:08:47 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
+ 3vkgyfunru-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 19 Jan 2024 19:08:47 +0000
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 40JJ8lNR032671;
+ Fri, 19 Jan 2024 19:08:47 GMT
+Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com
+ [10.129.136.47])
+ by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id
+ 3vkgyfunr8-1; Fri, 19 Jan 2024 19:08:46 +0000
+From: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+To: Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/rockchip: vop2: add a missing unlock in
+ vop2_crtc_atomic_enable()
+Date: Fri, 19 Jan 2024 11:08:40 -0800
+Message-ID: <20240119190841.1619443-1-harshit.m.mogalapalli@oracle.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87bk9hppee.fsf@intel.com>
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-19_12,2024-01-19_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ suspectscore=0 bulkscore=0
+ spamscore=0 mlxlogscore=999 phishscore=0 malwarescore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
+ definitions=main-2401190113
+X-Proofpoint-ORIG-GUID: YhbWzf0BGgzwKT-zZSFVivNqHgWwTUMY
+X-Proofpoint-GUID: YhbWzf0BGgzwKT-zZSFVivNqHgWwTUMY
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,82 +87,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lee Jones <lee@kernel.org>, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- jikos@kernel.org, linux-kernel@vger.kernel.org,
- Werner Sembach <wse@tuxedocomputers.com>, Jelle van der Waa <jelle@vdwaa.nl>,
- Hans de Goede <hdegoede@redhat.com>,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Pavel Machek <pavel@ucw.cz>, linux-input@vger.kernel.org, ojeda@kernel.org,
- linux-leds@vger.kernel.org
+Cc: harshit.m.mogalapalli@oracle.com, kernel-janitors@vger.kernel.org,
+ error27@gmail.com, dan.carpenter@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 19, 2024 at 12:51:21PM +0200, Jani Nikula wrote:
-> On Fri, 19 Jan 2024, Hans de Goede <hdegoede@redhat.com> wrote:
-> > For per key controllable rgb LEDs we need to discuss a coordinate
-> > system. I propose using a fixed size of 16 rows of 64 keys,
-> > so 64x16 in standard WxH notation.
-> >
-> > And then storing RGB in separate bytes, so userspace will then
-> > always send a buffer of 192 bytes per line (64x3) x 14 rows
-> > = 3072 bytes. With the kernel driver ignoring parts of
-> > the buffer where there are no actual keys.
-> >
-> > I would then like the map the standard 105 key layout onto this,
-> > starting at x.y (column.row) coordinates of 16.6 (with 0.0 being
-> > the top left). Leaving plenty of space on the left top and right
-> > (and some on the bottom) for extra media key rows, macro keys, etc.
-> >
-> > The idea to have the standard layout at a fixed place is to allow
-> > userspace to have a database of preset patterns which will work
-> > everywhere.
-> >
-> > Note I say standard 105 key layout, but in reality for
-> > defining the standardized part of the buffer we should
-> > use the maximum amount of keys per row of all the standard layouts,
-> > so for row 6 (the ESC row) and for extra keys on the right outside
-> > the main block we use the standard layout as shown here:
-> 
-> Doesn't the input stack already have to have pretty much all of this
-> already covered? I can view the keyboard layout in my desktop
-> environment, and it's a reasonably accurate match, even if unlikely to
-> be pixel perfect. But crucially, it has to have all the possible layouts
-> covered already.
+Unlock before returning on the error path.
 
-The kernel actually is not aware of the keyboard geometry, it had no
-idea if you are dealing with a standard full 101/102 keys keyboard,
-TKL or even smaller one, if it is split or not, maybe something like
-Kinesis Advantage360. Arguably, it could potentially know about
-101/TLK if vendors would program accurate descriptors into their
-devices, but nobody does... And geometry is not a part of HID interface
-at all. So your desktop environment makes an [un]educated guess.
+Fixes: 5a028e8f062f ("drm/rockchip: vop2: Add support for rk3588")
+Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+---
+This is based on static analysis. Only compile tested.
+Note: Smatch found this.
+---
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-> 
-> And while I would personally hate it, you can imagine a use case where
-> you'd like a keypress to have a visual effect around the key you
-> pressed. A kind of force feedback, if you will. I don't actually know,
-> and correct me if I'm wrong, but feels like implementing that outside of
-> the input subsystem would be non-trivial.
-
-Actually I think it does not belong to the input subsystem as it is,
-where the goal is to deliver keystrokes and gestures to userspace.  The
-"force feedback" kind of fits, but not really practical, again because
-of lack of geometry info. It is also not really essential to be fully
-and automatically handled by the kernel. So I think the best way is to
-have an API that is flexible enough for the userspace solution to
-control, and that is not restricted by the input core design. The
-hardware drivers are not restricted to using a single API, they can
-implement both an input device and whatever new "rgbled" and userspace
-can associate them by topology/sysfs.
-
-> 
-> Cc: Dmitry, could we at least have some input from the input subsystem
-> POV on this? AFAICT we have received none.
-
-Sorry, I was not CCed and I missed this on the mainling list.
-
-Thanks.
-
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+index 85b3b4871a1d..fdd768bbd487 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+@@ -1985,8 +1985,10 @@ static void vop2_crtc_atomic_enable(struct drm_crtc *crtc,
+ 		clock = vop2_set_intf_mux(vp, rkencoder->crtc_endpoint_id, polflags);
+ 	}
+ 
+-	if (!clock)
++	if (!clock) {
++		vop2_unlock(vop2);
+ 		return;
++	}
+ 
+ 	if (vcstate->output_mode == ROCKCHIP_OUT_MODE_AAAA &&
+ 	    !(vp_data->feature & VOP2_VP_FEATURE_OUTPUT_10BIT))
 -- 
-Dmitry
+2.39.3
+
