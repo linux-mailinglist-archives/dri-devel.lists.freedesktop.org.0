@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45F44832D72
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 17:45:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 761BD832D7C
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 17:46:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8546F10EA36;
-	Fri, 19 Jan 2024 16:45:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D161610EA0F;
+	Fri, 19 Jan 2024 16:46:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D83D10EA36
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 16:45:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3032510EA0F
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 16:46:01 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 6BDABCE22CB;
- Fri, 19 Jan 2024 16:44:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2CBBC433F1;
- Fri, 19 Jan 2024 16:44:41 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 49A7BCE22D2;
+ Fri, 19 Jan 2024 16:45:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 908A6C43390;
+ Fri, 19 Jan 2024 16:45:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705682685;
- bh=QRRwKq5LqVnkhPlBmuRkLsTSp0aAGvhbAw+sw+G5rKE=;
+ s=k20201202; t=1705682728;
+ bh=4xiZyQ+P1Xz0x+4FTwkxMPkSXfVCdC8v1T9pR7kkqfY=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=CwrBjiJIY6u280JXIzDtHkBHRzWVPvj21WBA3CEh+/RxwVDkP1q76R9RcGOAEyyRK
- as+ANa1c06TpMg4CSg3jgI/b6cHETC2nV29hrJr/oCc2F4jC0QyHxo5j3CW/6xeQS4
- 2/LhaIaaszvyl5bZLnRvvN3nLgKCAYbpZfcIFEEXQ350rEcRG2RgHKJCnZLeg/8v6w
- JtuC7tca0XPKKcYmAMa1YjrUPxYJg22gsmy55XF+vjJIA79MEhx/IPY+PiDnwlW7H9
- 9O61Ux0CCCSlgDQ027Dydc5dIrvEJeStSAxt9wKgDpDsIe7mqT7guLB6toTJZZ90sQ
- XVPPRdo7GkE3w==
-Date: Fri, 19 Jan 2024 16:44:39 +0000
+ b=uDqtfRJANZKxjE6iTqUTIFLbR/GJhoBYF58gPKgdTKvz+AYQ3CcZrUml5a5yERwg8
+ w59B9f6CKwtP6q6KMv18GT6DYLzOAmUJ/YXLDSEaa7w7g800H4zQjBFXMXbi3j37le
+ bI73E3mVPdGWQOIkYQLM6aZbrazixI+1rUSIWHtx2+Csz33O8Iyz9uWWe3NuTM0ak4
+ lG+At1EnPMfj6qtiZY1Ye5JxxS5nsBphTDgul2FNO7rnhersaTkgX4txc1EBu+aeKc
+ ExyX+rVSAOy6GxGBG7/0x0as+CNRGz6VZamNCtt00HON59y45/XxnZeQ+jLS3S//dC
+ fzkWPZY2B6baQ==
+Date: Fri, 19 Jan 2024 16:45:22 +0000
 From: Conor Dooley <conor@kernel.org>
 To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
-Subject: Re: [PATCH v3 2/3] dt-bindings: media: mediatek: mdp: Change
- mediatek,gce-events to reference
-Message-ID: <20240119-surrender-both-21c64f5149c4@spud>
+Subject: Re: [PATCH v3 3/3] dt-bindings: soc: mediatek: Change
+ mediatek,gce-events to refernece
+Message-ID: <20240119-amaretto-gauging-5f745a1b1335@spud>
 References: <20240119063224.29671-1-jason-jh.lin@mediatek.com>
- <20240119063224.29671-3-jason-jh.lin@mediatek.com>
+ <20240119063224.29671-4-jason-jh.lin@mediatek.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="R17Or0wU+thr7YJr"
+ protocol="application/pgp-signature"; boundary="1LR1bW8RJGTFo223"
 Content-Disposition: inline
-In-Reply-To: <20240119063224.29671-3-jason-jh.lin@mediatek.com>
+In-Reply-To: <20240119063224.29671-4-jason-jh.lin@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,12 +68,12 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---R17Or0wU+thr7YJr
+--1LR1bW8RJGTFo223
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 19, 2024 at 02:32:23PM +0800, Jason-JH.Lin wrote:
+On Fri, Jan 19, 2024 at 02:32:24PM +0800, Jason-JH.Lin wrote:
 > Change mediatek,gce-events property to reference mediatek,gce-props.yaml
 > instead of defining itself.
 >=20
@@ -84,15 +84,15 @@ Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 Cheers,
 Conor.
 
---R17Or0wU+thr7YJr
+--1LR1bW8RJGTFo223
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZaqm9wAKCRB4tDGHoIJi
-0oxFAP426FO4m886BrM5F53nZ1cAx5WLgsXMYRGhDk8jJycBJAEA8wHMS3uLk1xV
-EfgQYdDiX0aOUSswVeHTyrGZXsooNgA=
-=xSy/
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZaqnIgAKCRB4tDGHoIJi
+0lW2AQCNJ+Q40bd9LrGWCRk8PNKTOTd7knertR3kHCdXzQusnQD+I6A52S2rMCYj
+tJEIlcYZgCfxGjoaD1PG+JlJwlzFbwY=
+=94Oq
 -----END PGP SIGNATURE-----
 
---R17Or0wU+thr7YJr--
+--1LR1bW8RJGTFo223--
