@@ -2,99 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AE20832D37
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 17:34:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2A95832D51
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 17:37:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A813B10EA61;
-	Fri, 19 Jan 2024 16:33:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 235C310EA4E;
+	Fri, 19 Jan 2024 16:37:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam04on2062.outbound.protection.outlook.com [40.107.100.62])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72E7010EA5B
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 16:33:34 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gjqV5aiZAZOfJJe7f+UTFPnrMWafvtiZ1/SCpso5AtXZKZtBuHA47eE+dd8OM8ap59u8NAvyP+Y5GJFKctDU4j/jfc49GAiwMrZwSQVLiV4qqWBgyPgz51ibz0baJ39aeJ49w/sIXFK9N8VqD5l1mgWoxR377Hjnolf2o+lnm+hucKc5pyu/+MrUAnFZguEK3U+2vMCwVykRLEEdTNzUC5YAuyzyUnRLD98Is9z1SPvGZE1/utLtHfs9PSnpPfrOok/a9FIN49CkfX4Amy3cgW7Lu6WZFHb9zqSHpj5KDzoSHltDww+W3tdXbkgJ/yAiP30zX7/zmgR09dGk+wEFGA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=e3yq0bbbOLzlUELDFANfh9F1CbUuuu25jjuJupmDrDo=;
- b=mwKdAEwmGhdJEDQHmZKfruzEUeUvCL/F/0tW0mM1XWKhjOkET15WS6EsCdz5gqIThzsIgxE29d6p7j4kKkS5XDW6N7bRQURy2Jk52iFybDKQAnuvRWz6cpk0zLZU3Vz7y1pqjFScuUCPgV4B/ZhaS+fys8qm/rsnJYVUymEvWDJJbT9s7QvQOigrAdLSeoLtfKpfxgHelJzToNh3GOdCSVWCADRvJVjZWQ+7yc+jhxwwU0MjUt890ZPSg8lT/R1MVO2+yTwCQefNoKVzKlQAXvAzzHaMNx1Y/eabGvPq2ED7Lt28UPuEW74PF5L1YkOoVzPar3j69vNVaU9ZUr4ppg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=lists.freedesktop.org
- smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
- header.from=nvidia.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e3yq0bbbOLzlUELDFANfh9F1CbUuuu25jjuJupmDrDo=;
- b=IoIsxTY/wywEwFFkIWerkhhzE4yKPTzCTtApbI/nKbp1lQ4WxjU8t/qsR8yXdzB7hiXvmqCU2iEIurruHT8joQJPt7YhnjLh3kivp2fLemYvOc32ELrtCP2ka6cG24XOrTB+Vj5g/kQv4pRbpFmOuQlPvorh+OyO128rw0CJuruWaKyVAsDGR/80mAaYowrCyWn/xyhImRW+XrjF4c4d/JNgtWUvU+zosXsrEYLg2QpGQ4Uj/eKbEcEaOeHjYGS58cRcK1Czi1ibXHPkqWNzBc4LZIidaH2NlmfV9mvOiibCDoppFgYph3gJ/s7Bp97mqexy8FTckc6PaEpzdV9bcQ==
-Received: from SA0PR11CA0154.namprd11.prod.outlook.com (2603:10b6:806:1bb::9)
- by SN7PR12MB6864.namprd12.prod.outlook.com (2603:10b6:806:263::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.24; Fri, 19 Jan
- 2024 16:33:15 +0000
-Received: from SN1PEPF00026369.namprd02.prod.outlook.com
- (2603:10b6:806:1bb:cafe::1a) by SA0PR11CA0154.outlook.office365.com
- (2603:10b6:806:1bb::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.26 via Frontend
- Transport; Fri, 19 Jan 2024 16:33:15 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com;
- dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- SN1PEPF00026369.mail.protection.outlook.com (10.167.241.134) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7202.16 via Frontend Transport; Fri, 19 Jan 2024 16:33:14 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Fri, 19 Jan
- 2024 08:32:55 -0800
-Received: from precision-5760.nvidia.com (10.126.231.35) by
- rnnvmail201.nvidia.com (10.129.68.8) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.41; Fri, 19 Jan 2024 08:32:55 -0800
-From: Erik Kurzinger <ekurzinger@nvidia.com>
-To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v2 3/3] drm/syncobj: call might_sleep before waiting for fence
- submission
-Date: Fri, 19 Jan 2024 08:32:08 -0800
-Message-ID: <20240119163208.3723457-3-ekurzinger@nvidia.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240119163208.3723457-1-ekurzinger@nvidia.com>
-References: <20240119163208.3723457-1-ekurzinger@nvidia.com>
+Received: from mx.skole.hr (mx2.hosting.skole.hr [161.53.165.186])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F96C10EA3B
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 16:37:18 +0000 (UTC)
+Received: from mx2.hosting.skole.hr (localhost.localdomain [127.0.0.1])
+ by mx.skole.hr (mx.skole.hr) with ESMTP id 55949868B1;
+ Fri, 19 Jan 2024 17:37:12 +0100 (CET)
+From: Duje =?utf-8?B?TWloYW5vdmnEhw==?= <duje.mihanovic@skole.hr>
+To: Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH v2 2/2] backlight: Add Kinetic KTD2801 driver
+Date: Fri, 19 Jan 2024 17:36:37 +0100
+Message-ID: <13440257.uLZWGnKmhe@radijator>
+In-Reply-To: <CACRpkdaUvmmbGUyQ-L_u8c73=Oz+qE88GXd1=cUY7r+PPttJbw@mail.gmail.com>
+References: <20240118-ktd2801-v2-0-425cf32e0769@skole.hr>
+ <20240118-ktd2801-v2-2-425cf32e0769@skole.hr>
+ <CACRpkdaUvmmbGUyQ-L_u8c73=Oz+qE88GXd1=cUY7r+PPttJbw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.126.231.35]
-X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF00026369:EE_|SN7PR12MB6864:EE_
-X-MS-Office365-Filtering-Correlation-Id: 41b1b774-af46-4951-ef5d-08dc190c55df
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: N9mdSSpoI0KDuHmdEo0OVyqNStiU4yFu5bnB3zrald0Ml9i+A3tFSJEe4meR4dbVAzC97SZHhjaSg23jIhypseFGvFjulcf2XXBQ6KRNYGQ3iO1WQ+2HqhFEKBI6IfKtgeY6TZ3gxLphsVaRb2y9tmcuPnd/p8+PcNsKfS6FAOJj9OlAlHR9fNuuURdQwyGFKIF6A9ybSsV2lE95/ANgG3Ag02lyCOgskgSEnp92IK3hVDKZVuG78UCok4XynUrzOCRxx0fdZ2qzBs+VmCt0XnDrSlFUzIpVDzlED/pwajLaky7XRzjLKcQrKmT/NpYSaHDvInXV7v5erGg3rW9G7omiVpqltsyBkl/Mnl5cHR6EvaNSQKIdqls5K4bNeRJtvONQZ+VjQ+AuCErWFxvpBq/au4JORvNH9k2H8QAVEWW/rssg8qleyKe4PSrGwdPVobsosJzEdGzcklZrfst8zmPAiEpuyx3FZ1x9Xp0Biqr69SUUSAtPA/KdwWQj2Dcp3MCLlFIcxOr2xlfdj026pq3+z6w5z5vgwu1B/Eu09L1y5CJ7UYEM5mHdsi4taTEG0ypwsXkHtYQQsJTp6mp3qS7q3onHrmYdn11Unx9AJ0MmkjVDOagvh8ye3EZnusKqqwa15Ic7gDB11voSHESslb8KL85lPgszH8tNuYiJCkIA2r+sZmSQvAikQfEC8KU7YVt71FaRpL2UzmbVaaBlMELI6t03Cg6iN4EjkUsF+R0=
-X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
- SFS:(13230031)(4636009)(376002)(136003)(396003)(39860400002)(346002)(230922051799003)(64100799003)(451199024)(1800799012)(82310400011)(186009)(40470700004)(46966006)(36840700001)(356005)(7636003)(41300700001)(36756003)(336012)(8676002)(8936002)(83380400001)(16526019)(6916009)(426003)(70586007)(316002)(70206006)(54906003)(4326008)(6666004)(478600001)(26005)(1076003)(82740400003)(2616005)(107886003)(2906002)(5660300002)(47076005)(36860700001)(7696005)(40460700003)(86362001)(40480700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2024 16:33:14.9246 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 41b1b774-af46-4951-ef5d-08dc190c55df
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF00026369.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6864
+Autocrypt: addr=duje.mihanovic@skole.hr; keydata=
+ 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
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,39 +91,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: david1.zhou@amd.com, Erik
- Kurzinger <ekurzinger@nvidia.com>, jajones@nvidia.com, kbrenneman@nvidia.com,
- ashafer@nvidia.com, daniel@ffwll.ch
+Cc: devicetree@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
+ Pavel Machek <pavel@ucw.cz>, Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, ~postmarketos/upstreaming@lists.sr.ht,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Karel Balej <balejk@matfyz.cz>, linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If either the DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT or
-DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE flags are passed to
-drm_syncobj_array_wait_timeout, the function might sleep if the fence at
-one of the given timeline points has not yet been submitted. Therefore,
-we should call might_sleep in that case to catch potential bugs.
+On Friday, January 19, 2024 10:02:33 AM CET Linus Walleij wrote:
+> Hi Duje,
+>=20
+> thanks for your patch!
+>=20
+> On Thu, Jan 18, 2024 at 6:33=E2=80=AFPM Duje Mihanovi=C4=87 <duje.mihanov=
+ic@skole.hr>=20
+wrote:
+> > Add driver for the Kinetic KTD2801 backlight driver.>
+> > Signed-off-by: Duje Mihanovi=C4=87 <duje.mihanovic@skole.hr>
+>=20
+> Add some commit message?
 
-Signed-off-by: Erik Kurzinger <ekurzinger@nvidia.com>
----
- drivers/gpu/drm/drm_syncobj.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Besides the usual short explanation of the hardware I'd also add a link to =
+the=20
+datasheet in the commit message if that's appropriate.
 
-diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
-index c59bb02e2c07..e04965878a08 100644
---- a/drivers/gpu/drm/drm_syncobj.c
-+++ b/drivers/gpu/drm/drm_syncobj.c
-@@ -1062,8 +1062,10 @@ static signed long drm_syncobj_array_wait_timeout(struct drm_syncobj **syncobjs,
- 	uint32_t signaled_count, i;
- 
- 	if (flags & (DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT |
--		     DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE))
-+		     DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE)) {
-+		might_sleep();
- 		lockdep_assert_none_held_once();
-+	}
- 
- 	points = kmalloc_array(count, sizeof(*points), GFP_KERNEL);
- 	if (points == NULL)
--- 
-2.43.0
+> > +#include <linux/backlight.h>
+> > +#include <linux/delay.h>
+> > +#include <linux/gpio/consumer.h>
+> > +#include <linux/of.h>
+>=20
+> I don't think you need <linux/of.h>, the compatible table works without
+> that (is in the device driver core).
+
+Can confirm it compiles without.
+
+> > +/* These values have been extracted from Samsung's driver. */
+> > +#define KTD2801_EXPRESSWIRE_DETECT_DELAY_US    150
+> > +#define KTD2801_EXPRESSWIRE_DETECT_US          270
+> > +#define KTD2801_LOW_BIT_HIGH_TIME_US           5
+> > +#define KTD2801_LOW_BIT_LOW_TIME_US            (4 *
+> > KTD2801_HIGH_BIT_LOW_TIME_US) +#define KTD2801_HIGH_BIT_LOW_TIME_US    =
+   =20
+> >   5
+> > +#define KTD2801_HIGH_BIT_HIGH_TIME_US          (4 *
+> > KTD2801_HIGH_BIT_LOW_TIME_US) +#define KTD2801_DATA_START_US           =
+   =20
+> >   5
+> > +#define KTD2801_END_OF_DATA_LOW_US             10
+> > +#define KTD2801_END_OF_DATA_HIGH_US            350
+> > +#define KTD2801_PWR_DOWN_DELAY_US              2600
+> > +
+> > +#define KTD2801_DEFAULT_BRIGHTNESS     100
+> > +#define KTD2801_MAX_BRIGHTNESS         255
+> > +
+> > +struct ktd2801_backlight {
+> > +       struct backlight_device *bd;
+> > +       struct gpio_desc *gpiod;
+> > +       bool was_on;
+> > +};
+> > +
+> > +static int ktd2801_update_status(struct backlight_device *bd)
+> > +{
+> > +       struct ktd2801_backlight *ktd2801 =3D bl_get_data(bd);
+> > +       u8 brightness =3D (u8) backlight_get_brightness(bd);
+> > +
+> > +       if (backlight_is_blank(bd)) {
+> > +               gpiod_set_value(ktd2801->gpiod, 0);
+> > +               udelay(KTD2801_PWR_DOWN_DELAY_US);
+>=20
+> That's 2600 us, a pretty long delay in a hard loop or delay timer!
+>=20
+> Can you use usleep_range() instead, at least for this one?
+
+Sounds like a good idea. Should I also make that GPIO pulldown _cansleep wh=
+ile=20
+at it?
+
+> > +       for (int i =3D 0; i < 8; i++) {
+> > +               u8 next_bit =3D (brightness & 0x80) >> 7;
+>=20
+> I would just:
+>=20
+> #include <linux/bits.h>
+>=20
+> bool next_bit =3D !!(brightness & BIT(7));
+
+Will do.
+
+Regards,
+=2D-
+Duje
+
+
 
