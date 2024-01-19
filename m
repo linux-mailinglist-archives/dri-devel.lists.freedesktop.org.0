@@ -2,62 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA4728325BF
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 09:28:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1A018325C3
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 09:31:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44EC010E1CD;
-	Fri, 19 Jan 2024 08:27:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6528C10E980;
+	Fri, 19 Jan 2024 08:30:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com
- [209.85.128.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 446A410E1CD
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 08:27:50 +0000 (UTC)
-Received: by mail-yw1-f173.google.com with SMTP id
- 00721157ae682-5e89ba9810aso4134347b3.2
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 00:27:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1705652809; x=1706257609; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=u6uj8vGAtWaSglPusO+zY1nNoEfV/kxZM7/ahLuGXb4=;
- b=xbQeY5hCe3/wO09EmEwAbjKGYsvNf/uuVJmP1Dc9+CKmVG7+EG5efyzB/mAm5RYQGI
- OkiZKOihtrE7L6W3QJ8AWAbmyhsor4oQgrAsulAHhiS1g3rz2jIk8Aj/QJ7cART0O7MC
- tgS4kz+v3l2xOXqOVqpSZJqf2dRLaYMIHIMCfwH8yeRbzqhibzt8xTTVHkwqMEh9lepf
- K/OuhtGojhcwIOuUlhpUSmenGF9oTUSnfLBMFb/feMRfnYaaRiT+sU5LnWC+o5OzReZn
- 7O6u2xVxY2lj1qzkDKZJjJMlMOQ1cY7f4a5yi8EAsIZRRlgyddvmYjUpvBnTblaz3HA0
- ZUpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705652809; x=1706257609;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=u6uj8vGAtWaSglPusO+zY1nNoEfV/kxZM7/ahLuGXb4=;
- b=XWbLZrhZwUl8MUevAW4wLn6xD4rL250We9V9QDbzLPZpTsrp03141zISOAFlWvfA6f
- stVEHuoYJCi0yqYVnoDK/AjNuEFxT1jCsZUPz6aZuiXd9YG11geF6lYGsZiCB1biAPv+
- 0lGAixSgekeIfcc/jsw8jUnrY3xCNSAqNI902lmp5FvIdtZUAGEZVNcithfUaZl3cT4j
- 65Kp1MGBcGS6nyLJMsFdLvvsxbqXkO8Vx9wNHVbBuplfnfOShGnmMraRi1uXUlCl6yF+
- gZSRXZzGQ9DLHGYZ9UIOQJ0Q/2KkRMNkkY/OxwNszqUV64mu9qkCc/ggBhTk6LqUD4ND
- IyVA==
-X-Gm-Message-State: AOJu0Yy7HES8BGjk9cy6/mqvcNOIlP/at0tm+srZW7l33YZeQhNdUbn0
- R7cNeeioeKBJ61FUlFkXCH0TvBQo2KBmsEvjlD/LCIce+Od0fddnmDLaXEqOU5p3H21eZxyhwhk
- 6VXRQ13J7/DIQ8rifNeXj7q6gRiNS4WcYlpnx8Q==
-X-Google-Smtp-Source: AGHT+IFZAqizoPdRuii626y01xkZm8MM4MJIrfjqmCqvUZtFJj6JtaG5ZTQJR1iBiKLFo2+ioyraQRvAy9rS/GrdsSw=
-X-Received: by 2002:a81:6286:0:b0:5ff:957d:a018 with SMTP id
- w128-20020a816286000000b005ff957da018mr1588062ywb.45.1705652809496; Fri, 19
- Jan 2024 00:26:49 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDA5D10E96F;
+ Fri, 19 Jan 2024 08:30:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1705653053; x=1737189053;
+ h=date:from:to:cc:subject:message-id:mime-version:
+ content-transfer-encoding;
+ bh=gFBrt25gUCsuVGpE3BMz42k3wt5kctlAPg8E8hQ5Xm8=;
+ b=RHL9+HKv0Dci2EsrKBwdlPc7SwGqVMbGKi4YrLBii2pMK7xKYuL80LNj
+ J8zZy1OwGEjKKdEEsyduRETVsxoBTM2ef5L73hPvPaRsPNAzmS7kivzhU
+ R+oymW6B+N6fg1/xqgK46+iLlW3QGA0uZ0A9rXMk/K/gTdlE4plCEmF8x
+ 5ipPEuJCepsxS09DVnsHA+jvcam7HcFK9eMLRqC7eYgLGSs8sHWF1ApuU
+ jkRGuHRBbgwqgWSw/g6g2Zs/n1mSBbg83+B0U1f96h61164WlEM6Tb7Xb
+ xjq/f60DceE0IB1/p7YjzlVaiEbVUgWTg5AFBRAAIgxNffA0+rIDNYDMt Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="404458596"
+X-IronPort-AV: E=Sophos;i="6.05,204,1701158400"; d="scan'208";a="404458596"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jan 2024 00:30:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,204,1701158400"; 
+   d="scan'208";a="521681"
+Received: from rbrownex-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.246.50.122])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jan 2024 00:30:49 -0800
+Date: Fri, 19 Jan 2024 10:30:46 +0200
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-intel-next-fixes
+Message-ID: <ZaozNnAGhu6Ec6cb@jlahtine-mobl.ger.corp.intel.com>
 MIME-Version: 1.0
-References: <20231222030149.3740815-2-samuel@dionne-riel.com>
-In-Reply-To: <20231222030149.3740815-2-samuel@dionne-riel.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 19 Jan 2024 09:26:38 +0100
-Message-ID: <CACRpkda9kF8pcuccSj3Wyy6n7Q7Fd7NmCGcaMzT9sKbTKN1LJw@mail.gmail.com>
-Subject: Re: [PATCH v2] drm: panel-orientation-quirks: Add quirk for GPD Win
- Mini
-To: Samuel Dionne-Riel <samuel@dionne-riel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,19 +57,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, Oded Gabbay <ogabbay@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 22, 2023 at 4:02=E2=80=AFAM Samuel Dionne-Riel
-<samuel@dionne-riel.com> wrote:
+Hi Dave & Sima,
 
-> Signed-off-by: Samuel Dionne-Riel <samuel@dionne-riel.com>
+Here goes drm-intel-next-fixes for v6.8.
 
-The patch looks OK, it was missing a commit message so I added
-one and applied the patch to drm-misc-next.
+Build warning fix for GCC11, fix for #10071 and DP test pattern fix, one
+OA fix for XeHP+.
 
-Yours,
-Linus Walleij
+Regards, Joonas
+
+***
+
+drm-intel-next-fixes-2024-01-19:
+
+- DSI sequence revert to fix GitLab #10071 and DP test-pattern fix
+- Drop -Wstringop-overflow (broken on GCC11)
+- OA fix on XeHP+
+
+The following changes since commit d505a16e00c35919fd9fe5735894645e0f70a415:
+
+  drm/i915/perf: reconcile Excess struct member kernel-doc warnings (2024-01-10 11:56:58 +0200)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-next-fixes-2024-01-19
+
+for you to fetch changes up to 84b5ece64477df4394d362d494a2496bf0878985:
+
+  drm/i915: Drop -Wstringop-overflow (2024-01-18 13:04:36 +0200)
+
+----------------------------------------------------------------
+- DSI sequence revert to fix GitLab #10071 and DP test-pattern fix
+- Drop -Wstringop-overflow (broken on GCC11)
+- OA fix on XeHP+
+
+----------------------------------------------------------------
+Khaled Almahallawy (1):
+      drm/i915/dp: Fix passing the correct DPCD_REV for drm_dp_set_phy_test_pattern
+
+Lucas De Marchi (1):
+      drm/i915: Drop -Wstringop-overflow
+
+Umesh Nerlige Ramappa (1):
+      drm/i915/perf: Update handling of MMIO triggered reports
+
+Ville Syrjälä (1):
+      Revert "drm/i915/dsi: Do display on sequence later on icl+"
+
+ drivers/gpu/drm/i915/Makefile           |  1 -
+ drivers/gpu/drm/i915/display/icl_dsi.c  |  3 +--
+ drivers/gpu/drm/i915/display/intel_dp.c |  2 +-
+ drivers/gpu/drm/i915/i915_perf.c        | 39 ++++++++++++++++++++++++++++-----
+ 4 files changed, 36 insertions(+), 9 deletions(-)
