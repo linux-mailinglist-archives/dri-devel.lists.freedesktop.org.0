@@ -2,33 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 032D3832B23
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 15:15:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 961C0832B1B
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 15:14:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0551910EA60;
-	Fri, 19 Jan 2024 14:14:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB0C410EA64;
+	Fri, 19 Jan 2024 14:14:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A66910E9B7
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 14:14:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2298110EA64
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 14:14:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
  s=mail; t=1705673653;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SqXbfp61fzBHWNEqVrElLd46cr7HG/1wYVIvKKSn5jY=;
- b=NaAbiMYNA0AFJ1EOYLqs/WsQDOJFW4kjOTy5BHngcJ3g7fQNN1JRmaxyrKqwxaeT10DLx6
- T/t9sAqiAQOdlMHR4xSm/2PaVYL5NNRDZmkExUzP1K+6bXsSsg+vJUIOe7o66dFXNKxz1T
- BAnGgTqNlP4vbEWAzuO4NKw3WXxW5dY=
+ bh=PFENih9XWAd70944xbCOau+9oHw/D103WR9u3LQvnx8=;
+ b=Gt2xMOokNy++NJFR1tq2AUBcDdKRgJGiiz5FSZvayuQanfDZYEBEehUt+TLwRdtKYYMQX0
+ N+tcnAwYsDx961blLSEEEMkDtaedDVVXIhQ3h6d+0+HHoJaBgCZxoP1TkzfBHso6z1qKo7
+ EDDtwRL25WF5+PCGPOhNibxKGarkIyE=
 From: Paul Cercueil <paul@crapouillou.net>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [PATCH v5 3/6] usb: gadget: Support already-mapped DMA SGs
-Date: Fri, 19 Jan 2024 15:13:59 +0100
-Message-ID: <20240119141402.44262-4-paul@crapouillou.net>
+Subject: [PATCH v5 4/6] usb: gadget: functionfs: Factorize wait-for-endpoint
+ code
+Date: Fri, 19 Jan 2024 15:14:00 +0100
+Message-ID: <20240119141402.44262-5-paul@crapouillou.net>
 In-Reply-To: <20240119141402.44262-1-paul@crapouillou.net>
 References: <20240119141402.44262-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -55,62 +56,93 @@ Cc: Paul Cercueil <paul@crapouillou.net>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a new 'sg_was_mapped' field to the struct usb_request. This field
-can be used to indicate that the scatterlist associated to the USB
-transfer has already been mapped into the DMA space, and it does not
-have to be done internally.
+This exact same code was duplicated in two different places.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/usb/gadget/udc/core.c | 7 ++++++-
- include/linux/usb/gadget.h    | 2 ++
- 2 files changed, 8 insertions(+), 1 deletion(-)
+ drivers/usb/gadget/function/f_fs.c | 48 +++++++++++++++++-------------
+ 1 file changed, 27 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/usb/gadget/udc/core.c b/drivers/usb/gadget/udc/core.c
-index d59f94464b87..9d4150124fdb 100644
---- a/drivers/usb/gadget/udc/core.c
-+++ b/drivers/usb/gadget/udc/core.c
-@@ -903,6 +903,11 @@ int usb_gadget_map_request_by_dev(struct device *dev,
- 	if (req->length == 0)
- 		return 0;
+diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
+index 6bff6cb93789..ed2a6d5fcef7 100644
+--- a/drivers/usb/gadget/function/f_fs.c
++++ b/drivers/usb/gadget/function/f_fs.c
+@@ -934,31 +934,44 @@ static ssize_t __ffs_epfile_read_data(struct ffs_epfile *epfile,
+ 	return ret;
+ }
  
-+	if (req->sg_was_mapped) {
-+		req->num_mapped_sgs = req->num_sgs;
-+		return 0;
-+	}
-+
- 	if (req->num_sgs) {
- 		int     mapped;
- 
-@@ -948,7 +953,7 @@ EXPORT_SYMBOL_GPL(usb_gadget_map_request);
- void usb_gadget_unmap_request_by_dev(struct device *dev,
- 		struct usb_request *req, int is_in)
+-static ssize_t ffs_epfile_io(struct file *file, struct ffs_io_data *io_data)
++static struct ffs_ep *ffs_epfile_wait_ep(struct file *file)
  {
--	if (req->length == 0)
-+	if (req->length == 0 || req->sg_was_mapped)
- 		return;
+ 	struct ffs_epfile *epfile = file->private_data;
+-	struct usb_request *req;
+ 	struct ffs_ep *ep;
+-	char *data = NULL;
+-	ssize_t ret, data_len = -EINVAL;
+-	int halt;
+-
+-	/* Are we still active? */
+-	if (WARN_ON(epfile->ffs->state != FFS_ACTIVE))
+-		return -ENODEV;
++	int ret;
  
- 	if (req->num_mapped_sgs) {
-diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
-index a771ccc038ac..c529e4e06997 100644
---- a/include/linux/usb/gadget.h
-+++ b/include/linux/usb/gadget.h
-@@ -52,6 +52,7 @@ struct usb_ep;
-  * @short_not_ok: When reading data, makes short packets be
-  *     treated as errors (queue stops advancing till cleanup).
-  * @dma_mapped: Indicates if request has been mapped to DMA (internal)
-+ * @sg_was_mapped: Set if the scatterlist has been mapped before the request
-  * @complete: Function called when request completes, so this request and
-  *	its buffer may be re-used.  The function will always be called with
-  *	interrupts disabled, and it must not sleep.
-@@ -111,6 +112,7 @@ struct usb_request {
- 	unsigned		zero:1;
- 	unsigned		short_not_ok:1;
- 	unsigned		dma_mapped:1;
-+	unsigned		sg_was_mapped:1;
+ 	/* Wait for endpoint to be enabled */
+ 	ep = epfile->ep;
+ 	if (!ep) {
+ 		if (file->f_flags & O_NONBLOCK)
+-			return -EAGAIN;
++			return ERR_PTR(-EAGAIN);
  
- 	void			(*complete)(struct usb_ep *ep,
- 					struct usb_request *req);
+ 		ret = wait_event_interruptible(
+ 				epfile->ffs->wait, (ep = epfile->ep));
+ 		if (ret)
+-			return -EINTR;
++			return ERR_PTR(-EINTR);
+ 	}
+ 
++	return ep;
++}
++
++static ssize_t ffs_epfile_io(struct file *file, struct ffs_io_data *io_data)
++{
++	struct ffs_epfile *epfile = file->private_data;
++	struct usb_request *req;
++	struct ffs_ep *ep;
++	char *data = NULL;
++	ssize_t ret, data_len = -EINVAL;
++	int halt;
++
++	/* Are we still active? */
++	if (WARN_ON(epfile->ffs->state != FFS_ACTIVE))
++		return -ENODEV;
++
++	ep = ffs_epfile_wait_ep(file);
++	if (IS_ERR(ep))
++		return PTR_ERR(ep);
++
+ 	/* Do we halt? */
+ 	halt = (!io_data->read == !epfile->in);
+ 	if (halt && epfile->isoc)
+@@ -1280,16 +1293,9 @@ static long ffs_epfile_ioctl(struct file *file, unsigned code,
+ 		return -ENODEV;
+ 
+ 	/* Wait for endpoint to be enabled */
+-	ep = epfile->ep;
+-	if (!ep) {
+-		if (file->f_flags & O_NONBLOCK)
+-			return -EAGAIN;
+-
+-		ret = wait_event_interruptible(
+-				epfile->ffs->wait, (ep = epfile->ep));
+-		if (ret)
+-			return -EINTR;
+-	}
++	ep = ffs_epfile_wait_ep(file);
++	if (IS_ERR(ep))
++		return PTR_ERR(ep);
+ 
+ 	spin_lock_irq(&epfile->ffs->eps_lock);
+ 
 -- 
 2.43.0
 
