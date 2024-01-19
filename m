@@ -2,55 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C705832FB7
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 21:23:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 198DE832FB9
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jan 2024 21:26:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 651F610EA6C;
-	Fri, 19 Jan 2024 20:23:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 882F810EA7D;
+	Fri, 19 Jan 2024 20:25:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com
- [157.90.84.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FC5510EA6C
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 20:22:59 +0000 (UTC)
-Received: from [192.168.42.20] (p5de453e7.dip0.t-ipconnect.de [93.228.83.231])
- (Authenticated sender: wse@tuxedocomputers.com)
- by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 64B492FC0077;
- Fri, 19 Jan 2024 21:22:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
- s=default; t=1705695777;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=s3KB8fN1v11h06dDAChI3rThEEmVbSHsahcI++DtPIU=;
- b=W48PXxH98jl59z8cPo3sKMW1zTP7z+54nd2fx/eDRv/x17PK0rrASStRSulK62Zvx8oC1k
- c0Lt2w6WRRXqmefYboiY4vSa7hC4gNQ4ZzGNCrioC1rGuZ8TX23lpo2GSMr1K9e4iln8Mr
- a8PeXyISJub1qytbPrp2YCPSa6SpHLM=
-Authentication-Results: mail.tuxedocomputers.com;
- auth=pass smtp.auth=wse@tuxedocomputers.com
- smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <36973f9d-bf67-417d-998c-ce24c38322c3@tuxedocomputers.com>
-Date: Fri, 19 Jan 2024 21:22:57 +0100
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEE3E10EA88
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 20:25:30 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id
+ 5b1f17b1804b1-40e8801221cso10541075e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jan 2024 12:25:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=suse.com; s=google; t=1705695866; x=1706300666; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=fSAdYcVcYW7TXec/S+ueznqklHNNuo2sBKfuUZVuOhA=;
+ b=fRdI0UIWE9IOWqDtVSC9tQLY6IG7gLFOxI77WRkdk03Tzwdhdhi25u5YUVAJwcluWA
+ UIcJhybXu1Sdm/2K3h3dXg0D4ktDfAKvjKi2qYcEf0Z0AAIqq1VWNXnpvUC0rAPavnHV
+ zgAaEH6ArouTlknyE27wCxjZo3iHuhGX3Crw+Id/F+tuDtZ+G250ZPnRAHbxdorVmgYz
+ gMYJCPaEnGjTDAcAm2E+g47e0niCy0+lQ06sLcVkMiuY3jh6Gz666fXfVh3g5E1aHJMO
+ eMRE/cGVVobdY3WkbP9oDrlCbAfh9i1S3CAf99SlMC/uxbc+m6HmrZWqenycTIrLfvDT
+ QNtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1705695866; x=1706300666;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=fSAdYcVcYW7TXec/S+ueznqklHNNuo2sBKfuUZVuOhA=;
+ b=X6G0OlX80AWXPWerbQG3/oeEId2+GM9n15dVOxUJE7PzWW66J6C3gta9ys1MaxMngm
+ mZrxd/u1P/8+VPNY/AjspRsfVr/o8Obmpxxx5TYgcPhG2s9We1M4LJQ0mXINakTqojPK
+ FC2AiM55aXfeqUKvUV6AK9g4+YkXQvvzRTGhMnIH21X68Odxtp+8fUuCezVjR1vhFl7L
+ kl4fdjP7QmtOcf23bdkyPRK5x0pA9fQ0LBbMZqZtVqW6Pa/eP0gkMwWwtV20zJLYSA4U
+ ltQKqIYRdJYB323nUhrw+5+W8UOmS1F9d1e9xdeNYRd8KMD/qzk96E4IGcgFClhYh8RE
+ hI7Q==
+X-Gm-Message-State: AOJu0YwDjFQfAB2MVgHpgVRXCX+ud+ufpV5y3BenbXClMvdC8rxmDKPx
+ HG9/C6S6Shxkub3IxNTsfy3/aN8c1S8iDK7dZ3UKhAJznPOLCkEJibexgl31yQs=
+X-Google-Smtp-Source: AGHT+IFtA7BSqlgCfiGu7wk0AZvLnnTQtHRsQADJPz9GIjEbAIoCgsRz0g5JV4tPQlwXkJq42N6o6w==
+X-Received: by 2002:a05:600c:2e16:b0:40d:376b:c640 with SMTP id
+ o22-20020a05600c2e1600b0040d376bc640mr197433wmf.102.1705695865794; 
+ Fri, 19 Jan 2024 12:24:25 -0800 (PST)
+Received: from suse.de ([81.95.8.245]) by smtp.gmail.com with ESMTPSA id
+ c9-20020adfe749000000b003368d2e729bsm7284566wrn.43.2024.01.19.12.24.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 19 Jan 2024 12:24:25 -0800 (PST)
+Date: Fri, 19 Jan 2024 21:24:24 +0100
+From: Stefan Dirsch <sndirsch@suse.com>
+To: Jordan Justen <jordan.l.justen@intel.com>
+Subject: Re: Mesa >= 23.3.x and python 2.6 ...
+Message-ID: <20240119202424.ronbrs5dts3bn5n6@suse.de>
+References: <20240118123752.bl3qss3qbbxgvpdk@suse.de>
+ <170569503795.494457.15400783572444467039@jljusten-skl>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Implement per-key keyboard backlight as auxdisplay?
-Content-Language: en-US
-To: Pavel Machek <pavel@ucw.cz>, Hans de Goede <hdegoede@redhat.com>
-References: <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
- <87sf61bm8t.fsf@intel.com> <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
- <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
- <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com>
- <f416fbca-589b-4f6a-aad6-323b66398273@tuxedocomputers.com>
- <4222268b-ff44-4b7d-bf11-e350594bbe24@redhat.com>
- <ac02143c-d417-49e5-9c6e-150cbda71ba7@tuxedocomputers.com>
- <ZaljwLe7P+dXHEHb@duo.ucw.cz>
- <6bbfdd62-e663-4a45-82f4-445069a8d690@redhat.com>
- <ZarYSkzISyS+wuYR@duo.ucw.cz>
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <ZarYSkzISyS+wuYR@duo.ucw.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <170569503795.494457.15400783572444467039@jljusten-skl>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,87 +74,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lee Jones <lee@kernel.org>, jikos@kernel.org, linux-kernel@vger.kernel.org,
- Jelle van der Waa <jelle@vdwaa.nl>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org
+Cc: mesa-dev@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Dylan Baker <dylan@pnwbakers.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Jordan
 
-Am 19.01.24 um 21:15 schrieb Pavel Machek:
-> Hi!
->
->>>> 2. Implement per-key keyboards as auxdisplay
->>>>
->>>>      - Pro:
->>>>
->>>>          - Already has a concept for led positions
->>>>
->>>>          - Is conceptually closer to "multiple leds forming a singular entity"
->>>>
->>>>      - Con:
->>>>
->>>>          - No preexisting UPower support
->>>>
->>>>          - No concept for special hardware lightning modes
->>>>
->>>>          - No support for arbitrary led outlines yet (e.g. ISO style enter-key)
->>> Please do this one.
->> Ok, so based on the discussion so far and Pavel's feedback lets try to
->> design a custom userspace API for this. I do not believe that auxdisplay
->> is a good fit because:
-> Ok, so lets call this a "display". These days, framebuffers and drm
-> handles displays. My proposal is to use similar API as other displays.
->
->> So my proposal would be an ioctl interface (ioctl only no r/w)
->> using /dev/rgbkbd0 /dev/rgbkdb1, etc. registered as a misc chardev.
->>
->> For per key controllable rgb LEDs we need to discuss a coordinate
->> system. I propose using a fixed size of 16 rows of 64 keys,
->> so 64x16 in standard WxH notation.
->>
->> And then storing RGB in separate bytes, so userspace will then
->> always send a buffer of 192 bytes per line (64x3) x 14 rows
->> = 3072 bytes. With the kernel driver ignoring parts of
->> the buffer where there are no actual keys.
-> That's really really weird interface. If you are doing RGB888 64x14,
-> lets make it a ... display? :-).
->
-> ioctl always sending 3072 bytes is really a hack.
->
-> Small displays exist and are quite common, surely we'd handle this as
-> a display:
-> https://pajenicko.cz/displeje/graficky-oled-displej-0-66-64x48-i2c-bily-wemos-d1-mini
-> It is 64x48.
->
-> And then there's this:
-> https://pajenicko.cz/displeje/maticovy-8x8-led-displej-s-radicem-max7219
-> and this:
-> https://pajenicko.cz/displeje/maticovy-8x32-led-displej-s-radicem-max7219
->
-> One of them is 8x8.
->
-> Surely those should be displays, too?
+Thanks for digging into this!
 
-But what about a light bar with, lets say, 3 zones. Is that a 3x1 display?
+On Fri, Jan 19, 2024 at 12:10:37PM -0800, Jordan Justen wrote:
+> On 2024-01-18 04:37:52, Stefan Dirsch wrote:
+> > Hi
+> > 
+> > I noticed that with version 23.3.x Mesa no longer can be built with python
+> > 2.6. It still worked with Mesa 23.2.1.
+> 
+> As mentioned in other emails, this was typo where 3.6 was intended.
+> 
+> > 
+> > It fails with
+> > 
+> > [   95s] Traceback (most recent call last):
+> > [   95s]   File "../src/intel/genxml/gen_bits_header.py", line 23, in <module>
+> > [   95s]     import intel_genxml
+> > [   95s]   File "/home/abuild/rpmbuild/BUILD/mesa-23.3.3/src/intel/genxml/intel_
+> > genxml.py", line 5
+> > [   95s]     from __future__ import annotations
+> > [   95s]     ^
+> > [   95s] SyntaxError: future feature annotations is not defined
+> > 
+> 
+> I guess this code first appeared in Dylan's:
+> 
+> 4fd2e15855d ("intel/genxml: add type annotations to gen_sort_tags.py")
+> 
+> and then became part of the standard tests a few commits later in:
+> 
+> 1f0a0a46d97 ("meson: run genxml sort tests")
+> 
+> back in Oct 2022. So, I guess at that point 'ninja test' would have
+> failed with Python 3.6.
+> 
+> Then, I suppose I propagated this to being used on every build in:
+> 
+> 0495f952d48 ("intel/genxml: Add genxml_import.py script")
+> 
+> in Sept 2023.
 
-And what about a mouse having lit mousebuttons and a single led light bar at the 
-wrist: a 2x2 display, but one is thin but long and one is not used?
+Thanks. This explains why I've found this code already in older releases, but
+it didn't fail for me yet. You said tests. Is this just a test, I could
+disable (as dirty hack)? I was assuming it would generate code ...
 
-Regards,
+> Maybe Dylan knows how we might make this compatible with Python 3.6,
+> assuming we want to. :)
+> 
+> https://devguide.python.org/versions/
 
-Werner
+Yes, I know. It's EOL since a long time now ... sigh
 
->
-> And yes, we'd probably want some extra ioctls on top, for example to
-> map from input device to this and back, and maybe for various effects,
-> too. And yes, I realize that display with holes in it and with some
-> pixels bigger than others is weird, but it still looks like a display
-> to me. (And phones have high-res displays with rounded corners and
-> holes in them, so... we'll need to deal with weird displays anyway).
->
-> Best regards,
-> 								Pavel
+Thanks,
+Stefan
+
+Public Key available
+------------------------------------------------------
+Stefan Dirsch (Res. & Dev.)   SUSE Software Solutions Germany GmbH
+Tel: 0911-740 53 0            Frankenstra�e 146
+FAX: 0911-740 53 479          D-90461 N�rnberg
+http://www.suse.de            Germany 
+----------------------------------------------------------------
+Gesch�ftsf�hrer: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+(HRB 36809, AG N�rnberg)
+----------------------------------------------------------------
