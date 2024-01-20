@@ -2,103 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 292CE8333BF
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Jan 2024 12:09:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E08828333E2
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Jan 2024 12:27:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60CDA10E23A;
-	Sat, 20 Jan 2024 11:09:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8C5710E26E;
+	Sat, 20 Jan 2024 11:26:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com
- (mail-tycjpn01olkn2039.outbound.protection.outlook.com [40.92.99.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE9C910E24E
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Jan 2024 10:16:03 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EK2YUNbRP193HtTi6B8vygyJ702j+w+M+TMHvcbdZz9djy9sZflvUbqSxJ0jMYvJXY763SqTdt/90wp+S5VLNYJ1x1xZA6us8SXwQGbyzvuckl5xY9wGXJDD3h0xazHGFxdhRIymI9zfTFHa8hr2gUVOuIQiVxZcVHvTTjq6q9KTxi+cOgfkfCG1BX5/HQQCwMsXlSi8dSYPWHyuT6UpBYv6wYAromvcZ5ez4/ogElUB9uWkL3f1+BlfRch8lNslqPmNnvlkerjZwSUh4O4Eoi/C509QZAKEjZhH3qmUSL21lSK3TPpqYcK63RjV+YIZX6mEA9c/xUeBRRRt1z6ung==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iWH0ZBvXbgnUQBP33r4EumNhoOwnYsMUkHm5Reu8L1Q=;
- b=RnIzv8ch6fG4rF5LkUkNsl+IDx1hKb0YNcY7tqCB3rP8amwFAQUO6j2MDvi4YasgKZzW0TuCc9iUvWWsw0NDRH5iN3oESN4C2vaM5dYR+CkHi1xHe+8bYcTkF7E20cnj/bNyzsF4EhGjpW8KsJjEh+6xKup28BWdapg+2efI4/XgUw/ZgaTrGCGKvQqqhoAJqMrVTn5MQsPypwDJpQgSAca67Z50Vjo3Sy/zAjVwBPJibJJGP57StDneG/inXjhnvqlM/vsL9akbokM+gIlPsvgHsPb4YIo6A+HgnWXdGfnbaXH7SFVn+Zx/x5FV3hiCha/MF6mDPud+XPhg2ihCsQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iWH0ZBvXbgnUQBP33r4EumNhoOwnYsMUkHm5Reu8L1Q=;
- b=pNKcKn9GL9NrejF0bvQAAcNOaTxzYT63am8yDR2Jrqe+w4RcjdPNAgSxW65h0PMeqGx0NqRS+1I0lZdnIZOOu116IJXFOm/a5nenCPhts6L1uQYulnApWDf7PW1TWbFkaCO0vwDHWxt4uTzvnmrOWAJ6SG9B/EYpmBfyOUxxoK3rjEWcL/y7IKh8fYGJnArCQQITZCayRlnq06ZKFpHcHztj6ms7VT66TCgl1MYEgF/29VQjcjagLksPcthyL0JTLK4+/ojO956y6wnFQ94eF8Z759jf9I6MDnacU5ilBAJOxWPohYphmalh8cyeKWt4q2UsfBNMaR1gHHOn7B8vyQ==
-Received: from TYCP286MB2989.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:309::9)
- by TYVP286MB3714.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:36b::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.29; Sat, 20 Jan
- 2024 10:15:45 +0000
-Received: from TYCP286MB2989.JPNP286.PROD.OUTLOOK.COM
- ([fe80::a820:660b:bc07:c568]) by TYCP286MB2989.JPNP286.PROD.OUTLOOK.COM
- ([fe80::a820:660b:bc07:c568%3]) with mapi id 15.20.7202.024; Sat, 20 Jan 2024
- 10:15:45 +0000
-Content-Type: multipart/alternative;
- boundary="------------6gelaRrTpPrf341FBf7ETL78"
-Message-ID: <TYCP286MB298943C0E6A504C4840643E9AA772@TYCP286MB2989.JPNP286.PROD.OUTLOOK.COM>
-Date: Sat, 20 Jan 2024 18:15:42 +0800
-User-Agent: Mozilla Thunderbird
-To: sui.jingfeng@linux.dev
-References: <1ead2284-dbc1-4938-bdce-66971c70ef1e@linux.dev>
-Subject: Re: drm/loongson: Error out if no VRAM detected
-Content-Language: en-GB
-From: Katyusha <KatyushaScarlet@Outlook.com>
-In-Reply-To: <1ead2284-dbc1-4938-bdce-66971c70ef1e@linux.dev>
-X-TMN: [JD1toghUv5KH8y5et90RSO8C84UjATGPLiZZE82PBtQ=]
-X-ClientProxiedBy: TY2PR06CA0007.apcprd06.prod.outlook.com
- (2603:1096:404:42::19) To TYCP286MB2989.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:309::9)
-X-Microsoft-Original-Message-ID: <cf53cd1c-6c8f-40a1-b39d-0d71af9707a4@Outlook.com>
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
+ [209.85.210.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6E9010E249
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Jan 2024 11:26:46 +0000 (UTC)
+Received: by mail-pf1-f172.google.com with SMTP id
+ d2e1a72fcca58-6d9b37f4804so1708534b3a.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Jan 2024 03:26:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1705749942; x=1706354742; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=KgsgmfAUCsUK7bv60DL+YeJq8JarB9xRbUnaqW3K3n4=;
+ b=mPBH/15cVq8RC7AY4RmuLy2Bb0uqsVhNUVKDRMLvtLZSKwvTcVIX++vCCHKSmWsstQ
+ vN2QApIBamFLVfd8hOn+YIzitr/48/lhNPNwGaxjz/65tZw3+0GiLVl+1c8ypkvihDzd
+ SA/BN7Yy63fa5pp2tsXNizTfCGeVsbJs4GD1ZGgGUOx+N7/6Od8jGmtoomKvttGHhnfs
+ QmAWXuJmrw6FMwEIVJ8HKgFrQcxlGhGstAN614Wh6G/s/vOb+zVWufVHNTsQCpRx77kA
+ dKEwC/vzeq0kdXibSLHsQKf1SIzFrOealTHirMZEcHUwVwbsuck0gOoPED2G1wQdZZtV
+ bblg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1705749942; x=1706354742;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KgsgmfAUCsUK7bv60DL+YeJq8JarB9xRbUnaqW3K3n4=;
+ b=hk+0TQZoIfjKNprYsQZT428aDJiRvgnvKSD15oNRF6Y1SCfAsQI2m76sFTdxBO1foS
+ jslETNTZPGE8dXH/S692PLZHoaTFb3rf8OogIHiFtvG7HpPG09xuBb6KcQIqUaNX3Wp7
+ W5uzM1WfX683msi1ijK2z1wFcoIAVtRROAtejra+UMbs9qJcjU7KwjVJaaUHbmKa+C0j
+ 40K2vWNO5wpUSo6acVLsHND766LUPymmyNLowlg+2PE6Tvvob0S9DIOquK9PwrvKVZ8L
+ xiV8EwJsK3ZZ1GqbJ2pzmzyX7GUqKvASppS9i7wOEHx6sbhykKrl2smlOzQXRJ7GSqqT
+ YK0A==
+X-Gm-Message-State: AOJu0Yz5mjcjJ8EYp4wS2GpUQ812Wn7tk0f7EAiqdhz3IBVwEIYvIZQF
+ vuQHZi9txcqVFEVGJIE3AXZY7l97l/Ait7ztzoJbrUuZP6wlB2ZP
+X-Google-Smtp-Source: AGHT+IGczytrLQQdYDK7kvLhiVSmKYX9mhpfTIBfzwvIUl99cMSETuw33MUFEt9naz8OE72mObfRxQ==
+X-Received: by 2002:a05:6a21:32a8:b0:199:fe49:6bb3 with SMTP id
+ yt40-20020a056a2132a800b00199fe496bb3mr1684368pzb.5.1705749941592; 
+ Sat, 20 Jan 2024 03:25:41 -0800 (PST)
+Received: from archie.me ([103.131.18.64]) by smtp.gmail.com with ESMTPSA id
+ kr8-20020a056a004b4800b006da73b90fe4sm6790103pfb.14.2024.01.20.03.25.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 20 Jan 2024 03:25:40 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+ id 121831846DB12; Sat, 20 Jan 2024 18:25:36 +0700 (WIB)
+Date: Sat, 20 Jan 2024 18:25:36 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [BUG][BISECTED] Freeze at loading init ramdisk
+Message-ID: <ZautsJ6a7_YjW5aQ@archie.me>
+References: <8a6aa228-f2da-4dcd-93c1-e34614cd6471@alu.unizg.hr>
+ <cc813525-5484-443e-a40a-cb98f2ed4e1f@alu.unizg.hr>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCP286MB2989:EE_|TYVP286MB3714:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7e95d331-b717-4505-84af-08dc19a0c333
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: aoQRyIZ01nzOwS2WsyX/2zq1BjicC5axkkyQi036nYXMAB3KB+tC7d21EINKJvmvgEIiARGvn+XWtbZaQBD4xkQvR2U9A557+ZjYvKSBxYu+653S8xYIsivbENn7GU2iKUieDG50tZ+nxfBaShD5bzOzJzpKTacAl1K/vuvrzVf50kFqMAAvL6u6e9I6AbSPueAjbP5yn3dk9KOigp1o5eE+dqOUDOE7hHyk7B85rpoCNk2cGD+ZmYhZbEn2CGro9KGjoG700G8IyzdBU1UGYHRNyfMbV0g0h8VPqxdBqdqlxJldrEKRQiAcn9jLr8VWlPnVMXZZXv0MJkx2A0JYJGru3l0bbqxRB+1N0+R4YjyMFa7uGip31RccSxNTZyVq0R2xTBoth73EIHhi3FlbpmIZB3Pm5SRzfn/M48Dw8xr9LNiOISuoHPpJRLYFJdVRK0SfvJi1/2booH8OeotzYn8g6lIVBjuBAT4CE/uyO6tMUHmOF/KyBm4x5n8lo96bayn2hVBxqoyabTOQvxkd65xMyXFHEVzh2N3RMxCrPKhpxnXLNIOuKt0WrKCRlvLG
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NGI4QWphLyttY3hYeFRUeHJ6S2NDSyt3SEtzVEpkbFZ5RlUvRzc5R2I0NWhQ?=
- =?utf-8?B?STFiQTdTc1gzdVVvdHFZVlhRLzhMaG8rUjVrMS9LYVVEZXkzWHdkTm1VNk1r?=
- =?utf-8?B?NlgvTncyNnRzWmVLYlVxblBXMWJaaUN0V3lmU1pVcm1BSVdOWkpSQm4wSTA5?=
- =?utf-8?B?aGxoV3d0V1JNNkg0TjBFSFJ4UjVFeVFRZjd3OGNtNi9JQkI2RlRTLzlxM1J3?=
- =?utf-8?B?YXR5MnJWS3ZSRFdGREZ1WWJkQzFzaTlBUkd6d2VpV0xGSXNmdUU4Y1lKS25w?=
- =?utf-8?B?WDZmQnBnKzRiVmt4TlJUbzJxM0hPZ2xCem4wNjIzYVNxVURxV0lDZDViYTgw?=
- =?utf-8?B?ek42S3Z1aUJ4MSsvR3cwVkJ6Z1RkeFEyalpVczRGbG9oWVE5VXJTTGhzSzJS?=
- =?utf-8?B?QjBvTTV6bGsvbTNNeERHOU03SXdLbFNoQ3JWZFVyWEkxbHVPQ0QxTnB6Y3FQ?=
- =?utf-8?B?OVd3ZHVwOXY1a2NjejZ3K3lXWVFpdzZSMzZCQzFLTmxoM3d4RW1UT1ZSb0tt?=
- =?utf-8?B?RFlIVldnWjEwVzJOeDV2OVdvTDhhMUJqQno1R1RpZkV5OU5NZkNJb1ZVS0JH?=
- =?utf-8?B?VEoyd1NwbUtxRElsZDNoZlBEbFZsNUYzV1BZSWg2MkszT1lyYnlqOHhna3Bh?=
- =?utf-8?B?NjJwTVFsdTV5TWwxUjV0UlhKQlpNNCttNHRJeEdjbnRicmZUeXpOajFkTEJQ?=
- =?utf-8?B?NnZhUjJob2VCZUNFY0VVZklqQUZ4bDVTZFNiaklWdUNYNW9hME1uR0Q2NTJS?=
- =?utf-8?B?eXFmTDJhcmZzV3JXSXpwN21DZnhaUm84N1JhWWtkT2crek9vU1JiTG1IMURW?=
- =?utf-8?B?akVhR0ZlanNLNjRQaFdRenJxUksvSURFdi85V2JMbDJhZXlQTlZEbUpWeDlq?=
- =?utf-8?B?R1FLd0Qrakw1ODlwNko4d05lbUk3QUxOUU9qem1NNmtJdXVHVTh6RUxPcmUx?=
- =?utf-8?B?cXloc1RLRVREV2hMbXkxNlZ1ZGlkYWo3dDF1ZG02OTg1UTJIZ3Joa1o2OWRk?=
- =?utf-8?B?R2hoWWt0Zmt6Szg3Zjc3c2hLTjNoWW1JbzJqYnRDNlJwWllhcnFvaU11NWZY?=
- =?utf-8?B?c3dzK280ZFdNRTRhVFlGR3dIeUJGUUlXYzJwVTA1Wk53dksrQ21XNVVuV2h5?=
- =?utf-8?B?QlBlbFpmUkNDL3ZZakROOEJFbnBFTXp0OFFZQklsYzNOcWpsSWpEVks0am1y?=
- =?utf-8?B?c0NkSXgvUUhqcTJEL1RDc3AzaXlZYXdhT29rVGhDUnRjZXRyRkJjV1lmczR5?=
- =?utf-8?B?Zk5wZTd1NDBmcW1peDlSNGZNTzN1QWFid015bHU4ZnZIM0IwT21JNVV3cVU4?=
- =?utf-8?B?MCtmeWZ0YnQrUW5vVWpjcWNRMCtMVlRpL1gxTGdnYmlIVDhlMVNYZW1sNWdW?=
- =?utf-8?B?RThLa2VlRlBvY2IxL25tbUNtUnZiVk1UQ2hscGdzUnJxQkVvRENtbzlYZ1Np?=
- =?utf-8?B?UzArbDh1Y1ArSVhMSEVJSkxwVnhjdml2bmQwb2o1cUo3MUFJUE9ZaGJaWTdy?=
- =?utf-8?B?MnMrc2JKU0U2R0NWN2luQVMxZ05nZElmc2taT01zWnhCVkNweDRJc0Z3Z2ZD?=
- =?utf-8?B?TisxNkI1ZHZwQTAySVBoZHBWK05ISVJPRDNUU3lJRWlRWkY2alN1UlJUZG81?=
- =?utf-8?B?eWRBcXgxS08zSzlMdFE3MlBoUnpneDZ0MWdCUGFuZzA1aFhqeHdMYXZ2K1Vs?=
- =?utf-8?Q?BuucWlZx0xTF18OktsQ+?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7e95d331-b717-4505-84af-08dc19a0c333
-X-MS-Exchange-CrossTenant-AuthSource: TYCP286MB2989.JPNP286.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2024 10:15:44.3435 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYVP286MB3714
-X-Mailman-Approved-At: Sat, 20 Jan 2024 11:09:20 +0000
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="Vv+fIX42qDF80RtH"
+Content-Disposition: inline
+In-Reply-To: <cc813525-5484-443e-a40a-cb98f2ed4e1f@alu.unizg.hr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,34 +76,275 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, chenhuacai@kernel.org,
- dri-devel@lists.freedesktop.org, loongson-kernel@lists.loongnix.cn,
- airlied@gmail.com, chenhuacai@loongson.cn
+Cc: linux-fbdev@vger.kernel.org, Sui Jingfeng <suijingfeng@loongson.cn>,
+ linux-parisc@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
+ Huacai Chen <chenhuacai@kernel.org>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Prathu Baronia <prathubaronia2011@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Sam Ravnborg <sam@ravnborg.org>, Ard Biesheuvel <ardb@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------6gelaRrTpPrf341FBf7ETL78
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-Hi,
+--Vv+fIX42qDF80RtH
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This patch works fine with my Loongson 3A5000M laptop (L71), which has a 
-7A1000 chipset without VRAM.
+On Wed, Jan 17, 2024 at 07:47:49PM +0100, Mirsad Todorovac wrote:
+> On 1/16/24 01:32, Mirsad Todorovac wrote:
+> > Hi,
+> >=20
+> > On the Ubuntu 22.04 LTS Jammy platform, on a mainline vanilla torvalds =
+tree kernel, the boot
+> > freezes upon first two lines and before any systemd messages.
+> >=20
+> > (Please find the config attached.)
+> >=20
+> > Bisecting the bug led to this result:
+> >=20
+> > marvin@defiant:~/linux/kernel/linux_torvalds$ git bisect good
+> > d97a78423c33f68ca6543de510a409167baed6f5 is the first bad commit
+> > commit d97a78423c33f68ca6543de510a409167baed6f5
+> > Merge: 61da593f4458 689237ab37c5
+> > Author: Linus Torvalds <torvalds@linux-foundation.org>
+> > Date:=C2=A0=C2=A0 Fri Jan 12 14:38:08 2024 -0800
+> >=20
+> >  =C2=A0=C2=A0=C2=A0 Merge tag 'fbdev-for-6.8-rc1' of git://git.kernel.o=
+rg/pub/scm/linux/kernel/git/deller/linux-fbdev
+> >  =C2=A0=C2=A0=C2=A0 Pull fbdev updates from Helge Deller:
+> >  =C2=A0=C2=A0=C2=A0=C2=A0 "Three fbdev drivers (~8500 lines of code) re=
+moved. The Carillo Ranch
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fbdev driver is for an Intel product wh=
+ich was never shipped, and for
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 the intelfb and the amba-clcd drivers t=
+he drm drivers can be used
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 instead.
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 The other code changes are minor: some =
+fb_deferred_io flushing fixes,
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 imxfb margin fixes and stifb cleanups.
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Summary:
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - Remove intelfb fbdev driver (Th=
+omas Zimmermann)
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - Remove amba-clcd fbdev driver (=
+Linus Walleij)
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - Remove vmlfb Carillo Ranch fbde=
+v driver (Matthew Wilcox)
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - fb_deferred_io flushing fixes (=
+Nam Cao)
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - imxfb code fixes and cleanups (=
+Dario Binacchi)
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - stifb primary screen detection =
+cleanups (Thomas Zimmermann)"
+> >  =C2=A0=C2=A0=C2=A0 * tag 'fbdev-for-6.8-rc1' of git://git.kernel.org/p=
+ub/scm/linux/kernel/git/deller/linux-fbdev: (28 commits)
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fbdev/intelfb: Remove driver
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fbdev/hyperv_fb: Do not clear global sc=
+reen_info
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 firmware/sysfb: Clear screen_info state=
+ after consuming it
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fbdev/hyperv_fb: Remove firmware frameb=
+uffers with aperture helpers
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm/hyperv: Remove firmware framebuffer=
+s with aperture helper
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fbdev/sis: Remove dependency on screen_=
+info
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 video/logo: use %u format specifier for=
+ unsigned int values
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 video/sticore: Remove info field from S=
+TI struct
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 arch/parisc: Detect primary video devic=
+e from device instance
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fbdev/stifb: Allocate fb_info instance =
+with framebuffer_alloc()
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 video/sticore: Store ROM device in STI =
+struct
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fbdev: flush deferred IO before closing
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fbdev: flush deferred work in fb_deferr=
+ed_io_fsync()
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fbdev: amba-clcd: Delete the old CLCD d=
+river
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fbdev: Remove support for Carillo Ranch=
+ driver
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fbdev: hgafb: fix kernel-doc comments
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fbdev: mmp: Fix typo and wording in cod=
+e comment
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fbdev: fsl-diu-fb: Fix sparse warning d=
+ue to virt_to_phys() prototype change
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fbdev: imxfb: add '*/' on a separate li=
+ne in block comment
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fbdev: imxfb: use __func__ for function=
+ name
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ...
+> >=20
+> >  =C2=A0Documentation/fb/index.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 1 -
+> >  =C2=A0Documentation/fb/intelfb.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 155 --
+> >  =C2=A0Documentation/userspace-api/ioctl/ioctl-number.rst |=C2=A0=C2=A0=
+=C2=A0 1 -
+> >  =C2=A0MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 12 -
+> >  =C2=A0arch/parisc/video/fbdev.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 2 +-
+> >  =C2=A0drivers/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 |=C2=A0=C2=A0=C2=A0 3 +-
+> >  =C2=A0drivers/firmware/sysfb.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 14 +-
+> >  =C2=A0drivers/gpu/drm/hyperv/hyperv_drm_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 8 +-
+> >  =C2=A0drivers/video/backlight/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 |=C2=A0=C2=A0=C2=A0 7 -
+> >  =C2=A0drivers/video/backlight/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0=C2=A0=C2=A0 1 -
+> >  =C2=A0drivers/video/backlight/cr_bllcd.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 =
+264 ---
+> >  =C2=A0drivers/video/fbdev/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 72 -
+> >  =C2=A0drivers/video/fbdev/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 2 -
+> >  =C2=A0drivers/video/fbdev/amba-clcd.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 |=C2=A0 986 ---------
+> >  =C2=A0drivers/video/fbdev/core/fb_defio.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
+=A0=C2=A0 8 +-
+> >  =C2=A0drivers/video/fbdev/fsl-diu-fb.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0=C2=A0=C2=A0 2 +-
+> >  =C2=A0drivers/video/fbdev/hgafb.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 13 +-
+> >  =C2=A0drivers/video/fbdev/hyperv_fb.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 |=C2=A0=C2=A0 20 +-
+> >  =C2=A0drivers/video/fbdev/imxfb.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 179 +-
+> >  =C2=A0drivers/video/fbdev/intelfb/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
+=A0 8 -
+> >  =C2=A0drivers/video/fbdev/intelfb/intelfb.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 382 ----
+> >  =C2=A0drivers/video/fbdev/intelfb/intelfb_i2c.c=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 209 --
+> >  =C2=A0drivers/video/fbdev/intelfb/intelfbdrv.c=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1680 ----------------
+> >  =C2=A0drivers/video/fbdev/intelfb/intelfbhw.c=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 2115 --------------------
+> >  =C2=A0drivers/video/fbdev/intelfb/intelfbhw.h=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 609 ------
+> >  =C2=A0drivers/video/fbdev/mmp/hw/mmp_spi.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
+=A0 2 +-
+> >  =C2=A0drivers/video/fbdev/sis/sis_main.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=
+=C2=A0 37 -
+> >  =C2=A0drivers/video/fbdev/stifb.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 109 +-
+> >  =C2=A0drivers/video/fbdev/vermilion/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 6 -
+> >  =C2=A0drivers/video/fbdev/vermilion/cr_pll.c=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 195 --
+> >  =C2=A0drivers/video/fbdev/vermilion/vermilion.c=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1175 -----------
+> >  =C2=A0drivers/video/fbdev/vermilion/vermilion.h=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 245 ---
+> >  =C2=A0drivers/video/logo/pnmtologo.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 6 +-
+> >  =C2=A0drivers/video/sticore.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 5 +
+> >  =C2=A0include/linux/amba/clcd-regs.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 |=C2=A0=C2=A0 87 -
+> >  =C2=A0include/linux/amba/clcd.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 290 ---
+> >  =C2=A0include/video/sticore.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 6 +-
+> >  =C2=A037 files changed, 208 insertions(+), 8708 deletions(-)
+> >  =C2=A0delete mode 100644 Documentation/fb/intelfb.rst
+> >  =C2=A0delete mode 100644 drivers/video/backlight/cr_bllcd.c
+> >  =C2=A0delete mode 100644 drivers/video/fbdev/amba-clcd.c
+> >  =C2=A0delete mode 100644 drivers/video/fbdev/intelfb/Makefile
+> >  =C2=A0delete mode 100644 drivers/video/fbdev/intelfb/intelfb.h
+> >  =C2=A0delete mode 100644 drivers/video/fbdev/intelfb/intelfb_i2c.c
+> >  =C2=A0delete mode 100644 drivers/video/fbdev/intelfb/intelfbdrv.c
+> >  =C2=A0delete mode 100644 drivers/video/fbdev/intelfb/intelfbhw.c
+> >  =C2=A0delete mode 100644 drivers/video/fbdev/intelfb/intelfbhw.h
+> >  =C2=A0delete mode 100644 drivers/video/fbdev/vermilion/Makefile
+> >  =C2=A0delete mode 100644 drivers/video/fbdev/vermilion/cr_pll.c
+> >  =C2=A0delete mode 100644 drivers/video/fbdev/vermilion/vermilion.c
+> >  =C2=A0delete mode 100644 drivers/video/fbdev/vermilion/vermilion.h
+> >  =C2=A0delete mode 100644 include/linux/amba/clcd-regs.h
+> >  =C2=A0delete mode 100644 include/linux/amba/clcd.h
+> > marvin@defiant:~/linux/kernel/linux_torvalds$
+> >=20
+> > Hope this helps.
+>=20
+> P.S.
+>=20
+> As I see that this is a larger merge commit, with 5K+ lines changed, I do=
+n't think I can
+> bisect further to determine the culprit.
+>=20
+> But I thought later that it would be interesting to see why my hardware t=
+riggered the freeze
+> and probably others did not, or someone would complain already.
+>=20
+> Both of the boxes were AMD Ryzen: Ryzen 7 5700G and Ryzen 9 7950X.
+>=20
+> FWIW, I am attaching both hardware listings and the config used, so anyon=
+e knowledgeable with
+> fbdev could possibly narrow down the search.
+>=20
 
---------------6gelaRrTpPrf341FBf7ETL78
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Hi Mirsad,
 
-<!DOCTYPE html><html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <p><font face="Times New Roman">Hi,</font></p>
-    <p><font face="Times New Roman"><span style="color: rgb(55, 65, 81); font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-align: start; text-indent: 0px; text-transform: none; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: pre-wrap; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">This patch works fine with my Loongson 3A5000M laptop (L71), which has a 7A1000 chipset without VRAM.</span></font></p>
-    <p><font face="Times New Roman"><span style="color: rgb(55, 65, 81); font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-align: start; text-indent: 0px; text-transform: none; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: pre-wrap; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">
-</span></font></p>
-  </body>
-</html>
+There is another report from Jens with similar symptom [1]. Can you check if
+reverting df67699c9cb0ce ("firmware/sysfb: Clear screen_info state after
+consuming it") fixes your regression?
 
---------------6gelaRrTpPrf341FBf7ETL78--
+Thanks.
+
+[1]: https://lore.kernel.org/regressions/93ffd2ee-fa83-4469-96fb-fb263c26bb=
+3c@kernel.dk/T/#t
+
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--Vv+fIX42qDF80RtH
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZautrAAKCRD2uYlJVVFO
+o29YAP4qDU6M19ID/p65u1gtfVijgmVI7LdZfaouoZtKiSp6qQD+PnHhjXp+whKs
+mfJNPqyLT46rJgrGbCanMlqNG7BeuAA=
+=iFmQ
+-----END PGP SIGNATURE-----
+
+--Vv+fIX42qDF80RtH--
