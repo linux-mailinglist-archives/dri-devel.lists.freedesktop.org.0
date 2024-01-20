@@ -2,67 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7213283359F
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Jan 2024 19:12:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C4B48335A2
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Jan 2024 19:15:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 823B310E2F5;
-	Sat, 20 Jan 2024 18:12:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DD0410E302;
+	Sat, 20 Jan 2024 18:15:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from domac.alu.hr (unknown [161.53.235.3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B84E510E2F5
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Jan 2024 18:12:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4573010E301
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Jan 2024 18:15:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by domac.alu.hr (Postfix) with ESMTP id C814560187;
- Sat, 20 Jan 2024 19:11:34 +0100 (CET)
+ by domac.alu.hr (Postfix) with ESMTP id DBF2160187;
+ Sat, 20 Jan 2024 19:15:12 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
- t=1705774294; bh=UDQxnF9gAi7edn/iXdQ7N5cXzaU1zwgdYP9H4YGRPh0=;
+ t=1705774512; bh=E/AVwm19Vw3c9m9wJsEAX0UufsuEbOfBRUcifCQetiY=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=kOqNv5Q2tnVcEvdEA1llLWEQyOW+RiJ0/Jazg/J25xEGGtaBb36OdiW9OxoJYrj+0
- Ey/v0FrgKqqwqejd6a0BCiQboVocxhLa5N01gujUPtom9uWmntUUB12g+LLMGqIlj7
- oaTVwH0xYBJW4MFmvKxdOHbJauGRdO6bYlrmRH0oe/f6oiSh1OnMmjYNjfp839NX8+
- xEGT8BJHatQFe2/rDVuiHD8XWm8mLdDSSf95xq1zzoGApYeZ2aAJ7dDc3Zmn0ZG8kN
- lwGS4P4Q4RfXSLYyUyHwFQNxenM4DjfdmDMDnn/bXhrWAcFG636jo3EUvo5uDFSqxJ
- e7H9r8Dbl+n/Q==
+ b=cyeGHiBWhSkbMSGhRpDXtFCPkmo7kOirsWFp3xAq5clU1x4cnYmcFN0w2jDrDlemS
+ ROUUWK7ly3yEW1QVQa6ghJULIFC4Jg1SUPNpMnjNBT2mpnmL5BNvC58ICXfqLXdVMV
+ H+qLLubm7ZDkHlrkORfdKF+Xawr3m+GkKGPvgQhv8cEIbFUhpYSsY12e38VvwyFyka
+ FFODR3lgb2VkLfIK+spR0Zl7ZQxoX0VqY4FS7/u2KKqoSl1kEOr9hH1nG4pxEE50vZ
+ YiVxBKCphAdEFOOmK2vOlHuX2Z7WDNpRg2RsdGVlI1s240bPBkYcCVxmn5QW//YNb9
+ VgsHcSwu6IgQg==
 X-Virus-Scanned: Debian amavisd-new at domac.alu.hr
 Received: from domac.alu.hr ([127.0.0.1])
  by localhost (domac.alu.hr [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id bEm2dFtW1FYK; Sat, 20 Jan 2024 19:11:32 +0100 (CET)
+ with ESMTP id Fj_jGnug5Kgg; Sat, 20 Jan 2024 19:15:09 +0100 (CET)
 Received: from [192.168.178.20] (dh207-42-16.xnet.hr [88.207.42.16])
- by domac.alu.hr (Postfix) with ESMTPSA id C0BB660182;
- Sat, 20 Jan 2024 19:11:31 +0100 (CET)
+ by domac.alu.hr (Postfix) with ESMTPSA id 190E060182;
+ Sat, 20 Jan 2024 19:15:08 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
- t=1705774292; bh=UDQxnF9gAi7edn/iXdQ7N5cXzaU1zwgdYP9H4YGRPh0=;
+ t=1705774509; bh=E/AVwm19Vw3c9m9wJsEAX0UufsuEbOfBRUcifCQetiY=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=m056IdewvB9Cjed+b3KvzLs3+YQbhqvjtMP0fzmX63v9RP7qj4HC4K7XS7mvuP34/
- 1rbEk0n2Plf3QxW5dwDou1U5OavsMMBuBcGu4zQDBJ9GeYiEv/B3DMkPSKyxS51rhF
- VwSeHC4zRb0CjrEqkblns9n1A8H4ohGstMxcYsBloDhiDzwmMK6ltlHCncwPW2Z/tE
- bX4ggz5wYsMU7+1hjGGakqX2WEB/ayNzlYijcEoKf4ehm6yyiG/GGrfAbFpY5lg+LB
- d84JEoYj8RiYroETBpP6vGF/SuoyJ8e4kwjjaWnrduxLNTKSealFW57B7/fe1N593y
- GFvgb9PTmC9cg==
-Message-ID: <bd7b7158-2c38-4d90-acfb-dd5437a0710f@alu.unizg.hr>
-Date: Sat, 20 Jan 2024 19:11:27 +0100
+ b=mzA1SFNP7xqUT/2FKrs0HQKt1ptQ7GsdmfHSfvLAmbAYOQd1+oD+KBSd5cKmdHYeN
+ oi51jfX27frtgkaCWuJZImtPlk+oRLaxBqIay/2nDW/Lpjbq6HDqIeU667RDj9f+oN
+ q/W1Kex8s1EWpAKqT0Nts1RlNG+hFJynFMKOMqvsKBtFKsZpqUr7QkPTxcaQvcV+CB
+ 7gVUmlHgGeN883i0/iFgMgu+BjW66AEKu8/MC7R+Mn4Q+o3/V27eLh4L+GwqoqNPQW
+ 1nxbYS2UX4WRGAfeMO3du2Y9aJ1jbpgPbGv+10thzUlGpE1ob+U3qidCOLgJ2zdvy2
+ WP1+Tl/vFB7Rg==
+Message-ID: <3da0801d-acb6-42a0-b4b1-05a8bf25c67e@alu.unizg.hr>
+Date: Sat, 20 Jan 2024 19:15:07 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: REGRESSION: no console on current -git
+Subject: Re: [BUG][BISECTED] Freeze at loading init ramdisk
 Content-Language: en-US
-To: Jens Axboe <axboe@kernel.dk>, Helge Deller <deller@gmx.de>,
- LKML <linux-kernel@vger.kernel.org>,
- "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Linus Torvalds <torvalds@linux-foundation.org>
-References: <05ea3233-20dd-4af7-86cc-de11ad2efe84@kernel.dk>
- <0293b14b-6188-4229-9fb6-29fbbdb8dc83@gmx.de>
- <9e09464a-d58c-4f17-9318-26f0813a3023@kernel.dk>
- <b6350dac-0be6-45f9-9309-d196ea455dea@gmx.de>
- <017a1df5-e08b-44c5-9e4e-f61a9ce49e8d@kernel.dk>
- <2c267aef-f1a7-4277-aac6-75d9ea22ec03@gmx.de>
- <93ffd2ee-fa83-4469-96fb-fb263c26bb3c@kernel.dk>
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <8a6aa228-f2da-4dcd-93c1-e34614cd6471@alu.unizg.hr>
+ <cc813525-5484-443e-a40a-cb98f2ed4e1f@alu.unizg.hr>
+ <ZautsJ6a7_YjW5aQ@archie.me>
 From: Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>
-In-Reply-To: <93ffd2ee-fa83-4469-96fb-fb263c26bb3c@kernel.dk>
+In-Reply-To: <ZautsJ6a7_YjW5aQ@archie.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,78 +67,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: avier Martinez Canillas <javierm@redhat.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: linux-fbdev@vger.kernel.org, Sui Jingfeng <suijingfeng@loongson.cn>,
+ linux-parisc@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
+ Huacai Chen <chenhuacai@kernel.org>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Prathu Baronia <prathubaronia2011@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Sam Ravnborg <sam@ravnborg.org>, Ard Biesheuvel <ardb@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/20/24 01:32, Jens Axboe wrote:
-> On 1/19/24 5:27 PM, Helge Deller wrote:
->> On 1/19/24 22:22, Jens Axboe wrote:
->>> On 1/19/24 2:14 PM, Helge Deller wrote:
->>>> On 1/19/24 22:01, Jens Axboe wrote:
->>>>> On 1/19/24 1:55 PM, Helge Deller wrote:
->>>>>> Adding Mirsad Todorovac (who reported a similar issue).
->>>>>>
->>>>>> On 1/19/24 19:39, Jens Axboe wrote:
->>>>>>> My trusty R7525 test box is failing to show a console, or in fact anything,
->>>>>>> on current -git. There's no output after:
->>>>>>>
->>>>>>> Loading Linux 6.7.0+ ...
->>>>>>> Loading initial ramdisk ...
->>>>>>>
->>>>>>> and I don't get a console up. I went through the bisection pain and
->>>>>>> found this was the culprit:
->>>>>>>
->>>>>>> commit df67699c9cb0ceb70f6cc60630ca938c06773eda
->>>>>>> Author: Thomas Zimmermann <tzimmermann@suse.de>
->>>>>>> Date:   Wed Jan 3 11:15:11 2024 +0100
->>>>>>>
->>>>>>>         firmware/sysfb: Clear screen_info state after consuming it
->>>>>>>
->>>>>>> Reverting this commit, and everything is fine. Looking at dmesg with a
->>>>>>> buggy kernel, I get no frame or fb messages. On a good kernel, it looks
->>>>>>> ilke this:
->>>>>>>
->>>>>>> [    1.416486] efifb: probing for efifb
->>>>>>> [    1.416602] efifb: framebuffer at 0xde000000, using 3072k, total 3072k
->>>>>>> [    1.416605] efifb: mode is 1024x768x32, linelength=4096, pages=1
->>>>>>> [    1.416607] efifb: scrolling: redraw
->>>>>>> [    1.416608] efifb: Truecolor: size=8:8:8:8, shift=24:16:8:0
->>>>>>> [    1.449746] fb0: EFI VGA frame buffer device
->>>>>>>
->>>>>>> Happy to test a fix, or barring that, can someone just revert this
->>>>>>> commit please?
->>>>>>
->>>>>> I've temporarily added a revert patch into the fbdev for-next tree for now,
->>>>>> so people should not face the issue in the for-next series:
->>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git/commit/?h=for-next
->>>>>> I'd like to wait for Thomas to return on monday to check the issue
->>>>>> as there are some other upcoming patches in this area from him.
->>>>>
->>>>> Given the issue (and that I'm not the only one reporting it), can we
->>>>> please just get that pushed so it'll make -rc1? It can always get
->>>>> re-introduced in a fixed fashion. I don't run -next here, I rely on
->>>>> mainline working for my testing.
->>>>
->>>> I agree, it would be good to get it fixed for -rc1.
->>>> So, it's ok for me, but I won't be able to test the revert short time right now.
->>>> If you can assure that the revert fixes it, and builds in git-head,
->>>> I can now prepare the pull request for Linus now (or he just reverts
->>>> commit df67699c9cb0 manually).
+On 1/20/24 12:25, Bagas Sanjaya wrote:
+> On Wed, Jan 17, 2024 at 07:47:49PM +0100, Mirsad Todorovac wrote:
+>> On 1/16/24 01:32, Mirsad Todorovac wrote:
+>>> Hi,
 >>>
->>> I already tested a revert on top of the current tree, and it builds just
->>> fine and boots with a working console. So reverting it does work and
->>> solves the issue.
+>>> On the Ubuntu 22.04 LTS Jammy platform, on a mainline vanilla torvalds tree kernel, the boot
+>>> freezes upon first two lines and before any systemd messages.
+>>>
+>>> (Please find the config attached.)
+>>>
+>>> Bisecting the bug led to this result:
+>>>
+>>> marvin@defiant:~/linux/kernel/linux_torvalds$ git bisect good
+>>> d97a78423c33f68ca6543de510a409167baed6f5 is the first bad commit
+>>> commit d97a78423c33f68ca6543de510a409167baed6f5
+>>> Merge: 61da593f4458 689237ab37c5
+>>> Author: Linus Torvalds <torvalds@linux-foundation.org>
+>>> Date:   Fri Jan 12 14:38:08 2024 -0800
+>>>
+>>>       Merge tag 'fbdev-for-6.8-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev
+>>>       Pull fbdev updates from Helge Deller:
+>>>        "Three fbdev drivers (~8500 lines of code) removed. The Carillo Ranch
+>>>         fbdev driver is for an Intel product which was never shipped, and for
+>>>         the intelfb and the amba-clcd drivers the drm drivers can be used
+>>>         instead.
+>>>         The other code changes are minor: some fb_deferred_io flushing fixes,
+>>>         imxfb margin fixes and stifb cleanups.
+>>>         Summary:
+>>>          - Remove intelfb fbdev driver (Thomas Zimmermann)
+>>>          - Remove amba-clcd fbdev driver (Linus Walleij)
+>>>          - Remove vmlfb Carillo Ranch fbdev driver (Matthew Wilcox)
+>>>          - fb_deferred_io flushing fixes (Nam Cao)
+>>>          - imxfb code fixes and cleanups (Dario Binacchi)
+>>>          - stifb primary screen detection cleanups (Thomas Zimmermann)"
+>>>       * tag 'fbdev-for-6.8-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev: (28 commits)
+>>>         fbdev/intelfb: Remove driver
+>>>         fbdev/hyperv_fb: Do not clear global screen_info
+>>>         firmware/sysfb: Clear screen_info state after consuming it
+>>>         fbdev/hyperv_fb: Remove firmware framebuffers with aperture helpers
+>>>         drm/hyperv: Remove firmware framebuffers with aperture helper
+>>>         fbdev/sis: Remove dependency on screen_info
+>>>         video/logo: use %u format specifier for unsigned int values
+>>>         video/sticore: Remove info field from STI struct
+>>>         arch/parisc: Detect primary video device from device instance
+>>>         fbdev/stifb: Allocate fb_info instance with framebuffer_alloc()
+>>>         video/sticore: Store ROM device in STI struct
+>>>         fbdev: flush deferred IO before closing
+>>>         fbdev: flush deferred work in fb_deferred_io_fsync()
+>>>         fbdev: amba-clcd: Delete the old CLCD driver
+>>>         fbdev: Remove support for Carillo Ranch driver
+>>>         fbdev: hgafb: fix kernel-doc comments
+>>>         fbdev: mmp: Fix typo and wording in code comment
+>>>         fbdev: fsl-diu-fb: Fix sparse warning due to virt_to_phys() prototype change
+>>>         fbdev: imxfb: add '*/' on a separate line in block comment
+>>>         fbdev: imxfb: use __func__ for function name
+>>>         ...
+>>>
+>>>    Documentation/fb/index.rst                         |    1 -
+>>>    Documentation/fb/intelfb.rst                       |  155 --
+>>>    Documentation/userspace-api/ioctl/ioctl-number.rst |    1 -
+>>>    MAINTAINERS                                        |   12 -
+>>>    arch/parisc/video/fbdev.c                          |    2 +-
+>>>    drivers/Makefile                                   |    3 +-
+>>>    drivers/firmware/sysfb.c                           |   14 +-
+>>>    drivers/gpu/drm/hyperv/hyperv_drm_drv.c            |    8 +-
+>>>    drivers/video/backlight/Kconfig                    |    7 -
+>>>    drivers/video/backlight/Makefile                   |    1 -
+>>>    drivers/video/backlight/cr_bllcd.c                 |  264 ---
+>>>    drivers/video/fbdev/Kconfig                        |   72 -
+>>>    drivers/video/fbdev/Makefile                       |    2 -
+>>>    drivers/video/fbdev/amba-clcd.c                    |  986 ---------
+>>>    drivers/video/fbdev/core/fb_defio.c                |    8 +-
+>>>    drivers/video/fbdev/fsl-diu-fb.c                   |    2 +-
+>>>    drivers/video/fbdev/hgafb.c                        |   13 +-
+>>>    drivers/video/fbdev/hyperv_fb.c                    |   20 +-
+>>>    drivers/video/fbdev/imxfb.c                        |  179 +-
+>>>    drivers/video/fbdev/intelfb/Makefile               |    8 -
+>>>    drivers/video/fbdev/intelfb/intelfb.h              |  382 ----
+>>>    drivers/video/fbdev/intelfb/intelfb_i2c.c          |  209 --
+>>>    drivers/video/fbdev/intelfb/intelfbdrv.c           | 1680 ----------------
+>>>    drivers/video/fbdev/intelfb/intelfbhw.c            | 2115 --------------------
+>>>    drivers/video/fbdev/intelfb/intelfbhw.h            |  609 ------
+>>>    drivers/video/fbdev/mmp/hw/mmp_spi.c               |    2 +-
+>>>    drivers/video/fbdev/sis/sis_main.c                 |   37 -
+>>>    drivers/video/fbdev/stifb.c                        |  109 +-
+>>>    drivers/video/fbdev/vermilion/Makefile             |    6 -
+>>>    drivers/video/fbdev/vermilion/cr_pll.c             |  195 --
+>>>    drivers/video/fbdev/vermilion/vermilion.c          | 1175 -----------
+>>>    drivers/video/fbdev/vermilion/vermilion.h          |  245 ---
+>>>    drivers/video/logo/pnmtologo.c                     |    6 +-
+>>>    drivers/video/sticore.c                            |    5 +
+>>>    include/linux/amba/clcd-regs.h                     |   87 -
+>>>    include/linux/amba/clcd.h                          |  290 ---
+>>>    include/video/sticore.h                            |    6 +-
+>>>    37 files changed, 208 insertions(+), 8708 deletions(-)
+>>>    delete mode 100644 Documentation/fb/intelfb.rst
+>>>    delete mode 100644 drivers/video/backlight/cr_bllcd.c
+>>>    delete mode 100644 drivers/video/fbdev/amba-clcd.c
+>>>    delete mode 100644 drivers/video/fbdev/intelfb/Makefile
+>>>    delete mode 100644 drivers/video/fbdev/intelfb/intelfb.h
+>>>    delete mode 100644 drivers/video/fbdev/intelfb/intelfb_i2c.c
+>>>    delete mode 100644 drivers/video/fbdev/intelfb/intelfbdrv.c
+>>>    delete mode 100644 drivers/video/fbdev/intelfb/intelfbhw.c
+>>>    delete mode 100644 drivers/video/fbdev/intelfb/intelfbhw.h
+>>>    delete mode 100644 drivers/video/fbdev/vermilion/Makefile
+>>>    delete mode 100644 drivers/video/fbdev/vermilion/cr_pll.c
+>>>    delete mode 100644 drivers/video/fbdev/vermilion/vermilion.c
+>>>    delete mode 100644 drivers/video/fbdev/vermilion/vermilion.h
+>>>    delete mode 100644 include/linux/amba/clcd-regs.h
+>>>    delete mode 100644 include/linux/amba/clcd.h
+>>> marvin@defiant:~/linux/kernel/linux_torvalds$
+>>>
+>>> Hope this helps.
 >>
->> I sent a pull request with the revert.
+>> P.S.
+>>
+>> As I see that this is a larger merge commit, with 5K+ lines changed, I don't think I can
+>> bisect further to determine the culprit.
+>>
+>> But I thought later that it would be interesting to see why my hardware triggered the freeze
+>> and probably others did not, or someone would complain already.
+>>
+>> Both of the boxes were AMD Ryzen: Ryzen 7 5700G and Ryzen 9 7950X.
+>>
+>> FWIW, I am attaching both hardware listings and the config used, so anyone knowledgeable with
+>> fbdev could possibly narrow down the search.
+>>
 > 
-> Thanks! You forgot the Reported-by, but no big deal.
+> Hi Mirsad,
+> 
+> There is another report from Jens with similar symptom [1]. Can you check if
+> reverting df67699c9cb0ce ("firmware/sysfb: Clear screen_info state after
+> consuming it") fixes your regression?
+> 
+> Thanks.
+> 
+> [1]: https://lore.kernel.org/regressions/93ffd2ee-fa83-4469-96fb-fb263c26bb3c@kernel.dk/T/#t
 
-Hi,
-
-I confirm that this revert df67699c9cb0ce also solved the original initrd boot problem
-here:
+Thanks, Bagas, I confirm that it is the same issue:
 
   1991  git checkout d97a78423c33
   1992  git revert df67699c9cb0ce
@@ -155,11 +228,11 @@ here:
   1995  sudo apt-get -s install ../linux-image-6.7.0-bagas-vanilla-rvt-09751-g6b082430adc8_6.7.0-09751-g6b082430adc8-26_amd64.deb
   1996  sudo apt-get -y install ../linux-image-6.7.0-bagas-vanilla-rvt-09751-g6b082430adc8_6.7.0-09751-g6b082430adc8-26_amd64.deb
 
-You might add:
+Reverting df67699c9cb0ce fixed it.
 
-	Tested-by: Mirsad Goran Todorovac <mirsad.todorovac@alu.unizg.hr>
+I don't have a slightest idea what is the side effect of this commit.
 
-at your convenience.
+Tested-by: Mirsad Goran Todorovac <mirsad.todorovac@alu.unizg.hr>
 
 Best regards,
 Mirsad
