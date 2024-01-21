@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AE6D83578B
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Jan 2024 20:46:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 536D9835792
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Jan 2024 20:47:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DCF010E060;
-	Sun, 21 Jan 2024 19:46:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C667010E2A6;
+	Sun, 21 Jan 2024 19:47:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
- [209.85.218.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4624F10E060;
- Sun, 21 Jan 2024 19:46:49 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id
- a640c23a62f3a-a26f73732c5so258561366b.3; 
- Sun, 21 Jan 2024 11:46:49 -0800 (PST)
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
+ [209.85.218.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC7AD10E2A6;
+ Sun, 21 Jan 2024 19:47:01 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id
+ a640c23a62f3a-a29c4bbb2f4so227000566b.1; 
+ Sun, 21 Jan 2024 11:47:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1705866347; x=1706471147; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1705866359; x=1706471159; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=RSqr1Vk76fk8EOA0eDt1nJ6pOVxZRQ6awuBBes4l838=;
- b=e1BhRuB+/n19Omhrr1rIEdYnmFYxtgN0hY/p7Niwcdxvz4AeLC4KSo78gHiFwZYtwL
- h91bRYE4J2BU7KlglvLgn+7DF0fKRuZFREbfS8EODEWuHbz8vY79C8dwno8cvgD1ZKxj
- iE60wiPLsIo0poYMS3vPW5NUHfvT0PcUMFpJdNbS/lLnweB1QLPxFtlcg26lfG4lAs0s
- VOpQQYcRU1w+qfI+5xKE85sK63N1euPyLW5NmVjUfkmNsqgD668UvIyDDdNg51ObtF1d
- aMGgmEhujz37+eTIT0MMQgWHRy7jtgllC6ALLWOt3BsYJrYHAZTAqvyNWDTzDj8Nle+I
- J8oA==
+ bh=A2y3IKPyLzXC4v8koqDaasKaIIQSzzqRF+g1mhrKMn4=;
+ b=Id+Jl8Imc9OVPY8QezDP2mbml/t5QBuQbXBCKgvIeTlszM7KTJM3E2xu6cFxxpUTAr
+ 16QwTG9CppwN67gGTwF/zaujAqwDONL/Pa+ZxwDJw+kCrfPvxAL8XjxgPVkzUJFhwaoh
+ KA/SJx0M/pEYnVuh2gDZM08DSI84JEaQDp3yQPS4EIXQF6Idl4Kd1H/VkEaZyTbj86Ug
+ tEu/dUt0S3pIR0ESqA70P2GSq7+T9STGKzvV16zJKkAZdlV143WT4LtLKI/mdCCJzEiT
+ N9T53s7OSU/STAv58r4KR7yktNzaZxB/rSZbroufD7U++JAOVv99ekLR8ZQ7cPjNA/ry
+ /Ppg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705866348; x=1706471148;
+ d=1e100.net; s=20230601; t=1705866359; x=1706471159;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=RSqr1Vk76fk8EOA0eDt1nJ6pOVxZRQ6awuBBes4l838=;
- b=FN/T1EkfOecKGOXIctD66SrZlIRW22sphChnpW56EBg6WnO+PaJXMASJklBR9BuxWn
- 8ZZHHyNIw24mM8g4MV3joierfkCKDpoIeAc+UtJRAZYMwYqSA17L9UCLr7xrTSlgFLGS
- /ZJtHtjOe943R0YS/4PbcaHbuRoMl+wgPrdoK2o7JZ81Gzy9NS2xDb10tSHurcMGdmqs
- 9c+xPS1IHLAqtw9hSzDogvlMitrVv+j7b/jsRwpbkrshDwhymuQ4+xL0JcbF+Elp4H3P
- Di399A107bfGrUXcs09b26ikf9DuBDaFzVQFS/YzxFMVwdCnjnJf7brBMadA4XMqUGcj
- Pkfg==
-X-Gm-Message-State: AOJu0YxzyDdbSkLCGDHopUqsStZFZjnWfzE2EK383WB1GLvHY6bgOGjz
- HVhqqqJdj5BxidUAKt6IIpqzbc0hSGYCpwtWUgbPi0f4L/k2SvdCCq/LYl3TnA8=
-X-Google-Smtp-Source: AGHT+IGsCmZv1novA+/rF0kwFG7flhcKuCUpSzseVeBQ6O+PKFUlzXtm9pZWAynzdjUeKyHkgZsWqw==
-X-Received: by 2002:a17:906:f24c:b0:a28:fc03:f199 with SMTP id
- gy12-20020a170906f24c00b00a28fc03f199mr1456478ejb.107.1705866347749; 
- Sun, 21 Jan 2024 11:45:47 -0800 (PST)
+ bh=A2y3IKPyLzXC4v8koqDaasKaIIQSzzqRF+g1mhrKMn4=;
+ b=XMuUPaigVdC5BUKAx5sFltdZCgaB8uTwoByk/jgSXGUVPMufQeg7xy9Pp5A/u5E6OL
+ 7dbtMYYBfyzN5m+6h5evYr1hkwKYgvD5hFLqj47cdrVNC5WHwXfdkaAt9S82Jv8DdQow
+ 5JrTsGsHVoqiKTCQPAhPyw+3zOXW3y1qdBO9aNfg2IXTcw8nFu6cWLXSGDKcHpaNaYlh
+ p5s33dquvW64HkK8vVubqsqp4vtO7Flps5M/qCU5EdM4HSJxRM5OYUGjAWGB7TmcG4Xu
+ j451V5rUJGd8prZzc4nVjxqqIJK5J/0z7Y3sO8RLBxBwYLw9QjxKh9+b6shLLFn1nrIZ
+ T6zg==
+X-Gm-Message-State: AOJu0YzaJFtNGDjV3eyvlQhavZ2myEEx/+BmZdNnPVoIj4dPw/scqgnn
+ faWkbUlGqjW+OoaBni8/emtX6vMUjTv9A4tJbRT18v2E1RL5f3cB
+X-Google-Smtp-Source: AGHT+IHh8/TU/0VUDooBERyQGy+VFyA6oUokYFyCSTIbUVuzbfxUdGklOUSWy9+BZiEdMA8CJd9+DA==
+X-Received: by 2002:a17:907:c088:b0:a2e:7db2:8f1e with SMTP id
+ st8-20020a170907c08800b00a2e7db28f1emr1593296ejc.79.1705866359290; 
+ Sun, 21 Jan 2024 11:45:59 -0800 (PST)
 Received: from localhost.localdomain (byv51.neoplus.adsl.tpnet.pl.
  [83.30.41.51]) by smtp.gmail.com with ESMTPSA id
- k6-20020a170906128600b00a2b0b0fc80esm12547134ejb.193.2024.01.21.11.45.38
+ k6-20020a170906128600b00a2b0b0fc80esm12547134ejb.193.2024.01.21.11.45.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Jan 2024 11:45:47 -0800 (PST)
+ Sun, 21 Jan 2024 11:45:58 -0800 (PST)
 From: Adam Skladowski <a39.skl@gmail.com>
 To: 
-Subject: [PATCH 6/8] arm64: dts: qcom: msm8976: Add Adreno GPU
-Date: Sun, 21 Jan 2024 20:41:04 +0100
-Message-Id: <20240121194221.13513-7-a39.skl@gmail.com>
+Subject: [PATCH 7/8] arm64: dts: qcom: msm8976: Declare and wire SDC pins
+Date: Sun, 21 Jan 2024 20:41:05 +0100
+Message-Id: <20240121194221.13513-8-a39.skl@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240121194221.13513-1-a39.skl@gmail.com>
 References: <20240121194221.13513-1-a39.skl@gmail.com>
@@ -89,90 +89,138 @@ Cc: dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add Adreno GPU node.
+Declare pinctrls for SDC pins and wire them to consumers.
 
 Signed-off-by: Adam Skladowski <a39.skl@gmail.com>
 ---
- arch/arm64/boot/dts/qcom/msm8976.dtsi | 66 +++++++++++++++++++++++++++
- 1 file changed, 66 insertions(+)
+ arch/arm64/boot/dts/qcom/msm8976.dtsi | 100 ++++++++++++++++++++++++++
+ 1 file changed, 100 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/msm8976.dtsi b/arch/arm64/boot/dts/qcom/msm8976.dtsi
-index 2d71ce34f00e..765c90ac14cb 100644
+index 765c90ac14cb..5a7be93a0115 100644
 --- a/arch/arm64/boot/dts/qcom/msm8976.dtsi
 +++ b/arch/arm64/boot/dts/qcom/msm8976.dtsi
-@@ -1068,6 +1068,72 @@ mdss_dsi1_phy: phy@1a96a00 {
+@@ -771,6 +771,96 @@ blsp2_i2c4_sleep: blsp2-i2c4-sleep-state {
+ 				drive-strength = <2>;
+ 				bias-disable;
  			};
- 		};
- 
-+		adreno_gpu: gpu@1c00000 {
-+			compatible = "qcom,adreno-510.0", "qcom,adreno";
 +
-+			reg = <0x01c00000 0x40000>;
-+			reg-names = "kgsl_3d0_reg_memory";
-+
-+			interrupts = <GIC_SPI 33 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "kgsl_3d0_irq";
-+
-+			clock-names = "core",
-+				      "iface",
-+				      "mem",
-+				      "mem_iface",
-+				      "rbbmtimer",
-+				      "alwayson";
-+
-+			clocks = <&gcc GCC_GFX3D_OXILI_CLK>,
-+			    <&gcc GCC_GFX3D_OXILI_AHB_CLK>,
-+			    <&gcc GCC_GFX3D_OXILI_GMEM_CLK>,
-+			    <&gcc GCC_GFX3D_BIMC_CLK>,
-+			    <&gcc GCC_GFX3D_OXILI_TIMER_CLK>,
-+			    <&gcc GCC_GFX3D_OXILI_AON_CLK>;
-+
-+			power-domains = <&rpmpd MSM8976_VDDCX>;
-+
-+			iommus = <&gpu_iommu 0>;
-+
-+			status = "disabled";
-+
-+			operating-points-v2 = <&gpu_opp_table>;
-+
-+			gpu_opp_table: opp-table {
-+				compatible  ="operating-points-v2";
-+
-+				opp-200000000 {
-+					opp-hz = /bits/ 64 <200000000>;
-+					opp-level = <RPM_SMD_LEVEL_LOW_SVS>;
-+					opp-supported-hw = <0xff>;
++			sdc1_default: sdc1-default-state {
++				clk-pins {
++					pins = "sdc1_clk";
++					drive-strength = <16>;
++					bias-disable;
 +				};
 +
-+				opp-300000000 {
-+					opp-hz = /bits/ 64 <300000000>;
-+					opp-level = <RPM_SMD_LEVEL_SVS>;
-+					opp-supported-hw = <0xff>;
++				cmd-pins {
++					pins = "sdc1_cmd";
++					drive-strength = <10>;
++					bias-pull-up;
 +				};
 +
-+				opp-400000000 {
-+					opp-hz = /bits/ 64 <400000000>;
-+					opp-level = <RPM_SMD_LEVEL_NOM>;
-+					opp-supported-hw = <0xff>;
++				data-pins {
++					pins = "sdc1_data";
++					drive-strength = <10>;
++					bias-pull-up;
 +				};
 +
-+				opp-480000000 {
-+					opp-hz = /bits/ 64 <480000000>;
-+					opp-level = <RPM_SMD_LEVEL_NOM_PLUS>;
-+					opp-supported-hw = <0xff>;
-+				};
-+
-+				opp-540000000 {
-+					opp-hz = /bits/ 64 <540000000>;
-+					opp-level = <RPM_SMD_LEVEL_TURBO>;
-+					opp-supported-hw = <0xff>;
++				rclk-pins {
++					pins = "sdc1_rclk";
++					bias-pull-down;
 +				};
 +			};
-+		};
 +
- 		apps_iommu: iommu@1e20000 {
- 			compatible = "qcom,msm8976-iommu", "qcom,msm-iommu-v2";
- 			ranges  = <0 0x01e20000 0x20000>;
++			sdc1_sleep: sdc1-sleep-state {
++				clk-pins {
++					pins = "sdc1_clk";
++					drive-strength = <2>;
++					bias-disable;
++				};
++
++				cmd-pins {
++					pins = "sdc1_cmd";
++					drive-strength = <2>;
++					bias-pull-up;
++				};
++
++				data-pins {
++					pins = "sdc1_data";
++					drive-strength = <2>;
++					bias-pull-up;
++				};
++
++				rclk-pins {
++					pins = "sdc1_rclk";
++					bias-pull-down;
++				};
++			};
++
++			sdc2_default: sdc2-default-state {
++				clk-pins {
++					pins = "sdc2_clk";
++					drive-strength = <16>;
++					bias-disable;
++				};
++
++				cmd-pins {
++					pins = "sdc2_cmd";
++					drive-strength = <10>;
++					bias-pull-up;
++				};
++
++				data-pins {
++					pins = "sdc2_data";
++					drive-strength = <10>;
++					bias-pull-up;
++				};
++			};
++
++			sdc2_sleep: sdc2-sleep-state {
++				clk-pins {
++					pins = "sdc2_clk";
++					drive-strength = <2>;
++					bias-disable;
++				};
++
++				cmd-pins {
++					pins = "sdc2_cmd";
++					drive-strength = <2>;
++					bias-pull-up;
++				};
++
++				data-pins {
++					pins = "sdc2_data";
++					drive-strength = <2>;
++					bias-pull-up;
++				};
++			};
+ 		};
+ 
+ 		gcc: clock-controller@1800000 {
+@@ -1246,6 +1336,11 @@ sdhc_1: mmc@7824900 {
+ 				 <&gcc GCC_SDCC1_APPS_CLK>,
+ 				 <&rpmcc RPM_SMD_XO_CLK_SRC>;
+ 			clock-names = "iface", "core", "xo";
++
++			pinctrl-0 = <&sdc1_default>;
++			pinctrl-1 = <&sdc1_sleep>;
++			pinctrl-names = "default", "sleep";
++
+ 			status = "disabled";
+ 		};
+ 
+@@ -1262,6 +1357,11 @@ sdhc_2: mmc@7864900 {
+ 				 <&gcc GCC_SDCC2_APPS_CLK>,
+ 				 <&rpmcc RPM_SMD_XO_CLK_SRC>;
+ 			clock-names = "iface", "core", "xo";
++
++			pinctrl-0 = <&sdc2_default>;
++			pinctrl-1 = <&sdc2_sleep>;
++			pinctrl-names = "default", "sleep";
++
+ 			status = "disabled";
+ 		};
+ 
 -- 
 2.43.0
 
