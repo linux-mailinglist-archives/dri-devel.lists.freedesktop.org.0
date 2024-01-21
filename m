@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82EE9835550
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Jan 2024 11:41:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A89C1835551
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Jan 2024 11:42:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94F3B10E1F4;
-	Sun, 21 Jan 2024 10:41:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8821C10E1AC;
+	Sun, 21 Jan 2024 10:41:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ahti.lucaweiss.eu (ahti.lucaweiss.eu [128.199.32.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE77810E1F4;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDE4710E1EC;
  Sun, 21 Jan 2024 10:40:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=z3ntu.xyz; s=s1;
- t=1705833646; bh=Y/aNKL9qun+wRAcg/kdmKlSDqC8Nm5NAprHi0zYwPC4=;
- h=From:Subject:Date:To:Cc;
- b=i7rjG8Qkbtd+wkqWhFUQd2PtsJhanUASEliPL2d3GiKAq9lhCetjMVZNiww5kYeAx
- +c6NbcudNrJQ3n8493caZXQJKoXs0KtQosDu2ByM08nZ/+nzwGkHXaNg1AZaMK0SiS
- 7MbgtYztt/lkBa/uyPcyYjmlr2arUO1VqsEQz88w=
+ t=1705833646; bh=v1/V8yxynbgaJGBY5IHCbJPMSnPaAg0Cc58Fpy0/0eM=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc;
+ b=PKsohBEFeSSc51TOewqkghUWEmTiL3f2nXI/71JcyM/OCu/midFeDoZ+L+MMwouY/
+ NjUMcTdbNktnieiIlDM+YoOJdVLUQrL7/vumVaHrxVhE8aR6Fov5qMY1JoU92T3rI8
+ YbCNu4ufrqyO8sAhY+U3SwKU3RnFknTPjnOCYQY8=
 From: Luca Weiss <luca@z3ntu.xyz>
-Subject: [PATCH v2 0/2] Add GPU support for MSM8226 (Adreno A305B)
-Date: Sun, 21 Jan 2024 11:40:37 +0100
-Message-Id: <20240121-msm8226-gpu-v2-0-77f4a6fbbca4@z3ntu.xyz>
+Date: Sun, 21 Jan 2024 11:40:38 +0100
+Subject: [PATCH v2 1/2] dt-bindings: display/msm: gpu: Allow multiple
+ digits for patchid
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAKX0rGUC/23MSw6DIBSF4a2YOy4NXIyVjrqPxoFY0DsQDSjxE
- fZe6rjD/yTnOyEYTybAszjBm0iBJpcDbwV0Q+t6w+iTG5CjFEJyNoaxRqxYP6+sQ2vr8iFbZS3
- kx+yNpe3S3k3ugcIy+f3Co/it/50oGGeV1miFRmVK9TqkW9b7th/QpJS+KBREJqYAAAA=
+Message-Id: <20240121-msm8226-gpu-v2-1-77f4a6fbbca4@z3ntu.xyz>
+References: <20240121-msm8226-gpu-v2-0-77f4a6fbbca4@z3ntu.xyz>
+In-Reply-To: <20240121-msm8226-gpu-v2-0-77f4a6fbbca4@z3ntu.xyz>
 To: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
  Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
@@ -41,20 +41,20 @@ To: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
  Bjorn Andersson <andersson@kernel.org>, 
  Konrad Dybcio <konrad.dybcio@linaro.org>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=986; i=luca@z3ntu.xyz;
- h=from:subject:message-id; bh=Y/aNKL9qun+wRAcg/kdmKlSDqC8Nm5NAprHi0zYwPC4=;
- b=owEBbQKS/ZANAwAIAXLYQ7idTddWAcsmYgBlrPSqlwnLBQalHp1X9JLwPf7cZeE0GomrAUm6K
- 4fEbfEopymJAjMEAAEIAB0WIQQ5utIvCCzakboVj/py2EO4nU3XVgUCZaz0qgAKCRBy2EO4nU3X
- VlKQD/4+0eIXBxbX6Pv7/0sI/ZIJ3MRALmu7yQ0Ch360aLiqn/kGiuo6SZgKPGlW2GXQZNcCoEh
- +slBN1T+cF8+43/nJ+ztdmP1Wyj/Xpq0CRv2AAdo+X09F3D5h2eTcxQvljvFv+2nhi5hZLTKAtb
- Jh19npcwW3j6QLIJbCBAB5RCvmOh+YeX0s9cI9oSXWoiuf6baMVbERcTCfckQ8LrQBuQuWVPCvR
- D0Y/upqe6rMSbzzNMfuWYIqLwhgsLWramH7iw0aoVkR4z0kKqzKNx/EVXheNJs+UfoPnBvutnha
- Ozt0/KT7kPxIQgmNgkT2j3Z2Z+VyJq7SBaIgmGCkPC4htGtEHJ6HOFznHhjVcIauKUUBPvMS02F
- u7+dyNqVEY5qBGo8rcGRZ3Py/OeMPmqfi8fQwFtQX2fMqh4W9XhTIYBK4G4fwBRQrgoKTI89tCd
- viNKJccZ/pdNNSFJYxVZ5IBGXzzT2EQ6+F1u4wvYM0X8riuFQIv68IBLueONNyR1nEhFNy21Gx1
- Jf+STDiUmUw001U9fLP3CcGWvlvO0PIeC2waXrMaUxACJYGHWENgYU081ow9wpb6VJiqmj3B1Fb
- 3Z8iCWd3ZcMDg+JjjV1dzXE743VqDygQf0MGNMmRlFRLg9UWpMrHGNQAlmrhbE9ivjxuTTPKZK6
- cLFzuatSvVfZWYg==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1665; i=luca@z3ntu.xyz;
+ h=from:subject:message-id; bh=v1/V8yxynbgaJGBY5IHCbJPMSnPaAg0Cc58Fpy0/0eM=;
+ b=owEBbQKS/ZANAwAIAXLYQ7idTddWAcsmYgBlrPSrBqo6O3RxUO+wPi4zf0JipGyXEKiNmkwKe
+ i/xAsC3PFSJAjMEAAEIAB0WIQQ5utIvCCzakboVj/py2EO4nU3XVgUCZaz0qwAKCRBy2EO4nU3X
+ VqKnEADKPbwniYpsgch1XFFVEdcdVqCqWvfqfgzCUAC6QlHDcMs/JQ4JNq8w7owtiRCkOT0Bhpa
+ FGNC1zPT6Ze991JA9l2l17Q4xrwAOYwpcx11zBhx0Ad10WUOuUav6U8HSm+nyKUYcE/n78tQGLF
+ uXvS4ezPoVqfqQuo9/lXp3x5K5pbcLNa1JKVEDM09Zksycl/CyF/909l9TrioZsBykUpwVpyCJD
+ NlOIhACuKFFGJCbID9QKld1xz6pDYZp56kmSvMogd370qw1WV2F6kB+/5kY9tNJBLoQ487pIdIS
+ xxzIpB2NZliygoJ/ecX56KhalRPCP9lMauMoPXo4q+1zeVGCEJ21vvUWK6S/69xOHTCghrXOkzx
+ CPxkp7A68PpRpLBBWtW4e0Rle/wq19nBUmb8dVxGgqxNWl7y2u2O/7v1jsOwGsZkkewFeA64/aY
+ 5txGENH2xGzbLF0CwlDkaqiVuzjjnsHzng6VbiDL8FMKZLwAavjVzXY6k/tU5uzZXfbyM2Ahuzq
+ 0gNppMEnK3mea3yMho+WdHGAn8lKsEYxbd2Acz2+exI63SYfj9WLQgU1RIjgxBG6XUrA2BLuWe+
+ QIVO/dLBe3JbW4bU8ZpFpX6jCpkWME9rg2N29fdvae7Osi1D3iNnjvpIJKzqaMEvu1WNZokZd/M
+ d2NbOTPbdlo3gYw==
 X-Developer-Key: i=luca@z3ntu.xyz; a=openpgp;
  fpr=BD04DA24C971B8D587B2B8D7FAF69CF6CD2D02CD
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,33 +77,47 @@ Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the necessary bits to bring up the GPU on msm8226.
+Some GPUs like the Adreno A305B has a patchid higher than 9, in this
+case 18. Make sure the regexes can account for that.
 
-Tested on apq8026-lg-lenok.
-
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
 ---
-Changes in v2:
-- Drop applied patch
-- Use "if (a305b || a306)" for writing REG_A3XX_RBBM_CLOCK_CTL
-- Pick up tags
-- Link to v1: https://lore.kernel.org/r/20231130-msm8226-gpu-v1-0-6bb2f1b29e49@z3ntu.xyz
+ Documentation/devicetree/bindings/display/msm/gpu.yaml | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
----
-Luca Weiss (2):
-      dt-bindings: display/msm: gpu: Allow multiple digits for patchid
-      drm/msm/adreno: Add A305B support
+diff --git a/Documentation/devicetree/bindings/display/msm/gpu.yaml b/Documentation/devicetree/bindings/display/msm/gpu.yaml
+index b019db954793..40b5c6bd11f8 100644
+--- a/Documentation/devicetree/bindings/display/msm/gpu.yaml
++++ b/Documentation/devicetree/bindings/display/msm/gpu.yaml
+@@ -23,7 +23,7 @@ properties:
+           The driver is parsing the compat string for Adreno to
+           figure out the gpu-id and patch level.
+         items:
+-          - pattern: '^qcom,adreno-[3-7][0-9][0-9]\.[0-9]$'
++          - pattern: '^qcom,adreno-[3-7][0-9][0-9]\.[0-9]+$'
+           - const: qcom,adreno
+       - description: |
+           The driver is parsing the compat string for Imageon to
+@@ -127,7 +127,7 @@ allOf:
+       properties:
+         compatible:
+           contains:
+-            pattern: '^qcom,adreno-[3-5][0-9][0-9]\.[0-9]$'
++            pattern: '^qcom,adreno-[3-5][0-9][0-9]\.[0-9]+$'
+ 
+     then:
+       properties:
+@@ -203,7 +203,7 @@ allOf:
+         properties:
+           compatible:
+             contains:
+-              pattern: '^qcom,adreno-[67][0-9][0-9]\.[0-9]$'
++              pattern: '^qcom,adreno-[67][0-9][0-9]\.[0-9]+$'
+ 
+       then: # Starting with A6xx, the clocks are usually defined in the GMU node
+         properties:
 
- Documentation/devicetree/bindings/display/msm/gpu.yaml |  6 +++---
- drivers/gpu/drm/msm/adreno/a3xx_gpu.c                  | 13 ++++++++++---
- drivers/gpu/drm/msm/adreno/adreno_device.c             | 15 +++++++++++----
- drivers/gpu/drm/msm/adreno/adreno_gpu.h                |  5 +++++
- 4 files changed, 29 insertions(+), 10 deletions(-)
----
-base-commit: bda7a2e04984237bc14ade7c9660f76fbc035686
-change-id: 20231130-msm8226-gpu-c2ff8473a9ff
-
-Best regards,
 -- 
-Luca Weiss <luca@z3ntu.xyz>
+2.43.0
 
