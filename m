@@ -2,60 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A37FC835774
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Jan 2024 20:45:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4DE6835779
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Jan 2024 20:45:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 490FF10E085;
-	Sun, 21 Jan 2024 19:45:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AFC210E0EB;
+	Sun, 21 Jan 2024 19:45:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
- [209.85.208.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCE3B10E03F;
- Sun, 21 Jan 2024 19:45:40 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id
- 4fb4d7f45d1cf-559cef15db5so6375587a12.0; 
- Sun, 21 Jan 2024 11:45:40 -0800 (PST)
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
+ [209.85.218.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1700210E0D0;
+ Sun, 21 Jan 2024 19:45:55 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id
+ a640c23a62f3a-a28bd9ca247so270761066b.1; 
+ Sun, 21 Jan 2024 11:45:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1705866278; x=1706471078; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=b7qx5rqlh0FWuE9XG787u8jZCcutzKDjwwsd5hGee8k=;
- b=Ch/wPHin/8DT+qJBomZtbSuJPRLNQABgifFehcOGKeXfYT3t3kKQimTd6N2TIWQbSg
- lAY9azwcXyQdjGcmFRdR8L8kqDObVAaiTtQ/pz0ivkTBY1WyaN77TvBnulcXp09miefF
- Aj3W6UXdA1B17LR1K+ksaG0s6AmzOu45V4WxDTTdKChC02JSiqaY7ZKACscnfNwp5z3k
- 7dPKgFZaUSip980O0cn2Bs033vPJHivFmvXBupHhZ6dUM7J70TYuU/xuzojw4SRFSt8h
- AB0tQ35VNuDZ9xJ4zIjlh1L2n78YH7boV5bDB8Dg604wuXst71UBD+ZoVsD5YOpb0nkj
- pb2Q==
+ d=gmail.com; s=20230601; t=1705866288; x=1706471088; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=mnqLSrn4btQ3vonmmCBGbb+1ntxX94Jc7ylr8L0oA0c=;
+ b=ekg8ea0uf6QoXyZEDY6V1D6IQknyI1ERqZZE70iiwd0t9kiSlPy7tPiF08XTY804p2
+ Xi31XCRW2JHXlweT+SdsW86WCsz48QdC5GFL57F+NJnlEiFfb5m/riw9QnSR1r9i+qrp
+ kzRGpIemSFw9Xt9ELeHG5ldL9Ka9Z5jwgQy4yJwHu7+9BTh9udyOoonpBT40wpYlViwv
+ trU9oPvwj6Banw0154mZRx3bLRu07P/hZOyIvsISE3tjlDHCot4Ar14vM0tLX1qprb1J
+ 2KWzK8/9LRkzET1kanTOB9V+1Obp+CJLXHzHH0A+8ZWpO7k2TCZkRQ5vixXzaBQwceer
+ TCFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705866278; x=1706471078;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=b7qx5rqlh0FWuE9XG787u8jZCcutzKDjwwsd5hGee8k=;
- b=Uzj16X0H2qz1y+UfAG2KV+gxokb9OPSd3Hp2QTGSdIbc1cOVcpzL4F4e/JQxGoNaJ8
- lq2KwwwPBJBQH8gFpj/oMh1dhdFAbu3+tkGBy1OM/QXtd9xxxYsXBGcwDvtKzIWfhPtI
- MrVxaLetRoyi1/Ag0K+gzeOgXbLFoFL3ZYSDJ8s6SKO4anwc22yTGkCESAXGkidwDHQV
- 52t2Hbn8AeyALrQ6kv/RwftpLMb8EvG1Uj2eL70FQpcJIgq1+g13GExvqFjQ6hagOgzS
- mj0fPTDw8mVTdIbG+npKBSFjCGyg+Wk3Ln+lCaUFVQY4xiS/t+Dwnva/9gP7+uFVicgA
- IzLg==
-X-Gm-Message-State: AOJu0Yzrh0dlJnOIn7B/6RQ/n3aDkq43OvaL2xme/WGSvGakaIr0AOuf
- IAm95YFAp3TOTe/AbW9lMkKt8aPgwvRuGKq2no6es6/q89P9G0iC
-X-Google-Smtp-Source: AGHT+IEUIwjgDLvSlIepivXTVds4fmOThAhEeE2VQdGUMP1Ux128ZnPqqT0eEiqb7+oRPEbs1BTjsg==
-X-Received: by 2002:a17:906:70d6:b0:a2d:468c:3845 with SMTP id
- g22-20020a17090670d600b00a2d468c3845mr3183703ejk.35.1705866278086; 
- Sun, 21 Jan 2024 11:44:38 -0800 (PST)
+ d=1e100.net; s=20230601; t=1705866288; x=1706471088;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=mnqLSrn4btQ3vonmmCBGbb+1ntxX94Jc7ylr8L0oA0c=;
+ b=wb0IXLD97vhKoS3r9sYzDL2qA2jxdRXjUcLmY23HF1HP9RejZzPM/H75+tne+sXbko
+ yMz6n6zXkQVUFqtFqih4xzYGrw3bX50jYg6RTwp1ZBsi+cD6mK/ttFEHlUutnyggOwlE
+ GE9h6RxAxLF7nHe5Q+DAVGFzbxSd7krJyiFYdnXFxX2Z2AJT50Z3uqIzbQtgDhb9ITWA
+ yoj5qnxJ48Q1oZKPDLP8VQUxwlbKMWmssDvfo28fjXGxAvYphPaFqn7Xn60d2MZx6qHW
+ GEeIzdUnoqMEQck46ug+SVzzMicWK92Dpe32Q7KvGEHww/HwXGksEtSfC4rERPu5YHie
+ 0yFA==
+X-Gm-Message-State: AOJu0Yx2UegrOHzcfKKCmCWxQQGXjpTs8HHkX25aR7a91TBiOrFcDUzX
+ VGIAhr9CL8bf2CbsE7P92bahLuu/682QYp5MxEmUP6p5abNUGDFe
+X-Google-Smtp-Source: AGHT+IGEaNWjmJTqymB8KYil/cNyp5oM2ixT9tK89BS7eXP8SDPL2NmrSrd26a0kTLP5NWNXwHllow==
+X-Received: by 2002:a17:906:844c:b0:a2c:ad93:2e79 with SMTP id
+ e12-20020a170906844c00b00a2cad932e79mr1696389ejy.15.1705866288476; 
+ Sun, 21 Jan 2024 11:44:48 -0800 (PST)
 Received: from localhost.localdomain (byv51.neoplus.adsl.tpnet.pl.
  [83.30.41.51]) by smtp.gmail.com with ESMTPSA id
- k6-20020a170906128600b00a2b0b0fc80esm12547134ejb.193.2024.01.21.11.44.24
+ k6-20020a170906128600b00a2b0b0fc80esm12547134ejb.193.2024.01.21.11.44.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Jan 2024 11:44:37 -0800 (PST)
+ Sun, 21 Jan 2024 11:44:48 -0800 (PST)
 From: Adam Skladowski <a39.skl@gmail.com>
 To: 
-Subject: [PATCH 0/8] MSM8976 MDSS/GPU/WCNSS support
-Date: Sun, 21 Jan 2024 20:40:58 +0100
-Message-Id: <20240121194221.13513-1-a39.skl@gmail.com>
+Subject: [PATCH 1/8] arm64: dts: qcom: msm8976: Add IOMMU nodes
+Date: Sun, 21 Jan 2024 20:40:59 +0100
+Message-Id: <20240121194221.13513-2-a39.skl@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240121194221.13513-1-a39.skl@gmail.com>
+References: <20240121194221.13513-1-a39.skl@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -86,25 +89,105 @@ Cc: dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series provide support for display subsystem, gpu
-and also adds wireless connectivity subsystem support.
+Add the nodes describing the apps and gpu iommu and its context banks
+that are found on msm8976 SoCs.
 
-Adam Skladowski (8):
-  arm64: dts: qcom: msm8976: Add IOMMU nodes
-  dt-bindings: dsi-controller-main: Document missing msm8976 compatible
-  dt-bindings: msm: qcom,mdss: Include ommited fam-b compatible
-  arm64: dts: qcom: msm8976: Add MDSS nodes
-  dt-bindings: drm/msm/gpu: Document AON clock for A506/A510
-  arm64: dts: qcom: msm8976: Add Adreno GPU
-  arm64: dts: qcom: msm8976: Declare and wire SDC pins
-  arm64: dts: qcom: msm8976: Add WCNSS node
+Signed-off-by: Adam Skladowski <a39.skl@gmail.com>
+---
+ arch/arm64/boot/dts/qcom/msm8976.dtsi | 80 +++++++++++++++++++++++++++
+ 1 file changed, 80 insertions(+)
 
- .../display/msm/dsi-controller-main.yaml      |   2 +
- .../devicetree/bindings/display/msm/gpu.yaml  |   6 +-
- .../bindings/display/msm/qcom,mdss.yaml       |   1 +
- arch/arm64/boot/dts/qcom/msm8976.dtsi         | 610 +++++++++++++++++-
- 4 files changed, 613 insertions(+), 6 deletions(-)
-
+diff --git a/arch/arm64/boot/dts/qcom/msm8976.dtsi b/arch/arm64/boot/dts/qcom/msm8976.dtsi
+index d2bb1ada361a..118174cfd4d3 100644
+--- a/arch/arm64/boot/dts/qcom/msm8976.dtsi
++++ b/arch/arm64/boot/dts/qcom/msm8976.dtsi
+@@ -808,6 +808,86 @@ tcsr: syscon@1937000 {
+ 			reg = <0x01937000 0x30000>;
+ 		};
+ 
++		apps_iommu: iommu@1e20000 {
++			compatible = "qcom,msm8976-iommu", "qcom,msm-iommu-v2";
++			ranges  = <0 0x01e20000 0x20000>;
++
++			clocks = <&gcc GCC_SMMU_CFG_CLK>,
++				 <&gcc GCC_APSS_TCU_CLK>;
++			clock-names = "iface", "bus";
++
++			qcom,iommu-secure-id = <17>;
++
++			#address-cells = <1>;
++			#size-cells = <1>;
++			#iommu-cells = <1>;
++
++			/* VFE */
++			iommu-ctx@15000 {
++				compatible = "qcom,msm-iommu-v2-ns";
++				reg = <0x15000 0x1000>;
++				qcom,ctx-asid = <20>;
++				interrupts = <GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH>;
++			};
++
++			/* VENUS NS */
++			iommu-ctx@16000 {
++				compatible = "qcom,msm-iommu-v2-ns";
++				reg = <0x16000 0x1000>;
++				qcom,ctx-asid = <21>;
++				interrupts = <GIC_SPI 114 IRQ_TYPE_LEVEL_HIGH>;
++			};
++
++			/* MDP0 */
++			iommu-ctx@17000 {
++				compatible = "qcom,msm-iommu-v2-ns";
++				reg = <0x17000 0x1000>;
++				qcom,ctx-asid = <22>;
++				interrupts = <GIC_SPI 115 IRQ_TYPE_LEVEL_HIGH>;
++			};
++		};
++
++		gpu_iommu: iommu@1f08000 {
++			compatible = "qcom,msm8976-iommu", "qcom,msm-iommu-v2";
++			ranges = <0 0x01f08000 0x8000>;
++
++			clocks = <&gcc GCC_SMMU_CFG_CLK>,
++				 <&gcc GCC_GFX3D_TCU_CLK>;
++			clock-names = "iface", "bus";
++
++			power-domains = <&gcc OXILI_GX_GDSC>;
++
++			qcom,iommu-secure-id = <18>;
++
++			#address-cells = <1>;
++			#size-cells = <1>;
++			#iommu-cells = <1>;
++
++			/* gfx3d user */
++			iommu-ctx@0 {
++				compatible = "qcom,msm-iommu-v2-ns";
++				reg = <0x0 0x1000>;
++				qcom,ctx-asid = <0>;
++				interrupts = <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>;
++			};
++
++			/* gfx3d secure */
++			iommu-ctx@1000 {
++				compatible = "qcom,msm-iommu-v2-sec";
++				reg = <0x1000 0x1000>;
++				qcom,ctx-asid = <2>;
++				interrupts = <GIC_SPI 241 IRQ_TYPE_LEVEL_HIGH>;
++			};
++
++			/* gfx3d priv */
++			iommu-ctx@2000 {
++				compatible = "qcom,msm-iommu-v2-sec";
++				reg = <0x2000 0x1000>;
++				qcom,ctx-asid = <1>;
++				interrupts = <GIC_SPI 242 IRQ_TYPE_LEVEL_HIGH>;
++			};
++		};
++
+ 		spmi_bus: spmi@200f000 {
+ 			compatible = "qcom,spmi-pmic-arb";
+ 			reg = <0x0200f000 0x1000>,
 -- 
 2.43.0
 
