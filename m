@@ -2,30 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A89C1835551
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Jan 2024 11:42:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4135D83554E
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Jan 2024 11:41:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8821C10E1AC;
-	Sun, 21 Jan 2024 10:41:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79DF389238;
+	Sun, 21 Jan 2024 10:41:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ahti.lucaweiss.eu (ahti.lucaweiss.eu [128.199.32.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDE4710E1EC;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEEE710E1F5;
  Sun, 21 Jan 2024 10:40:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=z3ntu.xyz; s=s1;
- t=1705833646; bh=v1/V8yxynbgaJGBY5IHCbJPMSnPaAg0Cc58Fpy0/0eM=;
+ t=1705833647; bh=nBjQLwAVrLOtDklPZXhl6mSYmrwebasaPOxc4Nq5ooI=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc;
- b=PKsohBEFeSSc51TOewqkghUWEmTiL3f2nXI/71JcyM/OCu/midFeDoZ+L+MMwouY/
- NjUMcTdbNktnieiIlDM+YoOJdVLUQrL7/vumVaHrxVhE8aR6Fov5qMY1JoU92T3rI8
- YbCNu4ufrqyO8sAhY+U3SwKU3RnFknTPjnOCYQY8=
+ b=lciop4r4CZbZekaT96/hHLsEzLdGobUf1m+PECD0gZ7By06vI7E1q2hC7vau/zay4
+ kbHDk5tEGcd7poho8A1O817ifJypF4lQ07vBfANrLXZdJaz3hKjX09ZmuIyPY+R2Xx
+ CxR0sp/5lth1Zn+Om2LC9LZOwaK2fpXhgzxnGTP8=
 From: Luca Weiss <luca@z3ntu.xyz>
-Date: Sun, 21 Jan 2024 11:40:38 +0100
-Subject: [PATCH v2 1/2] dt-bindings: display/msm: gpu: Allow multiple
- digits for patchid
+Date: Sun, 21 Jan 2024 11:40:39 +0100
+Subject: [PATCH v2 2/2] drm/msm/adreno: Add A305B support
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240121-msm8226-gpu-v2-1-77f4a6fbbca4@z3ntu.xyz>
+Message-Id: <20240121-msm8226-gpu-v2-2-77f4a6fbbca4@z3ntu.xyz>
 References: <20240121-msm8226-gpu-v2-0-77f4a6fbbca4@z3ntu.xyz>
 In-Reply-To: <20240121-msm8226-gpu-v2-0-77f4a6fbbca4@z3ntu.xyz>
 To: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
@@ -41,20 +40,20 @@ To: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
  Bjorn Andersson <andersson@kernel.org>, 
  Konrad Dybcio <konrad.dybcio@linaro.org>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1665; i=luca@z3ntu.xyz;
- h=from:subject:message-id; bh=v1/V8yxynbgaJGBY5IHCbJPMSnPaAg0Cc58Fpy0/0eM=;
- b=owEBbQKS/ZANAwAIAXLYQ7idTddWAcsmYgBlrPSrBqo6O3RxUO+wPi4zf0JipGyXEKiNmkwKe
- i/xAsC3PFSJAjMEAAEIAB0WIQQ5utIvCCzakboVj/py2EO4nU3XVgUCZaz0qwAKCRBy2EO4nU3X
- VqKnEADKPbwniYpsgch1XFFVEdcdVqCqWvfqfgzCUAC6QlHDcMs/JQ4JNq8w7owtiRCkOT0Bhpa
- FGNC1zPT6Ze991JA9l2l17Q4xrwAOYwpcx11zBhx0Ad10WUOuUav6U8HSm+nyKUYcE/n78tQGLF
- uXvS4ezPoVqfqQuo9/lXp3x5K5pbcLNa1JKVEDM09Zksycl/CyF/909l9TrioZsBykUpwVpyCJD
- NlOIhACuKFFGJCbID9QKld1xz6pDYZp56kmSvMogd370qw1WV2F6kB+/5kY9tNJBLoQ487pIdIS
- xxzIpB2NZliygoJ/ecX56KhalRPCP9lMauMoPXo4q+1zeVGCEJ21vvUWK6S/69xOHTCghrXOkzx
- CPxkp7A68PpRpLBBWtW4e0Rle/wq19nBUmb8dVxGgqxNWl7y2u2O/7v1jsOwGsZkkewFeA64/aY
- 5txGENH2xGzbLF0CwlDkaqiVuzjjnsHzng6VbiDL8FMKZLwAavjVzXY6k/tU5uzZXfbyM2Ahuzq
- 0gNppMEnK3mea3yMho+WdHGAn8lKsEYxbd2Acz2+exI63SYfj9WLQgU1RIjgxBG6XUrA2BLuWe+
- QIVO/dLBe3JbW4bU8ZpFpX6jCpkWME9rg2N29fdvae7Osi1D3iNnjvpIJKzqaMEvu1WNZokZd/M
- d2NbOTPbdlo3gYw==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4454; i=luca@z3ntu.xyz;
+ h=from:subject:message-id; bh=nBjQLwAVrLOtDklPZXhl6mSYmrwebasaPOxc4Nq5ooI=;
+ b=owEBbQKS/ZANAwAIAXLYQ7idTddWAcsmYgBlrPSsW0f4/GUoP2msPZIz43/pVMSFAW/J8jCFF
+ 8uFM08X8siJAjMEAAEIAB0WIQQ5utIvCCzakboVj/py2EO4nU3XVgUCZaz0rAAKCRBy2EO4nU3X
+ Vjf1D/wJoKFlkmrss4tM5q/zh3php1RI54HNSU1btmt0TeA2mU+c2CrozvlbX5FONA9ychoGRa3
+ 3Kpeid8w7gf+di16DsSUWjLSzdu9S55TNhINpBqAtxq31YVwlSrSWNlLI4YWxLUPHMtAztaMCEg
+ tGvwHONkfBAkvao9N5q6/wvRVDuN/OYoRJuok3h1sGoJRHkZor8hEpthWGEk8ur6Qh82VBrKlja
+ n1Eu35l1LizMbMZeNyx6YvwilEllnR/MJHmFCHiA0xdeGDMcd6FVwKzYVfoUpMcT1D0rA+rT338
+ xhUNVjRv5wP10q6qEpRSmtrz4Chj47arr/YmrtKhEWX6p1xD8G16Q5oTsRoyvw7nUVjYNYehonG
+ t4oMArs1NrruWMQz0Ayz61IrU4qc9+CLEUXD45Kkp44Z748h2p/8RjJi9WhKhQav0sykjvM5VGt
+ ZDHd2p6VYFbjr2wYqnWMpjDNn81XSvhOw0GiWOlVA2EDzEKHqoTAZLrvmkGibWUvX5oVTqQjG+H
+ HHihucKptvlQIc4Bmk6X3nGn8nS/RU9J+RrsE7uFwEzo0i87KvB5vN5cn1SmbWJ28jjrAJTmV2c
+ ht+UwQE9zrZpBvjgC8f7IqSMzvMt5E3Jv60gdl/ZiORDwAbv/wiSIdQzDGJMrdVcMyGiV67vV8L
+ juwKzKIIE4qxnAA==
 X-Developer-Key: i=luca@z3ntu.xyz; a=openpgp;
  fpr=BD04DA24C971B8D587B2B8D7FAF69CF6CD2D02CD
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,52 +70,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Luca Weiss <luca@z3ntu.xyz>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- freedreno@lists.freedesktop.org
+ Luca Weiss <luca@z3ntu.xyz>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some GPUs like the Adreno A305B has a patchid higher than 9, in this
-case 18. Make sure the regexes can account for that.
+Add support for the Adreno 305B GPU that is found in MSM8226(v2) SoC.
+Previously this was mistakenly claimed to be supported but using wrong
+a configuration.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In MSM8226v1 there's also a A305B but with chipid 0x03000510 which
+should work with the same configuration but due to lack of hardware for
+testing this is not added.
+
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
 ---
- Documentation/devicetree/bindings/display/msm/gpu.yaml | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/msm/adreno/a3xx_gpu.c      | 13 ++++++++++---
+ drivers/gpu/drm/msm/adreno/adreno_device.c | 15 +++++++++++----
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  5 +++++
+ 3 files changed, 26 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/gpu.yaml b/Documentation/devicetree/bindings/display/msm/gpu.yaml
-index b019db954793..40b5c6bd11f8 100644
---- a/Documentation/devicetree/bindings/display/msm/gpu.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/gpu.yaml
-@@ -23,7 +23,7 @@ properties:
-           The driver is parsing the compat string for Adreno to
-           figure out the gpu-id and patch level.
-         items:
--          - pattern: '^qcom,adreno-[3-7][0-9][0-9]\.[0-9]$'
-+          - pattern: '^qcom,adreno-[3-7][0-9][0-9]\.[0-9]+$'
-           - const: qcom,adreno
-       - description: |
-           The driver is parsing the compat string for Imageon to
-@@ -127,7 +127,7 @@ allOf:
-       properties:
-         compatible:
-           contains:
--            pattern: '^qcom,adreno-[3-5][0-9][0-9]\.[0-9]$'
-+            pattern: '^qcom,adreno-[3-5][0-9][0-9]\.[0-9]+$'
+diff --git a/drivers/gpu/drm/msm/adreno/a3xx_gpu.c b/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
+index c86b377f6f0d..5273dc849838 100644
+--- a/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
+@@ -134,6 +134,13 @@ static int a3xx_hw_init(struct msm_gpu *gpu)
+ 		/* Set up AOOO: */
+ 		gpu_write(gpu, REG_A3XX_VBIF_OUT_AXI_AOOO_EN, 0x0000003c);
+ 		gpu_write(gpu, REG_A3XX_VBIF_OUT_AXI_AOOO, 0x003c003c);
++	} else if (adreno_is_a305b(adreno_gpu)) {
++		gpu_write(gpu, REG_A3XX_VBIF_IN_RD_LIM_CONF0, 0x00181818);
++		gpu_write(gpu, REG_A3XX_VBIF_IN_WR_LIM_CONF0, 0x00181818);
++		gpu_write(gpu, REG_A3XX_VBIF_OUT_RD_LIM_CONF0, 0x00000018);
++		gpu_write(gpu, REG_A3XX_VBIF_OUT_WR_LIM_CONF0, 0x00000018);
++		gpu_write(gpu, REG_A3XX_VBIF_DDR_OUT_MAX_BURST, 0x00000303);
++		gpu_write(gpu, REG_A3XX_VBIF_ROUND_ROBIN_QOS_ARB, 0x0003);
+ 	} else if (adreno_is_a306(adreno_gpu)) {
+ 		gpu_write(gpu, REG_A3XX_VBIF_ROUND_ROBIN_QOS_ARB, 0x0003);
+ 		gpu_write(gpu, REG_A3XX_VBIF_OUT_RD_LIM_CONF0, 0x0000000a);
+@@ -230,7 +237,7 @@ static int a3xx_hw_init(struct msm_gpu *gpu)
+ 	gpu_write(gpu, REG_A3XX_UCHE_CACHE_MODE_CONTROL_REG, 0x00000001);
  
-     then:
-       properties:
-@@ -203,7 +203,7 @@ allOf:
-         properties:
-           compatible:
-             contains:
--              pattern: '^qcom,adreno-[67][0-9][0-9]\.[0-9]$'
-+              pattern: '^qcom,adreno-[67][0-9][0-9]\.[0-9]+$'
+ 	/* Enable Clock gating: */
+-	if (adreno_is_a306(adreno_gpu))
++	if (adreno_is_a305b(adreno_gpu) || adreno_is_a306(adreno_gpu))
+ 		gpu_write(gpu, REG_A3XX_RBBM_CLOCK_CTL, 0xaaaaaaaa);
+ 	else if (adreno_is_a320(adreno_gpu))
+ 		gpu_write(gpu, REG_A3XX_RBBM_CLOCK_CTL, 0xbfffffff);
+@@ -333,7 +340,7 @@ static int a3xx_hw_init(struct msm_gpu *gpu)
+ 				AXXX_CP_QUEUE_THRESHOLDS_CSQ_IB1_START(2) |
+ 				AXXX_CP_QUEUE_THRESHOLDS_CSQ_IB2_START(6) |
+ 				AXXX_CP_QUEUE_THRESHOLDS_CSQ_ST_START(14));
+-	} else if (adreno_is_a330(adreno_gpu)) {
++	} else if (adreno_is_a330(adreno_gpu) || adreno_is_a305b(adreno_gpu)) {
+ 		/* NOTE: this (value take from downstream android driver)
+ 		 * includes some bits outside of the known bitfields.  But
+ 		 * A330 has this "MERCIU queue" thing too, which might
+@@ -559,7 +566,7 @@ struct msm_gpu *a3xx_gpu_init(struct drm_device *dev)
+ 		goto fail;
  
-       then: # Starting with A6xx, the clocks are usually defined in the GMU node
-         properties:
+ 	/* if needed, allocate gmem: */
+-	if (adreno_is_a330(adreno_gpu)) {
++	if (adreno_is_a330(adreno_gpu) || adreno_is_a305b(adreno_gpu)) {
+ 		ret = adreno_gpu_ocmem_init(&adreno_gpu->base.pdev->dev,
+ 					    adreno_gpu, &a3xx_gpu->ocmem);
+ 		if (ret)
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+index 2ce7d7b1690d..f2768e52ed12 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_device.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+@@ -55,10 +55,17 @@ static const struct adreno_info gpulist[] = {
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+ 		.init  = a2xx_gpu_init,
+ 	}, {
+-		.chip_ids = ADRENO_CHIP_IDS(
+-			0x03000512,
+-			0x03000520
+-		),
++		.chip_ids = ADRENO_CHIP_IDS(0x03000512),
++		.family = ADRENO_3XX,
++		.fw = {
++			[ADRENO_FW_PM4] = "a330_pm4.fw",
++			[ADRENO_FW_PFP] = "a330_pfp.fw",
++		},
++		.gmem  = SZ_128K,
++		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
++		.init  = a3xx_gpu_init,
++	}, {
++		.chip_ids = ADRENO_CHIP_IDS(0x03000520),
+ 		.family = ADRENO_3XX,
+ 		.revn  = 305,
+ 		.fw = {
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+index bc14df96feb0..d3c41af706df 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+@@ -256,6 +256,11 @@ static inline bool adreno_is_a305(const struct adreno_gpu *gpu)
+ 	return adreno_is_revn(gpu, 305);
+ }
+ 
++static inline bool adreno_is_a305b(const struct adreno_gpu *gpu)
++{
++	return gpu->info->chip_ids[0] == 0x03000512;
++}
++
+ static inline bool adreno_is_a306(const struct adreno_gpu *gpu)
+ {
+ 	/* yes, 307, because a305c is 306 */
 
 -- 
 2.43.0
