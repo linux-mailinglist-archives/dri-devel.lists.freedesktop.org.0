@@ -2,51 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5F08835833
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Jan 2024 23:27:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED45683582D
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Jan 2024 23:26:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4501710E2EB;
-	Sun, 21 Jan 2024 22:26:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCB6210E2DD;
+	Sun, 21 Jan 2024 22:26:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 590 seconds by postgrey-1.36 at gabe;
- Sun, 21 Jan 2024 22:26:43 UTC
-Received: from m-r1.th.seeweb.it (m-r1.th.seeweb.it [5.144.164.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57D8810E2E9
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Jan 2024 22:26:41 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3750510E2DD;
+ Sun, 21 Jan 2024 22:26:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1705875934;
+ bh=r1mbkvsH1Tw6GErB5aGRuFX4QTAhmff/iRgdLLRbQds=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=jyv+MI1wWW+BA4ZFuA/cwmMAocUqbSHOT9RvEvqB2APqOyV3SPeLgANM9wjz8traO
+ 4W4YslnVZei6GI+Xh6m605VjU7+ggypB8+laAoLXhf40ssme2G0IBHSBhxoyP99ULa
+ sovznKvecigIzs5kiSIFfGKpnXtFvePlz5hkpZ98dlT1jVHzgQe7DMHj3QxC9spv8I
+ rzl/7x0xKItkrdzuqGtxwS5X5eepG4U4JDnuy+Bl5SmzRmO7Hpq2q5JetXh2yHKNGy
+ 0nIAupwnIu3DujY1ut0yIcN1K1f0IJDWDhnJHsB6SgWJTC5K4coX8v8UWVSv5ivust
+ DEmxH+54I8ZDQ==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 101771FF15;
- Sun, 21 Jan 2024 23:16:42 +0100 (CET)
-Date: Sun, 21 Jan 2024 23:16:40 +0100
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Adam Skladowski <a39.skl@gmail.com>
-Subject: Re: [PATCH 7/8] arm64: dts: qcom: msm8976: Declare and wire SDC pins
-Message-ID: <umllfip5rqeo5q65jbvdpisy5yaxpl54j4zdhi2hisdha5da4y@lwf2mjxuhiga>
-Mail-Followup-To: Marijn Suijten <marijn.suijten@somainline.org>, 
- Adam Skladowski <a39.skl@gmail.com>, phone-devel@vger.kernel.org, 
- ~postmarketos/upstreaming@lists.sr.ht, Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240121194221.13513-1-a39.skl@gmail.com>
- <20240121194221.13513-8-a39.skl@gmail.com>
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4TJ7GN5N6Zz4wyl;
+ Mon, 22 Jan 2024 09:25:32 +1100 (AEDT)
+Date: Mon, 22 Jan 2024 09:25:20 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: linux-next: build warning after merge of the drm-intel tree
+Message-ID: <20240122092520.68a86f48@canb.auug.org.au>
+In-Reply-To: <87y1f0sol1.fsf@intel.com>
+References: <20231114141715.6f435118@canb.auug.org.au>
+ <8734x8u4la.fsf@intel.com> <87y1f0sol1.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240121194221.13513-8-a39.skl@gmail.com>
+Content-Type: multipart/signed; boundary="Sig_/wRTTQqaNc4XzgCWXZZqmNJE";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,164 +51,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, David Airlie <airlied@gmail.com>,
- Andy Gross <agross@kernel.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- ~postmarketos/upstreaming@lists.sr.ht, Daniel Vetter <daniel@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- phone-devel@vger.kernel.org, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-01-21 20:41:05, Adam Skladowski wrote:
-> Declare pinctrls for SDC pins and wire them to consumers.
-> 
-> Signed-off-by: Adam Skladowski <a39.skl@gmail.com>
+--Sig_/wRTTQqaNc4XzgCWXZZqmNJE
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Where'd the original sign-offs go?
+Hi all,
 
-https://lore.kernel.org/linux-arm-msm/20221214232049.703484-1-marijn.suijten@somainline.org/
+On Tue, 14 Nov 2023 10:53:30 +0200 Jani Nikula <jani.nikula@linux.intel.com=
+> wrote:
+>
+> On Tue, 14 Nov 2023, Jani Nikula <jani.nikula@linux.intel.com> wrote:
+> > On Tue, 14 Nov 2023, Stephen Rothwell <sfr@canb.auug.org.au> wrote: =20
+> >>
+> >> After merging the drm-intel tree, today's linux-next build (htmldocs)
+> >> produced this warning:
+> >>
+> >> Documentation/gpu/drm-kms-helpers:296: drivers/gpu/drm/display/drm_dp_=
+mst_topology.c:5484: ERROR: Unexpected indentation.
+> >> Documentation/gpu/drm-kms-helpers:296: drivers/gpu/drm/display/drm_dp_=
+mst_topology.c:5488: WARNING: Block quote ends without a blank line; unexpe=
+cted unindent.
+> >>
+> >> Introduced by commit
+> >>
+> >>   1cd0a5ea4279 ("drm/dp_mst: Factor out a helper to check the atomic s=
+tate of a topology manager") =20
+> >
+> > Imre, please fix this. =20
+>=20
+> Just noticed there's a fix [1]. Need to merge that via drm-intel.
+>=20
+> BR,
+> Jani.
+>=20
+> [1] https://patchwork.freedesktop.org/patch/msgid/20231114081033.27343-1-=
+bagasdotme@gmail.com
 
-Thanks taking taking care of this SoC though.  My SM8976 Suzu device finally
-emitted the magic smoke after rebasing on the latest MSM8976 patches, and will
-need board repairs or a replacement before patches can be tested again :(
+This is still not fixed.
 
-- Marijn
+--=20
+Cheers,
+Stephen Rothwell
 
-> ---
->  arch/arm64/boot/dts/qcom/msm8976.dtsi | 100 ++++++++++++++++++++++++++
->  1 file changed, 100 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/msm8976.dtsi b/arch/arm64/boot/dts/qcom/msm8976.dtsi
-> index 765c90ac14cb..5a7be93a0115 100644
-> --- a/arch/arm64/boot/dts/qcom/msm8976.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/msm8976.dtsi
-> @@ -771,6 +771,96 @@ blsp2_i2c4_sleep: blsp2-i2c4-sleep-state {
->  				drive-strength = <2>;
->  				bias-disable;
->  			};
-> +
-> +			sdc1_default: sdc1-default-state {
-> +				clk-pins {
-> +					pins = "sdc1_clk";
-> +					drive-strength = <16>;
-> +					bias-disable;
-> +				};
-> +
-> +				cmd-pins {
-> +					pins = "sdc1_cmd";
-> +					drive-strength = <10>;
-> +					bias-pull-up;
-> +				};
-> +
-> +				data-pins {
-> +					pins = "sdc1_data";
-> +					drive-strength = <10>;
-> +					bias-pull-up;
-> +				};
-> +
-> +				rclk-pins {
-> +					pins = "sdc1_rclk";
-> +					bias-pull-down;
-> +				};
-> +			};
-> +
-> +			sdc1_sleep: sdc1-sleep-state {
-> +				clk-pins {
-> +					pins = "sdc1_clk";
-> +					drive-strength = <2>;
-> +					bias-disable;
-> +				};
-> +
-> +				cmd-pins {
-> +					pins = "sdc1_cmd";
-> +					drive-strength = <2>;
-> +					bias-pull-up;
-> +				};
-> +
-> +				data-pins {
-> +					pins = "sdc1_data";
-> +					drive-strength = <2>;
-> +					bias-pull-up;
-> +				};
-> +
-> +				rclk-pins {
-> +					pins = "sdc1_rclk";
-> +					bias-pull-down;
-> +				};
-> +			};
-> +
-> +			sdc2_default: sdc2-default-state {
-> +				clk-pins {
-> +					pins = "sdc2_clk";
-> +					drive-strength = <16>;
-> +					bias-disable;
-> +				};
-> +
-> +				cmd-pins {
-> +					pins = "sdc2_cmd";
-> +					drive-strength = <10>;
-> +					bias-pull-up;
-> +				};
-> +
-> +				data-pins {
-> +					pins = "sdc2_data";
-> +					drive-strength = <10>;
-> +					bias-pull-up;
-> +				};
-> +			};
-> +
-> +			sdc2_sleep: sdc2-sleep-state {
-> +				clk-pins {
-> +					pins = "sdc2_clk";
-> +					drive-strength = <2>;
-> +					bias-disable;
-> +				};
-> +
-> +				cmd-pins {
-> +					pins = "sdc2_cmd";
-> +					drive-strength = <2>;
-> +					bias-pull-up;
-> +				};
-> +
-> +				data-pins {
-> +					pins = "sdc2_data";
-> +					drive-strength = <2>;
-> +					bias-pull-up;
-> +				};
-> +			};
->  		};
->  
->  		gcc: clock-controller@1800000 {
-> @@ -1246,6 +1336,11 @@ sdhc_1: mmc@7824900 {
->  				 <&gcc GCC_SDCC1_APPS_CLK>,
->  				 <&rpmcc RPM_SMD_XO_CLK_SRC>;
->  			clock-names = "iface", "core", "xo";
-> +
-> +			pinctrl-0 = <&sdc1_default>;
-> +			pinctrl-1 = <&sdc1_sleep>;
-> +			pinctrl-names = "default", "sleep";
-> +
->  			status = "disabled";
->  		};
->  
-> @@ -1262,6 +1357,11 @@ sdhc_2: mmc@7864900 {
->  				 <&gcc GCC_SDCC2_APPS_CLK>,
->  				 <&rpmcc RPM_SMD_XO_CLK_SRC>;
->  			clock-names = "iface", "core", "xo";
-> +
-> +			pinctrl-0 = <&sdc2_default>;
-> +			pinctrl-1 = <&sdc2_sleep>;
-> +			pinctrl-names = "default", "sleep";
-> +
->  			status = "disabled";
->  		};
->  
-> -- 
-> 2.43.0
-> 
+--Sig_/wRTTQqaNc4XzgCWXZZqmNJE
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmWtmdAACgkQAVBC80lX
+0Gx3RAf/YnenmQC4D8I1Oh5yglRdacM2m/Scpo+6Cw2VWloUSrj2PAKrU6+CjvI/
+MJuf/g1YBhFLJeBvOhweBu2kTO0h+8+GbaD9SgEwixf+9jIdAZTx4Y3YYarXJ3u5
+shAYBQwKwvo0ff0wqeC9LTth/Vg8RHKv8PV5L9XXA8K4qYWsxQc3cTQVJB3J1e8O
+ktRUQyhv995RViXnyLMaIiM2hzjDF3Q5UcaPEGUpUrkUE8v6z0sElnrQNw2mkeTt
+KfnPDpmcD/MtFXQA9Q5vCPzHTsSd96ea+C+pNPoYihMKvMPjzvqZJvz2I+3cAi02
+t6UBTgpftELqtsgP/2t1nqaVE6vrEg==
+=wuPD
+-----END PGP SIGNATURE-----
+
+--Sig_/wRTTQqaNc4XzgCWXZZqmNJE--
