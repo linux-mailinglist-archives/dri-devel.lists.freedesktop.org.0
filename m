@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 153F9835622
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Jan 2024 15:37:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CEFF835628
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Jan 2024 15:39:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11E5110E266;
-	Sun, 21 Jan 2024 14:37:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50E5110E0AC;
+	Sun, 21 Jan 2024 14:38:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com
- [209.85.128.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D04B10E0AC
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Jan 2024 14:36:58 +0000 (UTC)
-Received: by mail-yw1-f177.google.com with SMTP id
- 00721157ae682-5ffd5620247so2904577b3.0
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Jan 2024 06:36:58 -0800 (PST)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com
+ [209.85.128.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95C9A10E0AC
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Jan 2024 14:38:31 +0000 (UTC)
+Received: by mail-yw1-f172.google.com with SMTP id
+ 00721157ae682-5ffd5620247so2911787b3.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Jan 2024 06:38:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1705847757; x=1706452557; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1705847851; x=1706452651; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=872rfjy39rwVRPIkk3ndSS0WStZElYm0Qg/+47Tr7M4=;
- b=BFe2NuivZBOILPuFY+qaX0Nq+EPkFtEdmnPzbCrRtIRG7tURNdCg1qJR7mX8NlRV9v
- wSsiAqqTTrZwNeiD0wC/BakC9fue2KxX+7uNz3NG4NtZRgg/913/UX9rnHUMvAIBnixM
- dM3B2CWZnClnduB3BAXSHZ1CaGXYRBEjxnB7Ni9iY4mHDP3NdMK4C2Ns4oGklZ8is46b
- Oufl2W4dfzX8Be8jt6kNFV/Oix9UFTiTGchlV3LdE4stZDLCZ6OWs661BF7+B0vgVc/l
- q5n5QJixNLC5mruA7w/KZH6ns64q5UNuc2b2c0DTvTELfUE5bGHyJJXIpda1nOXNI7y1
- J29g==
+ bh=CDApNaplKZ25oamiktN0S+Ji5xLI1g1rccClqr4J0Bg=;
+ b=fZV0ki3km4skQ4r4lBzctY8GTz2oXGnYDRYCj1qjbPPDDehu5dvK98r2RVl2tlruyx
+ X73JpF8iU1OIpr0+pX64I2626umSrjTgBDlsUsykisjJYVbF+s9xwfAt+5dR98jNoMMM
+ ygb4Yr2Mqx3h7CYoYOEQqtYhES5XyhPYF0TbF+9Tow4iSxv8zEWhI+xAq2aQj/n9/yWf
+ qL2SHI5mdBPacnOlwmswaCMnQTcmR7uzMn0lo7AAbBWYRArJy2/CdH0tV19KxAxD/M8/
+ 9+ENW+QJSu0Kovqhf1LFmr/wtRq+AFMVT8qYsZ6rSnDxly8TukrzZVUyLVcXobuRVQAv
+ NVlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705847757; x=1706452557;
+ d=1e100.net; s=20230601; t=1705847851; x=1706452651;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=872rfjy39rwVRPIkk3ndSS0WStZElYm0Qg/+47Tr7M4=;
- b=k6qys7qyz2h8yhPmnm5GiVsZH4Iwar07r5Y8PiE8GpF0ZoW+RFu4mKuU3tNzRn9/ZO
- 5PdrXFNNuiqmb06O8juxbDZJushz6Ofi2TvwzfWl27+5Yon7JAPlrDnyGNtFdfTNHy1K
- a+775R675JT1lbgT1/XhVhqpYlocanS/cC5Av1KF56uaNMW8X2fwE4abdQURQ6H2BMVS
- tTNw5x+gkk/g/EF0EWQq0j40VLA6lJ9XcaSY2fqs/n/MvSM01O+ktq7NeyCBQDPbzsqW
- n5AMyEMpWejW2zUDnbJ+OmNUee6wyQHR9LxKJJIJJDhID/9FGaowTFZOkM/oU+33vMzr
- GWRg==
-X-Gm-Message-State: AOJu0YzFZ9oJO7VFi153xxx2J5/SgYm9j5nQPAq2hnOn9yIozUTPI4ch
- +5pUqvGfGh346zrNJOl9b9Rxh3RHnWFC+DGVBvSZpGQuFCXsduEqI+qsIIjEytkDbm7NERLnorR
- /pEtv0zepJ4C7E0OvFf1GXKi+Ivub0Hqz4jD5Kg==
-X-Google-Smtp-Source: AGHT+IGJ2DYegRgTTs8ZHsk79g8rkAhLXrTgdRS3BTZclQzp+PaNFA6RmnfZAQEkPgtQz0pMrsua29Q2IC4VA5JrGXc=
-X-Received: by 2002:a81:9c52:0:b0:5ff:96b8:f0b9 with SMTP id
- n18-20020a819c52000000b005ff96b8f0b9mr2720698ywa.90.1705847757431; Sun, 21
- Jan 2024 06:35:57 -0800 (PST)
+ bh=CDApNaplKZ25oamiktN0S+Ji5xLI1g1rccClqr4J0Bg=;
+ b=hw229IochWpXQMLj1f1JZPfssbPM169gEhe1Np9kdyrBqIvdU1zh9bKK5NIPmMS1ht
+ v68tNjsfrk+/agWcAxCJo+lwcYe4e0vg71a0tf2cqDpW2fU/WTaSy8SaGOg8B6i/8CDv
+ pEgFW/1f5CS1N13bzNRCe4RvPFMdOoPk3iXS/D5+euLDU408g6ihox6gpIpj/uV8ljEZ
+ Q6emcUPHS5T2KqIdLjfKjSyeaKtAWJdToYeZSJEVI/lxa2n/EjU+J7EA4sev9uzPccu5
+ dS2eODJVHzWNsNfYZmjBiyVSRJaFre5Fm5oAN/AahTdIa5YTFdTJG8fp/SOKVqW0AYGu
+ CDYA==
+X-Gm-Message-State: AOJu0YxnA2G4m1dpzg2o48j+6LyfRekTqrrSFgeRYM8vK4hF9xo53QoD
+ syOz1jkKJUP18DrVAoCnXzWuAJpDDy4WW7dHafa1deods5PDQfkocNDa7XNNzZTT6t3pBOBY38h
+ lg7vxF/ML8DZQSF1mGf16TYYu1kgRRE4n6znUrw==
+X-Google-Smtp-Source: AGHT+IEsDujy+qqr3r2XFC+/gU5C2SO5cQeDz63EZves/xdhXK8OzrJSa1DJzBv9cLts87tjJ1jzxqWX5kxbmIDL1RI=
+X-Received: by 2002:a81:7b06:0:b0:5ff:9b70:226c with SMTP id
+ w6-20020a817b06000000b005ff9b70226cmr2450527ywc.53.1705847850626; Sun, 21 Jan
+ 2024 06:37:30 -0800 (PST)
 MIME-Version: 1.0
 References: <20240120-ktd2801-v3-0-fe2cbafffb21@skole.hr>
- <20240120-ktd2801-v3-1-fe2cbafffb21@skole.hr>
-In-Reply-To: <20240120-ktd2801-v3-1-fe2cbafffb21@skole.hr>
+ <20240120-ktd2801-v3-3-fe2cbafffb21@skole.hr>
+In-Reply-To: <20240120-ktd2801-v3-3-fe2cbafffb21@skole.hr>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Sun, 21 Jan 2024 15:35:46 +0100
-Message-ID: <CACRpkdZJyY9oYMt3TvDEGthN-Wvz3t_40t9P-VsgTKCJQaD=pw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] leds: ktd2692: move ExpressWire code to library
+Date: Sun, 21 Jan 2024 15:37:19 +0100
+Message-ID: <CACRpkdbC0hwAZ47Q-iQUkVB4H+EZFO_nENNB2hRNRWQoNHrECA@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] backlight: Add Kinetic KTD2801 backlight support
 To: =?UTF-8?Q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -85,33 +85,14 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Sat, Jan 20, 2024 at 10:27=E2=80=AFPM Duje Mihanovi=C4=87 <duje.mihanovi=
 c@skole.hr> wrote:
 
-> The ExpressWire protocol is shared between at least KTD2692 and KTD2801
-> with slight differences such as timings and the former not having a
-> defined set of pulses for enabling the protocol (possibly because it
-> does not support PWM unlike KTD2801). Despite these differences the
-> ExpressWire handling code can be shared between the two, so move it into
-> a library in preparation for adding KTD2801 support.
+> KTD2801 is a LED backlight driver IC found in samsung,coreprimevelte.
+> The brightness can be set using PWM or the ExpressWire protocol. Add
+> support for the KTD2801.
 >
-> Suggested-by: Daniel Thompson <daniel.thompson@linaro.org>
 > Signed-off-by: Duje Mihanovi=C4=87 <duje.mihanovic@skole.hr>
 
-This is great stuff.
-I looked at my KTD253 driver but AFAICT it uses a different method:
-instead of transferring a numeral, it increases/decreases a counter, so
-it can't use the library.
-
-> +extern void expresswire_power_off(struct expresswire_common_props *props=
-);
-> +extern void expresswire_enable(struct expresswire_common_props *props);
-> +extern void expresswire_start(struct expresswire_common_props *props);
-> +extern void expresswire_end(struct expresswire_common_props *props);
-> +extern void expresswire_set_bit(struct expresswire_common_props *props, =
-bool bit);
-
-I would skip the keyword "extern" since it is default I think even
-checkpatch complains about it these days?
-
-Anyway, no big deal:
+Very slim after abstracting out the library and the library
+has the change I requested so:
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
 Yours,
