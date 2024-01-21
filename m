@@ -2,40 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD72F835514
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Jan 2024 11:01:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82EE9835550
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Jan 2024 11:41:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 220CD10E1A3;
-	Sun, 21 Jan 2024 10:01:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94F3B10E1F4;
+	Sun, 21 Jan 2024 10:41:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 317 seconds by postgrey-1.36 at gabe;
- Sun, 21 Jan 2024 10:01:45 UTC
-Received: from mail115-118.sinamail.sina.com.cn
- (mail115-118.sinamail.sina.com.cn [218.30.115.118])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51C2E10E1A3
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Jan 2024 10:01:45 +0000 (UTC)
-X-SMAIL-HELO: localhost.localdomain
-Received: from unknown (HELO localhost.localdomain)([116.24.10.125])
- by sina.com (172.16.235.25) with ESMTP
- id 65ACEA3E000015B6; Sun, 21 Jan 2024 17:56:17 +0800 (CST)
-X-Sender: hdanton@sina.com
-X-Auth-ID: hdanton@sina.com
-Authentication-Results: sina.com; spf=none smtp.mailfrom=hdanton@sina.com;
- dkim=none header.i=none;
- dmarc=none action=none header.from=hdanton@sina.com
-X-SMAIL-MID: 81253134210153
-X-SMAIL-UIID: C909EB5828EA4A11A97D102167E10E39-20240121-175617-1
-From: Hillf Danton <hdanton@sina.com>
-To: Erico Nunes <nunes.erico@gmail.com>
-Subject: Re: [PATCH v1 4/6] drm/lima: handle spurious timeouts due to high irq
- latency
-Date: Sun, 21 Jan 2024 17:56:04 +0800
-Message-Id: <20240121095604.2368-1-hdanton@sina.com>
-In-Reply-To: <20240117031212.1104034-5-nunes.erico@gmail.com>
-References: <20240117031212.1104034-1-nunes.erico@gmail.com>
+Received: from ahti.lucaweiss.eu (ahti.lucaweiss.eu [128.199.32.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE77810E1F4;
+ Sun, 21 Jan 2024 10:40:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=z3ntu.xyz; s=s1;
+ t=1705833646; bh=Y/aNKL9qun+wRAcg/kdmKlSDqC8Nm5NAprHi0zYwPC4=;
+ h=From:Subject:Date:To:Cc;
+ b=i7rjG8Qkbtd+wkqWhFUQd2PtsJhanUASEliPL2d3GiKAq9lhCetjMVZNiww5kYeAx
+ +c6NbcudNrJQ3n8493caZXQJKoXs0KtQosDu2ByM08nZ/+nzwGkHXaNg1AZaMK0SiS
+ 7MbgtYztt/lkBa/uyPcyYjmlr2arUO1VqsEQz88w=
+From: Luca Weiss <luca@z3ntu.xyz>
+Subject: [PATCH v2 0/2] Add GPU support for MSM8226 (Adreno A305B)
+Date: Sun, 21 Jan 2024 11:40:37 +0100
+Message-Id: <20240121-msm8226-gpu-v2-0-77f4a6fbbca4@z3ntu.xyz>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKX0rGUC/23MSw6DIBSF4a2YOy4NXIyVjrqPxoFY0DsQDSjxE
+ fZe6rjD/yTnOyEYTybAszjBm0iBJpcDbwV0Q+t6w+iTG5CjFEJyNoaxRqxYP6+sQ2vr8iFbZS3
+ kx+yNpe3S3k3ugcIy+f3Co/it/50oGGeV1miFRmVK9TqkW9b7th/QpJS+KBREJqYAAAA=
+To: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Andy Gross <agross@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+X-Mailer: b4 0.12.4
+X-Developer-Signature: v=1; a=openpgp-sha256; l=986; i=luca@z3ntu.xyz;
+ h=from:subject:message-id; bh=Y/aNKL9qun+wRAcg/kdmKlSDqC8Nm5NAprHi0zYwPC4=;
+ b=owEBbQKS/ZANAwAIAXLYQ7idTddWAcsmYgBlrPSqlwnLBQalHp1X9JLwPf7cZeE0GomrAUm6K
+ 4fEbfEopymJAjMEAAEIAB0WIQQ5utIvCCzakboVj/py2EO4nU3XVgUCZaz0qgAKCRBy2EO4nU3X
+ VlKQD/4+0eIXBxbX6Pv7/0sI/ZIJ3MRALmu7yQ0Ch360aLiqn/kGiuo6SZgKPGlW2GXQZNcCoEh
+ +slBN1T+cF8+43/nJ+ztdmP1Wyj/Xpq0CRv2AAdo+X09F3D5h2eTcxQvljvFv+2nhi5hZLTKAtb
+ Jh19npcwW3j6QLIJbCBAB5RCvmOh+YeX0s9cI9oSXWoiuf6baMVbERcTCfckQ8LrQBuQuWVPCvR
+ D0Y/upqe6rMSbzzNMfuWYIqLwhgsLWramH7iw0aoVkR4z0kKqzKNx/EVXheNJs+UfoPnBvutnha
+ Ozt0/KT7kPxIQgmNgkT2j3Z2Z+VyJq7SBaIgmGCkPC4htGtEHJ6HOFznHhjVcIauKUUBPvMS02F
+ u7+dyNqVEY5qBGo8rcGRZ3Py/OeMPmqfi8fQwFtQX2fMqh4W9XhTIYBK4G4fwBRQrgoKTI89tCd
+ viNKJccZ/pdNNSFJYxVZ5IBGXzzT2EQ6+F1u4wvYM0X8riuFQIv68IBLueONNyR1nEhFNy21Gx1
+ Jf+STDiUmUw001U9fLP3CcGWvlvO0PIeC2waXrMaUxACJYGHWENgYU081ow9wpb6VJiqmj3B1Fb
+ 3Z8iCWd3ZcMDg+JjjV1dzXE743VqDygQf0MGNMmRlFRLg9UWpMrHGNQAlmrhbE9ivjxuTTPKZK6
+ cLFzuatSvVfZWYg==
+X-Developer-Key: i=luca@z3ntu.xyz; a=openpgp;
+ fpr=BD04DA24C971B8D587B2B8D7FAF69CF6CD2D02CD
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,50 +69,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lima@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Qiang Yu <yuq825@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Luca Weiss <luca@z3ntu.xyz>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 17 Jan 2024 04:12:10 +0100 Erico Nunes <nunes.erico@gmail.com>
->  
-> @@ -401,9 +399,33 @@ static enum drm_gpu_sched_stat lima_sched_timedout_job(struct drm_sched_job *job
->  	struct lima_sched_pipe *pipe = to_lima_pipe(job->sched);
->  	struct lima_sched_task *task = to_lima_task(job);
->  	struct lima_device *ldev = pipe->ldev;
-> +	struct lima_ip *ip = pipe->processor[0];
-> +
-> +	/*
-> +	 * If the GPU managed to complete this jobs fence, the timeout is
-> +	 * spurious. Bail out.
-> +	 */
-> +	if (dma_fence_is_signaled(task->done_fence)) {
-> +		DRM_WARN("%s spurious timeout\n", lima_ip_name(ip));
-> +		return DRM_GPU_SCHED_STAT_NOMINAL;
-> +	}
+Add the necessary bits to bring up the GPU on msm8226.
 
-Given 500ms in lima_sched_pipe_init(), no timeout is spurious by define,
-and stop selling bandaid like this because you have options like locating
-the reasons behind timeout.
-> +
-> +	/*
-> +	 * Lima IRQ handler may take a long time to process an interrupt
-> +	 * if there is another IRQ handler hogging the processing.
-> +	 * In order to catch such cases and not report spurious Lima job
-> +	 * timeouts, synchronize the IRQ handler and re-check the fence
-> +	 * status.
-> +	 */
-> +	synchronize_irq(ip->irq);
-> +
-> +	if (dma_fence_is_signaled(task->done_fence)) {
-> +		DRM_WARN("%s unexpectedly high interrupt latency\n", lima_ip_name(ip));
-> +		return DRM_GPU_SCHED_STAT_NOMINAL;
-> +	}
->  
->  	if (!pipe->error)
-> -		DRM_ERROR("lima job timeout\n");
-> +		DRM_ERROR("%s lima job timeout\n", lima_ip_name(ip));
->  
->  	drm_sched_stop(&pipe->base, &task->base);
->  
+Tested on apq8026-lg-lenok.
+
+Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+---
+Changes in v2:
+- Drop applied patch
+- Use "if (a305b || a306)" for writing REG_A3XX_RBBM_CLOCK_CTL
+- Pick up tags
+- Link to v1: https://lore.kernel.org/r/20231130-msm8226-gpu-v1-0-6bb2f1b29e49@z3ntu.xyz
+
+---
+Luca Weiss (2):
+      dt-bindings: display/msm: gpu: Allow multiple digits for patchid
+      drm/msm/adreno: Add A305B support
+
+ Documentation/devicetree/bindings/display/msm/gpu.yaml |  6 +++---
+ drivers/gpu/drm/msm/adreno/a3xx_gpu.c                  | 13 ++++++++++---
+ drivers/gpu/drm/msm/adreno/adreno_device.c             | 15 +++++++++++----
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h                |  5 +++++
+ 4 files changed, 29 insertions(+), 10 deletions(-)
+---
+base-commit: bda7a2e04984237bc14ade7c9660f76fbc035686
+change-id: 20231130-msm8226-gpu-c2ff8473a9ff
+
+Best regards,
+-- 
+Luca Weiss <luca@z3ntu.xyz>
+
