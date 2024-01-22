@@ -2,42 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AC9183673C
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:12:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51F1F836709
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:10:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21FE910F305;
-	Mon, 22 Jan 2024 15:12:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6641210F361;
+	Mon, 22 Jan 2024 15:10:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 399 seconds by postgrey-1.36 at gabe;
- Mon, 22 Jan 2024 15:12:50 UTC
-Received: from weierstrass.telenet-ops.be (weierstrass.telenet-ops.be
- [195.130.137.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 674F510F305
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 15:12:50 +0000 (UTC)
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be
- [IPv6:2a02:1800:120:4::f00:13])
- by weierstrass.telenet-ops.be (Postfix) with ESMTPS id 4TJYSm01WBz4x03w
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 16:06:00 +0100 (CET)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:955e:bba5:7ff4:cfb6])
- by baptiste.telenet-ops.be with bizsmtp
- id dr4z2B0090ZxL6o01r4zwW; Mon, 22 Jan 2024 16:04:59 +0100
-Received: from rox.of.borg ([192.168.97.57])
- by ramsan.of.borg with esmtp (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1rRvqM-00GH0a-0V;
- Mon, 22 Jan 2024 16:04:59 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1rRvr9-00CG2n-0o;
- Mon, 22 Jan 2024 16:04:59 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Daniel Vetter <daniel@ffwll.ch>,
-	Helge Deller <deller@gmx.de>
-Subject: [PATCH] fbcon: Fix incorrect printed function name in
- fbcon_prepare_logo()
-Date: Mon, 22 Jan 2024 16:04:58 +0100
-Message-Id: <d15dd1d81ffebed4e5028e156f0082c44ebbf2fc.1705935864.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65E2410F357
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 15:10:01 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id EB441B80E80;
+ Mon, 22 Jan 2024 15:09:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1E5DC43390;
+ Mon, 22 Jan 2024 15:09:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1705936199;
+ bh=vmyO24YHFKdgEbGviAcUxNuIr0zWNNtVYbmIoc339XA=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=boR/u4YAO6I0QRgfMPSD0JEUreiZiMTCJzqqUmsg2aK1WgjxWVrbweS5xN09iEXJ+
+ 2oWWiQaXttEs62MpRO2MgofUuPahuzgLlluFZ/lNFW+ddhHr/OF03RvsuX7rDg9OTQ
+ QRGLCD2jLTA310frbN6kTJqpPp508/JVK0bf033lWwR3hPVcj4btY2hn+NNgV+R1sV
+ SqMZVHVQRTqFVkZeNbbYt7PKE2QXDQ9TrLpAjm2+oJMChtznUJHv2PZMbZxpStY0rV
+ sI90WqbYg7wfbcRLLMq/ItRJHi8B6g9tNuwsye2VOXe77rnUgmJ8xXMwKFjy4UiXUf
+ UokLVkwqzqB5g==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.1 04/53] drm: Fix color LUT rounding
+Date: Mon, 22 Jan 2024 10:08:05 -0500
+Message-ID: <20240122150949.994249-4-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240122150949.994249-1-sashal@kernel.org>
+References: <20240122150949.994249-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.1.74
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,36 +54,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>,
- dri-devel@lists.freedesktop.org
+Cc: Sasha Levin <sashal@kernel.org>, tzimmermann@suse.de,
+ Jani Nikula <jani.nikula@intel.com>, Maxime Ripard <mripard@kernel.org>,
+ dri-devel@lists.freedesktop.org,
+ Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>, daniel@ffwll.ch,
+ airlied@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the boot logo does not fit, a message is printed, including a wrong
-function name prefix.  Instead of correcting the function name (or using
-__func__), just use "fbcon", like is done in several other messages.
+From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-While at it, modernize the call by switching to pr_info().
+[ Upstream commit c6fbb6bca10838485b820e8a26c23996f77ce580 ]
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+The current implementation of drm_color_lut_extract()
+generates weird results. Eg. if we go through all the
+values for 16->8bpc conversion we see the following pattern:
+
+in            out (count)
+   0 -   7f ->  0 (128)
+  80 -  17f ->  1 (256)
+ 180 -  27f ->  2 (256)
+ 280 -  37f ->  3 (256)
+...
+fb80 - fc7f -> fc (256)
+fc80 - fd7f -> fd (256)
+fd80 - fe7f -> fe (256)
+fe80 - ffff -> ff (384)
+
+So less values map to 0 and more values map 0xff, which
+doesn't seem particularly great.
+
+To get just the same number of input values to map to
+the same output values we'd just need to drop the rounding
+entrirely. But perhaps a better idea would be to follow the
+OpenGL int<->float conversion rules, in which case we get
+the following results:
+
+in            out (count)
+   0 -   80 ->  0 (129)
+  81 -  181 ->  1 (257)
+ 182 -  282 ->  2 (257)
+ 283 -  383 ->  3 (257)
+...
+fc7c - fd7c -> fc (257)
+fd7d - fe7d -> fd (257)
+fe7e - ff7e -> fe (257)
+ff7f - ffff -> ff (129)
+
+Note that since the divisor is constant the compiler
+is able to optimize away the integer division in most
+cases. The only exception is the _ULL() case on 32bit
+architectures since that gets emitted as inline asm
+via do_div() and thus the compiler doesn't get to
+optimize it.
+
+Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20231013131402.24072-2-ville.syrjala@linux.intel.com
+Reviewed-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+Acked-by: Maxime Ripard <mripard@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/fbdev/core/fbcon.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ include/drm/drm_color_mgmt.h | 19 ++++++++-----------
+ 1 file changed, 8 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index 63af6ab034b5f1bb..1183e7a871f8b270 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -631,8 +631,7 @@ static void fbcon_prepare_logo(struct vc_data *vc, struct fb_info *info,
+diff --git a/include/drm/drm_color_mgmt.h b/include/drm/drm_color_mgmt.h
+index 81c298488b0c..54b2b2467bfd 100644
+--- a/include/drm/drm_color_mgmt.h
++++ b/include/drm/drm_color_mgmt.h
+@@ -36,20 +36,17 @@ struct drm_plane;
+  *
+  * Extract a degamma/gamma LUT value provided by user (in the form of
+  * &drm_color_lut entries) and round it to the precision supported by the
+- * hardware.
++ * hardware, following OpenGL int<->float conversion rules
++ * (see eg. OpenGL 4.6 specification - 2.3.5 Fixed-Point Data Conversions).
+  */
+ static inline u32 drm_color_lut_extract(u32 user_input, int bit_precision)
+ {
+-	u32 val = user_input;
+-	u32 max = 0xffff >> (16 - bit_precision);
+-
+-	/* Round only if we're not using full precision. */
+-	if (bit_precision < 16) {
+-		val += 1UL << (16 - bit_precision - 1);
+-		val >>= 16 - bit_precision;
+-	}
+-
+-	return clamp_val(val, 0, max);
++	if (bit_precision > 16)
++		return DIV_ROUND_CLOSEST_ULL(mul_u32_u32(user_input, (1 << bit_precision) - 1),
++					     (1 << 16) - 1);
++	else
++		return DIV_ROUND_CLOSEST(user_input * ((1 << bit_precision) - 1),
++					 (1 << 16) - 1);
+ }
  
- 	if (logo_lines > vc->vc_bottom) {
- 		logo_shown = FBCON_LOGO_CANSHOW;
--		printk(KERN_INFO
--		       "fbcon_init: disable boot-logo (boot-logo bigger than screen).\n");
-+		pr_info("fbcon: disable boot-logo (boot-logo bigger than screen).\n");
- 	} else {
- 		logo_shown = FBCON_LOGO_DRAW;
- 		vc->vc_top = logo_lines;
+ u64 drm_color_ctm_s31_32_to_qm_n(u64 user_input, u32 m, u32 n);
 -- 
-2.34.1
+2.43.0
 
