@@ -2,37 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF91983606E
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 12:05:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE557836081
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 12:06:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD5BB10ED72;
-	Mon, 22 Jan 2024 11:05:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2943310ED7D;
+	Mon, 22 Jan 2024 11:05:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A87710ED72
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 11:05:25 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41EAB10ED72
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 11:05:26 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 8F225B8075F;
+ by dfw.source.kernel.org (Postfix) with ESMTP id B53DD612DD;
+ Mon, 22 Jan 2024 11:04:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FDCBC43399;
  Mon, 22 Jan 2024 11:04:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3AE8C43394;
- Mon, 22 Jan 2024 11:04:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705921492;
- bh=iRThJTxTVrt6AkEgbytvLaneeqo13XQBYWEO6rN1MpQ=;
+ s=k20201202; t=1705921495;
+ bh=nvYd6isOoXNLl9Y7Tt4RQvNbFL1i4ad9TROebYx41cg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WcMOMXIJz3mLBOONN0l9L4Uda9lbsW/frvp6o6NdytYbuTU82ns19tDKL89zT3Nf7
- axGYx+3We24HIXDpcTchmoeeK9NmkEUQRnuGFyKVHWHY1H0W1Ji28eTZggFzbc7R/3
- 4duJjT4cp02TsUmUXhvzJ1Ye1ZbrjgBXQcvUpxDeYC4zHypjyNv0VZ1W449tnBO7Lx
- 1Fnw7mvszRYhHxawRASjOpxh+6Qn5NwoYRlFUMairBIMRR3Zuze6mlMEYTMaclZS2A
- joOLG018fkqX7P+sxdI1d8rD1xfI/qeZb/Oq8/+zQgWZF1PyIkkhpplE8Nt35g+Jx3
- pOVL266YfyGOg==
+ b=gvjcuxmPWnpQraJHKhPFKv/geE4KgahFZ1YiykUbAHUeIrByN6wKr6SlFOynAyUSh
+ AzEPoCIhVvDj3EAvtcYaJ/D8oICwzTOj1H2V5luw2F+j50ePj6Wy0qhhGN+AMHEwWu
+ LP0XKdlHS69zC5b5/tMqmMGU61953wKeBFTeUe0rl+v/gu49V6D4ITu3G7aznCMx4+
+ gOvZa96zkCf9WXQ8SsUmLJcXteu7taTPO4xnsvy9htYCtH7nZZtVa7hBmMr31wrWNv
+ 40p1psXvU/wuW2vZ3MGrDgs/luIShFdqnhdA5vj2rVMGJ4MDO0kGY40cVhEVf/S2ST
+ kukmJ1smWI+hQ==
 From: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
 To: gregkh@linuxfoundation.org
-Subject: [PATCH v2 24/47] tty: vt: eliminate unneeded consw::con_putc()
- implementations
-Date: Mon, 22 Jan 2024 12:03:38 +0100
-Message-ID: <20240122110401.7289-25-jirislaby@kernel.org>
+Subject: [PATCH v2 25/47] tty: vt: sanitize consw::con_putc() parameters
+Date: Mon, 22 Jan 2024 12:03:39 +0100
+Message-ID: <20240122110401.7289-26-jirislaby@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122110401.7289-1-jirislaby@kernel.org>
 References: <20240122110401.7289-1-jirislaby@kernel.org>
@@ -50,137 +49,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-serial@vger.kernel.org,
- linux-parisc@vger.kernel.org, Helge Deller <deller@gmx.de>,
+Cc: linux-fbdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Daniel Vetter <daniel@ffwll.ch>, "Jiri Slaby \(SUSE\)" <jirislaby@kernel.org>
+ linux-serial@vger.kernel.org, "Jiri Slaby \(SUSE\)" <jirislaby@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-All these consw::con_putc() implementations do the same as
-consw::con_putcs() (only for one charattr) or even call
-consw::con_putcs() on their own.
+Make parameters of consw::con_putc() saner:
+* x and y are unsigned now, as they cannot be negative, and
+* ca is made u16, as it is composed of two 8bit values (character and
+  attribute). See the con_putcs() hook, u16/ushort is worked on there.
 
-Drop them, as thanks to the new con_putc() helper in the previous patch,
-the console code performs this already -- exactly if consw::con_putc()
-is missing (NULL).
+And document the hook.
 
 Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
 Cc: Helge Deller <deller@gmx.de>
-Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: linux-fbdev@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
-Cc: linux-parisc@vger.kernel.org
 ---
- drivers/video/console/mdacon.c   |  6 ------
- drivers/video/console/sticon.c   | 12 ------------
- drivers/video/console/vgacon.c   |  2 --
- drivers/video/fbdev/core/fbcon.c |  9 ---------
- 4 files changed, 29 deletions(-)
+ drivers/video/console/dummycon.c    | 6 ++++--
+ drivers/video/console/newport_con.c | 4 ++--
+ include/linux/console.h             | 5 ++++-
+ 3 files changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/video/console/mdacon.c b/drivers/video/console/mdacon.c
-index 2ff2c9394d40..01e779943c00 100644
---- a/drivers/video/console/mdacon.c
-+++ b/drivers/video/console/mdacon.c
-@@ -427,11 +427,6 @@ static inline u16 *mda_addr(unsigned int x, unsigned int y)
- 	return mda_vram_base + y * mda_num_columns + x;
+diff --git a/drivers/video/console/dummycon.c b/drivers/video/console/dummycon.c
+index 0a69d5c216ee..1874beed0325 100644
+--- a/drivers/video/console/dummycon.c
++++ b/drivers/video/console/dummycon.c
+@@ -50,7 +50,8 @@ void dummycon_unregister_output_notifier(struct notifier_block *nb)
+ 	raw_notifier_chain_unregister(&dummycon_output_nh, nb);
  }
  
--static void mdacon_putc(struct vc_data *c, int ch, int y, int x)
--{
--	scr_writew(mda_convert_attr(ch), mda_addr(x, y));
--}
--
- static void mdacon_putcs(struct vc_data *c, const unsigned short *s,
- 		         int count, int y, int x)
+-static void dummycon_putc(struct vc_data *vc, int c, int ypos, int xpos)
++static void dummycon_putc(struct vc_data *vc, u16 c, unsigned int y,
++                          unsigned int x)
  {
-@@ -536,7 +531,6 @@ static const struct consw mda_con = {
- 	.con_init =		mdacon_init,
- 	.con_deinit =		mdacon_deinit,
- 	.con_clear =		mdacon_clear,
--	.con_putc =		mdacon_putc,
- 	.con_putcs =		mdacon_putcs,
- 	.con_cursor =		mdacon_cursor,
- 	.con_scroll =		mdacon_scroll,
-diff --git a/drivers/video/console/sticon.c b/drivers/video/console/sticon.c
-index b1d972d9a31c..2f87b5909d0d 100644
---- a/drivers/video/console/sticon.c
-+++ b/drivers/video/console/sticon.c
-@@ -71,17 +71,6 @@ static const char *sticon_startup(void)
-     return "STI console";
+ 	WARN_CONSOLE_UNLOCKED();
+ 
+@@ -84,7 +85,8 @@ static int dummycon_blank(struct vc_data *vc, int blank, int mode_switch)
+ 	return 1;
+ }
+ #else
+-static void dummycon_putc(struct vc_data *vc, int c, int ypos, int xpos) { }
++static void dummycon_putc(struct vc_data *vc, u16 c, unsigned int y,
++			  unsigned int x) { }
+ static void dummycon_putcs(struct vc_data *vc, const unsigned short *s,
+ 			   int count, int ypos, int xpos) { }
+ static int dummycon_blank(struct vc_data *vc, int blank, int mode_switch)
+diff --git a/drivers/video/console/newport_con.c b/drivers/video/console/newport_con.c
+index 55c6106b3507..9b5c0118873e 100644
+--- a/drivers/video/console/newport_con.c
++++ b/drivers/video/console/newport_con.c
+@@ -367,8 +367,8 @@ static void newport_clear(struct vc_data *vc, unsigned int sy, unsigned int sx,
+ 	}
  }
  
--static void sticon_putc(struct vc_data *conp, int c, int ypos, int xpos)
--{
--    if (vga_is_gfx || console_blanked)
--	    return;
--
--    if (conp->vc_mode != KD_TEXT)
--    	    return;
--
--    sti_putc(sticon_sti, c, ypos, xpos, font_data[conp->vc_num]);
--}
--
- static void sticon_putcs(struct vc_data *conp, const unsigned short *s,
- 			 int count, int ypos, int xpos)
+-static void newport_putc(struct vc_data *vc, int charattr, int ypos,
+-			 int xpos)
++static void newport_putc(struct vc_data *vc, u16 charattr, unsigned int ypos,
++			 unsigned int xpos)
  {
-@@ -362,7 +351,6 @@ static const struct consw sti_con = {
- 	.con_init		= sticon_init,
- 	.con_deinit		= sticon_deinit,
- 	.con_clear		= sticon_clear,
--	.con_putc		= sticon_putc,
- 	.con_putcs		= sticon_putcs,
- 	.con_cursor		= sticon_cursor,
- 	.con_scroll		= sticon_scroll,
-diff --git a/drivers/video/console/vgacon.c b/drivers/video/console/vgacon.c
-index 85f29dec2c3d..4beab11f87eb 100644
---- a/drivers/video/console/vgacon.c
-+++ b/drivers/video/console/vgacon.c
-@@ -1193,7 +1193,6 @@ static bool vgacon_scroll(struct vc_data *c, unsigned int t, unsigned int b,
+ 	unsigned char *p;
  
- static void vgacon_clear(struct vc_data *vc, unsigned int sy, unsigned int sx,
- 			 unsigned int width) { }
--static void vgacon_putc(struct vc_data *vc, int c, int ypos, int xpos) { }
- static void vgacon_putcs(struct vc_data *vc, const unsigned short *s,
- 			 int count, int ypos, int xpos) { }
- 
-@@ -1203,7 +1202,6 @@ const struct consw vga_con = {
- 	.con_init = vgacon_init,
- 	.con_deinit = vgacon_deinit,
- 	.con_clear = vgacon_clear,
--	.con_putc = vgacon_putc,
- 	.con_putcs = vgacon_putcs,
- 	.con_cursor = vgacon_cursor,
- 	.con_scroll = vgacon_scroll,
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index 8a31a36483ea..38de0f8723aa 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -1292,14 +1292,6 @@ static void fbcon_putcs(struct vc_data *vc, const unsigned short *s,
- 			   get_color(vc, info, scr_readw(s), 0));
- }
- 
--static void fbcon_putc(struct vc_data *vc, int c, int ypos, int xpos)
--{
--	unsigned short chr;
--
--	scr_writew(c, &chr);
--	fbcon_putcs(vc, &chr, 1, ypos, xpos);
--}
--
- static void fbcon_clear_margins(struct vc_data *vc, int bottom_only)
- {
- 	struct fb_info *info = fbcon_info_from_console(vc->vc_num);
-@@ -3159,7 +3151,6 @@ static const struct consw fb_con = {
- 	.con_init 		= fbcon_init,
- 	.con_deinit 		= fbcon_deinit,
- 	.con_clear 		= fbcon_clear,
--	.con_putc 		= fbcon_putc,
- 	.con_putcs 		= fbcon_putcs,
- 	.con_cursor 		= fbcon_cursor,
- 	.con_scroll 		= fbcon_scroll,
+diff --git a/include/linux/console.h b/include/linux/console.h
+index 8fd96a5fca5f..92d57e5b3009 100644
+--- a/include/linux/console.h
++++ b/include/linux/console.h
+@@ -39,6 +39,8 @@ enum vc_intensity;
+  * @con_init:   initialize the console on @vc. @init is true for the very first
+  *		call on this @vc.
+  * @con_clear:  erase @count characters at [@x, @y] on @vc. @count >= 1.
++ * @con_putc:   emit one character with attributes @ca to [@x, @y] on @vc.
++ *		(optional -- @con_putcs would be called instead)
+  * @con_scroll: move lines from @top to @bottom in direction @dir by @lines.
+  *		Return true if no generic handling should be done.
+  *		Invoked by csi_M and printing to the console.
+@@ -53,7 +55,8 @@ struct consw {
+ 	void	(*con_deinit)(struct vc_data *vc);
+ 	void	(*con_clear)(struct vc_data *vc, unsigned int y,
+ 			     unsigned int x, unsigned int count);
+-	void	(*con_putc)(struct vc_data *vc, int c, int ypos, int xpos);
++	void	(*con_putc)(struct vc_data *vc, u16 ca, unsigned int y,
++			    unsigned int x);
+ 	void	(*con_putcs)(struct vc_data *vc, const unsigned short *s,
+ 			int count, int ypos, int xpos);
+ 	void	(*con_cursor)(struct vc_data *vc, int mode);
 -- 
 2.43.0
 
