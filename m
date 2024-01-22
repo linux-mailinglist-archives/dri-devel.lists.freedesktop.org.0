@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC7DD8366F8
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:09:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0E088366F2
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:09:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1206210F371;
-	Mon, 22 Jan 2024 15:09:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FF4C10F31B;
+	Mon, 22 Jan 2024 15:09:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C17A010F385;
- Mon, 22 Jan 2024 15:09:02 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 334FB10F31B;
+ Mon, 22 Jan 2024 15:09:25 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 3A8E661534;
- Mon, 22 Jan 2024 15:08:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8442BC43601;
- Mon, 22 Jan 2024 15:08:30 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id A8FBCCE2B12;
+ Mon, 22 Jan 2024 15:08:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54354C433C7;
+ Mon, 22 Jan 2024 15:08:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705936112;
- bh=QSXYM/qKEYRrHwsHjMRC7WYNgQDaa6w1LGyVKlLjTJc=;
+ s=k20201202; t=1705936127;
+ bh=+CW9IM8BI24UbBbddwTRFs3HHOxKhMu6a/7dShSrAd8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=NQuT7hNN3VK7t583sd+4NTXOJf3m7FQwqUtDlYYgOTuf8HZ40g1gvdYMEyUoy6bJn
- XzdH/BR1h3k7fZqjKFXFwRLMLjW+khhzunAeB1VhcLOQFB6+3bESVxQUJ22VQKpiiV
- EZksIB1yjn/FsvLEz49jrRQzCb6nqWwb6y7jrPktQU+nH/gFTKO9ywapiloN2CWrSs
- LrunEQVB8aT5FXMouksRsZy1tuRdsOXALvc9S8uOBh1I3Txao3nACBrdh8w5S46UZJ
- +ukW9OFyYnfWUeez/yd8n3L7THfYDGlfofJIzRTneiu/z6MvT0d79Ovy8zRdWcFrP+
- sX6w44aEX0vxg==
+ b=tzmSmH5GLj4tvwuBb8wPNsYdRdL/mLjiErmbvkNpWSPaqP8Bzrs3/PH9hF35Pdd3Z
+ upIOQnoi/V3owI3hbvaM9vkr9pWhbOE4gXTK5nfgiD41RVAOGg1kmw6kHeXchnmAwT
+ OAd7+9CN0yxxl9SDZQHSmkNOp1upRC1NLxuhjTw4nTJ2RXGOg7mbye4nicmXNswF5N
+ JhBvdONkrsqV5J3sPqWX8fWjxTXaDLxV52rrXH1q5uRaDl+x6ffNoSN8LlW7XOG/3X
+ Rkd8fFk8TUPtUJQkIiLGppXf/+b5s+9+6HkYXcaFtPX2UFIEWrEikVIG36WFxuvAcX
+ ElB/vYuzqs1dg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 68/73] Revert "drm/amdkfd: Relocate TBA/TMA to
- opposite side of VM hole"
-Date: Mon, 22 Jan 2024 10:02:22 -0500
-Message-ID: <20240122150432.992458-68-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 69/73] drm/amdgpu: apply the RV2 system aperture
+ fix to RN/CZN as well
+Date: Mon, 22 Jan 2024 10:02:23 -0500
+Message-ID: <20240122150432.992458-69-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122150432.992458-1-sashal@kernel.org>
 References: <20240122150432.992458-1-sashal@kernel.org>
@@ -54,90 +54,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Jay Cornwall <jay.cornwall@amd.com>,
- Felix.Kuehling@amd.com, Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org,
- Kaibo Ma <ent3rm4n@gmail.com>, dri-devel@lists.freedesktop.org,
- daniel@ffwll.ch, Alex Deucher <alexander.deucher@amd.com>, airlied@gmail.com,
- christian.koenig@amd.com
+Cc: lijo.lazar@amd.com, dri-devel@lists.freedesktop.org,
+ victorchengchi.lu@amd.com, hamza.mahfooz@amd.com,
+ Jiadong Zhu <Jiadong.Zhu@amd.com>, airlied@gmail.com,
+ Sasha Levin <sashal@kernel.org>, Rodrigo.Siqueira@amd.com,
+ amd-gfx@lists.freedesktop.org, alex.hung@amd.com, srinivasan.shanmugam@amd.com,
+ sunpeng.li@amd.com, le.ma@amd.com, yifan1.zhang@amd.com, Qingqing.Zhuo@amd.com,
+ Xinhui.Pan@amd.com, daniel@ffwll.ch, wayne.lin@amd.com,
+ Alex Deucher <alexander.deucher@amd.com>, lang.yu@amd.com,
+ christian.koenig@amd.com, Hawking.Zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Kaibo Ma <ent3rm4n@gmail.com>
+From: Alex Deucher <alexander.deucher@amd.com>
 
-[ Upstream commit 0f35b0a7b8fa402adbffa2565047cdcc4c480153 ]
+[ Upstream commit 16783d8ef08448815e149e40c82fc1e1fc41ddbf ]
 
-That commit causes NULL pointer dereferences in dmesgs when
-running applications using ROCm, including clinfo, blender,
-and PyTorch, since v6.6.1. Revert it to fix blender again.
+These chips needs the same fix.  This was previously not seen
+on then since the AGP aperture expanded the system aperture,
+but this showed up again when AGP was disabled.
 
-This reverts commit 96c211f1f9ef82183493f4ceed4e347b52849149.
-
-Closes: https://github.com/ROCm/ROCm/issues/2596
-Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/2991
-Reviewed-by: Jay Cornwall <jay.cornwall@amd.com>
-Signed-off-by: Kaibo Ma <ent3rm4n@gmail.com>
+Reviewed-and-tested-by: Jiadong Zhu <Jiadong.Zhu@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_flat_memory.c | 26 ++++++++++----------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/gfxhub_v1_0.c          | 4 +++-
+ drivers/gpu/drm/amd/amdgpu/gfxhub_v1_2.c          | 4 +++-
+ drivers/gpu/drm/amd/amdgpu/mmhub_v1_0.c           | 4 +++-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 8 ++++++--
+ 4 files changed, 15 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_flat_memory.c b/drivers/gpu/drm/amd/amdkfd/kfd_flat_memory.c
-index 62b205dac63a..6604a3f99c5e 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_flat_memory.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_flat_memory.c
-@@ -330,12 +330,6 @@ static void kfd_init_apertures_vi(struct kfd_process_device *pdd, uint8_t id)
- 	pdd->gpuvm_limit =
- 		pdd->dev->kfd->shared_resources.gpuvm_size - 1;
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_0.c b/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_0.c
+index cdc290a474a9..66c6bab75f8a 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_0.c
+@@ -102,7 +102,9 @@ static void gfxhub_v1_0_init_system_aperture_regs(struct amdgpu_device *adev)
+ 		WREG32_SOC15_RLC(GC, 0, mmMC_VM_SYSTEM_APERTURE_LOW_ADDR,
+ 			min(adev->gmc.fb_start, adev->gmc.agp_start) >> 18);
  
--	/* dGPUs: the reserved space for kernel
--	 * before SVM
--	 */
--	pdd->qpd.cwsr_base = SVM_CWSR_BASE;
--	pdd->qpd.ib_base = SVM_IB_BASE;
--
- 	pdd->scratch_base = MAKE_SCRATCH_APP_BASE_VI();
- 	pdd->scratch_limit = MAKE_SCRATCH_APP_LIMIT(pdd->scratch_base);
- }
-@@ -345,18 +339,18 @@ static void kfd_init_apertures_v9(struct kfd_process_device *pdd, uint8_t id)
- 	pdd->lds_base = MAKE_LDS_APP_BASE_V9();
- 	pdd->lds_limit = MAKE_LDS_APP_LIMIT(pdd->lds_base);
+-		if (adev->apu_flags & AMD_APU_IS_RAVEN2)
++		if (adev->apu_flags & (AMD_APU_IS_RAVEN2 |
++				       AMD_APU_IS_RENOIR |
++				       AMD_APU_IS_GREEN_SARDINE))
+ 		       /*
+ 			* Raven2 has a HW issue that it is unable to use the
+ 			* vram which is out of MC_VM_SYSTEM_APERTURE_HIGH_ADDR.
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_2.c b/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_2.c
+index 0834af771549..b50f24f7ea5c 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_2.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_2.c
+@@ -139,7 +139,9 @@ gfxhub_v1_2_xcc_init_system_aperture_regs(struct amdgpu_device *adev,
+ 			WREG32_SOC15_RLC(GC, GET_INST(GC, i), regMC_VM_SYSTEM_APERTURE_LOW_ADDR,
+ 				min(adev->gmc.fb_start, adev->gmc.agp_start) >> 18);
  
--	pdd->gpuvm_base = PAGE_SIZE;
-+        /* Raven needs SVM to support graphic handle, etc. Leave the small
-+         * reserved space before SVM on Raven as well, even though we don't
-+         * have to.
-+         * Set gpuvm_base and gpuvm_limit to CANONICAL addresses so that they
-+         * are used in Thunk to reserve SVM.
-+         */
-+        pdd->gpuvm_base = SVM_USER_BASE;
- 	pdd->gpuvm_limit =
- 		pdd->dev->kfd->shared_resources.gpuvm_size - 1;
+-			if (adev->apu_flags & AMD_APU_IS_RAVEN2)
++			if (adev->apu_flags & (AMD_APU_IS_RAVEN2 |
++					       AMD_APU_IS_RENOIR |
++					       AMD_APU_IS_GREEN_SARDINE))
+ 			       /*
+ 				* Raven2 has a HW issue that it is unable to use the
+ 				* vram which is out of MC_VM_SYSTEM_APERTURE_HIGH_ADDR.
+diff --git a/drivers/gpu/drm/amd/amdgpu/mmhub_v1_0.c b/drivers/gpu/drm/amd/amdgpu/mmhub_v1_0.c
+index fb91b31056ca..d25f87fb1971 100644
+--- a/drivers/gpu/drm/amd/amdgpu/mmhub_v1_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/mmhub_v1_0.c
+@@ -96,7 +96,9 @@ static void mmhub_v1_0_init_system_aperture_regs(struct amdgpu_device *adev)
+ 	WREG32_SOC15(MMHUB, 0, mmMC_VM_SYSTEM_APERTURE_LOW_ADDR,
+ 		     min(adev->gmc.fb_start, adev->gmc.agp_start) >> 18);
  
- 	pdd->scratch_base = MAKE_SCRATCH_APP_BASE_V9();
- 	pdd->scratch_limit = MAKE_SCRATCH_APP_LIMIT(pdd->scratch_base);
--
--	/*
--	 * Place TBA/TMA on opposite side of VM hole to prevent
--	 * stray faults from triggering SVM on these pages.
--	 */
--	pdd->qpd.cwsr_base = pdd->dev->kfd->shared_resources.gpuvm_size;
- }
- 
- int kfd_init_apertures(struct kfd_process *process)
-@@ -413,6 +407,12 @@ int kfd_init_apertures(struct kfd_process *process)
- 					return -EINVAL;
- 				}
- 			}
-+
-+                        /* dGPUs: the reserved space for kernel
-+                         * before SVM
-+                         */
-+                        pdd->qpd.cwsr_base = SVM_CWSR_BASE;
-+                        pdd->qpd.ib_base = SVM_IB_BASE;
- 		}
- 
- 		dev_dbg(kfd_device, "node id %u\n", id);
+-	if (adev->apu_flags & AMD_APU_IS_RAVEN2)
++	if (adev->apu_flags & (AMD_APU_IS_RAVEN2 |
++			       AMD_APU_IS_RENOIR |
++			       AMD_APU_IS_GREEN_SARDINE))
+ 		/*
+ 		 * Raven2 has a HW issue that it is unable to use the vram which
+ 		 * is out of MC_VM_SYSTEM_APERTURE_HIGH_ADDR. So here is the
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index ca3aa9825eb8..56a410accf49 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -1247,7 +1247,9 @@ static void mmhub_read_system_context(struct amdgpu_device *adev, struct dc_phy_
+ 	/* AGP aperture is disabled */
+ 	if (agp_bot == agp_top) {
+ 		logical_addr_low = adev->gmc.fb_start >> 18;
+-		if (adev->apu_flags & AMD_APU_IS_RAVEN2)
++		if (adev->apu_flags & (AMD_APU_IS_RAVEN2 |
++				       AMD_APU_IS_RENOIR |
++				       AMD_APU_IS_GREEN_SARDINE))
+ 			/*
+ 			 * Raven2 has a HW issue that it is unable to use the vram which
+ 			 * is out of MC_VM_SYSTEM_APERTURE_HIGH_ADDR. So here is the
+@@ -1259,7 +1261,9 @@ static void mmhub_read_system_context(struct amdgpu_device *adev, struct dc_phy_
+ 			logical_addr_high = adev->gmc.fb_end >> 18;
+ 	} else {
+ 		logical_addr_low = min(adev->gmc.fb_start, adev->gmc.agp_start) >> 18;
+-		if (adev->apu_flags & AMD_APU_IS_RAVEN2)
++		if (adev->apu_flags & (AMD_APU_IS_RAVEN2 |
++				       AMD_APU_IS_RENOIR |
++				       AMD_APU_IS_GREEN_SARDINE))
+ 			/*
+ 			 * Raven2 has a HW issue that it is unable to use the vram which
+ 			 * is out of MC_VM_SYSTEM_APERTURE_HIGH_ADDR. So here is the
 -- 
 2.43.0
 
