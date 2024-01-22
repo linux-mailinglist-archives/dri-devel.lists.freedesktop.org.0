@@ -2,50 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0908E83652C
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 15:11:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CB3D8365ED
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 15:56:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF43210EF66;
-	Mon, 22 Jan 2024 14:10:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07A2310F26A;
+	Mon, 22 Jan 2024 14:56:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C929B10EF6E;
- Mon, 22 Jan 2024 14:10:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1705932645; x=1737468645;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=mnGFbOuRezsBJQxDAiRKkOdpxMhJ/wEc8kzpYMt4wz4=;
- b=G8mDXsFs1B6Wn96nbFeUCjO0R2Yc5zbVvGAOkB5pPIAzEte9gpC5HWEv
- OHfjL5qkXh36Gf9mrVvmQTy19GJWoFouSbLKJd+c/an04vB0awxJuyy+T
- bA/9xbQqzVX8KQUQMCs6djtjXaJpQ6UYMQDOiTlHo5H0CpmsjKd0pPCPg
- 1k1AgrMBSJuTdDfw7a16+lLn0nxbigiH4CLuGKg0MDfrtX6O9XyF6J0kK
- IkHxSehW3CgLh5rtHXsZzJ4FZDXC7k5/Q5AZiRTMLEtPSYZhQ3wNZYrjT
- nsBMzcSm08D/x98dkc09YqkXLg2eTj/HFzwpmrSJ6otPD73dLJm5qDZU6 g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="8313839"
-X-IronPort-AV: E=Sophos;i="6.05,211,1701158400"; 
-   d="scan'208";a="8313839"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jan 2024 06:10:45 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="855943864"
-X-IronPort-AV: E=Sophos;i="6.05,211,1701158400"; d="scan'208";a="855943864"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.213.20.214])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jan 2024 06:10:39 -0800
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v4 3/3] Revert "drm/i915: Wait for active retire before
- i915_active_fini()"
-Date: Mon, 22 Jan 2024 15:04:44 +0100
-Message-ID: <20240122141007.401490-8-janusz.krzysztofik@linux.intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F147C10F23D
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 14:56:22 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id CAB2B6151E;
+ Mon, 22 Jan 2024 14:56:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A6A0C433F1;
+ Mon, 22 Jan 2024 14:56:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1705935378;
+ bh=vmyO24YHFKdgEbGviAcUxNuIr0zWNNtVYbmIoc339XA=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=JSJ4KGLPkwE0W8vT2uQm7MqtQyz7xPnVArPEbNZHwrsP8DwQ001e2gi4EAAhU8dHC
+ hHEt3ywqgP7G+mQspmPWGtT3mXbF6LHqD7J+Qwa9da1j7hMs6oTiKqIbAyd/8V7iTX
+ e+adXGjBGtR3Xp+ygpJgMNzjQoh/VgjrRRgrHB4ZDxDRXlzTMtFFHT8AUQLInVvHrA
+ WKluYVymcNhWeys9cXfFNkcaZyYXM/lXCpm4tmg67NWFkzMEVqLT8gBy4+tMTDamtB
+ yBZbWZhkl1GGc4i93XxxM7T7FAL0FHhTjq1erQXQjOR0NBFj69bzkHuFhI2cKIMd6x
+ aahk0MIHsp0/A==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.7 04/88] drm: Fix color LUT rounding
+Date: Mon, 22 Jan 2024 09:50:37 -0500
+Message-ID: <20240122145608.990137-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240122141007.401490-5-janusz.krzysztofik@linux.intel.com>
-References: <20240122141007.401490-5-janusz.krzysztofik@linux.intel.com>
+In-Reply-To: <20240122145608.990137-1-sashal@kernel.org>
+References: <20240122145608.990137-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.7.1
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,38 +54,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel@ffwll.ch>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Nirmoy Das <nirmoy.das@intel.com>
+Cc: Sasha Levin <sashal@kernel.org>, tzimmermann@suse.de,
+ Jani Nikula <jani.nikula@intel.com>, Maxime Ripard <mripard@kernel.org>,
+ dri-devel@lists.freedesktop.org,
+ Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>, daniel@ffwll.ch,
+ airlied@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit 7a2280e8dcd2f1f436db9631287c0b21cf6a92b0, obsoleted by
-"drm/i915/vma: Fix UAF on destroy against retire race".
+From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+[ Upstream commit c6fbb6bca10838485b820e8a26c23996f77ce580 ]
+
+The current implementation of drm_color_lut_extract()
+generates weird results. Eg. if we go through all the
+values for 16->8bpc conversion we see the following pattern:
+
+in            out (count)
+   0 -   7f ->  0 (128)
+  80 -  17f ->  1 (256)
+ 180 -  27f ->  2 (256)
+ 280 -  37f ->  3 (256)
+...
+fb80 - fc7f -> fc (256)
+fc80 - fd7f -> fd (256)
+fd80 - fe7f -> fe (256)
+fe80 - ffff -> ff (384)
+
+So less values map to 0 and more values map 0xff, which
+doesn't seem particularly great.
+
+To get just the same number of input values to map to
+the same output values we'd just need to drop the rounding
+entrirely. But perhaps a better idea would be to follow the
+OpenGL int<->float conversion rules, in which case we get
+the following results:
+
+in            out (count)
+   0 -   80 ->  0 (129)
+  81 -  181 ->  1 (257)
+ 182 -  282 ->  2 (257)
+ 283 -  383 ->  3 (257)
+...
+fc7c - fd7c -> fc (257)
+fd7d - fe7d -> fd (257)
+fe7e - ff7e -> fe (257)
+ff7f - ffff -> ff (129)
+
+Note that since the divisor is constant the compiler
+is able to optimize away the integer division in most
+cases. The only exception is the _ULL() case on 32bit
+architectures since that gets emitted as inline asm
+via do_div() and thus the compiler doesn't get to
+optimize it.
+
+Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20231013131402.24072-2-ville.syrjala@linux.intel.com
+Reviewed-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+Acked-by: Maxime Ripard <mripard@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/i915/i915_vma.c | 2 --
- 1 file changed, 2 deletions(-)
+ include/drm/drm_color_mgmt.h | 19 ++++++++-----------
+ 1 file changed, 8 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-index 604d420b9e1fd..09b8a6b52d065 100644
---- a/drivers/gpu/drm/i915/i915_vma.c
-+++ b/drivers/gpu/drm/i915/i915_vma.c
-@@ -1752,8 +1752,6 @@ static void release_references(struct i915_vma *vma, struct intel_gt *gt,
- 	if (vm_ddestroy)
- 		i915_vm_resv_put(vma->vm);
+diff --git a/include/drm/drm_color_mgmt.h b/include/drm/drm_color_mgmt.h
+index 81c298488b0c..54b2b2467bfd 100644
+--- a/include/drm/drm_color_mgmt.h
++++ b/include/drm/drm_color_mgmt.h
+@@ -36,20 +36,17 @@ struct drm_plane;
+  *
+  * Extract a degamma/gamma LUT value provided by user (in the form of
+  * &drm_color_lut entries) and round it to the precision supported by the
+- * hardware.
++ * hardware, following OpenGL int<->float conversion rules
++ * (see eg. OpenGL 4.6 specification - 2.3.5 Fixed-Point Data Conversions).
+  */
+ static inline u32 drm_color_lut_extract(u32 user_input, int bit_precision)
+ {
+-	u32 val = user_input;
+-	u32 max = 0xffff >> (16 - bit_precision);
+-
+-	/* Round only if we're not using full precision. */
+-	if (bit_precision < 16) {
+-		val += 1UL << (16 - bit_precision - 1);
+-		val >>= 16 - bit_precision;
+-	}
+-
+-	return clamp_val(val, 0, max);
++	if (bit_precision > 16)
++		return DIV_ROUND_CLOSEST_ULL(mul_u32_u32(user_input, (1 << bit_precision) - 1),
++					     (1 << 16) - 1);
++	else
++		return DIV_ROUND_CLOSEST(user_input * ((1 << bit_precision) - 1),
++					 (1 << 16) - 1);
+ }
  
--	/* Wait for async active retire */
--	i915_active_wait(&vma->active);
- 	i915_active_fini(&vma->active);
- 	GEM_WARN_ON(vma->resource);
- 	i915_vma_free(vma);
+ u64 drm_color_ctm_s31_32_to_qm_n(u64 user_input, u32 m, u32 n);
 -- 
 2.43.0
 
