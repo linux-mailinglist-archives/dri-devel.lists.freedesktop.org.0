@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FC0C83666F
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:02:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB0C583666A
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:02:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0361C10F2E2;
-	Mon, 22 Jan 2024 15:02:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CFCE10F2D8;
+	Mon, 22 Jan 2024 15:02:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE0B610F257;
- Mon, 22 Jan 2024 15:02:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06C9F10F2D7;
+ Mon, 22 Jan 2024 15:02:04 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 8762EB80E81;
+ by ams.source.kernel.org (Postfix) with ESMTP id 955EFB80E6D;
+ Mon, 22 Jan 2024 15:02:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB06BC433C7;
  Mon, 22 Jan 2024 15:02:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B56CDC433A6;
- Mon, 22 Jan 2024 15:01:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705935720;
- bh=g+NLjclfFpmz90ce/DyP/hk3mJkJ7WyLtF/ExALF3/E=;
+ s=k20201202; t=1705935722;
+ bh=m3q+ToFjWwnp4WpJ/Dy/2htLcjii7Ow9i0kIm95oHuU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=bnzY0tPGiSdq4g0kqh0i5a+y32+iyFIWZx7sXKEYrhvLKIOZRDb6q+GC888XdEDKq
- FY7XqiRN+LIEZsUEvX6zo4xb56cKKIbUbcMCnX1NJUN22EdAhDfIAMWJrCmDv5XHbz
- KKrexGMwJ/2nll4+4zzRhBGNcgihtcc+tjAvEo3oq5uFh6RqYZO9Z2ofqOM1cakhVr
- vD161QW716IxHzNFTNdt6Xx1FswkDS3t7KInkFEfllHnSFHdDzFtRI/TiMWqKnUoQA
- vXxXZ4xoG20rGwdV7+KiwKETdqLdyR87/Oi3S/zcPhexlpqyUWy+FZBW0w/So7DSwU
- d2DOI3U3c+/uQ==
+ b=vApEiu8CZDbT0UWpEKSuJT4fdK2xH6bDQReFXEALAbX66/UqWavRmgpnJhpAO3zs3
+ x5ebo1K85oN7wUnPyiUT6q3ysn2ZxtJOh5irWouLdfa6fkXIzdv+Dxi9FzoDofMCAW
+ VsdBNm9lRxgAFw5ecCQJuKtBILOFDJlKbcby55InVJr9Wn2oXefqW0GP/7g/3HfItR
+ rnuJmHu2HgXfYIF9DBo0MoEVZ8k1Xr/dwmM6ATXg7kC8hojgs9lDJfCjuSE/eKxtf3
+ o3U6lR4C0Fx/vCpabphL7R8v/E34Mkk2zMaezr/5B7cZRuQYbcVYW9K4rvQasEJ1tL
+ XH6gch07DioaQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.7 81/88] drm/amdgpu: Drop 'fence' check in
- 'to_amdgpu_amdkfd_fence()'
-Date: Mon, 22 Jan 2024 09:51:54 -0500
-Message-ID: <20240122145608.990137-81-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.7 82/88] drm/amdkfd: Fix iterator used outside loop
+ in 'kfd_add_peer_prop()'
+Date: Mon, 22 Jan 2024 09:51:55 -0500
+Message-ID: <20240122145608.990137-82-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122145608.990137-1-sashal@kernel.org>
 References: <20240122145608.990137-1-sashal@kernel.org>
@@ -66,13 +66,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
 
-[ Upstream commit bf2ad4fb8adca89374b54b225d494e0b1956dbea ]
+[ Upstream commit b1a428b45dc7e47c7acc2ad0d08d8a6dda910c4c ]
 
-Return value of container_of(...) can't be null, so null check is not
-required for 'fence'. Hence drop its NULL check.
-
-Fixes the below:
-drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c:93 to_amdgpu_amdkfd_fence() warn: can 'fence' even be NULL?
+Fix the following about iterator use:
+drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c:1456 kfd_add_peer_prop() warn: iterator used outside loop: 'iolink3'
 
 Cc: Felix Kuehling <Felix.Kuehling@amd.com>
 Cc: Christian König <christian.koenig@amd.com>
@@ -82,22 +79,44 @@ Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdkfd/kfd_topology.c | 24 ++++++++++++-----------
+ 1 file changed, 13 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
-index 469785d33791..1ef758ac5076 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
-@@ -90,7 +90,7 @@ struct amdgpu_amdkfd_fence *to_amdgpu_amdkfd_fence(struct dma_fence *f)
- 		return NULL;
- 
- 	fence = container_of(f, struct amdgpu_amdkfd_fence, base);
--	if (fence && f->ops == &amdkfd_fence_ops)
-+	if (f->ops == &amdkfd_fence_ops)
- 		return fence;
- 
- 	return NULL;
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
+index 057284bf50bb..d18dff7bb889 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
+@@ -1449,17 +1449,19 @@ static int kfd_add_peer_prop(struct kfd_topology_device *kdev,
+ 		/* CPU->CPU  link*/
+ 		cpu_dev = kfd_topology_device_by_proximity_domain(iolink1->node_to);
+ 		if (cpu_dev) {
+-			list_for_each_entry(iolink3, &cpu_dev->io_link_props, list)
+-				if (iolink3->node_to == iolink2->node_to)
+-					break;
+-
+-			props->weight += iolink3->weight;
+-			props->min_latency += iolink3->min_latency;
+-			props->max_latency += iolink3->max_latency;
+-			props->min_bandwidth = min(props->min_bandwidth,
+-							iolink3->min_bandwidth);
+-			props->max_bandwidth = min(props->max_bandwidth,
+-							iolink3->max_bandwidth);
++			list_for_each_entry(iolink3, &cpu_dev->io_link_props, list) {
++				if (iolink3->node_to != iolink2->node_to)
++					continue;
++
++				props->weight += iolink3->weight;
++				props->min_latency += iolink3->min_latency;
++				props->max_latency += iolink3->max_latency;
++				props->min_bandwidth = min(props->min_bandwidth,
++							   iolink3->min_bandwidth);
++				props->max_bandwidth = min(props->max_bandwidth,
++							   iolink3->max_bandwidth);
++				break;
++			}
+ 		} else {
+ 			WARN(1, "CPU node not found");
+ 		}
 -- 
 2.43.0
 
