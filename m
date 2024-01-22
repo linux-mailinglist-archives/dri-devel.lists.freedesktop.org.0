@@ -2,43 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3BD68366D0
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:07:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BED358366C5
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:07:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B86AF10F261;
-	Mon, 22 Jan 2024 15:07:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B6AD10F293;
+	Mon, 22 Jan 2024 15:07:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2398510F2A8;
- Mon, 22 Jan 2024 15:07:18 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08AD210F293
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 15:07:32 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id EBBE9CE2B18;
- Mon, 22 Jan 2024 15:07:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E17FC433F1;
- Mon, 22 Jan 2024 15:07:08 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id 91F37B80E68;
+ Mon, 22 Jan 2024 15:07:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BDECC433F1;
+ Mon, 22 Jan 2024 15:07:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705936031;
- bh=SGfn8d3Lh6PFke4hVCxeGPdjtPNX+Tp/pt2c5AA0Zo8=;
+ s=k20201202; t=1705936049;
+ bh=2VV2VH9chyhSWR5++ZCyQ2uQtdFcRXRDgdiOO4CK3O4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jBfKpSUwwnmBxb34gTsBskvvDM8cRWdtnzW9eeA9VsdyIv6bKerQk+9EhcNOT7qFN
- rgdY32vvHfiy8OLhIrpspw/2+97rkCQqJMqmzpjM0TJlG+wvvh8AF7d+EtSp63btFZ
- HFQoBMqDCUMMC+WTrA1t/g+LUk7fPxNNxoKPNIZaCbDmxALGmjmUItmmFj80n0540i
- x7Lke5McytQaxYzaWrfFGiUtc7dQshMu1m+d68GvkzdpoDL3JR0I2vQGuIFoiJkRTh
- XRAxH4G/wduEhCLuxtd5XFvPoq4EPR7Ajte3i0ll8QJScZoAGD2TvxNf2c2yDLbVdq
- Wq4CCYLYvHOsw==
+ b=ImFQWmgCmcJMYmfOib9teqSixS9ayrDPqRsnva4ZRY4ozfcYKMY9oLcsgK3vWVQ3P
+ anHQpzgFTlogt2zz/D+YhlPbRguQKropNkA4ODlqT4+dcubslFQ+iASBBuw4hIJh+S
+ +u/odI3xdBE17NGnuirXCShas2+E9PzKcLchgorHTDANwjLLggCrnoVPKqDrHY+QNH
+ xR44JBQmZ1IEIktxgIj4ouQFmDO9D5MB7zTUUTOINSpXZeDZuKhA92l0GpQSKfuDtV
+ nJpr3h5p9lk5y4xLBXoTE9ePKkZhJQbdEBikbpIfUHx+NC1d7SDh9zlFrbzNzB71wl
+ heYMiVvDns1XQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 50/73] drm/amdgpu: fix ftrace event amdgpu_bo_move
- always move on same heap
-Date: Mon, 22 Jan 2024 10:02:04 -0500
-Message-ID: <20240122150432.992458-50-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 55/73] accel/habanalabs: add support for Gaudi2C
+ device
+Date: Mon, 22 Jan 2024 10:02:09 -0500
+Message-ID: <20240122150432.992458-55-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122150432.992458-1-sashal@kernel.org>
 References: <20240122150432.992458-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.13
@@ -55,123 +54,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hongkun.Zhang@amd.com, "Wang, Beyond" <Wang.Beyond@amd.com>,
-	Wang@freedesktop.org, pierre-eric.pelloux-prayer@amd.com,
-	lijo.lazar@amd.com, dri-devel@lists.freedesktop.org, Jun.Ma2@amd.com,
-	airlied@gmail.com, Sasha Levin <sashal@kernel.org>,
-	guchun.chen@amd.com, amd-gfx@lists.freedesktop.org,
-	matthew.auld@intel.com, Philip.Yang@amd.com,
-	srinivasan.shanmugam@amd.com, Lyndon.Li@amd.com, marek.olsak@amd.com,
-	Felix.Kuehling@amd.com, Xinhui.Pan@amd.com,
-	rajneesh.bhardwaj@amd.com, mukul.joshi@amd.com, daniel@ffwll.ch,
-	Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, osharabi@habana.ai, dliberman@habana.ai,
+ Oded Gabbay <ogabbay@kernel.org>, kelbaz@habana.ai,
+ dri-devel@lists.freedesktop.org, dhirschfeld@habana.ai,
+ stanislaw.gruszka@linux.intel.com, xupengfei@nfschina.com, ttayar@habana.ai,
+ asuller@habana.ai, mhaimovski@habana.ai, obitton@habana.ai,
+ fkassabri@habana.ai
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Wang, Beyond" <Wang.Beyond@amd.com>
+From: Oded Gabbay <ogabbay@kernel.org>
 
-[ Upstream commit 94aeb4117343d072e3a35b9595bcbfc0058ee724 ]
+[ Upstream commit 42422993cf28d456778ee9168d73758ec037cd51 ]
 
-Issue: during evict or validate happened on amdgpu_bo, the 'from' and
-'to' is always same in ftrace event of amdgpu_bo_move
+Gaudi2 with PCI revision ID with the value of '3' represents Gaudi2C
+device and should be detected and initialized as Gaudi2.
 
-where calling the 'trace_amdgpu_bo_move', the comment says move_notify
-is called before move happens, but actually it is called after move
-happens, here the new_mem is same as bo->resource
-
-Fix: move trace_amdgpu_bo_move from move_notify to amdgpu_bo_move
-
-Signed-off-by: Wang, Beyond <Wang.Beyond@amd.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 13 +------------
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.h |  4 +---
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    |  5 +++--
- 3 files changed, 5 insertions(+), 17 deletions(-)
+ drivers/accel/habanalabs/common/device.c                 | 3 +++
+ drivers/accel/habanalabs/common/habanalabs.h             | 2 ++
+ drivers/accel/habanalabs/common/habanalabs_drv.c         | 3 +++
+ drivers/accel/habanalabs/common/mmu/mmu.c                | 1 +
+ drivers/accel/habanalabs/common/sysfs.c                  | 3 +++
+ drivers/accel/habanalabs/include/hw_ip/pci/pci_general.h | 1 +
+ 6 files changed, 13 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-index ace837cfa0a6..173b43a5aa13 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-@@ -1250,19 +1250,15 @@ int amdgpu_bo_get_metadata(struct amdgpu_bo *bo, void *buffer,
-  * amdgpu_bo_move_notify - notification about a memory move
-  * @bo: pointer to a buffer object
-  * @evict: if this move is evicting the buffer from the graphics address space
-- * @new_mem: new information of the bufer object
-  *
-  * Marks the corresponding &amdgpu_bo buffer object as invalid, also performs
-  * bookkeeping.
-  * TTM driver callback which is called when ttm moves a buffer.
+diff --git a/drivers/accel/habanalabs/common/device.c b/drivers/accel/habanalabs/common/device.c
+index b97339d1f7c6..ebef56478e18 100644
+--- a/drivers/accel/habanalabs/common/device.c
++++ b/drivers/accel/habanalabs/common/device.c
+@@ -808,6 +808,9 @@ static int device_early_init(struct hl_device *hdev)
+ 		gaudi2_set_asic_funcs(hdev);
+ 		strscpy(hdev->asic_name, "GAUDI2B", sizeof(hdev->asic_name));
+ 		break;
++	case ASIC_GAUDI2C:
++		gaudi2_set_asic_funcs(hdev);
++		strscpy(hdev->asic_name, "GAUDI2C", sizeof(hdev->asic_name));
+ 		break;
+ 	default:
+ 		dev_err(hdev->dev, "Unrecognized ASIC type %d\n",
+diff --git a/drivers/accel/habanalabs/common/habanalabs.h b/drivers/accel/habanalabs/common/habanalabs.h
+index 2f027d5a8206..05febd5b14e9 100644
+--- a/drivers/accel/habanalabs/common/habanalabs.h
++++ b/drivers/accel/habanalabs/common/habanalabs.h
+@@ -1220,6 +1220,7 @@ struct hl_dec {
+  * @ASIC_GAUDI_SEC: Gaudi secured device (HL-2000).
+  * @ASIC_GAUDI2: Gaudi2 device.
+  * @ASIC_GAUDI2B: Gaudi2B device.
++ * @ASIC_GAUDI2C: Gaudi2C device.
   */
--void amdgpu_bo_move_notify(struct ttm_buffer_object *bo,
--			   bool evict,
--			   struct ttm_resource *new_mem)
-+void amdgpu_bo_move_notify(struct ttm_buffer_object *bo, bool evict)
- {
- 	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->bdev);
- 	struct amdgpu_bo *abo;
--	struct ttm_resource *old_mem = bo->resource;
+ enum hl_asic_type {
+ 	ASIC_INVALID,
+@@ -1228,6 +1229,7 @@ enum hl_asic_type {
+ 	ASIC_GAUDI_SEC,
+ 	ASIC_GAUDI2,
+ 	ASIC_GAUDI2B,
++	ASIC_GAUDI2C,
+ };
  
- 	if (!amdgpu_bo_is_amdgpu_bo(bo))
- 		return;
-@@ -1279,13 +1275,6 @@ void amdgpu_bo_move_notify(struct ttm_buffer_object *bo,
- 	/* remember the eviction */
- 	if (evict)
- 		atomic64_inc(&adev->num_evictions);
--
--	/* update statistics */
--	if (!new_mem)
--		return;
--
--	/* move_notify is called before move happens */
--	trace_amdgpu_bo_move(abo, new_mem->mem_type, old_mem->mem_type);
- }
+ struct hl_cs_parser;
+diff --git a/drivers/accel/habanalabs/common/habanalabs_drv.c b/drivers/accel/habanalabs/common/habanalabs_drv.c
+index 7263e84c1a4d..010bf63fcca3 100644
+--- a/drivers/accel/habanalabs/common/habanalabs_drv.c
++++ b/drivers/accel/habanalabs/common/habanalabs_drv.c
+@@ -101,6 +101,9 @@ static enum hl_asic_type get_asic_type(struct hl_device *hdev)
+ 		case REV_ID_B:
+ 			asic_type = ASIC_GAUDI2B;
+ 			break;
++		case REV_ID_C:
++			asic_type = ASIC_GAUDI2C;
++			break;
+ 		default:
+ 			break;
+ 		}
+diff --git a/drivers/accel/habanalabs/common/mmu/mmu.c b/drivers/accel/habanalabs/common/mmu/mmu.c
+index b2145716c605..b654302a68fc 100644
+--- a/drivers/accel/habanalabs/common/mmu/mmu.c
++++ b/drivers/accel/habanalabs/common/mmu/mmu.c
+@@ -596,6 +596,7 @@ int hl_mmu_if_set_funcs(struct hl_device *hdev)
+ 		break;
+ 	case ASIC_GAUDI2:
+ 	case ASIC_GAUDI2B:
++	case ASIC_GAUDI2C:
+ 		/* MMUs in Gaudi2 are always host resident */
+ 		hl_mmu_v2_hr_set_funcs(hdev, &hdev->mmu_func[MMU_HR_PGT]);
+ 		break;
+diff --git a/drivers/accel/habanalabs/common/sysfs.c b/drivers/accel/habanalabs/common/sysfs.c
+index 01f89f029355..278606373055 100644
+--- a/drivers/accel/habanalabs/common/sysfs.c
++++ b/drivers/accel/habanalabs/common/sysfs.c
+@@ -251,6 +251,9 @@ static ssize_t device_type_show(struct device *dev,
+ 	case ASIC_GAUDI2B:
+ 		str = "GAUDI2B";
+ 		break;
++	case ASIC_GAUDI2C:
++		str = "GAUDI2C";
++		break;
+ 	default:
+ 		dev_err(hdev->dev, "Unrecognized ASIC type %d\n",
+ 				hdev->asic_type);
+diff --git a/drivers/accel/habanalabs/include/hw_ip/pci/pci_general.h b/drivers/accel/habanalabs/include/hw_ip/pci/pci_general.h
+index f5d497dc9bdc..4f951cada077 100644
+--- a/drivers/accel/habanalabs/include/hw_ip/pci/pci_general.h
++++ b/drivers/accel/habanalabs/include/hw_ip/pci/pci_general.h
+@@ -25,6 +25,7 @@ enum hl_revision_id {
+ 	REV_ID_INVALID				= 0x00,
+ 	REV_ID_A				= 0x01,
+ 	REV_ID_B				= 0x02,
++	REV_ID_C				= 0x03
+ };
  
- void amdgpu_bo_get_memory(struct amdgpu_bo *bo,
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
-index d28e21baef16..a3ea8a82db23 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
-@@ -344,9 +344,7 @@ int amdgpu_bo_set_metadata (struct amdgpu_bo *bo, void *metadata,
- int amdgpu_bo_get_metadata(struct amdgpu_bo *bo, void *buffer,
- 			   size_t buffer_size, uint32_t *metadata_size,
- 			   uint64_t *flags);
--void amdgpu_bo_move_notify(struct ttm_buffer_object *bo,
--			   bool evict,
--			   struct ttm_resource *new_mem);
-+void amdgpu_bo_move_notify(struct ttm_buffer_object *bo, bool evict);
- void amdgpu_bo_release_notify(struct ttm_buffer_object *bo);
- vm_fault_t amdgpu_bo_fault_reserve_notify(struct ttm_buffer_object *bo);
- void amdgpu_bo_fence(struct amdgpu_bo *bo, struct dma_fence *fence,
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index 4e51dce3aab5..f573909332c0 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -545,10 +545,11 @@ static int amdgpu_bo_move(struct ttm_buffer_object *bo, bool evict,
- 			return r;
- 	}
- 
-+	trace_amdgpu_bo_move(abo, new_mem->mem_type, old_mem->mem_type);
- out:
- 	/* update statistics */
- 	atomic64_add(bo->base.size, &adev->num_bytes_moved);
--	amdgpu_bo_move_notify(bo, evict, new_mem);
-+	amdgpu_bo_move_notify(bo, evict);
- 	return 0;
- }
- 
-@@ -1555,7 +1556,7 @@ static int amdgpu_ttm_access_memory(struct ttm_buffer_object *bo,
- static void
- amdgpu_bo_delete_mem_notify(struct ttm_buffer_object *bo)
- {
--	amdgpu_bo_move_notify(bo, false, NULL);
-+	amdgpu_bo_move_notify(bo, false);
- }
- 
- static struct ttm_device_funcs amdgpu_bo_driver = {
+ #endif /* INCLUDE_PCI_GENERAL_H_ */
 -- 
 2.43.0
 
