@@ -2,29 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9406183779A
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 00:15:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17CE58377A5
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 00:18:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AE1810E8B7;
-	Mon, 22 Jan 2024 23:14:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE4C110E897;
+	Mon, 22 Jan 2024 23:18:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F95010E8B7
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 23:14:28 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1EDA10E897
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 23:18:03 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 97E64CE2D6A;
- Mon, 22 Jan 2024 23:14:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17219C43394;
- Mon, 22 Jan 2024 23:14:17 +0000 (UTC)
-Date: Mon, 22 Jan 2024 18:15:47 -0500
+ by dfw.source.kernel.org (Postfix) with ESMTP id 412FE61B1F;
+ Mon, 22 Jan 2024 23:17:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EF60C43390;
+ Mon, 22 Jan 2024 23:17:32 +0000 (UTC)
+Date: Mon, 22 Jan 2024 18:19:01 -0500
 From: Steven Rostedt <rostedt@goodmis.org>
 To: LKML <linux-kernel@vger.kernel.org>
 Subject: Re: [BUG]  BUG: kernel NULL pointer dereference at
  ttm_device_init+0xb4
-Message-ID: <20240122181547.16b029d6@gandalf.local.home>
-In-Reply-To: <20240122180605.28daf23a@gandalf.local.home>
+Message-ID: <20240122181901.05a3b9ab@gandalf.local.home>
+In-Reply-To: <20240122181547.16b029d6@gandalf.local.home>
 References: <20240122180605.28daf23a@gandalf.local.home>
+ <20240122181547.16b029d6@gandalf.local.home>
 X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -48,57 +49,42 @@ Cc: Felix Kuehling <Felix.Kuehling@amd.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 22 Jan 2024 18:06:05 -0500
+On Mon, 22 Jan 2024 18:15:47 -0500
 Steven Rostedt <rostedt@goodmis.org> wrote:
 
+> > 	ttm_pool_init(&bdev->pool, dev, dev_to_node(dev), use_dma_alloc, use_dma32); <<<------- BUG!
+> > 
+> > Specifically, it appears that dev is NULL and dev_to_node() doesn't like
+> > having a NULL pointer passed to it.
+> >   
+> 
+> Yeah, that qxl_ttm_init() has:
+> 
+> 	/* No others user of address space so set it to 0 */
+> 	r = ttm_device_init(&qdev->mman.bdev, &qxl_bo_driver, NULL,
+> 			    qdev->ddev.anon_inode->i_mapping,
+> 			    qdev->ddev.vma_offset_manager,
+> 			    false, false);
+> 
+> Where that NULL is "dev"!
+> 
+> Thus that will never work here.
 
->   qxl_ttm_init+0x34/0x130
-
-
-> 
-> int ttm_device_init(struct ttm_device *bdev, const struct ttm_device_funcs *funcs,
-> 		    struct device *dev, struct address_space *mapping,
-> 		    struct drm_vma_offset_manager *vma_manager,
-> 		    bool use_dma_alloc, bool use_dma32)
-> {
-> 	struct ttm_global *glob = &ttm_glob;
-> 	int ret;
-> 
-> 	if (WARN_ON(vma_manager == NULL))
-> 		return -EINVAL;
-> 
-> 	ret = ttm_global_init();
-> 	if (ret)
-> 		return ret;
-> 
-> 	bdev->wq = alloc_workqueue("ttm",
-> 				   WQ_MEM_RECLAIM | WQ_HIGHPRI | WQ_UNBOUND, 16);
-> 	if (!bdev->wq) {
-> 		ttm_global_release();
-> 		return -ENOMEM;
-> 	}
-> 
-> 	bdev->funcs = funcs;
-> 
-> 	ttm_sys_man_init(bdev);
-> 
-> 	ttm_pool_init(&bdev->pool, dev, dev_to_node(dev), use_dma_alloc, use_dma32); <<<------- BUG!
-> 
-> Specifically, it appears that dev is NULL and dev_to_node() doesn't like
-> having a NULL pointer passed to it.
-> 
-
-Yeah, that qxl_ttm_init() has:
-
-	/* No others user of address space so set it to 0 */
-	r = ttm_device_init(&qdev->mman.bdev, &qxl_bo_driver, NULL,
-			    qdev->ddev.anon_inode->i_mapping,
-			    qdev->ddev.vma_offset_manager,
-			    false, false);
-
-Where that NULL is "dev"!
-
-Thus that will never work here.
+Perhaps this is the real fix?
 
 -- Steve
 
+diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
+index f5187b384ae9..bc217b4d6b04 100644
+--- a/drivers/gpu/drm/ttm/ttm_device.c
++++ b/drivers/gpu/drm/ttm/ttm_device.c
+@@ -215,7 +215,8 @@ int ttm_device_init(struct ttm_device *bdev, const struct ttm_device_funcs *func
+ 
+ 	ttm_sys_man_init(bdev);
+ 
+-	ttm_pool_init(&bdev->pool, dev, dev_to_node(dev), use_dma_alloc, use_dma32);
++	ttm_pool_init(&bdev->pool, dev, dev ? dev_to_node(dev) : NUMA_NO_NODE,
++		      use_dma_alloc, use_dma32);
+ 
+ 	bdev->vma_manager = vma_manager;
+ 	spin_lock_init(&bdev->lru_lock);
