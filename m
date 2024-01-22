@@ -2,81 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2637783775C
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 00:04:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4159C837760
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 00:04:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E351B10F0F0;
-	Mon, 22 Jan 2024 23:04:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E30110F0F4;
+	Mon, 22 Jan 2024 23:04:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AEEC10F0E8
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 23:04:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1705964670;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7c3FgscPu0lXJFm3GTXyVD6XcnpcGhNdTIze30CTggI=;
- b=IYIW5mbwSJvbUMCs8CISYmr7DNTOFVMZo/vzl/JF6Z9zwMM0mf0J9dlF2Y8p8UprnvO7UY
- dOs5nf+9/qmFVVVSogT11D4T1AdIGlrn9UG+3sb59WWgDabWnCm9IwxS6jpGCeoO8Bfh6f
- 2P/iLMwW+p3Jx7QzrACRKPPCxBIY8sI=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-695-3sNp94_2P1m95CgdN1tUuQ-1; Mon, 22 Jan 2024 18:04:26 -0500
-X-MC-Unique: 3sNp94_2P1m95CgdN1tUuQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-40e49906305so15684245e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 15:04:26 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705964665; x=1706569465;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=7c3FgscPu0lXJFm3GTXyVD6XcnpcGhNdTIze30CTggI=;
- b=kE/wE+FXJ1r1xKaZe57MTifnFEX699fdm/L2cV4mpRQEwnaHqktd+UZxCmpNYqst9E
- QpIeoJebEDRZQFXhVKAHdEkvYD4TVug+76N4sRYAiWgxcf65p0W3vP3ooGFzl4r7gH/6
- BCpFSSGHkDWTOqvGSxHmrboBbyMHGHpa46ABXbe1TNwsmorjBPIvcc3iEvTWBVOspY4M
- tVnUx1mF5kgnN00Js+UKu6aeC9SxM5IeGf6XfAYV1JUJyGqYhYLjL7DVs7WTcmJs/kV6
- 1SDR9/dDTtojdMgRZY6QVEmYrcqaT8oLlu2EMrzHeWXE3lBRC9ppM4SIRzzHP+dzbdUw
- xhuw==
-X-Gm-Message-State: AOJu0YyEQHLKrrGITffkFNWTmrMuCqIrBrsLakStuatXiXTdhlPO2n65
- k1c6xfe17QyFgBm2L4XhpmIWnwpLUzJmQ34ICJtEQHJ257sqg3cHvRJOboWAkOmbCuoeTY02gIA
- FZVBTkUYQlrqLMEX1/0GrXfGvcLfX4QsbPsGb0crPUaJ2Roz6SmKhgZ2yRq/fOiWXmQ==
-X-Received: by 2002:a05:600c:19d0:b0:40e:47f5:c74e with SMTP id
- u16-20020a05600c19d000b0040e47f5c74emr2213225wmq.23.1705964665578; 
- Mon, 22 Jan 2024 15:04:25 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IG8352cOmaMtQLEHn07VgcDYdo9jNcXTeLbFnRyNs5Xa66msABsScIDJEFKORTq82yXMRla/w==
-X-Received: by 2002:a05:600c:19d0:b0:40e:47f5:c74e with SMTP id
- u16-20020a05600c19d000b0040e47f5c74emr2213221wmq.23.1705964665204; 
- Mon, 22 Jan 2024 15:04:25 -0800 (PST)
-Received: from ?IPV6:2a02:810d:4b3f:ee94:abf:b8ff:feee:998b?
- ([2a02:810d:4b3f:ee94:abf:b8ff:feee:998b])
- by smtp.gmail.com with ESMTPSA id
- j8-20020a05600c190800b0040d7b340e07sm40645479wmq.45.2024.01.22.15.04.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Jan 2024 15:04:24 -0800 (PST)
-Message-ID: <bdc7e401-a676-4040-9138-8dc5cf35bd05@redhat.com>
-Date: Tue, 23 Jan 2024 00:04:23 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18B7B10F0F2
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 23:04:39 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 41F9261B2A;
+ Mon, 22 Jan 2024 23:04:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE4F1C433F1;
+ Mon, 22 Jan 2024 23:04:36 +0000 (UTC)
+Date: Mon, 22 Jan 2024 18:06:05 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: LKML <linux-kernel@vger.kernel.org>
+Subject: [BUG]  BUG: kernel NULL pointer dereference at ttm_device_init+0xb4
+Message-ID: <20240122180605.28daf23a@gandalf.local.home>
+X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH][next] drm/nouveau/fifo/gk104: remove redundant variable
- ret
-To: Dan Carpenter <dan.carpenter@linaro.org>,
- Colin Ian King <colin.i.king@gmail.com>
-References: <20240116111609.2258675-1-colin.i.king@gmail.com>
- <aafe669f-b322-4f22-a48e-564e3eb3447f@moroto.mountain>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <aafe669f-b322-4f22-a48e-564e3eb3447f@moroto.mountain>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -90,55 +38,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel@ffwll.ch>, nouveau@lists.freedesktop.org,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Felix Kuehling <Felix.Kuehling@amd.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>, dri-devel@lists.freedesktop.org,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/16/24 13:31, Dan Carpenter wrote:
-> On Tue, Jan 16, 2024 at 11:16:09AM +0000, Colin Ian King wrote:
->> The variable ret is being assigned a value but it isn't being
->> read afterwards. The assignment is redundant and so ret can be
->> removed.
->>
->> Cleans up clang scan build warning:
->> warning: Although the value stored to 'ret' is used in the enclosing
->> expression, the value is never actually read from 'ret'
->> [deadcode.DeadStores]
->>
->> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
->> ---
->>   drivers/gpu/drm/nouveau/nvif/fifo.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/nouveau/nvif/fifo.c b/drivers/gpu/drm/nouveau/nvif/fifo.c
->> index a463289962b2..e96de14ce87e 100644
->> --- a/drivers/gpu/drm/nouveau/nvif/fifo.c
->> +++ b/drivers/gpu/drm/nouveau/nvif/fifo.c
->> @@ -73,9 +73,9 @@ u64
->>   nvif_fifo_runlist(struct nvif_device *device, u64 engine)
->>   {
->>   	u64 runm = 0;
->> -	int ret, i;
->> +	int i;
->>   
->> -	if ((ret = nvif_fifo_runlists(device)))
->> +	if (nvif_fifo_runlists(device))
->>   		return runm;
-> 
-> Could we return a literal zero here?  Otherwise, I'm surprised this
-> doesn't trigger a static checker warning.
+I just kicked off testing some patches on top of 6.8-rc1 and triggered this
+immediately:
 
-Why do you think so? Conditionally, runm is used later on as well. I don't
-think the checker should complain about keeping the value single source.
+[ note this happened on both my 32 bit an 64 bit test machines, this is
+  just the 32 bit output ]
 
-If you agree, want to offer your RB?
+ BUG: kernel NULL pointer dereference, address: 00000238
+ #PF: supervisor read access in kernel mode
+ #PF: error_code(0x0000) - not-present page
+ *pdpt = 0000000000000000 *pde = f000ff53f000ff53 
+ Oops: 0000 [#1] PREEMPT SMP PTI
+ CPU: 0 PID: 9 Comm: kworker/0:1 Not tainted 6.8.0-rc1-test-00001-g2b44760609e9-dirty #1056
+ Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+ Workqueue: events work_for_cpu_fn
+ EIP: ttm_device_init+0xb4/0x274
+ Code: 86 10 09 00 00 83 c4 0c 85 c0 0f 84 96 01 00 00 8b 45 ac 8d 9e 94 00 00 00 89 46 08 89 f0 e8 27 05 00 00 8b 55 a8 0f b6 45 98 <8b> 8a 38 02 00 00 50 0f b6 45 9c 50 89 d8 e8 95 ee ff ff 8b 45 a0
+ EAX: 00000000 EBX: c135a7e4 ECX: c135a7b0 EDX: 00000000
+ ESI: c135a750 EDI: 0007bc1d EBP: c11d7e4c ESP: c11d7de4
+ DS: 007b ES: 007b FS: 00d8 GS: 0000 SS: 0068 EFLAGS: 00010246
+ CR0: 80050033 CR2: 00000238 CR3: 145c4000 CR4: 000006f0
+ Call Trace:
+  ? show_regs+0x4f/0x58
+  ? __die+0x1d/0x58
+  ? page_fault_oops+0x171/0x330
+  ? lock_acquire+0xa4/0x280
+  ? kernelmode_fixup_or_oops.constprop.0+0x7c/0xcc
+  ? __bad_area_nosemaphore.constprop.0+0x124/0x1b4
+  ? __mutex_lock+0x17f/0xb00
+  ? bad_area_nosemaphore+0xf/0x14
+  ? do_user_addr_fault+0x140/0x3e4
+  ? exc_page_fault+0x5b/0x1d8
+  ? pvclock_clocksource_read_nowd+0x130/0x130
+  ? handle_exception+0x133/0x133
+  ? pvclock_clocksource_read_nowd+0x130/0x130
+  ? ttm_device_init+0xb4/0x274
+  ? pvclock_clocksource_read_nowd+0x130/0x130
+  ? ttm_device_init+0xb4/0x274
+  qxl_ttm_init+0x34/0x130
+  qxl_bo_init+0xd/0x10
+  qxl_device_init+0x52a/0x92c
+  qxl_pci_probe+0x91/0x1ac
+  local_pci_probe+0x3d/0x84
+  work_for_cpu_fn+0x16/0x20
+  process_one_work+0x1bc/0x4a0
+  worker_thread+0x310/0x3a8
+  kthread+0xea/0x110
+  ? rescuer_thread+0x2f0/0x2f0
+  ? kthread_complete_and_exit+0x1c/0x1c
+  ret_from_fork+0x34/0x4c
+  ? kthread_complete_and_exit+0x1c/0x1c
+  ret_from_fork_asm+0x12/0x18
+  entry_INT80_32+0xf0/0xf0
+ Modules linked in:
+ CR2: 0000000000000238
+ ---[ end trace 0000000000000000 ]---
 
-- Danilo
+The crash happened here:
 
-> 
-> regards,
-> dan carpenter
-> 
+int ttm_device_init(struct ttm_device *bdev, const struct ttm_device_funcs *funcs,
+		    struct device *dev, struct address_space *mapping,
+		    struct drm_vma_offset_manager *vma_manager,
+		    bool use_dma_alloc, bool use_dma32)
+{
+	struct ttm_global *glob = &ttm_glob;
+	int ret;
 
+	if (WARN_ON(vma_manager == NULL))
+		return -EINVAL;
+
+	ret = ttm_global_init();
+	if (ret)
+		return ret;
+
+	bdev->wq = alloc_workqueue("ttm",
+				   WQ_MEM_RECLAIM | WQ_HIGHPRI | WQ_UNBOUND, 16);
+	if (!bdev->wq) {
+		ttm_global_release();
+		return -ENOMEM;
+	}
+
+	bdev->funcs = funcs;
+
+	ttm_sys_man_init(bdev);
+
+	ttm_pool_init(&bdev->pool, dev, dev_to_node(dev), use_dma_alloc, use_dma32); <<<------- BUG!
+
+Specifically, it appears that dev is NULL and dev_to_node() doesn't like
+having a NULL pointer passed to it.
+
+I currently "fixed" this with a:
+
+	if (!dev)
+		return -EINVAL;
+
+at the start of this function just so that I can continue running my tests,
+but that is obviously incorrect.
+
+-- Steve
