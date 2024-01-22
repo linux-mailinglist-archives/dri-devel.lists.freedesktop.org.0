@@ -2,82 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF858836C33
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 17:59:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EEC2836C58
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 18:03:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC8A410E5FC;
-	Mon, 22 Jan 2024 16:58:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47BC610E090;
+	Mon, 22 Jan 2024 17:02:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.skole.hr (mx2.hosting.skole.hr [161.53.165.186])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AB9810E5FC
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 16:58:33 +0000 (UTC)
-Received: from mx2.hosting.skole.hr (localhost.localdomain [127.0.0.1])
- by mx.skole.hr (mx.skole.hr) with ESMTP id D19AA8525B;
- Mon, 22 Jan 2024 17:58:31 +0100 (CET)
-From: Duje =?utf-8?B?TWloYW5vdmnEhw==?= <duje.mihanovic@skole.hr>
-To: Daniel Thompson <daniel.thompson@linaro.org>
-Subject: Re: [PATCH v3 1/3] leds: ktd2692: move ExpressWire code to library
-Date: Mon, 22 Jan 2024 17:57:53 +0100
-Message-ID: <23373359.6Emhk5qWAg@radijator>
-In-Reply-To: <20240122165011.GA8815@aspen.lan>
-References: <20240120-ktd2801-v3-0-fe2cbafffb21@skole.hr>
- <5907190.MhkbZ0Pkbq@radijator> <20240122165011.GA8815@aspen.lan>
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
+ [209.85.218.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9ECCA10E090
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 17:02:40 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id
+ a640c23a62f3a-a2821884a09so254314866b.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 09:02:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1705942896; x=1706547696;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=uy+XgE6dRrCm1kEyPh0L3J8oRZMz37vPT45FSGIvqe8=;
+ b=Kojaixvw4EBvrgDZfntlxZ6KHuGA+VitZVJaGlbBFUvwrU7y7rI4ddpzv1n28KcpJW
+ TcprBRPNYalJb5e1rR2nDPRBEnTFSiOChO8flRCTYx5McRcV4rI/tjROwgqRUtSRRpVm
+ c/46wo2l6NN0g9zc2A/A87kfHlum5I4EcdP1k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1705942896; x=1706547696;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=uy+XgE6dRrCm1kEyPh0L3J8oRZMz37vPT45FSGIvqe8=;
+ b=pH2iizmvX9OoH29feB8bejYOzt6i6u7XR1miQf4cYt2BVpayWXVG/w057sJgU60pWW
+ yhZT1t6H/RuyEOAnLPozYYBEK8bd05zCvWZVixIJRCUEeSrz2BMTMvxLlHAnEj66nUpC
+ 9gcFZZZ9IUgYUcmw2zQjJ/JmLVdqh03eggnjwPkLUJgXo7EvLxfuf/4oRz6lP3VXWBre
+ YhKux76o6vpiKgtMnMqS2nf79BY6dvq/W+/PrBSEHWz2cR9O9RbIdJwgQlc/dK/0JTkB
+ t8g3dYCp1npGZ9A7OXd01CG/rkJnNm6O/SIxDu2E77KvP8RV3lE98jZQxFx49JF0FQoR
+ bWGQ==
+X-Gm-Message-State: AOJu0YzweF2IYH3EE3z8uINx5OcTdxdagssnIPozzP0dOS2LtIJ1d/oM
+ UZafU/y3EJkDfpbZXx6Tsx+BYbAncvJn6+tMfsY3KbJ+RfHtP80evP0JcZv2aqcauEkKOdXALrA
+ Ftg==
+X-Google-Smtp-Source: AGHT+IHd+88XPoNeIhhGJWdsyMD+gpZ2Q0DMK4BkewwIeLtRB3C6I1E7Z+zOWETX2Uz4HGhLtx2HKw==
+X-Received: by 2002:a17:907:7357:b0:a2e:9ac1:4357 with SMTP id
+ dq23-20020a170907735700b00a2e9ac14357mr2421051ejc.44.1705942896374; 
+ Mon, 22 Jan 2024 09:01:36 -0800 (PST)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com.
+ [209.85.128.52]) by smtp.gmail.com with ESMTPSA id
+ lt18-20020a170906fa9200b00a2ac199ff67sm13689315ejb.170.2024.01.22.09.01.35
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Jan 2024 09:01:35 -0800 (PST)
+Received: by mail-wm1-f52.google.com with SMTP id
+ 5b1f17b1804b1-40e865bccb4so87405e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 09:01:35 -0800 (PST)
+X-Received: by 2002:a05:600c:4fd0:b0:40e:61cf:af91 with SMTP id
+ o16-20020a05600c4fd000b0040e61cfaf91mr340412wmq.7.1705942895107; Mon, 22 Jan
+ 2024 09:01:35 -0800 (PST)
 MIME-Version: 1.0
-Autocrypt: addr=duje.mihanovic@skole.hr; keydata=
- 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
-Content-Transfer-Encoding: quoted-printable
+References: <20240118015916.2296741-1-hsinyi@chromium.org>
+ <CAD=FV=WYm0=uyQMf8yZpqaCWN2dympTt_bUVPOe+nafBLdS_DQ@mail.gmail.com>
+In-Reply-To: <CAD=FV=WYm0=uyQMf8yZpqaCWN2dympTt_bUVPOe+nafBLdS_DQ@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 22 Jan 2024 09:01:19 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=UXqsULhVL0Mpk=V0VoR1yQaeBQA_6zYriCdQxNfEHktA@mail.gmail.com>
+Message-ID: <CAD=FV=UXqsULhVL0Mpk=V0VoR1yQaeBQA_6zYriCdQxNfEHktA@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: anx7625: Ensure bridge is suspended in
+ disable()
+To: Hsin-Yi Wang <hsinyi@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,39 +82,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Pavel Machek <pavel@ucw.cz>, Jingoo Han <jingoohan1@gmail.com>,
- Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Karel Balej <balejk@matfyz.cz>, linux-fbdev@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, ~postmarketos/upstreaming@lists.sr.ht,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- phone-devel@vger.kernel.org, linux-leds@vger.kernel.org
+ Pin-yen Lin <treapking@chromium.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, Xin Ji <xji@analogixsemi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Monday, January 22, 2024 5:50:11 PM CET Daniel Thompson wrote:
-> On Mon, Jan 22, 2024 at 05:24:51PM +0100, Duje Mihanovi=C4=87 wrote:
-> > I believe a "select" would be more appropriate here unless these=20
-backlights
-> > should be hidden if GPIOLIB is disabled. The catch with "select" is that
-> > there seems to be no way to throw in the "|| COMPILE_TEST" other GPIO-
-based
-> > backlights have and I'm not sure what to do about that.
->=20
-> I think the "|| COMPILE_TEST" might just be a copy 'n paste'ism (in fact I
-> may even have been guilty off propagating it in reviews when checking
-> for inconsistencies).
->=20
-> AFAICT nothing will inhibit setting GPIOLIB so allyes- and allmodconfig
-> builds will always end up with GPIOLIB enabled. If we are happy to
-> select it then I think that is enough!
+Hi,
 
-In that case I guess I'll just make it select GPIOLIB.
+On Thu, Jan 18, 2024 at 9:30=E2=80=AFAM Doug Anderson <dianders@chromium.or=
+g> wrote:
+>
+> Hi,
+>
+> On Wed, Jan 17, 2024 at 5:59=E2=80=AFPM Hsin-Yi Wang <hsinyi@chromium.org=
+> wrote:
+> >
+> > Similar to commit 26db46bc9c67 ("drm/bridge: parade-ps8640: Ensure brid=
+ge
+> > is suspended in .post_disable()"). Add a mutex to ensure that aux trans=
+fer
+> > won't race with atomic_disable by holding the PM reference and prevent
+> > the bridge from suspend.
+> >
+> > Also we need to use pm_runtime_put_sync_suspend() to suspend the bridge
+> > instead of idle with pm_runtime_put_sync().
+> >
+> > Fixes: 3203e497eb76 ("drm/bridge: anx7625: Synchronously run runtime su=
+spend.")
+> > Fixes: adca62ec370c ("drm/bridge: anx7625: Support reading edid through=
+ aux channel")
+> > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> > Tested-by: Xuxin Xiong <xuxinxiong@huaqin.corp-partner.google.com>
+> > ---
+> >  drivers/gpu/drm/bridge/analogix/anx7625.c | 7 ++++++-
+> >  drivers/gpu/drm/bridge/analogix/anx7625.h | 2 ++
+> >  2 files changed, 8 insertions(+), 1 deletion(-)
+>
+> This looks good to me.
+>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+>
+> I guess this started showing up more because of commit 49ddab089611
+> ("drm/panel-edp: use put_sync in unprepare"), right? Since that's a
+> recent commit then that means there's probably a little more urgency
+> in getting this landed. That being said, it feels like it would be
+> most legit to allow this to hang out on the list for a few days before
+> landing. I'll aim for early next week unless someone else has any
+> comments.
 
-Regards,
-=2D-
-Duje
+Pushed to drm-misc-fixes.
+
+4d5b7daa3c61 drm/bridge: anx7625: Ensure bridge is suspended in disable()
 
 
+> I guess we should see if we need to do something similar for
+> ti-sn65dsi86 too since I could imagine it having similar problems.
 
+I tried this myself and I couldn't see any problems there. I also
+spent some time thinking about it and it seemed fine. There should be
+no fundamental reason why we'd have to necessarily power cycle the
+bridge chip in this case. Presumably ps8640 needs it because the
+embedded firmware on ps8640 is easy to confuse. I'm less familiar with
+the anx bridge chip, but I could believe something similar is
+happening there.
+
+-Doug
