@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FEF3836A5F
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 17:26:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC0C2836A61
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 17:26:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 577F310F5AB;
-	Mon, 22 Jan 2024 16:25:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 712E310F5CB;
+	Mon, 22 Jan 2024 16:25:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.skole.hr (mx2.hosting.skole.hr [161.53.165.186])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CCF610F5C7
+Received: from mx.skole.hr (mx1.hosting.skole.hr [161.53.165.185])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C61F10F5AB
  for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 16:25:36 +0000 (UTC)
-Received: from mx2.hosting.skole.hr (localhost.localdomain [127.0.0.1])
- by mx.skole.hr (mx.skole.hr) with ESMTP id 755E98523E;
- Mon, 22 Jan 2024 17:25:29 +0100 (CET)
+Received: from mx1.hosting.skole.hr (localhost.localdomain [127.0.0.1])
+ by mx.skole.hr (mx.skole.hr) with ESMTP id BBCA383EC6;
+ Mon, 22 Jan 2024 17:25:34 +0100 (CET)
 From: Duje =?utf-8?B?TWloYW5vdmnEhw==?= <duje.mihanovic@skole.hr>
 To: Daniel Thompson <daniel.thompson@linaro.org>
-Subject: Re: [PATCH v3 1/3] leds: ktd2692: move ExpressWire code to library
-Date: Mon, 22 Jan 2024 17:24:51 +0100
-Message-ID: <5907190.MhkbZ0Pkbq@radijator>
-In-Reply-To: <20240122101926.GA8596@aspen.lan>
+Subject: Re: [PATCH v3 3/3] backlight: Add Kinetic KTD2801 backlight support
+Date: Mon, 22 Jan 2024 17:24:56 +0100
+Message-ID: <1783156.VLH7GnMWUR@radijator>
+In-Reply-To: <20240122102805.GB8596@aspen.lan>
 References: <20240120-ktd2801-v3-0-fe2cbafffb21@skole.hr>
- <20240120-ktd2801-v3-1-fe2cbafffb21@skole.hr>
- <20240122101926.GA8596@aspen.lan>
+ <20240120-ktd2801-v3-3-fe2cbafffb21@skole.hr>
+ <20240122102805.GB8596@aspen.lan>
 MIME-Version: 1.0
 Autocrypt: addr=duje.mihanovic@skole.hr; keydata=
  mQINBGBhuA8BEACtpIbYNfUtQkpVqgHMPlcQR/vZhB7VUh5S32uSyerG28gUxFs2be//GOhSHv+
@@ -102,64 +102,35 @@ Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Monday, January 22, 2024 11:19:26 AM CET Daniel Thompson wrote:
-> On Sat, Jan 20, 2024 at 10:26:43PM +0100, Duje Mihanovi=C4=87 wrote:
-> > diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> > index 6292fddcc55c..d29b6823e7d1 100644
-> > --- a/drivers/leds/Kconfig
-> > +++ b/drivers/leds/Kconfig
-> > @@ -181,6 +181,9 @@ config LEDS_EL15203000
-> >=20
-> >  	  To compile this driver as a module, choose M here: the module
-> >  	  will be called leds-el15203000.
-> >=20
-> > +config LEDS_EXPRESSWIRE
-> > +	bool
-> > +
+On Monday, January 22, 2024 11:28:05 AM CET Daniel Thompson wrote:
+> On Sat, Jan 20, 2024 at 10:26:45PM +0100, Duje Mihanovi=C4=87 wrote:
+> > diff --git a/drivers/video/backlight/ktd2801-backlight.c
+> > b/drivers/video/backlight/ktd2801-backlight.c new file mode 100644
+> > index 000000000000..7b9d1a93aa71
+> > --- /dev/null
+> > <snip>
+> > +/* These values have been extracted from Samsung's driver. */
+> > +#define KTD2801_EXPRESSWIRE_DETECT_DELAY_US	150
+> > +#define KTD2801_EXPRESSWIRE_DETECT_US		270
+> > +#define KTD2801_SHORT_BITSET_US			5
+> > +#define KTD2801_LONG_BITSET_US			(3 *=20
+KTD2801_SHORT_BITSET_US)
+> > +#define KTD2801_DATA_START_US			5
+> > +#define KTD2801_END_OF_DATA_LOW_US		10
+> > +#define KTD2801_END_OF_DATA_HIGH_US		350
+> > +#define KTD2801_PWR_DOWN_DELAY_US		2600
 >=20
-> Shouldn't there be a "select GPIOLIB" here? It seems odd to make the
-> clients responsible for the dependencies.
+> These are a little pointless now. They are all single use constants
+> and have little documentary value.
 >=20
-> BTW there seems to be very little consistency across the kernel between
-> "depends on GPIOLIB" and "select GPIOLIB".. but select is marginally
-> more popular (283 vs. 219 in the kernel I checked).
-
-I believe a "select" would be more appropriate here unless these backlights=
-=20
-should be hidden if GPIOLIB is disabled. The catch with "select" is that th=
-ere=20
-seems to be no way to throw in the "|| COMPILE_TEST" other GPIO-based=20
-backlights have and I'm not sure what to do about that.
-
-> > diff --git a/drivers/leds/flash/leds-ktd2692.c
-> > b/drivers/leds/flash/leds-ktd2692.c index 598eee5daa52..8c17de3d621f=20
-100644
-> > --- a/drivers/leds/flash/leds-ktd2692.c
-> > +++ b/drivers/leds/flash/leds-ktd2692.c
-> >=20
-> >  <snip>
-> >  static void ktd2692_expresswire_write(struct ktd2692_context *led, u8
-> >  value)
-> >  {
-> > =20
-> >  	int i;
-> >=20
-> > -	ktd2692_expresswire_start(led);
-> > +	expresswire_start(&led->props);
-> >=20
-> >  	for (i =3D 7; i >=3D 0; i--)
-> >=20
-> > -		ktd2692_expresswire_set_bit(led, value & BIT(i));
-> > -	ktd2692_expresswire_end(led);
-> > +		expresswire_set_bit(&led->props, value & BIT(i));
-> > +	expresswire_end(&led->props);
-> >=20
-> >  }
+> The lack of documentary value is because, for example,
+> KTD2801_EXPRESSWIRE_DETECT_DELAY_US, is assigned to a structure
+> field called detect_delay_us.
 >=20
-> Is there any reason not to have an expresswire_write_u8() method in the
-> library code? It is a concept that appears in both drivers.
+> Likewise I doubt that explicitly stating that long_bitset_us is 3x
+> bigger than short_bitset_us is important for future driver maintainance.
 
-Not really, I'll add it in v4.
+Does this apply for ktd2692 as well?
 
 Regards,
 =2D-
