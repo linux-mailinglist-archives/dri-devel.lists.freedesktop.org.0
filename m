@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67827835D17
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 09:50:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EE0C835D3E
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 09:53:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9237610EB95;
-	Mon, 22 Jan 2024 08:49:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9897D10EB7F;
+	Mon, 22 Jan 2024 08:53:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
- [209.85.208.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8A6210EB86
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 08:49:38 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id
- 4fb4d7f45d1cf-55a90b2b554so1425040a12.1
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 00:49:38 -0800 (PST)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
+ [209.85.208.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D36610EB7E
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 08:53:03 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id
+ 4fb4d7f45d1cf-55a3a875f7fso3149006a12.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 00:53:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1705913317; x=1706518117; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1705913522; x=1706518322; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=0OAg/4QRflrwPR3EisrUS+qLB0CwIFGGddlEH61BHuQ=;
- b=NuqMqFxMqjH5hnvwXNA3EQs20XqXV7UQ2HMfvPT3OG4rXieCTYl4cg5FW8P0TuFr+d
- Jlp6L/IABdR+1bjqtlbzKxkmWPpzISu2gUNnx+RaxemLeda5cVd61a0ovDCpSuSRtySv
- tK6GMKNPffEk1NJNqJ10yGjlgCwDJIOv3PGr2p/IqyOXb5gyQX9zZh+51ghX7G1ZPd5r
- gHwNoVqDf5HKcWIpBt9IwmmqKDWJi1P1fcZiAMLTHWEK1cK/T+uxjAADouJHHdhAtRPv
- eDlJhQ7WyJO6krSCXWA7vhPgTO16iZ7erCt48DR/Q6Mjl/7y0G4N8Me0VXjYkizJ0dFT
- poxw==
+ bh=Mjyqz17NUKW0ng+M4oXEfxh1ZW48S74Lc+QWc2EPCFI=;
+ b=VJvK2OkmJXLfjhPZIYXgXx7kBs2vm1D0ALAvZ8dLgfiMugF8oHIuzDzNmasbviYFqz
+ cMBg7DA7yps85Vd8jAnTyu5McgumYHtR55zo7u7S2dBTYby64IP6Zctp9PdDjmQmptre
+ vSE3eZBDxhPJCggur2jDvGooiBej7AJTkd5+/OvEla8jtZeJ7lk0vzX0O64OR7XplUde
+ 7vc9F7ZP2F/UrjXv8Hd06yQjdrMobVLfTGQwUFIP5vh+ja7jVz8Uauj21lAEpdIz2Flz
+ ECq6SkW1FfAE/tMfYMzd4Q/RIZqqAaeS3ejEug4iUSFNKH94aSaF9N7Buqjfk57T9CLb
+ /kiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705913317; x=1706518117;
+ d=1e100.net; s=20230601; t=1705913522; x=1706518322;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0OAg/4QRflrwPR3EisrUS+qLB0CwIFGGddlEH61BHuQ=;
- b=YYNYKnst/nCW/PcRJ8jxpp8jKxKuq9vZHZ5NuEZExIH1q9Dk8S4YgcZZITUQPDSbfU
- e4Odss0d268O+1XoKoF7/QOi7Id//a8FB5I1qIk9YKX2MWfHDdKw2605QXJrwOHFqNkF
- 6DuMIyCYs1ugee8xgjvB1PtPZUhO0wcUYB96XjXKrqN70jo6RIlC33gmNn7GR10QfI91
- U5AwYzH0/4+H6PBnh8jqwWXEf2i4DRtqFtEcvgqnnU8QDdXV9dU4DFVf2/x4OA+Pb1B/
- SIK5AYup4qbwJKWxjka4UnMYob7xwm7QafFtyjN6pvzc+eXBV3/7wH8EdW4mW9Cs8tPM
- n8gA==
-X-Gm-Message-State: AOJu0Yyv/S2v2GH87JjWS37IsYJbZJ6Zq8QntfV9JF0TQ/paSloBSqEZ
- BhiB1KyNwttTZtaRdoLmE/ASKXhl6jAffMYz0YjtnKIPOKpCOtO60tjKKEiv1pI=
-X-Google-Smtp-Source: AGHT+IHXNUl3GplQ11zK4LH2J9jHiCocGV2aifkfbVIMGhNU01bvb8TAy1rmaKOIHZWYZGs0Kwj7SQ==
-X-Received: by 2002:aa7:d343:0:b0:55c:650a:bdd5 with SMTP id
- m3-20020aa7d343000000b0055c650abdd5mr23459edr.60.1705913317373; 
- Mon, 22 Jan 2024 00:48:37 -0800 (PST)
+ bh=Mjyqz17NUKW0ng+M4oXEfxh1ZW48S74Lc+QWc2EPCFI=;
+ b=hA0e9tisY/TYTyv/4fabdn6O/vWaLvVpRiDTnnkTDeEEcUfYhMlQD4zALjo/ezlM1V
+ 8vVevlJzN/5C2AdviqpwZvWlU9q7xdNq1KChf/6sRnsWr+eZZ54lS/uQhKm2TxJyj1AN
+ 8mZBN6zLNuJ//2TglPIOAe8plsH7UMQT/HxK31leKiyo4JDY3F1lpIPALKD6GxcseUhw
+ PzUPKqIdty8G3RUF8KSL8DI0C18N7DrUyql2+0cFfeJWIl3y4dexC9nCpTsOrXHQtzps
+ 0HXOI47jG1R/ajrVEqK2FMUeGylg0hcYsEyXPvopf7D0T4pc6aAu7aW7O8wT46aJZQEf
+ CFeQ==
+X-Gm-Message-State: AOJu0YyPiFOzDOFLm0CUcw4DqAo44/Hx0Ebl4ZrbD13GF0KH1XzBXYtT
+ IiD1Q60h+d+z0H2sXtRDIxy8qvK0F/VsCcXmdEwvE0UR8gHOnxiI7nxjPAMb6ro=
+X-Google-Smtp-Source: AGHT+IG7wRv2A0NANM8rwgQYVuT5+t9wpgA1CK4/00koFThqPUZYnC7I4jh8cJtaYPY24vte/KMZMQ==
+X-Received: by 2002:aa7:d3ce:0:b0:55c:168:a4a4 with SMTP id
+ o14-20020aa7d3ce000000b0055c0168a4a4mr1636549edr.29.1705913522061; 
+ Mon, 22 Jan 2024 00:52:02 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.215.66])
  by smtp.gmail.com with ESMTPSA id
- c14-20020a05640227ce00b0055b49fc4e4esm2391394ede.26.2024.01.22.00.48.35
+ fj9-20020a0564022b8900b00559cb738c1bsm7028819edb.4.2024.01.22.00.51.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Jan 2024 00:48:36 -0800 (PST)
-Message-ID: <6e34c1a8-59e2-404f-aa47-0cab772f59d6@linaro.org>
-Date: Mon, 22 Jan 2024 09:48:35 +0100
+ Mon, 22 Jan 2024 00:52:01 -0800 (PST)
+Message-ID: <f525b63f-a32c-41cf-b80f-5d85b6eb50c8@linaro.org>
+Date: Mon, 22 Jan 2024 09:51:59 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/8] dt-bindings: msm: qcom,mdss: Include ommited fam-b
- compatible
+Subject: Re: [PATCH 5/8] dt-bindings: drm/msm/gpu: Document AON clock for
+ A506/A510
 Content-Language: en-US
 To: Adam Skladowski <a39.skl@gmail.com>
 References: <20240121194221.13513-1-a39.skl@gmail.com>
- <20240121194221.13513-4-a39.skl@gmail.com>
+ <20240121194221.13513-6-a39.skl@gmail.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -106,7 +106,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240121194221.13513-4-a39.skl@gmail.com>
+In-Reply-To: <20240121194221.13513-6-a39.skl@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -136,10 +136,31 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 21/01/2024 20:41, Adam Skladowski wrote:
-> During conversion 28nm-hpm-fam-b compat got lost, add it.
+> Adreno 506(MSM8953) and Adreno 510(MSM8976) require
+> Always-on branch clock to be enabled, describe it.
+> 
+> Signed-off-by: Adam Skladowski <a39.skl@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/display/msm/gpu.yaml | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/msm/gpu.yaml b/Documentation/devicetree/bindings/display/msm/gpu.yaml
+> index b019db954793..9e36f54a5caf 100644
+> --- a/Documentation/devicetree/bindings/display/msm/gpu.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/gpu.yaml
+> @@ -133,7 +133,7 @@ allOf:
+>        properties:
+>          clocks:
+>            minItems: 2
+> -          maxItems: 7
+> +          maxItems: 8
 
-Please add Fixes tag and put this commit as first in your patchset or
-even as separate one.
+I would prefer we start enforcing the order. The initial flexibility was
+because of conversion from the old bindings and dealing with some
+technical debt, AFAIU.
+
+This is requirement of new clock, so maybe better add dedicated if:then
+case which will be enforcing the order with always-on at the end.
 
 Best regards,
 Krzysztof
