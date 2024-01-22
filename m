@@ -2,38 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C2E583600F
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 11:50:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A9B583604A
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 12:02:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC04510ECFC;
-	Mon, 22 Jan 2024 10:50:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23A6710ED1F;
+	Mon, 22 Jan 2024 11:02:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9372510ECFC
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 10:50:03 +0000 (UTC)
-Received: by linux.microsoft.com (Postfix, from userid 1134)
- id 15A7A20E1AA9; Mon, 22 Jan 2024 02:49:59 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 15A7A20E1AA9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1705920599;
- bh=dzwtrDPvZa3iP+ndqSqyPj444GEy7zcAtL9Y9WVaurA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bwXTz54kr423ibvT7XnKTWCxc9tuTD41kjd+t6hr0NtOJlRzkJZ5clRpoKp0paqhR
- uBJAvJjfKYZgSFMR4acLwXTHOYPhEPq4S0ftSQy5lhzIIH7YxqCnEDLWXfOgCziXJI
- 4If+Y+ID1M8G+mhdTQFNdG/JlDHbc0KZOu4xiUsQ=
-Date: Mon, 22 Jan 2024 02:49:59 -0800
-From: Shradha Gupta <shradhagupta@linux.microsoft.com>
-To: kernel test robot <oliver.sang@intel.com>
-Subject: Re: [PATCH v3] drm: Check output polling initialized before disabling
-Message-ID: <20240122104959.GA20221@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <1705293646-31301-1-git-send-email-shradhagupta@linux.microsoft.com>
- <202401191128.db8423f1-oliver.sang@intel.com>
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA02810ED1F
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 11:02:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1705921309;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=733fDA1vC7zKwBluwpjfcq4TVRYfPXDC67NVY7T7aqQ=;
+ b=vAc8dA6pC47aVOf5mjHAD4DKA4dRwEc+4dmRDZXuXgcDAjk3lQmBQyWLIwZ5ERx4utx0Nw
+ GmrQH4cNNE5vM4boQ9Y3Sr2mh0SksOhCzqErNeuXRj+qkZFOizrQ8lJ3F9W8opk0sqCYPy
+ MM6p+RcEXW2zqbDh8/mClEB2B4V2X14=
+Message-ID: <442f69f31ece6d441f3dc41c3dfeb4dcf52c00b8.camel@crapouillou.net>
+Subject: Re: [Linaro-mm-sig] [PATCH v5 1/6] dma-buf: Add
+ dma_buf_{begin,end}_access()
+From: Paul Cercueil <paul@crapouillou.net>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Corbet
+ <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,  Christian
+ =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Date: Mon, 22 Jan 2024 12:01:47 +0100
+In-Reply-To: <8035f515-591f-4c87-bf0a-23d5705d9b1c@gmail.com>
+References: <20240119141402.44262-1-paul@crapouillou.net>
+ <20240119141402.44262-2-paul@crapouillou.net>
+ <8035f515-591f-4c87-bf0a-23d5705d9b1c@gmail.com>
+Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
+ keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
+ YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202401191128.db8423f1-oliver.sang@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,162 +53,208 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lkp@intel.com, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel@ffwll.ch>, Shradha Gupta <shradhagupta@microsoft.com>,
- oe-lkp@lists.linux.dev, Saurabh Singh Sengar <ssengar@linux.microsoft.com>,
- David Airlie <airlied@gmail.com>
+Cc: Michael Hennerich <Michael.Hennerich@analog.com>, linux-doc@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+ Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all, 
-to me it seems like the patch has uncovered a genuine warning in drm_helper_probe_single_connector_modes() function.
-Before calling drm_kms_helper_poll_enable() there should be check to see if mode_config.poll_enabled is set similar
-to the new suspend/resume changes in the patch.
-Is this understanding correct? Thoughts?
+Hi Christian,
 
-On Fri, Jan 19, 2024 at 02:46:47PM +0800, kernel test robot wrote:
-> 
-> 
-> Hello,
-> 
-> kernel test robot noticed "WARNING:at_drivers/gpu/drm/drm_probe_helper.c:#drm_kms_helper_poll_enable[drm_kms_helper]" on:
-> 
-> commit: 98a690eb11a5f722cfff1dd5c3ac46f9ba326919 ("[PATCH v3] drm: Check output polling initialized before disabling")
-> url: https://github.com/intel-lab-lkp/linux/commits/Shradha-Gupta/drm-Check-output-polling-initialized-before-disabling/20240115-124300
-> base: git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-> patch subject: [PATCH v3] drm: Check output polling initialized before disabling
-> 
-> in testcase: boot
-> 
-> compiler: gcc-12
-> test machine: qemu-system-x86_64 -enable-kvm -cpu SandyBridge -smp 2 -m 16G
-> 
-> (please refer to attached dmesg/kmsg for entire log/backtrace)
-> 
-> 
-> +-------------------------------------------------------------------------------------------+------------+------------+
-> |                                                                                           | 45017df303 | 98a690eb11 |
-> +-------------------------------------------------------------------------------------------+------------+------------+
-> | WARNING:at_drivers/gpu/drm/drm_probe_helper.c:#drm_kms_helper_poll_enable[drm_kms_helper] | 0          | 8          |
-> | RIP:drm_kms_helper_poll_enable[drm_kms_helper]                                            | 0          | 8          |
-> +-------------------------------------------------------------------------------------------+------------+------------+
-> 
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <oliver.sang@intel.com>
-> | Closes: https://lore.kernel.org/oe-lkp/202401191128.db8423f1-oliver.sang@intel.com
-> 
-> 
-> 
-> The kernel config and materials to reproduce are available at:
-> https://download.01.org/0day-ci/archive/20240119/202401191128.db8423f1-oliver.sang@intel.com
-> 
-> 
-> 
-> [   19.037694][  T142] [drm] Initialized bochs-drm 1.0.0 20130925 for 0000:00:02.0 on minor 0
-> [   19.038726][  T142] ------------[ cut here ]------------
-> [   19.039197][  T142] bochs-drm 0000:00:02.0: drm_WARN_ON_ONCE(!dev->mode_config.poll_enabled)
-> [   19.039241][  T142] WARNING: CPU: 0 PID: 142 at drivers/gpu/drm/drm_probe_helper.c:305 drm_kms_helper_poll_enable+0x329/0x410 [drm_kms_helper]
-> [   19.040963][  T142] Modules linked in: parport(+) bochs(+) joydev serio_raw drm_vram_helper ata_piix(+) drm_ttm_helper ttm libata ipmi_devintf ipmi_msghandler drm_kms_helper i2c_piix4 fuse drm ip_tables
-> [   19.042413][  T142] CPU: 0 PID: 142 Comm: systemd-udevd Not tainted 6.7.0-rc3-00770-g98a690eb11a5 #1
-> [   19.043146][  T142] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-> [   19.043972][  T142] RIP: 0010:drm_kms_helper_poll_enable+0x329/0x410 [drm_kms_helper]
-> [   19.044685][  T142] Code: 48 8b 6b 50 48 85 ed 74 41 48 89 df e8 30 e0 5d c3 48 c7 c1 e0 8c 4b c0 48 89 ea 48 c7 c7 40 8a 4b c0 48 89 c6 e8 77 a3 d3 c1 <0f> 0b e9 ae fd ff ff e8 9b c6 53 c2 e9 4c fd ff ff 48 8b 7c 24 08
-> [   19.046268][  T142] RSP: 0000:ffffc900007ef1c0 EFLAGS: 00010286
-> [   19.046755][  T142] RAX: 0000000000000000 RBX: ffff888121dc40c0 RCX: 0000000000000027
-> [   19.047400][  T142] RDX: 0000000000000027 RSI: 0000000000000004 RDI: ffff8883af030848
-> [   19.048042][  T142] RBP: ffff888121d84260 R08: 0000000000000001 R09: ffffed1075e06109
-> [   19.048688][  T142] R10: ffff8883af03084b R11: 0000000000000001 R12: ffff88815688a7a0
-> [   19.049362][  T142] R13: 1ffff920000fde3b R14: 0000000000000000 R15: 0000000000000003
-> [   19.050001][  T142] FS:  0000000000000000(0000) GS:ffff8883af000000(0063) knlGS:00000000f7950b00
-> [   19.050722][  T142] CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
-> [   19.051259][  T142] CR2: 0000000058b17d6c CR3: 000000012463e000 CR4: 00000000000406f0
-> [   19.051892][  T142] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> [   19.052568][  T142] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-> [   19.053242][  T142] Call Trace:
-> [   19.053531][  T142]  <TASK>
-> [   19.053780][  T142]  ? __warn+0xcd/0x260
-> [   19.054149][  T142]  ? drm_kms_helper_poll_enable+0x329/0x410 [drm_kms_helper]
-> [   19.054787][  T142]  ? report_bug+0x267/0x2d0
-> [   19.055173][  T142]  ? handle_bug+0x3c/0x70
-> [   19.055523][  T142]  ? exc_invalid_op+0x17/0x40
-> [   19.055904][  T142]  ? asm_exc_invalid_op+0x1a/0x20
-> [   19.056332][  T142]  ? drm_kms_helper_poll_enable+0x329/0x410 [drm_kms_helper]
-> [   19.056941][  T142]  ? drm_kms_helper_poll_fini+0x80/0x80 [drm_kms_helper]
-> [   19.057567][  T142]  ? drm_modeset_lock+0xbf/0x2e0 [drm]
-> [   19.058099][  T142]  drm_helper_probe_single_connector_modes+0x3b6/0xe70 [drm_kms_helper]
-> [   19.058788][  T142]  ? __drm_helper_update_and_validate+0xc30/0xc30 [drm_kms_helper]
-> [   19.059484][  T142]  ? __mutex_lock_slowpath+0x10/0x10
-> [   19.059924][  T142]  drm_client_modeset_probe+0x3ab/0xef0 [drm]
-> [   19.060491][  T142]  ? drm_client_firmware_config+0x1980/0x1980 [drm]
-> [   19.061233][  T142]  __drm_fb_helper_initial_config_and_unlock+0xfa/0x7c0 [drm_kms_helper]
-> [   19.061935][  T142]  ? __drm_fb_helper_find_sizes+0x1170/0x1170 [drm_kms_helper]
-> [   19.062577][  T142]  ? mutex_lock+0xa3/0xf0
-> [   19.062941][  T142]  ? __mutex_lock_slowpath+0x10/0x10
-> [   19.063398][  T142]  ? mutex_lock+0xa3/0xf0
-> [   19.063756][  T142]  ? __mutex_lock_slowpath+0x10/0x10
-> [   19.064214][  T142]  drm_fbdev_generic_client_hotplug+0x161/0x210 [drm_kms_helper]
-> [   19.064868][  T142]  drm_client_register+0x168/0x230 [drm]
-> [   19.065410][  T142]  bochs_pci_probe+0x68f/0x8c0 [bochs]
-> [   19.065860][  T142]  ? _raw_spin_lock_irqsave+0x8b/0xe0
-> [   19.066318][  T142]  ? bochs_hw_init+0x650/0x650 [bochs]
-> [   19.066821][  T142]  ? bochs_hw_init+0x650/0x650 [bochs]
-> [   19.067346][  T142]  local_pci_probe+0xda/0x180
-> [   19.067756][  T142]  pci_call_probe+0x160/0x510
-> [   19.068172][  T142]  ? _raw_spin_lock+0x85/0xe0
-> [   19.068575][  T142]  ? pci_dev_set_disconnected+0x30/0x30
-> [   19.069059][  T142]  ? kernfs_add_one+0x2d4/0x440
-> [   19.069483][  T142]  ? pci_assign_irq+0x8a/0x280
-> [   19.069892][  T142]  ? pci_match_device+0x38c/0x690
-> [   19.070338][  T142]  ? kernfs_put+0x1c/0x30
-> [   19.070700][  T142]  pci_device_probe+0xef/0x230
-> [   19.071112][  T142]  ? pci_dma_configure+0x11d/0x170
-> [   19.071532][  T142]  really_probe+0x3d2/0xb40
-> [   19.071911][  T142]  __driver_probe_device+0x18c/0x440
-> [   19.072369][  T142]  ? klist_iter_init+0x70/0x70
-> [   19.072770][  T142]  driver_probe_device+0x4a/0x120
-> [   19.073209][  T142]  __driver_attach+0x1d2/0x490
-> [   19.073609][  T142]  ? __device_attach_driver+0x260/0x260
-> [   19.074084][  T142]  bus_for_each_dev+0x103/0x180
-> [   19.074494][  T142]  ? bus_remove_file+0x40/0x40
-> [   19.074887][  T142]  ? klist_add_tail+0x133/0x260
-> [   19.075311][  T142]  bus_add_driver+0x29a/0x570
-> [   19.075701][  T142]  driver_register+0x134/0x450
-> [   19.076109][  T142]  ? 0xffffffffc06d6000
-> [   19.076457][  T142]  do_one_initcall+0xa1/0x370
-> [   19.076855][  T142]  ? trace_event_raw_event_initcall_level+0x1a0/0x1a0
-> [   19.077428][  T142]  ? kasan_unpoison+0x44/0x70
-> [   19.077823][  T142]  do_init_module+0x22e/0x720
-> [   19.078222][  T142]  load_module+0x1826/0x25e0
-> [   19.078603][  T142]  ? post_relocation+0x370/0x370
-> [   19.079022][  T142]  ? kernel_read_file+0x243/0x820
-> [   19.079431][  T142]  ? __x64_sys_fspick+0x2a0/0x2a0
-> [   19.079844][  T142]  ? init_module_from_file+0xd1/0x130
-> [   19.080295][  T142]  init_module_from_file+0xd1/0x130
-> [   19.080725][  T142]  ? __ia32_sys_init_module+0xb0/0xb0
-> [   19.081194][  T142]  ? userfaultfd_unmap_prep+0x3d0/0x3d0
-> [   19.081657][  T142]  ? _raw_write_lock_irq+0xe0/0xe0
-> [   19.082097][  T142]  idempotent_init_module+0x23b/0x660
-> [   19.082540][  T142]  ? init_module_from_file+0x130/0x130
-> [   19.082986][  T142]  ? __fget_light+0x57/0x3d0
-> [   19.083386][  T142]  __ia32_sys_finit_module+0xbe/0x130
-> [   19.083818][  T142]  __do_fast_syscall_32+0x61/0xd0
-> [   19.084243][  T142]  do_fast_syscall_32+0x33/0x70
-> [   19.084643][  T142]  entry_SYSENTER_compat_after_hwframe+0x70/0x7a
-> [   19.085165][  T142] RIP: 0023:0xf7fb7579
-> [   19.085503][  T142] Code: b8 01 10 06 03 74 b4 01 10 07 03 74 b0 01 10 08 03 74 d8 01 00 00 00 00 00 00 00 00 00 00 00 00 00 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90 90 90 90 8d b4 26 00 00 00 00 8d b4 26 00 00 00 00
-> [   19.086546][  T142] RSP: 002b:00000000ff888b1c EFLAGS: 00200206 ORIG_RAX: 000000000000015e
-> [   19.087012][  T142] RAX: ffffffffffffffda RBX: 0000000000000012 RCX: 00000000f7fa1d41
-> [   19.087442][  T142] RDX: 0000000000000000 RSI: 0000000056b70730 RDI: 0000000056b6c600
-> [   19.087868][  T142] RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-> [   19.088324][  T142] R10: 0000000000000000 R11: 0000000000200206 R12: 0000000000000000
-> [   19.088747][  T142] R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
-> [   19.089176][  T142]  </TASK>
-> [   19.089354][  T142] ---[ end trace 0000000000000000 ]---
-> 
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+Le lundi 22 janvier 2024 =C3=A0 11:35 +0100, Christian K=C3=B6nig a =C3=A9c=
+rit=C2=A0:
+> Am 19.01.24 um 15:13 schrieb Paul Cercueil:
+> > These functions should be used by device drivers when they start
+> > and
+> > stop accessing the data of DMABUF. It allows DMABUF importers to
+> > cache
+> > the dma_buf_attachment while ensuring that the data they want to
+> > access
+> > is available for their device when the DMA transfers take place.
+>=20
+> As Daniel already noted as well this is a complete no-go from the=20
+> DMA-buf design point of view.
+
+What do you mean "as Daniel already noted"? It was him who suggested
+this.
+
+>=20
+> Regards,
+> Christian.
+
+Cheers,
+-Paul
+
+>=20
+> >=20
+> > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> >=20
+> > ---
+> > v5: New patch
+> > ---
+> > =C2=A0 drivers/dma-buf/dma-buf.c | 66
+> > +++++++++++++++++++++++++++++++++++++++
+> > =C2=A0 include/linux/dma-buf.h=C2=A0=C2=A0 | 37 ++++++++++++++++++++++
+> > =C2=A0 2 files changed, 103 insertions(+)
+> >=20
+> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> > index 8fe5aa67b167..a8bab6c18fcd 100644
+> > --- a/drivers/dma-buf/dma-buf.c
+> > +++ b/drivers/dma-buf/dma-buf.c
+> > @@ -830,6 +830,8 @@ static struct sg_table * __map_dma_buf(struct
+> > dma_buf_attachment *attach,
+> > =C2=A0=C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0 - dma_buf_mmap()
+> > =C2=A0=C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0 - dma_buf_begin_cpu_access()
+> > =C2=A0=C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0 - dma_buf_end_cpu_access()
+> > + *=C2=A0=C2=A0=C2=A0=C2=A0 - dma_buf_begin_access()
+> > + *=C2=A0=C2=A0=C2=A0=C2=A0 - dma_buf_end_access()
+> > =C2=A0=C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0 - dma_buf_map_attachment_unlocke=
+d()
+> > =C2=A0=C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0 - dma_buf_unmap_attachment_unloc=
+ked()
+> > =C2=A0=C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0 - dma_buf_vmap_unlocked()
+> > @@ -1602,6 +1604,70 @@ void dma_buf_vunmap_unlocked(struct dma_buf
+> > *dmabuf, struct iosys_map *map)
+> > =C2=A0 }
+> > =C2=A0 EXPORT_SYMBOL_NS_GPL(dma_buf_vunmap_unlocked, DMA_BUF);
+> > =C2=A0=20
+> > +/**
+> > + * @dma_buf_begin_access - Call before any hardware access from/to
+> > the DMABUF
+> > + * @attach:	[in]	attachment used for hardware access
+> > + * @sg_table:	[in]	scatterlist used for the DMA transfer
+> > + * @direction:=C2=A0 [in]=C2=A0=C2=A0=C2=A0 direction of DMA transfer
+> > + */
+> > +int dma_buf_begin_access(struct dma_buf_attachment *attach,
+> > +			 struct sg_table *sgt, enum
+> > dma_data_direction dir)
+> > +{
+> > +	struct dma_buf *dmabuf;
+> > +	bool cookie;
+> > +	int ret;
+> > +
+> > +	if (WARN_ON(!attach))
+> > +		return -EINVAL;
+> > +
+> > +	dmabuf =3D attach->dmabuf;
+> > +
+> > +	if (!dmabuf->ops->begin_access)
+> > +		return 0;
+> > +
+> > +	cookie =3D dma_fence_begin_signalling();
+> > +	ret =3D dmabuf->ops->begin_access(attach, sgt, dir);
+> > +	dma_fence_end_signalling(cookie);
+> > +
+> > +	if (WARN_ON_ONCE(ret))
+> > +		return ret;
+> > +
+> > +	return 0;
+> > +}
+> > +EXPORT_SYMBOL_NS_GPL(dma_buf_begin_access, DMA_BUF);
+> > +
+> > +/**
+> > + * @dma_buf_end_access - Call after any hardware access from/to
+> > the DMABUF
+> > + * @attach:	[in]	attachment used for hardware access
+> > + * @sg_table:	[in]	scatterlist used for the DMA transfer
+> > + * @direction:=C2=A0 [in]=C2=A0=C2=A0=C2=A0 direction of DMA transfer
+> > + */
+> > +int dma_buf_end_access(struct dma_buf_attachment *attach,
+> > +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct sg_table *sgt, enum
+> > dma_data_direction dir)
+> > +{
+> > +	struct dma_buf *dmabuf;
+> > +	bool cookie;
+> > +	int ret;
+> > +
+> > +	if (WARN_ON(!attach))
+> > +		return -EINVAL;
+> > +
+> > +	dmabuf =3D attach->dmabuf;
+> > +
+> > +	if (!dmabuf->ops->end_access)
+> > +		return 0;
+> > +
+> > +	cookie =3D dma_fence_begin_signalling();
+> > +	ret =3D dmabuf->ops->end_access(attach, sgt, dir);
+> > +	dma_fence_end_signalling(cookie);
+> > +
+> > +	if (WARN_ON_ONCE(ret))
+> > +		return ret;
+> > +
+> > +	return 0;
+> > +}
+> > +EXPORT_SYMBOL_NS_GPL(dma_buf_end_access, DMA_BUF);
+> > +
+> > =C2=A0 #ifdef CONFIG_DEBUG_FS
+> > =C2=A0 static int dma_buf_debug_show(struct seq_file *s, void *unused)
+> > =C2=A0 {
+> > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> > index 8ff4add71f88..8ba612c7cc16 100644
+> > --- a/include/linux/dma-buf.h
+> > +++ b/include/linux/dma-buf.h
+> > @@ -246,6 +246,38 @@ struct dma_buf_ops {
+> > =C2=A0=C2=A0	 */
+> > =C2=A0=C2=A0	int (*end_cpu_access)(struct dma_buf *, enum
+> > dma_data_direction);
+> > =C2=A0=20
+> > +	/**
+> > +	 * @begin_access:
+> > +	 *
+> > +	 * This is called from dma_buf_begin_access() when a
+> > device driver
+> > +	 * wants to access the data of the DMABUF. The exporter
+> > can use this
+> > +	 * to flush/sync the caches if needed.
+> > +	 *
+> > +	 * This callback is optional.
+> > +	 *
+> > +	 * Returns:
+> > +	 *
+> > +	 * 0 on success or a negative error code on failure.
+> > +	 */
+> > +	int (*begin_access)(struct dma_buf_attachment *, struct
+> > sg_table *,
+> > +			=C2=A0=C2=A0=C2=A0 enum dma_data_direction);
+> > +
+> > +	/**
+> > +	 * @end_access:
+> > +	 *
+> > +	 * This is called from dma_buf_end_access() when a device
+> > driver is
+> > +	 * done accessing the data of the DMABUF. The exporter can
+> > use this
+> > +	 * to flush/sync the caches if needed.
+> > +	 *
+> > +	 * This callback is optional.
+> > +	 *
+> > +	 * Returns:
+> > +	 *
+> > +	 * 0 on success or a negative error code on failure.
+> > +	 */
+> > +	int (*end_access)(struct dma_buf_attachment *, struct
+> > sg_table *,
+> > +			=C2=A0 enum dma_data_direction);
+> > +
+> > =C2=A0=C2=A0	/**
+> > =C2=A0=C2=A0	 * @mmap:
+> > =C2=A0=C2=A0	 *
+> > @@ -606,6 +638,11 @@ void dma_buf_detach(struct dma_buf *dmabuf,
+> > =C2=A0 int dma_buf_pin(struct dma_buf_attachment *attach);
+> > =C2=A0 void dma_buf_unpin(struct dma_buf_attachment *attach);
+> > =C2=A0=20
+> > +int dma_buf_begin_access(struct dma_buf_attachment *attach,
+> > +			 struct sg_table *sgt, enum
+> > dma_data_direction dir);
+> > +int dma_buf_end_access(struct dma_buf_attachment *attach,
+> > +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct sg_table *sgt, enum
+> > dma_data_direction dir);
+> > +
+> > =C2=A0 struct dma_buf *dma_buf_export(const struct dma_buf_export_info
+> > *exp_info);
+> > =C2=A0=20
+> > =C2=A0 int dma_buf_fd(struct dma_buf *dmabuf, int flags);
+>=20
+
