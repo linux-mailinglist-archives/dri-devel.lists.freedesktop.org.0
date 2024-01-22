@@ -2,113 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EE0C835D3E
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 09:53:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E442835DEC
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 10:17:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9897D10EB7F;
-	Mon, 22 Jan 2024 08:53:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76C9E10EBB1;
+	Mon, 22 Jan 2024 09:17:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
- [209.85.208.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D36610EB7E
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 08:53:03 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id
- 4fb4d7f45d1cf-55a3a875f7fso3149006a12.3
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 00:53:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1705913522; x=1706518322; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Mjyqz17NUKW0ng+M4oXEfxh1ZW48S74Lc+QWc2EPCFI=;
- b=VJvK2OkmJXLfjhPZIYXgXx7kBs2vm1D0ALAvZ8dLgfiMugF8oHIuzDzNmasbviYFqz
- cMBg7DA7yps85Vd8jAnTyu5McgumYHtR55zo7u7S2dBTYby64IP6Zctp9PdDjmQmptre
- vSE3eZBDxhPJCggur2jDvGooiBej7AJTkd5+/OvEla8jtZeJ7lk0vzX0O64OR7XplUde
- 7vc9F7ZP2F/UrjXv8Hd06yQjdrMobVLfTGQwUFIP5vh+ja7jVz8Uauj21lAEpdIz2Flz
- ECq6SkW1FfAE/tMfYMzd4Q/RIZqqAaeS3ejEug4iUSFNKH94aSaF9N7Buqjfk57T9CLb
- /kiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705913522; x=1706518322;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Mjyqz17NUKW0ng+M4oXEfxh1ZW48S74Lc+QWc2EPCFI=;
- b=hA0e9tisY/TYTyv/4fabdn6O/vWaLvVpRiDTnnkTDeEEcUfYhMlQD4zALjo/ezlM1V
- 8vVevlJzN/5C2AdviqpwZvWlU9q7xdNq1KChf/6sRnsWr+eZZ54lS/uQhKm2TxJyj1AN
- 8mZBN6zLNuJ//2TglPIOAe8plsH7UMQT/HxK31leKiyo4JDY3F1lpIPALKD6GxcseUhw
- PzUPKqIdty8G3RUF8KSL8DI0C18N7DrUyql2+0cFfeJWIl3y4dexC9nCpTsOrXHQtzps
- 0HXOI47jG1R/ajrVEqK2FMUeGylg0hcYsEyXPvopf7D0T4pc6aAu7aW7O8wT46aJZQEf
- CFeQ==
-X-Gm-Message-State: AOJu0YyPiFOzDOFLm0CUcw4DqAo44/Hx0Ebl4ZrbD13GF0KH1XzBXYtT
- IiD1Q60h+d+z0H2sXtRDIxy8qvK0F/VsCcXmdEwvE0UR8gHOnxiI7nxjPAMb6ro=
-X-Google-Smtp-Source: AGHT+IG7wRv2A0NANM8rwgQYVuT5+t9wpgA1CK4/00koFThqPUZYnC7I4jh8cJtaYPY24vte/KMZMQ==
-X-Received: by 2002:aa7:d3ce:0:b0:55c:168:a4a4 with SMTP id
- o14-20020aa7d3ce000000b0055c0168a4a4mr1636549edr.29.1705913522061; 
- Mon, 22 Jan 2024 00:52:02 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.215.66])
- by smtp.gmail.com with ESMTPSA id
- fj9-20020a0564022b8900b00559cb738c1bsm7028819edb.4.2024.01.22.00.51.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Jan 2024 00:52:01 -0800 (PST)
-Message-ID: <f525b63f-a32c-41cf-b80f-5d85b6eb50c8@linaro.org>
-Date: Mon, 22 Jan 2024 09:51:59 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76B6210EBB1
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 09:17:04 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 8A46861188;
+ Mon, 22 Jan 2024 09:17:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 839A7C43390;
+ Mon, 22 Jan 2024 09:16:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1705915020;
+ bh=O0zUoL0uiBX5x9ypl74qZkXUXOnXX3J9rjb6Fig41B0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=XvgfRLDTcWaxrwgqM0+Q4FJzTVBAMpxVF/SD4Jwugk3lpw2omNaK6Gpsa9xrO8jUb
+ IfBMr612gRCKl0iFjt1DtBv3T64CRUOQAJ/3iGU4XJkdrqJLPaTaj+q0nU54Q5h0gH
+ xgbfbEwMTwhvgxbdk/d7QDgab+Pl0bVAqF6/hILgxBlmxYox98RLOY7a3iAnFm820K
+ vpI4M/HwiKbLAeRILyXkkxCUufg7APD9EmHyGBbVgR+0tojWfwo4+MpCN4u59Hf5B8
+ I2itgs/7FGPMbc5wkhh3XWGv8ZeNvGFlfctHORHP2T8qNqpNqW8s+skVoyPVm5uoCM
+ Y7N0kMQYmrEnA==
+Date: Mon, 22 Jan 2024 09:16:53 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Dharma.B@microchip.com
+Subject: Re: [PATCH v3 3/3] dt-bindings: mfd: atmel,hlcdc: Convert to DT
+ schema format
+Message-ID: <20240122-stark-duress-2f59294dcf27@spud>
+References: <20240118092612.117491-1-dharma.b@microchip.com>
+ <20240118092612.117491-4-dharma.b@microchip.com>
+ <20240118-recent-glorified-fd35d72e006e@spud>
+ <c33868c8-dc42-4800-885c-5e5f24c2044e@microchip.com>
+ <20240119-character-mardi-43571d7fe7d5@wendy>
+ <da60f9f3-f955-4a87-a020-5710185953c0@microchip.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/8] dt-bindings: drm/msm/gpu: Document AON clock for
- A506/A510
-Content-Language: en-US
-To: Adam Skladowski <a39.skl@gmail.com>
-References: <20240121194221.13513-1-a39.skl@gmail.com>
- <20240121194221.13513-6-a39.skl@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240121194221.13513-6-a39.skl@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="fSFFnBC92FdCkh8G"
+Content-Disposition: inline
+In-Reply-To: <da60f9f3-f955-4a87-a020-5710185953c0@microchip.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,47 +56,198 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, David Airlie <airlied@gmail.com>,
- Andy Gross <agross@kernel.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- ~postmarketos/upstreaming@lists.sr.ht, Daniel Vetter <daniel@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, phone-devel@vger.kernel.org,
- Sean Paul <sean@poorly.run>, Bjorn Andersson <andersson@kernel.org>
+Cc: alexandre.belloni@bootlin.com, linux-pwm@vger.kernel.org,
+ Linux4Microchip@microchip.com, dri-devel@lists.freedesktop.org,
+ Nicolas.Ferre@microchip.com, Conor.Dooley@microchip.com,
+ thierry.reding@gmail.com, krzysztof.kozlowski+dt@linaro.org,
+ claudiu.beznea@tuxon.dev, airlied@gmail.com, sam@ravnborg.org, lee@kernel.org,
+ u.kleine-koenig@pengutronix.de, devicetree@vger.kernel.org,
+ conor+dt@kernel.org, tzimmermann@suse.de, mripard@kernel.org,
+ robh+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
+ bbrezillon@kernel.org, linux-kernel@vger.kernel.org, daniel@ffwll.ch
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/01/2024 20:41, Adam Skladowski wrote:
-> Adreno 506(MSM8953) and Adreno 510(MSM8976) require
-> Always-on branch clock to be enabled, describe it.
-> 
-> Signed-off-by: Adam Skladowski <a39.skl@gmail.com>
-> ---
->  Documentation/devicetree/bindings/display/msm/gpu.yaml | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/msm/gpu.yaml b/Documentation/devicetree/bindings/display/msm/gpu.yaml
-> index b019db954793..9e36f54a5caf 100644
-> --- a/Documentation/devicetree/bindings/display/msm/gpu.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/gpu.yaml
-> @@ -133,7 +133,7 @@ allOf:
->        properties:
->          clocks:
->            minItems: 2
-> -          maxItems: 7
-> +          maxItems: 8
 
-I would prefer we start enforcing the order. The initial flexibility was
-because of conversion from the old bindings and dealing with some
-technical debt, AFAIU.
+--fSFFnBC92FdCkh8G
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This is requirement of new clock, so maybe better add dedicated if:then
-case which will be enforcing the order with always-on at the end.
+On Mon, Jan 22, 2024 at 03:38:41AM +0000, Dharma.B@microchip.com wrote:
+> Hi Conor,
+> On 19/01/24 5:33 pm, Conor Dooley - M52691 wrote:
+> > On Fri, Jan 19, 2024 at 03:32:49AM +0000, Dharma.B@microchip.com wrote:
+> >> On 18/01/24 9:10 pm, Conor Dooley wrote:
+> >>> On Thu, Jan 18, 2024 at 02:56:12PM +0530, Dharma Balasubiramani wrote:
+> >>>> Convert the atmel,hlcdc binding to DT schema format.
+> >>>>
+> >>>> Adjust the clock-names property to clarify that the LCD controller e=
+xpects
+> >>>> one of these clocks (either sys_clk or lvds_pll_clk to be present bu=
+t not
+> >>>> both) along with the slow_clk and periph_clk. This alignment with th=
+e actual
+> >>>> hardware requirements will enable accurate device tree configuration=
+ for
+> >>>> systems using the HLCDC IP.
+> >>>>
+> >>>> Signed-off-by: Dharma Balasubiramani<dharma.b@microchip.com>
+> >>>> ---
+> >>>> changelog
+> >>>> v2 -> v3
+> >>>> - Rename hlcdc-display-controller and hlcdc-pwm to generic names.
+> >>>> - Modify the description by removing the unwanted comments and '|'.
+> >>>> - Modify clock-names simpler.
+> >>>> v1 -> v2
+> >>>> - Remove the explicit copyrights.
+> >>>> - Modify title (not include words like binding/driver).
+> >>>> - Modify description actually describing the hardware and not the dr=
+iver.
+> >>>> - Add details of lvds_pll addition in commit message.
+> >>>> - Ref endpoint and not endpoint-base.
+> >>>> - Fix coding style.
+> >>>> ...
+> >>>>    .../devicetree/bindings/mfd/atmel,hlcdc.yaml  | 97 ++++++++++++++=
++++++
+> >>>>    .../devicetree/bindings/mfd/atmel-hlcdc.txt   | 56 -----------
+> >>>>    2 files changed, 97 insertions(+), 56 deletions(-)
+> >>>>    create mode 100644 Documentation/devicetree/bindings/mfd/atmel,hl=
+cdc.yaml
+> >>>>    delete mode 100644 Documentation/devicetree/bindings/mfd/atmel-hl=
+cdc.txt
+> >>>>
+> >>>> diff --git a/Documentation/devicetree/bindings/mfd/atmel,hlcdc.yaml =
+b/Documentation/devicetree/bindings/mfd/atmel,hlcdc.yaml
+> >>>> new file mode 100644
+> >>>> index 000000000000..eccc998ac42c
+> >>>> --- /dev/null
+> >>>> +++ b/Documentation/devicetree/bindings/mfd/atmel,hlcdc.yaml
+> >>>> @@ -0,0 +1,97 @@
+> >>>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> >>>> +%YAML 1.2
+> >>>> +---
+> >>>> +$id:http://devicetree.org/schemas/mfd/atmel,hlcdc.yaml#
+> >>>> +$schema:http://devicetree.org/meta-schemas/core.yaml#
+> >>>> +
+> >>>> +title: Atmel's HLCD Controller
+> >>>> +
+> >>>> +maintainers:
+> >>>> +  - Nicolas Ferre<nicolas.ferre@microchip.com>
+> >>>> +  - Alexandre Belloni<alexandre.belloni@bootlin.com>
+> >>>> +  - Claudiu Beznea<claudiu.beznea@tuxon.dev>
+> >>>> +
+> >>>> +description:
+> >>>> +  The Atmel HLCDC (HLCD Controller) IP available on Atmel SoCs expo=
+ses two
+> >>>> +  subdevices, a PWM chip and a Display Controller.
+> >>>> +
+> >>>> +properties:
+> >>>> +  compatible:
+> >>>> +    enum:
+> >>>> +      - atmel,at91sam9n12-hlcdc
+> >>>> +      - atmel,at91sam9x5-hlcdc
+> >>>> +      - atmel,sama5d2-hlcdc
+> >>>> +      - atmel,sama5d3-hlcdc
+> >>>> +      - atmel,sama5d4-hlcdc
+> >>>> +      - microchip,sam9x60-hlcdc
+> >>>> +      - microchip,sam9x75-xlcdc
+> >>>> +
+> >>>> +  reg:
+> >>>> +    maxItems: 1
+> >>>> +
+> >>>> +  interrupts:
+> >>>> +    maxItems: 1
+> >>>> +
+> >>>> +  clocks:
+> >>>> +    maxItems: 3
+> >>> Hmm, one thing I probably should have said on the previous version, b=
+ut
+> >>> I missed somehow: It would be good to add an items list to the clocks
+> >>> property here to explain what the 3 clocks are/are used for - especia=
+lly
+> >>> since there is additional complexity being added here to use either t=
+he
+> >>> sys or lvds clocks.
+> >> May I inquire if this approach is likely to be effective?
+> >>
+> >>     clocks:
+> >>       items:
+> >>         - description: peripheral clock
+> >>         - description: generic clock or lvds pll clock
+> >>             Once the LVDS PLL is enabled, the pixel clock is used as t=
+he
+> >>             clock for LCDC, so its GCLK is no longer needed.
+> >>         - description: slow clock
+> >>       maxItems: 3
+> >=20
+> > Hmm that sounds very suspect to me. "Once the lvdspll is enabled the
+> > generic clock is no longer needed" sounds like both clocks can be provi=
+ded
+> > to the IP on different pins and their provision is not mutually
+> > exclusive, just that the IP will only actually use one at a time. If
+> > that is the case, then this patch is nott correct and the binding should
+> > allow for 4 clocks, with both the generic clock and the lvds pll being
+> > present in the DT at the same time.
+> >=20
+> > I vaguely recall internal discussion about this problem some time back
+> > but the details all escape me.
+>=20
+> Let's delve deeper into the clock configuration for LCDC_PCK.
+>=20
+> Considering the flexibility of the design, it appears that both clocks,=
+=20
+> sys_clk (generic clock) and lvds_pll_clk, can indeed be provided to the=
+=20
+> IP simultaneously. The crucial aspect, however, is that the IP will=20
+> utilize only one of these clocks at any given time. This aligns with the=
+=20
+> specific requirements of the application, where the choice of clock=20
+> depends on whether the LVDS interface or MIPI/DSI is in use.
 
-Best regards,
-Krzysztof
+If both clocks can physically be provided to the IP then both of them
+should be in the dt. The hcldc appears to me to be a part of the SoC and
+the clock routing to the IP is likely fixed.
 
+> To ensure proper configuration of the pixel clock period, we need to=20
+> distinctly identify which clocks are being utilized. For instance, in=20
+> the LVDS interface scenario, the lvds_pll_clk is essential, resulting in=
+=20
+> LCDC_PCK being set to the source clock. Conversely, in the MIPI/DSI=20
+> case, the LCDC GCLK is required, leading to LCDC_PCK being defined as=20
+> source clock/CLKDIV+2.
+>=20
+> Considering the potential coexistence of sys_clk and lvds_pll_clk in the=
+=20
+> Device Tree (DT), we may need to introduce an additional flag in the DT.=
+=20
+> This flag could serve as a clear indicator of whether the LVDS interface=
+=20
+> or MIPI/DSI is being employed. As we discussed to drop this flag and=20
+> just have any one of the clocks I believe that this approach provides a=
+=20
+> sensible and scalable solution, allowing for a comprehensive=20
+> representation of the clocking configuration.
+
+This is probably a question for the folks on the DRM or media side of
+things, but is it not possible to determine based on the endpoint what
+protocol is required?
+I know that on the media side of things there's an endpoint property
+that can be used to specific the bus-type - is there an equivalent
+property for DRM stuff?
+
+Cheers,
+Conor.
+
+--fSFFnBC92FdCkh8G
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZa4yhQAKCRB4tDGHoIJi
+0sMDAP0c3HEL+1Ig0hd1OqjdKgyyXhWgUHymexBR+pGPnteR8AEArSSf7rMlOQn2
+Mx+/ZN+8H7ncpBa1xwIKSYBKhCK7sQk=
+=l0SJ
+-----END PGP SIGNATURE-----
+
+--fSFFnBC92FdCkh8G--
