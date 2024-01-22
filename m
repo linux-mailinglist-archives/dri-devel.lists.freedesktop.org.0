@@ -2,52 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4287483733E
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 20:52:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99EC183737E
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 21:07:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63A6F10E78F;
-	Mon, 22 Jan 2024 19:51:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6C0A10EB19;
+	Mon, 22 Jan 2024 20:06:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.skole.hr (mx1.hosting.skole.hr [161.53.165.185])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F044910E6FA
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 19:51:42 +0000 (UTC)
-Received: from mx1.hosting.skole.hr (localhost.localdomain [127.0.0.1])
- by mx.skole.hr (mx.skole.hr) with ESMTP id 7EEC085970;
- Mon, 22 Jan 2024 20:51:41 +0100 (CET)
-From: =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-Date: Mon, 22 Jan 2024 20:50:59 +0100
-Subject: [PATCH v4 3/3] backlight: Add Kinetic KTD2801 backlight support
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A296E10EB19
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 20:06:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1705954009; x=1706558809; i=deller@gmx.de;
+ bh=dNelk4kBrgBCghijjRjoFYY9rvEodTp1XYkmBPmw944=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+ In-Reply-To;
+ b=emBCQ1O0ru/BmVa7w6zgoBRGJwELUQxlnBLGgssxzm38OqV5idIEkViA7b3bkYyl
+ LP5VN5uP+nwWtxpW39e30fUDACe55UnSV1lEIu5qDCh7SBDOf8cAHWRASGFsLgSm4
+ 4A1KeNjkeXGEknBzbYGLmnB3tqKhReJ0UTW0c9emL1a/7Bbcxkv01vT6j29Q0pkSR
+ L+Pabf2mRJVpgAqkeSLd7aAVtKQPZXCKJnGwclhLtBxQkAOLLpwvloH1yVx4JTSF6
+ 4+CQw/+62SdGqkYo8Db3ygW8HniAZ+c3hsFMC52KCySm5G8yE3cnXsQfpXiQoJUrS
+ qVxDoegCgF2kn0qFIQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.55] ([94.134.156.47]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MuDc7-1r7Ahd0JdF-00uZaX; Mon, 22
+ Jan 2024 21:01:00 +0100
+Message-ID: <00232392-dc40-4790-9278-91df30e50a04@gmx.de>
+Date: Mon, 22 Jan 2024 21:00:58 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240122-ktd2801-v4-3-33c986a3eb68@skole.hr>
-References: <20240122-ktd2801-v4-0-33c986a3eb68@skole.hr>
-In-Reply-To: <20240122-ktd2801-v4-0-33c986a3eb68@skole.hr>
-To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>, 
- Linus Walleij <linus.walleij@linaro.org>
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6449;
- i=duje.mihanovic@skole.hr; h=from:subject:message-id;
- bh=5fQOXzMx0sk8VbcIHgQr1j5EvAtZ+SFCQYKkGVxpjwQ=;
- b=owEBbQKS/ZANAwAIAZoRnrBCLZbhAcsmYgBlrsck71V1SHKFF5Fndc5m9LwAhxluGt6iuSrqj
- IeJCCf8H3GJAjMEAAEIAB0WIQRT351NnD/hEPs2LXiaEZ6wQi2W4QUCZa7HJAAKCRCaEZ6wQi2W
- 4RrUD/4q1q+fvjmFi87rZXxY30ZZb8xlXQr9AqNVHJdGddHm96yN3cEwj+pP3hdwpkkk+x+jLwV
- i79VDHNQ5A/ltb9lKFn7/IHbpdYYOIOV4JeXjWa8hrEJNc5M3P7cFNH2JhJa+e8HPIofWovhog9
- v6YjwZgqu6oEwywumapJsNFRIgQStOZuSbtaOVlEcuvGlHaReLfJ4QzNw/xTkqM80boyF2pV4qS
- Cwf0Q76p0gf7qiYrac3nJe2G7nkpOru4hFactSINrMe14eLSdZvngCfXPFgZ5AjOKs0vXRklDjS
- 7p+wlKCwHNm5S2nImfYNUq9iPrHAbZQ140PJSd8lieBEV+7O4iqo1PYFWaaF9HalveIQxIFSfHp
- EowMFexZau05bMsAZfdHil0W1AlPgdy5eIcEq4WrbiD4QAX/6i7oP2Ivb4OjB8Rm0OM9xmvVdWz
- lhwA+Rc7DI6BaVN4sNiL2clAM7aLGJ9uvfxPp4uOtujBSRKe5dRakjTi5sNNVYlAypMewApUAUS
- P40YUucfmG0205GM0ZAqSIrl1l9dhPPD354hpCMYSYBCFTAvDaqCT+f8lH39aDxlaxZQMV7W8PV
- pvPczZ5zyzwCN+6xR6k4FZYjr7hlH5N42eY7DPzxaaOghP88zL1X4d9QFZTtQF2kuRUZAJY9fng
- /qswvQA6ccnCSOQ==
-X-Developer-Key: i=duje.mihanovic@skole.hr; a=openpgp;
- fpr=53DF9D4D9C3FE110FB362D789A119EB0422D96E1
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/47] tty: vt: cleanup and documentation
+Content-Language: en-US
+To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>, gregkh@linuxfoundation.org
+References: <20240122110401.7289-1-jirislaby@kernel.org>
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ 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
+In-Reply-To: <20240122110401.7289-1-jirislaby@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:+gm3ywaYDIj1z5b8uKNnsDEONVgpeLMuXadHkrhEOpzr6RnNRc7
+ MKGXdTFk8i7+n/hahB3Z1Qd8HY06s3puVkp07+cNPf46oh5IMvd3h1bWGRq80KU0k0bugu9
+ YObXAsna5CKxrH/v31pd/DN7EvKZxpRVxMGu7Rdl0bJ4eQ/OqbHLZeQ2hFs9tdPdBMSD0qR
+ aJAfV/luWPLKrCuWbAFLQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:W6afzeAzsUQ=;KIeiULss6b6OVq2p1NenSE5QXXh
+ Db076iJ1osuIE1gfnKmrR5TqmTYoyWTVrmLdpAhk4upiNRMjFH/4u4S74yYy3RtnSZ9YVVbow
+ jMtGWhK4mVForDhFY5OFVSzAkNdwrv1Y6HufX303YFFr1PSoKDI5+d2LaERlFn0/s8o3J89MI
+ JUft1LxdJyeLt8ld4ctY8EzddHo8sBseAv3ZCAhbam6g1R9hgOKeorsg9x2R3tXogVab05tS3
+ jgUwzY+Hqxme6+Y+ly2Djrhj5dl9fMwQod357+7aVFCkEhuO+0opuTu9qmY0lGvOCfKFMWzq9
+ YP8l4hKICDGV+KCRu0EaBn3hBu6IStpVdOguQArRokk89WikFYSLJCkCFjIFpJTRpnTnW4G9H
+ NINEWOyvhwnnI2UKpEwHDYT4dSBWxTTvt670apL2uJKKhKJmHgWPtiAJeK+RtcQyGKDtpjd7S
+ M7AkhscNzxDAlbX9og5ZtNelVIxJmByTc5GALNlWr0l3ZtjSjcadzxi0J+YHvnK4f/wR9Jj33
+ nTmJLhR12SHi9q41Z2i5iMbVTFgrIT7IyfXkggDZEJYuek92IYaAqJ0PlH4PQylWYafNYhCt8
+ 98/BPpmuHXo0DkhliSaNR+5dj6Hr2AbHuGC5C1I91I7kmTrm5daDZQt7EHxts3Rb95/2tBZ5x
+ Fi/wV1da4ckEs81qAzyc3sIbu/LpaOnhlLFlP62RkvBOqhWvYeBGkHSk+bx1CpLodiCAnkMbO
+ 82fQbEvcv9K5mNNxEFXAI4zmPGaQ5GwTEbRXpVEiLQIRXud2bcY8P++tah1k6oruI4x72VWvp
+ Zs9+AOR+Avf3brOYdarlrQidgTfNpVq1MvrLKcxSv3bvKn/yDVnBJjfkdXjs6XbtnKNykSUrM
+ LYMUuFDu4aMzVvAW+odoyZ4hRD2YAFwaDhLD2jolQ4PF4zX7EEyRcMKGxhuYAadMGfUVu6f6B
+ jZii/fDbN5Von0+niCII61+0zP4=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,210 +114,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
- Karel Balej <balejk@matfyz.cz>, linux-leds@vger.kernel.org
+Cc: Martin Hostettler <textshell@uchuujin.de>, linux-fbdev@vger.kernel.org,
+ linux-serial@vger.kernel.org, linux-parisc@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Daniel Vetter <daniel@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-KTD2801 is a LED backlight driver IC found in samsung,coreprimevelte.
-The brightness can be set using PWM or the ExpressWire protocol. Add
-support for the KTD2801.
+On 1/22/24 12:03, Jiri Slaby (SUSE) wrote:
+> Push the console code (vt.c, vt.h, console.h, ...) into a bit more
+> maintainable state. Especially all around consw structure and document
+> it.
+>
+> CSI parser is also a bit cleaned up. More to follow some time in the
+> next round.
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
----
- MAINTAINERS                                 |   6 ++
- drivers/video/backlight/Kconfig             |   7 ++
- drivers/video/backlight/Makefile            |   1 +
- drivers/video/backlight/ktd2801-backlight.c | 128 ++++++++++++++++++++++++++++
- 4 files changed, 142 insertions(+)
+I've not yet looked through all of those patches, but I
+tried to boot up a machine with the STI console driver
+and I've not seen any issues yet.
+So far:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 87b12d2448a0..dddffbd8d2a0 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11891,6 +11891,12 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/leds/backlight/kinetic,ktd253.yaml
- F:	drivers/video/backlight/ktd253-backlight.c
- 
-+KTD2801 BACKLIGHT DRIVER
-+M:	Duje Mihanović <duje.mihanovic@skole.hr>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/leds/backlight/kinetic,ktd2801.yaml
-+F:	drivers/video/backlight/ktd2801-backlight.c
-+
- KTEST
- M:	Steven Rostedt <rostedt@goodmis.org>
- M:	John Hawley <warthog9@eaglescrag.net>
-diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
-index 51387b1ef012..bba9d8ffccff 100644
---- a/drivers/video/backlight/Kconfig
-+++ b/drivers/video/backlight/Kconfig
-@@ -183,6 +183,13 @@ config BACKLIGHT_KTD253
- 	  which is a 1-wire GPIO-controlled backlight found in some mobile
- 	  phones.
- 
-+config BACKLIGHT_KTD2801
-+	tristate "Backlight Driver for Kinetic KTD2801"
-+	select LEDS_EXPRESSWIRE
-+	help
-+	  Say Y to enable the backlight driver for the Kinetic KTD2801 1-wire
-+	  GPIO-controlled backlight found in Samsung Galaxy Core Prime VE LTE.
-+
- config BACKLIGHT_KTZ8866
- 	tristate "Backlight Driver for Kinetic KTZ8866"
- 	depends on I2C
-diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
-index f72e1c3c59e9..b33b647f31ca 100644
---- a/drivers/video/backlight/Makefile
-+++ b/drivers/video/backlight/Makefile
-@@ -35,6 +35,7 @@ obj-$(CONFIG_BACKLIGHT_HP680)		+= hp680_bl.o
- obj-$(CONFIG_BACKLIGHT_HP700)		+= jornada720_bl.o
- obj-$(CONFIG_BACKLIGHT_IPAQ_MICRO)	+= ipaq_micro_bl.o
- obj-$(CONFIG_BACKLIGHT_KTD253)		+= ktd253-backlight.o
-+obj-$(CONFIG_BACKLIGHT_KTD2801)		+= ktd2801-backlight.o
- obj-$(CONFIG_BACKLIGHT_KTZ8866)		+= ktz8866.o
- obj-$(CONFIG_BACKLIGHT_LM3533)		+= lm3533_bl.o
- obj-$(CONFIG_BACKLIGHT_LM3630A)		+= lm3630a_bl.o
-diff --git a/drivers/video/backlight/ktd2801-backlight.c b/drivers/video/backlight/ktd2801-backlight.c
-new file mode 100644
-index 000000000000..c020acff40f1
---- /dev/null
-+++ b/drivers/video/backlight/ktd2801-backlight.c
-@@ -0,0 +1,128 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Datasheet:
-+ * https://www.kinet-ic.com/uploads/web/KTD2801/KTD2801-04b.pdf
-+ */
-+#include <linux/backlight.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/leds-expresswire.h>
-+#include <linux/platform_device.h>
-+#include <linux/property.h>
-+
-+#define KTD2801_DEFAULT_BRIGHTNESS	100
-+#define KTD2801_MAX_BRIGHTNESS		255
-+
-+/* These values have been extracted from Samsung's driver. */
-+const struct expresswire_timing ktd2801_timing = {
-+	.poweroff_us = 2600,
-+	.detect_delay_us = 150,
-+	.detect_us = 270,
-+	.data_start_us = 5,
-+	.short_bitset_us = 5,
-+	.long_bitset_us = 15,
-+	.end_of_data_low_us = 10,
-+	.end_of_data_high_us = 350
-+};
-+
-+struct ktd2801_backlight {
-+	struct expresswire_common_props props;
-+	struct backlight_device *bd;
-+	bool was_on;
-+};
-+
-+static int ktd2801_update_status(struct backlight_device *bd)
-+{
-+	struct ktd2801_backlight *ktd2801 = bl_get_data(bd);
-+	u8 brightness = (u8) backlight_get_brightness(bd);
-+
-+	if (backlight_is_blank(bd)) {
-+		expresswire_power_off(&ktd2801->props);
-+		ktd2801->was_on = false;
-+		return 0;
-+	}
-+
-+	if (!ktd2801->was_on) {
-+		expresswire_enable(&ktd2801->props);
-+		ktd2801->was_on = true;
-+	}
-+
-+	expresswire_write_u8(&ktd2801->props, brightness);
-+
-+	return 0;
-+}
-+
-+static const struct backlight_ops ktd2801_backlight_ops = {
-+	.update_status = ktd2801_update_status,
-+};
-+
-+static int ktd2801_backlight_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct backlight_device *bd;
-+	struct ktd2801_backlight *ktd2801;
-+	u32 brightness, max_brightness;
-+	int ret;
-+
-+	ktd2801 = devm_kzalloc(dev, sizeof(*ktd2801), GFP_KERNEL);
-+	if (!ktd2801)
-+		return -ENOMEM;
-+	ktd2801->was_on = true;
-+	ktd2801->props.timing = ktd2801_timing;
-+
-+	ret = device_property_read_u32(dev, "max-brightness", &max_brightness);
-+	if (ret)
-+		max_brightness = KTD2801_MAX_BRIGHTNESS;
-+	if (max_brightness > KTD2801_MAX_BRIGHTNESS) {
-+		dev_err(dev, "illegal max brightness specified\n");
-+		max_brightness = KTD2801_MAX_BRIGHTNESS;
-+	}
-+
-+	ret = device_property_read_u32(dev, "default-brightness", &brightness);
-+	if (ret)
-+		brightness = KTD2801_DEFAULT_BRIGHTNESS;
-+	if (brightness > max_brightness) {
-+		dev_err(dev, "default brightness exceeds max\n");
-+		brightness = max_brightness;
-+	}
-+
-+	ktd2801->props.ctrl_gpio = devm_gpiod_get(dev, "ctrl", GPIOD_OUT_HIGH);
-+	if (IS_ERR(ktd2801->props.ctrl_gpio))
-+		return dev_err_probe(dev, PTR_ERR(ktd2801->props.ctrl_gpio),
-+				"failed to get backlight GPIO");
-+	gpiod_set_consumer_name(ktd2801->props.ctrl_gpio, dev_name(dev));
-+
-+	bd = devm_backlight_device_register(dev, dev_name(dev), dev, ktd2801,
-+			&ktd2801_backlight_ops, NULL);
-+	if (IS_ERR(bd))
-+		return dev_err_probe(dev, PTR_ERR(bd),
-+				"failed to register backlight");
-+
-+	bd->props.max_brightness = max_brightness;
-+	bd->props.brightness = brightness;
-+
-+	ktd2801->bd = bd;
-+	platform_set_drvdata(pdev, bd);
-+	backlight_update_status(bd);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id ktd2801_of_match[] = {
-+	{ .compatible = "kinetic,ktd2801" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, ktd2801_of_match);
-+
-+static struct platform_driver ktd2801_backlight_driver = {
-+	.driver = {
-+		.name = "ktd2801-backlight",
-+		.of_match_table = ktd2801_of_match,
-+	},
-+	.probe = ktd2801_backlight_probe,
-+};
-+module_platform_driver(ktd2801_backlight_driver);
-+
-+MODULE_IMPORT_NS(EXPRESSWIRE);
-+MODULE_AUTHOR("Duje Mihanović <duje.mihanovic@skole.hr>");
-+MODULE_DESCRIPTION("Kinetic KTD2801 Backlight Driver");
-+MODULE_LICENSE("GPL");
+Tested-by: Helge Deller <deller@gmx.de> # parisc STI console
 
--- 
-2.43.0
+Helge
 
+> [v2] See respective patches for changes. The major changes:
+>   * vesa.h introduced
+>   * parameters of csi*() simplified
+>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-fbdev@vger.kernel.org
+> Cc: linux-parisc@vger.kernel.org
+> Cc: Martin Hostettler <textshell@uchuujin.de>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>
+> Jiri Slaby (SUSE) (47):
+>
+>    vgacon: inline vc_scrolldelta_helper() into vgacon_scrolldelta()
+>    fbcon: make display_desc a static array in fbcon_startup()
+>    tty: vt: fix 20 vs 0x20 typo in EScsiignore
+>    tty: vt: expect valid vc when in tty ops
+>    tty: vt: pass proper pointers from tioclinux()
+>    tty: vt: push console lock from tioclinux() down to 2 functions
+>    tty: vt: pass vc_resize_user as a parameter
+>    tty: vt: make vc_is_sel()'s vc const
+>    tty: vt: define an enum for CSI+m codes
+>    tty: vt: use case ranges for CSI+m fg/bg colors
+>    tty: vt: define an enum for CSI+J codes
+>    tty: vt: reflow csi_J()
+>    use clamp() for counts in csi_?() handlers
+>    don't pass vc->vc_par[0] to csi_?() handlers
+>    tty: vt: define an enum for CSI+K codes
+>    tty: vt: reflow csi_K()
+>    tty: vt: define an enum for ascii characters
+>    tty: vt: remove extern from functions in selection.h
+>    tty: vt: make consw::con_debug_*() return void
+>    tty: vt: make init parameter of consw::con_init() a bool
+>    tty: vt: sanitize arguments of consw::con_clear()
+>    tty: vt: remove checks for count in consw::con_clear() implementation=
+s
+>    tty: vt: add con_putc() helper
+>    tty: vt: eliminate unneeded consw::con_putc() implementations
+>    tty: vt: sanitize consw::con_putc() parameters
+>    tty: vt: sanitize consw::con_putcs() parameters
+>    consoles: use if instead of switch-case in consw::con_cursor()
+>    fbdev/core: simplify cursor_state setting in fbcon_ops::cursor()
+>    tty: vt: remove CM_* constants
+>    tty: vt: make consw::con_switch() return a bool
+>    tty: vt: stop using -1 for blank mode in consw::con_blank()
+>    tty: vt: define a common enum for VESA blanking constants
+>    tty: vt: use VESA blanking constants
+>    tty: vt: use enum constants for VESA blanking modes
+>    tty: vt: make types around consw::con_blank() bool
+>    tty: vt: make font of consw::con_font_set() const
+>    tty: vt: make consw::con_font_default()'s name const
+>    tty: vt: change consw::con_set_origin() return type
+>    fbcon: remove consw::con_screen_pos()
+>    tty: vt: remove consw::con_screen_pos()
+>    tty: vt: make types of screenpos() more consistent
+>    fbcon: remove fbcon_getxy()
+>    tty: vt: remove consw::con_getxy()
+>    tty: vt: remove unused consw::con_flush_scrollback()
+>    tty: vt: document the rest of struct consw
+>    tty: vt: fix up kernel-doc
+>    Documentation: add console.rst
+>
+>   Documentation/driver-api/tty/console.rst |  45 ++
+>   Documentation/driver-api/tty/index.rst   |   1 +
+>   drivers/tty/vt/selection.c               |  43 +-
+>   drivers/tty/vt/vt.c                      | 645 +++++++++++------------
+>   drivers/tty/vt/vt_ioctl.c                |   6 +-
+>   drivers/video/console/dummycon.c         |  38 +-
+>   drivers/video/console/mdacon.c           |  43 +-
+>   drivers/video/console/newport_con.c      |  69 +--
+>   drivers/video/console/sticon.c           |  79 ++-
+>   drivers/video/console/vgacon.c           | 152 +++---
+>   drivers/video/fbdev/core/bitblit.c       |  13 +-
+>   drivers/video/fbdev/core/fbcon.c         | 123 ++---
+>   drivers/video/fbdev/core/fbcon.h         |   4 +-
+>   drivers/video/fbdev/core/fbcon_ccw.c     |  13 +-
+>   drivers/video/fbdev/core/fbcon_cw.c      |  13 +-
+>   drivers/video/fbdev/core/fbcon_ud.c      |  13 +-
+>   drivers/video/fbdev/core/tileblit.c      |   4 +-
+>   include/linux/console.h                  | 124 +++--
+>   include/linux/console_struct.h           |   1 -
+>   include/linux/selection.h                |  56 +-
+>   include/linux/vt_kern.h                  |  12 +-
+>   include/uapi/linux/fb.h                  |   8 +-
+>   include/uapi/linux/vesa.h                |  18 +
+>   23 files changed, 755 insertions(+), 768 deletions(-)
+>   create mode 100644 Documentation/driver-api/tty/console.rst
+>   create mode 100644 include/uapi/linux/vesa.h
+>
 
