@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C1F6835BF6
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 08:47:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF370835C7B
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 09:21:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0DD710E60B;
-	Mon, 22 Jan 2024 07:46:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A94110E608;
+	Mon, 22 Jan 2024 08:21:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com
- [209.85.222.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D62C10E60B
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 07:46:56 +0000 (UTC)
-Received: by mail-ua1-f50.google.com with SMTP id
- a1e0cc1a2514c-7d2e007751eso804995241.1
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Jan 2024 23:46:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1705909554; x=1706514354; darn=lists.freedesktop.org;
- h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=HBXWEKVmZuP2+wpPYTROVFhUSFjvWgY133QFkVQ5+ok=;
- b=i6PnMPbjOodlj2LsIUyz7PIo/6dlSbLnZ4TQp0tvyIUKXLbJ0floY4c7sMzZ/S8aKV
- q/9j96xGullvkSUowy/juVJJahdmDJGWiU7E9v6FacvcS+gBQrxeWDDYTy1tOERenfGM
- IWQO2WmsIG5YcaUZXOOs9qMD1snz5Pdb41kGJe74N3OtcX0ZXDDT7Vb7CmV4ZIKLEDfz
- MAjZe/vSAnylvx5Dqhnr0X2mdVrh92+RAgSJFtgO2mrIOf3LGxZ+N30DWm8Gny0hAx21
- sxF066wjUH1Vv5UdqD+iOvb6o6TLvU8X92Od4GaPZehzW8Bp7tS69E+iIx+nIDMYY/af
- FpNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705909554; x=1706514354;
- h=to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=HBXWEKVmZuP2+wpPYTROVFhUSFjvWgY133QFkVQ5+ok=;
- b=qMii3yKu5EXGyHwhnMM4ilIi+nzEleAwKHW3ddOXx3Dycsr/Rm5lJlWhQb6KfChFXi
- 40y2RDuBDwECTvfvdRrAlDTU4FIS/gxPb9C9TrHj/80A9Q+Xc8EDDi1R7uk+L1Lts45E
- dVsoRXOPecGWynBOeYMThLT37W9n4uTRiKrAA0fgzp2et1QjgZoeyEegVg3sM9RRcekk
- cimnAPhHRPUzeGBQPUncv7ihNLQ+uVLyK+ozMZaJFSg+7gyFCVLX2QQOF32yZ6xBgfaW
- 3MWEX9QyQX2bL7fn234/AnYRKmaRJuZrf04CttMVayjx1gIBk0dYGxj8hysV7R2tCBi9
- JMiA==
-X-Gm-Message-State: AOJu0YwrpL4sF9EOZFKmJLoQKqu9bmTW8Kvc3SGZqGWBJC36BWli0UL5
- sGt/KaLR68/CZatxFS0UqJa1TIjo+yIbvodZ+zxjBdaPGoEb2N8aYigBP4gMs94ArdGggdE7Wy1
- UiJpyiS5KJeUB7lB0PxoY642UcKrExYVYfoRaiF7h
-X-Google-Smtp-Source: AGHT+IEoGSoaggZBEX7B8lD7dc0jnF08Dque+ENFRng7Y+P6DCAXWgLICPSbq68+Qfq1YHG0y/hOcducdC6ayCw/YcU=
-X-Received: by 2002:a05:6122:1191:b0:4b6:e611:4406 with SMTP id
- x17-20020a056122119100b004b6e6114406mr1094650vkn.1.1705909553661; Sun, 21 Jan
- 2024 23:45:53 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D42A10E0F1;
+ Mon, 22 Jan 2024 08:21:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1705911678; x=1737447678;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=FVBaX7oX3ZXeuKl41U3j1aUapAEuIUw2DPdZJJaYcrs=;
+ b=nl5vJgKqc0NWubJ5yGjsf1vNDkD+SNHg1sQQ3cpMPndFS00Z+hU8+tau
+ EdTcNqjYT+l1THeEmJ6FFqYsVc/eXQ6sdwu5bLFAvuXwhylmJuazOSLnn
+ J9p+1Hvs/0ztQ4yk1oG94lc77MwVbTp3FZE1kkXs5To5iMYrmaQzIeOnF
+ lUKyfTEQ6tTdAweQD4j2q7rciTAvMlytwB7Qk9K4E3ZogSUAL4s/tc+wG
+ Y9VeKlyWmq0MxdPeqVrKmrSKkZpXBwUx789AZK4/hO4/tzQQG795VJjCB
+ mqyVl1MwB3C/MC1/U00SXiESsNtiYqsCXW2SgmcQeapcgSNDOz5FnuQxy g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10960"; a="465406232"
+X-IronPort-AV: E=Sophos;i="6.05,211,1701158400"; d="scan'208";a="465406232"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jan 2024 00:21:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,211,1701158400"; 
+   d="scan'208";a="1103046"
+Received: from mstribae-mobl.ger.corp.intel.com (HELO [10.249.254.89])
+ ([10.249.254.89])
+ by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jan 2024 00:21:15 -0800
+Message-ID: <f0200e2e-51c5-4bd9-a633-2e6fdc52029c@linux.intel.com>
+Date: Mon, 22 Jan 2024 09:21:13 +0100
 MIME-Version: 1.0
-From: Inki Dae <daeinki@gmail.com>
-Date: Mon, 22 Jan 2024 16:45:17 +0900
-Message-ID: <CAAQKjZOa=nP4x5txKb_GZbns-98JFpXdzYPC7F1Z-sR==f6vdQ@mail.gmail.com>
-Subject: Inquiry regarding the use of the dim tool
-To: DRI mailing list <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/exec, drm/gpuvm: Prefer u32 over uint32_t
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>
+References: <20240119090557.6360-1-thomas.hellstrom@linux.intel.com>
+ <vmyrgwkw7zi5f234cfhl6mzkphrpmsxvb7rpruv7xbc5wjkx4d@jkxky5kmd5c2>
+ <8734utpcd7.fsf@intel.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <8734utpcd7.fsf@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,92 +63,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Danilo Krummrich <dakr@redhat.com>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dear all,
+Hi,
 
-I'm attempting to make a pull request to the drm-misc tree -
-drm-misc-fixes branch - but am encountering an issue as follows:
+On 1/19/24 16:32, Jani Nikula wrote:
+> On Fri, 19 Jan 2024, Lucas De Marchi <lucas.demarchi@intel.com> wrote:
+>> On Fri, Jan 19, 2024 at 10:05:57AM +0100, Thomas Hellström wrote:
+>>> The relatively recently introduced drm/exec utility was using uint32_t
+>>> in its interface, which was then also carried over to drm/gpuvm.
+>>>
+>>> Prefer u32 in new code and update drm/exec and drm/gpuvm accordingly.
+>>>
+>>> Cc: Christian König <christian.koenig@amd.com>
+>>> Cc: Danilo Krummrich <dakr@redhat.com>
+>>> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>>> ---
+>>> drivers/gpu/drm/drm_exec.c | 2 +-
+>>> include/drm/drm_exec.h     | 4 ++--
+>>> include/drm/drm_gpuvm.h    | 2 +-
+>>> 3 files changed, 4 insertions(+), 4 deletions(-)
+>>
+>> Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
+>>
+>> I was surprised we have quite a few places using the c99 types rather
+>> than kernel types.
+>>
+>> $ git grep -ce uint[0-9][0-9]_t drivers/gpu/drm/*.c
+>> drivers/gpu/drm/drm_atomic.c:1
+>> drivers/gpu/drm/drm_atomic_helper.c:7
+>> drivers/gpu/drm/drm_atomic_state_helper.c:1
+>> drivers/gpu/drm/drm_atomic_uapi.c:17
+>> drivers/gpu/drm/drm_color_mgmt.c:4
+>> drivers/gpu/drm/drm_connector.c:6
+>> drivers/gpu/drm/drm_crtc.c:3
+>> drivers/gpu/drm/drm_damage_helper.c:2
+>> drivers/gpu/drm/drm_debugfs_crc.c:1
+>> drivers/gpu/drm/drm_exec.c:1
+>> drivers/gpu/drm/drm_fb_helper.c:10
+>> drivers/gpu/drm/drm_format_helper.c:6
+>> drivers/gpu/drm/drm_fourcc.c:6
+>> drivers/gpu/drm/drm_framebuffer.c:5
+>> drivers/gpu/drm/drm_gem.c:1
+>> drivers/gpu/drm/drm_gem_dma_helper.c:1
+>> drivers/gpu/drm/drm_gem_shmem_helper.c:1
+>> drivers/gpu/drm/drm_gem_ttm_helper.c:1
+>> drivers/gpu/drm/drm_gem_vram_helper.c:5
+>> drivers/gpu/drm/drm_lease.c:6
+>> drivers/gpu/drm/drm_mipi_dbi.c:3
+>> drivers/gpu/drm/drm_mode_config.c:4
+>> drivers/gpu/drm/drm_mode_object.c:20
+>> drivers/gpu/drm/drm_modeset_helper.c:1
+>> drivers/gpu/drm/drm_modeset_lock.c:1
+>> drivers/gpu/drm/drm_of.c:3
+>> drivers/gpu/drm/drm_plane.c:35
+>> drivers/gpu/drm/drm_plane_helper.c:2
+>> drivers/gpu/drm/drm_prime.c:9
+>> drivers/gpu/drm/drm_probe_helper.c:3
+>> drivers/gpu/drm/drm_property.c:11
+>> drivers/gpu/drm/drm_simple_kms_helper.c:4
+>> drivers/gpu/drm/drm_syncobj.c:26
+>>
+>> but maybe not worth the churn for what is already there for a long time?
 
-daeinki@daeinki-virtual-machine:~/project/mainline$ GIT_CURL_VERBOSE=1
-GIT_TRACE=1 ./dim push-branch drm-misc-fixes
-15:53:53.966461 git.c:344               trace: built-in: git version
-15:53:53.975543 git.c:344               trace: built-in: git
-symbolic-ref -q --short HEAD
-15:53:53.985852 git.c:344               trace: built-in: git remote -v
-15:53:53.990337 git.c:344               trace: built-in: git remote -v
-15:53:53.994804 git.c:344               trace: built-in: git remote -v
-15:53:54.001999 git.c:344               trace: built-in: git config
---get user.email
-15:53:54.005279 git.c:344               trace: built-in: git rev-list
-'drm-misc-fixes@{u}..drm-misc-fixes' --first-parent
---committer=inki.dae@samsung.com --no-merges
-15:53:54.011711 git.c:344               trace: built-in: git log -1
-437eea2a59f193be9dee439b1f483b8f8e44e56f '--pretty=format:%H ("%s")%n'
-15:53:54.015629 git.c:344               trace: built-in: git show -s
-437eea2a59f193be9dee439b1f483b8f8e44e56f '--format=format:%an'
-15:53:54.019062 git.c:344               trace: built-in: git show -s
-437eea2a59f193be9dee439b1f483b8f8e44e56f '--format=format:%ae'
-15:53:54.023306 git.c:344               trace: built-in: git show -s
-437eea2a59f193be9dee439b1f483b8f8e44e56f '--format=format:%cn'
-15:53:54.028380 git.c:344               trace: built-in: git show -s
-437eea2a59f193be9dee439b1f483b8f8e44e56f '--format=format:%an'
-15:53:54.034737 git.c:344               trace: built-in: git show -s
-437eea2a59f193be9dee439b1f483b8f8e44e56f '--format=format:%ae %ce'
-15:53:54.039538 git.c:344               trace: built-in: git show -s
-437eea2a59f193be9dee439b1f483b8f8e44e56f
-15:53:54.042555 git.c:344               trace: built-in: git show -s
-437eea2a59f193be9dee439b1f483b8f8e44e56f
-15:53:54.044988 git.c:344               trace: built-in: git show -s
-437eea2a59f193be9dee439b1f483b8f8e44e56f
-15:53:54.048174 git.c:344               trace: built-in: git show -s
-437eea2a59f193be9dee439b1f483b8f8e44e56f
-15:53:54.051992 git.c:344               trace: built-in: git show -s
-437eea2a59f193be9dee439b1f483b8f8e44e56f
-15:53:54.056200 git.c:344               trace: built-in: git log -1
-'--format=%B' 437eea2a59f193be9dee439b1f483b8f8e44e56f
-15:53:54.058814 git.c:344               trace: built-in: git log -1
-437eea2a59f193be9dee439b1f483b8f8e44e56f '--pretty=format:%H ("%s")%n'
-15:53:54.062107 git.c:344               trace: built-in: git rev-parse
---verify -q 20c827683de0
-15:53:54.063871 git.c:344               trace: built-in: git
-merge-base --is-ancestor 20c827683de0
-437eea2a59f193be9dee439b1f483b8f8e44e56f
-15:53:54.609416 git.c:344               trace: built-in: git show -s
-20c827683de0 '--format=format:%s'
-15:53:54.612067 git.c:344               trace: built-in: git rev-parse
---verify -q 0c14d3130654
-15:53:54.613680 git.c:344               trace: built-in: git
-merge-base --is-ancestor 0c14d3130654
-437eea2a59f193be9dee439b1f483b8f8e44e56f
-15:53:55.665041 git.c:344               trace: built-in: git show -s
-0c14d3130654 '--format=format:%s'
-15:53:55.669444 git.c:344               trace: built-in: git rev-list
-'drm-misc-fixes@{u}..drm-misc-fixes' --first-parent
---committer=inki.dae@samsung.com --merges
-15:53:55.672323 git.c:344               trace: built-in: git rev-list
---count --no-merges --first-parent
-'drm-misc-fixes@{u}..drm-misc-fixes'
-15:53:55.674971 git.c:344               trace: built-in: git rev-list
---count --merges --first-parent 'drm-misc-fixes@{u}..drm-misc-fixes'
-15:53:55.677152 git.c:344               trace: built-in: git push
---push-option fdo.pushedWithDim=this-was-pushed-with-dim-and-not-manually
-origin drm-misc-fixes
-fatal: remote error: access denied or repository not exported: /drm/drm-misc
+This originally dates back to around or slightly after when the drm code 
+was a set of template headers with the objective of sharing code with 
+some bsds, and then I guess it also leaked. The reason I sent this patch 
+was I made a review comment of this for drm_gpuvm and then also promised 
+to send a patch against drm_exec.
 
-I've already obtained the commit rights[1] to drm-misc. Following the
-guide[2], I've completed all the necessary setup. However, I'm running
-into a problem where the command `dim push-branch drm-misc-fixes`
-doesn't seem to work after I merge a patch using the command `cat
-1.mbox | dim apply-branch drm-misc-fixes`.
+> Personally, I think the one time churn is worth it to unify and keep the
+> codebase in kernel types only. This is basically what we did in i915
+> years ago, and new c99 types don't really even creep in because there
+> are zero examples around. It's natural to follow the style around you
+> instead of mixing.
 
-[1] https://gitlab.freedesktop.org/freedesktop/freedesktop/-/issues/569
-[2] https://drm.pages.freedesktop.org/maintainer-tools/getting-started.html
++1.
 
-I'm still not quite familiar with using the dim tool. I'm sure there
-must be some aspects I'm missing. Could I please get some help with
-this?
+/Thomas
 
-Thanks,
-Inki Dae
+
+> BR,
+> Jani.
+>
+>
