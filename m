@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8F6983607D
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 12:06:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13823836070
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 12:05:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06BB210ED7B;
-	Mon, 22 Jan 2024 11:05:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 498FF10ED78;
+	Mon, 22 Jan 2024 11:05:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B15410ED78
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 11:05:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3C6210ED72
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 11:05:26 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id C285561309;
+ by dfw.source.kernel.org (Postfix) with ESMTP id D041F612EE;
+ Mon, 22 Jan 2024 11:05:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCABEC43390;
  Mon, 22 Jan 2024 11:05:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A181C433B2;
- Mon, 22 Jan 2024 11:05:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705921524;
- bh=3cbdCulYDMzHdVHQyMlTnkEbtcMWUQ2WS/4aMQLbalE=;
+ s=k20201202; t=1705921526;
+ bh=2URKPRL7zfWbHQYqpoKtEkBU2SALWu3e2GJlko088uA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dgUXEweSjNFK/nw1p8YvQREa0chlb+TkiAcu+Fi7+FCNzam/6zTPyNnOEskoKtPor
- MBV16HJ30AhMhj5kxauYUJA1m31tOl8xdv5FPhb2qjGFKm4Q9/UK+eJ8h8Nf2BRp2A
- EcsyoVPx/rz/cUXi5Jk27U/J5Io0NraoViFM0qIIo8ahvfBwWayAX24cWhtd4X57Gz
- 76J3Rff+ucD/dJ98z9SYc7KjjL/3Yo+hhbvrFY6j0WGMRtR+CkMkVVxRPXqDmffg9f
- 8wtZSk+yTH/fmlacapZVNEimxHdKMnb+PR/gPDL8KVhK75VjvvvcxFS8siwPnH3HGf
- uoo/fMwMsfJYg==
+ b=uzUIcl3IVgdt1LAfkiVpeKfY50AYKvfkmObnKYuViAvyPsXvlgJjkZEVtW3QmLoe9
+ I/YvcsOjspyVNZsdjaQuG+rArH/xY/E2IrrVtWLU2m/3derN05jBl2dUmTvO+b77Mr
+ a82d3Kyd0MfhEbAg1kiB6itfc34E3RSpQ4WGxVbvOLOj8dzz7BoPaocd8xJJBYbZHi
+ II16H+iunyulp4AtsHZMAF4uTr9Iwr+GkI/YwrKG43tatrQO444uVhxUSYnXANuYFU
+ KUQKlOYciL1DZZbtpgA0A99HIq+6c5BlC8+JAnQTjcaQ1LdJ6nYliHba8axR5knQfy
+ jXi1oDoQFj0cg==
 From: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
 To: gregkh@linuxfoundation.org
-Subject: [PATCH v2 37/47] tty: vt: make consw::con_font_default()'s name const
-Date: Mon, 22 Jan 2024 12:03:51 +0100
-Message-ID: <20240122110401.7289-38-jirislaby@kernel.org>
+Subject: [PATCH v2 38/47] tty: vt: change consw::con_set_origin() return type
+Date: Mon, 22 Jan 2024 12:03:52 +0100
+Message-ID: <20240122110401.7289-39-jirislaby@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122110401.7289-1-jirislaby@kernel.org>
 References: <20240122110401.7289-1-jirislaby@kernel.org>
@@ -49,85 +49,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-serial@vger.kernel.org,
- linux-parisc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Daniel Vetter <daniel@ffwll.ch>, "Jiri Slaby \(SUSE\)" <jirislaby@kernel.org>
+Cc: linux-fbdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-serial@vger.kernel.org, "Jiri Slaby \(SUSE\)" <jirislaby@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's a name after all and that is not supposed to be changed. So make it
-const to make this obvious.
+The return value of consw::con_set_origin() is only true/false, meaining
+if vc->vc_origin is set to vc->vc_screenbuf or not.
+
+So switch the type and returned values accordingly.
+
+And document the hook.
 
 Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
-Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Helge Deller <deller@gmx.de>
 Cc: linux-fbdev@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
-Cc: linux-parisc@vger.kernel.org
 ---
- drivers/video/console/newport_con.c | 3 ++-
- drivers/video/console/sticon.c      | 3 ++-
- drivers/video/fbdev/core/fbcon.c    | 3 ++-
- include/linux/console.h             | 2 +-
- 4 files changed, 7 insertions(+), 4 deletions(-)
+ drivers/video/console/vgacon.c | 8 ++++----
+ include/linux/console.h        | 5 ++++-
+ 2 files changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/video/console/newport_con.c b/drivers/video/console/newport_con.c
-index 4203bd5fd0a1..a51cfc1d560e 100644
---- a/drivers/video/console/newport_con.c
-+++ b/drivers/video/console/newport_con.c
-@@ -564,7 +564,8 @@ static int newport_set_def_font(int unit, struct console_font *op)
+diff --git a/drivers/video/console/vgacon.c b/drivers/video/console/vgacon.c
+index 4d1c8f5863af..7597f04b0dc7 100644
+--- a/drivers/video/console/vgacon.c
++++ b/drivers/video/console/vgacon.c
+@@ -65,7 +65,7 @@ static struct vgastate vgastate;
+  *  Interface used by the world
+  */
+ 
+-static int vgacon_set_origin(struct vc_data *c);
++static bool vgacon_set_origin(struct vc_data *c);
+ 
+ static struct uni_pagedict *vgacon_uni_pagedir;
+ static int vgacon_refcount;
+@@ -1100,15 +1100,15 @@ static int vgacon_resize(struct vc_data *c, unsigned int width,
  	return 0;
  }
  
--static int newport_font_default(struct vc_data *vc, struct console_font *op, char *name)
-+static int newport_font_default(struct vc_data *vc, struct console_font *op,
-+				const char *name)
+-static int vgacon_set_origin(struct vc_data *c)
++static bool vgacon_set_origin(struct vc_data *c)
  {
- 	return newport_set_def_font(vc->vc_num, op);
- }
-diff --git a/drivers/video/console/sticon.c b/drivers/video/console/sticon.c
-index 710201fb8ce4..4c7b4959a1aa 100644
---- a/drivers/video/console/sticon.c
-+++ b/drivers/video/console/sticon.c
-@@ -246,7 +246,8 @@ static int sticon_set_font(struct vc_data *vc, const struct console_font *op,
- 	return 0;
- }
- 
--static int sticon_font_default(struct vc_data *vc, struct console_font *op, char *name)
-+static int sticon_font_default(struct vc_data *vc, struct console_font *op,
-+			       const char *name)
- {
- 	sticon_set_def_font(vc->vc_num);
- 
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index 62474630c4d4..657160eec0a5 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -2533,7 +2533,8 @@ static int fbcon_set_font(struct vc_data *vc, const struct console_font *font,
- 	return fbcon_do_set_font(vc, font->width, font->height, charcount, new_data, 1);
+ 	if (vga_is_gfx ||	/* We don't play origin tricks in graphic modes */
+ 	    (console_blanked && !vga_palette_blanked))	/* Nor we write to blanked screens */
+-		return 0;
++		return false;
+ 	c->vc_origin = c->vc_visible_origin = vga_vram_base;
+ 	vga_set_mem_top(c);
+ 	vga_rolled_over = 0;
+-	return 1;
++	return true;
  }
  
--static int fbcon_set_def_font(struct vc_data *vc, struct console_font *font, char *name)
-+static int fbcon_set_def_font(struct vc_data *vc, struct console_font *font,
-+			      const char *name)
- {
- 	struct fb_info *info = fbcon_info_from_console(vc->vc_num);
- 	const struct font_desc *f;
+ static void vgacon_save_screen(struct vc_data *c)
 diff --git a/include/linux/console.h b/include/linux/console.h
-index 0a9f4cbdde83..6bb7e5e37ae4 100644
+index 6bb7e5e37ae4..82e4b554a801 100644
 --- a/include/linux/console.h
 +++ b/include/linux/console.h
-@@ -81,7 +81,7 @@ struct consw {
- 	int	(*con_font_get)(struct vc_data *vc, struct console_font *font,
- 			unsigned int vpitch);
- 	int	(*con_font_default)(struct vc_data *vc,
--			struct console_font *font, char *name);
-+			struct console_font *font, const char *name);
- 	int     (*con_resize)(struct vc_data *vc, unsigned int width,
- 			      unsigned int height, bool from_user);
+@@ -55,6 +55,9 @@ enum vc_intensity;
+  * @con_set_palette: sets the palette of the console to @table (optional)
+  * @con_scrolldelta: the contents of the console should be scrolled by @lines.
+  *		     Invoked by user. (optional)
++ * @con_set_origin: set origin (see &vc_data::vc_origin) of the @vc. If not
++ *		provided or returns false, the origin is set to
++ *		@vc->vc_screenbuf. (optional)
+  */
+ struct consw {
+ 	struct module *owner;
+@@ -87,7 +90,7 @@ struct consw {
  	void	(*con_set_palette)(struct vc_data *vc,
+ 			const unsigned char *table);
+ 	void	(*con_scrolldelta)(struct vc_data *vc, int lines);
+-	int	(*con_set_origin)(struct vc_data *vc);
++	bool	(*con_set_origin)(struct vc_data *vc);
+ 	void	(*con_save_screen)(struct vc_data *vc);
+ 	u8	(*con_build_attr)(struct vc_data *vc, u8 color,
+ 			enum vc_intensity intensity,
 -- 
 2.43.0
 
