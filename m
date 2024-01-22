@@ -2,37 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43146836791
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:16:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77EF6836796
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:16:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70B4810F363;
-	Mon, 22 Jan 2024 15:16:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D538B10F283;
+	Mon, 22 Jan 2024 15:16:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56E3E10F363;
- Mon, 22 Jan 2024 15:16:36 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39F6710F283;
+ Mon, 22 Jan 2024 15:16:39 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id CD67F61516;
+ by ams.source.kernel.org (Postfix) with ESMTP id CD699B80E94;
+ Mon, 22 Jan 2024 15:16:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E1D7C43390;
  Mon, 22 Jan 2024 15:16:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4186AC433F1;
- Mon, 22 Jan 2024 15:16:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705936595;
- bh=cxPDjimgUngRHIeDEPESfgetGWsk2vnEtf4FJ4JMjoY=;
+ s=k20201202; t=1705936597;
+ bh=AQk5hOmfL93JC6vL1eUWDaHwTasBc7zSQVqZE3sW23M=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=boIM30v6tAQ7MeIzG2CGNYePoEK0sM2pcfrjlFUHhfNyBhMnIoIL6wflsQa7bP1mb
- YnvaOkfUZFl28SXoRXJbkzaXAe7fZspcORZDcEOkZ6CqYYRTLgu8wJQt4Lj4QP9o2b
- TvIp6oVnEPYWmqMyU9h22foW2GrNmLWCjxI6OeLI+HXW00ucMgtE0sJhQN5nCd/xXg
- pfsQcMfY20i3VSssUgRspPfZf7mwFljT1V4F/R2NuazOsfB+10WXbnGXDJP2rL8RBf
- CxMg7+e79+Bm5QipNznBLCyU1gEBkD1vepiYSVzosR2R+Dbs/UBHWr00fEXhzuGZs3
- myzYX3HxLhLGw==
+ b=A0EXtacgQnrEQnhe0oabijJF/BGFvg3oLujGvE4Ag2yjxSrpZ6889vPhk+sHJqUCY
+ 1SoNoMD840Ns0Bi3bocZ1YCgJNfSbchseGQnCX4VoBmTRlHpqrY0fSFyAQfTuy8L9L
+ +qQlcNRJei65XZJo4yJ9F4LHX7R1+U2C0oJ5FDn0n3VUqvFa5h/zCLksbi0SvCdEFv
+ ChLXRsz8fBXlpvtcUEw9Lp7RPHIOLId64EpvHZRgCpc9+nPYidlbNwSfNh7b3s0I5L
+ hfr0/gYg7xKxdlodPZd89+Y6tyENEryy7DblRRTkIiO9op6Ijw+tvhoGE9Z5eI4jer
+ GeNHwgcIoRggA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 27/28] drm/amdgpu: Let KFD sync with VM fences
-Date: Mon, 22 Jan 2024 10:14:53 -0500
-Message-ID: <20240122151521.996443-27-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 28/28] drm/amdgpu: Drop 'fence' check in
+ 'to_amdgpu_amdkfd_fence()'
+Date: Mon, 22 Jan 2024 10:14:54 -0500
+Message-ID: <20240122151521.996443-28-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122151521.996443-1-sashal@kernel.org>
 References: <20240122151521.996443-1-sashal@kernel.org>
@@ -54,45 +55,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Felix Kuehling <Felix.Kuehling@amd.com>,
- Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, daniel@ffwll.ch,
- Alex Deucher <alexander.deucher@amd.com>, airlied@gmail.com,
+Cc: Sasha Levin <sashal@kernel.org>,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Felix Kuehling <felix.kuehling@amd.com>, Xinhui.Pan@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ daniel@ffwll.ch, Alex Deucher <alexander.deucher@amd.com>, airlied@gmail.com,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Felix Kuehling <Felix.Kuehling@amd.com>
+From: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
 
-[ Upstream commit ec9ba4821fa52b5efdbc4cdf0a77497990655231 ]
+[ Upstream commit bf2ad4fb8adca89374b54b225d494e0b1956dbea ]
 
-Change the rules for amdgpu_sync_resv to let KFD synchronize with VM
-fences on page table reservations. This fixes intermittent memory
-corruption after evictions when using amdgpu_vm_handle_moved to update
-page tables for VM mappings managed through render nodes.
+Return value of container_of(...) can't be null, so null check is not
+required for 'fence'. Hence drop its NULL check.
 
-Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
+Fixes the below:
+drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c:93 to_amdgpu_amdkfd_fence() warn: can 'fence' even be NULL?
+
+Cc: Felix Kuehling <Felix.Kuehling@amd.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
+Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
-index 8ea6c49529e7..6a22bc41c205 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
-@@ -241,7 +241,8 @@ int amdgpu_sync_resv(struct amdgpu_device *adev, struct amdgpu_sync *sync,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
+index 3107b9575929..eef7517c9d24 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
+@@ -88,7 +88,7 @@ struct amdgpu_amdkfd_fence *to_amdgpu_amdkfd_fence(struct dma_fence *f)
+ 		return NULL;
  
- 		/* Never sync to VM updates either. */
- 		if (fence_owner == AMDGPU_FENCE_OWNER_VM &&
--		    owner != AMDGPU_FENCE_OWNER_UNDEFINED)
-+		    owner != AMDGPU_FENCE_OWNER_UNDEFINED &&
-+	    owner != AMDGPU_FENCE_OWNER_KFD)
- 			continue;
+ 	fence = container_of(f, struct amdgpu_amdkfd_fence, base);
+-	if (fence && f->ops == &amdkfd_fence_ops)
++	if (f->ops == &amdkfd_fence_ops)
+ 		return fence;
  
- 		/* Ignore fences depending on the sync mode */
+ 	return NULL;
 -- 
 2.43.0
 
