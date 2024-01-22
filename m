@@ -2,37 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8A068366C7
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:07:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 463E88366D5
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:08:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44A2010F32E;
-	Mon, 22 Jan 2024 15:07:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 257C810F327;
+	Mon, 22 Jan 2024 15:07:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9CDB10F32A;
- Mon, 22 Jan 2024 15:07:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B45E10F31A;
+ Mon, 22 Jan 2024 15:07:34 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 15891CE2B27;
- Mon, 22 Jan 2024 15:06:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C394BC43394;
- Mon, 22 Jan 2024 15:06:52 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 11EF0CE2B1F;
+ Mon, 22 Jan 2024 15:07:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF3B5C433B2;
+ Mon, 22 Jan 2024 15:06:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705936014;
- bh=0Ksj/HgjXZ/89YGBI3nSIWb2GQHlA0GboIwNC/9NPCs=;
+ s=k20201202; t=1705936019;
+ bh=q2HinNqA/JahO3h55rGwIUPeodaQILiqpXhJsL6cvFA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=MRTLSHK0y0W9swz+j3aChREftp6ZdX5fVD6sT9/2IbdUA+Y5ge+KJUPcb5DBcb8pz
- 5KGFoaZX91g0FdQhBZ/Gk0ePVYeqeBWX3g1Snlae/CRvywU2ztVm51wDqu15Qnw868
- W8cI8bMUz7rHbp+q0gynkDozxOmdqs/x1nSTwFez5t9Ix4U6vtWbMObE2/2tv4JmcC
- mkBpiCGZEHdPUfpDp6q4SR+JO7pXhByg6iP7ohq698913n3bepDWsJemu2QvWegvev
- lJZRHfJDvLPYcN/lpVQpFY7Dg+FopsryPDYXcA3EedM1GHzkqE29Ap4YYFKn+ajhPw
- cTBh18zNFGM+Q==
+ b=bytXXwgC1mLcJgr/RvxWSlThnJZh/dVuvpXlehEa7qvqqG8qszHmyfEGSTKlnjxNr
+ VJ23wEttEnbZqA1Y8ZQBVhiXoTHnP5hEy7qYUDrolwFgNk67YwmbK/ofSdv+D3lM+o
+ b3FMSM563RTu0ggdcKlaT4tFxwmrZgo5VDAkkV/KiU82ReLKwtxp2N1xfhWo/VbjkK
+ MfAcn4/LmP+DpqUkCl+7Us1fSA4MKeOX7HNiNgKFJe2yZqxsWi3WqeUnxcbT8qU4Qj
+ l+fsla0Ou0TjTBhUZomaOXM3Uh9+wIolhNsgkd1XYZUnTS3DT8Qv1s+MmixXYSePhr
+ HoFCUir7kfFCw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 47/73] drm/msm/dpu: enable writeback on SM8450
-Date: Mon, 22 Jan 2024 10:02:01 -0500
-Message-ID: <20240122150432.992458-47-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 48/73] drm/msm/dpu: Ratelimit framedone timeout
+ msgs
+Date: Mon, 22 Jan 2024 10:02:02 -0500
+Message-ID: <20240122150432.992458-48-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122150432.992458-1-sashal@kernel.org>
 References: <20240122150432.992458-1-sashal@kernel.org>
@@ -53,72 +54,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, freedreno@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, konrad.dybcio@linaro.org, daniel@ffwll.ch,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, marijn.suijten@somainline.org,
- airlied@gmail.com
+Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
+ quic_kalyant@quicinc.com, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, quic_khsieh@quicinc.com, daniel@ffwll.ch,
+ quic_jesszhan@quicinc.com, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, quic_vpolimer@quicinc.com,
+ airlied@gmail.com, dan.carpenter@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+From: Rob Clark <robdclark@chromium.org>
 
-[ Upstream commit eaa647cdbf2e357b4a14903f2f1e47ed9c4f8df3 ]
+[ Upstream commit 2b72e50c62de60ad2d6bcd86aa38d4ccbdd633f2 ]
 
-Enable WB2 hardware block, enabling writeback support on this platform.
+When we start getting these, we get a *lot*.  So ratelimit it to not
+flood dmesg.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Rob Clark <robdclark@chromium.org>
 Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Patchwork: https://patchwork.freedesktop.org/patch/570187/
-Link: https://lore.kernel.org/r/20231203002743.1291956-4-dmitry.baryshkov@linaro.org
+Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+Patchwork: https://patchwork.freedesktop.org/patch/571584/
+Link: https://lore.kernel.org/r/20231211182000.218088-1-robdclark@gmail.com
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 5 ++++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h     | 1 +
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-index 1b12178dfbca..8a19cfa274de 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-@@ -32,6 +32,7 @@ static const struct dpu_mdp_cfg sm8450_mdp = {
- 		[DPU_CLK_CTRL_DMA1] = { .reg_off = 0x2b4, .bit_off = 8 },
- 		[DPU_CLK_CTRL_DMA2] = { .reg_off = 0x2bc, .bit_off = 8 },
- 		[DPU_CLK_CTRL_DMA3] = { .reg_off = 0x2c4, .bit_off = 8 },
-+		[DPU_CLK_CTRL_WB2] = { .reg_off = 0x2bc, .bit_off = 16 },
- 		[DPU_CLK_CTRL_REG_DMA] = { .reg_off = 0x2bc, .bit_off = 20 },
- 	},
- };
-@@ -326,6 +327,21 @@ static const struct dpu_dsc_cfg sm8450_dsc[] = {
- 	},
- };
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index d34e684a4178..da9b171d7979 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -39,6 +39,9 @@
+ #define DPU_ERROR_ENC(e, fmt, ...) DPU_ERROR("enc%d " fmt,\
+ 		(e) ? (e)->base.base.id : -1, ##__VA_ARGS__)
  
-+static const struct dpu_wb_cfg sm8450_wb[] = {
-+	{
-+		.name = "wb_2", .id = WB_2,
-+		.base = 0x65000, .len = 0x2c8,
-+		.features = WB_SM8250_MASK,
-+		.format_list = wb2_formats,
-+		.num_formats = ARRAY_SIZE(wb2_formats),
-+		.clk_ctrl = DPU_CLK_CTRL_WB2,
-+		.xin_id = 6,
-+		.vbif_idx = VBIF_RT,
-+		.maxlinewidth = 4096,
-+		.intr_wb_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 4),
-+	},
-+};
++#define DPU_ERROR_ENC_RATELIMITED(e, fmt, ...) DPU_ERROR_RATELIMITED("enc%d " fmt,\
++		(e) ? (e)->base.base.id : -1, ##__VA_ARGS__)
 +
- static const struct dpu_intf_cfg sm8450_intf[] = {
- 	{
- 		.name = "intf_0", .id = INTF_0,
-@@ -423,6 +439,8 @@ const struct dpu_mdss_cfg dpu_sm8450_cfg = {
- 	.dsc = sm8450_dsc,
- 	.merge_3d_count = ARRAY_SIZE(sm8450_merge_3d),
- 	.merge_3d = sm8450_merge_3d,
-+	.wb_count = ARRAY_SIZE(sm8450_wb),
-+	.wb = sm8450_wb,
- 	.intf_count = ARRAY_SIZE(sm8450_intf),
- 	.intf = sm8450_intf,
- 	.vbif_count = ARRAY_SIZE(sdm845_vbif),
+ /*
+  * Two to anticipate panels that can do cmd/vid dynamic switching
+  * plan is to create all possible physical encoder types, and switch between
+@@ -2327,7 +2330,7 @@ static void dpu_encoder_frame_done_timeout(struct timer_list *t)
+ 		return;
+ 	}
+ 
+-	DPU_ERROR_ENC(dpu_enc, "frame done timeout\n");
++	DPU_ERROR_ENC_RATELIMITED(dpu_enc, "frame done timeout\n");
+ 
+ 	event = DPU_ENCODER_FRAME_EVENT_ERROR;
+ 	trace_dpu_enc_frame_done_timeout(DRMID(drm_enc), event);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+index b6f53ca6e962..f5473d4dea92 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+@@ -51,6 +51,7 @@
+ 	} while (0)
+ 
+ #define DPU_ERROR(fmt, ...) pr_err("[dpu error]" fmt, ##__VA_ARGS__)
++#define DPU_ERROR_RATELIMITED(fmt, ...) pr_err_ratelimited("[dpu error]" fmt, ##__VA_ARGS__)
+ 
+ /**
+  * ktime_compare_safe - compare two ktime structures
 -- 
 2.43.0
 
