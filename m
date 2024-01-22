@@ -2,36 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE557836081
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 12:06:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DFC183607B
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 12:06:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2943310ED7D;
-	Mon, 22 Jan 2024 11:05:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A95A110ED79;
+	Mon, 22 Jan 2024 11:05:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41EAB10ED72
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 11:05:26 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE7FC10ED79
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 11:05:30 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B53DD612DD;
- Mon, 22 Jan 2024 11:04:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FDCBC43399;
- Mon, 22 Jan 2024 11:04:53 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id 72A45B80D66;
+ Mon, 22 Jan 2024 11:04:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DB84C433F1;
+ Mon, 22 Jan 2024 11:04:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705921495;
- bh=nvYd6isOoXNLl9Y7Tt4RQvNbFL1i4ad9TROebYx41cg=;
+ s=k20201202; t=1705921498;
+ bh=hodsiss2mfg9U0y8pa9F8/ETqHl8RGY45rKju+KRcEw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gvjcuxmPWnpQraJHKhPFKv/geE4KgahFZ1YiykUbAHUeIrByN6wKr6SlFOynAyUSh
- AzEPoCIhVvDj3EAvtcYaJ/D8oICwzTOj1H2V5luw2F+j50ePj6Wy0qhhGN+AMHEwWu
- LP0XKdlHS69zC5b5/tMqmMGU61953wKeBFTeUe0rl+v/gu49V6D4ITu3G7aznCMx4+
- gOvZa96zkCf9WXQ8SsUmLJcXteu7taTPO4xnsvy9htYCtH7nZZtVa7hBmMr31wrWNv
- 40p1psXvU/wuW2vZ3MGrDgs/luIShFdqnhdA5vj2rVMGJ4MDO0kGY40cVhEVf/S2ST
- kukmJ1smWI+hQ==
+ b=VB8M2U7uJLE8CpgfTcZ8Jms/TclXLPSWzKd3y5NTvJiI17nhJ3QAtxd7VF1fKTv5Y
+ XzuqRA+XEdq19ibARo3Xzx4xLbKzg7sI8HOQl5Jrzi+H251EyAnYkiAnmRUKSCnhBU
+ MQSchj+m4uG73RexbpvYargbPw1+ZJXAOEdZaozv+apTb49pryPpIV8S7iO3qseM6f
+ u3J114Ff+w3ZvRFfAZdyUmaoJ5Sid0Ezm6VUbGaMQsHTY0eRUC/L2ACGeQmOghzI0Y
+ 76hXV+ZJ6XIB3Ym+wMshxo9cvM2iSjwx/t7zuPce0PoVyvTp2hHLNqaTkoxtESmIsO
+ SJexQtBTtWmaA==
 From: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
 To: gregkh@linuxfoundation.org
-Subject: [PATCH v2 25/47] tty: vt: sanitize consw::con_putc() parameters
-Date: Mon, 22 Jan 2024 12:03:39 +0100
-Message-ID: <20240122110401.7289-26-jirislaby@kernel.org>
+Subject: [PATCH v2 27/47] consoles: use if instead of switch-case in
+ consw::con_cursor()
+Date: Mon, 22 Jan 2024 12:03:41 +0100
+Message-ID: <20240122110401.7289-28-jirislaby@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122110401.7289-1-jirislaby@kernel.org>
 References: <20240122110401.7289-1-jirislaby@kernel.org>
@@ -55,85 +56,182 @@ Cc: linux-fbdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make parameters of consw::con_putc() saner:
-* x and y are unsigned now, as they cannot be negative, and
-* ca is made u16, as it is composed of two 8bit values (character and
-  attribute). See the con_putcs() hook, u16/ushort is worked on there.
-
-And document the hook.
+This is only a preparation for the following cleanup patch to make it
+easier. Provided CM_ERASE is the only different, use 'if' instead of
+'switch+case' in all those.
 
 Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
 Cc: Helge Deller <deller@gmx.de>
 Cc: linux-fbdev@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
 ---
- drivers/video/console/dummycon.c    | 6 ++++--
- drivers/video/console/newport_con.c | 4 ++--
- include/linux/console.h             | 5 ++++-
- 3 files changed, 10 insertions(+), 5 deletions(-)
+ drivers/video/console/newport_con.c | 26 +++++-------
+ drivers/video/console/sticon.c      | 27 ++++++------
+ drivers/video/console/vgacon.c      | 66 +++++++++++++----------------
+ 3 files changed, 53 insertions(+), 66 deletions(-)
 
-diff --git a/drivers/video/console/dummycon.c b/drivers/video/console/dummycon.c
-index 0a69d5c216ee..1874beed0325 100644
---- a/drivers/video/console/dummycon.c
-+++ b/drivers/video/console/dummycon.c
-@@ -50,7 +50,8 @@ void dummycon_unregister_output_notifier(struct notifier_block *nb)
- 	raw_notifier_chain_unregister(&dummycon_output_nh, nb);
- }
- 
--static void dummycon_putc(struct vc_data *vc, int c, int ypos, int xpos)
-+static void dummycon_putc(struct vc_data *vc, u16 c, unsigned int y,
-+                          unsigned int x)
- {
- 	WARN_CONSOLE_UNLOCKED();
- 
-@@ -84,7 +85,8 @@ static int dummycon_blank(struct vc_data *vc, int blank, int mode_switch)
- 	return 1;
- }
- #else
--static void dummycon_putc(struct vc_data *vc, int c, int ypos, int xpos) { }
-+static void dummycon_putc(struct vc_data *vc, u16 c, unsigned int y,
-+			  unsigned int x) { }
- static void dummycon_putcs(struct vc_data *vc, const unsigned short *s,
- 			   int count, int ypos, int xpos) { }
- static int dummycon_blank(struct vc_data *vc, int blank, int mode_switch)
 diff --git a/drivers/video/console/newport_con.c b/drivers/video/console/newport_con.c
-index 55c6106b3507..9b5c0118873e 100644
+index 5e65ee0b7c07..f852717b88f0 100644
 --- a/drivers/video/console/newport_con.c
 +++ b/drivers/video/console/newport_con.c
-@@ -367,8 +367,8 @@ static void newport_clear(struct vc_data *vc, unsigned int sy, unsigned int sx,
+@@ -443,24 +443,20 @@ static void newport_cursor(struct vc_data *vc, int mode)
+ 	unsigned short treg;
+ 	int xcurs, ycurs;
+ 
+-	switch (mode) {
+-	case CM_ERASE:
+-		treg = newport_vc2_get(npregs, VC2_IREG_CONTROL);
+-		newport_vc2_set(npregs, VC2_IREG_CONTROL,
+-				(treg & ~(VC2_CTRL_ECDISP)));
+-		break;
++	treg = newport_vc2_get(npregs, VC2_IREG_CONTROL);
+ 
+-	case CM_MOVE:
+-	case CM_DRAW:
+-		treg = newport_vc2_get(npregs, VC2_IREG_CONTROL);
++	if (mode == CM_ERASE) {
+ 		newport_vc2_set(npregs, VC2_IREG_CONTROL,
+-				(treg | VC2_CTRL_ECDISP));
+-		xcurs = (vc->vc_pos - vc->vc_visible_origin) / 2;
+-		ycurs = ((xcurs / vc->vc_cols) << 4) + 31;
+-		xcurs = ((xcurs % vc->vc_cols) << 3) + xcurs_correction;
+-		newport_vc2_set(npregs, VC2_IREG_CURSX, xcurs);
+-		newport_vc2_set(npregs, VC2_IREG_CURSY, ycurs);
++				(treg & ~(VC2_CTRL_ECDISP)));
++		return;
  	}
++
++	newport_vc2_set(npregs, VC2_IREG_CONTROL, (treg | VC2_CTRL_ECDISP));
++	xcurs = (vc->vc_pos - vc->vc_visible_origin) / 2;
++	ycurs = ((xcurs / vc->vc_cols) << 4) + 31;
++	xcurs = ((xcurs % vc->vc_cols) << 3) + xcurs_correction;
++	newport_vc2_set(npregs, VC2_IREG_CURSX, xcurs);
++	newport_vc2_set(npregs, VC2_IREG_CURSY, ycurs);
  }
  
--static void newport_putc(struct vc_data *vc, int charattr, int ypos,
--			 int xpos)
-+static void newport_putc(struct vc_data *vc, u16 charattr, unsigned int ypos,
-+			 unsigned int xpos)
- {
- 	unsigned char *p;
+ static int newport_switch(struct vc_data *vc)
+diff --git a/drivers/video/console/sticon.c b/drivers/video/console/sticon.c
+index 906da1fde7c8..42480874db00 100644
+--- a/drivers/video/console/sticon.c
++++ b/drivers/video/console/sticon.c
+@@ -95,23 +95,20 @@ static void sticon_cursor(struct vc_data *conp, int mode)
+ 	return;
  
-diff --git a/include/linux/console.h b/include/linux/console.h
-index 8fd96a5fca5f..92d57e5b3009 100644
---- a/include/linux/console.h
-+++ b/include/linux/console.h
-@@ -39,6 +39,8 @@ enum vc_intensity;
-  * @con_init:   initialize the console on @vc. @init is true for the very first
-  *		call on this @vc.
-  * @con_clear:  erase @count characters at [@x, @y] on @vc. @count >= 1.
-+ * @con_putc:   emit one character with attributes @ca to [@x, @y] on @vc.
-+ *		(optional -- @con_putcs would be called instead)
-  * @con_scroll: move lines from @top to @bottom in direction @dir by @lines.
-  *		Return true if no generic handling should be done.
-  *		Invoked by csi_M and printing to the console.
-@@ -53,7 +55,8 @@ struct consw {
- 	void	(*con_deinit)(struct vc_data *vc);
- 	void	(*con_clear)(struct vc_data *vc, unsigned int y,
- 			     unsigned int x, unsigned int count);
--	void	(*con_putc)(struct vc_data *vc, int c, int ypos, int xpos);
-+	void	(*con_putc)(struct vc_data *vc, u16 ca, unsigned int y,
-+			    unsigned int x);
- 	void	(*con_putcs)(struct vc_data *vc, const unsigned short *s,
- 			int count, int ypos, int xpos);
- 	void	(*con_cursor)(struct vc_data *vc, int mode);
+     car1 = conp->vc_screenbuf[conp->state.x + conp->state.y * conp->vc_cols];
+-    switch (mode) {
+-    case CM_ERASE:
++    if (mode == CM_ERASE) {
+ 	sti_putc(sticon_sti, car1, conp->state.y, conp->state.x,
+ 		 font_data[conp->vc_num]);
+-	break;
+-    case CM_MOVE:
+-    case CM_DRAW:
+-	switch (CUR_SIZE(conp->vc_cursor_type)) {
+-	case CUR_UNDERLINE:
+-	case CUR_LOWER_THIRD:
+-	case CUR_LOWER_HALF:
+-	case CUR_TWO_THIRDS:
+-	case CUR_BLOCK:
+-	    sti_putc(sticon_sti, (car1 & 255) + (0 << 8) + (7 << 11),
+-		     conp->state.y, conp->state.x, font_data[conp->vc_num]);
+-	    break;
+-	}
++	return;
++    }
++
++    switch (CUR_SIZE(conp->vc_cursor_type)) {
++    case CUR_UNDERLINE:
++    case CUR_LOWER_THIRD:
++    case CUR_LOWER_HALF:
++    case CUR_TWO_THIRDS:
++    case CUR_BLOCK:
++	sti_putc(sticon_sti, (car1 & 255) + (0 << 8) + (7 << 11),
++		 conp->state.y, conp->state.x, font_data[conp->vc_num]);
+ 	break;
+     }
+ }
+diff --git a/drivers/video/console/vgacon.c b/drivers/video/console/vgacon.c
+index aa0589085847..82d01a9ccd6d 100644
+--- a/drivers/video/console/vgacon.c
++++ b/drivers/video/console/vgacon.c
+@@ -514,47 +514,41 @@ static void vgacon_cursor(struct vc_data *c, int mode)
+ 
+ 	c_height = c->vc_cell_height;
+ 
+-	switch (mode) {
+-	case CM_ERASE:
+-		write_vga(14, (c->vc_pos - vga_vram_base) / 2);
++	write_vga(14, (c->vc_pos - vga_vram_base) / 2);
++
++	if (mode == CM_ERASE) {
+ 	        if (vga_video_type >= VIDEO_TYPE_VGAC)
+ 			vgacon_set_cursor_size(31, 30);
+ 		else
+ 			vgacon_set_cursor_size(31, 31);
+-		break;
++		return;
++	}
+ 
+-	case CM_MOVE:
+-	case CM_DRAW:
+-		write_vga(14, (c->vc_pos - vga_vram_base) / 2);
+-		switch (CUR_SIZE(c->vc_cursor_type)) {
+-		case CUR_UNDERLINE:
+-			vgacon_set_cursor_size(c_height -
+-					       (c_height < 10 ? 2 : 3),
+-					       c_height -
+-					       (c_height < 10 ? 1 : 2));
+-			break;
+-		case CUR_TWO_THIRDS:
+-			vgacon_set_cursor_size(c_height / 3, c_height -
+-					       (c_height < 10 ? 1 : 2));
+-			break;
+-		case CUR_LOWER_THIRD:
+-			vgacon_set_cursor_size(c_height * 2 / 3, c_height -
+-					       (c_height < 10 ? 1 : 2));
+-			break;
+-		case CUR_LOWER_HALF:
+-			vgacon_set_cursor_size(c_height / 2, c_height -
+-					       (c_height < 10 ? 1 : 2));
+-			break;
+-		case CUR_NONE:
+-			if (vga_video_type >= VIDEO_TYPE_VGAC)
+-				vgacon_set_cursor_size(31, 30);
+-			else
+-				vgacon_set_cursor_size(31, 31);
+-			break;
+-		default:
+-			vgacon_set_cursor_size(1, c_height);
+-			break;
+-		}
++	switch (CUR_SIZE(c->vc_cursor_type)) {
++	case CUR_UNDERLINE:
++		vgacon_set_cursor_size(c_height - (c_height < 10 ? 2 : 3),
++				       c_height - (c_height < 10 ? 1 : 2));
++		break;
++	case CUR_TWO_THIRDS:
++		vgacon_set_cursor_size(c_height / 3,
++				       c_height - (c_height < 10 ? 1 : 2));
++		break;
++	case CUR_LOWER_THIRD:
++		vgacon_set_cursor_size(c_height * 2 / 3,
++				       c_height - (c_height < 10 ? 1 : 2));
++		break;
++	case CUR_LOWER_HALF:
++		vgacon_set_cursor_size(c_height / 2,
++				       c_height - (c_height < 10 ? 1 : 2));
++		break;
++	case CUR_NONE:
++		if (vga_video_type >= VIDEO_TYPE_VGAC)
++			vgacon_set_cursor_size(31, 30);
++		else
++			vgacon_set_cursor_size(31, 31);
++		break;
++	default:
++		vgacon_set_cursor_size(1, c_height);
+ 		break;
+ 	}
+ }
 -- 
 2.43.0
 
