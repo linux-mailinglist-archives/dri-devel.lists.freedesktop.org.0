@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE7AB836754
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:13:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C4F183675B
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:14:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7427A10F3AF;
-	Mon, 22 Jan 2024 15:13:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D521B10F3BE;
+	Mon, 22 Jan 2024 15:14:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7752910F3AC
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 15:13:35 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CEAC10F3BE
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 15:13:59 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id EFB0061518;
- Mon, 22 Jan 2024 15:13:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5866C43394;
- Mon, 22 Jan 2024 15:13:32 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id 140E9B80E9B;
+ Mon, 22 Jan 2024 15:13:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59502C43390;
+ Mon, 22 Jan 2024 15:13:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705936414;
- bh=MUZijcAt+Va27DnXEI9BOIuH4uELzfJnFLLJ3v0iRto=;
+ s=k20201202; t=1705936437;
+ bh=rSjd9MKreWuuHvMenlbZstvmP/HBubXF4I+J6BQiMKo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=RBSNo5k5mjPT+zRJLdfqIsXIImj7HBFY3XiWrDXAwRcmjvzjEOMGU5G0eR8LAWAqS
- kYjAZMjVKxVPGWhNfitMMfDVboURopkPDE4DZ3Ru/oMAKqq2ccREeCeFzpSOn7N1+l
- lN9v71QTWYulY+9A4peZYrUoGITRd47OL01P/ekiGFg3wtNeUnUVXpY9elTGMOh0YW
- wv5SdsxxS/3pg5uHaNKpMmSSquepvyA+7hUNymRuzimMogbMN+1vm5PudMh82s9Kqt
- bbIP1XCmlfTzKb7FzSMLh5CZO3RfpBNuyu5FRCzMSzKAtQS92R43s30PQ0BV+6ys1n
- WNCd/9gg9EE2A==
+ b=HJXvupg6zPAOFKdNbm38OqTrZmKl19dI2DozChGWzNGKtsPxgKAhpH0PAf2ZIeAw8
+ HtN/K0xoJaKHsbg7lD26oUYnPTPIDlf/GiZVEhO+aoK2r9O8xTUXWK/+WIWHydM/Qp
+ k7rUgRCL7EaI2HfwhV7QS+bfH8iAHPWIV2MmurVXtWjixXtMj+QFtqla82BALWnlft
+ xx2WM3azbLv2TJOXIfbMGLb6tswLFCF0HYfVYh1gX3dsG3YyX4qBsAlfRQUlzaKnD2
+ ONqaa1Wk7ahfbt7xoBvWS1R3P+gXUvSfc/7YK4BuPc0CEx98DCBGDqewpSQbxCGS3/
+ vSn0AzT3kw5BQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 12/35] drm/mipi-dsi: Fix detach call without
- attach
-Date: Mon, 22 Jan 2024 10:12:09 -0500
-Message-ID: <20240122151302.995456-12-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 21/35] drm/exynos: Call
+ drm_atomic_helper_shutdown() at shutdown/unbind time
+Date: Mon, 22 Jan 2024 10:12:18 -0500
+Message-ID: <20240122151302.995456-21-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122151302.995456-1-sashal@kernel.org>
 References: <20240122151302.995456-1-sashal@kernel.org>
@@ -54,146 +54,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, daniel@ffwll.ch,
- Tony Lindgren <tony@atomide.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, "H . Nikolaus Schaller" <hns@goldelico.com>,
- airlied@gmail.com
+Cc: Sasha Levin <sashal@kernel.org>, linux-samsung-soc@vger.kernel.org,
+ sw0312.kim@samsung.com, Douglas Anderson <dianders@chromium.org>,
+ Maxime Ripard <mripard@kernel.org>, krzysztof.kozlowski@linaro.org,
+ kyungmin.park@samsung.com, dri-devel@lists.freedesktop.org, daniel@ffwll.ch,
+ airlied@gmail.com, linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+From: Douglas Anderson <dianders@chromium.org>
 
-[ Upstream commit 90d50b8d85834e73536fdccd5aa913b30494fef0 ]
+[ Upstream commit 16ac5b21b31b439f03cdf44c153c5f5af94fb3eb ]
 
-It's been reported that DSI host driver's detach can be called without
-the attach ever happening:
+Based on grepping through the source code this driver appears to be
+missing a call to drm_atomic_helper_shutdown() at system shutdown time
+and at driver unbind time. Among other things, this means that if a
+panel is in use that it won't be cleanly powered off at system
+shutdown time.
 
-https://lore.kernel.org/all/20230412073954.20601-1-tony@atomide.com/
+The fact that we should call drm_atomic_helper_shutdown() in the case
+of OS shutdown/restart and at driver remove (or unbind) time comes
+straight out of the kernel doc "driver instance overview" in
+drm_drv.c.
 
-After reading the code, I think this is what happens:
+A few notes about this fix:
+- When adding drm_atomic_helper_shutdown() to the unbind path, I added
+  it after drm_kms_helper_poll_fini() since that's when other drivers
+  seemed to have it.
+- Technically with a previous patch, ("drm/atomic-helper:
+  drm_atomic_helper_shutdown(NULL) should be a noop"), we don't
+  actually need to check to see if our "drm" pointer is NULL before
+  calling drm_atomic_helper_shutdown(). We'll leave the "if" test in,
+  though, so that this patch can land without any dependencies. It
+  could potentially be removed later.
+- This patch also makes sure to set the drvdata to NULL in the case of
+  bind errors to make sure that shutdown can't access freed data.
 
-We have a DSI host defined in the device tree and a DSI peripheral under
-that host (i.e. an i2c device using the DSI as data bus doesn't exhibit
-this behavior).
-
-The host driver calls mipi_dsi_host_register(), which causes (via a few
-functions) mipi_dsi_device_add() to be called for the DSI peripheral. So
-now we have a DSI device under the host, but attach hasn't been called.
-
-Normally the probing of the devices continues, and eventually the DSI
-peripheral's driver will call mipi_dsi_attach(), attaching the
-peripheral.
-
-However, if the host driver's probe encounters an error after calling
-mipi_dsi_host_register(), and before the peripheral has called
-mipi_dsi_attach(), the host driver will do cleanups and return an error
-from its probe function. The cleanups include calling
-mipi_dsi_host_unregister().
-
-mipi_dsi_host_unregister() will call two functions for all its DSI
-peripheral devices: mipi_dsi_detach() and mipi_dsi_device_unregister().
-The latter makes sense, as the device exists, but the former may be
-wrong as attach has not necessarily been done.
-
-To fix this, track the attached state of the peripheral, and only detach
-from mipi_dsi_host_unregister() if the peripheral was attached.
-
-Note that I have only tested this with a board with an i2c DSI
-peripheral, not with a "pure" DSI peripheral.
-
-However, slightly related, the unregister machinery still seems broken.
-E.g. if the DSI host driver is unbound, it'll detach and unregister the
-DSI peripherals. After that, when the DSI peripheral driver unbound
-it'll call detach either directly or using the devm variant, leading to
-a crash. And probably the driver will crash if it happens, for some
-reason, to try to send a message via the DSI bus.
-
-But that's another topic.
-
-Tested-by: H. Nikolaus Schaller <hns@goldelico.com>
-Acked-by: Maxime Ripard <mripard@kernel.org>
-Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-Tested-by: Tony Lindgren <tony@atomide.com>
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20230921-dsi-detach-fix-v1-1-d0de2d1621d9@ideasonboard.com
+Suggested-by: Maxime Ripard <mripard@kernel.org>
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Reviewed-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Signed-off-by: Inki Dae <inki.dae@samsung.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/drm_mipi_dsi.c | 17 +++++++++++++++--
- include/drm/drm_mipi_dsi.h     |  2 ++
- 2 files changed, 17 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/exynos/exynos_drm_drv.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
-index d98b08c65db9..5d30ba3af456 100644
---- a/drivers/gpu/drm/drm_mipi_dsi.c
-+++ b/drivers/gpu/drm/drm_mipi_dsi.c
-@@ -346,7 +346,8 @@ static int mipi_dsi_remove_device_fn(struct device *dev, void *priv)
- {
- 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(dev);
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_drv.c b/drivers/gpu/drm/exynos/exynos_drm_drv.c
+index d8f1cf4d6b69..2a7f96237f95 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_drv.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_drv.c
+@@ -324,6 +324,7 @@ static int exynos_drm_bind(struct device *dev)
+ 	drm_mode_config_cleanup(drm);
+ 	exynos_drm_cleanup_dma(drm);
+ 	kfree(private);
++	dev_set_drvdata(dev, NULL);
+ err_free_drm:
+ 	drm_dev_put(drm);
  
--	mipi_dsi_detach(dsi);
-+	if (dsi->attached)
-+		mipi_dsi_detach(dsi);
- 	mipi_dsi_device_unregister(dsi);
+@@ -338,6 +339,7 @@ static void exynos_drm_unbind(struct device *dev)
  
+ 	exynos_drm_fbdev_fini(drm);
+ 	drm_kms_helper_poll_fini(drm);
++	drm_atomic_helper_shutdown(drm);
+ 
+ 	component_unbind_all(drm->dev, drm);
+ 	drm_mode_config_cleanup(drm);
+@@ -375,9 +377,18 @@ static int exynos_drm_platform_remove(struct platform_device *pdev)
  	return 0;
-@@ -369,11 +370,18 @@ EXPORT_SYMBOL(mipi_dsi_host_unregister);
- int mipi_dsi_attach(struct mipi_dsi_device *dsi)
- {
- 	const struct mipi_dsi_host_ops *ops = dsi->host->ops;
-+	int ret;
- 
- 	if (!ops || !ops->attach)
- 		return -ENOSYS;
- 
--	return ops->attach(dsi->host, dsi);
-+	ret = ops->attach(dsi->host, dsi);
-+	if (ret)
-+		return ret;
-+
-+	dsi->attached = true;
-+
-+	return 0;
  }
- EXPORT_SYMBOL(mipi_dsi_attach);
  
-@@ -385,9 +393,14 @@ int mipi_dsi_detach(struct mipi_dsi_device *dsi)
- {
- 	const struct mipi_dsi_host_ops *ops = dsi->host->ops;
- 
-+	if (WARN_ON(!dsi->attached))
-+		return -EINVAL;
++static void exynos_drm_platform_shutdown(struct platform_device *pdev)
++{
++	struct drm_device *drm = platform_get_drvdata(pdev);
 +
- 	if (!ops || !ops->detach)
- 		return -ENOSYS;
- 
-+	dsi->attached = false;
++	if (drm)
++		drm_atomic_helper_shutdown(drm);
++}
 +
- 	return ops->detach(dsi->host, dsi);
- }
- EXPORT_SYMBOL(mipi_dsi_detach);
-diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
-index d9af72024d66..5190fd48d318 100644
---- a/include/drm/drm_mipi_dsi.h
-+++ b/include/drm/drm_mipi_dsi.h
-@@ -166,6 +166,7 @@ struct mipi_dsi_device_info {
-  * struct mipi_dsi_device - DSI peripheral device
-  * @host: DSI host for this peripheral
-  * @dev: driver model device node for this peripheral
-+ * @attached: the DSI device has been successfully attached
-  * @name: DSI peripheral chip type
-  * @channel: virtual channel assigned to the peripheral
-  * @format: pixel format for video mode
-@@ -181,6 +182,7 @@ struct mipi_dsi_device_info {
- struct mipi_dsi_device {
- 	struct mipi_dsi_host *host;
- 	struct device dev;
-+	bool attached;
- 
- 	char name[DSI_DEV_NAME_SIZE];
- 	unsigned int channel;
+ static struct platform_driver exynos_drm_platform_driver = {
+ 	.probe	= exynos_drm_platform_probe,
+ 	.remove	= exynos_drm_platform_remove,
++	.shutdown = exynos_drm_platform_shutdown,
+ 	.driver	= {
+ 		.name	= "exynos-drm",
+ 		.pm	= &exynos_drm_pm_ops,
 -- 
 2.43.0
 
