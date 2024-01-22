@@ -2,75 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5206D8376B1
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 23:57:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2637783775C
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 00:04:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85DF610E61B;
-	Mon, 22 Jan 2024 22:57:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E351B10F0F0;
+	Mon, 22 Jan 2024 23:04:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E045310E61B
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 22:57:14 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 40MIbU4Y025976; Mon, 22 Jan 2024 22:57:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=EC5KLFYJCt3kaSMZL4b7d25l8B3+5ncGG6vhirauSTM=; b=ca
- 0ojc6PXXHbLjLuQBvl6g565ectbXkSoAvkzZWv4OGnAwBpBnrET0PT1sUPGU8kpd
- CGad6p4BcZAWI5G81CFQDK8IZyIVOc4JW6n4CcXrti6iWPNlSofNMNks/Pc7ZfFn
- dVfTbXk0dXKFDdXUSk2RdFcrmgDc/6VTHdPywd66KbtJndhCoclXps4X1KOMUVjF
- Iku6sH4+XVuxxxxFsAwZFPc4c2a452eRAWox4yos1DiHnDDcqtaJF1b8b1Sh5mZc
- JPQOH6MQw4tEWOt5P/4IwF2Ket5q7L4u+30IGoO70BWhkhKHDFhvS2GruItjRmNm
- M6hW78zqCK33zJPGg/xw==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vssjws7f0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 22 Jan 2024 22:57:13 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40MMvC5Z026776
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 22 Jan 2024 22:57:12 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 22 Jan
- 2024 14:57:11 -0800
-Message-ID: <76b6f813-3548-df82-ea26-f406d984c496@quicinc.com>
-Date: Mon, 22 Jan 2024 15:57:11 -0700
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AEEC10F0E8
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 23:04:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1705964670;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7c3FgscPu0lXJFm3GTXyVD6XcnpcGhNdTIze30CTggI=;
+ b=IYIW5mbwSJvbUMCs8CISYmr7DNTOFVMZo/vzl/JF6Z9zwMM0mf0J9dlF2Y8p8UprnvO7UY
+ dOs5nf+9/qmFVVVSogT11D4T1AdIGlrn9UG+3sb59WWgDabWnCm9IwxS6jpGCeoO8Bfh6f
+ 2P/iLMwW+p3Jx7QzrACRKPPCxBIY8sI=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-695-3sNp94_2P1m95CgdN1tUuQ-1; Mon, 22 Jan 2024 18:04:26 -0500
+X-MC-Unique: 3sNp94_2P1m95CgdN1tUuQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-40e49906305so15684245e9.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 15:04:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1705964665; x=1706569465;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=7c3FgscPu0lXJFm3GTXyVD6XcnpcGhNdTIze30CTggI=;
+ b=kE/wE+FXJ1r1xKaZe57MTifnFEX699fdm/L2cV4mpRQEwnaHqktd+UZxCmpNYqst9E
+ QpIeoJebEDRZQFXhVKAHdEkvYD4TVug+76N4sRYAiWgxcf65p0W3vP3ooGFzl4r7gH/6
+ BCpFSSGHkDWTOqvGSxHmrboBbyMHGHpa46ABXbe1TNwsmorjBPIvcc3iEvTWBVOspY4M
+ tVnUx1mF5kgnN00Js+UKu6aeC9SxM5IeGf6XfAYV1JUJyGqYhYLjL7DVs7WTcmJs/kV6
+ 1SDR9/dDTtojdMgRZY6QVEmYrcqaT8oLlu2EMrzHeWXE3lBRC9ppM4SIRzzHP+dzbdUw
+ xhuw==
+X-Gm-Message-State: AOJu0YyEQHLKrrGITffkFNWTmrMuCqIrBrsLakStuatXiXTdhlPO2n65
+ k1c6xfe17QyFgBm2L4XhpmIWnwpLUzJmQ34ICJtEQHJ257sqg3cHvRJOboWAkOmbCuoeTY02gIA
+ FZVBTkUYQlrqLMEX1/0GrXfGvcLfX4QsbPsGb0crPUaJ2Roz6SmKhgZ2yRq/fOiWXmQ==
+X-Received: by 2002:a05:600c:19d0:b0:40e:47f5:c74e with SMTP id
+ u16-20020a05600c19d000b0040e47f5c74emr2213225wmq.23.1705964665578; 
+ Mon, 22 Jan 2024 15:04:25 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IG8352cOmaMtQLEHn07VgcDYdo9jNcXTeLbFnRyNs5Xa66msABsScIDJEFKORTq82yXMRla/w==
+X-Received: by 2002:a05:600c:19d0:b0:40e:47f5:c74e with SMTP id
+ u16-20020a05600c19d000b0040e47f5c74emr2213221wmq.23.1705964665204; 
+ Mon, 22 Jan 2024 15:04:25 -0800 (PST)
+Received: from ?IPV6:2a02:810d:4b3f:ee94:abf:b8ff:feee:998b?
+ ([2a02:810d:4b3f:ee94:abf:b8ff:feee:998b])
+ by smtp.gmail.com with ESMTPSA id
+ j8-20020a05600c190800b0040d7b340e07sm40645479wmq.45.2024.01.22.15.04.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Jan 2024 15:04:24 -0800 (PST)
+Message-ID: <bdc7e401-a676-4040-9138-8dc5cf35bd05@redhat.com>
+Date: Tue, 23 Jan 2024 00:04:23 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: QAIC reset failure
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH][next] drm/nouveau/fifo/gk104: remove redundant variable
+ ret
+To: Dan Carpenter <dan.carpenter@linaro.org>,
+ Colin Ian King <colin.i.king@gmail.com>
+References: <20240116111609.2258675-1-colin.i.king@gmail.com>
+ <aafe669f-b322-4f22-a48e-564e3eb3447f@moroto.mountain>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <aafe669f-b322-4f22-a48e-564e3eb3447f@moroto.mountain>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Baruch Siach <baruch@tkos.co.il>, Carl Vanderlip <quic_carlv@quicinc.com>, 
- Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-References: <87ttndw6m6.fsf@tarshish>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <87ttndw6m6.fsf@tarshish>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 7Otf0U82F3W9wne9JEPbkRn1bHVyDJh4
-X-Proofpoint-ORIG-GUID: 7Otf0U82F3W9wne9JEPbkRn1bHVyDJh4
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-22_12,2024-01-22_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 impostorscore=0
- lowpriorityscore=0 priorityscore=1501 adultscore=0 mlxlogscore=999
- mlxscore=0 suspectscore=0 clxscore=1011 phishscore=0 spamscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2401220163
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,76 +90,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Orr Mazor <orrm@neureality.ai>, Ramon
- Fried <ramon@neureality.ai>, dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel@ffwll.ch>, nouveau@lists.freedesktop.org,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/16/2024 9:58 AM, Baruch Siach wrote:
-> Hi qaic driver maintainers,
-
-Sorry I was holiday last week and I am just now catching up on email and 
-seeing this.
-
-> I am testing an A100 device on arm64 platform. Kernel version is current
-> Linus master as of commit 052d534373b7. The driver is unable to reset
-> the device properly.
+On 1/16/24 13:31, Dan Carpenter wrote:
+> On Tue, Jan 16, 2024 at 11:16:09AM +0000, Colin Ian King wrote:
+>> The variable ret is being assigned a value but it isn't being
+>> read afterwards. The assignment is redundant and so ret can be
+>> removed.
+>>
+>> Cleans up clang scan build warning:
+>> warning: Although the value stored to 'ret' is used in the enclosing
+>> expression, the value is never actually read from 'ret'
+>> [deadcode.DeadStores]
+>>
+>> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+>> ---
+>>   drivers/gpu/drm/nouveau/nvif/fifo.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/nouveau/nvif/fifo.c b/drivers/gpu/drm/nouveau/nvif/fifo.c
+>> index a463289962b2..e96de14ce87e 100644
+>> --- a/drivers/gpu/drm/nouveau/nvif/fifo.c
+>> +++ b/drivers/gpu/drm/nouveau/nvif/fifo.c
+>> @@ -73,9 +73,9 @@ u64
+>>   nvif_fifo_runlist(struct nvif_device *device, u64 engine)
+>>   {
+>>   	u64 runm = 0;
+>> -	int ret, i;
+>> +	int i;
+>>   
+>> -	if ((ret = nvif_fifo_runlists(device)))
+>> +	if (nvif_fifo_runlists(device))
+>>   		return runm;
 > 
-> [  137.706765] pci 0000:01:00.0: enabling device (0000 -> 0002)
-> [  137.712528] pci 0000:02:00.0: enabling device (0000 -> 0002)
-> [  137.718230] qaic 0000:03:00.0: enabling device (0000 -> 0002)
-> [  137.725720] [drm] Initialized qaic 0.0.0 20190618 for 0000:03:00.0 on minor 0
-> [  137.734326] mhi mhi0: Requested to power ON
-> [  137.738520] mhi mhi0: Power on setup success
-> [  137.855108] mhi mhi0: Wait for device to enter SBL or Mission mode
+> Could we return a literal zero here?  Otherwise, I'm surprised this
+> doesn't trigger a static checker warning.
 
-This all looks good
+Why do you think so? Conditionally, runm is used later on as well. I don't
+think the checker should complain about keeping the value single source.
 
-> [  137.861578] qaic_timesync mhi0_QAIC_TIMESYNC: 20: Failed to receive START channel command completion
-> [  137.870733] qaic_timesync mhi0_QAIC_TIMESYNC: 21: Failed to reset channel, still resetting
-> [  137.879063] qaic_timesync mhi0_QAIC_TIMESYNC: 20: Failed to reset channel, still resetting
-> [  137.887334] qaic_timesync: probe of mhi0_QAIC_TIMESYNC failed with error -5
-> [  137.894866] qaic_timesync mhi0_QAIC_TIMESYNC: 20: Failed to receive START channel command completion
-> [  137.904006] qaic_timesync mhi0_QAIC_TIMESYNC: 21: Failed to reset channel, still resetting
-> [  137.912263] qaic_timesync mhi0_QAIC_TIMESYNC: 20: Failed to reset channel, still resetting
-> [  137.920517] qaic_timesync: probe of mhi0_QAIC_TIMESYNC failed with error -5
-> [  140.807091] mhi mhi0: Device failed to enter MHI Ready
-> [  143.695094] mhi mhi0: Device failed to enter MHI Ready
+If you agree, want to offer your RB?
 
-This looks like the device stopped responding to the host, early in 
-boot.  Trying to access channels while the device is not in MHI Ready 
-state is odd.
+- Danilo
 
-> This is with firmware from SDK version 1.12.2.0. I tried also version
-> 1.10.0.193 with similar results.
 > 
-> Some more state information from MHI debugfs below.
+> regards,
+> dan carpenter
 > 
-> /sys/kernel/debug/mhi/mhi0/regdump:
-> Host PM state: SYS ERROR Process Device state: RESET EE: DISABLE
-> Device EE: PRIMARY BOOTLOADER state: SYS ERROR
-> MHI_REGLEN: 0x100
-> MHI_VER: 0x1000000
-> MHI_CFG: 0x8000000
-> MHI_CTRL: 0x0
-> MHI_STATUS: 0xff04
-> MHI_WAKE_DB: 0x1
-> BHI_EXECENV: 0x0
-> BHI_STATUS: 0xa93f0935
-> BHI_ERRCODE: 0x0
-> BHI_ERRDBG1: 0xc0300000
-> BHI_ERRDBG2: 0xb
-> BHI_ERRDBG3: 0xcabb0
 
-This suggests that the device crashed, which is unexpected.
-
-> /sys/kernel/debug/mhi/mhi0/states:
-> PM state: SYS ERROR Process Device: Inactive MHI state: RESET EE: DISABLE wake: true
-> M0: 2 M2: 0 M3: 0 device wake: 0 pending packets: 0
-> 
-> Any idea?
-
-We may need our firmware engineers involved.  I think there is already a 
-thread with some of the POCs involved.
-
--Jeff
