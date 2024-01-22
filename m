@@ -2,84 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9B42836BDA
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 17:53:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE5A8836C11
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 17:57:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E620010E6D5;
-	Mon, 22 Jan 2024 16:53:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35E5E10E11F;
+	Mon, 22 Jan 2024 16:57:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 427 seconds by postgrey-1.36 at gabe;
- Mon, 22 Jan 2024 16:53:08 UTC
-Received: from omta38.uswest2.a.cloudfilter.net
- (omta38.uswest2.a.cloudfilter.net [35.89.44.37])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4846310E6D5
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 16:53:08 +0000 (UTC)
-Received: from eig-obgw-6003a.ext.cloudfilter.net ([10.0.30.151])
- by cmsmtp with ESMTPS
- id RwGDr0RBEoMN9RxQprrgFp; Mon, 22 Jan 2024 16:45:55 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with ESMTPS
- id RxQnrvbkGtzh2RxQordxM2; Mon, 22 Jan 2024 16:45:54 +0000
-X-Authority-Analysis: v=2.4 cv=Ra6Dtnhv c=1 sm=1 tr=0 ts=65ae9bc2
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=WzbPXH4gqzPVN0x6HrNMNA==:17
- a=IkcTkHD0fZMA:10 a=dEuoMetlWLkA:10 a=wYkD_t78qR0A:10 a=VwQbUJbxAAAA:8
- a=NEAV23lmAAAA:8 a=7YfXLusrAAAA:8 a=ps32sclX-u3JLzBWafQA:9 a=QEXdDO2ut3YA:10
- a=9cHFzqQdt-sA:10 a=PUnBvhIW4WwA:10 a=AjGcO6oz07-iQ99wixmX:22
- a=SLz71HocmBbuEhFRYD3r:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=xUmqrSRHbxv53MrhsbK61lfGw0UBXJAtEIXR6/E0CJU=; b=CpdmXFW14Ut65dA/d7TajA+NjN
- er+uzY2rdtSFEn/ege72uebuTI1K4TtaeCE+EjzE6QR7HDsTUNJIz2zfdNAkb2cPCOtToqekVQBen
- C/LIZLfjnWTKu5c3745w8D6zdWTWAu+3Ep/fLdxBIkneE1b+wNHs439HZKydo/5qnYQnKKvpLpkWF
- q9njQKFarI31OvYq+S4H31FFF+1eoglpskI/FYjupjdJg4ZhWC91MhFB9QpNRsGQfoKN4815Wn+Pr
- B1OKXWD5dNWaoPbo+7jKOjNq8KfhrfRb8nh0IazN2PaOeCLYbvko7W8pip3xxqnnf85UKRaJDGAWW
- eZL7322Q==;
-Received: from 187-162-21-192.static.axtel.net ([187.162.21.192]:56808
- helo=[192.168.15.10])
- by gator4166.hostgator.com with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.96.2)
- (envelope-from <gustavo@embeddedor.com>) id 1rRxQn-004JlJ-0e;
- Mon, 22 Jan 2024 10:45:53 -0600
-Message-ID: <91e87233-3a10-43d6-b850-9cac083913e0@embeddedor.com>
-Date: Mon, 22 Jan 2024 10:45:52 -0600
+X-Greylist: delayed 428 seconds by postgrey-1.36 at gabe;
+ Mon, 22 Jan 2024 16:57:15 UTC
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2967410E11F
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 16:57:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1705942635; x=1737478635;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=EZEN8wunnYsDyYg7Dr1Xlc4lB1BxwhqBccW9u8ITo2Q=;
+ b=SoZh3K8XF0ZexHtBsXsyE4tK/8dcv9Lv3AnCC/vZbRwvOZLVhwUdyinQ
+ i2ctlvxaoJ5KKLndwI6vsNTVn4CqHgD5zPwwL77iU0d9yUbIC+vrrO9Xm
+ CLWPaFVYxr5JI+yqFjdAJBuVaFDu/MJnm7rqXx7+tgGTZv8GLm6JWRZei
+ et46BL+2pDAOdI8EW9QkvVLiR7/NmyWMrRoVcKhoL2F66vUyfSp0qljJd
+ gqIMRaSpthokIlm9UJXu1Fk6HZ+TGbqJPe+4kmV+chkywPtHcJPHj4wrG
+ 9y/P5CgJZBcI1vk0Jpd4LzN1cvnScD2EGdLQNwQBGevoMEe+gg/UWoj5q A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="150551"
+X-IronPort-AV: E=Sophos;i="6.05,211,1701158400"; 
+   d="scan'208";a="150551"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jan 2024 08:50:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="819776348"
+X-IronPort-AV: E=Sophos;i="6.05,211,1701158400"; d="scan'208";a="819776348"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by orsmga001.jf.intel.com with SMTP; 22 Jan 2024 08:50:01 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 22 Jan 2024 18:50:00 +0200
+Date: Mon, 22 Jan 2024 18:50:00 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Sasha Levin <sashal@kernel.org>
+Subject: Re: [PATCH AUTOSEL 6.1 04/53] drm: Fix color LUT rounding
+Message-ID: <Za6ano6dg0Mau7OI@intel.com>
+References: <20240122150949.994249-1-sashal@kernel.org>
+ <20240122150949.994249-4-sashal@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/habanalabs: use kcalloc() instead of kzalloc()
-Content-Language: en-US
-To: Erick Archer <erick.archer@gmx.com>, Oded Gabbay <ogabbay@kernel.org>,
- Marco Pagani <marpagan@redhat.com>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>
-References: <20240120151028.11092-1-erick.archer@gmx.com>
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <20240120151028.11092-1-erick.archer@gmx.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 187.162.21.192
-X-Source-L: No
-X-Exim-ID: 1rRxQn-004JlJ-0e
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 187-162-21-192.static.axtel.net ([192.168.15.10])
- [187.162.21.192]:56808
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 9
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfI/+q2JbJ8ILd8Y9UcVafqBnd9Z+FDFHwVxGbJcC7cr+sQcABKSIgI/+51FZ/m/IJFAYrqZsQjYCU+LzhyocPzVOyjRwpu09+Zqxz7n6L88WlNPaYhFA
- Gv1W0ItO0fZseDWMT5Z2ihd0aq3xpkJuNP3dNI8j+RTNw++Q6FdcCeVzeWNt8aHxcqPjGbdPnIyofUWI4qOrz5z/oY9XJ3YKyyGHDsAXAcWKlBdGgA+n7CAr
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240122150949.994249-4-sashal@kernel.org>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,54 +64,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-hardening@vger.kernel.org
+Cc: tzimmermann@suse.de, Jani Nikula <jani.nikula@intel.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>, daniel@ffwll.ch,
+ airlied@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 1/20/24 09:10, Erick Archer wrote:
-> As noted in the "Deprecated Interfaces, Language Features, Attributes,
-> and Conventions" documentation [1], size calculations (especially
-> multiplication) should not be performed in memory allocator (or similar)
-> function arguments due to the risk of them overflowing. This could lead
-> to values wrapping around and a smaller allocation being made than the
-> caller was expecting. Using those allocations could lead to linear
-> overflows of heap memory and other misbehaviors.
+On Mon, Jan 22, 2024 at 10:08:05AM -0500, Sasha Levin wrote:
+> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 > 
-> So, use the purpose specific kcalloc() function instead of the argument
-> size * count in the kzalloc() function.
+> [ Upstream commit c6fbb6bca10838485b820e8a26c23996f77ce580 ]
+
+Why is this being backported?
+
 > 
-> Link: https://www.kernel.org/doc/html/next/process/deprecated.html#open-coded-arithmetic-in-allocator-arguments [1]
-> Link: https://github.com/KSPP/linux/issues/162
+> The current implementation of drm_color_lut_extract()
+> generates weird results. Eg. if we go through all the
+> values for 16->8bpc conversion we see the following pattern:
 > 
-> Signed-off-by: Erick Archer <erick.archer@gmx.com>
-
-Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-
-Thanks!
--- 
-Gustavo
-
+> in            out (count)
+>    0 -   7f ->  0 (128)
+>   80 -  17f ->  1 (256)
+>  180 -  27f ->  2 (256)
+>  280 -  37f ->  3 (256)
+> ...
+> fb80 - fc7f -> fc (256)
+> fc80 - fd7f -> fd (256)
+> fd80 - fe7f -> fe (256)
+> fe80 - ffff -> ff (384)
+> 
+> So less values map to 0 and more values map 0xff, which
+> doesn't seem particularly great.
+> 
+> To get just the same number of input values to map to
+> the same output values we'd just need to drop the rounding
+> entrirely. But perhaps a better idea would be to follow the
+> OpenGL int<->float conversion rules, in which case we get
+> the following results:
+> 
+> in            out (count)
+>    0 -   80 ->  0 (129)
+>   81 -  181 ->  1 (257)
+>  182 -  282 ->  2 (257)
+>  283 -  383 ->  3 (257)
+> ...
+> fc7c - fd7c -> fc (257)
+> fd7d - fe7d -> fd (257)
+> fe7e - ff7e -> fe (257)
+> ff7f - ffff -> ff (129)
+> 
+> Note that since the divisor is constant the compiler
+> is able to optimize away the integer division in most
+> cases. The only exception is the _ULL() case on 32bit
+> architectures since that gets emitted as inline asm
+> via do_div() and thus the compiler doesn't get to
+> optimize it.
+> 
+> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> Link: https://patchwork.freedesktop.org/patch/msgid/20231013131402.24072-2-ville.syrjala@linux.intel.com
+> Reviewed-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+> Acked-by: Maxime Ripard <mripard@kernel.org>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
 > ---
->   drivers/accel/habanalabs/common/mmu/mmu_v1.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>  include/drm/drm_color_mgmt.h | 19 ++++++++-----------
+>  1 file changed, 8 insertions(+), 11 deletions(-)
 > 
-> diff --git a/drivers/accel/habanalabs/common/mmu/mmu_v1.c b/drivers/accel/habanalabs/common/mmu/mmu_v1.c
-> index d925dc4dd097..e3d42cfead27 100644
-> --- a/drivers/accel/habanalabs/common/mmu/mmu_v1.c
-> +++ b/drivers/accel/habanalabs/common/mmu/mmu_v1.c
-> @@ -232,7 +232,7 @@ static int dram_default_mapping_init(struct hl_ctx *ctx)
->   	/* add hop1 and hop2 */
->   	total_hops = num_of_hop3 + 2;
-> 
-> -	ctx->dram_default_hops = kzalloc(HL_PTE_SIZE * total_hops,  GFP_KERNEL);
-> +	ctx->dram_default_hops = kcalloc(total_hops, HL_PTE_SIZE,  GFP_KERNEL);
->   	if (!ctx->dram_default_hops)
->   		return -ENOMEM;
-> 
-> --
-> 2.25.1
-> 
-> 
+> diff --git a/include/drm/drm_color_mgmt.h b/include/drm/drm_color_mgmt.h
+> index 81c298488b0c..54b2b2467bfd 100644
+> --- a/include/drm/drm_color_mgmt.h
+> +++ b/include/drm/drm_color_mgmt.h
+> @@ -36,20 +36,17 @@ struct drm_plane;
+>   *
+>   * Extract a degamma/gamma LUT value provided by user (in the form of
+>   * &drm_color_lut entries) and round it to the precision supported by the
+> - * hardware.
+> + * hardware, following OpenGL int<->float conversion rules
+> + * (see eg. OpenGL 4.6 specification - 2.3.5 Fixed-Point Data Conversions).
+>   */
+>  static inline u32 drm_color_lut_extract(u32 user_input, int bit_precision)
+>  {
+> -	u32 val = user_input;
+> -	u32 max = 0xffff >> (16 - bit_precision);
+> -
+> -	/* Round only if we're not using full precision. */
+> -	if (bit_precision < 16) {
+> -		val += 1UL << (16 - bit_precision - 1);
+> -		val >>= 16 - bit_precision;
+> -	}
+> -
+> -	return clamp_val(val, 0, max);
+> +	if (bit_precision > 16)
+> +		return DIV_ROUND_CLOSEST_ULL(mul_u32_u32(user_input, (1 << bit_precision) - 1),
+> +					     (1 << 16) - 1);
+> +	else
+> +		return DIV_ROUND_CLOSEST(user_input * ((1 << bit_precision) - 1),
+> +					 (1 << 16) - 1);
+>  }
+>  
+>  u64 drm_color_ctm_s31_32_to_qm_n(u64 user_input, u32 m, u32 n);
+> -- 
+> 2.43.0
+
+-- 
+Ville Syrjälä
+Intel
