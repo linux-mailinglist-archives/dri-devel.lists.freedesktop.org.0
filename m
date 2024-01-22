@@ -2,46 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 665688367B8
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:18:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE1568367B6
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:18:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E1F610F3ED;
-	Mon, 22 Jan 2024 15:18:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AFD910F3E9;
+	Mon, 22 Jan 2024 15:18:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50A3A10F3E8;
- Mon, 22 Jan 2024 15:18:37 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37CBD10F3E8
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 15:18:39 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id D44F9CE2B25;
- Mon, 22 Jan 2024 15:18:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA1AEC433B2;
- Mon, 22 Jan 2024 15:18:01 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id C1FE0B80C81;
+ Mon, 22 Jan 2024 15:18:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA749C433F1;
+ Mon, 22 Jan 2024 15:18:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705936683;
- bh=AQk5hOmfL93JC6vL1eUWDaHwTasBc7zSQVqZE3sW23M=;
+ s=k20201202; t=1705936717;
+ bh=Up+CEAGveMQX9WJ+5QixvdyK40PpYl0GjFlS8VIKIs4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fQvi/Rs6+28sjYUCHLfh4rgT2PU+DEGn26ORjXFOCTWhEb5ahItetjK5eCvyKAI8n
- Wu0pZDUei5wSluLydrjQKUUJsf2UVGUDorJxwLc77FCpiZLgo36wr8QR25of/tHX+x
- 7rzPY+ZdaHnu7EvCHD8p7lBY1HJpYbJDWqCPeqCJkr1DVaN+FvNIQTNvFK9G5qGZ80
- rxyie4RusuQu54cE15+Ejs6anvHsu9l++yr31NW5p1GGL9I+ZVtSP0pkUdlSeOxBm/
- cS7BmCP8ZN6md8pjdygx6Y7tuVPB2TEiITlVVJmi3tShJo2tshENGYGAlRzRTVA8Rr
- XVnpcxCgx299g==
+ b=ZQY+T4sFUw7v3o9Wl6EqvcvlJV+Xl1NQzfAZA0yWGmTSjthWF+jdrjuncPTKvfW9c
+ 2fSot3GWqHX9POeghqzlhVTion0HJFJz4K/iZxcN5lVJ+lnAzwxOxVjutgF3F/PYkN
+ LZs1zDW/mC06ONlS6MkZeQ992S5v0aW4I+d4H8SrKVDCY63BEp/AsC/1my0uFvaraF
+ cp1FGsjojPPL//9dws+Imf5KlLyZHOW381W0SwjGvMl05/tbsd72HJwo82jdEAqMJJ
+ vInIjEFkxqdB3CdQW0QGDv1FhDoKH6dHIlW7qetFZDaXUYDHs6iRFrYJFq65qH6AVC
+ E3+9VJT4oJcTQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 24/24] drm/amdgpu: Drop 'fence' check in
- 'to_amdgpu_amdkfd_fence()'
-Date: Mon, 22 Jan 2024 10:16:38 -0500
-Message-ID: <20240122151659.997085-24-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 06/23] drm/drm_file: fix use of uninitialized
+ variable
+Date: Mon, 22 Jan 2024 10:17:46 -0500
+Message-ID: <20240122151823.997644-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240122151659.997085-1-sashal@kernel.org>
-References: <20240122151659.997085-1-sashal@kernel.org>
+In-Reply-To: <20240122151823.997644-1-sashal@kernel.org>
+References: <20240122151823.997644-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.4.267
+X-stable-base: Linux 4.19.305
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,48 +55,48 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sasha Levin <sashal@kernel.org>,
- Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
- Felix Kuehling <felix.kuehling@amd.com>, Xinhui.Pan@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- daniel@ffwll.ch, Alex Deucher <alexander.deucher@amd.com>, airlied@gmail.com,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, daniel@ffwll.ch,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de, airlied@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-[ Upstream commit bf2ad4fb8adca89374b54b225d494e0b1956dbea ]
+[ Upstream commit 1d3062fad9c7313fff9970a88e0538a24480ffb8 ]
 
-Return value of container_of(...) can't be null, so null check is not
-required for 'fence'. Hence drop its NULL check.
+smatch reports:
 
-Fixes the below:
-drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c:93 to_amdgpu_amdkfd_fence() warn: can 'fence' even be NULL?
+drivers/gpu/drm/drm_file.c:967 drm_show_memory_stats() error: uninitialized symbol 'supported_status'.
 
-Cc: Felix Kuehling <Felix.Kuehling@amd.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
-Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+'supported_status' is only set in one code path. I'm not familiar with
+the code to say if that path will always be ran in real life, but
+whether that is the case or not, I think it is good to initialize
+'supported_status' to 0 to silence the warning (and possibly fix a bug).
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Acked-by: Maxime Ripard <mripard@kernel.org>
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20231103-uninit-fixes-v2-1-c22b2444f5f5@ideasonboard.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c | 2 +-
+ drivers/gpu/drm/drm_file.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
-index 3107b9575929..eef7517c9d24 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
-@@ -88,7 +88,7 @@ struct amdgpu_amdkfd_fence *to_amdgpu_amdkfd_fence(struct dma_fence *f)
- 		return NULL;
+diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+index 334addaca9c5..06cdae6f598c 100644
+--- a/drivers/gpu/drm/drm_file.c
++++ b/drivers/gpu/drm/drm_file.c
+@@ -299,7 +299,7 @@ int drm_open(struct inode *inode, struct file *filp)
+ {
+ 	struct drm_device *dev;
+ 	struct drm_minor *minor;
+-	int retcode;
++	int retcode = 0;
+ 	int need_setup = 0;
  
- 	fence = container_of(f, struct amdgpu_amdkfd_fence, base);
--	if (fence && f->ops == &amdkfd_fence_ops)
-+	if (f->ops == &amdkfd_fence_ops)
- 		return fence;
- 
- 	return NULL;
+ 	minor = drm_minor_acquire(iminor(inode));
 -- 
 2.43.0
 
