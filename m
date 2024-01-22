@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8965F836061
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 12:04:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 495DF836068
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 12:05:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02C0810ED5C;
-	Mon, 22 Jan 2024 11:04:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 800E910ED67;
+	Mon, 22 Jan 2024 11:05:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A1CF10ED5C
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 11:04:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54E7710ED64
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 11:05:11 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E2B52612FC;
- Mon, 22 Jan 2024 11:04:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1A59C43399;
- Mon, 22 Jan 2024 11:04:18 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id B572F612FB;
+ Mon, 22 Jan 2024 11:04:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BC1BC43399;
+ Mon, 22 Jan 2024 11:04:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705921460;
- bh=mbeOO3/wQG7zrKVPovwISN/Vz9cG62FT4cGebtEkkis=;
+ s=k20201202; t=1705921480;
+ bh=HjCwKi61NPZ3xwOy4YdkKxzNOQhrc/a42C/U0YTYnBk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=PpdbXEtl8n7MsvqZSen0IUKoUk5/YbYeywSlobrQMYBlLfswcJ8C/lwwMMEkr1Fki
- TUO2HRPb5DpSpU1l+6Cr9EmhiX1oT3OKihNa8ZANPnWLOK7e1oXE47wbV2owMjKHab
- 88VYaxvaydu3VkNVf1R1d5wfxw8/LaJ74nhBHqVdxg3rhCSL1D2gElnyYmgF7anbHa
- hJN/3L3/OQbJDMIMILb0OQKrWkzrjzGsHYV/eZ2cIOxYmEFuW7Q1TcgPeIgOlwgLsj
- G6wHrt/NBTOKOR+FAsh/W+9aO/X6nGm0dnHemB+dasSDKA1/MruAkxoeyE2roWFAll
- jbQ4U1E2bbAuQ==
+ b=XoZqtEMjUyfYRuFxJh8hkLFFCJnkb4vX6uVtDaE2jz8V00lGQR27Gp0DIz9/miBCv
+ 9a7ZMaj0KZykSr4Uis0Y8tZ3VgFCg1TvJm7srpTkc4WFNIZOl89ujMA12QGgbSOWuU
+ /cbY7FGJPWBXZS1e8AWxA0nl2WrOOoaYPWdsMSNXoKLGM4GN33u7vYekZActxwqTgW
+ K3Jpp97pJ+o/+CKUzc1zg9BXsV8yk+EToZ4pt00yzDx9nEg+5VI6OUzdNzMTxS4C77
+ pIXnCyu3OZU4T7m9jJ/oRXwzj1v+VISY5bAUo379he7JgE5lu5U3qIvBN7xKOSwOpy
+ NRWqOyTNDcy2w==
 From: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
 To: gregkh@linuxfoundation.org
-Subject: [PATCH v2 07/47] tty: vt: pass vc_resize_user as a parameter
-Date: Mon, 22 Jan 2024 12:03:21 +0100
-Message-ID: <20240122110401.7289-8-jirislaby@kernel.org>
+Subject: [PATCH v2 19/47] tty: vt: make consw::con_debug_*() return void
+Date: Mon, 22 Jan 2024 12:03:33 +0100
+Message-ID: <20240122110401.7289-20-jirislaby@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122110401.7289-1-jirislaby@kernel.org>
 References: <20240122110401.7289-1-jirislaby@kernel.org>
@@ -56,253 +56,159 @@ Cc: linux-fbdev@vger.kernel.org, linux-serial@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It is pretty unfortunate to set vc_data::vc_resize_user in two callers
-of vc_do_resize(). vc_resize_user is immediately reset there (while
-remembering it). So instead of this back and forth, pass 'from_user' as
-a parameter.
-
-Notes on 'int user':
-* The name changes from 'user' to 'from_user' on some places to be
-  consistent.
-* The type is bool now as 'int user' might evoke user's uid or whatever.
-
-Provided vc_resize() is called on many places and they need not to care
-about this parameter, its prototype is kept unchanged. Instead, it is
-now an inline calling a new __vc_resize() which implements the above.
-
-This patch makes the situation much more obvious.
+The return value of con_debug_enter() and con_debug_leave() is ignored
+on many fronts. So just don't propagate errors (the current
+implementations return 0 anyway) and make the return type a void.
 
 Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
-Cc: Helge Deller <deller@gmx.de>
 Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Helge Deller <deller@gmx.de>
 Cc: linux-fbdev@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
 ---
- drivers/tty/vt/vt.c              | 28 +++++++++++++---------------
- drivers/tty/vt/vt_ioctl.c        |  6 ++----
- drivers/video/console/vgacon.c   |  4 ++--
- drivers/video/fbdev/core/fbcon.c |  2 +-
- include/linux/console.h          |  2 +-
- include/linux/console_struct.h   |  1 -
- include/linux/vt_kern.h          |  9 ++++++++-
- 7 files changed, 27 insertions(+), 25 deletions(-)
+ drivers/tty/vt/vt.c              | 21 ++++-----------------
+ drivers/video/fbdev/core/fbcon.c |  6 ++----
+ include/linux/console.h          | 18 ++++++------------
+ 3 files changed, 12 insertions(+), 33 deletions(-)
 
 diff --git a/drivers/tty/vt/vt.c b/drivers/tty/vt/vt.c
-index 3a6f60ad2224..c87837306074 100644
+index 51a2787415db..bbfda0d33ca1 100644
 --- a/drivers/tty/vt/vt.c
 +++ b/drivers/tty/vt/vt.c
-@@ -1115,13 +1115,13 @@ int vc_allocate(unsigned int currcons)	/* return 0 on success */
- }
- 
- static inline int resize_screen(struct vc_data *vc, int width, int height,
--				int user)
-+				bool from_user)
- {
- 	/* Resizes the resolution of the display adapater */
- 	int err = 0;
- 
- 	if (vc->vc_sw->con_resize)
--		err = vc->vc_sw->con_resize(vc, width, height, user);
-+		err = vc->vc_sw->con_resize(vc, width, height, from_user);
- 
- 	return err;
- }
-@@ -1132,6 +1132,7 @@ static inline int resize_screen(struct vc_data *vc, int width, int height,
-  *	@vc: virtual console private data
-  *	@cols: columns
-  *	@lines: lines
-+ *	@from_user: invoked by a user?
-  *
-  *	Resize a virtual console, clipping according to the actual constraints.
-  *	If the caller passes a tty structure then update the termios winsize
-@@ -1142,21 +1143,17 @@ static inline int resize_screen(struct vc_data *vc, int width, int height,
+@@ -4012,15 +4012,9 @@ EXPORT_SYMBOL(con_is_visible);
+  * Called when the console is taken over by the kernel debugger, this
+  * function needs to save the current console state, then put the console
+  * into a state suitable for the kernel debugger.
+- *
+- * RETURNS:
+- * Zero on success, nonzero if a failure occurred when trying to prepare
+- * the console for the debugger.
   */
- 
- static int vc_do_resize(struct tty_struct *tty, struct vc_data *vc,
--				unsigned int cols, unsigned int lines)
-+			unsigned int cols, unsigned int lines, bool from_user)
+-int con_debug_enter(struct vc_data *vc)
++void con_debug_enter(struct vc_data *vc)
  {
- 	unsigned long old_origin, new_origin, new_scr_end, rlth, rrem, err = 0;
- 	unsigned long end;
- 	unsigned int old_rows, old_row_size, first_copied_row;
- 	unsigned int new_cols, new_rows, new_row_size, new_screen_size;
--	unsigned int user;
- 	unsigned short *oldscreen, *newscreen;
- 	u32 **new_uniscr = NULL;
- 
- 	WARN_CONSOLE_UNLOCKED();
- 
--	user = vc->vc_resize_user;
--	vc->vc_resize_user = 0;
+-	int ret = 0;
 -
- 	if (cols > VC_MAXCOL || lines > VC_MAXROW)
- 		return -EINVAL;
- 
-@@ -1182,7 +1179,7 @@ static int vc_do_resize(struct tty_struct *tty, struct vc_data *vc,
- 		 * to deal with possible errors from the code below, we call
- 		 * the resize_screen here as well.
- 		 */
--		return resize_screen(vc, new_cols, new_rows, user);
-+		return resize_screen(vc, new_cols, new_rows, from_user);
- 	}
- 
- 	if (new_screen_size > KMALLOC_MAX_SIZE || !new_screen_size)
-@@ -1205,7 +1202,7 @@ static int vc_do_resize(struct tty_struct *tty, struct vc_data *vc,
- 	old_rows = vc->vc_rows;
- 	old_row_size = vc->vc_size_row;
- 
--	err = resize_screen(vc, new_cols, new_rows, user);
-+	err = resize_screen(vc, new_cols, new_rows, from_user);
- 	if (err) {
- 		kfree(newscreen);
- 		vc_uniscr_free(new_uniscr);
-@@ -1292,22 +1289,23 @@ static int vc_do_resize(struct tty_struct *tty, struct vc_data *vc,
- }
- 
- /**
-- *	vc_resize		-	resize a VT
-+ *	__vc_resize		-	resize a VT
-  *	@vc: virtual console
-  *	@cols: columns
-  *	@rows: rows
-+ *	@from_user: invoked by a user?
-  *
-  *	Resize a virtual console as seen from the console end of things. We
-  *	use the common vc_do_resize methods to update the structures. The
-  *	caller must hold the console sem to protect console internals and
-  *	vc->port.tty
-  */
--
--int vc_resize(struct vc_data *vc, unsigned int cols, unsigned int rows)
-+int __vc_resize(struct vc_data *vc, unsigned int cols, unsigned int rows,
-+		bool from_user)
- {
--	return vc_do_resize(vc->port.tty, vc, cols, rows);
-+	return vc_do_resize(vc->port.tty, vc, cols, rows, from_user);
- }
--EXPORT_SYMBOL(vc_resize);
-+EXPORT_SYMBOL(__vc_resize);
- 
- /**
-  *	vt_resize		-	resize a VT
-@@ -1327,7 +1325,7 @@ static int vt_resize(struct tty_struct *tty, struct winsize *ws)
- 	int ret;
- 
- 	console_lock();
--	ret = vc_do_resize(tty, vc, ws->ws_col, ws->ws_row);
-+	ret = vc_do_resize(tty, vc, ws->ws_col, ws->ws_row, false);
- 	console_unlock();
- 	return ret;
- }
-diff --git a/drivers/tty/vt/vt_ioctl.c b/drivers/tty/vt/vt_ioctl.c
-index 8c685b501404..4b91072f3a4e 100644
---- a/drivers/tty/vt/vt_ioctl.c
-+++ b/drivers/tty/vt/vt_ioctl.c
-@@ -714,8 +714,7 @@ static int vt_resizex(struct vc_data *vc, struct vt_consize __user *cs)
- 				vcp->vc_scan_lines = v.v_vlin;
- 			if (v.v_clin)
- 				vcp->vc_cell_height = v.v_clin;
--			vcp->vc_resize_user = 1;
--			ret = vc_resize(vcp, v.v_cols, v.v_rows);
-+			ret = __vc_resize(vcp, v.v_cols, v.v_rows, true);
- 			if (ret) {
- 				vcp->vc_scan_lines = save_scan_lines;
- 				vcp->vc_cell_height = save_cell_height;
-@@ -923,9 +922,8 @@ int vt_ioctl(struct tty_struct *tty,
- 			vc = vc_cons[i].d;
- 
- 			if (vc) {
--				vc->vc_resize_user = 1;
- 				/* FIXME: review v tty lock */
--				vc_resize(vc_cons[i].d, cc, ll);
-+				__vc_resize(vc_cons[i].d, cc, ll, true);
- 			}
+ 	saved_fg_console = fg_console;
+ 	saved_last_console = last_console;
+ 	saved_want_console = want_console;
+@@ -4029,7 +4023,7 @@ int con_debug_enter(struct vc_data *vc)
+ 	vc->vc_mode = KD_TEXT;
+ 	console_blanked = 0;
+ 	if (vc->vc_sw->con_debug_enter)
+-		ret = vc->vc_sw->con_debug_enter(vc);
++		vc->vc_sw->con_debug_enter(vc);
+ #ifdef CONFIG_KGDB_KDB
+ 	/* Set the initial LINES variable if it is not already set */
+ 	if (vc->vc_rows < 999) {
+@@ -4059,7 +4053,6 @@ int con_debug_enter(struct vc_data *vc)
  		}
- 		console_unlock();
-diff --git a/drivers/video/console/vgacon.c b/drivers/video/console/vgacon.c
-index 9176fff9ce6e..0c76e2817b49 100644
---- a/drivers/video/console/vgacon.c
-+++ b/drivers/video/console/vgacon.c
-@@ -1081,12 +1081,12 @@ static int vgacon_font_get(struct vc_data *c, struct console_font *font, unsigne
+ 	}
+ #endif /* CONFIG_KGDB_KDB */
+-	return ret;
  }
+ EXPORT_SYMBOL_GPL(con_debug_enter);
  
- static int vgacon_resize(struct vc_data *c, unsigned int width,
--			 unsigned int height, unsigned int user)
-+			 unsigned int height, bool from_user)
+@@ -4068,15 +4061,10 @@ EXPORT_SYMBOL_GPL(con_debug_enter);
+  *
+  * Restore the console state to what it was before the kernel debugger
+  * was invoked.
+- *
+- * RETURNS:
+- * Zero on success, nonzero if a failure occurred when trying to restore
+- * the console.
+  */
+-int con_debug_leave(void)
++void con_debug_leave(void)
  {
- 	if ((width << 1) * height > vga_vram_size)
- 		return -EINVAL;
+ 	struct vc_data *vc;
+-	int ret = 0;
  
--	if (user) {
-+	if (from_user) {
- 		/*
- 		 * Ho ho!  Someone (svgatextmode, eh?) may have reprogrammed
- 		 * the video mode!  Set the new defaults then and go away.
+ 	fg_console = saved_fg_console;
+ 	last_console = saved_last_console;
+@@ -4086,8 +4074,7 @@ int con_debug_leave(void)
+ 
+ 	vc = vc_cons[fg_console].d;
+ 	if (vc->vc_sw->con_debug_leave)
+-		ret = vc->vc_sw->con_debug_leave(vc);
+-	return ret;
++		vc->vc_sw->con_debug_leave(vc);
+ }
+ EXPORT_SYMBOL_GPL(con_debug_leave);
+ 
 diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index a8c32cb4c878..dd2f4617485c 100644
+index dd2f4617485c..d3fb98084eda 100644
 --- a/drivers/video/fbdev/core/fbcon.c
 +++ b/drivers/video/fbdev/core/fbcon.c
-@@ -1996,7 +1996,7 @@ static void updatescrollmode(struct fbcon_display *p,
- #define CALC_FONTSZ(h, p, c) ((h) * (p) * (c)) /* size = height * pitch * charcount */
+@@ -2243,7 +2243,7 @@ static int fbcon_blank(struct vc_data *vc, int blank, int mode_switch)
+ 	return 0;
+ }
  
- static int fbcon_resize(struct vc_data *vc, unsigned int width,
--			unsigned int height, unsigned int user)
-+			unsigned int height, bool from_user)
+-static int fbcon_debug_enter(struct vc_data *vc)
++static void fbcon_debug_enter(struct vc_data *vc)
  {
  	struct fb_info *info = fbcon_info_from_console(vc->vc_num);
  	struct fbcon_ops *ops = info->fbcon_par;
+@@ -2253,10 +2253,9 @@ static int fbcon_debug_enter(struct vc_data *vc)
+ 	if (info->fbops->fb_debug_enter)
+ 		info->fbops->fb_debug_enter(info);
+ 	fbcon_set_palette(vc, color_table);
+-	return 0;
+ }
+ 
+-static int fbcon_debug_leave(struct vc_data *vc)
++static void fbcon_debug_leave(struct vc_data *vc)
+ {
+ 	struct fb_info *info = fbcon_info_from_console(vc->vc_num);
+ 	struct fbcon_ops *ops = info->fbcon_par;
+@@ -2264,7 +2263,6 @@ static int fbcon_debug_leave(struct vc_data *vc)
+ 	ops->graphics = ops->save_graphics;
+ 	if (info->fbops->fb_debug_leave)
+ 		info->fbops->fb_debug_leave(info);
+-	return 0;
+ }
+ 
+ static int fbcon_get_font(struct vc_data *vc, struct console_font *font, unsigned int vpitch)
 diff --git a/include/linux/console.h b/include/linux/console.h
-index 779d388af8a0..38b379d6c624 100644
+index 38b379d6c624..93a1db5bf3b5 100644
 --- a/include/linux/console.h
 +++ b/include/linux/console.h
-@@ -66,7 +66,7 @@ struct consw {
- 	int	(*con_font_default)(struct vc_data *vc,
- 			struct console_font *font, char *name);
- 	int     (*con_resize)(struct vc_data *vc, unsigned int width,
--			unsigned int height, unsigned int user);
-+			      unsigned int height, bool from_user);
- 	void	(*con_set_palette)(struct vc_data *vc,
- 			const unsigned char *table);
- 	void	(*con_scrolldelta)(struct vc_data *vc, int lines);
-diff --git a/include/linux/console_struct.h b/include/linux/console_struct.h
-index 539f1cd45309..20f564e98552 100644
---- a/include/linux/console_struct.h
-+++ b/include/linux/console_struct.h
-@@ -151,7 +151,6 @@ struct vc_data {
- 	DECLARE_BITMAP(vc_tab_stop, VC_TABSTOPS_COUNT);	/* Tab stops. 256 columns. */
- 	unsigned char   vc_palette[16*3];       /* Colour palette for VGA+ */
- 	unsigned short * vc_translate;
--	unsigned int    vc_resize_user;         /* resize request from user */
- 	unsigned int	vc_bell_pitch;		/* Console bell pitch */
- 	unsigned int	vc_bell_duration;	/* Console bell duration */
- 	unsigned short	vc_cur_blink_ms;	/* Cursor blink duration */
-diff --git a/include/linux/vt_kern.h b/include/linux/vt_kern.h
-index a789ea3ed2a0..d008c3d0a9bb 100644
---- a/include/linux/vt_kern.h
-+++ b/include/linux/vt_kern.h
-@@ -25,7 +25,8 @@ extern int fg_console, last_console, want_console;
+@@ -88,11 +88,11 @@ struct consw {
+ 	 * limited to, unblanking the console, loading an appropriate
+ 	 * palette, and allowing debugger generated output.
+ 	 */
+-	int	(*con_debug_enter)(struct vc_data *vc);
++	void	(*con_debug_enter)(struct vc_data *vc);
+ 	/*
+ 	 * Restore the console to its pre-debug state as closely as possible.
+ 	 */
+-	int	(*con_debug_leave)(struct vc_data *vc);
++	void	(*con_debug_leave)(struct vc_data *vc);
+ };
  
- int vc_allocate(unsigned int console);
- int vc_cons_allocated(unsigned int console);
--int vc_resize(struct vc_data *vc, unsigned int cols, unsigned int lines);
-+int __vc_resize(struct vc_data *vc, unsigned int cols, unsigned int lines,
-+		bool from_user);
- struct vc_data *vc_deallocate(unsigned int console);
- void reset_palette(struct vc_data *vc);
- void do_blank_screen(int entering_gfx);
-@@ -42,6 +43,12 @@ void redraw_screen(struct vc_data *vc, int is_switch);
- #define update_screen(x) redraw_screen(x, 0)
- #define switch_screen(x) redraw_screen(x, 1)
+ extern const struct consw *conswitchp;
+@@ -113,17 +113,11 @@ int do_unregister_con_driver(const struct consw *csw);
+ int do_take_over_console(const struct consw *sw, int first, int last, int deflt);
+ void give_up_console(const struct consw *sw);
+ #ifdef CONFIG_HW_CONSOLE
+-int con_debug_enter(struct vc_data *vc);
+-int con_debug_leave(void);
++void con_debug_enter(struct vc_data *vc);
++void con_debug_leave(void);
+ #else
+-static inline int con_debug_enter(struct vc_data *vc)
+-{
+-	return 0;
+-}
+-static inline int con_debug_leave(void)
+-{
+-	return 0;
+-}
++static inline void con_debug_enter(struct vc_data *vc) { }
++static inline void con_debug_leave(void) { }
+ #endif
  
-+static inline int vc_resize(struct vc_data *vc, unsigned int cols,
-+			    unsigned int lines)
-+{
-+	return __vc_resize(vc, cols, lines, false);
-+}
-+
- struct tty_struct;
- int tioclinux(struct tty_struct *tty, unsigned long arg);
- 
+ /* cursor */
 -- 
 2.43.0
 
