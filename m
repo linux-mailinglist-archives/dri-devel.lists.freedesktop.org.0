@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26EC6836695
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:05:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04E818366A0
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:05:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 428A010F302;
-	Mon, 22 Jan 2024 15:05:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09CC110F30C;
+	Mon, 22 Jan 2024 15:05:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EE2B10F2FD
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 15:05:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92C0610F308;
+ Mon, 22 Jan 2024 15:05:06 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 2F031CE2B22;
- Mon, 22 Jan 2024 15:05:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C91B5C43142;
- Mon, 22 Jan 2024 15:04:55 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 54C2CCE2B1D;
+ Mon, 22 Jan 2024 15:05:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D17AC433A6;
+ Mon, 22 Jan 2024 15:05:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705935898;
- bh=NJfonpRkZQiY4b3wY4dGHHawtZbj1o6FiAjnHRw3bj8=;
+ s=k20201202; t=1705935903;
+ bh=iaT24gQu/lVRaUWt2L5gkzTasQU7clUVTSvmMWdxIu0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nawjDs8eMk+e1tzNLlW3Inj5dtzSKfymcFpFh6wjZsY4ieayspKLXble241Nb1U56
- yfBioWlTuqRd/4OVVn5eDJwhS703VpUzfJuVFONhkWn/FtItb6uywoZAZKNTHl0c5g
- SGMhvDZsD5cbWUQAVLaTrKRymj7NAYDPvhoF7E8i+4A+HcpUASGoJNH4RwadFOJ+A0
- iRh50+KDJf1bS2VUcYFaA4ulaFMxOeBa6rIMi1xFbZlSd4VC/Ep8FAIUNh51EXOv/U
- HguLHcQYSJ1P3QjE8a91s60ACBemX8MKARn2yrmOkHh87TDYuJ5je1UQePoRs/ALnt
- 3tzbGYvJtHwhw==
+ b=XtcL7bwma4gmgpQlgENtJnDlTdPdr8JuBEnFTjm1N9yynOR/c3E2JMY9RGnt9w1EG
+ 8bQgpeZqBrRCB9xZUjU5ErodZoPRnG6K5nTsSYlUaxFKz8YKOhVNViptXerZ6bOg40
+ nCv70zFGay9UMxnyA83uzfEP8SKmemcZttgseVq1gyXQxKmkqE9xBlWLXADzcJP4Je
+ QD1iv8wSSeTST0BrQE91DG98caAQF1MsnM9WaYjvNRzukXoTfX2oUN5I2j6BAkZv6r
+ ueAc1MLWnICCABOWxyCuMGYcUQeKVdWcvmkwlYcDVdMgXqO3hothv0xp+V/ctIxYPB
+ eFNwtXtQErsBQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 10/73] drm/bridge: anx7625: Fix Set HPD irq detect
- window to 2ms
-Date: Mon, 22 Jan 2024 10:01:24 -0500
-Message-ID: <20240122150432.992458-10-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 11/73] drm/amd/display: Fix tiled display
+ misalignment
+Date: Mon, 22 Jan 2024 10:01:25 -0500
+Message-ID: <20240122150432.992458-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122150432.992458-1-sashal@kernel.org>
 References: <20240122150432.992458-1-sashal@kernel.org>
@@ -54,127 +54,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, neil.armstrong@linaro.org,
- Robert Foss <rfoss@kernel.org>, tzimmermann@suse.de, nfraprado@collabora.com,
- u.kleine-koenig@pengutronix.de, dianders@chromium.org, mripard@kernel.org,
- treapking@chromium.org, dri-devel@lists.freedesktop.org,
- andrzej.hajda@intel.com, wenst@chromium.org, daniel@ffwll.ch,
- andriy.shevchenko@linux.intel.com, airlied@gmail.com,
- Xin Ji <xji@analogixsemi.com>, angelogioacchino.delregno@collabora.com
+Cc: Sasha Levin <sashal@kernel.org>, dillon.varone@amd.com,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ sunpeng.li@amd.com, airlied@gmail.com, Qingqing.Zhuo@amd.com,
+ Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, samson.tam@amd.com,
+ christian.koenig@amd.com,
+ Meenakshikumar Somasundaram <meenakshikumar.somasundaram@amd.com>,
+ wenjing.liu@amd.com, Hamza Mahfooz <hamza.mahfooz@amd.com>, daniel@ffwll.ch,
+ Alex Deucher <alexander.deucher@amd.com>, jun.lei@amd.com,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>, alvin.lee2@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Xin Ji <xji@analogixsemi.com>
+From: Meenakshikumar Somasundaram <meenakshikumar.somasundaram@amd.com>
 
-[ Upstream commit e3af7053de3f685c96158373bc234b2feca1f160 ]
+[ Upstream commit c4b8394e76adba4f50a3c2696c75b214a291e24a ]
 
-Polling firmware HPD GPIO status, set HPD irq detect window to 2ms
-after firmware HPD GPIO initial done
+[Why]
+When otg workaround is applied during clock update, otgs of
+tiled display went out of sync.
 
-Signed-off-by: Xin Ji <xji@analogixsemi.com>
-Reviewed-by: Robert Foss <rfoss@kernel.org>
-Signed-off-by: Robert Foss <rfoss@kernel.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20231120091038.284825-2-xji@analogixsemi.com
+[How]
+To call dc_trigger_sync() after clock update to sync otgs again.
+
+Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Acked-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+Signed-off-by: Meenakshikumar Somasundaram <meenakshikumar.somasundaram@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/bridge/analogix/anx7625.c | 51 ++++++++++++++++-------
- drivers/gpu/drm/bridge/analogix/anx7625.h |  4 ++
- 2 files changed, 40 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/amd/display/dc/core/dc.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index 51abe42c639e..ef31033439bc 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -1298,10 +1298,32 @@ static void anx7625_config(struct anx7625_data *ctx)
- 			  XTAL_FRQ_SEL, XTAL_FRQ_27M);
- }
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
+index a1be93f6385c..39b414774a1f 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+@@ -1948,6 +1948,10 @@ static enum dc_status dc_commit_state_no_check(struct dc *dc, struct dc_state *c
+ 		wait_for_no_pipes_pending(dc, context);
+ 		/* pplib is notified if disp_num changed */
+ 		dc->hwss.optimize_bandwidth(dc, context);
++		/* Need to do otg sync again as otg could be out of sync due to otg
++		 * workaround applied during clock update
++		 */
++		dc_trigger_sync(dc, context);
+ 	}
  
-+static int anx7625_hpd_timer_config(struct anx7625_data *ctx)
-+{
-+	int ret;
-+
-+	/* Set irq detect window to 2ms */
-+	ret = anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
-+				HPD_DET_TIMER_BIT0_7, HPD_TIME & 0xFF);
-+	ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
-+				 HPD_DET_TIMER_BIT8_15,
-+				 (HPD_TIME >> 8) & 0xFF);
-+	ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
-+				 HPD_DET_TIMER_BIT16_23,
-+				 (HPD_TIME >> 16) & 0xFF);
-+
-+	return ret;
-+}
-+
-+static int anx7625_read_hpd_gpio_config_status(struct anx7625_data *ctx)
-+{
-+	return anx7625_reg_read(ctx, ctx->i2c.rx_p0_client, GPIO_CTRL_2);
-+}
-+
- static void anx7625_disable_pd_protocol(struct anx7625_data *ctx)
- {
- 	struct device *dev = ctx->dev;
--	int ret;
-+	int ret, val;
- 
- 	/* Reset main ocm */
- 	ret = anx7625_reg_write(ctx, ctx->i2c.rx_p0_client, 0x88, 0x40);
-@@ -1315,6 +1337,19 @@ static void anx7625_disable_pd_protocol(struct anx7625_data *ctx)
- 		DRM_DEV_DEBUG_DRIVER(dev, "disable PD feature fail.\n");
- 	else
- 		DRM_DEV_DEBUG_DRIVER(dev, "disable PD feature succeeded.\n");
-+
-+	/*
-+	 * Make sure the HPD GPIO already be configured after OCM release before
-+	 * setting HPD detect window register. Here we poll the status register
-+	 * at maximum 40ms, then config HPD irq detect window register
-+	 */
-+	readx_poll_timeout(anx7625_read_hpd_gpio_config_status,
-+			   ctx, val,
-+			   ((val & HPD_SOURCE) || (val < 0)),
-+			   2000, 2000 * 20);
-+
-+	/* Set HPD irq detect window to 2ms */
-+	anx7625_hpd_timer_config(ctx);
- }
- 
- static int anx7625_ocm_loading_check(struct anx7625_data *ctx)
-@@ -1437,20 +1472,6 @@ static void anx7625_start_dp_work(struct anx7625_data *ctx)
- 
- static int anx7625_read_hpd_status_p0(struct anx7625_data *ctx)
- {
--	int ret;
--
--	/* Set irq detect window to 2ms */
--	ret = anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
--				HPD_DET_TIMER_BIT0_7, HPD_TIME & 0xFF);
--	ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
--				 HPD_DET_TIMER_BIT8_15,
--				 (HPD_TIME >> 8) & 0xFF);
--	ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
--				 HPD_DET_TIMER_BIT16_23,
--				 (HPD_TIME >> 16) & 0xFF);
--	if (ret < 0)
--		return ret;
--
- 	return anx7625_reg_read(ctx, ctx->i2c.rx_p0_client, SYSTEM_STSTUS);
- }
- 
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h b/drivers/gpu/drm/bridge/analogix/anx7625.h
-index 5af819611ebc..66ebee7f3d83 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.h
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
-@@ -259,6 +259,10 @@
- #define AP_MIPI_RX_EN BIT(5) /* 1: MIPI RX input in  0: no RX in */
- #define AP_DISABLE_PD BIT(6)
- #define AP_DISABLE_DISPLAY BIT(7)
-+
-+#define GPIO_CTRL_2   0x49
-+#define HPD_SOURCE    BIT(6)
-+
- /***************************************************************/
- /* Register definition of device address 0x84 */
- #define  MIPI_PHY_CONTROL_3            0x03
+ 	if (dc->hwss.update_dsc_pg)
 -- 
 2.43.0
 
