@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B5348367AB
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:18:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F3E98367AF
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:18:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB65910F34E;
-	Mon, 22 Jan 2024 15:17:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFF8710F355;
+	Mon, 22 Jan 2024 15:17:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2857010F34E;
- Mon, 22 Jan 2024 15:17:46 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3226210F355
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 15:17:49 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9A6F461516;
+ by ams.source.kernel.org (Postfix) with ESMTP id BA92CB80E89;
+ Mon, 22 Jan 2024 15:17:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEED0C43390;
  Mon, 22 Jan 2024 15:17:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35290C433F1;
- Mon, 22 Jan 2024 15:17:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705936635;
- bh=TnjZ7Ng7xYs6ytnJmzByWcNLpqkTm7KKVDdG688zMBc=;
+ s=k20201202; t=1705936637;
+ bh=4qfjbcOA7Zrel+cu7YxJM2gsE3yKvkJzvU0GEAB2k/8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=EICQzMWiz0qykBp+byeb6YvmGW0flXhkhjVeDv9pP4Sd+FmrdoK/5qgtUmkbBHk/Q
- /6mKjb73n/evEv2A2MeExoR9C06c1aq9LQ7Oa8KR1LpfoapJrNSnHx5WZqL+tuKbox
- M2zRARAi/w+f2X2OAYOx0BXXivxC4wuUHFq0ORVKBQ5NkWfQaHobNd+pac3IauXwnz
- bTAN/UQQj8jHPbBeJQ23uARF0qrG4p/KKF0HZbXs/ZhllOaNTeacJPloBQzu1dwfyI
- 4FaHq5x8ADuwFSBbDWM8D2mVXyxQa3wuAVHsI+XWjh4sMqGKfeKSL4F8feCbwAgD8z
- snHmhqMWoIU3g==
+ b=Y16tZC94BNIS0sZKgch4HLpMuKkJ/utwwqRxuzpa9EDJpG0ohGTI0FJGA2hT8T1bn
+ 8XvAKNNMKMn/o/mDaHHpT480uKc6DOTxVEXi6eD4fsdizri2aEDWktInFbtErkXa8q
+ tdYFdXpsmiYTfKN5bdGAcm7+knQ3f40/+lZBbkxxiEBzwQZHjJCKst0HfsKNc7kN8g
+ wftfajoV8/W5yxI+KUFGSYyg+zyIBitmuV3HdTRXd24LwJzLZTh7xHq3OVyKPMTTuU
+ 1q8a82Qq0ddfVIEvOQNaQDjn0jrhOpZhnU11DncJFalHf67lWaDNRcfmvgaDr59Snh
+ IMbSyEjYdkO2A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 06/24] drm/amd/display: Fix writeback_info never
- got updated
-Date: Mon, 22 Jan 2024 10:16:20 -0500
-Message-ID: <20240122151659.997085-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 07/24] drm/drm_file: fix use of uninitialized
+ variable
+Date: Mon, 22 Jan 2024 10:16:21 -0500
+Message-ID: <20240122151659.997085-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122151659.997085-1-sashal@kernel.org>
 References: <20240122151659.997085-1-sashal@kernel.org>
@@ -54,62 +54,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dillon.varone@amd.com,
- dri-devel@lists.freedesktop.org, Alex Hung <alex.hung@amd.com>,
- airlied@gmail.com, qingqing.zhuo@amd.com, Xinhui.Pan@amd.com,
- Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org, sunpeng.li@amd.com,
- aurabindo.pillai@amd.com, alvin.lee2@amd.com, daniel@ffwll.ch,
- wayne.lin@amd.com, Alex Deucher <alexander.deucher@amd.com>,
- christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, daniel@ffwll.ch,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de, airlied@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alex Hung <alex.hung@amd.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-[ Upstream commit 8a307777c36e15f38c9f23778babcd368144c7d8 ]
+[ Upstream commit 1d3062fad9c7313fff9970a88e0538a24480ffb8 ]
 
-[WHY]
-wb_enabled field is set to false before it is used, and the following
-code will never be executed.
+smatch reports:
 
-[HOW]
-Setting wb_enable to false after all removal work is completed.
+drivers/gpu/drm/drm_file.c:967 drm_show_memory_stats() error: uninitialized symbol 'supported_status'.
 
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
-Signed-off-by: Alex Hung <alex.hung@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+'supported_status' is only set in one code path. I'm not familiar with
+the code to say if that path will always be ran in real life, but
+whether that is the case or not, I think it is good to initialize
+'supported_status' to 0 to silence the warning (and possibly fix a bug).
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Acked-by: Maxime Ripard <mripard@kernel.org>
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20231103-uninit-fixes-v2-1-c22b2444f5f5@ideasonboard.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc_stream.c | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/drm_file.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-index 71b10b45a9b9..6e2b7bb47f38 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-@@ -448,18 +448,13 @@ bool dc_stream_remove_writeback(struct dc *dc,
- 		return false;
- 	}
+diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+index ea34bc991858..e27a15a6fe79 100644
+--- a/drivers/gpu/drm/drm_file.c
++++ b/drivers/gpu/drm/drm_file.c
+@@ -369,7 +369,7 @@ int drm_open(struct inode *inode, struct file *filp)
+ {
+ 	struct drm_device *dev;
+ 	struct drm_minor *minor;
+-	int retcode;
++	int retcode = 0;
+ 	int need_setup = 0;
  
--//	stream->writeback_info[dwb_pipe_inst].wb_enabled = false;
--	for (i = 0; i < stream->num_wb_info; i++) {
--		/*dynamic update*/
--		if (stream->writeback_info[i].wb_enabled &&
--			stream->writeback_info[i].dwb_pipe_inst == dwb_pipe_inst) {
--			stream->writeback_info[i].wb_enabled = false;
--		}
--	}
--
- 	/* remove writeback info for disabled writeback pipes from stream */
- 	for (i = 0, j = 0; i < stream->num_wb_info; i++) {
- 		if (stream->writeback_info[i].wb_enabled) {
-+
-+			if (stream->writeback_info[i].dwb_pipe_inst == dwb_pipe_inst)
-+				stream->writeback_info[i].wb_enabled = false;
-+
- 			if (i != j)
- 				/* trim the array */
- 				stream->writeback_info[j] = stream->writeback_info[i];
+ 	minor = drm_minor_acquire(iminor(inode));
 -- 
 2.43.0
 
