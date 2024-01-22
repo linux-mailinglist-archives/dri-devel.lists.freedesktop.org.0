@@ -2,53 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54DFC83699E
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 17:06:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74D158369D4
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 17:12:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 351CF10E6F2;
-	Mon, 22 Jan 2024 16:06:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D54D610F573;
+	Mon, 22 Jan 2024 16:12:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay4-1.pub.mailoutpod3-cph3.one.com
- (mailrelay4-1.pub.mailoutpod3-cph3.one.com [46.30.211.243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E122A10F502
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 16:06:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa2;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=xAGeSXO7EYCYJmljPUEN1rFUpiw71f4rCC8gSgFu1n8=;
- b=HZRfxWW7RKvIzlLrWQDFVCTBUG5Jn1GeeZVFbfHhTfHQ1bK6ANABb9Ao3YCp7+9OkCan+DgMbN0gB
- 7Z6KlrAcBHvLa52KHKbxsUqobDFzMYHyLl6dfJGWrIEFQIKuMaMeLya7L4Eh72a62yQva2BsUtXYIi
- +gdaDjCy4jtdh6K9Xj57QU5JN2kgd5whs5nSSgDF4oLqiLpM91y1BC+FQTSm91Qy+iPBuudeeBL0By
- 3oqdvR5O2eBoJfSzKzc2UkKgr4HXz9su5ap3kEIpK0h0Q+C7KIITFpAYbR3Qv8tCLRpzgdQthfnm38
- QbWPO99YbFnwplbHV2K64bQXu/dELTQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed2;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=xAGeSXO7EYCYJmljPUEN1rFUpiw71f4rCC8gSgFu1n8=;
- b=bKfCDk0HafSg+g3RaIu9TrzIt2gHb++4e++SaoHzG8BuWLN7Mzyav7YHusF+tvo7FeLOMboYIg9IK
- gXQFr1jBg==
-X-HalOne-ID: ee3a7b61-b93f-11ee-a7a3-9f04b458b84a
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay4.pub.mailoutpod3-cph3.one.com (Halon) with ESMTPSA
- id ee3a7b61-b93f-11ee-a7a3-9f04b458b84a;
- Mon, 22 Jan 2024 16:04:34 +0000 (UTC)
-Date: Mon, 22 Jan 2024 17:04:33 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Dharma.B@microchip.com
-Subject: Re: [PATCH v3 0/3] Convert Microchip's HLCDC Text based DT bindings
- to JSON schema
-Message-ID: <20240122160433.GB511247@ravnborg.org>
-References: <20240118092612.117491-1-dharma.b@microchip.com>
- <20240118193040.GA223383@ravnborg.org>
- <20240119195151.GB938671-robh@kernel.org>
- <20240120132356.GA345206@ravnborg.org>
- <6c6e4ddc-b3df-484e-961f-6efbd52defd6@microchip.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D89FD10F575
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 16:12:50 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id 8E17DB80E6C;
+ Mon, 22 Jan 2024 16:12:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 049F9C43390;
+ Mon, 22 Jan 2024 16:12:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1705939959;
+ bh=u40yPI1eo5OCBcJ6otQkqT3GuoiQ5GJ9+8tgn1ubg/s=;
+ h=From:To:Cc:Subject:Date:From;
+ b=pM1dKqXL0D39T4s644c17DUpE9aVRYMCKqL2DY9cAHmf7KA70sKxHCbT6ZZhifHk7
+ yzdaiA8XHCVk8NfFE8lNI+/bw4f5Kt9VmTjhBII3SDeGPyxI35pctal+49+XjHn0g6
+ 8G2/p9p3a+MinQq6vII2pli08Lf7iwTQ12+ilub5Rhu6xvMCtvk8fExWs0XhPZ+lxO
+ j8Fuj0gl2aUeDCe34MpT+uxbmnszi6/1g40H8Y95deHzg3Yoj5u0JBT6503P133d/w
+ Q6F74z+6A8zlqEcwa1ceG4Z9xG/cjQ61zdpKsyCsz2thqSzEepUn4i2BB31Ke9KGkf
+ lWCPhFqKQZ2Ow==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Subject: [PATCH] drm: apple: use strscpy() in place of strlcpy()
+Date: Mon, 22 Jan 2024 17:11:55 +0100
+Message-Id: <20240122161233.125192-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6c6e4ddc-b3df-484e-961f-6efbd52defd6@microchip.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,68 +47,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: conor+dt@kernel.org, Linux4Microchip@microchip.com, tzimmermann@suse.de,
- alexandre.belloni@bootlin.com, linux-pwm@vger.kernel.org,
- linux-kernel@vger.kernel.org, lee@kernel.org, bbrezillon@kernel.org,
- Nicolas.Ferre@microchip.com, dri-devel@lists.freedesktop.org,
- claudiu.beznea@tuxon.dev, Conor.Dooley@microchip.com, thierry.reding@gmail.com,
- mripard@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- u.kleine-koenig@pengutronix.de, daniel@ffwll.ch, airlied@gmail.com,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
+ Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>,
+ Hector Martin <marcan@marcan.st>, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>,
+ David Airlie <airlied@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dharma,
-On Mon, Jan 22, 2024 at 03:52:17AM +0000, Dharma.B@microchip.com wrote:
-> On 20/01/24 6:53 pm, Sam Ravnborg wrote:
-> > [You don't often get email from sam@ravnborg.org. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
-> > 
-> > EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
-> > Hi Sam & Rob,
-> > Hi Dharma & Rob.
-> > 
-> >>> To make the DT binding backward compatible you likely need to add a few
-> >>> compatible that otherwise would have been left out - but that should do
-> >>> the trick.
-> >>>
-> >>> The current atmel hlcdc driver that is split in three is IMO an
-> >>> over-engineering, and the driver could benefit merging it all in one.
-> >>> And the binding should not prevent this.
-> >>
-> >> I agree on all this, but a conversion is not really the time to redesign
-> >> things. Trust me, I've wanted to on lots of conversions. It should be
-> >> possible to simplify the driver side while keeping the DT as-is. Just
-> >> make the display driver bind to the MFD node instead. After that, then
-> >> one could look at flattening everything to 1 node.
-> > 
-> > Understood and thinking a bit about it fully agreed as well.
-> > Dharma - please see my comments only as ideas for the future, and
-> > ignore them in this fine rewrite you do.
-> > 
-> >          Sam
-> Based on your insights, I'm contemplating the decision to merge Patch 2 
-> [PWM binding] with Patch 3[MFD binding]. It seems redundant given that 
-> we already have a PWM node example in the MFD binding.
-> 
-> Instead of introducing a new PWM binding,
->    pwm:
->      $ref: /schemas/pwm/atmel,hlcdc-pwm.yaml
-> 
-> I will update the existing MFD binding as follows:
-> 
-> properties:
->    compatible:
->      const: atmel,hlcdc-pwm
-> 
->    "#pwm-cells":
->      const: 3
-> 
-> required:
->    - compatible
->    - "#pwm-cells"
-> 
-As already commented, this looks nice.
-But as Rob said, this should be a 1:1 conversion from text to yaml,
-and then clean-up can come in the second step.
+From: Arnd Bergmann <arnd@arndb.de>
 
-	Sam
+Since commit d26270061ae6 ("string: Remove strlcpy()"), the strlcpy()
+function causes a build failure.
+
+Since the return value is ignored, changing it to the strscpy()
+causes no change in behavior but fixes the build failure.
+
+Fixes: f237c83e4302 ("drm: apple: DCP AFK/EPIC support")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+The apple drm driver is not in mainline linux yet, this patch
+is against https://github.com/AsahiLinux/linux/tree/bits/200-dcp
+---
+ drivers/gpu/drm/apple/afk.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/apple/afk.c b/drivers/gpu/drm/apple/afk.c
+index 99d579d5ce47..9fbcd18878e8 100644
+--- a/drivers/gpu/drm/apple/afk.c
++++ b/drivers/gpu/drm/apple/afk.c
+@@ -236,7 +236,7 @@ static void afk_recv_handle_init(struct apple_dcp_afkep *ep, u32 channel,
+ 		return;
+ 	}
+ 
+-	strlcpy(name, payload, sizeof(name));
++	strscpy(name, payload, sizeof(name));
+ 
+ 	/*
+ 	 * in DCP firmware 13.2 DCP reports interface-name as name which starts
+-- 
+2.39.2
+
