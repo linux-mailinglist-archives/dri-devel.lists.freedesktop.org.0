@@ -2,54 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29FB183676F
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:14:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 861EC83678A
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:16:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EB7410F3CC;
-	Mon, 22 Jan 2024 15:14:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2DCA10F3D6;
+	Mon, 22 Jan 2024 15:16:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63C3210F3C5
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 15:14:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7A8910F3DE
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 15:16:01 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id DDD7C61475
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 15:14:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D8CDC433B2
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 15:14:24 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 2CCC861534;
+ Mon, 22 Jan 2024 15:15:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D544C43390;
+ Mon, 22 Jan 2024 15:15:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705936464;
- bh=DCZ1yeweHK2ZD0/uXdu9bE6/Jcq3FK7B2WmAhGZfcIk=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=DN2Lis9/iFq5QR+6FC0X0SvlTktEklejUr/3e8HjykOk7Lsgc5bcKpMhYCkKC2iYD
- T9steyNhvyHKhP4TsWHn/tZVpG1aKTBC4aqYvUFH2qo3usH51KhwMJ3ITdVxk7WPh0
- AT5lC3YybaCAjFgZ/W38LDMrYgcYIasm707zfrq8ym/UHiBVgrOzI9ThYmMREjR9rV
- X3+PwJTc8vNyo3M14CCZxCQ3+W7LpOppSTBMVkgH4Zoinln+2WB8zQpUcBmdx8z1L9
- qUmh0p79qbxe2HemO3pdqBS9D4ie34AJKgcrPlT9JyyH8DMAuhKN0x6qUXlhx5g0FW
- pkC9is7+/O5YA==
-Received: by mail-yb1-f176.google.com with SMTP id
- 3f1490d57ef6-dc223f3dd5eso2589276276.2
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 07:14:24 -0800 (PST)
-X-Gm-Message-State: AOJu0YwQCUqDPs+TmTPokruAxR6ze+YdNnjbe1vNameq338ENqGDarkJ
- NZG8Qbm78L2wCtIrDjEy04hj7qyIg4oGrKkJoGe53m72cv+MXe+4hhAykICXkOV1abb5yygEqcM
- p3agA49lHzIReiY6wZMb2b0WEkmp0QLl0g6mHCg==
-X-Google-Smtp-Source: AGHT+IELeqUZHcuEi6czSy6GxZtZYY24kkEpIurvFbFmTxvGFQUNqb3M5tKbk3ha+xCzPOeAwzOOrlbwEjoG5Tvhq/U=
-X-Received: by 2002:a25:8049:0:b0:dbe:aab1:b0e3 with SMTP id
- a9-20020a258049000000b00dbeaab1b0e3mr2553106ybn.98.1705936463808; Mon, 22 Jan
- 2024 07:14:23 -0800 (PST)
+ s=k20201202; t=1705936531;
+ bh=vmyO24YHFKdgEbGviAcUxNuIr0zWNNtVYbmIoc339XA=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=GjqbwtrWj5x7EA1Sqop6QuTTt1Kj9AlsHNWC6qwEo2ougNUTwgpTzuHP6+l05p2Uo
+ gBVpqSKu0HhgTFz1OioOw6mNWC5BjmS8pEzksDacxaJ87VOVpY9g/r7rCIPPonDJQL
+ js4dxWSqHi87BkHsbMb1hrUo/BcVI0LxDcwVbwQcAYJHNnob0yHvIl5VN56rYySHBM
+ l/BQkxWks4IIXOdVb9Ubvfqb7KIaL1dsXiEDDgV3ouM3gOTlb4J3d2SppFdiMZ2jiR
+ 6eFp6S5Q3UTKQ/3Ro1IULieHBC1JD7wz53dreZaYAHbQa7QLh9bX381vZ61Xfa/7H9
+ 1ByzlTRM5ABNw==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.10 04/28] drm: Fix color LUT rounding
+Date: Mon, 22 Jan 2024 10:14:30 -0500
+Message-ID: <20240122151521.996443-4-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240122151521.996443-1-sashal@kernel.org>
+References: <20240122151521.996443-1-sashal@kernel.org>
 MIME-Version: 1.0
-References: <20231214123205.v2.1.I9d1afcaad76a3e2c0ca046dc4adbc2b632c22eda@changeid>
- <20231214123205.v2.2.I7b83c0f31aeedc6b1dc98c7c741d3e1f94f040f8@changeid>
-In-Reply-To: <20231214123205.v2.2.I7b83c0f31aeedc6b1dc98c7c741d3e1f94f040f8@changeid>
-From: Robert Foss <rfoss@kernel.org>
-Date: Mon, 22 Jan 2024 16:14:12 +0100
-X-Gmail-Original-Message-ID: <CAN6tsi4LtcSK0vc7oWn_H2Mk=pHj9kxTnk1aB5FZi2varHox=g@mail.gmail.com>
-Message-ID: <CAN6tsi4LtcSK0vc7oWn_H2Mk=pHj9kxTnk1aB5FZi2varHox=g@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] drm/bridge: ti-sn65dsi86: Never store more than
- msg->size bytes in AUX xfer
-To: Douglas Anderson <dianders@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 5.10.208
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,72 +54,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
- Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Stephen Boyd <swboyd@chromium.org>,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
- Guenter Roeck <groeck@chromium.org>, David Airlie <airlied@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Sasha Levin <sashal@kernel.org>, tzimmermann@suse.de,
+ Jani Nikula <jani.nikula@intel.com>, Maxime Ripard <mripard@kernel.org>,
+ dri-devel@lists.freedesktop.org,
+ Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>, daniel@ffwll.ch,
+ airlied@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 14, 2023 at 9:32=E2=80=AFPM Douglas Anderson <dianders@chromium=
-.org> wrote:
->
-> For aux reads, the value `msg->size` indicates the size of the buffer
-> provided by `msg->buffer`. We should never in any circumstances write
-> more bytes to the buffer since it may overflow the buffer.
->
-> In the ti-sn65dsi86 driver there is one code path that reads the
-> transfer length from hardware. Even though it's never been seen to be
-> a problem, we should make extra sure that the hardware isn't
-> increasing the length since doing so would cause us to overrun the
-> buffer.
->
-> Fixes: 982f589bde7a ("drm/bridge: ti-sn65dsi86: Update reply on aux failu=
-res")
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
->
-> Changes in v2:
-> - Updated patch subject to match ps8640 patch.
->
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/brid=
-ge/ti-sn65dsi86.c
-> index 9095d1453710..62cc3893dca5 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -527,6 +527,7 @@ static ssize_t ti_sn_aux_transfer(struct drm_dp_aux *=
-aux,
->         u32 request_val =3D AUX_CMD_REQ(msg->request);
->         u8 *buf =3D msg->buffer;
->         unsigned int len =3D msg->size;
-> +       unsigned int short_len;
->         unsigned int val;
->         int ret;
->         u8 addr_len[SN_AUX_LENGTH_REG + 1 - SN_AUX_ADDR_19_16_REG];
-> @@ -600,7 +601,8 @@ static ssize_t ti_sn_aux_transfer(struct drm_dp_aux *=
-aux,
->         }
->
->         if (val & AUX_IRQ_STATUS_AUX_SHORT) {
-> -               ret =3D regmap_read(pdata->regmap, SN_AUX_LENGTH_REG, &le=
-n);
-> +               ret =3D regmap_read(pdata->regmap, SN_AUX_LENGTH_REG, &sh=
-ort_len);
-> +               len =3D min(len, short_len);
->                 if (ret)
->                         goto exit;
->         } else if (val & AUX_IRQ_STATUS_NAT_I2C_FAIL) {
-> --
-> 2.43.0.472.g3155946c3a-goog
->
->
+From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Reviewed-by: Robert Foss <rfoss@kernel.org>
+[ Upstream commit c6fbb6bca10838485b820e8a26c23996f77ce580 ]
+
+The current implementation of drm_color_lut_extract()
+generates weird results. Eg. if we go through all the
+values for 16->8bpc conversion we see the following pattern:
+
+in            out (count)
+   0 -   7f ->  0 (128)
+  80 -  17f ->  1 (256)
+ 180 -  27f ->  2 (256)
+ 280 -  37f ->  3 (256)
+...
+fb80 - fc7f -> fc (256)
+fc80 - fd7f -> fd (256)
+fd80 - fe7f -> fe (256)
+fe80 - ffff -> ff (384)
+
+So less values map to 0 and more values map 0xff, which
+doesn't seem particularly great.
+
+To get just the same number of input values to map to
+the same output values we'd just need to drop the rounding
+entrirely. But perhaps a better idea would be to follow the
+OpenGL int<->float conversion rules, in which case we get
+the following results:
+
+in            out (count)
+   0 -   80 ->  0 (129)
+  81 -  181 ->  1 (257)
+ 182 -  282 ->  2 (257)
+ 283 -  383 ->  3 (257)
+...
+fc7c - fd7c -> fc (257)
+fd7d - fe7d -> fd (257)
+fe7e - ff7e -> fe (257)
+ff7f - ffff -> ff (129)
+
+Note that since the divisor is constant the compiler
+is able to optimize away the integer division in most
+cases. The only exception is the _ULL() case on 32bit
+architectures since that gets emitted as inline asm
+via do_div() and thus the compiler doesn't get to
+optimize it.
+
+Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20231013131402.24072-2-ville.syrjala@linux.intel.com
+Reviewed-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+Acked-by: Maxime Ripard <mripard@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ include/drm/drm_color_mgmt.h | 19 ++++++++-----------
+ 1 file changed, 8 insertions(+), 11 deletions(-)
+
+diff --git a/include/drm/drm_color_mgmt.h b/include/drm/drm_color_mgmt.h
+index 81c298488b0c..54b2b2467bfd 100644
+--- a/include/drm/drm_color_mgmt.h
++++ b/include/drm/drm_color_mgmt.h
+@@ -36,20 +36,17 @@ struct drm_plane;
+  *
+  * Extract a degamma/gamma LUT value provided by user (in the form of
+  * &drm_color_lut entries) and round it to the precision supported by the
+- * hardware.
++ * hardware, following OpenGL int<->float conversion rules
++ * (see eg. OpenGL 4.6 specification - 2.3.5 Fixed-Point Data Conversions).
+  */
+ static inline u32 drm_color_lut_extract(u32 user_input, int bit_precision)
+ {
+-	u32 val = user_input;
+-	u32 max = 0xffff >> (16 - bit_precision);
+-
+-	/* Round only if we're not using full precision. */
+-	if (bit_precision < 16) {
+-		val += 1UL << (16 - bit_precision - 1);
+-		val >>= 16 - bit_precision;
+-	}
+-
+-	return clamp_val(val, 0, max);
++	if (bit_precision > 16)
++		return DIV_ROUND_CLOSEST_ULL(mul_u32_u32(user_input, (1 << bit_precision) - 1),
++					     (1 << 16) - 1);
++	else
++		return DIV_ROUND_CLOSEST(user_input * ((1 << bit_precision) - 1),
++					 (1 << 16) - 1);
+ }
+ 
+ u64 drm_color_ctm_s31_32_to_qm_n(u64 user_input, u32 m, u32 n);
+-- 
+2.43.0
+
