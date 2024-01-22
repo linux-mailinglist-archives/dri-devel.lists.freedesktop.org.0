@@ -2,49 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4F85835F80
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 11:23:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7FE7835FAA
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 11:29:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2DA610EC70;
-	Mon, 22 Jan 2024 10:23:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 368D810EC62;
+	Mon, 22 Jan 2024 10:29:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C9FF10EC70
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 10:23:21 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1rRrQC-0007gd-F7; Mon, 22 Jan 2024 11:20:52 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1rRrQA-001ZRC-9s; Mon, 22 Jan 2024 11:20:50 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
- (envelope-from <ukl@pengutronix.de>) id 1rRrQA-005FLD-0d;
- Mon, 22 Jan 2024 11:20:50 +0100
-Date: Mon, 22 Jan 2024 11:20:50 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>
-Subject: Re: [BUG][BISECTED] Freeze at loading init ramdisk
-Message-ID: <2q2t7mgnpuk2t7wq2tmymxv72oki4uetojkz72xofn7wh45l64@smk3wi6zw54g>
-References: <8a6aa228-f2da-4dcd-93c1-e34614cd6471@alu.unizg.hr>
- <cc813525-5484-443e-a40a-cb98f2ed4e1f@alu.unizg.hr>
- <gevqxytidg5efylozindaqntkbl4yeoyzqnh5m3ylitmipgum3@sgmv7qieo7rs>
- <1fe9b78c-7fb5-4d7b-a754-afd563950829@alu.unizg.hr>
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC41A10EC62
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 10:29:09 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id
+ ffacd0b85a97d-337d90030bfso2643274f8f.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 02:29:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1705919287; x=1706524087; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=cTCtw5roejauRZb1rW/DubsmSIQ5L20XK+iYbkTVegQ=;
+ b=Ri59UgCuGR86N08L4nm6vQpuuc68zSOkCwruLSKumjSmY31hHOc12GeZHpl8TDKK/y
+ JfmSoYaq6ygPRhJKQJPS1RcpJOpp0eUIb8orPokMx9vPDGwOMlCOyhItHXxSlnycafLu
+ FbWJZDYF8mnEI5Wcdpu55/ypt2TztSpz9WDghRlT3/fe7HokMyZ6r/NITdu19lEd5TQh
+ Gbn945RYw5SoSuVkrmm/BaPbjkI8qXShKmK001r9P1U1HnYJVh3NFwglbCNlbzxjWRqk
+ N4BuAYVTNnqNVOwioTtTmZRfXt7FVrP9RIJ6flfuzzJxQf7M/sxTDUvkgw376XHgqcnw
+ /j8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1705919287; x=1706524087;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=cTCtw5roejauRZb1rW/DubsmSIQ5L20XK+iYbkTVegQ=;
+ b=RQV7XiSaZVaNNS+v5ChYBtPB+Va1SaQYvoOBnAG5ncxhg/Cz9CPUKYanUyiS0EniD1
+ bL1rQySUIH4XOqjjuDGlUKOWw0BlaYhLVrRf6TIxVUe9bcwR9GDLEWTtgoYzaRgXtW81
+ lDT+Edf6z4gvQ9Im+E88Sfqk7iaUQZD36Rw2ogscNkc4/0GtFuqoz1/rqBRcdHAwtVzs
+ 4rLE6zmFAX26OUhJXmcDiv02DoqupXmElPHm7cWzsVWcy8pPa/E/cnBI0yPGkpZNwKRy
+ O/hTVgASa4Y1X3kZG0t+zkITxt6U7mq+aLqN84KQo80RDpmgWJQSVOVOkOQ/UG/JvQMz
+ d3Eg==
+X-Gm-Message-State: AOJu0YwvLpqaQXYi8+D8thjA9Rag/dHlVL1llkFy9457Tt9MTmtS+2nN
+ lhdt0ZEOgMj9YyJ3WZ49xxYMvZooZthuF8Fh5GQvEqMuQqqge8sj7CuegU0f2CY=
+X-Google-Smtp-Source: AGHT+IFJN44C0XBmIhDGOu0CvPL9d8S5H/kcyzcz9lspP4Nm5ugoGJW4ka/39Dgy0iB6yMbk94G+Nw==
+X-Received: by 2002:a05:6000:104:b0:337:ac2c:cfd9 with SMTP id
+ o4-20020a056000010400b00337ac2ccfd9mr1170855wrx.196.1705919287545; 
+ Mon, 22 Jan 2024 02:28:07 -0800 (PST)
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ by smtp.gmail.com with ESMTPSA id
+ n17-20020a5d67d1000000b003392f229b60sm3819885wrw.40.2024.01.22.02.28.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Jan 2024 02:28:07 -0800 (PST)
+Date: Mon, 22 Jan 2024 10:28:05 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
+Subject: Re: [PATCH v3 3/3] backlight: Add Kinetic KTD2801 backlight support
+Message-ID: <20240122102805.GB8596@aspen.lan>
+References: <20240120-ktd2801-v3-0-fe2cbafffb21@skole.hr>
+ <20240120-ktd2801-v3-3-fe2cbafffb21@skole.hr>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ysfre7wk3l4bhl2f"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1fe9b78c-7fb5-4d7b-a754-afd563950829@alu.unizg.hr>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240120-ktd2801-v3-3-fe2cbafffb21@skole.hr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,141 +76,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sui Jingfeng <suijingfeng@loongson.cn>, linux-parisc@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Hans de Goede <hdegoede@redhat.com>,
- Prathu Baronia <prathubaronia2011@gmail.com>, linux-fbdev@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
- Ard Biesheuvel <ardb@kernel.org>
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Pavel Machek <pavel@ucw.cz>, Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Karel Balej <balejk@matfyz.cz>, linux-fbdev@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, ~postmarketos/upstreaming@lists.sr.ht,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ phone-devel@vger.kernel.org, linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Sat, Jan 20, 2024 at 10:26:45PM +0100, Duje Mihanović wrote:
+> KTD2801 is a LED backlight driver IC found in samsung,coreprimevelte.
+> The brightness can be set using PWM or the ExpressWire protocol. Add
+> support for the KTD2801.
+>
+> Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
 
---ysfre7wk3l4bhl2f
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+As Linus W. said, this is looking really nice now. Thanks!
 
-On Thu, Jan 18, 2024 at 09:04:05PM +0100, Mirsad Todorovac wrote:
->=20
->=20
-> On 1/18/24 08:45, Uwe Kleine-K=F6nig wrote:
-> > Hello Mirsad,
-> >=20
-> > On Wed, Jan 17, 2024 at 07:47:49PM +0100, Mirsad Todorovac wrote:
-> > > On 1/16/24 01:32, Mirsad Todorovac wrote:
-> > > > On the Ubuntu 22.04 LTS Jammy platform, on a mainline vanilla torva=
-lds tree kernel, the boot
-> > > > freezes upon first two lines and before any systemd messages.
-> > > >=20
-> > > > (Please find the config attached.)
-> > > >=20
-> > > > Bisecting the bug led to this result:
-> > > >=20
-> > > > marvin@defiant:~/linux/kernel/linux_torvalds$ git bisect good
-> > > > d97a78423c33f68ca6543de510a409167baed6f5 is the first bad commit
-> > > > commit d97a78423c33f68ca6543de510a409167baed6f5
-> > > > Merge: 61da593f4458 689237ab37c5
-> > > > Author: Linus Torvalds <torvalds@linux-foundation.org>
-> > > > Date:=A0=A0 Fri Jan 12 14:38:08 2024 -0800
-> > > >=20
-> > > > [...]
-> > > >=20
-> > > > Hope this helps.
-> > >=20
-> > > P.S.
-> > >=20
-> > > As I see that this is a larger merge commit, with 5K+ lines changed, =
-I don't think I can
-> > > bisect further to determine the culprit.
-> >=20
-> > Actually it's not that hard. If a merge commit is the first bad commit
-> > for a bisection, either the merge wasn't done correctly (less likely,
-> > looking at d97a78423c33f68ca6543de510a409167baed6f5 I'd bet this isn't
-> > the problem); or changes on different sides conflict or you did
-> > something wrong during bisection.
-> >=20
-> > To rule out the third option, you can just retest d97a78423c33,
-> > 61da593f4458 and 689237ab37c5. If d97a78423c33 is the only bad one, you
-> > did it right.
->=20
-> This was confirmed.
->=20
-> > Then to further debug the second option you can find out the offending
-> > commit on each side with a bisection as follows, here for the RHS (i.e.
-> > 689237ab37c5):
-> >=20
-> > 	git bisect start 689237ab37c5 $(git merge-base 61da593f4458 689237ab37=
-c5)
-> >=20
-> > and then in each bisection step do:
-> >=20
-> > 	git merge --no-commit 61da593f4458
-> > 	test if the problem is present
-> > 	git reset --hard
-> > 	git bisect good/bad
-> >=20
-> > In this case you get merge conflicts in drivers/video/fbdev/amba-clcd.c
-> > and drivers/video/fbdev/vermilion/vermilion.c. In the assumption that
-> > you don't have these enabled in your .config, you can just ignore these.
-> >=20
-> > Side note: A problem during bisection can be that the .config changes
-> > along the process. You should put your config into (say)
-> > arch/x86/configs/lala_defconfig and do
-> >=20
-> > 	make lala_defconfig
-> >=20
-> > before building each step to prevent this.
->=20
-> I must have done something wrong:
->=20
-> marvin@defiant:~/linux/kernel/linux_torvalds$ git bisect log
-> # bad: [689237ab37c59b9909bc9371d7fece3081683fba] fbdev/intelfb: Remove d=
-river
-> # good: [de927f6c0b07d9e698416c5b287c521b07694cac] Merge tag 's390-6.8-1'=
- of git://git.kernel.org/pub/scm/linux/kernel/git/s390/linux
-> git bisect start '689237ab37c5' 'de927f6c0b07d9e698416c5b287c521b07694cac'
-> # good: [d9f25b59ed85ae45801cf45fe17eb269b0ef3038] fbdev: Remove support =
-for Carillo Ranch driver
-> git bisect good d9f25b59ed85ae45801cf45fe17eb269b0ef3038
-> # good: [e2e0b838a1849f92612a8305c09aaf31bf824350] video/sticore: Remove =
-info field from STI struct
-> git bisect good e2e0b838a1849f92612a8305c09aaf31bf824350
-> # good: [778e73d2411abc8f3a2d60dbf038acaec218792e] drm/hyperv: Remove fir=
-mware framebuffers with aperture helper
-> git bisect good 778e73d2411abc8f3a2d60dbf038acaec218792e
-> # good: [df67699c9cb0ceb70f6cc60630ca938c06773eda] firmware/sysfb: Clear =
-screen_info state after consuming it
-> git bisect good df67699c9cb0ceb70f6cc60630ca938c06773eda
+Just a couple of nits below.
 
-FTR: Now that you identified df67699c9cb0ce as the culprit, calling
-git bisect good on it was wrong, so something was fishy in your testing
-and it's no surprise the bisection found a wrong result.
 
-Best regards
-Uwe
+> diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
+> index 51387b1ef012..585a5a713759 100644
+> --- a/drivers/video/backlight/Kconfig
+> +++ b/drivers/video/backlight/Kconfig
+> @@ -183,6 +183,14 @@ config BACKLIGHT_KTD253
+>  	  which is a 1-wire GPIO-controlled backlight found in some mobile
+>  	  phones.
+>
+> +config BACKLIGHT_KTD2801
+> +	tristate "Backlight Driver for Kinetic KTD2801"
+> +	depends on GPIOLIB || COMPILE_TEST
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+As patch 1 feedback, seems odd for the client to be responsible for
+this. It should be managed in LEDS_EXPRESSWIRE.
 
---ysfre7wk3l4bhl2f
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+> +	select LEDS_EXPRESSWIRE
+> +	help
+> +	  Say Y to enable the backlight driver for the Kinetic KTD2801 1-wire
+> +	  GPIO-controlled backlight found in Samsung Galaxy Core Prime VE LTE.
+> +
+>  config BACKLIGHT_KTZ8866
+>  	tristate "Backlight Driver for Kinetic KTZ8866"
+>  	depends on I2C
+> diff --git a/drivers/video/backlight/ktd2801-backlight.c b/drivers/video/backlight/ktd2801-backlight.c
+> new file mode 100644
+> index 000000000000..7b9d1a93aa71
+> --- /dev/null
+> +++ b/drivers/video/backlight/ktd2801-backlight.c
+> @@ -0,0 +1,143 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Datasheet:
+> + * https://www.kinet-ic.com/uploads/web/KTD2801/KTD2801-04b.pdf
+> + */
+> +#include <linux/backlight.h>
+> +#include <linux/bits.h>
+> +#include <linux/delay.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/leds-expresswire.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/property.h>
+> +
+> +/* These values have been extracted from Samsung's driver. */
+> +#define KTD2801_EXPRESSWIRE_DETECT_DELAY_US	150
+> +#define KTD2801_EXPRESSWIRE_DETECT_US		270
+> +#define KTD2801_SHORT_BITSET_US			5
+> +#define KTD2801_LONG_BITSET_US			(3 * KTD2801_SHORT_BITSET_US)
+> +#define KTD2801_DATA_START_US			5
+> +#define KTD2801_END_OF_DATA_LOW_US		10
+> +#define KTD2801_END_OF_DATA_HIGH_US		350
+> +#define KTD2801_PWR_DOWN_DELAY_US		2600
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmWuQXwACgkQj4D7WH0S
-/k7BUwf/c+o/iSAwOCv43dqEm/CcfvKOaq7nnRskQii51OdMDOpIVHur9IOFEGX9
-lEng0n7/jCsjTmNbYFaiWvyEBMI0hJgsjEseA+nt3mPkcmhREWN5RJ/KIh/53rxN
-0scUgXo1PBWQCm8cUWQLsQu1hvT7jLUbwkQifp9pEeoNVLToAaBii1jYl3epShIE
-WhGSfwc3rgdd2OXqtx25vuN0Sf/qkC9JHNW1TjQkkGuquh1mNbSjMr6CznfjwnZ4
-bHskT+3UyO9OcpGG/6hDhUO6aiObcoLxnulX7y3YH5UtsIxVyWl4ya7KPfvjz/Bc
-7lXF2uvftGaPoEttybS9sjjtA25pCA==
-=hK1d
------END PGP SIGNATURE-----
+These are a little pointless now. They are all single use constants
+and have little documentary value.
 
---ysfre7wk3l4bhl2f--
+The lack of documentary value is because, for example,
+KTD2801_EXPRESSWIRE_DETECT_DELAY_US, is assigned to a structure
+field called detect_delay_us.
+
+Likewise I doubt that explicitly stating that long_bitset_us is 3x
+bigger than short_bitset_us is important for future driver maintainance.
+
+
+> +
+> +#define KTD2801_DEFAULT_BRIGHTNESS	100
+> +#define KTD2801_MAX_BRIGHTNESS		255
+> +
+> +const struct expresswire_timing ktd2801_timing = {
+> +	.poweroff_us = KTD2801_PWR_DOWN_DELAY_US,
+> +	.detect_delay_us = KTD2801_EXPRESSWIRE_DETECT_DELAY_US,
+> +	.detect_us = KTD2801_EXPRESSWIRE_DETECT_US,
+> +	.data_start_us = KTD2801_DATA_START_US,
+> +	.short_bitset_us = KTD2801_SHORT_BITSET_US,
+> +	.long_bitset_us = KTD2801_LONG_BITSET_US,
+> +	.end_of_data_low_us = KTD2801_END_OF_DATA_LOW_US,
+> +	.end_of_data_high_us = KTD2801_END_OF_DATA_HIGH_US
+> +};
+> +
+> +struct ktd2801_backlight {
+> +	struct expresswire_common_props props;
+> +	struct backlight_device *bd;
+> +	bool was_on;
+> +};
+> +
+> +static int ktd2801_update_status(struct backlight_device *bd)
+> +{
+> +	struct ktd2801_backlight *ktd2801 = bl_get_data(bd);
+> +	u8 brightness = (u8) backlight_get_brightness(bd);
+> +
+> +	if (backlight_is_blank(bd)) {
+> +		expresswire_power_off(&ktd2801->props);
+> +		ktd2801->was_on = false;
+> +		return 0;
+> +	}
+> +
+> +	if (!ktd2801->was_on) {
+> +		expresswire_enable(&ktd2801->props);
+> +		ktd2801->was_on = true;
+> +	}
+> +
+> +	expresswire_start(&ktd2801->props);
+> +
+> +	for (int i = 7; i >= 0; i--)
+> +		expresswire_set_bit(&ktd2801->props, !!(brightness & BIT(i)));
+
+The !! is redundant... but, as previous feedback, I think writing a u8
+should be in the library code anyway.
+
+> +	expresswire_end(&ktd2801->props);
+> +	return 0;
+> +}
+> +
+> <snip>
+
+
+Daniel.
