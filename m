@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6075783675A
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:13:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97795836752
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:13:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DA4A10F37D;
-	Mon, 22 Jan 2024 15:13:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B908D10F3AB;
+	Mon, 22 Jan 2024 15:13:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22C6610F37D;
- Mon, 22 Jan 2024 15:13:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C78B710F3AA;
+ Mon, 22 Jan 2024 15:13:30 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 95658B80E86;
- Mon, 22 Jan 2024 15:13:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67224C43601;
- Mon, 22 Jan 2024 15:13:20 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id 67D8AB80E68;
+ Mon, 22 Jan 2024 15:13:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41902C43390;
+ Mon, 22 Jan 2024 15:13:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705936402;
- bh=/VKhsWulm0iDGOxBxlboOPAiE34LfqITMZRgXC+HFaM=;
+ s=k20201202; t=1705936408;
+ bh=pcNuVs4hs4tO9XuJJi8Usm+s98V3K4PNGoABx/m+dVo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=moUXfeY5pnusRyjhDZstBr00iq+1pxV0StIE54rW+qXT7iDd9HK8celw63JfhD94u
- ICIXBg05lGSRIMTC0i3J2H2ENNnh2z9nMx16MPckMsRrG9wr58BYMTsE+aLa39AP1M
- jQqqWMRMozQZOUlN6fqBgXErvITZH7vm0U78GO0rgfbP3KhVeo7UHqH9/iEGGHongW
- cSaaWN7JBJooDVqicUjYIAaum2Tdg3Bz6iqZdTIJ2eIVoYc1VSb3ncAmcIyEfZ9irM
- vAH5egPaKvhZ0d4g1EaSKM3juuHtrRVJspnZwkUSGuMQQQJjBwAwdwu1Ys9gu6kRG8
- LtLx9FJAM9eLg==
+ b=gTPQJqRXeZR9iA+McgvP5/Lz1BZj4s8rppGQttVq6FmxZn2AUGBhCt/a/xjvqxd8O
+ gYC/YgpU104JC3XkSsnetHJv7iIyDqLhvBLiz4oH9WiTXJ0GyAFmn1xUklTg1zBTZ3
+ zhqpGgo1q71F0bcHVRP7GOjwJjV3i8eKmn4Ce5DbskWIw572umdXdOgGBwmyg4juAr
+ nQtiunCF1PbrPcfycT+BheCHdqLeIvobMNZIws3Jp8RWTDihj0dJ2DSdRG/mUC4FL1
+ KApOv58iPE0+k/PgWwXtox3nSl2UAi60om1WVSjhZa2SkG7TodMYJUtKH1hkeHX2zZ
+ cuaUS/g8+0how==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 07/35] drm/amd/display: Fix tiled display
- misalignment
-Date: Mon, 22 Jan 2024 10:12:04 -0500
-Message-ID: <20240122151302.995456-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 09/35] drm/amd/display: Fix writeback_info never
+ got updated
+Date: Mon, 22 Jan 2024 10:12:06 -0500
+Message-ID: <20240122151302.995456-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122151302.995456-1-sashal@kernel.org>
 References: <20240122151302.995456-1-sashal@kernel.org>
@@ -55,52 +55,61 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sasha Levin <sashal@kernel.org>, dillon.varone@amd.com,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- sunpeng.li@amd.com, airlied@gmail.com, Qingqing.Zhuo@amd.com,
- Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, samson.tam@amd.com,
- christian.koenig@amd.com,
- Meenakshikumar Somasundaram <meenakshikumar.somasundaram@amd.com>,
- wenjing.liu@amd.com, Hamza Mahfooz <hamza.mahfooz@amd.com>, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, Alex Hung <alex.hung@amd.com>,
+ airlied@gmail.com, qingqing.zhuo@amd.com, Xinhui.Pan@amd.com,
+ Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org, sunpeng.li@amd.com,
+ aurabindo.pillai@amd.com, alvin.lee2@amd.com, daniel@ffwll.ch,
  Alex Deucher <alexander.deucher@amd.com>, jun.lei@amd.com,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>, alvin.lee2@amd.com
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Meenakshikumar Somasundaram <meenakshikumar.somasundaram@amd.com>
+From: Alex Hung <alex.hung@amd.com>
 
-[ Upstream commit c4b8394e76adba4f50a3c2696c75b214a291e24a ]
+[ Upstream commit 8a307777c36e15f38c9f23778babcd368144c7d8 ]
 
-[Why]
-When otg workaround is applied during clock update, otgs of
-tiled display went out of sync.
+[WHY]
+wb_enabled field is set to false before it is used, and the following
+code will never be executed.
 
-[How]
-To call dc_trigger_sync() after clock update to sync otgs again.
+[HOW]
+Setting wb_enable to false after all removal work is completed.
 
-Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Acked-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
-Signed-off-by: Meenakshikumar Somasundaram <meenakshikumar.somasundaram@amd.com>
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+Signed-off-by: Alex Hung <alex.hung@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/amd/display/dc/core/dc_stream.c | 13 ++++---------
+ 1 file changed, 4 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
-index 3919e75fec16..ef151a1bc31c 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
-@@ -1680,6 +1680,10 @@ static enum dc_status dc_commit_state_no_check(struct dc *dc, struct dc_state *c
- 		wait_for_no_pipes_pending(dc, context);
- 		/* pplib is notified if disp_num changed */
- 		dc->hwss.optimize_bandwidth(dc, context);
-+		/* Need to do otg sync again as otg could be out of sync due to otg
-+		 * workaround applied during clock update
-+		 */
-+		dc_trigger_sync(dc, context);
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+index 5dd57cf170f5..b7b72fc2cb37 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+@@ -509,18 +509,13 @@ bool dc_stream_remove_writeback(struct dc *dc,
+ 		return false;
  	}
  
- 	if (dc->ctx->dce_version >= DCE_VERSION_MAX)
+-//	stream->writeback_info[dwb_pipe_inst].wb_enabled = false;
+-	for (i = 0; i < stream->num_wb_info; i++) {
+-		/*dynamic update*/
+-		if (stream->writeback_info[i].wb_enabled &&
+-			stream->writeback_info[i].dwb_pipe_inst == dwb_pipe_inst) {
+-			stream->writeback_info[i].wb_enabled = false;
+-		}
+-	}
+-
+ 	/* remove writeback info for disabled writeback pipes from stream */
+ 	for (i = 0, j = 0; i < stream->num_wb_info; i++) {
+ 		if (stream->writeback_info[i].wb_enabled) {
++
++			if (stream->writeback_info[i].dwb_pipe_inst == dwb_pipe_inst)
++				stream->writeback_info[i].wb_enabled = false;
++
+ 			if (i != j)
+ 				/* trim the array */
+ 				stream->writeback_info[j] = stream->writeback_info[i];
 -- 
 2.43.0
 
