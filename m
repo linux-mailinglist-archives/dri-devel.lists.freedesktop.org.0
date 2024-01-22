@@ -2,34 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11DCF836ABC
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 17:33:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 657EB836ABF
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 17:33:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 199F510F5ED;
-	Mon, 22 Jan 2024 16:33:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C318610F5F3;
+	Mon, 22 Jan 2024 16:33:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com
- [95.215.58.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5221810F5ED
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 16:33:02 +0000 (UTC)
+Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com
+ [95.215.58.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E116910F5F3
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 16:33:05 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1705941150;
+ t=1705941154;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/ZyqSCinvSiL4fDcqtQAts8Vz4wSQZ3zHH00t6lYeGc=;
- b=TfmmHLC0CAWOqzvzLqf1L/MTDspqvJzrDKRUwwMzj7inwa16XjnR2Tc2kGpy8/XOtAxC5y
- FZ/z5XqynfDN2uwB1h9t1103vC4umTIdhWDG2mMkQerFy1k2CqdwtFg5La3Azbyq64MW9l
- 5EUs+pR2o4Mq+U2jhmcAvoamKOVYCRY=
+ bh=zOQVFSKw3j/viuJ1r9uwPrf0VlEptyybu7p5hJGtU4I=;
+ b=L7/FAapq5/GA78moIR9tbDqaLl+KwawdazCvL79VK9uJYNJjZeHurgVE3jowYQvTiIOyFV
+ GSBgDlmh2QUmpkYssS3+2mBzDVU7Ns2GYjvfvVs9cAaa+EBtpknfHqgWfkkT9sBJFoXNEz
+ wcaIH5I6UVRBIFL9gZo/ycf5uHSXYKw=
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
 To: David Airlie <airlied@gmail.com>
-Subject: [PATCH 1/5] drm/bridge: Add drm_bridge_find_by_fwnode() helper
-Date: Tue, 23 Jan 2024 00:32:16 +0800
-Message-Id: <20240122163220.110788-2-sui.jingfeng@linux.dev>
+Subject: [PATCH 2/5] drm/bridge: simple-bridge: Extend match support for
+ non-DT based systems
+Date: Tue, 23 Jan 2024 00:32:17 +0800
+Message-Id: <20240122163220.110788-3-sui.jingfeng@linux.dev>
 In-Reply-To: <20240122163220.110788-1-sui.jingfeng@linux.dev>
 References: <20240122163220.110788-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
@@ -55,82 +56,64 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Because ACPI based systems only has the fwnode associated, the of_node
-member of struct device is NULL. To order to move things forward, we add
-drm_bridge_find_by_fwnode() to extend the support.
+Which is intended to be used on non-DT environment, where the simple-bridge
+platform device is created by either the display controller driver side or
+platform firmware subsystem. To avoid duplication and to keep consistent,
+we choose to reuse the OF match tables. Because the potentional user may
+not has a of_node attached, nor a ACPI match id. If this is the case,
+a software node string property can be provide to fill the niche.
 
 Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 ---
- drivers/gpu/drm/drm_bridge.c | 33 +++++++++++++++++++++++++++++++++
- include/drm/drm_bridge.h     |  4 ++++
- 2 files changed, 37 insertions(+)
+ drivers/gpu/drm/bridge/simple-bridge.c | 24 +++++++++++++++++++++++-
+ 1 file changed, 23 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index cee3188adf3d..ffd969adc2fb 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -1347,6 +1347,39 @@ struct drm_bridge *of_drm_find_bridge(struct device_node *np)
- EXPORT_SYMBOL(of_drm_find_bridge);
- #endif
+diff --git a/drivers/gpu/drm/bridge/simple-bridge.c b/drivers/gpu/drm/bridge/simple-bridge.c
+index cbe8e778d7c7..595f672745b9 100644
+--- a/drivers/gpu/drm/bridge/simple-bridge.c
++++ b/drivers/gpu/drm/bridge/simple-bridge.c
+@@ -166,6 +166,24 @@ static const struct drm_bridge_funcs simple_bridge_bridge_funcs = {
+ 	.disable	= simple_bridge_disable,
+ };
  
-+/**
-+ * drm_bridge_find_by_fwnode - Find the bridge corresponding to the associated fwnode
-+ *
-+ * @fwnode: fwnode for which to find the matching drm_bridge
-+ *
-+ * This function looks up a drm_bridge based on its associated fwnode.
-+ *
-+ * RETURNS:
-+ * A reference to the drm_bridge control structure if found, NULL on failure.
-+ */
-+struct drm_bridge *drm_bridge_find_by_fwnode(struct fwnode_handle *fwnode)
++static const void *simple_bridge_get_match_data(const struct device *dev)
 +{
-+	struct drm_bridge *ret = NULL;
-+	struct drm_bridge *bridge;
++	const struct of_device_id *matches = dev->driver->of_match_table;
 +
-+	if (!fwnode)
-+		return NULL;
-+
-+	mutex_lock(&bridge_lock);
-+
-+	list_for_each_entry(bridge, &bridge_list, list) {
-+		if (bridge->fwnode == fwnode) {
-+			ret = bridge;
++	/* Try to get the match data by software node */
++	while (matches) {
++		if (!matches->compatible[0])
 +			break;
-+		}
++
++		if (device_is_compatible(dev, matches->compatible))
++			return matches->data;
++
++		matches++;
 +	}
 +
-+	mutex_unlock(&bridge_lock);
-+
-+	return ret;
++	return NULL;
 +}
-+EXPORT_SYMBOL(drm_bridge_find_by_fwnode);
 +
- MODULE_AUTHOR("Ajay Kumar <ajaykumar.rs@samsung.com>");
- MODULE_DESCRIPTION("DRM bridge infrastructure");
- MODULE_LICENSE("GPL and additional rights");
-diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index e39da5807ba7..fe3d5f4bf37f 100644
---- a/include/drm/drm_bridge.h
-+++ b/include/drm/drm_bridge.h
-@@ -720,6 +720,8 @@ struct drm_bridge {
- 	struct list_head chain_node;
- 	/** @of_node: device node pointer to the bridge */
- 	struct device_node *of_node;
-+	/** @fwnode: associated fwnode supplied by platform firmware */
-+	struct fwnode_handle *fwnode;
- 	/** @list: to keep track of all added bridges */
- 	struct list_head list;
- 	/**
-@@ -796,6 +798,8 @@ static inline struct drm_bridge *of_drm_find_bridge(struct device_node *np)
- }
- #endif
+ static int simple_bridge_probe(struct platform_device *pdev)
+ {
+ 	struct simple_bridge *sbridge;
+@@ -176,7 +194,10 @@ static int simple_bridge_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
+ 	platform_set_drvdata(pdev, sbridge);
  
-+struct drm_bridge *drm_bridge_find_by_fwnode(struct fwnode_handle *fwnode);
-+
- /**
-  * drm_bridge_get_next_bridge() - Get the next bridge in the chain
-  * @bridge: bridge object
+-	sbridge->info = of_device_get_match_data(&pdev->dev);
++	if (pdev->dev.of_node)
++		sbridge->info = of_device_get_match_data(&pdev->dev);
++	else
++		sbridge->info = simple_bridge_get_match_data(&pdev->dev);
+ 
+ 	/* Get the next bridge in the pipeline. */
+ 	remote = of_graph_get_remote_node(pdev->dev.of_node, 1, -1);
+@@ -309,3 +330,4 @@ module_platform_driver(simple_bridge_driver);
+ MODULE_AUTHOR("Maxime Ripard <maxime.ripard@free-electrons.com>");
+ MODULE_DESCRIPTION("Simple DRM bridge driver");
+ MODULE_LICENSE("GPL");
++MODULE_ALIAS("platform:simple-bridge");
 -- 
 2.25.1
 
