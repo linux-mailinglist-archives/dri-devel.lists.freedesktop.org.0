@@ -2,38 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2A5C8365F9
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 15:57:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 887E68365FA
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 15:57:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66DBC10F1F3;
-	Mon, 22 Jan 2024 14:57:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F43910F264;
+	Mon, 22 Jan 2024 14:57:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F3FB10EA8B;
- Mon, 22 Jan 2024 14:57:17 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F85710F264;
+ Mon, 22 Jan 2024 14:57:22 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id B2305CE2B03;
- Mon, 22 Jan 2024 14:57:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5964AC433C7;
- Mon, 22 Jan 2024 14:57:09 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id BF987614FD;
+ Mon, 22 Jan 2024 14:57:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03A49C433F1;
+ Mon, 22 Jan 2024 14:57:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705935431;
- bh=nfxEFGF3+T5BIAC6cZV5dCtwBWqySTxUjhchMOcDXfg=;
+ s=k20201202; t=1705935441;
+ bh=f9Sk/+C5kcX0il63I5n35DiRElG5AdEB1o+Ds2m2Xc8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kCkhfHTRC2kH2pXYz7KUztLa9tYufgibbhgryJFkGfltf6MD+dJ/sXxCpMvwx+1gd
- T3fIP32qlh9eL6BGF75S3kLvqTLjuuMtOY+2KbzRGETM8KRDABiuAXIPzqosZp2u/H
- IVz4jKfxUFC174F9TzVM1kse/Q+jsaemjL+G5WLP3/4+Vw8FzBP3Ff2ifvw3wV2Ald
- 3wIXeYncrQT+7HFzLD+3n6pY7JdYGL1WhbY8aRKrBvzyucU9HxH32sxgpU8NY/jvnl
- Bib2Qi5K52LH7Kj201n4fGFPD9qi9uRDwBnQ0erTTMNapW2bzpro2yVgooI0WHnhc0
- LMeIDZaOU6Nfg==
+ b=AuMZnMNCnOyqXSECFryi+JKq66wrIcKIVdf0qtKgGgiBXe5gY+nFIPVOC1Op4C6ip
+ I11waZXZE6yC4Wtsjr3obY5bx36n8Xb5ljQjVwjJZoDBZHnDe+Xf5x8HXPipVgd0X3
+ eYdZwt1rTZ/R3G0rnHeuQhykDdTVydk0KAdaGVsdM3iBf+t0ZSMJI7QqXnxbrGCZEp
+ r+saZLuhOKPHhjXtgQsTwkHGQEDI5Adkw+a3betZHQsUQB7JfEVQ5VKje+zxcPSjFx
+ jhHh76XaE8id0a8CA92KGNn855OA48IZUOizoZ8UbhoQ0CHqTRLzKLe2QnLvUDsYW9
+ blO4tbXg1Iq2Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.7 18/88] drm/amd/display: Fix MST PBN/X.Y value
- calculations
-Date: Mon, 22 Jan 2024 09:50:51 -0500
-Message-ID: <20240122145608.990137-18-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.7 19/88] drm/amd/display: Fix disable_otg_wa logic
+Date: Mon, 22 Jan 2024 09:50:52 -0500
+Message-ID: <20240122145608.990137-19-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122145608.990137-1-sashal@kernel.org>
 References: <20240122145608.990137-1-sashal@kernel.org>
@@ -54,66 +53,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ilya Bakoulin <ilya.bakoulin@amd.com>, Sasha Levin <sashal@kernel.org>,
- dri-devel@lists.freedesktop.org, jiapeng.chong@linux.alibaba.com,
- sunpeng.li@amd.com, Wenjing Liu <wenjing.liu@amd.com>, Qingqing.Zhuo@amd.com,
- Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org,
- camille.cho@amd.com, Daniel Wheeler <daniel.wheeler@amd.com>,
- hamza.mahfooz@amd.com, daniel@ffwll.ch, wayne.lin@amd.com,
- Alex Deucher <alexander.deucher@amd.com>, airlied@gmail.com, jun.lei@amd.com,
- christian.koenig@amd.com, peichen.huang@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, charlene.liu@amd.com,
+ dri-devel@lists.freedesktop.org, Nicholas Susanto <nicholas.susanto@amd.com>,
+ sunpeng.li@amd.com, airlied@gmail.com, sungkim@amd.com, Xinhui.Pan@amd.com,
+ Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org,
+ christian.koenig@amd.com, Daniel Wheeler <daniel.wheeler@amd.com>,
+ yang.lee@linux.alibaba.com, hamza.mahfooz@amd.com, daniel@ffwll.ch,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>, ovidiu.bunea@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ilya Bakoulin <ilya.bakoulin@amd.com>
+From: Nicholas Susanto <nicholas.susanto@amd.com>
 
-[ Upstream commit 94bbf802efd0a8f13147d6664af6e653637340a8 ]
+[ Upstream commit 2ce156482a6fef349d2eba98e5070c412d3af662 ]
 
-Changing PBN calculation to be more in line with spec. We don't need to
-inflate PBN_NATIVE value by the 1.006 margin, since that is already
-taken care of in the get_pbn_per_slot function.
+[Why]
+When switching to another HDMI mode, we are unnecesarilly
+disabling/enabling FIFO causing both HPO and DIG registers to be set at
+the same time when only HPO is supposed to be set.
+
+This can lead to a system hang the next time we change refresh rates as
+there are cases when we don't disable OTG/FIFO but FIFO is enabled when
+it isn't supposed to be.
+
+[How]
+Removing the enable/disable FIFO entirely.
 
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Reviewed-by: Wenjing Liu <wenjing.liu@amd.com>
+Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 Acked-by: Rodrigo Siqueira <rodrigo.siqueira@amd.com>
-Signed-off-by: Ilya Bakoulin <ilya.bakoulin@amd.com>
+Signed-off-by: Nicholas Susanto <nicholas.susanto@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/link/link_dpms.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ .../gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c  | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/link/link_dpms.c b/drivers/gpu/drm/amd/display/dc/link/link_dpms.c
-index f8e01ca09d96..a3b3aec05d6b 100644
---- a/drivers/gpu/drm/amd/display/dc/link/link_dpms.c
-+++ b/drivers/gpu/drm/amd/display/dc/link/link_dpms.c
-@@ -1057,18 +1057,21 @@ static struct fixed31_32 get_pbn_from_bw_in_kbps(uint64_t kbps)
- 	uint32_t denominator = 1;
+diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
+index d5fde7d23fbf..f3b0af2c0295 100644
+--- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
++++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c
+@@ -126,21 +126,13 @@ static void dcn35_disable_otg_wa(struct clk_mgr *clk_mgr_base, struct dc_state *
+ 			continue;
+ 		if (pipe->stream && (pipe->stream->dpms_off || dc_is_virtual_signal(pipe->stream->signal) ||
+ 				     !pipe->stream->link_enc)) {
+-			struct stream_encoder *stream_enc = pipe->stream_res.stream_enc;
+-
+ 			if (disable) {
+-				if (stream_enc && stream_enc->funcs->disable_fifo)
+-					pipe->stream_res.stream_enc->funcs->disable_fifo(stream_enc);
+-
+ 				if (pipe->stream_res.tg && pipe->stream_res.tg->funcs->immediate_disable_crtc)
+ 					pipe->stream_res.tg->funcs->immediate_disable_crtc(pipe->stream_res.tg);
  
- 	/*
--	 * margin 5300ppm + 300ppm ~ 0.6% as per spec, factor is 1.006
-+	 * The 1.006 factor (margin 5300ppm + 300ppm ~ 0.6% as per spec) is not
-+	 * required when determining PBN/time slot utilization on the link between
-+	 * us and the branch, since that overhead is already accounted for in
-+	 * the get_pbn_per_slot function.
-+	 *
- 	 * The unit of 54/64Mbytes/sec is an arbitrary unit chosen based on
- 	 * common multiplier to render an integer PBN for all link rate/lane
- 	 * counts combinations
- 	 * calculate
--	 * peak_kbps *= (1006/1000)
- 	 * peak_kbps *= (64/54)
--	 * peak_kbps *= 8    convert to bytes
-+	 * peak_kbps /= (8 * 1000) convert to bytes
- 	 */
- 
--	numerator = 64 * PEAK_FACTOR_X1000;
--	denominator = 54 * 8 * 1000 * 1000;
-+	numerator = 64;
-+	denominator = 54 * 8 * 1000;
- 	kbps *= numerator;
- 	peak_kbps = dc_fixpt_from_fraction(kbps, denominator);
- 
+ 				reset_sync_context_for_pipe(dc, context, i);
+ 			} else {
+ 				pipe->stream_res.tg->funcs->enable_crtc(pipe->stream_res.tg);
+-
+-				if (stream_enc && stream_enc->funcs->enable_fifo)
+-					pipe->stream_res.stream_enc->funcs->enable_fifo(stream_enc);
+ 			}
+ 		}
+ 	}
 -- 
 2.43.0
 
