@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E69DC836762
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:14:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6075783675A
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:13:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CC2D10F3BC;
-	Mon, 22 Jan 2024 15:13:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DA4A10F37D;
+	Mon, 22 Jan 2024 15:13:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F34F210F3BB
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 15:13:44 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22C6610F37D;
+ Mon, 22 Jan 2024 15:13:25 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 6259661569;
- Mon, 22 Jan 2024 15:13:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1AD7C433F1;
- Mon, 22 Jan 2024 15:13:12 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id 95658B80E86;
+ Mon, 22 Jan 2024 15:13:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67224C43601;
+ Mon, 22 Jan 2024 15:13:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705936394;
- bh=vmyO24YHFKdgEbGviAcUxNuIr0zWNNtVYbmIoc339XA=;
+ s=k20201202; t=1705936402;
+ bh=/VKhsWulm0iDGOxBxlboOPAiE34LfqITMZRgXC+HFaM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=l1RBvC1gDgiKkwxVcs18++4AQ4zsqxiCVEn7TDIryh2bjoPc0btu6DqJPv4vRSXih
- GfpL2triSUSRnGa2uRCwgn0qV57jIyHwlG6UENiswCGN04mWUxpJPA5Vy1G8Bh4Hqg
- ASAb7eMhWwqJJw3Tx3GRjbQ9Qu1wlb/6WMLhBSlDy2NUXUtLH3H+JhIEZYSIUKki6A
- IUkq97y2dRoOjQavyGK5HsQhLzpi2lmNjFwymt99x9tgwEVXgdLcDMXMA6S2opTG2P
- v7Lcaq5pMSVMScolmPF8eTSzcznuZOwkC+9RnJa5SRomG7Rerhsc1u2k2JM0gaKR2j
- /XuJM88dD1oOw==
+ b=moUXfeY5pnusRyjhDZstBr00iq+1pxV0StIE54rW+qXT7iDd9HK8celw63JfhD94u
+ ICIXBg05lGSRIMTC0i3J2H2ENNnh2z9nMx16MPckMsRrG9wr58BYMTsE+aLa39AP1M
+ jQqqWMRMozQZOUlN6fqBgXErvITZH7vm0U78GO0rgfbP3KhVeo7UHqH9/iEGGHongW
+ cSaaWN7JBJooDVqicUjYIAaum2Tdg3Bz6iqZdTIJ2eIVoYc1VSb3ncAmcIyEfZ9irM
+ vAH5egPaKvhZ0d4g1EaSKM3juuHtrRVJspnZwkUSGuMQQQJjBwAwdwu1Ys9gu6kRG8
+ LtLx9FJAM9eLg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 04/35] drm: Fix color LUT rounding
-Date: Mon, 22 Jan 2024 10:12:01 -0500
-Message-ID: <20240122151302.995456-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 07/35] drm/amd/display: Fix tiled display
+ misalignment
+Date: Mon, 22 Jan 2024 10:12:04 -0500
+Message-ID: <20240122151302.995456-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122151302.995456-1-sashal@kernel.org>
 References: <20240122151302.995456-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 5.15.147
@@ -54,103 +54,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, tzimmermann@suse.de,
- Jani Nikula <jani.nikula@intel.com>, Maxime Ripard <mripard@kernel.org>,
- dri-devel@lists.freedesktop.org,
- Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>, daniel@ffwll.ch,
- airlied@gmail.com
+Cc: Sasha Levin <sashal@kernel.org>, dillon.varone@amd.com,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ sunpeng.li@amd.com, airlied@gmail.com, Qingqing.Zhuo@amd.com,
+ Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, samson.tam@amd.com,
+ christian.koenig@amd.com,
+ Meenakshikumar Somasundaram <meenakshikumar.somasundaram@amd.com>,
+ wenjing.liu@amd.com, Hamza Mahfooz <hamza.mahfooz@amd.com>, daniel@ffwll.ch,
+ Alex Deucher <alexander.deucher@amd.com>, jun.lei@amd.com,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>, alvin.lee2@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+From: Meenakshikumar Somasundaram <meenakshikumar.somasundaram@amd.com>
 
-[ Upstream commit c6fbb6bca10838485b820e8a26c23996f77ce580 ]
+[ Upstream commit c4b8394e76adba4f50a3c2696c75b214a291e24a ]
 
-The current implementation of drm_color_lut_extract()
-generates weird results. Eg. if we go through all the
-values for 16->8bpc conversion we see the following pattern:
+[Why]
+When otg workaround is applied during clock update, otgs of
+tiled display went out of sync.
 
-in            out (count)
-   0 -   7f ->  0 (128)
-  80 -  17f ->  1 (256)
- 180 -  27f ->  2 (256)
- 280 -  37f ->  3 (256)
-...
-fb80 - fc7f -> fc (256)
-fc80 - fd7f -> fd (256)
-fd80 - fe7f -> fe (256)
-fe80 - ffff -> ff (384)
+[How]
+To call dc_trigger_sync() after clock update to sync otgs again.
 
-So less values map to 0 and more values map 0xff, which
-doesn't seem particularly great.
-
-To get just the same number of input values to map to
-the same output values we'd just need to drop the rounding
-entrirely. But perhaps a better idea would be to follow the
-OpenGL int<->float conversion rules, in which case we get
-the following results:
-
-in            out (count)
-   0 -   80 ->  0 (129)
-  81 -  181 ->  1 (257)
- 182 -  282 ->  2 (257)
- 283 -  383 ->  3 (257)
-...
-fc7c - fd7c -> fc (257)
-fd7d - fe7d -> fd (257)
-fe7e - ff7e -> fe (257)
-ff7f - ffff -> ff (129)
-
-Note that since the divisor is constant the compiler
-is able to optimize away the integer division in most
-cases. The only exception is the _ULL() case on 32bit
-architectures since that gets emitted as inline asm
-via do_div() and thus the compiler doesn't get to
-optimize it.
-
-Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20231013131402.24072-2-ville.syrjala@linux.intel.com
-Reviewed-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-Acked-by: Maxime Ripard <mripard@kernel.org>
+Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Acked-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+Signed-off-by: Meenakshikumar Somasundaram <meenakshikumar.somasundaram@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- include/drm/drm_color_mgmt.h | 19 ++++++++-----------
- 1 file changed, 8 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/amd/display/dc/core/dc.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/include/drm/drm_color_mgmt.h b/include/drm/drm_color_mgmt.h
-index 81c298488b0c..54b2b2467bfd 100644
---- a/include/drm/drm_color_mgmt.h
-+++ b/include/drm/drm_color_mgmt.h
-@@ -36,20 +36,17 @@ struct drm_plane;
-  *
-  * Extract a degamma/gamma LUT value provided by user (in the form of
-  * &drm_color_lut entries) and round it to the precision supported by the
-- * hardware.
-+ * hardware, following OpenGL int<->float conversion rules
-+ * (see eg. OpenGL 4.6 specification - 2.3.5 Fixed-Point Data Conversions).
-  */
- static inline u32 drm_color_lut_extract(u32 user_input, int bit_precision)
- {
--	u32 val = user_input;
--	u32 max = 0xffff >> (16 - bit_precision);
--
--	/* Round only if we're not using full precision. */
--	if (bit_precision < 16) {
--		val += 1UL << (16 - bit_precision - 1);
--		val >>= 16 - bit_precision;
--	}
--
--	return clamp_val(val, 0, max);
-+	if (bit_precision > 16)
-+		return DIV_ROUND_CLOSEST_ULL(mul_u32_u32(user_input, (1 << bit_precision) - 1),
-+					     (1 << 16) - 1);
-+	else
-+		return DIV_ROUND_CLOSEST(user_input * ((1 << bit_precision) - 1),
-+					 (1 << 16) - 1);
- }
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
+index 3919e75fec16..ef151a1bc31c 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+@@ -1680,6 +1680,10 @@ static enum dc_status dc_commit_state_no_check(struct dc *dc, struct dc_state *c
+ 		wait_for_no_pipes_pending(dc, context);
+ 		/* pplib is notified if disp_num changed */
+ 		dc->hwss.optimize_bandwidth(dc, context);
++		/* Need to do otg sync again as otg could be out of sync due to otg
++		 * workaround applied during clock update
++		 */
++		dc_trigger_sync(dc, context);
+ 	}
  
- u64 drm_color_ctm_s31_32_to_qm_n(u64 user_input, u32 m, u32 n);
+ 	if (dc->ctx->dce_version >= DCE_VERSION_MAX)
 -- 
 2.43.0
 
