@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B751D836676
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:02:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FC0C83666F
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:02:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0E6A10F2D7;
-	Mon, 22 Jan 2024 15:02:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0361C10F2E2;
+	Mon, 22 Jan 2024 15:02:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E991D10F2D6;
- Mon, 22 Jan 2024 15:01:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE0B610F257;
+ Mon, 22 Jan 2024 15:02:31 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 8C1F6B80E6C;
+ by ams.source.kernel.org (Postfix) with ESMTP id 8762EB80E81;
+ Mon, 22 Jan 2024 15:02:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B56CDC433A6;
  Mon, 22 Jan 2024 15:01:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DAECC433B1;
- Mon, 22 Jan 2024 15:01:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705935718;
- bh=hlwss65vsu1JL9eiVYuXMgPJu8Gko63+U/Dym0795eo=;
+ s=k20201202; t=1705935720;
+ bh=g+NLjclfFpmz90ce/DyP/hk3mJkJ7WyLtF/ExALF3/E=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=bvHUUYVTIUhEXexF1vZCsNSkKobYNJwyzlgeaBX5C0aEItr99UKqIOJ3WkHLZ7gSj
- 3Apw6VYNRAlhvvW3pYGr0DL+IcO7Di5tyuIdgxw1SRR7q1rmk6HepD1vCVNbSzbKnS
- 4RbkDvv63wlHhb4E6mYF5FoyF/VOahh+ZnZgSVbVJuVmiSkQLi56Cp153e1XKdWlhg
- 2xeLwvPXPdpQn/mm5+rJmUZock9KIZ1ybCL3oRcS6yTKPalwYGq7+Nk8ySz5DAqZUC
- dtCLnTIDzXj964mggLqjSdQHYBDB9ClbPwlSiD6hfHxIwybveN1B7DvbgKCBnN+jr/
- fhnL88PbNWgaA==
+ b=bnzY0tPGiSdq4g0kqh0i5a+y32+iyFIWZx7sXKEYrhvLKIOZRDb6q+GC888XdEDKq
+ FY7XqiRN+LIEZsUEvX6zo4xb56cKKIbUbcMCnX1NJUN22EdAhDfIAMWJrCmDv5XHbz
+ KKrexGMwJ/2nll4+4zzRhBGNcgihtcc+tjAvEo3oq5uFh6RqYZO9Z2ofqOM1cakhVr
+ vD161QW716IxHzNFTNdt6Xx1FswkDS3t7KInkFEfllHnSFHdDzFtRI/TiMWqKnUoQA
+ vXxXZ4xoG20rGwdV7+KiwKETdqLdyR87/Oi3S/zcPhexlpqyUWy+FZBW0w/So7DSwU
+ d2DOI3U3c+/uQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.7 80/88] drm/amdgpu: Fix '*fw' from
- request_firmware() not released in 'amdgpu_ucode_request()'
-Date: Mon, 22 Jan 2024 09:51:53 -0500
-Message-ID: <20240122145608.990137-80-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.7 81/88] drm/amdgpu: Drop 'fence' check in
+ 'to_amdgpu_amdkfd_fence()'
+Date: Mon, 22 Jan 2024 09:51:54 -0500
+Message-ID: <20240122145608.990137-81-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122145608.990137-1-sashal@kernel.org>
 References: <20240122145608.990137-1-sashal@kernel.org>
@@ -55,55 +55,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Xinhui.Pan@amd.com,
+Cc: Sasha Levin <sashal@kernel.org>,
  Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
- amd-gfx@lists.freedesktop.org, Lang.Yu@amd.com,
- dri-devel@lists.freedesktop.org, Lijo Lazar <lijo.lazar@amd.com>,
- lee@kernel.org, le.ma@amd.com, Stanley.Yang@amd.com,
- Mario Limonciello <mario.limonciello@amd.com>, daniel@ffwll.ch,
- Alex Deucher <alexander.deucher@amd.com>, airlied@gmail.com,
+ Felix Kuehling <felix.kuehling@amd.com>, Xinhui.Pan@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ daniel@ffwll.ch, Alex Deucher <alexander.deucher@amd.com>, airlied@gmail.com,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
 
-[ Upstream commit 13a1851f923d9a7a78a477497295c2dfd16ad4a4 ]
+[ Upstream commit bf2ad4fb8adca89374b54b225d494e0b1956dbea ]
+
+Return value of container_of(...) can't be null, so null check is not
+required for 'fence'. Hence drop its NULL check.
 
 Fixes the below:
-drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c:1404 amdgpu_ucode_request() warn: '*fw' from request_firmware() not released on lines: 1404.
+drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c:93 to_amdgpu_amdkfd_fence() warn: can 'fence' even be NULL?
 
-Cc: Mario Limonciello <mario.limonciello@amd.com>
-Cc: Lijo Lazar <lijo.lazar@amd.com>
+Cc: Felix Kuehling <Felix.Kuehling@amd.com>
 Cc: Christian König <christian.koenig@amd.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c
-index b14127429f30..0efb2568cb65 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c
-@@ -1397,9 +1397,13 @@ int amdgpu_ucode_request(struct amdgpu_device *adev, const struct firmware **fw,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
+index 469785d33791..1ef758ac5076 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
+@@ -90,7 +90,7 @@ struct amdgpu_amdkfd_fence *to_amdgpu_amdkfd_fence(struct dma_fence *f)
+ 		return NULL;
  
- 	if (err)
- 		return -ENODEV;
-+
- 	err = amdgpu_ucode_validate(*fw);
--	if (err)
-+	if (err) {
- 		dev_dbg(adev->dev, "\"%s\" failed to validate\n", fw_name);
-+		release_firmware(*fw);
-+		*fw = NULL;
-+	}
+ 	fence = container_of(f, struct amdgpu_amdkfd_fence, base);
+-	if (fence && f->ops == &amdkfd_fence_ops)
++	if (f->ops == &amdkfd_fence_ops)
+ 		return fence;
  
- 	return err;
- }
+ 	return NULL;
 -- 
 2.43.0
 
