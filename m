@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D820836640
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:00:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F0FA836643
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:00:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFCFD10F2DE;
-	Mon, 22 Jan 2024 15:00:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4AA110F2BE;
+	Mon, 22 Jan 2024 15:00:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD4DA10F2CB
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 15:00:49 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F70A10F2BE;
+ Mon, 22 Jan 2024 15:00:56 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 7664CB80E76;
- Mon, 22 Jan 2024 15:00:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8F22C433B2;
- Mon, 22 Jan 2024 15:00:16 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 914A1CE2B11;
+ Mon, 22 Jan 2024 15:00:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 113D5C43390;
+ Mon, 22 Jan 2024 15:00:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705935618;
- bh=A/TAgBJ5S5ecaDYVh/AFraU1HRZT/Ni7tZ1z5SbonRY=;
+ s=k20201202; t=1705935622;
+ bh=ziCgN18ZBJKgFtWmWXYcTNGfWO2DoZ1XDQaXC3PcFpE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=rva5Fze+at2e9tFOQNipgKgKvmiXEph2CNTxMnE0G2Jk8iB4Q7Gf1rXZzNIjnkp6g
- a5yoAw0XjIGIW0jazdALoeEbjCZtBN5QIJXBTX5+5Ee9EToK8Og8Ky0DUjL9HCNr5R
- V4Mcngj75R5ygRW287MXDyjY95YtI+YrZBtVsUrrmtX5aGgQnXPyZ5mcRi43mKHICR
- NH532Ip8R4F8CUpgB4/sNiRCY5KpTZ2f3cv1SA/SWX7Dybgu0hTBPRHBSoDlVYady0
- tuaV+vzkKVDIWJ57UI+14oTAjW1mPFPvKdWcxvGYE3rOwk+mbLMMvJG3GHmf3zfcZc
- xLd4aiiXawXeQ==
+ b=OQK7aWnzjZzdFVGzDp+JNdBtFy5E8iIU+z4fMMRPepQ0bBmSkMOxZ4WaOiGrouQJm
+ 75pPS4Le4ZKUwSZEv+GubI3qgjC0c6c0tNDGlkmAsy2LyYc4Scw4NV4nGJhhriS3aE
+ Mg7aDpdXYnyMeqXQ1JWv2Dx6vO/AtFIDREpwVYzz+5DXhF2i2B5H0BWYrLijvn3thq
+ 5zBTUbT8PcicdUm5kOzXxRroJh++3wFUSQERhwAaaQiYe3VgZ1MDuQrDA08A8zaU9S
+ SMnXuP4fZ9u6nTc8Sasju/VrY8Q4xn81Orue0v6j2ik1SpzqVuJR1TxTl39FejJ1Fe
+ /Zc6IM/4BS+Vw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.7 65/88] accel/habanalabs/gaudi2: fix undef opcode
- reporting
-Date: Mon, 22 Jan 2024 09:51:38 -0500
-Message-ID: <20240122145608.990137-65-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.7 66/88] drm/amd/display: make flip_timestamp_in_us
+ a 64-bit variable
+Date: Mon, 22 Jan 2024 09:51:39 -0500
+Message-ID: <20240122145608.990137-66-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122145608.990137-1-sashal@kernel.org>
 References: <20240122145608.990137-1-sashal@kernel.org>
@@ -54,61 +54,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, kelbaz@habana.ai,
- Oded Gabbay <ogabbay@kernel.org>, dliberman@habana.ai,
- dri-devel@lists.freedesktop.org, Dafna Hirschfeld <dhirschfeld@habana.ai>,
- ttayar@habana.ai, obitton@habana.ai
+Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
+ sunpeng.li@amd.com, qingqing.zhuo@amd.com, Xinhui.Pan@amd.com,
+ Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org, wenjing.liu@amd.com,
+ Daniel Wheeler <daniel.wheeler@amd.com>, aurabindo.pillai@amd.com,
+ hamza.mahfooz@amd.com, daniel@ffwll.ch, Wayne Lin <wayne.lin@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, airlied@gmail.com,
+ Josip Pavic <josip.pavic@amd.com>, christian.koenig@amd.com,
+ mario.limonciello@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dafna Hirschfeld <dhirschfeld@habana.ai>
+From: Josip Pavic <josip.pavic@amd.com>
 
-[ Upstream commit 0ec346779644039c4c05cfa7f071b1a24e54d8d9 ]
+[ Upstream commit 6fb12518ca58412dc51054e2a7400afb41328d85 ]
 
-currently the undefined opcode event bit in set only for lower cp and
-only if 'write_enable' is true. It should be set anyway and for all
-streams in order to report that event to userspace.
+[Why]
+This variable currently overflows after about 71 minutes. This doesn't
+cause any known functional issues but it does make debugging more
+difficult.
 
-Signed-off-by: Dafna Hirschfeld <dhirschfeld@habana.ai>
-Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
-Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
+[How]
+Make it a 64-bit variable.
+
+Reviewed-by: Aric Cyr <aric.cyr@amd.com>
+Acked-by: Wayne Lin <wayne.lin@amd.com>
+Signed-off-by: Josip Pavic <josip.pavic@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/accel/habanalabs/gaudi2/gaudi2.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/amd/display/dc/dc_hw_types.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-index 819660c684cf..bc6e338ef2fd 100644
---- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
-+++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-@@ -7929,21 +7929,19 @@ static int gaudi2_handle_qman_err_generic(struct hl_device *hdev, u16 event_type
- 				error_count++;
- 			}
- 
--		if (i == QMAN_STREAMS && error_count) {
--			/* check for undefined opcode */
--			if (glbl_sts_val & PDMA0_QM_GLBL_ERR_STS_CP_UNDEF_CMD_ERR_MASK &&
--					hdev->captured_err_info.undef_opcode.write_enable) {
-+		/* check for undefined opcode */
-+		if (glbl_sts_val & PDMA0_QM_GLBL_ERR_STS_CP_UNDEF_CMD_ERR_MASK) {
-+			*event_mask |= HL_NOTIFIER_EVENT_UNDEFINED_OPCODE;
-+			if (hdev->captured_err_info.undef_opcode.write_enable) {
- 				memset(&hdev->captured_err_info.undef_opcode, 0,
- 						sizeof(hdev->captured_err_info.undef_opcode));
--
--				hdev->captured_err_info.undef_opcode.write_enable = false;
- 				hdev->captured_err_info.undef_opcode.timestamp = ktime_get();
- 				hdev->captured_err_info.undef_opcode.engine_id =
- 							gaudi2_queue_id_to_engine_id[qid_base];
--				*event_mask |= HL_NOTIFIER_EVENT_UNDEFINED_OPCODE;
- 			}
- 
--			handle_lower_qman_data_on_err(hdev, qman_base, *event_mask);
-+			if (i == QMAN_STREAMS)
-+				handle_lower_qman_data_on_err(hdev, qman_base, *event_mask);
- 		}
- 	}
- 
+diff --git a/drivers/gpu/drm/amd/display/dc/dc_hw_types.h b/drivers/gpu/drm/amd/display/dc/dc_hw_types.h
+index e2a3aa8812df..811474f4419b 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc_hw_types.h
++++ b/drivers/gpu/drm/amd/display/dc/dc_hw_types.h
+@@ -244,7 +244,7 @@ enum pixel_format {
+ #define DC_MAX_DIRTY_RECTS 3
+ struct dc_flip_addrs {
+ 	struct dc_plane_address address;
+-	unsigned int flip_timestamp_in_us;
++	unsigned long long flip_timestamp_in_us;
+ 	bool flip_immediate;
+ 	/* TODO: add flip duration for FreeSync */
+ 	bool triplebuffer_flips;
 -- 
 2.43.0
 
