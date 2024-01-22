@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3947F8367D5
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:20:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 887648367CC
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:20:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EF6B10F3F2;
-	Mon, 22 Jan 2024 15:19:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BF6210F41C;
+	Mon, 22 Jan 2024 15:19:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77C9610F3EB;
- Mon, 22 Jan 2024 15:19:54 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F35210F3F2;
+ Mon, 22 Jan 2024 15:19:56 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 17FEFCE1F9C;
- Mon, 22 Jan 2024 15:19:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E920FC433C7;
- Mon, 22 Jan 2024 15:19:17 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 805D9614FD;
+ Mon, 22 Jan 2024 15:19:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2948C433F1;
+ Mon, 22 Jan 2024 15:19:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705936760;
- bh=xJ4neBRc9rcores4yeDpzeEV0IVbHaw1JnsY+i1CBqQ=;
+ s=k20201202; t=1705936765;
+ bh=gk3YS6kxqpkRP+59kvy1Xe8bJ8HiKKbZy+O04X2vTWg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ERRuoMMvKAonYXcFCoWIhImQJ5K+ZUsxuShjNbJDVLnbeuSBK3v28TM4y+fJqgZPG
- idBmN7KWZ4dweHJH/gGFMNu4b+iE0tUyHGzwhuG+8PVxWL0NBqIEXS0JviRHm/iN7J
- OKyw8fvHdJP0mW3zAo402ak4BEPdessINPbBp+mCot0lHo+5Q27Uuzw4T+xH1limnM
- JoHivJ41cnOsqrTSquqYccKnjf8wlfQHnLapBcbZp6NbUYqbyOMZckz4u+opqEkdZp
- rWfqpMIzCdvgxpNPPb7qxx6JpMQ7yE5vEiPZ1VKqK4qSBm3kjhfG/YVpFzVEiYbvS5
- /TBCH28IbCZBQ==
+ b=O4hjrzKL3+wBSUPFzI5JdQNeWCAJIA5+FxBJukNZmcJOaFzYRbmYcY1DIw4gYjAcS
+ y+Nm4ndjt9D0xUGHJMnzakOTkp+MDnj4cQ3fwY19RQmTPedTl4h/zF9AEYHhpSzLVQ
+ Q24+0ustkwPbusKYByOZicaTI43HUqCsgoRkApdjXbNnoNXFeQnQ4/ZcyWGdsZJdhn
+ 1BqR+NAMJG5A6+dzob07Qe7oc9gbIaJQrT35+z28Cehf9GqX6BzaJ9Vq6usjXbkZHf
+ tT82Gb1UYCQR28guPWqtUqAZpJOp2L+MOlINvrIbkTTRr6wNODNdhk50BQOSaTX7zl
+ 3W/OANbGfLIeA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 21/23] drm/amd/display: make flip_timestamp_in_us
- a 64-bit variable
-Date: Mon, 22 Jan 2024 10:18:01 -0500
-Message-ID: <20240122151823.997644-21-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 22/23] drm/amdgpu: Let KFD sync with VM fences
+Date: Mon, 22 Jan 2024 10:18:02 -0500
+Message-ID: <20240122151823.997644-22-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122151823.997644-1-sashal@kernel.org>
 References: <20240122151823.997644-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 4.19.305
@@ -54,52 +54,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- sunpeng.li@amd.com, qingqing.zhuo@amd.com, Xinhui.Pan@amd.com,
- Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org, wenjing.liu@amd.com,
- Daniel Wheeler <daniel.wheeler@amd.com>, aurabindo.pillai@amd.com,
- mario.limonciello@amd.com, daniel@ffwll.ch, Wayne Lin <wayne.lin@amd.com>,
+Cc: Sasha Levin <sashal@kernel.org>, Felix Kuehling <Felix.Kuehling@amd.com>,
+ Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, daniel@ffwll.ch,
  Alex Deucher <alexander.deucher@amd.com>, airlied@gmail.com,
- Josip Pavic <josip.pavic@amd.com>, christian.koenig@amd.com,
- hamza.mahfooz@amd.com
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Josip Pavic <josip.pavic@amd.com>
+From: Felix Kuehling <Felix.Kuehling@amd.com>
 
-[ Upstream commit 6fb12518ca58412dc51054e2a7400afb41328d85 ]
+[ Upstream commit ec9ba4821fa52b5efdbc4cdf0a77497990655231 ]
 
-[Why]
-This variable currently overflows after about 71 minutes. This doesn't
-cause any known functional issues but it does make debugging more
-difficult.
+Change the rules for amdgpu_sync_resv to let KFD synchronize with VM
+fences on page table reservations. This fixes intermittent memory
+corruption after evictions when using amdgpu_vm_handle_moved to update
+page tables for VM mappings managed through render nodes.
 
-[How]
-Make it a 64-bit variable.
-
-Reviewed-by: Aric Cyr <aric.cyr@amd.com>
-Acked-by: Wayne Lin <wayne.lin@amd.com>
-Signed-off-by: Josip Pavic <josip.pavic@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dc_hw_types.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dc_hw_types.h b/drivers/gpu/drm/amd/display/dc/dc_hw_types.h
-index b789cb2b354b..c96ff10365d2 100644
---- a/drivers/gpu/drm/amd/display/dc/dc_hw_types.h
-+++ b/drivers/gpu/drm/amd/display/dc/dc_hw_types.h
-@@ -357,7 +357,7 @@ union dc_tiling_info {
- 	} gfx8;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
+index 2d6f5ec77a68..5eb8f93c7022 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
+@@ -219,7 +219,8 @@ int amdgpu_sync_resv(struct amdgpu_device *adev,
+ 		 */
+ 		fence_owner = amdgpu_sync_get_owner(f);
+ 		if (fence_owner == AMDGPU_FENCE_OWNER_KFD &&
+-		    owner != AMDGPU_FENCE_OWNER_UNDEFINED)
++		    owner != AMDGPU_FENCE_OWNER_UNDEFINED &&
++	    owner != AMDGPU_FENCE_OWNER_KFD)
+ 			continue;
  
- 	struct {
--		unsigned int num_pipes;
-+		unsigned long long num_pipes;
- 		unsigned int num_banks;
- 		unsigned int pipe_interleave;
- 		unsigned int num_shader_engines;
+ 		if (amdgpu_sync_same_dev(adev, f)) {
 -- 
 2.43.0
 
