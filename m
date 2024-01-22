@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 109F3836A9B
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 17:31:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78717836AA2
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 17:31:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 840BD10F5E6;
-	Mon, 22 Jan 2024 16:31:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D428A10F5D0;
+	Mon, 22 Jan 2024 16:31:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C571E10F5E2
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 16:31:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B5B710F5E2
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 16:31:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1705941065;
- bh=UyjKVldzPK1qdGh21n9bsaFvfq2HYPVrP/jSm0NeeRY=;
+ s=mail; t=1705941067;
+ bh=hnnZdZvOqVa6N4Yf6zRILMzQ9cd7ypkbEqxigzqLXkE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=aJ2xqM5U/pFEqtV3D8n284+0J9lOuJ+9vzUKa/UGouWY4DnraCg18QUnsPFo+PkWc
- vaGIzw2ajqFTmoeoqcao9kUAQnE/rRMj7HnplfXVsU++rQwwB0N1octP2mhtcZDHaF
- RkMibcYGmrUjf2mRQUOHxY+DLuLSUol+615TY4Tp6OT/KkEhDa3RgREV/y7UjnDV7l
- RuaQjGYJeR5UBWS5Wwu9GHxq6rxs+WxWMnloSMvaVN7BWe+go33/gPwXGUPTm2spiN
- ecpFtk3+OsAO+MZM5xFqj3EB6DdUBw0AMXT9FYlSN0LDwE/Q1Y5R/8SVcq+1xTOV+l
- AgFtQ+1tNk5sg==
+ b=V2OmsBQi6JId4rlPJVQNW8Fk7YXL2fsa2O5vNy0K5nniDkfqk++F8srtxwZKjjl9Z
+ NCmSVPH8dA2hhR5PPVZEHPSHiqSUFcLcSxYy0/YIpb4lVMWoMX4rCUyweNsvj8g+EM
+ v1+GYkbBQEx2RC179SPxPAfjIG6Jo3tak1O1DkAsB0blXDWOGAsaPsqLJfp9we1Anr
+ 6NwHGyYU65SN2L837vm/cDb6W4/JfPd7ThBJSzJjuvVZpdFT3jxbC9sctgwmhwyql3
+ Fi2oMa8KXSCn2mFhZRt8P3unYYhgQxZGjTpobcq5kh8W3BoMxFD2U5Srshy5jUZ3OQ
+ ZJapbNBQTVWAg==
 Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 9926D378200E;
- Mon, 22 Jan 2024 16:31:04 +0000 (UTC)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id DCB273782080;
+ Mon, 22 Jan 2024 16:31:05 +0000 (UTC)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 12/14] drm/panthor: Allow driver compilation
-Date: Mon, 22 Jan 2024 17:30:43 +0100
-Message-ID: <20240122163047.1954733-13-boris.brezillon@collabora.com>
+Subject: [PATCH v4 13/14] dt-bindings: gpu: mali-valhall-csf: Add support for
+ Arm Mali CSF GPUs
+Date: Mon, 22 Jan 2024 17:30:44 +0100
+Message-ID: <20240122163047.1954733-14-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122163047.1954733-1-boris.brezillon@collabora.com>
 References: <20240122163047.1954733-1-boris.brezillon@collabora.com>
@@ -54,122 +55,212 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Tatsuyuki Ishi <ishitatsuyuki@gmail.com>,
  Nicolas Boichat <drinkcat@chromium.org>, kernel@collabora.com,
  Daniel Stone <daniels@collabora.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Neil Armstrong <neil.armstrong@linaro.org>,
- Ketil Johnsen <ketil.johnsen@arm.com>, Liviu Dudau <Liviu.Dudau@arm.com>,
- Steven Price <steven.price@arm.com>,
+ Ketil Johnsen <ketil.johnsen@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Conor Dooley <conor+dt@kernel.org>,
  Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, devicetree@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>,
  =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, Chris Diamand <chris.diamand@foss.arm.com>,
- Grant Likely <grant.likely@linaro.org>,
  "Marty E . Plummer" <hanetzer@startmail.com>,
  Robin Murphy <robin.murphy@arm.com>,
  Faith Ekstrand <faith.ekstrand@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that all blocks are available, we can add/update Kconfig/Makefile
-files to allow compilation.
+From: Liviu Dudau <liviu.dudau@arm.com>
+
+Arm has introduced a new v10 GPU architecture that replaces the Job Manager
+interface with a new Command Stream Frontend. It adds firmware driven
+command stream queues that can be used by kernel and user space to submit
+jobs to the GPU.
+
+Add the initial schema for the device tree that is based on support for
+RK3588 SoC. The minimum number of clocks is one for the IP, but on Rockchip
+platforms they will tend to expose the semi-independent clocks for better
+power management.
 
 v4:
-- Add Steve's R-b
+- Fix formatting issue
 
 v3:
-- Add a dep on DRM_GPUVM
-- Fix dependencies in Kconfig
-- Expand help text to (hopefully) describe which GPUs are to be
-  supported by this driver and which are for panfrost.
+- Cleanup commit message to remove redundant text
+- Added opp-table property and re-ordered entries
+- Clarified power-domains and power-domain-names requirements for RK3588.
+- Cleaned up example
 
-Co-developed-by: Steven Price <steven.price@arm.com>
-Signed-off-by: Steven Price <steven.price@arm.com>
+Note: power-domains and power-domain-names requirements for other platforms
+are still work in progress, hence the bindings are left incomplete here.
+
+v2:
+- New commit
+
+Signed-off-by: Liviu Dudau <liviu.dudau@arm.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: devicetree@vger.kernel.org
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Acked-by: Steven Price <steven.price@arm.com> # MIT+GPL2 relicensing,Arm
-Acked-by: Grant Likely <grant.likely@linaro.org> # MIT+GPL2 relicensing,Linaro
-Acked-by: Boris Brezillon <boris.brezillon@collabora.com> # MIT+GPL2 relicensing,Collabora
-Reviewed-by: Steven Price <steven.price@arm.com>
 ---
- drivers/gpu/drm/Kconfig          |  2 ++
- drivers/gpu/drm/Makefile         |  1 +
- drivers/gpu/drm/panthor/Kconfig  | 23 +++++++++++++++++++++++
- drivers/gpu/drm/panthor/Makefile | 15 +++++++++++++++
- 4 files changed, 41 insertions(+)
- create mode 100644 drivers/gpu/drm/panthor/Kconfig
- create mode 100644 drivers/gpu/drm/panthor/Makefile
+ .../bindings/gpu/arm,mali-valhall-csf.yaml    | 147 ++++++++++++++++++
+ 1 file changed, 147 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 628f90ed8a9b..88c1ca148507 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -369,6 +369,8 @@ source "drivers/gpu/drm/lima/Kconfig"
- 
- source "drivers/gpu/drm/panfrost/Kconfig"
- 
-+source "drivers/gpu/drm/panthor/Kconfig"
-+
- source "drivers/gpu/drm/aspeed/Kconfig"
- 
- source "drivers/gpu/drm/mcde/Kconfig"
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index 8ac6f4b9546e..9023d5440cd7 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -178,6 +178,7 @@ obj-$(CONFIG_DRM_XEN) += xen/
- obj-$(CONFIG_DRM_VBOXVIDEO) += vboxvideo/
- obj-$(CONFIG_DRM_LIMA)  += lima/
- obj-$(CONFIG_DRM_PANFROST) += panfrost/
-+obj-$(CONFIG_DRM_PANTHOR) += panthor/
- obj-$(CONFIG_DRM_ASPEED_GFX) += aspeed/
- obj-$(CONFIG_DRM_MCDE) += mcde/
- obj-$(CONFIG_DRM_TIDSS) += tidss/
-diff --git a/drivers/gpu/drm/panthor/Kconfig b/drivers/gpu/drm/panthor/Kconfig
+diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml
 new file mode 100644
-index 000000000000..159845e51116
+index 000000000000..be1f6bacc3f3
 --- /dev/null
-+++ b/drivers/gpu/drm/panthor/Kconfig
-@@ -0,0 +1,23 @@
-+# SPDX-License-Identifier: GPL-2.0 or MIT
++++ b/Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml
+@@ -0,0 +1,147 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/gpu/arm,mali-valhall-csf.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+config DRM_PANTHOR
-+	tristate "Panthor (DRM support for ARM Mali CSF-based GPUs)"
-+	depends on DRM
-+	depends on ARM || ARM64 || COMPILE_TEST
-+	depends on !GENERIC_ATOMIC64  # for IOMMU_IO_PGTABLE_LPAE
-+	depends on MMU
-+	select DRM_GPUVM
-+	select DRM_EXEC
-+	select DRM_SCHED
-+	select IOMMU_SUPPORT
-+	select IOMMU_IO_PGTABLE_LPAE
-+	select DRM_GEM_SHMEM_HELPER
-+	select PM_DEVFREQ
-+	select DEVFREQ_GOV_SIMPLE_ONDEMAND
-+	help
-+	  DRM driver for ARM Mali CSF-based GPUs.
++title: ARM Mali Valhall GPU
 +
-+	  This driver is for Mali (or Immortalis) Valhall Gxxx GPUs.
++maintainers:
++  - Liviu Dudau <liviu.dudau@arm.com>
++  - Boris Brezillon <boris.brezillon@collabora.com>
 +
-+	  Note that the Mali-G68 and Mali-G78, while Valhall architecture, will
-+	  be supported with the panfrost driver as they are not CSF GPUs.
-diff --git a/drivers/gpu/drm/panthor/Makefile b/drivers/gpu/drm/panthor/Makefile
-new file mode 100644
-index 000000000000..64193a484879
---- /dev/null
-+++ b/drivers/gpu/drm/panthor/Makefile
-@@ -0,0 +1,15 @@
-+# SPDX-License-Identifier: GPL-2.0 or MIT
++properties:
++  $nodename:
++    pattern: '^gpu@[a-f0-9]+$'
 +
-+panthor-y := \
-+	panthor_devfreq.o \
-+	panthor_device.o \
-+	panthor_drv.o \
-+	panthor_gem.o \
-+	panthor_gpu.o \
-+	panthor_heap.o \
-+	panthor_heap.o \
-+	panthor_fw.o \
-+	panthor_mmu.o \
-+	panthor_sched.o
++  compatible:
++    oneOf:
++      - items:
++          - enum:
++              - rockchip,rk3588-mali
++          - const: arm,mali-valhall-csf   # Mali Valhall GPU model/revision is fully discoverable
 +
-+obj-$(CONFIG_DRM_PANTHOR) += panthor.o
++  reg:
++    maxItems: 1
++
++  interrupts:
++    items:
++      - description: Job interrupt
++      - description: MMU interrupt
++      - description: GPU interrupt
++
++  interrupt-names:
++    items:
++      - const: job
++      - const: mmu
++      - const: gpu
++
++  clocks:
++    minItems: 1
++    maxItems: 3
++
++  clock-names:
++    minItems: 1
++    items:
++      - const: core
++      - const: coregroup
++      - const: stacks
++
++  mali-supply: true
++
++  operating-points-v2: true
++  opp-table:
++    type: object
++
++  power-domains:
++    minItems: 1
++    maxItems: 5
++
++  power-domain-names:
++    minItems: 1
++    maxItems: 5
++
++  sram-supply: true
++
++  "#cooling-cells":
++    const: 2
++
++  dynamic-power-coefficient:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description:
++      A u32 value that represents the running time dynamic
++      power coefficient in units of uW/MHz/V^2. The
++      coefficient can either be calculated from power
++      measurements or derived by analysis.
++
++      The dynamic power consumption of the GPU is
++      proportional to the square of the Voltage (V) and
++      the clock frequency (f). The coefficient is used to
++      calculate the dynamic power as below -
++
++      Pdyn = dynamic-power-coefficient * V^2 * f
++
++      where voltage is in V, frequency is in MHz.
++
++  dma-coherent: true
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - interrupt-names
++  - clocks
++  - mali-supply
++
++additionalProperties: false
++
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: rockchip,rk3588-mali
++    then:
++      properties:
++        clocks:
++          minItems: 3
++        power-domains:
++          maxItems: 1
++        power-domain-names: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/rockchip,rk3588-cru.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/power/rk3588-power.h>
++
++    gpu: gpu@fb000000 {
++        compatible = "rockchip,rk3588-mali", "arm,mali-valhall-csf";
++        reg = <0xfb000000 0x200000>;
++        interrupts = <GIC_SPI 92 IRQ_TYPE_LEVEL_HIGH 0>,
++                     <GIC_SPI 93 IRQ_TYPE_LEVEL_HIGH 0>,
++                     <GIC_SPI 94 IRQ_TYPE_LEVEL_HIGH 0>;
++        interrupt-names = "job", "mmu", "gpu";
++        clock-names = "core", "coregroup", "stacks";
++        clocks = <&cru CLK_GPU>, <&cru CLK_GPU_COREGROUP>,
++                 <&cru CLK_GPU_STACKS>;
++        power-domains = <&power RK3588_PD_GPU>;
++        operating-points-v2 = <&gpu_opp_table>;
++        mali-supply = <&vdd_gpu_s0>;
++        sram-supply = <&vdd_gpu_mem_s0>;
++    };
++
++    gpu_opp_table: opp-table {
++        compatible = "operating-points-v2";
++        opp-300000000 {
++            opp-hz = /bits/ 64 <300000000>;
++            opp-microvolt = <675000 675000 850000>;
++        };
++        opp-400000000 {
++            opp-hz = /bits/ 64 <400000000>;
++            opp-microvolt = <675000 675000 850000>;
++        };
++    };
++
++...
 -- 
 2.43.0
 
