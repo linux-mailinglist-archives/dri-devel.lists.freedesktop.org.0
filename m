@@ -2,43 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31CDD836A9A
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 17:31:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 864E3836AB5
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 17:33:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80B6B10E6DD;
-	Mon, 22 Jan 2024 16:31:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B351110F55A;
+	Mon, 22 Jan 2024 16:32:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75D2710F5E2
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 16:31:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1705941068;
- bh=35JopBtQB1Q4iFh6VPCHTtmBIlO/ojfgiXkP1BHo2uk=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=uoqEaBA07PMDNwWTh9C24bT7HduZawDz8lFsjyT8/MYK2YhbOSWUXG9iLhQJ/MCwd
- 0nINdjS237QF0apab80qXio83RFFpKaJx7wd4SlTXl/8Tvv74w60QxwvTt/quEuSVA
- atZ0tCC2+/vD94qzt8oz8xSzhjYuyLkbbNj3pECBdos3C9HRULToqddGnN34JfgVk7
- tCWIV7snKubL6DN1ur+gd2C8qI11gpYXByr0Ib3s08HNVCu1BcCFNZ8bQSoUIEqLtE
- 8nReXpfytzoDULoPz/FUTN3tSZ8QZlMP4JoGVJmJJJH9h4uoHELM5PTz0oBkk1v0GB
- Qjkd68malSdSQ==
-Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 5A2B8378208E;
- Mon, 22 Jan 2024 16:31:07 +0000 (UTC)
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 14/14] drm/panthor: Add an entry to MAINTAINERS
-Date: Mon, 22 Jan 2024 17:30:45 +0100
-Message-ID: <20240122163047.1954733-15-boris.brezillon@collabora.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240122163047.1954733-1-boris.brezillon@collabora.com>
-References: <20240122163047.1954733-1-boris.brezillon@collabora.com>
+Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com
+ [95.215.58.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA0AD10F55A
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 16:32:31 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1705941147;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=55MO4bPOLn4/UwKC6DUmQGXwkP8oJde1RTnFz7waoW0=;
+ b=OwoFS+Tv+QnDTE88hzBMy10Sa2dIpGUtwE1YWdITuK3CNzjJHDgU/GzZ7injIechmLQABF
+ Yn87xa9HI8FduHUtyySYrIOZlaq4rCBOiIACBtCbATM77lW2GuLybKY/qef3x6YrHxqj4l
+ vuzv2ZCgaZyuJ5+4s1KZs56wGBWuvbw=
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+To: David Airlie <airlied@gmail.com>
+Subject: [PATCH 0/5] drm/bridge: Allow using fwnode API to get the next bridge
+Date: Tue, 23 Jan 2024 00:32:15 +0800
+Message-Id: <20240122163220.110788-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,58 +44,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tatsuyuki Ishi <ishitatsuyuki@gmail.com>,
- Nicolas Boichat <drinkcat@chromium.org>, kernel@collabora.com,
- Daniel Stone <daniels@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Ketil Johnsen <ketil.johnsen@arm.com>, Liviu Dudau <Liviu.Dudau@arm.com>,
- Steven Price <steven.price@arm.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Chris Diamand <chris.diamand@foss.arm.com>,
- "Marty E . Plummer" <hanetzer@startmail.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Faith Ekstrand <faith.ekstrand@collabora.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Sui Jingfeng <sui.jingfeng@linux.dev>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add an entry for the Panthor driver to the MAINTAINERS file.
+Make it possible to use drm-bridge drivers on non-DT based systems.
 
-v4:
-- Add Steve's R-b
+Sui Jingfeng (5):
+  drm/bridge: Add drm_bridge_find_by_fwnode() helper
+  drm/bridge: simple-bridge: Extend match support for non-DT based
+    systems
+  drm/bridge: simple-bridge: Allow acquiring the next bridge with fwnode
+    API
+  drm/bridge: display-connector: Extend match support for non-DT based
+    systems
+  drm-bridge: display-connector: Switch to use fwnode API
 
-v3:
-- Add bindings document as an 'F:' line.
-- Add Steven and Liviu as co-maintainers.
+ drivers/gpu/drm/bridge/display-connector.c | 46 +++++++++----
+ drivers/gpu/drm/bridge/simple-bridge.c     | 75 +++++++++++++++++++---
+ drivers/gpu/drm/drm_bridge.c               | 33 ++++++++++
+ include/drm/drm_bridge.h                   |  4 ++
+ 4 files changed, 139 insertions(+), 19 deletions(-)
 
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Reviewed-by: Steven Price <steven.price@arm.com>
----
- MAINTAINERS | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9d959a6881f7..4d6e27f0a2e4 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1648,6 +1648,17 @@ F:	Documentation/gpu/panfrost.rst
- F:	drivers/gpu/drm/panfrost/
- F:	include/uapi/drm/panfrost_drm.h
- 
-+ARM MALI PANTHOR DRM DRIVER
-+M:	Boris Brezillon <boris.brezillon@collabora.com>
-+M:	Steven Price <steven.price@arm.com>
-+M:	Liviu Dudau <liviu.dudau@arm.com>
-+L:	dri-devel@lists.freedesktop.org
-+S:	Supported
-+T:	git git://anongit.freedesktop.org/drm/drm-misc
-+F:	Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml
-+F:	drivers/gpu/drm/panthor/
-+F:	include/uapi/drm/panthor_drm.h
-+
- ARM MALI-DP DRM DRIVER
- M:	Liviu Dudau <liviu.dudau@arm.com>
- S:	Supported
 -- 
-2.43.0
+2.25.1
 
