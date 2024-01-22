@@ -2,69 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A75DC836BD5
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 17:52:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF858836C33
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 17:59:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E00910ECED;
-	Mon, 22 Jan 2024 16:52:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC8A410E5FC;
+	Mon, 22 Jan 2024 16:58:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCBBF10ECED
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 16:52:25 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-40e60e135a7so33991925e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 08:52:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1705942284; x=1706547084; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=9Xb3P5uW0KtHlr1gJq8gbLgJiB2wQ8rCJWCXkjGJUtQ=;
- b=UIuiXa3t/odWzsPA4hHm+XJmeg5KN6SEPOX27PmFPpwLBp6oIJIep2FuiKb25lP1EF
- 5YN6WGYCvC+oI6U/ZIN9uyCpNFhctuaUYmTTsunkJYFAj83ImseTZqaWCaVEq3O2mTfs
- EEzmF8kTigjUwpuOofF3tww8yIMQZ4nZ7rma6s8ht6CXKLqiYSlSDuxuZR9JtDDbrsK8
- 0UxWd7QTOc8zwTNPZjc/zl6dCTE7sHQhvhRPuCdIRtmcLbtvfcD8oCw78laj9dJzGiR+
- ZqIR1Dc272NIeypIsemcGboajkto/3r/vMC4+e7l6tBvck9qF4kzpSai6woIV7+vSLe9
- aZbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705942284; x=1706547084;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9Xb3P5uW0KtHlr1gJq8gbLgJiB2wQ8rCJWCXkjGJUtQ=;
- b=sLkMQWv5zT88w7mIIq+OJxGycmE0gjvX4R2Aok8v5OWkCUpKZnUZn5EpVhEkJiJX3/
- QdR1hsdgKJPwljyE3XO0VGjBaUviEPoIQmPpRTiA+8v/k035tOfVd3QzNlwwNP80cHhP
- L70g2oKQOvTu+F9c3UevdUff+KddSsGn9YylniCcFr54oF97jo850Z6klLXbQcsRoqgu
- HopoIHygYovumhtkAuzUhWHeyOS005igH2nDj6V8tCOOA/XOohPWH8AcbY4rft65WjhW
- emgQ61dgIj5YN9sOnl7gEBcthtl8oVPxACDTNnre3h90SeiuMEC4IRTvb/TKfYSS0Bk6
- wGwg==
-X-Gm-Message-State: AOJu0YzuqmNDVm6O4yYcIWW5CcFxtCAUZffqoySwpngj1/X/Q28pJFju
- +F9/Bq6fMPH2OOHyR4N9ttMDwpZ9I5sAfgoFs83KbUDSzO/KEAs821tFq1JAX0s=
-X-Google-Smtp-Source: AGHT+IEe3ZCJOUFqqCaZfXUenFubOiJGjr88xxBaUX1UAuvcpYxGpx+soMDWnfmXjkm1SCbpuxpXaQ==
-X-Received: by 2002:a05:600c:b9a:b0:40e:a9c0:31fe with SMTP id
- fl26-20020a05600c0b9a00b0040ea9c031femr1882939wmb.68.1705942284282; 
- Mon, 22 Jan 2024 08:51:24 -0800 (PST)
-Received: from aspen.lan
- (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
- by smtp.gmail.com with ESMTPSA id
- iv11-20020a05600c548b00b0040d8ff79fd8sm39802749wmb.7.2024.01.22.08.51.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Jan 2024 08:51:23 -0800 (PST)
-Date: Mon, 22 Jan 2024 16:51:22 +0000
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-Subject: Re: [PATCH v3 3/3] backlight: Add Kinetic KTD2801 backlight support
-Message-ID: <20240122165122.GB8815@aspen.lan>
+Received: from mx.skole.hr (mx2.hosting.skole.hr [161.53.165.186])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AB9810E5FC
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 16:58:33 +0000 (UTC)
+Received: from mx2.hosting.skole.hr (localhost.localdomain [127.0.0.1])
+ by mx.skole.hr (mx.skole.hr) with ESMTP id D19AA8525B;
+ Mon, 22 Jan 2024 17:58:31 +0100 (CET)
+From: Duje =?utf-8?B?TWloYW5vdmnEhw==?= <duje.mihanovic@skole.hr>
+To: Daniel Thompson <daniel.thompson@linaro.org>
+Subject: Re: [PATCH v3 1/3] leds: ktd2692: move ExpressWire code to library
+Date: Mon, 22 Jan 2024 17:57:53 +0100
+Message-ID: <23373359.6Emhk5qWAg@radijator>
+In-Reply-To: <20240122165011.GA8815@aspen.lan>
 References: <20240120-ktd2801-v3-0-fe2cbafffb21@skole.hr>
- <20240120-ktd2801-v3-3-fe2cbafffb21@skole.hr>
- <20240122102805.GB8596@aspen.lan> <1783156.VLH7GnMWUR@radijator>
+ <5907190.MhkbZ0Pkbq@radijator> <20240122165011.GA8815@aspen.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1783156.VLH7GnMWUR@radijator>
+Autocrypt: addr=duje.mihanovic@skole.hr; keydata=
+ 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
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,39 +101,28 @@ Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 22, 2024 at 05:24:56PM +0100, Duje Mihanović wrote:
-> On Monday, January 22, 2024 11:28:05 AM CET Daniel Thompson wrote:
-> > On Sat, Jan 20, 2024 at 10:26:45PM +0100, Duje Mihanović wrote:
-> > > diff --git a/drivers/video/backlight/ktd2801-backlight.c
-> > > b/drivers/video/backlight/ktd2801-backlight.c new file mode 100644
-> > > index 000000000000..7b9d1a93aa71
-> > > --- /dev/null
-> > > <snip>
-> > > +/* These values have been extracted from Samsung's driver. */
-> > > +#define KTD2801_EXPRESSWIRE_DETECT_DELAY_US	150
-> > > +#define KTD2801_EXPRESSWIRE_DETECT_US		270
-> > > +#define KTD2801_SHORT_BITSET_US			5
-> > > +#define KTD2801_LONG_BITSET_US			(3 *
-> KTD2801_SHORT_BITSET_US)
-> > > +#define KTD2801_DATA_START_US			5
-> > > +#define KTD2801_END_OF_DATA_LOW_US		10
-> > > +#define KTD2801_END_OF_DATA_HIGH_US		350
-> > > +#define KTD2801_PWR_DOWN_DELAY_US		2600
-> >
-> > These are a little pointless now. They are all single use constants
-> > and have little documentary value.
-> >
-> > The lack of documentary value is because, for example,
-> > KTD2801_EXPRESSWIRE_DETECT_DELAY_US, is assigned to a structure
-> > field called detect_delay_us.
-> >
-> > Likewise I doubt that explicitly stating that long_bitset_us is 3x
-> > bigger than short_bitset_us is important for future driver maintainance.
->
-> Does this apply for ktd2692 as well?
+On Monday, January 22, 2024 5:50:11 PM CET Daniel Thompson wrote:
+> On Mon, Jan 22, 2024 at 05:24:51PM +0100, Duje Mihanovi=C4=87 wrote:
+> > I believe a "select" would be more appropriate here unless these=20
+backlights
+> > should be hidden if GPIOLIB is disabled. The catch with "select" is that
+> > there seems to be no way to throw in the "|| COMPILE_TEST" other GPIO-
+based
+> > backlights have and I'm not sure what to do about that.
+>=20
+> I think the "|| COMPILE_TEST" might just be a copy 'n paste'ism (in fact I
+> may even have been guilty off propagating it in reviews when checking
+> for inconsistencies).
+>=20
+> AFAICT nothing will inhibit setting GPIOLIB so allyes- and allmodconfig
+> builds will always end up with GPIOLIB enabled. If we are happy to
+> select it then I think that is enough!
 
-I think so, yes... but I won't get in the way if you (or anyone else)
-decides otherwise.
+In that case I guess I'll just make it select GPIOLIB.
+
+Regards,
+=2D-
+Duje
 
 
-Daniel.
+
