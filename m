@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81DDE8365FF
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 15:57:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2A5C8365F9
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 15:57:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BD4A10F1FD;
-	Mon, 22 Jan 2024 14:57:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66DBC10F1F3;
+	Mon, 22 Jan 2024 14:57:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 439EE10F27F;
- Mon, 22 Jan 2024 14:57:35 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F3FB10EA8B;
+ Mon, 22 Jan 2024 14:57:17 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 7FBB0B80E6D;
- Mon, 22 Jan 2024 14:57:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13C1EC433C7;
- Mon, 22 Jan 2024 14:56:59 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id B2305CE2B03;
+ Mon, 22 Jan 2024 14:57:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5964AC433C7;
+ Mon, 22 Jan 2024 14:57:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705935422;
- bh=h2EMJEwn+xtLhnIs1AdEUWAodoqKiuzxMfQyLE/5Ax0=;
+ s=k20201202; t=1705935431;
+ bh=nfxEFGF3+T5BIAC6cZV5dCtwBWqySTxUjhchMOcDXfg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=N6MQ946GWyq4ysz102YRflODLX6OKT9QuX7VOrrkUqD68fZdnDLmkFpcbxU2d67NC
- hIjIhn8Df/XGubxbRvfQpMfX9+EIodWek0B3TH18DSgHUVbXzCWpBzy3M4nXpfOPms
- DHfiL2mrDEolUSxJ4kn4GNG2/atYahCjk++SjMMjL6xklIqPAkRfF868ehPBR4j4gs
- GKABjCvq/JBoLw6NzIMpn6jZhC0iDgij74UL4nEy/RAvkXgXRfiy1N2VRf7/zpU+3I
- /ckxm8ZrccB5XL6k5qN73fxJPyYxGWSLT8Jml1qQjUwjfWduos4376Pz3ItczI+lJd
- VuqPBhDkHhYBg==
+ b=kCkhfHTRC2kH2pXYz7KUztLa9tYufgibbhgryJFkGfltf6MD+dJ/sXxCpMvwx+1gd
+ T3fIP32qlh9eL6BGF75S3kLvqTLjuuMtOY+2KbzRGETM8KRDABiuAXIPzqosZp2u/H
+ IVz4jKfxUFC174F9TzVM1kse/Q+jsaemjL+G5WLP3/4+Vw8FzBP3Ff2ifvw3wV2Ald
+ 3wIXeYncrQT+7HFzLD+3n6pY7JdYGL1WhbY8aRKrBvzyucU9HxH32sxgpU8NY/jvnl
+ Bib2Qi5K52LH7Kj201n4fGFPD9qi9uRDwBnQ0erTTMNapW2bzpro2yVgooI0WHnhc0
+ LMeIDZaOU6Nfg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.7 17/88] drm/amd/display: initialize all the dpm
- level's stutter latency
-Date: Mon, 22 Jan 2024 09:50:50 -0500
-Message-ID: <20240122145608.990137-17-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.7 18/88] drm/amd/display: Fix MST PBN/X.Y value
+ calculations
+Date: Mon, 22 Jan 2024 09:50:51 -0500
+Message-ID: <20240122145608.990137-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122145608.990137-1-sashal@kernel.org>
 References: <20240122145608.990137-1-sashal@kernel.org>
@@ -54,58 +54,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Allen Pan <allen.pan@amd.com>,
- hamza.mahfooz@amd.com, airlied@gmail.com, Sasha Levin <sashal@kernel.org>,
- Charlene Liu <charlene.liu@amd.com>, sungkim@amd.com, Rodrigo.Siqueira@amd.com,
- Syed Hassan <syed.hassan@amd.com>, amd-gfx@lists.freedesktop.org,
- jerry.zuo@amd.com, sunpeng.li@amd.com, Daniel Wheeler <daniel.wheeler@amd.com>,
- dillon.varone@amd.com, Qingqing.Zhuo@amd.com, Xinhui.Pan@amd.com,
- roman.li@amd.com, christian.koenig@amd.com, daniel@ffwll.ch,
- Alex Deucher <alexander.deucher@amd.com>, nicholas.kazlauskas@amd.com
+Cc: Ilya Bakoulin <ilya.bakoulin@amd.com>, Sasha Levin <sashal@kernel.org>,
+ dri-devel@lists.freedesktop.org, jiapeng.chong@linux.alibaba.com,
+ sunpeng.li@amd.com, Wenjing Liu <wenjing.liu@amd.com>, Qingqing.Zhuo@amd.com,
+ Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org,
+ camille.cho@amd.com, Daniel Wheeler <daniel.wheeler@amd.com>,
+ hamza.mahfooz@amd.com, daniel@ffwll.ch, wayne.lin@amd.com,
+ Alex Deucher <alexander.deucher@amd.com>, airlied@gmail.com, jun.lei@amd.com,
+ christian.koenig@amd.com, peichen.huang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Charlene Liu <charlene.liu@amd.com>
+From: Ilya Bakoulin <ilya.bakoulin@amd.com>
 
-[ Upstream commit 885c71ad791c1709f668a37f701d33e6872a902f ]
+[ Upstream commit 94bbf802efd0a8f13147d6664af6e653637340a8 ]
 
-Fix issue when override level bigger than default. Levels 5, 6, and 7
-had zero stutter latency, this is because override level being
-initialized after stutter latency inits.
+Changing PBN calculation to be more in line with spec. We don't need to
+inflate PBN_NATIVE value by the 1.006 margin, since that is already
+taken care of in the get_pbn_per_slot function.
 
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Reviewed-by: Syed Hassan <syed.hassan@amd.com>
-Reviewed-by: Allen Pan <allen.pan@amd.com>
+Reviewed-by: Wenjing Liu <wenjing.liu@amd.com>
 Acked-by: Rodrigo Siqueira <rodrigo.siqueira@amd.com>
-Signed-off-by: Charlene Liu <charlene.liu@amd.com>
+Signed-off-by: Ilya Bakoulin <ilya.bakoulin@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dml2/dml2_translation_helper.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/link/link_dpms.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml2_translation_helper.c b/drivers/gpu/drm/amd/display/dc/dml2/dml2_translation_helper.c
-index db06a5b749b4..279e7605a0a2 100644
---- a/drivers/gpu/drm/amd/display/dc/dml2/dml2_translation_helper.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml2/dml2_translation_helper.c
-@@ -341,6 +341,9 @@ void dml2_init_soc_states(struct dml2_context *dml2, const struct dc *in_dc,
- 		break;
- 	}
+diff --git a/drivers/gpu/drm/amd/display/dc/link/link_dpms.c b/drivers/gpu/drm/amd/display/dc/link/link_dpms.c
+index f8e01ca09d96..a3b3aec05d6b 100644
+--- a/drivers/gpu/drm/amd/display/dc/link/link_dpms.c
++++ b/drivers/gpu/drm/amd/display/dc/link/link_dpms.c
+@@ -1057,18 +1057,21 @@ static struct fixed31_32 get_pbn_from_bw_in_kbps(uint64_t kbps)
+ 	uint32_t denominator = 1;
  
-+	if (dml2->config.bbox_overrides.clks_table.num_states)
-+			p->in_states->num_states = dml2->config.bbox_overrides.clks_table.num_states;
-+
- 	/* Override from passed values, if available */
- 	for (i = 0; i < p->in_states->num_states; i++) {
- 		if (dml2->config.bbox_overrides.sr_exit_latency_us) {
-@@ -397,7 +400,6 @@ void dml2_init_soc_states(struct dml2_context *dml2, const struct dc *in_dc,
- 	}
- 	/* Copy clocks tables entries, if available */
- 	if (dml2->config.bbox_overrides.clks_table.num_states) {
--		p->in_states->num_states = dml2->config.bbox_overrides.clks_table.num_states;
+ 	/*
+-	 * margin 5300ppm + 300ppm ~ 0.6% as per spec, factor is 1.006
++	 * The 1.006 factor (margin 5300ppm + 300ppm ~ 0.6% as per spec) is not
++	 * required when determining PBN/time slot utilization on the link between
++	 * us and the branch, since that overhead is already accounted for in
++	 * the get_pbn_per_slot function.
++	 *
+ 	 * The unit of 54/64Mbytes/sec is an arbitrary unit chosen based on
+ 	 * common multiplier to render an integer PBN for all link rate/lane
+ 	 * counts combinations
+ 	 * calculate
+-	 * peak_kbps *= (1006/1000)
+ 	 * peak_kbps *= (64/54)
+-	 * peak_kbps *= 8    convert to bytes
++	 * peak_kbps /= (8 * 1000) convert to bytes
+ 	 */
  
- 		for (i = 0; i < dml2->config.bbox_overrides.clks_table.num_entries_per_clk.num_dcfclk_levels; i++) {
- 			p->in_states->state_array[i].dcfclk_mhz = dml2->config.bbox_overrides.clks_table.clk_entries[i].dcfclk_mhz;
+-	numerator = 64 * PEAK_FACTOR_X1000;
+-	denominator = 54 * 8 * 1000 * 1000;
++	numerator = 64;
++	denominator = 54 * 8 * 1000;
+ 	kbps *= numerator;
+ 	peak_kbps = dc_fixpt_from_fraction(kbps, denominator);
+ 
 -- 
 2.43.0
 
