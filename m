@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 255E7836711
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:11:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B57B1836715
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:11:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6284210F378;
-	Mon, 22 Jan 2024 15:10:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C00D10E6AE;
+	Mon, 22 Jan 2024 15:11:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0695410F376;
- Mon, 22 Jan 2024 15:10:31 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2518210F3A5;
+ Mon, 22 Jan 2024 15:11:07 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 92C56B80E68;
- Mon, 22 Jan 2024 15:10:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33C55C43390;
- Mon, 22 Jan 2024 15:10:27 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id EABDFCE2B15;
+ Mon, 22 Jan 2024 15:10:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F0C3C433C7;
+ Mon, 22 Jan 2024 15:10:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705936229;
- bh=I2ttqNaYkWSONcBMr0Ex0KP1m88+0wC3Oik8zjvoO48=;
+ s=k20201202; t=1705936233;
+ bh=DmGztIB7qtBTmUG9cjOlqGMETbWx9kFVMNSxt6Q37bM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=NUErfq4tpIH5YUD3KXDHn4bW0SPUrJz/p4JhKeTnZIN6n3KT4Gprw669xpfPBPF2v
- 5jnDYFzdB6tywv255WspXRWb/1Sq/s6nGKHUKIO1TRrtbZP+Tffm5pchaP8/ORG5fz
- kE6KDslx2iMjM5XMZBXcxH3pbRNnLEXw02JO5ZnnlCUZjXgig/2SkFfZrZcjXnglwo
- fwJPevsZ+zrM20Gya81/JCv6FyB7fFA+lh/FDg3yE6GtlFJlxDK8Wn2yM3NLnLuNGg
- Uz15z1pHYIP7/0FUwC2pXal3061FIctwe/QeqVuXs2YCZD1Tj2MsSSivwxCRMKa80t
- l2PUDKAprV4yA==
+ b=PzM/1r1w662lOIq3z3GtzdJlQHx/OeXP/l8LpWNLr6MV/NO1yo9ucyV52VePPhbBv
+ HuKgGIoY2khOpQ8TAna16rBoH+OgX2Mcl+85EDVNliXRZ8A/8nxVsCiy4EZBsBviZk
+ bFh08110AvHEl/IFIIdz+ilvXVplHrFJyaqi/tjHjBu+zxYoolG700c43gYhbYzpsA
+ FXrtXYJCmvaeHzDJJavx1h7RPrc9kjTO5ORfws3jbTOq3S7eJ+wUF9IID54Lg8TUFS
+ XQ244gWeF0dDnFa65QycAaa6Vn+lZea2XN5P2gcGM9PW74g/QGu4oct/+eC3BWeJM4
+ 86cfY6NVNffYA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 14/53] drm/amd/display: Fix writeback_info never
- got updated
-Date: Mon, 22 Jan 2024 10:08:15 -0500
-Message-ID: <20240122150949.994249-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 15/53] drm/amd/display: Fix writeback_info is not
+ removed
+Date: Mon, 22 Jan 2024 10:08:16 -0500
+Message-ID: <20240122150949.994249-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122150949.994249-1-sashal@kernel.org>
 References: <20240122150949.994249-1-sashal@kernel.org>
@@ -59,57 +59,49 @@ Cc: Sasha Levin <sashal@kernel.org>, dillon.varone@amd.com,
  airlied@gmail.com, qingqing.zhuo@amd.com, Xinhui.Pan@amd.com,
  Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org, sunpeng.li@amd.com,
  aurabindo.pillai@amd.com, alvin.lee2@amd.com, daniel@ffwll.ch,
- wayne.lin@amd.com, Alex Deucher <alexander.deucher@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, jun.lei@amd.com,
  christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Alex Hung <alex.hung@amd.com>
 
-[ Upstream commit 8a307777c36e15f38c9f23778babcd368144c7d8 ]
+[ Upstream commit 5b89d2ccc8466e0445a4994cb288fc009b565de5 ]
 
 [WHY]
-wb_enabled field is set to false before it is used, and the following
-code will never be executed.
+Counter j was not updated to present the num of writeback_info when
+writeback pipes are removed.
 
 [HOW]
-Setting wb_enable to false after all removal work is completed.
+update j (num of writeback info) under the correct condition.
 
 Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 Signed-off-by: Alex Hung <alex.hung@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc_stream.c | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/amd/display/dc/core/dc_stream.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-index 556c57c390ff..12b73b0ff19e 100644
+index 12b73b0ff19e..b59db6c95820 100644
 --- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
 +++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-@@ -514,18 +514,13 @@ bool dc_stream_remove_writeback(struct dc *dc,
- 		return false;
- 	}
+@@ -521,10 +521,11 @@ bool dc_stream_remove_writeback(struct dc *dc,
+ 			if (stream->writeback_info[i].dwb_pipe_inst == dwb_pipe_inst)
+ 				stream->writeback_info[i].wb_enabled = false;
  
--//	stream->writeback_info[dwb_pipe_inst].wb_enabled = false;
--	for (i = 0; i < stream->num_wb_info; i++) {
--		/*dynamic update*/
--		if (stream->writeback_info[i].wb_enabled &&
--			stream->writeback_info[i].dwb_pipe_inst == dwb_pipe_inst) {
--			stream->writeback_info[i].wb_enabled = false;
--		}
--	}
--
- 	/* remove writeback info for disabled writeback pipes from stream */
- 	for (i = 0, j = 0; i < stream->num_wb_info; i++) {
- 		if (stream->writeback_info[i].wb_enabled) {
-+
-+			if (stream->writeback_info[i].dwb_pipe_inst == dwb_pipe_inst)
-+				stream->writeback_info[i].wb_enabled = false;
-+
- 			if (j < i)
- 				/* trim the array */
+-			if (j < i)
+-				/* trim the array */
++			/* trim the array */
++			if (j < i) {
  				stream->writeback_info[j] = stream->writeback_info[i];
+-			j++;
++				j++;
++			}
+ 		}
+ 	}
+ 	stream->num_wb_info = j;
 -- 
 2.43.0
 
