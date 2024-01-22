@@ -2,49 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8167E836AFC
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 17:37:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB9B6836B9A
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 17:48:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A662D10F63B;
-	Mon, 22 Jan 2024 16:37:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF40010EF83;
+	Mon, 22 Jan 2024 16:48:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40F8110F633
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 16:37:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1705941462;
- bh=KkOoN25GD1zzuzfVfZSNgclmXPCJPP4I5NuDmXIDH+A=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=MJWIm1R99j/gT3CHZ4+0pNq7T9D2ISy2D1Zekzf1KUxR6jcnNh1/up5HPJcmTWP11
- fnL7+1bn/YD3VhmcGWEDyZxMQfCGjTE11XL0+kW7o3Uu9d7tgrwkHl+JfTIGiOxc9m
- EUcI2lHpNcMrx/vByWK4kDmUxIlQACXEfX3VmmNdUUNKA5DSOcKY/rdGfjZ/opnfwk
- mx3dz1jPNnfTQlcdzCutqGuQJ6KAfg8bLX+S49gvUY+a8bV1UybiT0yxdASQacYDxb
- khg1+Iz8LSQAqrOCjDa4XHk5lndl+TXjZFpNduXKOjIHX5inlZAPPHv5hY7HDkoS6i
- PYrd+Hj2A27jw==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 26E543781492;
- Mon, 22 Jan 2024 16:37:41 +0000 (UTC)
-Date: Mon, 22 Jan 2024 17:37:39 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v3 13/14] dt-bindings: gpu: mali-valhall-csf: Add
- support for Arm Mali CSF GPUs
-Message-ID: <20240122173739.0e0d7120@collabora.com>
-In-Reply-To: <ZXBUGhL6utV15-Yx@e110455-lin.cambridge.arm.com>
-References: <20231204173313.2098733-1-boris.brezillon@collabora.com>
- <20231204173313.2098733-14-boris.brezillon@collabora.com>
- <20231205204827.GA3761421-robh@kernel.org>
- <ZXBUGhL6utV15-Yx@e110455-lin.cambridge.arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
+ [210.160.252.171])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 10B0E10E6E9
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 16:48:17 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="6.05,211,1701097200"; d="scan'208";a="191317302"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+ by relmlie5.idc.renesas.com with ESMTP; 23 Jan 2024 01:43:06 +0900
+Received: from localhost.localdomain (unknown [10.226.92.211])
+ by relmlir5.idc.renesas.com (Postfix) with ESMTP id 12B6C40029D2;
+ Tue, 23 Jan 2024 01:43:00 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Biju Das <biju.das.jz@bp.renesas.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+Subject: [PATCH v16 0/5] Add RZ/{G2L,G2LC} and RZ/V2L Display Unit support
+Date: Mon, 22 Jan 2024 16:42:52 +0000
+Message-Id: <20240122164257.56326-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,150 +43,334 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Nicolas Boichat <drinkcat@chromium.org>,
- kernel@collabora.com, Daniel Stone <daniels@collabora.com>,
- devicetree@vger.kernel.org, Liviu Dudau <Liviu.Dudau@arm.com>,
- dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
- =?UTF-8?B?Q2zDqW1lbnQgUMOp?= =?UTF-8?B?cm9u?= <peron.clem@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- "Marty E . Plummer" <hanetzer@startmail.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Faith Ekstrand <faith.ekstrand@collabora.com>
+Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Biju Das <biju.das.au@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rob,
+This path series aims to add support for RZ/G2L DU DRM driver.
 
-We didn't hear back from you, so I assumed you were happy with Liviu's
-explanations and sent a v4 with just the s/space/tab/ formatting fix.
-Please let us know if you have any concerns with v4 binding docs.
+RZ/G2L LCD controller composed of Frame compression Processor(FCPVD), Video
+signal processor (VSPD) and Display unit(DU). The output of LCDC is
+connected to Display parallel interface and MIPI link video interface.
+=20
+The output from DSI is connected to ADV7535.
 
-Thanks,
+Ref:
+ https://lore.kernel.org/linux-renesas-soc/OS0PR01MB5922717E4CCFE07F3C25FBC=
+986989@OS0PR01MB5922.jpnprd01.prod.outlook.com/#t
 
-Boris
+This patch series is tested with [2]
+[2] https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=3D7=
+42810
 
-On Wed, 6 Dec 2023 10:59:38 +0000
-Liviu Dudau <Liviu.Dudau@arm.com> wrote:
+Test logs kmscube: [3]
+v15->v16:
+ * Added Rb and Ack tag from Geert for patch#4.
+ * Dropped rzg2l_du_crtc_get(rcrtc) from rzg2l_du_crtc_atomic_flush() as
+   it is not needed by moving to drm_atomic_helper_commit_tail_rpm().
+ * Dropped destroy callback from struct drm_crtc_funcs
+ * Replaced drm_crtc_init_with_planes()->drmm_crtc_init_with_planes()
+ * Introduced rzg2l_du_vsp_get_drm_plane() to get primary plane
+   compared to &rcrtc->vsp->planes[rcrtc->vsp_pipe].plane.
+ * Replaced rzg2l_du_atomic_commit_tail()->drm_atomic_helper_commit_
+   tail_rpm()
+ * Dropped the comment "older DT bindings" in rzg2l_du_vsps_init()
+ * Dropped rzg2l_du_vsp_{map_fb,plane_prepare_fb,unmap_fb,
+   plane_cleanup_fb} and instead using helpers.
+ * Dropped prepare_fb and cleanup_fb callbacks from
+   struct drm_plane_helper_funcs
+ * Dropped destroy from struct drm_plane_funcs
+ * Replaced drm_universal_plane_init()->drmm_universal_plane_alloc()
+ * Dropped planes and num_planes variables from struct rzg2l_du_vsp
+ * Dropped sg_tables variable from struct rzg2l_du_vsp_plane_state.
+v14->v15:
+ * Added patch#4, The rcar-du has never been maintained in drm-misc. So
+   exclude only this driver from drm-misc. Also, add the tree entry for
+   sh_mobile.
+ * Added drm-misc tree entry.
+ * Sorted the entry(Placed before SHMOBILE)
+v13->v14:
+ * Replaced the label 'error'->'done' in rzg2l_du_vsps_init() as it
+   applies to non-error case as well.
+ * Update the error check condition for rcar_du_vsp_init() to avoid
+   breakage in future, if it returns positive value.
+ * Now SHMOBILE has maintainer entries. So dropped updating
+   DRM DRIVERS FOR RENESAS RCAR AND SHMOBILE.
+ * Updated comment header and description for maintainer entry patch.
+v12->v13:
+ * Dropped DU_MCR0_DPI_OE and unused macros.
+ * Dropped unneeded backward compatibility with old DTBs as it is new drive=
+r.
+ * Replaced "cells > 1"-> "cells !=3D 1" in rzg2l_du_vsps_init().
+ * Fixed memory leak in rzg2l_du_vsps_init().
+ * Dropped drm_plane_create_{alpha,zpos,blend_mode}_property().
+v11->v12:
+ * Dropped quotes in ref handle for renesas,vsps property.
+ * Retained tags as it is trivial change.
+ * Replaced rzg2l_du_write()->writel().
+v10->v11:
+ * Replaced CONFIG_DRM_RCAR_VSP->CONFIG_VIDEO_RENESAS_VSP1 for building
+   rzg2l_du_vsp driver.
+ * Dropped "rzg2l_du_regs.h" instead the relevant definitions defined in
+   .c file.
+ * Dropped setting ditr5 based on latest HW manual 1.3.0/1.4.0
+ * Updated the comment for auto clear.
+ * Replaced writel()->rzg2l_du_write() in rzg2l_du_start_stop().
+ * Dropped CRC related functions as it does not have DISCOM.
+ * Replaced the variable possible_crtcs->possible_outputs in
+   struct rzg2l_du_output_routing.
+ * Updated DMA_BIT_MASK from 40->32.
+ * Dropped unneeded struct drm_bridge from rzg2l_du_drv.h.
+ * Dropped colour keying support as it doesn't have planes.
+ * Added only RGB formats in rzg2l_du_format_infos.
+ * Dropped chroma planes from rzg2l_du_fb_create().
+ * Updated the comment for max_pitch in rzg2l_du_fb_create().
+ * Dropped possible_crtcs check in rzg2l_du_encoders_init().
+ * Dropped additional empty line from struct rzg2l_du_device.
+v9->v10:
+ * patch#1 is mainlined, so dropped from this series.
+ * Added Rb tag from Laurent for the binding patch.
+ * Updated the commit description.
+ * Updated description of the port by dropping the text "specified in
+   Documentation/devicetree/bindings/graph.txt."
+ * Dropped empty endpoint from example.
+ * Dropped ARM64 dependency from Kconfig.
+ * Sorted the configs alphabetically in Kconfig.
+ * Dropped DRM_RCAR_VSP config option and make DRM_RZG2L_DU depend on
+   VIDEO_RENESAS_VSP1.
+ * On rzg2l_du_crtc_set_display_timing() replaced the setting of parent
+   clk rate with dclk rate.
+ * Added rzg2l_du_write() wrapper function.
+ * Updated the comment atomic_begin->atomic_flush.
+ * Dropped .atomic_check and .atomic_begin callback
+ * Renamed __rzg2l_du_crtc_plane_atomic_check->__rzg2l_du_vsp_plane_atomic
+   _check and moved it to rzg2l_du_vsp.c
+ * Added struct clk in rzg2l_du_crtc.h
+ * Dropped the variables mmio_offset,index,vblank_lock,vblank_wait,
+   vblank_count from struct rzg2l_du_crtc.
+ * Replaced the macro to_rzg2l_crtc with static inline functions.
+ * Dropped the unneeded header files clk.h, io.h, mm.h, pm.h, slab.h,
+   wait.h and drm_managed.h from rzg2l_du_drv.c.
+ * Replaced DRM_INFO->drm_info
+ * Dropped the callbacks prime_handle_to_fd, prime_fd_to_handle and
+   gem_prime_mmap.
+ * Replaced the callback remove->remove_new.
+ * Dropped header file wait.h and added forward declarations struct clk and
+   rzg2l_du_device from rzg2l_du_drv.h.
+ * Dropped the dsi and dpad0_source variables from struct rzg2l_du_device.
+ * Replaced the macro to_rzg2l_encoder with static inline functions.
+ * Dropped header files dma-buf.h and wait.h from rzg2l_du_kms.c.
+ * Dropped struct sg_table and added the scatterlist.h header file in
+   rzg2l_du_vsp.h
+ * Added container_of.h header file, forward declarations struct device and
+   struct rzg2l_du_device in rzg2l_du_vsp.h.
+v8->v9:
+ * Added Rb tag from Laurent and Acked-by tag from Kieran for patch#1.
+ * Added Rb tag from Laurent and Geert for patch#3.
+ * Dropped reset_control_assert() from error patch for rzg2l_du_crtc_get() =
+as
+   suggested by Philipp Zabel.
+ * Added Rb tag from Laurent oatch#5.
+ * Updated MAINTAINERS entries for common parts(Makefile and Kconfig).
+v7->v8:
+ * Moved rcar-du and shmobile DRM drivers to renesas specific vendor direct=
+ory.
+ * Fixed the typo vsp2->du in RZ/V2L DU bindings patch.
+ * Added Rb tag from Rob for RZ/V2L DU bindings patch.
+ * Dropped RCar du lib and created RZ/G2L DU DRM driver by creating rz_du f=
+older.
+ * Updated MAINTAINERS entries.
+v6->v7:
+ * Split DU lib and  RZ/G2L du driver as separate patch series as
+   DU support added to more platforms based on RZ/G2L alike SoCs.
+ * Rebased to latest drm-tip.
+ * Added patch #2 for binding support for RZ/V2L DU
+ * Added patch #4 for driver support for RZ/V2L DU
+ * Added patch #5 for SoC DTSI support for RZ/G2L DU
+ * Added patch #6 for SoC DTSI support for RZ/V2L DU
+ * Added patch #7 for Enabling DU on SMARC EVK based on RZ/{G2L,V2L} SoCs.
+ * Added patch #8 for Enabling DU on SMARC EVK based on RZ/G2LC SoC.
+v5->v6:
+ * Merged DU lib and RZ/G2L du driver in same patch series
+ * Rebased to latest drm-misc.
+ * Merged patch#1 to RZ/G2L Driver patch.
+ * Updated KConfig dependency from ARCH_RENESAS->ARCH_RZG2L.
+ * Optimized rzg2l_du_output_name() by removing unsupported outputs.
 
-> Hi Rob,
-> 
-> Thanks for reviewing this!
-> 
-> On Tue, Dec 05, 2023 at 02:48:27PM -0600, Rob Herring wrote:
-> > On Mon, Dec 04, 2023 at 06:33:06PM +0100, Boris Brezillon wrote:  
-> > > From: Liviu Dudau <liviu.dudau@arm.com>
-> > > 
-> > > Arm has introduced a new v10 GPU architecture that replaces the Job Manager
-> > > interface with a new Command Stream Frontend. It adds firmware driven
-> > > command stream queues that can be used by kernel and user space to submit
-> > > jobs to the GPU.
-> > > 
-> > > Add the initial schema for the device tree that is based on support for
-> > > RK3588 SoC. The minimum number of clocks is one for the IP, but on Rockchip
-> > > platforms they will tend to expose the semi-independent clocks for better
-> > > power management.
-> > > 
-> > > v3:
-> > > - Cleanup commit message to remove redundant text
-> > > - Added opp-table property and re-ordered entries
-> > > - Clarified power-domains and power-domain-names requirements for RK3588.
-> > > - Cleaned up example
-> > > 
-> > > Note: power-domains and power-domain-names requirements for other platforms
-> > > are still work in progress, hence the bindings are left incomplete here.
-> > > 
-> > > v2:
-> > > - New commit
-> > > 
-> > > Signed-off-by: Liviu Dudau <liviu.dudau@arm.com>
-> > > Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-> > > Cc: Rob Herring <robh+dt@kernel.org>
-> > > Cc: Conor Dooley <conor+dt@kernel.org>
-> > > Cc: devicetree@vger.kernel.org
-> > > ---
-> > >  .../bindings/gpu/arm,mali-valhall-csf.yaml    | 147 ++++++++++++++++++
-> > >  1 file changed, 147 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml
-> > > new file mode 100644
-> > > index 000000000000..d72de094c8ea
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml
-> > > @@ -0,0 +1,147 @@
-> > > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/gpu/arm,mali-valhall-csf.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: ARM Mali Valhall GPU
-> > > +
-> > > +maintainers:
-> > > +  - Liviu Dudau <liviu.dudau@arm.com>
-> > > +  - Boris Brezillon <boris.brezillon@collabora.com>
-> > > +
-> > > +properties:
-> > > +  $nodename:
-> > > +    pattern: '^gpu@[a-f0-9]+$'
-> > > +
-> > > +  compatible:
-> > > +    oneOf:  
-> > 
-> > Don't need oneOf.  
-> 
-> This has come up on the review of the previous version. We're planning on adding support for more
-> SoCs once the initial panthor driver gets merged, but I don't think it's worth advertising it now.
-> Krzyszof raised the same point and then agreed to keep it, as seen here[1].
-> 
-> >   
-> > > +      - items:
-> > > +          - enum:
-> > > +              - rockchip,rk3588-mali
-> > > +          - const: arm,mali-valhall-csf   # Mali Valhall GPU model/revision is fully discoverable
-> > > +
-> > > +  reg:
-> > > +    maxItems: 1
-> > > +
-> > > +  interrupts:
-> > > +    items:
-> > > +      - description: Job interrupt
-> > > +      - description: MMU interrupt
-> > > +      - description: GPU interrupt
-> > > +
-> > > +  interrupt-names:
-> > > +    items:
-> > > +      - const: job
-> > > +      - const: mmu
-> > > +      - const: gpu
-> > > +
-> > > +  clocks:
-> > > +    minItems: 1
-> > > +    maxItems: 3  
-> > 
-> > The function of each clock based on just the names below aren't too 
-> > evident. 'core' is, but then what is 'stacks'? Please add some 
-> > descriptions.
-> >   
-> The names match the hardware architecture, where the core clock powers
-> most of the GPU, the 'stacks' clock is for shader core stacks and the
-> 'coregroup' is used by stacks and tilers. All this is defined as "logical
-> power domains" and the implementer of the IP can decide to map them to
-> individual physical power domains or to group everything into a minimum of
-> one power domain. Hence the flexibility in describing the hardware.
-> 
-> As for describing what the function of each power domain is, I'm afraid we
-> need to keep it at "matches the architecture" for now and I will look into
-> what more information can be added later. At the high level, the more
-> power domains you have the more you can fine tune the power consumption of
-> the GPU.
-> 
-> > I expect there is better visibility into what's correct here than we had 
-> > on earlier h/w. IOW, I don't want to see different clocks for every SoC. 
-> > Same applies to power-domains.  
-> 
-> Afraid that's up to the SoC implementation to decide how they wire the
-> power domains. Hardware is capable to automatically powering up the domains
-> needed, as long as the relevant clocks are provided.
-> 
+v4->v5:
+ * Added Rb tag from Rob for binding patch.
+ * Started using RCar DU libs(kms, vsp and encoder)
+ * Started using rcar_du_device, rcar_du_write, rcar_du_crtc,
+   rcar_du_format_info and rcar_du_encoder.
+v3->v4:
+ * Changed compatible name from renesas,du-r9a07g044->renesas,r9a07g044-du
+ * started using same compatible for RZ/G2{L,LC}
+ * Removed rzg2l_du_group.h and struct rzg2l_du_group
+ * Renamed __rzg2l_du_group_start_stop->rzg2l_du_start_stop
+ * Removed rzg2l_du_group_restart
+ * Updated rzg2l_du_crtc_set_display_timing
+ * Removed mode_valid callback.
+ * Updated rzg2l_du_crtc_create() parameters
+ * Updated compatible
+ * Removed RZG2L_DU_MAX_GROUPS
+V2->v3:
+ * Added new bindings for RZ/G2L DU
+ * Removed indirection and created new DRM driver based on R-Car DU
+v1->v2:
+ * Based on [1], all references to 'rzg2l_lcdc' replaced with 'rzg2l_du'
+ * Updated commit description for bindings
+ * Removed LCDC references from bindings
+ * Changed clock name from du.0->aclk from bindings
+ * Changed reset name from du.0->du from bindings
+ * Replaced crtc_helper_funcs->rcar_crtc_helper_funcs
+ * Updated macro DRM_RZG2L_LCDC->DRM_RZG2L_DU
+ * Replaced rzg2l-lcdc-drm->rzg2l-du-drm
+ * Added forward declaration for struct reset_control
+
+[1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/2022031208=
+4205.31462-2-biju.das.jz@bp.renesas.com/
+
+[3]
+root@smarc-rzv2l:/cip-test-scripts# kmscube
+Using display 0xaaaad2a6a160 with EGL version 1.4
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+EGL information:
+  version: "1.4"
+  vendor: "Mesa Project"
+  client extensions: "EGL_EXT_client_extensions EGL_EXT_device_base EGL_EXT=
+_device_enumeration EGL_EXT_device_query EGL_EXT_platform_base EGL_KHR_clie=
+nt_get_all_proc_addresses EGL_KHR_debug EGL_EXT_platform_device EGL_EXT_pla=
+tform_wayland EGL_KHR_platform_wayland EGL_MESA_platform_gbm EGL_KHR_platfo=
+rm_gbm EGL_MESA_platform_surfaceless"
+  display extensions: "EGL_ANDROID_blob_cache EGL_EXT_buffer_age EGL_EXT_im=
+age_dma_buf_import EGL_EXT_image_dma_buf_import_modifiers EGL_KHR_cl_event2=
+ EGL_KHR_config_attribs EGL_KHR_create_context EGL_KHR_create_context_no_er=
+ror EGL_KHR_fence_sync EGL_KHR_get_all_proc_addresses EGL_KHR_gl_colorspace=
+ EGL_KHR_gl_renderbuffer_image EGL_KHR_gl_texture_2D_image EGL_KHR_gl_textu=
+re_3D_image EGL_KHR_gl_texture_cubemap_image EGL_KHR_image EGL_KHR_image_ba=
+se EGL_KHR_image_pixmap EGL_KHR_no_config_context EGL_KHR_partial_update EG=
+L_KHR_reusable_sync EGL_KHR_surfaceless_context EGL_EXT_pixel_format_float =
+EGL_KHR_wait_sync EGL_MESA_configless_context EGL_MESA_drm_image EGL_MESA_i=
+mage_dma_buf_export EGL_MESA_query_driver EGL_WL_bind_wayland_display "
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+OpenGL ES 2.x information:
+  version: "OpenGL ES 3.1 Mesa 21.3.7"
+  shading language version: "OpenGL ES GLSL ES 3.10"
+  vendor: "Panfrost"
+  renderer: "Mali-G31 (Panfrost)"
+  extensions: "GL_EXT_blend_minmax GL_EXT_multi_draw_arrays GL_EXT_texture_=
+filter_anisotropic GL_EXT_texture_compression_rgtc GL_EXT_texture_format_BG=
+RA8888 GL_OES_compressed_ETC1_RGB8_texture GL_OES_depth24 GL_OES_element_in=
+dex_uint GL_OES_fbo_render_mipmap GL_OES_mapbuffer GL_OES_rgb8_rgba8 GL_OES=
+_standard_derivatives GL_OES_stencil8 GL_OES_texture_3D GL_OES_texture_floa=
+t GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half=
+_float_linear GL_OES_texture_npot GL_OES_vertex_half_float GL_EXT_draw_inst=
+anced GL_EXT_texture_sRGB_decode GL_OES_EGL_image GL_OES_depth_texture GL_O=
+ES_packed_depth_stencil GL_EXT_texture_type_2_10_10_10_REV GL_NV_conditiona=
+l_render GL_OES_get_program_binary GL_APPLE_texture_max_level GL_EXT_discar=
+d_framebuffer GL_EXT_read_format_bgra GL_EXT_frag_depth GL_NV_fbo_color_att=
+achments GL_OES_EGL_image_external GL_OES_EGL_sync GL_OES_vertex_array_obje=
+ct GL_ANGLE_pack_reverse_row_order GL_EXT_occlusion_query_boolean GL_EXT_te=
+xture_rg GL_EXT_unpack_subimage GL_NV_draw_buffers GL_NV_read_buffer GL_NV_=
+read_depth GL_NV_read_depth_stencil GL_NV_read_stencil GL_EXT_draw_buffers =
+GL_EXT_map_buffer_range GL_KHR_debug GL_KHR_texture_compression_astc_ldr GL=
+_NV_pixel_buffer_object GL_OES_depth_texture_cube_map GL_OES_required_inter=
+nalformat GL_OES_surfaceless_context GL_EXT_color_buffer_float GL_EXT_sRGB_=
+write_control GL_EXT_separate_shader_objects GL_EXT_shader_framebuffer_fetc=
+h GL_EXT_shader_implicit_conversions GL_EXT_shader_integer_mix GL_EXT_base_=
+instance GL_EXT_compressed_ETC1_RGB8_sub_texture GL_EXT_draw_buffers_indexe=
+d GL_EXT_draw_elements_base_vertex GL_EXT_gpu_shader5 GL_EXT_primitive_boun=
+ding_box GL_EXT_shader_io_blocks GL_EXT_texture_border_clamp GL_EXT_texture=
+_buffer GL_EXT_texture_view GL_KHR_blend_equation_advanced GL_KHR_blend_equ=
+ation_advanced_coherent GL_KHR_context_flush_control GL_NV_image_formats GL=
+_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_gpu_shade=
+r5 GL_OES_primitive_bounding_box GL_OES_sample_shading GL_OES_sample_variab=
+les GL_OES_shader_io_blocks GL_OES_shader_multisample_interpolation GL_OES_=
+texture_border_clamp GL_OES_texture_buffer GL_OES_texture_stencil8 GL_OES_t=
+exture_storage_multisample_2d_array GL_OES_texture_view GL_EXT_blend_func_e=
+xtended GL_EXT_float_blend GL_EXT_texture_sRGB_R8 GL_EXT_texture_sRGB_RG8 G=
+L_KHR_no_error GL_KHR_texture_compression_astc_sliced_3d GL_OES_EGL_image_e=
+xternal_essl3 GL_OES_shader_image_atomic GL_EXT_multisampled_render_to_text=
+ure GL_EXT_multisampled_render_to_texture2 GL_MESA_shader_integer_functions=
+ GL_EXT_color_buffer_half_float GL_EXT_texture_mirror_clamp_to_edge GL_KHR_=
+parallel_shader_compile GL_EXT_EGL_image_storage GL_EXT_shader_framebuffer_=
+fetch_non_coherent GL_INTEL_blackhole_render GL_MESA_framebuffer_flip_y GL_=
+EXT_depth_clamp GL_MESA_bgra "
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+ cat /sys/class/devfreq/11840000.gpu/trans_stat
+ [INFO]      From  :   To
+ [INFO]            :  50000000  62500000 100000000 125000000 200000000 2500=
+00000 400000000 500000000   time(ms)
+ [INFO]    50000000:         0         0         0         0         0     =
+    0         0         2       380
+ [INFO]    62500000:         0         0         0         0         0     =
+    0         0         0         0
+ [INFO]   100000000:         0         0         0         0         0     =
+    0         0         0         0
+ [INFO]   125000000:         0         0         0         0         0     =
+    0         0         0         0
+ [INFO] * 200000000:         1         0         0         0         0     =
+    0         0        79      4576
+ [INFO]   250000000:         0         0         0         0        69     =
+    0         0         0      5292
+ [INFO]   400000000:         0         0         0         0         5     =
+    0         0         2       440
+ [INFO]   500000000:         1         0         0         0         7     =
+   69         7         0      5340
+ [INFO] Total transition : 242
+
+Biju Das (5):
+  dt-bindings: display: Document Renesas RZ/G2L DU bindings
+  dt-bindings: display: renesas,rzg2l-du: Document RZ/V2L DU bindings
+  drm: renesas: Add RZ/G2L DU Support
+  MAINTAINERS: Update entries for Renesas DRM drivers
+  MAINTAINERS: Create entry for Renesas RZ DRM drivers
+
+ .../bindings/display/renesas,rzg2l-du.yaml    | 126 ++++++
+ MAINTAINERS                                   |  12 +-
+ drivers/gpu/drm/renesas/Kconfig               |   1 +
+ drivers/gpu/drm/renesas/Makefile              |   1 +
+ drivers/gpu/drm/renesas/rz-du/Kconfig         |  12 +
+ drivers/gpu/drm/renesas/rz-du/Makefile        |   8 +
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c | 422 ++++++++++++++++++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.h |  89 ++++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c  | 176 ++++++++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h  |  78 ++++
+ .../gpu/drm/renesas/rz-du/rzg2l_du_encoder.c  |  72 +++
+ .../gpu/drm/renesas/rz-du/rzg2l_du_encoder.h  |  32 ++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c  | 413 +++++++++++++++++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.h  |  43 ++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c  | 354 +++++++++++++++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h  |  82 ++++
+ 16 files changed, 1920 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/display/renesas,rzg2l=
+-du.yaml
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/Kconfig
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/Makefile
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.h
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.h
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.h
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h
+
+
+base-commit: 70a46e1fda3b3584da01fe072bc959003ebbd8a9
+--=20
+2.25.1
+
