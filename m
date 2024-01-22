@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA33583678B
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:16:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 217E983678F
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:16:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 183FD10F345;
-	Mon, 22 Jan 2024 15:16:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2218010F352;
+	Mon, 22 Jan 2024 15:16:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E51A10F2E9;
- Mon, 22 Jan 2024 15:16:24 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 229D410F351;
+ Mon, 22 Jan 2024 15:16:33 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 13E38CE20C8;
- Mon, 22 Jan 2024 15:16:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97E91C433F1;
- Mon, 22 Jan 2024 15:16:18 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6EC3D614F5;
+ Mon, 22 Jan 2024 15:16:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1FD5C43390;
+ Mon, 22 Jan 2024 15:16:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705936580;
- bh=us1nMoTi2Vr7q++bqFNXvK9S163UyXtqOFKer8c3dWA=;
+ s=k20201202; t=1705936592;
+ bh=vUodo6WyU9TKSHALWdJBer1gkM041uMGsj3HnwCnqiA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=tvCGX06ioayJ+ZFW2PAQSTzUQJGY2qQoyLMdi3+rkKCqDpUf0jVyaeonds0vNR4Qq
- ffdOUuyAHw10UkH1yLRre1/d3Sx94Yes7SZu/DosjrgNMIFtIWp/b9LbNAVWAnmeL6
- j4/Gl4ym9jX5NYeJy2JbS8GBo9zCxJ3LJfplP4gCjjUw6DFCTjJHdBbHXOS+KNIpUT
- iUR3ChuQQvAJVJeYOwz8SIgMUdEithcTv2UvCx4jgncj5Gu+eO89oUzOOKyzSWIgvR
- AB77CsN9TbeTTEyvFeJQs5FJ1XY70uMu7gV/ZzBNzSSIcFmblzmJACMyDFMCwwh85n
- 983kTlm2Ow0lg==
+ b=CVEcdqN0VOq7Dfv6SPqvLNm2FngGI0DHHSbifKJ1trfrNS0lHdYW3/RbrQTlpoWqx
+ DrdTgA3dmLoB4DWtzmAL9HoCSPvRXnyG0o9KMVUW41NFUkQFnxhO8lAdwcJcIFT5et
+ 08MRL2d+IGtJlv7Q6fO4KPXya1uBxjWsS/syTRnqmX38XdttDvpEuULfbVMUuveIU+
+ rG1k2VDMTQMKOtojbZLzssb59mjFhXgM4YaNSTluXhBScEwURVEJ+6Ol4jbL/r9ciO
+ g41+mQ0T9jWGWGCz8RiMwrBqtX1lJUnfiHv3WSMJ/kcv+XWkcZY026RGEEKGBKHH41
+ HYhFQmEM0Q/nw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 22/28] drm/msm/dpu: Ratelimit framedone timeout
- msgs
-Date: Mon, 22 Jan 2024 10:14:48 -0500
-Message-ID: <20240122151521.996443-22-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 26/28] drm/amd/display: make flip_timestamp_in_us
+ a 64-bit variable
+Date: Mon, 22 Jan 2024 10:14:52 -0500
+Message-ID: <20240122151521.996443-26-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122151521.996443-1-sashal@kernel.org>
 References: <20240122151521.996443-1-sashal@kernel.org>
@@ -54,70 +54,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
- quic_kalyant@quicinc.com, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, quic_khsieh@quicinc.com, daniel@ffwll.ch,
- quic_jesszhan@quicinc.com, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, quic_vpolimer@quicinc.com,
- airlied@gmail.com, dan.carpenter@linaro.org
+Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
+ sunpeng.li@amd.com, qingqing.zhuo@amd.com, Xinhui.Pan@amd.com,
+ Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org, wenjing.liu@amd.com,
+ Daniel Wheeler <daniel.wheeler@amd.com>, aurabindo.pillai@amd.com,
+ mario.limonciello@amd.com, daniel@ffwll.ch, Wayne Lin <wayne.lin@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, airlied@gmail.com,
+ Josip Pavic <josip.pavic@amd.com>, christian.koenig@amd.com,
+ hamza.mahfooz@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+From: Josip Pavic <josip.pavic@amd.com>
 
-[ Upstream commit 2b72e50c62de60ad2d6bcd86aa38d4ccbdd633f2 ]
+[ Upstream commit 6fb12518ca58412dc51054e2a7400afb41328d85 ]
 
-When we start getting these, we get a *lot*.  So ratelimit it to not
-flood dmesg.
+[Why]
+This variable currently overflows after about 71 minutes. This doesn't
+cause any known functional issues but it does make debugging more
+difficult.
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
-Patchwork: https://patchwork.freedesktop.org/patch/571584/
-Link: https://lore.kernel.org/r/20231211182000.218088-1-robdclark@gmail.com
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+[How]
+Make it a 64-bit variable.
+
+Reviewed-by: Aric Cyr <aric.cyr@amd.com>
+Acked-by: Wayne Lin <wayne.lin@amd.com>
+Signed-off-by: Josip Pavic <josip.pavic@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 5 ++++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h     | 1 +
- 2 files changed, 5 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/dc_hw_types.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 408fc6c8a6df..44033a639419 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -45,6 +45,9 @@
- 		(p) ? ((p)->hw_pp ? (p)->hw_pp->idx - PINGPONG_0 : -1) : -1, \
- 		##__VA_ARGS__)
+diff --git a/drivers/gpu/drm/amd/display/dc/dc_hw_types.h b/drivers/gpu/drm/amd/display/dc/dc_hw_types.h
+index 1a87bc3da826..b36d4c5d0eca 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc_hw_types.h
++++ b/drivers/gpu/drm/amd/display/dc/dc_hw_types.h
+@@ -426,7 +426,7 @@ struct dc_cursor_position {
+ };
  
-+#define DPU_ERROR_ENC_RATELIMITED(e, fmt, ...) DPU_ERROR_RATELIMITED("enc%d " fmt,\
-+		(e) ? (e)->base.base.id : -1, ##__VA_ARGS__)
-+
- /*
-  * Two to anticipate panels that can do cmd/vid dynamic switching
-  * plan is to create all possible physical encoder types, and switch between
-@@ -2135,7 +2138,7 @@ static void dpu_encoder_frame_done_timeout(struct timer_list *t)
- 		return;
- 	}
- 
--	DPU_ERROR_ENC(dpu_enc, "frame done timeout\n");
-+	DPU_ERROR_ENC_RATELIMITED(dpu_enc, "frame done timeout\n");
- 
- 	event = DPU_ENCODER_FRAME_EVENT_ERROR;
- 	trace_dpu_enc_frame_done_timeout(DRMID(drm_enc), event);
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-index 1c0e4c0c9ffb..bb7c7e437242 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-@@ -52,6 +52,7 @@
- 	} while (0)
- 
- #define DPU_ERROR(fmt, ...) pr_err("[dpu error]" fmt, ##__VA_ARGS__)
-+#define DPU_ERROR_RATELIMITED(fmt, ...) pr_err_ratelimited("[dpu error]" fmt, ##__VA_ARGS__)
- 
- /**
-  * ktime_compare_safe - compare two ktime structures
+ struct dc_cursor_mi_param {
+-	unsigned int pixel_clk_khz;
++	unsigned long long pixel_clk_khz;
+ 	unsigned int ref_clk_khz;
+ 	struct rect viewport;
+ 	struct fixed31_32 h_scale_ratio;
 -- 
 2.43.0
 
