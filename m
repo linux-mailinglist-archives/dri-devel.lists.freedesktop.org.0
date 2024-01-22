@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2143A83663D
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:00:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DA94836634
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:00:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F0AE10F2BA;
-	Mon, 22 Jan 2024 15:00:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 777ED10F2AF;
+	Mon, 22 Jan 2024 14:59:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACD3610F2B7;
- Mon, 22 Jan 2024 15:00:03 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B765C10F2AF;
+ Mon, 22 Jan 2024 14:59:38 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 31B3AB80C82;
- Mon, 22 Jan 2024 14:59:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C27AFC433A6;
- Mon, 22 Jan 2024 14:59:29 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 96FB8CE2B0E;
+ Mon, 22 Jan 2024 14:59:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF968C433F1;
+ Mon, 22 Jan 2024 14:59:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705935571;
- bh=oVoP1QrBDzXSphqRg1C7fxGg9wre9R0NmIDDR832sK8=;
+ s=k20201202; t=1705935575;
+ bh=lR2jOxqgPUcIjqaKZ/rEyHYDH9km0CL3Qv7nI2hAj78=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CeKN7zNFoyOzLbJ16nvfpppDn5SczUKxHJ20j1rx4mTOGEBeLDwoll1IKAtfFcKEv
- G25OZcCPwHE2i3hiA1FAFwEa+JPiNkGEqvTgcfifxXa8oFeVmt10MxTqJKaSkm3uo4
- Z5PoXOzkdqDp/5Nqhj/0wR6poo3XT9v/ux12t2otoMOXnOnOHq9QJhyR/t4N1zHon/
- CgiPYr8QGKqOkb8gD7DveiO3wXa6re1R2iDr8XQvqQEJ3B7CZftZwG4vS6W5unK4rh
- eDA6FB2AnvVdE3Ghb5w9Q6XYnCwmnUbA25+ARl0aEoe5obldat67RE1iEdo1wIBlNn
- BtJq7ZivMnZfQ==
+ b=UPgsVY8T3EytPfC+/n2VkQErm4JJCYN3fuLREs8n+zQpojt5+fzpBti6+kDrt16Dx
+ LYwFFm9AwsvgvZcRGuCIrwCT/BcI2kIHvnUig1xb+2DMnLyfvXdw3dwAyk7PPN4zxJ
+ og+gLrES5as9a0snN25Lxp3PA1g6JmcMyNO9SONTW6wR6EdmUm43q9Un5AUDCxfSpb
+ qH1uCqMc/2OnXngrXRvvlFv2KdXJvEIbatIjXKdIPExQHNbgsbOf1oyAZosCe9n5UZ
+ QzaAPG5SVvz6YiijdByPeqQN6aOQz24Kgu5WZVXFxIAOQLYhd7XLMSMSXBLprIaFx5
+ cL1kfKHNuE/Fg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.7 55/88] drm/msm/dpu: Ratelimit framedone timeout
- msgs
-Date: Mon, 22 Jan 2024 09:51:28 -0500
-Message-ID: <20240122145608.990137-55-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.7 56/88] drm/msm/dpu: fix writeback programming for
+ YUV cases
+Date: Mon, 22 Jan 2024 09:51:29 -0500
+Message-ID: <20240122145608.990137-56-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122145608.990137-1-sashal@kernel.org>
 References: <20240122145608.990137-1-sashal@kernel.org>
@@ -54,71 +54,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
- quic_kalyant@quicinc.com, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, quic_khsieh@quicinc.com,
- quic_parellan@quicinc.com, daniel@ffwll.ch, quic_jesszhan@quicinc.com,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, quic_vpolimer@quicinc.com,
- airlied@gmail.com, dan.carpenter@linaro.org
+Cc: Sasha Levin <sashal@kernel.org>, neil.armstrong@linaro.org,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, quic_jeykumar@quicinc.com, daniel@ffwll.ch,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, marijn.suijten@somainline.org,
+ freedreno@lists.freedesktop.org, airlied@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
-[ Upstream commit 2b72e50c62de60ad2d6bcd86aa38d4ccbdd633f2 ]
+[ Upstream commit 79caf2f2202b9eaad3a5a726e4b33807f67d0f1b ]
 
-When we start getting these, we get a *lot*.  So ratelimit it to not
-flood dmesg.
+For YUV cases, setting the required format bits was missed
+out in the register programming. Lets fix it now in preparation
+of adding YUV formats support for writeback.
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
-Patchwork: https://patchwork.freedesktop.org/patch/571584/
-Link: https://lore.kernel.org/r/20231211182000.218088-1-robdclark@gmail.com
+changes in v2:
+    - dropped the fixes tag as its not a fix but adding
+      new functionality
+
+Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Patchwork: https://patchwork.freedesktop.org/patch/571814/
+Link: https://lore.kernel.org/r/20231212205254.12422-4-quic_abhinavk@quicinc.com
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 5 ++++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h     | 1 +
- 2 files changed, 5 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 1cf7ff6caff4..ff0e3591b44d 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -39,6 +39,9 @@
- #define DPU_ERROR_ENC(e, fmt, ...) DPU_ERROR("enc%d " fmt,\
- 		(e) ? (e)->base.base.id : -1, ##__VA_ARGS__)
- 
-+#define DPU_ERROR_ENC_RATELIMITED(e, fmt, ...) DPU_ERROR_RATELIMITED("enc%d " fmt,\
-+		(e) ? (e)->base.base.id : -1, ##__VA_ARGS__)
-+
- /*
-  * Two to anticipate panels that can do cmd/vid dynamic switching
-  * plan is to create all possible physical encoder types, and switch between
-@@ -2339,7 +2342,7 @@ static void dpu_encoder_frame_done_timeout(struct timer_list *t)
- 		return;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
+index 9668fb97c047..d49b3ef7689e 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
+@@ -87,6 +87,9 @@ static void dpu_hw_wb_setup_format(struct dpu_hw_wb *ctx,
+ 			dst_format |= BIT(14); /* DST_ALPHA_X */
  	}
  
--	DPU_ERROR_ENC(dpu_enc, "frame done timeout\n");
-+	DPU_ERROR_ENC_RATELIMITED(dpu_enc, "frame done timeout\n");
- 
- 	event = DPU_ENCODER_FRAME_EVENT_ERROR;
- 	trace_dpu_enc_frame_done_timeout(DRMID(drm_enc), event);
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-index b6f53ca6e962..f5473d4dea92 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-@@ -51,6 +51,7 @@
- 	} while (0)
- 
- #define DPU_ERROR(fmt, ...) pr_err("[dpu error]" fmt, ##__VA_ARGS__)
-+#define DPU_ERROR_RATELIMITED(fmt, ...) pr_err_ratelimited("[dpu error]" fmt, ##__VA_ARGS__)
- 
- /**
-  * ktime_compare_safe - compare two ktime structures
++	if (DPU_FORMAT_IS_YUV(fmt))
++		dst_format |= BIT(15);
++
+ 	pattern = (fmt->element[3] << 24) |
+ 		(fmt->element[2] << 16) |
+ 		(fmt->element[1] << 8)  |
 -- 
 2.43.0
 
