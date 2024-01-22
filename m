@@ -2,83 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC0C2836A61
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 17:26:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F475836AA8
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 17:32:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 712E310F5CB;
-	Mon, 22 Jan 2024 16:25:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D93AC10F5B7;
+	Mon, 22 Jan 2024 16:31:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.skole.hr (mx1.hosting.skole.hr [161.53.165.185])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C61F10F5AB
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 16:25:36 +0000 (UTC)
-Received: from mx1.hosting.skole.hr (localhost.localdomain [127.0.0.1])
- by mx.skole.hr (mx.skole.hr) with ESMTP id BBCA383EC6;
- Mon, 22 Jan 2024 17:25:34 +0100 (CET)
-From: Duje =?utf-8?B?TWloYW5vdmnEhw==?= <duje.mihanovic@skole.hr>
-To: Daniel Thompson <daniel.thompson@linaro.org>
-Subject: Re: [PATCH v3 3/3] backlight: Add Kinetic KTD2801 backlight support
-Date: Mon, 22 Jan 2024 17:24:56 +0100
-Message-ID: <1783156.VLH7GnMWUR@radijator>
-In-Reply-To: <20240122102805.GB8596@aspen.lan>
-References: <20240120-ktd2801-v3-0-fe2cbafffb21@skole.hr>
- <20240120-ktd2801-v3-3-fe2cbafffb21@skole.hr>
- <20240122102805.GB8596@aspen.lan>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2487310F59E
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 16:31:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1705941049;
+ bh=9c4Ipuz72ru9BB+H+rgOS9/5TTKic0d7VUV5jMAfq14=;
+ h=From:To:Cc:Subject:Date:From;
+ b=GD7ED5qwrSxeM93uyWxA+0gIbbTlhmh6MY9sIMP6MBjItNCsoccaXwCxESxbBPo9t
+ yy09SwU+VDFd/Psy2lGIcS7OAE37IX4o4A7Xia6/V1Avb7XT1rIqD24XbZcgSlwWx/
+ 0h4XqIkuovgGX62Ixx9Deu09hC2yQzm8a9VUnurqR72YROQrYrAHMYVRwErqtg6hp0
+ QvKM77+Ie1ky7+/4aUW76mjP6FTmmWfYdr8kWBSFPcsMLt+0BKOx0F9Gzd+v5MqVdi
+ K3ti2zhlHPTD2M+AvwDIQvLLHCrn37Pad2YnlvumEaX2siIZaR0kd8P2Ye9e1BCS2L
+ inN+Ohm5oj80g==
+Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id CD09737813B5;
+ Mon, 22 Jan 2024 16:30:48 +0000 (UTC)
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v4 00/14] drm: Add a driver for CSF-based Mali GPUs
+Date: Mon, 22 Jan 2024 17:30:31 +0100
+Message-ID: <20240122163047.1954733-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Autocrypt: addr=duje.mihanovic@skole.hr; keydata=
- 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
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,50 +50,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Pavel Machek <pavel@ucw.cz>, Jingoo Han <jingoohan1@gmail.com>,
- Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Karel Balej <balejk@matfyz.cz>, linux-fbdev@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, ~postmarketos/upstreaming@lists.sr.ht,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- phone-devel@vger.kernel.org, linux-leds@vger.kernel.org
+Cc: Tatsuyuki Ishi <ishitatsuyuki@gmail.com>,
+ Nicolas Boichat <drinkcat@chromium.org>, kernel@collabora.com,
+ Daniel Stone <daniels@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Ketil Johnsen <ketil.johnsen@arm.com>, Liviu Dudau <Liviu.Dudau@arm.com>,
+ Steven Price <steven.price@arm.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Chris Diamand <chris.diamand@foss.arm.com>,
+ "Marty E . Plummer" <hanetzer@startmail.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Monday, January 22, 2024 11:28:05 AM CET Daniel Thompson wrote:
-> On Sat, Jan 20, 2024 at 10:26:45PM +0100, Duje Mihanovi=C4=87 wrote:
-> > diff --git a/drivers/video/backlight/ktd2801-backlight.c
-> > b/drivers/video/backlight/ktd2801-backlight.c new file mode 100644
-> > index 000000000000..7b9d1a93aa71
-> > --- /dev/null
-> > <snip>
-> > +/* These values have been extracted from Samsung's driver. */
-> > +#define KTD2801_EXPRESSWIRE_DETECT_DELAY_US	150
-> > +#define KTD2801_EXPRESSWIRE_DETECT_US		270
-> > +#define KTD2801_SHORT_BITSET_US			5
-> > +#define KTD2801_LONG_BITSET_US			(3 *=20
-KTD2801_SHORT_BITSET_US)
-> > +#define KTD2801_DATA_START_US			5
-> > +#define KTD2801_END_OF_DATA_LOW_US		10
-> > +#define KTD2801_END_OF_DATA_HIGH_US		350
-> > +#define KTD2801_PWR_DOWN_DELAY_US		2600
->=20
-> These are a little pointless now. They are all single use constants
-> and have little documentary value.
->=20
-> The lack of documentary value is because, for example,
-> KTD2801_EXPRESSWIRE_DETECT_DELAY_US, is assigned to a structure
-> field called detect_delay_us.
->=20
-> Likewise I doubt that explicitly stating that long_bitset_us is 3x
-> bigger than short_bitset_us is important for future driver maintainance.
+Hello,
 
-Does this apply for ktd2692 as well?
+This is the 4th version of the kernel driver for Mali CSF-based GPUs.
+
+A branch based on drm-misc-next and containing all the dependencies
+that are not yet available in drm-misc-next here[1], and another [2]
+containing extra patches to have things working on rk3588. The CSF
+firmware binary can be found here[3], and should be placed under
+/lib/firmware/arm/mali/arch10.8/mali_csffw.bin.
+
+The mesa MR adding v10 support on top of panthor is available here [4].
+
+Steve, I intentionally dropped your R-b on "drm/panthor: Add the heap
+logical block" and "drm/panthor: Add the scheduler logical block"
+because the tiler-OOM handling changed enough to require a new review
+IMHO.
+
+Regarding the GPL2+MIT relicensing, I collected Clément's R-b for the
+devfreq code, but am still lacking Alexey Sheplyakov for some bits in
+panthor_gpu.c. The rest of the code is either new, or covered by the
+Linaro, Arm and Collabora acks.
+
+And here is a non-exhaustive changelog, check each commit for a detailed
+changelog.
+
+v4:
+- Fix various bugs in the VM logic
+- Address comments from Steven, Liviu, Ketil and Chris
+- Move tiler OOM handling out of the scheduler interrupt handling path
+  so we can properly recover when the system runs out of memory, and
+  panthor is blocked trying to allocate heap chunks
+- Rework the heap locking to support concurrent chunk allocation. Not
+  sure if this is supposed to happen, but we need to be robust against
+  userspace passing the same heap context to two scheduling groups.
+  Wasn't needed before the tiler_oom rework, because heap allocation
+  base serialized by the scheduler lock.
+- Make kernel BO destruction robust to NULL/ERR pointers
+
+v3;
+- Quite a few changes at the MMU/sched level to make the fix some
+  race conditions and deadlocks
+- Addition of the a sync-only VM_BIND operation (to support
+  vkQueueSparseBind with zero commands).
+- Addition of a VM_GET_STATE ioctl
+- Various cosmetic changes (see the commit changelogs for more details)
+- Various fixes (see the commit changelogs for more details)
+
+v2:
+- Rename the driver (pancsf -> panthor)
+- Split the commit adding the driver to ease review
+- Use drm_sched for dependency tracking/job submission
+- Add a VM_BIND ioctl
+- Add the concept of exclusive VM for BOs that are only ever mapped to a
+  single VM
+- Document the code and uAPI
+- Add a DT binding doc
 
 Regards,
-=2D-
-Duje
 
+Boris
 
+[1]https://gitlab.freedesktop.org/panfrost/linux/-/tree/panthor-v4
+[2]https://gitlab.freedesktop.org/panfrost/linux/-/tree/panthor-v4+rk3588
+[3]https://gitlab.com/firefly-linux/external/libmali/-/raw/firefly/firmware/g610/mali_csffw.bin
+[4]https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/26358
+
+Boris Brezillon (13):
+  drm/panthor: Add uAPI
+  drm/panthor: Add GPU register definitions
+  drm/panthor: Add the device logical block
+  drm/panthor: Add the GPU logical block
+  drm/panthor: Add GEM logical block
+  drm/panthor: Add the devfreq logical block
+  drm/panthor: Add the MMU/VM logical block
+  drm/panthor: Add the FW logical block
+  drm/panthor: Add the heap logical block
+  drm/panthor: Add the scheduler logical block
+  drm/panthor: Add the driver frontend block
+  drm/panthor: Allow driver compilation
+  drm/panthor: Add an entry to MAINTAINERS
+
+Liviu Dudau (1):
+  dt-bindings: gpu: mali-valhall-csf: Add support for Arm Mali CSF GPUs
+
+ .../bindings/gpu/arm,mali-valhall-csf.yaml    |  147 +
+ Documentation/gpu/driver-uapi.rst             |    5 +
+ MAINTAINERS                                   |   11 +
+ drivers/gpu/drm/Kconfig                       |    2 +
+ drivers/gpu/drm/Makefile                      |    1 +
+ drivers/gpu/drm/panthor/Kconfig               |   23 +
+ drivers/gpu/drm/panthor/Makefile              |   15 +
+ drivers/gpu/drm/panthor/panthor_devfreq.c     |  283 ++
+ drivers/gpu/drm/panthor/panthor_devfreq.h     |   25 +
+ drivers/gpu/drm/panthor/panthor_device.c      |  544 +++
+ drivers/gpu/drm/panthor/panthor_device.h      |  393 ++
+ drivers/gpu/drm/panthor/panthor_drv.c         | 1470 +++++++
+ drivers/gpu/drm/panthor/panthor_fw.c          | 1334 +++++++
+ drivers/gpu/drm/panthor/panthor_fw.h          |  504 +++
+ drivers/gpu/drm/panthor/panthor_gem.c         |  228 ++
+ drivers/gpu/drm/panthor/panthor_gem.h         |  144 +
+ drivers/gpu/drm/panthor/panthor_gpu.c         |  482 +++
+ drivers/gpu/drm/panthor/panthor_gpu.h         |   52 +
+ drivers/gpu/drm/panthor/panthor_heap.c        |  596 +++
+ drivers/gpu/drm/panthor/panthor_heap.h        |   39 +
+ drivers/gpu/drm/panthor/panthor_mmu.c         | 2760 +++++++++++++
+ drivers/gpu/drm/panthor/panthor_mmu.h         |  102 +
+ drivers/gpu/drm/panthor/panthor_regs.h        |  239 ++
+ drivers/gpu/drm/panthor/panthor_sched.c       | 3500 +++++++++++++++++
+ drivers/gpu/drm/panthor/panthor_sched.h       |   48 +
+ include/uapi/drm/panthor_drm.h                |  945 +++++
+ 26 files changed, 13892 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml
+ create mode 100644 drivers/gpu/drm/panthor/Kconfig
+ create mode 100644 drivers/gpu/drm/panthor/Makefile
+ create mode 100644 drivers/gpu/drm/panthor/panthor_devfreq.c
+ create mode 100644 drivers/gpu/drm/panthor/panthor_devfreq.h
+ create mode 100644 drivers/gpu/drm/panthor/panthor_device.c
+ create mode 100644 drivers/gpu/drm/panthor/panthor_device.h
+ create mode 100644 drivers/gpu/drm/panthor/panthor_drv.c
+ create mode 100644 drivers/gpu/drm/panthor/panthor_fw.c
+ create mode 100644 drivers/gpu/drm/panthor/panthor_fw.h
+ create mode 100644 drivers/gpu/drm/panthor/panthor_gem.c
+ create mode 100644 drivers/gpu/drm/panthor/panthor_gem.h
+ create mode 100644 drivers/gpu/drm/panthor/panthor_gpu.c
+ create mode 100644 drivers/gpu/drm/panthor/panthor_gpu.h
+ create mode 100644 drivers/gpu/drm/panthor/panthor_heap.c
+ create mode 100644 drivers/gpu/drm/panthor/panthor_heap.h
+ create mode 100644 drivers/gpu/drm/panthor/panthor_mmu.c
+ create mode 100644 drivers/gpu/drm/panthor/panthor_mmu.h
+ create mode 100644 drivers/gpu/drm/panthor/panthor_regs.h
+ create mode 100644 drivers/gpu/drm/panthor/panthor_sched.c
+ create mode 100644 drivers/gpu/drm/panthor/panthor_sched.h
+ create mode 100644 include/uapi/drm/panthor_drm.h
+
+-- 
+2.43.0
 
