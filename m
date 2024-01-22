@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1BBD836679
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:02:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 839C283668F
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:04:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3A7210F210;
-	Mon, 22 Jan 2024 15:02:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D5A310F2EE;
+	Mon, 22 Jan 2024 15:04:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A11B10F210;
- Mon, 22 Jan 2024 15:02:56 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D91610F2EE
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 15:04:43 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 48F9ACE2B12;
- Mon, 22 Jan 2024 15:02:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CCFDC433C7;
- Mon, 22 Jan 2024 15:02:16 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id E1AF8B80E83;
+ Mon, 22 Jan 2024 15:04:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D8EAC433B2;
+ Mon, 22 Jan 2024 15:04:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705935739;
- bh=9hdCOZDVM1e55sPqaXfj1cjoms03INlYhbcem3byNFY=;
+ s=k20201202; t=1705935881;
+ bh=vmyO24YHFKdgEbGviAcUxNuIr0zWNNtVYbmIoc339XA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=sxR8+NUmpxIktzQjPPn/oz7e77n2MiTj0CxQXH3KxOjXAbAP+2ucp6CiFIfA9qRjN
- Mq6+j9i6yMap3T1upcVcW5ZrPn36dK3uvE7D8XtfnXFDPpOXPTxVeDvkSKCpe5pcny
- lcp1wU65bkyvVKn6tP9bDOvLYDSdvLr9CONz+I0o+Rr9EH6IshPn9jvpsgsiaaoUwL
- E6udYpu2wHd2QnlZ1PADRDmyTY1oDne8Zli+yGxOUSXuhIWfKzye4UgFbXdDkgf2qg
- Xgf9gJ3iJt/GfPalWZNu67AIioPRi1w7ZcJzw2fY6qJUgm31LnLvYHxnoxLS+AI0Mi
- jsf0WZQ3j9xKA==
+ b=cG07Fbisf0Nc4T6OKGjXdDh7+0QY/Dcogg6yKExtebBNj0OTz/V14vxPspyW1G2Kj
+ PJnDYmHGBxIvnoGCzVO5d1uiIa3Z9oAsrLvIbqzavF+PbJFdrMKFeqAU2yGf2OzznO
+ dsJnsiwQ4sCbQ6zRlVla3Xc7MlpqbC8Pwrn5eB/AGTSdS+m3QW3gcAWemTQBWg2azy
+ L4HJgjl2g1Kakz8C990t6UN54PDYg2h3jxkwIve/eYJ+AY7AcjlBFx0qWw/Hceu+J0
+ /PnSwlEJypS9CEy/lqsemJvCx11r7ih3cHXRH1VYQtVAQIdc0CmHnxqbGwKKbLdLcj
+ P8193oY5j/t9g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.7 84/88] drm/amdgpu: apply the RV2 system aperture
- fix to RN/CZN as well
-Date: Mon, 22 Jan 2024 09:51:57 -0500
-Message-ID: <20240122145608.990137-84-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 04/73] drm: Fix color LUT rounding
+Date: Mon, 22 Jan 2024 10:01:18 -0500
+Message-ID: <20240122150432.992458-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240122145608.990137-1-sashal@kernel.org>
-References: <20240122145608.990137-1-sashal@kernel.org>
+In-Reply-To: <20240122150432.992458-1-sashal@kernel.org>
+References: <20240122150432.992458-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.7.1
+X-stable-base: Linux 6.6.13
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,107 +54,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lijo.lazar@amd.com, dri-devel@lists.freedesktop.org,
- victorchengchi.lu@amd.com, hamza.mahfooz@amd.com,
- Jiadong Zhu <Jiadong.Zhu@amd.com>, airlied@gmail.com,
- Sasha Levin <sashal@kernel.org>, Rodrigo.Siqueira@amd.com,
- amd-gfx@lists.freedesktop.org, alex.hung@amd.com, srinivasan.shanmugam@amd.com,
- sunpeng.li@amd.com, le.ma@amd.com, yifan1.zhang@amd.com, Qingqing.Zhuo@amd.com,
- Xinhui.Pan@amd.com, daniel@ffwll.ch, wayne.lin@amd.com,
- Alex Deucher <alexander.deucher@amd.com>, lang.yu@amd.com,
- christian.koenig@amd.com, Hawking.Zhang@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, tzimmermann@suse.de,
+ Jani Nikula <jani.nikula@intel.com>, Maxime Ripard <mripard@kernel.org>,
+ dri-devel@lists.freedesktop.org,
+ Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>, daniel@ffwll.ch,
+ airlied@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alex Deucher <alexander.deucher@amd.com>
+From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-[ Upstream commit 16783d8ef08448815e149e40c82fc1e1fc41ddbf ]
+[ Upstream commit c6fbb6bca10838485b820e8a26c23996f77ce580 ]
 
-These chips needs the same fix.  This was previously not seen
-on then since the AGP aperture expanded the system aperture,
-but this showed up again when AGP was disabled.
+The current implementation of drm_color_lut_extract()
+generates weird results. Eg. if we go through all the
+values for 16->8bpc conversion we see the following pattern:
 
-Reviewed-and-tested-by: Jiadong Zhu <Jiadong.Zhu@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+in            out (count)
+   0 -   7f ->  0 (128)
+  80 -  17f ->  1 (256)
+ 180 -  27f ->  2 (256)
+ 280 -  37f ->  3 (256)
+...
+fb80 - fc7f -> fc (256)
+fc80 - fd7f -> fd (256)
+fd80 - fe7f -> fe (256)
+fe80 - ffff -> ff (384)
+
+So less values map to 0 and more values map 0xff, which
+doesn't seem particularly great.
+
+To get just the same number of input values to map to
+the same output values we'd just need to drop the rounding
+entrirely. But perhaps a better idea would be to follow the
+OpenGL int<->float conversion rules, in which case we get
+the following results:
+
+in            out (count)
+   0 -   80 ->  0 (129)
+  81 -  181 ->  1 (257)
+ 182 -  282 ->  2 (257)
+ 283 -  383 ->  3 (257)
+...
+fc7c - fd7c -> fc (257)
+fd7d - fe7d -> fd (257)
+fe7e - ff7e -> fe (257)
+ff7f - ffff -> ff (129)
+
+Note that since the divisor is constant the compiler
+is able to optimize away the integer division in most
+cases. The only exception is the _ULL() case on 32bit
+architectures since that gets emitted as inline asm
+via do_div() and thus the compiler doesn't get to
+optimize it.
+
+Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20231013131402.24072-2-ville.syrjala@linux.intel.com
+Reviewed-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+Acked-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/gfxhub_v1_0.c          | 4 +++-
- drivers/gpu/drm/amd/amdgpu/gfxhub_v1_2.c          | 4 +++-
- drivers/gpu/drm/amd/amdgpu/mmhub_v1_0.c           | 4 +++-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 8 ++++++--
- 4 files changed, 15 insertions(+), 5 deletions(-)
+ include/drm/drm_color_mgmt.h | 19 ++++++++-----------
+ 1 file changed, 8 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_0.c b/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_0.c
-index 53a2ba5fcf4b..22175da0e16a 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_0.c
-@@ -102,7 +102,9 @@ static void gfxhub_v1_0_init_system_aperture_regs(struct amdgpu_device *adev)
- 		WREG32_SOC15_RLC(GC, 0, mmMC_VM_SYSTEM_APERTURE_LOW_ADDR,
- 			min(adev->gmc.fb_start, adev->gmc.agp_start) >> 18);
+diff --git a/include/drm/drm_color_mgmt.h b/include/drm/drm_color_mgmt.h
+index 81c298488b0c..54b2b2467bfd 100644
+--- a/include/drm/drm_color_mgmt.h
++++ b/include/drm/drm_color_mgmt.h
+@@ -36,20 +36,17 @@ struct drm_plane;
+  *
+  * Extract a degamma/gamma LUT value provided by user (in the form of
+  * &drm_color_lut entries) and round it to the precision supported by the
+- * hardware.
++ * hardware, following OpenGL int<->float conversion rules
++ * (see eg. OpenGL 4.6 specification - 2.3.5 Fixed-Point Data Conversions).
+  */
+ static inline u32 drm_color_lut_extract(u32 user_input, int bit_precision)
+ {
+-	u32 val = user_input;
+-	u32 max = 0xffff >> (16 - bit_precision);
+-
+-	/* Round only if we're not using full precision. */
+-	if (bit_precision < 16) {
+-		val += 1UL << (16 - bit_precision - 1);
+-		val >>= 16 - bit_precision;
+-	}
+-
+-	return clamp_val(val, 0, max);
++	if (bit_precision > 16)
++		return DIV_ROUND_CLOSEST_ULL(mul_u32_u32(user_input, (1 << bit_precision) - 1),
++					     (1 << 16) - 1);
++	else
++		return DIV_ROUND_CLOSEST(user_input * ((1 << bit_precision) - 1),
++					 (1 << 16) - 1);
+ }
  
--		if (adev->apu_flags & AMD_APU_IS_RAVEN2)
-+		if (adev->apu_flags & (AMD_APU_IS_RAVEN2 |
-+				       AMD_APU_IS_RENOIR |
-+				       AMD_APU_IS_GREEN_SARDINE))
- 		       /*
- 			* Raven2 has a HW issue that it is unable to use the
- 			* vram which is out of MC_VM_SYSTEM_APERTURE_HIGH_ADDR.
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_2.c b/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_2.c
-index 55423ff1bb49..95d06da544e2 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_2.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_2.c
-@@ -139,7 +139,9 @@ gfxhub_v1_2_xcc_init_system_aperture_regs(struct amdgpu_device *adev,
- 			WREG32_SOC15_RLC(GC, GET_INST(GC, i), regMC_VM_SYSTEM_APERTURE_LOW_ADDR,
- 				min(adev->gmc.fb_start, adev->gmc.agp_start) >> 18);
- 
--			if (adev->apu_flags & AMD_APU_IS_RAVEN2)
-+			if (adev->apu_flags & (AMD_APU_IS_RAVEN2 |
-+					       AMD_APU_IS_RENOIR |
-+					       AMD_APU_IS_GREEN_SARDINE))
- 			       /*
- 				* Raven2 has a HW issue that it is unable to use the
- 				* vram which is out of MC_VM_SYSTEM_APERTURE_HIGH_ADDR.
-diff --git a/drivers/gpu/drm/amd/amdgpu/mmhub_v1_0.c b/drivers/gpu/drm/amd/amdgpu/mmhub_v1_0.c
-index 843219a91736..e3ddd22aa172 100644
---- a/drivers/gpu/drm/amd/amdgpu/mmhub_v1_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/mmhub_v1_0.c
-@@ -96,7 +96,9 @@ static void mmhub_v1_0_init_system_aperture_regs(struct amdgpu_device *adev)
- 	WREG32_SOC15(MMHUB, 0, mmMC_VM_SYSTEM_APERTURE_LOW_ADDR,
- 		     min(adev->gmc.fb_start, adev->gmc.agp_start) >> 18);
- 
--	if (adev->apu_flags & AMD_APU_IS_RAVEN2)
-+	if (adev->apu_flags & (AMD_APU_IS_RAVEN2 |
-+			       AMD_APU_IS_RENOIR |
-+			       AMD_APU_IS_GREEN_SARDINE))
- 		/*
- 		 * Raven2 has a HW issue that it is unable to use the vram which
- 		 * is out of MC_VM_SYSTEM_APERTURE_HIGH_ADDR. So here is the
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index cf32502d669f..2ec5705596bf 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -1257,7 +1257,9 @@ static void mmhub_read_system_context(struct amdgpu_device *adev, struct dc_phy_
- 	/* AGP aperture is disabled */
- 	if (agp_bot > agp_top) {
- 		logical_addr_low = adev->gmc.fb_start >> 18;
--		if (adev->apu_flags & AMD_APU_IS_RAVEN2)
-+		if (adev->apu_flags & (AMD_APU_IS_RAVEN2 |
-+				       AMD_APU_IS_RENOIR |
-+				       AMD_APU_IS_GREEN_SARDINE))
- 			/*
- 			 * Raven2 has a HW issue that it is unable to use the vram which
- 			 * is out of MC_VM_SYSTEM_APERTURE_HIGH_ADDR. So here is the
-@@ -1269,7 +1271,9 @@ static void mmhub_read_system_context(struct amdgpu_device *adev, struct dc_phy_
- 			logical_addr_high = adev->gmc.fb_end >> 18;
- 	} else {
- 		logical_addr_low = min(adev->gmc.fb_start, adev->gmc.agp_start) >> 18;
--		if (adev->apu_flags & AMD_APU_IS_RAVEN2)
-+		if (adev->apu_flags & (AMD_APU_IS_RAVEN2 |
-+				       AMD_APU_IS_RENOIR |
-+				       AMD_APU_IS_GREEN_SARDINE))
- 			/*
- 			 * Raven2 has a HW issue that it is unable to use the vram which
- 			 * is out of MC_VM_SYSTEM_APERTURE_HIGH_ADDR. So here is the
+ u64 drm_color_ctm_s31_32_to_qm_n(u64 user_input, u32 m, u32 n);
 -- 
 2.43.0
 
