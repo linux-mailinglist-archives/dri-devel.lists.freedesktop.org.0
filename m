@@ -2,43 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB0C583666A
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:02:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5016F83667C
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:03:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CFCE10F2D8;
-	Mon, 22 Jan 2024 15:02:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39F4A10F2E0;
+	Mon, 22 Jan 2024 15:02:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06C9F10F2D7;
- Mon, 22 Jan 2024 15:02:04 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35C9C10F2D8;
+ Mon, 22 Jan 2024 15:02:05 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 955EFB80E6D;
+ by dfw.source.kernel.org (Postfix) with ESMTP id 8F4CF6115A;
+ Mon, 22 Jan 2024 15:02:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD74FC433A6;
  Mon, 22 Jan 2024 15:02:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB06BC433C7;
- Mon, 22 Jan 2024 15:02:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705935722;
- bh=m3q+ToFjWwnp4WpJ/Dy/2htLcjii7Ow9i0kIm95oHuU=;
+ s=k20201202; t=1705935724;
+ bh=QSXYM/qKEYRrHwsHjMRC7WYNgQDaa6w1LGyVKlLjTJc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=vApEiu8CZDbT0UWpEKSuJT4fdK2xH6bDQReFXEALAbX66/UqWavRmgpnJhpAO3zs3
- x5ebo1K85oN7wUnPyiUT6q3ysn2ZxtJOh5irWouLdfa6fkXIzdv+Dxi9FzoDofMCAW
- VsdBNm9lRxgAFw5ecCQJuKtBILOFDJlKbcby55InVJr9Wn2oXefqW0GP/7g/3HfItR
- rnuJmHu2HgXfYIF9DBo0MoEVZ8k1Xr/dwmM6ATXg7kC8hojgs9lDJfCjuSE/eKxtf3
- o3U6lR4C0Fx/vCpabphL7R8v/E34Mkk2zMaezr/5B7cZRuQYbcVYW9K4rvQasEJ1tL
- XH6gch07DioaQ==
+ b=b2cCF++WRLaKTez5Yu8eReaCxfUU1x1JGosjjk+DCpIvIVgIMLMUQmTDfnGrknpEJ
+ LAqynKz/2g3OY3wrmSlTgqj7rUeD7P/4JjmWvHOgd2RfSi7akBnzKHj3Vk0r1lspYt
+ zmDd2RyDT/y74I6o9a2cB/+13GP/sAhhoCJmfRPDACALmi0A15A75CFHVRz3HNtHQF
+ DwYwxwX+Q5V7vewDyzbeuBS1tFBjQ8jAxNEOyj58Y35sKcrhR9E+vPl1l0skzv8kFZ
+ SWrRPvBAiE4M603O4DgskaTnbgCZbes9fu7oA3HQTBG4i0i6KZ04SKYm4JobQ7UHb1
+ r6eaikNC9txgw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.7 82/88] drm/amdkfd: Fix iterator used outside loop
- in 'kfd_add_peer_prop()'
-Date: Mon, 22 Jan 2024 09:51:55 -0500
-Message-ID: <20240122145608.990137-82-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.7 83/88] Revert "drm/amdkfd: Relocate TBA/TMA to
+ opposite side of VM hole"
+Date: Mon, 22 Jan 2024 09:51:56 -0500
+Message-ID: <20240122145608.990137-83-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122145608.990137-1-sashal@kernel.org>
 References: <20240122145608.990137-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.7.1
@@ -55,68 +54,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
- Felix Kuehling <felix.kuehling@amd.com>, Xinhui.Pan@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+Cc: Sasha Levin <sashal@kernel.org>, Jay Cornwall <jay.cornwall@amd.com>,
+ Felix.Kuehling@amd.com, Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org,
+ Kaibo Ma <ent3rm4n@gmail.com>, dri-devel@lists.freedesktop.org,
  daniel@ffwll.ch, Alex Deucher <alexander.deucher@amd.com>, airlied@gmail.com,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
+From: Kaibo Ma <ent3rm4n@gmail.com>
 
-[ Upstream commit b1a428b45dc7e47c7acc2ad0d08d8a6dda910c4c ]
+[ Upstream commit 0f35b0a7b8fa402adbffa2565047cdcc4c480153 ]
 
-Fix the following about iterator use:
-drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c:1456 kfd_add_peer_prop() warn: iterator used outside loop: 'iolink3'
+That commit causes NULL pointer dereferences in dmesgs when
+running applications using ROCm, including clinfo, blender,
+and PyTorch, since v6.6.1. Revert it to fix blender again.
 
-Cc: Felix Kuehling <Felix.Kuehling@amd.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
-Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
+This reverts commit 96c211f1f9ef82183493f4ceed4e347b52849149.
+
+Closes: https://github.com/ROCm/ROCm/issues/2596
+Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/2991
+Reviewed-by: Jay Cornwall <jay.cornwall@amd.com>
+Signed-off-by: Kaibo Ma <ent3rm4n@gmail.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_topology.c | 24 ++++++++++++-----------
- 1 file changed, 13 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/amd/amdkfd/kfd_flat_memory.c | 26 ++++++++++----------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-index 057284bf50bb..d18dff7bb889 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-@@ -1449,17 +1449,19 @@ static int kfd_add_peer_prop(struct kfd_topology_device *kdev,
- 		/* CPU->CPU  link*/
- 		cpu_dev = kfd_topology_device_by_proximity_domain(iolink1->node_to);
- 		if (cpu_dev) {
--			list_for_each_entry(iolink3, &cpu_dev->io_link_props, list)
--				if (iolink3->node_to == iolink2->node_to)
--					break;
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_flat_memory.c b/drivers/gpu/drm/amd/amdkfd/kfd_flat_memory.c
+index 62b205dac63a..6604a3f99c5e 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_flat_memory.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_flat_memory.c
+@@ -330,12 +330,6 @@ static void kfd_init_apertures_vi(struct kfd_process_device *pdd, uint8_t id)
+ 	pdd->gpuvm_limit =
+ 		pdd->dev->kfd->shared_resources.gpuvm_size - 1;
+ 
+-	/* dGPUs: the reserved space for kernel
+-	 * before SVM
+-	 */
+-	pdd->qpd.cwsr_base = SVM_CWSR_BASE;
+-	pdd->qpd.ib_base = SVM_IB_BASE;
 -
--			props->weight += iolink3->weight;
--			props->min_latency += iolink3->min_latency;
--			props->max_latency += iolink3->max_latency;
--			props->min_bandwidth = min(props->min_bandwidth,
--							iolink3->min_bandwidth);
--			props->max_bandwidth = min(props->max_bandwidth,
--							iolink3->max_bandwidth);
-+			list_for_each_entry(iolink3, &cpu_dev->io_link_props, list) {
-+				if (iolink3->node_to != iolink2->node_to)
-+					continue;
+ 	pdd->scratch_base = MAKE_SCRATCH_APP_BASE_VI();
+ 	pdd->scratch_limit = MAKE_SCRATCH_APP_LIMIT(pdd->scratch_base);
+ }
+@@ -345,18 +339,18 @@ static void kfd_init_apertures_v9(struct kfd_process_device *pdd, uint8_t id)
+ 	pdd->lds_base = MAKE_LDS_APP_BASE_V9();
+ 	pdd->lds_limit = MAKE_LDS_APP_LIMIT(pdd->lds_base);
+ 
+-	pdd->gpuvm_base = PAGE_SIZE;
++        /* Raven needs SVM to support graphic handle, etc. Leave the small
++         * reserved space before SVM on Raven as well, even though we don't
++         * have to.
++         * Set gpuvm_base and gpuvm_limit to CANONICAL addresses so that they
++         * are used in Thunk to reserve SVM.
++         */
++        pdd->gpuvm_base = SVM_USER_BASE;
+ 	pdd->gpuvm_limit =
+ 		pdd->dev->kfd->shared_resources.gpuvm_size - 1;
+ 
+ 	pdd->scratch_base = MAKE_SCRATCH_APP_BASE_V9();
+ 	pdd->scratch_limit = MAKE_SCRATCH_APP_LIMIT(pdd->scratch_base);
+-
+-	/*
+-	 * Place TBA/TMA on opposite side of VM hole to prevent
+-	 * stray faults from triggering SVM on these pages.
+-	 */
+-	pdd->qpd.cwsr_base = pdd->dev->kfd->shared_resources.gpuvm_size;
+ }
+ 
+ int kfd_init_apertures(struct kfd_process *process)
+@@ -413,6 +407,12 @@ int kfd_init_apertures(struct kfd_process *process)
+ 					return -EINVAL;
+ 				}
+ 			}
 +
-+				props->weight += iolink3->weight;
-+				props->min_latency += iolink3->min_latency;
-+				props->max_latency += iolink3->max_latency;
-+				props->min_bandwidth = min(props->min_bandwidth,
-+							   iolink3->min_bandwidth);
-+				props->max_bandwidth = min(props->max_bandwidth,
-+							   iolink3->max_bandwidth);
-+				break;
-+			}
- 		} else {
- 			WARN(1, "CPU node not found");
++                        /* dGPUs: the reserved space for kernel
++                         * before SVM
++                         */
++                        pdd->qpd.cwsr_base = SVM_CWSR_BASE;
++                        pdd->qpd.ib_base = SVM_IB_BASE;
  		}
+ 
+ 		dev_dbg(kfd_device, "node id %u\n", id);
 -- 
 2.43.0
 
