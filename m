@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 481228367D7
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:20:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3631836831
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:29:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99CA710F3F7;
-	Mon, 22 Jan 2024 15:20:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C73610F423;
+	Mon, 22 Jan 2024 15:29:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59E2210F3F7
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 15:20:38 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C9E310F423
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 15:29:46 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id D2A2CB80C81
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 15:20:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 331B3C433A6
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 15:20:06 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 51B1BCE2B2D
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 15:29:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 603CAC43601
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 15:29:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705936806;
- bh=SXUPVZkJmcierNdtKqvg9SmUNHeTPRtiZts/xJRvssk=;
+ s=k20201202; t=1705937383;
+ bh=iO8t2uvf8zKn2pqUIDEeeUGE84Y6SbECB0tNbeiWYzM=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=rV7rGxU92XXwycgUGJw7K4cnzR088p6xQt3GeF0u42UV8it4WfI/TQVkK6f3YEDPR
- bygxas0sFl8gF3YUTiuDLBQT0pY1RdyU6ATXhDMRThgrOGgoqFzEFd0AkCshx7ClBK
- 4G2iXtwl8IlyhM33mvX3O2mwdL5H7Z6ZUKhVlrmKq5SeDtOQ59k+9LHkXKlSMynBz7
- cJvRQEKrsi77S0BOWh9k3JDrV0nWxgTF1WikQChLAnZ9/0wO7ztG5RUpBZywzb9Bz6
- MhD63oQN33YPpsV8HcK8tR5sMEJaMmkajO5egAK+6CT0+rXZMsSj2p208Jhi4TVDpO
- cpjXU1vqThWcg==
-Received: by mail-yw1-f182.google.com with SMTP id
- 00721157ae682-6000bbdbeceso6459527b3.2
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 07:20:06 -0800 (PST)
-X-Gm-Message-State: AOJu0Yz65/b0yfVNC68Bjpk2ndg7GlHXQpA893XBvUvCUf9NuSRi5fVE
- kEvO7ocDoHWt4T/72KQ71CdCrVJI/DScQvnDTJ+QqeIE9ZzmJ064bA9yaTgle7CupdyWfm19h/D
- eybon3iHBIbYzZSBuLDCNHlMmfZifAakzTvGzvA==
-X-Google-Smtp-Source: AGHT+IHR9EW9F+L1o9xTG0NWnaQNNaPen2WULRKl2Ey5mTjdWB7qIXk9iNSTyKGEeFaaFtAETMuRe2rPCt8bmP5ufzo=
-X-Received: by 2002:a81:a1d5:0:b0:5ff:850e:ca42 with SMTP id
- y204-20020a81a1d5000000b005ff850eca42mr3334295ywg.4.1705936805503; Mon, 22
- Jan 2024 07:20:05 -0800 (PST)
+ b=C+MnRZ6kGvr+BXdFvyVitkA9XOIvtUbvwNce6ihU2x7vntqpIlXbY+OGnlqAJ8yUa
+ U3hU197FCZSGcGg18ABnbM1rzlMx8mIuflY5F2Rq78Lt0+0ejtx3GlA6WGll1wjHy2
+ 1Ejaoo0pC6Q52OoMEdCaq/0MgAs7NW/VUiP6KmdUrk7QBd/M7ZFh6E4n8M5kzS0mgV
+ VSzl3NUyxPL3kKH0RLieipsM9wc7LG9DcDW2wIGzEy1eAMrLWM4hyxhSguX8ol/dCv
+ Vm7RzDVAGghigNHngtiPHjPnTuXSauoRk26ZaFZhJHDoUTIV/DxZCv8aA+V/ieQ+Wa
+ KfqtLIGLUdxOg==
+Received: by mail-yb1-f175.google.com with SMTP id
+ 3f1490d57ef6-dc261316b0dso2336638276.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 07:29:43 -0800 (PST)
+X-Gm-Message-State: AOJu0YwKsvvh8hTPyhxfGKTw4m7rdSe2OrAmvgmDPuAxPjKoeyAiy0W3
+ 5Tgu34DC1hc9WhK4HLvWpSGw+xTl14+PmPhrH0aQOqQKPjcluaa/Xvka30yyJ9D2oU0D0L+1QRg
+ S4G0SUAGP0DVrbzk13V6m9xyVFwL1lxkNqtgeDQ==
+X-Google-Smtp-Source: AGHT+IGDkPjXY6J55Up3eaXCoYwi4eRPD2F77zONKwnvklSeSI87uRBe8/O3SRG5gesV0F61grq0PuKpZH3k4Uhs7Bw=
+X-Received: by 2002:a25:d0cf:0:b0:dc2:2b05:4ab1 with SMTP id
+ h198-20020a25d0cf000000b00dc22b054ab1mr2175479ybg.18.1705937382611; Mon, 22
+ Jan 2024 07:29:42 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1701860672.git.u.kleine-koenig@pengutronix.de>
- <3a67fffe50fe267b612d5557bb6b790ff1a792ca.1701860672.git.u.kleine-koenig@pengutronix.de>
-In-Reply-To: <3a67fffe50fe267b612d5557bb6b790ff1a792ca.1701860672.git.u.kleine-koenig@pengutronix.de>
+References: <20231124-adv7511-cec-edid-v2-0-f0e5eeafdfc2@bang-olufsen.dk>
+ <20231124-adv7511-cec-edid-v2-2-f0e5eeafdfc2@bang-olufsen.dk>
+In-Reply-To: <20231124-adv7511-cec-edid-v2-2-f0e5eeafdfc2@bang-olufsen.dk>
 From: Robert Foss <rfoss@kernel.org>
-Date: Mon, 22 Jan 2024 16:19:54 +0100
-X-Gmail-Original-Message-ID: <CAN6tsi6iDsoTpNS7e0XCTf-2RM924za+B7_z9HL+xRR430jjjg@mail.gmail.com>
-Message-ID: <CAN6tsi6iDsoTpNS7e0XCTf-2RM924za+B7_z9HL+xRR430jjjg@mail.gmail.com>
-Subject: Re: [PATCH v4 107/115] drm/bridge: ti-sn65dsi86: Make use of
- devm_pwmchip_alloc() function
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Date: Mon, 22 Jan 2024 16:29:31 +0100
+X-Gmail-Original-Message-ID: <CAN6tsi4wxfTdG+qMr2fcwkou5F1xpxeh5S7CoAUzwi4jMFP_kw@mail.gmail.com>
+Message-ID: <CAN6tsi4wxfTdG+qMr2fcwkou5F1xpxeh5S7CoAUzwi4jMFP_kw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] drm/bridge: adv7511: get edid in hpd_work to
+ update CEC phys address
+To: =?UTF-8?Q?Alvin_=C5=A0ipraga?= <alvin@pqrs.dk>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -62,97 +62,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, kernel@pengutronix.de,
- Jonas Karlman <jonas@kwiboo.se>, Douglas Anderson <dianders@chromium.org>,
- Maxime Ripard <mripard@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-pwm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Daniel Vetter <daniel@ffwll.ch>,
+ Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ =?UTF-8?Q?Alvin_=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, David Airlie <airlied@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 6, 2023 at 12:49=E2=80=AFPM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@pengutronix.de> wrote:
+On Fri, Nov 24, 2023 at 4:20=E2=80=AFPM Alvin =C5=A0ipraga <alvin@pqrs.dk> =
+wrote:
 >
-> This prepares the pwm driver of the ti-sn65dsi86 to further changes of
-> the pwm core outlined in the commit introducing devm_pwmchip_alloc().
-> There is no intended semantical change and the driver should behave as
-> before.
+> From: Alvin =C5=A0ipraga <alsi@bang-olufsen.dk>
 >
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+> The adv7511 driver is solely responsible for setting the physical
+> address of its CEC adapter. To do this, it must read the EDID. However,
+> EDID is only read when either the drm_bridge_funcs :: get_edid or
+> drm_connector_helper_funcs :: get_modes ops are called. Without loss of
+> generality, it cannot be assumed that these ops are called when a sink
+> gets attached. Therefore there exist scenarios in which the CEC physical
+> address will be invalid (f.f.f.f), rendering the CEC adapter inoperable.
+>
+> Address this problem by always fetching the EDID in the HPD work when we
+> detect a connection. The CEC physical address is set in the process.
+> This is done by moving the EDID DRM helper into an internal helper
+> function so that it can be cleanly called from an earlier section of
+> the code. The EDID getter has not changed in practice.
+>
+> Signed-off-by: Alvin =C5=A0ipraga <alsi@bang-olufsen.dk>
 > ---
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 27 ++++++++++++++++++---------
->  1 file changed, 18 insertions(+), 9 deletions(-)
+>  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 74 ++++++++++++++++++----=
+------
+>  1 file changed, 48 insertions(+), 26 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/brid=
-ge/ti-sn65dsi86.c
-> index c45c07840f64..33eb2ed0a729 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -197,7 +197,7 @@ struct ti_sn65dsi86 {
->         DECLARE_BITMAP(gchip_output, SN_NUM_GPIOS);
->  #endif
->  #if defined(CONFIG_PWM)
-> -       struct pwm_chip                 pchip;
-> +       struct pwm_chip                 *pchip;
->         bool                            pwm_enabled;
->         atomic_t                        pwm_pin_busy;
->  #endif
-> @@ -1372,7 +1372,7 @@ static void ti_sn_pwm_pin_release(struct ti_sn65dsi=
-86 *pdata)
->
->  static struct ti_sn65dsi86 *pwm_chip_to_ti_sn_bridge(struct pwm_chip *ch=
-ip)
->  {
-> -       return container_of(chip, struct ti_sn65dsi86, pchip);
-> +       return pwmchip_get_drvdata(chip);
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/d=
+rm/bridge/adv7511/adv7511_drv.c
+> index 5ffc5904bd59..1f1d3a440895 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> @@ -542,6 +542,36 @@ static int adv7511_get_edid_block(void *data, u8 *bu=
+f, unsigned int block,
+>         return 0;
 >  }
 >
->  static int ti_sn_pwm_request(struct pwm_chip *chip, struct pwm_device *p=
-wm)
-> @@ -1585,22 +1585,31 @@ static const struct pwm_ops ti_sn_pwm_ops =3D {
->  static int ti_sn_pwm_probe(struct auxiliary_device *adev,
->                            const struct auxiliary_device_id *id)
->  {
-> +       struct pwm_chip *chip;
->         struct ti_sn65dsi86 *pdata =3D dev_get_drvdata(adev->dev.parent);
->
-> -       pdata->pchip.dev =3D pdata->dev;
-> -       pdata->pchip.ops =3D &ti_sn_pwm_ops;
-> -       pdata->pchip.npwm =3D 1;
-> -       pdata->pchip.of_xlate =3D of_pwm_single_xlate;
-> -       pdata->pchip.of_pwm_n_cells =3D 1;
-> +       /*
-> +        * This should better use adev->dev instead of pdata->dev. See
-> +        * https://lore.kernel.org/dri-devel/20231127101547.734061-2-u.kl=
-eine-koenig@pengutronix.de
-> +        */
-> +       pdata->pchip =3D chip =3D devm_pwmchip_alloc(pdata->dev, 1, 0);
-> +       if (IS_ERR(chip))
-> +               return PTR_ERR(chip);
->
-> -       return pwmchip_add(&pdata->pchip);
-> +       pwmchip_set_drvdata(chip, pdata);
+> +static struct edid *__adv7511_get_edid(struct adv7511 *adv7511,
+> +                                      struct drm_connector *connector)
+> +{
+> +       struct edid *edid;
 > +
-> +       chip->ops =3D &ti_sn_pwm_ops;
-> +       chip->of_xlate =3D of_pwm_single_xlate;
-> +       chip->of_pwm_n_cells =3D 1;
+> +       /* Reading the EDID only works if the device is powered */
+> +       if (!adv7511->powered) {
+> +               unsigned int edid_i2c_addr =3D
+> +                                       (adv7511->i2c_edid->addr << 1);
 > +
-> +       return pwmchip_add(chip);
->  }
+> +               __adv7511_power_on(adv7511);
+> +
+> +               /* Reset the EDID_I2C_ADDR register as it might be cleare=
+d */
+> +               regmap_write(adv7511->regmap, ADV7511_REG_EDID_I2C_ADDR,
+> +                            edid_i2c_addr);
+> +       }
+> +
+> +       edid =3D drm_do_get_edid(connector, adv7511_get_edid_block, adv75=
+11);
+> +
+> +       if (!adv7511->powered)
+> +               __adv7511_power_off(adv7511);
+> +
+> +       adv7511_set_config_csc(adv7511, connector, adv7511->rgb,
+> +                              drm_detect_hdmi_monitor(edid));
+> +
+> +       cec_s_phys_addr_from_edid(adv7511->cec_adap, edid);
+> +
+> +       return edid;
+> +}
+> +
+>  /* ---------------------------------------------------------------------=
+--------
+>   * Hotplug handling
+>   */
+> @@ -595,8 +625,24 @@ static void adv7511_hpd_work(struct work_struct *wor=
+k)
+>                 adv7511->connector.status =3D status;
 >
->  static void ti_sn_pwm_remove(struct auxiliary_device *adev)
->  {
->         struct ti_sn65dsi86 *pdata =3D dev_get_drvdata(adev->dev.parent);
->
-> -       pwmchip_remove(&pdata->pchip);
-> +       pwmchip_remove(pdata->pchip);
->
->         if (pdata->pwm_enabled)
->                 pm_runtime_put_sync(pdata->dev);
-> --
-> 2.42.0
->
+>                 if (adv7511->connector.dev) {
+> -                       if (status =3D=3D connector_status_disconnected)
+> +                       if (status =3D=3D connector_status_disconnected) =
+{
+>                                 cec_phys_addr_invalidate(adv7511->cec_ada=
+p);
+> +                       } else {
+> +                               struct edid *edid;
+> +
+> +                               /*
+> +                                * Get the updated EDID so that the CEC
+> +                                * subsystem gets informed of any change =
+in CEC
+> +                                * address. The helper returns a newly al=
+located
+> +                                * edid structure, so free it to prevent
+> +                                * leakage.
+> +                                */
+> +                               edid =3D __adv7511_get_edid(adv7511,
+> +                                                         &adv7511->conne=
+ctor);
+> +                               if (edid)
+> +                                       kfree(edid);
 
-Acked-by: Robert Foss <rfoss@kernel.org>
+kfree(NULL) is safe, so the if statement can be removed.
+
+With this fixed, feel free to add my r-b to this full series.
+
+Reviewed-by: Robert Foss <rfoss@kernel.org>
