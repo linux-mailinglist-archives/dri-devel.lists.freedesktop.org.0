@@ -2,82 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F2A1836F5A
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 19:13:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65588836F82
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 19:17:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 832CB10EC15;
-	Mon, 22 Jan 2024 18:13:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E785710EBF9;
+	Mon, 22 Jan 2024 18:17:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.skole.hr (mx1.hosting.skole.hr [161.53.165.185])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E123C10E114
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 18:13:44 +0000 (UTC)
-Received: from mx1.hosting.skole.hr (localhost.localdomain [127.0.0.1])
- by mx.skole.hr (mx.skole.hr) with ESMTP id 3312B857AF;
- Mon, 22 Jan 2024 19:13:43 +0100 (CET)
-From: Duje =?utf-8?B?TWloYW5vdmnEhw==?= <duje.mihanovic@skole.hr>
-To: Daniel Thompson <daniel.thompson@linaro.org>
-Subject: Re: [PATCH v3 1/3] leds: ktd2692: move ExpressWire code to library
-Date: Mon, 22 Jan 2024 19:13:04 +0100
-Message-ID: <1850545.atdPhlSkOF@radijator>
-In-Reply-To: <20240122175031.GC8815@aspen.lan>
-References: <20240120-ktd2801-v3-0-fe2cbafffb21@skole.hr>
- <3603320.R56niFO833@radijator> <20240122175031.GC8815@aspen.lan>
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com
+ [209.85.167.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDEDD10E7BB;
+ Mon, 22 Jan 2024 18:17:06 +0000 (UTC)
+Received: by mail-oi1-f172.google.com with SMTP id
+ 5614622812f47-3bc21303a35so742251b6e.0; 
+ Mon, 22 Jan 2024 10:17:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1705947426; x=1706552226;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=bq9M9cm+CE6WAD/PzAq+M4FYMF5cDyj5a+NJZ7ioaVI=;
+ b=Xfuq2s5oLZpsL8XKlXYl8kT5q9SNN9HagNrHUl8GvXsS2UqP9wTpMKR3YlsKiq0fXw
+ TGkFNpVS/L3k4erSROpw1v/AA62b/wuwsGPIcYdh7ICXVplQDJ7Jp9AGpnUSsqH0CkOQ
+ S94636IWiP5UT6xOL1tQeYh3AVj4YuPKMfjU1SnkDo9KoT4JaqIq0ERV+04BF1F2VVhO
+ gLD/A4bHjyoJe73mdGOQ2sSsQb1UhF5YxlEVv8TIr0nAwJ16+ildhFOkeivOwGcztTli
+ nHR8Kuf9oQ3KjV5OIfg1y4eq+beWUuKpyC4NH/G1esN/1FEIfzzS7LKrMJYSBxTX6fwg
+ A2QQ==
+X-Gm-Message-State: AOJu0Yy8M7cQw5H58cuVChNWNF/VJzGGnxloikl8yOnVTQ+CkCwwyhCg
+ PHdg7JeymmEGORX8H5eb2mNcLFufEiE/epNv5Ocx4+Wvi82P2Jjumq0VpMA2dBkxkLR+HP5tpKN
+ vtABbvu8CmvtRjiU/GCUtiPiNxkk=
+X-Google-Smtp-Source: AGHT+IG7X57s+1Hb3UmgWa4B2VhnsQsEmm2qhDCXpsDoekvAtRW8AijnCpEwtrAHQizHxz0U/8KF3rieJlIr+BPH7Us=
+X-Received: by 2002:a05:6808:308f:b0:3bd:a741:a048 with SMTP id
+ bl15-20020a056808308f00b003bda741a048mr9775473oib.1.1705947426060; Mon, 22
+ Jan 2024 10:17:06 -0800 (PST)
 MIME-Version: 1.0
-Autocrypt: addr=duje.mihanovic@skole.hr; keydata=
- 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
-Content-Transfer-Encoding: quoted-printable
+References: <20240122114121.56752-2-sakari.ailus@linux.intel.com>
+ <20240122181205.GA275751@bhelgaas>
+In-Reply-To: <20240122181205.GA275751@bhelgaas>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Mon, 22 Jan 2024 19:16:54 +0100
+Message-ID: <CAJZ5v0gUpo6Shz2kQzie4XE23=fiPvD0=2yhjGptw8QbCq2SAg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] pm: runtime: Simplify pm_runtime_get_if_active()
+ usage
+To: Bjorn Helgaas <helgaas@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,60 +59,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Pavel Machek <pavel@ucw.cz>, Jingoo Han <jingoohan1@gmail.com>,
- Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Karel Balej <balejk@matfyz.cz>, linux-fbdev@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, ~postmarketos/upstreaming@lists.sr.ht,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- phone-devel@vger.kernel.org, linux-leds@vger.kernel.org
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, linux-pci@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ laurent.pinchart@ideasonboard.com, David Airlie <airlied@gmail.com>,
+ Paul Elder <paul.elder@ideasonboard.com>, linux-media@vger.kernel.org,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, linux-pm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
+ linux-sound@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ intel-xe@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Alex Elder <elder@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Takashi Iwai <tiwai@suse.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, netdev@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Monday, January 22, 2024 6:50:31 PM CET Daniel Thompson wrote:
-> On Mon, Jan 22, 2024 at 06:26:04PM +0100, Duje Mihanovi=C4=87 wrote:
-> > On Monday, January 22, 2024 5:57:53 PM CET Duje Mihanovi=C4=87 wrote:
-> > > On Monday, January 22, 2024 5:50:11 PM CET Daniel Thompson wrote:
-> > > > AFAICT nothing will inhibit setting GPIOLIB so allyes- and=20
-allmodconfig
-> > > > builds will always end up with GPIOLIB enabled. If we are happy to
-> > > > select it then I think that is enough!
-> > >=20
-> > > In that case I guess I'll just make it select GPIOLIB.
-> >=20
-> > Nevermind that, it'll have to be 'depends on' after all:
-> >=20
-> > drivers/gpio/Kconfig:6:error: recursive dependency detected!
-> > drivers/gpio/Kconfig:6: symbol GPIOLIB is selected by LEDS_EXPRESSWIRE
-> > drivers/leds/Kconfig:184:       symbol LEDS_EXPRESSWIRE depends on=20
-NEW_LEDS
->=20
-> Can this dependency could be broken by declaring LEDS_EXPRESSWIRE at
-> the top (or bottom) of the KConfig file (it's an option without a UI
-> and does not need to be within the if NEW_LEDS block).
+On Mon, Jan 22, 2024 at 7:12=E2=80=AFPM Bjorn Helgaas <helgaas@kernel.org> =
+wrote:
+>
+> On Mon, Jan 22, 2024 at 01:41:21PM +0200, Sakari Ailus wrote:
+> > There are two ways to opportunistically increment a device's runtime PM
+> > usage count, calling either pm_runtime_get_if_active() or
+> > pm_runtime_get_if_in_use(). The former has an argument to tell whether =
+to
+> > ignore the usage count or not, and the latter simply calls the former w=
+ith
+> > ign_usage_count set to false. The other users that want to ignore the
+> > usage_count will have to explitly set that argument to true which is a =
+bit
+> > cumbersome.
+>
+> s/explitly/explicitly/
+>
+> > To make this function more practical to use, remove the ign_usage_count
+> > argument from the function. The main implementation is renamed as
+> > pm_runtime_get_conditional().
+> >
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > Reviewed-by: Alex Elder <elder@linaro.org> # drivers/net/ipa/ipa_smp2p.=
+c
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Acked-by: Takashi Iwai <tiwai@suse.de> # sound/
+> > Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com> # dr=
+ivers/accel/ivpu/
+> > Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com> # drivers/gpu/drm/i915/
+> > Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>
+> Acked-by: Bjorn Helgaas <bhelgaas@google.com> # drivers/pci/
+>
+> > -EXPORT_SYMBOL_GPL(pm_runtime_get_if_active);
+> > +EXPORT_SYMBOL_GPL(pm_runtime_get_conditional);
+>
+> If pm_runtime_get_conditional() is exported, shouldn't it also be
+> documented in Documentation/power/runtime_pm.rst?
+>
+> But I'm dubious about exporting it because
+> __intel_runtime_pm_get_if_active() is the only caller, and you end up
+> with the same pattern there that we have before this series in the PM
+> core.  Why can't intel_runtime_pm.c be updated to use
+> pm_runtime_get_if_active() or pm_runtime_get_if_in_use() directly, and
+> make pm_runtime_get_conditional() static?
 
-Nope, the only change is that the dependency graph is somewhat shorter:
-
-drivers/gpio/Kconfig:6:error: recursive dependency detected!
-drivers/gpio/Kconfig:6: symbol GPIOLIB is selected by LEDS_EXPRESSWIRE
-drivers/leds/Kconfig:9: symbol LEDS_EXPRESSWIRE is selected by=20
-BACKLIGHT_KTD2801
-drivers/video/backlight/Kconfig:186:    symbol BACKLIGHT_KTD2801 depends on=
-=20
-BACKLIGHT_CLASS_DEVICE
-drivers/video/backlight/Kconfig:136:    symbol BACKLIGHT_CLASS_DEVICE is=20
-selected by FB_BACKLIGHT
-drivers/video/fbdev/core/Kconfig:180:   symbol FB_BACKLIGHT is selected by=
-=20
-=46B_SSD1307
-drivers/video/fbdev/Kconfig:1934:       symbol FB_SSD1307 depends on GPIOLIB
-=46or a resolution refer to Documentation/kbuild/kconfig-language.rst
-subsection "Kconfig recursive dependency limitations"
-
-Regards,
-=2D-
-Duje
-
-
-
+Sounds like a good suggestion to me.
