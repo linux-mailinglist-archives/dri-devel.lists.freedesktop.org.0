@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DFC183607B
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 12:06:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 685D5836064
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 12:05:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A95A110ED79;
-	Mon, 22 Jan 2024 11:05:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FEB710ED6E;
+	Mon, 22 Jan 2024 11:05:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE7FC10ED79
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 11:05:30 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5A5710ED6E
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 11:05:03 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 72A45B80D66;
+ by sin.source.kernel.org (Postfix) with ESMTP id 01764CE2A33;
+ Mon, 22 Jan 2024 11:05:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 441FCC433C7;
  Mon, 22 Jan 2024 11:04:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DB84C433F1;
- Mon, 22 Jan 2024 11:04:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705921498;
- bh=hodsiss2mfg9U0y8pa9F8/ETqHl8RGY45rKju+KRcEw=;
+ s=k20201202; t=1705921501;
+ bh=6xvbnww7JlLBYTWi11QyGdS/O6ZiCkP8ssfXGVVStMk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VB8M2U7uJLE8CpgfTcZ8Jms/TclXLPSWzKd3y5NTvJiI17nhJ3QAtxd7VF1fKTv5Y
- XzuqRA+XEdq19ibARo3Xzx4xLbKzg7sI8HOQl5Jrzi+H251EyAnYkiAnmRUKSCnhBU
- MQSchj+m4uG73RexbpvYargbPw1+ZJXAOEdZaozv+apTb49pryPpIV8S7iO3qseM6f
- u3J114Ff+w3ZvRFfAZdyUmaoJ5Sid0Ezm6VUbGaMQsHTY0eRUC/L2ACGeQmOghzI0Y
- 76hXV+ZJ6XIB3Ym+wMshxo9cvM2iSjwx/t7zuPce0PoVyvTp2hHLNqaTkoxtESmIsO
- SJexQtBTtWmaA==
+ b=Iw3O6aWPvhy9GIEKKDrzmNgcJj/uA8/+BQWIb9xQ9NDjnOUO2iEgpgfNt+JbbBWAL
+ 7fgFxiB/NCes1NiW5GNZJwdy8wCXTcvuWfuRLJ28EF8D/uBeoJOv8jlfEFeLb70AtZ
+ MTBet8I4ji4zv01H/aRKE8BMyJMzLOW/r+ObiklW4+N+VdTmB+DWdjPwiAzpF9Ep3G
+ HgYeA4RbVsdKMz4o3op6pEDyxJhkU+dayQ4ZTheeb138j9D5Y1Es+eF4R2/K8crdzN
+ 1VZIeanuz28tEuUGtMkLDj0Xna2EaTpUgZmyN7IpWQU3I19sF+p6tjffa+y+tGJREm
+ fP0WH2ZIpHYZQ==
 From: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
 To: gregkh@linuxfoundation.org
-Subject: [PATCH v2 27/47] consoles: use if instead of switch-case in
- consw::con_cursor()
-Date: Mon, 22 Jan 2024 12:03:41 +0100
-Message-ID: <20240122110401.7289-28-jirislaby@kernel.org>
+Subject: [PATCH v2 28/47] fbdev/core: simplify cursor_state setting in
+ fbcon_ops::cursor()
+Date: Mon, 22 Jan 2024 12:03:42 +0100
+Message-ID: <20240122110401.7289-29-jirislaby@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122110401.7289-1-jirislaby@kernel.org>
 References: <20240122110401.7289-1-jirislaby@kernel.org>
@@ -50,188 +50,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-serial@vger.kernel.org, "Jiri Slaby \(SUSE\)" <jirislaby@kernel.org>
+Cc: linux-fbdev@vger.kernel.org, linux-serial@vger.kernel.org,
+ Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+ "Jiri Slaby \(SUSE\)" <jirislaby@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is only a preparation for the following cleanup patch to make it
-easier. Provided CM_ERASE is the only different, use 'if' instead of
-'switch+case' in all those.
+There is a switch decicing if cursor should be drawn or not. The whole
+switch can be simplified to one line. Do this cleanup as a preparatory
+work for the next patch. There, all the CM_* constants are removed.
 
 Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
+Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: Helge Deller <deller@gmx.de>
 Cc: linux-fbdev@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
 ---
- drivers/video/console/newport_con.c | 26 +++++-------
- drivers/video/console/sticon.c      | 27 ++++++------
- drivers/video/console/vgacon.c      | 66 +++++++++++++----------------
- 3 files changed, 53 insertions(+), 66 deletions(-)
+ drivers/video/fbdev/core/bitblit.c   | 11 +----------
+ drivers/video/fbdev/core/fbcon_ccw.c | 11 +----------
+ drivers/video/fbdev/core/fbcon_cw.c  | 11 +----------
+ drivers/video/fbdev/core/fbcon_ud.c  | 11 +----------
+ 4 files changed, 4 insertions(+), 40 deletions(-)
 
-diff --git a/drivers/video/console/newport_con.c b/drivers/video/console/newport_con.c
-index 5e65ee0b7c07..f852717b88f0 100644
---- a/drivers/video/console/newport_con.c
-+++ b/drivers/video/console/newport_con.c
-@@ -443,24 +443,20 @@ static void newport_cursor(struct vc_data *vc, int mode)
- 	unsigned short treg;
- 	int xcurs, ycurs;
+diff --git a/drivers/video/fbdev/core/bitblit.c b/drivers/video/fbdev/core/bitblit.c
+index 8587c9da0670..daff152f4c22 100644
+--- a/drivers/video/fbdev/core/bitblit.c
++++ b/drivers/video/fbdev/core/bitblit.c
+@@ -348,16 +348,7 @@ static void bit_cursor(struct vc_data *vc, struct fb_info *info, int mode,
+ 			mask[i++] = msk;
+ 	}
  
 -	switch (mode) {
 -	case CM_ERASE:
--		treg = newport_vc2_get(npregs, VC2_IREG_CONTROL);
--		newport_vc2_set(npregs, VC2_IREG_CONTROL,
--				(treg & ~(VC2_CTRL_ECDISP)));
+-		ops->cursor_state.enable = 0;
 -		break;
-+	treg = newport_vc2_get(npregs, VC2_IREG_CONTROL);
- 
--	case CM_MOVE:
 -	case CM_DRAW:
--		treg = newport_vc2_get(npregs, VC2_IREG_CONTROL);
-+	if (mode == CM_ERASE) {
- 		newport_vc2_set(npregs, VC2_IREG_CONTROL,
--				(treg | VC2_CTRL_ECDISP));
--		xcurs = (vc->vc_pos - vc->vc_visible_origin) / 2;
--		ycurs = ((xcurs / vc->vc_cols) << 4) + 31;
--		xcurs = ((xcurs % vc->vc_cols) << 3) + xcurs_correction;
--		newport_vc2_set(npregs, VC2_IREG_CURSX, xcurs);
--		newport_vc2_set(npregs, VC2_IREG_CURSY, ycurs);
-+				(treg & ~(VC2_CTRL_ECDISP)));
-+		return;
- 	}
-+
-+	newport_vc2_set(npregs, VC2_IREG_CONTROL, (treg | VC2_CTRL_ECDISP));
-+	xcurs = (vc->vc_pos - vc->vc_visible_origin) / 2;
-+	ycurs = ((xcurs / vc->vc_cols) << 4) + 31;
-+	xcurs = ((xcurs % vc->vc_cols) << 3) + xcurs_correction;
-+	newport_vc2_set(npregs, VC2_IREG_CURSX, xcurs);
-+	newport_vc2_set(npregs, VC2_IREG_CURSY, ycurs);
- }
- 
- static int newport_switch(struct vc_data *vc)
-diff --git a/drivers/video/console/sticon.c b/drivers/video/console/sticon.c
-index 906da1fde7c8..42480874db00 100644
---- a/drivers/video/console/sticon.c
-+++ b/drivers/video/console/sticon.c
-@@ -95,23 +95,20 @@ static void sticon_cursor(struct vc_data *conp, int mode)
- 	return;
- 
-     car1 = conp->vc_screenbuf[conp->state.x + conp->state.y * conp->vc_cols];
--    switch (mode) {
--    case CM_ERASE:
-+    if (mode == CM_ERASE) {
- 	sti_putc(sticon_sti, car1, conp->state.y, conp->state.x,
- 		 font_data[conp->vc_num]);
--	break;
--    case CM_MOVE:
--    case CM_DRAW:
--	switch (CUR_SIZE(conp->vc_cursor_type)) {
--	case CUR_UNDERLINE:
--	case CUR_LOWER_THIRD:
--	case CUR_LOWER_HALF:
--	case CUR_TWO_THIRDS:
--	case CUR_BLOCK:
--	    sti_putc(sticon_sti, (car1 & 255) + (0 << 8) + (7 << 11),
--		     conp->state.y, conp->state.x, font_data[conp->vc_num]);
--	    break;
+-	case CM_MOVE:
+-	default:
+-		ops->cursor_state.enable = (use_sw) ? 0 : 1;
+-		break;
 -	}
-+	return;
-+    }
-+
-+    switch (CUR_SIZE(conp->vc_cursor_type)) {
-+    case CUR_UNDERLINE:
-+    case CUR_LOWER_THIRD:
-+    case CUR_LOWER_HALF:
-+    case CUR_TWO_THIRDS:
-+    case CUR_BLOCK:
-+	sti_putc(sticon_sti, (car1 & 255) + (0 << 8) + (7 << 11),
-+		 conp->state.y, conp->state.x, font_data[conp->vc_num]);
- 	break;
-     }
- }
-diff --git a/drivers/video/console/vgacon.c b/drivers/video/console/vgacon.c
-index aa0589085847..82d01a9ccd6d 100644
---- a/drivers/video/console/vgacon.c
-+++ b/drivers/video/console/vgacon.c
-@@ -514,47 +514,41 @@ static void vgacon_cursor(struct vc_data *c, int mode)
++	ops->cursor_state.enable = (mode != CM_ERASE) && !use_sw;
  
- 	c_height = c->vc_cell_height;
+ 	cursor.image.data = src;
+ 	cursor.image.fg_color = ops->cursor_state.image.fg_color;
+diff --git a/drivers/video/fbdev/core/fbcon_ccw.c b/drivers/video/fbdev/core/fbcon_ccw.c
+index 2789ace79634..889423d580bc 100644
+--- a/drivers/video/fbdev/core/fbcon_ccw.c
++++ b/drivers/video/fbdev/core/fbcon_ccw.c
+@@ -349,16 +349,7 @@ static void ccw_cursor(struct vc_data *vc, struct fb_info *info, int mode,
+ 		kfree(tmp);
+ 	}
  
 -	switch (mode) {
 -	case CM_ERASE:
--		write_vga(14, (c->vc_pos - vga_vram_base) / 2);
-+	write_vga(14, (c->vc_pos - vga_vram_base) / 2);
-+
-+	if (mode == CM_ERASE) {
- 	        if (vga_video_type >= VIDEO_TYPE_VGAC)
- 			vgacon_set_cursor_size(31, 30);
- 		else
- 			vgacon_set_cursor_size(31, 31);
+-		ops->cursor_state.enable = 0;
 -		break;
-+		return;
-+	}
- 
--	case CM_MOVE:
 -	case CM_DRAW:
--		write_vga(14, (c->vc_pos - vga_vram_base) / 2);
--		switch (CUR_SIZE(c->vc_cursor_type)) {
--		case CUR_UNDERLINE:
--			vgacon_set_cursor_size(c_height -
--					       (c_height < 10 ? 2 : 3),
--					       c_height -
--					       (c_height < 10 ? 1 : 2));
--			break;
--		case CUR_TWO_THIRDS:
--			vgacon_set_cursor_size(c_height / 3, c_height -
--					       (c_height < 10 ? 1 : 2));
--			break;
--		case CUR_LOWER_THIRD:
--			vgacon_set_cursor_size(c_height * 2 / 3, c_height -
--					       (c_height < 10 ? 1 : 2));
--			break;
--		case CUR_LOWER_HALF:
--			vgacon_set_cursor_size(c_height / 2, c_height -
--					       (c_height < 10 ? 1 : 2));
--			break;
--		case CUR_NONE:
--			if (vga_video_type >= VIDEO_TYPE_VGAC)
--				vgacon_set_cursor_size(31, 30);
--			else
--				vgacon_set_cursor_size(31, 31);
--			break;
--		default:
--			vgacon_set_cursor_size(1, c_height);
--			break;
--		}
-+	switch (CUR_SIZE(c->vc_cursor_type)) {
-+	case CUR_UNDERLINE:
-+		vgacon_set_cursor_size(c_height - (c_height < 10 ? 2 : 3),
-+				       c_height - (c_height < 10 ? 1 : 2));
-+		break;
-+	case CUR_TWO_THIRDS:
-+		vgacon_set_cursor_size(c_height / 3,
-+				       c_height - (c_height < 10 ? 1 : 2));
-+		break;
-+	case CUR_LOWER_THIRD:
-+		vgacon_set_cursor_size(c_height * 2 / 3,
-+				       c_height - (c_height < 10 ? 1 : 2));
-+		break;
-+	case CUR_LOWER_HALF:
-+		vgacon_set_cursor_size(c_height / 2,
-+				       c_height - (c_height < 10 ? 1 : 2));
-+		break;
-+	case CUR_NONE:
-+		if (vga_video_type >= VIDEO_TYPE_VGAC)
-+			vgacon_set_cursor_size(31, 30);
-+		else
-+			vgacon_set_cursor_size(31, 31);
-+		break;
-+	default:
-+		vgacon_set_cursor_size(1, c_height);
- 		break;
+-	case CM_MOVE:
+-	default:
+-		ops->cursor_state.enable = (use_sw) ? 0 : 1;
+-		break;
+-	}
++	ops->cursor_state.enable = (mode != CM_ERASE) && !use_sw;
+ 
+ 	cursor.image.data = src;
+ 	cursor.image.fg_color = ops->cursor_state.image.fg_color;
+diff --git a/drivers/video/fbdev/core/fbcon_cw.c b/drivers/video/fbdev/core/fbcon_cw.c
+index 86a254c1b2b7..a306ca5802e8 100644
+--- a/drivers/video/fbdev/core/fbcon_cw.c
++++ b/drivers/video/fbdev/core/fbcon_cw.c
+@@ -332,16 +332,7 @@ static void cw_cursor(struct vc_data *vc, struct fb_info *info, int mode,
+ 		kfree(tmp);
  	}
- }
+ 
+-	switch (mode) {
+-	case CM_ERASE:
+-		ops->cursor_state.enable = 0;
+-		break;
+-	case CM_DRAW:
+-	case CM_MOVE:
+-	default:
+-		ops->cursor_state.enable = (use_sw) ? 0 : 1;
+-		break;
+-	}
++	ops->cursor_state.enable = (mode != CM_ERASE) && !use_sw;
+ 
+ 	cursor.image.data = src;
+ 	cursor.image.fg_color = ops->cursor_state.image.fg_color;
+diff --git a/drivers/video/fbdev/core/fbcon_ud.c b/drivers/video/fbdev/core/fbcon_ud.c
+index 23bc045769d0..f6fc458b46c7 100644
+--- a/drivers/video/fbdev/core/fbcon_ud.c
++++ b/drivers/video/fbdev/core/fbcon_ud.c
+@@ -372,16 +372,7 @@ static void ud_cursor(struct vc_data *vc, struct fb_info *info, int mode,
+ 			mask[i++] = ~msk;
+ 	}
+ 
+-	switch (mode) {
+-	case CM_ERASE:
+-		ops->cursor_state.enable = 0;
+-		break;
+-	case CM_DRAW:
+-	case CM_MOVE:
+-	default:
+-		ops->cursor_state.enable = (use_sw) ? 0 : 1;
+-		break;
+-	}
++	ops->cursor_state.enable = (mode != CM_ERASE) && !use_sw;
+ 
+ 	cursor.image.data = src;
+ 	cursor.image.fg_color = ops->cursor_state.image.fg_color;
 -- 
 2.43.0
 
