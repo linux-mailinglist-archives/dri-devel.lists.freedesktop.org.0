@@ -2,48 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 167F48373AD
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 21:26:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E3BB837201
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 20:11:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E03A310E979;
-	Mon, 22 Jan 2024 20:25:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F142610E0B7;
+	Mon, 22 Jan 2024 19:11:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D0A510EC00
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 09:41:48 +0000 (UTC)
-From: Anna-Maria Behnsen <anna-maria@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1705915947;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cSSZhWNo8uGfD/dxK4hfGhRRqDZCVVwEoayqmi+IK+U=;
- b=TitGlBlWW2gGFsl2fJObF6qCcX3Ddbg6gjGRYElmCaVOPydsJeW2TyHCQ6jfQ6vpsIksrl
- NuaSLEQ+JoIdq8gySR0ivth2hGgrbAUXnsqnQbVkKj82BaTTNjBxiOL01L4Bp0XBHVZE9T
- xz0IysGx6uBjNrg2QRVrwARtjKFoFwx+0fbXsqmGDfoF4PsBndLQM3eez+6uRBzRarRflQ
- Mi+E7JHBLCYnBfivcutj7Zpz6DPM/nir5S3nZ2HzP8CqqpKH+V85SODiuIUhezSVIv71xo
- 0wpWWu2MW01GBaDhsvbwM1DBDpffNLIQXtY9j5iHUmXiYwGfpaZN7VHq9tXfFw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1705915947;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cSSZhWNo8uGfD/dxK4hfGhRRqDZCVVwEoayqmi+IK+U=;
- b=UG+r3xx5MmTGX8r3eyTdTfD8rWJnpDAE+0ga1WHSB3hPZKkZ/MC7dlm1D/3ZA/yEB1m7c2
- b8ydaJpMaC5G74Cg==
-To: linux-doc@vger.kernel.org
-Subject: [PATCH 2/2] scripts/kernel-doc: Do not process backslash lines in
- comments
-Date: Mon, 22 Jan 2024 10:31:52 +0100
-Message-Id: <20240122093152.22536-3-anna-maria@linutronix.de>
-In-Reply-To: <20240122093152.22536-1-anna-maria@linutronix.de>
-References: <20240122093152.22536-1-anna-maria@linutronix.de>
+X-Greylist: delayed 541 seconds by postgrey-1.36 at gabe;
+ Mon, 22 Jan 2024 19:11:07 UTC
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+ [66.111.4.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E044910EC72
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 19:11:07 +0000 (UTC)
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
+ by mailout.nyi.internal (Postfix) with ESMTP id 8ACEF5C01F9;
+ Mon, 22 Jan 2024 14:02:04 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute7.internal (MEProxy); Mon, 22 Jan 2024 14:02:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+ :cc:content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:subject
+ :subject:to:to; s=fm3; t=1705950124; x=1706036524; bh=/3jn0klblO
+ JlmE5L7RLA0gOkZzg+qb+808qcNYDq010=; b=heyykCPWh+Xa6vDvp7ZcdHVxU/
+ TxfUXFJpV9R1lEO8HMaexmQPhympkFcfigzzA6vrwy0gcpROd5JyeOrXLen3MXoA
+ 2x3GeGk0021My1fPlupI7JniwqaIVvVsECdmfqFSzLbIErYkewWK2+x413bZHUjx
+ lMc7nOOx5dZ4KOC9VsoP9WaZXOvjnyUEKUdYvfEVoXfR9hT8pPheF1qiWpxi6vd4
+ C8JyOpwMt+og36JTZcBuXrt5qWGp2FIWPpO11au2Cx9TNlY93xcwJbcLUBwCwP0w
+ 7YtgpxCAQkU78/ARpWrcTVOvRNnPlCWR5Ia9GdEVG2kU9Mik3FQiiQYmQQ7A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:subject:subject:to
+ :to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1705950124; x=1706036524; bh=/3jn0klblOJlmE5L7RLA0gOkZzg+
+ qb+808qcNYDq010=; b=r07nOuw5c8s6MBJBuBJqnawdRfqryJM6KUnDAyRjPpc9
+ DpUZCfcrbmv7tfa4U+3VsQAGQAjmec6lwcjK0m1HwhTrQvgsXydWKkKs+HYYtd5Y
+ WTy2ZkXSIh5UBLAiB+8IxlAWlROq6xMUPdJphXWv83jeO8phgZa9C6iBdI+86bNH
+ 1SsgzPA2lgg+63jqiNWb2yt+MwrqgCBht9mkYV5JLWpZinKviT/1JjACdyf8uH7f
+ Hplju25RYAz9ZMAiL2vofBJ+zMOvkix7OyXFvTKGc+hJ4apcxuG7vaukfPd0HBYU
+ Ky4b2wf7dzsSqIJdnh1UqCKXChkl5mZ27Fwayj8RTQ==
+X-ME-Sender: <xms:rLuuZZXkVEg-9XYlwFFZHoR_kNN0ng8LXcN3yxoCBLWcbkYglDrLpQ>
+ <xme:rLuuZZlN1Uj9KyybnaLPygmi72tYsLLi2RBiF5xQJlv-_omgdN75Nu0P05GBCxxEE
+ CwOtrnbMZ9lRA>
+X-ME-Received: <xmr:rLuuZVbY9dSidZxnLroOyT3jZwbfig5p8Ab_nNz2VCItMPurdkCXAYkeVHP3eMDXJi1UDHLyQtzvgW0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdekiedguddujecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgv
+ ghcumffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeehge
+ dvvedvleejuefgtdduudfhkeeltdeihfevjeekjeeuhfdtueefhffgheekteenucevlhhu
+ shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhroh
+ grhhdrtghomh
+X-ME-Proxy: <xmx:rLuuZcXMNdWjc29ejrYwOHGMEhn5UmWBt06KtAoYyVihpSO1K6YAcQ>
+ <xmx:rLuuZTnywPVcAbSH9HT6nX38KcYYjzf01_6IltHpaBZbImexWtKTfw>
+ <xmx:rLuuZZf0ODir7JAmQaC7s5t9CWuRg_x3xNX0DwO-kctKFkCsp8ZRyw>
+ <xmx:rLuuZRaZSCbPFmkzWihhgMBQojYOivWrfercD5yXVOUuvkKcYCXfHQ>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 22 Jan 2024 14:02:03 -0500 (EST)
+Date: Mon, 22 Jan 2024 11:01:56 -0800
+From: Greg KH <greg@kroah.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>
+Subject: Re: [PATCH 0/2] drm/vmwgfx backport two fixes to v6.1.x branch
+Message-ID: <2024012246-affirm-vixen-e598@gregkh>
+References: <20240122172031.243604-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Mon, 22 Jan 2024 20:25:31 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240122172031.243604-1-jfalempe@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,60 +83,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
- Anna-Maria Behnsen <anna-maria@linutronix.de>, dri-devel@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>, Matthew Wilcox <willy@infradead.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 654784284430 ("kernel-doc: bugfix - multi-line macros") introduces
-pre-processing of backslashes at the end of a line to not break multi-line
-macros. This pre-processing is done independently if it is inside code or
-inside a comment.
+On Mon, Jan 22, 2024 at 06:10:11PM +0100, Jocelyn Falempe wrote:
+> Hi,
+> 
+> I've backported this two commits:
+> f9e96bf19054 drm/vmwgfx: Fix possible invalid drm gem put calls
+> 91398b413d03 drm/vmwgfx: Keep a gem reference to user bos in surfaces
+> 
+> They both fixes a950b989ea29 ("drm/vmwgfx: Do not drop the reference
+> to the handle too soon")
+> which has been backported to v6.1.x branch as 0a127ac97240
+> 
+> There was a lot of conflicts, and as I'm not familiar with the vmwgfx
+> driver, it's better to review and test them.
+> I've run a short test, and it worked, but that's certainly not enough.
 
-This illustation of a hierarchy as a code block inside a kernel-doc comment
-has a backslash at the end of the line:
+All now queued up, thanks.
 
----8<---
-/**
- * DOC: hierarchy
- *
- *                    Top Level
- *                /               \
- *         Child A                 Child B
- */
----8<---
-
-It will be displayed as:
-
----8<---
-	     Top Level
-	 /                *        Child A                 Child B
----8<---
-
-To prevent this, do the pre-processing only for lines which are no
-comments, e.g. do not start with ' *'.
-
-Suggested-by: Matthew Wilcox <willy@infradead.org>
-Signed-off-by: Anna-Maria Behnsen <anna-maria@linutronix.de>
----
- scripts/kernel-doc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index e8aefd258a29..4277af79de86 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -2331,7 +2331,7 @@ sub process_file($) {
- 
-     $section_counter = 0;
-     while (<IN_FILE>) {
--	while (s/\\\s*$//) {
-+	while (!/^ \*/ && s/\\\s*$//) {
- 	    $_ .= <IN_FILE>;
- 	}
- 	# Replace tabs by spaces
--- 
-2.39.2
-
+greg k-h
