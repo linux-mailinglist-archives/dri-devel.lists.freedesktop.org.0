@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 492A18367BD
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:18:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC1478367D1
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:20:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9968110F3E8;
-	Mon, 22 Jan 2024 15:18:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2424110F402;
+	Mon, 22 Jan 2024 15:19:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E28E210F3E8
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 15:18:54 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1C3F10F402;
+ Mon, 22 Jan 2024 15:19:40 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 675CB6150B;
- Mon, 22 Jan 2024 15:18:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 549E2C433F1;
- Mon, 22 Jan 2024 15:18:52 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 93FEFCE1C1E;
+ Mon, 22 Jan 2024 15:19:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 820FCC433C7;
+ Mon, 22 Jan 2024 15:19:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705936734;
- bh=9vp3fgTAMOlr5CFsOf+b2POkJmPdWdYEmPmQKvjJkQI=;
+ s=k20201202; t=1705936746;
+ bh=c/H47Ofj/5vGDHzyz087pRB/v2+Keic3Q/4IFnV6G30=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=uq+lDxcWD7cO6pOdmwbFfRx8Vb+Qlo8hN0QTCwAXGRKs81plrd88B+ptRhnKMhWLO
- Mm34D+3R67V11nO5lLg5XRpq5hsUU6HwV1gSe8p0Vn7xgXOxKy2bSPXjxjbfOFIarE
- F4xgaJ30/6ZC9cvVkm51IGHrbaT5E/t3vP+RaUz/d4OtPLxHsaL3Hxs2xRJQMG0bo/
- Fy2gyykzkEJoxxPfMKkiIOYJEbTlIPvRdidOCoREMotUQ5IS+NYJmqTjoGBQyzqFhR
- y2F8BD+GejxIGunvp/G2wqRK+l1wPzYfhpGQBD9lzXufTmBk9PgWwThw1Gpp9TV34L
- OmSzg0eXu78rQ==
+ b=WiBVQ6FOYvbMzdWvTj59UP9brwkLKCr2Yn+Rz1ncQ+ulVDLkpjkQcwUiST+fxIQM6
+ KzJhGnmW0Zzw6Tgp52mF2i/pSDGMT4G6LWniAr7QNcBhUMZdmgzygoNzBol28xONBo
+ VNMBJbdzcOd7I9f7Cz0SRBik6QyUraI51mR0jGaefzZESv80+8GktO58ydK/PsT+vM
+ p7W1UfdeLlJQYsieJKRw3J7u2O1YnQ4RmkQpk0ztACCOX+8StyZDudn0128KsyGD9p
+ m5vgVQXKwX3iIL7xKHURO+Y9QLVet98QpU3t+Thfs88xl4mq63n+aHmSEvoWyH4iCP
+ eLeNK2BaDSwpQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 14/23] drm/exynos: Call
- drm_atomic_helper_shutdown() at shutdown/unbind time
-Date: Mon, 22 Jan 2024 10:17:54 -0500
-Message-ID: <20240122151823.997644-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 17/23] drm/msm/dpu: Ratelimit framedone timeout
+ msgs
+Date: Mon, 22 Jan 2024 10:17:57 -0500
+Message-ID: <20240122151823.997644-17-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122151823.997644-1-sashal@kernel.org>
 References: <20240122151823.997644-1-sashal@kernel.org>
@@ -54,93 +54,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-samsung-soc@vger.kernel.org,
- sw0312.kim@samsung.com, Douglas Anderson <dianders@chromium.org>,
- Maxime Ripard <mripard@kernel.org>, krzysztof.kozlowski@linaro.org,
- kyungmin.park@samsung.com, dri-devel@lists.freedesktop.org, daniel@ffwll.ch,
- airlied@gmail.com, linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
+ quic_kalyant@quicinc.com, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, quic_khsieh@quicinc.com,
+ quic_parellan@quicinc.com, daniel@ffwll.ch, quic_jesszhan@quicinc.com,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, quic_vpolimer@quicinc.com,
+ airlied@gmail.com, dan.carpenter@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Douglas Anderson <dianders@chromium.org>
+From: Rob Clark <robdclark@chromium.org>
 
-[ Upstream commit 16ac5b21b31b439f03cdf44c153c5f5af94fb3eb ]
+[ Upstream commit 2b72e50c62de60ad2d6bcd86aa38d4ccbdd633f2 ]
 
-Based on grepping through the source code this driver appears to be
-missing a call to drm_atomic_helper_shutdown() at system shutdown time
-and at driver unbind time. Among other things, this means that if a
-panel is in use that it won't be cleanly powered off at system
-shutdown time.
+When we start getting these, we get a *lot*.  So ratelimit it to not
+flood dmesg.
 
-The fact that we should call drm_atomic_helper_shutdown() in the case
-of OS shutdown/restart and at driver remove (or unbind) time comes
-straight out of the kernel doc "driver instance overview" in
-drm_drv.c.
-
-A few notes about this fix:
-- When adding drm_atomic_helper_shutdown() to the unbind path, I added
-  it after drm_kms_helper_poll_fini() since that's when other drivers
-  seemed to have it.
-- Technically with a previous patch, ("drm/atomic-helper:
-  drm_atomic_helper_shutdown(NULL) should be a noop"), we don't
-  actually need to check to see if our "drm" pointer is NULL before
-  calling drm_atomic_helper_shutdown(). We'll leave the "if" test in,
-  though, so that this patch can land without any dependencies. It
-  could potentially be removed later.
-- This patch also makes sure to set the drvdata to NULL in the case of
-  bind errors to make sure that shutdown can't access freed data.
-
-Suggested-by: Maxime Ripard <mripard@kernel.org>
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
-Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
-Reviewed-by: Marek Szyprowski <m.szyprowski@samsung.com>
-Signed-off-by: Inki Dae <inki.dae@samsung.com>
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+Patchwork: https://patchwork.freedesktop.org/patch/571584/
+Link: https://lore.kernel.org/r/20231211182000.218088-1-robdclark@gmail.com
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/exynos/exynos_drm_drv.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 5 ++++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h     | 1 +
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_drv.c b/drivers/gpu/drm/exynos/exynos_drm_drv.c
-index b599f74692e5..db09e2055c86 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_drv.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_drv.c
-@@ -410,6 +410,7 @@ static int exynos_drm_bind(struct device *dev)
- 	drm_release_iommu_mapping(drm);
- err_free_private:
- 	kfree(private);
-+	dev_set_drvdata(dev, NULL);
- err_free_drm:
- 	drm_dev_put(drm);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index 19e2753ffe07..a411cfe76998 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -53,6 +53,9 @@
+ 		(p) ? ((p)->hw_pp ? (p)->hw_pp->idx - PINGPONG_0 : -1) : -1, \
+ 		##__VA_ARGS__)
  
-@@ -424,6 +425,7 @@ static void exynos_drm_unbind(struct device *dev)
- 
- 	exynos_drm_fbdev_fini(drm);
- 	drm_kms_helper_poll_fini(drm);
-+	drm_atomic_helper_shutdown(drm);
- 
- 	component_unbind_all(drm->dev, drm);
- 	drm_mode_config_cleanup(drm);
-@@ -461,9 +463,18 @@ static int exynos_drm_platform_remove(struct platform_device *pdev)
- 	return 0;
- }
- 
-+static void exynos_drm_platform_shutdown(struct platform_device *pdev)
-+{
-+	struct drm_device *drm = platform_get_drvdata(pdev);
++#define DPU_ERROR_ENC_RATELIMITED(e, fmt, ...) DPU_ERROR_RATELIMITED("enc%d " fmt,\
++		(e) ? (e)->base.base.id : -1, ##__VA_ARGS__)
 +
-+	if (drm)
-+		drm_atomic_helper_shutdown(drm);
-+}
-+
- static struct platform_driver exynos_drm_platform_driver = {
- 	.probe	= exynos_drm_platform_probe,
- 	.remove	= exynos_drm_platform_remove,
-+	.shutdown = exynos_drm_platform_shutdown,
- 	.driver	= {
- 		.name	= "exynos-drm",
- 		.pm	= &exynos_drm_pm_ops,
+ /*
+  * Two to anticipate panels that can do cmd/vid dynamic switching
+  * plan is to create all possible physical encoder types, and switch between
+@@ -2326,7 +2329,7 @@ static void dpu_encoder_frame_done_timeout(struct timer_list *t)
+ 		return;
+ 	}
+ 
+-	DPU_ERROR_ENC(dpu_enc, "frame done timeout\n");
++	DPU_ERROR_ENC_RATELIMITED(dpu_enc, "frame done timeout\n");
+ 
+ 	event = DPU_ENCODER_FRAME_EVENT_ERROR;
+ 	trace_dpu_enc_frame_done_timeout(DRMID(drm_enc), event);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+index 66d466628e2b..56ae888e18fc 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+@@ -61,6 +61,7 @@
+ 	} while (0)
+ 
+ #define DPU_ERROR(fmt, ...) pr_err("[dpu error]" fmt, ##__VA_ARGS__)
++#define DPU_ERROR_RATELIMITED(fmt, ...) pr_err_ratelimited("[dpu error]" fmt, ##__VA_ARGS__)
+ 
+ /**
+  * ktime_compare_safe - compare two ktime structures
 -- 
 2.43.0
 
