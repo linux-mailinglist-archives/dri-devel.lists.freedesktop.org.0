@@ -2,38 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B05B383662C
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 15:59:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E67D8836639
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:00:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB6DE10E57B;
-	Mon, 22 Jan 2024 14:59:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27D9D10F2AB;
+	Mon, 22 Jan 2024 14:59:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB0BA10F2A5;
- Mon, 22 Jan 2024 14:59:15 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C91810F2B7;
+ Mon, 22 Jan 2024 14:59:50 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 9F68CCE2AA3;
- Mon, 22 Jan 2024 14:59:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65456C433F1;
- Mon, 22 Jan 2024 14:59:08 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 0AEBC61475;
+ Mon, 22 Jan 2024 14:59:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52AD4C43330;
+ Mon, 22 Jan 2024 14:59:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705935550;
- bh=iDvS58CE+1BqEwOar9BdWpfSHPIgBjO0gge764khmfk=;
+ s=k20201202; t=1705935559;
+ bh=bjtOOpefTp5sMPdP53mkM7HVpWo7eE9Q4KD1ni8vOhA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=BkRb2GLBNgiYzPIuzqeo6hETrOCFeWr7Whcdi4cib8iXthJQjPUXqyjaDBKgEeR2d
- Q4bQKmkhs0LMThgk4Ixg54delZZYcVZLh1Ha02FuPTmqNXxjxKvKkYBUcjhx7jGnar
- 79nEoK0SG1nn+mIthRtCCGfhDXzoxTL0Q++UJOoJC6RzNaz86F8tEAeuRFqfacaHJj
- 7SOcOu/wWv6cWIQRhaGyXPNKf7Z8qSjhrete6gicjAvwi8DvQhiTrGEMNxk34kr5UC
- uAUTTrIstGeVwxvvOBcK/Jz2Rn+K055TUbRVdUcXYKuD5ASEznSo9owsullZ2GxAhE
- BQ6QEL8Iu2NAA==
+ b=sYtpFUz0MeeJxKgiirjEMAzvrBDcJCCPYwuFA5wuf6KWnGSLjzVOEdM+kiptuOgmj
+ ByOVrb6VlE0GM1KWmX56rku20YDb334V7TImRdAI0IY/Zur5/VJBJWqTwN80Ta7s5k
+ OuXbNj8sGlmAzM1bUlPyyuqIzaPHqL9T7FolERZ1RYVWe0PM6TMkhyAWrAupim4qFw
+ mdE/EBpCUqiVtEXAOqQwkdrm9oFJJFEB4HEv6HR8QBGg6LvcmrULdWsUm5x0hrYJIN
+ ei0KgfE4w6wXNkMIBw+HwDS1DL5LLl/mnmCu1QYOHZxA1UnjJmLBHHj0A2YV80FVYY
+ M7RQJIoPuUAcQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.7 52/88] drm/amdkfd: fix mes set shader debugger
- process management
-Date: Mon, 22 Jan 2024 09:51:25 -0500
-Message-ID: <20240122145608.990137-52-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.7 53/88] drm/msm/dpu: enable writeback on SM8350
+Date: Mon, 22 Jan 2024 09:51:26 -0500
+Message-ID: <20240122145608.990137-53-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122145608.990137-1-sashal@kernel.org>
 References: <20240122145608.990137-1-sashal@kernel.org>
@@ -54,165 +53,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Jack.Xiao@amd.com,
- Jonathan Kim <jonathan.kim@amd.com>, dri-devel@lists.freedesktop.org,
- guchun.chen@amd.com, shashank.sharma@amd.com, Felix.Kuehling@amd.com,
- Xinhui.Pan@amd.com, arvind.yadav@amd.com, Alice Wong <shiwei.wong@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
- daniel@ffwll.ch, Eric Huang <jinhuieric.huang@amd.com>, lijo.lazar@amd.com,
- airlied@gmail.com, christian.koenig@amd.com, shaoyun.liu@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, konrad.dybcio@linaro.org, daniel@ffwll.ch,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, marijn.suijten@somainline.org,
+ airlied@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jonathan Kim <jonathan.kim@amd.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-[ Upstream commit bd33bb1409b494558a2935f7bbc7842def957fcd ]
+[ Upstream commit c2949a49dfe960e952400029e14751dceff79d38 ]
 
-MES provides the driver a call to explicitly flush stale process memory
-within the MES to avoid a race condition that results in a fatal
-memory violation.
+Enable WB2 hardware block, enabling writeback support on this platform.
 
-When SET_SHADER_DEBUGGER is called, the driver passes a memory address
-that represents a process context address MES uses to keep track of
-future per-process calls.
-
-Normally, MES will purge its process context list when the last queue
-has been removed.  The driver, however, can call SET_SHADER_DEBUGGER
-regardless of whether a queue has been added or not.
-
-If SET_SHADER_DEBUGGER has been called with no queues as the last call
-prior to process termination, the passed process context address will
-still reside within MES.
-
-On a new process call to SET_SHADER_DEBUGGER, the driver may end up
-passing an identical process context address value (based on per-process
-gpu memory address) to MES but is now pointing to a new allocated buffer
-object during KFD process creation.  Since the MES is unaware of this,
-access of the passed address points to the stale object within MES and
-triggers a fatal memory violation.
-
-The solution is for KFD to explicitly flush the process context address
-from MES on process termination.
-
-Note that the flush call and the MES debugger calls use the same MES
-interface but are separated as KFD calls to avoid conflicting with each
-other.
-
-Signed-off-by: Jonathan Kim <jonathan.kim@amd.com>
-Tested-by: Alice Wong <shiwei.wong@amd.com>
-Reviewed-by: Eric Huang <jinhuieric.huang@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Patchwork: https://patchwork.freedesktop.org/patch/570188/
+Link: https://lore.kernel.org/r/20231203002743.1291956-3-dmitry.baryshkov@linaro.org
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c       | 31 +++++++++++++++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_mes.h       | 10 +++---
- .../amd/amdkfd/kfd_process_queue_manager.c    |  1 +
- drivers/gpu/drm/amd/include/mes_v11_api_def.h |  3 +-
- 4 files changed, 40 insertions(+), 5 deletions(-)
+ .../drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c
-index 9ddbf1494326..30c010836658 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c
-@@ -886,6 +886,11 @@ int amdgpu_mes_set_shader_debugger(struct amdgpu_device *adev,
- 	op_input.op = MES_MISC_OP_SET_SHADER_DEBUGGER;
- 	op_input.set_shader_debugger.process_context_addr = process_context_addr;
- 	op_input.set_shader_debugger.flags.u32all = flags;
-+
-+	/* use amdgpu mes_flush_shader_debugger instead */
-+	if (op_input.set_shader_debugger.flags.process_ctx_flush)
-+		return -EINVAL;
-+
- 	op_input.set_shader_debugger.spi_gdbg_per_vmid_cntl = spi_gdbg_per_vmid_cntl;
- 	memcpy(op_input.set_shader_debugger.tcp_watch_cntl, tcp_watch_cntl,
- 			sizeof(op_input.set_shader_debugger.tcp_watch_cntl));
-@@ -905,6 +910,32 @@ int amdgpu_mes_set_shader_debugger(struct amdgpu_device *adev,
- 	return r;
- }
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
+index 1709ba57f384..022b0408c24d 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
+@@ -31,6 +31,7 @@ static const struct dpu_mdp_cfg sm8350_mdp = {
+ 		[DPU_CLK_CTRL_DMA1] = { .reg_off = 0x2b4, .bit_off = 8 },
+ 		[DPU_CLK_CTRL_DMA2] = { .reg_off = 0x2bc, .bit_off = 8 },
+ 		[DPU_CLK_CTRL_DMA3] = { .reg_off = 0x2c4, .bit_off = 8 },
++		[DPU_CLK_CTRL_WB2] = { .reg_off = 0x2bc, .bit_off = 16 },
+ 		[DPU_CLK_CTRL_REG_DMA] = { .reg_off = 0x2bc, .bit_off = 20 },
+ 	},
+ };
+@@ -298,6 +299,21 @@ static const struct dpu_dsc_cfg sm8350_dsc[] = {
+ 	},
+ };
  
-+int amdgpu_mes_flush_shader_debugger(struct amdgpu_device *adev,
-+				     uint64_t process_context_addr)
-+{
-+	struct mes_misc_op_input op_input = {0};
-+	int r;
++static const struct dpu_wb_cfg sm8350_wb[] = {
++	{
++		.name = "wb_2", .id = WB_2,
++		.base = 0x65000, .len = 0x2c8,
++		.features = WB_SM8250_MASK,
++		.format_list = wb2_formats,
++		.num_formats = ARRAY_SIZE(wb2_formats),
++		.clk_ctrl = DPU_CLK_CTRL_WB2,
++		.xin_id = 6,
++		.vbif_idx = VBIF_RT,
++		.maxlinewidth = 4096,
++		.intr_wb_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 4),
++	},
++};
 +
-+	if (!adev->mes.funcs->misc_op) {
-+		DRM_ERROR("mes flush shader debugger is not supported!\n");
-+		return -EINVAL;
-+	}
-+
-+	op_input.op = MES_MISC_OP_SET_SHADER_DEBUGGER;
-+	op_input.set_shader_debugger.process_context_addr = process_context_addr;
-+	op_input.set_shader_debugger.flags.process_ctx_flush = true;
-+
-+	amdgpu_mes_lock(&adev->mes);
-+
-+	r = adev->mes.funcs->misc_op(&adev->mes, &op_input);
-+	if (r)
-+		DRM_ERROR("failed to set_shader_debugger\n");
-+
-+	amdgpu_mes_unlock(&adev->mes);
-+
-+	return r;
-+}
-+
- static void
- amdgpu_mes_ring_to_queue_props(struct amdgpu_device *adev,
- 			       struct amdgpu_ring *ring,
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.h
-index a27b424ffe00..c2c88b772361 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.h
-@@ -291,9 +291,10 @@ struct mes_misc_op_input {
- 			uint64_t process_context_addr;
- 			union {
- 				struct {
--					uint64_t single_memop : 1;
--					uint64_t single_alu_op : 1;
--					uint64_t reserved: 30;
-+					uint32_t single_memop : 1;
-+					uint32_t single_alu_op : 1;
-+					uint32_t reserved: 29;
-+					uint32_t process_ctx_flush: 1;
- 				};
- 				uint32_t u32all;
- 			} flags;
-@@ -369,7 +370,8 @@ int amdgpu_mes_set_shader_debugger(struct amdgpu_device *adev,
- 				const uint32_t *tcp_watch_cntl,
- 				uint32_t flags,
- 				bool trap_en);
--
-+int amdgpu_mes_flush_shader_debugger(struct amdgpu_device *adev,
-+				uint64_t process_context_addr);
- int amdgpu_mes_add_ring(struct amdgpu_device *adev, int gang_id,
- 			int queue_type, int idx,
- 			struct amdgpu_mes_ctx_data *ctx_data,
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
-index 77f493262e05..8e55e78fce4e 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
-@@ -87,6 +87,7 @@ void kfd_process_dequeue_from_device(struct kfd_process_device *pdd)
- 		return;
- 
- 	dev->dqm->ops.process_termination(dev->dqm, &pdd->qpd);
-+	amdgpu_mes_flush_shader_debugger(dev->adev, pdd->proc_ctx_gpu_addr);
- 	pdd->already_dequeued = true;
- }
- 
-diff --git a/drivers/gpu/drm/amd/include/mes_v11_api_def.h b/drivers/gpu/drm/amd/include/mes_v11_api_def.h
-index b1db2b190187..e07e93167a82 100644
---- a/drivers/gpu/drm/amd/include/mes_v11_api_def.h
-+++ b/drivers/gpu/drm/amd/include/mes_v11_api_def.h
-@@ -571,7 +571,8 @@ struct SET_SHADER_DEBUGGER {
- 		struct {
- 			uint32_t single_memop : 1;  /* SQ_DEBUG.single_memop */
- 			uint32_t single_alu_op : 1; /* SQ_DEBUG.single_alu_op */
--			uint32_t reserved : 30;
-+			uint32_t reserved : 29;
-+			uint32_t process_ctx_flush : 1;
- 		};
- 		uint32_t u32all;
- 	} flags;
+ static const struct dpu_intf_cfg sm8350_intf[] = {
+ 	{
+ 		.name = "intf_0", .id = INTF_0,
+@@ -393,6 +409,8 @@ const struct dpu_mdss_cfg dpu_sm8350_cfg = {
+ 	.dsc = sm8350_dsc,
+ 	.merge_3d_count = ARRAY_SIZE(sm8350_merge_3d),
+ 	.merge_3d = sm8350_merge_3d,
++	.wb_count = ARRAY_SIZE(sm8350_wb),
++	.wb = sm8350_wb,
+ 	.intf_count = ARRAY_SIZE(sm8350_intf),
+ 	.intf = sm8350_intf,
+ 	.vbif_count = ARRAY_SIZE(sdm845_vbif),
 -- 
 2.43.0
 
