@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 410CE836669
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:02:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 797BE836673
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:02:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7880310F24D;
-	Mon, 22 Jan 2024 15:01:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F040310F2D3;
+	Mon, 22 Jan 2024 15:01:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F0F110F201;
- Mon, 22 Jan 2024 15:01:42 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 588E410F2D3;
+ Mon, 22 Jan 2024 15:01:54 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 7E271CE2AA3;
- Mon, 22 Jan 2024 15:01:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A524CC433F1;
- Mon, 22 Jan 2024 15:01:02 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id C9C5D6115A;
+ Mon, 22 Jan 2024 15:01:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2402EC433C7;
+ Mon, 22 Jan 2024 15:01:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705935666;
- bh=vSXH9S5fPCcb5miNeZI3+Bfvyh+vxHE6G/x7Q/8vLL0=;
+ s=k20201202; t=1705935683;
+ bh=bB14RhwtHCht10MRw+OWoJQOjFl0frT6lyEbD5z5Phk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=KIOZHMIA5en9DO82eJNbIubKUoYr11WYWQ++7jt/BdwFJhhrVrIhBJI9jK4R0Ww/V
- SyspSHvpXULSR+FblN8+qdI9te+/L81+lnylNkjdKkMeut/RCTyqHmLITgjhJpF+Do
- 36zzq7QpSd6cdInsL5waY4G5wx1GRjSw9rd/PqtZHRAZiPt/uKx0atzlBqWyXeusPq
- +gbikKIKKN90OUzdKNvG150NJshaxLN73WtDeF2LwZ5/kD5XC4npSo2qbDrdqBNvEm
- 3gIh6AuU00jzuTLyeryrPGOyPgCcLkz+GzyctXys+A1IcKwhSkYYILeNfZbIe4Udyl
- XDGoCobpgBxtA==
+ b=gRklkEbGQgRD/oiH5PirFGtoy628UtNe0D0XItifHnKeLShsKmcIpmsRvS3CsG11z
+ I4YwFJRTCBOqeAc6ATk93QWnc/EUEl4Jyop45rbaub5AvSzIgixgUaJ3HXhQyBQ/nk
+ Ng2jZOeEETcYB0wHOylpmRAid1WiH1r7Vkj2s/+u6LMrb6wF+VIbxxs4eWwe1rj/9j
+ 2xt8OG30o2h+At0O09qQZCcYvETlogZGEBiDh2jDLMcqPnT5JZ0w230Gqb/OCGL/dx
+ tQcOWDnsxYj+8X/bfXdoWGb+uEvFmQ0gzq6MzYf/3Q/FlbHWwc2KV+zkHzf17KDPox
+ MLUE2LrS1SS5A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.7 69/88] drm/amd/display: Only clear symclk otg flag
- for HDMI
-Date: Mon, 22 Jan 2024 09:51:42 -0500
-Message-ID: <20240122145608.990137-69-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.7 73/88] drm/amdgpu: Fix ecc irq enable/disable
+ unpaired
+Date: Mon, 22 Jan 2024 09:51:46 -0500
+Message-ID: <20240122145608.990137-73-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122145608.990137-1-sashal@kernel.org>
 References: <20240122145608.990137-1-sashal@kernel.org>
@@ -54,107 +54,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ian.chen@amd.com, wenjing.liu@amd.com, Samson Tam <samson.tam@amd.com>,
- mdaenzer@redhat.com, hamza.mahfooz@amd.com, jun.lei@amd.com, airlied@gmail.com,
- Sasha Levin <sashal@kernel.org>, charlene.liu@amd.com, Josip.Pavic@amd.com,
- sancchen@amd.com, Rodrigo.Siqueira@amd.com, syed.hassan@amd.com,
- amd-gfx@lists.freedesktop.org, alex.hung@amd.com,
- Alvin Lee <alvin.lee2@amd.com>, Jingwen.Zhu@amd.com, sunpeng.li@amd.com,
- mwen@igalia.com, Daniel Wheeler <daniel.wheeler@amd.com>,
- dri-devel@lists.freedesktop.org, sungjoon.kim@amd.com, dillon.varone@amd.com,
- Wesley.Chalmers@amd.com, swapnil.patel@amd.com, qingqing.zhuo@amd.com,
- Xinhui.Pan@amd.com, nicholas.kazlauskas@amd.com, daniel@ffwll.ch,
- Wayne Lin <wayne.lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, mukul.joshi@amd.com, Xinhui.Pan@amd.com,
+ srinivasan.shanmugam@amd.com, dri-devel@lists.freedesktop.org,
+ Felix.Kuehling@amd.com, Tao Zhou <tao.zhou1@amd.com>,
+ rajneesh.bhardwaj@amd.com, asad.kamal@amd.com, lijo.lazar@amd.com,
+ le.ma@amd.com, "Stanley.Yang" <Stanley.Yang@amd.com>,
+ amd-gfx@lists.freedesktop.org, daniel@ffwll.ch,
+ Alex Deucher <alexander.deucher@amd.com>, airlied@gmail.com,
+ christian.koenig@amd.com, Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alvin Lee <alvin.lee2@amd.com>
+From: "Stanley.Yang" <Stanley.Yang@amd.com>
 
-[ Upstream commit dff45f03f508c92cd8eb2050e27b726726b8ae0b ]
+[ Upstream commit a32c6f7f5737cc7e31cd7ad5133f0d96fca12ea6 ]
 
-[Description]
-There is a corner case where the symclk otg flag is cleared
-when disabling the phantom pipe for subvp (because the phantom
-and main pipe share the same link). This is undesired because
-we need the maintain the correct symclk otg flag state for
-the main pipe.
+The ecc_irq is disabled while GPU mode2 reset suspending process,
+but not be enabled during GPU mode2 reset resume process.
 
-For now only clear the flag only for HDMI signal type, since
-it's only set for HDMI signal type (phantom is virtual). The
-ideal solution is to not clear it if the stream is phantom but
-currently there's a bug that doesn't allow us to do this. Once
-this issue is fixed the proper fix can be implemented.
+Changed from V1:
+	only do sdma/gfx ras_late_init in aldebaran_mode2_restore_ip
+	delete amdgpu_ras_late_resume function
 
-Reviewed-by: Samson Tam <samson.tam@amd.com>
-Acked-by: Wayne Lin <wayne.lin@amd.com>
-Signed-off-by: Alvin Lee <alvin.lee2@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Changed from V2:
+	check umc ras supported before put ecc_irq
+
+Signed-off-by: Stanley.Yang <Stanley.Yang@amd.com>
+Reviewed-by: Tao Zhou <tao.zhou1@amd.com>
+Reviewed-by: Hawking Zhang <Hawking.Zhang@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c | 3 ++-
- drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   | 3 ++-
- drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c   | 3 ++-
- drivers/gpu/drm/amd/display/dc/hwss/dcn31/dcn31_hwseq.c   | 3 ++-
- 4 files changed, 8 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/aldebaran.c | 26 +++++++++++++++++++++++++-
+ drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c |  4 ++++
+ drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c |  5 +++++
+ drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c  |  4 ++++
+ 4 files changed, 38 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
-index 960a55e06375..c0d2e8454efc 100644
---- a/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
-@@ -2124,7 +2124,8 @@ static void dce110_reset_hw_ctx_wrap(
- 				BREAK_TO_DEBUGGER();
- 			}
- 			pipe_ctx_old->stream_res.tg->funcs->disable_crtc(pipe_ctx_old->stream_res.tg);
--			pipe_ctx_old->stream->link->phy_state.symclk_ref_cnts.otg = 0;
-+			if (dc_is_hdmi_tmds_signal(pipe_ctx_old->stream->signal))
-+				pipe_ctx_old->stream->link->phy_state.symclk_ref_cnts.otg = 0;
- 			pipe_ctx_old->plane_res.mi->funcs->free_mem_input(
- 					pipe_ctx_old->plane_res.mi, dc->current_state->stream_count);
+diff --git a/drivers/gpu/drm/amd/amdgpu/aldebaran.c b/drivers/gpu/drm/amd/amdgpu/aldebaran.c
+index 02f4c6f9d4f6..576067d66bb9 100644
+--- a/drivers/gpu/drm/amd/amdgpu/aldebaran.c
++++ b/drivers/gpu/drm/amd/amdgpu/aldebaran.c
+@@ -330,6 +330,7 @@ aldebaran_mode2_restore_hwcontext(struct amdgpu_reset_control *reset_ctl,
+ {
+ 	struct list_head *reset_device_list = reset_context->reset_device_list;
+ 	struct amdgpu_device *tmp_adev = NULL;
++	struct amdgpu_ras *con;
+ 	int r;
  
-diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c
-index cdb903116eb7..1fc8436c8130 100644
---- a/drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c
-@@ -1057,7 +1057,8 @@ static void dcn10_reset_back_end_for_pipe(
- 		if (pipe_ctx->stream_res.tg->funcs->set_drr)
- 			pipe_ctx->stream_res.tg->funcs->set_drr(
- 					pipe_ctx->stream_res.tg, NULL);
--		pipe_ctx->stream->link->phy_state.symclk_ref_cnts.otg = 0;
-+		if (dc_is_hdmi_tmds_signal(pipe_ctx->stream->signal))
-+			pipe_ctx->stream->link->phy_state.symclk_ref_cnts.otg = 0;
+ 	if (reset_device_list == NULL)
+@@ -355,7 +356,30 @@ aldebaran_mode2_restore_hwcontext(struct amdgpu_reset_control *reset_ctl,
+ 		 */
+ 		amdgpu_register_gpu_instance(tmp_adev);
+ 
+-		/* Resume RAS */
++		/* Resume RAS, ecc_irq */
++		con = amdgpu_ras_get_context(tmp_adev);
++		if (!amdgpu_sriov_vf(tmp_adev) && con) {
++			if (tmp_adev->sdma.ras &&
++				tmp_adev->sdma.ras->ras_block.ras_late_init) {
++				r = tmp_adev->sdma.ras->ras_block.ras_late_init(tmp_adev,
++						&tmp_adev->sdma.ras->ras_block.ras_comm);
++				if (r) {
++					dev_err(tmp_adev->dev, "SDMA failed to execute ras_late_init! ret:%d\n", r);
++					goto end;
++				}
++			}
++
++			if (tmp_adev->gfx.ras &&
++				tmp_adev->gfx.ras->ras_block.ras_late_init) {
++				r = tmp_adev->gfx.ras->ras_block.ras_late_init(tmp_adev,
++						&tmp_adev->gfx.ras->ras_block.ras_comm);
++				if (r) {
++					dev_err(tmp_adev->dev, "GFX failed to execute ras_late_init! ret:%d\n", r);
++					goto end;
++				}
++			}
++		}
++
+ 		amdgpu_ras_resume(tmp_adev);
+ 
+ 		/* Update PSP FW topology after reset */
+diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
+index a5a05c16c10d..6c5185608854 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
+@@ -1041,6 +1041,10 @@ static int gmc_v10_0_hw_fini(void *handle)
+ 
+ 	amdgpu_irq_put(adev, &adev->gmc.vm_fault, 0);
+ 
++	if (adev->gmc.ecc_irq.funcs &&
++		amdgpu_ras_is_supported(adev, AMDGPU_RAS_BLOCK__UMC))
++		amdgpu_irq_put(adev, &adev->gmc.ecc_irq, 0);
++
+ 	return 0;
+ }
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
+index 23d7b548d13f..c9c653cfc765 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
+@@ -941,6 +941,11 @@ static int gmc_v11_0_hw_fini(void *handle)
  	}
  
- 	for (i = 0; i < dc->res_pool->pipe_count; i++)
-diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c
-index c3c83178eb1e..da0181fef411 100644
---- a/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c
-@@ -2610,7 +2610,8 @@ static void dcn20_reset_back_end_for_pipe(
- 		 * the case where the same symclk is shared across multiple otg
- 		 * instances
- 		 */
--		link->phy_state.symclk_ref_cnts.otg = 0;
-+		if (dc_is_hdmi_tmds_signal(pipe_ctx->stream->signal))
-+			link->phy_state.symclk_ref_cnts.otg = 0;
- 		if (link->phy_state.symclk_state == SYMCLK_ON_TX_OFF) {
- 			link_hwss->disable_link_output(link,
- 					&pipe_ctx->link_res, pipe_ctx->stream->signal);
-diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn31/dcn31_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn31/dcn31_hwseq.c
-index 97798cee876e..3a40b7359a30 100644
---- a/drivers/gpu/drm/amd/display/dc/hwss/dcn31/dcn31_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn31/dcn31_hwseq.c
-@@ -523,7 +523,8 @@ static void dcn31_reset_back_end_for_pipe(
- 	if (pipe_ctx->stream_res.tg->funcs->set_odm_bypass)
- 		pipe_ctx->stream_res.tg->funcs->set_odm_bypass(
- 				pipe_ctx->stream_res.tg, &pipe_ctx->stream->timing);
--	pipe_ctx->stream->link->phy_state.symclk_ref_cnts.otg = 0;
-+	if (dc_is_hdmi_tmds_signal(pipe_ctx->stream->signal))
-+		pipe_ctx->stream->link->phy_state.symclk_ref_cnts.otg = 0;
+ 	amdgpu_irq_put(adev, &adev->gmc.vm_fault, 0);
++
++	if (adev->gmc.ecc_irq.funcs &&
++		amdgpu_ras_is_supported(adev, AMDGPU_RAS_BLOCK__UMC))
++		amdgpu_irq_put(adev, &adev->gmc.ecc_irq, 0);
++
+ 	gmc_v11_0_gart_disable(adev);
  
- 	if (pipe_ctx->stream_res.tg->funcs->set_drr)
- 		pipe_ctx->stream_res.tg->funcs->set_drr(
+ 	return 0;
+diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
+index 2ac5820e9c92..507d695bcc6b 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
+@@ -2380,6 +2380,10 @@ static int gmc_v9_0_hw_fini(void *handle)
+ 
+ 	amdgpu_irq_put(adev, &adev->gmc.vm_fault, 0);
+ 
++	if (adev->gmc.ecc_irq.funcs &&
++		amdgpu_ras_is_supported(adev, AMDGPU_RAS_BLOCK__UMC))
++		amdgpu_irq_put(adev, &adev->gmc.ecc_irq, 0);
++
+ 	return 0;
+ }
+ 
 -- 
 2.43.0
 
