@@ -2,68 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAFD2835FD5
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 11:37:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07912835FE0
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 11:39:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E616810ECB7;
-	Mon, 22 Jan 2024 10:36:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C492210ECC8;
+	Mon, 22 Jan 2024 10:38:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A26610ECB7
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 10:36:34 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-40e72a567eeso36846235e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 02:36:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1705919733; x=1706524533; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=rUhedLANF6aIr3k765vrW+w3JqNpXJgjjbnL4/TWAKI=;
- b=zwuN3KhNGnKpP/s9X0Jmu/h6+5mHQvI5smkD/cnoZk/WEwqlzpPQGJWUPkRaQoBTjU
- pOKV0H5UfY5beCaApBZuSs6MRbEtXDksKnU27Wmww+ZkyvL22Ym0hZf6Q5OJTf+BQGv8
- s/ILx7VrwvrMPGAbFUdHBHGJzkg/aKEq1OJPkVlctiFLCYgabUfcqd0IpMgR4pEbhkEN
- luXy+O/Sn2VqejITSCf+lGXPEGEjUP81CWUKS1Qq0/yclkj9zmwWohKOnuIc2cdGHqPP
- oc4FS17xLTBPkxo4p1SKX10MneTyqbskiAJalpqtg1hOVCQQDBQ8roNP5q8WZTEgNfjr
- 3Sig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705919733; x=1706524533;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=rUhedLANF6aIr3k765vrW+w3JqNpXJgjjbnL4/TWAKI=;
- b=TWF/0cFlL0P/NpPnqEzL15YodhbX82i6cCGgh71m6xi7G4zla73+M5FF7K/BBaEblj
- iJ8OlGRqH8Lw4RsR/ESIdvBXFxYMNu7G/CmyTGkwJvD9/0jelKIjOidTuv1s9TaKOkK+
- EdBonri0D8Xxkb5o6svg1RQ2A6Y/ahJmFZEDJbevlPJqybq1D0bo8d/+f5TxAJXmUNtP
- dl7aRdWE/aBctXBEMoZAxflTF5qE5+WHY1YU2HthpbD5O7UVPO6pa7MoVu7GZm6bZvm+
- CBgksT4WG7m1lXMrJQqxH2BG+qRMzzsOawxJ5ySpGujY6uv/9m55V+M6+ROw9/LfFfOz
- 9V1w==
-X-Gm-Message-State: AOJu0YyVABR45qti+Jn5DN0voju2uTfJLokdUJ8iQcXCtRr61m9R/dyD
- T2+p7BkswoIMHqpewuCtLhhQ3xxiHVxtM9uO257D8TcHxrjqoS46/0brY7klBlI=
-X-Google-Smtp-Source: AGHT+IFo4uYcYhEMgaOqtoirV3HNE4KGl6mvkTyKH6pc8vp05HpIszygaGV8C/JBWJqaJ8OjRn6KTQ==
-X-Received: by 2002:a05:600c:2182:b0:40e:6b84:ee71 with SMTP id
- e2-20020a05600c218200b0040e6b84ee71mr1168765wme.336.1705919732646; 
- Mon, 22 Jan 2024 02:35:32 -0800 (PST)
-Received: from aspen.lan
- (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
- by smtp.gmail.com with ESMTPSA id
- f18-20020a05600c155200b0040d87100733sm38828236wmg.39.2024.01.22.02.35.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Jan 2024 02:35:32 -0800 (PST)
-Date: Mon, 22 Jan 2024 10:35:30 +0000
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v1 1/4] backlight: hx8357: Make use of device properties
-Message-ID: <20240122103530.GC8596@aspen.lan>
-References: <20240114152759.1040563-1-andriy.shevchenko@linux.intel.com>
- <20240114152759.1040563-2-andriy.shevchenko@linux.intel.com>
- <87bk9novmp.fsf@minerva.mail-host-address-is-not-set>
- <Za0glbPfzeTjdZjn@smile.fi.intel.com>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A882610ECC8
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 10:38:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1705919897;
+ bh=QOgZWgCo219X/V3HqTTipzGqn3wTwHbInkP56JKp9LU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=ry2b84fvNF59C0fPB/rOmCrQfkB9UCYyyxjbbVblAutR13mGF1OtEsYNT4P9veMNH
+ qNGb0ir5fSdO4/aVWMTwKNLlUU4KN+tMfMu64/tonBwHeD1VIHlseBwPfkXoaAHWoL
+ gNMt/FELnlRq0ivLUOec/jQpoxO2qCVeXjzlOswL3NAJBM7KRH5I23LTC7FwxSwe0B
+ 4MZeDMMZYFG6QD6iFsGlOpEyACqG6GUsEXAdtXbAt7wl1yVFWDEwcExZjeJN09OoNg
+ bb2AeCvEGX7DEYDkLgAxYVEnt8NlA8nXRW+J+OfUcYS0PFxRe/mST7BTtk5m9gOW9R
+ dUgN3exk993+g==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 89FCE378045F;
+ Mon, 22 Jan 2024 10:38:16 +0000 (UTC)
+Message-ID: <9c447297-2738-4b63-9da9-0d004660e65d@collabora.com>
+Date: Mon, 22 Jan 2024 11:38:15 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Za0glbPfzeTjdZjn@smile.fi.intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/3] dt-bindings: mailbox: Add mediatek,gce-props.yaml
+Content-Language: en-US
+To: Conor Dooley <conor@kernel.org>, "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
+References: <20240119063224.29671-1-jason-jh.lin@mediatek.com>
+ <20240119063224.29671-2-jason-jh.lin@mediatek.com>
+ <20240119-demote-fragment-624a35367a87@spud>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20240119-demote-fragment-624a35367a87@spud>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,48 +55,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
- Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Shawn Sung <shawn.sung@mediatek.com>, devicetree@vger.kernel.org,
+ Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Jason-ch Chen <jason-ch.chen@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Johnson Wang <johnson.wang@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jan 21, 2024 at 03:48:05PM +0200, Andy Shevchenko wrote:
-> On Mon, Jan 15, 2024 at 09:20:46AM +0100, Javier Martinez Canillas wrote:
-> > Andy Shevchenko <andriy.shevchenko@linux.intel.com> writes:
->
-> ...
->
-> > > +typedef int (*hx8357_init)(struct lcd_device *);
-> >
-> > This kind of typedef usage is frowned upon in the Linux coding style [0]
-> > (per my understanding at least) and indeed in my opinion it makes harder
-> > to grep.
-> >
-> > [0] https://www.kernel.org/doc/Documentation/process/coding-style.rst
->
-> Thanks for pointing this out. However, this piece does _not_ clarify typedef:s
-> for function pointers which I personally find a good to have.
->
-> ...
->
-> > > -	ret = ((int (*)(struct lcd_device *))match->data)(lcdev);
-> >
-> > This is what I mean, before it was clear what was stored in match->data.
-> > But after you changes, what is returned by the device_get_match_data()
-> > function is opaque and you need to look at the typedef hx8357_init to
-> > figure that out.
->
-> The above is so ugly in my opinion, that justifies using typedef:s even
-> if you are quite skeptical about them.
+Il 19/01/24 17:44, Conor Dooley ha scritto:
+> Rob,
+> 
+> On Fri, Jan 19, 2024 at 02:32:22PM +0800, Jason-JH.Lin wrote:
+>> Add mediatek,gce-props.yaml for common GCE properties that is used for
+>> both mailbox providers and consumers. We place the common property
+>> "mediatek,gce-events" in this binding currently.
+>>
+>> The property "mediatek,gce-events" is used for GCE event ID corresponding
+>> to a hardware event signal sent by the hardware or a sofware driver.
+>> If the mailbox providers or consumers want to manipulate the value of
+>> the event ID, they need to know the specific event ID.
+>>
+>> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+>> ---
+>>   .../bindings/mailbox/mediatek,gce-props.yaml  | 52 +++++++++++++++++++
+> 
+> Is bindings/mailbox the correct directory to put this in?
+> 
 
-FWIW I was pretty skeptical about it to. Largely because the three
-touchs (typedef, variable initialization, use) spread things
-around a bit too much.
+Well, the GCE is a mailbox :-)
 
-Can we at least name the type to make it obvious that it is a function
-pointer? Something like hx8357_init_fn .
+...but I get why you're asking... and I don't think that this should go to
+arm/mediatek/ as it's really just only referring to extra properties for kind of
+"special" mailbox client events...
 
+Cheers,
+Angelo
 
-Daniel.
+>>   1 file changed, 52 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/mailbox/mediatek,gce-props.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/mailbox/mediatek,gce-props.yaml b/Documentation/devicetree/bindings/mailbox/mediatek,gce-props.yaml
+>> new file mode 100644
+>> index 000000000000..68b519ff089f
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/mailbox/mediatek,gce-props.yaml
+>> @@ -0,0 +1,52 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/mailbox/mediatek,gce-props.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: MediaTek Global Command Engine Common Propertes
+>> +
+>> +maintainers:
+>> +  - Houlong Wei <houlong.wei@mediatek.com>
+>> +
+>> +description:
+>> +  The Global Command Engine (GCE) is an instruction based, multi-threaded,
+>> +  single-core command dispatcher for MediaTek hardware. The Command Queue
+>> +  (CMDQ) mailbox driver is a driver for GCE, implemented using the Linux
+>> +  mailbox framework. It is used to receive messages from mailbox consumers
+>> +  and configure GCE to execute the specified instruction set in the message.
+>> +  We use mediatek,gce-mailbox.yaml to define the properties for CMDQ mailbox
+>> +  driver. A device driver that uses the CMDQ driver to configure its hardware
+>> +  registers is a mailbox consumer. The mailbox consumer can request a mailbox
+>> +  channel corresponding to a GCE hardware thread to send a message, specifying
+>> +  that the GCE thread to configure its hardware. The mailbox provider can also
+>> +  reserved a mailbox channel to configure GCE hardware register by the spcific
+>> +  GCE thread. This binding defines the common GCE properties for both mailbox
+>> +  provider and consumers.
+>> +
+>> +properties:
+>> +  mediatek,gce-events:
+>> +    description:
+>> +      GCE has an event table in SRAM, consisting of 1024 event IDs (0~1023).
+>> +      Each event ID has a boolean event value with the default value 0.
+>> +      The property mediatek,gce-events is used to obtain the event IDs.
+>> +      Some gce-events are hardware-bound and cannot be changed by software.
+>> +      For instance, in MT8195, when VDO0_MUTEX is stream done, VDO_MUTEX will
+>> +      send an event signal to GCE, setting the value of event ID 597 to 1.
+>> +      Similarly, in MT8188, the value of event ID 574 will be set to 1 when
+>> +      VOD0_MUTEX is stream done.
+>> +      On the other hand, some gce-events are not hardware-bound and can be
+>> +      changed by software. For example, in MT8188, we can set the value of
+>> +      event ID 855, which is not bound to any hardware, to 1 when the driver
+>> +      in the secure world completes a task. However, in MT8195, event ID 855
+>> +      is already bound to VDEC_LAT1, so we need to select another event ID to
+>> +      achieve the same purpose. This event ID can be any ID that is not bound
+>> +      to any hardware and is not yet used in any software driver.
+>> +      To determine if the event ID is bound to the hardware or used by a
+>> +      software driver, refer to the GCE header
+>> +      include/dt-bindings/gce/<chip>-gce.h of each chip.
+>> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+>> +    minItems: 1
+>> +    maxItems: 1024
+>> +
+>> +additionalProperties: true
+>> -- 
+>> 2.18.0
+>>
+
