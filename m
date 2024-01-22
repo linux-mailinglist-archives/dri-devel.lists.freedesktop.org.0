@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B035C836AC0
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 17:33:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 427F6836AB0
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 17:32:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAAE810F5FB;
-	Mon, 22 Jan 2024 16:33:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F09110F5E5;
+	Mon, 22 Jan 2024 16:32:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com
- [95.215.58.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2B4C10F5F4
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 16:33:10 +0000 (UTC)
+Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com
+ [95.215.58.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E2BC10F5E5
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 16:32:42 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1705941157;
+ t=1705941160;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=npqubJ7Bj7Hp+PXoNaKT0QhmaM+1u+5VldbVzcNqcKI=;
- b=hRUoIKsMG7O90bNfo9wUm9cKlyUIAfVjI4dIh3/xy6G+8thfA1pGQs/f/I5Oi++EeXrUn9
- 0XAc430aKgJPelbVcykvQoJGZFSURld61Ju7l2nauidb8/x/9f3JpOpcrLltpKuC7wjU7K
- tmZ7Z3BqE4EdU1baTkmqgktMCMufG78=
+ bh=odkYqjzTWVuL5bWOI6DRA1l4DPeGSEAeS9hiMNWXJJ8=;
+ b=GiDxdmtZc1x5dCXVgT4BFw0UWGv7oQkINHwu127uWmaaETnWhpHHIo/Eptolf70gx4Q5RO
+ LKYUO4oHXqhhIEyDvp5Ob2qSK31ThTj/vkp/36T1hretTg9MPqV44tjB4m+J3+kuQnO90l
+ /rbZEF7Yv5M4j9YPHUN4tOY5tj0RrlY=
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
 To: David Airlie <airlied@gmail.com>
-Subject: [PATCH 3/5] drm/bridge: simple-bridge: Allow acquiring the next
- bridge with fwnode API
-Date: Tue, 23 Jan 2024 00:32:18 +0800
-Message-Id: <20240122163220.110788-4-sui.jingfeng@linux.dev>
+Subject: [PATCH 4/5] drm/bridge: display-connector: Extend match support for
+ non-DT based systems
+Date: Tue, 23 Jan 2024 00:32:19 +0800
+Message-Id: <20240122163220.110788-5-sui.jingfeng@linux.dev>
 In-Reply-To: <20240122163220.110788-1-sui.jingfeng@linux.dev>
 References: <20240122163220.110788-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
@@ -56,91 +56,64 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Which make it possible to use this driver on non-DT based systems,
-meanwhile, made no functional changes for DT based systems.
+On which case the driver is not probed by OF, Instead, a fwnode is
+associated to the platform device before this driver is probed. The newly
+added code is intended to be used on non-DT environment. It is assumed
+that there is a string fwnode property associated with the platform device,
+the name of the string property is compatible, the value of the string
+property is used to get platform match data.
 
 Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 ---
- drivers/gpu/drm/bridge/simple-bridge.c | 51 ++++++++++++++++++++++----
- 1 file changed, 44 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/bridge/display-connector.c | 24 +++++++++++++++++++++-
+ 1 file changed, 23 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/simple-bridge.c b/drivers/gpu/drm/bridge/simple-bridge.c
-index 595f672745b9..cfea5a67cc5b 100644
---- a/drivers/gpu/drm/bridge/simple-bridge.c
-+++ b/drivers/gpu/drm/bridge/simple-bridge.c
-@@ -184,6 +184,39 @@ static const void *simple_bridge_get_match_data(const struct device *dev)
- 	return NULL;
+diff --git a/drivers/gpu/drm/bridge/display-connector.c b/drivers/gpu/drm/bridge/display-connector.c
+index 08bd5695ddae..eb7e194e7735 100644
+--- a/drivers/gpu/drm/bridge/display-connector.c
++++ b/drivers/gpu/drm/bridge/display-connector.c
+@@ -202,6 +202,24 @@ static int display_connector_get_supply(struct platform_device *pdev,
+ 	return PTR_ERR_OR_ZERO(conn->supply);
  }
  
-+static int simple_bridge_get_next_bridge_by_fwnode(struct device *dev,
-+						   struct drm_bridge **next_bridge)
++static const void *display_connector_get_match_data(const struct device *dev)
 +{
-+	struct drm_bridge *bridge;
-+	struct fwnode_handle *ep;
-+	struct fwnode_handle *remote;
++	const struct of_device_id *matches = dev->driver->of_match_table;
 +
-+	ep = fwnode_graph_get_endpoint_by_id(dev->fwnode, 1, 0, 0);
-+	if (!ep) {
-+		dev_err(dev, "The endpoint is unconnected\n");
-+		return -EINVAL;
++	/* Try to get the match data by software node */
++	while (matches) {
++		if (!matches->compatible[0])
++			break;
++
++		if (device_is_compatible(dev, matches->compatible))
++			return matches->data;
++
++		matches++;
 +	}
 +
-+	remote = fwnode_graph_get_remote_port_parent(ep);
-+	fwnode_handle_put(ep);
-+	if (!remote) {
-+		dev_err(dev, "No valid remote node\n");
-+		return -ENODEV;
-+	}
-+
-+	bridge = drm_bridge_find_by_fwnode(remote);
-+	fwnode_handle_put(remote);
-+
-+	if (!bridge) {
-+		dev_warn(dev, "Next bridge not found, deferring probe\n");
-+		return -EPROBE_DEFER;
-+	}
-+
-+	*next_bridge = bridge;
-+
-+	return 0;
++	return NULL;
 +}
 +
- static int simple_bridge_probe(struct platform_device *pdev)
+ static int display_connector_probe(struct platform_device *pdev)
  {
- 	struct simple_bridge *sbridge;
-@@ -199,14 +232,17 @@ static int simple_bridge_probe(struct platform_device *pdev)
- 	else
- 		sbridge->info = simple_bridge_get_match_data(&pdev->dev);
+ 	struct display_connector *conn;
+@@ -215,7 +233,10 @@ static int display_connector_probe(struct platform_device *pdev)
  
--	/* Get the next bridge in the pipeline. */
--	remote = of_graph_get_remote_node(pdev->dev.of_node, 1, -1);
--	if (!remote)
--		return -EINVAL;
--
--	sbridge->next_bridge = of_drm_find_bridge(remote);
--	of_node_put(remote);
-+	if (pdev->dev.of_node) {
-+		/* Get the next bridge in the pipeline. */
-+		remote = of_graph_get_remote_node(pdev->dev.of_node, 1, -1);
-+		if (!remote)
-+			return -EINVAL;
+ 	platform_set_drvdata(pdev, conn);
  
-+		sbridge->next_bridge = of_drm_find_bridge(remote);
-+		of_node_put(remote);
-+	} else {
-+		simple_bridge_get_next_bridge_by_fwnode(&pdev->dev, &sbridge->next_bridge);
-+	}
- 	if (!sbridge->next_bridge) {
- 		dev_dbg(&pdev->dev, "Next bridge not found, deferring probe\n");
- 		return -EPROBE_DEFER;
-@@ -231,6 +267,7 @@ static int simple_bridge_probe(struct platform_device *pdev)
- 	/* Register the bridge. */
- 	sbridge->bridge.funcs = &simple_bridge_bridge_funcs;
- 	sbridge->bridge.of_node = pdev->dev.of_node;
-+	sbridge->bridge.fwnode = pdev->dev.fwnode;
- 	sbridge->bridge.timings = sbridge->info->timings;
+-	type = (uintptr_t)of_device_get_match_data(&pdev->dev);
++	if (pdev->dev.of_node)
++		type = (uintptr_t)of_device_get_match_data(&pdev->dev);
++	else
++		type = (uintptr_t)display_connector_get_match_data(&pdev->dev);
  
- 	drm_bridge_add(&sbridge->bridge);
+ 	/* Get the exact connector type. */
+ 	switch (type) {
+@@ -434,3 +455,4 @@ module_platform_driver(display_connector_driver);
+ MODULE_AUTHOR("Laurent Pinchart <laurent.pinchart@ideasonboard.com>");
+ MODULE_DESCRIPTION("Display connector driver");
+ MODULE_LICENSE("GPL");
++MODULE_ALIAS("platform:display-connector");
 -- 
 2.25.1
 
