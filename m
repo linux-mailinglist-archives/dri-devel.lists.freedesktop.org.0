@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D54BA8366A4
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:05:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C7408366A5
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 16:05:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DA8710F314;
-	Mon, 22 Jan 2024 15:05:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C5E510F30F;
+	Mon, 22 Jan 2024 15:05:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFDDA10F314;
- Mon, 22 Jan 2024 15:05:53 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F3C710F30E;
+ Mon, 22 Jan 2024 15:05:25 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 0AB9DCE2B22;
+ by ams.source.kernel.org (Postfix) with ESMTP id 2E5BFB80E77;
+ Mon, 22 Jan 2024 15:05:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C80D7C43394;
  Mon, 22 Jan 2024 15:05:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 607D6C433B2;
- Mon, 22 Jan 2024 15:05:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1705935919;
- bh=h9ciZHRUeJ+ceoD40XRUcI/LtNH3l9lBF6kcy1GpEIk=;
+ s=k20201202; t=1705935923;
+ bh=MjgvzQoYIT5tBm6Pw3QBsMi9YbSr4rTJjeC1r6LJDLE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=rGflirC4Z5pzgzbAphG8yPdXTxbpTZP/qn5kl+avR0UDTcuRcSF59dMvvS2VReh5o
- ZxQ34hva4pY1CDrBMEKY+LraU3QGKk5BI7WupB0TmDOd7dAazYxoNbQY94UfPmUpeF
- qOXS5G02S+7CZYO63Rxb7bw8GzL934ZkhamxNnZhJm9CGwwYiF+uo5DdBlvI+9g6O2
- mDDQHGLEeYSKJiCOClaDpkahCGI6Qv0bBw/nQRz3U0OJOWwku2+0SlE2EOHWLtO+Wl
- DJSXC8lueTliRYFqLDscOxSG0AqVLDUkFSJ51eDCTOOrcQC9FbfcjBeMxikrgoH1jv
- IPzdbG/CbmUkg==
+ b=ahZR+xRJGgP11hSXng54cxi0GBoiI+wZqf5aoiL5syvKZZfBvbwXs6IvCD5aQjJ2A
+ PZHvYQEtlNIgc3wnDyHjGaQz4ZR51MG4VxLyB3wCbrgjkNHbKqFKNRpB9R6kjTlNLM
+ RP/lbfMd1hQXiDeM+2LNm4CwI+LEKdsL+SVLaRQOEv0z8hOYbgccxqSMe6O+f3rvem
+ +w7EPxZixHEu0niX4FgrRmb2M9qqL67ua2LK/JdDDvoY0usPqZJ4Y7FA21B6bLR/BO
+ qI157O/iOGUOYSQJ8G6fC4vjiMq1OWcOxPqy5l9h/qY4xtbGi7Kv/QvxG3eMMJ4WT2
+ FNXb+/sMSoHlw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 15/73] drm/amd/display: Fix MST PBN/X.Y value
- calculations
-Date: Mon, 22 Jan 2024 10:01:29 -0500
-Message-ID: <20240122150432.992458-15-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 16/73] drm/amd/display: Fix writeback_info never
+ got updated
+Date: Mon, 22 Jan 2024 10:01:30 -0500
+Message-ID: <20240122150432.992458-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122150432.992458-1-sashal@kernel.org>
 References: <20240122150432.992458-1-sashal@kernel.org>
@@ -54,66 +54,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ilya Bakoulin <ilya.bakoulin@amd.com>, Sasha Levin <sashal@kernel.org>,
- Jingwen.Zhu@amd.com, dri-devel@lists.freedesktop.org, sunpeng.li@amd.com,
- Wenjing Liu <wenjing.liu@amd.com>, Qingqing.Zhuo@amd.com, Xinhui.Pan@amd.com,
- Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org, camille.cho@amd.com,
- Daniel Wheeler <daniel.wheeler@amd.com>, hamza.mahfooz@amd.com,
- daniel@ffwll.ch, wayne.lin@amd.com, Alex Deucher <alexander.deucher@amd.com>,
- airlied@gmail.com, jun.lei@amd.com, christian.koenig@amd.com,
- peichen.huang@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, dillon.varone@amd.com,
+ dri-devel@lists.freedesktop.org, Alex Hung <alex.hung@amd.com>,
+ airlied@gmail.com, qingqing.zhuo@amd.com, Xinhui.Pan@amd.com,
+ Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org, sunpeng.li@amd.com,
+ aurabindo.pillai@amd.com, alvin.lee2@amd.com, daniel@ffwll.ch,
+ Alex Deucher <alexander.deucher@amd.com>, jun.lei@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ilya Bakoulin <ilya.bakoulin@amd.com>
+From: Alex Hung <alex.hung@amd.com>
 
-[ Upstream commit 94bbf802efd0a8f13147d6664af6e653637340a8 ]
+[ Upstream commit 8a307777c36e15f38c9f23778babcd368144c7d8 ]
 
-Changing PBN calculation to be more in line with spec. We don't need to
-inflate PBN_NATIVE value by the 1.006 margin, since that is already
-taken care of in the get_pbn_per_slot function.
+[WHY]
+wb_enabled field is set to false before it is used, and the following
+code will never be executed.
 
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Reviewed-by: Wenjing Liu <wenjing.liu@amd.com>
-Acked-by: Rodrigo Siqueira <rodrigo.siqueira@amd.com>
-Signed-off-by: Ilya Bakoulin <ilya.bakoulin@amd.com>
+[HOW]
+Setting wb_enable to false after all removal work is completed.
+
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+Signed-off-by: Alex Hung <alex.hung@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/link/link_dpms.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/amd/display/dc/core/dc_stream.c | 13 ++++---------
+ 1 file changed, 4 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/link/link_dpms.c b/drivers/gpu/drm/amd/display/dc/link/link_dpms.c
-index 35d087cf1980..c5f8ce6e30f3 100644
---- a/drivers/gpu/drm/amd/display/dc/link/link_dpms.c
-+++ b/drivers/gpu/drm/amd/display/dc/link/link_dpms.c
-@@ -1055,18 +1055,21 @@ static struct fixed31_32 get_pbn_from_bw_in_kbps(uint64_t kbps)
- 	uint32_t denominator = 1;
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+index ebe571fcefe3..c232d38e70ae 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+@@ -539,18 +539,13 @@ bool dc_stream_remove_writeback(struct dc *dc,
+ 		return false;
+ 	}
  
- 	/*
--	 * margin 5300ppm + 300ppm ~ 0.6% as per spec, factor is 1.006
-+	 * The 1.006 factor (margin 5300ppm + 300ppm ~ 0.6% as per spec) is not
-+	 * required when determining PBN/time slot utilization on the link between
-+	 * us and the branch, since that overhead is already accounted for in
-+	 * the get_pbn_per_slot function.
-+	 *
- 	 * The unit of 54/64Mbytes/sec is an arbitrary unit chosen based on
- 	 * common multiplier to render an integer PBN for all link rate/lane
- 	 * counts combinations
- 	 * calculate
--	 * peak_kbps *= (1006/1000)
- 	 * peak_kbps *= (64/54)
--	 * peak_kbps *= 8    convert to bytes
-+	 * peak_kbps /= (8 * 1000) convert to bytes
- 	 */
- 
--	numerator = 64 * PEAK_FACTOR_X1000;
--	denominator = 54 * 8 * 1000 * 1000;
-+	numerator = 64;
-+	denominator = 54 * 8 * 1000;
- 	kbps *= numerator;
- 	peak_kbps = dc_fixpt_from_fraction(kbps, denominator);
- 
+-//	stream->writeback_info[dwb_pipe_inst].wb_enabled = false;
+-	for (i = 0; i < stream->num_wb_info; i++) {
+-		/*dynamic update*/
+-		if (stream->writeback_info[i].wb_enabled &&
+-			stream->writeback_info[i].dwb_pipe_inst == dwb_pipe_inst) {
+-			stream->writeback_info[i].wb_enabled = false;
+-		}
+-	}
+-
+ 	/* remove writeback info for disabled writeback pipes from stream */
+ 	for (i = 0, j = 0; i < stream->num_wb_info; i++) {
+ 		if (stream->writeback_info[i].wb_enabled) {
++
++			if (stream->writeback_info[i].dwb_pipe_inst == dwb_pipe_inst)
++				stream->writeback_info[i].wb_enabled = false;
++
+ 			if (j < i)
+ 				/* trim the array */
+ 				memcpy(&stream->writeback_info[j], &stream->writeback_info[i],
 -- 
 2.43.0
 
