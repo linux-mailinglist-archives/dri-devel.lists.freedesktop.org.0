@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 098E583698B
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 17:04:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54DFC83699E
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jan 2024 17:06:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D194810F4F4;
-	Mon, 22 Jan 2024 16:04:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 351CF10E6F2;
+	Mon, 22 Jan 2024 16:06:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay3-1.pub.mailoutpod3-cph3.one.com
- (mailrelay3-1.pub.mailoutpod3-cph3.one.com [46.30.211.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5289B10F4F4
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 16:04:17 +0000 (UTC)
+Received: from mailrelay4-1.pub.mailoutpod3-cph3.one.com
+ (mailrelay4-1.pub.mailoutpod3-cph3.one.com [46.30.211.243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E122A10F502
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 16:06:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa2;
  h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
  from:date:from;
- bh=laeWsP4RFv5KrL7g+IvrtMdtqBtJukqz8LuUfm2cqgI=;
- b=qUQJeHqi1WuJ4lhrw5ihDWeVdSiAgtYVgv81VZBeIjSglVSVFt/ADgsBl119lt2Dnphw3ttzVhafa
- uSZD4IeWk9lam27GfjTB9sXT6/ItVF6PVJe6Qygg3RUiqKGhe1+JDjPfHXCNJ7/gas8D67bQ0rY0ut
- 8g6fo9wB6JkO8jxXfdGTqT2OrwUYGFuQMfwFC1tXEW6eN9FZ/VcIlvgvONHlLuKVpMIJhLrR6hIh2K
- km5+6hPxyTD7lTrOLkdMmXJAGWbE5je92oOEPRxcDz3nG9Wn8ROy/q9pKw+FUlSyiP5eoPhlM5oaae
- Nc2A//Qhcf/lsvmY8q1ck6Y/vGBrDmw==
+ bh=xAGeSXO7EYCYJmljPUEN1rFUpiw71f4rCC8gSgFu1n8=;
+ b=HZRfxWW7RKvIzlLrWQDFVCTBUG5Jn1GeeZVFbfHhTfHQ1bK6ANABb9Ao3YCp7+9OkCan+DgMbN0gB
+ 7Z6KlrAcBHvLa52KHKbxsUqobDFzMYHyLl6dfJGWrIEFQIKuMaMeLya7L4Eh72a62yQva2BsUtXYIi
+ +gdaDjCy4jtdh6K9Xj57QU5JN2kgd5whs5nSSgDF4oLqiLpM91y1BC+FQTSm91Qy+iPBuudeeBL0By
+ 3oqdvR5O2eBoJfSzKzc2UkKgr4HXz9su5ap3kEIpK0h0Q+C7KIITFpAYbR3Qv8tCLRpzgdQthfnm38
+ QbWPO99YbFnwplbHV2K64bQXu/dELTQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
  d=ravnborg.org; s=ed2;
  h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
  from:date:from;
- bh=laeWsP4RFv5KrL7g+IvrtMdtqBtJukqz8LuUfm2cqgI=;
- b=O+VHH8W5rEReTZpoQlWdBy6/b3ITx3LfYx2BE0xKkB0xpp/q+ziY5fGddcGdfTcRLuU5v7gq3TkFe
- H8KNl7ZAA==
-X-HalOne-ID: aac18610-b93f-11ee-b8c2-ff813d2dbafc
+ bh=xAGeSXO7EYCYJmljPUEN1rFUpiw71f4rCC8gSgFu1n8=;
+ b=bKfCDk0HafSg+g3RaIu9TrzIt2gHb++4e++SaoHzG8BuWLN7Mzyav7YHusF+tvo7FeLOMboYIg9IK
+ gXQFr1jBg==
+X-HalOne-ID: ee3a7b61-b93f-11ee-a7a3-9f04b458b84a
 Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay3.pub.mailoutpod3-cph3.one.com (Halon) with ESMTPSA
- id aac18610-b93f-11ee-b8c2-ff813d2dbafc;
- Mon, 22 Jan 2024 16:02:42 +0000 (UTC)
-Date: Mon, 22 Jan 2024 17:02:40 +0100
+ by mailrelay4.pub.mailoutpod3-cph3.one.com (Halon) with ESMTPSA
+ id ee3a7b61-b93f-11ee-a7a3-9f04b458b84a;
+ Mon, 22 Jan 2024 16:04:34 +0000 (UTC)
+Date: Mon, 22 Jan 2024 17:04:33 +0100
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Dharma.B@microchip.com
 Subject: Re: [PATCH v3 0/3] Convert Microchip's HLCDC Text based DT bindings
  to JSON schema
-Message-ID: <20240122160240.GA511247@ravnborg.org>
+Message-ID: <20240122160433.GB511247@ravnborg.org>
 References: <20240118092612.117491-1-dharma.b@microchip.com>
  <20240118193040.GA223383@ravnborg.org>
  <20240119195151.GB938671-robh@kernel.org>
@@ -72,7 +72,7 @@ Cc: conor+dt@kernel.org, Linux4Microchip@microchip.com, tzimmermann@suse.de,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dharma
+Hi Dharma,
 On Mon, Jan 22, 2024 at 03:52:17AM +0000, Dharma.B@microchip.com wrote:
 > On 20/01/24 6:53 pm, Sam Ravnborg wrote:
 > > [You don't often get email from sam@ravnborg.org. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
@@ -121,6 +121,8 @@ On Mon, Jan 22, 2024 at 03:52:17AM +0000, Dharma.B@microchip.com wrote:
 >    - compatible
 >    - "#pwm-cells"
 > 
-Good idea, this looks like a nice simplification.
+As already commented, this looks nice.
+But as Rob said, this should be a 1:1 conversion from text to yaml,
+and then clean-up can come in the second step.
 
 	Sam
