@@ -2,33 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1F4A8394A9
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 17:29:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9A2D83954E
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 17:51:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0F0910E1AD;
-	Tue, 23 Jan 2024 16:29:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07A6410E803;
+	Tue, 23 Jan 2024 16:51:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD63010E1AD
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 16:29:15 +0000 (UTC)
-Received: from i53875b8c.versanet.de ([83.135.91.140] helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1rSJeD-00017x-W9; Tue, 23 Jan 2024 17:29:14 +0100
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: dri-devel@lists.freedesktop.org,
- Boris Brezillon <boris.brezillon@collabora.com>
-Subject: Re: [PATCH v4 11/14] drm/panthor: Add the driver frontend block
-Date: Tue, 23 Jan 2024 17:29:12 +0100
-Message-ID: <2477309.UkFFEUeh36@diego>
-In-Reply-To: <20240122163047.1954733-12-boris.brezillon@collabora.com>
-References: <20240122163047.1954733-1-boris.brezillon@collabora.com>
- <20240122163047.1954733-12-boris.brezillon@collabora.com>
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com
+ [157.90.84.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C23D510E7FA
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 16:51:09 +0000 (UTC)
+Received: from [192.168.42.20] (p5de453e7.dip0.t-ipconnect.de [93.228.83.231])
+ (Authenticated sender: wse@tuxedocomputers.com)
+ by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 9C3C22FC0050;
+ Tue, 23 Jan 2024 17:51:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+ s=default; t=1706028666;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VdkokTZGvxcJHk9IiPC4nPROKX8TmRItLHJlrEqCNJs=;
+ b=GNMBobsM25vzbIaUJ9ZsUXY1t95zxv/x9Yb3+W+7pAvEmJYGD68iisuOJAL1aT70kBltww
+ LgcsjCrRpRcBlhU9ICKmB6aem1k8IkLgcVm+nXcdUMoKeDKUT6g+yb7SGTE3xnplyyTFTn
+ 3AqrmNSNTous3svtFzJSaayp9w+UIUc=
+Authentication-Results: mail.tuxedocomputers.com;
+ auth=pass smtp.auth=wse@tuxedocomputers.com
+ smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <7df49b4f-5d9f-48f2-98bd-e2c3f567126c@tuxedocomputers.com>
+Date: Tue, 23 Jan 2024 17:51:05 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: Implement per-key keyboard backlight as auxdisplay?
+Content-Language: en-US
+To: Pavel Machek <pavel@ucw.cz>, Dmitry Torokhov <dmitry.torokhov@gmail.com>
+References: <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
+ <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
+ <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com>
+ <f416fbca-589b-4f6a-aad6-323b66398273@tuxedocomputers.com>
+ <4222268b-ff44-4b7d-bf11-e350594bbe24@redhat.com>
+ <ac02143c-d417-49e5-9c6e-150cbda71ba7@tuxedocomputers.com>
+ <ZaljwLe7P+dXHEHb@duo.ucw.cz>
+ <6bbfdd62-e663-4a45-82f4-445069a8d690@redhat.com> <87bk9hppee.fsf@intel.com>
+ <ZarAfg2_5ocfKAWo@google.com> <Zar0MFelV4gY50La@duo.ucw.cz>
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <Zar0MFelV4gY50La@duo.ucw.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,127 +62,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tatsuyuki Ishi <ishitatsuyuki@gmail.com>,
- Nicolas Boichat <drinkcat@chromium.org>, kernel@collabora.com,
- Daniel Stone <daniels@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Ketil Johnsen <ketil.johnsen@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Steven Price <steven.price@arm.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- =?ISO-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Chris Diamand <chris.diamand@foss.arm.com>,
- Grant Likely <grant.likely@linaro.org>,
- "Marty E . Plummer" <hanetzer@startmail.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Faith Ekstrand <faith.ekstrand@collabora.com>
+Cc: jikos@kernel.org, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
+ Jelle van der Waa <jelle@vdwaa.nl>, Hans de Goede <hdegoede@redhat.com>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Montag, 22. Januar 2024, 17:30:42 CET schrieb Boris Brezillon:
-> This is the last piece missing to expose the driver to the outside
-> world.
->=20
-> This is basically a wrapper between the ioctls and the other logical
-> blocks.
->=20
-> v4:
-> - Add an ioctl to let the UMD query the VM state
-> - Fix kernel doc
-> - Let panthor_device_init() call panthor_device_init()
-> - Fix cleanup ordering in the panthor_init() error path
-> - Add Steve's and Liviu's R-b
->=20
-> v3:
-> - Add acks for the MIT/GPL2 relicensing
-> - Fix 32-bit support
-> - Account for panthor_vm and panthor_sched changes
-> - Simplify the resv preparation/update logic
-> - Use a linked list rather than xarray for list of signals.
-> - Simplify panthor_get_uobj_array by returning the newly allocated
->   array.
-> - Drop the "DOC" for job submission helpers and move the relevant
->   comments to panthor_ioctl_group_submit().
-> - Add helpers sync_op_is_signal()/sync_op_is_wait().
-> - Simplify return type of panthor_submit_ctx_add_sync_signal() and
->   panthor_submit_ctx_get_sync_signal().
-> - Drop WARN_ON from panthor_submit_ctx_add_job().
-> - Fix typos in comments.
->=20
-> Co-developed-by: Steven Price <steven.price@arm.com>
-> Signed-off-by: Steven Price <steven.price@arm.com>
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Acked-by: Steven Price <steven.price@arm.com> # MIT+GPL2 relicensing,Arm
-> Acked-by: Grant Likely <grant.likely@linaro.org> # MIT+GPL2 relicensing,L=
-inaro
-> Acked-by: Boris Brezillon <boris.brezillon@collabora.com> # MIT+GPL2 reli=
-censing,Collabora
-> Reviewed-by: Steven Price <steven.price@arm.com>
-> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_drv.c | 1470 +++++++++++++++++++++++++
->  1 file changed, 1470 insertions(+)
->  create mode 100644 drivers/gpu/drm/panthor/panthor_drv.c
->=20
-> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/pant=
-hor/panthor_drv.c
-> new file mode 100644
-> index 000000000000..207aacaccd39
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> @@ -0,0 +1,1470 @@
-> +// SPDX-License-Identifier: GPL-2.0 or MIT
-> +/* Copyright 2018 Marty E. Plummer <hanetzer@startmail.com> */
-> +/* Copyright 2019 Linaro, Ltd., Rob Herring <robh@kernel.org> */
-> +/* Copyright 2019 Collabora ltd. */
-> +
-> +#include <linux/list.h>
-> +#include <linux/module.h>
-> +#include <linux/of_platform.h>
-> +#include <linux/pagemap.h>
-> +#include <linux/pm_runtime.h>
 
-@@ -7,6 +7,7 @@
- #include <linux/module.h>
- #include <linux/of_platform.h>
- #include <linux/pagemap.h>
-+#include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
-=20
- #include <drm/drm_drv.h>
-
-with v6.8-rc1 this needs a linux/platform_device.h include to keep
-finding struct platform_device and friends
-
-[...]
-
-
-> +static int panthor_submit_ctx_init(struct panthor_submit_ctx *ctx,
-> +				   struct drm_file *file, u32 job_count)
-> +{
-> +	ctx->jobs =3D kvmalloc_array(job_count, sizeof(*ctx->jobs),
-> +				   GFP_KERNEL | __GFP_ZERO);
-> +	if (!ctx->jobs)
-> +		return -ENOMEM;
-> +
-> +	ctx->file =3D file;
-> +	ctx->job_count =3D job_count;
-> +	INIT_LIST_HEAD(&ctx->signals);
-> +	drm_exec_init(&ctx->exec, DRM_EXEC_INTERRUPTIBLE_WAIT | DRM_EXEC_IGNORE=
-_DUPLICATES);
-
-=2E./drivers/gpu/drm/panthor/panthor_drv.c: In function =E2=80=98panthor_su=
-bmit_ctx_init=E2=80=99:
-=2E./drivers/gpu/drm/panthor/panthor_drv.c:722:9: error: too few arguments =
-to function =E2=80=98drm_exec_init=E2=80=99
-  722 |         drm_exec_init(&ctx->exec, DRM_EXEC_INTERRUPTIBLE_WAIT | DRM=
-_EXEC_IGNORE_DUPLICATES);
-      |         ^~~~~~~~~~~~~
-
-In v6.8-rc1 (or drm-misc-next I guess) the calling convention of
-drm_exec_init changed to include a number of initial objects, see
-commit 05d249352f1a ("drm/exec: Pass in initial # of objects")
-
-
-Heiko
-
-
+Am 19.01.24 um 23:14 schrieb Pavel Machek:
+> Hi!
+>
+>>> And while I would personally hate it, you can imagine a use case where
+>>> you'd like a keypress to have a visual effect around the key you
+>>> pressed. A kind of force feedback, if you will. I don't actually know,
+>>> and correct me if I'm wrong, but feels like implementing that outside of
+>>> the input subsystem would be non-trivial.
+>> Actually I think it does not belong to the input subsystem as it is,
+>> where the goal is to deliver keystrokes and gestures to userspace.  The
+>> "force feedback" kind of fits, but not really practical, again because
+>> of lack of geometry info. It is also not really essential to be fully
+>> and automatically handled by the kernel. So I think the best way is
+>>> to
+> So that's actually big question.
+>
+> If the common usage is "run bad apple demo on keyboard" than pretty
+> clearly it should be display.
+>
+> If the common usage is "computer is asking yes/no question, so
+> highlight yes and no buttons", then there are good arguments why input
+> should handle that (as it does capslock led, for example).
+The common usage is "make keyboard look flashy", for some a fixed color scheme 
+is enough, other ones might probably enable one of the built in modes. Most 
+people I think will be satisfied with these 2 options, albeit both of your 
+suggestions sound cool.
+>
+> Actually I could imagine "real" use when shift / control /alt
+> backlight would indicate sticky-shift keys for handicapped.
+>
+> It seems they are making mice with backlit buttons. If the main use is
+> highlight this key whereever it is, then it should be input.
+>
+> But I suspect may use is just fancy colors and it should be display.
+>
+> Best regards,
+> 								Pavel
