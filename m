@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D1B58399B3
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 20:40:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB94B8399B4
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 20:40:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7E3D10E874;
-	Tue, 23 Jan 2024 19:40:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 561FF10E876;
+	Tue, 23 Jan 2024 19:40:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 190D610E874
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 19:40:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F85E10E880
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 19:40:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1706038802; x=1737574802;
+ t=1706038808; x=1737574808;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=aBBYA3RzHh2/QQ0UwL4PUfV0hJR5WAU4PpeFt5TUwtM=;
- b=a9U74MaZOCBsks3BNeJIl2ey58vZs4PfkaMvd0n8z1zb192kFuc1harW
- 5IVCSTqL9mR4o6hQgFKtzLYu+AvKOZARGIuGD4RUu1K7G8/nQg5uzhr2t
- ZtHEbPgdlc7kbcVmOjlBe3c8ZvdrgIcT/bQ/5RhhrkCaggNyoDwni+9FN
- 85U/x85Q8QQxPN9uF4xoH5vD6Zghwqz10dC5DKBe3uOrr4LGHSCuUq91M
- As7NvvXiftCRQ/qoMTCNPfl4/YiazKeGNbW7Hk7n3WnL4gS8Ks3Es0VPU
- l3FWGUUDsLyYclbLJus2zOKeO0VQCdsfioB9CHY3KLBjseA0xjgU3YPzT w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="15150432"
-X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; d="scan'208";a="15150432"
+ bh=XI6T4BvHliw/HdRn7Xf4nbmt3Pnt9gll14pXQajKxQE=;
+ b=NipUmZI4h+hwnxyKqpqOHru2fBg+aIL4PqIaIEOPDpT5ar/rVtSA1ceC
+ jOV/R0si4tR3n3mcYthwOuFpw/QLamnWbORFMm9TuLPQOAGE/oG4MpTpd
+ F1xzWJpQDN89L0YXEfng1e5JujP+DW0Pwu7ZF+QpZWodJOb8KZk8LHHLz
+ laa+n8p8728xwhmjXvHN4fc3x+3jxGlqhO7HioNfcgPjY35TgEOQzbaE3
+ K062fBHJx+/TWyZMvv4DohNXerR/qO+LrgsMZ+v39k8uGZ2ZDyp12a3oq
+ 1BVvslYx9eOB/8Ih9TrVBpnMJUJ4jFlSZr7pEVjxVGDiX33t5ziPVAIAL A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="15150457"
+X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; d="scan'208";a="15150457"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jan 2024 11:40:01 -0800
+ 23 Jan 2024 11:40:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="959259998"
-X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; d="scan'208";a="959259998"
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="959260026"
+X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; d="scan'208";a="959260026"
 Received: from pzsolt-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.40.183])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jan 2024 11:39:58 -0800
+ 23 Jan 2024 11:40:04 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v3 21/39] drm/bridge: lt9611uxc: switch to ->edid_read callback
-Date: Tue, 23 Jan 2024 21:37:27 +0200
-Message-Id: <40fc5eaf2fa34a9d604fe5291ae2a41623dd391d.1706038510.git.jani.nikula@intel.com>
+Subject: [PATCH v3 22/39] drm/bridge: megachips: switch to ->edid_read callback
+Date: Tue, 23 Jan 2024 21:37:28 +0200
+Message-Id: <f1e3fa51de1625f9f361b7cdb81fd74d51fb9dba.1706038510.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1706038510.git.jani.nikula@intel.com>
 References: <cover.1706038510.git.jani.nikula@intel.com>
@@ -70,42 +70,57 @@ Prefer using the struct drm_edid based callback and functions.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ .../bridge/megachips-stdpxxxx-ge-b850v3-fw.c   | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-index 4eaf99618749..bcf8bccd86d6 100644
---- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-@@ -495,8 +495,8 @@ static int lt9611uxc_get_edid_block(void *data, u8 *buf, unsigned int block, siz
+diff --git a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
+index e93083bbec9d..4480523244e4 100644
+--- a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
++++ b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
+@@ -91,26 +91,26 @@ static int stdp2690_read_block(void *context, u8 *buf, unsigned int block, size_
  	return 0;
- };
- 
--static struct edid *lt9611uxc_bridge_get_edid(struct drm_bridge *bridge,
--					      struct drm_connector *connector)
-+static const struct drm_edid *lt9611uxc_bridge_edid_read(struct drm_bridge *bridge,
-+							 struct drm_connector *connector)
- {
- 	struct lt9611uxc *lt9611uxc = bridge_to_lt9611uxc(bridge);
- 	int ret;
-@@ -510,7 +510,7 @@ static struct edid *lt9611uxc_bridge_get_edid(struct drm_bridge *bridge,
- 		return NULL;
- 	}
- 
--	return drm_do_get_edid(connector, lt9611uxc_get_edid_block, lt9611uxc);
-+	return drm_edid_read_custom(connector, lt9611uxc_get_edid_block, lt9611uxc);
  }
  
- static const struct drm_bridge_funcs lt9611uxc_bridge_funcs = {
-@@ -518,7 +518,7 @@ static const struct drm_bridge_funcs lt9611uxc_bridge_funcs = {
- 	.mode_valid = lt9611uxc_bridge_mode_valid,
- 	.mode_set = lt9611uxc_bridge_mode_set,
- 	.detect = lt9611uxc_bridge_detect,
--	.get_edid = lt9611uxc_bridge_get_edid,
-+	.edid_read = lt9611uxc_bridge_edid_read,
+-static struct edid *ge_b850v3_lvds_get_edid(struct drm_bridge *bridge,
+-					    struct drm_connector *connector)
++static const struct drm_edid *ge_b850v3_lvds_edid_read(struct drm_bridge *bridge,
++						       struct drm_connector *connector)
+ {
+ 	struct i2c_client *client;
+ 
+ 	client = ge_b850v3_lvds_ptr->stdp2690_i2c;
+ 
+-	return drm_do_get_edid(connector, stdp2690_read_block, client);
++	return drm_edid_read_custom(connector, stdp2690_read_block, client);
+ }
+ 
+ static int ge_b850v3_lvds_get_modes(struct drm_connector *connector)
+ {
+-	struct edid *edid;
++	const struct drm_edid *drm_edid;
+ 	int num_modes;
+ 
+-	edid = ge_b850v3_lvds_get_edid(&ge_b850v3_lvds_ptr->bridge, connector);
++	drm_edid = ge_b850v3_lvds_edid_read(&ge_b850v3_lvds_ptr->bridge, connector);
+ 
+-	drm_connector_update_edid_property(connector, edid);
+-	num_modes = drm_add_edid_modes(connector, edid);
+-	kfree(edid);
++	drm_edid_connector_update(connector, drm_edid);
++	num_modes = drm_edid_connector_add_modes(connector);
++	drm_edid_free(drm_edid);
+ 
+ 	return num_modes;
+ }
+@@ -226,7 +226,7 @@ static int ge_b850v3_lvds_attach(struct drm_bridge *bridge,
+ static const struct drm_bridge_funcs ge_b850v3_lvds_funcs = {
+ 	.attach = ge_b850v3_lvds_attach,
+ 	.detect = ge_b850v3_lvds_bridge_detect,
+-	.get_edid = ge_b850v3_lvds_get_edid,
++	.edid_read = ge_b850v3_lvds_edid_read,
  };
  
- static int lt9611uxc_parse_dt(struct device *dev,
+ static int ge_b850v3_lvds_init(struct device *dev)
 -- 
 2.39.2
 
