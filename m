@@ -2,82 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55A50838AA0
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 10:45:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DD16838A82
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 10:43:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0914B10E738;
-	Tue, 23 Jan 2024 09:45:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74F4410E3DD;
+	Tue, 23 Jan 2024 09:43:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F02710E72E
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 09:45:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1706003100;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mZ38BpMLw1nmEQJiWPTNL5fM1ejJipykQi7icSpF5L4=;
- b=GR4v/p8ImK/fui6nhWRV/8pojzJBKwYPfnrvrNT64glWoZc8hgFdyglWEvYMvDUpstZ03z
- TrNc76uAmbeDDhfMtpmCgvGRhkEzOw8IB3BJRT/6AO2njh8SnfITfcYbzM/1sq7utsCxe0
- rZqIQ4WuE5jhn5hdxpHCiHxAfkhS818=
-Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com
- [209.85.217.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-692--fcYidJbM0-Z8Mp-0xJNAg-1; Tue, 23 Jan 2024 04:44:59 -0500
-X-MC-Unique: -fcYidJbM0-Z8Mp-0xJNAg-1
-Received: by mail-vs1-f71.google.com with SMTP id
- ada2fe7eead31-469adc951fdso231038137.1
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 01:44:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706003098; x=1706607898;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=mZ38BpMLw1nmEQJiWPTNL5fM1ejJipykQi7icSpF5L4=;
- b=AZwQnk+f/5j6011rYnVhyA4svUotb7gpt/QXy2AGXkdJNTpv9IgyQbhkFbQyPc5TEx
- AcnhH52t2qwwfhe0z3GHAAk/zy5cJGnma7HI92KUcsMftRTpt2A82CEc5W9wL5N8/NS3
- 1gQvrIbqd5L7YHG2+9jFSvNgA4rI13dEJ61kpHHQtDPpZ0Y9AsiWwDxwNfx2jbLqt3Td
- 7WSob6dtpEXgW1mOLI46WSGXlwAUUIztLkCTjkyDE6TfWql4SGJqGv8qTG0HPEBNU1eF
- Mc3hgJ4YrWKHgAs2ttUWDHV82VOc4sZ1Lx6Tvj6R7dmo6sU6AlBP2FFPJST+G377CJES
- nA2w==
-X-Gm-Message-State: AOJu0YytuRUIxbBIBlcb4IAknHVVx+snZQZa9fCY+9LG9H+sX0JxN2UG
- ZljRx29uORgnfAYSd+pEd4WFa8tlvcromXgaZVWw2G6jgNFPGya+ofSd8BLVDqGbpzWYdmWSusu
- udyuhFShZpMuB528WcJzWdRUeG328OW+6vFnhKki7zQz/AoGWdiOc6N3UAyqez53wKA==
-X-Received: by 2002:a05:6102:5594:b0:469:a652:8df5 with SMTP id
- dc20-20020a056102559400b00469a6528df5mr5138871vsb.1.1706003098546; 
- Tue, 23 Jan 2024 01:44:58 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEivN7OX9YY7oVy+KgkCGjsC3T0Q8wxZ8vUmiA80b9QIyaRCXaYkhUqcQ/3h07xKSGdWjW0qA==
-X-Received: by 2002:a05:6102:5594:b0:469:a652:8df5 with SMTP id
- dc20-20020a056102559400b00469a6528df5mr5138858vsb.1.1706003098225; 
- Tue, 23 Jan 2024 01:44:58 -0800 (PST)
-Received: from pstanner-thinkpadt14sgen1.muc.redhat.com
- (nat-pool-muc-t.redhat.com. [149.14.88.26])
- by smtp.gmail.com with ESMTPSA id
- nc5-20020a0562142dc500b00685e2ffcaf5sm2958704qvb.38.2024.01.23.01.44.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jan 2024 01:44:58 -0800 (PST)
-From: Philipp Stanner <pstanner@redhat.com>
-To: Jonathan Corbet <corbet@lwn.net>, Hans de Goede <hdegoede@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Bjorn Helgaas <bhelgaas@google.com>,
- Philipp Stanner <pstanner@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
- dakr@redhat.com
-Subject: [PATCH v2 06/10] PCI: move pinned status bit to struct pci_dev
-Date: Tue, 23 Jan 2024 10:43:03 +0100
-Message-ID: <20240123094317.15958-7-pstanner@redhat.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240123094317.15958-1-pstanner@redhat.com>
-References: <20240123094317.15958-1-pstanner@redhat.com>
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1nam02on2073.outbound.protection.outlook.com [40.107.96.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 150C010E3DD
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 09:43:14 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=acCty1VJ8MuwcE/OeCeFTcrccOIVEvb1FY18vNPeoNs1k2TYSVV5yTtJdqDLgJvkE60a8G6XTrEVvJX9TYg77AAVnWKKlx8mkInDGXnIihRoYwI0IxH8jEkSAyUlCPz58gOrT1mB1nRa69rw40tZzbqSKfCkU/WTk/oNUc1cI+rI6pB47Jt2RC9V2Reu2vxWOMUvS+8nJfVI1Cn8JkSvql84bYwaoS/XEBed84Z9gXsKAvyqCZ5c/fvuu7KsYiJFb+ECGUfs7UF1ExMey4clI3RpvA1+ncWR1ilkyKkZvg4/FOHxYoZgOmzcwAjNf6GqNoFJGDNiF/swJvH+iMi4ew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KhuNzd5UxWWigOnGotDK+pCCEkdG0ZCJ4XRgaeK1KYI=;
+ b=XO4dZAKyutgZazgTTD+5pjMHdBVyT0sVv7VQurdVCiMpHlfHFpPOhO5VuRUTU2IEzPHyd2rNcM4uLjFxvX/ZMslSq/9A1n9mosDPjvw2oFtBdUvyKzMAcJUmPGofjc/+Uehcs2p5vRrNRl8Rgf1VDyMpU+S+hY8djpmpzdswdku4fRl9pD7AYQxv2iYgXW6kCKcaX3DHoRc2uHm1nOZam7zjrrk3RGQ3ZtNVgzMK7A6JgC+DRt6XdK+bJsRET6/r+ZSdapZHEMLCEH1l8CJoYEq8oNYwtGBzrk7AfMWNAGaxDoEw2kDqG6HmYQdcQl0xnVjz7kZJSba05Hgf+c36YA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KhuNzd5UxWWigOnGotDK+pCCEkdG0ZCJ4XRgaeK1KYI=;
+ b=4nOkLjlaVgNmJrTuJiy9MB9efxmzq+tH1/r9cCnLUQ62DGNxFxXpekBe+VbGSSQA0eloLLcuNRT5ykmKQC09PCG/w0VQmBr2mCoQ0Wit7VLJ9qxP3Cev50mP0usN1fTWB5sFiui9cs8BLRBjqMvSxRLdpZfDQ2O87x3U30sOKDo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by MN2PR12MB4359.namprd12.prod.outlook.com (2603:10b6:208:265::24)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.34; Tue, 23 Jan
+ 2024 09:43:10 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::e1fb:4123:48b1:653]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::e1fb:4123:48b1:653%4]) with mapi id 15.20.7202.031; Tue, 23 Jan 2024
+ 09:43:09 +0000
+Message-ID: <c45df2c7-695b-42be-b893-a4f520d9e723@amd.com>
+Date: Tue, 23 Jan 2024 10:43:04 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [BUG] BUG: kernel NULL pointer dereference at ttm_device_init+0xb4
+Content-Language: en-US
+To: Steven Rostedt <rostedt@goodmis.org>, Dave Airlie <airlied@gmail.com>
+References: <20240122180605.28daf23a@gandalf.local.home>
+ <20240122181547.16b029d6@gandalf.local.home>
+ <20240122181901.05a3b9ab@gandalf.local.home>
+ <CAHk-=whry+-JUDiiCkDkDn2TDg7SA5OvZpPbcQ_jkM_J5=ySdA@mail.gmail.com>
+ <27c3d1e9-5933-47a9-9c33-ff8ec13f40d3@amd.com>
+ <20240122203552.529eeb20@gandalf.local.home>
+ <CAPM=9tyQ22nw4_u366EX=PnROYcWPD7ONRFpPEKxRvTZo0B4zQ@mail.gmail.com>
+ <CAPM=9tyCN1ZhvCTjoKn-Yg5BhnrMae4E5Ci4_u7BZ2vv5gDnKw@mail.gmail.com>
+ <20240122215200.1ec02a4a@gandalf.local.home>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20240122215200.1ec02a4a@gandalf.local.home>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR0P281CA0070.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:49::20) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN2PR12MB4359:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5448cc9f-7b29-42a8-3b55-08dc1bf7b5a1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: UpuK/1gjjt2oqNP6WQ/pFwuwcdFhxktf6jziONAAdUN2TTiJQGuNpRkMpCwrF6vP8tzdVmNoOVyGZ8ZXhmXOjHy10ZyslPlYtfP5Vmxnqt2eEeLiDVNxg4LURz6C5DaBD5tfbRpvuaROCY8dIOEJeFS9CrfWGtLH2hL47XGEMg1i8WRjNkYJYkQknQsYPKOC4Hu+d64j31A/V0+xZu8RoXRZXNC94ohBmEe3L9FR4pVJPIBVha3JR/wHlDXCVgvx2oM2VyOe+qYumi773v88Oe6/8ORJLe1RU6PcVr86vFQKWQaCJ26VpDTsZf30oa2YxbkxxyRBfQWGeRJeplRRj9NPJA+xs5CZjVlhVK/FerpFjostcNCevbVUhZKsiTHm0/GjGxcZewpbPElvflC6VhUcwbKZtKmpTH3oHBrp7OGGtO75/XYvRDeOcl1V4Dx9x9UNC9SZicVZHqQcAxiMGPgIH07nzOpAQdJU6Aeh/mDUJvr8UqDlOoWnAswrwret+rL988Ft2kIMnlBAgxvCHOyQqnNsqbeU+5VR3ZJ04yMxt8ZDlgEBTqiKHjcHwQ4Er9T7d2F7A1vrRmkEIQDK3fmO1jjlX5zyGxwDXEFZZqHLsfWvrCqoH+lh7UaEoyLj5i7hmO5B6L5ri/+rcYWmtg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(136003)(346002)(396003)(366004)(376002)(39860400002)(230922051799003)(186009)(1800799012)(64100799003)(451199024)(8936002)(4326008)(8676002)(5660300002)(478600001)(86362001)(110136005)(54906003)(316002)(6486002)(66476007)(66556008)(31696002)(66946007)(2616005)(966005)(26005)(6506007)(2906002)(6666004)(36756003)(6512007)(53546011)(41300700001)(31686004)(38100700002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?N2VKa3hRTmp4QTRRc2ZlNFpmWkNDUXErcXBISHBDSDlDVkROdzhpdHFoQWN2?=
+ =?utf-8?B?OFBwckE3ZlY0a1FteFh4TjB5NXZLQW43OS8vYTFEMlZTNVVuRVU4UmpkaWtk?=
+ =?utf-8?B?Mk13THRQNDN6YmxOd29IZDNiNGs3YWpER08rM0F3RC84cHdOY2loMzM4UVl4?=
+ =?utf-8?B?eWR5NE1BdjZ6YVpKTGVoY1E1T0RheWtyRnZRQzlvV1FsWUhINmhiN2NFbnVR?=
+ =?utf-8?B?djEwQ00relMvOFRuVkJwOXhsYllHVktCaDRoUHQvSVhhazBvcXdPZENSQ1FE?=
+ =?utf-8?B?N1lCbFN6ci9rZHAva2xUM3BxQnd2RVNwTUVIR1pLU2lrMHNBbkxiOUp5d3pR?=
+ =?utf-8?B?RFlKek0wZmxHS0dUUnQ4YjNJdlJzTUV2dmc2Q0FTUGNudE51dUtoTDFUNFU2?=
+ =?utf-8?B?Uy9neDVhUkcvNXlGZTU5VjUzVk5jQW93TDlpMnZLcVBoU25nekJLcEkxS0l3?=
+ =?utf-8?B?U01maTQrK0hYeWNpK3ZvNGFDbEJOOVNBaWthNzBYSEg4U2NXZ3pVSkxoVmh5?=
+ =?utf-8?B?YjRYcktaL2ZITUt2TzRvWW5naEd6UGFxeDRBYU1rY0RheUU0dkdnMlR1WFF3?=
+ =?utf-8?B?WGRobUZjR3FoTGtyRU8vU3hjMVhDYks3REE2UG9ML2tMYU84M1FYcFhDUUtZ?=
+ =?utf-8?B?VW5sV0FJWjZBTkJkbncvOEQ5SjJ2ME92STJjL0VMSnFnZ0wzLzJsb1NiQnli?=
+ =?utf-8?B?WTNWQjBLaWdmS3o2VXUxMmRHcUtWcHpCZzFvalRNVkZ6cWJ3N29SbnVrK3lH?=
+ =?utf-8?B?OXBjMmg3NWdDMnNmTW1TRTE5bWFpTGFSd09VamdPc2o5dndDcDlDM0dxZXVJ?=
+ =?utf-8?B?MEZJKzJFbEtkMTJ6OUY0SnlVb2FqMVQxbVV5aW9lTE1WMXIvMnRaTGFaTnM1?=
+ =?utf-8?B?RVMrKzI3dDF0dGhURVV3ckRkMk9oeUM2Q2Z3cnBLeFJwRFJKb2RwSkJzeTNJ?=
+ =?utf-8?B?K0ZYdEgzWUlkVXpIOUhKaWhFb1NMcDRVa3BpcC9UcXlmcGdNY2lWREkyZi9q?=
+ =?utf-8?B?YU81Q1dOT296TldUbUFpcG9EQXFPNlhpMzVScGlWYlE2bko0aWlQY0NiWHdZ?=
+ =?utf-8?B?M0pqS3VpQ2ZJQUZSL1plNU5iSHR1TVNkQVNmL3hWSjQ4ZktxK2FZWEVBOWVD?=
+ =?utf-8?B?UlFXcTh3SUlIWVppbytja0xxa3Aza3ZIYnhsc3YxNEEyeWoyWUxCN05vOC91?=
+ =?utf-8?B?M0xyQ2UyR2VUTnlsNjJvWXVIeE4xSitweFpLQkRBR0lrTWVETDZZaXVWRldI?=
+ =?utf-8?B?UjRRb2k4N0VrYkUyMW9MMEp1YnpHTlVrTFhvNTllZGkwb3RjN3dSNXVYekNa?=
+ =?utf-8?B?THZhbngrMURSSEVldjlNUkN4RFdSTmJoZFFGaDZoOEswaUhNVE5yWDZWd3Vs?=
+ =?utf-8?B?K0J6QnhZdHYyaWpMWGRsS2NoRFdvMEk3aHB6b1d6alVadUozZlN5VERiejJu?=
+ =?utf-8?B?ai9yellMOTZidUtYMTFLejVaRkU2WmpDVjBEM0ErRWVXaitiM1FXdXo0bG1D?=
+ =?utf-8?B?UG9pVko2eE9VOXozS1hnMlo4akMwZHdQZVljSTFza25mdEw4cXZaTG1hZmJa?=
+ =?utf-8?B?cmVtWmJkaGhCRGEyTmk0MU4xQlQ5NGhCRVNJZ08rd09RcTcxNlplWHVtSXdW?=
+ =?utf-8?B?ZkF0c1U3SUpoOHJQV3Q2NnhEY3lWN0xhbXBoU2xOdE5rbm1HenBBNm5ybnZm?=
+ =?utf-8?B?ODFYUi96eXczVDF3L0ozSkExTm05V1BCOGtVcnZsditFSXVZL3ljbGFZa0cw?=
+ =?utf-8?B?M21OMG9pRE1pd3RRQTk1cTBzdmhRWjdSN0VVcEg3RG5abVFnd1ZFU0tSWGw2?=
+ =?utf-8?B?dXdOM0toOGVXOU80QXlON1VScWhISFBNSEZNVnJhWXA0aDJ4MVd0SllwTkNl?=
+ =?utf-8?B?TXVPQUVHL29zTGFEa0JXT1B5MW0ycjJqVnJoSVFBTHk2ZzF5SFpPTWdiWEEy?=
+ =?utf-8?B?ZTdqNkhLUnV0U09OSkpCRzlLSkFwSklZeFh4eUdXUGhHYzlzVzhia1JMdUFY?=
+ =?utf-8?B?VFBJc1EzdGthY2tvR0ZaZ2xqckxZRXI5WkZPQ1l3dC9adlVnNFF2V0Vlejk2?=
+ =?utf-8?B?MDJkd0tLRGRvc2tNaXdBLzlTYVpkQnVXK211S2UvdjlYVUFDQ0FPVFpjbzls?=
+ =?utf-8?Q?6A+OifDqbI4yMjrzqzAwU668z?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5448cc9f-7b29-42a8-3b55-08dc1bf7b5a1
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2024 09:43:09.8769 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fxW0o+6S5J1vmgDS54IFIzZsPjcA6V+WflT1UjJhRPfGA8YedmxRiAQ2GPildjZ5
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4359
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,94 +131,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, Fedor Pchelkin <pchelkin@ispras.ru>,
+ dri-devel@lists.freedesktop.org, "Bhardwaj,
+ Rajneesh" <rajneesh.bhardwaj@amd.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The bit describing whether the PCI device is currently pinned is stored
-in struct pci_devres. To clean up and simplify the PCI devres API, it's
-better if this information is stored in struct pci_dev, because it
-allows for checking that device's pinned-status directly through
-struct pci_dev.
+Am 23.01.24 um 03:52 schrieb Steven Rostedt:
+> On Tue, 23 Jan 2024 12:32:39 +1000
+> Dave Airlie <airlied@gmail.com> wrote:
+>
+>> On Tue, 23 Jan 2024 at 12:21, Dave Airlie <airlied@gmail.com> wrote:
+>>> On Tue, 23 Jan 2024 at 12:15, Steven Rostedt <rostedt@goodmis.org> wrote:
+>>>> On Mon, 22 Jan 2024 19:56:08 -0500
+>>>> "Bhardwaj, Rajneesh" <rajneesh.bhardwaj@amd.com> wrote:
+>>>>   
+>>>>> On 1/22/2024 7:43 PM, Linus Torvalds wrote:
+>>>>>> On Mon, 22 Jan 2024 at 15:17, Steven Rostedt<rostedt@goodmis.org>  wrote:
+>>>>>>> Perhaps this is the real fix?
+>>>>>> If you send a signed-off version, I'll apply it asap.
+>>>>>
+>>>>> I think a fix might already be in flight. Please see Linux-Kernel
+>>>>> Archive: Re: [PATCH] drm/ttm: fix ttm pool initialization for
+>>>>> no-dma-device drivers (iu.edu)
+>>>>> <https://lkml.iu.edu/hypermail/linux/kernel/2401.1/06778.html>
+>>>> Please use lore links. They are much easier to follow and use.
+>>> https://lore.kernel.org/dri-devel/20240123022015.1288588-1-airlied@gmail.com/T/#u
+>>>
+>>> should also fix it, Linus please apply it directly if Steven has a
+>>> chance to give it a run.
+>> I see Linus applied the other one, that's fine too.
+>>
+> They don't look mutually exclusive. I can test the other one as well.
 
-This will later permit simplifying  pcim_enable_device().
+While applying the fix a week ago I was under the impression that QXL 
+doesn't use a device structure because it doesn't have one and so can't 
+give anything meaningful for this parameter.
 
-Move the 'pinned' boolean bit to struct pci_dev.
+If QXL does have a device structure and can provide it I would rather 
+like to go down this route and make the device and with it the numa node 
+mandatory for drivers to specify.
 
-Signed-off-by: Philipp Stanner <pstanner@redhat.com>
----
- drivers/pci/devres.c | 14 ++++----------
- drivers/pci/pci.h    |  1 -
- include/linux/pci.h  |  5 +++--
- 3 files changed, 7 insertions(+), 13 deletions(-)
+Regards,
+Christian.
 
-diff --git a/drivers/pci/devres.c b/drivers/pci/devres.c
-index 696541c65c8f..03336a2f00d6 100644
---- a/drivers/pci/devres.c
-+++ b/drivers/pci/devres.c
-@@ -403,7 +403,7 @@ static void pcim_release(struct device *gendev, void *res)
- 	if (this->restore_intx)
- 		pci_intx(dev, this->orig_intx);
- 
--	if (!this->pinned)
-+	if (!dev->pinned)
- 		pci_disable_device(dev);
- }
- 
-@@ -461,18 +461,12 @@ EXPORT_SYMBOL(pcim_enable_device);
-  * pcim_pin_device - Pin managed PCI device
-  * @pdev: PCI device to pin
-  *
-- * Pin managed PCI device @pdev.  Pinned device won't be disabled on
-- * driver detach.  @pdev must have been enabled with
-- * pcim_enable_device().
-+ * Pin managed PCI device @pdev. Pinned device won't be disabled on driver
-+ * detach. @pdev must have been enabled with pcim_enable_device().
-  */
- void pcim_pin_device(struct pci_dev *pdev)
- {
--	struct pci_devres *dr;
--
--	dr = find_pci_dr(pdev);
--	WARN_ON(!dr || !pdev->enabled);
--	if (dr)
--		dr->pinned = 1;
-+	pdev->pinned = true;
- }
- EXPORT_SYMBOL(pcim_pin_device);
- 
-diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-index dbb76a3fb0e4..3d9908a69ebf 100644
---- a/drivers/pci/pci.h
-+++ b/drivers/pci/pci.h
-@@ -809,7 +809,6 @@ static inline pci_power_t mid_pci_get_power_state(struct pci_dev *pdev)
-  * when a device is enabled using managed PCI device enable interface.
-  */
- struct pci_devres {
--	unsigned int pinned:1;
- 	unsigned int orig_intx:1;
- 	unsigned int restore_intx:1;
- 	unsigned int mwi:1;
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index a356bdcc14cc..efbe2ed92343 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -367,11 +367,12 @@ struct pci_dev {
- 					   this is D0-D3, D0 being fully
- 					   functional, and D3 being off. */
- 	u8		pm_cap;		/* PM capability offset */
--	unsigned int	enabled:1;	/* Whether this dev is enabled */
--	unsigned int	imm_ready:1;	/* Supports Immediate Readiness */
- 	unsigned int	pme_support:5;	/* Bitmask of states from which PME#
- 					   can be generated */
- 	unsigned int	pme_poll:1;	/* Poll device's PME status bit */
-+	unsigned int	enabled:1;	/* Whether this dev is enabled */
-+	unsigned int	pinned:1;	/* Whether this dev is pinned */
-+	unsigned int	imm_ready:1;	/* Supports Immediate Readiness */
- 	unsigned int	d1_support:1;	/* Low power state D1 is supported */
- 	unsigned int	d2_support:1;	/* Low power state D2 is supported */
- 	unsigned int	no_d1d2:1;	/* D1 and D2 are forbidden */
--- 
-2.43.0
+>
+> -- Steve
 
