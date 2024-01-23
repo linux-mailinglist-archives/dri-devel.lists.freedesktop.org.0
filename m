@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8E018399CB
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 20:42:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE43E8399C6
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 20:41:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14AB210E896;
-	Tue, 23 Jan 2024 19:41:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0F9A10E8AC;
+	Tue, 23 Jan 2024 19:41:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AAA310E8A9
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 19:41:31 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC98110E8AC
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 19:41:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1706038892; x=1737574892;
+ t=1706038891; x=1737574891;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=HOSNs3YHj3Yx0HUDslxQz75b1u+YVMPuc1oin8kpkMY=;
- b=lf8M0xExLdMrOMVdgLMaJg02IfXy8l/TgC60q8QYPk1sRJE+oEia/Gv0
- pZllskL2p2dv2yFyTtdehSVRV7sOeFKUokGaNrp84Vypo50RHYnR1cBEu
- aDlAn9LR0K0wptvS4K7xha7VKpC+qxUSTPSojN7bdQ0v/z4sZXMkSlfox
- ihizTB/9vKj+cBLxcfFdH8B3X/Nt+I6Qsl6Z/Vu69yLpWRYbBJMkescoP
- OUHeeM1kyIo04Yg1R8KsAnkAXWaqlDyhEHRmU8y6AVX4awK3NjtTsixyO
- MlinIUrhaI5H6mquNo8OPBfLtkbRZE/TrAMe3TDwAGoT/ony8KX54Bswm w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="14981026"
-X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; d="scan'208";a="14981026"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jan 2024 11:41:25 -0800
+ bh=teCSRjiiaWSyuZXbYtI9B7ilj/PSvFt0ebq9LXoXO6Y=;
+ b=Pki6laFK7/xMbfEX5+KgzJCuGyb8OLBZ6apElxYqnAvhavggWkfFDws3
+ lHGfJi+Djtj2KGxkhhFbqhwSieUDfJSZdcW/AEc57yJSgLvhrzCFp5N6i
+ AlM0iZycxRSUwx197M1gualwqZ/JFa5Og1/D5NUdrawb0AKmLEHV6H+Kv
+ hAPS/sCtT6VvQPhrSjO3uT9sW4Jk2Z/OA3NLj7UFbq6YtnpjA60jsFjsU
+ h3rH1QzcFkQt/djmlok8U66MQb236K2yqacC8lgzoAMZ/0Cc5e0palxxN
+ bFlWFDCUm/JOxhBJqYB66XIn/BRwiTydhKeGNr273T0aPx+y/6Zfrhc1z w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="9022591"
+X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; 
+   d="scan'208";a="9022591"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2024 11:41:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="856434064"
-X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; d="scan'208";a="856434064"
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="929435962"
+X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; d="scan'208";a="929435962"
 Received: from pzsolt-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.40.183])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jan 2024 11:41:21 -0800
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2024 11:41:27 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v3 35/39] drm: bridge: dw_hdmi: clear the EDID property and
- CEC address on failures
-Date: Tue, 23 Jan 2024 21:37:41 +0200
-Message-Id: <a417ae48da6cc0dc8a9e3d929ce0c91f1e4905f1.1706038510.git.jani.nikula@intel.com>
+Subject: [PATCH v3 36/39] drm/bridge: tc358767: update the EDID property
+Date: Tue, 23 Jan 2024 21:37:42 +0200
+Message-Id: <95dc1f219d8cb31e4ff30ce1f516e6f4b5e06802.1706038510.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1706038510.git.jani.nikula@intel.com>
 References: <cover.1706038510.git.jani.nikula@intel.com>
@@ -67,26 +67,26 @@ Cc: Jani Nikula <jani.nikula@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If EDID read fails, clear the EDID property and CEC address.
+The EDID property should be updated between reading the EDID and adding
+the modes.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/gpu/drm/bridge/tc358767.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 4a2e3f9c1dfd..0e59b30d5227 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -2505,8 +2505,6 @@ static int dw_hdmi_connector_get_modes(struct drm_connector *connector)
- 	int ret;
+diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+index f10ba91dc252..37b1353cf2e3 100644
+--- a/drivers/gpu/drm/bridge/tc358767.c
++++ b/drivers/gpu/drm/bridge/tc358767.c
+@@ -1679,6 +1679,7 @@ static int tc_connector_get_modes(struct drm_connector *connector)
+ 	}
  
- 	drm_edid = dw_hdmi_edid_read(hdmi, connector);
--	if (!drm_edid)
--		return 0;
+ 	edid = tc_get_edid(&tc->bridge, connector);
++	drm_connector_update_edid_property(connector, edid);
+ 	num_modes = drm_add_edid_modes(connector, edid);
+ 	kfree(edid);
  
- 	drm_edid_connector_update(connector, drm_edid);
- 	cec_notifier_set_phys_addr(hdmi->cec_notifier,
 -- 
 2.39.2
 
