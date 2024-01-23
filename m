@@ -2,49 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C587A8399AA
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 20:39:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC2BB8399AB
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 20:39:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 039DA10E84F;
-	Tue, 23 Jan 2024 19:38:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36CB710E864;
+	Tue, 23 Jan 2024 19:38:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFF5710E84D
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 19:38:37 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39C2D10E861
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 19:38:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1706038718; x=1737574718;
+ t=1706038724; x=1737574724;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=CloSnaBDhKzl/Du5qNmjWpYuwwMD0jfpD3mDO25m9YA=;
- b=QKFl6VBYOrjWzyQ/ODX8EilDXeFX6djXBVTHzna1BZ2gRMRn5WnYqrPQ
- tzE1IL7QNo4CgYwecgMo7oAsUytw8uAVAUXu3uc3UPqIAc/HKWiq8hlvS
- p/1UtOLkAJvPc+pmhWdqLglWXKmxMCI0ZcUzi3j7j8iMmrgzog15mkYaA
- gCce0LEigAmbRAlGFVHZRFpGVBipR5SUY2pfvLHDUOx3lhwCFD6bfaAw8
- G611JODfzCYfkHVbA+xr2hzzLmdAheaWPLvmc6vKxxqM3hRxJOTHMHt0W
- KdP8yMd+GdUll4hEU0b8LZwvpryJCSE6u3DqP6IDb/BRlkd5eot9Di5q0 g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="8283462"
-X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; 
-   d="scan'208";a="8283462"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jan 2024 11:38:37 -0800
+ bh=v9FZKbjvBB/NxHvwiFX0Rpj1B/MRb4K1rWaQu3jkBKU=;
+ b=BmReQ8gc5aBdd7wBxCsXvROXJDV0ohUyALZ7KPreDL+pU2sEVRorULuW
+ QmI8xJN6ropYWpMrr6Mat/e4YsZfk/N9gUhPyA4JumlZe7WYs8IQ9KFSf
+ 2WYalZiVzwTUP4oI3xY2aIQ9/jejLTt+qMOk2EMAQH8KxCKeZvOzhB1aG
+ T6zpi8BI+TG/fKqsA4C7NPibBwP/MwSmdRJMUn3F4gNJcqRkGrOoh0sNC
+ MFs2s1QM7a+WJBYGXJXpf/LUCb2dTZSub8kNArXbgjZ36AEeIehIhSpiA
+ MnX7wfzypbUZY87G9Id51bb5v04VnlxOxmJu2Y5SmFQa8TdbsjGtm3MXB g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="405387229"
+X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; d="scan'208";a="405387229"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2024 11:38:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; d="scan'208";a="34519893"
+X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; d="scan'208";a="27861628"
 Received: from pzsolt-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.40.183])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jan 2024 11:38:35 -0800
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2024 11:38:41 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v3 08/39] drm: bridge: simple-bridge: use
- drm_bridge_edid_read()
-Date: Tue, 23 Jan 2024 21:37:14 +0200
-Message-Id: <ae1fd3d94829e3e5c197ca58eb18108cb004cf0b.1706038510.git.jani.nikula@intel.com>
+Subject: [PATCH v3 09/39] drm: bridge: simple-bridge: clear the EDID property
+ on failures
+Date: Tue, 23 Jan 2024 21:37:15 +0200
+Message-Id: <3e3c9505fa6859a96ead70121791fd9c4d946b6f.1706038510.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1706038510.git.jani.nikula@intel.com>
 References: <cover.1706038510.git.jani.nikula@intel.com>
@@ -67,7 +66,7 @@ Cc: Jani Nikula <jani.nikula@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Prefer using the struct drm_edid based functions.
+If EDID read fails, clear the EDID property.
 
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>
@@ -77,50 +76,30 @@ Cc: Jonas Karlman <jonas@kwiboo.se>
 Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/bridge/simple-bridge.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/bridge/simple-bridge.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/bridge/simple-bridge.c b/drivers/gpu/drm/bridge/simple-bridge.c
-index cbe8e778d7c7..e0cf7721bb8c 100644
+index e0cf7721bb8c..5813a2c4fc5e 100644
 --- a/drivers/gpu/drm/bridge/simple-bridge.c
 +++ b/drivers/gpu/drm/bridge/simple-bridge.c
-@@ -51,18 +51,18 @@ drm_connector_to_simple_bridge(struct drm_connector *connector)
- static int simple_bridge_get_modes(struct drm_connector *connector)
- {
- 	struct simple_bridge *sbridge = drm_connector_to_simple_bridge(connector);
--	struct edid *edid;
-+	const struct drm_edid *drm_edid;
- 	int ret;
- 
- 	if (sbridge->next_bridge->ops & DRM_BRIDGE_OP_EDID) {
--		edid = drm_bridge_get_edid(sbridge->next_bridge, connector);
--		if (!edid)
-+		drm_edid = drm_bridge_edid_read(sbridge->next_bridge, connector);
-+		if (!drm_edid)
- 			DRM_INFO("EDID read failed. Fallback to standard modes\n");
- 	} else {
--		edid = NULL;
-+		drm_edid = NULL;
+@@ -62,6 +62,8 @@ static int simple_bridge_get_modes(struct drm_connector *connector)
+ 		drm_edid = NULL;
  	}
  
--	if (!edid) {
-+	if (!drm_edid) {
++	drm_edid_connector_update(connector, drm_edid);
++
+ 	if (!drm_edid) {
  		/*
  		 * In case we cannot retrieve the EDIDs (missing or broken DDC
- 		 * bus from the next bridge), fallback on the XGA standards and
-@@ -73,9 +73,9 @@ static int simple_bridge_get_modes(struct drm_connector *connector)
+@@ -73,7 +75,6 @@ static int simple_bridge_get_modes(struct drm_connector *connector)
  		return ret;
  	}
  
--	drm_connector_update_edid_property(connector, edid);
--	ret = drm_add_edid_modes(connector, edid);
--	kfree(edid);
-+	drm_edid_connector_update(connector, drm_edid);
-+	ret = drm_edid_connector_add_modes(connector);
-+	drm_edid_free(drm_edid);
+-	drm_edid_connector_update(connector, drm_edid);
+ 	ret = drm_edid_connector_add_modes(connector);
+ 	drm_edid_free(drm_edid);
  
- 	return ret;
- }
 -- 
 2.39.2
 
