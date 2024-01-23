@@ -2,40 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F937839C4E
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 23:34:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70DD1839C68
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 23:40:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9BB710E8F6;
-	Tue, 23 Jan 2024 22:34:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE6BE10E91D;
+	Tue, 23 Jan 2024 22:40:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02EEA10E8F6;
- Tue, 23 Jan 2024 22:34:01 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id B7602CE3000;
- Tue, 23 Jan 2024 22:33:55 +0000 (UTC)
-Received: from rdvivi-mobl4 (unknown [192.55.55.52])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp.kernel.org (Postfix) with ESMTPSA id 893D2C433F1;
- Tue, 23 Jan 2024 22:33:51 +0000 (UTC)
-Date: Tue, 23 Jan 2024 17:33:49 -0500
-From: Rodrigo Vivi <rodrigo.vivi@kernel.org>
-To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Subject: Re: [PATCH v4 1/3] drm/i915/vma: Fix UAF on destroy against retire
- race
-Message-ID: <ZbA-wKK3_iK-hy8b@rdvivi-mobl4>
-References: <20240122141007.401490-5-janusz.krzysztofik@linux.intel.com>
- <20240122141007.401490-6-janusz.krzysztofik@linux.intel.com>
- <Za7Zkn2-jYEvz8Vo@intel.com>
- <2216168.NgBsaNRSFp@jkrzyszt-mobl2.ger.corp.intel.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5061B10E918;
+ Tue, 23 Jan 2024 22:40:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1706049634; x=1737585634;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=Z/gVOBIyuGeHrB0qusJzDPUINYJVDgoRszKTN0NH9s0=;
+ b=Nn4MyCJLYA5vk0CvgCQOoCpMQDtmqjYqxK07x7oQ8yKu4V/tKp+SrnNP
+ EN2o/6S0zsM3zEi2V7uZ1QkKxpQW35sto0H2OXqcDjgAL6av+w1AknTF4
+ ROBTHRvus95ThpYdJ1LbLRn9GbiiQujFo/er2bhNYiCrIYXMKHWRw63vv
+ iqaL+epJUjvkXkliTXqaEsGb08Mqr99arSlzBBs4rAdMb0P++eR1V5WQB
+ xDeVq007OUv4ofH8f7xjWPiJ0JqdzPqqvS7a6ZL+ltGc/kloYbDDgORPs
+ cn0L33uuXO0/huU6lXRhxOed4zfIr7YHSUjtc+1LceCP15H5uPfd03uSl g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="573953"
+X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; 
+   d="scan'208";a="573953"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2024 14:40:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="876490218"
+X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; d="scan'208";a="876490218"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com)
+ ([10.237.72.44])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2024 14:40:27 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+ by kekkonen.fi.intel.com (Postfix) with SMTP id 596D411FB8E;
+ Wed, 24 Jan 2024 00:40:25 +0200 (EET)
+Date: Tue, 23 Jan 2024 22:40:25 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Subject: Re: [PATCH v4 1/3] pm: runtime: Simplify pm_runtime_get_if_active()
+ usage
+Message-ID: <ZbBAWROxRKE8Y8VU@kekkonen.localdomain>
+References: <ZbAlFKE_fZ_riRVu@kekkonen.localdomain>
+ <20240123214801.GA330312@bhelgaas>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2216168.NgBsaNRSFp@jkrzyszt-mobl2.ger.corp.intel.com>
+In-Reply-To: <20240123214801.GA330312@bhelgaas>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,239 +64,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, linux-pci@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ laurent.pinchart@ideasonboard.com, David Airlie <airlied@gmail.com>,
+ Paul Elder <paul.elder@ideasonboard.com>, linux-media@vger.kernel.org,
  Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>, intel-gfx@lists.freedesktop.org,
- Andrzej Hajda <andrzej.hajda@intel.com>, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel@ffwll.ch>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- David Airlie <airlied@gmail.com>, Nirmoy Das <nirmoy.das@intel.com>
+ linux-pm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ Lucas De Marchi <lucas.demarchi@intel.com>, linux-sound@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ intel-xe@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Alex Elder <elder@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Takashi Iwai <tiwai@suse.com>,
+ Daniel Vetter <daniel@ffwll.ch>, netdev@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 23, 2024 at 11:51:15AM +0100, Janusz Krzysztofik wrote:
-> Hi Rodrigo,
+On Tue, Jan 23, 2024 at 03:48:01PM -0600, Bjorn Helgaas wrote:
+> On Tue, Jan 23, 2024 at 08:44:04PM +0000, Sakari Ailus wrote:
+> > On Tue, Jan 23, 2024 at 11:24:23AM -0600, Bjorn Helgaas wrote:
+> > ...
 > 
-> Thank you for review.
-> 
-> On Monday, 22 January 2024 22:09:38 CET Rodrigo Vivi wrote:
-> > On Mon, Jan 22, 2024 at 03:04:42PM +0100, Janusz Krzysztofik wrote:
-> > > Object debugging tools were sporadically reporting illegal attempts to
-> > > free a still active i915 VMA object when parking a GPU tile believed to be
-> > > idle.
+> > > - I don't know whether it's feasible, but it would be nice if the
+> > >   intel_pm_runtime_pm.c rework could be done in one shot instead of
+> > >   being split between patches 1/3 and 2/3.
 > > > 
-> > > [161.359441] ODEBUG: free active (active state 0) object: ffff88811643b958 object type: i915_active hint: __i915_vma_active+0x0/0x50 [i915]
-> > > [161.360082] WARNING: CPU: 5 PID: 276 at lib/debugobjects.c:514 debug_print_object+0x80/0xb0
-> > > ...
-> > > [161.360304] CPU: 5 PID: 276 Comm: kworker/5:2 Not tainted 6.5.0-rc1-CI_DRM_13375-g003f860e5577+ #1
-> > > [161.360314] Hardware name: Intel Corporation Rocket Lake Client Platform/RocketLake S UDIMM 6L RVP, BIOS RKLSFWI1.R00.3173.A03.2204210138 04/21/2022
-> > > [161.360322] Workqueue: i915-unordered __intel_wakeref_put_work [i915]
-> > > [161.360592] RIP: 0010:debug_print_object+0x80/0xb0
-> > > ...
-> > > [161.361347] debug_object_free+0xeb/0x110
-> > > [161.361362] i915_active_fini+0x14/0x130 [i915]
-> > > [161.361866] release_references+0xfe/0x1f0 [i915]
-> > > [161.362543] i915_vma_parked+0x1db/0x380 [i915]
-> > > [161.363129] __gt_park+0x121/0x230 [i915]
-> > > [161.363515] ____intel_wakeref_put_last+0x1f/0x70 [i915]
-> > > 
-> > > That has been tracked down to be happening when another thread is
-> > > deactivating the VMA inside __active_retire() helper, after the VMA's
-> > > active counter has been already decremented to 0, but before deactivation
-> > > of the VMA's object is reported to the object debugging tool.
-> > > 
-> > > We could prevent from that race by serializing i915_active_fini() with
-> > > __active_retire() via ref->tree_lock, but that wouldn't stop the VMA from
-> > > being used, e.g. from __i915_vma_retire() called at the end of
-> > > __active_retire(), after that VMA has been already freed by a concurrent
-> > > i915_vma_destroy() on return from the i915_active_fini().  Then, we should
-> > > rather fix the issue at the VMA level, not in i915_active.
-> > > 
-> > > Since __i915_vma_parked() is called from __gt_park() on last put of the
-> > > GT's wakeref, the issue could be addressed by holding the GT wakeref long
-> > > enough for __active_retire() to complete before that wakeref is released
-> > > and the GT parked.
-> > > 
-> > > A VMA associated with a request doesn't acquire a GT wakeref by itself.
-> > > Instead, it depends on a wakeref held directly by the request's active
-> > > intel_context for a GT associated with its VM, and indirectly on that
-> > > intel_context's engine wakeref if the engine belongs to the same GT as the
-> > > VMA's VM.  In case of single-tile platforms, at least one of those
-> > > wakerefs is usually held long enough for the request's VMA to be
-> > > deactivated on time, before it is destroyed on last put of its VM GT
-> > > wakeref.  However, on multi-tile platforms, a request may use a VMA from a
-> > > tile other than the one that hosts the request's engine, then it is
-> > > protected only with the intel_context's VM GT wakeref.
-> > > 
-> > > There was an attempt to fix this issue on 2-tile Meteor Lake by acquiring
+> > >   Maybe it could be a preliminary patch that uses the existing
+> > >   if_active/if_in_use interfaces, followed by the trivial if_active
+> > >   updates in this patch.  I think that would make the history easier
+> > >   to read than having the transitory pm_runtime_get_conditional() in
+> > >   the middle.
 > > 
-> > please do not confuse the terminology here. MTL is 1-tile platform,
-> > with multiple GTs (1 for Render/Compute and 1 for Media).
+> > I think I'd merge the two patches. The second patch is fairly small, after
+> > all, and both deal with largely the same code.
 > 
-> I didn't realize that "tile" is not the same as "GT".  I can review the whole 
-> description and replace all occurrences of "tile" with "GT".
+> I'm not sure which two patches you mean, but the fact that two patches
+> deal with largely the same code is not necessarily an argument for
+> merging them.  From a reviewing perspective, it's nice if a patch like
 
-yeap, in i915 it is a 1-1 map... a tile is implemented within the intel_gt.
-In Xe there's a good split and a good doc picture is here:
-https://dri.freedesktop.org/docs/drm/gpu/driver-uapi.html#drm-xe-uapi
+Patches 1 and 2. The third patch introduces a new Runtime PM API function.
 
+> 1/3, where it's largely mechanical and easy to review, is separated
+> from patches that make more substantive changes.
 > 
-> > 
-> > Also you could probably avoid mentioning the other case here when
-> > you are actively trying to resolve the RKL's single GT case.
-> 
-> OK, but let me keep that part of commit description in the cover letter then, 
-> because:
-> - historically, the issue was more frequently reproduced in CI on MTL than on 
->   other platforms, and that was the initial scope I started working on,
-> - the full description as is better reflects phases of my process of 
->   reproduction and root cause analysis of the issue,
-> - the MTL case was specifically addressed by the former insufficient 
->   workaround which now I'm now proposing to drop.
-> 
-> > > an extra wakeref for a Primary GT from i915_gem_do_execbuffer() -- see
-> > > commit f56fe3e91787 ("drm/i915: Fix a VMA UAF for multi-gt platform").
-> > > However, it occurred insufficient -- the issue was still reported by CI.
-> > > That wakeref was released on exit from i915_gem_do_execbuffer(), then
-> > > potentially before completion of the request and deactivation of its
-> > > associated VMAs.
-> > > 
-> > > OTOH, CI reports indicate that single-tile platforms also suffer
-> > > sporadically from the same race.
-> > > 
-> > > I believe the issue was introduced by commit d93939730347 ("drm/i915:
-> > > Remove the vma refcount") which moved a call to i915_active_fini() from
-> > > a dropped i915_vma_release(), called on last put of the removed VMA kref,
-> > > to i915_vma_parked() processing path called on last put of a GT wakeref.
-> > > However, its visibility to the object debugging tool was suppressed by a
-> > > bug in i915_active that was fixed two weeks later with commit e92eb246feb9
-> > > ("drm/i915/active: Fix missing debug object activation").
-> > > 
-> > > Fix the issue by getting a wakeref for the VMA's tile when activating it,
-> > > and putting that wakeref only after the VMA is deactivated.  However,
-> > > exclude global GTT from that processing path, otherwise the GPU never goes
-> > > idle.  Since __i915_vma_retire() may be called from atomic contexts, use
-> > > async variant of wakeref put.
-> > 
-> > okay, this explains the first block of the patch below, but I'm afraid
-> > that it doesn't explain why:
-> > 
-> > -     if (flags & PIN_GLOBAL)
-> 
-> That's explained in v2 changelog below, I believe.  I can add that information 
-> to the body of commit description as well.
-> 
-> Thanks,
-> Janusz
-> 
-> 
-> > > 
-> > > v4: Refresh on top of commit 5e4e06e4087e ("drm/i915: Track gt pm
-> > >     wakerefs") (Andi),
-> > >   - for more easy backporting, split out removal of former insufficient
-> > >     workarounds and move them to separate patches (Nirmoy).
-> > >   - clean up commit message and description a bit.
-> > > v3: Identify root cause more precisely, and a commit to blame,
-> > >   - identify and drop former workarounds,
-> > >   - update commit message and description.
-> > > v2: Get the wakeref before VM mutex to avoid circular locking dependency,
-> > >   - drop questionable Fixes: tag.
-> > > 
-> > > Fixes: d93939730347 ("drm/i915: Remove the vma refcount")
-> > > Closes: https://gitlab.freedesktop.org/drm/intel/issues/8875
-> > > Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-> > > Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> > > Cc: Nirmoy Das <nirmoy.das@intel.com>
-> > > Cc: Andi Shyti <andi.shyti@linux.intel.com>
-> > > Cc: stable@vger.kernel.org # v5.19+
-> > > ---
-> > >  drivers/gpu/drm/i915/i915_vma.c       | 26 +++++++++++++++++++-------
-> > >  drivers/gpu/drm/i915/i915_vma_types.h |  1 +
-> > >  2 files changed, 20 insertions(+), 7 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-> > > index d09aad34ba37f..604d420b9e1fd 100644
-> > > --- a/drivers/gpu/drm/i915/i915_vma.c
-> > > +++ b/drivers/gpu/drm/i915/i915_vma.c
-> > > @@ -34,6 +34,7 @@
-> > >  #include "gt/intel_engine.h"
-> > >  #include "gt/intel_engine_heartbeat.h"
-> > >  #include "gt/intel_gt.h"
-> > > +#include "gt/intel_gt_pm.h"
-> > >  #include "gt/intel_gt_requests.h"
-> > >  #include "gt/intel_tlb.h"
-> > >  
-> > > @@ -103,12 +104,25 @@ static inline struct i915_vma *active_to_vma(struct i915_active *ref)
-> > >  
-> > >  static int __i915_vma_active(struct i915_active *ref)
-> > >  {
-> > > -	return i915_vma_tryget(active_to_vma(ref)) ? 0 : -ENOENT;
-> > > +	struct i915_vma *vma = active_to_vma(ref);
-> > > +
-> > > +	if (!i915_vma_tryget(vma))
-> > > +		return -ENOENT;
-> > > +
-> > > +	if (!i915_vma_is_ggtt(vma))
-> > > +		vma->wakeref = intel_gt_pm_get(vma->vm->gt);
-> > > +
-> > > +	return 0;
-> > >  }
-> > >  
-> > >  static void __i915_vma_retire(struct i915_active *ref)
-> > >  {
-> > > -	i915_vma_put(active_to_vma(ref));
-> > > +	struct i915_vma *vma = active_to_vma(ref);
-> > > +
-> > > +	if (!i915_vma_is_ggtt(vma))
-> > > +		intel_gt_pm_put_async(vma->vm->gt, vma->wakeref);
-> > > +
-> > > +	i915_vma_put(vma);
-> > >  }
-> > >  
-> > >  static struct i915_vma *
-> > > @@ -1404,7 +1418,7 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
-> > >  	struct i915_vma_work *work = NULL;
-> > >  	struct dma_fence *moving = NULL;
-> > >  	struct i915_vma_resource *vma_res = NULL;
-> > > -	intel_wakeref_t wakeref = 0;
-> > > +	intel_wakeref_t wakeref;
-> > >  	unsigned int bound;
-> > >  	int err;
-> > >  
-> > > @@ -1424,8 +1438,7 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
-> > >  	if (err)
-> > >  		return err;
-> > >  
-> > > -	if (flags & PIN_GLOBAL)
-> > > -		wakeref = intel_runtime_pm_get(&vma->vm->i915->runtime_pm);
-> > > +	wakeref = intel_runtime_pm_get(&vma->vm->i915->runtime_pm);
-> > >  
-> > >  	if (flags & vma->vm->bind_async_flags) {
-> > >  		/* lock VM */
-> > > @@ -1561,8 +1574,7 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
-> > >  	if (work)
-> > >  		dma_fence_work_commit_imm(&work->base);
-> > >  err_rpm:
-> > > -	if (wakeref)
-> > > -		intel_runtime_pm_put(&vma->vm->i915->runtime_pm, wakeref);
-> > > +	intel_runtime_pm_put(&vma->vm->i915->runtime_pm, wakeref);
-> > >  
-> > >  	if (moving)
-> > >  		dma_fence_put(moving);
-> > > diff --git a/drivers/gpu/drm/i915/i915_vma_types.h b/drivers/gpu/drm/i915/i915_vma_types.h
-> > > index 64472b7f0e770..f0086fadff4d3 100644
-> > > --- a/drivers/gpu/drm/i915/i915_vma_types.h
-> > > +++ b/drivers/gpu/drm/i915/i915_vma_types.h
-> > > @@ -264,6 +264,7 @@ struct i915_vma {
-> > >  #define I915_VMA_SCANOUT	((int)BIT(I915_VMA_SCANOUT_BIT))
-> > >  
-> > >  	struct i915_active active;
-> > > +	intel_wakeref_t wakeref;
-> > >  
-> > >  #define I915_VMA_PAGES_BIAS 24
-> > >  #define I915_VMA_PAGES_ACTIVE (BIT(24) | 1)
-> > 
-> 
-> 
-> 
-> 
+> That's why I think it'd be nice if the "interesting"
+> intel_pm_runtime_pm.c changes were all in the same patch, and ideally,
+> if that patch *only* touched intel_pm_runtime_pm.c.
+
+I don't think squashing the second patch to the first really changes this
+meaningfully: the i915 driver simply needs both
+pm_runtime_get_if_{active,in_use}, and this is what the patch does to other
+drivers already. Making the pm_runtime_get_conditional static would also
+fit for the first patch if the desire is to not to introduce it at all.
+
+-- 
+Sakari Ailus
