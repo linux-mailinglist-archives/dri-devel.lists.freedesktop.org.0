@@ -2,49 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 622B58399CC
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 20:42:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55A128399CA
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 20:41:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69DDE10E0BD;
-	Tue, 23 Jan 2024 19:41:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86CA310E0D9;
+	Tue, 23 Jan 2024 19:41:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DE3710E0BD
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 19:41:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70EFC10E0D9
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 19:41:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1706038902; x=1737574902;
+ t=1706038908; x=1737574908;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=1AjcD+fVHi2r3HFt3IF7QnmxpmsFGmx8uWBCUF/3xq8=;
- b=DMJ2a/0oWcbZwou0tUamhZlpRIjcsnxL1uEnuidmx0HGAs5f2/+sVhbR
- MT5C85nHdCpkRVe40IMr+v6qFmtSO6Rvq83nE9ovnhsILpHoFjoNTzxp6
- WGnPvUPAKSPaVy1vPmBYu0dIu2YYu1g/v6gXIBdkzqWMjVmzxg5JYKKZJ
- MtJrPGCCWhuwV/6wR8swx/gYLX11Xa4k44kaypOwTYu9h+X7bABvqllGc
- ceBkRAVyNwCjW8neP4U8o9uikBdF/NM8w/baiCC4ZfwwRCG9x9OBAwby4
- FE4EXqFs7Euzv0oGnfkcmw8f67xbxOdMzZc9SxERItpkDakZ+z2gheoGu Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="392050438"
-X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; d="scan'208";a="392050438"
+ bh=VrPQ2AgnEuYEXfZI0myUYU84TFkFrm9pa/6weGgvnHM=;
+ b=S1SU56FXAJf/IQ336FEfiArfnMyNSfBRYlMo4ktzRYRcsotRiL5qTion
+ 79LqNFD3BV1d3jsEofKcJ4WexEV7J6vUnlxO59nVYAttxQv6Jm3+Q/xkP
+ YSPo8a0+V0cyLf/tLXPI3Huo+xyg7ITZnQgJDX3ZIgppgByoiatWx7e81
+ qvummBKBHTVD3XCvgiMwoBLsKFhSIVxEa+MrCHeSe44YSD/8npZ+XBI8y
+ X6A4INCMA+Z/BhWSxMAg61NqTPKMn+APZmR8rsgPSd1+e+Fy6CqdbQZfw
+ u/5qqBiXkRIT4ov0wnRK4DpKpGS58dybIPev4VaC4CE/nxsHFpS/nTtkR g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="392050460"
+X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; d="scan'208";a="392050460"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jan 2024 11:41:42 -0800
+ 23 Jan 2024 11:41:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="909409068"
-X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; d="scan'208";a="909409068"
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="909409082"
+X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; d="scan'208";a="909409082"
 Received: from pzsolt-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.40.183])
  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jan 2024 11:41:38 -0800
+ 23 Jan 2024 11:41:45 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v3 38/39] drm/bridge: ti-sn65dsi86: switch to ->edid_read
- callback
-Date: Tue, 23 Jan 2024 21:37:44 +0200
-Message-Id: <9e54fb12c950486fb1b928b57da7bace8458ca2c.1706038510.git.jani.nikula@intel.com>
+Subject: [PATCH v3 39/39] drm/bridge: remove ->get_edid callback
+Date: Tue, 23 Jan 2024 21:37:45 +0200
+Message-Id: <34407a355ec6848fc44f8c30d245fcbc5687195e.1706038510.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1706038510.git.jani.nikula@intel.com>
 References: <cover.1706038510.git.jani.nikula@intel.com>
@@ -67,41 +66,94 @@ Cc: Jani Nikula <jani.nikula@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Prefer using the struct drm_edid based callback and functions.
+There are no more users of the ->get_edid callback left. They've all
+been converted to ->edid_read. Remove the callback, and the fallback in
+drm_bridge_edid_read().
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/drm_bridge.c | 19 -------------------
+ include/drm/drm_bridge.h     | 30 ------------------------------
+ 2 files changed, 49 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index 62cc3893dca5..61dc6f063fb4 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -1207,19 +1207,19 @@ static enum drm_connector_status ti_sn_bridge_detect(struct drm_bridge *bridge)
- 					 : connector_status_disconnected;
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index a3065d4aa3d6..521a71c61b16 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -1216,9 +1216,6 @@ EXPORT_SYMBOL_GPL(drm_bridge_get_modes);
+  * DRM_BRIDGE_OP_EDID bridge ops flag, call &drm_bridge_funcs.edid_read to get
+  * the EDID and return it. Otherwise return NULL.
+  *
+- * If &drm_bridge_funcs.edid_read is not set, fall back to using
+- * &drm_bridge_funcs.get_edid and wrapping it in struct drm_edid.
+- *
+  * RETURNS:
+  * The retrieved EDID on success, or NULL otherwise.
+  */
+@@ -1228,22 +1225,6 @@ const struct drm_edid *drm_bridge_edid_read(struct drm_bridge *bridge,
+ 	if (!(bridge->ops & DRM_BRIDGE_OP_EDID))
+ 		return NULL;
+ 
+-	/* Transitional: Fall back to ->get_edid. */
+-	if (!bridge->funcs->edid_read) {
+-		const struct drm_edid *drm_edid;
+-		struct edid *edid;
+-
+-		edid = bridge->funcs->get_edid(bridge, connector);
+-		if (!edid)
+-			return NULL;
+-
+-		drm_edid = drm_edid_alloc(edid, (edid->extensions + 1) * EDID_LENGTH);
+-
+-		kfree(edid);
+-
+-		return drm_edid;
+-	}
+-
+ 	return bridge->funcs->edid_read(bridge, connector);
  }
+ EXPORT_SYMBOL_GPL(drm_bridge_edid_read);
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index ee12f829aaf7..7293c02e17c5 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -588,36 +588,6 @@ struct drm_bridge_funcs {
+ 	const struct drm_edid *(*edid_read)(struct drm_bridge *bridge,
+ 					    struct drm_connector *connector);
  
--static struct edid *ti_sn_bridge_get_edid(struct drm_bridge *bridge,
--					  struct drm_connector *connector)
-+static const struct drm_edid *ti_sn_bridge_edid_read(struct drm_bridge *bridge,
-+						     struct drm_connector *connector)
- {
- 	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
- 
--	return drm_get_edid(connector, &pdata->aux.ddc);
-+	return drm_edid_read_ddc(connector, &pdata->aux.ddc);
- }
- 
- static const struct drm_bridge_funcs ti_sn_bridge_funcs = {
- 	.attach = ti_sn_bridge_attach,
- 	.detach = ti_sn_bridge_detach,
- 	.mode_valid = ti_sn_bridge_mode_valid,
--	.get_edid = ti_sn_bridge_get_edid,
-+	.edid_read = ti_sn_bridge_edid_read,
- 	.detect = ti_sn_bridge_detect,
- 	.atomic_pre_enable = ti_sn_bridge_atomic_pre_enable,
- 	.atomic_enable = ti_sn_bridge_atomic_enable,
+-	/**
+-	 * @get_edid:
+-	 *
+-	 * Read and parse the EDID data of the connected display.
+-	 *
+-	 * The @get_edid callback is the preferred way of reporting mode
+-	 * information for a display connected to the bridge output. Bridges
+-	 * that support reading EDID shall implement this callback and leave
+-	 * the @get_modes callback unimplemented.
+-	 *
+-	 * The caller of this operation shall first verify the output
+-	 * connection status and refrain from reading EDID from a disconnected
+-	 * output.
+-	 *
+-	 * This callback is optional. Bridges that implement it shall set the
+-	 * DRM_BRIDGE_OP_EDID flag in their &drm_bridge->ops.
+-	 *
+-	 * The connector parameter shall be used for the sole purpose of EDID
+-	 * retrieval and parsing, and shall not be stored internally by bridge
+-	 * drivers for future usage.
+-	 *
+-	 * RETURNS:
+-	 *
+-	 * An edid structure newly allocated with kmalloc() (or similar) on
+-	 * success, or NULL otherwise. The caller is responsible for freeing
+-	 * the returned edid structure with kfree().
+-	 */
+-	struct edid *(*get_edid)(struct drm_bridge *bridge,
+-				 struct drm_connector *connector);
+-
+ 	/**
+ 	 * @hpd_notify:
+ 	 *
 -- 
 2.39.2
 
