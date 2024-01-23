@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41113837CE2
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 02:20:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59D30837CF1
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 02:21:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5BFE10F25F;
-	Tue, 23 Jan 2024 01:20:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C3C410E0CE;
+	Tue, 23 Jan 2024 01:21:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E88CA10F25F
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 01:20:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 478DB10E0CE
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 01:21:36 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi
  [89.27.53.110])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id A104BE4;
- Tue, 23 Jan 2024 02:19:09 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 018CDE4;
+ Tue, 23 Jan 2024 02:20:21 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1705972749;
- bh=Xa8ntlXCZZ2MZ8nDZWEk0iLWlpDlzYMH/xMfar8ssuM=;
+ s=mail; t=1705972822;
+ bh=jSyJt+l532CbcFX0D/ulUOQwQIAoGhgLhyYRcgl7RGM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=nElGEYIT2vat6NGNNA3fzYqaKcaZa3WXJzG+l418uuQdMIpR4a4C6r34gW6iVUfyj
- kO6CJl7yxac9WH5+5ZvRZXroYTFIwUWmckmog1oj3Gv1D+UUF1nvCAt6l0MowjFYL5
- gLAmDywztT8hWN+AGi5TeHubphtPas1mMhzlDynU=
-Date: Tue, 23 Jan 2024 03:20:26 +0200
+ b=fLV+vLCxXvkcUwVOBAeMW8JKNEoSVGr4B0QEWY8G4BEPZNQrkBFw0LxNbQcHrr1fc
+ 9x+wE8f0nXqM94N8KscfXitIsLNUUxZspHv/2xwJ2rE5ZTWLVW3p+5ynIg3KVHyWFF
+ PAaXakd4jaPXnArN4RLHEorph7Gk9ctx+58VrBZg=
+Date: Tue, 23 Jan 2024 03:21:39 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: Re: [PATCH 5/5] drm-bridge: display-connector: Switch to use fwnode
- API
-Message-ID: <20240123012026.GC22880@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 2/5] drm/bridge: simple-bridge: Extend match support for
+ non-DT based systems
+Message-ID: <20240123012139.GD22880@pendragon.ideasonboard.com>
 References: <20240122163220.110788-1-sui.jingfeng@linux.dev>
- <20240122163220.110788-6-sui.jingfeng@linux.dev>
+ <20240122163220.110788-3-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240122163220.110788-6-sui.jingfeng@linux.dev>
+In-Reply-To: <20240122163220.110788-3-sui.jingfeng@linux.dev>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,92 +49,79 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Sui Jingfeng <suijingfeng@loongson.cn>,
  Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
  Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 23, 2024 at 12:32:20AM +0800, Sui Jingfeng wrote:
-> From: Sui Jingfeng <suijingfeng@loongson.cn>
-> 
-> Because API has wider coverage, it can be used on non-DT systems as well.
-> 
-> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+On Tue, Jan 23, 2024 at 12:32:17AM +0800, Sui Jingfeng wrote:
+> Which is intended to be used on non-DT environment, where the simple-bridge
+> platform device is created by either the display controller driver side or
+> platform firmware subsystem.
+
+Could you give an example of a platform where you intend to use this ?
+
+> To avoid duplication and to keep consistent,
+> we choose to reuse the OF match tables. Because the potentional user may
+> not has a of_node attached, nor a ACPI match id. If this is the case,
+> a software node string property can be provide to fill the niche.
+
+Shouldn't non-DT, non-ACPI platforms use swnodes ?
+
+> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 > ---
->  drivers/gpu/drm/bridge/display-connector.c | 22 ++++++++++++----------
->  1 file changed, 12 insertions(+), 10 deletions(-)
+>  drivers/gpu/drm/bridge/simple-bridge.c | 24 +++++++++++++++++++++++-
+>  1 file changed, 23 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/display-connector.c b/drivers/gpu/drm/bridge/display-connector.c
-> index eb7e194e7735..2c3e54a458e8 100644
-> --- a/drivers/gpu/drm/bridge/display-connector.c
-> +++ b/drivers/gpu/drm/bridge/display-connector.c
-> @@ -243,8 +243,8 @@ static int display_connector_probe(struct platform_device *pdev)
->  	case DRM_MODE_CONNECTOR_DVII: {
->  		bool analog, digital;
+> diff --git a/drivers/gpu/drm/bridge/simple-bridge.c b/drivers/gpu/drm/bridge/simple-bridge.c
+> index cbe8e778d7c7..595f672745b9 100644
+> --- a/drivers/gpu/drm/bridge/simple-bridge.c
+> +++ b/drivers/gpu/drm/bridge/simple-bridge.c
+> @@ -166,6 +166,24 @@ static const struct drm_bridge_funcs simple_bridge_bridge_funcs = {
+>  	.disable	= simple_bridge_disable,
+>  };
 >  
-> -		analog = of_property_read_bool(pdev->dev.of_node, "analog");
-> -		digital = of_property_read_bool(pdev->dev.of_node, "digital");
-> +		analog = fwnode_property_present(pdev->dev.fwnode, "analog");
-> +		digital = fwnode_property_present(pdev->dev.fwnode, "digital");
->  		if (analog && !digital) {
->  			conn->bridge.type = DRM_MODE_CONNECTOR_DVIA;
->  		} else if (!analog && digital) {
-> @@ -261,8 +261,8 @@ static int display_connector_probe(struct platform_device *pdev)
->  	case DRM_MODE_CONNECTOR_HDMIA: {
->  		const char *hdmi_type;
+> +static const void *simple_bridge_get_match_data(const struct device *dev)
+> +{
+> +	const struct of_device_id *matches = dev->driver->of_match_table;
+> +
+> +	/* Try to get the match data by software node */
+> +	while (matches) {
+> +		if (!matches->compatible[0])
+> +			break;
+> +
+> +		if (device_is_compatible(dev, matches->compatible))
+> +			return matches->data;
+> +
+> +		matches++;
+> +	}
+> +
+> +	return NULL;
+> +}
+> +
+>  static int simple_bridge_probe(struct platform_device *pdev)
+>  {
+>  	struct simple_bridge *sbridge;
+> @@ -176,7 +194,10 @@ static int simple_bridge_probe(struct platform_device *pdev)
+>  		return -ENOMEM;
+>  	platform_set_drvdata(pdev, sbridge);
 >  
-> -		ret = of_property_read_string(pdev->dev.of_node, "type",
-> -					      &hdmi_type);
-> +		ret = fwnode_property_read_string(pdev->dev.fwnode, "type",
-> +						  &hdmi_type);
->  		if (ret < 0) {
->  			dev_err(&pdev->dev, "HDMI connector with no type\n");
->  			return -EINVAL;
-> @@ -292,7 +292,7 @@ static int display_connector_probe(struct platform_device *pdev)
->  	conn->bridge.interlace_allowed = true;
+> -	sbridge->info = of_device_get_match_data(&pdev->dev);
+> +	if (pdev->dev.of_node)
+> +		sbridge->info = of_device_get_match_data(&pdev->dev);
+> +	else
+> +		sbridge->info = simple_bridge_get_match_data(&pdev->dev);
 >  
->  	/* Get the optional connector label. */
-> -	of_property_read_string(pdev->dev.of_node, "label", &label);
-> +	fwnode_property_read_string(pdev->dev.fwnode, "label", &label);
->  
->  	/*
->  	 * Get the HPD GPIO for DVI, HDMI and DP connectors. If the GPIO can provide
-> @@ -330,12 +330,13 @@ static int display_connector_probe(struct platform_device *pdev)
->  	if (type == DRM_MODE_CONNECTOR_DVII ||
->  	    type == DRM_MODE_CONNECTOR_HDMIA ||
->  	    type == DRM_MODE_CONNECTOR_VGA) {
-> -		struct device_node *phandle;
-> +		struct fwnode_handle *fwnode;
->  
-> -		phandle = of_parse_phandle(pdev->dev.of_node, "ddc-i2c-bus", 0);
-> -		if (phandle) {
-> -			conn->bridge.ddc = of_get_i2c_adapter_by_node(phandle);
-> -			of_node_put(phandle);
-> +		fwnode = fwnode_find_reference(pdev->dev.fwnode, "ddc-i2c-bus", 0);
-> +		if (!IS_ERR_OR_NULL(fwnode)) {
-> +			dev_info(&pdev->dev, "has I2C bus property\n");
+>  	/* Get the next bridge in the pipeline. */
+>  	remote = of_graph_get_remote_node(pdev->dev.of_node, 1, -1);
+> @@ -309,3 +330,4 @@ module_platform_driver(simple_bridge_driver);
+>  MODULE_AUTHOR("Maxime Ripard <maxime.ripard@free-electrons.com>");
+>  MODULE_DESCRIPTION("Simple DRM bridge driver");
+>  MODULE_LICENSE("GPL");
+> +MODULE_ALIAS("platform:simple-bridge");
 
-This looks like a debugging leftover.
-
-> +			conn->bridge.ddc = i2c_get_adapter_by_fwnode(fwnode);
-> +			fwnode_handle_put(fwnode);
->  			if (!conn->bridge.ddc)
->  				return -EPROBE_DEFER;
->  		} else {
-> @@ -380,6 +381,7 @@ static int display_connector_probe(struct platform_device *pdev)
->  
->  	conn->bridge.funcs = &display_connector_bridge_funcs;
->  	conn->bridge.of_node = pdev->dev.of_node;
-> +	conn->bridge.fwnode = pdev->dev.fwnode;
-
-This goes in the right direction. Let's address the other drivers and
-drop the OF-based calls in the same series :-)
-
->  
->  	if (conn->bridge.ddc)
->  		conn->bridge.ops |= DRM_BRIDGE_OP_EDID
+This is an unrelated change.
 
 -- 
 Regards,
