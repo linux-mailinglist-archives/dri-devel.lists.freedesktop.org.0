@@ -2,47 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06B598395E9
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 18:07:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92A6583963A
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 18:22:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E26810E0AE;
-	Tue, 23 Jan 2024 17:07:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1DB810E807;
+	Tue, 23 Jan 2024 17:21:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A6AD10E500
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 17:07:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1706029610;
- bh=k2wIpE+BoqlfPMUT8tjplMHMaTTbvT5ifOdGGPCglsY=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=qfNFBGj6/tboW80Y7X3HIe2MlXdwHMXoM9vr3oBgqvN1XaT0g0J6HiJzK9erxUoa7
- hOYmKea1zwxdQs1HEpUOL1Bapfs/AF42W7oCsQy+k6fgSIA85Es9GSQL7+Pmu38y32
- 6HLw2ola/TJAEGONitD23LJxBAQVytExPZezGCKBdDq17Cs9uK2X7vETZy2YJd23fk
- OKYdRxsxjQAjzsWnwCkpS6l5ZVsRoqLtVaaeN+dVXqMSehAKbhswWNLoKa4rseFwsx
- VtnLQp3bH3N0oI1j2MJ5f5tfSCA+jKnKskkWBJXMa9aaUmSd/sBzhtJilIiE8Y+pg/
- DM7DGdkaTz2Ig==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 1ABE43782066;
- Tue, 23 Jan 2024 17:06:49 +0000 (UTC)
-Date: Tue, 23 Jan 2024 18:06:47 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
-Subject: Re: [PATCH v4 11/14] drm/panthor: Add the driver frontend block
-Message-ID: <20240123180647.09acce22@collabora.com>
-In-Reply-To: <2477309.UkFFEUeh36@diego>
-References: <20240122163047.1954733-1-boris.brezillon@collabora.com>
- <20240122163047.1954733-12-boris.brezillon@collabora.com>
- <2477309.UkFFEUeh36@diego>
-Organization: Collabora
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FAD710E807
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 17:21:39 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id
+ 5b1f17b1804b1-40e80046246so27901675e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 09:21:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1706030433; x=1706635233; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=tqYXrsvbaMlrmoMHzhpki5Mt71I7zZeWsiDaURT2h3o=;
+ b=G3osrr5GevkKJGTyNMc3GTuBAQtX3ROgWOBOHW1zJjd/kzJARjAAh8HXqe6VD7uels
+ EoGmbI+pB2rs/06/lzPLBNelovZfBcgNvJvNUaqU6fzLnLL+h2xNTa1YTUujp5fp6bkP
+ 90fk6qAluJixkXMedxvM3ZSTstHBElULc4EkLS2gbYi89eaz0/t994Aa8bXV340Y/IiH
+ tK017bR+ztP07cFgKHOArzxrd6saGZlz8uNXQVTfPu1208yjHw2SYIhrmIhU+sMrYojl
+ y0w0Jr8dsLcFK7F2zdqAtm9gu+/gU+DJO42EAompi7ApkpFA7qWrEI0e9SWZ7B+6f1IW
+ IhnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1706030433; x=1706635233;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=tqYXrsvbaMlrmoMHzhpki5Mt71I7zZeWsiDaURT2h3o=;
+ b=GqvMKjg76MD77oxM5Po534ozoyQAVJ3OQexK8wHimp9OR5Rj4OEVxFh8YJ0i2o1h4g
+ Admatr0x5j7k6baDXI+0BcPOAU/V7q0jfZou517kvfW3KfLer7tbDhnndf6kSNoNQJJs
+ Lz13WlKfVRJX6JzIm6eB/QLtTjwaa6HZ/HQqxGP7PWA0L9mdrWAezLNYZU84OrC1c0oD
+ quG+dHjdqxqJ4GJs1uvuuPvjxBk+x25hdw8ATu0L1cAkUp4y0OqRygVWoxRtZTcJ1ppV
+ BOQiU1KnLbp8mwFD+H0kzVxdZBn/XceaETveqKDbcDvLywctCZsAPh/BFXZ9xNwbuC/l
+ UabA==
+X-Gm-Message-State: AOJu0YysEcQg+CqSXNMAbMAGeeFY0fX/M5/G1AfZOJUK97u+HtB7PPQr
+ Nxt34qJW2qidiEnVB7aaqR7XLiar+caW2X+YX8GQbxfeVPwERRisEWFGnHT1t7Y=
+X-Google-Smtp-Source: AGHT+IE0+DZQGCS4EN1BBZgSwkTn7W+MJDfyHXzr6PStwtw6b5GaozKJv9t4TXOiNKfsBfmbOiSaIg==
+X-Received: by 2002:a05:600c:2310:b0:40e:4c31:affa with SMTP id
+ 16-20020a05600c231000b0040e4c31affamr329334wmo.138.1706030433353; 
+ Tue, 23 Jan 2024 09:20:33 -0800 (PST)
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ by smtp.gmail.com with ESMTPSA id
+ r20-20020a05600c35d400b0040d8eca092esm47199795wmq.47.2024.01.23.09.20.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Jan 2024 09:20:33 -0800 (PST)
+Date: Tue, 23 Jan 2024 17:20:31 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
+Subject: Re: [PATCH v4 1/3] leds: ktd2692: move ExpressWire code to library
+Message-ID: <20240123172031.GA263554@aspen.lan>
+References: <20240122-ktd2801-v4-0-33c986a3eb68@skole.hr>
+ <20240122-ktd2801-v4-1-33c986a3eb68@skole.hr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240122-ktd2801-v4-1-33c986a3eb68@skole.hr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,130 +76,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tatsuyuki Ishi <ishitatsuyuki@gmail.com>,
- Nicolas Boichat <drinkcat@chromium.org>, kernel@collabora.com,
- Daniel Stone <daniels@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Ketil Johnsen <ketil.johnsen@arm.com>, Liviu Dudau <Liviu.Dudau@arm.com>,
- dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
- =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Chris Diamand <chris.diamand@foss.arm.com>,
- Grant Likely <grant.likely@linaro.org>, "Marty
- E . Plummer" <hanetzer@startmail.com>, Robin Murphy <robin.murphy@arm.com>,
- Faith Ekstrand <faith.ekstrand@collabora.com>
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Pavel Machek <pavel@ucw.cz>, Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Karel Balej <balejk@matfyz.cz>, linux-fbdev@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, ~postmarketos/upstreaming@lists.sr.ht,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ phone-devel@vger.kernel.org, linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 23 Jan 2024 17:29:12 +0100
-Heiko St=C3=BCbner <heiko@sntech.de> wrote:
+On Mon, Jan 22, 2024 at 08:50:57PM +0100, Duje Mihanović wrote:
+> The ExpressWire protocol is shared between at least KTD2692 and KTD2801
+> with slight differences such as timings and the former not having a
+> defined set of pulses for enabling the protocol (possibly because it
+> does not support PWM unlike KTD2801). Despite these differences the
+> ExpressWire handling code can be shared between the two, so move it into
+> a library in preparation for adding KTD2801 support.
+>
+> Suggested-by: Daniel Thompson <daniel.thompson@linaro.org>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
 
-> Am Montag, 22. Januar 2024, 17:30:42 CET schrieb Boris Brezillon:
-> > This is the last piece missing to expose the driver to the outside
-> > world.
-> >=20
-> > This is basically a wrapper between the ioctls and the other logical
-> > blocks.
-> >=20
-> > v4:
-> > - Add an ioctl to let the UMD query the VM state
-> > - Fix kernel doc
-> > - Let panthor_device_init() call panthor_device_init()
-> > - Fix cleanup ordering in the panthor_init() error path
-> > - Add Steve's and Liviu's R-b
-> >=20
-> > v3:
-> > - Add acks for the MIT/GPL2 relicensing
-> > - Fix 32-bit support
-> > - Account for panthor_vm and panthor_sched changes
-> > - Simplify the resv preparation/update logic
-> > - Use a linked list rather than xarray for list of signals.
-> > - Simplify panthor_get_uobj_array by returning the newly allocated
-> >   array.
-> > - Drop the "DOC" for job submission helpers and move the relevant
-> >   comments to panthor_ioctl_group_submit().
-> > - Add helpers sync_op_is_signal()/sync_op_is_wait().
-> > - Simplify return type of panthor_submit_ctx_add_sync_signal() and
-> >   panthor_submit_ctx_get_sync_signal().
-> > - Drop WARN_ON from panthor_submit_ctx_add_job().
-> > - Fix typos in comments.
-> >=20
-> > Co-developed-by: Steven Price <steven.price@arm.com>
-> > Signed-off-by: Steven Price <steven.price@arm.com>
-> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > Acked-by: Steven Price <steven.price@arm.com> # MIT+GPL2 relicensing,Arm
-> > Acked-by: Grant Likely <grant.likely@linaro.org> # MIT+GPL2 relicensing=
-,Linaro
-> > Acked-by: Boris Brezillon <boris.brezillon@collabora.com> # MIT+GPL2 re=
-licensing,Collabora
-> > Reviewed-by: Steven Price <steven.price@arm.com>
-> > Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-> > ---
-> >  drivers/gpu/drm/panthor/panthor_drv.c | 1470 +++++++++++++++++++++++++
-> >  1 file changed, 1470 insertions(+)
-> >  create mode 100644 drivers/gpu/drm/panthor/panthor_drv.c
-> >=20
-> > diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/pa=
-nthor/panthor_drv.c
-> > new file mode 100644
-> > index 000000000000..207aacaccd39
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> > @@ -0,0 +1,1470 @@
-> > +// SPDX-License-Identifier: GPL-2.0 or MIT
-> > +/* Copyright 2018 Marty E. Plummer <hanetzer@startmail.com> */
-> > +/* Copyright 2019 Linaro, Ltd., Rob Herring <robh@kernel.org> */
-> > +/* Copyright 2019 Collabora ltd. */
-> > +
-> > +#include <linux/list.h>
-> > +#include <linux/module.h>
-> > +#include <linux/of_platform.h>
-> > +#include <linux/pagemap.h>
-> > +#include <linux/pm_runtime.h> =20
->=20
-> @@ -7,6 +7,7 @@
->  #include <linux/module.h>
->  #include <linux/of_platform.h>
->  #include <linux/pagemap.h>
-> +#include <linux/platform_device.h>
->  #include <linux/pm_runtime.h>
-> =20
->  #include <drm/drm_drv.h>
->=20
-> with v6.8-rc1 this needs a linux/platform_device.h include to keep
-> finding struct platform_device and friends
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
-Will add this include in v5.
 
->=20
-> [...]
->=20
->=20
-> > +static int panthor_submit_ctx_init(struct panthor_submit_ctx *ctx,
-> > +				   struct drm_file *file, u32 job_count)
-> > +{
-> > +	ctx->jobs =3D kvmalloc_array(job_count, sizeof(*ctx->jobs),
-> > +				   GFP_KERNEL | __GFP_ZERO);
-> > +	if (!ctx->jobs)
-> > +		return -ENOMEM;
-> > +
-> > +	ctx->file =3D file;
-> > +	ctx->job_count =3D job_count;
-> > +	INIT_LIST_HEAD(&ctx->signals);
-> > +	drm_exec_init(&ctx->exec, DRM_EXEC_INTERRUPTIBLE_WAIT | DRM_EXEC_IGNO=
-RE_DUPLICATES); =20
->=20
-> ../drivers/gpu/drm/panthor/panthor_drv.c: In function =E2=80=98panthor_su=
-bmit_ctx_init=E2=80=99:
-> ../drivers/gpu/drm/panthor/panthor_drv.c:722:9: error: too few arguments =
-to function =E2=80=98drm_exec_init=E2=80=99
->   722 |         drm_exec_init(&ctx->exec, DRM_EXEC_INTERRUPTIBLE_WAIT | D=
-RM_EXEC_IGNORE_DUPLICATES);
->       |         ^~~~~~~~~~~~~
->=20
-> In v6.8-rc1 (or drm-misc-next I guess) the calling convention of
-> drm_exec_init changed to include a number of initial objects, see
-> commit 05d249352f1a ("drm/exec: Pass in initial # of objects")
->=20
-
-Looks like this patch went through drm-misc-fixes, and v4.8-rc1 has not
-been back merged to drm-misc-next yet.
+Daniel.
