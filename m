@@ -2,124 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABDBA839A21
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 21:17:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A7F9839A50
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 21:33:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F264E10E8E7;
-	Tue, 23 Jan 2024 20:17:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8417910E155;
+	Tue, 23 Jan 2024 20:32:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2085.outbound.protection.outlook.com [40.107.237.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0B2210E8E0;
- Tue, 23 Jan 2024 20:17:12 +0000 (UTC)
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam04on2087.outbound.protection.outlook.com [40.107.100.87])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64D3010E155;
+ Tue, 23 Jan 2024 20:32:29 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AF3XLACg5+ayQQK9JBFJH6uMfk2xcXciKzUVwGLyu+lo6j5sMMTL3Folju/84j02knYjcOZxQZhQNb7YrNDgsEwA4E8olOWoeZdTeRONEKmUseDvM3CuaNtdO4LaHcT8WpAu6fa2S4PgrGGeD5X/kIBO1ZPT09x6fA0OvwwYlEnvR5gMkcsD/oFTb3bq9ZDnj8/PWdno4Fz2Zmj0xSOs1O1CJPbBCfdABqcBv8/drQn+pmQ2NqplV3KEgKnszndrBKlZaCs82cQeYuuE503eNi/anSi4AuuJEDeo7P8wV0zWS+MQLnjuNpLV3p5XeP2LErlys1MgkTgYMPpanhMGag==
+ b=BA1GyZ2UGuuCvc9loCmx/VA9Njp0y0d/zGGYANaJ8NospvXHwzvB6gyqSpE8eXgsY0+q66o8CWzRt+8QF6Z5rVFNi7T8KQbxuLTIM4XeeNdtPsMUDEocInPZUdz4YQNGRXmN5BrTLftAoW+zGwELRK8+1XtMEMmbz25s2xUvbdluuQ8yPNZv0B9eOhrdEZ5nRJermK9H6YuewAWD9RptnMOV0B1V6Qg7zawPWOYbb7qiDWFg/ucbipoVlgHGe2dZ6iCHml0qguWP9bH7+15Nd9ABrMy7uEiWhMAvNFfcJnIrnHU7IIjjJNYPJq4fGJX4HjP+v7T4OnvS3cF8GKaMVw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=n1/i4QLOu27cWMAQSDZjZXONm7Md/CatM2HPY2pDShg=;
- b=nThBdpnVKLg+82Ut++/2ZPCRnJpt5D9Nmd6JyRDNz2fCtTVLaPh/XvdFS9ovlDvDXRq4xwk25/lTuiMn/1/ZENH7ZSswhTPF93Ppp97Ut9jc/MipGUdvAW8JgfpPyANGaeendP/WY/esYtuxnBJFy4VHmEnHYOW1934Ea2f7DZcKFfPSSMb6NcZ67OKzsEVWhDV28IUxO3QAut30qppuWowTx+3pKkeYV+DhZJryiZ7VgFs5cW+ZXezxLYIvwycA+e3s1ghkT0aZ11hVwuLgcfle/JRi3ILYuuibOePVS8L6VH2ZkGeRLq0N+mrdyfD3EsQqZseu5yzjj8b0fLy56w==
+ bh=I0cEdqV6+JblL5JRVXdsZVDDY2f6j4q+eFovycfeHFM=;
+ b=hPkzSvAOwHYmUac6m1/xNvv1o2kiOwkDsYyQYtkMNqDnNWakhVe7LXIGLmKQ5Qg7zaDmqxlnE3HiU6nUqrg5RvvK0H5Ra/oQYLTA5cUC7bDK1EJ+Zpe5Bz4DCPx4IM92yDx622IfcZq9XzhYyx7Vo3mQJCM5qXtiHDrNfoGD2GB++Sb/MgopRY8He7q7wA49zQt0XRSSWPPACBEw0Yc+pq3CPuEwTaVRW8efeeH+/Wom3D8G1Gs1DJC3orFwucf1NurGYWOKM5UGfQLoYl51cbJ4HHu+vp0eov+4k94LVq39MRrr6q37KMRLF3ipVqKczlYtFmjdObGNY+07k3MnsA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=n1/i4QLOu27cWMAQSDZjZXONm7Md/CatM2HPY2pDShg=;
- b=HHGDQSH7Qqb2TvNudVUTuJGz6qqyCtAOX/+/SdN8erOmEW0opL+p4l4knXWpCQmW9qSYytpsnxh/n4mYo5IZelSKI9hNAF9kw7Tf/IRr+Pj43RjcmVZdRxrr9UOolw8f4GREI2A63B4mcAiRBMKBI/OzcfF2GS0HQh1kPbFhO1I=
+ bh=I0cEdqV6+JblL5JRVXdsZVDDY2f6j4q+eFovycfeHFM=;
+ b=ORFENkBNq9hCUP3MLOb7Cfhb25kszEoIgi63OUsQWwAiMw54lRvvwG5l0LTp+yPi+pj/y6obl61cYqz+F+kWa+G0FLZmNAMs5J1ThzcrgdjgWc9ZPEKJ1GFu8vxAJBN97ajL5bq0OQXyMFXTU3vBzERHXqDFEu9k7/v9HOjq3P8=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
- by SA3PR12MB9091.namprd12.prod.outlook.com (2603:10b6:806:395::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.22; Tue, 23 Jan
- 2024 20:17:09 +0000
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::6f2f:7892:e9fe:c62b]) by BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::6f2f:7892:e9fe:c62b%4]) with mapi id 15.20.7202.034; Tue, 23 Jan 2024
- 20:17:08 +0000
-Message-ID: <3f26a14a-e20b-4eba-b387-645fd1428fde@amd.com>
-Date: Tue, 23 Jan 2024 15:17:05 -0500
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by CH2PR12MB4230.namprd12.prod.outlook.com (2603:10b6:610:aa::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.34; Tue, 23 Jan
+ 2024 20:32:25 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::3f6b:792d:4233:f994]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::3f6b:792d:4233:f994%6]) with mapi id 15.20.7228.022; Tue, 23 Jan 2024
+ 20:32:25 +0000
+Message-ID: <386ba5e6-7f60-4b84-bd17-d712d8becf83@amd.com>
+Date: Tue, 23 Jan 2024 15:32:21 -0500
 User-Agent: Mozilla Thunderbird
-Subject: Re: Making drm_gpuvm work across gpu devices
+Subject: Re: [PATCH v2 2/2] drm/amdgpu: Implement check_async_props for planes
 Content-Language: en-US
-To: "Zeng, Oak" <oak.zeng@intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Danilo Krummrich <dakr@redhat.com>, Dave Airlie <airlied@redhat.com>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20240117221223.18540-1-oak.zeng@intel.com>
- <20240117221223.18540-22-oak.zeng@intel.com>
- <ad21ec11-a9cb-4fb2-b9fd-00a4fa11525f@intel.com>
- <PH7PR11MB70049E7E6A2F40BF6282ECC292742@PH7PR11MB7004.namprd11.prod.outlook.com>
- <PH7PR11MB700440CE88BC0A94CFF8499792742@PH7PR11MB7004.namprd11.prod.outlook.com>
- <2928ce36-06a6-4bee-b115-8dd61cc41dca@amd.com>
- <SA1PR11MB699192584C01A26C781E2F9992742@SA1PR11MB6991.namprd11.prod.outlook.com>
-From: Felix Kuehling <felix.kuehling@amd.com>
-In-Reply-To: <SA1PR11MB699192584C01A26C781E2F9992742@SA1PR11MB6991.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Xaver Hugl <xaver.hugl@gmail.com>
+References: <20240119181235.255060-1-andrealmeid@igalia.com>
+ <20240119181235.255060-3-andrealmeid@igalia.com> <Zaq-r7UZpEy7_Rrn@intel.com>
+ <ca1faaec-461b-401c-a86a-e0929d282b51@amd.com>
+ <CAFZQkGyf5MxKeGgz09kgyYTp+g-Jk2uaiQkmzSX7BDGHpcz0CQ@mail.gmail.com>
+From: Harry Wentland <harry.wentland@amd.com>
+In-Reply-To: <CAFZQkGyf5MxKeGgz09kgyYTp+g-Jk2uaiQkmzSX7BDGHpcz0CQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YT4PR01CA0466.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:d6::8) To BN9PR12MB5115.namprd12.prod.outlook.com
- (2603:10b6:408:118::14)
+X-ClientProxiedBy: YQBPR0101CA0121.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:5::24) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|SA3PR12MB9091:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9064f0b5-26ef-4dc8-6634-08dc1c504669
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|CH2PR12MB4230:EE_
+X-MS-Office365-Filtering-Correlation-Id: 344cb1b5-7a48-4a7b-683a-08dc1c5268ec
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xl9DHKTojQUYXobdSuNtYn9o8dBL2RyhFTX8Izrie2vaYrgD6OVIKdM/0jxzr6HHAbRE2j+dAL80tK96vItGdFva8rXnK4E+dexQmDvxFvV3/22+yjA0h0t3h2/R8sGV9VS/73/SXojHdl2ofL8MX+cBkuCqqVkOQS9HuKn7hgQBfoDwJHwN3HsDYAR55i6tnce3CMNCC0bx14RTV54WNErn0BPjNz7IU2qkzVVRd9JAg1CeUCsmrYtHbjevOIq23ZW8p6RXTgbGmZhGUFeEZFxyiGpz3iEZb1BlL7/Kw59aiyOY9figEqRnP+5WNDaHQKbFdl5rSAOKfjpg5dVqgI6/IlfmT6ZL5Njc4l//7OCpdchbE6vKxmEWlD5Ok9AMizACHrphpZAxHAUYSK67Rtejsbo1nqbT9DGMzTSggBuMpoU8O/GVQcEYl+geItK+rRWy6DitxNKIq3R36ZK1pZnBHmvyHdZCSYAJRHp4SATCeWhs/B/5Stf8gvPw3b67iDlhT2nEQU0jkIZBQ0RLKZJRIajewwwpSIQxItrxXlgToUdJ+Snpc1lJtVf5omXO3qaxtajpbxHmhTlzo6JKHn+u92uZsO6++rhmGBmGDKjRZzLs5ZppaHofULk4Mo1Axu3peU4Titn1k7aYcKer+6HVmIWmbJFk4qrIMcmPy9nEEe4CUQ8C26oRVTDsU3sP8gjuqrmrgSjArLzZUPL3SnQieowHLSnIjNVSZTl7Df8=
+X-Microsoft-Antispam-Message-Info: Ig6fFt9siG833N3mvgY+OLEdAZHy7UjQnTDmNUniYvZrDi7jDTEXVO5lUwtsjLYQmVxq64bqy9MHfUd7Lqdpfgvmxf7PZqJ2ZqmQmtK48tmItrEfTd/iI92y2TaRrR4QeGPpOY66YW7PnJcXAtCjPN/Oj+K5JQ+EV3RXLcUt/W5/Mc4B99DwiSRZy6spKOg1mVydxwn9WRfjcyV+H/Qfe1G22rcLloRvd7mkRLZxF0YS8lRBG/WbERQ9tgREHTmFxr5fyVHo0gJrJJT8x1K0kIyu4eS07OgAAgrSXkjGXtICp7/T/fADDAzgngsH3C8+V3nX1/EFiAQbzgMHt/wwnRKU3mO22ipjFizEOQWXclYHu8CsAza9/MO8eU0CjPSaluvTogyWy6yuqvTVrjDrodbo/BTTDtsjMLxOPbj7VnqxxG+iFiTk+ugIc9whlBBPFQYD2S6SLYNX9ZPRZoraTuadQJjHQK4b1apyagEAkVWFU/7pCXZzPcH6UD/iesBQHHxBtRo7hzL0qgoVPwo4nziG22ZpBji1m0UR/SaKA4Y4f07NvgBWa+vakyNawFmetDhjHrm+OnapjSnJIRJgsKvaahHcLKERnPgMs/zKpeQduLUevyOx08IZ1eNJKLbUi3zSpy2K6OdmQz1V49xM7g==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(39860400002)(136003)(396003)(376002)(346002)(366004)(230173577357003)(230273577357003)(230922051799003)(64100799003)(186009)(451199024)(1800799012)(44832011)(83380400001)(4326008)(8936002)(8676002)(66899024)(7416002)(31696002)(86362001)(38100700002)(41300700001)(2906002)(30864003)(36756003)(5660300002)(66556008)(66946007)(66476007)(110136005)(54906003)(2616005)(316002)(31686004)(53546011)(6512007)(6506007)(6666004)(478600001)(966005)(6486002)(66574015)(45080400002)(26005)(43740500002)(45980500001);
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376002)(396003)(366004)(346002)(136003)(39860400002)(230922051799003)(1800799012)(451199024)(64100799003)(186009)(66556008)(66946007)(316002)(6916009)(54906003)(66476007)(6486002)(8676002)(4326008)(44832011)(8936002)(36756003)(31696002)(86362001)(38100700002)(53546011)(26005)(6512007)(6506007)(6666004)(478600001)(2616005)(66574015)(83380400001)(41300700001)(5660300002)(2906002)(7416002)(31686004)(45980500001)(43740500002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?REpCOWlNTGtFTHFaVDlqekNBeitqem91MUttcGJUVElkYU1CMytmeVp6YU02?=
- =?utf-8?B?OXphd3hvdkp1eGozL3JLblRTMDhtUGh0Qyt3MFp4MnBnWWhCdmZBNUZzNWsx?=
- =?utf-8?B?dG1Ody9saWx6Yjc4c29CU0RuOFlCbnVsaS8rbW1NZWdMeENLU1o5TUxkRkRa?=
- =?utf-8?B?MVZCNk5lOW4wVVo5TkhPeWRFRFdzNEdHU2d0eFdqM3dONVJYUTNzQ0MwMmVi?=
- =?utf-8?B?Qmp1d2x5L1BPQ0VVMEcyRjlBdzFVUytPUkR6U0RLTGdpdlh6QnM1SEhQK0Va?=
- =?utf-8?B?UXg2T09oUFY2ZzV4V2QyTnpIMEZxYkxuV1VWRDNFVXpZUThXUFBUakw5cHNy?=
- =?utf-8?B?TjEzL2RCcG1kOWVUOWYzWlllRTVjTmZvcHlMODVKUXpHMG5OODdsYWRMakJG?=
- =?utf-8?B?MGlSRFBMdEdxV3p2MFgyV3NVMCtDSEpIcER5elNrTkdEUlRLdUk1enVxUHZq?=
- =?utf-8?B?eVROV1V6NTFxNmtURmFUTW55UHFjOFlHV2FKdTBmWEdPa3p2cm00V2pLMDc3?=
- =?utf-8?B?SndOY2E1TGtZVHV1em1GUXBJbC9BZXZicjV6MWV4TlY3RENrMG1YWThPWmpk?=
- =?utf-8?B?bU9wRHBKaUplS2pTdDlISUNtZ1p1SmF1NERUbmZzeVBkNVpYNFR4T3RrSGRo?=
- =?utf-8?B?VTROUllHdFZXcDg1UFJHeXdZWUY1TXp3MDdKaUI3SFlNdVVFakZxQ1VvcjJ2?=
- =?utf-8?B?b2FNOXNsQ0doZ1laSk1qekk0OVoyb2hIY1QzUVdCYVRLaXNESmxlaGNOVzM3?=
- =?utf-8?B?MEVwOG5Zay9sd0NoUkppT0hFSko2T0VCMUlIdVo5T281YTVEeEFmaFBTSUxE?=
- =?utf-8?B?bHl6ZXBvbEdTQ1hpYmNOMGhzNmZ6MjgvNVFtbU5NNHUwOVdGTmpkQUt3Z2Vz?=
- =?utf-8?B?Uk9icmE4ZFZCTVBVUXIvMHRLMW44M1FDaDlFWUFKRmhGb1J3czdid29uRFlV?=
- =?utf-8?B?NkZyUUt6Smlaa0tjSU92WmxWMlRkRHc2Z2pacnZZOWE5N2RlZ0F1ZXVoK2VO?=
- =?utf-8?B?UmhWSVpzVW8vTVlCYWYrZnBTbDkxRkJyWWl4UWNVbWxYKzE0Mm8zbGlicUJD?=
- =?utf-8?B?YnFLQ1kyaWNNV1RSSVg2b0h3cWV5UWFuQzU3OUtnMzVkYlhLeUE1eTY4eG1w?=
- =?utf-8?B?M0JFSEVVeTJUVEIwSHppbk9Nd3ZTQnROSXVLek5DWVpPT1VSTVFuUGdBTkVk?=
- =?utf-8?B?bTI5OXBSRUdDdEJMaXRjanVBOHVWaUsvSUgyOGZXZld0Yk9zN24zRTkyTEor?=
- =?utf-8?B?Y3FiLzlodi91LzZCY2orc1VvUjhLaDJCUGgxU0hhd2U3M1Q3a0NZSzRiMnhX?=
- =?utf-8?B?aytJaCtYWXMvTkwrTDMveTZDekh3MngzZVFJRnA4ZkRHNytrSmVRZVh3V2xC?=
- =?utf-8?B?T1JHanFTUDFYaFZoNHdYZUVUR3c2WmpZRGZObWJRdE9seUlzVk13ZFVycldu?=
- =?utf-8?B?S0xqbUphNFpqT2dtZHg4RmlOM1JkalVRNFh2Y3ROcFh1SXpOSC9BTVpFV3p2?=
- =?utf-8?B?cmd1dG9CMXJRbDVqRkFrRG9jckl5RWVRREFGRVJ6eEMxc09wMWR4ZEdhVGJv?=
- =?utf-8?B?UnpBTDJTWTNWcHgzLy9JMGo1OUZDVCsrMEJIb2lvalNQOHdsMjJEbDlUV1Qx?=
- =?utf-8?B?VldHdFMzV0xxV0hBNCtMMWFUWEEvQjBXb3gyeHdRYWlGaHBzQ1l1NjNITTRZ?=
- =?utf-8?B?aExmRkdoYjdoc1RoK3RGREtjZlFNYWNqTEdNK292eHRmNlhMb1d0OXBvbnB2?=
- =?utf-8?B?OURGM1BVLzBCMGxBbHA2WVNOOW9jSUtzOEd6dGorYXBEWi8xeG1obkFYYTdC?=
- =?utf-8?B?OThSZ0FCQk1Uc3FBQWxTUWpyb1hMcDhaWlN5Ym41NU9uNDNxditjUUwrTk00?=
- =?utf-8?B?Z1NkREVhQUY3c2k5NmlGZUw0Rm12Q0VGbHZYa3loU3hmOEVjY0ZKSjVienJ3?=
- =?utf-8?B?TnhYa2pTdHk5U3RncHJicitVRnE0RVI3bXkwb2ZWc0ovc2NITU5NRGE0MlVJ?=
- =?utf-8?B?dDdoTlF0cjluKzVhNjRrelB1MGhTTThNUGRwcDZLd2dQRmlsaHhMVnd4RUtP?=
- =?utf-8?B?Q1Q2cGtyZy9YUi94WHJXRXpFY2VRa0Eya29JTjFFN0pKc3J3SVZFREdQMS9o?=
- =?utf-8?Q?Pf0cf/P/H/rRCugt0oOxdcGwI?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d2ZuVHFtUm5EYUh1N3pmN2FVYTZDQ0hIQSsvQWYwR3ZuNkI1Wmw3bkdoUWZx?=
+ =?utf-8?B?RndoV2s3NnM3RVpkL0xTWXZ3SDF0dGxrbEJQM2FsMytHZHQxMGNFczRQWVd6?=
+ =?utf-8?B?NXVJb1lpSTZoZnMra2F0L1M1KzIxcG90VWhxck1Mcm9VMUhIZFVMNS9kdCt2?=
+ =?utf-8?B?cTJRR0JPMHV2OEdHYlpMWVVuUEtQYW53RUFQSVhZUGJScVg5eEZmVS9FbENM?=
+ =?utf-8?B?TkU1SXo4UWs3M3FDMHNHWWJ2WDVycDVRUU5NbU5URkRrV1JzbnlPL3N5c1ll?=
+ =?utf-8?B?Qk9kMEFZT0kyTU40dUgzNVU1Rm5YNjA3cTExZTlNTkpja0g4cTVrekJadnJ1?=
+ =?utf-8?B?OUwvS293cm5iZzgySkg3VUF1MW43dHlwb2JGa3JZNGFia2czK216TmNUUGlY?=
+ =?utf-8?B?aEhkNEMzWmlHQ2xqTlJmVlZ0UDN1cHhhUlExWXZnbStJSjB0RVVIZ2hKMFli?=
+ =?utf-8?B?RDdTSjM1U2NFSWg5L0NIZDdaZzZiUVYzblFFYWFZai9iK0VlUFV5b0VPT2xa?=
+ =?utf-8?B?Vjd6R3BVQ3c0cmZhV2NraExrdHRlWVA4elNITjJaSUo1TzNUdGZ3ajdIR3cv?=
+ =?utf-8?B?QUNLN210K1NrV29RaUxaNDZUNm1HTkcxMk5GanVldUJNN3FRS0JYOXA1Q05u?=
+ =?utf-8?B?cXh3eUFFaFZmNlFUeHlZOWhnZHR2UXpwTzdWREM3WkpGRUwrTUFBbHF5UEpx?=
+ =?utf-8?B?TmRRRVNpbzRYbHM1RjNoR2c3cHZxV0tmUkJyUjJVMWQ5MVRxTStZY3pmVGMx?=
+ =?utf-8?B?cHNObnpVYzhrRVVmTlJseDM3N2sxSW1zTEM2TWZ6d0xESE9McC9kU3JWVDlw?=
+ =?utf-8?B?NFRpTUpKbHloQ1pmaWUySGhycHJGaDM3ZE14MSt3d1VKMUhENndDVStlUk4r?=
+ =?utf-8?B?SUh5bE8yZ05jbHRPWi9OVW1OaWFnS1pZaWNRNVVQekxtaSs3UGJTSjI2TXFY?=
+ =?utf-8?B?cjdYblhjR1lBWVNSaHQ4U1Zqb3lUeFBKc25WRnVkUXl5TUxlSzVCSzF1TmZw?=
+ =?utf-8?B?Uk5ZZDN2RjRDTVNoMktyUnYxRVY0dzYydjl3TnRZRHhiUWM0OW5za0hmaVU5?=
+ =?utf-8?B?TDJSZDVDLzVPY3gxbjhsMDY0SGlZVkUrSlF3U0VQVW9EVEk2UUN0MVNnRXVM?=
+ =?utf-8?B?bWk0S09TVWhXUDJ6YUQ1bUJFeWErTDBzVUZrb0JiTWE4NTNDTTFOMXlRaFVR?=
+ =?utf-8?B?TnlEZWhtUFZpemRuN0pURjJCVE0wR3BVUnIyQ2dJTUN6WG9LMW45UXFJVWc4?=
+ =?utf-8?B?RnNpeU5UQ2g1MUt2NGE2bEUzWTFxYVdvb2ZSK3BLd0xmQzcyYm9pd3Bmam4r?=
+ =?utf-8?B?Z3BwN1FUdXgzcExpMjdwSmhmbytQOWpzNjZFdHBncGdmaUVPV21xNGt2UzZ3?=
+ =?utf-8?B?OC9OZHBTa09XNHpSbnFkU1kzcFN1c1E4SG1lVWI3WXhETG9acUdkWDhnQXBQ?=
+ =?utf-8?B?NTEyRHViZC9uN3BWQjl4bEZLcHNrUWZMWjdaLzg5aGxGYjFBaG00SXNPTzdV?=
+ =?utf-8?B?dHRRdDNzTjlvclhpdEVFVWdRWUsrTEptZHpoeW1lTGxYamRnMmFWZ2hIZW5x?=
+ =?utf-8?B?eHVwelFuRjdaVFJQQldWajNsbmNyVi9WQkhlS0FibHdMOHFLYm9naTJDaytN?=
+ =?utf-8?B?MG9FbDh6U2g1bmo4QUhIMjM5OW1lN2VObzJTYytCd3BQSnFDdnorRDZRMWhC?=
+ =?utf-8?B?K05PSVlvRXAwcmk2TnVXaVNzcDVZRVhyaThqSzFYUmlsWTd2VzI4SVgxVU5W?=
+ =?utf-8?B?ZXNrNDF3QWhtdUY2ZW9qdTVrVnE2RzhnQm9HTXZjRllieTcwalhib0c2RFZR?=
+ =?utf-8?B?c3g5M05rWmVlRmx2Q3JJWUxOSlErWVg5SXpDdFdpODhHNElkbDJnTi9VSmYw?=
+ =?utf-8?B?eTZQQ2pIV3R5VG9RZWJMT055eExtekRGQ3BHMTBqRXdoemViQWZmRmdBVjA5?=
+ =?utf-8?B?QlNSc3RPSmNtWFMvcGtRTHd6NUlOUGtaSUx4UWx5MXppc0ZpYVNIbWVEMkxj?=
+ =?utf-8?B?cThPVG9hZTlnYzJvN1diY0RKU0I4c0lIc0FzYmROcFdKOFhMSU9tNFFPaUF6?=
+ =?utf-8?B?MW5sRUI5OUhtSWtTczNsVnlKd09YUHBoYm1XVUNOMjF0R1BJL2dmdVFTWk41?=
+ =?utf-8?Q?Z7OGTAu3XIo6ABlC6woxJfSB9?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9064f0b5-26ef-4dc8-6634-08dc1c504669
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 344cb1b5-7a48-4a7b-683a-08dc1c5268ec
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2024 20:17:08.5635 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2024 20:32:25.6867 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ++O07ZO0LRa81j+xfTh97PRJL0ADddVpTTDXmNFLvf9lDA66SW5FtZRgRw6v1rCjzCwBT8KlyYHvkLMUYzK8gw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB9091
+X-MS-Exchange-CrossTenant-UserPrincipalName: rt/AQ+UbfPEvC7PTO/AMCiF5Cz/uE39EaGxQLVEZdAKVQ8EXmEsBdyOdjryXhcm9tNfjg2unHq/jSkpCbXx5Ug==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4230
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,171 +126,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Brost, Matthew" <matthew.brost@intel.com>,
- "Thomas.Hellstrom@linux.intel.com" <Thomas.Hellstrom@linux.intel.com>, "Welty,
- Brian" <brian.welty@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Ghimiray,
- Himal Prasad" <himal.prasad.ghimiray@intel.com>, "Gupta,
- saurabhg" <saurabhg.gupta@intel.com>, "Bommu,
- Krishnaiah" <krishnaiah.bommu@intel.com>, "Vishwanathapura,
- Niranjana" <niranjana.vishwanathapura@intel.com>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>
+Cc: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
+ kernel-dev@igalia.com, =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ Pekka Paalanen <ppaalanen@gmail.com>, dri-devel@lists.freedesktop.org,
+ daniel@ffwll.ch, alexander.deucher@amd.com, Joshua Ashton <joshua@froggi.es>,
+ Dave Airlie <airlied@gmail.com>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-01-23 14:37, Zeng, Oak wrote:
-> Thanks Christian. I have some comment inline below.
->
-> Danilo, can you also take a look and give your feedback? Thanks.
-
-Sorry, just catching up with this thread now. I'm also not familiar with 
-drm_gpuvm.
-
-Some general observations based on my experience with KFD, amdgpu and 
-SVM. With SVM we have a single virtual address space managed in user 
-mode (basically using mmap) with attributes per virtual address range 
-maintained in the kernel mode driver. Different devices get their 
-mappings of pieces of that address space using the same virtual 
-addresses. We also support migration to different DEVICE_PRIVATE memory 
-spaces.
-
-However, we still have page tables managed per device. Each device can 
-have different page table formats and layout (e.g. different GPU 
-generations in the same system) and the same memory may be mapped with 
-different flags on different devices in order to get the right coherence 
-behaviour. We also need to maintain per-device DMA mappings somewhere. 
-That means, as far as the device page tables are concerned, we still 
-have separate address spaces. SVM only adds a layer on top, which 
-coordinates these separate device virtual address spaces so that some 
-parts of them provide the appearance of a shared virtual address space.
-
-At some point you need to decide, where you draw the boundary between 
-managing a per-process shared virtual address space and managing 
-per-device virtual address spaces. In amdgpu that boundary is currently 
-where kfd_svm code calls amdgpu_vm code to manage the per-device page 
-tables.
-
-In the amdgpu driver, we still have the traditional memory management 
-APIs in the render nodes that don't do SVM. They share the device 
-virtual address spaces with SVM. We have to be careful that we don't try 
-to manage the same device virtual address ranges with these two 
-different memory managers. In practice, we let the non-SVM APIs use the 
-upper half of the canonical address space, while the lower half can be 
-used almost entirely for SVM.
-
-Regards,
-   Felix
 
 
->
->> -----Original Message-----
->> From: Christian König <christian.koenig@amd.com>
->> Sent: Tuesday, January 23, 2024 6:13 AM
->> To: Zeng, Oak <oak.zeng@intel.com>; Danilo Krummrich <dakr@redhat.com>;
->> Dave Airlie <airlied@redhat.com>; Daniel Vetter <daniel@ffwll.ch>
->> Cc: Welty, Brian <brian.welty@intel.com>; dri-devel@lists.freedesktop.org; intel-
->> xe@lists.freedesktop.org; Bommu, Krishnaiah <krishnaiah.bommu@intel.com>;
->> Ghimiray, Himal Prasad <himal.prasad.ghimiray@intel.com>;
->> Thomas.Hellstrom@linux.intel.com; Vishwanathapura, Niranjana
->> <niranjana.vishwanathapura@intel.com>; Brost, Matthew
->> <matthew.brost@intel.com>
->> Subject: Re: Making drm_gpuvm work across gpu devices
+On 2024-01-23 13:02, Xaver Hugl wrote:
+> Am Mo., 22. Jan. 2024 um 16:50 Uhr schrieb Harry Wentland
+> <harry.wentland@amd.com>:
 >>
->> Hi Oak,
 >>
->> Am 23.01.24 um 04:21 schrieb Zeng, Oak:
->>> Hi Danilo and all,
+>>
+>> On 2024-01-19 13:25, Ville Syrjälä wrote:
+>>> On Fri, Jan 19, 2024 at 03:12:35PM -0300, André Almeida wrote:
+>>>> AMD GPUs can do async flips with changes on more properties than just
+>>>> the FB ID, so implement a custom check_async_props for AMD planes.
+>>>>
+>>>> Allow amdgpu to do async flips with IN_FENCE_ID and FB_DAMAGE_CLIPS
+>>>> properties. For userspace to check if a driver support this two
+>>>> properties, the strategy for now is to use TEST_ONLY commits.
+>>>>
+>>>> Signed-off-by: André Almeida <andrealmeid@igalia.com>
+>>>> ---
+>>>> v2: Drop overlay plane option for now
+>>>>
+>>>>   .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 29 +++++++++++++++++++
+>>>>   1 file changed, 29 insertions(+)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+>>>> index 116121e647ca..7afe8c1b62d4 100644
+>>>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+>>>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+>>>> @@ -25,6 +25,7 @@
+>>>>    */
+>>>>
+>>>>   #include <drm/drm_atomic_helper.h>
+>>>> +#include <drm/drm_atomic_uapi.h>
+>>>>   #include <drm/drm_blend.h>
+>>>>   #include <drm/drm_gem_atomic_helper.h>
+>>>>   #include <drm/drm_plane_helper.h>
+>>>> @@ -1430,6 +1431,33 @@ static void amdgpu_dm_plane_drm_plane_destroy_state(struct drm_plane *plane,
+>>>>      drm_atomic_helper_plane_destroy_state(plane, state);
+>>>>   }
+>>>>
+>>>> +static int amdgpu_dm_plane_check_async_props(struct drm_property *prop,
+>>>> +                                      struct drm_plane *plane,
+>>>> +                                      struct drm_plane_state *plane_state,
+>>>> +                                      struct drm_mode_object *obj,
+>>>> +                                      u64 prop_value, u64 old_val)
+>>>> +{
+>>>> +    struct drm_mode_config *config = &plane->dev->mode_config;
+>>>> +    int ret;
+>>>> +
+>>>> +    if (prop != config->prop_fb_id &&
+>>>> +        prop != config->prop_in_fence_fd &&
 >>>
->>> During the work of Intel's SVM code, we came up the idea of making
->> drm_gpuvm to work across multiple gpu devices. See some discussion here:
->> https://lore.kernel.org/dri-
->> devel/PH7PR11MB70049E7E6A2F40BF6282ECC292742@PH7PR11MB7004.namprd
->> 11.prod.outlook.com/
->>> The reason we try to do this is, for a SVM (shared virtual memory across cpu
->> program and all gpu program on all gpu devices) process, the address space has
->> to be across all gpu devices. So if we make drm_gpuvm to work across devices,
->> then our SVM code can leverage drm_gpuvm as well.
->>> At a first look, it seems feasible because drm_gpuvm doesn't really use the
->> drm_device *drm pointer a lot. This param is used only for printing/warning. So I
->> think maybe we can delete this drm field from drm_gpuvm.
->>> This way, on a multiple gpu device system, for one process, we can have only
->> one drm_gpuvm instance, instead of multiple drm_gpuvm instances (one for
->> each gpu device).
->>> What do you think?
->> Well from the GPUVM side I don't think it would make much difference if
->> we have the drm device or not.
+>>> IN_FENCE should just be allowed always.
+>>>
+>>>> +        prop != config->prop_fb_damage_clips) {
+>>>
+>>> This seems a bit dubious to me. How is amdgpu using the damage
+>>> information during async flips?
 >>
->> But the experience we had with the KFD I think I should mention that we
->> should absolutely *not* deal with multiple devices at the same time in
->> the UAPI or VM objects inside the driver.
+>> Yeah, I'm also not sure this is right. Has anyone tested this
+>> with a PSR SU panel?
 >>
->> The background is that all the APIs inside the Linux kernel are build
->> around the idea that they work with only one device at a time. This
->> accounts for both low level APIs like the DMA API as well as pretty high
->> level things like for example file system address space etc...
-> Yes most API are per device based.
->
-> One exception I know is actually the kfd SVM API. If you look at the svm_ioctl function, it is per-process based. Each kfd_process represent a process across N gpu devices. Cc Felix.
->
-> Need to say, kfd SVM represent a shared virtual address space across CPU and all GPU devices on the system. This is by the definition of SVM (shared virtual memory). This is very different from our legacy gpu *device* driver which works for only one device (i.e., if you want one device to access another device's memory, you will have to use dma-buf export/import etc).
->
-> We have the same design requirement of SVM. For anyone who want to implement the SVM concept, this is a hard requirement. Since now drm has the drm_gpuvm concept which strictly speaking is designed for one device, I want to see whether we can extend drm_gpuvm to make it work for both single device (as used in xe) and multipe devices (will be used in the SVM code). That is why I brought up this topic.
->
->> So when you have multiple GPUs you either have an inseparable cluster of
->> them which case you would also only have one drm_device. Or you have
->> separated drm_device which also results in separate drm render nodes and
->> separate virtual address spaces and also eventually separate IOMMU
->> domains which gives you separate dma_addresses for the same page and so
->> separate GPUVM page tables....
-> I am thinking we can still make each device has its separate drm_device/render node/iommu domains/gpu page table. Just as what we have today. I am not plan to change this picture.
->
-> But the virtual address space will support two modes of operation:
-> 1. one drm_gpuvm per device. This is when svm is not in the picture
-> 2. all devices in the process share one single drm_gpuvm, when svm is in the picture. In xe driver design, we have to support a mixture use of legacy mode (such as gem_create and vm_bind) and svm (such as malloc'ed memory for gpu submission). So whenever SVM is in the picture, we want one single process address space across all devices. Drm_gpuvm doesn't need to be aware of those two operation modes. It is driver's responsibility to use different mode.
->
-> For example, in mode #1, a driver's vm structure (such as xe_vm) can inherit from drm_gpuvm. In mode #2, a driver's svm structure (xe_svm in this series: https://lore.kernel.org/dri-devel/20240117221223.18540-1-oak.zeng@intel.com/) can inherit from drm_gpuvm while each xe_vm (still a per-device based struct) will just have a pointer to the drm_gpuvm structure. This way when svm is in play, we build a 1 process:1 mm_struct:1 xe_svm:N xe_vm correlations which means shared address space across gpu devices.
->
-> This requires some changes of drm_gpuvm design:
-> 1. The drm_device *drm pointer, in mode #2 operation, this can be NULL, means this drm_gpuvm is not for specific gpu device
-> 2. The common dma_resv object: drm_gem_object *r_obj. *Does one dma_resv object allocated/initialized for one device work for all devices*? From first look, dma_resv is just some CPU structure maintaining dma-fences. So I guess it should work for all devices? I definitely need you to comment.
->
->
->> It's up to you how to implement it, but I think it's pretty clear that
->> you need separate drm_gpuvm objects to manage those.
-> As explained above, I am thinking of one drm_gpuvm object across all devices when SVM is in the picture...
->
->> That you map the same thing in all those virtual address spaces at the
->> same address is a completely different optimization problem I think.
-> Not sure I follow here... the requirement from SVM is, one virtual address points to same physical backing store. For example, whenever CPU or any GPU device access this virtual address, it refers to the same physical content. Of course the physical backing store can be migrated b/t host memory and any of the GPU's device memory, but the content should be consistent.
->
-> So we are mapping same physical content to the same virtual address in either cpu page table or any gpu device's page table...
->
->> What we could certainly do is to optimize hmm_range_fault by making
->> hmm_range a reference counted object and using it for multiple devices
->> at the same time if those devices request the same range of an mm_struct.
->>
-> Not very follow. If you are trying to resolve a multiple devices concurrent access problem, I think we should serialize concurrent device fault to one address range. The reason is, during device fault handling, we might migrate the backing store so hmm_range->hmm_pfns[] might have changed after one device access it.
->
->> I think if you start using the same drm_gpuvm for multiple devices you
->> will sooner or later start to run into the same mess we have seen with
->> KFD, where we moved more and more functionality from the KFD to the DRM
->> render node because we found that a lot of the stuff simply doesn't work
->> correctly with a single object to maintain the state.
-> As I understand it, KFD is designed to work across devices. A single pseudo /dev/kfd device represent all hardware gpu devices. That is why during kfd open, many pdd (process device data) is created, each for one hardware device for this process. Yes the codes are a little complicated.
->
-> Kfd manages the shared virtual address space in the kfd driver codes, like the split, merging etc. Here I am looking whether we can leverage the drm_gpuvm code for those functions.
->
-> As of the shared virtual address space across gpu devices, it is a hard requirement for svm/system allocator (aka malloc for gpu program). We need to make it work either at driver level or drm_gpuvm level. Drm_gpuvm is better because the work can be shared b/t drivers.
->
-> Thanks a lot,
-> Oak
->
->> Just one more point to your original discussion on the xe list: I think
->> it's perfectly valid for an application to map something at the same
->> address you already have something else.
->>
->> Cheers,
->> Christian.
->>
->>> Thanks,
->>> Oak
+>> Harry
+> 
+> I attempted to, but according to
+> /sys/kernel/debug/dri/1/eDP-1/psr_state, PSR never kicks in on my
+> laptop at all. The only reason I wanted this property though is to
+> reduce the number of special cases for async pageflips compositors
+> have to implement; as it's not necessary for any functionality I think
+> it's also fine to leave it out.
+> 
+
+Yeah, PSR panels aren't super common. PSR SU (Selective Update) panels
+even less so.
+
+I'd prefer to keep the damage clips out of async for now unless we
+can actually test it with a PSR SU panel.
+
+Harry
+
+>>>> +            ret = drm_atomic_plane_get_property(plane, plane_state,
+>>>> +                                                prop, &old_val);
+>>>> +            return drm_atomic_check_prop_changes(ret, old_val, prop_value, prop);
+>>>> +    }
+>>>> +
+>>>> +    if (plane_state->plane->type != DRM_PLANE_TYPE_PRIMARY) {
+>>>> +            drm_dbg_atomic(prop->dev,
+>>>> +                           "[OBJECT:%d] Only primary planes can be changed during async flip\n",
+>>>> +                           obj->id);
+>>>> +            return -EINVAL;
+>>>> +    }
+>>>> +
+>>>> +    return 0;
+>>>> +}
+>>>> +
+>>>>   static const struct drm_plane_funcs dm_plane_funcs = {
+>>>>      .update_plane   = drm_atomic_helper_update_plane,
+>>>>      .disable_plane  = drm_atomic_helper_disable_plane,
+>>>> @@ -1438,6 +1466,7 @@ static const struct drm_plane_funcs dm_plane_funcs = {
+>>>>      .atomic_duplicate_state = amdgpu_dm_plane_drm_plane_duplicate_state,
+>>>>      .atomic_destroy_state = amdgpu_dm_plane_drm_plane_destroy_state,
+>>>>      .format_mod_supported = amdgpu_dm_plane_format_mod_supported,
+>>>> +    .check_async_props = amdgpu_dm_plane_check_async_props,
+>>>>   };
+>>>>
+>>>>   int amdgpu_dm_plane_init(struct amdgpu_display_manager *dm,
+>>>> --
+>>>> 2.43.0
+>>>
+
