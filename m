@@ -2,41 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA024839178
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 15:34:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C659683918E
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 15:39:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CC2110E7E8;
-	Tue, 23 Jan 2024 14:34:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FAA510E516;
+	Tue, 23 Jan 2024 14:39:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A9CD10F2B2
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 14:34:24 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 79CE961E19;
- Tue, 23 Jan 2024 14:33:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45568C433B1;
- Tue, 23 Jan 2024 14:33:49 +0000 (UTC)
-Date: Tue, 23 Jan 2024 09:35:19 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Subject: Re: [BUG] BUG: kernel NULL pointer dereference at ttm_device_init+0xb4
-Message-ID: <20240123093519.3ed37601@gandalf.local.home>
-In-Reply-To: <c45df2c7-695b-42be-b893-a4f520d9e723@amd.com>
-References: <20240122180605.28daf23a@gandalf.local.home>
- <20240122181547.16b029d6@gandalf.local.home>
- <20240122181901.05a3b9ab@gandalf.local.home>
- <CAHk-=whry+-JUDiiCkDkDn2TDg7SA5OvZpPbcQ_jkM_J5=ySdA@mail.gmail.com>
- <27c3d1e9-5933-47a9-9c33-ff8ec13f40d3@amd.com>
- <20240122203552.529eeb20@gandalf.local.home>
- <CAPM=9tyQ22nw4_u366EX=PnROYcWPD7ONRFpPEKxRvTZo0B4zQ@mail.gmail.com>
- <CAPM=9tyCN1ZhvCTjoKn-Yg5BhnrMae4E5Ci4_u7BZ2vv5gDnKw@mail.gmail.com>
- <20240122215200.1ec02a4a@gandalf.local.home>
- <c45df2c7-695b-42be-b893-a4f520d9e723@amd.com>
-X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0961710E023
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 14:39:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1706020752; x=1737556752;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=90efiydoJUFwFSGiHQI4dQGybhe96j9FBwZwRp774Eg=;
+ b=aP8sj69TbmNDIQmhYR7sTmgcDfxewODiqwkrZrF6MSL8XZvXbxsefFwj
+ 6fkaHo01prlhZtcVLJsv9AI+RNzpQ/Y6wae3GyZIXb71JeSEQda7wX30S
+ R8NZyXCfWxpB55ONbOAuMftsBUnOWn9lurNbxi+3Qb6F6Dz5I9Un4sCTX
+ /k1/C5Jji5SXgKoIvHJgBDdX/qnxz3wNJcGtrNHcVg4BDfeVWf/c+Hk0Q
+ eNzgNQxosu97LgrP+8Fg8Z74WLRUb4eC63pYajdOzRvFl6qmj6gEY4ZSv
+ ku3gUCWZkiBdSKvXjo3yt+PZ463y9/8wBHl7P9pPcNdjqCywilfyGTPRz g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="400401586"
+X-IronPort-AV: E=Sophos;i="6.05,214,1701158400"; d="scan'208";a="400401586"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2024 06:39:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="1117272579"
+X-IronPort-AV: E=Sophos;i="6.05,214,1701158400"; d="scan'208";a="1117272579"
+Received: from pzsolt-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.40.183])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2024 06:39:04 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
+ chenhuacai@kernel.org
+Subject: Re: [PATCH] Revert "drivers/firmware: Move sysfb_init() from
+ device_initcall to subsys_initcall_sync"
+In-Reply-To: <20240123120937.27736-1-tzimmermann@suse.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240123120937.27736-1-tzimmermann@suse.de>
+Date: Tue, 23 Jan 2024 16:39:02 +0200
+Message-ID: <874jf4nmgp.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,37 +60,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@gmail.com>, Felix Kuehling <Felix.Kuehling@amd.com>,
- "Bhardwaj, Rajneesh" <rajneesh.bhardwaj@amd.com>,
- dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
- Fedor Pchelkin <pchelkin@ispras.ru>,
- Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thorsten Leemhuis <regressions@leemhuis.info>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jaak Ristioja <jaak@ristioja.ee>,
+ Huacai Chen <chenhuacai@loongson.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 23 Jan 2024 10:43:04 +0100
-Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
+On Tue, 23 Jan 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> This reverts commit 60aebc9559492cea6a9625f514a8041717e3a2e4.
+>
+> Commit 60aebc9559492cea ("drivers/firmware: Move sysfb_init() from
+> device_initcall to subsys_initcall_sync") messes up initialization order
+> of the graphics drivers and leads to blank displays on some systems. So
+> revert the commit.
+>
+> To make the display drivers fully independent from initialization
+> order requires to track framebuffer memory by device and independently
+> from the loaded drivers. The kernel currently lacks the infrastructure
+> to do so.
+>
+> Reported-by: Jaak Ristioja <jaak@ristioja.ee>
+> Closes: https://lore.kernel.org/dri-devel/ZUnNi3q3yB3zZfTl@P70.localdomain/T/#t
+> Reported-by: Huacai Chen <chenhuacai@loongson.cn>
+> Closes: https://lore.kernel.org/dri-devel/20231108024613.2898921-1-chenhuacai@loongson.cn/
+> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/10133
 
-> While applying the fix a week ago I was under the impression that QXL=20
-> doesn't use a device structure because it doesn't have one and so can't=20
-> give anything meaningful for this parameter.
->=20
-> If QXL does have a device structure and can provide it I would rather=20
-> like to go down this route and make the device and with it the numa node=
-=20
-> mandatory for drivers to specify.
+FWIW,
 
-Then at a minimum my original fix should be applied. Perhaps with a warning
-too. That is, I added at the beginning of that function:
+Acked-by: Jani Nikula <jani.nikula@intel.com>
 
-	if (!dev)
-		return -EINVAL;
+but would be great to get a Tested-by from Jaak or from the gitlab issue
+reporter.
 
-Could have that be:
+Thanks.
 
-	if (WARN_ON_ONCE(!dev))
-		return -EINVAL;
 
-In any case, it should not cause the system to crash.
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Javier Martinez Canillas <javierm@redhat.com>
+> Cc: Thorsten Leemhuis <regressions@leemhuis.info>
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> ---
+>  drivers/firmware/sysfb.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/firmware/sysfb.c b/drivers/firmware/sysfb.c
+> index 82fcfd29bc4d2..3c197db42c9d9 100644
+> --- a/drivers/firmware/sysfb.c
+> +++ b/drivers/firmware/sysfb.c
+> @@ -128,4 +128,4 @@ static __init int sysfb_init(void)
+>  }
+>  
+>  /* must execute after PCI subsystem for EFI quirks */
+> -subsys_initcall_sync(sysfb_init);
+> +device_initcall(sysfb_init);
 
--- Steve
+-- 
+Jani Nikula, Intel
