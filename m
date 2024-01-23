@@ -2,89 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89D77839B1A
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 22:27:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1555839B5E
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 22:46:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E52B710E08D;
-	Tue, 23 Jan 2024 21:27:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E20810E168;
+	Tue, 23 Jan 2024 21:46:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 371 seconds by postgrey-1.36 at gabe;
- Tue, 23 Jan 2024 21:27:20 UTC
-Received: from mx1.heh.ee (heh.ee [213.35.143.160])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AEDA10E08D
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 21:27:20 +0000 (UTC)
-Received: from [10.0.0.254] (unknown [10.0.0.254])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3D0D10E168
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 21:46:23 +0000 (UTC)
+Received: from localhost (c-98-53-138-11.hsd1.co.comcast.net [98.53.138.11])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mx1.heh.ee (Hehee) with ESMTPSA id 3932F1761AA;
- Tue, 23 Jan 2024 23:20:58 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ristioja.ee; s=mail;
- t=1706044858; bh=GoRr+ET+wvyAt83d6bgfImyTmSSphs0OcXGAwB9Agoc=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To;
- b=Wx3NDWc1g1xCeaYKrVJHJ/Z8IdlCbVbzDUG9lMUBxRDnrIE/ustlz2y37+sBLJHqf
- IHtfebUYeQzNOcmk7zKE4+uAdw7ly5bNFbey2Nc0lSucRqL+DLk6sMqoh1kwjXDR8q
- mFxXVEilUtIyDLoG7CtRJlV2JvJkfjmzhUJGhHJM=
-Message-ID: <32b4b912-794f-42b6-b666-5faea8e98d7c@ristioja.ee>
-Date: Tue, 23 Jan 2024 23:20:57 +0200
+ by ms.lwn.net (Postfix) with ESMTPSA id 36AC17A98;
+ Tue, 23 Jan 2024 21:46:19 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 36AC17A98
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+ t=1706046379; bh=HPI8p2QRl4kGlKIQRh26wR6sCf+wAiwRF3Njhaehc68=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=qayLSBactxJVtDUoeQiCqnap39JvQUIaSgBdtiN6R7lqTyj1I1acdx6AW+BMv6R5r
+ PPo+XES7zSaKY9/KhtXLdYe6WTyEdfs4JIwDDNzZHJyXoCRhhvhl9zPk7lozPEtNpi
+ GxY6NhwGkmS3PLhVLyCoAAaIX/0s5R6wJNeeXjLNEro8NAzD7Io/1A2aDMas6i6mJC
+ cjqQnCxjymqYChsNKnnYfx6h4azhAE5uA8LqxMQzRPZApQGJvGSlJ7h3yHB7u1ikbu
+ 30fpYZ+x0NjoonJ9TBRCnovC1JFsbw3dvZuyHGUfRMIAdmNRM5RgoRDbDUFWxydImJ
+ sn/kiOoq16vzw==
+From: Jonathan Corbet <corbet@lwn.net>
+To: Hu Haowen <2023002089@link.tyut.edu.cn>, ogabbay@kernel.org
+Subject: Re: [PATCH] docs/accel: correct links to mailing list archives
+In-Reply-To: <20240118090140.4868-1-2023002089@link.tyut.edu.cn>
+References: <20240118090140.4868-1-2023002089@link.tyut.edu.cn>
+Date: Tue, 23 Jan 2024 14:46:18 -0700
+Message-ID: <87jznzk9jp.fsf@meer.lwn.net>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/Makefile: Move tiny drivers before native drivers
-To: Huacai Chen <chenhuacai@kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>
-References: <20231108024613.2898921-1-chenhuacai@loongson.cn>
- <f461f122-d3e4-4ffb-a252-543f9b6e4e5a@suse.de>
- <CAFOAJEfDZGRY42SRGF64cFbN1e8sBhYsQw_uou8hxTYfyxkhdw@mail.gmail.com>
- <CAAhV-H52y902nP6nPeghLqs+K8gNzCc3DHTU1C0AQcD0TXHMAQ@mail.gmail.com>
-Content-Language: et-EE
-From: Jaak Ristioja <jaak@ristioja.ee>
-Autocrypt: addr=jaak@ristioja.ee; keydata=
- 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
-In-Reply-To: <CAAhV-H52y902nP6nPeghLqs+K8gNzCc3DHTU1C0AQcD0TXHMAQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,98 +48,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <mripard@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Huacai Chen <chenhuacai@loongson.cn>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hu Haowen <2023002089@link.tyut.edu.cn> writes:
 
-I apologize for not finding the time to test this earlier.
+> Since the mailing archive list lkml.org is obsolete, change the links into
+> lore.kernel.org's ones.
+>
+> Signed-off-by: Hu Haowen <2023002089@link.tyut.edu.cn>
+> ---
+>  Documentation/accel/introduction.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/accel/introduction.rst b/Documentation/accel/introduction.rst
+> index 89984dfececf..ae3030136637 100644
+> --- a/Documentation/accel/introduction.rst
+> +++ b/Documentation/accel/introduction.rst
+> @@ -101,8 +101,8 @@ External References
+>  email threads
+>  -------------
+>  
+> -* `Initial discussion on the New subsystem for acceleration devices <https://lkml.org/lkml/2022/7/31/83>`_ - Oded Gabbay (2022)
+> -* `patch-set to add the new subsystem <https://lkml.org/lkml/2022/10/22/544>`_ - Oded Gabbay (2022)
+> +* `Initial discussion on the New subsystem for acceleration devices <https://lore.kernel.org/lkml/CAFCwf11=9qpNAepL7NL+YAV_QO=Wv6pnWPhKHKAepK3fNn+2Dg@mail.gmail.com/>`_ - Oded Gabbay (2022)
+> +* `patch-set to add the new subsystem <https://lore.kernel.org/lkml/20221022214622.18042-1-ogabbay@kernel.org/>`_ - Oded Gabbay (2022)
 
-On 11.12.23 05:08, Huacai Chen wrote:
-> And Jaak, could you please test with the below patch (but keep the
-> original order in Makefile) and then give me the dmesg output?
-> 
-> diff --git a/drivers/video/aperture.c b/drivers/video/aperture.c
-> index 561be8feca96..cc2e39fb98f5 100644
-> --- a/drivers/video/aperture.c
-> +++ b/drivers/video/aperture.c
-> @@ -350,21 +350,29 @@ int
-> aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const
-> char *na
->          resource_size_t base, size;
->          int bar, ret = 0;
-> 
-> -       if (pdev == vga_default_device())
-> +       printk("DEBUG: remove 1\n");
-> +
-> +       if (pdev == vga_default_device()) {
-> +               printk("DEBUG: primary = true\n");
->                  primary = true;
-> +       }
-> 
-> -       if (primary)
-> +       if (primary) {
-> +               printk("DEBUG: disable sysfb\n");
->                  sysfb_disable();
-> +       }
-> 
->          for (bar = 0; bar < PCI_STD_NUM_BARS; ++bar) {
->                  if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
->                          continue;
-> 
-> +               printk("DEBUG: remove 2\n");
->                  base = pci_resource_start(pdev, bar);
->                  size = pci_resource_len(pdev, bar);
->                  aperture_detach_devices(base, size);
->          }
-> 
-> +       printk("DEBUG: remove 3\n");
->          /*
->           * If this is the primary adapter, there could be a VGA device
->           * that consumes the VGA framebuffer I/O range. Remove this
-> 
-> [1]  https://lore.kernel.org/lkml/170222766284.86103.11020060769330721008@leemhuis.info/T/#u
+Applied, thanks.
 
-Copy-pasting this from the e-mail body didn't work well, but I applied 
-the changes manually to a 6.5.9 kernel without any of the other patches. 
-Here's the relevant dmesg output on the Lenovo L570:
-
-...
-[    2.953405] ACPI: bus type drm_connector registered
-[    2.954014] i915 0000:00:02.0: [drm] VT-d active for gfx access
-[    2.954018] DEBUG: remove 1
-[    2.954020] DEBUG: remove 2
-[    2.954021] DEBUG: remove 2
-[    2.954023] DEBUG: remove 3
-[    2.954029] resource: resource sanity check: requesting [mem 
-0x00000000e0000000-0x00000000efffffff], which spans more than BOOTFB 
-[mem 0xe0000000-0xe012bfff]
-[    2.954035] caller i915_ggtt_init_hw+0x88/0x120 mapping multiple BARs
-[    2.954061] i915 0000:00:02.0: [drm] Using Transparent Hugepages
-[    2.955103] Loading firmware: i915/kbl_dmc_ver1_04.bin
-[    2.955384] i915 0000:00:02.0: [drm] Finished loading DMC firmware 
-i915/kbl_dmc_ver1_04.bin (v1.4)
-...
-[    4.145013] [drm] Initialized i915 1.6.0 20201103 for 0000:00:02.0 on 
-minor 0
-[    4.147101] ACPI: video: Video Device [GFX0] (multi-head: yes  rom: 
-no  post: no)
-[    4.147244] input: Video Bus as 
-/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A08:00/LNXVIDEO:00/input/input4
-[    4.147410] [drm] Initialized vgem 1.0.0 20120112 for vgem on minor 1
-[    4.147420] usbcore: registered new interface driver udl
-[    4.147500] [drm] Initialized simpledrm 1.0.0 20200625 for 
-simple-framebuffer.0 on minor 2
-[    4.148643] Console: switching to colour frame buffer device 80x30
-[    4.153216] simple-framebuffer simple-framebuffer.0: [drm] fb0: 
-simpledrmdrmfb frame buffer device
-[    4.154043] loop: module loaded
-[    4.156017] ahci 0000:00:17.0: version 3.0
-[    4.157373] i915 0000:00:02.0: [drm] fb1: i915drmfb frame buffer device
-...
-
-J
-
+jon
