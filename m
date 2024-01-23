@@ -2,77 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24D90837927
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 01:30:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 435CC837964
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 01:38:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02CA210F1A7;
-	Tue, 23 Jan 2024 00:30:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69FB710F1C5;
+	Tue, 23 Jan 2024 00:37:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
- [209.85.216.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A50A10F1A7
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 00:29:58 +0000 (UTC)
-Received: by mail-pj1-f50.google.com with SMTP id
- 98e67ed59e1d1-2901ac9ba23so1938690a91.3
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 16:29:58 -0800 (PST)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
+ [209.85.214.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A2B810F1C2
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 00:37:23 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id
+ d9443c01a7336-1d7354ba334so18317195ad.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 16:37:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1705969738; x=1706574538;
+ d=chromium.org; s=google; t=1705970183; x=1706574983;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ti9Pce6Lpu2kUzlJNdDw3MDPT1cyRxs9AHo9YOvXXwc=;
- b=J8RYq5Xx7WCYIm7r+PCNcYF59dpIJDs83pwjmuw8Z5oRdPNJ0S9+NSKWRb8QJz0cHF
- h2mVYgTooy617T0YnZaXUM/iwaqWFqsjxiRdXgi7pL3YHLmb3wAyi/YxCqfFtZdZpubO
- QAHLu5CzyLdxmjb4qOHP/b9duYGJT8yNP1LKc=
+ bh=uuAginudDA34iqBrsX+BzE2nEMittQE6YVsuxv2qKnM=;
+ b=L8M8Ho0mGJs/TesXNB9lwhLtkGU+zsjRN79foQ0tZL8B0WX/pkqhOjtYvtR/2oMik+
+ dZbzoBPtb7Iac0IoMsuFlBgjd2celhjeuKc5ToPmGyYNijCcun4rTw5wpljNBpx1sNmv
+ NcOJt8nQJ/Yi7m5/nVLclmiC8BHaSYkxcU/mc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705969738; x=1706574538;
+ d=1e100.net; s=20230601; t=1705970183; x=1706574983;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ti9Pce6Lpu2kUzlJNdDw3MDPT1cyRxs9AHo9YOvXXwc=;
- b=HY+upVqHFE2yB2qlAUUndbWMFOBrO7xUvuqmhIVR2UkJeQtt9jYJSEQySyH2/EPwK5
- 0AnGbOMUBg8HWlRfeSeYKEEDKsfJgJBt2XMuViz6oRqwlO/W/nx9VxCr8PJ1irYD+xJV
- nBNhbRi+0mGSVEzKZLUzNu9DYE91e8yGK7odTyeEuskONFqXzq5ATu7NNRdmp1WH1IbH
- 4uXZtCrDVSlhEWU4R26WHzGF+hitgE1GgpxLO4hTkE0y6LBXk+KAAblk14mcNAk+fcV1
- YcNhdV7jaT75Oz/UkebZ0KCNnlxMCh4FtRQUNIayN7ZML9IzERXnvreV3RBJ5K4+yDlq
- r6FQ==
-X-Gm-Message-State: AOJu0Yx0R/y6hmyIxOua4Z9VAu7GyIPla+EZHEpX2Y0m+p8bmRXdstAl
- 6E1Wek0nt8J8YjcJ8xMsD9I6L+eVl9y5lA9E9aQyrc3uWJILyOd3riEBu8r0IQ==
-X-Google-Smtp-Source: AGHT+IHxysOlKojjA+pzT7YKshwDp7mEoKxiFORi05Ne2gh5Z7r5EGY2fIV1rixzNAo1ByfAlcIy4A==
-X-Received: by 2002:a17:90b:3786:b0:290:666f:7be2 with SMTP id
- mz6-20020a17090b378600b00290666f7be2mr1543735pjb.82.1705969738187; 
- Mon, 22 Jan 2024 16:28:58 -0800 (PST)
+ bh=uuAginudDA34iqBrsX+BzE2nEMittQE6YVsuxv2qKnM=;
+ b=utgnMWummVPRDlpuMWCSuAOMVyXk37CF1y5EQUk9XA6ORo7OZdwHZ7pyC0eJd8j+Ye
+ GjhdnNRmP6Xm5Jvl+htQySFElaouc6QfyufW8CoDrj5aNXgGll28qpHaM5xJL76VnyrS
+ jxkHpmcyFxJM4QSz+ja6G2rNck6O7hqKEcSy08F3893AOuNkZrKBCW92qO24rhlidnvR
+ fx2WyUA5bfhv6847uCBQQ5uldMo4qj9OhUYQWOqNjyOgQgOiTkkN0Il63L1xrAlb2P4T
+ zn/sEEvoDaLio2jtIozuPAXO8O7Q6TueYCpJxu0zrJukSXrs1KRILtcwN65ijq8iE5YO
+ Hm9g==
+X-Gm-Message-State: AOJu0Yxe1Glcrs14OmsrbU8FgyzGLgleVHqyPbJorikNr3tVlGyU1sWm
+ 3WS5L+tF2BQrAj5iYPxtBH60ke9kTusz11DEbXwbsA45BmSURNHgcnUpv+jCbyeJnhJXkYDT/O4
+ =
+X-Google-Smtp-Source: AGHT+IHmJXE2ED2RuBUmR0soC9ICbU5uc/OdRD47vxh5aPLnNlxEs/5VczOR/qkUIL16NOENMz9+bA==
+X-Received: by 2002:a17:902:8216:b0:1d6:c8e3:c3dd with SMTP id
+ x22-20020a170902821600b001d6c8e3c3ddmr4942676pln.54.1705970183007; 
+ Mon, 22 Jan 2024 16:36:23 -0800 (PST)
 Received: from www.outflux.net ([198.0.35.241])
  by smtp.gmail.com with ESMTPSA id
- eu7-20020a17090af94700b002902076c395sm9968033pjb.34.2024.01.22.16.28.37
+ l12-20020a170902e2cc00b001d70af5be17sm7341961plc.229.2024.01.22.16.36.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Jan 2024 16:28:46 -0800 (PST)
+ Mon, 22 Jan 2024 16:36:18 -0800 (PST)
 From: Kees Cook <keescook@chromium.org>
 To: linux-hardening@vger.kernel.org
-Subject: [PATCH 17/82] drm/vc4: Refactor intentional wrap-around calculation
-Date: Mon, 22 Jan 2024 16:26:52 -0800
-Message-Id: <20240123002814.1396804-17-keescook@chromium.org>
+Subject: [PATCH 36/82] agp: Refactor intentional wrap-around test
+Date: Mon, 22 Jan 2024 16:27:11 -0800
+Message-Id: <20240123002814.1396804-36-keescook@chromium.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240122235208.work.748-kees@kernel.org>
 References: <20240122235208.work.748-kees@kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2558; i=keescook@chromium.org; 
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1899; i=keescook@chromium.org; 
  h=from:subject;
- bh=JgonJZnxkTCS8vYti6xK+vM63BFoTeMVUBVyb+CU9a8=; 
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBlrwgFu/g3mFw6uq5pHkL3E8AN7SiAjt9KR8Xix
- +PwApphAJCJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZa8IBQAKCRCJcvTf3G3A
- Jge3D/4u45AQKfLOVnFIwiv0NBxYETFmX3tUKTuc2dXJyNb2JL5HZVqwUSUaSPll1jigd0ESq+3
- vBUnoJAMixRc0Wcmv8+S+NzuWlj/nljcpFOhIBrWsZt2Zdv0oFPuvDGXKWBwxohbLWGWqb2Otbc
- y99plRk4kHDWrILvbtqc+mviNEDD63DUOu70L2aT0MgDBP2WJHf/KckoFqWe9Gh49tuCZQHmX0e
- b9/uQAFad4dpfrO0Y7gWYu7QKC3HKK/EUXkvazbYav+WeTBL3JuifNiSmEE7wjLNSEod/GqFdt4
- tnTvyCjEqXGwfLzjaX8TyuOvKZZsj+VZ6ZypG+E8d9qBmL3zZoVTvVXLyaQKv8sSLmPT87PN2tA
- jlCMKrZYqld0WN2mSdTGlYWazdKvBvQ/wfaaeUY70H8G0dj2cWTwoC+wF/Wp/Ph1MIymiasAvIV
- Ntw3se/q/tquahs2oNjMCDDmarRwr38iKcMtNt8Pewb9eY75hXI61eRzFQWcI7e+ksu9xOdHTgy
- eV5ukAWCsrtg03FBRVxNX2eKCgWHTheAxQaBRGBD/XowDB712zwukECG7veQEoxDhY4DqRk3DlO
- ts+/zz0xpt30cc8yvKxN1v+A5ldw0a38veiStkHBXthkzyl3wr9n0DChf/4UhYKH7XME3RBusVq
- 0W443HcucToeoOg==
+ bh=TtGEKwfEht79ULnpSVJcOtpH1GzIiQlRdhb7ZdKErag=; 
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBlrwgH4FFulwi6BUqjbAU5ENVQabX98Dt2rrVoU
+ 8g3IEj955KJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZa8IBwAKCRCJcvTf3G3A
+ JnjyEACxi6nRzG/TeUzgA19psicAHgLDAObP0xBS4txCdCyuwD6vql4dHmloNCeJb8mV6QVHM+X
+ qtG2DBYHCOfOAx2qlY4HvaVOj3PS5bcfXi6Ekv9oHApUiv9VATvsHzJMWgozbnrtd+ct/kzn1a8
+ fdEqTsjCD1glzm7trq2UhSUjq7L9mf0ALUL92dfVjQVOuW3SJ9kkPuGgKtP6JPssetdPnVNENjg
+ XGHgUvZbr7FjFWIbhVzk+QWvKkDn9x87RdguxM3yRMNuIU1rIPChiFeHt65F/fM9e/r6JWSqDYJ
+ 28GyQyB9g35uGguB023JwJmsj9WljHMy92O0442XwofQsjSwDoKiP6XK1wSn7N+Ko+xF+yXuo8D
+ aGTAXPJpuMFj3tqUwX0bCJ2y/hZb9LGM68ygSkbs93I9XePUe38ehnUMIKTYBoC/PaH9cZiUO6O
+ WpdtUG+wfYRGfiUetrFcgMqg7lc0bO2mieV7z8f1+ggx/2d+E2Yn9c//8JCWB6dDf3AOuNluFkl
+ TPJTxjpslLZOCOHw60ZZVUW2p1qaNmoLXFmR7hSnVJuahaP/u15jWcSK2aizZflJKuj9uo7I/Jr
+ iZ5+yDhNuVtMJrnevFhrq9ZhFajoLgGALCe41lhJERcPe3APaldrX8Abs0cIpjFwV5xN1XNAYND
+ z2z1RVstb0xjjDA==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp;
  fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
@@ -88,12 +89,11 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bill Wendling <morbo@google.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
- Justin Stitt <justinstitt@google.com>, David Airlie <airlied@gmail.com>,
- Kees Cook <keescook@chromium.org>
+Cc: Kees Cook <keescook@chromium.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Bill Wendling <morbo@google.com>,
+ Justin Stitt <justinstitt@google.com>, David Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -111,52 +111,34 @@ instrument arithmetic wrap-around conditions and catch them when they
 are unexpected, regardless of whether they are signed[2], unsigned[3],
 or pointer[4] types.
 
-Refactor open-coded unsigned wrap-around addition test to use
-check_add_overflow(), retaining the result for later usage (which removes
-the redundant open-coded addition). This paves the way to enabling the
-wrap-around sanitizers in the future.
+Refactor open-coded wrap-around addition test to use add_would_overflow().
+This paves the way to enabling the wrap-around sanitizers in the future.
 
 Link: https://git.kernel.org/linus/68df3755e383e6fecf2354a67b08f92f18536594 [1]
 Link: https://github.com/KSPP/linux/issues/26 [2]
 Link: https://github.com/KSPP/linux/issues/27 [3]
 Link: https://github.com/KSPP/linux/issues/344 [4]
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: David Airlie <airlied@redhat.com>
 Cc: dri-devel@lists.freedesktop.org
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/gpu/drm/vc4/vc4_validate.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/char/agp/generic.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_validate.c b/drivers/gpu/drm/vc4/vc4_validate.c
-index 7dff3ca5af6b..9affba9c58b3 100644
---- a/drivers/gpu/drm/vc4/vc4_validate.c
-+++ b/drivers/gpu/drm/vc4/vc4_validate.c
-@@ -305,6 +305,7 @@ validate_gl_array_primitive(VALIDATE_ARGS)
- 	uint32_t length = *(uint32_t *)(untrusted + 1);
- 	uint32_t base_index = *(uint32_t *)(untrusted + 5);
- 	uint32_t max_index;
-+	uint32_t sum;
- 	struct vc4_shader_state *shader_state;
+diff --git a/drivers/char/agp/generic.c b/drivers/char/agp/generic.c
+index 3ffbb1c80c5c..fc2d07654154 100644
+--- a/drivers/char/agp/generic.c
++++ b/drivers/char/agp/generic.c
+@@ -228,7 +228,7 @@ struct agp_memory *agp_allocate_memory(struct agp_bridge_data *bridge,
  
- 	/* Check overflow condition */
-@@ -314,11 +315,11 @@ validate_gl_array_primitive(VALIDATE_ARGS)
- 	}
- 	shader_state = &exec->shader_state[exec->shader_state_count - 1];
+ 	cur_memory = atomic_read(&bridge->current_memory_agp);
+ 	if ((cur_memory + page_count > bridge->max_memory_agp) ||
+-	    (cur_memory + page_count < page_count))
++	    (add_would_overflow(page_count, cur_memory)))
+ 		return NULL;
  
--	if (length + base_index < length) {
-+	if (check_add_overflow(length, base_index, &sum)) {
- 		DRM_DEBUG("primitive vertex count overflow\n");
- 		return -EINVAL;
- 	}
--	max_index = length + base_index - 1;
-+	max_index = sum - 1;
- 
- 	if (max_index > shader_state->max_index)
- 		shader_state->max_index = max_index;
+ 	if (type >= AGP_USER_TYPES) {
 -- 
 2.34.1
 
