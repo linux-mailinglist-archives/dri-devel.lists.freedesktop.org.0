@@ -2,67 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC2528389D2
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 09:58:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1A2D838A70
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 10:36:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51A3310E12F;
-	Tue, 23 Jan 2024 08:57:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D98B310E563;
+	Tue, 23 Jan 2024 09:36:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2483710E12F
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 08:57:54 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id
- ffacd0b85a97d-337d6d7fbd5so2928307f8f.0
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 00:57:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1706000212; x=1706605012; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=GcK6zvLFuwSh9mo7ySciDzTNwWqWuU+gHFUQY91mYpM=;
- b=hPDtBk8mjyQaBW3KuL1sNIy8AwDwMHvMaj1YoWvJjwxJfFR739G+r3sRhfxCBhy4Yt
- CVz1wRsDsHc4vI4L3OiRbxnzdn1Bf0NUYJ+dChtRUyDmnxxP3zSM4BW/F41F1KYXxp8c
- 7taV7cdw3T589WSOQFrjoDZrNoLrYnp6q/3lyktr5pZVUCfDtFy5SLw/GM9vAPYbbXYa
- 7f1WBixRwB1kpJyl1LZKEXQXL4Yw8OqBaN83wXahRDApb1f+3iiV9DGa7tS+Vt9ZlEwy
- r4JbVm2P6hYu6p1ESq+0GMrS+gAhY6baRBu0fKj0yorBAcDTGGpBajA03fWDO+XC9i1c
- ltkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706000212; x=1706605012;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=GcK6zvLFuwSh9mo7ySciDzTNwWqWuU+gHFUQY91mYpM=;
- b=eTqFf7gmF7IvjfnK8jCmOGpwdJnkcQli4iWJmFVY6M83rMebR3Z14+fpwLTI9O6Bm3
- fzSjx1bDThohgYUQVp6YuNQCo1ZZrYu+Q0nvdkAprCZgAj0VqNcwoT1DcVru5Uj6xIcd
- Yp4+XPa/HwO+iZYcoJ5gQs06xpgLumChO2Kck6FBZO3gZ2H9mDES0ERBmgHCS0VgNqUm
- FJPfvvBymS39/6sOCY/ji9HNqRC5G2CgID/m+gvancNerbR+eCIG1ZXU2fpmHjL9jXrQ
- PkNSik49JwPKgNjX8TiKl2gN8c7h5SPwRoOhRYkA9gv81Eo3VUoBkwYGqV9upnhVTy3t
- OSTw==
-X-Gm-Message-State: AOJu0YwTengineIUhtniTQQUAHbnqccInoOkTIEJqxGKBEaxfhETgqtO
- McLEZ11FOUM0xrNI6OZ+CaV+I3tK0xcNHNhvWcQL+hPnnchP+cMXaU+RXtiP0E4=
-X-Google-Smtp-Source: AGHT+IE83CqPYcjrXGj6lFrWB/MgUBCFYVdyddu4KjguVtrvYTGjEjec+5PDM6H+aqHZoQ35inLXdg==
-X-Received: by 2002:a05:600c:1f05:b0:40d:80a1:867 with SMTP id
- bd5-20020a05600c1f0500b0040d80a10867mr276491wmb.146.1706000212591; 
- Tue, 23 Jan 2024 00:56:52 -0800 (PST)
-Received: from localhost ([102.140.209.237]) by smtp.gmail.com with ESMTPSA id
- f6-20020a05600c154600b0040e880ac6ecsm21864357wmg.35.2024.01.23.00.56.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jan 2024 00:56:52 -0800 (PST)
-Date: Tue, 23 Jan 2024 11:56:49 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Danilo Krummrich <dakr@redhat.com>, Felix Fietkau <nbd@nbd.name>
-Subject: Re: [PATCH][next] drm/nouveau/fifo/gk104: remove redundant variable
- ret
-Message-ID: <fe659736-500f-4e59-a9c7-ad894155a675@moroto.mountain>
-References: <20240116111609.2258675-1-colin.i.king@gmail.com>
- <aafe669f-b322-4f22-a48e-564e3eb3447f@moroto.mountain>
- <bdc7e401-a676-4040-9138-8dc5cf35bd05@redhat.com>
- <55f0983a-300e-40bb-9142-6f4683914402@moroto.mountain>
+X-Greylist: delayed 1135 seconds by postgrey-1.36 at gabe;
+ Tue, 23 Jan 2024 09:36:23 UTC
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
+ [80.237.130.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCC6110E563
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 09:36:22 +0000 (UTC)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+ by wp530.webpack.hosteurope.de running ExIM with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ id 1rSCuE-0005dd-03; Tue, 23 Jan 2024 10:17:18 +0100
+Message-ID: <3b0ab7e1-a28b-4dc6-a789-dccecaea7800@leemhuis.info>
+Date: Tue, 23 Jan 2024 10:17:17 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <55f0983a-300e-40bb-9142-6f4683914402@moroto.mountain>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/Makefile: Move tiny drivers before native drivers
+Content-Language: en-US, de-DE
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Huacai Chen
+ <chenhuacai@loongson.cn>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Javier Martinez Canillas <javierm@redhat.com>
+References: <20231108024613.2898921-1-chenhuacai@loongson.cn>
+ <f461f122-d3e4-4ffb-a252-543f9b6e4e5a@suse.de> <87il3ko2fu.fsf@intel.com>
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+In-Reply-To: <87il3ko2fu.fsf@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1706002583;
+ 9ec6e3ce; 
+X-HE-SMSGID: 1rSCuE-0005dd-03
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,75 +53,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel@ffwll.ch>, Colin Ian King <colin.i.king@gmail.com>
+Cc: Jaak Ristioja <jaak@ristioja.ee>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Let's CC Felix on this one because he might know the answer.
+On 23.01.24 09:53, Jani Nikula wrote:
+> On Wed, 08 Nov 2023, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>>
+>> thanks for the patch.
+>>
+>> Am 08.11.23 um 03:46 schrieb Huacai Chen:
+>>> After commit 60aebc9559492cea ("drivers/firmware: Move sysfb_init() from
+>>> device_initcall to subsys_initcall_sync") some Lenovo laptops get a blank
+>>> screen until the display manager starts.
+>>>
+>>> This regression occurs with such a Kconfig combination:
+>>> CONFIG_SYSFB=y
+>>> CONFIG_SYSFB_SIMPLEFB=y
+>>> CONFIG_DRM_SIMPLEDRM=y
+>>> CONFIG_DRM_I915=y      # Or other native drivers such as radeon, amdgpu
+>>>
+>>> If replace CONFIG_DRM_SIMPLEDRM with CONFIG_FB_SIMPLE (they use the same
+>>> device), there is no blank screen. The root cause is the initialization
+>>> order, and this order depends on the Makefile.
+>>>
+>>> FB_SIMPLE is before native DRM drivers (e.g. i915, radeon, amdgpu, and
+>>> so on), but DRM_SIMPLEDRM is after them. Thus, if we use FB_SIMPLE, I915
+>>> will takeover FB_SIMPLE, then no problem; and if we use DRM_SIMPLEDRM,
+>>> DRM_SIMPLEDRM will try to takeover I915, but fails to work.
+>>
+>> But what exactly is the problem? From the lengthy discussion threat, it 
+>> looks like you've stumbled across a long-known problem, where the 
+>> firmware driver probes a device that has already been taken by a native 
+>> driver. But that should not be possible.
+>>
+>> As you know, there's a platform device that represents the firmware 
+>> framebuffer. The firmware drivers, such as simpledrm, bind to it. In 
+>> i915 and the other native drivers we remove that platform device, so 
+>> that simpledrm does not run.
+> 
+> The problem is still not resolved. Another bug report at [1].
+> 
+> The commit message here points at 60aebc955949 ("drivers/firmware: Move
+> sysfb_init() from device_initcall to subsys_initcall_sync") as
+> regressing, and Jaak also bisected it (see Closes:).
+> 
+> I agree the patch here is just papering over the issue, but lacking a
+> proper fix, for months, a revert would be in order, no?
+> 
+> [1] https://gitlab.freedesktop.org/drm/intel/-/issues/10133
 
-All day long I spend looking at code like this:
+Interesting.
 
-net/core/dev.c:724 dev_fill_forward_path() info: returning a literal zero is cleaner
-net/core/dev.c:732 dev_fill_forward_path() info: returning a literal zero is cleaner
+JFYI for those that don't follow this closely: Huacai Chen proposed a
+fix and asked a earlier reporter to test it, but afaics heard nothing back:
 
-net/core/dev.c
-   696  int dev_fill_forward_path(const struct net_device *dev, const u8 *daddr,
-   697                            struct net_device_path_stack *stack)
-   698  {
-   699          const struct net_device *last_dev;
-   700          struct net_device_path_ctx ctx = {
-   701                  .dev    = dev,
-   702          };
-   703          struct net_device_path *path;
-   704          int ret = 0;
-   705  
-   706          memcpy(ctx.daddr, daddr, sizeof(ctx.daddr));
-   707          stack->num_paths = 0;
-   708          while (ctx.dev && ctx.dev->netdev_ops->ndo_fill_forward_path) {
-   709                  last_dev = ctx.dev;
-   710                  path = dev_fwd_path(stack);
-   711                  if (!path)
-   712                          return -1;
-   713  
-   714                  memset(path, 0, sizeof(struct net_device_path));
-   715                  ret = ctx.dev->netdev_ops->ndo_fill_forward_path(&ctx, path);
-   716                  if (ret < 0)
+https://lore.kernel.org/all/CAAhV-H5eXM7FNzuRCMthAziG_jg75XwQV3grpw=sdyJ-9GXgvA@mail.gmail.com/
 
-This if condition might trick you into thinking that ->ndo_fill_forward_path()
-can return non-zero positive numbers, but it can't.  It returns zero on
-success or negative error codes on failure.  Smatch is doing cross
-function analysis so we know this.
+That's afaics why this got stuck (and why I didn't request on a escalate
+this weeks ago).
 
-   717                          return -1;
-   718  
-   719                  if (WARN_ON_ONCE(last_dev == ctx.dev))
-   720                          return -1;
-   721          }
-   722  
-   723          if (!ctx.dev)
-   724                  return ret;
+Ciao, Thorsten
 
-Is this intentional or not?  Who knows?  If this were an obvious bug,
-I could fix it right away but ambiguous stuff like this takes way more
-time to deal with.
-
-   725  
-   726          path = dev_fwd_path(stack);
-   727          if (!path)
-   728                  return -1;
-   729          path->type = DEV_PATH_ETHERNET;
-   730          path->dev = ctx.dev;
-   731  
-   732          return ret;
-
-Obviously this is intentional, but if you were tricked by the checking
-earlier then you might assume that ret is some positive value from the
-last iteration through the loop.  "return 0;" is so much clearer.
-
-   733  }
-
-regards,
-dan carpetner
-
+>> We call the DRM aperture helpers at [1]. It's implemented at [2]. The 
+>> function contains a call to sysfb_disable(), [3] which should be invoked 
+>> for the i915 device and remove the platform device.
+>>
+>> [1] 
+>> https://elixir.bootlin.com/linux/v6.5/source/drivers/gpu/drm/i915/i915_driver.c#L489
+>> [2] 
+>> https://elixir.bootlin.com/linux/v6.5/source/drivers/video/aperture.c#L347
+>> [3] 
+>> https://elixir.bootlin.com/linux/v6.5/source/drivers/firmware/sysfb.c#L63
+>>
+>> Can you investigate why this does not work? Is sysfb_disable() not being 
+>> called? Does it remove the platform device?
+>>
+>>>
+>>> So we can move the "tiny" directory before native DRM drivers to solve
+>>> this problem.
+>>
+>> Relying on linking order is just as unreliable. The usual workaround is 
+>> to build native drivers as modules. But first, please investigate where 
+>> the current code fails.
+>>
+>> Best regards
+>> Thomas
+>>
+>>>
+>>> Fixes: 60aebc9559492cea ("drivers/firmware: Move sysfb_init() from device_initcall to subsys_initcall_sync")
+>>> Closes: https://lore.kernel.org/dri-devel/ZUnNi3q3yB3zZfTl@P70.localdomain/T/#t
+>>> Reported-by: Jaak Ristioja <jaak@ristioja.ee>
+>>> Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+>>> ---
+>>>   drivers/gpu/drm/Makefile | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+>>> index 8e1bde059170..db0f3d3aff43 100644
+>>> --- a/drivers/gpu/drm/Makefile
+>>> +++ b/drivers/gpu/drm/Makefile
+>>> @@ -141,6 +141,7 @@ obj-y			+= arm/
+>>>   obj-y			+= display/
+>>>   obj-$(CONFIG_DRM_TTM)	+= ttm/
+>>>   obj-$(CONFIG_DRM_SCHED)	+= scheduler/
+>>> +obj-y			+= tiny/
+>>>   obj-$(CONFIG_DRM_RADEON)+= radeon/
+>>>   obj-$(CONFIG_DRM_AMDGPU)+= amd/amdgpu/
+>>>   obj-$(CONFIG_DRM_AMDGPU)+= amd/amdxcp/
+>>> @@ -182,7 +183,6 @@ obj-$(CONFIG_DRM_FSL_DCU) += fsl-dcu/
+>>>   obj-$(CONFIG_DRM_ETNAVIV) += etnaviv/
+>>>   obj-y			+= hisilicon/
+>>>   obj-y			+= mxsfb/
+>>> -obj-y			+= tiny/
+>>>   obj-$(CONFIG_DRM_PL111) += pl111/
+>>>   obj-$(CONFIG_DRM_TVE200) += tve200/
+>>>   obj-$(CONFIG_DRM_XEN) += xen/
+> 
