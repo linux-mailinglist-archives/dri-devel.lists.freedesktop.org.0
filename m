@@ -2,77 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F24283795C
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 01:37:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E4E2837963
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 01:38:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BEA210F186;
-	Tue, 23 Jan 2024 00:37:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65ADC10F1C1;
+	Tue, 23 Jan 2024 00:37:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
- [209.85.216.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 323E710E717
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 00:37:12 +0000 (UTC)
-Received: by mail-pj1-f50.google.com with SMTP id
- 98e67ed59e1d1-29065efa06fso1930040a91.1
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 16:37:12 -0800 (PST)
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com
+ [209.85.167.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 267B710F19E
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 00:37:14 +0000 (UTC)
+Received: by mail-oi1-f177.google.com with SMTP id
+ 5614622812f47-3bd7c15a745so2700082b6e.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jan 2024 16:37:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1705970172; x=1706574972;
+ d=chromium.org; s=google; t=1705970173; x=1706574973;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ci14tXfoLWF8H9KP6TbhVJPvd4jolXPuWJ+qfgosDMI=;
- b=a/5e/l9BsAGxzmAjvgSC6N2bFCkGFfHJOrT8+ibsKzslv1iCO2YwljyvrO4a8L65Jk
- Vyw9xsZSN2ccrFoNfORY9rN69rQS6uMjXdyxCxYRPSEEnfLY0CmeaDc64hdJvNN9iYcr
- 6LiSa4lRWR6LasZRtdqbQFl2jWPjKWkli9e2Q=
+ bh=j2GMW5d6UiU7LajKCHttmnW2RyiQyBOWeh+blbgnn98=;
+ b=JoTxnm/B4YV4fthnYQOXazFdExc0FHI76uJ2HCG9YjG3rUn+i+qcfrytj64ACajyDu
+ m7ysWEZqWUSkikk+CkanKQyb1tcUG18Gt+x2HjKebEnaMbGvlB9PmWVMOZPP4r9b2nP5
+ 0hvHbgHBT3g0gTV4JmZ3jVe6IsSqOHx3VqHL8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1705970172; x=1706574972;
+ d=1e100.net; s=20230601; t=1705970173; x=1706574973;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ci14tXfoLWF8H9KP6TbhVJPvd4jolXPuWJ+qfgosDMI=;
- b=ooblfthbtdcVRJQ+MyplcpLu9pEpeoQUrUExwwc670dJKgoqn92MI/pKK68+tzXbKv
- 1u1aMdfdbvNS0vEefAcFAOqEWEh6mNDQJoGiJVKEf15G24+i2KPyEjz+8rj6f2qJhfa3
- rJeJ351WgoqEY6dMtsPAesqsw0C/3cfEu73B8nURRHOVSxYP5SDqqGw3MaApojeEPhYK
- UTayxKhdrJfxzmCg6IuavtHViP+B/cGhL6fjo6LJ5LPWq4sngapKENGGK4yo9IiE8Zkm
- ldGTK4OVQABb2Q/IhNGadBKXXw6liCkvocztr4YI2EQ4oRVj8KHAG09pA/1EhGAjV9IT
- 2ffA==
-X-Gm-Message-State: AOJu0YySBn7v2G8yaHGsf6+eKQr2+MTMUX7rre1IsjTF3Sfql6ilpAQg
- /fLz+63X4eHjCYrTYX7Xgf8zuDdNAuN/DBrFdimVVXRNA/XtFSuL5U213g6F7g==
-X-Google-Smtp-Source: AGHT+IHbtzvrk4iZs4Gm8Yr+QrGFjKqhpB03Ocxh4U4TLvusg96tLGgJ15R5wkOaXT55grFNSwGjcg==
-X-Received: by 2002:a17:90a:62c7:b0:28f:ef2b:e0ed with SMTP id
- k7-20020a17090a62c700b0028fef2be0edmr2421887pjs.5.1705970171811; 
- Mon, 22 Jan 2024 16:36:11 -0800 (PST)
+ bh=j2GMW5d6UiU7LajKCHttmnW2RyiQyBOWeh+blbgnn98=;
+ b=OoxbEZBFMVNC0Soeaov6DMYnBEHBNmTWmVJFEWuZIB4CCsTQLD84TrgEAgmvJuKAUK
+ 6dje4XeToelqcdYA95I+Y5h2hS2gCCJ87AOBrMOIysVcrNhNyhOvZbJWKyuO2bYnOHkP
+ ZfoXqJzqHQtVQSj+1tBlEkXzik10orUxTbwIwx+cST6Oafe/z0/BdCPdRWxLkXLwxG3a
+ 5B+YhLGU46bErMD3F7W69ew3cNKry9ghvkIDAYeNoLApE6Kk2vTtlRdLR98XoIeZXiai
+ A1qqGwnphq7pjYYwBp4+k261IHCsdZYhUrfFXFXrxWElmSlhyL9VDcIHbuDu46scJn3C
+ AZzg==
+X-Gm-Message-State: AOJu0YwiEhnRJ4BBN8dMmEvvf/FhXq+5FoF2dSTeoLZd2Rutnx7/sb5D
+ 6Q4mYzZnBfLFbFwbPZCroWp1x3BTt6hss6m8ooIpU76WuXAScgr3G9pnlrafsg==
+X-Google-Smtp-Source: AGHT+IHM+0P0FFoTrriCmMbo8B8EOrjWPouiok2qtQ86UTP2/HFLy+hSK6JukrOOVWReaOLPFOxUUQ==
+X-Received: by 2002:a05:6808:2383:b0:3bd:bff5:e2c with SMTP id
+ bp3-20020a056808238300b003bdbff50e2cmr1442385oib.42.1705970173539; 
+ Mon, 22 Jan 2024 16:36:13 -0800 (PST)
 Received: from www.outflux.net ([198.0.35.241])
  by smtp.gmail.com with ESMTPSA id
- sd14-20020a17090b514e00b0028d9fc97c29sm10365268pjb.14.2024.01.22.16.36.01
+ h5-20020aa786c5000000b006dbd2fb0451sm4174214pfo.166.2024.01.22.16.36.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 22 Jan 2024 16:36:08 -0800 (PST)
 From: Kees Cook <keescook@chromium.org>
 To: linux-hardening@vger.kernel.org
-Subject: [PATCH 49/82] drm/i915: Refactor intentional wrap-around test
-Date: Mon, 22 Jan 2024 16:27:24 -0800
-Message-Id: <20240123002814.1396804-49-keescook@chromium.org>
+Subject: [PATCH 50/82] drm/vc4: Refactor intentional wrap-around test
+Date: Mon, 22 Jan 2024 16:27:25 -0800
+Message-Id: <20240123002814.1396804-50-keescook@chromium.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240122235208.work.748-kees@kernel.org>
 References: <20240122235208.work.748-kees@kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2342; i=keescook@chromium.org; 
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2077; i=keescook@chromium.org; 
  h=from:subject;
- bh=oiG+TsWcxpCmRd1+V7WC6Rzkst0Tmp3FWPUBfyk7tD0=; 
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBlrwgJM8j5gj77tQNAWNgLrGW9Rf152U5LzsLsJ
- LLY7jY3zQCJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZa8ICQAKCRCJcvTf3G3A
- JlTyD/9tInsgMQJNhzXLV4lkjEdwrZuxy10l8+2Dh6eeSAQbaL+DgNMujkfU/ewIc6vsc6zeZLn
- 3ACm3O16LQN/0j5S0RYKIeVgjfXSZAYGJuwYmW3jBM3o8s9hNPi/SXXGp0toQyaZ73L3hcRB4AO
- 2C01S7JnD87/2LBgN5VfyCDAUOfgYSqdE4ibXD+3+uyUSrbM8B+GimE4cH4ORUxm7YMLto9zpu+
- oxqd7qMyF6AyMavkv5ySlinqmiOVJ83f+YZ+oRowh0q5fTfSibio56QvEqpQZCtefn09GEz+IoC
- Tnb8E/IS3JJOLLdskrUiX3bNAd51XjStK5+qpc0F35indv1uLzV53YFhU5912hmIDcxwPmmtHTi
- OXiRWa2TWfKEgQKSVyJmGL9esA3rmPtERr7goeI8/nFMWEb4Qy+cpevxG1qft33h0Z7enHXDTBT
- JHJYXrmewrWmRrBpNFH54MHVPInL6YqLuU56FYnU3go2zz3tsoo8VutSaww+foZj6VUcti/X6fF
- PHZBFPajfhvY94xWQMXnk+iHmY7GJNwyVxOdnF8YsTZv23cXzWc9GXdAMMp6lw4By2hz73i3BNZ
- JSnAMxGSHmwnz/DNjaVSvjUSE5b/U82hIxtLLj6mKkDb5Osg8f47u2KWYVVd868CRAaVvfeVUVJ
- 1IBIdYvVvwQ4wvw==
+ bh=KcdFfpjp2tEyCmOpl25iW2AS7m4+B6NStR38DJl8ObE=; 
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBlrwgJ2AMyzRsa5sDxZ4YRjmUqmbVj5uaz9YlbJ
+ skuXbMaqBeJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZa8ICQAKCRCJcvTf3G3A
+ JlUcEACJwN1o8p9j5S/8sYa2gf2nY09bRSaqimJyQqXt58XWmacC7yhhCy8/YoRrWd4rtTKGNJO
+ 2pyhqZo0AjchZUD2eT/92rshpJ7BoxmmmipARVGs8rGccRxnL+NfA7KluKUS2arbEJZWAxsye1u
+ 7y9mIZmz0Rl2OEUDiZmLsRUn+x+avkj9t/3WyQhf6z4yB9UeAjExcIzx4ut7naUZQMOs4+nqkhO
+ Zxzlk3pu3vEqZBDOzDzLUdhBPeX8m4ZfghTd9cnirA7bkdk+2o6zogqBJN3U6xN7BheU/BKOa1/
+ z2viLhR6pAfqpCI5yqOPvSv1Vm+BuvP4sPKwJGV2Odq05P3+Crxq80AgR9KuL3Zuj0RUdDuPRr7
+ CK2iELzMBzCaI6HGeRTGu1TcgkQK/Cc1GB5flX/hQ1gepvIzeDSxkg2zzksciW3yRdCdzK1R8vU
+ Tp8TEvuJU2S75RSbpxkNPABsnumVvC61dAYZkurqkiHcZRtQWX2ycPQRm0/NVXUiHLtL5aNGijN
+ xy3P5YOafRtNbo7sqqxpsgSvJHA6bW0Kp2/QMZetVh+TBxjwl1em23ZSqK8EVnA/Cpcn2GaT6N6
+ eyYfB3sBKYHuJ6cigOdu7aG2tBuyJ9LI/IVLUrXbg5xH4fWbZdA2Dm/CSSYEZ4S40USso8DNtmk
+ W8/+QxpbrEQYWUg==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp;
  fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
@@ -88,14 +88,12 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Justin Stitt <justinstitt@google.com>, Kees Cook <keescook@chromium.org>,
- intel-gfx@lists.freedesktop.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Bill Wendling <morbo@google.com>
+Cc: Bill Wendling <morbo@google.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+ Justin Stitt <justinstitt@google.com>, David Airlie <airlied@gmail.com>,
+ Kees Cook <keescook@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -120,35 +118,30 @@ Link: https://git.kernel.org/linus/68df3755e383e6fecf2354a67b08f92f18536594 [1]
 Link: https://github.com/KSPP/linux/issues/26 [2]
 Link: https://github.com/KSPP/linux/issues/27 [3]
 Link: https://github.com/KSPP/linux/issues/344 [4]
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Cc: David Airlie <airlied@gmail.com>
 Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: intel-gfx@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/gpu/drm/i915/i915_vma.c | 2 +-
+ drivers/gpu/drm/vc4/vc4_validate.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-index d09aad34ba37..1a4f048a5df9 100644
---- a/drivers/gpu/drm/i915/i915_vma.c
-+++ b/drivers/gpu/drm/i915/i915_vma.c
-@@ -1535,7 +1535,7 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
- 		goto err_remove;
+diff --git a/drivers/gpu/drm/vc4/vc4_validate.c b/drivers/gpu/drm/vc4/vc4_validate.c
+index 9affba9c58b3..677d9975f888 100644
+--- a/drivers/gpu/drm/vc4/vc4_validate.c
++++ b/drivers/gpu/drm/vc4/vc4_validate.c
+@@ -206,7 +206,7 @@ vc4_check_tex_size(struct vc4_exec_info *exec, struct drm_gem_dma_object *fbo,
+ 	stride = aligned_width * cpp;
+ 	size = stride * aligned_height;
  
- 	/* There should only be at most 2 active bindings (user, global) */
--	GEM_BUG_ON(bound + I915_VMA_PAGES_ACTIVE < bound);
-+	GEM_BUG_ON(add_would_overflow(bound, I915_VMA_PAGES_ACTIVE));
- 	atomic_add(I915_VMA_PAGES_ACTIVE, &vma->pages_count);
- 	list_move_tail(&vma->vm_link, &vma->vm->bound_list);
- 
+-	if (size + offset < size ||
++	if (add_would_overflow(size, offset) ||
+ 	    size + offset > fbo->base.size) {
+ 		DRM_DEBUG("Overflow in %dx%d (%dx%d) fbo size (%d + %d > %zd)\n",
+ 			  width, height,
 -- 
 2.34.1
 
