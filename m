@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AB428399A8
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 20:39:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B44F18399A9
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 20:39:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE62210E832;
-	Tue, 23 Jan 2024 19:38:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE06E10E84D;
+	Tue, 23 Jan 2024 19:38:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4689210E832
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E291110E84F
  for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 19:38:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1706038714; x=1737574714;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=NgWyXguOEYEwBHSYUCWVBoNBM+7Kwh6qItxadn0JsJk=;
- b=VsQWMNIP4GPSoZ9h9kWOQW5iVfsShS0tTwc+XCNtlYPUQdnlBYkxDGrW
- +88C21WH3iqmKsnSyF5gKqSxcL6VzPbTrHGhmeBVgwzH+PB1UvWtD88FB
- G6C+zPO+tlJnfBr5KvESVnCeVyakvQHElvqQ8JrGnH3ZI/jiU3HgDYEVF
- Ha8EXdbbNzu2aH/HCQx5m1o7kxfj9N0Vif3/6h34vvIe0yEoz40okYWMV
- Y6AI0+ZIYpifdqFFofj6WNaSnJOQTKupWQ8MN7UivhGsPovgKcoNoNvwW
- BbNLMsYhsizbDQxpPkzEs9Bkx9nhWlMguEUgQkkdN8UO56dcbKpdaAcUl w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="405387156"
-X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; d="scan'208";a="405387156"
+ bh=bfHviOFBqE4tKNpn7azGYnsv1S8uLM51wBBYVuQ4uCE=;
+ b=HxIxZ3BPv4SuSwg6UL0Y62G3xbqxx3bzZ9YTcUlL+/9TXufr8oN8ijE1
+ ufe9o78XPo3OYdwLKws6jyJqQq0wpQIkSnUmVnYZjxlqbt00fEZ0+sizl
+ OczjSUIejLYmAVe81s/we982F6hxConL6ZULRJpDHY8qE8Ao2T1++QP2q
+ 1yi6XKnRRfKR88ix8Q7i3OBwCcSuPAu/GSXLwKmVmK7RUUcjsy39KreUp
+ 0H1pWSQ97wMOWy6at9T6X5QRgFIsaX9c1WioO29GVTuW47mj3cJBuRcQI
+ GlcNXYhqgOKaJCxr72jFZMVWhNcZuqw/ZhVd3ZZ9+wh6fVCIzuzzXrXCP Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="405387168"
+X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; d="scan'208";a="405387168"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jan 2024 11:38:25 -0800
+ 23 Jan 2024 11:38:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; d="scan'208";a="27861521"
+X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; d="scan'208";a="27861552"
 Received: from pzsolt-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.40.183])
  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jan 2024 11:38:23 -0800
+ 23 Jan 2024 11:38:29 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v3 06/39] drm/bridge: lt8912b: use ->edid_read callback
-Date: Tue, 23 Jan 2024 21:37:12 +0200
-Message-Id: <98f0356f1bd279bc337c904d8313c9afee530b48.1706038510.git.jani.nikula@intel.com>
+Subject: [PATCH v3 07/39] drm/bridge: lt9611uxc: use drm_bridge_read_edid()
+Date: Tue, 23 Jan 2024 21:37:13 +0200
+Message-Id: <b784ed15b792bb87f8c40b90c5c42591d7878643.1706038510.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1706038510.git.jani.nikula@intel.com>
 References: <cover.1706038510.git.jani.nikula@intel.com>
@@ -61,14 +61,12 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>,
- Adrien Grassein <adrien.grassein@gmail.com>
+Cc: Jani Nikula <jani.nikula@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Prefer using the struct drm_edid based functions.
 
-Cc: Adrien Grassein <adrien.grassein@gmail.com>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>
 Cc: Robert Foss <rfoss@kernel.org>
@@ -77,42 +75,31 @@ Cc: Jonas Karlman <jonas@kwiboo.se>
 Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/bridge/lontium-lt8912b.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/lontium-lt8912b.c b/drivers/gpu/drm/bridge/lontium-lt8912b.c
-index 9c0ffc1c6fac..e7c4bef74aa4 100644
---- a/drivers/gpu/drm/bridge/lontium-lt8912b.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt8912b.c
-@@ -620,8 +620,8 @@ lt8912_bridge_detect(struct drm_bridge *bridge)
- 	return lt8912_check_cable_status(lt);
- }
- 
--static struct edid *lt8912_bridge_get_edid(struct drm_bridge *bridge,
--					   struct drm_connector *connector)
-+static const struct drm_edid *lt8912_bridge_edid_read(struct drm_bridge *bridge,
-+						      struct drm_connector *connector)
+diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+index f3f130c1ef0a..4eaf99618749 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
++++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+@@ -295,12 +295,12 @@ static int lt9611uxc_connector_get_modes(struct drm_connector *connector)
  {
- 	struct lt8912 *lt = bridge_to_lt8912(bridge);
+ 	struct lt9611uxc *lt9611uxc = connector_to_lt9611uxc(connector);
+ 	unsigned int count;
+-	struct edid *edid;
++	const struct drm_edid *drm_edid;
  
-@@ -630,7 +630,7 @@ static struct edid *lt8912_bridge_get_edid(struct drm_bridge *bridge,
- 	 * given to the hdmi connector node.
- 	 */
- 	if (lt->hdmi_port->ops & DRM_BRIDGE_OP_EDID)
--		return drm_bridge_get_edid(lt->hdmi_port, connector);
-+		return drm_bridge_edid_read(lt->hdmi_port, connector);
+-	edid = drm_bridge_get_edid(&lt9611uxc->bridge, connector);
+-	drm_connector_update_edid_property(connector, edid);
+-	count = drm_add_edid_modes(connector, edid);
+-	kfree(edid);
++	drm_edid = drm_bridge_edid_read(&lt9611uxc->bridge, connector);
++	drm_edid_connector_update(connector, drm_edid);
++	count = drm_edid_connector_add_modes(connector);
++	drm_edid_free(drm_edid);
  
- 	dev_warn(lt->dev, "The connected bridge does not supports DRM_BRIDGE_OP_EDID\n");
- 	return NULL;
-@@ -642,7 +642,7 @@ static const struct drm_bridge_funcs lt8912_bridge_funcs = {
- 	.mode_set = lt8912_bridge_mode_set,
- 	.enable = lt8912_bridge_enable,
- 	.detect = lt8912_bridge_detect,
--	.get_edid = lt8912_bridge_get_edid,
-+	.edid_read = lt8912_bridge_edid_read,
- };
- 
- static int lt8912_bridge_resume(struct device *dev)
+ 	return count;
+ }
 -- 
 2.39.2
 
