@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D56C838277
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 03:20:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCDF1838286
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 03:20:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D27C10F42E;
-	Tue, 23 Jan 2024 02:19:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 921FC10F42C;
+	Tue, 23 Jan 2024 02:20:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-44.mimecast.com
  (us-smtp-delivery-44.mimecast.com [205.139.111.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4131A10F42D
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 02:19:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD7F810F42C
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 02:20:22 +0000 (UTC)
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-668-D0rdT3l_Nj25lJtBgvK5FQ-1; Mon, 22 Jan 2024 21:19:52 -0500
-X-MC-Unique: D0rdT3l_Nj25lJtBgvK5FQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-590-7RCL8IAjM8a5SQA6zX8sOQ-1; Mon, 22 Jan 2024 21:20:20 -0500
+X-MC-Unique: 7RCL8IAjM8a5SQA6zX8sOQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F0E33845E36
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 02:19:51 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BFAAC185A780;
+ Tue, 23 Jan 2024 02:20:19 +0000 (UTC)
 Received: from dreadlord.redhat.com (unknown [10.64.136.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 311F8492BE2
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 02:19:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 23754C0FDCA;
+ Tue, 23 Jan 2024 02:20:17 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
 Subject: [PATCH] drm/qxl: pass a device into ttm init.
-Date: Tue, 23 Jan 2024 12:19:49 +1000
-Message-ID: <20240123021949.1288562-1-airlied@gmail.com>
+Date: Tue, 23 Jan 2024 12:20:15 +1000
+Message-ID: <20240123022015.1288588-1-airlied@gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.10
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.8
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: gmail.com
 Content-Transfer-Encoding: quoted-printable
@@ -51,6 +51,9 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Dave Airlie <airlied@redhat.com>,
+ Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>,
+ Steven Rostedt <rostedt@goodmis.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
