@@ -2,154 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E519F8388DE
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 09:27:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 784E28388DB
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 09:26:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF35710EE9F;
-	Tue, 23 Jan 2024 08:27:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B84E810E0F6;
+	Tue, 23 Jan 2024 08:26:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
- [68.232.153.233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A6FA10EE5C
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 08:27:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1705998420; x=1737534420;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=vVpq5cfuaf5M6nzQnFE0eQf6lwLrK18Zv1czv4LLxyU=;
- b=p2qF5othLgOZRk+xC9ec+NvdPNbvtPq+8E7m4rHi6BgslDJceo5ooq7X
- tiVlGt6ga9BSpDcVxZkswNVi0oylkG8x07oBkVfHXadS9Y+Jq/qM2AJZE
- z0K/SLN7wqf+BaVbAkwMZGP4QOr2Jh9yq3KokqhVIoCXJtpiYD3GAn1M/
- LwsXjYmU11Ut8nnzKyvWWla9S6QVQybz5KBwkK0jpRG2uq8cnhG9OMFpC
- +MIKWwM2JEZcS+mRuROaiN76LcywuNPNdg6ZxDJk4MeEk2SqyaXg8AOM/
- 8cGdwdJjOQClNasV+/UJ0MilUJhQuA/pujnK/DMx1ZxvcAG1y3LFXpxJr g==;
-X-CSE-ConnectionGUID: bcpERFkeSFydA/zpZ4nMcA==
-X-CSE-MsgGUID: bv7CuGxQRamGWI4t0DFDJQ==
-X-IronPort-AV: E=Sophos;i="6.05,213,1701154800"; d="scan'208";a="16393920"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 23 Jan 2024 01:26:59 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 23 Jan 2024 01:26:37 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (10.10.215.250)
- by email.microchip.com (10.10.87.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Tue, 23 Jan 2024 01:26:37 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OzkOx9QhlhuZtWnYHxz/jDspXRCraiYJ24aAFnpQZVtoVjQWxoa4Tg3u6lr3BPRvT9oIfBQxtMhSMPkZCrkxW8P00cxzJAaM4k6N2nYxUGoSjYLy7Bz2Sd+niPQ2Dmub4Zt4nadJVijlkK4RoJLwijLHcaDvT9nwKf1KBu407EMGb/dE/LsZ6hLQ+zTngS+TemsmSsRJbRsL6+uEICu+dx8Dpi4UaENuy9vWkZ9yr3y9kwD7iA7/OaJYaHvnOzrn+fDEZH2CNM0hd8tnQxBvoz8LUGkAx7WuuIGeaLQOOvEtYQDUvFPIKyqpUdxs6LUOK7oJVLYcaJ55eXwgq1Knww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vVpq5cfuaf5M6nzQnFE0eQf6lwLrK18Zv1czv4LLxyU=;
- b=beGtuKwrsPg8Kjkt0jdV0IeJLtK78Z2PtH975asayPPxHgLYcSfc19kgJIGODUVu3uMlhTl9xZNNju+W1HKTaaNROGjjI/EdHJg45WTmRxQOC3H/n8ER60zUA5i3itjNF/t+OXyqCZ4diEUV7bzncgeqWoEGs2HU50DaTIkZYah41iEhdSGBkUp2KVp0ntyt8E5UWJMh62UuV958KEdJ6pOxNr8ZbCqos0KWpv+z3Ltxt+nKwWrGhm8k5m+/w9vspv/z4pQCOEy//l24gEImL3UnGsi7eQjY95Wn5jo1Vib1ooyPdOX5WQEMdN4rO9o5KRuivib7gw30U3WBqtyGjQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microchip.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vVpq5cfuaf5M6nzQnFE0eQf6lwLrK18Zv1czv4LLxyU=;
- b=wvqBkod03fFp0QpnwTaaw7bcFRLyMxZIyT5qtyfezB80uRVRg6WZdFYRdFauIddlkvnibsiIDa/RUZSy2VUX8TFT1GoWDq5QIM715tWQ2tgZ7HF0IOpReo4Lyi7c/ORL/UoskjRZ3ro9Qmwq1i+q4BvbDuSg9dhqXsBcfFBGkzKL+Km9JwVmK1aHtJBoL2amDnLBzY8tUgYOCPc5xDxKnU7sIFgTMPXbTJmdCscEoTHg8KVcrkl8bUyS4O6vSx3N231if7VN037OvgrdVcCNkEvlqAfynxCm/M6z59XmAn8cdosfIo77bktXb5lVN96bXd4+jWiY2hKD7VHxlXMr/w==
-Received: from PH7PR11MB6451.namprd11.prod.outlook.com (2603:10b6:510:1f4::16)
- by CH3PR11MB7250.namprd11.prod.outlook.com (2603:10b6:610:149::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.37; Tue, 23 Jan
- 2024 08:26:33 +0000
-Received: from PH7PR11MB6451.namprd11.prod.outlook.com
- ([fe80::80b9:80a3:e88a:57ee]) by PH7PR11MB6451.namprd11.prod.outlook.com
- ([fe80::80b9:80a3:e88a:57ee%3]) with mapi id 15.20.7228.022; Tue, 23 Jan 2024
- 08:26:33 +0000
-From: <Dharma.B@microchip.com>
-To: <krzk@kernel.org>, <Manikandan.M@microchip.com>,
- <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
- <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
- <jernej.skrabec@gmail.com>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <robh+dt@kernel.org>,
- <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
- <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/3] drm/bridge: add lvds controller support for sam9x7
-Thread-Topic: [PATCH 2/3] drm/bridge: add lvds controller support for sam9x7
-Thread-Index: AQHaTQ1L01WABVFxSUCss4ZVndmRU7Dl+vQAgAEWrgA=
-Date: Tue, 23 Jan 2024 08:26:33 +0000
-Message-ID: <eb873f4e-7804-4460-ad0a-619689e2786e@microchip.com>
-References: <20240122082947.21645-1-dharma.b@microchip.com>
- <20240122082947.21645-3-dharma.b@microchip.com>
- <7cd4d9f9-e14a-4cd4-92f7-51c43acd23e2@kernel.org>
-In-Reply-To: <7cd4d9f9-e14a-4cd4-92f7-51c43acd23e2@kernel.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-GB
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microchip.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH7PR11MB6451:EE_|CH3PR11MB7250:EE_
-x-ms-office365-filtering-correlation-id: 99363b56-9666-4e5b-e9b8-08dc1bed01dd
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: pjHx/ZJ+tCdRCforf7urFQ/GAPKmomtha/iy3ndSReKqJk8K9bMz/9z+dU7+UMCTWzDD2OblozivWmARYirTeGVSbNJBWj670DJKBUCkfhdG0uTIMZnNgd6ST6MWNGIgI81DRXik283UC2ipIiWOm3UComIQa28iMfWuL1TGxzz7qtRpDW5jlVU2a5d4ehEtOlbX/LqTcFM8/PE3uJJPyxgbdIbf7EvG8jWjNKMBjqCMXxzOIEpI2BkRicm1HaVbLzBgwxihg87KMVsTCE0Bx1mj71eZ83VK+y3X7VRlmWzH8rry9UYmO+aWU803pn1ZLcT6MOmQ7BBFmpTws5UkykTtb9urrqgfFXhZ60WVUBWrgTGf7qzKmPBRdVBvlbzkxbjFFPWQqtPD6qYe2A8WnK/pBom8a/58SEX8hRZAVFd1+gJRG8HAVh3EnTD8CKdzqNKUUsb35o3AZ6OC/3nkx5+aetqSDFiD0utU+cmu/7yI4nzDcuedfcPeo1ndhiAwFkct2PKXR2EgjwWTv3+q2jaNMeRQ+hM9uyOtSpjdQL/RF05+RhwqNsTitVBLO8xPUOHyX6KO6nBpPhmJmReB54Ul+PjF2ny+IhZe9wUZd4MGmK5ykoOa9wey9x2DWOKjGcKtvbRNQz6O/7VMC2NtaxyLTZQsfHQOOgdSUQQT4MSxP+E3dPW6tj0jOg/oWc31uPw67WCbYxGmrjs/msKSkiiewbqOir/sUQFG7Wa3FFt6/3DnJsdYf6yYsf90dQGL
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6451.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(346002)(366004)(396003)(39860400002)(136003)(376002)(230173577357003)(230273577357003)(230922051799003)(451199024)(1800799012)(64100799003)(186009)(2906002)(31696002)(6512007)(86362001)(26005)(122000001)(2616005)(4326008)(8936002)(8676002)(478600001)(41300700001)(38070700009)(107886003)(36756003)(38100700002)(31686004)(71200400001)(83380400001)(66556008)(66476007)(66446008)(64756008)(66946007)(316002)(921011)(5660300002)(53546011)(7416002)(6486002)(76116006)(91956017)(110136005)(6506007)(138113003)(45980500001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VVBvVlFvc21USDJGdjRPYlBPNFFYam9XVmsrTWVtL1VuZjlDcjl3M0JrNGls?=
- =?utf-8?B?Y2dQUW1ibzRCVlRPaEFPb1R5WW5vczkySFNYMnU1MEhXYjNtM3o5ZFQya1lr?=
- =?utf-8?B?dUlYZjlJZFYyNmZ1cmJNbThPUkNCTmhkdFU4WFJFZU5mSFM5bFFZSVkwQzZS?=
- =?utf-8?B?dTZDYTNEc3pMalBvR0E5SmZEY2lJemtmRDU4THdoMG9JRk9YYVYrV0FFSVFk?=
- =?utf-8?B?T0VxZ3p3N3ZLc2IybXAwanVtNER2V292ckg0MU5ZMk5iMnBNSEt6MXB0c1pM?=
- =?utf-8?B?UlgzS0laNjFiVGt1dmQ1eFFzejBEcHc5QWNmZzdIeVpFUUhQV1VQTXdSQkh4?=
- =?utf-8?B?ZVNxOUJ4ajY0R3BrTmRta21aNmUxY2ZleFR1SnpjTjRJcFIxU1huRCtEUnIx?=
- =?utf-8?B?SjRrQ3p3ekQ4Qy9qL2Z6NWM0azlRL2JuMGRGMURjSGpuV1FBQjh0bjdIc2dR?=
- =?utf-8?B?N0dkYXI5WXRjbStLKzlPOUJ2Sm5Xa2hQUXlETWhYVmpReSsyaDgzcFphUHZU?=
- =?utf-8?B?N0VLRmpOMU9MMFFxTVhJbjdjUklEaGF5TTJQTi90WW5XWG5QSm5ReUh2bmh0?=
- =?utf-8?B?NjNaYjhmZGFXR3ovOStVRmUrTWRrL1NIbzUyYkNHQ0pydmc0TmVTZXlhcTdQ?=
- =?utf-8?B?UUtSRk82ZWxPUEh3N0JPWUhrUEdrZkViUlBUS3gxUzdQdGhmRWJkR2hLc0xR?=
- =?utf-8?B?M0pvN05PcEhNTHR1VDNBcUNvNDBoYlUzd0NDbXZvSFZLUnBTTlppTzE4Wlpr?=
- =?utf-8?B?R0JUa1AwMVZYVmwzMXVCZXdvNVlzZG92T1lpK0xFRnk0MXpRbElaRE9SS21M?=
- =?utf-8?B?ZnZrcjY0ck9SK2FFNDNIeTlqS0tHTmFzbkZBWXg1TG5TVkVENjc0Snd5djJR?=
- =?utf-8?B?cXFXQU9VVFE0MzV2ODV1TXRrZ1JhZVQ2d2FLVmZMOGlEK2tQaC9tcEV3NFBo?=
- =?utf-8?B?UldibllBRWw5ZzFZeWNhNnpFeGx0d0QwM1VxcUZpdFJ1dnpnNmhHS2Y1djNn?=
- =?utf-8?B?VkoybnpOd2xzM3R0Z3BwckllUW9jaGY5dzJPczczaXkvYkZyQ0h2QXlXOFRJ?=
- =?utf-8?B?NHU4VVNDWXJFVG5ZaHRneWh6N2laK1NTb3Y2YnJTTEtoVmwvNmVBYmxoQXBy?=
- =?utf-8?B?dHQvYkRPWEFsaUZqWkpBY2ZUVEhUM3kyNDd5ZDIyYmFEYmUvWGVkSVM5TEg1?=
- =?utf-8?B?YUF3V2Q1RWZRaUVMaXpTdmtMSk9lQmp3R3FNb3FRd1dSQVM4bjkwTnZhbm1a?=
- =?utf-8?B?cXN5Q0FOc20yTXBTaXZVR0NZdEo0dE1JbU8xOFZ2NXhNYk9GWkpreTZWVGtD?=
- =?utf-8?B?RVhIQXNoV0l4UjlHL29IaU9mblppYXRqS1hsZTlycDdSdHQyZU1RdUcvNzBB?=
- =?utf-8?B?L3hCZERHOVA4ZXd1MVV5cU8xck5OcnJGcGN0Mk5XMkhwRGVRSU12SDVLY3V4?=
- =?utf-8?B?RHgvOGlCMFpXNEtvWGxvZGZUTnlucVErODROQnMvTTZMR1hWbGxZVEQ1U0FR?=
- =?utf-8?B?L1A3T1c4dm4xMklzVWNtWmVFWnMzanFZUURKVjBBQm5tSVhDcCtiTDA1R0VY?=
- =?utf-8?B?d2IyTUV3LzVZKzRvRFVCUEw5dko4elh1MXkzRUdtUEhCc04xdDNrSzJRMUpi?=
- =?utf-8?B?MTJQR1JZaXo1Q2VnWlpWanA0a0h3cnlNdS9yS3JNWGhwU2FDenFObkJwdWt3?=
- =?utf-8?B?V1lYZ0ViZS9BYm5wNjFJTDdaOGJQN3NraTk3K2YwSWxsSGRtcE56NitwQ3RD?=
- =?utf-8?B?M0xFN0tFallqbjJwZnJSM1NwQVZZZ2RFcUI4NWR2TzlITUZDZ1U0ZE5pREtN?=
- =?utf-8?B?Zmc0dE5TSzFLM1VxVSt2RGJZa1pDQk1GV3EzNlJLcVFaMmlGNlFHbzZJaEtF?=
- =?utf-8?B?ejhSWEtCMjRUNnZpNmRsNGlnek95QnFTVENkWmlVT1hhaW42N0pReXVmMVZi?=
- =?utf-8?B?eXlwbDF5SWRoSWNNZmt3QVJSTFFLRzY4aHoyY2Vrei8zVkNqTmtEbVdXTkgv?=
- =?utf-8?B?N0F4dEdCWUxFNmdPMkozMjZqZHN1eURYRzlrd05ZaC9tVmZSQy9LamFXMUVy?=
- =?utf-8?B?SjljVml0MXNhK3VrdWc0Z1JGZzhmd25VWjFML2VQQTkybVJmc1MyV3NuRXhS?=
- =?utf-8?Q?foJu6jzTqQkWZ90jVASMOuWP1?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <F2A766434F41AF4E83A5F0E4A706EBCA@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B55510E0F6
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 08:26:49 +0000 (UTC)
+Received: from [192.168.88.20] (91-154-35-128.elisa-laajakaista.fi
+ [91.154.35.128])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8CD616E0;
+ Tue, 23 Jan 2024 09:25:29 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1705998330;
+ bh=CnMJCDtoR6yx3hhBmShLKyWRoayBZ1ySxj/xbRIWIUc=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=O81B9oFj4XrEBekdmZ9y5RPyx3UvnR70OVsRZ2h9eyzkC4R8QCpFxc1YLlzsJyt9m
+ 0x49JzbRWnqc7IXxusabLXCzJu8fWdoq5UEKQYPMSXJzZleXPQ0k3p+vRPibVwQjbM
+ 7DHQLqKfHI+GDwAMKRW/YgI9Du4m3JGYJT4ZQPyM=
+Message-ID: <858bd429-bee2-430e-8bd9-b8ccb38be1c4@ideasonboard.com>
+Date: Tue, 23 Jan 2024 10:26:39 +0200
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6451.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 99363b56-9666-4e5b-e9b8-08dc1bed01dd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jan 2024 08:26:33.1796 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: pC1fTJ2CEaeNR+LtuqbbHnSbNvO1qSJq/1oL6ZOzDwHO/7WxNi/Kfa+DUmA5ksqQyxFWDM9v1lx+I2lw5Nx8ig==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7250
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 2/3] drm/tidss: Add support for display sharing
+Content-Language: en-US
+To: Devarsh Thakkar <devarsht@ti.com>
+References: <20240116134142.2092483-1-devarsht@ti.com>
+ <20240116134142.2092483-3-devarsht@ti.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20240116134142.2092483-3-devarsht@ti.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -162,99 +92,739 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux4Microchip@microchip.com
+Cc: nm@ti.com, devicetree@vger.kernel.org, conor+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, j-luthra@ti.com, tzimmermann@suse.de,
+ a-bhatia1@ti.com, praneeth@ti.com, airlied@gmail.com,
+ linux-kernel@vger.kernel.org, mripard@kernel.org, robh+dt@kernel.org,
+ dri-devel@lists.freedesktop.org, daniel@ffwll.ch, jyri.sarha@iki.fi,
+ kristo@kernel.org, linux-arm-kernel@lists.infradead.org, vigneshr@ti.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgS3J6eXN6dG9mLA0KDQpPbiAyMi8wMS8yNCA5OjE5IHBtLCBLcnp5c3p0b2YgS296bG93c2tp
-IHdyb3RlOg0KPiBFWFRFUk5BTCBFTUFJTDogRG8gbm90IGNsaWNrIGxpbmtzIG9yIG9wZW4gYXR0
-YWNobWVudHMgdW5sZXNzIHlvdSBrbm93IHRoZSBjb250ZW50IGlzIHNhZmUNCj4gDQo+IE9uIDIy
-LzAxLzIwMjQgMDk6MjksIERoYXJtYSBCYWxhc3ViaXJhbWFuaSB3cm90ZToNCj4+IEFkZCBhIG5l
-dyBMVkRTIGNvbnRyb2xsZXIgZHJpdmVyIGZvciBzYW05eDcgd2hpY2ggZG9lcyB0aGUgZm9sbG93
-aW5nOg0KPj4gLSBQcmVwYXJlcyBhbmQgZW5hYmxlcyB0aGUgTFZEUyBQZXJpcGhlcmFsIGNsb2Nr
-DQo+PiAtIERlZmluZXMgaXRzIGNvbm5lY3RvciB0eXBlIGFzIERSTV9NT0RFX0NPTk5FQ1RPUl9M
-VkRTIGFuZCBhZGRzIGl0c2VsZg0KPj4gdG8gdGhlIGdsb2JhbCBicmlkZ2UgbGlzdC4NCj4+IC0g
-SWRlbnRpZmllcyBpdHMgb3V0cHV0IGVuZHBvaW50IGFzIHBhbmVsIGFuZCBhZGRzIGl0IHRvIHRo
-ZSBlbmNvZGVyDQo+PiBkaXNwbGF5IHBpcGVsaW5lDQo+PiAtIEVuYWJsZXMgdGhlIExWRFMgc2Vy
-aWFsaXplcg0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IE1hbmlrYW5kYW4gTXVyYWxpZGhhcmFuIDxt
-YW5pa2FuZGFuLm1AbWljcm9jaGlwLmNvbT4NCj4+IFNpZ25lZC1vZmYtYnk6IERoYXJtYSBCYWxh
-c3ViaXJhbWFuaSA8ZGhhcm1hLmJAbWljcm9jaGlwLmNvbT4NCj4+IC0tLQ0KPiANCj4gLi4uDQo+
-IA0KPj4gKw0KPj4gK3N0YXRpYyBpbnQgbWNocF9sdmRzX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9k
-ZXZpY2UgKnBkZXYpDQo+PiArew0KPj4gKyAgICAgc3RydWN0IGRldmljZSAqZGV2ID0gJnBkZXYt
-PmRldjsNCj4+ICsgICAgIHN0cnVjdCBtY2hwX2x2ZHMgKmx2ZHM7DQo+PiArICAgICBzdHJ1Y3Qg
-cmVzb3VyY2UgKnJlczsNCj4+ICsgICAgIHN0cnVjdCBkZXZpY2Vfbm9kZSAqcG9ydDsNCj4+ICsg
-ICAgIGludCByZXQ7DQo+PiArDQo+PiArICAgICBpZiAoIWRldi0+b2Zfbm9kZSkNCj4+ICsgICAg
-ICAgICAgICAgcmV0dXJuIC1FTk9ERVY7DQo+PiArDQo+PiArICAgICBsdmRzID0gZGV2bV9remFs
-bG9jKCZwZGV2LT5kZXYsIHNpemVvZigqbHZkcyksIEdGUF9LRVJORUwpOw0KPj4gKyAgICAgaWYg
-KCFsdmRzKQ0KPj4gKyAgICAgICAgICAgICByZXR1cm4gLUVOT01FTTsNCj4+ICsNCj4+ICsgICAg
-IGx2ZHMtPmRldiA9IGRldjsNCj4+ICsNCj4+ICsgICAgIHJlcyA9IHBsYXRmb3JtX2dldF9yZXNv
-dXJjZShwZGV2LCBJT1JFU09VUkNFX01FTSwgMCk7DQo+PiArICAgICBsdmRzLT5yZWdzID0gZGV2
-bV9pb3JlbWFwX3Jlc291cmNlKGx2ZHMtPmRldiwgcmVzKTsNCj4gDQo+IFdoeSBub3QgY29tYmlu
-aW5nIHRoZXNlIHR3bz8NCg0KSXQgc2VlbXMgcmVhc29uYWJsZSB0byBjb21iaW5lIHRoZXNlIHR3
-byBsaW5lcyBzaW5jZSB0aGUgcmVzb3VyY2UgDQp2YXJpYWJsZSAocmVzKSBpcyBvbmx5IHVzZWQg
-YXQgdGhpcyBwb2ludC4gSSdsbCBwcm9jZWVkIHdpdGggDQpjb25zb2xpZGF0aW5nIHRoZXNlIGxp
-bmVzIGZvciBzaW1wbGljaXR5Lg0KDQo+IA0KPj4gKyAgICAgaWYgKElTX0VSUihsdmRzLT5yZWdz
-KSkNCj4+ICsgICAgICAgICAgICAgcmV0dXJuIFBUUl9FUlIobHZkcy0+cmVncyk7DQo+PiArDQo+
-PiArICAgICBsdmRzLT5wY2xrID0gZGV2bV9jbGtfZ2V0KGx2ZHMtPmRldiwgInBjbGsiKTsNCj4+
-ICsgICAgIGlmIChJU19FUlIobHZkcy0+cGNsaykpIHsNCj4+ICsgICAgICAgICAgICAgRFJNX0RF
-Vl9FUlJPUihsdmRzLT5kZXYsICJjb3VsZCBub3QgZ2V0IHBjbGtfbHZkc1xuIik7DQo+IA0KPiBI
-YW5kbGUgcHJvcGVybHkgZGVmZXJyZWQgcHJvYmUuIFdoYXQncyBEUk0gd3JhcHBlciBvdmVyIGRl
-dl9lcnJfcHJvYmUoKT8NClN1cmUsIEkgd2lsbCB1c2UgZGV2X2Vycl9wcm9iZSgpDQoNCnJldHVy
-biBkZXZfZXJyX3Byb2JlKGx2ZHMtPmRldiwgUFRSX0VSUihsdmRzLT5wY2xrKSwgImNvdWxkIG5v
-dCBnZXQgDQpwY2xrX2x2ZHNcbiIpOw0KDQo+IA0KPj4gKyAgICAgICAgICAgICByZXR1cm4gUFRS
-X0VSUihsdmRzLT5wY2xrKTsNCj4+ICsgICAgIH0NCj4+ICsNCj4+ICsgICAgIHJldCA9IGNsa19w
-cmVwYXJlKGx2ZHMtPnBjbGspOw0KPj4gKyAgICAgaWYgKHJldCA8IDApIHsNCj4+ICsgICAgICAg
-ICAgICAgRFJNX0RFVl9FUlJPUihsdmRzLT5kZXYsICJmYWlsZWQgdG8gcHJlcGFyZSBwY2xrX2x2
-ZHNcbiIpOw0KPj4gKyAgICAgICAgICAgICByZXR1cm4gcmV0Ow0KPj4gKyAgICAgfQ0KPj4gKw0K
-Pj4gKyAgICAgcG9ydCA9IG9mX2dyYXBoX2dldF9yZW1vdGVfbm9kZShkZXYtPm9mX25vZGUsIDEs
-IDApOw0KPj4gKyAgICAgaWYgKCFwb3J0KSB7DQo+PiArICAgICAgICAgICAgIERSTV9ERVZfRVJS
-T1IoZGV2LA0KPj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICJjYW4ndCBmaW5kIHBvcnQg
-cG9pbnQsIHBsZWFzZSBpbml0IGx2ZHMgcGFuZWwgcG9ydCFcbiIpOw0KPj4gKyAgICAgICAgICAg
-ICByZXR1cm4gLUVJTlZBTDsNCj4+ICsgICAgIH0NCj4+ICsNCj4+ICsgICAgIGx2ZHMtPnBhbmVs
-ID0gb2ZfZHJtX2ZpbmRfcGFuZWwocG9ydCk7DQo+PiArICAgICBvZl9ub2RlX3B1dChwb3J0KTsN
-Cj4+ICsNCj4+ICsgICAgIGlmIChJU19FUlIobHZkcy0+cGFuZWwpKSB7DQo+PiArICAgICAgICAg
-ICAgIERSTV9ERVZfRVJST1IoZGV2LCAiZmFpbGVkIHRvIGZpbmQgcGFuZWwgbm9kZVxuIik7DQo+
-PiArICAgICAgICAgICAgIHJldHVybiAtRVBST0JFX0RFRkVSOw0KPiANCj4gT0ssIHRoYXQncyBm
-b3Igc3VyZSB3cm9uZy4gRG9uJ3QgcHJpbnQgYW55dGhpbmcgb24gZGVmZXJyZWQgcHJvYmUuDQpT
-dXJlLCBJIHdpbGwgZHJvcCB0aGUgcHJpbnQgaGVyZS4NCj4gDQo+PiArICAgICB9DQo+PiArDQo+
-PiArICAgICBsdmRzLT5wYW5lbF9icmlkZ2UgPSBkZXZtX2RybV9wYW5lbF9icmlkZ2VfYWRkKGRl
-diwgbHZkcy0+cGFuZWwpOw0KPj4gKw0KPj4gKyAgICAgaWYgKElTX0VSUihsdmRzLT5wYW5lbF9i
-cmlkZ2UpKQ0KPj4gKyAgICAgICAgICAgICByZXR1cm4gUFRSX0VSUihsdmRzLT5wYW5lbF9icmlk
-Z2UpOw0KPj4gKw0KPj4gKyAgICAgbHZkcy0+YnJpZGdlLm9mX25vZGUgPSBkZXYtPm9mX25vZGU7
-DQo+PiArICAgICBsdmRzLT5icmlkZ2UudHlwZSA9IERSTV9NT0RFX0NPTk5FQ1RPUl9MVkRTOw0K
-Pj4gKyAgICAgbHZkcy0+YnJpZGdlLmZ1bmNzID0gJm1jaHBfbHZkc19icmlkZ2VfZnVuY3M7DQo+
-PiArDQo+PiArICAgICBkZXZfc2V0X2RydmRhdGEoZGV2LCBsdmRzKTsNCj4+ICsgICAgIHBtX3J1
-bnRpbWVfZW5hYmxlKGRldik7DQo+PiArDQo+PiArICAgICBkcm1fYnJpZGdlX2FkZCgmbHZkcy0+
-YnJpZGdlKTsNCj4+ICsNCj4+ICsgICAgIHJldHVybiAwOw0KPj4gK30NCj4+ICsNCj4+ICtzdGF0
-aWMgaW50IG1jaHBfbHZkc19yZW1vdmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikNCj4+
-ICt7DQo+PiArICAgICBzdHJ1Y3QgbWNocF9sdmRzICpsdmRzID0gcGxhdGZvcm1fZ2V0X2RydmRh
-dGEocGRldik7DQo+PiArDQo+PiArICAgICBwbV9ydW50aW1lX2Rpc2FibGUoJnBkZXYtPmRldik7
-DQo+PiArICAgICBjbGtfdW5wcmVwYXJlKGx2ZHMtPnBjbGspOw0KPj4gKw0KPj4gKyAgICAgcmV0
-dXJuIDA7DQo+PiArfQ0KPj4gKw0KPj4gK3N0YXRpYyBjb25zdCBzdHJ1Y3Qgb2ZfZGV2aWNlX2lk
-IG1jaHBfbHZkc19kdF9pZHNbXSA9IHsNCj4+ICsgICAgIHsNCj4+ICsgICAgICAgICAgICAgLmNv
-bXBhdGlibGUgPSAibWljcm9jaGlwLHNhbTl4Ny1sdmRzIiwNCj4+ICsgICAgIH0sDQo+PiArICAg
-ICB7fSwNCj4+ICt9Ow0KPj4gKw0KPj4gK3N0cnVjdCBwbGF0Zm9ybV9kcml2ZXIgbWNocF9sdmRz
-X2RyaXZlciA9IHsNCj4+ICsgICAgIC5wcm9iZSA9IG1jaHBfbHZkc19wcm9iZSwNCj4+ICsgICAg
-IC5yZW1vdmUgPSBtY2hwX2x2ZHNfcmVtb3ZlLA0KPj4gKyAgICAgLmRyaXZlciA9IHsNCj4+ICsg
-ICAgICAgICAgICAgICAgLm5hbWUgPSAibWljcm9jaGlwLWx2ZHMiLA0KPj4gKyAgICAgICAgICAg
-ICAgICAub2ZfbWF0Y2hfdGFibGUgPSBtY2hwX2x2ZHNfZHRfaWRzLA0KPj4gKyAgICAgfSwNCj4+
-ICt9Ow0KPj4gK21vZHVsZV9wbGF0Zm9ybV9kcml2ZXIobWNocF9sdmRzX2RyaXZlcik7DQo+PiAr
-DQo+PiArTU9EVUxFX0FVVEhPUigiTWFuaWthbmRhbiBNdXJhbGlkaGFyYW4gPG1hbmlrYW5kYW4u
-bUBtaWNyb2NoaXAuY29tPiIpOw0KPj4gK01PRFVMRV9BVVRIT1IoIkRoYXJtYSBCYWxhc3ViaXJh
-bWFuaSA8ZGhhcm1hLmJAbWljcm9jaGlwLmNvbT4iKTsNCj4+ICtNT0RVTEVfREVTQ1JJUFRJT04o
-IkxvdyBWb2x0YWdlIERpZmZlcmVudGlhbCBTaWduYWxpbmcgQ29udHJvbGxlciBEcml2ZXIiKTsN
-Cj4+ICtNT0RVTEVfTElDRU5TRSgiR1BMIik7DQo+PiArTU9EVUxFX0FMSUFTKCJwbGF0Zm9ybTpt
-aWNyb2NoaXAtbHZkcyIpOw0KPiANCj4gWW91IHNob3VsZCBub3QgbmVlZCBNT0RVTEVfQUxJQVMo
-KSBpbiBub3JtYWwgY2FzZXMuIElmIHlvdSBuZWVkIGl0LA0KPiB1c3VhbGx5IGl0IG1lYW5zIHlv
-dXIgZGV2aWNlIElEIHRhYmxlIGlzIHdyb25nIChlLmcuIG1pc3NlcyBlaXRoZXINCj4gZW50cmll
-cyBvciBNT0RVTEVfREVWSUNFX1RBQkxFKCkpLiBNT0RVTEVfQUxJQVMoKSBpcyBub3QgYSBzdWJz
-dGl0dXRlDQo+IGZvciBpbmNvbXBsZXRlIElEIHRhYmxlLg0KDQpPa2F5LCBJIHdpbGwgcmVtb3Zl
-IHRoZSBNT0RVTEVfQUxJQVMgYW5kIHVwZGF0ZSB0aGUgbWNocF9sdmRzX2R0X2lkc1tdIA0KYXMg
-YmVsb3cgYWxvbmcgd2l0aCBNT0RVTEVfREVWSUNFX1RBQkxFKCkNCg0Kc3RhdGljIGNvbnN0IHN0
-cnVjdCBvZl9kZXZpY2VfaWQgbWNocF9sdmRzX2R0X2lkc1tdID0gew0KICAgICAgICAgew0KICAg
-ICAgICAgICAgICAgICAuY29tcGF0aWJsZSA9ICJtaWNyb2NoaXAsc2FtOXg3Mi1sdmRzIiwNCiAg
-ICAgICAgIH0sDQogICAgICAgICB7DQogICAgICAgICAgICAgICAgIC5jb21wYXRpYmxlID0gIm1p
-Y3JvY2hpcCxzYW05eDc1LWx2ZHMiLA0KICAgICAgICAgfSwNCiAgICAgICAgIHt9LA0KfTsNCk1P
-RFVMRV9ERVZJQ0VfVEFCTEUob2YsIG1jaHBfbHZkc19kdF9pZHMpOw0KDQotLSANClRoYW5rcywN
-CkRoYXJtYSBCLg0KPiANCj4gDQo+IEJlc3QgcmVnYXJkcywNCj4gS3J6eXN6dG9mDQo+IA0KDQoN
-Cg0K
+Hi,
+
+On 16/01/2024 15:41, Devarsh Thakkar wrote:
+> Display subsystem present in TI Keystone family of devices supports sharing
+> of display between multiple hosts as it provides separate register space
+> (common* region) for each host to programming display controller and also a
+> unique interrupt line for each host.
+> 
+> This adds support for display sharing, by allowing partitioning of
+> resources either at video port level or at video plane level as
+> described below :
+> 
+> 1) Linux can own (i.e have write access) completely one or more of video
+> ports along with corresponding resources (viz. overlay managers,
+> video planes) used by Linux in context of those video ports.
+> Even if Linux is owning
+> these video ports it can still share this video port with a remote core
+> which can own one or more video planes associated with this video port.
+> 
+> 2) Linux owns one or more of the video planes with video port
+> (along with corresponding overlay manager) associated with these planes
+> being owned and controlled by a remote core. Linux still has read-only
+> access to the associated video port and overlay managers so that it can
+> parse the settings made by remote core.
+> 
+> For both the cases, the resources used in context of processing core
+> running Linux along with ownership information are exposed by user as
+> part of device-tree blob and driver uses an updated feature list tailored
+> for this shared mode accordingly. The driver also auto-populates
+> matching overlay managers and output types from shared video
+> port list provided in device-tree blob.
+> In dispc_feature struct remove const access specfier for output_type
+> array as it is required to be updated dynamically in run-time for shared
+> mode.
+> 
+> For 2) where Linux is only owning a set of video planes with
+> corresponding video port and overlay manager controlled by a remote
+> core, separate set of CRTC callbacks are used which just latch on
+> to the preset mode set by remote core, thus avoiding any reconfiguration
+> of associated video ports, overlay managers and clocks.
+> For this case, it is also checked that Linux controlled video planes
+> don't exceed screen size set by remote core while running the display.
+> Display clocks and OLDI related fields are also not
+> populated for this scenario as remote core is owning those resources.
+> 
+> For 1), where Linux owns only a set of video port and associated
+> planes with rest of resources owned completely by remote cores,
+> only those set of resources are exposed to Linux and programmed using
+> traditional CRTC helpers and rest of video ports and associated resources
+> are removed from feature list accordingly.
+> 
+> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+> ---
+>   drivers/gpu/drm/tidss/tidss_crtc.c  | 120 ++++++++++++-
+>   drivers/gpu/drm/tidss/tidss_dispc.c | 254 +++++++++++++++++++++++++---
+>   drivers/gpu/drm/tidss/tidss_dispc.h |   2 +-
+>   drivers/gpu/drm/tidss/tidss_drv.c   |  33 ++--
+>   drivers/gpu/drm/tidss/tidss_drv.h   |   6 +
+>   5 files changed, 375 insertions(+), 40 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
+> index 5f838980c7a1..f6a877ff4c6c 100644
+> --- a/drivers/gpu/drm/tidss/tidss_crtc.c
+> +++ b/drivers/gpu/drm/tidss/tidss_crtc.c
+> @@ -31,13 +31,19 @@ static void tidss_crtc_finish_page_flip(struct tidss_crtc *tcrtc)
+>   	/*
+>   	 * New settings are taken into use at VFP, and GO bit is cleared at
+>   	 * the same time. This happens before the vertical blank interrupt.
+> -	 * So there is a small change that the driver sets GO bit after VFP, but
+> +	 * So there is a small chance that the driver sets GO bit after VFP, but
+>   	 * before vblank, and we have to check for that case here.
+> +	 *
+> +	 * For a video port shared between Linux and remote core but owned by remote core,
+> +	 * this is not required since Linux just attaches to mode that was preset by remote
+> +	 * core with which display is being shared.
+>   	 */
+> -	busy = dispc_vp_go_busy(tidss->dispc, tcrtc->hw_videoport);
+> -	if (busy) {
+> -		spin_unlock_irqrestore(&ddev->event_lock, flags);
+> -		return;
+> +	if (!tidss->shared_mode || tidss->shared_mode_owned_vps[tcrtc->hw_videoport]) {
+
+You test this in multiple places. I think it would be better to combine 
+those, in one way or another. Either a helper function, or maybe invert 
+the shared_mode_owned_vps, i.e. rather have something like "foreign_vps" 
+(better name needed), so that when !shared_mode, the default of False in 
+foreign_vps array will just work. Then the above test will be just if 
+(!tidss->foreign_vps[tcrtc->hw_videoport])
+
+> +		busy = dispc_vp_go_busy(tidss->dispc, tcrtc->hw_videoport);
+> +		if (busy) {
+> +			spin_unlock_irqrestore(&ddev->event_lock, flags);
+> +			return;
+> +		}
+>   	}
+>   
+>   	event = tcrtc->event;
+> @@ -208,6 +214,44 @@ static void tidss_crtc_atomic_flush(struct drm_crtc *crtc,
+>   	spin_unlock_irqrestore(&ddev->event_lock, flags);
+>   }
+>   
+> +static void tidss_shared_vp_crtc_atomic_flush(struct drm_crtc *crtc,
+> +					      struct drm_atomic_state *state)
+> +{
+> +	struct tidss_crtc *tcrtc = to_tidss_crtc(crtc);
+> +	struct drm_device *ddev = crtc->dev;
+> +	unsigned long flags;
+> +
+> +	dev_dbg(ddev->dev,
+> +		"%s: %s enabled %d, needs modeset %d, event %p\n", __func__,
+> +		crtc->name, drm_atomic_crtc_needs_modeset(crtc->state),
+> +		crtc->state->enable, crtc->state->event);
+> +
+> +	/* There is nothing to do if CRTC is not going to be enabled. */
+> +	if (!crtc->state->enable)
+> +		return;
+> +	/*
+> +	 * Flush CRTC changes with go bit only if new modeset is not
+> +	 * coming, so CRTC is enabled trough out the commit.
+> +	 */
+> +	if (drm_atomic_crtc_needs_modeset(crtc->state))
+> +		return;
+> +
+> +	/* We should have event if CRTC is enabled through out this commit. */
+> +	if (WARN_ON(!crtc->state->event))
+> +		return;
+> +
+> +	WARN_ON(drm_crtc_vblank_get(crtc) != 0);
+> +
+> +	spin_lock_irqsave(&ddev->event_lock, flags);
+> +
+> +	WARN_ON(tcrtc->event);
+> +
+> +	tcrtc->event = crtc->state->event;
+> +	crtc->state->event = NULL;
+> +
+> +	spin_unlock_irqrestore(&ddev->event_lock, flags);
+> +}
+> +
+>   static void tidss_crtc_atomic_enable(struct drm_crtc *crtc,
+>   				     struct drm_atomic_state *state)
+>   {
+> @@ -253,6 +297,27 @@ static void tidss_crtc_atomic_enable(struct drm_crtc *crtc,
+>   	spin_unlock_irqrestore(&ddev->event_lock, flags);
+>   }
+>   
+> +static void tidss_shared_vp_crtc_atomic_enable(struct drm_crtc *crtc,
+> +					       struct drm_atomic_state *state)
+> +{
+> +	struct drm_device *ddev = crtc->dev;
+> +	unsigned long flags;
+> +
+> +	dev_dbg(ddev->dev, "%s, event %p\n", __func__, crtc->state->event);
+> +
+> +	/* Turn vertical blanking interrupt reporting on. */
+> +	drm_crtc_vblank_on(crtc);
+> +
+> +	spin_lock_irqsave(&ddev->event_lock, flags);
+> +
+> +	if (crtc->state->event) {
+> +		drm_crtc_send_vblank_event(crtc, crtc->state->event);
+> +		crtc->state->event = NULL;
+> +	}
+> +
+> +	spin_unlock_irqrestore(&ddev->event_lock, flags);
+> +}
+> +
+>   static void tidss_crtc_atomic_disable(struct drm_crtc *crtc,
+>   				      struct drm_atomic_state *state)
+>   {
+> @@ -288,6 +353,27 @@ static void tidss_crtc_atomic_disable(struct drm_crtc *crtc,
+>   	tidss_runtime_put(tidss);
+>   }
+>   
+> +static void tidss_shared_vp_crtc_atomic_disable(struct drm_crtc *crtc,
+> +						struct drm_atomic_state *state)
+> +{
+> +	struct tidss_crtc *tcrtc = to_tidss_crtc(crtc);
+> +	struct drm_device *ddev = crtc->dev;
+> +	unsigned long flags;
+> +
+> +	dev_dbg(ddev->dev, "%s, event %p\n", __func__, crtc->state->event);
+> +
+> +	reinit_completion(&tcrtc->framedone_completion);
+> +
+> +	spin_lock_irqsave(&ddev->event_lock, flags);
+> +	if (crtc->state->event) {
+> +		drm_crtc_send_vblank_event(crtc, crtc->state->event);
+> +		crtc->state->event = NULL;
+> +	}
+> +	spin_unlock_irqrestore(&ddev->event_lock, flags);
+> +
+> +	drm_crtc_vblank_off(crtc);
+> +}
+> +
+>   static
+>   enum drm_mode_status tidss_crtc_mode_valid(struct drm_crtc *crtc,
+>   					   const struct drm_display_mode *mode)
+> @@ -304,7 +390,14 @@ static const struct drm_crtc_helper_funcs tidss_crtc_helper_funcs = {
+>   	.atomic_flush = tidss_crtc_atomic_flush,
+>   	.atomic_enable = tidss_crtc_atomic_enable,
+>   	.atomic_disable = tidss_crtc_atomic_disable,
+> +	.mode_valid = tidss_crtc_mode_valid,
+> +};
+>   
+> +static const struct drm_crtc_helper_funcs tidss_shared_vp_crtc_helper_funcs = {
+> +	.atomic_check = tidss_crtc_atomic_check,
+> +	.atomic_flush = tidss_shared_vp_crtc_atomic_flush,
+> +	.atomic_enable = tidss_shared_vp_crtc_atomic_enable,
+> +	.atomic_disable = tidss_shared_vp_crtc_atomic_disable,
+>   	.mode_valid = tidss_crtc_mode_valid,
+>   };
+>   
+> @@ -406,6 +499,10 @@ struct tidss_crtc *tidss_crtc_create(struct tidss_device *tidss,
+>   	bool has_ctm = tidss->feat->vp_feat.color.has_ctm;
+>   	int ret;
+>   
+> +	dev_dbg(tidss->dev, "%s: tidss->shared_mode: %d tidss->shared_mode_owned_vps[%d] = %d\n",
+> +		__func__, tidss->shared_mode, hw_videoport,
+> +		tidss->shared_mode_owned_vps[hw_videoport]);
+> +
+>   	tcrtc = kzalloc(sizeof(*tcrtc), GFP_KERNEL);
+>   	if (!tcrtc)
+>   		return ERR_PTR(-ENOMEM);
+> @@ -422,8 +519,17 @@ struct tidss_crtc *tidss_crtc_create(struct tidss_device *tidss,
+>   		return ERR_PTR(ret);
+>   	}
+>   
+> -	drm_crtc_helper_add(crtc, &tidss_crtc_helper_funcs);
+> -
+> +	/* Use shared video port CRTC helpers which don't access associated
+> +	 * video port and overlay register spaces when Linux is not owning the
+> +	 * video port.
+> +	 */
+> +	if (tidss->shared_mode && !tidss->shared_mode_owned_vps[hw_videoport]) {
+> +		drm_crtc_helper_add(crtc, &tidss_shared_vp_crtc_helper_funcs);
+> +		dev_dbg(tidss->dev, "%s: vp%d is being shared with Linux\n", __func__,
+> +			hw_videoport + 1);
+> +	} else {
+> +		drm_crtc_helper_add(crtc, &tidss_crtc_helper_funcs);
+> +	}
+>   	/*
+>   	 * The dispc gamma functions adapt to what ever size we ask
+>   	 * from it no matter what HW supports. X-server assumes 256
+> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
+> index 1ad711f8d2a8..35a82198629f 100644
+> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
+> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+> @@ -273,6 +273,18 @@ const struct dispc_features dispc_j721e_feats = {
+>   	.vid_order = { 1, 3, 0, 2 },
+>   };
+>   
+> +static const u16 tidss_am62_common1_regs[DISPC_COMMON_REG_TABLE_LEN] = {
+> +	[DISPC_IRQ_EOI_OFF] =			0x24,
+> +	[DISPC_IRQSTATUS_RAW_OFF] =		0x28,
+> +	[DISPC_IRQSTATUS_OFF] =			0x2c,
+> +	[DISPC_IRQENABLE_SET_OFF] =		0x30,
+> +	[DISPC_IRQENABLE_CLR_OFF] =		0x40,
+> +	[DISPC_VID_IRQENABLE_OFF] =		0x44,
+> +	[DISPC_VID_IRQSTATUS_OFF] =		0x58,
+> +	[DISPC_VP_IRQENABLE_OFF] =		0x70,
+> +	[DISPC_VP_IRQSTATUS_OFF] =		0x7c,
+> +};
+> +
+>   const struct dispc_features dispc_am625_feats = {
+>   	.max_pclk_khz = {
+>   		[DISPC_VP_DPI] = 165000,
+> @@ -1228,6 +1240,22 @@ enum drm_mode_status dispc_vp_mode_valid(struct dispc_device *dispc,
+>   
+>   	max_pclk = dispc->feat->max_pclk_khz[bus_type];
+>   
+> +	/*
+> +	 * For shared mode, with remote core driving the video port, make sure that Linux
+> +	 * controlled primary plane doesn't exceed video port screen size set by remote core
+> +	 */
+> +	if (dispc->tidss->shared_mode && !dispc->tidss->shared_mode_owned_vps[hw_videoport]) {
+> +		int vp_hdisplay = VP_REG_GET(dispc, hw_videoport, DISPC_VP_SIZE_SCREEN, 11, 0) + 1;
+> +		int vp_vdisplay = VP_REG_GET(dispc, hw_videoport, DISPC_VP_SIZE_SCREEN, 27, 16) + 1;
+> +
+> +		if (mode->hdisplay > vp_hdisplay ||
+> +		    mode->vdisplay > vp_vdisplay) {
+> +			dev_err(dispc->dev, "%dx%d exceeds VP screen size %dx%d in shared mode\n",
+> +				mode->hdisplay, mode->vdisplay, vp_hdisplay, vp_vdisplay);
+> +			return MODE_BAD;
+> +		}
+> +	}
+> +
+
+I'm not sure I understand this. If the VP is owned by someone else, 
+isn't there just a single mode that can be allowed (the one that that 
+"someone else" has set up?). The comment also talks about primary 
+planes, but this code is about the video mode, not planes.
+
+So my understanding of a VP that's controlled by RTOS is that at boot 
+time RTOS figures out a video mode (either the native mode of an LCD, or 
+picks a mode from a monitor's EDID), and then that one video mode will 
+be used, and never changed.
+
+Linux's tidss can, at probe time probably, look at the VP configuration 
+and figure out the video mode details, which can then be exposed to the 
+userspace.
+
+Changing video modes at runtime would probably require some kind of IPC.
+
+>   	if (WARN_ON(max_pclk == 0))
+>   		return MODE_BAD;
+>   
+> @@ -1276,15 +1304,18 @@ enum drm_mode_status dispc_vp_mode_valid(struct dispc_device *dispc,
+>   		return MODE_BAD_VVALUE;
+>   
+>   	if (dispc->memory_bandwidth_limit) {
+> -		const unsigned int bpp = 4;
+> -		u64 bandwidth;
+> +		if (!dispc->tidss->shared_mode ||
+> +		    dispc->tidss->shared_mode_owned_vps[hw_videoport]) {
+> +			const unsigned int bpp = 4;
+> +			u64 bandwidth;
+>   
+> -		bandwidth = 1000 * mode->clock;
+> -		bandwidth = bandwidth * mode->hdisplay * mode->vdisplay * bpp;
+> -		bandwidth = div_u64(bandwidth, mode->htotal * mode->vtotal);
+> +			bandwidth = 1000 * mode->clock;
+> +			bandwidth = bandwidth * mode->hdisplay * mode->vdisplay * bpp;
+> +			bandwidth = div_u64(bandwidth, mode->htotal * mode->vtotal);
+>   
+> -		if (dispc->memory_bandwidth_limit < bandwidth)
+> -			return MODE_BAD;
+> +			if (dispc->memory_bandwidth_limit < bandwidth)
+> +				return MODE_BAD;
+> +		}
+>   	}
+>   
+>   	return MODE_OK;
+> @@ -2655,6 +2686,147 @@ static void dispc_vp_set_color_mgmt(struct dispc_device *dispc,
+>   		dispc_k3_vp_set_ctm(dispc, hw_videoport, ctm);
+>   }
+>   
+> +static int get_vp_idx_from_vp(const char *vp_name)
+> +{
+> +	u32 vp_idx;
+> +
+> +	if (!strcmp("vp1", vp_name))
+> +		vp_idx = 0;
+> +	else if (!strcmp("vp2", vp_name))
+> +		vp_idx = 1;
+> +	else if (!strcmp("vp3", vp_name))
+> +		vp_idx = 2;
+> +	else if (!strcmp("vp4", vp_name))
+> +		vp_idx = 3;
+> +	else
+> +		return 0;
+> +
+> +	return vp_idx;
+> +}
+
+Any particular reason to use strings in the DT for all there? Using a 
+index number in the DT would simplify the driver. We also have lists of 
+vp names already in the driver.
+
+I didn't go through the whole logic yet, but these two functions give me 
+the feeling that this part could be better.
+
+> +
+> +static const char *get_ovr_from_vp(const char *vp_name)
+> +{
+> +	const char *ovr_name = NULL;
+> +
+> +	if (!strcmp("vp1", vp_name))
+> +		ovr_name = "ovr1";
+> +	else if (!strcmp("vp2", vp_name))
+> +		ovr_name = "ovr2";
+> +	else if (!strcmp("vp3", vp_name))
+> +		ovr_name = "ovr3";
+> +	else if (!strcmp("vp4", vp_name))
+> +		ovr_name = "ovr4";
+> +	else
+> +		return NULL;
+> +
+> +	return ovr_name;
+> +}
+> +
+> +static void dispc_shared_mode_update_bus_type(struct dispc_features *shared_mode_feat,
+> +					      struct dispc_device *dispc)
+> +{
+ >
+> +	u32 i, vp_idx;
+> +	int num_vps = shared_mode_feat->num_vps;
+> +	enum dispc_vp_bus_type vp_bus_type[TIDSS_MAX_PORTS];
+> +
+> +	memcpy((void *)vp_bus_type, (void *)shared_mode_feat->vp_bus_type,
+> +	       sizeof(vp_bus_type));
+> +	memset(shared_mode_feat->vp_bus_type, 0, sizeof(vp_bus_type));
+> +
+> +	for (i = 0; i < num_vps; i++) {
+> +		/*
+> +		 * Find corresponding vp bus type.
+> +		 */
+> +		vp_idx = get_vp_idx_from_vp(shared_mode_feat->vp_name[i]);
+> +		shared_mode_feat->vp_bus_type[i] = vp_bus_type[vp_idx];
+> +	}
+> +}
+> +
+> +static int dispc_update_shared_mode_features(struct dispc_features *shared_mode_feat,
+> +					     struct dispc_device *dispc)
+> +{
+> +	int r = 0, i = 0;
+> +
+> +	dev_dbg(dispc->dev, "Start updating dispc feature list for shared mode:\n");
+> +
+> +	/*
+> +	 * Start with a shallow copy from existing features and prune the list
+> +	 * as per what is actually made available to Linux
+> +	 */
+> +	memcpy((void *)shared_mode_feat, (void *)dispc->feat, sizeof(*shared_mode_feat));
+> +	shared_mode_feat->num_vps = device_property_string_array_count(dispc->dev,
+> +								       "ti,dss-shared-mode-vp");
+> +	shared_mode_feat->num_planes = device_property_string_array_count(dispc->dev,
+> +									  "ti,dss-shared-mode-planes");
+> +
+> +	r = device_property_read_string(dispc->dev, "ti,dss-shared-mode-common",
+> +					(const char **)&shared_mode_feat->common);
+> +	if (r) {
+> +		dev_err(dispc->dev, "failed to read shared video port name: %d\n", r);
+> +		return r;
+> +	}
+> +
+> +	memset(shared_mode_feat->vid_name, 0, sizeof(shared_mode_feat->vid_name));
+> +	r = device_property_read_string_array(dispc->dev, "ti,dss-shared-mode-planes",
+> +					      shared_mode_feat->vid_name, TIDSS_MAX_PLANES);
+> +	if (r < 0) {
+> +		dev_err(dispc->dev, "failed to read client vid layer name: %d\n", r);
+> +		return r;
+> +	}
+> +
+> +	r = device_property_read_u32_array(dispc->dev, "ti,dss-shared-mode-vp-owned",
+> +					   dispc->tidss->shared_mode_owned_vps,
+> +					   shared_mode_feat->num_vps);
+> +	if (r < 0) {
+> +		dev_err(dispc->dev, "failed to read owned vp list: %d\n", r);
+> +		return r;
+> +	}
+> +
+> +	memset(shared_mode_feat->vp_name, 0, sizeof(shared_mode_feat->vp_name));
+> +	r = device_property_read_string_array(dispc->dev, "ti,dss-shared-mode-vp",
+> +					      shared_mode_feat->vp_name, TIDSS_MAX_PORTS);
+> +	if (r < 0) {
+> +		dev_err(dispc->dev, "failed to read shared video port name: %d\n", r);
+> +		return r;
+> +	}
+> +
+> +	memset(shared_mode_feat->vid_order, 0, sizeof(shared_mode_feat->vid_order));
+> +	r = device_property_read_u32_array(dispc->dev, "ti,dss-shared-mode-plane-zorder",
+> +					   shared_mode_feat->vid_order,
+> +					   shared_mode_feat->num_planes);
+> +	if (r < 0) {
+> +		dev_err(dispc->dev, "failed to read vid_order array name: %d\n", r);
+> +		return r;
+> +	}
+> +	memcpy((void *)shared_mode_feat->vpclk_name, (void *)shared_mode_feat->vp_name,
+> +	       sizeof(shared_mode_feat->vpclk_name));
+> +	memset(shared_mode_feat->ovr_name, 0, sizeof(shared_mode_feat->ovr_name));
+> +
+> +	for (i = 0; i < shared_mode_feat->num_vps; i++) {
+> +		shared_mode_feat->ovr_name[i] = get_ovr_from_vp(shared_mode_feat->vp_name[i]);
+> +		dev_dbg(dispc->dev, "vp[%d] = %s, ovr[%d] = %s vpclk[%d] = %s vp_owned[%d] = %d\n",
+> +			i,  shared_mode_feat->vp_name[i], i, shared_mode_feat->ovr_name[i], i,
+> +			shared_mode_feat->vpclk_name[i], i, dispc->tidss->shared_mode_owned_vps[i]);
+> +	}
+> +
+> +	for (i = 0; i < shared_mode_feat->num_planes; i++) {
+> +		if (!strncmp("vidl", shared_mode_feat->vid_name[i], 4))
+> +			shared_mode_feat->vid_lite[i] = true;
+> +		dev_dbg(dispc->dev, "vid[%d] = %s, vid_order[%d] = %u vid_lite[%d] = %u\n", i,
+> +			shared_mode_feat->vid_name[i], i, shared_mode_feat->vid_order[i], i,
+> +			shared_mode_feat->vid_lite[i]);
+> +	}
+> +
+> +	if (!strcmp(shared_mode_feat->common, "common1"))
+> +		shared_mode_feat->common_regs = tidss_am62_common1_regs;
+> +
+> +	dev_dbg(dispc->dev, "common : %s\n", shared_mode_feat->common);
+> +	dispc_shared_mode_update_bus_type(shared_mode_feat, dispc);
+> +	dev_dbg(dispc->dev, "Feature list updated for shared mode\n");
+> +
+> +	return 0;
+> +}
+> +
+>   void dispc_vp_setup(struct dispc_device *dispc, u32 hw_videoport,
+>   		    const struct drm_crtc_state *state, bool newmodeset)
+>   {
+> @@ -2662,6 +2834,16 @@ void dispc_vp_setup(struct dispc_device *dispc, u32 hw_videoport,
+>   	dispc_vp_set_color_mgmt(dispc, hw_videoport, state, newmodeset);
+>   }
+>   
+> +static bool dispc_owns_global_common_in_shared_mode(struct dispc_device *dispc)
+> +{
+> +	if ((!strcmp(dispc->feat->common, "common") ||
+> +	     !strcmp(dispc->feat->common, "common_m")) &&
+> +	     dispc->tidss->shared_mode)
+> +		return true;
+> +	else
+> +		return false;
+> +}
+> +
+>   int dispc_runtime_suspend(struct dispc_device *dispc)
+>   {
+>   	dev_dbg(dispc->dev, "suspend\n");
+> @@ -2846,6 +3028,7 @@ int dispc_init(struct tidss_device *tidss)
+>   	struct platform_device *pdev = to_platform_device(dev);
+>   	struct dispc_device *dispc;
+>   	const struct dispc_features *feat;
+> +	struct dispc_features *shared_mode_feat;
+>   	unsigned int i, num_fourccs;
+>   	int r = 0;
+>   
+> @@ -2887,6 +3070,21 @@ int dispc_init(struct tidss_device *tidss)
+>   
+>   	dispc->num_fourccs = num_fourccs;
+>   
+> +	if (tidss->shared_mode) {
+> +		dev_dbg(dev, "%s : DSS is being shared with remote core\n", __func__);
+> +		shared_mode_feat = devm_kzalloc(dev, sizeof(*shared_mode_feat), GFP_KERNEL);
+> +		if (!shared_mode_feat)
+> +			return -ENOMEM;
+> +
+> +		r = dispc_update_shared_mode_features(shared_mode_feat, dispc);
+> +		if (r)
+> +			return r;
+> +
+> +		tidss->feat = (const struct dispc_features *)shared_mode_feat;
+> +		feat = tidss->feat;
+> +		dispc->feat = feat;
+> +	}
+> +
+>   	dispc_common_regmap = dispc->feat->common_regs;
+>   
+>   	r = dispc_iomap_resource(pdev, dispc->feat->common,
+> @@ -2933,25 +3131,37 @@ int dispc_init(struct tidss_device *tidss)
+>   	}
+>   
+>   	if (feat->subrev == DISPC_AM65X) {
+> -		r = dispc_init_am65x_oldi_io_ctrl(dev, dispc);
+> -		if (r)
+> -			return r;
+> +		/*
+> +		 * For shared mode, Initialize the OLDI IO control only if we own
+> +		 * the OLDI Tx ports
+> +		 */
+> +		if (!tidss->shared_mode || tidss->shared_mode_own_oldi) {
+> +			r = dispc_init_am65x_oldi_io_ctrl(dev, dispc);
+> +			if (r)
+> +				return r;
+> +		}
+
+I haven't studied this, but the shared_mode_own_oldi feels like very SoC 
+specific. Will we need something similar on other SoC, maybe for other 
+outputs too? Maybe this needs something more generic.
+
+And it's not clear to me how to manage the whole pipeline. Let's say we 
+have a board with DSS and an external bridge, like SiI9022, and a HDMI 
+connector. I assume RTOS must control the SiI9022 and the connector 
+(HPD, HDMI +5V line). Does that mean that the DT for Linux will be 
+special in that case? Will we even have anything connected to the DSS 
+port in the DT?
+
+>   	}
+>   
+> -	dispc->fclk = devm_clk_get(dev, "fck");
+> -	if (IS_ERR(dispc->fclk)) {
+> -		dev_err(dev, "%s: Failed to get fclk: %ld\n",
+> -			__func__, PTR_ERR(dispc->fclk));
+> -		return PTR_ERR(dispc->fclk);
+> -	}
+> -	dev_dbg(dev, "DSS fclk %lu Hz\n", clk_get_rate(dispc->fclk));
+> +	/*
+> +	 * For shared mode, Initialize the hardware and clocking only if processing core running
+> +	 * Linux has ownership of DSS global register space
+> +	 */
+> +	if (!tidss->shared_mode || dispc_owns_global_common_in_shared_mode(dispc)) {
+> +		dispc->fclk = devm_clk_get(dev, "fck");
+> +		if (IS_ERR(dispc->fclk)) {
+> +			dev_err(dev, "%s: Failed to get fclk: %ld\n",
+> +				__func__, PTR_ERR(dispc->fclk));
+> +			return PTR_ERR(dispc->fclk);
+> +		}
+> +		dev_dbg(dev, "DSS fclk %lu Hz\n", clk_get_rate(dispc->fclk));
+>   
+> -	of_property_read_u32(dispc->dev->of_node, "max-memory-bandwidth",
+> -			     &dispc->memory_bandwidth_limit);
+> +		of_property_read_u32(dispc->dev->of_node, "max-memory-bandwidth",
+> +				     &dispc->memory_bandwidth_limit);
+>   
+> -	r = dispc_init_hw(dispc);
+> -	if (r)
+> -		return r;
+> +		r = dispc_init_hw(dispc);
+> +		if (r)
+> +			return r;
+> +	}
+>   
+>   	tidss->dispc = dispc;
+>   
+> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
+> index 086327d51a90..368a39941b34 100644
+> --- a/drivers/gpu/drm/tidss/tidss_dispc.h
+> +++ b/drivers/gpu/drm/tidss/tidss_dispc.h
+> @@ -80,7 +80,7 @@ struct dispc_features {
+>   	const char *vp_name[TIDSS_MAX_PORTS]; /* Should match dt reg names */
+>   	const char *ovr_name[TIDSS_MAX_PORTS]; /* Should match dt reg names */
+>   	const char *vpclk_name[TIDSS_MAX_PORTS]; /* Should match dt clk names */
+> -	const enum dispc_vp_bus_type vp_bus_type[TIDSS_MAX_PORTS];
+> +	enum dispc_vp_bus_type vp_bus_type[TIDSS_MAX_PORTS];
+>   	struct tidss_vp_feat vp_feat;
+>   	u32 num_planes;
+>   	const char *vid_name[TIDSS_MAX_PLANES]; /* Should match dt reg names */
+> diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
+> index d15f836dca95..141481635578 100644
+> --- a/drivers/gpu/drm/tidss/tidss_drv.c
+> +++ b/drivers/gpu/drm/tidss/tidss_drv.c
+> @@ -32,6 +32,10 @@ int tidss_runtime_get(struct tidss_device *tidss)
+>   
+>   	dev_dbg(tidss->dev, "%s\n", __func__);
+>   
+> +	/* No PM in display sharing mode */
+> +	if (tidss->shared_mode)
+> +		return 0;
+> +
+
+I'm not sure how to implement it, but I think it would be much nicer if 
+the PM code in the driver stayed at least mostly the same. The driver 
+can't suspend the hardware, but the meaning of the pm function calls 
+would still make sense, i.e. pm_runtime_get() means that tidss wants the 
+hardware to be enabled. If the HW already is enabled (is it would be as 
+RTOS controls it), nothing would happen.
+
+>   	r = pm_runtime_resume_and_get(tidss->dev);
+>   	WARN_ON(r < 0);
+>   	return r;
+> @@ -43,6 +47,9 @@ void tidss_runtime_put(struct tidss_device *tidss)
+>   
+>   	dev_dbg(tidss->dev, "%s\n", __func__);
+>   
+> +	if (tidss->shared_mode)
+> +		return;
+> +
+>   	pm_runtime_mark_last_busy(tidss->dev);
+>   
+>   	r = pm_runtime_put_autosuspend(tidss->dev);
+> @@ -140,21 +147,23 @@ static int tidss_probe(struct platform_device *pdev)
+>   
+>   	spin_lock_init(&tidss->wait_lock);
+>   
+> +	tidss->shared_mode = device_property_read_bool(dev, "ti,dss-shared-mode");
+>   	ret = dispc_init(tidss);
+>   	if (ret) {
+>   		dev_err(dev, "failed to initialize dispc: %d\n", ret);
+>   		return ret;
+>   	}
+>   
+> -	pm_runtime_enable(dev);
+> -
+> -	pm_runtime_set_autosuspend_delay(dev, 1000);
+> -	pm_runtime_use_autosuspend(dev);
+> +	if (!tidss->shared_mode) {
+> +		pm_runtime_enable(dev);
+> +		pm_runtime_set_autosuspend_delay(dev, 1000);
+> +		pm_runtime_use_autosuspend(dev);
+>   
+>   #ifndef CONFIG_PM
+> -	/* If we don't have PM, we need to call resume manually */
+> -	dispc_runtime_resume(tidss->dispc);
+> +		/* If we don't have PM, we need to call resume manually */
+> +		dispc_runtime_resume(tidss->dispc);
+>   #endif
+> +	}
+>   
+>   	ret = tidss_modeset_init(tidss);
+>   	if (ret < 0) {
+> @@ -196,6 +205,8 @@ static int tidss_probe(struct platform_device *pdev)
+>   	tidss_irq_uninstall(ddev);
+>   
+>   err_runtime_suspend:
+> +	if (tidss->shared_mode)
+> +		return ret;
+>   #ifndef CONFIG_PM
+>   	dispc_runtime_suspend(tidss->dispc);
+>   #endif
+> @@ -219,12 +230,14 @@ static void tidss_remove(struct platform_device *pdev)
+>   
+>   	tidss_irq_uninstall(ddev);
+>   
+> +	if (!tidss->shared_mode) {
+>   #ifndef CONFIG_PM
+> -	/* If we don't have PM, we need to call suspend manually */
+> -	dispc_runtime_suspend(tidss->dispc);
+> +		/* If we don't have PM, we need to call suspend manually */
+> +		dispc_runtime_suspend(tidss->dispc);
+>   #endif
+> -	pm_runtime_dont_use_autosuspend(dev);
+> -	pm_runtime_disable(dev);
+> +		pm_runtime_dont_use_autosuspend(dev);
+> +		pm_runtime_disable(dev);
+> +	}
+>   
+>   	/* devm allocated dispc goes away with the dev so mark it NULL */
+>   	dispc_remove(tidss);
+> diff --git a/drivers/gpu/drm/tidss/tidss_drv.h b/drivers/gpu/drm/tidss/tidss_drv.h
+> index d7f27b0b0315..68d53c70651d 100644
+> --- a/drivers/gpu/drm/tidss/tidss_drv.h
+> +++ b/drivers/gpu/drm/tidss/tidss_drv.h
+> @@ -31,6 +31,12 @@ struct tidss_device {
+>   
+>   	spinlock_t wait_lock;	/* protects the irq masks */
+>   	dispc_irq_t irq_mask;	/* enabled irqs in addition to wait_list */
+> +
+> +	bool shared_mode; /* DSS resources shared between remote core and Linux */
+> +
+> +	/* 1: VP owned by Linux 0: VP is owned by remote and shared with Linux */
+> +	u32 shared_mode_owned_vps[TIDSS_MAX_PORTS];
+
+Boolean, I think?
+
+> +	bool shared_mode_own_oldi; /* Linux needs to configure OLDI in shared mode */
+>   };
+>   
+>   #define to_tidss(__dev) container_of(__dev, struct tidss_device, ddev)
+
