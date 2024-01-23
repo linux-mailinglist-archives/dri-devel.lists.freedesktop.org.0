@@ -2,42 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9186839272
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 16:18:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6541F839486
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jan 2024 17:18:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC94C10F464;
-	Tue, 23 Jan 2024 15:18:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB2EA10E82C;
+	Tue, 23 Jan 2024 16:18:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E0EA10F464
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 15:18:38 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi
- [89.27.53.110])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 628CD1B9A;
- Tue, 23 Jan 2024 16:17:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1706023043;
- bh=J/S95DX1QU5VPJPLhg+znioJCc/WJtd5g+KxFYUz0KM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=MdnrkFeL6QoQ7ARy5Niyl5LRvNhoL3BujJNf+iSgcZ5JoAPsOL7c+v1/vCw8E1J1Y
- uLu9ljtftxDTKYs/5axFhxajvx73BgJV74SRqzmcIsqeGbdsCFPCDvkUh/kl5nPCFz
- S1McHh6NG/2eB9v32FG9SXWbXxs0yr8SLolWa2R4=
-Date: Tue, 23 Jan 2024 17:18:35 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: Re: [PATCH 3/5] drm/bridge: simple-bridge: Allow acquiring the next
- bridge with fwnode API
-Message-ID: <20240123151835.GO10679@pendragon.ideasonboard.com>
-References: <20240122163220.110788-1-sui.jingfeng@linux.dev>
- <20240122163220.110788-4-sui.jingfeng@linux.dev>
- <20240123011859.GB22880@pendragon.ideasonboard.com>
- <7f5e1c37-a637-494a-ab52-cad83095f2a6@linux.dev>
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18CBD10E818
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 16:18:48 +0000 (UTC)
+Received: from i53875b8c.versanet.de ([83.135.91.140] helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1rSJU4-00011W-5B; Tue, 23 Jan 2024 17:18:44 +0100
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: dri-devel@lists.freedesktop.org,
+ Boris Brezillon <boris.brezillon@collabora.com>
+Subject: Re: [PATCH v4 00/14] drm: Add a driver for CSF-based Mali GPUs
+Date: Tue, 23 Jan 2024 17:18:42 +0100
+Message-ID: <2991172.o2A3GueYyp@diego>
+In-Reply-To: <20240122163047.1954733-1-boris.brezillon@collabora.com>
+References: <20240122163047.1954733-1-boris.brezillon@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <7f5e1c37-a637-494a-ab52-cad83095f2a6@linux.dev>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,126 +40,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>
+Cc: Tatsuyuki Ishi <ishitatsuyuki@gmail.com>,
+ Nicolas Boichat <drinkcat@chromium.org>, kernel@collabora.com,
+ Daniel Stone <daniels@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Ketil Johnsen <ketil.johnsen@arm.com>, Liviu Dudau <Liviu.Dudau@arm.com>,
+ Steven Price <steven.price@arm.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ =?ISO-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Chris Diamand <chris.diamand@foss.arm.com>,
+ "Marty E . Plummer" <hanetzer@startmail.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Sui,
+Am Montag, 22. Januar 2024, 17:30:31 CET schrieb Boris Brezillon:
+> Hello,
+>=20
+> This is the 4th version of the kernel driver for Mali CSF-based GPUs.
+>=20
+> A branch based on drm-misc-next and containing all the dependencies
+> that are not yet available in drm-misc-next here[1], and another [2]
+> containing extra patches to have things working on rk3588. The CSF
+> firmware binary can be found here[3], and should be placed under
+> /lib/firmware/arm/mali/arch10.8/mali_csffw.bin.
+>=20
+> The mesa MR adding v10 support on top of panthor is available here [4].
+>=20
+> Steve, I intentionally dropped your R-b on "drm/panthor: Add the heap
+> logical block" and "drm/panthor: Add the scheduler logical block"
+> because the tiler-OOM handling changed enough to require a new review
+> IMHO.
+>=20
+> Regarding the GPL2+MIT relicensing, I collected Cl=E9ment's R-b for the
+> devfreq code, but am still lacking Alexey Sheplyakov for some bits in
+> panthor_gpu.c. The rest of the code is either new, or covered by the
+> Linaro, Arm and Collabora acks.
 
-On Tue, Jan 23, 2024 at 08:18:22PM +0800, Sui Jingfeng wrote:
-> On 2024/1/23 09:18, Laurent Pinchart wrote:
-> > On Tue, Jan 23, 2024 at 12:32:18AM +0800, Sui Jingfeng wrote:
-> >> Which make it possible to use this driver on non-DT based systems,
-> >> meanwhile, made no functional changes for DT based systems.
-> >>
-> >> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
-> >> ---
-> >>   drivers/gpu/drm/bridge/simple-bridge.c | 51 ++++++++++++++++++++++----
-> >>   1 file changed, 44 insertions(+), 7 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/bridge/simple-bridge.c b/drivers/gpu/drm/bridge/simple-bridge.c
-> >> index 595f672745b9..cfea5a67cc5b 100644
-> >> --- a/drivers/gpu/drm/bridge/simple-bridge.c
-> >> +++ b/drivers/gpu/drm/bridge/simple-bridge.c
-> >> @@ -184,6 +184,39 @@ static const void *simple_bridge_get_match_data(const struct device *dev)
-> >>   	return NULL;
-> >>   }
-> >>   
-> >> +static int simple_bridge_get_next_bridge_by_fwnode(struct device *dev,
-> >> +						   struct drm_bridge **next_bridge)
-> >> +{
-> >> +	struct drm_bridge *bridge;
-> >> +	struct fwnode_handle *ep;
-> >> +	struct fwnode_handle *remote;
-> >> +
-> >> +	ep = fwnode_graph_get_endpoint_by_id(dev->fwnode, 1, 0, 0);
-> >> +	if (!ep) {
-> >> +		dev_err(dev, "The endpoint is unconnected\n");
-> >> +		return -EINVAL;
-> >> +	}
-> >> +
-> >> +	remote = fwnode_graph_get_remote_port_parent(ep);
-> >> +	fwnode_handle_put(ep);
-> >> +	if (!remote) {
-> >> +		dev_err(dev, "No valid remote node\n");
-> >> +		return -ENODEV;
-> >> +	}
-> >> +
-> >> +	bridge = drm_bridge_find_by_fwnode(remote);
-> >> +	fwnode_handle_put(remote);
-> >> +
-> >> +	if (!bridge) {
-> >> +		dev_warn(dev, "Next bridge not found, deferring probe\n");
-> >> +		return -EPROBE_DEFER;
-> >> +	}
-> >> +
-> >> +	*next_bridge = bridge;
-> >> +
-> >> +	return 0;
-> >> +}
-> >> +
-> >
-> > Hmmmm yes, this convinces me further that we should switch to fwnode,
-> > not implement fwnode and OF side-by-side.
-> 
-> OK, I'm agree with you.
-> 
-> But this means that I have to make the drm_bridge_find_by_fwnode() function works
-> on both DT systems and non-DT systems. This is also means that we will no longer
-> need to call of_drm_find_bridge() function anymore. This will eventually lead to
-> completely remove of_drm_find_bridge()?
+On a rk3588-jaguar with a corresponding mesa build, series:
+Tested-by: Heiko Stuebner <heiko@sntech.de>
 
-It would be replaced by fwnode_drm_find_bridge(). Although, if we need
-to rename the function, I think it would be best to make have a drm_
-prefix, maybe drm_bridge_find-by_fwnode() or something similar.
 
-> As far as I can see, if I follow you suggestion, drm/bridge subsystem will
-> encountering a *big* refactor. My 'side-by-side' approach allows co-exist.
-> It is not really meant to purge OF. I feel it is a little bit of aggressive.
-> 
-> hello Maxime, are you watching this? what do you think?
-> 
-> >>   static int simple_bridge_probe(struct platform_device *pdev)
-> >>   {
-> >>   	struct simple_bridge *sbridge;
-> >> @@ -199,14 +232,17 @@ static int simple_bridge_probe(struct platform_device *pdev)
-> >>   	else
-> >>   		sbridge->info = simple_bridge_get_match_data(&pdev->dev);
-> >>   
-> >> -	/* Get the next bridge in the pipeline. */
-> >> -	remote = of_graph_get_remote_node(pdev->dev.of_node, 1, -1);
-> >> -	if (!remote)
-> >> -		return -EINVAL;
-> >> -
-> >> -	sbridge->next_bridge = of_drm_find_bridge(remote);
-> >> -	of_node_put(remote);
-> >> +	if (pdev->dev.of_node) {
-> >> +		/* Get the next bridge in the pipeline. */
-> >> +		remote = of_graph_get_remote_node(pdev->dev.of_node, 1, -1);
-> >> +		if (!remote)
-> >> +			return -EINVAL;
-> >>   
-> >> +		sbridge->next_bridge = of_drm_find_bridge(remote);
-> >> +		of_node_put(remote);
-> >> +	} else {
-> >> +		simple_bridge_get_next_bridge_by_fwnode(&pdev->dev, &sbridge->next_bridge);
-> >> +	}
-> >>   	if (!sbridge->next_bridge) {
-> >>   		dev_dbg(&pdev->dev, "Next bridge not found, deferring probe\n");
-> >>   		return -EPROBE_DEFER;
-> >> @@ -231,6 +267,7 @@ static int simple_bridge_probe(struct platform_device *pdev)
-> >>   	/* Register the bridge. */
-> >>   	sbridge->bridge.funcs = &simple_bridge_bridge_funcs;
-> >>   	sbridge->bridge.of_node = pdev->dev.of_node;
-> >> +	sbridge->bridge.fwnode = pdev->dev.fwnode;
-> >>   	sbridge->bridge.timings = sbridge->info->timings;
-> >>   
-> >>   	drm_bridge_add(&sbridge->bridge);
+Thanks for all the work on this
+Heiko
 
--- 
-Regards,
 
-Laurent Pinchart
