@@ -2,74 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B171F83B437
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 22:44:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DF6A83B46D
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 23:01:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4D4B10EA6E;
-	Wed, 24 Jan 2024 21:44:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7826210EA98;
+	Wed, 24 Jan 2024 22:01:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43D8610EA6E;
- Wed, 24 Jan 2024 21:44:16 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B9A310EA6D;
+ Wed, 24 Jan 2024 22:01:46 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 40OLMmjP008386; Wed, 24 Jan 2024 21:44:06 GMT
+ 40OKub20024285; Wed, 24 Jan 2024 22:01:40 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
  message-id:date:mime-version:subject:to:cc:references:from
  :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=ZvtW8/gdwVSU4Gl3PcM0FHD6g/x9Z8g4PWTBC4BWs+U=; b=g+
- SZTOtDNqMu8oqLTxqIxTzkYwEyojZl6z2uUjL1Ctt51O2teunEMURr5bi/+LiKcy
- D7N4yfeZiAdemc9W16anp/o17YWdAflsl/ieGpGO2NdYQnUU7mSXp0YM0wVqZKcJ
- 9+3KXLpEiQ2LP629VnWPrR1uK876DnHJARC/adXhlH0TyHYdyinCStcny6P6gtMA
- 19rZQzPb61dcfN+VlRqwN7yxExbWNM8RfyMJi7RvCvy7MAswWK6rf7L6rFX9mDyM
- APtMzksrjeG5L0jcdXpg+6uZRfY0yDutgzCRewc5yjkNTdxc2oZ5f0YK8qshWlFL
- eC1BHenpu4vQXqK8uNXw==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ qcppdkim1; bh=T36vvmdBaye5dMkfKQLOf6XkNJoI15q5WQoR3Stfb3c=; b=AL
+ fkKJI0xKmNHGEpX7NrT9JPbIaVE9C2NDOpmOvf0ot/4boMs39EPwoYPHoqWJTG+0
+ rgdazfO+dMeLYgYlPMyBBGXNFWaVqv9JrnnAyfJ+KtPeyo7/YSyFfzLUr0ppABZs
+ 7YofjQpCpVsFLj83u4uXFd4cqsxDZWBSS1uFJ7XnFaAzrwSfM8iI6Ms1GmHX6dfk
+ vWLFV9SVjeaQzchesNXlRyZMZdg31r9oMWgide3lij65T+ltnx3kOn/w1+3UtzVl
+ 6grFayXmCmXk/Q5+2xfi7BKIcBrW7EHP3wZACRHjjv+tp7+mvrAUUJstDJiU/7eM
+ AxGZdzp0CMWTcW25zUBg==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vtyxysmb5-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vtmh0ty8q-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 24 Jan 2024 21:44:06 +0000 (GMT)
+ Wed, 24 Jan 2024 22:01:40 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40OLi430002576
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40OM1cgD019658
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 24 Jan 2024 21:44:04 GMT
+ Wed, 24 Jan 2024 22:01:39 GMT
 Received: from [10.71.109.81] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 24 Jan
- 2024 13:44:04 -0800
-Message-ID: <deba88bb-5fdc-4b92-5419-637194835d41@quicinc.com>
-Date: Wed, 24 Jan 2024 13:44:03 -0800
+ 2024 14:01:38 -0800
+Message-ID: <e125a0dc-21a8-3aa5-ac83-db6015d61625@quicinc.com>
+Date: Wed, 24 Jan 2024 14:01:37 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH] drm/msm/dpu: fix kernel-doc warnings
+Subject: Re: [PATCH v1] drm/msms/dp: fixed link clock divider bits be over
+ written in BPC unknown case
 Content-Language: en-US
-To: Randy Dunlap <rdunlap@infradead.org>, <linux-kernel@vger.kernel.org>
-References: <20231231060823.1934-1-rdunlap@infradead.org>
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, <dri-devel@lists.freedesktop.org>, 
+ <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
+ <dianders@chromium.org>, <vkoul@kernel.org>, <daniel@ffwll.ch>,
+ <airlied@gmail.com>, <agross@kernel.org>,
+ <dmitry.baryshkov@linaro.org>, <andersson@kernel.org>
+References: <1704917931-30133-1-git-send-email-quic_khsieh@quicinc.com>
 From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20231231060823.1934-1-rdunlap@infradead.org>
+In-Reply-To: <1704917931-30133-1-git-send-email-quic_khsieh@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: LmaCaBXXN6FJlJH3p21_uhULGVJD8WqZ
-X-Proofpoint-GUID: LmaCaBXXN6FJlJH3p21_uhULGVJD8WqZ
+X-Proofpoint-GUID: Mg2qkFV045zLwWOjlpuadpmFGlf4rgKn
+X-Proofpoint-ORIG-GUID: Mg2qkFV045zLwWOjlpuadpmFGlf4rgKn
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-01-24_10,2024-01-24_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- malwarescore=0 mlxscore=0 adultscore=0 phishscore=0 mlxlogscore=999
- bulkscore=0 spamscore=0 priorityscore=1501 clxscore=1011 suspectscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401190000 definitions=main-2401240158
+ mlxlogscore=999 adultscore=0
+ mlxscore=0 clxscore=1015 bulkscore=0 malwarescore=0 impostorscore=0
+ suspectscore=0 phishscore=0 priorityscore=1501 spamscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401190000 definitions=main-2401240160
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,47 +87,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Vegard Nossum <vegard.nossum@oracle.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, marijn.suijten@somainline.org,
+ quic_jesszhan@quicinc.com, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 12/30/2023 10:08 PM, Randy Dunlap wrote:
-> Correct all kernel-doc warnings in dpu_encoder.c and dpu_rm.c:
+On 1/10/2024 12:18 PM, Kuogee Hsieh wrote:
+> Since the value of DP_TEST_BIT_DEPTH_8 is already left shifted, in the
+> BPC unknown case, the additional shift causes spill over to the other
+> bits of the [DP_CONFIGURATION_CTRL] register.
+> Fix this by changing the return value of dp_link_get_test_bits_depth()
+> in the BPC unknown case to (DP_TEST_BIT_DEPTH_8 >> DP_TEST_BIT_DEPTH_SHIFT).
 > 
-> dpu_encoder.c:212: warning: Excess struct member 'crtc_kickoff_cb' description in 'dpu_encoder_virt'
-> dpu_encoder.c:212: warning: Excess struct member 'crtc_kickoff_cb_data' description in 'dpu_encoder_virt'
-> dpu_encoder.c:212: warning: Excess struct member 'debugfs_root' description in 'dpu_encoder_virt'
+> Fixes: c943b4948b58 ("drm/msm/dp: add displayPort driver support")
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> ---
+>   drivers/gpu/drm/msm/dp/dp_ctrl.c |  5 -----
+>   drivers/gpu/drm/msm/dp/dp_link.c | 10 +++++++---
+>   2 files changed, 7 insertions(+), 8 deletions(-)
 > 
-> dpu_rm.c:35: warning: Excess struct member 'hw_res' description in 'dpu_rm_requirements'
-> dpu_rm.c:208: warning: No description found for return value of '_dpu_rm_get_lm_peer'
-> 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Rob Clark <robdclark@gmail.com>
-> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: Sean Paul <sean@poorly.run>
-> Cc: Marijn Suijten <marijn.suijten@somainline.org>
-> Cc: linux-arm-msm@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: freedreno@lists.freedesktop.org
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Vegard Nossum <vegard.nossum@oracle.com>
 
-Adding below tags:
+Checkpatch complained about this error:
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: 
-https://lore.kernel.org/oe-kbuild-all/202312170641.5exlvQQx-lkp@intel.com/
-Fixes: 62d35629da80 ("drm/msm/dpu: move encoder status to standard 
-encoder debugfs dir")
-Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
+CHECK: Alignment should match open parenthesis
+#61: FILE: drivers/gpu/drm/msm/dp/dp_link.c:1203:
++               drm_dbg_dp(link->drm_dev, "bpp=%d not supported, use 
+bpc=8\n",
++                         bpp);
+
+
+I will fix it while applying ... no need to spin another version for this.
