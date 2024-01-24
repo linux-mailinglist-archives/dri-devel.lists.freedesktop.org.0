@@ -2,46 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AFA883ACAA
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 16:00:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3A3983ACD0
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 16:10:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4852810F778;
-	Wed, 24 Jan 2024 15:00:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D184510F784;
+	Wed, 24 Jan 2024 15:10:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAEA110F778
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 15:00:18 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 3A236CE2986;
- Wed, 24 Jan 2024 15:00:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1F2DC43394;
- Wed, 24 Jan 2024 15:00:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1706108411;
- bh=/3VvSNQFMhEWJ37fpvVryZgTFR90+9R0lCzMzXd3ajw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Glc0Ih3F6213sfrvFumQn72djjhXrRmukAoh7HlBUKnWyLyq8PkJixreOXRt21yiq
- JnigM2JQHroiA0PBtcYkzfL/kL/lfHhghGQSlvrCLavOy6zyvtjz6rCjrP1pWNohVv
- VCkWLMTqzXX+msX07XV/JmuG8E7o5uN0FtS/I6GrnL/YrR7QXApjFgzOu7SaOkKQ/k
- yKtvsvAmHUY7p03e4XksVLfKQF45omesn+xoGqzlAmj6gI3qc/WGR1VD2wRMbW5kUV
- DDTtPX7L4vPh8GuXFOgufRPDp8kVKWRPz5e+5x5gIuBdpzq0AfV6DaXpygpUdM/JXj
- a21aGd2nWxjGA==
-Date: Wed, 24 Jan 2024 16:00:08 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: Re: Re: [PATCH 3/5] drm/bridge: simple-bridge: Allow acquiring the
- next bridge with fwnode API
-Message-ID: <w2ykwgnwfa3ll264r6ynjkgnkspaq3ioq232zivbqysl3ncp6x@snksdkrubjbr>
-References: <20240122163220.110788-1-sui.jingfeng@linux.dev>
- <20240122163220.110788-4-sui.jingfeng@linux.dev>
- <20240123011859.GB22880@pendragon.ideasonboard.com>
- <7f5e1c37-a637-494a-ab52-cad83095f2a6@linux.dev>
+X-Greylist: delayed 485 seconds by postgrey-1.36 at gabe;
+ Wed, 24 Jan 2024 15:10:24 UTC
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD18510F78C
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 15:10:24 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 4FB6F2230C;
+ Wed, 24 Jan 2024 15:01:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+ t=1706108501; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DajeaSEzTnB3arsXBMutuR8UGsQIe50M5bLSZDHRxaE=;
+ b=osrFdeJe+V6nUTIDy8yaKQkD/1OyHRoFPIrq5mH+nFwR3NPWP87uEhJxWITLIarWKRjscI
+ vOJNb4uTZTLyaelqM2HzekkgMbmgipIQlJOuXVy6b3pzJwMyHWS4Ez/EIC0tPwi0G/wUtp
+ Bs33w+ShJDAV+ClFEN0XVInOrNS3/C0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+ s=susede2_ed25519; t=1706108501;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DajeaSEzTnB3arsXBMutuR8UGsQIe50M5bLSZDHRxaE=;
+ b=1zn3uQloqriIk5Ye9paPiS8PDE/zNsCqDYI5Ok7l4OKEcC/C1Ug/OGu+0ztnu3FYdMhBTC
+ XUfp843i6MaM7UDQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+ t=1706108501; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DajeaSEzTnB3arsXBMutuR8UGsQIe50M5bLSZDHRxaE=;
+ b=osrFdeJe+V6nUTIDy8yaKQkD/1OyHRoFPIrq5mH+nFwR3NPWP87uEhJxWITLIarWKRjscI
+ vOJNb4uTZTLyaelqM2HzekkgMbmgipIQlJOuXVy6b3pzJwMyHWS4Ez/EIC0tPwi0G/wUtp
+ Bs33w+ShJDAV+ClFEN0XVInOrNS3/C0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+ s=susede2_ed25519; t=1706108501;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DajeaSEzTnB3arsXBMutuR8UGsQIe50M5bLSZDHRxaE=;
+ b=1zn3uQloqriIk5Ye9paPiS8PDE/zNsCqDYI5Ok7l4OKEcC/C1Ug/OGu+0ztnu3FYdMhBTC
+ XUfp843i6MaM7UDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3BBD513786;
+ Wed, 24 Jan 2024 15:01:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id Zwv7DVUmsWXwBgAAD6G6ig
+ (envelope-from <vbabka@suse.cz>); Wed, 24 Jan 2024 15:01:41 +0000
+Message-ID: <2faccc1a-7fdd-499b-aa0a-bd54f4068f3e@suse.cz>
+Date: Wed, 24 Jan 2024 16:01:40 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="5igwccgajrafxrst"
-Content-Disposition: inline
-In-Reply-To: <7f5e1c37-a637-494a-ab52-cad83095f2a6@linux.dev>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [git pull] drm for 6.8
+To: Dave Airlie <airlied@gmail.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <CAPM=9twKBmO2Svky-zeP+KS8qWHFj9zrgeBqW9y__tUwcAYZhw@mail.gmail.com>
+Content-Language: en-US
+From: Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <CAPM=9twKBmO2Svky-zeP+KS8qWHFj9zrgeBqW9y__tUwcAYZhw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spamd-Result: default: False [-3.09 / 50.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; XM_UA_NO_VERSION(0.01)[];
+ FROM_HAS_DN(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
+ RCPT_COUNT_FIVE(0.00)[6]; RCVD_COUNT_THREE(0.00)[3];
+ DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+ TO_DN_ALL(0.00)[]; BAYES_HAM(-3.00)[100.00%];
+ FREEMAIL_TO(0.00)[gmail.com,linux-foundation.org,ffwll.ch];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
+ MIME_TRACE(0.00)[0:+]; RCVD_TLS_ALL(0.00)[];
+ MID_RHS_MATCH_FROM(0.00)[]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -3.09
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,115 +107,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux regressions mailing list <regressions@lists.linux.dev>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 1/10/24 20:49, Dave Airlie wrote:
+> Hi Linus,
+> 
+> This is the main drm pull request for 6.8.
 
---5igwccgajrafxrst
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+When testing the rc1 on my openSUSE Tumbleweed desktop, I've started
+experiencing "frozen desktop" (KDE/Wayland) issues. The symptoms are that
+everything freezes including mouse cursor. After a while it either resolves,
+or e.g. firefox crashes (if it was actively used when it froze) or it's
+frozen for too long and I reboot with alt-sysrq-b. When it's frozen I can
+still ssh to the machine, and there's nothing happening in dmesg.
+The machine is based on Amd Ryzen 7 2700 and Radeon RX7600.
 
-On Tue, Jan 23, 2024 at 08:18:22PM +0800, Sui Jingfeng wrote:
-> Hi,
->=20
->=20
-> On 2024/1/23 09:18, Laurent Pinchart wrote:
-> > On Tue, Jan 23, 2024 at 12:32:18AM +0800, Sui Jingfeng wrote:
-> > > Which make it possible to use this driver on non-DT based systems,
-> > > meanwhile, made no functional changes for DT based systems.
-> > >=20
-> > > Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
-> > > ---
-> > >   drivers/gpu/drm/bridge/simple-bridge.c | 51 ++++++++++++++++++++++-=
----
-> > >   1 file changed, 44 insertions(+), 7 deletions(-)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/bridge/simple-bridge.c b/drivers/gpu/drm=
-/bridge/simple-bridge.c
-> > > index 595f672745b9..cfea5a67cc5b 100644
-> > > --- a/drivers/gpu/drm/bridge/simple-bridge.c
-> > > +++ b/drivers/gpu/drm/bridge/simple-bridge.c
-> > > @@ -184,6 +184,39 @@ static const void *simple_bridge_get_match_data(=
-const struct device *dev)
-> > >   	return NULL;
-> > >   }
-> > > +static int simple_bridge_get_next_bridge_by_fwnode(struct device *de=
-v,
-> > > +						   struct drm_bridge **next_bridge)
-> > > +{
-> > > +	struct drm_bridge *bridge;
-> > > +	struct fwnode_handle *ep;
-> > > +	struct fwnode_handle *remote;
-> > > +
-> > > +	ep =3D fwnode_graph_get_endpoint_by_id(dev->fwnode, 1, 0, 0);
-> > > +	if (!ep) {
-> > > +		dev_err(dev, "The endpoint is unconnected\n");
-> > > +		return -EINVAL;
-> > > +	}
-> > > +
-> > > +	remote =3D fwnode_graph_get_remote_port_parent(ep);
-> > > +	fwnode_handle_put(ep);
-> > > +	if (!remote) {
-> > > +		dev_err(dev, "No valid remote node\n");
-> > > +		return -ENODEV;
-> > > +	}
-> > > +
-> > > +	bridge =3D drm_bridge_find_by_fwnode(remote);
-> > > +	fwnode_handle_put(remote);
-> > > +
-> > > +	if (!bridge) {
-> > > +		dev_warn(dev, "Next bridge not found, deferring probe\n");
-> > > +		return -EPROBE_DEFER;
-> > > +	}
-> > > +
-> > > +	*next_bridge =3D bridge;
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > Hmmmm yes, this convinces me further that we should switch to fwnode,
-> > not implement fwnode and OF side-by-side.
-> >=20
->=20
-> OK, I'm agree with you.
->=20
->=20
-> But this means that I have to make the drm_bridge_find_by_fwnode() functi=
-on works
-> on both DT systems and non-DT systems. This is also means that we will no=
- longer
-> need to call of_drm_find_bridge() function anymore. This will eventually =
-lead to
-> completely remove of_drm_find_bridge()?
->=20
->=20
-> As far as I can see, if I follow you suggestion, drm/bridge subsystem will
-> encountering a *big* refactor. My 'side-by-side' approach allows co-exist.
-> It is not really meant to purge OF. I feel it is a little bit of aggressi=
-ve.
->=20
-> hello Maxime, are you watching this? what do you think?
+I've bisected the merge commits so far and now will try to dig into this
+one. I've noticed there was also a drm fixes PR later in the merge window but
+since it was also merged into rc1 and thus didn't prevent the issue for me,
+I guess it's not relevant here?
 
-It's indeed going to be a pretty big refactoring, but I agree with
-Laurent that we don't want to maintain both side by side.
+Because the reproduction wasn't very deterministic I considered a commit bad
+even if it didn't lead to completely frozen desktop and a forced reboot.
+Even the multi-second hangs that resolved were a regression compared to 6.7
+anyway.
 
-Maxime
+If there are known issues and perhaps candidate fixes already, please do tell.
 
---5igwccgajrafxrst
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks,
+Vlastimil
 
------BEGIN PGP SIGNATURE-----
+git bisect start '--first-parent'
+# status: waiting for both good and bad commits
+# bad: [6613476e225e090cc9aad49be7fa504e290dd33d] Linux 6.8-rc1
+git bisect bad 6613476e225e090cc9aad49be7fa504e290dd33d
+# status: waiting for good commit(s), bad commit known
+# good: [0dd3ee31125508cd67f7e7172247f05b7fd1753a] Linux 6.7
+git bisect good 0dd3ee31125508cd67f7e7172247f05b7fd1753a
+# bad: [b4442cadca2f97239c8b80f64af7937897b867b1] Merge tag 'x86_tdx_for_6.8' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip
+git bisect bad b4442cadca2f97239c8b80f64af7937897b867b1
+# bad: [c4c6044d35f06a93115e691e79436839962c203e] Merge tag 'for-linus' of git://git.armlinux.org.uk/~rmk/linux-arm
+git bisect bad c4c6044d35f06a93115e691e79436839962c203e
+# bad: [42bff4d0f9b9c8b669c5cef25c5116f41eb45c6b] Merge tag 'pwm/for-6.8-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm
+git bisect bad 42bff4d0f9b9c8b669c5cef25c5116f41eb45c6b
+# good: [32720aca900b226653c843bb4e06b8125312f214] Merge tag 'fsnotify_for_v6.8-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs
+git bisect good 32720aca900b226653c843bb4e06b8125312f214
+# good: [5bad490858c3ebdbb47e622e8f9049f828d2abba] Merge tag 'soc-defconfig-6.8' of git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc
+git bisect good 5bad490858c3ebdbb47e622e8f9049f828d2abba
+# good: [70d201a40823acba23899342d62bc2644051ad2e] Merge tag 'f2fs-for-6.8-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs
+git bisect good 70d201a40823acba23899342d62bc2644051ad2e
+# bad: [141d9c6e003b806d8faeddeec7053ee2691ea61a] Merge tag 'firewire-updates-6.8' of git://git.kernel.org/pub/scm/linux/kernel/git/ieee1394/linux1394
+git bisect bad 141d9c6e003b806d8faeddeec7053ee2691ea61a
+# bad: [61f4c3e6711477b8a347ca5fe89e5e6613e0a147] Merge tag 'linux-watchdog-6.8-rc1' of git://www.linux-watchdog.org/linux-watchdog
+git bisect bad 61f4c3e6711477b8a347ca5fe89e5e6613e0a147
+# bad: [7912a6391f3ee7eb9f9a69227a209d502679bc0c] Merge tag 'sound-6.8-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound
+git bisect bad 7912a6391f3ee7eb9f9a69227a209d502679bc0c
+# bad: [cf65598d5909acf5e7b7dc9e21786e386356bc81] Merge tag 'drm-next-2024-01-10' of git://anongit.freedesktop.org/drm/drm
+git bisect bad cf65598d5909acf5e7b7dc9e21786e386356bc81
+# first bad commit: [cf65598d5909acf5e7b7dc9e21786e386356bc81] Merge tag 'drm-next-2024-01-10' of git://anongit.freedesktop.org/drm/drm
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZbEl9wAKCRDj7w1vZxhR
-xbx6AP47b5f3sx89JOXRxJ6QF2qxQ7nXm03i+IOoVUM6lroNpgEAgyvJ8jMj7JUV
-0jTXlefRFTfFhCkFUzwMhE+bjsZxagU=
-=dXtq
------END PGP SIGNATURE-----
 
---5igwccgajrafxrst--
+
+
+
+
