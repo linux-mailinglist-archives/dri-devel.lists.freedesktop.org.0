@@ -2,53 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DA8183A65E
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 11:08:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F7DF83A67D
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 11:16:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C22F410E52A;
-	Wed, 24 Jan 2024 10:07:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90B1910E567;
+	Wed, 24 Jan 2024 10:15:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 509AA10E52A
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 10:07:25 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E97426201E
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 10:06:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99CCDC43390
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 10:06:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1706090811;
- bh=F/M2eWPRFVw1HXw2zrOFjUIQimflTFAcAcn/RXqu+Ko=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=pmqZAUwo8eqL1vZSQ6bTmeYilZ8WgJbM66Yh8lA8wkNuyOA7fqeaW6qAMqkYGHbUN
- /OKGZZdsDLylUjg+tq9O7qXwntOJZPWLEYft93rYanbSKpz2yrl6N9xAsI/V5EcEnt
- lLi3man0xlYmbWr4Mq4ASRtbNT8S+7SoNic4sptQmi27oWQ/Q07ChH2srBIFMPyQER
- WS/DVLaxdd17mfTKLoCrMndbmziIqqrrNafRT0GKlIOjYwNjrOmJziMwSKEJ9vRAxF
- /O2kekA0Bc0Cjn4NjzzgqocrvmdQZbxtVOkw5MaPnYrcgv2ym7nsBnNt/ja/xRD3+E
- xr1uHS/PjoQkg==
-Received: by mail-lf1-f45.google.com with SMTP id
- 2adb3069b0e04-51005675963so2697081e87.0
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 02:06:51 -0800 (PST)
-X-Gm-Message-State: AOJu0Yx0d0NrRxY2X64vnXvYBE/HqlidzHC4KsWbRiA/CHbKYbXEejbZ
- 79mT45ELaMEqM76stbRtjMn8KOr9ONnk05WgVtJbBwLxhk04aQCP/9eJlUqEnVmf4UZYkKrQ64p
- h+nmVYZ0zwg6tW0ljaVn6Pk66sC0=
-X-Google-Smtp-Source: AGHT+IEOaiBbgCP+qJ5HpP+RSrqTriJw2MUXxhXNGwIo+AVoZkWDDtrmKW1AB9/8s5dLmoiHYGiu8Ykn5f7PuGd29+s=
-X-Received: by 2002:a05:6512:b02:b0:50e:7fe3:f59d with SMTP id
- w2-20020a0565120b0200b0050e7fe3f59dmr3026988lfu.106.1706090809830; Wed, 24
- Jan 2024 02:06:49 -0800 (PST)
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
+ [209.85.166.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56CBB10E567
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 10:15:22 +0000 (UTC)
+Received: by mail-io1-f72.google.com with SMTP id
+ ca18e2360f4ac-7becfc75cd4so486594439f.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 02:15:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1706091321; x=1706696121;
+ h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=z4M4vmM9pvCcaRrLe69ucq2F6ji5XFhw/m2nTXW150E=;
+ b=naFgb5QPMKDQabhObER7tt9vIAB/kTFR+C58D8cUgV4sHyVIXw/vcrK7gqGz3EUEdQ
+ rjsGzxRnP+DZwhEoxvIcgF8dlGCLZ4s+SQ5CCJ4eNu8OfpXOL1ji8Efz4KJNPyvGfYXT
+ OZTkpeC8522xzKSuqUTTLni0enMRatMqxdf2CL7yLCPXIc8/CuiIW5T4ZdxpPwq5ywSY
+ kNS6z0aRDA3+rkHkER7kZ4k8VLL62C0NYDs+cKGJ488yAL+dxXFqRYLeHG0zYIiqm0yF
+ zKF9t3XImeUdBT9cr7CcsIuqzSh6I3GL5jaL0mGhiZd2ql0Gyf16q+ygt8BpOyU1+ATN
+ lI/w==
+X-Gm-Message-State: AOJu0YxUFiQKD3OoKswVl7D/0HQzlAIX5ERjiNd9lt0KFAn6QXs9t794
+ e3yqaSWJtHaiPlbS6iPknrJMqIF+PxoI6w7RoW1V64WsyKq5bBjb/k1/6Us0FS1SepzHj4q9Pv9
+ dodvkukU6d8bMFoSGZa6HZZlRYUo75zSQ9cNMu+Z7t8hwX6DEkppMQMk=
+X-Google-Smtp-Source: AGHT+IHiReyDw5aTlGo9JXuE1enyDoSoBk77Oc1Y9t6KuKuKmbSJada/HC/2hGX8yebxT+nQobFJjKXzobWaWrRn/Se3a+qNGkXS
 MIME-Version: 1.0
-References: <20240119104049.335449-1-chenhuacai@loongson.cn>
- <1ead2284-dbc1-4938-bdce-66971c70ef1e@linux.dev>
-In-Reply-To: <1ead2284-dbc1-4938-bdce-66971c70ef1e@linux.dev>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Wed, 24 Jan 2024 18:06:38 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H7U39cjtDQvvxGEL+yh3sr+pJ6YaiOhXEao9fwr44wPGw@mail.gmail.com>
-Message-ID: <CAAhV-H7U39cjtDQvvxGEL+yh3sr+pJ6YaiOhXEao9fwr44wPGw@mail.gmail.com>
-Subject: Re: drm/loongson: Error out if no VRAM detected
-To: Sui JIngfeng <sui.jingfeng@linux.dev>
+X-Received: by 2002:a05:6638:22c8:b0:46e:eec9:9b32 with SMTP id
+ j8-20020a05663822c800b0046eeec99b32mr132757jat.4.1706091321751; Wed, 24 Jan
+ 2024 02:15:21 -0800 (PST)
+Date: Wed, 24 Jan 2024 02:15:21 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000002fff4a060fae5751@google.com>
+Subject: [syzbot] [dri?] [virtualization?] upstream boot error: INFO: task
+ hung in virtio_gpu_queue_fenced_ctrl_buffer
+From: syzbot <syzbot+22e2c28c99235275f109@syzkaller.appspotmail.com>
+To: airlied@redhat.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ gurchetansingh@chromium.org, kraxel@redhat.com, linux-kernel@vger.kernel.org, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, olvaffe@gmail.com, 
+ syzkaller-bugs@googlegroups.com, tzimmermann@suse.de, 
+ virtualization@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,115 +60,193 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "loongson-kernel@lists.loongnix.cn" <loongson-kernel@lists.loongnix.cn>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>,
- dri-devel@lists.freedesktop.org, Huacai Chen <chenhuacai@loongson.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Jingfeng,
+Hello,
 
-On Sat, Jan 20, 2024 at 12:19=E2=80=AFAM Sui JIngfeng <sui.jingfeng@linux.d=
-ev> wrote:
->
-> Hi,
->
-> Thanks a lot for contribution.
->
-> On 2024/1/19 18:40, Huacai Chen wrote:
-> > If there is no VRAM (it is true if there is a discreted card),
->
->
-> Why the dedicated VRAM is gone whenthere is a discrete card?
->
-> As far as I know, this is only possible on Loongson 3C5000 + aspeed BMC
-> server hardware platform where the dedicated VRAM chip of Loongson
-> Graphics is NOT soldered on the motherboard. Probably for cost reason,
-> but then, the platform BIOS(either UEFI or PMON) should turn off the
-> Loongson integrated graphics.
->
-> Because without dedicated VRAM, this driver can not work correctly. Or ca=
-rve out
-> part of system RAM as VRAM, and write the base address and size to the BA=
-R 2 of
-> the GPU PCI device.
-> This is NOT true  for Loongson 3A5000/3A6000  desktop hardware, because I=
- have do
-> a lot test on various platform[1] before this driver was merged. It never=
- happens
-> on a sane hardware configuration. Please update the commit message and li=
-mit the
-> scope.
-I will update in V2.
+syzbot found the following issue on:
 
->
-> [1] https://github.com/loongson-gfx/loongson_boards
->
-> > we get
-> > such an error and Xorg fails to start:
->
->
-> Yeah, If there is no dedicated VRAM, the driver can't allocate memory for=
- framebuffer.
-> But this is probably more about the hardware configuration issue, not a d=
-river issue.
-I agree, but it seems we need a workaround in the driver because there
-are already many machines with ill firmware.
+HEAD commit:    615d30064886 Merge tag 'trace-v6.8-rc1' of git://git.kerne..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=167456f7e80000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=e6c3b3d5f71246cb
+dashboard link: https://syzkaller.appspot.com/bug?extid=22e2c28c99235275f109
+compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
 
->
->
-> > [  136.401131] loongson 0000:00:06.1: [drm] *ERROR* Requesting(0MiB) fa=
-iled
-> > [  137.444342] loongson 0000:00:06.1: [drm] *ERROR* Requesting(0MiB) fa=
-iled
-> > [  138.871166] loongson 0000:00:06.1: [drm] *ERROR* Requesting(0MiB) fa=
-iled
-> > [  140.444078] loongson 0000:00:06.1: [drm] *ERROR* Requesting(0MiB) fa=
-iled
-> > [  142.403993] loongson 0000:00:06.1: [drm] *ERROR* Requesting(0MiB) fa=
-iled
-> > [  143.970625] loongson 0000:00:06.1: [drm] *ERROR* Requesting(0MiB) fa=
-iled
-> > [  145.862013] loongson 0000:00:06.1: [drm] *ERROR* Requesting(0MiB) fa=
-iled
-> >
-> > So in lsdc_get_dedicated_vram() we error out if no VRAM (or VRAM is les=
-s
-> > than 1MB which is also an unusable case) detected.
->
->
-> This is not expected, if you want this driver be there and run normally.
-> You should guarantee that there have at least 64MiB dedicated VRAM.
-I think this depends on the resolution, I choose 1MB here only because
-the driver's debug info prints 0MB if VRAM is less than 1MB.
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/7bc7510fe41f/non_bootable_disk-615d3006.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/4bf0b27acaa4/vmlinux-615d3006.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/3133809ff35d/bzImage-615d3006.xz
 
-Huacai
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+22e2c28c99235275f109@syzkaller.appspotmail.com
 
->
-> I'm OK if this patch is strongly requested, but this is a kind of error h=
-andling.
-> Please give more details about the hardware in using and explain why ther=
-e is no
-> dedicated VRAM available for your hardware.
->
->
-> > Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
-> > ---
-> >   drivers/gpu/drm/loongson/lsdc_drv.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/loongson/lsdc_drv.c b/drivers/gpu/drm/loon=
-gson/lsdc_drv.c
-> > index 89ccc0c43169..d8ff60b46abe 100644
-> > --- a/drivers/gpu/drm/loongson/lsdc_drv.c
-> > +++ b/drivers/gpu/drm/loongson/lsdc_drv.c
-> > @@ -184,7 +184,7 @@ static int lsdc_get_dedicated_vram(struct lsdc_devi=
-ce *ldev,
-> >       drm_info(ddev, "Dedicated vram start: 0x%llx, size: %uMiB\n",
-> >                (u64)base, (u32)(size >> 20));
-> >
-> > -     return 0;
-> > +     return (size > SZ_1M) ? 0 : -ENODEV;
-> >   }
-> >
-> >   static struct lsdc_device *
+INFO: task swapper/0:1 blocked for more than 143 seconds.
+      Not tainted 6.8.0-rc1-syzkaller-00029-g615d30064886 #0
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:swapper/0       state:D stack:22288 pid:1     tgid:1     ppid:0      flags:0x00004000
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5400 [inline]
+ __schedule+0xf12/0x5c00 kernel/sched/core.c:6727
+ __schedule_loop kernel/sched/core.c:6802 [inline]
+ schedule+0xe9/0x270 kernel/sched/core.c:6817
+ virtio_gpu_queue_ctrl_sgs drivers/gpu/drm/virtio/virtgpu_vq.c:341 [inline]
+ virtio_gpu_queue_fenced_ctrl_buffer+0x497/0xff0 drivers/gpu/drm/virtio/virtgpu_vq.c:415
+ virtio_gpu_resource_flush drivers/gpu/drm/virtio/virtgpu_plane.c:162 [inline]
+ virtio_gpu_primary_plane_update+0x1059/0x1590 drivers/gpu/drm/virtio/virtgpu_plane.c:237
+ drm_atomic_helper_commit_planes+0x92f/0xfe0 drivers/gpu/drm/drm_atomic_helper.c:2800
+ drm_atomic_helper_commit_tail+0x69/0xf0 drivers/gpu/drm/drm_atomic_helper.c:1749
+ commit_tail+0x353/0x410 drivers/gpu/drm/drm_atomic_helper.c:1834
+ drm_atomic_helper_commit+0x2f9/0x380 drivers/gpu/drm/drm_atomic_helper.c:2072
+ drm_atomic_commit+0x20b/0x2d0 drivers/gpu/drm/drm_atomic.c:1514
+ drm_client_modeset_commit_atomic+0x6c2/0x810 drivers/gpu/drm/drm_client_modeset.c:1051
+ drm_client_modeset_commit_locked+0x14d/0x580 drivers/gpu/drm/drm_client_modeset.c:1154
+ pan_display_atomic drivers/gpu/drm/drm_fb_helper.c:1370 [inline]
+ drm_fb_helper_pan_display+0x2a5/0x990 drivers/gpu/drm/drm_fb_helper.c:1430
+ fb_pan_display+0x477/0x7c0 drivers/video/fbdev/core/fbmem.c:191
+ bit_update_start+0x49/0x1f0 drivers/video/fbdev/core/bitblit.c:390
+ fbcon_switch+0xbb3/0x12e0 drivers/video/fbdev/core/fbcon.c:2170
+ redraw_screen+0x2bd/0x750 drivers/tty/vt/vt.c:969
+ fbcon_prepare_logo+0x9f8/0xc80 drivers/video/fbdev/core/fbcon.c:616
+ con2fb_init_display drivers/video/fbdev/core/fbcon.c:803 [inline]
+ set_con2fb_map+0xcea/0x1050 drivers/video/fbdev/core/fbcon.c:867
+ do_fb_registered drivers/video/fbdev/core/fbcon.c:3007 [inline]
+ fbcon_fb_registered+0x21d/0x660 drivers/video/fbdev/core/fbcon.c:3023
+ do_register_framebuffer drivers/video/fbdev/core/fbmem.c:449 [inline]
+ register_framebuffer+0x4b2/0x860 drivers/video/fbdev/core/fbmem.c:515
+ __drm_fb_helper_initial_config_and_unlock+0xd7c/0x1650 drivers/gpu/drm/drm_fb_helper.c:1871
+ drm_fb_helper_initial_config drivers/gpu/drm/drm_fb_helper.c:1936 [inline]
+ drm_fb_helper_initial_config+0x44/0x60 drivers/gpu/drm/drm_fb_helper.c:1928
+ drm_fbdev_generic_client_hotplug+0x19e/0x270 drivers/gpu/drm/drm_fbdev_generic.c:279
+ drm_client_register+0x195/0x280 drivers/gpu/drm/drm_client.c:141
+ drm_fbdev_generic_setup+0x184/0x340 drivers/gpu/drm/drm_fbdev_generic.c:341
+ virtio_gpu_probe+0x1be/0x3c0 drivers/gpu/drm/virtio/virtgpu_drv.c:105
+ virtio_dev_probe+0x5e4/0x980 drivers/virtio/virtio.c:311
+ call_driver_probe drivers/base/dd.c:579 [inline]
+ really_probe+0x234/0xc90 drivers/base/dd.c:658
+ __driver_probe_device+0x1de/0x4b0 drivers/base/dd.c:800
+ driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:830
+ __driver_attach+0x274/0x570 drivers/base/dd.c:1216
+ bus_for_each_dev+0x13c/0x1d0 drivers/base/bus.c:368
+ bus_add_driver+0x2e9/0x630 drivers/base/bus.c:673
+ driver_register+0x15c/0x4a0 drivers/base/driver.c:246
+ do_one_initcall+0x11c/0x650 init/main.c:1236
+ do_initcall_level init/main.c:1298 [inline]
+ do_initcalls init/main.c:1314 [inline]
+ do_basic_setup init/main.c:1333 [inline]
+ kernel_init_freeable+0x687/0xc10 init/main.c:1551
+ kernel_init+0x1c/0x2a0 init/main.c:1441
+ ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x11/0x20 arch/x86/entry/entry_64.S:242
+ </TASK>
+INFO: task kworker/0:0:8 blocked for more than 143 seconds.
+      Not tainted 6.8.0-rc1-syzkaller-00029-g615d30064886 #0
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:kworker/0:0     state:D stack:28208 pid:8     tgid:8     ppid:2      flags:0x00004000
+Workqueue: events virtio_gpu_dequeue_ctrl_func
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5400 [inline]
+ __schedule+0xf12/0x5c00 kernel/sched/core.c:6727
+ __schedule_loop kernel/sched/core.c:6802 [inline]
+ schedule+0xe9/0x270 kernel/sched/core.c:6817
+ schedule_preempt_disabled+0x13/0x20 kernel/sched/core.c:6874
+ __mutex_lock_common kernel/locking/mutex.c:684 [inline]
+ __mutex_lock+0x5b9/0x9d0 kernel/locking/mutex.c:752
+ drm_client_dev_hotplug drivers/gpu/drm/drm_client.c:217 [inline]
+ drm_client_dev_hotplug+0x169/0x3c0 drivers/gpu/drm/drm_client.c:204
+ virtio_gpu_cmd_get_display_info_cb+0x3e1/0x550 drivers/gpu/drm/virtio/virtgpu_vq.c:674
+ virtio_gpu_dequeue_ctrl_func+0x21b/0x9a0 drivers/gpu/drm/virtio/virtgpu_vq.c:235
+ process_one_work+0x886/0x15d0 kernel/workqueue.c:2633
+ process_scheduled_works kernel/workqueue.c:2706 [inline]
+ worker_thread+0x8b9/0x1290 kernel/workqueue.c:2787
+ kthread+0x2c6/0x3a0 kernel/kthread.c:388
+ ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x11/0x20 arch/x86/entry/entry_64.S:242
+ </TASK>
+INFO: task kworker/1:1:55 blocked for more than 143 seconds.
+      Not tainted 6.8.0-rc1-syzkaller-00029-g615d30064886 #0
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:kworker/1:1     state:D stack:27648 pid:55    tgid:55    ppid:2      flags:0x00004000
+Workqueue: events drm_fb_helper_damage_work
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5400 [inline]
+ __schedule+0xf12/0x5c00 kernel/sched/core.c:6727
+ __schedule_loop kernel/sched/core.c:6802 [inline]
+ schedule+0xe9/0x270 kernel/sched/core.c:6817
+ schedule_preempt_disabled+0x13/0x20 kernel/sched/core.c:6874
+ __mutex_lock_common kernel/locking/mutex.c:684 [inline]
+ __mutex_lock+0x5b9/0x9d0 kernel/locking/mutex.c:752
+ drm_fbdev_generic_damage_blit drivers/gpu/drm/drm_fbdev_generic.c:198 [inline]
+ drm_fbdev_generic_helper_fb_dirty+0x255/0xbb0 drivers/gpu/drm/drm_fbdev_generic.c:225
+ drm_fb_helper_fb_dirty drivers/gpu/drm/drm_fb_helper.c:390 [inline]
+ drm_fb_helper_damage_work+0x283/0x5e0 drivers/gpu/drm/drm_fb_helper.c:413
+ process_one_work+0x886/0x15d0 kernel/workqueue.c:2633
+ process_scheduled_works kernel/workqueue.c:2706 [inline]
+ worker_thread+0x8b9/0x1290 kernel/workqueue.c:2787
+ kthread+0x2c6/0x3a0 kernel/kthread.c:388
+ ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x11/0x20 arch/x86/entry/entry_64.S:242
+ </TASK>
+
+Showing all locks held in the system:
+10 locks held by swapper/0/1:
+ #0: ffff88801bcf8170 (&dev->mutex){....}-{3:3}, at: device_lock include/linux/device.h:990 [inline]
+ #0: ffff88801bcf8170 (&dev->mutex){....}-{3:3}, at: __device_driver_lock drivers/base/dd.c:1095 [inline]
+ #0: ffff88801bcf8170 (&dev->mutex){....}-{3:3}, at: __driver_attach+0x269/0x570 drivers/base/dd.c:1215
+ #1: ffff88801d7b42f8 (&dev->clientlist_mutex){+.+.}-{3:3}, at: drm_client_register+0x54/0x280 drivers/gpu/drm/drm_client.c:127
+ #2: ffffffff8dcbfe88 (registration_lock){+.+.}-{3:3}, at: register_framebuffer+0x7a/0x860 drivers/video/fbdev/core/fbmem.c:514
+ #3: ffffffff8d196720 (console_lock){+.+.}-{0:0}, at: fbcon_fb_registered+0x3c/0x660 drivers/video/fbdev/core/fbcon.c:3019
+ #4: ffff8880198f4280 (&helper->lock){+.+.}-{3:3}, at: drm_fb_helper_pan_display+0xd5/0x990 drivers/gpu/drm/drm_fb_helper.c:1423
+ #5: ffff88801d7b41b0 (&dev->master_mutex){+.+.}-{3:3}, at: drm_master_internal_acquire+0x21/0x70 drivers/gpu/drm/drm_auth.c:452
+ #6: ffff8880198f4098 (&client->modeset_mutex){+.+.}-{3:3}, at: drm_client_modeset_commit_locked+0x4c/0x580 drivers/gpu/drm/drm_client_modeset.c:1152
+ #7: ffffc90000047278 (crtc_ww_class_acquire){+.+.}-{0:0}, at: drm_client_modeset_commit_atomic+0xd0/0x810 drivers/gpu/drm/drm_client_modeset.c:990
+ #8: ffff88801d9cb0b0 (crtc_ww_class_mutex){+.+.}-{3:3}, at: modeset_lock+0x484/0x6c0 drivers/gpu/drm/drm_modeset_lock.c:314
+ #9: ffffffff8ddf96d0 (drm_unplug_srcu){.+.+}-{0:0}, at: srcu_lock_acquire include/linux/srcu.h:116 [inline]
+ #9: ffffffff8ddf96d0 (drm_unplug_srcu){.+.+}-{0:0}, at: srcu_read_lock include/linux/srcu.h:215 [inline]
+ #9: ffffffff8ddf96d0 (drm_unplug_srcu){.+.+}-{0:0}, at: drm_dev_enter+0x49/0x160 drivers/gpu/drm/drm_drv.c:449
+3 locks held by kworker/0:0/8:
+ #0: ffff888013088d38 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x789/0x15d0 kernel/workqueue.c:2608
+ #1: ffffc900000b7d80 ((work_completion)(&vgvq->dequeue_work)){+.+.}-{0:0}, at: process_one_work+0x7eb/0x15d0 kernel/workqueue.c:2609
+ #2: ffff88801d7b42f8 (&dev->clientlist_mutex){+.+.}-{3:3}, at: drm_client_dev_hotplug drivers/gpu/drm/drm_client.c:217 [inline]
+ #2: ffff88801d7b42f8 (&dev->clientlist_mutex){+.+.}-{3:3}, at: drm_client_dev_hotplug+0x169/0x3c0 drivers/gpu/drm/drm_client.c:204
+2 locks held by kworker/u16:0/11:
+ #0: ffff888013089938 ((wq_completion)events_unbound){+.+.}-{0:0}, at: process_one_work+0x789/0x15d0 kernel/workqueue.c:2608
+ #1: ffffc900000e7d80 ((work_completion)(&(&kfence_timer)->work)){+.+.}-{0:0}, at: process_one_work+0x7eb/0x15d0 kernel/workqueue.c:2609
+1 lock held by khungtaskd/39:
+ #0: ffffffff8d1a9120 (rcu_read_lock){....}-{1:2}, at: rcu_lock_acquire include/linux/rcupdate.h:298 [inline]
+ #0: ffffffff8d1a9120 (rcu_read_lock){....}-{1:2}, at: rcu_read_lock include/linux/rcupdate.h:750 [inline]
+ #0: ffffffff8d1a9120 (rcu_read_lock){....}-{1:2}, at: debug_show_all_locks+0x75/0x340 kernel/locking/lockdep.c:6614
+3 locks held by kworker/1:1/55:
+ #0: ffff888013088d38 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x789/0x15d0 kernel/workqueue.c:2608
+ #1: ffffc90000a77d80 ((work_completion)(&helper->damage_work)){+.+.}-{0:0}, at: process_one_work+0x7eb/0x15d0 kernel/workqueue.c:2609
+ #2: ffff8880198f4280 (&helper->lock){+.+.}-{3:3}, at: drm_fbdev_generic_damage_blit drivers/gpu/drm/drm_fbdev_generic.c:198 [inline]
+ #2: ffff8880198f4280 (&helper->lock){+.+.}-{3:3}, at: drm_fbdev_generic_helper_fb_dirty+0x255/0xbb0 drivers/gpu/drm/drm_fbdev_generic.c:225
+
+=============================================
+
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
