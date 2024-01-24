@@ -2,71 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABA4C83A3A8
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 09:01:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 888F183A3B0
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 09:05:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1730110E98A;
-	Wed, 24 Jan 2024 08:01:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CACFD10F68D;
+	Wed, 24 Jan 2024 08:04:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
- [209.85.218.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A73510E98A
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 08:01:22 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id
- a640c23a62f3a-a2e0be86878so1160215766b.1
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 00:01:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fairphone.com; s=fair; t=1706083221; x=1706688021; darn=lists.freedesktop.org;
- h=in-reply-to:references:cc:to:from:subject:message-id:date
- :content-transfer-encoding:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+1iNsBQtek6e9skYq9Z1rL6ps6zVCkkZxhyX4dVD9qQ=;
- b=u3AbGcVHFSWuXwWXDKMUIQZwMJtAOHd8nC9S+ffxu+QoC3OPL4cC5v1+8q1w88gVc2
- RsiduK/+ryEKTvLfpdYm/ZLQrcIiRL1Idf9rBKmoDvSUMpC70HTvqaXRCnNXpyrDU6up
- hT6ub8cAefnakSGJc/2Ax87tRhTLVsk+Xk76XGZhScoiOt7TzRYYCcDjxSJERwVOyIJx
- EHPl2b7cAw6kONIGI73Cp1UlOcfwVrIwvnlpx7gjjtzIbByn+SDxPDCWDOLibYBYRYIH
- xrp0IrV/LGZLPC5/+VVjEhfJRd+hGqNIKRWygkCkufqOZkHMrF8bZWHB01OLRP6iS1ia
- DiUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706083221; x=1706688021;
- h=in-reply-to:references:cc:to:from:subject:message-id:date
- :content-transfer-encoding:mime-version:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=+1iNsBQtek6e9skYq9Z1rL6ps6zVCkkZxhyX4dVD9qQ=;
- b=ATagsWUQ2VONMBbqVsRk9FPQB2GvhrPAXCVpUTuAsour0IAdmlzkJxeygnmsn0Hflz
- kMUClkvShffSlIRXTylDmYvrgDPeOem+7pSozWOG5MdcFM0rZ2dy7QtCr3E2MwQfbD8V
- ycK6JR4LgxCax08V8mXPPdu7FwLg9asxbxXKjj7UMA0eoRkLYkO9VgWUy4xryMlngLte
- /DhxC6+q49U37CJHuNX2DxKzsPhT7SHwK49OA7ekCAKh2+N1EfGo7Mx1DgRxILJ3450F
- XtdmAyqsflU65aKEJzAZ+FagmQmiKWFnvr+RSd511Rs57ySl7cO2mlHkB4G3AXghpeWO
- MhTw==
-X-Gm-Message-State: AOJu0YxpGExxJmGwMY+asKQzHNzksbXngdGWLPtb4ocu5GOy0aa1ONrQ
- SMFGQpnt/GyWtKPldPazF/9sir0BvOcbKOlwWcl2Pe723saaZqhpWQ/cbvGKeM8=
-X-Google-Smtp-Source: AGHT+IGOfgJbOSQadnKGAiNooVHILk9J6Hx2PXu43Sowz5rh6eYZpKwjo0pLYhmByPKFPLpipcWFRg==
-X-Received: by 2002:a17:906:9c88:b0:a31:2ebe:38af with SMTP id
- fj8-20020a1709069c8800b00a312ebe38afmr355681ejc.8.1706083220933; 
- Wed, 24 Jan 2024 00:00:20 -0800 (PST)
-Received: from localhost (144-178-202-138.static.ef-service.nl.
- [144.178.202.138]) by smtp.gmail.com with ESMTPSA id
- cd6-20020a170906b34600b00a2c8e9918casm14572641ejb.198.2024.01.24.00.00.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Jan 2024 00:00:20 -0800 (PST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 24 Jan 2024 09:00:20 +0100
-Message-Id: <CYMS0ZCCYW70.2S0E9NYRR6YPR@fairphone.com>
-Subject: Re: [RFT PATCH v2 4/4] drm/msm/dpu: enable writeback on SM6350
-From: "Luca Weiss" <luca.weiss@fairphone.com>
-To: "Luca Weiss" <luca.weiss@fairphone.com>, "Dmitry Baryshkov"
- <dmitry.baryshkov@linaro.org>, "Rob Clark" <robdclark@gmail.com>, "Sean
- Paul" <sean@poorly.run>, "Abhinav Kumar" <quic_abhinavk@quicinc.com>,
- "Marijn Suijten" <marijn.suijten@somainline.org>
-X-Mailer: aerc 0.15.2
-References: <20231203003203.1293087-1-dmitry.baryshkov@linaro.org>
- <20231203003203.1293087-5-dmitry.baryshkov@linaro.org>
- <CXSF8ZPWKRD9.9CMJU31KG4KP@fairphone.com>
-In-Reply-To: <CXSF8ZPWKRD9.9CMJU31KG4KP@fairphone.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A330B10F671;
+ Wed, 24 Jan 2024 08:04:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1706083499; x=1737619499;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=LFjrW/3gncxzl/A3TUIYstXciGL965aXTzTWUjho538=;
+ b=g7ywL5M+noTxdVisTpQfBO/tXBKHxYf6CoOo1VLCHphb529YohVqxf3M
+ BgIlapwrmhMYM1TkUnvLc7yE2Bb0qTqnmJLLTU8aqZeA88O4qg4xywMsk
+ KUGlexa9TtXW0WKitINhCT6L6P07KYy9RvGp1L1tM1STT+DVkJpHA7x+5
+ T9Mb9/jYeni6rX91AXDUh/eQFh7FH67f6hFwpDMPsUbNUdWewbuJQhqrb
+ tYQ7GFjca2Vqe58p2ihO63cqpTN7kRX/lGvWadDnfukIgc8nIDUsJQb76
+ zY3ITbEfIPLnOVY3XhYtnxXUbUWQLBNI0cynCl92ug9M7RgQFTiungc7l Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="8425191"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="8425191"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jan 2024 00:04:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="1928230"
+Received: from komalav-mobl2.gar.corp.intel.com (HELO localhost)
+ ([10.252.41.195])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jan 2024 00:04:55 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>, Yury Norov
+ <yury.norov@gmail.com>
+Subject: Re: [PATCH 3/3] drm/i915: Convert REG_GENMASK* to fixed-width
+ GENMASK_*
+In-Reply-To: <20240124050205.3646390-4-lucas.demarchi@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240124050205.3646390-1-lucas.demarchi@intel.com>
+ <20240124050205.3646390-4-lucas.demarchi@intel.com>
+Date: Wed, 24 Jan 2024 10:04:52 +0200
+Message-ID: <87r0i7kvh7.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,105 +62,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>
+Cc: intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ intel-xe@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue Dec 19, 2023 at 4:39 PM CET, Luca Weiss wrote:
-> On Sun Dec 3, 2023 at 1:32 AM CET, Dmitry Baryshkov wrote:
-> > Enable WB2 hardware block, enabling writeback support on this platform.
-> >
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->
-> Hi Dmitry,
->
-> I've tried this on sm7225-fairphone-fp4 but having trouble testing this.
->
-> I guess I'm using some ID wrong with modetest, could you check and see
-> what I do wrong?
->
-> libdrm is on version 2.4.118 from Alpine Linux/postmarketOS, kernel is
-> v6.7.0-rc6 plus a few patches for hardware enablement (like display).
->
-> See log:
->
-> <snip>
->
+On Tue, 23 Jan 2024, Lucas De Marchi <lucas.demarchi@intel.com> wrote:
+> Now that include/linux/bits.h implements fixed-width GENMASK_*, use them
+> to implement the i915/xe specific macros. Converting each driver to use
+> the generic macros are left for later, when/if other driver-specific
+> macros are also generalized.
 
-Hi Dmitry,
+With the type-specific max checks added to GENMASK_*, this would be
+great.
 
-I've tested again now and made it work.
-
-$ modetest -M msm -a -s 38@64:1024x768 -o test.d -P 45@64:1024x768
-
-Then display the image with
-
-$ magick display -size 1024x768 -depth 8 RGBA:test.d
-
-As discussed on IRC it seems the byte order of R and B might be wrong,
-so it looks like BGRA is the format we get the data in, not RGBA.
-
-Anyways:
-
-Tested-by: Luca Weiss <luca.weiss@fairphone.com>
-
-Regards
-Luca
+BR,
+Jani.
 
 >
-> Regards
-> Luca
+> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+> ---
+>  drivers/gpu/drm/i915/i915_reg_defs.h | 108 +++------------------------
+>  1 file changed, 11 insertions(+), 97 deletions(-)
 >
->
-> > ---
-> >  .../drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h | 18 ++++++++++++++++++
-> >  1 file changed, 18 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h b/d=
-rivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h
-> > index 62db84bd15f2..3c179a73c030 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h
-> > @@ -27,6 +27,7 @@ static const struct dpu_mdp_cfg sm6350_mdp =3D {
-> >  		[DPU_CLK_CTRL_DMA0] =3D { .reg_off =3D 0x2ac, .bit_off =3D 8 },
-> >  		[DPU_CLK_CTRL_DMA1] =3D { .reg_off =3D 0x2b4, .bit_off =3D 8 },
-> >  		[DPU_CLK_CTRL_DMA2] =3D { .reg_off =3D 0x2c4, .bit_off =3D 8 },
-> > +		[DPU_CLK_CTRL_WB2] =3D { .reg_off =3D 0x2bc, .bit_off =3D 16 },
-> >  		[DPU_CLK_CTRL_REG_DMA] =3D { .reg_off =3D 0x2bc, .bit_off =3D 20 },
-> >  	},
-> >  };
-> > @@ -146,6 +147,21 @@ static const struct dpu_dsc_cfg sm6350_dsc[] =3D {
-> >  	},
-> >  };
-> > =20
-> > +static const struct dpu_wb_cfg sm6350_wb[] =3D {
-> > +	{
-> > +		.name =3D "wb_2", .id =3D WB_2,
-> > +		.base =3D 0x65000, .len =3D 0x2c8,
-> > +		.features =3D WB_SM8250_MASK,
-> > +		.format_list =3D wb2_formats,
-> > +		.num_formats =3D ARRAY_SIZE(wb2_formats),
-> > +		.clk_ctrl =3D DPU_CLK_CTRL_WB2,
-> > +		.xin_id =3D 6,
-> > +		.vbif_idx =3D VBIF_RT,
-> > +		.maxlinewidth =3D 1920,
-> > +		.intr_wb_done =3D DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 4),
-> > +	},
-> > +};
-> > +
-> >  static const struct dpu_intf_cfg sm6350_intf[] =3D {
-> >  	{
-> >  		.name =3D "intf_0", .id =3D INTF_0,
-> > @@ -219,6 +235,8 @@ const struct dpu_mdss_cfg dpu_sm6350_cfg =3D {
-> >  	.dsc =3D sm6350_dsc,
-> >  	.pingpong_count =3D ARRAY_SIZE(sm6350_pp),
-> >  	.pingpong =3D sm6350_pp,
-> > +	.wb_count =3D ARRAY_SIZE(sm6350_wb),
-> > +	.wb =3D sm6350_wb,
-> >  	.intf_count =3D ARRAY_SIZE(sm6350_intf),
-> >  	.intf =3D sm6350_intf,
-> >  	.vbif_count =3D ARRAY_SIZE(sdm845_vbif),
+> diff --git a/drivers/gpu/drm/i915/i915_reg_defs.h b/drivers/gpu/drm/i915/i915_reg_defs.h
+> index a685db1e815d..52f99eb96f86 100644
+> --- a/drivers/gpu/drm/i915/i915_reg_defs.h
+> +++ b/drivers/gpu/drm/i915/i915_reg_defs.h
+> @@ -9,76 +9,19 @@
+>  #include <linux/bitfield.h>
+>  #include <linux/bits.h>
+>  
+> -/**
+> - * REG_BIT() - Prepare a u32 bit value
+> - * @__n: 0-based bit number
+> - *
+> - * Local wrapper for BIT() to force u32, with compile time checks.
+> - *
+> - * @return: Value with bit @__n set.
+> - */
+> -#define REG_BIT(__n)							\
+> -	((u32)(BIT(__n) +						\
+> -	       BUILD_BUG_ON_ZERO(__is_constexpr(__n) &&		\
+> -				 ((__n) < 0 || (__n) > 31))))
+> -
+> -/**
+> - * REG_BIT8() - Prepare a u8 bit value
+> - * @__n: 0-based bit number
+> - *
+> - * Local wrapper for BIT() to force u8, with compile time checks.
+> - *
+> - * @return: Value with bit @__n set.
+> - */
+> -#define REG_BIT8(__n)                                                   \
+> -	((u8)(BIT(__n) +                                                \
+> -	       BUILD_BUG_ON_ZERO(__is_constexpr(__n) &&         \
+> -				 ((__n) < 0 || (__n) > 7))))
+> -
+> -/**
+> - * REG_GENMASK() - Prepare a continuous u32 bitmask
+> - * @__high: 0-based high bit
+> - * @__low: 0-based low bit
+> - *
+> - * Local wrapper for GENMASK() to force u32, with compile time checks.
+> - *
+> - * @return: Continuous bitmask from @__high to @__low, inclusive.
+> - */
+> -#define REG_GENMASK(__high, __low)					\
+> -	((u32)(GENMASK(__high, __low) +					\
+> -	       BUILD_BUG_ON_ZERO(__is_constexpr(__high) &&	\
+> -				 __is_constexpr(__low) &&		\
+> -				 ((__low) < 0 || (__high) > 31 || (__low) > (__high)))))
+> -
+> -/**
+> - * REG_GENMASK64() - Prepare a continuous u64 bitmask
+> - * @__high: 0-based high bit
+> - * @__low: 0-based low bit
+> - *
+> - * Local wrapper for GENMASK_ULL() to force u64, with compile time checks.
+> - *
+> - * @return: Continuous bitmask from @__high to @__low, inclusive.
+> +/*
+> + * Wrappers over the generic BIT_* and GENMASK_* implementations,
+> + * for compatibility reasons with previous implementation
+>   */
+> -#define REG_GENMASK64(__high, __low)					\
+> -	((u64)(GENMASK_ULL(__high, __low) +				\
+> -	       BUILD_BUG_ON_ZERO(__is_constexpr(__high) &&		\
+> -				 __is_constexpr(__low) &&		\
+> -				 ((__low) < 0 || (__high) > 63 || (__low) > (__high)))))
+> +#define REG_GENMASK(__high, __low)	GENMASK_U32(__high, __low)
+> +#define REG_GENMASK64(__high, __low)	GENMASK_U64(__high, __low)
+> +#define REG_GENMASK16(__high, __low)	GENMASK_U16(__high, __low)
+> +#define REG_GENMASK8(__high, __low)	GENMASK_U8(__high, __low)
+>  
+> -/**
+> - * REG_GENMASK8() - Prepare a continuous u8 bitmask
+> - * @__high: 0-based high bit
+> - * @__low: 0-based low bit
+> - *
+> - * Local wrapper for GENMASK() to force u8, with compile time checks.
+> - *
+> - * @return: Continuous bitmask from @__high to @__low, inclusive.
+> - */
+> -#define REG_GENMASK8(__high, __low)                                     \
+> -	((u8)(GENMASK(__high, __low) +                                  \
+> -	       BUILD_BUG_ON_ZERO(__is_constexpr(__high) &&      \
+> -				 __is_constexpr(__low) &&               \
+> -				 ((__low) < 0 || (__high) > 7 || (__low) > (__high)))))
+> +#define REG_BIT(__n)			BIT_U32(__n)
+> +#define REG_BIT64(__n)			BIT_U64(__n)
+> +#define REG_BIT16(__n)			BIT_U16(__n)
+> +#define REG_BIT8(__n)			BIT_U8(__n)
+>  
+>  /*
+>   * Local integer constant expression version of is_power_of_2().
+> @@ -143,35 +86,6 @@
+>   */
+>  #define REG_FIELD_GET64(__mask, __val)	((u64)FIELD_GET(__mask, __val))
+>  
+> -/**
+> - * REG_BIT16() - Prepare a u16 bit value
+> - * @__n: 0-based bit number
+> - *
+> - * Local wrapper for BIT() to force u16, with compile time
+> - * checks.
+> - *
+> - * @return: Value with bit @__n set.
+> - */
+> -#define REG_BIT16(__n)                                                   \
+> -	((u16)(BIT(__n) +                                                \
+> -	       BUILD_BUG_ON_ZERO(__is_constexpr(__n) &&         \
+> -				 ((__n) < 0 || (__n) > 15))))
+> -
+> -/**
+> - * REG_GENMASK16() - Prepare a continuous u8 bitmask
+> - * @__high: 0-based high bit
+> - * @__low: 0-based low bit
+> - *
+> - * Local wrapper for GENMASK() to force u16, with compile time
+> - * checks.
+> - *
+> - * @return: Continuous bitmask from @__high to @__low, inclusive.
+> - */
+> -#define REG_GENMASK16(__high, __low)                                     \
+> -	((u16)(GENMASK(__high, __low) +                                  \
+> -	       BUILD_BUG_ON_ZERO(__is_constexpr(__high) &&      \
+> -				 __is_constexpr(__low) &&               \
+> -				 ((__low) < 0 || (__high) > 15 || (__low) > (__high)))))
+>  
+>  /**
+>   * REG_FIELD_PREP16() - Prepare a u16 bitfield value
 
+-- 
+Jani Nikula, Intel
