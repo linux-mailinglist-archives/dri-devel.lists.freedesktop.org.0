@@ -2,122 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6829583B106
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 19:24:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6684C83B1C5
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 20:05:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EAC410EA72;
-	Wed, 24 Jan 2024 18:24:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E912F10F7C3;
+	Wed, 24 Jan 2024 19:05:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D38E210EA72
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 18:23:59 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Jp31aX0OaU0QXKv4TPkjHcICq+aJfcxBuj7njNhaWI8411lHsEgbfauyNTbGByc+qauiYqRL8uEpuev30KUHjKkpV+Njd0GCuO/T0AB3lv9+qzMdRJQdGli5PbQsDWMwkEGKfDR7/hHE9j4jboJo9XrMCX0dfRTbM3GTRjrMDJf94lo7G/RIzn9nl6oFd9LvH2nIbYyPeraRDwAdpTToPamx9ykMEy/XkRtG58HPjmFpJTg3rL3yt8A6GpMfaDGK/hVrbp0BNfzqspzuB54NqQ8lmazNfRbrqCOxnVGNIOjUNBj0nQhpgZNy6tH6o06RtkabvT31pNzsY+Yr9ZSXcg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9iJOH+xVTBBy6FmcfA3EjBXEWJTdUgSstRqiS2ln60M=;
- b=kLB5CT/JW3lf9I+un3QUpmUaoSMpEs4N98TzyADCnKswaEsWulf/Zmo3TUAEjsbi73yRik8Swch8mhQBjAI0BJh3U23uwYOYCJHA0YQrfqtXABzSz/tTxmOLmKd6W1rmwGLbnq5fUdCR5wTGQeTbpM9jVWAJJHPVkHcY7xFHK5VgsuzuO7RR568NAQ1jIBTI+p7xigYYukq2oV162UP0KQgnnytec4gJYJSsEN0bw4nObWwsh/2FUUgcZQnA/veEeFZfUhkqvcWeU9jYOwGwlLptbY/HyOA9sToIoRNMtwmzSpS1ck1mN9dNhQIdjJamVkP0lx/tqy6C7pTwYmL2BA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9iJOH+xVTBBy6FmcfA3EjBXEWJTdUgSstRqiS2ln60M=;
- b=u7G3pw1J7geWeEM6XlIup/wd28d+eXxzCiEV1r4hKrxTCLy67XkI8GvzgdYM2aNyAKdLsNQrIuCR6cZ6n/sfAxLT2M0gURPDItAqYkUZfNStRXQI7xsnnVUoVobKcPVgXGbw7KY11Kqq4aKwOG8Yz3Vd5LNLOQq1T4AiEZRukk4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
- by DS0PR12MB7655.namprd12.prod.outlook.com (2603:10b6:8:11e::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.37; Wed, 24 Jan
- 2024 18:23:54 +0000
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::ce8d:7121:cb06:91ba]) by MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::ce8d:7121:cb06:91ba%4]) with mapi id 15.20.7202.039; Wed, 24 Jan 2024
- 18:23:54 +0000
-Message-ID: <54efe4c8-38d8-4a5f-ac7a-aeb7a4e3535f@amd.com>
-Date: Wed, 24 Jan 2024 12:23:52 -0600
-User-Agent: Mozilla Thunderbird
-Subject: Re: [git pull] drm for 6.8
-Content-Language: en-US
-From: Mario Limonciello <mario.limonciello@amd.com>
-To: Thorsten Leemhuis <regressions@leemhuis.info>,
- Linus Torvalds <torvalds@linux-foundation.org>
-References: <CAPM=9twKBmO2Svky-zeP+KS8qWHFj9zrgeBqW9y__tUwcAYZhw@mail.gmail.com>
- <2faccc1a-7fdd-499b-aa0a-bd54f4068f3e@suse.cz>
- <CAOVeLGRxXfs4wxSmB2ULZS72NvJkWQvZyPRz0rAmQyFtL39ekw@mail.gmail.com>
- <0a782904-bb19-4111-979a-31b52aa44ca9@suse.cz>
- <a51ddb8c-cf11-4394-a2fe-ca855749ff02@amd.com>
- <e7eb12a9-67ed-45b1-aaf6-e1df52a247bd@leemhuis.info>
- <05ddb2da-b182-4791-8ef7-82179fd159a8@amd.com>
-In-Reply-To: <05ddb2da-b182-4791-8ef7-82179fd159a8@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: DM6PR11CA0024.namprd11.prod.outlook.com
- (2603:10b6:5:190::37) To MN0PR12MB6101.namprd12.prod.outlook.com
- (2603:10b6:208:3cb::10)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com
+ [209.85.128.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A8D710F7BD
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 19:05:13 +0000 (UTC)
+Received: by mail-yw1-f171.google.com with SMTP id
+ 00721157ae682-5ff7ec8772dso51192047b3.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 11:05:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1706123052; x=1706727852; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=KmnZ+4qU2kGjhoMztUUbFnIgPcRcY/5mbRQaBPPJztg=;
+ b=q5H6/mfEd/56KoJA5V6+X5WPgirhR+Xo+Or+Txp5jIfk+F/3v9cJmweSlM0RSKRFcW
+ Y3m2tI7FUlWw8TYMnpEOYygTfiHXhtcG3JqptFuedtvS5Yw8KSC/vtfQJaTbLNLRDWtC
+ hij4vucUJEgbOmolAg+6g9F6HNzATDkICgNSe9TWzjgMXE+px6TlKXSFuX4ScAy4FLk1
+ QXMkCoUd6DzNswpEQxk5bfWv5LOaqis7OJNjQVwOg5nxGGuBiYP1ljpWdv0MhAmlyDDB
+ cYzlE7PefvtnqRT/sMh5Rr8C88etDihqXvnH33Q4/tRdnKACgnJe0rPFPN6+8eRQrrQI
+ 5xrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1706123052; x=1706727852;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=KmnZ+4qU2kGjhoMztUUbFnIgPcRcY/5mbRQaBPPJztg=;
+ b=DmozDl+XnD8htSNACam1gH1Vko3Ll6zMTuLxzyiPzcIy8TD0/bpBerfBI/M9/RJZsg
+ kK2WLnqVy94LDvoOq5DJEGSGnQiilsFUEkaTnewB+zcOwQvVIhAJ6Q74hFeNStKhJIrF
+ QBhgMi4mURngHCg15dxrIwdFUj2rHZuGOUum+MX4LPPZU6HdKRguTJDFMbdGu09JQrXV
+ aclYqTjG2YAt1C4pv5bmHDX9cTcNr6O44tIta67mVHYgRm3Ufqd7lwwQhHU97B8ULuIK
+ IEv48w1c6SPzo18ErOBHKfaBQ6PsTop5AmBT1o2uz8QswN2Om7Qyjv9oM+giNcRcI2wi
+ TEfQ==
+X-Gm-Message-State: AOJu0YwA7Eu60NLyAPO0ZINBJ0XW2UA2nKUtaGSFhvKEbYEiRIQLQoZC
+ IV9KMbTvalpuLWgbS3qzyl5BS59Cq4AXrFxkV3LkGHQKe8f+BJfoc4YVB/qIXnE2A3yFMaz5Koh
+ pQurM8Fwjd6d8mjLZuKEH7l6DysAlkrx17xiLEA==
+X-Google-Smtp-Source: AGHT+IHSEPyZclZ3jWHL/AqXx86hPUnY1ANQkuWp2HJuMRnsJ3Bj63IM9Jhy+hVYq6pIrY/xvsulKAmFaTci3fyfHzk=
+X-Received: by 2002:a0d:d547:0:b0:5ff:e1fe:d083 with SMTP id
+ x68-20020a0dd547000000b005ffe1fed083mr1377249ywd.81.1706123051765; Wed, 24
+ Jan 2024 11:04:11 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|DS0PR12MB7655:EE_
-X-MS-Office365-Filtering-Correlation-Id: f1dc435b-e129-4bae-76de-08dc1d099f5f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Z/PBhxoFbzLGu8rrSXYqelAtGw0LFjkppd52+qw/IuAZ50l1wWKR8BG3Q4VUm2Odc+ykB5pBc/zbgCOl0JIxzTvy6MdzOrVKQgXFwlPGXMtUiPGH3k+Kwh0Z8Abgza5h5m2YPHb7zGO7heFFq9+27D8UxlIBJDBBwxVhGpakkt2tDPjQd2spsr/3cq5Bo3h0lk4BBBiprMHyhYE9Qtv4zYmG36Ng9mqqr6Wrq5xfAFEeWF4N1O9ZiupePN5XfcxArR7tdGYZZgrS1puHg1AnUPEVYe9T4n6NWIjgiobN8NVcBeLJ92nzItGRfukXyuosH2g/T4NwGSBuVDW8IoeNYv+N8JlB+cU2C7BiJWMJET3R6vjLOmWZQWTF2X9bhzxHy0tJgRVnx6L+VcrQJTL6jVGc+7QRgx7ncorOGurqltGckSkOD0rSkLeYSzBZBGyV+D398OnHQYUA1Xd0tx3CSsn1CDu7Jlo9bgguDDtgu64uyBvqXYVXuZmiLdAsE1rnqYkA0LbT167z2NiLhGSu39QJo+Sv38PFP4r9H9GO3vpiPl2l1eAKMLjx4h3CsDq37ZP8l5gcBjzMFR8vk/1WdcFOjfH/2NaDKHPp8smVqVjEo0qYBlAn2wf46aIa7mcCuwdzyoKBxnFzaRxLo71lwhxpHSDaZwP/Em56fIgZ3gY=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(39860400002)(346002)(376002)(396003)(136003)(366004)(230922051799003)(1800799012)(64100799003)(451199024)(186009)(6512007)(7416002)(66899024)(6506007)(53546011)(26005)(83380400001)(2616005)(41300700001)(8936002)(36756003)(8676002)(4326008)(316002)(44832011)(2906002)(54906003)(5660300002)(86362001)(110136005)(31696002)(66476007)(66556008)(6486002)(966005)(478600001)(31686004)(66946007)(38100700002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WTJKdUhqLzdXZGRybVM5OEhBaWk0cDFyYm42ZndhYzRWVjhlck5vQmZuQlNz?=
- =?utf-8?B?YTRZbm5QNVVVbXVKbThIclV1NWE5ODdKYk5wS3hVMmVYNmllQkczQkt3SzMv?=
- =?utf-8?B?UzJkWVpORHVpVlpKL1hGOUh0MTMzais4c3kySFdLRGpUL2ZMK082bDlGcXlY?=
- =?utf-8?B?UGJtekZVNkpGZks5SjdyQmVtYVNXaHhxYmxGNjJ3NlJvckNsTldveXV0WEZZ?=
- =?utf-8?B?WWpOakNsM0l5emJGSlU3MnhGUHAyeWg4WHN2UzRQbHhpTWRTN3RMSWtFTlhY?=
- =?utf-8?B?SWRPSGsybVlPRkRVcWdRYnVVN2YyUVVpcUpYOEttY1pkL2NtTzZOSFppLzNM?=
- =?utf-8?B?d2VMOUVmblZSWXAxYXp3OGFwVU96MC85RWxLdTFOTXlqTVByTDE1U0hzeitY?=
- =?utf-8?B?NUdibnNhNDFGeVhsQmVEWUd5QThEcVdOb3U5Q24rZjBtNjF2aTkxQTVMYXZE?=
- =?utf-8?B?SzNPUjZjU0hXenJsbUV2SmF0Q1YvK01kU3ZHWVM5WEdYTjUybTZIclJ4Vjd5?=
- =?utf-8?B?RktpL2JLeUZqNkwxWWtxRlgzeE9LbWNoR3BhZy9Jd2Z0eTlwSzNDUnlsUGRz?=
- =?utf-8?B?R3ZkSzRQNnBOVGpoMFRFZEdXOWpQbFZHZ2FtZjdwMEg2UVdoVS9IWUo3UVdy?=
- =?utf-8?B?Zk8rVHQzclVXdXJFQzFBRG1KWURNL0pXa1lmL3RPQ0xxSEg0dTg0M0h0M2pj?=
- =?utf-8?B?WVhqTmsvSWszNG90cEVFUVU2RHFkQ1dPdE84MGVRcTlneEN3dGNjRnFwbUUr?=
- =?utf-8?B?VlBvUS9yVGJFanlZaXlUL0gvN3JIbWR2bTA1NW9pbCtORzh4N0l2SFJvRmdo?=
- =?utf-8?B?OVpFcldPYmRuTW42T2V0ZmRydzJEbkhTcitFcklmbWxwek1nRmIrV0h0NnRS?=
- =?utf-8?B?SjlSUS9xZlNsckx5WkhydkFIT25renhPQklFQ2lHUHowcm5MZ0syMWV3TVJG?=
- =?utf-8?B?dmZpMFV1VlYySTh6cHhLRWo2ZGgxeFJNY2EvaUNXS2JrK0RXZUl5V0FlaXVD?=
- =?utf-8?B?d1oyOHZFTXNmT3Npa21PS3ZRWFJ0aWh0QWxQWEY1V25IQkFLZjFCUmtsQVJ4?=
- =?utf-8?B?Nmg3T3hKY2NoVTA2V2VNYVBZbVJERDhtTnY1NU4rVG1namsyT25QbTR0N0lm?=
- =?utf-8?B?V09oQmlmZjlhZFhpV0xvTW5xbW55K28weXduTU1wVFIzc1hCWU4xV2dmRW83?=
- =?utf-8?B?ckhINDJYdTVVMzJpTmV3SVpsRkNWaXllbStqVzNaMXhWcXBFN3BiQUx6RUdG?=
- =?utf-8?B?WW5FaUFOMW9JUGxRUnBQWXZOVTJ5ZWh5bkh3OTJmY25WdmNoU3U5RnhudVlr?=
- =?utf-8?B?dlRZMXFjZVk4ZElGc0ZSWjR4QmlCRUUzL2s3T1BOdnVrclFTdWtzR3NkYnhq?=
- =?utf-8?B?d3lGVi9iNWhidGVQWEVRZm1GVzVMVHJzN0thc0xia1M4UmxtblhEaUkvdmxn?=
- =?utf-8?B?NGFOK3lJSkpoU0Y1Uk83MWlsTFpMMXJNMS9vN2thZUcyYkZYMWg4SnVFdGNj?=
- =?utf-8?B?RVRsQTdrcWhFTUdxNk1vWjVMYUQwZjYvM25WUDZUcVNxWWQ0dkt4MlNOeXY3?=
- =?utf-8?B?ckswVWpsRkR2WTdYbUdDSHlpQ0J1RHpUdUZqam5qOTcwWEF6K3Z5YmlrcDJm?=
- =?utf-8?B?dkdjZWpHUFVtNzJNTFBreW1lTGVBa1N3V01PaEJBeFFja21UTDlFVXJQdGlu?=
- =?utf-8?B?UWtxMlRGQU9NNHMwZlZsUkNTYVZhbmFYSE5CZWM0aHlmeDFhRFNpTE1VaFUy?=
- =?utf-8?B?K0pqR2U2SURnRVRPZ3hRS0tWQnY2M3hRS0RWOTVVN3dBUDFsS0dVSXN1LzRZ?=
- =?utf-8?B?cHo5elljZHhlK2RXUDJUTDJhZHhOeE5VZGYxd05BMm5hZVBhTTZyQWhCdWkv?=
- =?utf-8?B?NkFpbGtYZTBTVXRmTFFvSG04KzNpR1pEano0UFk4MG53Yy9HWW5TSFR4dEJh?=
- =?utf-8?B?dDlHQVZ3OENUenlTTWhEUldLNExqaEZNYW5MbmJ6Q0x5b3VhR1NYN1pQRlZJ?=
- =?utf-8?B?NnRpaWpZbjlBVFF5NW1KMTJiTFNzaFhqNTlGeURPZkFWRkVJdkVWbEVWYWhH?=
- =?utf-8?B?TUNvaktIUW85RE9SUE1MNTNOL1hFVTFBZ1prSkx4Q3A3cEkwOGZtSmhxcHgy?=
- =?utf-8?Q?bMzk8Ene5W7/XYtBAbuiFs+x4?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f1dc435b-e129-4bae-76de-08dc1d099f5f
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jan 2024 18:23:54.6895 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lZLWAfy7pcB4TGG844KYruMqdazgcQ/1pIUtkKGTxRXzNPMSvGnhjocBZHvRs637UUFZnZdjtL5t7ayesOS7WQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7655
+References: <20231225130853.3659424-1-dmitry.baryshkov@linaro.org>
+ <20231225130853.3659424-5-dmitry.baryshkov@linaro.org>
+ <211f0818-04a2-7dc3-fe37-c09b756765d1@quicinc.com>
+In-Reply-To: <211f0818-04a2-7dc3-fe37-c09b756765d1@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 24 Jan 2024 21:03:59 +0200
+Message-ID: <CAA8EJpqoUqMmqz1bUjWJT5shgMqLj0ta47s81t5vLbG0NragqA@mail.gmail.com>
+Subject: Re: [PATCH v3 4/5] drm/msm/dpu: move writeback's atomic_check to
+ dpu_writeback.c
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,88 +70,229 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Donald Carr <sirspudd@gmail.com>,
- Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>,
- Dave Airlie <airlied@gmail.com>, Vlastimil Babka <vbabka@suse.cz>
+Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, Marijn Suijten <marijn.suijten@somainline.org>,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/24/2024 11:52, Mario Limonciello wrote:
-> On 1/24/2024 11:51, Thorsten Leemhuis wrote:
->> Linus, if you have a minute, I'd really like to know...
->>
->> On 24.01.24 17:41, Mario Limonciello wrote:
->>> On 1/24/2024 10:24, Vlastimil Babka wrote:
->>>> On 1/24/24 16:31, Donald Carr wrote:
->>>>> On Wed, Jan 24, 2024 at 7:06 AM Vlastimil Babka <vbabka@suse.cz> 
->>>>> wrote:
->>>>>> When testing the rc1 on my openSUSE Tumbleweed desktop, I've started
->>>>>> experiencing "frozen desktop" (KDE/Wayland) issues. The symptoms are
->>>>>> that
->>>>>> everything freezes including mouse cursor. After a while it either
->>>>>> resolves,
->>>>>> or e.g. firefox crashes (if it was actively used when it froze) or 
->>>>>> it's
->>>>>> frozen for too long and I reboot with alt-sysrq-b. When it's frozen
->>>>>> I can
->>>>>> still ssh to the machine, and there's nothing happening in dmesg.
->>>>>> The machine is based on Amd Ryzen 7 2700 and Radeon RX7600.
->>>>> [...]
->>>>> I am experiencing the exact same symptoms;
->>>>
->>>> Big thanks to Thorsten who suggested I look at the following:
->>>>
->>>> https://lore.kernel.org/all/20240123021155.2775-1-mario.limonciello@amd.com/
->>>> https://lore.kernel.org/all/CABXGCsM2VLs489CH-vF-1539-s3in37=bwuOWtoeeE+q26zE+Q@mail.gmail.com/
->>>>
->>>> Instead of further bisection I've applied Mario's revert from the
->>>> first link
->>>> on top of 6.8-rc1 and the issue seems gone for me now.
->>>
->>> Thanks for confirming.  I don't think we should jump right to the revert
->>> right now.
->>>
->>>    I posted it in case that is the direction we need to go
->>> (simple git revert didn't work due to contextual changes).
->>>
->>> Let's give the folks who work on GPU scheduler some time to understand
->>> the failure and see if they can fix it.
->>
->> ...how you think about this and other situations like this. Given that
->> we have
->>
->> * two affected people in this thread
->> * one earlier thread about it
->> * the machine that made Mario write the patch
->> * and I have someone in #fedora-kernel that likely is affected as well
->>
->> it seems that this is not some corner case very few people run into.
->> Hence I tend to say that this should be dealt with rather sooner than
->> later. Maybe before rc2? Or is this asking too much?
->>
->> The thing from my point of view is, that each such problem might
->> discourage testers from testing again or lead to thoughts like "I only
->> start testing after -rc4". Not to mention that other people will try to
->> bisect the problem like Vlastimil did, which will cost them quite some
->> time and effort -- only to find out that we known about the problem
->> already and did not quickly fix it. That is discouraging for them as
->> well and thus bad for field testing I'd assume.
->>
->> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
->> -- 
->> Everything you wanna know about Linux kernel regression tracking:
->> https://linux-regtracking.leemhuis.info/about/#tldr
->> If I did something stupid, please tell me, as explained on that page.
-> 
-> A test patch was just posted.  I haven't gotten a chance to try it yet. 
-> I will this afternoon.
+On Wed, 24 Jan 2024 at 00:23, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+> On 12/25/2023 5:08 AM, Dmitry Baryshkov wrote:
+> > dpu_encoder_phys_wb is the only user of encoder's atomic_check callback.
+> > Move corresponding checks to drm_writeback_connector's implementation
+> > and drop the dpu_encoder_phys_wb_atomic_check() function.
+> >
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >   .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   | 54 ------------------
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  9 ++-
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c | 57 ++++++++++++++++++-
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.h |  3 +-
+> >   4 files changed, 64 insertions(+), 59 deletions(-)
+> >
+>
+> While validating this change with kms_writeback, we found that this is
+> breaking back to back validate of kms_writeback with a NULL ptr
+> dereference in below stack:
+>
+> [   86.701062] Call trace:
+> [   86.701067]  dpu_wb_conn_atomic_check+0x118/0x18c
+> [   86.701076]  drm_atomic_helper_check_modeset+0x2d8/0x688
+> [   86.701084]  drm_atomic_helper_check+0x24/0x98
+> [   86.701095]  msm_atomic_check+0x90/0x9c
+> [   86.701103]  drm_atomic_check_only+0x4f4/0x8e8
+> [   86.701111]  drm_atomic_commit+0x64/0xd8
+> [   86.701120]  drm_mode_atomic_ioctl+0xbfc/0xe74
+> [   86.701129]  drm_ioctl_kernel+0xd4/0x114
+> [   86.701137]  drm_ioctl+0x274/0x508
+> [   86.701143]  __arm64_sys_ioctl+0x98/0xd0
+> [   86.701152]  invoke_syscall+0x48/0xfc
+> [   86.701161]  el0_svc_common+0x88/0xe4
+> [   86.701167]  do_el0_svc+0x24/0x30
+> [   86.701175]  el0_svc+0x34/0x80
+> [   86.701184]  el0t_64_sync_handler+0x44/0xec
+> [   86.701192]  el0t_64_sync+0x1a8/0x1ac
+> [   86.701200] ---[ end trace 0000000000000000 ]---
+>
+> We analysed this and found why. Please see below.
+>
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+> > index a0a28230fc31..8220cd920e6f 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+> > @@ -354,59 +354,6 @@ static void dpu_encoder_helper_phys_setup_cdm(struct dpu_encoder_phys *phys_enc)
+> >       }
+> >   }
+> >
+> > -/**
+> > - * dpu_encoder_phys_wb_atomic_check - verify and fixup given atomic states
+> > - * @phys_enc:        Pointer to physical encoder
+> > - * @crtc_state:      Pointer to CRTC atomic state
+> > - * @conn_state:      Pointer to connector atomic state
+> > - */
+> > -static int dpu_encoder_phys_wb_atomic_check(
+> > -             struct dpu_encoder_phys *phys_enc,
+> > -             struct drm_crtc_state *crtc_state,
+> > -             struct drm_connector_state *conn_state)
+> > -{
+> > -     struct drm_framebuffer *fb;
+> > -     const struct drm_display_mode *mode = &crtc_state->mode;
+> > -
+> > -     DPU_DEBUG("[atomic_check:%d, \"%s\",%d,%d]\n",
+> > -                     phys_enc->hw_wb->idx, mode->name, mode->hdisplay, mode->vdisplay);
+> > -
+> > -     if (!conn_state || !conn_state->connector) {
+> > -             DPU_ERROR("invalid connector state\n");
+> > -             return -EINVAL;
+> > -     } else if (conn_state->connector->status !=
+> > -                     connector_status_connected) {
+> > -             DPU_ERROR("connector not connected %d\n",
+> > -                             conn_state->connector->status);
+> > -             return -EINVAL;
+> > -     }
+> > -
+> > -     if (!conn_state->writeback_job || !conn_state->writeback_job->fb)
+> > -             return 0;
+> > -
+> > -     fb = conn_state->writeback_job->fb;
+> > -
+> > -     DPU_DEBUG("[fb_id:%u][fb:%u,%u]\n", fb->base.id,
+> > -                     fb->width, fb->height);
+> > -
+> > -     if (fb->width != mode->hdisplay) {
+> > -             DPU_ERROR("invalid fb w=%d, mode w=%d\n", fb->width,
+> > -                             mode->hdisplay);
+> > -             return -EINVAL;
+> > -     } else if (fb->height != mode->vdisplay) {
+> > -             DPU_ERROR("invalid fb h=%d, mode h=%d\n", fb->height,
+> > -                               mode->vdisplay);
+> > -             return -EINVAL;
+> > -     } else if (fb->width > phys_enc->hw_wb->caps->maxlinewidth) {
+> > -             DPU_ERROR("invalid fb w=%d, maxlinewidth=%u\n",
+> > -                               fb->width, phys_enc->hw_wb->caps->maxlinewidth);
+> > -             return -EINVAL;
+> > -     }
+> > -
+> > -     return drm_atomic_helper_check_wb_connector_state(conn_state->connector, conn_state->state);
+> > -}
+> > -
+> > -
+> >   /**
+> >    * _dpu_encoder_phys_wb_update_flush - flush hardware update
+> >    * @phys_enc:       Pointer to physical encoder
+> > @@ -777,7 +724,6 @@ static void dpu_encoder_phys_wb_init_ops(struct dpu_encoder_phys_ops *ops)
+> >       ops->is_master = dpu_encoder_phys_wb_is_master;
+> >       ops->enable = dpu_encoder_phys_wb_enable;
+> >       ops->disable = dpu_encoder_phys_wb_disable;
+> > -     ops->atomic_check = dpu_encoder_phys_wb_atomic_check;
+> >       ops->wait_for_commit_done = dpu_encoder_phys_wb_wait_for_commit_done;
+> >       ops->prepare_for_kickoff = dpu_encoder_phys_wb_prepare_for_kickoff;
+> >       ops->handle_post_kickoff = dpu_encoder_phys_wb_handle_post_kickoff;
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> > index 723cc1d82143..48728be27e15 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> > @@ -630,23 +630,26 @@ static int _dpu_kms_initialize_writeback(struct drm_device *dev,
+> >   {
+> >       struct drm_encoder *encoder = NULL;
+> >       struct msm_display_info info;
+> > +     const enum dpu_wb wb_idx = WB_2;
+> > +     u32 maxlinewidth;
+> >       int rc;
+> >
+> >       memset(&info, 0, sizeof(info));
+> >
+> >       info.num_of_h_tiles = 1;
+> >       /* use only WB idx 2 instance for DPU */
+> > -     info.h_tile_instance[0] = WB_2;
+> > +     info.h_tile_instance[0] = wb_idx;
+> >       info.intf_type = INTF_WB;
+> >
+> > +     maxlinewidth = dpu_rm_get_wb(&dpu_kms->rm, info.h_tile_instance[0])->caps->maxlinewidth;
+> > +
+> >       encoder = dpu_encoder_init(dev, DRM_MODE_ENCODER_VIRTUAL, &info);
+> >       if (IS_ERR(encoder)) {
+> >               DPU_ERROR("encoder init failed for dsi display\n");
+> >               return PTR_ERR(encoder);
+> >       }
+> >
+> > -     rc = dpu_writeback_init(dev, encoder, wb_formats,
+> > -                     n_formats);
+> > +     rc = dpu_writeback_init(dev, encoder, wb_formats, n_formats, maxlinewidth);
+> >       if (rc) {
+> >               DPU_ERROR("dpu_writeback_init, rc = %d\n", rc);
+> >               return rc;
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
+> > index 2a5a68366582..232b5f410de8 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
+> > @@ -4,6 +4,7 @@
+> >    */
+> >
+> >   #include <drm/drm_edid.h>
+> > +#include <drm/drm_framebuffer.h>
+> >
+> >   #include "dpu_writeback.h"
+> >
+> > @@ -24,6 +25,57 @@ static int dpu_wb_conn_get_modes(struct drm_connector *connector)
+> >                       dev->mode_config.max_height);
+> >   }
+> >
+> > +static int dpu_wb_conn_atomic_check(struct drm_connector *connector,
+> > +                                 struct drm_atomic_state *state)
+> > +{
+> > +     struct drm_writeback_connector *wb_conn = drm_connector_to_writeback(connector);
+> > +     struct dpu_wb_connector *dpu_wb_conn = to_dpu_wb_conn(wb_conn);
+> > +     struct drm_connector_state *conn_state =
+> > +             drm_atomic_get_new_connector_state(state, connector);
+> > +     struct drm_crtc *crtc = conn_state->crtc;
+> > +     struct drm_crtc_state *crtc_state;
+> > +     const struct drm_display_mode *mode;
+> > +     struct drm_framebuffer *fb;
+> > +
+> > +     crtc_state = drm_atomic_get_crtc_state(state, crtc);
+>
+> To detach the CRTC associated with the connector, IGT will set the
+> associated CRTC_ID to 0 and the associated conn_state->crtc will be NULL.
+>
+> This is valid as val will be 0 in this case:
+>
+> https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/drm_atomic_uapi.c#L722
+>
+> Before this patch, for these cases, we used to call the encoder's
+> atomic_check which gets skipped when there is no valid crtc:
+>
+> https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/drm_atomic_helper.c#L440
+>
+> But now with connector atomic check, these calls are allowed by the DRM
+>
+> https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/drm_atomic_helper.c#L712
+>
+> So questions:
+>
+> 1) Should we add protection in DRM to check if conn_state->crtc is valid
+> before calling connector's atomic_check()?
 
-The test patch [1] posted to [2] works for me.  I expect that Matthew 
-will post it to dri-devel and this can catch RC2 or RC3.
+I think this is correct. So if !crtc, just return 0. I'll send next
+iteration in the next few days.
 
-[1] 
-https://gitlab.freedesktop.org/drm/amd/uploads/ca8dfaa22d6f5d247c28acf6cf3eafd2/0001-Drain-all-entities-in-DRM-run-jon-worker.patch
-[2] https://gitlab.freedesktop.org/drm/amd/-/issues/3124
+>
+> OR
+>
+> 2) Is it incorrect for us to dereference conn->crtc in connector's
+> atomic_check as its not guaranteed to be valid.
+>
+> We cannot fail atomic_check for !crtc, because if we add a !crtc check
+> and fail those checks, it bails out these disable commit calls thus
+> failing those commits.
+>
+> > +     if (IS_ERR(crtc_state))
+> > +             return PTR_ERR(crtc_state);
+> > +
 
+
+-- 
+With best wishes
+Dmitry
