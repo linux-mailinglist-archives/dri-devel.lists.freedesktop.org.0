@@ -2,64 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2C9283B0F4
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 19:21:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18B8C83AF60
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 18:14:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C00710EA28;
-	Wed, 24 Jan 2024 18:20:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B6C710F794;
+	Wed, 24 Jan 2024 17:14:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com
- [209.85.128.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E09BE10EA3E
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 15:34:53 +0000 (UTC)
-Received: by mail-yw1-f178.google.com with SMTP id
- 00721157ae682-5f69383e653so55545187b3.1
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 07:34:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1706110433; x=1706715233; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=sF+OHxguRNODCvdH55DenpgBbXkSJhRqehOviUia52g=;
- b=GUHsceM9iQARGUaVERNXVNGOiVzVQdJ7qdAh1w0AQ4FJu9T3LNDSV3zlScDHL8Yk1c
- dci8khxn6wmcsFp7BtNJXDL22hckgU1akIAInHb6iO+rxuuQNie3TV0qcY8O2QImPoru
- Qxc88DAiWTGJsVFPpl+4Jzl5LoxrYOGIvp7SGxT7osq+tUTBSAg9G9xYXrBwXfjZdHDk
- 79VeGqGKj3c1+qI5dNR8n2CY42DMBVVyyxwwmg3537ipCHKMA1DVc/4TvzvbWZlnBjro
- 7mgZSOZ3aqUPClox0jeqd2Lfs2h9u9EA8PYRlKPHHx7nDE8/ccfe6C/ShS0ADxF2aM/y
- I1dA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706110433; x=1706715233;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=sF+OHxguRNODCvdH55DenpgBbXkSJhRqehOviUia52g=;
- b=ud/DmkuiSNJQ4NyOQ/6ZyNM0VMH7s0WV7xqP+eTOrlNXtOcZLQico07pVgfyysO57A
- SL/AHY846OZhWRiGLrBfBpCXr8yaICawH2qvFj5TCly3lhgl+WMYL9xwsCdcXB7gth+V
- tDBl3RDbUkySGzmOEiwoBwP6glfVXfxzcYqyY2LZnefvZ2I9VzNlCBH/uyq9pjtsM4lx
- EEMaKjK42peS81sPqx6+1Haa8X5D6PJnIUujtGsI+7ckSSQ5/1P73i90Nn90TvubyE6l
- BNNk75HrgRLrYG0l0lO8xWiW2BYj+ul/5HRfMGtcQzEM4/9mrgfDog7OpukRYpXAjaQv
- iAAQ==
-X-Gm-Message-State: AOJu0Yz+Y/vs17ebFiTD4XcsPdUan6QMv23KaFr/iuSz6Bnlu2bb1or1
- lCrxqXTHnDuBvvhPz0MZrQ20IrpWhdF5kiZuop9qa6Ccj/PiZuZ2T8VaSIim80zQEf0OdGXn6W4
- C2Yv2GMkvNKDQ5cS8F9uekFgGq7s=
-X-Google-Smtp-Source: AGHT+IGUS9tuxVIMX25dmxiV7fTiY5eFrs8jLOCRBDlqb/bOIj6etzQYJ1BCdRIcGim1usEdGT+9uK42wTpI2OLXkW4=
-X-Received: by 2002:a81:9c47:0:b0:5e8:75e2:9345 with SMTP id
- n7-20020a819c47000000b005e875e29345mr911645ywa.60.1706110433055; Wed, 24 Jan
- 2024 07:33:53 -0800 (PST)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 245B610F794
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 17:14:02 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 28784CE314A;
+ Wed, 24 Jan 2024 17:13:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B096C43390;
+ Wed, 24 Jan 2024 17:13:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1706116430;
+ bh=jvo5IXYlQYdIU6VCmACeGNP4xo23ZIbLfeE2jvqqluI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=v2pVfufLGd3lCfp0CeG2fpxzUUsvpwbElgNFofM1ZPehhJ3gSyI8DyqjujjS7qB28
+ HIx8X5ThDTkPR0Ay0PzOQVdIcq5n2pTAL/fkyg4/FCf2V3zKeABMVcc+DS8MIJ/Ztv
+ A8j4KVPuFkJX9pHjYFH5A/rDYDM6TICeR0rlV7yw=
+Date: Wed, 24 Jan 2024 09:13:49 -0800
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH v2 00/33] spi: get rid of some legacy macros
+Message-ID: <2024012417-prissy-sworn-bc55@gregkh>
+References: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-References: <CAPM=9twKBmO2Svky-zeP+KS8qWHFj9zrgeBqW9y__tUwcAYZhw@mail.gmail.com>
- <2faccc1a-7fdd-499b-aa0a-bd54f4068f3e@suse.cz>
- <CAOVeLGRxXfs4wxSmB2ULZS72NvJkWQvZyPRz0rAmQyFtL39ekw@mail.gmail.com>
-In-Reply-To: <CAOVeLGRxXfs4wxSmB2ULZS72NvJkWQvZyPRz0rAmQyFtL39ekw@mail.gmail.com>
-From: Donald Carr <sirspudd@gmail.com>
-Date: Wed, 24 Jan 2024 07:33:42 -0800
-Message-ID: <CAOVeLGSczkyhj61T8SZc2cK1Cjy2izV6URVa2422kcfy8ONYFw@mail.gmail.com>
-Subject: Re: [git pull] drm for 6.8
-To: Vlastimil Babka <vbabka@suse.cz>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Wed, 24 Jan 2024 18:20:36 +0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,34 +47,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
- Dave Airlie <airlied@gmail.com>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+ dri-devel@lists.freedesktop.org, Miquel Raynal <miquel.raynal@bootlin.com>,
+ Ronald Wahl <ronald.wahl@raritan.com>,
+ Stefan Schmidt <stefan@datenfreihafen.org>, libertas-dev@lists.infradead.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Alan Stern <stern@rowland.harvard.edu>, Alex Elder <elder@kernel.org>,
+ linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, kernel@pengutronix.de,
+ linux-media@vger.kernel.org, linux-wpan@vger.kernel.org,
+ Amit Kumar Mahapatra via Alsa-devel <alsa-devel@alsa-project.org>,
+ linux-doc@vger.kernel.org, Dmitry Antipov <dmantipov@yandex.ru>,
+ Max Filippov <jcmvbkbc@gmail.com>, Eric Dumazet <edumazet@google.com>,
+ James Clark <james.clark@arm.com>, Guenter Roeck <groeck@chromium.org>,
+ Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ chrome-platform@lists.linux.dev,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Viresh Kumar <vireshk@kernel.org>, Helge Deller <deller@gmx.de>,
+ Wu Hao <hao.wu@intel.com>, Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-arm-msm@vger.kernel.org, greybus-dev@lists.linaro.org,
+ Bjorn Helgaas <bhelgaas@google.com>, Michal Simek <michal.simek@amd.com>,
+ linux-arm-kernel@lists.infradead.org, Aaro Koskinen <aaro.koskinen@iki.fi>,
+ "David S. Miller" <davem@davemloft.net>, Jarkko Sakkinen <jarkko@kernel.org>,
+ Simon Horman <horms@kernel.org>, linux-integrity@vger.kernel.org,
+ Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
+ Jonathan Cameron <jic23@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Herve Codina <herve.codina@bootlin.com>, linux-iio@vger.kernel.org,
+ Tom Rix <trix@redhat.com>, linux-fpga@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, linux-mtd@lists.infradead.org,
+ Jonathan Corbet <corbet@lwn.net>, linux-staging@lists.linux.dev,
+ linux-input@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>,
+ Arnd Bergmann <arnd@arndb.de>, Yang Yingliang <yangyingliang@huawei.com>,
+ Mark Brown <broonie@kernel.org>, Moritz Fischer <mdf@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Benson Leung <bleung@chromium.org>,
+ Rayyan Ansari <rayyan@ansari.sh>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ linux-mmc@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Martin Tuma <martin.tuma@digiteqautomotive.com>, Xu Yilun <yilun.xu@intel.com>,
+ Alexander Aring <alex.aring@gmail.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Peter Huewe <peterhuewe@gmx.de>, Sergey Kozlov <serjk@netup.ru>,
+ Richard Weinberger <richard@nod.at>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Jakub Kicinski <kuba@kernel.org>, Kalle Valo <kvalo@kernel.org>,
+ Johan Hovold <johan@kernel.org>, Rui Miguel Silva <rmfrfs@gmail.com>,
+ linux-mediatek@lists.infradead.org, Tzung-Bi Shih <tzungbi@kernel.org>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ netdev@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 24, 2024 at 7:31=E2=80=AFAM Donald Carr <sirspudd@gmail.com> wr=
-ote:
-> I am experiencing the exact same symptoms; sddm (on weston) starts
-> perfectly, launching a KDE wayland session freezes at various points
-> (leading to plenty of premature celebration), but normally on the
-> handoff from sddm to kde (replete with terminal cursor on screen)
->
-> Working perfectly as of the end of 6.7 final release, broken as of 6.8 rc=
-1.
-> Sometimes sddm can be successfully restarted via ssh, other times
-> restarting sddm is slow and fails to complete.
+On Mon, Jan 22, 2024 at 07:06:55PM +0100, Uwe Kleine-König wrote:
+> Hello,
+> 
+> this is v2 of this patch set.
+> 
+> Changes since (implicit) v1, sent with Message-Id:
+> cover.1705348269.git.u.kleine-koenig@pengutronix.de:
+> 
+>  - Rebase to v6.8-rc1
+>  - Fix a build failure on sh
+>  - Added the tags received in (implicit) v1.
+> 
+> The slave-mt27xx driver needs some more work. The patch presented here
+> is enough however to get rid of the defines handled in patch 32.
+> Cleaning that up is out-of-scope for this series, so I'll delay that
+> until later.
+> 
+> Note that Jonathan Cameron has already applied patch 3 to his tree, it
+> didn't appear in a public tree though yet. I still included it here to
+> make the kernel build bots happy.
 
-This is against the Renoir GPU on the 7950x, but also reproduces
-consistently on my 7900 xtx.
+Are we supposed to take the individual changes in our different
+subsystem trees, or do you want them all to go through the spi tree?
 
-Yours sincerely,
-Donald
+Either is fine with me, just need to know.
 
---=20
--------------------------------
- =C2=B0v=C2=B0  Donald Carr
-/(_)\ Chaos Reins
-^ ^   http://chaos-reins.com/
+thanks,
+
+greg k-h
