@@ -2,63 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96EAF83BC23
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 09:37:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3A1F83BC24
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 09:37:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70DDC10E22B;
-	Thu, 25 Jan 2024 08:37:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BABF210E3A0;
+	Thu, 25 Jan 2024 08:37:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F162910EE4B
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 18:38:57 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id
- d9443c01a7336-1d76671e5a4so22320895ad.0
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 10:38:57 -0800 (PST)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
+ [209.85.216.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB62B10E841
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 19:49:02 +0000 (UTC)
+Received: by mail-pj1-f50.google.com with SMTP id
+ 98e67ed59e1d1-290449c30d4so2660272a91.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 11:49:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1706121477; x=1706726277; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=uy1zbE7Ow0ZllWQflOItrn5r6MhCAv/GdXD6u9M4X4w=;
- b=Ki7wGqJxnkJLgRApetswt2FPvkqXc6gbDYOTwSpf8bULMT47ZihryyHGf3DzPJTC5I
- ZKE6mb0gyz3SMQXpW6P07TE8izfM87VfzbegQTHq40/aFHlxhngIC8uRkJwYcyI0fPFz
- ktUEZ/9E3V0f9+CW2+g3pHn6pRgPHEJK3c1V0baG/dVllZ16d0hDER6PkEzyHOQkUPFB
- 24s/edEL1+n4JrxcmbekG48PYZC/880GQyZVFUN4q1Hj+B7aLPtXtQTMxix+lzNUh/cg
- TtOK7lW4YsOV206DjOgi6quMTea06RE7xMW2RBVngyI35bB1z/o6u06UFrR7zP76VJAl
- Md9g==
+ d=gmail.com; s=20230601; t=1706125682; x=1706730482; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=z5in7yxhrady5lTGoDYyRXRDY4MiEGt5/MmabNiOiSA=;
+ b=SA6xbGOhVYU5MYbUibkNkyPhbmupq6mgwCGjpdw7ZNP1fxV6Xu1GFY75c9KpxZpn76
+ DGmUwTZJe4FARRYpIXUMvdIG49laBUhKyGDp9EYnEWHazPlWrdKG3n4InZ0lqX4tjlA2
+ rgwNGYEG3BvI7C9rO6HR+GtSqvSG2ER/wB+aK5grOp33YybBI061ll1H0jH59UZud3pw
+ L8vKJgiqbNkOHymwTh35d4vv1WzoYEC3shSrdFnvCwWkxFBsYGxB1idBix0hhTcdfaUw
+ 4K5uy3kPyEbMbgv14paYb6dcVvM9/btl9TBEbKJyLV4tz7y+zsbJ+VicPsEKilqNB0sl
+ Bzrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706121477; x=1706726277;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=uy1zbE7Ow0ZllWQflOItrn5r6MhCAv/GdXD6u9M4X4w=;
- b=DxvxGGs5kv2BikW1h/C9VF/O8R7+rRaWXxUkTcmw9qCe3Ouy8LRhdezyta7IWGgkSR
- CkIKHOfoY+k6+3av3hANVyRzOGpUKvQ38Shz1HksYzkbRiU9N32U/uuVM9eNQuLFADE4
- AuB4s2Rf8kdF185c/34RDFLP2Q4opkaCNkaTyVpEzYsyyfj66sUBEjW74W+Di2oX3rIK
- ab1JA5SDBT1k+JbQOVCwoLxzWcR/kfCyayrUXdc4B7rgLVd2Db8wbBQnSGp7oHSrQsP2
- PX1vImmOFwBGfdZQz9JJeboc5zhmJp9TTOekyYSxr2Pr2Mbyms9im3KynHbYGvW9fHYA
- xnmw==
-X-Gm-Message-State: AOJu0Yzi8Sg3lsPGXtYv3W/YkAJFRMB7ETXjf3I5o+wRTpJqHnOiEdxg
- ImaOMt/xCodGr66QznVo/a2T6zCrRadWY2BSvVDzELXV+Ztd1rIBcfVEHN6k/Sk=
-X-Google-Smtp-Source: AGHT+IEEtOOn3AthjBuyeWZtT1koM4VgPdfcfUM6YWfT8gLBjkbiB9Zl/25bjS2JgSgzdfT2MElqLA==
-X-Received: by 2002:a17:903:4295:b0:1d5:7220:9ff with SMTP id
- ju21-20020a170903429500b001d5722009ffmr1204364plb.117.1706121477275; 
- Wed, 24 Jan 2024 10:37:57 -0800 (PST)
-Received: from kousik.local ([2405:201:c006:31fd:9614:de6d:cab9:f490])
- by smtp.gmail.com with ESMTPSA id
- mm14-20020a1709030a0e00b001d7222d8caasm8729214plb.50.2024.01.24.10.37.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Jan 2024 10:37:56 -0800 (PST)
-From: Kousik Sanagavarapu <five231003@gmail.com>
-To: dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] gpu: drm: display: indent fix in comment
-Date: Thu, 25 Jan 2024 00:05:56 +0530
-Message-ID: <20240124183659.511731-1-five231003@gmail.com>
-X-Mailer: git-send-email 2.43.0.370.g8962b674a6.dirty
+ d=1e100.net; s=20230601; t=1706125682; x=1706730482;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=z5in7yxhrady5lTGoDYyRXRDY4MiEGt5/MmabNiOiSA=;
+ b=A5sSOp1zcJtt7YeMxpVCJ0NEkZpUY/gWZ/xGhnOJau5xTUMIWBLAlTPwJLSj1NFFH4
+ hurZ9egsGOi5qcvsi5IyfXTfL3ZStpVoA3Xza5tbzTHkvVdb0QR4r/qXh6I9SkHiLsdK
+ pt2t+WjBFj8v9eHt7hKz5BgGWIM07ZgZ2Mg18I/4sYvBcxWeRslRiaxS/dbbzbOLv4hb
+ j0UKG94ikNTYCeos2ubWs+EL+xKnAYBOOhTrtNhyoZ+u9ggHFRR0BZvGbwRr4o19psfo
+ fRwQ4ge1PQFKsiHGpjBB27qrPMxuV4/UDGxda23jk4PBhjepzs/ii+psLx88fYk12nk3
+ 5IaA==
+X-Gm-Message-State: AOJu0Yw6OOTGchPpNh4F7XVfSyhTIxiRwpYXCMWwmVJmWCwatHWdVC/D
+ 1cGPoIRY+cGYiSAQxXntRtTEUhN0j/F4pC6u8N/AALEsJC+bXV24n0Q4QFLwUu+bWVimqRXsTBz
+ 0LcvU1hJydsabCC5q77E5wjGYC7o=
+X-Google-Smtp-Source: AGHT+IFyxXjOG934e5n5jLLEJXDq+MUHI1v1Jjbuk7zDMyHb75jBe7esgnnldaaGUDAuOjhtRfiLHy9mnlVnHjsgizk=
+X-Received: by 2002:a17:90a:1307:b0:28e:7b94:78dd with SMTP id
+ h7-20020a17090a130700b0028e7b9478ddmr64854pja.25.1706125682538; Wed, 24 Jan
+ 2024 11:48:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Paul Zimmerman <pauldzim@gmail.com>
+Date: Wed, 24 Jan 2024 12:47:34 -0700
+Message-ID: <CADBGO79JycAycKXm9A46pLrGZHTsySV4NH+yvV7VFU-8reMF=Q@mail.gmail.com>
+Subject: [REGRESSION BISECTED] 6.8-rc1 - Wayland hangs when connecting via VNC
+ or RDP
+To: Luben Tuikov <ltuikov89@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Mailman-Approved-At: Thu, 25 Jan 2024 08:37:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,59 +66,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@gmail.com>,
- Kousik Sanagavarapu <five231003@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The comments explaining the function "drm_dp_mst_atom_check_mgr()" had
-uneven indentation which made "make htmldocs" complain:
+When I attempt to connect via VNC or RDP to my Ubuntu desktop, the Wayland
+server seems to hang. The desktop GUI no longer works either locally or
+remotely. I can still log in via ssh, so the system is still alive,
+but the GUI is
+frozen. If I boot into Xorg instead, everything works fine. Kernel 6.7
+works fine
+also.
 
-	Documentation/gpu/drm-kms-helpers:296:
-	./drivers/gpu/drm/display/drm_dp_mst_topology.c:5496:
-	ERROR: Unexpected indentation.
+I bisected this to commit f7fe64ad0f22 "drm/sched: Split free_job into
+own work item".
+That commit does not revert cleanly however.
 
-	Documentation/gpu/drm-kms-helpers:296:
-	./drivers/gpu/drm/display/drm_dp_mst_topology.c:5500:
-	WARNING: Block quote ends without a blank line; unexpected unindent.
+I don't see anything in dmesg when this happens. Here is a snippet from
+journalctl when it happens:
+Jan 23 16:14:30 paulz-Precision-5820-Tower systemd[2826]: Started
+Tracker metadata extractor.
+Jan 23 16:14:55 paulz-Precision-5820-Tower systemd[2826]: Started
+Application launched by gnome-session-binary.
+Jan 23 16:16:47 paulz-Precision-5820-Tower
+gnome-remote-desktop-daemon[4158]: [16:16:47:810] [4158:4896]
+[ERROR][com.freerdp.core.peer] - Incorrect RDP header.
+Jan 23 16:16:47 paulz-Precision-5820-Tower
+gnome-remote-desktop-daemon[4158]: [16:16:47:810] [4158:4896]
+[ERROR][com.freerdp.core.peer] - peer_recv_callback:
+CONNECTION_STATE_ACTIVE - peer_recv_pdu() fail
+Jan 23 16:16:47 paulz-Precision-5820-Tower
+gnome-remote-desktop-daemon[4158]: [16:16:47:810] [4158:4896]
+[ERROR][com.freerdp.core.transport] - transport_check_fds:
+transport->ReceiveCallback() - -1
+Jan 23 16:16:47 paulz-Precision-5820-Tower gnome-remote-de[4158]:
+Unable to check file descriptor, closing connection
+Jan 23 16:16:47 paulz-Precision-5820-Tower systemd[1]:
+run-user-1001-gnome\x2dremote\x2ddesktop-cliprdr\x2d9Tp4LD.mount:
+Deactivated successfully.
 
-Fix this by getting the indent right.
+This is on an x86_64 Xeon system running Ubuntu 22.04.3.  Any hints on how to
+debug this further? Is there a way to turn on additional debug prints for this?
 
-Signed-off-by: Kousik Sanagavarapu <five231003@gmail.com>
----
- drivers/gpu/drm/display/drm_dp_mst_topology.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-index bd6c24d4213c..f26cc85e7dbf 100644
---- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-@@ -5490,15 +5490,15 @@ EXPORT_SYMBOL(drm_dp_mst_atomic_enable_dsc);
-  * Returns:
-  *   - 0 if the new state is valid
-  *   - %-ENOSPC, if the new state is invalid, because of BW limitation
-- *         @failing_port is set to:
-- *         - The non-root port where a BW limit check failed
-- *           with all the ports downstream of @failing_port passing
-- *           the BW limit check.
-- *           The returned port pointer is valid until at least
-- *           one payload downstream of it exists.
-- *         - %NULL if the BW limit check failed at the root port
-- *           with all the ports downstream of the root port passing
-- *           the BW limit check.
-+ *     @failing_port is set to:
-+ *
-+ *       - The non-root port where a BW limit check failed with all the ports
-+ *         downstream of @failing_port passing the BW limit check.
-+ *         The returned port pointer is valid until at least one payload
-+ *         downstream of it exists.
-+ *       - %NULL if the BW limit check failed at the root port with all the
-+ *         ports downstream of the root port passing the BW limit check.
-+ *
-  *   - %-EINVAL, if the new state is invalid, because the root port has
-  *     too many payloads.
-  */
--- 
-2.43.0.370.g8962b674a6.dirty
-
+Thanks,
+Paul
