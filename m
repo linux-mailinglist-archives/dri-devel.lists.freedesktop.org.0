@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E28B83AE08
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 17:10:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F83083AE13
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 17:12:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7BD710EF1E;
-	Wed, 24 Jan 2024 16:10:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D741A10E986;
+	Wed, 24 Jan 2024 16:12:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8895810EA4A
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 16:10:10 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1rSfnA-0007qU-9Q; Wed, 24 Jan 2024 17:07:56 +0100
-Message-ID: <4e495bd7449159b9fe1710b673b6f9b4f185862d.camel@pengutronix.de>
-Subject: Re: [PATCH 2/2] drm/etnaviv: Disable SH_EU clock gating on VIPNano-Si+
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Philipp Zabel <p.zabel@pengutronix.de>, Russell King
- <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
- <christian.gmeiner@gmail.com>,  David Airlie <airlied@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>
-Date: Wed, 24 Jan 2024 17:07:55 +0100
-In-Reply-To: <20240124-etnaviv-npu-v1-2-a5aaf64aec65@pengutronix.de>
-References: <20240124-etnaviv-npu-v1-0-a5aaf64aec65@pengutronix.de>
- <20240124-etnaviv-npu-v1-2-a5aaf64aec65@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1AE410EA3C
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 16:12:14 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 202D261D9B;
+ Wed, 24 Jan 2024 16:11:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D009C43399;
+ Wed, 24 Jan 2024 16:11:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1706112699;
+ bh=888Xfe7DxNuyULyYMnQLFv/4qhy732lEuQhhLHccKJM=;
+ h=Date:From:To:Subject:From;
+ b=d9/2awFmfY5SR40WVEPzND3SxzZVzqC02DQ91vWwRZgxkwZLbaHV2+ktdkypf81ul
+ 3NXxi2bjLTjQrDDARp3GnRR8Se/coY383I3B9gOkTQu05i25nJ2rtzrm4L7ltzeMvT
+ /VXuMKmYRS+nBaUuuuBOOO0SVs/yE5TIhXpu1ukoc1v9AoSiwLg3EfrD+uFnetjN+T
+ VLfiKPfhLYguIP96eR36tYaoprW+ywAD9WxLI1s/H4pvmiDhzUC/iptShlS/gGEQl3
+ qbyU4BoJshIgUUJunsNW8oJ8ZqLpJcSyFdbQNq1EMOIgHJyPmzhhdpbhoJfBFecULM
+ DwnquqBb3d6hw==
+Date: Wed, 24 Jan 2024 17:11:35 +0100
+From: Helge Deller <deller@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: [GIT PULL] fbdev fix for v6.8-rc2
+Message-ID: <ZbE2t9LoFlro7J-H@carbonx1>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,42 +49,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Mittwoch, dem 24.01.2024 um 10:22 +0100 schrieb Philipp Zabel:
-> Disable SH_EU clock gating for the VIPNano-Si+ NPU on i.MX8MP.
-> Taken from linux-imx lf-6.1.36-2.1.0, specifically [1].
->=20
-> [1] https://github.com/nxp-imx/linux-imx/blob/lf-6.1.36-2.1.0/drivers/mxc=
-/gpu-viv/hal/kernel/arch/gc_hal_kernel_hardware.c#L2747-L2761
->=20
-> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 4 ++++
->  1 file changed, 4 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etna=
-viv/etnaviv_gpu.c
-> index 9b8445d2a128..e28332a2560d 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -641,6 +641,10 @@ static void etnaviv_gpu_enable_mlcg(struct etnaviv_g=
-pu *gpu)
->  		pmc |=3D VIVS_PM_MODULE_CONTROLS_DISABLE_MODULE_CLOCK_GATING_SE |
->  		       VIVS_PM_MODULE_CONTROLS_DISABLE_MODULE_CLOCK_GATING_RA;
-> =20
-> +	/* Disable SH_EU clock gating on affected core revisions. */
-> +	if (etnaviv_is_model_rev(gpu, GC8000, 0x8002))
-> +		pmc |=3D VIVS_PM_MODULE_CONTROLS_DISABLE_MODULE_CLOCK_GATING_SH_EU;
-> +
-With the other clock gate disables in the driver we match on all chip
-revisions found in downstream drivers, even if etnaviv hasn't been
-tested with the specific GPU. To stay consistent, this workaround
-should also match GC8000r7200 and GC9200r6304, same as the downstream
-driver.
+Hi Linus,
 
-Regards,
-Lucas
+please pull a small patch set with 3 fixes and 2 small cleanups for
+fbdev for kernel 6.8-rc2:
+
+A crash fix in stifb which was missed to be included in the drm-misc tree, two
+checks to prevent wrong userspace input in sisfb and savagefb and two trivial
+printk cleanups.
+
+Thanks!
+Helge
+
+----------------------------------------------------------------
+The following changes since commit 7a396820222d6d4c02057f41658b162bdcdadd0e:
+
+  Merge tag 'v6.8-rc-part2-smb-client' of git://git.samba.org/sfrench/cifs-2.6 (2024-01-20 16:48:07 -0800)
+
+are available in the Git repository at:
+
+  http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git tags/fbdev-for-6.8-rc2
+
+for you to fetch changes up to 4b088005c897a62fe98f70ab69687706cb2fad3b:
+
+  fbdev: stifb: Fix crash in stifb_blank() (2024-01-23 09:13:24 +0100)
+
+----------------------------------------------------------------
+fbdev fixes and cleanups for 6.8-rc2:
+
+- stifb: Fix crash in stifb_blank()
+- savage/sis: Error out if pixclock equals zero
+- minor trivial cleanups
+
+----------------------------------------------------------------
+Fullway Wang (2):
+      fbdev: savage: Error out if pixclock equals zero
+      fbdev: sis: Error out if pixclock equals zero
+
+Geert Uytterhoeven (1):
+      fbcon: Fix incorrect printed function name in fbcon_prepare_logo()
+
+Helge Deller (1):
+      fbdev: stifb: Fix crash in stifb_blank()
+
+Jiapeng Chong (1):
+      fbdev: vt8500lcdfb: Remove unnecessary print function dev_err()
+
+ drivers/video/fbdev/core/fbcon.c             | 3 +--
+ drivers/video/fbdev/savage/savagefb_driver.c | 3 +++
+ drivers/video/fbdev/sis/sis_main.c           | 2 ++
+ drivers/video/fbdev/stifb.c                  | 2 +-
+ drivers/video/fbdev/vt8500lcdfb.c            | 1 -
+ 5 files changed, 7 insertions(+), 4 deletions(-)
