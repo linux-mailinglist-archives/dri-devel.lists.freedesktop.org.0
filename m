@@ -2,66 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FF0A839FD1
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 04:02:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CD08839FC3
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 04:00:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BF4810F5D1;
-	Wed, 24 Jan 2024 03:01:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 481D910F5C7;
+	Wed, 24 Jan 2024 03:00:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
- [209.85.208.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01D9910F5C0;
- Wed, 24 Jan 2024 03:01:18 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id
- 4fb4d7f45d1cf-559f92bf7b6so9075720a12.0; 
- Tue, 23 Jan 2024 19:01:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1706065216; x=1706670016; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7t4g0dsSRdpeLCYs8MxmtMoFxRmps4SUlUHmKsZELwE=;
- b=DWR8UrCUWPWECGwfoGpvczkVVvxfgVKZbcnTvmb+459C7ZPANkOal1JJanSQ8Gdi4I
- hvtlsPm5r29jr1jC/coz8S3+muMo+1ePI2ZM39LqVAxCf+h1MdgerRTbe4mee/rIkTHH
- AAlOYqSUZrJfnG/mz1i92oEb+PxLLqTZGf5qZX/lruaia5RBTndnVdFl0huBcLBvzkXY
- 0pANi2IrQw2HBGtpt0j2zMSJ190H5dvZHV9Ct7crdEQP1EuYuaAlSSiLAYhXO0/d6xr9
- GDxUtYgQ0UOkx0BHG39qOGDAnVTB/7c1sXrCq1XfA9WsgFiNRev98pi0x2eyTqh5FjR7
- o3FQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706065216; x=1706670016;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=7t4g0dsSRdpeLCYs8MxmtMoFxRmps4SUlUHmKsZELwE=;
- b=t2HuT7tJQyPBRcWTkW3xYERS/tYSonPk3uUsEjUIwugqLN7eXGriMZ3Mg10BwerrUD
- de0CCyhRoGUKsr2ZnAflEgI1CaqKuaw22hoCyFOzL2j7fzJi6ASz/jhl0tNZsybdGzjM
- nz/EcvGM5WzvhFd4Bk5P2uMwj1AFT8IrC5xiCxXICaslBKBhO+VOZuT/zHmd1ItxrkyW
- EqZMQDnjER6zv6bVnMcxMKEtJ9+L/YNkbMILDHLFYTXJiAH3XvjjkqVUD67uerpY8OSX
- Ql8LfOfbacE0J9+Iebtj2YsGS2Gn0juV5mP6+s9uFoDaFsGhecUvOi/Fyd1bw+RcRCP8
- rtHQ==
-X-Gm-Message-State: AOJu0Yxf9rkEKuqhxYmaf2Cfho1BXpsIl+Z6kA58creIwfAncAqANBPq
- TACcWIwmmJ7SnU6lCEohAidpZDE8ZkhEB3BEByeLC3OIsuwL5ND9
-X-Google-Smtp-Source: AGHT+IEqm4FeloylkgEyETEhp1HlT+xVHaBlzFpBrcRgGswpJ3yK7Jf9LdlNlQ1dmrLktikKiUiZ/w==
-X-Received: by 2002:a50:fc04:0:b0:55c:7d37:7d9d with SMTP id
- i4-20020a50fc04000000b0055c7d377d9dmr481849edr.2.1706065216428; 
- Tue, 23 Jan 2024 19:00:16 -0800 (PST)
-Received: from mosaic.enunes.eu (ip-78-45-66-209.bb.vodafone.cz.
- [78.45.66.209]) by smtp.gmail.com with ESMTPSA id
- dj17-20020a05640231b100b00559bb146ecbsm9637914edb.6.2024.01.23.19.00.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jan 2024 19:00:15 -0800 (PST)
-From: Erico Nunes <nunes.erico@gmail.com>
-To: Qiang Yu <yuq825@gmail.com>, anarsoul@gmail.com, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org
-Subject: [PATCH v2 8/8] drm/lima: standardize debug messages by ip name
-Date: Wed, 24 Jan 2024 03:59:47 +0100
-Message-ID: <20240124025947.2110659-9-nunes.erico@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240124025947.2110659-1-nunes.erico@gmail.com>
-References: <20240124025947.2110659-1-nunes.erico@gmail.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A18EB10F5BD
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 03:00:46 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 8E0F0CE30F9
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 03:00:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE237C43390
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 03:00:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1706065239;
+ bh=fLVXXGU2Kxore3yLc83YhnUlsP1PFjlQeq4IAU9uZ7I=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=D9BEvbC65rf72Lc4wnzN6Bhig/6YwaLfdw5LEjwgRWWhgXB/vT7kOroVSycw+NeWH
+ LVypLrHodSZdN3xLYXNmGeSOAzm4A055CDoBXGpGR1J9Kje/qonR2D2EwRkV9r+4db
+ tfiVizY2mQJdsiK1vBOGYTcGbGQbXi6AkBDec1InL4pM4ymWc/LivgJEHW8EkrOTZD
+ DFg4qhZZCf8ckqNYPmHdeeqG8RM119HOvHyHkQg6B/awzwa6q2zCcXqZsBOu6mK2tZ
+ SWw2n8QzRZKU1TaC+2HkKu6F6Ou/vmso6L6WnqdUiUaYlvDCOplDdo7up6x2a5FSaz
+ L/jlIWV8bM7ZA==
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-40d6b4e2945so59619935e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 19:00:39 -0800 (PST)
+X-Gm-Message-State: AOJu0YxjjEWeKg1g4Ueku6HSA3X+KL+04C3RqrSCaAjuLBrT0eg/J6n4
+ c8bBsWt9C4buow3PGfEJqXe2ioOov4FiXeNoiDHLVydZmPiMa/tVLEHe8GgBRrHvQp14fJyejnb
+ Va6LrdPWXA41FEZRDZ6GSjwEhsnY=
+X-Google-Smtp-Source: AGHT+IF3bVMroeXrXUvIIyWLLSCuA4V+ub3H4Gcat6wtKvUtzTlietSNC803/cmDp1GYbR44oq2BalXYr0NMhBkkhms=
+X-Received: by 2002:a05:600c:580c:b0:40e:4a61:a0d7 with SMTP id
+ jz12-20020a05600c580c00b0040e4a61a0d7mr453585wmb.86.1706065238100; Tue, 23
+ Jan 2024 19:00:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231108024613.2898921-1-chenhuacai@loongson.cn>
+ <f461f122-d3e4-4ffb-a252-543f9b6e4e5a@suse.de>
+ <CAFOAJEfDZGRY42SRGF64cFbN1e8sBhYsQw_uou8hxTYfyxkhdw@mail.gmail.com>
+ <CAAhV-H52y902nP6nPeghLqs+K8gNzCc3DHTU1C0AQcD0TXHMAQ@mail.gmail.com>
+ <32b4b912-794f-42b6-b666-5faea8e98d7c@ristioja.ee>
+In-Reply-To: <32b4b912-794f-42b6-b666-5faea8e98d7c@ristioja.ee>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Wed, 24 Jan 2024 11:00:25 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H57G-vudtEH2EbZmZQjRQLHSFvT9BYMjfmrbYnBy-Gq1A@mail.gmail.com>
+Message-ID: <CAAhV-H57G-vudtEH2EbZmZQjRQLHSFvT9BYMjfmrbYnBy-Gq1A@mail.gmail.com>
+Subject: Re: [PATCH] drm/Makefile: Move tiny drivers before native drivers
+To: Jaak Ristioja <jaak@ristioja.ee>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,255 +64,156 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Erico Nunes <nunes.erico@gmail.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Huacai Chen <chenhuacai@loongson.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some debug messages carried the ip name, or included "lima", or
-included both the ip name and then the numbered ip name again.
-Make the messages more consistent by always looking up and showing
-the ip name first.
+Hi, Javier and Thomas,
 
-Signed-off-by: Erico Nunes <nunes.erico@gmail.com>
----
- drivers/gpu/drm/lima/lima_gp.c       | 20 +++++++++++---------
- drivers/gpu/drm/lima/lima_l2_cache.c |  6 ++++--
- drivers/gpu/drm/lima/lima_mmu.c      | 18 +++++++++---------
- drivers/gpu/drm/lima/lima_pmu.c      |  3 ++-
- drivers/gpu/drm/lima/lima_pp.c       | 19 ++++++++++---------
- 5 files changed, 36 insertions(+), 30 deletions(-)
+On Wed, Jan 24, 2024 at 5:21=E2=80=AFAM Jaak Ristioja <jaak@ristioja.ee> wr=
+ote:
+>
+> Hi,
+>
+> I apologize for not finding the time to test this earlier.
+>
+> On 11.12.23 05:08, Huacai Chen wrote:
+> > And Jaak, could you please test with the below patch (but keep the
+> > original order in Makefile) and then give me the dmesg output?
+> >
+> > diff --git a/drivers/video/aperture.c b/drivers/video/aperture.c
+> > index 561be8feca96..cc2e39fb98f5 100644
+> > --- a/drivers/video/aperture.c
+> > +++ b/drivers/video/aperture.c
+> > @@ -350,21 +350,29 @@ int
+> > aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const
+> > char *na
+> >          resource_size_t base, size;
+> >          int bar, ret =3D 0;
+> >
+> > -       if (pdev =3D=3D vga_default_device())
+> > +       printk("DEBUG: remove 1\n");
+> > +
+> > +       if (pdev =3D=3D vga_default_device()) {
+> > +               printk("DEBUG: primary =3D true\n");
+> >                  primary =3D true;
+> > +       }
+> >
+> > -       if (primary)
+> > +       if (primary) {
+> > +               printk("DEBUG: disable sysfb\n");
+> >                  sysfb_disable();
+> > +       }
+> >
+> >          for (bar =3D 0; bar < PCI_STD_NUM_BARS; ++bar) {
+> >                  if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
+> >                          continue;
+> >
+> > +               printk("DEBUG: remove 2\n");
+> >                  base =3D pci_resource_start(pdev, bar);
+> >                  size =3D pci_resource_len(pdev, bar);
+> >                  aperture_detach_devices(base, size);
+> >          }
+> >
+> > +       printk("DEBUG: remove 3\n");
+> >          /*
+> >           * If this is the primary adapter, there could be a VGA device
+> >           * that consumes the VGA framebuffer I/O range. Remove this
+> >
+> > [1]  https://lore.kernel.org/lkml/170222766284.86103.110200607693307210=
+08@leemhuis.info/T/#u
+>
+> Copy-pasting this from the e-mail body didn't work well, but I applied
+> the changes manually to a 6.5.9 kernel without any of the other patches.
+> Here's the relevant dmesg output on the Lenovo L570:
+>
+> ...
+> [    2.953405] ACPI: bus type drm_connector registered
+> [    2.954014] i915 0000:00:02.0: [drm] VT-d active for gfx access
+> [    2.954018] DEBUG: remove 1
+> [    2.954020] DEBUG: remove 2
+> [    2.954021] DEBUG: remove 2
+> [    2.954023] DEBUG: remove 3
 
-diff --git a/drivers/gpu/drm/lima/lima_gp.c b/drivers/gpu/drm/lima/lima_gp.c
-index 4355fa7b17f4..6b354e2fb61d 100644
---- a/drivers/gpu/drm/lima/lima_gp.c
-+++ b/drivers/gpu/drm/lima/lima_gp.c
-@@ -34,11 +34,11 @@ static irqreturn_t lima_gp_irq_handler(int irq, void *data)
- 	if (state & LIMA_GP_IRQ_MASK_ERROR) {
- 		if ((state & LIMA_GP_IRQ_MASK_ERROR) ==
- 		    LIMA_GP_IRQ_PLBU_OUT_OF_MEM) {
--			dev_dbg(dev->dev, "gp out of heap irq status=%x\n",
--				status);
-+			dev_dbg(dev->dev, "%s out of heap irq status=%x\n",
-+				lima_ip_name(ip), status);
- 		} else {
--			dev_err(dev->dev, "gp error irq state=%x status=%x\n",
--				state, status);
-+			dev_err(dev->dev, "%s error irq state=%x status=%x\n",
-+				lima_ip_name(ip), state, status);
- 			if (task)
- 				task->recoverable = false;
- 		}
-@@ -89,7 +89,8 @@ static int lima_gp_soft_reset_async_wait(struct lima_ip *ip)
- 				 v & LIMA_GP_IRQ_RESET_COMPLETED,
- 				 0, 100);
- 	if (err) {
--		dev_err(dev->dev, "gp soft reset time out\n");
-+		dev_err(dev->dev, "%s soft reset time out\n",
-+			lima_ip_name(ip));
- 		return err;
- 	}
- 
-@@ -194,7 +195,7 @@ static int lima_gp_hard_reset(struct lima_ip *ip)
- 	gp_write(LIMA_GP_CMD, LIMA_GP_CMD_RESET);
- 	ret = lima_poll_timeout(ip, lima_gp_hard_reset_poll, 10, 100);
- 	if (ret) {
--		dev_err(dev->dev, "gp hard reset timeout\n");
-+		dev_err(dev->dev, "%s hard reset timeout\n", lima_ip_name(ip));
- 		return ret;
- 	}
- 
-@@ -220,8 +221,9 @@ static void lima_gp_task_error(struct lima_sched_pipe *pipe)
- {
- 	struct lima_ip *ip = pipe->processor[0];
- 
--	dev_err(ip->dev->dev, "gp task error int_state=%x status=%x\n",
--		gp_read(LIMA_GP_INT_STAT), gp_read(LIMA_GP_STATUS));
-+	dev_err(ip->dev->dev, "%s task error int_state=%x status=%x\n",
-+		lima_ip_name(ip), gp_read(LIMA_GP_INT_STAT),
-+		gp_read(LIMA_GP_STATUS));
- 
- 	lima_gp_hard_reset(ip);
- }
-@@ -324,7 +326,7 @@ int lima_gp_init(struct lima_ip *ip)
- 	err = devm_request_irq(dev->dev, ip->irq, lima_gp_irq_handler,
- 			       IRQF_SHARED, lima_ip_name(ip), ip);
- 	if (err) {
--		dev_err(dev->dev, "gp %s fail to request irq\n",
-+		dev_err(dev->dev, "%s fail to request irq\n",
- 			lima_ip_name(ip));
- 		return err;
- 	}
-diff --git a/drivers/gpu/drm/lima/lima_l2_cache.c b/drivers/gpu/drm/lima/lima_l2_cache.c
-index c4080a02957b..184106ce55f8 100644
---- a/drivers/gpu/drm/lima/lima_l2_cache.c
-+++ b/drivers/gpu/drm/lima/lima_l2_cache.c
-@@ -21,7 +21,8 @@ static int lima_l2_cache_wait_idle(struct lima_ip *ip)
- 				 !(v & LIMA_L2_CACHE_STATUS_COMMAND_BUSY),
- 				 0, 1000);
- 	if (err) {
--		dev_err(dev->dev, "l2 cache wait command timeout\n");
-+		dev_err(dev->dev, "%s wait command timeout\n",
-+			lima_ip_name(ip));
- 		return err;
- 	}
- 	return 0;
-@@ -83,7 +84,8 @@ int lima_l2_cache_init(struct lima_ip *ip)
- 	spin_lock_init(&ip->data.lock);
- 
- 	size = l2_cache_read(LIMA_L2_CACHE_SIZE);
--	dev_info(dev->dev, "l2 cache %uK, %u-way, %ubyte cache line, %ubit external bus\n",
-+	dev_info(dev->dev, "%s %uK, %u-way, %ubyte cache line, %ubit external bus\n",
-+		 lima_ip_name(ip),
- 		 1 << (((size >> 16) & 0xff) - 10),
- 		 1 << ((size >> 8) & 0xff),
- 		 1 << (size & 0xff),
-diff --git a/drivers/gpu/drm/lima/lima_mmu.c b/drivers/gpu/drm/lima/lima_mmu.c
-index a1ae6c252dc2..e18317c5ca8c 100644
---- a/drivers/gpu/drm/lima/lima_mmu.c
-+++ b/drivers/gpu/drm/lima/lima_mmu.c
-@@ -22,7 +22,8 @@
- 				  cond, 0, 100);	     \
- 	if (__ret)					     \
- 		dev_err(dev->dev,			     \
--			"mmu command %x timeout\n", cmd);    \
-+			"%s command %x timeout\n",           \
-+			lima_ip_name(ip), cmd);              \
- 	__ret;						     \
- })
- 
-@@ -40,14 +41,13 @@ static irqreturn_t lima_mmu_irq_handler(int irq, void *data)
- 	if (status & LIMA_MMU_INT_PAGE_FAULT) {
- 		u32 fault = mmu_read(LIMA_MMU_PAGE_FAULT_ADDR);
- 
--		dev_err(dev->dev, "mmu page fault at 0x%x from bus id %d of type %s on %s\n",
--			fault, LIMA_MMU_STATUS_BUS_ID(status),
--			status & LIMA_MMU_STATUS_PAGE_FAULT_IS_WRITE ? "write" : "read",
--			lima_ip_name(ip));
-+		dev_err(dev->dev, "%s page fault at 0x%x from bus id %d of type %s\n",
-+			lima_ip_name(ip), fault, LIMA_MMU_STATUS_BUS_ID(status),
-+			status & LIMA_MMU_STATUS_PAGE_FAULT_IS_WRITE ? "write" : "read");
- 	}
- 
- 	if (status & LIMA_MMU_INT_READ_BUS_ERROR)
--		dev_err(dev->dev, "mmu %s irq bus error\n", lima_ip_name(ip));
-+		dev_err(dev->dev, "%s irq bus error\n", lima_ip_name(ip));
- 
- 	/* mask all interrupts before resume */
- 	mmu_write(LIMA_MMU_INT_MASK, 0);
-@@ -102,14 +102,14 @@ int lima_mmu_init(struct lima_ip *ip)
- 
- 	mmu_write(LIMA_MMU_DTE_ADDR, 0xCAFEBABE);
- 	if (mmu_read(LIMA_MMU_DTE_ADDR) != 0xCAFEB000) {
--		dev_err(dev->dev, "mmu %s dte write test fail\n", lima_ip_name(ip));
-+		dev_err(dev->dev, "%s dte write test fail\n", lima_ip_name(ip));
- 		return -EIO;
- 	}
- 
- 	err = devm_request_irq(dev->dev, ip->irq, lima_mmu_irq_handler,
- 			       IRQF_SHARED, lima_ip_name(ip), ip);
- 	if (err) {
--		dev_err(dev->dev, "mmu %s fail to request irq\n", lima_ip_name(ip));
-+		dev_err(dev->dev, "%s fail to request irq\n", lima_ip_name(ip));
- 		return err;
- 	}
- 
-@@ -152,7 +152,7 @@ void lima_mmu_page_fault_resume(struct lima_ip *ip)
- 	u32 v;
- 
- 	if (status & LIMA_MMU_STATUS_PAGE_FAULT_ACTIVE) {
--		dev_info(dev->dev, "mmu resume\n");
-+		dev_info(dev->dev, "%s resume\n", lima_ip_name(ip));
- 
- 		mmu_write(LIMA_MMU_INT_MASK, 0);
- 		mmu_write(LIMA_MMU_DTE_ADDR, 0xCAFEBABE);
-diff --git a/drivers/gpu/drm/lima/lima_pmu.c b/drivers/gpu/drm/lima/lima_pmu.c
-index e397e1146e96..113cb9b215cd 100644
---- a/drivers/gpu/drm/lima/lima_pmu.c
-+++ b/drivers/gpu/drm/lima/lima_pmu.c
-@@ -21,7 +21,8 @@ static int lima_pmu_wait_cmd(struct lima_ip *ip)
- 				 v, v & LIMA_PMU_INT_CMD_MASK,
- 				 100, 100000);
- 	if (err) {
--		dev_err(dev->dev, "timeout wait pmu cmd\n");
-+		dev_err(dev->dev, "%s timeout wait pmu cmd\n",
-+			lima_ip_name(ip));
- 		return err;
- 	}
- 
-diff --git a/drivers/gpu/drm/lima/lima_pp.c b/drivers/gpu/drm/lima/lima_pp.c
-index ac097dd75072..d0d2db0ef1ce 100644
---- a/drivers/gpu/drm/lima/lima_pp.c
-+++ b/drivers/gpu/drm/lima/lima_pp.c
-@@ -26,8 +26,8 @@ static void lima_pp_handle_irq(struct lima_ip *ip, u32 state)
- 	if (state & LIMA_PP_IRQ_MASK_ERROR) {
- 		u32 status = pp_read(LIMA_PP_STATUS);
- 
--		dev_err(dev->dev, "pp error irq state=%x status=%x\n",
--			state, status);
-+		dev_err(dev->dev, "%s error irq state=%x status=%x\n",
-+			lima_ip_name(ip), state, status);
- 
- 		pipe->error = true;
- 
-@@ -125,7 +125,7 @@ static int lima_pp_soft_reset_async_wait_one(struct lima_ip *ip)
- 
- 	ret = lima_poll_timeout(ip, lima_pp_soft_reset_poll, 0, 100);
- 	if (ret) {
--		dev_err(dev->dev, "pp %s reset time out\n", lima_ip_name(ip));
-+		dev_err(dev->dev, "%s reset time out\n", lima_ip_name(ip));
- 		return ret;
- 	}
- 
-@@ -190,14 +190,14 @@ static int lima_pp_hard_reset(struct lima_ip *ip)
- 	pp_write(LIMA_PP_CTRL, LIMA_PP_CTRL_STOP_BUS);
- 	ret = lima_poll_timeout(ip, lima_pp_bus_stop_poll, 10, 100);
- 	if (ret) {
--		dev_err(dev->dev, "pp %s bus stop timeout\n", lima_ip_name(ip));
-+		dev_err(dev->dev, "%s bus stop timeout\n", lima_ip_name(ip));
- 		return ret;
- 	}
- 
- 	pp_write(LIMA_PP_CTRL, LIMA_PP_CTRL_FORCE_RESET);
- 	ret = lima_poll_timeout(ip, lima_pp_hard_reset_poll, 10, 100);
- 	if (ret) {
--		dev_err(dev->dev, "pp hard reset timeout\n");
-+		dev_err(dev->dev, "%s hard reset timeout\n", lima_ip_name(ip));
- 		return ret;
- 	}
- 
-@@ -274,7 +274,7 @@ int lima_pp_init(struct lima_ip *ip)
- 	err = devm_request_irq(dev->dev, ip->irq, lima_pp_irq_handler,
- 			       IRQF_SHARED, lima_ip_name(ip), ip);
- 	if (err) {
--		dev_err(dev->dev, "pp %s fail to request irq\n",
-+		dev_err(dev->dev, "%s fail to request irq\n",
- 			lima_ip_name(ip));
- 		return err;
- 	}
-@@ -309,7 +309,7 @@ int lima_pp_bcast_init(struct lima_ip *ip)
- 	err = devm_request_irq(dev->dev, ip->irq, lima_pp_bcast_irq_handler,
- 			       IRQF_SHARED, lima_ip_name(ip), ip);
- 	if (err) {
--		dev_err(dev->dev, "pp %s fail to request irq\n",
-+		dev_err(dev->dev, "%s fail to request irq\n",
- 			lima_ip_name(ip));
- 		return err;
- 	}
-@@ -423,8 +423,9 @@ static void lima_pp_task_error(struct lima_sched_pipe *pipe)
- 	for (i = 0; i < pipe->num_processor; i++) {
- 		struct lima_ip *ip = pipe->processor[i];
- 
--		dev_err(ip->dev->dev, "pp task error %d int_state=%x status=%x\n",
--			i, pp_read(LIMA_PP_INT_STATUS), pp_read(LIMA_PP_STATUS));
-+		dev_err(ip->dev->dev, "%s task error %d int_state=%x status=%x\n",
-+			lima_ip_name(ip), i, pp_read(LIMA_PP_INT_STATUS),
-+			pp_read(LIMA_PP_STATUS));
- 
- 		lima_pp_hard_reset(ip);
- 	}
--- 
-2.43.0
+My tmp patch is as follows:
 
+diff --git a/drivers/video/aperture.c b/drivers/video/aperture.c
+index 561be8feca96..cc2e39fb98f5 100644
+--- a/drivers/video/aperture.c
++++ b/drivers/video/aperture.c
+@@ -350,21 +350,29 @@ int
+aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const
+char *na
+        resource_size_t base, size;
+        int bar, ret =3D 0;
+
+-       if (pdev =3D=3D vga_default_device())
++       printk("DEBUG: remove 1\n");
++
++       if (pdev =3D=3D vga_default_device()) {
++               printk("DEBUG: primary =3D true\n");
+                primary =3D true;
++       }
+
+-       if (primary)
++       if (primary) {
++               printk("DEBUG: disable sysfb\n");
+                sysfb_disable();
++       }
+
+        for (bar =3D 0; bar < PCI_STD_NUM_BARS; ++bar) {
+                if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
+                        continue;
+
++               printk("DEBUG: remove 2\n");
+                base =3D pci_resource_start(pdev, bar);
+                size =3D pci_resource_len(pdev, bar);
+                aperture_detach_devices(base, size);
+        }
+
++       printk("DEBUG: remove 3\n");
+        /*
+         * If this is the primary adapter, there could be a VGA device
+         * that consumes the VGA framebuffer I/O range. Remove this
+
+From the Jaak's dmesg, it is obvious that "pdev =3D=3D
+vga_default_device()" is false, which causes sysfb_disable() to be not
+called. And I think the simple-drm device is not provided by the i915
+device in this case. So, can we unconditionally call sysfb_disable()
+here, which is the same as aperture_remove_conflicting_devices()?
+
+Huacai
+
+> [    2.954029] resource: resource sanity check: requesting [mem
+> 0x00000000e0000000-0x00000000efffffff], which spans more than BOOTFB
+> [mem 0xe0000000-0xe012bfff]
+> [    2.954035] caller i915_ggtt_init_hw+0x88/0x120 mapping multiple BARs
+> [    2.954061] i915 0000:00:02.0: [drm] Using Transparent Hugepages
+> [    2.955103] Loading firmware: i915/kbl_dmc_ver1_04.bin
+> [    2.955384] i915 0000:00:02.0: [drm] Finished loading DMC firmware
+> i915/kbl_dmc_ver1_04.bin (v1.4)
+> ...
+> [    4.145013] [drm] Initialized i915 1.6.0 20201103 for 0000:00:02.0 on
+> minor 0
+> [    4.147101] ACPI: video: Video Device [GFX0] (multi-head: yes  rom:
+> no  post: no)
+> [    4.147244] input: Video Bus as
+> /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A08:00/LNXVIDEO:00/input/input4
+> [    4.147410] [drm] Initialized vgem 1.0.0 20120112 for vgem on minor 1
+> [    4.147420] usbcore: registered new interface driver udl
+> [    4.147500] [drm] Initialized simpledrm 1.0.0 20200625 for
+> simple-framebuffer.0 on minor 2
+> [    4.148643] Console: switching to colour frame buffer device 80x30
+> [    4.153216] simple-framebuffer simple-framebuffer.0: [drm] fb0:
+> simpledrmdrmfb frame buffer device
+> [    4.154043] loop: module loaded
+> [    4.156017] ahci 0000:00:17.0: version 3.0
+> [    4.157373] i915 0000:00:02.0: [drm] fb1: i915drmfb frame buffer devic=
+e
+> ...
+>
+> J
+>
