@@ -2,151 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B95983ADBD
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 16:49:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74C5F83ADCA
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 16:52:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A09C10F77E;
-	Wed, 24 Jan 2024 15:49:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82FCA10EA60;
+	Wed, 24 Jan 2024 15:52:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8288210ED5D;
- Wed, 24 Jan 2024 15:49:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1706111354; x=1737647354;
- h=content-transfer-encoding:in-reply-to:references:subject:
- from:to:cc:date:message-id:mime-version;
- bh=8CgVZUCRvC8rw1sZ3ggW6w0mrGtUXlvrP0pq0JjkhVk=;
- b=i8nxWEpCb5UTHS662yYZuR2UCIHA8aigAtbXZBiNsJ3RxJVP3Gvf8r7A
- CPxafC1PPria7PD/q+FIiNiAUSmhjTwYWHotM57HpIfXkY8bUSIU7yTt3
- rBVBeW+mEfj2hF2dec+B06IG7EbKiT7adM8+Lo7y2MZYxpni1sRD1rDG0
- 5pvVlq2wRpn/JdhcN6NnUsDS8zwbAGf/Z/xoA1hADgPSAsvWEFOtXdjVO
- 8EZucukBW4G5tXR5qWD3H9cY+zrVPR8WIIj6gOfDdBEA3VWrLC1e1fdho
- eO2ePm+8DmWOI1tUaTszj6WYi+2pMVsMl/1VUnuHpIz6y0HkrKNHJU1He Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="399035257"
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; d="scan'208";a="399035257"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jan 2024 07:49:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="2070875"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by fmviesa004.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 24 Jan 2024 07:49:14 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 24 Jan 2024 07:49:12 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Wed, 24 Jan 2024 07:49:12 -0800
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.168)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Wed, 24 Jan 2024 07:49:12 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Nsjze+bO0uuuD6rDF0p4UWHoO4Uko5v+V2uePURgTM2/JEUM6zzUvbWp7mGxNddSEkvsEXWWApHpow7lhP2nzUgp0p01Wxn55fO+Rjp+KBU37AVeZYUVdLHG0U9r+sNqAJC0RRrJHepQGF4IWSQG3vULI1LZi9Uztq2loqbNpXNYvd6b+k98PVKh5vDuHHVxU8BVJ6T5Qp8mACUmCvEBPaN26iiewnzkS0mjUSZtjgA+YeNlwrFAAN6CrvPqLJGUxwqH2UGxjrwJIbSZhsNQeOXAmMU13ouenULoAOdraN69ClrZ6QOpcI2yc7sAELWM1yLFgiQyXRoT7VA4EWQgpw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BbeyerYEnp0zxF2dKwMg73YWtdYFYa0n3jxoAuZnKUI=;
- b=F1DkG5nSLrOeYIewIBXadmLda5FymXHX78IUh5c9mH79Pm7QTRPzJPax/ZLK5ymt3WCdoskoysNNkwVaj26DVWQJUveEvBdXEPzfOkOrYRbFWEFNizKh9Gy0BbNFrbpx4yaGwENOspKQlhvMleByl5uBVIFp+wni9pY3jxEBAZnrOZhRpCNTrK4TWRN3FtuoHe5fqw7OXZDmumhkA9oC9Ao8SizcM2n76OvtFo8Z7cDoR9JthYvjCnBpVlAkmzo/vjsQhR0KsRLs2MoJNy8mBOnV09bwzRcguofn5Z5gqEUMi2P2Me1mFsiN9J2Wkgc1QBLsW3dpI54+1VsQcuBu9w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH8PR11MB8287.namprd11.prod.outlook.com (2603:10b6:510:1c7::14)
- by IA1PR11MB6444.namprd11.prod.outlook.com (2603:10b6:208:3a7::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.34; Wed, 24 Jan
- 2024 15:49:09 +0000
-Received: from PH8PR11MB8287.namprd11.prod.outlook.com
- ([fe80::559e:7844:adc9:7793]) by PH8PR11MB8287.namprd11.prod.outlook.com
- ([fe80::559e:7844:adc9:7793%7]) with mapi id 15.20.7202.034; Wed, 24 Jan 2024
- 15:49:09 +0000
-Content-Type: text/plain; charset="utf-8"
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17F5410E3CB
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 15:52:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1706111528;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=KzDEEPXk1BJzB7T0gf49ptX9Upq6NPCegHjNhUWdYTk=;
+ b=ISnHLPX229T8FzuMol/PUDWkPyo82NdDKorkDpXVrFLMC21chLr2kfn6po5yiBs9OEly4b
+ GFsa5u7pS+RMo+hqHnYxIz/p4BCPX+LDyA8qeTUJHaWJieZ3TS+zT79w7l3QEAdmaNzYqY
+ hXvXwlAnqGhTOJLo3YJr3Vp8RBa/wg4=
+Message-ID: <4819fa1e6b739380abc669a96dcea90ccc07e774.camel@crapouillou.net>
+Subject: Re: [Linaro-mm-sig] [PATCH v5 1/6] dma-buf: Add
+ dma_buf_{begin,end}_access()
+From: Paul Cercueil <paul@crapouillou.net>
+To: Andrew Davis <afd@ti.com>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <ckoenig.leichtzumerken@gmail.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, Sumit
+ Semwal <sumit.semwal@linaro.org>
+Date: Wed, 24 Jan 2024 16:52:05 +0100
+In-Reply-To: <715efa1f-c3a4-4952-b72c-ca7f466e3ccb@ti.com>
+References: <20240119141402.44262-1-paul@crapouillou.net>
+ <20240119141402.44262-2-paul@crapouillou.net>
+ <8035f515-591f-4c87-bf0a-23d5705d9b1c@gmail.com>
+ <442f69f31ece6d441f3dc41c3dfeb4dcf52c00b8.camel@crapouillou.net>
+ <0b6b8738-9ea3-44fa-a624-9297bd55778f@amd.com>
+ <e4620acdf24628d904cedcb0030d78b14559f337.camel@crapouillou.net>
+ <85a89505-edeb-4619-86c1-157f7abdd190@amd.com>
+ <0fe2755fb320027234c086bcc88fd107855234c5.camel@crapouillou.net>
+ <577501f9-9d1c-4f8d-9882-7c71090e5ef3@amd.com>
+ <7928c0866ac5b2bfaaa56ad3422bedc9061e0f7b.camel@crapouillou.net>
+ <715efa1f-c3a4-4952-b72c-ca7f466e3ccb@ti.com>
+Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
+ keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
+ YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <ZbEsfl0tGLY+xJl0@yury-ThinkPad>
-References: <20240124050205.3646390-1-lucas.demarchi@intel.com>
- <20240124050205.3646390-2-lucas.demarchi@intel.com>
- <87v87jkvrx.fsf@intel.com>
- <gvkvihpcc45275idrfukjqbvgem767evrux5sx5lnh5hofqemk@ppbkcauitvwb>
- <ZbEsfl0tGLY+xJl0@yury-ThinkPad>
-Subject: Re: Re: [PATCH 1/3] bits: introduce fixed-type genmasks
-From: Gustavo Sousa <gustavo.sousa@intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>, Yury Norov
- <yury.norov@gmail.com>
-Date: Wed, 24 Jan 2024 12:49:04 -0300
-Message-ID: <170611134445.31262.2799581830173501277@gjsousa-mobl2>
-User-Agent: alot/0.10
-X-ClientProxiedBy: SJ0PR03CA0237.namprd03.prod.outlook.com
- (2603:10b6:a03:39f::32) To PH8PR11MB8287.namprd11.prod.outlook.com
- (2603:10b6:510:1c7::14)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR11MB8287:EE_|IA1PR11MB6444:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4427fd7e-e66b-45d6-c7c6-08dc1cf400ef
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: rCEAugbiT7z9+/ukSeYojki4rdY1vi6b4H/XpEHFsOvW7a9xTAVMklSQcsRJFRumQ3UCL6XLMhFUQR5MxZ5ETeWGXLcIdr3rf0tek0A0VOH3uhw+HOcDGlGITHBNW1fz2v2u13iifLO6nK2+vSq9t+OCM6fZN3s62xBKYPXDW8wrT+6YhcxofqoR9ymUqMABhwxGeYp4AxeVGzHsSay2rgjaAgDbT2nsE/2a1vxO84joU+kV4cyoXmOndkxGUoT49RsNPjZui8xyKkSgz2csa2D6e2qRwNEFkc4Z/gSumIZTxeGd0QU+NCldzc9XrLd7FDzDKnK0arm9EQ62OqWt2w6AoTBZvobWx8p4leM+oRQZiTMzi/a/40hBWU8/AgbG593Bk4ff5JIyI+O9NOfOqoQH6plblQkjjFqsSpXdKrrUlqs4h6AyBgh7FhOxkZvuMSCgZ2q0sTrwinxADbT38rG9ypGHK2YWvmIK6rZgfXv+w5n7l6M42FtqPBg/l6tmbE75IuSaR6WnQIkfr6gFd3zTkuJ3tiHYmxKEMcVtr94MpALlWCffsjxCyR9+PTze
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH8PR11MB8287.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(7916004)(39860400002)(136003)(366004)(376002)(346002)(396003)(230922051799003)(1800799012)(186009)(64100799003)(451199024)(4326008)(44832011)(83380400001)(8676002)(8936002)(9686003)(316002)(26005)(6512007)(6486002)(110136005)(54906003)(66946007)(5660300002)(6666004)(6506007)(66476007)(66556008)(478600001)(82960400001)(33716001)(41300700001)(2906002)(86362001)(38100700002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y2U4TUJEZ3RCRjY1NlhRazQ1RlpQUndSNXNDTjBJV1BOUTJ4bm9JVUZuRTh0?=
- =?utf-8?B?T0xGa3hadkZ3U1hNSlhhYUFheFNEekswaTRtZWFsSnV2ckdtbDduLy92UUcx?=
- =?utf-8?B?R25hNGwrbE5INWwwOVptUWVlOVB4MDhUWXpXREpsUnFHZUt3dm1jbkNEOTE0?=
- =?utf-8?B?KzdnZkVuZzUvOHdJUzRCd3FvbElkR2I5RFR3QVBxWks3YkFyTTljU0RBaWxH?=
- =?utf-8?B?bTNzR1JvRzU1QXUxL3VuSXQ4UFVpTFZzU0g2L3F1alAwWWhlbzNFTmY1am1J?=
- =?utf-8?B?KzVrL2lESWtZYVhtdWdWNlYzYWl3TWRsZU9yS0xRRUtNRzdRaTIzMU1ibVJ3?=
- =?utf-8?B?cGdndTlaNlRSS3o0Z21hemxjOEEydHE5VXdEKytwZlpUekZCdE04cnAyekJP?=
- =?utf-8?B?SW9XSm1ZY1ljZWNjTWZwbytqQS9JNWRPS08zK05MbHFkMTZ1RWpZL3M5QmUw?=
- =?utf-8?B?T0ZGV1NHVXl2VmdnVnhpdWk5cnk4QU5sZGhPczRYQ1NqSTFXNVoxdk9zMmpY?=
- =?utf-8?B?MXF1R3JkVkVLdDZZUjFDVDlISllaQkdTM1F1T3lNRTQ4SWZFamxocDNaZWpU?=
- =?utf-8?B?ZzdwaVRyaHl1TWs4NE84TW5rd2YvZDN1L0Z1SFVJUG5YSTdacGpNdGJYN2pr?=
- =?utf-8?B?cm4vcGt6bktSai96VDgzZVdHb1Q1S2hqNXp1Z2VKWktOSXpIZG1KSkFZWC9F?=
- =?utf-8?B?KzVocS92QnE4UWFvZGdGN3dPT00xYW9sMndNVGZ5eUQwSVN5V2RHNkRKMmE2?=
- =?utf-8?B?R0ZJK1dZS0grYnJLK3NsUTlMVHdwRVRHWEtTQzF6ZFUyemdTcHlMSzVjTU5M?=
- =?utf-8?B?dzhuQlNkc05xZTlxK3d0UzRudTZzMFk0SHU3QXRCYXN0RitPakZGT1JtTDla?=
- =?utf-8?B?Z09vZWF5UVZacWdiVmk3NHRCOVIzWVRkcFdmUTg1akRvZUwvRUQ4SXJRc1Vl?=
- =?utf-8?B?NGQralNQM1M5UnI2elcxckhyRmI1bnhORVI5SVI1aXhHS0hxNFhKbjBTcEVx?=
- =?utf-8?B?MmliamJTeXljSXpMTS9NaDBqdWhSS1lBUTVaYWFjcDdtSXArWUhIVmxLNmFw?=
- =?utf-8?B?VzVWb1MzWi9MU1NlNlNuTFRxRFh2RDlsR3FpTHl2cERiU2tBWHVzeDlNU0VY?=
- =?utf-8?B?eTFybGZ0M2FQRkhpeEk5NDNDQU9LVURpZmNQWjUzRVh5ZjFQM2pVZmw3MGtk?=
- =?utf-8?B?REJMOElDQ1EyQjZYc3BzUVIwRnBrSEVzUlVxM2VmekZ1QmEyOUx1aXM3ZzNj?=
- =?utf-8?B?Z0NHQWJBeFdBT1IyK3EvOVVlYVR3Rm53VEthSHFPNDdybHE3Z04vMmxOWlZB?=
- =?utf-8?B?cS92d0pybEhDb3Q1eTZVMkZZM3VHSE9aYTg0WXFrS3pBVFlOcWRnakkvS0dD?=
- =?utf-8?B?cjJZdUVLYzhQcENVbGJNY0N6b1lINUQwa1k4TlpXR0tiN0lLRnJUWkZGWUtY?=
- =?utf-8?B?NzNkSmpvQmMvUlNoVlJzTVR4ZDdFRWcyOU1yL3duSzI3elRlS0J0cUY1M25C?=
- =?utf-8?B?YzJZcjRUTlZEbmg2NUdUSG9HQWJQT1dKaGU1a3RiQTVPdUdkZGZlMHZSUTJV?=
- =?utf-8?B?b3AvUytZRG53VFdEUEE2c2d2ek5JVXJSY21RRVNKR1grbnJuWTY2bnRjVWta?=
- =?utf-8?B?UFZzRE83WGJRajBtcDhhN1NHOEtkNDh2cHlZNW9wMjF2QVJYSGRUT2w2THJz?=
- =?utf-8?B?aS9JLzBubmdMMkowQThKRDBuSEVhOFBUV1ZyVmpQN2xUNmpwSUsvSzdQLzdU?=
- =?utf-8?B?L1RseEtJWXBtRDdKc0pzTno1aHhXY2oyYkpwMDQ4V3lKeit5KzZWTlBhU2I4?=
- =?utf-8?B?bEsxMElvb2lacWhjVFg2UFRIVlNUeVVOQ0d0TzhBWUJWZVNDbnF6dXNIWnpP?=
- =?utf-8?B?ZGYya0VHVVNoSDBMUHVtaTJ6RHkxaUFFSVlzbjlPM0JzMnU0NExiMnJjeTJq?=
- =?utf-8?B?YmFVdktJYVVZQUwwMlFqbzRXSDkvWSt4YTJ3dWoxTURUR3IzSFdkZjQzcVYz?=
- =?utf-8?B?cHd1bUtCT2hqcGt3Rm13OXdweCtTMnduMmdycjFCOGhvZERMcnpVcUhwWWQz?=
- =?utf-8?B?TWk5eFFyK1Rxc0VWTC9ub0dBaUdKSERsNVNKRU1ISGc1ZkJ3WlRZNzA3a1pa?=
- =?utf-8?B?T1VzNUxMbnBvZTZRV1p6MXJ4UDMyV2ZYbzZZZ1VrN1VrMW1OS25DQ1JueWdQ?=
- =?utf-8?B?Umc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4427fd7e-e66b-45d6-c7c6-08dc1cf400ef
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB8287.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jan 2024 15:49:09.4172 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FQdO1Ti59ATkqvCLGvWvrV62waqjyUcG0w+8aGnYtMdo531b37+cvNItpjMwUzvPG3G2APPx9X17ZWLB9pzTwA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6444
-X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,59 +62,291 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- intel-xe@lists.freedesktop.org
+Cc: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+ Michael Hennerich <Michael.Hennerich@analog.com>, linux-doc@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Cameron <jic23@kernel.org>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Yury Norov (2024-01-24 12:27:58-03:00)
->On Wed, Jan 24, 2024 at 08:03:53AM -0600, Lucas De Marchi wrote:
->> On Wed, Jan 24, 2024 at 09:58:26AM +0200, Jani Nikula wrote:
->> > On Tue, 23 Jan 2024, Lucas De Marchi <lucas.demarchi@intel.com> wrote:
->> > > From: Yury Norov <yury.norov@gmail.com>
->> > >=20
->> > > Generalize __GENMASK() to support different types, and implement
->> > > fixed-types versions of GENMASK() based on it. The fixed-type versio=
-n
->> > > allows more strict checks to the min/max values accepted, which is
->> > > useful for defining registers like implemented by i915 and xe driver=
-s
->> > > with their REG_GENMASK*() macros.
->> >=20
->> > Mmh, the commit message says the fixed-type version allows more strict
->> > checks, but none are actually added. GENMASK_INPUT_CHECK() remains the
->> > same.
->> >=20
->> > Compared to the i915 and xe versions, this is more lax now. You could
->> > specify GENMASK_U32(63,32) without complaints.
->>=20
->> Doing this on top of the this series:
->>=20
->> -#define   XELPDP_PORT_M2P_COMMAND_TYPE_MASK            REG_GENMASK(30, =
-27)
->> +#define   XELPDP_PORT_M2P_COMMAND_TYPE_MASK            REG_GENMASK(62, =
-32)
->>=20
->> and I do get a build failure:
->>=20
->> ../drivers/gpu/drm/i915/display/intel_cx0_phy.c: In function =E2=80=98__=
-intel_cx0_read_once=E2=80=99:
->> ../include/linux/bits.h:41:31: error: left shift count >=3D width of typ=
-e [-Werror=3Dshift-count-overflow]
->>    41 |          (((t)~0ULL - ((t)(1) << (l)) + 1) & \
->>       |                               ^~
->
->I would better include this in commit message to avoid people's
->confusion. If it comes to v2, can you please do it and mention that
->this trick relies on shift-count-overflow compiler check?
+Hi Andrew,
 
-Wouldn't it be better to have explicit check that l and h are not out of bo=
-unds
-based on BITS_PER_TYPE() than relying on a compiler flag that could be turn=
-ed
-off (maybe for some questionable reason, but even so)?
+Le mercredi 24 janvier 2024 =C3=A0 09:38 -0600, Andrew Davis a =C3=A9crit=
+=C2=A0:
+> On 1/24/24 4:58 AM, Paul Cercueil wrote:
+> > Hi Christian,
+> >=20
+> > Le mardi 23 janvier 2024 =C3=A0 14:28 +0100, Christian K=C3=B6nig a =C3=
+=A9crit=C2=A0:
+> > > =C2=A0=C2=A0Am 23.01.24 um 14:02 schrieb Paul Cercueil:
+> > > =C2=A0=20
+> > > > [SNIP]
+> > > > =C2=A0=20
+> > > > > =C2=A0=20
+> > > > > > =C2=A0=C2=A0=20
+> > > > > > > =C2=A0=20
+> > > > > > > That an exporter has to call extra functions to access
+> > > > > > > his
+> > > > > > > own
+> > > > > > > buffers
+> > > > > > > is a complete no-go for the design since this forces
+> > > > > > > exporters
+> > > > > > > into
+> > > > > > > doing extra steps for allowing importers to access their
+> > > > > > > data.
+> > > > > > > =C2=A0=20
+> > > > > > =C2=A0=20
+> > > > > > Then what about we add these dma_buf_{begin,end}_access(),
+> > > > > > with
+> > > > > > only
+> > > > > > implementations for "dumb" exporters e.g. udmabuf or the
+> > > > > > dmabuf
+> > > > > > heaps?
+> > > > > > And only importers (who cache the mapping and actually care
+> > > > > > about
+> > > > > > non-
+> > > > > > coherency) would have to call these.
+> > > > > > =C2=A0=20
+> > > > > =C2=A0=20
+> > > > > No, the problem is still that you would have to change all
+> > > > > importers
+> > > > > to
+> > > > > mandatory use dma_buf_begin/end.
+> > > > >=20
+> > > > > But going a step back caching the mapping is irrelevant for
+> > > > > coherency.
+> > > > > Even if you don't cache the mapping you don't get coherency.
+> > > > > =C2=A0=20
+> > > > =C2=A0=20
+> > > > You actually do - at least with udmabuf, as in that case
+> > > > dma_buf_map_attachment() / dma_buf_unmap_attachment() will
+> > > > handle
+> > > > cache
+> > > > coherency when the SGs are mapped/unmapped.
+> > > > =C2=A0=20
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0Well I just double checked the source in 6.7.1 and I can'=
+t see
+> > > udmabuf doing anything for cache coherency in map/unmap.
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0All it does is calling dma_map_sgtable() and
+> > > dma_unmap_sgtable() to
+> > > create and destroy the SG table and those are not supposed to
+> > > sync
+> > > anything to the CPU cache.
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0In other words drivers usually use DMA_ATTR_SKIP_CPU_SYNC=
+ here,
+> > > it's
+> > > just that this is missing from udmabuf.
+> >=20
+> > Ok.
+> > =C2=A0=20
+> > > > =C2=A0=20
+> > > > The problem was then that dma_buf_unmap_attachment cannot be
+> > > > called
+> > > > before the dma_fence is signaled, and calling it after is
+> > > > already
+> > > > too
+> > > > late (because the fence would be signaled before the data is
+> > > > sync'd).
+> > > > =C2=A0=20
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0Well what sync are you talking about? CPU sync? In DMA-bu=
+f that
+> > > is
+> > > handled differently.
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0For importers it's mandatory that they can be coherent wi=
+th the
+> > > exporter. That usually means they can snoop the CPU cache if the
+> > > exporter can snoop the CPU cache.
+> >=20
+> > I seem to have such a system where one device can snoop the CPU
+> > cache
+> > and the other cannot. Therefore if I want to support it properly, I
+> > do
+> > need cache flush/sync. I don't actually try to access the data
+> > using
+> > the CPU (and when I do, I call the sync start/end ioctls).
+> >=20
+>=20
+> If you don't access the data using the CPU, then how did the data
+> end up in the CPU caches? If you have a device that can write-
+> allocate
+> into your CPU cache, but some other device in the system cannot snoop
+> that data back out then that is just broken and those devices cannot
+> reasonably share buffers..
 
---
-Gustavo Sousa
+I think that's what happens, yes.
+
+> Now we do have systems where some hardware can snoop CPU(or L3)
+> caches
+> and others cannot, but they will not *allocate* into those caches
+> (unless they also have the ability to sync them without CPU in the
+> loop).
+>=20
+> Your problem may be if you are still using udmabuf driver as your
+> DMA-BUF exporter, which as said before is broken (and I just sent
+> some
+> patches with a few fixes just for you :)). For udmabuf, data starts
+> in the CPU domain (in caches) and is only ever synced for the CPU,
+> not for attached devices. So in this case the writing device might
+> update those cache lines but a non-snooping reader would never see
+> those updates.
+
+I tried today with the system dma-heap, and the behaviour was the same.
+Adding an implementation of .dma_buf_begin/end_access() to it made it
+work there too.
+
+> I'm not saying there isn't a need for these new {begin,end}_access()
+> functions. I can think of a few interesting usecases, but as you
+> say below that would be good to work out in a different series.
+
+Yep, but it's a can of worms I'd rather not open if I can avoid it :)
+
+> Andrew
+
+Cheers,
+-Paul
+
+>=20
+> >=20
+> > > =C2=A0=C2=A0For exporters you can implement the begin/end CPU access
+> > > functions
+> > > which allows you to implement something even if your exporting
+> > > device
+> > > can't snoop the CPU cache.
+> >=20
+> > That only works if the importers call the begin_cpu_access() /
+> > end_cpu_access(), which they don't.
+> >=20
+> > =C2=A0=20
+> > > > Daniel / Sima suggested then that I cache the mapping and add
+> > > > new
+> > > > functions to ensure cache coherency, which is what these
+> > > > patches
+> > > > are
+> > > > about.
+> > > > =C2=A0=20
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0Yeah, I've now catched up on the latest mail. Sorry I hav=
+en't
+> > > seen
+> > > that before.
+> > > =C2=A0=20
+> > > =C2=A0=20
+> > > > =C2=A0=20
+> > > >=20
+> > > > =C2=A0=20
+> > > > > =C2=A0=20
+> > > > > In other words exporters are not require to call sync_to_cpu
+> > > > > or
+> > > > > sync_to_device when you create a mapping.
+> > > > >=20
+> > > > > What exactly is your use case here? And why does coherency
+> > > > > matters?
+> > > > > =C2=A0=20
+> > > > =C2=A0=20
+> > > > My use-case is, I create DMABUFs with udmabuf, that I attach to
+> > > > USB/functionfs with the interface introduced by this patchset.
+> > > > I
+> > > > attach
+> > > > them to IIO with a similar interface (being upstreamed in
+> > > > parallel),
+> > > > and transfer data from USB to IIO and vice-versa in a zero-copy
+> > > > fashion.
+> > > >=20
+> > > > This works perfectly fine as long as the USB and IIO hardware
+> > > > are
+> > > > coherent between themselves, which is the case on most of our
+> > > > boards.
+> > > > However I do have a board (with a Xilinx Ultrascale SoC) where
+> > > > it
+> > > > is
+> > > > not the case, and cache flushes/sync are needed. So I was
+> > > > trying to
+> > > > rework these new interfaces to work on that system too.
+> > > > =C2=A0=20
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0Yeah, that sounds strongly like one of the use cases we h=
+ave
+> > > rejected so far.
+> > > =C2=A0=20
+> > > =C2=A0=20
+> > > =C2=A0=20
+> > > > =C2=A0=20
+> > > > If this really is a no-no, then I am fine with the assumption
+> > > > that
+> > > > devices sharing a DMABUF must be coherent between themselves;
+> > > > but
+> > > > that's something that should probably be enforced rather than
+> > > > assumed.
+> > > >=20
+> > > > (and I *think* there is a way to force coherency in the
+> > > > Ultrascale's
+> > > > interconnect - we're investigating it)
+> > > > =C2=A0=20
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0What you can do is that instead of using udmabuf or dma-h=
+eaps
+> > > is
+> > > that the device which can't provide coherency act as exporters of
+> > > the
+> > > buffers.
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0The exporter is allowed to call sync_for_cpu/sync_for_dev=
+ice on
+> > > it's
+> > > own buffers and also gets begin/end CPU access notfications. So
+> > > you
+> > > can then handle coherency between the exporter and the CPU.
+> >=20
+> > But again that would only work if the importers would call
+> > begin_cpu_access() / end_cpu_access(), which they don't, because
+> > they
+> > don't actually access the data using the CPU.
+> >=20
+> > Unless you mean that the exporter can call
+> > sync_for_cpu/sync_for_device
+> > before/after every single DMA transfer so that the data appears
+> > coherent to the importers, without them having to call
+> > begin_cpu_access() / end_cpu_access().
+> >=20
+> > In which case - this would still demultiply the complexity; my USB-
+> > functionfs interface here (and IIO interface in the separate
+> > patchset)
+> > are not device-specific, so I'd rather keep them importers.
+> > =C2=A0=20
+> > > =C2=A0=C2=A0If you really don't have coherency between devices then t=
+hat
+> > > would
+> > > be a really new use case and we would need much more agreement on
+> > > how
+> > > to do this.
+> >=20
+> > [snip]
+> >=20
+> > Agreed. Desiging a good generic solution would be better.
+> >=20
+> > With that said...
+> >=20
+> > Let's keep it out of this USB-functionfs interface for now. The
+> > interface does work perfectly fine on platforms that don't have
+> > coherency problems. The coherency issue in itself really is a
+> > tangential issue.
+> >=20
+> > So I will send a v6 where I don't try to force the cache coherency
+> > -
+> > and instead assume that the attached devices are coherent between
+> > themselves.
+> >=20
+> > But it would be even better to have a way to detect non-coherency
+> > and
+> > return an error on attach.
+> >=20
+> > Cheers,
+> > -Paul
+
