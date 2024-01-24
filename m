@@ -2,67 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DEB283AFBE
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 18:26:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E5C883AFF3
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 18:31:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F49510F78D;
-	Wed, 24 Jan 2024 17:26:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69EDF10F7B1;
+	Wed, 24 Jan 2024 17:31:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EF0610F78D
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 17:26:11 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-40ec048e0c1so16647535e9.2
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 09:26:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1706117110; x=1706721910; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=fQP8/M1QomdvhevshrbbyC+G3774Cm3toGMmsbZ5S08=;
- b=vV/+hzymvOx8Xzn0bQn/uQ/yMVQaLghfCOC1DAevcF2XIraLf5HF2exohU+5rvSXP3
- fyOrM+A4SoFkZ638pva0CgBVpgkAjllWyGsNN52EQH+E1ht76Q4YaxJWNAJEMHMstYul
- c9Pd9AJiDcLGvn6ygILf+C8MLGytE0e69Cw61SHWiFGrlBFczq3gizmtQ6fR9Y8VdI1L
- M9sPYn2WOFuTjieAyEgmle+miG4Ab+UEd8ssntOz3+IdFZFL6leAl161+QKycx6fdVte
- plS2mrgAtqkhk7XNsoPPsVQRD/0aSt+zCCRsPAcSokohnm1HDZX97GdSiGySbGtqCJPA
- XqZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706117110; x=1706721910;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=fQP8/M1QomdvhevshrbbyC+G3774Cm3toGMmsbZ5S08=;
- b=ksyEiOUxexHDyBXAbevgaycGKJ8Xs+aOxqzw25PgjHCkjOiD/U/ipwNzz6z7Wr44N6
- 29J7A9cUo1qXTB9zTR5q3u32xbVaChViNWe9I8Y4zdmCW7BAxpp2fIbD3ZZAcuyeGPir
- P10bEzi8XEsO83wIKJpb1hxtseiU2MMQX4B2jw9WlC/kU8FaevaG83n8+vx+JigP+zP0
- 4Kkyfx7oyU2A33wZejO0Grb18lc3oHqWys/QsTNq9l/poqO/35q0fE2qfV1Rp+KGHbap
- wB7sPCz4epkMxDYJikpi6tGIUgP5SaIZNE7x+wagpas7heMeZjP6ENJT202J9C4iHIS4
- BaMA==
-X-Gm-Message-State: AOJu0YzVyHvz5pQovN9ptTdaeXDxXtYGBcj8WDbhobU+HcThvdavuKot
- 6UOqTako9s7QWnsyIfgTd27F/wYjZp2zAF4mE6uQH3Ospt8zGPGQfgq+fgiwk4k=
-X-Google-Smtp-Source: AGHT+IHtZmUsImHUN6vx4IajyMpk1NjS/10baW8IunEC4zx4kdLeWpbSforzB18JvfYxa35SxlP9Hw==
-X-Received: by 2002:a05:600c:470a:b0:40e:7516:2c7b with SMTP id
- v10-20020a05600c470a00b0040e75162c7bmr1904703wmo.38.1706117109977; 
- Wed, 24 Jan 2024 09:25:09 -0800 (PST)
-Received: from aspen.lan
- (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
- by smtp.gmail.com with ESMTPSA id
- fc6-20020a05600c524600b0040d53588d94sm285281wmb.46.2024.01.24.09.25.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Jan 2024 09:25:09 -0800 (PST)
-Date: Wed, 24 Jan 2024 17:25:07 +0000
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v1 4/4] backlight: hx8357: Utilise temporary variable for
- struct device
-Message-ID: <20240124172507.GA16024@aspen.lan>
-References: <20240114152759.1040563-1-andriy.shevchenko@linux.intel.com>
- <20240114152759.1040563-5-andriy.shevchenko@linux.intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0366A10F7B1
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 17:31:29 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 443BB61DE4;
+ Wed, 24 Jan 2024 17:30:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA2D0C433C7;
+ Wed, 24 Jan 2024 17:30:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1706117457;
+ bh=NNDXRpvhIGTKBi9slZ/qWQEGn6Uj559Gpw2fxZO2A8A=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=TE8sMbvfIUEPS7l+FWWrLd9ucrffQrWpUeULzzDGbHOZntLPKHC9u7ekCFztLhU3U
+ g9c/BN8CkGH0i32zPynRDSS6j46gbVDA6ioIe6yR345V3vEOlOOOrQK63M5gAF7wrU
+ bDTC1oJaRecQ9F29HgZfYDFNvnxiLNzNXD19CPf8=
+Date: Wed, 24 Jan 2024 09:30:56 -0800
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH v2 00/33] spi: get rid of some legacy macros
+Message-ID: <2024012439-machinist-amazingly-2d2c@gregkh>
+References: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
+ <2024012417-prissy-sworn-bc55@gregkh>
+ <c1e38a30-5075-4d01-af24-ac684e77cf29@sirena.org.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240114152759.1040563-5-andriy.shevchenko@linux.intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c1e38a30-5075-4d01-af24-ac684e77cf29@sirena.org.uk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,19 +49,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
- Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+ dri-devel@lists.freedesktop.org, Miquel Raynal <miquel.raynal@bootlin.com>,
+ Ronald Wahl <ronald.wahl@raritan.com>,
+ Stefan Schmidt <stefan@datenfreihafen.org>, libertas-dev@lists.infradead.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Alan Stern <stern@rowland.harvard.edu>,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ Alex Elder <elder@kernel.org>, linux-usb@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-spi@vger.kernel.org, kernel@pengutronix.de, linux-media@vger.kernel.org,
+ linux-wpan@vger.kernel.org,
+ Amit Kumar Mahapatra via Alsa-devel <alsa-devel@alsa-project.org>,
+ linux-doc@vger.kernel.org, Dmitry Antipov <dmantipov@yandex.ru>,
+ Max Filippov <jcmvbkbc@gmail.com>, Eric Dumazet <edumazet@google.com>,
+ James Clark <james.clark@arm.com>, Guenter Roeck <groeck@chromium.org>,
+ Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ chrome-platform@lists.linux.dev,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Viresh Kumar <vireshk@kernel.org>, Helge Deller <deller@gmx.de>,
+ Wu Hao <hao.wu@intel.com>, Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-arm-msm@vger.kernel.org, greybus-dev@lists.linaro.org,
+ Bjorn Helgaas <bhelgaas@google.com>, Michal Simek <michal.simek@amd.com>,
+ linux-arm-kernel@lists.infradead.org, Aaro Koskinen <aaro.koskinen@iki.fi>,
+ "David S. Miller" <davem@davemloft.net>, Jarkko Sakkinen <jarkko@kernel.org>,
+ Simon Horman <horms@kernel.org>, linux-integrity@vger.kernel.org,
+ Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
+ Jonathan Cameron <jic23@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Herve Codina <herve.codina@bootlin.com>, linux-iio@vger.kernel.org,
+ Tom Rix <trix@redhat.com>, linux-fpga@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, linux-mtd@lists.infradead.org,
+ Jonathan Corbet <corbet@lwn.net>, linux-staging@lists.linux.dev,
+ Yang Yingliang <yangyingliang@huawei.com>, Paolo Abeni <pabeni@redhat.com>,
+ Arnd Bergmann <arnd@arndb.de>, linux-input@vger.kernel.org,
+ Moritz Fischer <mdf@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Benson Leung <bleung@chromium.org>, Rayyan Ansari <rayyan@ansari.sh>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-mmc@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Martin Tuma <martin.tuma@digiteqautomotive.com>, Xu Yilun <yilun.xu@intel.com>,
+ Alexander Aring <alex.aring@gmail.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Peter Huewe <peterhuewe@gmx.de>, Sergey Kozlov <serjk@netup.ru>,
+ Richard Weinberger <richard@nod.at>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Jakub Kicinski <kuba@kernel.org>, Kalle Valo <kvalo@kernel.org>,
+ Johan Hovold <johan@kernel.org>, Rui Miguel Silva <rmfrfs@gmail.com>,
+ linux-mediatek@lists.infradead.org, Tzung-Bi Shih <tzungbi@kernel.org>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ netdev@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jan 14, 2024 at 05:25:11PM +0200, Andy Shevchenko wrote:
-> We have a temporary variable to keep pointer to struct device.
-> Utilise it inside the ->probe() implementation.
->
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+On Wed, Jan 24, 2024 at 05:22:00PM +0000, Mark Brown wrote:
+> On Wed, Jan 24, 2024 at 09:13:49AM -0800, Greg Kroah-Hartman wrote:
+> > On Mon, Jan 22, 2024 at 07:06:55PM +0100, Uwe Kleine-König wrote:
+> 
+> > > Note that Jonathan Cameron has already applied patch 3 to his tree, it
+> > > didn't appear in a public tree though yet. I still included it here to
+> > > make the kernel build bots happy.
+> 
+> > Are we supposed to take the individual changes in our different
+> > subsystem trees, or do you want them all to go through the spi tree?
+> 
+> Given that the final patch removes the legacy interfaces I'm expecting
+> to take them via SPI.
 
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+Great, thanks, I'll go ack the subsystem patches that are relevent for
+me.
 
-
-Daniel.
+greg k-h
