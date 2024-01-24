@@ -2,68 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3F7E83AD84
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 16:39:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBA4183AD9C
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 16:43:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5BA410E052;
-	Wed, 24 Jan 2024 15:39:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14BDF10EA43;
+	Wed, 24 Jan 2024 15:43:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA60210E052
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 15:39:09 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 40OFcpxb028401;
- Wed, 24 Jan 2024 09:38:51 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1706110731;
- bh=VYB3w4Afxxk7ZxsxdbFHBZxDZtm5HgnyDACANemk/HA=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=hp5K+VmKgMzCKiox/P8x7IRTHKtASxB052sR4Tup5FjEQPF8LXNfrGzXpPpmO1WyA
- h/nAmltZNEkjMHmioMJp4Ue8ppOU6DRRH/o0WIR/jCqg+8XSfv0q8k+Gqg1Na9p6KQ
- KrXHZl0M85XdaCaUHmS7EqS+raifOrClXnFlZe1M=
-Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 40OFcpJv019724
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 24 Jan 2024 09:38:51 -0600
-Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE108.ent.ti.com
- (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 24
- Jan 2024 09:38:51 -0600
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Wed, 24 Jan 2024 09:38:51 -0600
-Received: from [10.249.42.149] ([10.249.42.149])
- by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 40OFcoKX129004;
- Wed, 24 Jan 2024 09:38:50 -0600
-Message-ID: <715efa1f-c3a4-4952-b72c-ca7f466e3ccb@ti.com>
-Date: Wed, 24 Jan 2024 09:38:50 -0600
-MIME-Version: 1.0
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam04on2080.outbound.protection.outlook.com [40.107.100.80])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 337EE10EA60;
+ Wed, 24 Jan 2024 15:43:30 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XHmwVK05WXgy8Lh9FlXSoJmL1FVCivTMo8TJicI4YoUMVe3/BfPVkJFnB67UJTkNQ/9Ed6VEP0voVZu3qqXmkv5Uw+C9BlpfdNK8SUjzMEpVYtp7pY6TZToviJpO1kqdpNMIU6a+HzT1cl7MlyL7gJpwgRDZq7EvrOt0BwbrwSjQr/55/ut513BbgC2M5Ib+J75M1ZPxPQ+xhnbC9+aIgup6sTT3lNadeu7qSS/a/QI2JIifQZkGdKWH0uVmBxUNRt3DrhFwcYhFuxKCJmk42QHLVc58qPkEvUfChgOMdObWibLi4JIdzChgv8bjsR0NjIk4Oo66HOonOU8lMlepqg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DEBMLzVEW9gnAACPL3twQBipvAdh7Si4lMtRNqj8l6Q=;
+ b=EzZhjId8F9a1vsoQ8gPJSlAntqs+5B/q4adZ48qOHbkayLWQh0iy43UpBz6FjUjkrPUCjfMQDD2tcC9xDHxWa6/U/0LFPdR+UU6iYrWeBwohSLSY6S7pFeszd4ltDFmohUgPTa0r6LQE6Ex5EtxdO6t8kmUncHocSJoS8J/BFI3WPH8Qfj/5FWYT3kHjQ4LEfyjk8c1Lp0f5NZYnZWDTevfvC0AtWHqfQwc5LSGHv7cZrehQZnkCClIEUZZ1Ekn99LgYFEDxAhrX751dAmeuanrk7gBiXsCo7shskDrwOI5j5G/vGB3WtC6FAG9lDdTeqo9aQJi+Wbm+u63xVfbBOg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DEBMLzVEW9gnAACPL3twQBipvAdh7Si4lMtRNqj8l6Q=;
+ b=IZU4FLg/sr8G3RAJbDVnFxcAWWgXLrqAKbcOM8rJJqaU6Zz/2YtecmjFR9b59A0piIDer7f9iA6iomWB0lcFkqj2nGm98jW5SulraaC+juEO32bfjnlM2uy+llAezVbpRxH+isQV53rijHchVytmgDDC9SB6W+8IXbXJjW8BoiU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by DM6PR12MB4928.namprd12.prod.outlook.com (2603:10b6:5:1b8::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.24; Wed, 24 Jan
+ 2024 15:43:13 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::ce8d:7121:cb06:91ba]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::ce8d:7121:cb06:91ba%4]) with mapi id 15.20.7202.039; Wed, 24 Jan 2024
+ 15:43:12 +0000
+Message-ID: <3669170a-f04b-4f7e-ad16-b62c20ee5838@amd.com>
+Date: Wed, 24 Jan 2024 09:43:09 -0600
 User-Agent: Mozilla Thunderbird
-Subject: Re: [Linaro-mm-sig] [PATCH v5 1/6] dma-buf: Add
- dma_buf_{begin,end}_access()
-To: Paul Cercueil <paul@crapouillou.net>, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <ckoenig.leichtzumerken@gmail.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>,
- Sumit Semwal <sumit.semwal@linaro.org>
-References: <20240119141402.44262-1-paul@crapouillou.net>
- <20240119141402.44262-2-paul@crapouillou.net>
- <8035f515-591f-4c87-bf0a-23d5705d9b1c@gmail.com>
- <442f69f31ece6d441f3dc41c3dfeb4dcf52c00b8.camel@crapouillou.net>
- <0b6b8738-9ea3-44fa-a624-9297bd55778f@amd.com>
- <e4620acdf24628d904cedcb0030d78b14559f337.camel@crapouillou.net>
- <85a89505-edeb-4619-86c1-157f7abdd190@amd.com>
- <0fe2755fb320027234c086bcc88fd107855234c5.camel@crapouillou.net>
- <577501f9-9d1c-4f8d-9882-7c71090e5ef3@amd.com>
- <7928c0866ac5b2bfaaa56ad3422bedc9061e0f7b.camel@crapouillou.net>
+Subject: Re: regression/bisected/6.8 commit
+ f7fe64ad0f22ff034f8ebcfbd7299ee9cc9b57d7 leads to GPU hang when I open GNOME
+ activities
+To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>, matthew.brost@intel.com, 
+ ltuikov89@gmail.com, Alex Deucher <alexdeucher@gmail.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Linux List Kernel Mailing <linux-kernel@vger.kernel.org>
+References: <CABXGCsM2VLs489CH-vF-1539-s3in37=bwuOWtoeeE+q26zE+Q@mail.gmail.com>
+ <CABXGCsNz_B+OFBcp=fuC+Kzd-PN+dNM+z=x9e=ePVN5RiahD3g@mail.gmail.com>
 Content-Language: en-US
-From: Andrew Davis <afd@ti.com>
-In-Reply-To: <7928c0866ac5b2bfaaa56ad3422bedc9061e0f7b.camel@crapouillou.net>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <CABXGCsNz_B+OFBcp=fuC+Kzd-PN+dNM+z=x9e=ePVN5RiahD3g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-ClientProxiedBy: SA1P222CA0074.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:2c1::20) To MN0PR12MB6101.namprd12.prod.outlook.com
+ (2603:10b6:208:3cb::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|DM6PR12MB4928:EE_
+X-MS-Office365-Filtering-Correlation-Id: b1994cc0-3b00-4536-cd60-08dc1cf32bde
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: xlyYLjjLqzLeKejgX61qj7uQnR7FgBgQ9g8CxL+XJLOzMePoPXxuIqZ7lQpwj9e00h3SeZChST1JPx2kFArz5ZA5gjtYOZdVlokn6Gb9Ll6XqeaIk/IqzQSKs+n4nvx/j0CqfMFkaXGsbvxODen2XqhqE3TAdO8omxEhPmANIOlm+iuFYtrwRKR0lpcxHitBoySU5Et/hvPc4zAXPwTVxEUiMLSzznulxqM++t1cDJt3GHW7bZP8gglFIL4VnB2ZHhbmK74TpMcOdNNKLpOnq4ts7VHebUe/P3xZuh2hN37MabOPu1SeNxa2y145JR1lRjj82Oeh8XDFyMPBXSoQIQznVfj4aHdxfphOYsqZrapbSDWJeDTvuSX/4SM3+K8xyEZ6d7qSo3Q4gQTf7o7kRtdyN/o8F09gcN5KSQH7gQWeopStSlkFfNuwDuvtK/0q7rt+1936ThSy37140d+TWYRmt5Bc/uUrKrp+Md1GYxTzW8N5D/35mIGXcpjY6WYGCXkH8pH+REiENBuP5YEMDTLM2EF3UzUZLCrshWskL3SQrgMCgSZo1SGO7IzvjEeueqIOTU8lGj48HwEdIbG8RtBfMGYgos4RtOyir4noaNCCtRJkTm2immIxt2HkXVAE
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(136003)(39860400002)(346002)(376002)(366004)(396003)(230922051799003)(451199024)(64100799003)(1800799012)(186009)(66946007)(66556008)(66476007)(110136005)(316002)(6512007)(6506007)(53546011)(2616005)(41300700001)(26005)(478600001)(86362001)(6486002)(966005)(36756003)(31696002)(38100700002)(83380400001)(6666004)(8936002)(4744005)(31686004)(2906002)(5660300002)(44832011)(8676002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SnFMV2tYQ3llV0pJUDNsamhqYmUzKzRONFF6WTgxUStsaktsQzd6a28yOTFH?=
+ =?utf-8?B?blFBREEwZHpMVTJSaFRZcG5RaDlNUjdOWnJERTRFeDZEZUtSL2ozNUlJeHZI?=
+ =?utf-8?B?aFpsTitsU1pQbHl6TVV0d05QN2RMTnJBZHllZEdTeFU0NTZ5blhwUSthOHBp?=
+ =?utf-8?B?T0l0Y3BIS05JckZoN2UvMEplbjR5UHMvNklXMmNKMjkvV2tWeXhqeTFTbjlu?=
+ =?utf-8?B?VTRwcWlGYXRPOXRUWGhTL2EydlFpZERvbFVXcWhIVmE4RC9MbEtjRU1vUUNU?=
+ =?utf-8?B?SGFIWnoyVDQwQy9iZGFXR2V0VCtPOGtyeklvMHdLelh2TVl1bmxtaGM5c0hD?=
+ =?utf-8?B?Ky8yNWJ4T2ZxU2d3d25sc3luY0F5aEc2TncvdEwzTlRqekVPVDR4Zy9QdmFr?=
+ =?utf-8?B?M0hzKzlEVkM2bGVoVXdCU0I5MEZJcTYxK2VMOUFXNDVaNTFEN1V5UVc4eW1E?=
+ =?utf-8?B?Q3lLVFloUXdzTDZ5UmYyWS9aN2ZOVlNKM29pZjlQUEpFSG5uRmUyR09kc1NX?=
+ =?utf-8?B?ZmlZTUJMWTVocERzaXkvRDJ3dTZmUGVxOVhYSUQ1Q2ZZZTNLZlhrZEs0cEZH?=
+ =?utf-8?B?UWRIdm5RUk9BNXZLc1pNZzZHZnRZYlYzRlRjMjdqZE5WT3ZsRHFqcUxRek5W?=
+ =?utf-8?B?WFN5MTE1aVdYcHB5bHBCZ0FSeXdZZHZjc2NxWENtUk01bnBJTnV6ZE9ULzFu?=
+ =?utf-8?B?RVQzNTcydlBBT2FnMjl3RzB0cEEwRUZGaU1SaFB2TzNqR0Z1VXg4a2xrYkZR?=
+ =?utf-8?B?MXdOODNtaTBxQWU5V1BYMjJna2t0M0R0MjVVWkwvR1pWczZIRmlEWDlNb01j?=
+ =?utf-8?B?MU9VU2p4cVU1VnJHWEpvNFB4UHBiYTFobHN2RnlYa3Npb1R0bWZQMXBFaDVO?=
+ =?utf-8?B?Ni9WK1lZSUZuZDRldWgrMjFmWnRNVFV2TndkTUJqL1R1WFgxT1RtUm9odDdm?=
+ =?utf-8?B?cWY0Z2JXdkg4Ky85ZGwxYjJsUzVIOVJpZzFiYmc0bUVzbDhZYzVSeEJwQnhV?=
+ =?utf-8?B?SVZ5emh1bU9aUHdiWHhPWFVCZ0xPYWkwZ3dGenNwOUJkTllmNnZPREZqUjlK?=
+ =?utf-8?B?NVJMNm91Qnl6Qmp3WFI3M2dCZEpxQ0RwOHZEdVFldThlQi96T2hqanRGS3dM?=
+ =?utf-8?B?cVdVNWhqazV2L050MXVQTHdZZWRqOTk3QVM0NnVTRFlGTlZNeExGM1A4S2RI?=
+ =?utf-8?B?WmRFYnJLd0NRLzcwZE9KRUlmUFRwbThJeW1mQ05KQjVuVEx3Vm52RWMvejYr?=
+ =?utf-8?B?dGV6c0c1WjJtY1NHci9YMGloOS9wUXU3Z05kVjM0QXU4alIrclNGcUx0dUs2?=
+ =?utf-8?B?Y1NJckQrRFF0ak9hNlZJRHp0WERKTE5ib3I1d1NiSjhQbmpvdWNvUWFjdWpC?=
+ =?utf-8?B?cUFUTFRvNlRLUUEyZDlyNUltYTNvbkRMWnpBWkVxakFMT1lrbEhiQjBFOFg5?=
+ =?utf-8?B?dWVUUUtSdmVmV1dtalUzYUNRNmVma3E3NkQxSUpVWTJ6RFpOR1p0T0pCOU5E?=
+ =?utf-8?B?QjdMQ1h0NVIvT3pLc2VjZEVTRUNRV3ZzTFlzeTZldzZkWGxVQkxDSThNK3Qz?=
+ =?utf-8?B?MHhlZEhSSmw5Zm5GMUJRNURCN2VSYkRIWDBRSHRQNERRZXMyK0F6L1NwTkIy?=
+ =?utf-8?B?NmQxemtkMklLeVpHNGg3aDhEV3hsUVNRR3Ftbjlha1ZhQ2RBdGMvb2hzaGJ5?=
+ =?utf-8?B?OHlZdko1ZjZFcEIvVzJOSkwrbU54UmVQZDlBWUtIWXJtbU9mVlFMRmIyWCtS?=
+ =?utf-8?B?bktTYSt0ZkYra1FVS1hVOVpQclBMSDM0aVh5VzlDbjFyT0VnN1ozYTNYbWpS?=
+ =?utf-8?B?eWV1dndERUZhbloyZFN2SVB3ZldtQTlpdXlEK1JmcHNBR3hpRUZaR1NuZVlU?=
+ =?utf-8?B?RzFBVE1ncld3bE5LS0lRZWlOZ0l0RCtWQVJXdnZNZjhKM2VpU2RXUUx3NEhr?=
+ =?utf-8?B?SDE3c0VXdk55SE1lOFBCK1U2QzNsaFlyWEtIVFpjaUpQYUt4alhqY3h1cm1X?=
+ =?utf-8?B?UitCZ2h5a3l0Q0N5K3RjdXZuNVFWWG1xQW9wcmdTbmdWdS9jZGtsRWtVNWFO?=
+ =?utf-8?B?b2FRRUY4cmZLU2xhOVhyajFleXA4cktYb1FlcFVPUC9QQ3hRUVFueHJJZGZB?=
+ =?utf-8?Q?4j+Z198XSLRjQhCciTe6Gr3ka?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b1994cc0-3b00-4536-cd60-08dc1cf32bde
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jan 2024 15:43:12.0265 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ghiNaaQPJ6gyWiDl6YDWG69JQvnyGxcXKd2yY2l/xgpOax+uARXTfxsyVTOOG23R6IACzNtVXKD9bmJ44ifrMQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4928
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,224 +131,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>,
- Michael Hennerich <Michael.Hennerich@analog.com>, linux-doc@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Cameron <jic23@kernel.org>,
- linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/24/24 4:58 AM, Paul Cercueil wrote:
-> Hi Christian,
+On 1/24/2024 08:37, Mikhail Gavrilov wrote:
+> On Wed, Jan 24, 2024 at 7:19 AM Mikhail Gavrilov
+> <mikhail.v.gavrilov@gmail.com> wrote:
+>>
+>> Who could dig into it, please?
 > 
-> Le mardi 23 janvier 2024 à 14:28 +0100, Christian König a écrit :
->>   Am 23.01.24 um 14:02 schrieb Paul Cercueil:
->>   
->>> [SNIP]
->>>   
->>>>   
->>>>>    
->>>>>>   
->>>>>> That an exporter has to call extra functions to access his
->>>>>> own
->>>>>> buffers
->>>>>> is a complete no-go for the design since this forces
->>>>>> exporters
->>>>>> into
->>>>>> doing extra steps for allowing importers to access their
->>>>>> data.
->>>>>>   
->>>>>   
->>>>> Then what about we add these dma_buf_{begin,end}_access(), with
->>>>> only
->>>>> implementations for "dumb" exporters e.g. udmabuf or the dmabuf
->>>>> heaps?
->>>>> And only importers (who cache the mapping and actually care
->>>>> about
->>>>> non-
->>>>> coherency) would have to call these.
->>>>>   
->>>>   
->>>> No, the problem is still that you would have to change all
->>>> importers
->>>> to
->>>> mandatory use dma_buf_begin/end.
->>>>
->>>> But going a step back caching the mapping is irrelevant for
->>>> coherency.
->>>> Even if you don't cache the mapping you don't get coherency.
->>>>   
->>>   
->>> You actually do - at least with udmabuf, as in that case
->>> dma_buf_map_attachment() / dma_buf_unmap_attachment() will handle
->>> cache
->>> coherency when the SGs are mapped/unmapped.
->>>   
->>   
->>   Well I just double checked the source in 6.7.1 and I can't see
->> udmabuf doing anything for cache coherency in map/unmap.
->>   
->>   All it does is calling dma_map_sgtable() and dma_unmap_sgtable() to
->> create and destroy the SG table and those are not supposed to sync
->> anything to the CPU cache.
->>   
->>   In other words drivers usually use DMA_ATTR_SKIP_CPU_SYNC here, it's
->> just that this is missing from udmabuf.
-> 
-> Ok.
->   
->>>   
->>> The problem was then that dma_buf_unmap_attachment cannot be called
->>> before the dma_fence is signaled, and calling it after is already
->>> too
->>> late (because the fence would be signaled before the data is
->>> sync'd).
->>>   
->>   
->>   Well what sync are you talking about? CPU sync? In DMA-buf that is
->> handled differently.
->>   
->>   For importers it's mandatory that they can be coherent with the
->> exporter. That usually means they can snoop the CPU cache if the
->> exporter can snoop the CPU cache.
-> 
-> I seem to have such a system where one device can snoop the CPU cache
-> and the other cannot. Therefore if I want to support it properly, I do
-> need cache flush/sync. I don't actually try to access the data using
-> the CPU (and when I do, I call the sync start/end ioctls).
-> 
+> You decided to revert it?
+> https://lkml.org/lkml/2024/1/22/1866
 
-If you don't access the data using the CPU, then how did the data
-end up in the CPU caches? If you have a device that can write-allocate
-into your CPU cache, but some other device in the system cannot snoop
-that data back out then that is just broken and those devices cannot
-reasonably share buffers..
+It's not a straight "git revert" on 6.8-rc1 because of some other 
+contextual changes.
 
-Now we do have systems where some hardware can snoop CPU(or L3) caches
-and others cannot, but they will not *allocate* into those caches
-(unless they also have the ability to sync them without CPU in the loop).
+I posted that as an RFC specifically "in case" that's the direction we 
+go and don't get a proper solution together.
 
-Your problem may be if you are still using udmabuf driver as your
-DMA-BUF exporter, which as said before is broken (and I just sent some
-patches with a few fixes just for you :)). For udmabuf, data starts
-in the CPU domain (in caches) and is only ever synced for the CPU,
-not for attached devices. So in this case the writing device might
-update those cache lines but a non-snooping reader would never see
-those updates.
+Matthew also posted a debugging patch here for use with ftrace and the 
+GPU scheduler events: https://gitlab.freedesktop.org/drm/amd/-/issues/3124
 
-I'm not saying there isn't a need for these new {begin,end}_access()
-functions. I can think of a few interesting usecases, but as you
-say below that would be good to work out in a different series.
-
-Andrew
+I reproduced it with that as well and posted my ftrace results.
 
 > 
->>   For exporters you can implement the begin/end CPU access functions
->> which allows you to implement something even if your exporting device
->> can't snoop the CPU cache.
+> Also I forgot to attach the kernel build .config in the previous
+> message. I'm going to fix it here.
+> It may be useful for reproducing my bug script.
 > 
-> That only works if the importers call the begin_cpu_access() /
-> end_cpu_access(), which they don't.
-> 
->   
->>> Daniel / Sima suggested then that I cache the mapping and add new
->>> functions to ensure cache coherency, which is what these patches
->>> are
->>> about.
->>>   
->>   
->>   Yeah, I've now catched up on the latest mail. Sorry I haven't seen
->> that before.
->>   
->>   
->>>   
->>>
->>>   
->>>>   
->>>> In other words exporters are not require to call sync_to_cpu or
->>>> sync_to_device when you create a mapping.
->>>>
->>>> What exactly is your use case here? And why does coherency
->>>> matters?
->>>>   
->>>   
->>> My use-case is, I create DMABUFs with udmabuf, that I attach to
->>> USB/functionfs with the interface introduced by this patchset. I
->>> attach
->>> them to IIO with a similar interface (being upstreamed in
->>> parallel),
->>> and transfer data from USB to IIO and vice-versa in a zero-copy
->>> fashion.
->>>
->>> This works perfectly fine as long as the USB and IIO hardware are
->>> coherent between themselves, which is the case on most of our
->>> boards.
->>> However I do have a board (with a Xilinx Ultrascale SoC) where it
->>> is
->>> not the case, and cache flushes/sync are needed. So I was trying to
->>> rework these new interfaces to work on that system too.
->>>   
->>   
->>   Yeah, that sounds strongly like one of the use cases we have
->> rejected so far.
->>   
->>   
->>   
->>>   
->>> If this really is a no-no, then I am fine with the assumption that
->>> devices sharing a DMABUF must be coherent between themselves; but
->>> that's something that should probably be enforced rather than
->>> assumed.
->>>
->>> (and I *think* there is a way to force coherency in the
->>> Ultrascale's
->>> interconnect - we're investigating it)
->>>   
->>   
->>   What you can do is that instead of using udmabuf or dma-heaps is
->> that the device which can't provide coherency act as exporters of the
->> buffers.
->>   
->>   The exporter is allowed to call sync_for_cpu/sync_for_device on it's
->> own buffers and also gets begin/end CPU access notfications. So you
->> can then handle coherency between the exporter and the CPU.
-> 
-> But again that would only work if the importers would call
-> begin_cpu_access() / end_cpu_access(), which they don't, because they
-> don't actually access the data using the CPU.
-> 
-> Unless you mean that the exporter can call sync_for_cpu/sync_for_device
-> before/after every single DMA transfer so that the data appears
-> coherent to the importers, without them having to call
-> begin_cpu_access() / end_cpu_access().
-> 
-> In which case - this would still demultiply the complexity; my USB-
-> functionfs interface here (and IIO interface in the separate patchset)
-> are not device-specific, so I'd rather keep them importers.
->   
->>   If you really don't have coherency between devices then that would
->> be a really new use case and we would need much more agreement on how
->> to do this.
-> 
-> [snip]
-> 
-> Agreed. Desiging a good generic solution would be better.
-> 
-> With that said...
-> 
-> Let's keep it out of this USB-functionfs interface for now. The
-> interface does work perfectly fine on platforms that don't have
-> coherency problems. The coherency issue in itself really is a
-> tangential issue.
-> 
-> So I will send a v6 where I don't try to force the cache coherency -
-> and instead assume that the attached devices are coherent between
-> themselves.
-> 
-> But it would be even better to have a way to detect non-coherency and
-> return an error on attach.
-> 
-> Cheers,
-> -Paul
+
