@@ -2,44 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48F2283AF9D
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 18:22:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 962CE83AFB7
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 18:25:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 624A310E39A;
-	Wed, 24 Jan 2024 17:22:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20AE010F786;
+	Wed, 24 Jan 2024 17:25:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23F2210E39A
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 17:22:55 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B592E61DC3;
- Wed, 24 Jan 2024 17:22:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAF93C433C7;
- Wed, 24 Jan 2024 17:22:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1706116940;
- bh=J9cWHBzQAtoEqppKJznkEOwXANl/OtQJlMreI+w5+pM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LzpFWfp68rpr4dWHpdN+3IBhvKe1BMer+To6gMN52sFIqJGOHOg2ldSKjRXCcMb5m
- TFWNLUoV1HFSfX27ssqcTmUNGmLjfsu/z7ab3gxQuXnjvSNFUQXmjhZEIyIhUWWEIT
- CgAYNmzcDLnvRg+viWfwfm6By4Ffbj0ymjEy26C89CVOqr6JLR32V+zT7k2ef93fpP
- 1Ka1oOBMomGGEuXbLQOuhLohRSeVfalTXlkn0w18Bo0vP0gpL8EpG8vIchAhQdEue3
- Cd0Kc25AAqNkrZ3Jhe5TUtRkxqZmjaKSQ074XXZPz2CPZUgeNzrq5mcjx4JO7BaCUH
- nqaKOF7sEH13g==
-Date: Wed, 24 Jan 2024 17:22:00 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v2 00/33] spi: get rid of some legacy macros
-Message-ID: <c1e38a30-5075-4d01-af24-ac684e77cf29@sirena.org.uk>
-References: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
- <2024012417-prissy-sworn-bc55@gregkh>
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD8F810F786
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 17:25:08 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id
+ ffacd0b85a97d-3394bec856fso680249f8f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 09:25:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1706117047; x=1706721847; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=84hQubybZvoHS0mUrUXrKWieYpnepVChvkMJ3NXWaC8=;
+ b=EFzSrQlfoSmbrS3Wl0bgfCPsA4C9mSGjM7wDkUVpf2ENnk7ZXh0IKj+/DqNEV82ACW
+ xmm4xdWAyzzs7NHN98EnnOtS3za5zTpFVQ1+n+cmKTvDsXue4CY91Up/eUANnq0uaV7N
+ uWeXHFUbcD7CAlbAV/FjCtr+ExYrr2fMeWzO2y7JZ4U0mj5NMGfuTUiFMMv22jftyEc3
+ AH6MOOBVufrO9JSMTyKb9YyxBfZAo3qp7VcuHJXjROt1yWd0dUXtuDZDxbrlV8Mvne1w
+ eG1bONh/EEzKA02c3SUvqlFPe3X5UMigCTUt81hOT/VW0XJ1nQ/rJhyUSVp9/QCdSKaI
+ ReXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1706117047; x=1706721847;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=84hQubybZvoHS0mUrUXrKWieYpnepVChvkMJ3NXWaC8=;
+ b=Z/tEcF4MLKsC/8humxGium9S1RQ3Io6x46r/YYEfJr7nVC+eDeEeOZVsbZLEWRoDx3
+ rcq5Xb3b4kwIPO8sSaXjfO1DpD6vl7woYHVkIX+vTxmJVFvy+CH47fGLZB8F0wPI2Z9a
+ U/lVZmL8tNrxm5ZxU1BnNNArwbXaoEpQvMee8cQBR/Ey7u0KP3vrsGaoSkBA64MndKfq
+ s+VUWDlX/FYrjeSN0/c0gxc+Cj/dCf/5DuDzMN+O51RvPwSKdKtI5pABzFq7wiBB4D8x
+ 9qGvek7zeIUAVu0UyV/wOZdq3HcHU+h4AZqBLQEKckKT7fhYjuZQ8k1FDDAAWSHEP0gl
+ mjag==
+X-Gm-Message-State: AOJu0YyZzpxldgfeOLDdLUET+1B+QMLSIFeoD0Bq4U/CGFhx48+SR3Tg
+ 4kaJItIuXEI2DsGF3i5aytmccpVGW0he4c5/8GDXK8gPWUi4CMi1qEj5f3aE4Ik=
+X-Google-Smtp-Source: AGHT+IGy6q1uZqnQR6FI8b7VYbGDPfXt1pitVJGLsnDj4e3SXBqZHBNvvYPKioX8VWyL3ysKZeRqoQ==
+X-Received: by 2002:adf:f4cf:0:b0:337:d6c8:1af5 with SMTP id
+ h15-20020adff4cf000000b00337d6c81af5mr735025wrp.53.1706117047102; 
+ Wed, 24 Jan 2024 09:24:07 -0800 (PST)
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ by smtp.gmail.com with ESMTPSA id
+ b13-20020a05600010cd00b003392c1f40acsm10493581wrx.28.2024.01.24.09.24.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Jan 2024 09:24:06 -0800 (PST)
+Date: Wed, 24 Jan 2024 17:24:05 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v1 3/4] backlight: hx8357: Make use of dev_err_probe()
+Message-ID: <20240124172405.GA15881@aspen.lan>
+References: <20240114152759.1040563-1-andriy.shevchenko@linux.intel.com>
+ <20240114152759.1040563-4-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="FdGjmVpGJ74QDTu1"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2024012417-prissy-sworn-bc55@gregkh>
-X-Cookie: To err is human, to moo bovine.
+In-Reply-To: <20240114152759.1040563-4-andriy.shevchenko@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,93 +74,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- dri-devel@lists.freedesktop.org, Miquel Raynal <miquel.raynal@bootlin.com>,
- Ronald Wahl <ronald.wahl@raritan.com>,
- Stefan Schmidt <stefan@datenfreihafen.org>, libertas-dev@lists.infradead.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- Alan Stern <stern@rowland.harvard.edu>,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- Alex Elder <elder@kernel.org>, linux-usb@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-spi@vger.kernel.org, kernel@pengutronix.de, linux-media@vger.kernel.org,
- linux-wpan@vger.kernel.org,
- Amit Kumar Mahapatra via Alsa-devel <alsa-devel@alsa-project.org>,
- linux-doc@vger.kernel.org, Dmitry Antipov <dmantipov@yandex.ru>,
- Max Filippov <jcmvbkbc@gmail.com>, Eric Dumazet <edumazet@google.com>,
- James Clark <james.clark@arm.com>, Guenter Roeck <groeck@chromium.org>,
- Dario Binacchi <dario.binacchi@amarulasolutions.com>,
- chrome-platform@lists.linux.dev,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Viresh Kumar <vireshk@kernel.org>, Helge Deller <deller@gmx.de>,
- Wu Hao <hao.wu@intel.com>, Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- linux-arm-msm@vger.kernel.org, greybus-dev@lists.linaro.org,
- Bjorn Helgaas <bhelgaas@google.com>, Michal Simek <michal.simek@amd.com>,
- linux-arm-kernel@lists.infradead.org, Aaro Koskinen <aaro.koskinen@iki.fi>,
- "David S. Miller" <davem@davemloft.net>, Jarkko Sakkinen <jarkko@kernel.org>,
- Simon Horman <horms@kernel.org>, linux-integrity@vger.kernel.org,
- Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
- Jonathan Cameron <jic23@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- Herve Codina <herve.codina@bootlin.com>, linux-iio@vger.kernel.org,
- Tom Rix <trix@redhat.com>, linux-fpga@vger.kernel.org,
- linux-fbdev@vger.kernel.org, linux-mtd@lists.infradead.org,
- Jonathan Corbet <corbet@lwn.net>, linux-staging@lists.linux.dev,
- Yang Yingliang <yangyingliang@huawei.com>, Paolo Abeni <pabeni@redhat.com>,
- Arnd Bergmann <arnd@arndb.de>, linux-input@vger.kernel.org,
- Moritz Fischer <mdf@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Benson Leung <bleung@chromium.org>, Rayyan Ansari <rayyan@ansari.sh>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-mmc@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Martin Tuma <martin.tuma@digiteqautomotive.com>, Xu Yilun <yilun.xu@intel.com>,
- Alexander Aring <alex.aring@gmail.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Peter Huewe <peterhuewe@gmx.de>, Sergey Kozlov <serjk@netup.ru>,
- Richard Weinberger <richard@nod.at>, Jason Gunthorpe <jgg@ziepe.ca>,
- Jakub Kicinski <kuba@kernel.org>, Kalle Valo <kvalo@kernel.org>,
- Johan Hovold <johan@kernel.org>, Rui Miguel Silva <rmfrfs@gmail.com>,
- linux-mediatek@lists.infradead.org, Tzung-Bi Shih <tzungbi@kernel.org>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- netdev@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Sun, Jan 14, 2024 at 05:25:10PM +0200, Andy Shevchenko wrote:
+> Simplify the error handling in probe function by switching from
+> dev_err() to dev_err_probe().
+>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
---FdGjmVpGJ74QDTu1
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
-On Wed, Jan 24, 2024 at 09:13:49AM -0800, Greg Kroah-Hartman wrote:
-> On Mon, Jan 22, 2024 at 07:06:55PM +0100, Uwe Kleine-K=F6nig wrote:
 
-> > Note that Jonathan Cameron has already applied patch 3 to his tree, it
-> > didn't appear in a public tree though yet. I still included it here to
-> > make the kernel build bots happy.
-
-> Are we supposed to take the individual changes in our different
-> subsystem trees, or do you want them all to go through the spi tree?
-
-Given that the final patch removes the legacy interfaces I'm expecting
-to take them via SPI.
-
---FdGjmVpGJ74QDTu1
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmWxRzcACgkQJNaLcl1U
-h9CS5Af+OPZh7Z4aM5AF1TAMNJebJxrwbV+lfEa8zsdVnpHBXYpXokCrVwsSRBtM
-yR/bt2+OoZjrVep6c0lufmewH58kEtQF4UazYao7MD2alCnwzn49m697Ubpnc/k9
-iSCRd+E5ICMZuRdRrDAmd/To7o3jsg85SeN4qLdeer17NkjU6VS9vR6NlzImV/nS
-MXj52eAHL5+EZIpIlwZSBkCxyEEsz/UFaGcFsKMonZ+24Oz5SXXWFhUWfiFCD+fA
-DNZKxXJ9Vk2i5pCUsduff5giUUypwRqVP4C01wYMs7o3jkMZ2cQhtuH8iyDtKKMU
-FSwO3bpbAgZzLbY2G2cqYZyEpqJ8Ow==
-=E3cl
------END PGP SIGNATURE-----
-
---FdGjmVpGJ74QDTu1--
+Daniel.
