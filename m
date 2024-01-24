@@ -2,53 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1987383A512
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 10:18:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9475483A5C0
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 10:43:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E726610F697;
-	Wed, 24 Jan 2024 09:18:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4F3B10F6D2;
+	Wed, 24 Jan 2024 09:42:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFC4C10F697;
- Wed, 24 Jan 2024 09:18:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1706087884; x=1737623884;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=0uEt3QHC9f3bYP1Js3HWf0U2lMrJMdiCAo8M3PruTPo=;
- b=DXhWtlncl32ipOcIFO7MM8K7Y9FYhunzyIsWXblOR4nOQvjVNXB5y55N
- Igy7tlApF19pq14gc0gMLbooXKaf3LJrjR9DxA5HJOYci5TKEtunfcz2w
- n38xmx7IRHj5ulhW+ndFHc7Yv+fhkQw+zbZ4z5Q98siiGHRZmVByks1AJ
- X5t7H1/WelHCVhWoldMly+/kmQzP2JGKyw6Cyh39GFaICzHVd7BNGkkUP
- VjxnV6eC4HdzRZz7vEmFKLXF9anR7rHRuED8VmNytZxmRqS7ZbsM2wgBA
- zCmgQnshHzxg8PeOXJacZUvFRzG3Y+ab5mjBYfajd1VvqKZcmpKkzetBH A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="15313327"
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; d="scan'208";a="15313327"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jan 2024 01:17:52 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="820392409"
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; d="scan'208";a="820392409"
-Received: from komalav-mobl2.gar.corp.intel.com (HELO localhost)
- ([10.252.41.195])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jan 2024 01:17:47 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Randy Dunlap <rdunlap@infradead.org>, Stephen Rothwell
- <sfr@canb.auug.org.au>, Linux Next Mailing List
- <linux-next@vger.kernel.org>
-Subject: Re: linux-next: Tree for Jan 23 (drm/xe/)
-In-Reply-To: <152521f9-119f-4c61-b467-3e91f4aecb1a@infradead.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240123132929.7cb6ea4c@canb.auug.org.au>
- <152521f9-119f-4c61-b467-3e91f4aecb1a@infradead.org>
-Date: Wed, 24 Jan 2024 11:17:44 +0200
-Message-ID: <87le8fks3r.fsf@intel.com>
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8F3A10F6C8
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 09:42:31 +0000 (UTC)
+Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
+ by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1rSZSW-0002bS-PC; Wed, 24 Jan 2024 10:22:12 +0100
+From: Philipp Zabel <p.zabel@pengutronix.de>
+Subject: [PATCH 0/2] drm/etnaviv: Disable SH_EU clock gating on the i.MX8MP NPU
+Date: Wed, 24 Jan 2024 10:22:07 +0100
+Message-Id: <20240124-etnaviv-npu-v1-0-a5aaf64aec65@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAL/WsGUC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDQyMT3dSSvMSyzDLdvIJSXTMj8zQzCwtDYyOjZCWgjoKi1LTMCrBp0bG
+ 1tQAUD+Y9XQAAAA==
+To: Lucas Stach <l.stach@pengutronix.de>, 
+ Russell King <linux+etnaviv@armlinux.org.uk>, 
+ Christian Gmeiner <christian.gmeiner@gmail.com>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+X-Mailer: b4 0.13-dev-f0463
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::54
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,40 +49,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- intel-xe@lists.freedesktop.org
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 23 Jan 2024, Randy Dunlap <rdunlap@infradead.org> wrote:
-> On 1/22/24 18:29, Stephen Rothwell wrote:
->> Hi all,
->> 
->> News: there will be no linux-next release on Friday
->> 
->> Changes since 20240122:
->> 
->
-> on ARM64, when
-> DRM_I915 is not set
-> DRM_XE=m
-> DEBUG_FS is not set
->
-> ../drivers/gpu/drm/i915/display/intel_display_debugfs.c:1091:6: error: redefinition of 'intel_display_debugfs_register'
->  1091 | void intel_display_debugfs_register(struct drm_i915_private *i915)
->       |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> In file included from ../drivers/gpu/drm/i915/display/intel_display_debugfs.c:19:
+The vendor kernel sets a previously unknown clock gating bit in the
+VIVS_PM_MODULE_CONTROLS register to disable SH_EU clock gating.
 
-Does [1] fix the issue?
+Import new headers from rnndb for the definition and set the bit
+for the VIPNano-Si+ NPU on i.MX8MP.
 
-BR,
-Jani.
+Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+---
+Philipp Zabel (2):
+      drm/etnaviv: Update hardware headers from rnndb
+      drm/etnaviv: Disable SH_EU clock gating on VIPNano-Si+
 
+ drivers/gpu/drm/etnaviv/cmdstream.xml.h |  52 ++++++++++++++--
+ drivers/gpu/drm/etnaviv/common.xml.h    |  12 ++--
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c   |   4 ++
+ drivers/gpu/drm/etnaviv/state.xml.h     | 101 +++++++++++++++++++++++++++-----
+ drivers/gpu/drm/etnaviv/state_blt.xml.h |  20 +++----
+ drivers/gpu/drm/etnaviv/state_hi.xml.h  |  28 +++++----
+ 6 files changed, 174 insertions(+), 43 deletions(-)
+---
+base-commit: 6613476e225e090cc9aad49be7fa504e290dd33d
+change-id: 20240124-etnaviv-npu-627f6881322c
 
-[1] https://lore.kernel.org/r/20240124090515.3363901-1-jani.nikula@intel.com
-
-
+Best regards,
 -- 
-Jani Nikula, Intel
+Philipp Zabel <p.zabel@pengutronix.de>
+
