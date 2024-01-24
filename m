@@ -2,51 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C8D683AA6D
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 13:57:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8389183AAE5
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 14:27:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7A2110F72F;
-	Wed, 24 Jan 2024 12:57:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D36F210E9C5;
+	Wed, 24 Jan 2024 13:26:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 099FC10F6E8;
- Wed, 24 Jan 2024 12:57:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1706101038; x=1737637038;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=zcIhCi4x6+7l74AH2vYFwwEcOums63f448w2QQfkNWc=;
- b=is9+nl0B5tos5ZSXxMonryuvAmp220zevjJiFt2es3KHf4+WXqauI6DI
- 8VK34guRcM5/jkt67u+K9F0wVgpFyKwAbC2adyWAAZ1GgnDOXQiJ2xkxL
- HFXjbLcdSlkVI2BORf440JWYKSl1V5eVz7l4uZi9Nh2WkiDcLYQ1bzF+F
- VuljZo+f1bFOYURMqzf6jwaPsFE2RylvhtAceiZDXf62om+QeV2mbRSTa
- TLtiMy0m/4ikGBuYu7bqDWrf3zJXzd1KODFBRVTagpidDbTbDJGiKI2UX
- 1Qb6C4iJ6cYJ4mEn1zReUzXkfg22EQwqKC56e5IM882+vktTq+UELqDQO w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="8594383"
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="8594383"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jan 2024 04:57:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="1898651"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.213.0.254])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jan 2024 04:57:15 -0800
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v5 3/3] Revert "drm/i915: Wait for active retire before
- i915_active_fini()"
-Date: Wed, 24 Jan 2024 13:43:08 +0100
-Message-ID: <20240124125643.590072-8-janusz.krzysztofik@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240124125643.590072-5-janusz.krzysztofik@linux.intel.com>
-References: <20240124125643.590072-5-janusz.krzysztofik@linux.intel.com>
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com
+ [209.85.167.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B10610F73A;
+ Wed, 24 Jan 2024 13:26:35 +0000 (UTC)
+Received: by mail-oi1-f181.google.com with SMTP id
+ 5614622812f47-3bd6581bc66so4050781b6e.1; 
+ Wed, 24 Jan 2024 05:26:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1706102734; x=1706707534; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Yu0JA5DFgFaU5CwNCOFmY77G5L3S5T+P8RtJ0zkQaJo=;
+ b=gtYm2LzaaQhcnh0QETkfzc5kpz0ZgepTd+/8SsLh0PjCgGbEK/CqhzIAFdT1tGi+V9
+ dSpLo9rWsvhj9h3HjPEsHDd/bcXxo0acl+oHrDadITB2BzBcdSFzRatvj3BH92yD/LGe
+ MsqcDKaJMMflKWRLkbvP1JC28dFUH7cJkRBxW1rPfVU5R4P0oGXYBuqTaHuC/lfSPQtS
+ ODGc0L6XvRKKtbOXr9P7MkVHO84aN3xEDvQO7JdQSrmPXj5d/P/J5b24qLqyksELuQU+
+ x7XfC/knIm1oweMKismyCQ1132+PSUccg2uYZ5K14weuio0nm22YeJKc9Sh/SUIGeP2L
+ GZfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1706102734; x=1706707534;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Yu0JA5DFgFaU5CwNCOFmY77G5L3S5T+P8RtJ0zkQaJo=;
+ b=R5arnJKPLmudC7F++uP/tK2q8MC3FW574dQYcZ9pUGtgVw44I/cJUxKIwJBFHXCvm0
+ awuHT5PgRB2xeW4qJnRFegdxw9uaq9+f/ie3emuKxkrvxNnxQP9p23hlBl6cK4fvXNS2
+ dgG3xcJb58w6LptEHtDSgpYmxOt+UoQuJI76YPZXeSEL/5m4cP6rtiOnhmokSXp+k4iY
+ Yj2Q4PjicTQeoibQ7qyCQt4UM5MsYmEL2Tr6vleJbGVNJ63CAyhz+u5tlSIAi3sb1a9K
+ edRCoeNLVxyb7aZZN8znqDtKl2qLsF0QKcesVuvxm2w7dE+K8G9hEjlrnJAI1KZRdny2
+ HvSg==
+X-Gm-Message-State: AOJu0YxRRaY6sU9DkMcZen93EumVvjVjYXu2XIXqsMVYrqY68l9R1mCB
+ 4xPLFmVLy8O5XwdgwO6tCvUB0+fJry+vs8ll3V6YHPSzl/Z5lnisUJLxtQ2IuGRg6/7DPBbivzI
+ TtDyIgAqRNTDKz1h6QhsmfncKWto=
+X-Google-Smtp-Source: AGHT+IEW5PoeqcIOrC1/orXHLsWdUYhfJGnZD6id55p9vFC93T8lqRhoeEsyoAC6IGunPwnO9Pt1AivCT/dXiJQh+yg=
+X-Received: by 2002:a05:6870:f208:b0:208:b33e:7 with SMTP id
+ t8-20020a056870f20800b00208b33e0007mr3261589oao.19.1706102734254; Wed, 24 Jan
+ 2024 05:25:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240124-etnaviv-npu-v1-0-a5aaf64aec65@pengutronix.de>
+In-Reply-To: <20240124-etnaviv-npu-v1-0-a5aaf64aec65@pengutronix.de>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Wed, 24 Jan 2024 14:25:23 +0100
+Message-ID: <CAH9NwWdohzT=3asJVGWJECDKRxguXRRr40QsHJYecWibT75Agg@mail.gmail.com>
+Subject: Re: [PATCH 0/2] drm/etnaviv: Disable SH_EU clock gating on the
+ i.MX8MP NPU
+To: Philipp Zabel <p.zabel@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,39 +68,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel@ffwll.ch>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Nirmoy Das <nirmoy.das@intel.com>
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+ Russell King <linux+etnaviv@armlinux.org.uk>, David Airlie <airlied@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit 7a2280e8dcd2f1f436db9631287c0b21cf6a92b0, obsoleted
-by "drm/i915/vma: Fix UAF on destroy against retire race".
+Am Mi., 24. Jan. 2024 um 10:22 Uhr schrieb Philipp Zabel
+<p.zabel@pengutronix.de>:
+>
+> The vendor kernel sets a previously unknown clock gating bit in the
+> VIVS_PM_MODULE_CONTROLS register to disable SH_EU clock gating.
+>
+> Import new headers from rnndb for the definition and set the bit
+> for the VIPNano-Si+ NPU on i.MX8MP.
+>
+> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 
-Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Cc: Nirmoy Das <nirmoy.das@intel.com>
----
- drivers/gpu/drm/i915/i915_vma.c | 2 --
- 1 file changed, 2 deletions(-)
+Thanks - series is
+  Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
 
-diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-index 604d420b9e1fd..09b8a6b52d065 100644
---- a/drivers/gpu/drm/i915/i915_vma.c
-+++ b/drivers/gpu/drm/i915/i915_vma.c
-@@ -1752,8 +1752,6 @@ static void release_references(struct i915_vma *vma, struct intel_gt *gt,
- 	if (vm_ddestroy)
- 		i915_vm_resv_put(vma->vm);
- 
--	/* Wait for async active retire */
--	i915_active_wait(&vma->active);
- 	i915_active_fini(&vma->active);
- 	GEM_WARN_ON(vma->resource);
- 	i915_vma_free(vma);
+> ---
+> Philipp Zabel (2):
+>       drm/etnaviv: Update hardware headers from rnndb
+>       drm/etnaviv: Disable SH_EU clock gating on VIPNano-Si+
+>
+>  drivers/gpu/drm/etnaviv/cmdstream.xml.h |  52 ++++++++++++++--
+>  drivers/gpu/drm/etnaviv/common.xml.h    |  12 ++--
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c   |   4 ++
+>  drivers/gpu/drm/etnaviv/state.xml.h     | 101 +++++++++++++++++++++++++++-----
+>  drivers/gpu/drm/etnaviv/state_blt.xml.h |  20 +++----
+>  drivers/gpu/drm/etnaviv/state_hi.xml.h  |  28 +++++----
+>  6 files changed, 174 insertions(+), 43 deletions(-)
+> ---
+> base-commit: 6613476e225e090cc9aad49be7fa504e290dd33d
+> change-id: 20240124-etnaviv-npu-627f6881322c
+>
+> Best regards,
+> --
+> Philipp Zabel <p.zabel@pengutronix.de>
+>
+
+
 -- 
-2.43.0
+greets
+--
+Christian Gmeiner, MSc
 
+https://christian-gmeiner.info/privacypolicy
