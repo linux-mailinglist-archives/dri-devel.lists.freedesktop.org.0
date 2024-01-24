@@ -2,56 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CD08839FC3
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 04:00:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C794F83A00F
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 04:25:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 481D910F5C7;
-	Wed, 24 Jan 2024 03:00:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47F6A10F5D8;
+	Wed, 24 Jan 2024 03:24:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A18EB10F5BD
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 03:00:46 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 8E0F0CE30F9
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 03:00:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE237C43390
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 03:00:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1706065239;
- bh=fLVXXGU2Kxore3yLc83YhnUlsP1PFjlQeq4IAU9uZ7I=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=D9BEvbC65rf72Lc4wnzN6Bhig/6YwaLfdw5LEjwgRWWhgXB/vT7kOroVSycw+NeWH
- LVypLrHodSZdN3xLYXNmGeSOAzm4A055CDoBXGpGR1J9Kje/qonR2D2EwRkV9r+4db
- tfiVizY2mQJdsiK1vBOGYTcGbGQbXi6AkBDec1InL4pM4ymWc/LivgJEHW8EkrOTZD
- DFg4qhZZCf8ckqNYPmHdeeqG8RM119HOvHyHkQg6B/awzwa6q2zCcXqZsBOu6mK2tZ
- SWw2n8QzRZKU1TaC+2HkKu6F6Ou/vmso6L6WnqdUiUaYlvDCOplDdo7up6x2a5FSaz
- L/jlIWV8bM7ZA==
-Received: by mail-wm1-f48.google.com with SMTP id
- 5b1f17b1804b1-40d6b4e2945so59619935e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jan 2024 19:00:39 -0800 (PST)
-X-Gm-Message-State: AOJu0YxjjEWeKg1g4Ueku6HSA3X+KL+04C3RqrSCaAjuLBrT0eg/J6n4
- c8bBsWt9C4buow3PGfEJqXe2ioOov4FiXeNoiDHLVydZmPiMa/tVLEHe8GgBRrHvQp14fJyejnb
- Va6LrdPWXA41FEZRDZ6GSjwEhsnY=
-X-Google-Smtp-Source: AGHT+IF3bVMroeXrXUvIIyWLLSCuA4V+ub3H4Gcat6wtKvUtzTlietSNC803/cmDp1GYbR44oq2BalXYr0NMhBkkhms=
-X-Received: by 2002:a05:600c:580c:b0:40e:4a61:a0d7 with SMTP id
- jz12-20020a05600c580c00b0040e4a61a0d7mr453585wmb.86.1706065238100; Tue, 23
- Jan 2024 19:00:38 -0800 (PST)
-MIME-Version: 1.0
-References: <20231108024613.2898921-1-chenhuacai@loongson.cn>
- <f461f122-d3e4-4ffb-a252-543f9b6e4e5a@suse.de>
- <CAFOAJEfDZGRY42SRGF64cFbN1e8sBhYsQw_uou8hxTYfyxkhdw@mail.gmail.com>
- <CAAhV-H52y902nP6nPeghLqs+K8gNzCc3DHTU1C0AQcD0TXHMAQ@mail.gmail.com>
- <32b4b912-794f-42b6-b666-5faea8e98d7c@ristioja.ee>
-In-Reply-To: <32b4b912-794f-42b6-b666-5faea8e98d7c@ristioja.ee>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Wed, 24 Jan 2024 11:00:25 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H57G-vudtEH2EbZmZQjRQLHSFvT9BYMjfmrbYnBy-Gq1A@mail.gmail.com>
-Message-ID: <CAAhV-H57G-vudtEH2EbZmZQjRQLHSFvT9BYMjfmrbYnBy-Gq1A@mail.gmail.com>
-Subject: Re: [PATCH] drm/Makefile: Move tiny drivers before native drivers
-To: Jaak Ristioja <jaak@ristioja.ee>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BACB10E670;
+ Wed, 24 Jan 2024 03:24:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1706066691; x=1737602691;
+ h=date:from:to:cc:subject:message-id;
+ bh=OO19hjBQfesEcdq/8aueMqCyeS0pJFWXiXzBPSArfMQ=;
+ b=f5LEv8MWUrKKrLC1TxbHAiowHNF341udABcIGfZ742pmQT0jxTas4dq1
+ DUNy4o/t+lSnihkpD9Kk0rK2xKAwCTcW/n4kuZ8WrYCt8tM63dHzKi2/+
+ XBCYVPTsj/O3wqEljV4jKtCzejopHqaEyF+iomID7YArI/hOetIKRrgOI
+ bxIqHkE0B1YzynPlY4vPpejeXRxFnLMF98TTIv3/HV+T4gcWNxaKywFZI
+ pPimOCTXFcFRtQ44hoxPNkbVAYjJMzbs6BusadSD+gC4gcQ/alxjP8yAf
+ cB4iDn2xxrNMBlwB1azk4B2vaZOJIt8Afn7MxEyojf43vFP1PNFOiFDvL w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="8381513"
+X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; 
+   d="scan'208";a="8381513"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2024 19:24:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="959366456"
+X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; d="scan'208";a="959366456"
+Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
+ by orsmga005.jf.intel.com with ESMTP; 23 Jan 2024 19:24:48 -0800
+Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1rSTsb-0007pR-27;
+ Wed, 24 Jan 2024 03:24:45 +0000
+Date: Wed, 24 Jan 2024 11:23:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Subject: [linux-next:master] BUILD REGRESSION
+ 774551425799cb5bbac94e1768fd69eec4f78dd4
+Message-ID: <202401241153.saaJ1jP1-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,156 +56,259 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Huacai Chen <chenhuacai@loongson.cn>
+Cc: linux-bcachefs@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-usb@vger.kernel.org, etnaviv@lists.freedesktop.org,
+ kasan-dev@googlegroups.com, Linux Memory Management List <linux-mm@kvack.org>,
+ dri-devel@lists.freedesktop.org, dmaengine@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Javier and Thomas,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 774551425799cb5bbac94e1768fd69eec4f78dd4  Add linux-next specific files for 20240123
 
-On Wed, Jan 24, 2024 at 5:21=E2=80=AFAM Jaak Ristioja <jaak@ristioja.ee> wr=
-ote:
->
-> Hi,
->
-> I apologize for not finding the time to test this earlier.
->
-> On 11.12.23 05:08, Huacai Chen wrote:
-> > And Jaak, could you please test with the below patch (but keep the
-> > original order in Makefile) and then give me the dmesg output?
-> >
-> > diff --git a/drivers/video/aperture.c b/drivers/video/aperture.c
-> > index 561be8feca96..cc2e39fb98f5 100644
-> > --- a/drivers/video/aperture.c
-> > +++ b/drivers/video/aperture.c
-> > @@ -350,21 +350,29 @@ int
-> > aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const
-> > char *na
-> >          resource_size_t base, size;
-> >          int bar, ret =3D 0;
-> >
-> > -       if (pdev =3D=3D vga_default_device())
-> > +       printk("DEBUG: remove 1\n");
-> > +
-> > +       if (pdev =3D=3D vga_default_device()) {
-> > +               printk("DEBUG: primary =3D true\n");
-> >                  primary =3D true;
-> > +       }
-> >
-> > -       if (primary)
-> > +       if (primary) {
-> > +               printk("DEBUG: disable sysfb\n");
-> >                  sysfb_disable();
-> > +       }
-> >
-> >          for (bar =3D 0; bar < PCI_STD_NUM_BARS; ++bar) {
-> >                  if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
-> >                          continue;
-> >
-> > +               printk("DEBUG: remove 2\n");
-> >                  base =3D pci_resource_start(pdev, bar);
-> >                  size =3D pci_resource_len(pdev, bar);
-> >                  aperture_detach_devices(base, size);
-> >          }
-> >
-> > +       printk("DEBUG: remove 3\n");
-> >          /*
-> >           * If this is the primary adapter, there could be a VGA device
-> >           * that consumes the VGA framebuffer I/O range. Remove this
-> >
-> > [1]  https://lore.kernel.org/lkml/170222766284.86103.110200607693307210=
-08@leemhuis.info/T/#u
->
-> Copy-pasting this from the e-mail body didn't work well, but I applied
-> the changes manually to a 6.5.9 kernel without any of the other patches.
-> Here's the relevant dmesg output on the Lenovo L570:
->
-> ...
-> [    2.953405] ACPI: bus type drm_connector registered
-> [    2.954014] i915 0000:00:02.0: [drm] VT-d active for gfx access
-> [    2.954018] DEBUG: remove 1
-> [    2.954020] DEBUG: remove 2
-> [    2.954021] DEBUG: remove 2
-> [    2.954023] DEBUG: remove 3
+Error/Warning reports:
 
-My tmp patch is as follows:
+https://lore.kernel.org/oe-kbuild-all/202401231518.8q9LD8n7-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202401240123.wBsFom3Z-lkp@intel.com
 
-diff --git a/drivers/video/aperture.c b/drivers/video/aperture.c
-index 561be8feca96..cc2e39fb98f5 100644
---- a/drivers/video/aperture.c
-+++ b/drivers/video/aperture.c
-@@ -350,21 +350,29 @@ int
-aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const
-char *na
-        resource_size_t base, size;
-        int bar, ret =3D 0;
+Error/Warning: (recently discovered and may have been fixed)
 
--       if (pdev =3D=3D vga_default_device())
-+       printk("DEBUG: remove 1\n");
-+
-+       if (pdev =3D=3D vga_default_device()) {
-+               printk("DEBUG: primary =3D true\n");
-                primary =3D true;
-+       }
+drivers/dma/at_hdmac.c:255: warning: Enum value 'ATC_IS_CYCLIC' not described in enum 'atc_status'
+drivers/dma/at_hdmac.c:255: warning: Enum value 'ATC_IS_PAUSED' not described in enum 'atc_status'
 
--       if (primary)
-+       if (primary) {
-+               printk("DEBUG: disable sysfb\n");
-                sysfb_disable();
-+       }
+Error/Warning ids grouped by kconfigs:
 
-        for (bar =3D 0; bar < PCI_STD_NUM_BARS; ++bar) {
-                if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
-                        continue;
+gcc_recent_errors
+|-- arc-randconfig-r062-20240123
+|   `-- drivers-gpu-drm-etnaviv-etnaviv_drv.c:ERROR:probable-double-put.
+|-- arm-multi_v5_defconfig
+|   |-- drivers-dma-at_hdmac.c:warning:Enum-value-ATC_IS_CYCLIC-not-described-in-enum-atc_status
+|   `-- drivers-dma-at_hdmac.c:warning:Enum-value-ATC_IS_PAUSED-not-described-in-enum-atc_status
+|-- i386-randconfig-051-20240123
+|   `-- drivers-gpu-drm-etnaviv-etnaviv_drv.c:ERROR:probable-double-put.
+|-- i386-randconfig-054-20240123
+|   `-- drivers-gpu-drm-etnaviv-etnaviv_drv.c:ERROR:probable-double-put.
+|-- i386-randconfig-062-20240123
+|   |-- drivers-usb-gadget-function-f_ncm.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-unsigned-short-usertype-max_segment_size-got-restricted-__le16-usertype
+|   `-- lib-checksum_kunit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-restricted-__wsum-usertype-sum-got-unsigned-int-assigned-csum
+|-- i386-randconfig-141-20240123
+|   |-- fs-bcachefs-btree_locking.c-bch2_trans_relock()-warn:passing-zero-to-PTR_ERR
+|   |-- fs-bcachefs-buckets.c-bch2_trans_account_disk_usage_change()-error:we-previously-assumed-trans-disk_res-could-be-null-(see-line-)
+|   `-- mm-huge_memory.c-thpsize_create()-warn:Calling-kobject_put-get-with-state-initialized-unset-from-line:
+|-- microblaze-randconfig-r064-20240123
+|   `-- drivers-gpu-drm-etnaviv-etnaviv_drv.c:ERROR:probable-double-put.
+|-- microblaze-randconfig-r123-20240123
+|   `-- drivers-regulator-qcom_smd-regulator.c:sparse:sparse:symbol-smd_vreg_rpm-was-not-declared.-Should-it-be-static
+|-- mips-allyesconfig
+|   |-- (.ref.text):relocation-truncated-to-fit:R_MIPS_26-against-start_secondary
+|   `-- (.text):relocation-truncated-to-fit:R_MIPS_26-against-kernel_entry
+|-- nios2-randconfig-r052-20240123
+|   `-- drivers-gpu-drm-etnaviv-etnaviv_drv.c:ERROR:probable-double-put.
+|-- nios2-randconfig-r054-20240123
+|   `-- drivers-gpu-drm-etnaviv-etnaviv_drv.c:ERROR:probable-double-put.
+|-- openrisc-randconfig-r131-20240123
+|   `-- lib-checksum_kunit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-restricted-__wsum-usertype-csum-got-unsigned-int-assigned-csum
+|-- sh-randconfig-r133-20240123
+|   `-- lib-checksum_kunit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-restricted-__wsum-usertype-sum-got-unsigned-int-assigned-csum
+|-- x86_64-randconfig-101-20240123
+|   `-- drivers-gpu-drm-etnaviv-etnaviv_drv.c:ERROR:probable-double-put.
+|-- x86_64-randconfig-102-20240123
+|   `-- drivers-gpu-drm-etnaviv-etnaviv_drv.c:ERROR:probable-double-put.
+`-- x86_64-randconfig-161-20240123
+    |-- mm-huge_memory.c-thpsize_create()-warn:Calling-kobject_put-get-with-state-initialized-unset-from-line:
+    |-- mm-kasan-kasan_test.c-mempool_double_free_helper()-error:double-free-of-elem
+    `-- mm-kasan-kasan_test.c-mempool_uaf_helper()-warn:passing-freed-memory-elem
+clang_recent_errors
+|-- x86_64-randconfig-121-20240123
+|   `-- lib-checksum_kunit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-restricted-__wsum-usertype-csum-got-unsigned-int-assigned-csum
+`-- x86_64-randconfig-r132-20240123
+    `-- lib-checksum_kunit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-restricted-__wsum-usertype-csum-got-unsigned-int-assigned-csum
 
-+               printk("DEBUG: remove 2\n");
-                base =3D pci_resource_start(pdev, bar);
-                size =3D pci_resource_len(pdev, bar);
-                aperture_detach_devices(base, size);
-        }
+elapsed time: 1483m
 
-+       printk("DEBUG: remove 3\n");
-        /*
-         * If this is the primary adapter, there could be a VGA device
-         * that consumes the VGA framebuffer I/O range. Remove this
+configs tested: 177
+configs skipped: 3
 
-From the Jaak's dmesg, it is obvious that "pdev =3D=3D
-vga_default_device()" is false, which causes sysfb_disable() to be not
-called. And I think the simple-drm device is not provided by the i915
-device in this case. So, can we unconditionally call sysfb_disable()
-here, which is the same as aperture_remove_conflicting_devices()?
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20240123   gcc  
+arc                   randconfig-002-20240123   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                       aspeed_g5_defconfig   gcc  
+arm                                 defconfig   clang
+arm                          ixp4xx_defconfig   clang
+arm                            mps2_defconfig   gcc  
+arm                        mvebu_v7_defconfig   gcc  
+arm                          pxa910_defconfig   gcc  
+arm                   randconfig-001-20240123   gcc  
+arm                   randconfig-002-20240123   gcc  
+arm                   randconfig-003-20240123   gcc  
+arm                   randconfig-004-20240123   gcc  
+arm                       versatile_defconfig   clang
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20240123   gcc  
+arm64                 randconfig-002-20240123   gcc  
+arm64                 randconfig-003-20240123   gcc  
+arm64                 randconfig-004-20240123   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240123   gcc  
+csky                  randconfig-002-20240123   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20240123   clang
+hexagon               randconfig-002-20240123   clang
+i386                             allmodconfig   clang
+i386                              allnoconfig   clang
+i386                             allyesconfig   clang
+i386         buildonly-randconfig-001-20240123   gcc  
+i386         buildonly-randconfig-002-20240123   gcc  
+i386         buildonly-randconfig-003-20240123   gcc  
+i386         buildonly-randconfig-004-20240123   gcc  
+i386         buildonly-randconfig-005-20240123   gcc  
+i386         buildonly-randconfig-006-20240123   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-001-20240123   gcc  
+i386                  randconfig-002-20240123   gcc  
+i386                  randconfig-003-20240123   gcc  
+i386                  randconfig-004-20240123   gcc  
+i386                  randconfig-005-20240123   gcc  
+i386                  randconfig-006-20240123   gcc  
+i386                  randconfig-011-20240123   clang
+i386                  randconfig-012-20240123   clang
+i386                  randconfig-013-20240123   clang
+i386                  randconfig-014-20240123   clang
+i386                  randconfig-015-20240123   clang
+i386                  randconfig-016-20240123   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240123   gcc  
+loongarch             randconfig-002-20240123   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   clang
+mips                             allyesconfig   gcc  
+mips                     cu1830-neo_defconfig   clang
+mips                       lemote2f_defconfig   gcc  
+mips                        omega2p_defconfig   clang
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240123   gcc  
+nios2                 randconfig-002-20240123   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                generic-64bit_defconfig   gcc  
+parisc                randconfig-001-20240123   gcc  
+parisc                randconfig-002-20240123   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   clang
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                      katmai_defconfig   clang
+powerpc                 mpc832x_rdb_defconfig   clang
+powerpc               randconfig-001-20240123   gcc  
+powerpc               randconfig-002-20240123   gcc  
+powerpc               randconfig-003-20240123   gcc  
+powerpc64             randconfig-001-20240123   gcc  
+powerpc64             randconfig-002-20240123   gcc  
+powerpc64             randconfig-003-20240123   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   clang
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                 randconfig-001-20240123   gcc  
+riscv                 randconfig-002-20240123   gcc  
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20240123   clang
+s390                  randconfig-002-20240123   clang
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                    randconfig-001-20240123   gcc  
+sh                    randconfig-002-20240123   gcc  
+sh                           se7206_defconfig   gcc  
+sh                           sh2007_defconfig   gcc  
+sh                   sh7724_generic_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20240123   gcc  
+sparc64               randconfig-002-20240123   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20240123   gcc  
+um                    randconfig-002-20240123   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20240123   gcc  
+x86_64       buildonly-randconfig-002-20240123   gcc  
+x86_64       buildonly-randconfig-003-20240123   gcc  
+x86_64       buildonly-randconfig-004-20240123   gcc  
+x86_64       buildonly-randconfig-005-20240123   gcc  
+x86_64       buildonly-randconfig-006-20240123   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20240123   clang
+x86_64                randconfig-002-20240123   clang
+x86_64                randconfig-003-20240123   clang
+x86_64                randconfig-004-20240123   clang
+x86_64                randconfig-005-20240123   clang
+x86_64                randconfig-006-20240123   clang
+x86_64                randconfig-011-20240123   gcc  
+x86_64                randconfig-012-20240123   gcc  
+x86_64                randconfig-013-20240123   gcc  
+x86_64                randconfig-014-20240123   gcc  
+x86_64                randconfig-015-20240123   gcc  
+x86_64                randconfig-016-20240123   gcc  
+x86_64                randconfig-071-20240123   gcc  
+x86_64                randconfig-072-20240123   gcc  
+x86_64                randconfig-073-20240123   gcc  
+x86_64                randconfig-074-20240123   gcc  
+x86_64                randconfig-075-20240123   gcc  
+x86_64                randconfig-076-20240123   gcc  
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
+xtensa                randconfig-001-20240123   gcc  
+xtensa                randconfig-002-20240123   gcc  
+xtensa                         virt_defconfig   gcc  
 
-Huacai
-
-> [    2.954029] resource: resource sanity check: requesting [mem
-> 0x00000000e0000000-0x00000000efffffff], which spans more than BOOTFB
-> [mem 0xe0000000-0xe012bfff]
-> [    2.954035] caller i915_ggtt_init_hw+0x88/0x120 mapping multiple BARs
-> [    2.954061] i915 0000:00:02.0: [drm] Using Transparent Hugepages
-> [    2.955103] Loading firmware: i915/kbl_dmc_ver1_04.bin
-> [    2.955384] i915 0000:00:02.0: [drm] Finished loading DMC firmware
-> i915/kbl_dmc_ver1_04.bin (v1.4)
-> ...
-> [    4.145013] [drm] Initialized i915 1.6.0 20201103 for 0000:00:02.0 on
-> minor 0
-> [    4.147101] ACPI: video: Video Device [GFX0] (multi-head: yes  rom:
-> no  post: no)
-> [    4.147244] input: Video Bus as
-> /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A08:00/LNXVIDEO:00/input/input4
-> [    4.147410] [drm] Initialized vgem 1.0.0 20120112 for vgem on minor 1
-> [    4.147420] usbcore: registered new interface driver udl
-> [    4.147500] [drm] Initialized simpledrm 1.0.0 20200625 for
-> simple-framebuffer.0 on minor 2
-> [    4.148643] Console: switching to colour frame buffer device 80x30
-> [    4.153216] simple-framebuffer simple-framebuffer.0: [drm] fb0:
-> simpledrmdrmfb frame buffer device
-> [    4.154043] loop: module loaded
-> [    4.156017] ahci 0000:00:17.0: version 3.0
-> [    4.157373] i915 0000:00:02.0: [drm] fb1: i915drmfb frame buffer devic=
-e
-> ...
->
-> J
->
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
