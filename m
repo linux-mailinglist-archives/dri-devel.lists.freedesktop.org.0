@@ -2,59 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 728A583A96E
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 13:17:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02B3183A9FD
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 13:39:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BA8D10F710;
-	Wed, 24 Jan 2024 12:15:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CD0210F743;
+	Wed, 24 Jan 2024 12:39:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from invmail4.hynix.com (exvmail4.hynix.com [166.125.252.92])
- by gabe.freedesktop.org (Postfix) with ESMTP id AE79710EE58
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 12:15:24 +0000 (UTC)
-X-AuditID: a67dfc5b-d85ff70000001748-d3-65b0fbb8fd1e
-From: Byungchul Park <byungchul@sk.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v11 26/26] locking/lockdep,
- fs/jbd2: Use a weaker annotation in journal handling
-Date: Wed, 24 Jan 2024 20:59:37 +0900
-Message-Id: <20240124115938.80132-27-byungchul@sk.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20240124115938.80132-1-byungchul@sk.com>
-References: <20240124115938.80132-1-byungchul@sk.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAAzWSbUyTZxiF9zzvZzu6vOsIvIrJli5mDhQURe8ZZ1hitmfLjDNmf1wiNvYN
- NBYkLZ9LNICoyJdKhPqBs6CptRSLBQ0KJQwjgsSCQqAiNEAIA6RA0DbryqaUbX/uXDnn5OT+
- cXhK+ZBZy2vTMiR9mlqnYuW03BtWs6k52CBtrvdEwIXSzeB7W0RDtd3GQt+dOgS2pnwMM4+/
- gyH/HILgs14KjJV9CGrGRylo6vQgcFoKWOif/AgGfAssdFeWsHDyhp2F56+XMYxUVWCoc+yF
- nvO1GNoDf9BgnGHhqvEkXjnTGAJmKwfmvPUwYbnCwfL4Fuj2DDLgHI6By7+NsNDq7Kahs3kC
- Q//DahY8tncM9HR20dB3oYyB+vlaFl77zRSYfQscvGg3YWgoXCk6/eYfBp6UtWM4ffMuhoGX
- LQjaisYwOGyDLDzyzWFodFRS8Netxwgmyr0cnCoNcHA1vxxByakqGnr/fsJA4UgCBP+sZhN3
- kkdzCxQpbMwmTr+JJk9rRfLgyihHCtuGOWJyZJJGSzS50TqDSc2SjyEO61mWOJYqOFLsHcBk
- 3uXiSNelIE0mB4z4p6iD8l0aSafNkvRxuw/LUxY902z6XVlOgfkBk4eCXDGS8aKwTSy4OUkX
- I36VrV5NSGaFL0S3O0CFOFz4TGwsm2KKkZynhDMfipbFZ2zI+EQ4LHa+WVgN0cJ60V10G4dY
- IWwXL5Y/Z/7t/1Ssa2hfzchW9PrLw3SIlUKCOGY9x4VKRaFEJp6ZafrvoTXi7xY3fR4pTOgD
- K1Jq07JS1VrdttiU3DRtTuyRY6kOtLIo8/HlX5rRUt+BDiTwSBWmSLTaJSWjzjLkpnYgkadU
- 4Qr3mjuSUqFR5/4q6Y8l6TN1kqEDRfG0KlIR78/WKIVkdYZ0VJLSJf3/LuZla/NQTOnUgQBq
- 8R/cYZg12dsyut++WjxxfVPuZHxYzvzHO69H5Rza802+K+t74muuvkfG9zdEbK1K32Bftjm4
- +8lDvovGlri4a4mxR/r3HL205CuPKLrlCki28J7MrumMH0brX83mxciTvv6yav+6jb37fvw8
- Mvlbj9NQsU7X+pWm5+dsl4o2pKi3RFN6g/o93sw5bE0DAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAAzWSe0hTcRzF+/3u09XitsRu2UMWURS9SONb9vorL0FR/2hFD1deckxnbGrZ
- g6YzM01T0ZnOQq2WTVObPazUlqJpkY80M7OV2kNRW2gTbfZwQv8cPpxzOH8dlpDlUPNYpTpc
- 1KgVIXJaQkp2+epXPnSWimu6JjZC6qU14PgZT0JOSRENzcWFCIruRWPor/WDt6ODCJyvmgjI
- zGhGkNf9gYB7dTYElQUxNLR+ngltDjsNDRmJNOivl9DQMjCBocuQhqHQshNepuRjsI5/IyGz
- nwZjph5PSh+GcZOZAZNuCfQUZDMw0b0WGmztFNRcbaCgsnMFZF3roqGisoGEuvIeDK2Pc2iw
- Ff2l4GVdPQnNqUkU3PmeT8PAqIkAk8POwGtrLobS2Mm1uJE/FDxPsmKIu3EXQ9u7Jwiq4j9h
- sBS101DjGMRQZskg4NetWgQ9yUMMnL80zoAxOhlB4nkDCU2/n1MQ2+UDzrEcepuvUDNoJ4TY
- shNC5WguKbzI54VH2R8YIbaqkxFyLRFCWcFy4XpFPxbyhh2UYDFfpAXLcBojJAy1YeF7YyMj
- 1F9xksLntky8e/5+yaYgMUQZKWpWbwmUBP+w9dHH77qdjDE9onTIySQgluU5b948FJSA3Fia
- W8p3dIwTLnbnvPiypK9UApKwBHdhOl/w4xXtCmZzgXzdiH2qRHJL+I7429jFUm49n57cQrmY
- 5xbxhaXWqY7bpH8nq5N0sYzz4T+ZLzMpSJKLppmRu1IdGapQhvis0qqCo9TKk6uOhoVa0ORn
- TGcnUsvRz1a/asSxSD5Dus1cIsooRaQ2KrQa8Swhd5d2zC0WZdIgRdQpURN2WBMRImqrkSdL
- yudIdwSIgTLumCJcVInicVHzP8Ws2zwdWl/V5GkI9M+b9WDgo7rl97oFuw3LSus773v5djc9
- 8JHNaXltVJ027NFlmw8Vp2+3Ru+znzD4Z5T3Rg3n92/9ZrRdO6f3YFQHjBEevX2bA/QjGxYe
- OfzeviHduj15bHXS2N4YXYD/DG+vo/V4MfO0N/Qg7KutULU/DvsSf7P1zLM3TjmpDVasXU5o
- tIp/akcm2y8DAAA=
-X-CFilter-Loop: Reflected
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
+ [209.85.218.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFE8810F6F8;
+ Wed, 24 Jan 2024 12:39:16 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id
+ a640c23a62f3a-a30ed6dbdadso126418766b.1; 
+ Wed, 24 Jan 2024 04:39:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1706099895; x=1706704695; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=dlopjC0q6gXyAjmdtqD86mRjd9mpn+cocTVW6/0rIOs=;
+ b=Uu4anNhWbSfWNVYJQ7bGWA9vJ3mwRBV0M2TBBNaUebueKVZzIvNJz1vNGNyngwNDid
+ ALT/gNaG2JDMIjhv2Uif/T2XgHalav6l1s9hHtBNRiX17dMtXgVnf1wSWnE4Y4ZbFbZg
+ M6jscqlE06SL3NKQsHajklLOKVSzfKPuRpN4+dVl4iYAic3S3uH2DI19IqoCdL+Iyda+
+ fX/BNGX/f0DqSrRDMs4sPCge33XTY+2q/bY4M4ODxw/CASrOXo1U0So8XYqpOEGoEceC
+ BdBT7txdq195qC5SQ/EzwfgNmyUDgWvdPwZJXhrMJC5RPKYhnsKTb7j61MPywxZ89uxx
+ bulA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1706099895; x=1706704695;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=dlopjC0q6gXyAjmdtqD86mRjd9mpn+cocTVW6/0rIOs=;
+ b=NGXm1FAHhK3ykgaFwvwK8fZKc+/jVtsfmm6AxOpUfFhreUrDtDNZlKfRbM0j8yGchW
+ 7PSv5fgkjk4gvRkyqzbpjsiJMObeaO5twDYzdqV2ZKFyByMB9wzignnMQh+ngrMtL//0
+ rMPLBrJi/uCk12kArudJO9RqqmOhB4r1lmRtEEpatRiaVxENovW5FGleBdeyD2BayLM7
+ oYPNONibxRME0JE5nLd6BFENZirVdy3k+6Iow9DwSNmPfVcP7xxfg/MJT6YRH4Lj1SxG
+ 3xE/Jd3jfiJcPya7pYRxFsVt/zXwk1VaSHlP7cFfs7rM1hGbCus7ahQ4KhTsW2diewt6
+ c4pg==
+X-Gm-Message-State: AOJu0Yz01WMlg3tHgj6dNOqAU6VYuGxAJKYDgUfbTVP+jKIemNKLmHNM
+ wJKD46SGahh+yLxIUwfA6A07Ok7M/2PCZkocLhBOBkjybPQPJqmxSzYvWpPi+koL7zOMYvn3Th5
+ v+ZG0hSCuprZCmA91gTi9Lt2ABDM=
+X-Google-Smtp-Source: AGHT+IF8foS+5EcfCkQar6U3K3HFHH63zXr30/hlkj0LOBnxNGf2IpLJdLKhSHgYKfQPDO8Lu3tvb0Vzs4snbUtvQ08=
+X-Received: by 2002:a17:906:5a51:b0:a23:6c9c:d4ce with SMTP id
+ my17-20020a1709065a5100b00a236c9cd4cemr770213ejc.116.1706099895001; Wed, 24
+ Jan 2024 04:38:15 -0800 (PST)
+MIME-Version: 1.0
+References: <20240124025947.2110659-1-nunes.erico@gmail.com>
+ <20240124025947.2110659-6-nunes.erico@gmail.com>
+In-Reply-To: <20240124025947.2110659-6-nunes.erico@gmail.com>
+From: Qiang Yu <yuq825@gmail.com>
+Date: Wed, 24 Jan 2024 20:38:02 +0800
+Message-ID: <CAKGbVbsjNdnoNW2JnxCiyZg-wjU0UK+jgsG18OFaHjdkdOWRQA@mail.gmail.com>
+Subject: Re: [PATCH v2 5/8] drm/lima: handle spurious timeouts due to high irq
+ latency
+To: Erico Nunes <nunes.erico@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,57 +71,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, hdanton@sina.com, jack@suse.cz,
- peterz@infradead.org, daniel.vetter@ffwll.ch, amir73il@gmail.com,
- david@fromorbit.com, dri-devel@lists.freedesktop.org, mhocko@kernel.org,
- linux-mm@kvack.org, linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
- chris.p.wilson@intel.com, joel@joelfernandes.org, 42.hyeyoo@gmail.com,
- cl@linux.com, will@kernel.org, duyuyang@gmail.com, sashal@kernel.org,
- her0gyugyu@gmail.com, kernel_team@skhynix.com,
- damien.lemoal@opensource.wdc.com, willy@infradead.org, hch@infradead.org,
- mingo@redhat.com, djwong@kernel.org, vdavydov.dev@gmail.com,
- rientjes@google.com, dennis@kernel.org, linux-ext4@vger.kernel.org,
- ngupta@vflare.org, johannes.berg@intel.com, boqun.feng@gmail.com,
- dan.j.williams@intel.com, josef@toxicpanda.com, rostedt@goodmis.org,
- gwan-gyeong.mun@intel.com, linux-block@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, jglisse@redhat.com, viro@zeniv.linux.org.uk,
- longman@redhat.com, tglx@linutronix.de, vbabka@suse.cz, melissa.srw@gmail.com,
- sj@kernel.org, tytso@mit.edu, rodrigosiqueiramelo@gmail.com,
- kernel-team@lge.com, gregkh@linuxfoundation.org, jlayton@kernel.org,
- penberg@kernel.org, minchan@kernel.org, max.byungchul.park@gmail.com,
- hannes@cmpxchg.org, tj@kernel.org, akpm@linux-foundation.org,
- torvalds@linux-foundation.org
+Cc: Daniel Vetter <daniel@ffwll.ch>, lima@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, anarsoul@gmail.com,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-jbd2 journal handling code doesn't want any jbd2_might_wait_for_commit()
-to be between start_this_handle() and stop_this_handle(). So it marks
-the region with rwsem_acquire_read() and rwsem_release().
+On Wed, Jan 24, 2024 at 11:00=E2=80=AFAM Erico Nunes <nunes.erico@gmail.com=
+> wrote:
+>
+> There are several unexplained and unreproduced cases of rendering
+> timeouts with lima, for which one theory is high IRQ latency coming from
+> somewhere else in the system.
+> This kind of occurrence may cause applications to trigger unnecessary
+> resets of the GPU or even applications to hang if it hits an issue in
+> the recovery path.
+> Panfrost already does some special handling to account for such
+> "spurious timeouts", it makes sense to have this in lima too to reduce
+> the chance that it hit users.
+>
+> Signed-off-by: Erico Nunes <nunes.erico@gmail.com>
+> ---
+>  drivers/gpu/drm/lima/lima_sched.c | 31 ++++++++++++++++++++++++++++---
+>  1 file changed, 28 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lim=
+a_sched.c
+> index c3bf8cda8498..814428564637 100644
+> --- a/drivers/gpu/drm/lima/lima_sched.c
+> +++ b/drivers/gpu/drm/lima/lima_sched.c
+> @@ -1,6 +1,7 @@
+>  // SPDX-License-Identifier: GPL-2.0 OR MIT
+>  /* Copyright 2017-2019 Qiang Yu <yuq825@gmail.com> */
+>
+> +#include <linux/hardirq.h>
+>  #include <linux/iosys-map.h>
+>  #include <linux/kthread.h>
+>  #include <linux/slab.h>
+> @@ -401,9 +402,35 @@ static enum drm_gpu_sched_stat lima_sched_timedout_j=
+ob(struct drm_sched_job *job
+>         struct lima_sched_pipe *pipe =3D to_lima_pipe(job->sched);
+>         struct lima_sched_task *task =3D to_lima_task(job);
+>         struct lima_device *ldev =3D pipe->ldev;
+> +       struct lima_ip *ip =3D pipe->processor[0];
+> +       int i;
+> +
+> +       /*
+> +        * If the GPU managed to complete this jobs fence, the timeout is
+> +        * spurious. Bail out.
+> +        */
+> +       if (dma_fence_is_signaled(task->fence)) {
+> +               DRM_WARN("%s spurious timeout\n", lima_ip_name(ip));
+> +               return DRM_GPU_SCHED_STAT_NOMINAL;
+> +       }
+> +
+> +       /*
+> +        * Lima IRQ handler may take a long time to process an interrupt
+> +        * if there is another IRQ handler hogging the processing.
+> +        * In order to catch such cases and not report spurious Lima job
+> +        * timeouts, synchronize the IRQ handler and re-check the fence
+> +        * status.
+> +        */
+> +       for (i =3D 0; i < pipe->num_processor; i++)
+> +               synchronize_irq(pipe->processor[i]->irq);
+> +
+I have a question, this timeout handler will be called when GP/PP error IRQ=
+.
+If we call synchronize_irq() in the IRQ handler, will we block ourselves he=
+re?
 
-However, the annotation is too strong for that purpose. We don't have to
-use more than try lock annotation for that.
-
-Furthermore, now that Dept was introduced, false positive alarms was
-reported by that. Replaced it with try lock annotation.
-
-Signed-off-by: Byungchul Park <byungchul@sk.com>
----
- fs/jbd2/transaction.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/fs/jbd2/transaction.c b/fs/jbd2/transaction.c
-index 5f08b5fd105a..2c159a547e15 100644
---- a/fs/jbd2/transaction.c
-+++ b/fs/jbd2/transaction.c
-@@ -460,7 +460,7 @@ static int start_this_handle(journal_t *journal, handle_t *handle,
- 	read_unlock(&journal->j_state_lock);
- 	current->journal_info = handle;
- 
--	rwsem_acquire_read(&journal->j_trans_commit_map, 0, 0, _THIS_IP_);
-+	rwsem_acquire_read(&journal->j_trans_commit_map, 0, 1, _THIS_IP_);
- 	jbd2_journal_free_transaction(new_transaction);
- 	/*
- 	 * Ensure that no allocations done while the transaction is open are
--- 
-2.17.1
-
+> +       if (dma_fence_is_signaled(task->fence)) {
+> +               DRM_WARN("%s unexpectedly high interrupt latency\n", lima=
+_ip_name(ip));
+> +               return DRM_GPU_SCHED_STAT_NOMINAL;
+> +       }
+>
+>         if (!pipe->error)
+> -               DRM_ERROR("lima job timeout\n");
+> +               DRM_ERROR("%s job timeout\n", lima_ip_name(ip));
+>
+>         drm_sched_stop(&pipe->base, &task->base);
+>
+> @@ -417,8 +444,6 @@ static enum drm_gpu_sched_stat lima_sched_timedout_jo=
+b(struct drm_sched_job *job
+>         if (pipe->bcast_mmu)
+>                 lima_mmu_page_fault_resume(pipe->bcast_mmu);
+>         else {
+> -               int i;
+> -
+>                 for (i =3D 0; i < pipe->num_mmu; i++)
+>                         lima_mmu_page_fault_resume(pipe->mmu[i]);
+>         }
+> --
+> 2.43.0
+>
