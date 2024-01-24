@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DBCC839FC6
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 04:01:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E798839FC7
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 04:01:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74A2310F5B9;
-	Wed, 24 Jan 2024 03:01:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A01010F5D7;
+	Wed, 24 Jan 2024 03:01:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
- [209.85.208.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A86A10F5D2;
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00B6610F5D2;
  Wed, 24 Jan 2024 03:01:13 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id
- 4fb4d7f45d1cf-55c33773c0aso2807742a12.1; 
- Tue, 23 Jan 2024 19:01:12 -0800 (PST)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-40eac352733so31149245e9.0; 
+ Tue, 23 Jan 2024 19:01:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1706065211; x=1706670011; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1706065212; x=1706670012; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=oZ2AGx4llgOQpbQHqy+lTWRZ3MYwi41F2EIG/DZLPtI=;
- b=Oms15XGX6qeB58KHCi1iGYjZbsaF2J+Qzyro0gH2cCES9DCcDHPyLCs/mdR3r39Y/u
- 6g74HRt8uv0G5DobSC7hbaZXD/pzcHjJh5+YwbmjXmUPUBk0Ejp+DV7Vs+hR+s5xRNVr
- tCakMXZ2lNqr9Y9RAide49aaskeoHt9Dm2tcDyVbxE14qhXVX9s4w0T6yZ6lbgl/edc/
- 2glXRu4pa2XYjf1UkIV1Nd9yRi85FseOfvgFdWmT0ENsXXAATPHsp8wMpMUJBej4xtsP
- 2tl/nukAOsPaa8AVuYa7ROXV/vWoL6DdMia83yzY3vJ8AmwG7JS4elT8B5jQbygkjI4U
- seEg==
+ bh=xsH0t0Mo3703I7xwFyS+NhUyDq/CWLVJL75Yu+tXQAA=;
+ b=ErnbZcDbC0exoKCupNVo93ZRy8uoqhLjw0vOkbgtwz0AIV6vn+Leni82xAjg1t5eBg
+ ut9ka1IsKBLTydxjDNOpIgvkX91O3X53lcIX60nyApMyeu5CJNOS+bK28eM8hq+KNBMk
+ 85Js/rdWs1EbZtwRY8WWY/xAPJaGubS4sj+0E7J9aEmU9FS4txA/lPMgM4WJIprEXsg8
+ pCc/49+xItGrE1Nv5rqbqmGW2pqEy1dcabVaI7Zr9v+TGajFKW8ZWx8CWjA0Qu6XNzBN
+ /RHt6e0taD2py0lyT4gKFtOr7e2hcKSMd+9PP6Dyl5pB3aULeQJrjnJIbVK235mlAvk0
+ qPqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706065211; x=1706670011;
+ d=1e100.net; s=20230601; t=1706065212; x=1706670012;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=oZ2AGx4llgOQpbQHqy+lTWRZ3MYwi41F2EIG/DZLPtI=;
- b=rmnKfBeRE5BUdEsEFqd6Dwyhjwz8DxTRGLjECbJ5bOr1mTh82AeHd0akoK/ZcODhFU
- /QHwj5jSjzXLd5p5ubjdmhl4I4N17ExbTX3GmImv/jVaRF7LAdTChdsiR+0GgteDPZeB
- MiraEHPmbCFSlVzlqS7VT81/4YHvQmEgvTxergRkfqs7WtBKxb0gcCeE6HpgFkVqgzTc
- ZA2dpcJa7liyDKfDDE8xv1ChhTVeHSOGDzkCGWvImVmWzA2wdLL/ze0KcX8teY5337vh
- wKR5HMp71IlkcdU+OT/WiSByP3RexVtWwrTBo3qobpgVogTjIpAgVO54ixct4uYaQd3i
- mXWw==
-X-Gm-Message-State: AOJu0Yz1xkoVmvzTAY1V+W171MBKZyuxmthCqSfDSZHXHBStTComa809
- 7uePZNMNzz3ETXAx9N2ODha0lsAaZUInciH+/2bsYGAGYQ9YjrjhXVbfyzzBTCg=
-X-Google-Smtp-Source: AGHT+IFY/xUjRd5C81Nvba31ogUlvGsjSOuyHLhEZHoYYl7MqACrgkHcV+dOKD+vbkGVhH1TYy4G0w==
-X-Received: by 2002:a50:ee03:0:b0:559:70d5:5dd9 with SMTP id
- g3-20020a50ee03000000b0055970d55dd9mr1494752eds.67.1706065211426; 
- Tue, 23 Jan 2024 19:00:11 -0800 (PST)
+ bh=xsH0t0Mo3703I7xwFyS+NhUyDq/CWLVJL75Yu+tXQAA=;
+ b=T7Q429PhL+inKy6YI0en3im/DIumMf3WQ0j3OtSQcpoD8dX9/6NPR9B59jaXP5dVQX
+ J3RZ/quSMFAU7R2hh8oAjrWDn0AL/0g6paioXIhvCEiVOEVRR7w9P9itWOdMSVAlypZI
+ 0JffWUH73Ht9+uQKiDeQrSWib3atWBLj6BFdVcvuYOkPE/z5A6OO7dzdEb9zoWu3MnL9
+ mSxeDhHfL+gOMPnCf4I+9zDxTzq0ydLZVls9Krb/KuMl/xK1FjTHVVgRvZ/8Y7y+b5fx
+ IOmJQC/LpI5dSvJHgAMmRLjoBcLAkIp6vEc18WbUBh2ylZvZyioRqC7ZdluyaUFqCilK
+ kSUw==
+X-Gm-Message-State: AOJu0YxEUAC0NIMaXW3K4CUEgMNB1izoWpTQwTuVYArbdRRFflhSSPSu
+ TPsxNw0gBtZuBD7zLc4PQdSAmFvaZSl8CAKaicotpcSyAyL5bJ6U
+X-Google-Smtp-Source: AGHT+IG56fGRQ4TmapP4DZAXI1KdXrMXihzbtQnGB0VIMwwJOsKunjx1HQl/TwRycRUsmO8GmBJLiw==
+X-Received: by 2002:a05:600c:4214:b0:40e:afa6:5e00 with SMTP id
+ x20-20020a05600c421400b0040eafa65e00mr620087wmh.168.1706065212421; 
+ Tue, 23 Jan 2024 19:00:12 -0800 (PST)
 Received: from mosaic.enunes.eu (ip-78-45-66-209.bb.vodafone.cz.
  [78.45.66.209]) by smtp.gmail.com with ESMTPSA id
- dj17-20020a05640231b100b00559bb146ecbsm9637914edb.6.2024.01.23.19.00.10
+ dj17-20020a05640231b100b00559bb146ecbsm9637914edb.6.2024.01.23.19.00.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jan 2024 19:00:10 -0800 (PST)
+ Tue, 23 Jan 2024 19:00:11 -0800 (PST)
 From: Erico Nunes <nunes.erico@gmail.com>
 To: Qiang Yu <yuq825@gmail.com>, anarsoul@gmail.com, christian.koenig@amd.com,
  dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org
-Subject: [PATCH v2 3/8] drm/lima: set pp bus_stop bit before hard reset
-Date: Wed, 24 Jan 2024 03:59:42 +0100
-Message-ID: <20240124025947.2110659-4-nunes.erico@gmail.com>
+Subject: [PATCH v2 4/8] drm/lima: set gp bus_stop bit before hard reset
+Date: Wed, 24 Jan 2024 03:59:43 +0100
+Message-ID: <20240124025947.2110659-5-nunes.erico@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240124025947.2110659-1-nunes.erico@gmail.com>
 References: <20240124025947.2110659-1-nunes.erico@gmail.com>
@@ -87,41 +87,39 @@ the drm_sched timeout handler) may result in random mmu write timeouts
 or lockups which cause the entire gpu to hang.
 
 Signed-off-by: Erico Nunes <nunes.erico@gmail.com>
-Reviewed-by: Vasily Khoruzhick <anarsoul@gmail.com>
 ---
- drivers/gpu/drm/lima/lima_pp.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ drivers/gpu/drm/lima/lima_gp.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/drivers/gpu/drm/lima/lima_pp.c b/drivers/gpu/drm/lima/lima_pp.c
-index a8f8f63b8295..ac097dd75072 100644
---- a/drivers/gpu/drm/lima/lima_pp.c
-+++ b/drivers/gpu/drm/lima/lima_pp.c
-@@ -168,6 +168,11 @@ static void lima_pp_write_frame(struct lima_ip *ip, u32 *frame, u32 *wb)
- 	}
+diff --git a/drivers/gpu/drm/lima/lima_gp.c b/drivers/gpu/drm/lima/lima_gp.c
+index b9a06e701a33..4355fa7b17f4 100644
+--- a/drivers/gpu/drm/lima/lima_gp.c
++++ b/drivers/gpu/drm/lima/lima_gp.c
+@@ -166,6 +166,11 @@ static void lima_gp_task_run(struct lima_sched_pipe *pipe,
+ 	gp_write(LIMA_GP_CMD, cmd);
  }
  
-+static int lima_pp_bus_stop_poll(struct lima_ip *ip)
++static int lima_gp_bus_stop_poll(struct lima_ip *ip)
 +{
-+	return !!(pp_read(LIMA_PP_STATUS) & LIMA_PP_STATUS_BUS_STOPPED);
++	return !!(gp_read(LIMA_GP_STATUS) & LIMA_GP_STATUS_BUS_STOPPED);
 +}
 +
- static int lima_pp_hard_reset_poll(struct lima_ip *ip)
+ static int lima_gp_hard_reset_poll(struct lima_ip *ip)
  {
- 	pp_write(LIMA_PP_PERF_CNT_0_LIMIT, 0xC01A0000);
-@@ -181,6 +186,14 @@ static int lima_pp_hard_reset(struct lima_ip *ip)
+ 	gp_write(LIMA_GP_PERF_CNT_0_LIMIT, 0xC01A0000);
+@@ -179,6 +184,13 @@ static int lima_gp_hard_reset(struct lima_ip *ip)
  
- 	pp_write(LIMA_PP_PERF_CNT_0_LIMIT, 0xC0FFE000);
- 	pp_write(LIMA_PP_INT_MASK, 0);
+ 	gp_write(LIMA_GP_PERF_CNT_0_LIMIT, 0xC0FFE000);
+ 	gp_write(LIMA_GP_INT_MASK, 0);
 +
-+	pp_write(LIMA_PP_CTRL, LIMA_PP_CTRL_STOP_BUS);
-+	ret = lima_poll_timeout(ip, lima_pp_bus_stop_poll, 10, 100);
++	gp_write(LIMA_GP_CMD, LIMA_GP_CMD_STOP_BUS);
++	ret = lima_poll_timeout(ip, lima_gp_bus_stop_poll, 10, 100);
 +	if (ret) {
-+		dev_err(dev->dev, "pp %s bus stop timeout\n", lima_ip_name(ip));
++		dev_err(dev->dev, "%s bus stop timeout\n", lima_ip_name(ip));
 +		return ret;
 +	}
-+
- 	pp_write(LIMA_PP_CTRL, LIMA_PP_CTRL_FORCE_RESET);
- 	ret = lima_poll_timeout(ip, lima_pp_hard_reset_poll, 10, 100);
+ 	gp_write(LIMA_GP_CMD, LIMA_GP_CMD_RESET);
+ 	ret = lima_poll_timeout(ip, lima_gp_hard_reset_poll, 10, 100);
  	if (ret) {
 -- 
 2.43.0
