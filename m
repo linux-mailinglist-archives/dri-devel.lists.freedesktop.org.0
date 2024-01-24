@@ -2,39 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18B8C83AF60
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 18:14:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EF0783AF8F
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jan 2024 18:21:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B6C710F794;
-	Wed, 24 Jan 2024 17:14:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FD6C10F787;
+	Wed, 24 Jan 2024 17:20:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 245B610F794
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 17:14:02 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 28784CE314A;
- Wed, 24 Jan 2024 17:13:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B096C43390;
- Wed, 24 Jan 2024 17:13:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1706116430;
- bh=jvo5IXYlQYdIU6VCmACeGNP4xo23ZIbLfeE2jvqqluI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=v2pVfufLGd3lCfp0CeG2fpxzUUsvpwbElgNFofM1ZPehhJ3gSyI8DyqjujjS7qB28
- HIx8X5ThDTkPR0Ay0PzOQVdIcq5n2pTAL/fkyg4/FCf2V3zKeABMVcc+DS8MIJ/Ztv
- A8j4KVPuFkJX9pHjYFH5A/rDYDM6TICeR0rlV7yw=
-Date: Wed, 24 Jan 2024 09:13:49 -0800
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH v2 00/33] spi: get rid of some legacy macros
-Message-ID: <2024012417-prissy-sworn-bc55@gregkh>
-References: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBC8C10F799
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 17:20:56 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id
+ ffacd0b85a97d-337d99f9cdfso4994531f8f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jan 2024 09:20:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1706116795; x=1706721595; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=s3a+DNtECmvubjsLdhByFOruS2nKP6Q4o/Q4YSoYzCk=;
+ b=eNCVqT7tCaTkCbErFUpDTxWBMAciIS9+89aZvraRn9VvMi6K/sOAsAt8tZvc+VLJq0
+ KFbD6PrkkhmSW0via6yJzfKMYNODc5MWWMtcSL3Nty2U1NTayrSqfhXp4ucKTiFg8ejv
+ FeovCL3DV6fxcADbaWie3YCpu48P5GL6s4WUQPO5/u14U+S4Q+1gezUj5481RNAZTjFI
+ NUgVwPXH67rWOswMExJ28JrcrWCLdItz9+A/Hdhf18wvniz1nCOKdoiqLKHnREd84bMQ
+ j2KwBKWNx9sBDE/knndmtW//76YB7nRGIFMS4oC8n6aDqWoFGBXHfNbxMryrn7qrNlV6
+ j9Jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1706116795; x=1706721595;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=s3a+DNtECmvubjsLdhByFOruS2nKP6Q4o/Q4YSoYzCk=;
+ b=W1iTC9K14BXNZjEwMJwFNhMgvLqIQev38BAsVY9kjl0sFiFSNwy+880LAdp3i/pQ6J
+ QEcffjnwIBY2iVzGYO+2XSgL8bPX65V3D5RcuJl9ZyB/Mjz3yGjcNFmfiEqYMXkeKIzd
+ rzJ1rUiZfweslPiTukNhwI2FskhUcltTImect465WYeovEnohbi3UmHNsPDCKHYj8Ksx
+ QYzzaWyR3ufR6/GkYbsGyD/wpxueV5xH/tpmmIe5hwLNoe28YEC4j6Slj1lV0A7UiEGK
+ x9OOraAqskpmEhXADJMFES/fhISE3wpIT4SnXmp6UK/5qbP9tPZbQbkw2dsDkrTuwkNu
+ sWKA==
+X-Gm-Message-State: AOJu0Yy9caNzIZ62nOMngFeoe/LA+h6SrDl5JCH6TWRGxsT4VEKmROus
+ +zWXIvCrUumNbCvW0UCgz6V6ZN8cxTNg+uB15Fov1C88guOEh8As2XcVjJQA6OU=
+X-Google-Smtp-Source: AGHT+IF2PLiH41Eqpuhe6kbhSpWxzeOappELX/qRauwkSGF7Z3O3gB6rW0/YAAZnyx7oHR8llwr4WQ==
+X-Received: by 2002:adf:f345:0:b0:339:359c:3d3d with SMTP id
+ e5-20020adff345000000b00339359c3d3dmr752932wrp.14.1706116795299; 
+ Wed, 24 Jan 2024 09:19:55 -0800 (PST)
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ by smtp.gmail.com with ESMTPSA id
+ x4-20020a5d4904000000b0033928514699sm11805827wrq.2.2024.01.24.09.19.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Jan 2024 09:19:54 -0800 (PST)
+Date: Wed, 24 Jan 2024 17:19:53 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v1 1/4] backlight: hx8357: Make use of device properties
+Message-ID: <20240124171953.GA15539@aspen.lan>
+References: <20240114152759.1040563-1-andriy.shevchenko@linux.intel.com>
+ <20240114152759.1040563-2-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20240114152759.1040563-2-andriy.shevchenko@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,85 +74,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- dri-devel@lists.freedesktop.org, Miquel Raynal <miquel.raynal@bootlin.com>,
- Ronald Wahl <ronald.wahl@raritan.com>,
- Stefan Schmidt <stefan@datenfreihafen.org>, libertas-dev@lists.infradead.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- Alan Stern <stern@rowland.harvard.edu>, Alex Elder <elder@kernel.org>,
- linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, kernel@pengutronix.de,
- linux-media@vger.kernel.org, linux-wpan@vger.kernel.org,
- Amit Kumar Mahapatra via Alsa-devel <alsa-devel@alsa-project.org>,
- linux-doc@vger.kernel.org, Dmitry Antipov <dmantipov@yandex.ru>,
- Max Filippov <jcmvbkbc@gmail.com>, Eric Dumazet <edumazet@google.com>,
- James Clark <james.clark@arm.com>, Guenter Roeck <groeck@chromium.org>,
- Dario Binacchi <dario.binacchi@amarulasolutions.com>,
- chrome-platform@lists.linux.dev,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Viresh Kumar <vireshk@kernel.org>, Helge Deller <deller@gmx.de>,
- Wu Hao <hao.wu@intel.com>, Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- linux-arm-msm@vger.kernel.org, greybus-dev@lists.linaro.org,
- Bjorn Helgaas <bhelgaas@google.com>, Michal Simek <michal.simek@amd.com>,
- linux-arm-kernel@lists.infradead.org, Aaro Koskinen <aaro.koskinen@iki.fi>,
- "David S. Miller" <davem@davemloft.net>, Jarkko Sakkinen <jarkko@kernel.org>,
- Simon Horman <horms@kernel.org>, linux-integrity@vger.kernel.org,
- Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
- Jonathan Cameron <jic23@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- Herve Codina <herve.codina@bootlin.com>, linux-iio@vger.kernel.org,
- Tom Rix <trix@redhat.com>, linux-fpga@vger.kernel.org,
- linux-fbdev@vger.kernel.org, linux-mtd@lists.infradead.org,
- Jonathan Corbet <corbet@lwn.net>, linux-staging@lists.linux.dev,
- linux-input@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>,
- Arnd Bergmann <arnd@arndb.de>, Yang Yingliang <yangyingliang@huawei.com>,
- Mark Brown <broonie@kernel.org>, Moritz Fischer <mdf@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Benson Leung <bleung@chromium.org>,
- Rayyan Ansari <rayyan@ansari.sh>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- linux-mmc@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Martin Tuma <martin.tuma@digiteqautomotive.com>, Xu Yilun <yilun.xu@intel.com>,
- Alexander Aring <alex.aring@gmail.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Peter Huewe <peterhuewe@gmx.de>, Sergey Kozlov <serjk@netup.ru>,
- Richard Weinberger <richard@nod.at>, Jason Gunthorpe <jgg@ziepe.ca>,
- Jakub Kicinski <kuba@kernel.org>, Kalle Valo <kvalo@kernel.org>,
- Johan Hovold <johan@kernel.org>, Rui Miguel Silva <rmfrfs@gmail.com>,
- linux-mediatek@lists.infradead.org, Tzung-Bi Shih <tzungbi@kernel.org>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- netdev@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 22, 2024 at 07:06:55PM +0100, Uwe Kleine-König wrote:
-> Hello,
-> 
-> this is v2 of this patch set.
-> 
-> Changes since (implicit) v1, sent with Message-Id:
-> cover.1705348269.git.u.kleine-koenig@pengutronix.de:
-> 
->  - Rebase to v6.8-rc1
->  - Fix a build failure on sh
->  - Added the tags received in (implicit) v1.
-> 
-> The slave-mt27xx driver needs some more work. The patch presented here
-> is enough however to get rid of the defines handled in patch 32.
-> Cleaning that up is out-of-scope for this series, so I'll delay that
-> until later.
-> 
-> Note that Jonathan Cameron has already applied patch 3 to his tree, it
-> didn't appear in a public tree though yet. I still included it here to
-> make the kernel build bots happy.
+On Sun, Jan 14, 2024 at 05:25:08PM +0200, Andy Shevchenko wrote:
+> Convert the module to be property provider agnostic and allow
+> it to be used on non-OF platforms.
+>
+> Include mod_devicetable.h explicitly to replace the dropped of.h
+> which included mod_devicetable.h indirectly.
+>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  drivers/video/backlight/hx8357.c | 14 ++++++++------
+>  1 file changed, 8 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/video/backlight/hx8357.c b/drivers/video/backlight/hx8357.c
+> index bf18337ff0c2..c7fd10d55c5d 100644
+> --- a/drivers/video/backlight/hx8357.c
+> +++ b/drivers/video/backlight/hx8357.c
+> @@ -8,9 +8,9 @@
+>  #include <linux/delay.h>
+>  #include <linux/gpio/consumer.h>
+>  #include <linux/lcd.h>
+> +#include <linux/mod_devicetable.h>
+>  #include <linux/module.h>
+> -#include <linux/of.h>
+> -#include <linux/of_device.h>
+> +#include <linux/property.h>
+>  #include <linux/spi/spi.h>
+>
+>  #define HX8357_NUM_IM_PINS	3
+> @@ -564,6 +564,8 @@ static struct lcd_ops hx8357_ops = {
+>  	.get_power	= hx8357_get_power,
+>  };
+>
+> +typedef int (*hx8357_init)(struct lcd_device *);
+> +
+>  static const struct of_device_id hx8357_dt_ids[] = {
+>  	{
+>  		.compatible = "himax,hx8357",
+> @@ -582,7 +584,7 @@ static int hx8357_probe(struct spi_device *spi)
+>  	struct device *dev = &spi->dev;
+>  	struct lcd_device *lcdev;
+>  	struct hx8357_data *lcd;
+> -	const struct of_device_id *match;
+> +	hx8357_init init;
 
-Are we supposed to take the individual changes in our different
-subsystem trees, or do you want them all to go through the spi tree?
+As somewhere else in this thread, I'd find this a lot more readable
+as:
+	hx8357_init_fn init_fn;
 
-Either is fine with me, just need to know.
+Other than that, LGTM.
 
-thanks,
 
-greg k-h
+Daniel.
