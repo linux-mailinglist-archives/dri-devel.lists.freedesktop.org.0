@@ -2,45 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCDD883C887
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 17:48:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D19D83C8A7
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 17:51:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1374210E33D;
-	Thu, 25 Jan 2024 16:47:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A61E110F8F6;
+	Thu, 25 Jan 2024 16:51:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9C2FD10E33D
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 16:47:28 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2E9401764;
- Thu, 25 Jan 2024 08:48:12 -0800 (PST)
-Received: from [10.1.27.41] (e122027.cambridge.arm.com [10.1.27.41])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AF2673F5A1;
- Thu, 25 Jan 2024 08:47:24 -0800 (PST)
-Message-ID: <7144dd9b-62d1-4968-9b94-0313e2475f7e@arm.com>
-Date: Thu, 25 Jan 2024 16:47:24 +0000
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE13510F5E1
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 16:51:01 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1rT2wM-0003IL-A5; Thu, 25 Jan 2024 17:50:58 +0100
+Message-ID: <516b95eaabc64b4b6c37e7a5840b32203ebcb062.camel@pengutronix.de>
+Subject: Re: [PATCH v2 2/3] drm/etnaviv: Turn etnaviv_is_model_rev() into a
+ function
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Christian Gmeiner <christian.gmeiner@gmail.com>, Philipp Zabel
+ <p.zabel@pengutronix.de>
+Date: Thu, 25 Jan 2024 17:50:57 +0100
+In-Reply-To: <CAH9NwWd7kuk9LFD0cXiy3wm50KHVT8uGM37hdv4=rN9+YGCZmw@mail.gmail.com>
+References: <20240125-etnaviv-npu-v2-0-ba23c9a32be1@pengutronix.de>
+ <20240125-etnaviv-npu-v2-2-ba23c9a32be1@pengutronix.de>
+ <CAH9NwWd7kuk9LFD0cXiy3wm50KHVT8uGM37hdv4=rN9+YGCZmw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v19 18/30] drm/panfrost: Explicitly get and put drm-shmem
- pages
-Content-Language: en-GB
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Qiang Yu <yuq825@gmail.com>, Boris Brezillon
- <boris.brezillon@collabora.com>, Emma Anholt <emma@anholt.net>,
- Melissa Wen <mwen@igalia.com>
-References: <20240105184624.508603-1-dmitry.osipenko@collabora.com>
- <20240105184624.508603-19-dmitry.osipenko@collabora.com>
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20240105184624.508603-19-dmitry.osipenko@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,159 +50,252 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+ Russell King <linux+etnaviv@armlinux.org.uk>, David Airlie <airlied@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/01/2024 18:46, Dmitry Osipenko wrote:
-> To simplify the drm-shmem refcnt handling, we're moving away from
-> the implicit get_pages() that is used by get_pages_sgt(). From now on
-> drivers will have to pin pages while they use sgt. Panfrost's shrinker
-> doesn't support swapping out BOs, hence pages are pinned and sgt is valid
-> as long as pages' use-count > 0.
-> 
-> In Panfrost, panfrost_gem_mapping, which is the object representing a
-> GPU mapping of a BO, owns a pages ref. This guarantees that any BO being
-> mapped GPU side has its pages retained till the mapping is destroyed.
-> 
-> Since pages are no longer guaranteed to stay pinned for the BO lifetime,
-> and MADVISE(DONT_NEED) flagging remains after the GEM handle has been
-> destroyed, we need to add an extra 'is_purgeable' check in
-> panfrost_gem_purge(), to make sure we're not trying to purge a BO that
-> already had its pages released.
-> 
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Am Donnerstag, dem 25.01.2024 um 17:27 +0100 schrieb Christian Gmeiner:
+> Hi Philipp
+>=20
+> >=20
+> > Turn the etnaviv_is_model_rev() macro into a static inline function.
+> > Use the raw model number as a parameter instead of the chipModel_GCxxxx
+> > defines. This reduces synchronization requirements for the generated
+> > headers. For newer hardware, the GCxxxx names are not the correct model
+> > names anyway. For example, model 0x8000 NPUs are called VIPNano-QI/SI(+=
+)
+> > by VeriSilicon.
+>=20
+> To catch up with your NPU example Vivante's kernel driver has such
+> lines in its hw database [0]
+>=20
+> /* vipnano-si+ */
+> {
+>     0x8000, /* ChipID */
+>     0x8002, /* ChipRevision */
+>     0x5080009, /* ProductID */
+>     0x6000000, /* EcoID */
+>     0x9f, /* CustomerID */
+>     ...
+>=20
+> I think in reality this function should be called
+> etnaviv_is_chip_rev(..) or etnaviv_is_id_rev(..). That would be
+> semantically correct and we could even stick the the current macro
+> (that gets renamed) and with the current
+> GCxxx defines.
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+The value for what is called ChipID in the downstream driver is read
+from a register which is called VIVS_HI_CHIP_MODEL in rnndb. I would
+like to stay consistent by calling this model in the etnaviv driver.
 
-Although I don't like the condition in panfrost_gem_mapping_release()
-for drm_gem_shmem_put_pages() and assigning NULL to bo->sgts - it feels
-very fragile. See below.
+I don't see any value in the GCxxx defines, which only add a (pretty)
+prefix to a perfectly readable hex number, so I'm fine with changing
+the current macro and getting rid of any usage of those defines in the
+driver.
 
-> ---
->  drivers/gpu/drm/panfrost/panfrost_gem.c       | 63 ++++++++++++++-----
->  .../gpu/drm/panfrost/panfrost_gem_shrinker.c  |  6 ++
->  2 files changed, 52 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> index f268bd5c2884..7edfc12f7c1f 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> @@ -35,20 +35,6 @@ static void panfrost_gem_free_object(struct drm_gem_object *obj)
->  	 */
->  	WARN_ON_ONCE(!list_empty(&bo->mappings.list));
->  
-> -	if (bo->sgts) {
-> -		int i;
-> -		int n_sgt = bo->base.base.size / SZ_2M;
-> -
-> -		for (i = 0; i < n_sgt; i++) {
-> -			if (bo->sgts[i].sgl) {
-> -				dma_unmap_sgtable(pfdev->dev, &bo->sgts[i],
-> -						  DMA_BIDIRECTIONAL, 0);
-> -				sg_free_table(&bo->sgts[i]);
-> -			}
-> -		}
-> -		kvfree(bo->sgts);
-> -	}
-> -
->  	drm_gem_shmem_free(&bo->base);
->  }
->  
-> @@ -85,11 +71,40 @@ panfrost_gem_teardown_mapping(struct panfrost_gem_mapping *mapping)
->  
->  static void panfrost_gem_mapping_release(struct kref *kref)
->  {
-> -	struct panfrost_gem_mapping *mapping;
-> -
-> -	mapping = container_of(kref, struct panfrost_gem_mapping, refcount);
-> +	struct panfrost_gem_mapping *mapping =
-> +		container_of(kref, struct panfrost_gem_mapping, refcount);
-> +	struct panfrost_gem_object *bo = mapping->obj;
-> +	struct panfrost_device *pfdev = bo->base.base.dev->dev_private;
->  
->  	panfrost_gem_teardown_mapping(mapping);
-> +
-> +	/* On heap BOs, release the sgts created in the fault handler path. */
-> +	if (bo->sgts) {
-> +		int i, n_sgt = bo->base.base.size / SZ_2M;
-> +
-> +		for (i = 0; i < n_sgt; i++) {
-> +			if (bo->sgts[i].sgl) {
-> +				dma_unmap_sgtable(pfdev->dev, &bo->sgts[i],
-> +						  DMA_BIDIRECTIONAL, 0);
-> +				sg_free_table(&bo->sgts[i]);
-> +			}
-> +		}
-> +		kvfree(bo->sgts);
-> +	}
-> +
-> +	/* Pages ref is owned by the panfrost_gem_mapping object. We must
-> +	 * release our pages ref (if any), before releasing the object
-> +	 * ref.
-> +	 * Non-heap BOs acquired the pages at panfrost_gem_mapping creation
-> +	 * time, and heap BOs may have acquired pages if the fault handler
-> +	 * was called, in which case bo->sgts should be non-NULL.
-> +	 */
-> +	if (!bo->base.base.import_attach && (!bo->is_heap || bo->sgts) &&
-> +	    bo->base.madv >= 0) {
-> +		drm_gem_shmem_put_pages(&bo->base);
-> +		bo->sgts = NULL;
+Regards,
+Lucas
 
-The assignment of NULL here really ought to be unconditional - it isn't
-a valid pointer because of the kvfree() above.
-
-I also feel that the big condition above suggests there's a need for a
-better state machine to keep track of what's going on.
-
-But having said that I do think this series as a whole is an
-improvement, it's nice to get the shrinker code generic. And sadly I
-don't have an immediate idea for cleaning this up, hence my R-b.
-
-Steve
-
-> +	}
-> +
->  	drm_gem_object_put(&mapping->obj->base.base);
->  	panfrost_mmu_ctx_put(mapping->mmu);
->  	kfree(mapping);
-> @@ -125,6 +140,20 @@ int panfrost_gem_open(struct drm_gem_object *obj, struct drm_file *file_priv)
->  	if (!mapping)
->  		return -ENOMEM;
->  
-> +	if (!bo->is_heap && !bo->base.base.import_attach) {
-> +		/* Pages ref is owned by the panfrost_gem_mapping object.
-> +		 * For non-heap BOs, we request pages at mapping creation
-> +		 * time, such that the panfrost_mmu_map() call, further down in
-> +		 * this function, is guaranteed to have pages_use_count > 0
-> +		 * when drm_gem_shmem_get_pages_sgt() is called.
-> +		 */
-> +		ret = drm_gem_shmem_get_pages(&bo->base);
-> +		if (ret) {
-> +			kfree(mapping);
-> +			return ret;
-> +		}
-> +	}
-> +
->  	INIT_LIST_HEAD(&mapping->node);
->  	kref_init(&mapping->refcount);
->  	drm_gem_object_get(obj);
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c b/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-> index 02b60ea1433a..d4fb0854cf2f 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-> @@ -50,6 +50,12 @@ static bool panfrost_gem_purge(struct drm_gem_object *obj)
->  	if (!dma_resv_trylock(shmem->base.resv))
->  		goto unlock_mappings;
->  
-> +	/* BO might have become unpurgeable if the last pages_use_count ref
-> +	 * was dropped, but the BO hasn't been destroyed yet.
-> +	 */
-> +	if (!drm_gem_shmem_is_purgeable(shmem))
-> +		goto unlock_mappings;
-> +
->  	panfrost_gem_teardown_mappings_locked(bo);
->  	drm_gem_shmem_purge_locked(&bo->base);
->  	ret = true;
+>=20
+> [0]: https://github.com/nxp-imx/linux-imx/blob/lf-6.1.y/drivers/mxc/gpu-v=
+iv/hal/kernel/inc/gc_feature_database.h#L22373
+>=20
+> >=20
+> > Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+> > ---
+> >  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 66 ++++++++++++++++++---------=
+--------
+> >  1 file changed, 34 insertions(+), 32 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/et=
+naviv/etnaviv_gpu.c
+> > index 9b8445d2a128..c61d50dd3829 100644
+> > --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> > @@ -172,10 +172,12 @@ int etnaviv_gpu_get_param(struct etnaviv_gpu *gpu=
+, u32 param, u64 *value)
+> >         return 0;
+> >  }
+> >=20
+> > +static inline bool etnaviv_is_model_rev(struct etnaviv_gpu *gpu, u32 m=
+odel, u32 revision)
+> > +{
+> > +       return gpu->identity.model =3D=3D model &&
+> > +              gpu->identity.revision =3D=3D revision;
+> > +}
+> >=20
+> > -#define etnaviv_is_model_rev(gpu, mod, rev) \
+> > -       ((gpu)->identity.model =3D=3D chipModel_##mod && \
+> > -        (gpu)->identity.revision =3D=3D rev)
+> >  #define etnaviv_field(val, field) \
+> >         (((val) & field##__MASK) >> field##__SHIFT)
+> >=20
+> > @@ -281,7 +283,7 @@ static void etnaviv_hw_specs(struct etnaviv_gpu *gp=
+u)
+> >=20
+> >         switch (gpu->identity.instruction_count) {
+> >         case 0:
+> > -               if (etnaviv_is_model_rev(gpu, GC2000, 0x5108) ||
+> > +               if (etnaviv_is_model_rev(gpu, 0x2000, 0x5108) ||
+> >                     gpu->identity.model =3D=3D chipModel_GC880)
+> >                         gpu->identity.instruction_count =3D 512;
+> >                 else
+> > @@ -315,17 +317,17 @@ static void etnaviv_hw_specs(struct etnaviv_gpu *=
+gpu)
+> >          * For some cores, two varyings are consumed for position, so t=
+he
+> >          * maximum varying count needs to be reduced by one.
+> >          */
+> > -       if (etnaviv_is_model_rev(gpu, GC5000, 0x5434) ||
+> > -           etnaviv_is_model_rev(gpu, GC4000, 0x5222) ||
+> > -           etnaviv_is_model_rev(gpu, GC4000, 0x5245) ||
+> > -           etnaviv_is_model_rev(gpu, GC4000, 0x5208) ||
+> > -           etnaviv_is_model_rev(gpu, GC3000, 0x5435) ||
+> > -           etnaviv_is_model_rev(gpu, GC2200, 0x5244) ||
+> > -           etnaviv_is_model_rev(gpu, GC2100, 0x5108) ||
+> > -           etnaviv_is_model_rev(gpu, GC2000, 0x5108) ||
+> > -           etnaviv_is_model_rev(gpu, GC1500, 0x5246) ||
+> > -           etnaviv_is_model_rev(gpu, GC880, 0x5107) ||
+> > -           etnaviv_is_model_rev(gpu, GC880, 0x5106))
+> > +       if (etnaviv_is_model_rev(gpu, 0x5000, 0x5434) ||
+> > +           etnaviv_is_model_rev(gpu, 0x4000, 0x5222) ||
+> > +           etnaviv_is_model_rev(gpu, 0x4000, 0x5245) ||
+> > +           etnaviv_is_model_rev(gpu, 0x4000, 0x5208) ||
+> > +           etnaviv_is_model_rev(gpu, 0x3000, 0x5435) ||
+> > +           etnaviv_is_model_rev(gpu, 0x2200, 0x5244) ||
+> > +           etnaviv_is_model_rev(gpu, 0x2100, 0x5108) ||
+> > +           etnaviv_is_model_rev(gpu, 0x2000, 0x5108) ||
+> > +           etnaviv_is_model_rev(gpu, 0x1500, 0x5246) ||
+> > +           etnaviv_is_model_rev(gpu, 0x880, 0x5107) ||
+> > +           etnaviv_is_model_rev(gpu, 0x880, 0x5106))
+> >                 gpu->identity.varyings_count -=3D 1;
+> >  }
+> >=20
+> > @@ -351,7 +353,7 @@ static void etnaviv_hw_identify(struct etnaviv_gpu =
+*gpu)
+> >                  * Reading these two registers on GC600 rev 0x19 result=
+ in a
+> >                  * unhandled fault: external abort on non-linefetch
+> >                  */
+> > -               if (!etnaviv_is_model_rev(gpu, GC600, 0x19)) {
+> > +               if (!etnaviv_is_model_rev(gpu, 0x600, 0x19)) {
+> >                         gpu->identity.product_id =3D gpu_read(gpu, VIVS=
+_HI_CHIP_PRODUCT_ID);
+> >                         gpu->identity.eco_id =3D gpu_read(gpu, VIVS_HI_=
+CHIP_ECO_ID);
+> >                 }
+> > @@ -368,7 +370,7 @@ static void etnaviv_hw_identify(struct etnaviv_gpu =
+*gpu)
+> >                 }
+> >=20
+> >                 /* Another special case */
+> > -               if (etnaviv_is_model_rev(gpu, GC300, 0x2201)) {
+> > +               if (etnaviv_is_model_rev(gpu, 0x300, 0x2201)) {
+> >                         u32 chipTime =3D gpu_read(gpu, VIVS_HI_CHIP_TIM=
+E);
+> >=20
+> >                         if (chipDate =3D=3D 0x20080814 && chipTime =3D=
+=3D 0x12051100) {
+> > @@ -387,15 +389,15 @@ static void etnaviv_hw_identify(struct etnaviv_gp=
+u *gpu)
+> >                  * Fix model/rev here, so all other places can refer to=
+ this
+> >                  * core by its real identity.
+> >                  */
+> > -               if (etnaviv_is_model_rev(gpu, GC2000, 0xffff5450)) {
+> > +               if (etnaviv_is_model_rev(gpu, 0x2000, 0xffff5450)) {
+> >                         gpu->identity.model =3D chipModel_GC3000;
+> >                         gpu->identity.revision &=3D 0xffff;
+> >                 }
+> >=20
+> > -               if (etnaviv_is_model_rev(gpu, GC1000, 0x5037) && (chipD=
+ate =3D=3D 0x20120617))
+> > +               if (etnaviv_is_model_rev(gpu, 0x1000, 0x5037) && (chipD=
+ate =3D=3D 0x20120617))
+> >                         gpu->identity.eco_id =3D 1;
+> >=20
+> > -               if (etnaviv_is_model_rev(gpu, GC320, 0x5303) && (chipDa=
+te =3D=3D 0x20140511))
+> > +               if (etnaviv_is_model_rev(gpu, 0x320, 0x5303) && (chipDa=
+te =3D=3D 0x20140511))
+> >                         gpu->identity.eco_id =3D 1;
+> >         }
+> >=20
+> > @@ -630,14 +632,14 @@ static void etnaviv_gpu_enable_mlcg(struct etnavi=
+v_gpu *gpu)
+> >                 pmc |=3D BIT(15); /* Unknown bit */
+> >=20
+> >         /* Disable TX clock gating on affected core revisions. */
+> > -       if (etnaviv_is_model_rev(gpu, GC4000, 0x5222) ||
+> > -           etnaviv_is_model_rev(gpu, GC2000, 0x5108) ||
+> > -           etnaviv_is_model_rev(gpu, GC2000, 0x6202) ||
+> > -           etnaviv_is_model_rev(gpu, GC2000, 0x6203))
+> > +       if (etnaviv_is_model_rev(gpu, 0x4000, 0x5222) ||
+> > +           etnaviv_is_model_rev(gpu, 0x2000, 0x5108) ||
+> > +           etnaviv_is_model_rev(gpu, 0x2000, 0x6202) ||
+> > +           etnaviv_is_model_rev(gpu, 0x2000, 0x6203))
+> >                 pmc |=3D VIVS_PM_MODULE_CONTROLS_DISABLE_MODULE_CLOCK_G=
+ATING_TX;
+> >=20
+> >         /* Disable SE and RA clock gating on affected core revisions. *=
+/
+> > -       if (etnaviv_is_model_rev(gpu, GC7000, 0x6202))
+> > +       if (etnaviv_is_model_rev(gpu, 0x7000, 0x6202))
+> >                 pmc |=3D VIVS_PM_MODULE_CONTROLS_DISABLE_MODULE_CLOCK_G=
+ATING_SE |
+> >                        VIVS_PM_MODULE_CONTROLS_DISABLE_MODULE_CLOCK_GAT=
+ING_RA;
+> >=20
+> > @@ -690,14 +692,14 @@ static void etnaviv_gpu_setup_pulse_eater(struct =
+etnaviv_gpu *gpu)
+> >          */
+> >         u32 pulse_eater =3D 0x01590880;
+> >=20
+> > -       if (etnaviv_is_model_rev(gpu, GC4000, 0x5208) ||
+> > -           etnaviv_is_model_rev(gpu, GC4000, 0x5222)) {
+> > +       if (etnaviv_is_model_rev(gpu, 0x4000, 0x5208) ||
+> > +           etnaviv_is_model_rev(gpu, 0x4000, 0x5222)) {
+> >                 pulse_eater |=3D BIT(23);
+> >=20
+> >         }
+> >=20
+> > -       if (etnaviv_is_model_rev(gpu, GC1000, 0x5039) ||
+> > -           etnaviv_is_model_rev(gpu, GC1000, 0x5040)) {
+> > +       if (etnaviv_is_model_rev(gpu, 0x1000, 0x5039) ||
+> > +           etnaviv_is_model_rev(gpu, 0x1000, 0x5040)) {
+> >                 pulse_eater &=3D ~BIT(16);
+> >                 pulse_eater |=3D BIT(17);
+> >         }
+> > @@ -718,8 +720,8 @@ static void etnaviv_gpu_hw_init(struct etnaviv_gpu =
+*gpu)
+> >         WARN_ON(!(gpu->state =3D=3D ETNA_GPU_STATE_IDENTIFIED ||
+> >                   gpu->state =3D=3D ETNA_GPU_STATE_RESET));
+> >=20
+> > -       if ((etnaviv_is_model_rev(gpu, GC320, 0x5007) ||
+> > -            etnaviv_is_model_rev(gpu, GC320, 0x5220)) &&
+> > +       if ((etnaviv_is_model_rev(gpu, 0x320, 0x5007) ||
+> > +            etnaviv_is_model_rev(gpu, 0x320, 0x5220)) &&
+> >             gpu_read(gpu, VIVS_HI_CHIP_TIME) !=3D 0x2062400) {
+> >                 u32 mc_memory_debug;
+> >=20
+> > @@ -745,7 +747,7 @@ static void etnaviv_gpu_hw_init(struct etnaviv_gpu =
+*gpu)
+> >                   VIVS_HI_AXI_CONFIG_ARCACHE(2));
+> >=20
+> >         /* GC2000 rev 5108 needs a special bus config */
+> > -       if (etnaviv_is_model_rev(gpu, GC2000, 0x5108)) {
+> > +       if (etnaviv_is_model_rev(gpu, 0x2000, 0x5108)) {
+> >                 u32 bus_config =3D gpu_read(gpu, VIVS_MC_BUS_CONFIG);
+> >                 bus_config &=3D ~(VIVS_MC_BUS_CONFIG_FE_BUS_CONFIG__MAS=
+K |
+> >                                 VIVS_MC_BUS_CONFIG_TX_BUS_CONFIG__MASK)=
+;
+> >=20
+> > --
+> > 2.39.2
+> >=20
+>=20
+>=20
 
