@@ -2,68 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 915BF83CEE7
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 22:51:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 934E183CEEB
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 22:53:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B30E810E25B;
-	Thu, 25 Jan 2024 21:51:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7782C10E3C3;
+	Thu, 25 Jan 2024 21:52:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1502910E25B
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 21:51:55 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-5101cd91017so1261270e87.2
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 13:51:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1706219453; x=1706824253; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=T54fsLBTRmT4jgVEtxyLn6mAS33agnyvi4UEMgBVoWQ=;
- b=gFqPyPpzZhg5MFSmzkSNKZd/Y4Z2LFMhQHU+AKr/s6/p+B1omQZhj4jQSz99KcUBx1
- 084pzvyXhUJQ56mESYDefgyvKFsK+Gjriryun0+9v9EWHp8bmV9qjqlOiOb2wm6zcE7S
- 5d+tH0CyoFsVuYQ5y1AAxmIzCl/UdLslZfNCtTSToqOGi2rBeqW3XJJ+8piIkiMGlXJm
- osaklqp+pcjTiCFZemc3hbK9i4blJl3ri/MdoZPzYNJfBS+7U/HbxtY62lU8h1RzprxU
- /1a5aUtfwxdXmasy1HSd/mptHMKtgsoz+hSxc6I2EsnBPiQR0Y/kq6SUMDhhdKmXboi4
- 6nLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706219453; x=1706824253;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=T54fsLBTRmT4jgVEtxyLn6mAS33agnyvi4UEMgBVoWQ=;
- b=OLvJ6mIbtf3RwgseBBjI/raGjtMDXrI3cCRKHT2jg6OYjJAM4+wgi4Z9lHOa1BzK1B
- Otl59bKpK+lQZGx6hTeVAiiVlFh7nN77RSSPXXR7wkUC1vRqr04EhO1SP7i6JPISgzfQ
- IpwqDcpP9ORMKTzgTEqts8afc8CkzfrnZe6A81uoxJztsl6vWIw3cHIXZbaxg17M4eaL
- etq6ghyEEmcilz+RzsRcVV0YnpR4ChuzsdMqwnA91FOckhFivsAoYUuY49wHmH34iwaE
- BTysEu23nr7X1Ut0yRkX8M5acqqKQ1hwRgZPHDtx+rXDdWiMm9hILG7sXCTD9DVQ7gjK
- /a2g==
-X-Gm-Message-State: AOJu0Yyr6UYGqbA20J8xbDXbQh4FEzVLp8EoEzEAVqJPTvI/15vOMbYB
- zW0tbz5JkXWap1YzqaX2I+owQZ5FeJ1qZzF+Q766EX4oSebXlC+63AWDth8rnRc=
-X-Google-Smtp-Source: AGHT+IFCdBHp2PBFHOeepK/hfxpQeySTG1iUcHe72e+6UbKprHQdajEkeHG41o05AtpkYezNWRUIMQ==
-X-Received: by 2002:ac2:48ba:0:b0:50f:13f8:3879 with SMTP id
- u26-20020ac248ba000000b0050f13f83879mr144675lfg.75.1706219453369; 
- Thu, 25 Jan 2024 13:50:53 -0800 (PST)
-Received: from [10.10.15.130] ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- f12-20020a05651232cc00b0050f0dce126bsm2942118lfg.214.2024.01.25.13.50.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Jan 2024 13:50:52 -0800 (PST)
-Message-ID: <64c9c8ee-6ae3-4db5-8952-b8b1fff71d8b@linaro.org>
-Date: Thu, 25 Jan 2024 23:50:52 +0200
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3772F10E0F7
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 21:52:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1706219543;
+ bh=HmHb/1j56mYypkJHtCxMuyE8iJQuLLhZ2r3pRbNJ0Ek=;
+ h=Date:Subject:To:References:From:In-Reply-To:From;
+ b=DjKPBOn5DkLFgqwP0WrFz5zmWSBPLMUa00i2AzL5gujzFWsxBQJZtLk7yLL4Fk3mw
+ qmf8pOZT2aIxEOOBFymm2cbk1Njwpow9/hYB9Dk8zf/mhLP307VzkWdqq4xBJF8wLf
+ tlsvHel51nr4LS9KByd5zZvHCDSOwM61iCe7TAo8h0bWYUdSRNwZixl4i54JTwVIm6
+ yFQaOuEc9iAfV7ZRTQ4jdqHSm1HsPVgPgqP/FIYD2UOvIMWRoFH4wpvvrVhztuII52
+ DN7YkZbkTJfLwGjonrp80UCfEH/C+yzfA/rfDazDfJeZw/6PzT2FLOrO2Mlo4WEFVO
+ a/Iznos2DQfjg==
+Received: from [100.109.49.129] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id C958D37813DA;
+ Thu, 25 Jan 2024 21:52:21 +0000 (UTC)
+Message-ID: <ddcae9fe-6155-4542-898c-bfb06e8721b8@collabora.com>
+Date: Fri, 26 Jan 2024 00:52:19 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 13/17] drm/msm/dp: enable SDP and SDE periph flush update
-Content-Language: en-GB
-To: Paloma Arellano <quic_parellan@quicinc.com>,
- freedreno@lists.freedesktop.org
-References: <20240125193834.7065-1-quic_parellan@quicinc.com>
- <20240125193834.7065-14-quic_parellan@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20240125193834.7065-14-quic_parellan@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH v19 09/30] drm/shmem-helper: Add and use lockless
+ drm_gem_shmem_get_pages()
+Content-Language: en-US
+To: David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Qiang Yu <yuq825@gmail.com>, Steven Price <steven.price@arm.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel@collabora.com, virtualization@lists.linux-foundation.org
+References: <20240105184624.508603-1-dmitry.osipenko@collabora.com>
+ <20240105184624.508603-10-dmitry.osipenko@collabora.com>
+ <ZbKZNCbZoV4ovWTH@phenom.ffwll.local>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <ZbKZNCbZoV4ovWTH@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,104 +66,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, seanpaul@chromium.org, marijn.suijten@somainline.org,
- quic_jesszhan@quicinc.com, quic_khsieh@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25/01/2024 21:38, Paloma Arellano wrote:
-> DP controller can be setup to operate in either SDP update flush mode or
-> peripheral flush mode based on the DP controller hardware version.
+On 1/25/24 20:24, Daniel Vetter wrote:
+> On Fri, Jan 05, 2024 at 09:46:03PM +0300, Dmitry Osipenko wrote:
+>> Add lockless drm_gem_shmem_get_pages() helper that skips taking reservation
+>> lock if pages_use_count is non-zero, leveraging from atomicity of the
+>> refcount_t. Make drm_gem_shmem_mmap() to utilize the new helper.
+>>
+>> Acked-by: Maxime Ripard <mripard@kernel.org>
+>> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+>> Suggested-by: Boris Brezillon <boris.brezillon@collabora.com>
+>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>> ---
+>>  drivers/gpu/drm/drm_gem_shmem_helper.c | 19 +++++++++++++++----
+>>  1 file changed, 15 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+>> index cacf0f8c42e2..1c032513abf1 100644
+>> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+>> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+>> @@ -226,6 +226,20 @@ void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem)
+>>  }
+>>  EXPORT_SYMBOL_GPL(drm_gem_shmem_put_pages_locked);
+>>  
+>> +static int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
+>> +{
+>> +	int ret;
 > 
-> Starting in DP v1.2, the hardware documents require the use of
-> peripheral flush mode for SDP packets such as PPS OR VSC SDP packets.
-> 
-> In-line with this guidance, lets program the DP controller to use
-> peripheral flush mode starting DP v1.2
-> 
-> Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/dp/dp_catalog.c | 18 ++++++++++++++++++
->   drivers/gpu/drm/msm/dp/dp_catalog.h |  1 +
->   drivers/gpu/drm/msm/dp/dp_ctrl.c    |  1 +
->   drivers/gpu/drm/msm/dp/dp_reg.h     |  2 ++
->   4 files changed, 22 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
-> index 7e4c68be23e56..b43083b9c2df6 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
-> @@ -446,6 +446,24 @@ void dp_catalog_ctrl_config_misc(struct dp_catalog *dp_catalog,
->   	dp_write_link(catalog, REG_DP_MISC1_MISC0, misc_val);
->   }
->   
-> +void dp_catalog_setup_peripheral_flush(struct dp_catalog *dp_catalog)
-> +{
-> +	u32 mainlink_ctrl;
-> +	u16 major = 0, minor = 0;
-> +	struct dp_catalog_private *catalog = container_of(dp_catalog,
-> +				struct dp_catalog_private, dp_catalog);
-> +
-> +	mainlink_ctrl = dp_read_link(catalog, REG_DP_MAINLINK_CTRL);
-> +
-> +	dp_catalog_hw_revision(dp_catalog, &major, &minor);
-> +	if (major >= 1 && minor >= 2)
+> Just random drive-by comment: a might_lock annotation here might be good,
+> or people could hit some really interesting bugs that are rather hard to
+> reproduce ...
+> -Sima
 
-if (major > 1 || (major == 1 && minor >= 2))
-
-As a check, which of the values should be written for maj.min = 2.1?
-
-> +		mainlink_ctrl |= DP_MAINLINK_FLUSH_MODE_SDE_PERIPH_UPDATE;
-> +	else
-> +		mainlink_ctrl |= DP_MAINLINK_FLUSH_MODE_UPDATE_SDP;
-> +
-> +	dp_write_link(catalog, REG_DP_MAINLINK_CTRL, mainlink_ctrl);
-> +}
-> +
->   void dp_catalog_ctrl_config_msa(struct dp_catalog *dp_catalog,
->   					u32 rate, u32 stream_rate_khz,
->   					bool fixed_nvid, bool is_ycbcr_420)
-> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
-> index 6b757249c0698..1d57988aa6689 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_catalog.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
-> @@ -169,6 +169,7 @@ void dp_catalog_ctrl_config_ctrl(struct dp_catalog *dp_catalog, u32 config);
->   void dp_catalog_ctrl_lane_mapping(struct dp_catalog *dp_catalog);
->   void dp_catalog_ctrl_mainlink_ctrl(struct dp_catalog *dp_catalog, bool enable);
->   void dp_catalog_ctrl_psr_mainlink_enable(struct dp_catalog *dp_catalog, bool enable);
-> +void dp_catalog_setup_peripheral_flush(struct dp_catalog *dp_catalog);
->   void dp_catalog_ctrl_config_misc(struct dp_catalog *dp_catalog, u32 cc, u32 tb);
->   void dp_catalog_ctrl_config_msa(struct dp_catalog *dp_catalog, u32 rate,
->   				u32 stream_rate_khz, bool fixed_nvid, bool is_ycbcr_420);
-> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> index ddd92a63d5a67..c375b36f53ce1 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> @@ -170,6 +170,7 @@ static void dp_ctrl_configure_source_params(struct dp_ctrl_private *ctrl)
->   
->   	dp_catalog_ctrl_lane_mapping(ctrl->catalog);
->   	dp_catalog_ctrl_mainlink_ctrl(ctrl->catalog, true);
-> +	dp_catalog_setup_peripheral_flush(ctrl->catalog);
->   
->   	dp_ctrl_config_ctrl(ctrl);
->   
-> diff --git a/drivers/gpu/drm/msm/dp/dp_reg.h b/drivers/gpu/drm/msm/dp/dp_reg.h
-> index 756ddf85b1e81..05a1009d2f678 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_reg.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_reg.h
-> @@ -102,6 +102,8 @@
->   #define DP_MAINLINK_CTRL_ENABLE			(0x00000001)
->   #define DP_MAINLINK_CTRL_RESET			(0x00000002)
->   #define DP_MAINLINK_CTRL_SW_BYPASS_SCRAMBLER	(0x00000010)
-> +#define DP_MAINLINK_FLUSH_MODE_UPDATE_SDP	(0x00800000)
-> +#define DP_MAINLINK_FLUSH_MODE_SDE_PERIPH_UPDATE	(0x01800000)
->   #define DP_MAINLINK_FB_BOUNDARY_SEL		(0x02000000)
->   
->   #define REG_DP_STATE_CTRL			(0x00000004)
+Thanks for the suggestion!
 
 -- 
-With best wishes
+Best regards,
 Dmitry
 
