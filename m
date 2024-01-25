@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 275FA83BB3C
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 09:03:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D425083BB36
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 09:02:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70D3910F833;
-	Thu, 25 Jan 2024 08:03:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D53F10F216;
+	Thu, 25 Jan 2024 08:02:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F44310F833
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 08:02:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF5B810F833
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 08:02:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1706169748;
- bh=VCbIeEvU+Hvu9heYcu0mfFKjK9KaE6zRVAxTGdJIkZU=;
+ s=mail; t=1706169771;
+ bh=KjWB9RCuIPpmEs3LKhKafBGiLd5pPNJQhI+Vkrsfhqw=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Q67nKkqQfLucYoKDEQgXaAZ6lLe4cHno8b+SfamY1VURHam2v3QYTrx9UxEsPp2ZP
- yjvuyE0qNnMOsUu+u7+eZkJAOeV+jyKUPIaZw1WypsU+NxWrGptOmoXzc2M7WxtOJy
- ynbyBH7rxWqKGhGXQjk2N/9LJozmeviNv0nsRoyQ8GuwB67fLCBbyqTmX9sxcwvRG2
- 51vt3qhXgP+aHZQj52bFSjs8y3jm1GmGmUNj32HSmOhpWWloTqXO23G5feYQ4H5BCU
- hURhKFykXadBi2Sh4ctyvOqhGRwPbyhj1CbPrr4Fmw7jOMnypJgdtg9E0wL9KKL+dP
- fR7xw00ttBJNg==
+ b=SDYER/GQtO7GxHnYozVA17JhDttmQFnSL1vR+asI6U58wi16Yh10w0v0ecFTQCIvp
+ nwAMz7eNLo+8tYXVeHr4JYp1Tc2JCqPIrunyrRd4lB7Kh9oVXtW2MfAf59g51J4qRJ
+ Y1L4QgTNFxUu2+qjNglCzdN2fMqOHSaFZdeSRCM+O9T5zOydqF6eyedyPPg+tCnl5N
+ Cn9i38v3IWQ3+NAgbfOuS2HqmLVEBe0BCGIfn+tDXqip/zPWTuECDXnJiFeWNO9ZPY
+ PCygTJM7f9ewAlCXJdM9qLuabjB3g9oN9ALtq9a6S929QIhqXoiKIAIjrvHOs+nuhG
+ kR0mWitbgaEjg==
 Received: from localhost (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 14E2537820AF;
- Thu, 25 Jan 2024 08:02:27 +0000 (UTC)
-Date: Thu, 25 Jan 2024 09:02:26 +0100
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id AEEC937820C2;
+ Thu, 25 Jan 2024 08:02:50 +0000 (UTC)
+Date: Thu, 25 Jan 2024 09:02:49 +0100
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v19 14/30] drm/shmem-helper: Add drm_gem_shmem_put_pages()
-Message-ID: <20240125090226.2f7f0de5@collabora.com>
-In-Reply-To: <20240105184624.508603-15-dmitry.osipenko@collabora.com>
+Subject: Re: [PATCH v19 15/30] drm/shmem-helper: Avoid lockdep warning when
+ pages are released
+Message-ID: <20240125090249.5f05959d@collabora.com>
+In-Reply-To: <20240105184624.508603-16-dmitry.osipenko@collabora.com>
 References: <20240105184624.508603-1-dmitry.osipenko@collabora.com>
- <20240105184624.508603-15-dmitry.osipenko@collabora.com>
+ <20240105184624.508603-16-dmitry.osipenko@collabora.com>
 Organization: Collabora
 X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -66,70 +67,50 @@ Cc: kernel@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri,  5 Jan 2024 21:46:08 +0300
+On Fri,  5 Jan 2024 21:46:09 +0300
 Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
 
-> We're going to move away from having implicit get_pages() done by
-> get_pages_sgt() to ease simplify refcnt handling. Drivers will manage
-> get/put_pages() by themselves. Add drm_gem_shmem_put_pages().
+> All drivers will be moved to get/put pages explicitly and then the last
+> put_pages() will be invoked during gem_free() time by some drivers.
+> We can't touch reservation lock when GEM is freed because that will cause
+> a spurious warning from lockdep when shrinker support will be added.
+> Lockdep doesn't know that fs_reclaim isn't functioning for a freed object,
+> and thus, can't deadlock. Release pages directly without taking reservation
+> lock if GEM is freed and its refcount is zero.
 > 
 > Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 
 Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 
 > ---
->  drivers/gpu/drm/drm_gem_shmem_helper.c | 20 ++++++++++++++++++++
->  include/drm/drm_gem_shmem_helper.h     |  1 +
->  2 files changed, 21 insertions(+)
+>  drivers/gpu/drm/drm_gem_shmem_helper.c | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
 > 
 > diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> index dc416a4bce1b..f5ed64f78648 100644
+> index f5ed64f78648..c7357110ca76 100644
 > --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
 > +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -218,6 +218,7 @@ static int drm_gem_shmem_get_pages_locked(struct drm_gem_shmem_object *shmem)
->   * @shmem: shmem GEM object
->   *
->   * This function decreases the use count and puts the backing pages when use drops to zero.
-> + * Caller must hold GEM's reservation lock.
->   */
->  void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem)
->  {
-> @@ -228,6 +229,25 @@ void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem)
->  }
->  EXPORT_SYMBOL_GPL(drm_gem_shmem_put_pages_locked);
+> @@ -242,6 +242,22 @@ void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem)
+>  	if (refcount_dec_not_one(&shmem->pages_use_count))
+>  		return;
 >  
-> +/*
-> + * drm_gem_shmem_put_pages - Decrease use count on the backing pages for a shmem GEM object
-> + * @shmem: shmem GEM object
-> + *
-> + * This function decreases the use count and puts the backing pages when use drops to zero.
-> + * It's unlocked version of drm_gem_shmem_put_pages_locked(), caller must not hold
-> + * GEM's reservation lock.
-> + */
-> +void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem)
-> +{
-> +	if (refcount_dec_not_one(&shmem->pages_use_count))
+> +	/*
+> +	 * Destroying the object is a special case because acquiring
+> +	 * the obj lock can cause a locking order inversion between
+> +	 * reservation_ww_class_mutex and fs_reclaim.
+> +	 *
+> +	 * This deadlock is not actually possible, because no one should
+> +	 * be already holding the lock when GEM is released.  Unfortunately
+> +	 * lockdep is not aware of this detail.  So when the refcount drops
+> +	 * to zero, we pretend it is already locked.
+> +	 */
+> +	if (!kref_read(&shmem->base.refcount)) {
+> +		if (refcount_dec_and_test(&shmem->pages_use_count))
+> +			drm_gem_shmem_free_pages(shmem);
 > +		return;
+> +	}
 > +
-> +	dma_resv_lock(shmem->base.resv, NULL);
-> +	drm_gem_shmem_put_pages_locked(shmem);
-> +	dma_resv_unlock(shmem->base.resv);
-> +}
-> +EXPORT_SYMBOL_GPL(drm_gem_shmem_put_pages);
-> +
->  /*
->   * drm_gem_shmem_get_pages - Increase use count on the backing pages for a shmem GEM object
->   * @shmem: shmem GEM object
-> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
-> index 6dedc0739fbc..525480488451 100644
-> --- a/include/drm/drm_gem_shmem_helper.h
-> +++ b/include/drm/drm_gem_shmem_helper.h
-> @@ -111,6 +111,7 @@ struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev, size_t
->  void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem);
->  
->  int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem);
-> +void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem);
->  void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem);
->  int drm_gem_shmem_pin(struct drm_gem_shmem_object *shmem);
->  void drm_gem_shmem_unpin(struct drm_gem_shmem_object *shmem);
+>  	dma_resv_lock(shmem->base.resv, NULL);
+>  	drm_gem_shmem_put_pages_locked(shmem);
+>  	dma_resv_unlock(shmem->base.resv);
 
