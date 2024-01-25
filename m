@@ -2,62 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7967A83CAC9
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 19:23:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78C9B83CB32
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 19:34:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06A7B10E31E;
-	Thu, 25 Jan 2024 18:23:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF93810E9BB;
+	Thu, 25 Jan 2024 18:34:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
- [209.85.218.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FC3910E31E
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 18:23:12 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id
- a640c23a62f3a-a28cfca3c45so165948866b.1
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 10:23:12 -0800 (PST)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
+ [209.85.208.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85DAD10EEB7
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 18:34:08 +0000 (UTC)
+Received: by mail-lj1-f179.google.com with SMTP id
+ 38308e7fff4ca-2cf2c9d91a6so3932221fa.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 10:34:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1706206931; x=1706811731; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=4qdybqG7xbkh+aIXYiEtoKHBpIybkg9SQxRi0kQlQrI=;
- b=J96UiIJ0dHE8QJtYRGg5LN7x2z0c6+Ug+rvmeDKkRa8a6D5LmlvMVuNjXAIDepc45s
- AIBTiui6zqLeG31NCyA5fc253VifZSsubKj7UKtfLHrKwEXsu1ExeJi7aJj2mnbYGfjh
- T32u57UH/6D+1xG9z0f9YGndpHCSDErDlrN+I=
+ d=ffwll.ch; s=google; t=1706207582; x=1706812382; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=MyGZiCJlrOxbx7yin+nvnZFwsXGDisObfRv6oWAy6G4=;
+ b=BE381gS6TsVuOtLauUJok/9kkXQWJAzYSzgNvJS/Msdv1Cky2KR3MMT7ciHl+nfMvM
+ Q/sGC78Yk+InTkqnRo+w1xX6URTCpngevZmS9lwglElw5DkwL5mnyQEWxZRrL3XZqM32
+ /XlERw99ruywH5zMrsl1CT/gTwO6SZwNHznPQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706206931; x=1706811731;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4qdybqG7xbkh+aIXYiEtoKHBpIybkg9SQxRi0kQlQrI=;
- b=Zvf9MoyoOVIBpkTwHVAofy/AdGsYbydLbLG1l3QAtjFtqUk4mlglutbW762DCALW6O
- mm1lHpHbT72nTPPT2p3oAlDnfeMSP63zqKYngBqwxTN6ak8uudfURusex4Shugl+TFgC
- oDGeBRUkpPOCVtaTjAdTC2e0Ffs1AIs/PnxD2pysaaJXBLu1Tm6m2hhqHtLAF5jCS20Z
- dW8ii+k/YrbxBWz1J9ua1gMSf6fjqw6Iq2hGW5AaSGN4/vPsGStXQlmA4jRamfsnG8jM
- Um2ldkZiHOmP+YMCctNa8+vzxjwEsB1jfBr+6ybWNWaxq/X2g4Y4Bxm4O2oYLuIbVxPQ
- OUPQ==
-X-Gm-Message-State: AOJu0Yy3SWw/29TiZD4yF62KUaFiLDNtTos6Rh3ViWiLCM28I08ndPXc
- AeqP4rZPgx45S2gwu9XTY/Rxw5paxi0Iu/1QVA06fv37bPCHeQo31bntaTUeYKFV2Gd6YO7SnQs
- 1
-X-Google-Smtp-Source: AGHT+IHdXDCqB8OQAPrRVjufUIi2QUQrN0xCMNUIY2nKYm6nix9kUk9CJyxfp3u8Czz5GvE4jmdhfw==
-X-Received: by 2002:a17:906:38da:b0:a31:296b:b673 with SMTP id
- r26-20020a17090638da00b00a31296bb673mr1930907ejd.3.1706206930900; 
- Thu, 25 Jan 2024 10:22:10 -0800 (PST)
+ d=1e100.net; s=20230601; t=1706207582; x=1706812382;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=MyGZiCJlrOxbx7yin+nvnZFwsXGDisObfRv6oWAy6G4=;
+ b=LBGDQjHYUXW6XyQsgQaY0/sQqDv7eQf60PA9cfimFepeWOsgQy8YrOZGWhSoJrZza0
+ wSIhE1MCwr1eikRJ+LZsJEaQTSnILo9m4nyswzjTQ13hHchOvzg76E+7Q5txVOrJM6Go
+ YZHN/Pzp0upYeJGQcTBhiKgks5mY7iMQPOBl8b5kgTFSrza4BUgSdPnNCfq1cJDu7Sq4
+ yDF5m2Zy07wk4W21U6ZsAu5pz0vfVazKS+/CNzYOvt3q4wp+YZrtQMdwIV68WJC5T2f5
+ BOSbwZ/F1CwvAQabXeOnw0m0eKoObYBYuEerXwi3jkFrHE5CrIL5mRRzVbLCHUJgPzX2
+ CRIg==
+X-Gm-Message-State: AOJu0YwI0gVbDtQhKr6bXcfUdqHgv0NYKOCc0VFdV18XUniFYtsmEzkw
+ EW5L3CL+lvQD5h3n3KMRgl7XxHSgTJSHCFojXu8CU23HpXbV0jST6p7CCXZxs6s=
+X-Google-Smtp-Source: AGHT+IHQbzZ+flmLrb63NqIwuT2uwPqK9LPwcr4stRN/IXfXHD6IyfqStis6DsTzumOfbBtWynj+YA==
+X-Received: by 2002:a2e:5c84:0:b0:2ce:ce62:8f0 with SMTP id
+ q126-20020a2e5c84000000b002cece6208f0mr108471ljb.0.1706207581313; 
+ Thu, 25 Jan 2024 10:33:01 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- cw5-20020a170907160500b00a3009e3f8a9sm1298208ejd.17.2024.01.25.10.22.10
+ lr11-20020a170906fb8b00b00a315135e804sm1313353ejb.15.2024.01.25.10.33.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Jan 2024 10:22:10 -0800 (PST)
-Date: Thu, 25 Jan 2024 19:22:08 +0100
+ Thu, 25 Jan 2024 10:33:00 -0800 (PST)
+Date: Thu, 25 Jan 2024 19:32:58 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Dave Airlie <airlied@gmail.com>
-Subject: Re: [PATCH] nouveau: rip out fence irq allow/block sequences.
-Message-ID: <ZbKm0EqOVe9Ihqgz@phenom.ffwll.local>
-References: <20240123072538.1290035-1-airlied@gmail.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: Making drm_gpuvm work across gpu devices
+Message-ID: <ZbKpWpOGuNKLJ6sA@phenom.ffwll.local>
+References: <20240117221223.18540-1-oak.zeng@intel.com>
+ <20240117221223.18540-22-oak.zeng@intel.com>
+ <ad21ec11-a9cb-4fb2-b9fd-00a4fa11525f@intel.com>
+ <PH7PR11MB70049E7E6A2F40BF6282ECC292742@PH7PR11MB7004.namprd11.prod.outlook.com>
+ <PH7PR11MB700440CE88BC0A94CFF8499792742@PH7PR11MB7004.namprd11.prod.outlook.com>
+ <2928ce36-06a6-4bee-b115-8dd61cc41dca@amd.com>
+ <SA1PR11MB699192584C01A26C781E2F9992742@SA1PR11MB6991.namprd11.prod.outlook.com>
+ <ccf34f6a-d704-43de-a15e-2ae2890f9381@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240123072538.1290035-1-airlied@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ccf34f6a-d704-43de-a15e-2ae2890f9381@amd.com>
 X-Operating-System: Linux phenom 6.6.11-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,245 +79,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: "Brost, Matthew" <matthew.brost@intel.com>,
+ "Thomas.Hellstrom@linux.intel.com" <Thomas.Hellstrom@linux.intel.com>,
+ Felix Kuehling <felix.kuehling@amd.com>, "Welty,
+ Brian" <brian.welty@intel.com>, "Ghimiray,
+ Himal Prasad" <himal.prasad.ghimiray@intel.com>, "Zeng,
+ Oak" <oak.zeng@intel.com>, "Gupta, saurabhg" <saurabhg.gupta@intel.com>,
+ Danilo Krummrich <dakr@redhat.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel@ffwll.ch>, "Bommu,
+ Krishnaiah" <krishnaiah.bommu@intel.com>, Dave Airlie <airlied@redhat.com>,
+ "Vishwanathapura, Niranjana" <niranjana.vishwanathapura@intel.com>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 23, 2024 at 05:25:38PM +1000, Dave Airlie wrote:
-> From: Dave Airlie <airlied@redhat.com>
+On Wed, Jan 24, 2024 at 09:33:12AM +0100, Christian König wrote:
+> Am 23.01.24 um 20:37 schrieb Zeng, Oak:
+> > [SNIP]
+> > Yes most API are per device based.
+> > 
+> > One exception I know is actually the kfd SVM API. If you look at the svm_ioctl function, it is per-process based. Each kfd_process represent a process across N gpu devices.
 > 
-> fences are signalled on nvidia hw using non-stall interrupts.
+> Yeah and that was a big mistake in my opinion. We should really not do that
+> ever again.
 > 
-> non-stall interrupts are not latched from my reading.
+> > Need to say, kfd SVM represent a shared virtual address space across CPU and all GPU devices on the system. This is by the definition of SVM (shared virtual memory). This is very different from our legacy gpu *device* driver which works for only one device (i.e., if you want one device to access another device's memory, you will have to use dma-buf export/import etc).
 > 
-> When nouveau emits a fence, it requests a NON_STALL signalling,
-> but it only calls the interface to allow the non-stall irq to happen
-> after it has already emitted the fence. A recent change
-> eacabb546271 ("nouveau: push event block/allowing out of the fence context")
-> made this worse by pushing out the fence allow/block to a workqueue.
+> Exactly that thinking is what we have currently found as blocker for a
+> virtualization projects. Having SVM as device independent feature which
+> somehow ties to the process address space turned out to be an extremely bad
+> idea.
 > 
-> However I can't see how this could ever work great, since when
-> enable signalling is called, the semaphore has already been emitted
-> to the ring, and the hw could already have tried to set the bits,
-> but it's been masked off. Changing the allowed mask later won't make
-> the interrupt get called again.
+> The background is that this only works for some use cases but not all of
+> them.
 > 
-> For now rip all of this out.
+> What's working much better is to just have a mirror functionality which says
+> that a range A..B of the process address space is mapped into a range C..D
+> of the GPU address space.
 > 
-> This fixes a bunch of stalls seen running VK CTS sync tests.
+> Those ranges can then be used to implement the SVM feature required for
+> higher level APIs and not something you need at the UAPI or even inside the
+> low level kernel memory management.
 > 
-> Signed-off-by: Dave Airlie <airlied@redhat.com>
-> ---
->  drivers/gpu/drm/nouveau/nouveau_fence.c | 77 +++++--------------------
->  drivers/gpu/drm/nouveau/nouveau_fence.h |  2 -
->  2 files changed, 16 insertions(+), 63 deletions(-)
+> When you talk about migrating memory to a device you also do this on a per
+> device basis and *not* tied to the process address space. If you then get
+> crappy performance because userspace gave contradicting information where to
+> migrate memory then that's a bug in userspace and not something the kernel
+> should try to prevent somehow.
 > 
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
-> index 5057d976fa57..d6d50cdccf75 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
-> @@ -50,24 +50,14 @@ nouveau_fctx(struct nouveau_fence *fence)
->  	return container_of(fence->base.lock, struct nouveau_fence_chan, lock);
->  }
->  
-> -static int
-> +static void
->  nouveau_fence_signal(struct nouveau_fence *fence)
->  {
-> -	int drop = 0;
-> -
->  	dma_fence_signal_locked(&fence->base);
->  	list_del(&fence->head);
->  	rcu_assign_pointer(fence->channel, NULL);
->  
-> -	if (test_bit(DMA_FENCE_FLAG_USER_BITS, &fence->base.flags)) {
-> -		struct nouveau_fence_chan *fctx = nouveau_fctx(fence);
-> -
-> -		if (atomic_dec_and_test(&fctx->notify_ref))
-> -			drop = 1;
-> -	}
-> -
->  	dma_fence_put(&fence->base);
-> -	return drop;
->  }
->  
->  static struct nouveau_fence *
-> @@ -93,8 +83,7 @@ nouveau_fence_context_kill(struct nouveau_fence_chan *fctx, int error)
->  		if (error)
->  			dma_fence_set_error(&fence->base, error);
->  
-> -		if (nouveau_fence_signal(fence))
-> -			nvif_event_block(&fctx->event);
-> +		nouveau_fence_signal(fence);
->  	}
->  	fctx->killed = 1;
->  	spin_unlock_irqrestore(&fctx->lock, flags);
-> @@ -103,8 +92,8 @@ nouveau_fence_context_kill(struct nouveau_fence_chan *fctx, int error)
->  void
->  nouveau_fence_context_del(struct nouveau_fence_chan *fctx)
->  {
-> -	cancel_work_sync(&fctx->allow_block_work);
->  	nouveau_fence_context_kill(fctx, 0);
-> +	nvif_event_block(&fctx->event);
->  	nvif_event_dtor(&fctx->event);
->  	fctx->dead = 1;
->  
-> @@ -127,11 +116,10 @@ nouveau_fence_context_free(struct nouveau_fence_chan *fctx)
->  	kref_put(&fctx->fence_ref, nouveau_fence_context_put);
->  }
->  
-> -static int
-> +static void
->  nouveau_fence_update(struct nouveau_channel *chan, struct nouveau_fence_chan *fctx)
->  {
->  	struct nouveau_fence *fence;
-> -	int drop = 0;
->  	u32 seq = fctx->read(chan);
->  
->  	while (!list_empty(&fctx->pending)) {
-> @@ -140,10 +128,8 @@ nouveau_fence_update(struct nouveau_channel *chan, struct nouveau_fence_chan *fc
->  		if ((int)(seq - fence->base.seqno) < 0)
->  			break;
->  
-> -		drop |= nouveau_fence_signal(fence);
-> +		nouveau_fence_signal(fence);
->  	}
-> -
-> -	return drop;
->  }
->  
->  static int
-> @@ -160,26 +146,13 @@ nouveau_fence_wait_uevent_handler(struct nvif_event *event, void *repv, u32 repc
->  
->  		fence = list_entry(fctx->pending.next, typeof(*fence), head);
->  		chan = rcu_dereference_protected(fence->channel, lockdep_is_held(&fctx->lock));
-> -		if (nouveau_fence_update(chan, fctx))
-> -			ret = NVIF_EVENT_DROP;
-> +		nouveau_fence_update(chan, fctx);
->  	}
->  	spin_unlock_irqrestore(&fctx->lock, flags);
->  
->  	return ret;
->  }
->  
-> -static void
-> -nouveau_fence_work_allow_block(struct work_struct *work)
-> -{
-> -	struct nouveau_fence_chan *fctx = container_of(work, struct nouveau_fence_chan,
-> -						       allow_block_work);
-> -
-> -	if (atomic_read(&fctx->notify_ref) == 0)
-> -		nvif_event_block(&fctx->event);
-> -	else
-> -		nvif_event_allow(&fctx->event);
-> -}
-> -
->  void
->  nouveau_fence_context_new(struct nouveau_channel *chan, struct nouveau_fence_chan *fctx)
->  {
-> @@ -191,7 +164,6 @@ nouveau_fence_context_new(struct nouveau_channel *chan, struct nouveau_fence_cha
->  	} args;
->  	int ret;
->  
-> -	INIT_WORK(&fctx->allow_block_work, nouveau_fence_work_allow_block);
->  	INIT_LIST_HEAD(&fctx->flip);
->  	INIT_LIST_HEAD(&fctx->pending);
->  	spin_lock_init(&fctx->lock);
-> @@ -216,6 +188,12 @@ nouveau_fence_context_new(struct nouveau_channel *chan, struct nouveau_fence_cha
->  			      &args.base, sizeof(args), &fctx->event);
->  
->  	WARN_ON(ret);
-> +
-> +	/*
-> +	 * Always allow non-stall irq events - previously this code tried to
-> +	 * enable/disable them, but that just seems racy as nonstall irqs are unlatched.
-> +	 */
-> +	nvif_event_allow(&fctx->event);
->  }
->  
->  int
-> @@ -247,8 +225,7 @@ nouveau_fence_emit(struct nouveau_fence *fence)
->  			return -ENODEV;
->  		}
->  
-> -		if (nouveau_fence_update(chan, fctx))
-> -			nvif_event_block(&fctx->event);
-> +		nouveau_fence_update(chan, fctx);
->  
->  		list_add_tail(&fence->head, &fctx->pending);
->  		spin_unlock_irq(&fctx->lock);
-> @@ -271,8 +248,8 @@ nouveau_fence_done(struct nouveau_fence *fence)
->  
->  		spin_lock_irqsave(&fctx->lock, flags);
->  		chan = rcu_dereference_protected(fence->channel, lockdep_is_held(&fctx->lock));
-> -		if (chan && nouveau_fence_update(chan, fctx))
-> -			nvif_event_block(&fctx->event);
-> +		if (chan)
-> +			nouveau_fence_update(chan, fctx);
->  		spin_unlock_irqrestore(&fctx->lock, flags);
->  	}
->  	return dma_fence_is_signaled(&fence->base);
-> @@ -530,32 +507,10 @@ static const struct dma_fence_ops nouveau_fence_ops_legacy = {
->  	.release = nouveau_fence_release
->  };
->  
-> -static bool nouveau_fence_enable_signaling(struct dma_fence *f)
-> -{
-> -	struct nouveau_fence *fence = from_fence(f);
-> -	struct nouveau_fence_chan *fctx = nouveau_fctx(fence);
-> -	bool ret;
-> -	bool do_work;
-> -
-> -	if (atomic_inc_return(&fctx->notify_ref) == 0)
-> -		do_work = true;
-> -
-> -	ret = nouveau_fence_no_signaling(f);
-> -	if (ret)
-> -		set_bit(DMA_FENCE_FLAG_USER_BITS, &fence->base.flags);
-> -	else if (atomic_dec_and_test(&fctx->notify_ref))
-> -		do_work = true;
-> -
-> -	if (do_work)
-> -		schedule_work(&fctx->allow_block_work);
-> -
-> -	return ret;
-> -}
-> -
->  static const struct dma_fence_ops nouveau_fence_ops_uevent = {
->  	.get_driver_name = nouveau_fence_get_get_driver_name,
->  	.get_timeline_name = nouveau_fence_get_timeline_name,
-> -	.enable_signaling = nouveau_fence_enable_signaling,
-> +	.enable_signaling = nouveau_fence_no_signaling,
+> [SNIP]
+> > > I think if you start using the same drm_gpuvm for multiple devices you
+> > > will sooner or later start to run into the same mess we have seen with
+> > > KFD, where we moved more and more functionality from the KFD to the DRM
+> > > render node because we found that a lot of the stuff simply doesn't work
+> > > correctly with a single object to maintain the state.
+> > As I understand it, KFD is designed to work across devices. A single pseudo /dev/kfd device represent all hardware gpu devices. That is why during kfd open, many pdd (process device data) is created, each for one hardware device for this process.
+> 
+> Yes, I'm perfectly aware of that. And I can only repeat myself that I see
+> this design as a rather extreme failure. And I think it's one of the reasons
+> why NVidia is so dominant with Cuda.
+> 
+> This whole approach KFD takes was designed with the idea of extending the
+> CPU process into the GPUs, but this idea only works for a few use cases and
+> is not something we should apply to drivers in general.
+> 
+> A very good example are virtualization use cases where you end up with CPU
+> address != GPU address because the VAs are actually coming from the guest VM
+> and not the host process.
+> 
+> SVM is a high level concept of OpenCL, Cuda, ROCm etc.. This should not have
+> any influence on the design of the kernel UAPI.
+> 
+> If you want to do something similar as KFD for Xe I think you need to get
+> explicit permission to do this from Dave and Daniel and maybe even Linus.
 
-I think you can rip nouveau_fence_no_signaling out too, it doesn't do
-anything more than what the signalling codepath does too.
+I think the one and only one exception where an SVM uapi like in kfd makes
+sense, is if the _hardware_ itself, not the software stack defined
+semantics that you've happened to build on top of that hw, enforces a 1:1
+mapping with the cpu process address space.
 
-But maybe separate path since maybe this makes an existing leak more of a
-sieve, but it really should be an existing one since you cannot assume
-that someone external will ever look at whether your fence is signalled or
-not.
--Sima
+Which means your hardware is using PASID, IOMMU based translation, PCI-ATS
+(address translation services) or whatever your hw calls it and has _no_
+device-side pagetables on top. Which from what I've seen all devices with
+device-memory have, simply because they need some place to store whether
+that memory is currently in device memory or should be translated using
+PASID. Currently there's no gpu that works with PASID only, but there are
+some on-cpu-die accelerator things that do work like that.
 
->  	.signaled = nouveau_fence_is_signaled,
->  	.release = nouveau_fence_release
->  };
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.h b/drivers/gpu/drm/nouveau/nouveau_fence.h
-> index 28f5cf013b89..380bb0397ed2 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_fence.h
-> +++ b/drivers/gpu/drm/nouveau/nouveau_fence.h
-> @@ -46,8 +46,6 @@ struct nouveau_fence_chan {
->  	char name[32];
->  
->  	struct nvif_event event;
-> -	struct work_struct allow_block_work;
-> -	atomic_t notify_ref;
->  	int dead, killed;
->  };
->  
-> -- 
-> 2.43.0
-> 
+Maybe in the future there will be some accelerators that are fully cpu
+cache coherent (including atomics) with something like CXL, and the
+on-device memory is managed as normal system memory with struct page as
+ZONE_DEVICE and accelerator va -> physical address translation is only
+done with PASID ... but for now I haven't seen that, definitely not in
+upstream drivers.
 
+And the moment you have some per-device pagetables or per-device memory
+management of some sort (like using gpuva mgr) then I'm 100% agreeing with
+Christian that the kfd SVM model is too strict and not a great idea.
+
+Cheers, Sima
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
