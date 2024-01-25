@@ -2,95 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5786483CAB0
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 19:19:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7967A83CAC9
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 19:23:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 359DB10E246;
-	Thu, 25 Jan 2024 18:18:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06A7B10E31E;
+	Thu, 25 Jan 2024 18:23:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
- [209.85.218.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E91010E246
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 18:18:25 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id
- a640c23a62f3a-a27e7b70152so186490466b.0
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 10:18:25 -0800 (PST)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
+ [209.85.218.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FC3910E31E
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 18:23:12 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id
+ a640c23a62f3a-a28cfca3c45so165948866b.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 10:23:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1706206644; x=1706811444; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=LX2Biyswi3lcTJguDEv72aHM8YWWcEZE57McfhSqDfM=;
- b=Y1icyBU6jfzFIh9gAqXbIzs8l/etjnt0gK2vo8V4l81BM+8nL0hcBHxhDlFXqt8Se8
- Jeqg/VEN6QpvkUK4GTzU0/0T2MBbQRTyAG1OHNKrtgyPAtkkQf1YxdK6osJMn25wrOU4
- jiYJZW41U9NcHfPQlXKrFDiur1OISvHP/BCus=
+ d=ffwll.ch; s=google; t=1706206931; x=1706811731; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=4qdybqG7xbkh+aIXYiEtoKHBpIybkg9SQxRi0kQlQrI=;
+ b=J96UiIJ0dHE8QJtYRGg5LN7x2z0c6+Ug+rvmeDKkRa8a6D5LmlvMVuNjXAIDepc45s
+ AIBTiui6zqLeG31NCyA5fc253VifZSsubKj7UKtfLHrKwEXsu1ExeJi7aJj2mnbYGfjh
+ T32u57UH/6D+1xG9z0f9YGndpHCSDErDlrN+I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706206644; x=1706811444;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=LX2Biyswi3lcTJguDEv72aHM8YWWcEZE57McfhSqDfM=;
- b=oei0oufAUmjFKF4fI6AcAnNAPrrpPoSDHO+JuONVhgrU/Yj7TLlIhixC9uM8Ffkyxn
- Q1rGF4b+Uxt4HGZfLU5BK+aitm8x0YAojfVx/S8GAa5pKj38aPxDQsIzb60IPiaty+BN
- A2oV/dFh7ghmdWxWbOmteSeC1B9ATITZ83NDtgcjZMpvmxlhUe550nRAHr/azY5UN4H2
- YeLbTSkTAZjkT1TAWs5o3X6I4MH0GfbsPenY4zaLxVUCWqjU6eG4tRt8FWGtvfH5ppHd
- Vu0HoKtE3TEhHl3YUHM6F8/8OilsvVyt6807ztjb40w+7CXlnTSHbzURM/v3rSfmU1oY
- pNbw==
-X-Gm-Message-State: AOJu0YzLvjv+wzAvPdbSMB2t9r8FwzoFKd3BU/taoiHVzQ0qK95QyGwW
- bYal2JEQiBTjTHMxsPe1RUeXLrMWXo+vuwVswU9bn6ukjAd1Jc07+Pp9mxX2dgU=
-X-Google-Smtp-Source: AGHT+IFFgR3FnuKNaxcbSF/D45iFGEkVO7DwIYkEGMWwJWTauy+SOrnz8WOVHQePtLtXFKX663PQaQ==
-X-Received: by 2002:a17:906:a2d6:b0:a31:7e9c:60bf with SMTP id
- by22-20020a170906a2d600b00a317e9c60bfmr23085ejb.0.1706206643807; 
- Thu, 25 Jan 2024 10:17:23 -0800 (PST)
+ d=1e100.net; s=20230601; t=1706206931; x=1706811731;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=4qdybqG7xbkh+aIXYiEtoKHBpIybkg9SQxRi0kQlQrI=;
+ b=Zvf9MoyoOVIBpkTwHVAofy/AdGsYbydLbLG1l3QAtjFtqUk4mlglutbW762DCALW6O
+ mm1lHpHbT72nTPPT2p3oAlDnfeMSP63zqKYngBqwxTN6ak8uudfURusex4Shugl+TFgC
+ oDGeBRUkpPOCVtaTjAdTC2e0Ffs1AIs/PnxD2pysaaJXBLu1Tm6m2hhqHtLAF5jCS20Z
+ dW8ii+k/YrbxBWz1J9ua1gMSf6fjqw6Iq2hGW5AaSGN4/vPsGStXQlmA4jRamfsnG8jM
+ Um2ldkZiHOmP+YMCctNa8+vzxjwEsB1jfBr+6ybWNWaxq/X2g4Y4Bxm4O2oYLuIbVxPQ
+ OUPQ==
+X-Gm-Message-State: AOJu0Yy3SWw/29TiZD4yF62KUaFiLDNtTos6Rh3ViWiLCM28I08ndPXc
+ AeqP4rZPgx45S2gwu9XTY/Rxw5paxi0Iu/1QVA06fv37bPCHeQo31bntaTUeYKFV2Gd6YO7SnQs
+ 1
+X-Google-Smtp-Source: AGHT+IHdXDCqB8OQAPrRVjufUIi2QUQrN0xCMNUIY2nKYm6nix9kUk9CJyxfp3u8Czz5GvE4jmdhfw==
+X-Received: by 2002:a17:906:38da:b0:a31:296b:b673 with SMTP id
+ r26-20020a17090638da00b00a31296bb673mr1930907ejd.3.1706206930900; 
+ Thu, 25 Jan 2024 10:22:10 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- tl15-20020a170907c30f00b00a3186c2c254sm765083ejc.213.2024.01.25.10.17.22
+ cw5-20020a170907160500b00a3009e3f8a9sm1298208ejd.17.2024.01.25.10.22.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Jan 2024 10:17:23 -0800 (PST)
-Date: Thu, 25 Jan 2024 19:17:21 +0100
+ Thu, 25 Jan 2024 10:22:10 -0800 (PST)
+Date: Thu, 25 Jan 2024 19:22:08 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Jason-JH Lin =?utf-8?B?KOael+edv+elpSk=?= <Jason-JH.Lin@mediatek.com>
-Subject: Re: [PATCH] drm/atomic-helpers: remove legacy_cursor_update hacks
-Message-ID: <ZbKlsTEvGPiGtzS3@phenom.ffwll.local>
-Mail-Followup-To: Jason-JH Lin =?utf-8?B?KOael+edv+elpSk=?=
- <Jason-JH.Lin@mediatek.com>, 
- "maxime@cerno.tech" <maxime@cerno.tech>,
- "manasi.d.navare@intel.com" <manasi.d.navare@intel.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "michel@daenzer.net" <michel@daenzer.net>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
- "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
- "mikita.lipski@amd.com" <mikita.lipski@amd.com>,
- "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "daniel.vetter@intel.com" <daniel.vetter@intel.com>,
- "nicholas.kazlauskas@amd.com" <nicholas.kazlauskas@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "quic_abhinavk@quicinc.com" <quic_abhinavk@quicinc.com>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>, 
- "lucas.demarchi@intel.com" <lucas.demarchi@intel.com>,
- "sean@poorly.run" <sean@poorly.run>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "dmitry.osipenko@collabora.com" <dmitry.osipenko@collabora.com>,
- "fshao@chromium.org" <fshao@chromium.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
- "jani.nikula@intel.com" <jani.nikula@intel.com>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>, 
- "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>
-References: <20230216111214.3489223-1-daniel.vetter@ffwll.ch>
- <20230307145613.xvhru3fpcudlpazt@houat>
- <aac416742920953999a9ce230ac68139bf5b9790.camel@mediatek.com>
+To: Dave Airlie <airlied@gmail.com>
+Subject: Re: [PATCH] nouveau: rip out fence irq allow/block sequences.
+Message-ID: <ZbKm0EqOVe9Ihqgz@phenom.ffwll.local>
+References: <20240123072538.1290035-1-airlied@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aac416742920953999a9ce230ac68139bf5b9790.camel@mediatek.com>
+In-Reply-To: <20240123072538.1290035-1-airlied@gmail.com>
 X-Operating-System: Linux phenom 6.6.11-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -104,99 +71,244 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "fshao@chromium.org" <fshao@chromium.org>,
- "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "daniel.vetter@intel.com" <daniel.vetter@intel.com>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- "dmitry.osipenko@collabora.com" <dmitry.osipenko@collabora.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
- "jani.nikula@intel.com" <jani.nikula@intel.com>,
- "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
- "michel@daenzer.net" <michel@daenzer.net>,
- "lucas.demarchi@intel.com" <lucas.demarchi@intel.com>,
- "quic_abhinavk@quicinc.com" <quic_abhinavk@quicinc.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "maxime@cerno.tech" <maxime@cerno.tech>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "mikita.lipski@amd.com" <mikita.lipski@amd.com>,
- "sean@poorly.run" <sean@poorly.run>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "manasi.d.navare@intel.com" <manasi.d.navare@intel.com>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
- "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
- "nicholas.kazlauskas@amd.com" <nicholas.kazlauskas@amd.com>
+Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 23, 2024 at 06:09:05AM +0000, Jason-JH Lin (林睿祥) wrote:
-> Hi Maxime, Daniel,
+On Tue, Jan 23, 2024 at 05:25:38PM +1000, Dave Airlie wrote:
+> From: Dave Airlie <airlied@redhat.com>
 > 
-> We encountered similar issue with mediatek SoCs.
+> fences are signalled on nvidia hw using non-stall interrupts.
 > 
-> We have found that in drm_atomic_helper_commit_rpm(), when disabling
-> the cursor plane, the old_state->legacy_cursor_update in
-> drm_atomic_wait_for_vblank() is set to true.
-> As the result, we are not actually waiting for a vlbank to wait for our
-> hardware to close the cursor plane. Subsequently, the execution
-> proceeds to drm_atomic_helper_cleanup_planes() to  free the cursor
-> buffer. This can lead to use-after-free issues with our hardware.
+> non-stall interrupts are not latched from my reading.
 > 
-> Could you please apply this patch to fix our problem?
-> Or are there any considerations for not applying this patch?
+> When nouveau emits a fence, it requests a NON_STALL signalling,
+> but it only calls the interface to allow the non-stall irq to happen
+> after it has already emitted the fence. A recent change
+> eacabb546271 ("nouveau: push event block/allowing out of the fence context")
+> made this worse by pushing out the fence allow/block to a workqueue.
+> 
+> However I can't see how this could ever work great, since when
+> enable signalling is called, the semaphore has already been emitted
+> to the ring, and the hw could already have tried to set the bits,
+> but it's been masked off. Changing the allowed mask later won't make
+> the interrupt get called again.
+> 
+> For now rip all of this out.
+> 
+> This fixes a bunch of stalls seen running VK CTS sync tests.
+> 
+> Signed-off-by: Dave Airlie <airlied@redhat.com>
+> ---
+>  drivers/gpu/drm/nouveau/nouveau_fence.c | 77 +++++--------------------
+>  drivers/gpu/drm/nouveau/nouveau_fence.h |  2 -
+>  2 files changed, 16 insertions(+), 63 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
+> index 5057d976fa57..d6d50cdccf75 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
+> @@ -50,24 +50,14 @@ nouveau_fctx(struct nouveau_fence *fence)
+>  	return container_of(fence->base.lock, struct nouveau_fence_chan, lock);
+>  }
+>  
+> -static int
+> +static void
+>  nouveau_fence_signal(struct nouveau_fence *fence)
+>  {
+> -	int drop = 0;
+> -
+>  	dma_fence_signal_locked(&fence->base);
+>  	list_del(&fence->head);
+>  	rcu_assign_pointer(fence->channel, NULL);
+>  
+> -	if (test_bit(DMA_FENCE_FLAG_USER_BITS, &fence->base.flags)) {
+> -		struct nouveau_fence_chan *fctx = nouveau_fctx(fence);
+> -
+> -		if (atomic_dec_and_test(&fctx->notify_ref))
+> -			drop = 1;
+> -	}
+> -
+>  	dma_fence_put(&fence->base);
+> -	return drop;
+>  }
+>  
+>  static struct nouveau_fence *
+> @@ -93,8 +83,7 @@ nouveau_fence_context_kill(struct nouveau_fence_chan *fctx, int error)
+>  		if (error)
+>  			dma_fence_set_error(&fence->base, error);
+>  
+> -		if (nouveau_fence_signal(fence))
+> -			nvif_event_block(&fctx->event);
+> +		nouveau_fence_signal(fence);
+>  	}
+>  	fctx->killed = 1;
+>  	spin_unlock_irqrestore(&fctx->lock, flags);
+> @@ -103,8 +92,8 @@ nouveau_fence_context_kill(struct nouveau_fence_chan *fctx, int error)
+>  void
+>  nouveau_fence_context_del(struct nouveau_fence_chan *fctx)
+>  {
+> -	cancel_work_sync(&fctx->allow_block_work);
+>  	nouveau_fence_context_kill(fctx, 0);
+> +	nvif_event_block(&fctx->event);
+>  	nvif_event_dtor(&fctx->event);
+>  	fctx->dead = 1;
+>  
+> @@ -127,11 +116,10 @@ nouveau_fence_context_free(struct nouveau_fence_chan *fctx)
+>  	kref_put(&fctx->fence_ref, nouveau_fence_context_put);
+>  }
+>  
+> -static int
+> +static void
+>  nouveau_fence_update(struct nouveau_channel *chan, struct nouveau_fence_chan *fctx)
+>  {
+>  	struct nouveau_fence *fence;
+> -	int drop = 0;
+>  	u32 seq = fctx->read(chan);
+>  
+>  	while (!list_empty(&fctx->pending)) {
+> @@ -140,10 +128,8 @@ nouveau_fence_update(struct nouveau_channel *chan, struct nouveau_fence_chan *fc
+>  		if ((int)(seq - fence->base.seqno) < 0)
+>  			break;
+>  
+> -		drop |= nouveau_fence_signal(fence);
+> +		nouveau_fence_signal(fence);
+>  	}
+> -
+> -	return drop;
+>  }
+>  
+>  static int
+> @@ -160,26 +146,13 @@ nouveau_fence_wait_uevent_handler(struct nvif_event *event, void *repv, u32 repc
+>  
+>  		fence = list_entry(fctx->pending.next, typeof(*fence), head);
+>  		chan = rcu_dereference_protected(fence->channel, lockdep_is_held(&fctx->lock));
+> -		if (nouveau_fence_update(chan, fctx))
+> -			ret = NVIF_EVENT_DROP;
+> +		nouveau_fence_update(chan, fctx);
+>  	}
+>  	spin_unlock_irqrestore(&fctx->lock, flags);
+>  
+>  	return ret;
+>  }
+>  
+> -static void
+> -nouveau_fence_work_allow_block(struct work_struct *work)
+> -{
+> -	struct nouveau_fence_chan *fctx = container_of(work, struct nouveau_fence_chan,
+> -						       allow_block_work);
+> -
+> -	if (atomic_read(&fctx->notify_ref) == 0)
+> -		nvif_event_block(&fctx->event);
+> -	else
+> -		nvif_event_allow(&fctx->event);
+> -}
+> -
+>  void
+>  nouveau_fence_context_new(struct nouveau_channel *chan, struct nouveau_fence_chan *fctx)
+>  {
+> @@ -191,7 +164,6 @@ nouveau_fence_context_new(struct nouveau_channel *chan, struct nouveau_fence_cha
+>  	} args;
+>  	int ret;
+>  
+> -	INIT_WORK(&fctx->allow_block_work, nouveau_fence_work_allow_block);
+>  	INIT_LIST_HEAD(&fctx->flip);
+>  	INIT_LIST_HEAD(&fctx->pending);
+>  	spin_lock_init(&fctx->lock);
+> @@ -216,6 +188,12 @@ nouveau_fence_context_new(struct nouveau_channel *chan, struct nouveau_fence_cha
+>  			      &args.base, sizeof(args), &fctx->event);
+>  
+>  	WARN_ON(ret);
+> +
+> +	/*
+> +	 * Always allow non-stall irq events - previously this code tried to
+> +	 * enable/disable them, but that just seems racy as nonstall irqs are unlatched.
+> +	 */
+> +	nvif_event_allow(&fctx->event);
+>  }
+>  
+>  int
+> @@ -247,8 +225,7 @@ nouveau_fence_emit(struct nouveau_fence *fence)
+>  			return -ENODEV;
+>  		}
+>  
+> -		if (nouveau_fence_update(chan, fctx))
+> -			nvif_event_block(&fctx->event);
+> +		nouveau_fence_update(chan, fctx);
+>  
+>  		list_add_tail(&fence->head, &fctx->pending);
+>  		spin_unlock_irq(&fctx->lock);
+> @@ -271,8 +248,8 @@ nouveau_fence_done(struct nouveau_fence *fence)
+>  
+>  		spin_lock_irqsave(&fctx->lock, flags);
+>  		chan = rcu_dereference_protected(fence->channel, lockdep_is_held(&fctx->lock));
+> -		if (chan && nouveau_fence_update(chan, fctx))
+> -			nvif_event_block(&fctx->event);
+> +		if (chan)
+> +			nouveau_fence_update(chan, fctx);
+>  		spin_unlock_irqrestore(&fctx->lock, flags);
+>  	}
+>  	return dma_fence_is_signaled(&fence->base);
+> @@ -530,32 +507,10 @@ static const struct dma_fence_ops nouveau_fence_ops_legacy = {
+>  	.release = nouveau_fence_release
+>  };
+>  
+> -static bool nouveau_fence_enable_signaling(struct dma_fence *f)
+> -{
+> -	struct nouveau_fence *fence = from_fence(f);
+> -	struct nouveau_fence_chan *fctx = nouveau_fctx(fence);
+> -	bool ret;
+> -	bool do_work;
+> -
+> -	if (atomic_inc_return(&fctx->notify_ref) == 0)
+> -		do_work = true;
+> -
+> -	ret = nouveau_fence_no_signaling(f);
+> -	if (ret)
+> -		set_bit(DMA_FENCE_FLAG_USER_BITS, &fence->base.flags);
+> -	else if (atomic_dec_and_test(&fctx->notify_ref))
+> -		do_work = true;
+> -
+> -	if (do_work)
+> -		schedule_work(&fctx->allow_block_work);
+> -
+> -	return ret;
+> -}
+> -
+>  static const struct dma_fence_ops nouveau_fence_ops_uevent = {
+>  	.get_driver_name = nouveau_fence_get_get_driver_name,
+>  	.get_timeline_name = nouveau_fence_get_timeline_name,
+> -	.enable_signaling = nouveau_fence_enable_signaling,
+> +	.enable_signaling = nouveau_fence_no_signaling,
 
-Mostly it needs someone to collect a pile of acks/tested-by and then land
-it.
+I think you can rip nouveau_fence_no_signaling out too, it doesn't do
+anything more than what the signalling codepath does too.
 
-I'd be _very_ happy if someone else can take care of that ...
+But maybe separate path since maybe this makes an existing leak more of a
+sieve, but it really should be an existing one since you cannot assume
+that someone external will ever look at whether your fence is signalled or
+not.
+-Sima
 
-There's also the potential issue that it might slow down some of the
-legacy X11 use-cases that really needed a non-blocking cursor, but I think
-all the drivers where this matters have switched over to the async plane
-update stuff meanwhile. So hopefully that's good.
-
-Cheers, Sima
+>  	.signaled = nouveau_fence_is_signaled,
+>  	.release = nouveau_fence_release
+>  };
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.h b/drivers/gpu/drm/nouveau/nouveau_fence.h
+> index 28f5cf013b89..380bb0397ed2 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_fence.h
+> +++ b/drivers/gpu/drm/nouveau/nouveau_fence.h
+> @@ -46,8 +46,6 @@ struct nouveau_fence_chan {
+>  	char name[32];
+>  
+>  	struct nvif_event event;
+> -	struct work_struct allow_block_work;
+> -	atomic_t notify_ref;
+>  	int dead, killed;
+>  };
+>  
+> -- 
+> 2.43.0
 > 
-> Regards,
-> Jason-JH.Lin
-> 
-> On Tue, 2023-03-07 at 15:56 +0100, Maxime Ripard wrote:
-> > Hi,
-> > 
-> > On Thu, Feb 16, 2023 at 12:12:13PM +0100, Daniel Vetter wrote:
-> > > The stuff never really worked, and leads to lots of fun because it
-> > > out-of-order frees atomic states. Which upsets KASAN, among other
-> > > things.
-> > > 
-> > > For async updates we now have a more solid solution with the
-> > > ->atomic_async_check and ->atomic_async_commit hooks. Support for
-> > > that
-> > > for msm and vc4 landed. nouveau and i915 have their own commit
-> > > routines, doing something similar.
-> > > 
-> > > For everyone else it's probably better to remove the use-after-free
-> > > bug, and encourage folks to use the async support instead. The
-> > > affected drivers which register a legacy cursor plane and don't
-> > > either
-> > > use the new async stuff or their own commit routine are: amdgpu,
-> > > atmel, mediatek, qxl, rockchip, sti, sun4i, tegra, virtio, and
-> > > vmwgfx.
-> > > 
-> > > Inspired by an amdgpu bug report.
-> > 
-> > Thanks for submitting that patch. It's been in the downstream RPi
-> > tree
-> > for a while, so I'd really like it to be merged eventually :)
-> > 
-> > Acked-by: Maxime Ripard <maxime@cerno.tech>
-> > 
-> > Maxime
 
 -- 
 Daniel Vetter
