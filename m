@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 582DE83C6B3
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 16:32:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9057D83C6A4
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 16:32:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B4AF10F90E;
-	Thu, 25 Jan 2024 15:32:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E15E110F906;
+	Thu, 25 Jan 2024 15:32:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.skole.hr (mx1.hosting.skole.hr [161.53.165.185])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5A2810F91F
+Received: from mx.skole.hr (mx2.hosting.skole.hr [161.53.165.186])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E638210F921
  for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 15:32:03 +0000 (UTC)
-Received: from mx1.hosting.skole.hr (localhost.localdomain [127.0.0.1])
- by mx.skole.hr (mx.skole.hr) with ESMTP id A4F1084FE8;
- Thu, 25 Jan 2024 16:31:59 +0100 (CET)
+Received: from mx2.hosting.skole.hr (localhost.localdomain [127.0.0.1])
+ by mx.skole.hr (mx.skole.hr) with ESMTP id 10732862B0;
+ Thu, 25 Jan 2024 16:31:58 +0100 (CET)
 From: =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-Date: Thu, 25 Jan 2024 16:30:55 +0100
-Subject: [PATCH v5 3/4] dt-bindings: backlight: add Kinetic KTD2801 binding
+Date: Thu, 25 Jan 2024 16:30:56 +0100
+Subject: [PATCH v5 4/4] backlight: Add Kinetic KTD2801 backlight support
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240125-ktd2801-v5-3-e22da232a825@skole.hr>
+Message-Id: <20240125-ktd2801-v5-4-e22da232a825@skole.hr>
 References: <20240125-ktd2801-v5-0-e22da232a825@skole.hr>
 In-Reply-To: <20240125-ktd2801-v5-0-e22da232a825@skole.hr>
 To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>, 
@@ -31,21 +31,21 @@ To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>, 
  Linus Walleij <linus.walleij@linaro.org>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2000;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6508;
  i=duje.mihanovic@skole.hr; h=from:subject:message-id;
- bh=LJvKeqWnmJS9YgQYzDhJWoFRmXHdCPe0hkHgpXGDTkE=;
- b=owEBbQKS/ZANAwAIAZoRnrBCLZbhAcsmYgBlsn7DgswBUZqnKT+8/fcnn9Hru+hah1ioow/Af
- vXnD4GbKIyJAjMEAAEIAB0WIQRT351NnD/hEPs2LXiaEZ6wQi2W4QUCZbJ+wwAKCRCaEZ6wQi2W
- 4R0BD/kB/1Eg1ozHsKPtWBSWi3LiCM+qxnj2ZuVCT6/OhEONtnJGsnXjTe5GRZFMElbjnKU5bUK
- 0Bvew1WXJ2SPqoef0wAmJhXuSVbOVKMWVjaeLDDv8lWY3saxQW6c3spevVPoSDh2devRw3Oa6tC
- o/3JKl6L634njze/H8v+qsMth8jD54PnN9MekSfP0Mf4YmIaeilDxgRqcd5nL5narH0J76+EONz
- Y4eYXGyItA2v09zBCe0SURu+zci/Cga/yw1/OdIzRPm4EKNc8hy7g9xfxDuTjMAHmk98arzFOdu
- KGbzB5FPhpCYPZjmEbQQEYKVH3iaOckm/P6AzFqaDcu/P5khVBCeq5jcY/LH99vaVEs0EcW4W4m
- XxCkQB6hLLns3wqKaeqdHB7ORHYsMai1ppkTki1AFQWoS+WKkD0TE7SBYb9SMobDimgK3Hi0uZw
- xuMteBoc7ImL6F5aVB2ZUHVXdOIfsav9JlPS9jmNMW11P0ZrilAa3jbTNhCNVM7PqwudogIVLpz
- TtoufeERwAsfbxVUj6MskA041zUuwdfn8xat2aJe01vop6ItZ6G+KoXcWxe26++jXIHD3lwIPQ6
- h8ztWDgrcVG4zq+m6lDYEOdKUpwRXtRxaR9McbnpA6r28wNl8BldfgJy342B08zvwQ7FgQ5xTig
- 3cAbMMec7AzUZ6w==
+ bh=9oIB83pc/ZyTg66e328/z4fCGwof+pG+pI1cGESw4c0=;
+ b=owEBbQKS/ZANAwAIAZoRnrBCLZbhAcsmYgBlsn7DzGjopG3zagxQdzO39RFkWfcgbL98E7cgE
+ 6mQxJ+xqCuJAjMEAAEIAB0WIQRT351NnD/hEPs2LXiaEZ6wQi2W4QUCZbJ+wwAKCRCaEZ6wQi2W
+ 4bK2EACrKqCjTzyf6knLrx0GBqRH1F4B3CAYyruA8cUQExJQWc5jI0nAF1hRrrfw3Z6OebH2Rmx
+ mKQkFb9+2KL5Snf9cikzqHaIKj8ZyDhtUFqQKd4S0U8PRv+xWe8ieAb+rX/EoVnLZmDurNXTCnm
+ vp/4PmXtd6swUY3Y0mge+QhwrBbmi3UQujerDHnDK+BoKnsTcdDFBqd20O+rFtsrXQeIqWIo8aY
+ yhTHJCf1rvy3bTDg+s3jXxC9CRM7pyVhqpmfKSXnuvi24fobYkhMDB2EmiR0didy4CDlJavj3m+
+ VvLZSlUyCMwlVy+eXj80A2KmsEf3RiaNZs7gxvaLjdTV8Z8+T3GEMa3/uPetlIApW4sEWiYKoDf
+ ldHYX4m+Th2wIACdQbiDdclikspvaAGuzEluBgGT1DjeprvNfosTH5MRZLsN2Q0WIOYTh3suKPk
+ HYLjnqaFZdYDkIkN0x4Pc8DQh5xLQ8Sl6OaRuajwDdy0hXLroFeLy0HSTpPiOW8UONZNA68XBCn
+ wQadc/JfOJBQCgkwRiktmqAQgoUHsDufOpzWM+CpvI2HM7o9NpsMhRWd3gT8NuvMHjFTOfLGoue
+ EvcvxhVf9phmwsSh1FErev7VBrRuTn1Lknu1sPpLD74CelV4mz3mwu4wcreCaPSvuxiCIQWHPBM
+ 7YZDuatn7GBvkhA==
 X-Developer-Key: i=duje.mihanovic@skole.hr; a=openpgp;
  fpr=53DF9D4D9C3FE110FB362D789A119EB0422D96E1
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -63,7 +63,6 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
  =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
  Karel Balej <balejk@matfyz.cz>, linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -71,68 +70,199 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 KTD2801 is a LED backlight driver IC found in samsung,coreprimevelte.
 The brightness can be set using PWM or the ExpressWire protocol. Add
-a DT binding for the KTD2801.
+support for the KTD2801.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
 ---
- .../bindings/leds/backlight/kinetic,ktd2801.yaml   | 46 ++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
+ MAINTAINERS                                 |   6 ++
+ drivers/video/backlight/Kconfig             |   7 ++
+ drivers/video/backlight/Makefile            |   1 +
+ drivers/video/backlight/ktd2801-backlight.c | 128 ++++++++++++++++++++++++++++
+ 4 files changed, 142 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/leds/backlight/kinetic,ktd2801.yaml b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktd2801.yaml
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e1c83e0e837a..01cd1a460907 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -12052,6 +12052,12 @@ S:	Maintained
+ F:	Documentation/devicetree/bindings/leds/backlight/kinetic,ktd253.yaml
+ F:	drivers/video/backlight/ktd253-backlight.c
+ 
++KTD2801 BACKLIGHT DRIVER
++M:	Duje Mihanović <duje.mihanovic@skole.hr>
++S:	Maintained
++F:	Documentation/devicetree/bindings/leds/backlight/kinetic,ktd2801.yaml
++F:	drivers/video/backlight/ktd2801-backlight.c
++
+ KTEST
+ M:	Steven Rostedt <rostedt@goodmis.org>
+ M:	John Hawley <warthog9@eaglescrag.net>
+diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
+index ea2d0d69bd8c..230bca07b09d 100644
+--- a/drivers/video/backlight/Kconfig
++++ b/drivers/video/backlight/Kconfig
+@@ -183,6 +183,13 @@ config BACKLIGHT_KTD253
+ 	  which is a 1-wire GPIO-controlled backlight found in some mobile
+ 	  phones.
+ 
++config BACKLIGHT_KTD2801
++	tristate "Backlight Driver for Kinetic KTD2801"
++	select LEDS_EXPRESSWIRE
++	help
++	  Say Y to enable the backlight driver for the Kinetic KTD2801 1-wire
++	  GPIO-controlled backlight found in Samsung Galaxy Core Prime VE LTE.
++
+ config BACKLIGHT_KTZ8866
+ 	tristate "Backlight Driver for Kinetic KTZ8866"
+ 	depends on I2C
+diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
+index 06966cb20459..8d2cb252042d 100644
+--- a/drivers/video/backlight/Makefile
++++ b/drivers/video/backlight/Makefile
+@@ -34,6 +34,7 @@ obj-$(CONFIG_BACKLIGHT_HP680)		+= hp680_bl.o
+ obj-$(CONFIG_BACKLIGHT_HP700)		+= jornada720_bl.o
+ obj-$(CONFIG_BACKLIGHT_IPAQ_MICRO)	+= ipaq_micro_bl.o
+ obj-$(CONFIG_BACKLIGHT_KTD253)		+= ktd253-backlight.o
++obj-$(CONFIG_BACKLIGHT_KTD2801)		+= ktd2801-backlight.o
+ obj-$(CONFIG_BACKLIGHT_KTZ8866)		+= ktz8866.o
+ obj-$(CONFIG_BACKLIGHT_LM3533)		+= lm3533_bl.o
+ obj-$(CONFIG_BACKLIGHT_LM3630A)		+= lm3630a_bl.o
+diff --git a/drivers/video/backlight/ktd2801-backlight.c b/drivers/video/backlight/ktd2801-backlight.c
 new file mode 100644
-index 000000000000..b005065e0f48
+index 000000000000..c020acff40f1
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktd2801.yaml
-@@ -0,0 +1,46 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/leds/backlight/kinetic,ktd2801.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/video/backlight/ktd2801-backlight.c
+@@ -0,0 +1,128 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Datasheet:
++ * https://www.kinet-ic.com/uploads/web/KTD2801/KTD2801-04b.pdf
++ */
++#include <linux/backlight.h>
++#include <linux/gpio/consumer.h>
++#include <linux/leds-expresswire.h>
++#include <linux/platform_device.h>
++#include <linux/property.h>
 +
-+title: Kinetic Technologies KTD2801 one-wire backlight
++#define KTD2801_DEFAULT_BRIGHTNESS	100
++#define KTD2801_MAX_BRIGHTNESS		255
 +
-+maintainers:
-+  - Duje Mihanović <duje.mihanovic@skole.hr>
++/* These values have been extracted from Samsung's driver. */
++const struct expresswire_timing ktd2801_timing = {
++	.poweroff_us = 2600,
++	.detect_delay_us = 150,
++	.detect_us = 270,
++	.data_start_us = 5,
++	.short_bitset_us = 5,
++	.long_bitset_us = 15,
++	.end_of_data_low_us = 10,
++	.end_of_data_high_us = 350
++};
 +
-+description: |
-+  The Kinetic Technologies KTD2801 is a LED backlight driver controlled
-+  by a single GPIO line. The driver can be controlled with a PWM signal
-+  or by pulsing the GPIO line to set the backlight level. This is called
-+  "ExpressWire".
++struct ktd2801_backlight {
++	struct expresswire_common_props props;
++	struct backlight_device *bd;
++	bool was_on;
++};
 +
-+allOf:
-+  - $ref: common.yaml#
++static int ktd2801_update_status(struct backlight_device *bd)
++{
++	struct ktd2801_backlight *ktd2801 = bl_get_data(bd);
++	u8 brightness = (u8) backlight_get_brightness(bd);
 +
-+properties:
-+  compatible:
-+    const: kinetic,ktd2801
++	if (backlight_is_blank(bd)) {
++		expresswire_power_off(&ktd2801->props);
++		ktd2801->was_on = false;
++		return 0;
++	}
 +
-+  ctrl-gpios:
-+    maxItems: 1
++	if (!ktd2801->was_on) {
++		expresswire_enable(&ktd2801->props);
++		ktd2801->was_on = true;
++	}
 +
-+  default-brightness: true
-+  max-brightness: true
++	expresswire_write_u8(&ktd2801->props, brightness);
 +
-+required:
-+  - compatible
-+  - ctrl-gpios
++	return 0;
++}
 +
-+additionalProperties: false
++static const struct backlight_ops ktd2801_backlight_ops = {
++	.update_status = ktd2801_update_status,
++};
 +
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
++static int ktd2801_backlight_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct backlight_device *bd;
++	struct ktd2801_backlight *ktd2801;
++	u32 brightness, max_brightness;
++	int ret;
 +
-+    backlight {
-+        compatible = "kinetic,ktd2801";
-+        ctrl-gpios = <&gpio 97 GPIO_ACTIVE_HIGH>;
-+        max-brightness = <210>;
-+        default-brightness = <100>;
-+    };
++	ktd2801 = devm_kzalloc(dev, sizeof(*ktd2801), GFP_KERNEL);
++	if (!ktd2801)
++		return -ENOMEM;
++	ktd2801->was_on = true;
++	ktd2801->props.timing = ktd2801_timing;
++
++	ret = device_property_read_u32(dev, "max-brightness", &max_brightness);
++	if (ret)
++		max_brightness = KTD2801_MAX_BRIGHTNESS;
++	if (max_brightness > KTD2801_MAX_BRIGHTNESS) {
++		dev_err(dev, "illegal max brightness specified\n");
++		max_brightness = KTD2801_MAX_BRIGHTNESS;
++	}
++
++	ret = device_property_read_u32(dev, "default-brightness", &brightness);
++	if (ret)
++		brightness = KTD2801_DEFAULT_BRIGHTNESS;
++	if (brightness > max_brightness) {
++		dev_err(dev, "default brightness exceeds max\n");
++		brightness = max_brightness;
++	}
++
++	ktd2801->props.ctrl_gpio = devm_gpiod_get(dev, "ctrl", GPIOD_OUT_HIGH);
++	if (IS_ERR(ktd2801->props.ctrl_gpio))
++		return dev_err_probe(dev, PTR_ERR(ktd2801->props.ctrl_gpio),
++				"failed to get backlight GPIO");
++	gpiod_set_consumer_name(ktd2801->props.ctrl_gpio, dev_name(dev));
++
++	bd = devm_backlight_device_register(dev, dev_name(dev), dev, ktd2801,
++			&ktd2801_backlight_ops, NULL);
++	if (IS_ERR(bd))
++		return dev_err_probe(dev, PTR_ERR(bd),
++				"failed to register backlight");
++
++	bd->props.max_brightness = max_brightness;
++	bd->props.brightness = brightness;
++
++	ktd2801->bd = bd;
++	platform_set_drvdata(pdev, bd);
++	backlight_update_status(bd);
++
++	return 0;
++}
++
++static const struct of_device_id ktd2801_of_match[] = {
++	{ .compatible = "kinetic,ktd2801" },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, ktd2801_of_match);
++
++static struct platform_driver ktd2801_backlight_driver = {
++	.driver = {
++		.name = "ktd2801-backlight",
++		.of_match_table = ktd2801_of_match,
++	},
++	.probe = ktd2801_backlight_probe,
++};
++module_platform_driver(ktd2801_backlight_driver);
++
++MODULE_IMPORT_NS(EXPRESSWIRE);
++MODULE_AUTHOR("Duje Mihanović <duje.mihanovic@skole.hr>");
++MODULE_DESCRIPTION("Kinetic KTD2801 Backlight Driver");
++MODULE_LICENSE("GPL");
 
 -- 
 2.43.0
