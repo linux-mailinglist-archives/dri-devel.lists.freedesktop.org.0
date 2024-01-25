@@ -2,73 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1134883CC9F
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 20:40:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0C3983CD56
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 21:23:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3316B10F96D;
-	Thu, 25 Jan 2024 19:39:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEA1210E89B;
+	Thu, 25 Jan 2024 20:23:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB63510F4D0;
- Thu, 25 Jan 2024 19:39:15 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 40PDxcj9007267; Thu, 25 Jan 2024 19:39:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding:content-type; s=
- qcppdkim1; bh=RNT9pg6jIeWU29Ifh0GlkQfkjtzYGOLCtviY2xL8NUw=; b=e7
- jhNSAfBXPh6n12HS8hY/DnM+VMyVfhhSuS7mVDxofs7MUFSRajmXv+erdHtQtAli
- lRcuAXsuGGcafj8ZByD/D3N683XZdJnNSYA7D9Tr3Ip1/tfVS04KEmqf+LqfUTpY
- RSPdbheGX0rZXtEEtET4r3wEBtPHGH4FoH2Wsj39x2Cr2kyKDjuL6iGkkiA2/muV
- 87OT/kMkLuzjI9nXBry71QK/PgEnqKOq7cpQ6RWG8O+P8kcZCUTjBDjr33e2r3bO
- AxuZm/+5pgF95G/uC/0N4a09cJHvyW2LbbWuSa5KP2jzgq84kz0uv7F9Nr8fBGaF
- PfhEIQ3xE9rVBNzD7nzg==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vun6w1nct-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 25 Jan 2024 19:39:13 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40PJdCbY025004
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 25 Jan 2024 19:39:12 GMT
-Received: from hu-parellan-lv.qualcomm.com (10.49.16.6) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Thu, 25 Jan 2024 11:39:12 -0800
-From: Paloma Arellano <quic_parellan@quicinc.com>
-To: <freedreno@lists.freedesktop.org>
-Subject: [PATCH 17/17] drm/msm/dp: allow YUV420 mode for DP connector when VSC
- SDP supported
-Date: Thu, 25 Jan 2024 11:38:26 -0800
-Message-ID: <20240125193834.7065-18-quic_parellan@quicinc.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20240125193834.7065-1-quic_parellan@quicinc.com>
-References: <20240125193834.7065-1-quic_parellan@quicinc.com>
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
+ [209.85.208.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6318C10E206
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 20:23:39 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id
+ 4fb4d7f45d1cf-55d000834dcso212094a12.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 12:23:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1706214157; x=1706818957; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=cgx7mklBpB9KounVQy5eGpWd3i905pv75d99Q4ggPTM=;
+ b=PJySQyfNCVRA4Omtaw+hiu1F7krvJ3vZ8JhsHvT44Ju6CfGVR9ryEebpn0EBVsW7ol
+ q+FHcQs+6BS6Yli+DYzopEmnYxcifqv5RCqfJm7IEjHoIOtGPJf75YItMus4/U4oDl1j
+ /luBnlQqQ4SFeY81gTjmO7RrZ9yoKDIpQ8pm0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1706214157; x=1706818957;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=cgx7mklBpB9KounVQy5eGpWd3i905pv75d99Q4ggPTM=;
+ b=e5QRkIzFyhRygX8pVdd8SVctXJT6wUZu1iyrAXbfSFKAggfX/nMkXZFFvf1AQ5p/OZ
+ eXTCb+T8yAywkeEVtQqsLLpY7HeQPFUIubt5NGqNrZ7bfnAuEEavFsOpEd8+KBQOZqBa
+ ElkcGne8x1IMgLYwSg1HlA+IuuTQNsPL3zab3gPIemhBttoFjXmj5I645ZtjQCpaFJTJ
+ WPgMm4oNjQUgygf6Zv44bIAJcM1XczZQvOSlGhaVHBAA4ET/moDQAJpX/rQCWVB0D3nA
+ NpIr0ey2NP4zM6nf2HgE1wYnC9702ymM9eQ2ilv6UlxGA4PqlXhtHGCG1Gf6EULbiUe1
+ ClYA==
+X-Forwarded-Encrypted: i=0;
+ AJvYcCV8DtwmQ61gxf1VLYB0oUYkQSfE3vUkqFOspWlkEE2Lsf7w9J/a14tq1cTWxMeBIMudbp2DCkmI9ETrQu3FO7tOM/zkJ0lKSJ1kilLC0mfP
+X-Gm-Message-State: AOJu0YwiY3oFdIyYDLHw6Xfx/cACH1png8DI4D74vypRJGF6R/NpXU1W
+ uWVRXUuwsPk74IYDo4IoTq9OztPKGc4g7hxQyoc0Xar2xRfqRu7IUdnwI19PxXg=
+X-Google-Smtp-Source: AGHT+IFaTRwxaZ3kossB3H1YRQdr9l0tTF1yAxPBdIIOdK1uRobh4zyGMgDW9fgGjUXK1GGr2MpHAQ==
+X-Received: by 2002:a17:906:f804:b0:a30:ff7f:e583 with SMTP id
+ kh4-20020a170906f80400b00a30ff7fe583mr148157ejb.2.1706214157490; 
+ Thu, 25 Jan 2024 12:22:37 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ ps12-20020a170906bf4c00b00a31225fed97sm1372278ejb.104.2024.01.25.12.22.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 25 Jan 2024 12:22:36 -0800 (PST)
+Date: Thu, 25 Jan 2024 21:22:34 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Matthew Wilcox <willy@infradead.org>
+Subject: Re: fb_defio and page->mapping
+Message-ID: <ZbLDCkpq9zxkdyLt@phenom.ffwll.local>
+Mail-Followup-To: Matthew Wilcox <willy@infradead.org>,
+ Helge Deller <deller@gmx.de>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Jaya Kumar <jayalk@intworks.biz>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org
+References: <Za_1d4MVxKeQOP9B@casper.infradead.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: E-LgGlCdRlARs3pC8nGZxDipdxMR_pxA
-X-Proofpoint-ORIG-GUID: E-LgGlCdRlARs3pC8nGZxDipdxMR_pxA
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-25_12,2024-01-25_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=818
- lowpriorityscore=0 adultscore=0 spamscore=0 priorityscore=1501 mlxscore=0
- bulkscore=0 phishscore=0 impostorscore=0 malwarescore=0 suspectscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401190000 definitions=main-2401250141
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Za_1d4MVxKeQOP9B@casper.infradead.org>
+X-Operating-System: Linux phenom 6.6.11-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,43 +78,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, marijn.suijten@somainline.org,
- linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
- quic_jesszhan@quicinc.com, dmitry.baryshkov@linaro.org,
- Paloma Arellano <quic_parellan@quicinc.com>, quic_khsieh@quicinc.com
+Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, Daniel Vetter <daniel@ffwll.ch>,
+ Jaya Kumar <jayalk@intworks.biz>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-All the components of YUV420 over DP are added. Therefore, let's mark the
-connector property as true for DP connector when the DP type is not eDP
-and when VSC SDP is supported.
+On Tue, Jan 23, 2024 at 05:20:55PM +0000, Matthew Wilcox wrote:
+> We're currently trying to remove page->mapping from the entire kernel.
+> This has me interested in fb_defio and since I made such a mess of it
+> with commits ccf953d8f3d6 / 0b78f8bcf495, I'd like to discuss what to
+> do before diving in.
+> 
+> Folios continue to have a mapping.  So we can effectively do
+> page_folio(page)->mapping (today that's calling compound_head() to get
+> to the head page; eventually it's a separate allocation).
+> 
+> But now I look at commit 56c134f7f1b5, I'm a little scared.
+> Apparently pages are being allocated from shmem and being mapped by
+> fb_deferred_io_fault()?  This line:
+> 
+>                 page->mapping = vmf->vma->vm_file->f_mapping;
+> 
+> initially appears harmless for shmem files (because that's presumably
+> a noop), but it's only a noop for head pages.  If shmem allocates a
+> compound page (ie a 2MB THP today), you'll overlay some information
+> stored in the second and third pages; looks like _entire_mapcount
+> and _deferred_list.prev (but we do shift those fields around without
+> regard to what the fb_defio driver is doing).  Even if you've disabled
+> THP today, setting page->mapping to NULL in fb_deferred_io_lastclose()
+> for a shmem page is a really bad idea.
+> 
+> I'd like to avoid fb_defio playing with page->mapping at all.
+> As I understand it, the only reason to set page->mapping is so that
+> page_mkclean() works.  But there are all kinds of assumptions in
+> page_mkclean() (now essentially folio_mkclean()) that we're dealing with
+> file-backed or anonymous memory.  I wonder if we might be better off
+> calling pfn_mkclean_range() for each VMA which maps these allocations?
+> You'd have to keep track of each VMA yourself (I think?)  but it would
+> avoid messing with page->mapping.
+> 
+> Anyway, I don't know enough about DRM.  There might be something
+> unutterably obvious we could do to fix this.
 
-Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
----
- drivers/gpu/drm/msm/dp/dp_display.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+It's just really old code that's been barely touched to keep it going.
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 4329435518351..97edd607400b8 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -370,11 +370,14 @@ static int dp_display_process_hpd_high(struct dp_display_private *dp)
- 
- 	dp_link_process_request(dp->link);
- 
--	if (!dp->dp_display.is_edp)
-+	if (!dp->dp_display.is_edp) {
-+		if (dp_panel_vsc_sdp_supported(dp->panel))
-+			dp->dp_display.connector->ycbcr_420_allowed = true;
- 		drm_dp_set_subconnector_property(dp->dp_display.connector,
- 						 connector_status_connected,
- 						 dp->panel->dpcd,
- 						 dp->panel->downstream_ports);
-+	}
- 
- 	edid = dp->panel->edid;
- 
+The issue is that the entire defio stuff is pretty bad layering violation.
+Not sure what the cleanest way to do this really would be if it only
+touches the ptes and nothing else. Not sure what's the right function for
+a bit of pte walking for that.
+
+That would still potentially mess with the mapping by the gpu memory
+allocator in bad ways, but I think at least for all current ones it should
+avoid problems.
+
+Definitely agree that messing with struct page in any way is really bad,
+we simply didn't get that far yet.
+
+I think the cleanest way would be if we have a fb_mmap only for drm
+drivers in drm_fbdev_generic.c and sunset fb_deferred_io_mmap and use that
+to just replicate the ptes from the kernel's vmap into one that is ok for
+userspace. The fbdev implementation in drm_fbdev_generic.c is the only one
+left in drm that supports fb_defio, so that would catch all of them. To my
+knowledge all the other defio implementations in native fbdev drivers
+aren't problematic since none use shmem.
+
+For I while we pondered with proxying the vma to the driver's drm native
+mmap implementation, but that gets real messy plus there's no benefit
+because fbdev assumes a bit too much that the memory is permanently
+pinned. So we need the pinned kernel vmap anyway.
+
+Cheers, Sima
 -- 
-2.39.2
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
