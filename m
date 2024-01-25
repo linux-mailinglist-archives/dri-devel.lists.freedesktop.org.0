@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B41B883D054
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 00:05:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4DB983D053
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 00:04:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33DAC10EDE2;
-	Thu, 25 Jan 2024 23:03:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D3E310ED01;
+	Thu, 25 Jan 2024 23:03:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
- [209.85.208.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3988E10EBBE
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 23:03:47 +0000 (UTC)
-Received: by mail-lj1-f180.google.com with SMTP id
- 38308e7fff4ca-2cf108d8dbeso41738531fa.3
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 15:03:47 -0800 (PST)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
+ [209.85.208.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3963B10EC92
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 23:03:48 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id
+ 38308e7fff4ca-2ccec119587so93400491fa.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 15:03:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1706223765; x=1706828565; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1706223766; x=1706828566; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=f23f6k2NURR3hjj9IxLe37rVyBQBMzjyoSIDJiZdG1c=;
- b=nK4iSlR8McG2R62026Yv4FtxZYzxLwlJhqxCsfEzT+ILvtIU1Dk6/pDTefBrPufUFg
- JDr3bUBNHZzlklvgAuSnRQ9nhkxwLA0d25wZzKept7P2/bFXqBvcpt3LBF/DZ5orIsVy
- zgVBy/1C4OEeqYHfz9E2RYK54HCZDb5T6sSv9CyMaNDPU9sLkfmPsSF6thcBVMu2o1QB
- ccwDhRPTNkSJaWlDb7MD0nhmvoRga2c2IJduIKd564tt4Fp6iwHV9ZFpVw/MaczsIzIj
- EplqGuInthQ9OczYXLCwHmN5DeXYt0RH6Gx8eGD9JSbO+aK7UBCrL4qHKvT1DzYjuhua
- 7JTA==
+ :reply-to; bh=IQTuJ8wNeg68JOx46UjSbtRu40sdbbzeiAcOLYDTPCw=;
+ b=bQhOPVVfxP47O91AreAReMKfZDBeaM4rgsEAaKM3GBzb87nl7Z50J43W/FkpkmTVO5
+ raXi1MXVj9e5kMIsEB8CsWfP+jZ9o/dHA9MkXwh4iQJW7l3MjHABumzrIZ/U++xAtxE4
+ 2Dq8hfmeAn+ujLod/FTGIRUd6sxPKDjGUJyECwwKDp6qzvbJplr/0YLpTarCvhu5iXCy
+ uzv+THxHmzgWNNmabqlW9ztC0U+a0mpIeLKiOafNPizwPursegBKbZcKSXIbd6oWQM4K
+ BuzmFrJXdBHQY7Jd/dS3ASWIjE1zfAT9bUGHVQXQWM5f5cjMQeYz0FNvsGNEuiSCygmD
+ dHlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706223765; x=1706828565;
+ d=1e100.net; s=20230601; t=1706223766; x=1706828566;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=f23f6k2NURR3hjj9IxLe37rVyBQBMzjyoSIDJiZdG1c=;
- b=GBuEgArRwqO1fi68yaZE33fALrWutQ69Xf+SKmRz/GnIHHIIQ27TZkiCDIoGQ45E2g
- C3DfsXoLD52kML0VOZmtcL/nfdMZZAk0LK77SMUM9+HPCNN+4AI6bJo/2tlopXtTakAL
- iw97g6odn+RgKZ2+z+jFq3MjtV3Zx5i7yW7fiUrxRk5v0/zKdwijKK6/qZ4Q6IAYDp5f
- bxv/Gz+xegZGYoX3hhmL922KujZJnqzOcS6jNNIVzM/gF0Y/VMrlsS4Kyi+ChH6ODL3J
- vohxqgmfWoO2kui39xs28/DZudZ93zFi3NoDvRijyN9EYJbLLhVX48/k9nYFFAdWA1XG
- o1Nw==
-X-Gm-Message-State: AOJu0Yw/plvhUOdciWQSWBOpcjsVFpzyE4mXe0F5y3xJVlCNux2W1god
- +bcyK+c02w8GVjms0H+Xr4N5HlBRqzzKXzR/xxhuid0J8q0hC6E9WlqvzNw0lV0=
-X-Google-Smtp-Source: AGHT+IHWL7lF9e3bxYIvviM0rpRY3/N/LEZxutH26qo4iWViNLetyA61IJqVdclQuX8iyb8qCwkkDA==
-X-Received: by 2002:a2e:8856:0:b0:2cf:3037:2a35 with SMTP id
- z22-20020a2e8856000000b002cf30372a35mr193008ljj.48.1706223765497; 
- Thu, 25 Jan 2024 15:02:45 -0800 (PST)
+ bh=IQTuJ8wNeg68JOx46UjSbtRu40sdbbzeiAcOLYDTPCw=;
+ b=PpV68kdj9ynp4XgwM1/Am3YZTEz4Fq8uj57m38Zf1z1tbpKSMlOtlbjBmsSkjTgDVG
+ n4qSSVsMlZWU8Nw3Ns6z+mM+WdpnnGMYM7Y8AEAU18GVKUebS0rq5j8LnoNY4xTwTotz
+ PBscAoi8402k1ecF4IPxtsCrE3d3W79iBbicmWNiBqc51wcMWdN/f50ZUARytVl21ZFw
+ ACT/BmMTiz1rO3Th1f+pNj12WZ0BQRwppJW+0WvnFgemjF/WRAUIdi3kGs3EHrn4z7Mn
+ UpIMji3CxZhLoPR6e6AdSktrpQa6mJrOAXf/VabyK5O44VqMzMqBuEs3xtfPtF+N2a8b
+ HpzA==
+X-Gm-Message-State: AOJu0YxcXgEViVVSHvoMcmkDW97NHu30YP4iQe9QYJcVvRTsoUV2RgOj
+ fnwBi2NQpKoCe+9iEukYE1qnsLLORDsVS+1xkYrpxGB0bEanhV6jpTmXc4niVRU=
+X-Google-Smtp-Source: AGHT+IFSrOqGPfv75v5XjL5dcp1A1v9CtUu3yzT9DTKpjnkuRzPRsIwxWVFWlVnXT6Ihnk4/ehKTnw==
+X-Received: by 2002:a2e:bb9e:0:b0:2cf:3144:3a40 with SMTP id
+ y30-20020a2ebb9e000000b002cf31443a40mr251326lje.52.1706223766528; 
+ Thu, 25 Jan 2024 15:02:46 -0800 (PST)
 Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- x19-20020a2e8813000000b002cdfc29b46dsm405872ljh.88.2024.01.25.15.02.44
+ x19-20020a2e8813000000b002cdfc29b46dsm405872ljh.88.2024.01.25.15.02.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Jan 2024 15:02:44 -0800 (PST)
+ Thu, 25 Jan 2024 15:02:45 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 26 Jan 2024 01:02:38 +0200
-Subject: [PATCH v3 09/15] drm/msm/dp: move phy_configure_opts to dp_ctrl
+Date: Fri, 26 Jan 2024 01:02:39 +0200
+Subject: [PATCH v3 10/15] drm/msm/dp: remove PHY handling from dp_catalog.c
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240126-dp-power-parser-cleanup-v3-9-e2e46f4d390c@linaro.org>
+Message-Id: <20240126-dp-power-parser-cleanup-v3-10-e2e46f4d390c@linaro.org>
 References: <20240126-dp-power-parser-cleanup-v3-0-e2e46f4d390c@linaro.org>
 In-Reply-To: <20240126-dp-power-parser-cleanup-v3-0-e2e46f4d390c@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -65,16 +65,16 @@ To: Rob Clark <robdclark@gmail.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
  Kuogee Hsieh <quic_khsieh@quicinc.com>, Stephen Boyd <swboyd@chromium.org>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6449;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4868;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=JHMCbSPE7gZXRzZ8Yh8uYk+Fdg3YzXkUqA/+AlXGaYM=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBlsuiI+CRVzFO0JONwDtwe7JlErZ4iifllbSvuk
- Ar1cShrPe2JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZbLoiAAKCRCLPIo+Aiko
- 1d1FB/wOltnFkPJD4pVXXHYxjDRCSYycagYhyrH65rnoMYJ8MDlUdlDKE84poWo34C6Xc/STtQP
- XwVGU47raz6l9Ck6+kDgIo/dZqCf4KwZXXTJgpcU5RkCJ6PBqHyYFDHw0sEF+1X2SWdUdUBQSJd
- 7g2+ImipGqZ8lEsr0ngQmSkR70oieMQN+3E7WWcHoxd7IzDauFnctCKqMpWFhOgi5vkaiu7skrg
- cgVzkV/kJKWRE7IA5QOH4oHZRQh3o38C9k6mWHWZ35FNPTmat+kfYa99ZxEVpfUqULKNW53RwIi
- omylb0fBjDt/ulYwdawTtynDyGTjyKMKxJd5ycXMHRxz8ZJj
+ bh=lj8fVAqF9xjHx1KrBL3A1/vTOxjI6sPTTzeJIEKTWus=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBlsuiIiF6KzNUnOcKgp0Sj/juS5Fs/pBCsNxMtn
+ owYMiQX25eJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZbLoiAAKCRCLPIo+Aiko
+ 1bpAB/sEIpewx8Dya+nNOMTbkPYqk1xVeYi0cSaU7c9iJcjjsUpcreLQlzOKkOz16tTsrYsBp+3
+ mDZQ6d2VJxzT5ZJGGraJ4cP47dULClmzcUId4lMaDFUL45a4tgxXDNn5n625Ui1Ag2MDn/cMbYo
+ SL+go+fezyZ6IobYH5X4dCllpp6v4Cg1Rcv7Sy/77eu5e86hADwTVd8Vx8zNW/tQe6yhbyCmUn7
+ uzQkI3DzUk3z166gVJm5QkyEGp6uY6O7NWhUVmqA+9jX0oSFEEhECrZVwOumtHw3DlI3KDh5mNL
+ trzBSSxhH/QipIXJFrK8oYkWuvShq+E8u5brJ8QRWFYoU2Pn
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -95,175 +95,142 @@ Cc: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is little point in sharing phy configuration structure between
-several modules. Move it to dp_ctrl, which becomes the only submodule
-re-configuring the PHY.
+Inline dp_catalog_aux_update_cfg() and call phy_calibrate() from dp_aux
+functions directly.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/dp/dp_catalog.c | 19 -----------------
- drivers/gpu/drm/msm/dp/dp_catalog.h |  2 --
- drivers/gpu/drm/msm/dp/dp_ctrl.c    | 41 ++++++++++++++++++++++++-------------
- drivers/gpu/drm/msm/dp/dp_parser.h  |  3 ---
- 4 files changed, 27 insertions(+), 38 deletions(-)
+ drivers/gpu/drm/msm/dp/dp_aux.c     |  9 +++++++--
+ drivers/gpu/drm/msm/dp/dp_aux.h     |  1 +
+ drivers/gpu/drm/msm/dp/dp_catalog.c | 12 ------------
+ drivers/gpu/drm/msm/dp/dp_catalog.h |  1 -
+ drivers/gpu/drm/msm/dp/dp_display.c |  4 +++-
+ 5 files changed, 11 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
-index 5142aeb705a4..e07651768805 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.c
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
-@@ -765,25 +765,6 @@ void dp_catalog_ctrl_phy_reset(struct dp_catalog *dp_catalog)
- 	dp_write_ahb(catalog, REG_DP_PHY_CTRL, 0x0);
+diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c b/drivers/gpu/drm/msm/dp/dp_aux.c
+index 03f4951c49f4..adbd5a367395 100644
+--- a/drivers/gpu/drm/msm/dp/dp_aux.c
++++ b/drivers/gpu/drm/msm/dp/dp_aux.c
+@@ -4,6 +4,7 @@
+  */
+ 
+ #include <linux/delay.h>
++#include <linux/phy/phy.h>
+ #include <drm/drm_print.h>
+ 
+ #include "dp_reg.h"
+@@ -23,6 +24,8 @@ struct dp_aux_private {
+ 	struct device *dev;
+ 	struct dp_catalog *catalog;
+ 
++	struct phy *phy;
++
+ 	struct mutex mutex;
+ 	struct completion comp;
+ 
+@@ -336,7 +339,7 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux *dp_aux,
+ 		if (aux->native) {
+ 			aux->retry_cnt++;
+ 			if (!(aux->retry_cnt % MAX_AUX_RETRIES))
+-				dp_catalog_aux_update_cfg(aux->catalog);
++				phy_calibrate(aux->phy);
+ 		}
+ 		/* reset aux if link is in connected state */
+ 		if (dp_catalog_link_is_connected(aux->catalog))
+@@ -439,7 +442,7 @@ void dp_aux_reconfig(struct drm_dp_aux *dp_aux)
+ 
+ 	aux = container_of(dp_aux, struct dp_aux_private, dp_aux);
+ 
+-	dp_catalog_aux_update_cfg(aux->catalog);
++	phy_calibrate(aux->phy);
+ 	dp_catalog_aux_reset(aux->catalog);
  }
  
--int dp_catalog_ctrl_update_vx_px(struct dp_catalog *dp_catalog,
--		u8 v_level, u8 p_level)
+@@ -517,6 +520,7 @@ static int dp_wait_hpd_asserted(struct drm_dp_aux *dp_aux,
+ }
+ 
+ struct drm_dp_aux *dp_aux_get(struct device *dev, struct dp_catalog *catalog,
++			      struct phy *phy,
+ 			      bool is_edp)
+ {
+ 	struct dp_aux_private *aux;
+@@ -537,6 +541,7 @@ struct drm_dp_aux *dp_aux_get(struct device *dev, struct dp_catalog *catalog,
+ 
+ 	aux->dev = dev;
+ 	aux->catalog = catalog;
++	aux->phy = phy;
+ 	aux->retry_cnt = 0;
+ 
+ 	/*
+diff --git a/drivers/gpu/drm/msm/dp/dp_aux.h b/drivers/gpu/drm/msm/dp/dp_aux.h
+index 511305da4f66..16d9b1758748 100644
+--- a/drivers/gpu/drm/msm/dp/dp_aux.h
++++ b/drivers/gpu/drm/msm/dp/dp_aux.h
+@@ -17,6 +17,7 @@ void dp_aux_deinit(struct drm_dp_aux *dp_aux);
+ void dp_aux_reconfig(struct drm_dp_aux *dp_aux);
+ 
+ struct drm_dp_aux *dp_aux_get(struct device *dev, struct dp_catalog *catalog,
++			      struct phy *phy,
+ 			      bool is_edp);
+ void dp_aux_put(struct drm_dp_aux *aux);
+ 
+diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
+index e07651768805..4c6207797c99 100644
+--- a/drivers/gpu/drm/msm/dp/dp_catalog.c
++++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
+@@ -7,8 +7,6 @@
+ 
+ #include <linux/delay.h>
+ #include <linux/iopoll.h>
+-#include <linux/phy/phy.h>
+-#include <linux/phy/phy-dp.h>
+ #include <linux/rational.h>
+ #include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_print.h>
+@@ -243,16 +241,6 @@ void dp_catalog_aux_enable(struct dp_catalog *dp_catalog, bool enable)
+ 	dp_write_aux(catalog, REG_DP_AUX_CTRL, aux_ctrl);
+ }
+ 
+-void dp_catalog_aux_update_cfg(struct dp_catalog *dp_catalog)
 -{
 -	struct dp_catalog_private *catalog = container_of(dp_catalog,
 -				struct dp_catalog_private, dp_catalog);
 -	struct dp_io *dp_io = catalog->io;
 -	struct phy *phy = dp_io->phy;
--	struct phy_configure_opts_dp *opts_dp = &dp_io->phy_opts.dp;
 -
--	/* TODO: Update for all lanes instead of just first one */
--	opts_dp->voltage[0] = v_level;
--	opts_dp->pre[0] = p_level;
--	opts_dp->set_voltages = 1;
--	phy_configure(phy, &dp_io->phy_opts);
--	opts_dp->set_voltages = 0;
--
--	return 0;
+-	phy_calibrate(phy);
 -}
 -
- void dp_catalog_ctrl_send_phy_pattern(struct dp_catalog *dp_catalog,
- 			u32 pattern)
+ int dp_catalog_aux_wait_for_hpd_connect_state(struct dp_catalog *dp_catalog)
  {
+ 	u32 state;
 diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
-index 38786e855b51..ba7c62ba7ca3 100644
+index ba7c62ba7ca3..1f3f58d4b8de 100644
 --- a/drivers/gpu/drm/msm/dp/dp_catalog.h
 +++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
-@@ -111,8 +111,6 @@ void dp_catalog_ctrl_set_psr(struct dp_catalog *dp_catalog, bool enter);
- u32 dp_catalog_link_is_connected(struct dp_catalog *dp_catalog);
- u32 dp_catalog_hpd_get_intr_status(struct dp_catalog *dp_catalog);
- void dp_catalog_ctrl_phy_reset(struct dp_catalog *dp_catalog);
--int dp_catalog_ctrl_update_vx_px(struct dp_catalog *dp_catalog, u8 v_level,
--				u8 p_level);
- int dp_catalog_ctrl_get_interrupt(struct dp_catalog *dp_catalog);
- u32 dp_catalog_ctrl_read_psr_interrupt_status(struct dp_catalog *dp_catalog);
- void dp_catalog_ctrl_update_transfer_unit(struct dp_catalog *dp_catalog,
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-index e367eb8e5bea..4aea72a2b8e8 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-@@ -87,6 +87,8 @@ struct dp_ctrl_private {
+@@ -84,7 +84,6 @@ int dp_catalog_aux_clear_trans(struct dp_catalog *dp_catalog, bool read);
+ int dp_catalog_aux_clear_hw_interrupts(struct dp_catalog *dp_catalog);
+ void dp_catalog_aux_reset(struct dp_catalog *dp_catalog);
+ void dp_catalog_aux_enable(struct dp_catalog *dp_catalog, bool enable);
+-void dp_catalog_aux_update_cfg(struct dp_catalog *dp_catalog);
+ int dp_catalog_aux_wait_for_hpd_connect_state(struct dp_catalog *dp_catalog);
+ u32 dp_catalog_aux_get_irq(struct dp_catalog *dp_catalog);
  
- 	struct clk *pixel_clk;
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index 6fbbd0f93d13..c1a51c498e01 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -729,7 +729,9 @@ static int dp_init_sub_modules(struct dp_display_private *dp)
+ 		goto error;
+ 	}
  
-+	union phy_configure_opts phy_opts;
-+
- 	struct completion idle_comp;
- 	struct completion psr_op_comp;
- 	struct completion video_comp;
-@@ -1017,6 +1019,21 @@ static int dp_ctrl_wait4video_ready(struct dp_ctrl_private *ctrl)
- 	return ret;
- }
- 
-+static int dp_ctrl_set_vx_px(struct dp_ctrl_private *ctrl,
-+			     u8 v_level, u8 p_level)
-+{
-+	union phy_configure_opts *phy_opts = &ctrl->phy_opts;
-+
-+	/* TODO: Update for all lanes instead of just first one */
-+	phy_opts->dp.voltage[0] = v_level;
-+	phy_opts->dp.pre[0] = p_level;
-+	phy_opts->dp.set_voltages = 1;
-+	phy_configure(ctrl->parser->io.phy, phy_opts);
-+	phy_opts->dp.set_voltages = 0;
-+
-+	return 0;
-+}
-+
- static int dp_ctrl_update_vx_px(struct dp_ctrl_private *ctrl)
- {
- 	struct dp_link *link = ctrl->link;
-@@ -1029,7 +1046,7 @@ static int dp_ctrl_update_vx_px(struct dp_ctrl_private *ctrl)
- 	drm_dbg_dp(ctrl->drm_dev,
- 		"voltage level: %d emphasis level: %d\n",
- 			voltage_swing_level, pre_emphasis_level);
--	ret = dp_catalog_ctrl_update_vx_px(ctrl->catalog,
-+	ret = dp_ctrl_set_vx_px(ctrl,
- 		voltage_swing_level, pre_emphasis_level);
- 
- 	if (ret)
-@@ -1425,16 +1442,14 @@ static void dp_ctrl_link_clk_disable(struct dp_ctrl *dp_ctrl)
- static int dp_ctrl_enable_mainlink_clocks(struct dp_ctrl_private *ctrl)
- {
- 	int ret = 0;
--	struct dp_io *dp_io = &ctrl->parser->io;
--	struct phy *phy = dp_io->phy;
--	struct phy_configure_opts_dp *opts_dp = &dp_io->phy_opts.dp;
-+	struct phy *phy = ctrl->parser->io.phy;
- 	const u8 *dpcd = ctrl->panel->dpcd;
- 
--	opts_dp->lanes = ctrl->link->link_params.num_lanes;
--	opts_dp->link_rate = ctrl->link->link_params.rate / 100;
--	opts_dp->ssc = drm_dp_max_downspread(dpcd);
-+	ctrl->phy_opts.dp.lanes = ctrl->link->link_params.num_lanes;
-+	ctrl->phy_opts.dp.link_rate = ctrl->link->link_params.rate / 100;
-+	ctrl->phy_opts.dp.ssc = drm_dp_max_downspread(dpcd);
- 
--	phy_configure(phy, &dp_io->phy_opts);
-+	phy_configure(phy, &ctrl->phy_opts);
- 	phy_power_on(phy);
- 
- 	dev_pm_opp_set_rate(ctrl->dev, ctrl->link->link_params.rate * 1000);
-@@ -1572,14 +1587,12 @@ static bool dp_ctrl_use_fixed_nvid(struct dp_ctrl_private *ctrl)
- 
- static int dp_ctrl_reinitialize_mainlink(struct dp_ctrl_private *ctrl)
- {
-+	struct phy *phy = ctrl->parser->io.phy;
- 	int ret = 0;
--	struct dp_io *dp_io = &ctrl->parser->io;
--	struct phy *phy = dp_io->phy;
--	struct phy_configure_opts_dp *opts_dp = &dp_io->phy_opts.dp;
- 
- 	dp_catalog_ctrl_mainlink_ctrl(ctrl->catalog, false);
--	opts_dp->lanes = ctrl->link->link_params.num_lanes;
--	phy_configure(phy, &dp_io->phy_opts);
-+	ctrl->phy_opts.dp.lanes = ctrl->link->link_params.num_lanes;
-+	phy_configure(phy, &ctrl->phy_opts);
- 	/*
- 	 * Disable and re-enable the mainlink clock since the
- 	 * link clock might have been adjusted as part of the
-@@ -1659,7 +1672,7 @@ static bool dp_ctrl_send_phy_test_pattern(struct dp_ctrl_private *ctrl)
- 
- 	drm_dbg_dp(ctrl->drm_dev, "request: 0x%x\n", pattern_requested);
- 
--	if (dp_catalog_ctrl_update_vx_px(ctrl->catalog,
-+	if (dp_ctrl_set_vx_px(ctrl,
- 			ctrl->link->phy_params.v_level,
- 			ctrl->link->phy_params.p_level)) {
- 		DRM_ERROR("Failed to set v/p levels\n");
-diff --git a/drivers/gpu/drm/msm/dp/dp_parser.h b/drivers/gpu/drm/msm/dp/dp_parser.h
-index cad82c4d07da..b28052e87101 100644
---- a/drivers/gpu/drm/msm/dp/dp_parser.h
-+++ b/drivers/gpu/drm/msm/dp/dp_parser.h
-@@ -7,8 +7,6 @@
- #define _DP_PARSER_H_
- 
- #include <linux/platform_device.h>
--#include <linux/phy/phy.h>
--#include <linux/phy/phy-dp.h>
- 
- #include "msm_drv.h"
- 
-@@ -37,7 +35,6 @@ struct dss_io_data {
- struct dp_io {
- 	struct dss_io_data dp_controller;
- 	struct phy *phy;
--	union phy_configure_opts phy_opts;
- };
- 
- /**
+-	dp->aux = dp_aux_get(dev, dp->catalog, dp->dp_display.is_edp);
++	dp->aux = dp_aux_get(dev, dp->catalog,
++			     dp->parser->io.phy,
++			     dp->dp_display.is_edp);
+ 	if (IS_ERR(dp->aux)) {
+ 		rc = PTR_ERR(dp->aux);
+ 		DRM_ERROR("failed to initialize aux, rc = %d\n", rc);
 
 -- 
 2.39.2
