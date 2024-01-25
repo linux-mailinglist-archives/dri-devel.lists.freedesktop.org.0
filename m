@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8471D83C4F5
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 15:38:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2EC583C4F1
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 15:38:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E30410F4A4;
-	Thu, 25 Jan 2024 14:38:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6744310F836;
+	Thu, 25 Jan 2024 14:38:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2079.outbound.protection.outlook.com [40.107.93.79])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4528910EB0A;
- Thu, 25 Jan 2024 14:38:04 +0000 (UTC)
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam04on2078.outbound.protection.outlook.com [40.107.100.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50AE910EF31;
+ Thu, 25 Jan 2024 14:38:05 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RKziFaIsZa2pOZMdnXkyKS8I8mprUY2ipCv9h0m82DtWl5d5VxRjnqjPdfB2TKe1FCkrZ9WE4HSevWZlGpuEILme02EZqGDQRv0wDaCopYGm2zPa+5QfCy7RFnmL00r4UcqkWIUdz1ijie0NYCPy2y2MHZKNkfd4va/dWnf2l2bVw21B700XUkkhVu0YA0q+B73ELrAyXtUVekfke6vq4UuyfI2SGwIJxZBXtwaFVt1r5kFcFXTyQlvVuAdw5bXcWdCJuiPDELe9SUSUgsen2uaie8KIbOTTUSlCrCn+mBnb0c1MJVItnCXf0LT0uitkiwI9bGD69UPzmpc8qiUAIQ==
+ b=clucAtQm4qt3s+JKcAjKLI1sQahGTLdRAGX1snxWz9pMcKl5TXkM1RfPXwdJH/cX2SDaKRcTzhEqyfLPHduoYNKrIG6iCjM7waUe+T/dBArzdzi/5zMyZ3bNouyNEjuTTfaJUuW1GdhKPy7t6risK/hVQGxT/yChMUHvjaVggA+id8Gh4/wO50z+Fl2llmWJze9CLLWsTpl6xG9rYegbYlVfkunFNRB3ISnTIJFvGfMwXjz4qq0m/TtlI6lmiV3Bd/xsLiTEmE4ErKuPiGdoHTOupP+CYa5KHnTn8LDVzfJiPSvcbCnoz68dUOZWKmAOLOlZ7tvSlBxkgXYVL/Fbeg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=i52MwAeVv5hTjPYFufQJPRm9L5hNvX6q8H0hqX2bqD8=;
- b=RAIYbXFlk4HlfsG4aahiWshT78Oqvn7hi91/9RV+cqxGuaMOR4S9OgBwS35AQmEgWrA2i3+kN5F8j4/LvWLgMsYVcLt0x9lwjIoHT2jQzZNwK9NiFzBi5msVwr3GLvuoqV76uVeLlm5d94bokodBfW7YCz6HohJ30FrAFCcrWVlnieJlkhDtSAM59z8jblXUgvL94bZJTdj1dD9nRj9zog0mI2AngjQTZ3bVJz7di2gaX4iH9RJ4VjVewQgAnhNcSNcEp4/3XVNuWJa49QbWnXGDVmdVxu3eg9oQeG3vKQ03WtigjeKz6Nm9Ov5JI46UbFgU1v6/aIFuhrbAxtzUZg==
+ bh=aG5lDRTlKjMPIwbi6xvmQLCgixE6bNT6Hpuw9scFJzI=;
+ b=S8RyaMRHRidFqC3mVD75tNQzrNI6PlPiXF/sWHbOC5uAg3+CiaMJsPEnBR1osRrC7Iliz2p8WxQYvG6mKekfwodZ9UqQOFHtjRXgJfj2f/uAb7aFBj2PdGrJTl9QUEH+PMwT8B4ASK2o0Sh2GdG7xywBSPRgNlmYqo4GzWsPMbg5CtDJSp4XhR3G2Y5SIsnJjF3Ls87l6haCH9emTsnn+AhP16hheSuAf2tTQEi1f8ilUO1GjvFMqnwal+ae9LtzNeFeSI/Qmvo0tAQKvApsQYSRCG7pR5+COclHfCfHLwOoJPY9/MXIVrdT4vIvzRJCi06k2F9b6NfGwDCuR8CoaA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i52MwAeVv5hTjPYFufQJPRm9L5hNvX6q8H0hqX2bqD8=;
- b=gee/Kl/9m28m60zbzJPaUFYuaR0DMaUyGuxk9Y/SNxq0X2ali/luvzNSYDzakwI7lnHtOZUrsc/oCfBm7FID6q6eD7lgGIAjrB2cHFT0lKY/rSyFUPDTeql6aP20ku8U+xDMUX+nwNM+MriCLGkI2amTWhRxGdPW62Wp/YezD0k=
-Received: from CH5P223CA0020.NAMP223.PROD.OUTLOOK.COM (2603:10b6:610:1f3::9)
- by IA1PR12MB9064.namprd12.prod.outlook.com (2603:10b6:208:3a8::19) with
+ bh=aG5lDRTlKjMPIwbi6xvmQLCgixE6bNT6Hpuw9scFJzI=;
+ b=rzaN5pN5m8x03Xus98XiTFXQlEAjylJNdHazNh593acAJH7ak/Uuo38wreeyZbOcIWMKpUqhbd4RjMF2sqEjZEqCEHDefzvsGbvRi9VIIAiuWiTUPe9mwUbNiLYd7XYx0250dwZm8Q5mQsaSIcyUzAn48g2IJYZ0m5p5dI7xJDY=
+Received: from DM6PR03CA0028.namprd03.prod.outlook.com (2603:10b6:5:40::41) by
+ MN2PR12MB4175.namprd12.prod.outlook.com (2603:10b6:208:1d3::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.22; Thu, 25 Jan
- 2024 14:38:00 +0000
-Received: from CH2PEPF000000A0.namprd02.prod.outlook.com
- (2603:10b6:610:1f3:cafe::49) by CH5P223CA0020.outlook.office365.com
- (2603:10b6:610:1f3::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.26 via Frontend
- Transport; Thu, 25 Jan 2024 14:38:00 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.27; Thu, 25 Jan
+ 2024 14:38:01 +0000
+Received: from CH2PEPF0000009A.namprd02.prod.outlook.com
+ (2603:10b6:5:40:cafe::eb) by DM6PR03CA0028.outlook.office365.com
+ (2603:10b6:5:40::41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.34 via Frontend
+ Transport; Thu, 25 Jan 2024 14:38:01 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -45,49 +45,49 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CH2PEPF000000A0.mail.protection.outlook.com (10.167.244.26) with Microsoft
+ CH2PEPF0000009A.mail.protection.outlook.com (10.167.244.22) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7228.16 via Frontend Transport; Thu, 25 Jan 2024 14:37:59 +0000
+ 15.20.7228.16 via Frontend Transport; Thu, 25 Jan 2024 14:38:00 +0000
 Received: from amd-X570-AORUS-ELITE.amd.com (10.180.168.240) by
  SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Thu, 25 Jan 2024 08:37:56 -0600
+ 15.1.2507.34; Thu, 25 Jan 2024 08:37:58 -0600
 From: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
 To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
-Subject: [PATCH v4 2/3] drm/amdgpu: Enable clear page functionality
-Date: Thu, 25 Jan 2024 06:36:51 -0800
-Message-ID: <20240125143652.4387-2-Arunpravin.PaneerSelvam@amd.com>
+Subject: [PATCH v4 3/3] drm/buddy: Add defragmentation support
+Date: Thu, 25 Jan 2024 06:36:52 -0800
+Message-ID: <20240125143652.4387-3-Arunpravin.PaneerSelvam@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240125143652.4387-1-Arunpravin.PaneerSelvam@amd.com>
 References: <20240125143652.4387-1-Arunpravin.PaneerSelvam@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [10.180.168.240]
 X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PEPF000000A0:EE_|IA1PR12MB9064:EE_
-X-MS-Office365-Filtering-Correlation-Id: 354f152b-3c7f-4d1d-69c8-08dc1db33abd
+X-MS-TrafficTypeDiagnostic: CH2PEPF0000009A:EE_|MN2PR12MB4175:EE_
+X-MS-Office365-Filtering-Correlation-Id: f3fb6853-8e15-4914-ca58-08dc1db33b51
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Y47g43n7fPduKz4FLYxF1JeZuMEIQqbalqM8eC2Zq/tdUtr6XRQeGq+oEq3FV+nNQFIG7YB842xBHi7znyb9x0lgO0X2eG6ZSUPBcHkjM5byXYOiQWeD/1TL/7evoZtS4hpZPRchDcqfNmuZwGJuT3ysiKE34cIvUx9tCHB6D40tM0mjHZMnJzmwNtiJ8vovvcxt1m0BXyzIfmcn/X9mfWdbhf3QM0WuEIcn18SuBBRQqt40hVP2MrNc9l4e9OPDiSyN3NxZQLkSyeMyYfJuvZy3Fq4+m25Si9Ob8P8NvyYQPj9dWSJdWiNoauxvqZ8RLIyolNzns9EmbjT8qxYaWwRXZau+TLNX6W5H23FRk66mdbCdbVtHKuGgGw0wHf9Fbft+6QMMif5X6PaMeDWOakYD79ioSLkAUPa0x2R1Mbl3zMPb0NKbQ06LWfNGDTtMHROMq8MDd2bhaeiv64cddv842Xz/3FOgw2G/mr77vzaZ7/U/b0C2qCI/TzPFLWwcN+eMPT4Xpg+VmKs4KGbuI24HU39zo88BHMzekBoHtccWLg6/j/lkQvi1f2V+Tarmel5Y8SzYV6U3zq6HKsr9INpzw8ZZDp/rnX8Eh3Q76udThgGuQQxYCgclkWuanf0Q0hiKQUGd/c85+3YyBf8VonI+ZclvKigwcSBsmHY+gmpfMLqCYNlGXOLoXRWrdIcIgtDJcWY3QUexn81N33sRq99Ie87ft/EgZaBBTCOzGpB+cm6h1zeLnpKZXx32CZ/YOr4JZ4kCX9fqu3nJiwHPpw==
+X-Microsoft-Antispam-Message-Info: gVVTpnCZkLE1qlCvfWQa4Rrsj7HLFJFOOycQwg0joaFLgNWWZ/hEzTgSASd088BhAe0j4ZtCjKdbRYHDQ9J2EW9Zm1zyaMsAX/AITz2FfAcv6Tv86gLn0KU1jd4tcPVj4VVcVkQg/W1Zh77Tb9xCUXLUKIHTnSsNBeg4VWuZYHVLtr5DKHDkcuhKd1L74FhJRCrZxlq4RgftrOHZPURpiOTkZOtVXm529YreTXvEDIYYFnKoe1qx4BUbLO5KUf37Ch5d+fugG/7kuIpPAk4kEYgKGcJkpKaYdRF75hpSxpaaaqyrgSHUfcz3Jh/qytTGW79mdjwPioXe4/ncbQ5IA88cAtyB2+1/PDODnyHClHrX7hdTEH3a4x5UavSIMRsXtSA9FLSypSRaoLveFzVEp0tI7cxP7qdUFhMIWoEIUdDsOmKUKAwUzF+PS744x/PZJPNOkNc9xLv03pPfkaN644an9vbZ4jRcrUHn8d7YOPX4we1cTFY3EeM2Tx9CnBZh7xWWlT6z8MESIshbNes+N7oC/H4eYmJoOFqdADOm7STc6Ie6x6Q+VQvpWYSBxczzA/RX5qvsEwY0FFDVpgxZP65LXhBbbiFxhm56NElHEYEralbVVUp0bB+cfKUUjh9MLik7/tgEnprCF6rSIzFuaKfbwOTY29SsCXwe2Jm71fHzxZNxfgdYSRaE5Y8lDBb7QZgdeoVsCoBPFoIbPmqm9OD8niyjsZ/feG0ySsJCb/fjb6aBgMEOFM4EjLBbSL+KThIUPBBNZy2LF0UZJ69qqg==
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(4636009)(396003)(376002)(136003)(39860400002)(346002)(230922051799003)(186009)(451199024)(82310400011)(64100799003)(1800799012)(36840700001)(40470700004)(46966006)(16526019)(36860700001)(47076005)(478600001)(40460700003)(356005)(82740400003)(70586007)(40480700001)(81166007)(26005)(336012)(426003)(83380400001)(316002)(66574015)(7696005)(2906002)(54906003)(8936002)(8676002)(4326008)(5660300002)(70206006)(110136005)(86362001)(36756003)(2616005)(6666004)(1076003)(41300700001)(36900700001);
+ SFS:(13230031)(4636009)(136003)(376002)(39860400002)(346002)(396003)(230922051799003)(64100799003)(82310400011)(186009)(1800799012)(451199024)(40470700004)(46966006)(36840700001)(36860700001)(2906002)(36756003)(41300700001)(86362001)(81166007)(82740400003)(47076005)(356005)(54906003)(316002)(7696005)(110136005)(70586007)(70206006)(478600001)(6666004)(336012)(426003)(83380400001)(5660300002)(8676002)(4326008)(1076003)(2616005)(8936002)(16526019)(26005)(40460700003)(40480700001)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jan 2024 14:37:59.9892 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 354f152b-3c7f-4d1d-69c8-08dc1db33abd
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jan 2024 14:38:00.9928 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f3fb6853-8e15-4914-ca58-08dc1db33b51
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CH2PEPF000000A0.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CH2PEPF0000009A.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB9064
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4175
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,286 +106,130 @@ Cc: alexander.deucher@amd.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add clear page support in vram memory region.
-
-v1:(Christian)
-  - Dont handle clear page as TTM flag since when moving the BO back
-    in from GTT again we don't need that.
-  - Make a specialized version of amdgpu_fill_buffer() which only
-    clears the VRAM areas which are not already cleared
-  - Drop the TTM_PL_FLAG_WIPE_ON_RELEASE check in
-    amdgpu_object.c
-
-v2:
-  - Modify the function name amdgpu_ttm_* (Alex)
-  - Drop the delayed parameter (Christian)
-  - handle amdgpu_res_cleared(&cursor) just above the size
-    calculation (Christian)
-  - Use AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE for clearing the buffers
-    in the free path to properly wait for fences etc.. (Christian)
-
-v3:(Christian)
-  - Remove buffer clear code in VRAM manager instead change the
-    AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE handling to set
-    the DRM_BUDDY_CLEARED flag.
-  - Remove ! from amdgpu_res_cleared(&cursor) check.
+Add a function to support defragmentation.
 
 Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-Suggested-by: Christian König <christian.koenig@amd.com>
+Suggested-by: Matthew Auld <matthew.auld@intel.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c    | 22 ++++---
- .../gpu/drm/amd/amdgpu/amdgpu_res_cursor.h    | 25 ++++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       | 61 ++++++++++++++++++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h       |  5 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c  |  6 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h  |  5 ++
- 6 files changed, 111 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/drm_buddy.c | 48 ++++++++++++++++++++++++++++---------
+ 1 file changed, 37 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-index b2e9a2f81d82..be32f9852d19 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-@@ -39,6 +39,7 @@
- #include "amdgpu.h"
- #include "amdgpu_trace.h"
- #include "amdgpu_amdkfd.h"
-+#include "amdgpu_vram_mgr.h"
+diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+index d44172f23f05..3cffa9cc12d7 100644
+--- a/drivers/gpu/drm/drm_buddy.c
++++ b/drivers/gpu/drm/drm_buddy.c
+@@ -277,7 +277,8 @@ drm_get_buddy(struct drm_buddy_block *block)
+ EXPORT_SYMBOL(drm_get_buddy);
  
- /**
-  * DOC: amdgpu_object
-@@ -595,8 +596,7 @@ int amdgpu_bo_create(struct amdgpu_device *adev,
- 	if (!amdgpu_bo_support_uswc(bo->flags))
- 		bo->flags &= ~AMDGPU_GEM_CREATE_CPU_GTT_USWC;
+ static void __drm_buddy_free(struct drm_buddy *mm,
+-			     struct drm_buddy_block *block)
++			     struct drm_buddy_block *block,
++			     bool defrag)
+ {
+ 	struct drm_buddy_block *parent;
  
--	if (adev->ras_enabled)
--		bo->flags |= AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE;
-+	bo->flags |= AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE;
+@@ -289,12 +290,14 @@ static void __drm_buddy_free(struct drm_buddy *mm,
+ 		if (!drm_buddy_block_is_free(buddy))
+ 			break;
  
- 	bo->tbo.bdev = &adev->mman.bdev;
- 	if (bp->domain & (AMDGPU_GEM_DOMAIN_GWS | AMDGPU_GEM_DOMAIN_OA |
-@@ -626,15 +626,17 @@ int amdgpu_bo_create(struct amdgpu_device *adev,
+-		if (drm_buddy_block_is_clear(block) !=
+-		    drm_buddy_block_is_clear(buddy))
+-			break;
++		if (!defrag) {
++			if (drm_buddy_block_is_clear(block) !=
++			    drm_buddy_block_is_clear(buddy))
++				break;
  
- 	if (bp->flags & AMDGPU_GEM_CREATE_VRAM_CLEARED &&
- 	    bo->tbo.resource->mem_type == TTM_PL_VRAM) {
--		struct dma_fence *fence;
-+		struct dma_fence *fence = NULL;
- 
--		r = amdgpu_fill_buffer(bo, 0, bo->tbo.base.resv, &fence, true);
-+		r = amdgpu_ttm_clear_buffer(bo, bo->tbo.base.resv, &fence);
- 		if (unlikely(r))
- 			goto fail_unreserve;
- 
--		dma_resv_add_fence(bo->tbo.base.resv, fence,
--				   DMA_RESV_USAGE_KERNEL);
--		dma_fence_put(fence);
-+		if (fence) {
-+			dma_resv_add_fence(bo->tbo.base.resv, fence,
-+					   DMA_RESV_USAGE_KERNEL);
-+			dma_fence_put(fence);
+-		if (drm_buddy_block_is_clear(block))
+-			mark_cleared(parent);
++			if (drm_buddy_block_is_clear(block))
++				mark_cleared(parent);
 +		}
- 	}
- 	if (!bp->resv)
- 		amdgpu_bo_unreserve(bo);
-@@ -1357,8 +1359,12 @@ void amdgpu_bo_release_notify(struct ttm_buffer_object *bo)
- 	if (WARN_ON_ONCE(!dma_resv_trylock(bo->base.resv)))
- 		return;
  
--	r = amdgpu_fill_buffer(abo, AMDGPU_POISON, bo->base.resv, &fence, true);
-+	r = amdgpu_fill_buffer(abo, 0, bo->base.resv, &fence, true);
- 	if (!WARN_ON(r)) {
-+		struct amdgpu_vram_mgr_resource *vres;
-+
-+		vres = to_amdgpu_vram_mgr_resource(bo->resource);
-+		vres->flags |= DRM_BUDDY_CLEARED;
- 		amdgpu_bo_fence(abo, fence, false);
- 		dma_fence_put(fence);
- 	}
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_res_cursor.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_res_cursor.h
-index 381101d2bf05..50fcd86e1033 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_res_cursor.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_res_cursor.h
-@@ -164,4 +164,29 @@ static inline void amdgpu_res_next(struct amdgpu_res_cursor *cur, uint64_t size)
- 	}
+ 		list_del(&buddy->link);
+ 
+@@ -307,6 +310,19 @@ static void __drm_buddy_free(struct drm_buddy *mm,
+ 	mark_free(mm, block);
  }
  
-+/**
-+ * amdgpu_res_cleared - check if blocks are cleared
-+ *
-+ * @cur: the cursor to extract the block
-+ *
-+ * Check if the @cur block is cleared
-+ */
-+static inline bool amdgpu_res_cleared(struct amdgpu_res_cursor *cur)
++static void drm_buddy_defrag(struct drm_buddy *mm)
 +{
 +	struct drm_buddy_block *block;
++	struct list_head *list;
 +
-+	switch (cur->mem_type) {
-+	case TTM_PL_VRAM:
-+		block = cur->node;
++	list = &mm->free_list[0];
++	if (list_empty(list))
++		return;
 +
-+		if (!amdgpu_vram_mgr_is_cleared(block))
-+			return false;
-+		break;
-+	default:
-+		return false;
-+	}
-+
-+	return true;
++	list_for_each_entry_reverse(block, list, link)
++		__drm_buddy_free(mm, block, 1);
 +}
 +
- #endif
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index 46a24d2308aa..15cdda77573c 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -378,11 +378,15 @@ static int amdgpu_move_blit(struct ttm_buffer_object *bo,
- 	    (abo->flags & AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE)) {
- 		struct dma_fence *wipe_fence = NULL;
+ /**
+  * drm_buddy_free_block - free a block
+  *
+@@ -321,7 +337,7 @@ void drm_buddy_free_block(struct drm_buddy *mm,
+ 	if (drm_buddy_block_is_clear(block))
+ 		mm->clear_avail += drm_buddy_block_size(mm, block);
  
--		r = amdgpu_fill_buffer(abo, AMDGPU_POISON, NULL, &wipe_fence,
--					false);
-+		r = amdgpu_fill_buffer(abo, 0, NULL, &wipe_fence,
-+				       false);
- 		if (r) {
- 			goto error;
- 		} else if (wipe_fence) {
-+			struct amdgpu_vram_mgr_resource *vres;
-+
-+			vres = to_amdgpu_vram_mgr_resource(bo->resource);
-+			vres->flags |= DRM_BUDDY_CLEARED;
- 			dma_fence_put(fence);
- 			fence = wipe_fence;
- 		}
-@@ -2215,6 +2219,59 @@ static int amdgpu_ttm_fill_mem(struct amdgpu_ring *ring, uint32_t src_data,
- 	return 0;
+-	__drm_buddy_free(mm, block);
++	__drm_buddy_free(mm, block, 0);
+ }
+ EXPORT_SYMBOL(drm_buddy_free_block);
+ 
+@@ -447,7 +463,7 @@ __alloc_range_bias(struct drm_buddy *mm,
+ 	if (buddy &&
+ 	    (drm_buddy_block_is_free(block) &&
+ 	     drm_buddy_block_is_free(buddy)))
+-		__drm_buddy_free(mm, block);
++		__drm_buddy_free(mm, block, 0);
+ 	return ERR_PTR(err);
  }
  
-+int amdgpu_ttm_clear_buffer(struct amdgpu_bo *bo,
-+			    struct dma_resv *resv,
-+			    struct dma_fence **fence)
-+{
-+	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
-+	struct amdgpu_ring *ring = adev->mman.buffer_funcs_ring;
-+	struct amdgpu_res_cursor cursor;
-+	struct dma_fence *f = NULL;
-+	u64 addr;
-+	int r;
-+
-+	if (!adev->mman.buffer_funcs_enabled)
-+		return -EINVAL;
-+
-+	amdgpu_res_first(bo->tbo.resource, 0, amdgpu_bo_size(bo), &cursor);
-+
-+	mutex_lock(&adev->mman.gtt_window_lock);
-+	while (cursor.remaining) {
-+		struct dma_fence *next = NULL;
-+		u64 size;
-+
-+		if (amdgpu_res_cleared(&cursor)) {
-+			amdgpu_res_next(&cursor, cursor.size);
-+			continue;
-+		}
-+
-+		/* Never clear more than 256MiB at once to avoid timeouts */
-+		size = min(cursor.size, 256ULL << 20);
-+
-+		r = amdgpu_ttm_map_buffer(&bo->tbo, bo->tbo.resource, &cursor,
-+					  1, ring, false, &size, &addr);
-+		if (r)
-+			goto err;
-+
-+		r = amdgpu_ttm_fill_mem(ring, 0, addr, size, resv,
-+					&next, true, true);
-+		if (r)
-+			goto err;
-+
-+		dma_fence_put(f);
-+		f = next;
-+
-+		amdgpu_res_next(&cursor, size);
-+	}
-+err:
-+	mutex_unlock(&adev->mman.gtt_window_lock);
-+	if (fence)
-+		*fence = dma_fence_get(f);
-+	dma_fence_put(f);
-+
-+	return r;
-+}
-+
- int amdgpu_fill_buffer(struct amdgpu_bo *bo,
- 			uint32_t src_data,
- 			struct dma_resv *resv,
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-index 65ec82141a8e..b404d89d52e5 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-@@ -38,8 +38,6 @@
- #define AMDGPU_GTT_MAX_TRANSFER_SIZE	512
- #define AMDGPU_GTT_NUM_TRANSFER_WINDOWS	2
+@@ -577,7 +593,7 @@ alloc_from_freelist(struct drm_buddy *mm,
  
--#define AMDGPU_POISON	0xd0bed0be
--
- extern const struct attribute_group amdgpu_vram_mgr_attr_group;
- extern const struct attribute_group amdgpu_gtt_mgr_attr_group;
- 
-@@ -155,6 +153,9 @@ int amdgpu_ttm_copy_mem_to_mem(struct amdgpu_device *adev,
- 			       uint64_t size, bool tmz,
- 			       struct dma_resv *resv,
- 			       struct dma_fence **f);
-+int amdgpu_ttm_clear_buffer(struct amdgpu_bo *bo,
-+			    struct dma_resv *resv,
-+			    struct dma_fence **fence);
- int amdgpu_fill_buffer(struct amdgpu_bo *bo,
- 			uint32_t src_data,
- 			struct dma_resv *resv,
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-index d0e199cc8f17..a25d2d511877 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-@@ -435,6 +435,7 @@ static int amdgpu_vram_mgr_new(struct ttm_resource_manager *man,
- {
- 	struct amdgpu_vram_mgr *mgr = to_vram_mgr(man);
- 	struct amdgpu_device *adev = to_amdgpu_device(mgr);
-+	struct amdgpu_bo *bo = ttm_to_amdgpu_bo(tbo);
- 	u64 vis_usage = 0, max_bytes, min_block_size;
- 	struct amdgpu_vram_mgr_resource *vres;
- 	u64 size, remaining_size, lpfn, fpfn;
-@@ -486,6 +487,9 @@ static int amdgpu_vram_mgr_new(struct ttm_resource_manager *man,
- 	if (place->flags & TTM_PL_FLAG_CONTIGUOUS)
- 		vres->flags |= DRM_BUDDY_CONTIGUOUS_ALLOCATION;
- 
-+	if (bo->flags & AMDGPU_GEM_CREATE_VRAM_CLEARED)
-+		vres->flags |= DRM_BUDDY_CLEAR_ALLOCATION;
-+
- 	if (fpfn || lpfn != mgr->mm.size)
- 		/* Allocate blocks in desired range */
- 		vres->flags |= DRM_BUDDY_RANGE_ALLOCATION;
-@@ -589,7 +593,7 @@ static void amdgpu_vram_mgr_del(struct ttm_resource_manager *man,
- 
- 	amdgpu_vram_mgr_do_reserve(man);
- 
--	drm_buddy_free_list(mm, &vres->blocks, 0);
-+	drm_buddy_free_list(mm, &vres->blocks, vres->flags);
- 	mutex_unlock(&mgr->lock);
- 
- 	atomic64_sub(vis_usage, &mgr->vis_usage);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h
-index 0e04e42cf809..8478522d7366 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h
-@@ -53,6 +53,11 @@ static inline u64 amdgpu_vram_mgr_block_size(struct drm_buddy_block *block)
- 	return (u64)PAGE_SIZE << drm_buddy_block_order(block);
+ err_undo:
+ 	if (tmp != order)
+-		__drm_buddy_free(mm, block);
++		__drm_buddy_free(mm, block, 0);
+ 	return ERR_PTR(err);
  }
  
-+static inline bool amdgpu_vram_mgr_is_cleared(struct drm_buddy_block *block)
-+{
-+	return drm_buddy_block_is_clear(block);
-+}
+@@ -657,7 +673,7 @@ static int __alloc_range(struct drm_buddy *mm,
+ 	if (buddy &&
+ 	    (drm_buddy_block_is_free(block) &&
+ 	     drm_buddy_block_is_free(buddy)))
+-		__drm_buddy_free(mm, block);
++		__drm_buddy_free(mm, block, 0);
+ 
+ err_free:
+ 	if (err == -ENOSPC && total_allocated_on_err) {
+@@ -903,7 +919,7 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+ 
+ 			if (order-- == min_order) {
+ 				if (flags & DRM_BUDDY_CONTIGUOUS_ALLOCATION &&
+-				    !(flags & DRM_BUDDY_RANGE_ALLOCATION))
++				    !(flags & DRM_BUDDY_RANGE_ALLOCATION)) {
+ 					/*
+ 					 * Try contiguous block allocation through
+ 					 * try harder method
+@@ -912,6 +928,16 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+ 									 original_size,
+ 									 original_min_size,
+ 									 blocks);
 +
- static inline struct amdgpu_vram_mgr_resource *
- to_amdgpu_vram_mgr_resource(struct ttm_resource *res)
- {
++					/*
++					 * Defragment the freelist and try contiguous block
++					 * allocation
++					 */
++					drm_buddy_defrag(mm);
++					if (!IS_ERR(alloc_from_freelist(mm, min_order, flags)))
++						break;
++				}
++
+ 				err = -ENOSPC;
+ 				goto err_free;
+ 			}
 -- 
 2.25.1
 
