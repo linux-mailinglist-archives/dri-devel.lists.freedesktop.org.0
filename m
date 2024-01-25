@@ -2,62 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2EAD83CAA0
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 19:13:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5244483CAA4
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 19:15:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BA9810E2ED;
-	Thu, 25 Jan 2024 18:13:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4640210E5DA;
+	Thu, 25 Jan 2024 18:15:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
- [209.85.208.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C16CC10E09B
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 18:13:15 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id
- 4fb4d7f45d1cf-55369c59708so1639768a12.1
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 10:13:15 -0800 (PST)
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com
+ [209.85.218.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A9DE10E5DA
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 18:15:14 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id
+ a640c23a62f3a-a27e7b70152so186401166b.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 10:15:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1706206334; x=1706811134; darn=lists.freedesktop.org; 
+ d=ffwll.ch; s=google; t=1706206452; x=1706811252; darn=lists.freedesktop.org; 
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=OlD8SETOlT5gWIix6TSr1eeKdPf+HP3S2KOXnsvdfn8=;
- b=bz5yTETt4OMZJyCRsWoo+q7BvjK72+Nm15uAqolGs7W4tmKsOKRgB9gwjKi2v+6x43
- u1vSxVMjlXTcleu6hP60hMEBIVsnd+FXAhnBBZxkUSnfddvaXpGQ9biN/dTW3e7XKsrJ
- IKRCcDKNJmJoJpiZ456HeyfWurpU1MKb3Zs5k=
+ bh=bn65lRsPHUwSHjihHIHrD2SbxgPSKLlAgwIWNGW/AYU=;
+ b=CIZCpGt/ybZ9RM2jinG7/DcmL5Ck4GGggHtJ5KHAKWLz/QG9vZQeKRHV5hdv2fvtoo
+ dYHbIKL8xNROqffus0ofYtwJi1gHz2icLsDoEu6BHyfPOZot+6J9fVPsrRKep+eVy4Kx
+ QgGYg4Pq8h9XzvV/eqsEaVQ0dL5mCSit1c6lQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706206334; x=1706811134;
+ d=1e100.net; s=20230601; t=1706206452; x=1706811252;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=OlD8SETOlT5gWIix6TSr1eeKdPf+HP3S2KOXnsvdfn8=;
- b=dnLd9gdAI4jGg8Xjr+lKZ0drT6GyLd81JgEhjc6p7HBzeMlAgMZEfjRsaEXfKTX6mk
- Fagw6Q+0eCw2nwm6DSP9I+U7k83rOBDhPy38+rzNI2QOxt9bm7KQ4nY3Y0xX8/O3d4QI
- rr3graMnaLSg826CfBflddKQ3b83Wh6kpifVMrSrlXdhGTcUcEJEdK+JM3fzyu+7QVso
- ofL8L+2r2n1k5E5RumNMSzhFNzHub5M54UxecQFeS1gAPeiHu1UYcrwTxSsb8SHrNXZi
- CtPWKPrbLFVoAM5Jyc63Og5UhuNZax/w4YUTgz2skKYBddXUt5/UgX/FPwXooNXgwmpV
- 5j8A==
-X-Gm-Message-State: AOJu0Yx4aHjS71TjosikZNRrFN/k1+8MTMHIpAz3TfMVwhnsb+SO/pee
- FBtryfvc5zi8uRM9kT7vnFh6xtz1wlUHdOnwtnNiTQ9/Qrv/eh3z49kHQO8RiF8=
-X-Google-Smtp-Source: AGHT+IGzJ4cEpNsViZVMsDb3jrkZz/Ye4WLNt8brs47pwLXT+IJcPtVaf9hIc/bMbOYstojKhHI8MA==
-X-Received: by 2002:a17:907:1705:b0:a30:ff25:5dfc with SMTP id
- le5-20020a170907170500b00a30ff255dfcmr1804730ejc.6.1706206334170; 
- Thu, 25 Jan 2024 10:12:14 -0800 (PST)
+ bh=bn65lRsPHUwSHjihHIHrD2SbxgPSKLlAgwIWNGW/AYU=;
+ b=V6sk1EHiRz1cVGgOGQOh0K8nkDSMCK5NBI6IQiQSzld+ay+eyb0AfYCl8vP3OAei34
+ gxY4Vfh7XdzXpAkBBTt3+Y7am2/pbZa7Mk9k3oug+YteQMQeBUOaIIpDPd/fFbqN68vc
+ BtZcistBZsJccS3XaQ6biNXkBXWpYh1K9NwpgsgvhJZBzsznuqX+QdKrHZiGh4pJwTFw
+ JLVbAP5PdqJZsYE3/+Sa4KbkVx8KT87ZMxhzw25Jx28zAFWJjhQpW2cf7+ylYHxeRp9b
+ V90FDpcT7KswWPCcDtEL0m+5USCLZIAx4fl0j17y0CsqjvhYejGrDJVU7gQIj5VwEJpk
+ aHgw==
+X-Gm-Message-State: AOJu0YyTTI7q4jDmGr0wRGeVuysYIebOkgBVu+5szqOhQ/i/Bytc0vB8
+ PvTyIZjUyp8DsjjFSdn9ynwqDHdoF3n2C+4mZpF6VokVxKyvKUhC/Rcr0azez94=
+X-Google-Smtp-Source: AGHT+IGDPJFXBsmRgx+FddyHhH5BBAeJMfI+p5NZWXiwxg4w3hyGnwVxYOFQEjGMdgxTi+vOG+ecUA==
+X-Received: by 2002:a17:906:5655:b0:a31:1d58:262c with SMTP id
+ v21-20020a170906565500b00a311d58262cmr1812927ejr.5.1706206452701; 
+ Thu, 25 Jan 2024 10:14:12 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- hk18-20020a170906c9d200b00a349b82c548sm37192ejb.46.2024.01.25.10.12.13
+ ty15-20020a170907c70f00b00a317f2388cfsm839137ejc.195.2024.01.25.10.14.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Jan 2024 10:12:13 -0800 (PST)
-Date: Thu, 25 Jan 2024 19:12:12 +0100
+ Thu, 25 Jan 2024 10:14:12 -0800 (PST)
+Date: Thu, 25 Jan 2024 19:14:10 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Erik Kurzinger <ekurzinger@nvidia.com>
-Subject: Re: [PATCH v2 1/3] drm/syncobj: call drm_syncobj_fence_add_wait when
- WAIT_AVAILABLE flag is set
-Message-ID: <ZbKkfKHwYriYtSDY@phenom.ffwll.local>
-References: <20240119163208.3723457-1-ekurzinger@nvidia.com>
+To: Anna-Maria Behnsen <anna-maria@linutronix.de>
+Subject: Re: [PATCH 0/2] kernel-doc: Do not pre-process comments
+Message-ID: <ZbKk8v7MHGoYFRuu@phenom.ffwll.local>
+References: <20240122093152.22536-1-anna-maria@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240119163208.3723457-1-ekurzinger@nvidia.com>
+In-Reply-To: <20240122093152.22536-1-anna-maria@linutronix.de>
 X-Operating-System: Linux phenom 6.6.11-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,74 +70,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: david1.zhou@amd.com, jajones@nvidia.com, dri-devel@lists.freedesktop.org,
- kbrenneman@nvidia.com, ashafer@nvidia.com, daniel@ffwll.ch
+Cc: Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, Matthew Wilcox <willy@infradead.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 19, 2024 at 08:32:06AM -0800, Erik Kurzinger wrote:
-> When waiting for a syncobj timeline point whose fence has not yet been
-> submitted with the WAIT_FOR_SUBMIT flag, a callback is registered using
-> drm_syncobj_fence_add_wait and the thread is put to sleep until the
-> timeout expires. If the fence is submitted before then,
-> drm_syncobj_add_point will wake up the sleeping thread immediately which
-> will proceed to wait for the fence to be signaled.
+On Mon, Jan 22, 2024 at 10:31:50AM +0100, Anna-Maria Behnsen wrote:
+> Hi,
 > 
-> However, if the WAIT_AVAILABLE flag is used instead,
-> drm_syncobj_fence_add_wait won't get called, meaning the waiting thread
-> will always sleep for the full timeout duration, even if the fence gets
-> submitted earlier. If it turns out that the fence *has* been submitted
-> by the time it eventually wakes up, it will still indicate to userspace
-> that the wait completed successfully (it won't return -ETIME), but it
-> will have taken much longer than it should have.
+> this is a repost of the RFC queue
+> https://lkml.kernel.org/r/20240116151456.48238-1-anna-maria@linutronix.de
 > 
-> To fix this, we must call drm_syncobj_fence_add_wait if *either* the
-> WAIT_FOR_SUBMIT flag or the WAIT_AVAILABLE flag is set. The only
-> difference being that with WAIT_FOR_SUBMIT we will also wait for the
-> fence to be signaled after it has been submitted while with
-> WAIT_AVAILABLE we will return immediately.
+> Jonathan Corbet is fine with this change and mentioned in an answer the
+> following:
 > 
-> IGT test patch: https://lists.freedesktop.org/archives/igt-dev/2024-January/067537.html
-> 
-> v1 -> v2: adjust lockdep_assert_none_held_once condition
-> 
-> Fixes: 01d6c3578379 ("drm/syncobj: add support for timeline point wait v8")
-> Signed-off-by: Erik Kurzinger <ekurzinger@nvidia.com>
+>   "The kernel-doc change should really go together with the DRM change.
+>   I'm happy to carry both with an ack from DRMland or have the kernel-doc
+>   patch go through the DRM tree, whichever is easiest."
 
-Yeah I think this series catches now all the corner cases I spotted in v1.
-On the series:
+Agree, that sounds like the simplest merge plan and I don't think we have
+anything in-flight for vram helpers that would cause conflicts. For
+merging the drm patch through Jon's -doc tree:
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> ---
->  drivers/gpu/drm/drm_syncobj.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
 > 
-> diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
-> index 94ebc71e5be5..97be8b140599 100644
-> --- a/drivers/gpu/drm/drm_syncobj.c
-> +++ b/drivers/gpu/drm/drm_syncobj.c
-> @@ -1058,7 +1058,8 @@ static signed long drm_syncobj_array_wait_timeout(struct drm_syncobj **syncobjs,
->  	uint64_t *points;
->  	uint32_t signaled_count, i;
->  
-> -	if (flags & DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT)
-> +	if (flags & (DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT |
-> +		     DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE))
->  		lockdep_assert_none_held_once();
->  
->  	points = kmalloc_array(count, sizeof(*points), GFP_KERNEL);
-> @@ -1127,7 +1128,8 @@ static signed long drm_syncobj_array_wait_timeout(struct drm_syncobj **syncobjs,
->  	 * fallthough and try a 0 timeout wait!
->  	 */
->  
-> -	if (flags & DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT) {
-> +	if (flags & (DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT |
-> +		     DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE)) {
->  		for (i = 0; i < count; ++i)
->  			drm_syncobj_fence_add_wait(syncobjs[i], &entries[i]);
->  	}
+> But back to the patchset: Commit 654784284430 ("kernel-doc: bugfix -
+> multi-line macros") introduces pre-processing of backslashes at the end of
+> a line to not break multi-line macros. This pre-processing is done
+> independently if it is inside code or inside a comment.
+> 
+> This illustation of a hierarchy as a code block inside a kernel-doc comment
+> has a backslash at the end of the line:
+> 
+> ---8<---
+> /**
+>  * DOC: hierarchy
+>  *
+>  *                    Top Level
+>  *                /               \
+>  *         Child A                 Child B
+>  */
+> ---8<---
+> 
+> It will be displayed as:
+> 
+> ---8<---
+> 	     Top Level
+> 	 /                *        Child A                 Child B
+> ---8<---
+> 
+> 
+> As I asked for a solution on the linux-doc mailing list, I got some
+> suggestions with workarounds and also got the suggestion by Matthew Wilcox
+> to adapt the backslash preprocessing in kernel-doc script. I tested it and
+> fixed then the newly produced warnings which are covered in the first
+> patch. The processing of the documentation seems to work - but please don't
+> rely on my tests as I'm not a perl neither a kernel-doc expert.
+> 
+> Thanks,
+> 
+> 	Anna-Maria
+> 
+> 
+> 
+> Anna-Maria Behnsen (2):
+>   drm/vram-helper: Fix 'multi-line' kernel-doc comments
+>   scripts/kernel-doc: Do not process backslash lines in comments
+> 
+>  drivers/gpu/drm/drm_gem_vram_helper.c | 44 ++++++++++++---------------
+>  include/drm/drm_gem_vram_helper.h     | 16 +++++-----
+>  scripts/kernel-doc                    |  2 +-
+>  3 files changed, 29 insertions(+), 33 deletions(-)
+> 
 > -- 
-> 2.43.0
+> 2.39.2
 > 
 
 -- 
