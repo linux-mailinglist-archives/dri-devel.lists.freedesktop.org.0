@@ -2,61 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D9F483D3E1
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 06:11:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FBFB83D4F9
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 09:54:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAD8910ED3B;
-	Fri, 26 Jan 2024 05:11:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FDAE10EC71;
+	Fri, 26 Jan 2024 08:54:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com
- [209.85.219.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 403FB10ED3B
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 05:11:30 +0000 (UTC)
-Received: by mail-yb1-f173.google.com with SMTP id
- 3f1490d57ef6-dc6432ee799so248223276.0
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 21:11:30 -0800 (PST)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com
+ [209.85.128.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B8B510F946
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 17:24:47 +0000 (UTC)
+Received: by mail-yw1-f170.google.com with SMTP id
+ 00721157ae682-5edfcba97e3so70751187b3.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 09:24:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1706245829; x=1706850629;
- darn=lists.freedesktop.org; 
+ d=gmail.com; s=20230601; t=1706203427; x=1706808227; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=PWNKgB2N3DB+66pFOK/0j9b8QzacRkS6VBRUK4oWycI=;
- b=DxxDw2NJusMyuZEzCppqMdq1nGAoYNA7mBntiWYbsKgOFtPhJtSDSKb6+pbxRwnELf
- ZpwnOkJdWF3z5hCAw4Mar6cHkA8wLtMKjo9w6oBynEZ8hPW+Z8a1EtG8Pq7NbTdJjtMY
- /l5qj8NaFKVjwlRw3+jchM13VOKGd09Sp3VO4=
+ bh=I2gaRixdg+nmjTFS1tauOhVekYOprOLzO/cqNLoAsX8=;
+ b=PcHWnWwlRYTd8UtfQD6oqDMkKdXAUFDi4n7wQvyordVKeBKRDTf/SxbPJxGL7NJWVX
+ VbgxBgNVRlNniOH19xo7Dmwf5OSitCAWUNyrc64jsBywvDRvwWzf/ziEjF3dhjUuFVyJ
+ ThAybeL7eghLWbQvvpffLNMr+ICmPHnli4y1cyiDVdPcXBqt9yQ8W7FHwa1qumojwb3n
+ k/JKjoa2Cg0N/wYk2tWpojgkG5BGbVvJLjRGtSTloqFImPbPsQ0YyVBIzII8kvsQDnAY
+ s9rVCP7fr1+98EAfw47f5DC/WLuneH5jf9uUVLFVP8RUMXOm3fN6h9h/6hgrfjuxLiWr
+ xwAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706245829; x=1706850629;
+ d=1e100.net; s=20230601; t=1706203427; x=1706808227;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=PWNKgB2N3DB+66pFOK/0j9b8QzacRkS6VBRUK4oWycI=;
- b=bws+Rv9s3PIR6ceEAr6sPp5nYarVsKOVkBqedAy8Sykp2BCgCB7xjw3kKU5aj8yj52
- GqSwxwZsvJxPkRGqp5TjofCsfWt3cUBGPq1kV+p6C/b/Tgmgf1e7RrLxDMa8Fe5jnSGr
- qe0GZWpmQL7kLCfMI7JBIsz5yEOg+AdT6U/aHO5NVB+rSSCeYRXJ0OqxXGBa3fNVgEJy
- OBrhUEH2EaLoAwelcAnLw9qGAMGwElgK09glp4BQ9OT/rKtzbUqBL3RWM4U6BmT+vy+t
- VWTSKzb5PiQ8TNmdgXfYArTJ4s1CZFHMMMEFJMV7UYwc2r/S94DS8rb4/unFcft69swj
- MitA==
-X-Gm-Message-State: AOJu0YyYwT9/nVLm370izW2YYGOz1zRVZ329fCxwxUotsjI4PbIfQO6n
- a5ITlC5UYagTN3K/3LkLUw8vAlA311NB1BEKmUH0l+8H8ogchkre57FqttOGfLkfaKvUc4FnA0e
- 0rH3pygA5XfTB/4idOJbdHR4WlC+atxP/MeoxNqkmGEihPvg=
-X-Google-Smtp-Source: AGHT+IH0BWVFfOQVB4B3XDw2qmadyX2DJH67AAmoNam42TDVfLbbO4flPb26opFK9plDdXcih/QQcRuXkYkRfRu/MWY=
-X-Received: by 2002:a25:ed06:0:b0:dc6:9ea:3d65 with SMTP id
- k6-20020a25ed06000000b00dc609ea3d65mr752301ybh.84.1706245828072; Thu, 25 Jan
- 2024 21:10:28 -0800 (PST)
+ bh=I2gaRixdg+nmjTFS1tauOhVekYOprOLzO/cqNLoAsX8=;
+ b=B0JBct8IyUdzW3Lp5l1YAUse4dRoyowZSiijIEReYWUF2VpvuRdMolVECJVYsiuMAD
+ +sINXu/kUY3QGjKA7blw5XoKZSz+K00W1G7hDIiOfUtMfoC64iTFTOpbauGOsaJ0mpR3
+ 3BclvEkuxT8OQS8xs+Tc11ORPb03fvB2uqVqiBOyN4Hwy2GrylSTLXzSxLgYMCfPkHlV
+ jtNYDURSypeg/9sSdR4E9IyStyku5D6yNna+xxhPDW7QA7tYHzTdXB6hym8onx3K+UVX
+ CBOa0SgXEv8DOabFGJ7ApeRsus2c59Qka+psMHUteyq3MkOzEpFN985QWNC+ryF39sIH
+ seZQ==
+X-Gm-Message-State: AOJu0YzwKhfzzWHls+gYZaikAgQ9UIf3D4PuSLav8ZEbZask01xdlQFq
+ PeD+9XUwdD8SbX15KNoivBCbV9HTmhWGTngIXHbs70ac1H2OwUUSsiFbyrmIAVVEhCABfEJhVFs
+ sJXtEooTgF6mbREM2A5ZpOmM5DsM=
+X-Google-Smtp-Source: AGHT+IGGZqfQkJAtoo57UVIKirfdFkN8DoTuxdZehgVFVYr45ju9Q5mL5tp54GNZvYJTnZFvSYKNWAuAQlMc8FBPOvg=
+X-Received: by 2002:a81:b54f:0:b0:5ff:5d7e:54af with SMTP id
+ c15-20020a81b54f000000b005ff5d7e54afmr114682ywk.105.1706203426764; Thu, 25
+ Jan 2024 09:23:46 -0800 (PST)
 MIME-Version: 1.0
-References: <2b5648aa-f83d-d8f7-b0fd-39c859f32f33@linux.intel.com>
- <20240105135105.1921947-1-zack.rusin@broadcom.com>
-In-Reply-To: <20240105135105.1921947-1-zack.rusin@broadcom.com>
-From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Fri, 26 Jan 2024 00:10:16 -0500
-Message-ID: <CABQX2QMg4L3oQe4pU4saBgopXw7CKyGrQa_LKE0xtSwyEKacnw@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/ttm: Make sure the mapped tt pages are decrypted
- when needed
-To: dri-devel@lists.freedesktop.org
+References: <CAPM=9twKBmO2Svky-zeP+KS8qWHFj9zrgeBqW9y__tUwcAYZhw@mail.gmail.com>
+ <2faccc1a-7fdd-499b-aa0a-bd54f4068f3e@suse.cz>
+ <CAOVeLGRxXfs4wxSmB2ULZS72NvJkWQvZyPRz0rAmQyFtL39ekw@mail.gmail.com>
+ <0a782904-bb19-4111-979a-31b52aa44ca9@suse.cz>
+ <a51ddb8c-cf11-4394-a2fe-ca855749ff02@amd.com>
+ <e7eb12a9-67ed-45b1-aaf6-e1df52a247bd@leemhuis.info>
+ <05ddb2da-b182-4791-8ef7-82179fd159a8@amd.com>
+ <54efe4c8-38d8-4a5f-ac7a-aeb7a4e3535f@amd.com>
+In-Reply-To: <54efe4c8-38d8-4a5f-ac7a-aeb7a4e3535f@amd.com>
+From: Donald Carr <sirspudd@gmail.com>
+Date: Thu, 25 Jan 2024 09:23:34 -0800
+Message-ID: <CAOVeLGRiCZ9KBmsFY5NfGABUcw1CQoEcSKE1k0zv_6Aicdusbg@mail.gmail.com>
+Subject: Re: [git pull] drm for 6.8
+To: Mario Limonciello <mario.limonciello@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Fri, 26 Jan 2024 08:54:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,42 +77,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Huang Rui <ray.huang@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- stable@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thorsten Leemhuis <regressions@leemhuis.info>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>,
+ Dave Airlie <airlied@gmail.com>, Vlastimil Babka <vbabka@suse.cz>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 5, 2024 at 8:51=E2=80=AFAM Zack Rusin <zack.rusin@broadcom.com>=
- wrote:
->
-> Some drivers require the mapped tt pages to be decrypted. In an ideal
-> world this would have been handled by the dma layer, but the TTM page
-> fault handling would have to be rewritten to able to do that.
->
-> A side-effect of the TTM page fault handling is using a dma allocation
-> per order (via ttm_pool_alloc_page) which makes it impossible to just
-> trivially use dma_mmap_attrs. As a result ttm has to be very careful
-> about trying to make its pgprot for the mapped tt pages match what
-> the dma layer thinks it is. At the ttm layer it's possible to
-> deduce the requirement to have tt pages decrypted by checking
-> whether coherent dma allocations have been requested and the system
-> is running with confidential computing technologies.
->
-> This approach isn't ideal but keeping TTM matching DMAs expectations
-> for the page properties is in general fragile, unfortunately proper
-> fix would require a rewrite of TTM's page fault handling.
->
-> Fixes vmwgfx with SEV enabled.
->
-> v2: Explicitly include cc_platform.h
-> v3: Use CC_ATTR_GUEST_MEM_ENCRYPT instead of CC_ATTR_MEM_ENCRYPT to
-> limit the scope to guests and log when memory decryption is enabled.
+On Wed, Jan 24, 2024 at 10:23=E2=80=AFAM Mario Limonciello
+<mario.limonciello@amd.com> wrote:
 
-Hi, Christian.
+> The test patch [1] posted to [2] works for me.  I expect that Matthew
+> will post it to dri-devel and this can catch RC2 or RC3.
 
-Gentle ping on that one. This is probably the cleanest we can get this
-code. Can we land this or is there anything else you'd like to see?
+> [1]
+> https://gitlab.freedesktop.org/drm/amd/uploads/ca8dfaa22d6f5d247c28acf6cf=
+3eafd2/0001-Drain-all-entities-in-DRM-run-jon-worker.patch
+> [2] https://gitlab.freedesktop.org/drm/amd/-/issues/3124
 
-z
+I can also confirm the attached patch has resolved my woes; thank you
+peeps for the quick turn around time.
+
+Yours sincerely,
+Donald
