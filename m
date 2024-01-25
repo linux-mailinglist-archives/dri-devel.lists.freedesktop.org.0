@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37A4383CA4B
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 18:49:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65B0583CA60
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 18:57:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D7CD10E758;
-	Thu, 25 Jan 2024 17:49:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D33C910E4A1;
+	Thu, 25 Jan 2024 17:57:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3EB010E374
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 17:49:06 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id
- 2adb3069b0e04-51013a784easo2496421e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 09:49:06 -0800 (PST)
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
+ [209.85.208.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B875E10E354
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 17:57:37 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id
+ 4fb4d7f45d1cf-55c2cf644f3so4946650a12.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 09:57:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1706204882; x=1706809682;
+ d=chromium.org; s=google; t=1706205396; x=1706810196;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=074q1EE9hpsgWGpB52nwOlz+bd5PI1pLVOMFeLU4aEQ=;
- b=JbwJzXE0+VUsQaCQGyQ1yk3r0A/skYs1jtKcNMi6JWmwOrex/pwxAl4/G/JBfLFpje
- yJ6AcFpDr+4vdjj6wMsvxc+sn8RiJVQn2SQJ6d8d0X+Sj/SiyFzvIcCmhXKDhiKbH9/A
- LvAy4khZHqP8Lt1RaKtdyEKj/LA/81yGLaqUU=
+ bh=7QQ5xywaldx4inPhMAC8V1N2G9UQEtEowfFIay8eCsg=;
+ b=P/SFxNl7ZEyn75oQRM+BvoeruIrU3SVlD1YxbitCnkXUCC7N9UPLBY8jeyBwe/6+H9
+ 1Ce4PI9z17StYmfFnox0vhKK3844A0H1wSNCfedTg8Up+qOm1sot4C/XinK/yeLOd3sE
+ YlfhQM5CeAbRB9tjaLeMORM5bx5fl8HAsMJII=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706204882; x=1706809682;
+ d=1e100.net; s=20230601; t=1706205396; x=1706810196;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=074q1EE9hpsgWGpB52nwOlz+bd5PI1pLVOMFeLU4aEQ=;
- b=Kgs2rL8yvwitq8VUqKxca5CXowIurCTvCT0zPjLrWoVJ6d1XQK2X1iiBcvJW4oTGEV
- GI0XNdY3/4PiQ58u3EtKubSOAtJgvpKM5s6cVSpswci+Iy5+rGihIpDEsLcSum5ZztYy
- 01MwI3EBC7VVlEPN6UyPfGaHCVzgu12EwNubUxApA421zVfx2bKprnBh3Z8crol3JlOH
- gE3ChFXEoapIrmQ/NFkCkiWakqTdjp6QAUbFMJW+6oCaZTZUVh7HuryUT2lD8HD2jEQN
- /lklL0xRCF6JCiEWrS5jgV1ozE19nLnLD0T9vtUzYL15ugAaOnG46JmFIgZs5d4CdFVX
- Htiw==
-X-Gm-Message-State: AOJu0YxkLu2YFzW53LFx4ATYfsi2KoCx1DK+EFMiHmdzIfjz46STTrJd
- rEXlQ1jRTWHPdpf8IsPL0uza9S1ciZMfm8JzH5GcTPZhV5GOZtglM0KivAkngJOLCnV5Mx5Pq4e
- Gig==
-X-Google-Smtp-Source: AGHT+IGdzGoLHeRe5NDS9XjKUdAxemv0YigG/EjH4duN/r8EqXsdsd3gxOqlmCb5OzD/qQjP46/3PQ==
-X-Received: by 2002:a19:ac46:0:b0:50f:1c9a:13f4 with SMTP id
- r6-20020a19ac46000000b0050f1c9a13f4mr41632lfc.52.1706204882338; 
- Thu, 25 Jan 2024 09:48:02 -0800 (PST)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com.
- [209.85.128.45]) by smtp.gmail.com with ESMTPSA id
- cu15-20020a170906ba8f00b00a318cb84525sm662426ejd.216.2024.01.25.09.48.00
+ bh=7QQ5xywaldx4inPhMAC8V1N2G9UQEtEowfFIay8eCsg=;
+ b=DjFrYETo3qwdxDZPTiAR2Puzsf9vd7qSiGLcWG+ZrVIzxgPiNaHswdCyyCd4T5w0xp
+ qsB8772XRipZyR0TYL68nW2v2rS0bychAvuhKaUayiR1RxjPecdLTLyXb7McJ116QeL6
+ 0MhAcOvzxP9eoNxEdTN2fxO0h/MrA03vti3KWHFe/plUvBSI11tyNGQgQRDCm/JIcVYi
+ TAPogQcG9Kbp6ymhIFkuvoeZRuV+aRfMOgGu9NlR+TxOppugn1PhrU9XKcSqMz1QC/eg
+ TFE5RqERLJGgpKH/RCviGkPwMjHaqp1BsHn5nsFp4QBo22sJDunTpv+x90uJ5oR63myE
+ /S5g==
+X-Gm-Message-State: AOJu0YzL+8WEipmH1W7DTFH0PUxCst6e2BcdmWTqLr0SNnpHmrezCyeW
+ FMzq/COLqRc0deIObijMIyttBuySiWsE2jpkKKVweJFWGjnoNTCVRJL2H2QK6+NrXPwQPy/M9rZ
+ xUEpA
+X-Google-Smtp-Source: AGHT+IGf1T4oaAT8X5PfGnpNoDzbl6rh0QLqqvatl+N737VSGZ3mwXHgQ9KODpO9NQ86cwWvT73iPw==
+X-Received: by 2002:a17:906:eb45:b0:a30:d4a8:d05c with SMTP id
+ mc5-20020a170906eb4500b00a30d4a8d05cmr657110ejb.80.1706205396035; 
+ Thu, 25 Jan 2024 09:56:36 -0800 (PST)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com.
+ [209.85.208.52]) by smtp.gmail.com with ESMTPSA id
+ n13-20020a170906840d00b00a2a61b9c166sm1257484ejx.33.2024.01.25.09.56.35
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Jan 2024 09:48:00 -0800 (PST)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-40e865bccb4so1035e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 09:48:00 -0800 (PST)
-X-Received: by 2002:a05:600c:3b88:b0:40e:4990:d573 with SMTP id
- n8-20020a05600c3b8800b0040e4990d573mr203441wms.4.1706204879688; Thu, 25 Jan
- 2024 09:47:59 -0800 (PST)
+ Thu, 25 Jan 2024 09:56:35 -0800 (PST)
+Received: by mail-ed1-f52.google.com with SMTP id
+ 4fb4d7f45d1cf-55c89dbef80so149a12.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 09:56:35 -0800 (PST)
+X-Received: by 2002:a05:600c:3b1c:b0:40e:61cf:af91 with SMTP id
+ m28-20020a05600c3b1c00b0040e61cfaf91mr160203wms.7.1706204901267; Thu, 25 Jan
+ 2024 09:48:21 -0800 (PST)
 MIME-Version: 1.0
 References: <cover.1706182805.git.u.kleine-koenig@pengutronix.de>
- <5ff5120f2b4ef6442a1d7c05916a772ec59a8c34.1706182805.git.u.kleine-koenig@pengutronix.de>
-In-Reply-To: <5ff5120f2b4ef6442a1d7c05916a772ec59a8c34.1706182805.git.u.kleine-koenig@pengutronix.de>
+ <0316aaec9dbfc0c73788bcd3ee532ae7ecadb180.1706182805.git.u.kleine-koenig@pengutronix.de>
+In-Reply-To: <0316aaec9dbfc0c73788bcd3ee532ae7ecadb180.1706182805.git.u.kleine-koenig@pengutronix.de>
 From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 25 Jan 2024 09:47:42 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=VqPCbfTP86Wewf+-o9_v5oLsQUu1Dqb5EMLZZEsqGmRw@mail.gmail.com>
-Message-ID: <CAD=FV=VqPCbfTP86Wewf+-o9_v5oLsQUu1Dqb5EMLZZEsqGmRw@mail.gmail.com>
-Subject: Re: [PATCH v5 037/111] drm/bridge: ti-sn65dsi86: Make use of
- pwmchip_parent() macro
+Date: Thu, 25 Jan 2024 09:48:04 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=Xscb2kv6drrqBBT2MOA0cSO3=oVZ4Hw3sKTo-uUuqQ-w@mail.gmail.com>
+Message-ID: <CAD=FV=Xscb2kv6drrqBBT2MOA0cSO3=oVZ4Hw3sKTo-uUuqQ-w@mail.gmail.com>
+Subject: Re: [PATCH v5 104/111] drm/bridge: ti-sn65dsi86: Make use of
+ devm_pwmchip_alloc() function
 To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -84,8 +84,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-pwm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jonas Karlman <jonas@kwiboo.se>,
+ Maxime Ripard <mripard@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>, Daniel Vetter <daniel@ffwll.ch>,
  David Airlie <airlied@gmail.com>, kernel@pengutronix.de
@@ -97,25 +98,56 @@ Hi,
 On Thu, Jan 25, 2024 at 4:11=E2=80=AFAM Uwe Kleine-K=C3=B6nig
 <u.kleine-koenig@pengutronix.de> wrote:
 >
-> struct pwm_chip::dev is about to change. To not have to touch this
-> driver in the same commit as struct pwm_chip::dev, use the macro
-> provided for exactly this purpose.
+> This prepares the pwm driver of the ti-sn65dsi86 to further changes of
+> the pwm core outlined in the commit introducing devm_pwmchip_alloc().
+> There is no intended semantical change and the driver should behave as
+> before.
 >
 > Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
 > ---
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 21 +++++++++++++--------
+>  1 file changed, 13 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/brid=
+ge/ti-sn65dsi86.c
+> index f1fffbef3324..7fbc307cc025 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> @@ -197,7 +197,7 @@ struct ti_sn65dsi86 {
+>         DECLARE_BITMAP(gchip_output, SN_NUM_GPIOS);
+>  #endif
+>  #if defined(CONFIG_PWM)
+> -       struct pwm_chip                 pchip;
+> +       struct pwm_chip                 *pchip;
+>         bool                            pwm_enabled;
+>         atomic_t                        pwm_pin_busy;
+>  #endif
+> @@ -1374,7 +1374,7 @@ static void ti_sn_pwm_pin_release(struct ti_sn65dsi=
+86 *pdata)
+>
+>  static struct ti_sn65dsi86 *pwm_chip_to_ti_sn_bridge(struct pwm_chip *ch=
+ip)
+>  {
+> -       return container_of(chip, struct ti_sn65dsi86, pchip);
+> +       return pwmchip_get_drvdata(chip);
+>  }
 
-This seems OK with me. Unless someone more senior in the drm-misc
-community contradicts me, feel free to take this through your tree.
+nit: given Linux conventions that I'm aware of, a reader of the code
+would see the name "pwm_chip_to_ti_sn_bridge" and assume it's doing a
+container_of operation. It no longer is, so the name doesn't make as
+much sense. ...and, in fact, the function itself doesn't make as much
+sense. Maybe just have all callers call pwmchip_get_drvdata()
+directly?
+
+In any case, this seems fine to me. I haven't done lots to analyze
+your full plans to fix lifetime issues, but this patch itself looks
+benign and I wouldn't object to it landing. Thus I'm OK with:
 
 Acked-by: Douglas Anderson <dianders@chromium.org>
 
-NOTE: though the patch seems OK to me, I have one small concern. If I
-understand correctly, your eventual goal is to add a separate "dev"
-for the PWM chip without further changes to the ti-sn65dsi86 driver.
-If that's true, you'll have to find some way to magically call
-devm_pm_runtime_enable() on the new "dev" since the code you have here
-is calling pm_runtime functions on what will eventually be this new
-"dev". Maybe you'll do something like enabling runtime PM on it
-automatically if its parent had runtime PM enabled?
+Similar to the other ti-sn65dsi86 patch in this series, unless someone
+more senior in the drm-misc community contradicts me I think it's safe
+to assume you could land this through your tree.
+
+
+-Doug
