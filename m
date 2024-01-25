@@ -2,63 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C136883CB78
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 19:46:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2359283CC39
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 20:34:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F43D10ED15;
-	Thu, 25 Jan 2024 18:45:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08E9510E5E4;
+	Thu, 25 Jan 2024 19:34:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
- [209.85.218.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3178810F117
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 18:45:39 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id
- a640c23a62f3a-a30e90ba9dcso69169666b.0
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 10:45:39 -0800 (PST)
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
+ [209.85.215.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 337A410E5E4
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 19:33:57 +0000 (UTC)
+Received: by mail-pg1-f180.google.com with SMTP id
+ 41be03b00d2f7-5d3912c9a83so2058126a12.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 11:33:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1706208277; x=1706813077; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=8tEcmgHemcl2JPhIJfsFnaCZXOhfAQNup9KtPUOsp+Y=;
- b=bDPgwAQ4kfrr8v919aYadic5fo2KOPSdyhgARZN9URwGP4QIjpw3iCGHzPpJ0+oodC
- 5OEFTA3JrlPEkUx7JqQbj+sEnA+DKx5bMMTzg9MnNUMIzzMzeK2hJ6M/k3fk1x6+byJF
- yRWDMAy1Q1cg+D6d1P/jwMhEzppekpVrTlewA=
+ d=broadcom.com; s=google; t=1706211175; x=1706815975;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=laRvN9QdhTOMk9k8O1mas5dH5EDdBkppOqT2vkuiVvs=;
+ b=DfbjpTN/vIUl/gGYNL/q62E+MtqXzwwmfLGRZ19m710JDTjSivg3IFZxWfdwa2/UE6
+ BADdCimVt8OozJPl1PopRvkyVAXcHFkj6K9qXrDzYxz2SiTACKtcyAlaJkQzzvdGxz5F
+ k/jqsc+h6RgppQjiQbyJ0zerViwyqHwSQ0fqE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706208277; x=1706813077;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8tEcmgHemcl2JPhIJfsFnaCZXOhfAQNup9KtPUOsp+Y=;
- b=AWDqIvJcHurf0356U9hF5D6lkXYDFOG+bVgmx0m91+ewTWxay//3wHabLAZB4hr6cd
- I4HXqYuuhfns9U+6LNZkwJ6VI5CT0BbKh9T6VjDDaIYSYQh1QM3ZfWReol9OcSYkDrA5
- 9aMjKY4RqIU203aMMoIlqOlfeKK3aDH32epZ3hKBkbtITY2kgBxBN6gHkk3lyCFi7YEK
- rX0x6p5tRU7CE2cl1/nyZKBv942hSvX1HtNvY8YLOTapsKHAs2H5mKu6fOAApoze/df3
- vokodDAUDRTEE8U1kUUWTaNQKrO/gsqJpqK4orBMHZqd9Z6cg0RI0EQKfYfxTjGqRVzR
- 0kLA==
-X-Gm-Message-State: AOJu0Yy4K69DmgAd4IbnWowXloketQhW+VTsO4S0p+JCSEIJapJMVTTi
- Z7C4oXY8+CxzFcRnF04XOL9PeQniWexEwT0D2qZHno0wPhWne1yIgQB6w8SBE7c=
-X-Google-Smtp-Source: AGHT+IEh42TYGCe49CMt6UC3dYzM4YwNEEV+/HQV72Ajyon4Ke2okxNGHfhRD7Hn77q1CBBe928XSw==
-X-Received: by 2002:a17:906:4948:b0:a31:410a:18e4 with SMTP id
- f8-20020a170906494800b00a31410a18e4mr24855ejt.4.1706208277301; 
- Thu, 25 Jan 2024 10:44:37 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ d=1e100.net; s=20230601; t=1706211175; x=1706815975;
+ h=in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=laRvN9QdhTOMk9k8O1mas5dH5EDdBkppOqT2vkuiVvs=;
+ b=NsrCgXvCeA3pmdWmb8T6IgVnaxrRlE8QvRsz2CdVlY29e6tbtpZyy7OzeqQsW3VrgG
+ v46Vir2y0NX+aiHwfF/GfpIpxfqeRiTuULm7Ym/yaDqSbn5wzQGvKdBMPAufhOGdicFN
+ wAfgsqj16fxjA8dIxpVI0C1vC+LA+rHW30jTUKq4pNIoG1iaVYNdWBc7bX1Qjdp+DThU
+ BC+0+41R04MfzjIljWjeFYWA+aLp0GhcgxM6dbVHeumHKeFNcYZZcZuVTcuHfz08n+EM
+ y0ovQaNj3YY940Aqpw4x829DO4xt+Tvd2e3SsPaNrcnLdvVYzT+qlq4SvmCQBToV3gny
+ pUpA==
+X-Gm-Message-State: AOJu0YwKx5GiQCOtzfPG54rSbJyNi/j4H3KxpX51g43xWcK02j2a7kk3
+ Sca/vSszlf6Ch29ZkI4k51Le5AL2vNcAFmi/d/Mjrm4LyJNEUQyB/bNuU3JeyQ==
+X-Google-Smtp-Source: AGHT+IHCvMT+AhdsdEyzdsJ3JETLTL0oNwcy3QCuUF9tewv6zioiMAaOu+/0aOv5vrMVFtVhoGjzvA==
+X-Received: by 2002:a17:90a:8a0d:b0:28d:470c:fe1f with SMTP id
+ w13-20020a17090a8a0d00b0028d470cfe1fmr99486pjn.56.1706211175019; 
+ Thu, 25 Jan 2024 11:32:55 -0800 (PST)
+Received: from [10.67.48.245] ([192.19.223.252])
  by smtp.gmail.com with ESMTPSA id
- vh12-20020a170907d38c00b00a317d36cf91sm885992ejc.225.2024.01.25.10.44.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Jan 2024 10:44:36 -0800 (PST)
-Date: Thu, 25 Jan 2024 19:44:35 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Matt Coster <Matt.Coster@imgtec.com>
-Subject: Re: [PATCH] drm/imagination: On device loss, handle unplug after
- critical section
-Message-ID: <ZbKsE2mWTZTfsFBk@phenom.ffwll.local>
-References: <59bb4827-43a5-4e87-8026-77777b2a8087@imgtec.com>
+ t2-20020a17090ad14200b0028ceeca04a1sm1925283pjw.19.2024.01.25.11.32.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Jan 2024 11:32:54 -0800 (PST)
+Message-ID: <c89cbecf-253d-4a2c-8782-304b7b620175@broadcom.com>
+Date: Thu, 25 Jan 2024 11:32:47 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <59bb4827-43a5-4e87-8026-77777b2a8087@imgtec.com>
-X-Operating-System: Linux phenom 6.6.11-amd64 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 003/111] pwm: Provide a macro to get the parent device
+ of a given chip
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ linux-pwm@vger.kernel.org, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+ Benson Leung <bleung@chromium.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Paul Cercueil <paul@crapouillou.net>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai
+ <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <cover.1706182805.git.u.kleine-koenig@pengutronix.de>
+ <1cae6f73264ab313205eaa9483251f7aaf259cb4.1706182805.git.u.kleine-koenig@pengutronix.de>
+From: Florian Fainelli <florian.fainelli@broadcom.com>
+Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
+ 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
+In-Reply-To: <1cae6f73264ab313205eaa9483251f7aaf259cb4.1706182805.git.u.kleine-koenig@pengutronix.de>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature";
+ micalg=sha-256; boundary="000000000000059479060fca3f51"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,893 +128,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel@ffwll.ch>, Maxime Ripard <mripard@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Alim Akhtar <alim.akhtar@samsung.com>, Guenter Roeck <groeck@chromium.org>,
+ linux-riscv@lists.infradead.org, Fabio Estevam <festevam@gmail.com>,
+ linux-stm32@st-md-mailman.stormreply.com, Jerome Brunet <jbrunet@baylibre.com>,
+ chrome-platform@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
+ linux-staging@lists.linux.dev,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ NXP Linux Team <linux-imx@nxp.com>, linux-sunxi@lists.linux.dev,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ greybus-dev@lists.linaro.org, linux-mediatek@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, Douglas Anderson <dianders@chromium.org>,
+ kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 23, 2024 at 01:04:24PM +0000, Matt Coster wrote:
-> From: Donald Robson <donald.robson@imgtec.com>
+--000000000000059479060fca3f51
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+On 1/25/24 04:08, Uwe Kleine-König wrote:
+> Currently a pwm_chip stores in its struct device *dev member a pointer
+> to the parent device. Preparing a change that embeds a full struct
+> device in struct pwm_chip, this accessor macro should be used in all
+> drivers directly accessing chip->dev now. This way struct pwm_chip and
+> this macro can be changed without having to touch all drivers in the
+> same change set.
 > 
-> When the kernel driver 'loses' the device, for instance if the firmware
-> stops communicating, the driver calls drm_dev_unplug(). This is
-> currently done inside the drm_dev_enter() critical section, which isn't
-> permitted. In addition, the bool that marks the device as lost is not
-> atomic or protected by a lock.
-> 
-> This fix replaces the bool with an atomic that also acts as a mechanism
-> to ensure the device is unplugged after drm_dev_exit(), preventing a
-> concurrent call to drm_dev_enter() from succeeding in a race between it
-> and drm_dev_unplug().
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-Uh ... atomic_t does not make locking.
-
-From a quick look this entire thing smells a bit like bad design overall,
-and my gut feeling is that you probably want to rip out pvr_dev->lost
-outright. Or alternatively, explain what exactly this does beyond
-drm_dev_enter/exit, and then probably add that functionality there instead
-of hand-roll lockless trickery in drivers.
-
-From a quick look keeping track of where you realize the device is lost
-and then calling drm_dev_unplug after the drm_dev_exit is probably the
-clean solution. That also means the drm_dev_unplug() is not delayed due to
-a drm_dev_enter/exit section on a different thread, which is probably a
-good thing.
-
-Cheers, Sima
-
-> 
-> Reported-by: Steven Price <steven.price@arm.com>
-> Closes: https://lore.kernel.org/dri-devel/1b957ca4-71cf-42fd-ac81-1920592b952d@arm.com/
-> Fixes: cc1aeedb98ad ("drm/imagination: Implement firmware infrastructure and META FW support")
-> Signed-off-by: Donald Robson <donald.robson@imgtec.com>
-> Signed-off-by: Matt Coster <matt.coster@imgtec.com>
-> ---
->  drivers/gpu/drm/imagination/pvr_ccb.c      |  2 +-
->  drivers/gpu/drm/imagination/pvr_device.c   | 98 +++++++++++++++++++++-
->  drivers/gpu/drm/imagination/pvr_device.h   | 72 +++++++++++++---
->  drivers/gpu/drm/imagination/pvr_drv.c      | 87 ++++++++++---------
->  drivers/gpu/drm/imagination/pvr_fw.c       | 12 +--
->  drivers/gpu/drm/imagination/pvr_fw_trace.c |  4 +-
->  drivers/gpu/drm/imagination/pvr_mmu.c      | 20 ++---
->  drivers/gpu/drm/imagination/pvr_power.c    | 42 +++-------
->  drivers/gpu/drm/imagination/pvr_power.h    |  2 -
->  9 files changed, 237 insertions(+), 102 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/imagination/pvr_ccb.c b/drivers/gpu/drm/imagination/pvr_ccb.c
-> index 4deeac7ed40a..1fe64adc0c2c 100644
-> --- a/drivers/gpu/drm/imagination/pvr_ccb.c
-> +++ b/drivers/gpu/drm/imagination/pvr_ccb.c
-> @@ -247,7 +247,7 @@ pvr_kccb_send_cmd_reserved_powered(struct pvr_device *pvr_dev,
->  	u32 old_write_offset;
->  	u32 new_write_offset;
->  
-> -	WARN_ON(pvr_dev->lost);
-> +	WARN_ON(pvr_device_is_lost(pvr_dev));
->  
->  	mutex_lock(&pvr_ccb->lock);
->  
-> diff --git a/drivers/gpu/drm/imagination/pvr_device.c b/drivers/gpu/drm/imagination/pvr_device.c
-> index 1704c0268589..397491375b7d 100644
-> --- a/drivers/gpu/drm/imagination/pvr_device.c
-> +++ b/drivers/gpu/drm/imagination/pvr_device.c
-> @@ -6,14 +6,15 @@
->  
->  #include "pvr_fw.h"
->  #include "pvr_params.h"
-> -#include "pvr_power.h"
->  #include "pvr_queue.h"
->  #include "pvr_rogue_cr_defs.h"
->  #include "pvr_stream.h"
->  #include "pvr_vm.h"
->  
-> +#include <drm/drm_drv.h>
->  #include <drm/drm_print.h>
->  
-> +#include <linux/atomic.h>
->  #include <linux/bitfield.h>
->  #include <linux/clk.h>
->  #include <linux/compiler_attributes.h>
-> @@ -556,6 +557,101 @@ pvr_device_fini(struct pvr_device *pvr_dev)
->  	pvr_device_gpu_fini(pvr_dev);
->  }
->  
-> +/**
-> + * pvr_device_enter() - Try to enter device critical section.
-> + * @pvr_dev: Target PowerVR device.
-> + * @idx: Pointer to index that will be passed to the matching pvr_device_exit().
-> + *
-> + * Use this in place of drm_dev_enter() within this driver.
-> + *
-> + * Returns:
-> + *  * %true if the critical section was entered, or
-> + *  * %false otherwise.
-> + */
-> +bool pvr_device_enter(struct pvr_device *pvr_dev, int *idx)
-> +{
-> +	const enum pvr_device_state old_state =
-> +		atomic_cmpxchg(&pvr_dev->state,
-> +			       PVR_DEVICE_STATE_PRESENT,
-> +			       PVR_DEVICE_STATE_ENTERED);
-> +
-> +	switch (old_state) {
-> +	case PVR_DEVICE_STATE_PRESENT:
-> +	case PVR_DEVICE_STATE_ENTERED:
-> +		return drm_dev_enter(from_pvr_device(pvr_dev), idx);
-> +
-> +	case PVR_DEVICE_STATE_LOST:
-> +	case PVR_DEVICE_STATE_LOST_UNPLUGGED:
-> +		WARN_ONCE(1, "Attempt to use GPU after becoming lost.");
-> +		break;
-> +	}
-> +
-> +	return false;
-> +}
-> +
-> +/**
-> + * pvr_device_exit() - Exit a device critical section.
-> + * @pvr_dev: Target PowerVR device.
-> + * @idx: Index given by matching pvr_device_enter().
-> + *
-> + * Use this in place of drm_dev_exit() within this driver.
-> + */
-> +void pvr_device_exit(struct pvr_device *pvr_dev, int idx)
-> +{
-> +	const enum pvr_device_state old_state =
-> +		atomic_cmpxchg(&pvr_dev->state,
-> +			       PVR_DEVICE_STATE_ENTERED,
-> +			       PVR_DEVICE_STATE_PRESENT);
-> +
-> +	switch (old_state) {
-> +	case PVR_DEVICE_STATE_PRESENT:
-> +	case PVR_DEVICE_STATE_ENTERED:
-> +		drm_dev_exit(idx);
-> +		return;
-> +
-> +	case PVR_DEVICE_STATE_LOST:
-> +		/* Unplug the device if it was lost during the critical section. */
-> +		atomic_set(&pvr_dev->state, PVR_DEVICE_STATE_LOST_UNPLUGGED);
-> +
-> +		drm_dev_exit(idx);
-> +
-> +		WARN_ONCE(1, "GPU lost and now unplugged.");
-> +		drm_dev_unplug(from_pvr_device(pvr_dev));
-> +
-> +		return;
-> +
-> +	case PVR_DEVICE_STATE_LOST_UNPLUGGED:
-> +		WARN_ONCE(1, "GPU unplugged during critical section.");
-> +		drm_dev_exit(idx);
-> +		return;
-> +	}
-> +}
-> +
-> +/**
-> + * pvr_device_set_lost() - Mark GPU device as lost.
-> + * @pvr_dev: Target PowerVR device.
-> + *
-> + * This will cause the DRM device to be unplugged at the next call to
-> + * pvr_device_exit().
-> + */
-> +void pvr_device_set_lost(struct pvr_device *pvr_dev)
-> +{
-> +	/*
-> +	 * Unplug the device immediately if the device is not in a critical
-> +	 * section.
-> +	 */
-> +	const bool unplug = atomic_cmpxchg(&pvr_dev->state,
-> +					   PVR_DEVICE_STATE_PRESENT,
-> +					   PVR_DEVICE_STATE_LOST_UNPLUGGED) ==
-> +			    PVR_DEVICE_STATE_PRESENT;
-> +
-> +	if (unplug)
-> +		drm_dev_unplug(from_pvr_device(pvr_dev));
-> +	else
-> +		atomic_cmpxchg(&pvr_dev->state, PVR_DEVICE_STATE_ENTERED,
-> +			       PVR_DEVICE_STATE_LOST);
-> +}
-> +
->  bool
->  pvr_device_has_uapi_quirk(struct pvr_device *pvr_dev, u32 quirk)
->  {
-> diff --git a/drivers/gpu/drm/imagination/pvr_device.h b/drivers/gpu/drm/imagination/pvr_device.h
-> index ecdd5767d8ef..7c08b2bda395 100644
-> --- a/drivers/gpu/drm/imagination/pvr_device.h
-> +++ b/drivers/gpu/drm/imagination/pvr_device.h
-> @@ -274,20 +274,19 @@ struct pvr_device {
->  	} kccb;
->  
->  	/**
-> -	 * @lost: %true if the device has been lost.
-> -	 *
-> -	 * This variable is set if the device has become irretrievably unavailable, e.g. if the
-> -	 * firmware processor has stopped responding and can not be revived via a hard reset.
-> +	 * @state: Indicates whether the device is present and in use. One of
-> +	 * &enum pvr_device_state.
->  	 */
-> -	bool lost;
-> +	atomic_t state;
->  
->  	/**
->  	 * @reset_sem: Reset semaphore.
->  	 *
-> -	 * GPU reset code will lock this for writing. Any code that submits commands to the firmware
-> -	 * that isn't in an IRQ handler or on the scheduler workqueue must lock this for reading.
-> -	 * Once this has been successfully locked, &pvr_dev->lost _must_ be checked, and -%EIO must
-> -	 * be returned if it is set.
-> +	 * GPU reset code will lock this for writing. Any code that submits
-> +	 * commands to the firmware that isn't in an IRQ handler or on the
-> +	 * scheduler workqueue must lock this for reading.
-> +	 * Once this has been successfully locked, pvr_device_is_lost() _must_
-> +	 * be checked, and -%EIO must be returned if it is.
->  	 */
->  	struct rw_semaphore reset_sem;
->  
-> @@ -487,7 +486,60 @@ packed_bvnc_to_pvr_gpu_id(u64 bvnc, struct pvr_gpu_id *gpu_id)
->  
->  int pvr_device_init(struct pvr_device *pvr_dev);
->  void pvr_device_fini(struct pvr_device *pvr_dev);
-> -void pvr_device_reset(struct pvr_device *pvr_dev);
-> +
-> +/**
-> + * enum pvr_device_state - States used by &struct pvr_device.state.
-> + */
-> +enum pvr_device_state {
-> +	/** @PVR_DEVICE_STATE_PRESENT: The device is available for use. */
-> +	PVR_DEVICE_STATE_PRESENT,
-> +
-> +	/** @PVR_DEVICE_STATE_ENTERED: The device is in a critical section. */
-> +	PVR_DEVICE_STATE_ENTERED,
-> +
-> +	/**
-> +	 * @PVR_DEVICE_STATE_LOST: The device was lost during the current device
-> +	 * critical section and will be unplugged once the section exits.
-> +	 */
-> +	PVR_DEVICE_STATE_LOST,
-> +
-> +	/**
-> +	 * @PVR_DEVICE_STATE_LOST_UNPLUGGED: The device was lost and
-> +	 * subsequently unplugged.
-> +	 *
-> +	 * The device may become irretrievably unavailable, e.g. if the firmware
-> +	 * processor has stopped responding and can not be revived via a hard
-> +	 * reset.
-> +	 */
-> +	PVR_DEVICE_STATE_LOST_UNPLUGGED,
-> +};
-> +
-> +/**
-> + * pvr_device_is_lost() - Check if GPU device has been marked lost.
-> + * @pvr_dev: Target PowerVR device.
-> + *
-> + * Returns:
-> + *  * %true if device is lost, or
-> + *  * %false otherwise.
-> + */
-> +static __always_inline bool pvr_device_is_lost(struct pvr_device *pvr_dev)
-> +{
-> +	switch ((enum pvr_device_state)atomic_read(&pvr_dev->state)) {
-> +	case PVR_DEVICE_STATE_PRESENT:
-> +	case PVR_DEVICE_STATE_ENTERED:
-> +		return false;
-> +
-> +	case PVR_DEVICE_STATE_LOST:
-> +	case PVR_DEVICE_STATE_LOST_UNPLUGGED:
-> +		break;
-> +	}
-> +
-> +	return true;
-> +}
-> +
-> +bool pvr_device_enter(struct pvr_device *pvr_dev, int *idx);
-> +void pvr_device_exit(struct pvr_device *pvr_dev, int idx);
-> +void pvr_device_set_lost(struct pvr_device *pvr_dev);
->  
->  bool
->  pvr_device_has_uapi_quirk(struct pvr_device *pvr_dev, u32 quirk);
-> diff --git a/drivers/gpu/drm/imagination/pvr_drv.c b/drivers/gpu/drm/imagination/pvr_drv.c
-> index 5c3b2d58d766..55bea656a40f 100644
-> --- a/drivers/gpu/drm/imagination/pvr_drv.c
-> +++ b/drivers/gpu/drm/imagination/pvr_drv.c
-> @@ -81,13 +81,13 @@ pvr_ioctl_create_bo(struct drm_device *drm_dev, void *raw_args,
->  	int idx;
->  	int err;
->  
-> -	if (!drm_dev_enter(drm_dev, &idx))
-> +	if (!pvr_device_enter(pvr_dev, &idx))
->  		return -EIO;
->  
->  	/* All padding fields must be zeroed. */
->  	if (args->_padding_c != 0) {
->  		err = -EINVAL;
-> -		goto err_drm_dev_exit;
-> +		goto err_pvr_device_exit;
->  	}
->  
->  	/*
-> @@ -101,7 +101,7 @@ pvr_ioctl_create_bo(struct drm_device *drm_dev, void *raw_args,
->  	if (args->size > SIZE_MAX || args->size == 0 || args->flags &
->  	    ~DRM_PVR_BO_FLAGS_MASK || args->size & (PVR_DEVICE_PAGE_SIZE - 1)) {
->  		err = -EINVAL;
-> -		goto err_drm_dev_exit;
-> +		goto err_pvr_device_exit;
->  	}
->  
->  	sanitized_size = (size_t)args->size;
-> @@ -113,7 +113,7 @@ pvr_ioctl_create_bo(struct drm_device *drm_dev, void *raw_args,
->  	pvr_obj = pvr_gem_object_create(pvr_dev, sanitized_size, args->flags);
->  	if (IS_ERR(pvr_obj)) {
->  		err = PTR_ERR(pvr_obj);
-> -		goto err_drm_dev_exit;
-> +		goto err_pvr_device_exit;
->  	}
->  
->  	/* This function will not modify &args->handle unless it succeeds. */
-> @@ -121,7 +121,7 @@ pvr_ioctl_create_bo(struct drm_device *drm_dev, void *raw_args,
->  	if (err)
->  		goto err_destroy_obj;
->  
-> -	drm_dev_exit(idx);
-> +	pvr_device_exit(pvr_dev, idx);
->  
->  	return 0;
->  
-> @@ -133,8 +133,8 @@ pvr_ioctl_create_bo(struct drm_device *drm_dev, void *raw_args,
->  	 */
->  	pvr_gem_object_put(pvr_obj);
->  
-> -err_drm_dev_exit:
-> -	drm_dev_exit(idx);
-> +err_pvr_device_exit:
-> +	pvr_device_exit(pvr_dev, idx);
->  
->  	return err;
->  }
-> @@ -164,19 +164,20 @@ pvr_ioctl_get_bo_mmap_offset(struct drm_device *drm_dev, void *raw_args,
->  			     struct drm_file *file)
->  {
->  	struct drm_pvr_ioctl_get_bo_mmap_offset_args *args = raw_args;
-> +	struct pvr_device *pvr_dev = to_pvr_device(drm_dev);
->  	struct pvr_file *pvr_file = to_pvr_file(file);
->  	struct pvr_gem_object *pvr_obj;
->  	struct drm_gem_object *gem_obj;
->  	int idx;
->  	int ret;
->  
-> -	if (!drm_dev_enter(drm_dev, &idx))
-> +	if (!pvr_device_enter(pvr_dev, &idx))
->  		return -EIO;
->  
->  	/* All padding fields must be zeroed. */
->  	if (args->_padding_4 != 0) {
->  		ret = -EINVAL;
-> -		goto err_drm_dev_exit;
-> +		goto err_pvr_device_exit;
->  	}
->  
->  	/*
-> @@ -188,7 +189,7 @@ pvr_ioctl_get_bo_mmap_offset(struct drm_device *drm_dev, void *raw_args,
->  	pvr_obj = pvr_gem_object_from_handle(pvr_file, args->handle);
->  	if (!pvr_obj) {
->  		ret = -ENOENT;
-> -		goto err_drm_dev_exit;
-> +		goto err_pvr_device_exit;
->  	}
->  
->  	gem_obj = gem_from_pvr_gem(pvr_obj);
-> @@ -202,7 +203,7 @@ pvr_ioctl_get_bo_mmap_offset(struct drm_device *drm_dev, void *raw_args,
->  	if (ret != 0) {
->  		/* Drop our reference to the buffer object. */
->  		drm_gem_object_put(gem_obj);
-> -		goto err_drm_dev_exit;
-> +		goto err_pvr_device_exit;
->  	}
->  
->  	/*
-> @@ -214,8 +215,8 @@ pvr_ioctl_get_bo_mmap_offset(struct drm_device *drm_dev, void *raw_args,
->  	/* Drop our reference to the buffer object. */
->  	pvr_gem_object_put(pvr_obj);
->  
-> -err_drm_dev_exit:
-> -	drm_dev_exit(idx);
-> +err_pvr_device_exit:
-> +	pvr_device_exit(pvr_dev, idx);
->  
->  	return ret;
->  }
-> @@ -626,7 +627,7 @@ pvr_ioctl_dev_query(struct drm_device *drm_dev, void *raw_args,
->  	int idx;
->  	int ret = -EINVAL;
->  
-> -	if (!drm_dev_enter(drm_dev, &idx))
-> +	if (!pvr_device_enter(pvr_dev, &idx))
->  		return -EIO;
->  
->  	switch ((enum drm_pvr_dev_query)args->type) {
-> @@ -655,7 +656,7 @@ pvr_ioctl_dev_query(struct drm_device *drm_dev, void *raw_args,
->  		break;
->  	}
->  
-> -	drm_dev_exit(idx);
-> +	pvr_device_exit(pvr_dev, idx);
->  
->  	return ret;
->  }
-> @@ -680,16 +681,17 @@ pvr_ioctl_create_context(struct drm_device *drm_dev, void *raw_args,
->  			 struct drm_file *file)
->  {
->  	struct drm_pvr_ioctl_create_context_args *args = raw_args;
-> +	struct pvr_device *pvr_dev = to_pvr_device(drm_dev);
->  	struct pvr_file *pvr_file = file->driver_priv;
->  	int idx;
->  	int ret;
->  
-> -	if (!drm_dev_enter(drm_dev, &idx))
-> +	if (!pvr_device_enter(pvr_dev, &idx))
->  		return -EIO;
->  
->  	ret = pvr_context_create(pvr_file, args);
->  
-> -	drm_dev_exit(idx);
-> +	pvr_device_exit(pvr_dev, idx);
->  
->  	return ret;
->  }
-> @@ -738,18 +740,19 @@ pvr_ioctl_create_free_list(struct drm_device *drm_dev, void *raw_args,
->  			   struct drm_file *file)
->  {
->  	struct drm_pvr_ioctl_create_free_list_args *args = raw_args;
-> +	struct pvr_device *pvr_dev = to_pvr_device(drm_dev);
->  	struct pvr_file *pvr_file = to_pvr_file(file);
->  	struct pvr_free_list *free_list;
->  	int idx;
->  	int err;
->  
-> -	if (!drm_dev_enter(drm_dev, &idx))
-> +	if (!pvr_device_enter(pvr_dev, &idx))
->  		return -EIO;
->  
->  	free_list = pvr_free_list_create(pvr_file, args);
->  	if (IS_ERR(free_list)) {
->  		err = PTR_ERR(free_list);
-> -		goto err_drm_dev_exit;
-> +		goto err_pvr_device_exit;
->  	}
->  
->  	/* Allocate object handle for userspace. */
-> @@ -761,15 +764,15 @@ pvr_ioctl_create_free_list(struct drm_device *drm_dev, void *raw_args,
->  	if (err < 0)
->  		goto err_cleanup;
->  
-> -	drm_dev_exit(idx);
-> +	pvr_device_exit(pvr_dev, idx);
->  
->  	return 0;
->  
->  err_cleanup:
->  	pvr_free_list_put(free_list);
->  
-> -err_drm_dev_exit:
-> -	drm_dev_exit(idx);
-> +err_pvr_device_exit:
-> +	pvr_device_exit(pvr_dev, idx);
->  
->  	return err;
->  }
-> @@ -824,18 +827,19 @@ pvr_ioctl_create_hwrt_dataset(struct drm_device *drm_dev, void *raw_args,
->  			      struct drm_file *file)
->  {
->  	struct drm_pvr_ioctl_create_hwrt_dataset_args *args = raw_args;
-> +	struct pvr_device *pvr_dev = to_pvr_device(drm_dev);
->  	struct pvr_file *pvr_file = to_pvr_file(file);
->  	struct pvr_hwrt_dataset *hwrt;
->  	int idx;
->  	int err;
->  
-> -	if (!drm_dev_enter(drm_dev, &idx))
-> +	if (!pvr_device_enter(pvr_dev, &idx))
->  		return -EIO;
->  
->  	hwrt = pvr_hwrt_dataset_create(pvr_file, args);
->  	if (IS_ERR(hwrt)) {
->  		err = PTR_ERR(hwrt);
-> -		goto err_drm_dev_exit;
-> +		goto err_pvr_device_exit;
->  	}
->  
->  	/* Allocate object handle for userspace. */
-> @@ -847,15 +851,15 @@ pvr_ioctl_create_hwrt_dataset(struct drm_device *drm_dev, void *raw_args,
->  	if (err < 0)
->  		goto err_cleanup;
->  
-> -	drm_dev_exit(idx);
-> +	pvr_device_exit(pvr_dev, idx);
->  
->  	return 0;
->  
->  err_cleanup:
->  	pvr_hwrt_dataset_put(hwrt);
->  
-> -err_drm_dev_exit:
-> -	drm_dev_exit(idx);
-> +err_pvr_device_exit:
-> +	pvr_device_exit(pvr_dev, idx);
->  
->  	return err;
->  }
-> @@ -910,23 +914,24 @@ pvr_ioctl_create_vm_context(struct drm_device *drm_dev, void *raw_args,
->  			    struct drm_file *file)
->  {
->  	struct drm_pvr_ioctl_create_vm_context_args *args = raw_args;
-> +	struct pvr_device *pvr_dev = to_pvr_device(drm_dev);
->  	struct pvr_file *pvr_file = to_pvr_file(file);
->  	struct pvr_vm_context *vm_ctx;
->  	int idx;
->  	int err;
->  
-> -	if (!drm_dev_enter(drm_dev, &idx))
-> +	if (!pvr_device_enter(pvr_dev, &idx))
->  		return -EIO;
->  
->  	if (args->_padding_4) {
->  		err = -EINVAL;
-> -		goto err_drm_dev_exit;
-> +		goto err_pvr_device_exit;
->  	}
->  
->  	vm_ctx = pvr_vm_create_context(pvr_file->pvr_dev, true);
->  	if (IS_ERR(vm_ctx)) {
->  		err = PTR_ERR(vm_ctx);
-> -		goto err_drm_dev_exit;
-> +		goto err_pvr_device_exit;
->  	}
->  
->  	/* Allocate object handle for userspace. */
-> @@ -938,15 +943,15 @@ pvr_ioctl_create_vm_context(struct drm_device *drm_dev, void *raw_args,
->  	if (err < 0)
->  		goto err_cleanup;
->  
-> -	drm_dev_exit(idx);
-> +	pvr_device_exit(pvr_dev, idx);
->  
->  	return 0;
->  
->  err_cleanup:
->  	pvr_vm_context_put(vm_ctx);
->  
-> -err_drm_dev_exit:
-> -	drm_dev_exit(idx);
-> +err_pvr_device_exit:
-> +	pvr_device_exit(pvr_dev, idx);
->  
->  	return err;
->  }
-> @@ -1022,26 +1027,26 @@ pvr_ioctl_vm_map(struct drm_device *drm_dev, void *raw_args,
->  	int idx;
->  	int err;
->  
-> -	if (!drm_dev_enter(drm_dev, &idx))
-> +	if (!pvr_device_enter(pvr_dev, &idx))
->  		return -EIO;
->  
->  	/* Initial validation of args. */
->  	if (args->_padding_14) {
->  		err = -EINVAL;
-> -		goto err_drm_dev_exit;
-> +		goto err_pvr_device_exit;
->  	}
->  
->  	if (args->flags != 0 ||
->  	    check_add_overflow(args->offset, args->size, &offset_plus_size) ||
->  	    !pvr_find_heap_containing(pvr_dev, args->device_addr, args->size)) {
->  		err = -EINVAL;
-> -		goto err_drm_dev_exit;
-> +		goto err_pvr_device_exit;
->  	}
->  
->  	vm_ctx = pvr_vm_context_lookup(pvr_file, args->vm_context_handle);
->  	if (!vm_ctx) {
->  		err = -EINVAL;
-> -		goto err_drm_dev_exit;
-> +		goto err_pvr_device_exit;
->  	}
->  
->  	pvr_obj = pvr_gem_object_from_handle(pvr_file, args->handle);
-> @@ -1079,8 +1084,8 @@ pvr_ioctl_vm_map(struct drm_device *drm_dev, void *raw_args,
->  err_put_vm_context:
->  	pvr_vm_context_put(vm_ctx);
->  
-> -err_drm_dev_exit:
-> -	drm_dev_exit(idx);
-> +err_pvr_device_exit:
-> +	pvr_device_exit(pvr_dev, idx);
->  
->  	return err;
->  }
-> @@ -1148,12 +1153,12 @@ pvr_ioctl_submit_jobs(struct drm_device *drm_dev, void *raw_args,
->  	int idx;
->  	int err;
->  
-> -	if (!drm_dev_enter(drm_dev, &idx))
-> +	if (!pvr_device_enter(pvr_dev, &idx))
->  		return -EIO;
->  
->  	err = pvr_submit_jobs(pvr_dev, pvr_file, args);
->  
-> -	drm_dev_exit(idx);
-> +	pvr_device_exit(pvr_dev, idx);
->  
->  	return err;
->  }
-> diff --git a/drivers/gpu/drm/imagination/pvr_fw.c b/drivers/gpu/drm/imagination/pvr_fw.c
-> index 3debc9870a82..07547e167963 100644
-> --- a/drivers/gpu/drm/imagination/pvr_fw.c
-> +++ b/drivers/gpu/drm/imagination/pvr_fw.c
-> @@ -1094,7 +1094,7 @@ pvr_fw_structure_cleanup(struct pvr_device *pvr_dev, u32 type, struct pvr_fw_obj
->  
->  	down_read(&pvr_dev->reset_sem);
->  
-> -	if (!drm_dev_enter(from_pvr_device(pvr_dev), &idx)) {
-> +	if (!pvr_device_enter(pvr_dev, &idx)) {
->  		err = -EIO;
->  		goto err_up_read;
->  	}
-> @@ -1118,22 +1118,22 @@ pvr_fw_structure_cleanup(struct pvr_device *pvr_dev, u32 type, struct pvr_fw_obj
->  		break;
->  	default:
->  		err = -EINVAL;
-> -		goto err_drm_dev_exit;
-> +		goto err_pvr_device_exit;
->  	}
->  
->  	err = pvr_kccb_send_cmd(pvr_dev, &cmd, &slot_nr);
->  	if (err)
-> -		goto err_drm_dev_exit;
-> +		goto err_pvr_device_exit;
->  
->  	err = pvr_kccb_wait_for_completion(pvr_dev, slot_nr, HZ, &rtn);
->  	if (err)
-> -		goto err_drm_dev_exit;
-> +		goto err_pvr_device_exit;
->  
->  	if (rtn & ROGUE_FWIF_KCCB_RTN_SLOT_CLEANUP_BUSY)
->  		err = -EBUSY;
->  
-> -err_drm_dev_exit:
-> -	drm_dev_exit(idx);
-> +err_pvr_device_exit:
-> +	pvr_device_exit(pvr_dev, idx);
->  
->  err_up_read:
->  	up_read(&pvr_dev->reset_sem);
-> diff --git a/drivers/gpu/drm/imagination/pvr_fw_trace.c b/drivers/gpu/drm/imagination/pvr_fw_trace.c
-> index 31199e45b72e..26d67483eac2 100644
-> --- a/drivers/gpu/drm/imagination/pvr_fw_trace.c
-> +++ b/drivers/gpu/drm/imagination/pvr_fw_trace.c
-> @@ -149,7 +149,7 @@ update_logtype(struct pvr_device *pvr_dev, u32 group_mask)
->  	fw_trace->group_mask = group_mask;
->  
->  	down_read(&pvr_dev->reset_sem);
-> -	if (!drm_dev_enter(from_pvr_device(pvr_dev), &idx)) {
-> +	if (!pvr_device_enter(pvr_dev, &idx)) {
->  		err = -EIO;
->  		goto err_up_read;
->  	}
-> @@ -159,7 +159,7 @@ update_logtype(struct pvr_device *pvr_dev, u32 group_mask)
->  
->  	err = pvr_kccb_send_cmd(pvr_dev, &cmd, NULL);
->  
-> -	drm_dev_exit(idx);
-> +	pvr_device_exit(pvr_dev, idx);
->  
->  err_up_read:
->  	up_read(&pvr_dev->reset_sem);
-> diff --git a/drivers/gpu/drm/imagination/pvr_mmu.c b/drivers/gpu/drm/imagination/pvr_mmu.c
-> index 4fe70610ed94..59911f70e9ca 100644
-> --- a/drivers/gpu/drm/imagination/pvr_mmu.c
-> +++ b/drivers/gpu/drm/imagination/pvr_mmu.c
-> @@ -129,18 +129,18 @@ int pvr_mmu_flush_exec(struct pvr_device *pvr_dev, bool wait)
->  	u32 slot;
->  	int idx;
->  
-> -	if (!drm_dev_enter(from_pvr_device(pvr_dev), &idx))
-> +	if (!pvr_device_enter(pvr_dev, &idx))
->  		return -EIO;
->  
->  	/* Can't flush MMU if the firmware hasn't booted yet. */
->  	if (!pvr_dev->fw_dev.booted)
-> -		goto err_drm_dev_exit;
-> +		goto err_pvr_device_exit;
->  
->  	cmd_mmu_cache_data->cache_flags =
->  		atomic_xchg(&pvr_dev->mmu_flush_cache_flags, 0);
->  
->  	if (!cmd_mmu_cache_data->cache_flags)
-> -		goto err_drm_dev_exit;
-> +		goto err_pvr_device_exit;
->  
->  	cmd_mmu_cache.cmd_type = ROGUE_FWIF_KCCB_CMD_MMUCACHE;
->  
-> @@ -156,7 +156,7 @@ int pvr_mmu_flush_exec(struct pvr_device *pvr_dev, bool wait)
->  	if (err)
->  		goto err_reset_and_retry;
->  
-> -	drm_dev_exit(idx);
-> +	pvr_device_exit(pvr_dev, idx);
->  
->  	return 0;
->  
-> @@ -167,23 +167,23 @@ int pvr_mmu_flush_exec(struct pvr_device *pvr_dev, bool wait)
->  	 */
->  	err = pvr_power_reset(pvr_dev, true);
->  	if (err)
-> -		goto err_drm_dev_exit; /* Device is lost. */
-> +		goto err_pvr_device_exit; /* Device is lost. */
->  
->  	/* Retry sending flush request. */
->  	err = pvr_kccb_send_cmd(pvr_dev, &cmd_mmu_cache, &slot);
->  	if (err) {
-> -		pvr_device_lost(pvr_dev);
-> -		goto err_drm_dev_exit;
-> +		pvr_device_set_lost(pvr_dev);
-> +		goto err_pvr_device_exit;
->  	}
->  
->  	if (wait) {
->  		err = pvr_kccb_wait_for_completion(pvr_dev, slot, HZ, NULL);
->  		if (err)
-> -			pvr_device_lost(pvr_dev);
-> +			pvr_device_set_lost(pvr_dev);
->  	}
->  
-> -err_drm_dev_exit:
-> -	drm_dev_exit(idx);
-> +err_pvr_device_exit:
-> +	pvr_device_exit(pvr_dev, idx);
->  
->  	return err;
->  }
-> diff --git a/drivers/gpu/drm/imagination/pvr_power.c b/drivers/gpu/drm/imagination/pvr_power.c
-> index ba7816fd28ec..c927def3d3f3 100644
-> --- a/drivers/gpu/drm/imagination/pvr_power.c
-> +++ b/drivers/gpu/drm/imagination/pvr_power.c
-> @@ -23,21 +23,6 @@
->  
->  #define WATCHDOG_TIME_MS (500)
->  
-> -/**
-> - * pvr_device_lost() - Mark GPU device as lost
-> - * @pvr_dev: Target PowerVR device.
-> - *
-> - * This will cause the DRM device to be unplugged.
-> - */
-> -void
-> -pvr_device_lost(struct pvr_device *pvr_dev)
-> -{
-> -	if (!pvr_dev->lost) {
-> -		pvr_dev->lost = true;
-> -		drm_dev_unplug(from_pvr_device(pvr_dev));
-> -	}
-> -}
-> -
->  static int
->  pvr_power_send_command(struct pvr_device *pvr_dev, struct rogue_fwif_kccb_cmd *pow_cmd)
->  {
-> @@ -186,7 +171,7 @@ pvr_watchdog_worker(struct work_struct *work)
->  						  watchdog.work.work);
->  	bool stalled;
->  
-> -	if (pvr_dev->lost)
-> +	if (pvr_device_is_lost(pvr_dev))
->  		return;
->  
->  	if (pm_runtime_get_if_in_use(from_pvr_device(pvr_dev)->dev) <= 0)
-> @@ -208,10 +193,9 @@ pvr_watchdog_worker(struct work_struct *work)
->  	pm_runtime_put(from_pvr_device(pvr_dev)->dev);
->  
->  out_requeue:
-> -	if (!pvr_dev->lost) {
-> +	if (!pvr_device_is_lost(pvr_dev))
->  		queue_delayed_work(pvr_dev->sched_wq, &pvr_dev->watchdog.work,
->  				   msecs_to_jiffies(WATCHDOG_TIME_MS));
-> -	}
->  }
->  
->  /**
-> @@ -239,21 +223,21 @@ pvr_power_device_suspend(struct device *dev)
->  	int err = 0;
->  	int idx;
->  
-> -	if (!drm_dev_enter(drm_dev, &idx))
-> +	if (!pvr_device_enter(pvr_dev, &idx))
->  		return -EIO;
->  
->  	if (pvr_dev->fw_dev.booted) {
->  		err = pvr_power_fw_disable(pvr_dev, false);
->  		if (err)
-> -			goto err_drm_dev_exit;
-> +			goto err_pvr_device_exit;
->  	}
->  
->  	clk_disable_unprepare(pvr_dev->mem_clk);
->  	clk_disable_unprepare(pvr_dev->sys_clk);
->  	clk_disable_unprepare(pvr_dev->core_clk);
->  
-> -err_drm_dev_exit:
-> -	drm_dev_exit(idx);
-> +err_pvr_device_exit:
-> +	pvr_device_exit(pvr_dev, idx);
->  
->  	return err;
->  }
-> @@ -267,12 +251,12 @@ pvr_power_device_resume(struct device *dev)
->  	int idx;
->  	int err;
->  
-> -	if (!drm_dev_enter(drm_dev, &idx))
-> +	if (!pvr_device_enter(pvr_dev, &idx))
->  		return -EIO;
->  
->  	err = clk_prepare_enable(pvr_dev->core_clk);
->  	if (err)
-> -		goto err_drm_dev_exit;
-> +		goto err_pvr_device_exit;
->  
->  	err = clk_prepare_enable(pvr_dev->sys_clk);
->  	if (err)
-> @@ -288,7 +272,7 @@ pvr_power_device_resume(struct device *dev)
->  			goto err_mem_clk_disable;
->  	}
->  
-> -	drm_dev_exit(idx);
-> +	pvr_device_exit(pvr_dev, idx);
->  
->  	return 0;
->  
-> @@ -301,8 +285,8 @@ pvr_power_device_resume(struct device *dev)
->  err_core_clk_disable:
->  	clk_disable_unprepare(pvr_dev->core_clk);
->  
-> -err_drm_dev_exit:
-> -	drm_dev_exit(idx);
-> +err_pvr_device_exit:
-> +	pvr_device_exit(pvr_dev, idx);
->  
->  	return err;
->  }
-> @@ -345,7 +329,7 @@ pvr_power_reset(struct pvr_device *pvr_dev, bool hard_reset)
->  
->  	down_write(&pvr_dev->reset_sem);
->  
-> -	if (pvr_dev->lost) {
-> +	if (pvr_device_is_lost(pvr_dev)) {
->  		err = -EIO;
->  		goto err_up_write;
->  	}
-> @@ -407,7 +391,7 @@ pvr_power_reset(struct pvr_device *pvr_dev, bool hard_reset)
->  
->  err_device_lost:
->  	drm_err(from_pvr_device(pvr_dev), "GPU device lost");
-> -	pvr_device_lost(pvr_dev);
-> +	pvr_device_set_lost(pvr_dev);
->  
->  	/* Leave IRQs disabled if the device is lost. */
->  
-> diff --git a/drivers/gpu/drm/imagination/pvr_power.h b/drivers/gpu/drm/imagination/pvr_power.h
-> index 9a9312dcb2da..360980f454d7 100644
-> --- a/drivers/gpu/drm/imagination/pvr_power.h
-> +++ b/drivers/gpu/drm/imagination/pvr_power.h
-> @@ -12,8 +12,6 @@
->  int pvr_watchdog_init(struct pvr_device *pvr_dev);
-
-
-
-
-
-
+Nit: this is not a macro but an inline function.
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Florian
+
+
+--000000000000059479060fca3f51
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+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
+riBJ/K1AFUjRAjFhGV64l++td7dkmnq/X8ET75ti+w1s4FRpFqkD2m7pg5NxdsZphYIXAgMBAAGj
+QjBAMA4GA1UdDwEB/wQEAwIBBjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBSP8Et/qC5FJK5N
+UPpjmove4t0bvDANBgkqhkiG9w0BAQsFAAOCAQEAS0DbwFCq/sgM7/eWVEVJu5YACUGssxOGhigH
+M8pr5nS5ugAtrqQK0/Xx8Q+Kv3NnSoPHRHt44K9ubG8DKY4zOUXDjuS5V2yq/BKW7FPGLeQkbLmU
+Y/vcU2hnVj6DuM81IcPJaP7O2sJTqsyQiunwXUaMld16WCgaLx3ezQA3QY/tRG3XUyiXfvNnBB4V
+14qWtNPeTCekTBtzc3b0F5nCH3oO4y0IrQocLP88q1UOD5F+NuvDV0m+4S4tfGCLw0FREyOdzvcy
+a5QBqJnnLDMfOjsl0oZAzjsshnjJYS8Uuu7bVW/fhO4FCU29KNhyztNiUGUe65KXgzHZs7XKR1g/
+XzCCBVgwggRAoAMCAQICDBP8P9hKRVySg3Qv5DANBgkqhkiG9w0BAQsFADBbMQswCQYDVQQGEwJC
+RTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1zYTExMC8GA1UEAxMoR2xvYmFsU2lnbiBHQ0MgUjMg
+UGVyc29uYWxTaWduIDIgQ0EgMjAyMDAeFw0yMjA5MTAxMjE4MTFaFw0yNTA5MTAxMjE4MTFaMIGW
+MQswCQYDVQQGEwJJTjESMBAGA1UECBMJS2FybmF0YWthMRIwEAYDVQQHEwlCYW5nYWxvcmUxFjAU
+BgNVBAoTDUJyb2FkY29tIEluYy4xGTAXBgNVBAMTEEZsb3JpYW4gRmFpbmVsbGkxLDAqBgkqhkiG
+9w0BCQEWHWZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tMIIBIjANBgkqhkiG9w0BAQEFAAOC
+AQ8AMIIBCgKCAQEA+oi3jMmHltY4LMUy8Up5+1zjd1iSgUBXhwCJLj1GJQF+GwP8InemBbk5rjlC
+UwbQDeIlOfb8xGqHoQFGSW8p9V1XUw+cthISLkycex0AJ09ufePshLZygRLREU0H4ecNPMejxCte
+KdtB4COST4uhBkUCo9BSy1gkl8DJ8j/BQ1KNUx6oYe0CntRag+EnHv9TM9BeXBBLfmMRnWNhvOSk
+nSmRX0J3d9/G2A3FIC6WY2XnLW7eAZCQPa1Tz3n2B5BGOxwqhwKLGLNu2SRCPHwOdD6e0drURF7/
+Vax85/EqkVnFNlfxtZhS0ugx5gn2pta7bTdBm1IG4TX+A3B1G57rVwIDAQABo4IB3jCCAdowDgYD
+VR0PAQH/BAQDAgWgMIGjBggrBgEFBQcBAQSBljCBkzBOBggrBgEFBQcwAoZCaHR0cDovL3NlY3Vy
+ZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3J0MEEG
+CCsGAQUFBzABhjVodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3IzcGVyc29uYWxzaWdu
+MmNhMjAyMDBNBgNVHSAERjBEMEIGCisGAQQBoDIBKAowNDAyBggrBgEFBQcCARYmaHR0cHM6Ly93
+d3cuZ2xvYmFsc2lnbi5jb20vcmVwb3NpdG9yeS8wCQYDVR0TBAIwADBJBgNVHR8EQjBAMD6gPKA6
+hjhodHRwOi8vY3JsLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwLmNy
+bDAoBgNVHREEITAfgR1mbG9yaWFuLmZhaW5lbGxpQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggr
+BgEFBQcDBDAfBgNVHSMEGDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUUwwfJ6/F
+KL0fRdVROal/Lp4lAF0wDQYJKoZIhvcNAQELBQADggEBAKBgfteDc1mChZjKBY4xAplC6uXGyBrZ
+kNGap1mHJ+JngGzZCz+dDiHRQKGpXLxkHX0BvEDZLW6LGOJ83ImrW38YMOo3ZYnCYNHA9qDOakiw
+2s1RH00JOkO5SkYdwCHj4DB9B7KEnLatJtD8MBorvt+QxTuSh4ze96Jz3kEIoHMvwGFkgObWblsc
+3/YcLBmCgaWpZ3Ksev1vJPr5n8riG3/N4on8gO5qinmmr9Y7vGeuf5dmZrYMbnb+yCBalkUmZQwY
+NxADYvcRBA0ySL6sZpj8BIIhWiXiuusuBmt2Mak2eEv0xDbovE6Z6hYyl/ZnRadbgK/ClgbY3w+O
+AfUXEZ0xggJtMIICaQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52
+LXNhMTEwLwYDVQQDEyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwT
+/D/YSkVckoN0L+QwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIGmuoyrW9qUavFF3
+5CB7TrWSVn+ksKm2Okim+29ZsVUsMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcN
+AQkFMQ8XDTI0MDEyNTE5MzI1NVowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZI
+AWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEH
+MAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQAxHdfKv3nYL4EEr0Xv5wAklVOndVupLjx5
+qNNLQzKIuc4drlJsnf9LRnpI9KYStQ9wakbjVY9COel0VLSclv3CkdR6GpHIx/PIW4hZTa26MQvg
+iMevxheWE2C4LeNjxFCw8wT0klGuM5zZzU7gcgPzqIAM71x2yxq2L7vz4LI7rgrBAofcdWdkJgxu
+qGuKUxGqbY2JmIJpAlh5oUkHGAYT4LY/6vC5sojiLvuAuSn8bx1kJl4rBDk2jSea+mmaqIYNPMP8
++DWipsrP4+B5Cphsz2X6WhCyVEmygAaLxz7tjf/T2iX1j1AKpKXN0EI/RYVJXeN0KgKFF3ZxSJlU
+A5FN
+--000000000000059479060fca3f51--
