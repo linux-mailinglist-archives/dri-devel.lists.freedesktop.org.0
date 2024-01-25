@@ -2,70 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0C3983CD56
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 21:23:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A35483CD7E
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 21:32:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEA1210E89B;
-	Thu, 25 Jan 2024 20:23:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79DD810E97F;
+	Thu, 25 Jan 2024 20:32:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
- [209.85.208.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6318C10E206
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 20:23:39 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id
- 4fb4d7f45d1cf-55d000834dcso212094a12.1
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 12:23:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1706214157; x=1706818957; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=cgx7mklBpB9KounVQy5eGpWd3i905pv75d99Q4ggPTM=;
- b=PJySQyfNCVRA4Omtaw+hiu1F7krvJ3vZ8JhsHvT44Ju6CfGVR9ryEebpn0EBVsW7ol
- q+FHcQs+6BS6Yli+DYzopEmnYxcifqv5RCqfJm7IEjHoIOtGPJf75YItMus4/U4oDl1j
- /luBnlQqQ4SFeY81gTjmO7RrZ9yoKDIpQ8pm0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706214157; x=1706818957;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cgx7mklBpB9KounVQy5eGpWd3i905pv75d99Q4ggPTM=;
- b=e5QRkIzFyhRygX8pVdd8SVctXJT6wUZu1iyrAXbfSFKAggfX/nMkXZFFvf1AQ5p/OZ
- eXTCb+T8yAywkeEVtQqsLLpY7HeQPFUIubt5NGqNrZ7bfnAuEEavFsOpEd8+KBQOZqBa
- ElkcGne8x1IMgLYwSg1HlA+IuuTQNsPL3zab3gPIemhBttoFjXmj5I645ZtjQCpaFJTJ
- WPgMm4oNjQUgygf6Zv44bIAJcM1XczZQvOSlGhaVHBAA4ET/moDQAJpX/rQCWVB0D3nA
- NpIr0ey2NP4zM6nf2HgE1wYnC9702ymM9eQ2ilv6UlxGA4PqlXhtHGCG1Gf6EULbiUe1
- ClYA==
-X-Forwarded-Encrypted: i=0;
- AJvYcCV8DtwmQ61gxf1VLYB0oUYkQSfE3vUkqFOspWlkEE2Lsf7w9J/a14tq1cTWxMeBIMudbp2DCkmI9ETrQu3FO7tOM/zkJ0lKSJ1kilLC0mfP
-X-Gm-Message-State: AOJu0YwiY3oFdIyYDLHw6Xfx/cACH1png8DI4D74vypRJGF6R/NpXU1W
- uWVRXUuwsPk74IYDo4IoTq9OztPKGc4g7hxQyoc0Xar2xRfqRu7IUdnwI19PxXg=
-X-Google-Smtp-Source: AGHT+IFaTRwxaZ3kossB3H1YRQdr9l0tTF1yAxPBdIIOdK1uRobh4zyGMgDW9fgGjUXK1GGr2MpHAQ==
-X-Received: by 2002:a17:906:f804:b0:a30:ff7f:e583 with SMTP id
- kh4-20020a170906f80400b00a30ff7fe583mr148157ejb.2.1706214157490; 
- Thu, 25 Jan 2024 12:22:37 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- ps12-20020a170906bf4c00b00a31225fed97sm1372278ejb.104.2024.01.25.12.22.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Jan 2024 12:22:36 -0800 (PST)
-Date: Thu, 25 Jan 2024 21:22:34 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Matthew Wilcox <willy@infradead.org>
-Subject: Re: fb_defio and page->mapping
-Message-ID: <ZbLDCkpq9zxkdyLt@phenom.ffwll.local>
-Mail-Followup-To: Matthew Wilcox <willy@infradead.org>,
- Helge Deller <deller@gmx.de>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jaya Kumar <jayalk@intworks.biz>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org
-References: <Za_1d4MVxKeQOP9B@casper.infradead.org>
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 626F110E97F
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 20:32:34 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1rT6M4-0007oq-4x; Thu, 25 Jan 2024 21:29:44 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1rT6Ly-002MWh-9O; Thu, 25 Jan 2024 21:29:38 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+ (envelope-from <ukl@pengutronix.de>) id 1rT6Ly-0087Xo-0R;
+ Thu, 25 Jan 2024 21:29:38 +0100
+Date: Thu, 25 Jan 2024 21:29:37 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Florian Fainelli <florian.fainelli@broadcom.com>
+Subject: Re: [PATCH v5 003/111] pwm: Provide a macro to get the parent device
+ of a given chip
+Message-ID: <e3xeos2rtfydqj3hz3ql7xkon3aa3aingww7q5lpb3xa4arqrs@6jgwfrgay4le>
+References: <cover.1706182805.git.u.kleine-koenig@pengutronix.de>
+ <1cae6f73264ab313205eaa9483251f7aaf259cb4.1706182805.git.u.kleine-koenig@pengutronix.de>
+ <c89cbecf-253d-4a2c-8782-304b7b620175@broadcom.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="qxr7wcriw2tz34lp"
 Content-Disposition: inline
-In-Reply-To: <Za_1d4MVxKeQOP9B@casper.infradead.org>
-X-Operating-System: Linux phenom 6.6.11-amd64 
+In-Reply-To: <c89cbecf-253d-4a2c-8782-304b7b620175@broadcom.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,79 +57,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org, Daniel Vetter <daniel@ffwll.ch>,
- Jaya Kumar <jayalk@intworks.biz>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Paul Cercueil <paul@crapouillou.net>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, linux-amlogic@lists.infradead.org,
+ Guenter Roeck <groeck@chromium.org>, linux-riscv@lists.infradead.org,
+ David Airlie <airlied@gmail.com>, linux-stm32@st-md-mailman.stormreply.com,
+ Jerome Brunet <jbrunet@baylibre.com>, chrome-platform@lists.linux.dev,
+ linux-samsung-soc@vger.kernel.org, Robert Foss <rfoss@kernel.org>,
+ Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
+ linux-staging@lists.linux.dev, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Chen-Yu Tsai <wens@csie.org>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ NXP Linux Team <linux-imx@nxp.com>, linux-mips@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-pwm@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Ray Jui <rjui@broadcom.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Johan Hovold <johan@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ greybus-dev@lists.linaro.org, Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+ linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
+ Fabio Estevam <festevam@gmail.com>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Benson Leung <bleung@chromium.org>, kernel@pengutronix.de,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Alex Elder <elder@kernel.org>,
+ Scott Branden <sbranden@broadcom.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Shawn Guo <shawnguo@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 23, 2024 at 05:20:55PM +0000, Matthew Wilcox wrote:
-> We're currently trying to remove page->mapping from the entire kernel.
-> This has me interested in fb_defio and since I made such a mess of it
-> with commits ccf953d8f3d6 / 0b78f8bcf495, I'd like to discuss what to
-> do before diving in.
-> 
-> Folios continue to have a mapping.  So we can effectively do
-> page_folio(page)->mapping (today that's calling compound_head() to get
-> to the head page; eventually it's a separate allocation).
-> 
-> But now I look at commit 56c134f7f1b5, I'm a little scared.
-> Apparently pages are being allocated from shmem and being mapped by
-> fb_deferred_io_fault()?  This line:
-> 
->                 page->mapping = vmf->vma->vm_file->f_mapping;
-> 
-> initially appears harmless for shmem files (because that's presumably
-> a noop), but it's only a noop for head pages.  If shmem allocates a
-> compound page (ie a 2MB THP today), you'll overlay some information
-> stored in the second and third pages; looks like _entire_mapcount
-> and _deferred_list.prev (but we do shift those fields around without
-> regard to what the fb_defio driver is doing).  Even if you've disabled
-> THP today, setting page->mapping to NULL in fb_deferred_io_lastclose()
-> for a shmem page is a really bad idea.
-> 
-> I'd like to avoid fb_defio playing with page->mapping at all.
-> As I understand it, the only reason to set page->mapping is so that
-> page_mkclean() works.  But there are all kinds of assumptions in
-> page_mkclean() (now essentially folio_mkclean()) that we're dealing with
-> file-backed or anonymous memory.  I wonder if we might be better off
-> calling pfn_mkclean_range() for each VMA which maps these allocations?
-> You'd have to keep track of each VMA yourself (I think?)  but it would
-> avoid messing with page->mapping.
-> 
-> Anyway, I don't know enough about DRM.  There might be something
-> unutterably obvious we could do to fix this.
 
-It's just really old code that's been barely touched to keep it going.
+--qxr7wcriw2tz34lp
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The issue is that the entire defio stuff is pretty bad layering violation.
-Not sure what the cleanest way to do this really would be if it only
-touches the ptes and nothing else. Not sure what's the right function for
-a bit of pte walking for that.
+On Thu, Jan 25, 2024 at 11:32:47AM -0800, Florian Fainelli wrote:
+> On 1/25/24 04:08, Uwe Kleine-K=F6nig wrote:
+> > Currently a pwm_chip stores in its struct device *dev member a pointer
+> > to the parent device. Preparing a change that embeds a full struct
+> > device in struct pwm_chip, this accessor macro should be used in all
+> > drivers directly accessing chip->dev now. This way struct pwm_chip and
+> > this macro can be changed without having to touch all drivers in the
+> > same change set.
+> >=20
+> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+>=20
+> Nit: this is not a macro but an inline function.
 
-That would still potentially mess with the mapping by the gpu memory
-allocator in bad ways, but I think at least for all current ones it should
-avoid problems.
+Oh right, it used to be a macro, but I changed that. I made the commit
+log read:
 
-Definitely agree that messing with struct page in any way is really bad,
-we simply didn't get that far yet.
+    pwm: Provide an inline function to get the parent device of a given chip
 
-I think the cleanest way would be if we have a fb_mmap only for drm
-drivers in drm_fbdev_generic.c and sunset fb_deferred_io_mmap and use that
-to just replicate the ptes from the kernel's vmap into one that is ok for
-userspace. The fbdev implementation in drm_fbdev_generic.c is the only one
-left in drm that supports fb_defio, so that would catch all of them. To my
-knowledge all the other defio implementations in native fbdev drivers
-aren't problematic since none use shmem.
+    Currently a pwm_chip stores in its struct device *dev member a pointer
+    to the parent device. Preparing a change that embeds a full struct
+    device in struct pwm_chip, this accessor function should be used in all
+    drivers directly accessing chip->dev now. This way struct pwm_chip and
+    this new function can be changed without having to touch all drivers in
+    the same change set.
 
-For I while we pondered with proxying the vma to the driver's drm native
-mmap implementation, but that gets real messy plus there's no benefit
-because fbdev assumes a bit too much that the memory is permanently
-pinned. So we need the pinned kernel vmap anyway.
+Thanks,
+Uwe
 
-Cheers, Sima
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--qxr7wcriw2tz34lp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmWyxLEACgkQj4D7WH0S
+/k5nkwf9F+1G1rrz7HMmMk0kkol6Q/0nb8baCUPdKhCcHXWnUrkFf+l8BvLEafhy
+6D5c/214tles7OGu5Mgkku0rW4Ae8+sq9Ho2OEJEpVsSuULPwv3+L44VQzZgsjD6
+ULcEcc1vul0iOpwJ0bTHeMqX+P3OENhi72tUDh+NQNnml8ZgePsTI2Ef8agexXAb
+7GLAE/AnRbi3bqcn5XzmIjskyMJfwOT4AvyHWPzzM1sGWfGPOiDp8e2cQXNsUywY
+IZ1X1op4Eax4/Yg/DB2uED0doQLAwJct5JLN/G+Dfx6EReTyA39z64IHPuxNmCXA
+REKDvLe8LO4A9v/JIUQuiwXHBcbjLQ==
+=k1zn
+-----END PGP SIGNATURE-----
+
+--qxr7wcriw2tz34lp--
