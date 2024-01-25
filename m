@@ -2,46 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99FAF83BDD9
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 10:49:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40BEE83BE17
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 10:56:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6090D10F87A;
-	Thu, 25 Jan 2024 09:49:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0DE210F872;
+	Thu, 25 Jan 2024 09:56:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61EB110F87B
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 09:49:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1706176174;
- bh=HQx2vEMacjNLr6cTRRgLHLZqhvtOE96szsA/LVX4JrE=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=EZ6y5rx1rs5c/H1Mm5/WsPYmq072lDVv3g4/azho/BQI+gfL1X1NdLC661txD6EK9
- NAtmw11ItXkVCKOADazT/9RgJ7CfgKx5LmsP5n4gqoptftm45qdLmJGHka4cMQcx4K
- EfUVcWmj2pfFcuFQy+qN+wGvbmVV1BF/WWhH3cHRkNidNhZXTgnEaEUKmf3LkvQ0Yb
- IfIaWiqixDZxjjIdHqGyvU+FZ7MCGImiwmhw32rXbti9wh2NqyDBvijJ6Gy7Lfssx7
- +g2FY1QtkqRvY1gbSE7+o4XOtXnq8clp3eCs9Gkf0+BeWwtYG4KnAiiRvWbzVxh8PH
- e35ZZEFEDtyHg==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id A79D6378000B;
- Thu, 25 Jan 2024 09:49:33 +0000 (UTC)
-Date: Thu, 25 Jan 2024 10:49:32 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v19 30/30] drm/panfrost: Switch to generic memory shrinker
-Message-ID: <20240125104932.478fa5bd@collabora.com>
-In-Reply-To: <20240105184624.508603-31-dmitry.osipenko@collabora.com>
-References: <20240105184624.508603-1-dmitry.osipenko@collabora.com>
- <20240105184624.508603-31-dmitry.osipenko@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8D0B10F85E;
+ Thu, 25 Jan 2024 09:56:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1706176569; x=1737712569;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=GxwRbE55YIwDHZtfx76YzVpE3RzFJjrHMcE6Kj92Rps=;
+ b=eLLEMHa5l9foFnKJqxnQBAX8Xjvez0u2bQcWX0B4uDL/bYlufuWNjKax
+ gpNojaC7pCd/FPrf/6WXQqqPaXthGP5G175UVQHKbmIV0RfgTUF3LG02H
+ TSKGNpxrlhAaDbJD8i6BovARojJ0pQRXNq9xumT8shnjWG54nAaRWwnNi
+ yC8lPVTFM0ROIhO7pw6STJQnzQYGy2146HBHMNCow9Q/yBI5/keDHmYaw
+ D7G4uWFuDDIXvclNIHeC2SNTaDe4VRtVz22ChpX66JFQyXonZeq2f00k1
+ Cy/Yv1r+VysgzYkMqmz+/w//aQzOMWwyLHMpXSxCtRhZOEK5D/brIpaQG A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="23578977"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; d="scan'208";a="23578977"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jan 2024 01:56:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="2188240"
+Received: from cyrillet-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.58.252])
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jan 2024 01:56:05 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Gustavo Sousa <gustavo.sousa@intel.com>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, Yury Norov <yury.norov@gmail.com>
+Subject: Re: Re: [PATCH 1/3] bits: introduce fixed-type genmasks
+In-Reply-To: <170611134445.31262.2799581830173501277@gjsousa-mobl2>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240124050205.3646390-1-lucas.demarchi@intel.com>
+ <20240124050205.3646390-2-lucas.demarchi@intel.com>
+ <87v87jkvrx.fsf@intel.com>
+ <gvkvihpcc45275idrfukjqbvgem767evrux5sx5lnh5hofqemk@ppbkcauitvwb>
+ <ZbEsfl0tGLY+xJl0@yury-ThinkPad>
+ <170611134445.31262.2799581830173501277@gjsousa-mobl2>
+Date: Thu, 25 Jan 2024 11:56:01 +0200
+Message-ID: <878r4dlosu.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,72 +65,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
- Emma Anholt <emma@anholt.net>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
- Steven Price <steven.price@arm.com>, David Airlie <airlied@gmail.com>,
- virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
+Cc: intel-gfx@lists.freedesktop.org,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri,  5 Jan 2024 21:46:24 +0300
-Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+On Wed, 24 Jan 2024, Gustavo Sousa <gustavo.sousa@intel.com> wrote:
+> Quoting Yury Norov (2024-01-24 12:27:58-03:00)
+>>On Wed, Jan 24, 2024 at 08:03:53AM -0600, Lucas De Marchi wrote:
+>>> On Wed, Jan 24, 2024 at 09:58:26AM +0200, Jani Nikula wrote:
+>>> > On Tue, 23 Jan 2024, Lucas De Marchi <lucas.demarchi@intel.com> wrote:
+>>> > > From: Yury Norov <yury.norov@gmail.com>
+>>> > >=20
+>>> > > Generalize __GENMASK() to support different types, and implement
+>>> > > fixed-types versions of GENMASK() based on it. The fixed-type versi=
+on
+>>> > > allows more strict checks to the min/max values accepted, which is
+>>> > > useful for defining registers like implemented by i915 and xe drive=
+rs
+>>> > > with their REG_GENMASK*() macros.
+>>> >=20
+>>> > Mmh, the commit message says the fixed-type version allows more strict
+>>> > checks, but none are actually added. GENMASK_INPUT_CHECK() remains the
+>>> > same.
+>>> >=20
+>>> > Compared to the i915 and xe versions, this is more lax now. You could
+>>> > specify GENMASK_U32(63,32) without complaints.
+>>>=20
+>>> Doing this on top of the this series:
+>>>=20
+>>> -#define   XELPDP_PORT_M2P_COMMAND_TYPE_MASK            REG_GENMASK(30,=
+ 27)
+>>> +#define   XELPDP_PORT_M2P_COMMAND_TYPE_MASK            REG_GENMASK(62,=
+ 32)
+>>>=20
+>>> and I do get a build failure:
+>>>=20
+>>> ../drivers/gpu/drm/i915/display/intel_cx0_phy.c: In function =E2=80=98_=
+_intel_cx0_read_once=E2=80=99:
+>>> ../include/linux/bits.h:41:31: error: left shift count >=3D width of ty=
+pe [-Werror=3Dshift-count-overflow]
+>>>    41 |          (((t)~0ULL - ((t)(1) << (l)) + 1) & \
+>>>       |                               ^~
 
-> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> @@ -328,6 +328,7 @@ int panfrost_mmu_map(struct panfrost_gem_mapping *mapping)
->  	struct panfrost_device *pfdev = to_panfrost_device(obj->dev);
->  	struct sg_table *sgt;
->  	int prot = IOMMU_READ | IOMMU_WRITE;
-> +	int ret = 0;
->  
->  	if (WARN_ON(mapping->active))
->  		return 0;
-> @@ -335,15 +336,32 @@ int panfrost_mmu_map(struct panfrost_gem_mapping *mapping)
->  	if (bo->noexec)
->  		prot |= IOMMU_NOEXEC;
->  
-> +	if (!obj->import_attach) {
-> +		/*
-> +		 * Don't allow shrinker to move pages while pages are mapped.
-> +		 * It's fine to move pages afterwards because shrinker will
-> +		 * take care of unmapping pages during eviction.
-> +		 */
+I stand corrected.
 
-That's not exactly what this shmem_pin() is about, is it? I think it's
-here to meet the drm_gem_shmem_get_pages_sgt() rule stating that pages
-must be pinned while the sgt returned by drm_gem_shmem_get_pages_sgt()
-is manipulated. You actually unpin the GEM just after the mmu_map_sg()
-call, which means pages could very well be reclaimed while the MMU
-still has a mapping referencing those physical pages. And that's fine,
-because what's supposed to protect against that is the fence we
-register to the GEM resv at job submission time.
+>>
+>>I would better include this in commit message to avoid people's
+>>confusion. If it comes to v2, can you please do it and mention that
+>>this trick relies on shift-count-overflow compiler check?
+>
+> Wouldn't it be better to have explicit check that l and h are not out of =
+bounds
+> based on BITS_PER_TYPE() than relying on a compiler flag that could be tu=
+rned
+> off (maybe for some questionable reason, but even so)?
 
-> +		ret = drm_gem_shmem_pin(shmem);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
->  	sgt = drm_gem_shmem_get_pages_sgt(shmem);
-> -	if (WARN_ON(IS_ERR(sgt)))
-> -		return PTR_ERR(sgt);
-> +	if (WARN_ON(IS_ERR(sgt))) {
-> +		ret = PTR_ERR(sgt);
-> +		goto unpin;
-> +	}
->  
->  	mmu_map_sg(pfdev, mapping->mmu, mapping->mmnode.start << PAGE_SHIFT,
->  		   prot, sgt);
->  	mapping->active = true;
->  
-> -	return 0;
-> +unpin:
-> +	if (!obj->import_attach)
-> +		drm_gem_shmem_unpin(shmem);
-> +
-> +	return ret;
->  }
+My preference would be the explicit check, a comment in code, or an
+explanation in the commit message, in this order. Because honestly, none
+of this is obvious, and a future refactoring of GENMASK might just
+inadvertently thwart the whole check.
+
+Regardless, my main concern was moot, on the series,
+
+Acked-by: Jani Nikula <jani.nikula@intel.com>
+
+
+--=20
+Jani Nikula, Intel
