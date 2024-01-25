@@ -2,38 +2,155 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22D5E83B8CF
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 05:58:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB7F183B910
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 06:25:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6A6110E9D4;
-	Thu, 25 Jan 2024 04:58:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA96E10F4D1;
+	Thu, 25 Jan 2024 05:25:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail115-95.sinamail.sina.com.cn
- (mail115-95.sinamail.sina.com.cn [218.30.115.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AF6B10EE54
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 04:58:34 +0000 (UTC)
-X-SMAIL-HELO: localhost.localdomain
-Received: from unknown (HELO localhost.localdomain)([113.118.66.48])
- by sina.com (172.16.235.24) with ESMTP
- id 65B1EA6C00003FA1; Thu, 25 Jan 2024 12:58:23 +0800 (CST)
-X-Sender: hdanton@sina.com
-X-Auth-ID: hdanton@sina.com
-Authentication-Results: sina.com; spf=none smtp.mailfrom=hdanton@sina.com;
- dkim=none header.i=none;
- dmarc=none action=none header.from=hdanton@sina.com
-X-SMAIL-MID: 43463945089360
-X-SMAIL-UIID: 0DDC04B7824E45D88F8B3AF93CBD6B6B-20240125-125823-1
-From: Hillf Danton <hdanton@sina.com>
-To: syzbot <syzbot+22e2c28c99235275f109@syzkaller.appspotmail.com>
-Subject: Re: [syzbot] [dri?] [virtualization?] upstream boot error: INFO: task
- hung in virtio_gpu_queue_fenced_ctrl_buffer
-Date: Thu, 25 Jan 2024 12:58:13 +0800
-Message-Id: <20240125045813.1564-1-hdanton@sina.com>
-In-Reply-To: <0000000000002fff4a060fae5751@google.com>
-References: <0000000000002fff4a060fae5751@google.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98A9F10F4D1;
+ Thu, 25 Jan 2024 05:25:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1706160333; x=1737696333;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=n6qKTeSCzAB8TWLklxEbp7FluxrG3tk8mRHUFlDZr3I=;
+ b=mzVGVzLEdfvPyHkVY9OdFK4wxqyR4gBwJAIVADJcL4ii/HtDFWFH3D+u
+ 7UMixzARh0rkRsG4S3ThA28HBFFHJ6VOlSv/dNzUEwfZ6tQedcZ1elzXe
+ wnazI7YlPOJv/iTfmk5J+x9JggcvqbBVjlAI+CB8EbS8oUJmtAH1IT0jQ
+ 3cEdz6oSh+YiwRVBlUT1zFZk9bM/1pttf7oQXpnsQ5wLvxcZFKihRkk0Y
+ hhq8FKmsXeXRTIDaA6LH9MoarrYIZ+xcGRL4RaCYDR/WW3/HHCS2KK608
+ qEHNGeIylTdIcOQvEGXVrHLuF/zouOAijZOBe/8LgIxI7OSSRNkP2tcdN g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="433217568"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; d="scan'208";a="433217568"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jan 2024 21:25:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="909887079"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; d="scan'208";a="909887079"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by orsmga004.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 24 Jan 2024 21:25:31 -0800
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Wed, 24 Jan 2024 21:25:30 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Wed, 24 Jan 2024 21:25:30 -0800
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.40) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Wed, 24 Jan 2024 21:25:30 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=U4XsH/vAHKFQ+o1t4+NZRuSL/GUNZPs93MNTxvFT9iycCo0vUWj6LK2qDAHy7Q+MXp0jViYNqZxBjAIPLkfODxo/EH57iKYc7VTfQyuHyZn8aenbYhdXF2TXBu1LmXbaQJcgxaY/HGbxtw/ptTSlEfPvdAk6SYVBMN5eQq63WVGjVvAvzzcQmiNBeQ7jpolxemxvfRedzXkXmmUgAyQN72NGGhutCScBaBud2ygtyT8qcg5UPq+6gI22LTVXi6tEOLkM+8TMOlb+ZXBHrBcgmKr3lUaJiUj/va6J8hVnMCa+D/ihY5/BbamhO7tIR1ypJTrgo5RuQGNKesy8sfpweg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=n6qKTeSCzAB8TWLklxEbp7FluxrG3tk8mRHUFlDZr3I=;
+ b=fYZx/UErKxUXDGS/c5NaB6AD/gaLEzpz/O0SdSSYbw65StfNikpV4GeDFNkRpu5Hl1NKxKVlkbHk3oITVk+l/blgRnlreMTD/9b8n6OU/3ALo9rjK1c65rIeHSyvA8JGMJtGrPUWh30zeGjh3CNmmRR+QNkrDQse6BKxvIxrnekfalFpbJkOp4UqoZlT8fEDOn8pO9xZ72XxqqTfZM1grb+q6oLKRUte1Jn7RMEdZsKxSuv2GqIyPO+7fvmQRi9xarICSgP7/1hKDpPK5QS2ZHtfLsYfyJz9muOD6o3/2Ydjs4MSQ1NV64TGN6U4T0Y/oIqqeN4sru+IowUKJgJ+9g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SA1PR11MB6991.namprd11.prod.outlook.com (2603:10b6:806:2b8::21)
+ by SJ0PR11MB4909.namprd11.prod.outlook.com (2603:10b6:a03:2af::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.26; Thu, 25 Jan
+ 2024 05:25:28 +0000
+Received: from SA1PR11MB6991.namprd11.prod.outlook.com
+ ([fe80::b8db:cc2d:d64f:f7de]) by SA1PR11MB6991.namprd11.prod.outlook.com
+ ([fe80::b8db:cc2d:d64f:f7de%5]) with mapi id 15.20.7202.035; Thu, 25 Jan 2024
+ 05:25:28 +0000
+From: "Zeng, Oak" <oak.zeng@intel.com>
+To: David Airlie <airlied@redhat.com>
+Subject: RE: Making drm_gpuvm work across gpu devices
+Thread-Topic: Making drm_gpuvm work across gpu devices
+Thread-Index: AQHaTas285rAdrskSkySwbywxZaZP7DnPvcAgAA/1GCAASXNAIABD1nQgAALZoCAADri4A==
+Date: Thu, 25 Jan 2024 05:25:28 +0000
+Message-ID: <SA1PR11MB69918735BCF8BE99182BA3E8927A2@SA1PR11MB6991.namprd11.prod.outlook.com>
+References: <20240117221223.18540-1-oak.zeng@intel.com>
+ <20240117221223.18540-22-oak.zeng@intel.com>
+ <ad21ec11-a9cb-4fb2-b9fd-00a4fa11525f@intel.com>
+ <PH7PR11MB70049E7E6A2F40BF6282ECC292742@PH7PR11MB7004.namprd11.prod.outlook.com>
+ <PH7PR11MB700440CE88BC0A94CFF8499792742@PH7PR11MB7004.namprd11.prod.outlook.com>
+ <2928ce36-06a6-4bee-b115-8dd61cc41dca@amd.com>
+ <SA1PR11MB699192584C01A26C781E2F9992742@SA1PR11MB6991.namprd11.prod.outlook.com>
+ <ccf34f6a-d704-43de-a15e-2ae2890f9381@amd.com>
+ <SA1PR11MB699106F7114DF265A6E0964D927A2@SA1PR11MB6991.namprd11.prod.outlook.com>
+ <CAMwc25rZinyFDMmvPftWwnstOQSJJR01y1X8UkDUBTLgCAZ34Q@mail.gmail.com>
+In-Reply-To: <CAMwc25rZinyFDMmvPftWwnstOQSJJR01y1X8UkDUBTLgCAZ34Q@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SA1PR11MB6991:EE_|SJ0PR11MB4909:EE_
+x-ms-office365-filtering-correlation-id: 4beaaedd-d2ae-42ab-f522-08dc1d660ada
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: vh4RWDBezpPcdqPlX7GQC2gZhiSG8ULg8SiSVTLSBP+WppmmGvWfp4CTlSj9MDQ+BYuYkqXE2q+JrZj4HyNAYqhLO5qSsaygmSVJ1rrOwbPe9LctlWa3nhwY0BeHBlMm3bwsmjPWQZpD19J8VNoR/WkVtZn68RN0mDs3emCOno+mxYz0UVVNwI9ofCiqvYHCvQOT9qCvGUFrqhbg77a7NVmoVEA/MihGiXUQs69/K/zLbIjFIxX5meu58+SMnAY8KDY56OJW/9w/IbwLTmqMz26f8j6v1rzOwpCe1hKPegjRPwyII4ldzjYWsvrEEX0iDOUlRcfE8MV8KinpO+RogBUbt1/5s4s73xc4f89ZbWO52Qj+r1zCY0+MCNhTDhpENa516HG34mnr5KvDYz+97oSkI/JxSORpkJPw/CEDZyiCLe4L0EYsTA1k/N/h0T71cG99DeTCwZYGG+Udfgr5ij0K4ETzbU9Z7v84bD82yJfp6RVQ3RyOO3OFEtHyWVtJUmNgt/1+Vk+TdHvmVQk8mSgEm6e6kmdNiK3E8FlJAIhDTypgDL8cd3dYeeojMKzQR/D0xNNA4/j6p6VIrI6EDyUicbFKGXg1CedxiFiZd5s=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SA1PR11MB6991.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(396003)(136003)(376002)(39860400002)(366004)(346002)(230922051799003)(64100799003)(186009)(1800799012)(451199024)(26005)(55016003)(53546011)(6506007)(7696005)(9686003)(83380400001)(66574015)(4326008)(8676002)(8936002)(966005)(66946007)(52536014)(478600001)(71200400001)(66446008)(316002)(66476007)(66556008)(76116006)(6916009)(54906003)(64756008)(86362001)(122000001)(82960400001)(38100700002)(38070700009)(5660300002)(41300700001)(33656002)(2906002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?S1BST1VFWFBlK2hCMVJYTEE3eHNtUEt3T3paQmcyaFFKTk5JdERGZlY3c1Yz?=
+ =?utf-8?B?dmYrQWNaYW1CK0VwKzkvcFNDQlJ6M3N4VGhPdS93NDZ1M2cyMXFhS3lNY3BG?=
+ =?utf-8?B?b21jcUFLMDgwNXA5SVJteVppb09zeXpaaTYxcDhOOVVQbzI4VFNreEhNTVlN?=
+ =?utf-8?B?M3h6TzlwN1RTaitacFYxRDdSdFBKL1M0Y2pXUHl6TGM0MmJ1NmtLRjk0UHJq?=
+ =?utf-8?B?NTNoWWN5NFVrb281bHF3dUk2dlB5WG5BV0R2Y3NEMHE4OTA5SlljRXc0aVJQ?=
+ =?utf-8?B?c2NUOFNXTFRsU1VCR1lseEQwUnNGdGp2ZlZKaCthT1RHeEJqSlVVN1dQT0s1?=
+ =?utf-8?B?S3NXSGlSV0M3cDY1VTBXQWJDRUY4aUxVT1dGNmtaMnd3V0tERlJYUGNvZlcw?=
+ =?utf-8?B?aGd6eC9YeWVrV2FxcmlVOXEwQk81aEE5NFZJeTFCVGpWbE9tMUxqT0JLN1Y4?=
+ =?utf-8?B?TUxoTFlabVN4dDFJd0Z3aEVmNlJaZ2NVQ3h2b3lZRUQ3NG5tMGpXWW5ER0d3?=
+ =?utf-8?B?Nld0MTIxZnc3NUUxL0ZTSmRFRmxGc2pOUVhST0k3M3c5L3hiVGowVUFqVzVs?=
+ =?utf-8?B?bzJ4a21ZL3VXVXM2eUhPc3oybGVzMnJzS0xpV0JJTkkwbjV5WGxIajdOTjBC?=
+ =?utf-8?B?MEVENFFIYWdsQTRpQ3p5dG5WZDF6RjBkQnNTZjk3cEZWcUh5WEt4SDRyejdB?=
+ =?utf-8?B?bStnMFJCYitqOUhyODB3TjNoUkhrWHJFOVA5TTZOamlMSWMxa2VpZUJyeWk5?=
+ =?utf-8?B?YzVvamt1SUNtdmkxOWdBVjBkdnEyMUpoOTlvZHlJZVQyWTV4L0R0Y2RpMXJZ?=
+ =?utf-8?B?YkU1Wkc1a09JNlMzSFA4TUtyb1pwalZpbkZxMC9DVmpJWUNXQjlmWUMvM093?=
+ =?utf-8?B?UHRDRjdsSGZrMnFQVXBQTEJXYUtsblJmeXUyc0Q2RCtWdXJaZlV2TnM2bi9h?=
+ =?utf-8?B?MnlyUTlUYkRJbzNCYjBrVFdvNWlvZWloRmNSTER6elZVM01odXlaanRMeFdq?=
+ =?utf-8?B?d3FkVHdaQjRrNnR2QWh6cjJvR0RCWXBlWE54Q2lMZEk2OWVQVkVxd1dGTzFr?=
+ =?utf-8?B?VkpvdFB4cTZROWI1cTl3TWI2a0hwYjVocDVBYW5YMGpkN0w3a3RWZFJ6bWRN?=
+ =?utf-8?B?bnI4b1dST1l5N3pWRHZNcnNCQUVKT0duS0cxTWozcktWV3FQWUlXb043RmJq?=
+ =?utf-8?B?T3ZVSWtmQUwxTHhTRnJlTkYrRWdWMnFOblZuME5GdDZ5SDVtUGZ6RHBGR25z?=
+ =?utf-8?B?WFRYSFZWTUMrazF1RE8rakJCc0hRcWh2Zzl5MEJxdXZnYXlHUlRBSHcrQlpY?=
+ =?utf-8?B?OXNlT2FzSlZvdVIrRTdVVjIzRFBrb1l0QmJDWGN2bERYQ0ROdlAydmYxcnVv?=
+ =?utf-8?B?QnliYWZoTFNydU9nM2JHczFpN0d6N0lDRWpyNHNiSTkvN01vMmJwelUrZlY3?=
+ =?utf-8?B?cXkvS1dydkY1VGNtK1JRUEkvaU9WSDY0NnduWWs1SGJPYkFyMVRUNWo5NDln?=
+ =?utf-8?B?WnYwcHFxQTdjOHI2aUFsemt4b1p5WDlPTmN5NDVyU0RCUWxYaEJTNHgzU091?=
+ =?utf-8?B?NjBFcWJ2blE3M0lZaGZwZG8xQzFvQ0xHcXRRd2kyeEo1UGZjRDdUenFJbFRD?=
+ =?utf-8?B?UFRYem83U1ZqaE0rNm9KTlFjbm1BMWE2WkJIRjBrUkFqVktsejdqU21CMy9O?=
+ =?utf-8?B?c0FkdHEyeXRGMzRvVkdTekdpdEZCditLa3J6RVZKeUJuSVdqRFZqQ0ZJM25F?=
+ =?utf-8?B?RlNoVXBJblgzeHRIVml3QWQ1K0dObjNXSThaQjh2NWxaSitrR3RCTERMZFVl?=
+ =?utf-8?B?eXFiMGJFOWFHdExydlk5YmM2cE9OUDZVSGNCZWlkWngvdEViMHAvQk1VR1p2?=
+ =?utf-8?B?bjNMazRMcUlVQzd2OUxFajNhcHRJd1RBd25EL20zUnhXT3NmWHRNaVlTRWRw?=
+ =?utf-8?B?Y01xcG9GZ1NYNmxtU0pRVlRGYTdQeDdiV1ZKU01BYWNTRndjd09qUDFrM1Zr?=
+ =?utf-8?B?cXNweGNVYWFUS1JnTjZJdXdOTS85b0gwSjRLRjh5enFsN21GSHovZ2I4VlIx?=
+ =?utf-8?B?QThkcUo0NFZuYllSN3VDTnc2aUhieEVpV1V3TlBvYUVwNUNqN1RvRUhmRTJn?=
+ =?utf-8?Q?d77k=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6991.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4beaaedd-d2ae-42ab-f522-08dc1d660ada
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jan 2024 05:25:28.5457 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: sX4aIEHarWgKQ1PbtLndIAzCRR4Abuw/CyLk0oL1nx3xDEeb4aMfElq7GGZJyPyrdZjepazUxhKmR5f/76nTNg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4909
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,189 +163,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
- syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev,
- daniel@ffwll.ch, airlied@redhat.com,
- Linus Torvalds <torvalds@linux-foundation.org>
+Cc: "Brost, Matthew" <matthew.brost@intel.com>,
+ "Thomas.Hellstrom@linux.intel.com" <Thomas.Hellstrom@linux.intel.com>,
+ "Winiarski, Michal" <michal.winiarski@intel.com>,
+ Felix Kuehling <felix.kuehling@amd.com>, "Welty,
+ Brian" <brian.welty@intel.com>, "Shah, Ankur N" <ankur.n.shah@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>, "Ghimiray,
+ Himal Prasad" <himal.prasad.ghimiray@intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, "Bommu, 
+ Krishnaiah" <krishnaiah.bommu@intel.com>, "Gupta,
+ saurabhg" <saurabhg.gupta@intel.com>, "Vishwanathapura,
+ Niranjana" <niranjana.vishwanathapura@intel.com>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ Danilo Krummrich <dakr@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 24 Jan 2024 02:15:21 -0800
-> Hello,
-> 
-> syzbot found the following issue on:
-> 
-> HEAD commit:    615d30064886 Merge tag 'trace-v6.8-rc1' of git://git.kerne..
-> git tree:       upstream
-> console output: https://syzkaller.appspot.com/x/log.txt?x=167456f7e80000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=e6c3b3d5f71246cb
-> dashboard link: https://syzkaller.appspot.com/bug?extid=22e2c28c99235275f109
-> compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
-> 
-> Downloadable assets:
-> disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/7bc7510fe41f/non_bootable_disk-615d3006.raw.xz
-> vmlinux: https://storage.googleapis.com/syzbot-assets/4bf0b27acaa4/vmlinux-615d3006.xz
-> kernel image: https://storage.googleapis.com/syzbot-assets/3133809ff35d/bzImage-615d3006.xz
-> 
-> IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> Reported-by: syzbot+22e2c28c99235275f109@syzkaller.appspotmail.com
-> 
-> INFO: task swapper/0:1 blocked for more than 143 seconds.
->       Not tainted 6.8.0-rc1-syzkaller-00029-g615d30064886 #0
-> "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-> task:swapper/0       state:D stack:22288 pid:1     tgid:1     ppid:0      flags:0x00004000
-> Call Trace:
->  <TASK>
->  context_switch kernel/sched/core.c:5400 [inline]
->  __schedule+0xf12/0x5c00 kernel/sched/core.c:6727
->  __schedule_loop kernel/sched/core.c:6802 [inline]
->  schedule+0xe9/0x270 kernel/sched/core.c:6817
->  virtio_gpu_queue_ctrl_sgs drivers/gpu/drm/virtio/virtgpu_vq.c:341 [inline]
->  virtio_gpu_queue_fenced_ctrl_buffer+0x497/0xff0 drivers/gpu/drm/virtio/virtgpu_vq.c:415
->  virtio_gpu_resource_flush drivers/gpu/drm/virtio/virtgpu_plane.c:162 [inline]
->  virtio_gpu_primary_plane_update+0x1059/0x1590 drivers/gpu/drm/virtio/virtgpu_plane.c:237
->  drm_atomic_helper_commit_planes+0x92f/0xfe0 drivers/gpu/drm/drm_atomic_helper.c:2800
->  drm_atomic_helper_commit_tail+0x69/0xf0 drivers/gpu/drm/drm_atomic_helper.c:1749
->  commit_tail+0x353/0x410 drivers/gpu/drm/drm_atomic_helper.c:1834
->  drm_atomic_helper_commit+0x2f9/0x380 drivers/gpu/drm/drm_atomic_helper.c:2072
->  drm_atomic_commit+0x20b/0x2d0 drivers/gpu/drm/drm_atomic.c:1514
->  drm_client_modeset_commit_atomic+0x6c2/0x810 drivers/gpu/drm/drm_client_modeset.c:1051
->  drm_client_modeset_commit_locked+0x14d/0x580 drivers/gpu/drm/drm_client_modeset.c:1154
->  pan_display_atomic drivers/gpu/drm/drm_fb_helper.c:1370 [inline]
->  drm_fb_helper_pan_display+0x2a5/0x990 drivers/gpu/drm/drm_fb_helper.c:1430
->  fb_pan_display+0x477/0x7c0 drivers/video/fbdev/core/fbmem.c:191
->  bit_update_start+0x49/0x1f0 drivers/video/fbdev/core/bitblit.c:390
->  fbcon_switch+0xbb3/0x12e0 drivers/video/fbdev/core/fbcon.c:2170
->  redraw_screen+0x2bd/0x750 drivers/tty/vt/vt.c:969
->  fbcon_prepare_logo+0x9f8/0xc80 drivers/video/fbdev/core/fbcon.c:616
->  con2fb_init_display drivers/video/fbdev/core/fbcon.c:803 [inline]
->  set_con2fb_map+0xcea/0x1050 drivers/video/fbdev/core/fbcon.c:867
->  do_fb_registered drivers/video/fbdev/core/fbcon.c:3007 [inline]
->  fbcon_fb_registered+0x21d/0x660 drivers/video/fbdev/core/fbcon.c:3023
->  do_register_framebuffer drivers/video/fbdev/core/fbmem.c:449 [inline]
->  register_framebuffer+0x4b2/0x860 drivers/video/fbdev/core/fbmem.c:515
->  __drm_fb_helper_initial_config_and_unlock+0xd7c/0x1650 drivers/gpu/drm/drm_fb_helper.c:1871
->  drm_fb_helper_initial_config drivers/gpu/drm/drm_fb_helper.c:1936 [inline]
->  drm_fb_helper_initial_config+0x44/0x60 drivers/gpu/drm/drm_fb_helper.c:1928
->  drm_fbdev_generic_client_hotplug+0x19e/0x270 drivers/gpu/drm/drm_fbdev_generic.c:279
->  drm_client_register+0x195/0x280 drivers/gpu/drm/drm_client.c:141
->  drm_fbdev_generic_setup+0x184/0x340 drivers/gpu/drm/drm_fbdev_generic.c:341
->  virtio_gpu_probe+0x1be/0x3c0 drivers/gpu/drm/virtio/virtgpu_drv.c:105
->  virtio_dev_probe+0x5e4/0x980 drivers/virtio/virtio.c:311
->  call_driver_probe drivers/base/dd.c:579 [inline]
->  really_probe+0x234/0xc90 drivers/base/dd.c:658
->  __driver_probe_device+0x1de/0x4b0 drivers/base/dd.c:800
->  driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:830
->  __driver_attach+0x274/0x570 drivers/base/dd.c:1216
->  bus_for_each_dev+0x13c/0x1d0 drivers/base/bus.c:368
->  bus_add_driver+0x2e9/0x630 drivers/base/bus.c:673
->  driver_register+0x15c/0x4a0 drivers/base/driver.c:246
->  do_one_initcall+0x11c/0x650 init/main.c:1236
->  do_initcall_level init/main.c:1298 [inline]
->  do_initcalls init/main.c:1314 [inline]
->  do_basic_setup init/main.c:1333 [inline]
->  kernel_init_freeable+0x687/0xc10 init/main.c:1551
->  kernel_init+0x1c/0x2a0 init/main.c:1441
->  ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
->  ret_from_fork_asm+0x11/0x20 arch/x86/entry/entry_64.S:242
->  </TASK>
-> INFO: task kworker/0:0:8 blocked for more than 143 seconds.
->       Not tainted 6.8.0-rc1-syzkaller-00029-g615d30064886 #0
-> "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-> task:kworker/0:0     state:D stack:28208 pid:8     tgid:8     ppid:2      flags:0x00004000
-> Workqueue: events virtio_gpu_dequeue_ctrl_func
-> Call Trace:
->  <TASK>
->  context_switch kernel/sched/core.c:5400 [inline]
->  __schedule+0xf12/0x5c00 kernel/sched/core.c:6727
->  __schedule_loop kernel/sched/core.c:6802 [inline]
->  schedule+0xe9/0x270 kernel/sched/core.c:6817
->  schedule_preempt_disabled+0x13/0x20 kernel/sched/core.c:6874
->  __mutex_lock_common kernel/locking/mutex.c:684 [inline]
->  __mutex_lock+0x5b9/0x9d0 kernel/locking/mutex.c:752
->  drm_client_dev_hotplug drivers/gpu/drm/drm_client.c:217 [inline]
->  drm_client_dev_hotplug+0x169/0x3c0 drivers/gpu/drm/drm_client.c:204
->  virtio_gpu_cmd_get_display_info_cb+0x3e1/0x550 drivers/gpu/drm/virtio/virtgpu_vq.c:674
->  virtio_gpu_dequeue_ctrl_func+0x21b/0x9a0 drivers/gpu/drm/virtio/virtgpu_vq.c:235
->  process_one_work+0x886/0x15d0 kernel/workqueue.c:2633
->  process_scheduled_works kernel/workqueue.c:2706 [inline]
->  worker_thread+0x8b9/0x1290 kernel/workqueue.c:2787
->  kthread+0x2c6/0x3a0 kernel/kthread.c:388
->  ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
->  ret_from_fork_asm+0x11/0x20 arch/x86/entry/entry_64.S:242
->  </TASK>
-> INFO: task kworker/1:1:55 blocked for more than 143 seconds.
->       Not tainted 6.8.0-rc1-syzkaller-00029-g615d30064886 #0
-> "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-> task:kworker/1:1     state:D stack:27648 pid:55    tgid:55    ppid:2      flags:0x00004000
-> Workqueue: events drm_fb_helper_damage_work
-> Call Trace:
->  <TASK>
->  context_switch kernel/sched/core.c:5400 [inline]
->  __schedule+0xf12/0x5c00 kernel/sched/core.c:6727
->  __schedule_loop kernel/sched/core.c:6802 [inline]
->  schedule+0xe9/0x270 kernel/sched/core.c:6817
->  schedule_preempt_disabled+0x13/0x20 kernel/sched/core.c:6874
->  __mutex_lock_common kernel/locking/mutex.c:684 [inline]
->  __mutex_lock+0x5b9/0x9d0 kernel/locking/mutex.c:752
->  drm_fbdev_generic_damage_blit drivers/gpu/drm/drm_fbdev_generic.c:198 [inline]
->  drm_fbdev_generic_helper_fb_dirty+0x255/0xbb0 drivers/gpu/drm/drm_fbdev_generic.c:225
->  drm_fb_helper_fb_dirty drivers/gpu/drm/drm_fb_helper.c:390 [inline]
->  drm_fb_helper_damage_work+0x283/0x5e0 drivers/gpu/drm/drm_fb_helper.c:413
->  process_one_work+0x886/0x15d0 kernel/workqueue.c:2633
->  process_scheduled_works kernel/workqueue.c:2706 [inline]
->  worker_thread+0x8b9/0x1290 kernel/workqueue.c:2787
->  kthread+0x2c6/0x3a0 kernel/kthread.c:388
->  ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
->  ret_from_fork_asm+0x11/0x20 arch/x86/entry/entry_64.S:242
->  </TASK>
-> 
-> Showing all locks held in the system:
-> 10 locks held by swapper/0/1:
->  #0: ffff88801bcf8170 (&dev->mutex){....}-{3:3}, at: device_lock include/linux/device.h:990 [inline]
->  #0: ffff88801bcf8170 (&dev->mutex){....}-{3:3}, at: __device_driver_lock drivers/base/dd.c:1095 [inline]
->  #0: ffff88801bcf8170 (&dev->mutex){....}-{3:3}, at: __driver_attach+0x269/0x570 drivers/base/dd.c:1215
->  #1: ffff88801d7b42f8 (&dev->clientlist_mutex){+.+.}-{3:3}, at: drm_client_register+0x54/0x280 drivers/gpu/drm/drm_client.c:127
->  #2: ffffffff8dcbfe88 (registration_lock){+.+.}-{3:3}, at: register_framebuffer+0x7a/0x860 drivers/video/fbdev/core/fbmem.c:514
->  #3: ffffffff8d196720 (console_lock){+.+.}-{0:0}, at: fbcon_fb_registered+0x3c/0x660 drivers/video/fbdev/core/fbcon.c:3019
->  #4: ffff8880198f4280 (&helper->lock){+.+.}-{3:3}, at: drm_fb_helper_pan_display+0xd5/0x990 drivers/gpu/drm/drm_fb_helper.c:1423
->  #5: ffff88801d7b41b0 (&dev->master_mutex){+.+.}-{3:3}, at: drm_master_internal_acquire+0x21/0x70 drivers/gpu/drm/drm_auth.c:452
->  #6: ffff8880198f4098 (&client->modeset_mutex){+.+.}-{3:3}, at: drm_client_modeset_commit_locked+0x4c/0x580 drivers/gpu/drm/drm_client_modeset.c:1152
->  #7: ffffc90000047278 (crtc_ww_class_acquire){+.+.}-{0:0}, at: drm_client_modeset_commit_atomic+0xd0/0x810 drivers/gpu/drm/drm_client_modeset.c:990
->  #8: ffff88801d9cb0b0 (crtc_ww_class_mutex){+.+.}-{3:3}, at: modeset_lock+0x484/0x6c0 drivers/gpu/drm/drm_modeset_lock.c:314
->  #9: ffffffff8ddf96d0 (drm_unplug_srcu){.+.+}-{0:0}, at: srcu_lock_acquire include/linux/srcu.h:116 [inline]
->  #9: ffffffff8ddf96d0 (drm_unplug_srcu){.+.+}-{0:0}, at: srcu_read_lock include/linux/srcu.h:215 [inline]
->  #9: ffffffff8ddf96d0 (drm_unplug_srcu){.+.+}-{0:0}, at: drm_dev_enter+0x49/0x160 drivers/gpu/drm/drm_drv.c:449
-> 3 locks held by kworker/0:0/8:
->  #0: ffff888013088d38 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x789/0x15d0 kernel/workqueue.c:2608
->  #1: ffffc900000b7d80 ((work_completion)(&vgvq->dequeue_work)){+.+.}-{0:0}, at: process_one_work+0x7eb/0x15d0 kernel/workqueue.c:2609
->  #2: ffff88801d7b42f8 (&dev->clientlist_mutex){+.+.}-{3:3}, at: drm_client_dev_hotplug drivers/gpu/drm/drm_client.c:217 [inline]
->  #2: ffff88801d7b42f8 (&dev->clientlist_mutex){+.+.}-{3:3}, at: drm_client_dev_hotplug+0x169/0x3c0 drivers/gpu/drm/drm_client.c:204
-
-
-	swapper/0/1			kworker/0:0/8
-	===				===
-	lock &dev->clientlist_mutex
-	wait_event(vgdev->ctrlq.ack_queue, vq->num_free >= elemcnt);
-
-					lock   &dev->clientlist_mutex
-					unlock &dev->clientlist_mutex
-					wake_up(&vgdev->ctrlq.ack_queue);
-	deadlock
-
-> 2 locks held by kworker/u16:0/11:
->  #0: ffff888013089938 ((wq_completion)events_unbound){+.+.}-{0:0}, at: process_one_work+0x789/0x15d0 kernel/workqueue.c:2608
->  #1: ffffc900000e7d80 ((work_completion)(&(&kfence_timer)->work)){+.+.}-{0:0}, at: process_one_work+0x7eb/0x15d0 kernel/workqueue.c:2609
-> 1 lock held by khungtaskd/39:
->  #0: ffffffff8d1a9120 (rcu_read_lock){....}-{1:2}, at: rcu_lock_acquire include/linux/rcupdate.h:298 [inline]
->  #0: ffffffff8d1a9120 (rcu_read_lock){....}-{1:2}, at: rcu_read_lock include/linux/rcupdate.h:750 [inline]
->  #0: ffffffff8d1a9120 (rcu_read_lock){....}-{1:2}, at: debug_show_all_locks+0x75/0x340 kernel/locking/lockdep.c:6614
-> 3 locks held by kworker/1:1/55:
->  #0: ffff888013088d38 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x789/0x15d0 kernel/workqueue.c:2608
->  #1: ffffc90000a77d80 ((work_completion)(&helper->damage_work)){+.+.}-{0:0}, at: process_one_work+0x7eb/0x15d0 kernel/workqueue.c:2609
->  #2: ffff8880198f4280 (&helper->lock){+.+.}-{3:3}, at: drm_fbdev_generic_damage_blit drivers/gpu/drm/drm_fbdev_generic.c:198 [inline]
->  #2: ffff8880198f4280 (&helper->lock){+.+.}-{3:3}, at: drm_fbdev_generic_helper_fb_dirty+0x255/0xbb0 drivers/gpu/drm/drm_fbdev_generic.c:225
-> 
-> =============================================
-> 
+SGkgRGF2ZSwNCg0KTGV0IG1lIHN0ZXAgYmFjay4gV2hlbiBJIHdyb3RlICIgc2hhcmVkIHZpcnR1
+YWwgYWRkcmVzcyBzcGFjZSBiL3QgY3B1IGFuZCBhbGwgZ3B1IGRldmljZXMgaXMgYSBoYXJkIHJl
+cXVpcmVtZW50IGZvciBvdXIgc3lzdGVtIGFsbG9jYXRvciBkZXNpZ24iLCBJIG1lYW50IHRoaXMg
+aXMgbm90IG9ubHkgSW50ZWwncyBkZXNpZ24gcmVxdWlyZW1lbnQuIFJhdGhlciB0aGlzIGlzIGEg
+Y29tbW9uIHJlcXVpcmVtZW50IGZvciBib3RoIEludGVsLCBBTUQgYW5kIE52aWRpYS4gVGFrZSBh
+IGxvb2sgYXQgY3VkYSBkcml2ZXIgQVBJIGRlZmluaXRpb24gb2YgY3VNZW1BbGxvY01hbmFnZWQg
+KHNlYXJjaCB0aGlzIEFQSSBvbiBodHRwczovL2RvY3MubnZpZGlhLmNvbS9jdWRhL2N1ZGEtZHJp
+dmVyLWFwaS9ncm91cF9fQ1VEQV9fTUVNLmh0bWwjZ3JvdXBfX0NVREFfX01FTSksIGl0IHNhaWQ6
+IA0KDQoiVGhlIHBvaW50ZXIgaXMgdmFsaWQgb24gdGhlIENQVSBhbmQgb24gYWxsIEdQVXMgaW4g
+dGhlIHN5c3RlbSB0aGF0IHN1cHBvcnQgbWFuYWdlZCBtZW1vcnkuIg0KDQpUaGlzIG1lYW5zIHRo
+ZSBwcm9ncmFtIHZpcnR1YWwgYWRkcmVzcyBzcGFjZSBpcyBzaGFyZWQgYi90IENQVSBhbmQgYWxs
+IEdQVSBkZXZpY2VzIG9uIHRoZSBzeXN0ZW0uIFRoZSBzeXN0ZW0gYWxsb2NhdG9yIHdlIGFyZSBk
+aXNjdXNzaW5nIGlzIGp1c3Qgb25lIHN0ZXAgYWR2YW5jZWQgdGhhbiBjdU1lbUFsbG9jTWFuYWdl
+ZDogaXQgYWxsb3dzIG1hbGxvYydlZCBtZW1vcnkgdG8gYmUgc2hhcmVkIGIvdCBDUFUgYW5kIGFs
+bCBHUFUgZGV2aWNlcy4NCg0KSSBob3BlIHdlIGFsbCBhZ3JlZSB3aXRoIHRoaXMgcG9pbnQuDQoN
+CldpdGggdGhhdCwgSSBhZ3JlZSB3aXRoIENocmlzdGlhbiB0aGF0IGluIGttZCB3ZSBzaG91bGQg
+bWFrZSBkcml2ZXIgY29kZSBwZXItZGV2aWNlIGJhc2VkIGluc3RlYWQgb2YgbWFuYWdpbmcgYWxs
+IGRldmljZXMgaW4gb25lIGRyaXZlciBpbnN0YW5jZS4gT3VyIHN5c3RlbSBhbGxvY2F0b3IgKGFu
+ZCBnZW5lcmFsbHkgeGVrbWQpZGVzaWduIGZvbGxvd3MgdGhpcyBydWxlOiB3ZSBtYWtlIHhlX3Zt
+IHBlciBkZXZpY2UgYmFzZWQgLSBvbmUgZGV2aWNlIGlzICpub3QqIGF3YXJlIG9mIG90aGVyIGRl
+dmljZSdzIGFkZHJlc3Mgc3BhY2UsIGFzIEkgZXhwbGFpbmVkIGluIHByZXZpb3VzIGVtYWlsLiBJ
+IHN0YXJ0ZWQgdGhpcyBlbWFpbCBzZWVraW5nIGEgb25lIGRybV9ncHV2bSBpbnN0YW5jZSB0byBj
+b3ZlciBhbGwgR1BVIGRldmljZXMuIEkgZ2F2ZSB1cCB0aGlzIGFwcHJvYWNoIChhdCBsZWFzdCBm
+b3Igbm93KSBwZXIgRGFuaWxvIGFuZCBDaHJpc3RpYW4ncyBmZWVkYmFjazogV2Ugd2lsbCBjb250
+aW51ZSB0byBoYXZlIHBlciBkZXZpY2UgYmFzZWQgZHJtX2dwdXZtLiBJIGhvcGUgdGhpcyBpcyBh
+bGlnbmVkIHdpdGggQ2hyaXN0aWFuIGJ1dCBJIHdpbGwgaGF2ZSB0byB3YWl0IGZvciBDaHJpc3Rp
+YW4ncyByZXBseSB0byBteSBwcmV2aW91cyBlbWFpbC4NCg0KSSBob3BlIHRoaXMgY2xhcmlmeSB0
+aGluZyBhIGxpdHRsZS4NCg0KUmVnYXJkcywNCk9hayANCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3Nh
+Z2UtLS0tLQ0KPiBGcm9tOiBkcmktZGV2ZWwgPGRyaS1kZXZlbC1ib3VuY2VzQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZz4gT24gQmVoYWxmIE9mIERhdmlkDQo+IEFpcmxpZQ0KPiBTZW50OiBXZWRuZXNk
+YXksIEphbnVhcnkgMjQsIDIwMjQgODoyNSBQTQ0KPiBUbzogWmVuZywgT2FrIDxvYWsuemVuZ0Bp
+bnRlbC5jb20+DQo+IENjOiBHaGltaXJheSwgSGltYWwgUHJhc2FkIDxoaW1hbC5wcmFzYWQuZ2hp
+bWlyYXlAaW50ZWwuY29tPjsNCj4gVGhvbWFzLkhlbGxzdHJvbUBsaW51eC5pbnRlbC5jb207IFdp
+bmlhcnNraSwgTWljaGFsDQo+IDxtaWNoYWwud2luaWFyc2tpQGludGVsLmNvbT47IEZlbGl4IEt1
+ZWhsaW5nIDxmZWxpeC5rdWVobGluZ0BhbWQuY29tPjsgV2VsdHksDQo+IEJyaWFuIDxicmlhbi53
+ZWx0eUBpbnRlbC5jb20+OyBTaGFoLCBBbmt1ciBOIDxhbmt1ci5uLnNoYWhAaW50ZWwuY29tPjsg
+ZHJpLQ0KPiBkZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7IGludGVsLXhlQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZzsgR3VwdGEsIHNhdXJhYmhnDQo+IDxzYXVyYWJoZy5ndXB0YUBpbnRlbC5jb20+
+OyBEYW5pbG8gS3J1bW1yaWNoIDxkYWtyQHJlZGhhdC5jb20+OyBEYW5pZWwNCj4gVmV0dGVyIDxk
+YW5pZWxAZmZ3bGwuY2g+OyBCcm9zdCwgTWF0dGhldyA8bWF0dGhldy5icm9zdEBpbnRlbC5jb20+
+OyBCb21tdSwNCj4gS3Jpc2huYWlhaCA8a3Jpc2huYWlhaC5ib21tdUBpbnRlbC5jb20+OyBWaXNo
+d2FuYXRoYXB1cmEsIE5pcmFuamFuYQ0KPiA8bmlyYW5qYW5hLnZpc2h3YW5hdGhhcHVyYUBpbnRl
+bC5jb20+OyBDaHJpc3RpYW4gS8O2bmlnDQo+IDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+DQo+
+IFN1YmplY3Q6IFJlOiBNYWtpbmcgZHJtX2dwdXZtIHdvcmsgYWNyb3NzIGdwdSBkZXZpY2VzDQo+
+IA0KPiA+DQo+ID4NCj4gPiBGb3IgdXMsIFhla21kIGRvZXNuJ3QgbmVlZCB0byBrbm93IGl0IGlz
+IHJ1bm5pbmcgdW5kZXIgYmFyZSBtZXRhbCBvcg0KPiB2aXJ0dWFsaXplZCBlbnZpcm9ubWVudC4g
+WGVrbWQgaXMgYWx3YXlzIGEgZ3Vlc3QgZHJpdmVyLiBBbGwgdGhlIHZpcnR1YWwgYWRkcmVzcw0K
+PiB1c2VkIGluIHhla21kIGlzIGd1ZXN0IHZpcnR1YWwgYWRkcmVzcy4gRm9yIFNWTSwgd2UgcmVx
+dWlyZSBhbGwgdGhlIFZGIGRldmljZXMNCj4gc2hhcmUgb25lIHNpbmdsZSBzaGFyZWQgYWRkcmVz
+cyBzcGFjZSB3aXRoIGd1ZXN0IENQVSBwcm9ncmFtLiBTbyBhbGwgdGhlIGRlc2lnbg0KPiB3b3Jr
+cyBpbiBiYXJlIG1ldGFsIGVudmlyb25tZW50IGNhbiBhdXRvbWF0aWNhbGx5IHdvcmsgdW5kZXIg
+dmlydHVhbGl6ZWQNCj4gZW52aXJvbm1lbnQuICtAU2hhaCwgQW5rdXIgTiArQFdpbmlhcnNraSwg
+TWljaGFsIHRvIGJhY2t1cCBtZSBpZiBJIGFtIHdyb25nLg0KPiA+DQo+ID4NCj4gPg0KPiA+IEFn
+YWluLCBzaGFyZWQgdmlydHVhbCBhZGRyZXNzIHNwYWNlIGIvdCBjcHUgYW5kIGFsbCBncHUgZGV2
+aWNlcyBpcyBhIGhhcmQNCj4gcmVxdWlyZW1lbnQgZm9yIG91ciBzeXN0ZW0gYWxsb2NhdG9yIGRl
+c2lnbiAod2hpY2ggbWVhbnMgbWFsbG9j4oCZZWQgbWVtb3J5LA0KPiBjcHUgc3RhY2sgdmFyaWFi
+bGVzLCBnbG9iYWxzIGNhbiBiZSBkaXJlY3RseSB1c2VkIGluIGdwdSBwcm9ncmFtLiBTYW1lDQo+
+IHJlcXVpcmVtZW50IGFzIGtmZCBTVk0gZGVzaWduKS4gVGhpcyB3YXMgYWxpZ25lZCB3aXRoIG91
+ciB1c2VyIHNwYWNlIHNvZnR3YXJlDQo+IHN0YWNrLg0KPiANCj4gSnVzdCB0byBtYWtlIGEgdmVy
+eSBnZW5lcmFsIHBvaW50IGhlcmUgKEknbSBob3BpbmcgeW91IGxpc3RlbiB0bw0KPiBDaHJpc3Rp
+YW4gYSBiaXQgbW9yZSBhbmQgaG9waW5nIGhlIHJlcGxpZXMgaW4gbW9yZSBkZXRhaWwpLCBidXQg
+anVzdA0KPiBiZWNhdXNlIHlvdSBoYXZlIGEgc3lzdGVtIGFsbG9jYXRvciBkZXNpZ24gZG9uZSwg
+aXQgZG9lc24ndCBpbiBhbnkgd2F5DQo+IGVuZm9yY2UgdGhlIHJlcXVpcmVtZW50cyBvbiB0aGUg
+a2VybmVsIGRyaXZlciB0byBhY2NlcHQgdGhhdCBkZXNpZ24uDQo+IEJhZCBzeXN0ZW0gZGVzaWdu
+IHNob3VsZCBiZSBwdXNoZWQgYmFjayBvbiwgbm90IGVuZm9yY2VkIGluDQo+IGltcGxlbWVudGF0
+aW9uIHN0YWdlcy4gSXQncyBhIHRyYXAgSW50ZWwgZmFsbHMgaW50byByZWd1bGFybHkgc2luY2UN
+Cj4gdGhleSBzYXkgd2VsbCB3ZSBhbHJlYWR5IGFncmVlZCB0aGlzIGRlc2lnbiB3aXRoIHRoZSB1
+c2Vyc3BhY2UgdGVhbQ0KPiBhbmQgd2UgY2FuJ3QgY2hhbmdlIGl0IG5vdy4gVGhpcyBpc24ndCBh
+Y2NlcHRhYmxlLiBEZXNpZ24gaW5jbHVkZXMNCj4gdXBzdHJlYW0gZGlzY3Vzc2lvbiBhbmQgZmVl
+ZGJhY2ssIGlmIHlvdSBzYXkgbWlzZGVzaWduZWQgdGhlIHN5c3RlbQ0KPiBhbGxvY2F0b3IgKGFu
+ZCBJJ20gbm90IHNheWluZyB5b3UgZGVmaW5pdGVseSBoYXZlKSwgYW5kIHRoaXMgaXMNCj4gcHVz
+aGluZyBiYWNrIG9uIHRoYXQsIHRoZW4geW91IGhhdmUgdG8gZ28gZml4IHlvdXIgc3lzdGVtDQo+
+IGFyY2hpdGVjdHVyZS4NCj4gDQo+IEtGRCB3YXMgYW4gZXhwZXJpbWVudCBsaWtlIHRoaXMsIEkg
+cHVzaGVkIGJhY2sgb24gQU1EIGF0IHRoZSBzdGFydA0KPiBzYXlpbmcgaXQgd2FzIGxpa2VseSBh
+IGJhZCBwbGFuLCB3ZSBsZXQgaXQgZ28gYW5kIGdvdCBhIGxvdCBvZg0KPiBleHBlcmllbmNlIGlu
+IHdoeSBpdCB3YXMgYSBiYWQgZGVzaWduLg0KPiANCj4gRGF2ZS4NCg0K
