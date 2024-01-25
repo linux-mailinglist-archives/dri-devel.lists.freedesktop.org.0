@@ -2,48 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AE4383BB56
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 09:11:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8606183BC00
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 09:29:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0B4110F842;
-	Thu, 25 Jan 2024 08:10:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B520310F84D;
+	Thu, 25 Jan 2024 08:28:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0459710F842
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 08:10:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1706170212;
- bh=YRb+Ukyjfck2mZNlu30x2+P6GcmpGkv7SrsqXba6R74=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=bL1MfMsEpbV/TlkfPY/kiTrDi7jzXOpa8gw7YXNDcxv0jgzZpDnWkFTaYB+BFcX/Q
- tfG+N9jFlB8gSoW2xKD08sG5tA+KJ+M9o3KNXWiV7zQ/ecDNze6/tHh1/2q5Ihx4D1
- oj6mgRfgqPBA+D84kjsBU4nWBKnREh8t2YwRx5jUlybrrepPLg4/hSXc9qCerQ3smg
- 5IDGDP5X2tZT4LILq85YdIBnowAzMbgv4TobKGUXz9YQuRBWqVeyBtCRiX42Hhe9KS
- OKf+/XMDnLKCSNjsaVb0sozVrO2djkKvNUpDb02UfEv6F6GWWrF/7pNhGwlRsjONSr
- PRaJnv8i/hpcg==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 6058F3781FC7;
- Thu, 25 Jan 2024 08:10:11 +0000 (UTC)
-Date: Thu, 25 Jan 2024 09:10:09 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>, Steven Price
- <steven.price@arm.com>
-Subject: Re: [PATCH v19 18/30] drm/panfrost: Explicitly get and put
- drm-shmem pages
-Message-ID: <20240125091009.01425434@collabora.com>
-In-Reply-To: <20240105184624.508603-19-dmitry.osipenko@collabora.com>
-References: <20240105184624.508603-1-dmitry.osipenko@collabora.com>
- <20240105184624.508603-19-dmitry.osipenko@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
+ [68.232.153.233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 026EF10F84D
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 08:28:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+ t=1706171323; x=1737707323;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=0o18t8f3/iC5wQSPwN+S8bs8VJQ/VDGiBZsmcwU/bDw=;
+ b=BHmM4ValmvcLfJEJdTVonDwnRaHvkenAn/eeotq+kgyv0mEV5CkNGKnU
+ 0/grncAqtf14LO4p9k5KQSS9N8mV2iJ5vq6++L4IlaMTsp9slz7kFCAey
+ huzXGMqgU6c9uqqYRMgiQyX0oy38z3U0CeVjzNlYMDdu6V+Fwy3bYRxeN
+ SK+p+vkcXG/oNQw/9tDrlE+YvLECfCbRkD0JY397kxUsyTz9H2d95K8qh
+ F4eVOBcpEuTt9pg9g2il21Zs2gqmByb0o1UD9EhVjJqFqHgLdgkI43q5e
+ zURNnrSi12K51Pm7lJN9dxkNRmA6vc5M/GSr0JQD8qWg1kV+pjTQvS+3k g==;
+X-CSE-ConnectionGUID: yWKH6XeGSSC8CBa5MkUWWA==
+X-CSE-MsgGUID: /2Vw4AgiQCK4jHQhEACeAA==
+X-IronPort-AV: E=Sophos;i="6.05,216,1701154800"; 
+ d="asc'?scan'208";a="15276256"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+ by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 25 Jan 2024 01:28:38 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 25 Jan 2024 01:28:36 -0700
+Received: from wendy (10.10.85.11) by chn-vm-ex04.mchp-main.com (10.10.85.152)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
+ Transport; Thu, 25 Jan 2024 01:28:32 -0700
+Date: Thu, 25 Jan 2024 08:27:55 +0000
+From: Conor Dooley <conor.dooley@microchip.com>
+To: <Dharma.B@microchip.com>
+Subject: Re: [PATCH v3 3/3] dt-bindings: mfd: atmel,hlcdc: Convert to DT
+ schema format
+Message-ID: <20240125-proved-passage-7fa128f828db@wendy>
+References: <20240118092612.117491-1-dharma.b@microchip.com>
+ <20240118092612.117491-4-dharma.b@microchip.com>
+ <20240118-recent-glorified-fd35d72e006e@spud>
+ <c33868c8-dc42-4800-885c-5e5f24c2044e@microchip.com>
+ <20240119-character-mardi-43571d7fe7d5@wendy>
+ <da60f9f3-f955-4a87-a020-5710185953c0@microchip.com>
+ <20240122-stark-duress-2f59294dcf27@spud>
+ <4906b7e2-0ddb-4d3c-a48b-e16278f2d649@microchip.com>
+ <20240124-lend-emerald-1028fe65cc39@spud>
+ <c3c30bf2-e7c2-4861-bfdf-519a7afde476@microchip.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="KV2dTBGvLz55uW11"
+Content-Disposition: inline
+In-Reply-To: <c3c30bf2-e7c2-4861-bfdf-519a7afde476@microchip.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,152 +75,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
- kernel@collabora.com, David Airlie <airlied@gmail.com>,
- virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
+Cc: alexandre.belloni@bootlin.com, linux-pwm@vger.kernel.org,
+ Linux4Microchip@microchip.com, dri-devel@lists.freedesktop.org,
+ Nicolas.Ferre@microchip.com, thierry.reding@gmail.com,
+ krzysztof.kozlowski+dt@linaro.org, claudiu.beznea@tuxon.dev, airlied@gmail.com,
+ sam@ravnborg.org, lee@kernel.org, u.kleine-koenig@pengutronix.de,
+ devicetree@vger.kernel.org, conor+dt@kernel.org, tzimmermann@suse.de,
+ mripard@kernel.org, robh+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
+ bbrezillon@kernel.org, linux-kernel@vger.kernel.org, conor@kernel.org,
+ daniel@ffwll.ch
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri,  5 Jan 2024 21:46:12 +0300
-Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+--KV2dTBGvLz55uW11
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> To simplify the drm-shmem refcnt handling, we're moving away from
-> the implicit get_pages() that is used by get_pages_sgt(). From now on
-> drivers will have to pin pages while they use sgt. Panfrost's shrinker
-> doesn't support swapping out BOs, hence pages are pinned and sgt is valid
-> as long as pages' use-count > 0.
-> 
-> In Panfrost, panfrost_gem_mapping, which is the object representing a
-> GPU mapping of a BO, owns a pages ref. This guarantees that any BO being
-> mapped GPU side has its pages retained till the mapping is destroyed.
-> 
-> Since pages are no longer guaranteed to stay pinned for the BO lifetime,
-> and MADVISE(DONT_NEED) flagging remains after the GEM handle has been
-> destroyed, we need to add an extra 'is_purgeable' check in
-> panfrost_gem_purge(), to make sure we're not trying to purge a BO that
-> already had its pages released.
-> 
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > If the lvds pll is an input to the hlcdc, you need to add it here.
+> >  From your description earlier it does sound like it is an input to
+> > the hlcdc, but now you are claiming that it is not.
+>=20
+> The LVDS PLL serves as an input to both the LCDC and LVDSC
 
-But I'd like to have Steve's review as well on that one.
+Then it should be an input to both the LCDC and LVDSC in the devicetree.
 
-> ---
->  drivers/gpu/drm/panfrost/panfrost_gem.c       | 63 ++++++++++++++-----
->  .../gpu/drm/panfrost/panfrost_gem_shrinker.c  |  6 ++
->  2 files changed, 52 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> index f268bd5c2884..7edfc12f7c1f 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> @@ -35,20 +35,6 @@ static void panfrost_gem_free_object(struct drm_gem_object *obj)
->  	 */
->  	WARN_ON_ONCE(!list_empty(&bo->mappings.list));
->  
-> -	if (bo->sgts) {
-> -		int i;
-> -		int n_sgt = bo->base.base.size / SZ_2M;
-> -
-> -		for (i = 0; i < n_sgt; i++) {
-> -			if (bo->sgts[i].sgl) {
-> -				dma_unmap_sgtable(pfdev->dev, &bo->sgts[i],
-> -						  DMA_BIDIRECTIONAL, 0);
-> -				sg_free_table(&bo->sgts[i]);
-> -			}
-> -		}
-> -		kvfree(bo->sgts);
-> -	}
-> -
->  	drm_gem_shmem_free(&bo->base);
->  }
->  
-> @@ -85,11 +71,40 @@ panfrost_gem_teardown_mapping(struct panfrost_gem_mapping *mapping)
->  
->  static void panfrost_gem_mapping_release(struct kref *kref)
->  {
-> -	struct panfrost_gem_mapping *mapping;
-> -
-> -	mapping = container_of(kref, struct panfrost_gem_mapping, refcount);
-> +	struct panfrost_gem_mapping *mapping =
-> +		container_of(kref, struct panfrost_gem_mapping, refcount);
-> +	struct panfrost_gem_object *bo = mapping->obj;
-> +	struct panfrost_device *pfdev = bo->base.base.dev->dev_private;
->  
->  	panfrost_gem_teardown_mapping(mapping);
-> +
-> +	/* On heap BOs, release the sgts created in the fault handler path. */
-> +	if (bo->sgts) {
-> +		int i, n_sgt = bo->base.base.size / SZ_2M;
-> +
-> +		for (i = 0; i < n_sgt; i++) {
-> +			if (bo->sgts[i].sgl) {
-> +				dma_unmap_sgtable(pfdev->dev, &bo->sgts[i],
-> +						  DMA_BIDIRECTIONAL, 0);
-> +				sg_free_table(&bo->sgts[i]);
-> +			}
-> +		}
-> +		kvfree(bo->sgts);
-> +	}
-> +
-> +	/* Pages ref is owned by the panfrost_gem_mapping object. We must
-> +	 * release our pages ref (if any), before releasing the object
-> +	 * ref.
-> +	 * Non-heap BOs acquired the pages at panfrost_gem_mapping creation
-> +	 * time, and heap BOs may have acquired pages if the fault handler
-> +	 * was called, in which case bo->sgts should be non-NULL.
-> +	 */
-> +	if (!bo->base.base.import_attach && (!bo->is_heap || bo->sgts) &&
-> +	    bo->base.madv >= 0) {
-> +		drm_gem_shmem_put_pages(&bo->base);
-> +		bo->sgts = NULL;
-> +	}
-> +
->  	drm_gem_object_put(&mapping->obj->base.base);
->  	panfrost_mmu_ctx_put(mapping->mmu);
->  	kfree(mapping);
-> @@ -125,6 +140,20 @@ int panfrost_gem_open(struct drm_gem_object *obj, struct drm_file *file_priv)
->  	if (!mapping)
->  		return -ENOMEM;
->  
-> +	if (!bo->is_heap && !bo->base.base.import_attach) {
-> +		/* Pages ref is owned by the panfrost_gem_mapping object.
-> +		 * For non-heap BOs, we request pages at mapping creation
-> +		 * time, such that the panfrost_mmu_map() call, further down in
-> +		 * this function, is guaranteed to have pages_use_count > 0
-> +		 * when drm_gem_shmem_get_pages_sgt() is called.
-> +		 */
-> +		ret = drm_gem_shmem_get_pages(&bo->base);
-> +		if (ret) {
-> +			kfree(mapping);
-> +			return ret;
-> +		}
-> +	}
-> +
->  	INIT_LIST_HEAD(&mapping->node);
->  	kref_init(&mapping->refcount);
->  	drm_gem_object_get(obj);
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c b/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-> index 02b60ea1433a..d4fb0854cf2f 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-> @@ -50,6 +50,12 @@ static bool panfrost_gem_purge(struct drm_gem_object *obj)
->  	if (!dma_resv_trylock(shmem->base.resv))
->  		goto unlock_mappings;
->  
-> +	/* BO might have become unpurgeable if the last pages_use_count ref
-> +	 * was dropped, but the BO hasn't been destroyed yet.
-> +	 */
-> +	if (!drm_gem_shmem_is_purgeable(shmem))
-> +		goto unlock_mappings;
-> +
->  	panfrost_gem_teardown_mappings_locked(bo);
->  	drm_gem_shmem_purge_locked(&bo->base);
->  	ret = true;
+> with the=20
+> LVDS_PLL multiplied by 7 for the Pixel clock to the LVDS PHY, and=20
 
+Are you sure? The diagram doesn't show a multiplier, the 7x comment
+there seems to be showing relations?
+
+> LVDS_PLL divided by 7 for the Pixel clock to the LCDC.
+
+> I am inclined to believe that appropriately configuring and enabling it=
+=20
+> in the LVDS driver would be the appropriate course of action.
+
+We're talking about bindings here, not drivers, but I would imagine that
+if two peripherals are using the same clock then both of them should be
+getting a reference to and enabling that clock so that the clock
+framework can correctly track the users.
+
+> > I don't know your hardware, so I have no idea which of the two is
+> > correct, but it sounds like the former. Without digging into how this
+> > works my assumption about the hardware here looks like is that the lvds
+> > controller is a clock provider,
+>=20
+> It's a PLL clock from PMC.
+>=20
+> > and that the lvds controller's clock is
+> > an optional input for the hlcdc.
+>=20
+> Again it's a PLL clock from PMC.
+>=20
+> Please refer Section 39.3=20
+> https://ww1.microchip.com/downloads/aemDocuments/documents/MPU32/ProductD=
+ocuments/DataSheets/SAM9X7-Series-Data-Sheet-DS60001813.pdf
+
+It is not the same exact clock as you pointed out above though, so the
+by 7 divider should be modelled.
+
+> > Can you please explain what provides the lvds pll clock and show an
+> > example of how you think the devictree would look with "the lvds pll in
+> > the lvds dt node"?
+>=20
+> Sure, Please see the below example
+>=20
+> The typical lvds node will look like
+>=20
+>                  lvds_controller: lvds-controller@f8060000 {
+>                          compatible =3D "microchip,sam9x7-lvds";
+>                          reg =3D <0xf8060000 0x100>;
+>                          interrupts =3D <56 IRQ_TYPE_LEVEL_HIGH 0>;
+>                          clocks =3D <&pmc PMC_TYPE_PERIPHERAL 56>, <&pmc=
+=20
+> PMC_TYPE_CORE PMC_LVDSPLL>;
+>                          clock-names =3D "pclk", "lvds_pll_clk";
+>                          status =3D "disabled";
+>                  };
+
+In isolation, this looks fine.
+
+Cheers,
+Conor.
+
+--KV2dTBGvLz55uW11
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZbIbiwAKCRB4tDGHoIJi
+0h+8AQCpYI71+drl2FDrbEGThmMOFS/iz1jS+CPJczvYePVUqwD/ZilClwywAcjj
+BSSdZJ4KLwpHGZIe4dxZJbifZWhXPAY=
+=rMTy
+-----END PGP SIGNATURE-----
+
+--KV2dTBGvLz55uW11--
