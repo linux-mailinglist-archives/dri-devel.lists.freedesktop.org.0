@@ -2,52 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9057D83C6A4
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 16:32:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6847083C720
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 16:46:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E15E110F906;
-	Thu, 25 Jan 2024 15:32:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51A4910E2A8;
+	Thu, 25 Jan 2024 15:45:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.skole.hr (mx2.hosting.skole.hr [161.53.165.186])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E638210F921
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 15:32:03 +0000 (UTC)
-Received: from mx2.hosting.skole.hr (localhost.localdomain [127.0.0.1])
- by mx.skole.hr (mx.skole.hr) with ESMTP id 10732862B0;
- Thu, 25 Jan 2024 16:31:58 +0100 (CET)
-From: =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-Date: Thu, 25 Jan 2024 16:30:56 +0100
-Subject: [PATCH v5 4/4] backlight: Add Kinetic KTD2801 backlight support
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65FFD10E2A8
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 15:45:47 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 40PFjeiO037894;
+ Thu, 25 Jan 2024 09:45:40 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1706197540;
+ bh=swdj5R8LjyDTSfvkm8i15amLpOZddgXK39R/tFg7qGM=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=lSiZzWYQnIylBlzW0Pp/f3AmCyQMnoUi//umQavH3biwszJWz0QjFvh0r/ovSeDIx
+ URsHKDLm+pLR1eLytgiFW7rTkKaCicrDIZKhIhDe927gywuBnEmjGvXmHaKvB789BS
+ S5PCbjnagCQyE8OXZ4Ah7CZzP7WVpzDATsgj7wZM=
+Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 40PFjeSu020562
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 25 Jan 2024 09:45:40 -0600
+Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE108.ent.ti.com
+ (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 25
+ Jan 2024 09:45:39 -0600
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Thu, 25 Jan 2024 09:45:39 -0600
+Received: from [10.249.42.149] ([10.249.42.149])
+ by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 40PFjdK7110154;
+ Thu, 25 Jan 2024 09:45:39 -0600
+Message-ID: <7872f641-8a72-424f-b345-99c27403d7c6@ti.com>
+Date: Thu, 25 Jan 2024 09:45:39 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240125-ktd2801-v5-4-e22da232a825@skole.hr>
-References: <20240125-ktd2801-v5-0-e22da232a825@skole.hr>
-In-Reply-To: <20240125-ktd2801-v5-0-e22da232a825@skole.hr>
-To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>, 
- Linus Walleij <linus.walleij@linaro.org>
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6508;
- i=duje.mihanovic@skole.hr; h=from:subject:message-id;
- bh=9oIB83pc/ZyTg66e328/z4fCGwof+pG+pI1cGESw4c0=;
- b=owEBbQKS/ZANAwAIAZoRnrBCLZbhAcsmYgBlsn7DzGjopG3zagxQdzO39RFkWfcgbL98E7cgE
- 6mQxJ+xqCuJAjMEAAEIAB0WIQRT351NnD/hEPs2LXiaEZ6wQi2W4QUCZbJ+wwAKCRCaEZ6wQi2W
- 4bK2EACrKqCjTzyf6knLrx0GBqRH1F4B3CAYyruA8cUQExJQWc5jI0nAF1hRrrfw3Z6OebH2Rmx
- mKQkFb9+2KL5Snf9cikzqHaIKj8ZyDhtUFqQKd4S0U8PRv+xWe8ieAb+rX/EoVnLZmDurNXTCnm
- vp/4PmXtd6swUY3Y0mge+QhwrBbmi3UQujerDHnDK+BoKnsTcdDFBqd20O+rFtsrXQeIqWIo8aY
- yhTHJCf1rvy3bTDg+s3jXxC9CRM7pyVhqpmfKSXnuvi24fobYkhMDB2EmiR0didy4CDlJavj3m+
- VvLZSlUyCMwlVy+eXj80A2KmsEf3RiaNZs7gxvaLjdTV8Z8+T3GEMa3/uPetlIApW4sEWiYKoDf
- ldHYX4m+Th2wIACdQbiDdclikspvaAGuzEluBgGT1DjeprvNfosTH5MRZLsN2Q0WIOYTh3suKPk
- HYLjnqaFZdYDkIkN0x4Pc8DQh5xLQ8Sl6OaRuajwDdy0hXLroFeLy0HSTpPiOW8UONZNA68XBCn
- wQadc/JfOJBQCgkwRiktmqAQgoUHsDufOpzWM+CpvI2HM7o9NpsMhRWd3gT8NuvMHjFTOfLGoue
- EvcvxhVf9phmwsSh1FErev7VBrRuTn1Lknu1sPpLD74CelV4mz3mwu4wcreCaPSvuxiCIQWHPBM
- 7YZDuatn7GBvkhA==
-X-Developer-Key: i=duje.mihanovic@skole.hr; a=openpgp;
- fpr=53DF9D4D9C3FE110FB362D789A119EB0422D96E1
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] udmabuf: Sync buffer mappings for attached devices
+Content-Language: en-US
+To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>, Gerd Hoffmann
+ <kraxel@redhat.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, Paul Cercueil
+ <paul@crapouillou.net>
+References: <20240123221227.868341-1-afd@ti.com>
+ <20240123221227.868341-2-afd@ti.com>
+ <IA0PR11MB7185DDD7A972ED546B4CEA10F87B2@IA0PR11MB7185.namprd11.prod.outlook.com>
+From: Andrew Davis <afd@ti.com>
+In-Reply-To: <IA0PR11MB7185DDD7A972ED546B4CEA10F87B2@IA0PR11MB7185.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,211 +67,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
- Karel Balej <balejk@matfyz.cz>, linux-leds@vger.kernel.org
+Cc: "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-KTD2801 is a LED backlight driver IC found in samsung,coreprimevelte.
-The brightness can be set using PWM or the ExpressWire protocol. Add
-support for the KTD2801.
+On 1/24/24 5:05 PM, Kasireddy, Vivek wrote:
+> Hi Andrew,
+> 
+>> Currently this driver creates a SGT table using the CPU as the
+>> target device, then performs the dma_sync operations against
+>> that SGT. This is backwards to how DMA-BUFs are supposed to behave.
+>> This may have worked for the case where these buffers were given
+>> only back to the same CPU that produced them as in the QEMU case.
+>> And only then because the original author had the dma_sync
+>> operations also backwards, syncing for the "device" on begin_cpu.
+>> This was noticed and "fixed" in this patch[0].
+>>
+>> That then meant we were sync'ing from the CPU to the CPU using
+>> a pseudo-device "miscdevice". Which then caused another issue
+>> due to the miscdevice not having a proper DMA mask (and why should
+>> it, the CPU is not a DMA device). The fix for that was an even
+>> more egregious hack[1] that declares the CPU is coherent with
+>> itself and can access its own memory space..
+>>
+>> Unwind all this and perform the correct action by doing the dma_sync
+>> operations for each device currently attached to the backing buffer.
+> Makes sense.
+> 
+>>
+>> [0] commit 1ffe09590121 ("udmabuf: fix dma-buf cpu access")
+>> [1] commit 9e9fa6a9198b ("udmabuf: Set the DMA mask for the udmabuf
+>> device (v2)")
+>>
+>> Signed-off-by: Andrew Davis <afd@ti.com>
+>> ---
+>>   drivers/dma-buf/udmabuf.c | 41 +++++++++++++++------------------------
+>>   1 file changed, 16 insertions(+), 25 deletions(-)
+>>
+>> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+>> index 3a23f0a7d112a..ab6764322523c 100644
+>> --- a/drivers/dma-buf/udmabuf.c
+>> +++ b/drivers/dma-buf/udmabuf.c
+>> @@ -26,8 +26,6 @@ MODULE_PARM_DESC(size_limit_mb, "Max size of a
+>> dmabuf, in megabytes. Default is
+>>   struct udmabuf {
+>>   	pgoff_t pagecount;
+>>   	struct page **pages;
+>> -	struct sg_table *sg;
+>> -	struct miscdevice *device;
+>>   	struct list_head attachments;
+>>   	struct mutex lock;
+>>   };
+>> @@ -169,12 +167,8 @@ static void unmap_udmabuf(struct
+>> dma_buf_attachment *at,
+>>   static void release_udmabuf(struct dma_buf *buf)
+>>   {
+>>   	struct udmabuf *ubuf = buf->priv;
+>> -	struct device *dev = ubuf->device->this_device;
+>>   	pgoff_t pg;
+>>
+>> -	if (ubuf->sg)
+>> -		put_sg_table(dev, ubuf->sg, DMA_BIDIRECTIONAL);
+> What happens if the last importer maps the dmabuf but erroneously
+> closes it immediately? Would unmap somehow get called in this case?
+> 
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
----
- MAINTAINERS                                 |   6 ++
- drivers/video/backlight/Kconfig             |   7 ++
- drivers/video/backlight/Makefile            |   1 +
- drivers/video/backlight/ktd2801-backlight.c | 128 ++++++++++++++++++++++++++++
- 4 files changed, 142 insertions(+)
+Good question, had to scan the framework code a bit here. I thought
+closing a DMABUF handle would automatically unwind any current
+attachments/mappings, but it seems nothing in the framework does that.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e1c83e0e837a..01cd1a460907 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12052,6 +12052,12 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/leds/backlight/kinetic,ktd253.yaml
- F:	drivers/video/backlight/ktd253-backlight.c
- 
-+KTD2801 BACKLIGHT DRIVER
-+M:	Duje Mihanović <duje.mihanovic@skole.hr>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/leds/backlight/kinetic,ktd2801.yaml
-+F:	drivers/video/backlight/ktd2801-backlight.c
-+
- KTEST
- M:	Steven Rostedt <rostedt@goodmis.org>
- M:	John Hawley <warthog9@eaglescrag.net>
-diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
-index ea2d0d69bd8c..230bca07b09d 100644
---- a/drivers/video/backlight/Kconfig
-+++ b/drivers/video/backlight/Kconfig
-@@ -183,6 +183,13 @@ config BACKLIGHT_KTD253
- 	  which is a 1-wire GPIO-controlled backlight found in some mobile
- 	  phones.
- 
-+config BACKLIGHT_KTD2801
-+	tristate "Backlight Driver for Kinetic KTD2801"
-+	select LEDS_EXPRESSWIRE
-+	help
-+	  Say Y to enable the backlight driver for the Kinetic KTD2801 1-wire
-+	  GPIO-controlled backlight found in Samsung Galaxy Core Prime VE LTE.
-+
- config BACKLIGHT_KTZ8866
- 	tristate "Backlight Driver for Kinetic KTZ8866"
- 	depends on I2C
-diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
-index 06966cb20459..8d2cb252042d 100644
---- a/drivers/video/backlight/Makefile
-+++ b/drivers/video/backlight/Makefile
-@@ -34,6 +34,7 @@ obj-$(CONFIG_BACKLIGHT_HP680)		+= hp680_bl.o
- obj-$(CONFIG_BACKLIGHT_HP700)		+= jornada720_bl.o
- obj-$(CONFIG_BACKLIGHT_IPAQ_MICRO)	+= ipaq_micro_bl.o
- obj-$(CONFIG_BACKLIGHT_KTD253)		+= ktd253-backlight.o
-+obj-$(CONFIG_BACKLIGHT_KTD2801)		+= ktd2801-backlight.o
- obj-$(CONFIG_BACKLIGHT_KTZ8866)		+= ktz8866.o
- obj-$(CONFIG_BACKLIGHT_LM3533)		+= lm3533_bl.o
- obj-$(CONFIG_BACKLIGHT_LM3630A)		+= lm3630a_bl.o
-diff --git a/drivers/video/backlight/ktd2801-backlight.c b/drivers/video/backlight/ktd2801-backlight.c
-new file mode 100644
-index 000000000000..c020acff40f1
---- /dev/null
-+++ b/drivers/video/backlight/ktd2801-backlight.c
-@@ -0,0 +1,128 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Datasheet:
-+ * https://www.kinet-ic.com/uploads/web/KTD2801/KTD2801-04b.pdf
-+ */
-+#include <linux/backlight.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/leds-expresswire.h>
-+#include <linux/platform_device.h>
-+#include <linux/property.h>
-+
-+#define KTD2801_DEFAULT_BRIGHTNESS	100
-+#define KTD2801_MAX_BRIGHTNESS		255
-+
-+/* These values have been extracted from Samsung's driver. */
-+const struct expresswire_timing ktd2801_timing = {
-+	.poweroff_us = 2600,
-+	.detect_delay_us = 150,
-+	.detect_us = 270,
-+	.data_start_us = 5,
-+	.short_bitset_us = 5,
-+	.long_bitset_us = 15,
-+	.end_of_data_low_us = 10,
-+	.end_of_data_high_us = 350
-+};
-+
-+struct ktd2801_backlight {
-+	struct expresswire_common_props props;
-+	struct backlight_device *bd;
-+	bool was_on;
-+};
-+
-+static int ktd2801_update_status(struct backlight_device *bd)
-+{
-+	struct ktd2801_backlight *ktd2801 = bl_get_data(bd);
-+	u8 brightness = (u8) backlight_get_brightness(bd);
-+
-+	if (backlight_is_blank(bd)) {
-+		expresswire_power_off(&ktd2801->props);
-+		ktd2801->was_on = false;
-+		return 0;
-+	}
-+
-+	if (!ktd2801->was_on) {
-+		expresswire_enable(&ktd2801->props);
-+		ktd2801->was_on = true;
-+	}
-+
-+	expresswire_write_u8(&ktd2801->props, brightness);
-+
-+	return 0;
-+}
-+
-+static const struct backlight_ops ktd2801_backlight_ops = {
-+	.update_status = ktd2801_update_status,
-+};
-+
-+static int ktd2801_backlight_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct backlight_device *bd;
-+	struct ktd2801_backlight *ktd2801;
-+	u32 brightness, max_brightness;
-+	int ret;
-+
-+	ktd2801 = devm_kzalloc(dev, sizeof(*ktd2801), GFP_KERNEL);
-+	if (!ktd2801)
-+		return -ENOMEM;
-+	ktd2801->was_on = true;
-+	ktd2801->props.timing = ktd2801_timing;
-+
-+	ret = device_property_read_u32(dev, "max-brightness", &max_brightness);
-+	if (ret)
-+		max_brightness = KTD2801_MAX_BRIGHTNESS;
-+	if (max_brightness > KTD2801_MAX_BRIGHTNESS) {
-+		dev_err(dev, "illegal max brightness specified\n");
-+		max_brightness = KTD2801_MAX_BRIGHTNESS;
-+	}
-+
-+	ret = device_property_read_u32(dev, "default-brightness", &brightness);
-+	if (ret)
-+		brightness = KTD2801_DEFAULT_BRIGHTNESS;
-+	if (brightness > max_brightness) {
-+		dev_err(dev, "default brightness exceeds max\n");
-+		brightness = max_brightness;
-+	}
-+
-+	ktd2801->props.ctrl_gpio = devm_gpiod_get(dev, "ctrl", GPIOD_OUT_HIGH);
-+	if (IS_ERR(ktd2801->props.ctrl_gpio))
-+		return dev_err_probe(dev, PTR_ERR(ktd2801->props.ctrl_gpio),
-+				"failed to get backlight GPIO");
-+	gpiod_set_consumer_name(ktd2801->props.ctrl_gpio, dev_name(dev));
-+
-+	bd = devm_backlight_device_register(dev, dev_name(dev), dev, ktd2801,
-+			&ktd2801_backlight_ops, NULL);
-+	if (IS_ERR(bd))
-+		return dev_err_probe(dev, PTR_ERR(bd),
-+				"failed to register backlight");
-+
-+	bd->props.max_brightness = max_brightness;
-+	bd->props.brightness = brightness;
-+
-+	ktd2801->bd = bd;
-+	platform_set_drvdata(pdev, bd);
-+	backlight_update_status(bd);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id ktd2801_of_match[] = {
-+	{ .compatible = "kinetic,ktd2801" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, ktd2801_of_match);
-+
-+static struct platform_driver ktd2801_backlight_driver = {
-+	.driver = {
-+		.name = "ktd2801-backlight",
-+		.of_match_table = ktd2801_of_match,
-+	},
-+	.probe = ktd2801_backlight_probe,
-+};
-+module_platform_driver(ktd2801_backlight_driver);
-+
-+MODULE_IMPORT_NS(EXPRESSWIRE);
-+MODULE_AUTHOR("Duje Mihanović <duje.mihanovic@skole.hr>");
-+MODULE_DESCRIPTION("Kinetic KTD2801 Backlight Driver");
-+MODULE_LICENSE("GPL");
+Looks like that is up to the importing drivers[0]:
 
--- 
-2.43.0
+> Once a driver is done with a shared buffer it needs to call
+> dma_buf_detach() (after cleaning up any mappings) and then
+> release the reference acquired with dma_buf_get() by
+> calling dma_buf_put().
 
+So closing a DMABUF after mapping without first unmapping it would
+be a bug in the importer, it is not the exporters problem to check
+for (although some more warnings in the framework checking for that
+might not be a bad idea..).
 
+Andrew
+
+[0] https://www.kernel.org/doc/html/v6.7/driver-api/dma-buf.html
+
+> Thanks,
+> Vivek
+> 
+>> -
+>>   	for (pg = 0; pg < ubuf->pagecount; pg++)
+>>   		put_page(ubuf->pages[pg]);
+>>   	kfree(ubuf->pages);
+>> @@ -185,33 +179,31 @@ static int begin_cpu_udmabuf(struct dma_buf
+>> *buf,
+>>   			     enum dma_data_direction direction)
+>>   {
+>>   	struct udmabuf *ubuf = buf->priv;
+>> -	struct device *dev = ubuf->device->this_device;
+>> -	int ret = 0;
+>> -
+>> -	if (!ubuf->sg) {
+>> -		ubuf->sg = get_sg_table(dev, buf, direction);
+>> -		if (IS_ERR(ubuf->sg)) {
+>> -			ret = PTR_ERR(ubuf->sg);
+>> -			ubuf->sg = NULL;
+>> -		}
+>> -	} else {
+>> -		dma_sync_sg_for_cpu(dev, ubuf->sg->sgl, ubuf->sg->nents,
+>> -				    direction);
+>> -	}
+>> +	struct udmabuf_attachment *a;
+>>
+>> -	return ret;
+>> +	mutex_lock(&ubuf->lock);
+>> +
+>> +	list_for_each_entry(a, &ubuf->attachments, list)
+>> +		dma_sync_sgtable_for_cpu(a->dev, a->table, direction);
+>> +
+>> +	mutex_unlock(&ubuf->lock);
+>> +
+>> +	return 0;
+>>   }
+>>
+>>   static int end_cpu_udmabuf(struct dma_buf *buf,
+>>   			   enum dma_data_direction direction)
+>>   {
+>>   	struct udmabuf *ubuf = buf->priv;
+>> -	struct device *dev = ubuf->device->this_device;
+>> +	struct udmabuf_attachment *a;
+>>
+>> -	if (!ubuf->sg)
+>> -		return -EINVAL;
+>> +	mutex_lock(&ubuf->lock);
+>> +
+>> +	list_for_each_entry(a, &ubuf->attachments, list)
+>> +		dma_sync_sgtable_for_device(a->dev, a->table, direction);
+>> +
+>> +	mutex_unlock(&ubuf->lock);
+>>
+>> -	dma_sync_sg_for_device(dev, ubuf->sg->sgl, ubuf->sg->nents,
+>> direction);
+>>   	return 0;
+>>   }
+>>
+>> @@ -307,7 +299,6 @@ static long udmabuf_create(struct miscdevice
+>> *device,
+>>   	exp_info.priv = ubuf;
+>>   	exp_info.flags = O_RDWR;
+>>
+>> -	ubuf->device = device;
+>>   	buf = dma_buf_export(&exp_info);
+>>   	if (IS_ERR(buf)) {
+>>   		ret = PTR_ERR(buf);
+>> --
+>> 2.39.2
+> 
