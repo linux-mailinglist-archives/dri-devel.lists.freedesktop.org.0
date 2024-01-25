@@ -2,48 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08DD483BC04
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 09:30:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0521283BCC2
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jan 2024 10:07:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3760B10F851;
-	Thu, 25 Jan 2024 08:29:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B90BB10F136;
+	Thu, 25 Jan 2024 09:07:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 023B510F84E;
- Thu, 25 Jan 2024 08:29:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1706171397; x=1737707397;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=GzveJxVuEPjFXwl59pwJZefeLSd5dX2SH7AFes3/VeI=;
- b=PsYILyEPgUF8jWHGY9s6JYyC/uPbpkjeWBwY6aOhwyIPZPHRk2lpt/sw
- Ip8J1K4RqnhPQVbFFEoZRw7F49FVDJg4uU5VlOWQKkCwYmV/8wFLDw3r+
- iMdLzand8qkLmuhSncOdSPe8f53/uaBcTVkgDWQgNVyRg6yHTE3FCLfl5
- KvvNtn416X4PEBw7T6OHxdP9ejVrYCWZCOJEuw4brjjuY8tA/MPEGYVYz
- nAwDCsIjq7qHEGzLzwZThZ/1H20Fr2zyFmZwTdt6fhy0dS4O5KI/xrGtF
- 8q4Z5pNUTwlPGSD0VQkNvHtmZ3qKhHUu1ZrWpzin7I1vzy8Ga1CACGsPE Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="15449874"
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; d="scan'208";a="15449874"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jan 2024 00:29:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="820719768"
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; d="scan'208";a="820719768"
-Received: from skofoed-mobl.ger.corp.intel.com (HELO fedora) ([10.249.254.114])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jan 2024 00:29:50 -0800
-Date: Thu, 25 Jan 2024 09:29:34 +0100
-From: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-xe-fixes
-Message-ID: <ZbIb7l0EhpVp5cXE@fedora>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E585510F85A
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jan 2024 09:07:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1706173625;
+ bh=jmxwkZEbRI0XAx+cYJ9cpE0ROLMlbdLaVvy/jQgXN+k=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=XJdgAyCRCGRT5DZYiJj70aIqs9zLKE3ws7azgqOUKukhW8MrG7e30kyqaQrg6pZ/J
+ SjlBmKORjFGH0UJk9kC//JPytCbBFzL4bp9od75RK2NDfH+7O005+UUqwet/hfBx+S
+ GsL/eKTgsKTtZOC/DDaCxr6OnY+lPxCWn6lkP0SzeJgFCbFlREWsJPN51u25R61ZCy
+ nRFY5YLfNHLWDu8KndWfMdqEiOdwYwFLMJsgtv9LHCknZt9ob0UrjHmMoLVdNaDYnP
+ wJ9b9gjuSaklo5rFWUUS8ZD1E4NFN8CCMD7EeZp5hR7adRcqPzlduZ7g57t0v4r9Dp
+ rKhAqRsiXmH2g==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 44F1437813C4;
+ Thu, 25 Jan 2024 09:07:04 +0000 (UTC)
+Date: Thu, 25 Jan 2024 10:07:03 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Subject: Re: [PATCH v19 22/30] drm/shmem-helper: Add common memory shrinker
+Message-ID: <20240125100703.76d802ad@collabora.com>
+In-Reply-To: <20240105184624.508603-23-dmitry.osipenko@collabora.com>
+References: <20240105184624.508603-1-dmitry.osipenko@collabora.com>
+ <20240105184624.508603-23-dmitry.osipenko@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,65 +54,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, Oded Gabbay <ogabbay@kernel.org>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: kernel@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
+ Emma Anholt <emma@anholt.net>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Steven Price <steven.price@arm.com>, David Airlie <airlied@gmail.com>,
+ virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Dave, Sima
+On Fri,  5 Jan 2024 21:46:16 +0300
+Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
 
-The Xe fixes PR for 6.8-rc2.
+>   *
+>   * This function Increases the use count and allocates the backing pages if
+>   * use-count equals to zero.
+> + *
+> + * Note that this function doesn't pin pages in memory. If your driver
+> + * uses drm-shmem shrinker, then it's free to relocate pages to swap.
+> + * Getting pages only guarantees that pages are allocated, and not that
+> + * pages reside in memory. In order to pin pages use drm_gem_shmem_pin().
 
-Thanks, Thomas.
+I still find this explanation confusing, if pages are allocated, they
+reside in memory. The only difference between drm_gem_shmem_get_pages()
+and drm_gem_shmem_pin_pages() is that the former lets the system
+reclaim the memory if the buffer is idle (no unsignalled fence attached
+to the dma_resv).
 
-The following changes since commit 6613476e225e090cc9aad49be7fa504e290dd33d:
+We also need to describe the workflow for GEM validation (that's the
+TTM term for the swapin process happening when a GPU job is submitted).
 
-  Linux 6.8-rc1 (2024-01-21 14:11:32 -0800)
+1. Prepare the GPU job and initialize its fence
+2. Lock the GEM resv
+3. Add the GPU job fence to the resv object
+4. If the GEM is evicted
+   a. call drm_gem_shmem_swapin_locked()
+   b. get the new sgt with drm_gem_shmem_get_pages_sgt_locked()
+   c. repopulate the MMU table (driver internals)
+5. Unlock the GEM dma_resv
+6. Submit the GPU job
 
-are available in the Git repository at:
+With this sequence, the GEM pages are guaranteed to stay around until
+the GPU job is finished.
 
-  https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-fixes-2024-01-25
-
-for you to fetch changes up to 9e3a13f3eef6b14a26cc2660ca2f43f0e46b4318:
-
-  drm/xe: Remove PVC from xe_wa kunit tests (2024-01-24 11:13:55 +0100)
-
-----------------------------------------------------------------
-Driver Changes:
-- Make an ops struct static
-- Fix an implicit 0 to NULL conversion
-- A couple of 32-bit fixes
-- A migration coherency fix for Lunar Lake.
-- An error path vm id leak fix
-- Remove PVC references in kunit tests
-
-----------------------------------------------------------------
-Himal Prasad Ghimiray (1):
-      drm/xe/xe2: Use XE_CACHE_WB pat index
-
-Lucas De Marchi (4):
-      drm/xe: Use _ULL for u64 division
-      drm/xe/mmio: Cast to u64 when printing
-      drm/xe/display: Avoid calling readq()
-      drm/xe: Remove PVC from xe_wa kunit tests
-
-Moti Haimovski (1):
-      drm/xe/vm: bugfix in xe_vm_create_ioctl
-
-Thomas Hellström (2):
-      drm/xe/dmabuf: Make xe_dmabuf_ops static
-      drm/xe: Use a NULL pointer instead of 0.
-
- .../xe/compat-i915-headers/gem/i915_gem_object.h   | 11 +++++------
- drivers/gpu/drm/xe/tests/xe_wa_test.c              |  3 ---
- drivers/gpu/drm/xe/xe_device.c                     |  2 +-
- drivers/gpu/drm/xe/xe_dma_buf.c                    |  2 +-
- drivers/gpu/drm/xe/xe_hwmon.c                      |  2 +-
- drivers/gpu/drm/xe/xe_migrate.c                    | 14 ++++++-------
- drivers/gpu/drm/xe/xe_mmio.c                       |  4 ++--
- drivers/gpu/drm/xe/xe_vm.c                         | 23 +++++++++++++---------
- 8 files changed, 31 insertions(+), 30 deletions(-)
+>   */
+>  int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
