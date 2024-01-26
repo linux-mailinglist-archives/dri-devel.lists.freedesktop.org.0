@@ -2,50 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5F6F83DEB3
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 17:28:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A933283DF6C
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 18:03:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C537B10FB1B;
-	Fri, 26 Jan 2024 16:28:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E87C10E29A;
+	Fri, 26 Jan 2024 17:02:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 880F710FBF7
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 16:28:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1706286473;
- bh=bfATvgFGy1C+UULaXubImPOXGtd8BvEu9bs2VEk+/Dw=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=sCBvO4UIouCEmJXzxqhm0SshcENzhxQdzX0Ocvo34m24MIWT1NPDpdD8VvY6p0fy0
- hX9gcK9H2vZArf3s2YTSQDD35NhF3W+dJJX66Jr4xNCsb2yyHujIzRw+8u1iMqHydj
- MYXEo3txYBnr2zSxMgLextGneTBTMta24DazKJLef/lU05FoJ3FGXEsU1K9I9kRwrb
- UE7DOoB/eP3bW6+HrZgT6rVfw9Uj/sMVVhXIMemG7R2sKwrg+G4RC9bpoLOOzkUjc8
- r/eppjQtRE0/C3od/3tcmkeiNkjDwNLut4TejaqdnPhosvebrZH50F69DQA+EVnGMa
- vQzB+px0U5RVA==
-Received: from [100.109.49.129] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 2322A378107C;
- Fri, 26 Jan 2024 16:27:52 +0000 (UTC)
-Message-ID: <fab38fed-635c-4dbe-aa13-dcdf8f267988@collabora.com>
-Date: Fri, 26 Jan 2024 19:27:49 +0300
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3A6510FC42;
+ Fri, 26 Jan 2024 17:02:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
+ Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=LKjrPQFGdzlUlEj4QHci5QGqfkMaef42zy077cz0Z5c=; b=jM8uZsgsuaSI89pSKCGGB33Hdc
+ 3AhaXrSC0FFbaCBRDWxvEBaxyZ5pk4ROaek2lPJcESLhTupMAR1TOzVEnMExE3J2+QcSc4OsY7M1h
+ MqG8Pj+cgbaJuJorhpzKJnpHgPw/cqYPQqHFXeytv9pZ30uCsojdVKZ00lclsPNYp/s/IAi6z5vbP
+ 5Qq+vLFv8PRxBCk6T59w4RW8NRM/El2soDzDv/56Y0acdBQoAFs6ezx8tFWagaWGyMSDLDlcILWEQ
+ DxbO6RCx33E0WUiV8lg315HlS0tqUiqtaEiXoaldwr2Uu6XOXTYnuprOGpvT/Bl6zz1+xC+WM0CVi
+ qIYGlPBA==;
+Received: from [197.255.135.238] (helo=killbill.home)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1rTPA0-00AOH1-M4; Fri, 26 Jan 2024 17:34:32 +0100
+From: Melissa Wen <mwen@igalia.com>
+To: airlied@gmail.com, alexander.deucher@amd.com, alex.hung@amd.com,
+ christian.koenig@amd.com, daniel@ffwll.ch, harry.wentland@amd.com,
+ jani.nikula@intel.com, Rodrigo.Siqueira@amd.com, sunpeng.li@amd.com,
+ Xinhui.Pan@amd.com
+Subject: [RFC PATCH 0/2] drm/amd/display: switch amdgpu_dm_connector to
+Date: Fri, 26 Jan 2024 15:28:52 -0100
+Message-ID: <20240126163429.56714-1-mwen@igalia.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v19 22/30] drm/shmem-helper: Add common memory shrinker
-Content-Language: en-US
-To: Boris Brezillon <boris.brezillon@collabora.com>
-References: <20240105184624.508603-1-dmitry.osipenko@collabora.com>
- <20240105184624.508603-23-dmitry.osipenko@collabora.com>
- <20240125111946.797a1e1e@collabora.com>
- <f4870543-e7f8-4ee6-924a-68ec7c25b293@collabora.com>
- <20240126105537.67b1613e@collabora.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20240126105537.67b1613e@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,71 +52,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
- Emma Anholt <emma@anholt.net>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
- Steven Price <steven.price@arm.com>, David Airlie <airlied@gmail.com>,
- virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/26/24 12:55, Boris Brezillon wrote:
-> On Fri, 26 Jan 2024 00:56:47 +0300
-> Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
-> 
->> On 1/25/24 13:19, Boris Brezillon wrote:
->>> On Fri,  5 Jan 2024 21:46:16 +0300
->>> Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
->>>   
->>>> +static bool drm_gem_shmem_is_evictable(struct drm_gem_shmem_object *shmem)
->>>> +{
->>>> +	return (shmem->madv >= 0) && shmem->base.funcs->evict &&
->>>> +		refcount_read(&shmem->pages_use_count) &&
->>>> +		!refcount_read(&shmem->pages_pin_count) &&
->>>> +		!shmem->base.dma_buf && !shmem->base.import_attach &&
->>>> +		!shmem->evicted;  
->>>
->>> Are we missing
->>>
->>>                 && dma_resv_test_signaled(shmem->base.resv,
->>> 					  DMA_RESV_USAGE_BOOKKEEP)
->>>
->>> to make sure the GPU is done using the BO?
->>> The same applies to drm_gem_shmem_is_purgeable() BTW.
->>>
->>> If you don't want to do this test here, we need a way to let drivers
->>> provide a custom is_{evictable,purgeable}() test.
->>>
->>> I guess we should also expose drm_gem_shmem_shrinker_update_lru_locked()
->>> to let drivers move the GEMs that were used most recently (those
->>> referenced by a GPU job) at the end of the evictable LRU.  
->>
->> We have the signaled-check in the common drm_gem_evict() helper:
->>
->> https://elixir.bootlin.com/linux/v6.8-rc1/source/drivers/gpu/drm/drm_gem.c#L1496
-> 
-> Ah, indeed. I'll need DMA_RESV_USAGE_BOOKKEEP instead of
-> DMA_RESV_USAGE_READ in panthor, but I can add it in the driver specific
-> ->evict() hook (though that means calling dma_resv_test_signaled()
-> twice, which is not great, oh well).
+Hi,
 
-Maybe we should change drm_gem_evict() to use BOOKKEEP. The
-test_signaled(BOOKKEEP) should be a "stronger" check than
-test_signaled(READ)?
+I'm debugging a null-pointer dereference when running
+igt@kms_connector_force_edid and the way I found to solve the bug is to
+stop using raw edid handler in amdgpu_connector_funcs_force and
+create_eml_sink in favor of managing resouces via sruct drm_edid helpers
+(Patch 1). The proper solution seems to be switch amdgpu_dm_connector
+from struct edid to struct drm_edid and avoid the usage of different
+approaches in the driver (Patch 2). However, doing it implies a good
+amount of work and validation, therefore I decided to send this RFC
+first to collect opinions and check if there is any parallel work on
+this side. It's a working in progress.
 
-> The problem about the evictable LRU remains though: we need a way to let
-> drivers put their BOs at the end of the list when the BO has been used
-> by the GPU, don't we?
+The null-pointer error trigger by the igt@kms_connector_force_edid test
+was introduced by:
+- e54ed41620f ("drm/amd/display: Remove unwanted drm edid references")
 
-If BO is use, then it won't be evicted, while idling BOs will be
-evicted. Hence, the used BOs will be naturally moved down the LRU list
-each time shrinker is invoked.
+You can check the error trace in the first patch.
+
+This series was tested with kms_hdmi_inject and kms_force_connector. No
+null-pointer error, kms_hdmi_inject is successul and kms_force_connector
+is sucessful after the second execution - the force-edid subtest
+still fails in the first run (I'm still investigating).
+
+There is also a couple of cast warnings to be addressed - I'm looking
+for the best replacement. 
+
+I appreciate any feedback and testing.
+
+Melissa
+
+Melissa Wen (2):
+  drm/amd/display: fix null-pointer dereference on edid reading
+  drm/amd/display: switch amdgpu_dm_connector to use struct drm_edid
+
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 78 ++++++++++---------
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  4 +-
+ .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c |  9 ++-
+ .../display/amdgpu_dm/amdgpu_dm_mst_types.c   | 23 +++---
+ 4 files changed, 60 insertions(+), 54 deletions(-)
 
 -- 
-Best regards,
-Dmitry
+2.43.0
 
