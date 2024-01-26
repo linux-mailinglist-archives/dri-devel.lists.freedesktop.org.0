@@ -2,52 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81CB783DAB7
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 14:28:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4F6A83DBED
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 15:33:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 179E010FA7C;
-	Fri, 26 Jan 2024 13:27:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F12410ED35;
+	Fri, 26 Jan 2024 14:32:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7293A10FA78;
- Fri, 26 Jan 2024 13:27:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1706275669; x=1737811669;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=QCT/Nc7sresQQuPElgDUY0oLp0nqtZhYIbC4OXeCJYM=;
- b=fQdOEA2mzO+66YWtZXMV7O7PfLpPujsuR72IuCnxQNL0K7W065YXKmeP
- abcIMEmq7QZXDnE7kqLMpUjfJqxRUb/c7vn3pqNzqeRJItZvlWw7S5otG
- aOfWCAjmaZ/nEWEfuqqZsEz1sRWN4JojXjOz+yIBWpI9AuNZ91IOywOE+
- CATCk5KLSGO/ypsa3uqsCz3SmNkZa1X6Pa4gvI1jo1tui8nYPL+32md3F
- SNMmZ5RdKulEHg5QsB5pVpAMfZKm32hZyKBwaVYhsM8FETG0S1lDKSmNL
- J3BqIMwt1fBEnzJSPEgU8kSwPRv974XrPS+bbtd8KmRnRyz5WrCM/bQJN g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="9836720"
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="9836720"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2024 05:27:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; d="scan'208";a="29105491"
-Received: from ideak-desk.fi.intel.com ([10.237.72.78])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2024 05:27:46 -0800
-Date: Fri, 26 Jan 2024 15:28:02 +0200
-From: Imre Deak <imre.deak@intel.com>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH 01/19] drm/dp: Add drm_dp_max_dprx_data_rate()
-Message-ID: <ZbOzQQ7y4OdKAnYY@ideak-desk.fi.intel.com>
-References: <20240123102850.390126-1-imre.deak@intel.com>
- <20240123102850.390126-2-imre.deak@intel.com>
- <ZbOZIpuIpf18KlM0@intel.com>
+X-Greylist: delayed 3603 seconds by postgrey-1.36 at gabe;
+ Fri, 26 Jan 2024 14:32:49 UTC
+Received: from whm50.louhi.net (whm50.louhi.net [77.240.19.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6048B10FACE
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 14:32:49 +0000 (UTC)
+Received: from [194.136.85.206] (port=37072 helo=eldfell)
+ by whm50.louhi.net with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
+ (envelope-from <pekka.paalanen@haloniitty.fi>) id 1rTMK4-0007gG-3B;
+ Fri, 26 Jan 2024 15:32:45 +0200
+Date: Fri, 26 Jan 2024 15:32:31 +0200
+From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
+To: "Albert, Joerg (TT-U)" <Joerg.Albert@iav.de>
+Subject: Re: drm: Stable identification of connectors?
+Message-ID: <20240126153231.6fd1a7f2@eldfell>
+In-Reply-To: <4c03efeca8ce42beb41b2f70433e6634@iav.de>
+References: <4c03efeca8ce42beb41b2f70433e6634@iav.de>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZbOZIpuIpf18KlM0@intel.com>
+Content-Type: multipart/signed; boundary="Sig_/10C.29x7Ja/gBsVbVPT5OV7";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - whm50.louhi.net
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - haloniitty.fi
+X-Get-Message-Sender-Via: whm50.louhi.net: authenticated_id:
+ pekka.paalanen@haloniitty.fi
+X-Authenticated-Sender: whm50.louhi.net: pekka.paalanen@haloniitty.fi
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,123 +54,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 26, 2024 at 01:36:02PM +0200, Ville Syrjälä wrote:
-> On Tue, Jan 23, 2024 at 12:28:32PM +0200, Imre Deak wrote:
-> > Copy intel_dp_max_data_rate() to DRM core. It will be needed by a
-> > follow-up DP tunnel patch, checking the maximum rate the DPRX (sink)
-> > supports. Accordingly use the drm_dp_max_dprx_data_rate() name for
-> > clarity. This patchset will also switch calling the new DRM function
-> > in i915 instead of intel_dp_max_data_rate().
-> > 
-> > Signed-off-by: Imre Deak <imre.deak@intel.com>
-> > ---
-> >  drivers/gpu/drm/display/drm_dp_helper.c | 58 +++++++++++++++++++++++++
-> >  include/drm/display/drm_dp_helper.h     |  2 +
-> >  2 files changed, 60 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-> > index b1ca3a1100dab..24911243d4d3a 100644
-> > --- a/drivers/gpu/drm/display/drm_dp_helper.c
-> > +++ b/drivers/gpu/drm/display/drm_dp_helper.c
-> > @@ -4058,3 +4058,61 @@ int drm_dp_bw_channel_coding_efficiency(bool is_uhbr)
-> >  		return 800000;
-> >  }
-> >  EXPORT_SYMBOL(drm_dp_bw_channel_coding_efficiency);
-> > +
-> > +/*
-> > + * Given a link rate and lanes, get the data bandwidth.
-> > + *
-> > + * Data bandwidth is the actual payload rate, which depends on the data
-> > + * bandwidth efficiency and the link rate.
-> > + *
-> > + * For 8b/10b channel encoding, SST and non-FEC, the data bandwidth efficiency
-> > + * is 80%. For example, for a 1.62 Gbps link, 1.62*10^9 bps * 0.80 * (1/8) =
-> > + * 162000 kBps. With 8-bit symbols, we have 162000 kHz symbol clock. Just by
-> > + * coincidence, the port clock in kHz matches the data bandwidth in kBps, and
-> > + * they equal the link bit rate in Gbps multiplied by 100000. (Note that this no
-> > + * longer holds for data bandwidth as soon as FEC or MST is taken into account!)
-> > + *
-> > + * For 128b/132b channel encoding, the data bandwidth efficiency is 96.71%. For
-> > + * example, for a 10 Gbps link, 10*10^9 bps * 0.9671 * (1/8) = 1208875
-> > + * kBps. With 32-bit symbols, we have 312500 kHz symbol clock. The value 1000000
-> > + * does not match the symbol clock, the port clock (not even if you think in
-> > + * terms of a byte clock), nor the data bandwidth. It only matches the link bit
-> > + * rate in units of 10000 bps.
-> > + *
-> > + * Note that protocol layers above the DPRX link level considered here can
-> > + * further limit the maximum data rate. Such layers are the MST topology (with
-> > + * limits on the link between the source and first branch device as well as on
-> > + * the whole MST path until the DPRX link) and (Thunderbolt) DP tunnels -
-> > + * which in turn can encapsulate an MST link with its own limit - with each
-> > + * SST or MST encapsulated tunnel sharing the BW of a tunnel group.
-> > + *
-> > + * TODO: Add support for querying the max data rate with the above limits as
-> > + * well.
-> > + *
-> > + * Returns the maximum data rate in kBps units.
-> > + */
-> > +int drm_dp_max_dprx_data_rate(int max_link_rate, int max_lanes)
-> > +{
-> > +	int ch_coding_efficiency =
-> > +		drm_dp_bw_channel_coding_efficiency(drm_dp_is_uhbr_rate(max_link_rate));
-> > +	int max_link_rate_kbps = max_link_rate * 10;
-> 
-> That x10 value seems rather pointless.
+--Sig_/10C.29x7Ja/gBsVbVPT5OV7
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-I suppose the point was to make the units clearer, but it could be
-clarified instead in max_link_rates' documentation, which is missing
-atm.
+On Fri, 26 Jan 2024 10:30:10 +0000
+"Albert, Joerg (TT-U)" <Joerg.Albert@iav.de> wrote:
 
-> > +
-> > +	/*
-> > +	 * UHBR rates always use 128b/132b channel encoding, and have
-> > +	 * 97.71% data bandwidth efficiency. Consider max_link_rate the
-> > +	 * link bit rate in units of 10000 bps.
-> > +	 */
-> > +	/*
-> > +	 * Lower than UHBR rates always use 8b/10b channel encoding, and have
-> > +	 * 80% data bandwidth efficiency for SST non-FEC. However, this turns
-> > +	 * out to be a nop by coincidence:
-> > +	 *
-> > +	 *	int max_link_rate_kbps = max_link_rate * 10;
-> > +	 *	max_link_rate_kbps = DIV_ROUND_DOWN_ULL(max_link_rate_kbps * 8, 10);
-> > +	 *	max_link_rate = max_link_rate_kbps / 8;
-> > +	 */
-> 
-> Not sure why we are repeating the nuts and bolts detils in the
-> comments so much? Doesn't drm_dp_bw_channel_coding_efficiency()
-> explain all this already?
+> Hi,
+>=20
+>=20
+> I=E2=80=99m pretty new to DRM/DRI and wonder if there is a way to have a
+> stable identification of connectors across changes in the Linux
+> kernel and/or in the devicetree?
+>=20
+> Our hardware contains an iMX8QM with two displays, each one connected
+> to a MIPI-DSI channel. We use kernel 6.1.38. In the output of
+> =E2=80=9Cmodetest -c=E2=80=9D the connectors are called LVDS-1 and LVDS-2=
+. These
+> names are built in modetest.c from connector_type and
+> connector_type_id.
+>=20
+> connector_type_id is set in the kernel in
+> drivers/gpu/drm/drm_connector.c in __drm_connector_init():
+>=20
+>=20
+>        connector<https://elixir.bootlin.com/linux/latest/C/ident/connecto=
+r>->connector_type_id<https://elixir.bootlin.com/linux/latest/C/ident/conne=
+ctor_type_id>
+> =3D
+>=20
+>               ida_alloc_min<https://elixir.bootlin.com/linux/latest/C/ide=
+nt/ida_alloc_min>(connector_ida<https://elixir.bootlin.com/linux/latest/C/i=
+dent/connector_ida>,
+> 1,
+> GFP_KERNEL<https://elixir.bootlin.com/linux/latest/C/ident/GFP_KERNEL>);
+>=20
+> Seems to me that this number depends on initialization order only. Is
+> there any other way to identify a connector?
+>=20
+> If not, will the type_id be stable as long as we don=E2=80=99t change the
+> kernel version and the device tree?
 
-I simply copied the function, but yes in this context there is
-duplication, thanks for reading through all that. Will consolidate both
-the above and the bigger comment before the function with the existing
-docs here.
+Hi,
 
-> 
-> > +	return DIV_ROUND_DOWN_ULL(mul_u32_u32(max_link_rate_kbps * max_lanes,
-> > +					      ch_coding_efficiency),
-> > +				  1000000 * 8);
-> > +}
-> > +EXPORT_SYMBOL(drm_dp_max_dprx_data_rate);
-> > diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-> > index 863b2e7add29e..454ae7517419a 100644
-> > --- a/include/drm/display/drm_dp_helper.h
-> > +++ b/include/drm/display/drm_dp_helper.h
-> > @@ -813,4 +813,6 @@ int drm_dp_bw_overhead(int lane_count, int hactive,
-> >  		       int bpp_x16, unsigned long flags);
-> >  int drm_dp_bw_channel_coding_efficiency(bool is_uhbr);
-> >  
-> > +int drm_dp_max_dprx_data_rate(int max_link_rate, int max_lanes);
-> > +
-> >  #endif /* _DRM_DP_HELPER_H_ */
-> > -- 
-> > 2.39.2
-> 
-> -- 
-> Ville Syrjälä
-> Intel
+the question of persistent connector and DRM device names (paths) comes
+up every once in a while. Here is one take:
+https://lists.freedesktop.org/archives/dri-devel/2019-June/221902.html
+
+Yes, connector_type_id numbering depends on driver and connector
+initialization order. Usually it has been a problem only for systems
+with multiple display driver instances racing to initialize their
+connectors.
+
+One idea was to use the connector index in the KMS resources array UAPI
+as a persistent device-private id. This does not work for MST and other
+dynamically appearing and disappearing connectors though, and ISTR it
+had some other problem too. It could be stable as long as a driver
+registers its permanent connectors always in the same order.
+
+There is the connector "PATH" property, but so far that only exists on
+MST connectors, and I recall some doubts whether the current
+implementation of even that was truly persistent.
+
+In general, I believe the persistent naming of connectors is an
+unsolved problem. Persistent naming of DRM devices at least has a
+tentative solution as "device path", by e.g. PCI topology. I think that
+breaks down if you happen to have multiple platform DRM KMS devices.
+
+To me it seems some kind of "hardware path" would be the only truly
+persistent device and connector naming scheme, assuming the hardware
+remains the same.
+
+I'd guess many desktops circumvent the problem by not identifying
+connectors but displays based on their EDID serial number or hash.
+Naturally that does not work always, either, EDID can lack a serial, be
+identical, or not exist.
+
+
+Thanks,
+pq
+
+--Sig_/10C.29x7Ja/gBsVbVPT5OV7
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmWztG8ACgkQI1/ltBGq
+qqcTLw/+KlecHxwOdZiVconmMWql7ky5p04/pWJeIo4J6cmllp5Fu3fmnKdskI9/
+S1sKfGalxTwfPWzaiuJnPN0HFD71Bkh22TeneE2auIIhzHgmt/5XCJB870kDNhVJ
+3oNWpCe4m5p+krmAPvet2AzuKmLQuKbWrOaC7Qjx7RilBaJBlFEy0fBakxIB69J8
+d/Wu7ytnNRVmd5xIXec75/9YGq+7W6XvFEX8b/w8h8S8tVGG1xtrYy0pWYYT7cmC
+27/GW/VSJRYEGVR+h5IVPdTIoKFMIVZM4QBQKLEHWaDooX7TakqwzGqwgdd5czjX
+HssQsU3XwavZlc4gBW7/vlP/2h0bG7ayRnwr3QWjjukXYM+tPsskN/x881lzUhLj
+2DFY7bInU7ycNodl0Z1i8eJmJBq1IuvMA0kunjqQUdLRmGpq6dCd+t/jYvAZ3l9+
+R8oonvl8u4pakiKBn+hFoodI+YxNx7143vpslwdAb+MugPwbGOR2DjGYo7PR86Ul
+oth1pDeJ0uhOG1amdegb8+XBwZM7S0xaDn6ON3VZJ7fh5T7kUdsgdON+MJED5aSY
+yvaVBxouBt5ZTuuSVvPaW21vIVZsX6E0I/pNerMGVHO9I3XLP5QEQmFx84XXf0LY
+pJ1bed6lTLMAtC1zMePr9EltUf9eBS6T2IUV798VVgvCwqzFcj4=
+=4t39
+-----END PGP SIGNATURE-----
+
+--Sig_/10C.29x7Ja/gBsVbVPT5OV7--
