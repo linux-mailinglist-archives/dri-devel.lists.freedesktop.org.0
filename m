@@ -2,51 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 564FC83E544
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 23:23:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A41683E54D
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 23:24:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4E7A10FF5E;
-	Fri, 26 Jan 2024 22:23:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B231010FF5B;
+	Fri, 26 Jan 2024 22:23:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91CF810FF5E;
- Fri, 26 Jan 2024 22:23:36 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E88310FF5B;
+ Fri, 26 Jan 2024 22:23:54 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 40QM60VU011309; Fri, 26 Jan 2024 22:23:32 GMT
+ 40QLo2CU002749; Fri, 26 Jan 2024 22:23:49 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
  message-id:date:mime-version:subject:to:cc:references:from
  :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=fP6CSpqED3D3tINkiDuOp56e/y7uxfVbWmAT956xukg=; b=iv
- uosyhhAcwtHS6w16U1DfbdLeTV1ybHAMGqcr1CDXwNUtmEqdE9rCul0nFFf4aME1
- th8uwRuQjc7eTMnlPIiHVGtKsTzxuAFAp4js89aTGohqLxN3puKPp7DRXpCL5Evp
- vR3st59R/dnw1/FzgrlARi29JRjWeEwGtTglWLEU7lEGr3Vi6nI+WsaOhCerX/fH
- M8MoexlVuWjMUQ5tr5WDK/F6p2AUeVyVWe1i12KkkF/etCut3UwWqwpPNKRxX6aL
- mf4MC02gn2Qv44/PsSvKMHTc51A4jkPOpATinxPOypiCtAPIY5fanbpZ2ZjaXRPC
- CANPyxpQ1DbOXe376qaQ==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ qcppdkim1; bh=zsfF060z+C8IPyjCtdSoEZWPCy6Jh+soVurRuVacMVQ=; b=Bj
+ r1d/vEBgtjeKUPXgkY+4K/ieVVwFxb5qtRfbcUfZYExHPjeDDhC61k52Np9nFs/w
+ O43S4P60KDVZs7UIAMNrBHVGhFFALY8CN5wQ7BIDW3icVTqo2GR+AtO4TSga7MqC
+ kvgnJUNs49uBu3/HbFA3pqodQjAvu9bewn4mvpeM8qWz3A9ljxcIe9NGpmwOFg+V
+ 8WxjjJjIVqPnjUbepny/BLby5lcieeAf22hj4a6nhogFH5dsv1ctbYfeJxjipvYm
+ ekFgvm2c9cHaK4K12m9SxCBIBWM2Dox7Hf/zHC047YKSQN/oScDMuyhgwjxepJop
+ srmsZ+l98/TkmK5ewo/w==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vvgy8gj9e-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vvgp2gm2m-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 26 Jan 2024 22:23:31 +0000 (GMT)
+ Fri, 26 Jan 2024 22:23:49 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40QMNUU8024940
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40QMNm4V007057
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 26 Jan 2024 22:23:30 GMT
+ Fri, 26 Jan 2024 22:23:48 GMT
 Received: from [10.110.48.234] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 26 Jan
- 2024 14:23:29 -0800
-Message-ID: <983c508a-f2f3-6765-5cbf-649479cf2ff6@quicinc.com>
-Date: Fri, 26 Jan 2024 14:23:28 -0800
+ 2024 14:23:47 -0800
+Message-ID: <edfc04f2-d7d5-0d04-6c8d-4f17f9bb6a32@quicinc.com>
+Date: Fri, 26 Jan 2024 14:23:46 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH RESEND v3 10/15] drm/msm/dp: remove PHY handling from
- dp_catalog.c
+Subject: Re: [PATCH RESEND v3 11/15] drm/msm/dp: handle PHY directly in dp_ctrl
 Content-Language: en-US
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
  <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul
@@ -54,9 +53,9 @@ To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
  Airlie" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Stephen Boyd
  <swboyd@chromium.org>
 References: <20240126-dp-power-parser-cleanup-v3-0-098d5f581dd3@linaro.org>
- <20240126-dp-power-parser-cleanup-v3-10-098d5f581dd3@linaro.org>
+ <20240126-dp-power-parser-cleanup-v3-11-098d5f581dd3@linaro.org>
 From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-In-Reply-To: <20240126-dp-power-parser-cleanup-v3-10-098d5f581dd3@linaro.org>
+In-Reply-To: <20240126-dp-power-parser-cleanup-v3-11-098d5f581dd3@linaro.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
@@ -65,16 +64,16 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: 0zUYq7UJe9SJUR4D2Wv_be8Vvd_m_fyg
-X-Proofpoint-ORIG-GUID: 0zUYq7UJe9SJUR4D2Wv_be8Vvd_m_fyg
+X-Proofpoint-GUID: vWoxqoZxj-9kBLD3VQUgAm134PcAEiK2
+X-Proofpoint-ORIG-GUID: vWoxqoZxj-9kBLD3VQUgAm134PcAEiK2
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-01-25_14,2024-01-25_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- priorityscore=1501 lowpriorityscore=0 clxscore=1015 impostorscore=0
- mlxscore=0 phishscore=0 spamscore=0 adultscore=0 suspectscore=0
- malwarescore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ bulkscore=0 mlxscore=0
+ malwarescore=0 mlxlogscore=999 phishscore=0 adultscore=0 spamscore=0
+ lowpriorityscore=0 priorityscore=1501 clxscore=1015 impostorscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2401190000 definitions=main-2401260164
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -96,142 +95,193 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 1/26/2024 10:26 AM, Dmitry Baryshkov wrote:
-> Inline dp_catalog_aux_update_cfg() and call phy_calibrate() from dp_aux
-> functions directly.
+> There is little point in going trough dp_parser->io indirection each
+> time the driver needs to access the PHY. Store the pointer directly in
+> dp_ctrl_private.
 >
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Tested-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 Reviewed-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 > ---
->   drivers/gpu/drm/msm/dp/dp_aux.c     |  9 +++++++--
->   drivers/gpu/drm/msm/dp/dp_aux.h     |  1 +
->   drivers/gpu/drm/msm/dp/dp_catalog.c | 12 ------------
->   drivers/gpu/drm/msm/dp/dp_catalog.h |  1 -
->   drivers/gpu/drm/msm/dp/dp_display.c |  4 +++-
->   5 files changed, 11 insertions(+), 16 deletions(-)
+>   drivers/gpu/drm/msm/dp/dp_ctrl.c    | 37 +++++++++++++------------------------
+>   drivers/gpu/drm/msm/dp/dp_ctrl.h    |  2 +-
+>   drivers/gpu/drm/msm/dp/dp_display.c |  3 ++-
+>   3 files changed, 16 insertions(+), 26 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c b/drivers/gpu/drm/msm/dp/dp_aux.c
-> index 03f4951c49f4..adbd5a367395 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_aux.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_aux.c
-> @@ -4,6 +4,7 @@
->    */
->   
->   #include <linux/delay.h>
-> +#include <linux/phy/phy.h>
->   #include <drm/drm_print.h>
->   
->   #include "dp_reg.h"
-> @@ -23,6 +24,8 @@ struct dp_aux_private {
->   	struct device *dev;
+> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> index 4aea72a2b8e8..fc7ce315ae41 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> @@ -76,9 +76,10 @@ struct dp_ctrl_private {
+>   	struct drm_dp_aux *aux;
+>   	struct dp_panel *panel;
+>   	struct dp_link *link;
+> -	struct dp_parser *parser;
 >   	struct dp_catalog *catalog;
 >   
 > +	struct phy *phy;
 > +
->   	struct mutex mutex;
->   	struct completion comp;
+>   	unsigned int num_core_clks;
+>   	struct clk_bulk_data *core_clks;
 >   
-> @@ -336,7 +339,7 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux *dp_aux,
->   		if (aux->native) {
->   			aux->retry_cnt++;
->   			if (!(aux->retry_cnt % MAX_AUX_RETRIES))
-> -				dp_catalog_aux_update_cfg(aux->catalog);
-> +				phy_calibrate(aux->phy);
->   		}
->   		/* reset aux if link is in connected state */
->   		if (dp_catalog_link_is_connected(aux->catalog))
-> @@ -439,7 +442,7 @@ void dp_aux_reconfig(struct drm_dp_aux *dp_aux)
+> @@ -1028,7 +1029,7 @@ static int dp_ctrl_set_vx_px(struct dp_ctrl_private *ctrl,
+>   	phy_opts->dp.voltage[0] = v_level;
+>   	phy_opts->dp.pre[0] = p_level;
+>   	phy_opts->dp.set_voltages = 1;
+> -	phy_configure(ctrl->parser->io.phy, phy_opts);
+> +	phy_configure(ctrl->phy, phy_opts);
+>   	phy_opts->dp.set_voltages = 0;
 >   
->   	aux = container_of(dp_aux, struct dp_aux_private, dp_aux);
->   
-> -	dp_catalog_aux_update_cfg(aux->catalog);
-> +	phy_calibrate(aux->phy);
->   	dp_catalog_aux_reset(aux->catalog);
->   }
->   
-> @@ -517,6 +520,7 @@ static int dp_wait_hpd_asserted(struct drm_dp_aux *dp_aux,
->   }
->   
->   struct drm_dp_aux *dp_aux_get(struct device *dev, struct dp_catalog *catalog,
-> +			      struct phy *phy,
->   			      bool is_edp)
+>   	return 0;
+> @@ -1442,7 +1443,7 @@ static void dp_ctrl_link_clk_disable(struct dp_ctrl *dp_ctrl)
+>   static int dp_ctrl_enable_mainlink_clocks(struct dp_ctrl_private *ctrl)
 >   {
->   	struct dp_aux_private *aux;
-> @@ -537,6 +541,7 @@ struct drm_dp_aux *dp_aux_get(struct device *dev, struct dp_catalog *catalog,
+>   	int ret = 0;
+> -	struct phy *phy = ctrl->parser->io.phy;
+> +	struct phy *phy = ctrl->phy;
+>   	const u8 *dpcd = ctrl->panel->dpcd;
 >   
->   	aux->dev = dev;
->   	aux->catalog = catalog;
-> +	aux->phy = phy;
->   	aux->retry_cnt = 0;
->   
->   	/*
-> diff --git a/drivers/gpu/drm/msm/dp/dp_aux.h b/drivers/gpu/drm/msm/dp/dp_aux.h
-> index 511305da4f66..16d9b1758748 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_aux.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_aux.h
-> @@ -17,6 +17,7 @@ void dp_aux_deinit(struct drm_dp_aux *dp_aux);
->   void dp_aux_reconfig(struct drm_dp_aux *dp_aux);
->   
->   struct drm_dp_aux *dp_aux_get(struct device *dev, struct dp_catalog *catalog,
-> +			      struct phy *phy,
->   			      bool is_edp);
->   void dp_aux_put(struct drm_dp_aux *aux);
->   
-> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
-> index e07651768805..4c6207797c99 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
-> @@ -7,8 +7,6 @@
->   
->   #include <linux/delay.h>
->   #include <linux/iopoll.h>
-> -#include <linux/phy/phy.h>
-> -#include <linux/phy/phy-dp.h>
->   #include <linux/rational.h>
->   #include <drm/display/drm_dp_helper.h>
->   #include <drm/drm_print.h>
-> @@ -243,16 +241,6 @@ void dp_catalog_aux_enable(struct dp_catalog *dp_catalog, bool enable)
->   	dp_write_aux(catalog, REG_DP_AUX_CTRL, aux_ctrl);
->   }
->   
-> -void dp_catalog_aux_update_cfg(struct dp_catalog *dp_catalog)
-> -{
-> -	struct dp_catalog_private *catalog = container_of(dp_catalog,
-> -				struct dp_catalog_private, dp_catalog);
-> -	struct dp_io *dp_io = catalog->io;
-> -	struct phy *phy = dp_io->phy;
-> -
-> -	phy_calibrate(phy);
-> -}
-> -
->   int dp_catalog_aux_wait_for_hpd_connect_state(struct dp_catalog *dp_catalog)
+>   	ctrl->phy_opts.dp.lanes = ctrl->link->link_params.num_lanes;
+> @@ -1540,12 +1541,10 @@ void dp_ctrl_set_psr(struct dp_ctrl *dp_ctrl, bool enter)
+>   void dp_ctrl_phy_init(struct dp_ctrl *dp_ctrl)
 >   {
->   	u32 state;
-> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
-> index ba7c62ba7ca3..1f3f58d4b8de 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_catalog.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
-> @@ -84,7 +84,6 @@ int dp_catalog_aux_clear_trans(struct dp_catalog *dp_catalog, bool read);
->   int dp_catalog_aux_clear_hw_interrupts(struct dp_catalog *dp_catalog);
->   void dp_catalog_aux_reset(struct dp_catalog *dp_catalog);
->   void dp_catalog_aux_enable(struct dp_catalog *dp_catalog, bool enable);
-> -void dp_catalog_aux_update_cfg(struct dp_catalog *dp_catalog);
->   int dp_catalog_aux_wait_for_hpd_connect_state(struct dp_catalog *dp_catalog);
->   u32 dp_catalog_aux_get_irq(struct dp_catalog *dp_catalog);
+>   	struct dp_ctrl_private *ctrl;
+> -	struct dp_io *dp_io;
+>   	struct phy *phy;
 >   
+>   	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
+> -	dp_io = &ctrl->parser->io;
+> -	phy = dp_io->phy;
+> +	phy = ctrl->phy;
+>   
+>   	dp_catalog_ctrl_phy_reset(ctrl->catalog);
+>   	phy_init(phy);
+> @@ -1557,12 +1556,10 @@ void dp_ctrl_phy_init(struct dp_ctrl *dp_ctrl)
+>   void dp_ctrl_phy_exit(struct dp_ctrl *dp_ctrl)
+>   {
+>   	struct dp_ctrl_private *ctrl;
+> -	struct dp_io *dp_io;
+>   	struct phy *phy;
+>   
+>   	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
+> -	dp_io = &ctrl->parser->io;
+> -	phy = dp_io->phy;
+> +	phy = ctrl->phy;
+>   
+>   	dp_catalog_ctrl_phy_reset(ctrl->catalog);
+>   	phy_exit(phy);
+> @@ -1587,7 +1584,7 @@ static bool dp_ctrl_use_fixed_nvid(struct dp_ctrl_private *ctrl)
+>   
+>   static int dp_ctrl_reinitialize_mainlink(struct dp_ctrl_private *ctrl)
+>   {
+> -	struct phy *phy = ctrl->parser->io.phy;
+> +	struct phy *phy = ctrl->phy;
+>   	int ret = 0;
+>   
+>   	dp_catalog_ctrl_mainlink_ctrl(ctrl->catalog, false);
+> @@ -1617,11 +1614,9 @@ static int dp_ctrl_reinitialize_mainlink(struct dp_ctrl_private *ctrl)
+>   
+>   static int dp_ctrl_deinitialize_mainlink(struct dp_ctrl_private *ctrl)
+>   {
+> -	struct dp_io *dp_io;
+>   	struct phy *phy;
+>   
+> -	dp_io = &ctrl->parser->io;
+> -	phy = dp_io->phy;
+> +	phy = ctrl->phy;
+>   
+>   	dp_catalog_ctrl_mainlink_ctrl(ctrl->catalog, false);
+>   
+> @@ -2047,12 +2042,10 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl, bool force_link_train)
+>   void dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl)
+>   {
+>   	struct dp_ctrl_private *ctrl;
+> -	struct dp_io *dp_io;
+>   	struct phy *phy;
+>   
+>   	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
+> -	dp_io = &ctrl->parser->io;
+> -	phy = dp_io->phy;
+> +	phy = ctrl->phy;
+>   
+>   	/* set dongle to D3 (power off) mode */
+>   	dp_link_psm_config(ctrl->link, &ctrl->panel->link_info, true);
+> @@ -2080,12 +2073,10 @@ void dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl)
+>   void dp_ctrl_off_link(struct dp_ctrl *dp_ctrl)
+>   {
+>   	struct dp_ctrl_private *ctrl;
+> -	struct dp_io *dp_io;
+>   	struct phy *phy;
+>   
+>   	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
+> -	dp_io = &ctrl->parser->io;
+> -	phy = dp_io->phy;
+> +	phy = ctrl->phy;
+>   
+>   	dp_catalog_ctrl_mainlink_ctrl(ctrl->catalog, false);
+>   
+> @@ -2103,12 +2094,10 @@ void dp_ctrl_off_link(struct dp_ctrl *dp_ctrl)
+>   void dp_ctrl_off(struct dp_ctrl *dp_ctrl)
+>   {
+>   	struct dp_ctrl_private *ctrl;
+> -	struct dp_io *dp_io;
+>   	struct phy *phy;
+>   
+>   	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
+> -	dp_io = &ctrl->parser->io;
+> -	phy = dp_io->phy;
+> +	phy = ctrl->phy;
+>   
+>   	dp_catalog_ctrl_mainlink_ctrl(ctrl->catalog, false);
+>   
+> @@ -2225,7 +2214,7 @@ static int dp_ctrl_clk_init(struct dp_ctrl *dp_ctrl)
+>   struct dp_ctrl *dp_ctrl_get(struct device *dev, struct dp_link *link,
+>   			struct dp_panel *panel,	struct drm_dp_aux *aux,
+>   			struct dp_catalog *catalog,
+> -			struct dp_parser *parser)
+> +			struct phy *phy)
+>   {
+>   	struct dp_ctrl_private *ctrl;
+>   	int ret;
+> @@ -2259,12 +2248,12 @@ struct dp_ctrl *dp_ctrl_get(struct device *dev, struct dp_link *link,
+>   	init_completion(&ctrl->video_comp);
+>   
+>   	/* in parameters */
+> -	ctrl->parser   = parser;
+>   	ctrl->panel    = panel;
+>   	ctrl->aux      = aux;
+>   	ctrl->link     = link;
+>   	ctrl->catalog  = catalog;
+>   	ctrl->dev      = dev;
+> +	ctrl->phy      = phy;
+>   
+>   	ret = dp_ctrl_clk_init(&ctrl->dp_ctrl);
+>   	if (ret) {
+> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h b/drivers/gpu/drm/msm/dp/dp_ctrl.h
+> index 023f14d0b021..6e9f375b856a 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
+> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
+> @@ -28,7 +28,7 @@ void dp_ctrl_handle_sink_request(struct dp_ctrl *dp_ctrl);
+>   struct dp_ctrl *dp_ctrl_get(struct device *dev, struct dp_link *link,
+>   			struct dp_panel *panel,	struct drm_dp_aux *aux,
+>   			struct dp_catalog *catalog,
+> -			struct dp_parser *parser);
+> +			struct phy *phy);
+>   
+>   void dp_ctrl_reset_irq_ctrl(struct dp_ctrl *dp_ctrl, bool enable);
+>   void dp_ctrl_phy_init(struct dp_ctrl *dp_ctrl);
 > diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 6fbbd0f93d13..c1a51c498e01 100644
+> index c1a51c498e01..b8388e04bd0f 100644
 > --- a/drivers/gpu/drm/msm/dp/dp_display.c
 > +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -729,7 +729,9 @@ static int dp_init_sub_modules(struct dp_display_private *dp)
->   		goto error;
+> @@ -760,7 +760,8 @@ static int dp_init_sub_modules(struct dp_display_private *dp)
 >   	}
 >   
-> -	dp->aux = dp_aux_get(dev, dp->catalog, dp->dp_display.is_edp);
-> +	dp->aux = dp_aux_get(dev, dp->catalog,
-> +			     dp->parser->io.phy,
-> +			     dp->dp_display.is_edp);
->   	if (IS_ERR(dp->aux)) {
->   		rc = PTR_ERR(dp->aux);
->   		DRM_ERROR("failed to initialize aux, rc = %d\n", rc);
+>   	dp->ctrl = dp_ctrl_get(dev, dp->link, dp->panel, dp->aux,
+> -			       dp->catalog, dp->parser);
+> +			       dp->catalog,
+> +			       dp->parser->io.phy);
+>   	if (IS_ERR(dp->ctrl)) {
+>   		rc = PTR_ERR(dp->ctrl);
+>   		DRM_ERROR("failed to initialize ctrl, rc = %d\n", rc);
 >
