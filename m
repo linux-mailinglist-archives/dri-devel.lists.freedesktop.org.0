@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AF2683DDF6
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 16:51:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A93A983DDFE
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 16:52:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45C1D10FBBF;
-	Fri, 26 Jan 2024 15:51:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46D4310FBC1;
+	Fri, 26 Jan 2024 15:51:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam04on2089.outbound.protection.outlook.com [40.107.101.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CAA010FBC3;
- Fri, 26 Jan 2024 15:51:25 +0000 (UTC)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2052.outbound.protection.outlook.com [40.107.223.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 587C510FBC2;
+ Fri, 26 Jan 2024 15:51:30 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OSFhbn7/qYTP4bZ717OMC7whugSzcTelJfvTQ/LUhWGrC1UHEDIbO6g4K+JcK4VWcsKG2AnZFNofgQ5VHek7UEwnbpeQ0yTbpNzdEqCN7W/mYPW0lmDcxzH9jDMq3QAxmSWKyDE3xx6TQiMn92FiwkH2LuH3KcOY/Wu3FFghTrYKTmrtd8SMhFQyAarmrhWBMYDI/Lx40lvCPeQNO4b+yhEHPmBt18iAOrlifygRdUsu1vcnL8EdttmbldswNKb0ty93cHcDoWw/jB3pShNzZS/mFQFUsUq127FEcH+M9ryc9wBD7ZtrvLEWZQwsdyK1Q/CPJaghnE0aMOuE3k2jMw==
+ b=W+Y1Bjqavcpo3NLYycdh9IPpHr/aPA6cb8gbvNu9P1dtoBoxTIoAHCRwkM4oDsSOcfZoZiiCag58rinSFzoHVi3bKOE4PkJ1k19hBWUwDJ+dAPCfYc9NAXYWUj2pGL7RUxqw/u4wvudBxNAaP1qqalsggRSe46HyicgZjlJPg12CXhFzB/t70JoDzILi8gJSKzaDDXowCrQZara500TbB3M31j/nji1ERNnZjyHy0BugUUrCCwbvnLGf+Jcq4u9vK2nVPxyaOZmK21ty+lXU8B68zWBhYWMLgFEZnBDQjC6h6RMe2V0mZMLT9SYcOqqDVxJYnUk3xY2vSuJsSFZiqw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WUAyLfXzindIFO4uMNngxc60X87I31pCpT+qbGbJgOU=;
- b=UJAlEEmrwhf7h8DBj7ICPkFzF4dlVo++SlU0WUINj/0926HTHm8tZ8bU2tA+FrcI/tytMm2C5/KgsfYLEzLsouITxiLqDBzn/JdD1o7Ujx16cKjaCIYxgkISFGT7BOTOUU5pxnzapz3MnovuOG4m8E7mW9kUTZhuaaj3bp4tfbioUrNglux1N6IxZOrKtvHkAOE5LzLQIuA6BCSRn3I0cLUO25x/lKJbfN93nRLUpOJyIu2jq6zy1YoB+FpsIF5ZzcKsUbe6CP2GjlKDekqwSWUWvshOyRC3PMU7KttLtSbkygbUqVtqtRrckq5F0VhATNfTvuJ0NQp/zofQkqor6g==
+ bh=MgNSpUKd2DbYguJdVHuJS3Znb09skLDIA8fhHAnCZSo=;
+ b=RDOfaXK/IQMsPMZ5CfPJL7YILTJEZwbRGZvCcncCucq4b7OjCMa4HR23/iT2E9Cebmi1zMr7WRCW5cGiUwjinyHfp2OoES2BLFYtiVQ6rouNbybvmq/vZ5sQtqIrMG8lzwsxjTMAHO9OQfdAfZi5kAWYCkSfux5Gv38lwA/+JwiL2JlIcC8aAv8pjMLwzIa05KJ5RhE/oXFNiwVPrQZY3//bqvY5lwtoPBk1ElZ7vvkHif4its3BAAAZbfu81gWWsp4ZhSHz3Uc0VGbWV/g2ehO2PYBCjEQkIeTiDGLaEyw14koZxHniOdtoztpVGwX4oSdQBFghcSBhYUL/736I9Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=linux.ie smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WUAyLfXzindIFO4uMNngxc60X87I31pCpT+qbGbJgOU=;
- b=0D05KNC8JiYAitRMKD36Mg7dqnU/HOkMlIhuikn/M8K6amZIbARET5D42p2DLZA9Fh8MXxwegm8vauylOYFu6jM/RDPnY9KyxBC9S7k4nN9Sxvmx2TYjiJGmM6kmfM48gzBmyMsyJqe6EMj/xtPMJAOxPZgmnxqMn/Xm69CTVEw=
-Received: from SJ0PR03CA0070.namprd03.prod.outlook.com (2603:10b6:a03:331::15)
- by BL3PR12MB6524.namprd12.prod.outlook.com (2603:10b6:208:38c::6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.37; Fri, 26 Jan
- 2024 15:51:22 +0000
+ bh=MgNSpUKd2DbYguJdVHuJS3Znb09skLDIA8fhHAnCZSo=;
+ b=BlTxOvb827z2ETACHE2PUO1HyuPfvVfpU/gH9X8whf5fRWFJrwYrd4sm2iT84z1pydSD4KZwm4CpeJSpqf/UqES0ZnB64stzyU8PjrhD+0ScI3RVhVGkgO5c168BbFlr18RsyOnI1C14Mr/5hUL2shHnF87RAKLyNnuVPDJ0rTc=
+Received: from SJ0PR03CA0063.namprd03.prod.outlook.com (2603:10b6:a03:331::8)
+ by DS0PR12MB7946.namprd12.prod.outlook.com (2603:10b6:8:151::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.27; Fri, 26 Jan
+ 2024 15:51:23 +0000
 Received: from SJ1PEPF00001CDF.namprd05.prod.outlook.com
- (2603:10b6:a03:331:cafe::b1) by SJ0PR03CA0070.outlook.office365.com
- (2603:10b6:a03:331::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.24 via Frontend
- Transport; Fri, 26 Jan 2024 15:51:20 +0000
+ (2603:10b6:a03:331:cafe::5f) by SJ0PR03CA0063.outlook.office365.com
+ (2603:10b6:a03:331::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.27 via Frontend
+ Transport; Fri, 26 Jan 2024 15:51:23 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -47,11 +47,11 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
  SJ1PEPF00001CDF.mail.protection.outlook.com (10.167.242.7) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7202.16 via Frontend Transport; Fri, 26 Jan 2024 15:51:19 +0000
+ 15.20.7202.16 via Frontend Transport; Fri, 26 Jan 2024 15:51:22 +0000
 Received: from smtp.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Fri, 26 Jan
- 2024 09:51:15 -0600
+ 2024 09:51:18 -0600
 From: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
 To: Alex Deucher <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
  <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>, Daniel Vetter
@@ -61,11 +61,13 @@ To: Alex Deucher <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
  "Rodrigo Siqueira" <Rodrigo.Siqueira@amd.com>, Nicholas Choi
  <nicholas.choi@amd.com>, Daniel Latypov <dlatypov@google.com>, David Gow
  <davidgow@google.com>, <hersenxs.wu@amd.com>, <magalilemes00@gmail.com>
-Subject: [PATCH v4 0/8] drm/amd/display: Introduce KUnit to Display Mode
- Library
-Date: Fri, 26 Jan 2024 08:48:00 -0700
-Message-ID: <20240126155022.1184856-1-Rodrigo.Siqueira@amd.com>
+Subject: [PATCH v4 1/8] drm/amd/display: Introduce KUnit tests for fixed31_32
+ library
+Date: Fri, 26 Jan 2024 08:48:01 -0700
+Message-ID: <20240126155022.1184856-2-Rodrigo.Siqueira@amd.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240126155022.1184856-1-Rodrigo.Siqueira@amd.com>
+References: <20240126155022.1184856-1-Rodrigo.Siqueira@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
@@ -74,26 +76,26 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CDF:EE_|BL3PR12MB6524:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7c120d5f-f084-4ac5-de2f-08dc1e86a3ae
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CDF:EE_|DS0PR12MB7946:EE_
+X-MS-Office365-Filtering-Correlation-Id: a9a9f236-f5f6-4957-dbe3-08dc1e86a592
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /G+HCNEL52myAV+noUfcNRStOfy2jptIy7YdgeGPRq7q82ywRAsZ/6dWURBasClY1CX1hpTLrIlwjIZa0lCdJe5EbFRHwZ0Hzb3NQKVKkyrg/K43onfI1kkkudec1QoB4nregM8EnY4FpIm55mkHjVoh3Mbf7bQQdbyGFVTnrRN7gxUX5Eta9WfmTFyrusYSof2mKd7QVrTmc1+TSMejq8P/rPzzB9YZ0h/H88nIUQpHdoqud6Vz9kYuKkyj76+sPnmn4cheVkHsfM3iRmLtzHEIQ3g6tXQN+gUyv2A9u9ZptWJHeQdY6QUHeUglALo2n3rsuSAqMngSWiXl3sRgIIxAUY/6Uqf8rNUxn1mU25Q5TuidIsR2q816axfliORwP/aojwlw8SOUwKZiyQJBPipnEEx0Ua5DRq7Lil5U6xt23JKVn3GzcPA9G3UAycV8WYTgQJC+wAMkPELQe2/z6hS6tBo7onQCxFqpFTISgqAs/7eijuE4N7aH0/3CF6z2xqewf+3lAx0gURZBNlDuE/47gFzIj1OXv3XfDiJNzx3fIMBg9j0YS+Kes8sHJ/4KnLLtl1N4tutai11Tj1+n78zoPI3CTkkQBluyqAZsVrCJMwJwlsJ6b0CIUQxXZEy+YDXTBm5F1TJw4gCtcKf7zcJUChHIZzKw3uyvSLhN8RfCUBJoiZmTuI61tdcN+ww6Cys4+ANPOxeNkXb4X1Hy78+oacen+FBySqP6u2Owimd7/0Uz2V4xqHNJOeKpUXvhHl8YWUxcK1+sLkFH/O+Dbg==
+X-Microsoft-Antispam-Message-Info: n8auX/zENLpccWpuaeiDjA2kajixzgYgQcJWD0YNjq0VPNk27QV1aE4L2/7Tt7/1IMbA/3N75o15RovIfpx5HkhTxOW/bBI/E2CrgRiWxtL9KUoBlFx+h1xtu+fePKDmy2S5xZo4qgG2KgFakgLiM8nHt7lhCfM+1VRplROCxOjfHRZI+Ria0yPP++PtQhOg3E9LTlbYTpOwb9epE2ajfRZ3DfqwMyhOzn5dNkitYTgVNWuipZWsPLBSGl+hUaBj7LXgE1tkxx6y1zvbx3YULIeyK49/5WdRDvb6QG12uXEPo01PI4PYP09oBQizPbUd8xMpNRx+t0ri0B5grZN/bF3ig0V1BxLhnfhenvhz2lvIKMg5MY+AUvq2UgW7aDZdStzrlLeQ/DQAW+m+qqp7DFlOA/TBUsybA7HMcaskwzp3cCerrcK8prWnGIFtVajrUWgMfsDZK0vprmZ88j60beZkP7buUBUF3nPxRgaaG87/8Daprtwt9C8OQGrwG2B6biLfnEI27OTt6ZwspQjMRp1gtC2qe1cOXStQWaGdmEOi0CLoSC58Y1x+QG69DxLIO+Wib0vk1O+/xy5pCq+ocse3Dzh2Ce3iZhJW6rKtHWYWn2ICbbWbnRpBn7dt6caSuaANtZUCpNwlLKzVZgd3H2h31DL1nmBagQwDFCTbVFLh0D/J6xUbe4tYFSD2l3IHOAjQ0u0usuXpMmx9UWpOeqj1jn0yhMJiKcrtXsjT9PXQeayTgy0cIPXCXvvXQJDcoDzO4lFuWzVSAAFoOjlhPpUREOoOIEaDLjTlk6MMIhs=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(4636009)(376002)(136003)(346002)(39860400002)(396003)(230922051799003)(82310400011)(186009)(64100799003)(1800799012)(451199024)(46966006)(40470700004)(36840700001)(70586007)(2616005)(40480700001)(1076003)(6666004)(70206006)(5660300002)(110136005)(54906003)(66574015)(426003)(336012)(26005)(16526019)(966005)(40460700003)(478600001)(83380400001)(316002)(4326008)(81166007)(66899024)(36756003)(2906002)(8676002)(356005)(86362001)(47076005)(41300700001)(36860700001)(8936002)(921011)(82740400003)(7416002)(36900700001);
+ SFS:(13230031)(4636009)(39860400002)(346002)(396003)(136003)(376002)(230922051799003)(1800799012)(186009)(451199024)(64100799003)(82310400011)(40470700004)(36840700001)(46966006)(921011)(41300700001)(426003)(336012)(26005)(66574015)(2616005)(40460700003)(40480700001)(1076003)(83380400001)(36756003)(36860700001)(54906003)(478600001)(16526019)(6666004)(47076005)(82740400003)(356005)(81166007)(5660300002)(110136005)(70586007)(7416002)(2906002)(316002)(86362001)(70206006)(30864003)(8676002)(8936002)(4326008)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2024 15:51:19.7240 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7c120d5f-f084-4ac5-de2f-08dc1e86a3ae
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2024 15:51:22.9115 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a9a9f236-f5f6-4957-dbe3-08dc1e86a592
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF00001CDF.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6524
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7946
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,113 +116,323 @@ Cc: tales.aparecida@gmail.com, Trevor Woerner <twoerner@gmail.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In 2022, we got a great patchset from a GSoC project introducing unit
-tests to the amdgpu display. Since version 3, this effort was put on
-hold, and now I'm attempting to revive it. I'll add part of the original
-cover letter at the bottom of this cover letter, but you can read all
-the original messages at:
+From: Tales Aparecida <tales.aparecida@gmail.com>
 
-https://lore.kernel.org/amd-gfx/20220912155919.39877-1-mairacanal@riseup.net/
+The fixed31_32 library performs a lot of the mathematical operations
+involving fixed-point arithmetic and the conversion of integers to
+fixed-point representation.
 
-Anyway, this new version changes are:
-- Rebase and adjust conflicts.
-- Rewrite part of the dc_dmub_srv_test to represent a real scenario that
-  simulates some parameter configuration for using 4k144 and 4k240
-  displays.
+This unit tests intend to assure the proper functioning of the basic
+mathematical operations of fixed-point arithmetic, such as
+multiplication, conversion from fractional to fixed-point number,
+and more. Use kunit_tool to run:
 
-Thanks
-Siqueira
+$ ./tools/testing/kunit/kunit.py run --arch=x86_64 \
+	--kunitconfig=drivers/gpu/drm/amd/display/tests/
 
-Original cover letter
-
-Hello,
-
-This series is version 3 of the introduction of unit testing to the
-AMDPGU driver [1].
-
-Our main goal is to bring unit testing to the AMD display driver; in
-particular, we'll focus on the Display Mode Library (DML) for DCN2.0,
-DMUB, and some of the DCE functions. This implementation intends to
-help developers to recognize bugs before they are merged into the
-mainline and also makes it possible for future code refactors of the
-AMD display driver.
-
-For the implementation of the tests, we decided to go with the Kernel
-Unit Testing Framework (KUnit). KUnit makes it possible to run test
-suites on kernel boot or load the tests as a module. It reports all test
-case results through a TAP (Test Anything Protocol) in the kernel log.
-Moreover, KUnit unifies the test structure and provides tools to
-simplify the testing for developers and CI systems.
-
-In regards to CI pipelines, we believe kunit_tool [2] provides
-ease of use, but we are also working on integrating KUnit into IGT [3].
-
-Since the second version, we've chosen a mix of approaches to integrate
-KUnit tests into amdgpu:
-    1. Tests that use static functions are included through guards [4].
-    2. Tests without static functions are included through a Makefile.
-
-We understand that testing static functions is not ideal, but taking into
-consideration that this driver relies heavily on static functions with
-complex behavior which would benefit from unit testing, otherwise, black-box
-tested through public functions with dozens of arguments and sometimes high
-cyclomatic complexity.
-
-The first seven patches represent what we intend to do for the rest of the
-DML modules: systematic testing of the DML functions, especially mathematically
-complicated functions. Also, it shows how simple it is to add new tests to the DML.
-
-Among the tests, we highlight the dcn20_fpu_test, which, had it existed
-then, could catch the defects introduced to dcn20_fpu.c by 8861c27a6c [5]
-later fixed by 9ad5d02c2a [6].
-
-In this series, there's also an example of how unit tests can help avoid
-regressions and keep track of changes in behavior.
-
-[..]
-
-Isabella Basso (1):
-  drm/amd/display: Introduce KUnit tests to display_rq_dlg_calc_20
-
-Magali Lemes (1):
-  drm/amd/display: Introduce KUnit tests for dcn20_fpu
-
-Maíra Canal (5):
-  drm/amd/display: Introduce KUnit tests to the bw_fixed library
-  drm/amd/display: Introduce KUnit tests to the display_mode_vba library
-  drm/amd/display: Introduce KUnit to dcn20/display_mode_vba_20 library
-  drm/amd/display: Introduce KUnit tests to dc_dmub_srv library
-  Documentation/gpu: Add Display Core Unit Test documentation
-
-Tales Aparecida (1):
-  drm/amd/display: Introduce KUnit tests for fixed31_32 library
-
- .../gpu/amdgpu/display/display-test.rst       |  88 ++
- Documentation/gpu/amdgpu/display/index.rst    |   1 +
- drivers/gpu/drm/amd/display/Kconfig           |  52 +
+Reviewed-by: David Gow <davidgow@google.com>
+Signed-off-by: Tales Aparecida <tales.aparecida@gmail.com>
+Signed-off-by: Maíra Canal <mairacanal@riseup.net>
+---
+ drivers/gpu/drm/amd/display/Kconfig           |  13 +
  drivers/gpu/drm/amd/display/Makefile          |   2 +-
- drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c  |   4 +
- .../dc/dml/dcn20/display_mode_vba_20.c        |   4 +
- .../dc/dml/dcn20/display_rq_dlg_calc_20.c     |   4 +
- drivers/gpu/drm/amd/display/tests/Makefile    |  18 +
- .../display/tests/dc/basics/fixpt31_32_test.c | 232 +++++
- .../amd/display/tests/dc/dc_dmub_srv_test.c   | 159 ++++
- .../tests/dc/dml/calcs/bw_fixed_test.c        | 323 +++++++
- .../tests/dc/dml/dcn20/dcn20_fpu_test.c       | 561 +++++++++++
- .../dc/dml/dcn20/display_mode_vba_20_test.c   | 888 ++++++++++++++++++
- .../dml/dcn20/display_rq_dlg_calc_20_test.c   | 124 +++
- .../tests/dc/dml/display_mode_vba_test.c      | 741 +++++++++++++++
- 15 files changed, 3200 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/gpu/amdgpu/display/display-test.rst
+ drivers/gpu/drm/amd/display/tests/Makefile    |  12 +
+ .../display/tests/dc/basics/fixpt31_32_test.c | 232 ++++++++++++++++++
+ 4 files changed, 258 insertions(+), 1 deletion(-)
  create mode 100644 drivers/gpu/drm/amd/display/tests/Makefile
  create mode 100644 drivers/gpu/drm/amd/display/tests/dc/basics/fixpt31_32_test.c
- create mode 100644 drivers/gpu/drm/amd/display/tests/dc/dc_dmub_srv_test.c
- create mode 100644 drivers/gpu/drm/amd/display/tests/dc/dml/calcs/bw_fixed_test.c
- create mode 100644 drivers/gpu/drm/amd/display/tests/dc/dml/dcn20/dcn20_fpu_test.c
- create mode 100644 drivers/gpu/drm/amd/display/tests/dc/dml/dcn20/display_mode_vba_20_test.c
- create mode 100644 drivers/gpu/drm/amd/display/tests/dc/dml/dcn20/display_rq_dlg_calc_20_test.c
- create mode 100644 drivers/gpu/drm/amd/display/tests/dc/dml/display_mode_vba_test.c
 
+diff --git a/drivers/gpu/drm/amd/display/Kconfig b/drivers/gpu/drm/amd/display/Kconfig
+index 901d1961b739..e35eef026097 100644
+--- a/drivers/gpu/drm/amd/display/Kconfig
++++ b/drivers/gpu/drm/amd/display/Kconfig
+@@ -51,4 +51,17 @@ config DRM_AMD_SECURE_DISPLAY
+ 	  This option enables the calculation of crc of specific region via
+ 	  debugfs. Cooperate with specific DMCU FW.
+ 
++config AMD_DC_BASICS_KUNIT_TEST
++	bool "Enable KUnit tests for the 'basics' sub-component of DAL" if !KUNIT_ALL_TESTS
++	depends on DRM_AMD_DC && KUNIT
++	default KUNIT_ALL_TESTS
++	help
++		Enables unit tests for the Display Core. Only useful for kernel
++		devs running KUnit.
++
++		For more information on KUnit and unit tests in general please refer to
++		the KUnit documentation in Documentation/dev-tools/kunit/.
++
++		If unsure, say N.
++
+ endmenu
+diff --git a/drivers/gpu/drm/amd/display/Makefile b/drivers/gpu/drm/amd/display/Makefile
+index 92a5c5efcf92..e732a0987d9d 100644
+--- a/drivers/gpu/drm/amd/display/Makefile
++++ b/drivers/gpu/drm/amd/display/Makefile
+@@ -45,7 +45,7 @@ subdir-ccflags-y += -I$(FULL_AMD_DISPLAY_PATH)/modules/hdcp
+ #TODO: remove when Timing Sync feature is complete
+ subdir-ccflags-y += -DBUILD_FEATURE_TIMING_SYNC=0
+ 
+-DAL_LIBS = amdgpu_dm dc	modules/freesync modules/color modules/info_packet modules/power dmub/src
++DAL_LIBS = amdgpu_dm dc	modules/freesync modules/color modules/info_packet modules/power dmub/src tests
+ 
+ DAL_LIBS += modules/hdcp
+ 
+diff --git a/drivers/gpu/drm/amd/display/tests/Makefile b/drivers/gpu/drm/amd/display/tests/Makefile
+new file mode 100644
+index 000000000000..ef16497318e8
+--- /dev/null
++++ b/drivers/gpu/drm/amd/display/tests/Makefile
+@@ -0,0 +1,12 @@
++# SPDX-License-Identifier: MIT
++#
++# Makefile for the KUnit Tests for DC
++#
++
++ifdef CONFIG_AMD_DC_BASICS_KUNIT_TEST
++	DC_TESTS += dc/basics/fixpt31_32_test.o
++endif
++
++AMD_DAL_DC_TESTS = $(addprefix $(AMDDALPATH)/tests/,$(DC_TESTS))
++
++AMD_DISPLAY_FILES += $(AMD_DAL_DC_TESTS)
+diff --git a/drivers/gpu/drm/amd/display/tests/dc/basics/fixpt31_32_test.c b/drivers/gpu/drm/amd/display/tests/dc/basics/fixpt31_32_test.c
+new file mode 100644
+index 000000000000..2fc489203499
+--- /dev/null
++++ b/drivers/gpu/drm/amd/display/tests/dc/basics/fixpt31_32_test.c
+@@ -0,0 +1,232 @@
++// SPDX-License-Identifier: MIT
++/* Unit tests for display/include/fixed31_32.h and dc/basics/fixpt31_32.c
++ *
++ * Copyright (C) 2022, Tales Aparecida <tales.aparecida@gmail.com>
++ */
++
++#include <kunit/test.h>
++#include "os_types.h"
++#include "fixed31_32.h"
++
++static const struct fixed31_32 dc_fixpt_minus_one = { -0x100000000LL };
++
++/**
++ * dc_fixpt_from_int_test - KUnit test for dc_fixpt_from_int
++ * @test: represents a running instance of a test.
++ */
++static void dc_fixpt_from_int_test(struct kunit *test)
++{
++	struct fixed31_32 res;
++
++	res = dc_fixpt_from_int(0);
++	KUNIT_EXPECT_EQ(test, res.value, dc_fixpt_zero.value);
++
++	res = dc_fixpt_from_int(1);
++	KUNIT_EXPECT_EQ(test, res.value, dc_fixpt_one.value);
++
++	res = dc_fixpt_from_int(-1);
++	KUNIT_EXPECT_EQ(test, res.value, -dc_fixpt_one.value);
++
++	res = dc_fixpt_from_int(INT_MAX);
++	KUNIT_EXPECT_EQ(test, res.value, 0x7FFFFFFF00000000LL);
++
++	res = dc_fixpt_from_int(INT_MIN);
++	KUNIT_EXPECT_EQ(test, res.value,
++			0x8000000000000000LL); /* implicit negative signal */
++}
++
++/**
++ * dc_fixpt_from_fraction_test - KUnit test for dc_fixpt_from_fraction
++ * @test: represents a running instance of a test.
++ */
++static void dc_fixpt_from_fraction_test(struct kunit *test)
++{
++	struct fixed31_32 res;
++
++	/* Assert signal works as expected */
++	res = dc_fixpt_from_fraction(1LL, 1LL);
++	KUNIT_EXPECT_EQ(test, res.value, dc_fixpt_one.value);
++
++	res = dc_fixpt_from_fraction(-1LL, 1LL);
++	KUNIT_EXPECT_EQ(test, res.value, -dc_fixpt_one.value);
++
++	res = dc_fixpt_from_fraction(1LL, -1LL);
++	KUNIT_EXPECT_EQ(test, res.value, -dc_fixpt_one.value);
++
++	res = dc_fixpt_from_fraction(-1LL, -1LL);
++	KUNIT_EXPECT_EQ(test, res.value, dc_fixpt_one.value);
++
++	/* Assert that the greatest parameter values works as expected */
++	res = dc_fixpt_from_fraction(LLONG_MAX, LLONG_MAX);
++	KUNIT_EXPECT_EQ(test, res.value, dc_fixpt_one.value);
++
++	res = dc_fixpt_from_fraction(LLONG_MIN, LLONG_MIN);
++	KUNIT_EXPECT_EQ(test, res.value, dc_fixpt_one.value);
++
++	/* Edge case using the smallest fraction possible without LSB rounding */
++	res = dc_fixpt_from_fraction(1, 1LL << (FIXED31_32_BITS_PER_FRACTIONAL_PART));
++	KUNIT_EXPECT_EQ(test, res.value, dc_fixpt_epsilon.value);
++
++	/* Edge case using the smallest fraction possible with LSB rounding */
++	res = dc_fixpt_from_fraction(1, 1LL << (FIXED31_32_BITS_PER_FRACTIONAL_PART + 1));
++	KUNIT_EXPECT_EQ(test, res.value, dc_fixpt_epsilon.value);
++
++	/* Assert an nil numerator is a valid input */
++	res = dc_fixpt_from_fraction(0LL, LLONG_MAX);
++	KUNIT_EXPECT_EQ(test, res.value, 0LL);
++
++	/* Edge case using every bit of the decimal part without rounding */
++	res = dc_fixpt_from_fraction(8589934590LL, 8589934592LL);
++	KUNIT_EXPECT_EQ(test, res.value, 0x0FFFFFFFFLL);
++
++	res = dc_fixpt_from_fraction(-8589934590LL, 8589934592LL);
++	KUNIT_EXPECT_EQ(test, res.value, -0x0FFFFFFFFLL);
++
++	/* Edge case using every bit of the decimal part then rounding LSB */
++	res = dc_fixpt_from_fraction(8589934591LL, 8589934592LL);
++	KUNIT_EXPECT_EQ(test, res.value, dc_fixpt_one.value);
++
++	res = dc_fixpt_from_fraction(-8589934591LL, 8589934592LL);
++	KUNIT_EXPECT_EQ(test, res.value, -dc_fixpt_one.value);
++	/*  A repeating decimal in binary representation that doesn't round up the LSB */
++	res = dc_fixpt_from_fraction(4, 3);
++	KUNIT_EXPECT_EQ(test, res.value, 0x0000000155555555LL);
++
++	res = dc_fixpt_from_fraction(-4, 3);
++	KUNIT_EXPECT_EQ(test, res.value, -0x0000000155555555LL);
++
++	/* A repeating decimal in binary representation that rounds up the LSB */
++	res = dc_fixpt_from_fraction(5, 3);
++	KUNIT_EXPECT_EQ(test, res.value, 0x00000001AAAAAAABLL);
++
++	res = dc_fixpt_from_fraction(-5, 3);
++	KUNIT_EXPECT_EQ(test, res.value, -0x00000001AAAAAAABLL);
++}
++
++/**
++ * dc_fixpt_mul_test - KUnit test for dc_fixpt_mul
++ * @test: represents a running instance of a test.
++ */
++static void dc_fixpt_mul_test(struct kunit *test)
++{
++	struct fixed31_32 res;
++	struct fixed31_32 arg;
++
++	/* Assert signal works as expected */
++	res = dc_fixpt_mul(dc_fixpt_one, dc_fixpt_one);
++	KUNIT_EXPECT_EQ(test, res.value, dc_fixpt_one.value);
++
++	res = dc_fixpt_mul(dc_fixpt_minus_one, dc_fixpt_one);
++	KUNIT_EXPECT_EQ(test, res.value, dc_fixpt_minus_one.value);
++
++	res = dc_fixpt_mul(dc_fixpt_one, dc_fixpt_minus_one);
++	KUNIT_EXPECT_EQ(test, res.value, dc_fixpt_minus_one.value);
++
++	res = dc_fixpt_mul(dc_fixpt_minus_one, dc_fixpt_minus_one);
++	KUNIT_EXPECT_EQ(test, res.value, dc_fixpt_one.value);
++
++	/* Assert that the greatest parameter values works as expected */
++	arg.value = LONG_MAX;
++	res = dc_fixpt_mul(arg, dc_fixpt_one);
++	KUNIT_EXPECT_EQ(test, res.value, arg.value);
++
++	arg.value = LONG_MIN;
++	res = dc_fixpt_mul(arg, dc_fixpt_one);
++	KUNIT_EXPECT_EQ(test, res.value, arg.value);
++
++	arg.value = LONG_MAX;
++	res = dc_fixpt_mul(dc_fixpt_one, arg);
++	KUNIT_EXPECT_EQ(test, res.value, arg.value);
++
++	arg.value = LONG_MIN;
++	res = dc_fixpt_mul(dc_fixpt_one, arg);
++	KUNIT_EXPECT_EQ(test, res.value, arg.value);
++
++	/* Assert it doesn't round LSB as expected */
++	arg.value = 0x7FFFFFFF7fffffffLL;
++	res = dc_fixpt_mul(arg, dc_fixpt_epsilon);
++	KUNIT_EXPECT_EQ(test, res.value, 0x000000007FFFFFFF);
++
++	/* Assert it rounds LSB as expected */
++	arg.value = 0x7FFFFFFF80000000LL;
++	res = dc_fixpt_mul(arg, dc_fixpt_epsilon);
++	KUNIT_EXPECT_EQ(test, res.value, 0x0000000080000000);
++}
++
++/**
++ * dc_fixpt_sqr_test - KUnit test for dc_fixpt_sqr
++ * @test: represents a running instance of a test.
++ */
++static void dc_fixpt_sqr_test(struct kunit *test)
++{
++	struct fixed31_32 res;
++	struct fixed31_32 arg;
++
++	arg.value = dc_fixpt_one.value;
++	res = dc_fixpt_sqr(arg);
++	KUNIT_EXPECT_EQ(test, res.value, dc_fixpt_one.value);
++
++	arg.value = dc_fixpt_minus_one.value;
++	res = dc_fixpt_sqr(arg);
++	KUNIT_EXPECT_EQ(test, res.value, dc_fixpt_one.value);
++
++	arg.value = 0;
++	res = dc_fixpt_sqr(arg);
++	KUNIT_EXPECT_EQ(test, res.value, 0);
++
++	/* Test some recognizable values */
++	arg = dc_fixpt_from_int(100);
++	res = dc_fixpt_sqr(arg);
++	KUNIT_EXPECT_EQ(test, res.value, dc_fixpt_from_int(10000).value);
++
++	arg = dc_fixpt_from_fraction(1, 100);
++	res = dc_fixpt_sqr(arg);
++	KUNIT_EXPECT_EQ(test, res.value,
++			dc_fixpt_from_fraction(1, 10000).value);
++
++	/* LSB rounding */
++	arg = dc_fixpt_from_fraction(3, 2);
++	res = dc_fixpt_sqr(arg);
++	KUNIT_EXPECT_EQ(test, res.value,
++			dc_fixpt_from_fraction(9, 4).value + 1LL);
++}
++
++/**
++ * dc_fixpt_recip_test - KUnit test for dc_fixpt_recip
++ * @test: represents a running instance of a test.
++ */
++static void dc_fixpt_recip_test(struct kunit *test)
++{
++	struct fixed31_32 res;
++	struct fixed31_32 arg;
++
++	/* Assert 1/1 works as expected */
++	res = dc_fixpt_recip(dc_fixpt_one);
++	KUNIT_EXPECT_EQ(test, res.value, dc_fixpt_one.value);
++
++	/* Assert smallest parameters work as expected. */
++	arg.value = 3LL;
++	res = dc_fixpt_recip(arg);
++	KUNIT_EXPECT_EQ(test, res.value, 0x5555555555555555LL);
++
++	arg.value = -3LL;
++	res = dc_fixpt_recip(arg);
++	KUNIT_EXPECT_EQ(test, res.value, -0x5555555555555555LL);
++}
++
++static struct kunit_case dc_basics_fixpt31_32_test_cases[] = {
++	KUNIT_CASE(dc_fixpt_from_int_test),
++	KUNIT_CASE(dc_fixpt_from_fraction_test),
++	KUNIT_CASE(dc_fixpt_mul_test),
++	KUNIT_CASE(dc_fixpt_sqr_test),
++	KUNIT_CASE(dc_fixpt_recip_test),
++	{}
++};
++
++static struct kunit_suite dc_basics_fixpt31_32_test_suite = {
++	.name = "dc_basics_fixpt31_32",
++	.test_cases = dc_basics_fixpt31_32_test_cases,
++};
++
++kunit_test_suites(&dc_basics_fixpt31_32_test_suite);
++
 -- 
 2.43.0
 
