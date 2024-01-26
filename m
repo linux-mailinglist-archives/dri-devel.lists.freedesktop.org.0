@@ -2,77 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68E8F83DFF8
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 18:25:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2184983E068
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 18:37:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4BBB10FC84;
-	Fri, 26 Jan 2024 17:25:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F0E310FCA1;
+	Fri, 26 Jan 2024 17:37:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F40010FC84
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 17:25:14 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 40QDw6JJ006807; Fri, 26 Jan 2024 17:25:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=lYjxeTlaGEhx5gRCiTr8M7b+hRIPdm2CL1qX1EQPWb8=; b=J4
- 9SquVkcCV5dWGcXbQHT0dHbfVnrce4cfrTumMnvyMcB7zyA3562VV8Ha6j2/ywlP
- OFAo/W+ys1a4Fr4j4L0tbbKefWu3D+hG3BkPGjW7GtQbSRSSqODTmVkiuudC8Ar4
- 5E4690w382PxN1rOHcc/JTS02ckErmHkSrrVi7UInwF83bRSYiKWHkVlWsSYdB8o
- RPMYYn0crM7vo7kTafhCTNe27PkBUA4BPswK95f5km+tYMuyiSs+WgzAILDMeWgD
- 96sldE0QmZcep7LunbySbbMJooybg/wWMrqsiVBR+ebNkXgIhO5vIx2rNdVLLZ4L
- hxx3tNVE6DI61vmQsSIw==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vv51dhpfe-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 26 Jan 2024 17:25:11 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40QHPA9D027069
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 26 Jan 2024 17:25:11 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 26 Jan
- 2024 09:25:10 -0800
-Message-ID: <74b91203-8811-7081-ddc3-8429790777a0@quicinc.com>
-Date: Fri, 26 Jan 2024 10:25:09 -0700
+X-Greylist: delayed 424 seconds by postgrey-1.36 at gabe;
+ Fri, 26 Jan 2024 17:37:18 UTC
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 600D310FCA8
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 17:37:18 +0000 (UTC)
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1706290203;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=y16NGcUWXAd/jpol4Aw++3XVEwkU5CL0GFzr1MU53XY=;
+ b=bGdeKoUW9WdLqEtKEsxkWkPluiF27VXCxZSKAv3EF91of84hHPJu/t+7B9mlIfqDmwyhVQ
+ 5Wy0Ak8LYkBMFC536ObQrarSAFKXlxaX18tfj4mZezpiUfaQdkDMG9wQCtqs11xhoOwLv7
+ pA8thEtSPHwm3lmTvJ07FPxtZYE52z+dy31Yz3fjNkM6LKIgSZ5nuds6Q52aKp/nVmBSyY
+ +spk4CBBiK/sbO9HcOKfH2EIVtfT4fH6iY90wZoZZeksjxdCmGo7r0pBec73lzMMxFQhVc
+ xpFa/bEbvEtI2gao8tw9CtiPgX/FYFPnpnN4YzjNzl3kjaWgFj/y/mmB8OSJKQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1706290203;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=y16NGcUWXAd/jpol4Aw++3XVEwkU5CL0GFzr1MU53XY=;
+ b=tuzagaiUxCjRffYVMgp6n3kaVE2tR+Ydl0coEnXTNFJKMgQQ2tLfSrtS+THdp+B8unTwvq
+ SjL+Cz4iYZ9oxJBQ==
+To: Byungchul Park <byungchul@sk.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v11 14/26] locking/lockdep, cpu/hotplus: Use a weaker
+ annotation in AP thread
+In-Reply-To: <20240124115938.80132-15-byungchul@sk.com>
+References: <20240124115938.80132-1-byungchul@sk.com>
+ <20240124115938.80132-15-byungchul@sk.com>
+Date: Fri, 26 Jan 2024 18:30:02 +0100
+Message-ID: <87il3ggfz9.ffs@tglx>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v2 9/9] accel/ivpu: Deprecate
- DRM_IVPU_PARAM_CONTEXT_PRIORITY param
-Content-Language: en-US
-To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- <dri-devel@lists.freedesktop.org>
-References: <20240115134434.493839-1-jacek.lawrynowicz@linux.intel.com>
- <20240115134434.493839-10-jacek.lawrynowicz@linux.intel.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20240115134434.493839-10-jacek.lawrynowicz@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 9w-wZn15PbIxp8PjUJK-diICdFr6C6BU
-X-Proofpoint-GUID: 9w-wZn15PbIxp8PjUJK-diICdFr6C6BU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-25_14,2024-01-25_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- impostorscore=0 mlxlogscore=819 phishscore=0 clxscore=1011 mlxscore=0
- bulkscore=0 adultscore=0 lowpriorityscore=0 suspectscore=0
- priorityscore=1501 spamscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2401190000 definitions=main-2401260129
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,18 +56,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: oded.gabbay@gmail.com, "Wachowski, Karol" <karol.wachowski@intel.com>
+Cc: hamohammed.sa@gmail.com, hdanton@sina.com, jack@suse.cz,
+ peterz@infradead.org, daniel.vetter@ffwll.ch, amir73il@gmail.com,
+ david@fromorbit.com, dri-devel@lists.freedesktop.org, mhocko@kernel.org,
+ linux-mm@kvack.org, linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
+ chris.p.wilson@intel.com, joel@joelfernandes.org, 42.hyeyoo@gmail.com,
+ cl@linux.com, will@kernel.org, duyuyang@gmail.com, sashal@kernel.org,
+ her0gyugyu@gmail.com, kernel_team@skhynix.com,
+ damien.lemoal@opensource.wdc.com, willy@infradead.org, hch@infradead.org,
+ mingo@redhat.com, djwong@kernel.org, vdavydov.dev@gmail.com,
+ rientjes@google.com, dennis@kernel.org, linux-ext4@vger.kernel.org,
+ ngupta@vflare.org, johannes.berg@intel.com, boqun.feng@gmail.com,
+ josef@toxicpanda.com, rostedt@goodmis.org, gwan-gyeong.mun@intel.com,
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, jglisse@redhat.com,
+ viro@zeniv.linux.org.uk, longman@redhat.com, dan.j.williams@intel.com,
+ vbabka@suse.cz, melissa.srw@gmail.com, sj@kernel.org, tytso@mit.edu,
+ rodrigosiqueiramelo@gmail.com, kernel-team@lge.com, gregkh@linuxfoundation.org,
+ jlayton@kernel.org, penberg@kernel.org, minchan@kernel.org,
+ max.byungchul.park@gmail.com, hannes@cmpxchg.org, tj@kernel.org,
+ akpm@linux-foundation.org, torvalds@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/15/2024 6:44 AM, Jacek Lawrynowicz wrote:
-> From: "Wachowski, Karol" <karol.wachowski@intel.com>
-> 
-> DRM_IVPU_PARAM_CONTEXT_PRIORITY has been deprecated because it
-> has been replaced with DRM_IVPU_JOB_PRIORITY levels set with
-> submit IOCTL and was unused anyway.
-> 
-> Signed-off-by: Wachowski, Karol <karol.wachowski@intel.com>
-> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+On Wed, Jan 24 2024 at 20:59, Byungchul Park wrote:
 
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Why is lockdep in the subsystem prefix here? You are changing the CPU
+hotplug (not hotplus) code, right?
+
+> cb92173d1f0 ("locking/lockdep, cpu/hotplug: Annotate AP thread") was
+> introduced to make lockdep_assert_cpus_held() work in AP thread.
+>
+> However, the annotation is too strong for that purpose. We don't have to
+> use more than try lock annotation for that.
+
+This lacks a proper explanation why this is too strong.
+
+> Furthermore, now that Dept was introduced, false positive alarms was
+> reported by that. Replaced it with try lock annotation.
+
+I still have zero idea what this is about.
+
+Thanks,
+
+        tglx
