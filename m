@@ -2,61 +2,150 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 039C083DB9C
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 15:19:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53A5483DBA8
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 15:23:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9F3910FB0B;
-	Fri, 26 Jan 2024 14:19:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F8EB10ECE7;
+	Fri, 26 Jan 2024 14:23:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com
- [209.85.128.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D96410FB09
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 14:19:53 +0000 (UTC)
-Received: by mail-yw1-f178.google.com with SMTP id
- 00721157ae682-602ab446cd8so4255417b3.1
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 06:19:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1706278732; x=1706883532;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=0TpTkrzxhSf10HfAwj2dW7drxWxK6BW9GIW4MZSVPmc=;
- b=bbkWJAL2FG0IJOGyOs+UAe0mvcocpjF/87i3k9ZrHhBtC4QRT+fGRR15rZIO1lVS3V
- XaFxbKGzV8SyCYtDbMn51n5Egsf5b8sA83yLbznHARlYzb1rsvGzG/cV3XRUxMQJLo7m
- SAE/vU/4MR78dvxGa/f1EKh2vAmarp4GxIrLn+gqUY7XW/y7Ssoej6+fYsFtpZNhe/UA
- bUEqSznQONUYZn2Eej8k7F1gq7qEW9OD+AREhYlXnZcwRXsxzkAiSimN1fLx5Ri5ZTDc
- EHCXJ4zs8OV1gT2NdLOG9y2L9UF9uGe7306Cp5tEknwf/foFPbhE0He2+3hkgcO8bIVu
- XvVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706278732; x=1706883532;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=0TpTkrzxhSf10HfAwj2dW7drxWxK6BW9GIW4MZSVPmc=;
- b=Ud8HC6saDdzy3PDIOSee9oNXHacOkoaJXmF52uV24a20pD31IhIpOFtOS/euXpZK90
- wOVucnfwH2usN0QFmXLG/q+tg0vJ+1vcWMiVWopSjYmle8I2OSrEeDXm9JtKMBKkieZR
- AuSJJmMrkiGwyTs3GzGgCJIJBNkZrhZhBmVOzxtT3phXGSXLbHGktyUYB6I2lA782+LJ
- AACDU4x3Zc342lYh5/sOnRv4m6ZQp0kF3IVLLEweyop/MW43pE5oFNEvg7UQJCOkyw04
- 0OHVoKvTzU8iIkY8QvItSHVvZKkWpA1UWeZCK/+4561Y/n+NM/+ZIWlj9/gKu1N373NT
- 0QPw==
-X-Gm-Message-State: AOJu0YxCWzTym5wogHuKcwe/z6/JeUr1LBzqI9fkAlk8O8Ng4UksStKR
- Kd6DXZWaWVJm5Z/DPa8uMDr7sQ0V81sFBUX0g/ErjFX358mGd6mbySwi6CiTHyXQ3FkIktaReF3
- 1GPEoZ+4L1QZKVFPTPWMX9ceg88P6lVSpz/W66A==
-X-Google-Smtp-Source: AGHT+IEuwyYj61BVtYr9Y3V+MeJtluccqqV+z4ZH3AJsr4Iku6Yk0H/8e/orXra6eDvQLE2H58KN69rz3iSBMbH+2ok=
-X-Received: by 2002:a81:92ca:0:b0:5ff:9676:3658 with SMTP id
- j193-20020a8192ca000000b005ff96763658mr1312300ywg.48.1706278732468; Fri, 26
- Jan 2024 06:18:52 -0800 (PST)
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
+ [68.232.153.233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C744C10ECE7
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 14:23:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+ t=1706278996; x=1737814996;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=1/BnJRsX/1elYaMb7wTHT0zOi8CFwgptJT4WJz9pXwE=;
+ b=dXeRsRFQDsBZyLH5O/MT5JNko8wKY7g1eJj1wvtLA4I5lKqVfAuF7la0
+ Jarl3VEe0HRaN6cDBqhD3OOyUCd7eSFZ8NM3gq7MRxBZzJ4ZvGNJWF5we
+ +UiSq91aXIY89c/MYn3GymH+CBNU8Werk9wgEXTQqCT9/8m4N/bdNc1/Y
+ O052Qiu4REuT8ZQMuviy9Qenb214q2krMu0p08q9/VZEsLK4ka6OTGGMk
+ ToJ0FGH7oyB1ER8wDtlFqvhT94KMGbempsb5ToytG7uoJSZxVs386ObxP
+ NDT6c584k73rKWNedf+a6jfOCxXIN7PfZPFOfHU/ucBxrGHk8pHXTuZyp g==;
+X-CSE-ConnectionGUID: 8sfnxV1mT+O2iKYZH7Y4HQ==
+X-CSE-MsgGUID: WqZ+8E3UTDiNGAw/Skq3JQ==
+X-IronPort-AV: E=Sophos;i="6.05,216,1701154800"; d="scan'208";a="16634588"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+ by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 26 Jan 2024 07:23:08 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Fri, 26 Jan 2024 07:22:48 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (10.10.215.250)
+ by email.microchip.com (10.10.87.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Fri, 26 Jan 2024 07:22:48 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UbfkSNxu/zE9IF3AeHQpEkg14HZt79pfC9ESUox4+5LA6wDRNEcBQ5LmTbf958ngJOwe8OVLWep1RvXexJCxzeAoVgC95cL89cKjEYRaVHE0uEas8kqNUFPaq/zctkGXF6KcrVQeOsFh+HLvKQ/PZgdqkpB0HUojsIcJfpLWj5KS9odTdb9hQ/0UURdGOdQ/wBkaeN8CfQ0FTYczUL44Ze5zTlYwlicqpfUI+uiY8cI9oSXyqy580VTDZRXGE6tg0OyszcRlHGH4Ki+pp3KGBsa0UaaGR8c/N57vNqPPT2vBHRAZy4NVFOsbobJJW8bDPSDJtx3OIKtWWT41HBj66A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tOFV6tiSB9u+ZkCLFW9JBApssCZqvXAFKd7F9phRM7w=;
+ b=gZRaRpFwFko0dHhr504N1xQ9PH4XRWSkJ4zpSKvWLJNCDNaBTajZTQZ+rxTRekqFq6NHGbMYTyhEoBQmOHdF3x/ogvfZRfhpx5iu5LdKuko75pE1m/8zMXjgiRCfEg8dw9CgpezcHvAOPoe6rDmgDDX2jV3oPSASf3+MMITcjm122GXSvFbG/lGxUS4YTyM82shiM56/5OP8Jl7A/gsmWB3ksQu80NPdiDmqvP3ovGgf0IvCYGXNEVxFxpN6gZj2Hrn/AlNxUzR58Lm5fKFV9BAyCy7XCrKvfIaQFnl+LeioCxbbpJL93S5BP2JYTQ1ZaoKpI7AxeAD1PP12h4344A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microchip.com; dmarc=pass action=none
+ header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microchip.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tOFV6tiSB9u+ZkCLFW9JBApssCZqvXAFKd7F9phRM7w=;
+ b=ZmdHQ54IbmH3AXzx3LQ0YP/DMVnbLLJsgtIm6Dkvg9YavXymPM5a5/RIuwBo+fFYaXezx4JoG6DNccLe6e2KVF7r0xpH+jtxb/bIDS9sDP2a6CIbQxmnBASAY113X6wfSyDfIIoy6Ym6UrUtpLp15y32C9bzwBCbnxze0G5h9/grczCSrYagWgQfno6NuTBv023hzQ7L579Z6iAloRWIZr6FOaaYJHIZOU2rdtZeRr6yX0Xnp4pH2lrP7Lvx/9eoAFSaZLAkmj/iB236XRIRxGINtfw6zGW8kmI24TUDHBIN0SY94c8ll17NPtKIbjtHhorL2CpfkDI8j7FQTyee2A==
+Received: from PH7PR11MB6451.namprd11.prod.outlook.com (2603:10b6:510:1f4::16)
+ by PH0PR11MB4949.namprd11.prod.outlook.com (2603:10b6:510:31::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.27; Fri, 26 Jan
+ 2024 14:22:44 +0000
+Received: from PH7PR11MB6451.namprd11.prod.outlook.com
+ ([fe80::80b9:80a3:e88a:57ee]) by PH7PR11MB6451.namprd11.prod.outlook.com
+ ([fe80::80b9:80a3:e88a:57ee%3]) with mapi id 15.20.7228.028; Fri, 26 Jan 2024
+ 14:22:42 +0000
+From: <Dharma.B@microchip.com>
+To: <Conor.Dooley@microchip.com>
+Subject: Re: [PATCH v3 3/3] dt-bindings: mfd: atmel,hlcdc: Convert to DT
+ schema format
+Thread-Topic: [PATCH v3 3/3] dt-bindings: mfd: atmel,hlcdc: Convert to DT
+ schema format
+Thread-Index: AQHaSfB9G+vm5oXSwEmW6mjsJvC8kbDftWKAgADHFQCAAI7AgIAEKeOAgABefoCAAuIIAIAAvjkAgADtGQCAABv2gIAAKg+A
+Date: Fri, 26 Jan 2024 14:22:42 +0000
+Message-ID: <51da296d-a8a9-417a-8875-3b5e866a89a3@microchip.com>
+References: <20240118092612.117491-1-dharma.b@microchip.com>
+ <20240118092612.117491-4-dharma.b@microchip.com>
+ <20240118-recent-glorified-fd35d72e006e@spud>
+ <c33868c8-dc42-4800-885c-5e5f24c2044e@microchip.com>
+ <20240119-character-mardi-43571d7fe7d5@wendy>
+ <da60f9f3-f955-4a87-a020-5710185953c0@microchip.com>
+ <20240122-stark-duress-2f59294dcf27@spud>
+ <4906b7e2-0ddb-4d3c-a48b-e16278f2d649@microchip.com>
+ <20240124-lend-emerald-1028fe65cc39@spud>
+ <c3c30bf2-e7c2-4861-bfdf-519a7afde476@microchip.com>
+ <20240125-proved-passage-7fa128f828db@wendy>
+In-Reply-To: <20240125-proved-passage-7fa128f828db@wendy>
+Accept-Language: en-GB, en-US
+Content-Language: en-GB
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microchip.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PH7PR11MB6451:EE_|PH0PR11MB4949:EE_
+x-ms-office365-filtering-correlation-id: 8649439e-13b7-4f75-fbc4-08dc1e7a4230
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: uabJoKcXS8FtbYzPFRQ4aplJlolork/Sl+lTLoK008VnR7ePsRrEASZgAMhkX/YZju0Db6b3e+Hai+01LB5xHDGUDmgW79SMPZxuJYi8pvigy60DJyO1MuXWPOrB7D2PWlz955fZJN9Yuiu6YDv9UEQ1d0YNfBsW48Ius5EAgUup5hosUoJkUDyh7qWpp1kGgU36gbWtcd0tbehIwT80uXlFcYwfKJ40VqMSX4zy8YYG99M0j5wf6d+9j9Z0aEVJpIgvBm8I5E5Wvs7wiotmj0MzcjPReJsBDGAoepFAv3PMD+7eM6bT4ZTWrY/Wj8jrKEc0ex5Ts4YXP9UhwEjosWHfYy9fnumR0eXmnF6D3c/EoUOdUefdBDkj7CJKWdW1euD6NzkksmByle5i1T0SfGZnEEm9UQD6MFqnWozo/jJggay/t73S9IabiTiZO3hherAoxyTsBPTS328YsrUnwuP8jm/Bw9voRDrBUBGvp5Jp2isSbwO3lAGSf1uVt7R8gJQME54u/KaFfC8PAk7mxofGYXM4eT7pRqMhIIEh0gLci0OcYm9ILA8qvUcVOIGlY+lB5HATaFVuubBfx5FADZv2/euOj3mHQE3oiE+9rkq9aoajM6fa5Xkv2pGM9Y8QNQZIVwTZSc6bH/qTpBMHXw==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6451.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(396003)(366004)(136003)(39860400002)(376002)(346002)(230922051799003)(451199024)(186009)(64100799003)(1800799012)(83380400001)(6512007)(2616005)(107886003)(38100700002)(122000001)(4326008)(5660300002)(8676002)(8936002)(7416002)(2906002)(478600001)(6862004)(966005)(6486002)(6506007)(41300700001)(71200400001)(53546011)(66446008)(66476007)(54906003)(64756008)(66556008)(76116006)(37006003)(316002)(6636002)(66946007)(91956017)(38070700009)(31696002)(86362001)(36756003)(31686004)(45980500001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?sM2PE+T7q4pySDiHknZfd2jcw9zuHix/ZgHFHDX0xXG65GFLNBl3ItOyHE?=
+ =?iso-8859-1?Q?ue9GqsjGo68Mjr7qSS3sFtu4XIJlTY7tzepN0dfxcoK3VF5nwqm0uDcgXW?=
+ =?iso-8859-1?Q?54tMQUUEw1lPyLLXWv7khJv+4QCIws5AvOU3BZZNgxIWPH1f4EzpCTBOc0?=
+ =?iso-8859-1?Q?D0tBbVgnWIzkNi4+vzhs6x5XVLV0kD2HsF0GIvpYdU2jhtHJryHexJbjD5?=
+ =?iso-8859-1?Q?ryP+MHM3PuUITws2ojkzIr73Ah1FuxU1uVb57aI8OD2Ss1Pmf441JbF2EI?=
+ =?iso-8859-1?Q?UuF3ZJIthEC4aAgZdME3k6Qo1uZ/63sg/Vw4OTGMvlhC/Y85rsFEAXhyBh?=
+ =?iso-8859-1?Q?8MrivPwVFJpcfTACuAdbm4YxRhPxXOf9c/4mBNHO5jjtv1ISxxNQwY4NPF?=
+ =?iso-8859-1?Q?a++FApWVpCpQcAybIJvtjmhRdkKctqbOLPxGfdWG7syNPRHf6z3/AKo54g?=
+ =?iso-8859-1?Q?I/zaTbWsXe3LubVIySy00glpaxxON5kL/rJz9OlzAhZRLNNiAvxE3fYTGD?=
+ =?iso-8859-1?Q?mBihEDI/fKc2Tbej/5TN7IUnfXBEseuZwOPMiWkBtPXbvD48FdrW87keab?=
+ =?iso-8859-1?Q?cgkB3xiJYxSf7/T/7V4mJ5YbP7i94YZ1EMVMBbAyk2owv0Nmony7QrkG2Q?=
+ =?iso-8859-1?Q?fPQ8Fz+4PmWC4JJnOITDjLbg5k8Sh10cAXaFDatrNoxLSc+pPfYoPH4fVd?=
+ =?iso-8859-1?Q?vFQbV8r8pFb3ExfctWVEgCb0tur4hP4Ox0ocM9zVXTjLnKKjhcQZTDRD72?=
+ =?iso-8859-1?Q?fefLK1L9EjAWqTDUYBEUdJVazOhbCC/AcBxnjhE1d7zZA4tYdCGri9DYij?=
+ =?iso-8859-1?Q?cggJ5e8bIHoemHdrnBeWgGKp1OeLYVp+M6wvuWUtoSuXOFKCFxs3LSM8dX?=
+ =?iso-8859-1?Q?+VhZfUrOOtflcFHJwB3bGGhFq93ZEN9ExFSHJxqin+giA6EI5wj20mNZk5?=
+ =?iso-8859-1?Q?GQyqjtA78Gg2IZdbW/mH7/7ZFsCbWzeI4Qkg50rgAySn1tLWNTmbyYvW2i?=
+ =?iso-8859-1?Q?CorPuZ6xbBnVz8/nzW5fRV1ls8XxL9Im09xDlxdCiGSFw7JX9hcLQ5iAe2?=
+ =?iso-8859-1?Q?r7E4ly/IxyTVXemTLd/aKcuYYY1O8yh/9xwUF6AjoyPa0PdH1LSdrsx0iG?=
+ =?iso-8859-1?Q?vTtrF/OU3YYCDRUBvqM2I7dvIC1TakiZivoo2x4vti+64Ymw5V+N+KAhq7?=
+ =?iso-8859-1?Q?kEU/w2pYJOgtiBn1NXC+J4twnPSr0iK3RrAqIYGfaytEWQqtxLiCq9PEQ7?=
+ =?iso-8859-1?Q?apyvSy4gB5OioW73XaeKDGbfqmHN8OuTXluSfzQ07aBIuZQnWCn3BKSfjP?=
+ =?iso-8859-1?Q?OnRDdg5YEJq3V0MAGC9IPip56WUCC0RWWnJI4GvsoFb5ljVhncWrwfS8yR?=
+ =?iso-8859-1?Q?sqf6UbASupIVyo5D2fDb+ANpwluM+ig7qr2g4kNv/tQjUjXY7ITeZKaV80?=
+ =?iso-8859-1?Q?toz9RWSYtCILu6u4y3qNEYLMDjKCKKiyRL2/nAcwpoEDba6nrrOpLFr67t?=
+ =?iso-8859-1?Q?JIkcIGvH7eErwIBP3EgpwRapdaWIoJ0nFFbzQ+IAtE4kTvSnLCPHg9daeA?=
+ =?iso-8859-1?Q?Aj4WMrO8IKkl5Azl8EvSkISvkHSPq6bDDbcVqgndxjrMoBLP6/ODzXoHhT?=
+ =?iso-8859-1?Q?OCMlu2tbNDJgUJMvwgMK9uoziDSQ6aYAcxvNvfTUUigRqusoe7oKRz+Y+M?=
+ =?iso-8859-1?Q?bL4eK7WNmevp0QcNxf4pb4XwJDjOt4H0NIxqvuJl?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <05AAE253C650464985AA72B3E4957186@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <AdpQQouNfGqYf3uSSdGt8uzEBuaRnw==>
- <4c03efeca8ce42beb41b2f70433e6634@iav.de>
-In-Reply-To: <4c03efeca8ce42beb41b2f70433e6634@iav.de>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Fri, 26 Jan 2024 14:18:36 +0000
-Message-ID: <CAPY8ntA2yOUnP7DEeHahYsW8vC-Xpqf37ZmycDdO-NoobfjyDw@mail.gmail.com>
-Subject: Re: drm: Stable identification of connectors?
-To: "Albert, Joerg (TT-U)" <Joerg.Albert@iav.de>
-Content-Type: multipart/alternative; boundary="000000000000bca6d2060fd9f9ee"
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6451.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8649439e-13b7-4f75-fbc4-08dc1e7a4230
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jan 2024 14:22:42.4853 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: eIpYgw6oObuibjwdzSEV5vNMHhK4mf0o/W1n+f6aafvGZ7zpOC533i0xUbSVapN0mY7LVs/mF6AXeGPBI4Q43A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB4949
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,343 +158,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: alexandre.belloni@bootlin.com, linux-pwm@vger.kernel.org,
+ Linux4Microchip@microchip.com, dri-devel@lists.freedesktop.org,
+ Nicolas.Ferre@microchip.com, thierry.reding@gmail.com,
+ krzysztof.kozlowski+dt@linaro.org, claudiu.beznea@tuxon.dev, airlied@gmail.com,
+ sam@ravnborg.org, lee@kernel.org, u.kleine-koenig@pengutronix.de,
+ devicetree@vger.kernel.org, conor+dt@kernel.org, tzimmermann@suse.de,
+ mripard@kernel.org, robh+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
+ bbrezillon@kernel.org, linux-kernel@vger.kernel.org, conor@kernel.org,
+ daniel@ffwll.ch
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000bca6d2060fd9f9ee
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Joerg
-
-On Fri, 26 Jan 2024 at 10:45, Albert, Joerg (TT-U) <Joerg.Albert@iav.de>
-wrote:
-
-> Hi,
->
->
->
-> I=E2=80=99m pretty new to DRM/DRI and wonder if there is a way to have a =
-stable
-> identification of connectors across changes in the Linux kernel and/or in
-> the devicetree?
->
->
->
-> Our hardware contains an iMX8QM with two displays, each one connected to =
-a
-> MIPI-DSI channel. We use kernel 6.1.38.
->
-> In the output of =E2=80=9Cmodetest -c=E2=80=9D the connectors are called =
-LVDS-1 and
-> LVDS-2. These names are built in modetest.c from connector_type and
-> connector_type_id.
->
->
->
-> connector_type_id is set in the kernel in drivers/gpu/drm/drm_connector.c
-> in __drm_connector_init():
->
->
->
->        *connector* <https://elixir.bootlin.com/linux/latest/C/ident/conne=
-ctor>->*connector_type_id* <https://elixir.bootlin.com/linux/latest/C/ident=
-/connector_type_id> =3D
->
->               *ida_alloc_min* <https://elixir.bootlin.com/linux/latest/C/=
-ident/ida_alloc_min>(*connector_ida* <https://elixir.bootlin.com/linux/late=
-st/C/ident/connector_ida>, 1, *GFP_KERNEL* <https://elixir.bootlin.com/linu=
-x/latest/C/ident/GFP_KERNEL>);
->
->
->
-> Seems to me that this number depends on initialization order only. Is
-> there any other way to identify a connector?
->
->
->
-> If not, will the type_id be stable as long as we don=E2=80=99t change the=
- kernel
-> version and the device tree?
->
-
-My understanding is it all depends on initialisation order, and that isn't
-guaranteed.
-
-Raspberry Pi 5 has a similar issue that it has two independent DRM driver
-instances each initialising a DSI connector. Which one gets assigned DSI-1
-vs DSI-2 is down to probe order, and can change between boots.
-You also have the situation that a panel connected to the second connector
-is referred to as DSI-1 if nothing is connected to the first, but it'll
-probably bump up to DSI-2 should you later configure a panel on the first
-connector. Any configuration within a window manager based on display ID is
-therefore near useless if there is any change to the system.
-
-It's the same situation if you have more than one SPI display using the
-mipi-dbi-spi or tinyDRM drivers - ordering of display to SPI-x IDs is down
-to probe order, so near random.
-
-I haven't attempted to upstream this yet, but on our tree [1] I've adopted
-the same approach as the I2C and SPI subsystems take where a DT alias can
-be used to set the desired connector ID. Devices with no alias get assigned
-IDs above the last assigned alias.
-
-Seeing as you've raised the same issue, it'd be interesting to know the
-view of the maintainers as to whether my solution is acceptable. There's no
-point in trying to upstream it if it's going to be immediately shot down.
-
-Thanks.
-  Dave
-
-[1]
-https://github.com/raspberrypi/linux/commit/3aa1f2477545ea6298bc6f2d7ffae68=
-f090af9b8
-and fixup
-https://github.com/raspberrypi/linux/commit/f429fc1a072d4bb35e622a1012a5a52=
-914eba4e3
-
-
->
-> Best Regards,
->
-> Joerg Albert
->
->
->
->
->
->
->
->
->
->
->
->
-> +491747384960
->
->
->
->
-> We move the world for the better through technology and engineering.
->
-> www.iav.com | Facebook <https://www.facebook.com/insideiav> | Instagram
-> <https://www.instagram.com/inside_iav/> | LinkedIn
-> <https://www.linkedin.com/company/iav-gmbh> | Xing
-> <https://www.xing.com/companies/iav> | YouTube
-> <https://www.youtube.com/user/IAVchannel>
->
-> IAV GmbH Ingenieurgesellschaft Auto und Verkehr; Sitz/Registered Office:
-> Berlin; Registergericht/Registration Court: Amtsgericht Charlottenburg
-> (Berlin); Registernummer/Company Registration Number: HRB 21 280 B;
-> Gesch=C3=A4ftsf=C3=BChrer/Managing Directors: Joerg Astalosch, Martin Mah=
-lke, Dr. Uwe
-> Horn; Vorsitzender des Aufsichtsrates/Chairman of the Supervisory Board:
-> Dr. Nikolai Ardey
-> Datenschutzhinweise/Privacy Policy <https://www.iav.com/datenschutz>
->
->
->
-
---000000000000bca6d2060fd9f9ee
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi Joerg<br></div><br><div class=3D"gmail=
-_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, 26 Jan 2024 at 10:45,=
- Albert, Joerg (TT-U) &lt;<a href=3D"mailto:Joerg.Albert@iav.de" target=3D"=
-_blank">Joerg.Albert@iav.de</a>&gt; wrote:</div><div dir=3D"ltr" class=3D"g=
-mail_attr"><span style=3D"font-size:10pt;font-family:&quot;Arial&quot;,sans=
--serif"></span></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div=
-><div lang=3D"DE"><div>
-<p class=3D"MsoNormal">
-<span style=3D"font-size:10pt;font-family:&quot;Arial&quot;,sans-serif">Hi,=
-</span> <span style=3D"font-size:10pt;font-family:&quot;Arial&quot;,sans-se=
-rif"></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10pt;font-family:&quot;Aria=
-l&quot;,sans-serif"><u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10pt;font-family:&quot;Aria=
-l&quot;,sans-serif" lang=3D"EN-US">I=E2=80=99m pretty new to DRM/DRI and wo=
-nder if there is a way to have a stable identification of connectors across=
- changes in the Linux kernel and/or in the devicetree?<u></u><u></u></span>=
-</p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10pt;font-family:&quot;Aria=
-l&quot;,sans-serif" lang=3D"EN-US"><u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10pt;font-family:&quot;Aria=
-l&quot;,sans-serif" lang=3D"EN-US">Our hardware contains an iMX8QM with two=
- displays, each one connected to a MIPI-DSI channel. We use kernel 6.1.38.<=
-u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10pt;font-family:&quot;Aria=
-l&quot;,sans-serif" lang=3D"EN-US">In the output of =E2=80=9Cmodetest -c=E2=
-=80=9D the connectors are called LVDS-1 and LVDS-2. These names are built i=
-n modetest.c from connector_type and connector_type_id.<u></u><u></u></span=
-></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10pt;font-family:&quot;Aria=
-l&quot;,sans-serif" lang=3D"EN-US"><u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10pt;font-family:&quot;Aria=
-l&quot;,sans-serif" lang=3D"EN-US">connector_type_id is set in the kernel i=
-n drivers/gpu/drm/drm_connector.c in __drm_connector_init():<u></u><u></u><=
-/span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10pt;font-family:&quot;Aria=
-l&quot;,sans-serif" lang=3D"EN-US"><u></u>=C2=A0<u></u></span></p>
-<pre><span><span style=3D"font-size:11pt;color:rgb(187,187,187)" lang=3D"EN=
--US">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 </span></span><span><span style=
-=3D"font-size:11pt;color:black"><a href=3D"https://elixir.bootlin.com/linux=
-/latest/C/ident/connector" target=3D"_blank"><b><span lang=3D"EN-US">connec=
-tor</span></b></a></span></span><span><span style=3D"font-size:11pt;color:r=
-gb(102,102,102)" lang=3D"EN-US">-&gt;</span></span><span><span style=3D"fon=
-t-size:11pt;color:black"><a href=3D"https://elixir.bootlin.com/linux/latest=
-/C/ident/connector_type_id" target=3D"_blank"><b><span lang=3D"EN-US">conne=
-ctor_type_id</span></b></a></span></span><span><span style=3D"font-size:11p=
-t;color:rgb(187,187,187)"> </span></span><span><span style=3D"font-size:11p=
-t;color:rgb(102,102,102)" lang=3D"EN-US">=3D</span></span><span style=3D"fo=
-nt-size:11pt;color:black" lang=3D"EN-US"><u></u><u></u></span></pre>
-<pre><span><span style=3D"font-size:11pt;color:rgb(187,187,187)" lang=3D"EN=
--US">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 </span></span><span><span style=3D"font-size:11pt;color:black"><a href=
-=3D"https://elixir.bootlin.com/linux/latest/C/ident/ida_alloc_min" target=
-=3D"_blank"><b><span lang=3D"EN-US">ida_alloc_min</span></b></a></span></sp=
-an><span><span style=3D"font-size:11pt;color:rgb(102,102,102)" lang=3D"EN-U=
-S">(</span></span><span><span style=3D"font-size:11pt;color:black"><a href=
-=3D"https://elixir.bootlin.com/linux/latest/C/ident/connector_ida" target=
-=3D"_blank"><b><span lang=3D"EN-US">connector_ida</span></b></a></span></sp=
-an><span><span style=3D"font-size:11pt;color:rgb(102,102,102)" lang=3D"EN-U=
-S">,</span></span><span><span style=3D"font-size:11pt;color:rgb(187,187,187=
-)" lang=3D"EN-US"> </span></span><span><span style=3D"font-size:11pt;color:=
-rgb(0,0,221)" lang=3D"EN-US">1</span></span><span><span style=3D"font-size:=
-11pt;color:rgb(102,102,102)" lang=3D"EN-US">,</span></span><span><span styl=
-e=3D"font-size:11pt;color:rgb(187,187,187)" lang=3D"EN-US"> </span></span><=
-span><span style=3D"font-size:11pt;color:black"><a href=3D"https://elixir.b=
-ootlin.com/linux/latest/C/ident/GFP_KERNEL" target=3D"_blank"><b><span lang=
-=3D"EN-US">GFP_KERNEL</span></b></a></span></span><span><span style=3D"font=
--size:11pt;color:rgb(102,102,102)" lang=3D"EN-US">);</span></span><span sty=
-le=3D"font-size:11pt;color:black" lang=3D"EN-US"><u></u><u></u></span></pre=
->
-<p class=3D"MsoNormal"><span style=3D"font-size:10pt;font-family:&quot;Aria=
-l&quot;,sans-serif" lang=3D"EN-US"><u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10pt;font-family:&quot;Aria=
-l&quot;,sans-serif" lang=3D"EN-US">Seems to me that this number depends on =
-initialization order only. Is there any other way to identify a connector?<=
-u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10pt;font-family:&quot;Aria=
-l&quot;,sans-serif" lang=3D"EN-US"><u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10pt;font-family:&quot;Aria=
-l&quot;,sans-serif" lang=3D"EN-US">If not, will the type_id be stable as lo=
-ng as we don=E2=80=99t change the kernel version and the device tree?</span=
-></p></div></div></div></blockquote><div><br></div><div>My understanding is=
- it all depends on initialisation order, and that isn&#39;t guaranteed.<br>=
-</div><div><br></div><div>Raspberry Pi 5 has a similar issue that it has tw=
-o independent DRM driver instances each initialising a DSI connector. Which=
- one gets assigned DSI-1 vs DSI-2 is down to probe order, and can change be=
-tween boots.</div><div>
-<div>You also have the situation that a panel connected to the second=20
-connector is referred to as DSI-1 if nothing is connected to the first, but=
- it&#39;ll=20
-probably bump up to DSI-2 should you later configure a panel on the first c=
-onnector. Any=20
-configuration within a window manager based on display ID is therefore near=
- useless if there is any change to the system.<br></div><div><br></div>
-
-It&#39;s the same situation if you have more than one SPI display using the=
- mipi-dbi-spi or tinyDRM drivers - ordering of display to SPI-x IDs is down=
- to probe order, so near random.<br></div><div></div><br><div>I haven&#39;t=
- attempted to upstream this yet, but on our tree [1] I&#39;ve adopted the s=
-ame approach as the I2C and SPI subsystems take where a DT alias can be use=
-d to set the desired connector ID. Devices with no alias get assigned IDs a=
-bove the last assigned alias.<br></div><div><br></div><div>Seeing as you&#3=
-9;ve raised the same issue, it&#39;d be interesting to know the view of the=
- maintainers as to whether my solution is acceptable. There&#39;s no point =
-in trying to upstream it if it&#39;s going to be immediately shot down.<br>=
-</div><div><br></div><div>Thanks.</div><div>=C2=A0 Dave</div><div><br></div=
-><div>
-<div>[1] <a href=3D"https://github.com/raspberrypi/linux/commit/3aa1f247754=
-5ea6298bc6f2d7ffae68f090af9b8" target=3D"_blank">https://github.com/raspber=
-rypi/linux/commit/3aa1f2477545ea6298bc6f2d7ffae68f090af9b8</a>
- and fixup=20
-<a href=3D"https://github.com/raspberrypi/linux/commit/f429fc1a072d4bb35e62=
-2a1012a5a52914eba4e3" target=3D"_blank">https://github.com/raspberrypi/linu=
-x/commit/f429fc1a072d4bb35e622a1012a5a52914eba4e3</a></div><div><br></div>
-
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex"><div><div lang=3D"D=
-E"><div><p class=3D"MsoNormal"><span style=3D"font-size:10pt;font-family:&q=
-uot;Arial&quot;,sans-serif" lang=3D"EN-US"><u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10pt;font-family:&quot;Aria=
-l&quot;,sans-serif" lang=3D"EN-US">=C2=A0<br></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10pt;font-family:&quot;Aria=
-l&quot;,sans-serif" lang=3D"EN-US">Best Regards,<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10pt;font-family:&quot;Aria=
-l&quot;,sans-serif" lang=3D"EN-US">Joerg Albert<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10pt;font-family:&quot;Aria=
-l&quot;,sans-serif" lang=3D"EN-US"><u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10pt;font-family:&quot;Aria=
-l&quot;,sans-serif" lang=3D"EN-US"><u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10pt;font-family:&quot;Aria=
-l&quot;,sans-serif" lang=3D"EN-US"><u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10pt;font-family:&quot;Aria=
-l&quot;,sans-serif" lang=3D"EN-US"><u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:&quot;Arial=
-&quot;,sans-serif;color:white" lang=3D"EN-US"><u></u>=C2=A0<u></u></span></=
-p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9pt;font-family:&quot;Arial=
-&quot;,sans-serif;color:white" lang=3D"EN-US"><br>
-+491747384960<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><u></u>=C2=A0<u></u></span></p>
-</div>
-<font size=3D"2"><font size=3D"1" face=3D"Arial"><font style=3D"font-size:8=
-pt;font-family:Arial" color=3D"#000000">We move the world for the better th=
-rough technology and engineering</font>.</font></font><br>
-<br>
-<span style=3D"font-family:Arial;font-size:8pt;color:rgb(5,99,193)"><a href=
-=3D"https://www.iav.com" title=3D"" style=3D"font-family:Arial;font-size:8p=
-t;color:rgb(5,99,193)" target=3D"_blank"><span style=3D"font-family:Arial;f=
-ont-size:8pt;color:rgb(5,99,193)">www.iav.com</span></a></span><font size=
-=3D"1" face=3D"Arial">=C2=A0</font><font size=3D"1" face=3D"Arial">|
-</font><span style=3D"font-family:Arial;font-size:8pt;color:rgb(5,99,193)">=
-<a href=3D"https://www.facebook.com/insideiav" title=3D"" style=3D"font-fam=
-ily:Arial;font-size:8pt;color:rgb(5,99,193)" target=3D"_blank"><span style=
-=3D"font-family:Arial;font-size:8pt;color:rgb(5,99,193)">Facebook</span></a=
-></span><font size=3D"1" face=3D"Arial">
- | <span style=3D"font-family:Arial;font-size:8pt;color:rgb(5,99,193)"><a h=
-ref=3D"https://www.instagram.com/inside_iav/" title=3D"" style=3D"font-fami=
-ly:Arial;font-size:8pt;color:rgb(5,99,193)" target=3D"_blank"><span style=
-=3D"font-family:Arial;font-size:8pt;color:rgb(5,99,193)">Instagram</span></=
-a></span><font size=3D"1" face=3D"Arial">
- |</font> </font><span style=3D"font-family:Arial;font-size:8pt;color:rgb(5=
-,99,193)"><a href=3D"https://www.linkedin.com/company/iav-gmbh" title=3D"" =
-style=3D"font-family:Arial;font-size:8pt;color:rgb(5,99,193)" target=3D"_bl=
-ank"><span style=3D"font-family:Arial;font-size:8pt;color:rgb(5,99,193)">Li=
-nkedIn</span></a></span><font size=3D"1" face=3D"Arial">
- | </font><span style=3D"font-family:Arial;font-size:8pt;color:rgb(5,99,193=
-)"><a href=3D"https://www.xing.com/companies/iav" title=3D"" style=3D"font-=
-family:Arial;font-size:8pt;color:rgb(5,99,193)" target=3D"_blank"><span sty=
-le=3D"font-family:Arial;font-size:8pt;color:rgb(5,99,193)">Xing</span></a><=
-/span><font size=3D"1" face=3D"Arial">=C2=A0|
-</font><span style=3D"font-family:Arial;font-size:8pt;color:rgb(5,99,193)">=
-<a href=3D"https://www.youtube.com/user/IAVchannel" title=3D"" style=3D"fon=
-t-family:Arial;font-size:8pt;color:rgb(5,99,193)" target=3D"_blank"><span s=
-tyle=3D"font-family:Arial;font-size:8pt;color:rgb(5,99,193)">YouTube</span>=
-</a></span><br>
-<font size=3D"2"><font style=3D"font-size:8pt;font-family:Arial" size=3D"1"=
- face=3D"Arial"><br>
-IAV GmbH Ingenieurgesellschaft Auto und Verkehr; Sitz/Registered Office: Be=
-rlin; Registergericht/Registration Court: Amtsgericht Charlottenburg (Berli=
-n); Registernummer/Company Registration Number: HRB 21 280 B; Gesch=C3=A4ft=
-sf=C3=BChrer/Managing Directors: Joerg Astalosch,
- Martin Mahlke, Dr. Uwe Horn; Vorsitzender des Aufsichtsrates/Chairman of t=
-he Supervisory Board: Dr. Nikolai Ardey<br>
-<span style=3D"color:rgb(5,99,193)"><a href=3D"https://www.iav.com/datensch=
-utz" title=3D"" style=3D"color:rgb(5,99,193)" target=3D"_blank"><span style=
-=3D"color:rgb(5,99,193)">Datenschutzhinweise/Privacy Policy</span></a></spa=
-n></font></font>
-<p></p>
-<br>
-<p></p>
-<p></p>
-</div>
-
-</div></blockquote></div></div>
-
---000000000000bca6d2060fd9f9ee--
+Hi Conor,=0A=
+=0A=
+On 25/01/24 1:57 pm, Conor Dooley - M52691 wrote:=0A=
+> =0A=
+>>> If the lvds pll is an input to the hlcdc, you need to add it here.=0A=
+>>>   From your description earlier it does sound like it is an input to=0A=
+>>> the hlcdc, but now you are claiming that it is not.=0A=
+>>=0A=
+>> The LVDS PLL serves as an input to both the LCDC and LVDSC=0A=
+> =0A=
+> Then it should be an input to both the LCDC and LVDSC in the devicetree.=
+=0A=
+=0A=
+For the LVDSC to operate, the presence of the LVDS PLL is crucial. However,=
+ in the case of the LCDC, LVDS PLL is not essential for its operation unles=
+s LVDS interface is used and when it is used lvds driver will take care of =
+preparing and enabling the LVDS PLL.=0A=
+=0A=
+Consequently, it seems that there might not be any significant actions we c=
+an take within the LCD driver regarding the LVDS PLL.=0A=
+=0A=
+If there are no intentions to utilize it within the driver, is it necessary=
+ to explicitly designate it as an input in the device tree?=0A=
+=0A=
+If yes, I will update the bindings with optional LVDS PLL clock.=0A=
+=0A=
+clock-names:=0A=
+  items:=0A=
+    - const: periph_clk=0A=
+    - const: sys_clk=0A=
+    - const: slow_clk=0A=
+    - const: lvds_pll  # Optional clock=0A=
+=0A=
+=0A=
+> =0A=
+>> with the=0A=
+>> LVDS_PLL multiplied by 7 for the Pixel clock to the LVDS PHY, and=0A=
+> =0A=
+> Are you sure? The diagram doesn't show a multiplier, the 7x comment=0A=
+> there seems to be showing relations?=0A=
+=0A=
+Sorry, =0A=
+LVDS PLL =3D (PCK * 7) goes to LVDSC PHY=0A=
+PCK =3D (LVDS PLL / 7) goes to LCDC=0A=
+=0A=
+> =0A=
+>> LVDS_PLL divided by 7 for the Pixel clock to the LCDC.=0A=
+> =0A=
+>> I am inclined to believe that appropriately configuring and enabling it=
+=0A=
+>> in the LVDS driver would be the appropriate course of action.=0A=
+> =0A=
+> We're talking about bindings here, not drivers, but I would imagine that=
+=0A=
+> if two peripherals are using the same clock then both of them should be=
+=0A=
+> getting a reference to and enabling that clock so that the clock=0A=
+> framework can correctly track the users.=0A=
+> =0A=
+>>> I don't know your hardware, so I have no idea which of the two is=0A=
+>>> correct, but it sounds like the former. Without digging into how this=
+=0A=
+>>> works my assumption about the hardware here looks like is that the lvds=
+=0A=
+>>> controller is a clock provider,=0A=
+>>=0A=
+>> It's a PLL clock from PMC.=0A=
+>>=0A=
+>>> and that the lvds controller's clock is=0A=
+>>> an optional input for the hlcdc.=0A=
+>>=0A=
+>> Again it's a PLL clock from PMC.=0A=
+>>=0A=
+>> Please refer Section 39.3=0A=
+>> https://ww1.microchip.com/downloads/aemDocuments/documents/MPU32/Product=
+Documents/DataSheets/SAM9X7-Series-Data-Sheet-DS60001813.pdf=0A=
+> =0A=
+> It is not the same exact clock as you pointed out above though, so the=0A=
+> by 7 divider should be modelled.=0A=
+=0A=
+Modelled in mfd binding? If possible, could you please provide an example f=
+or better clarity? Thank you.=0A=
+=0A=
+> =0A=
+>>> Can you please explain what provides the lvds pll clock and show an=0A=
+>>> example of how you think the devictree would look with "the lvds pll in=
+=0A=
+>>> the lvds dt node"?=0A=
+>>=0A=
+>> Sure, Please see the below example=0A=
+>>=0A=
+>> The typical lvds node will look like=0A=
+>>=0A=
+>>                   lvds_controller: lvds-controller@f8060000 {=0A=
+>>                           compatible =3D "microchip,sam9x7-lvds";=0A=
+>>                           reg =3D <0xf8060000 0x100>;=0A=
+>>                           interrupts =3D <56 IRQ_TYPE_LEVEL_HIGH 0>;=0A=
+>>                           clocks =3D <&pmc PMC_TYPE_PERIPHERAL 56>, <&pm=
+c=0A=
+>> PMC_TYPE_CORE PMC_LVDSPLL>;=0A=
+>>                           clock-names =3D "pclk", "lvds_pll_clk";=0A=
+>>                           status =3D "disabled";=0A=
+>>                   };=0A=
+> =0A=
+> In isolation, this looks fine.=0A=
+> =0A=
+> Cheers,=0A=
+> Conor.=0A=
+-- =0A=
+With Best Regards,=0A=
+Dharma B.=0A=
+=0A=
