@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DC4F83E31C
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 21:10:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1031C83E316
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 21:09:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2E3310FE26;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D6AB10FE1E;
 	Fri, 26 Jan 2024 20:09:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com
- [209.85.161.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E31C10FE22
+Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com
+ [209.85.161.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 504E110FE23
  for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 20:09:17 +0000 (UTC)
-Received: by mail-oo1-f49.google.com with SMTP id
- 006d021491bc7-5986d902ae6so460701eaf.3
+Received: by mail-oo1-f54.google.com with SMTP id
+ 006d021491bc7-59a1948acf1so111505eaf.0
  for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 12:09:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1706299694; x=1706904494;
+ d=broadcom.com; s=google; t=1706299695; x=1706904495;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=WVDvtKfpncf0Nr9RLtXnd/K7bwQZ7lsVjFlwYveXUSY=;
- b=cUPCiWlUY/6mxyhDbE1yUBALAV7ciPGCQq6HEWNfH9OstYueD2axCGATdkQcQlcBEn
- c+Vm62iqriClM4fLoN3/PhO2lcZMbtf/122KW1GBMDqfMlPUZTrdPImfLqCuk8NXbjuc
- VrGuuJD0rRMcZPlKi1sQQZB46KaOAXWYYtKko=
+ bh=/A7qOk8QDd5Yz67lgpk7+8hgL1mkotwXK8EZWcV03Ds=;
+ b=WL7fnQM3OoHbKO4Qm3fBuqfpDadHDrYLFmA3bf/JxqU+40y/tOYKUZv6DoiBMlK4rh
+ v/lSa06g35EAN9xOMzGDqSPYg3OwIFZjWBEVvvvz+bh5+VNx98l1N9QxoWxNbLFkF1cP
+ Jp58d8wNL898jc8cdi6r5FZdpNwyHI+ot6t7s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706299694; x=1706904494;
+ d=1e100.net; s=20230601; t=1706299695; x=1706904495;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=WVDvtKfpncf0Nr9RLtXnd/K7bwQZ7lsVjFlwYveXUSY=;
- b=Sw7ZGGAoCbvsewwabZGFxI+G8UzaXF8rbailnFz3llBDhIu09CUEgTe9hwDSnHv1IR
- jqRy1DS4ssrY5PEpTuhtGhDrmhk3THIte1bF/wJA87tD0RlxNKzsc6nNrnDp4fSSoSHn
- 3jS+cq9rJmbqo6saRKMdQISXlE4I9/vn5E/q1JImmaTTfZp6U7TvsmTS36AWngjI/AD+
- y5mz9lulrlGqOgbToP6lCAcOEmrX1YE/d99DziwbpimqzfkA0fHlJR6iD79sDqCN4kmS
- NDqnmR2QdsM6sAJlgX9Xp0W+nNeyWgccNE0xTozmSDirHNDQYUCyV98RH7/n05R2GFKk
- bMrg==
-X-Gm-Message-State: AOJu0YwlaJidoHRwab6aPTmo34Av7KWGS8QHacvGbUxOoY2wLGX3w+5i
- IZ1AngLQL4YzICfUvg1b3wKpTM5wdfhXqZicaZ6NzRcrkgwLSpHA++seLBtWsr2eGV6ev+nMCbn
- N+xu5NCPQshAtr9Eu7NcPVORFvzNlFBnkxeWs0QT4yNgxy5u2+rWFugA5ZOhx4n/QP0ftfgZS+3
- gPPOBDVih0yneBeVLKJwZTIB12Pr/T9bU0f3AaosdVUK7FW4siyw==
-X-Google-Smtp-Source: AGHT+IF/REY0OrAXjWogydfDxYu1rfzq8CxKtzr4lGtRD54nbUC9AcAAGXIBvA1HX5fvjwgvfHx/cQ==
-X-Received: by 2002:a4a:dcc2:0:b0:59a:19e5:de18 with SMTP id
- h2-20020a4adcc2000000b0059a19e5de18mr224194oou.15.1706299693668; 
- Fri, 26 Jan 2024 12:08:13 -0800 (PST)
+ bh=/A7qOk8QDd5Yz67lgpk7+8hgL1mkotwXK8EZWcV03Ds=;
+ b=HILVPGComO46rOShpHGRTyhFA6vh6wy9zbMt+avA6RPXshS+G5QCU9a4m5jQn/8vfU
+ Dak6HDRf6jLUh5//l93uxiHdXq4eMiUxI/VMHd7ausZRZyyocwPVewRBFdIT+ltB9uk9
+ a9BHUvtsmnmC6GIhNuoH53v+zbMTLPdxoFzEfbVycXQ436hDhdrTGep9MdH95sq9J3zq
+ yDHkULQ/L84sbClz4FNKRaveBPIU+Tu54dwYtDJD+rN00E1ui2M3EjBrssuKIMFCiq9w
+ HkqA7bfDL7+G0G0jYQ0A3mr4n1rdDCGTQAxBqO6HXl3qYxAemYi39khMTdVhvEzRtSQ8
+ 9F7Q==
+X-Gm-Message-State: AOJu0Yz9dXS7kRdVT4RQsPwWHgpebhl5e+1gnygfFo2qORqpO1MOqZbS
+ adI7TdjebCl/CgdDid05zpjR4ZWrtG1WFTB9pdYW9G7SqceGLiS4txx1HOqBViMpuvOq+RUAk82
+ 3bU1zn7o9p7terr7rzOmy55nYF1pfJTbTdBlqkYV1GqTf0eJqawNY5ZDRDQ1WqPQMPqBGY2qXwz
+ zZivM3J0U89kVptGi+LW7CsRwM8Znot1z8jFcVyWf0cuwjSkw8+w==
+X-Google-Smtp-Source: AGHT+IEUMudoML2cm9VfzuI8RZIoYC109MMO6L95t9unacZaVPKF68RGWefB/clmv8+sPLT4sMVtbQ==
+X-Received: by 2002:a4a:2457:0:b0:599:4235:f71a with SMTP id
+ v23-20020a4a2457000000b005994235f71amr197633oov.9.1706299694707; 
+ Fri, 26 Jan 2024 12:08:14 -0800 (PST)
 Received: from vertex.localdomain
  (pool-173-49-113-140.phlapa.fios.verizon.net. [173.49.113.140])
  by smtp.gmail.com with ESMTPSA id
  k7-20020a4abd87000000b00599f5c2c052sm358161oop.8.2024.01.26.12.08.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Jan 2024 12:08:13 -0800 (PST)
+ Fri, 26 Jan 2024 12:08:14 -0800 (PST)
 From: Zack Rusin <zack.rusin@broadcom.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/5] drm/vmwgfx: Refactor drm connector probing for display
- modes
-Date: Fri, 26 Jan 2024 15:08:00 -0500
-Message-Id: <20240126200804.732454-2-zack.rusin@broadcom.com>
+Subject: [PATCH 2/5] drm/vmwgfx: Make all surfaces shareable
+Date: Fri, 26 Jan 2024 15:08:01 -0500
+Message-Id: <20240126200804.732454-3-zack.rusin@broadcom.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20240126200804.732454-1-zack.rusin@broadcom.com>
 References: <20240126200804.732454-1-zack.rusin@broadcom.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,444 +75,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Martin Krastev <martin.krastev@broadcom.com>,
+Cc: Maaz Mombasawala <maaz.mombasawala@broadcom.com>,
  Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Martin Krastev <martin.krastev@broadcom.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Martin Krastev <martin.krastev@broadcom.com>
+From: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
 
-Implement drm_connector_helper_funcs.mode_valid and .get_modes,
-replacing custom drm_connector_funcs.fill_modes code with
-drm_helper_probe_single_connector_modes; for STDU, LDU & SOU
-display units.
+There is no real need to have a separate pool for shareable and
+non-shareable surfaces. Make all surfaces shareable, regardless of whether
+the drm_vmw_surface_flag_shareable has been specified.
 
-Signed-off-by: Martin Krastev <martin.krastev@broadcom.com>
-Reviewed-by: Zack Rusin <zack.rusin@broadcom.com>
+Signed-off-by: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
+Reviewed-by: Martin Krastev <martin.krastev@broadcom.com>
 Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c  | 272 +++++++++------------------
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.h  |   6 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c  |   5 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c |   5 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c |   4 +-
- 5 files changed, 101 insertions(+), 191 deletions(-)
+ drivers/gpu/drm/vmwgfx/ttm_object.c     |  6 +++---
+ drivers/gpu/drm/vmwgfx/ttm_object.h     |  3 +--
+ drivers/gpu/drm/vmwgfx/vmwgfx_surface.c | 17 ++++++-----------
+ include/uapi/drm/vmwgfx_drm.h           |  5 +++--
+ 4 files changed, 13 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-index 8589a1c3cc36..2398041502c9 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-@@ -35,6 +35,7 @@
- #include <drm/drm_fourcc.h>
- #include <drm/drm_rect.h>
- #include <drm/drm_sysfs.h>
-+#include <drm/drm_edid.h>
- 
- void vmw_du_cleanup(struct vmw_display_unit *du)
+diff --git a/drivers/gpu/drm/vmwgfx/ttm_object.c b/drivers/gpu/drm/vmwgfx/ttm_object.c
+index ddf8373c1d77..6806c05e57f6 100644
+--- a/drivers/gpu/drm/vmwgfx/ttm_object.c
++++ b/drivers/gpu/drm/vmwgfx/ttm_object.c
+@@ -1,7 +1,7 @@
+ /* SPDX-License-Identifier: GPL-2.0 OR MIT */
+ /**************************************************************************
+  *
+- * Copyright (c) 2009-2022 VMware, Inc., Palo Alto, CA., USA
++ * Copyright (c) 2009-2023 VMware, Inc., Palo Alto, CA., USA
+  * All Rights Reserved.
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a
+@@ -648,7 +648,6 @@ int ttm_prime_handle_to_fd(struct ttm_object_file *tfile,
+  * @tfile: struct ttm_object_file identifying the caller
+  * @size: The size of the dma_bufs we export.
+  * @prime: The object to be initialized.
+- * @shareable: See ttm_base_object_init
+  * @type: See ttm_base_object_init
+  * @refcount_release: See ttm_base_object_init
+  *
+@@ -656,10 +655,11 @@ int ttm_prime_handle_to_fd(struct ttm_object_file *tfile,
+  * for data sharing between processes and devices.
+  */
+ int ttm_prime_object_init(struct ttm_object_file *tfile, size_t size,
+-			  struct ttm_prime_object *prime, bool shareable,
++			  struct ttm_prime_object *prime,
+ 			  enum ttm_object_type type,
+ 			  void (*refcount_release) (struct ttm_base_object **))
  {
-@@ -2282,107 +2283,6 @@ vmw_du_connector_detect(struct drm_connector *connector, bool force)
- 		connector_status_connected : connector_status_disconnected);
- }
++	bool shareable = !!(type == VMW_RES_SURFACE);
+ 	mutex_init(&prime->mutex);
+ 	prime->size = PAGE_ALIGN(size);
+ 	prime->real_type = type;
+diff --git a/drivers/gpu/drm/vmwgfx/ttm_object.h b/drivers/gpu/drm/vmwgfx/ttm_object.h
+index e6b77ee33e55..573e038c0fab 100644
+--- a/drivers/gpu/drm/vmwgfx/ttm_object.h
++++ b/drivers/gpu/drm/vmwgfx/ttm_object.h
+@@ -1,6 +1,6 @@
+ /**************************************************************************
+  *
+- * Copyright (c) 2006-2022 VMware, Inc., Palo Alto, CA., USA
++ * Copyright (c) 2006-2023 VMware, Inc., Palo Alto, CA., USA
+  * All Rights Reserved.
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a
+@@ -288,7 +288,6 @@ extern void ttm_object_device_release(struct ttm_object_device **p_tdev);
+ extern int ttm_prime_object_init(struct ttm_object_file *tfile,
+ 				 size_t size,
+ 				 struct ttm_prime_object *prime,
+-				 bool shareable,
+ 				 enum ttm_object_type type,
+ 				 void (*refcount_release)
+ 				 (struct ttm_base_object **));
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
+index 10498725034c..e7a744dfcecf 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
+@@ -832,8 +832,6 @@ int vmw_surface_define_ioctl(struct drm_device *dev, void *data,
+ 		srf->snooper.image = NULL;
+ 	}
  
--static struct drm_display_mode vmw_kms_connector_builtin[] = {
--	/* 640x480@60Hz */
--	{ DRM_MODE("640x480", DRM_MODE_TYPE_DRIVER, 25175, 640, 656,
--		   752, 800, 0, 480, 489, 492, 525, 0,
--		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC) },
--	/* 800x600@60Hz */
--	{ DRM_MODE("800x600", DRM_MODE_TYPE_DRIVER, 40000, 800, 840,
--		   968, 1056, 0, 600, 601, 605, 628, 0,
--		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC) },
--	/* 1024x768@60Hz */
--	{ DRM_MODE("1024x768", DRM_MODE_TYPE_DRIVER, 65000, 1024, 1048,
--		   1184, 1344, 0, 768, 771, 777, 806, 0,
--		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC) },
--	/* 1152x864@75Hz */
--	{ DRM_MODE("1152x864", DRM_MODE_TYPE_DRIVER, 108000, 1152, 1216,
--		   1344, 1600, 0, 864, 865, 868, 900, 0,
--		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC) },
--	/* 1280x720@60Hz */
--	{ DRM_MODE("1280x720", DRM_MODE_TYPE_DRIVER, 74500, 1280, 1344,
--		   1472, 1664, 0, 720, 723, 728, 748, 0,
--		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC) },
--	/* 1280x768@60Hz */
--	{ DRM_MODE("1280x768", DRM_MODE_TYPE_DRIVER, 79500, 1280, 1344,
--		   1472, 1664, 0, 768, 771, 778, 798, 0,
--		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC) },
--	/* 1280x800@60Hz */
--	{ DRM_MODE("1280x800", DRM_MODE_TYPE_DRIVER, 83500, 1280, 1352,
--		   1480, 1680, 0, 800, 803, 809, 831, 0,
--		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC) },
--	/* 1280x960@60Hz */
--	{ DRM_MODE("1280x960", DRM_MODE_TYPE_DRIVER, 108000, 1280, 1376,
--		   1488, 1800, 0, 960, 961, 964, 1000, 0,
--		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC) },
--	/* 1280x1024@60Hz */
--	{ DRM_MODE("1280x1024", DRM_MODE_TYPE_DRIVER, 108000, 1280, 1328,
--		   1440, 1688, 0, 1024, 1025, 1028, 1066, 0,
--		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC) },
--	/* 1360x768@60Hz */
--	{ DRM_MODE("1360x768", DRM_MODE_TYPE_DRIVER, 85500, 1360, 1424,
--		   1536, 1792, 0, 768, 771, 777, 795, 0,
--		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC) },
--	/* 1440x1050@60Hz */
--	{ DRM_MODE("1400x1050", DRM_MODE_TYPE_DRIVER, 121750, 1400, 1488,
--		   1632, 1864, 0, 1050, 1053, 1057, 1089, 0,
--		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC) },
--	/* 1440x900@60Hz */
--	{ DRM_MODE("1440x900", DRM_MODE_TYPE_DRIVER, 106500, 1440, 1520,
--		   1672, 1904, 0, 900, 903, 909, 934, 0,
--		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC) },
--	/* 1600x1200@60Hz */
--	{ DRM_MODE("1600x1200", DRM_MODE_TYPE_DRIVER, 162000, 1600, 1664,
--		   1856, 2160, 0, 1200, 1201, 1204, 1250, 0,
--		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC) },
--	/* 1680x1050@60Hz */
--	{ DRM_MODE("1680x1050", DRM_MODE_TYPE_DRIVER, 146250, 1680, 1784,
--		   1960, 2240, 0, 1050, 1053, 1059, 1089, 0,
--		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC) },
--	/* 1792x1344@60Hz */
--	{ DRM_MODE("1792x1344", DRM_MODE_TYPE_DRIVER, 204750, 1792, 1920,
--		   2120, 2448, 0, 1344, 1345, 1348, 1394, 0,
--		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC) },
--	/* 1853x1392@60Hz */
--	{ DRM_MODE("1856x1392", DRM_MODE_TYPE_DRIVER, 218250, 1856, 1952,
--		   2176, 2528, 0, 1392, 1393, 1396, 1439, 0,
--		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC) },
--	/* 1920x1080@60Hz */
--	{ DRM_MODE("1920x1080", DRM_MODE_TYPE_DRIVER, 173000, 1920, 2048,
--		   2248, 2576, 0, 1080, 1083, 1088, 1120, 0,
--		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC) },
--	/* 1920x1200@60Hz */
--	{ DRM_MODE("1920x1200", DRM_MODE_TYPE_DRIVER, 193250, 1920, 2056,
--		   2256, 2592, 0, 1200, 1203, 1209, 1245, 0,
--		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC) },
--	/* 1920x1440@60Hz */
--	{ DRM_MODE("1920x1440", DRM_MODE_TYPE_DRIVER, 234000, 1920, 2048,
--		   2256, 2600, 0, 1440, 1441, 1444, 1500, 0,
--		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC) },
--	/* 2560x1440@60Hz */
--	{ DRM_MODE("2560x1440", DRM_MODE_TYPE_DRIVER, 241500, 2560, 2608,
--		   2640, 2720, 0, 1440, 1443, 1448, 1481, 0,
--		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC) },
--	/* 2560x1600@60Hz */
--	{ DRM_MODE("2560x1600", DRM_MODE_TYPE_DRIVER, 348500, 2560, 2752,
--		   3032, 3504, 0, 1600, 1603, 1609, 1658, 0,
--		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC) },
--	/* 2880x1800@60Hz */
--	{ DRM_MODE("2880x1800", DRM_MODE_TYPE_DRIVER, 337500, 2880, 2928,
--		   2960, 3040, 0, 1800, 1803, 1809, 1852, 0,
--		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC) },
--	/* 3840x2160@60Hz */
--	{ DRM_MODE("3840x2160", DRM_MODE_TYPE_DRIVER, 533000, 3840, 3888,
--		   3920, 4000, 0, 2160, 2163, 2168, 2222, 0,
--		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC) },
--	/* 3840x2400@60Hz */
--	{ DRM_MODE("3840x2400", DRM_MODE_TYPE_DRIVER, 592250, 3840, 3888,
--		   3920, 4000, 0, 2400, 2403, 2409, 2469, 0,
--		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC) },
--	/* Terminate */
--	{ DRM_MODE("", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0) },
--};
--
+-	user_srf->prime.base.shareable = false;
+-	user_srf->prime.base.tfile = NULL;
+ 	if (drm_is_primary_client(file_priv))
+ 		user_srf->master = drm_file_get_master(file_priv);
+ 
+@@ -847,10 +845,10 @@ int vmw_surface_define_ioctl(struct drm_device *dev, void *data,
+ 		goto out_unlock;
+ 
+ 	/*
+-	 * A gb-aware client referencing a shared surface will
+-	 * expect a backup buffer to be present.
++	 * A gb-aware client referencing a surface will expect a backup
++	 * buffer to be present.
+ 	 */
+-	if (dev_priv->has_mob && req->shareable) {
++	if (dev_priv->has_mob) {
+ 		struct vmw_bo_params params = {
+ 			.domain = VMW_BO_DOMAIN_SYS,
+ 			.busy_domain = VMW_BO_DOMAIN_SYS,
+@@ -869,8 +867,9 @@ int vmw_surface_define_ioctl(struct drm_device *dev, void *data,
+ 	}
+ 
+ 	tmp = vmw_resource_reference(&srf->res);
+-	ret = ttm_prime_object_init(tfile, res->guest_memory_size, &user_srf->prime,
+-				    req->shareable, VMW_RES_SURFACE,
++	ret = ttm_prime_object_init(tfile, res->guest_memory_size,
++				    &user_srf->prime,
++				    VMW_RES_SURFACE,
+ 				    &vmw_user_surface_base_release);
+ 
+ 	if (unlikely(ret != 0)) {
+@@ -1549,8 +1548,6 @@ vmw_gb_surface_define_internal(struct drm_device *dev,
+ 
+ 	tmp = vmw_resource_reference(res);
+ 	ret = ttm_prime_object_init(tfile, res->guest_memory_size, &user_srf->prime,
+-				    req->base.drm_surface_flags &
+-				    drm_vmw_surface_flag_shareable,
+ 				    VMW_RES_SURFACE,
+ 				    &vmw_user_surface_base_release);
+ 
+@@ -2052,8 +2049,6 @@ int vmw_gb_surface_define(struct vmw_private *dev_priv,
+ 	}
+ 
+ 	*srf_out  = &user_srf->srf;
+-	user_srf->prime.base.shareable = false;
+-	user_srf->prime.base.tfile = NULL;
+ 
+ 	srf = &user_srf->srf;
+ 	srf->metadata = *req;
+diff --git a/include/uapi/drm/vmwgfx_drm.h b/include/uapi/drm/vmwgfx_drm.h
+index 26549c86a91f..26d96fecb902 100644
+--- a/include/uapi/drm/vmwgfx_drm.h
++++ b/include/uapi/drm/vmwgfx_drm.h
+@@ -1,6 +1,6 @@
+ /**************************************************************************
+  *
+- * Copyright © 2009-2022 VMware, Inc., Palo Alto, CA., USA
++ * Copyright © 2009-2023 VMware, Inc., Palo Alto, CA., USA
+  * All Rights Reserved.
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a
+@@ -902,7 +902,8 @@ struct drm_vmw_shader_arg {
  /**
-  * vmw_guess_mode_timing - Provide fake timings for a
-  * 60Hz vrefresh mode.
-@@ -2404,88 +2304,6 @@ void vmw_guess_mode_timing(struct drm_display_mode *mode)
- }
- 
- 
--int vmw_du_connector_fill_modes(struct drm_connector *connector,
--				uint32_t max_width, uint32_t max_height)
--{
--	struct vmw_display_unit *du = vmw_connector_to_du(connector);
--	struct drm_device *dev = connector->dev;
--	struct vmw_private *dev_priv = vmw_priv(dev);
--	struct drm_display_mode *mode = NULL;
--	struct drm_display_mode *bmode;
--	struct drm_display_mode prefmode = { DRM_MODE("preferred",
--		DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
--		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
--		DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC)
--	};
--	int i;
--	u32 assumed_bpp = 4;
--
--	if (dev_priv->assume_16bpp)
--		assumed_bpp = 2;
--
--	max_width  = min(max_width,  dev_priv->texture_max_width);
--	max_height = min(max_height, dev_priv->texture_max_height);
--
--	/*
--	 * For STDU extra limit for a mode on SVGA_REG_SCREENTARGET_MAX_WIDTH/
--	 * HEIGHT registers.
--	 */
--	if (dev_priv->active_display_unit == vmw_du_screen_target) {
--		max_width  = min(max_width,  dev_priv->stdu_max_width);
--		max_height = min(max_height, dev_priv->stdu_max_height);
--	}
--
--	/* Add preferred mode */
--	mode = drm_mode_duplicate(dev, &prefmode);
--	if (!mode)
--		return 0;
--	mode->hdisplay = du->pref_width;
--	mode->vdisplay = du->pref_height;
--	vmw_guess_mode_timing(mode);
--	drm_mode_set_name(mode);
--
--	if (vmw_kms_validate_mode_vram(dev_priv,
--					mode->hdisplay * assumed_bpp,
--					mode->vdisplay)) {
--		drm_mode_probed_add(connector, mode);
--	} else {
--		drm_mode_destroy(dev, mode);
--		mode = NULL;
--	}
--
--	if (du->pref_mode) {
--		list_del_init(&du->pref_mode->head);
--		drm_mode_destroy(dev, du->pref_mode);
--	}
--
--	/* mode might be null here, this is intended */
--	du->pref_mode = mode;
--
--	for (i = 0; vmw_kms_connector_builtin[i].type != 0; i++) {
--		bmode = &vmw_kms_connector_builtin[i];
--		if (bmode->hdisplay > max_width ||
--		    bmode->vdisplay > max_height)
--			continue;
--
--		if (!vmw_kms_validate_mode_vram(dev_priv,
--						bmode->hdisplay * assumed_bpp,
--						bmode->vdisplay))
--			continue;
--
--		mode = drm_mode_duplicate(dev, bmode);
--		if (!mode)
--			return 0;
--
--		drm_mode_probed_add(connector, mode);
--	}
--
--	drm_connector_list_update(connector);
--	/* Move the prefered mode first, help apps pick the right mode. */
--	drm_mode_sort(&connector->modes);
--
--	return 1;
--}
--
- /**
-  * vmw_kms_update_layout_ioctl - Handler for DRM_VMW_UPDATE_LAYOUT ioctl
-  * @dev: drm device for the ioctl
-@@ -3026,3 +2844,91 @@ int vmw_du_helper_plane_update(struct vmw_du_update_plane *update)
- 	vmw_validation_unref_lists(&val_ctx);
- 	return ret;
- }
-+
-+/**
-+ * vmw_connector_mode_valid - implements drm_connector_helper_funcs.mode_valid callback
-+ *
-+ * @connector: the drm connector, part of a DU container
-+ * @mode: drm mode to check
-+ *
-+ * Returns MODE_OK on success, or a drm_mode_status error code.
-+ */
-+enum drm_mode_status vmw_connector_mode_valid(struct drm_connector *connector,
-+					      struct drm_display_mode *mode)
-+{
-+	struct drm_device *dev = connector->dev;
-+	struct vmw_private *dev_priv = vmw_priv(dev);
-+	u32 max_width = dev_priv->texture_max_width;
-+	u32 max_height = dev_priv->texture_max_height;
-+	u32 assumed_cpp = 4;
-+
-+	if (dev_priv->assume_16bpp)
-+		assumed_cpp = 2;
-+
-+	if (dev_priv->active_display_unit == vmw_du_screen_target) {
-+		max_width  = min(dev_priv->stdu_max_width,  max_width);
-+		max_height = min(dev_priv->stdu_max_height, max_height);
-+	}
-+
-+	if (max_width < mode->hdisplay)
-+		return MODE_BAD_HVALUE;
-+
-+	if (max_height < mode->vdisplay)
-+		return MODE_BAD_VVALUE;
-+
-+	if (!vmw_kms_validate_mode_vram(dev_priv,
-+					mode->hdisplay * assumed_cpp,
-+					mode->vdisplay))
-+		return MODE_MEM;
-+
-+	return MODE_OK;
-+}
-+
-+/**
-+ * vmw_connector_get_modes - implements drm_connector_helper_funcs.get_modes callback
-+ *
-+ * @connector: the drm connector, part of a DU container
-+ *
-+ * Returns the number of added modes.
-+ */
-+int vmw_connector_get_modes(struct drm_connector *connector)
-+{
-+	struct vmw_display_unit *du = vmw_connector_to_du(connector);
-+	struct drm_device *dev = connector->dev;
-+	struct vmw_private *dev_priv = vmw_priv(dev);
-+	struct drm_display_mode *mode = NULL;
-+	struct drm_display_mode prefmode = { DRM_MODE("preferred",
-+		DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
-+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-+		DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC)
-+	};
-+	u32 max_width;
-+	u32 max_height;
-+	u32 num_modes;
-+
-+	/* Add preferred mode */
-+	mode = drm_mode_duplicate(dev, &prefmode);
-+	if (!mode)
-+		return 0;
-+
-+	mode->hdisplay = du->pref_width;
-+	mode->vdisplay = du->pref_height;
-+	vmw_guess_mode_timing(mode);
-+	drm_mode_set_name(mode);
-+
-+	drm_mode_probed_add(connector, mode);
-+	drm_dbg_kms(dev, "preferred mode " DRM_MODE_FMT "\n", DRM_MODE_ARG(mode));
-+
-+	/* Probe connector for all modes not exceeding our geom limits */
-+	max_width  = dev_priv->texture_max_width;
-+	max_height = dev_priv->texture_max_height;
-+
-+	if (dev_priv->active_display_unit == vmw_du_screen_target) {
-+		max_width  = min(dev_priv->stdu_max_width,  max_width);
-+		max_height = min(dev_priv->stdu_max_height, max_height);
-+	}
-+
-+	num_modes = 1 + drm_add_modes_noedid(connector, max_width, max_height);
-+
-+	return num_modes;
-+}
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-index db81e635dc06..a94947b588e8 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-@@ -378,7 +378,6 @@ struct vmw_display_unit {
- 	unsigned pref_width;
- 	unsigned pref_height;
- 	bool pref_active;
--	struct drm_display_mode *pref_mode;
- 
- 	/*
- 	 * Gui positioning
-@@ -428,8 +427,6 @@ void vmw_du_connector_save(struct drm_connector *connector);
- void vmw_du_connector_restore(struct drm_connector *connector);
- enum drm_connector_status
- vmw_du_connector_detect(struct drm_connector *connector, bool force);
--int vmw_du_connector_fill_modes(struct drm_connector *connector,
--				uint32_t max_width, uint32_t max_height);
- int vmw_kms_helper_dirty(struct vmw_private *dev_priv,
- 			 struct vmw_framebuffer *framebuffer,
- 			 const struct drm_clip_rect *clips,
-@@ -438,6 +435,9 @@ int vmw_kms_helper_dirty(struct vmw_private *dev_priv,
- 			 int num_clips,
- 			 int increment,
- 			 struct vmw_kms_dirty *dirty);
-+enum drm_mode_status vmw_connector_mode_valid(struct drm_connector *connector,
-+					      struct drm_display_mode *mode);
-+int vmw_connector_get_modes(struct drm_connector *connector);
- 
- void vmw_kms_helper_validation_finish(struct vmw_private *dev_priv,
- 				      struct drm_file *file_priv,
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
-index a82fa9700370..c4db4aecca6c 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
-@@ -304,7 +304,7 @@ static void vmw_ldu_connector_destroy(struct drm_connector *connector)
- static const struct drm_connector_funcs vmw_legacy_connector_funcs = {
- 	.dpms = vmw_du_connector_dpms,
- 	.detect = vmw_du_connector_detect,
--	.fill_modes = vmw_du_connector_fill_modes,
-+	.fill_modes = drm_helper_probe_single_connector_modes,
- 	.destroy = vmw_ldu_connector_destroy,
- 	.reset = vmw_du_connector_reset,
- 	.atomic_duplicate_state = vmw_du_connector_duplicate_state,
-@@ -313,6 +313,8 @@ static const struct drm_connector_funcs vmw_legacy_connector_funcs = {
- 
- static const struct
- drm_connector_helper_funcs vmw_ldu_connector_helper_funcs = {
-+	.get_modes = vmw_connector_get_modes,
-+	.mode_valid = vmw_connector_mode_valid
- };
- 
- static int vmw_kms_ldu_do_bo_dirty(struct vmw_private *dev_priv,
-@@ -449,7 +451,6 @@ static int vmw_ldu_init(struct vmw_private *dev_priv, unsigned unit)
- 	ldu->base.pref_active = (unit == 0);
- 	ldu->base.pref_width = dev_priv->initial_width;
- 	ldu->base.pref_height = dev_priv->initial_height;
--	ldu->base.pref_mode = NULL;
- 
- 	/*
- 	 * Remove this after enabling atomic because property values can
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c b/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
-index 556a403b7eb5..30c3ad27b662 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
-@@ -347,7 +347,7 @@ static void vmw_sou_connector_destroy(struct drm_connector *connector)
- static const struct drm_connector_funcs vmw_sou_connector_funcs = {
- 	.dpms = vmw_du_connector_dpms,
- 	.detect = vmw_du_connector_detect,
--	.fill_modes = vmw_du_connector_fill_modes,
-+	.fill_modes = drm_helper_probe_single_connector_modes,
- 	.destroy = vmw_sou_connector_destroy,
- 	.reset = vmw_du_connector_reset,
- 	.atomic_duplicate_state = vmw_du_connector_duplicate_state,
-@@ -357,6 +357,8 @@ static const struct drm_connector_funcs vmw_sou_connector_funcs = {
- 
- static const struct
- drm_connector_helper_funcs vmw_sou_connector_helper_funcs = {
-+	.get_modes = vmw_connector_get_modes,
-+	.mode_valid = vmw_connector_mode_valid
- };
- 
- 
-@@ -826,7 +828,6 @@ static int vmw_sou_init(struct vmw_private *dev_priv, unsigned unit)
- 	sou->base.pref_active = (unit == 0);
- 	sou->base.pref_width = dev_priv->initial_width;
- 	sou->base.pref_height = dev_priv->initial_height;
--	sou->base.pref_mode = NULL;
- 
- 	/*
- 	 * Remove this after enabling atomic because property values can
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
-index 6bc23bdf32c2..3c8414a13dba 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
-@@ -835,7 +835,7 @@ static void vmw_stdu_connector_destroy(struct drm_connector *connector)
- static const struct drm_connector_funcs vmw_stdu_connector_funcs = {
- 	.dpms = vmw_du_connector_dpms,
- 	.detect = vmw_du_connector_detect,
--	.fill_modes = vmw_du_connector_fill_modes,
-+	.fill_modes = drm_helper_probe_single_connector_modes,
- 	.destroy = vmw_stdu_connector_destroy,
- 	.reset = vmw_du_connector_reset,
- 	.atomic_duplicate_state = vmw_du_connector_duplicate_state,
-@@ -845,6 +845,8 @@ static const struct drm_connector_funcs vmw_stdu_connector_funcs = {
- 
- static const struct
- drm_connector_helper_funcs vmw_stdu_connector_helper_funcs = {
-+	.get_modes = vmw_connector_get_modes,
-+	.mode_valid = vmw_connector_mode_valid
- };
- 
- 
+  * enum drm_vmw_surface_flags
+  *
+- * @drm_vmw_surface_flag_shareable:     Whether the surface is shareable
++ * @drm_vmw_surface_flag_shareable:     Deprecated - all userspace surfaces are
++ *                                      shareable.
+  * @drm_vmw_surface_flag_scanout:       Whether the surface is a scanout
+  *                                      surface.
+  * @drm_vmw_surface_flag_create_buffer: Create a backup buffer if none is
 -- 
 2.40.1
 
