@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1F3783DA24
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 13:28:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CC7D83DA2D
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 13:28:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26CE710F9F8;
-	Fri, 26 Jan 2024 12:28:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7B5B10F9FB;
+	Fri, 26 Jan 2024 12:28:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66EF310F9F4
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 12:28:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED8C810F9F8
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 12:28:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1706272089; x=1737808089;
+ t=1706272091; x=1737808091;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=S/RIPk35VguLgg9bTJLdzzTyw4vT0cJPWv9q2k5ivYg=;
- b=T8yk36eNc89GY+t/7nswmO2JbcHOlGVwi2XO5olSnjyYrcBSR9E0vhF/
- mNrMbIOCM4OxFt8uMdiLG1Pwq85QgPS7Pajae68IkS5NozBmIUCuRE90K
- +GlDlD75UJOMUdnAl/g7l17lvPxCa550V1Z3BpIYtzwKJLKdgXWPBYHYM
- WZ/+mDZtL1pHPEobYZp1+HMLaT2vMdngPu/l2tUMaifZl5D1PpMSiPj56
- 7PbZ+qbuVSPk+f1/1Y0Kc/N7cCqQO4shWMXI49aWNHgHqFpyHa7NrWSZu
- YIJtX5n8qYeOYJJ0vtBKxxE4KFZ1GVnuav+SZVSAK4I3qucaqW+07DF01 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="9207417"
+ bh=8lviOGH9900spYiqqIUAkGOfkEjO6shTQ0mr4f1v7BQ=;
+ b=XwGXf+j2423GtJ5oRvU4jEtqdrp89CqZKzvvlbO3O66WZNaHIKyoXMI0
+ cbVucO7yY/CvMDYvpGnz9Qbj7f/4xXAq54WWiYSbQZbz0mjh91QgZjsiv
+ A8yjxu/jzhq/ZAJgRyGjPFtSzo+aVMJ/rP2NishXHaoxM7ieC8AtulmcL
+ DH0fxyEAOGck7LeIWUffjcvzagVDCbMvrDk7h/vlRsfoR0Eg1nf6RCEHl
+ N0oCamuUSzJC/WzlYx157XINYbziASvrSyygQUR+YSC8topGLfDZS64N9
+ W7gVtoplKc1M3XYWDhZpLG40DDl8QfAp+80R4ERSAqZxjSCqWz5e7G7vy A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="9207429"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="9207417"
+   d="scan'208";a="9207429"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2024 04:28:09 -0800
+ 26 Jan 2024 04:28:10 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="2731890"
+   d="scan'208";a="2731897"
 Received: from jlawryno.igk.intel.com ([10.91.220.59])
  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2024 04:28:08 -0800
+ 26 Jan 2024 04:28:10 -0800
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/7] accel/ivpu: Force snooping for MMU writes
-Date: Fri, 26 Jan 2024 13:27:58 +0100
-Message-ID: <20240126122804.2169129-2-jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH 2/7] accel/ivpu: Correct MMU queue size checking functions
+Date: Fri, 26 Jan 2024 13:27:59 +0100
+Message-ID: <20240126122804.2169129-3-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240126122804.2169129-1-jacek.lawrynowicz@linux.intel.com>
 References: <20240126122804.2169129-1-jacek.lawrynowicz@linux.intel.com>
@@ -66,67 +66,97 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: "Wachowski, Karol" <karol.wachowski@intel.com>
 
-Set AW_SNOOP_OVERRIDE bit in VPU_37/40XX_HOST_IF_TCU_PTW_OVERRIDES
-to force snooping for MMU write accesses (setting event queue events).
+Do not use kernel CIRC_SPACE and CIRC_CNT that
+incorrectly return space of a queue when wrap bit was set.
+Use correct implementation that compares producer, consumer and
+wrap bit values.
 
-MMU event queue buffer is the only buffer written by MMU and
-mapped as write-back which break cache coherency. Force write
-transactions to be snooped solving the problem.
+Without this fix it was possible to lose events in case when event
+queue was full.
 
 Signed-off-by: Wachowski, Karol <karol.wachowski@intel.com>
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_hw_37xx.c | 2 +-
- drivers/accel/ivpu/ivpu_hw_40xx.c | 2 +-
- drivers/accel/ivpu/ivpu_mmu.c     | 3 ---
- 3 files changed, 2 insertions(+), 5 deletions(-)
+ drivers/accel/ivpu/ivpu_mmu.c | 33 ++++++++++++++++++++++-----------
+ 1 file changed, 22 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_hw_37xx.c b/drivers/accel/ivpu/ivpu_hw_37xx.c
-index f15a93d83057..77accd029c4a 100644
---- a/drivers/accel/ivpu/ivpu_hw_37xx.c
-+++ b/drivers/accel/ivpu/ivpu_hw_37xx.c
-@@ -525,7 +525,7 @@ static void ivpu_boot_no_snoop_enable(struct ivpu_device *vdev)
- 	u32 val = REGV_RD32(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES);
- 
- 	val = REG_SET_FLD(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES, NOSNOOP_OVERRIDE_EN, val);
--	val = REG_SET_FLD(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES, AW_NOSNOOP_OVERRIDE, val);
-+	val = REG_CLR_FLD(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES, AW_NOSNOOP_OVERRIDE, val);
- 	val = REG_SET_FLD(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES, AR_NOSNOOP_OVERRIDE, val);
- 
- 	REGV_WR32(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES, val);
-diff --git a/drivers/accel/ivpu/ivpu_hw_40xx.c b/drivers/accel/ivpu/ivpu_hw_40xx.c
-index 704288084f37..86b89b94f9f3 100644
---- a/drivers/accel/ivpu/ivpu_hw_40xx.c
-+++ b/drivers/accel/ivpu/ivpu_hw_40xx.c
-@@ -530,7 +530,7 @@ static void ivpu_boot_no_snoop_enable(struct ivpu_device *vdev)
- 	u32 val = REGV_RD32(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES);
- 
- 	val = REG_SET_FLD(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES, SNOOP_OVERRIDE_EN, val);
--	val = REG_CLR_FLD(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES, AW_SNOOP_OVERRIDE, val);
-+	val = REG_SET_FLD(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES, AW_SNOOP_OVERRIDE, val);
- 	val = REG_CLR_FLD(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES, AR_SNOOP_OVERRIDE, val);
- 
- 	REGV_WR32(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES, val);
 diff --git a/drivers/accel/ivpu/ivpu_mmu.c b/drivers/accel/ivpu/ivpu_mmu.c
-index 9a3122ffce03..8df78adeee33 100644
+index 8df78adeee33..91bd640655ab 100644
 --- a/drivers/accel/ivpu/ivpu_mmu.c
 +++ b/drivers/accel/ivpu/ivpu_mmu.c
-@@ -560,7 +560,6 @@ static int ivpu_mmu_reset(struct ivpu_device *vdev)
- 	mmu->cmdq.cons = 0;
+@@ -72,10 +72,10 @@
  
- 	memset(mmu->evtq.base, 0, IVPU_MMU_EVTQ_SIZE);
--	clflush_cache_range(mmu->evtq.base, IVPU_MMU_EVTQ_SIZE);
- 	mmu->evtq.prod = 0;
- 	mmu->evtq.cons = 0;
+ #define IVPU_MMU_Q_COUNT_LOG2		4 /* 16 entries */
+ #define IVPU_MMU_Q_COUNT		((u32)1 << IVPU_MMU_Q_COUNT_LOG2)
+-#define IVPU_MMU_Q_WRAP_BIT		(IVPU_MMU_Q_COUNT << 1)
+-#define IVPU_MMU_Q_WRAP_MASK		(IVPU_MMU_Q_WRAP_BIT - 1)
+-#define IVPU_MMU_Q_IDX_MASK		(IVPU_MMU_Q_COUNT - 1)
++#define IVPU_MMU_Q_WRAP_MASK            GENMASK(IVPU_MMU_Q_COUNT_LOG2, 0)
++#define IVPU_MMU_Q_IDX_MASK             (IVPU_MMU_Q_COUNT - 1)
+ #define IVPU_MMU_Q_IDX(val)		((val) & IVPU_MMU_Q_IDX_MASK)
++#define IVPU_MMU_Q_WRP(val)             ((val) & IVPU_MMU_Q_COUNT)
  
-@@ -877,8 +876,6 @@ static u32 *ivpu_mmu_get_event(struct ivpu_device *vdev)
- 	if (!CIRC_CNT(IVPU_MMU_Q_IDX(evtq->prod), IVPU_MMU_Q_IDX(evtq->cons), IVPU_MMU_Q_COUNT))
+ #define IVPU_MMU_CMDQ_CMD_SIZE		16
+ #define IVPU_MMU_CMDQ_SIZE		(IVPU_MMU_Q_COUNT * IVPU_MMU_CMDQ_CMD_SIZE)
+@@ -475,20 +475,32 @@ static int ivpu_mmu_cmdq_wait_for_cons(struct ivpu_device *vdev)
+ 	return 0;
+ }
+ 
++static bool ivpu_mmu_queue_is_full(struct ivpu_mmu_queue *q)
++{
++	return ((IVPU_MMU_Q_IDX(q->prod) == IVPU_MMU_Q_IDX(q->cons)) &&
++		(IVPU_MMU_Q_WRP(q->prod) != IVPU_MMU_Q_WRP(q->cons)));
++}
++
++static bool ivpu_mmu_queue_is_empty(struct ivpu_mmu_queue *q)
++{
++	return ((IVPU_MMU_Q_IDX(q->prod) == IVPU_MMU_Q_IDX(q->cons)) &&
++		(IVPU_MMU_Q_WRP(q->prod) == IVPU_MMU_Q_WRP(q->cons)));
++}
++
+ static int ivpu_mmu_cmdq_cmd_write(struct ivpu_device *vdev, const char *name, u64 data0, u64 data1)
+ {
+-	struct ivpu_mmu_queue *q = &vdev->mmu->cmdq;
+-	u64 *queue_buffer = q->base;
+-	int idx = IVPU_MMU_Q_IDX(q->prod) * (IVPU_MMU_CMDQ_CMD_SIZE / sizeof(*queue_buffer));
++	struct ivpu_mmu_queue *cmdq = &vdev->mmu->cmdq;
++	u64 *queue_buffer = cmdq->base;
++	int idx = IVPU_MMU_Q_IDX(cmdq->prod) * (IVPU_MMU_CMDQ_CMD_SIZE / sizeof(*queue_buffer));
+ 
+-	if (!CIRC_SPACE(IVPU_MMU_Q_IDX(q->prod), IVPU_MMU_Q_IDX(q->cons), IVPU_MMU_Q_COUNT)) {
++	if (ivpu_mmu_queue_is_full(cmdq)) {
+ 		ivpu_err(vdev, "Failed to write MMU CMD %s\n", name);
+ 		return -EBUSY;
+ 	}
+ 
+ 	queue_buffer[idx] = data0;
+ 	queue_buffer[idx + 1] = data1;
+-	q->prod = (q->prod + 1) & IVPU_MMU_Q_WRAP_MASK;
++	cmdq->prod = (cmdq->prod + 1) & IVPU_MMU_Q_WRAP_MASK;
+ 
+ 	ivpu_dbg(vdev, MMU, "CMD write: %s data: 0x%llx 0x%llx\n", name, data0, data1);
+ 
+@@ -873,12 +885,10 @@ static u32 *ivpu_mmu_get_event(struct ivpu_device *vdev)
+ 	u32 *evt = evtq->base + (idx * IVPU_MMU_EVTQ_CMD_SIZE);
+ 
+ 	evtq->prod = REGV_RD32(IVPU_MMU_REG_EVTQ_PROD_SEC);
+-	if (!CIRC_CNT(IVPU_MMU_Q_IDX(evtq->prod), IVPU_MMU_Q_IDX(evtq->cons), IVPU_MMU_Q_COUNT))
++	if (ivpu_mmu_queue_is_empty(evtq))
  		return NULL;
  
--	clflush_cache_range(evt, IVPU_MMU_EVTQ_CMD_SIZE);
--
  	evtq->cons = (evtq->cons + 1) & IVPU_MMU_Q_WRAP_MASK;
- 	REGV_WR32(IVPU_MMU_REG_EVTQ_CONS_SEC, evtq->cons);
+-	REGV_WR32(IVPU_MMU_REG_EVTQ_CONS_SEC, evtq->cons);
+-
+ 	return evt;
+ }
+ 
+@@ -899,6 +909,7 @@ void ivpu_mmu_irq_evtq_handler(struct ivpu_device *vdev)
+ 		}
+ 
+ 		ivpu_mmu_user_context_mark_invalid(vdev, ssid);
++		REGV_WR32(IVPU_MMU_REG_EVTQ_CONS_SEC, vdev->mmu->evtq.cons);
+ 	}
+ }
  
 -- 
 2.43.0
