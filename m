@@ -2,60 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B196283E167
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 19:28:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BCBE83E158
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 19:27:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92DDE10FD39;
-	Fri, 26 Jan 2024 18:27:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36C5D10FD36;
+	Fri, 26 Jan 2024 18:27:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A5E910FD35
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
+ [209.85.208.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4BB710FD14
  for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 18:27:29 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id
- 2adb3069b0e04-5101055a16fso801407e87.2
+Received: by mail-lj1-f179.google.com with SMTP id
+ 38308e7fff4ca-2cf3a04ea1cso9021091fa.2
  for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 10:27:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1706293587; x=1706898387; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1706293588; x=1706898388; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=3oS3e08i9+4napyM4Cx2ITHLfZ0NtaHlzp9IZJ5e4DI=;
- b=G7anLSh79H55DpIbLtRKg7ZL55+TReXuwtPqxOjAAa08TpvSLwMb0TmjtKpDGAfKOu
- Q3C2WfKzm+L/gRMrOef5swNaU71nkURWRL/o6w6GpBvphRSsm1NxEYXvpacL8VYSWojB
- wlsBZdkmbmlIWAOnQNmUrDCSR2Fhbgd/9pJzZjdM/LbB9K90+uwdg6yEZiRhGP8Jj1xK
- nk97b7YvpySDUhpOTigft3fgNe0x9EIb8UcYAXu3H9xUa/8/qr3h//8OHr5mddzEAysC
- 2qJnjd9BihQAS+TfIqbmjBt4XB+stbDbwa5N2A0UvY6j7pSjfXcWwj0hPVjmIzdjnxt2
- 7J6Q==
+ :reply-to; bh=i0o+ygDvKgdzg84z/yGD97dQg8nwAd++RNbp4iSd1H4=;
+ b=cRdEUBO3QUDhCBN/tLoxUKrQybsLNKARJI9VV7af3zeTJ2qPNDHrEoRO9kbLXDsb6e
+ R/zuwtsTzw5ndZEZpsKWlXQq/9thuQ5gcUysktOKzGgM9BC2QNrJ6aiF9Q7JPNygXI2/
+ 9xPJKLidLHPj0jl1lBlsRU1ePvFt2mN2bcHCwxUUAgw8/0ce2HT8siM+D1PSQsk0L8XB
+ MXoyXlbYp1jtCfohKax69ER1VG4YqZqduaiyQT8+RagzG1u7bxZbUmCDrNa0DWSba2MM
+ wmyllNmR3kkc6Fbmv3iLiJf7b8FzzuPzsAF1Tzgwc9MdfVbTx35ju4IpWd8mIXw4xgUg
+ n6bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706293587; x=1706898387;
+ d=1e100.net; s=20230601; t=1706293588; x=1706898388;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3oS3e08i9+4napyM4Cx2ITHLfZ0NtaHlzp9IZJ5e4DI=;
- b=Ikk6n9AKrgyZDO5yafC/mYfiF7KWSzcPFYFLY2hoYiCKf72qGkOOpuxRrBboC0ZCL/
- g+GxU9Ziu/7R6C0Xj40yIr+INyoBMcwl9bEjgHN8+oBSMiZ2UCaoHTQ3crP1RWOKxwf5
- ExiwkJ2+/cV6U5ERnG86gbcfM6fkbAZDR/cr3fk5xrCmBg35F841B6yaYcTWnyrxpeo2
- pMrgacj9O/3hJiXwIILjVtMnXkmzMdDPV5bPD+7bLQh0WHu8iZfIAmXzfAKzqnDzupMZ
- aSP/EPOkgm6IBVp8zkvIO2OWzUz/Pf9U2qEh2T0LdthHftMoM17eQvu5L5AIpc7DBD2+
- ITXQ==
-X-Gm-Message-State: AOJu0Yx9R1meVWWw3fusy4HASoVMVgQ2g73tn4InPDabUwtZ8NduxNDY
- 3hkm2Gqx7be06DMX5vGQh9Mom8ah+k/z7ltoCaBni1xao/IAfjr7nf8J4l260Iw=
-X-Google-Smtp-Source: AGHT+IEjwBaqC2fPBa/bAz9/T5mw/biJlp2Hq5zrXGrLEabCZhlsIh0GbkHRacokvUrtT0eWuzdmxQ==
-X-Received: by 2002:a2e:7801:0:b0:2cf:1c74:9bcb with SMTP id
- t1-20020a2e7801000000b002cf1c749bcbmr112743ljc.106.1706293587342; 
+ bh=i0o+ygDvKgdzg84z/yGD97dQg8nwAd++RNbp4iSd1H4=;
+ b=KLGsHg8lbw0LOdPLwO50eaD/dLoyuCJjoAPDVJK8Nv18yPLlB/SLyTLcj2sJnTv2a1
+ W14NNxeJxvSrbIjvLGhFpfskt/jM2Oe0FhQhWKPaV0sz5VDsOez78b+m6nyFxmJyKvWA
+ BAEEDx3gVAsX+hmp2ZrX5Nxkvf2QNIhNrHaf+eh1IBlXp7bm36QjaGep07x7jKhISEDM
+ pMS6NDJxICUF3gbC+rbhNGtu1ECDmHuRz2sM2PNw9zm469up5CpePvnVsUooAkEb6Mxq
+ r5gj7msJL7dAzw9OVVgg549I7SWQAtUORl/YqG4Ju+HEkWcGrhSg4z+c+763A3wfcX9g
+ n4kA==
+X-Gm-Message-State: AOJu0YwkIh0FjC3tCLXjYnK2LDrNbQRiyYQphWnTyCmkTi3i0XdrfJj1
+ 5r9vnOFCnI9koIl45ttSoPLJD+1ckSBv6FGYxhOzFd/4h+4SqxAowpMvZBVWMj0=
+X-Google-Smtp-Source: AGHT+IFiRKKpC1MmWIOnmeVOU5vtrhmk3jEYF1uhWYyx+KxUzzr21U3Wn8emuBWR1ul2mE+Khq00Vg==
+X-Received: by 2002:a05:651c:8c:b0:2cc:6928:ee59 with SMTP id
+ 12-20020a05651c008c00b002cc6928ee59mr124763ljq.74.1706293587940; 
  Fri, 26 Jan 2024 10:26:27 -0800 (PST)
 Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- l25-20020a2e8699000000b002cf30f27698sm232218lji.91.2024.01.26.10.26.26
+ l25-20020a2e8699000000b002cf30f27698sm232218lji.91.2024.01.26.10.26.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 26 Jan 2024 10:26:27 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 26 Jan 2024 20:26:20 +0200
-Subject: [PATCH RESEND v3 01/15] drm/msm/dp: drop unused parser definitions
+Date: Fri, 26 Jan 2024 20:26:21 +0200
+Subject: [PATCH RESEND v3 02/15] drm/msm/dp: drop unused fields from
+ dp_power_private
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240126-dp-power-parser-cleanup-v3-1-098d5f581dd3@linaro.org>
+Message-Id: <20240126-dp-power-parser-cleanup-v3-2-098d5f581dd3@linaro.org>
 References: <20240126-dp-power-parser-cleanup-v3-0-098d5f581dd3@linaro.org>
 In-Reply-To: <20240126-dp-power-parser-cleanup-v3-0-098d5f581dd3@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -65,16 +66,16 @@ To: Rob Clark <robdclark@gmail.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
  Kuogee Hsieh <quic_khsieh@quicinc.com>, Stephen Boyd <swboyd@chromium.org>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2918;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=744;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=yVyRmmNda9mfXwPWksVdLkO9SsjdUAzlZBACGcKQbRg=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBls/lPOJbzNIqeApQ8DbgE/UP/idD/MUc3Ag/NF
- 99jdcF4k52JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZbP5TwAKCRCLPIo+Aiko
- 1d/eB/9FpFX864Yjm80sEUWwzzg25jC/nJ5LbwAhFLUf2BNJlzCilUSxv2x/hVpOO2muGkgqHWA
- T/OFelIcZL2xD1sJPBJESu1REdVZ/Zlw7FDUQiQMk1ZbZ/4RtZq8W4wW5TmikDrft9WkqOntPHo
- vy105O9vosbmNLYpALFUfYfZ1fol8HUMSqTuUDJUZarjOLuvCgHhNN8O4IjH6raya3uzyig7Tp/
- mm5ftptfZGFpClbNkJ+tPLi1qQZUJ6GD+JPwxb28VZslj6p/4ljxCr3kSOfCYm692RJWiv59vI0
- d7wx6GjlUoTwrwmB9CkjVHPIRpjDyVqRGC3vZ9xqEkZf1kJU
+ bh=mPuJ0sdVtb49CzPgC03wOi5IYVOAPxO/LgrDoWoA7+M=;
+ b=owGbwMvMwMXYbdNlx6SpcZXxtFoSQ+rmn/5PvPfVfjOeuI1p7jcvFa+LkR/j2pj777UEZHw73
+ 3Hi3hS1TkYjFgZGLgZZMUUWn4KWqTGbksM+7JhaDzOIlQlkCgMXpwBM5BYb+xeeyqxS4R97TFY9
+ aJ6ldumqBV9IZ4uk/TK9eFu+K12lcaYMr/+6rm3NS9B3lVY4PSFx1zPV405TjpR9532oY9i14n6
+ y6V2v91e/7dznbrNc5cijwgctVe9rZf/P+C/md/nkHAUHT03VwB71e0szZexvHjL2C24OkDQT1V
+ RiyPk0N6tzWn+U03qZ0oSfDFELuDmmpIsInfO3WDOjh/XzBK6rH5pkw1tuXXuoJLWN5Y6ioeeWG
+ bz+s30WyOUyLLi3/f1EAQW1qCVP9TS4LJxCM1bcups7u13mjWOhwrYz61/2WPU2NTz5z3uq0Ukk
+ MOzSJNW4ExbHuG+fMa/o+tz2cV1w23YzruUldY+knXoA
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -95,108 +96,28 @@ Cc: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drop several unused and obsolete definitions from the dp_parser module.
+Drop unused and obsolete fields from struct dp_power_private.
 
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/dp/dp_parser.h | 46 --------------------------------------
- 1 file changed, 46 deletions(-)
+ drivers/gpu/drm/msm/dp/dp_power.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_parser.h b/drivers/gpu/drm/msm/dp/dp_parser.h
-index 1f068626d445..90a2cdbbe344 100644
---- a/drivers/gpu/drm/msm/dp/dp_parser.h
-+++ b/drivers/gpu/drm/msm/dp/dp_parser.h
-@@ -12,7 +12,6 @@
+diff --git a/drivers/gpu/drm/msm/dp/dp_power.c b/drivers/gpu/drm/msm/dp/dp_power.c
+index c4843dd69f47..b095a5b47c8b 100644
+--- a/drivers/gpu/drm/msm/dp/dp_power.c
++++ b/drivers/gpu/drm/msm/dp/dp_power.c
+@@ -16,9 +16,6 @@ struct dp_power_private {
+ 	struct dp_parser *parser;
+ 	struct device *dev;
+ 	struct drm_device *drm_dev;
+-	struct clk *link_clk_src;
+-	struct clk *pixel_provider;
+-	struct clk *link_provider;
  
- #include "msm_drv.h"
- 
--#define DP_LABEL "MDSS DP DISPLAY"
- #define DP_MAX_PIXEL_CLK_KHZ	675000
- #define DP_MAX_NUM_DP_LANES	4
- #define DP_LINK_RATE_HBR2	540000 /* kbytes */
-@@ -21,7 +20,6 @@ enum dp_pm_type {
- 	DP_CORE_PM,
- 	DP_CTRL_PM,
- 	DP_STREAM_PM,
--	DP_PHY_PM,
- 	DP_MAX_PM
+ 	struct dp_power dp_power;
  };
- 
-@@ -43,28 +41,10 @@ static inline const char *dp_parser_pm_name(enum dp_pm_type module)
- 	case DP_CORE_PM:	return "DP_CORE_PM";
- 	case DP_CTRL_PM:	return "DP_CTRL_PM";
- 	case DP_STREAM_PM:	return "DP_STREAM_PM";
--	case DP_PHY_PM:		return "DP_PHY_PM";
- 	default:		return "???";
- 	}
- }
- 
--/**
-- * struct dp_display_data  - display related device tree data.
-- *
-- * @ctrl_node: referece to controller device
-- * @phy_node:  reference to phy device
-- * @is_active: is the controller currently active
-- * @name: name of the display
-- * @display_type: type of the display
-- */
--struct dp_display_data {
--	struct device_node *ctrl_node;
--	struct device_node *phy_node;
--	bool is_active;
--	const char *name;
--	const char *display_type;
--};
--
- /**
-  * struct dp_ctrl_resource - controller's IO related data
-  *
-@@ -77,28 +57,6 @@ struct dp_io {
- 	union phy_configure_opts phy_opts;
- };
- 
--/**
-- * struct dp_pinctrl - DP's pin control
-- *
-- * @pin: pin-controller's instance
-- * @state_active: active state pin control
-- * @state_hpd_active: hpd active state pin control
-- * @state_suspend: suspend state pin control
-- */
--struct dp_pinctrl {
--	struct pinctrl *pin;
--	struct pinctrl_state *state_active;
--	struct pinctrl_state *state_hpd_active;
--	struct pinctrl_state *state_suspend;
--};
--
--/* Regulators for DP devices */
--struct dp_reg_entry {
--	char name[32];
--	int enable_load;
--	int disable_load;
--};
--
- struct dss_module_power {
- 	unsigned int num_clk;
- 	struct clk_bulk_data *clocks;
-@@ -109,16 +67,12 @@ struct dss_module_power {
-  *
-  * @pdev: platform data of the client
-  * @mp: gpio, regulator and clock related data
-- * @pinctrl: pin-control related data
-- * @disp_data: controller's display related data
-  * @parse: function to be called by client to parse device tree.
-  */
- struct dp_parser {
- 	struct platform_device *pdev;
- 	struct dss_module_power mp[DP_MAX_PM];
--	struct dp_pinctrl pinctrl;
- 	struct dp_io io;
--	struct dp_display_data disp_data;
- 	u32 max_dp_lanes;
- 	u32 max_dp_link_rate;
- 	struct drm_bridge *next_bridge;
 
 -- 
 2.39.2
