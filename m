@@ -2,79 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D9F183E55F
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 23:26:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9908E83E583
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 23:35:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6858A10FF70;
-	Fri, 26 Jan 2024 22:26:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2505D10FF52;
+	Fri, 26 Jan 2024 22:35:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0AB810FF6F;
- Fri, 26 Jan 2024 22:25:59 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 40QM1FQb002837; Fri, 26 Jan 2024 22:25:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=u/55wnDM2O25v/XLbI4dGn+shzkPTv2rqVUgsk7jRHk=; b=jZ
- F9vLIoBs/sH6ezpejOxuV1j1Ua5fqc3rhCPib12SVHe8hxfZjxKd1S6+mHZUZxhc
- SrWzGblqjtv3+xDp/7JWaT0lCEGfptCELIGKgt/tmuES0dkzOUFG4nae2ci5Pet5
- eXddoB9wHNJ/uBchSx0m3VsLjFxA5jkIz9ZAZNZdfSJKonRyL/f8L3kAwTleJDiq
- c+ZGnGoXt8/jjQUDEBqlwFUQHWPi5TdyuaHpgpRf1pd2vqCELPFTd/HVnji+m3oS
- IzHAKa7Pguf0QliPvdpj4HM5JwXD8SgRo/BOXM2bRNHOXUDlUsvKJGLazxGG20KX
- uN1B1l1ttSXhMIpr6xmQ==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vvmmmg35f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 26 Jan 2024 22:25:54 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40QMPrRV016097
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 26 Jan 2024 22:25:53 GMT
-Received: from [10.110.48.234] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 26 Jan
- 2024 14:25:52 -0800
-Message-ID: <f5b431ed-cd86-0706-97b9-723dbbd69393@quicinc.com>
-Date: Fri, 26 Jan 2024 14:25:52 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH RESEND v3 15/15] drm/msm/dp: drop dp_parser
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2067.outbound.protection.outlook.com [40.107.243.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13A4610FF52;
+ Fri, 26 Jan 2024 22:34:56 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VmNg/CapgeYmwwpyz0jNYDzS8j8MG79UlTeWmwL7eE3pFGFtZ2mQBWtjlGd7bLAKJ3OhWkyHvVnhxjzGgCqmfZv474/CmL497T+1xSUaaUs/9FIM8geZ9PMB6EGhypVDg6XOWVgeib3herN0sum9rrwcpsD2Lj9W6pA4i1B8Jej8lrmog2gHTaq/jbob1cV+gmUbhfxpLL+I1qiPRoHVJT4OHG/wyrn3lyusbX6Ri4kiVH6PuSO0kKyP9ORm0tYJ1wi+vKTwdcwZnmEoNj1dfLCTQiQWtd0Xl+QvcHmxv+j8bxvp0YihDdb9l1YCGq2f+PBT1a3bvjGEnJ52ShqU5Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ATG1toL6hjG2NUuPiSo9MnBzpSinq1RmatEqTgkxP1Q=;
+ b=fnSXERaGSwY9UMgqYSA8sT1PshECp/F6sKhH4pfdmXbT2izF9GVIKLEnvblUPQg+bpnI6b7h11/59yFWa7dhFpKjot4XdgyEmxQY6+1hWF/QfhrilLQ+CzRX6uVCx7BGe3ATJ2+dlMdW3LGYgm6uk8v1SYU3W/EEb3MXf8qAbmGUHieW8UEtP2uxNzM5jGU9UiiIUWrDNJwmQ6JCeNKv+15X4DFvz6R+t+PFDcOCaJywLxaCuDbueyAOAwohDjkUHXXFvvkQqpRE92tGl2m/NlHJrnHkr+tpMp97lXZziQwSkZy+DmSv0D1bSGbF/uDnsTEs4s6Ndo15bJDsabagBQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ATG1toL6hjG2NUuPiSo9MnBzpSinq1RmatEqTgkxP1Q=;
+ b=SCFVnjI/eLkWVlDnmBFPH27AxXp2IJ7AJlOhlJHprXIaosdfRMbmTxyKqq+reFW6+Zdtfaa6cRjq7TYmDYyQDpVooI8fGy012YC7L3B7NY+PzsbRaCpD7/fLYI9nWTkOoDtQU6RDRkfN6TfveVLWYuYkGsQr1bUvvrTRJr56VRs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by MW4PR12MB7438.namprd12.prod.outlook.com (2603:10b6:303:219::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.27; Fri, 26 Jan
+ 2024 22:34:51 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::c30:614f:1cbd:3c64]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::c30:614f:1cbd:3c64%4]) with mapi id 15.20.7228.027; Fri, 26 Jan 2024
+ 22:34:51 +0000
+Message-ID: <1b8de155-4788-4c12-9c40-d45e508a526c@amd.com>
+Date: Fri, 26 Jan 2024 16:34:47 -0600
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/amd/display: add panel_power_savings sysfs entry to
+ eDP connectors
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul
- <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, "David
- Airlie" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Stephen Boyd
- <swboyd@chromium.org>
-References: <20240126-dp-power-parser-cleanup-v3-0-098d5f581dd3@linaro.org>
- <20240126-dp-power-parser-cleanup-v3-15-098d5f581dd3@linaro.org>
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-In-Reply-To: <20240126-dp-power-parser-cleanup-v3-15-098d5f581dd3@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: Hamza Mahfooz <hamza.mahfooz@amd.com>, amd-gfx@lists.freedesktop.org
+References: <20240126222300.119292-1-hamza.mahfooz@amd.com>
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <20240126222300.119292-1-hamza.mahfooz@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: GCo9OGaY58g8F2U4bm_2r38x8_m4jzdT
-X-Proofpoint-ORIG-GUID: GCo9OGaY58g8F2U4bm_2r38x8_m4jzdT
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-25_14,2024-01-25_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 impostorscore=0
- mlxscore=0 phishscore=0 adultscore=0 spamscore=0 mlxlogscore=999
- priorityscore=1501 malwarescore=0 lowpriorityscore=0 clxscore=1015
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401190000 definitions=main-2401260164
+X-ClientProxiedBy: BYAPR08CA0024.namprd08.prod.outlook.com
+ (2603:10b6:a03:100::37) To MN0PR12MB6101.namprd12.prod.outlook.com
+ (2603:10b6:208:3cb::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|MW4PR12MB7438:EE_
+X-MS-Office365-Filtering-Correlation-Id: 67cc7c27-28c3-4d0d-8538-08dc1ebf02be
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: xo01b92TKXoJbClgcdM2l49BbSBogBTBWDm863UoEIndfH0GwyzbHI1ccAVpxf84Kv+eWdOuLxrAQeL1yUdUsN9cpq35/PD9q39Ka/DrC1l8okmb77WeK2uoGAfCa9eQWGp9Q+FsW3/q5rnLWgoHzK6MR/wvfOzFh7PUGwj0STw8Nij3D5pkIF5kAtUQEq+KWXxhhMjlGGdxqVJtbqNf4CaFNu7FsoNIaZJDpfOrETcGNqdPAqkfX0WPNYPXMYatMV93lNKUQWB1Kff9+vby4QY35XZ+iOGZw+5cVXZNgCdMxlORn395fKGPKyaO6SG67ACRM4d+oepj4YgTFcjaqEyIiTpFC5uF/xFtdSA7oXrCVdFY+93+AvkAulGteITHAAlBRWio+HhzhY4rrZB1XgTth8j6VJe7aWUaa4kCA+BMrSBIkAkyYFoG0sMtbQTzG7F0896sLyd+9o4nOSnV9vtae6/HPTYmYDFim4jAQSMeYbwTmT8KRz7IDtV7xhb5XlqCmVWk8SuJ1WvY4jEu5rbD0tYDPB3YsEFPb/vxEHNZrm2zv9zMw7b1WeSdJC19GdaEYJ3sSqWyYdbkZJ5oW3XhZfY/Hh/rIUgixRXcnFBZL9Qu5HhSiFj1E1AKMTaTtOBZNDO4t4CSHaMFuddqGw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366004)(396003)(376002)(136003)(346002)(39860400002)(230922051799003)(186009)(64100799003)(451199024)(1800799012)(41300700001)(38100700002)(6506007)(31686004)(6486002)(8676002)(5660300002)(8936002)(44832011)(4326008)(478600001)(66476007)(83380400001)(2616005)(36756003)(2906002)(6512007)(6666004)(53546011)(26005)(31696002)(86362001)(66556008)(66946007)(54906003)(316002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bEMyNkxyT2lUeUE4OUtCSWhVanhjUVBpOElkNFRORDJwemR0Qk9mQW5wbHl0?=
+ =?utf-8?B?SXRGelVLNGxJOElHdTZFRHZabE1GWXBBSGRoUUJBcW1ER0cxQkNhLzJsblFp?=
+ =?utf-8?B?WURYZ2VIaXhvQlZpZHc5bXhrdXk3aHl4QjcxWUpsMEJsbUt4bCtQSUpsODVF?=
+ =?utf-8?B?Rld2c3FvU0JhSjhSK2F2V0VxMnJqcWhrQ1RDVG4wVEZHYlRNdWQ1Wko3OUFq?=
+ =?utf-8?B?aTgvbDdqeGdJZGpIbjhHMXBxRFZUbStSWEN1NThRTXBZMjRkTS9vZ0tyeGNS?=
+ =?utf-8?B?V2xqL2NzUU0rSWpuS1lLZk5QM0NzWnpYYjlkbkprZ3hTTTFjcDc3Vzk0Rnpx?=
+ =?utf-8?B?cXJRYkRzOTBRUXQvUm5hbGxQZXdJZ1FSTlRBQ2hYWFhadXl2dktSME5tWWUz?=
+ =?utf-8?B?T0FlenBhOGF1UW8yZFd5cHZpaFhaODFCOTgybTRQMGVXSnVFaG1wQnJJbnBW?=
+ =?utf-8?B?OFlwdVhyOUo5MGYzdC90bHRhYmZOZWZHTnBOOHd4RnJqdGtPdDRsOTErN3do?=
+ =?utf-8?B?T3JUMGNXQmJMaXNvZFlCYXQ0M1cyalBnbmx1ZkhvL0h3ZVdjcU92M0Z5S29i?=
+ =?utf-8?B?MGJXT2s0V3Q0S3VvK240dmFZRUJXS3ZDNElYWUZYRGJ4SWtJN1FMcVVpY0sx?=
+ =?utf-8?B?YlZpN2tXbnN1eWFtZ1BNcmE5UklFNVBIYnJaVDVZZXpSZlM0M0FnRGJlTS9k?=
+ =?utf-8?B?UzRjZ2h4UlYxdGpuZWxpNEZEbjVKSVVyb2xTNXVLT29hWTdmbnhVSWIwMWlU?=
+ =?utf-8?B?bXliVnJCL1NTVDlsZUNrQTNGU2FyNmwxT2pkUmhOak54aHhiWUwyZ1J5eno5?=
+ =?utf-8?B?UWU3SFRab2E3YytORE1RYzljcDlielptMDhpankvWmlLNnpZdmlaS2lYbW5p?=
+ =?utf-8?B?YjJuTnVwR21weUprdGd1MnpwT0pVdGJOR3FWdUtPak4wVkRRekV6K0sxbXoz?=
+ =?utf-8?B?TUhaMitreXEzQ2lpWm5Pc05KYm50bGZIT3hEaVVGQjNFQmdFNE9oVHlvcE9K?=
+ =?utf-8?B?NmoyZ21Mc3N2bE1qNzdUOUJNajJMd21jK0hYRS9BOUUwdGNjb1ZmcFZsTzFm?=
+ =?utf-8?B?UTZSWWd3K1BmNy85TVY0WXF3eTY0RytBMXpiYkMrV3RubXl3U2dpNTh5N3ZI?=
+ =?utf-8?B?cHJFL3FOeTY4ZnpFTmpHQm1XdXIvNG0wdmZtd204ZjJoZk81M3RudndGU2pX?=
+ =?utf-8?B?R3N1TFljLzltNkk3Mjh5SkFOMlB0SzFtcWs4a01kNStlQUtHMjVYeFhOdzJW?=
+ =?utf-8?B?NkVjVkkwVW9TM01xM1FuaVFVV0JTWFRFUFNROEdaY0tXcjBzVlBnekFvemx6?=
+ =?utf-8?B?Qm52UkVCdERYUmplY2NVNFFLQkdXQ2xFOGFQZGZpT2xWMmFjaFYvRXdWeENQ?=
+ =?utf-8?B?Y1ZnejBDNHB3d0I5M1p0T2pVeE9rcmd5QjU5bTljNlhpZS9XSmx2emx1cnp0?=
+ =?utf-8?B?bE1NbktSZ3NCN2RtVWI1bjBTaEN5WTlVZ1MwRnFHaC9wdVBGWlpIdFJBZ1Zn?=
+ =?utf-8?B?OXUyOE5KbmNHdkZINGpiVTFROEJnK2t4WHRvczM0WkthMy9uRTNSQ0RsbUtM?=
+ =?utf-8?B?N0h2eXE0U09wWnB5Wk5YOW5OOEhVV1FMZEI3bFJDblIvVVhmN3R5d25NVjF3?=
+ =?utf-8?B?WFEvZGw0ZGUxRUtYNzB5Qk1qU0I5dU1NQzhRc2gwQ3dUK1JFMUlyYUl1MEl0?=
+ =?utf-8?B?U3dtR0U5WERGN0RFN2NhdExOSHRtUm8vWUdCSUFWNXJ2NmZ5dEptTmdrZC9U?=
+ =?utf-8?B?Tm1WV0NJeHZEd1pqUkZIVEJPM3Y0ZHFRanBiM1M1ait4N2huRVQ5eHd1YzRp?=
+ =?utf-8?B?NjFiR1Y4TFZlWWRtVWpuRnJoZk15WU92YTU0N1BITjZ1WTByVUdWREdmMU1I?=
+ =?utf-8?B?NzRrT2FGQyszRWhNTXZQVW1manB2blpxYWlnaHlJMEJBRXM1VWVLcFBvTlR2?=
+ =?utf-8?B?eVJZK0IrcmhSeXJ3RzN0dUhyWjBwbzk5Zm1SMTlHTTAzNU16cDFORVAxT2VP?=
+ =?utf-8?B?eVZOMjBISzZxYThzQ2w1VDY2MVZoNlVCMzlmT1BBUEo5YUhBMThteWh0YTQv?=
+ =?utf-8?B?aDRwTVJuUnE3blhEazBBaVFVbHlaVFFWREdmRkRJTkFzR09ORjBvbDRnQldO?=
+ =?utf-8?Q?V55IkHF9xIHgou35oEdedFWO+?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 67cc7c27-28c3-4d0d-8538-08dc1ebf02be
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2024 22:34:51.5474 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: q6RSOhZ6FR0DWf+VaCXsXRKLYV0XwXbFAyr7Fylip/YyjNZzUw8MF1ufzE4WHOsANiCLqGNcXg83AW5c/YwVWw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7438
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,288 +124,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, freedreno@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, David Airlie <airlied@gmail.com>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Alex Hung <alex.hung@amd.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Wayne Lin <wayne.lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 1/26/2024 10:26 AM, Dmitry Baryshkov wrote:
-> Finally drop separate "parsing" submodule. There is no need in it
-> anymore. All submodules handle DT properties directly rather than
-> passing them via the separate structure pointer.
->
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Tested-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Reviewed-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+On 1/26/2024 16:22, Hamza Mahfooz wrote:
+> We want programs besides the compositor to be able to enable or disable
+> panel power saving features. However, since they are currently only
+> configurable through DRM properties, that isn't possible. So, to remedy
+> that issue introduce a new "panel_power_savings" sysfs attribute.
+> 
+> Cc: Mario Limonciello <mario.limonciello@amd.com>
+> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
 > ---
->   drivers/gpu/drm/msm/Makefile        |  1 -
->   drivers/gpu/drm/msm/dp/dp_aux.h     |  1 +
->   drivers/gpu/drm/msm/dp/dp_catalog.h |  1 -
->   drivers/gpu/drm/msm/dp/dp_ctrl.h    |  3 +-
->   drivers/gpu/drm/msm/dp/dp_debug.c   |  1 -
->   drivers/gpu/drm/msm/dp/dp_display.c | 18 +++++------
->   drivers/gpu/drm/msm/dp/dp_display.h |  2 ++
->   drivers/gpu/drm/msm/dp/dp_parser.c  | 61 -------------------------------------
->   drivers/gpu/drm/msm/dp/dp_parser.h  | 39 ------------------------
->   9 files changed, 12 insertions(+), 115 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
-> index 8dbdf3fba69e..543e04fa72e3 100644
-> --- a/drivers/gpu/drm/msm/Makefile
-> +++ b/drivers/gpu/drm/msm/Makefile
-> @@ -127,7 +127,6 @@ msm-$(CONFIG_DRM_MSM_DP)+= dp/dp_aux.o \
->   	dp/dp_drm.o \
->   	dp/dp_link.o \
->   	dp/dp_panel.o \
-> -	dp/dp_parser.o \
->   	dp/dp_audio.o
+>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 59 +++++++++++++++++++
+>   1 file changed, 59 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index cd98b3565178..b3fcd833015d 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -6534,6 +6534,58 @@ amdgpu_dm_connector_atomic_duplicate_state(struct drm_connector *connector)
+>   	return &new_state->base;
+>   }
 >   
->   msm-$(CONFIG_DRM_FBDEV_EMULATION) += msm_fbdev.o
-> diff --git a/drivers/gpu/drm/msm/dp/dp_aux.h b/drivers/gpu/drm/msm/dp/dp_aux.h
-> index 16d9b1758748..f47d591c1f54 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_aux.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_aux.h
-> @@ -16,6 +16,7 @@ void dp_aux_init(struct drm_dp_aux *dp_aux);
->   void dp_aux_deinit(struct drm_dp_aux *dp_aux);
->   void dp_aux_reconfig(struct drm_dp_aux *dp_aux);
->   
-> +struct phy;
->   struct drm_dp_aux *dp_aux_get(struct device *dev, struct dp_catalog *catalog,
->   			      struct phy *phy,
->   			      bool is_edp);
-> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
-> index 989e4c4fd6fa..a724a986b6ee 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_catalog.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
-> @@ -8,7 +8,6 @@
->   
->   #include <drm/drm_modes.h>
->   
-> -#include "dp_parser.h"
->   #include "disp/msm_disp_snapshot.h"
->   
->   /* interrupts */
-> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-> index 6e9f375b856a..fa014cee7e21 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-> @@ -9,7 +9,6 @@
->   #include "dp_aux.h"
->   #include "dp_panel.h"
->   #include "dp_link.h"
-> -#include "dp_parser.h"
->   #include "dp_catalog.h"
->   
->   struct dp_ctrl {
-> @@ -17,6 +16,8 @@ struct dp_ctrl {
->   	bool wide_bus_en;
->   };
->   
-> +struct phy;
+> +static ssize_t panel_power_savings_show(struct device *device,
+> +					struct device_attribute *attr,
+> +					char *buf)
+> +{
+> +	struct drm_connector *connector = dev_get_drvdata(device);
+> +	struct drm_device *dev = connector->dev;
+> +	ssize_t val;
 > +
->   int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl);
->   int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl, bool force_link_train);
->   void dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl);
-> diff --git a/drivers/gpu/drm/msm/dp/dp_debug.c b/drivers/gpu/drm/msm/dp/dp_debug.c
-> index 6c281dc095b9..ac68554801a4 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_debug.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_debug.c
-> @@ -9,7 +9,6 @@
->   #include <drm/drm_connector.h>
->   #include <drm/drm_file.h>
->   
-> -#include "dp_parser.h"
->   #include "dp_catalog.h"
->   #include "dp_aux.h"
->   #include "dp_ctrl.h"
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index de1306a88748..67956e34436d 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -9,12 +9,12 @@
->   #include <linux/debugfs.h>
->   #include <linux/component.h>
->   #include <linux/of_irq.h>
-> +#include <linux/phy/phy.h>
->   #include <linux/delay.h>
->   #include <drm/display/drm_dp_aux_bus.h>
->   
->   #include "msm_drv.h"
->   #include "msm_kms.h"
-> -#include "dp_parser.h"
->   #include "dp_ctrl.h"
->   #include "dp_catalog.h"
->   #include "dp_aux.h"
-> @@ -87,7 +87,6 @@ struct dp_display_private {
->   	struct drm_device *drm_dev;
->   	struct dentry *root;
->   
-> -	struct dp_parser  *parser;
->   	struct dp_catalog *catalog;
->   	struct drm_dp_aux *aux;
->   	struct dp_link    *link;
-> @@ -704,14 +703,11 @@ static int dp_init_sub_modules(struct dp_display_private *dp)
->   	struct dp_panel_in panel_in = {
->   		.dev = dev,
->   	};
-> +	struct phy *phy;
->   
-> -	dp->parser = dp_parser_get(dp->dp_display.pdev);
-> -	if (IS_ERR(dp->parser)) {
-> -		rc = PTR_ERR(dp->parser);
-> -		DRM_ERROR("failed to initialize parser, rc = %d\n", rc);
-> -		dp->parser = NULL;
-> -		goto error;
-> -	}
-> +	phy = devm_phy_get(dev, "dp");
-> +	if (IS_ERR(phy))
-> +		return PTR_ERR(phy);
->   
->   	dp->catalog = dp_catalog_get(dev);
->   	if (IS_ERR(dp->catalog)) {
-> @@ -722,7 +718,7 @@ static int dp_init_sub_modules(struct dp_display_private *dp)
->   	}
->   
->   	dp->aux = dp_aux_get(dev, dp->catalog,
-> -			     dp->parser->phy,
-> +			     phy,
->   			     dp->dp_display.is_edp);
->   	if (IS_ERR(dp->aux)) {
->   		rc = PTR_ERR(dp->aux);
-> @@ -753,7 +749,7 @@ static int dp_init_sub_modules(struct dp_display_private *dp)
->   
->   	dp->ctrl = dp_ctrl_get(dev, dp->link, dp->panel, dp->aux,
->   			       dp->catalog,
-> -			       dp->parser->phy);
-> +			       phy);
->   	if (IS_ERR(dp->ctrl)) {
->   		rc = PTR_ERR(dp->ctrl);
->   		DRM_ERROR("failed to initialize ctrl, rc = %d\n", rc);
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
-> index 70759dd1bfd0..234dada88687 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.h
-> @@ -10,6 +10,8 @@
->   #include <sound/hdmi-codec.h>
->   #include "disp/msm_disp_snapshot.h"
->   
-> +#define DP_MAX_PIXEL_CLK_KHZ	675000
+> +	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
+> +	val = to_dm_connector_state(connector->state)->abm_level;
+> +	drm_modeset_unlock(&dev->mode_config.connection_mutex);
 > +
->   struct msm_dp {
->   	struct drm_device *drm_dev;
->   	struct platform_device *pdev;
-> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c b/drivers/gpu/drm/msm/dp/dp_parser.c
-> deleted file mode 100644
-> index f95ab3c5c72c..000000000000
-> --- a/drivers/gpu/drm/msm/dp/dp_parser.c
-> +++ /dev/null
-> @@ -1,61 +0,0 @@
-> -// SPDX-License-Identifier: GPL-2.0-only
-> -/*
-> - * Copyright (c) 2012-2020, The Linux Foundation. All rights reserved.
-> - */
-> -
-> -#include <linux/of_gpio.h>
-> -#include <linux/phy/phy.h>
-> -
-> -#include <drm/drm_of.h>
-> -#include <drm/drm_print.h>
-> -#include <drm/drm_bridge.h>
-> -
-> -#include "dp_parser.h"
-> -#include "dp_reg.h"
-> -
-> -static int dp_parser_ctrl_res(struct dp_parser *parser)
-> -{
-> -	struct platform_device *pdev = parser->pdev;
-> -
-> -	parser->phy = devm_phy_get(&pdev->dev, "dp");
-> -	if (IS_ERR(parser->phy))
-> -		return PTR_ERR(parser->phy);
-> -
-> -	return 0;
-> -}
-> -
-> -static int dp_parser_parse(struct dp_parser *parser)
-> -{
-> -	int rc = 0;
-> -
-> -	if (!parser) {
-> -		DRM_ERROR("invalid input\n");
-> -		return -EINVAL;
-> -	}
-> -
-> -	rc = dp_parser_ctrl_res(parser);
-> -	if (rc)
-> -		return rc;
-> -
-> -	return 0;
-> -}
-> -
-> -struct dp_parser *dp_parser_get(struct platform_device *pdev)
-> -{
-> -	struct dp_parser *parser;
-> -	int ret;
-> -
-> -	parser = devm_kzalloc(&pdev->dev, sizeof(*parser), GFP_KERNEL);
-> -	if (!parser)
-> -		return ERR_PTR(-ENOMEM);
-> -
-> -	parser->pdev = pdev;
-> -
-> -	ret = dp_parser_parse(parser);
-> -	if (ret) {
-> -		dev_err(&pdev->dev, "device tree parsing failed\n");
-> -		return ERR_PTR(ret);
-> -	}
-> -
-> -	return parser;
-> -}
-> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.h b/drivers/gpu/drm/msm/dp/dp_parser.h
-> deleted file mode 100644
-> index 38fd335d5950..000000000000
-> --- a/drivers/gpu/drm/msm/dp/dp_parser.h
-> +++ /dev/null
-> @@ -1,39 +0,0 @@
-> -/* SPDX-License-Identifier: GPL-2.0-only */
-> -/*
-> - * Copyright (c) 2012-2020, The Linux Foundation. All rights reserved.
-> - */
-> -
-> -#ifndef _DP_PARSER_H_
-> -#define _DP_PARSER_H_
-> -
-> -#include <linux/platform_device.h>
-> -
-> -#include "msm_drv.h"
-> -
-> -#define DP_MAX_PIXEL_CLK_KHZ	675000
-> -
-> -/**
-> - * struct dp_parser - DP parser's data exposed to clients
-> - *
-> - * @pdev: platform data of the client
-> - * @phy: PHY handle
-> - */
-> -struct dp_parser {
-> -	struct platform_device *pdev;
-> -	struct phy *phy;
-> -};
-> -
-> -/**
-> - * dp_parser_get() - get the DP's device tree parser module
-> - *
-> - * @pdev: platform data of the client
-> - * return: pointer to dp_parser structure.
-> - *
-> - * This function provides client capability to parse the
-> - * device tree and populate the data structures. The data
-> - * related to clock, regulators, pin-control and other
-> - * can be parsed using this module.
-> - */
-> -struct dp_parser *dp_parser_get(struct platform_device *pdev);
-> -
-> -#endif
->
+> +	return sysfs_emit(buf, "%lu\n", val);
+> +}
+> +
+> +static ssize_t panel_power_savings_store(struct device *device,
+> +					 struct device_attribute *attr,
+> +					 const char *buf, size_t count)
+> +{
+> +	struct drm_connector *connector = dev_get_drvdata(device);
+> +	struct drm_device *dev = connector->dev;
+> +	long val;
+> +	int ret;
+> +
+> +	ret = kstrtol(buf, 0, &val);
+> +
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (val < 0 || val > 4)
+> +		return -EINVAL;
+> +
+> +	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
+> +	to_dm_connector_state(connector->state)->abm_level = val ?:
+> +		ABM_LEVEL_IMMEDIATE_DISABLE;
+> +	drm_modeset_unlock(&dev->mode_config.connection_mutex);
+> +
+> +	return count;
+> +}
+> +
+
+To make this more discoverable I think you want some kerneldoc.
+
+> +static DEVICE_ATTR_RW(panel_power_savings);
+> +
+> +static struct attribute *amdgpu_attrs[] = {
+> +	&dev_attr_panel_power_savings.attr,
+> +	NULL
+> +};
+> +
+> +static const struct attribute_group amdgpu_group = {
+> +	.name = "amdgpu",
+> +	.attrs = amdgpu_attrs
+> +};
+> +
+>   static int
+>   amdgpu_dm_connector_late_register(struct drm_connector *connector)
+>   {
+> @@ -6541,6 +6593,13 @@ amdgpu_dm_connector_late_register(struct drm_connector *connector)
+>   		to_amdgpu_dm_connector(connector);
+>   	int r;
+>   
+> +	if (connector->connector_type == DRM_MODE_CONNECTOR_eDP) {
+> +		r = sysfs_create_group(&connector->kdev->kobj,
+> +				       &amdgpu_group);
+> +		if (r)
+> +			return r;
+> +	}
+> +
+
+I think there should be some matching code sysfs_remove_group(), maybe 
+in early_unregister() callback.
+
+>   	amdgpu_dm_register_backlight_device(amdgpu_dm_connector);
+>   
+>   	if ((connector->connector_type == DRM_MODE_CONNECTOR_DisplayPort) ||
+
