@@ -2,69 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDB1383D988
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 12:44:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D382483DA05
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 13:15:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B52210F9B7;
-	Fri, 26 Jan 2024 11:44:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27C0710F9D0;
+	Fri, 26 Jan 2024 12:15:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EC6D10F9A2
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 11:44:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1706269444;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=ojog/GgB6QeEVgouu+JXqSacV8wR1Bfe5vGGDzfdD00=;
- b=f7H3Olp6VhZv1Qfugt+puaBkxGyWYMbFR9fkII6OwV1Au6YEZNunvbZ9xOZG6PbLqCUv+t
- o9cxWLD3yJFyxoKvJrjVXio5YU3oP//xtAJdmFgXudhPmb3G1IevbqLvm83Eg5GP+/W2zS
- zOE2y/YWqG8ysVI5kLwX67OgH+8agLk=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-125-yBJC8LoGNsOnF37GXF35Jw-1; Fri, 26 Jan 2024 06:44:02 -0500
-X-MC-Unique: yBJC8LoGNsOnF37GXF35Jw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-33932e8b3e6so158303f8f.3
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 03:44:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706269441; x=1706874241;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ojog/GgB6QeEVgouu+JXqSacV8wR1Bfe5vGGDzfdD00=;
- b=kNQ3f/SrHA2+hWjMRDn3VDNZxivI0z7kwgkIpJIBd+AApkzy/X62mfxNYn2HzmZzZO
- ugprbWBfDpNWxgGp6PPk9/h8nLwmSWG+6j+uG2rr2ZkJDm3bMDhBEr841XwRoSBYQLjk
- UXzFqDADGqc4kSxbVCYGKVwVaowjuvjvJRDwFSu+oi4dSO62oYu23snP7UgpSOnq9iiM
- pYPeDWvi8La4rkGm4ZkbjEPBpyFISehusum6+8TJo0OM6bkuJqZrRLvMzzusjcQzkR5f
- n+yxp9hvdv7DRFezrNM3vLbxnS9MZJeU4AzLMZYY8Z/ZuawKW5JHdWBe9Y2SWB2rgdnx
- ZhAA==
-X-Gm-Message-State: AOJu0YzVkCaIJJqbY1+vaNdc3tlVZvsu6axYCWlDGcX19ZJqNMUW89pX
- 78fmMnW1O8gIb/eBhz5mI4+CqtNe5X52nZKDJ+/ttXUZ3ogvGpCJO13ZUQb2WN2uXxUQ/Nq1XTP
- Je7a9nq9SZC+CAZ7v4J8hL+xtE3uvxWD16i9LhGTrret7REMIrbo+Zx+YsX/xrQ5Png==
-X-Received: by 2002:adf:f047:0:b0:339:367c:d996 with SMTP id
- t7-20020adff047000000b00339367cd996mr882320wro.93.1706269441511; 
- Fri, 26 Jan 2024 03:44:01 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEX5Jv2bItiikoMDio+zyUI6FtwwRV6Ma3TtXvYMcjl98b9mn8zQZcMGcOUDLXCdEYd/jOuWA==
-X-Received: by 2002:adf:f047:0:b0:339:367c:d996 with SMTP id
- t7-20020adff047000000b00339367cd996mr882304wro.93.1706269441051; 
- Fri, 26 Jan 2024 03:44:01 -0800 (PST)
-Received: from localhost ([2a01:e0a:b25:f902::ff])
- by smtp.gmail.com with ESMTPSA id
- z5-20020adff745000000b003395642bc9bsm1079492wrp.117.2024.01.26.03.44.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Jan 2024 03:44:00 -0800 (PST)
-Date: Fri, 26 Jan 2024 12:44:00 +0100
-From: Maxime Ripard <mripard@redhat.com>
-To: Dave Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-fixes
-Message-ID: <tp77e5fokigup6cgmpq6mtg46kzdw2dpze6smpnwfoml4kmwpq@bo6mbkezpkle>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9538110F9D0
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 12:15:49 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id E2DC5CE3533;
+ Fri, 26 Jan 2024 12:15:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44C1CC43390;
+ Fri, 26 Jan 2024 12:15:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1706271313;
+ bh=HJOduO1JjpKeSMWHdo7UhDLFHAL2ERhNtFLf9tTl7/M=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=PQ/qzxE5wGewrakIg8oLGEkwJ54mnPdktyre3AdnzZTooJ62cM2wyo/1c2eQ52CMd
+ 5v8345kQSl3s0+GH9MuiP1gFKCALyPqldWAX4Ye6aYB49AnY9r0nl1cBXjLTncedWR
+ xkZL4H9TIHmW7Sa5aJX9M+YIeBeR3NDIw4rQ1+9jJGtie+lImWVD7uZk4HVP7cKSCB
+ vs74U+EZsVGbSXX4DfbYu0vs9zpuTrrmwWchH393i8gJCfxt8O0dbMwDlmKN5M0v/4
+ URpRWrM0l71BkDwt4rB3mbQYdvhL5k50VuzWZW0gtl6B9TTUs5mACbQ78Wv5Byo9Jn
+ j72HbCOhq6M/g==
+Date: Fri, 26 Jan 2024 13:15:10 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Devarsh Thakkar <devarsht@ti.com>
+Subject: Re: [RFC PATCH 2/3] drm/tidss: Add support for display sharing
+Message-ID: <vgfzhamtiwkpdyk5ndagsb63subclinotoe6tsi3wu6z7454ec@igxfzjc5gyqm>
+References: <20240116134142.2092483-1-devarsht@ti.com>
+ <20240116134142.2092483-3-devarsht@ti.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="4bagkb36gkokciv5"
+ protocol="application/pgp-signature"; boundary="eefocgpe5td6sveu"
 Content-Disposition: inline
+In-Reply-To: <20240116134142.2092483-3-devarsht@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,150 +51,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, Oded Gabbay <ogabbay@kernel.org>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: nm@ti.com, devicetree@vger.kernel.org, conor+dt@kernel.org, j-luthra@ti.com,
+ daniel@ffwll.ch, krzysztof.kozlowski+dt@linaro.org, praneeth@ti.com,
+ tomi.valkeinen@ideasonboard.com, jyri.sarha@iki.fi,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ robh+dt@kernel.org, tzimmermann@suse.de, a-bhatia1@ti.com, airlied@gmail.com,
+ kristo@kernel.org, linux-arm-kernel@lists.infradead.org, vigneshr@ti.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---4bagkb36gkokciv5
-Content-Type: text/plain; charset=utf-8
+--eefocgpe5td6sveu
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Dave, Sima,
+Hi,
 
-Here's this week drm-misc-fixes PR.
+Thanks a lot for working on that.
+
+On Tue, Jan 16, 2024 at 07:11:41PM +0530, Devarsh Thakkar wrote:
+> Display subsystem present in TI Keystone family of devices supports shari=
+ng
+> of display between multiple hosts as it provides separate register space
+> (common* region) for each host to programming display controller and also=
+ a
+> unique interrupt line for each host.
+>=20
+> This adds support for display sharing, by allowing partitioning of
+> resources either at video port level or at video plane level as
+> described below :
+>=20
+> 1) Linux can own (i.e have write access) completely one or more of video
+> ports along with corresponding resources (viz. overlay managers,
+> video planes) used by Linux in context of those video ports.
+> Even if Linux is owning
+> these video ports it can still share this video port with a remote core
+> which can own one or more video planes associated with this video port.
+>=20
+> 2) Linux owns one or more of the video planes with video port
+> (along with corresponding overlay manager) associated with these planes
+> being owned and controlled by a remote core. Linux still has read-only
+> access to the associated video port and overlay managers so that it can
+> parse the settings made by remote core.
+
+So, just to make sure we're on the same page. 1) means Linux drives the
+whole display engine, but can lend planes to the R5? How does that work,
+is Linux aware of the workload being there (plane size, format, etc) ?
+
+And 2) would mean that the display engine is under the R5 control and
+Linux only gets to fill the plane and let the firmware know of what it
+wants?
+
+If so, do we even need the tidss driver in the second case? We could
+just write a fwkms driver of some sorts that could be used by multiple
+implementations of the same "defer to firmware" logic.
+
+> For both the cases, the resources used in context of processing core
+> running Linux along with ownership information are exposed by user as
+> part of device-tree blob and driver uses an updated feature list tailored
+> for this shared mode accordingly. The driver also auto-populates
+> matching overlay managers and output types from shared video
+> port list provided in device-tree blob.
+> In dispc_feature struct remove const access specfier for output_type
+> array as it is required to be updated dynamically in run-time for shared
+> mode.
+
+I'm also not entirely sure that the device tree is the right path there.
+Surely the firmware capabilities will evolve over time, while the device
+tree won't. Is there some way to make it discoverable at probe time by
+the driver?
 
 Maxime
 
-drm-misc-fixes-2024-01-26:
-Plenty of ivpu fixes to improve the general stability and debugging, a
-suspend fix for the anx7625 bridge, a revert to fix an initialization
-order bug between i915 and simpledrm and a documentation warning fix for
-dp_mst.
-The following changes since commit 6613476e225e090cc9aad49be7fa504e290dd33d:
-
-  Linux 6.8-rc1 (2024-01-21 14:11:32 -0800)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2024-01-26
-
-for you to fetch changes up to 27d19268cf394f2c78db732be0cb31852eeadb0a:
-
-  accel/ivpu: Improve recovery and reset support (2024-01-25 10:17:37 +0100)
-
-----------------------------------------------------------------
-Plenty of ivpu fixes to improve the general stability and debugging, a
-suspend fix for the anx7625 bridge, a revert to fix an initialization
-order bug between i915 and simpledrm and a documentation warning fix for
-dp_mst.
-
-----------------------------------------------------------------
-Arnd Bergmann (1):
-      drm/panel/raydium-rm692e5: select CONFIG_DRM_DISPLAY_DP_HELPER
-
-Artur Weber (1):
-      drm/panel: samsung-s6d7aa0: drop DRM_BUS_FLAG_DE_HIGH for lsl080al02
-
-Bagas Sanjaya (1):
-      drm/dp_mst: Separate @failing_port list in drm_dp_mst_atomic_check_mg=
-r() comment
-
-Douglas Anderson (2):
-      drm/bridge: parade-ps8640: Wait for HPD when doing an AUX transfer
-      drm/bridge: parade-ps8640: Make sure we drop the AUX mutex in the err=
-or case
-
-Hsin-Yi Wang (1):
-      drm/bridge: anx7625: Ensure bridge is suspended in disable()
-
-Jacek Lawrynowicz (8):
-      accel/ivpu: Fix for missing lock around drm_gem_shmem_vmap()
-      accel/ivpu: Free buffer sgt on unbind
-      accel/ivpu: Disable buffer sharing among VPU contexts
-      accel/ivpu: Improve buffer object debug logs
-      accel/ivpu: Disable PLL after VPU IP reset during FLR
-      accel/ivpu: Fix dev open/close races with unbind
-      accel/ivpu: Improve stability of ivpu_submit_ioctl()
-      accel/ivpu: Improve recovery and reset support
-
-Markus Niebel (1):
-      drm: panel-simple: add missing bus flags for Tianma tm070jvhg[30/33]
-
-Maxime Ripard (1):
-      Merge v6.8-rc1 into drm-misc-fixes
-
-Micha=C5=82 Winiarski (1):
-      drm/tests: mm: Call drm_mm_print in drm_test_mm_debug
-
-Pin-yen Lin (1):
-      drm/bridge: parade-ps8640: Ensure bridge is suspended in .post_disabl=
-e()
-
-Thomas Zimmermann (1):
-      Revert "drivers/firmware: Move sysfb_init() from device_initcall to s=
-ubsys_initcall_sync"
-
-Tomi Valkeinen (2):
-      drm/bridge: sii902x: Fix probing race issue
-      drm/bridge: sii902x: Fix audio codec unregistration
-
-Wachowski, Karol (5):
-      accel/ivpu: Dump MMU events in case of VPU boot timeout
-      accel/ivpu: Call diagnose failure in ivpu_mmu_cmdq_sync()
-      accel/ivpu: Add debug prints for MMU map/unmap operations
-      accel/ivpu: Add diagnostic messages when VPU fails to boot or suspend
-      accel/ivpu: Deprecate DRM_IVPU_PARAM_CONTEXT_PRIORITY param
-
-Yangyu Chen (1):
-      drm/ttm: allocate dummy_read_page without DMA32 on fail
-
- drivers/accel/ivpu/ivpu_debugfs.c             |  20 +++-
- drivers/accel/ivpu/ivpu_drv.c                 | 124 +++++++++++---------
- drivers/accel/ivpu/ivpu_drv.h                 |   5 +-
- drivers/accel/ivpu/ivpu_gem.c                 | 142 +++++++++--------------
- drivers/accel/ivpu/ivpu_gem.h                 |   3 +-
- drivers/accel/ivpu/ivpu_hw_37xx.c             |  14 +--
- drivers/accel/ivpu/ivpu_hw_40xx.c             |  29 ++++-
- drivers/accel/ivpu/ivpu_ipc.c                 |   6 +-
- drivers/accel/ivpu/ivpu_job.c                 | 160 ++++++++++++----------=
-----
- drivers/accel/ivpu/ivpu_job.h                 |   3 +-
- drivers/accel/ivpu/ivpu_mmu.c                 |  22 ++--
- drivers/accel/ivpu/ivpu_mmu.h                 |   1 +
- drivers/accel/ivpu/ivpu_mmu_context.c         |   9 ++
- drivers/accel/ivpu/ivpu_pm.c                  |  52 ++++++---
- drivers/accel/ivpu/ivpu_pm.h                  |   6 +-
- drivers/firmware/sysfb.c                      |   2 +-
- drivers/gpu/drm/bridge/analogix/anx7625.c     |   7 +-
- drivers/gpu/drm/bridge/analogix/anx7625.h     |   2 +
- drivers/gpu/drm/bridge/parade-ps8640.c        |  23 ++++
- drivers/gpu/drm/bridge/sii902x.c              |  48 +++++---
- drivers/gpu/drm/display/drm_dp_mst_topology.c |   2 +
- drivers/gpu/drm/panel/Kconfig                 |   2 +
- drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c |   2 +-
- drivers/gpu/drm/panel/panel-simple.c          |   2 +
- drivers/gpu/drm/tests/drm_mm_test.c           |   5 +-
- drivers/gpu/drm/ttm/ttm_device.c              |  12 +-
- include/uapi/drm/ivpu_accel.h                 |  25 +++-
- 27 files changed, 413 insertions(+), 315 deletions(-)
-
---4bagkb36gkokciv5
+--eefocgpe5td6sveu
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZbOa/wAKCRDj7w1vZxhR
-xYiGAQC1TWsKIasMAp4y47KRlvJ/tk5s/cS9vzLKsuoqNs331QEApR8OwBg6xD/U
-Lp9ZArT14fHEY/v4aVHVKH2gO5ZJLws=
-=QsQp
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZbOiTgAKCRDj7w1vZxhR
+xUZHAQC9UEm2aY+VJZIu3cY6lpRxt2+gjm/F09tvTETL6uyTGwD/YkQWVcLu/vz4
+MgJdyfGZKivewFLe/q0RCkDicEbLcQI=
+=YUl/
 -----END PGP SIGNATURE-----
 
---4bagkb36gkokciv5--
-
+--eefocgpe5td6sveu--
