@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CC7D83DA2D
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 13:28:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EEDE83DA26
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 13:28:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7B5B10F9FB;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 379A610F9FD;
 	Fri, 26 Jan 2024 12:28:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED8C810F9F8
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 12:28:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4926010F9F8
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 12:28:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1706272091; x=1737808091;
+ t=1706272092; x=1737808092;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=8lviOGH9900spYiqqIUAkGOfkEjO6shTQ0mr4f1v7BQ=;
- b=XwGXf+j2423GtJ5oRvU4jEtqdrp89CqZKzvvlbO3O66WZNaHIKyoXMI0
- cbVucO7yY/CvMDYvpGnz9Qbj7f/4xXAq54WWiYSbQZbz0mjh91QgZjsiv
- A8yjxu/jzhq/ZAJgRyGjPFtSzo+aVMJ/rP2NishXHaoxM7ieC8AtulmcL
- DH0fxyEAOGck7LeIWUffjcvzagVDCbMvrDk7h/vlRsfoR0Eg1nf6RCEHl
- N0oCamuUSzJC/WzlYx157XINYbziASvrSyygQUR+YSC8topGLfDZS64N9
- W7gVtoplKc1M3XYWDhZpLG40DDl8QfAp+80R4ERSAqZxjSCqWz5e7G7vy A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="9207429"
+ bh=o3Jx00fhCon5Fno3vnzaAhGnAgKQqCLXJ+wVzwpiAos=;
+ b=BjrZRGOrbf16rwLLCRW4DTvHwxi27Xh4VC1i/24IU1C4zw2TM3PDhAhF
+ 4ksR2VFgg5YxRgSg3ybHHl+aHbeceJVNgrsXQJsjDe+JdY9iV4B0IBusX
+ jNF0AnCCkiODyVxCFfNctFKS/ql4+zqDAnCTl//KnmelUfjM8KOmKWZoc
+ CYBO28OAMZbKo7R0Na+N3fV+FmopykMXkOBsyvl8EfP8LmaCDizWY+733
+ mASD1Lbv2ZdxSDcJG/in3GYw2ALrUJNXDv4mK8YxsgCSI7ICqho7sqzSZ
+ bzM8Cv8vh3OqOJZaPta/YLua37XgaGqoIrCub0ifEMVe1F/kbBNDSQOZA A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="9207442"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="9207429"
+   d="scan'208";a="9207442"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2024 04:28:10 -0800
+ 26 Jan 2024 04:28:12 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="2731897"
+   d="scan'208";a="2731898"
 Received: from jlawryno.igk.intel.com ([10.91.220.59])
  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2024 04:28:10 -0800
+ 26 Jan 2024 04:28:11 -0800
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/7] accel/ivpu: Correct MMU queue size checking functions
-Date: Fri, 26 Jan 2024 13:27:59 +0100
-Message-ID: <20240126122804.2169129-3-jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH 3/7] accel/ivpu: Disable d3hot_delay on all NPU generations
+Date: Fri, 26 Jan 2024 13:28:00 +0100
+Message-ID: <20240126122804.2169129-4-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240126122804.2169129-1-jacek.lawrynowicz@linux.intel.com>
 References: <20240126122804.2169129-1-jacek.lawrynowicz@linux.intel.com>
@@ -59,105 +59,34 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>, "Wachowski,
- Karol" <karol.wachowski@intel.com>
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Wachowski, Karol" <karol.wachowski@intel.com>
+NPU does not require this delay regardless of the generation.
+All generations are integrated into the SOC.
 
-Do not use kernel CIRC_SPACE and CIRC_CNT that
-incorrectly return space of a queue when wrap bit was set.
-Use correct implementation that compares producer, consumer and
-wrap bit values.
-
-Without this fix it was possible to lose events in case when event
-queue was full.
-
-Signed-off-by: Wachowski, Karol <karol.wachowski@intel.com>
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_mmu.c | 33 ++++++++++++++++++++++-----------
- 1 file changed, 22 insertions(+), 11 deletions(-)
+ drivers/accel/ivpu/ivpu_drv.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_mmu.c b/drivers/accel/ivpu/ivpu_mmu.c
-index 8df78adeee33..91bd640655ab 100644
---- a/drivers/accel/ivpu/ivpu_mmu.c
-+++ b/drivers/accel/ivpu/ivpu_mmu.c
-@@ -72,10 +72,10 @@
+diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
+index 9418c73ee8ef..4b0640226986 100644
+--- a/drivers/accel/ivpu/ivpu_drv.c
++++ b/drivers/accel/ivpu/ivpu_drv.c
+@@ -480,9 +480,8 @@ static int ivpu_pci_init(struct ivpu_device *vdev)
+ 	/* Clear any pending errors */
+ 	pcie_capability_clear_word(pdev, PCI_EXP_DEVSTA, 0x3f);
  
- #define IVPU_MMU_Q_COUNT_LOG2		4 /* 16 entries */
- #define IVPU_MMU_Q_COUNT		((u32)1 << IVPU_MMU_Q_COUNT_LOG2)
--#define IVPU_MMU_Q_WRAP_BIT		(IVPU_MMU_Q_COUNT << 1)
--#define IVPU_MMU_Q_WRAP_MASK		(IVPU_MMU_Q_WRAP_BIT - 1)
--#define IVPU_MMU_Q_IDX_MASK		(IVPU_MMU_Q_COUNT - 1)
-+#define IVPU_MMU_Q_WRAP_MASK            GENMASK(IVPU_MMU_Q_COUNT_LOG2, 0)
-+#define IVPU_MMU_Q_IDX_MASK             (IVPU_MMU_Q_COUNT - 1)
- #define IVPU_MMU_Q_IDX(val)		((val) & IVPU_MMU_Q_IDX_MASK)
-+#define IVPU_MMU_Q_WRP(val)             ((val) & IVPU_MMU_Q_COUNT)
+-	/* VPU 37XX does not require 10m D3hot delay */
+-	if (ivpu_hw_gen(vdev) == IVPU_HW_37XX)
+-		pdev->d3hot_delay = 0;
++	/* NPU does not require 10m D3hot delay */
++	pdev->d3hot_delay = 0;
  
- #define IVPU_MMU_CMDQ_CMD_SIZE		16
- #define IVPU_MMU_CMDQ_SIZE		(IVPU_MMU_Q_COUNT * IVPU_MMU_CMDQ_CMD_SIZE)
-@@ -475,20 +475,32 @@ static int ivpu_mmu_cmdq_wait_for_cons(struct ivpu_device *vdev)
- 	return 0;
- }
- 
-+static bool ivpu_mmu_queue_is_full(struct ivpu_mmu_queue *q)
-+{
-+	return ((IVPU_MMU_Q_IDX(q->prod) == IVPU_MMU_Q_IDX(q->cons)) &&
-+		(IVPU_MMU_Q_WRP(q->prod) != IVPU_MMU_Q_WRP(q->cons)));
-+}
-+
-+static bool ivpu_mmu_queue_is_empty(struct ivpu_mmu_queue *q)
-+{
-+	return ((IVPU_MMU_Q_IDX(q->prod) == IVPU_MMU_Q_IDX(q->cons)) &&
-+		(IVPU_MMU_Q_WRP(q->prod) == IVPU_MMU_Q_WRP(q->cons)));
-+}
-+
- static int ivpu_mmu_cmdq_cmd_write(struct ivpu_device *vdev, const char *name, u64 data0, u64 data1)
- {
--	struct ivpu_mmu_queue *q = &vdev->mmu->cmdq;
--	u64 *queue_buffer = q->base;
--	int idx = IVPU_MMU_Q_IDX(q->prod) * (IVPU_MMU_CMDQ_CMD_SIZE / sizeof(*queue_buffer));
-+	struct ivpu_mmu_queue *cmdq = &vdev->mmu->cmdq;
-+	u64 *queue_buffer = cmdq->base;
-+	int idx = IVPU_MMU_Q_IDX(cmdq->prod) * (IVPU_MMU_CMDQ_CMD_SIZE / sizeof(*queue_buffer));
- 
--	if (!CIRC_SPACE(IVPU_MMU_Q_IDX(q->prod), IVPU_MMU_Q_IDX(q->cons), IVPU_MMU_Q_COUNT)) {
-+	if (ivpu_mmu_queue_is_full(cmdq)) {
- 		ivpu_err(vdev, "Failed to write MMU CMD %s\n", name);
- 		return -EBUSY;
- 	}
- 
- 	queue_buffer[idx] = data0;
- 	queue_buffer[idx + 1] = data1;
--	q->prod = (q->prod + 1) & IVPU_MMU_Q_WRAP_MASK;
-+	cmdq->prod = (cmdq->prod + 1) & IVPU_MMU_Q_WRAP_MASK;
- 
- 	ivpu_dbg(vdev, MMU, "CMD write: %s data: 0x%llx 0x%llx\n", name, data0, data1);
- 
-@@ -873,12 +885,10 @@ static u32 *ivpu_mmu_get_event(struct ivpu_device *vdev)
- 	u32 *evt = evtq->base + (idx * IVPU_MMU_EVTQ_CMD_SIZE);
- 
- 	evtq->prod = REGV_RD32(IVPU_MMU_REG_EVTQ_PROD_SEC);
--	if (!CIRC_CNT(IVPU_MMU_Q_IDX(evtq->prod), IVPU_MMU_Q_IDX(evtq->cons), IVPU_MMU_Q_COUNT))
-+	if (ivpu_mmu_queue_is_empty(evtq))
- 		return NULL;
- 
- 	evtq->cons = (evtq->cons + 1) & IVPU_MMU_Q_WRAP_MASK;
--	REGV_WR32(IVPU_MMU_REG_EVTQ_CONS_SEC, evtq->cons);
--
- 	return evt;
- }
- 
-@@ -899,6 +909,7 @@ void ivpu_mmu_irq_evtq_handler(struct ivpu_device *vdev)
- 		}
- 
- 		ivpu_mmu_user_context_mark_invalid(vdev, ssid);
-+		REGV_WR32(IVPU_MMU_REG_EVTQ_CONS_SEC, vdev->mmu->evtq.cons);
- 	}
- }
- 
+ 	ret = pcim_enable_device(pdev);
+ 	if (ret) {
 -- 
 2.43.0
 
