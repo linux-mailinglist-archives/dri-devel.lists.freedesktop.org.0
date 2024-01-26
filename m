@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AAE183DA25
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 13:28:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D083283DA27
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 13:28:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70C7F10F9F1;
-	Fri, 26 Jan 2024 12:28:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0C5210FA01;
+	Fri, 26 Jan 2024 12:28:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB3A610F9FD
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 12:28:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 771E510F9F1
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 12:28:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1706272094; x=1737808094;
+ t=1706272095; x=1737808095;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=toVhYrINW8F1jlfCPqu07LDLj7VyDYR1RcfoR4qadW0=;
- b=lzsEKW4jFXbRgKthCl5vtPDiR+1R2M7AcPwF+7P/RekaMyXX7EUGULZJ
- iNo/gAcjiH0Jto0PFtSrOMiTVuxwobMTPywW/BPYT7fdbIouZvM9vEKFu
- T/I+/pSG1qWhIFEjorS2IqkP2xW/n/i93LtyjCSJAj55+5O3xYH2hiIcD
- QGtv5h/cpgZz62E4/FZsBrKKt2WRsBWybBIzRAzSuagQl0F78ON7ao0xC
- Cv5Xy7nzzz1hEnjR0KyTYv1nziFE+junvHEV/J56qeqlOCID0nEuwxz8B
- sEBe/hMydrEHxZOYea6buM10ZPByz0g3GtXldsF5HJbf6nWauKiWZreun Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="9207454"
+ bh=MCwZ7gS9txLeAHF3l2eJt1A7frR2g/BTOZnpHfY/sGE=;
+ b=G8TKYMQelGxoEY7EP4686it1LtjQDqRMHrN16iyEBgvoqqL4XJNBfS0W
+ cJLFtzp1iWo76aC4kh4U/195onQiN90dA3tN1U2u+6mhiaYZ+1CjC0/6s
+ /Lj5amqbHHTtbTDna6letGspSgct/nyqcY5ppbOQ2o0uOA4NvR7bvAJcH
+ Fz6Y4zHAHfKRL4Lx9kfeqvcMXyFhNlFGlluskGa/uHnCLuIJftuGPa9pb
+ 2InEWPB1PSDchnQHcHNrvxoAUbR0dVkB6sZ+Xjf68PZy7qmK6FyDXV2Cb
+ 96SWxOfbi1w4NdplPasUU9b1pFJIehVstmvkDPGAe/k8bKbchBisFosIc g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="9207465"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="9207454"
+   d="scan'208";a="9207465"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2024 04:28:13 -0800
+ 26 Jan 2024 04:28:15 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="2731921"
+   d="scan'208";a="2731931"
 Received: from jlawryno.igk.intel.com ([10.91.220.59])
  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2024 04:28:13 -0800
+ 26 Jan 2024 04:28:14 -0800
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 4/7] accel/ivpu: Gracefully shutdown NPU before reset
-Date: Fri, 26 Jan 2024 13:28:01 +0100
-Message-ID: <20240126122804.2169129-5-jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH 5/7] accel/ivpu/40xx: Enable D0i3 message
+Date: Fri, 26 Jan 2024 13:28:02 +0100
+Message-ID: <20240126122804.2169129-6-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240126122804.2169129-1-jacek.lawrynowicz@linux.intel.com>
 References: <20240126122804.2169129-1-jacek.lawrynowicz@linux.intel.com>
@@ -59,196 +59,34 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>, "Wachowski,
- Karol" <karol.wachowski@intel.com>
+ Krystian Pradzynski <krystian.pradzynski@intel.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Wachowski, Karol" <karol.wachowski@intel.com>
+From: Krystian Pradzynski <krystian.pradzynski@intel.com>
 
-Replace forceful disable of power domains with requests to disable
-TOP NOC CPU_CTRL and HOSTIF_L2CACHE through QREQN.
+All recent 40xx firmware already supports D0i3 entry message and this
+WA is no longer needed.
 
-In case of failure retry multiple times following HAS sequence of
-checking both QACCEPN and QDENYN registers.
-
-This fixes VPU hangs with PCODE released in January 2024 onwards.
-
-Fixes: 3f7c0634926d ("accel/ivpu/37xx: Fix hangs related to MMIO reset")
-Signed-off-by: Wachowski, Karol <karol.wachowski@intel.com>
+Signed-off-by: Krystian Pradzynski <krystian.pradzynski@intel.com>
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_hw_37xx.c | 122 +++++++++++++++---------------
- 1 file changed, 60 insertions(+), 62 deletions(-)
+ drivers/accel/ivpu/ivpu_fw.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_hw_37xx.c b/drivers/accel/ivpu/ivpu_hw_37xx.c
-index 77accd029c4a..b1a3a19c8986 100644
---- a/drivers/accel/ivpu/ivpu_hw_37xx.c
-+++ b/drivers/accel/ivpu/ivpu_hw_37xx.c
-@@ -332,28 +332,6 @@ static int ivpu_boot_top_noc_qrenqn_check(struct ivpu_device *vdev, u32 exp_val)
- 	return 0;
- }
+diff --git a/drivers/accel/ivpu/ivpu_fw.c b/drivers/accel/ivpu/ivpu_fw.c
+index 6576232f3e67..5fa8bd4603d5 100644
+--- a/drivers/accel/ivpu/ivpu_fw.c
++++ b/drivers/accel/ivpu/ivpu_fw.c
+@@ -222,7 +222,6 @@ ivpu_fw_init_wa(struct ivpu_device *vdev)
+ 	const struct vpu_firmware_header *fw_hdr = (const void *)vdev->fw->file->data;
  
--static int ivpu_boot_top_noc_qacceptn_check(struct ivpu_device *vdev, u32 exp_val)
--{
--	u32 val = REGV_RD32(VPU_37XX_TOP_NOC_QACCEPTN);
--
--	if (!REG_TEST_FLD_NUM(VPU_37XX_TOP_NOC_QACCEPTN, CPU_CTRL, exp_val, val) ||
--	    !REG_TEST_FLD_NUM(VPU_37XX_TOP_NOC_QACCEPTN, HOSTIF_L2CACHE, exp_val, val))
--		return -EIO;
--
--	return 0;
--}
--
--static int ivpu_boot_top_noc_qdeny_check(struct ivpu_device *vdev, u32 exp_val)
--{
--	u32 val = REGV_RD32(VPU_37XX_TOP_NOC_QDENY);
--
--	if (!REG_TEST_FLD_NUM(VPU_37XX_TOP_NOC_QDENY, CPU_CTRL, exp_val, val) ||
--	    !REG_TEST_FLD_NUM(VPU_37XX_TOP_NOC_QDENY, HOSTIF_L2CACHE, exp_val, val))
--		return -EIO;
--
--	return 0;
--}
--
- static int ivpu_boot_host_ss_configure(struct ivpu_device *vdev)
- {
- 	ivpu_boot_host_ss_rst_clr_assert(vdev);
-@@ -396,37 +374,68 @@ static int ivpu_boot_host_ss_axi_enable(struct ivpu_device *vdev)
- 	return ivpu_boot_host_ss_axi_drive(vdev, true);
- }
+ 	if (IVPU_FW_CHECK_API_VER_LT(vdev, fw_hdr, BOOT, 3, 17) ||
+-	    (ivpu_hw_gen(vdev) > IVPU_HW_37XX) ||
+ 	    (ivpu_test_mode & IVPU_TEST_MODE_D0I3_MSG_DISABLE))
+ 		vdev->wa.disable_d0i3_msg = true;
  
--static int ivpu_boot_host_ss_top_noc_drive(struct ivpu_device *vdev, bool enable)
-+static int ivpu_boot_host_ss_top_noc_qacceptn_check(struct ivpu_device *vdev, bool enable, u32 mask)
-+{
-+	u32 val = REGV_RD32(VPU_37XX_TOP_NOC_QACCEPTN) & mask;
-+
-+	if (enable && val == mask)
-+		return 0;
-+
-+	if (!enable && val == 0)
-+		return 0;
-+
-+	ivpu_dbg(vdev, PM, "Failed qacceptn check 0x%x (mask 0x%x enable %d)\n", val, mask, enable);
-+	return -EIO;
-+}
-+
-+static int ivpu_boot_host_ss_top_noc_qdeny_check(struct ivpu_device *vdev, u32 mask)
-+{
-+	u32 val = REGV_RD32(VPU_37XX_TOP_NOC_QDENY) & mask;
-+
-+	if (val) {
-+		ivpu_dbg(vdev, PM, "Failed qdeny check 0x%x (mask 0x%x)\n", val, mask);
-+		return -EIO;
-+	}
-+
-+	return 0;
-+}
-+
-+static int ivpu_boot_host_ss_top_noc_drive(struct ivpu_device *vdev, bool enable, u32 mask)
- {
--	int ret;
- 	u32 val;
- 
- 	val = REGV_RD32(VPU_37XX_TOP_NOC_QREQN);
--	if (enable) {
--		val = REG_SET_FLD(VPU_37XX_TOP_NOC_QREQN, CPU_CTRL, val);
--		val = REG_SET_FLD(VPU_37XX_TOP_NOC_QREQN, HOSTIF_L2CACHE, val);
--	} else {
--		val = REG_CLR_FLD(VPU_37XX_TOP_NOC_QREQN, CPU_CTRL, val);
--		val = REG_CLR_FLD(VPU_37XX_TOP_NOC_QREQN, HOSTIF_L2CACHE, val);
--	}
--	REGV_WR32(VPU_37XX_TOP_NOC_QREQN, val);
-+	if (enable)
-+		REGV_WR32(VPU_37XX_TOP_NOC_QREQN, val | mask);
-+	else
-+		REGV_WR32(VPU_37XX_TOP_NOC_QREQN, val & ~mask);
- 
--	ret = ivpu_boot_top_noc_qacceptn_check(vdev, enable ? 0x1 : 0x0);
--	if (ret) {
--		ivpu_err(vdev, "Failed qacceptn check: %d\n", ret);
--		return ret;
--	}
-+	if (!ivpu_boot_host_ss_top_noc_qacceptn_check(vdev, enable, mask))
-+		return 0;
- 
--	ret = ivpu_boot_top_noc_qdeny_check(vdev, 0x0);
--	if (ret)
--		ivpu_err(vdev, "Failed qdeny check: %d\n", ret);
-+	if (!enable && ivpu_boot_host_ss_top_noc_qdeny_check(vdev, mask))
-+		REGV_WR32(VPU_37XX_TOP_NOC_QREQN, val | mask);
- 
--	return ret;
-+	return -EIO;
- }
- 
- static int ivpu_boot_host_ss_top_noc_enable(struct ivpu_device *vdev)
- {
--	return ivpu_boot_host_ss_top_noc_drive(vdev, true);
-+	return ivpu_boot_host_ss_top_noc_drive(vdev, true,
-+					       VPU_37XX_TOP_NOC_QREQN_CPU_CTRL_MASK |
-+					       VPU_37XX_TOP_NOC_QREQN_HOSTIF_L2CACHE_MASK);
-+}
-+
-+static int ivpu_boot_host_ss_top_noc_cpu_ctrl_disable(struct ivpu_device *vdev)
-+{
-+	return ivpu_boot_host_ss_top_noc_drive(vdev, false,
-+					       VPU_37XX_TOP_NOC_QREQN_CPU_CTRL_MASK);
-+}
-+
-+static int ivpu_boot_host_ss_top_noc_hostif_l2cache_disable(struct ivpu_device *vdev)
-+{
-+	return ivpu_boot_host_ss_top_noc_drive(vdev, false,
-+					       VPU_37XX_TOP_NOC_QREQN_HOSTIF_L2CACHE_MASK);
- }
- 
- static void ivpu_boot_pwr_island_trickle_drive(struct ivpu_device *vdev, bool enable)
-@@ -510,16 +519,6 @@ static int ivpu_boot_pwr_domain_enable(struct ivpu_device *vdev)
- 	return ret;
- }
- 
--static int ivpu_boot_pwr_domain_disable(struct ivpu_device *vdev)
--{
--	ivpu_boot_dpu_active_drive(vdev, false);
--	ivpu_boot_pwr_island_isolation_drive(vdev, true);
--	ivpu_boot_pwr_island_trickle_drive(vdev, false);
--	ivpu_boot_pwr_island_drive(vdev, false);
--
--	return ivpu_boot_wait_for_pwr_island_status(vdev, 0x0);
--}
--
- static void ivpu_boot_no_snoop_enable(struct ivpu_device *vdev)
- {
- 	u32 val = REGV_RD32(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES);
-@@ -618,19 +617,18 @@ static int ivpu_hw_37xx_info_init(struct ivpu_device *vdev)
- 
- static int ivpu_hw_37xx_reset(struct ivpu_device *vdev)
- {
--	int ret = 0;
-+	int retries = 100;
- 
--	if (ivpu_boot_pwr_domain_disable(vdev)) {
--		ivpu_err(vdev, "Failed to disable power domain\n");
--		ret = -EIO;
--	}
-+	while (ivpu_boot_host_ss_top_noc_cpu_ctrl_disable(vdev) && --retries > 0)
-+		ivpu_warn(vdev, "Retrying to disable CPU control, retries left: %d\n", retries);
- 
--	if (ivpu_pll_disable(vdev)) {
--		ivpu_err(vdev, "Failed to disable PLL\n");
--		ret = -EIO;
--	}
-+	while (ivpu_boot_host_ss_top_noc_hostif_l2cache_disable(vdev) && --retries > 0)
-+		ivpu_warn(vdev, "Retrying to disable HostIf L2 Cache, retries left: %d\n", retries);
- 
--	return ret;
-+	while (ivpu_pll_disable(vdev) && --retries > 0)
-+		ivpu_warn(vdev, "Retrying to disable PLL, retries left: %d\n", retries);
-+
-+	return retries > 0 ? 0 : -EIO;
- }
- 
- static int ivpu_hw_37xx_d0i3_enable(struct ivpu_device *vdev)
 -- 
 2.43.0
 
