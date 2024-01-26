@@ -2,61 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7382B83D4D0
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 09:43:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B7F683D4D8
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 09:48:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB99010E1BA;
-	Fri, 26 Jan 2024 08:43:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72D2E10E689;
+	Fri, 26 Jan 2024 08:48:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B5A610E6F8
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 08:42:55 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id
- ffacd0b85a97d-337d58942c9so141819f8f.0
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 00:42:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1706258510; x=1706863310; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=FHr39JH9ZAVO5s/Q6TxKvwEModPDg6RBhwecUYh/FLY=;
- b=qt6Ih6Bhp147wXcap46qdr3uBm+zpfbOXwxE+FzVx6rfyjSwyug7jizvnNWMU9B6EJ
- sWH/mqGA63yzT9Fi5SNm/CegDnCn0UDIyKKB+LqAujEq9wV9ezbo/FeQRca1lp/kuq8U
- ICB8C8zruKxSi9arZyn2CGOWXtnaNigCcQmuJAEUZiUQiUDNTpNxaCBoiQbNIq9iYVwe
- d/gpYBaZM+K4fIPeF5RDzzlY8OBMmQzEQrBXAFTqEVkRt1wOdhnWvajjYJEhkLnAt52f
- iE0Z76bQOgmbssCRwX5fja86MPenXbWKhC92qI7T4lUZxJBwUUtIooyPN/Ic/mv8p2CJ
- DQcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706258510; x=1706863310;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FHr39JH9ZAVO5s/Q6TxKvwEModPDg6RBhwecUYh/FLY=;
- b=vrgRghRo1rDbrFo4q4aQJ2ezKzlJeUk9kWjBUfzIKrrdEATkUkHMc6nkV06XIh/J0j
- HEPNshV4FDJb2+mRQ7L4tQ/z8288V4Vw7IUkzQgsp4X7XEqnDo60ZfjMbju+jYuPGe1x
- pJHu1dnGC1bfq3IT7evGKjjAVzzcJE3j74MX8JDIIfeGzveBxZgQSE12tD864UTz0FDS
- cAa4XfAVATSqxLmAKDcOJOtymrqvjy1XJS+EIqL15HRrrtrpTTP+8WdeIiEoyzwmLMhR
- 27Wg95mU3WKg5N3aY/1mE+xyd4c1dZlJk6ACGSNMHSwou0wbL3jZkviEy9Zg083KQcVE
- ztcQ==
-X-Gm-Message-State: AOJu0Yyzz/ftzfUqO/KqwYWxLC/Gc6E258BalazeoRa8CU9rnMqhsYeS
- 9eqBTbvrNm+oKu/WZXUEo9wUQXkHaFJ2sCmHDJ+XeArY/edqNlQjMK++R8VT+So=
-X-Google-Smtp-Source: AGHT+IGODQTp1WGBJOYeb5QpU8MHe6FvpWAhmxNfECU8K2SX9RjwK0yxx8LAKL3RZy4pjkFNfgFKVQ==
-X-Received: by 2002:adf:e852:0:b0:33a:ddff:7774 with SMTP id
- d18-20020adfe852000000b0033addff7774mr24330wrn.36.1706258510562; 
- Fri, 26 Jan 2024 00:41:50 -0800 (PST)
-Received: from localhost ([102.140.209.237]) by smtp.gmail.com with ESMTPSA id
- bt7-20020a056000080700b00337d4ce6ab4sm766097wrb.20.2024.01.26.00.41.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Jan 2024 00:41:50 -0800 (PST)
-Date: Fri, 26 Jan 2024 11:41:47 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Zhi Wang <zhi.a.wang@intel.com>
-Subject: [PATCH] drm/i915/gvt: Fix uninitialized variable in handle_mmio()
-Message-ID: <11957c20-b178-4027-9b0a-e32e9591dd7c@moroto.mountain>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1163210E689
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 08:48:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1706258913; x=1737794913;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=A7lMnjB+Aaj8pkHbSGZqjInOm+WxB4FCR3WUWFKf5CI=;
+ b=TvFncENmPi4g/aElWfCYaxATw4JdHNonQtbWeZ2wCKzXZys1NzgzVU0g
+ Y3MBcMNMgrSlX5jSupPISuVt7mospmKAMpzAdBXZHsktBGfRS4kBOwMXO
+ dn0KxkT3SBTE0RRet/htyvRdi2MF386SB1S/onQ8OZAiUal3bmC5ZZ3U3
+ yI5N2vU/HlAcxvuHmeBDttQGtEk/BfcO7OvZPAflqzkr6En+sSDvSAaqE
+ b+qywHYH+evtOfsTmXeJuvctMl3m9mrdOyf3/vygcJFPdfZqMeE3ier1S
+ q0WSM60Bk+TL3Suk1rV1xT4sYiziaKadrZTR+Ik4/Ev31Hv0VSLVcpPw/ g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="466698838"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; d="scan'208";a="466698838"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jan 2024 00:48:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="960153916"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; d="scan'208";a="960153916"
+Received: from clillies-mobl1.ger.corp.intel.com (HELO [10.249.254.111])
+ ([10.249.254.111])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jan 2024 00:48:30 -0800
+Message-ID: <da82b69db55c414699429a81150d20ff52032304.camel@linux.intel.com>
+Subject: Re: linux-next: build warning after merge of the drm tree
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Stephen Rothwell <sfr@canb.auug.org.au>, Dave Airlie <airlied@redhat.com>
+Date: Fri, 26 Jan 2024 09:48:27 +0100
+In-Reply-To: <20240125113345.291118ff@canb.auug.org.au>
+References: <20240105174745.78b94cb5@canb.auug.org.au>
+ <20240125113345.291118ff@canb.auug.org.au>
+Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
+ keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.3 (3.50.3-1.fc39) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,39 +63,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dri-devel@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>
+Cc: DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Badal Nilawar <badal.nilawar@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This code prints the wrong variable in the warning message.  It should
-print "i" instead of "info->offset".  On the first iteration "info" is
-uninitialized leading to a crash and on subsequent iterations it prints
-the previous offset instead of the current one.
+On Thu, 2024-01-25 at 11:33 +1100, Stephen Rothwell wrote:
+> Hi all,
+>=20
+> On Fri, 5 Jan 2024 17:47:45 +1100 Stephen Rothwell
+> <sfr@canb.auug.org.au> wrote:
+> >=20
+> > After merging the drm tree, today's linux-next build (htmldocs)
+> > produced
+> > this warning:
+> >=20
+> > Warning: /sys/devices/.../hwmon/hwmon<i>/curr1_crit is defined 2
+> > times:=C2=A0 Documentation/ABI/testing/sysfs-driver-intel-xe-hwmon:35=
+=C2=A0
+> > Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon:52
+> > Warning: /sys/devices/.../hwmon/hwmon<i>/energy1_input is defined 2
+> > times:=C2=A0 Documentation/ABI/testing/sysfs-driver-intel-xe-hwmon:54=
+=C2=A0
+> > Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon:65
+> > Warning: /sys/devices/.../hwmon/hwmon<i>/in0_input is defined 2
+> > times:=C2=A0 Documentation/ABI/testing/sysfs-driver-intel-xe-hwmon:46=
+=C2=A0
+> > Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon:0
+> > Warning: /sys/devices/.../hwmon/hwmon<i>/power1_crit is defined 2
+> > times:=C2=A0 Documentation/ABI/testing/sysfs-driver-intel-xe-hwmon:22=
+=C2=A0
+> > Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon:39
+> > Warning: /sys/devices/.../hwmon/hwmon<i>/power1_max is defined 2
+> > times:=C2=A0 Documentation/ABI/testing/sysfs-driver-intel-xe-hwmon:0=C2=
+=A0
+> > Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon:8
+> > Warning: /sys/devices/.../hwmon/hwmon<i>/power1_max_interval is
+> > defined 2 times:=C2=A0 Documentation/ABI/testing/sysfs-driver-intel-xe-
+> > hwmon:62=C2=A0 Documentation/ABI/testing/sysfs-driver-intel-i915-
+> > hwmon:30
+> > Warning: /sys/devices/.../hwmon/hwmon<i>/power1_rated_max is
+> > defined 2 times:=C2=A0 Documentation/ABI/testing/sysfs-driver-intel-xe-
+> > hwmon:14=C2=A0 Documentation/ABI/testing/sysfs-driver-intel-i915-
+> > hwmon:22
+> >=20
+> > Introduced by commits
+> >=20
+> > =C2=A0 fb1b70607f73 ("drm/xe/hwmon: Expose power attributes")
+> > =C2=A0 92d44a422d0d ("drm/xe/hwmon: Expose card reactive critical
+> > power")
+> > =C2=A0 fbcdc9d3bf58 ("drm/xe/hwmon: Expose input voltage attribute")
+> > =C2=A0 71d0a32524f9 ("drm/xe/hwmon: Expose hwmon energy attribute")
+> > =C2=A0 4446fcf220ce ("drm/xe/hwmon: Expose power1_max_interval")
+>=20
+> I am still getting these warnings.
+>=20
 
-Fixes: e0f74ed4634d ("i915/gvt: Separate the MMIO tracking table from GVT-g")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- drivers/gpu/drm/i915/gvt/handlers.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+We're looking at fixing those.
 
-diff --git a/drivers/gpu/drm/i915/gvt/handlers.c b/drivers/gpu/drm/i915/gvt/handlers.c
-index 90f6c1ece57d..efcb00472be2 100644
---- a/drivers/gpu/drm/i915/gvt/handlers.c
-+++ b/drivers/gpu/drm/i915/gvt/handlers.c
-@@ -2849,8 +2849,7 @@ static int handle_mmio(struct intel_gvt_mmio_table_iter *iter, u32 offset,
- 	for (i = start; i < end; i += 4) {
- 		p = intel_gvt_find_mmio_info(gvt, i);
- 		if (p) {
--			WARN(1, "dup mmio definition offset %x\n",
--				info->offset);
-+			WARN(1, "dup mmio definition offset %x\n", i);
- 
- 			/* We return -EEXIST here to make GVT-g load fail.
- 			 * So duplicated MMIO can be found as soon as
--- 
-2.43.0
+Thanks,
+Thomas
+
 
