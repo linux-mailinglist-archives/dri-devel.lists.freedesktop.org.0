@@ -2,76 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 377DD83DFEA
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 18:23:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74E3583DFEB
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 18:23:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81F5710FC7E;
-	Fri, 26 Jan 2024 17:23:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8C2A10FC79;
+	Fri, 26 Jan 2024 17:23:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE2F910FC7E
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 17:23:13 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 40QFHQA3009101; Fri, 26 Jan 2024 17:23:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=fJ4GWK7IxNpiA8+c9T0HpaX2inLLp63PGyk4kwuY9C0=; b=HH
- Tt9lFSjgDlmrS2pjL3/jBcmDpp8Fj1qZF0EM2uyyK8cFGchk8u25Yi30LPC/DoUG
- fheVwY/fMsTna1ErrU633n1PScn8bUMMv2JjaaO4N+wj2B6Q8klkfnai4oYhMdFm
- ykXXWUAAzejG+nHHp72A/HUpOefh9Y37YEWmH0STUyqAm4X0wXeINpm+ougd16Pr
- ChASuAbuQdvxYTSGJ1C1Jro7dcgUnYxZN7J9lIYeRZBPlUrRots+7e5++Gk/s4dV
- elkbX8Mfh05jfyDWqB0NTjB6jBYWW5KVkpmYHU0l6wYZitDAKTBEaBcynnISdD51
- rcq1xPLH0PJ6jerKJ1VQ==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vv8e895w1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 26 Jan 2024 17:23:11 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40QHNBBW024494
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 26 Jan 2024 17:23:11 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 26 Jan
- 2024 09:23:10 -0800
-Message-ID: <30156dac-16df-381d-3627-e01e4c1c562c@quicinc.com>
-Date: Fri, 26 Jan 2024 10:23:10 -0700
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF81610FC79;
+ Fri, 26 Jan 2024 17:23:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1706289827; x=1737825827;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=tSMX1Ae/bCy8FGpCcBWLPQYfg2LBDt1gaBUpHaOLi0k=;
+ b=J7Vp7YxTCKeBLffr3imPQAsVvvxx6vDUvU8rJxD+KXTk6YQhdN8iYHg1
+ RZ+St5SDpGLMMFx6pYGHOAMfTGaotUm/QizGBa8I9yDJt4IQb4e9hZKv0
+ fCaOmLyQjIqK5QGZ9sznzs7KgTsRiWNv8BRygPYcI5WjMDd5m2jybIXNS
+ mtXsyb9l2y5lUYGt2LdQckTw8D4GDyda5ZQUfFd32+7oliP1nTH1aGMd4
+ 1iYCreMmSiPO/kCXLE73O11Y5iiQjPYj8gquyv3tjIQEE53T+Ox9EWWne
+ iaAO0xpSbxStYf3rJdyNI2hyU/bgh9vJBeKOZ5aipBW3kNa6+Ys2KWBRx g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="9900862"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="9900862"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jan 2024 09:23:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="960260973"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; d="scan'208";a="960260973"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com)
+ ([10.237.72.44])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jan 2024 09:23:39 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+ by kekkonen.fi.intel.com (Postfix) with SMTP id BC8AF11FBD1;
+ Fri, 26 Jan 2024 19:23:36 +0200 (EET)
+Date: Fri, 26 Jan 2024 17:23:36 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Alex Elder <elder@ieee.org>
+Subject: Re: [PATCH v3 1/2] pm: runtime: Simplify pm_runtime_get_if_active()
+ usage
+Message-ID: <ZbPqmA4GkunkJqb0@kekkonen.localdomain>
+References: <20240122114121.56752-1-sakari.ailus@linux.intel.com>
+ <20240122114121.56752-2-sakari.ailus@linux.intel.com>
+ <912d4439-86cd-4060-a66d-baba5fa2bdec@ieee.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v2 8/9] accel/ivpu: Improve buffer object debug logs
-Content-Language: en-US
-To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- <dri-devel@lists.freedesktop.org>
-References: <20240115134434.493839-1-jacek.lawrynowicz@linux.intel.com>
- <20240115134434.493839-9-jacek.lawrynowicz@linux.intel.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20240115134434.493839-9-jacek.lawrynowicz@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: OuGMd9W3mB8HQSBEHYNutGACouK-YYMT
-X-Proofpoint-ORIG-GUID: OuGMd9W3mB8HQSBEHYNutGACouK-YYMT
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-25_14,2024-01-25_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 phishscore=0
- spamscore=0 malwarescore=0 priorityscore=1501 mlxlogscore=687
- impostorscore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0
- clxscore=1015 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401190000 definitions=main-2401260129
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <912d4439-86cd-4060-a66d-baba5fa2bdec@ieee.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,16 +65,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: oded.gabbay@gmail.com
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, linux-pci@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ laurent.pinchart@ideasonboard.com, David Airlie <airlied@gmail.com>,
+ Paul Elder <paul.elder@ideasonboard.com>, linux-media@vger.kernel.org,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ linux-pm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ Lucas De Marchi <lucas.demarchi@intel.com>, Mark Brown <broonie@kernel.org>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ intel-xe@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Alex Elder <elder@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-sound@vger.kernel.org,
+ Takashi Iwai <tiwai@suse.com>, Daniel Vetter <daniel@ffwll.ch>,
+ netdev@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/15/2024 6:44 AM, Jacek Lawrynowicz wrote:
-> Make debug logs more readable and consistent:
->    - don't print handle as it is not always available for all buffers
->    - use hashed ivpu_bo ptr as main buffer identifier
->    - remove unused fields from ivpu_bo_print_info()
-> 
-> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Hi Alex,
 
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+On Fri, Jan 26, 2024 at 09:12:02AM -0600, Alex Elder wrote:
+> On 1/22/24 5:41 AM, Sakari Ailus wrote:
+> > There are two ways to opportunistically increment a device's runtime PM
+> > usage count, calling either pm_runtime_get_if_active() or
+> > pm_runtime_get_if_in_use(). The former has an argument to tell whether to
+> > ignore the usage count or not, and the latter simply calls the former with
+> > ign_usage_count set to false. The other users that want to ignore the
+> > usage_count will have to explitly set that argument to true which is a bit
+> > cumbersome.
+> > 
+> > To make this function more practical to use, remove the ign_usage_count
+> > argument from the function. The main implementation is renamed as
+> > pm_runtime_get_conditional().
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > Reviewed-by: Alex Elder <elder@linaro.org> # drivers/net/ipa/ipa_smp2p.c
+> 
+> I actually intended my "Reviewed-by" to cover the entire patch.  I
+> checked every caller and they all looked good to me.
+
+Thanks, I'll drop the file name. AFAIR it was just below that file, so I
+added it, but I could be wrong, too.
+
+v5 will also squash the 2nd patch of v4 into this one
+<URL:https://lore.kernel.org/linux-pm/ZbBAWROxRKE8Y8VU@kekkonen.localdomain/T/#m76d34e679e12d8536a20eb29af6e826e2a85a24b>,
+I hope that's fine.
+
+-- 
+Kind regards,
+
+Sakari Ailus
