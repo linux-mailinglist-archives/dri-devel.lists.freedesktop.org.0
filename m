@@ -2,50 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CC5C83DF13
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 17:44:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 409F083DF22
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 17:48:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4673910FC19;
-	Fri, 26 Jan 2024 16:44:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 126ED10FC13;
+	Fri, 26 Jan 2024 16:48:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FFE610FC19
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 16:44:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1706287413;
- bh=U6u3xgf4R+utqvmtwCD7pg1WXxuAovEW7noxe87GDmw=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=KeswJROhwGGRCE5tdZ1RC8zLadqOPmPE3UK2Yj5P5hgbG7FBPfNCxYkwMYNE+SKwd
- DX6GBQiHWaaIhiby6QrQjjW1qb01imlJGar0H58w0ZXPj4Ig74w7iN/dBhp+rCJMfp
- U1x8qHsm+S8XWiZe2bhGxGBqyOwVSlqtEjRf6THeYOgu8ceW/2h9FNH4SNQSYPgC2Q
- vCcyVSZzLEGNQ9Kz0Z1aRA19OxbfqZAcasBM+kXiB2wYcSGMwQcTvSXkvwS+pTKH1R
- Iove7Or8j6Dtwzb+a5PJc70/zZs8HnXriVfNq36SpeachhYK8w6V4KaLxjrNApzXXy
- 7oqzT/l5MaLNA==
-Received: from [100.109.49.129] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 0146F378201D;
- Fri, 26 Jan 2024 16:43:31 +0000 (UTC)
-Message-ID: <d467e5a4-6b61-4cad-8e38-c4495836a0d6@collabora.com>
-Date: Fri, 26 Jan 2024 19:43:29 +0300
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94B9E10FC13
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 16:48:36 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1rTPLU-0001lf-EU; Fri, 26 Jan 2024 17:46:24 +0100
+Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1rTPLT-002YAK-Kk; Fri, 26 Jan 2024 17:46:23 +0100
+From: Lucas Stach <l.stach@pengutronix.de>
+To: etnaviv@lists.freedesktop.org
+Subject: [PATCH] drm/etnaviv: switch devcoredump allocations to GFP_NOWAIT
+Date: Fri, 26 Jan 2024 17:46:23 +0100
+Message-Id: <20240126164623.1191363-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v19 09/30] drm/shmem-helper: Add and use lockless
- drm_gem_shmem_get_pages()
-Content-Language: en-US
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20240105184624.508603-1-dmitry.osipenko@collabora.com>
- <20240105184624.508603-10-dmitry.osipenko@collabora.com>
- <ZbKZNCbZoV4ovWTH@phenom.ffwll.local> <20240126111827.70f8726c@collabora.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20240126111827.70f8726c@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,67 +47,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, Emma Anholt <emma@anholt.net>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Steven Price <steven.price@arm.com>, David Airlie <airlied@gmail.com>,
- virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
+ patchwork-lst@pengutronix.de, kernel@pengutronix.de,
+ dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/26/24 13:18, Boris Brezillon wrote:
-> On Thu, 25 Jan 2024 18:24:04 +0100
-> Daniel Vetter <daniel@ffwll.ch> wrote:
-> 
->> On Fri, Jan 05, 2024 at 09:46:03PM +0300, Dmitry Osipenko wrote:
->>> Add lockless drm_gem_shmem_get_pages() helper that skips taking reservation
->>> lock if pages_use_count is non-zero, leveraging from atomicity of the
->>> refcount_t. Make drm_gem_shmem_mmap() to utilize the new helper.
->>>
->>> Acked-by: Maxime Ripard <mripard@kernel.org>
->>> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
->>> Suggested-by: Boris Brezillon <boris.brezillon@collabora.com>
->>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->>> ---
->>>  drivers/gpu/drm/drm_gem_shmem_helper.c | 19 +++++++++++++++----
->>>  1 file changed, 15 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
->>> index cacf0f8c42e2..1c032513abf1 100644
->>> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
->>> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
->>> @@ -226,6 +226,20 @@ void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem)
->>>  }
->>>  EXPORT_SYMBOL_GPL(drm_gem_shmem_put_pages_locked);
->>>  
->>> +static int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
->>> +{
->>> +	int ret;  
->>
->> Just random drive-by comment: a might_lock annotation here might be good,
->> or people could hit some really interesting bugs that are rather hard to
->> reproduce ...
-> 
-> Actually, being able to acquire a ref in a dma-signalling path on an
-> object we know for sure already has refcount >= 1 (because we previously
-> acquired a ref in a path where dma_resv_lock() was allowed), was the
-> primary reason I suggested moving to this atomic-refcount approach.
-> 
-> In the meantime, drm_gpuvm has evolved in a way that allows me to not
-> take the ref in the dma-signalling path (the gpuvm_bo object now holds
-> the ref, and it's acquired/released outside the dma-signalling path).
-> 
-> Not saying we shouldn't add this might_lock(), but others might have
-> good reasons to have this function called in a path where locking
-> is not allowed.
+The etnaviv devcoredump is created in the GPU reset path, which
+must make forward progress to avoid stalling memory reclaim on
+unsignalled dma fences. The currently used __GFP_NORETRY does not
+prohibit sleeping on direct reclaim, breaking the forward progress
+guarantee. Switch to GFP_NOWAIT, which allows background reclaim
+to be triggered, but avoids any stalls waiting for direct reclaim.
 
-For Panthor the might_lock indeed won't be a appropriate, thanks for
-reminding about it. I'll add explanatory comment to the code.
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_dump.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_dump.c b/drivers/gpu/drm/etnaviv/etnaviv_dump.c
+index 898f84a0fc30c..42c5028872d54 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_dump.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_dump.c
+@@ -159,8 +159,7 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *submit)
+ 	file_size += sizeof(*iter.hdr) * n_obj;
+ 
+ 	/* Allocate the file in vmalloc memory, it's likely to be big */
+-	iter.start = __vmalloc(file_size, GFP_KERNEL | __GFP_NOWARN |
+-			__GFP_NORETRY);
++	iter.start = __vmalloc(file_size, GFP_NOWAIT | __GFP_NOWARN);
+ 	if (!iter.start) {
+ 		mutex_unlock(&submit->mmu_context->lock);
+ 		dev_warn(gpu->dev, "failed to allocate devcoredump file\n");
+@@ -230,5 +229,6 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *submit)
+ 
+ 	etnaviv_core_dump_header(&iter, ETDUMP_BUF_END, iter.data);
+ 
+-	dev_coredumpv(gpu->dev, iter.start, iter.data - iter.start, GFP_KERNEL);
++	dev_coredumpv(gpu->dev, iter.start, iter.data - iter.start,
++		      GFP_NOWAIT | __GFP_NOWARN);
+ }
 -- 
-Best regards,
-Dmitry
+2.41.0
 
