@@ -2,61 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CAC783E15A
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 19:27:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C3C283E173
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 19:28:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF78310FD3F;
-	Fri, 26 Jan 2024 18:27:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AFBB10FD4D;
+	Fri, 26 Jan 2024 18:27:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A78810FD36
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 18:27:30 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id
- 2adb3069b0e04-5100c4aa08cso709088e87.2
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 10:27:30 -0800 (PST)
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
+ [209.85.208.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22ACE10FD3B
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 18:27:31 +0000 (UTC)
+Received: by mail-lj1-f178.google.com with SMTP id
+ 38308e7fff4ca-2cc9fa5e8e1so7337731fa.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 10:27:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1706293588; x=1706898388; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1706293589; x=1706898389; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=WsClFXjXZL1/cgwwi1vtRBjWGBqeVxIEF70yOJflqhU=;
- b=kKHf5zNcAxe2bvac0rKccz7yRahWWideUQ5UYmK+TOhMIK+B1sFBnI+eSH7bLpcwQY
- UevHgh46XjRbjRg01fazL8Gf+T/43f8mO03R4z/Ojlj5t+OYYIFrKq3CIx2c3q79gREG
- 7BSWfyEOnCroMg4xWJpJuRTWBXuKWznQ7vjLhhBTBjFWkRSxeXjXMnKWrvo+lvfowg6T
- s2d2dUsDqKifY53QacuWoFbWg/D+BJ+fujE3sl90oOncCTyQBLWnZGeJs92uqChunv2h
- YMC/YKaF+z9CFJ+9vwNtenZ13259cZPvC1ucg4ztU04fCQ03DkW8qrIpnEZT7EeI4Pd+
- /v2g==
+ :reply-to; bh=W/0vQlu3/zRSTNUc/QWsRNBkw7wsjD404h/u9X2qZl0=;
+ b=vEEiCTK98lQnqygUs3TyfoT21YnzZZbADH88CUTYGSpbhrKqq27TABcwsitSManhGk
+ UgpAlfRmBqvPnWMIxJbgkFfWvJTE8ygL6NMlMJirbmuEOSVEQoDyv6LJ0d1poutMjRwk
+ VmXrxezczkfK12S4rViFwXCAj8W3eDNLMC/WbSv4O7EIWtMyhgFLWyJObbTmVBBUNPFO
+ EQ/s4B0D0n7LNofCXy4b8/Xintme4A6e4f57dZulB2NdoYNLOGDIsaIvq6aMRlMpk21q
+ HNIMRBdLnR75qMQ4hd5i80/vS1KhfGYm4F9mBpvQCFhqswfpaWSnQa3P+Bz7A8um6HFz
+ VGCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706293588; x=1706898388;
+ d=1e100.net; s=20230601; t=1706293589; x=1706898389;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=WsClFXjXZL1/cgwwi1vtRBjWGBqeVxIEF70yOJflqhU=;
- b=oO2IDheY6fNQp+O/JqIymReqe+caUTEwW5cr2NIcYxYN4ztY0IMX9seHfeQs0gYbBe
- hwo3ZWiqaSOvxdBfxobi14dcY/ShKXSORhNQJY6CjbNmvIBiRFXbNrh0KIz0K1tVG6YQ
- 8r+EXLdJvpBsgSzBMERqGI2qcOlfKoAXU8JyHu04EVp2ZsJwnWsbxKMjfTnuUHhzNgws
- bOygOOqow2LTu+L5dZm7abGGZ+t1c0TZc63mSmfibYlDIXuv0odilI7v2hE/2BbYLIxp
- nkcdH16l6NlToayqSTN+DTieTSXea3O4EtmtWE78ufTps2+3BTdZaq0K2ICUhm0pZ4Lg
- JQOA==
-X-Gm-Message-State: AOJu0YyUJ5+uwJfJnrTJy3znNWA/XyS7BW7IMtq9LWtpdWLijOLs9Wae
- rSnfHCFtrjcCsRZjq5B2yv7RLX3svMgpZaEAw5UMLbhGidmH1r2is5/tShVU8D7aWhVMK2pCdBO
- h
-X-Google-Smtp-Source: AGHT+IH6v7IJZWpMt5uHQPOcrEe2FO/dTFAzytBW5kDe0i1xJOiATlSJIdisAZmyxcLrz24mpwvMxg==
-X-Received: by 2002:a2e:b81a:0:b0:2cc:89f4:15a3 with SMTP id
- u26-20020a2eb81a000000b002cc89f415a3mr150252ljo.49.1706293588648; 
- Fri, 26 Jan 2024 10:26:28 -0800 (PST)
+ bh=W/0vQlu3/zRSTNUc/QWsRNBkw7wsjD404h/u9X2qZl0=;
+ b=NWFxadNGQxDOBmMtgQuzI8mZ2+kvXLWZLVtGlX3dfHYEH3xDJPnF+AJ1vUpckQytob
+ WHx4KzLQo0aqXNcusMYGaeS7wCwEvQ+7PPaxtPJkjEdOtJn4HCvdbsNdvrZ0DiKKX1lg
+ aCJdL3+IeDyTMbKNXHJoa8k8odpZJFsFgjgp8f1/+LI7H82BqXNEn1ZbiMQnMvEw3Z/7
+ cG8lUSDJmknvm3qdr3rUbCgJiIINnXA0qU2bPY1wRKC7f7ANRjIW/vxLXSzLYbKvqD4O
+ AZ4prLfJG+qNxfKkvccw3RyzvtVzRRWBt2+ZcmqN6Okr7Ocj4t+X1gxN7j5YN/h946R5
+ JYmQ==
+X-Gm-Message-State: AOJu0YxwOJ+rcklC+zqTSgergZ516nkB41lC9vojvPfl5NKv+b0Qou1M
+ X2iDx4bE9wPanCzpAagyqmxFPUpIGcPr9x5kc8uwoiW+8YFNYktkkA0nEAY06rU=
+X-Google-Smtp-Source: AGHT+IEPWX4Lz/H8/swWBAYAe0lk0wFuw6fBf2Hq+dQ3GRoiOiWAbkzoaY14FLVp7ZZ4TdxycFKtCg==
+X-Received: by 2002:a2e:968f:0:b0:2cc:7df7:3649 with SMTP id
+ q15-20020a2e968f000000b002cc7df73649mr130496lji.46.1706293589259; 
+ Fri, 26 Jan 2024 10:26:29 -0800 (PST)
 Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
  l25-20020a2e8699000000b002cf30f27698sm232218lji.91.2024.01.26.10.26.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 26 Jan 2024 10:26:28 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 26 Jan 2024 20:26:22 +0200
-Subject: [PATCH RESEND v3 03/15] drm/msm/dp: parse DT from dp_parser_get
+Date: Fri, 26 Jan 2024 20:26:23 +0200
+Subject: [PATCH RESEND v3 04/15] drm/msm/dp: inline dp_power_(de)init
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240126-dp-power-parser-cleanup-v3-3-098d5f581dd3@linaro.org>
+Message-Id: <20240126-dp-power-parser-cleanup-v3-4-098d5f581dd3@linaro.org>
 References: <20240126-dp-power-parser-cleanup-v3-0-098d5f581dd3@linaro.org>
 In-Reply-To: <20240126-dp-power-parser-cleanup-v3-0-098d5f581dd3@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -66,16 +65,16 @@ To: Rob Clark <robdclark@gmail.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
  Kuogee Hsieh <quic_khsieh@quicinc.com>, Stephen Boyd <swboyd@chromium.org>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2495;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2942;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=nbI6O2jVJmJKDcIwmvwKvAtsadxXm7JZt5ZEib+SKuc=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBls/lPIQiz99mijPv7APhc0aOtQpr7FSxP7uUf6
- fQtUhmCq5eJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZbP5TwAKCRCLPIo+Aiko
- 1UoxB/0Xr3DzXz0QRZ6P4cU4vQAkaAzak1HsYyIMPeIWORcxjTRJZdejUp4k5LjJlXskB/FTwrN
- 3RELHh+696DgAwUIDJyYZp+iFlySlD3Dxm0oKX9jT1uLu2jve8drSLZTc6FPMIELkZqBEDwY8ZP
- fIjvHKGl71esRnwe/dL+8e9Vpj+8A8FyxNtVKo1Mz8S3n5kRG+V18ihrwQvDIbxqTx6ptAblDRx
- dxbifiE4iii1N3vJTq6KOGSnk2lagyfkNQUL6ieh6BqO6UZKxX1bIlnQjfzR9xDd1ilJTQYoBAg
- gVK/BMQ1Mtp6U2FlZa0uIQdAsHzATmc6UZoYgTi+KfjM5ywn
+ bh=0tPYPq9OqCyaK2qdciiqePf9VS3u8McIRcRAIy4vqEY=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBls/lQIsAfKH/xrlU4ikbYWUv98SABGowk2KICx
+ AtJJlyd9u+JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZbP5UAAKCRCLPIo+Aiko
+ 1Y25B/0TS/+5IJDY+MyW4gxKAkONHP+wLqnydxN+t6oMIT3SGOSLBWZRPUyUT3guCuXXTuM+i0D
+ fRsL7UlkNZRFJ0/hlZwVwFsx+nwTDKF4yDG2YrQOCuFRQ5fDK44KGnf1ts0JZ8n36YWuwOd2dqs
+ jm5djOU2r+DqjqeNmj2UYRfp/mJOTPIJPcMP4SFfGMoXayvr0QHOsQy/ipqcMqXFyfJuc1o9VUJ
+ SWuD428c2AXwSXe5eKv+hvuLqF1Bll3PLkpk7YZW84RNYcAokT9FJAuiEj4EPBRpB0O/Jf4bFUi
+ 95pGM6M6Qljuffld8cPsSIyUKeXC7EtP+8/MhZ/1i09aUJ9h
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -96,81 +95,93 @@ Cc: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It makes little sense to split the submodule get and actual DT parsing.
-Call dp_parser_parse() directly from dp_parser_get(), so that the parser
-data is fully initialised once it is returned to the caller.
+In preparation to cleanup of the dp_power module, inline dp_power_init()
+and dp_power_deinit() functions, which are now just turning the clocks
+on and off.
 
 Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/dp/dp_display.c | 6 ------
- drivers/gpu/drm/msm/dp/dp_parser.c  | 8 +++++++-
- drivers/gpu/drm/msm/dp/dp_parser.h  | 3 ---
- 3 files changed, 7 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/msm/dp/dp_display.c |  4 ++--
+ drivers/gpu/drm/msm/dp/dp_power.c   | 10 ----------
+ drivers/gpu/drm/msm/dp/dp_power.h   | 21 ---------------------
+ 3 files changed, 2 insertions(+), 33 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index d37d599aec27..67b48f0a6c83 100644
+index 67b48f0a6c83..8cd18705740f 100644
 --- a/drivers/gpu/drm/msm/dp/dp_display.c
 +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -1266,12 +1266,6 @@ static int dp_display_probe(struct platform_device *pdev)
- 		return -EPROBE_DEFER;
- 	}
+@@ -434,7 +434,7 @@ static void dp_display_host_init(struct dp_display_private *dp)
+ 		dp->dp_display.connector_type, dp->core_initialized,
+ 		dp->phy_initialized);
  
--	rc = dp->parser->parse(dp->parser);
--	if (rc) {
--		DRM_ERROR("device tree parsing failed\n");
--		goto err;
--	}
--
- 	rc = dp_power_client_init(dp->power);
- 	if (rc) {
- 		DRM_ERROR("Power client create failed\n");
-diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c b/drivers/gpu/drm/msm/dp/dp_parser.c
-index 7032dcc8842b..2d9d126c119b 100644
---- a/drivers/gpu/drm/msm/dp/dp_parser.c
-+++ b/drivers/gpu/drm/msm/dp/dp_parser.c
-@@ -315,13 +315,19 @@ static int dp_parser_parse(struct dp_parser *parser)
- struct dp_parser *dp_parser_get(struct platform_device *pdev)
- {
- 	struct dp_parser *parser;
-+	int ret;
+-	dp_power_init(dp->power);
++	dp_power_clk_enable(dp->power, DP_CORE_PM, true);
+ 	dp_ctrl_reset_irq_ctrl(dp->ctrl, true);
+ 	dp_aux_init(dp->aux);
+ 	dp->core_initialized = true;
+@@ -448,7 +448,7 @@ static void dp_display_host_deinit(struct dp_display_private *dp)
  
- 	parser = devm_kzalloc(&pdev->dev, sizeof(*parser), GFP_KERNEL);
- 	if (!parser)
- 		return ERR_PTR(-ENOMEM);
- 
--	parser->parse = dp_parser_parse;
- 	parser->pdev = pdev;
- 
-+	ret = dp_parser_parse(parser);
-+	if (ret) {
-+		dev_err(&pdev->dev, "device tree parsing failed\n");
-+		return ERR_PTR(ret);
-+	}
-+
- 	return parser;
+ 	dp_ctrl_reset_irq_ctrl(dp->ctrl, false);
+ 	dp_aux_deinit(dp->aux);
+-	dp_power_deinit(dp->power);
++	dp_power_clk_enable(dp->power, DP_CORE_PM, false);
+ 	dp->core_initialized = false;
  }
-diff --git a/drivers/gpu/drm/msm/dp/dp_parser.h b/drivers/gpu/drm/msm/dp/dp_parser.h
-index 90a2cdbbe344..4ccc432b4142 100644
---- a/drivers/gpu/drm/msm/dp/dp_parser.h
-+++ b/drivers/gpu/drm/msm/dp/dp_parser.h
-@@ -67,7 +67,6 @@ struct dss_module_power {
-  *
-  * @pdev: platform data of the client
-  * @mp: gpio, regulator and clock related data
-- * @parse: function to be called by client to parse device tree.
-  */
- struct dp_parser {
- 	struct platform_device *pdev;
-@@ -76,8 +75,6 @@ struct dp_parser {
- 	u32 max_dp_lanes;
- 	u32 max_dp_link_rate;
- 	struct drm_bridge *next_bridge;
+ 
+diff --git a/drivers/gpu/drm/msm/dp/dp_power.c b/drivers/gpu/drm/msm/dp/dp_power.c
+index b095a5b47c8b..f49e3aede308 100644
+--- a/drivers/gpu/drm/msm/dp/dp_power.c
++++ b/drivers/gpu/drm/msm/dp/dp_power.c
+@@ -152,16 +152,6 @@ int dp_power_client_init(struct dp_power *dp_power)
+ 	return dp_power_clk_init(power);
+ }
+ 
+-int dp_power_init(struct dp_power *dp_power)
+-{
+-	return dp_power_clk_enable(dp_power, DP_CORE_PM, true);
+-}
 -
--	int (*parse)(struct dp_parser *parser);
+-int dp_power_deinit(struct dp_power *dp_power)
+-{
+-	return dp_power_clk_enable(dp_power, DP_CORE_PM, false);
+-}
+-
+ struct dp_power *dp_power_get(struct device *dev, struct dp_parser *parser)
+ {
+ 	struct dp_power_private *power;
+diff --git a/drivers/gpu/drm/msm/dp/dp_power.h b/drivers/gpu/drm/msm/dp/dp_power.h
+index 55ada51edb57..eb836b5aa24a 100644
+--- a/drivers/gpu/drm/msm/dp/dp_power.h
++++ b/drivers/gpu/drm/msm/dp/dp_power.h
+@@ -22,27 +22,6 @@ struct dp_power {
+ 	bool stream_clks_on;
  };
  
+-/**
+- * dp_power_init() - enable power supplies for display controller
+- *
+- * @power: instance of power module
+- * return: 0 if success or error if failure.
+- *
+- * This API will turn on the regulators and configures gpio's
+- * aux/hpd.
+- */
+-int dp_power_init(struct dp_power *power);
+-
+-/**
+- * dp_power_deinit() - turn off regulators and gpios.
+- *
+- * @power: instance of power module
+- * return: 0 for success
+- *
+- * This API turns off power and regulators.
+- */
+-int dp_power_deinit(struct dp_power *power);
+-
  /**
+  * dp_power_clk_status() - display controller clocks status
+  *
 
 -- 
 2.39.2
