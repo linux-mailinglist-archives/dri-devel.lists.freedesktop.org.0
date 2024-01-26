@@ -2,65 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD23D83E355
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 21:25:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7116183E363
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 21:31:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D63F610FE51;
-	Fri, 26 Jan 2024 20:24:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BADD810FE5D;
+	Fri, 26 Jan 2024 20:30:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
- [209.85.128.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A74E810FE4F
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 20:24:54 +0000 (UTC)
-Received: by mail-yw1-f169.google.com with SMTP id
- 00721157ae682-5ff847429d4so12734287b3.1
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 12:24:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1706300634; x=1706905434; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ZDpAa3J0tQehwA7Ry5x3tOdmo/d5D+jLymbO2mRHCxM=;
- b=vh+VNkPiey3Myz3Ee4kulMgNC70k8Ue0ZklilkswhWpS5eBGpSICRHKSecNnEz/uf6
- XSt8/1vkRFB5socT6kJ+n8nOEUFT2dk28gKR/mU3qLQUqWIyIBeUAkFh/tsB5vZYD9qw
- HVlKd0GzKHSy86qGVRcGW+JEghK+sSCfhx9rQGJycDGJj2BITUlvUew7ESIJIock/3Dw
- XiD3QLjvMd4NnzhzKkxnO5t4UnS0WCU3IK+1VKNP7tGyIPThMs5dhRp+vS2fVeiM8c3E
- 7lm3rK/F1AAvw19e6+tzgeGcSuy4N5BnNAlkOjria3/UZ9VHOG6smpm5jYXvHAnrIVY9
- fCDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706300634; x=1706905434;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ZDpAa3J0tQehwA7Ry5x3tOdmo/d5D+jLymbO2mRHCxM=;
- b=Ohcb8Y/kboz2OR5Rww2Rv7Kmnq9rbU/4/Y+uAE8Oh8us7pvNCq0M3fn0mGJyO0gc0C
- 3e5uiLBSbpP3EqOJMdV7NDWBORXD8/K1CoF2awnKU1s22oWUcthq5DZYAW3pM277TugR
- N7sLNHac1gIJPPamip0OJYjbqqKB2g2TmKMW6yLsPR3q/aAKiMOMakzdvdmqOG/O18FC
- 1jZX5jpaDye+bOnINzJAXzWAMHH7WRRDqhxLLS7/gziYpBUjomA9Rxw9kirO+hvYS1/q
- 0ftI6LzFKT8zIs+uVI05165NbjnJ22g4gbpUBodR9cpeHM9Eh3lpHXeo5l1fle6rMmVk
- w7hw==
-X-Gm-Message-State: AOJu0YwMXzSoYi38pnvFXQ0rJPJS7XPvQz2QOa5lKrwz9I6qEU3tOES6
- Rx7Dpr9F7XSifh7lGbA309CHTFMmfqEM4n9dr/TAXhOYriPTPj5g8iSXCgTu1sNh1fL58VTbiOd
- yzz9NU4ojO1ELMbmC/Sy7TzkOPFo+me0wU22SPg==
-X-Google-Smtp-Source: AGHT+IFPF1qh1U967GMR4IMG8c2YBW/cJng//YXeuLBPB86SGHhjM8CdAyJiEtMQUeyEpXkZzGmpDP4rnUUw9ZtJD9I=
-X-Received: by 2002:a05:690c:3603:b0:602:ce8b:6aec with SMTP id
- ft3-20020a05690c360300b00602ce8b6aecmr735792ywb.51.1706300633869; Fri, 26 Jan
- 2024 12:23:53 -0800 (PST)
+Received: from mecka.net (mecka.net [159.69.159.214])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 93D1F10FE5B
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 20:30:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mecka.net; s=2016.11;
+ t=1706301020; bh=bS0tHXldnDP7fP1hTCX/Dobr7gSKMxZIXrqw5AcghSc=;
+ h=Date:From:To:Subject:References:In-Reply-To:From;
+ b=cC5EMOIy3hGOaPaCp40VoGhD5wRmepADo9Sbans8FHbyxXIaD3Q5dVXYhZfj9eJl/
+ AIoAKjkp9uMqM78/RAeaUZsBJVFREknowDoPzrSCT7/1UB/WmIsOD/QXgxt8cWmWw2
+ Eji+gCm8xZ9MGRSItCu24/ELJUT1shgjLwMGC257hAEA88z2h/NK+DwykNNaPhw+YB
+ f/U5TY4llR8Q0kNJoTVmZ2x8aFzQJ6McVmc8R+BRyy3ppEKx4ESSQ1GZyg0zoTwh9l
+ ZOkeJ8i02kjKcxbBUs/WZMFjA1wADIp/3dmurR5t37ZzVmzeM9aa5ggKUsvSY6Sesf
+ fJnapb/MbfYGw==
+Received: from mecka.net (unknown [185.147.11.134])
+ by mecka.net (Postfix) with ESMTPSA id B135B3B4E7E;
+ Fri, 26 Jan 2024 21:30:19 +0100 (CET)
+Date: Fri, 26 Jan 2024 21:30:18 +0100
+From: Manuel Traut <manut@mecka.net>
+To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+ Mark Yao <markyao0591@gmail.com>, Diederik de Haas <didi.debian@cknow.org>,
+ Segfault <awarnecke002@hotmail.com>,
+ Arnaud Ferraris <aferraris@debian.org>,
+ Danct12 <danct12@riseup.net>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v3 4/4] arm64: dts: rockchip: Add devicetree for Pine64
+ PineTab2
+Message-ID: <ZbQWWp3nmorbEVFl@mecka.net>
+References: <20240102-pinetab2-v3-0-cb1aa69f8c30@mecka.net>
+ <20240102-pinetab2-v3-4-cb1aa69f8c30@mecka.net>
+ <vj3elmkt6czisvwqouv2hhvut2va5jw6bbj5kjyxawvrnrdfwm@tlpo3dp3qcyb>
+ <ZZgqF5hLO8UThPep@mecka.net>
+ <elumjkchw5m6rcb73l4ouemjgk7nsgkeu576ybbkc5nbvcpiyi@txkepy7wqops>
 MIME-Version: 1.0
-References: <20240126-dp-power-parser-cleanup-v3-0-098d5f581dd3@linaro.org>
-In-Reply-To: <20240126-dp-power-parser-cleanup-v3-0-098d5f581dd3@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 26 Jan 2024 22:23:42 +0200
-Message-ID: <CAA8EJpoNuWaJTGs7MfHCQ+OE69HT+NZ1kjEw0ZJtvhZyS778zg@mail.gmail.com>
-Subject: Re: [PATCH RESEND v3 00/15] drm/msm/dp: clear power and parser
- submodules away
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Kuogee Hsieh <quic_khsieh@quicinc.com>, 
- Stephen Boyd <swboyd@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <elumjkchw5m6rcb73l4ouemjgk7nsgkeu576ybbkc5nbvcpiyi@txkepy7wqops>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,30 +68,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, freedreno@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 26 Jan 2024 at 20:26, Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> Reshuffle code in the DP driver, cleaning up clocks and DT parsing and
-> dropping the dp_power and dp_parser submodules.
->
-> Initially I started by looking onto stream_pixel clock handling only to
-> find several wrapping layers around a single clocks. After inlining
-> and/or dropping them (and thus dp_power submodule), it was more or less
-> natural to continue cleaning up the dp_parser until it got removed
-> completely.
+Hello Ondřej,
 
-I see. I have resent v3 because b4 for some reason didn't pick up R-b
-tags  from v2. I didn't notice that `b4 send --resend` doesn't pick up
-changes and just resends the previous version.
-So I must beg your pardon for the spam. I'll push R-B tags via response emails.
+On Fri, Jan 05, 2024 at 05:48:46PM +0100, Ondřej Jirman wrote:
+> On Fri, Jan 05, 2024 at 05:11:03PM +0100, Manuel Traut wrote:
+> > On Wed, Jan 03, 2024 at 10:42:54AM +0100, Ondřej Jirman wrote:
+> > > Hello Manuel,
+> > > 
+> > > a few more things I noticed:
+> > > 
+> > > On Tue, Jan 02, 2024 at 05:15:47PM +0100, Manuel Traut wrote:
+> > > > From: Alexander Warnecke <awarnecke002@hotmail.com>
+> > > > 
+> > > > +	leds {
+> > > > +		compatible = "gpio-leds";
+> > > > +
+> > > > +		pinctrl-names = "default";
+> > > > +		pinctrl-0 = <&flash_led_en_h>;
+> > > > +
+> > > > +		led-0 {
+> > > > +			gpios = <&gpio4 RK_PA5 GPIO_ACTIVE_HIGH>;
+> > > > +			color = <LED_COLOR_ID_WHITE>;
+> > > > +			function = LED_FUNCTION_FLASH;
+> > > > +		};
+> > > 
+> > > This LED is supplied by VCC5V_MIDU, so maybe this should be a regulator-led
+> > > supplied by gpio (FLASH_LED_EN_H) controlled regulator-fixed named f_led which
+> > > is in turn supplied by VCC5V_MIDU.
+> > > 
+> > > https://megous.com/dl/tmp/9bf0d85d78946b5e.png
+> > 
+> > regulator-leds are controlled by turning on or off the regulator. However
+> > VCC5V_MIDU is also used by other devices (USB, HDMI, ..) so I guess this is
+> > not what we want. I would keep it as is.
+> 
+> It's used by the LED. gpio-leds will not ensure it's on when you enable the LED.
+> 
+> In practice this may only come up if someone tries to save power by unloading
+> dwc3 USB driver, when using PT2 outside of the keyboard case. Otherwise
+> VCC5V_MIDU will be enabled by DWC3 driver's use of PHY API.
+> 
+> In any case, I'm not saying you should use VCC5V_MIDU directly in regulator-led,
+> but as a vin-supply to a new regulator-fixed node (which would be describing
+> this "fixed voltage regulator" https://megous.com/dl/tmp/cc65ec81ab9af163.png ).
 
+Sorry for the late response, I was busy with other things in the last weeks.
 
--- 
-With best wishes
-Dmitry
+I changed it to be a regulator led and will post a v4 soon.
