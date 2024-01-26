@@ -2,91 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BFC383E551
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 23:24:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39D8F83E541
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 23:23:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 498D710FF6B;
-	Fri, 26 Jan 2024 22:24:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6BFD10FF5C;
+	Fri, 26 Jan 2024 22:23:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D1B910FF65;
- Fri, 26 Jan 2024 22:23:58 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=D6TE9IyJVsNS3DaL++GS6F63OLmvr2WpqvwSklW5qkmken27iXRzHy9Rciscpf4om0v+mEYN+w1goSvRNtU6QRmudidmZ2g4WBtWu10NDWnU6/cCO2fzAQ+CztxEnRkVY+HhwPw7JOctwaEmVr5pUJTUBD/jlQoJYtCEkFRMhbE7h/MHK9cKtPNue0a3Uk6QdzH4VOaG5x0/NE5d6VhLLaKlBDDXNQZG+MnwZPDSumg74PQF/2W7viMhxRoItpbFH/eIbWueLbSItoEQj8bsxdTnkkef6LIzdRuL7JF6BzOMDhagutnuElo93JUGa2yF1/Rt2R+yO7JvTq/JkL366w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XS+ME5l2Zm5TR02mkR9IVUrIF0kwVsGTzppFYJKVZ0s=;
- b=Zso0xBizZdITLhMTcDws/H+ly3Zp/STXqV6xG9d7Ue/86awwLvcA41/ifPHhwc1sW/d2zU4YHmniczm88QGaTanaHV+6OJQhpKLKyEC3naK+tKFXsvSoN9kHE+lc4OROgs5ArIKIaA15azKlawDJOoIYHIOs5bxTSrapA+n7pJGO/UuABO8l+eYY3jdTbuUMm35zG8TO0kfXs5XcHcrMEcDGaCyFJAjwdRAdVikUJEiRaaJs8mvrnJ4jY+YH7i9JtavzJQgfJLEJUy3IsnBkfvI+0Xoz+5BOIGNGtTw0Fmyu8voFU6wbhS0D4RSRoHh4ecWCX7aGjNpTms+zIKZZOg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XS+ME5l2Zm5TR02mkR9IVUrIF0kwVsGTzppFYJKVZ0s=;
- b=h3Q7XqjIBimpinU+C2V1tPE6JR444pFrGCzraiWTGY3NwHIa+FvJdx2GJMzKbP3gJxVqY3xIKyPUgfgV6ViBNAmfGK43GG8M8aqT9FbIfObIbXXihkpioI7WGsyPUTXpMh9L/Rg8b+jy7BpGvArr4CXv12c/ZrwDyIlRKivnlo4=
-Received: from BL1PR13CA0233.namprd13.prod.outlook.com (2603:10b6:208:2bf::28)
- by PH7PR12MB6785.namprd12.prod.outlook.com (2603:10b6:510:1ab::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.27; Fri, 26 Jan
- 2024 22:23:36 +0000
-Received: from BL6PEPF0001AB57.namprd02.prod.outlook.com
- (2603:10b6:208:2bf:cafe::ef) by BL1PR13CA0233.outlook.office365.com
- (2603:10b6:208:2bf::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.22 via Frontend
- Transport; Fri, 26 Jan 2024 22:23:36 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BL6PEPF0001AB57.mail.protection.outlook.com (10.167.241.9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7181.14 via Frontend Transport; Fri, 26 Jan 2024 22:23:35 +0000
-Received: from hamza-pc.localhost (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Fri, 26 Jan
- 2024 16:23:34 -0600
-From: Hamza Mahfooz <hamza.mahfooz@amd.com>
-To: <amd-gfx@lists.freedesktop.org>
-Subject: [PATCH] drm/amd/display: add panel_power_savings sysfs entry to eDP
- connectors
-Date: Fri, 26 Jan 2024 17:22:58 -0500
-Message-ID: <20240126222300.119292-1-hamza.mahfooz@amd.com>
-X-Mailer: git-send-email 2.43.0
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAA7010FF5A;
+ Fri, 26 Jan 2024 22:23:12 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 40QLcYhv019021; Fri, 26 Jan 2024 22:23:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=beiHHDRgYfSCNe8rwDTZ6pBzH79kuCoMlCNyoHedrIA=; b=CF
+ 26xjWF4/SK8m3qx7Rpdc1+OKnoxtoHVoRqFQ6vsPAIPdXKHwDzwZh+QL3lGaYYra
+ 5nzZoBhq0OwVelCNnZDwX85KZJbTjNRYnBmvPae4PvuWsc2PmnJX7RItnvZ53ajn
+ QpAYYjzkcXY3tVv5FigZWVCK1psDxgi0uo4JiFNCUFtkXVLzD+TezqP1szVSAbzY
+ nDzOBCsa7M/aKGt9bdn591TAUqJPTVN2tzrPND3I7vh8/bNYb8vGo6U1k+9vp+Sn
+ jKMTWa8zo8vh79VXWrPvSR/ktZPtWQmAp8JmEtPbNoq3w5cPEPY3aF3Uvc1LcRTm
+ 1G5sUsU+pyfoSHFs2trg==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vvjbg8bch-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 26 Jan 2024 22:23:06 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40QMN616003152
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 26 Jan 2024 22:23:06 GMT
+Received: from [10.110.48.234] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 26 Jan
+ 2024 14:23:05 -0800
+Message-ID: <83caa905-3cf7-ea12-79bf-5ebbc0ab25e3@quicinc.com>
+Date: Fri, 26 Jan 2024 14:23:04 -0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB57:EE_|PH7PR12MB6785:EE_
-X-MS-Office365-Filtering-Correlation-Id: b224326f-b454-4cb5-ac72-08dc1ebd703b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qwOlCMXqusNZkiLa0ijWPvUGdjCLhBG5TSFjaqgj1aQw/VuLxQTaTpYrHWuS7pOxzvo2F46So/sUql5eQv5KKvEIcgtE1gbRbm6dHkIEnEJj/WTADTWjBKoxduMgb0kTb0vTZX+cIsqcvwchq2jslZGbPV3bYjr4vOa554uj7j566q99Tl8Nkpo/KOebQ+B2WAnQuio8H1kHfOHea4cMib95bY804xIlOWdDX8AUNZV1LreXVaD3oBJnF124S/QRRHhi0RKU7Xdx6iAnxR2QYNfsxvantmfEjhRzv/70vaKT0I88he0+UVO5Wa5SB1AfTcD23qJR47bDlXdDs0y7kbID40lTJAWBiCkeXIDiEQiSYqNYUVQ7vVoN/4eYOL+03iqeWK6dApjIf/eHDz98GNZh8jvbNs4rI/I9qpfhVZv2lDH1V75GrKCbGU+922YUF3YP6Pj6m3OJvy7cietT4oqoFhFgnvRs/xeZUhJuDOM08SBIWqhDbi1uYaoGB3KkMZuisynKHAzEvyvWiKumQTTYNUuGgfkZ1TGEn0KOWmbEIp7+4I3zK4MSX806V/VnBJZrgxbMLmBXhkL1xMA9RAPIDJ/ITvD5WeiW2pNHZ8GSArp9xnKE/6RTIZC1c4mpbBQMcVKrCuXoZ3o4mGn5++G/5yyxcTDGObtv7V1XDmSiT/SWbMiT/f6wY+HUHj2T4r/au1OMkLEBgc11zQnyPTITL6fQD0RA9gl8lG7Gt+BOF50QdsvP6crInZ6o2uUCrVIRdTgs2COaMyKZR8l7+jQW4lAtx5Kqt4PZ5V84oSLmnJ+QHaJwT8g/gGDy+I4Q
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(4636009)(39860400002)(136003)(346002)(396003)(376002)(230922051799003)(186009)(82310400011)(64100799003)(1800799012)(451199024)(40470700004)(46966006)(36840700001)(40460700003)(40480700001)(83380400001)(47076005)(36756003)(81166007)(356005)(86362001)(44832011)(36860700001)(4326008)(426003)(8676002)(8936002)(5660300002)(16526019)(336012)(26005)(2616005)(1076003)(82740400003)(316002)(6916009)(70586007)(70206006)(54906003)(2906002)(41300700001)(478600001)(6666004)(36900700001)(16060500005);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2024 22:23:35.9910 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b224326f-b454-4cb5-ac72-08dc1ebd703b
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF0001AB57.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6785
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH RESEND v3 09/15] drm/msm/dp: move phy_configure_opts to
+ dp_ctrl
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul
+ <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, "David
+ Airlie" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Stephen Boyd
+ <swboyd@chromium.org>
+References: <20240126-dp-power-parser-cleanup-v3-0-098d5f581dd3@linaro.org>
+ <20240126-dp-power-parser-cleanup-v3-9-098d5f581dd3@linaro.org>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <20240126-dp-power-parser-cleanup-v3-9-098d5f581dd3@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: iDs5T5e5JX2fHg_bzNSp-NX_U46llvCN
+X-Proofpoint-ORIG-GUID: iDs5T5e5JX2fHg_bzNSp-NX_U46llvCN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-25_14,2024-01-25_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 spamscore=0
+ priorityscore=1501 mlxlogscore=999 phishscore=0 impostorscore=0
+ malwarescore=0 bulkscore=0 lowpriorityscore=0 adultscore=0 mlxscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401190000 definitions=main-2401260164
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,106 +88,183 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
- Leo Li <sunpeng.li@amd.com>, David Airlie <airlied@gmail.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Alex Hung <alex.hung@amd.com>, Hamza Mahfooz <hamza.mahfooz@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>, Wayne Lin <wayne.lin@amd.com>, Alex
- Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>
+Cc: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, freedreno@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We want programs besides the compositor to be able to enable or disable
-panel power saving features. However, since they are currently only
-configurable through DRM properties, that isn't possible. So, to remedy
-that issue introduce a new "panel_power_savings" sysfs attribute.
 
-Cc: Mario Limonciello <mario.limonciello@amd.com>
-Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
----
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 59 +++++++++++++++++++
- 1 file changed, 59 insertions(+)
-
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index cd98b3565178..b3fcd833015d 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -6534,6 +6534,58 @@ amdgpu_dm_connector_atomic_duplicate_state(struct drm_connector *connector)
- 	return &new_state->base;
- }
- 
-+static ssize_t panel_power_savings_show(struct device *device,
-+					struct device_attribute *attr,
-+					char *buf)
-+{
-+	struct drm_connector *connector = dev_get_drvdata(device);
-+	struct drm_device *dev = connector->dev;
-+	ssize_t val;
-+
-+	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
-+	val = to_dm_connector_state(connector->state)->abm_level;
-+	drm_modeset_unlock(&dev->mode_config.connection_mutex);
-+
-+	return sysfs_emit(buf, "%lu\n", val);
-+}
-+
-+static ssize_t panel_power_savings_store(struct device *device,
-+					 struct device_attribute *attr,
-+					 const char *buf, size_t count)
-+{
-+	struct drm_connector *connector = dev_get_drvdata(device);
-+	struct drm_device *dev = connector->dev;
-+	long val;
-+	int ret;
-+
-+	ret = kstrtol(buf, 0, &val);
-+
-+	if (ret)
-+		return ret;
-+
-+	if (val < 0 || val > 4)
-+		return -EINVAL;
-+
-+	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
-+	to_dm_connector_state(connector->state)->abm_level = val ?:
-+		ABM_LEVEL_IMMEDIATE_DISABLE;
-+	drm_modeset_unlock(&dev->mode_config.connection_mutex);
-+
-+	return count;
-+}
-+
-+static DEVICE_ATTR_RW(panel_power_savings);
-+
-+static struct attribute *amdgpu_attrs[] = {
-+	&dev_attr_panel_power_savings.attr,
-+	NULL
-+};
-+
-+static const struct attribute_group amdgpu_group = {
-+	.name = "amdgpu",
-+	.attrs = amdgpu_attrs
-+};
-+
- static int
- amdgpu_dm_connector_late_register(struct drm_connector *connector)
- {
-@@ -6541,6 +6593,13 @@ amdgpu_dm_connector_late_register(struct drm_connector *connector)
- 		to_amdgpu_dm_connector(connector);
- 	int r;
- 
-+	if (connector->connector_type == DRM_MODE_CONNECTOR_eDP) {
-+		r = sysfs_create_group(&connector->kdev->kobj,
-+				       &amdgpu_group);
-+		if (r)
-+			return r;
-+	}
-+
- 	amdgpu_dm_register_backlight_device(amdgpu_dm_connector);
- 
- 	if ((connector->connector_type == DRM_MODE_CONNECTOR_DisplayPort) ||
--- 
-2.43.0
-
+On 1/26/2024 10:26 AM, Dmitry Baryshkov wrote:
+> There is little point in sharing phy configuration structure between
+> several modules. Move it to dp_ctrl, which becomes the only submodule
+> re-configuring the PHY.
+>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Tested-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Reviewed-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> ---
+>   drivers/gpu/drm/msm/dp/dp_catalog.c | 19 -----------------
+>   drivers/gpu/drm/msm/dp/dp_catalog.h |  2 --
+>   drivers/gpu/drm/msm/dp/dp_ctrl.c    | 41 ++++++++++++++++++++++++-------------
+>   drivers/gpu/drm/msm/dp/dp_parser.h  |  3 ---
+>   4 files changed, 27 insertions(+), 38 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
+> index 5142aeb705a4..e07651768805 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
+> @@ -765,25 +765,6 @@ void dp_catalog_ctrl_phy_reset(struct dp_catalog *dp_catalog)
+>   	dp_write_ahb(catalog, REG_DP_PHY_CTRL, 0x0);
+>   }
+>   
+> -int dp_catalog_ctrl_update_vx_px(struct dp_catalog *dp_catalog,
+> -		u8 v_level, u8 p_level)
+> -{
+> -	struct dp_catalog_private *catalog = container_of(dp_catalog,
+> -				struct dp_catalog_private, dp_catalog);
+> -	struct dp_io *dp_io = catalog->io;
+> -	struct phy *phy = dp_io->phy;
+> -	struct phy_configure_opts_dp *opts_dp = &dp_io->phy_opts.dp;
+> -
+> -	/* TODO: Update for all lanes instead of just first one */
+> -	opts_dp->voltage[0] = v_level;
+> -	opts_dp->pre[0] = p_level;
+> -	opts_dp->set_voltages = 1;
+> -	phy_configure(phy, &dp_io->phy_opts);
+> -	opts_dp->set_voltages = 0;
+> -
+> -	return 0;
+> -}
+> -
+>   void dp_catalog_ctrl_send_phy_pattern(struct dp_catalog *dp_catalog,
+>   			u32 pattern)
+>   {
+> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
+> index 38786e855b51..ba7c62ba7ca3 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_catalog.h
+> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
+> @@ -111,8 +111,6 @@ void dp_catalog_ctrl_set_psr(struct dp_catalog *dp_catalog, bool enter);
+>   u32 dp_catalog_link_is_connected(struct dp_catalog *dp_catalog);
+>   u32 dp_catalog_hpd_get_intr_status(struct dp_catalog *dp_catalog);
+>   void dp_catalog_ctrl_phy_reset(struct dp_catalog *dp_catalog);
+> -int dp_catalog_ctrl_update_vx_px(struct dp_catalog *dp_catalog, u8 v_level,
+> -				u8 p_level);
+>   int dp_catalog_ctrl_get_interrupt(struct dp_catalog *dp_catalog);
+>   u32 dp_catalog_ctrl_read_psr_interrupt_status(struct dp_catalog *dp_catalog);
+>   void dp_catalog_ctrl_update_transfer_unit(struct dp_catalog *dp_catalog,
+> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> index e367eb8e5bea..4aea72a2b8e8 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> @@ -87,6 +87,8 @@ struct dp_ctrl_private {
+>   
+>   	struct clk *pixel_clk;
+>   
+> +	union phy_configure_opts phy_opts;
+> +
+>   	struct completion idle_comp;
+>   	struct completion psr_op_comp;
+>   	struct completion video_comp;
+> @@ -1017,6 +1019,21 @@ static int dp_ctrl_wait4video_ready(struct dp_ctrl_private *ctrl)
+>   	return ret;
+>   }
+>   
+> +static int dp_ctrl_set_vx_px(struct dp_ctrl_private *ctrl,
+> +			     u8 v_level, u8 p_level)
+> +{
+> +	union phy_configure_opts *phy_opts = &ctrl->phy_opts;
+> +
+> +	/* TODO: Update for all lanes instead of just first one */
+> +	phy_opts->dp.voltage[0] = v_level;
+> +	phy_opts->dp.pre[0] = p_level;
+> +	phy_opts->dp.set_voltages = 1;
+> +	phy_configure(ctrl->parser->io.phy, phy_opts);
+> +	phy_opts->dp.set_voltages = 0;
+> +
+> +	return 0;
+> +}
+> +
+>   static int dp_ctrl_update_vx_px(struct dp_ctrl_private *ctrl)
+>   {
+>   	struct dp_link *link = ctrl->link;
+> @@ -1029,7 +1046,7 @@ static int dp_ctrl_update_vx_px(struct dp_ctrl_private *ctrl)
+>   	drm_dbg_dp(ctrl->drm_dev,
+>   		"voltage level: %d emphasis level: %d\n",
+>   			voltage_swing_level, pre_emphasis_level);
+> -	ret = dp_catalog_ctrl_update_vx_px(ctrl->catalog,
+> +	ret = dp_ctrl_set_vx_px(ctrl,
+>   		voltage_swing_level, pre_emphasis_level);
+>   
+>   	if (ret)
+> @@ -1425,16 +1442,14 @@ static void dp_ctrl_link_clk_disable(struct dp_ctrl *dp_ctrl)
+>   static int dp_ctrl_enable_mainlink_clocks(struct dp_ctrl_private *ctrl)
+>   {
+>   	int ret = 0;
+> -	struct dp_io *dp_io = &ctrl->parser->io;
+> -	struct phy *phy = dp_io->phy;
+> -	struct phy_configure_opts_dp *opts_dp = &dp_io->phy_opts.dp;
+> +	struct phy *phy = ctrl->parser->io.phy;
+>   	const u8 *dpcd = ctrl->panel->dpcd;
+>   
+> -	opts_dp->lanes = ctrl->link->link_params.num_lanes;
+> -	opts_dp->link_rate = ctrl->link->link_params.rate / 100;
+> -	opts_dp->ssc = drm_dp_max_downspread(dpcd);
+> +	ctrl->phy_opts.dp.lanes = ctrl->link->link_params.num_lanes;
+> +	ctrl->phy_opts.dp.link_rate = ctrl->link->link_params.rate / 100;
+> +	ctrl->phy_opts.dp.ssc = drm_dp_max_downspread(dpcd);
+>   
+> -	phy_configure(phy, &dp_io->phy_opts);
+> +	phy_configure(phy, &ctrl->phy_opts);
+>   	phy_power_on(phy);
+>   
+>   	dev_pm_opp_set_rate(ctrl->dev, ctrl->link->link_params.rate * 1000);
+> @@ -1572,14 +1587,12 @@ static bool dp_ctrl_use_fixed_nvid(struct dp_ctrl_private *ctrl)
+>   
+>   static int dp_ctrl_reinitialize_mainlink(struct dp_ctrl_private *ctrl)
+>   {
+> +	struct phy *phy = ctrl->parser->io.phy;
+>   	int ret = 0;
+> -	struct dp_io *dp_io = &ctrl->parser->io;
+> -	struct phy *phy = dp_io->phy;
+> -	struct phy_configure_opts_dp *opts_dp = &dp_io->phy_opts.dp;
+>   
+>   	dp_catalog_ctrl_mainlink_ctrl(ctrl->catalog, false);
+> -	opts_dp->lanes = ctrl->link->link_params.num_lanes;
+> -	phy_configure(phy, &dp_io->phy_opts);
+> +	ctrl->phy_opts.dp.lanes = ctrl->link->link_params.num_lanes;
+> +	phy_configure(phy, &ctrl->phy_opts);
+>   	/*
+>   	 * Disable and re-enable the mainlink clock since the
+>   	 * link clock might have been adjusted as part of the
+> @@ -1659,7 +1672,7 @@ static bool dp_ctrl_send_phy_test_pattern(struct dp_ctrl_private *ctrl)
+>   
+>   	drm_dbg_dp(ctrl->drm_dev, "request: 0x%x\n", pattern_requested);
+>   
+> -	if (dp_catalog_ctrl_update_vx_px(ctrl->catalog,
+> +	if (dp_ctrl_set_vx_px(ctrl,
+>   			ctrl->link->phy_params.v_level,
+>   			ctrl->link->phy_params.p_level)) {
+>   		DRM_ERROR("Failed to set v/p levels\n");
+> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.h b/drivers/gpu/drm/msm/dp/dp_parser.h
+> index cad82c4d07da..b28052e87101 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_parser.h
+> +++ b/drivers/gpu/drm/msm/dp/dp_parser.h
+> @@ -7,8 +7,6 @@
+>   #define _DP_PARSER_H_
+>   
+>   #include <linux/platform_device.h>
+> -#include <linux/phy/phy.h>
+> -#include <linux/phy/phy-dp.h>
+>   
+>   #include "msm_drv.h"
+>   
+> @@ -37,7 +35,6 @@ struct dss_io_data {
+>   struct dp_io {
+>   	struct dss_io_data dp_controller;
+>   	struct phy *phy;
+> -	union phy_configure_opts phy_opts;
+>   };
+>   
+>   /**
+>
