@@ -2,85 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCFCF83DF7B
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 18:06:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EF6E83DFFB
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jan 2024 18:26:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFF8710FC54;
-	Fri, 26 Jan 2024 17:05:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B273610FC89;
+	Fri, 26 Jan 2024 17:26:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDE1E10FC54
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 17:05:37 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 40QGGqPO017891; Fri, 26 Jan 2024 17:05:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=O1e+jgVZ/t8ly8NXReqDcVcs0H8zASfTS7uafcpB1Jk=; b=WM
- 6J5lX/34n6vU5Y3pYZdsDuj8vs7iUk7Rhphy3U8v4LEzBuT+QdJjtGK7mawQMKG9
- 7J+B8OkPWqVHhDel1AqYQd2ftmFce/iErdU03K+hJ981QiQip9CD9PUEiPMzp5JA
- gOaNIiSICUEQ7kHfTew0dePy3vivMY+HVZkbyDamVTf2T/talXWTVquQqVxK9em2
- Zo5JkledQRrqxHM4uBayKyDF/ByQcoATyNXJQVfGNFF3REAATXVicXj4wXapoglm
- PHTbRAWIVYtReGIWJy+gT/dk51VbuZITRJ2U3VBxwzWxAQ7TxRIin4xw+gublT/o
- i8jgcMaTulbVR0jh1QLA==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vv1q59ygc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 26 Jan 2024 17:05:25 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40QH5Olb026125
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 26 Jan 2024 17:05:24 GMT
-Received: from [10.71.111.207] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 26 Jan
- 2024 09:05:23 -0800
-Message-ID: <18dd9a6a-4026-4859-9f4f-9c90e1b06260@quicinc.com>
-Date: Fri, 26 Jan 2024 09:05:22 -0800
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E130710FB9A
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 17:12:03 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1rTPjB-0003h4-L9; Fri, 26 Jan 2024 18:10:53 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1rTPiw-002YFi-JY; Fri, 26 Jan 2024 18:10:38 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+ (envelope-from <ukl@pengutronix.de>) id 1rTPiw-008oFN-1F;
+ Fri, 26 Jan 2024 18:10:38 +0100
+Date: Fri, 26 Jan 2024 18:10:38 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Alex Elder <elder@ieee.org>
+Subject: Re: [PATCH v5 040/111] pwm: Provide devm_pwmchip_alloc() function
+Message-ID: <zjt3r6z5ilpffh26qidwp3axpnvfkwcrwanrtjjm2kscpdovuz@ppcrdlhmqiqq>
+References: <cover.1706182805.git.u.kleine-koenig@pengutronix.de>
+ <f59b1a4a8d6fba65e4d3e8698310c9cb1d4c43ce.1706182805.git.u.kleine-koenig@pengutronix.de>
+ <db05fb6a-2ea5-4e00-ac03-adc1897d96de@ieee.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC for upstream 2/4] drm/panel: simple: Add EDT
- ETML1010G3DRA panel
-Content-Language: en-US
-To: Yannic Moog <y.moog@phytec.de>, Neil Armstrong <neil.armstrong@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>, Shawn Guo
- <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
- Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
- NXP Linux Team <linux-imx@nxp.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
-References: <20240126-wip-y-moog-phytec-de-upstream-pollux-lvds-v1-0-8ec5b48eec05@phytec.de>
- <20240126-wip-y-moog-phytec-de-upstream-pollux-lvds-v1-2-8ec5b48eec05@phytec.de>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20240126-wip-y-moog-phytec-de-upstream-pollux-lvds-v1-2-8ec5b48eec05@phytec.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: TqWmzOUZGQyryz-BqpvyPKgeB5_1R9Vl
-X-Proofpoint-GUID: TqWmzOUZGQyryz-BqpvyPKgeB5_1R9Vl
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-25_14,2024-01-25_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 malwarescore=0
- mlxscore=0 lowpriorityscore=0 adultscore=0 priorityscore=1501 phishscore=0
- mlxlogscore=999 impostorscore=0 bulkscore=0 spamscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2401190000
- definitions=main-2401260126
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="b26sjadvk3fz44v6"
+Content-Disposition: inline
+In-Reply-To: <db05fb6a-2ea5-4e00-ac03-adc1897d96de@ieee.org>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+X-Mailman-Approved-At: Fri, 26 Jan 2024 17:26:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,86 +57,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, upstream@lists.phytec.de,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Primoz Fiser <primoz.fiser@norik.com>, linux-arm-kernel@lists.infradead.org
+Cc: dri-devel@lists.freedesktop.org, Conor Dooley <conor.dooley@microchip.com>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+ linux-stm32@st-md-mailman.stormreply.com, Jerome Brunet <jbrunet@baylibre.com>,
+ linux-samsung-soc@vger.kernel.org, Robert Foss <rfoss@kernel.org>,
+ Samuel Holland <samuel@sholland.org>, Sean Anderson <sean.anderson@seco.com>,
+ Kevin Hilman <khilman@baylibre.com>, Hammer Hsieh <hammerh0314@gmail.com>,
+ NXP Linux Team <linux-imx@nxp.com>, linux-sunxi@lists.linux.dev,
+ Sascha Hauer <s.hauer@pengutronix.de>, Scott Branden <sbranden@broadcom.com>,
+ Daire McNamara <daire.mcnamara@microchip.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, kernel@pengutronix.de,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Michael Walle <mwalle@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+ linux-doc@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ James Clark <james.clark@arm.com>, Guenter Roeck <groeck@chromium.org>,
+ chrome-platform@lists.linux.dev, Bjorn Andersson <quic_bjorande@quicinc.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, Bartosz Golaszewski <brgl@bgdev.pl>,
+ Lee Jones <lee@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
+ linux-rockchip@lists.infradead.org, Andi Shyti <andi.shyti@kernel.org>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Maxime Ripard <mripard@kernel.org>, linux-gpio@vger.kernel.org,
+ Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+ linux-rpi-kernel@lists.infradead.org, Bjorn Helgaas <bhelgaas@google.com>,
+ linux-amlogic@lists.infradead.org, Michal Simek <michal.simek@amd.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Neil Armstrong <neil.armstrong@linaro.org>, greybus-dev@lists.linaro.org,
+ Hector Martin <marcan@marcan.st>, Douglas Anderson <dianders@chromium.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ platform-driver-x86@vger.kernel.org, linux-tegra@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Fabio Estevam <festevam@gmail.com>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Alexander Shiyan <shc_work@mail.ru>,
+ Jonathan Corbet <corbet@lwn.net>, linux-staging@lists.linux.dev,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Luca Weiss <luca@z3ntu.xyz>,
+ Chen-Yu Tsai <wens@csie.org>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+ linux-pwm@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
+ Ray Jui <rjui@broadcom.com>,
+ Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+ Vladimir Zapolskiy <vz@mleia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Orson Zhai <orsonzhai@gmail.com>, Benson Leung <bleung@chromium.org>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, asahi@lists.linux.dev,
+ Shawn Guo <shawnguo@kernel.org>,
+ Anjelique Melendez <quic_amelende@quicinc.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, linux-mips@vger.kernel.org,
+ Paul Cercueil <paul@crapouillou.net>, linux-riscv@lists.infradead.org,
+ David Airlie <airlied@gmail.com>, linux-leds@vger.kernel.org,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Sven Peter <sven@svenpeter.dev>,
+ Johan Hovold <johan@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+ linux-mediatek@lists.infradead.org, Paul Walmsley <paul.walmsley@sifive.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, Lu Hongfei <luhongfei@vivo.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+--b26sjadvk3fz44v6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 1/26/2024 12:57 AM, Yannic Moog wrote:
-> From: Primoz Fiser <primoz.fiser@norik.com>
-> 
-> Add support for the EDT ETML1010G3DRA 10.1" 1280x800 LVDS panel.
-> Datasheet can be found at [1].
-> 
-> [1] https://www.glynshop.com/erp/owweb/Daten/DSS/EDT/Products/Specifications/Active%20Displays/ETML1010G3DRA%20Ver.3-RoHS.pdf
-> 
-> Signed-off-by: Primoz Fiser <primoz.fiser@norik.com>
-> Signed-off-by: Yannic Moog <y.moog@phytec.de>
+Hello Alex,
 
-Hi Yannic,
+On Fri, Jan 26, 2024 at 08:56:33AM -0600, Alex Elder wrote:
+> On 1/25/24 6:09 AM, Uwe Kleine-K=F6nig wrote:
+> > This function allocates a struct pwm_chip and driver data. Compared to
+> > the status quo the split into pwm_chip and driver data is new, otherwise
+> > it doesn't change anything relevant (yet).
+> >=20
+> > The intention is that after all drivers are switched to use this
+> > allocation function, its possible to add a struct device to struct
+> > pwm_chip to properly track the latter's lifetime without touching all
+> > drivers again. Proper lifetime tracking is a necessary precondition to
+> > introduce character device support for PWMs (that implements atomic
+> > setting and doesn't suffer from the sysfs overhead of the /sys/class/pwm
+> > userspace support).
+> >=20
+> > The new function pwmchip_priv() (obviously?) only works for chips
+> > allocated with devm_pwmchip_alloc().
+>=20
+> I think this looks good.  Two questions:
+> - Should you explicitly align the private data?  Or do you believe
+>   the default alignment (currently pointer size aligned) is adequate?
 
-Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+I'm not aware of a requirement for a higher order alignment (but I might
+well miss something). I did my tests on arm, nothing exploded there.
+Maybe the conservative approach of asserting the same alignment as
+kmalloc would be a good idea. I'll think and research about that.
 
-Thanks,
+iio uses ARCH_DMA_MINALIGN, net uses 32 (NETDEV_ALIGN).
 
-Jessica Zhang
+> - Is there a non-devres version of the allocation function?
 
-> ---
->   drivers/gpu/drm/panel/panel-simple.c | 30 ++++++++++++++++++++++++++++++
->   1 file changed, 30 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index 9367a4572dcf..662cf8d10a8a 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -1920,6 +1920,33 @@ static const struct panel_desc edt_etml0700y5dha = {
->   	.connector_type = DRM_MODE_CONNECTOR_LVDS,
->   };
->   
-> +static const struct display_timing edt_etml1010g3dra_timing = {
-> +	.pixelclock = { 66300000, 72400000, 78900000 },
-> +	.hactive = { 1280, 1280, 1280 },
-> +	.hfront_porch = { 12, 72, 132 },
-> +	.hback_porch = { 86, 86, 86 },
-> +	.hsync_len = { 2, 2, 2 },
-> +	.vactive = { 800, 800, 800 },
-> +	.vfront_porch = { 1, 15, 49 },
-> +	.vback_porch = { 21, 21, 21 },
-> +	.vsync_len = { 2, 2, 2 },
-> +	.flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW |
-> +		 DISPLAY_FLAGS_DE_HIGH,
-> +};
-> +
-> +static const struct panel_desc edt_etml1010g3dra = {
-> +	.timings = &edt_etml1010g3dra_timing,
-> +	.num_timings = 1,
-> +	.bpc = 8,
-> +	.size = {
-> +		.width = 216,
-> +		.height = 135,
-> +	},
-> +	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
-> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
-> +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-> +};
-> +
->   static const struct drm_display_mode edt_etmv570g2dhu_mode = {
->   	.clock = 25175,
->   	.hdisplay = 640,
-> @@ -4328,6 +4355,9 @@ static const struct of_device_id platform_of_match[] = {
->   	}, {
->   		.compatible = "edt,etml0700y5dha",
->   		.data = &edt_etml0700y5dha,
-> +	}, {
-> +		.compatible = "edt,etml1010g3dra",
-> +		.data = &edt_etml1010g3dra,
->   	}, {
->   		.compatible = "edt,etmv570g2dhu",
->   		.data = &edt_etmv570g2dhu,
-> 
-> -- 
-> 2.34.1
-> 
+Patch #109 introduces a non-devres variant. As it's not used it's a
+static function though. Can easily be changed is a use case pops up.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--b26sjadvk3fz44v6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmWz540ACgkQj4D7WH0S
+/k4oQwf+Nnq9bGZWZrbCQsHJYB54zfZt1whu2kQgdRMIQzT8HP7NadKhFCqs3Ob6
+5xwIwbIpdczrpzHM25+5ZrTBiH5oSQ/Si0YMzglndL8Tm59GEJxcKoorYpDNplJR
+xHL2owB7VgG87fFIvSCe163biS2vI/gIjAGvL9bpzcSH62Eq7EO3APk7Hx+h7d9e
+QHLzzUmpN9JlrzYOhKE7Pu7/iVFPNqNb7FQtAOnamXe0kRLs05649mgdJ9q30gS8
+imf9reDedsSG7sHM5NjtZpBQpF9H3vulzuGbH2MH2jNDLjtcpvUXUZpfijLN69iQ
+GqSwNOqcwcXljLsP1A1wM8snNwzi/A==
+=cXfD
+-----END PGP SIGNATURE-----
+
+--b26sjadvk3fz44v6--
