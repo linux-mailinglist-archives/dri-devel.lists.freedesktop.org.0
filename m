@@ -2,63 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEDED83EEC1
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Jan 2024 17:42:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 471BF83EED2
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Jan 2024 17:52:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CC8010F293;
-	Sat, 27 Jan 2024 16:42:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B80EA10F2BD;
+	Sat, 27 Jan 2024 16:51:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
- [209.85.128.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05F6D10F293
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Jan 2024 16:41:59 +0000 (UTC)
-Received: by mail-yw1-f169.google.com with SMTP id
- 00721157ae682-5ff7ec8772dso18320307b3.0
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Jan 2024 08:41:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1706373658; x=1706978458; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=PT1Exo5HZPUej7pl3Sf7KYOhUnetXTHlbzzBJvg05vo=;
- b=m4arqCraLbp9HAAkNgJUr/Gx4nb0q2QMuTTFMznHm5oav4SqOx9DMEgxUjVUVguVMx
- FF04uAAU1VplKvYoRKXfFQvjKihMiUq6gTx4wGVfvXClnz8hxfHIbhAmKKa7NRkNPU/m
- s3zzkecDL3smc4duYBBCYnNPAs3EcnpHhvzcrDNCYgx3kdG3E8o/178+Yov3q17VMJpt
- F1trwqmTx5N9hPyBvw5bNC2Rs46/AiW5zqKyaXvnj2GR2fKCDOW+VsuB/fGdbv01nQUU
- oKAi1WFT7mzSTTybywuXuOhchmG05s2UTlVSoHjCzT5RVhn/pSyXB17xc6NfyjWVlPba
- mF8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706373658; x=1706978458;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=PT1Exo5HZPUej7pl3Sf7KYOhUnetXTHlbzzBJvg05vo=;
- b=KavNl7Mh0sp10K/z+mFrLOcSGErS0P792se3zCklUTY90JSMOhmeeoqMwnrwJWM1gN
- +Ot3sHNfNZFuTeCjFyLeURKk7HLYWHJ2tFqayAPG5C5b5WXT4lJP5BNWkOOZ18gwNcsh
- 9zL+LHTHcHB2M2hdB1W0wtidsrv26LD0cHRqJt7JNFB5xkZZaG/U4ZWX2y25kvM1LyQs
- aQ9yE7P9zTPyruEWC+3Hhj8vM82jEhTsMsQzS6De+6ZvtEaP5xMVtuvRL4d4pOSKLztF
- +bx657TOjq8fl1LbBdRnsl6Jjd2yrcE+Z3NP0+ppndeiJN6/gYnRN+MGj6zDixNJ96yk
- w+Cg==
-X-Gm-Message-State: AOJu0YwXpzoEYKpDhP8M/jkTFCr0Aq60rlW8V6Rp7fDe2qdjMzsKhOLM
- L0F4SiUncXyDDfrUSd2qx+yGBBujzpUi+xH+gGMWrmk20F1QqMGoQYm21wkZgskbS5JD3q/1yvu
- y0LyO2OHkYB83ihc5wNV9FKce3Q6vpCPJpT03RA==
-X-Google-Smtp-Source: AGHT+IGxWylb3x6PvuiGls+63CDlOR2to8X1Yhb884+I2Osgi3EG4M3tSnJurIDqx6qxvZppFEGLmso+Wb2uaWlxFsw=
-X-Received: by 2002:a81:a00e:0:b0:602:d04c:4402 with SMTP id
- x14-20020a81a00e000000b00602d04c4402mr1878416ywg.81.1706373658282; Sat, 27
- Jan 2024 08:40:58 -0800 (PST)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31F0D10E6F2
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Jan 2024 16:51:34 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id C428C60A65;
+ Sat, 27 Jan 2024 16:51:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F7BFC433F1;
+ Sat, 27 Jan 2024 16:50:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1706374260;
+ bh=QP+swmkCdNQGO0Nmh/aIJ91HocN7GAu5e8lfaOWVe1c=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=kHE4GT14qyZ9I0dPf3JZXSf2KWCeckxoGqODmilUYb+pouIkOG0PYuxUTRvH5IKL/
+ 8027UCs0RkMLDqypr8Xez1mHrPzUpaYqXdIBwlJIVmSLOEYJwOHHl2kNuK6G1K4Cse
+ gqN+/rdjyKsk/3+BPoMGzF/E9cmtxQkF1zcMmaz10JrLPFLtHbbc1ksahSgc+PY4Va
+ fVlv5Kbkq5xj9XOnO1ErYaT0nLxkh/na/nVHByuhTxQp/bWM8P/cf7Usxpyzhuxrar
+ 11GV3LsFzScBDF4TtjuAK1EHyNaYfrGvDpvsLd692/hySSUirAFWN3Nn7aD1CMlPH8
+ Rgo7n1lSqppsw==
+Date: Sat, 27 Jan 2024 16:50:44 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v5 5/8] iio: core: Add new DMABUF interface infrastructure
+Message-ID: <20240127165044.22f1b329@jic23-huawei>
+In-Reply-To: <ee5d7bb2fb3e74e8fc621d745b23d1858e1f0c3c.camel@crapouillou.net>
+References: <20231219175009.65482-1-paul@crapouillou.net>
+ <20231219175009.65482-6-paul@crapouillou.net>
+ <20231221120624.7bcdc302@jic23-huawei>
+ <ee5d7bb2fb3e74e8fc621d745b23d1858e1f0c3c.camel@crapouillou.net>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.40; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20240127152821.65744-1-dario.binacchi@amarulasolutions.com>
- <170637290174.2797231.1548285445759438647.robh@kernel.org>
-In-Reply-To: <170637290174.2797231.1548285445759438647.robh@kernel.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Sat, 27 Jan 2024 17:40:47 +0100
-Message-ID: <CACRpkdZRvGv4gKxuYpt+fczWCegsQWjP3yfrW=RgOLBFJxtjqw@mail.gmail.com>
-Subject: Re: [drm-drm-misc:drm-misc-next] dt-bindings: nt35510: document
- 'port' property
-To: Rob Herring <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,34 +53,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- Sam Ravnborg <sam@ravnborg.org>, devicetree@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Dario Binacchi <dario.binacchi@amarulasolutions.com>,
- David Airlie <airlied@gmail.com>
+Cc: Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ linaro-mm-sig@lists.linaro.org, Vinod Koul <vkoul@kernel.org>,
+ Nuno =?UTF-8?B?U8Oh?= <noname.nuno@gmail.com>, dmaengine@vger.kernel.org,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jan 27, 2024 at 5:28=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
-:
 
-> dtschema/dtc warnings/errors:
-> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/d=
-isplay/panel/novatek,nt35510.example.dtb: panel@0: compatible:0: 'hydis,hva=
-40wv1' was expected
->         from schema $id: http://devicetree.org/schemas/display/panel/nova=
-tek,nt35510.yaml#
+> > > +	iio_buffer_dmabuf_put(attach);
+> > > +
+> > > +out_dmabuf_put:
+> > > +	dma_buf_put(dmabuf);  
+> > As below. Feels like a __free(dma_buf_put) bit of magic would be a
+> > nice to have.  
+> 
+> I'm working on the patches right now, just one quick question.
+> 
+> Having a __free(dma_buf_put) requires that dma_buf_put is first
+> "registered" as a freeing function using DEFINE_FREE() in <linux/dma-
+> buf.h>, which has not been done yet.  
+> 
+> That would mean carrying a dma-buf specific patch in your tree, are you
+> OK with that?
+Needs an ACK from appropriate maintainer, but otherwise I'm fine doing
+so.  Alternative is to circle back to this later after this code is upstream.
 
-This is because the checker is applying the patch on something that is not
-drm-misc-next.
+> 
+> Cheers,
+> -Paul
 
-I think the patch is fine.
+> 
 
-Yours,
-Linus Walleij
