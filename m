@@ -2,60 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0059383EC83
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Jan 2024 10:57:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED5E683ECEF
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Jan 2024 12:36:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF69910EBD0;
-	Sat, 27 Jan 2024 09:57:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4204410E4C3;
+	Sat, 27 Jan 2024 11:36:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f169.google.com (mail-il1-f169.google.com
- [209.85.166.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 530D010EBD0
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Jan 2024 09:57:29 +0000 (UTC)
-Received: by mail-il1-f169.google.com with SMTP id
- e9e14a558f8ab-362a29076fbso2958335ab.1
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Jan 2024 01:57:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1706349388; x=1706954188;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=gALc3iFTz0zaU6GiwjaH5CXFj7sL0Sl/fQeT+WtwOLs=;
- b=fAnIPk0tK+NuqXlakiUehvoGT6WsW7szeCWZqecnIUiHrir+04x1WA+dX5p9mW/zz9
- HaSFHJOTdeKBm94XoLnWLc2N2O1nxA7NjVTUfScUbzNpMWwAY1n6brk/hINiiZEmZoGv
- W76a1Znci07pHf/5s4Vd+KAoJ3jMN63kVrdL8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706349388; x=1706954188;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=gALc3iFTz0zaU6GiwjaH5CXFj7sL0Sl/fQeT+WtwOLs=;
- b=JFoxJ39zHtgg4bO9y6TOu0Xk5Hdo21D5LvSy9jnpeQAWl9HLJPVS0zrJiXIQpNvdA4
- I4DV47XurgpjvUXddj1rZiw5X+HhsTi8twRxlT1yDoC7EoyMwmcy2qbbN7ugCXQ7wq07
- UEjEKp1dey1q9AN7x7kd9QAW4tYFTV5IjGRUffzaArBwj6olXDI0hg5PiQrX/K/9iM7J
- 6HG2l2RzYsyW/2aSlkWX5iP1mTYFUgcGTjuDiEdSEkmjdbY4Nz4oY9BWXgHCAQCpVkMf
- NRxwv5Gl/tqnpXEjvI9PwZZ+nAe4L7kOtTMWN5rr7LfZ5dyT1kP8vALnGQWBMn59jM0t
- nOLw==
-X-Gm-Message-State: AOJu0YzzeFC5CXN4y3WSo5UIuprE1pSKbkgFV5c+L3sswwyIDhOX/ubM
- R1XFMrKt6TM19w/PPLCaUuBhmehvvDGINaSEetuWLUfkITS7ElCc7WCy9MpmrPC7yEIQYXWvogm
- FCQ0RIGTB4qWjIMAnvoDW1O2tz3ELfFJ6RaJ3fcAFaE0PsK2b5w==
-X-Google-Smtp-Source: AGHT+IHbc2akVZAWdd8uY23TsD67K0/Ci1UiRhdeUK37XtFLfwjInBi5Im/KjkUx3UPvjKwEzAoXNl2yuoCQoKBDmQM=
-X-Received: by 2002:a05:6e02:1e0b:b0:35f:bea3:bd00 with SMTP id
- g11-20020a056e021e0b00b0035fbea3bd00mr2533508ila.14.1706349388466; Sat, 27
- Jan 2024 01:56:28 -0800 (PST)
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AA0A10EC75
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Jan 2024 11:36:32 +0000 (UTC)
+Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx1.riseup.net (Postfix) with ESMTPS id 4TMXZk1VqjzDqFf;
+ Sat, 27 Jan 2024 11:36:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1706355391; bh=DwL4arpEzXWec++owa4mghw2Jbc0zA8jYLA9Oc9uFco=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=B1cO5iICyRmgAJiJG9CFWboHg9qYa2wTt56r24VzWxhNPvQyh3G6YLKd8ycOTZGpA
+ EXvdnQ04gJc0HuOXoK3pubBBkT9OGygapXT3To0cQTnNFzoHpdiPKCJPmoLliKPNzP
+ lrBDkjOpiPoWx/gtI3RPuqzNLSla2qC0h6IxBquU=
+X-Riseup-User-ID: DEFF9060E8EA107706D83953584E1815F0490610DEB87FA764577ACB26A6E682
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4TMXZF6PvXzJp9g;
+ Sat, 27 Jan 2024 11:36:05 +0000 (UTC)
+From: Dang Huynh <danct12@riseup.net>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Sandy Huang <hjc@rock-chips.com>, Mark Yao <markyao0591@gmail.com>,
+ Diederik de Haas <didi.debian@cknow.org>,
+ Segfault <awarnecke002@hotmail.com>, Arnaud Ferraris <aferraris@debian.org>,
+ Ondrej Jirman <megi@xff.cz>, Manuel Traut <manut@mecka.net>
+Subject: Re: [PATCH v4 0/4] arm64: rockchip: Pine64 PineTab2 support
+Date: Sat, 27 Jan 2024 18:35:50 +0700
+Message-ID: <6035442.lOV4Wx5bFT@melttower>
+In-Reply-To: <20240127-pinetab2-v4-0-37aab1c39194@mecka.net>
+References: <20240127-pinetab2-v4-0-37aab1c39194@mecka.net>
 MIME-Version: 1.0
-References: <20240126200804.732454-1-zack.rusin@broadcom.com>
- <20240126200804.732454-6-zack.rusin@broadcom.com>
-In-Reply-To: <20240126200804.732454-6-zack.rusin@broadcom.com>
-From: Martin Krastev <martin.krastev@broadcom.com>
-Date: Sat, 27 Jan 2024 11:56:17 +0200
-Message-ID: <CAKLwHdW=fYgkU5kq=v7DBuMyxVwXZF7oTuA3D1VBZ=w3OHPpfQ@mail.gmail.com>
-Subject: Re: [PATCH 5/5] drm/vmwgfx: Fix the lifetime of the bo cursor memory
-To: Zack Rusin <zack.rusin@broadcom.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,88 +61,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, stable@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Manuel Traut <manut@mecka.net>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 26, 2024 at 10:08=E2=80=AFPM Zack Rusin <zack.rusin@broadcom.co=
-m> wrote:
->
-> The cleanup can be dispatched while the atomic update is still active,
-> which means that the memory acquired in the atomic update needs to
-> not be invalidated by the cleanup. The buffer objects in vmw_plane_state
-> instead of using the builtin map_and_cache were trying to handle
-> the lifetime of the mapped memory themselves, leading to crashes.
->
-> Use the map_and_cache instead of trying to manage the lifetime of the
-> buffer objects held by the vmw_plane_state.
->
-> Fixes kernel oops'es in IGT's kms_cursor_legacy forked-bo.
->
-> Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
-> Fixes: bb6780aa5a1d ("drm/vmwgfx: Diff cursors when using cmds")
-> Cc: <stable@vger.kernel.org> # v6.2+
-> ---
->  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 13 +------------
->  1 file changed, 1 insertion(+), 12 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx=
-/vmwgfx_kms.c
-> index e2bfaf4522a6..cd4925346ed4 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-> @@ -185,13 +185,12 @@ static u32 vmw_du_cursor_mob_size(u32 w, u32 h)
->   */
->  static u32 *vmw_du_cursor_plane_acquire_image(struct vmw_plane_state *vp=
-s)
->  {
-> -       bool is_iomem;
->         if (vps->surf) {
->                 if (vps->surf_mapped)
->                         return vmw_bo_map_and_cache(vps->surf->res.guest_=
-memory_bo);
->                 return vps->surf->snooper.image;
->         } else if (vps->bo)
-> -               return ttm_kmap_obj_virtual(&vps->bo->map, &is_iomem);
-> +               return vmw_bo_map_and_cache(vps->bo);
->         return NULL;
->  }
->
-> @@ -653,22 +652,12 @@ vmw_du_cursor_plane_cleanup_fb(struct drm_plane *pl=
-ane,
->  {
->         struct vmw_cursor_plane *vcp =3D vmw_plane_to_vcp(plane);
->         struct vmw_plane_state *vps =3D vmw_plane_state_to_vps(old_state)=
-;
-> -       bool is_iomem;
->
->         if (vps->surf_mapped) {
->                 vmw_bo_unmap(vps->surf->res.guest_memory_bo);
->                 vps->surf_mapped =3D false;
->         }
->
-> -       if (vps->bo && ttm_kmap_obj_virtual(&vps->bo->map, &is_iomem)) {
-> -               const int ret =3D ttm_bo_reserve(&vps->bo->tbo, true, fal=
-se, NULL);
-> -
-> -               if (likely(ret =3D=3D 0)) {
-> -                       ttm_bo_kunmap(&vps->bo->map);
-> -                       ttm_bo_unreserve(&vps->bo->tbo);
-> -               }
-> -       }
-> -
->         vmw_du_cursor_plane_unmap_cm(vps);
->         vmw_du_put_cursor_mob(vcp, vps);
->
-> --
-> 2.40.1
->
+Hi Manuel,
 
-LGTM!
+Since the BOE patches have been accepted to next, you do not need to include 
+it in this patch series.
 
-Reviewed-by: Martin Krastev <martin.krastev@broadcom.com>
+Best regards,
+Dang
 
-Regards,
-Martin
+On Saturday, January 27, 2024 4:48:41 PM +07 Manuel Traut wrote:
+> - BOE TH101MB31IG002 LCD Panel:
+>   * Picked patches from https://anongit.freedesktop.org/git/drm/drm-misc.git
+> (drm-misc-next)
+
+
