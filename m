@@ -2,63 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD85283EA44
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Jan 2024 03:58:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7225D83EAC3
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Jan 2024 04:58:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E67C1121CC;
-	Sat, 27 Jan 2024 02:58:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81F7F112226;
+	Sat, 27 Jan 2024 03:57:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
- [209.85.215.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63D5F1121C9
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Jan 2024 02:58:02 +0000 (UTC)
-Received: by mail-pg1-f171.google.com with SMTP id
- 41be03b00d2f7-5ce9555d42eso836826a12.2
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jan 2024 18:58:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1706324219; x=1706929019; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=AL25Cgmp65Z4nugzUiRaGUI1/k9OMV61U5cI0oX2Yhc=;
- b=j9pTl1GHVLPWGRinEAjsG/gugx5uYGNw1BUVXMg7rsuWHllUWJM3LY5Yv4hBB2dJsw
- SteypHA8SalhydmMiviJulrsyUa/sVXcWUr5rluvJsnYaHhFSQaiA+i72/0WKsG6oZ+R
- RkoOK6ZwVJYzB4D8DPRiUXFphv1q9FQWJdcOKBkH4RQo7HF3xrs+6V6ZInyHowKTWQrL
- Dq1Qu3/xWC77KLYsJLkf/IgYTZ1f/c55wEokZ1aLjBNUNmm8mPt9Wzxf1kb3xlaxGLRE
- 0Rub9ASBSZZaC+xTjIt07UeebVn+tcLs/K6oukEzsJCGbP9QzqDBBPf1x72bYSUS2D7Q
- uQ6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706324219; x=1706929019;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=AL25Cgmp65Z4nugzUiRaGUI1/k9OMV61U5cI0oX2Yhc=;
- b=V9O2W4mkpHD6tCkpI8ri3MoT09EXUDBhka1sw2asc1HKSvi4Eqt3vdfTZeTFHlo79x
- 7MPTIWC4dECm96VCyLMyT4Iloxo0nzaMgc5q7nMER+z1TnWKIoNpkIpVemuS0G5xzSHp
- hb781NKl+JG/5VJph4Z4tW0K88SoLetjQwa/kpP5FzypQ2njByDFjnukxmVi7KRbe4Le
- SaP/HtQZO/rwJv1Ze9MS4XVBksQFSPRa6cVwgj7n8FHQNLUMGPAumzlD9+QeDYdJzPu+
- G0tTDCpCyJ6mvmlU34xkF2J/csDATjmFNV6qdURrFqqTgrUQGxNvGK1BnkYaTwegdP3O
- Ldvg==
-X-Gm-Message-State: AOJu0YwcQ2pihlpyVgfPbGwbbyQ7sgSd9b+4CBMpuygjruD8LKSELRxJ
- /+4bo5OoMfq3srRa74LTl88Ui34pWT7pM8hX5CCY6jQl8WTmf8Pn0/lV3JNbzYzlCi2uhd546st
- a98DJTXDxh9ZssnFgueF0NMYnzd0=
-X-Google-Smtp-Source: AGHT+IEF1Zw4IcNrJv2meCpYlZEjakZVYWQiEvWlydUinf+M6VOyFuJ4RxjJJUPz5t8zNR7LHtVIVj8g/ogXTl9F+Ag=
-X-Received: by 2002:a05:6a20:7f92:b0:19c:6ec0:33d0 with SMTP id
- d18-20020a056a207f9200b0019c6ec033d0mr972394pzj.37.1706324218699; Fri, 26 Jan
- 2024 18:56:58 -0800 (PST)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37F5C112225;
+ Sat, 27 Jan 2024 03:57:40 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 40R3UMl3012456; Sat, 27 Jan 2024 03:57:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=fKPlJvM2VbwV0YYdzLEsg7hUXXy7nIYFQhoWIiWegZM=; b=j3
+ NvFmH/Y7X1V784w1ZR6HxGo+YJRaBkJi+okwKaX2GJWBn4q3cAw7ywqXF+7t3WMi
+ nyywF82y7L6/QtqoM9f/H6Pu0KUJ3ZgPxqou6Tq7tpSIGDlg5iV2yDl4+UeefAQv
+ p3dmblsnnZdkJvm9p20Df53oTXvkLfG/sCfb8+xAV7ENOw4fu3nW1IMl8/wpECMX
+ WDf9p8JyoGw2eWIdGbsMNRSVJVyC/OY1ofaUZe9qFNL/hLmScCVaPleOK3QUgK8R
+ 0w6BN3q35Ay27N0Xp+AsgKfFDK7Sd26qNvbAgE2eAbxrlQWIqzienzzN9OyXm02n
+ CYPXe9H8igPIkMQyALoQ==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vv8e8a4y2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 27 Jan 2024 03:57:35 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40R3vYFS012711
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 27 Jan 2024 03:57:34 GMT
+Received: from [10.110.98.98] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 26 Jan
+ 2024 19:57:33 -0800
+Message-ID: <961d8e06-1ad1-e6af-4739-3d285a85fec7@quicinc.com>
+Date: Fri, 26 Jan 2024 19:57:33 -0800
 MIME-Version: 1.0
-References: <20240106221907.325127-1-aford173@gmail.com>
- <20240106221907.325127-2-aford173@gmail.com>
- <13783659.uLZWGnKmhe@steina-w>
-In-Reply-To: <13783659.uLZWGnKmhe@steina-w>
-From: Adam Ford <aford173@gmail.com>
-Date: Fri, 26 Jan 2024 20:56:47 -0600
-Message-ID: <CAHCN7xLJ7fXePrjuXOo4WJovAG1vZm1LjJGJP29aEfPO8oJL+g@mail.gmail.com>
-Subject: Re: [PATCH V2 2/2] phy: freescale: add Samsung HDMI PHY
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 05/17] drm/msm/dp: add an API to indicate if sink supports
+ VSC SDP
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Paloma Arellano
+ <quic_parellan@quicinc.com>
+References: <20240125193834.7065-1-quic_parellan@quicinc.com>
+ <20240125193834.7065-6-quic_parellan@quicinc.com>
+ <e1a13e45-e87c-4c7b-a5cb-f46d51e66058@linaro.org>
+ <1351d4b7-846c-f736-ac17-332291ed8609@quicinc.com>
+ <CAA8EJpq7OB1=e+K16ZywPj_JU8Z7R2=LKDwrAD1ZFnurwHvC+A@mail.gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <CAA8EJpq7OB1=e+K16ZywPj_JU8Z7R2=LKDwrAD1ZFnurwHvC+A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: dTvUmkCrjJUUqs2fD8T7VQyrEdxhwvlz
+X-Proofpoint-ORIG-GUID: dTvUmkCrjJUUqs2fD8T7VQyrEdxhwvlz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-25_14,2024-01-25_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 phishscore=0
+ spamscore=0 malwarescore=0 priorityscore=1501 mlxlogscore=999
+ impostorscore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0
+ clxscore=1015 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401190000 definitions=main-2401270028
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,160 +88,188 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kishon Vijay Abraham I <kishon@kernel.org>, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, linux-phy@lists.infradead.org,
- Fabio Estevam <festevam@gmail.com>, linux-arm-kernel@lists.infradead.org
+Cc: neil.armstrong@linaro.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
+ marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
+ quic_khsieh@quicinc.com, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 8, 2024 at 9:03=E2=80=AFAM Alexander Stein
-<alexander.stein@ew.tq-group.com> wrote:
->
-> Hi Adam,
->
-> thanks for pushing this forward.
->
-> Am Samstag, 6. Januar 2024, 23:19:05 CET schrieb Adam Ford:
-> > From: Lucas Stach <l.stach@pengutronix.de>
-> >
-> > This adds the driver for the Samsung HDMI PHY found on the
-> > i.MX8MP SoC.
-> >
-> > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> > Signed-off-by: Adam Ford <aford173@gmail.com>
-> > ---
-> > V2:  Fixed some whitespace found from checkpatch
-> >      Change error handling when enabling apbclk to use dev_err_probe
-> >      Rebase on Linux-Next
-> >
-> >      I (Adam) tried to help move this along, so I took Lucas' patch and
-> >      attempted to apply fixes based on feedback.  I don't have
-> >      all the history, so apologies for that.
-> >
-> > diff --git a/drivers/phy/freescale/Kconfig b/drivers/phy/freescale/Kcon=
-fig
-> > index 853958fb2c06..5c2b73042dfc 100644
-> > --- a/drivers/phy/freescale/Kconfig
-> > +++ b/drivers/phy/freescale/Kconfig
-> > @@ -35,6 +35,12 @@ config PHY_FSL_IMX8M_PCIE
-> >         Enable this to add support for the PCIE PHY as found on
-> >         i.MX8M family of SOCs.
-> >
-> > +config PHY_FSL_SAMSUNG_HDMI_PHY
-> > +     tristate "Samsung HDMI PHY support"
-> > +     depends on OF && HAS_IOMEM
-> > +     help
-> > +       Enable this to add support for the Samsung HDMI PHY in i.MX8MP.
-> > +
-> >  endif
-> >
-> >  config PHY_FSL_LYNX_28G
-> > diff --git a/drivers/phy/freescale/Makefile b/drivers/phy/freescale/Mak=
-efile
-> > index cedb328bc4d2..dbcafdcc8751 100644
-> > --- a/drivers/phy/freescale/Makefile
-> > +++ b/drivers/phy/freescale/Makefile
-> > @@ -3,4 +3,5 @@ obj-$(CONFIG_PHY_FSL_IMX8MQ_USB)      +=3D phy-fsl-imx8=
-mq-usb.o
-> >  obj-$(CONFIG_PHY_MIXEL_LVDS_PHY)     +=3D phy-fsl-imx8qm-lvds-phy.o
-> >  obj-$(CONFIG_PHY_MIXEL_MIPI_DPHY)    +=3D phy-fsl-imx8-mipi-dphy.o
-> >  obj-$(CONFIG_PHY_FSL_IMX8M_PCIE)     +=3D phy-fsl-imx8m-pcie.o
-> > +obj-$(CONFIG_PHY_FSL_SAMSUNG_HDMI_PHY)  +=3D phy-fsl-samsung-hdmi.o
-> >  obj-$(CONFIG_PHY_FSL_LYNX_28G)               +=3D phy-fsl-lynx-28g.o
->
-> I don't know if there was different feedback already. But I would have ad=
-ded
-> the entry sorted alphabetically, thus after CONFIG_PHY_FSL_LYNX_28G. Same=
- goes,
-> for Kconfig as well.
 
-The Makefile is easy to rearrange, but Kconfig is already out of
-alphabetical order, and PHY_FSL_SAMSUNG_HDMI_PHY is encapsulated in an
-if statement, so it cannot go after PHY_FSL_LYNX_28G.  It is
-alphabetical after PHY_FSL_IMX8M.
 
->
-> > diff --git a/drivers/phy/freescale/phy-fsl-samsung-hdmi.c
-> > b/drivers/phy/freescale/phy-fsl-samsung-hdmi.c new file mode 100644
-> > index 000000000000..54e93ea898f7
-> > --- /dev/null
-> > +++ b/drivers/phy/freescale/phy-fsl-samsung-hdmi.c
-> > @@ -0,0 +1,1078 @@
-> > +// SPDX-License-Identifier: GPL-2.0+
-> > +/*
-> > + * Copyright 2020 NXP
-> > + * Copyright 2022 Pengutronix, Lucas Stach <kernel@pengutronix.de>
-> > + */
-> > +
-> > +#include <linux/clk-provider.h>
-> > +#include <linux/clk.h>
-> > +#include <linux/delay.h>
-> > +#include <linux/io.h>
-> > +#include <linux/iopoll.h>
-> > +#include <linux/module.h>
-> > +#include <linux/of_device.h>
-> > +#include <linux/of.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/pm_runtime.h>
-> > +
-> > +#define HDMI_TX_CONTROL0             0x200
-> > +#define  HDMI_TX_CONTROL_PHY_PWRDWN  BIT(3)
->
-> These defines are unused here.
+On 1/26/2024 6:40 PM, Dmitry Baryshkov wrote:
+> On Sat, 27 Jan 2024 at 02:58, Paloma Arellano <quic_parellan@quicinc.com> wrote:
+>>
+>>
+>> On 1/25/2024 1:23 PM, Dmitry Baryshkov wrote:
+>>> On 25/01/2024 21:38, Paloma Arellano wrote:
+>>>> YUV420 format is supported only in the VSC SDP packet and not through
+>>>> MSA. Hence add an API which indicates the sink support which can be used
+>>>> by the rest of the DP programming.
+>>>
+>>> This API ideally should go to drm/display/drm_dp_helper.c
+>> I'm not familiar how other vendors are checking if VSC SDP is supported.
+>> So in moving this API, I'm going to let the other vendors make the
+>> changes themselves.
+> 
+> Let me show it for you:
+> 
+> bool intel_dp_get_colorimetry_status(struct intel_dp *intel_dp)
+> {
+>          u8 dprx = 0;
+> 
+>          if (drm_dp_dpcd_readb(&intel_dp->aux, DP_DPRX_FEATURE_ENUMERATION_LIST,
+>                                &dprx) != 1)
+>                  return false;
+>          return dprx & DP_VSC_SDP_EXT_FOR_COLORIMETRY_SUPPORTED;
+> }
+> 
 
-I can drop these.
->
-> > +
-> > +#define PHY_REG_33           0x84
-> > +#define  REG33_MODE_SET_DONE BIT(7)
-> > +#define  REG33_FIX_DA                BIT(1)
-> > +
-> > +#define PHY_REG_34           0x88
-> > +#define  REG34_PHY_READY     BIT(7)
-> > +#define  REG34_PLL_LOCK              BIT(6)
-> > +#define  REG34_PHY_CLK_READY BIT(5)
-> > +
-> > +
-> > +#define PHY_PLL_REGS_NUM 48
-> > +
-> > +struct phy_config {
-> > +     u32     clk_rate;
-> > +     u8 regs[PHY_PLL_REGS_NUM];
->
-> Shouldn't reg be aligned along clk_rate?
+Even AMD has similar logic:
 
-Why so?  They appear to just be structures where individual parts are
-read/written individually.  Looking at another HDMI phy driver, it's
-not really any different.
+6145 		stream->use_vsc_sdp_for_colorimetry = false;
+6146 		if (aconnector->dc_sink->sink_signal == 
+SIGNAL_TYPE_DISPLAY_PORT_MST) {
+6147 			stream->use_vsc_sdp_for_colorimetry =
+6148 				aconnector->dc_sink->is_vsc_sdp_colorimetry_supported;
+6149 		} else {
+6150 			if 
+(stream->link->dpcd_caps.dprx_feature.bits.VSC_SDP_COLORIMETRY_SUPPORTED)
+6151 				stream->use_vsc_sdp_for_colorimetry = true;
+6152 		}
 
->
-> Despite that. Tested on TQMa8MPQL/MBa8MPxL + Full-HD HDMI monitor.
->
-> Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
->
+But it will be harder to untangle this compared to intel's code.
 
-Thanks for testing.
+I am fine with adding an API to drm_dp_helper which indicates presence 
+of VSC SDP but I would prefer leaving it to other vendors to use it in 
+the way they would like and only keep msm usage in this series.
 
-adam
-> Best regards,
-> Alexander
->
-<snip>
 
->
->
-> --
-> TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Ge=
-rmany
-> Amtsgericht M=C3=BCnchen, HRB 105018
-> Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan S=
-chneider
-> http://www.tq-group.com/
->
->
+
+> 
+>>>
+>>>>
+>>>> Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
+>>>> ---
+>>>>    drivers/gpu/drm/msm/dp/dp_display.c |  3 ++-
+>>>>    drivers/gpu/drm/msm/dp/dp_panel.c   | 35 +++++++++++++++++++++++++----
+>>>>    drivers/gpu/drm/msm/dp/dp_panel.h   |  1 +
+>>>>    3 files changed, 34 insertions(+), 5 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c
+>>>> b/drivers/gpu/drm/msm/dp/dp_display.c
+>>>> index ddac55f45a722..f6b3b6ca242f8 100644
+>>>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+>>>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+>>>> @@ -1617,7 +1617,8 @@ void dp_bridge_mode_set(struct drm_bridge
+>>>> *drm_bridge,
+>>>>            !!(dp_display->dp_mode.drm_mode.flags & DRM_MODE_FLAG_NHSYNC);
+>>>>          dp_display->dp_mode.out_fmt_is_yuv_420 =
+>>>> - drm_mode_is_420_only(&dp->connector->display_info, adjusted_mode);
+>>>> + drm_mode_is_420_only(&dp->connector->display_info, adjusted_mode) &&
+>>>> +        dp_panel_vsc_sdp_supported(dp_display->panel);
+>>>>          /* populate wide_bus_support to different layers */
+>>>>        dp_display->ctrl->wide_bus_en =
+>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c
+>>>> b/drivers/gpu/drm/msm/dp/dp_panel.c
+>>>> index 127f6af995cd1..af7820b6d35ec 100644
+>>>> --- a/drivers/gpu/drm/msm/dp/dp_panel.c
+>>>> +++ b/drivers/gpu/drm/msm/dp/dp_panel.c
+>>>> @@ -17,6 +17,9 @@ struct dp_panel_private {
+>>>>        struct dp_link *link;
+>>>>        struct dp_catalog *catalog;
+>>>>        bool panel_on;
+>>>> +    bool vsc_supported;
+>>>> +    u8 major;
+>>>> +    u8 minor;
+>>>>    };
+>>>>      static void dp_panel_read_psr_cap(struct dp_panel_private *panel)
+>>>> @@ -43,9 +46,10 @@ static void dp_panel_read_psr_cap(struct
+>>>> dp_panel_private *panel)
+>>>>    static int dp_panel_read_dpcd(struct dp_panel *dp_panel)
+>>>>    {
+>>>>        int rc;
+>>>> +    ssize_t rlen;
+>>>>        struct dp_panel_private *panel;
+>>>>        struct dp_link_info *link_info;
+>>>> -    u8 *dpcd, major, minor;
+>>>> +    u8 *dpcd, rx_feature;
+>>>>          panel = container_of(dp_panel, struct dp_panel_private,
+>>>> dp_panel);
+>>>>        dpcd = dp_panel->dpcd;
+>>>> @@ -53,10 +57,19 @@ static int dp_panel_read_dpcd(struct dp_panel
+>>>> *dp_panel)
+>>>>        if (rc)
+>>>>            return rc;
+>>>>    +    rlen = drm_dp_dpcd_read(panel->aux,
+>>>> DP_DPRX_FEATURE_ENUMERATION_LIST, &rx_feature, 1);
+>>>> +    if (rlen != 1) {
+>>>> +        panel->vsc_supported = false;
+>>>> +        pr_debug("failed to read DP_DPRX_FEATURE_ENUMERATION_LIST\n");
+>>>> +    } else {
+>>>> +        panel->vsc_supported = !!(rx_feature &
+>>>> DP_VSC_SDP_EXT_FOR_COLORIMETRY_SUPPORTED);
+>>>> +        pr_debug("vsc=%d\n", panel->vsc_supported);
+>>>> +    }
+>>>> +
+>>>>        link_info = &dp_panel->link_info;
+>>>>        link_info->revision = dpcd[DP_DPCD_REV];
+>>>> -    major = (link_info->revision >> 4) & 0x0f;
+>>>> -    minor = link_info->revision & 0x0f;
+>>>> +    panel->major = (link_info->revision >> 4) & 0x0f;
+>>>> +    panel->minor = link_info->revision & 0x0f;
+>>>>          link_info->rate = drm_dp_max_link_rate(dpcd);
+>>>>        link_info->num_lanes = drm_dp_max_lane_count(dpcd);
+>>>> @@ -69,7 +82,7 @@ static int dp_panel_read_dpcd(struct dp_panel
+>>>> *dp_panel)
+>>>>        if (link_info->rate > dp_panel->max_dp_link_rate)
+>>>>            link_info->rate = dp_panel->max_dp_link_rate;
+>>>>    -    drm_dbg_dp(panel->drm_dev, "version: %d.%d\n", major, minor);
+>>>> +    drm_dbg_dp(panel->drm_dev, "version: %d.%d\n", panel->major,
+>>>> panel->minor);
+>>>>        drm_dbg_dp(panel->drm_dev, "link_rate=%d\n", link_info->rate);
+>>>>        drm_dbg_dp(panel->drm_dev, "lane_count=%d\n",
+>>>> link_info->num_lanes);
+>>>>    @@ -280,6 +293,20 @@ void dp_panel_tpg_config(struct dp_panel
+>>>> *dp_panel, bool enable)
+>>>>        dp_catalog_panel_tpg_enable(catalog,
+>>>> &panel->dp_panel.dp_mode.drm_mode);
+>>>>    }
+>>>>    +bool dp_panel_vsc_sdp_supported(struct dp_panel *dp_panel)
+>>>> +{
+>>>> +    struct dp_panel_private *panel;
+>>>> +
+>>>> +    if (!dp_panel) {
+>>>> +        pr_err("invalid input\n");
+>>>> +        return false;
+>>>> +    }
+>>>> +
+>>>> +    panel = container_of(dp_panel, struct dp_panel_private, dp_panel);
+>>>> +
+>>>> +    return panel->major >= 1 && panel->minor >= 3 &&
+>>>> panel->vsc_supported;
+> 
+> Anyway, this check is incorrect. Please compare the whole revision
+> against DP_DPCD_REV_13 instead of doing a maj/min comparison.
+> 
+>>>> +}
+>>>> +
+>>>>    void dp_panel_dump_regs(struct dp_panel *dp_panel)
+>>>>    {
+>>>>        struct dp_catalog *catalog;
+>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.h
+>>>> b/drivers/gpu/drm/msm/dp/dp_panel.h
+>>>> index 6ec68be9f2366..590eca5ce304b 100644
+>>>> --- a/drivers/gpu/drm/msm/dp/dp_panel.h
+>>>> +++ b/drivers/gpu/drm/msm/dp/dp_panel.h
+>>>> @@ -66,6 +66,7 @@ int dp_panel_get_modes(struct dp_panel *dp_panel,
+>>>>            struct drm_connector *connector);
+>>>>    void dp_panel_handle_sink_request(struct dp_panel *dp_panel);
+>>>>    void dp_panel_tpg_config(struct dp_panel *dp_panel, bool enable);
+>>>> +bool dp_panel_vsc_sdp_supported(struct dp_panel *dp_panel);
+>>>>      /**
+>>>>     * is_link_rate_valid() - validates the link rate
+>>>
+> 
+> 
+> 
