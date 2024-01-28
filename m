@@ -2,54 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F01AA83F24B
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Jan 2024 00:44:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BB7483F3FC
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Jan 2024 06:17:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B2BB10E42E;
-	Sat, 27 Jan 2024 23:44:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C07B10E692;
+	Sun, 28 Jan 2024 05:16:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F16C10E42E;
- Sat, 27 Jan 2024 23:44:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1706399051; x=1737935051;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=U1AxWClhKSzifIbdDnbsW9clzyYeqHy+cMhLWIr7qKc=;
- b=jAtQOqVx8I9m92teIaMwhJgHXtFvO/lLPazzHjplQMlRdg66nnPfVYhG
- Y5u9LaFRrtKbVoB1R4T7rH8TwJ0Tj2GTXCTK3kylM1ND/ZcaNbhTmIZ3m
- diAN6bjtfrL2m3oQzgVD46YSvTJl95/kn5dy1AOTFISTGB2+Xek98wxUZ
- LV728h48ynOUNi0mugoQ4v2drO3JSbMVsigKt0QYFraWMx8W0aK9wrQ3q
- pmpAhTxezdbN/4Ep5mmyQp/IEwKA03FDDSiBVlxY1HPTaJcP+z65PsIL6
- EbYeoD7ILrY5KFTJd5QgJgaXAwarO1YLX/uHGW/qmG4IRwgtGaY8KYQW7 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="9376883"
-X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="9376883"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jan 2024 15:44:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="737023180"
-X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; d="scan'208";a="737023180"
-Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
- by orsmga003.jf.intel.com with ESMTP; 27 Jan 2024 15:44:06 -0800
-Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1rTsLD-0002s2-39;
- Sat, 27 Jan 2024 23:44:03 +0000
-Date: Sun, 28 Jan 2024 07:43:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: Paloma Arellano <quic_parellan@quicinc.com>,
- freedreno@lists.freedesktop.org
-Subject: Re: [PATCH 10/17] drm/msm/dp: modify dp_catalog_hw_revision to show
- major and minor val
-Message-ID: <202401280752.AmrDI7Ox-lkp@intel.com>
-References: <20240125193834.7065-11-quic_parellan@quicinc.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2318810E692;
+ Sun, 28 Jan 2024 05:16:13 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 40S5BmOh010569; Sun, 28 Jan 2024 05:16:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=5PorBcSO2UUCs8UUeFNkHsL5bYWEKnkSS7kWjHLe91Y=; b=fV
+ AcKIGhcbvsbmH4PuY57Z1PUrVlwzO1wmAQkMt1XtuMPOD+ZMKalFBk1JEH2FjxjV
+ BHeIS2I8cSfSrJmO1pIcuAjB5p0o1V8445yviGVWICdv33fvV0Zp37s9MZqd/gMb
+ 4CEurnPsAwVoEtFSYZzLYb2wWtmiyNHdFI1Y/AePn4VvcEI98152JP1YCmkKABmi
+ JENDX45fM0btYtUn339ZRcEuoWcKVBHiSFoJqMNEpLxOaq8XaLgbwMRCFurec9KQ
+ Uw/fZuyQDAfV0Csx+mqd2NzLCyqaBgMTIWcmIFG4g21ljeOHVkYDruP+RCN0cAYl
+ D7OcSZ6aRe1Tvl6Cfx/w==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vvs5p1f96-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 28 Jan 2024 05:16:10 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
+ [10.47.97.35])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40S5G95I004357
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 28 Jan 2024 05:16:09 GMT
+Received: from [10.110.54.253] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Sat, 27 Jan
+ 2024 21:16:08 -0800
+Message-ID: <09a10811-ea7c-3e99-d5eb-755aac4ecf0e@quicinc.com>
+Date: Sat, 27 Jan 2024 21:16:06 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240125193834.7065-11-quic_parellan@quicinc.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 07/17] drm/msm/dpu: disallow widebus en in INTF_CONFIG2
+ when DP is YUV420
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ <freedreno@lists.freedesktop.org>
+References: <20240125193834.7065-1-quic_parellan@quicinc.com>
+ <20240125193834.7065-8-quic_parellan@quicinc.com>
+ <301cdbe2-7377-4b0f-bd24-5131f8928c29@linaro.org>
+From: Paloma Arellano <quic_parellan@quicinc.com>
+In-Reply-To: <301cdbe2-7377-4b0f-bd24-5131f8928c29@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: OBew_lW3sh45d77HJtqTngLkSyxLqwRA
+X-Proofpoint-ORIG-GUID: OBew_lW3sh45d77HJtqTngLkSyxLqwRA
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-25_14,2024-01-25_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ impostorscore=0 mlxscore=0 phishscore=0 lowpriorityscore=0 adultscore=0
+ bulkscore=0 suspectscore=0 mlxlogscore=562 malwarescore=0 spamscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401190000 definitions=main-2401280036
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,68 +86,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com,
- linux-arm-msm@vger.kernel.org, Paloma Arellano <quic_parellan@quicinc.com>,
+Cc: neil.armstrong@linaro.org, linux-arm-msm@vger.kernel.org,
  quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, seanpaul@chromium.org, oe-kbuild-all@lists.linux.dev,
- dmitry.baryshkov@linaro.org, marijn.suijten@somainline.org,
- quic_khsieh@quicinc.com
+ swboyd@chromium.org, seanpaul@chromium.org, marijn.suijten@somainline.org,
+ quic_jesszhan@quicinc.com, quic_khsieh@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Paloma,
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on v6.8-rc1]
-[also build test WARNING on linus/master next-20240125]
-[cannot apply to drm-misc/drm-misc-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Paloma-Arellano/drm-msm-dpu-allow-dpu_encoder_helper_phys_setup_cdm-to-work-for-DP/20240126-034233
-base:   v6.8-rc1
-patch link:    https://lore.kernel.org/r/20240125193834.7065-11-quic_parellan%40quicinc.com
-patch subject: [PATCH 10/17] drm/msm/dp: modify dp_catalog_hw_revision to show major and minor val
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240128/202401280752.AmrDI7Ox-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240128/202401280752.AmrDI7Ox-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401280752.AmrDI7Ox-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/msm/dp/dp_catalog.c:541: warning: Function parameter or struct member 'major' not described in 'dp_catalog_hw_revision'
->> drivers/gpu/drm/msm/dp/dp_catalog.c:541: warning: Function parameter or struct member 'minor' not described in 'dp_catalog_hw_revision'
-
-
-vim +541 drivers/gpu/drm/msm/dp/dp_catalog.c
-
-c943b4948b5848 Chandan Uddaraju 2020-08-27  531  
-757a2f36ab095f Kuogee Hsieh     2022-02-25  532  /**
-757a2f36ab095f Kuogee Hsieh     2022-02-25  533   * dp_catalog_hw_revision() - retrieve DP hw revision
-757a2f36ab095f Kuogee Hsieh     2022-02-25  534   *
-757a2f36ab095f Kuogee Hsieh     2022-02-25  535   * @dp_catalog: DP catalog structure
-757a2f36ab095f Kuogee Hsieh     2022-02-25  536   *
-5febc52d5716d6 Paloma Arellano  2024-01-25  537   * Return: void
-757a2f36ab095f Kuogee Hsieh     2022-02-25  538   *
-757a2f36ab095f Kuogee Hsieh     2022-02-25  539   */
-5febc52d5716d6 Paloma Arellano  2024-01-25  540  void dp_catalog_hw_revision(const struct dp_catalog *dp_catalog, u16 *major, u16 *minor)
-757a2f36ab095f Kuogee Hsieh     2022-02-25 @541  {
-757a2f36ab095f Kuogee Hsieh     2022-02-25  542  	const struct dp_catalog_private *catalog = container_of(dp_catalog,
-757a2f36ab095f Kuogee Hsieh     2022-02-25  543  				struct dp_catalog_private, dp_catalog);
-5febc52d5716d6 Paloma Arellano  2024-01-25  544  	u32 reg_dp_hw_version;
-757a2f36ab095f Kuogee Hsieh     2022-02-25  545  
-5febc52d5716d6 Paloma Arellano  2024-01-25  546  	reg_dp_hw_version = dp_read_ahb(catalog, REG_DP_HW_VERSION);
-5febc52d5716d6 Paloma Arellano  2024-01-25  547  	*major = DP_HW_VERSION_MAJOR(reg_dp_hw_version);
-5febc52d5716d6 Paloma Arellano  2024-01-25  548  	*minor = DP_HW_VERSION_MINOR(reg_dp_hw_version);
-757a2f36ab095f Kuogee Hsieh     2022-02-25  549  }
-757a2f36ab095f Kuogee Hsieh     2022-02-25  550  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On 1/25/2024 1:26 PM, Dmitry Baryshkov wrote:
+> On 25/01/2024 21:38, Paloma Arellano wrote:
+>> INTF_CONFIG2 register cannot have widebus enabled when DP format is
+>> YUV420. Therefore, program the INTF to send 1 ppc.
+>
+> I think this is handled in the DP driver, where we disallow wide bus 
+> for YUV 4:2:0 modes.
+Yes we do disallow wide bus for YUV420 modes, but we still need to 
+program the INTF_CFG2_DATA_HCTL_EN. Therefore, it is necessary to add 
+this check.
+>
+>>
+>> Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c | 4 +++-
+>>   1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c 
+>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+>> index 6bba531d6dc41..bfb93f02fe7c1 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+>> @@ -168,7 +168,9 @@ static void 
+>> dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *ctx,
+>>        * video timing. It is recommended to enable it for all cases, 
+>> except
+>>        * if compression is enabled in 1 pixel per clock mode
+>>        */
+>> -    if (p->wide_bus_en)
+>> +    if (dp_intf && fmt->base.pixel_format == DRM_FORMAT_YUV420)
+>> +        intf_cfg2 |= INTF_CFG2_DATA_HCTL_EN;
+>> +    else if (p->wide_bus_en)
+>>           intf_cfg2 |= INTF_CFG2_DATABUS_WIDEN | INTF_CFG2_DATA_HCTL_EN;
+>>         data_width = p->width;
+>
