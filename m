@@ -2,68 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 351B283F4EC
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Jan 2024 11:12:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA9D783F4CB
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Jan 2024 10:25:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7043E11252C;
-	Sun, 28 Jan 2024 10:11:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1CD61124C9;
+	Sun, 28 Jan 2024 09:24:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com
- [209.85.160.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FBE3112496;
- Sun, 28 Jan 2024 09:05:44 +0000 (UTC)
-Received: by mail-qt1-f179.google.com with SMTP id
- d75a77b69052e-42a8e0becfdso5199621cf.3; 
- Sun, 28 Jan 2024 01:05:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1706432679; x=1707037479; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=tl12HUX4uU642Pm0XD/FsExYrprZs5KqQHYM6NQv7yw=;
- b=dRnScH0vdRSbQizneN9N6guvnV/c7W3RrXyBJkYOcLTSfcixih8jnTIyPdegVx0qSo
- mT7povdA3LELCMpr7dNZ3VH56i9+KJpKOOh70SYtzNlaj6L8o7SnEN16oSiah3tccW05
- TZYcNzo42IB5MndQrV0uQYwqTYgNTRn5dD3ecSUqfE1gBkZPpH20gxLoDhoMX/iT9iQ+
- BQWSst7d1rBS9yyAp3wWtu3YDls8ksQRuf74766Wu/Bn8b+zlQxHMrZtWZanRYWURa05
- zIjTmn7v8HN6hLEwYzUZGslaNg5NIvw/xvGJfFCNwObJ3gKd7w/azqcO29jMBbl8eAKM
- yzig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706432679; x=1707037479;
- h=content-disposition:mime-version:message-id:subject:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=tl12HUX4uU642Pm0XD/FsExYrprZs5KqQHYM6NQv7yw=;
- b=SRFEF8hGy4pcExUn2gD1Quod1TG99bfXv4r0sCG9pzFYKuw3VIhRti25bNJSbODlai
- Gi31m51sHcd4Nzn5yGtO/yH8q4HayQlx8TPvzWYt8RZqVjKC2X/38zo1pqeFvcu3hA1F
- zHk1IytiadVotWg34X/vEu66ScKlEtSvlfNUYtEineXl/WFUA1YsT113hs4+ksrvYQA0
- HxmCsb3iXlKxhhM9HAVKSt7so68sFg92S7huIm3VNMnQYBatEC5rrmLKdYO9q+ZbNTK4
- 2lG/lInHRCVSSsR4QrnTUbEKsUAc1VZxpZBwN406VniVtp7IB7MLgfxfb8lPrq6JkdbK
- F8Eg==
-X-Gm-Message-State: AOJu0Yx+1xlorBaeER3rRCD7pWdwggnU7jJjEYrAPvqMp7Vem/t11OYd
- HipMgFagX1jR80o/tAwXHBr2kP41OE8n5TfAuqWJKTkgwOJayFs=
-X-Google-Smtp-Source: AGHT+IFyTE09o/xWHMwQXLRQeWK4UyZ7mKRESG5vo897/5dTOfLsZ+QnKmU9/J0QcLWgtItYdBAXtw==
-X-Received: by 2002:a05:622a:1050:b0:42a:6860:4b5d with SMTP id
- f16-20020a05622a105000b0042a68604b5dmr4062236qte.91.1706432679336; 
- Sun, 28 Jan 2024 01:04:39 -0800 (PST)
-Received: from localhost ([207.181.197.26]) by smtp.gmail.com with ESMTPSA id
- kf13-20020a05622a2a8d00b0042a9a2e43ffsm709108qtb.92.2024.01.28.01.04.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Jan 2024 01:04:38 -0800 (PST)
-Date: Sun, 28 Jan 2024 03:04:38 -0600
-From: Lenko Donchev <lenko.donchev@gmail.com>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/amd/display: Use kcalloc() instead of kzalloc()
-Message-ID: <ZbYYpky2sb8p8hjx@nixos>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 022A51124C7;
+ Sun, 28 Jan 2024 09:24:41 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id EC57960EF8;
+ Sun, 28 Jan 2024 09:24:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16448C433C7;
+ Sun, 28 Jan 2024 09:24:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1706433846;
+ bh=vAmi5VfiuPfMgpUzWVLhzkemLp43TOQ6SblaolpCpeU=;
+ h=Date:From:To:Subject:References:In-Reply-To:From;
+ b=lMwxc7Qu0oHVJPI91GXXDLoO+fz95+HJ9gMP4NbphuEoMcrSG9m0cDtYmdaL+mc0D
+ 8ye0Pm1XOyX9C0eEm4+3RXpCD8HukjES5r/RWWVh5RBrFE1QEr34M6pLtJ6mU12Cx/
+ WxDJ9Bm8MQ+X83R1CtubiX91LIAJfvlQhQy5CByGrKE+rxGUx9bNv5cjkB8jMxb0x6
+ TXVe0Vx2dgish6qtjHNFUfU+5Ts1N8aIDd3OUWbCJaqGkgngaV+Chgypy+iQySjVXr
+ wTsOyO73lllXi3Hi1f9ROIg1cIYPW2pREtE4baRZUzOm69tHS8lo9OLj/Q4+7k6XW2
+ jONH1sldIYSlQ==
+Date: Sun, 28 Jan 2024 10:24:02 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Jason-JH Lin =?utf-8?B?KOael+edv+elpSk=?= <Jason-JH.Lin@mediatek.com>, 
+ "manasi.d.navare@intel.com" <manasi.d.navare@intel.com>, 
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+ "michel@daenzer.net" <michel@daenzer.net>, 
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>, 
+ "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+ "mikita.lipski@amd.com" <mikita.lipski@amd.com>, 
+ "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>, 
+ "daniel.vetter@intel.com" <daniel.vetter@intel.com>,
+ "nicholas.kazlauskas@amd.com" <nicholas.kazlauskas@amd.com>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "quic_abhinavk@quicinc.com" <quic_abhinavk@quicinc.com>, 
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "lucas.demarchi@intel.com" <lucas.demarchi@intel.com>, 
+ "sean@poorly.run" <sean@poorly.run>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, 
+ "dmitry.osipenko@collabora.com" <dmitry.osipenko@collabora.com>,
+ "fshao@chromium.org" <fshao@chromium.org>, 
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "jani.nikula@intel.com" <jani.nikula@intel.com>, 
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>, 
+ "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>
+Subject: Re: Re: [PATCH] drm/atomic-helpers: remove legacy_cursor_update hacks
+Message-ID: <vyh5wg2ltmrtqw2mhtyj2lii6i4eccrjjlynzpfg7x63tkrav6@cxbz3sasvjjm>
+References: <20230216111214.3489223-1-daniel.vetter@ffwll.ch>
+ <20230307145613.xvhru3fpcudlpazt@houat>
+ <aac416742920953999a9ce230ac68139bf5b9790.camel@mediatek.com>
+ <ZbKlsTEvGPiGtzS3@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="ogyu5zjbyc4numbu"
 Content-Disposition: inline
-X-Mailman-Approved-At: Sun, 28 Jan 2024 10:11:19 +0000
+In-Reply-To: <ZbKlsTEvGPiGtzS3@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,32 +82,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We are trying to get rid of all multiplications from allocation
-functions to prevent integer overflows. Here the multiplication is
-obviously safe, but using kcalloc() is more appropriate and improves
-readability. This patch has no effect on runtime behavior.
 
-Link: https://www.kernel.org/doc/html/next/process/deprecated.html#open-coded-arithmetic-in-allocator-arguments
-Link: https://github.com/KSPP/linux/issues/162
+--ogyu5zjbyc4numbu
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Lenko Donchev <lenko.donchev@gmail.com>
----
- drivers/gpu/drm/amd/display/dc/link/protocols/link_dpcd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Thu, Jan 25, 2024 at 07:17:21PM +0100, Daniel Vetter wrote:
+> On Tue, Jan 23, 2024 at 06:09:05AM +0000, Jason-JH Lin (=E6=9E=97=E7=9D=
+=BF=E7=A5=A5) wrote:
+> > Hi Maxime, Daniel,
+> >=20
+> > We encountered similar issue with mediatek SoCs.
+> >=20
+> > We have found that in drm_atomic_helper_commit_rpm(), when disabling
+> > the cursor plane, the old_state->legacy_cursor_update in
+> > drm_atomic_wait_for_vblank() is set to true.
+> > As the result, we are not actually waiting for a vlbank to wait for our
+> > hardware to close the cursor plane. Subsequently, the execution
+> > proceeds to drm_atomic_helper_cleanup_planes() to  free the cursor
+> > buffer. This can lead to use-after-free issues with our hardware.
+> >=20
+> > Could you please apply this patch to fix our problem?
+> > Or are there any considerations for not applying this patch?
+>=20
+> Mostly it needs someone to collect a pile of acks/tested-by and then land
+> it.
+>=20
+> I'd be _very_ happy if someone else can take care of that ...
+>=20
+> There's also the potential issue that it might slow down some of the
+> legacy X11 use-cases that really needed a non-blocking cursor, but I think
+> all the drivers where this matters have switched over to the async plane
+> update stuff meanwhile. So hopefully that's good.
 
-diff --git a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dpcd.c b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dpcd.c
-index 5c9a30211c10..b67cd78e7c58 100644
---- a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dpcd.c
-+++ b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dpcd.c
-@@ -164,7 +164,7 @@ static void dpcd_extend_address_range(
- 	if (new_addr_range.start != in_address || new_addr_range.end != end_address) {
- 		*out_address = new_addr_range.start;
- 		*out_size = ADDRESS_RANGE_SIZE(new_addr_range.start, new_addr_range.end);
--		*out_data = kzalloc(*out_size * sizeof(**out_data), GFP_KERNEL);
-+		*out_data = kcalloc(*out_size, sizeof(**out_data), GFP_KERNEL);
- 	}
- }
- 
--- 
-2.43.0
+I think there was also a regression with msm no one really figured out?
 
+Maxime
+
+--ogyu5zjbyc4numbu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZbYdMgAKCRDj7w1vZxhR
+xSJlAP95bsUAyxzHt1gZmvkN8tKWAggATAYm9apK9+8NFj/3MAEAnkts/Yh2y6zr
+dzc9/lsQ2HaDBNTsjGfOxrlJGX+aKwE=
+=2xdS
+-----END PGP SIGNATURE-----
+
+--ogyu5zjbyc4numbu--
