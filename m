@@ -2,43 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C10683F508
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Jan 2024 11:45:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6612683F5B4
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Jan 2024 15:03:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0204510E716;
-	Sun, 28 Jan 2024 10:45:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2042F112391;
+	Sun, 28 Jan 2024 14:03:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
- [80.237.130.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC06E10E716
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jan 2024 10:45:06 +0000 (UTC)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
- by wp530.webpack.hosteurope.de running ExIM with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- id 1rU2eq-0004bW-4H; Sun, 28 Jan 2024 11:45:00 +0100
-Message-ID: <acf203a8-b612-437c-a464-228f45e1c694@leemhuis.info>
-Date: Sun, 28 Jan 2024 11:44:59 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1DC810E7E7;
+ Sun, 28 Jan 2024 14:03:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1706450615; x=1737986615;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=y4IeGf5G5kXp/QvjFIs2djdjcL7GIzEtTnjrGf1k2sA=;
+ b=g3dxoyyHnODcv1o2Q2EPr5kTzXwOCnDodw31rogLWla5j8bSjdvhvAn0
+ 2l5YkPv1QLyoeFQNAA8F/UBFeWDE6JuAko5V+bww6zpCict6KvOhvNib8
+ wfcSxUMI2uFUd4smlNEwERK4kYBpjh55qtxnouFQB1k17np+FO1NMvdCn
+ HaofzgBQiY6+YdulqFV8AZEh54fondlSp2ZX1N+gBffPgLtPQYI4wSujo
+ fGQlAv+tVMgHuPt0E/VdV6kT9ccQL9pPyjgDwlVIaJ24+eFqmkXnDXm+n
+ MMPfmvmk0tBpKrXU8ZccC5bV5iGN28QHT1gv1IhiLKZVBupcR8nLqNfzE w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="2604471"
+X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
+   d="scan'208";a="2604471"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jan 2024 06:03:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; d="scan'208";a="29273410"
+Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
+ by orviesa002.jf.intel.com with ESMTP; 28 Jan 2024 06:03:29 -0800
+Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1rU5ks-0003RG-1G;
+ Sun, 28 Jan 2024 14:03:26 +0000
+Date: Sun, 28 Jan 2024 22:02:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Paloma Arellano <quic_parellan@quicinc.com>,
+ freedreno@lists.freedesktop.org
+Subject: Re: [PATCH 10/17] drm/msm/dp: modify dp_catalog_hw_revision to show
+ major and minor val
+Message-ID: <202401282131.j7UUVG6P-lkp@intel.com>
+References: <20240125193834.7065-11-quic_parellan@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Bug#1061449: linux-image-6.7-amd64: a boot message from amdgpu
-Content-Language: en-US, de-DE
-To: Salvatore Bonaccorso <carnil@debian.org>,
- Patrice Duroux <patrice.duroux@gmail.com>, 1061449@bugs.debian.org,
- Lewis Huang <lewis.huang@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
- Phil Hsieh <phil.hsieh@amd.com>, Rodrigo Siqueira
- <rodrigo.siqueira@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>
-References: <170612149675.7169.757906919183146487.reportbug@kos-moceratops.home>
- <ZbUB0YWxEET3Y0xA@eldamar.lan>
-From: "Linux regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-In-Reply-To: <ZbUB0YWxEET3Y0xA@eldamar.lan>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1706438715;
- 38cae9b2; 
-X-HE-SMSGID: 1rU2eq-0004bW-4H
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240125193834.7065-11-quic_parellan@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,31 +61,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-Cc: regressions@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com,
+ linux-arm-msm@vger.kernel.org, llvm@lists.linux.dev,
+ Paloma Arellano <quic_parellan@quicinc.com>, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
+ oe-kbuild-all@lists.linux.dev, dmitry.baryshkov@linaro.org,
+ marijn.suijten@somainline.org, quic_khsieh@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27.01.24 14:14, Salvatore Bonaccorso wrote:
->
-> In Debian (https://bugs.debian.org/1061449) we got the following
-> quotred report:
-> 
-> On Wed, Jan 24, 2024 at 07:38:16PM +0100, Patrice Duroux wrote:
->>
->> Giving a try to 6.7, here is a message extracted from dmesg:
->> [    4.177226] ------------[ cut here ]------------
->> [    4.177227] WARNING: CPU: 6 PID: 248 at
->> drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_factory.c:387
->> construct_phy+0xb26/0xd60 [amdgpu]
-> [...]
+Hi Paloma,
 
-Not my area of expertise, but looks a lot like a duplicate of
-https://gitlab.freedesktop.org/drm/amd/-/issues/3122#note_2252835
+kernel test robot noticed the following build errors:
 
-Mario (now CCed) already prepared a patch for that issue that seems to work.
+[auto build test ERROR on v6.8-rc1]
+[also build test ERROR on linus/master next-20240125]
+[cannot apply to drm-misc/drm-misc-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-HTH, Ciao, Thorsten
+url:    https://github.com/intel-lab-lkp/linux/commits/Paloma-Arellano/drm-msm-dpu-allow-dpu_encoder_helper_phys_setup_cdm-to-work-for-DP/20240126-034233
+base:   v6.8-rc1
+patch link:    https://lore.kernel.org/r/20240125193834.7065-11-quic_parellan%40quicinc.com
+patch subject: [PATCH 10/17] drm/msm/dp: modify dp_catalog_hw_revision to show major and minor val
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20240128/202401282131.j7UUVG6P-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240128/202401282131.j7UUVG6P-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401282131.j7UUVG6P-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/msm/dp/dp_catalog.c:547:11: error: implicit declaration of function 'FIELD_GET' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           *major = DP_HW_VERSION_MAJOR(reg_dp_hw_version);
+                    ^
+   drivers/gpu/drm/msm/dp/dp_catalog.c:27:34: note: expanded from macro 'DP_HW_VERSION_MAJOR'
+   #define DP_HW_VERSION_MAJOR(reg)        FIELD_GET(GENMASK(31, 28), reg)
+                                           ^
+   1 error generated.
+
+
+vim +/FIELD_GET +547 drivers/gpu/drm/msm/dp/dp_catalog.c
+
+   531	
+   532	/**
+   533	 * dp_catalog_hw_revision() - retrieve DP hw revision
+   534	 *
+   535	 * @dp_catalog: DP catalog structure
+   536	 *
+   537	 * Return: void
+   538	 *
+   539	 */
+   540	void dp_catalog_hw_revision(const struct dp_catalog *dp_catalog, u16 *major, u16 *minor)
+   541	{
+   542		const struct dp_catalog_private *catalog = container_of(dp_catalog,
+   543					struct dp_catalog_private, dp_catalog);
+   544		u32 reg_dp_hw_version;
+   545	
+   546		reg_dp_hw_version = dp_read_ahb(catalog, REG_DP_HW_VERSION);
+ > 547		*major = DP_HW_VERSION_MAJOR(reg_dp_hw_version);
+   548		*minor = DP_HW_VERSION_MINOR(reg_dp_hw_version);
+   549	}
+   550	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
