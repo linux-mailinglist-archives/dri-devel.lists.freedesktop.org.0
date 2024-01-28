@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16AF883FAE0
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 00:11:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EB1083FADF
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 00:10:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F23710FED7;
-	Sun, 28 Jan 2024 23:10:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91B1F10FF24;
+	Sun, 28 Jan 2024 23:10:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from www254.your-server.de (www254.your-server.de [188.40.28.34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B869A10E563;
- Sun, 28 Jan 2024 10:26:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB90D10E6FE;
+ Sun, 28 Jan 2024 10:29:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=windeck-gymnasium.de; s=windeck_hetzner; h=Content-Type:In-Reply-To:
  References:To:Subject:From:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:
  Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
  Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
- bh=NrVZ6LOmJLHxlx8ybFUnQmgz+pS8CMMfN/yB/76ePI8=; b=FS2kHfsCSZwmlrdcDLLNCDEHVI
- Waty/C52X7A8kYrN7rGIKCtFwc4GQ8/ez4Dwt1Tvs6LeBCZtCjHI/YkRnZbEdKk2Qhh8zZeNiVW3W
- D6bvQARayC0Qxku/5QOYF17ichO9vjyyEQLYgRI0Vk6+BdWrvOx+CvoYKlOwzGLmxmK88kFaPcSLR
- VMmEW4lsCAbHdfITxeXe6h1ZGrubWbKIede1puUpFHP8Jt+J/6qlbpRVIElIpYbrwlZfRTt01tCJj
- ngal6XE/b+2DB7eDmIvjm/0SI7O+nuwnR3TQv9D6wlU7b6tc3mH7dXT7cUCY3oclZQ8CYKTpSLaCi
- DaKAcawg==;
+ bh=Ip/cH0toWlht6UUCK0wZTthMNZH3KaCZRngkP5BTJSA=; b=l3fSjk+i9GD0AYl+vesQkCOkP7
+ 7AgY0TfM6thMoSAkS6OWJs7OuYE7ss8PrVeIT92UKaUO4mhycGYu89ao6H2cq7OJEAaMXmPJLWIVX
+ FW93c+zVszyt2CrpB8yD8EEWgNlVmf9f2XS/1UGDshW45Qe+hURZwEkIYbBGv8NbhtYvEp9QN3t/0
+ D/ArucXUuT6+ntp8vgTpsgZuS2rjNGAnk/JEB3zt7MI5FKXaY/M7iA5NzOMGcmPZZmNfGCKgafUX1
+ exca5ZBXspPusPQy2n0QoCMystTnqk/KEU6dbKFw0EjZBNQVgCIU0IlZYahINsd9GP502LEkfX9M/
+ surTo0HQ==;
 Received: from sslproxy03.your-server.de ([88.198.220.132])
  by www254.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
  (Exim 4.94.2) (envelope-from <administrator@windeck-gymnasium.de>)
- id 1rU2N3-000G0R-KN; Sun, 28 Jan 2024 11:26:37 +0100
+ id 1rU2PL-000GRt-Mx; Sun, 28 Jan 2024 11:28:59 +0100
 Received: from [2003:c2:2700:8b00:abb7:33fa:4db1:a46e]
  by sslproxy03.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <administrator@windeck-gymnasium.de>)
- id 1rU2N2-0003G1-UY; Sun, 28 Jan 2024 11:26:36 +0100
-Message-ID: <dce1d75a-f500-4353-8910-ab3868da2927@windeck-gymnasium.de>
-Date: Sun, 28 Jan 2024 11:26:36 +0100
+ id 1rU2PL-000Cts-29; Sun, 28 Jan 2024 11:28:59 +0100
+Message-ID: <e6bedb02-a3b4-4351-b41e-6f635a77c0ef@windeck-gymnasium.de>
+Date: Sun, 28 Jan 2024 11:28:58 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: =?UTF-8?Q?Dominik_F=C3=B6rderer?= <administrator@windeck-gymnasium.de>
 Subject: Re: [PATCH] drm/amd/display: add panel_power_savings sysfs entry to
  eDP connectors
-To: Hamza Mahfooz <hamza.mahfooz@amd.com>
+To: amd-gfx@lists.freedesktop.org, Hamza Mahfooz <hamza.mahfooz@amd.com>
 References: <20240126222300.119292-1-hamza.mahfooz@amd.com>
 Content-Language: de-DE
 Autocrypt: addr=administrator@windeck-gymnasium.de; keydata=
@@ -69,7 +69,7 @@ Autocrypt: addr=administrator@windeck-gymnasium.de; keydata=
 In-Reply-To: <20240126222300.119292-1-hamza.mahfooz@amd.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="------------Ly6R5scZIekd7BUs9x2hVgiz"
+ boundary="------------hMcroKAiw86efeluxWK3lLA2"
 X-Authenticated-Sender: administrator@windeck-gymnasium.de
 X-Virus-Scanned: Clear (ClamAV 0.103.10/27167/Sat Jan 27 10:40:34 2024)
 X-Mailman-Approved-At: Sun, 28 Jan 2024 23:10:36 +0000
@@ -89,18 +89,18 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------Ly6R5scZIekd7BUs9x2hVgiz
-Content-Type: multipart/mixed; boundary="------------WcBK8s0R5kDCRZOa85GS24fR";
+--------------hMcroKAiw86efeluxWK3lLA2
+Content-Type: multipart/mixed; boundary="------------K7iH3v9nTnJsM97Kh0HgKxY6";
  protected-headers="v1"
 From: =?UTF-8?Q?Dominik_F=C3=B6rderer?= <administrator@windeck-gymnasium.de>
-To: Hamza Mahfooz <hamza.mahfooz@amd.com>
-Message-ID: <dce1d75a-f500-4353-8910-ab3868da2927@windeck-gymnasium.de>
+To: amd-gfx@lists.freedesktop.org, Hamza Mahfooz <hamza.mahfooz@amd.com>
+Message-ID: <e6bedb02-a3b4-4351-b41e-6f635a77c0ef@windeck-gymnasium.de>
 Subject: Re: [PATCH] drm/amd/display: add panel_power_savings sysfs entry to
  eDP connectors
 References: <20240126222300.119292-1-hamza.mahfooz@amd.com>
 In-Reply-To: <20240126222300.119292-1-hamza.mahfooz@amd.com>
 
---------------WcBK8s0R5kDCRZOa85GS24fR
+--------------K7iH3v9nTnJsM97Kh0HgKxY6
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: base64
 
@@ -180,22 +180,22 @@ dHlwZSA9PSBEUk1fTU9ERV9DT05ORUNUT1JfRGlzcGxheVBvcnQpIHx8DQoNCg0KLS0gDQpE
 b21pbmlrIEbDtnJkZXJlciAoTmV0endlcmthZG1pbmlzdHJhdG9yKQ0KV2luZGVjay1HeW1u
 YXNpdW0gQsO8aGwNCkh1bWJvbGR0c3RyLiAzDQpUZWwuIDA3MjIzLzk0MDk1ODUNCg0K
 
---------------WcBK8s0R5kDCRZOa85GS24fR--
+--------------K7iH3v9nTnJsM97Kh0HgKxY6--
 
---------------Ly6R5scZIekd7BUs9x2hVgiz
+--------------hMcroKAiw86efeluxWK3lLA2
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsB5BAABCAAjFiEElI1pgP+MCebrMFDXw0bnevoHXl4FAmW2K9wFAwAAAAAACgkQw0bnevoHXl4K
-mgf/fB3uL63KZszImZy1nKm/g7t8uQD0YgE86rQf0UVkNNYKh0qoSH7C7gz3HVTTbPJiqhK37v15
-iI8E1mMpXrMjKcrg4cdFhM3HQJBynUtAYZ+5+cMG2eoqDmldRQDvXz5H3BwoPWuMBBJwi+zbhDMp
-+hrUrQr5scIasahWFJjuRTD4LKvKTipeCFnz3x32dJjrYb3ZAAmTQ8yNu4UaAghBS8B3aQcCcwNu
-GCEIs25ykY5r6eSk+XYFJs0bIJC/Map7adgLeTxABAJpGgLYKWiUF/+K9dqgVj9G7+8dmhK3phck
-VXQP0T1GjkklYCYnvczilKewBnF3NC1H1lMm3p2u4A==
-=G/Md
+wsB5BAABCAAjFiEElI1pgP+MCebrMFDXw0bnevoHXl4FAmW2LGoFAwAAAAAACgkQw0bnevoHXl7B
+1AgAiZzMlkfXo8NA5bpNURzls4d5ja5WseyF3BCGK/vdTw2BVRQPgTuKSbgSeyTRTbQ4HoG9sRwa
+HhWr/5eSPafIS5GwvuPrVKE7oROR86rlcM98MFT+P5/8zTfn9EwHwkc017m0yfNoW+n7U52aNN6O
+0qtKESvVSYwIkpMZYK5iFNLnW0JfFvXsav3mxyxJbKAsJNxK0hncT9XYF7O/W3gFjHS6ctHKCz2V
+xOwVLUnvN4sMRmb6PsorGCkyEMKWrDvxPAoSzbzNNZhvabRDClXdTMyuy7epxkWTYD1Aj4Vamjfc
+h+wCozfrwWVsm/DgpBtpI9reWOuBiL0/lUjAZuM4cQ==
+=fxf+
 -----END PGP SIGNATURE-----
 
---------------Ly6R5scZIekd7BUs9x2hVgiz--
+--------------hMcroKAiw86efeluxWK3lLA2--
