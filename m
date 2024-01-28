@@ -2,66 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 647B983F4EA
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Jan 2024 11:11:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 351B283F4EC
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Jan 2024 11:12:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7863611252E;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7043E11252C;
 	Sun, 28 Jan 2024 10:11:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53CC310F2A7
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jan 2024 02:13:22 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-40eac352733so26499875e9.0
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Jan 2024 18:13:22 -0800 (PST)
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com
+ [209.85.160.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FBE3112496;
+ Sun, 28 Jan 2024 09:05:44 +0000 (UTC)
+Received: by mail-qt1-f179.google.com with SMTP id
+ d75a77b69052e-42a8e0becfdso5199621cf.3; 
+ Sun, 28 Jan 2024 01:05:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1706407941; x=1707012741; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vaG9KCSeyB34qgF/GNTtOPQC1Bqh3X7Odz7HpRaDlRU=;
- b=VkqqpSGLqssud6Td0tDE4/XkuY6Ps02PEUVLQ1UFUu/4185aoK9wyIB57NOGBSVA68
- 2Ph9xrONekCpB4/PhsClrX+khHk3nT7TqvkKXhsXjUJEdIhe4McQx9EACZ1DCwjvt4Nf
- uCxUsl5/SWXTjoNzYGSzbSzyBrVnMKQV/fL+KtfT/b23f/OoTaamIBCPEqqMgcIyp2NO
- b2QUZ1sD6H2kSrOdzAW/LsM/b7a4P7j1Cjgm6BIRmeh9uIM7SKxldjXXlJbamYYQp9UL
- 6mCWmwqYsN504lyi1njIsMfD6Ax7Y+HMvXJAlTnMc85HQo3+XBwu1ZFRlgGM+lfQVl34
- Q6uQ==
+ d=gmail.com; s=20230601; t=1706432679; x=1707037479; darn=lists.freedesktop.org;
+ h=content-disposition:mime-version:message-id:subject:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=tl12HUX4uU642Pm0XD/FsExYrprZs5KqQHYM6NQv7yw=;
+ b=dRnScH0vdRSbQizneN9N6guvnV/c7W3RrXyBJkYOcLTSfcixih8jnTIyPdegVx0qSo
+ mT7povdA3LELCMpr7dNZ3VH56i9+KJpKOOh70SYtzNlaj6L8o7SnEN16oSiah3tccW05
+ TZYcNzo42IB5MndQrV0uQYwqTYgNTRn5dD3ecSUqfE1gBkZPpH20gxLoDhoMX/iT9iQ+
+ BQWSst7d1rBS9yyAp3wWtu3YDls8ksQRuf74766Wu/Bn8b+zlQxHMrZtWZanRYWURa05
+ zIjTmn7v8HN6hLEwYzUZGslaNg5NIvw/xvGJfFCNwObJ3gKd7w/azqcO29jMBbl8eAKM
+ yzig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706407941; x=1707012741;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=vaG9KCSeyB34qgF/GNTtOPQC1Bqh3X7Odz7HpRaDlRU=;
- b=v82yv/oWVttCElxifvW7KyIwsJwYRz+T1EpAa80hyl9hv+PvlpUS/r1/x4sWplfLlf
- EH2sn/UK58B7806MWZW1mjwfKCQ+ptE71fcqz/GrTr5pnvRYcBk82YaBzYL1UdeEKdwZ
- B7XrEdSBmx+BCAux7AQ6z2tmBgcMNz580UHbygzcW7eB8fT1Ps91V6eeO6SJo23wrGHK
- fAUjKCmk/lNDjkqFuTP/msSM/6T8ErR+wdepr1BoyowiHaBbX+GlyL0MOTG5HpSf20+R
- kyVj/b9ky5rxMPls8VWUq+jaB8qZ5dGnnymQZJLhIrcLBpo2a+aizvHpZFuoe8mDkRLf
- VCqg==
-X-Gm-Message-State: AOJu0Yy7GbIAWn6+mveL6JliHNBOBvjq8ejs6jEb4rTm0zAbE8mEcgIh
- EZecYNf7qwjgJuf7qW96WDtihyrx2OS7RFdXN13rmCtWTU+msqvt
-X-Google-Smtp-Source: AGHT+IH4x9bAVhKwPxzQ0yqkvmcyjkXVmKjymiwZeivZQUE73sfJFh3bPmvlrudgVsVr680JTbg/iQ==
-X-Received: by 2002:a05:600c:5123:b0:40e:5118:5046 with SMTP id
- o35-20020a05600c512300b0040e51185046mr2204373wms.21.1706407940522; 
- Sat, 27 Jan 2024 18:12:20 -0800 (PST)
-Received: from Hacc-ARM64-PC.. ([2a02:908:4f4:84e1::1051])
- by smtp.gmail.com with ESMTPSA id
- cl10-20020a5d5f0a000000b0033aeb20f5b8sm64584wrb.13.2024.01.27.18.12.20
+ d=1e100.net; s=20230601; t=1706432679; x=1707037479;
+ h=content-disposition:mime-version:message-id:subject:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=tl12HUX4uU642Pm0XD/FsExYrprZs5KqQHYM6NQv7yw=;
+ b=SRFEF8hGy4pcExUn2gD1Quod1TG99bfXv4r0sCG9pzFYKuw3VIhRti25bNJSbODlai
+ Gi31m51sHcd4Nzn5yGtO/yH8q4HayQlx8TPvzWYt8RZqVjKC2X/38zo1pqeFvcu3hA1F
+ zHk1IytiadVotWg34X/vEu66ScKlEtSvlfNUYtEineXl/WFUA1YsT113hs4+ksrvYQA0
+ HxmCsb3iXlKxhhM9HAVKSt7so68sFg92S7huIm3VNMnQYBatEC5rrmLKdYO9q+ZbNTK4
+ 2lG/lInHRCVSSsR4QrnTUbEKsUAc1VZxpZBwN406VniVtp7IB7MLgfxfb8lPrq6JkdbK
+ F8Eg==
+X-Gm-Message-State: AOJu0Yx+1xlorBaeER3rRCD7pWdwggnU7jJjEYrAPvqMp7Vem/t11OYd
+ HipMgFagX1jR80o/tAwXHBr2kP41OE8n5TfAuqWJKTkgwOJayFs=
+X-Google-Smtp-Source: AGHT+IFyTE09o/xWHMwQXLRQeWK4UyZ7mKRESG5vo897/5dTOfLsZ+QnKmU9/J0QcLWgtItYdBAXtw==
+X-Received: by 2002:a05:622a:1050:b0:42a:6860:4b5d with SMTP id
+ f16-20020a05622a105000b0042a68604b5dmr4062236qte.91.1706432679336; 
+ Sun, 28 Jan 2024 01:04:39 -0800 (PST)
+Received: from localhost ([207.181.197.26]) by smtp.gmail.com with ESMTPSA id
+ kf13-20020a05622a2a8d00b0042a9a2e43ffsm709108qtb.92.2024.01.28.01.04.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 27 Jan 2024 18:12:20 -0800 (PST)
-From: Ao Zhong <hacc1225@gmail.com>
-To: =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
-Subject: [PATCH RESEND 1/1] drm/panel: st7703: Fix Panel Initialization for
- Anbernic RG353V-V2
-Date: Sun, 28 Jan 2024 03:10:48 +0100
-Message-ID: <20240128021048.6059-2-hacc1225@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240128021048.6059-1-hacc1225@gmail.com>
-References: <20240128021048.6059-1-hacc1225@gmail.com>
+ Sun, 28 Jan 2024 01:04:38 -0800 (PST)
+Date: Sun, 28 Jan 2024 03:04:38 -0600
+From: Lenko Donchev <lenko.donchev@gmail.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/amd/display: Use kcalloc() instead of kzalloc()
+Message-ID: <ZbYYpky2sb8p8hjx@nixos>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-Mailman-Approved-At: Sun, 28 Jan 2024 10:11:19 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,35 +76,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ao Zhong <hacc1225@gmail.com>, Ondrej Jirman <megi@xff.cz>,
- Purism Kernel Team <kernel@puri.sm>,
- dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch resolves the issue with the panel initialization of the
-Anbernic RG353V-V2 caused by incorrect parameters.
+We are trying to get rid of all multiplications from allocation
+functions to prevent integer overflows. Here the multiplication is
+obviously safe, but using kcalloc() is more appropriate and improves
+readability. This patch has no effect on runtime behavior.
 
-Signed-off-by: Ao Zhong <hacc1225@gmail.com>
+Link: https://www.kernel.org/doc/html/next/process/deprecated.html#open-coded-arithmetic-in-allocator-arguments
+Link: https://github.com/KSPP/linux/issues/162
+
+Signed-off-by: Lenko Donchev <lenko.donchev@gmail.com>
 ---
- drivers/gpu/drm/panel/panel-sitronix-st7703.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/display/dc/link/protocols/link_dpcd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7703.c b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-index b55bafd1a8be..a346d6c3d283 100644
---- a/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-+++ b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-@@ -357,8 +357,8 @@ static int rg353v2_init_sequence(struct st7703 *ctx)
- 			       0x28, 0x03, 0xff, 0x00, 0x00, 0x00, 0x00);
- 	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETCYC, 0x80);
- 	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETBGP, 0x0a, 0x0a);
--	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETVCOM, 0x92, 0x92);
--	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETPOWER_EXT, 0x25, 0x22,
-+	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETVCOM, 0x7f, 0x7f);
-+	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETPOWER_EXT, 0x26, 0x62,
- 			       0xf0, 0x63);
- 	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETMIPI, 0x33, 0x81, 0x05,
- 			       0xf9, 0x0e, 0x0e, 0x20, 0x00, 0x00, 0x00, 0x00,
+diff --git a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dpcd.c b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dpcd.c
+index 5c9a30211c10..b67cd78e7c58 100644
+--- a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dpcd.c
++++ b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dpcd.c
+@@ -164,7 +164,7 @@ static void dpcd_extend_address_range(
+ 	if (new_addr_range.start != in_address || new_addr_range.end != end_address) {
+ 		*out_address = new_addr_range.start;
+ 		*out_size = ADDRESS_RANGE_SIZE(new_addr_range.start, new_addr_range.end);
+-		*out_data = kzalloc(*out_size * sizeof(**out_data), GFP_KERNEL);
++		*out_data = kcalloc(*out_size, sizeof(**out_data), GFP_KERNEL);
+ 	}
+ }
+ 
 -- 
 2.43.0
 
