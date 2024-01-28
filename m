@@ -2,45 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DEBF83FA14
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Jan 2024 22:25:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C54E683FA53
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Jan 2024 23:23:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E282310F956;
-	Sun, 28 Jan 2024 21:25:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 990AB10EB5D;
+	Sun, 28 Jan 2024 22:22:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5ED7B10F955;
- Sun, 28 Jan 2024 21:25:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=ZabLYiK1CYMel8JukYGi2S/lIUCPgU/oF9HydEUjizI=; b=sTdTnV8KGZYjh/k/J0CAcEaB+f
- N+u1qMUI4AKBfpjYRhut8fxG8FOpeB02fQ7ai+fnzPn11XMuEH2ZQdHNtDrdi/pDYDBGYX9bua03n
- UYp3F5gcke50iXJrtPwkRG2OuEynoW83lLc8u9llPAieTketeDqLDME7eL8pZw9zX+zpnkiXSt01Z
- sofkQ71aBbylnAPbhtNmRhMrseYrXuLpw1QVv0Ct9Kj3Ey+EzH7Z4bCGb8Zjf0Pz5QZv1tx69BAxo
- OKEPVMghNpyCIVyfMXROq8LtZnYTXsxV3FLs7oWfyszRX/UQDOeO+n7SgtIvf77K8jbbZp0mdVcnx
- p4X8xgkg==;
-Received: from 201-42-129-61.dsl.telesp.net.br ([201.42.129.61]
- helo=steammachine.lan) by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1rUCek-00B1M8-Mr; Sun, 28 Jan 2024 22:25:35 +0100
-From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
-To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v3 3/3] drm/amdgpu: Implement check_async_props for planes
-Date: Sun, 28 Jan 2024 18:25:15 -0300
-Message-ID: <20240128212515.630345-4-andrealmeid@igalia.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240128212515.630345-1-andrealmeid@igalia.com>
-References: <20240128212515.630345-1-andrealmeid@igalia.com>
+Received: from eu-smtp-delivery-151.mimecast.com
+ (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE37E10FB43
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Jan 2024 22:22:28 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-65-vnl-NSxrMcqYOJXJo4DcEw-1; Sun, 28 Jan 2024 22:22:18 +0000
+X-MC-Unique: vnl-NSxrMcqYOJXJo4DcEw-1
+Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
+ (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Sun, 28 Jan
+ 2024 22:21:54 +0000
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Sun, 28 Jan 2024 22:21:53 +0000
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Linus Torvalds' <torvalds@linux-foundation.org>
+Subject: RE: [PATCH next 10/11] block: Use a boolean expression instead of
+ max() on booleans
+Thread-Topic: [PATCH next 10/11] block: Use a boolean expression instead of
+ max() on booleans
+Thread-Index: AdpSITDgD70hEVnBTjm/gYoTnRBnpgAA0+uAAAR1AXA=
+Date: Sun, 28 Jan 2024 22:21:53 +0000
+Message-ID: <a756a7712dfe4d03a142520d4c46e7a3@AcuMS.aculab.com>
+References: <0ca26166dd2a4ff5a674b84704ff1517@AcuMS.aculab.com>
+ <b564df3f987e4371a445840df1f70561@AcuMS.aculab.com>
+ <CAHk-=whxYjLFhjov39N67ePb3qmCmxrhbVXEtydeadfao53P+A@mail.gmail.com>
+In-Reply-To: <CAHk-=whxYjLFhjov39N67ePb3qmCmxrhbVXEtydeadfao53P+A@mail.gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: base64
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,82 +59,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>, daniel@ffwll.ch,
- =?UTF-8?q?=27Marek=20Ol=C5=A1=C3=A1k=27?= <maraeo@gmail.com>,
- =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
- Xaver Hugl <xaver.hugl@gmail.com>, Pekka Paalanen <ppaalanen@gmail.com>,
- Joshua Ashton <joshua@froggi.es>, kernel-dev@igalia.com,
- alexander.deucher@amd.com, Dave Airlie <airlied@gmail.com>,
- christian.koenig@amd.com
+Cc: Jens Axboe <axboe@kernel.dk>, Netdev <netdev@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "Matthew Wilcox \(Oracle\)" <willy@infradead.org>,
+ Christoph Hellwig <hch@infradead.org>,
+ "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, "David
+ S . Miller" <davem@davemloft.net>, Dan Carpenter <dan.carpenter@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-AMD GPUs can do async flips with changes on more properties than just
-the FB ID, so implement a custom check_async_props for AMD planes.
-
-Allow amdgpu to do async flips with overlay planes as well.
-
-Signed-off-by: André Almeida <andrealmeid@igalia.com>
----
-v3: allow overlay planes
-
- .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 29 +++++++++++++++++++
- 1 file changed, 29 insertions(+)
-
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-index 116121e647ca..ed75b69636b4 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-@@ -25,6 +25,7 @@
-  */
- 
- #include <drm/drm_atomic_helper.h>
-+#include <drm/drm_atomic_uapi.h>
- #include <drm/drm_blend.h>
- #include <drm/drm_gem_atomic_helper.h>
- #include <drm/drm_plane_helper.h>
-@@ -1430,6 +1431,33 @@ static void amdgpu_dm_plane_drm_plane_destroy_state(struct drm_plane *plane,
- 	drm_atomic_helper_plane_destroy_state(plane, state);
- }
- 
-+static int amdgpu_dm_plane_check_async_props(struct drm_property *prop,
-+					  struct drm_plane *plane,
-+					  struct drm_plane_state *plane_state,
-+					  struct drm_mode_object *obj,
-+					  u64 prop_value, u64 old_val)
-+{
-+	struct drm_mode_config *config = &plane->dev->mode_config;
-+	int ret;
-+
-+	if (prop != config->prop_fb_id &&
-+	    prop != config->prop_in_fence_fd) {
-+		ret = drm_atomic_plane_get_property(plane, plane_state,
-+						    prop, &old_val);
-+		return drm_atomic_check_prop_changes(ret, old_val, prop_value, prop);
-+	}
-+
-+	if (plane_state->plane->type != DRM_PLANE_TYPE_PRIMARY &&
-+	    plane_state->plane->type != DRM_PLANE_TYPE_OVERLAY) {
-+		drm_dbg_atomic(prop->dev,
-+			       "[OBJECT:%d] Only primary or overlay planes can be changed during async flip\n",
-+			       obj->id);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
- static const struct drm_plane_funcs dm_plane_funcs = {
- 	.update_plane	= drm_atomic_helper_update_plane,
- 	.disable_plane	= drm_atomic_helper_disable_plane,
-@@ -1438,6 +1466,7 @@ static const struct drm_plane_funcs dm_plane_funcs = {
- 	.atomic_duplicate_state = amdgpu_dm_plane_drm_plane_duplicate_state,
- 	.atomic_destroy_state = amdgpu_dm_plane_drm_plane_destroy_state,
- 	.format_mod_supported = amdgpu_dm_plane_format_mod_supported,
-+	.check_async_props = amdgpu_dm_plane_check_async_props,
- };
- 
- int amdgpu_dm_plane_init(struct amdgpu_display_manager *dm,
--- 
-2.43.0
+RnJvbTogTGludXMgVG9ydmFsZHMNCj4gU2VudDogMjggSmFudWFyeSAyMDI0IDE5OjU5DQo+IA0K
+PiBPbiBTdW4sIDI4IEphbiAyMDI0IGF0IDExOjM2LCBEYXZpZCBMYWlnaHQgPERhdmlkLkxhaWdo
+dEBhY3VsYWIuY29tPiB3cm90ZToNCj4gPg0KPiA+IEhvd2V2ZXIgaXQgZ2VuZXJhdGVzOg0KPiA+
+IGVycm9yOiBjb21wYXJpc29uIG9mIGNvbnN0YW50IMOi4oKsy5www6LigqzihKIgd2l0aCBib29s
+ZWFuIGV4cHJlc3Npb24gaXMgYWx3YXlzIHRydWUgWy1XZXJyb3I9Ym9vbC1jb21wYXJlXQ0KPiA+
+IGluc2lkZSB0aGUgc2lnbmVkbmVzcyBjaGVjayB0aGF0IG1heCgpIGRvZXMgdW5sZXNzIGEgJysg
+MCcgaXMgYWRkZWQuDQo+IA0KPiBQbGVhc2UgZml4IHlvdXIgbG9jYWxlLiBZb3UgaGF2ZSByYW5k
+b20gZ2FyYmFnZSBjaGFyYWN0ZXJzIHRoZXJlLA0KPiBwcmVzdW1hYmx5IGJlY2F1c2UgeW91IGhh
+dmUgc29tZSBpbmNvcnJlY3QgbG9jYWxlIHNldHRpbmcgc29tZXdoZXJlIGluDQo+IHlvdXIgdG9v
+bGNoYWluLg0KDQpIbW1tbSBibGFtZSBnY2MgOi0pDQpUaGUgZXJyb3IgbWVzc2FnZSBkaXNwbGF5
+cyBhcyAnMCcgYnV0IGlzIGUyOjgwOjk4IDMwIGUyOjgwOjk5DQpJIEhBVEUgVVRGLTgsIGl0IHdv
+dWxkbid0IGJlIGFzIGJhZCBpZiBpdCB3ZXJlIGEgYmlqZWN0aW9uLg0KDQpMZXRzIHNlZSBpZiBh
+ZGRpbmcgJ0xBTkc9QycgaW4gdGhlIHNoZWxsIHNjcmlwdCBJIHVzZSB0bw0KZG8ga2VybmVsIGJ1
+aWxkcyBpcyBlbm91Z2guDQoNCkkgYWxzbyBtYW5hZ2VkIHRvIHNlbmQgcGFydHMgMSB0byA2IHdp
+dGhvdXQgZGVsZXRpbmcgdGhlIFJFOg0KKEkgaGF2ZSB0byBjdXQmcGFzdGUgZnJvbSB3b3JkcGFk
+IGludG8gYSAncmVwbHktYWxsJyBvZiB0aGUgZmlyc3QNCm1lc3NhZ2UgSSBzZW5kLiBXb3JrIHVz
+ZXMgbWltZWNhc3QgYW5kIGl0IGhhcyBzdGFydGVkIGJvdW5jaW5nDQpteSBjb3B5IG9mIGV2ZXJ5
+IG1lc3NhZ2UgSSBzZW5kIHRvIHRoZSBsaXN0cy4pDQoNCk1heWJlIEkgc2hvdWxkIHN0YXJ0IHVz
+aW5nIHRlbG5ldCB0byBzZW5kIHJhdyBTTVRQIDotKQ0KDQoJRGF2aWQNCg0KLQ0KUmVnaXN0ZXJl
+ZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50IEZhcm0sIE1pbHRvbiBLZXlu
+ZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEzOTczODYgKFdhbGVzKQ0K
 
