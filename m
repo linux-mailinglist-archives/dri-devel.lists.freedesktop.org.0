@@ -2,64 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D423483F620
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Jan 2024 16:31:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA12283F630
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Jan 2024 16:56:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3020E112694;
-	Sun, 28 Jan 2024 15:30:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64FC21126B9;
+	Sun, 28 Jan 2024 15:56:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
- [209.85.210.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8A8B112694
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jan 2024 15:30:24 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id
- d2e1a72fcca58-6dddf4fc85dso939987b3a.0
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jan 2024 07:30:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1706455761; x=1707060561; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=h2V/0dCIefEKKW7/a7gcAuJYCSa50UGFdK2xIPchK28=;
- b=CMPIWyoa9N6q34nvc0pRfJUJeyRD9Mqsx3+Gs4YZFjR8kL6ljLYOHRKbytjW9Zgi5Z
- rqNzlmK7BUM0J1yuSnti8fA4fs7zWIfhJhq5CKCDW+BN4IqD7bZDznOgmJZDZpj3j99D
- ncej9kp8J88Y0h6RBEgj3AwzhSXrpO3IV3TQOo00GQCSYDyPaLgfNkTDsneVjnL7jjUq
- 0n8pL/hQ48WwLMBeucBza/oxdpPB6Ik7yYNvxUH9vySidYdfd0WY8+BiLTmJybJ1siqZ
- YpZuq08lItHG8kQCh0JIymm6UD0XAML9HyMTp/QveLTr79Lm3Aph0wQiPd+d1Y2G727f
- g/PA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706455761; x=1707060561;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=h2V/0dCIefEKKW7/a7gcAuJYCSa50UGFdK2xIPchK28=;
- b=G65SsgRXyPQrQ2feVLYTiL4fPgBHaqN9EdHbcnZxoe6fRAZ0SuE2WACzeO2ugIYl+X
- 50L3/MZniBKjX5idVBTMBxqB2Yreh9BqNs9tj+26068z9c6nHTbT4Quw6d0MaNth0+Ov
- vtiPOpegXj9g4DThDUoTbO2UT3uRi3HbR+e0YUFH3l/ao1seetl701G/f9pCImf9t0lf
- FaXwsr9V5nptklbMSMt4jZX/NLb74JG/9G+Kudkkl+zBgSNify7pNUzDtxz+QrTJ/9EK
- ZjH0w75YWwq9k7+hNu3uyeiVcS9dzBjTnk0QpWGOe6Pqi22kbOz26iowz46o1NhbNTtz
- WyHg==
-X-Gm-Message-State: AOJu0Yyx/5yDzfMarWpPBYCYXWP1rK5+xAx+AipyKpj/ZTRPoq8dq/Pq
- zjavrhfwRp2o/eh1r39D6tpUuELR3jvOmfmArRUFgDxMgRsNo9qnRBd75Pu+4roG0EyUf5NjgSs
- GdOJGdifTZz6KRS9WG9cCFfFilvM=
-X-Google-Smtp-Source: AGHT+IE/S8nl/+88TGU/a8mCQbnxjPYbc1DSAzdK3mNWN2QY6ccpsxxXVr5Tq64sC5KdK1t3lKPLmjS3QvxEE8CwNq8=
-X-Received: by 2002:a05:6a00:6807:b0:6db:c6b1:aa5c with SMTP id
- hq7-20020a056a00680700b006dbc6b1aa5cmr1021670pfb.34.1706455761111; Sun, 28
- Jan 2024 07:29:21 -0800 (PST)
+X-Greylist: delayed 423 seconds by postgrey-1.36 at gabe;
+ Sun, 28 Jan 2024 15:56:23 UTC
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A91391126B9
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Jan 2024 15:56:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+ t=1706456954; bh=pIUGZH0WA/dnmasx5Fb75KygIBvTRFfwHo3C1qQyatU=;
+ h=From:To:Cc:Subject:Date:From;
+ b=ZCL1/V7gcX01+wyCS7/UsEozTQM9F/8MoG61d9vDsx88zcE31uxncRZKnVS6hRKB9
+ J8DVsMPT9Aw0u/0iu7UUO+lA93PSoxc1puOYQHwUjBxiC3TJGFIjQomLyHxfnWOZ10
+ LuFWN7KwDdaqnaWmdp2tiD0kG4TWJZ5zv2CvMBAD3vSUuFKq2+hLUM7hl0G3zEDXii
+ Njb70xYcngVXJjQo46hpJJJoIhYi19COJJQ9ER0MDi91a6mtwLQyqbGsudFHXhSKST
+ y0lACrc63WxEHpomV7MvUmrUOZNLvCstW2Z4uJSBjIhtPnX7icKBSMTA7DcNYikDHu
+ s7SxWshdo+v5Q==
+Received: by gofer.mess.org (Postfix, from userid 501)
+ id F02E91007E3; Sun, 28 Jan 2024 15:49:14 +0000 (GMT)
+X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on gofer.mess.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-3.0 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+ DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU autolearn=unavailable
+ autolearn_force=no version=4.0.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+ t=1706456953; bh=pIUGZH0WA/dnmasx5Fb75KygIBvTRFfwHo3C1qQyatU=;
+ h=From:To:Cc:Subject:Date:From;
+ b=BVNGuGDPkHcq680/07H+MZm6kSMUHplL3QA/QQ1CydeLArEadowfvbwxBbASXbF0n
+ baez3+xNJuwljbqm8wU8V4zzh5hww0sWtfqzGOwJJDxcxOJdDHYe0uXx3dWQLTOSb+
+ 5tgaLO5pon+/1mF7hZ4q+c6qFSXEjv5qEVq8sMp/jbzKUsj8Nl2/BZD8j6GAB6Q2mk
+ FDqCWXWGeJGkJhqdF035VBmEhOJEfIH6nFJyz3aGzhpzkFzZHtdW6srpYnvnsReaYI
+ ovnTJGJudjBtRV9DhZOBpSSVlfhR9E+KBVQd+mQeF6H1qz3aiBoK8s3LTVMo4/WFgT
+ AJmVh+swGsFtw==
+Received: from bigcore.mess.org (bigcore.local
+ [IPv6:2a02:8011:d000:212:bc3c:1b4a:a6fa:362f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by gofer.mess.org (Postfix) with ESMTPSA id 6CFC91000B2;
+ Sun, 28 Jan 2024 15:49:13 +0000 (GMT)
+From: Sean Young <sean@mess.org>
+To: Flavio Suligoi <f.suligoi@asem.it>, Lee Jones <lee@kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: [PATCH] backlight: mp3309c: Use pwm_apply_might_sleep()
+Date: Sun, 28 Jan 2024 15:49:04 +0000
+Message-ID: <20240128154905.407302-1-sean@mess.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20230920171009.3193296-1-l.stach@pengutronix.de>
- <20231218023655.GG5290@pendragon.ideasonboard.com>
- <20231218094849.4aa15a97@booty> <12346986.O9o76ZdvQC@steina-w>
-In-Reply-To: <12346986.O9o76ZdvQC@steina-w>
-From: Adam Ford <aford173@gmail.com>
-Date: Sun, 28 Jan 2024 09:29:09 -0600
-Message-ID: <CAHCN7xLwyUtjizGBJ8B790o9eh4537z65KbKgAKpcD95CoAcFg@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] drm/bridge: imx: add driver for HDMI TX Parallel
- Video Interface
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,104 +69,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Jonas Karlman <jonas@kwiboo.se>, Liu Ying <victor.liu@nxp.com>,
- Sandor Yu <sandor.yu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
- dri-devel@lists.freedesktop.org, patchwork-lst@pengutronix.de,
- devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Fabio Estevam <festevam@gmail.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org, NXP Linux Team <linux-imx@nxp.com>
+Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sean Young <sean@mess.org>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 18, 2023 at 2:59=E2=80=AFAM Alexander Stein
-<alexander.stein@ew.tq-group.com> wrote:
->
-> Hi everybody,
->
-> Am Montag, 18. Dezember 2023, 09:48:49 CET schrieb Luca Ceresoli:
-> > Hi,
-> >
-> > On Mon, 18 Dec 2023 04:36:55 +0200
-> >
-> > Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
-> > > On Fri, Dec 15, 2023 at 05:09:41PM -0300, Fabio Estevam wrote:
-> > > > On Fri, Dec 15, 2023 at 4:01=E2=80=AFPM Adam Ford <aford173@gmail.c=
-om> wrote:
-> > > > > Thanks for the list.  I was able to successfully build the stable=
- 6.6
-> > > > > branch with those patches applied and I have the HDMI working.
-> > > > > Unfortunately, I get build errors on the linux-next, so it's goin=
-g to
-> > > > > take me a little time to sort through all of this.
-> > > >
-> > > > If you need help to figure this problem out, please let me know.
-> > > >
-> > > > I haven't tried it against linux-next.
-> > > >
-> > > > > I am thinking that it would be better to consolidate all these
-> > > > > together into one series instead of piecemealing it.  However, th=
-ere
-> > > > > are some items that can be submitted right away without significa=
-ntly
-> > > > > reworking them against linux-next.  Do people have a preference?
-> > > >
-> > > > I think it makes sense to re-submit the "easy ones" right away.
-> > >
-> > > Agreed. The more we can merge quickly, the easier it will become to
-> > > rebase and upstream the rest.
-> >
-> > I agree as well, "release early, release often". These patches are
-> > around since a long time and lots of people are using them already, and
-> > tracking all of them from different threads is time-consuming. I will
-> > happily test them early as soon as they are sent.
->
-> I lost track of the series well, but I do remember I had to adjust the
-> original series to get it running on linux-next.
-> Please keep me on CC so I can add my local changes if necessary.
+pwm_apply_state() is deprecated since commit c748a6d77c06a ("pwm: Rename
+pwm_apply_state() to pwm_apply_might_sleep()"). This is the final user
+in the tree.
 
-Fabio / Alexander,
+Signed-off-by: Sean Young <sean@mess.org>
+---
+ drivers/video/backlight/mp3309c.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I have a pending question to Peng regarding a change I pulled from NXP
-[1] which moves the FDCC clock to the power domain and removes it from
-the HDMI-TX driver.  I am hoping to get that answered soon.  If not, I
-might just push the series again after a few more days.  In the
-meantime, I have a git repo [2] if anyone wants to review stuff.
-Marek Vasut sent me an offline patch to address some suspend/resume
-issues, and I incorporated them into the series.  My suspend-resume
-has been broken for a while, so I cannot test that.
+diff --git a/drivers/video/backlight/mp3309c.c b/drivers/video/backlight/mp3309c.c
+index 34d71259fac1d..b0d9aef6942b3 100644
+--- a/drivers/video/backlight/mp3309c.c
++++ b/drivers/video/backlight/mp3309c.c
+@@ -131,7 +131,7 @@ static int mp3309c_bl_update_status(struct backlight_device *bl)
+ 					    chip->pdata->levels[brightness],
+ 					    chip->pdata->levels[chip->pdata->max_brightness]);
+ 		pwmstate.enabled = true;
+-		ret = pwm_apply_state(chip->pwmd, &pwmstate);
++		ret = pwm_apply_might_sleep(chip->pwmd, &pwmstate);
+ 		if (ret)
+ 			return ret;
+ 
+@@ -393,7 +393,7 @@ static int mp3309c_probe(struct i2c_client *client)
+ 					    chip->pdata->default_brightness,
+ 					    chip->pdata->max_brightness);
+ 		pwmstate.enabled = true;
+-		ret = pwm_apply_state(chip->pwmd, &pwmstate);
++		ret = pwm_apply_might_sleep(chip->pwmd, &pwmstate);
+ 		if (ret)
+ 			return dev_err_probe(chip->dev, ret,
+ 					     "error setting pwm device\n");
+-- 
+2.43.0
 
-
-> I have a proof of concept for HDMI audio, which is based on the base HDMI
-> support. I can continue on that after merge, but I'm lacking an idea how =
-to
-> add some kind of "bridge" into the audio pipeline.
-
-Maybe the git repo above will help.  It looks like the xcvr and
-audio-tx drivers are there, but they appear to be dependent on custom
-NXP sound card drivers which would be nice to replace with standard
-audio drivers, so let me know if I can assist in any way.
-
->
-> Best regards
-> Alexander
-> --
-> TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Ge=
-rmany
-> Amtsgericht M=C3=BCnchen, HRB 105018
-> Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan S=
-chneider
-> http://www.tq-group.com/
->
-
-[1] - https://patchwork.kernel.org/project/linux-pm/patch/20240106223951.38=
-7067-2-aford173@gmail.com/
-[2] - https://github.com/aford173/linux/tree/for-6.9-imx8mp-hdmi
-
->
