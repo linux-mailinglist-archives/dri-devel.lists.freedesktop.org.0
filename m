@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4946B83F67B
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Jan 2024 17:13:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE66B83F666
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Jan 2024 17:12:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 073B81126E2;
-	Sun, 28 Jan 2024 16:13:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 938AF1126DA;
+	Sun, 28 Jan 2024 16:12:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72F4F1126E2;
- Sun, 28 Jan 2024 16:13:20 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94E781126DA;
+ Sun, 28 Jan 2024 16:12:55 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id EEE5361BA2;
- Sun, 28 Jan 2024 16:12:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5080BC43390;
- Sun, 28 Jan 2024 16:12:48 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id D3464CE0C56;
+ Sun, 28 Jan 2024 16:12:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CDE2C433F1;
+ Sun, 28 Jan 2024 16:12:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1706458369;
- bh=//GeY34yk8RDTyVL3z8PggsoJVR+7RJuYVHF4BbXmUk=;
+ s=k20201202; t=1706458373;
+ bh=RF11Nuaw/Quj3WjbZtfD35x2IlLylre1seT1n1UkZg0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Pwk7u6NjuKEedMEm1srkw6Bg5Wl4nwtAoV8W9PM3LJ6w8GOVuhgyWR6HZl5xoSLht
- u1UNdrTVxSO5IXLwwWFYsm53egOArbbtYpBHtTjWiJnFVHPFrZJcYqu4GTJXSEUEId
- tgGejC9cFd2Kq9NHgTXfVJVjV0e8cdunZwz5gMkTSupS0qjaLzMS5hkG3Tx4bW/PqU
- 68BLGa+Ua7sg6QGGZcoDvwtP7zm1K9o9RLZHJl4JxVd6/dfhLQPCjqWT7TaEu69fQK
- 9M8+/pXO4Fu2V0Ln5ajQcWt6zzN+FVslsbruQCOorLTLTENhbW9QuXWoc0eUdJ7LcR
- kWV1J3ZS7jJtw==
+ b=kGtKVD9Y+IG/FH9/CP6Gp3sotIfUmYRxGxotMQnjvebbM8M76f8QTg4LH70DoEdzp
+ Cp1hsfJYRf1Vsv8dGYKPHoJOQ+6m0xwRTyDpa5NhujmueIXrL6/hcnwQLyfbDN2KRN
+ aAQF7hWpr6XsQYB13jCYf2rBl/W5/GbdKymWOaXvt31Fo3VhgMDm6dN4tb+ynxx5wi
+ frqk/eTUtn/aJGxCwnl5Q/xDAyQRrQHBTk/7RXNuloBR+xH/Oh/Ivx08CE9AIMXDSP
+ zY8UqYZqHAST05aFN8nIlXrK+fT/c/RAK2iHNLxXRSvROL5UWan9IDXeA9p/2FcZz4
+ XauiiN9WyNYVQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.7 35/39] drm/amd/powerplay: Fix kzalloc parameter
- 'ATOM_Tonga_PPM_Table' in 'get_platform_power_management_table()'
-Date: Sun, 28 Jan 2024 11:10:55 -0500
-Message-ID: <20240128161130.200783-35-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.7 36/39] drm/amdgpu: Fix with right return code
+ '-EIO' in 'amdgpu_gmc_vram_checking()'
+Date: Sun, 28 Jan 2024 11:10:56 -0500
+Message-ID: <20240128161130.200783-36-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240128161130.200783-1-sashal@kernel.org>
 References: <20240128161130.200783-1-sashal@kernel.org>
@@ -55,50 +55,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>, Xinhui.Pan@amd.com,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- dri-devel@lists.freedesktop.org, daniel@ffwll.ch,
- Eric Huang <JinHuiEric.Huang@amd.com>, evan.quan@amd.com, airlied@gmail.com,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, mukul.joshi@amd.com, Xinhui.Pan@amd.com,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ dri-devel@lists.freedesktop.org, Xiaojian Du <Xiaojian.Du@amd.com>,
+ amd-gfx@lists.freedesktop.org, Felix.Kuehling@amd.com,
+ Lijo Lazar <lijo.lazar@amd.com>, tao.zhou1@amd.com, shiwu.zhang@amd.com,
+ mario.limonciello@amd.com, daniel@ffwll.ch,
+ Alex Deucher <alexander.deucher@amd.com>, airlied@gmail.com,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Hawking.Zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
 
-[ Upstream commit 6616b5e1999146b1304abe78232af810080c67e3 ]
+[ Upstream commit fac4ebd79fed60e79cccafdad45a2bb8d3795044 ]
 
-In 'struct phm_ppm_table *ptr' allocation using kzalloc, an incorrect
-structure type is passed to sizeof() in kzalloc, larger structure types
-were used, thus using correct type 'struct phm_ppm_table' fixes the
-below:
+The amdgpu_gmc_vram_checking() function in emulation checks whether
+all of the memory range of shared system memory could be accessed by
+GPU, from this aspect, -EIO is returned for error scenarios.
 
-drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/process_pptables_v1_0.c:203 get_platform_power_management_table() warn: struct type mismatch 'phm_ppm_table vs _ATOM_Tonga_PPM_Table'
+Fixes the below:
+drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c:919 gmc_v6_0_hw_init() warn: missing error code? 'r'
+drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c:1103 gmc_v7_0_hw_init() warn: missing error code? 'r'
+drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c:1223 gmc_v8_0_hw_init() warn: missing error code? 'r'
+drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c:2344 gmc_v9_0_hw_init() warn: missing error code? 'r'
 
-Cc: Eric Huang <JinHuiEric.Huang@amd.com>
+Cc: Xiaojian Du <Xiaojian.Du@amd.com>
+Cc: Lijo Lazar <lijo.lazar@amd.com>
 Cc: Christian König <christian.koenig@amd.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
+Suggested-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/pm/powerplay/hwmgr/process_pptables_v1_0.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c | 21 ++++++++++++++-------
+ 1 file changed, 14 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/process_pptables_v1_0.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/process_pptables_v1_0.c
-index f2a55c1413f5..17882f8dfdd3 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/process_pptables_v1_0.c
-+++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/process_pptables_v1_0.c
-@@ -200,7 +200,7 @@ static int get_platform_power_management_table(
- 		struct pp_hwmgr *hwmgr,
- 		ATOM_Tonga_PPM_Table *atom_ppm_table)
- {
--	struct phm_ppm_table *ptr = kzalloc(sizeof(ATOM_Tonga_PPM_Table), GFP_KERNEL);
-+	struct phm_ppm_table *ptr = kzalloc(sizeof(*ptr), GFP_KERNEL);
- 	struct phm_ppt_v1_information *pp_table_information =
- 		(struct phm_ppt_v1_information *)(hwmgr->pptable);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
+index d2f273d77e59..55784a9f26c4 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
+@@ -1045,21 +1045,28 @@ int amdgpu_gmc_vram_checking(struct amdgpu_device *adev)
+ 	 * seconds, so here, we just pick up three parts for emulation.
+ 	 */
+ 	ret = memcmp(vram_ptr, cptr, 10);
+-	if (ret)
+-		return ret;
++	if (ret) {
++		ret = -EIO;
++		goto release_buffer;
++	}
  
+ 	ret = memcmp(vram_ptr + (size / 2), cptr, 10);
+-	if (ret)
+-		return ret;
++	if (ret) {
++		ret = -EIO;
++		goto release_buffer;
++	}
+ 
+ 	ret = memcmp(vram_ptr + size - 10, cptr, 10);
+-	if (ret)
+-		return ret;
++	if (ret) {
++		ret = -EIO;
++		goto release_buffer;
++	}
+ 
++release_buffer:
+ 	amdgpu_bo_free_kernel(&vram_bo, &vram_gpu,
+ 			&vram_ptr);
+ 
+-	return 0;
++	return ret;
+ }
+ 
+ static ssize_t current_memory_partition_show(
 -- 
 2.43.0
 
