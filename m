@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9225B83F6C3
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Jan 2024 17:17:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB4A183F6B9
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Jan 2024 17:16:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE923112711;
-	Sun, 28 Jan 2024 16:17:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D704F11271B;
+	Sun, 28 Jan 2024 16:16:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DF6E10E808;
- Sun, 28 Jan 2024 16:17:00 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9996811271B;
+ Sun, 28 Jan 2024 16:16:32 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 8C56BCE0C54;
- Sun, 28 Jan 2024 16:16:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77D67C433C7;
- Sun, 28 Jan 2024 16:16:26 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 1F70B6195C;
+ Sun, 28 Jan 2024 16:16:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1033C433F1;
+ Sun, 28 Jan 2024 16:16:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1706458587;
- bh=9+l/9PWCv9b1KkwzutuHsikOMVDG14iQ8OfXxZAbxvg=;
+ s=k20201202; t=1706458591;
+ bh=9ALv9vgLPJGBB1fIBI476PvQ0+d3hLpcFhO+W0yHsxk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CZwmedAKlh5gyUG1aKYHay/W3BHTBw4LQBHWdH2PKjMTU9ku/aYjGG6hHQao2imrq
- WVf9XX6ORfwJpUAnRIL7fkHuBGPy8W16Wls4jzmAz7f+lkuV0lVSnPFYSbD5xZAdJO
- uQ7cobr+KlRiLFpTHwTFkke1MhF/sLBOdDqvDmGaXjS+/fBN+DVRO6U0cVCUHWfGiW
- SmUtg00TqROCm0q03POoRID6rVFDJabpVIqz0y20BnK5A8VsbjoPR/uYHNhKfKyncl
- ac5rt3mV140TChaGeSwpAh2nluEu+4TWl3qcJZh9vWakSwUtSqrjfMZv2qdOWyqra/
- TthkwH88jw4xg==
+ b=EJ8Phu2KCg4DPNPhrwo96jY1X+tXifs9Ty7TG4JMLctcexTbWhdYHv8NfcSCN2ZFm
+ DNqw60ehuUavGnNfZMUeHa+Y+V4ywhEEGqKDyWSVKZYeOsrHP6Y8eJcvSHxvohBVoN
+ IE+rfI9Gt4aZgyiE6Pj778/soNWHZxG6G9FTwJ5DtsI6Ryin7BHfaWj6hBtnM6I3te
+ sgvbMXQejsDaBfNahqe2Qn/jNxMC9ObSIr4Zgp+Tkn9QPeumq00YLaIKyEY7HFIM1K
+ ZbnL37ytssY8imS1yE+p97PujCbwe41Z1MoxrapCc/3oqegWW2uCIYqmdf8dT1Ijk2
+ SOkczZq86uX8w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 12/13] drm/amd/powerplay: Fix kzalloc parameter
- 'ATOM_Tonga_PPM_Table' in 'get_platform_power_management_table()'
-Date: Sun, 28 Jan 2024 11:15:58 -0500
-Message-ID: <20240128161606.205221-12-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 13/13] drm/amdgpu: Release 'adev->pm.fw' before
+ return in 'amdgpu_device_need_post()'
+Date: Sun, 28 Jan 2024 11:15:59 -0500
+Message-ID: <20240128161606.205221-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240128161606.205221-1-sashal@kernel.org>
 References: <20240128161606.205221-1-sashal@kernel.org>
@@ -55,50 +55,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>, Xinhui.Pan@amd.com,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- dri-devel@lists.freedesktop.org, daniel@ffwll.ch,
- Eric Huang <JinHuiEric.Huang@amd.com>, evan.quan@amd.com, airlied@gmail.com,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Xinhui.Pan@amd.com,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>, shashank.sharma@amd.com,
+ dri-devel@lists.freedesktop.org, Lijo Lazar <lijo.lazar@amd.com>,
+ amd-gfx@lists.freedesktop.org, victorchengchi.lu@amd.com, le.ma@amd.com,
+ hamza.mahfooz@amd.com, mario.limonciello@amd.com, daniel@ffwll.ch,
+ Alex Deucher <alexander.deucher@amd.com>, andrealmeid@igalia.com,
+ candice.li@amd.com, airlied@gmail.com,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Monk Liu <Monk.Liu@amd.com>, Hawking.Zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
 
-[ Upstream commit 6616b5e1999146b1304abe78232af810080c67e3 ]
+[ Upstream commit 8a44fdd3cf91debbd09b43bd2519ad2b2486ccf4 ]
 
-In 'struct phm_ppm_table *ptr' allocation using kzalloc, an incorrect
-structure type is passed to sizeof() in kzalloc, larger structure types
-were used, thus using correct type 'struct phm_ppm_table' fixes the
-below:
+In function 'amdgpu_device_need_post(struct amdgpu_device *adev)' -
+'adev->pm.fw' may not be released before return.
 
-drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/process_pptables_v1_0.c:203 get_platform_power_management_table() warn: struct type mismatch 'phm_ppm_table vs _ATOM_Tonga_PPM_Table'
+Using the function release_firmware() to release adev->pm.fw.
 
-Cc: Eric Huang <JinHuiEric.Huang@amd.com>
+Thus fixing the below:
+drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:1571 amdgpu_device_need_post() warn: 'adev->pm.fw' from request_firmware() not released on lines: 1554.
+
+Cc: Monk Liu <Monk.Liu@amd.com>
 Cc: Christian König <christian.koenig@amd.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
+Suggested-by: Lijo Lazar <lijo.lazar@amd.com>
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/pm/powerplay/hwmgr/process_pptables_v1_0.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/process_pptables_v1_0.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/process_pptables_v1_0.c
-index b760f95e7fa7..5998c78ad536 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/process_pptables_v1_0.c
-+++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/process_pptables_v1_0.c
-@@ -204,7 +204,7 @@ static int get_platform_power_management_table(
- 		struct pp_hwmgr *hwmgr,
- 		ATOM_Tonga_PPM_Table *atom_ppm_table)
- {
--	struct phm_ppm_table *ptr = kzalloc(sizeof(ATOM_Tonga_PPM_Table), GFP_KERNEL);
-+	struct phm_ppm_table *ptr = kzalloc(sizeof(*ptr), GFP_KERNEL);
- 	struct phm_ppt_v1_information *pp_table_information =
- 		(struct phm_ppt_v1_information *)(hwmgr->pptable);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index a093f1b27724..e833c02fabff 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -1184,6 +1184,7 @@ bool amdgpu_device_need_post(struct amdgpu_device *adev)
+ 				return true;
  
+ 			fw_ver = *((uint32_t *)adev->pm.fw->data + 69);
++			release_firmware(adev->pm.fw);
+ 			if (fw_ver < 0x00160e00)
+ 				return true;
+ 		}
 -- 
 2.43.0
 
