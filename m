@@ -2,51 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C54E683FA53
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Jan 2024 23:23:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ED8B83FA5C
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Jan 2024 23:33:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 990AB10EB5D;
-	Sun, 28 Jan 2024 22:22:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C134210E476;
+	Sun, 28 Jan 2024 22:33:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from eu-smtp-delivery-151.mimecast.com
- (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE37E10FB43
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jan 2024 22:22:28 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-65-vnl-NSxrMcqYOJXJo4DcEw-1; Sun, 28 Jan 2024 22:22:18 +0000
-X-MC-Unique: vnl-NSxrMcqYOJXJo4DcEw-1
-Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
- (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Sun, 28 Jan
- 2024 22:21:54 +0000
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Sun, 28 Jan 2024 22:21:53 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Linus Torvalds' <torvalds@linux-foundation.org>
-Subject: RE: [PATCH next 10/11] block: Use a boolean expression instead of
- max() on booleans
-Thread-Topic: [PATCH next 10/11] block: Use a boolean expression instead of
- max() on booleans
-Thread-Index: AdpSITDgD70hEVnBTjm/gYoTnRBnpgAA0+uAAAR1AXA=
-Date: Sun, 28 Jan 2024 22:21:53 +0000
-Message-ID: <a756a7712dfe4d03a142520d4c46e7a3@AcuMS.aculab.com>
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
+ [209.85.218.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67DA210E476
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Jan 2024 22:33:19 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id
+ a640c23a62f3a-a35c1793d02so19915766b.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Jan 2024 14:33:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google; t=1706481137; x=1707085937;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=bqwd7hhPAgPM5QIH38rfOxpWBqWFIbyQQhTZxa5cgpo=;
+ b=VmMADS4ETqqthWdwGG7a2qHTC3Jid+dI5Q62MIWCeWIK6B5iUhk1I+3fP/0bF1Fwfb
+ DPIOHqPv8plJZajEqalCAQlWRo0BKivZJYEC1BmFn3qd9k8KwY38ilPuYH+jjzMt2rPh
+ pvVD9vOQj0IskQNj/q9eSxL98Sh+W0pG0SXG0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1706481137; x=1707085937;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=bqwd7hhPAgPM5QIH38rfOxpWBqWFIbyQQhTZxa5cgpo=;
+ b=fJa55WDiRNxm+In2YsohAY1WTWhMuL3JTVnrqp8ibspn0ADgd5sDcRelpIx35cO+It
+ TTdhQ3d9hLj2iD2KkB9FlKpC2kXVzwMycKs0XmQNKhexbZFOlEusSUrX9BTLb8lV670O
+ hY0nBPF+iayaj0qWNMJVeZEWO9MVzFGTMmROcQNO7yBiPWfMuymyn/a0eLH+Rl4jQddn
+ lC1XO7/PhvP5N+N5SvQRp+8cQ5SDIDsfXQQRMGo93wGrJBVTG6UV+x0XyS/GZFFTvBd8
+ LeQkb1oa5T6uP1/T61tu6nzpP7WXA1qOd4a1PT3iRTa4UzGgaykCZPfoMldc09V4Auxn
+ BlOA==
+X-Gm-Message-State: AOJu0YylzklMKiIpWUMLoHl61IM+AANGI58PHyHPCWmwx6nrZKlWaTv8
+ 17dnLFvK2SFCTgxRlRWXF5O2fqj1yqnTUT0WWEWazgLiHwCHP6oUFb3uWoghDYYIvUFhvXU3DD4
+ /P7HnwQ==
+X-Google-Smtp-Source: AGHT+IEnkfgg3NuKYfss7tbxdGe15WjCVbjP230oDKNxPw7P+x3tJHlbSW83HGvKFCv+Ddu9k/FgrQ==
+X-Received: by 2002:a17:906:b347:b0:a28:a36e:98ac with SMTP id
+ cd7-20020a170906b34700b00a28a36e98acmr3325393ejb.68.1706481137350; 
+ Sun, 28 Jan 2024 14:32:17 -0800 (PST)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com.
+ [209.85.208.44]) by smtp.gmail.com with ESMTPSA id
+ cw18-20020a170906c79200b00a31636793dfsm3208672ejb.201.2024.01.28.14.32.16
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 28 Jan 2024 14:32:16 -0800 (PST)
+Received: by mail-ed1-f44.google.com with SMTP id
+ 4fb4d7f45d1cf-55eece07a75so601732a12.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Jan 2024 14:32:16 -0800 (PST)
+X-Received: by 2002:a05:6402:3509:b0:55e:c6e3:5e24 with SMTP id
+ b9-20020a056402350900b0055ec6e35e24mr2150353edd.36.1706481136452; Sun, 28 Jan
+ 2024 14:32:16 -0800 (PST)
+MIME-Version: 1.0
 References: <0ca26166dd2a4ff5a674b84704ff1517@AcuMS.aculab.com>
  <b564df3f987e4371a445840df1f70561@AcuMS.aculab.com>
  <CAHk-=whxYjLFhjov39N67ePb3qmCmxrhbVXEtydeadfao53P+A@mail.gmail.com>
-In-Reply-To: <CAHk-=whxYjLFhjov39N67ePb3qmCmxrhbVXEtydeadfao53P+A@mail.gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
-MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+ <a756a7712dfe4d03a142520d4c46e7a3@AcuMS.aculab.com>
+In-Reply-To: <a756a7712dfe4d03a142520d4c46e7a3@AcuMS.aculab.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Sun, 28 Jan 2024 14:32:00 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wiacNkOUvT_ib9t4HXX9DSsUCFOCAvbPi+WBkdX3KCq2A@mail.gmail.com>
+Message-ID: <CAHk-=wiacNkOUvT_ib9t4HXX9DSsUCFOCAvbPi+WBkdX3KCq2A@mail.gmail.com>
+Subject: Re: [PATCH next 10/11] block: Use a boolean expression instead of
+ max() on booleans
+To: David Laight <David.Laight@aculab.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,30 +89,38 @@ Cc: Jens Axboe <axboe@kernel.dk>, Netdev <netdev@vger.kernel.org>,
  "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
  Andrew Morton <akpm@linux-foundation.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, "David
- S . Miller" <davem@davemloft.net>, Dan Carpenter <dan.carpenter@linaro.org>
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ "David S . Miller" <davem@davemloft.net>,
+ Dan Carpenter <dan.carpenter@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogTGludXMgVG9ydmFsZHMNCj4gU2VudDogMjggSmFudWFyeSAyMDI0IDE5OjU5DQo+IA0K
-PiBPbiBTdW4sIDI4IEphbiAyMDI0IGF0IDExOjM2LCBEYXZpZCBMYWlnaHQgPERhdmlkLkxhaWdo
-dEBhY3VsYWIuY29tPiB3cm90ZToNCj4gPg0KPiA+IEhvd2V2ZXIgaXQgZ2VuZXJhdGVzOg0KPiA+
-IGVycm9yOiBjb21wYXJpc29uIG9mIGNvbnN0YW50IMOi4oKsy5www6LigqzihKIgd2l0aCBib29s
-ZWFuIGV4cHJlc3Npb24gaXMgYWx3YXlzIHRydWUgWy1XZXJyb3I9Ym9vbC1jb21wYXJlXQ0KPiA+
-IGluc2lkZSB0aGUgc2lnbmVkbmVzcyBjaGVjayB0aGF0IG1heCgpIGRvZXMgdW5sZXNzIGEgJysg
-MCcgaXMgYWRkZWQuDQo+IA0KPiBQbGVhc2UgZml4IHlvdXIgbG9jYWxlLiBZb3UgaGF2ZSByYW5k
-b20gZ2FyYmFnZSBjaGFyYWN0ZXJzIHRoZXJlLA0KPiBwcmVzdW1hYmx5IGJlY2F1c2UgeW91IGhh
-dmUgc29tZSBpbmNvcnJlY3QgbG9jYWxlIHNldHRpbmcgc29tZXdoZXJlIGluDQo+IHlvdXIgdG9v
-bGNoYWluLg0KDQpIbW1tbSBibGFtZSBnY2MgOi0pDQpUaGUgZXJyb3IgbWVzc2FnZSBkaXNwbGF5
-cyBhcyAnMCcgYnV0IGlzIGUyOjgwOjk4IDMwIGUyOjgwOjk5DQpJIEhBVEUgVVRGLTgsIGl0IHdv
-dWxkbid0IGJlIGFzIGJhZCBpZiBpdCB3ZXJlIGEgYmlqZWN0aW9uLg0KDQpMZXRzIHNlZSBpZiBh
-ZGRpbmcgJ0xBTkc9QycgaW4gdGhlIHNoZWxsIHNjcmlwdCBJIHVzZSB0bw0KZG8ga2VybmVsIGJ1
-aWxkcyBpcyBlbm91Z2guDQoNCkkgYWxzbyBtYW5hZ2VkIHRvIHNlbmQgcGFydHMgMSB0byA2IHdp
-dGhvdXQgZGVsZXRpbmcgdGhlIFJFOg0KKEkgaGF2ZSB0byBjdXQmcGFzdGUgZnJvbSB3b3JkcGFk
-IGludG8gYSAncmVwbHktYWxsJyBvZiB0aGUgZmlyc3QNCm1lc3NhZ2UgSSBzZW5kLiBXb3JrIHVz
-ZXMgbWltZWNhc3QgYW5kIGl0IGhhcyBzdGFydGVkIGJvdW5jaW5nDQpteSBjb3B5IG9mIGV2ZXJ5
-IG1lc3NhZ2UgSSBzZW5kIHRvIHRoZSBsaXN0cy4pDQoNCk1heWJlIEkgc2hvdWxkIHN0YXJ0IHVz
-aW5nIHRlbG5ldCB0byBzZW5kIHJhdyBTTVRQIDotKQ0KDQoJRGF2aWQNCg0KLQ0KUmVnaXN0ZXJl
-ZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50IEZhcm0sIE1pbHRvbiBLZXlu
-ZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEzOTczODYgKFdhbGVzKQ0K
+On Sun, 28 Jan 2024 at 14:22, David Laight <David.Laight@aculab.com> wrote:
+>
+> Hmmmm blame gcc :-)
 
+I do agree that the gcc warning quoting is unnecessarily ugly (even
+just visually), but..
+
+> The error message displays as '0' but is e2:80:98 30 e2:80:99
+> I HATE UTF-8, it wouldn't be as bad if it were a bijection.
+
+No, that's not the problem. The UTF-8 that gcc emits is fine.
+
+And your email was also UTF-8:
+
+    Content-Type: text/plain; charset=UTF-8
+
+The problem is that you clearly then used some other tool in between
+that took the UTF-8 byte stream, and used it as (presumably) Latin1,
+which is bogus.
+
+If you just make everything use and stay as UTF-8, it all works out
+beautifully. But I suspect you have an editor or a MUA that is fixed
+in some 1980s mindset, and when you cut-and-pasted the UTF-8, it
+treated it as Latin1.
+
+Just make all your environment be utf-8, like it should be. It's not
+the 80s any more. We don't do mullets, and we don't do Latin1, ok?
+
+            Linus
