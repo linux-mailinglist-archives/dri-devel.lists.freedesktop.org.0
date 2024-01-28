@@ -2,67 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AFD283F9AC
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Jan 2024 21:06:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A140183FA10
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Jan 2024 22:25:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6277310E51F;
-	Sun, 28 Jan 2024 20:06:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5DB810F853;
+	Sun, 28 Jan 2024 21:25:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.17.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D8DE10E51F
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jan 2024 20:06:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1706472371; x=1707077171; i=markus.elfring@web.de;
- bh=NgaXvXQoHsjxe/EA1Ybr+FQWYg9KhJGN4jFPViGSQxU=;
- h=X-UI-Sender-Class:Date:To:Cc:From:Subject;
- b=vz/Q/L43/Tc6KJxGJGbdWl8qyaIutUMg/3lI5CrC9uehl8vYhCoWHl0V/D9yvoJI
- 9pnI3QKHgIpLt6YTQiJS5KDX2ppq2CPESw5rhpSUOM3LQPnDBsjGiDPvAf38LM6UO
- RCor65Dgnvj6JeXS+4FPGFwsAQ6k731rdCL4xY3HcKkn9ex0OOQinNGSPmH8QghM+
- uEKcoztXp7QTOdZD9PL8QO3qDlM8Yl1298+PA3/mtgNchVmagKlaSeoF8Jjp/9zJi
- 3muccUJZ+xxaatwaZEsDn3VjVNee/MItKlklBV4MsyoyuDUqMuPnc5OXsGirN6w0O
- rgvhTPAh4NsYSWt9jg==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.81.95]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1Myf3v-1r9U8U2P6L-00yX9a; Sun, 28
- Jan 2024 21:06:11 +0100
-Message-ID: <c07221ed-8eaf-490e-9672-033b1cfe7b6e@web.de>
-Date: Sun, 28 Jan 2024 21:06:05 +0100
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5B6D10F853;
+ Sun, 28 Jan 2024 21:25:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=MNiq0HNP4Q9Rqomb+cMUTJBSTivA7YPuGDdGMrmslc0=; b=Tj4qXk8M5MGR2/SV09cUxgKkji
+ PdCr4hKuDhjJIBXLeGZ/XFYbFKr+eTPPK71e2cF0+DKbH30y7ZWmikT9C8ApW69kHrtrDWoMopApS
+ By4xFIiOnrLlI/MLfMyG+bzobIb4X6zdVpJ8Gisb4ye3EYAagSF6Vw5fZOSwO5fPHhOetySdfLJym
+ w/aEkWAYhlWIKU0wJ2n2gvYT5yqN4NQrbTlFqKh35Sa6rv18BOvZ0hBCCL2icXCDyvEYPDlLUFOdL
+ junGRoQIvRmdXe5glxcAWtxj3HGDGMtPWxScL03NwkSu0fzoFDehFZ61X/yoGlemuN3QN8nJ8TuP3
+ ZtYygtSA==;
+Received: from 201-42-129-61.dsl.telesp.net.br ([201.42.129.61]
+ helo=steammachine.lan) by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1rUCeY-00B1M8-Gj; Sun, 28 Jan 2024 22:25:22 +0100
+From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/3] drm/atomic: Allow drivers to write their own plane
+ check for async
+Date: Sun, 28 Jan 2024 18:25:12 -0300
+Message-ID: <20240128212515.630345-1-andrealmeid@igalia.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Donald Robson <donald.robson@imgtec.com>,
- Frank Binns <frank.binns@imgtec.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Matt Coster <matt.coster@imgtec.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-Subject: [PATCH] drm/imagination: Use memdup_user() rather than duplicating
- its implementation
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:koqS3eLltv+QIPN2RCW3+Is0PGswqbQ+2Rizm/ODddQBc60oNWw
- zsO7XtPEFBC/fYJPfyzbKTyXby9HwP2MYakOHwpAhdyTV+R+mxOhB7f2s1JV+tNvwmhwqpk
- /rC2b440t+5NuTYmzEOJVbrLTJXE6hgFBAxN9bAYLcyU2uuilqZ+453fERFTSqIirVuqLqe
- Ojh24tWpBrPas8DOKi8BQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:06n3TwzjoMw=;WhAmErG28I8KWN9Gnz8yyeHqEEh
- +AIQfj6wNSVkJKDyoFhoYA+2h+Mz8gNpke7q0+aS3I8Ub5Uev/yTyTXj3+vE01BbvtSbMG8+p
- 2m22BKjoTrmOzp96SzciIJS/4PbRbcGeuFf27QQmeJp5qVoySyUigpiVqQ/08tB7uElJ8sSj3
- FZEZkftcJXsmwzOoCCmHwvPHt74grQC5+rAw8vqeq9o9Hsl7N7HORizLgqpRIgOmPJ8sSIl9p
- EU1Huagt9m8rw6h1qsOhMDCWHzuwlS9Vtb7mj9sDCbTwJihK5xBd0VNHt2Nv/VrB8SzzaGSQy
- aLMJiOPhZsJeRWVLfXAZToGIVlhhV444JTlZhjlSwzRrKHpca82O/VVKZAjyAgWu7er2d6vJK
- mpr6fRRy1zyaltc9bodZlRiIZVD7Wt5M4qb+b+DrN7FvTjtIVm74dvLaUl3BlhPwRf9bS8Rjy
- aujj7LpfASJhWqpe77q3TrkSo7YHNdJxu62cJ/LTt0Hn7wQaSBKKPs4nm4OOxLxueiakmZfo/
- Hk8K0/FSsacskAms6/Uok9Bq4a5vp/hTljqydjDelXpPUs/WtuwCX/MIVo111H7tTo1cNRiRQ
- bTjpF6y4ma4vzpKTqE/LEvPF64S9eJr1vY774HtkID4cUIKwmo6JrhP6Q0DMCmdQNTtgCup0n
- hwZLtUjBs44Iq0j/0iaTiq15YTB8FM06r8tlaJ35/a4YglCiV01/+ZJgXeC0rHX3+vJJyiDZF
- 0hW7Fv4NhkqQQEA/8V4yC6ENm37+/yrrtzsb7lAHA0GPRKAJcZOKCVBHuY0laqf2eKXxs0UmW
- GjWVYMPWvafsysOD3LD+KfKPlKmVCiR/U+NCIOYM85gwdBj7BX7ZsWQriVVRwtVfWZgzdr6gA
- YWfmTBp5ZP49ielVhdZLsLvW7xG1lFjb0cu531ZMaNsXd7Ui1d3pQUukRE4/kQrQ4Mf81XMiY
- iwblTQ==
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,105 +52,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sarah Walker <sarah.walker@imgtec.com>, LKML <linux-kernel@vger.kernel.org>
+Cc: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>, daniel@ffwll.ch,
+ =?UTF-8?q?=27Marek=20Ol=C5=A1=C3=A1k=27?= <maraeo@gmail.com>,
+ =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ Xaver Hugl <xaver.hugl@gmail.com>, Pekka Paalanen <ppaalanen@gmail.com>,
+ Joshua Ashton <joshua@froggi.es>, kernel-dev@igalia.com,
+ alexander.deucher@amd.com, Dave Airlie <airlied@gmail.com>,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Markus Elfring <elfring@users.sourceforge.net>
-Date: Sun, 28 Jan 2024 20:50:36 +0100
+Hi,
 
-* Reuse existing functionality from memdup_user() instead of keeping
-  duplicate source code.
+AMD hardware can do more on the async flip path than just the primary plane, so
+to lift up the current restrictions, this patchset allows drivers to write their
+own check for planes for async flips.
 
-  Generated by: scripts/coccinelle/api/memdup_user.cocci
+This patchset allows for async commits with IN_FENCE_ID in any driver and
+overlay planes on AMD. Userspace can query if a driver supports this with
+TEST_ONLY commits.
 
-* Delete labels and statements which became unnecessary
-  with this refactoring.
+Changes from v2:
+ - Allow IN_FENCE_ID for any driver
+ - Allow overlay planes again
+v2: https://lore.kernel.org/lkml/20240119181235.255060-1-andrealmeid@igalia.com/
 
-Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-=2D--
- drivers/gpu/drm/imagination/pvr_context.c | 21 +++------------------
- drivers/gpu/drm/imagination/pvr_job.c     | 15 +++------------
- 2 files changed, 6 insertions(+), 30 deletions(-)
+Changes from v1:
+ - Drop overlay planes option for now
+v1: https://lore.kernel.org/dri-devel/20240116045159.1015510-1-andrealmeid@igalia.com/
 
-diff --git a/drivers/gpu/drm/imagination/pvr_context.c b/drivers/gpu/drm/i=
-magination/pvr_context.c
-index eded5e955cc0..27814ae8a8f8 100644
-=2D-- a/drivers/gpu/drm/imagination/pvr_context.c
-+++ b/drivers/gpu/drm/imagination/pvr_context.c
-@@ -66,29 +66,14 @@ static int
- process_static_context_state(struct pvr_device *pvr_dev, const struct pvr=
-_stream_cmd_defs *cmd_defs,
- 			     u64 stream_user_ptr, u32 stream_size, void *dest)
- {
--	void *stream;
- 	int err;
-+	void *stream =3D memdup_user(u64_to_user_ptr(stream_user_ptr), stream_si=
-ze);
+André Almeida (3):
+  drm/atomic: Allow drivers to write their own plane check for async
+    flips
+  drm/atomic: Allow userspace to use explicit sync with atomic async
+    flips
+  drm/amdgpu: Implement check_async_props for planes
 
--	stream =3D kzalloc(stream_size, GFP_KERNEL);
--	if (!stream)
--		return -ENOMEM;
--
--	if (copy_from_user(stream, u64_to_user_ptr(stream_user_ptr), stream_size=
-)) {
--		err =3D -EFAULT;
--		goto err_free;
--	}
-+	if (IS_ERR(stream))
-+		return PTR_ERR(stream);
+ .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 29 +++++++++
+ drivers/gpu/drm/drm_atomic_uapi.c             | 63 ++++++++++++++-----
+ include/drm/drm_atomic_uapi.h                 | 12 ++++
+ include/drm/drm_plane.h                       |  5 ++
+ 4 files changed, 92 insertions(+), 17 deletions(-)
 
- 	err =3D pvr_stream_process(pvr_dev, cmd_defs, stream, stream_size, dest)=
-;
--	if (err)
--		goto err_free;
--
- 	kfree(stream);
--
--	return 0;
--
--err_free:
--	kfree(stream);
--
- 	return err;
- }
-
-diff --git a/drivers/gpu/drm/imagination/pvr_job.c b/drivers/gpu/drm/imagi=
-nation/pvr_job.c
-index 78c2f3c6dce0..e17d53b93b1f 100644
-=2D-- a/drivers/gpu/drm/imagination/pvr_job.c
-+++ b/drivers/gpu/drm/imagination/pvr_job.c
-@@ -87,23 +87,14 @@ static int pvr_fw_cmd_init(struct pvr_device *pvr_dev,=
- struct pvr_job *job,
- 			   const struct pvr_stream_cmd_defs *stream_def,
- 			   u64 stream_userptr, u32 stream_len)
- {
--	void *stream;
- 	int err;
-+	void *stream =3D memdup_user(u64_to_user_ptr(stream_userptr), stream_len=
-);
-
--	stream =3D kzalloc(stream_len, GFP_KERNEL);
--	if (!stream)
--		return -ENOMEM;
--
--	if (copy_from_user(stream, u64_to_user_ptr(stream_userptr), stream_len))=
- {
--		err =3D -EFAULT;
--		goto err_free_stream;
--	}
-+	if (IS_ERR(stream))
-+		return PTR_ERR(stream);
-
- 	err =3D pvr_job_process_stream(pvr_dev, stream_def, stream, stream_len, =
-job);
--
--err_free_stream:
- 	kfree(stream);
--
- 	return err;
- }
-
-=2D-
+-- 
 2.43.0
 
