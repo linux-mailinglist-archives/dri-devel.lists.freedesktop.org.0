@@ -2,46 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DB0583F7FE
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Jan 2024 17:46:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CB6F83F968
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Jan 2024 20:32:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C036E112746;
-	Sun, 28 Jan 2024 16:45:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 424FF10E4A4;
+	Sun, 28 Jan 2024 19:32:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 938E8112746
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jan 2024 16:45:55 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1rU8Fv-0002V2-20; Sun, 28 Jan 2024 17:43:39 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1rU8Ft-002z8T-Uv; Sun, 28 Jan 2024 17:43:37 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
- (envelope-from <ukl@pengutronix.de>) id 1rU8Ft-00AGqM-2m;
- Sun, 28 Jan 2024 17:43:37 +0100
-Date: Sun, 28 Jan 2024 17:43:37 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Sean Young <sean@mess.org>
-Subject: Re: [PATCH] backlight: mp3309c: Use pwm_apply_might_sleep()
-Message-ID: <apuuk7hi5233xi2ujou4ndovlkq5qr5rgbkoij2jsfi7rwxgbi@2nie6c53ru3z>
-References: <20240128154905.407302-1-sean@mess.org>
+Received: from eu-smtp-delivery-151.mimecast.com
+ (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C27710E4A4
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Jan 2024 19:32:01 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-155-TMmSv8-RPQmEDi-VJtAU0w-1; Sun, 28 Jan 2024 19:24:28 +0000
+X-MC-Unique: TMmSv8-RPQmEDi-VJtAU0w-1
+Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
+ (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Sun, 28 Jan
+ 2024 19:24:03 +0000
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Sun, 28 Jan 2024 19:24:03 +0000
+From: David Laight <David.Laight@ACULAB.COM>
+To: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "'Linus
+ Torvalds'" <torvalds@linux-foundation.org>, Netdev <netdev@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: [PATCH next 00/11] minmax: Optimise to reduce .i line length.
+Thread-Topic: [PATCH next 00/11] minmax: Optimise to reduce .i line length.
+Thread-Index: AdpSH3AbqTsF4YRmSE2KNmeAVHpUdw==
+Date: Sun, 28 Jan 2024 19:24:03 +0000
+Message-ID: <0ca26166dd2a4ff5a674b84704ff1517@AcuMS.aculab.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="kvi2qh5kgw6q2equ"
-Content-Disposition: inline
-In-Reply-To: <20240128154905.407302-1-sean@mess.org>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,56 +55,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- Lee Jones <lee@kernel.org>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Flavio Suligoi <f.suligoi@asem.it>
+Cc: 'Jens Axboe' <axboe@kernel.dk>,
+ "'Matthew Wilcox \(Oracle\)'" <willy@infradead.org>,
+ 'Christoph Hellwig' <hch@infradead.org>,
+ "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
+ 'Andrew Morton' <akpm@linux-foundation.org>,
+ 'Andy Shevchenko' <andriy.shevchenko@linux.intel.com>,
+ "David S . Miller" <davem@davemloft.net>, 'Dan
+ Carpenter' <dan.carpenter@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The changes to minmax.h that changed the type check to a signedness
+check significantly increased the length of the expansion.
+In some cases it has also significantly increased compile type.
+This is particularly noticeable for nested expansions.
 
---kvi2qh5kgw6q2equ
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The fact that _Static_assert() only requires a compile time constant
+not a constant expression allows a lot of simplification.
 
-Hello Sean,
+The other thing that complicates the expansion is the necessity of
+returning a constant expression from constant arguments (for VLA).
+I can only find a handful of places this is done.
+Penalising most of the code for these few cases seems 'suboptimal'.
+Instead I've added min_const() and max_const() for VLA and static
+initialisers, these check the arguments are constant to avoid misuse.
 
-On Sun, Jan 28, 2024 at 03:49:04PM +0000, Sean Young wrote:
-> pwm_apply_state() is deprecated since commit c748a6d77c06a ("pwm: Rename
-> pwm_apply_state() to pwm_apply_might_sleep()"). This is the final user
-> in the tree.
->=20
-> Signed-off-by: Sean Young <sean@mess.org>
+Patch [9] is dependent on the earlier patches.
+Patch [10] isn't dependant on them.
+Patch [11] depends on both 9 and 10.
 
-The "problem" here is that the mp3309c driver didn't exist yet in commit
-c748a6d77c06a, so it relies on the pwm_apply_state compatibility stub.
+David Laight (11):
+  [1] minmax: Put all the clamp() definitions together
+  [2] minmax: Use _Static_assert() instead of static_assert()
+  [3] minmax: Simplify signedness check
+  [4] minmax: Replace multiple __UNIQUE_ID() by directly using __COUNTER__
+  [5] minmax: Move the signedness check out of __cmp_once() and
+    __clamp_once()
+  [6] minmax: Remove 'constexpr' check from __careful_clamp()
+  [7] minmax: minmax: Add __types_ok3() and optimise defines with 3
+    arguments
+  [8] minmax: Add min_const() and max_const()
+  [9] tree-wide: minmax: Replace all the uses of max() for array sizes with
+    max_const().
+  [10] block: Use a boolean expression instead of max() on booleans
+  [11] minmax: min() and max() don't need to return constant expressions
 
-I would mention that in the commit log.
-
-Otherwise the change looks fine.
-
-thanks for catching and addressing this issue
-Uwe
+ block/blk-settings.c                          |   2 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c        |   2 +-
+ drivers/gpu/drm/drm_color_mgmt.c              |   4 +-
+ drivers/input/touchscreen/cyttsp4_core.c      |   2 +-
+ .../net/can/usb/etas_es58x/es58x_devlink.c    |   2 +-
+ fs/btrfs/tree-checker.c                       |   2 +-
+ include/linux/minmax.h                        | 211 ++++++++++--------
+ lib/vsprintf.c                                |   4 +-
+ net/ipv4/proc.c                               |   2 +-
+ net/ipv6/proc.c                               |   2 +-
+ 10 files changed, 127 insertions(+), 106 deletions(-)
 
 --=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+2.17.1
 
---kvi2qh5kgw6q2equ
-Content-Type: application/pgp-signature; name="signature.asc"
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
+PT, UK
+Registration No: 1397386 (Wales)
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmW2hDMACgkQj4D7WH0S
-/k769AgAuhICKH8tjWxmVW/U6B4fj9zEKtlPa3ebg5wrtKvlXBuwKhif676Epb1q
-OCvuQNg5wsJ5MSngBPzpoGK+AL9Ew4oRzlNl+AUCpJUw/6IlhZXw/Ga0TLCdVuig
-a6kz+rAq4/NDOck8BAhOqBjoo6xM4/4GDQaV3E39lJPQfZrtXWpJ407w6HvXor//
-x9+7x7oIL3bLkBboHzkRFChlRvqsj6HIYLI9RNpBlJiu2MymHIOgN0SyyFILIA4Y
-fv2DNlEZjceu6ubg+JdHd9nUFUDftD+bt979N6q8BXv9oz1nq/qTIpELI/f2UotK
-NogEFu3nSIG56vcJAJZIimQ9qxbYtw==
-=nndy
------END PGP SIGNATURE-----
-
---kvi2qh5kgw6q2equ--
