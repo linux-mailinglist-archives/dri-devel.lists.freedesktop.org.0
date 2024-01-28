@@ -2,74 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BCB183F9A5
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Jan 2024 21:01:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AFD283F9AC
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Jan 2024 21:06:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48A5510EB0D;
-	Sun, 28 Jan 2024 20:00:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6277310E51F;
+	Sun, 28 Jan 2024 20:06:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC34510EB0D
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jan 2024 20:00:48 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id
- 2adb3069b0e04-510f37d673aso819722e87.0
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jan 2024 12:00:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google; t=1706471987; x=1707076787;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Jvgl07qLmO97AnDOonOYaDY55AuzJRLfRUuCExUHbJw=;
- b=PFtw0sJ28kZn/HO52a9Eg8mzjnTypO+qHEo7+JMjlNK8KRJcV3moV8dnfRxDyxHGm6
- W3Mcgt1UU4H+jg/PNpVV9X7K1xN7t7Iagh+gDOiERTn7sNPJ+ogxTKQw3+MQt9kle3xD
- mxrhWjLDgfcfTC/McEipOclT5hB6VS2cXw4w0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706471987; x=1707076787;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Jvgl07qLmO97AnDOonOYaDY55AuzJRLfRUuCExUHbJw=;
- b=d3e/EJ5gzxrpkQAeSjFgIK8MHNlKE0K6qNfnntL8MU0dWDau8QrZZt41LaV/Xf38kr
- JqyfqG/PeQbTOnEEgSYjiKQOpMnvy90ZBPngEWCVQLegyyo526BEjD/ibJKND79QmQXW
- hQAdfTBJKNo1RsFZg6wHfP9RC2n2qPMW6J+m/eIXPlhcmp+u/XwZX5+bxPxXSiLfo1GL
- S7mfS+bnA8CQ/xHpc3oHM+PheJ91dsC2FklAlK2u1ptMM8MMNwi6E+SItdUUplBRJxka
- 40g0gmJwaSfCwnmZcHYpo8sClpcH8qQ4PJMWXpIqi6+z/x5iUiVkX3bbkvWPDWnJnbeC
- EmDQ==
-X-Gm-Message-State: AOJu0YzK+zTSuiPAwMXii1799GK/Fdcy57H232+YRdZD8XUouifuF+7s
- ZlkR0fdN8OoFnZugy+YfvpeDO0AIbteNqqRDTZSUCNsLI8ffN5+eU8ea9zUIgDdCzTXjhwvuicz
- ko/Q=
-X-Google-Smtp-Source: AGHT+IH0Romt575tc+if2/sl0M+HsFWtHC1wabwPMkvX/GcQFEWUHuFA3PU1bzo0zvK27FGMrpMAHg==
-X-Received: by 2002:a19:e05a:0:b0:50e:7c08:1a55 with SMTP id
- g26-20020a19e05a000000b0050e7c081a55mr3108909lfj.18.1706471986780; 
- Sun, 28 Jan 2024 11:59:46 -0800 (PST)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com.
- [209.85.208.174]) by smtp.gmail.com with ESMTPSA id
- t25-20020ac24c19000000b005101ae8cea9sm886973lfq.255.2024.01.28.11.59.46
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 28 Jan 2024 11:59:46 -0800 (PST)
-Received: by mail-lj1-f174.google.com with SMTP id
- 38308e7fff4ca-2cf1fd1cc5bso23368171fa.3
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jan 2024 11:59:46 -0800 (PST)
-X-Received: by 2002:a2e:994e:0:b0:2cf:1a11:ea87 with SMTP id
- r14-20020a2e994e000000b002cf1a11ea87mr3234050ljj.39.1706471985664; Sun, 28
- Jan 2024 11:59:45 -0800 (PST)
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D8DE10E51F
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Jan 2024 20:06:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
+ t=1706472371; x=1707077171; i=markus.elfring@web.de;
+ bh=NgaXvXQoHsjxe/EA1Ybr+FQWYg9KhJGN4jFPViGSQxU=;
+ h=X-UI-Sender-Class:Date:To:Cc:From:Subject;
+ b=vz/Q/L43/Tc6KJxGJGbdWl8qyaIutUMg/3lI5CrC9uehl8vYhCoWHl0V/D9yvoJI
+ 9pnI3QKHgIpLt6YTQiJS5KDX2ppq2CPESw5rhpSUOM3LQPnDBsjGiDPvAf38LM6UO
+ RCor65Dgnvj6JeXS+4FPGFwsAQ6k731rdCL4xY3HcKkn9ex0OOQinNGSPmH8QghM+
+ uEKcoztXp7QTOdZD9PL8QO3qDlM8Yl1298+PA3/mtgNchVmagKlaSeoF8Jjp/9zJi
+ 3muccUJZ+xxaatwaZEsDn3VjVNee/MItKlklBV4MsyoyuDUqMuPnc5OXsGirN6w0O
+ rgvhTPAh4NsYSWt9jg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.81.95]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1Myf3v-1r9U8U2P6L-00yX9a; Sun, 28
+ Jan 2024 21:06:11 +0100
+Message-ID: <c07221ed-8eaf-490e-9672-033b1cfe7b6e@web.de>
+Date: Sun, 28 Jan 2024 21:06:05 +0100
 MIME-Version: 1.0
-References: <0ca26166dd2a4ff5a674b84704ff1517@AcuMS.aculab.com>
- <b564df3f987e4371a445840df1f70561@AcuMS.aculab.com>
-In-Reply-To: <b564df3f987e4371a445840df1f70561@AcuMS.aculab.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Sun, 28 Jan 2024 11:59:29 -0800
-X-Gmail-Original-Message-ID: <CAHk-=whxYjLFhjov39N67ePb3qmCmxrhbVXEtydeadfao53P+A@mail.gmail.com>
-Message-ID: <CAHk-=whxYjLFhjov39N67ePb3qmCmxrhbVXEtydeadfao53P+A@mail.gmail.com>
-Subject: Re: [PATCH next 10/11] block: Use a boolean expression instead of
- max() on booleans
-To: David Laight <David.Laight@aculab.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+To: dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Donald Robson <donald.robson@imgtec.com>,
+ Frank Binns <frank.binns@imgtec.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Matt Coster <matt.coster@imgtec.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+Subject: [PATCH] drm/imagination: Use memdup_user() rather than duplicating
+ its implementation
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:koqS3eLltv+QIPN2RCW3+Is0PGswqbQ+2Rizm/ODddQBc60oNWw
+ zsO7XtPEFBC/fYJPfyzbKTyXby9HwP2MYakOHwpAhdyTV+R+mxOhB7f2s1JV+tNvwmhwqpk
+ /rC2b440t+5NuTYmzEOJVbrLTJXE6hgFBAxN9bAYLcyU2uuilqZ+453fERFTSqIirVuqLqe
+ Ojh24tWpBrPas8DOKi8BQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:06n3TwzjoMw=;WhAmErG28I8KWN9Gnz8yyeHqEEh
+ +AIQfj6wNSVkJKDyoFhoYA+2h+Mz8gNpke7q0+aS3I8Ub5Uev/yTyTXj3+vE01BbvtSbMG8+p
+ 2m22BKjoTrmOzp96SzciIJS/4PbRbcGeuFf27QQmeJp5qVoySyUigpiVqQ/08tB7uElJ8sSj3
+ FZEZkftcJXsmwzOoCCmHwvPHt74grQC5+rAw8vqeq9o9Hsl7N7HORizLgqpRIgOmPJ8sSIl9p
+ EU1Huagt9m8rw6h1qsOhMDCWHzuwlS9Vtb7mj9sDCbTwJihK5xBd0VNHt2Nv/VrB8SzzaGSQy
+ aLMJiOPhZsJeRWVLfXAZToGIVlhhV444JTlZhjlSwzRrKHpca82O/VVKZAjyAgWu7er2d6vJK
+ mpr6fRRy1zyaltc9bodZlRiIZVD7Wt5M4qb+b+DrN7FvTjtIVm74dvLaUl3BlhPwRf9bS8Rjy
+ aujj7LpfASJhWqpe77q3TrkSo7YHNdJxu62cJ/LTt0Hn7wQaSBKKPs4nm4OOxLxueiakmZfo/
+ Hk8K0/FSsacskAms6/Uok9Bq4a5vp/hTljqydjDelXpPUs/WtuwCX/MIVo111H7tTo1cNRiRQ
+ bTjpF6y4ma4vzpKTqE/LEvPF64S9eJr1vY774HtkID4cUIKwmo6JrhP6Q0DMCmdQNTtgCup0n
+ hwZLtUjBs44Iq0j/0iaTiq15YTB8FM06r8tlaJ35/a4YglCiV01/+ZJgXeC0rHX3+vJJyiDZF
+ 0hW7Fv4NhkqQQEA/8V4yC6ENm37+/yrrtzsb7lAHA0GPRKAJcZOKCVBHuY0laqf2eKXxs0UmW
+ GjWVYMPWvafsysOD3LD+KfKPlKmVCiR/U+NCIOYM85gwdBj7BX7ZsWQriVVRwtVfWZgzdr6gA
+ YWfmTBp5ZP49ielVhdZLsLvW7xG1lFjb0cu531ZMaNsXd7Ui1d3pQUukRE4/kQrQ4Mf81XMiY
+ iwblTQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,28 +75,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jens Axboe <axboe@kernel.dk>, Netdev <netdev@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "Matthew Wilcox \(Oracle\)" <willy@infradead.org>,
- Christoph Hellwig <hch@infradead.org>,
- "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- "David S . Miller" <davem@davemloft.net>,
- Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Sarah Walker <sarah.walker@imgtec.com>, LKML <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 28 Jan 2024 at 11:36, David Laight <David.Laight@aculab.com> wrote:
->
-> However it generates:
-> error: comparison of constant =C3=A2=E2=82=AC=CB=9C0=C3=A2=E2=82=AC=E2=84=
-=A2 with boolean expression is always true [-Werror=3Dbool-compare]
-> inside the signedness check that max() does unless a '+ 0' is added.
+From: Markus Elfring <elfring@users.sourceforge.net>
+Date: Sun, 28 Jan 2024 20:50:36 +0100
 
-Please fix your locale. You have random garbage characters there,
-presumably because you have some incorrect locale setting somewhere in
-your toolchain.
+* Reuse existing functionality from memdup_user() instead of keeping
+  duplicate source code.
 
-           Linus
+  Generated by: scripts/coccinelle/api/memdup_user.cocci
+
+* Delete labels and statements which became unnecessary
+  with this refactoring.
+
+Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+=2D--
+ drivers/gpu/drm/imagination/pvr_context.c | 21 +++------------------
+ drivers/gpu/drm/imagination/pvr_job.c     | 15 +++------------
+ 2 files changed, 6 insertions(+), 30 deletions(-)
+
+diff --git a/drivers/gpu/drm/imagination/pvr_context.c b/drivers/gpu/drm/i=
+magination/pvr_context.c
+index eded5e955cc0..27814ae8a8f8 100644
+=2D-- a/drivers/gpu/drm/imagination/pvr_context.c
++++ b/drivers/gpu/drm/imagination/pvr_context.c
+@@ -66,29 +66,14 @@ static int
+ process_static_context_state(struct pvr_device *pvr_dev, const struct pvr=
+_stream_cmd_defs *cmd_defs,
+ 			     u64 stream_user_ptr, u32 stream_size, void *dest)
+ {
+-	void *stream;
+ 	int err;
++	void *stream =3D memdup_user(u64_to_user_ptr(stream_user_ptr), stream_si=
+ze);
+
+-	stream =3D kzalloc(stream_size, GFP_KERNEL);
+-	if (!stream)
+-		return -ENOMEM;
+-
+-	if (copy_from_user(stream, u64_to_user_ptr(stream_user_ptr), stream_size=
+)) {
+-		err =3D -EFAULT;
+-		goto err_free;
+-	}
++	if (IS_ERR(stream))
++		return PTR_ERR(stream);
+
+ 	err =3D pvr_stream_process(pvr_dev, cmd_defs, stream, stream_size, dest)=
+;
+-	if (err)
+-		goto err_free;
+-
+ 	kfree(stream);
+-
+-	return 0;
+-
+-err_free:
+-	kfree(stream);
+-
+ 	return err;
+ }
+
+diff --git a/drivers/gpu/drm/imagination/pvr_job.c b/drivers/gpu/drm/imagi=
+nation/pvr_job.c
+index 78c2f3c6dce0..e17d53b93b1f 100644
+=2D-- a/drivers/gpu/drm/imagination/pvr_job.c
++++ b/drivers/gpu/drm/imagination/pvr_job.c
+@@ -87,23 +87,14 @@ static int pvr_fw_cmd_init(struct pvr_device *pvr_dev,=
+ struct pvr_job *job,
+ 			   const struct pvr_stream_cmd_defs *stream_def,
+ 			   u64 stream_userptr, u32 stream_len)
+ {
+-	void *stream;
+ 	int err;
++	void *stream =3D memdup_user(u64_to_user_ptr(stream_userptr), stream_len=
+);
+
+-	stream =3D kzalloc(stream_len, GFP_KERNEL);
+-	if (!stream)
+-		return -ENOMEM;
+-
+-	if (copy_from_user(stream, u64_to_user_ptr(stream_userptr), stream_len))=
+ {
+-		err =3D -EFAULT;
+-		goto err_free_stream;
+-	}
++	if (IS_ERR(stream))
++		return PTR_ERR(stream);
+
+ 	err =3D pvr_job_process_stream(pvr_dev, stream_def, stream, stream_len, =
+job);
+-
+-err_free_stream:
+ 	kfree(stream);
+-
+ 	return err;
+ }
+
+=2D-
+2.43.0
+
