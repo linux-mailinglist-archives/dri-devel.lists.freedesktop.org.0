@@ -2,42 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F09F083F68D
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Jan 2024 17:14:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D335A83F68F
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Jan 2024 17:14:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A8481126EE;
-	Sun, 28 Jan 2024 16:14:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19E501126F1;
+	Sun, 28 Jan 2024 16:14:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B41A1126F5;
- Sun, 28 Jan 2024 16:14:30 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55A9F1126EF;
+ Sun, 28 Jan 2024 16:14:04 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id AFABF6195C;
- Sun, 28 Jan 2024 16:13:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE7EBC433F1;
- Sun, 28 Jan 2024 16:13:57 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 99DCECE0C6B;
+ Sun, 28 Jan 2024 16:14:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86D5AC43390;
+ Sun, 28 Jan 2024 16:14:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1706458439;
- bh=azj0o16XNmiPoWegTfpJ3DfekAM5KM8ILmUwFJKxRGE=;
+ s=k20201202; t=1706458441;
+ bh=//GeY34yk8RDTyVL3z8PggsoJVR+7RJuYVHF4BbXmUk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Jb/kzU7BYafSVjcFWnn673KnlxOJZYL9f2PYZ50zux7IDbNcraqPNBa7qx9u2eurA
- zR/+WTSwBQ4e0laV3MQfcUSrqkmhGs6NXB8XViTIh9YP8sfi5NmjepIiK0VN4P/xK5
- ua3raibRDmV4PfLXrLVYyElyIgo7Nk5vsXaqzLxXtatd0/Zaeib+uvATpitflDcoQU
- clrlRUOhyQZJBYTH+YFRd7EhACGUxekePbwRFfyMvK5XGEROdHXHJzcL5yexDZVND2
- lNzI+3MqGAWRE1bJIrIz5MkYqUqWaeDe+yDkDH0skN9SYQE/icqpxirAtPlPMPgPvd
- gpcDpJLSBEeOw==
+ b=vJN88zEWZKNIstzagEKQvSaL7gH1/NWwAUkOq9qHhn5D3N9SmSZm84pmHtXXdL5rR
+ fj+EdsXJx5FOUwRMVpRbILQdgs4SGL9r0f5DmIPPB1YwzHwapaottnxS9VuNpMpZlq
+ kfwauByCDpZpcplMM7slu/xjWFeFhrVF3SzQsXjFQFXGJiriC8OS/2irGjVlfN6Enj
+ eBpAOmvmB9+bqc+kb9zbnrTvkMdXcuKMR8LZ9WVIu6q09jKabtogE+okwVncf8YTyX
+ hrJlrVEcbcEzefjUwH3i6W7zTDt2QvPVuBU0vEn7g4VwpE77rxqIkd6U9r7TfR40T+
+ imvaA9tkuJQYg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 26/31] drm/amdgpu: fix avg vs input power
- reporting on smu7
-Date: Sun, 28 Jan 2024 11:12:56 -0500
-Message-ID: <20240128161315.201999-26-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 27/31] drm/amd/powerplay: Fix kzalloc parameter
+ 'ATOM_Tonga_PPM_Table' in 'get_platform_power_management_table()'
+Date: Sun, 28 Jan 2024 11:12:57 -0500
+Message-ID: <20240128161315.201999-27-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240128161315.201999-1-sashal@kernel.org>
 References: <20240128161315.201999-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.14
@@ -54,64 +55,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, lijo.lazar@amd.com, sunran001@208suo.com,
- Yang Wang <kevinyang.wang@amd.com>, ruanjinjie@huawei.com, Xinhui.Pan@amd.com,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- alexious@zju.edu.cn, mario.limonciello@amd.com, daniel@ffwll.ch,
- Alex Deucher <alexander.deucher@amd.com>, evan.quan@amd.com, airlied@gmail.com,
- christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>, Xinhui.Pan@amd.com,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ dri-devel@lists.freedesktop.org, daniel@ffwll.ch,
+ Eric Huang <JinHuiEric.Huang@amd.com>, evan.quan@amd.com, airlied@gmail.com,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alex Deucher <alexander.deucher@amd.com>
+From: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
 
-[ Upstream commit 25852d4b97572ff62ffee574cb8bb4bc551af23a ]
+[ Upstream commit 6616b5e1999146b1304abe78232af810080c67e3 ]
 
-Hawaii, Bonaire, Fiji, and Tonga support average power, the others
-support current power.
+In 'struct phm_ppm_table *ptr' allocation using kzalloc, an incorrect
+structure type is passed to sizeof() in kzalloc, larger structure types
+were used, thus using correct type 'struct phm_ppm_table' fixes the
+below:
 
-Reviewed-by: Yang Wang <kevinyang.wang@amd.com>
+drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/process_pptables_v1_0.c:203 get_platform_power_management_table() warn: struct type mismatch 'phm_ppm_table vs _ATOM_Tonga_PPM_Table'
+
+Cc: Eric Huang <JinHuiEric.Huang@amd.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/pm/powerplay/hwmgr/process_pptables_v1_0.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c
-index 11372fcc59c8..a2c7b2e111fa 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c
-+++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c
-@@ -3995,6 +3995,7 @@ static int smu7_read_sensor(struct pp_hwmgr *hwmgr, int idx,
- 	uint32_t sclk, mclk, activity_percent;
- 	uint32_t offset, val_vid;
- 	struct smu7_hwmgr *data = (struct smu7_hwmgr *)(hwmgr->backend);
-+	struct amdgpu_device *adev = hwmgr->adev;
+diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/process_pptables_v1_0.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/process_pptables_v1_0.c
+index f2a55c1413f5..17882f8dfdd3 100644
+--- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/process_pptables_v1_0.c
++++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/process_pptables_v1_0.c
+@@ -200,7 +200,7 @@ static int get_platform_power_management_table(
+ 		struct pp_hwmgr *hwmgr,
+ 		ATOM_Tonga_PPM_Table *atom_ppm_table)
+ {
+-	struct phm_ppm_table *ptr = kzalloc(sizeof(ATOM_Tonga_PPM_Table), GFP_KERNEL);
++	struct phm_ppm_table *ptr = kzalloc(sizeof(*ptr), GFP_KERNEL);
+ 	struct phm_ppt_v1_information *pp_table_information =
+ 		(struct phm_ppt_v1_information *)(hwmgr->pptable);
  
- 	/* size must be at least 4 bytes for all sensors */
- 	if (*size < 4)
-@@ -4038,7 +4039,21 @@ static int smu7_read_sensor(struct pp_hwmgr *hwmgr, int idx,
- 		*size = 4;
- 		return 0;
- 	case AMDGPU_PP_SENSOR_GPU_INPUT_POWER:
--		return smu7_get_gpu_power(hwmgr, (uint32_t *)value);
-+		if ((adev->asic_type != CHIP_HAWAII) &&
-+		    (adev->asic_type != CHIP_BONAIRE) &&
-+		    (adev->asic_type != CHIP_FIJI) &&
-+		    (adev->asic_type != CHIP_TONGA))
-+			return smu7_get_gpu_power(hwmgr, (uint32_t *)value);
-+		else
-+			return -EOPNOTSUPP;
-+	case AMDGPU_PP_SENSOR_GPU_AVG_POWER:
-+		if ((adev->asic_type != CHIP_HAWAII) &&
-+		    (adev->asic_type != CHIP_BONAIRE) &&
-+		    (adev->asic_type != CHIP_FIJI) &&
-+		    (adev->asic_type != CHIP_TONGA))
-+			return -EOPNOTSUPP;
-+		else
-+			return smu7_get_gpu_power(hwmgr, (uint32_t *)value);
- 	case AMDGPU_PP_SENSOR_VDDGFX:
- 		if ((data->vr_config & VRCONF_VDDGFX_MASK) ==
- 		    (VR_SVI2_PLANE_2 << VRCONF_VDDGFX_SHIFT))
 -- 
 2.43.0
 
