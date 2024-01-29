@@ -2,69 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3FDE8403DB
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 12:30:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0AF78403E9
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 12:36:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B508110F6FE;
-	Mon, 29 Jan 2024 11:30:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D7B210E0BA;
+	Mon, 29 Jan 2024 11:36:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1E4A10F6FE
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jan 2024 11:30:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A212112839
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jan 2024 11:36:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1706527811;
+ s=mimecast20190719; t=1706528167;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=oAQHhgY3bhk3lCCm6pW4wBVOcijj8B+AfYWYuBRpPy8=;
- b=ddI5tWUz716QNPEVQHWG8fUi/vn5Jg08byfzbU78GyyUGD1AwVN0mNPXRgqJYee0sK68WJ
- wKquw3jBcccgOC8hZtJHd6bzvqZBna780+JxkL+8bCIxl1vzHhobUD36lql6F79J5fEBoo
- EWHEHYX7Oxg5KWvERv94CpvBSwLA+Dg=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=VSwAcK58hM0Z/l1Z5EfYbk6XVvLfJDSNPQjLmOSbPZ4=;
+ b=ioHKdtuPg91pyNlo7GuoifUXNFVOPsLWeAI2dPy9OAAuhFqJJT0O9rnyzId9tkhscQ/+PC
+ 5S5eitSpI9Az1EJ/uaCbHRrY9h+q+7skATdTD835VR51jJ0Ato3an1lef+kYMEdIRKQm1E
+ ODlGYRX+dVdPYM8gPcCPLjKqmn7yaJk=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-528-yS2hbXECNqqo_794QoJZow-1; Mon, 29 Jan 2024 06:30:09 -0500
-X-MC-Unique: yS2hbXECNqqo_794QoJZow-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-33af3a64df6so214524f8f.1
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jan 2024 03:30:09 -0800 (PST)
+ us-mta-164-dF8V4B6cNbWr1Iy9AIOz4g-1; Mon, 29 Jan 2024 06:36:05 -0500
+X-MC-Unique: dF8V4B6cNbWr1Iy9AIOz4g-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ a640c23a62f3a-a2bc664528fso146274966b.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jan 2024 03:36:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706527808; x=1707132608;
+ d=1e100.net; s=20230601; t=1706528164; x=1707132964;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oAQHhgY3bhk3lCCm6pW4wBVOcijj8B+AfYWYuBRpPy8=;
- b=SxLUX34xs5yyNxAqZnUPF6I3P6jh0cic/DkaiBNroesNv6RU+3vfFaXpXy5nZFnw7f
- kbgW/Tpg/jBV5OiTMTgsJtp0ZS046ze8zGb1TTSxQQYxHrG7mQE/FYxZDCzhGiGVjUQK
- Nrn77b7fvhajMV45myezxWmoCmGvZ0IvQJTZn4KExmsJP9BLqPAZUFxZxQ38MzE8RsSq
- 1FLNlzPdPIE1hU3bzru0tRP2eHIabRF3K0pFzT6o1ZfhJ6y7Qid111kH/HwqNHXZxNO6
- b+F9UKwrpNMN0Pa8kuTOcwAZL4K3gOuB8zAfY4ifz+FMaz6o8q4qNLwe+j3aoaJt5H1i
- by3Q==
-X-Gm-Message-State: AOJu0Yype8KB+myMN1gTG/oIeE+mZ5sFd3VA1BBpzJ9j+o1QQIgpzYvC
- 5dHrYkdl5nAL6kmH7OY0qKvEKYePSmCSekC9o6MEpdQKed1Koz+4nJ5oUs1YBTBW+zcE9Kgb3Ma
- QKY9rZ3UGPeR9s9JxwZu/hn3EK1gIe3lVI8kwwGzkD8yGuWcL/JSTbPVdGhl9b/4evw==
-X-Received: by 2002:adf:e40b:0:b0:338:8892:fbdd with SMTP id
- g11-20020adfe40b000000b003388892fbddmr5290361wrm.4.1706527808695; 
- Mon, 29 Jan 2024 03:30:08 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGQbw5w4a/4TyAcBBeYk/Pe3VyTIMvNtN6tYlEqip81Ik/6OpW6GBciAT0rhHoSWh//+3YkiA==
-X-Received: by 2002:adf:e40b:0:b0:338:8892:fbdd with SMTP id
- g11-20020adfe40b000000b003388892fbddmr5290338wrm.4.1706527808366; 
- Mon, 29 Jan 2024 03:30:08 -0800 (PST)
+ bh=VSwAcK58hM0Z/l1Z5EfYbk6XVvLfJDSNPQjLmOSbPZ4=;
+ b=HVV0bFAiATf/I69/g6JGXi8T32/cGwA9ZdeLVMdSshyA3sNHG7PJlKr5CT38Ua5Dj0
+ kBVzgRUy7iGcrXsC1rYnIERwCubo3Uigcu5LBu5anHYQ0sJrHD2zyVpaSY7QjoV1IthZ
+ kxhF35HzRwP/u16UWEWIYWUbMJmqhS3gsVYGTrGiAHejaRVt0qS0RTJb5mhnkFvoCCuL
+ uxeQp6y3XUU2Jo84eMYABxIaTgsic4xY9Jz4YyKqJesxISezT5dDP4xiVdqGsqCqwqPT
+ J8/ndoU6iJ+jJ8LYfGhLWVbIuff8Vgj5AoeDzaNjCxtO2UEHgocYz9tda9vPoeBVJLp/
+ JDVA==
+X-Gm-Message-State: AOJu0YwFMKs+m3LVdleb5IRji57nydOidIInGNVhkun6VG8x1n3i5ivp
+ /b9EXmgGNPCimZXDD0f7xo88JYrAPJ+vYzps8E/FKgS7Om0d/M7pQy/0kTZd14rim53ew7xQOPa
+ Z/MhurPNSrV8EBXi4oOsuCVPNjOh+a/tOUvhOLiZwpq+VCkjMzAgk2XzsaFbzNYoAtw==
+X-Received: by 2002:a17:906:3444:b0:a2f:46c7:4658 with SMTP id
+ d4-20020a170906344400b00a2f46c74658mr4552864ejb.28.1706528164636; 
+ Mon, 29 Jan 2024 03:36:04 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFIZpOXEoPwROBF4E9qtZt60pik+8hvS2CQTLnSEDgdwAO5aGeS4xjRq4TaN6UUtSXwOCC1SQ==
+X-Received: by 2002:a17:906:3444:b0:a2f:46c7:4658 with SMTP id
+ d4-20020a170906344400b00a2f46c74658mr4552847ejb.28.1706528164306; 
+ Mon, 29 Jan 2024 03:36:04 -0800 (PST)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- h15-20020a05600016cf00b0033aedfc5581sm2291652wrf.32.2024.01.29.03.30.08
+ eg13-20020a056402288d00b0055f02e1e83csm836471edb.21.2024.01.29.03.36.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Jan 2024 03:30:08 -0800 (PST)
+ Mon, 29 Jan 2024 03:36:04 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, pjones@redhat.com,
  deller@gmx.de, ardb@kernel.org
-Subject: Re: [PATCH 4/8] fbdev/efifb: Remove PM for parent device
-In-Reply-To: <20240117125527.23324-5-tzimmermann@suse.de>
+Subject: Re: [PATCH 5/8] firmware/sysfb: Create firmware device only for
+ enabled PCI devices
+In-Reply-To: <20240117125527.23324-6-tzimmermann@suse.de>
 References: <20240117125527.23324-1-tzimmermann@suse.de>
- <20240117125527.23324-5-tzimmermann@suse.de>
-Date: Mon, 29 Jan 2024 12:30:05 +0100
-Message-ID: <87o7d4v0le.fsf@minerva.mail-host-address-is-not-set>
+ <20240117125527.23324-6-tzimmermann@suse.de>
+Date: Mon, 29 Jan 2024 12:36:03 +0100
+Message-ID: <87le88v0bg.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -88,12 +89,41 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> The EFI device has the correct parent device set. This allows Linux
-> to handle the power management internally. Hence, remove the manual
-> PM management for the parent device from efifb.
+> Test if the firmware framebuffer's parent PCI device, if any, has
+> been enabled. If not, the firmware framebuffer is most likely not
+> working. Hence, do not create a device for the firmware framebuffer
+> on disabled PCI devices.
+>
+> So far, efifb tracked the status of the PCI parent device internally
+> and did not bind if it was disabled. This patch implements the
+> functionality for all firmware framebuffers.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
+
+[...]
+
+>  
+> +static __init bool sysfb_pci_dev_is_enabled(struct pci_dev *pdev)
+> +{
+> +#if defined(CONFIG_PCI)
+> +	/*
+> +	 * TODO: Try to integrate this code into the PCI subsystem
+> +	 */
+> +	int ret;
+> +	u16 command;
+> +
+> +	ret = pci_read_config_word(pdev, PCI_COMMAND, &command);
+> +	if (ret != PCIBIOS_SUCCESSFUL)
+> +		return false;
+> +	if (!(command & PCI_COMMAND_MEMORY))
+> +		return false;
+> +	return true;
+> +#else
+> +	// Getting here without PCI support is probably a bug.
+> +	return false;
+
+Should we warn before return in this case ?
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
