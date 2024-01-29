@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D15083FE77
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 07:32:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADBB783FE70
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 07:32:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75EF81124D3;
-	Mon, 29 Jan 2024 06:31:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9352B10FDE6;
+	Mon, 29 Jan 2024 06:31:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C4801124BD
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jan 2024 06:31:02 +0000 (UTC)
-X-UUID: f4c40d7abe6f11eea2298b7352fd921d-20240129
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68D871124CA
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jan 2024 06:31:03 +0000 (UTC)
+X-UUID: f555ba54be6f11eea2298b7352fd921d-20240129
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=qwM6JgCEYya6p3UBStFyf78I7pEgy/IRsIjn5bFayA8=; 
- b=LcN/nM0FmxRKJqWNMGrPyW7AbjOtLomOmrULzGbemFGiPoo8XuPee4qyIMKY3j4ESc0q5oORJvor0BinlOp/3kktbBdKODgw0uTx657rE3QvoPp2uTWT4AExlr/r0+wTI4WxIcFoW9adReqOKqJ7Upkk4jYepRvnX5ewKo2dsHs=;
+ bh=51VI1JkKQncCrOrUDLV94zJpq+Ll7EawPvLUuMJPvV4=; 
+ b=pKDBtsTpLu8enx7QlG+wDlwtB+pvA8hI5G1//CTtSubNqf/lUYhd9Qg0jY2Rs6nNLIS0Jrkw/Um7gy/JKGPsOK3otCTiOj2nUHg1y7jp9DsYRS8qGJFJrgAilXPqziZHwfFZTy6fMJEOiWkv8qEXt1oZZsNM4EEonKWp42A6Tys=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.36, REQID:4b51447d-91a9-4fa1-97df-7cfe45bdc986, IP:0,
+X-CID-O-INFO: VERSION:1.1.36, REQID:bfaaba1b-68da-4f38-a778-8ad8686754ff, IP:0,
  U
- RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:-5
-X-CID-META: VersionHash:6e16cf4, CLOUDID:68b6c38e-e2c0-40b0-a8fe-7c7e47299109,
+ RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+ N:release,TS:-25
+X-CID-META: VersionHash:6e16cf4, CLOUDID:12d5dc7f-4f93-4875-95e7-8c66ea833d57,
  B
  ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
  RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
@@ -31,18 +31,18 @@ X-CID-META: VersionHash:6e16cf4, CLOUDID:68b6c38e-e2c0-40b0-a8fe-7c7e47299109,
 X-CID-BVR: 0,NGT
 X-CID-BAS: 0,NGT,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: f4c40d7abe6f11eea2298b7352fd921d-20240129
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+X-UUID: f555ba54be6f11eea2298b7352fd921d-20240129
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
  mailgw02.mediatek.com (envelope-from <yunfei.dong@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1674703031; Mon, 29 Jan 2024 14:30:55 +0800
+ with ESMTP id 766245453; Mon, 29 Jan 2024 14:30:56 +0800
 Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Mon, 29 Jan 2024 14:30:53 +0800
+ 15.2.1118.26; Mon, 29 Jan 2024 14:30:54 +0800
 Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
  mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Mon, 29 Jan 2024 14:30:52 +0800
+ 15.2.1118.26 via Frontend Transport; Mon, 29 Jan 2024 14:30:53 +0800
 From: Yunfei Dong <yunfei.dong@mediatek.com>
 To: Jeffrey Kardatzke <jkardatzke@google.com>,
  =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
@@ -51,27 +51,16 @@ To: Jeffrey Kardatzke <jkardatzke@google.com>,
  <angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
  <benjamin.gaignard@collabora.com>, Nathan Hebert <nhebert@chromium.org>
 Subject: [PATCH v4,
- 13/22] media: mediatek: vcodec: using shared memory as vsi address
-Date: Mon, 29 Jan 2024 14:30:16 +0800
-Message-ID: <20240129063025.29251-14-yunfei.dong@mediatek.com>
+ 14/22] media: mediatek: vcodec: Add capture format to support one
+ plane memory
+Date: Mon, 29 Jan 2024 14:30:17 +0800
+Message-ID: <20240129063025.29251-15-yunfei.dong@mediatek.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240129063025.29251-1-yunfei.dong@mediatek.com>
 References: <20240129063025.29251-1-yunfei.dong@mediatek.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--4.493000-8.000000
-X-TMASE-MatchedRID: TPKnaArzlb40Z9sXcK7F6QPZZctd3P4BK2i9pofGVSsKogmGusPLb/BY
- Ro06eVj3M+9E78FP+k6T5In082VlTzMbZlaZZohC58dk5sbwmyhfyi4Yas3gTZsoi2XrUn/Jn6K
- dMrRsL14qtq5d3cxkNd9Yv5wIp3lSt60hkI2pQ2CK7F3rMBgxv9NV+Z1yWVO7LpxXk6BRcsulY5
- wiqJsM8FAMrTQJzVe/7D3+NuuC+kMY6u4FG2zDe9AA3GMQ1DAU82Gj2QC3yG0smXVK/H8eHzG7s
- r7xobSAsPEFD+rZA81DDKa3G4nrLQ==
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--4.493000-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: DE5F7330BA944F9881531F1855C1EA253BCD020889D1166FFA72075456AC79682000:8
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -94,60 +83,81 @@ Cc: devicetree@vger.kernel.org,
  linaro-mm-sig@lists.linaro.org, Matthias Brugger <matthias.bgg@gmail.com>,
  John Stultz <jstultz@google.com>, linux-arm-kernel@lists.infradead.org,
  Daniel Vetter <daniel@ffwll.ch>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Fritz Koenig <frkoenig@chromium.org>, linux-mediatek@lists.infradead.org, "T
- . J . Mercier" <tjmercier@google.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Fritz Koenig <frkoenig@chromium.org>, linux-mediatek@lists.infradead.org,
+ "T . J .
+ Mercier" <tjmercier@google.com>, Sumit Semwal <sumit.semwal@linaro.org>,
  Yong Wu <yong.wu@mediatek.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The vsi buffer is allocated by tee share memory for svp mode, need to
-use the share memory as the vsi address to store vsi data.
+Define one uncompressed capture format V4L2_PIX_FMT_MS21 in order to
+support one plane memory. The buffer size is luma + chroma, luma is
+stored at the start and chrome is stored at the end.
 
 Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 ---
- .../vcodec/decoder/vdec/vdec_h264_req_multi_if.c         | 9 +++++++--
- .../media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c | 8 ++++++--
- 2 files changed, 13 insertions(+), 4 deletions(-)
+ Documentation/userspace-api/media/v4l/pixfmt-reserved.rst | 8 ++++++++
+ drivers/media/v4l2-core/v4l2-common.c                     | 2 ++
+ drivers/media/v4l2-core/v4l2-ioctl.c                      | 1 +
+ include/uapi/linux/videodev2.h                            | 1 +
+ 4 files changed, 12 insertions(+)
 
-diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
-index 0e741e0dc8ba..4967e0f0984d 100644
---- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
-+++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
-@@ -417,8 +417,13 @@ static int vdec_h264_slice_init(struct mtk_vcodec_dec_ctx *ctx)
+diff --git a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
+index 886ba7b08d6b..6ec899649d50 100644
+--- a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
++++ b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
+@@ -295,6 +295,14 @@ please make a proposal on the linux-media mailing list.
+       - Compressed format used by Nuvoton NPCM video driver. This format is
+         defined in Remote Framebuffer Protocol (RFC 6143, chapter 7.7.4 Hextile
+         Encoding).
++    * .. _V4L2-PIX-FMT-MS21:
++
++      - ``V4L2_PIX_FMT_MS21``
++      - 'MS21'
++      - This format has one plane, luma and chroma are stored in a contiguous
++        memory. Luma pixel in 16x32 tiles at the start, chroma pixel in 16x16
++        tiles at the end. The image height must be aligned with 32 and the image
++        width must be aligned with 16.
+ .. raw:: latex
  
- 	vsi_size = round_up(sizeof(struct vdec_h264_slice_vsi), VCODEC_DEC_ALIGNED_64);
- 	inst->vsi = inst->vpu.vsi;
--	inst->vsi_core =
--		(struct vdec_h264_slice_vsi *)(((char *)inst->vpu.vsi) + vsi_size);
-+	if (ctx->is_secure_playback)
-+		inst->vsi_core =
-+			mtk_vcodec_dec_get_shm_buffer_va(ctx->dev->optee_private, MTK_VDEC_CORE,
-+							 OPTEE_DATA_INDEX);
-+	else
-+		inst->vsi_core =
-+			(struct vdec_h264_slice_vsi *)(((char *)inst->vpu.vsi) + vsi_size);
- 	inst->resolution_changed = true;
- 	inst->realloc_mv_buf = true;
+     \normalsize
+diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+index 273d83de2a87..315b906ed730 100644
+--- a/drivers/media/v4l2-core/v4l2-common.c
++++ b/drivers/media/v4l2-core/v4l2-common.c
+@@ -269,6 +269,8 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
+ 		  .block_w = { 16, 8, 0, 0 }, .block_h = { 32, 16, 0, 0 }},
+ 		{ .format = V4L2_PIX_FMT_MT2110R, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 2, .comp_planes = 2, .bpp = { 5, 10, 0, 0 }, .bpp_div = { 4, 4, 1, 1 }, .hdiv = 2, .vdiv = 2,
+ 		  .block_w = { 16, 8, 0, 0 }, .block_h = { 32, 16, 0, 0 }},
++		{ .format = V4L2_PIX_FMT_MS21,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 2, .vdiv = 2,
++		  .block_w = { 16, 8, 0, 0 }, .block_h = { 32, 16, 0, 0 }},
  
-diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
-index 5336769a3fb5..5c31641e9abe 100644
---- a/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
-+++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
-@@ -18,8 +18,12 @@ static void handle_init_ack_msg(const struct vdec_vpu_ipi_init_ack *msg)
- 
- 	/* mapping VPU address to kernel virtual address */
- 	/* the content in vsi is initialized to 0 in VPU */
--	vpu->vsi = mtk_vcodec_fw_map_dm_addr(vpu->ctx->dev->fw_handler,
--					     msg->vpu_inst_addr);
-+	if (vpu->ctx->is_secure_playback)
-+		vpu->vsi = mtk_vcodec_dec_get_shm_buffer_va(vpu->ctx->dev->optee_private,
-+							    MTK_VDEC_LAT0, OPTEE_DATA_INDEX);
-+	else
-+		vpu->vsi = mtk_vcodec_fw_map_dm_addr(vpu->ctx->dev->fw_handler,
-+						     msg->vpu_inst_addr);
- 	vpu->inst_addr = msg->vpu_inst_addr;
- 
- 	mtk_vdec_debug(vpu->ctx, "- vpu_inst_addr = 0x%x", vpu->inst_addr);
+ 		/* YUV planar formats */
+ 		{ .format = V4L2_PIX_FMT_NV12,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 2, .vdiv = 2 },
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index 33076af4dfdb..c38b12511bdb 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -1511,6 +1511,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+ 		case V4L2_PIX_FMT_MT2110T:	descr = "Mediatek 10bit Tile Mode"; break;
+ 		case V4L2_PIX_FMT_MT2110R:	descr = "Mediatek 10bit Raster Mode"; break;
+ 		case V4L2_PIX_FMT_HEXTILE:	descr = "Hextile Compressed Format"; break;
++		case V4L2_PIX_FMT_MS21:		descr = "MediaTek One Plane Format"; break;
+ 		default:
+ 			if (fmt->description[0])
+ 				return;
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 3e3f8d4b7c81..53a3c908fcba 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -798,6 +798,7 @@ struct v4l2_pix_format {
+ #define V4L2_PIX_FMT_MM21     v4l2_fourcc('M', 'M', '2', '1') /* Mediatek 8-bit block mode, two non-contiguous planes */
+ #define V4L2_PIX_FMT_MT2110T  v4l2_fourcc('M', 'T', '2', 'T') /* Mediatek 10-bit block tile mode */
+ #define V4L2_PIX_FMT_MT2110R  v4l2_fourcc('M', 'T', '2', 'R') /* Mediatek 10-bit block raster mode */
++#define V4L2_PIX_FMT_MS21     v4l2_fourcc('M', 'S', '2', '1') /* MediaTek 8-bit block mode with one plane */
+ #define V4L2_PIX_FMT_INZI     v4l2_fourcc('I', 'N', 'Z', 'I') /* Intel Planar Greyscale 10-bit and Depth 16-bit */
+ #define V4L2_PIX_FMT_CNF4     v4l2_fourcc('C', 'N', 'F', '4') /* Intel 4-bit packed depth confidence information */
+ #define V4L2_PIX_FMT_HI240    v4l2_fourcc('H', 'I', '2', '4') /* BTTV 8-bit dithered RGB */
 -- 
 2.18.0
 
