@@ -2,66 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FC8383FD27
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 05:14:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D9D483FD2B
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 05:21:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3083B112342;
-	Mon, 29 Jan 2024 04:14:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEDA510EC80;
+	Mon, 29 Jan 2024 04:21:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com
- [209.85.128.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93EEE112342
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jan 2024 04:14:05 +0000 (UTC)
-Received: by mail-yw1-f172.google.com with SMTP id
- 00721157ae682-603c6621118so8734097b3.3
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jan 2024 20:14:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1706501585; x=1707106385; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=28FeUEzdYPE+EaFAB77GAcGcEmI6x3YiHo6XhzGqL7Q=;
- b=LepXeJ92f6nyEzQXNEKSuQUdGeif7zaexC7KKq+TKJh/FfH+FtPmQxkom0MiJXRHBZ
- wtTAPz3OSEXjB2nThlB4q2iw/Ym4yKQg1tMOTi7yyPHVMfV8W3Ig36Nz8XnIKuD3WZ77
- aySPzYvVjUFqfE3qpLL2xAfnezj52YGTcynk4EoLQpXV/i9yrA8pPJKlkczzbd55e3Sq
- bkfuS2DgrdviEUDavD0sbJJH9hYyFVU0TJte8EwV3dj7vT5zvTzhK98K2rjEBFTaL+P9
- pQiLnkgrtc4lmrJsFRa9aDQ4a0Yy2WjxIMP/NIgSSW+E0GdnQjrdl3g+NNg5XL/xgphi
- G2Vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706501585; x=1707106385;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=28FeUEzdYPE+EaFAB77GAcGcEmI6x3YiHo6XhzGqL7Q=;
- b=fo15o5xAEgM80Pj1E5TCK06XkfEwNDWf5qbrVeW/6yT+jPKg/3i+5bwsCK2v4QbQOk
- kjucQGQS4eaD59eLo6G2ugtpkDNGYDv10zwH/fOU/hkcuilSNQkmxx4SeGZezZL+hE4I
- M8wjN7ghfX9haNtRf4PvJj72Q4exXPrBa6fEeJ0ba1+XdjG/el40ZSLkvq/Ypb2rbXNX
- ib73CDTaSvjB6IvwkNVjqysxxnw2QJIT5CbeOhzFaUDEU/12i1rAjiohUjl9VZO+JykJ
- EmtEqe5cFNj8tDziqg5I8Ze691YUScBVzpwZ3g+Dg0Soa61F5j96fJp7wa9TkWzdrnyo
- rvTg==
-X-Gm-Message-State: AOJu0YxyyX8sqlCZOKEcEwjiT9rlshQi/oFSVrcgksCB9TIOCEpTS4GF
- pRB9uDfbFJzcgTqcwlDOq5kUbnXcdUGMix2HyTxNDAfBgCnQRZuFziQIEU6y48vJ1/rC+MHwe7C
- J1O52NWcv1nsAgvdFx2jiHQSkojbARKN3x6SjeQ==
-X-Google-Smtp-Source: AGHT+IFLRuO+7daqerUf3YLr7AMZQZU1PycYCo+i4/wTlFjk76dAFiCNrm31mJXTlWPNavRau30ne6rGCoX5TmTeArM=
-X-Received: by 2002:a05:690c:a06:b0:5ff:9128:d314 with SMTP id
- cg6-20020a05690c0a0600b005ff9128d314mr3063437ywb.105.1706501584778; Sun, 28
- Jan 2024 20:13:04 -0800 (PST)
+Received: from invmail4.hynix.com (exvmail4.skhynix.com [166.125.252.92])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4C11C10ECB7
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jan 2024 04:21:04 +0000 (UTC)
+X-AuditID: a67dfc5b-d6dff70000001748-0b-65b727aa4de6
+Date: Mon, 29 Jan 2024 13:20:52 +0900
+From: Byungchul Park <byungchul@sk.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH v11 14/26] locking/lockdep, cpu/hotplus: Use a weaker
+ annotation in AP thread
+Message-ID: <20240129042052.GA64402@system.software.com>
+References: <20240124115938.80132-1-byungchul@sk.com>
+ <20240124115938.80132-15-byungchul@sk.com> <87il3ggfz9.ffs@tglx>
 MIME-Version: 1.0
-References: <20240125193834.7065-1-quic_parellan@quicinc.com>
- <20240125193834.7065-2-quic_parellan@quicinc.com>
- <31e4a033-1779-450c-980e-63c8567837ed@linaro.org>
- <fa5ce695-8c00-1ae4-04cd-d1b49b42c5d6@quicinc.com>
- <5d0b2da2-7683-f801-0acf-255a8c2bd618@quicinc.com>
- <CAA8EJpoTtzupauFah=65Yn_cRQzDbgpLw-6GuXWCUwPcNJvKOA@mail.gmail.com>
- <0bed7afe-b73a-b1de-edc0-a25b368556bf@quicinc.com>
-In-Reply-To: <0bed7afe-b73a-b1de-edc0-a25b368556bf@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 29 Jan 2024 06:12:53 +0200
-Message-ID: <CAA8EJprO9rvEnyOD83N0YFaTO64TxDvvg_XMQ2zF+ku1ucHi3A@mail.gmail.com>
-Subject: Re: [PATCH 01/17] drm/msm/dpu: allow dpu_encoder_helper_phys_setup_cdm
- to work for DP
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87il3ggfz9.ffs@tglx>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA03SX0xTVxzAcc+5f9vQ5a5DPZOXpcbgMPh/22/L5pa9eJOFzW08aTZt5EYa
+ StWLouhcYFZT/k6IUK3oSjGlgW6OwhwT0QKBUv9Ah9UhAgo2bo1UMmabVbAbF7LMl5NPzvmd
+ b87D4SntLLOMN5j2SbJJb9SxalodSapLb0z9WVrbMr4SKsvWQvSphYbaC24WAj80IXC3FmEI
+ 92yG32KTCGZuDlBgrQ4gqBsfpaC1dwxBh+sbFm6FXoJgdIoFf3UpC0frL7Dw6+NZDCM1VRia
+ PBlw/YQDgzf+Ow3WMAtnrEfx3PIHhrizkQNn4QqYcNk4mB1fB/6xOwx0DK+C0+dGWLjc4aeh
+ t20Cw61LtSyMuf9h4HpvHw2BynIGvn/iYOFxzEmBMzrFwaDXjuFH81zo+F8JBnzlXgzHzzdj
+ CN5tR3DF8gCDx32Hhe7oJIYWTzUFzxp6EExURDg4Vhbn4ExRBYLSYzU0DDz3MWAeeQNm/q5l
+ P3hH7J6cokRzywGxI2anxWsOIv5iG+VE85VhTrR79ostrjSx/nIYi3XTUUb0NBazome6ihNL
+ IkEsPunv58S+UzO0GApa8ZaUrep3sySjIV+S12zaoc4ebTuF99QkHYzcDqFCdFVVgnieCBtJ
+ xPlxCVLN09vvQoppYQUZae2cNyukkqGhOKU4WVhJmgeH500JfjUJOD5U/Iqwk9x92MkoSY0A
+ xOrLVKgVDpHWksXKhEZ4mfhPh+iFm2lkKBHGygglpJCGBK9sqwQdqbKYWcWLheXEe9GHFx7W
+ riIDz0wLfpV0uoboE0iwvVC1vVC1/V+1I6oRaQ2m/Fy9wbhxdXaByXBw9c7duR409yedR2a3
+ taHpwOddSOCRLknDF12UtIw+P68gtwsRntIla+Kv/yRpNVn6gkOSvHu7vN8o5XWhFJ7WLdWs
+ jx3I0gq79PukHEnaI8n/nWJetawQHb6d3rPtfqL+0aL0tyvvGbvf6jp5OHeD6VPHDcvZDHZ9
+ 7CvQrwrLDU1b5GtrzpJ7qVtd34W2lz088tqfJ89TXyY+SmTuHXMXZ/LqtD5fOZ/y9dPS9h0V
+ S5ds+uwTO725UkwO5uieNz/a0GB5kOH9dtKUfen+8pzim4NfvBnf+7686L0+HZ2XrV+XRsl5
+ +n8BEUqc/48DAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0yTZxTH8zzvtQ0lrxXYo/ipTkG8YaLLibhF/aDv3OZGojFRozT6Co2A
+ rkUUExIYlSCoERKoVsZqWQqpKFAK4gWsEKnVCAgMCgGErskkXOrUEisXpS6Lfjn55Zz/73z6
+ 85RyhFnKa1LTJG2qOlnFymn57rictdao21LsG4sMCi/Egv9tHg2l1VUsdN66gaDKno1h7NFO
+ 6JueQDDzrIMCQ3EnguujQxTY24YRNFX+xkK3NxR6/D4WXMUFLOSUV7PwfHwWw2BJEYYbtp/g
+ 6WUzBkfgHxoMYyxcM+TghfESQ8Bi5cCStQI8lUYOZkc3gGu4l4HW310MNA2shqtlgyzcb3LR
+ 0NbowdB9t5SF4aoPDDxte0xDZ+FFBm5OmVkYn7ZQYPH7OOhymDDU6Be+5b6ZZ8B50YEh989a
+ DD399xA0541gsFX1stDqn8BQZyum4H3FIwSeS5McnLsQ4OBa9iUEBedKaOiYczKgH9wEM+9K
+ 2a1xYuuEjxL1dafFpmkTLT4xE/GOcYgT9c0DnGiynRLrKmPE8vtjWLz+2s+INut5VrS9LuLE
+ /MkeLE61t3Pi4ysztOjtMeBflu2XbzkqJWvSJe367xLkSUONV/DJkpAzk395URZ6IMtHMp4I
+ G4mjvRIFmRZWkEH7w0/MClHE7Q5QQQ4Toklt18AnpgSXnHSatwd5sXCE9P/9kMlHPK8QgBic
+ e4KoFM4Se354MKEQFhHXVS/9nxlD3PNjOBihhEhSMc8H1zJBRYry9GyQw4XlxNHgxJeRwviF
+ bfzCNn62TYiyojBNanqKWpO8aZ3ueFJGqubMuiMnUmxooXeWzNnCRvS2e2cLEnikClHw2Q2S
+ klGn6zJSWhDhKVWYIrCqXlIqjqozzkraE4e1p5IlXQuK5GnVV4pd+6QEpZCoTpOOS9JJSfv/
+ FfOypVloZKo36vupkPXfeGIjVptDk0aWGH/enrtSxTpNZfrMgh3NOS1r+m/nJe4vT9y1dWOM
+ sa/NF+F17/3aExh99e2vpbM/krK4FxQ3PncgdN/40Olw/qD935cHK87X/LDZF71neeSh+giT
+ fnrzIqPc3Vf3R/zetDlr5q2MgdoXo8fiNQnblqhoXZJ6Qwyl1ak/AnGPtF9zAwAA
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,180 +72,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, marijn.suijten@somainline.org,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, seanpaul@chromium.org, quic_jesszhan@quicinc.com,
- Paloma Arellano <quic_parellan@quicinc.com>, quic_khsieh@quicinc.com,
- freedreno@lists.freedesktop.org
+Cc: hamohammed.sa@gmail.com, hdanton@sina.com, jack@suse.cz,
+ peterz@infradead.org, daniel.vetter@ffwll.ch, amir73il@gmail.com,
+ david@fromorbit.com, dri-devel@lists.freedesktop.org, mhocko@kernel.org,
+ linux-mm@kvack.org, linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
+ chris.p.wilson@intel.com, joel@joelfernandes.org, 42.hyeyoo@gmail.com,
+ cl@linux.com, will@kernel.org, duyuyang@gmail.com, sashal@kernel.org,
+ her0gyugyu@gmail.com, kernel_team@skhynix.com,
+ damien.lemoal@opensource.wdc.com, willy@infradead.org, hch@infradead.org,
+ mingo@redhat.com, djwong@kernel.org, vdavydov.dev@gmail.com,
+ rientjes@google.com, dennis@kernel.org, linux-ext4@vger.kernel.org,
+ ngupta@vflare.org, johannes.berg@intel.com, boqun.feng@gmail.com,
+ josef@toxicpanda.com, rostedt@goodmis.org, gwan-gyeong.mun@intel.com,
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, jglisse@redhat.com,
+ viro@zeniv.linux.org.uk, longman@redhat.com, dan.j.williams@intel.com,
+ vbabka@suse.cz, melissa.srw@gmail.com, sj@kernel.org, tytso@mit.edu,
+ rodrigosiqueiramelo@gmail.com, kernel-team@lge.com, gregkh@linuxfoundation.org,
+ jlayton@kernel.org, linux-kernel@vger.kernel.org, penberg@kernel.org,
+ minchan@kernel.org, max.byungchul.park@gmail.com, hannes@cmpxchg.org,
+ tj@kernel.org, akpm@linux-foundation.org, torvalds@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 29 Jan 2024 at 06:01, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
->
->
-> On 1/28/2024 7:23 PM, Dmitry Baryshkov wrote:
-> > On Mon, 29 Jan 2024 at 05:06, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> >>
-> >>
-> >>
-> >> On 1/26/2024 4:39 PM, Paloma Arellano wrote:
-> >>>
-> >>> On 1/25/2024 1:14 PM, Dmitry Baryshkov wrote:
-> >>>> On 25/01/2024 21:38, Paloma Arellano wrote:
-> >>>>> Generalize dpu_encoder_helper_phys_setup_cdm to be compatible with DP.
-> >>>>>
-> >>>>> Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
-> >>>>> ---
-> >>>>>    .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  |  4 +--
-> >>>>>    .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   | 31 ++++++++++---------
-> >>>>>    2 files changed, 18 insertions(+), 17 deletions(-)
-> >>>>>
-> >>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> >>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> >>>>> index 993f263433314..37ac385727c3b 100644
-> >>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> >>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> >>>>> @@ -153,6 +153,7 @@ enum dpu_intr_idx {
-> >>>>>     * @hw_intf:        Hardware interface to the intf registers
-> >>>>>     * @hw_wb:        Hardware interface to the wb registers
-> >>>>>     * @hw_cdm:        Hardware interface to the CDM registers
-> >>>>> + * @cdm_cfg:    CDM block config needed to store WB/DP block's CDM
-> >>>>> configuration
-> >>>>
-> >>>> Please realign the description.
-> >>> Ack
-> >>>>
-> >>>>>     * @dpu_kms:        Pointer to the dpu_kms top level
-> >>>>>     * @cached_mode:    DRM mode cached at mode_set time, acted on in
-> >>>>> enable
-> >>>>>     * @vblank_ctl_lock:    Vblank ctl mutex lock to protect
-> >>>>> vblank_refcount
-> >>>>> @@ -183,6 +184,7 @@ struct dpu_encoder_phys {
-> >>>>>        struct dpu_hw_intf *hw_intf;
-> >>>>>        struct dpu_hw_wb *hw_wb;
-> >>>>>        struct dpu_hw_cdm *hw_cdm;
-> >>>>> +    struct dpu_hw_cdm_cfg cdm_cfg;
-> >>>>
-> >>>> It might be slightly better to move it after all the pointers, so
-> >>>> after the dpu_kms.
-> >>> Ack
-> >>>>
-> >>>>>        struct dpu_kms *dpu_kms;
-> >>>>>        struct drm_display_mode cached_mode;
-> >>>>>        struct mutex vblank_ctl_lock;
-> >>>>> @@ -213,7 +215,6 @@ static inline int
-> >>>>> dpu_encoder_phys_inc_pending(struct dpu_encoder_phys *phys)
-> >>>>>     * @wbirq_refcount:     Reference count of writeback interrupt
-> >>>>>     * @wb_done_timeout_cnt: number of wb done irq timeout errors
-> >>>>>     * @wb_cfg:  writeback block config to store fb related details
-> >>>>> - * @cdm_cfg: cdm block config needed to store writeback block's CDM
-> >>>>> configuration
-> >>>>>     * @wb_conn: backpointer to writeback connector
-> >>>>>     * @wb_job: backpointer to current writeback job
-> >>>>>     * @dest:   dpu buffer layout for current writeback output buffer
-> >>>>> @@ -223,7 +224,6 @@ struct dpu_encoder_phys_wb {
-> >>>>>        atomic_t wbirq_refcount;
-> >>>>>        int wb_done_timeout_cnt;
-> >>>>>        struct dpu_hw_wb_cfg wb_cfg;
-> >>>>> -    struct dpu_hw_cdm_cfg cdm_cfg;
-> >>>>>        struct drm_writeback_connector *wb_conn;
-> >>>>>        struct drm_writeback_job *wb_job;
-> >>>>>        struct dpu_hw_fmt_layout dest;
-> >>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-> >>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-> >>>>> index 4cd2d9e3131a4..072fc6950e496 100644
-> >>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-> >>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-> >>>>> @@ -269,28 +269,21 @@ static void
-> >>>>> dpu_encoder_phys_wb_setup_ctl(struct dpu_encoder_phys *phys_enc)
-> >>>>>     *                                     This API does not handle
-> >>>>> DPU_CHROMA_H1V2.
-> >>>>>     * @phys_enc:Pointer to physical encoder
-> >>>>>     */
-> >>>>> -static void dpu_encoder_helper_phys_setup_cdm(struct
-> >>>>> dpu_encoder_phys *phys_enc)
-> >>>>> +static void dpu_encoder_helper_phys_setup_cdm(struct
-> >>>>> dpu_encoder_phys *phys_enc,
-> >>>>> +                          const struct dpu_format *dpu_fmt,
-> >>>>> +                          u32 output_type)
-> >>>>>    {
-> >>>>>        struct dpu_hw_cdm *hw_cdm;
-> >>>>>        struct dpu_hw_cdm_cfg *cdm_cfg;
-> >>>>>        struct dpu_hw_pingpong *hw_pp;
-> >>>>> -    struct dpu_encoder_phys_wb *wb_enc;
-> >>>>> -    const struct msm_format *format;
-> >>>>> -    const struct dpu_format *dpu_fmt;
-> >>>>> -    struct drm_writeback_job *wb_job;
-> >>>>>        int ret;
-> >>>>>          if (!phys_enc)
-> >>>>>            return;
-> >>>>>    -    wb_enc = to_dpu_encoder_phys_wb(phys_enc);
-> >>>>> -    cdm_cfg = &wb_enc->cdm_cfg;
-> >>>>> +    cdm_cfg = &phys_enc->cdm_cfg;
-> >>>>>        hw_pp = phys_enc->hw_pp;
-> >>>>>        hw_cdm = phys_enc->hw_cdm;
-> >>>>> -    wb_job = wb_enc->wb_job;
-> >>>>> -
-> >>>>> -    format = msm_framebuffer_format(wb_enc->wb_job->fb);
-> >>>>> -    dpu_fmt = dpu_get_dpu_format_ext(format->pixel_format,
-> >>>>> wb_job->fb->modifier);
-> >>>>>          if (!hw_cdm)
-> >>>>>            return;
-> >>>>> @@ -306,10 +299,10 @@ static void
-> >>>>> dpu_encoder_helper_phys_setup_cdm(struct dpu_encoder_phys *phys_enc)
-> >>>>>          memset(cdm_cfg, 0, sizeof(struct dpu_hw_cdm_cfg));
-> >>>>>    -    cdm_cfg->output_width = wb_job->fb->width;
-> >>>>> -    cdm_cfg->output_height = wb_job->fb->height;
-> >>>>> +    cdm_cfg->output_width = phys_enc->cached_mode.hdisplay;
-> >>>>> +    cdm_cfg->output_height = phys_enc->cached_mode.vdisplay;
-> >>>>
-> >>>> This is a semantic change. Instead of passing the FB size, this passes
-> >>>> the mode dimensions. They are not guaranteed to be the same,
-> >>>> especially for the WB case.
-> >>>>
-> >>
-> >> The WB job is storing the output FB of WB. I cannot think of a use-case
-> >> where this cannot match the current mode programmed to the WB encoder.
-> >>
-> >> Yes, if it was the drm_plane's FB, then it cannot be guaranteed as the
-> >> plane can scale the contents but here thats not the case. Here its the
-> >> output FB of WB.
+On Fri, Jan 26, 2024 at 06:30:02PM +0100, Thomas Gleixner wrote:
+> On Wed, Jan 24 2024 at 20:59, Byungchul Park wrote:
+> 
+> Why is lockdep in the subsystem prefix here? You are changing the CPU
+> hotplug (not hotplus) code, right?
+
+I will fix the typo ;( Thank you.
+
+I referred to the commit cb92173d1f047. I will remove the prefix if the
+way is more desirable.
+
+> > cb92173d1f0 ("locking/lockdep, cpu/hotplug: Annotate AP thread") was
+> > introduced to make lockdep_assert_cpus_held() work in AP thread.
 > >
-> > Is it a part of WB uAPI, to have the FB dimensions equal to mode
-> > dimensions? Or is it just our current limitation? I can easily imagine
-> > WB outputting data to a part of the FB (just like we can clip FB using
-> > plane's clip rectangle).
-> >
-> > This boils down to a question, whether CDM should be setup in terms of
-> > actual output date or the physical memory buffer parameters. I suspect
-> > the former is the case (which makes this change correct). But it
-> > either should be described in the commit message or (even better)
-> > split to a separate commit.
-> >
->
-> I would say its a combination of both today.
->
-> The way I would look at it is even if WB crops a certain section of FB,
-> that will not change the FB size. FB size of WB should match the rest of
-> the DRM pipeline (the mode programmed to the CRTC/encoder). If WB
-> decides to write to only a small section of FB (cropping), then we need
-> another WB property like CROP_ROI so that we can program the WB to only
-> write to a small section of the programmed FB. So in some sense, there
-> is no such support in DRM UAPI today. Hence the FB of WB is the full
-> mode of the WB.
+> > However, the annotation is too strong for that purpose. We don't have to
+> > use more than try lock annotation for that.
+> 
+> This lacks a proper explanation why this is too strong.
 
- I'd say, CROP_ROI can refer to cropping of the image source (esp. in
-the cloned output case). For writing to the part of the FB there can
-be DST_X/_Y/_W/_H properties. But this becomes off-topic.
+rwsem_acquire() implies:
 
-> CDM is before WB so follows the rest of the pipeline that is whatever
-> the data feeding it was programmed to.
+   1. might be a waiter on contention of the lock.
+   2. enter to the critical section of the lock.
 
-Yes. So the change is correct, but it should be split or documented
-properly. I prefer the first option.
+All we need in here is to act 2, not 1. That's why I suggested trylock
+version of annotation for that purpose.
 
+Now that dept partially replies on lockdep annotaions for the waiters
+and events, dept is interpeting rwsem_acquire() as a potential waiter
+and reports a deadlock by the wait.
 
--- 
-With best wishes
-Dmitry
+Of course, the first priority should be not to change the current
+behavior. I think the change from non-trylock to trylock for the
+annotation won't. Or am I missing something?
+
+	Byungchul
+
+> > Furthermore, now that Dept was introduced, false positive alarms was
+> > reported by that. Replaced it with try lock annotation.
+> 
+> I still have zero idea what this is about.
+> 
+> Thanks,
+> 
+>         tglx
