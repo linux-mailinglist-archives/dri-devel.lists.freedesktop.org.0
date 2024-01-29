@@ -2,71 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E31A2840489
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 13:03:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4282884048C
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 13:03:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94AB110F041;
-	Mon, 29 Jan 2024 12:03:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B19F2112875;
+	Mon, 29 Jan 2024 12:03:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B51AB10F041
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jan 2024 12:03:20 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36A1310F6D3
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jan 2024 12:03:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1706529799;
+ s=mimecast20190719; t=1706529829;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=bYShEolk94igkROb5mUh7N+Ee2KYt4Kx5nTD8/LiOIw=;
- b=B1DTLtLjC202ppEIaj49NsPvumS8Zx3jWdewMrFSEn8OWcQ/rcUEI/GLfOa6+mBUXpXHfm
- hSBiHZp5Z/g3EtKv4X1sZpXfe04w2XHKAasLEW8ZNThPLcXZKMetIq7OLpgjxlPIb1qmSk
- tBEjyObu4BtV8JAJroerF8/dKmBrOOc=
+ bh=DPGFMKgvwDs0VIMi/vYwseO/McEuakTER7jhLMz5YMo=;
+ b=Ih0eEp8+DzdR38N2pCknpzwiEDc7CU+cDVnyRMtNz/ww7A/x8mQCgAniyTpBGOnqPKdoGD
+ jgO8Y6wrjJjYSqPA3ntKmPdQ6UpsC5mwPKwznUx34hpWeNAgnJgyNLA2uqxpEFmNcLWQ99
+ VHTmNbsXWCOuQILrQZO+v4XA2R10+dY=
 Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
  [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-343-aLTTzwCZM-etydQc1jAINQ-1; Mon, 29 Jan 2024 07:03:18 -0500
-X-MC-Unique: aLTTzwCZM-etydQc1jAINQ-1
+ us-mta-678-xf7aZakKOPOXZ6GGdXqpsQ-1; Mon, 29 Jan 2024 07:03:48 -0500
+X-MC-Unique: xf7aZakKOPOXZ6GGdXqpsQ-1
 Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-40ef9f4ef41so2961375e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jan 2024 04:03:18 -0800 (PST)
+ 5b1f17b1804b1-40e4caa37f5so26506355e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jan 2024 04:03:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706529797; x=1707134597;
+ d=1e100.net; s=20230601; t=1706529827; x=1707134627;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bYShEolk94igkROb5mUh7N+Ee2KYt4Kx5nTD8/LiOIw=;
- b=DRks0TyMs4XGmn5UUYorfKr5CRBPx8y1fVn/eec6wpMzCMgtkPveeECJxyIpjIrXez
- G822VdsrO6zyWgD/i3bwxO2tV2j9Qu68Gcua93m/TZAv8yz82rmHgk1ETqcnJzfQhDz7
- XNSjaPmQ04/MTsCZ91yYp3IUkAn+cIj2XMNUrYmXSy2OV5drzN/DlNPECABtWA3LPDU6
- Vc2kaGqkt/ahCzpa+dp2dBZkWss77LvWkT5eoCzauIXeL8srU+W0IkhX24vGBgb34tfE
- CkqkWTaT1znLkyIY8BdoBswGrxf4MjHay2T85S0bvOxUyE/x55/D2QWYHBFp8tYF7IhH
- Bt+Q==
-X-Gm-Message-State: AOJu0YzbRHXwAkDoZKAeO6m7rrxrK5+gzpIx4BpmZQB1awZzjGx1u07s
- i1UQDus3I421GsR/diCl9v+CO5WFs4ZZVL8NgbK6pSk6IdepoIY5EX6AE80LYdTiFJSWuObbdPi
- 4mZrkberSZLRlhMLtPcYkoJd5Yj9/mg1pC9PgHHaPmmPaEMmmq4VJ/BUC1EKhr7x1bA==
-X-Received: by 2002:a05:600c:a082:b0:40e:e4a0:540d with SMTP id
- jh2-20020a05600ca08200b0040ee4a0540dmr5017808wmb.36.1706529797371; 
- Mon, 29 Jan 2024 04:03:17 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH8RY/iib+itekAvsHvhfv+zPnjQBL0cSACylF/MdWpnV56rS9jUyme+8q8/EQp236KgXVzCw==
-X-Received: by 2002:a05:600c:a082:b0:40e:e4a0:540d with SMTP id
- jh2-20020a05600ca08200b0040ee4a0540dmr5017782wmb.36.1706529796973; 
- Mon, 29 Jan 2024 04:03:16 -0800 (PST)
+ bh=DPGFMKgvwDs0VIMi/vYwseO/McEuakTER7jhLMz5YMo=;
+ b=VFuHv1mRNmcZq83kc4GW5jRKzNiul7TIiNDaH4ewKNvirTTwLQbtoHE1600M2W5Ie5
+ 2zUAx1G1uKTrOZK87ajd8OB7yCMeI4gjbsuclT7j1cQ/44QXupxDT5HLddzt1FpoENQW
+ Vo845DNiianf72wwFjlQHhfbHzI9z+GlKIwJAS3z4qdv3m5DkEEQbYluYMnK1tAzKApe
+ cZVDogy7U0Q7aJhYN3uT2Omz/ZC7yQ2rqmRpgGE0vGL+fxxapQvchbycE6Gq0a2VJAbw
+ Ncy5PJmTrQGIkJ8yGBiCTt2xn0qCoCKS+cPD0CSvL7vilVZMZt0MxjBdo6KLLyqsPf7B
+ kF2g==
+X-Gm-Message-State: AOJu0YxQBBKqx5I/rFF8UJdipUF8BWT2TfWbHJIHDtyA3EWoL6EBeIM5
+ lS4FBwsuGYcnjqhTdrpG6kgTV4ANnvFsmnCwANkS2nWXJoLuk/U5pd6kZxjCp5nqVgFXjYlR9GQ
+ RK0w4BsQpGUnVHgpTptItPFDhNt6uhl04s8eKDqkDzXly6VcHFBi1/Xu0YGhD2IISYw==
+X-Received: by 2002:a05:600c:3b28:b0:40c:4904:bb72 with SMTP id
+ m40-20020a05600c3b2800b0040c4904bb72mr4293882wms.18.1706529827154; 
+ Mon, 29 Jan 2024 04:03:47 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGGVZlCHfW1w5Cy1UVaPYsDyCgS09754O46MznaJdDB8+pq2pjRnOyx/vIqTreeAZgsZqappg==
+X-Received: by 2002:a05:600c:3b28:b0:40c:4904:bb72 with SMTP id
+ m40-20020a05600c3b2800b0040c4904bb72mr4293874wms.18.1706529826930; 
+ Mon, 29 Jan 2024 04:03:46 -0800 (PST)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- gw6-20020a05600c850600b0040e813f1f31sm9971683wmb.25.2024.01.29.04.03.16
+ w7-20020a05600c474700b0040ef622799fsm3619172wmo.37.2024.01.29.04.03.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Jan 2024 04:03:16 -0800 (PST)
+ Mon, 29 Jan 2024 04:03:46 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, pjones@redhat.com,
  deller@gmx.de, ardb@kernel.org
-Subject: Re: [PATCH 7/8] firmware/sysfb: Update screen_info for relocated
- EFI framebuffers
-In-Reply-To: <87fryguzjy.fsf@minerva.mail-host-address-is-not-set>
+Subject: Re: [PATCH 8/8] fbdev/efifb: Remove framebuffer relocation tracking
+In-Reply-To: <20240117125527.23324-9-tzimmermann@suse.de>
 References: <20240117125527.23324-1-tzimmermann@suse.de>
- <20240117125527.23324-8-tzimmermann@suse.de>
- <87fryguzjy.fsf@minerva.mail-host-address-is-not-set>
-Date: Mon, 29 Jan 2024 13:03:15 +0100
-Message-ID: <875xzc73ek.fsf@minerva.mail-host-address-is-not-set>
+ <20240117125527.23324-9-tzimmermann@suse.de>
+Date: Mon, 29 Jan 2024 13:03:46 +0100
+Message-ID: <8734ug73dp.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -88,44 +86,17 @@ Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Javier Martinez Canillas <javierm@redhat.com> writes:
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> Thomas Zimmermann <tzimmermann@suse.de> writes:
+> If the firmware framebuffer has been reloacted, the sysfb code
+> fixes the screen_info state before it creates the framebuffer's
+> platform device. Efifb will automatically receive a screen_info
+> with updated values. Hence remove the tracking from efifb.
 >
->> On ARM PCI systems, the PCI hierarchy might be reconfigured during
->> boot and the firmware framebuffer might move as a result of that.
->> The values in screen_info will then be invalid.
->>
->> Work around this problem by tracking the framebuffer's initial
->> location before it get relocated; then fix the screen_info state
->> between reloaction and creating the firmware framebuffer's device.
->>
->> This functionality has been lifted from efifb. See the commit message
->> of commit 55d728a40d36 ("efi/fb: Avoid reconfiguration of BAR that
->> covers the framebuffer") for more information.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> ---
->
-> [...]
->
->>  #if defined(CONFIG_PCI)
->
-> Shouldn't this be && !defined(CONFIG_X86) ? Or maybe &&
-> defined(CONFIG_ARM64), although I don't know if the same
-> also applies to other EFI platforms (e.g: CONFIG_RISCV).
->
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
 
-Answering my own question, the !defined(CONFIG_X86) was dropped in the commit
-dcf8f5ce3165 ("drivers/fbdev/efifb: Allow BAR to be moved instead of claiming
-it"). The rationale is explained in that commit message:
-
-    While this is less likely to occur on x86, given that the firmware's
-    PCI resource allocation is more likely to be preserved, this is a
-    worthwhile sanity check to have in place, and so let's remove the
-    preprocessor conditional that makes it !X86 only.
-
-So it is OK to just guard with #if defined(CONFIG_PCI).
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
 Best regards,
