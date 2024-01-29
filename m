@@ -2,123 +2,124 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE0048409DD
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 16:26:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D489F840A22
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 16:34:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 059D41129A3;
-	Mon, 29 Jan 2024 15:26:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B9831129B1;
+	Mon, 29 Jan 2024 15:33:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2053.outbound.protection.outlook.com [40.107.92.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C9C111299E;
- Mon, 29 Jan 2024 15:26:35 +0000 (UTC)
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com
+ (mail-dm3nam02on2077.outbound.protection.outlook.com [40.107.95.77])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F49A1129B1;
+ Mon, 29 Jan 2024 15:33:47 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Psny0RXjZAW76/ZR09U+vcfSjL5LuaZyLUElKi0kDscNugOpg5YLgb3RVvPUqbOiVxv4imXX7y58mu94nO8XHzP1OuLi21qx07PLT0AcNEv1MLLAuOYtrgiuLUmEEqHk1dVeFK45DYrDvDfYHCpUioqwuxpyrnrdInFt5qh9aSL+AiMmXzggO3zGX2RP2lyDqlikA3GbqRuNyoUiUEjQqL6mjfBavYvsMJT5IrLbHJVTr6a9QAKaqaJQlirll8lJj8LCf94/gRxx+eNy2zeJ87DN/XUrROnTTVF6WBpWnhah+YdQ//7lnzOnT3nuLLpRNa1ALCmK2EnuAKnFe6L+TA==
+ b=EqW7fZSKK7p2idzAyxk+o27GVaC73PxUisJHY3uUj3JQWf0EEHpEHMb5orsVjeJDzaCYE8ZmQA/yFAtgbaVSrW2OVq3UDzbPJHcO5Qt1gRYcov2ePS2aaL/0s1VuQQMUBYbHSvDUYu42iqGIh4EGfhNp6Ma6MNPWFGn2h1Oq3RA+zJNJ7KSp/3uPu/l1fCTQomF47a9+KJctuXkECC34QqFZ9n9rN66Vtpsv5PBMGTQg1xGzE2FcXZTv1u91IFCXPisz7Cr++3y7fLHla7yiyBwOGQxKEc6jJLFikrnMsPAxfIGoH8e5Z25LA+t5CM/i8IgoGB5sujndaVOpYDeg/Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rnorqQGDhu9gzkLbx7C3ZbEoLgKkp1oPgitcQqPdElk=;
- b=AFMpX5SYRGhmmPB1bOi6YkHpHuvMOZ8puf1cQvAE8B5c83unhEOaLWsTmco1I9MO6LC/yAEBt5RwgmE9a8sMHi2k48Yw7CJBp8PjbAiW1UopgbXwjQKz83VWcBGnyCTBlp97lnkgH4TtE4hkZcJguEFaqo5gkwuxa4HOGDaq4b1Jn9/V9htwHEfK5lsCay9+fOfpWjohUs8vxaBMmCtTjyXMgB/s0nqTmIC9JKyDs7NVJDQvznQuEPZPAUdmIkPPCEE5W6xYObeatSxDJsSBQC0CQowlGL/h1rBKmMWNQ//AltuZWC8mfE/Yf7s1+UTp1IqGfbW87KNZKXjrGWaksw==
+ bh=YRON+ubsgZGwkn6E+s3bOM0FOlUg/mnW4ku9VvG7GGg=;
+ b=hxfydb2WhQqffzDGw2Sj0rU30uZSkKFkNSfyfcyLGoUzNo/Etvl/m1FaihMvqvfumba8NSFV5wa18jvRa/YyQsf1r9pguTJEX76zEZVwpkUlhLoEY2eSk1ZRZSM+IvEt85Gd3jLGUBr0njBJgVFA1Mp1JxQNt6NaGkl07jFGYdZ9Pdy5egrQpl0mKAJg7LeiLSVKPrK01MxWv1bMmh2nfRHlOLZpF5WeLgccyhbR7AM068mhzOu/sGO+RtAyVY+a5yRRxP9pO1CgSktRjvA6iZoDdODgRXAqCJrv0qom9IOB2YZMjGU5G+MPKM6c59GwFz/dJr+Knjc89+8JieNOjA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rnorqQGDhu9gzkLbx7C3ZbEoLgKkp1oPgitcQqPdElk=;
- b=dgtsyPWgQe1L9k8fmir9m4e73vz3r78Scs5vMMnprCjWHqCtRubCVueDYR47EfDPXzHyatoJMylk99Z9HdnMmwDPCYgQwFP1u23Imgi7sKt9DgzmoHYzerbuhqdwwkjWwAhkHaikcY1je32D3ePeOLv3xQVwPUGMLYC+4Nva564=
+ bh=YRON+ubsgZGwkn6E+s3bOM0FOlUg/mnW4ku9VvG7GGg=;
+ b=IHa/hpjRX05N4BHBFGUKOADtmYFS5O+AFqDvsozaVXDOb6X00CARYNI7hunFRJnxM8oreQ2tXX8Pie/MI3WY4HXVNoaUcz0E8m7FDM9QHxjBHBfEQ8cbLC4mO60zX4mM5iRxHbbnZJ2i5B5JzcwX/Df3k826yuUBYEjSz0dKmT8=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SJ2PR12MB8652.namprd12.prod.outlook.com (2603:10b6:a03:53a::18)
+ by BN9PR12MB5049.namprd12.prod.outlook.com (2603:10b6:408:132::16)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.33; Mon, 29 Jan
- 2024 15:26:29 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.34; Mon, 29 Jan
+ 2024 15:33:43 +0000
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::e1fb:4123:48b1:653]) by PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::e1fb:4123:48b1:653%4]) with mapi id 15.20.7228.029; Mon, 29 Jan 2024
- 15:26:29 +0000
-Message-ID: <f6b4154f-62e8-42ab-a91c-b1b1c46342a6@amd.com>
-Date: Mon, 29 Jan 2024 16:26:20 +0100
+ 15:33:42 +0000
+Message-ID: <7db48b59-f4cc-4b32-88c8-6461a7470b63@amd.com>
+Date: Mon, 29 Jan 2024 16:33:36 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/8] drm/amd/display: Introduce KUnit to Display Mode
- Library
+Subject: Re: Making drm_gpuvm work across gpu devices
 Content-Language: en-US
-To: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Xinhui.Pan@amd.com,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Nicholas Choi <nicholas.choi@amd.com>, Daniel Latypov <dlatypov@google.com>,
- David Gow <davidgow@google.com>, hersenxs.wu@amd.com, magalilemes00@gmail.com
-References: <20240126155022.1184856-1-Rodrigo.Siqueira@amd.com>
+To: Felix Kuehling <felix.kuehling@amd.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20240117221223.18540-1-oak.zeng@intel.com>
+ <20240117221223.18540-22-oak.zeng@intel.com>
+ <ad21ec11-a9cb-4fb2-b9fd-00a4fa11525f@intel.com>
+ <PH7PR11MB70049E7E6A2F40BF6282ECC292742@PH7PR11MB7004.namprd11.prod.outlook.com>
+ <PH7PR11MB700440CE88BC0A94CFF8499792742@PH7PR11MB7004.namprd11.prod.outlook.com>
+ <2928ce36-06a6-4bee-b115-8dd61cc41dca@amd.com>
+ <SA1PR11MB699192584C01A26C781E2F9992742@SA1PR11MB6991.namprd11.prod.outlook.com>
+ <ccf34f6a-d704-43de-a15e-2ae2890f9381@amd.com>
+ <ZbKpWpOGuNKLJ6sA@phenom.ffwll.local>
+ <a3a5d6b3-3aa6-4d94-90e8-a6b4b8eeb3a2@amd.com>
 From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20240126155022.1184856-1-Rodrigo.Siqueira@amd.com>
+In-Reply-To: <a3a5d6b3-3aa6-4d94-90e8-a6b4b8eeb3a2@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0149.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:98::10) To PH7PR12MB5685.namprd12.prod.outlook.com
+X-ClientProxiedBy: FR0P281CA0237.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:b2::9) To PH7PR12MB5685.namprd12.prod.outlook.com
  (2603:10b6:510:13c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ2PR12MB8652:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7b5f255f-36c7-4248-2e34-08dc20deaa64
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|BN9PR12MB5049:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7f8f69e6-0026-4829-5388-08dc20dfac82
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5yMN8QIc0jV1xV3Gxua7TtbNprMgp3rQ5QiqaQO+9LUG4PhEE5s9Iu4Vb99+beumFgJ1qwL5afqTPGu1VB6ob2ZYQrJV0BLeyOkxRSG6gw24TnDttZLUkUp1XwWvEPKBfnkPE5PyYwSTS2KieYIN+qaTM4qAdaRBQKDePQyzVKQUgwp1ZNAvhlsiEIo1W75WGfQxy/9A+/fE2gGC7itXkgAJosBtbnMdy0nE0hvho4NYiq4IFniBqO7HlOSEXiyLxmajGOesACAymNx7Qd4vBGkV1+bUyeSDGyOyCpUnWV4Q0yrm209YSSNOQisO3IGYbt3M1z6o2kmWBZeR57ooUEYEQIP+RmWQ84YiTfr5g8QMauEg8kBiI/NTMI7FzY9CabQM0dIJADYFRo4woNXgus2kibK/chEwos+Z08vX1GSzjX811Es2KWcDNFvDwhmC41eMhB2yFMo8dGHVKdF9gxGI9DJx/OZ+xqP8gfd7Y55/iTlB880rzQGHs+nGE5GIKbTBOpgaMo1yXWEmKhGRIAFtKGjgJ2edLqsvteAxBE2fNkHrQ1edvb50Am1OUBrbpMfEVtXDAe7m75+sKB3DlpP3oJy6LoR9UZDDv7G8pY7f8SyDyJWlPNdZPAi5d5E6DndCoTWw8PzK6Ar7JFS5kkNCCz7jIix7UZ35ItcL8zc=
+X-Microsoft-Antispam-Message-Info: gofczEO7I7E8e3sbDZ1/2uiq4XWCDO8bl6cN5WpSspgFezgzZtO9igBqop3eqBOKIazEq3Av0Mg1jofRlfWFwV3IdC53Dmbe8WWQj1aScBLs1zN8MkiMnLzXbc4ZF2f5DgUePUiGd8Humzi5brS9JcMpY8zsEhMnzgXvDSNUHmMHagS7uMX2EAA0EKdcaOR7d4FG8ePQpPZkWK5/D9r3JjvciuB0V3GoepqqMlCYmHU5SD8HLFQ29l0cVUKy4cZU9SYATA+IXoEbjB/+VwcAg1efw84JGl1+uircFHgvJtxGXIDZkaM7gYVPgXOhsY8oeP8WOQww7Tc6zUDUzcU4TUHK2fYzdXTBXgWZiQ2SvhLyb/nPVw5FS7lMekyygzmkZv3d5huPpcLCGEXKcPo1lTwH3hvPIlgKrIck9LtxemOCOJNzYWJXp7Evx2gyMF7IFGhVCfRzehHCwCNRGgvtKXbgdUGTIGg01RAVsoFfjkA2xodjIHaj9SdCvQl7FKpa4WW7hbM0PMraUy8pGIpNWJntpRoOpk1MJCDua6HRrfXpjyc4g3mG231jWZ803d8ZQtTWjjhblyjpz/2REwlNcth7YBCSYfzGGRHaTIG8oQ2r3M/IvvPEdz8LyHOP3mo/WLIdtUn7pbnEcHmWzWyEQQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(39860400002)(366004)(396003)(346002)(376002)(136003)(230922051799003)(451199024)(1800799012)(186009)(64100799003)(8936002)(8676002)(316002)(66946007)(66556008)(66476007)(7416002)(4326008)(110136005)(26005)(83380400001)(31686004)(478600001)(6666004)(31696002)(38100700002)(86362001)(2906002)(5660300002)(6486002)(966005)(54906003)(2616005)(6512007)(6506007)(36756003)(921011)(66574015)(41300700001)(66899024)(43740500002)(45980500001);
+ SFS:(13230031)(376002)(136003)(396003)(366004)(346002)(39860400002)(230922051799003)(451199024)(1800799012)(186009)(64100799003)(83380400001)(6666004)(26005)(66574015)(6512007)(53546011)(6506007)(2616005)(38100700002)(5660300002)(7416002)(8676002)(4326008)(8936002)(41300700001)(6486002)(478600001)(316002)(110136005)(2906002)(54906003)(66946007)(66556008)(66476007)(36756003)(31696002)(86362001)(31686004)(43740500002)(45980500001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MWpVUkwyN1luWW5KYVhYdFFjOU1hZWs0M0NhQXJpWFJ2c2hHTmhTOUs5Z3pQ?=
- =?utf-8?B?RVpqb2FYTkpicHZSdXJ0MnNybHVDak9GZEdGck5BZVYxdGM2eVV1TUJ4ZFpU?=
- =?utf-8?B?dmRHQ1FUd1FoUVV3dUhSTUlqYTZHN2FScXNJNnBLR1pDV0FVUzhxeXQzVHpY?=
- =?utf-8?B?YU9xR1JYbEEyOVljR0c2c28xOGRjOE1FTEJ1aENXN1hVb3BXRldQekFJdFR1?=
- =?utf-8?B?a01mUUFQaWl0eXR0OERVRjhnSmZuSXhZVk1IdHJaMHdjQ2tsUkgxdDQ4b2Np?=
- =?utf-8?B?ZmZuYWRvNzFvRUt1R2dnK0pZTmx5YlZwOUEwUCtZR3R6VlJjVzN1YWVIVUtI?=
- =?utf-8?B?WGgySGw4TXRVbXN1TjAwYzJrWjRPbGl3VVdGam5lSmEvTVlWWElLNHY4QzFR?=
- =?utf-8?B?QjBjR1RpRnpXN2VEekJYeEl1SSs5ZFVDVFVjc3IrTXVZdjNQZGhoaEVQdmhv?=
- =?utf-8?B?SlpxSXEzcnhCZ1p5WjAwaU9DNkJLbjhsRndPd1NUc1NYOWxocXU1K0VWaWV0?=
- =?utf-8?B?NEVudU5GaGw1Q1VPbUZxZHhYTTlWR2l6K2I5YVlhT0lWYlVQYlNmanVvUHR4?=
- =?utf-8?B?LzR5US9KSnhZUnd2dUVaYlJvVUpLaFZOazFBTzdWWEk0b3RzNncrVjZ1VGFW?=
- =?utf-8?B?TC9MWENwUWx0aGxlTkRjMXl0M2hCelhhOGhRWmVKYm1HMUhlOS83NGZqMTVx?=
- =?utf-8?B?RWhLNW9aOG44b2huSGtNd3JORWNhQmlIb1c2VzBrMy9hK3o4cUpwQjUxUFRU?=
- =?utf-8?B?bStnNlMyc3hGTytob1c0b2FwSCs4Q3hzOVhBV0FNWFpCY0p0d1BBZGV0RXNZ?=
- =?utf-8?B?c0lyQ0dKMzVsNkthcWdYWERJMDY4UUJSa2FlOWpJVStFaDBQTHJNdlA1b1Nl?=
- =?utf-8?B?TzdxVlY3eHg0YTY0OUlGQWhHampCMnROZ3Yrbnh2bTc4WXRZaWdRQXlsbDBG?=
- =?utf-8?B?azBmQVI0VlhkdWhqVXVxVjZ5ak5XbU5rWHhWUTBBRlE2MnZ4eFJySHRUMUJO?=
- =?utf-8?B?M21BektmS3lCWmpJMUR0WFlFalZtelVnWWZmSGFMMHdLeDZPb0N5Rm5YbitF?=
- =?utf-8?B?TEZoWUFFTDd0OTcraHo0MHV3TlhlUVVRSTliU1dZZHBZdnVSaXRTYlQvMWd5?=
- =?utf-8?B?MmdTQyszQmNXaUprWEVuL2t2QmoxbHp4KzBKYjhiajU0Q2xEWmJNYVA3K0FE?=
- =?utf-8?B?T1Q0dFF6Vkt6cGVTdlJsZElXQU04RzJ6bDJ6TGVXdDU1Ty9mU1hISDlnZTBl?=
- =?utf-8?B?ZUltSWIxMFdYZWkvbnpHRGRHeGlmb3pyRUFIYXJid3EyaUZjYjl4d1VjWmlV?=
- =?utf-8?B?RWpOMGthNUMyWjZQZ0xZVUxlYkxiN1hpc05RTE5qSHk5YmhuQUpkQVp6eVN3?=
- =?utf-8?B?VU9tKzhPUG5KUjVhNHo1ZnM1SWZYRWhuR0xucUhWZFRlUjN1RVB1aGo4bGhs?=
- =?utf-8?B?UHNUN051bXpQTHluSjNBekJ4QjVEY3ZLcS9hMWwrd1NFaDBvMDJiUjBNa3cr?=
- =?utf-8?B?WFNSV0xySCtHam1lNCt4NjBJSXVYcmlGOWZjSWlLVDBSV1ZLSkpCaGtXdXlu?=
- =?utf-8?B?cGpZbjU0alFsMDdkejBxZU9YaTkyejd4cVVyL0FWamR3cUp3YjJmYkk4TFBL?=
- =?utf-8?B?RGlkUm5TckVZRE1vRHhOQWU0RS9nb1lnYWYxYVgvd2ZTRW9lbFhJRHQrb3Fv?=
- =?utf-8?B?UU83LzAxY3hCSzVESmltYTkxQW54WkdsOGcvWkh1RXkreWd6cXEyWXpMQm81?=
- =?utf-8?B?OG9Db2MvdlArZVozajNQSDRWM1h1SEljT0hHbGJzTFZDUHNOY1BrNzg4V1lS?=
- =?utf-8?B?eFlPU1lKR1RUZTVPS3NZc053WjVpR0c4dWJVR3RadDM3MkIvL09oOVZGdmdT?=
- =?utf-8?B?ZDFFQVBXclNYQVA2dDVZbnN1UHJlZjBueGQ4aGx5ZkNEUXNtNVEwTlZIYWhh?=
- =?utf-8?B?VmtSRzg3NGlxR0wxZEFEYk9oTlVTdU1QVzhaT1FVamlxS0N4cnprNGpjR0g5?=
- =?utf-8?B?ZjQ0ckh0RVByVEEyWWlRUnpFSW1kc29yc0sxeWgxckhuZ2YwVzRoYVBYOW1h?=
- =?utf-8?B?aGRxL0pDSFVxb1cydElBTm5NNC9DTG91eU1XTFVEcW1Oc1NWVlBDYkt5Vk9V?=
- =?utf-8?Q?ZRoM=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S3NQQlJMbTl5azNaZTNET1Z5akRWTDZuNEVqSGhxUjdDZXhManlwRUVRVFR6?=
+ =?utf-8?B?R1NnRDZlejZlVzdjbXNFTkw3NThtUUx2TjFTb3pFdFc0b2JZWHJhZUVkKzg4?=
+ =?utf-8?B?ZXhqQ2ZKdnY1S2xvd2xZTGRHaVFtVmRtYjBnNS9KOU5LcTUxYnNoMHNYblVC?=
+ =?utf-8?B?NXJibnd2aTJ6OUdlaFBtdFoxS3NlallmWmNNWWRBa0haMXN5WEVCNytaNlU2?=
+ =?utf-8?B?UzFpbnZWbEFLcXJtdGFnQzRSUkc1Wmo2K0NtQXYrTzBoNEFhL1YrRWRtZFN2?=
+ =?utf-8?B?WkdYNUZIam0xa3pxbFpVZmRYYTVTL3FibkIxdXRVTVBTMkxkdUtKZzlQb1Jz?=
+ =?utf-8?B?eDQ0emdEa0F4dlkrR0I0dWpMVXlSbzRlUW1sMG1QbWplMVNWd0htVGJlQllw?=
+ =?utf-8?B?Um91NHRkd01YYjl3NTZVR0luS3JReHJQSll4V01nK0hhRkFmUXlxSkdoZitC?=
+ =?utf-8?B?ajJyZXpYcmdDckhHWTI0L2hTRm9oSHNCMWs4UUVDMlluRCs2OVZ6WTNGLy9O?=
+ =?utf-8?B?YVVVVG1MdFFsYk9pQitoUGw5Q1ZJVEdNODYrb0djcmRFWWNZSEpKLzJlMCtm?=
+ =?utf-8?B?ZUsvZXExN2gxdStrZGRPeXNyOFJaeUFHQWpuOTBmUHpRM29aQlhORHZ6YkJ6?=
+ =?utf-8?B?V1hYYkpVenI2bmZVQytobDlIb1pLZjlFZEtSeVJXUnVieVMvaEpnSEdYaFpt?=
+ =?utf-8?B?ellQc09DTCtiV2RVUXQ5RWFwenpMWHBMQzRjQ1haZGswT3k0RkhManJWN0JE?=
+ =?utf-8?B?K3VKdG1zUGhRdWFMOHRRTC9yME01emlhdGwyUFlJVXVrQkh4UTVDY2ppbkpp?=
+ =?utf-8?B?NHZzMTM4ZzIwU3hWOG5jMHBnWVhxaFdyUDlsNWVoTG1OdkxGV0Q1YktrTG8y?=
+ =?utf-8?B?NmZmYVRTeWRpSTFUeCtkWjhLYUpqcGVNUmVTL0xNdWc5TUxlWkdzSjZvUnpP?=
+ =?utf-8?B?LytpcWVKcTdXeCtQZ09VL1VNSE91b2JndE80ZHN6U3ZWcHpCanFaa2dranBh?=
+ =?utf-8?B?ck11SG5IRDl0STNOTllTOTZXRVBhRVl6S1p1dWxWbkVXSllORmFBUWtkOVdW?=
+ =?utf-8?B?SENVR05TNXB2eGJyRlEyUXB5emxtdGgrUjYvK1FTTEsvWUlSNFZDaEJQVS9p?=
+ =?utf-8?B?QUo1Rm1uMUdza1VhblhSTUNhaTM5dFRPQTI1NHF0OUNoaElENHpiRlBsN2V1?=
+ =?utf-8?B?dFlycnRWM04vM3MxdjZmZEVWSC9rRnNyNnlleXZZd1FIUXVCQjZ1THg4b2hD?=
+ =?utf-8?B?ZDA2OGJqdjRPRTlHME4wZkdDelFyTE9pbGFWckszRk9BVC9FYXRFaFRCTTcv?=
+ =?utf-8?B?NVFJTkNuRFc0aVFWSWdsTmhmUXA0WkxSdHJGQXZRVXVTazJicXRrUnZmd2p4?=
+ =?utf-8?B?QWVnZkZvNElndEN0c3lCRjJ6a3NMWGdFMlJiQi9jaGVRSG42cGE3aXFnRXlm?=
+ =?utf-8?B?RXVYamRXbXRNNXd5UEluTmJzd0tXbXRRQmFNV0NYOXRoNWl2Qkl5b1J0WGJm?=
+ =?utf-8?B?RmwxblpQNzFTZFYrNmN5ZHNkSzA5WjZuWmZ4NHdadGNsTmNwTUt3am4vb0h6?=
+ =?utf-8?B?ditnM3QydHBsbXdIdjZDbWF3L0IzM1k5dzNHK1U4MWY0NW9PRzYvRGRPWHc4?=
+ =?utf-8?B?RWRRNFpJRmhSVHdPMEhPSDZkc0hQbkh4N3dKOTlkQ1JXRE9UNnRLS2E0Qk9k?=
+ =?utf-8?B?TUNjWGhqU3VUR0FOQnoyQUZCSVdtVmUreEF2SVY1cXVkTU8zdUJOQmxCdkYw?=
+ =?utf-8?B?dnBUejYvN1o2NG9HNHN5aCs1RTRDSHEyMTNUYUowZVhuUTdJbzJaMWhrOTRB?=
+ =?utf-8?B?ZC9TSU5vVGUvZzNLa1dtUkRZOW9ycFhvNjMwM1YwNU56WEpnLzBEbnB4ay80?=
+ =?utf-8?B?Ull2SUN2djlKQ2RtdUM3Unk3SURtdzRlWFNWWnRoT1lBV3NpMVNjQXRUVXk2?=
+ =?utf-8?B?YVN5RTVNNzdNQXJyL2ltUlJRZEV6NmFrOW9OUmg0am1LQTJBSVNWOWNWYTA5?=
+ =?utf-8?B?NGgrUVBWU3hrK2lkVlRGTWdVVEJWc1Y1R1Nvck9RNURVcm42NmY1THRITG4r?=
+ =?utf-8?B?di9WMlQvcFZ2dk52WVRsTEpYUHhncFpDYjFyRjBjQVhRSWpKWE90bEVRUUNK?=
+ =?utf-8?Q?GQ8FyPiUEctVcRe+dq2thLULd?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7b5f255f-36c7-4248-2e34-08dc20deaa64
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7f8f69e6-0026-4829-5388-08dc20dfac82
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2024 15:26:29.7061 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2024 15:33:42.7377 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QmW/5FhK2pjrHp0JT9EeW/GwBNQIIhBCuwYikmmdikNq4jMG74JuA3DSAaJfDVJ/
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8652
+X-MS-Exchange-CrossTenant-UserPrincipalName: pCIZmldfNFqL5VhpL9e4VG5em1jjgyPGmLrSRnYEs8FbwTtlP5Sywa/riDHb3Gi7
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5049
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,126 +132,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tales.aparecida@gmail.com, Trevor Woerner <twoerner@gmail.com>,
- javierm@redhat.com, dri-devel@lists.freedesktop.org, mwen@igalia.com,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>,
- amd-gfx@lists.freedesktop.org, Isabella Basso <isabbasso@riseup.net>,
- andrealmeid@riseup.net, kunit-dev@googlegroups.com
+Cc: "Brost, Matthew" <matthew.brost@intel.com>,
+ "Thomas.Hellstrom@linux.intel.com" <Thomas.Hellstrom@linux.intel.com>, "Welty,
+ Brian" <brian.welty@intel.com>, "Ghimiray,
+ Himal Prasad" <himal.prasad.ghimiray@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Gupta,
+ saurabhg" <saurabhg.gupta@intel.com>, Danilo Krummrich <dakr@redhat.com>,
+ "Zeng, Oak" <oak.zeng@intel.com>, "Bommu,
+ Krishnaiah" <krishnaiah.bommu@intel.com>, Dave Airlie <airlied@redhat.com>,
+ "Vishwanathapura, Niranjana" <niranjana.vishwanathapura@intel.com>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-That we include so many C files with relative paths seems to be odd.
+Am 29.01.24 um 16:03 schrieb Felix Kuehling:
+> On 2024-01-25 13:32, Daniel Vetter wrote:
+>> On Wed, Jan 24, 2024 at 09:33:12AM +0100, Christian König wrote:
+>>> Am 23.01.24 um 20:37 schrieb Zeng, Oak:
+>>>> [SNIP]
+>>>> Yes most API are per device based.
+>>>>
+>>>> One exception I know is actually the kfd SVM API. If you look at 
+>>>> the svm_ioctl function, it is per-process based. Each kfd_process 
+>>>> represent a process across N gpu devices.
+>>> Yeah and that was a big mistake in my opinion. We should really not 
+>>> do that
+>>> ever again.
+>>>
+>>>> Need to say, kfd SVM represent a shared virtual address space 
+>>>> across CPU and all GPU devices on the system. This is by the 
+>>>> definition of SVM (shared virtual memory). This is very different 
+>>>> from our legacy gpu *device* driver which works for only one device 
+>>>> (i.e., if you want one device to access another device's memory, 
+>>>> you will have to use dma-buf export/import etc).
+>>> Exactly that thinking is what we have currently found as blocker for a
+>>> virtualization projects. Having SVM as device independent feature which
+>>> somehow ties to the process address space turned out to be an 
+>>> extremely bad
+>>> idea.
+>>>
+>>> The background is that this only works for some use cases but not 
+>>> all of
+>>> them.
+>>>
+>>> What's working much better is to just have a mirror functionality 
+>>> which says
+>>> that a range A..B of the process address space is mapped into a 
+>>> range C..D
+>>> of the GPU address space.
+>>>
+>>> Those ranges can then be used to implement the SVM feature required for
+>>> higher level APIs and not something you need at the UAPI or even 
+>>> inside the
+>>> low level kernel memory management.
+>>>
+>>> When you talk about migrating memory to a device you also do this on 
+>>> a per
+>>> device basis and *not* tied to the process address space. If you 
+>>> then get
+>>> crappy performance because userspace gave contradicting information 
+>>> where to
+>>> migrate memory then that's a bug in userspace and not something the 
+>>> kernel
+>>> should try to prevent somehow.
+>>>
+>>> [SNIP]
+>>>>> I think if you start using the same drm_gpuvm for multiple devices 
+>>>>> you
+>>>>> will sooner or later start to run into the same mess we have seen 
+>>>>> with
+>>>>> KFD, where we moved more and more functionality from the KFD to 
+>>>>> the DRM
+>>>>> render node because we found that a lot of the stuff simply 
+>>>>> doesn't work
+>>>>> correctly with a single object to maintain the state.
+>>>> As I understand it, KFD is designed to work across devices. A 
+>>>> single pseudo /dev/kfd device represent all hardware gpu devices. 
+>>>> That is why during kfd open, many pdd (process device data) is 
+>>>> created, each for one hardware device for this process.
+>>> Yes, I'm perfectly aware of that. And I can only repeat myself that 
+>>> I see
+>>> this design as a rather extreme failure. And I think it's one of the 
+>>> reasons
+>>> why NVidia is so dominant with Cuda.
+>>>
+>>> This whole approach KFD takes was designed with the idea of 
+>>> extending the
+>>> CPU process into the GPUs, but this idea only works for a few use 
+>>> cases and
+>>> is not something we should apply to drivers in general.
+>>>
+>>> A very good example are virtualization use cases where you end up 
+>>> with CPU
+>>> address != GPU address because the VAs are actually coming from the 
+>>> guest VM
+>>> and not the host process.
+>>>
+>>> SVM is a high level concept of OpenCL, Cuda, ROCm etc.. This should 
+>>> not have
+>>> any influence on the design of the kernel UAPI.
+>>>
+>>> If you want to do something similar as KFD for Xe I think you need 
+>>> to get
+>>> explicit permission to do this from Dave and Daniel and maybe even 
+>>> Linus.
+>> I think the one and only one exception where an SVM uapi like in kfd 
+>> makes
+>> sense, is if the _hardware_ itself, not the software stack defined
+>> semantics that you've happened to build on top of that hw, enforces a 
+>> 1:1
+>> mapping with the cpu process address space.
+>>
+>> Which means your hardware is using PASID, IOMMU based translation, 
+>> PCI-ATS
+>> (address translation services) or whatever your hw calls it and has _no_
+>> device-side pagetables on top. Which from what I've seen all devices 
+>> with
+>> device-memory have, simply because they need some place to store whether
+>> that memory is currently in device memory or should be translated using
+>> PASID. Currently there's no gpu that works with PASID only, but there 
+>> are
+>> some on-cpu-die accelerator things that do work like that.
+>>
+>> Maybe in the future there will be some accelerators that are fully cpu
+>> cache coherent (including atomics) with something like CXL, and the
+>> on-device memory is managed as normal system memory with struct page as
+>> ZONE_DEVICE and accelerator va -> physical address translation is only
+>> done with PASID ... but for now I haven't seen that, definitely not in
+>> upstream drivers.
+>>
+>> And the moment you have some per-device pagetables or per-device memory
+>> management of some sort (like using gpuva mgr) then I'm 100% agreeing 
+>> with
+>> Christian that the kfd SVM model is too strict and not a great idea.
+>
+> That basically means, without ATS/PRI+PASID you cannot implement a 
+> unified memory programming model, where GPUs or accelerators access 
+> virtual addresses without pre-registering them with an SVM API call.
+>
+> Unified memory is a feature implemented by the KFD SVM API and used by 
+> ROCm. This is used e.g. to implement OpenMP USM (unified shared 
+> memory). It's implemented with recoverable GPU page faults. If the 
+> page fault interrupt handler cannot assume a shared virtual address 
+> space, then implementing this feature isn't possible.
 
-Apart from that looks good to me.
+Why not? As far as I can see the OpenMP USM is just another funky way of 
+userptr handling.
 
+The difference is that in an userptr we assume that we always need to 
+request the whole block A..B from a mapping while for page fault based 
+handling it can be just any page in between A and B which is requested 
+and made available to the GPU address space.
+
+As far as I can see there is absolutely no need for any special SVM 
+handling.
+
+Regards,
 Christian.
 
-Am 26.01.24 um 16:48 schrieb Rodrigo Siqueira:
-> In 2022, we got a great patchset from a GSoC project introducing unit
-> tests to the amdgpu display. Since version 3, this effort was put on
-> hold, and now I'm attempting to revive it. I'll add part of the original
-> cover letter at the bottom of this cover letter, but you can read all
-> the original messages at:
 >
-> https://lore.kernel.org/amd-gfx/20220912155919.39877-1-mairacanal@riseup.net/
+> Regards,
+>   Felix
 >
-> Anyway, this new version changes are:
-> - Rebase and adjust conflicts.
-> - Rewrite part of the dc_dmub_srv_test to represent a real scenario that
->    simulates some parameter configuration for using 4k144 and 4k240
->    displays.
 >
-> Thanks
-> Siqueira
->
-> Original cover letter
->
-> Hello,
->
-> This series is version 3 of the introduction of unit testing to the
-> AMDPGU driver [1].
->
-> Our main goal is to bring unit testing to the AMD display driver; in
-> particular, we'll focus on the Display Mode Library (DML) for DCN2.0,
-> DMUB, and some of the DCE functions. This implementation intends to
-> help developers to recognize bugs before they are merged into the
-> mainline and also makes it possible for future code refactors of the
-> AMD display driver.
->
-> For the implementation of the tests, we decided to go with the Kernel
-> Unit Testing Framework (KUnit). KUnit makes it possible to run test
-> suites on kernel boot or load the tests as a module. It reports all test
-> case results through a TAP (Test Anything Protocol) in the kernel log.
-> Moreover, KUnit unifies the test structure and provides tools to
-> simplify the testing for developers and CI systems.
->
-> In regards to CI pipelines, we believe kunit_tool [2] provides
-> ease of use, but we are also working on integrating KUnit into IGT [3].
->
-> Since the second version, we've chosen a mix of approaches to integrate
-> KUnit tests into amdgpu:
->      1. Tests that use static functions are included through guards [4].
->      2. Tests without static functions are included through a Makefile.
->
-> We understand that testing static functions is not ideal, but taking into
-> consideration that this driver relies heavily on static functions with
-> complex behavior which would benefit from unit testing, otherwise, black-box
-> tested through public functions with dozens of arguments and sometimes high
-> cyclomatic complexity.
->
-> The first seven patches represent what we intend to do for the rest of the
-> DML modules: systematic testing of the DML functions, especially mathematically
-> complicated functions. Also, it shows how simple it is to add new tests to the DML.
->
-> Among the tests, we highlight the dcn20_fpu_test, which, had it existed
-> then, could catch the defects introduced to dcn20_fpu.c by 8861c27a6c [5]
-> later fixed by 9ad5d02c2a [6].
->
-> In this series, there's also an example of how unit tests can help avoid
-> regressions and keep track of changes in behavior.
->
-> [..]
->
-> Isabella Basso (1):
->    drm/amd/display: Introduce KUnit tests to display_rq_dlg_calc_20
->
-> Magali Lemes (1):
->    drm/amd/display: Introduce KUnit tests for dcn20_fpu
->
-> Maíra Canal (5):
->    drm/amd/display: Introduce KUnit tests to the bw_fixed library
->    drm/amd/display: Introduce KUnit tests to the display_mode_vba library
->    drm/amd/display: Introduce KUnit to dcn20/display_mode_vba_20 library
->    drm/amd/display: Introduce KUnit tests to dc_dmub_srv library
->    Documentation/gpu: Add Display Core Unit Test documentation
->
-> Tales Aparecida (1):
->    drm/amd/display: Introduce KUnit tests for fixed31_32 library
->
->   .../gpu/amdgpu/display/display-test.rst       |  88 ++
->   Documentation/gpu/amdgpu/display/index.rst    |   1 +
->   drivers/gpu/drm/amd/display/Kconfig           |  52 +
->   drivers/gpu/drm/amd/display/Makefile          |   2 +-
->   drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c  |   4 +
->   .../dc/dml/dcn20/display_mode_vba_20.c        |   4 +
->   .../dc/dml/dcn20/display_rq_dlg_calc_20.c     |   4 +
->   drivers/gpu/drm/amd/display/tests/Makefile    |  18 +
->   .../display/tests/dc/basics/fixpt31_32_test.c | 232 +++++
->   .../amd/display/tests/dc/dc_dmub_srv_test.c   | 159 ++++
->   .../tests/dc/dml/calcs/bw_fixed_test.c        | 323 +++++++
->   .../tests/dc/dml/dcn20/dcn20_fpu_test.c       | 561 +++++++++++
->   .../dc/dml/dcn20/display_mode_vba_20_test.c   | 888 ++++++++++++++++++
->   .../dml/dcn20/display_rq_dlg_calc_20_test.c   | 124 +++
->   .../tests/dc/dml/display_mode_vba_test.c      | 741 +++++++++++++++
->   15 files changed, 3200 insertions(+), 1 deletion(-)
->   create mode 100644 Documentation/gpu/amdgpu/display/display-test.rst
->   create mode 100644 drivers/gpu/drm/amd/display/tests/Makefile
->   create mode 100644 drivers/gpu/drm/amd/display/tests/dc/basics/fixpt31_32_test.c
->   create mode 100644 drivers/gpu/drm/amd/display/tests/dc/dc_dmub_srv_test.c
->   create mode 100644 drivers/gpu/drm/amd/display/tests/dc/dml/calcs/bw_fixed_test.c
->   create mode 100644 drivers/gpu/drm/amd/display/tests/dc/dml/dcn20/dcn20_fpu_test.c
->   create mode 100644 drivers/gpu/drm/amd/display/tests/dc/dml/dcn20/display_mode_vba_20_test.c
->   create mode 100644 drivers/gpu/drm/amd/display/tests/dc/dml/dcn20/display_rq_dlg_calc_20_test.c
->   create mode 100644 drivers/gpu/drm/amd/display/tests/dc/dml/display_mode_vba_test.c
->
+>>
+>> Cheers, Sima
 
