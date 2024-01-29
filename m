@@ -2,80 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B868A83FD13
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 05:01:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5F8483FD21
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 05:10:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F3DB10EDAF;
-	Mon, 29 Jan 2024 04:01:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1975E1122F2;
+	Mon, 29 Jan 2024 04:09:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E97010E810;
- Mon, 29 Jan 2024 04:01:41 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 40T2rAKI012429; Mon, 29 Jan 2024 04:01:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=/jtbH6p9lwWB7nQttg74tn7I1RrwSl2ReSpJkvqn7OQ=; b=cD
- aMX+2v29ApP/6o2puqsu0MNKVxVpFGXFOLw/ivE0DQw4OMsMc3uXsRqXRQb4HpRE
- LZAFQODPWYPgey5I9vdr6mgAreU+vtw67p6idV9Rx1Jte3fE7HMrLq20WkhFH80Q
- +4niIzKZSi6t+7CGjnNxqfbIARbwMS/IbVbpqolCod9gSYJE9BaOISRpg20rLoh0
- Jdb5s5lUT+G/opkWltFA1zsi63n3bpirRsnKovDFL65r5B3ccfSGv0mW9KzU0iBy
- dHFlPraDZcZugsP1SmDUg0wykueaRhuJ61B1Sp4NtceRyYBlHg0aZHkU0lfC/2nl
- vvhLYQsVod1CdOT4ifOg==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vvrubar2x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 29 Jan 2024 04:00:18 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40T40HVT005490
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 29 Jan 2024 04:00:17 GMT
-Received: from [10.110.98.98] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Sun, 28 Jan
- 2024 20:00:16 -0800
-Message-ID: <0bed7afe-b73a-b1de-edc0-a25b368556bf@quicinc.com>
-Date: Sun, 28 Jan 2024 20:00:15 -0800
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com
+ [209.85.222.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDB8D1122F2;
+ Mon, 29 Jan 2024 04:09:24 +0000 (UTC)
+Received: by mail-qk1-f173.google.com with SMTP id
+ af79cd13be357-783d916d039so197404485a.2; 
+ Sun, 28 Jan 2024 20:09:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1706501304; x=1707106104; darn=lists.freedesktop.org;
+ h=in-reply-to:autocrypt:from:references:cc:to:content-language
+ :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=aK/DeH37UJ3zBFzoYfRccZROfS9NQRZ8LG2l7m048Kk=;
+ b=UZVZpQx5OPNAfivGuhY1WaLBG+/IETbDhXV62yOicTM5Nj9bXFFNcsNVC7w6TxOhJc
+ 7LjdDFwppe7LBI3duRHx6VQbhV9k02+IhCS04cZ+IWZtM5l/WNmyGw6zOxAJ8Uy/mMxT
+ K+fi0K51VSzMT4AsQBIjqEqykHBdgt/HtVyJExxIXsoK+s5CIV8NvvudKwjQdX+mYWQF
+ pQdVNGtAATFuCK2qhae3pt+g7YftIsExJui9lvvM7OOBFWcClX9u632qR0PF58XyANzi
+ TzYXAUGoDx7ppzTHstaLhXXbW7sztdXrutnvRi4KRdxF4VoQMiduRMWErdMtzrllNHBc
+ JgQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1706501304; x=1707106104;
+ h=in-reply-to:autocrypt:from:references:cc:to:content-language
+ :subject:user-agent:mime-version:date:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=aK/DeH37UJ3zBFzoYfRccZROfS9NQRZ8LG2l7m048Kk=;
+ b=VI4jCAcOL04291ON3e5I2Z/kTcWMputKFXPkExMI2O8BKOus7CFm8HyzwgJiHKlTvl
+ kP5OhXGAECIbvwCI3u1XwAgsD+SSqyqZ6tB20vyuOSYjjQaBNzRSbWm7kIszm9uPQz5Q
+ VkNfXiDlHg7wPT46ZN9y7g1xp48zjoxtobSpjpH5msSg2nAl73W1jcSCN4roIX4/3lmT
+ DQAhEy7zcD8f24SieBvJjenzjbC76wilH0MW18rwxmNNkIOXP629GxQuwBzJInlMKBWu
+ cSqSk+LlP2ssMQZCVEzECsRUpqBJdL79s2shjefiSSIlBYirpZ5u1aluyElOHbx434If
+ 9quw==
+X-Gm-Message-State: AOJu0YwaPrbDmUmKmBzTXAds4ACTV4b/S2n27bUSZgbnw48ClGsKuzxN
+ SPTK+n92VHJ+zE6jLEw5c/zMcMJpazo+Fsa3PX8ENFK6uSIzFace
+X-Google-Smtp-Source: AGHT+IHgrP2/DHf4BPhiY7+eLfP8VuvmZv95SQvc3FZc8vOTm4TiVqsYwttcIKO9f7TOw7ukRur4EA==
+X-Received: by 2002:a05:620a:19a1:b0:783:c7dc:4d34 with SMTP id
+ bm33-20020a05620a19a100b00783c7dc4d34mr8390022qkb.63.1706501303798; 
+ Sun, 28 Jan 2024 20:08:23 -0800 (PST)
+Received: from [192.168.2.14] ([174.88.31.222])
+ by smtp.gmail.com with ESMTPSA id
+ l18-20020a05620a28d200b00783dfd725absm2150414qkp.42.2024.01.28.20.08.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 28 Jan 2024 20:08:23 -0800 (PST)
+Message-ID: <2a6dc042-9e40-4c9a-97f4-667a99b3d7bf@gmail.com>
+Date: Sun, 28 Jan 2024 23:08:13 -0500
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 01/17] drm/msm/dpu: allow
- dpu_encoder_helper_phys_setup_cdm to work for DP
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20240125193834.7065-1-quic_parellan@quicinc.com>
- <20240125193834.7065-2-quic_parellan@quicinc.com>
- <31e4a033-1779-450c-980e-63c8567837ed@linaro.org>
- <fa5ce695-8c00-1ae4-04cd-d1b49b42c5d6@quicinc.com>
- <5d0b2da2-7683-f801-0acf-255a8c2bd618@quicinc.com>
- <CAA8EJpoTtzupauFah=65Yn_cRQzDbgpLw-6GuXWCUwPcNJvKOA@mail.gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAA8EJpoTtzupauFah=65Yn_cRQzDbgpLw-6GuXWCUwPcNJvKOA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: yT-g3LpLblL9x3QTBRdA2syPzKAJbfcj
-X-Proofpoint-GUID: yT-g3LpLblL9x3QTBRdA2syPzKAJbfcj
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-25_14,2024-01-25_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- bulkscore=0 mlxlogscore=999 spamscore=0 mlxscore=0 malwarescore=0
- priorityscore=1501 adultscore=0 suspectscore=0 impostorscore=0
- phishscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401190000 definitions=main-2401290026
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
+ Thunderbird/115.6.0
+Subject: Re: [PATCH] drm/sched: Drain all entities in DRM sched run job worker
+Content-Language: en-CA, en-US
+To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20240124210811.1639040-1-matthew.brost@intel.com>
+From: Luben Tuikov <ltuikov89@gmail.com>
+Autocrypt: addr=ltuikov89@gmail.com; keydata=
+ xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1APnbnnRHN
+ Ikx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoAQRYhBJkj7+VmFO9b
+ eaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheA
+ AAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlTMqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfy
+ JwktF7REl1yt7IU2Sye1qmQMfJxdt9JMbMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSP
+ cCE8uGe7FWo8C+nTSyWPXKTx9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl
+ 10wVR5QxozSvBQJlOiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKo
+ aMDzO9eGz69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA==
+In-Reply-To: <20240124210811.1639040-1-matthew.brost@intel.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------9Tlx4K3ZhpZJyhOyd4L0Ypev"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,168 +87,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, marijn.suijten@somainline.org,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, seanpaul@chromium.org, quic_jesszhan@quicinc.com,
- Paloma Arellano <quic_parellan@quicinc.com>, quic_khsieh@quicinc.com,
- freedreno@lists.freedesktop.org
+Cc: Thorsten Leemhuis <regressions@leemhuis.info>,
+ Mario Limonciello <mario.limonciello@amd.com>, daniel@ffwll.ch,
+ Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>, airlied@gmail.com,
+ christian.koenig@amd.com, Vlastimil Babka <vbabka@suse.cz>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------9Tlx4K3ZhpZJyhOyd4L0Ypev
+Content-Type: multipart/mixed; boundary="------------IHVr9Fxg0ouNhkYq0EhO9D3U";
+ protected-headers="v1"
+From: Luben Tuikov <ltuikov89@gmail.com>
+To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: airlied@gmail.com, daniel@ffwll.ch, christian.koenig@amd.com,
+ Thorsten Leemhuis <regressions@leemhuis.info>,
+ Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Vlastimil Babka <vbabka@suse.cz>
+Message-ID: <2a6dc042-9e40-4c9a-97f4-667a99b3d7bf@gmail.com>
+Subject: Re: [PATCH] drm/sched: Drain all entities in DRM sched run job worker
+References: <20240124210811.1639040-1-matthew.brost@intel.com>
+In-Reply-To: <20240124210811.1639040-1-matthew.brost@intel.com>
 
+--------------IHVr9Fxg0ouNhkYq0EhO9D3U
+Content-Type: multipart/mixed; boundary="------------zbDDSdo5pXwSYSJZY0OkNzjZ"
 
-On 1/28/2024 7:23 PM, Dmitry Baryshkov wrote:
-> On Mon, 29 Jan 2024 at 05:06, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->>
->>
->> On 1/26/2024 4:39 PM, Paloma Arellano wrote:
->>>
->>> On 1/25/2024 1:14 PM, Dmitry Baryshkov wrote:
->>>> On 25/01/2024 21:38, Paloma Arellano wrote:
->>>>> Generalize dpu_encoder_helper_phys_setup_cdm to be compatible with DP.
->>>>>
->>>>> Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
->>>>> ---
->>>>>    .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  |  4 +--
->>>>>    .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   | 31 ++++++++++---------
->>>>>    2 files changed, 18 insertions(+), 17 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
->>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
->>>>> index 993f263433314..37ac385727c3b 100644
->>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
->>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
->>>>> @@ -153,6 +153,7 @@ enum dpu_intr_idx {
->>>>>     * @hw_intf:        Hardware interface to the intf registers
->>>>>     * @hw_wb:        Hardware interface to the wb registers
->>>>>     * @hw_cdm:        Hardware interface to the CDM registers
->>>>> + * @cdm_cfg:    CDM block config needed to store WB/DP block's CDM
->>>>> configuration
->>>>
->>>> Please realign the description.
->>> Ack
->>>>
->>>>>     * @dpu_kms:        Pointer to the dpu_kms top level
->>>>>     * @cached_mode:    DRM mode cached at mode_set time, acted on in
->>>>> enable
->>>>>     * @vblank_ctl_lock:    Vblank ctl mutex lock to protect
->>>>> vblank_refcount
->>>>> @@ -183,6 +184,7 @@ struct dpu_encoder_phys {
->>>>>        struct dpu_hw_intf *hw_intf;
->>>>>        struct dpu_hw_wb *hw_wb;
->>>>>        struct dpu_hw_cdm *hw_cdm;
->>>>> +    struct dpu_hw_cdm_cfg cdm_cfg;
->>>>
->>>> It might be slightly better to move it after all the pointers, so
->>>> after the dpu_kms.
->>> Ack
->>>>
->>>>>        struct dpu_kms *dpu_kms;
->>>>>        struct drm_display_mode cached_mode;
->>>>>        struct mutex vblank_ctl_lock;
->>>>> @@ -213,7 +215,6 @@ static inline int
->>>>> dpu_encoder_phys_inc_pending(struct dpu_encoder_phys *phys)
->>>>>     * @wbirq_refcount:     Reference count of writeback interrupt
->>>>>     * @wb_done_timeout_cnt: number of wb done irq timeout errors
->>>>>     * @wb_cfg:  writeback block config to store fb related details
->>>>> - * @cdm_cfg: cdm block config needed to store writeback block's CDM
->>>>> configuration
->>>>>     * @wb_conn: backpointer to writeback connector
->>>>>     * @wb_job: backpointer to current writeback job
->>>>>     * @dest:   dpu buffer layout for current writeback output buffer
->>>>> @@ -223,7 +224,6 @@ struct dpu_encoder_phys_wb {
->>>>>        atomic_t wbirq_refcount;
->>>>>        int wb_done_timeout_cnt;
->>>>>        struct dpu_hw_wb_cfg wb_cfg;
->>>>> -    struct dpu_hw_cdm_cfg cdm_cfg;
->>>>>        struct drm_writeback_connector *wb_conn;
->>>>>        struct drm_writeback_job *wb_job;
->>>>>        struct dpu_hw_fmt_layout dest;
->>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
->>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
->>>>> index 4cd2d9e3131a4..072fc6950e496 100644
->>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
->>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
->>>>> @@ -269,28 +269,21 @@ static void
->>>>> dpu_encoder_phys_wb_setup_ctl(struct dpu_encoder_phys *phys_enc)
->>>>>     *                                     This API does not handle
->>>>> DPU_CHROMA_H1V2.
->>>>>     * @phys_enc:Pointer to physical encoder
->>>>>     */
->>>>> -static void dpu_encoder_helper_phys_setup_cdm(struct
->>>>> dpu_encoder_phys *phys_enc)
->>>>> +static void dpu_encoder_helper_phys_setup_cdm(struct
->>>>> dpu_encoder_phys *phys_enc,
->>>>> +                          const struct dpu_format *dpu_fmt,
->>>>> +                          u32 output_type)
->>>>>    {
->>>>>        struct dpu_hw_cdm *hw_cdm;
->>>>>        struct dpu_hw_cdm_cfg *cdm_cfg;
->>>>>        struct dpu_hw_pingpong *hw_pp;
->>>>> -    struct dpu_encoder_phys_wb *wb_enc;
->>>>> -    const struct msm_format *format;
->>>>> -    const struct dpu_format *dpu_fmt;
->>>>> -    struct drm_writeback_job *wb_job;
->>>>>        int ret;
->>>>>          if (!phys_enc)
->>>>>            return;
->>>>>    -    wb_enc = to_dpu_encoder_phys_wb(phys_enc);
->>>>> -    cdm_cfg = &wb_enc->cdm_cfg;
->>>>> +    cdm_cfg = &phys_enc->cdm_cfg;
->>>>>        hw_pp = phys_enc->hw_pp;
->>>>>        hw_cdm = phys_enc->hw_cdm;
->>>>> -    wb_job = wb_enc->wb_job;
->>>>> -
->>>>> -    format = msm_framebuffer_format(wb_enc->wb_job->fb);
->>>>> -    dpu_fmt = dpu_get_dpu_format_ext(format->pixel_format,
->>>>> wb_job->fb->modifier);
->>>>>          if (!hw_cdm)
->>>>>            return;
->>>>> @@ -306,10 +299,10 @@ static void
->>>>> dpu_encoder_helper_phys_setup_cdm(struct dpu_encoder_phys *phys_enc)
->>>>>          memset(cdm_cfg, 0, sizeof(struct dpu_hw_cdm_cfg));
->>>>>    -    cdm_cfg->output_width = wb_job->fb->width;
->>>>> -    cdm_cfg->output_height = wb_job->fb->height;
->>>>> +    cdm_cfg->output_width = phys_enc->cached_mode.hdisplay;
->>>>> +    cdm_cfg->output_height = phys_enc->cached_mode.vdisplay;
->>>>
->>>> This is a semantic change. Instead of passing the FB size, this passes
->>>> the mode dimensions. They are not guaranteed to be the same,
->>>> especially for the WB case.
->>>>
->>
->> The WB job is storing the output FB of WB. I cannot think of a use-case
->> where this cannot match the current mode programmed to the WB encoder.
->>
->> Yes, if it was the drm_plane's FB, then it cannot be guaranteed as the
->> plane can scale the contents but here thats not the case. Here its the
->> output FB of WB.
-> 
-> Is it a part of WB uAPI, to have the FB dimensions equal to mode
-> dimensions? Or is it just our current limitation? I can easily imagine
-> WB outputting data to a part of the FB (just like we can clip FB using
-> plane's clip rectangle).
-> 
-> This boils down to a question, whether CDM should be setup in terms of
-> actual output date or the physical memory buffer parameters. I suspect
-> the former is the case (which makes this change correct). But it
-> either should be described in the commit message or (even better)
-> split to a separate commit.
-> 
+--------------zbDDSdo5pXwSYSJZY0OkNzjZ
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-I would say its a combination of both today.
+On 2024-01-24 16:08, Matthew Brost wrote:
+> All entities must be drained in the DRM scheduler run job worker to
+> avoid the following case. An entity found that is ready, no job found
+> ready on entity, and run job worker goes idle with other entities + job=
+s
+> ready. Draining all ready entities (i.e. loop over all ready entities)
+> in the run job worker ensures all job that are ready will be scheduled.=
 
-The way I would look at it is even if WB crops a certain section of FB, 
-that will not change the FB size. FB size of WB should match the rest of 
-the DRM pipeline (the mode programmed to the CRTC/encoder). If WB 
-decides to write to only a small section of FB (cropping), then we need 
-another WB property like CROP_ROI so that we can program the WB to only 
-write to a small section of the programmed FB. So in some sense, there 
-is no such support in DRM UAPI today. Hence the FB of WB is the full 
-mode of the WB.
+>=20
+> Cc: Thorsten Leemhuis <regressions@leemhuis.info>
+> Reported-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+> Closes: https://lore.kernel.org/all/CABXGCsM2VLs489CH-vF-1539-s3in37=3D=
+bwuOWtoeeE+q26zE+Q@mail.gmail.com/
+> Reported-and-tested-by: Mario Limonciello <mario.limonciello@amd.com>
+> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/3124
+> Link: https://lore.kernel.org/all/20240123021155.2775-1-mario.limonciel=
+lo@amd.com/
+> Reported-by: Vlastimil Babka <vbabka@suse.cz>
+> Closes: https://lore.kernel.org/dri-devel/05ddb2da-b182-4791-8ef7-82179=
+fd159a8@amd.com/T/#m0c31d4d1b9ae9995bb880974c4f1dbaddc33a48a
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 
-CDM is before WB so follows the rest of the pipeline that is whatever 
-the data feeding it was programmed to.
+Hi Matthew,
 
-> 
+Thanks for working on this and sending the patch.
+
+Could we add a fixes-tag to the tag list,
+
+Fixes: f7fe64ad0f22 ("drm/sched: Split free_job into own work item")
+
+This really drives to point as shown here,
+https://gitlab.freedesktop.org/drm/amd/-/issues/3124
+which is mentioned in a Closes tag--thanks!
+--=20
+Regards,
+Luben
+
+> ---
+>  drivers/gpu/drm/scheduler/sched_main.c | 15 +++++++--------
+>  1 file changed, 7 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/s=
+cheduler/sched_main.c
+> index 550492a7a031..85f082396d42 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -1178,21 +1178,20 @@ static void drm_sched_run_job_work(struct work_=
+struct *w)
+>  	struct drm_sched_entity *entity;
+>  	struct dma_fence *fence;
+>  	struct drm_sched_fence *s_fence;
+> -	struct drm_sched_job *sched_job;
+> +	struct drm_sched_job *sched_job =3D NULL;
+>  	int r;
+> =20
+>  	if (READ_ONCE(sched->pause_submit))
+>  		return;
+> =20
+> -	entity =3D drm_sched_select_entity(sched);
+> +	/* Find entity with a ready job */
+> +	while (!sched_job && (entity =3D drm_sched_select_entity(sched))) {
+> +		sched_job =3D drm_sched_entity_pop_job(entity);
+> +		if (!sched_job)
+> +			complete_all(&entity->entity_idle);
+> +	}
+>  	if (!entity)
+> -		return;
+> -
+> -	sched_job =3D drm_sched_entity_pop_job(entity);
+> -	if (!sched_job) {
+> -		complete_all(&entity->entity_idle);
+>  		return;	/* No more work */
+> -	}
+> =20
+>  	s_fence =3D sched_job->s_fence;
+> =20
+
+--------------zbDDSdo5pXwSYSJZY0OkNzjZ
+Content-Type: application/pgp-keys; name="OpenPGP_0x4C15479431A334AF.asc"
+Content-Disposition: attachment; filename="OpenPGP_0x4C15479431A334AF.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1A
+PnbnnRHNIkx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoA
+QRYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiIC
+BhUKCQgLAgQWAgMBAh4HAheAAAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlT
+MqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfyJwktF7REl1yt7IU2Sye1qmQMfJxdt9JM
+bMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSPcCE8uGe7FWo8C+nTSyWPXKTx
+9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJl
+OiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKoaMDzO9eG
+z69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA=3D=3D
+=3DqCaZ
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------zbDDSdo5pXwSYSJZY0OkNzjZ--
+
+--------------IHVr9Fxg0ouNhkYq0EhO9D3U--
+
+--------------9Tlx4K3ZhpZJyhOyd4L0Ypev
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQSZI+/lZhTvW3mgJddMFUeUMaM0rwUCZbckrQUDAAAAAAAKCRBMFUeUMaM0r75f
+AP9SLQC8J0NaM7Q1ULAGrHoqOwS4ODe2RraUfb9iCRTADwD/a4hF+dHCNgkD4V6PJw7UZX2qGehk
+Z1N4GwouzNfZ/gk=
+=eYFY
+-----END PGP SIGNATURE-----
+
+--------------9Tlx4K3ZhpZJyhOyd4L0Ypev--
