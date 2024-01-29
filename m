@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A6F8840197
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 10:30:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEF128401E8
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 10:39:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6FD81127C9;
-	Mon, 29 Jan 2024 09:30:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E40C110F697;
+	Mon, 29 Jan 2024 09:39:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFFAB1127C9;
- Mon, 29 Jan 2024 09:30:07 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DF6010F6A8;
+ Mon, 29 Jan 2024 09:39:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1706520613; x=1738056613;
+ t=1706521180; x=1738057180;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version;
- bh=y4HS+uVRW9WTygboGvo9yA3ZMYqEE+/M8DxBQGlLi/4=;
- b=ncEdJQwiFZi8VaAp0lLOXyvRzJaSJDngdAiZh+Ixbg0srmsSRs0QzfiA
- 9gfPQ4WUwUUy/Bvx09p9uFigqZaRjvDMpBluYOa22cRcFAG5S8jzsvZ6L
- gF1oUc9YqBtabw/netmf0UL4rwHVuex62jTLbmwwk9Rvh3zwMzv4y0eEF
- W8k408kFDDKRRIm9dH6i0MxzQwv9+0CKRaB5lnhIkj09NiTz3hRwPzpcZ
- TJ8OLAdB5SYU/62lBqDd/ElPmzoCjEYjnQzg+ZlzYd0vF4p0QsYXWSSG6
- kLa29/BekG+rTBRRhV5/td1sLUHOUaUSe8bu0McAjbOm7XztlqkSq0lYx g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="21431513"
-X-IronPort-AV: E=Sophos;i="6.05,226,1701158400"; d="scan'208";a="21431513"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jan 2024 01:30:07 -0800
+ bh=vUokWzEw5+VC5jpC2OPRStu+GWoiZ2lrs+sppMiHM5k=;
+ b=DiK3P93Zk8DZxJKkBJbtJAt8nTd9VgOgq7WddB1boej3/y6zu/jB2mje
+ 6JDWppiqXnjdTecPIZXMGZo9ZhuFFQlM94aJXZSKA1Beqv0VJauX4SISr
+ JR2qFdiFacmO7UEoCE3+kkoCS/X4ftQ9jehGMpnw4NlsLFdy+bzRWOU2X
+ LERX/xLMjhEHsWg6TJEvcOJkPD/wQz/0spT3pQg1Ukw/utktXB/hTYI5O
+ y7kt6rHEYJp51yL8q7RpnWAjT0tehKjfSPXwk8Sw0mke1JwHqWz1U9fmq
+ AxqX1vv6/GoyRh+8IoIRnfjpBeV2aKqkveLhYG8x6PClWmjVU1+u8nhj6 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="9650777"
+X-IronPort-AV: E=Sophos;i="6.05,226,1701158400"; 
+   d="scan'208";a="9650777"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jan 2024 01:39:39 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,226,1701158400"; d="scan'208";a="29726648"
+X-IronPort-AV: E=Sophos;i="6.05,226,1701158400"; 
+   d="scan'208";a="3246388"
 Received: from hbrandbe-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.59.53])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jan 2024 01:30:03 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Mario Limonciello <mario.limonciello@amd.com>, Melissa Wen
- <mwen@igalia.com>, airlied@gmail.com, alexander.deucher@amd.com,
- alex.hung@amd.com, christian.koenig@amd.com, daniel@ffwll.ch,
- harry.wentland@amd.com, Rodrigo.Siqueira@amd.com, sunpeng.li@amd.com,
- Xinhui.Pan@amd.com
-Subject: Re: [RFC PATCH 0/2] drm/amd/display: switch amdgpu_dm_connector to
-In-Reply-To: <5fdad82b-3f14-4bb4-9f49-b8397419204d@amd.com>
+ by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jan 2024 01:39:34 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Mario Limonciello <mario.limonciello@amd.com>,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Harry Wentland <harry.wentland@amd.com>, "Rafael J . Wysocki"
+ <rafael@kernel.org>, Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH 2/2] drm/amd: Fetch the EDID from _DDC if available for eDP
+In-Reply-To: <20240126184639.8187-3-mario.limonciello@amd.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240126163429.56714-1-mwen@igalia.com>
- <5fdad82b-3f14-4bb4-9f49-b8397419204d@amd.com>
-Date: Mon, 29 Jan 2024 11:30:00 +0200
-Message-ID: <87o7d4jxlz.fsf@intel.com>
+References: <20240126184639.8187-1-mario.limonciello@amd.com>
+ <20240126184639.8187-3-mario.limonciello@amd.com>
+Date: Mon, 29 Jan 2024 11:39:32 +0200
+Message-ID: <87le88jx63.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -62,86 +63,183 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- kernel-dev@igalia.com
+Cc: open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Melissa Wen <mwen@igalia.com>, "open
+ list:ACPI" <linux-acpi@vger.kernel.org>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Mark Pearson <mpearson-lenovo@squebb.ca>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Fri, 26 Jan 2024, Mario Limonciello <mario.limonciello@amd.com> wrote:
-> On 1/26/2024 10:28, Melissa Wen wrote:
->> Hi,
->> 
->> I'm debugging a null-pointer dereference when running
->> igt@kms_connector_force_edid and the way I found to solve the bug is to
->> stop using raw edid handler in amdgpu_connector_funcs_force and
->> create_eml_sink in favor of managing resouces via sruct drm_edid helpers
->> (Patch 1). The proper solution seems to be switch amdgpu_dm_connector
->> from struct edid to struct drm_edid and avoid the usage of different
->> approaches in the driver (Patch 2). However, doing it implies a good
->> amount of work and validation, therefore I decided to send this RFC
->> first to collect opinions and check if there is any parallel work on
->> this side. It's a working in progress.
->> 
->> The null-pointer error trigger by the igt@kms_connector_force_edid test
->> was introduced by:
->> - e54ed41620f ("drm/amd/display: Remove unwanted drm edid references")
->> 
->> You can check the error trace in the first patch.
->> 
->> This series was tested with kms_hdmi_inject and kms_force_connector. No
->> null-pointer error, kms_hdmi_inject is successul and kms_force_connector
->> is sucessful after the second execution - the force-edid subtest
->> still fails in the first run (I'm still investigating).
->> 
->> There is also a couple of cast warnings to be addressed - I'm looking
->> for the best replacement.
->> 
->> I appreciate any feedback and testing.
+> Some manufacturers have intentionally put an EDID that differs from
+> the EDID on the internal panel on laptops.
 >
-> So I'm actually a little bit worried by hardcoding EDID_LENGTH in this 
-> series.
+> Attempt to fetch this EDID if it exists and prefer it over the EDID
+> that is provided by the panel.
 >
-> I have some other patches that I'm posting later on that let you get the 
-> EDID from _DDC BIOS method too.  My observation was that the EDID can be 
-> anywhere up to 512 bytes according to the ACPI spec.
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu.h           |  2 ++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c      | 30 +++++++++++++++++++
+>  .../gpu/drm/amd/amdgpu/amdgpu_connectors.c    |  5 ++++
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  8 ++++-
+>  .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c |  7 +++--
+>  5 files changed, 49 insertions(+), 3 deletions(-)
 >
-> An earlier version of my patch was using EDID_LENGTH when fetching it 
-> and the EDID checksum failed.
->
-> I'll CC you on the post, we probably want to get your changes and mine 
-> merged together.
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> index c5f3859fd682..99abe12567a4 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> @@ -1520,6 +1520,7 @@ int amdgpu_acpi_get_mem_info(struct amdgpu_device *adev, int xcc_id,
+>  
+>  void amdgpu_acpi_get_backlight_caps(struct amdgpu_dm_backlight_caps *caps);
+>  bool amdgpu_acpi_should_gpu_reset(struct amdgpu_device *adev);
+> +void *amdgpu_acpi_edid(struct amdgpu_device *adev, struct drm_connector *connector);
+>  void amdgpu_acpi_detect(void);
+>  void amdgpu_acpi_release(void);
+>  #else
+> @@ -1537,6 +1538,7 @@ static inline int amdgpu_acpi_get_mem_info(struct amdgpu_device *adev,
+>  }
+>  static inline void amdgpu_acpi_fini(struct amdgpu_device *adev) { }
+>  static inline bool amdgpu_acpi_should_gpu_reset(struct amdgpu_device *adev) { return false; }
+> +static inline void *amdgpu_acpi_edid(struct amdgpu_device *adev, struct drm_connector *connector) { return NULL; }
+>  static inline void amdgpu_acpi_detect(void) { }
+>  static inline void amdgpu_acpi_release(void) { }
+>  static inline bool amdgpu_acpi_is_power_shift_control_supported(void) { return false; }
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+> index e550067e5c5d..c106335f1f22 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+> @@ -1380,6 +1380,36 @@ bool amdgpu_acpi_should_gpu_reset(struct amdgpu_device *adev)
+>  #endif
+>  }
+>  
+> +/**
+> + * amdgpu_acpi_edid
+> + * @adev: amdgpu_device pointer
+> + * @connector: drm_connector pointer
+> + *
+> + * Returns the EDID used for the internal panel if present, NULL otherwise.
+> + */
+> +void *
+> +amdgpu_acpi_edid(struct amdgpu_device *adev, struct drm_connector *connector)
+> +{
+> +	struct drm_device *ddev = adev_to_drm(adev);
+> +	struct acpi_device *acpidev = ACPI_COMPANION(ddev->dev);
+> +	void *edid;
+> +	int r;
+> +
+> +	if (!acpidev)
+> +		return NULL;
+> +
+> +	if (connector->connector_type != DRM_MODE_CONNECTOR_eDP)
+> +		return NULL;
+> +
+> +	r = acpi_video_get_edid(acpidev, ACPI_VIDEO_DISPLAY_LCD, -1, &edid);
+> +	if (r < 0) {
+> +		DRM_DEBUG_DRIVER("Failed to get EDID from ACPI: %d\n", r);
+> +		return NULL;
+> +	}
+> +
+> +	return kmemdup(edid, r, GFP_KERNEL);
+> +}
+> +
+>  /*
+>   * amdgpu_acpi_detect - detect ACPI ATIF/ATCS methods
+>   *
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+> index 9caba10315a8..c7e1563a46d3 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+> @@ -278,6 +278,11 @@ static void amdgpu_connector_get_edid(struct drm_connector *connector)
+>  	struct amdgpu_device *adev = drm_to_adev(dev);
+>  	struct amdgpu_connector *amdgpu_connector = to_amdgpu_connector(connector);
+>  
+> +	if (amdgpu_connector->edid)
+> +		return;
+> +
+> +	/* if the BIOS specifies the EDID via _DDC, prefer this */
+> +	amdgpu_connector->edid = amdgpu_acpi_edid(adev, connector);
 
-One of the main points of struct drm_edid is that it tracks the
-allocation size separately.
+Imagine the EDID returned by acpi_video_get_edid() has edid->extensions
+bigger than 4. Of course it should not, but you have no guarantees, and
+it originates outside of the kernel.
 
-We should simply not trust edid->extensions, because most of the time it
-originates from outside the kernel.
+The real fix is to have the function return a struct drm_edid which
+tracks the allocation size separately. Unfortunately, it requires a
+bunch of changes along the way. We've mostly done it in i915, and I've
+sent a series to do this in drm/bridge [1].
 
-Using drm_edid and immediately drm_edid_raw() falls short. That function
-should only be used during migration to help. And yeah, it also means
-EDID parsing should be done in drm_edid.c, and not spread out all over
-the subsystem.
+Bottom line, we should stop using struct edid in drivers. They'll all
+parse the info differently, and from what I've seen, often wrong.
 
 
 BR,
 Jani.
 
 
->
->> 
->> Melissa
->> 
->> Melissa Wen (2):
->>    drm/amd/display: fix null-pointer dereference on edid reading
->>    drm/amd/display: switch amdgpu_dm_connector to use struct drm_edid
->> 
->>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 78 ++++++++++---------
->>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  4 +-
->>   .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c |  9 ++-
->>   .../display/amdgpu_dm/amdgpu_dm_mst_types.c   | 23 +++---
->>   4 files changed, 60 insertions(+), 54 deletions(-)
->> 
->
+[1] https://patchwork.freedesktop.org/series/128149/
+
+
+>  	if (amdgpu_connector->edid)
+>  		return;
+>  
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index cd98b3565178..1faa21f542bd 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -6562,17 +6562,23 @@ static void amdgpu_dm_connector_funcs_force(struct drm_connector *connector)
+>  {
+>  	struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
+>  	struct amdgpu_connector *amdgpu_connector = to_amdgpu_connector(connector);
+> +	struct amdgpu_device *adev = drm_to_adev(connector->dev);
+>  	struct dc_link *dc_link = aconnector->dc_link;
+>  	struct dc_sink *dc_em_sink = aconnector->dc_em_sink;
+>  	struct edid *edid;
+>  
+> +	/* prefer ACPI over panel for eDP */
+> +	edid = amdgpu_acpi_edid(adev, connector);
+> +
+>  	/*
+>  	 * Note: drm_get_edid gets edid in the following order:
+>  	 * 1) override EDID if set via edid_override debugfs,
+>  	 * 2) firmware EDID if set via edid_firmware module parameter
+>  	 * 3) regular DDC read.
+>  	 */
+> -	edid = drm_get_edid(connector, &amdgpu_connector->ddc_bus->aux.ddc);
+> +	if (!edid)
+> +		edid = drm_get_edid(connector, &amdgpu_connector->ddc_bus->aux.ddc);
+> +
+>  	if (!edid) {
+>  		DRM_ERROR("No EDID found on connector: %s.\n", connector->name);
+>  		return;
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> index e3915c4f8566..6bf2a8867e76 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> @@ -895,6 +895,7 @@ enum dc_edid_status dm_helpers_read_local_edid(
+>  {
+>  	struct amdgpu_dm_connector *aconnector = link->priv;
+>  	struct drm_connector *connector = &aconnector->base;
+> +	struct amdgpu_device *adev = drm_to_adev(connector->dev);
+>  	struct i2c_adapter *ddc;
+>  	int retry = 3;
+>  	enum dc_edid_status edid_status;
+> @@ -909,8 +910,10 @@ enum dc_edid_status dm_helpers_read_local_edid(
+>  	 * do check sum and retry to make sure read correct edid.
+>  	 */
+>  	do {
+> -
+> -		edid = drm_get_edid(&aconnector->base, ddc);
+> +		/* prefer ACPI over panel for eDP */
+> +		edid = amdgpu_acpi_edid(adev, connector);
+> +		if (!edid)
+> +			edid = drm_get_edid(&aconnector->base, ddc);
+>  
+>  		/* DP Compliance Test 4.2.2.6 */
+>  		if (link->aux_mode && connector->edid_corrupt)
 
 -- 
 Jani Nikula, Intel
