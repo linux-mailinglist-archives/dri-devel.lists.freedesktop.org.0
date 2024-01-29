@@ -2,129 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83FF7841151
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 18:53:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D159841200
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 19:31:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0F9410E5B9;
-	Mon, 29 Jan 2024 17:52:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FA35112AAF;
+	Mon, 29 Jan 2024 18:31:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2043.outbound.protection.outlook.com [40.107.237.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 036CA112A51;
- Mon, 29 Jan 2024 17:52:51 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 160D4112AAE;
+ Mon, 29 Jan 2024 18:31:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1706553084; x=1738089084;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=jycyvytSS2I8bEn++yVPrqBSLxG6XCM6cO98DvACWS8=;
+ b=cLnubRQs6jnYi7M/ZawLbKxTw2fgsHWMT41I8iKKv+/TSMP53/WV5IFX
+ tuevYCnVzX+JWw1L+TP56ZNtWW9hlaDjpTOpgk+1XJT8UbOMhaI2kmruK
+ Kng+GzPV1W6q2Kj5FMP59giyC7E6V8KBGV5hV3ISdyXTQvSP2P4DxzpCL
+ wVSL46L7iQBRq5s54OTlHqO+rFQgX9UlXeTFslEkS54Rax8bnAs2CP2LB
+ BZoPD5UgBemx5bffryNbiSnNzTLnr+0B8FhQjCgHNLC7ts5PkEUI8M16x
+ RtKtc5TogPQAHRZE2gnMGoagyk148jiHSN/QOCgni7I85fuhnMGRM5hs+ w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="2925654"
+X-IronPort-AV: E=Sophos;i="6.05,227,1701158400"; 
+   d="scan'208";a="2925654"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jan 2024 10:31:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="907211659"
+X-IronPort-AV: E=Sophos;i="6.05,227,1701158400"; d="scan'208";a="907211659"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by fmsmga002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 29 Jan 2024 10:31:23 -0800
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 29 Jan 2024 10:31:22 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Mon, 29 Jan 2024 10:31:22 -0800
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.168)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Mon, 29 Jan 2024 10:31:22 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Xb9ZyEN3+MqgqqaJkFQgxMRB2DX0CmSsvhY/9EcE1Z4FwPCtI+jKluxd0kkaK4OoAH9ocWh5LzBVonFp7GKhN2yIJb9M0jWpDEyMUYbFPu8/0JeMmpiPUh52eVvNouAXsLfDc4tJCW8o8sGFr/xAF5veiD5Xpmx0iOXxXUl65PjpTHx4CaLY7vrjtURF7WCiiPD44LPT1NMs0mUUxNSVYp2Vmyas7Pt7ZcE5edr7iZVXrMQ0KjP46RNjLvDz9ZxFqZeRmZiLe9vWmN9nVHmhk1acxjf+5n5n8h7zHjCa9YDNI4fb5BF7PPcsj8lDaymLBMjGIgphL5RcxNYX8vp1vw==
+ b=R1TzI+KiZsvlFKHWZPPtAd7ebaUrI0ZRvojwtqd1L+/Du6v/xNdVY9viex+odD1r4sscx1DE9KpJylw5q0FSBYNQPFNXEivCwy60mp024Mdel2lpi5CintTiKyfZvG1kmZIoOtA8PoTSogwlyhdwzoD1jaXNOixM/SfSDsD/oUMvRE1tyvebx9LNvM1Z0DLKs/EKvB8ImBiZhEejNqH75hCynEn72qyYcrtQT1AUZblLt7xUaU9ZRONP7FrDl+x5bCTER5WhvP/lPyIVCfg/KdZXP+UGjYaFF9wG3ldlK1tT/MBWRXmaAfJwjRfkPBmMwASojQwG68lln8kH/10u7g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DEkKP67KRGXH/A20SJsHkb74dfj5K5xB17v+bBSuY28=;
- b=gcXvBNRQnW0hchUMwqwieRxnuAT5LQV0bNqnGR/OwG1KnazbrohKsbrI3b/ZDVWVitMD9csnY/MQynnithHvBCuAM18kAua8HDQ5c3/R6n62hryXmkSODtT2iTxvzItF154tWS/usY0tUshIpAsE6Mlqaiw0xJUkSNaJBu6gFXG/vX+IFxhjUrlFGQ1e33+Q0Zcv4NUHOb5GayGf7zp3KllD77X4bxX/009Y/zDx19FQff81BiNDrHEiHnvckDQZxEyaVs+HokbxSFURWKjlr0eS8nZrqQ629GjZrxqLWy4WFAni4rfpsczqko6sdjclLSxlzNATuOINB4lGuI2GvA==
+ bh=eFBlQDRgpuP9Sm8ocAZiUPtnQKxAb1W6jVywTzS/wlw=;
+ b=JwSIX1SubH/jneBMpi7Q6YM80XdN3o8E+oBWJnpycMaFBnYLIInQwB5wiYQNTLiT5hatdvQWSfOQfChWNahxbIi+Ne0b1+cC0Kpk8F/H3ywpSZemGmb6p/TdRZqmtRVVoEbaUiSpDnKmxJHAFdLct5YI/ZLRnFtEPIniYzjTQqgCb1VydpG46aojiDDfPTpkzy1xn1Dt6FhwEEz7dD0s9m0cFxzGgkNdkHN06+kEIxUe9BKjsRAs5EnA4HP/vEaFR3GnFxX8JHUj10azEY8zS4Xghx6PF3rWt5oePNd7xluxAt6UTE1ixAe0Rk4AbuPakrAv/HizUAq+BCkUVWM1fw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DEkKP67KRGXH/A20SJsHkb74dfj5K5xB17v+bBSuY28=;
- b=s6tWCMv1U+DRv3qkaCXM/zRuoLrYTC9oqlp+qI9H0q587C4f7fO1HyFUVpAzkk+x5t7U01olPBVmgOzMM7PGHx6/Ie7NvVFb7hmpm4pzFZZJzcDLCSjUfdjKc7bPStO8BlPIyE0g5CcSMqmOBWjzdc7+OaMLFA55io+c5Cxuv5A=
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
- by PH7PR12MB5853.namprd12.prod.outlook.com (2603:10b6:510:1d4::15)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by PH7PR11MB5820.namprd11.prod.outlook.com (2603:10b6:510:133::17)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.33; Mon, 29 Jan
- 2024 17:52:30 +0000
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::6f2f:7892:e9fe:c62b]) by BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::6f2f:7892:e9fe:c62b%5]) with mapi id 15.20.7228.029; Mon, 29 Jan 2024
- 17:52:30 +0000
-Message-ID: <39b5adbc-0d3f-4e34-9ede-12d6542ff892@amd.com>
-Date: Mon, 29 Jan 2024 12:52:27 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: Making drm_gpuvm work across gpu devices
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20240117221223.18540-1-oak.zeng@intel.com>
- <20240117221223.18540-22-oak.zeng@intel.com>
- <ad21ec11-a9cb-4fb2-b9fd-00a4fa11525f@intel.com>
- <PH7PR11MB70049E7E6A2F40BF6282ECC292742@PH7PR11MB7004.namprd11.prod.outlook.com>
- <PH7PR11MB700440CE88BC0A94CFF8499792742@PH7PR11MB7004.namprd11.prod.outlook.com>
- <2928ce36-06a6-4bee-b115-8dd61cc41dca@amd.com>
- <SA1PR11MB699192584C01A26C781E2F9992742@SA1PR11MB6991.namprd11.prod.outlook.com>
- <ccf34f6a-d704-43de-a15e-2ae2890f9381@amd.com>
- <ZbKpWpOGuNKLJ6sA@phenom.ffwll.local>
- <a3a5d6b3-3aa6-4d94-90e8-a6b4b8eeb3a2@amd.com>
- <7db48b59-f4cc-4b32-88c8-6461a7470b63@amd.com>
- <3e795468-1779-4100-a706-85be323e69f2@amd.com>
- <2444da7e-be62-4538-b42e-b234c763f3bd@amd.com>
-From: Felix Kuehling <felix.kuehling@amd.com>
-Organization: AMD Inc.
-In-Reply-To: <2444da7e-be62-4538-b42e-b234c763f3bd@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.34; Mon, 29 Jan
+ 2024 18:31:20 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::b9a8:8221:e4a1:4cda]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::b9a8:8221:e4a1:4cda%4]) with mapi id 15.20.7228.028; Mon, 29 Jan 2024
+ 18:31:20 +0000
+Date: Mon, 29 Jan 2024 18:31:02 +0000
+From: Matthew Brost <matthew.brost@intel.com>
+To: Luben Tuikov <ltuikov89@gmail.com>
+Subject: Re: [PATCH] drm/sched: Drain all entities in DRM sched run job worker
+Message-ID: <Zbfu5twlZxGuQvYN@DUT025-TGLU.fm.intel.com>
+References: <20240124210811.1639040-1-matthew.brost@intel.com>
+ <b94aca06-858e-4575-a4c4-40be8d8d4d35@amd.com>
+ <ZbKaqdu5Y/WNwWVX@DUT025-TGLU.fm.intel.com>
+ <0bef4c76-924f-442f-af9c-d701e640db41@amd.com>
+ <ZbPd590k4s5z1/a9@DUT025-TGLU.fm.intel.com>
+ <79a8fe04-66a3-406d-981a-06e40b386d99@amd.com>
+ <1ad510fc-99e3-4d12-ae35-baaa8badc730@gmail.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YQZPR01CA0088.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:84::16) To BN9PR12MB5115.namprd12.prod.outlook.com
- (2603:10b6:408:118::14)
+In-Reply-To: <1ad510fc-99e3-4d12-ae35-baaa8badc730@gmail.com>
+X-ClientProxiedBy: SJ0PR03CA0003.namprd03.prod.outlook.com
+ (2603:10b6:a03:33a::8) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|PH7PR12MB5853:EE_
-X-MS-Office365-Filtering-Correlation-Id: 109c1578-b6b8-42aa-8748-08dc20f31004
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|PH7PR11MB5820:EE_
+X-MS-Office365-Filtering-Correlation-Id: ff1bde5e-f555-488b-4df6-08dc20f87d23
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: lZFgIyyoTbT37g99nRSwV7C1CcrTHityVIljlS2jtxse0+FMs0bx5ei4Ng2VIrsFxihGlRjqE/LDOiHO2m9TLL5P/H2LSynSu4UZ8EVlpU+JgjnKEpuHCNiO5O/wgG6If6kRC4lfDNWJ5Pf7SByTSc6ygM5ugiAkt+WeRN/kn8s62+uAmgLjAP1qig8yJLWgGgJxMXZT31lJ2O3Qff0jzK16/N67oXFTIZrNg3lhPqkU5tC0gYJ+K6ILryQUbV+NbrGmjhuTXBLl9HswK93XrWIbKodTz1GKnUTTGKE8lQIAyfptSExzGi+Sy2JyMwhhH19WSmf9IskW4G9BuvJLqYZ6Ewfh7OP2Nddx3fOKtR4eZhBQBUxNLQsmDPF5/sGT7Dxgayf1tcu2exvs7a28m7nWIyOUtT15AQtGQHwULLShgFQyRan/fgxqNrxceS4M0wqlLuiq4nMbDViwW91eJp1atZTLkTS4Ib+Ekvzj69kznLAXZA7CSWO85H8El/0IblTKajhh/HmZtLZEYByGUzyvcpvu8s0r++0YNxwiCHUVrUltwwDQgVN/80fQA2O/kK9LaRY6yl9y1LSLxmXW6+Lqz8DCqJHi1OOOEFoh57hk5kYxZGDnhvnxLin1hTulEfPSeO/P2rG1I7njMdmqZA==
+X-Microsoft-Antispam-Message-Info: 3zjvqDX+fJ9bOna+J0ENMD6FJ37VVDNF3Z6wNCurtEZig/fS0lQ4dKnD412DzkupxUnqeHWeQnv55w/1eaxdAUOMZsqTSzgaXS6Um32Kiq0eB9R+30jjhaTMmbSk7NHcSZzU+g9H6MvIHCMk6c0gWoUCSPq9gc9daajOozeqyoBWXM03nbhAMU0C6s/GYSe4KzX+CzFFGnjHLmxyKK8q9Bl+PXc9ikatRMxHwFgUzmO/pFD2swDZ1fOfu89PuGyd9yYLLk98vCwGKTmJEDSHi3SfZ9AMPXiXKAN/4y62a2FzDugVIfwNs8rT1sf0cajsjgai917Coh9n3yzE/Na7qlMfiAClpfmEZvf+FK6vwDkxfZeQoKdj3QUlws0uHyrvqN9die1n/374CrA5DxX7iQOWLM8W9mjKx8gNNqwlB0VS/g7503fCspd41LpNWNzJC3KjK9+WT2RidsR7oVgBHwwnS/3nhLgZbXVdLXGqv0T2HQ1EhcQJg1y1eP/uUSiCMEgafHTu4ddQqIX8B/Kz3EUmm08rKVRftHyezVXnzYN5It345cOM+zIdYpd+/WRy
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(39860400002)(396003)(376002)(136003)(366004)(346002)(230922051799003)(1800799012)(64100799003)(186009)(451199024)(8676002)(8936002)(4326008)(38100700002)(110136005)(66476007)(66556008)(54906003)(66946007)(316002)(86362001)(31696002)(36756003)(41300700001)(2906002)(44832011)(7416002)(5660300002)(6486002)(83380400001)(31686004)(6512007)(6666004)(6506007)(53546011)(26005)(478600001)(36916002)(2616005)(66574015)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366004)(346002)(136003)(39860400002)(396003)(376002)(230922051799003)(1800799012)(186009)(64100799003)(451199024)(86362001)(316002)(83380400001)(6512007)(6506007)(66476007)(66556008)(66946007)(6916009)(54906003)(38100700002)(8676002)(44832011)(82960400001)(4326008)(6666004)(6486002)(26005)(53546011)(8936002)(478600001)(2906002)(5660300002)(41300700001)(7416002);
+ DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UUVmc0s4M0k2clphak54SlVvSHJ6SW1nS0RLNk5tVU5BUFZZbkYyQkYyOTc0?=
- =?utf-8?B?OXRQanh3ZktGbDBTaWVsVUoxKy9oV1pQL2VvbG1ENUdmRTNvRmdXYWZBTE82?=
- =?utf-8?B?UEltTVF5bElLT2pCUmZYNDNVN2RmanRkRWZnY1ZmSWJ4WDlPSU1OTEFob1Bt?=
- =?utf-8?B?aXBiWXZyc3FOSzdpY1pNRHBYQms0QUhmSy9LVmFHbVB2WEI1akdlMmdYVzNo?=
- =?utf-8?B?c2krVDZxMGZNWlhMSFRmT1N5TVV5V0JURDM4Y1NTNUpySnBES1lJSjdzb2Z1?=
- =?utf-8?B?V0NYNHlXYlM1OHQ3WTlRU1BDMkJoczZaNktRRUdZeHprZDdPbTNEUmY1ekQy?=
- =?utf-8?B?MjRuVTg3ZnBBT25tY3dMQStjQ0tmQS9qb0htd2ZzQ3ljMmdta1JiTjY5UE5y?=
- =?utf-8?B?bm1YMFhtNWFxNDRYbFlPNG9RWGd4cWxQblNMVHJOUmdYNEVwTy9IQXo2WVZB?=
- =?utf-8?B?RDNMQVRxSkxVWklUNkNvUWVJZlJyZkdjK0NWZm5YV3VHUVFIa0dkNWVFMHk1?=
- =?utf-8?B?Q2RjaUliWUwrTXBCTzRwcDJka25VNlJna1k4Rm81S0FXTVNWY0xZSU5LK09C?=
- =?utf-8?B?enliTXoxbGNVelc5Rk9OUXN4T3NMaUZSMy9EZzgvMmZobmpmZzJwZnB1VVdV?=
- =?utf-8?B?VEVsc1dMMEt3MXlmSHhEc3R6cjR6MWFvT0RvNTN0WE9kclNXaHdOcEhZUDdW?=
- =?utf-8?B?NmZCc1NQOFdxK0J0YXVWQ2x4WnVrbmswV0lwYTR2SEN1dGx1VmVqR0QzdnJH?=
- =?utf-8?B?YTVQNFdBUWY0M1N2T1JSSlluM0pxMDByelBUakFBZkNmY0EvYm83Y2Y1dnZY?=
- =?utf-8?B?dWp3a083aThZTThZWGFZVnlBeVhKOER0aXpSRFpYT1c3UExJUC9XRHlMRTlT?=
- =?utf-8?B?MFl3S0lRaFk3b0twL1lkTTBaYitJeWM1ODRZcWRTQ1RHVitjTUswL09tMHJ5?=
- =?utf-8?B?ajhtSkordVFZK0kxYlp6QVJMdklpVWpJTlBvZDU4cEFVN0dSZVhyNnBpeHNt?=
- =?utf-8?B?Q2RjdUYxMk9nWlFJRmk0UUxJSk5sTTNMNkNOOURkRDlkSzMwTTFpdTBwbWpl?=
- =?utf-8?B?eExjaVp5T0p5UEd1cjZVVytpVEJiZVkzRjRsajJnd09jZUYrTEJ3RDFrTlNs?=
- =?utf-8?B?eXRrMEhTNTJ5YWh6V1JjUU84bmJPUjU4SlpPQWoxVm5aKzErajBYYit5bkVk?=
- =?utf-8?B?S0lzUlhJN0Vwb3RaekFzUUpjMm1MTXk5NDdKbG1zZUYrQ3FZVE53VktiZG1I?=
- =?utf-8?B?eUMzMjg4a3FLcU53T0RMcTJHNHo4MXBLTGliaEhFQitCUW9xYmlCWTh3VVQy?=
- =?utf-8?B?RFVoWnZDa0N5SHZHQ29DRTFLdVExTDBxeHJIbmpRT3IxMVBBWGlVWlRRblVO?=
- =?utf-8?B?VWV6R2o5dVRHR3N2U3RVZkVmVDlvVUZrOHdMU2ZBVENFMEl0dnVleDB3NXFJ?=
- =?utf-8?B?YUkvUDBaZW5IbmNMdlVDRHI1SFNadVd6UFN1OWZmbmN6RytFZzNrVFZnVHl0?=
- =?utf-8?B?OEFoNThaNjdZR3ZGSGtpY1FFN1IwYXVSMlN5VXVhZXgrbzY3bTlNSnhyaHBU?=
- =?utf-8?B?TTJJTTIwUjl0azlqb1ByK1hSZnBWWjc3anRESkhhR1FEbGhyc01JS25aQnds?=
- =?utf-8?B?SFpFU29adURtQnVFRW85YlN5VGFTL204YnZiWGlwaVdnN3BKUWxFaWR6MGpp?=
- =?utf-8?B?Uk5CMU95NWVVbk1FVmVDeWtpMHRrODlZc00zdy84eldOOEZTL1l5WUNodDJz?=
- =?utf-8?B?Nmd5YnY3MXRNZ2tKNlordExWRFI5TTgzZmdhM3I3emRiZ1BRWUQ4L3EvUE5Z?=
- =?utf-8?B?SkdOS0lZeFJBSlZiMlA5MUxHYTdLMElGaDNDZTFVR2lzYmVXNmRvVnE0TVZl?=
- =?utf-8?B?SXVMd1Evcmo0byt4dE9jN25iVUZWc1NLVWhwV0VUV1ZzVDBGckp4bUNMM2Rk?=
- =?utf-8?B?RHY3VUNQZ1EzME1YbThVYTdHM1RLdzJUdmJOY0NlZGtoWTBOTEt0Y0NrOGVO?=
- =?utf-8?B?SU1NaytRMUxTbmRsbmVSdXlza3JJV084aVJlNmtzdndqUG1TUkZZNFVrcjRp?=
- =?utf-8?B?YUJCUUhpWHJYNXoraXJSeHdvT0w3Wm5DeHZTaG5vZDJRRnpuSHI4M1UzakJC?=
- =?utf-8?Q?h+N6a8j+CAF4WvANUP58yXsVC?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 109c1578-b6b8-42aa-8748-08dc20f31004
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?GqrUyG2fPHiqdlegWq+tC4Zh0y0CS9wCVfIiPTz2nZBTRgycxJK0B0NVZF?=
+ =?iso-8859-1?Q?Ma9wzTCzv8tbZGIz4IgQIsNsyPkoGOA7Oi9O7jB6xYCZVsuRHnuVnVKx31?=
+ =?iso-8859-1?Q?XDCS8XXKnEFKWq7TK72X+5PQ2ou34BALmeE/VOG21ckXixfwgQxaP+r/Nj?=
+ =?iso-8859-1?Q?S/hPeGIHMXFdXjPizVlq9+WAgCuht7umV08ldswHvn+UlrTAmpcBpv4uez?=
+ =?iso-8859-1?Q?ncmkoTjalXB6zkZHf3Ow2GKIrQL8fttKY59goRdHenDlAbPyYpwuShfCfR?=
+ =?iso-8859-1?Q?1GPOi3HuY+XuNxYg95TOsDpp3DyXXURWQpqYfCJZV0M1UXZPACdyOZCatd?=
+ =?iso-8859-1?Q?4KTczDbqzNuZuIQuqBwgmWDhK06KGX/qqEV5K6p+rbkeADO4WwPpqDWW5Y?=
+ =?iso-8859-1?Q?pkqfBcshyvH2uAPMMmOWCIMHY1b9a8d21phMYYoU3O21VSoTqkHZU7UgUX?=
+ =?iso-8859-1?Q?dzbiRbLXEB4AxaHca7PbzS5EMaMrw57FInMWxBV9hJ80+00p47KK14FTT0?=
+ =?iso-8859-1?Q?TL3BPqjElWm1iuEc73KARNDqVhABGEGwwotLJzvecO3EblkJB+Ti73YC2y?=
+ =?iso-8859-1?Q?5GDmBIH7zJaO6pIeQIMzmVy3tZoeSnPs2RGT0e/Ii7kmHau4leh+Mp9DSd?=
+ =?iso-8859-1?Q?IDMCBjrQcREP6Z9G0Vjz1wG1wmFTdxu7qWVlpSPOyEnfwOkkbcre5XGmni?=
+ =?iso-8859-1?Q?9aPQWzViiT3QuwBpYgx6OsLrofOd3pFaHmaFfvbgZnwGG3zSYw52FPVQg8?=
+ =?iso-8859-1?Q?fMsrBsMx7Z7eeFlf9VKfpDuNbgG7Vgi0VuQOCPFht3MeiCbY78oTI9OhNA?=
+ =?iso-8859-1?Q?C5e0qOx1IhcavQW+vj4XsEoAAACqrBt3oslsxbaNXZ46zzwW/i+jizuqOQ?=
+ =?iso-8859-1?Q?j+3NKX8hNgU3ZoThZCu2qJNGwYlYJdX995R1u2U5D8i2w0UGQC1Y4ICWiG?=
+ =?iso-8859-1?Q?vnqhAoUCqf+HnOZpz7MreIvt1qvCOZNLTmB7dB+ez5+2daiUotfzZKj6q0?=
+ =?iso-8859-1?Q?k73NS1+XfgVgfckDlotiBJuopvQfSl6UNAVFuCO1x9ralgUhJsUWppsWNV?=
+ =?iso-8859-1?Q?ewhc5kAo4/yt/sRYQAohH+vo38G8mW2MPz+lgIOYMziH6BA0KdNzDjEs5N?=
+ =?iso-8859-1?Q?80z593590eGj9RW4mGDDYI8jVw/LDTxI1aKj5v+xGBgqelem1FYMK4PBVV?=
+ =?iso-8859-1?Q?xVcgPPOU3sDtOcqlVNOZ/Gtn0avAsatnOXxbv45Si5zq7GIH1VcgllzLBo?=
+ =?iso-8859-1?Q?Gduod0dVcAMXR4Dpp2xyme065nsqYd087XngxE8u2GpLu2iXSriRAH9tfL?=
+ =?iso-8859-1?Q?q0xZes/KtQZ26zHHUxb4v6wV43xRXKMNWNetk41c2GhR6lfcF66FTUA+Ye?=
+ =?iso-8859-1?Q?lv6V6RamyONnDMJk24hCLupXazqRFDFUu/+5jWPZUG654EQJlTPZ0Hg/+K?=
+ =?iso-8859-1?Q?dDWcsjXRRDA8Fh9s5Bl3bDKbYrj3WyG1ZxH5ymhLx2+3PAXqhnDsN1Emqv?=
+ =?iso-8859-1?Q?zIW2xDKx6oMRPezpZ8/QHQgGSm5S1G8bCZJFcP2jMqxaJrvWujkidYSPI1?=
+ =?iso-8859-1?Q?y0t3hlFOHcw3VzTB54Bkl683fsmbAop9CSePACDfIYU80hnZfQHyIoTYWT?=
+ =?iso-8859-1?Q?YhheXmvqFRnmVRJgNbJLaRcOi4AO7qDOTiZ0JYJZBe5aCysb/z3+lRjA?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: ff1bde5e-f555-488b-4df6-08dc20f87d23
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2024 17:52:29.9762 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2024 18:31:20.4842 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cl9/UIohZSLu41kDU4L1DGFM2gwUxy88eHIcf4jOpvBO4IW+WizuJlM0oyWesXNz5m6cyAxFe2uV/ua1eJZG+Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5853
+X-MS-Exchange-CrossTenant-UserPrincipalName: cpAsqmRIUfP792kMLB8aGeoNMAgb+v9UJwJcqfLZkxvGOcJKS8C0tov8oSH6WQdKIZlEhyNMeHdLnXv0LhcXwA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB5820
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,225 +152,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Brost, Matthew" <matthew.brost@intel.com>,
- "Thomas.Hellstrom@linux.intel.com" <Thomas.Hellstrom@linux.intel.com>, "Welty,
- Brian" <brian.welty@intel.com>, "Ghimiray,
- Himal Prasad" <himal.prasad.ghimiray@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Gupta,
- saurabhg" <saurabhg.gupta@intel.com>, Danilo Krummrich <dakr@redhat.com>,
- "Zeng, Oak" <oak.zeng@intel.com>, "Bommu,
- Krishnaiah" <krishnaiah.bommu@intel.com>, Dave Airlie <airlied@redhat.com>,
- "Vishwanathapura, Niranjana" <niranjana.vishwanathapura@intel.com>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>
+Cc: dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ Thorsten Leemhuis <regressions@leemhuis.info>,
+ Mario Limonciello <mario.limonciello@amd.com>, daniel@ffwll.ch,
+ Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>, airlied@gmail.com,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Vlastimil Babka <vbabka@suse.cz>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 2024-01-29 11:28, Christian König wrote:
-> Am 29.01.24 um 17:24 schrieb Felix Kuehling:
->> On 2024-01-29 10:33, Christian König wrote:
->>> Am 29.01.24 um 16:03 schrieb Felix Kuehling:
->>>> On 2024-01-25 13:32, Daniel Vetter wrote:
->>>>> On Wed, Jan 24, 2024 at 09:33:12AM +0100, Christian König wrote:
->>>>>> Am 23.01.24 um 20:37 schrieb Zeng, Oak:
->>>>>>> [SNIP]
->>>>>>> Yes most API are per device based.
->>>>>>>
->>>>>>> One exception I know is actually the kfd SVM API. If you look at 
->>>>>>> the svm_ioctl function, it is per-process based. Each 
->>>>>>> kfd_process represent a process across N gpu devices.
->>>>>> Yeah and that was a big mistake in my opinion. We should really 
->>>>>> not do that
->>>>>> ever again.
->>>>>>
->>>>>>> Need to say, kfd SVM represent a shared virtual address space 
->>>>>>> across CPU and all GPU devices on the system. This is by the 
->>>>>>> definition of SVM (shared virtual memory). This is very 
->>>>>>> different from our legacy gpu *device* driver which works for 
->>>>>>> only one device (i.e., if you want one device to access another 
->>>>>>> device's memory, you will have to use dma-buf export/import etc).
->>>>>> Exactly that thinking is what we have currently found as blocker 
->>>>>> for a
->>>>>> virtualization projects. Having SVM as device independent feature 
->>>>>> which
->>>>>> somehow ties to the process address space turned out to be an 
->>>>>> extremely bad
->>>>>> idea.
->>>>>>
->>>>>> The background is that this only works for some use cases but not 
->>>>>> all of
->>>>>> them.
->>>>>>
->>>>>> What's working much better is to just have a mirror functionality 
->>>>>> which says
->>>>>> that a range A..B of the process address space is mapped into a 
->>>>>> range C..D
->>>>>> of the GPU address space.
->>>>>>
->>>>>> Those ranges can then be used to implement the SVM feature 
->>>>>> required for
->>>>>> higher level APIs and not something you need at the UAPI or even 
->>>>>> inside the
->>>>>> low level kernel memory management.
->>>>>>
->>>>>> When you talk about migrating memory to a device you also do this 
->>>>>> on a per
->>>>>> device basis and *not* tied to the process address space. If you 
->>>>>> then get
->>>>>> crappy performance because userspace gave contradicting 
->>>>>> information where to
->>>>>> migrate memory then that's a bug in userspace and not something 
->>>>>> the kernel
->>>>>> should try to prevent somehow.
->>>>>>
->>>>>> [SNIP]
->>>>>>>> I think if you start using the same drm_gpuvm for multiple 
->>>>>>>> devices you
->>>>>>>> will sooner or later start to run into the same mess we have 
->>>>>>>> seen with
->>>>>>>> KFD, where we moved more and more functionality from the KFD to 
->>>>>>>> the DRM
->>>>>>>> render node because we found that a lot of the stuff simply 
->>>>>>>> doesn't work
->>>>>>>> correctly with a single object to maintain the state.
->>>>>>> As I understand it, KFD is designed to work across devices. A 
->>>>>>> single pseudo /dev/kfd device represent all hardware gpu 
->>>>>>> devices. That is why during kfd open, many pdd (process device 
->>>>>>> data) is created, each for one hardware device for this process.
->>>>>> Yes, I'm perfectly aware of that. And I can only repeat myself 
->>>>>> that I see
->>>>>> this design as a rather extreme failure. And I think it's one of 
->>>>>> the reasons
->>>>>> why NVidia is so dominant with Cuda.
->>>>>>
->>>>>> This whole approach KFD takes was designed with the idea of 
->>>>>> extending the
->>>>>> CPU process into the GPUs, but this idea only works for a few use 
->>>>>> cases and
->>>>>> is not something we should apply to drivers in general.
->>>>>>
->>>>>> A very good example are virtualization use cases where you end up 
->>>>>> with CPU
->>>>>> address != GPU address because the VAs are actually coming from 
->>>>>> the guest VM
->>>>>> and not the host process.
->>>>>>
->>>>>> SVM is a high level concept of OpenCL, Cuda, ROCm etc.. This 
->>>>>> should not have
->>>>>> any influence on the design of the kernel UAPI.
->>>>>>
->>>>>> If you want to do something similar as KFD for Xe I think you 
->>>>>> need to get
->>>>>> explicit permission to do this from Dave and Daniel and maybe 
->>>>>> even Linus.
->>>>> I think the one and only one exception where an SVM uapi like in 
->>>>> kfd makes
->>>>> sense, is if the _hardware_ itself, not the software stack defined
->>>>> semantics that you've happened to build on top of that hw, 
->>>>> enforces a 1:1
->>>>> mapping with the cpu process address space.
->>>>>
->>>>> Which means your hardware is using PASID, IOMMU based translation, 
->>>>> PCI-ATS
->>>>> (address translation services) or whatever your hw calls it and 
->>>>> has _no_
->>>>> device-side pagetables on top. Which from what I've seen all 
->>>>> devices with
->>>>> device-memory have, simply because they need some place to store 
->>>>> whether
->>>>> that memory is currently in device memory or should be translated 
->>>>> using
->>>>> PASID. Currently there's no gpu that works with PASID only, but 
->>>>> there are
->>>>> some on-cpu-die accelerator things that do work like that.
->>>>>
->>>>> Maybe in the future there will be some accelerators that are fully 
->>>>> cpu
->>>>> cache coherent (including atomics) with something like CXL, and the
->>>>> on-device memory is managed as normal system memory with struct 
->>>>> page as
->>>>> ZONE_DEVICE and accelerator va -> physical address translation is 
->>>>> only
->>>>> done with PASID ... but for now I haven't seen that, definitely 
->>>>> not in
->>>>> upstream drivers.
->>>>>
->>>>> And the moment you have some per-device pagetables or per-device 
->>>>> memory
->>>>> management of some sort (like using gpuva mgr) then I'm 100% 
->>>>> agreeing with
->>>>> Christian that the kfd SVM model is too strict and not a great idea.
->>>>
->>>> That basically means, without ATS/PRI+PASID you cannot implement a 
->>>> unified memory programming model, where GPUs or accelerators access 
->>>> virtual addresses without pre-registering them with an SVM API call.
->>>>
->>>> Unified memory is a feature implemented by the KFD SVM API and used 
->>>> by ROCm. This is used e.g. to implement OpenMP USM (unified shared 
->>>> memory). It's implemented with recoverable GPU page faults. If the 
->>>> page fault interrupt handler cannot assume a shared virtual address 
->>>> space, then implementing this feature isn't possible.
->>>
->>> Why not? As far as I can see the OpenMP USM is just another funky 
->>> way of userptr handling.
->>>
->>> The difference is that in an userptr we assume that we always need 
->>> to request the whole block A..B from a mapping while for page fault 
->>> based handling it can be just any page in between A and B which is 
->>> requested and made available to the GPU address space.
->>>
->>> As far as I can see there is absolutely no need for any special SVM 
->>> handling.
->>
->> It does assume a shared virtual address space between CPU and GPUs. 
->> There are no API calls to tell the driver that address A on the CPU 
->> maps to address B on the GPU1 and address C on GPU2. The KFD SVM API 
->> was designed to work with this programming model, by augmenting the 
->> shared virtual address mappings with virtual address range attributes 
->> that can modify the migration policy and indicate prefetching, 
->> prefaulting, etc. You could think of it as madvise on steroids.
->
-> Yeah, so what? In this case you just say through an IOCTL that CPU 
-> range A..B should map to GPU range C..D and for A/B and C/D you use 
-> the maximum of the address space.
-
-What I want is that address range A..B on the CPU matches A..B on the 
-GPU, because I'm sharing pointers between CPU and GPU. I can't think of 
-any sane user mode using a unified memory programming model, that would 
-ever ask KFD to map unified memory mappints to a different address range 
-on the GPU. Adding such an ioclt is a complete waste of time, and can 
-only serve to add unnecessary complexity.
-
-Regards,
-   Felix
-
-
->
-> There is no restriction that this needs to be accurate in way. It's 
-> just the it can be accurate to be more efficient and eventually use 
-> only a fraction of the address space instead of all of it for some use 
-> cases.
->
-> So this isn't a blocker, it's just one special use case.
->
+On Mon, Jan 29, 2024 at 12:10:52PM -0500, Luben Tuikov wrote:
+> On 2024-01-29 02:44, Christian K�nig wrote:
+> > Am 26.01.24 um 17:29 schrieb Matthew Brost:
+> >> On Fri, Jan 26, 2024 at 11:32:57AM +0100, Christian K�nig wrote:
+> >>> Am 25.01.24 um 18:30 schrieb Matthew Brost:
+> >>>> On Thu, Jan 25, 2024 at 04:12:58PM +0100, Christian K�nig wrote:
+> >>>>> Am 24.01.24 um 22:08 schrieb Matthew Brost:
+> >>>>>> All entities must be drained in the DRM scheduler run job worker to
+> >>>>>> avoid the following case. An entity found that is ready, no job found
+> >>>>>> ready on entity, and run job worker goes idle with other entities + jobs
+> >>>>>> ready. Draining all ready entities (i.e. loop over all ready entities)
+> >>>>>> in the run job worker ensures all job that are ready will be scheduled.
+> >>>>> That doesn't make sense. drm_sched_select_entity() only returns entities
+> >>>>> which are "ready", e.g. have a job to run.
+> >>>>>
+> >>>> That is what I thought too, hence my original design but it is not
+> >>>> exactly true. Let me explain.
+> >>>>
+> >>>> drm_sched_select_entity() returns an entity with a non-empty spsc queue
+> >>>> (job in queue) and no *current* waiting dependecies [1]. Dependecies for
+> >>>> an entity can be added when drm_sched_entity_pop_job() is called [2][3]
+> >>>> returning a NULL job. Thus we can get into a scenario where 2 entities
+> >>>> A and B both have jobs and no current dependecies. A's job is waiting
+> >>>> B's job, entity A gets selected first, a dependecy gets installed in
+> >>>> drm_sched_entity_pop_job(), run work goes idle, and now we deadlock.
+> >>> And here is the real problem. run work doesn't goes idle in that moment.
+> >>>
+> >>> drm_sched_run_job_work() should restarts itself until there is either no
+> >>> more space in the ring buffer or it can't find a ready entity any more.
+> >>>
+> >>> At least that was the original design when that was all still driven by a
+> >>> kthread.
+> >>>
+> >>> It can perfectly be that we messed this up when switching from kthread to a
+> >>> work item.
+> >>>
+> >> Right, that what this patch does - the run worker does not go idle until
+> >> no ready entities are found. That was incorrect in the original patch
+> >> and fixed here. Do you have any issues with this fix? It has been tested
+> >> 3x times and clearly fixes the issue.
+> > 
+> > Ah! Yes in this case that patch here is a little bit ugly as well.
+> > 
+> > The original idea was that run_job restarts so that we are able to pause 
+> > the submission thread without searching for an entity to submit more.
+> > 
+> > I strongly suggest to replace the while loop with a call to 
+> > drm_sched_run_job_queue() so that when the entity can't provide a job we 
+> > just restart the queuing work.
+> 
+> I agree with Christian. This more closely preserves the original design
+> of the GPU schedulers, so we should go with that.
+> -- 
 > Regards,
-> Christian.
->
->>
->> Regards,
->>   Felix
->>
->>
->>>
->>> Regards,
->>> Christian.
->>>
->>>>
->>>> Regards,
->>>>   Felix
->>>>
->>>>
->>>>>
->>>>> Cheers, Sima
->>>
->
+> Luben
+
+As this patch is already in rc2 will post a patch shortly replacing the
+loop with a re-queuing design.
+
+Thanks,
+Matt
