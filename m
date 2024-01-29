@@ -2,68 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B08F883FD8E
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 06:13:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EF4D83FDC0
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 06:30:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D4A9112441;
-	Mon, 29 Jan 2024 05:13:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2715112472;
+	Mon, 29 Jan 2024 05:30:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com
- [209.85.128.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7684A112441
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jan 2024 05:13:15 +0000 (UTC)
-Received: by mail-yw1-f178.google.com with SMTP id
- 00721157ae682-5f69383e653so26761637b3.1
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jan 2024 21:13:15 -0800 (PST)
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com
+ [209.85.160.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D1A911246F;
+ Mon, 29 Jan 2024 05:30:37 +0000 (UTC)
+Received: by mail-qt1-f176.google.com with SMTP id
+ d75a77b69052e-429f53f0b0bso28161841cf.2; 
+ Sun, 28 Jan 2024 21:30:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1706505132; x=1707109932; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=5jltE+DN0JiS0RyjCpFGTNBkRmZTmxyV8OP3L4P+nVo=;
- b=r1n6thmgF9kmGfXizqVtowUeyRbqjggz7sqHUWNa0CjENgyA6EyKfzA1KLBYK51UEL
- H9YzBczsjCvDK4XVuov4LLRHLFkpgM2yuP9GIBpvU2vlT65H7fm0z1LZL0QtizhzyYO0
- HerjMYyUQhQEg5aVNIKfVobiMv+KNI+/otukyV6bf4swL/xMSB8c8eqUHLJG5LKmFGN5
- 1jj9KXQ+CRhQIGp4l4WJfKiSLiD1+L1NB5ywp+fWvhSVW1JoBxVtvo/dRbU28jC1rZ52
- lFiGBOh1EycrEKURuxSzpuvvtkLd8PeV7JJAelxiyJ2QswTvHqwkCJFvW0rF72LY5nSl
- 3OFw==
+ d=gmail.com; s=20230601; t=1706506176; x=1707110976; darn=lists.freedesktop.org;
+ h=in-reply-to:autocrypt:from:content-language:references:cc:to
+ :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=wBQBbraRZw/0WCW3fokYhKF+zwEk3dpsbNrLYLHs3xY=;
+ b=gFLHadj6om4yFWgln2gkLrpBFoxsw8erFdJZoaB3YJReTtDLtOME8PSaTkQW4Dr0+G
+ FarwbaJeK78Do1KKPNMswtUwPYJHX1gGF698LHPqfYcsnQAmUmWKypdII2slN5ydRhyN
+ XGZ1vIyS7aZgzdcN1WNzG3vUB3hJCPQTo2dHOoJNyEWX81p9tIds4Ns8kqVq4eXY20IB
+ 6GhxOvksDPBQIad1S7IOjy1dUUDROanXUojaMrmxFUkpkMCH/J4tTC/bZZ5XP3Cdhmv9
+ 2OA1zaxuS3fLNXAfg2fXvBgHYZf09AGkX7bY1rktXLOR2m6UJq78J1B98KaK7g16Kp9T
+ BIiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706505132; x=1707109932;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=5jltE+DN0JiS0RyjCpFGTNBkRmZTmxyV8OP3L4P+nVo=;
- b=qvUxVIZUaJ3cuIlfPt8zUUXvGuA4/DlFzUgBpkx8dQ+lMnY/n1DoDsSYQaRy/BoW7y
- kYPPTBOWwmMQbS5IIjQ/hLiArlZh2uw+YYpx91o7edHeoPubb6QibIos+918ShEZV8hS
- v4nvNCnKZhxRCnB+VX8mENQWNI0+PlInlR9XFeQ3xRSdsu9OclyAg1xZ5VcuQ+fQCt0c
- iE5+E1rG8K4YEN7wwHaSI3dEYtZjyCR+qbB4/2Re20czZVcdnAG3uvoQvmQ4yqjGBFVo
- wESkVcIHvPxiZBEfAIWyg5qgLVSisVasTcfi2Vcyj2L5gJvsMOGCNNoHD1jLy5SD1CJP
- xuew==
-X-Gm-Message-State: AOJu0YzPxnwzmzdp0GQVtiJhSTOIAsSbXX/pIA6RS0RlEvZb0TxsZ0XL
- wyhRHzIJXN8yE1ome2o8HePBMGPTfrsRCqxKwcsETyhBr0RM7fZ9i3lJ1G/o4miL1ffZ1M88fUx
- DYcWmPkLbMCaGWbGh6sSWX0ABCtoabLomCjqjPg==
-X-Google-Smtp-Source: AGHT+IEtf+u7iU+6a6rOfEJQnzGLIxIVk3xMKscH3LqPL1c35CJiA93ucbtohUOjGwEBIPdpEWjhlB+wlEJwZHnquUg=
-X-Received: by 2002:a05:690c:fce:b0:5ff:ac2f:cd65 with SMTP id
- dg14-20020a05690c0fce00b005ffac2fcd65mr3672461ywb.88.1706505132213; Sun, 28
- Jan 2024 21:12:12 -0800 (PST)
+ d=1e100.net; s=20230601; t=1706506176; x=1707110976;
+ h=in-reply-to:autocrypt:from:content-language:references:cc:to
+ :subject:user-agent:mime-version:date:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=wBQBbraRZw/0WCW3fokYhKF+zwEk3dpsbNrLYLHs3xY=;
+ b=HZuUiZ1hu7COgLsHLyjacVb3s1CfD2/stHdSDvcWu7z+P+bsdeBONUM6Nb1cQaQXUr
+ N12+ssT8ho6m/5fPjaK/dTRAPOJZf6HwD2Kkin+UwXUtD/FN8Q8f7hQ+RSW28VQ4hJel
+ S9tulueo5bCEPsCpcLJ9tTdIPozE7qIdMbVeVBTgF603sbAxWCkMOdBRBa0RxF1LkAON
+ 7cb7i/KT2HEU99phJc9mY8ZVz2ovXNnp8bWp0FY/LAMlcYmht/eQmTdzbXI3rX6B/dvB
+ C2gquYgRsJqj6nM3WkIWIhdJbs1w4il5QxQ03KwKxpoTlMs2R75D1W8BO6q2ofzrdcKZ
+ qzeQ==
+X-Gm-Message-State: AOJu0YwQQl9UDdcSm1cEtL7e/PBvvmwl0XOWA5O3junnVvnCjE6yIL6o
+ yfXao8N/HT51EwSt6d6E/Wyx+lvVYcdiVB7qS6hhhbwE62ZDWRRE
+X-Google-Smtp-Source: AGHT+IF2GouVzTCFPpuF1NOInBEAds2ceEtCLJOxHIovID9gdDNxgrQUtBPXFxyWaAKh9bTdvgPFSg==
+X-Received: by 2002:a05:6214:518b:b0:68c:484c:807d with SMTP id
+ kl11-20020a056214518b00b0068c484c807dmr2736159qvb.76.1706506176501; 
+ Sun, 28 Jan 2024 21:29:36 -0800 (PST)
+Received: from [192.168.2.14] ([174.88.31.222])
+ by smtp.gmail.com with ESMTPSA id
+ cw13-20020ad44dcd000000b0068c423e8479sm1803730qvb.126.2024.01.28.21.29.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 28 Jan 2024 21:29:36 -0800 (PST)
+Message-ID: <8b06a021-8a80-4e39-a618-7b3630636b2b@gmail.com>
+Date: Mon, 29 Jan 2024 00:29:26 -0500
 MIME-Version: 1.0
-References: <20240125193834.7065-1-quic_parellan@quicinc.com>
- <20240125193834.7065-2-quic_parellan@quicinc.com>
- <31e4a033-1779-450c-980e-63c8567837ed@linaro.org>
- <fa5ce695-8c00-1ae4-04cd-d1b49b42c5d6@quicinc.com>
- <5d0b2da2-7683-f801-0acf-255a8c2bd618@quicinc.com>
- <CAA8EJpoTtzupauFah=65Yn_cRQzDbgpLw-6GuXWCUwPcNJvKOA@mail.gmail.com>
- <0bed7afe-b73a-b1de-edc0-a25b368556bf@quicinc.com>
- <CAA8EJprO9rvEnyOD83N0YFaTO64TxDvvg_XMQ2zF+ku1ucHi3A@mail.gmail.com>
- <b26b2660-0d7d-4758-8052-ca94e9162e2d@quicinc.com>
-In-Reply-To: <b26b2660-0d7d-4758-8052-ca94e9162e2d@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 29 Jan 2024 07:12:00 +0200
-Message-ID: <CAA8EJpr-kHNbGaJPnAugd3bOS9Y_UhOeeGMvrrM3A+R83SgWbQ@mail.gmail.com>
-Subject: Re: [PATCH 01/17] drm/msm/dpu: allow dpu_encoder_helper_phys_setup_cdm
- to work for DP
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
+ Thunderbird/115.7.0
+Subject: Re: [PATCH] drm/sched: Drain all entities in DRM sched run job worker
+To: Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+References: <20240124210811.1639040-1-matthew.brost@intel.com>
+ <b94aca06-858e-4575-a4c4-40be8d8d4d35@amd.com>
+ <ZbKaqdu5Y/WNwWVX@DUT025-TGLU.fm.intel.com>
+ <0bef4c76-924f-442f-af9c-d701e640db41@amd.com>
+ <ZbPd590k4s5z1/a9@DUT025-TGLU.fm.intel.com>
+Content-Language: en-CA, en-US
+From: Luben Tuikov <ltuikov89@gmail.com>
+Autocrypt: addr=ltuikov89@gmail.com; keydata=
+ xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1APnbnnRHN
+ Ikx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoAQRYhBJkj7+VmFO9b
+ eaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheA
+ AAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlTMqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfy
+ JwktF7REl1yt7IU2Sye1qmQMfJxdt9JMbMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSP
+ cCE8uGe7FWo8C+nTSyWPXKTx9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl
+ 10wVR5QxozSvBQJlOiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKo
+ aMDzO9eGz69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA==
+In-Reply-To: <ZbPd590k4s5z1/a9@DUT025-TGLU.fm.intel.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------Nwq5NZ8hmkaVIlw3rkIld8Vs"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,198 +91,278 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, marijn.suijten@somainline.org,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, seanpaul@chromium.org, quic_jesszhan@quicinc.com,
- Paloma Arellano <quic_parellan@quicinc.com>, quic_khsieh@quicinc.com,
- freedreno@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+ Thorsten Leemhuis <regressions@leemhuis.info>,
+ Mario Limonciello <mario.limonciello@amd.com>, daniel@ffwll.ch,
+ Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>, airlied@gmail.com,
+ intel-xe@lists.freedesktop.org, Vlastimil Babka <vbabka@suse.cz>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 29 Jan 2024 at 06:33, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
->
->
-> On 1/28/2024 8:12 PM, Dmitry Baryshkov wrote:
-> > On Mon, 29 Jan 2024 at 06:01, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> >>
-> >>
-> >>
-> >> On 1/28/2024 7:23 PM, Dmitry Baryshkov wrote:
-> >>> On Mon, 29 Jan 2024 at 05:06, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> >>>>
-> >>>>
-> >>>>
-> >>>> On 1/26/2024 4:39 PM, Paloma Arellano wrote:
-> >>>>>
-> >>>>> On 1/25/2024 1:14 PM, Dmitry Baryshkov wrote:
-> >>>>>> On 25/01/2024 21:38, Paloma Arellano wrote:
-> >>>>>>> Generalize dpu_encoder_helper_phys_setup_cdm to be compatible with DP.
-> >>>>>>>
-> >>>>>>> Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
-> >>>>>>> ---
-> >>>>>>>     .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  |  4 +--
-> >>>>>>>     .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   | 31 ++++++++++---------
-> >>>>>>>     2 files changed, 18 insertions(+), 17 deletions(-)
-> >>>>>>>
-> >>>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> >>>>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> >>>>>>> index 993f263433314..37ac385727c3b 100644
-> >>>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> >>>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> >>>>>>> @@ -153,6 +153,7 @@ enum dpu_intr_idx {
-> >>>>>>>      * @hw_intf:        Hardware interface to the intf registers
-> >>>>>>>      * @hw_wb:        Hardware interface to the wb registers
-> >>>>>>>      * @hw_cdm:        Hardware interface to the CDM registers
-> >>>>>>> + * @cdm_cfg:    CDM block config needed to store WB/DP block's CDM
-> >>>>>>> configuration
-> >>>>>>
-> >>>>>> Please realign the description.
-> >>>>> Ack
-> >>>>>>
-> >>>>>>>      * @dpu_kms:        Pointer to the dpu_kms top level
-> >>>>>>>      * @cached_mode:    DRM mode cached at mode_set time, acted on in
-> >>>>>>> enable
-> >>>>>>>      * @vblank_ctl_lock:    Vblank ctl mutex lock to protect
-> >>>>>>> vblank_refcount
-> >>>>>>> @@ -183,6 +184,7 @@ struct dpu_encoder_phys {
-> >>>>>>>         struct dpu_hw_intf *hw_intf;
-> >>>>>>>         struct dpu_hw_wb *hw_wb;
-> >>>>>>>         struct dpu_hw_cdm *hw_cdm;
-> >>>>>>> +    struct dpu_hw_cdm_cfg cdm_cfg;
-> >>>>>>
-> >>>>>> It might be slightly better to move it after all the pointers, so
-> >>>>>> after the dpu_kms.
-> >>>>> Ack
-> >>>>>>
-> >>>>>>>         struct dpu_kms *dpu_kms;
-> >>>>>>>         struct drm_display_mode cached_mode;
-> >>>>>>>         struct mutex vblank_ctl_lock;
-> >>>>>>> @@ -213,7 +215,6 @@ static inline int
-> >>>>>>> dpu_encoder_phys_inc_pending(struct dpu_encoder_phys *phys)
-> >>>>>>>      * @wbirq_refcount:     Reference count of writeback interrupt
-> >>>>>>>      * @wb_done_timeout_cnt: number of wb done irq timeout errors
-> >>>>>>>      * @wb_cfg:  writeback block config to store fb related details
-> >>>>>>> - * @cdm_cfg: cdm block config needed to store writeback block's CDM
-> >>>>>>> configuration
-> >>>>>>>      * @wb_conn: backpointer to writeback connector
-> >>>>>>>      * @wb_job: backpointer to current writeback job
-> >>>>>>>      * @dest:   dpu buffer layout for current writeback output buffer
-> >>>>>>> @@ -223,7 +224,6 @@ struct dpu_encoder_phys_wb {
-> >>>>>>>         atomic_t wbirq_refcount;
-> >>>>>>>         int wb_done_timeout_cnt;
-> >>>>>>>         struct dpu_hw_wb_cfg wb_cfg;
-> >>>>>>> -    struct dpu_hw_cdm_cfg cdm_cfg;
-> >>>>>>>         struct drm_writeback_connector *wb_conn;
-> >>>>>>>         struct drm_writeback_job *wb_job;
-> >>>>>>>         struct dpu_hw_fmt_layout dest;
-> >>>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-> >>>>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-> >>>>>>> index 4cd2d9e3131a4..072fc6950e496 100644
-> >>>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-> >>>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-> >>>>>>> @@ -269,28 +269,21 @@ static void
-> >>>>>>> dpu_encoder_phys_wb_setup_ctl(struct dpu_encoder_phys *phys_enc)
-> >>>>>>>      *                                     This API does not handle
-> >>>>>>> DPU_CHROMA_H1V2.
-> >>>>>>>      * @phys_enc:Pointer to physical encoder
-> >>>>>>>      */
-> >>>>>>> -static void dpu_encoder_helper_phys_setup_cdm(struct
-> >>>>>>> dpu_encoder_phys *phys_enc)
-> >>>>>>> +static void dpu_encoder_helper_phys_setup_cdm(struct
-> >>>>>>> dpu_encoder_phys *phys_enc,
-> >>>>>>> +                          const struct dpu_format *dpu_fmt,
-> >>>>>>> +                          u32 output_type)
-> >>>>>>>     {
-> >>>>>>>         struct dpu_hw_cdm *hw_cdm;
-> >>>>>>>         struct dpu_hw_cdm_cfg *cdm_cfg;
-> >>>>>>>         struct dpu_hw_pingpong *hw_pp;
-> >>>>>>> -    struct dpu_encoder_phys_wb *wb_enc;
-> >>>>>>> -    const struct msm_format *format;
-> >>>>>>> -    const struct dpu_format *dpu_fmt;
-> >>>>>>> -    struct drm_writeback_job *wb_job;
-> >>>>>>>         int ret;
-> >>>>>>>           if (!phys_enc)
-> >>>>>>>             return;
-> >>>>>>>     -    wb_enc = to_dpu_encoder_phys_wb(phys_enc);
-> >>>>>>> -    cdm_cfg = &wb_enc->cdm_cfg;
-> >>>>>>> +    cdm_cfg = &phys_enc->cdm_cfg;
-> >>>>>>>         hw_pp = phys_enc->hw_pp;
-> >>>>>>>         hw_cdm = phys_enc->hw_cdm;
-> >>>>>>> -    wb_job = wb_enc->wb_job;
-> >>>>>>> -
-> >>>>>>> -    format = msm_framebuffer_format(wb_enc->wb_job->fb);
-> >>>>>>> -    dpu_fmt = dpu_get_dpu_format_ext(format->pixel_format,
-> >>>>>>> wb_job->fb->modifier);
-> >>>>>>>           if (!hw_cdm)
-> >>>>>>>             return;
-> >>>>>>> @@ -306,10 +299,10 @@ static void
-> >>>>>>> dpu_encoder_helper_phys_setup_cdm(struct dpu_encoder_phys *phys_enc)
-> >>>>>>>           memset(cdm_cfg, 0, sizeof(struct dpu_hw_cdm_cfg));
-> >>>>>>>     -    cdm_cfg->output_width = wb_job->fb->width;
-> >>>>>>> -    cdm_cfg->output_height = wb_job->fb->height;
-> >>>>>>> +    cdm_cfg->output_width = phys_enc->cached_mode.hdisplay;
-> >>>>>>> +    cdm_cfg->output_height = phys_enc->cached_mode.vdisplay;
-> >>>>>>
-> >>>>>> This is a semantic change. Instead of passing the FB size, this passes
-> >>>>>> the mode dimensions. They are not guaranteed to be the same,
-> >>>>>> especially for the WB case.
-> >>>>>>
-> >>>>
-> >>>> The WB job is storing the output FB of WB. I cannot think of a use-case
-> >>>> where this cannot match the current mode programmed to the WB encoder.
-> >>>>
-> >>>> Yes, if it was the drm_plane's FB, then it cannot be guaranteed as the
-> >>>> plane can scale the contents but here thats not the case. Here its the
-> >>>> output FB of WB.
-> >>>
-> >>> Is it a part of WB uAPI, to have the FB dimensions equal to mode
-> >>> dimensions? Or is it just our current limitation? I can easily imagine
-> >>> WB outputting data to a part of the FB (just like we can clip FB using
-> >>> plane's clip rectangle).
-> >>>
-> >>> This boils down to a question, whether CDM should be setup in terms of
-> >>> actual output date or the physical memory buffer parameters. I suspect
-> >>> the former is the case (which makes this change correct). But it
-> >>> either should be described in the commit message or (even better)
-> >>> split to a separate commit.
-> >>>
-> >>
-> >> I would say its a combination of both today.
-> >>
-> >> The way I would look at it is even if WB crops a certain section of FB,
-> >> that will not change the FB size. FB size of WB should match the rest of
-> >> the DRM pipeline (the mode programmed to the CRTC/encoder). If WB
-> >> decides to write to only a small section of FB (cropping), then we need
-> >> another WB property like CROP_ROI so that we can program the WB to only
-> >> write to a small section of the programmed FB. So in some sense, there
-> >> is no such support in DRM UAPI today. Hence the FB of WB is the full
-> >> mode of the WB.
-> >
-> >   I'd say, CROP_ROI can refer to cropping of the image source (esp. in
-> > the cloned output case). For writing to the part of the FB there can
-> > be DST_X/_Y/_W/_H properties. But this becomes off-topic.
-> >
-> >> CDM is before WB so follows the rest of the pipeline that is whatever
-> >> the data feeding it was programmed to.
-> >
-> > Yes. So the change is correct, but it should be split or documented
-> > properly. I prefer the first option.
-> >
->
-> Ok just to clarify you prefer below part of the change to be moved to
-> its own commit right?
->
-> -    cdm_cfg->output_width = wb_job->fb->width;
-> -    cdm_cfg->output_height = wb_job->fb->height;
-> +    cdm_cfg->output_width = phys_enc->cached_mode.hdisplay;
-> +    cdm_cfg->output_height = phys_enc->cached_mode.vdisplay;
->
-> If so, ack.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------Nwq5NZ8hmkaVIlw3rkIld8Vs
+Content-Type: multipart/mixed; boundary="------------Q1NB2p6bnyo00tMDmY2hGmuQ";
+ protected-headers="v1"
+From: Luben Tuikov <ltuikov89@gmail.com>
+To: Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ airlied@gmail.com, daniel@ffwll.ch,
+ Thorsten Leemhuis <regressions@leemhuis.info>,
+ Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Vlastimil Babka <vbabka@suse.cz>
+Message-ID: <8b06a021-8a80-4e39-a618-7b3630636b2b@gmail.com>
+Subject: Re: [PATCH] drm/sched: Drain all entities in DRM sched run job worker
+References: <20240124210811.1639040-1-matthew.brost@intel.com>
+ <b94aca06-858e-4575-a4c4-40be8d8d4d35@amd.com>
+ <ZbKaqdu5Y/WNwWVX@DUT025-TGLU.fm.intel.com>
+ <0bef4c76-924f-442f-af9c-d701e640db41@amd.com>
+ <ZbPd590k4s5z1/a9@DUT025-TGLU.fm.intel.com>
+In-Reply-To: <ZbPd590k4s5z1/a9@DUT025-TGLU.fm.intel.com>
 
-Yes.
+--------------Q1NB2p6bnyo00tMDmY2hGmuQ
+Content-Type: multipart/mixed; boundary="------------mJJVLZaQCxKsPaANWCqyu751"
+
+--------------mJJVLZaQCxKsPaANWCqyu751
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+On 2024-01-26 11:29, Matthew Brost wrote:
+> On Fri, Jan 26, 2024 at 11:32:57AM +0100, Christian K=C3=B6nig wrote:
+>> Am 25.01.24 um 18:30 schrieb Matthew Brost:
+>>> On Thu, Jan 25, 2024 at 04:12:58PM +0100, Christian K=C3=B6nig wrote:=
+
+>>>>
+>>>> Am 24.01.24 um 22:08 schrieb Matthew Brost:
+>>>>> All entities must be drained in the DRM scheduler run job worker to=
 
 
--- 
-With best wishes
-Dmitry
+Hi Matt,
+
+Thanks for the patch. Under close review, let's use "checked" instead of =
+"drained",
+to read as follows,
+
+All entities must be checked in the DRM scheduler run job worker to ...
+
+>>>>> avoid the following case. An entity found that is ready, no job fou=
+nd
+
+Continue with the example given by using a colon, as follows,
+
+=2E.. avoid the following case: an entity is found which is ready, yet
+no job is returned for that entity when calling drm_sched_entity_pop_job(=
+entity).
+This causes the job worker to go idle. The correct behaviour is to loop
+over all ready entities, until drm_sched_entity_pop_job(entity) returns n=
+on-NULL,
+or there are no more ready entities.
+
+>>>>> ready on entity, and run job worker goes idle with other entities +=
+ jobs
+>>>>> ready. Draining all ready entities (i.e. loop over all ready entiti=
+es)
+
+You see here how "drain" isn't clear enough, and you clarify in parenthes=
+is
+that we in fact "loop over all ready entities". So, perhaps let's not use=
+ the
+verb "drain" and simply use the sentence in the paragraph I've redacted a=
+bove.
+
+Also, let's please not use "drain" in the title, as it is confusing and m=
+akes me
+think of capacitors, transistors, or buckets with water and Archimedes sc=
+rews and siphons,
+and instead say,
+
+[PATCH]: drm/sched: Really find a ready entity and job in DRM sched run-j=
+ob worker
+
+Which makes it really simple and accessible a description. :-)
+
+>>>>> in the run job worker ensures all job that are ready will be schedu=
+led.
+>>>> That doesn't make sense. drm_sched_select_entity() only returns enti=
+ties
+>>>> which are "ready", e.g. have a job to run.
+>>>>
+>>> That is what I thought too, hence my original design but it is not
+>>> exactly true. Let me explain.
+>>>
+>>> drm_sched_select_entity() returns an entity with a non-empty spsc que=
+ue
+>>> (job in queue) and no *current* waiting dependecies [1]. Dependecies =
+for
+>>> an entity can be added when drm_sched_entity_pop_job() is called [2][=
+3]
+>>> returning a NULL job. Thus we can get into a scenario where 2 entitie=
+s
+>>> A and B both have jobs and no current dependecies. A's job is waiting=
+
+>>> B's job, entity A gets selected first, a dependecy gets installed in
+>>> drm_sched_entity_pop_job(), run work goes idle, and now we deadlock.
+>>
+>> And here is the real problem. run work doesn't goes idle in that momen=
+t.
+>>
+>> drm_sched_run_job_work() should restarts itself until there is either =
+no
+>> more space in the ring buffer or it can't find a ready entity any more=
+=2E
+>>
+>> At least that was the original design when that was all still driven b=
+y a
+>> kthread.
+>>
+>> It can perfectly be that we messed this up when switching from kthread=
+ to a
+>> work item.
+>>
+>=20
+> Right, that what this patch does - the run worker does not go idle unti=
+l
+> no ready entities are found. That was incorrect in the original patch
+> and fixed here. Do you have any issues with this fix? It has been teste=
+d
+> 3x times and clearly fixes the issue.
+
+Thanks for following up with Christian.
+
+I agree, the fix makes sense and achieves the original intention as descr=
+ibed
+by Christian. Also, thanks to all who tested it. Good work, thanks!
+
+With the above changes to the patch title and text addressed, this patch =
+would be then,
+
+Reviewed-by: Luben Tuikov <ltuikov89@gmail.com>
+
+--=20
+Regards,
+Luben
+
+=20
+>=20
+> Matt
+>=20
+>> Regards,
+>> Christian.
+>>
+>>>
+>>> The proper solution is to loop over all ready entities until one with=
+ a
+>>> job is found via drm_sched_entity_pop_job() and then requeue the run
+>>> job worker. Or loop over all entities until drm_sched_select_entity()=
+
+>>> returns NULL and then let the run job worker go idle. This is what th=
+e
+>>> old threaded design did too [4]. Hope this clears everything up.
+>>>
+>>> Matt
+>>>
+>>> [1] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/sc=
+heduler/sched_entity.c#L144
+>>> [2] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/sc=
+heduler/sched_entity.c#L464
+>>> [3] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/sc=
+heduler/sched_entity.c#L397
+>>> [4] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/sc=
+heduler/sched_main.c#L1011
+>>>
+>>>> If that's not the case any more then you have broken something else.=
+
+>>>>
+>>>> Regards,
+>>>> Christian.
+>>>>
+>>>>> Cc: Thorsten Leemhuis <regressions@leemhuis.info>
+>>>>> Reported-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+>>>>> Closes: https://lore.kernel.org/all/CABXGCsM2VLs489CH-vF-1539-s3in3=
+7=3DbwuOWtoeeE+q26zE+Q@mail.gmail.com/
+>>>>> Reported-and-tested-by: Mario Limonciello <mario.limonciello@amd.co=
+m>
+>>>>> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/3124
+>>>>> Link: https://lore.kernel.org/all/20240123021155.2775-1-mario.limon=
+ciello@amd.com/
+>>>>> Reported-by: Vlastimil Babka <vbabka@suse.cz>
+>>>>> Closes: https://lore.kernel.org/dri-devel/05ddb2da-b182-4791-8ef7-8=
+2179fd159a8@amd.com/T/#m0c31d4d1b9ae9995bb880974c4f1dbaddc33a48a
+>>>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>>>>> ---
+>>>>>    drivers/gpu/drm/scheduler/sched_main.c | 15 +++++++--------
+>>>>>    1 file changed, 7 insertions(+), 8 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/d=
+rm/scheduler/sched_main.c
+>>>>> index 550492a7a031..85f082396d42 100644
+>>>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>>>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>>>>> @@ -1178,21 +1178,20 @@ static void drm_sched_run_job_work(struct w=
+ork_struct *w)
+>>>>>    	struct drm_sched_entity *entity;
+>>>>>    	struct dma_fence *fence;
+>>>>>    	struct drm_sched_fence *s_fence;
+>>>>> -	struct drm_sched_job *sched_job;
+>>>>> +	struct drm_sched_job *sched_job =3D NULL;
+>>>>>    	int r;
+>>>>>    	if (READ_ONCE(sched->pause_submit))
+>>>>>    		return;
+>>>>> -	entity =3D drm_sched_select_entity(sched);
+>>>>> +	/* Find entity with a ready job */
+>>>>> +	while (!sched_job && (entity =3D drm_sched_select_entity(sched)))=
+ {
+>>>>> +		sched_job =3D drm_sched_entity_pop_job(entity);
+>>>>> +		if (!sched_job)
+>>>>> +			complete_all(&entity->entity_idle);
+>>>>> +	}
+>>>>>    	if (!entity)
+>>>>> -		return;
+>>>>> -
+>>>>> -	sched_job =3D drm_sched_entity_pop_job(entity);
+>>>>> -	if (!sched_job) {
+>>>>> -		complete_all(&entity->entity_idle);
+>>>>>    		return;	/* No more work */
+>>>>> -	}
+>>>>>    	s_fence =3D sched_job->s_fence;
+>>
+
+--------------mJJVLZaQCxKsPaANWCqyu751
+Content-Type: application/pgp-keys; name="OpenPGP_0x4C15479431A334AF.asc"
+Content-Disposition: attachment; filename="OpenPGP_0x4C15479431A334AF.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1A
+PnbnnRHNIkx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoA
+QRYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiIC
+BhUKCQgLAgQWAgMBAh4HAheAAAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlT
+MqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfyJwktF7REl1yt7IU2Sye1qmQMfJxdt9JM
+bMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSPcCE8uGe7FWo8C+nTSyWPXKTx
+9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJl
+OiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKoaMDzO9eG
+z69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA=3D=3D
+=3DqCaZ
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------mJJVLZaQCxKsPaANWCqyu751--
+
+--------------Q1NB2p6bnyo00tMDmY2hGmuQ--
+
+--------------Nwq5NZ8hmkaVIlw3rkIld8Vs
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQSZI+/lZhTvW3mgJddMFUeUMaM0rwUCZbc3twUDAAAAAAAKCRBMFUeUMaM0r4+Y
+AQDKqRE64V846Z5n21tKO1jVL6xKZelPBoi1TBStQQG3FQD9GfxuZsdMOUdCRdNi4afM9FmYBeaz
+T/S0Cus80rKc3Q0=
+=zHlo
+-----END PGP SIGNATURE-----
+
+--------------Nwq5NZ8hmkaVIlw3rkIld8Vs--
