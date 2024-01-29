@@ -2,68 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BD47840C3C
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 17:49:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 710A5840C55
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 17:51:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1C6E112A0E;
-	Mon, 29 Jan 2024 16:49:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2672410E3CB;
+	Mon, 29 Jan 2024 16:51:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
- [209.85.221.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3BDE112A34;
- Mon, 29 Jan 2024 16:49:49 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id
- ffacd0b85a97d-33ae2d80b70so1393859f8f.0; 
- Mon, 29 Jan 2024 08:49:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1706546928; x=1707151728; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=SClQHNx/XUF6O67AiYDDX/kFIJabNAFPJCNPiLsTpyI=;
- b=gxN7WRqrer3A6OzKe7XFfhSuPZktw+XTmwK+hJG8dxH3evv3cXXvKgvKcbjUcBZ8ni
- 5LHqSSNQmPWLAcEMh54oc4p9ajxKSlNPdi86zENM6A2ztJ8dtdUkDwuddfFn+785np8F
- QepZazdGo5pUqhQH9x+y4DIpA2e45Qh7+JovVdcym4fVjr9BghLl4rBhPDn90BogapMz
- BXgghs1kUpsiq4+IKn880/VKq9Lozpla8zLjAXIHDGgnNQA0kPODKTwVfB/9NohJmbXn
- MKwjj4oUVjgJGCrWkIA6KYwPFvOSoo47d1oYCe/0vY3ikD56T83ifNwzE07hTH3TP9Ds
- jLfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706546928; x=1707151728;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SClQHNx/XUF6O67AiYDDX/kFIJabNAFPJCNPiLsTpyI=;
- b=mprGAjjv9tJSD/Cp6c8kp6tkTKfcRqaf5pX2Njg+HTH+vI3cnWd1D8NukJJIfRoybx
- Qp8PaGgmLY6Bz794VUdriKpKfqqw+9s8xNUMVo1d5KjJ4at/dkkHlNnQbPSXfvXTmXvH
- O/GAYLXog+BvL7WDegSHEes+0fbgMallFpaW0UvVVyUGPwi8wVbqOp1J+2a6SNt1sVQU
- 4o3Ko73ZsbDLwiK/UxGkQpZNH4srWt/xMqNwcWl3nj3rtL/NkZoIV0+eC8Pj/rLuZzr+
- kFR7GnV/wRragCF4sPMYIuA1lN35mpA0X0uIiDzvo3V01JauzizlZCgX5c5qMx+6xlZq
- +VQQ==
-X-Gm-Message-State: AOJu0YzCkEQGBZgOoLDutH29SOHRUL8p3nFUqsXykPGewRZ3N7NAjjpH
- nsj9wZEiTGO5cc7usMTNfejZL0UzBmXChG+a2T15FzG5WjevApS+
-X-Google-Smtp-Source: AGHT+IHJmefe0hja1kNT+O/lZqSBJOGR351CeocwmhhGIT1V3TLH7yzxvOLcemzQ1xyetKMl+76ZKA==
-X-Received: by 2002:a5d:568d:0:b0:33a:ec16:48d8 with SMTP id
- f13-20020a5d568d000000b0033aec1648d8mr2737966wrv.29.1706546927895; 
- Mon, 29 Jan 2024 08:48:47 -0800 (PST)
-Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
- by smtp.gmail.com with ESMTPSA id
- bv4-20020a0560001f0400b0033aec05328csm3837228wrb.6.2024.01.29.08.48.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 Jan 2024 08:48:47 -0800 (PST)
-Message-ID: <21f2b595-0690-4372-bd81-86d23ac7498b@gmail.com>
-Date: Mon, 29 Jan 2024 17:48:44 +0100
-MIME-Version: 1.0
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur05on2092.outbound.protection.outlook.com [40.107.21.92])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAB0F10E3CB
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jan 2024 16:51:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SvHCbFAws9Su673OevYSK+XyHNj94miGK6mUO061Sdaay6GigvnEYb+01UFyzwbg8Ky0nbRl1bCY5x0QMwTE5B1+WOtqaduM/adshP6XiD+TcmxWqiNgexD63mHZF6R7pJxJG2OgGnPXMgXEPDq4hBgSthZqBLkdUyNCubVKHS43uhLq8QkK6FCNdQDKhjItKSeRZOPJGqPErT7pnLhsBuu40ywG+vuXVnSnWVeC5/mpxR1HGU8F1tDvpa83DHbXZb6mVuTiUnjV5CSRJVVKaF2BlgR1c3MMcZh9B4iWZ3X+Mf1HYTeTsqyatfrSTw/yhGAOu2znuR/r5k7PODNBFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TW0f5NChj/C3XGpVC2DyoL0eEYoPNYhMSEbJ6vAWtOs=;
+ b=bhcqkKvsBGYrj/D34Ad1oaK0biz1X0x1DG0ggyd3+ZanuzxChditljAVUbaSDsPK4s/VzwMQpRLr0ExPxxKFdwgfZYoANKpQhruy4081ZjLVlOrAqNHo1FPHVfq1flr5fQqqjy6uWC9Ga4PNyNkMysZZIbqzjYQfVLUGYsTwQJ3phD0TGKLY2x3MVoEkUX0Bho0iN6IYmYErWrgBHRxV0YQXJH2B0xGX8PAV6p6nrLANdoB/gQkpDJwoyw/ylJGswU97igWGmxL2ozEutOWtVuvNF8Liug+pVY9qJUiutcPyu8/leZjKPKDt8R4Ye14r2+I33KlOXaKZyYwFamp4/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
+ dkim=pass header.d=kontron.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mysnt.onmicrosoft.com; 
+ s=selector2-mysnt-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TW0f5NChj/C3XGpVC2DyoL0eEYoPNYhMSEbJ6vAWtOs=;
+ b=b8aiJBa8d83nUwFDtySpzQgoxrIi1t60/f1bZl/6tze1ttMuaFDa/vKiwv1ptpxV5po6f31NhW9Jjpxd/nCLSnZUN/DHUgTFQFltZu850zjUAlqpYY+W2gqv+DxRYHc5KhdGMVdft6JxR5Nitvkg1k6DflaJQIhgw8nNcbvHuCo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=kontron.de;
+Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:263::10)
+ by VI1PR10MB8135.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:800:1d3::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.32; Mon, 29 Jan
+ 2024 16:51:12 +0000
+Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::44de:8e9c:72ac:a985]) by PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::44de:8e9c:72ac:a985%6]) with mapi id 15.20.7228.027; Mon, 29 Jan 2024
+ 16:51:12 +0000
+Message-ID: <021a118a-5ced-4bf9-b6ea-2a7b1980962b@kontron.de>
+Date: Mon, 29 Jan 2024 17:51:10 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/xe: Fix a build error
-Content-Language: en-US
-To: Oak Zeng <oak.zeng@intel.com>, dri-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org
-References: <20240127155327.423294-1-oak.zeng@intel.com>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20240127155327.423294-1-oak.zeng@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] drm: bridge: samsung-dsim: Don't use FORCE_STOP_STATE
+Content-Language: en-US, de-DE
+From: Frieder Schrempf <frieder.schrempf@kontron.de>
+To: Dave Airlie <airlied@gmail.com>, Inki Dae <daeinki@gmail.com>
+References: <20231113164344.1612602-1-mwalle@kernel.org>
+ <631fe35a2a3b00781231e4f3f5094fae@kernel.org>
+ <1ef3dad2-5f55-40e5-bba7-3c71d71c12e4@kontron.de>
+ <CAAQKjZMccDwa63_PNJCP0rNOaHjTwcOz8AbKa=JXLQi-b0QVVw@mail.gmail.com>
+ <2400535875c353ff7208be2d86d4556f@kernel.org>
+ <ZZ1BBO2nNSp3g-gT@phenom.ffwll.local>
+ <CAAQKjZNnJQDn_r1+WNmsxM-2O48O0+yWAUAqpjZRjMYMT3xGwg@mail.gmail.com>
+ <CAPM=9tytMB9frxNeD08hu1qsusY=wEE3bJOFmUgA1rSpabwDpg@mail.gmail.com>
+ <49b26e7b-0205-45c6-b7ab-8424c20d3f6c@kontron.de>
+In-Reply-To: <49b26e7b-0205-45c6-b7ab-8424c20d3f6c@kontron.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR0P281CA0013.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:15::18) To PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:102:263::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR10MB5681:EE_|VI1PR10MB8135:EE_
+X-MS-Office365-Filtering-Correlation-Id: ed45f619-7345-41c8-f859-08dc20ea7fea
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ae7QxEQtP0SBovqqPH3QUt9izu5J78UPcocWM+Ooh5iVARfdsdh4NhfC0WWEl7pa33i02iNNDTtmoNyQ1edbUoGhKluA7khZzDQ63E+pJD5uLmu4sUMraeHyyivrQplcoMlpxP35ckIB7sGeZPlLmmYhUqOcUdOqD3ySz9dzmVkiI4Oz56ZWW3TZWEnBVZsYnb/YjPCq2mNYxy7vy1vkVJwP9ADpqA78GFGZ2d+7+X+GR6hF56/alq+QQm9EJLnb/xpmlUc8ysdtqGEfnC5qCdXUbOql8ANpfBtS+GYW7rX6P6KYNvfhtDiGmDA7a1qbr3FDCB6ZZY1zWuBeua5ynLetjrJcgOHU40nfBOjUKTAVFoXrU3wGmWJ6espo0utx2WxVGXwsgXTrKM8Llt9tB12Q/qdCVyKPOrU76DM3mT0sdhnFWe5hANbtUcDEKmZu3mehridg+Kx8Sw23b1I+7GFChuDcwt07p/2DsDuxeqowhln6GAcUlbv7n6YWAXfL59jbcQO49P8H7xBM+Y5hQXjHN81+KphAeeVhQIXyDw6oxB0VBwQGjTyZ2efZYaeitVuTcpM5+SylTj0NIfYMSLab8xtdbPNTHauz0ckuWIBlY2ZYqmDxUiRxIhYiCTBoLuZwPuWgu2Ezat4HtnmYDg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230031)(366004)(396003)(346002)(376002)(136003)(39860400002)(230922051799003)(1800799012)(451199024)(64100799003)(186009)(26005)(86362001)(6506007)(53546011)(6486002)(31696002)(54906003)(316002)(66946007)(110136005)(66556008)(478600001)(66476007)(2616005)(6512007)(8936002)(4326008)(8676002)(44832011)(38100700002)(31686004)(5660300002)(7416002)(4744005)(2906002)(41300700001)(36756003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SURPOWFLUEVkU2FKL3JiSVZPR2VFSUhXakFORCtkZDZ1SFdTUENPVmZUblNT?=
+ =?utf-8?B?UU5yb0d6ZlhXTEJ2T2pQTUFkRjFRcHNObk1FSy9KT2t6R01mbHhDNFkrT0Ex?=
+ =?utf-8?B?K1Y1VjlzUzMxSUhzZHY1dkt1NlRaYVgxNUl4MVVEbUUwVlJCQVdyUm5FYUs4?=
+ =?utf-8?B?VGYxVU5za29PSkc1SWt0TkhibGtOVkVxN2lOUUpqajI5Q2lZbEF0YkRXSm9z?=
+ =?utf-8?B?M2xDY1JJeEhwdm9lQ1RjY1owbzdyb09iUEl6NGFYd3hkMXIxdUhqU0paSmJu?=
+ =?utf-8?B?TUFUTnMwYUJYdVhCTkxCZjQySGhlUVVzZ2NvNUdpVjRYK2dhQkh2MmVqdnpP?=
+ =?utf-8?B?Ty9vYitmYVBnS1o3enRLMUFMVStqV0Jvam4zZ1BNRVRWd0hVT25MbmlBQU1z?=
+ =?utf-8?B?OWRsWEd1bHBDV3YrL05SRjNwK3krSXoxQWlOZU9Dc21uWW1IZkNKWWRmQVlC?=
+ =?utf-8?B?VUhVVE1odGxoZFd6dXVyZVgrOVMwZTdTOXpEd2l5SlNLMElUeDVyWS8rTzFj?=
+ =?utf-8?B?U3l6bnpmdC8vZlhJdEx0N05oWkpMS1VoMUxiemEvcW04TisyRW4yUlViYzBQ?=
+ =?utf-8?B?Wk8xQ2NqNW1QSVF0eVZnWU16Qld2QUpWdXQza3BBZHJFYzRxb0FNbXlPYWx6?=
+ =?utf-8?B?NWhScTlQcTlOaFBLdnJtZ08yQXlrdW5DY09yS3ZhU0tiQXFhWGVsVlVIMjFT?=
+ =?utf-8?B?NWdObTVhYTlCOVpXd1ZVbGVOUHB3TDQwVnB0MTBGbGt2Yk02RjNpVTZBMk1U?=
+ =?utf-8?B?UTYxK2RvZlRwVXR5NU5wT3BkYkFKS1psWVIxZlRBb0Q5RHBXeGkydDJJV3lv?=
+ =?utf-8?B?V0EvRCtwYUwrcU9DSzcxcWN2Nmx6NFBKaEhISitJQnFseC82Q3piYUpZL2NT?=
+ =?utf-8?B?aFJhUkJ5d1NFc0VZTXFMZ1VzVGZBWUVnWEw2RXdsTEVmQ1JUbG1UQ2NiYVFp?=
+ =?utf-8?B?NFZ2YitLM3p5aWtOVTR0ZlhGcEV5VTZmYXpnUDVYaFFUTzhxL01PejZsbEYw?=
+ =?utf-8?B?c1VrN3hmNVJtVU9uYjN6ZkVNR0tKM1NtTTMySURyUGtOWnFnYmI5TEk4ZzEx?=
+ =?utf-8?B?SyswVlN4MXpkVXYvM0kyczQ2VmxObmQ4RHpLWEt4QS8vNjNmUEMzSmZDeFVk?=
+ =?utf-8?B?VkxLbExLTG1XZ3NyVnhaZ0RQbzRQU3VVQ2Y4VCtsNjVYUUdEMFY5ZTArTHIx?=
+ =?utf-8?B?ZEY5dGJOQ1dPREpxci8yU0w1Z20ranVNZUVwcTQvVUVVamZlQlcvY3U4SkpN?=
+ =?utf-8?B?R0VLQmZoSFgvL2FRUlhKMmRVT2xPcHJWODVWbkY0VmNzL0pMc1IvYmZrV0Qr?=
+ =?utf-8?B?cU9yMndONVlieXM3NGxoL01JN3k4TE90R1hQVWVKMjBSMk9RbHplNWEyL1FJ?=
+ =?utf-8?B?QlhaUWpWQldOR3ZobGR6cHBKQThIUmJIS1RDY3g1cUhwdndqWjJ2NWNEdkVK?=
+ =?utf-8?B?dzJydXBXMC9EeGJzRTRFaFptcERlYk5UanIxcHJpaTNUV1hta3Exazg0ZW5G?=
+ =?utf-8?B?RVRhSzFkL21tU2V1TVpFdEZ0V2xyZEEyVUY1dWpkS2RLOWhYZmE2Sy9NS0pp?=
+ =?utf-8?B?dDd5U0picXdzRjJaNGpYR3FIUDhpT3ROS0wvUEFRcDJkSDRNMW1ndHBoOGVV?=
+ =?utf-8?B?cnk4UnVOUU5GUzlGYnREU1ZZZ2NNNG8wUWhyOFd0Y1hCQ0UvelF2ckhKSmRo?=
+ =?utf-8?B?UHV1UTdrK0RRMjJ1MW54dlBySTFhNEM5OEdQNVhQckdxcHY3dnl0Vlh5U2JN?=
+ =?utf-8?B?WTZGbUhzMlY2ZUN4cEFsSUVUWmgzYS9ua1UwbUVOMHNRL1RlQjVSSmZpSnJu?=
+ =?utf-8?B?WEppYVd4WVdJVXgxeHQ3UE9ocHdxTXpYRDkraEprdTRMaUlnMjl3S1dKZi9C?=
+ =?utf-8?B?aElrVEJNRFIyM25BaUNndDVqbmw2UVVHQkE3c3NUT3F5dDBhOVBINjlvOXRr?=
+ =?utf-8?B?UGFWaXgvT0xKN0xJMGJCcUJjUGw1K0crSnRySXpnTVRnaDVoOWFvQjNudk5R?=
+ =?utf-8?B?Zzd0TXl2SVJsbjA1NElIczNTWVJpTkdJRU5LOVhXQy9KdDNPOWg2SkptQUFi?=
+ =?utf-8?B?aVdMRTBCcEF4Nk9qTDVuUEZuUkpYbm9QNUJzNWNVZWp5SXBXSFJPSWNSVDlQ?=
+ =?utf-8?B?ZVZON1Q5Vml1bGhJc3VQaDhQRXlJa20va3hGaTZCTmprS0hSME9xUmc0UnFh?=
+ =?utf-8?B?a3c9PQ==?=
+X-OriginatorOrg: kontron.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: ed45f619-7345-41c8-f859-08dc20ea7fea
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2024 16:51:12.1350 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OICG7vJCgYINc3aw8OADTvuSjzrvhY9tkCBeXHVoZlj3O5DpUwYpLBN1rQw4nWW1gU45sO9Ba+NSEI23evjSPxC6iaLsI5btlP1kCQW2SGs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR10MB8135
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,118 +133,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas.Hellstrom@linux.intel.com, Amaranath.Somalapuram@amd.com,
- lucas.demarchi@intel.com
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Michael Walle <mwalle@kernel.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Tim Harvey <tharvey@gateworks.com>, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
+ Daniel Vetter <daniel@ffwll.ch>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 27.01.24 um 16:53 schrieb Oak Zeng:
-> This fixes a build failure on drm-tip. This issue was introduced during
-> merge of "drm/ttm: replace busy placement with flags v6". For some
-> reason, the xe_bo.c part of above change is not merged. Manually merge
-> the missing part to drm_tip
+On 29.01.24 10:20, Frieder Schrempf wrote:
+> On 26.01.24 19:28, Dave Airlie wrote:
+>> Just FYI this conflictted pretty heavily with drm-misc-next changes in
+>> the same area, someone should check drm-tip has the correct
+>> resolution, I'm not really sure what is definitely should be.
+>>
+>> Dave.
+> 
+> Thanks! I took a quick look at what is now in Linus' tree and it looks
+> correct to me. The only thing I'm missing is my Reviewed-by tag which
+> got lost somewhere, but I can get over that.
 
-Mhm, I provided this as manual fixup for drm-tip in this rerere commit:
-
-commit afc5797e8c03bed3ec47a34f2bc3cf03fce24411
-Author: Christian König <christian.koenig@amd.com>
-Date:   Thu Jan 25 10:44:54 2024 +0100
-
-     2024y-01m-25d-09h-44m-07s UTC: drm-tip rerere cache update
-
-     git version 2.34.1
-
-
-And for me compiling xe in drm-tip worked fine after that. No idea why 
-that didn't work for you.
-
-Anyway feel free to add my rb to this patch here if it helps in any way.
-
-Regards,
-Christian.
-
->
-> Signed-off-by: Oak Zeng <oak.zeng@intel.com>
-> ---
->   drivers/gpu/drm/xe/xe_bo.c | 33 +++++++++++++++------------------
->   1 file changed, 15 insertions(+), 18 deletions(-)
->
-> diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
-> index 686d716c5581..d6a193060cc0 100644
-> --- a/drivers/gpu/drm/xe/xe_bo.c
-> +++ b/drivers/gpu/drm/xe/xe_bo.c
-> @@ -38,22 +38,26 @@ static const struct ttm_place sys_placement_flags = {
->   static struct ttm_placement sys_placement = {
->   	.num_placement = 1,
->   	.placement = &sys_placement_flags,
-> -	.num_busy_placement = 1,
-> -	.busy_placement = &sys_placement_flags,
->   };
->   
-> -static const struct ttm_place tt_placement_flags = {
-> -	.fpfn = 0,
-> -	.lpfn = 0,
-> -	.mem_type = XE_PL_TT,
-> -	.flags = 0,
-> +static const struct ttm_place tt_placement_flags[] = {
-> +	{
-> +		.fpfn = 0,
-> +		.lpfn = 0,
-> +		.mem_type = XE_PL_TT,
-> +		.flags = TTM_PL_FLAG_DESIRED,
-> +	},
-> +	{
-> +		.fpfn = 0,
-> +		.lpfn = 0,
-> +		.mem_type = XE_PL_SYSTEM,
-> +		.flags = TTM_PL_FLAG_FALLBACK,
-> +	}
->   };
->   
->   static struct ttm_placement tt_placement = {
-> -	.num_placement = 1,
-> -	.placement = &tt_placement_flags,
-> -	.num_busy_placement = 1,
-> -	.busy_placement = &sys_placement_flags,
-> +	.num_placement = 2,
-> +	.placement = tt_placement_flags,
->   };
->   
->   bool mem_type_is_vram(u32 mem_type)
-> @@ -230,8 +234,6 @@ static int __xe_bo_placement_for_flags(struct xe_device *xe, struct xe_bo *bo,
->   	bo->placement = (struct ttm_placement) {
->   		.num_placement = c,
->   		.placement = bo->placements,
-> -		.num_busy_placement = c,
-> -		.busy_placement = bo->placements,
->   	};
->   
->   	return 0;
-> @@ -251,7 +253,6 @@ static void xe_evict_flags(struct ttm_buffer_object *tbo,
->   		/* Don't handle scatter gather BOs */
->   		if (tbo->type == ttm_bo_type_sg) {
->   			placement->num_placement = 0;
-> -			placement->num_busy_placement = 0;
->   			return;
->   		}
->   
-> @@ -1391,8 +1392,6 @@ static int __xe_bo_fixed_placement(struct xe_device *xe,
->   	bo->placement = (struct ttm_placement) {
->   		.num_placement = 1,
->   		.placement = place,
-> -		.num_busy_placement = 1,
-> -		.busy_placement = place,
->   	};
->   
->   	return 0;
-> @@ -2150,9 +2149,7 @@ int xe_bo_migrate(struct xe_bo *bo, u32 mem_type)
->   
->   	xe_place_from_ttm_type(mem_type, &requested);
->   	placement.num_placement = 1;
-> -	placement.num_busy_placement = 1;
->   	placement.placement = &requested;
-> -	placement.busy_placement = &requested;
->   
->   	/*
->   	 * Stolen needs to be handled like below VRAM handling if we ever need
-
+Apparently I missed the point here. I was looking at the wrong trees
+(drm-next and master instead of drm-misc-next and drm-tip). Sorry for
+the noise. Michael already pointed out the correct details.
