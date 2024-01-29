@@ -2,64 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D9D483FD2B
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 05:21:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CADD83FD39
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 05:31:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEDA510EC80;
-	Mon, 29 Jan 2024 04:21:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32C2D10F5D9;
+	Mon, 29 Jan 2024 04:31:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from invmail4.hynix.com (exvmail4.skhynix.com [166.125.252.92])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4C11C10ECB7
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jan 2024 04:21:04 +0000 (UTC)
-X-AuditID: a67dfc5b-d6dff70000001748-0b-65b727aa4de6
-Date: Mon, 29 Jan 2024 13:20:52 +0900
-From: Byungchul Park <byungchul@sk.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH v11 14/26] locking/lockdep, cpu/hotplus: Use a weaker
- annotation in AP thread
-Message-ID: <20240129042052.GA64402@system.software.com>
-References: <20240124115938.80132-1-byungchul@sk.com>
- <20240124115938.80132-15-byungchul@sk.com> <87il3ggfz9.ffs@tglx>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 630FE10F5D9;
+ Mon, 29 Jan 2024 04:31:03 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 40T4S30G023819; Mon, 29 Jan 2024 04:30:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=3PYONMN3QgSPifLpfDtz8eOz9jf9GeMM+f8QxIpY+V8=; b=RX
+ u0W4+U6JZCFdKF058zADze/JLsYaY6yZybRmHRzluWPF/T1BpQdHj0/ItNo8oynQ
+ zy2eNCjTllvOyo93N/ZHlcGgwtEUC+fyGqZq97+en4xA7U7BFCbbku8OR6EoGXf2
+ EYd2zVRlxF2vgltKwg+qKbH3ZhdoAc7rPP9PTA4L6LqMgZq2//7rvsmbpL5feLaZ
+ rTfIuQvbmznhHpPhR2SeA3699c/+TN0r556CMHL5snvfqtNR7EWqBPOFNqrdIB63
+ 6tNBb1m/B78/M9c0Ieqze8lxMQ8uuQzIBoj9cciBRl/tcW+kXe81lHgZuhncwUBQ
+ tFx19GFJ7QH2h7ci1e/A==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vvt272rer-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 29 Jan 2024 04:30:55 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40T4UsBd002589
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 29 Jan 2024 04:30:54 GMT
+Received: from [10.110.98.98] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Sun, 28 Jan
+ 2024 20:30:53 -0800
+Message-ID: <1666a8c3-f1f0-f050-aa06-cf221bdbcbb9@quicinc.com>
+Date: Sun, 28 Jan 2024 20:30:52 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87il3ggfz9.ffs@tglx>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA03SX0xTVxzAcc+5f9vQ5a5DPZOXpcbgMPh/22/L5pa9eJOFzW08aTZt5EYa
- StWLouhcYFZT/k6IUK3oSjGlgW6OwhwT0QKBUv9Ah9UhAgo2bo1UMmabVbAbF7LMl5NPzvmd
- b87D4SntLLOMN5j2SbJJb9SxalodSapLb0z9WVrbMr4SKsvWQvSphYbaC24WAj80IXC3FmEI
- 92yG32KTCGZuDlBgrQ4gqBsfpaC1dwxBh+sbFm6FXoJgdIoFf3UpC0frL7Dw6+NZDCM1VRia
- PBlw/YQDgzf+Ow3WMAtnrEfx3PIHhrizkQNn4QqYcNk4mB1fB/6xOwx0DK+C0+dGWLjc4aeh
- t20Cw61LtSyMuf9h4HpvHw2BynIGvn/iYOFxzEmBMzrFwaDXjuFH81zo+F8JBnzlXgzHzzdj
- CN5tR3DF8gCDx32Hhe7oJIYWTzUFzxp6EExURDg4Vhbn4ExRBYLSYzU0DDz3MWAeeQNm/q5l
- P3hH7J6cokRzywGxI2anxWsOIv5iG+VE85VhTrR79ostrjSx/nIYi3XTUUb0NBazome6ihNL
- IkEsPunv58S+UzO0GApa8ZaUrep3sySjIV+S12zaoc4ebTuF99QkHYzcDqFCdFVVgnieCBtJ
- xPlxCVLN09vvQoppYQUZae2cNyukkqGhOKU4WVhJmgeH500JfjUJOD5U/Iqwk9x92MkoSY0A
- xOrLVKgVDpHWksXKhEZ4mfhPh+iFm2lkKBHGygglpJCGBK9sqwQdqbKYWcWLheXEe9GHFx7W
- riIDz0wLfpV0uoboE0iwvVC1vVC1/V+1I6oRaQ2m/Fy9wbhxdXaByXBw9c7duR409yedR2a3
- taHpwOddSOCRLknDF12UtIw+P68gtwsRntIla+Kv/yRpNVn6gkOSvHu7vN8o5XWhFJ7WLdWs
- jx3I0gq79PukHEnaI8n/nWJetawQHb6d3rPtfqL+0aL0tyvvGbvf6jp5OHeD6VPHDcvZDHZ9
- 7CvQrwrLDU1b5GtrzpJ7qVtd34W2lz088tqfJ89TXyY+SmTuHXMXZ/LqtD5fOZ/y9dPS9h0V
- S5ds+uwTO725UkwO5uieNz/a0GB5kOH9dtKUfen+8pzim4NfvBnf+7686L0+HZ2XrV+XRsl5
- +n8BEUqc/48DAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0yTZxTH8zzvtQ0lrxXYo/ipTkG8YaLLibhF/aDv3OZGojFRozT6Co2A
- rkUUExIYlSCoERKoVsZqWQqpKFAK4gWsEKnVCAgMCgGErskkXOrUEisXpS6Lfjn55Zz/73z6
- 85RyhFnKa1LTJG2qOlnFymn57rictdao21LsG4sMCi/Egv9tHg2l1VUsdN66gaDKno1h7NFO
- 6JueQDDzrIMCQ3EnguujQxTY24YRNFX+xkK3NxR6/D4WXMUFLOSUV7PwfHwWw2BJEYYbtp/g
- 6WUzBkfgHxoMYyxcM+TghfESQ8Bi5cCStQI8lUYOZkc3gGu4l4HW310MNA2shqtlgyzcb3LR
- 0NbowdB9t5SF4aoPDDxte0xDZ+FFBm5OmVkYn7ZQYPH7OOhymDDU6Be+5b6ZZ8B50YEh989a
- DD399xA0541gsFX1stDqn8BQZyum4H3FIwSeS5McnLsQ4OBa9iUEBedKaOiYczKgH9wEM+9K
- 2a1xYuuEjxL1dafFpmkTLT4xE/GOcYgT9c0DnGiynRLrKmPE8vtjWLz+2s+INut5VrS9LuLE
- /MkeLE61t3Pi4ysztOjtMeBflu2XbzkqJWvSJe367xLkSUONV/DJkpAzk395URZ6IMtHMp4I
- G4mjvRIFmRZWkEH7w0/MClHE7Q5QQQ4Toklt18AnpgSXnHSatwd5sXCE9P/9kMlHPK8QgBic
- e4KoFM4Se354MKEQFhHXVS/9nxlD3PNjOBihhEhSMc8H1zJBRYry9GyQw4XlxNHgxJeRwviF
- bfzCNn62TYiyojBNanqKWpO8aZ3ueFJGqubMuiMnUmxooXeWzNnCRvS2e2cLEnikClHw2Q2S
- klGn6zJSWhDhKVWYIrCqXlIqjqozzkraE4e1p5IlXQuK5GnVV4pd+6QEpZCoTpOOS9JJSfv/
- FfOypVloZKo36vupkPXfeGIjVptDk0aWGH/enrtSxTpNZfrMgh3NOS1r+m/nJe4vT9y1dWOM
- sa/NF+F17/3aExh99e2vpbM/krK4FxQ3PncgdN/40Olw/qD935cHK87X/LDZF71neeSh+giT
- fnrzIqPc3Vf3R/zetDlr5q2MgdoXo8fiNQnblqhoXZJ6Qwyl1ak/AnGPtF9zAwAA
-X-CFilter-Loop: Reflected
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 17/17] drm/msm/dp: allow YUV420 mode for DP connector when
+ VSC SDP supported
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20240125193834.7065-1-quic_parellan@quicinc.com>
+ <20240125193834.7065-18-quic_parellan@quicinc.com>
+ <493926f1-90e9-493a-bd2f-ea1db16d7ee6@linaro.org>
+ <72ca08ac-ae16-37f6-6f85-f203ddf79084@quicinc.com>
+ <CAA8EJppj1xN8E==VGncvW5DKMtLPixynpgAqyZoJzPQXZEEYjg@mail.gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <CAA8EJppj1xN8E==VGncvW5DKMtLPixynpgAqyZoJzPQXZEEYjg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: KfMQA9-gKfIOt7H8Hg7v6TkUqF15zilz
+X-Proofpoint-ORIG-GUID: KfMQA9-gKfIOt7H8Hg7v6TkUqF15zilz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-29_02,2024-01-25_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 adultscore=0
+ phishscore=0 suspectscore=0 lowpriorityscore=0 mlxlogscore=999
+ clxscore=1015 spamscore=0 mlxscore=0 impostorscore=0 malwarescore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401190000 definitions=main-2401290029
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,70 +87,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, hdanton@sina.com, jack@suse.cz,
- peterz@infradead.org, daniel.vetter@ffwll.ch, amir73il@gmail.com,
- david@fromorbit.com, dri-devel@lists.freedesktop.org, mhocko@kernel.org,
- linux-mm@kvack.org, linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
- chris.p.wilson@intel.com, joel@joelfernandes.org, 42.hyeyoo@gmail.com,
- cl@linux.com, will@kernel.org, duyuyang@gmail.com, sashal@kernel.org,
- her0gyugyu@gmail.com, kernel_team@skhynix.com,
- damien.lemoal@opensource.wdc.com, willy@infradead.org, hch@infradead.org,
- mingo@redhat.com, djwong@kernel.org, vdavydov.dev@gmail.com,
- rientjes@google.com, dennis@kernel.org, linux-ext4@vger.kernel.org,
- ngupta@vflare.org, johannes.berg@intel.com, boqun.feng@gmail.com,
- josef@toxicpanda.com, rostedt@goodmis.org, gwan-gyeong.mun@intel.com,
- linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, jglisse@redhat.com,
- viro@zeniv.linux.org.uk, longman@redhat.com, dan.j.williams@intel.com,
- vbabka@suse.cz, melissa.srw@gmail.com, sj@kernel.org, tytso@mit.edu,
- rodrigosiqueiramelo@gmail.com, kernel-team@lge.com, gregkh@linuxfoundation.org,
- jlayton@kernel.org, linux-kernel@vger.kernel.org, penberg@kernel.org,
- minchan@kernel.org, max.byungchul.park@gmail.com, hannes@cmpxchg.org,
- tj@kernel.org, akpm@linux-foundation.org, torvalds@linux-foundation.org
+Cc: neil.armstrong@linaro.org, marijn.suijten@somainline.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ swboyd@chromium.org, seanpaul@chromium.org, quic_jesszhan@quicinc.com,
+ Paloma Arellano <quic_parellan@quicinc.com>, quic_khsieh@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 26, 2024 at 06:30:02PM +0100, Thomas Gleixner wrote:
-> On Wed, Jan 24 2024 at 20:59, Byungchul Park wrote:
+
+
+On 1/28/2024 7:52 PM, Dmitry Baryshkov wrote:
+> On Mon, 29 Jan 2024 at 05:17, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>>
+>>
+>>
+>> On 1/25/2024 2:05 PM, Dmitry Baryshkov wrote:
+>>> On 25/01/2024 21:38, Paloma Arellano wrote:
+>>>> All the components of YUV420 over DP are added. Therefore, let's mark the
+>>>> connector property as true for DP connector when the DP type is not eDP
+>>>> and when VSC SDP is supported.
+>>>>
+>>>> Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
+>>>> ---
+>>>>    drivers/gpu/drm/msm/dp/dp_display.c | 5 ++++-
+>>>>    1 file changed, 4 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c
+>>>> b/drivers/gpu/drm/msm/dp/dp_display.c
+>>>> index 4329435518351..97edd607400b8 100644
+>>>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+>>>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+>>>> @@ -370,11 +370,14 @@ static int dp_display_process_hpd_high(struct
+>>>> dp_display_private *dp)
+>>>>        dp_link_process_request(dp->link);
+>>>> -    if (!dp->dp_display.is_edp)
+>>>> +    if (!dp->dp_display.is_edp) {
+>>>> +        if (dp_panel_vsc_sdp_supported(dp->panel))
+>>>> +            dp->dp_display.connector->ycbcr_420_allowed = true;
+>>>
+>>> Please consider fixing a TODO in drm_bridge_connector_init().
+>>>
+>>
+>> I am not totally clear if that TODO can ever go for DP/HDMI usage of
+>> drm_bridge_connector.
+>>
+>> We do not know if the sink supports VSC SDP till we read the DPCD and
+>> till we know that sink supports VSC SDP, there is no reason to mark the
+>> YUV modes as supported. This is the same logic followed across vendors.
+>>
+>> drm_bride_connector_init() happens much earlier than the point where we
+>> read DPCD. The only thing which can be done is perhaps add some callback
+>> to update_ycbcr_420_allowed once DPCD is read. But I don't think its
+>> absolutely necessary to have a callback just for this.
 > 
-> Why is lockdep in the subsystem prefix here? You are changing the CPU
-> hotplug (not hotplus) code, right?
-
-I will fix the typo ;( Thank you.
-
-I referred to the commit cb92173d1f047. I will remove the prefix if the
-way is more desirable.
-
-> > cb92173d1f0 ("locking/lockdep, cpu/hotplug: Annotate AP thread") was
-> > introduced to make lockdep_assert_cpus_held() work in AP thread.
-> >
-> > However, the annotation is too strong for that purpose. We don't have to
-> > use more than try lock annotation for that.
+> After checking the drm_connector docs, I'd still hold my opinion and
+> consider this patch to be a misuse of the property. If you check the
+> drm_connector::ycbcr_420_allowed docs, you'll see that it describes
+> the output from the source point of view. In other words, it should be
+> true if the DP connector can send YUV420 rather than being set if the
+> attached display supports such output. This matches ycbcr420_allowed
+> usage by AMD, dw-hdmi, intel_hdmi and even intel_dp usage.
 > 
-> This lacks a proper explanation why this is too strong.
 
-rwsem_acquire() implies:
+hmmm I think I misread intel_dp_update_420(). I saw this is called after 
+HPD so I thought they unset ycbcr_420_allowed if VSC SDP is not 
+supported. But they have other DPCD checking there so anyway they will 
+fail this bridge_connector_init() model.
 
-   1. might be a waiter on contention of the lock.
-   2. enter to the critical section of the lock.
+But one argument which I can give in my defense is, lets say the sink 
+exposed YUV formats but did not support SDP, then atomic_check() will 
+keep failing or should keep failing. This will avoid this scenario. But 
+we can assume that would be a rogue sink.
 
-All we need in here is to act 2, not 1. That's why I suggested trylock
-version of annotation for that purpose.
+I think we can pass a yuv_supported flag to msm_dp_modeset_init() and 
+set it to true from dpu_kms if catalog has CDM block and get rid of the 
+dp_panel_vsc_sdp_supported().
 
-Now that dept partially replies on lockdep annotaions for the waiters
-and events, dept is interpeting rwsem_acquire() as a potential waiter
-and reports a deadlock by the wait.
+But that doesnt address the TODO you have pointed to. What is really the 
+expectation of the TODO? Do we need to pass a ycbcr_420_allowed flag to
+drm_bridge_connector_init()?
 
-Of course, the first priority should be not to change the current
-behavior. I think the change from non-trylock to trylock for the
-annotation won't. Or am I missing something?
+That would need a tree wide cleanup and thats difficult to sign up for 
+in this series and I would not as well.
 
-	Byungchul
+One thing which I can suggest to be less intrusive is have a new API 
+called drm_bridge_connector_init_with_YUV() which looks something like 
+below:
 
-> > Furthermore, now that Dept was introduced, false positive alarms was
-> > reported by that. Replaced it with try lock annotation.
+struct drm_connector *drm_bridge_connector_init_with_ycbcr_420(struct 
+drm_device *drm, struct drm_encoder *encoder)
+{
+	drm_bridge_connector_init();
+	connector->ycbcr_420_allowed = true;
+}
+
+But I don't know if the community would be interested in this idea or 
+would find that useful.
+
+>>>>            drm_dp_set_subconnector_property(dp->dp_display.connector,
+>>>>                             connector_status_connected,
+>>>>                             dp->panel->dpcd,
+>>>>                             dp->panel->downstream_ports);
+>>>> +    }
+>>>>        edid = dp->panel->edid;
+>>>
 > 
-> I still have zero idea what this is about.
 > 
-> Thanks,
 > 
->         tglx
