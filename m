@@ -2,61 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FE488402C8
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 11:30:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3842D8402CD
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 11:32:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB69910F6C8;
-	Mon, 29 Jan 2024 10:30:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89BA410E545;
+	Mon, 29 Jan 2024 10:32:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com
- [209.85.222.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 759CC112816
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jan 2024 10:30:20 +0000 (UTC)
-Received: by mail-ua1-f45.google.com with SMTP id
- a1e0cc1a2514c-7d2e21181c1so829827241.3
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jan 2024 02:30:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20230601.gappssmtp.com; s=20230601; t=1706524159; x=1707128959;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=laogtMYkJGnbaIV+yWhqpoDmIUOyQqWLND7z4g4S1Zg=;
- b=f7sR9jBddj+Pq1JkjMS+R5/9sBdj0BQcYlKCU4ILk/CLa99CO3hPQk1IH58BWKQxLs
- QREO/uhlMTbwpR/uFiDNn6QFnKkJGVfpuwx8iUDCEHi0Rx8y1Ll7rASIRjWlriay0uFY
- Wau7+iGn0fTPIhGGd4j3r/jgmPSUNO5qcMTQVF7PuF2EKU9wXAMnQzY7vhCh17PRSixW
- N4KIQTfWrVlpyCxcrjb3pyBCi3r6gEIsUA1peWZEpwwxZN7d64bF6JTgZqSADL6zyoMA
- IF1M/jWxruoiIW6OsQmhF7NYW6bxAmgtmhRXj21u1/gT+q5F+DKF1GV8Gd96hVIohWG4
- kMkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706524159; x=1707128959;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=laogtMYkJGnbaIV+yWhqpoDmIUOyQqWLND7z4g4S1Zg=;
- b=q81Hi41Csaz3YSnl87fiHi1FaaVu0l7AeV62OCgttMJSanVRrrutf3wwUoApWALJTw
- nwsWcewXkEL1PQzpzZB7epF1N3fDavd59+rX9TS5ytIkpqAE78/AhUSxXPCVGJAABKYB
- J4RTMxQDFh+ne2yMtQn6tqPBTEhd7GVUnzH+R4tGk+xqaPj8eprw3DTSoDMXOvzOO644
- D6fqVACy+O8OCANFZC/jhX4tbWeoFhQeXgASBMX+mAuFruhM2nYUAgoXRsTjQyZ+udEH
- hQm8uo96ARduaPJ8/0Mew3dwEDfC/8ideHGcd0w/leCxStVVAx/6TmwV+dXMLIyRSsox
- cIfA==
-X-Gm-Message-State: AOJu0YyHCE3OPMi/jukHy7Pgo/JDFAeNBvbJHK3xeAZPYa1jE2tdfFIM
- d0NU83L2rjJgp+ancCFFlTsn753y0dRVni5zLROaAUYbaEQ37Flma8jdZiVsG5bhWhwiCd0pCzU
- VhRXsOVElM/VfSfXi6mVymkIFDmrwZ2pB/1rCQw==
-X-Google-Smtp-Source: AGHT+IG02k1D855wHGJvL/3W5YxqpMq481SOQ1eyc1YgFIpQdWBD+1lTmFmPT5LySDdWcKuUKgpUqLEQNRuRtxR4O1g=
-X-Received: by 2002:a05:6122:2019:b0:4bd:6109:ab9a with SMTP id
- l25-20020a056122201900b004bd6109ab9amr1513382vkd.8.1706524159615; Mon, 29 Jan
- 2024 02:29:19 -0800 (PST)
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam04on2052.outbound.protection.outlook.com [40.107.100.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16EBF10E545;
+ Mon, 29 Jan 2024 10:32:17 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=G9wyagglfb8v9w5vbzU0+SlBk/rxztNjGVgbFVl/BnyZGfno6E56TtBVtN4eBmgXr1jzmpxnQIj+W5cv5OpjdfXW0yiLXWmb+/Yq36q8EYLsEmgh5IT4VHJz3I5P62ak6YKdEXsN+F3ZnjDMPnmeDXgI/hnfrxDACkGNfZIM2VX4vks5Qx9AwTyt3UMfz32IU1xvBOrpB2/LVFKirC3b2KeZWyc/JzqWOnCNEyanwG7I1v5JJ2m7uJbK/n5x4Nyn6MfdosJVBfksVBr3sy/HNaSNKcEaFN254QCSTmvfFXv3BdKvt8s7wkcltymItVWaT4VOkVT6bsehx40wE7eSwg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=C9mwCClnAJMBs1lDy69fPwQW56kKkdyFW6BbQYzn9as=;
+ b=AQgPan3e8KaQNUPLDeENuVJRgNYvo41Vxk7gQMkc/Rl4R2uWFv4ld0s9lP2erCnzyfp4m3ICzPjUrBeL4pvnQiHQGaW595kPZyvOr1EmaaReAWe+rnPhrQ0fxNA/++xDXa+OxNmR12OdlO07UDopbcSA9RDWBwLwA24lyxfTSd1+bkKwYw/aq8b1MDbpZIocZkJWjPLfXz5lZMWqIRhrZiIzUNqQ3hfzJkkdF4fiUDHE50A9u0nvbEL0oIK2iJM4f85bewnDDotRC6Id5zb6aLU+KuFpvbVwIGeOEMHj71bTJtqqJ1GkzcnFbBRrX6UCamPX9vmAvr74DaaIiGZE/A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=chromium.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=C9mwCClnAJMBs1lDy69fPwQW56kKkdyFW6BbQYzn9as=;
+ b=0/Md2734ATn7c8xRphmVBEfnUJloySNUH4qVuuSOdaK49HiKZxjYVmOwkeDlwRhEMASrXKOrCpZmo9mcQqMPAnmYtCyHZOkAxjLSmNC6QJPnlMHkt1NhaOzBnDE3iS6zBGcwedI8JhN9qMXIu/KC+bMrTK3zGQpZP716wK9labI=
+Received: from SJ0PR03CA0177.namprd03.prod.outlook.com (2603:10b6:a03:338::32)
+ by SA1PR12MB8722.namprd12.prod.outlook.com (2603:10b6:806:373::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.34; Mon, 29 Jan
+ 2024 10:31:58 +0000
+Received: from SJ1PEPF00001CE1.namprd05.prod.outlook.com
+ (2603:10b6:a03:338:cafe::8e) by SJ0PR03CA0177.outlook.office365.com
+ (2603:10b6:a03:338::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.32 via Frontend
+ Transport; Mon, 29 Jan 2024 10:31:58 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ SJ1PEPF00001CE1.mail.protection.outlook.com (10.167.242.9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7202.16 via Frontend Transport; Mon, 29 Jan 2024 10:31:58 +0000
+Received: from jenkins-julia.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Mon, 29 Jan
+ 2024 04:31:53 -0600
+From: Julia Zhang <julia.zhang@amd.com>
+To: Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, David Airlie <airlied@redhat.com>, Gerd Hoffmann
+ <kraxel@redhat.com>, <linux-kernel@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
+ <virtualization@lists.linux-foundation.org>
+Subject: [PATCH v2 1/1] drm/virtio: Implement device_attach
+Date: Mon, 29 Jan 2024 18:31:19 +0800
+Message-ID: <20240129103118.3258781-1-julia.zhang@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20240126165856.1199387-1-l.stach@pengutronix.de>
-In-Reply-To: <20240126165856.1199387-1-l.stach@pengutronix.de>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Mon, 29 Jan 2024 10:29:08 +0000
-Message-ID: <CAPj87rNOMYS7g_bU8Xjmh9xEJhuzG+BViXakC7wzgiDaG+9yCg@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: fix DMA direction handling for cached
- read/write buffers
-To: Lucas Stach <l.stach@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CE1:EE_|SA1PR12MB8722:EE_
+X-MS-Office365-Filtering-Correlation-Id: 73f4873f-f92b-4794-ff86-08dc20b5859d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: sC2T/8bEL5N4yez0Jn4Y368hXzKJK7Hbpty+ksiwLxjP5DLxgMmR0P+bLtFHzZuihpMyceM7GjK7RiFKejk42FK49BCgP7HhBo8H6DbF5BeECWqxMi+cjyKsf+qtQ0mAayeMtyfP/0oMn0uopDvbktGambZuZ5wQAmxy/e3nzsOx+jMMJ3UtDsafc/CarJE13KHfijsa3zFD/RfDMcrM2oCmYTn1ufoWDi2FYGxc7Gx/xvu2EDS9ToZQzpmlGIn2dIvytvznbyZfna4Oi8G5y2T1IV1oRtR1RKFKE4WWQQ+aodUpsQtrkOtVp8sb4UX+1NvhsTYbxYAKCmu9ciHCJ1lVHJHz6RXQKt91XtIDiRUEKqxdu8/u8tUYYkT3MvSeaiqKK4s8uhqKV6A/AsrBMT5SwA4GKxznUbtUV/tgJPuRp0kducAtN+QRGR83X+hFDMkL0ls6nCqrtTJso2iMaF7LQBlahGzea00e8qF6sgKkNf6JqYQzsl8syuMB0pNi5gq3Sk5kRSKX4fcdy0l1zQfFdq/KN6aEF4jtFhyAVzyDpMwf16D3u6+VbGXz6F3WSpFoWmOVVk7B1KzKtrs3BaVEWy5jvWG42wzKkDAPNHvXlEsYi9xUepdH0S4MD2CWDH82QLxKHWolBGNQBNIr56bB9FlbPrv/PtjTI1QVjjThLLTxFNn1KLWnCwjjWe9OmS9rno26PcuSVDkTpQpOBigz65RerQ5mPgUz+ABq+FTKrJ0yJ1GesjEvf5YXC0O99uHyRO1H+vrkWgaWIiNwTg==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(4636009)(39860400002)(346002)(136003)(376002)(396003)(230922051799003)(82310400011)(64100799003)(186009)(451199024)(1800799012)(40470700004)(46966006)(36840700001)(40460700003)(40480700001)(26005)(16526019)(1076003)(83380400001)(336012)(426003)(6666004)(7696005)(36756003)(86362001)(82740400003)(81166007)(356005)(5660300002)(7416002)(44832011)(8676002)(41300700001)(8936002)(4326008)(36860700001)(2616005)(47076005)(70206006)(70586007)(110136005)(54906003)(2906002)(478600001)(316002)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2024 10:31:58.1411 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 73f4873f-f92b-4794-ff86-08dc20b5859d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF00001CE1.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8722
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,28 +102,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- patchwork-lst@pengutronix.de, Christian Gmeiner <christian.gmeiner@gmail.com>,
- kernel@pengutronix.de, Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Erik Faye-Lund <kusmabite@gmail.com>,
+ =?UTF-8?q?Marek=20Ol=C5=A1=C3=A1k?= <marek.olsak@amd.com>,
+ Chen Jiqian <Jiqian.Chen@amd.com>, Huang Rui <ray.huang@amd.com>,
+ Honglei Huang <honglei1.huang@amd.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Alex Deucher <alexander.deucher@amd.com>, Julia Zhang <julia.zhang@amd.com>,
+ David Airlie <airlied@gmail.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lucas,
+As vram objects don't have backing pages and thus can't implement
+drm_gem_object_funcs.get_sg_table callback. This removes drm dma-buf
+callbacks in virtgpu_gem_map_dma_buf()/virtgpu_gem_unmap_dma_buf()
+and implement virtgpu specific map/unmap/attach callbacks to support
+both of shmem objects and vram objects.
 
-On Fri, 26 Jan 2024 at 17:00, Lucas Stach <l.stach@pengutronix.de> wrote:
-> The dma sync operation needs to be done with DMA_BIDIRECTIONAL when
-> the BO is prepared for both read and write operations. With the
-> current inverted if ladder it would only be synced for DMA_FROM_DEVICE.
->
-> [...]
->
->  static inline enum dma_data_direction etnaviv_op_to_dma_dir(u32 op)
->  {
-> -       if (op & ETNA_PREP_READ)
-> +       if (op & (ETNA_PREP_READ | ETNA_PREP_WRITE))
-> +               return DMA_BIDIRECTIONAL;
+Signed-off-by: Julia Zhang <julia.zhang@amd.com>
+---
+ drivers/gpu/drm/virtio/virtgpu_prime.c | 40 +++++++++++++++++++++++---
+ 1 file changed, 36 insertions(+), 4 deletions(-)
 
-This test will always be true for _either_ read or write.
+diff --git a/drivers/gpu/drm/virtio/virtgpu_prime.c b/drivers/gpu/drm/virtio/virtgpu_prime.c
+index 44425f20d91a..b490a5343b06 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_prime.c
++++ b/drivers/gpu/drm/virtio/virtgpu_prime.c
+@@ -49,11 +49,26 @@ virtgpu_gem_map_dma_buf(struct dma_buf_attachment *attach,
+ {
+ 	struct drm_gem_object *obj = attach->dmabuf->priv;
+ 	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
++	struct sg_table *sgt;
++	int ret;
+ 
+ 	if (virtio_gpu_is_vram(bo))
+ 		return virtio_gpu_vram_map_dma_buf(bo, attach->dev, dir);
+ 
+-	return drm_gem_map_dma_buf(attach, dir);
++	sgt = drm_prime_pages_to_sg(obj->dev,
++				    to_drm_gem_shmem_obj(obj)->pages,
++				    obj->size >> PAGE_SHIFT);
++	if (IS_ERR(sgt))
++		return sgt;
++
++	ret = dma_map_sgtable(attach->dev, sgt, dir, DMA_ATTR_SKIP_CPU_SYNC);
++	if (ret) {
++		sg_free_table(sgt);
++		kfree(sgt);
++		return ERR_PTR(ret);
++	}
++
++	return sgt;
+ }
+ 
+ static void virtgpu_gem_unmap_dma_buf(struct dma_buf_attachment *attach,
+@@ -63,12 +78,29 @@ static void virtgpu_gem_unmap_dma_buf(struct dma_buf_attachment *attach,
+ 	struct drm_gem_object *obj = attach->dmabuf->priv;
+ 	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
+ 
++	if (!sgt)
++		return;
++
+ 	if (virtio_gpu_is_vram(bo)) {
+ 		virtio_gpu_vram_unmap_dma_buf(attach->dev, sgt, dir);
+-		return;
++	} else {
++		dma_unmap_sgtable(attach->dev, sgt, dir, DMA_ATTR_SKIP_CPU_SYNC);
++		sg_free_table(sgt);
++		kfree(sgt);
+ 	}
++}
++
++static int virtgpu_gem_device_attach(struct dma_buf *dma_buf,
++				     struct dma_buf_attachment *attach)
++{
++	struct drm_gem_object *obj = attach->dmabuf->priv;
++	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
++	int ret = 0;
++
++	if (!virtio_gpu_is_vram(bo) && obj->funcs->pin)
++		ret = obj->funcs->pin(obj);
+ 
+-	drm_gem_unmap_dma_buf(attach, sgt, dir);
++	return ret;
+ }
+ 
+ static const struct virtio_dma_buf_ops virtgpu_dmabuf_ops =  {
+@@ -83,7 +115,7 @@ static const struct virtio_dma_buf_ops virtgpu_dmabuf_ops =  {
+ 		.vmap = drm_gem_dmabuf_vmap,
+ 		.vunmap = drm_gem_dmabuf_vunmap,
+ 	},
+-	.device_attach = drm_gem_map_attach,
++	.device_attach = virtgpu_gem_device_attach,
+ 	.get_uuid = virtgpu_virtio_get_uuid,
+ };
+ 
+-- 
+2.34.1
 
-Cheers,
-Daniel
