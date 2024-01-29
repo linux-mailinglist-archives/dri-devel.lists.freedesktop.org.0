@@ -2,47 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCE6F840708
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 14:33:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD018840787
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 14:54:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A752110EB77;
-	Mon, 29 Jan 2024 13:32:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 234B511293D;
+	Mon, 29 Jan 2024 13:54:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53E3C10EB77
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jan 2024 13:32:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1706535175;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=d59Wxe7oQ2xFV3YZRkuj9csNOvmp5rKBI3z/v6Jf598=;
- b=W9EZzwInuv+DZkm0mAs6/p/QQ1xECK94jjGnlrJPq4Utmp0mFY7Dj/Dsv5Q+BCOEpHEc24
- RcwF01RMkY2HmSghuvyrmB9uAa/zPccW+L540sta2i7SkKsg8D2hx96zstRdUSoapxDx1q
- zhhPs5pkOJ7eMIkH4/2FQWQtIigx7Rs=
-Message-ID: <fb4bcbefcfd0ab1982172c780ce5c5f1e96ae798.camel@crapouillou.net>
-Subject: Re: [PATCH v5 5/8] iio: core: Add new DMABUF interface infrastructure
-From: Paul Cercueil <paul@crapouillou.net>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
- Jonathan Cameron <jic23@kernel.org>
-Date: Mon, 29 Jan 2024 14:32:53 +0100
-In-Reply-To: <8fc55451-dfd7-4d09-8051-8b39048f85e2@amd.com>
-References: <20231219175009.65482-1-paul@crapouillou.net>
- <20231219175009.65482-6-paul@crapouillou.net>
- <20231221120624.7bcdc302@jic23-huawei>
- <ee5d7bb2fb3e74e8fc621d745b23d1858e1f0c3c.camel@crapouillou.net>
- <20240127165044.22f1b329@jic23-huawei>
- <d6bef39c-f940-4097-8ca3-0cf4ef89a743@amd.com>
- <aac82ce15a49c5e4b939a69229b9a8a51ca00f5d.camel@crapouillou.net>
- <8fc55451-dfd7-4d09-8051-8b39048f85e2@amd.com>
-Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
- keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
- YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com
+ [209.85.161.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5355611294A;
+ Mon, 29 Jan 2024 13:54:55 +0000 (UTC)
+Received: by mail-oo1-f43.google.com with SMTP id
+ 006d021491bc7-59a1f85923aso126630eaf.1; 
+ Mon, 29 Jan 2024 05:54:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1706536494; x=1707141294;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=pYlBZ5W/rq3MF6m5qquOJIF/ojrZUdhYO+OW6wTYHOk=;
+ b=Bnm5E2APDZpzLqqLbzjTmxKe7vXgj1EbJC15x9DVaxLWe1mCM3nxcd8d8qIojErbYr
+ UL4H40tu3d2DVJ31F+4uyvNkSwP915n7CntsMx7LmtSF+CjOWkyrHke2f3c1ANXz7kwZ
+ Ar76JK1J3ntlVoNxLZxAFURWAisWeZeSQaQkd1uma2F9M6fPWoruJL7e3kwJGgOWt4ev
+ dpOeAqR+0sIMcWox1sqNjGbPc5b5TDCUqbtoC2Tyo7RNEM/3u4cFLQFugpKsJ/V5hPEh
+ MSWoG2OdZQH0YqqkRusUiOJp/bPQYn+Ut36umwj4PDegQFGnYzx7yZQMxbrcX+rBbOy2
+ B0Mg==
+X-Forwarded-Encrypted: i=0;
+ AJvYcCWI5wW92nq0cHRDPvGThcIK+vYi7JZFDWcBmYDMFZ6JkrLgi4yFe4D9QYu0GL8AhRFdT6L4FHgOj1aonzfeXxb5A0g1B4nPchYr3EcS36iu
+X-Gm-Message-State: AOJu0YxKG77EqK8jQt2NhzzV/jRzyWnOwna4EWNQgw4GHk2bwQ4tnGu0
+ I+9KoNYGEejNEZfgW3WBBoOrQxSbrveFPCrbIEfHHS1/ow+Wd6Z0/ZCyuZ50Itg5zh6f+Ck4lje
+ XJqKDMPaBba5F/S0jRf5n8AZqcn0=
+X-Google-Smtp-Source: AGHT+IGYDlwxaaseY0LM9XvqXJBdwuD8nvxYIF014j7kc1xHNle26/I11S8aooxI2NqU4SudQWrClPjl81PcCR1+t0A=
+X-Received: by 2002:a05:6870:230d:b0:214:fddf:99f7 with SMTP id
+ w13-20020a056870230d00b00214fddf99f7mr7112645oao.5.1706536494486; Mon, 29 Jan
+ 2024 05:54:54 -0800 (PST)
+MIME-Version: 1.0
+References: <20240126184639.8187-1-mario.limonciello@amd.com>
+ <20240126184639.8187-2-mario.limonciello@amd.com>
+In-Reply-To: <20240126184639.8187-2-mario.limonciello@amd.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Mon, 29 Jan 2024 14:54:43 +0100
+Message-ID: <CAJZ5v0iX5=u5y0JS2OzYMvYNnjZBCM2YfSTsSdg3CtH4rBMyUw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] ACPI: video: Handle fetching EDID that is longer than
+ 256 bytes
+To: Mario Limonciello <mario.limonciello@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,74 +61,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Hennerich <Michael.Hennerich@analog.com>, linux-doc@vger.kernel.org,
- linux-iio@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Vinod Koul <vkoul@kernel.org>,
- Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>, dmaengine@vger.kernel.org,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
+Cc: Mark Pearson <mpearson-lenovo@squebb.ca>,
+ "open list:ACPI" <linux-acpi@vger.kernel.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>,
+ open list <linux-kernel@vger.kernel.org>, amd-gfx@lists.freedesktop.org,
+ Melissa Wen <mwen@igalia.com>, Hans de Goede <hdegoede@redhat.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le lundi 29 janvier 2024 =C3=A0 14:17 +0100, Christian K=C3=B6nig a =C3=A9c=
-rit=C2=A0:
-> Am 29.01.24 um 14:06 schrieb Paul Cercueil:
-> > Hi Christian,
-> >=20
-> > Le lundi 29 janvier 2024 =C3=A0 13:52 +0100, Christian K=C3=B6nig a =C3=
-=A9crit=C2=A0:
-> > > Am 27.01.24 um 17:50 schrieb Jonathan Cameron:
-> > > > > > > +	iio_buffer_dmabuf_put(attach);
-> > > > > > > +
-> > > > > > > +out_dmabuf_put:
-> > > > > > > +	dma_buf_put(dmabuf);
-> > > > > > As below. Feels like a __free(dma_buf_put) bit of magic
-> > > > > > would
-> > > > > > be a
-> > > > > > nice to have.
-> > > > > I'm working on the patches right now, just one quick
-> > > > > question.
-> > > > >=20
-> > > > > Having a __free(dma_buf_put) requires that dma_buf_put is
-> > > > > first
-> > > > > "registered" as a freeing function using DEFINE_FREE() in
-> > > > > <linux/dma-
-> > > > > buf.h>, which has not been done yet.
-> > > > >=20
-> > > > > That would mean carrying a dma-buf specific patch in your
-> > > > > tree,
-> > > > > are you
-> > > > > OK with that?
-> > > > Needs an ACK from appropriate maintainer, but otherwise I'm
-> > > > fine
-> > > > doing
-> > > > so.=C2=A0 Alternative is to circle back to this later after this
-> > > > code is
-> > > > upstream.
-> > > Separate patches for that please, the autocleanup feature is so
-> > > new
-> > > that
-> > > I'm not 100% convinced that everything works out smoothly from
-> > > the
-> > > start.
-> > Separate patches is a given, did you mean outside this patchset?
-> > Because I can send a separate patchset that introduces scope-based
-> > management for dma_fence and dma_buf, but then it won't have users.
->=20
-> Outside of the patchset, this is essentially brand new stuff.
->=20
-> IIRC we have quite a number of dma_fence selftests and sw_sync which
-> is=20
-> basically code inside the drivers/dma-buf directory only there for=20
-> testing DMA-buf functionality.
->=20
-> Convert those over as well and I'm more than happy to upstream this
-> change.
+On Fri, Jan 26, 2024 at 7:55=E2=80=AFPM Mario Limonciello
+<mario.limonciello@amd.com> wrote:
+>
+> The ACPI specification allows for an EDID to be up to 512 bytes but
+> the _DDC EDID fetching code will only try up to 256 bytes.
+>
+> Modify the code to instead start at 512 bytes and work it's way
+> down instead.
+>
+> Link: https://uefi.org/htmlspecs/ACPI_Spec_6_4_html/Apx_B_Video_Extension=
+s/output-device-specific-methods.html#ddc-return-the-edid-for-this-device
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> ---
+>  drivers/acpi/acpi_video.c | 23 ++++++++++++++++-------
+>  1 file changed, 16 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/acpi/acpi_video.c b/drivers/acpi/acpi_video.c
+> index 62f4364e4460..b3b15dd4755d 100644
+> --- a/drivers/acpi/acpi_video.c
+> +++ b/drivers/acpi/acpi_video.c
+> @@ -624,6 +624,10 @@ acpi_video_device_EDID(struct acpi_video_device *dev=
+ice,
+>                 arg0.integer.value =3D 1;
+>         else if (length =3D=3D 256)
+>                 arg0.integer.value =3D 2;
+> +       else if (length =3D=3D 384)
+> +               arg0.integer.value =3D 3;
+> +       else if (length =3D=3D 512)
+> +               arg0.integer.value =3D 4;
 
-Well there is very little to convert there; you can use scope-based
-management when the unref is done in all exit points of the functional
-block, and the only place I could find that does that in drivers/dma-
-buf/ was in dma_fence_chain_enable_signaling() in dma-fence-chain.c.
+It looks like switch () would be somewhat better.
 
-Cheers,
--Paul
+Or maybe even
+
+arg0.integer.value =3D length / 128;
+
+The validation could be added too:
+
+if (arg0.integer.value > 4 || arg0.integer.value * 128 !=3D length)
+        return -EINVAL;
+
+but it is pointless, because the caller is never passing an invalid
+number to it AFAICS.
+
+>         else
+>                 return -EINVAL;
+>
+> @@ -1443,7 +1447,7 @@ int acpi_video_get_edid(struct acpi_device *device,=
+ int type, int device_id,
+>
+>         for (i =3D 0; i < video->attached_count; i++) {
+>                 video_device =3D video->attached_array[i].bind_info;
+> -               length =3D 256;
+> +               length =3D 512;
+>
+>                 if (!video_device)
+>                         continue;
+> @@ -1478,13 +1482,18 @@ int acpi_video_get_edid(struct acpi_device *devic=
+e, int type, int device_id,
+>
+>                 if (ACPI_FAILURE(status) || !buffer ||
+>                     buffer->type !=3D ACPI_TYPE_BUFFER) {
+> -                       length =3D 128;
+> -                       status =3D acpi_video_device_EDID(video_device, &=
+buffer,
+> -                                                       length);
+> -                       if (ACPI_FAILURE(status) || !buffer ||
+> -                           buffer->type !=3D ACPI_TYPE_BUFFER) {
+> -                               continue;
+> +                       while (length) {
+
+I would prefer a do {} while () loop here, which could include the
+first invocation of acpi_video_device_EDID() too (and reduce code
+duplication a bit).
+
+> +                               length -=3D 128;
+> +                               status =3D acpi_video_device_EDID(video_d=
+evice, &buffer,
+> +                                                               length);
+
+No line break, please.
+
+> +                               if (ACPI_FAILURE(status) || !buffer ||
+> +                                   buffer->type !=3D ACPI_TYPE_BUFFER) {
+> +                                       continue;
+> +                               }
+> +                               break;
+>                         }
+> +                       if (!length)
+> +                               continue;
+>                 }
+>
+>                 *edid =3D buffer->buffer.pointer;
+> --
