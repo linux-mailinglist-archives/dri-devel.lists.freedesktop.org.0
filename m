@@ -2,83 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EF4D83FDC0
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 06:30:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6C8A83FDC2
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 06:36:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2715112472;
-	Mon, 29 Jan 2024 05:30:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94EAB10F802;
+	Mon, 29 Jan 2024 05:36:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com
- [209.85.160.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D1A911246F;
- Mon, 29 Jan 2024 05:30:37 +0000 (UTC)
-Received: by mail-qt1-f176.google.com with SMTP id
- d75a77b69052e-429f53f0b0bso28161841cf.2; 
- Sun, 28 Jan 2024 21:30:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1706506176; x=1707110976; darn=lists.freedesktop.org;
- h=in-reply-to:autocrypt:from:content-language:references:cc:to
- :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
- :date:message-id:reply-to;
- bh=wBQBbraRZw/0WCW3fokYhKF+zwEk3dpsbNrLYLHs3xY=;
- b=gFLHadj6om4yFWgln2gkLrpBFoxsw8erFdJZoaB3YJReTtDLtOME8PSaTkQW4Dr0+G
- FarwbaJeK78Do1KKPNMswtUwPYJHX1gGF698LHPqfYcsnQAmUmWKypdII2slN5ydRhyN
- XGZ1vIyS7aZgzdcN1WNzG3vUB3hJCPQTo2dHOoJNyEWX81p9tIds4Ns8kqVq4eXY20IB
- 6GhxOvksDPBQIad1S7IOjy1dUUDROanXUojaMrmxFUkpkMCH/J4tTC/bZZ5XP3Cdhmv9
- 2OA1zaxuS3fLNXAfg2fXvBgHYZf09AGkX7bY1rktXLOR2m6UJq78J1B98KaK7g16Kp9T
- BIiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706506176; x=1707110976;
- h=in-reply-to:autocrypt:from:content-language:references:cc:to
- :subject:user-agent:mime-version:date:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=wBQBbraRZw/0WCW3fokYhKF+zwEk3dpsbNrLYLHs3xY=;
- b=HZuUiZ1hu7COgLsHLyjacVb3s1CfD2/stHdSDvcWu7z+P+bsdeBONUM6Nb1cQaQXUr
- N12+ssT8ho6m/5fPjaK/dTRAPOJZf6HwD2Kkin+UwXUtD/FN8Q8f7hQ+RSW28VQ4hJel
- S9tulueo5bCEPsCpcLJ9tTdIPozE7qIdMbVeVBTgF603sbAxWCkMOdBRBa0RxF1LkAON
- 7cb7i/KT2HEU99phJc9mY8ZVz2ovXNnp8bWp0FY/LAMlcYmht/eQmTdzbXI3rX6B/dvB
- C2gquYgRsJqj6nM3WkIWIhdJbs1w4il5QxQ03KwKxpoTlMs2R75D1W8BO6q2ofzrdcKZ
- qzeQ==
-X-Gm-Message-State: AOJu0YwQQl9UDdcSm1cEtL7e/PBvvmwl0XOWA5O3junnVvnCjE6yIL6o
- yfXao8N/HT51EwSt6d6E/Wyx+lvVYcdiVB7qS6hhhbwE62ZDWRRE
-X-Google-Smtp-Source: AGHT+IF2GouVzTCFPpuF1NOInBEAds2ceEtCLJOxHIovID9gdDNxgrQUtBPXFxyWaAKh9bTdvgPFSg==
-X-Received: by 2002:a05:6214:518b:b0:68c:484c:807d with SMTP id
- kl11-20020a056214518b00b0068c484c807dmr2736159qvb.76.1706506176501; 
- Sun, 28 Jan 2024 21:29:36 -0800 (PST)
-Received: from [192.168.2.14] ([174.88.31.222])
- by smtp.gmail.com with ESMTPSA id
- cw13-20020ad44dcd000000b0068c423e8479sm1803730qvb.126.2024.01.28.21.29.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 28 Jan 2024 21:29:36 -0800 (PST)
-Message-ID: <8b06a021-8a80-4e39-a618-7b3630636b2b@gmail.com>
-Date: Mon, 29 Jan 2024 00:29:26 -0500
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E38DA10FCD2;
+ Mon, 29 Jan 2024 05:36:52 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 40T5CIJc003778; Mon, 29 Jan 2024 05:36:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=A4+YhRJbxAj8pl4exb8U1Diw6ayXlnWsul8WoEggIOI=; b=f2
+ /sYrrp4EVA7QaID3Oc1M4V8QPShrNd66b3sIFLEq3jQH3arK9KclwYpReIM4xms2
+ xeQ+6pZOhKejIRc0NjaBQGcj4M8luL/PeNTdjsfMQZXej91iBbOLSHcHo9X31ejt
+ ktsqM3grAkBDQFh+vUKGKvYDO8cCvoYEAC1gwmPZfTKqsXI3v1pobiQ6oUH2mLos
+ 7olOVYbQohxt44SQ4adcw5ZBRihtv8g3jNduuGeW29sb4Zs1tbupiPA/QTo/Bsom
+ 9Pu/BXghYCj+4+azmMxLEowMnnxFm7ttt+xpQMdbQ3MOps1rzyfnznQZ/FJGI4X6
+ YzMDe1DpsggccT/B6hlA==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vvqhmu27j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 29 Jan 2024 05:36:44 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40T5ahfj023463
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 29 Jan 2024 05:36:43 GMT
+Received: from [10.110.98.98] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Sun, 28 Jan
+ 2024 21:36:42 -0800
+Message-ID: <3c87c423-e290-c399-30d3-3b0d94903619@quicinc.com>
+Date: Sun, 28 Jan 2024 21:36:41 -0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
- Thunderbird/115.7.0
-Subject: Re: [PATCH] drm/sched: Drain all entities in DRM sched run job worker
-To: Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-References: <20240124210811.1639040-1-matthew.brost@intel.com>
- <b94aca06-858e-4575-a4c4-40be8d8d4d35@amd.com>
- <ZbKaqdu5Y/WNwWVX@DUT025-TGLU.fm.intel.com>
- <0bef4c76-924f-442f-af9c-d701e640db41@amd.com>
- <ZbPd590k4s5z1/a9@DUT025-TGLU.fm.intel.com>
-Content-Language: en-CA, en-US
-From: Luben Tuikov <ltuikov89@gmail.com>
-Autocrypt: addr=ltuikov89@gmail.com; keydata=
- xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1APnbnnRHN
- Ikx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoAQRYhBJkj7+VmFO9b
- eaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheA
- AAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlTMqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfy
- JwktF7REl1yt7IU2Sye1qmQMfJxdt9JMbMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSP
- cCE8uGe7FWo8C+nTSyWPXKTx9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl
- 10wVR5QxozSvBQJlOiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKo
- aMDzO9eGz69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA==
-In-Reply-To: <ZbPd590k4s5z1/a9@DUT025-TGLU.fm.intel.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------Nwq5NZ8hmkaVIlw3rkIld8Vs"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 17/17] drm/msm/dp: allow YUV420 mode for DP connector when
+ VSC SDP supported
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20240125193834.7065-1-quic_parellan@quicinc.com>
+ <20240125193834.7065-18-quic_parellan@quicinc.com>
+ <493926f1-90e9-493a-bd2f-ea1db16d7ee6@linaro.org>
+ <72ca08ac-ae16-37f6-6f85-f203ddf79084@quicinc.com>
+ <CAA8EJppj1xN8E==VGncvW5DKMtLPixynpgAqyZoJzPQXZEEYjg@mail.gmail.com>
+ <1666a8c3-f1f0-f050-aa06-cf221bdbcbb9@quicinc.com>
+ <CAA8EJprDUBb7yM-16QVa_i6ONRaNYSWRvJKMG=Z2rPhJ0JfwXw@mail.gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <CAA8EJprDUBb7yM-16QVa_i6ONRaNYSWRvJKMG=Z2rPhJ0JfwXw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: -LgbofhnBlEELVriZVXxfi08VXU09cyN
+X-Proofpoint-ORIG-GUID: -LgbofhnBlEELVriZVXxfi08VXU09cyN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-29_02,2024-01-25_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 malwarescore=0
+ adultscore=0 priorityscore=1501 lowpriorityscore=0 mlxlogscore=999
+ spamscore=0 impostorscore=0 clxscore=1015 mlxscore=0 bulkscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401190000 definitions=main-2401290038
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,278 +89,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Thorsten Leemhuis <regressions@leemhuis.info>,
- Mario Limonciello <mario.limonciello@amd.com>, daniel@ffwll.ch,
- Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>, airlied@gmail.com,
- intel-xe@lists.freedesktop.org, Vlastimil Babka <vbabka@suse.cz>
+Cc: neil.armstrong@linaro.org, marijn.suijten@somainline.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ swboyd@chromium.org, seanpaul@chromium.org, quic_jesszhan@quicinc.com,
+ Paloma Arellano <quic_parellan@quicinc.com>, quic_khsieh@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------Nwq5NZ8hmkaVIlw3rkIld8Vs
-Content-Type: multipart/mixed; boundary="------------Q1NB2p6bnyo00tMDmY2hGmuQ";
- protected-headers="v1"
-From: Luben Tuikov <ltuikov89@gmail.com>
-To: Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- airlied@gmail.com, daniel@ffwll.ch,
- Thorsten Leemhuis <regressions@leemhuis.info>,
- Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Vlastimil Babka <vbabka@suse.cz>
-Message-ID: <8b06a021-8a80-4e39-a618-7b3630636b2b@gmail.com>
-Subject: Re: [PATCH] drm/sched: Drain all entities in DRM sched run job worker
-References: <20240124210811.1639040-1-matthew.brost@intel.com>
- <b94aca06-858e-4575-a4c4-40be8d8d4d35@amd.com>
- <ZbKaqdu5Y/WNwWVX@DUT025-TGLU.fm.intel.com>
- <0bef4c76-924f-442f-af9c-d701e640db41@amd.com>
- <ZbPd590k4s5z1/a9@DUT025-TGLU.fm.intel.com>
-In-Reply-To: <ZbPd590k4s5z1/a9@DUT025-TGLU.fm.intel.com>
 
---------------Q1NB2p6bnyo00tMDmY2hGmuQ
-Content-Type: multipart/mixed; boundary="------------mJJVLZaQCxKsPaANWCqyu751"
 
---------------mJJVLZaQCxKsPaANWCqyu751
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-On 2024-01-26 11:29, Matthew Brost wrote:
-> On Fri, Jan 26, 2024 at 11:32:57AM +0100, Christian K=C3=B6nig wrote:
->> Am 25.01.24 um 18:30 schrieb Matthew Brost:
->>> On Thu, Jan 25, 2024 at 04:12:58PM +0100, Christian K=C3=B6nig wrote:=
-
+On 1/28/2024 9:05 PM, Dmitry Baryshkov wrote:
+> On Mon, 29 Jan 2024 at 06:30, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>>
+>>
+>>
+>> On 1/28/2024 7:52 PM, Dmitry Baryshkov wrote:
+>>> On Mon, 29 Jan 2024 at 05:17, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
 >>>>
->>>> Am 24.01.24 um 22:08 schrieb Matthew Brost:
->>>>> All entities must be drained in the DRM scheduler run job worker to=
-
-
-Hi Matt,
-
-Thanks for the patch. Under close review, let's use "checked" instead of =
-"drained",
-to read as follows,
-
-All entities must be checked in the DRM scheduler run job worker to ...
-
->>>>> avoid the following case. An entity found that is ready, no job fou=
-nd
-
-Continue with the example given by using a colon, as follows,
-
-=2E.. avoid the following case: an entity is found which is ready, yet
-no job is returned for that entity when calling drm_sched_entity_pop_job(=
-entity).
-This causes the job worker to go idle. The correct behaviour is to loop
-over all ready entities, until drm_sched_entity_pop_job(entity) returns n=
-on-NULL,
-or there are no more ready entities.
-
->>>>> ready on entity, and run job worker goes idle with other entities +=
- jobs
->>>>> ready. Draining all ready entities (i.e. loop over all ready entiti=
-es)
-
-You see here how "drain" isn't clear enough, and you clarify in parenthes=
-is
-that we in fact "loop over all ready entities". So, perhaps let's not use=
- the
-verb "drain" and simply use the sentence in the paragraph I've redacted a=
-bove.
-
-Also, let's please not use "drain" in the title, as it is confusing and m=
-akes me
-think of capacitors, transistors, or buckets with water and Archimedes sc=
-rews and siphons,
-and instead say,
-
-[PATCH]: drm/sched: Really find a ready entity and job in DRM sched run-j=
-ob worker
-
-Which makes it really simple and accessible a description. :-)
-
->>>>> in the run job worker ensures all job that are ready will be schedu=
-led.
->>>> That doesn't make sense. drm_sched_select_entity() only returns enti=
-ties
->>>> which are "ready", e.g. have a job to run.
 >>>>
->>> That is what I thought too, hence my original design but it is not
->>> exactly true. Let me explain.
->>>
->>> drm_sched_select_entity() returns an entity with a non-empty spsc que=
-ue
->>> (job in queue) and no *current* waiting dependecies [1]. Dependecies =
-for
->>> an entity can be added when drm_sched_entity_pop_job() is called [2][=
-3]
->>> returning a NULL job. Thus we can get into a scenario where 2 entitie=
-s
->>> A and B both have jobs and no current dependecies. A's job is waiting=
-
->>> B's job, entity A gets selected first, a dependecy gets installed in
->>> drm_sched_entity_pop_job(), run work goes idle, and now we deadlock.
->>
->> And here is the real problem. run work doesn't goes idle in that momen=
-t.
->>
->> drm_sched_run_job_work() should restarts itself until there is either =
-no
->> more space in the ring buffer or it can't find a ready entity any more=
-=2E
->>
->> At least that was the original design when that was all still driven b=
-y a
->> kthread.
->>
->> It can perfectly be that we messed this up when switching from kthread=
- to a
->> work item.
->>
->=20
-> Right, that what this patch does - the run worker does not go idle unti=
-l
-> no ready entities are found. That was incorrect in the original patch
-> and fixed here. Do you have any issues with this fix? It has been teste=
-d
-> 3x times and clearly fixes the issue.
-
-Thanks for following up with Christian.
-
-I agree, the fix makes sense and achieves the original intention as descr=
-ibed
-by Christian. Also, thanks to all who tested it. Good work, thanks!
-
-With the above changes to the patch title and text addressed, this patch =
-would be then,
-
-Reviewed-by: Luben Tuikov <ltuikov89@gmail.com>
-
---=20
-Regards,
-Luben
-
-=20
->=20
-> Matt
->=20
->> Regards,
->> Christian.
->>
->>>
->>> The proper solution is to loop over all ready entities until one with=
- a
->>> job is found via drm_sched_entity_pop_job() and then requeue the run
->>> job worker. Or loop over all entities until drm_sched_select_entity()=
-
->>> returns NULL and then let the run job worker go idle. This is what th=
-e
->>> old threaded design did too [4]. Hope this clears everything up.
->>>
->>> Matt
->>>
->>> [1] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/sc=
-heduler/sched_entity.c#L144
->>> [2] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/sc=
-heduler/sched_entity.c#L464
->>> [3] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/sc=
-heduler/sched_entity.c#L397
->>> [4] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/sc=
-heduler/sched_main.c#L1011
->>>
->>>> If that's not the case any more then you have broken something else.=
-
 >>>>
->>>> Regards,
->>>> Christian.
->>>>
->>>>> Cc: Thorsten Leemhuis <regressions@leemhuis.info>
->>>>> Reported-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
->>>>> Closes: https://lore.kernel.org/all/CABXGCsM2VLs489CH-vF-1539-s3in3=
-7=3DbwuOWtoeeE+q26zE+Q@mail.gmail.com/
->>>>> Reported-and-tested-by: Mario Limonciello <mario.limonciello@amd.co=
-m>
->>>>> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/3124
->>>>> Link: https://lore.kernel.org/all/20240123021155.2775-1-mario.limon=
-ciello@amd.com/
->>>>> Reported-by: Vlastimil Babka <vbabka@suse.cz>
->>>>> Closes: https://lore.kernel.org/dri-devel/05ddb2da-b182-4791-8ef7-8=
-2179fd159a8@amd.com/T/#m0c31d4d1b9ae9995bb880974c4f1dbaddc33a48a
->>>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
->>>>> ---
->>>>>    drivers/gpu/drm/scheduler/sched_main.c | 15 +++++++--------
->>>>>    1 file changed, 7 insertions(+), 8 deletions(-)
+>>>> On 1/25/2024 2:05 PM, Dmitry Baryshkov wrote:
+>>>>> On 25/01/2024 21:38, Paloma Arellano wrote:
+>>>>>> All the components of YUV420 over DP are added. Therefore, let's mark the
+>>>>>> connector property as true for DP connector when the DP type is not eDP
+>>>>>> and when VSC SDP is supported.
+>>>>>>
+>>>>>> Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
+>>>>>> ---
+>>>>>>     drivers/gpu/drm/msm/dp/dp_display.c | 5 ++++-
+>>>>>>     1 file changed, 4 insertions(+), 1 deletion(-)
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c
+>>>>>> b/drivers/gpu/drm/msm/dp/dp_display.c
+>>>>>> index 4329435518351..97edd607400b8 100644
+>>>>>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+>>>>>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+>>>>>> @@ -370,11 +370,14 @@ static int dp_display_process_hpd_high(struct
+>>>>>> dp_display_private *dp)
+>>>>>>         dp_link_process_request(dp->link);
+>>>>>> -    if (!dp->dp_display.is_edp)
+>>>>>> +    if (!dp->dp_display.is_edp) {
+>>>>>> +        if (dp_panel_vsc_sdp_supported(dp->panel))
+>>>>>> +            dp->dp_display.connector->ycbcr_420_allowed = true;
 >>>>>
->>>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/d=
-rm/scheduler/sched_main.c
->>>>> index 550492a7a031..85f082396d42 100644
->>>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
->>>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->>>>> @@ -1178,21 +1178,20 @@ static void drm_sched_run_job_work(struct w=
-ork_struct *w)
->>>>>    	struct drm_sched_entity *entity;
->>>>>    	struct dma_fence *fence;
->>>>>    	struct drm_sched_fence *s_fence;
->>>>> -	struct drm_sched_job *sched_job;
->>>>> +	struct drm_sched_job *sched_job =3D NULL;
->>>>>    	int r;
->>>>>    	if (READ_ONCE(sched->pause_submit))
->>>>>    		return;
->>>>> -	entity =3D drm_sched_select_entity(sched);
->>>>> +	/* Find entity with a ready job */
->>>>> +	while (!sched_job && (entity =3D drm_sched_select_entity(sched)))=
- {
->>>>> +		sched_job =3D drm_sched_entity_pop_job(entity);
->>>>> +		if (!sched_job)
->>>>> +			complete_all(&entity->entity_idle);
->>>>> +	}
->>>>>    	if (!entity)
->>>>> -		return;
->>>>> -
->>>>> -	sched_job =3D drm_sched_entity_pop_job(entity);
->>>>> -	if (!sched_job) {
->>>>> -		complete_all(&entity->entity_idle);
->>>>>    		return;	/* No more work */
->>>>> -	}
->>>>>    	s_fence =3D sched_job->s_fence;
+>>>>> Please consider fixing a TODO in drm_bridge_connector_init().
+>>>>>
+>>>>
+>>>> I am not totally clear if that TODO can ever go for DP/HDMI usage of
+>>>> drm_bridge_connector.
+>>>>
+>>>> We do not know if the sink supports VSC SDP till we read the DPCD and
+>>>> till we know that sink supports VSC SDP, there is no reason to mark the
+>>>> YUV modes as supported. This is the same logic followed across vendors.
+>>>>
+>>>> drm_bride_connector_init() happens much earlier than the point where we
+>>>> read DPCD. The only thing which can be done is perhaps add some callback
+>>>> to update_ycbcr_420_allowed once DPCD is read. But I don't think its
+>>>> absolutely necessary to have a callback just for this.
+>>>
+>>> After checking the drm_connector docs, I'd still hold my opinion and
+>>> consider this patch to be a misuse of the property. If you check the
+>>> drm_connector::ycbcr_420_allowed docs, you'll see that it describes
+>>> the output from the source point of view. In other words, it should be
+>>> true if the DP connector can send YUV420 rather than being set if the
+>>> attached display supports such output. This matches ycbcr420_allowed
+>>> usage by AMD, dw-hdmi, intel_hdmi and even intel_dp usage.
+>>>
 >>
+>> hmmm I think I misread intel_dp_update_420(). I saw this is called after
+>> HPD so I thought they unset ycbcr_420_allowed if VSC SDP is not
+>> supported. But they have other DPCD checking there so anyway they will
+>> fail this bridge_connector_init() model.
+>>
+>> But one argument which I can give in my defense is, lets say the sink
+>> exposed YUV formats but did not support SDP, then atomic_check() will
+>> keep failing or should keep failing. This will avoid this scenario. But
+>> we can assume that would be a rogue sink.
+> 
+> This should be handled in DP's atomic_check. As usual, bonus point if
+> this is done via helpers that can be reused by other platforms.
+> 
+>> I think we can pass a yuv_supported flag to msm_dp_modeset_init() and
+>> set it to true from dpu_kms if catalog has CDM block and get rid of the
+>> dp_panel_vsc_sdp_supported().
+> 
+> These are two different issues. CDM should be checked in PDU (whether
+> the DPU can provide YUV data to the DP block).
+> 
 
---------------mJJVLZaQCxKsPaANWCqyu751
-Content-Type: application/pgp-keys; name="OpenPGP_0x4C15479431A334AF.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x4C15479431A334AF.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
+Yes, I found this issue while discussing this. We need to make this change.
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+>>
+>> But that doesnt address the TODO you have pointed to. What is really the
+>> expectation of the TODO? Do we need to pass a ycbcr_420_allowed flag to
+>> drm_bridge_connector_init()?
+> 
+> Ugh. No. I was thinking about a `ycbcr420_allowed` flag in the struct
+> drm_bridge (to follow existing interlace_allowed) flag. But, this
+> might be not the best option. Each bridge can either pass through YUV
+> data from the previous bridge or generate YCbCr data on its own. So in
+> theory this demands two flags plus one flag for the encoder. Which
+> might be an overkill, until we end up in a situation when the driver
+> can not decide for the full bridge chain.
+> 
 
-xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1A
-PnbnnRHNIkx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoA
-QRYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiIC
-BhUKCQgLAgQWAgMBAh4HAheAAAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlT
-MqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfyJwktF7REl1yt7IU2Sye1qmQMfJxdt9JM
-bMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSPcCE8uGe7FWo8C+nTSyWPXKTx
-9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJl
-OiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKoaMDzO9eG
-z69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA=3D=3D
-=3DqCaZ
------END PGP PUBLIC KEY BLOCK-----
+Yes.
 
---------------mJJVLZaQCxKsPaANWCqyu751--
+> So let's probably ignore the TODO for the purpose of this series. Just
+> fix the usage of ycbcr420_allowed according to docs.
+> 
 
---------------Q1NB2p6bnyo00tMDmY2hGmuQ--
+Ack.
 
---------------Nwq5NZ8hmkaVIlw3rkIld8Vs
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQSZI+/lZhTvW3mgJddMFUeUMaM0rwUCZbc3twUDAAAAAAAKCRBMFUeUMaM0r4+Y
-AQDKqRE64V846Z5n21tKO1jVL6xKZelPBoi1TBStQQG3FQD9GfxuZsdMOUdCRdNi4afM9FmYBeaz
-T/S0Cus80rKc3Q0=
-=zHlo
------END PGP SIGNATURE-----
-
---------------Nwq5NZ8hmkaVIlw3rkIld8Vs--
+>>
+>> That would need a tree wide cleanup and thats difficult to sign up for
+>> in this series and I would not as well.
+>>
+>> One thing which I can suggest to be less intrusive is have a new API
+>> called drm_bridge_connector_init_with_YUV() which looks something like
+>> below:
+>>
+>> struct drm_connector *drm_bridge_connector_init_with_ycbcr_420(struct
+>> drm_device *drm, struct drm_encoder *encoder)
+>> {
+>>          drm_bridge_connector_init();
+>>          connector->ycbcr_420_allowed = true;
+>> }
+>>
+>> But I don't know if the community would be interested in this idea or
+>> would find that useful.
+>>
+>>>>>>             drm_dp_set_subconnector_property(dp->dp_display.connector,
+>>>>>>                              connector_status_connected,
+>>>>>>                              dp->panel->dpcd,
+>>>>>>                              dp->panel->downstream_ports);
+>>>>>> +    }
+>>>>>>         edid = dp->panel->edid;
+>>>>>
+>>>
+>>>
+>>>
+> 
+> 
+> 
