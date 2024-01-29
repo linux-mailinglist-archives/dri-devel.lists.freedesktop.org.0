@@ -2,120 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98E0583FFDC
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 09:18:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03F2F84009A
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 09:50:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AA0810F683;
-	Mon, 29 Jan 2024 08:17:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FAB410F04C;
+	Mon, 29 Jan 2024 08:49:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com
- (mail-he1eur04on2131.outbound.protection.outlook.com [40.107.7.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EB3310F683
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jan 2024 08:17:55 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QHLW+6GC2xwZRU9ybQ9aObIOFaE8QvWUwSFsRMBauEf6YEmtZPs+jeez12/9q8D8mEXh17l8Mufc/4DF9agOmmH0ybaLj1fFK0HObSGKX/F4FP15+bHGEyUbTOQCMjX2ZqDcm3SQR56QeRf4xHAGEnFFwukfXg+q1YsR9FE5NtiRWsBotpVYO62AoYnYbdqgzDhqM9+AMrfzX/SA0ZIfuWUzIXpJWr4z+xXdxTDZODoGdnqGeXHcKK0qHxouU/xcDxC+ay9m9TzoE391xeYo0gYku84MlKtOJScAk1cX2MQB3TM9IJmIR9KVQ6UlO/jYTIEx4kCgw3+f9xJnrbyKBA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NbGZfX7GN4VCgix0Auh467JXRGwu8olphbVDSo3nER0=;
- b=KV6N1fyL6s/UXixGLqh9vR9Rm11az72m6/ncZi9CBS7FM0Xo7XYGadsOg0WMevq5vsibuWdUQJ77vO32aDNm7NQWVwcmvgIGPS1kHYSwN2uexQzqLZt+swLy04fmWfDAgZMv51v1kj1LU1U6Goe66G7O8ve4p4KbHv8QSG4Z4Mn4GkX84DllLKE02zNZK6KSowVJ12ocIZNsumNQCQoF9mx8ac+j+er0PKFcbxs5m8hQc+g7HEeCN6KxNuRKw5WSi+GM3Tpsi2e4lQBnVwOzf4HsGN8TbJRbVexg1QahoGhKmCYpDH4D9x0pugJDC8Iu7DdU6zyUEe5PNBAbgj/t6Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
- dkim=pass header.d=kontron.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mysnt.onmicrosoft.com; 
- s=selector2-mysnt-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NbGZfX7GN4VCgix0Auh467JXRGwu8olphbVDSo3nER0=;
- b=isVh1dkREPdRNgvgzo9ZghVDCBEwqxT7ZVuDRhQMlKBwUAihBSOugC2jwXdn8Vh0IJR9sFzxFX1KjN8w1KwtIBPet1EqcGYWwQ4hGqb27HunKMoXcwyPX7hVDq3uEN+5fV2VvuyRadKe64S5Tnla4N7cvABRUw9eMo2aygUWtDE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=kontron.de;
-Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:263::10)
- by PRAPR10MB5321.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:296::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.32; Mon, 29 Jan
- 2024 08:17:50 +0000
-Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::44de:8e9c:72ac:a985]) by PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::44de:8e9c:72ac:a985%6]) with mapi id 15.20.7228.027; Mon, 29 Jan 2024
- 08:17:50 +0000
-Message-ID: <e2688a01-47d2-4f89-ab92-252f378d37ba@kontron.de>
-Date: Mon, 29 Jan 2024 09:17:48 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/bridge: samsung-dsim: Fix porch calcalcuation
- rounding
-To: Adam Ford <aford173@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20231212033259.189718-1-aford173@gmail.com>
- <20231212033259.189718-2-aford173@gmail.com>
- <CAHCN7xKKMzOtVaEXzgTgsO4yZF0JZ6=o+TFJOeTCza0fMGss2w@mail.gmail.com>
-Content-Language: en-US, de-DE
-From: Frieder Schrempf <frieder.schrempf@kontron.de>
-In-Reply-To: <CAHCN7xKKMzOtVaEXzgTgsO4yZF0JZ6=o+TFJOeTCza0fMGss2w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0432.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:d1::18) To PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:102:263::10)
+Received: from whm50.louhi.net (whm50.louhi.net [77.240.19.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AC6810F04C
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jan 2024 08:49:54 +0000 (UTC)
+Received: from [194.136.85.206] (port=46446 helo=eldfell)
+ by whm50.louhi.net with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
+ (envelope-from <pekka.paalanen@haloniitty.fi>) id 1rUNKy-0007D5-0Q;
+ Mon, 29 Jan 2024 10:49:52 +0200
+Date: Mon, 29 Jan 2024 10:49:34 +0200
+From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
+To: =?UTF-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>
+Subject: Re: [PATCH v3 1/3] drm/atomic: Allow drivers to write their own
+ plane check for async flips
+Message-ID: <20240129104934.0b887ec7@eldfell>
+In-Reply-To: <20240128212515.630345-2-andrealmeid@igalia.com>
+References: <20240128212515.630345-1-andrealmeid@igalia.com>
+ <20240128212515.630345-2-andrealmeid@igalia.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR10MB5681:EE_|PRAPR10MB5321:EE_
-X-MS-Office365-Filtering-Correlation-Id: eb672d13-c5b3-47fb-5703-08dc20a2c892
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: N1p05e3toAqUjumtJhFxipqKWySQ5pZqFNBtxW/5UhKpSTjaguH0Ln6KvlrQfGznW6EW8df672THdyW6Brn7+yCx3NuudCZ8eoj05WgRN0XCxjYRQ9oeJNKVKyPcUkb74rrVxpYP7YNVVpmL/4r6/mjoZtqOINgPBQygLnirhPAGb9+NUqU/R4fB6VBrnixnGSOSaIQVAv3OMIqFAbj/O6aa6BdIMc7Jj3KmfQLqhftEpKpT4RcHSzEdB6jtl4fBZy+ZyDVrXv5LATI2gv3nO/Cqf6P85xf4e4rncSDhJ9kgM4Q7yzMoASDBKq7CoWKElThljhcY3ZBm4uDGd5vrtZzY9s4TEQ8WnWu8cTotzscMuEiDtw1gQsC/81PELgtZaluRZyiM3j7flsDalct8S7jdIgsf+TRrGRsoqJNBXdbng6tMKLl0uEvxYMDpyoZAAZwMl746coSs65nTUeOttbZ9EXMYb7lx6CNrF7WmYgMzGgrteiPSVSf4l9iZ434zkDfAdqjkP3NzVqE+UB9THetkS1LAP7Kn07XMqluGVPFBY+c1TvTWrlCxiGjib0x1wVLBVbwUp5AUlIRJau8oBIhEqWKTaQ2ogAswlQSire2UFdOYOMTdTlTh0vMFuMZsv876+LjuGW72VsJp49m0kg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230031)(39860400002)(136003)(396003)(346002)(376002)(366004)(230922051799003)(451199024)(64100799003)(1800799012)(186009)(41300700001)(2616005)(26005)(31686004)(316002)(54906003)(36756003)(66476007)(6512007)(478600001)(53546011)(6506007)(83380400001)(6486002)(38100700002)(66556008)(5660300002)(7416002)(44832011)(8676002)(2906002)(66946007)(31696002)(86362001)(4326008)(8936002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a0d3YU42Tktyb2plbG9TU3dZYXZIV1hEZ0xQMmNZVTFacGhaVGVkTjlTV25E?=
- =?utf-8?B?YVE0NklyV1RaYllBYUgzZDhETnpqbVVyREwrejRMeWl2Sm1OSkRXNmw1Yjl3?=
- =?utf-8?B?YlRzTjFCTTFDaXJlbEsxUkpxSlBhWG9nTDZvaW1ET1JaUWFMWGZZQ1BWU0Vj?=
- =?utf-8?B?RmdabS9mTFJwaE9EN09oZFd3T3ZmRUZyTFMxT2JhL3NvWUlpVXBINFJ6ODVM?=
- =?utf-8?B?MzB5MnhjRVRJcnBjWnRjMU1JRmprWFZlbkJWaGlIMVRiRVJSd0U3TmpINy9J?=
- =?utf-8?B?K01GNU9xblRxVkREVzFpc1l1Y3h6UW1HTExDdVdTaTJkcjkrRTdIOHhVNnpU?=
- =?utf-8?B?WW9TMTVzNTU1anRuMHRCaFpZNzVveUtOampidUNOV3MzZklpbVROUXpKSmp6?=
- =?utf-8?B?MUFKMmdEVDlxNlVPWlRod3E5VVVnVzJVSWlLMzN6Wkl5dFBEaGxIcFhoQWND?=
- =?utf-8?B?WFhVaFowbnZYN3dHeGJPSExLQzN0VUNIQVVWUFFvRnU4VEMyWGFWd0JnZnpY?=
- =?utf-8?B?MWNPRU8yek52RFVYVmpJN2NyRG1HZXBkYkMyQUpzbUZQaHZuSXRuRXRiUlpr?=
- =?utf-8?B?QzlRZ3VkMWpWODdDYUkrejdTOHJBQ3VtMytkbExkeW5kckc4T2hmaGJtRHlX?=
- =?utf-8?B?Q0Q5TEVHaE1LOHBBTWIzREJzdm1pa0FGYlhLNFZvQ2Q0VGovS2Rlc21pS0dX?=
- =?utf-8?B?bTE4SGROeFd2bDhVbUE0M2tyc01OVGU4bDZFUk4xWDhDQUNkUzU2bE9mSG5Z?=
- =?utf-8?B?M3VaeUlFTm42ejZ5QnkyT21RbUxYSEwvd0UvMXlBZElmYTIwUlBGZ0xGS2J2?=
- =?utf-8?B?QVJ3cUtEL1dMMHhFdVdrajcwbWg0cjhMY3djS0ZuZk8yR1YyNW5FeC96Z2NT?=
- =?utf-8?B?MnJEK3F0ZU9ORDdMUXBNOHRmeGwyRDNjbEI2YldObklxbldYTEdmRU9VREZT?=
- =?utf-8?B?WXd6RmY1UWRMTXB3WURROHc4MGpwM0Y0cWpyUzNyazVSZm41amFMUTloMk1a?=
- =?utf-8?B?THFCVWJ3QSt2VUVaNHN5c2ZJUENSd0hIc0VXbk9sZ2dYZk00dVdrTkNMMnRC?=
- =?utf-8?B?MXhzdjRiQ2JyUDJRYlkvVGs4YUtrOWVUL1hlZkNhU0NDa2NieE9CRmRUZVRP?=
- =?utf-8?B?VktTbkFxdHdZRmorNzJuaUgwbXJHR0tJNElBcWpnZitGZGtpY2Y2S2V5RWpz?=
- =?utf-8?B?dlZqRkNveHJPd0ZvZTdKcE4yZWh6eVphVHFPQk5OeUt5RlBTcmFERVpFWXZQ?=
- =?utf-8?B?MEpiWWJSdDRtTTQzSldxZkptR3RNcU51VUVoc3BOUlcyL2x6VDl3S2Yxai9z?=
- =?utf-8?B?ajZDRjJlZEkxSk9EUkthOUs5MGdHRHg5WndGN3pEdmFURlUwWlFtaVhlVDZS?=
- =?utf-8?B?ZlpKRzV6L3lBWCtoVDBEOHFNNTl0eC9OZ1RlRElTRUdEakJOWkZEMElqZjVz?=
- =?utf-8?B?TU9mMDJPeDlmT3J4QVhmUzFzZGt0ZUxWV1IzTkF3d3p3UTY3ODBhSWZXOE90?=
- =?utf-8?B?RFZUM0ZsdHdKYmV3UG5CRkNWQ24wYVlLSnpBNHRxekEwYThMeGdYQmx2ZHFD?=
- =?utf-8?B?bXM4TXVlejVDaFhBVjYrZlpPUjZsY3l4cVZweVVzci9nVkQybGRvUTFacjUz?=
- =?utf-8?B?YW0zVklHekpSelBDMlVjeFhzRzZpa1FYRE1XZWExSnhDTGx5YnR2S3lPalBh?=
- =?utf-8?B?R2JSNW1PaFhjNFoxS01ZV05vbDFjSmxyTmtIUTJHTVlQa0ZXM3VGd0NPRTJy?=
- =?utf-8?B?b1pZZDc0TXBaU1BzYll1VEI4dFdwUkpERHJwWmFCMWJZeEVHSmZwd0xpbnRT?=
- =?utf-8?B?SW5YYzZsTHpMT3M1cmplaEtWQ2c4aHZUMCtYU2VjVGRuYjRIWmkzeFRvalVR?=
- =?utf-8?B?cDB2Uno1VlEwYWxSbEFxQnhoZjJZdnc3T3ZDK1NGUnFjeWRyZ21OTU9KT3p6?=
- =?utf-8?B?dWpEQWx5UTMrbDBUNlFOWDFwS1dlMllNNUZ6U0JuMVFnekZ0b21HcW9hTDk4?=
- =?utf-8?B?YVo4NitqOE1JMk1pVDNyMXlSLzBGWkh3U0xaYUovc3JpMk55WlZMZlU1d3g1?=
- =?utf-8?B?b3crOG9hU1hYWWsxOHhvVlQyYWhHajdpajRQRGgwVW5FbmpESkZhK2I0U2sr?=
- =?utf-8?B?QkdUdFpvVUdFM3RnaFpVQm0xZ1EyZ0FFUnlPTHpXbTdvanFMOHN2MFJTS0dG?=
- =?utf-8?B?N0E9PQ==?=
-X-OriginatorOrg: kontron.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: eb672d13-c5b3-47fb-5703-08dc20a2c892
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2024 08:17:50.2953 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hJVD4NdZaeZmAW1157Co3/RWDDMxL8W/59H2QyaaQ6m4yQ9JO7aSD5Z+GePRLm4FRFlXdxJAg3IvhM4BGTN5+DOQ2cpA0rYkCcNd8DwYq8A=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PRAPR10MB5321
+Content-Type: multipart/signed; boundary="Sig_/CyNE1g.rxLQR/tPHNy8jH2s";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - whm50.louhi.net
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - haloniitty.fi
+X-Get-Message-Sender-Via: whm50.louhi.net: authenticated_id:
+ pekka.paalanen@haloniitty.fi
+X-Authenticated-Sender: whm50.louhi.net: pekka.paalanen@haloniitty.fi
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,38 +54,258 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, aford@beaconembedded.com,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Michael Tretter <m.tretter@pengutronix.de>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Marco Felsch <m.felsch@pengutronix.de>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, linux-kernel@vger.kernel.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: daniel@ffwll.ch, 'Marek =?UTF-8?B?T2zFocOhayc=?= <maraeo@gmail.com>,
+ Michel =?UTF-8?B?RMOkbnplcg==?= <michel.daenzer@mailbox.org>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ Xaver Hugl <xaver.hugl@gmail.com>, dri-devel@lists.freedesktop.org,
+ kernel-dev@igalia.com, alexander.deucher@amd.com,
+ Joshua Ashton <joshua@froggi.es>, Dave Airlie <airlied@gmail.com>,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25.01.24 19:44, Adam Ford wrote:
-> On Mon, Dec 11, 2023 at 9:33 PM Adam Ford <aford173@gmail.com> wrote:
->>
->> When using video sync pulses, the HFP, HBP, and HSA are divided between
->> the available lanes if there is more than one lane.  For certain
->> timings and lane configurations, the HFP may not be evenly divisible.
->> If the HFP is rounded down, it ends up being too small which can cause
->> some monitors to not sync properly. In these instances, adjust htotal
->> and hsync to round the HFP up, and recalculate the htotal.
->>
->> Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de> # Kontron BL i.MX8MM with HDMI monitor
->> Signed-off-by: Adam Ford <aford173@gmail.com>
-> 
-> Gentle nudge on this one.  Basically this fixes an issue with the 8MP,
-> but it's still unknown why it doesn't work on 8MM or 8MN, but Frieder
-> confirmed there are no regressions on 8MM or 8MN.
+--Sig_/CyNE1g.rxLQR/tPHNy8jH2s
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-I only tested two specific display setups on i.MX8MM. So of course I
-can't confirm the absence of regressions in general.
+On Sun, 28 Jan 2024 18:25:13 -0300
+Andr=C3=A9 Almeida <andrealmeid@igalia.com> wrote:
 
-Anyway, I think this should be applied.
+> Some hardware are more flexible on what they can flip asynchronously, so
+> rework the plane check so drivers can implement their own check, lifting
+> up some of the restrictions.
+>=20
+> Signed-off-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
+> ---
+> v3: no changes
+>=20
+>  drivers/gpu/drm/drm_atomic_uapi.c | 62 ++++++++++++++++++++++---------
+>  include/drm/drm_atomic_uapi.h     | 12 ++++++
+>  include/drm/drm_plane.h           |  5 +++
+>  3 files changed, 62 insertions(+), 17 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atom=
+ic_uapi.c
+> index aee4a65d4959..6d5b9fec90c7 100644
+> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> @@ -620,7 +620,7 @@ static int drm_atomic_plane_set_property(struct drm_p=
+lane *plane,
+>  	return 0;
+>  }
+> =20
+> -static int
+> +int
+>  drm_atomic_plane_get_property(struct drm_plane *plane,
+>  		const struct drm_plane_state *state,
+>  		struct drm_property *property, uint64_t *val)
+> @@ -683,6 +683,7 @@ drm_atomic_plane_get_property(struct drm_plane *plane,
+> =20
+>  	return 0;
+>  }
+> +EXPORT_SYMBOL(drm_atomic_plane_get_property);
+> =20
+>  static int drm_atomic_set_writeback_fb_for_connector(
+>  		struct drm_connector_state *conn_state,
+> @@ -1026,18 +1027,54 @@ int drm_atomic_connector_commit_dpms(struct drm_a=
+tomic_state *state,
+>  	return ret;
+>  }
+> =20
+> -static int drm_atomic_check_prop_changes(int ret, uint64_t old_val, uint=
+64_t prop_value,
+> +int drm_atomic_check_prop_changes(int ret, uint64_t old_val, uint64_t pr=
+op_value,
+
+Hi,
+
+should the word "async" be somewhere in the function name?
+
+>  					 struct drm_property *prop)
+>  {
+>  	if (ret !=3D 0 || old_val !=3D prop_value) {
+>  		drm_dbg_atomic(prop->dev,
+> -			       "[PROP:%d:%s] No prop can be changed during async flip\n",
+> +			       "[PROP:%d:%s] This prop cannot be changed during async flip\n",
+>  			       prop->base.id, prop->name);
+>  		return -EINVAL;
+>  	}
+> =20
+>  	return 0;
+>  }
+> +EXPORT_SYMBOL(drm_atomic_check_prop_changes);
+> +
+> +/* plane changes may have exceptions, so we have a special function for =
+them */
+> +static int drm_atomic_check_plane_changes(struct drm_property *prop,
+> +					  struct drm_plane *plane,
+> +					  struct drm_plane_state *plane_state,
+> +					  struct drm_mode_object *obj,
+> +					  u64 prop_value, u64 old_val)
+> +{
+> +	struct drm_mode_config *config =3D &plane->dev->mode_config;
+> +	int ret;
+> +
+> +	if (plane->funcs->check_async_props)
+> +		return plane->funcs->check_async_props(prop, plane, plane_state,
+> +							     obj, prop_value, old_val);
+
+Is it really ok to allow drivers to opt-in to also *reject* the FB_ID
+and IN_FENCE_FD props on async commits?
+
+Either intentionally or by accident.
+
+> +
+> +	/*
+> +	 * if you are trying to change something other than the FB ID, your
+> +	 * change will be either rejected or ignored, so we can stop the check
+> +	 * here
+> +	 */
+> +	if (prop !=3D config->prop_fb_id) {
+> +		ret =3D drm_atomic_plane_get_property(plane, plane_state,
+> +						    prop, &old_val);
+> +		return drm_atomic_check_prop_changes(ret, old_val, prop_value, prop);
+
+When I first read this code, it seemed to say: "If the prop is not
+FB_ID, then do the usual prop change checking that happens on all
+changes, not only async.". Reading this patch a few more times over, I
+finally realized drm_atomic_check_prop_changes() is about async
+specifically.
+
+> +	}
+> +
+> +	if (plane_state->plane->type !=3D DRM_PLANE_TYPE_PRIMARY) {
+> +		drm_dbg_atomic(prop->dev,
+> +			       "[OBJECT:%d] Only primary planes can be changed during async f=
+lip\n",
+> +			       obj->id);
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> =20
+>  int drm_atomic_set_property(struct drm_atomic_state *state,
+>  			    struct drm_file *file_priv,
+> @@ -1100,7 +1137,6 @@ int drm_atomic_set_property(struct drm_atomic_state=
+ *state,
+>  	case DRM_MODE_OBJECT_PLANE: {
+>  		struct drm_plane *plane =3D obj_to_plane(obj);
+>  		struct drm_plane_state *plane_state;
+> -		struct drm_mode_config *config =3D &plane->dev->mode_config;
+> =20
+>  		plane_state =3D drm_atomic_get_plane_state(state, plane);
+>  		if (IS_ERR(plane_state)) {
+> @@ -1108,19 +1144,11 @@ int drm_atomic_set_property(struct drm_atomic_sta=
+te *state,
+>  			break;
+>  		}
+> =20
+> -		if (async_flip && prop !=3D config->prop_fb_id) {
+> -			ret =3D drm_atomic_plane_get_property(plane, plane_state,
+> -							    prop, &old_val);
+> -			ret =3D drm_atomic_check_prop_changes(ret, old_val, prop_value, prop);
+> -			break;
+> -		}
+> -
+> -		if (async_flip && plane_state->plane->type !=3D DRM_PLANE_TYPE_PRIMARY=
+) {
+> -			drm_dbg_atomic(prop->dev,
+> -				       "[OBJECT:%d] Only primary planes can be changed during async =
+flip\n",
+> -				       obj->id);
+> -			ret =3D -EINVAL;
+> -			break;
+> +		if (async_flip) {
+> +			ret =3D drm_atomic_check_plane_changes(prop, plane, plane_state,
+
+Should there be "async" somewhere in the name of
+drm_atomic_check_plane_changes()?
+
+
+Thanks,
+pq
+
+> +							     obj, prop_value, old_val);
+> +			if (ret)
+> +				break;
+>  		}
+> =20
+>  		ret =3D drm_atomic_plane_set_property(plane,
+> diff --git a/include/drm/drm_atomic_uapi.h b/include/drm/drm_atomic_uapi.h
+> index 4c6d39d7bdb2..d65fa8fbbca0 100644
+> --- a/include/drm/drm_atomic_uapi.h
+> +++ b/include/drm/drm_atomic_uapi.h
+> @@ -29,6 +29,8 @@
+>  #ifndef DRM_ATOMIC_UAPI_H_
+>  #define DRM_ATOMIC_UAPI_H_
+> =20
+> +#include <linux/types.h>
+> +
+>  struct drm_crtc_state;
+>  struct drm_display_mode;
+>  struct drm_property_blob;
+> @@ -37,6 +39,9 @@ struct drm_crtc;
+>  struct drm_connector_state;
+>  struct dma_fence;
+>  struct drm_framebuffer;
+> +struct drm_mode_object;
+> +struct drm_property;
+> +struct drm_plane;
+> =20
+>  int __must_check
+>  drm_atomic_set_mode_for_crtc(struct drm_crtc_state *state,
+> @@ -53,4 +58,11 @@ int __must_check
+>  drm_atomic_set_crtc_for_connector(struct drm_connector_state *conn_state,
+>  				  struct drm_crtc *crtc);
+> =20
+> +int drm_atomic_plane_get_property(struct drm_plane *plane,
+> +				  const struct drm_plane_state *state,
+> +				  struct drm_property *property, uint64_t *val);
+> +
+> +int drm_atomic_check_prop_changes(int ret, uint64_t old_val, uint64_t pr=
+op_value,
+> +				  struct drm_property *prop);
+> +
+>  #endif
+> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+> index c6565a6f9324..73dac8d76831 100644
+> --- a/include/drm/drm_plane.h
+> +++ b/include/drm/drm_plane.h
+> @@ -540,6 +540,11 @@ struct drm_plane_funcs {
+>  	 */
+>  	bool (*format_mod_supported)(struct drm_plane *plane, uint32_t format,
+>  				     uint64_t modifier);
+> +
+> +	int (*check_async_props)(struct drm_property *prop, struct drm_plane *p=
+lane,
+> +				 struct drm_plane_state *plane_state,
+> +				 struct drm_mode_object *obj,
+> +				 u64 prop_value, u64 old_val);
+>  };
+> =20
+>  /**
+
+
+--Sig_/CyNE1g.rxLQR/tPHNy8jH2s
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmW3Zp4ACgkQI1/ltBGq
+qqc8ehAAooc9fYyi2pAyuNuCwLMhuUV+A791NMTj40g1r5gP0brsb6TlW+iX8+Ge
+rNYw4wHQRPKqAhhd/JywuMR1YP/tRHLrOZiG2381ZWk8QJmhW6aT1Q3RtojeraxK
+ubNMvzadC7Di6VmkKVvH/9rLgCs79Brz2nAEAPCdEWJ/Q4fiXhajk8maKM4Zf21l
+q3+AVBpIbP0OFpvw+HKu1EkDV8TdlWHRJYebWR+ju5L7LxDStSL5PuUFNA2TFWbG
+kQfpoS4TLmeM2BA4GjaADB32mo5a6y6GEAHolGsp9AHxRrCaN0+wCLObNmCgz/Xs
+EcylMgMUvHWJuL9Nhr2UzDwb668fJa2Drirmx62bXubjsmqTEMACvmdiLtYNPFHd
+tmrskOq2jquNsYdSOO1lyNsrU5wL27mOR2qkY/L/niMKtKOxD+e7SNzYe8YiJDAT
+gup/t+jSEVj5uEP9Fh5KWQLjGpv5M7ZOx4El3BZ5OfmD48lEkUWm4Ol4Cvwgn79d
+7+x62h69VWFskO05OLt/c7rkCiPxMwl6JDQA7GXSS5lAkjFVfrlIPDlT62E7xWTm
+TH0gdwCKbZNh81QuZ7hxKX6GLyk5Z9Ir5SzX8kHRdnMENiyKWLtW9rIvj7nCCgli
+PMckBk7wycSe6xUZkDBsDsJpreMhNDu/oXn1Tl+unqMWmfStaUk=
+=19nM
+-----END PGP SIGNATURE-----
+
+--Sig_/CyNE1g.rxLQR/tPHNy8jH2s--
