@@ -2,42 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88AED840E81
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 18:17:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30D2F840DAD
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 18:12:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9645110E65D;
-	Mon, 29 Jan 2024 17:17:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39FB2112A32;
+	Mon, 29 Jan 2024 17:12:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33F3A10E65D;
- Mon, 29 Jan 2024 17:17:09 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 8D568623BF;
- Mon, 29 Jan 2024 17:16:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 252FAC433C7;
- Mon, 29 Jan 2024 17:16:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1706548598;
- bh=Bp1dyDO7354wIAEdTjNf7v9p8l29FKqGzHZCwkKLMYY=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=2kP+o9gonsw3e0+TmGRXRkDfl/YEtbwaZK2mAvUYtPmIh61MCRvztMMz7tiveK9Gk
- JfxRl2wHXjBG7HLK7SnlbevJIGDq1eLh01fJlfbmDxqKKrILefZthBTI8/Fp3u2DEo
- rqF+yFH03BAAhcIcVescE36o6AZDvhNm+4a3MUq0=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Subject: [PATCH 6.6 259/331] drm: Disable the cursor plane on atomic contexts
- with virtualized drivers
-Date: Mon, 29 Jan 2024 09:05:23 -0800
-Message-ID: <20240129170022.458985226@linuxfoundation.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240129170014.969142961@linuxfoundation.org>
-References: <20240129170014.969142961@linuxfoundation.org>
-User-Agent: quilt/0.67
-X-stable: review
-X-Patchwork-Hint: ignore
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
+ [209.85.160.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B38910ED47;
+ Mon, 29 Jan 2024 17:12:02 +0000 (UTC)
+Received: by mail-qt1-f170.google.com with SMTP id
+ d75a77b69052e-42aabb1cdaaso6273421cf.2; 
+ Mon, 29 Jan 2024 09:12:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1706548261; x=1707153061; darn=lists.freedesktop.org;
+ h=in-reply-to:autocrypt:from:references:cc:to:content-language
+ :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=TqVOpsxTfTH0ummNU1TaZlcRwqQPY0j0DTr+rAGUvoA=;
+ b=fQiJtQNNpycnMsY8UPYr6OhTwVW8QSV+ZHeCo8nPBaVUMtDyDnyBoFuoD2R+9WQnER
+ aZq01AOzYKM6DuDZcLEaALWLWkLkKg/C+Kv3jqxg1cKzUuyA/uBtSyWQwGtQv7pjnqU5
+ RRTc7NJxmhDf2kRFDl9pYY253nQLQtgRu1hPTYdbJUAlzOvQZ7CvhIBBKBniwRvJDx9x
+ hgMIon8bKowrmfSU3VsqAFCuDhM2C4e3OoSQBcYL4HDeFbsUkEtpwGiiZVLQdh8vvcA7
+ LY2N8/QQ3q5UllXKCaDhxf1BHanLlnHynLzY8WI+Iq5VeNjlIigyU7rrjDC9MCodf5vm
+ Mnhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1706548261; x=1707153061;
+ h=in-reply-to:autocrypt:from:references:cc:to:content-language
+ :subject:user-agent:mime-version:date:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=TqVOpsxTfTH0ummNU1TaZlcRwqQPY0j0DTr+rAGUvoA=;
+ b=Q0iWy58xzcsmm457737u9Tx/mInHLr6PZtror9sE2mSQxRCWMUNZy1CHZhJPQM4fcq
+ 5RDEVIC/w8mEN+E3z3zizF9KvyCLQQACBDBD88jUpqz+4Llh/b4GBJ0Hw9NFk12wOdyV
+ 7w8MDO3hVIT7qmdmel4ncPXC+HreGDhduxjWc4LppBlTeZdPhneqAdSy9Ov3/KJAAyFd
+ 4ok58LkpGGR/5wf5uy0qJNL6S1OD6fN+yW6H7hKKXUw7Skn03jZbbXklbpgLi6cCJce0
+ xixnC7VV0juiXSfcrtmhQrrhhRnIprDNnQ0lTX8TywImanpXtXgboCLC/ItFq6pIZzje
+ kKGQ==
+X-Gm-Message-State: AOJu0Yybl16LFP+sxK4wd24NnvGpcoxUVXxsDIUJbn6oWGYDFXkRAWFy
+ 5rGG8AlDbozvuDqg0Le78vRnUGiSsq3UDEBZgf/cVJ77dRLOarvc
+X-Google-Smtp-Source: AGHT+IGUUhWuacA/gCDOMeggQZoYbUADBHBfBYecP6FAP0Ce54ZvXL3zTSOEVJcVM8U3ZmXklhS0gg==
+X-Received: by 2002:a05:622a:1741:b0:42a:2e4f:9aa2 with SMTP id
+ l1-20020a05622a174100b0042a2e4f9aa2mr7353703qtk.54.1706548261022; 
+ Mon, 29 Jan 2024 09:11:01 -0800 (PST)
+Received: from [192.168.2.14] ([174.88.31.222])
+ by smtp.gmail.com with ESMTPSA id
+ g23-20020ac84b77000000b0042a3358bf59sm1648342qts.79.2024.01.29.09.11.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 29 Jan 2024 09:11:00 -0800 (PST)
+Message-ID: <1ad510fc-99e3-4d12-ae35-baaa8badc730@gmail.com>
+Date: Mon, 29 Jan 2024 12:10:52 -0500
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
+ Thunderbird/115.7.0
+Subject: Re: [PATCH] drm/sched: Drain all entities in DRM sched run job worker
+Content-Language: en-CA, en-US
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Matthew Brost <matthew.brost@intel.com>
+References: <20240124210811.1639040-1-matthew.brost@intel.com>
+ <b94aca06-858e-4575-a4c4-40be8d8d4d35@amd.com>
+ <ZbKaqdu5Y/WNwWVX@DUT025-TGLU.fm.intel.com>
+ <0bef4c76-924f-442f-af9c-d701e640db41@amd.com>
+ <ZbPd590k4s5z1/a9@DUT025-TGLU.fm.intel.com>
+ <79a8fe04-66a3-406d-981a-06e40b386d99@amd.com>
+From: Luben Tuikov <ltuikov89@gmail.com>
+Autocrypt: addr=ltuikov89@gmail.com; keydata=
+ xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1APnbnnRHN
+ Ikx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoAQRYhBJkj7+VmFO9b
+ eaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheA
+ AAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlTMqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfy
+ JwktF7REl1yt7IU2Sye1qmQMfJxdt9JMbMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSP
+ cCE8uGe7FWo8C+nTSyWPXKTx9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl
+ 10wVR5QxozSvBQJlOiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKo
+ aMDzO9eGz69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA==
+In-Reply-To: <79a8fe04-66a3-406d-981a-06e40b386d99@amd.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------Qu1sYKlBWulHQVIt1sry4LlF"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,181 +92,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
- Daniel Vetter <daniel@ffwll.ch>, Javier Martinez Canillas <javierm@redhat.com>,
- David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, patches@lists.linux.dev,
- Maxime Ripard <mripard@kernel.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Hans de Goede <hdegoede@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, spice-devel@lists.freedesktop.org,
- Dave Airlie <airlied@redhat.com>, virtualization@lists.linux-foundation.org,
- Zack Rusin <zackr@vmware.com>
+Cc: dri-devel@lists.freedesktop.org,
+ Thorsten Leemhuis <regressions@leemhuis.info>,
+ Mario Limonciello <mario.limonciello@amd.com>, daniel@ffwll.ch,
+ Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>, airlied@gmail.com,
+ intel-xe@lists.freedesktop.org, Vlastimil Babka <vbabka@suse.cz>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.6-stable review patch.  If anyone has any objections, please let me know.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------Qu1sYKlBWulHQVIt1sry4LlF
+Content-Type: multipart/mixed; boundary="------------VzGJVECvdtLAp81pH610US4z";
+ protected-headers="v1"
+From: Luben Tuikov <ltuikov89@gmail.com>
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Matthew Brost <matthew.brost@intel.com>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ airlied@gmail.com, daniel@ffwll.ch,
+ Thorsten Leemhuis <regressions@leemhuis.info>,
+ Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Vlastimil Babka <vbabka@suse.cz>
+Message-ID: <1ad510fc-99e3-4d12-ae35-baaa8badc730@gmail.com>
+Subject: Re: [PATCH] drm/sched: Drain all entities in DRM sched run job worker
+References: <20240124210811.1639040-1-matthew.brost@intel.com>
+ <b94aca06-858e-4575-a4c4-40be8d8d4d35@amd.com>
+ <ZbKaqdu5Y/WNwWVX@DUT025-TGLU.fm.intel.com>
+ <0bef4c76-924f-442f-af9c-d701e640db41@amd.com>
+ <ZbPd590k4s5z1/a9@DUT025-TGLU.fm.intel.com>
+ <79a8fe04-66a3-406d-981a-06e40b386d99@amd.com>
+In-Reply-To: <79a8fe04-66a3-406d-981a-06e40b386d99@amd.com>
 
-------------------
+--------------VzGJVECvdtLAp81pH610US4z
+Content-Type: multipart/mixed; boundary="------------rvSh7wAeOi0Ite5hBpV5LiyD"
 
-From: Zack Rusin <zackr@vmware.com>
+--------------rvSh7wAeOi0Ite5hBpV5LiyD
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-commit 4e3b70da64a53784683cfcbac2deda5d6e540407 upstream.
+On 2024-01-29 02:44, Christian K=C3=B6nig wrote:
+> Am 26.01.24 um 17:29 schrieb Matthew Brost:
+>> On Fri, Jan 26, 2024 at 11:32:57AM +0100, Christian K=C3=B6nig wrote:
+>>> Am 25.01.24 um 18:30 schrieb Matthew Brost:
+>>>> On Thu, Jan 25, 2024 at 04:12:58PM +0100, Christian K=C3=B6nig wrote=
+:
+>>>>> Am 24.01.24 um 22:08 schrieb Matthew Brost:
+>>>>>> All entities must be drained in the DRM scheduler run job worker t=
+o
+>>>>>> avoid the following case. An entity found that is ready, no job fo=
+und
+>>>>>> ready on entity, and run job worker goes idle with other entities =
++ jobs
+>>>>>> ready. Draining all ready entities (i.e. loop over all ready entit=
+ies)
+>>>>>> in the run job worker ensures all job that are ready will be sched=
+uled.
+>>>>> That doesn't make sense. drm_sched_select_entity() only returns ent=
+ities
+>>>>> which are "ready", e.g. have a job to run.
+>>>>>
+>>>> That is what I thought too, hence my original design but it is not
+>>>> exactly true. Let me explain.
+>>>>
+>>>> drm_sched_select_entity() returns an entity with a non-empty spsc qu=
+eue
+>>>> (job in queue) and no *current* waiting dependecies [1]. Dependecies=
+ for
+>>>> an entity can be added when drm_sched_entity_pop_job() is called [2]=
+[3]
+>>>> returning a NULL job. Thus we can get into a scenario where 2 entiti=
+es
+>>>> A and B both have jobs and no current dependecies. A's job is waitin=
+g
+>>>> B's job, entity A gets selected first, a dependecy gets installed in=
 
-Cursor planes on virtualized drivers have special meaning and require
-that the clients handle them in specific ways, e.g. the cursor plane
-should react to the mouse movement the way a mouse cursor would be
-expected to and the client is required to set hotspot properties on it
-in order for the mouse events to be routed correctly.
+>>>> drm_sched_entity_pop_job(), run work goes idle, and now we deadlock.=
 
-This breaks the contract as specified by the "universal planes". Fix it
-by disabling the cursor planes on virtualized drivers while adding
-a foundation on top of which it's possible to special case mouse cursor
-planes for clients that want it.
+>>> And here is the real problem. run work doesn't goes idle in that mome=
+nt.
+>>>
+>>> drm_sched_run_job_work() should restarts itself until there is either=
+ no
+>>> more space in the ring buffer or it can't find a ready entity any mor=
+e.
+>>>
+>>> At least that was the original design when that was all still driven =
+by a
+>>> kthread.
+>>>
+>>> It can perfectly be that we messed this up when switching from kthrea=
+d to a
+>>> work item.
+>>>
+>> Right, that what this patch does - the run worker does not go idle unt=
+il
+>> no ready entities are found. That was incorrect in the original patch
+>> and fixed here. Do you have any issues with this fix? It has been test=
+ed
+>> 3x times and clearly fixes the issue.
+>=20
+> Ah! Yes in this case that patch here is a little bit ugly as well.
+>=20
+> The original idea was that run_job restarts so that we are able to paus=
+e=20
+> the submission thread without searching for an entity to submit more.
+>=20
+> I strongly suggest to replace the while loop with a call to=20
+> drm_sched_run_job_queue() so that when the entity can't provide a job w=
+e=20
+> just restart the queuing work.
 
-Disabling the cursor planes makes some kms compositors which were broken,
-e.g. Weston, fallback to software cursor which works fine or at least
-better than currently while having no effect on others, e.g. gnome-shell
-or kwin, which put virtualized drivers on a deny-list when running in
-atomic context to make them fallback to legacy kms and avoid this issue.
+I agree with Christian. This more closely preserves the original design
+of the GPU schedulers, so we should go with that.
+--=20
+Regards,
+Luben
 
-Signed-off-by: Zack Rusin <zackr@vmware.com>
-Fixes: 681e7ec73044 ("drm: Allow userspace to ask for universal plane list (v2)")
-Cc: <stable@vger.kernel.org> # v5.4+
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Hans de Goede <hdegoede@redhat.com>
-Cc: Gurchetan Singh <gurchetansingh@chromium.org>
-Cc: Chia-I Wu <olvaffe@gmail.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: virtualization@lists.linux-foundation.org
-Cc: spice-devel@lists.freedesktop.org
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Acked-by: Simon Ser <contact@emersion.fr>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20231023074613.41327-2-aesteve@redhat.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/gpu/drm/drm_plane.c          |   13 +++++++++++++
- drivers/gpu/drm/qxl/qxl_drv.c        |    2 +-
- drivers/gpu/drm/vboxvideo/vbox_drv.c |    2 +-
- drivers/gpu/drm/virtio/virtgpu_drv.c |    2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c  |    2 +-
- include/drm/drm_drv.h                |    9 +++++++++
- include/drm/drm_file.h               |   12 ++++++++++++
- 7 files changed, 38 insertions(+), 4 deletions(-)
+--------------rvSh7wAeOi0Ite5hBpV5LiyD
+Content-Type: application/pgp-keys; name="OpenPGP_0x4C15479431A334AF.asc"
+Content-Disposition: attachment; filename="OpenPGP_0x4C15479431A334AF.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
 
---- a/drivers/gpu/drm/drm_plane.c
-+++ b/drivers/gpu/drm/drm_plane.c
-@@ -678,6 +678,19 @@ int drm_mode_getplane_res(struct drm_dev
- 		    !file_priv->universal_planes)
- 			continue;
- 
-+		/*
-+		 * If we're running on a virtualized driver then,
-+		 * unless userspace advertizes support for the
-+		 * virtualized cursor plane, disable cursor planes
-+		 * because they'll be broken due to missing cursor
-+		 * hotspot info.
-+		 */
-+		if (plane->type == DRM_PLANE_TYPE_CURSOR &&
-+		    drm_core_check_feature(dev, DRIVER_CURSOR_HOTSPOT) &&
-+		    file_priv->atomic &&
-+		    !file_priv->supports_virtualized_cursor_plane)
-+			continue;
-+
- 		if (drm_lease_held(file_priv, plane->base.id)) {
- 			if (count < plane_resp->count_planes &&
- 			    put_user(plane->base.id, plane_ptr + count))
---- a/drivers/gpu/drm/qxl/qxl_drv.c
-+++ b/drivers/gpu/drm/qxl/qxl_drv.c
-@@ -283,7 +283,7 @@ static const struct drm_ioctl_desc qxl_i
- };
- 
- static struct drm_driver qxl_driver = {
--	.driver_features = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
-+	.driver_features = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC | DRIVER_CURSOR_HOTSPOT,
- 
- 	.dumb_create = qxl_mode_dumb_create,
- 	.dumb_map_offset = drm_gem_ttm_dumb_map_offset,
---- a/drivers/gpu/drm/vboxvideo/vbox_drv.c
-+++ b/drivers/gpu/drm/vboxvideo/vbox_drv.c
-@@ -182,7 +182,7 @@ DEFINE_DRM_GEM_FOPS(vbox_fops);
- 
- static const struct drm_driver driver = {
- 	.driver_features =
--	    DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
-+	    DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC | DRIVER_CURSOR_HOTSPOT,
- 
- 	.fops = &vbox_fops,
- 	.name = DRIVER_NAME,
---- a/drivers/gpu/drm/virtio/virtgpu_drv.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
-@@ -177,7 +177,7 @@ static const struct drm_driver driver =
- 	 * out via drm_device::driver_features:
- 	 */
- 	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_RENDER | DRIVER_ATOMIC |
--			   DRIVER_SYNCOBJ | DRIVER_SYNCOBJ_TIMELINE,
-+			   DRIVER_SYNCOBJ | DRIVER_SYNCOBJ_TIMELINE | DRIVER_CURSOR_HOTSPOT,
- 	.open = virtio_gpu_driver_open,
- 	.postclose = virtio_gpu_driver_postclose,
- 
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-@@ -1611,7 +1611,7 @@ static const struct file_operations vmwg
- 
- static const struct drm_driver driver = {
- 	.driver_features =
--	DRIVER_MODESET | DRIVER_RENDER | DRIVER_ATOMIC | DRIVER_GEM,
-+	DRIVER_MODESET | DRIVER_RENDER | DRIVER_ATOMIC | DRIVER_GEM | DRIVER_CURSOR_HOTSPOT,
- 	.ioctls = vmw_ioctls,
- 	.num_ioctls = ARRAY_SIZE(vmw_ioctls),
- 	.master_set = vmw_master_set,
---- a/include/drm/drm_drv.h
-+++ b/include/drm/drm_drv.h
-@@ -110,6 +110,15 @@ enum drm_driver_feature {
- 	 * Driver supports user defined GPU VA bindings for GEM objects.
- 	 */
- 	DRIVER_GEM_GPUVA		= BIT(8),
-+	/**
-+	 * @DRIVER_CURSOR_HOTSPOT:
-+	 *
-+	 * Driver supports and requires cursor hotspot information in the
-+	 * cursor plane (e.g. cursor plane has to actually track the mouse
-+	 * cursor and the clients are required to set hotspot in order for
-+	 * the cursor planes to work correctly).
-+	 */
-+	DRIVER_CURSOR_HOTSPOT           = BIT(9),
- 
- 	/* IMPORTANT: Below are all the legacy flags, add new ones above. */
- 
---- a/include/drm/drm_file.h
-+++ b/include/drm/drm_file.h
-@@ -229,6 +229,18 @@ struct drm_file {
- 	bool is_master;
- 
- 	/**
-+	 * @supports_virtualized_cursor_plane:
-+	 *
-+	 * This client is capable of handling the cursor plane with the
-+	 * restrictions imposed on it by the virtualized drivers.
-+	 *
-+	 * This implies that the cursor plane has to behave like a cursor
-+	 * i.e. track cursor movement. It also requires setting of the
-+	 * hotspot properties by the client on the cursor plane.
-+	 */
-+	bool supports_virtualized_cursor_plane;
-+
-+	/**
- 	 * @master:
- 	 *
- 	 * Master this node is currently associated with. Protected by struct
+-----BEGIN PGP PUBLIC KEY BLOCK-----
 
+xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1A
+PnbnnRHNIkx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoA
+QRYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiIC
+BhUKCQgLAgQWAgMBAh4HAheAAAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlT
+MqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfyJwktF7REl1yt7IU2Sye1qmQMfJxdt9JM
+bMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSPcCE8uGe7FWo8C+nTSyWPXKTx
+9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJl
+OiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKoaMDzO9eG
+z69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA=3D=3D
+=3DqCaZ
+-----END PGP PUBLIC KEY BLOCK-----
 
+--------------rvSh7wAeOi0Ite5hBpV5LiyD--
+
+--------------VzGJVECvdtLAp81pH610US4z--
+
+--------------Qu1sYKlBWulHQVIt1sry4LlF
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQSZI+/lZhTvW3mgJddMFUeUMaM0rwUCZbfcHAUDAAAAAAAKCRBMFUeUMaM0r3YF
+APwLuKwbPwfmAGfE8TBDHTVaeVBsx+D5iJPHKCPlMwgKjQEAkSZV25S9h9+7pK7OJzXIbw0WxAXl
+koAZxuejSqxX1QA=
+=O+zD
+-----END PGP SIGNATURE-----
+
+--------------Qu1sYKlBWulHQVIt1sry4LlF--
