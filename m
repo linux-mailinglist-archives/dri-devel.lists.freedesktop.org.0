@@ -2,53 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B6A58400E7
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 10:07:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 642828400E8
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 10:07:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EF7710F69D;
-	Mon, 29 Jan 2024 09:07:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C28910F69B;
+	Mon, 29 Jan 2024 09:07:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEA2B10F699
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jan 2024 09:07:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1706519200;
- bh=74fi5DcNKOULYLggR4R0E2v10kwPg+UKrSWj0U7folA=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=yOpAupQYg7zJqIWP1yTDmNlzdFztr+NuKUBdtYcQwRJdgXtWJfVN+KJlrRzsD7EU/
- B8U/lgx9dbSxRQDliF+V4aknaivxgPtlgSDLGsWqAoDNdtW05+xDFVkylsoH6xZ2GW
- WNP8/4h9xNGLnM25VYxjGB3tjb91NWgyY+VIaARIE1JYh5SJJ1v9cYiWl/F4kApTth
- aZDkWeijXsbY0oBCWgF2Mr8myNMZlUPhtm9amIk/UuVnJ76+FnzMEak8xn84cBTW21
- Gwl3forDQ+rRIyxfXnA/79SCOLC8ROh8LAwFG90KpaNhv7qknkpCgTvARtYSX2ia+H
- 9mz3xzS97xqxQ==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 52C5737814A4;
- Mon, 29 Jan 2024 09:06:39 +0000 (UTC)
-Date: Mon, 29 Jan 2024 10:06:38 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v19 22/30] drm/shmem-helper: Add common memory shrinker
-Message-ID: <20240129100638.7d61c996@collabora.com>
-In-Reply-To: <20240129095511.31f8a2af@collabora.com>
-References: <20240105184624.508603-1-dmitry.osipenko@collabora.com>
- <20240105184624.508603-23-dmitry.osipenko@collabora.com>
- <20240125111946.797a1e1e@collabora.com>
- <f4870543-e7f8-4ee6-924a-68ec7c25b293@collabora.com>
- <20240126105537.67b1613e@collabora.com>
- <fab38fed-635c-4dbe-aa13-dcdf8f267988@collabora.com>
- <20240126191230.0ee6f99f@collabora.com>
- <ea74a26d-d97f-4d09-bc24-67484ee45b76@collabora.com>
- <20240129095511.31f8a2af@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6A9010F69B
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jan 2024 09:07:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1706519269; x=1738055269;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=msuiibqFBcGfMgzA/fC14fkBPBHd7u1JVKZzOwMA6L0=;
+ b=EpC6GTJPEFrBY3j4uMsQQSyMtlU0Lt8uqNm2BqWamkTPIdMI++13IG6R
+ 4QZgVcolVOGUQdzJxf26mbEmGV/7g07E7sWHuj1D0gBDUrMV0kRi/7GtJ
+ aH0NVfRg+qS2nvpPLM6xmcqDY6ccPloIFQkXj9ogCSmW/E55p4TSIYwKT
+ A095MQJriI45GCeJu3cYLtcqW9XN4W1utD9jgXUTE5Gc2r5epuFNGagM4
+ rvAFQhLsA+gTn/Cu+pTTB9H1b+59BYG1pneGMC5y/Ecg2WBYQ8zB2O85D
+ SyQ7yWBLrZYlt/wvfqWvpnlTeqwSGsNDX19SGvfiX1LTwiiKkSiAls4Ro w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="2724893"
+X-IronPort-AV: E=Sophos;i="6.05,226,1701158400"; 
+   d="scan'208";a="2724893"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jan 2024 01:07:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,226,1701158400"; 
+   d="scan'208";a="3407220"
+Received: from hbrandbe-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.59.53])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jan 2024 01:07:42 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: David Laight <David.Laight@ACULAB.COM>, "'linux-kernel@vger.kernel.org'"
+ <linux-kernel@vger.kernel.org>, 'Linus
+ Torvalds' <torvalds@linux-foundation.org>, 'Netdev'
+ <netdev@vger.kernel.org>, "'dri-devel@lists.freedesktop.org'"
+ <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH next 10/11] block: Use a boolean expression instead of
+ max() on booleans
+In-Reply-To: <b564df3f987e4371a445840df1f70561@AcuMS.aculab.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <0ca26166dd2a4ff5a674b84704ff1517@AcuMS.aculab.com>
+ <b564df3f987e4371a445840df1f70561@AcuMS.aculab.com>
+Date: Mon, 29 Jan 2024 11:07:38 +0200
+Message-ID: <87sf2gjyn9.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,127 +66,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
- Emma Anholt <emma@anholt.net>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
- Steven Price <steven.price@arm.com>, David Airlie <airlied@gmail.com>,
- virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
+Cc: 'Jens Axboe' <axboe@kernel.dk>,
+ "'Matthew Wilcox \(Oracle\)'" <willy@infradead.org>,
+ 'Christoph Hellwig' <hch@infradead.org>,
+ 'Dan Carpenter' <dan.carpenter@linaro.org>,
+ 'Andrew Morton' <akpm@linux-foundation.org>,
+ 'Andy Shevchenko' <andriy.shevchenko@linux.intel.com>,
+ "'David S . Miller'" <davem@davemloft.net>,
+ "'linux-btrfs@vger.kernel.org'" <linux-btrfs@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 29 Jan 2024 09:55:11 +0100
-Boris Brezillon <boris.brezillon@collabora.com> wrote:
+On Sun, 28 Jan 2024, David Laight <David.Laight@ACULAB.COM> wrote:
+> blk_stack_limits() contains:
+> 	t->zoned =3D max(t->zoned, b->zoned);
+> These are bool, so it is just a bitwise or.
 
-> On Mon, 29 Jan 2024 09:16:04 +0300
-> Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
-> 
-> > On 1/26/24 21:12, Boris Brezillon wrote:  
-> > > On Fri, 26 Jan 2024 19:27:49 +0300
-> > > Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
-> > >     
-> > >> On 1/26/24 12:55, Boris Brezillon wrote:    
-> > >>> On Fri, 26 Jan 2024 00:56:47 +0300
-> > >>> Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
-> > >>>       
-> > >>>> On 1/25/24 13:19, Boris Brezillon wrote:      
-> > >>>>> On Fri,  5 Jan 2024 21:46:16 +0300
-> > >>>>> Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
-> > >>>>>         
-> > >>>>>> +static bool drm_gem_shmem_is_evictable(struct drm_gem_shmem_object *shmem)
-> > >>>>>> +{
-> > >>>>>> +	return (shmem->madv >= 0) && shmem->base.funcs->evict &&
-> > >>>>>> +		refcount_read(&shmem->pages_use_count) &&
-> > >>>>>> +		!refcount_read(&shmem->pages_pin_count) &&
-> > >>>>>> +		!shmem->base.dma_buf && !shmem->base.import_attach &&
-> > >>>>>> +		!shmem->evicted;        
-> > >>>>>
-> > >>>>> Are we missing
-> > >>>>>
-> > >>>>>                 && dma_resv_test_signaled(shmem->base.resv,
-> > >>>>> 					  DMA_RESV_USAGE_BOOKKEEP)
-> > >>>>>
-> > >>>>> to make sure the GPU is done using the BO?
-> > >>>>> The same applies to drm_gem_shmem_is_purgeable() BTW.
-> > >>>>>
-> > >>>>> If you don't want to do this test here, we need a way to let drivers
-> > >>>>> provide a custom is_{evictable,purgeable}() test.
-> > >>>>>
-> > >>>>> I guess we should also expose drm_gem_shmem_shrinker_update_lru_locked()
-> > >>>>> to let drivers move the GEMs that were used most recently (those
-> > >>>>> referenced by a GPU job) at the end of the evictable LRU.        
-> > >>>>
-> > >>>> We have the signaled-check in the common drm_gem_evict() helper:
-> > >>>>
-> > >>>> https://elixir.bootlin.com/linux/v6.8-rc1/source/drivers/gpu/drm/drm_gem.c#L1496      
-> > >>>
-> > >>> Ah, indeed. I'll need DMA_RESV_USAGE_BOOKKEEP instead of
-> > >>> DMA_RESV_USAGE_READ in panthor, but I can add it in the driver specific      
-> > >>> ->evict() hook (though that means calling dma_resv_test_signaled()      
-> > >>> twice, which is not great, oh well).      
-> > >>
-> > >> Maybe we should change drm_gem_evict() to use BOOKKEEP. The
-> > >> test_signaled(BOOKKEEP) should be a "stronger" check than
-> > >> test_signaled(READ)?    
-> > > 
-> > > It is, just wondering if some users have a good reason to want
-> > > READ here.
-> > >     
-> > >>    
-> > >>> The problem about the evictable LRU remains though: we need a way to let
-> > >>> drivers put their BOs at the end of the list when the BO has been used
-> > >>> by the GPU, don't we?      
-> > >>
-> > >> If BO is use, then it won't be evicted, while idling BOs will be
-> > >> evicted. Hence, the used BOs will be naturally moved down the LRU list
-> > >> each time shrinker is invoked.
-> > >>    
-> > > 
-> > > That only do the trick if the BOs being used most often are busy when
-> > > the shrinker kicks in though. Let's take this scenario:
-> > > 
-> > > 
-> > > BO 1					BO 2					shinker
-> > > 
-> > > 					busy
-> > > 					idle (first-pos-in-evictable-LRU)
-> > > 
-> > > busy
-> > > idle (second-pos-in-evictable-LRU)
-> > > 
-> > > 					busy
-> > > 					idle
-> > > 
-> > > 					busy
-> > > 					idle
-> > > 
-> > > 					busy
-> > > 					idle
-> > > 
-> > > 										find a BO to evict
-> > > 										pick BO 2
-> > > 
-> > > 					busy (swapin)
-> > > 					idle
-> > > 
-> > > If the LRU had been updated at each busy event, BO 1 should have
-> > > been picked for eviction. But we evicted the BO that was first
-> > > recorded idle instead of the one that was least recently
-> > > recorded busy.    
-> > 
-> > You have to swapin(BO) every time BO goes to busy state, and swapin does drm_gem_lru_move_tail(BO). Hence, each time BO goes idle->busy, it's moved down the LRU list.  
-> 
-> Ah, that's the bit I was missing. It makes sense now. I guess that's
-> good enough for now, we can sort out the BOOKKEEP vs READ in a
-> follow-up series.
+Should be a logical or, really. And || in code.
 
-On second look, it seems drm_gem_shmem_shrinker_update_lru_locked()
-doesn't call drm_gem_shmem_shrinker_update_lru_locked() if the BO was
-already resident? Is there something else I'm overlooking here?
+BR,
+Jani.
 
-> 
-> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 
+> However it generates:
+> error: comparison of constant =C3=A2=E2=82=AC=CB=9C0=C3=A2=E2=82=AC=E2=84=
+=A2 with boolean expression is always true [-Werror=3Dbool-compare]
+> inside the signedness check that max() does unless a '+ 0' is added.
+> It is a shame the compiler generates this warning for code that will
+> be optimised away.
+>
+> Change so that the extra '+ 0' can be removed.
+>
+> Signed-off-by: David Laight <david.laight@aculab.com>
+> ---
+>  block/blk-settings.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/block/blk-settings.c b/block/blk-settings.c
+> index 06ea91e51b8b..9ca21fea039d 100644
+> --- a/block/blk-settings.c
+> +++ b/block/blk-settings.c
+> @@ -688,7 +688,7 @@ int blk_stack_limits(struct queue_limits *t, struct q=
+ueue_limits *b,
+>  						   b->max_secure_erase_sectors);
+>  	t->zone_write_granularity =3D max(t->zone_write_granularity,
+>  					b->zone_write_granularity);
+> -	t->zoned =3D max(t->zoned, b->zoned);
+> +	t->zoned =3D t->zoned | b->zoned;
+>  	return ret;
+>  }
+>  EXPORT_SYMBOL(blk_stack_limits);
+
+--=20
+Jani Nikula, Intel
