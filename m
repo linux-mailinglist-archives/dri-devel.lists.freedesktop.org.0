@@ -2,43 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A442383FBF3
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 02:51:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E29383FC03
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 03:07:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 022A210F9A8;
-	Mon, 29 Jan 2024 01:51:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD0CF10F524;
+	Mon, 29 Jan 2024 02:07:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-44.mimecast.com
- (us-smtp-delivery-44.mimecast.com [205.139.111.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31E5C10F9A8
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jan 2024 01:51:00 +0000 (UTC)
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-622-zccrRsbzO4eh76fT-RC1lA-1; Sun, 28 Jan 2024 20:50:56 -0500
-X-MC-Unique: zccrRsbzO4eh76fT-RC1lA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 27A2B185A780;
- Mon, 29 Jan 2024 01:50:56 +0000 (UTC)
-Received: from dreadlord.lan (unknown [10.64.136.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 23BD640C9444;
- Mon, 29 Jan 2024 01:50:54 +0000 (UTC)
-From: Dave Airlie <airlied@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] nouveau: offload fence uevents work to workqueue
-Date: Mon, 29 Jan 2024 11:50:53 +1000
-Message-ID: <20240129015053.1687418-1-airlied@gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAFE410F524;
+ Mon, 29 Jan 2024 02:06:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1706494019; x=1738030019;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=OreHuBXkBG4VFOVG4didQY23mWqAzh19dWlc2+4rZ/c=;
+ b=oG+3QwzGE0GU+nVNjZQcM23a6Im6Z7jzaHqqVhJ84AV6gyM+QCP7DWWD
+ w52mDcO9a5LP5X6WOJQNVyGjEq3Kn0J5D10FEVWokxAjcf04mzmOEFcLC
+ BzQuSmvjBhAea5UVAPDJHP5T93gHpXJbcqzI+YXcfcQEnugXchQjnzkKV
+ fSl5YCDmy4aMoMx0uxcBUElXYarJjSjO8Owhu3FE1RMjrTt85myIFyQdA
+ ew9/gF+BAd/hA4s/zOeCNVO1YJsa17JsIto/1xt9A2OtaFZqROR4mR56K
+ Mi/URJBIepwspuCOkgKaVpPgnspacCEQulu+QEQUi8HTg1D3AyvTAlkNl g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="9503356"
+X-IronPort-AV: E=Sophos;i="6.05,226,1701158400"; 
+   d="scan'208";a="9503356"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jan 2024 18:06:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,226,1701158400"; d="scan'208";a="29627460"
+Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
+ by fmviesa001.fm.intel.com with ESMTP; 28 Jan 2024 18:06:55 -0800
+Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1rUH2z-0003xE-0z;
+ Mon, 29 Jan 2024 02:06:53 +0000
+Date: Mon, 29 Jan 2024 10:06:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Zack Rusin <zack.rusin@broadcom.com>
+Subject: [drm-tip:drm-tip 1/7] drivers/gpu/drm/bridge/samsung-dsim.c:1504:3:
+ error: implicit declaration of function 'samsung_dsim_set_stop_state' is
+ invalid in C99
+Message-ID: <202401291018.WgYuxgMh-lkp@intel.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.2
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: gmail.com
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=WINDOWS-1252; x-default=true
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,107 +58,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, llvm@lists.linux.dev,
+ Matt Roper <matthew.d.roper@intel.com>, dri-devel@lists.freedesktop.org,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Airlie <airlied@redhat.com>
+tree:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+head:   0f1b42b9d395bd4097b2846230a13869dc638216
+commit: cd3a0e22e5de2867cd98b5223094a467a5b0993d [1/7] Merge remote-tracking branch 'drm-misc/drm-misc-next' into drm-tip
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20240129/202401291018.WgYuxgMh-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240129/202401291018.WgYuxgMh-lkp@intel.com/reproduce)
 
-This should break the deadlock between the fctx lock and the irq lock.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401291018.WgYuxgMh-lkp@intel.com/
 
-This offloads the processing off the work from the irq into a workqueue.
+All errors (new ones prefixed by >>):
 
-Signed-off-by: Dave Airlie <airlied@redhat.com>
----
- drivers/gpu/drm/nouveau/nouveau_fence.c | 24 ++++++++++++++++++------
- drivers/gpu/drm/nouveau/nouveau_fence.h |  1 +
- 2 files changed, 19 insertions(+), 6 deletions(-)
+>> drivers/gpu/drm/bridge/samsung-dsim.c:1504:3: error: implicit declaration of function 'samsung_dsim_set_stop_state' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                   samsung_dsim_set_stop_state(dsi, true);
+                   ^
+   drivers/gpu/drm/bridge/samsung-dsim.c:1504:3: note: did you mean 'samsung_dsim_set_phy_ctrl'?
+   drivers/gpu/drm/bridge/samsung-dsim.c:749:13: note: 'samsung_dsim_set_phy_ctrl' declared here
+   static void samsung_dsim_set_phy_ctrl(struct samsung_dsim *dsi)
+               ^
+   drivers/gpu/drm/bridge/samsung-dsim.c:1629:22: error: use of undeclared identifier 'samsung_dsim_atomic_disable'; did you mean 'samsung_dsim_atomic_enable'?
+           .atomic_disable                 = samsung_dsim_atomic_disable,
+                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                             samsung_dsim_atomic_enable
+   drivers/gpu/drm/bridge/samsung-dsim.c:1487:13: note: 'samsung_dsim_atomic_enable' declared here
+   static void samsung_dsim_atomic_enable(struct drm_bridge *bridge,
+               ^
+   2 errors generated.
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouv=
-eau/nouveau_fence.c
-index ca762ea55413..93f08f9479d8 100644
---- a/drivers/gpu/drm/nouveau/nouveau_fence.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
-@@ -103,6 +103,7 @@ nouveau_fence_context_kill(struct nouveau_fence_chan *f=
-ctx, int error)
- void
- nouveau_fence_context_del(struct nouveau_fence_chan *fctx)
- {
-+=09cancel_work_sync(&fctx->uevent_work);
- =09nouveau_fence_context_kill(fctx, 0);
- =09nvif_event_dtor(&fctx->event);
- =09fctx->dead =3D 1;
-@@ -145,12 +146,13 @@ nouveau_fence_update(struct nouveau_channel *chan, st=
-ruct nouveau_fence_chan *fc
- =09return drop;
- }
-=20
--static int
--nouveau_fence_wait_uevent_handler(struct nvif_event *event, void *repv, u3=
-2 repc)
-+static void
-+nouveau_fence_uevent_work(struct work_struct *work)
- {
--=09struct nouveau_fence_chan *fctx =3D container_of(event, typeof(*fctx), =
-event);
-+=09struct nouveau_fence_chan *fctx =3D container_of(work, struct nouveau_f=
-ence_chan,
-+=09=09=09=09=09=09       uevent_work);
- =09unsigned long flags;
--=09int ret =3D NVIF_EVENT_KEEP;
-+=09int drop =3D 0;
-=20
- =09spin_lock_irqsave(&fctx->lock, flags);
- =09if (!list_empty(&fctx->pending)) {
-@@ -160,11 +162,20 @@ nouveau_fence_wait_uevent_handler(struct nvif_event *=
-event, void *repv, u32 repc
- =09=09fence =3D list_entry(fctx->pending.next, typeof(*fence), head);
- =09=09chan =3D rcu_dereference_protected(fence->channel, lockdep_is_held(&=
-fctx->lock));
- =09=09if (nouveau_fence_update(chan, fctx))
--=09=09=09ret =3D NVIF_EVENT_DROP;
-+=09=09=09drop =3D 1;
- =09}
-+=09if (drop)
-+=09=09nvif_event_block(&fctx->event);
-+
- =09spin_unlock_irqrestore(&fctx->lock, flags);
-+}
-=20
--=09return ret;
-+static int
-+nouveau_fence_wait_uevent_handler(struct nvif_event *event, void *repv, u3=
-2 repc)
-+{
-+=09struct nouveau_fence_chan *fctx =3D container_of(event, typeof(*fctx), =
-event);
-+=09schedule_work(&fctx->uevent_work);
-+=09return NVIF_EVENT_KEEP;
- }
-=20
- void
-@@ -178,6 +189,7 @@ nouveau_fence_context_new(struct nouveau_channel *chan,=
- struct nouveau_fence_cha
- =09} args;
- =09int ret;
-=20
-+=09INIT_WORK(&fctx->uevent_work, nouveau_fence_uevent_work);
- =09INIT_LIST_HEAD(&fctx->flip);
- =09INIT_LIST_HEAD(&fctx->pending);
- =09spin_lock_init(&fctx->lock);
-diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.h b/drivers/gpu/drm/nouv=
-eau/nouveau_fence.h
-index 64d33ae7f356..8bc065acfe35 100644
---- a/drivers/gpu/drm/nouveau/nouveau_fence.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_fence.h
-@@ -44,6 +44,7 @@ struct nouveau_fence_chan {
- =09u32 context;
- =09char name[32];
-=20
-+=09struct work_struct uevent_work;
- =09struct nvif_event event;
- =09int notify_ref, dead, killed;
- };
---=20
-2.43.0
 
+vim +/samsung_dsim_set_stop_state +1504 drivers/gpu/drm/bridge/samsung-dsim.c
+
+e7447128ca4a25 Jagan Teki     2023-03-08  1497  
+e7447128ca4a25 Jagan Teki     2023-03-08  1498  static void samsung_dsim_atomic_post_disable(struct drm_bridge *bridge,
+e7447128ca4a25 Jagan Teki     2023-03-08  1499  					     struct drm_bridge_state *old_bridge_state)
+e7447128ca4a25 Jagan Teki     2023-03-08  1500  {
+e7447128ca4a25 Jagan Teki     2023-03-08  1501  	struct samsung_dsim *dsi = bridge_to_dsi(bridge);
+e7447128ca4a25 Jagan Teki     2023-03-08  1502  
+b2fe2292624ac4 Dario Binacchi 2023-12-18  1503  	if (!samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type))
+b2fe2292624ac4 Dario Binacchi 2023-12-18 @1504  		samsung_dsim_set_stop_state(dsi, true);
+e7447128ca4a25 Jagan Teki     2023-03-08  1505  
+e7447128ca4a25 Jagan Teki     2023-03-08  1506  	dsi->state &= ~DSIM_STATE_ENABLED;
+e7447128ca4a25 Jagan Teki     2023-03-08  1507  	pm_runtime_put_sync(dsi->dev);
+e7447128ca4a25 Jagan Teki     2023-03-08  1508  }
+e7447128ca4a25 Jagan Teki     2023-03-08  1509  
+
+:::::: The code at line 1504 was first introduced by commit
+:::::: b2fe2292624ac4fc98dcdaf76c983d3f6e8455e5 drm: bridge: samsung-dsim: enter display mode in the enable() callback
+
+:::::: TO: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+:::::: CC: Robert Foss <rfoss@kernel.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
