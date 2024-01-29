@@ -2,55 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 353C1840C17
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 17:47:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BD47840C3C
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 17:49:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00BA71129FC;
-	Mon, 29 Jan 2024 16:47:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1C6E112A0E;
+	Mon, 29 Jan 2024 16:49:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A93510E0F8;
- Mon, 29 Jan 2024 16:46:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1706546819; x=1738082819;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=44NsvH+KQdpWMlSBMIAtXvkxIIBjDimdakKzD/tf1eI=;
- b=QrnE2akdGyIduhwwJEsbN9EhA/qorkHplQTco1ZU/rI4MBX5uf5XrQa9
- JmGkRQUhNSHvL+gCnvCEM64I161wnW/mcEgaNjThXi3yDGlifrkeX6GVl
- 1GUt/Etoc/dfMHgPxIbeYTT9/qlqlQ2EH3aHx5TCf6T5fKG1BGj11yrM+
- z0N+HHflzxb7AfjKK5/HZKl5QAi6Us2zY3N3iFKT4jtwI9BuzaGIVSJ4w
- pgxi6ukn6IFja2ZwmtCpybbwcHMoVGwvZlI8mBDJcThDj0BBfvGvD2E6E
- 71t5qD3bRIqnmXX6/jIbrc9pSAOlVpDIIr+NYR6esRMsIGtUatCzTzJ9r A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="467262304"
-X-IronPort-AV: E=Sophos;i="6.05,227,1701158400"; d="scan'208";a="467262304"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jan 2024 08:46:56 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,227,1701158400"; 
-   d="scan'208";a="3423587"
-Received: from hbrandbe-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.59.53])
- by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jan 2024 08:46:53 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Mario Limonciello <mario.limonciello@amd.com>,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Harry Wentland <harry.wentland@amd.com>, "Rafael J . Wysocki"
- <rafael@kernel.org>, Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH 2/2] drm/amd: Fetch the EDID from _DDC if available for eDP
-In-Reply-To: <63c60424-1b2d-4912-81b2-7c7ead4c8289@amd.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240126184639.8187-1-mario.limonciello@amd.com>
- <20240126184639.8187-3-mario.limonciello@amd.com>
- <87le88jx63.fsf@intel.com> <63c60424-1b2d-4912-81b2-7c7ead4c8289@amd.com>
-Date: Mon, 29 Jan 2024 18:46:49 +0200
-Message-ID: <87cytkjddy.fsf@intel.com>
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3BDE112A34;
+ Mon, 29 Jan 2024 16:49:49 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id
+ ffacd0b85a97d-33ae2d80b70so1393859f8f.0; 
+ Mon, 29 Jan 2024 08:49:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1706546928; x=1707151728; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=SClQHNx/XUF6O67AiYDDX/kFIJabNAFPJCNPiLsTpyI=;
+ b=gxN7WRqrer3A6OzKe7XFfhSuPZktw+XTmwK+hJG8dxH3evv3cXXvKgvKcbjUcBZ8ni
+ 5LHqSSNQmPWLAcEMh54oc4p9ajxKSlNPdi86zENM6A2ztJ8dtdUkDwuddfFn+785np8F
+ QepZazdGo5pUqhQH9x+y4DIpA2e45Qh7+JovVdcym4fVjr9BghLl4rBhPDn90BogapMz
+ BXgghs1kUpsiq4+IKn880/VKq9Lozpla8zLjAXIHDGgnNQA0kPODKTwVfB/9NohJmbXn
+ MKwjj4oUVjgJGCrWkIA6KYwPFvOSoo47d1oYCe/0vY3ikD56T83ifNwzE07hTH3TP9Ds
+ jLfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1706546928; x=1707151728;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=SClQHNx/XUF6O67AiYDDX/kFIJabNAFPJCNPiLsTpyI=;
+ b=mprGAjjv9tJSD/Cp6c8kp6tkTKfcRqaf5pX2Njg+HTH+vI3cnWd1D8NukJJIfRoybx
+ Qp8PaGgmLY6Bz794VUdriKpKfqqw+9s8xNUMVo1d5KjJ4at/dkkHlNnQbPSXfvXTmXvH
+ O/GAYLXog+BvL7WDegSHEes+0fbgMallFpaW0UvVVyUGPwi8wVbqOp1J+2a6SNt1sVQU
+ 4o3Ko73ZsbDLwiK/UxGkQpZNH4srWt/xMqNwcWl3nj3rtL/NkZoIV0+eC8Pj/rLuZzr+
+ kFR7GnV/wRragCF4sPMYIuA1lN35mpA0X0uIiDzvo3V01JauzizlZCgX5c5qMx+6xlZq
+ +VQQ==
+X-Gm-Message-State: AOJu0YzCkEQGBZgOoLDutH29SOHRUL8p3nFUqsXykPGewRZ3N7NAjjpH
+ nsj9wZEiTGO5cc7usMTNfejZL0UzBmXChG+a2T15FzG5WjevApS+
+X-Google-Smtp-Source: AGHT+IHJmefe0hja1kNT+O/lZqSBJOGR351CeocwmhhGIT1V3TLH7yzxvOLcemzQ1xyetKMl+76ZKA==
+X-Received: by 2002:a5d:568d:0:b0:33a:ec16:48d8 with SMTP id
+ f13-20020a5d568d000000b0033aec1648d8mr2737966wrv.29.1706546927895; 
+ Mon, 29 Jan 2024 08:48:47 -0800 (PST)
+Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
+ by smtp.gmail.com with ESMTPSA id
+ bv4-20020a0560001f0400b0033aec05328csm3837228wrb.6.2024.01.29.08.48.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 29 Jan 2024 08:48:47 -0800 (PST)
+Message-ID: <21f2b595-0690-4372-bd81-86d23ac7498b@gmail.com>
+Date: Mon, 29 Jan 2024 17:48:44 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/xe: Fix a build error
+Content-Language: en-US
+To: Oak Zeng <oak.zeng@intel.com>, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org
+References: <20240127155327.423294-1-oak.zeng@intel.com>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <20240127155327.423294-1-oak.zeng@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,79 +76,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Melissa Wen <mwen@igalia.com>, "open
- list:ACPI" <linux-acpi@vger.kernel.org>,
- Mark Pearson <mpearson-lenovo@squebb.ca>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>
+Cc: Thomas.Hellstrom@linux.intel.com, Amaranath.Somalapuram@amd.com,
+ lucas.demarchi@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 29 Jan 2024, Mario Limonciello <mario.limonciello@amd.com> wrote:
-> On 1/29/2024 03:39, Jani Nikula wrote:
->> On Fri, 26 Jan 2024, Mario Limonciello <mario.limonciello@amd.com> wrote:
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
->>> index 9caba10315a8..c7e1563a46d3 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
->>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
->>> @@ -278,6 +278,11 @@ static void amdgpu_connector_get_edid(struct drm_connector *connector)
->>>   	struct amdgpu_device *adev = drm_to_adev(dev);
->>>   	struct amdgpu_connector *amdgpu_connector = to_amdgpu_connector(connector);
->>>   
->>> +	if (amdgpu_connector->edid)
->>> +		return;
->>> +
->>> +	/* if the BIOS specifies the EDID via _DDC, prefer this */
->>> +	amdgpu_connector->edid = amdgpu_acpi_edid(adev, connector);
->> 
->> Imagine the EDID returned by acpi_video_get_edid() has edid->extensions
->> bigger than 4. Of course it should not, but you have no guarantees, and
->> it originates outside of the kernel.
->> 
->> The real fix is to have the function return a struct drm_edid which
->> tracks the allocation size separately. Unfortunately, it requires a
->> bunch of changes along the way. We've mostly done it in i915, and I've
->> sent a series to do this in drm/bridge [1].
+Am 27.01.24 um 16:53 schrieb Oak Zeng:
+> This fixes a build failure on drm-tip. This issue was introduced during
+> merge of "drm/ttm: replace busy placement with flags v6". For some
+> reason, the xe_bo.c part of above change is not merged. Manually merge
+> the missing part to drm_tip
 
-Looking at it again, perhaps the ACPI code should just return a blob,
-and the drm code should have a helper to wrap that around struct
-drm_edid, so that the ACPI code does not have to depend on drm. Basic
-idea remains.
+Mhm, I provided this as manual fixup for drm-tip in this rerere commit:
 
->> Bottom line, we should stop using struct edid in drivers. They'll all
->> parse the info differently, and from what I've seen, often wrong.
->> 
->> 
+commit afc5797e8c03bed3ec47a34f2bc3cf03fce24411
+Author: Christian König <christian.koenig@amd.com>
+Date:   Thu Jan 25 10:44:54 2024 +0100
+
+     2024y-01m-25d-09h-44m-07s UTC: drm-tip rerere cache update
+
+     git version 2.34.1
+
+
+And for me compiling xe in drm-tip worked fine after that. No idea why 
+that didn't work for you.
+
+Anyway feel free to add my rb to this patch here if it helps in any way.
+
+Regards,
+Christian.
+
 >
-> Thanks for the feedback.  In that case this specific change should 
-> probably rebase on the Melissa's work 
-> https://lore.kernel.org/amd-gfx/20240126163429.56714-1-mwen@igalia.com/ 
-> after she takes into account the feedback.
+> Signed-off-by: Oak Zeng <oak.zeng@intel.com>
+> ---
+>   drivers/gpu/drm/xe/xe_bo.c | 33 +++++++++++++++------------------
+>   1 file changed, 15 insertions(+), 18 deletions(-)
 >
-> Let me ask you this though - do you think that after that's done should 
-> we let all drivers get EDID from BIOS as a priority?  Or would you 
-> prefer that this is unique to amdgpu?
+> diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+> index 686d716c5581..d6a193060cc0 100644
+> --- a/drivers/gpu/drm/xe/xe_bo.c
+> +++ b/drivers/gpu/drm/xe/xe_bo.c
+> @@ -38,22 +38,26 @@ static const struct ttm_place sys_placement_flags = {
+>   static struct ttm_placement sys_placement = {
+>   	.num_placement = 1,
+>   	.placement = &sys_placement_flags,
+> -	.num_busy_placement = 1,
+> -	.busy_placement = &sys_placement_flags,
+>   };
+>   
+> -static const struct ttm_place tt_placement_flags = {
+> -	.fpfn = 0,
+> -	.lpfn = 0,
+> -	.mem_type = XE_PL_TT,
+> -	.flags = 0,
+> +static const struct ttm_place tt_placement_flags[] = {
+> +	{
+> +		.fpfn = 0,
+> +		.lpfn = 0,
+> +		.mem_type = XE_PL_TT,
+> +		.flags = TTM_PL_FLAG_DESIRED,
+> +	},
+> +	{
+> +		.fpfn = 0,
+> +		.lpfn = 0,
+> +		.mem_type = XE_PL_SYSTEM,
+> +		.flags = TTM_PL_FLAG_FALLBACK,
+> +	}
+>   };
+>   
+>   static struct ttm_placement tt_placement = {
+> -	.num_placement = 1,
+> -	.placement = &tt_placement_flags,
+> -	.num_busy_placement = 1,
+> -	.busy_placement = &sys_placement_flags,
+> +	.num_placement = 2,
+> +	.placement = tt_placement_flags,
+>   };
+>   
+>   bool mem_type_is_vram(u32 mem_type)
+> @@ -230,8 +234,6 @@ static int __xe_bo_placement_for_flags(struct xe_device *xe, struct xe_bo *bo,
+>   	bo->placement = (struct ttm_placement) {
+>   		.num_placement = c,
+>   		.placement = bo->placements,
+> -		.num_busy_placement = c,
+> -		.busy_placement = bo->placements,
+>   	};
+>   
+>   	return 0;
+> @@ -251,7 +253,6 @@ static void xe_evict_flags(struct ttm_buffer_object *tbo,
+>   		/* Don't handle scatter gather BOs */
+>   		if (tbo->type == ttm_bo_type_sg) {
+>   			placement->num_placement = 0;
+> -			placement->num_busy_placement = 0;
+>   			return;
+>   		}
+>   
+> @@ -1391,8 +1392,6 @@ static int __xe_bo_fixed_placement(struct xe_device *xe,
+>   	bo->placement = (struct ttm_placement) {
+>   		.num_placement = 1,
+>   		.placement = place,
+> -		.num_busy_placement = 1,
+> -		.busy_placement = place,
+>   	};
+>   
+>   	return 0;
+> @@ -2150,9 +2149,7 @@ int xe_bo_migrate(struct xe_bo *bo, u32 mem_type)
+>   
+>   	xe_place_from_ttm_type(mem_type, &requested);
+>   	placement.num_placement = 1;
+> -	placement.num_busy_placement = 1;
+>   	placement.placement = &requested;
+> -	placement.busy_placement = &requested;
+>   
+>   	/*
+>   	 * Stolen needs to be handled like below VRAM handling if we ever need
 
-If the reason for having this is that the panel EDID contains some
-garbage, that's certainly not unique to amdgpu... :p
-
-> Something like:
->
-> 1) If user specifies on kernel command line and puts an EDID in 
-> /lib/firmware use that.
-> 2) If BIOS has EDID in _DDC and it's eDP panel, use that.
-
-I think we should also look into this. We currently don't do this, and
-it might help with some machines. However, gut feeling says it's
-probably better to keep this as a per driver decision instead of trying
-to bolt it into drm helpers.
-
-BR,
-Jani.
-
-
-> 3) Get panel EDID.
->
-
--- 
-Jani Nikula, Intel
