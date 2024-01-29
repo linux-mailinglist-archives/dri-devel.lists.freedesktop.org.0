@@ -2,61 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BD938406B1
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 14:20:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17AD58406B0
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 14:20:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D92010F732;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 285B410F72F;
 	Mon, 29 Jan 2024 13:20:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
- [209.85.218.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7DFB10F72B
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jan 2024 13:20:12 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id
- a640c23a62f3a-a315f43ecc3so244351766b.0
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jan 2024 05:20:12 -0800 (PST)
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com
+ [209.85.218.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D7FA10F72B
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jan 2024 13:20:14 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id
+ a640c23a62f3a-a35e9161b8cso66211166b.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jan 2024 05:20:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1706534351; x=1707139151; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1706534353; x=1707139153; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=GG0GBWYmR303lhQbjP/lih7U/nLsvQ1GRwuqyhVa6N8=;
- b=zFNv7bnytVfTAFBCkHg+nFh94/ar86k1zdd3408cHQhsME5gO1d6dIQ//shPtuapAd
- iXZIrAsZ7wxDDk7hLCL0Z93RE/ghhoSgsIdPqHXvY33qXSo5XjGiJIOGXLIfABkLKktr
- mgBg20BGtRUAuHnFaLToRPqgR+X2JT1OEIIce79r/ypCcbxaJuX5TYgenxrDO7Cxg/EC
- TSGu8YfCaHvD0ij413bRDhpGoADUXC3CbsYj3DtEZfA4ueNcRyyxojhaUaHV1sZWkv81
- jVKSnmeIGbuXJPHhdstJvRvmJ0xmy0xRZGBVanb6jWBFADzFjKlCbn8a0io511ExtxCW
- wJaA==
+ :reply-to; bh=avsFIxhX/jtxHDt6bjDOfQ40vEVTMaWnxh/VVgqRP8I=;
+ b=wrApILif6SqZ/EyM56wALBtx1r1rOcAzPfGR5SIVLwH6ojh7+lCda7spIGwMKmnO06
+ u6yk4/Je6DAeQrQhsBR78/lfd9arogp57wdvzhMMvfZhz4v057QTNMzapFSf0iMIkYbH
+ GeQzr9yJJ/GVLKWsIIM6hOyCXD9yj3yY5OK891NI62YCN1wEPRDL1IEYmISGJX0fxuPD
+ REzAMe6XtlbLr1rpriFQiKlqvmizf3Iny/WtvK3i3Zc1Y6vW43LwIoyLxpgq8WC6j8nK
+ MIoDxWmOl3/3Pp+Zdea3V2HiiSO571FKRsDkGjzhkwQwg/G+BLRr9JSVM1XWZJ3fevIE
+ xlwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706534351; x=1707139151;
+ d=1e100.net; s=20230601; t=1706534353; x=1707139153;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=GG0GBWYmR303lhQbjP/lih7U/nLsvQ1GRwuqyhVa6N8=;
- b=d8LIfd05hJC75HEJGD/RH/PYNKGnkXH0JIJ+pcpoXTCaE9YwLuyBzMURrejR3zkzYb
- j/kNgkvHczno1t/jiG2yjSLgmPj6mi6kxDXi9c0gAayO9p0/DEvLSafwB1SPhg4khXUY
- qYyQzkEKyLnfmVJDJ+LKh+rK6xg33grMKDzlcNQvcMCY7uUZdUAsWR10QfM5rlvdmt1T
- 2ZSdb5IMh3dyaAtUwTWugRsrKxYJAeQq+e1lzKxH5NEW7E4+9hKQlj+gMxYDhpxTzQOr
- mGVI4DNhtUk95N2ElaGDDi/oPZY9xjPJ3pwqZU3jRv4iVSgRJPsF1vHjYRwcWQkFWXqm
- sYyQ==
-X-Gm-Message-State: AOJu0YzhUQ1HPgdoDOJqqGXdNReihEuc+jzLhKUWep9lA0fA5OMJcicZ
- GxXBozAQFy1P6es1JU/aPnAHKePds6o/X9mXydzf1k8eieLf6r1iZdPySEiIzuc=
-X-Google-Smtp-Source: AGHT+IEJy4JQltR8i3WL7nnCfTH9WoA8KA83+7OvtRrL8fcRTBSUgiIoyZaw31At50+47iq+vfBl/w==
-X-Received: by 2002:a17:906:c097:b0:a2d:2121:2a93 with SMTP id
- f23-20020a170906c09700b00a2d21212a93mr4511029ejz.70.1706534351183; 
- Mon, 29 Jan 2024 05:19:11 -0800 (PST)
+ bh=avsFIxhX/jtxHDt6bjDOfQ40vEVTMaWnxh/VVgqRP8I=;
+ b=sAvFqY4dIljkwMRLzIQQ/THIypTOA6EIRCiKKGJw05foGn6LD/01fNE0037JB0frzx
+ eK85DrqrncZ01zmqnLJByqN9gD/rYyrrvzfqjb5KRI4YtDPYZzCH/R2DnPC/zufnwDZy
+ Rn+GjbsLtiIC8o4JCWN7uIqZAOithr859jWeY2mC5gx+rrPmsjS85ElcERXODEwRfXGq
+ dldHqeiY3E76++I/1GnVE8rjWwwDHgoVxequUBbMWJcxyzx4NZmu1JE/eHRNDWSGJTos
+ ccyGRUa2vipkOFeQUVP4WrZz2eNN0ER0+vwkKV9Dle+PbvpGPT/158hgYemr59HW6mV8
+ 59xA==
+X-Gm-Message-State: AOJu0YztzuzPLnai1utazwSEu03dI7GDYzA1BNdJKwi1uO1o3Pym8taE
+ AyzphRI7R/IXzBSLKJtLCcd0pnUw1VYf4w3pmQfKR0Xw1mDCWmBzUQ4koBpQfhc=
+X-Google-Smtp-Source: AGHT+IHeG6mDUl+ksN0m3/oS9noMoULpS/ssljn6bdDUjLBizSFE1Oo68zXcRckMajlrJwPoI0Hwag==
+X-Received: by 2002:a17:906:c343:b0:a30:fba8:8fe1 with SMTP id
+ ci3-20020a170906c34300b00a30fba88fe1mr4296187ejb.21.1706534352761; 
+ Mon, 29 Jan 2024 05:19:12 -0800 (PST)
 Received: from [127.0.1.1] ([79.115.23.25]) by smtp.gmail.com with ESMTPSA id
- q15-20020a17090622cf00b00a359afad88dsm1591658eja.10.2024.01.29.05.19.09
+ q15-20020a17090622cf00b00a359afad88dsm1591658eja.10.2024.01.29.05.19.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Jan 2024 05:19:10 -0800 (PST)
+ Mon, 29 Jan 2024 05:19:12 -0800 (PST)
 From: Abel Vesa <abel.vesa@linaro.org>
-Date: Mon, 29 Jan 2024 15:18:55 +0200
-Subject: [PATCH 2/5] dt-bindings: display/msm: Document the DPU for
- X1E80100
+Date: Mon, 29 Jan 2024 15:18:56 +0200
+Subject: [PATCH 3/5] drm/msm: mdss: Add X1E80100 support
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240129-x1e80100-display-v1-2-0d9eb8254df0@linaro.org>
+Message-Id: <20240129-x1e80100-display-v1-3-0d9eb8254df0@linaro.org>
 References: <20240129-x1e80100-display-v1-0-0d9eb8254df0@linaro.org>
 In-Reply-To: <20240129-x1e80100-display-v1-0-0d9eb8254df0@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -71,20 +70,21 @@ To: Rob Clark <robdclark@gmail.com>,
  Conor Dooley <conor+dt@kernel.org>, 
  Neil Armstrong <neil.armstrong@linaro.org>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=875; i=abel.vesa@linaro.org;
- h=from:subject:message-id; bh=obEEQfmkAfxnjBW+PweeqoESi7fBuQn5BZP9Fnf2iR4=;
- b=owEBbQKS/ZANAwAKARtfRMkAlRVWAcsmYgBlt6XFMvqsCn2GbXA3hKh3+PdT5dkoMZI1KJEt9
- 0ujMq6Z04iJAjMEAAEKAB0WIQRO8+4RTnqPKsqn0bgbX0TJAJUVVgUCZbelxQAKCRAbX0TJAJUV
- Vo80D/96RIySVK8vNVIn96hqrcM85c5tCYu+ZCsjzpyfM13gPfwrzZ/DHNk0Ll0jIod8CkAp3fW
- dLmw4QLlALVFosIdJ2txSld1VcQiNKbLuJ9GvnCsgbcQ6dPj07BYklYMrde8tuMYoYm4E0HO2lW
- L8mmfw8j1FyuBWB1ETbnncINvDXJHRgQfUJYjGsAAzkQS+ocXYeIc9ZuSx2hPBE4EkFMF4v+QR0
- kUu6KApyJS2Y/7BSZMImkuJotbmQqkmkoRdiPp3g04ujhE/SycbyCI/MHbBNK9P8sKKfQoPNqBD
- KgA1CNa4D4HU53rCeqf9Ruwe9hwizLy9nOEOUStWBh78MNNQ6kQ2X+v9YCJTGsGlPYgxXfsxujv
- 0UI8vGUm5CY3ccQq2UR5mxrAPcqWa4WiMW+2ektPPnCmS6ONS2wMYMuCx2rS2q0Dd8WHYjUYDbA
- +drBWk2Rs03ks3T/IoYSy75lGsIYLL+UnzlJSUs8z6sRLCGg+J+h70brlXfl3db2PjNhaH11TCm
- 2An/Wlvs/excz7GL1PsXjYtQhEOkyjmr4Wu87hlNvFJXnvMHk2xX1RBC/uRfk/ANBL42w81ArWk
- 4h69JC4e6ROgyx3KDy8RZkAp4rkVd1bIIIZ1aZ5Y21rVxjazjwKhr+ZfAONiBY6ktSVLWRBjn+x
- wFVzNOCvqkNnP5w==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1213; i=abel.vesa@linaro.org; 
+ h=from:subject:message-id;
+ bh=rfGkK17/i+BleU3qzcJWNOMRKGI09BZOvobQeTG7kY0=; 
+ b=owEBbQKS/ZANAwAKARtfRMkAlRVWAcsmYgBlt6XH99bhpkCbAVQ3v7T0Zu5dazEjO8JPZDEyT
+ B5uByWz/JaJAjMEAAEKAB0WIQRO8+4RTnqPKsqn0bgbX0TJAJUVVgUCZbelxwAKCRAbX0TJAJUV
+ Vvy1D/9B9s4n/T4FadLNi76W26+2YKGm3mcG+yf6nOSpCieYzh7MBGwlQQfu6eFB2+RUss76VeV
+ Mc5xb1pQZULcW9U1M72fJfZ6kKPsDG4xbKHrtJ3PvR0waNTrRv0jAcGU4MW1/2rdvInN7LDBVS+
+ u6BG0JXGh3dZ0wmOnYzke6YIzL16URZv83iNgJTR+QKUObkbW9zNqWNU1WdQrgEJNO9XZFBcH5h
+ Ls26Q7amA6HuoaCqGsAwPjtTQwm1DsHzoYoXIXWLxueQ9efGJBlboHsatloAHFEXdonSzZLF0nY
+ xjT7x8U6VW9UkI4w1f+1uY5uteZLjJgtT/2ULqRlzkIlJ1WOTVCtXy4CsEGvrC+wSrMGGQdcpJ6
+ Hh6L7ZqW6Qwc6xfl6J/LGHgZVQFU6nMOMa3jvGxDTia533+4CSC85WiYHUab0SbtIy0Wwg98IYk
+ eeMWF7kcv1qPfsvI+gbLSxzlYB1rmalHi0AKBbk7UYyIndqoyHvn5Z0V1J/ztjB7zMq2kzew8id
+ Rtuc3MmHsxerYq3SJNicAypaC4NObHpVqHYRuEVCmgOe8WWSB4QYyj2NiKozrzTx2NgrM90Oi82
+ cLQpit73LcVtcimvIiOB33tT1fBlXAMVqgHIFpmFxK6Bnscz7d5pTipYewQURemNMR+oASgC2/C
+ x6PXzS1yvt4z8Dw==
 X-Developer-Key: i=abel.vesa@linaro.org; a=openpgp;
  fpr=6AFF162D57F4223A8770EF5AF7BF214136F41FAE
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -105,30 +105,41 @@ Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Document the DPU for Qualcomm X1E80100 platform in the SM8650 schema, as
-they are similar.
+Add support for MDSS on X1E80100.
 
 Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
 ---
- Documentation/devicetree/bindings/display/msm/qcom,sm8650-dpu.yaml | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/msm/msm_mdss.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8650-dpu.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8650-dpu.yaml
-index a01d15a03317..f84fa6d5e6a2 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,sm8650-dpu.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8650-dpu.yaml
-@@ -13,7 +13,10 @@ $ref: /schemas/display/msm/dpu-common.yaml#
+diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
+index 455b2e3a0cdd..eddf7fdbb60a 100644
+--- a/drivers/gpu/drm/msm/msm_mdss.c
++++ b/drivers/gpu/drm/msm/msm_mdss.c
+@@ -564,6 +564,15 @@ static const struct msm_mdss_data sdm670_data = {
+ 	.highest_bank_bit = 1,
+ };
  
- properties:
-   compatible:
--    const: qcom,sm8650-dpu
-+    items:
-+      - enum:
-+          - qcom,sm8650-dpu
-+          - qcom,x1e80100-dpu
- 
-   reg:
-     items:
++static const struct msm_mdss_data x1e80100_data = {
++	.ubwc_enc_version = UBWC_4_0,
++	.ubwc_dec_version = UBWC_4_3,
++	.ubwc_swizzle = 6,
++	.ubwc_static = 1,
++	.highest_bank_bit = 2,
++	.macrotile_mode = 1,
++};
++
+ static const struct msm_mdss_data sdm845_data = {
+ 	.ubwc_enc_version = UBWC_2_0,
+ 	.ubwc_dec_version = UBWC_2_0,
+@@ -655,6 +664,7 @@ static const struct of_device_id mdss_dt_match[] = {
+ 	{ .compatible = "qcom,sm8450-mdss", .data = &sm8350_data },
+ 	{ .compatible = "qcom,sm8550-mdss", .data = &sm8550_data },
+ 	{ .compatible = "qcom,sm8650-mdss", .data = &sm8550_data},
++	{ .compatible = "qcom,x1e80100-mdss", .data = &x1e80100_data},
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(of, mdss_dt_match);
 
 -- 
 2.34.1
